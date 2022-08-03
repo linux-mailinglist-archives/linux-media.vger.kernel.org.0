@@ -2,145 +2,77 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CE6FF588C4B
-	for <lists+linux-media@lfdr.de>; Wed,  3 Aug 2022 14:40:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4863E588D09
+	for <lists+linux-media@lfdr.de>; Wed,  3 Aug 2022 15:36:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235631AbiHCMkm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 3 Aug 2022 08:40:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44898 "EHLO
+        id S236331AbiHCNgl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 3 Aug 2022 09:36:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52036 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237402AbiHCMkh (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 3 Aug 2022 08:40:37 -0400
-Received: from EUR04-DB3-obe.outbound.protection.outlook.com (mail-eopbgr60057.outbound.protection.outlook.com [40.107.6.57])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2B34C25FE;
-        Wed,  3 Aug 2022 05:40:36 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=pass;
- b=ZxGiZuEG3Y//t/rQ784RYcblFe08IyhHDxWQvmIDQ9GTuDCEp1sICABJf4kM2sli9b0aWwIrLlb4k9DBBoYopTdLHrmD6kSX3I0xqJfwX7n2DRD+vSJ2w4p2BUigjD81q1h6S+5jFsFyRBA2KNrr7tHwz4v5d1KR3qWWk3/ZfwvbWof6fAyCPCb5evGgMieFe5TMzgYU69Nr7539NX4twOn+ZOaon2pac/uDhjYTF8UraLFUH4Tw7NQMFZ+fKpOXWbLc49YzDNyrOaqtNz47XV15VoTfbGzANUOQ0QYTNaQCXY9QEP13tlXwDnCIBGvCE68/y9SyQgG1aQ2BYxJMYg==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=vjfTQuk2g1WwYBT4t7PT7zN0SqdaSrsNyea9UT8qfXk=;
- b=Y0mMhfgtVuNNOXO4w5ZlbKbQz680gG1mKen/GCp3E5MusfzQck1u1bQqJ9jNvY7usd6TFLmbuyvVnp5m2cxWCfGu3/x+E6Kyf+Z2P6bM45rpbSATjia2eqblWkT0WPMlXw42jUdxUFqId0vfT7ihlzf4KS75hPQlja5cfR0h06gi6AwduqOicd0aeWP8prk0EuEy5/La7E+SxkNd0If+Gjb0u8j53Zj3ocRuVYQyKhbxsxj8bunPIg3dnRCIuyfZoHnltidN5/xvyGeE8sV0Y3XJ8W9m6pgpEw6RdcaH93GeW7gV1dtMdKQvMXpGV1H1bygZr2tuwXbwdqFEmJcjMA==
-ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
- 63.35.35.123) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=arm.com;
- dmarc=pass (p=none sp=none pct=100) action=none header.from=arm.com;
- dkim=pass (signature was verified) header.d=armh.onmicrosoft.com; arc=pass (0
- oda=1 ltdi=1 spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
- dmarc=[1,1,header.from=arm.com])
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
- s=selector2-armh-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vjfTQuk2g1WwYBT4t7PT7zN0SqdaSrsNyea9UT8qfXk=;
- b=zynjBBUJTQ0Dl84ydsLB9RgSXAWmm7+bUA1nII0JUKvDF5ZgIhTp65HRSSWxb9MqhDYWFEmySpkp3lTnr1csy6jUj+jiD3iHVSH2/p43n2XV4arg3sq74VeiuBFrjYxJth4t0I+xcWOG2Y73KmGEXGhHFGVTqxKiWfuZlnqAS6w=
-Received: from AS8PR04CA0017.eurprd04.prod.outlook.com (2603:10a6:20b:310::22)
- by DBBPR08MB4808.eurprd08.prod.outlook.com (2603:10a6:10:d7::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5482.14; Wed, 3 Aug
- 2022 12:40:33 +0000
-Received: from VE1EUR03FT043.eop-EUR03.prod.protection.outlook.com
- (2603:10a6:20b:310:cafe::c2) by AS8PR04CA0017.outlook.office365.com
- (2603:10a6:20b:310::22) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5504.14 via Frontend
- Transport; Wed, 3 Aug 2022 12:40:33 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
- smtp.mailfrom=arm.com; dkim=pass (signature was verified)
- header.d=armh.onmicrosoft.com;dmarc=pass action=none header.from=arm.com;
-Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
- 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
- client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
- pr=C
-Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
- VE1EUR03FT043.mail.protection.outlook.com (10.152.19.122) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5482.12 via Frontend Transport; Wed, 3 Aug 2022 12:40:32 +0000
-Received: ("Tessian outbound c883b5ba7b70:v123"); Wed, 03 Aug 2022 12:40:32 +0000
-X-CheckRecipientChecked: true
-X-CR-MTA-CID: b6d0c94528ea6eff
-X-CR-MTA-TID: 64aa7808
-Received: from 6db06d7defb8.1
-        by 64aa7808-outbound-1.mta.getcheckrecipient.com id 1CDA3B7A-82F8-44DE-AF31-2C5D70D39E72.1;
-        Wed, 03 Aug 2022 12:40:26 +0000
-Received: from EUR05-DB8-obe.outbound.protection.outlook.com
-    by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id 6db06d7defb8.1
-    (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
-    Wed, 03 Aug 2022 12:40:26 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=UkpX/QeeC4SH/s5p0J49iS3ps8/+ABoJolBSL84BUV0C+iy4VHiS/I6LFK/lI/NJElowiCDTnuuhco53u2R6VmkrLDyOg6zGnjG+i04J0GSPHCGoCh0Sa0o9LgJ85Lc0dsZm/v1EUUN+yq24Zck0WW0qBzQqcDAKYM5XcLiqM9GLOyswYOB4A11qgpCxuv55NEgohrotY2hQM5P246lKVRtJtaICFawJ8tjnejEKf8rnCAs8SE+FP7HkVJz0dXz9RnZ5GZLFrY7q/+087KFFY70wlj1UtL83wVASjpVjwkhVtwU7lh5AuwYOPjZ/7sbrM80PCKNaVS848IlZKbQSEw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=vjfTQuk2g1WwYBT4t7PT7zN0SqdaSrsNyea9UT8qfXk=;
- b=h5hWjcUVMHZWYHq2GPGNX7BTfNFav5jmA8E+fCi80YnWwU8HSTN7R/ZSjpMzpHTe3x9D3o+pYOHh8P6ERwTWTZV0+Dh2Eb0Lt+uNZ3Rd2KF+HuNJjXcQZruFMBJbMUzhpb8+DfyjSrvca9wGX7AghJbHOUSZN++Ilr4v6G+a4dm57dfdwWEf6QPj86skB0UFyPy/vFxNfOnZNwRxfL/b+DtIup1m+L4N29qlJMqamNpQMK5yX3yqPjp5afniaE7y1PQZocv7nA5e9wA68RO67ZMIpvkn38YY77RbuA5bHndLC7Y3GRvm/KcRqLv2t72RwmmWrTldJSL7YJh/JNcuZw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
- s=selector2-armh-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vjfTQuk2g1WwYBT4t7PT7zN0SqdaSrsNyea9UT8qfXk=;
- b=zynjBBUJTQ0Dl84ydsLB9RgSXAWmm7+bUA1nII0JUKvDF5ZgIhTp65HRSSWxb9MqhDYWFEmySpkp3lTnr1csy6jUj+jiD3iHVSH2/p43n2XV4arg3sq74VeiuBFrjYxJth4t0I+xcWOG2Y73KmGEXGhHFGVTqxKiWfuZlnqAS6w=
-Authentication-Results-Original: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-Received: from AM9PR08MB6803.eurprd08.prod.outlook.com (2603:10a6:20b:301::12)
- by PR2PR08MB4667.eurprd08.prod.outlook.com (2603:10a6:101:1a::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5482.11; Wed, 3 Aug
- 2022 12:40:17 +0000
-Received: from AM9PR08MB6803.eurprd08.prod.outlook.com
- ([fe80::4cad:8ea2:a247:6bce]) by AM9PR08MB6803.eurprd08.prod.outlook.com
- ([fe80::4cad:8ea2:a247:6bce%8]) with mapi id 15.20.5482.016; Wed, 3 Aug 2022
- 12:40:17 +0000
-Date:   Wed, 3 Aug 2022 13:40:03 +0100
-From:   Brian Starkey <brian.starkey@arm.com>
-To:     Olivier Masse <olivier.masse@nxp.com>
-Cc:     sumit.semwal@linaro.org, benjamin.gaignard@collabora.com,
-        christian.koenig@amd.com, linux-media@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-        linux-kernel@vger.kernel.org, clement.faure@nxp.com, nd@arm.com
-Subject: Re: [PATCH 2/5] ANDROID: dma-buf: heaps: Add a shrinker controlled
- page pool
-Message-ID: <20220803124003.jftyp7zj2rnruhsc@000377403353>
-References: <20220802095843.14614-1-olivier.masse@nxp.com>
- <20220802095843.14614-3-olivier.masse@nxp.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220802095843.14614-3-olivier.masse@nxp.com>
-X-ClientProxiedBy: SN4PR0501CA0023.namprd05.prod.outlook.com
- (2603:10b6:803:40::36) To AM9PR08MB6803.eurprd08.prod.outlook.com
- (2603:10a6:20b:301::12)
+        with ESMTP id S234360AbiHCNgk (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 3 Aug 2022 09:36:40 -0400
+Received: from mail-yw1-x112b.google.com (mail-yw1-x112b.google.com [IPv6:2607:f8b0:4864:20::112b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 231671835B;
+        Wed,  3 Aug 2022 06:36:39 -0700 (PDT)
+Received: by mail-yw1-x112b.google.com with SMTP id 00721157ae682-31f41584236so171611797b3.5;
+        Wed, 03 Aug 2022 06:36:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=NbEkmhp4ylSkvGtJq77wNtGsbmQWNZVmdOV2TFt4T7E=;
+        b=OJhNdbraYgEHabTSeFWTYvJphQ3Pz27f+t7+ioW3V/haNlNvOn4wmk8v8YedDYZz9N
+         4USr7sCGi/lE7DF8TM4E3NMDBKErysp2FJioIhaY8m5cqtzxJN810g8h0LVS4Mu6yk31
+         hKzZKaZ5R3mH+aPk29TfE/PCOoBbcHoNPDSWE9XGTisbu1yhgw55AGVrfZis/sYXUlPA
+         /5qWyJAs/N1ZPzF9Jim4ibKFMlI8aumtoXyXwX3ho/hq287yhwElX/twYsiJ7vr0cARv
+         5wV14XcwNRLIjt1URTfHH+m5BUmYLBjEw232yVLG+sltUGiCgaHbuYhOg/SFCfs+Mytz
+         vJIA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=NbEkmhp4ylSkvGtJq77wNtGsbmQWNZVmdOV2TFt4T7E=;
+        b=HCAH/jcrOnZ0CqqETXWGyOUvE7lTsxstjGCGEzxP+DUPDS0XNap5E1VqTEXjUZihCs
+         K55MtKp4hw46xot5bYx6JCLtAVfADWBOJ971mz5EM08RHphgxXtMCiBBUb352/WO1LjF
+         QA57lo8qo0pNqbHgOhfkzbf7XQgHE3kOO3joKoyKFYdo1XI95vl/bIyZAvKQv4nd5RGa
+         1dCp5OGLfbwV0kTiKaKzZcBBWP6Y2BUBuAjaEOndIjYwn/B/r9ldVg590r4xd0Yk+0LH
+         PdgCuMcfwqDVdVMLXupkim8rDgB9cGiiN1rJyKU4LJPcmM6Pc4YwvUJD6V/pCsEckx3X
+         PEXg==
+X-Gm-Message-State: ACgBeo0cNF8AB+Y6U/Wx9mRISvV1NkaJjbqOLlRD6f/y70UGdH/lWgZ0
+        2VVeyWQP9ZerQEQaltLUDdwZSSOzNK7XYK6kLq0=
+X-Google-Smtp-Source: AA6agR4g0h3lylwEXIBoN0wpm372EG37CIaJoLbhb1HtoTHCDTPZtuSfCJzq9B64sIcZcGPri+8ZY1qT/quddQnfw1g=
+X-Received: by 2002:a0d:d60f:0:b0:325:1853:2b with SMTP id y15-20020a0dd60f000000b003251853002bmr11734428ywd.24.1659533798315;
+ Wed, 03 Aug 2022 06:36:38 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Office365-Filtering-Correlation-Id: 56848dc6-7c48-4c8d-24a5-08da754d5b45
-X-MS-TrafficTypeDiagnostic: PR2PR08MB4667:EE_|VE1EUR03FT043:EE_|DBBPR08MB4808:EE_
-x-checkrecipientrouted: true
-NoDisclaimer: true
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam-Untrusted: BCL:0;
-X-Microsoft-Antispam-Message-Info-Original: qDRDIs8wyfabWCmbO7Wi4+2QwHwpzF486o7bIVHFTGYZam3wvnBALCereqdZB8MCBurwG8pKR2K66tvnjsofcFWHlV5j2Lv4KAvNnBZDYxXqxzWL7SZNBMVJDWfy8kE5KhRYpzmUXazv1DEzVjmvIDnvZSwQxcwKUZnjKKcyapcEiG4059bTFIxH/ypurNJ73BFYetmDbosedJFE/JMPYNUxi93j6waEMNmgU3lQSC2ZQA+0QiX8/CkwDySbTyptiwT8BBDPhmDkUZ7VVqgXXHX+igRgKp8jT0XDk+7aJyk7NdmwC2D0hsDAhet+lZRnEwiea1mHE3PXCkJfKKYFEdxmRIQ9kl4LbM84V04+Zu5lYp32hwectBgmhrBd0n9+ZXmF1+NNSO1nf7aEBe0wf9CrgsquutTkKmOx71s6FoKqniacteL13O21J+75U5QaEW67XnvF8CH0PIKWIcwsejQzcKP9yFJRcEOIZhQSdxJlIPKQC9e1zdSVQUJi773o2ROEhU/flBAJsLdW9M3yvD91dEdEMgsZvqvRDTZjYpnVAvKCmIEMf/a6CILHk+kn8yzuWY16t5xNG2zo/h3jDDsvvxjub/WILYhgeG1ZcstOT2I13JIbAy0z7PTRcCSwPe79k7RHREXI7Fvj//dg7PMuPLVEziwrvKzwMDOAoUyEMupym2nhPSshD2g2zwAgfp8bozlaTCSy8ZxXM+1Xea4JbPlZPn3D0DHCI3n1FF0j0TVcm9UtjuWq3M923aCo
-X-Forefront-Antispam-Report-Untrusted: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM9PR08MB6803.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(7916004)(39860400002)(136003)(346002)(366004)(376002)(396003)(4744005)(5660300002)(86362001)(6486002)(4326008)(66946007)(33716001)(66476007)(66556008)(316002)(6916009)(8936002)(6666004)(26005)(6512007)(186003)(9686003)(8676002)(1076003)(38100700002)(44832011)(2906002)(478600001)(41300700001)(6506007);DIR:OUT;SFP:1101;
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PR2PR08MB4667
-Original-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: VE1EUR03FT043.eop-EUR03.prod.protection.outlook.com
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs: 940e4208-0a69-4f46-be5d-08da754d5217
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 0mkbxA3ZllC+vBX8VE9hL+sRi00AiFaPCyeDqLG5LIen+BuyL+zCmrA5Xb0GE03IYrXG6WMeTWTMT/qU4CVpTZ4sOjr5oU0TXO56OCuOyBrVRlmXb4+wq4mB+zUIf12nsnConZ3vnmgcSpN700Aj+ebLid/HLjSICDZSYJzqVNhot2NnfCQvtveyinzWQKZYZJGgo77wcVF98oQgHWiQ9BLkkjhg8OLBPRC60FQ4vy1yIc6F0DvK2vRvyEHjXzInD62sVbrzI1g0NBXT17+TImHt/nV5AY7jyeSREnBTgbTxnuZ5O91b8xUXtx4u5rJbD5PY6XcfCQtd5EHshvEiRQb/vmGGvUoo35JB+uG35z/FbH+Cxpc19aHaD/Vcd7xZWLZNKjvte71G7yXjN3/jo6KsVXAWI0PsIL33pQjUtpubGzmssMnWCKApmUBd0pz0sBfPndYWr6+sF3ykvYNT3vH7A0+caLc9+ikkmYw4Gn/0ZWfW3dN92TdFVthnasfe1qIHfDztcpHhIoTgowpSIIlPxuVhRiNLuBfurtnfQKIz97kVKfRoLmeUM8zEVXwkpH+8JyiA1v1Cl7YMzjEMee6IapLYWFcOKrV3u17Ypk9SG/T6dgYK3Rlpb1tF8xCgFS4FIgXiUkuRTFvDYFRH8/mRdqlSUY65m/ZP777aa3srV7kUl6Z8I/SF6/2BY+JMcOXdDCcPVqVqc7bJU2/V5KcnoMvsQwDahkXmgVJgyafCRHnYyK461c9emX2iy8Kvve1RZJPxyJvjWMrBNOG0QA22rwUk3CwsGeIuS58gLKobwLFu3CCbEwdWtHg1SkTv
-X-Forefront-Antispam-Report: CIP:63.35.35.123;CTRY:IE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:64aa7808-outbound-1.mta.getcheckrecipient.com;PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com;CAT:NONE;SFS:(13230016)(7916004)(4636009)(136003)(376002)(396003)(39860400002)(346002)(40470700004)(46966006)(36840700001)(6506007)(36860700001)(81166007)(6512007)(41300700001)(26005)(5660300002)(9686003)(356005)(82740400003)(82310400005)(33716001)(316002)(186003)(40460700003)(6486002)(44832011)(47076005)(336012)(478600001)(1076003)(40480700001)(70586007)(4326008)(70206006)(8676002)(86362001)(4744005)(6666004)(8936002)(450100002)(6862004)(2906002);DIR:OUT;SFP:1101;
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Aug 2022 12:40:32.9129
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 56848dc6-7c48-4c8d-24a5-08da754d5b45
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[63.35.35.123];Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
-X-MS-Exchange-CrossTenant-AuthSource: VE1EUR03FT043.eop-EUR03.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBBPR08MB4808
-X-Spam-Status: No, score=-0.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,FORGED_SPF_HELO,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_PASS,SPF_NONE,UNPARSEABLE_RELAY autolearn=no
+References: <20220801214718.16943-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20220801214718.16943-2-prabhakar.mahadev-lad.rj@bp.renesas.com> <4b1d5266-40a9-9897-7caf-d3d41c0aa598@linaro.org>
+In-Reply-To: <4b1d5266-40a9-9897-7caf-d3d41c0aa598@linaro.org>
+From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date:   Wed, 3 Aug 2022 14:36:11 +0100
+Message-ID: <CA+V-a8vWDk94kxWRF0App7fEmpeB6-rb0Nu8ZG+QuT10aC11=g@mail.gmail.com>
+Subject: Re: [PATCH 1/4] media: dt-bindings: media: Document RZ/G2L CSI-2 block
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        linux-media <linux-media@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Biju Das <biju.das.jz@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -148,23 +80,208 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Olivier,
+Hi Krzysztof,
 
-On Tue, Aug 02, 2022 at 11:58:40AM +0200, Olivier Masse wrote:
-> From: John Stultz <john.stultz@linaro.org>
-> 
-> This patch adds a simple shrinker controlled page pool to the
-> dmabuf heaps subsystem.
-> 
-> This replaces the use of the networking page_pool, over concerns
-> that the lack of a shrinker for that implementation may cause
-> additional low-memory kills
-> 
-> TODO: Take another pass at trying to unify this w/ the ttm pool
-> 
-> Thoughts and feedback would be greatly appreciated!
+Thank you for the review.
 
-Did I miss something, or is this not actually used anywhere?
+On Tue, Aug 2, 2022 at 8:36 AM Krzysztof Kozlowski
+<krzysztof.kozlowski@linaro.org> wrote:
+>
+> On 01/08/2022 23:47, Lad Prabhakar wrote:
+> > Document the CSI-2 block which is part of CRU found in Renesas
+> > RZ/G2L SoC.
+> >
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > ---
+> > RFC v2 -> v1
+>
+> Too many "media" in the subject prefixes.
+>
+I followed the pattern seen by "git log --oneline
+Documentation/devicetree/bindings/media/", but I do agree I can drop
+the extra "media" after "dt-bindings:"
 
-Thanks,
--Brian
+> > * Fixed review comments pointed by Rob and Jacopo.
+> >
+> > RFC v1 -> RFC v2
+> > * New patch
+> > ---
+> >  .../bindings/media/renesas,rzg2l-csi2.yaml    | 149 ++++++++++++++++++
+> >  1 file changed, 149 insertions(+)
+> >  create mode 100644 Documentation/devicetree/bindings/media/renesas,rzg2l-csi2.yaml
+> >
+> > diff --git a/Documentation/devicetree/bindings/media/renesas,rzg2l-csi2.yaml b/Documentation/devicetree/bindings/media/renesas,rzg2l-csi2.yaml
+> > new file mode 100644
+> > index 000000000000..f82f88c096df
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/media/renesas,rzg2l-csi2.yaml
+> > @@ -0,0 +1,149 @@
+> > +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> > +# Copyright (C) 2022 Renesas Electronics Corp.
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/media/renesas,rzg2l-csi2.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: Renesas RZ/G2L (and alike SoC's) MIPI CSI-2 receiver
+> > +
+> > +maintainers:
+> > +  - Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > +
+> > +description:
+> > +  The CSI-2 receiver device provides MIPI CSI-2 capabilities for the Renesas RZ/G2L
+> > +  (and alike SoCs). MIPI CSI-2 is part of the CRU block which is used in conjunction
+> > +  with the Image Processing module, which provides the video capture capabilities.
+> > +
+> > +properties:
+> > +  compatible:
+> > +    oneOf:
+> > +      - items:
+> > +          - enum:
+> > +              - renesas,r9a07g044-csi2       # RZ/G2{L,LC}
+> > +              - renesas,r9a07g054-csi2       # RZ/V2L
+> > +          - const: renesas,rzg2l-csi2
+> > +
+> > +  reg:
+> > +    maxItems: 1
+> > +
+> > +  interrupts:
+> > +    maxItems: 1
+> > +
+> > +  interrupt-names:
+> > +    const: csi2_link
+> > +
+> > +  clocks:
+> > +    items:
+> > +      - description: Internal clock for connecting CRU and MIPI
+> > +      - description: CRU Main clock
+> > +      - description: CPU Register access clock
+> > +
+> > +  clock-names:
+> > +    items:
+> > +      - const: sysclk
+> > +      - const: vclk
+> > +      - const: pclk
+> > +
+> > +  power-domains:
+> > +    maxItems: 1
+> > +
+> > +  resets:
+> > +    items:
+> > +      - description: CRU_CMN_RSTB reset terminal
+> > +
+> > +  reset-names:
+> > +    const: cmn-rstb
+> > +
+> > +  ports:
+> > +    $ref: /schemas/graph.yaml#/properties/ports
+> > +
+> > +    properties:
+> > +      port@0:
+> > +        $ref: /schemas/graph.yaml#/$defs/port-base
+> > +        unevaluatedProperties: false
+> > +        description:
+> > +          Input port node, single endpoint describing the CSI-2 transmitter.
+> > +
+> > +        properties:
+> > +          endpoint:
+> > +            $ref: video-interfaces.yaml#
+> > +            unevaluatedProperties: false
+> > +
+> > +            properties:
+> > +              data-lanes:
+> > +                minItems: 1
+> > +                maxItems: 4
+> > +                items:
+> > +                  maximum: 4
+> > +
+> > +            required:
+> > +              - clock-lanes
+> > +              - data-lanes
+> > +
+> > +      port@1:
+> > +        $ref: /schemas/graph.yaml#/properties/port
+> > +        description:
+> > +          Output port node, Image Processing block connected to the CSI-2 receiver.
+> > +
+> > +    required:
+> > +      - port@0
+> > +      - port@1
+> > +
+> > +required:
+> > +  - compatible
+> > +  - reg
+> > +  - interrupts
+> > +  - clocks
+> > +  - clock-names
+> > +  - power-domains
+> > +  - resets
+> > +  - reset-names
+> > +  - ports
+> > +
+> > +additionalProperties: false
+> > +
+> > +examples:
+> > +  - |
+> > +    #include <dt-bindings/clock/r9a07g044-cpg.h>
+> > +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> > +
+> > +    csi20: csi2@10830400 {
+>
+> Node name just "csi"
+>
+> https://devicetree-specification.readthedocs.io/en/latest/chapter2-devicetree-basics.html#generic-names-recommendation
+>
+OK will replace it with csi.
+
+>
+> > +            compatible = "renesas,r9a07g044-csi2", "renesas,rzg2l-csi2";
+> > +            reg = <0x10830400 0xfc00>;
+>
+> Please use 4-space indentation for example DTS.
+>
+Sure will do.
+
+Cheers,
+Prabhakar
+
+> > +            interrupts = <GIC_SPI 166 IRQ_TYPE_LEVEL_HIGH>;
+> > +            clocks = <&cpg CPG_MOD R9A07G044_CRU_SYSCLK>,
+> > +                     <&cpg CPG_MOD R9A07G044_CRU_VCLK>,
+> > +                     <&cpg CPG_MOD R9A07G044_CRU_PCLK>;
+> > +            clock-names = "sysclk", "vclk", "pclk";
+> > +            power-domains = <&cpg>;
+> > +            resets = <&cpg R9A07G044_CRU_CMN_RSTB>;
+> > +            reset-names = "cmn-rstb";
+> > +
+> > +            ports {
+> > +                    #address-cells = <1>;
+> > +                    #size-cells = <0>;
+> > +
+> > +                    port@0 {
+> > +                            reg = <0>;
+> > +
+> > +                            csi2_in: endpoint {
+> > +                                    clock-lanes = <0>;
+> > +                                    data-lanes = <1 2>;
+> > +                                    remote-endpoint = <&ov5645_ep>;
+> > +                            };
+> > +                    };
+> > +
+> > +                    port@1 {
+> > +                            #address-cells = <1>;
+> > +                            #size-cells = <0>;
+> > +
+> > +                            reg = <1>;
+> > +
+> > +                            csi2cru: endpoint@0 {
+> > +                                    reg = <0>;
+> > +                                    remote-endpoint = <&crucsi2>;
+> > +                            };
+> > +                    };
+> > +            };
+> > +    };
+>
+>
+> Best regards,
+> Krzysztof
