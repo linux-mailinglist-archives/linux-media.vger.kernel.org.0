@@ -2,78 +2,73 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C8D2C588D0F
-	for <lists+linux-media@lfdr.de>; Wed,  3 Aug 2022 15:38:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CD4D458919E
+	for <lists+linux-media@lfdr.de>; Wed,  3 Aug 2022 19:41:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237535AbiHCNiI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 3 Aug 2022 09:38:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52706 "EHLO
+        id S236893AbiHCRl0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 3 Aug 2022 13:41:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48516 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233926AbiHCNiF (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 3 Aug 2022 09:38:05 -0400
-Received: from mail-yw1-x112f.google.com (mail-yw1-x112f.google.com [IPv6:2607:f8b0:4864:20::112f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D3771186C4;
-        Wed,  3 Aug 2022 06:38:04 -0700 (PDT)
-Received: by mail-yw1-x112f.google.com with SMTP id 00721157ae682-32194238c77so171759347b3.4;
-        Wed, 03 Aug 2022 06:38:04 -0700 (PDT)
+        with ESMTP id S236310AbiHCRlZ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 3 Aug 2022 13:41:25 -0400
+Received: from mail-pg1-x535.google.com (mail-pg1-x535.google.com [IPv6:2607:f8b0:4864:20::535])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 44BCD5244F
+        for <linux-media@vger.kernel.org>; Wed,  3 Aug 2022 10:41:24 -0700 (PDT)
+Received: by mail-pg1-x535.google.com with SMTP id 13so1300091pgc.8
+        for <linux-media@vger.kernel.org>; Wed, 03 Aug 2022 10:41:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=qEmnRhUglwgaMG2x8XfL+UPh5kqurYSbdexAPUQtz+g=;
-        b=irhK4yngUwEW391KpWw9RU4kcByAludlJD+Xq561IHNOdtLNiRzmLarGUmdFj/cXxj
-         p+l/n9g3lgGxuUhxdtlBWklJnFAcQZUwBh+2q3bNv4foibskugl2lDqcml9IF8rAlO+W
-         aEcNRZNP1k8xIBQQ32MAt7Rr8ageEeGf8nnNpVqkSsRF1v5PrGlX0bzL2mXg6XhBzTsB
-         PKHVAbg/FOeaDno5+Hr719lY7Ii4YdQlNPDfpq5zsIZ4WKfOwV0+vZxREMUvj/+oS0Q4
-         2zzDYP68T2nCFvWls+6HETS0/LmW3k1L7o1DwvAFyf9RK5y/Gv1cA3bkcZ3CapsI8+uF
-         dwtA==
+        d=learnwebsolutions-com.20210112.gappssmtp.com; s=20210112;
+        h=disposition-notification-to:content-language:importance
+         :thread-index:content-transfer-encoding:mime-version:message-id:date
+         :subject:in-reply-to:references:to:from:from:to:cc;
+        bh=cXg5X+uA6qxDW8/1xJO70PGXacSVP+5A1Uwqzedn3kw=;
+        b=sxyTDjJkBbKczyTd20w0mGWHkNSJa+JFzhV06UcQh0u02v/2ZSbOaeUkZG38p3JfL3
+         rFxuQOelPQ0Z2uu1wNI2I7ei6miAC8uvukaJPSZDMzBrswNXpry8SgDxjmUhbUW9V839
+         WDWImuK9tl1pN4B11SxXVPR5PQpL0rVSTuQL7Lpw8CgvglrEVNJHuT6hQXiBgs14atbo
+         PCqRhmgg86gMShORDMVJStZ7K/gfzw1irofsP/7OFTSaH/cSU1vnihIpC19O68qVqmiQ
+         ok2ZRbGptJ0qy+KeS5YaOIRCgIRn20VEMb1joCcJHC1ateKmougXvzuopSyL/UEwXuvG
+         ykWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=qEmnRhUglwgaMG2x8XfL+UPh5kqurYSbdexAPUQtz+g=;
-        b=y/PUp5cszsaThgRAGNvlPmODlieD407K90mbI5PGq88CectZ7k6QOChcUxNWwDaYk6
-         aUxiksvVUJyWmz6mDztGra/un6h9CceLKLZ51EAc7LXbU4dKwWIecNZw0gNnqLjip/o0
-         N/M+2qFVuRDfyfw8nTefXUuNPEY51GZZuDs/xGlQCKmQcvT+3Mie5Xt6puR1yrD6xDYW
-         eZFNYPaOBvlcnypf73CP2qaEVlCLBCnqFLECEf2UEW/mWw2YZUA6Pt6nrxeVirocjx3o
-         rLuYWGu4aZLkvjTqebYonl0rUVP3FVQMpbX8Oq3xPgq5BKSYM+VRXpfgmkXayc6mCmTC
-         smGg==
-X-Gm-Message-State: ACgBeo2y+KYWdQpHZj6SD2dM6hrZtKfWOpdthTZb8xn06PHms4cF2Fcq
-        DRcpsFy3fw7g3wqbdQHpbNUPbl01xav4fek4JkY=
-X-Google-Smtp-Source: AA6agR47J72Y4rSQyi/AtMa1SmS5iMh5fVLkME8ZjIfk5YKGyblzQNzEq/Vqn97R7+3KEImCOQbKTXePX5YHdgl8QHc=
-X-Received: by 2002:a81:1d09:0:b0:31d:a40:8332 with SMTP id
- d9-20020a811d09000000b0031d0a408332mr24629133ywd.138.1659533884058; Wed, 03
- Aug 2022 06:38:04 -0700 (PDT)
+        h=disposition-notification-to:content-language:importance
+         :thread-index:content-transfer-encoding:mime-version:message-id:date
+         :subject:in-reply-to:references:to:from:x-gm-message-state:from:to
+         :cc;
+        bh=cXg5X+uA6qxDW8/1xJO70PGXacSVP+5A1Uwqzedn3kw=;
+        b=ivCXpCHW0/wO32lrlx+luu6gee6r2Xf03zDuyRkCnHwbPnaVkg84RphRFjX+kbwVwp
+         /5OdtllyTuni0a+97gKF5CkebA6m/5LK55TT9V03Gj7aoEulNS0iesD0xfuwuogFIxk1
+         RNMaatc9gn2r6RHishZ1/02eBP8fPu3yIYKODFVpmG9sFRYaEMTR87wfRkWzYSe+U7dT
+         KENPNtHDj3ckDvwbCQ1KmTtW4XBBQDX7cwL9W/G4Mbc70T+aodMXXHA8h2/bdPl4ak1V
+         CrxeJZagATJsR5LXVUDfk76GyxbccPSvPvhthKaC5c7hCJrsWJre/Uz/rmlbyY0Td04+
+         foWg==
+X-Gm-Message-State: AJIora/Q37aVx9GbX2sH2VhD5A8aWGSVMVm68BoVA6NXql3vCOiv7GfX
+        uqSfoIiRqyJIDcs0DJaxqhs7Ng==
+X-Google-Smtp-Source: AGRyM1scUnpGpa0kOMxfZ0NoTeyDgyDg+14TUcHDjjk/PMKdUZEGCOd4a/xO/7o+OrZxegVPpecyWQ==
+X-Received: by 2002:a63:5c22:0:b0:41a:56e8:27d with SMTP id q34-20020a635c22000000b0041a56e8027dmr21669977pgb.22.1659548483736;
+        Wed, 03 Aug 2022 10:41:23 -0700 (PDT)
+Received: from DESKTOP4AFUDKB ([2406:7400:63:932e:b4f9:2304:2bda:4a63])
+        by smtp.gmail.com with ESMTPSA id j20-20020a17090a589400b001eff36b1f2asm1885919pji.0.2022.08.03.10.41.05
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 03 Aug 2022 10:41:22 -0700 (PDT)
+From:   "Randy Rose" <randy@learnwebsolutions.com>
+To:     <randy@learnwebsolutions.com>
+References: 
+In-Reply-To: 
+Subject: RE: Verified ISC West Attendees Email List-2022
+Date:   Wed, 3 Aug 2022 12:39:01 -0500
+Message-ID: <!&!AAAAAAAAAAAYAAAAAAAAAPn1QZ8K5M5LhK1kD4YMH0vCgAAAEAAAAKk/IATIFtJKgqvG2hecNNYBAAAAAA==@learnwebsolutions.com>
 MIME-Version: 1.0
-References: <20220801214718.16943-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20220801214718.16943-3-prabhakar.mahadev-lad.rj@bp.renesas.com> <4ff10b73-d04b-cda8-6603-f6f342f5ce9a@linaro.org>
-In-Reply-To: <4ff10b73-d04b-cda8-6603-f6f342f5ce9a@linaro.org>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Wed, 3 Aug 2022 14:37:37 +0100
-Message-ID: <CA+V-a8utnf6EBCia5zNcLHgpJikWcB3csT=82EV_ekSse6xyQg@mail.gmail.com>
-Subject: Re: [PATCH 2/4] media: dt-bindings: media: Document RZ/G2L CRU
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        linux-media <linux-media@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Biju Das <biju.das.jz@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+Content-Type: text/plain;
+        charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+X-Priority: 1 (Highest)
+X-MSMail-Priority: High
+X-Mailer: Microsoft Outlook 14.0
+Thread-Index: AdinXeRB7uNmwNcES/qK+pm1E+XOTAAAAzfAAAAAHQAAAAAaAAAAABeQAAAAD8AAAAAOUAAAAA4gAAAADbA=
+Importance: High
+Content-Language: en-us
+X-Spam-Status: No, score=0.8 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -81,156 +76,25 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Krzysztof,
+Hi,
+=A0=A0
+Would you be interested in acquiring=A0ISC West Attendees Email List =
+2022?
+=A0
+List Includes:=A0Company Name, First Name, Last Name, Full Name, Contact =
+Job
+Title,=A0Verified Email Address, Website URL, Mailing address, Phone =
+number,
+Industry and many more=85
+=A0
+Number of Contacts=A0 :35,968
+Cost=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0: $1,529
+=A0
+If you=92re interested please let me know I will assist you with further
+details.
+=A0
+Kind Regards,
+Randy Rose
+Marketing Coordinators
 
-Thank you for the review.
-
-On Tue, Aug 2, 2022 at 8:37 AM Krzysztof Kozlowski
-<krzysztof.kozlowski@linaro.org> wrote:
->
-> On 01/08/2022 23:47, Lad Prabhakar wrote:
-> > Document the CRU block found on Renesas RZ/G2L SoC's.
-> >
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > ---
-> > RFC v2 -> v1
-> > * Dropped endpoint stuff from port1 as suggested by Rob
-> > * Updated description for endpoint
-> >
-> > RFC v1 -> RFC v2
-> > * Dropped CSI
-> > ---
-> >  .../bindings/media/renesas,rzg2l-cru.yaml     | 142 ++++++++++++++++++
-> >  1 file changed, 142 insertions(+)
-> >  create mode 100644 Documentation/devicetree/bindings/media/renesas,rzg2l-cru.yaml
-> >
-> > diff --git a/Documentation/devicetree/bindings/media/renesas,rzg2l-cru.yaml b/Documentation/devicetree/bindings/media/renesas,rzg2l-cru.yaml
-> > new file mode 100644
-> > index 000000000000..d7389693dae9
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/media/renesas,rzg2l-cru.yaml
-> > @@ -0,0 +1,142 @@
-> > +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> > +# Copyright (C) 2022 Renesas Electronics Corp.
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/media/renesas,rzg2l-cru.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: Renesas RZ/G2L (and alike SoC's) Camera Data Receiving Unit (CRU) Image processing
-> > +
-> > +maintainers:
-> > +  - Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > +
-> > +description:
-> > +  The CRU image processing module is a data conversion module equipped with pixel
-> > +  color space conversion, LUT, pixel format conversion, etc. An MIPI CSI-2 input and
-> > +  parallel (including ITU-R BT.656) input are provided as the image sensor interface.
-> > +
-> > +properties:
-> > +  compatible:
-> > +    oneOf:
->
-> No need for oneOf, unless you already have a patch adding second case to
-> oneOf.
->
-Agreed, I will drop that.
-
-> > +      - items:
-> > +          - enum:
-> > +              - renesas,r9a07g044-cru     # RZ/G2{L,LC}
-> > +              - renesas,r9a07g054-cru     # RZ/V2L
-> > +          - const: renesas,rzg2l-cru
-> > +
-> > +  reg:
-> > +    maxItems: 1
-> > +
-> > +  interrupts:
-> > +    maxItems: 3
-> > +
-> > +  interrupt-names:
-> > +    items:
-> > +      - const: image_conv
-> > +      - const: image_conv_err
-> > +      - const: axi_mst_err
-> > +
-> > +  clocks:
-> > +    items:
-> > +      - description: CRU Main clock
-> > +      - description: CPU Register access clock
-> > +      - description: CRU image transfer clock
-> > +
-> > +  clock-names:
-> > +    items:
-> > +      - const: vclk
-> > +      - const: pclk
-> > +      - const: aclk
-> > +
-> > +  power-domains:
-> > +    maxItems: 1
-> > +
-> > +  resets:
-> > +    items:
-> > +      - description: CRU_PRESETN reset terminal
-> > +      - description: CRU_ARESETN reset terminal
-> > +
-> > +  reset-names:
-> > +    items:
-> > +      - const: presetn
-> > +      - const: aresetn
-> > +
-> > +  ports:
-> > +    $ref: /schemas/graph.yaml#/properties/ports
-> > +
-> > +    properties:
-> > +      port@0:
-> > +        $ref: /schemas/graph.yaml#/$defs/port-base
-> > +        unevaluatedProperties: false
-> > +        description:
-> > +          Input port node, single endpoint describing a parallel input source.
-> > +
-> > +        properties:
-> > +          endpoint:
-> > +            $ref: video-interfaces.yaml#
-> > +            unevaluatedProperties: false
-> > +
-> > +            properties:
-> > +              hsync-active: true
-> > +              vsync-active: true
-> > +              bus-width: true
-> > +              data-shift: true
-> > +
-> > +      port@1:
-> > +        $ref: /schemas/graph.yaml#/properties/port
-> > +        description:
-> > +          Input port node, describing the Image Processing module connected to the
-> > +          CSI-2 receiver.
-> > +
-> > +required:
-> > +  - compatible
-> > +  - reg
-> > +  - interrupts
-> > +  - interrupt-names
-> > +  - clocks
-> > +  - clock-names
-> > +  - resets
-> > +  - reset-names
-> > +  - power-domains
-> > +
-> > +additionalProperties: false
-> > +
-> > +examples:
-> > +  # Device node example with CSI-2
-> > +  - |
-> > +    #include <dt-bindings/clock/r9a07g044-cpg.h>
-> > +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> > +
-> > +    cru: video@10830000 {
-> > +            compatible = "renesas,r9a07g044-cru", "renesas,rzg2l-cru";
->
-> Also 4-space for DTS example, please.
->
-Agreed.
-
-Cheers,
-Prabhakar
