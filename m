@@ -2,192 +2,170 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 76EA4588A1A
-	for <lists+linux-media@lfdr.de>; Wed,  3 Aug 2022 12:04:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 777C1588AA9
+	for <lists+linux-media@lfdr.de>; Wed,  3 Aug 2022 12:37:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235127AbiHCKEJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 3 Aug 2022 06:04:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46282 "EHLO
+        id S234074AbiHCKhi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 3 Aug 2022 06:37:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46378 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233362AbiHCKEI (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 3 Aug 2022 06:04:08 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC6F718E21
-        for <linux-media@vger.kernel.org>; Wed,  3 Aug 2022 03:04:06 -0700 (PDT)
+        with ESMTP id S229925AbiHCKhh (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 3 Aug 2022 06:37:37 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA8CB659F;
+        Wed,  3 Aug 2022 03:37:33 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id A0145B82229
-        for <linux-media@vger.kernel.org>; Wed,  3 Aug 2022 10:04:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AD78BC433C1;
-        Wed,  3 Aug 2022 10:04:03 +0000 (UTC)
-Message-ID: <d3361317-f975-5e01-6a2e-2415e07e7f16@xs4all.nl>
-Date:   Wed, 3 Aug 2022 12:04:02 +0200
+        by ams.source.kernel.org (Postfix) with ESMTPS id 749DEB8211D;
+        Wed,  3 Aug 2022 10:37:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2EBF3C433C1;
+        Wed,  3 Aug 2022 10:37:30 +0000 (UTC)
+Message-ID: <3d74de7b-80c7-bd6d-c677-3c4232c148fb@xs4all.nl>
+Date:   Wed, 3 Aug 2022 12:37:28 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.10.0
+Subject: Re: [PATCH v2 0/5] Add the cat24c208 EDID EEPROM driver + new EDID
+ capability
 Content-Language: en-US
-To:     "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
-Cc:     "Erling Ljunggren (hljunggr)" <hljunggr@cisco.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: [PATCH] videodev2.h: drop V4L2_CAP_ASYNCIO
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Erling Ljunggren <hljunggr@cisco.com>, linux-media@vger.kernel.org,
+        linux-i2c@vger.kernel.org,
+        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+References: <20220803075850.1196988-1-hljunggr@cisco.com>
+ <Yuo8d+16SREwT9J8@pendragon.ideasonboard.com>
+ <89d3b85c-2407-164f-57c7-d13ea0f3799c@xs4all.nl>
+ <Yuo+9EUJytfOJenN@pendragon.ideasonboard.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+In-Reply-To: <Yuo+9EUJytfOJenN@pendragon.ideasonboard.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The V4L2_CAP_ASYNCIO capability was never implemented (and in fact
-it isn't clear what it is supposed to do in the first place).
+Hi Laurent,
 
-Drop it from the capabilities list. Keep it in videodev2.h defined
-to 0 with the other defines under ifndef __KERNEL__ for backwards
-compatibility.
+On 03/08/2022 11:25, Laurent Pinchart wrote:
+> Hi Hans,
+> 
+> On Wed, Aug 03, 2022 at 11:19:31AM +0200, Hans Verkuil wrote:
+>> On 03/08/2022 11:14, Laurent Pinchart wrote:
+>>> Hi Erling,
+>>>
+>>> (CC'ing the linux-i2c mailing list and Srinivas, the maintainer of the
+>>> nvmem framework)
+>>>
+>>> Thank you for the patches.
+>>>
+>>> On Wed, Aug 03, 2022 at 09:58:45AM +0200, Erling Ljunggren wrote:
+>>>> This series adds support for the standalone cat24c208 EDID EEPROM i2c device.
+>>>> Usually EDID support is part of an HDMI receiver, but this is a standalone EEPROM.
+>>>>
+>>>> Note that EEPROMs for EDIDs are not regular EEPROM devices, these are dual port
+>>>> devices that follow the VESA E-DDC standard.
+>>>>
+>>>> Since this is a standalone device that does not capture any video a new
+>>>> V4L2_CAP_EDID_MEMORY capability is introduced to represent such devices.
+>>>> Note that such a device doesn't have to be an EEPROM, it can also be
+>>>> implemented using a microcontroller, for example. Hence the use of the generic
+>>>> word 'MEMORY'.
+>>>
+>>> Why can't this be exposed as a nvmem device, like other types of eeproms
+>>> here ?
+>>
+>> Because it isn't. Same discussion I had with Andy: it's not a regular eeprom but
+>> a dedicated eeprom for EDIDs. And we have support for that already in V4L2. It's
+>> specific to receivers as well, so the only subsystem it belongs to is V4L2.
+> 
+> Why does that matter ? It's still an NVMEM device that stores 512 bytes
+> of data, even if the I2C interface to read/write it is different than
+> other types of standard EEPROMs.
 
-This will free up a capability bit for other future uses. And having
-an unused and undefined I/O method is just plain confusing.
+EDID support is already present in various HDMI receivers (e.g. adv7604). We have
+the API for that (VIDIOC_G/S_EDID). The only difference is that for those HDMI
+receivers the EDID is in volatile memory and is integrated into the receiver.
 
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
----
- Documentation/userspace-api/media/v4l/async.rst          | 9 ---------
- Documentation/userspace-api/media/v4l/dev-raw-vbi.rst    | 2 +-
- Documentation/userspace-api/media/v4l/dev-sdr.rst        | 2 +-
- Documentation/userspace-api/media/v4l/dev-sliced-vbi.rst | 2 +-
- Documentation/userspace-api/media/v4l/hist-v4l2.rst      | 2 +-
- Documentation/userspace-api/media/v4l/io.rst             | 4 +---
- .../userspace-api/media/v4l/vidioc-querycap.rst          | 3 ---
- include/uapi/linux/videodev2.h                           | 2 +-
- 8 files changed, 6 insertions(+), 20 deletions(-)
- delete mode 100644 Documentation/userspace-api/media/v4l/async.rst
+Regardless of the underlying implementation (integrated into an HDMI receiver,
+a standalone eeprom, or even implemented with a microcontroller), these devices
+are dedicated to storing an EDID and are hooked up to the DDC lines of an HDMI
+input (or even to multiple HDMI inputs, as supported by the adv7604).
 
-diff --git a/Documentation/userspace-api/media/v4l/async.rst b/Documentation/userspace-api/media/v4l/async.rst
-deleted file mode 100644
-index d6960ff5c382..000000000000
---- a/Documentation/userspace-api/media/v4l/async.rst
-+++ /dev/null
-@@ -1,9 +0,0 @@
--.. SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later
--
--.. _async:
--
--****************
--Asynchronous I/O
--****************
--
--This method is not defined yet.
-diff --git a/Documentation/userspace-api/media/v4l/dev-raw-vbi.rst b/Documentation/userspace-api/media/v4l/dev-raw-vbi.rst
-index 58f97c3a7792..2bec20d87928 100644
---- a/Documentation/userspace-api/media/v4l/dev-raw-vbi.rst
-+++ b/Documentation/userspace-api/media/v4l/dev-raw-vbi.rst
-@@ -41,7 +41,7 @@ Devices supporting the raw VBI capturing or output API set the
- in the ``capabilities`` field of struct
- :c:type:`v4l2_capability` returned by the
- :ref:`VIDIOC_QUERYCAP` ioctl. At least one of the
--read/write, streaming or asynchronous I/O methods must be supported. VBI
-+read/write or streaming I/O methods must be supported. VBI
- devices may or may not have a tuner or modulator.
- 
- Supplemental Functions
-diff --git a/Documentation/userspace-api/media/v4l/dev-sdr.rst b/Documentation/userspace-api/media/v4l/dev-sdr.rst
-index 928884dfe09d..dfdeddbca41f 100644
---- a/Documentation/userspace-api/media/v4l/dev-sdr.rst
-+++ b/Documentation/userspace-api/media/v4l/dev-sdr.rst
-@@ -34,7 +34,7 @@ Devices supporting the SDR transmitter interface set the
- device has an Digital to Analog Converter (DAC), which is a mandatory
- element for the SDR transmitter.
- 
--At least one of the read/write, streaming or asynchronous I/O methods
-+At least one of the read/write or streaming I/O methods
- must be supported.
- 
- 
-diff --git a/Documentation/userspace-api/media/v4l/dev-sliced-vbi.rst b/Documentation/userspace-api/media/v4l/dev-sliced-vbi.rst
-index 97ec2b115c71..44415822c7c5 100644
---- a/Documentation/userspace-api/media/v4l/dev-sliced-vbi.rst
-+++ b/Documentation/userspace-api/media/v4l/dev-sliced-vbi.rst
-@@ -36,7 +36,7 @@ Devices supporting the sliced VBI capturing or output API set the
- respectively, in the ``capabilities`` field of struct
- :c:type:`v4l2_capability` returned by the
- :ref:`VIDIOC_QUERYCAP` ioctl. At least one of the
--read/write, streaming or asynchronous :ref:`I/O methods <io>` must be
-+read/write or streaming :ref:`I/O methods <io>` must be
- supported. Sliced VBI devices may have a tuner or modulator.
- 
- Supplemental Functions
-diff --git a/Documentation/userspace-api/media/v4l/hist-v4l2.rst b/Documentation/userspace-api/media/v4l/hist-v4l2.rst
-index 28a2750d5c8c..dbc04374dc22 100644
---- a/Documentation/userspace-api/media/v4l/hist-v4l2.rst
-+++ b/Documentation/userspace-api/media/v4l/hist-v4l2.rst
-@@ -316,7 +316,7 @@ This unnamed version was finally merged into Linux 2.5.46.
-     There are new fields to identify the driver, a new RDS device
-     function ``V4L2_CAP_RDS_CAPTURE``, the ``V4L2_CAP_AUDIO`` flag
-     indicates if the device has any audio connectors, another I/O
--    capability ``V4L2_CAP_ASYNCIO`` can be flagged. In response to these
-+    capability V4L2_CAP_ASYNCIO can be flagged. In response to these
-     changes the ``type`` field became a bit set and was merged into the
-     ``flags`` field. ``V4L2_FLAG_TUNER`` was renamed to
-     ``V4L2_CAP_TUNER``, ``V4L2_CAP_VIDEO_OVERLAY`` replaced
-diff --git a/Documentation/userspace-api/media/v4l/io.rst b/Documentation/userspace-api/media/v4l/io.rst
-index ce0cece6f35f..4b1964df9d73 100644
---- a/Documentation/userspace-api/media/v4l/io.rst
-+++ b/Documentation/userspace-api/media/v4l/io.rst
-@@ -17,8 +17,7 @@ read or write will fail at any time.
- 
- Other methods must be negotiated. To select the streaming I/O method
- with memory mapped or user buffers applications call the
--:ref:`VIDIOC_REQBUFS` ioctl. The asynchronous I/O
--method is not defined yet.
-+:ref:`VIDIOC_REQBUFS` ioctl.
- 
- Video overlay can be considered another I/O method, although the
- application does not directly receive the image data. It is selected by
-@@ -46,6 +45,5 @@ The following sections describe the various I/O methods in more detail.
-     mmap
-     userp
-     dmabuf
--    async
-     buffer
-     field-order
-diff --git a/Documentation/userspace-api/media/v4l/vidioc-querycap.rst b/Documentation/userspace-api/media/v4l/vidioc-querycap.rst
-index 63e23f6f95ee..6c57b8428356 100644
---- a/Documentation/userspace-api/media/v4l/vidioc-querycap.rst
-+++ b/Documentation/userspace-api/media/v4l/vidioc-querycap.rst
-@@ -244,9 +244,6 @@ specification the ioctl returns an ``EINVAL`` error code.
-       - 0x01000000
-       - The device supports the :c:func:`read()` and/or
- 	:c:func:`write()` I/O methods.
--    * - ``V4L2_CAP_ASYNCIO``
--      - 0x02000000
--      - The device supports the :ref:`asynchronous <async>` I/O methods.
-     * - ``V4L2_CAP_STREAMING``
-       - 0x04000000
-       - The device supports the :ref:`streaming <mmap>` I/O method.
-diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-index 01e630f2ec78..1af12e5928aa 100644
---- a/include/uapi/linux/videodev2.h
-+++ b/include/uapi/linux/videodev2.h
-@@ -502,7 +502,6 @@ struct v4l2_capability {
- #define V4L2_CAP_META_CAPTURE		0x00800000  /* Is a metadata capture device */
- 
- #define V4L2_CAP_READWRITE              0x01000000  /* read/write systemcalls */
--#define V4L2_CAP_ASYNCIO                0x02000000  /* async I/O */
- #define V4L2_CAP_STREAMING              0x04000000  /* streaming I/O ioctls */
- #define V4L2_CAP_META_OUTPUT		0x08000000  /* Is a metadata output device */
- 
-@@ -2682,6 +2681,7 @@ struct v4l2_create_buffers {
- #ifndef __KERNEL__
- #define V4L2_PIX_FMT_HM12 V4L2_PIX_FMT_NV12_16L16
- #define V4L2_PIX_FMT_SUNXI_TILED_NV12 V4L2_PIX_FMT_NV12_32L32
-+#define V4L2_CAP_ASYNCIO 0
- #endif
- 
- #endif /* _UAPI__LINUX_VIDEODEV2_H */
--- 
-2.35.1
+Changing an EDID typically requires additional work such as toggling the hotplug
+detect pin, and (if CEC is supported) updating the physical address of the CEC
+adapter. While that is not (yet) supported in this driver, it is something that
+we might add later.
 
+None of this is good fit for a nvmem driver. The key feature is that this is for
+EDIDs. Whether it is implemented as volatile or non-volatile memory is irrelevant,
+the relevant feature is that it stores an EDID and is able (if needed) to take care
+of HPD toggling and CEC physical addresses.
+
+Perhaps if we add support for e.g. toggling an HPD pin (even though it is not needed
+yet for our use-case), it would become more obvious that this not a nvmem device?
+
+Comparing this driver with adv7604 I see that it would make sense to also validate
+the EDID (the physical address in particular). Adding that would also more clearly
+tie it to the v4l2 subsystem.
+
+V4L2 has all the infrastructure for EDIDs, both in the kernel and in userspace, so
+it really does not make sense to go for nvmem, just because it happens to be an
+eeprom.
+
+Regards,
+
+	Hans
+
+> 
+>> See the discussion I had with Andy on this:
+>>
+>> https://patchwork.linuxtv.org/project/linux-media/patch/20220728114050.2400475-5-hljunggr@cisco.com/
+>>
+>>>> The new capability uses the free bit 0x00000008. But we are running out of
+>>>> capability bits: only 0x40000000 and 0x00000008 are free at the moment.
+>>>>
+>>>> There is one other capability V4L2_CAP_ASYNCIO (0x02000000) that is not used
+>>>> at all, it was never implemented. Wouldn't it be better to define
+>>>> V4L2_CAP_ASYNCIO to 0, mark it as obsolete, and instead reuse it for this
+>>>> V4L2_CAP_EDID_MEMORY capability?
+>>>>
+>>>> v2:
+>>>>  - fix dt binding example
+>>>>  - rename i2c client variables in data struct
+>>>>  - fix include: of_device.h -> mod_devicetable.h
+>>>>  - Sorted makefile
+>>>>  - used define EDID_OFFSET_EXT_FLAG instead of magic number
+>>>>  - removed of_match_ptr
+>>>>  - added bus_info
+>>>>  - remove unneeded headers
+>>>>  - add depends on OF to Kconfig
+>>>>
+>>>> Erling Ljunggren (4):
+>>>>   media: videodev2.h: add V4L2_CAP_EDID_MEMORY
+>>>>   media: docs: Add V4L2_CAP_EDID_MEMORY
+>>>>   dt-bindings: media: add cat24c208 bindings
+>>>>   media: v4l2-dev: handle V4L2_CAP_EDID_MEMORY
+>>>>
+>>>> Jonathan Selnes (1):
+>>>>   media: i2c: cat24c208: driver for the cat24c208 EDID EEPROM
+>>>>
+>>>>  .../bindings/media/i2c/onnn,cat24c208.yaml    |  40 ++
+>>>>  .../userspace-api/media/v4l/biblio.rst        |  11 +
+>>>>  .../media/v4l/vidioc-querycap.rst             |   7 +
+>>>>  .../media/videodev2.h.rst.exceptions          |   1 +
+>>>>  MAINTAINERS                                   |   7 +
+>>>>  drivers/media/i2c/Kconfig                     |   9 +
+>>>>  drivers/media/i2c/Makefile                    |   1 +
+>>>>  drivers/media/i2c/cat24c208.c                 | 421 ++++++++++++++++++
+>>>>  drivers/media/v4l2-core/v4l2-dev.c            |   8 +
+>>>>  include/uapi/linux/videodev2.h                |   1 +
+>>>>  10 files changed, 506 insertions(+)
+>>>>  create mode 100644 Documentation/devicetree/bindings/media/i2c/onnn,cat24c208.yaml
+>>>>  create mode 100644 drivers/media/i2c/cat24c208.c
+> 
