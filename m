@@ -2,92 +2,179 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3C678588861
-	for <lists+linux-media@lfdr.de>; Wed,  3 Aug 2022 09:58:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A12615888BE
+	for <lists+linux-media@lfdr.de>; Wed,  3 Aug 2022 10:39:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237371AbiHCH6N (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 3 Aug 2022 03:58:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45958 "EHLO
+        id S234427AbiHCIjI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 3 Aug 2022 04:39:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40696 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235626AbiHCH6K (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 3 Aug 2022 03:58:10 -0400
-Received: from aer-iport-8.cisco.com (aer-iport-8.cisco.com [173.38.203.70])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 596ED2A273
-        for <linux-media@vger.kernel.org>; Wed,  3 Aug 2022 00:58:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=cisco.com; i=@cisco.com; l=1478; q=dns/txt; s=iport;
-  t=1659513489; x=1660723089;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=ZV27oEQ0c4Bf39zyMjYO91SIh+6idpUgvNeumAP+Kwc=;
-  b=l7tpznPxxT9jKGMffrvXxcrC6TTDa/W4tkkizdWA89Jco6MIT8xMhUtM
-   E75F91QtgftVJxQY9qP8us3hP6nGodENDGfumXfSO/0S5H9cK0MsPkul7
-   C5dJjWz1zCPjMr6u2dIgqE21u+g0R2YyDgZG5+YUVv1d3qimXhG1MId0q
-   c=;
-X-IronPort-AV: E=Sophos;i="5.93,213,1654560000"; 
-   d="scan'208";a="692986"
-Received: from aer-iport-nat.cisco.com (HELO aer-core-1.cisco.com) ([173.38.203.22])
-  by aer-iport-8.cisco.com with ESMTP/TLS/DHE-RSA-SEED-SHA; 03 Aug 2022 07:58:07 +0000
-Received: from office-260.rd.cisco.com ([10.47.77.162])
-        by aer-core-1.cisco.com (8.15.2/8.15.2) with ESMTP id 2737w5SD024084;
-        Wed, 3 Aug 2022 07:58:07 GMT
-From:   Erling Ljunggren <hljunggr@cisco.com>
-To:     linux-media@vger.kernel.org
-Cc:     Erling Ljunggren <hljunggr@cisco.com>
-Subject: [PATCH v2 5/5] media: v4l2-dev: handle V4L2_CAP_EDID_MEMORY
-Date:   Wed,  3 Aug 2022 09:58:50 +0200
-Message-Id: <20220803075850.1196988-6-hljunggr@cisco.com>
-X-Mailer: git-send-email 2.37.1
-In-Reply-To: <20220803075850.1196988-1-hljunggr@cisco.com>
-References: <20220803075850.1196988-1-hljunggr@cisco.com>
+        with ESMTP id S233354AbiHCIjH (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 3 Aug 2022 04:39:07 -0400
+Received: from mail-m11885.qiye.163.com (mail-m11885.qiye.163.com [115.236.118.85])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4BE7E1ADB7;
+        Wed,  3 Aug 2022 01:39:05 -0700 (PDT)
+Received: from localhost (unknown [103.29.142.67])
+        by mail-m11885.qiye.163.com (Hmail) with ESMTPA id C3C424C0847;
+        Wed,  3 Aug 2022 16:39:02 +0800 (CST)
+From:   Jeffy Chen <jeffy.chen@rock-chips.com>
+To:     Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc:     Andy Yan <andy.yan@rock-chips.com>,
+        Jianqun Xu <jay.xu@rock-chips.com>,
+        Jeffy Chen <jeffy.chen@rock-chips.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org, David Airlie <airlied@linux.ie>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        linux-media@vger.kernel.org,
+        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+        Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH v2] drm/gem: Fix GEM handle release errors
+Date:   Wed,  3 Aug 2022 16:32:37 +0800
+Message-Id: <20220803083237.3701-1-jeffy.chen@rock-chips.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Outbound-SMTP-Client: 10.47.77.162, [10.47.77.162]
-X-Outbound-Node: aer-core-1.cisco.com
-X-Spam-Status: No, score=-10.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIMWL_WL_MED,DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        SPF_HELO_NONE,SPF_NONE,USER_IN_DEF_DKIM_WL autolearn=ham
-        autolearn_force=no version=3.4.6
+X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+        tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVkZGR1PVkhDTh0fGU9LGh5MHVUTARMWGhIXJBQOD1
+        lXWRgSC1lBWUpLSFVJQlVKT0lVTUxZV1kWGg8SFR0UWUFZT0tIVUpKS0hKQ1VLWQY+
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6NRw6PAw*Dj02IzARHgg1OQtO
+        UQMwCzVVSlVKTU5CTkpOQk9ISE9DVTMWGhIXVREeHR0CVRgTHhU7CRQYEFYYExILCFUYFBZFWVdZ
+        EgtZQVlKS0hVSUJVSk9JVU1MWVdZCAFZQU1LTUI3Bg++
+X-HM-Tid: 0a8262dbb7b72eb9kusnc3c424c0847
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-When the V4L2_CAP_EDID_MEMORY capability flag is set,
-ioctls for enum inputs and get/set edid are automatically set.
+Currently we are assuming a one to one mapping between dmabuf and handle
+when releasing GEM handles.
 
-Signed-off-by: Erling Ljunggren <hljunggr@cisco.com>
+But that is not always true, since we would create extra handles for the
+GEM obj in cases like gem_open() and getfb{,2}().
+
+A similar issue was reported at:
+https://lore.kernel.org/all/20211105083308.392156-1-jay.xu@rock-chips.com/
+
+Another problem is that the drm_gem_remove_prime_handles() now only
+remove handle to the exported dmabuf (gem_obj->dma_buf), so the imported
+ones would leak:
+WARNING: CPU: 2 PID: 236 at drivers/gpu/drm/drm_prime.c:228 drm_prime_destroy_file_private+0x18/0x24
+
+Let's fix these by using handle to find the exact map to remove.
+
+Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
 ---
- drivers/media/v4l2-core/v4l2-dev.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
 
-diff --git a/drivers/media/v4l2-core/v4l2-dev.c b/drivers/media/v4l2-core/v4l2-dev.c
-index d00237ee4cae..39437911edcc 100644
---- a/drivers/media/v4l2-core/v4l2-dev.c
-+++ b/drivers/media/v4l2-core/v4l2-dev.c
-@@ -556,6 +556,7 @@ static void determine_valid_ioctls(struct video_device *vdev)
- 	bool is_rx = vdev->vfl_dir != VFL_DIR_TX;
- 	bool is_tx = vdev->vfl_dir != VFL_DIR_RX;
- 	bool is_io_mc = vdev->device_caps & V4L2_CAP_IO_MC;
-+	bool is_edid_mem =  vdev->device_caps & V4L2_CAP_EDID_MEMORY;
+Changes in v2:
+Fix a typo of rbtree.
+
+ drivers/gpu/drm/drm_gem.c      | 17 +----------------
+ drivers/gpu/drm/drm_internal.h |  4 ++--
+ drivers/gpu/drm/drm_prime.c    | 20 ++++++++++++--------
+ 3 files changed, 15 insertions(+), 26 deletions(-)
+
+diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
+index eb0c2d041f13..ed39da383570 100644
+--- a/drivers/gpu/drm/drm_gem.c
++++ b/drivers/gpu/drm/drm_gem.c
+@@ -168,21 +168,6 @@ void drm_gem_private_object_init(struct drm_device *dev,
+ }
+ EXPORT_SYMBOL(drm_gem_private_object_init);
  
- 	bitmap_zero(valid_ioctls, BASE_VIDIOC_PRIVATE);
+-static void
+-drm_gem_remove_prime_handles(struct drm_gem_object *obj, struct drm_file *filp)
+-{
+-	/*
+-	 * Note: obj->dma_buf can't disappear as long as we still hold a
+-	 * handle reference in obj->handle_count.
+-	 */
+-	mutex_lock(&filp->prime.lock);
+-	if (obj->dma_buf) {
+-		drm_prime_remove_buf_handle_locked(&filp->prime,
+-						   obj->dma_buf);
+-	}
+-	mutex_unlock(&filp->prime.lock);
+-}
+-
+ /**
+  * drm_gem_object_handle_free - release resources bound to userspace handles
+  * @obj: GEM object to clean up.
+@@ -253,7 +238,7 @@ drm_gem_object_release_handle(int id, void *ptr, void *data)
+ 	if (obj->funcs->close)
+ 		obj->funcs->close(obj, file_priv);
  
-@@ -778,6 +779,13 @@ static void determine_valid_ioctls(struct video_device *vdev)
- 		SET_VALID_IOCTL(ops, VIDIOC_S_TUNER, vidioc_s_tuner);
- 		SET_VALID_IOCTL(ops, VIDIOC_S_HW_FREQ_SEEK, vidioc_s_hw_freq_seek);
+-	drm_gem_remove_prime_handles(obj, file_priv);
++	drm_prime_remove_buf_handle(&file_priv->prime, id);
+ 	drm_vma_node_revoke(&obj->vma_node, file_priv);
+ 
+ 	drm_gem_object_handle_put_unlocked(obj);
+diff --git a/drivers/gpu/drm/drm_internal.h b/drivers/gpu/drm/drm_internal.h
+index 1fbbc19f1ac0..7bb98e6a446d 100644
+--- a/drivers/gpu/drm/drm_internal.h
++++ b/drivers/gpu/drm/drm_internal.h
+@@ -74,8 +74,8 @@ int drm_prime_fd_to_handle_ioctl(struct drm_device *dev, void *data,
+ 
+ void drm_prime_init_file_private(struct drm_prime_file_private *prime_fpriv);
+ void drm_prime_destroy_file_private(struct drm_prime_file_private *prime_fpriv);
+-void drm_prime_remove_buf_handle_locked(struct drm_prime_file_private *prime_fpriv,
+-					struct dma_buf *dma_buf);
++void drm_prime_remove_buf_handle(struct drm_prime_file_private *prime_fpriv,
++				 uint32_t handle);
+ 
+ /* drm_drv.c */
+ struct drm_minor *drm_minor_acquire(unsigned int minor_id);
+diff --git a/drivers/gpu/drm/drm_prime.c b/drivers/gpu/drm/drm_prime.c
+index e3f09f18110c..bd5366b16381 100644
+--- a/drivers/gpu/drm/drm_prime.c
++++ b/drivers/gpu/drm/drm_prime.c
+@@ -190,29 +190,33 @@ static int drm_prime_lookup_buf_handle(struct drm_prime_file_private *prime_fpri
+ 	return -ENOENT;
+ }
+ 
+-void drm_prime_remove_buf_handle_locked(struct drm_prime_file_private *prime_fpriv,
+-					struct dma_buf *dma_buf)
++void drm_prime_remove_buf_handle(struct drm_prime_file_private *prime_fpriv,
++				 uint32_t handle)
+ {
+ 	struct rb_node *rb;
+ 
+-	rb = prime_fpriv->dmabufs.rb_node;
++	mutex_lock(&prime_fpriv->lock);
++
++	rb = prime_fpriv->handles.rb_node;
+ 	while (rb) {
+ 		struct drm_prime_member *member;
+ 
+-		member = rb_entry(rb, struct drm_prime_member, dmabuf_rb);
+-		if (member->dma_buf == dma_buf) {
++		member = rb_entry(rb, struct drm_prime_member, handle_rb);
++		if (member->handle == handle) {
+ 			rb_erase(&member->handle_rb, &prime_fpriv->handles);
+ 			rb_erase(&member->dmabuf_rb, &prime_fpriv->dmabufs);
+ 
+-			dma_buf_put(dma_buf);
++			dma_buf_put(member->dma_buf);
+ 			kfree(member);
+-			return;
+-		} else if (member->dma_buf < dma_buf) {
++			break;
++		} else if (member->handle < handle) {
+ 			rb = rb->rb_right;
+ 		} else {
+ 			rb = rb->rb_left;
+ 		}
  	}
-+	if (is_edid_mem) {
-+		SET_VALID_IOCTL(ops, VIDIOC_G_EDID, vidioc_g_edid);
-+		SET_VALID_IOCTL(ops, VIDIOC_S_EDID, vidioc_s_edid);
-+		SET_VALID_IOCTL(ops, VIDIOC_ENUMINPUT, vidioc_enum_input);
-+		SET_VALID_IOCTL(ops, VIDIOC_G_INPUT, vidioc_g_input);
-+		SET_VALID_IOCTL(ops, VIDIOC_S_INPUT, vidioc_s_input);
-+	}
++
++	mutex_unlock(&prime_fpriv->lock);
+ }
  
- 	bitmap_andnot(vdev->valid_ioctls, valid_ioctls, vdev->valid_ioctls,
- 			BASE_VIDIOC_PRIVATE);
+ void drm_prime_init_file_private(struct drm_prime_file_private *prime_fpriv)
 -- 
-2.37.1
+2.20.1
 
