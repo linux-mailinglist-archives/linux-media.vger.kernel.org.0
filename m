@@ -2,40 +2,42 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 09FA0589F35
-	for <lists+linux-media@lfdr.de>; Thu,  4 Aug 2022 18:17:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 373A5589F40
+	for <lists+linux-media@lfdr.de>; Thu,  4 Aug 2022 18:19:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235051AbiHDQRh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 4 Aug 2022 12:17:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36600 "EHLO
+        id S234734AbiHDQTn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 4 Aug 2022 12:19:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38224 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232927AbiHDQRg (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 4 Aug 2022 12:17:36 -0400
+        with ESMTP id S231563AbiHDQTm (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 4 Aug 2022 12:19:42 -0400
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7D7191A81D;
-        Thu,  4 Aug 2022 09:17:34 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 577C54D4E9;
+        Thu,  4 Aug 2022 09:19:41 -0700 (PDT)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 44AC0481;
-        Thu,  4 Aug 2022 18:17:32 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id A8FB2481;
+        Thu,  4 Aug 2022 18:19:39 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1659629852;
-        bh=S5flaIH/svUzUXABqxvIb4PXcFN2VazEDqYrMfWJdGQ=;
+        s=mail; t=1659629979;
+        bh=iVu2/kSSaltV7WMKKmcC4ymvsamnFHZBq5xbZhKVeCQ=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Bs4bJsMO9nNQG1vtODN9AhYdpO5NI6H/kDMXpV/YVOm5JQg6yRacEZHS+85qTbIuh
-         LkLBEeA7Re6j5+8LsfwJKYja0IvUjF5aWnZSzMyTr7oivlYAsr+ArCTdpmJoL3A0Xz
-         ddws3TtV0VdUHSgV1JbFLaYDM+Dv1dViF9v1mxeI=
-Date:   Thu, 4 Aug 2022 19:17:24 +0300
+        b=uXC4gPuhmTAaY6JfrNmdg5i4IGn0w1WpKCJYf0GwDlVWwJovnKNvYTXmUwCqcRxCF
+         nsAY5kGoIAj3zlcObhKCnLbi4itaBVpFAMouTjhimoXNyk0tzM2FnZdnlyGOE05FuQ
+         5nrSekZ8D/2HQ2dKVdREzTL+xaa9BaHrV+N/GeXQ=
+Date:   Thu, 4 Aug 2022 19:19:32 +0300
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Jason Wang <wangborong@cdjrlc.com>
-Cc:     mchehab@kernel.org, linux-media@vger.kernel.org,
+Cc:     mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
+        ezequiel@vanguardiasur.com.ar, sakari.ailus@linux.intel.com,
+        ribalda@chromium.org, linux-media@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: uvcvideo: Fix comment typo
-Message-ID: <YuvxFIVUFOKMTsdV@pendragon.ideasonboard.com>
-References: <20220804115620.52384-1-wangborong@cdjrlc.com>
+Subject: Re: [PATCH] media: v4l2: Fix comment typo
+Message-ID: <YuvxlOlGmPTbblaP@pendragon.ideasonboard.com>
+References: <20220804120504.58083-1-wangborong@cdjrlc.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20220804115620.52384-1-wangborong@cdjrlc.com>
+In-Reply-To: <20220804120504.58083-1-wangborong@cdjrlc.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
         autolearn=ham autolearn_force=no version=3.4.6
@@ -47,30 +49,31 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 Hi Jason,
 
-An identical patch has already been posted to the linux-media mailing
-list.
-
-On Thu, Aug 04, 2022 at 07:56:20PM +0800, Jason Wang wrote:
+On Thu, Aug 04, 2022 at 08:05:04PM +0800, Jason Wang wrote:
 > The double `the' is duplicated in the comment, remove one.
 > 
 > Signed-off-by: Jason Wang <wangborong@cdjrlc.com>
 > ---
->  drivers/media/usb/uvc/uvc_video.c | 2 +-
+>  drivers/media/v4l2-core/v4l2-ioctl.c | 2 +-
 >  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
-> index 170a008f4006..d2eb9066e4dc 100644
-> --- a/drivers/media/usb/uvc/uvc_video.c
-> +++ b/drivers/media/usb/uvc/uvc_video.c
-> @@ -1095,7 +1095,7 @@ static int uvc_video_decode_start(struct uvc_streaming *stream,
->  
+> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
+> index e6fd355a2e92..af75edee898c 100644
+> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
+> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+> @@ -1045,7 +1045,7 @@ static void v4l_sanitize_format(struct v4l2_format *fmt)
 >  	/*
->  	 * Synchronize to the input stream by waiting for the FID bit to be
-> -	 * toggled when the the buffer state is not UVC_BUF_STATE_ACTIVE.
-> +	 * toggled when the buffer state is not UVC_BUF_STATE_ACTIVE.
->  	 * stream->last_fid is initialized to -1, so the first isochronous
->  	 * frame will always be in sync.
->  	 *
+>  	 * The v4l2_pix_format structure has been extended with fields that were
+>  	 * not previously required to be set to zero by applications. The priv
+> -	 * field, when set to a magic value, indicates the the extended fields
+> +	 * field, when set to a magic value, indicates the extended fields
+
+I wonder if the original intent was to write "indicates that the
+extended fields ...".
+
+>  	 * are valid. Otherwise they will contain undefined values. To simplify
+>  	 * the API towards drivers zero the extended fields and set the priv
+>  	 * field to the magic value when the extended pixel format structure
 
 -- 
 Regards,
