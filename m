@@ -2,236 +2,149 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4D9135899D5
-	for <lists+linux-media@lfdr.de>; Thu,  4 Aug 2022 11:19:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ECE085899FC
+	for <lists+linux-media@lfdr.de>; Thu,  4 Aug 2022 11:39:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234496AbiHDJTV convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Thu, 4 Aug 2022 05:19:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44538 "EHLO
+        id S239229AbiHDJjH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 4 Aug 2022 05:39:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56414 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238423AbiHDJTU (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 4 Aug 2022 05:19:20 -0400
-Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4281A65663
-        for <linux-media@vger.kernel.org>; Thu,  4 Aug 2022 02:19:19 -0700 (PDT)
-Received: from builder.linuxtv.org ([140.211.167.10])
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1oJX0e-003Evl-LX; Thu, 04 Aug 2022 09:19:16 +0000
-Received: from localhost ([127.0.0.1] helo=builder.linuxtv.org)
-        by builder.linuxtv.org with esmtp (Exim 4.94.2)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1oJX0d-000Krn-1D; Thu, 04 Aug 2022 09:19:14 +0000
-Date:   Thu, 4 Aug 2022 09:19:14 +0000 (UTC)
-From:   Jenkins Builder Robot <jenkins@linuxtv.org>
-To:     mchehab@kernel.org, linux-media@vger.kernel.org
-Message-ID: <786850377.0.1659604754345@builder.linuxtv.org>
-In-Reply-To: <394181139.0.1659518369844@builder.linuxtv.org>
-References: <394181139.0.1659518369844@builder.linuxtv.org>
-Subject: Build failed in Jenkins: media-build #3980
+        with ESMTP id S239220AbiHDJjG (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 4 Aug 2022 05:39:06 -0400
+Received: from EUR04-HE1-obe.outbound.protection.outlook.com (mail-eopbgr70057.outbound.protection.outlook.com [40.107.7.57])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A538C4199C;
+        Thu,  4 Aug 2022 02:39:04 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=nVMpJRHRsLoOsKrynHWTjQhxtsbUuJnQ9knWzUvjo097dmqXiEd0oiL7gt1I5DZzyIEjHVUe8X0DbrWgBZ81p7KetJ+7cqWoO7ZqoIyHxmuGb1Zi5TBlSAeO4hp08K5Pw0XnI9EP6+DtbNl4GzkYQzH3UodvXaE2714/3QwP7ARb90yg22C+ZOxAD40UkaEWXYL+R3TqNHwRPeTAU6MegtIByggNek+D77V3Gi5r5MpTxLmtUweidyKwQc/57/els5mTdX5lxQ5iGWwT4BWi3HR7EILKkK6uCtMZ7O3YFBQbh6aCh7Bj42FviryPEc/CedVhZW5vWVjAyWhInpzdRQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=1Uo+8sQk/Ln7Nj6Q+3ErF8xc7unji6Ck+KSRh39MrRM=;
+ b=MhCSfrepoMmklLOenQGg9M238hdXjpkWATTwO2N23GM9u92IKNUTivF0jgLxxOv2721O7oSXervTKuSaCO9G9Izr3loyvrPo/K0fb1j1P1rhqadIGErPuZTrw3leZicp62EVQs2Yti+QXzNrmo1b8RRhWIYBxT9jwAgJ3bfqHZi/QehklTuHDxO3TOKeYpmtj2+O7hZQbh30jqs0PAZaEHWTBcWWUASurHSTMv50p0J32Fvz+RB16ChvEUZIJdeFalXiEI/sKPwMeQdxxNOID5/JI93OPECGnZALXI5+ydbnxwG65PQl1Tk8EpG+uQm4vQJ5YxYH3jnGEcuBV8drzQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=1Uo+8sQk/Ln7Nj6Q+3ErF8xc7unji6Ck+KSRh39MrRM=;
+ b=pZYAm1z8xOx98qhmkX8SIaLLmmJdmfAlK1qPVQLixBwfaVvcmb8K0chcFnXc0TY+b4lJ8bIa/lJTCPyeXO9sx61mfwG6iM+mzDo1inVUZkMDMAyhusJ04LGaXNenMkcgb69laghm6TpBwwyHJaHZRRkYR0+RYHr7Qx+Bi5C7lVs=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from AM6PR04MB6341.eurprd04.prod.outlook.com (2603:10a6:20b:d8::14)
+ by AM8PR04MB7267.eurprd04.prod.outlook.com (2603:10a6:20b:1df::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5504.15; Thu, 4 Aug
+ 2022 09:39:02 +0000
+Received: from AM6PR04MB6341.eurprd04.prod.outlook.com
+ ([fe80::5db6:3f08:2e04:33c]) by AM6PR04MB6341.eurprd04.prod.outlook.com
+ ([fe80::5db6:3f08:2e04:33c%4]) with mapi id 15.20.5504.014; Thu, 4 Aug 2022
+ 09:39:01 +0000
+From:   Ming Qian <ming.qian@nxp.com>
+To:     mchehab@kernel.org, mirela.rabulea@oss.nxp.com,
+        hverkuil-cisco@xs4all.nl
+Cc:     shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
+        festevam@gmail.com, xiahong.bao@nxp.com, linux-imx@nxp.com,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Subject: [PATCH] media: imx-jpeg: Disable useless interrupt to avoid kernel panic
+Date:   Thu,  4 Aug 2022 17:38:41 +0800
+Message-Id: <20220804093841.31337-1-ming.qian@nxp.com>
+X-Mailer: git-send-email 2.37.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SGXP274CA0019.SGPP274.PROD.OUTLOOK.COM (2603:1096:4:b8::31)
+ To AM6PR04MB6341.eurprd04.prod.outlook.com (2603:10a6:20b:d8::14)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
-X-Instance-Identity: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAf928QubrKEjMQ0IZR0WWXn8zG7uTdH33F2Idx4Xmlp6Z138NdNMQYNG71OKzmvn3/E1G4rpd9JsMls16nRZ2NAPgOWX0qfFr6HyOoQklLGZt+vkOFb0BvmBFfdI+00J5B1SPupxv4pT3bDLSiwbBNCOLY4sdB0gG1ng14mzu47G8zmH6l2ZE/9urEd6OLFhzrb6ym4vlkCE8uvNJAdAWbeafd1plHSLdU/TVqHMZELuM0wt9khqhUOkfE+dHr7h6DNrkFpvm/8j/5wTuy98ZwwWimP+pfjSQMgKrhXjwHcJJa2N9v1HdwrwlUaRYuA6o8fwUHNC9vLj7cCXM3qiwIDAQAB
-X-Jenkins-Job: media-build
-X-Jenkins-Result: FAILURE
-Auto-submitted: auto-generated
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
-        autolearn=ham autolearn_force=no version=3.4.6
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 5c160740-6f04-4be4-45a7-08da75fd29d0
+X-MS-TrafficTypeDiagnostic: AM8PR04MB7267:EE_
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: bNgIE7cZe7WTnF23HFq7kwsMVEeOx78o/BdfAZZlo55EVNK6QiOjPjkc/9IufyuvY6HA/rStG9eGcbt+TRiPQhlWUqn3DT98Xuc8vyI4U2p2Tby+ffKkKZLeHlaBf5036PcnP/jNVklctNKcTTqAdDqdYKR7bZPAhNGYcdLN2UzVhtJ0i+mBf3QsTavlP81uZhvpElL1RfvFx1AQceHfXe7+zPJWeIeFSBNyZs/GLYFPlebv2Dj0m+FACaTHf3ddBCShQ1t2+C9SGI3LQ4DrrgK2KcfXWxYsNCuu7picvwHfO7fAktRuGJxIRm+cJLpyq2DvZUlRKtE+vinxlp06oq0nlIjnnBqdukbT/7KaUvncpirEFhdLHg4lCS5x6I11jOXbMa8qgPzvhgi1l0icar7SSoEUYuSgRIGlISYLdiK/KVOVxU54matk086VY9MvcWxW6ZAXrffyosbbH4yo7ZIiKT1PQdU9y7gUfmNymVoDIHKl4rvqsQG6IIH0OE76p3v5Zl4RpqKzlXu73NBl+4dZgE1RBriDYUL0AICNodVxv/lHiqS1GnOyATawQcxBL9OIkow+RZFeeu4ngOSGNl0jz1OTZFXEj386KpwWZpgH+6eKiqnXB//0kxO5slCZRc7JhQuPFUXiGBo4CrdRV8nURXxY7xV7yrTnWHTumJ2trV0KtP3+JLXbfnt9N3j/3O89EG127yV1SmmZexQaEWxQr0cQVM3Aj6lcbHAAK3elfWuPjwCVvCMbWsrVesyn1Nrr6Qca54U6fspOpgjA5Z3gPlPuDAuf1J/EmkhtAC3uQL32u1qBZ3WKFKw9jvox
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6PR04MB6341.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(39860400002)(376002)(366004)(136003)(346002)(396003)(26005)(6512007)(38100700002)(38350700002)(41300700001)(44832011)(7416002)(8936002)(86362001)(5660300002)(6486002)(478600001)(6506007)(52116002)(8676002)(66556008)(4326008)(66946007)(6666004)(2906002)(1076003)(66476007)(36756003)(316002)(83380400001)(186003)(2616005);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?M9jgUoiJPMZNH6GM98zpYr0XMzTf1TQgf2/KbvMR1Igs59achkKCd7dIL4HE?=
+ =?us-ascii?Q?o/HowXaW9ekONURRILtrccqMLMoX7mGrS4vQeY9gZeT4Sp9H7DBA0dK/7UAj?=
+ =?us-ascii?Q?YjEeMUwCSd2XPeVLFeolL3Jy8Im005tTLkHKry8PHD/XaMVwYOJKxXP97+3T?=
+ =?us-ascii?Q?TZrAuzOH0VhKaeKuPyt6j8SnEXEKcOrI3QzenIQux1LrPmXcl1Zv8TBCOGgT?=
+ =?us-ascii?Q?3fPZGN8+cedVA1R23bEx61g6KkRKdhI2jzYCwnnXUs308aJPk+kYwflnVd4A?=
+ =?us-ascii?Q?3JV61yGVbXAhYRx7eTdlAiPWikV7MFvihTKOgC7n2BCoejPKxohAqY0qKD7P?=
+ =?us-ascii?Q?Y8UIM5qKgraoNEQDtstpQ6cdieaDQxblkhHPVhdB8maM5rbyJ267/tssjF0O?=
+ =?us-ascii?Q?3ueECzkkyrAjSpNUoEsl9znsqZkT6SLo/gj/jlEx1O0hrn2igSyIKptBCd5t?=
+ =?us-ascii?Q?5yBa8HB0T5oPzZ/25/CxFx77zWAWUjDTFnuMX2wyAPq/+8CAc0YUGRZWiTJ2?=
+ =?us-ascii?Q?ekvqmxGDEpAMK7kx7SBYrLmB6F/1EppOF9KTfYCn5Nqvd44EIQhvqBZDHBSt?=
+ =?us-ascii?Q?L22of7h8KVllpSQK5PlQUiASfeg/74RxzP1usq26xN5t8kcejejkPwjMbAn2?=
+ =?us-ascii?Q?eZa8si8vAu/27kIJONgkaf+gp9PUcPtwqcIrQSeBtPHxpUy8NAlng6FyMa28?=
+ =?us-ascii?Q?Ro/kTcyiP+uiPFBTlekUZLMwu/7x/Lk3d4Y1EwGXaG9/hU1v1Jh7nkiplibM?=
+ =?us-ascii?Q?Ui0AAyl/Judx/E46IbcPeZi5NwkHZPh+us0kIX8dEbT6Ko17+cc+78tzH/wV?=
+ =?us-ascii?Q?xhMoYmfAHoZSG2zPtFTJ7IfW9weyd1EO2XcI+AqrBBNQwgGQTsqv/9qF18q5?=
+ =?us-ascii?Q?RdILdlYTjcVn9yBDvGMjDFvX+3VgeU+4LicMLp7EHTp9FgVSmXKBv7Xau7WV?=
+ =?us-ascii?Q?xJ5hgobjJDNNBpmb8MgtJHsureol/T2HAnv8VnzQlLpKRLgXRHca+BXQTuPJ?=
+ =?us-ascii?Q?aq20fmHaKReYkcvOCBB0pc0fu8TeMkJfigBwu++uyDMclxIYK7PT/AcDZq13?=
+ =?us-ascii?Q?oI0GPQFsfyToXlh7NaNzZ8txDAnpppRwzBJXJcfk3DqANOODh6FKlby0IaP+?=
+ =?us-ascii?Q?wftGyq87cBDtFUViArPB5NnqTg1dEaS2XlzkFBVJtlIBYAuAPvKKvub1O6Uc?=
+ =?us-ascii?Q?H3zDouXSqL7NqX0h2aCtFGJQiI031XHVvB01oAFlP/yS14beH001HX7hDjOT?=
+ =?us-ascii?Q?LkzvRCzZ3ek5EpH3FQW4eHZWQflFpKwex9i3ZCdMitOFR2+jPvyCvhYW9Bhs?=
+ =?us-ascii?Q?P86q3CwFkGyHBaR+k+zufkzfWoL3w9dX4nudPktIc2O2BZXHBq9iI3Z/cXmU?=
+ =?us-ascii?Q?7mHRaUsjLvwMZ9dSo0HRs7wBXSSBgRs6Kt5gwtIahOrrWjqgbC6MPX2aFSA/?=
+ =?us-ascii?Q?q/moPMJtgWjwaoC5vRGvSrQr/6aB9838P2P6lUIQqz/YkegPv1+dd2B23k+Z?=
+ =?us-ascii?Q?Y0lI8vOqQm6q/wpgUH4/+ndFCMvh8XbzcLOiCcVxYUO+4wuk+HKZ5QOu/Nlf?=
+ =?us-ascii?Q?/KI265mjent8Kxg4HBu7/OtBfGG9YOveeWvNnAKj?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5c160740-6f04-4be4-45a7-08da75fd29d0
+X-MS-Exchange-CrossTenant-AuthSource: AM6PR04MB6341.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Aug 2022 09:39:01.8162
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: V0Nqh3ZINk4PziJ8nphxd1pZqWiQOajaUY0xzTWqo4Thfz3FU5YmR8ucJlc7H1QNPudLSllpT2A5PE1HqeWJug==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM8PR04MB7267
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-See <https://builder.linuxtv.org/job/media-build/3980/display/redirect>
+There is a hardware bug that the interrupt STMBUF_HALF may be triggered
+after or when disable interrupt.
+It may led to unexpected kernel panic.
+And interrupt STMBUF_HALF and STMBUF_RTND have no other effect.
+So disable them and the unused interrupts.
 
-Changes:
+meanwhile clear the interrupt status when disable interrupt.
 
+Signed-off-by: Ming Qian <ming.qian@nxp.com>
+---
+ drivers/media/platform/nxp/imx-jpeg/mxc-jpeg-hw.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-------------------------------------------
-Started by timer
-Running as SYSTEM
-Building remotely on slave2 in workspace <https://builder.linuxtv.org/job/media-build/ws/>
-The recommended git tool is: NONE
-No credentials specified
- > git rev-parse --resolve-git-dir <https://builder.linuxtv.org/job/media-build/ws/.git> # timeout=10
-Fetching changes from the remote Git repository
- > git config remote.origin.url git://linuxtv.org/media_build.git # timeout=10
-Fetching upstream changes from git://linuxtv.org/media_build.git
- > git --version # timeout=10
- > git --version # 'git version 2.30.2'
- > git fetch --tags --force --progress -- git://linuxtv.org/media_build.git +refs/heads/*:refs/remotes/origin/* # timeout=10
- > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
-Checking out Revision 0fe857b86addf382f6fd383948bd7736a3201403 (refs/remotes/origin/master)
- > git config core.sparsecheckout # timeout=10
- > git checkout -f 0fe857b86addf382f6fd383948bd7736a3201403 # timeout=10
-Commit message: "versions.txt: IMON builds for 4.11 and up only"
- > git rev-list --no-walk 0fe857b86addf382f6fd383948bd7736a3201403 # timeout=10
-The recommended git tool is: NONE
-No credentials specified
- > git rev-parse 0fe857b86addf382f6fd383948bd7736a3201403^{commit} # timeout=10
-The recommended git tool is: NONE
-No credentials specified
-[GitCheckoutListener] Recording commits of 'git git://linuxtv.org/media_build.git'
-[GitCheckoutListener] Found previous build 'media-build #3979' that contains recorded Git commits
-[GitCheckoutListener] -> Starting recording of new commits since '0fe857b'
-[GitCheckoutListener] -> Using head commit '0fe857b' as starting point
-[GitCheckoutListener] -> Git commit decorator could not be created for SCM 'hudson.plugins.git.GitSCM@59ba313a'
-[GitCheckoutListener] -> No new commits found
-[media-build] $ /bin/sh -xe /tmp/jenkins1197698874542695637.sh
-+ make distclean
-make -C <https://builder.linuxtv.org/job/media-build/ws/v4l> distclean
-make[1]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
-rm -f *~ *.o *.ko .*.o.cmd .*.ko.cmd *.mod.c av7110_firm.h fdump \
-	config-compat.h Module.symvers Module.markers modules.order \
-	*.unsigned .*.ko.unsigned.cmd
-rm -f .version .*.o.flags .*.o.d *.mod.gcno Makefile.media \
-	Kconfig Kconfig.kern .config .config.cmd .myconfig \
-	.kconfig.dep config-mycompat.h
-rm -rf .tmp_versions .tmp*.ver .tmp*.o .*.gcno .cache.mk
-rm -f scripts/lxdialog scripts/kconfig
-make[1]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
-+ ./build
-Checking if the needed tools for Debian GNU/Linux 11 (bullseye) are available
-Needed package dependencies are met.
+diff --git a/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg-hw.c b/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg-hw.c
+index 9418fcf740a8..ef28122a5ed4 100644
+--- a/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg-hw.c
++++ b/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg-hw.c
+@@ -76,12 +76,14 @@ void print_wrapper_info(struct device *dev, void __iomem *reg)
+ 
+ void mxc_jpeg_enable_irq(void __iomem *reg, int slot)
+ {
+-	writel(0xFFFFFFFF, reg + MXC_SLOT_OFFSET(slot, SLOT_IRQ_EN));
++	writel(0xFFFFFFFF, reg + MXC_SLOT_OFFSET(slot, SLOT_STATUS));
++	writel(0xF0C, reg + MXC_SLOT_OFFSET(slot, SLOT_IRQ_EN));
+ }
+ 
+ void mxc_jpeg_disable_irq(void __iomem *reg, int slot)
+ {
+ 	writel(0x0, reg + MXC_SLOT_OFFSET(slot, SLOT_IRQ_EN));
++	writel(0xFFFFFFFF, reg + MXC_SLOT_OFFSET(slot, SLOT_STATUS));
+ }
+ 
+ void mxc_jpeg_sw_reset(void __iomem *reg)
+-- 
+2.37.1
 
-************************************************************
-* This script will download the latest tarball and build it*
-* Assuming that your kernel is compatible with the latest  *
-* drivers. If not, you'll need to add some extra backports,*
-* ./backports/<kernel> directory.                          *
-* It will also update this tree to be sure that all compat *
-* bits are there, to avoid compilation failures            *
-************************************************************
-************************************************************
-* All drivers and build system are under GPLv2 License     *
-* Firmware files are under the license terms found at:     *
-* http://www.linuxtv.org/downloads/firmware/               *
-* Please abort in the next 5 secs if you don't agree with  *
-* the license                                              *
-************************************************************
-
-Not aborted. It means that the licence was agreed. Proceeding...
-
-****************************
-Updating the building system
-****************************
-hint: Pulling without specifying how to reconcile divergent branches is
-hint: discouraged. You can squelch this message by running one of the following
-hint: commands sometime before your next pull:
-hint: 
-hint:   git config pull.rebase false  # merge (the default strategy)
-hint:   git config pull.rebase true   # rebase
-hint:   git config pull.ff only       # fast-forward only
-hint: 
-hint: You can replace "git config" with "git config --global" to set a default
-hint: preference for all repositories. You can also pass --rebase, --no-rebase,
-hint: or --ff-only on the command line to override the configured default per
-hint: invocation.
-From git://linuxtv.org/media_build
- * branch                      master     -> FETCH_HEAD
-Already up to date.
-make: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-wget http://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5 -O linux-media.tar.bz2.md5.tmp
---2022-08-04 09:19:09--  http://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5
-Resolving linuxtv.org (linuxtv.org)... 130.149.80.248
-Connecting to linuxtv.org (linuxtv.org)|130.149.80.248|:80... connected.
-HTTP request sent, awaiting response... 301 Moved Permanently
-Location: https://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5 [following]
---2022-08-04 09:19:09--  https://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5
-Connecting to linuxtv.org (linuxtv.org)|130.149.80.248|:443... connected.
-HTTP request sent, awaiting response... 200 OK
-Length: 105 [application/x-bzip2]
-Saving to: ‘linux-media.tar.bz2.md5.tmp’
-
-     0K                                                       100% 86.2M=0s
-
-2022-08-04 09:19:10 (86.2 MB/s) - ‘linux-media.tar.bz2.md5.tmp’ saved [105/105]
-
-make: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-make: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-tar xfj linux-media.tar.bz2
-rm -f .patches_applied .linked_dir .git_log.md5
-make: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-**********************************************************
-* Downloading firmwares from linuxtv.org.                *
-**********************************************************
-firmware/dvb-usb-vp702x-01.fw
-firmware/dvb-usb-vp7045-01.fw
-firmware/dvb-fe-bcm3510-01.fw
-firmware/as102_data2_st.hex
-firmware/dvb-usb-terratec-h7-drxk.fw
-firmware/isdbt_nova_12mhz.inp
-firmware/Boot.S
-firmware/dvb_nova_12mhz_b0.inp
-firmware/dvb-fe-xc4000-1.4.1.fw
-firmware/sms1xxx-hcw-55xxx-isdbt-02.fw
-firmware/sms1xxx-nova-a-dvbt-01.fw
-firmware/dvb-usb-avertv-a800-02.fw
-firmware/cmmb_venice_12mhz.inp
-firmware/dvb-fe-xc5000c-4.1.30.7.fw
-firmware/v4l-cx23418-cpu.fw
-firmware/v4l-cx23885-enc-broken.fw
-firmware/dvb-fe-drxj-mc-vsb-1.0.8.fw
-firmware/dvb_nova_12mhz.inp
-firmware/dvb-usb-dib0700-1.20.fw
-firmware/tdmb_nova_12mhz.inp
-firmware/as102_data1_st.hex
-firmware/dvb-fe-or51132-vsb.fw
-firmware/dvb-usb-it9135-02.fw
-firmware/v4l-cx23418-apu.fw
-firmware/dvb-ttpci-01.fw-261f
-firmware/v4l-cx23418-dig.fw
-firmware/dvb-ttpci-01.fw-261c
-firmware/dvb-usb-bluebird-01.fw
-firmware/dvb-fe-or51211.fw
-firmware/dvb-fe-or51132-qam.fw
-firmware/sms1xxx-stellar-dvbt-01.fw
-firmware/dvb-usb-dibusb-5.0.0.11.fw
-firmware/dvb-fe-drxj-mc-vsb-qam-1.0.8.fw
-firmware/dvb-usb-terratec-h5-drxk.fw
-firmware/dvb-usb-wt220u-02.fw
-firmware/v4l-cx23885-enc.fw
-firmware/dvb-ttpci-01.fw-2622
-firmware/dvb-usb-wt220u-01.fw
-firmware/v4l-cx25840.fw
-firmware/dvb-fe-drxj-mc-1.0.8.fw
-firmware/v4l-cx231xx-avcore-01.fw
-firmware/dvb-usb-dtt200u-01.fw
-firmware/dvb-usb-dibusb-6.0.0.8.fw
-firmware/sms1xxx-nova-b-dvbt-01.fw
-firmware/dvb-fe-xc5000-1.6.114.fw
-firmware/cmmb_vega_12mhz.inp
-firmware/dvb-usb-it9135-01.fw
-firmware/isdbt_nova_12mhz_b0.inp
-firmware/dvb-ttpci-01.fw-261a
-firmware/dvb-ttpci-01.fw-261b
-firmware/dvb-ttpci-01.fw-261d
-firmware/README
-firmware/isdbt_rio.inp
-firmware/dvb-usb-umt-010-02.fw
-firmware/sms1xxx-hcw-55xxx-dvbt-02.fw
-firmware/dvb-usb-terratec-h7-az6007.fw
-firmware/v4l-cx23885-avcore-01.fw
-******************
-* Start building *
-******************
-make -C <https://builder.linuxtv.org/job/media-build/ws/v4l> allyesconfig
-make[1]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
-No version yet, using 5.10.0-14-amd64
-make[2]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-Applying patches for kernel 5.10.0-14-amd64
-patch -s -f -N -p1 -i ../backports/api_version.patch
-patch -s -f -N -p1 -i ../backports/pr_fmt.patch
-1 out of 1 hunk FAILED
-1 out of 1 hunk FAILED
-make[2]: *** [Makefile:132: apply_patches] Error 1
-make[2]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-make[1]: *** [Makefile:366: allyesconfig] Error 2
-make[1]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
-make: *** [Makefile:26: allyesconfig] Error 2
-can't select all drivers at ./build line 531
-Build step 'Execute shell' marked build as failure
