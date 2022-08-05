@@ -2,230 +2,179 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CAE0858AD7C
-	for <lists+linux-media@lfdr.de>; Fri,  5 Aug 2022 17:49:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 806D358AEB4
+	for <lists+linux-media@lfdr.de>; Fri,  5 Aug 2022 19:14:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241389AbiHEPtj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 5 Aug 2022 11:49:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56232 "EHLO
+        id S237545AbiHERO3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 5 Aug 2022 13:14:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35052 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241235AbiHEPtV (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 5 Aug 2022 11:49:21 -0400
-Received: from EUR03-VE1-obe.outbound.protection.outlook.com (mail-eopbgr50042.outbound.protection.outlook.com [40.107.5.42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BEBB1796AA;
-        Fri,  5 Aug 2022 08:46:39 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=pass;
- b=H3L0neOmA/hbS3OKGQexYpHVZV06x8VmSZs7wHgiZ0R/iySk0gzCEGge7rLn3W6EyxPAf/qIDsFVfEdslvfKH66hrMbM1ynwGWQGi/6Wt7ET7niWKwNYmFdcRLB6YO0JAxXuCSRjAP34c/bHGj5ETxY8HxWjbLKL0KxMFLjsUKIEvZAQ3T5sbV2ccLv/VvKjsuKtxrhdUb5UUeSAS0fSlZybV030A7cKJr8/3O+2yYyintAiXsxxis0Ah22ANSCKOwWO33O+f2JrjRui5Q5k+FkgipkVSdirabbE4Tj4q0NIg5Wy7oR/HdNdZ7H7xEXcVnfkvHNVLvS7IlMaMntMGQ==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=0ZpPeHFOqWZiBQS5jdlCQf1W8EHLymwm5Vn9sgZMTWM=;
- b=RqxfrUNJadOs7siDgJ1VqZTsij4iVbfRFCUWFF4l9kb4codaBqoa6mWF9+JXYfbyLP0ImWgiguu3HuAwRl8lQHh0lgLdOwJCIi6El0BEXqB9+n2QQRjBsVz9ZXhlu8YGd1jKp/vQdfln7i239hYzHqkzTNLrJmaE6v3YUQ0MGmo7U/cfnNVFIqvMCm7O9oYlkyo/0uWbA2pbaTufXsq+OE/iOu0XVmSZBKS8os2Tsu82hAeaAslqIsZdKCXV0Xq/hB7sZfFirV+/z7F+Rx0EuhX5Ggs60ZarhaW6w1Eead53W458VltBI2MmN4HaE5g3xRO7b+Ydt1yISWbGS/2F8A==
-ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
- 63.35.35.123) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=arm.com;
- dmarc=pass (p=none sp=none pct=100) action=none header.from=arm.com;
- dkim=pass (signature was verified) header.d=armh.onmicrosoft.com; arc=pass (0
- oda=1 ltdi=1 spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
- dmarc=[1,1,header.from=arm.com])
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
- s=selector2-armh-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=0ZpPeHFOqWZiBQS5jdlCQf1W8EHLymwm5Vn9sgZMTWM=;
- b=qHOGmtsSakbe7N+Udj/tOHtChrY8nHQveffzbJbv2LETreIIBvEAAybmgQmn1Vm36rR7Bzy5TVCuN+7HW65Boo1rqCJ1l9EuMVyifB2TSwVjmwHOlWeXbUKylOz329qNN085xtxMqGcye/sC9dXfR37lE5CLHnKWWBPE96D2BD8=
-Received: from DB6P191CA0012.EURP191.PROD.OUTLOOK.COM (2603:10a6:6:28::22) by
- AM6PR08MB5063.eurprd08.prod.outlook.com (2603:10a6:20b:e3::32) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5504.14; Fri, 5 Aug 2022 15:46:36 +0000
-Received: from DBAEUR03FT009.eop-EUR03.prod.protection.outlook.com
- (2603:10a6:6:28:cafe::b9) by DB6P191CA0012.outlook.office365.com
- (2603:10a6:6:28::22) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5504.14 via Frontend
- Transport; Fri, 5 Aug 2022 15:46:36 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
- smtp.mailfrom=arm.com; dkim=pass (signature was verified)
- header.d=armh.onmicrosoft.com;dmarc=pass action=none header.from=arm.com;
-Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
- 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
- client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
- pr=C
-Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
- DBAEUR03FT009.mail.protection.outlook.com (100.127.143.21) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5504.16 via Frontend Transport; Fri, 5 Aug 2022 15:46:36 +0000
-Received: ("Tessian outbound 6a3290ff1310:v123"); Fri, 05 Aug 2022 15:46:36 +0000
-X-CheckRecipientChecked: true
-X-CR-MTA-CID: 46f7976c1139297c
-X-CR-MTA-TID: 64aa7808
-Received: from a719dd14048b.1
-        by 64aa7808-outbound-1.mta.getcheckrecipient.com id 0FF34C66-776C-4005-A059-745D3A5F947A.1;
-        Fri, 05 Aug 2022 15:46:29 +0000
-Received: from EUR01-VE1-obe.outbound.protection.outlook.com
-    by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id a719dd14048b.1
-    (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
-    Fri, 05 Aug 2022 15:46:29 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=jjbv3qO0gHmG7U1l9cbQR/xGsYQFGVqjQopYFVlXGNwRbbzOg+ZiKvwkF4/loNJPuujl1frsT0BXDmQ56MDYib6fhuIiFld58kU5CJ0Uaql7OLMdHn73mlfnXzEBVNXZpeXSxIcsf2g1F3ZTWU+O2gw/EiL9QKUGkcgOh+gpsupp4KbFBxp3InPApIF73Xg+AGsB0kR6uMN83gjiBwaxh9q7PnaxeQ2IISvopc5lobt2lSAmmtN0aG0sgL4Z4vy6rJJ8fkGPdZaimGHSHHVELq91+9o2ZPhirWsALLXwipRoGWR//JOumx947XYMqo+qC+jUk4x8IVIubZL6ljn67w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=0ZpPeHFOqWZiBQS5jdlCQf1W8EHLymwm5Vn9sgZMTWM=;
- b=j2uXwsKq+blAA/vbiJbvY0KNYvmYwxdbqbVNSYQa7c2gUgrBdm/6mNJps+oMZ0Ayib2o9yPoQ0JJBFd8Y4dO0AyTBP2V2Hkyzk6P/neMTx2rbtlFdvvsc1l2S/7gKPKAd5vKyt+Z8BKdGcabfFka3+Nl+bb0EuqKqxBy93hi+bM/OCOYL2TvaahrDJQuQP00vX+XnPIJqt3oqJjm7AjNFAv5ZudwItKkmUkrkoFFcwYMiCg01/i2BUarZoLDyEWNiIClmDtZuRxWogILI7zwbPmoVndAs+seO6eMcEDFjLFmPlO58rDwF3btqThddcwB9O2EvXpPLGtEwhQN4A/S7w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
- s=selector2-armh-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=0ZpPeHFOqWZiBQS5jdlCQf1W8EHLymwm5Vn9sgZMTWM=;
- b=qHOGmtsSakbe7N+Udj/tOHtChrY8nHQveffzbJbv2LETreIIBvEAAybmgQmn1Vm36rR7Bzy5TVCuN+7HW65Boo1rqCJ1l9EuMVyifB2TSwVjmwHOlWeXbUKylOz329qNN085xtxMqGcye/sC9dXfR37lE5CLHnKWWBPE96D2BD8=
-Authentication-Results-Original: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-Received: from AS8PR08MB6805.eurprd08.prod.outlook.com (2603:10a6:20b:396::14)
- by AS8PR08MB8061.eurprd08.prod.outlook.com (2603:10a6:20b:54a::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5482.16; Fri, 5 Aug
- 2022 15:46:27 +0000
-Received: from AS8PR08MB6805.eurprd08.prod.outlook.com
- ([fe80::c91e:5344:358c:b0e1]) by AS8PR08MB6805.eurprd08.prod.outlook.com
- ([fe80::c91e:5344:358c:b0e1%5]) with mapi id 15.20.5504.016; Fri, 5 Aug 2022
- 15:46:27 +0000
-Date:   Fri, 5 Aug 2022 16:46:24 +0100
-From:   Brian Starkey <brian.starkey@arm.com>
-To:     Olivier Masse <olivier.masse@nxp.com>
-Cc:     sumit.semwal@linaro.org, benjamin.gaignard@collabora.com,
-        christian.koenig@amd.com, linux-media@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-        linux-kernel@vger.kernel.org, clement.faure@nxp.com, nd@arm.com,
-        robh+dt@kernel.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH 2/3] dt-bindings: reserved-memory: add linaro,secure-heap
-Message-ID: <20220805154624.qhrao5p3gwywl3xr@000377403353>
-References: <20220805135330.970-1-olivier.masse@nxp.com>
- <20220805135330.970-3-olivier.masse@nxp.com>
-Content-Type: text/plain; charset=us-ascii
+        with ESMTP id S235425AbiHERO2 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 5 Aug 2022 13:14:28 -0400
+Received: from static.213-239-213-133.clients.your-server.de (luckmann.name [213.239.213.133])
+        by lindbergh.monkeyblade.net (Postfix) with UTF8SMTPS id 61FD51571B
+        for <linux-media@vger.kernel.org>; Fri,  5 Aug 2022 10:14:26 -0700 (PDT)
+Received: from localhost (localhost [127.0.0.1])
+  (uid 502)
+  by static.213-239-213-133.clients.your-server.de with local
+  id 0000000000E62055.0000000062ED4FF0.00002D24; Fri, 05 Aug 2022 19:14:24 +0200
+Date:   Fri, 5 Aug 2022 19:14:24 +0200
+From:   Helge Kreutzmann <debian@helgefjell.de>
+To:     Sakari Ailus <sakari.ailus@iki.fi>
+Cc:     linux-media@vger.kernel.org
+Subject: Re: DVB: Unable to find symbol m88ds3103_attach() [Kernel 5.18.13]
+Message-ID: <20220805171423.GA11481@Debian-50-lenny-64-minimal>
+Mail-Followup-To: Helge Kreutzmann <debian@helgefjell.de>,
+        Sakari Ailus <sakari.ailus@iki.fi>, linux-media@vger.kernel.org
+References: <20220723155707.GA17564@Debian-50-lenny-64-minimal>
+ <YuBDIEUokV5vxD6n@valkosipuli.retiisi.eu>
+Mime-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256; protocol="application/pgp-signature"; boundary="=_luckmann.name-11556-1659719664-0001-2"
 Content-Disposition: inline
-In-Reply-To: <20220805135330.970-3-olivier.masse@nxp.com>
-X-ClientProxiedBy: LO6P123CA0008.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:338::16) To AS8PR08MB6805.eurprd08.prod.outlook.com
- (2603:10a6:20b:396::14)
-MIME-Version: 1.0
-X-MS-Office365-Filtering-Correlation-Id: a008c739-fdab-4769-7874-08da76f9ae1e
-X-MS-TrafficTypeDiagnostic: AS8PR08MB8061:EE_|DBAEUR03FT009:EE_|AM6PR08MB5063:EE_
-x-checkrecipientrouted: true
-NoDisclaimer: true
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam-Untrusted: BCL:0;
-X-Microsoft-Antispam-Message-Info-Original: H1uHJ2kie9Frpo6Pbo77eF5lMdXUXrXzwQa4o2e/YA1zqYVFecxNtE5hiH6CGi36jX1ZssLbd91fC2JnOcaVIo5Pa74fwf+jx03ZaBV0a2ofUbx4GO5MSjXp6mPU0vuYpXC+6c+KNunmbrOrxWi40xkjR6JFoWxNflGjZhJ/5iDLiyB9NYND66RW1X/goXwJBFjXuAc+3sXF5ZqVXuWZHsNracwdInsTU651ubFtGiM2fA4YSQ8xjHpRMq8ME5SF0dJZsMbI4/+AG8KRf6tJ0UOgyQs7zX4c/l44B+VY8ocgtws4iFy7+LHCTLymuCjiBLDoql/anBlkeMcGmeuH0ht2cnqyvdJZRY2RI0EMrXYqLPtnGUrbDEKSPg4UXk1dpvwu8iPCM9ie21nHJy+dAITWtLqEmiPQtE6ut2XZYOg3eKiNJyxY7G6vGlw7t9e9cTkDGtGFZul/MAyyIOtGVOaDSOwpZSjr4nil2QMfU32cY+Iz2K2B6IUQVbW35jd1y1X37C4c6RnAYTK3uLLw/rr3i7JV+VDqRkCt+U36wUV2NVgVZCk/aPsy21rhyTYKs2lmAWWk+vq+8RT4N9pFsV8F5jXeuj0jOQwLlqYo6NrOdocTsgLCqnEtO++nf/x77m5NkNwjYIVv/cISwEn//o/teRae1H+DldtCt9eKGIDuqGtQDxh76tyuNyfjkgX2XwI1ZXmy9fK+gMn3WFFZ60yF3+TBmoDJEkd+XxS083++/MMlD5GvXCEUcisHSYt2jgXHE5xXw2V57GAnxbp+VnaNIO8g9akDB7GiwgtH8eIwDbh/JKYLDmk+/zX5JlvB
-X-Forefront-Antispam-Report-Untrusted: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS8PR08MB6805.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(7916004)(4636009)(136003)(346002)(366004)(396003)(39860400002)(376002)(8676002)(83380400001)(4326008)(66556008)(66946007)(1076003)(186003)(66476007)(8936002)(7416002)(2906002)(5660300002)(44832011)(6916009)(6506007)(966005)(478600001)(6486002)(6666004)(86362001)(9686003)(316002)(41300700001)(26005)(6512007)(38100700002)(33716001);DIR:OUT;SFP:1101;
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB8061
-Original-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: DBAEUR03FT009.eop-EUR03.prod.protection.outlook.com
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs: 20e93066-289d-4fc1-3f75-08da76f9a884
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: iXkU76E9TYrjn7Z5a8CksxzKdmBaiYWPYZrD43WhGcP6akyTH+V0HkDAYkXwyODmEefZ/rdl5u4heSYgSBxsPPffgmVc8D2Io9wQkqwdVr1rgAbSOWBZY3Sg59h+DRAjRIJp4oMttB7h6kf/0Hj5A0GYVBOh18Ozqfh7E5BjjYZ499ZV3/L4ELTfW1MMChY2ORSRtx/la2c6ZXypv4fffKLeLuJETDhKIVC+volQq6qA/h98b6gHvoSIhkxP//LjHRliYjsIJk3KkWMIkbbM3/jYaeFLQf/ow2e8XwQdarKlIsuKUoYM4F4SGnrhTqIl5ATS/+8EWRZHS7zsE++vbFcaHYOcdnFjnSJWtQTJpAdSN/RgTpRm0ERcu7CKJTPqRLuhMv5p4nhJMo5I8BgJTt5b6CzlV0D2wtjzbRa9x3AiKgrZviB217pYOGXwMzkub80oXIiTo4iFcPJSwOMOW3sP/FXcGjkKVkFBU2AoYHhmmrV20seF29tqBtCbXFT2Z1rlaxic4eDBIGEHGD9N3aKpdx2YL1uLxoU3BCBow0IdUce0NttCUuCnRap/M0OKioFFmXmfX1UEjhX0mbX/npGzme4q5R15rsCQoDni4OEuitiau7hwptulPmPBzD+/2tUDzrd6YFGLKpY7foC6dwHF0WSmx/5QJZjH5J3m/7FBXDr5zNt/9tCNmb0NPx6GDv7wusuO3lGnqpzr/hNRMnztY3UoQSpZSMUQ8JenFqA8gKiXv/nv8a3aWnGG80wrJZfyza5ccxaQkPSvCK7ErZI9+/Fhchdp/j59iBUCU2iIbDN9I8RCLYdTyjgwQObcJzYwdCl41GkDOJcxqP6TQpaeTdnrs70y8jS7bnTmhJSWObQ6A+fDv1cES93VEu4m
-X-Forefront-Antispam-Report: CIP:63.35.35.123;CTRY:IE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:64aa7808-outbound-1.mta.getcheckrecipient.com;PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com;CAT:NONE;SFS:(13230016)(4636009)(7916004)(396003)(346002)(136003)(376002)(39860400002)(46966006)(36840700001)(40470700004)(5660300002)(47076005)(1076003)(336012)(40480700001)(82310400005)(186003)(4326008)(70586007)(8676002)(44832011)(450100002)(6666004)(6512007)(41300700001)(6486002)(9686003)(966005)(70206006)(26005)(33716001)(83380400001)(478600001)(36860700001)(356005)(6506007)(81166007)(2906002)(40460700003)(86362001)(82740400003)(6862004)(8936002)(316002);DIR:OUT;SFP:1101;
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Aug 2022 15:46:36.6357
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: a008c739-fdab-4769-7874-08da76f9ae1e
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[63.35.35.123];Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
-X-MS-Exchange-CrossTenant-AuthSource: DBAEUR03FT009.eop-EUR03.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB5063
-X-Spam-Status: No, score=-0.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,FORGED_SPF_HELO,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_PASS,SPF_NONE,T_SCC_BODY_TEXT_LINE,UNPARSEABLE_RELAY
-        autolearn=no autolearn_force=no version=3.4.6
+In-Reply-To: <YuBDIEUokV5vxD6n@valkosipuli.retiisi.eu>
+X-Public-Key-URL: http://www.helgefjell.de/data/debian_neu.asc
+X-homepage: http://www.helgefjell.de/debian
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Spam-Status: No, score=0.1 required=5.0 tests=BAYES_00,CK_HELO_GENERIC,
+        HELO_DYNAMIC_IPADDR,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE,
+        URIBL_SBL_A autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-+Rob and devicetree list.
+This is a MIME-formatted message.  If you see this text it means that your
+E-mail software does not support MIME-formatted messages.
 
-I don't know if this should be "linaro" or something more generic,
-and also where previous discussions got to about DMA heaps in DT.
+--=_luckmann.name-11556-1659719664-0001-2
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Cheers,
--Brian
+Hello Sakari,
+On Tue, Jul 26, 2022 at 10:40:16PM +0300, Sakari Ailus wrote:
+> On Sat, Jul 23, 2022 at 05:57:07PM +0200, Helge Kreutzmann wrote:
+> > Hello,
+> > I want to operate a Hauppauge WinTV-HR-5524 HD [1]. Despite numerous
+> > attempts / searches /trials, I'm unable to get the sattelite part
+> > operating, I always get (during boot):
+> >=20
+> > Jul 23 08:37:19 twentytwo kernel: [    6.632755] DVB: Unable to find sy=
+mbol m88ds3103_attach()
+> >=20
+> > The full related boot log is below [2], I can provide more additional=
+=20
+> > lines as necessary of course.
+> >=20
+> > I listed the (related) loaded modules below [3], again I can provide
+> > the full list of course.
+> >=20
+> > Based on grep'ing through the kernel sources[4], I also modprobed =E2=
+=80=A6
+> > but this did not improve the satellite detection[5].
+> >=20
+> > According to the vendor satellite should work.
+> >=20
+> > I can provide more details (also tried applications, ..) as needed.
+> >=20
+> > Thanks for any pointer to get the satellite tuner working!
+>=20
+> Looking at the problem, I guess this looks like something that shouldn't
+> generally happen.
+>=20
+> Have you tried removing cx23885 module and loading it again? It would seem
+> lake in lsmod listing the module is there but somehow the symbol isn't
+> found. I can't immediately think what else could cause this, than not bei=
+ng
+> able to load the needed module when the symbol is looked up.
 
-On Fri, Aug 05, 2022 at 03:53:29PM +0200, Olivier Masse wrote:
-> DMABUF Reserved memory definition for OP-TEE SDP feaure.
-> 
-> Signed-off-by: Olivier Masse <olivier.masse@nxp.com>
-> ---
->  .../reserved-memory/linaro,secure-heap.yaml   | 56 +++++++++++++++++++
->  1 file changed, 56 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/reserved-memory/linaro,secure-heap.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/reserved-memory/linaro,secure-heap.yaml b/Documentation/devicetree/bindings/reserved-memory/linaro,secure-heap.yaml
-> new file mode 100644
-> index 000000000000..80522a4e2989
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/reserved-memory/linaro,secure-heap.yaml
-> @@ -0,0 +1,56 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/reserved-memory/linaro,secure-heap.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Linaro Secure DMABUF Heap
-> +
-> +maintainers:
-> +  - Olivier Masse <olivier.masse@nxp.com>
-> +
-> +description:
-> +  Linaro OP-TEE firmware needs a reserved memory for the
-> +  Secure Data Path feature (aka SDP).
-> +  The purpose is to provide a secure memory heap which allow
-> +  non-secure OS to allocate/free secure buffers.
-> +  The TEE is reponsible for protecting the SDP memory buffers.
-> +  TEE Trusted Application can access secure memory references
-> +  provided as parameters (DMABUF file descriptor).
-> +
-> +allOf:
-> +  - $ref: "reserved-memory.yaml"
-> +
-> +properties:
-> +  compatible:
-> +    const: linaro,secure-heap
-> +
-> +  reg:
-> +    description:
-> +      Region of memory reserved for OP-TEE SDP feature
-> +
-> +  no-map:
-> +    $ref: /schemas/types.yaml#/definitions/flag
-> +    description:
-> +      Avoid creating a virtual mapping of the region as part of the OS'
-> +      standard mapping of system memory.
-> +
-> +unevaluatedProperties: false
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - no-map
-> +
-> +examples:
-> +  - |
-> +  reserved-memory {
-> +    #address-cells = <2>;
-> +    #size-cells = <2>;
-> +
-> +    sdp@3e800000 {
-> +      compatible = "linaro,secure-heap";
-> +      no-map;
-> +      reg = <0 0x3E800000 0 0x00400000>;
-> +    };
-> +  };
-> -- 
-> 2.25.0
-> 
+As stated, I cannot remove it. Therefor I blacklisted and manually
+loaded it afterwards using modprobe:
+
+[16978.826717] DVB: Unable to find symbol m88ds3103_attach()
+[16978.826969] cx23885: cx23885[0]: frontend initialization failed
+[16978.827179] cx23885: cx23885_dvb_register() dvb_register failed err =3D =
+-22
+[16978.827392] cx23885: cx23885_dev_setup() Failed to register dvb adapters=
+ on VID_B
+
+In the system logs I get the follwing output:
+[16977.733011] cx23885: cx23885 driver version 0.0.4 loaded
+[16977.733043] cx23885 0000:04:00.0: enabling device (0000 -> 0002)
+[16977.733115] cx23885: CORE cx23885[0]: subsystem: 0070:f038, board: Haupp=
+auge WinTV-HVR5525 [card=3D52,autodetected]
+[16978.082968] tveeprom: Hauppauge model 150329, rev C3I6, serial# 40361709=
+02
+[16978.082972] tveeprom: MAC address is 00:0d:fe:93:14:96
+[16978.082973] tveeprom: tuner model is SiLabs Si2157 (idx 186, type 4)
+[16978.082975] tveeprom: TV standards PAL(B/G) PAL(I) SECAM(L/L') PAL(D/D1/=
+K) ATSC/DVB Digital (eeprom 0xf4)
+[16978.082977] tveeprom: audio processor is CX23888 (idx 40)
+[16978.082978] tveeprom: decoder processor is CX23888 (idx 34)
+[16978.082978] tveeprom: has radio, has IR receiver, has no IR transmitter
+[16978.082979] cx23885: cx23885[0]: hauppauge eeprom: model=3D150329
+[16978.090677] cx25840 7-0044: cx23888 A/V decoder found @ 0x88 (cx23885[0])
+[16978.739631] cx25840 7-0044: loaded v4l-cx23885-avcore-01.fw firmware (16=
+382 bytes)
+[16978.821857] cx23885: cx23885[0]: registered device video0 [v4l2]
+[16978.821897] cx23885: cx23885[0]: registered device vbi0
+[16978.822115] cx23885: cx23885[0]: alsa: registered ALSA audio device
+[16978.822117] cx23885: cx23885_dvb_register() allocating 1 frontend(s)
+[16978.822119] cx23885: cx23885[0]: cx23885 based dvb card
+[16978.826717] DVB: Unable to find symbol m88ds3103_attach()
+[16978.826969] cx23885: cx23885[0]: frontend initialization failed
+[16978.827179] cx23885: cx23885_dvb_register() dvb_register failed err =3D =
+-22
+[16978.827392] cx23885: cx23885_dev_setup() Failed to register dvb adapters=
+ on VID_B
+[16978.827605] cx23885: cx23885_dvb_register() allocating 1 frontend(s)
+[16978.827606] cx23885: cx23885[0]: cx23885 based dvb card
+[16978.834157] i2c i2c-5: Added multiplexed i2c bus 8
+[16978.834160] si2168 5-0064: Silicon Labs Si2168-B40 successfully identifi=
+ed
+[16978.834161] si2168 5-0064: firmware version: B 4.0.2
+[16978.836087] si2157 6-0060: Silicon Labs Si2157 successfully attached
+[16978.836095] dvbdev: DVB: registering new adapter (cx23885[0])
+[16978.836096] cx23885 0000:04:00.0: DVB: registering adapter 0 frontend 0 =
+(Silicon Labs Si2168)...
+[16978.836334] cx23885: cx23885_dev_checkrevision() Hardware revision =3D 0=
+xd0
+[16978.836339] cx23885: cx23885[0]/0: found at 0000:04:00.0, rev: 4, irq: 3=
+3, latency: 0, mmio: 0xfc600000
+
+Btw. I just upgraded to kernel 5.18.15, if that matters.
+
+Thanks for any pointers / help.=20
+
+Greetings
+            Helge
+
+--=20
+      Dr. Helge Kreutzmann                     debian@helgefjell.de
+           Dipl.-Phys.                   http://www.helgefjell.de/debian.php
+        64bit GNU powered                     gpg signed mail preferred
+           Help keep free software "libre": http://www.ffii.de/
+
+--=_luckmann.name-11556-1659719664-0001-2
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Transfer-Encoding: 7bit
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEbZZfteMW0gNUynuwQbqlJmgq5nAFAmLtT+oACgkQQbqlJmgq
+5nCnEg//fWUiDjLM/ZunTjJvPBDr9EjgbEXeMpj8ATnSx/oTublk1W3L7tQ8oytI
+r3g32fzt/Mrrjw7niMPKJJ7Ky0AC1oA8uFpvBd7FRC3aX+Io/nCvMJDuTN1BIaBp
+OuzbsDBiz57aUGou8BXjPsnVJuTtYTXFXozcqwKs9kEt/nDlvhs/f0v75yklt1oq
+lkkjs9UVtT30VQJt2g2pDxm/yeUKzMTB6NCfYcwoByzBgk0EbVHIZ2geAl4VcH0Z
+jvwnJ2HAb6PTeeqdH9UdcV91x1W1AiErMnu30GB0qHWRfzQ+sGPecRup7SvKzME+
+tarJnc7+hyfMsZoERAlkOTCPiyzfQHBuvju6qrWQ9OhrrfQBv2T/NhW9KescLae8
+ZjEfsR/3Eq174TClPtREhKtTbmsm/CvC7bk5YqOCxcAZ4qfFqOCPgVFv+A341xpp
+w3D/bn8bQbjXaWstkwSrple0yNCEUq+QV+Jsg2XOrSkbJUr34y5FhMKFbE8NG5kE
+V6XJyHj6xcSCfzPTFv99RL7ikPaZWQeNwd7bPej+b4S1jlTi6e878o56qb8Ojoz/
+69CP8FO3a8sLYCh2aKUCOvsgdZU9yDvHG2b7INTt7yUYJF/xbtEakt0sS2i9EUuu
+jQVPjfk3eValS2fVAkkxMw9VWfmVGvXVheb/SBiE31OIXr0yKSA=
+=HIRp
+-----END PGP SIGNATURE-----
+
+--=_luckmann.name-11556-1659719664-0001-2--
