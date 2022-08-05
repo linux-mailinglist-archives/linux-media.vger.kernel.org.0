@@ -2,236 +2,253 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5D63658A8A3
-	for <lists+linux-media@lfdr.de>; Fri,  5 Aug 2022 11:19:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 88B9F58A93B
+	for <lists+linux-media@lfdr.de>; Fri,  5 Aug 2022 12:09:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237757AbiHEJTV convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Fri, 5 Aug 2022 05:19:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55474 "EHLO
+        id S240452AbiHEKJy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 5 Aug 2022 06:09:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60874 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237994AbiHEJTU (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 5 Aug 2022 05:19:20 -0400
-Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 572EB12089
-        for <linux-media@vger.kernel.org>; Fri,  5 Aug 2022 02:19:18 -0700 (PDT)
-Received: from builder.linuxtv.org ([140.211.167.10])
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1oJtUC-004cjw-9y; Fri, 05 Aug 2022 09:19:16 +0000
-Received: from localhost ([127.0.0.1] helo=builder.linuxtv.org)
-        by builder.linuxtv.org with esmtp (Exim 4.94.2)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1oJtUA-003O5s-MG; Fri, 05 Aug 2022 09:19:14 +0000
-Date:   Fri, 5 Aug 2022 09:19:13 +0000 (UTC)
-From:   Jenkins Builder Robot <jenkins@linuxtv.org>
-To:     mchehab@kernel.org, linux-media@vger.kernel.org
-Message-ID: <345496916.0.1659691154005@builder.linuxtv.org>
-In-Reply-To: <786850377.0.1659604754345@builder.linuxtv.org>
-References: <786850377.0.1659604754345@builder.linuxtv.org>
-Subject: Build failed in Jenkins: media-build #3981
+        with ESMTP id S237638AbiHEKJx (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 5 Aug 2022 06:09:53 -0400
+Received: from mail-qk1-x72e.google.com (mail-qk1-x72e.google.com [IPv6:2607:f8b0:4864:20::72e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2231867CA0
+        for <linux-media@vger.kernel.org>; Fri,  5 Aug 2022 03:09:51 -0700 (PDT)
+Received: by mail-qk1-x72e.google.com with SMTP id a2so1512446qkk.2
+        for <linux-media@vger.kernel.org>; Fri, 05 Aug 2022 03:09:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=8osKs3XHWs2tJshTy51ciuxCpaj0R2ycT8OfaZIOWNQ=;
+        b=Wux8wYgJ+wtdOYj6/wLNTMNtVsjmK6vhZFf4SpuJ5w5bV7UGZQ1ODQTPVja2hW1nwv
+         QgUs9HzuV1/ZtfI+iJGCQR5A4oz8ElXQKwCIjVPoecshhsQ+d4a9hjiRKIz2+KCoyBQ7
+         49OwqChszzHDLl7bviXz2rTxmIKZvQAZCz+gU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=8osKs3XHWs2tJshTy51ciuxCpaj0R2ycT8OfaZIOWNQ=;
+        b=hrm+JwVYVCdOZhahQE5/cHCCzjt0zCUKvsfJOyH/eTIym98Xz4lOQIHcNz1gFkJ+dB
+         fZcHLJajsbaim0CBS4JsRbHZxivuL/R0vTOYjJonNfX8ESbe4DJC6c2fcVtFhduJyUEb
+         DmvARwspLo7BFoqsURrU071IG8GjxkpKoyfuRDZFWfvOUS8ax0QZmlNGtu99RNn5AXos
+         7sLVMUJUFZJXpft+dhAEdAdb68N0fN0qwotv8/vxP0qbXdFdABAmofH+BBtod1VvjDn7
+         4GqDPbZjxT+Zb7/9/mgPpzAcOm8NZYJkzNnZx0d/yXq1gcx+rNdmA7jnaLYX2TYjl4S1
+         ou8Q==
+X-Gm-Message-State: ACgBeo3+FZCMiCLR8WjGoZB0TKtQLec0rXaY5ml5+3gLAjLD3DMAXRoc
+        RVTv/5BTo5ZlqclE2NFuIoQqBhwzPOu4Xg==
+X-Google-Smtp-Source: AA6agR6bW+GklLULv4YDFoNtkzkmSzHkAkvguK50DOrAOPlzphNLiBWgqGoxQV85WjMyzyrtKk8xyQ==
+X-Received: by 2002:a05:620a:24c1:b0:6b8:cf7c:57fb with SMTP id m1-20020a05620a24c100b006b8cf7c57fbmr4554605qkn.263.1659694189975;
+        Fri, 05 Aug 2022 03:09:49 -0700 (PDT)
+Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com. [209.85.219.178])
+        by smtp.gmail.com with ESMTPSA id i18-20020a05620a405200b006b8e049cf08sm2393977qko.2.2022.08.05.03.09.47
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 05 Aug 2022 03:09:48 -0700 (PDT)
+Received: by mail-yb1-f178.google.com with SMTP id z5so3110460yba.3
+        for <linux-media@vger.kernel.org>; Fri, 05 Aug 2022 03:09:47 -0700 (PDT)
+X-Received: by 2002:a05:6902:1382:b0:66f:f9fe:79d6 with SMTP id
+ x2-20020a056902138200b0066ff9fe79d6mr4625654ybu.493.1659694187287; Fri, 05
+ Aug 2022 03:09:47 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
-X-Instance-Identity: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAf928QubrKEjMQ0IZR0WWXn8zG7uTdH33F2Idx4Xmlp6Z138NdNMQYNG71OKzmvn3/E1G4rpd9JsMls16nRZ2NAPgOWX0qfFr6HyOoQklLGZt+vkOFb0BvmBFfdI+00J5B1SPupxv4pT3bDLSiwbBNCOLY4sdB0gG1ng14mzu47G8zmH6l2ZE/9urEd6OLFhzrb6ym4vlkCE8uvNJAdAWbeafd1plHSLdU/TVqHMZELuM0wt9khqhUOkfE+dHr7h6DNrkFpvm/8j/5wTuy98ZwwWimP+pfjSQMgKrhXjwHcJJa2N9v1HdwrwlUaRYuA6o8fwUHNC9vLj7cCXM3qiwIDAQAB
-X-Jenkins-Job: media-build
-X-Jenkins-Result: FAILURE
-Auto-submitted: auto-generated
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+References: <CAAFQd5AL=OejdaubnYDRF4M1EKyStZP_FAMPz4CJ=KCa_8QjaA@mail.gmail.com>
+ <CF192A87-1664-45B2-B26C-A9B8B6A52523@soulik.info>
+In-Reply-To: <CF192A87-1664-45B2-B26C-A9B8B6A52523@soulik.info>
+From:   Tomasz Figa <tfiga@chromium.org>
+Date:   Fri, 5 Aug 2022 19:09:35 +0900
+X-Gmail-Original-Message-ID: <CAAFQd5DTNDkZ7W0Rs8Xfq-x+y+cmHZHkDYQys29aNt2YvCJc1A@mail.gmail.com>
+Message-ID: <CAAFQd5DTNDkZ7W0Rs8Xfq-x+y+cmHZHkDYQys29aNt2YvCJc1A@mail.gmail.com>
+Subject: Re: [PATCH] [Draft]: media: videobuf2-dma-heap: add a vendor defined
+ memory runtine
+To:     ayaka <ayaka@soulik.info>
+Cc:     Hsia-Jun Li <randy.li@synaptics.com>, linux-media@vger.kernel.org,
+        m.szyprowski@samsung.com, sumit.semwal@linaro.org,
+        christian.koenig@amd.com, linux-kernel@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-See <https://builder.linuxtv.org/job/media-build/3981/display/redirect>
+On Tue, Aug 2, 2022 at 9:21 PM ayaka <ayaka@soulik.info> wrote:
+>
+> Sorry, the previous one contains html data.
+>
+> > On Aug 2, 2022, at 3:33 PM, Tomasz Figa <tfiga@chromium.org> wrote:
+> >
+> > =EF=BB=BFOn Mon, Aug 1, 2022 at 8:43 PM ayaka <ayaka@soulik.info> wrote=
+:
+> >> Sent from my iPad
+> >>>> On Aug 1, 2022, at 5:46 PM, Tomasz Figa <tfiga@chromium.org> wrote:
+> >>> =EF=BB=BFCAUTION: Email originated externally, do not click links or =
+open attachments unless you recognize the sender and know the content is sa=
+fe.
+> >>>> On Mon, Aug 1, 2022 at 3:44 PM Hsia-Jun Li <Randy.Li@synaptics.com> =
+wrote:
+> >>>>> On 8/1/22 14:19, Tomasz Figa wrote:
+> >>>> Hello Tomasz
+> >>>>> ?Hi Randy,
+> >>>>> On Mon, Aug 1, 2022 at 5:21 AM <ayaka@soulik.info> wrote:
+> >>>>>> From: Randy Li <ayaka@soulik.info>
+> >>>>>> This module is still at a early stage, I wrote this for showing wh=
+at
+> >>>>>> APIs we need here.
+> >>>>>> Let me explain why we need such a module here.
+> >>>>>> If you won't allocate buffers from a V4L2 M2M device, this module
+> >>>>>> may not be very useful. I am sure the most of users won't know a
+> >>>>>> device would require them allocate buffers from a DMA-Heap then
+> >>>>>> import those buffers into a V4L2's queue.
+> >>>>>> Then the question goes back to why DMA-Heap. From the Android's
+> >>>>>> description, we know it is about the copyright's DRM.
+> >>>>>> When we allocate a buffer in a DMA-Heap, it may register that buff=
+er
+> >>>>>> in the trusted execution environment so the firmware which is runn=
+ing
+> >>>>>> or could only be acccesed from there could use that buffer later.
+> >>>>>> The answer above leads to another thing which is not done in this
+> >>>>>> version, the DMA mapping. Although in some platforms, a DMA-Heap
+> >>>>>> responses a IOMMU device as well. For the genernal purpose, we wou=
+ld
+> >>>>>> be better assuming the device mapping should be done for each devi=
+ce
+> >>>>>> itself. The problem here we only know alloc_devs in those DMAbuf
+> >>>>>> methods, which are DMA-heaps in my design, the device from the que=
+ue
+> >>>>>> is not enough, a plane may requests another IOMMU device or table
+> >>>>>> for mapping.
+> >>>>>> Signed-off-by: Randy Li <ayaka@soulik.info>
+> >>>>>> ---
+> >>>>>> drivers/media/common/videobuf2/Kconfig        |   6 +
+> >>>>>> drivers/media/common/videobuf2/Makefile       |   1 +
+> >>>>>> .../common/videobuf2/videobuf2-dma-heap.c     | 350 ++++++++++++++=
+++++
+> >>>>>> include/media/videobuf2-dma-heap.h            |  30 ++
+> >>>>>> 4 files changed, 387 insertions(+)
+> >>>>>> create mode 100644 drivers/media/common/videobuf2/videobuf2-dma-he=
+ap.c
+> >>>>>> create mode 100644 include/media/videobuf2-dma-heap.h
+> >>>>> First of all, thanks for the series.
+> >>>>> Possibly a stupid question, but why not just allocate the DMA-bufs
+> >>>>> directly from the DMA-buf heap device in the userspace and just imp=
+ort
+> >>>>> the buffers to the V4L2 device using V4L2_MEMORY_DMABUF?
+> >>>> Sometimes the allocation policy could be very complex, let's suppose=
+ a
+> >>>> multiple planes pixel format enabling with frame buffer compression.
+> >>>> Its luma, chroma data could be allocated from a pool which is delega=
+ted
+> >>>> for large buffers while its metadata would come from a pool which ma=
+ny
+> >>>> users could take some few slices from it(likes system pool).
+> >>>> Then when we have a new users knowing nothing about this platform, i=
+f we
+> >>>> just configure the alloc_devs in each queues well. The user won't ne=
+ed
+> >>>> to know those complex rules.
+> >>>> The real situation could be more complex, Samsung MFC's left and rig=
+ht
+> >>>> banks could be regarded as two pools, many devices would benefit fro=
+m
+> >>>> this either from the allocation times or the security buffers policy=
+.
+> >>>> In our design, when we need to do some security decoding(DRM video),
+> >>>> codecs2 would allocate buffers from the pool delegated for that. Whi=
+le
+> >>>> the non-DRM video, users could not care about this.
+> >>> I'm a little bit surprised about this, because on Android all the
+> >>> graphics buffers are allocated from the system IAllocator and importe=
+d
+> >>> to the specific devices.
+> >> In the non-tunnel mode, yes it is. While the tunnel mode is completely=
+ vendor defined. Neither HWC nor codec2 cares about where the buffers comin=
+g from, you could do what ever you want.
+> >> Besides there are DRM video in GNU Linux platform, I heard the webkit =
+has made huge effort here and Playready is one could work in non-Android Li=
+nux.
+> >>> Would it make sense to instead extend the UAPI to expose enough
+> >>> information about the allocation requirements to the userspace, so it
+> >>> can allocate correctly?
+> >> Yes, it could. But as I said it would need the users to do more works.
+> >>> My reasoning here is that it's not a driver's decision to allocate
+> >>> from a DMA-buf heap (and which one) or not. It's the userspace which
+> >>> knows that, based on the specific use case that it wants to fulfill.
+> >> Although I would like to let the users decide that, users just can=E2=
+=80=99t do that which would violate the security rules in some platforms.
+> >> For example,  video codec and display device could only access a regio=
+n of memory, any other device or trusted apps can=E2=80=99t access it. User=
+s have to allocate the buffer from the pool the vendor decided.
+> >> So why not we offer a quick way that users don=E2=80=99t need to try a=
+nd error.
+> >
+> > In principle, I'm not against integrating DMA-buf heap with vb2,
+> > however I see some problems I mentioned before:
+> >
+> > 1) How would the driver know if it should allocate from a DMA-buf heap =
+or not?
+>
+> struct vb2_queue.mem_ops
+>
+> int (*queue_setup)(struct vb2_queue *q,unsigned int *num_buffers, unsigne=
+d int *num_planes, unsigned int sizes[], struct device *alloc_devs[]);
 
-Changes:
+Sorry, I don't understand what you mean here.
 
+Just to make sure we're on the same page - what I'm referring to is
+that whether DMA-buf heap is used or not is specific to a given use
+case, which is controlled by the userspace. So the userspace must be
+able to control whether the driver allocates from a DMA-buf heap or
+the regular way.
 
-------------------------------------------
-Started by timer
-Running as SYSTEM
-Building remotely on slave2 in workspace <https://builder.linuxtv.org/job/media-build/ws/>
-The recommended git tool is: NONE
-No credentials specified
- > git rev-parse --resolve-git-dir <https://builder.linuxtv.org/job/media-build/ws/.git> # timeout=10
-Fetching changes from the remote Git repository
- > git config remote.origin.url git://linuxtv.org/media_build.git # timeout=10
-Fetching upstream changes from git://linuxtv.org/media_build.git
- > git --version # timeout=10
- > git --version # 'git version 2.30.2'
- > git fetch --tags --force --progress -- git://linuxtv.org/media_build.git +refs/heads/*:refs/remotes/origin/* # timeout=10
- > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
-Checking out Revision 0fe857b86addf382f6fd383948bd7736a3201403 (refs/remotes/origin/master)
- > git config core.sparsecheckout # timeout=10
- > git checkout -f 0fe857b86addf382f6fd383948bd7736a3201403 # timeout=10
-Commit message: "versions.txt: IMON builds for 4.11 and up only"
- > git rev-list --no-walk 0fe857b86addf382f6fd383948bd7736a3201403 # timeout=10
-The recommended git tool is: NONE
-No credentials specified
- > git rev-parse 0fe857b86addf382f6fd383948bd7736a3201403^{commit} # timeout=10
-The recommended git tool is: NONE
-No credentials specified
-[GitCheckoutListener] Recording commits of 'git git://linuxtv.org/media_build.git'
-[GitCheckoutListener] Found previous build 'media-build #3980' that contains recorded Git commits
-[GitCheckoutListener] -> Starting recording of new commits since '0fe857b'
-[GitCheckoutListener] -> Using head commit '0fe857b' as starting point
-[GitCheckoutListener] -> Git commit decorator could not be created for SCM 'hudson.plugins.git.GitSCM@1a21e5dd'
-[GitCheckoutListener] -> No new commits found
-[media-build] $ /bin/sh -xe /tmp/jenkins13593846093557065477.sh
-+ make distclean
-make -C <https://builder.linuxtv.org/job/media-build/ws/v4l> distclean
-make[1]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
-rm -f *~ *.o *.ko .*.o.cmd .*.ko.cmd *.mod.c av7110_firm.h fdump \
-	config-compat.h Module.symvers Module.markers modules.order \
-	*.unsigned .*.ko.unsigned.cmd
-rm -f .version .*.o.flags .*.o.d *.mod.gcno Makefile.media \
-	Kconfig Kconfig.kern .config .config.cmd .myconfig \
-	.kconfig.dep config-mycompat.h
-rm -rf .tmp_versions .tmp*.ver .tmp*.o .*.gcno .cache.mk
-rm -f scripts/lxdialog scripts/kconfig
-make[1]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
-+ ./build
-Checking if the needed tools for Debian GNU/Linux 11 (bullseye) are available
-Needed package dependencies are met.
+>
+> > 2) How would the driver know which heap to allocate from?
+>
+> From vb2_queue.alloc_devs
+>
+> What I did now is likes what MFC does, create some mem_alloc_devs.
+> It would be better that we could retrieve the DMA-heaps=E2=80=99 devices =
+from kernel, but that is not enough, we need a place to store the heap flag=
+s although none of them are defined yet.
+>
+> From Android documents, I think it is unlikely we would have heap flags.
+> =E2=80=9CStandardization: The DMA-BUF heaps framework offers a well-defin=
+ed UAPI. ION allowed custom flags and heap IDs that prevented developing a =
+common testing framework because each device=E2=80=99s ION implementation c=
+ould behave differently.=E2=80=9D
+>
 
-************************************************************
-* This script will download the latest tarball and build it*
-* Assuming that your kernel is compatible with the latest  *
-* drivers. If not, you'll need to add some extra backports,*
-* ./backports/<kernel> directory.                          *
-* It will also update this tree to be sure that all compat *
-* bits are there, to avoid compilation failures            *
-************************************************************
-************************************************************
-* All drivers and build system are under GPLv2 License     *
-* Firmware files are under the license terms found at:     *
-* http://www.linuxtv.org/downloads/firmware/               *
-* Please abort in the next 5 secs if you don't agree with  *
-* the license                                              *
-************************************************************
+alloc_devs is something that the driver sets and it's a struct device
+for which the DMA API can be called to manage the DMA buffers for this
+video device. It's not a way to select a use case-dependent allocation
+method.
 
-Not aborted. It means that the licence was agreed. Proceeding...
+> > 3) How would the heap know how to allocate properly for the device?
+> >
+> Because =E2=80=9Ceach DMA-BUF heap is a separate character device=E2=80=
+=9D.
 
-****************************
-Updating the building system
-****************************
-hint: Pulling without specifying how to reconcile divergent branches is
-hint: discouraged. You can squelch this message by running one of the following
-hint: commands sometime before your next pull:
-hint: 
-hint:   git config pull.rebase false  # merge (the default strategy)
-hint:   git config pull.rebase true   # rebase
-hint:   git config pull.ff only       # fast-forward only
-hint: 
-hint: You can replace "git config" with "git config --global" to set a default
-hint: preference for all repositories. You can also pass --rebase, --no-rebase,
-hint: or --ff-only on the command line to override the configured default per
-hint: invocation.
-From git://linuxtv.org/media_build
- * branch                      master     -> FETCH_HEAD
-Already up to date.
-make: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-wget http://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5 -O linux-media.tar.bz2.md5.tmp
---2022-08-05 09:19:08--  http://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5
-Resolving linuxtv.org (linuxtv.org)... 130.149.80.248
-Connecting to linuxtv.org (linuxtv.org)|130.149.80.248|:80... connected.
-HTTP request sent, awaiting response... 301 Moved Permanently
-Location: https://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5 [following]
---2022-08-05 09:19:08--  https://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5
-Connecting to linuxtv.org (linuxtv.org)|130.149.80.248|:443... connected.
-HTTP request sent, awaiting response... 200 OK
-Length: 105 [application/x-bzip2]
-Saving to: ‘linux-media.tar.bz2.md5.tmp’
+Could you elaborate? Sorry, I'm not sure how this answers my question.
 
-     0K                                                       100%  115M=0s
+> But as I said in the first draft I am not sure about the DMA mapping part=
+. alloc_devs responds for the heap, we have a device variable in the queue =
+that mapping function could access, but that may not be enough. A plane may=
+ apply a different mapping policy or IOMMU here.
+>
+> Would it be better that I create a interface here that creating a memdev =
+with DMA-heap description ?
 
-2022-08-05 09:19:09 (115 MB/s) - ‘linux-media.tar.bz2.md5.tmp’ saved [105/105]
+My intuition still tells me that it would be universally better to
+just let the userspace allocate the buffers independently (like with
+gralloc/Ion) and import to V4L2 using V4L2_MEM_DMABUF. It was possible
+to do things this way nicely with regular Android graphics buffers, so
+could you explain what difference of your use case makes it
+impossible?
 
-make: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-make: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-tar xfj linux-media.tar.bz2
-rm -f .patches_applied .linked_dir .git_log.md5
-make: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-**********************************************************
-* Downloading firmwares from linuxtv.org.                *
-**********************************************************
-firmware/dvb-usb-vp702x-01.fw
-firmware/dvb-usb-vp7045-01.fw
-firmware/dvb-fe-bcm3510-01.fw
-firmware/as102_data2_st.hex
-firmware/dvb-usb-terratec-h7-drxk.fw
-firmware/isdbt_nova_12mhz.inp
-firmware/Boot.S
-firmware/dvb_nova_12mhz_b0.inp
-firmware/dvb-fe-xc4000-1.4.1.fw
-firmware/sms1xxx-hcw-55xxx-isdbt-02.fw
-firmware/sms1xxx-nova-a-dvbt-01.fw
-firmware/dvb-usb-avertv-a800-02.fw
-firmware/cmmb_venice_12mhz.inp
-firmware/dvb-fe-xc5000c-4.1.30.7.fw
-firmware/v4l-cx23418-cpu.fw
-firmware/v4l-cx23885-enc-broken.fw
-firmware/dvb-fe-drxj-mc-vsb-1.0.8.fw
-firmware/dvb_nova_12mhz.inp
-firmware/dvb-usb-dib0700-1.20.fw
-firmware/tdmb_nova_12mhz.inp
-firmware/as102_data1_st.hex
-firmware/dvb-fe-or51132-vsb.fw
-firmware/dvb-usb-it9135-02.fw
-firmware/v4l-cx23418-apu.fw
-firmware/dvb-ttpci-01.fw-261f
-firmware/v4l-cx23418-dig.fw
-firmware/dvb-ttpci-01.fw-261c
-firmware/dvb-usb-bluebird-01.fw
-firmware/dvb-fe-or51211.fw
-firmware/dvb-fe-or51132-qam.fw
-firmware/sms1xxx-stellar-dvbt-01.fw
-firmware/dvb-usb-dibusb-5.0.0.11.fw
-firmware/dvb-fe-drxj-mc-vsb-qam-1.0.8.fw
-firmware/dvb-usb-terratec-h5-drxk.fw
-firmware/dvb-usb-wt220u-02.fw
-firmware/v4l-cx23885-enc.fw
-firmware/dvb-ttpci-01.fw-2622
-firmware/dvb-usb-wt220u-01.fw
-firmware/v4l-cx25840.fw
-firmware/dvb-fe-drxj-mc-1.0.8.fw
-firmware/v4l-cx231xx-avcore-01.fw
-firmware/dvb-usb-dtt200u-01.fw
-firmware/dvb-usb-dibusb-6.0.0.8.fw
-firmware/sms1xxx-nova-b-dvbt-01.fw
-firmware/dvb-fe-xc5000-1.6.114.fw
-firmware/cmmb_vega_12mhz.inp
-firmware/dvb-usb-it9135-01.fw
-firmware/isdbt_nova_12mhz_b0.inp
-firmware/dvb-ttpci-01.fw-261a
-firmware/dvb-ttpci-01.fw-261b
-firmware/dvb-ttpci-01.fw-261d
-firmware/README
-firmware/isdbt_rio.inp
-firmware/dvb-usb-umt-010-02.fw
-firmware/sms1xxx-hcw-55xxx-dvbt-02.fw
-firmware/dvb-usb-terratec-h7-az6007.fw
-firmware/v4l-cx23885-avcore-01.fw
-******************
-* Start building *
-******************
-make -C <https://builder.linuxtv.org/job/media-build/ws/v4l> allyesconfig
-make[1]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
-No version yet, using 5.10.0-14-amd64
-make[2]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-Applying patches for kernel 5.10.0-14-amd64
-patch -s -f -N -p1 -i ../backports/api_version.patch
-patch -s -f -N -p1 -i ../backports/pr_fmt.patch
-1 out of 1 hunk FAILED
-1 out of 1 hunk FAILED
-make[2]: *** [Makefile:132: apply_patches] Error 1
-make[2]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-make[1]: *** [Makefile:366: allyesconfig] Error 2
-make[1]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
-make: *** [Makefile:26: allyesconfig] Error 2
-can't select all drivers at ./build line 531
-Build step 'Execute shell' marked build as failure
+Best regards,
+Tomasz
