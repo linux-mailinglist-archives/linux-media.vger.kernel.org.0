@@ -2,81 +2,129 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B644B58BBD0
-	for <lists+linux-media@lfdr.de>; Sun,  7 Aug 2022 18:09:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4AE9358BBE6
+	for <lists+linux-media@lfdr.de>; Sun,  7 Aug 2022 18:53:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233928AbiHGQJn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 7 Aug 2022 12:09:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59604 "EHLO
+        id S232846AbiHGQxF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 7 Aug 2022 12:53:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46160 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233135AbiHGQJm (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sun, 7 Aug 2022 12:09:42 -0400
-Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com [IPv6:2a00:1450:4864:20::62b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97FF0A462;
-        Sun,  7 Aug 2022 09:09:40 -0700 (PDT)
-Received: by mail-ej1-x62b.google.com with SMTP id m4so12634642ejr.3;
-        Sun, 07 Aug 2022 09:09:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc;
-        bh=kfa6rkgDz6nn/pdEUYBNKDa4YqJiKITb3f8OdRtzvmk=;
-        b=COXRpdfLeS6/eF9rAZR77z4MCuaK1+JKWGBD5kceZ0kJ4DchZJT725v+jCGmSJ2imB
-         y4LN5N4cEput2dmnjPpZCBYcshfj1bs6YZZGHxlscSVTNzWVaENtU7E4kmIpbVVltmxT
-         aQR3xi0sFHgRyzSUKNZpdZSBzbY1h2hGdEnQL8xZFEG5MuIqRLMHqwmsW4LTGQAJbbqR
-         AMgWQCf4vme8WZ6+QAduQY1FuWKGKZdhHldfKg9FgkriLIxratMMFGJYpcQyxffBS5lV
-         klJLgyjrydzzporrpp+caJV3uKT77YXMDjWuOvl1b7gggzDYCfyawoTvo8nU4h4lU114
-         y/Hw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc;
-        bh=kfa6rkgDz6nn/pdEUYBNKDa4YqJiKITb3f8OdRtzvmk=;
-        b=mmL5Uwo8IHjIIhQyb35F2Bsk8RXQUM3BjB3oOWffmNmv2JD11dKjapFRx64utFFLXV
-         Dzl/tonlBQAhhp1t2UEnTmIRaDsk53gB8y3QCFpLma2+y9sW7Kbrl3Dmt0ec+bcJ+z7o
-         xE+e3pchfhxFg3/dBiWzb/YLoKJD4qoR8jluXzcC6HmuYCa4EHhM2Q3AzGVLRNxDZsot
-         0AtKUtsB8uBV/cSgQe3FfvLkVOg66sc0UfoNzIL4ihlbBXXG1s0bntGlcod67fXLqu24
-         yfzwUIDkHxgvXz86FimiUNsqMH2VG1zE+YyJvund+bVANQwbyQ4Na8LoqcfoWRCbSe84
-         fTcA==
-X-Gm-Message-State: ACgBeo0xPQKTJ08HfLx3+JHneskU6+Ur7m0u44ts5h/Z6BkJZCh6qUjt
-        72HO/VyNeLWrRy7lE9GRntk=
-X-Google-Smtp-Source: AA6agR63DksStqDlJzPXUBqN0Z2rFKAzOT4xKMjjaRhnc3EuWCBYaX7QAw6Iot6h6qj8HoZIIlqggw==
-X-Received: by 2002:a17:907:6d15:b0:730:da23:5b5c with SMTP id sa21-20020a1709076d1500b00730da235b5cmr10391598ejc.325.1659888579044;
-        Sun, 07 Aug 2022 09:09:39 -0700 (PDT)
-Received: from ?IPV6:2a02:908:1256:79a0:f019:ef7b:173c:a9d2? ([2a02:908:1256:79a0:f019:ef7b:173c:a9d2])
-        by smtp.gmail.com with ESMTPSA id gj6-20020a170907740600b0072b31307a79sm3984470ejc.60.2022.08.07.09.09.37
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 07 Aug 2022 09:09:38 -0700 (PDT)
-Message-ID: <3d2083aa-fc6c-6875-3daf-e5abe45fb762@gmail.com>
-Date:   Sun, 7 Aug 2022 18:09:36 +0200
-MIME-Version: 1.0
+        with ESMTP id S230010AbiHGQxD (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sun, 7 Aug 2022 12:53:03 -0400
+Received: from NAM02-BN1-obe.outbound.protection.outlook.com (mail-bn1nam07on2084.outbound.protection.outlook.com [40.107.212.84])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DA275646C;
+        Sun,  7 Aug 2022 09:53:00 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=epafqHjY6JIidHyJ9vxARqcnhsFK7TO2llMJqiuFJj+QzuqkXpkXGV8SOLrs5sap0OzcfwLlcApX0tW8iBn+VxQ7EIr9J1p+JRt8HnzFnicSre9p2HWzhulqLyxm4ddVe/P9hewQzM6exM/DCNXIHD30hs767MAqomJdTn+0kTTHIiZionwH+nQLJ1HpexOj9bCzjwpAoyM4fJ8Ye+XIquxCPn8ZbjTXI6mvDY9UX2lrMBWcm5yGfT4o62cK4Kh9HrtnkIm0rpat7ClSK5KDOJ0zfwSC2ktdcBhLQ/IpoYrIRlhvu4VUprWhxgNsP/ZeKUF4ZTS0uY+doL1FZ/3D3w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=FTAnNSC7aa8xhLV/vDwSlSyLG5tCJ0hF90bXdNP/k/4=;
+ b=GLayaGoVbIPbs1Eayw+y9TEY5HSXjL/3IsanLl78Azz71J+Bt8kNVzuQuisQVk1s0QaSumbshYy3EFqNAv8tYzm67XivcUPuwBHmPsCvohEVJKaGI2bZo6xlZk4z+KnvaX0Ly7O9QS0uooKl08niuEQALYJDQKh3z8XG/Pb3jdaI6nd0/L8KLPWt4p3RTD52q4p8My0/gnjJs18wAKKQxhYb1HnKK4lfD50T32nKYRjzXFMDF+LFHbM4SqVBxF2bTgq6vKIEEkJTpusWr54LPVuUNyG4kupKXZXIoFAynVznixop9oeyByqHXnWEpvcsq3V63ex7V5Ff4SNXuif/XA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=FTAnNSC7aa8xhLV/vDwSlSyLG5tCJ0hF90bXdNP/k/4=;
+ b=fHL/+xq6f2tr13tinvwKnAZrjCq219jEkqyBaT8R3akzzRdTT6y2PFmXdj7Yi/Y14SRslDedVSPyHgGYcbdDajLyTmmWJ+0m7B3c1brolMG1FrH1yv8FJU2pyHrkgMNK2lP+PZw8uc0y4soKVGYxvw2S3W86lYlidVPUJZkoMwo=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
+ by BN6PR12MB1729.namprd12.prod.outlook.com (2603:10b6:404:108::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5504.14; Sun, 7 Aug
+ 2022 16:52:58 +0000
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::905:1701:3b51:7e39]) by BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::905:1701:3b51:7e39%2]) with mapi id 15.20.5504.019; Sun, 7 Aug 2022
+ 16:52:58 +0000
+Message-ID: <c7cb225b-7f21-8d9a-773b-efc655e6332c@amd.com>
+Date:   Sun, 7 Aug 2022 18:52:52 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [Linaro-mm-sig] [PATCH 1/3] dma-buf: Add ioctl to query mmap info
+Subject: Re: [PATCH v2] drm/gem: Fix GEM handle release errors
 Content-Language: en-US
-To:     Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org,
-        Daniel Vetter <daniel@ffwll.ch>
-Cc:     freedreno@lists.freedesktop.org,
-        Rob Clark <robdclark@chromium.org>,
+To:     Jeffy Chen <jeffy.chen@rock-chips.com>,
+        Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc:     Andy Yan <andy.yan@rock-chips.com>,
+        Jianqun Xu <jay.xu@rock-chips.com>,
+        Maxime Ripard <mripard@kernel.org>,
         Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
-        =?UTF-8?B?SsOpcsO0bWUgUG91aWxsZXI=?= <jerome.pouiller@silabs.com>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>,
-        open list <linux-kernel@vger.kernel.org>
-References: <20220729170744.1301044-1-robdclark@gmail.com>
- <20220729170744.1301044-2-robdclark@gmail.com>
-From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-In-Reply-To: <20220729170744.1301044-2-robdclark@gmail.com>
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org, David Airlie <airlied@linux.ie>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        linux-media@vger.kernel.org, Daniel Vetter <daniel@ffwll.ch>
+References: <20220803083237.3701-1-jeffy.chen@rock-chips.com>
+From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20220803083237.3701-1-jeffy.chen@rock-chips.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: AS9PR06CA0117.eurprd06.prod.outlook.com
+ (2603:10a6:20b:465::32) To BN8PR12MB3587.namprd12.prod.outlook.com
+ (2603:10b6:408:43::13)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 32287421-1f99-4e15-7908-08da78954820
+X-MS-TrafficTypeDiagnostic: BN6PR12MB1729:EE_
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: tAqpQpr7GbrnAGDyDlLAnk7niUttxRzIv3r5o3CF6zom1wU6VZ1bjghq7UOJTS5A/rkXgB/B1zbrUCWXEY6l9txzUMPkq0UpcYGROpydD+PEBSuQdDbGz3fYWYlQ4FwSSOQq/bG6BFydw9vVY+PdKrnwMt9eylCHWwu2wgn9nCOAyJbqe0n8GZq168sz72onn6KACyvjJRzLSLmPVPMZMa8y9D9xOigPqd5Dt7LKyoHqUJM2K+6qT+Ak8Sc0aT6Re8nnJRPAacqenBp+9p424z0QLq3NuXegy1vvzmcXaclm9KfxcunA7ei4vvDuEiIGrublYCJS4NGtK1O4z0B4mDO5El1/SL0ob7ZzX8LD0J98Qk1XPqfjLTlG5DOcxuqF8QDBye7cVCa0j6sPTvu1SepVSnBkdMMK7mWEcx4x5iqpqgCBW9szsz3UL+5qK3XKX1EJ3kn6a0LAglUQQf8XpjSqZ5V9jxO0xzmARBQrpjgzpIa62nzF/Ja95oUW4JkcpiiisISG9mp6FbaOzuc2Vt4Y0Xqo979OER6OmKqSkOlI25dCMwhuZtNcVXuH47geun+VccTsJzqwdTDxg1B4KtMe5OJb3GcKrIk1jsedgeNxV57ejkqOVUw34RKQv/jkTZ+S8+cQeiJImH5wEATcMgBxYv27QWlm/XSXVvZ3cjVFgjSfIF7JGG4n05QxgXXd4xf57Y0X3W7hh0oR+qQPKW2seQMpRanx2G9PbHei5otytt5c3/HFkFumyfuJLEg1nsVNXDqdJdxvMRHlMEqQ4OS2OKfi5RV8sCQlHW1CefA9Mjp8bpe+GDRMlRn1wIciA93nxTTvN+r6fXgUES7Bn8+C6UFGZXE7or5bCMPshYU=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN8PR12MB3587.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(396003)(366004)(136003)(376002)(346002)(39860400002)(86362001)(31696002)(2616005)(186003)(6506007)(6666004)(2906002)(6512007)(38100700002)(83380400001)(316002)(4326008)(7416002)(8936002)(8676002)(36756003)(31686004)(66946007)(66556008)(66476007)(41300700001)(6486002)(966005)(5660300002)(478600001)(54906003)(110136005)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SmF5UFhVazd5UGhxOXRsZDhxRXVTU2xpbGtCcm5hR1YxZTNiOGdkaXBFcThn?=
+ =?utf-8?B?bUJrSHN1UWVRTkVVWlJSMURKNm8xdGJPck9uY2Jzd3BpQk1pclRlRGJ1bnA1?=
+ =?utf-8?B?N1ZQNElZWkNJaVVqNDFCdU1yTVVqb09ocm05U0VQNFdhR2hLZGpJNThYMzNo?=
+ =?utf-8?B?a0lOUXh6L0xITGFKQlVQQU10d29Rd3lGZWFOSTVsRjRrZ2xQUThFVmtWUHNx?=
+ =?utf-8?B?TEVYRzFoSzludWFpdFhjUkphbVFQczY1RVBDcGhBUjJFdCtzemYyUE81M1Np?=
+ =?utf-8?B?bkg5MngwVXpLSFhIOFcwOUd1STJ6d1l1RFJNcU53eEFFUXlXeVNTbDAwRmZK?=
+ =?utf-8?B?Rll6U2Q5ZVZnaTFJVElrNUVVd0d5eHIxbUpDNS90WDNLMkhCc1MwL0xrblJG?=
+ =?utf-8?B?a2grOEF4eS9rWkhTS1p0ampNNVJ6cDlJMENkU1pGSWVWVkRCUUdyby9mZzBn?=
+ =?utf-8?B?Z0pKSDBNS0NJQXozak5DV1RBWFhjWlZjaElEc0ZKUjZrRkhPc3hzZzFETDBw?=
+ =?utf-8?B?bWdjU2g3MjAxK0FxeDFEVXhuZjN4bmRsTldoNzdMNDBOd2JLWi9TUzI0d3ZN?=
+ =?utf-8?B?VHh0MmtwcGd6ckVFY2hyVTRLanZRTG54VnNMcjVrNVdkYlRNTFcrM2RTbnVq?=
+ =?utf-8?B?T2VlYXNITmhIU2ZBZUtuZGFlZCtEcjNoQkVJL3YxOXRoR0lTVmd5bHFTVzBn?=
+ =?utf-8?B?bzJpc3diWGxhT2VXSGZyQ1hoNXMrQko0RDhFSjFYaUJrKzluRUV5b3hDZy9D?=
+ =?utf-8?B?RHk5Uno1bDRVUnNsQlZSUWdPenJUR2lsRTMvMU9sUDZOM2dYL0M0T2FnMnQw?=
+ =?utf-8?B?NzQxVVBlMGZNT1E4V1lCclAxY0x5YWEwY1ZlVC9FdHJxUXVXQUM0M0pTaDNm?=
+ =?utf-8?B?d1BNS2pKYVE5eWtvdFNuMXA3VVp5Q215NmNXRFgycEpuaFFxTmRQUENCSlgz?=
+ =?utf-8?B?T09HR3I0bU5ySTBhZHlzWlVCWkZNcWFXMUYzdVQrV0U5L3dCa2xrUmxpaVdn?=
+ =?utf-8?B?clJmSVRzMUtYNTFDSi9tZHRiWFpxak5ucFJSbkhlZmlpRWpoTUtpRVN5ZUJi?=
+ =?utf-8?B?OTVwQmdLWlUxbUlxdENQSHBqWGdvcTc1eVRJdTNyTXQ2dkJyQTgyNDdzU1Vy?=
+ =?utf-8?B?MjM3WFZoVnk5L2RGUDBEMjI3Rkt3aWdYYjVDa1d6UVNIc3FpeDllNkxRaW5v?=
+ =?utf-8?B?Q2dyMmhsaGt5R2xsUkJFcFk5cWRWckl6em9ySWFHdWU2Mjgzckg0T1h6TWJX?=
+ =?utf-8?B?cE5MRVN5cEI5M1lQdWp4RFFYdWlIYTh5T25qN2NpekgzVlFmSEVNVmdzaTJ3?=
+ =?utf-8?B?bWord3ZhUnFaSVhQRGVvYXoyNHIvQnlHZnE0Q2JrSUNISU1RNzVaYlAzbFZa?=
+ =?utf-8?B?SkJoMDM0R1phU1Y3b1dYY20xc1FXbjh5NlZTRytHVmYrSWVMYnA5Mi9NNVo1?=
+ =?utf-8?B?OCtTQTJMSXFaenpoOXZOM3lhOGlKQzk0NkpZT1A0dzdHQ3RvUXc3aFJvOUVX?=
+ =?utf-8?B?TExqcldWeUJtaDNaNm5Yby9ja0tvR2g4Uzl1OEtYcUpEd0Q1RjdUU2ZkSm1X?=
+ =?utf-8?B?aGU4Z2M5TjM3YzJUSnFuU0tXWHlTSlhGNGpudkhvVkw0RlJHQzBZbVZuMy9r?=
+ =?utf-8?B?dWVNTm5zTXBmTVZXNENqZGkrR01vdG9JdDNmWkc5bjdHeUNtNU1pVkUwdVpD?=
+ =?utf-8?B?VFh4aXp6b0ZvdFpWRDdXSEhhdlh1bjdUYWdtbCtWWkpDVG8rVEQxeTNycU9n?=
+ =?utf-8?B?VkEwdy9EQXRHQlFDTE16QzAwK3VIY2V3aGRSbjkwNUhQTTBXTTRsN0Y0b2Iy?=
+ =?utf-8?B?ZUI0cWtNK3FTZEV2THFrSjRKV3FPV09nMmVPdXUzajIrSjBvOXNWWU9rSzJk?=
+ =?utf-8?B?bmZZbXE4ZGRlcXh2YUppWnB6UmJUTDRIOGtUYkd5SGJVK0tRTEcxZUhBRUlL?=
+ =?utf-8?B?WkV2dkdicjUyZTlVaTBQR1EwbGdic2g5S2RuVG5LVmZIM29VdHlRODVLZlBZ?=
+ =?utf-8?B?VGprT2U5bFFueTJnUEhuV05XR0MzbjBzcUFhQ21laFVrbHh2YzdBaGFBUFN4?=
+ =?utf-8?B?L3o1QmV2cVJxMnh5V3lVckF2M2RNZFFXNzRNL3ovODZta2NSclVlOVA2aXha?=
+ =?utf-8?B?YkhId251ZEdlMmxkZGZ6R29QTXJXRFlmUU5lSEtjWEVwOVBFTkR3SjZselZC?=
+ =?utf-8?Q?Zf7rDunt/qWzAxeL2eKeLNdoQKpGqN0HZJ1tcCZi85pC?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 32287421-1f99-4e15-7908-08da78954820
+X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Aug 2022 16:52:58.3300
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 0C8F1VPpx3DZXr8u+a5Zz2V7xffO0ILYHH+fKRpUf4BnPrnlpCJSESV4vpqbyw3b
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR12MB1729
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -84,145 +132,143 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am 29.07.22 um 19:07 schrieb Rob Clark:
-> From: Rob Clark <robdclark@chromium.org>
+Am 03.08.22 um 10:32 schrieb Jeffy Chen:
+> Currently we are assuming a one to one mapping between dmabuf and handle
+> when releasing GEM handles.
 >
-> This is a fairly narrowly focused interface, providing a way for a VMM
-> in userspace to tell the guest kernel what pgprot settings to use when
-> mapping a buffer to guest userspace.
+> But that is not always true, since we would create extra handles for the
+> GEM obj in cases like gem_open() and getfb{,2}().
 >
-> For buffers that get mapped into guest userspace, virglrenderer returns
-> a dma-buf fd to the VMM (crosvm or qemu).
+> A similar issue was reported at:
+> https://lore.kernel.org/all/20211105083308.392156-1-jay.xu@rock-chips.com/
+>
+> Another problem is that the drm_gem_remove_prime_handles() now only
+> remove handle to the exported dmabuf (gem_obj->dma_buf), so the imported
+> ones would leak:
+> WARNING: CPU: 2 PID: 236 at drivers/gpu/drm/drm_prime.c:228 drm_prime_destroy_file_private+0x18/0x24
+>
+> Let's fix these by using handle to find the exact map to remove.
 
-Wow, wait a second. Who is giving whom the DMA-buf fd here?
+Well we are clearly something missing here. As far as I can see the 
+current code is correct.
 
-My last status was that this design was illegal and couldn't be 
-implemented because it requires internal knowledge only the exporting 
-driver can have.
+Creating multiple GEM handles for the same DMA-buf is possible, but illegal.
 
-@Daniel has anything changed on that is or my status still valid?
+In other words when a GEM handle is exported as DMA-buf and imported 
+again you should intentionally always get the same handle.
+
+So this is pretty much a clear NAK to this patch since it shouldn't be 
+necessary or something is seriously broken somewhere else.
 
 Regards,
 Christian.
 
->    In addition to mapping the
-> pages into the guest VM, it needs to report to drm/virtio in the guest
-> the cache settings to use for guest userspace.  In particular, on some
-> architectures, creating aliased mappings with different cache attributes
-> is frowned upon, so it is important that the guest mappings have the
-> same cache attributes as any potential host mappings.
 >
-> Signed-off-by: Rob Clark <robdclark@chromium.org>
+> Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
 > ---
->   drivers/dma-buf/dma-buf.c    | 26 ++++++++++++++++++++++++++
->   include/linux/dma-buf.h      |  7 +++++++
->   include/uapi/linux/dma-buf.h | 28 ++++++++++++++++++++++++++++
->   3 files changed, 61 insertions(+)
 >
-> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-> index 32f55640890c..d02d6c2a3b49 100644
-> --- a/drivers/dma-buf/dma-buf.c
-> +++ b/drivers/dma-buf/dma-buf.c
-> @@ -326,6 +326,29 @@ static long dma_buf_set_name(struct dma_buf *dmabuf, const char __user *buf)
->   	return 0;
+> Changes in v2:
+> Fix a typo of rbtree.
+>
+>   drivers/gpu/drm/drm_gem.c      | 17 +----------------
+>   drivers/gpu/drm/drm_internal.h |  4 ++--
+>   drivers/gpu/drm/drm_prime.c    | 20 ++++++++++++--------
+>   3 files changed, 15 insertions(+), 26 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
+> index eb0c2d041f13..ed39da383570 100644
+> --- a/drivers/gpu/drm/drm_gem.c
+> +++ b/drivers/gpu/drm/drm_gem.c
+> @@ -168,21 +168,6 @@ void drm_gem_private_object_init(struct drm_device *dev,
+>   }
+>   EXPORT_SYMBOL(drm_gem_private_object_init);
+>   
+> -static void
+> -drm_gem_remove_prime_handles(struct drm_gem_object *obj, struct drm_file *filp)
+> -{
+> -	/*
+> -	 * Note: obj->dma_buf can't disappear as long as we still hold a
+> -	 * handle reference in obj->handle_count.
+> -	 */
+> -	mutex_lock(&filp->prime.lock);
+> -	if (obj->dma_buf) {
+> -		drm_prime_remove_buf_handle_locked(&filp->prime,
+> -						   obj->dma_buf);
+> -	}
+> -	mutex_unlock(&filp->prime.lock);
+> -}
+> -
+>   /**
+>    * drm_gem_object_handle_free - release resources bound to userspace handles
+>    * @obj: GEM object to clean up.
+> @@ -253,7 +238,7 @@ drm_gem_object_release_handle(int id, void *ptr, void *data)
+>   	if (obj->funcs->close)
+>   		obj->funcs->close(obj, file_priv);
+>   
+> -	drm_gem_remove_prime_handles(obj, file_priv);
+> +	drm_prime_remove_buf_handle(&file_priv->prime, id);
+>   	drm_vma_node_revoke(&obj->vma_node, file_priv);
+>   
+>   	drm_gem_object_handle_put_unlocked(obj);
+> diff --git a/drivers/gpu/drm/drm_internal.h b/drivers/gpu/drm/drm_internal.h
+> index 1fbbc19f1ac0..7bb98e6a446d 100644
+> --- a/drivers/gpu/drm/drm_internal.h
+> +++ b/drivers/gpu/drm/drm_internal.h
+> @@ -74,8 +74,8 @@ int drm_prime_fd_to_handle_ioctl(struct drm_device *dev, void *data,
+>   
+>   void drm_prime_init_file_private(struct drm_prime_file_private *prime_fpriv);
+>   void drm_prime_destroy_file_private(struct drm_prime_file_private *prime_fpriv);
+> -void drm_prime_remove_buf_handle_locked(struct drm_prime_file_private *prime_fpriv,
+> -					struct dma_buf *dma_buf);
+> +void drm_prime_remove_buf_handle(struct drm_prime_file_private *prime_fpriv,
+> +				 uint32_t handle);
+>   
+>   /* drm_drv.c */
+>   struct drm_minor *drm_minor_acquire(unsigned int minor_id);
+> diff --git a/drivers/gpu/drm/drm_prime.c b/drivers/gpu/drm/drm_prime.c
+> index e3f09f18110c..bd5366b16381 100644
+> --- a/drivers/gpu/drm/drm_prime.c
+> +++ b/drivers/gpu/drm/drm_prime.c
+> @@ -190,29 +190,33 @@ static int drm_prime_lookup_buf_handle(struct drm_prime_file_private *prime_fpri
+>   	return -ENOENT;
 >   }
 >   
-> +static long dma_buf_info(struct dma_buf *dmabuf, const void __user *uarg)
-> +{
-> +	struct dma_buf_info arg;
-> +
-> +	if (copy_from_user(&arg, uarg, sizeof(arg)))
-> +		return -EFAULT;
-> +
-> +	switch (arg.param) {
-> +	case DMA_BUF_INFO_VM_PROT:
-> +		if (!dmabuf->ops->mmap_info)
-> +			return -ENOSYS;
-> +		arg.value = dmabuf->ops->mmap_info(dmabuf);
-> +		break;
-> +	default:
-> +		return -EINVAL;
-> +	}
-> +
-> +	if (copy_to_user(uarg, &arg, sizeof(arg)))
-> +		return -EFAULT;
-> +
-> +	return 0;
-> +}
-> +
->   static long dma_buf_ioctl(struct file *file,
->   			  unsigned int cmd, unsigned long arg)
+> -void drm_prime_remove_buf_handle_locked(struct drm_prime_file_private *prime_fpriv,
+> -					struct dma_buf *dma_buf)
+> +void drm_prime_remove_buf_handle(struct drm_prime_file_private *prime_fpriv,
+> +				 uint32_t handle)
 >   {
-> @@ -369,6 +392,9 @@ static long dma_buf_ioctl(struct file *file,
->   	case DMA_BUF_SET_NAME_B:
->   		return dma_buf_set_name(dmabuf, (const char __user *)arg);
+>   	struct rb_node *rb;
 >   
-> +	case DMA_BUF_IOCTL_INFO:
-> +		return dma_buf_info(dmabuf, (const void __user *)arg);
+> -	rb = prime_fpriv->dmabufs.rb_node;
+> +	mutex_lock(&prime_fpriv->lock);
 > +
->   	default:
->   		return -ENOTTY;
+> +	rb = prime_fpriv->handles.rb_node;
+>   	while (rb) {
+>   		struct drm_prime_member *member;
+>   
+> -		member = rb_entry(rb, struct drm_prime_member, dmabuf_rb);
+> -		if (member->dma_buf == dma_buf) {
+> +		member = rb_entry(rb, struct drm_prime_member, handle_rb);
+> +		if (member->handle == handle) {
+>   			rb_erase(&member->handle_rb, &prime_fpriv->handles);
+>   			rb_erase(&member->dmabuf_rb, &prime_fpriv->dmabufs);
+>   
+> -			dma_buf_put(dma_buf);
+> +			dma_buf_put(member->dma_buf);
+>   			kfree(member);
+> -			return;
+> -		} else if (member->dma_buf < dma_buf) {
+> +			break;
+> +		} else if (member->handle < handle) {
+>   			rb = rb->rb_right;
+>   		} else {
+>   			rb = rb->rb_left;
+>   		}
 >   	}
-> diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
-> index 71731796c8c3..6f4de64a5937 100644
-> --- a/include/linux/dma-buf.h
-> +++ b/include/linux/dma-buf.h
-> @@ -283,6 +283,13 @@ struct dma_buf_ops {
->   	 */
->   	int (*mmap)(struct dma_buf *, struct vm_area_struct *vma);
+> +
+> +	mutex_unlock(&prime_fpriv->lock);
+>   }
 >   
-> +	/**
-> +	 * @mmap_info:
-> +	 *
-> +	 * Return mmapping info for the buffer.  See DMA_BUF_INFO_VM_PROT.
-> +	 */
-> +	int (*mmap_info)(struct dma_buf *);
-> +
->   	int (*vmap)(struct dma_buf *dmabuf, struct iosys_map *map);
->   	void (*vunmap)(struct dma_buf *dmabuf, struct iosys_map *map);
->   };
-> diff --git a/include/uapi/linux/dma-buf.h b/include/uapi/linux/dma-buf.h
-> index b1523cb8ab30..a41adac0f46a 100644
-> --- a/include/uapi/linux/dma-buf.h
-> +++ b/include/uapi/linux/dma-buf.h
-> @@ -85,6 +85,32 @@ struct dma_buf_sync {
->   
->   #define DMA_BUF_NAME_LEN	32
->   
-> +
-> +/**
-> + * struct dma_buf_info - Query info about the buffer.
-> + */
-> +struct dma_buf_info {
-> +
-> +#define DMA_BUF_INFO_VM_PROT      1
-> +#  define DMA_BUF_VM_PROT_WC      0
-> +#  define DMA_BUF_VM_PROT_CACHED  1
-> +
-> +	/**
-> +	 * @param: Which param to query
-> +	 *
-> +	 * DMA_BUF_INFO_BM_PROT:
-> +	 *     Query the access permissions of userspace mmap's of this buffer.
-> +	 *     Returns one of DMA_BUF_VM_PROT_x
-> +	 */
-> +	__u32 param;
-> +	__u32 pad;
-> +
-> +	/**
-> +	 * @value: Return value of the query.
-> +	 */
-> +	__u64 value;
-> +};
-> +
->   #define DMA_BUF_BASE		'b'
->   #define DMA_BUF_IOCTL_SYNC	_IOW(DMA_BUF_BASE, 0, struct dma_buf_sync)
->   
-> @@ -95,4 +121,6 @@ struct dma_buf_sync {
->   #define DMA_BUF_SET_NAME_A	_IOW(DMA_BUF_BASE, 1, __u32)
->   #define DMA_BUF_SET_NAME_B	_IOW(DMA_BUF_BASE, 1, __u64)
->   
-> +#define DMA_BUF_IOCTL_INFO	_IOWR(DMA_BUF_BASE, 2, struct dma_buf_info)
-> +
->   #endif
+>   void drm_prime_init_file_private(struct drm_prime_file_private *prime_fpriv)
 
