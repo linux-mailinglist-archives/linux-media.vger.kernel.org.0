@@ -2,50 +2,51 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5E84558BB82
-	for <lists+linux-media@lfdr.de>; Sun,  7 Aug 2022 17:02:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8FB5558BB92
+	for <lists+linux-media@lfdr.de>; Sun,  7 Aug 2022 17:31:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234458AbiHGPCQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 7 Aug 2022 11:02:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58992 "EHLO
+        id S233520AbiHGPba (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 7 Aug 2022 11:31:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41536 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234190AbiHGPCP (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sun, 7 Aug 2022 11:02:15 -0400
-Received: from zju.edu.cn (mail.zju.edu.cn [61.164.42.155])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 7C823B11;
-        Sun,  7 Aug 2022 08:00:19 -0700 (PDT)
-Received: from localhost.localdomain (unknown [10.12.77.33])
-        by mail-app4 (Coremail) with SMTP id cS_KCgBnaMxo0+9iIcVvAg--.19601S4;
-        Sun, 07 Aug 2022 22:59:53 +0800 (CST)
-From:   Lin Ma <linma@zju.edu.cn>
-To:     mchehab@kernel.org, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc:     Lin Ma <linma@zju.edu.cn>
-Subject: [PATCH v0] media: dvbdev: adopts refcnt to avoid UAF
-Date:   Sun,  7 Aug 2022 22:59:52 +0800
-Message-Id: <20220807145952.10368-1-linma@zju.edu.cn>
-X-Mailer: git-send-email 2.36.1
+        with ESMTP id S233356AbiHGPb3 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sun, 7 Aug 2022 11:31:29 -0400
+Received: from mail-0301.mail-europe.com (mail-0301.mail-europe.com [188.165.51.139])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2EA15640A;
+        Sun,  7 Aug 2022 08:31:25 -0700 (PDT)
+Date:   Sun, 07 Aug 2022 15:31:17 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=connolly.tech;
+        s=protonmail; t=1659886279; x=1660145479;
+        bh=YHlXS1js2a8lbYFdeBlkI7exi/3zmStUxGjeZdRforw=;
+        h=Date:To:From:Cc:Reply-To:Subject:Message-ID:In-Reply-To:
+         References:Feedback-ID:From:To:Cc:Date:Subject:Reply-To:
+         Feedback-ID:Message-ID;
+        b=T52PhAI9tffZwaFkL5rQPfkf5ZKVzDLfVkbq2M+fh2xQLVX89r1mlhPgq9qDexrMk
+         zyPoATlrq50HNVfQ4/sSYXpA4Sg0kq0XPpsCmSW5Poo1tSqxc1AK7Eo1Sqbotp1xH9
+         o0yDM7gOXq05wwTsiCztwlPifRp3v3EuFSUpTJrQ=
+To:     Robin Reckmann <robin.reckmann@googlemail.com>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Konrad Dybcio <konrad.dybcio@somainline.org>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?utf-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+From:   Caleb Connolly <caleb@connolly.tech>
+Cc:     Robin Reckmann <robin.reckmann@gmail.com>,
+        linux-arm-msm@vger.kernel.org, linux-i2c@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
+Reply-To: Caleb Connolly <caleb@connolly.tech>
+Subject: Re: [PATCH] i2c: qcom-geni: Fix GPI DMA buffer sync-back
+Message-ID: <653e93e7-6bdc-3498-7719-f3a7860dd245@connolly.tech>
+In-Reply-To: <20220807140455.409417-1-robin.reckmann@gmail.com>
+References: <20220807140455.409417-1-robin.reckmann@gmail.com>
+Feedback-ID: 10753939:user:proton
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: cS_KCgBnaMxo0+9iIcVvAg--.19601S4
-X-Coremail-Antispam: 1UD129KBjvJXoWxtF47Gw1rKry8uF1kuw1rJFb_yoWxJF1xpF
-        s3Ca45KFWUKr1xWr4UZw1UZFn8Jws2k34rCa4xCwnxKr1xArWrKryvya48Aw15G3ykAFy7
-        Xr9rGFykCr4fG3DanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDU0xBIdaVrnRJUUUk21xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AE
-        w4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2
-        IY67AKxVWDJVCq3wA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVWxJr0_GcWl84ACjcxK6I8E
-        87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1le2I262IYc4CY6c
-        8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_
-        Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwI
-        xGrwACjI8F5VA0II8E6IAqYI8I648v4I1l42xK82IYc2Ij64vIr41l42xK82IY6x8ErcxF
-        aVAv8VW8uw4UJr1UMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr
-        4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCIc40Y0x0EwIxG
-        rwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8Jw
-        CI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2
-        z280aVCY1x0267AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvjfUoOJ5UUUUU
-X-CM-SenderInfo: qtrwiiyqvtljo62m3hxhgxhubq/
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_PASS,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -53,200 +54,65 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-dvb_unregister_device() is known that prone to use-after-free.
-That is, the cleanup from dvb_unregister_device() releases the dvb_device
-even if there are pointers stored in file->private_data still refer to it.
 
-This patch adds a reference counter into struct dvb_device and delays its
-deallocation until no pointer refers to the object.
 
-Signed-off-by: Lin Ma <linma@zju.edu.cn>
----
- drivers/media/dvb-core/dvb_ca_en50221.c |  2 +-
- drivers/media/dvb-core/dvb_frontend.c   |  2 +-
- drivers/media/dvb-core/dvbdev.c         | 32 +++++++++++++++++++------
- include/media/dvbdev.h                  | 31 +++++++++++++-----------
- 4 files changed, 44 insertions(+), 23 deletions(-)
+On 07/08/2022 15:04, Robin Reckmann wrote:
+> Fix i2c transfers using GPI DMA mode for all message types that do not se=
+t
+> the I2C_M_DMA_SAFE flag (e.g. SMBus "read byte").
+>
+> In this case a bounce buffer is returned by i2c_get_dma_safe_msg_buf(),
+> and it has to synced back to the message after the transfer is done.
+>
+> Add missing assignment of dma buffer in geni_i2c_gpi().
+>
+> Set xferred in i2c_put_dma_safe_msg_buf() to true in case of no error to
+> ensure the sync-back of this dma buffer to the message.
+Thanks for sending this, it fixes GPI DMA on the PocoPhone F1 and Pixel 3!
+>
+> Signed-off-by: Robin Reckmann <robin.reckmann@gmail.com>Reviewed-by: Cale=
+b Connolly <caleb@connolly.tech>
+> ---
+>   drivers/i2c/busses/i2c-qcom-geni.c | 5 +++--
+>   1 file changed, 3 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/i2c/busses/i2c-qcom-geni.c b/drivers/i2c/busses/i2c-=
+qcom-geni.c
+> index 6ac402ea58fb..d3541e94794e 100644
+> --- a/drivers/i2c/busses/i2c-qcom-geni.c
+> +++ b/drivers/i2c/busses/i2c-qcom-geni.c
+> @@ -484,12 +484,12 @@ static void geni_i2c_gpi_unmap(struct geni_i2c_dev =
+*gi2c, struct i2c_msg *msg,
+>   {
+>   =09if (tx_buf) {
+>   =09=09dma_unmap_single(gi2c->se.dev->parent, tx_addr, msg->len, DMA_TO_=
+DEVICE);
+> -=09=09i2c_put_dma_safe_msg_buf(tx_buf, msg, false);
+> +=09=09i2c_put_dma_safe_msg_buf(tx_buf, msg, !gi2c->err);
+>   =09}
+>
+>   =09if (rx_buf) {
+>   =09=09dma_unmap_single(gi2c->se.dev->parent, rx_addr, msg->len, DMA_FRO=
+M_DEVICE);
+> -=09=09i2c_put_dma_safe_msg_buf(rx_buf, msg, false);
+> +=09=09i2c_put_dma_safe_msg_buf(rx_buf, msg, !gi2c->err);
+>   =09}
+>   }
+>
+> @@ -553,6 +553,7 @@ static int geni_i2c_gpi(struct geni_i2c_dev *gi2c, st=
+ruct i2c_msg *msg,
+>   =09desc->callback_param =3D gi2c;
+>
+>   =09dmaengine_submit(desc);
+> +=09*buf =3D dma_buf;
+>   =09*dma_addr_p =3D addr;
+>
+>   =09return 0;
+> --
+> 2.25.1
+>
 
-diff --git a/drivers/media/dvb-core/dvb_ca_en50221.c b/drivers/media/dvb-core/dvb_ca_en50221.c
-index 15a08d8c69ef..c2d2792227f8 100644
---- a/drivers/media/dvb-core/dvb_ca_en50221.c
-+++ b/drivers/media/dvb-core/dvb_ca_en50221.c
-@@ -157,7 +157,7 @@ static void dvb_ca_private_free(struct dvb_ca_private *ca)
- {
- 	unsigned int i;
- 
--	dvb_free_device(ca->dvbdev);
-+	dvb_device_put(ca->dvbdev);
- 	for (i = 0; i < ca->slot_count; i++)
- 		vfree(ca->slot_info[i].rx_buffer.data);
- 
-diff --git a/drivers/media/dvb-core/dvb_frontend.c b/drivers/media/dvb-core/dvb_frontend.c
-index 48e735cdbe6b..c376cd954e5e 100644
---- a/drivers/media/dvb-core/dvb_frontend.c
-+++ b/drivers/media/dvb-core/dvb_frontend.c
-@@ -136,7 +136,7 @@ static void __dvb_frontend_free(struct dvb_frontend *fe)
- 	struct dvb_frontend_private *fepriv = fe->frontend_priv;
- 
- 	if (fepriv)
--		dvb_free_device(fepriv->dvbdev);
-+		dvb_device_put(fepriv->dvbdev);
- 
- 	dvb_frontend_invoke_release(fe, fe->ops.release);
- 
-diff --git a/drivers/media/dvb-core/dvbdev.c b/drivers/media/dvb-core/dvbdev.c
-index 675d877a67b2..14f0e140d541 100644
---- a/drivers/media/dvb-core/dvbdev.c
-+++ b/drivers/media/dvb-core/dvbdev.c
-@@ -97,7 +97,7 @@ static int dvb_device_open(struct inode *inode, struct file *file)
- 		new_fops = fops_get(dvbdev->fops);
- 		if (!new_fops)
- 			goto fail;
--		file->private_data = dvbdev;
-+		file->private_data = dvb_device_get(dvbdev);
- 		replace_fops(file, new_fops);
- 		if (file->f_op->open)
- 			err = file->f_op->open(inode, file);
-@@ -161,6 +161,9 @@ int dvb_generic_release(struct inode *inode, struct file *file)
- 	}
- 
- 	dvbdev->users++;
-+
-+	dvb_device_put(dvbdev);
-+
- 	return 0;
- }
- EXPORT_SYMBOL(dvb_generic_release);
-@@ -477,6 +480,7 @@ int dvb_register_device(struct dvb_adapter *adap, struct dvb_device **pdvbdev,
- 		return -ENOMEM;
- 	}
- 
-+	kref_init(&dvbdev->ref);
- 	memcpy(dvbdev, template, sizeof(struct dvb_device));
- 	dvbdev->type = type;
- 	dvbdev->id = id;
-@@ -508,7 +512,7 @@ int dvb_register_device(struct dvb_adapter *adap, struct dvb_device **pdvbdev,
- #endif
- 
- 	dvbdev->minor = minor;
--	dvb_minors[minor] = dvbdev;
-+	dvb_minors[minor] = dvb_device_get(dvbdev);
- 	up_write(&minor_rwsem);
- 
- 	ret = dvb_register_media_device(dvbdev, type, minor, demux_sink_pads);
-@@ -553,6 +557,7 @@ void dvb_remove_device(struct dvb_device *dvbdev)
- 
- 	down_write(&minor_rwsem);
- 	dvb_minors[dvbdev->minor] = NULL;
-+	dvb_device_put(dvbdev);
- 	up_write(&minor_rwsem);
- 
- 	dvb_media_device_free(dvbdev);
-@@ -564,21 +569,34 @@ void dvb_remove_device(struct dvb_device *dvbdev)
- EXPORT_SYMBOL(dvb_remove_device);
- 
- 
--void dvb_free_device(struct dvb_device *dvbdev)
-+static void dvb_free_device(struct kref *ref)
- {
--	if (!dvbdev)
--		return;
-+	struct dvb_device *dvbdev = container_of(ref, struct dvb_device, ref);
- 
- 	kfree (dvbdev->fops);
- 	kfree (dvbdev);
- }
--EXPORT_SYMBOL(dvb_free_device);
-+
-+
-+struct dvb_device *dvb_device_get(struct dvb_device *dvbdev)
-+{
-+	kref_get(&dvbdev->ref);
-+	return dvbdev;
-+}
-+EXPORT_SYMBOL(dvb_device_get);
-+
-+
-+void dvb_device_put(struct dvb_device *dvbdev)
-+{
-+	if (dvbdev)
-+		kref_put(&dvbdev->ref, dvb_free_device);
-+}
- 
- 
- void dvb_unregister_device(struct dvb_device *dvbdev)
- {
- 	dvb_remove_device(dvbdev);
--	dvb_free_device(dvbdev);
-+	dvb_device_put(dvbdev);
- }
- EXPORT_SYMBOL(dvb_unregister_device);
- 
-diff --git a/include/media/dvbdev.h b/include/media/dvbdev.h
-index 2f6b0861322a..149b3d33c24b 100644
---- a/include/media/dvbdev.h
-+++ b/include/media/dvbdev.h
-@@ -156,6 +156,7 @@ struct dvb_adapter {
-  */
- struct dvb_device {
- 	struct list_head list_head;
-+	struct kref ref;
- 	const struct file_operations *fops;
- 	struct dvb_adapter *adapter;
- 	enum dvb_device_type type;
-@@ -187,6 +188,20 @@ struct dvb_device {
- 	void *priv;
- };
- 
-+/**
-+ * dvb_device_get - Increase dvb_device reference
-+ *
-+ * @dvbdev:	pointer to struct dvb_device
-+ */
-+struct dvb_device *dvb_device_get(struct dvb_device *dvbdev);
-+
-+/**
-+ * dvb_device_get - Decrease dvb_device reference
-+ *
-+ * @dvbdev:	pointer to struct dvb_device
-+ */
-+void dvb_device_put(struct dvb_device *dvbdev);
-+
- /**
-  * dvb_register_adapter - Registers a new DVB adapter
-  *
-@@ -231,29 +246,17 @@ int dvb_register_device(struct dvb_adapter *adap,
- /**
-  * dvb_remove_device - Remove a registered DVB device
-  *
-- * This does not free memory.  To do that, call dvb_free_device().
-+ * This does not free memory. dvb_free_device() will do that when
-+ * reference counter is empty
-  *
-  * @dvbdev:	pointer to struct dvb_device
-  */
- void dvb_remove_device(struct dvb_device *dvbdev);
- 
--/**
-- * dvb_free_device - Free memory occupied by a DVB device.
-- *
-- * Call dvb_unregister_device() before calling this function.
-- *
-- * @dvbdev:	pointer to struct dvb_device
-- */
--void dvb_free_device(struct dvb_device *dvbdev);
- 
- /**
-  * dvb_unregister_device - Unregisters a DVB device
-  *
-- * This is a combination of dvb_remove_device() and dvb_free_device().
-- * Using this function is usually a mistake, and is often an indicator
-- * for a use-after-free bug (when a userspace process keeps a file
-- * handle to a detached device).
-- *
-  * @dvbdev:	pointer to struct dvb_device
-  */
- void dvb_unregister_device(struct dvb_device *dvbdev);
--- 
-2.36.1
+--
+Kind Regards,
+Caleb
 
