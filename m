@@ -2,119 +2,103 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E90F658C967
-	for <lists+linux-media@lfdr.de>; Mon,  8 Aug 2022 15:27:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8AB6658C998
+	for <lists+linux-media@lfdr.de>; Mon,  8 Aug 2022 15:39:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243086AbiHHN1q (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 8 Aug 2022 09:27:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38774 "EHLO
+        id S243328AbiHHNjR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 8 Aug 2022 09:39:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47158 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243191AbiHHN1h (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 8 Aug 2022 09:27:37 -0400
-Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com [66.111.4.29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 90DB56362;
-        Mon,  8 Aug 2022 06:27:33 -0700 (PDT)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
-        by mailout.nyi.internal (Postfix) with ESMTP id 0CCB85C010C;
-        Mon,  8 Aug 2022 09:27:30 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute2.internal (MEProxy); Mon, 08 Aug 2022 09:27:30 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=cc
-        :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
-        :message-id:mime-version:references:reply-to:sender:subject
-        :subject:to:to; s=fm1; t=1659965250; x=1660051650; bh=9yU/BD+Nhh
-        IlGGIBK5KPsqfAE+489H5LReRNuTWOVDo=; b=S4K0ZtoLpU2ZL0shDvQiUIHluo
-        gU5H1JqzEzsN30ue2QU95fyjzYY9gq2Gu0pHZwv8mNvURMx6RG/pN2P8SqlBxMRm
-        K5JOdT/jPJs4fQrSp94I1DdJqbj+KRm+/HA3NKEvihgEVHVMGozcF3YUUEDCtjtD
-        0+ys4wqfqmOkjEUf83p/DkYRcWCFHLp4Xywl4XUExXzEb7O5YzA4pyw1AXk1HiGh
-        a7EXr5Ut5PGwkXOS9w4zgLa0hAACMOvE3b7VQbNt+QHSNiLblq18KTtMm2ma4+6i
-        DPp+cP7DO6nB8NwV0R/Vn+SL1ktdIZBETgw6ZDmjjHTJRrqKGXFwZ0nh+CQA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
-        :feedback-id:from:from:in-reply-to:in-reply-to:message-id
-        :mime-version:references:reply-to:sender:subject:subject:to:to
-        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-        fm1; t=1659965250; x=1660051650; bh=9yU/BD+NhhIlGGIBK5KPsqfAE+48
-        9H5LReRNuTWOVDo=; b=K5cws8jLKke4gFuXucb8s9F9NVckpYdf7U+Ojz4g0VLW
-        ALkDdYdCe+ljK9b9CmwR0xGtOoq2eRU8LMwNL3IcTksx+hJXl+jw8LvpnfKXG65e
-        DsSTs7ahPCsUmpJO3RBw2+9vXjwxixS5Sh0itDOyxA1hdVhE09lZBR328l46hO72
-        2uPdP6As35hNzaEUNeLx950i+/Q50liQrGKBXZc46V26e2aAYv+IXTnqh6tb+DHB
-        WPqivKDANNrhBCrKujvMs21zubxo/twJ/XSnvVTV3LS7kMhwtlis1Cwui3dorjJr
-        Qfua2P3VwEU8l4tCNayYNGopnrFBe1knITdtFN+VwQ==
-X-ME-Sender: <xms:QQ_xYkTRAUHpZXpojcHEjJqelgeVa_YwoYzRGv8BFanANcjxynrlow>
-    <xme:QQ_xYhxOb3q4qrtRxpvuwdsy82OUTgzgT1J2CTz6LWAi29H5Vlps-xENhXwcrRig5
-    GU2Qd4AhWAHzQ>
-X-ME-Received: <xmr:QQ_xYh3CwWKYTQ3c9jcH-rs4a5YX4559U4vCPpTtqDd_uDiku4rtKBjJ6KklW-rn87dIyjoPosDZMHFidCtEDqSWjVJCX_8y>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdefkedgieeiucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvfevuffkfhggtggujgesthdtredttddtvdenucfhrhhomhepifhrvghg
-    ucfmjfcuoehgrhgvgheskhhrohgrhhdrtghomheqnecuggftrfgrthhtvghrnhepheegvd
-    evvdeljeeugfdtudduhfekledtiefhveejkeejuefhtdeufefhgfehkeetnecuvehluhhs
-    thgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepghhrvghgsehkrhhorg
-    hhrdgtohhm
-X-ME-Proxy: <xmx:QQ_xYoAghX4a1DxESDFtKSRsbNbPj53FywO-2eyhM3ClovXc-TGLPQ>
-    <xmx:QQ_xYtiaJawR6zx-7Z3v3OftLrqhaUz9Nrah1MmrqivPqkizL8AfKQ>
-    <xmx:QQ_xYkqaJ6Vf4J8ecytf1prN03wBfRPJW0lECRWqUqo69FMVlChyaw>
-    <xmx:Qg_xYiaTCLvBPBQUPYH-I24lm9Is7KpND-QHwWjqERCix3pPUOfARQ>
-Feedback-ID: i787e41f1:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 8 Aug 2022 09:27:29 -0400 (EDT)
-Date:   Mon, 8 Aug 2022 15:27:25 +0200
-From:   Greg KH <greg@kroah.com>
-To:     Ovidiu Panait <ovidiu.panait@windriver.com>
-Cc:     stable@vger.kernel.org, wenst@chromium.org,
-        hverkuil-cisco@xs4all.nl, mchehab@kernel.org,
-        linux-media@vger.kernel.org
-Subject: Re: [PATCH 5.4 1/1] media: v4l2-mem2mem: Apply DST_QUEUE_OFF_BASE on
- MMAP buffers across ioctls
-Message-ID: <YvEPPU5YjddehpiZ@kroah.com>
-References: <20220808124130.1928411-1-ovidiu.panait@windriver.com>
- <20220808124130.1928411-2-ovidiu.panait@windriver.com>
+        with ESMTP id S233640AbiHHNjQ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 8 Aug 2022 09:39:16 -0400
+Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com [IPv6:2607:f8b0:4864:20::62e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 714A6BC36;
+        Mon,  8 Aug 2022 06:39:15 -0700 (PDT)
+Received: by mail-pl1-x62e.google.com with SMTP id p18so8576204plr.8;
+        Mon, 08 Aug 2022 06:39:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=googlemail.com; s=20210112;
+        h=mime-version:user-agent:references:message-id:in-reply-to:subject
+         :to:date:from:from:to:cc;
+        bh=8iifaV+8MVmiI4Q6s1LNqii3vIk7Vj/dQwIhaILr6b0=;
+        b=gMP0UYPcKlcW+vRAjudk92o2bp/xzK30lmKfhTNGH/UDjm34i1zJVUlqjsQSikvThh
+         KulflxxlArGj/RFhTh7XjOfCFNUqPIQdTUnpJQl1HkfvpPTtMDFwXWrrIdaNPR6kaeWz
+         x4v0bDeez2bUuHZX2Lm7fdrUlPfgmjgfTcezObB3R73crfoBezOzQe67CqozrkdcbuMi
+         UBZtTJNsdsOwMkuEHTfIF7vUvzIq/n5roRAMGDG5weruLAwn/DXmSCrJ2oH39uOVHpMR
+         82s0wgHF4b5ETveswqCX3j5Hutk9VL29eAuY6jnrUPii4x3rFM8FpPgbnTf1jpQ2rOXs
+         zpYA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=mime-version:user-agent:references:message-id:in-reply-to:subject
+         :to:date:from:x-gm-message-state:from:to:cc;
+        bh=8iifaV+8MVmiI4Q6s1LNqii3vIk7Vj/dQwIhaILr6b0=;
+        b=Y7wsLsB3LUX8SAwm+wwJTyqvQw4soVnLK7G/u5WDtJDmrmUHEUvt236JFbKih1XkfW
+         Fj0FUlsVlt4/FJbqp56GTj9LugQtkbjVcY/ZVB3yARdiYnj155uqLLxPRToQAhVhA3Mg
+         ZI6h0pe0+MfLMsw0NWeOzOe9YOFZlzgO5rQ6I+ri9SnwD4lmOzapZ39XI+4uN3rOWBbw
+         4eomtYerXvh4qJVWaDikBSuIvLHYDZMjAeBjqo05zxqz6iJKxkk7/7z4c0/Y13uVdzCO
+         c373+IgPkIavGmIYii4/5vBas2PqEQpT7vwowv1W/vxplRZuqyxsy9+5VH76ZQVFhNTa
+         LqjA==
+X-Gm-Message-State: ACgBeo22OfVkeU8kCWIABPPJA6CVGBmaE8EzEaQGmKKxF5RsSJ+0X/aQ
+        6h2BkPoZ/E6ROhb7OMEoEtU=
+X-Google-Smtp-Source: AA6agR4UYHF5ZSW7qtpsH4e40VJZ2WfJzBlvpQNNt/80FcG0PQZDzSvCKZNgnDC2zS11FvdNc/H6Dw==
+X-Received: by 2002:a17:902:db08:b0:170:9ba1:92e9 with SMTP id m8-20020a170902db0800b001709ba192e9mr7447409plx.45.1659965954786;
+        Mon, 08 Aug 2022 06:39:14 -0700 (PDT)
+Received: from robin-HP-ZBook-15-G3 ([2409:11:2360:3e00:49bb:2134:3324:6c70])
+        by smtp.gmail.com with ESMTPSA id b16-20020a170903229000b0016d3ee4533csm9045690plh.18.2022.08.08.06.39.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 08 Aug 2022 06:39:14 -0700 (PDT)
+From:   Robin Reckmann <robin.reckmann@googlemail.com>
+X-Google-Original-From: Robin Reckmann <robin@robin-HP-ZBook-15-G3>
+Date:   Mon, 8 Aug 2022 22:38:04 +0900 (JST)
+To:     Wolfram Sang <wsa@kernel.org>,
+        Robin Reckmann <robin.reckmann@googlemail.com>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Konrad Dybcio <konrad.dybcio@somainline.org>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?ISO-8859-15?Q?Christian_K=F6nig?= <christian.koenig@amd.com>,
+        Robin Reckmann <robin.reckmann@gmail.com>,
+        linux-arm-msm@vger.kernel.org, linux-i2c@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
+Subject: Re: [PATCH] i2c: qcom-geni: Fix GPI DMA buffer sync-back
+In-Reply-To: <YvClCC4ArBEjQJl9@shikoro>
+Message-ID: <alpine.DEB.2.22.394.2208082230340.8545@robin-HP-ZBook-15-G3>
+References: <20220807140455.409417-1-robin.reckmann@gmail.com> <YvClCC4ArBEjQJl9@shikoro>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220808124130.1928411-2-ovidiu.panait@windriver.com>
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_PASS,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=US-ASCII; format=flowed
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Aug 08, 2022 at 03:41:30PM +0300, Ovidiu Panait wrote:
-> From: Chen-Yu Tsai <wenst@chromium.org>
-> 
-> commit 8310ca94075e784bbb06593cd6c068ee6b6e4ca6 upstream.
-> 
-> DST_QUEUE_OFF_BASE is applied to offset/mem_offset on MMAP capture buffers
-> only for the VIDIOC_QUERYBUF ioctl, while the userspace fields (including
-> offset/mem_offset) are filled in for VIDIOC_{QUERY,PREPARE,Q,DQ}BUF
-> ioctls. This leads to differences in the values presented to userspace.
-> If userspace attempts to mmap the capture buffer directly using values
-> from DQBUF, it will fail.
-> 
-> Move the code that applies the magic offset into a helper, and call
-> that helper from all four ioctl entry points.
-> 
-> [hverkuil: drop unnecessary '= 0' in v4l2_m2m_querybuf() for ret]
-> 
-> Fixes: 7f98639def42 ("V4L/DVB: add memory-to-memory device helper framework for videobuf")
-> Fixes: 908a0d7c588e ("[media] v4l: mem2mem: port to videobuf2")
-> Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
-> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
-> [OP: backport to 5.4: adjusted return logic in v4l2_m2m_qbuf() to match the
-> logic in the original commit: call v4l2_m2m_adjust_mem_offset() only if !ret
-> and before the v4l2_m2m_try_schedule() call]
-> Signed-off-by: Ovidiu Panait <ovidiu.panait@windriver.com>
-> ---
->  drivers/media/v4l2-core/v4l2-mem2mem.c | 60 ++++++++++++++++++++------
->  1 file changed, 46 insertions(+), 14 deletions(-)
 
-Now queued up, thanks.
 
-greg k-h
+On Mon, 8 Aug 2022, Wolfram Sang wrote:
+
+> On Sun, Aug 07, 2022 at 11:04:54PM +0900, Robin Reckmann wrote:
+>> Fix i2c transfers using GPI DMA mode for all message types that do not set
+>> the I2C_M_DMA_SAFE flag (e.g. SMBus "read byte").
+>>
+>> In this case a bounce buffer is returned by i2c_get_dma_safe_msg_buf(),
+>> and it has to synced back to the message after the transfer is done.
+>>
+>> Add missing assignment of dma buffer in geni_i2c_gpi().
+>>
+>> Set xferred in i2c_put_dma_safe_msg_buf() to true in case of no error to
+>> ensure the sync-back of this dma buffer to the message.
+>>
+>> Signed-off-by: Robin Reckmann <robin.reckmann@gmail.com>
+>
+> Thank you! What would be a Fixes tag for this?
+>
+>
+Thanks for having a look!
+
+Fixes: d8703554f4de ("i2c: qcom-geni: Add support for GPI DMA")
