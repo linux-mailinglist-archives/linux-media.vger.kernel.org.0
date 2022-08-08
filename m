@@ -2,125 +2,140 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 80ECF58CAA5
-	for <lists+linux-media@lfdr.de>; Mon,  8 Aug 2022 16:40:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4096858CADB
+	for <lists+linux-media@lfdr.de>; Mon,  8 Aug 2022 16:56:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238353AbiHHOkF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 8 Aug 2022 10:40:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34526 "EHLO
+        id S243342AbiHHO4n (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 8 Aug 2022 10:56:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46438 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234788AbiHHOj6 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 8 Aug 2022 10:39:58 -0400
-Received: from EUR03-AM5-obe.outbound.protection.outlook.com (mail-eopbgr30055.outbound.protection.outlook.com [40.107.3.55])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E0F465C5;
-        Mon,  8 Aug 2022 07:39:56 -0700 (PDT)
+        with ESMTP id S243311AbiHHO4k (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 8 Aug 2022 10:56:40 -0400
+Received: from NAM02-BN1-obe.outbound.protection.outlook.com (mail-bn1nam07on2047.outbound.protection.outlook.com [40.107.212.47])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0B2ECFD37;
+        Mon,  8 Aug 2022 07:56:38 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=KbbecUIf2hmoJEPPqZJSwLflPxl2F03hCyjPKNzZNFfGtqIWLur66JlFDmBSVuO17pIc+NLjnBf+uyokxRmycB3BZl3rO37Rl8UYk12fCZdqpy+jMdi38RLq2sMiz/4QwFpDdn3VFgq5Q/W2x033Q7DWkarj0/H0p15aE56rGv6ZCdMSbNyWAG4xaXy2OOXY0JWniDgzOQrSp3/f8W2g5lpKKNZ4UIYnNpj3s57Lvrqm6onBbdyzdLL/mje9jjf5H95EPDQ2UEl8W85V5zyfQ0dbfeTRtjbhQYh/um+qVoW3CDa74rQ36H7UmrBkuBGFiIC2qSAcCqwIvyRSzAnpxA==
+ b=DZmVBOAPMBVfjsI4aTy8N5233BBUZbjjXuGMFcftyIZ/p0Kn0qzCJfdPOrvOdlgVgva2hBFKA6bxI/s5X+BvKynvBI5XYEckSawennxwV7a7+TyRq1hBHGtss261vpaRR50703eohO8qAWjsLD6YyZykB1Edu2zOzsMfBANc0oknEAV8vWhSEnK0RwIIBiBadJXhvPasMG1nDKsa//IcnBtye/wdHWuQrv2gcECkFiRpoVPIe8w/mUrUTYKt5IuuW+5k/47Xrx7G3xjxs6r+pNjKY8EkpxYkTIsZOX/2TG2Ttp0k+ne7fJdSCt1m2iHZvC30bkqJlNLUCpM2a9wEtQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=N2HHSbfc3pn2YJFnPBWYwuOWvQGRjYckyuYciKWpHD4=;
- b=VTlqWczvEL0X9sjlIO+2+/JboPqEFfikcrYNOdBwhfaW8TfssM1ToZGbwr740a3kjZXGb+0Rqhvurl2iB52JnwCxVhoKh/XRva+xovNGDiKz/GTti49Sd6wNE0UQoy80xYkmuotmsyzQfH/UcqIuwiIF8UOTRK13OpyaXJebJU6i/bth0UjWt0GtYWNHi4IM+/QQCWG0/fAQj6KfH6tf/LRfu9J/yXxn3VeDf/qHjheJYuxQqNGFfNo5p1XOF2K/a9ue40vmrNQ9k8C1L1l1ouJtdn55f/jRcdPu+lGnRj0f5PWgPbW3AHxiPpCCsFQI4FU39dIO2Mqja/y3sb7ChA==
+ bh=FImUiauRan1/vCCS0N6zadguU15a4w13gzxd0Vo4vBw=;
+ b=bZpC1zPYHHoG+4wJ5I/hovUspzD0wzxUShC0N1BmtGPMUfqX9hRUyxUiG5/Q212HNO8jkZ4kkFjzj0nS3Ui/C3McKjxSuk1SqIZnwMg1VSbIxIcKTpr05IqoTpP7mSqP46psInlyFLUJvkVJTXemaresRO7GT/e+gr4VlVxSFY6UHqDeGr+i1mR4hECbhPceE82jmMbzPOUaoUoF+cG+XoYJtxEKXhENZqJMr2u2+p/FiuSA3YrChYTywqxiIApOo3lSxcBYUetpCRFLo+4ya+JIgTkN92RZVWN9YlN1aph7R54z/tJXbXZnEPwmP0VMkF9Y+uvKRVA5c9fqsMaVWQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=N2HHSbfc3pn2YJFnPBWYwuOWvQGRjYckyuYciKWpHD4=;
- b=T7WNtoKR3ebmxaALXmwgkVlBHpZR/cFYhfe+YVLeJNPIhm9M+q9mo5j/VbDdYoIbdrtIMiTMvLIPZo+0ncuDd6zSOAs5wUXZMUcYfiO3CXp9Xvk04GBpIDMcgVG/bb8buXbn7Gb3SoHlu5+KQ/pQzN8z/hbA28Krm5g2PsLnKUg=
-Received: from AM6PR04MB6743.eurprd04.prod.outlook.com (2603:10a6:20b:f1::11)
- by AS8PR04MB8931.eurprd04.prod.outlook.com (2603:10a6:20b:42e::12) with
+ bh=FImUiauRan1/vCCS0N6zadguU15a4w13gzxd0Vo4vBw=;
+ b=weecJoUIJTlC5NsviJI3Auuk6pfesu95NRh3JWJ2PTo3ZZBs4Juw/eeJB5L5Jh2T575Rf1EItyGOt9cOLweugrYHZib2GhLFMawTL5+woaFObPFM/HAuZnv7f9stcnAuO0KrkRqVHrR5hagr70+n/TZyC+udfKXCfAXIw7ht7Ms=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
+ by MN2PR12MB3648.namprd12.prod.outlook.com (2603:10b6:208:c1::28) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5504.20; Mon, 8 Aug
- 2022 14:39:53 +0000
-Received: from AM6PR04MB6743.eurprd04.prod.outlook.com
- ([fe80::a401:5ed6:1bfa:89a9]) by AM6PR04MB6743.eurprd04.prod.outlook.com
- ([fe80::a401:5ed6:1bfa:89a9%5]) with mapi id 15.20.5504.019; Mon, 8 Aug 2022
- 14:39:53 +0000
-From:   Olivier Masse <olivier.masse@nxp.com>
-To:     "brian.starkey@arm.com" <brian.starkey@arm.com>
-CC:     "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
-        "christian.koenig@amd.com" <christian.koenig@amd.com>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "nd@arm.com" <nd@arm.com>,
-        =?iso-8859-15?Q?Cl=E9ment_Faure?= <clement.faure@nxp.com>,
-        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-        "benjamin.gaignard@collabora.com" <benjamin.gaignard@collabora.com>
-Subject: Re: [EXT] Re: [PATCH 1/3] dma-buf: heaps: add Linaro secure dmabuf
- heap support
-Thread-Topic: [EXT] Re: [PATCH 1/3] dma-buf: heaps: add Linaro secure dmabuf
- heap support
-Thread-Index: AQHYqNLEB1kEEMDN2EiJXHn7b90D762gcg6AgASkiYA=
-Date:   Mon, 8 Aug 2022 14:39:53 +0000
-Message-ID: <7e61668164f8bf02f6c4ee166e85abc42b5ee958.camel@nxp.com>
-References: <20220805135330.970-1-olivier.masse@nxp.com>
-         <20220805135330.970-2-olivier.masse@nxp.com>
-         <20220805154139.2qkqxwklufjpsfdx@000377403353>
-In-Reply-To: <20220805154139.2qkqxwklufjpsfdx@000377403353>
-Accept-Language: fr-FR, en-US
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5504.14; Mon, 8 Aug
+ 2022 14:56:34 +0000
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::905:1701:3b51:7e39]) by BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::905:1701:3b51:7e39%2]) with mapi id 15.20.5504.020; Mon, 8 Aug 2022
+ 14:56:33 +0000
+Message-ID: <4e7448d2-7b26-e260-3d6c-7aa263a75250@amd.com>
+Date:   Mon, 8 Aug 2022 16:56:27 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [Linaro-mm-sig] [PATCH 1/3] dma-buf: Add ioctl to query mmap info
 Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: ed727720-04b2-4e22-0552-08da794bdb62
-x-ms-traffictypediagnostic: AS8PR04MB8931:EE_
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: KuZCgSeyTj4GkqTL10pB5exECN8sVGC3O/3RgLWnAsSlNHezj387QALPfaReWb8zw9Nz6M9xmns6+IUpy7wdQRlWBTkuZPoPK4VHcf2qArasWcSr6MKWNKNJbz4ExelVaB+16TIseWsOJD+SonrZqCGFHgIIQephNcvkqQL3xRPuBEagjm+sF217tSVZWERataVVLqGR3sfc3jkojB5oo7vXZVUQoZDRYgBuXJQouO+jjQNB5Ipm/vzsywX76/BH2DB4vsMRCsA0D+SHKs3b4jI+o7E120ysgyaEXG39q2Ocl+AZHWmBFkXTrAwZSXlA46E/YTsIV2fmgkQE27mFM+5VWhXy1//frieyObu2GFifhlk+tbu8FpTpyHklqP6pBqfSr2Xp6iB6VIorxkaS4hiVmniXqWLjejjM7S1LgLxnx36sb2i1Zx4sSFFq+1ZTm9g/8ifgzLNqQkock68rsHRt4kMXunDsKDTfMUNQ57wwcddp26C6vpOpRzV1j+j8TsDFVUw78hk+CtIUr0YH1gB9Qs81lv71u2feZvH/6JFZYzepwToRMXAY1p4xzATduPau6lqmUIsa+R9ibtgYw3onkSp3FX+5XGN2t3hqh+EWZ2QDHvphf4M8zPuRCzGl6hfLcrZVpnLh1Telmq3/0E769yIYEzjhsTkC8VuQthFzE55w0e1iVYdnR+jnXllXr1VgiUaChDrKG6MFg9f0Os8QbemV56JVMXEGySAZp4wA4v94JsFrI4l6wSLclnT64dwufsJup/kSOTCuicek89BkgjS7ImLwj/zZvnQgoqz11BWNwWC4H7NGeOmL6o0tk5Gk/T94GU2C42OKptqnAxX0BozUfx1ewEY6DBPbUik=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6PR04MB6743.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(136003)(366004)(346002)(376002)(396003)(39860400002)(122000001)(5660300002)(36756003)(8936002)(6486002)(44832011)(86362001)(2906002)(41300700001)(38100700002)(966005)(30864003)(478600001)(76116006)(64756008)(66476007)(66446008)(91956017)(66556008)(66946007)(8676002)(4326008)(6916009)(54906003)(6506007)(316002)(71200400001)(38070700005)(186003)(26005)(83380400001)(6512007)(2616005)(99106002);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?iso-8859-15?Q?d/S9i4xEYXBq6opfM3XvEfxz+UXp/m0HK2Sui+VKAIvFTG+5StYXOvMnN?=
- =?iso-8859-15?Q?/5GVlCl6WG14SvN7AhvGGf/2RUwHM7Z0w2l7p/UIeSNMhi00EYGpCzcK1?=
- =?iso-8859-15?Q?giGQANBHm3yWFGWR759tz5xcqIvHKv6WMGvOB2GHnMrWpa8v8PQ5YQJ02?=
- =?iso-8859-15?Q?1EmwXdfiAwHEK/lkaYDNnO2a+wqwU36ZlmHoAvQXup4waw+vNj1dg3ZbA?=
- =?iso-8859-15?Q?ja09eaPeKlJPGMSphys+Q0l6dPgsdO2dgvD9NxVfliJLlvAItieIuxMmJ?=
- =?iso-8859-15?Q?XOcmjMVrA/sIz46g0xA2YrhBgvFVtqCOwCrnaZJeIUGa/Atv2w8Tf6gq2?=
- =?iso-8859-15?Q?tYRVlzQg6Agr9inVX+ZHpE5D5vxsNkGEllIJ+DDBZFe70DQdtPKTyJyx6?=
- =?iso-8859-15?Q?37D6zghHhj+MYFxN+bsK7gjDd9hmjHD7FMntGdMdPNGjuHmTdksjOuQt/?=
- =?iso-8859-15?Q?TqTFhFwVk0AvlILqo8jJahb9HzvIdjOpOPjOmf6wkgMpiP54MjLPpM3Pf?=
- =?iso-8859-15?Q?fnyuK+1s2C9XayqMyDCU52YKqQH9OCJkF0lWPPurRTl54Rmj8vFfoTbP4?=
- =?iso-8859-15?Q?QXaxOuDHaXm7sYXC6noMztNKwPC+E8aMKDYrGkLWj5Onrz3/pJ2t0e0P+?=
- =?iso-8859-15?Q?aTgkZDueUT0GwftEhCXl71lLKemkFUCvbQUMAHrndIZ7JnD4a+4e3n/F4?=
- =?iso-8859-15?Q?8MgK/WVWiY2m6ryjrULr/1RoEzSJZQwK+Byc2aZtSMACdQAe5Codh8eCm?=
- =?iso-8859-15?Q?qHtu0qMzH0gVRdXAjHOfv/jWU0wTjqN6Kl24pc4imF4rqS0mTQV7FWlEK?=
- =?iso-8859-15?Q?vUGjKRFI0q5C5jhdPsD1gmwZj6Q6/f+mBbvwxsEXWRhCZzZ/yiObaMsph?=
- =?iso-8859-15?Q?mhju9maV8gYVh2FaS50pfc6GdlkyF84zdnjLa/rJqo3DBn5Xqb7FpWdVT?=
- =?iso-8859-15?Q?bp6uVJm/bBSuAHo2+vCtSOMY4EBTq1fWO3IsSraR8y4LKvEtmE28w+IQ2?=
- =?iso-8859-15?Q?CQzRwaWybZyCliHgT6rUqwKCIqY43dXEsJM9WhSA9fglXzb/b//rFlKm7?=
- =?iso-8859-15?Q?ZU+KLvnQK7/tvtZFYdX9MRuCWUcnbGrMvklyqcJLa/Yy8B5EX/VxbXrtT?=
- =?iso-8859-15?Q?7tEpyPVhXcuStWur+0KrC0ark4SJdlYWS9gx10QgNG46f2v3ihK3HCwDm?=
- =?iso-8859-15?Q?6A3OcdI+sQgGNdqg3En6umSk9H7WkJeiksTocDEx8o0m9J3DrtyHZ6pae?=
- =?iso-8859-15?Q?Rz2fLNC4G8XRwxr9eSpEWnzRFUVGEGv3w326SScD2HkGgA0lQuVd7zQL5?=
- =?iso-8859-15?Q?kbN2qZA7nU/NdpKO8WKKJNWykMp8PwxKYf+aHJpw9NFEfkv4zzjiPWOCs?=
- =?iso-8859-15?Q?cNaeAJ2nRur6Je11x0aJYewtOyxmkOuyZS3eaefxV3nWDNGPhRIYF5Mgs?=
- =?iso-8859-15?Q?Bo5jx1FMGXStUr5CGHjLHHkB2nqQoyJRuM55zC1w8XFoKlxu5M4UDtOhM?=
- =?iso-8859-15?Q?x9n+NiYgUB9aLVulqRE9req0CRsCIo7HEvnjmCeXzNroYE18kjkvWnNuX?=
- =?iso-8859-15?Q?Y7XRqNXns5hjoeW+hPCnkbo5bAJjq2PhANelCZ7EatkUuaJG8FGWejJ7W?=
- =?iso-8859-15?Q?XKB6E9AJGC2MkaGpLRbjkVmSjiSO1upBpdqwkeqwDgqU1EEtkv4rA3uPW?=
- =?iso-8859-15?Q?cVeR?=
-Content-Type: text/plain; charset="iso-8859-15"
-Content-ID: <87716A19DBA34946A724DBA1DED4990B@eurprd04.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+To:     Rob Clark <robdclark@gmail.com>
+Cc:     =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
+        dri-devel@lists.freedesktop.org, Daniel Vetter <daniel@ffwll.ch>,
+        freedreno@lists.freedesktop.org,
+        Rob Clark <robdclark@chromium.org>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?B?SsOpcsO0bWUgUG91aWxsZXI=?= <jerome.pouiller@silabs.com>,
+        "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <linux-media@vger.kernel.org>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>,
+        open list <linux-kernel@vger.kernel.org>
+References: <20220729170744.1301044-1-robdclark@gmail.com>
+ <20220729170744.1301044-2-robdclark@gmail.com>
+ <3d2083aa-fc6c-6875-3daf-e5abe45fb762@gmail.com>
+ <CAF6AEGvKdM3vyCvBZK=ZcdGmak7tsrP1b8ANyyaMjVfNDViqyw@mail.gmail.com>
+ <973de2f8-75e4-d4c7-a13a-c541a6cf7c77@amd.com>
+ <CAF6AEGuhQT6A_jh8kLWh5xMoUGc1osdewyBk-8NoprtWOHseaQ@mail.gmail.com>
+ <2fc74efe-220f-b57a-e804-7d2b3880d14f@gmail.com>
+ <CAF6AEGv9H+fSFKPNqwPxYUjkgj05AimpXbp-p_JL8nKLnzON=w@mail.gmail.com>
+ <e2423bd7-ef73-8d43-c661-a19c80ad1a26@gmail.com>
+ <CAF6AEGsoYaXe2+qug_TfT99KXuXh9Ez2L2HjQZroE6c6GSW4SQ@mail.gmail.com>
+ <e90caaaa-cae9-c6d1-bfb6-dc56aa559681@amd.com>
+ <CAF6AEGtWjtF7_uCYAH4uARVXgnOnX3DZ3KQahxTdAi_9Myvw0w@mail.gmail.com>
+From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+In-Reply-To: <CAF6AEGtWjtF7_uCYAH4uARVXgnOnX3DZ3KQahxTdAi_9Myvw0w@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: AS9PR05CA0043.eurprd05.prod.outlook.com
+ (2603:10a6:20b:489::27) To BN8PR12MB3587.namprd12.prod.outlook.com
+ (2603:10b6:408:43::13)
 MIME-Version: 1.0
-X-OriginatorOrg: nxp.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 22ca7a8b-6b55-4f3f-4b20-08da794e2f5d
+X-MS-TrafficTypeDiagnostic: MN2PR12MB3648:EE_
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: ddnswpTD2CapEE9N7JLFNEO9R4EWtMPjkT6sviCpFaD8c0tj4E1OUYwOJMN/bBdL0Z7tgUgrCUceV53bYFPJpVWyL6uof9PjOb1xtxPGW4Omhk3+uL6/HWQVHiN65jyyksaZl2wE6f/m7WDb8iskMQvsDtJ6F9x6w6QctOrQYLRLswi092ke7Kq7s7/+BBxhOYQvXbCZfgde/cWs7LFSwZ6x4Er+hKRCmIcYa/+SHScljefXNc3VLpJ/mMNkno+o1ZsbA/XPeVHMmPeQicZ0mB8TG2EU9efHuiJt3BSDYEjoZujS8p3rYcoiok7dqVBzw7DXT9Hgz/9j7iGzG2ZjTq1Xb66ZPqZuUq3INyGiTxV0zs5VXRpb0dKwJcX5SbSC0lhXA9DedH7ro0qSQyBCw8CQpkVgAAFyJlIQ5qKJTbHsS68GYRKBN1R36fNcYHNrdORkryuPt5eo1fQO0j7iTLwFZuZufPNw9AeMTarQLkWeyi3RraJ31EKkHdLrcH7F1rVJvsZld46HnsUkdmEVCBCvd9rs8cCLCysP81SNcxM7KzJVzYEX+HMG/kIqp4iSTeM5MzsZDbANl5dR3O1ZgcYsBqS/+7kXrtztNqrBrPd+uKuqOcQ8lUoZVmq8gR54GaNfn+cpvCLjAT3NflzRg7GN8H711bxlOzJ3zG2RkAXEToH0jRjJmIp6h91NOZR/m4abJDHDshIMibVR4A4BTvpDJgNpkrG2A5/tnmPxYjDBZG2Ye4CVRix0tFST57xod0awXAVoCvI8CHMGzHi+V6wNM08EN4to9jTZD5yDHdj+PFpbffK+BdKlG47uT2DIpd2c59Ir83PG7UuapwINDQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN8PR12MB3587.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(346002)(396003)(136003)(39860400002)(366004)(376002)(66946007)(66476007)(66556008)(8936002)(36756003)(7416002)(8676002)(4326008)(38100700002)(5660300002)(66574015)(478600001)(2616005)(186003)(6666004)(6506007)(41300700001)(6512007)(53546011)(2906002)(316002)(6916009)(54906003)(6486002)(83380400001)(31696002)(86362001)(31686004)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?b1FWU1pma2RhOXlwbnphMlY3L3cwK20zWmZwTDVMdHBKaEdXNlYwSFdJTzFS?=
+ =?utf-8?B?dlBxbDd4b2F3RmFnbWl6QUQ3U1dDN1RneHVNSlRlRC81WEZ2aWl4ZG94YmJv?=
+ =?utf-8?B?SWxDb1g3SnlLSjZvNE5vWUZFbmlzcEZuVHczTFdaQld4Slgrb2VwZUZZazB5?=
+ =?utf-8?B?eVhlajRiM01maS91Tmtnb05jVDNqb283UHg5R3k0ei9LRFJJZ1hhbVZHRzdw?=
+ =?utf-8?B?NzFiYlAyaW9QYkdKMU9BWXBvSU9HSUdFeVVPWE9pUUx4elU1OVJjWWI0T2Za?=
+ =?utf-8?B?Mzh2em44L3F0MWtzNlc0YVc1TkdqQ2pKQWU1elQ1RW5DUGRDcThOajZKNndi?=
+ =?utf-8?B?MnJOUWtKd1pPVXF3cGEza0hDUVg5R1l2TnJrdmRtS1BIM3pjOTFWNDZYRWZk?=
+ =?utf-8?B?RFc5WnY0WnozakMvand3a2hzbUp3QkdIdHhkS3hEbTBaZm1mWkkvNy9YZFcv?=
+ =?utf-8?B?N1phVS9wdktQZ0RmWElBVTE3VFBtRXNlSHczTklNWWZiWTczM0g4b0JrTm1I?=
+ =?utf-8?B?WUNUSXl6MDRxQkt1ZkdFQzdVOTRLRXVTUUdJL3ZMVGE5djJtMUp0ckhMNHQ0?=
+ =?utf-8?B?c09keG9GSHR5ZTZkTXhvYVZiUFNudjFVSGhxOHlXV2FkRmhaYkp1S2lQSVdu?=
+ =?utf-8?B?NmpZeXBQcEFuTGRkZ00ycHRNTkxEL3J6S1VrNlZybXZwNXJBRGhVM2lMYlAw?=
+ =?utf-8?B?dnZSQm80WmM3aG13UGZiVy95bjM1T3RsYkp0SHZ4RHBkd1BYQ1pMUWUxOSti?=
+ =?utf-8?B?czlkZFlJMlBiSm1rcHZuaFRTY08rR2dKWUFNMm8vTGdPeENIR3JsL2dub2cy?=
+ =?utf-8?B?STNpSW9IeG9pb200MUZ0ZFRua3dFWlpUbW12UW5NY3o0am1sK0R4SnJWazlI?=
+ =?utf-8?B?b0pqbDJqUnVYTTNIL3ZJeUNXQlF6SG9sRVJ6d3BJU1FiMmJyM0JGendlQXJa?=
+ =?utf-8?B?bUJicGlGblpaQUNORzgrKy8vbm5TaHM4aGZzSHdjb0hrWDg2YXl2MXAxOUtr?=
+ =?utf-8?B?clArcG5BK2N1R3dNMUswTVBTTUc5SHphYnYrLytUNC9HVTNhZXJMSnh3L05M?=
+ =?utf-8?B?cUczWjJaY0JXZVdzVG1EUVZrc2ViL0k4eTJRNjBjaWQwNmcwdWdGbHBTODNZ?=
+ =?utf-8?B?Umdack9GM0FvUVlqV0l5Wm1GZ3A5OXdiYW1QUkRCQWNGdk9MV3p2SnRSWHB1?=
+ =?utf-8?B?NER6YTNuVGJUSDU1SEdhWEhhWUVuZ2tLaE5hV2xQL3FWMlNrak9jcmlLZnpL?=
+ =?utf-8?B?eHNFNmZrUWpFREZUdzlhVm5jWVBhMXBicGVPVkVRRFRmdjlXVndiYjFMZ3E2?=
+ =?utf-8?B?bC9zcmV1aFcrR0VEbm5ZU3NackxMRWdWcm9HbEVTM2U1UXZUZTRUeVp2dkVZ?=
+ =?utf-8?B?Zy9SWGtSUzg2WUVXOVVMUnBOM3piTFNQeDlCZnAxZ3pwNG9KbjJYYzBUVkpK?=
+ =?utf-8?B?a0JyS0tnQzVmdUZOSFVJVkNPNUhrYUJQZGdLR0phZWhFUnRrWWNhbTExRVJZ?=
+ =?utf-8?B?aVhYdWpIZCtYZ1FJYVZWL2RvOENnZHpEVjFWL0lzY09TNC8xY1ZWNWF2T3Z6?=
+ =?utf-8?B?bVpTK1ZqZStGczF3NWZGN0M3T3pYY1dVR1llMFp2UGJQQy9rSXFXUDYrTWVY?=
+ =?utf-8?B?Q3RUeEZkQmhQUVlQQzJUNHZ6TkdsYWxGdStxUzZaQXFBV3c1N1ZESmY2bEJp?=
+ =?utf-8?B?NnNlekxCeTc0K1dML2Mydkg1YUN4cnVPYkI1VlJxK0xNdzQyMzdzRUpXQzlC?=
+ =?utf-8?B?UnpZb1VpVGluUEN5amY1RWNJNkVwRVpyTVI5MkVnUUJEZWdXdUFJM1pVdUY3?=
+ =?utf-8?B?SjVjZDZhNGVvUUF1VTU2NEg5dm52WmMwSENFaDk3cC9wenhqS21wV3Jqd3pO?=
+ =?utf-8?B?dnNRbUpMVklpWFU0K0gwbHAyTzNJdVZjcGFsVVVmeUZnMjBLMklZV0hLZ1NL?=
+ =?utf-8?B?NnhuQURFd0hjTG5CTmYzNDBxZlNzdVVoR0MxM3pNeXcxa3lGenZ1Nzd4VURy?=
+ =?utf-8?B?Z2c4RVQvSWtLSWdaOUttZ0p4dDM2WlRvSjhPeHhTQlZTK1YxL1QxOHQ0MkR6?=
+ =?utf-8?B?NmhiaVdjM3NCQTRoQ0RnRklBa0dIMW9MT290MG1XaWcrOG84TVJIQ0F1d2l2?=
+ =?utf-8?B?SW1iUnpnWDBFN0ZhYksxWDhGNG9KU0lHaGladDZDYldNSDdaeW1ueThzalMx?=
+ =?utf-8?Q?3JAlHjlDU8CZypYNd/Rf4DS5Y0E9CkS50OLUmzNo+evE?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 22ca7a8b-6b55-4f3f-4b20-08da794e2f5d
+X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: AM6PR04MB6743.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ed727720-04b2-4e22-0552-08da794bdb62
-X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Aug 2022 14:39:53.6020
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Aug 2022 14:56:33.7118
  (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: mbOgy1PnhikyGMvR/AgGhLgiNu/MIQa0dieqDA39Dnf8cc0byG885+gDz1lqhzNaFli5u0VaRqNHNj2FF+IePg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR04MB8931
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: jEIgX52vsM+Xoa1RbgTKMUHwF9ecqUmzkF5GuuEmcJr8GkDcO5e+IbPVPwWCDunE
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB3648
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
         RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -129,552 +144,109 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Brian,
+Am 08.08.22 um 15:26 schrieb Rob Clark:
+> On Mon, Aug 8, 2022 at 4:22 AM Christian König <christian.koenig@amd.com> wrote:
+>
+> [SNIP]
+>>>> If the virtio/virtgpu UAPI was build around the idea that this is
+>>>> possible then it is most likely fundamental broken.
+>>> How else can you envision mmap'ing to guest userspace working?
+>> Well long story short: You can't.
+>>
+>> See userspace mappings are not persistent, but rather faulted in on
+>> demand. The exporter is responsible for setting those up to be able to
+>> add reverse tracking and so can invalidate those mappings when the
+>> backing store changes.
+> I think that is not actually a problem.  At least for how it works on
+> arm64 but I'm almost positive x86 is similar.. I'm not sure how else
+> you could virtualize mmu/iommu/etc in a way that didn't have horrible
+> performance.
+>
+> There are two levels of pagetable translation, the first controlled by
+> the host kernel, the second by the guest.  From the PoV of host
+> kernel, it is just memory mapped to userspace, getting faulted in on
+> demand, just as normal.  First the guest controlled translation
+> triggers a fault in the guest which sets up guest mapping.  And then
+> the second level of translation to translate from what guest sees as
+> PA (but host sees as VA) to actual PA triggers a fault in the host.
 
-On ven., 2022-08-05 at 16:41 +0100, Brian Starkey wrote:
-> Caution: EXT Email
->=20
-> Hi Olivier,
->=20
-> Thanks, I think this is looking much better.
->=20
-> I'd like to know how others feel about landing this heap; there's
-> been
-> push-back in the past about heaps in device-tree and discussions
-> around how "custom" heaps should be treated (though IMO this is quite
-> a generic one).
->=20
-> On Fri, Aug 05, 2022 at 03:53:28PM +0200, Olivier Masse wrote:
-> > add Linaro secure heap bindings: linaro,secure-heap
-> > use genalloc to allocate/free buffer from buffer pool.
-> > buffer pool info is from dts.
-> > use sg_table instore the allocated memory info, the length of
-> > sg_table is 1.
-> > implement secure_heap_buf_ops to implement buffer share in
-> > difference device:
-> > 1. Userspace passes this fd to all drivers it wants this buffer
-> > to share with: First the filedescriptor is converted to a &dma_buf
-> > using
-> > dma_buf_get(). Then the buffer is attached to the device using
-> > dma_buf_attach().
-> > 2. Once the buffer is attached to all devices userspace can
-> > initiate DMA
-> > access to the shared buffer. In the kernel this is done by calling
-> > dma_buf_map_attachment()
-> > 3. get sg_table with dma_buf_map_attachment in difference device.
-> >=20
->=20
-> I think this commit message could use a little rework. A few
-> thoughts:
->=20
-> * The bindings are in a separate commit, so seems strange to mention
->   here.
+Ok, that's calming.
 
-what about:
-"add Linaro secure heap compatible reserved memory: linaro,secure-heap"
+At least that's not the approach talked about the last time this came up 
+and it doesn't rip a massive security hole somewhere.
 
-> * "buffer pool info is from dts" --> I think you should mention that
->   this uses a reserved-memory region.
-ok
+The question is why is the guest then not using the caching attributes 
+setup by the host page tables when the translation is forwarded anyway?
 
-> * sg_table nents and genalloc seem like low-level implementation
->   details, so probably not needed in the commit message
-> * The usage steps 1, 2, 3 aren't specific to this heap - that's how
->   all dma-buf sharing works.
-ok, let's cleanup and removed this.
+> [SNIP]
+> This is basically what happens, although via the two levels of pgtable
+> translation.  This patch provides the missing piece, the caching
+> attributes.
 
->=20
-> > Signed-off-by: Olivier Masse <olivier.masse@nxp.com>
-> > ---
-> >  drivers/dma-buf/heaps/Kconfig       |   9 +
-> >  drivers/dma-buf/heaps/Makefile      |   1 +
-> >  drivers/dma-buf/heaps/secure_heap.c | 357
-> > ++++++++++++++++++++++++++++
-> >  3 files changed, 367 insertions(+)
-> >  create mode 100644 drivers/dma-buf/heaps/secure_heap.c
-> >=20
-> > diff --git a/drivers/dma-buf/heaps/Kconfig b/drivers/dma-
-> > buf/heaps/Kconfig
-> > index 3782eeeb91c0..c9070c728b9a 100644
-> > --- a/drivers/dma-buf/heaps/Kconfig
-> > +++ b/drivers/dma-buf/heaps/Kconfig
-> > @@ -20,3 +20,12 @@ config DMABUF_HEAPS_DSP
-> >            Choose this option to enable the dsp dmabuf heap. The
-> > dsp heap
-> >            is allocated by gen allocater. it's allocated according
-> > the dts.
-> >            If in doubt, say Y.
-> > +
-> > +config DMABUF_HEAPS_SECURE
-> > +     tristate "DMA-BUF Secure Heap"
-> > +     depends on DMABUF_HEAPS
-> > +     help
-> > +       Choose this option to enable the secure dmabuf heap. The
-> > secure heap
-> > +       pools are defined according to the DT. Heaps are allocated
-> > +       in the pools using gen allocater.
-> > +       If in doubt, say Y.
-> > diff --git a/drivers/dma-buf/heaps/Makefile b/drivers/dma-
-> > buf/heaps/Makefile
-> > index 29733f84c354..863ef10056a3 100644
-> > --- a/drivers/dma-buf/heaps/Makefile
-> > +++ b/drivers/dma-buf/heaps/Makefile
-> > @@ -2,3 +2,4 @@
-> >  obj-$(CONFIG_DMABUF_HEAPS_SYSTEM)    +=3D system_heap.o
-> >  obj-$(CONFIG_DMABUF_HEAPS_CMA)               +=3D cma_heap.o
-> >  obj-$(CONFIG_DMABUF_HEAPS_DSP)          +=3D dsp_heap.o
-> > +obj-$(CONFIG_DMABUF_HEAPS_SECURE)    +=3D secure_heap.o
-> > diff --git a/drivers/dma-buf/heaps/secure_heap.c b/drivers/dma-
-> > buf/heaps/secure_heap.c
-> > new file mode 100644
-> > index 000000000000..25b3629613f3
-> > --- /dev/null
-> > +++ b/drivers/dma-buf/heaps/secure_heap.c
-> > @@ -0,0 +1,357 @@
-> > +// SPDX-License-Identifier: GPL-2.0
-> > +/*
-> > + * DMABUF secure heap exporter
-> > + *
-> > + * Copyright 2021 NXP.
->=20
-> It's 2022 :-)
->=20
-> > + */
-> > +
-> > +#include <linux/dma-buf.h>
-> > +#include <linux/dma-heap.h>
-> > +#include <linux/dma-mapping.h>
-> > +#include <linux/err.h>
-> > +#include <linux/genalloc.h>
-> > +#include <linux/highmem.h>
-> > +#include <linux/mm.h>
-> > +#include <linux/module.h>
-> > +#include <linux/of.h>
-> > +#include <linux/of_fdt.h>
-> > +#include <linux/of_reserved_mem.h>
-> > +#include <linux/scatterlist.h>
-> > +#include <linux/slab.h>
-> > +#include <linux/vmalloc.h>
-> > +
-> > +#define MAX_SECURE_HEAP 2
-> > +#define MAX_HEAP_NAME_LEN 32
-> > +
-> > +struct secure_heap_buffer {
-> > +     struct dma_heap *heap;
-> > +     struct list_head attachments;
-> > +     struct mutex lock;
-> > +     unsigned long len;
-> > +     struct sg_table sg_table;
-> > +     int vmap_cnt;
-> > +     void *vaddr;
-> > +};
-> > +
-> > +struct secure_heap_attachment {
-> > +     struct device *dev;
-> > +     struct sg_table *table;
-> > +     struct list_head list;
-> > +};
-> > +
-> > +struct secure_heap_info {
-> > +     struct gen_pool *pool;
-> > +};
-> > +
-> > +struct rmem_secure {
-> > +     phys_addr_t base;
-> > +     phys_addr_t size;
-> > +
-> > +     char name[MAX_HEAP_NAME_LEN];
-> > +};
-> > +
-> > +static struct rmem_secure secure_data[MAX_SECURE_HEAP] =3D {0};
-> > +static unsigned int secure_data_count;
-> > +
-> > +static struct sg_table *dup_sg_table(struct sg_table *table)
-> > +{
-> > +     struct sg_table *new_table;
-> > +     int ret, i;
-> > +     struct scatterlist *sg, *new_sg;
-> > +
-> > +     new_table =3D kzalloc(sizeof(*new_table), GFP_KERNEL);
-> > +     if (!new_table)
-> > +             return ERR_PTR(-ENOMEM);
-> > +
-> > +     ret =3D sg_alloc_table(new_table, table->orig_nents,
-> > GFP_KERNEL);
-> > +     if (ret) {
-> > +             kfree(new_table);
-> > +             return ERR_PTR(-ENOMEM);
-> > +     }
-> > +
-> > +     new_sg =3D new_table->sgl;
-> > +     for_each_sgtable_sg(table, sg, i) {
-> > +             sg_set_page(new_sg, sg_page(sg), sg->length, sg-
-> > >offset);
-> > +             new_sg->dma_address =3D sg->dma_address;
-> > +#ifdef CONFIG_NEED_SG_DMA_LENGTH
-> > +             new_sg->dma_length =3D sg->dma_length;
-> > +#endif
-> > +             new_sg =3D sg_next(new_sg);
-> > +     }
-> > +
-> > +     return new_table;
-> > +}
-> > +
-> > +static int secure_heap_attach(struct dma_buf *dmabuf,
-> > +                           struct dma_buf_attachment *attachment)
-> > +{
-> > +     struct secure_heap_buffer *buffer =3D dmabuf->priv;
-> > +     struct secure_heap_attachment *a;
-> > +     struct sg_table *table;
-> > +
-> > +     a =3D kzalloc(sizeof(*a), GFP_KERNEL);
-> > +     if (!a)
-> > +             return -ENOMEM;
-> > +
-> > +     table =3D dup_sg_table(&buffer->sg_table);
-> > +     if (IS_ERR(table)) {
-> > +             kfree(a);
-> > +             return -ENOMEM;
->=20
-> nit: You could return PTR_ERR(table), in case dup_sg_table starts
-> returning other errors.
->=20
-> > +     }
-> > +
-> > +     a->table =3D table;
-> > +     a->dev =3D attachment->dev;
-> > +     INIT_LIST_HEAD(&a->list);
-> > +     attachment->priv =3D a;
-> > +
-> > +     mutex_lock(&buffer->lock);
-> > +     list_add(&a->list, &buffer->attachments);
-> > +     mutex_unlock(&buffer->lock);
-> > +
-> > +     return 0;
-> > +}
-> > +
-> > +static void secure_heap_detach(struct dma_buf *dmabuf,
-> > +                            struct dma_buf_attachment *attachment)
-> > +{
-> > +     struct secure_heap_buffer *buffer =3D dmabuf->priv;
-> > +     struct secure_heap_attachment *a =3D attachment->priv;
-> > +
-> > +     mutex_lock(&buffer->lock);
-> > +     list_del(&a->list);
-> > +     mutex_unlock(&buffer->lock);
-> > +
-> > +     sg_free_table(a->table);
-> > +     kfree(a->table);
-> > +     kfree(a);
-> > +}
-> > +
-> > +static struct sg_table *secure_heap_map_dma_buf(struct
-> > dma_buf_attachment *attachment,
-> > +                                             enum
-> > dma_data_direction direction)
-> > +{
-> > +     struct secure_heap_attachment *a =3D attachment->priv;
-> > +
-> > +     return a->table;
->=20
-> I think you still need to implement mapping and unmapping using the
-> DMA APIs. For example devices might be behind IOMMUs and the buffer
-> will need mapping into the IOMMU.
+Yeah, but that won't work like this. See the backing store migrates all 
+the time and when it is backed by PCIe/VRAM/local memory you need to use 
+write combine while system memory is usually cached.
 
-Devices that will need access to the buffer must be in secure.
-The tee driver will only need the scatter-list table to get dma address
-and len. Mapping will be done in the TEE.
-Please find tee_shm_register_fd in the following commit
-https://github.com/linaro-swg/linux/commit/41e21e5c405530590dc2dd10b2a8dbe6=
-4589840f
+>>       Because otherwise you can't accommodate that the exporter is
+>> changing those caching attributes.
+> Changing the attributes dynamically isn't going to work.. or at least
+> not easily.  If you had some sort of synchronous notification to host
+> userspace, it could trigger an irq to the guest, I suppose.  But it
+> would mean host kernel has to block waiting for host userspace to
+> interrupt the guest, then wait for guest vgpu process to be scheduled
+> and handle the irq.
 
-This patch need to be up-streamed as well.
+We basically change that on every page flip on APUs and that doesn't 
+sound like something fast.
 
+Thanks for the explanation how this works,
+Christian.
 
->=20
-> > +}
-> > +
-> > +static void secure_heap_unmap_dma_buf(struct dma_buf_attachment
-> > *attachment,
-> > +                                   struct sg_table *table,
-> > +                                   enum dma_data_direction
-> > direction)
-> > +{
-> > +}
-> > +
-> > +static void secure_heap_dma_buf_release(struct dma_buf *dmabuf)
-> > +{
-> > +     struct secure_heap_buffer *buffer =3D dmabuf->priv;
-> > +     struct secure_heap_info *info;
-> > +     struct sg_table *table;
-> > +     struct scatterlist *sg;
-> > +     int i;
-> > +
-> > +     info =3D dma_heap_get_drvdata(buffer->heap);
-> > +
-> > +     table =3D &buffer->sg_table;
-> > +     for_each_sg(table->sgl, sg, table->nents, i)
-> > +             gen_pool_free(info->pool, sg_dma_address(sg),
-> > sg_dma_len(sg));
-> > +
-> > +     sg_free_table(table);
-> > +     kfree(buffer);
-> > +}
-> > +
-> > +static const struct dma_buf_ops secure_heap_buf_ops =3D {
-> > +     .attach =3D secure_heap_attach,
-> > +     .detach =3D secure_heap_detach,
-> > +     .map_dma_buf =3D secure_heap_map_dma_buf,
-> > +     .unmap_dma_buf =3D secure_heap_unmap_dma_buf,
-> > +     .release =3D secure_heap_dma_buf_release,
-> > +};
-> > +
-> > +static struct dma_buf *secure_heap_allocate(struct dma_heap *heap,
-> > +                                         unsigned long len,
-> > +                                         unsigned long fd_flags,
-> > +                                         unsigned long heap_flags)
-> > +{
-> > +     struct secure_heap_buffer *buffer;
-> > +     struct secure_heap_info *info =3D dma_heap_get_drvdata(heap);
-> > +     DEFINE_DMA_BUF_EXPORT_INFO(exp_info);
-> > +     unsigned long size =3D roundup(len, PAGE_SIZE);
-> > +     struct dma_buf *dmabuf;
-> > +     struct sg_table *table;
-> > +     int ret =3D -ENOMEM;
-> > +     unsigned long phy_addr;
-> > +
-> > +     buffer =3D kzalloc(sizeof(*buffer), GFP_KERNEL);
-> > +     if (!buffer)
-> > +             return ERR_PTR(-ENOMEM);
-> > +
-> > +     INIT_LIST_HEAD(&buffer->attachments);
-> > +     mutex_init(&buffer->lock);
-> > +     buffer->heap =3D heap;
-> > +     buffer->len =3D size;
-> > +
-> > +     phy_addr =3D gen_pool_alloc(info->pool, size);
-> > +     if (!phy_addr)
-> > +             goto free_buffer;
-> > +
-> > +     table =3D &buffer->sg_table;
-> > +     if (sg_alloc_table(table, 1, GFP_KERNEL))
-> > +             goto free_pool;
-> > +
-> > +     sg_set_page(table->sgl, phys_to_page(phy_addr), size, 0);
-> > +     sg_dma_address(table->sgl) =3D phy_addr;
-> > +     sg_dma_len(table->sgl) =3D size;
-> > +
-> > +     /* create the dmabuf */
-> > +     exp_info.exp_name =3D dma_heap_get_name(heap);
-> > +     exp_info.ops =3D &secure_heap_buf_ops;
-> > +     exp_info.size =3D buffer->len;
-> > +     exp_info.flags =3D fd_flags;
-> > +     exp_info.priv =3D buffer;
-> > +     dmabuf =3D dma_buf_export(&exp_info);
-> > +     if (IS_ERR(dmabuf)) {
-> > +             ret =3D PTR_ERR(dmabuf);
-> > +             goto free_pages;
-> > +     }
-> > +
-> > +     return dmabuf;
-> > +
-> > +free_pages:
->=20
-> Should maybe be called free_table:
+>
+> At least in the case of msm, the cache attributes are static for the
+> life of the buffer, so this scenario isn't a problem.  AFAICT this
+> should work fine for at least all UMA hw.. I'm a bit less sure when it
+> comes to TTM, but shouldn't you at least be able to use worst-cache
+> cache attributes for buffers that are allowed to be mapped to guest?
+>
+> BR,
+> -R
+>
+>>> But more seriously, let's take a step back here.. what scenarios are
+>>> you seeing this being problematic for?  Then we can see how to come up
+>>> with solutions.  The current situation of host userspace VMM just
+>>> guessing isn't great.
+>> Well "isn't great" is a complete understatement. When KVM/virtio/virtgpu
+>> is doing what I guess they are doing here then that is a really major
+>> security hole.
+>>
+>>>     And sticking our heads in the sand and
+>>> pretending VMs don't exist isn't great.  So what can we do?  I can
+>>> instead add a msm ioctl to return this info and solve the problem even
+>>> more narrowly for a single platform.  But then the problem still
+>>> remains on other platforms.
+>> Well once more: This is *not* MSM specific, you just absolutely *can't
+>> do that* for any driver!
+>>
+>> I'm just really wondering what the heck is going on here, because all of
+>> this was discussed in lengthy before on the mailing list and very
+>> bluntly rejected.
+>>
+>> Either I'm missing something (that's certainly possible) or we have a
+>> strong case of somebody implementing something without thinking about
+>> all the consequences.
+>>
+>> Regards,
+>> Christian.
+>>
+>>
+>>> Slightly implicit in this is that mapping dma-bufs to the guest won't
+>>> work for anything that requires DMA_BUF_IOCTL_SYNC for coherency.. we
+>>> could add a possible return value for DMA_BUF_INFO_VM_PROT indicating
+>>> that the buffer does not support mapping to guest or CPU access
+>>> without DMA_BUF_IOCTL_SYNC.  Then at least the VMM can fail gracefully
+>>> instead of subtly.
+>>>
+>>> BR,
+>>> -R
 
-right
->=20
-> > +     sg_free_table(table);
-> > +
-> > +free_pool:
-> > +     gen_pool_free(info->pool, phy_addr, size);
-> > +
-> > +free_buffer:
-> > +     mutex_destroy(&buffer->lock);
-> > +     kfree(buffer);
-> > +
-> > +     return ERR_PTR(ret);
-> > +}
-> > +
-> > +static const struct dma_heap_ops secure_heap_ops =3D {
-> > +     .allocate =3D secure_heap_allocate,
-> > +};
-> > +
-> > +static int secure_heap_add(struct rmem_secure *rmem)
-> > +{
-> > +     struct dma_heap *secure_heap;
-> > +     struct dma_heap_export_info exp_info;
-> > +     struct secure_heap_info *info =3D NULL;
-> > +     struct gen_pool *pool =3D NULL;
-> > +     int ret =3D -EINVAL;
-> > +
-> > +     if (rmem->base =3D=3D 0 || rmem->size =3D=3D 0) {
-> > +             pr_err("secure_data base or size is not correct\n");
-> > +             goto error;
-> > +     }
-> > +
-> > +     info =3D kzalloc(sizeof(*info), GFP_KERNEL);
-> > +     if (!info) {
-> > +             pr_err("dmabuf info allocation failed\n");
-> > +             ret =3D -ENOMEM;
-> > +             goto error;
-> > +     }
-> > +
-> > +     pool =3D gen_pool_create(PAGE_SHIFT, -1);
-> > +     if (!pool) {
-> > +             pr_err("can't create gen pool\n");
-> > +             ret =3D -ENOMEM;
-> > +             goto error;
-> > +     }
-> > +
-> > +     if (gen_pool_add(pool, rmem->base, rmem->size, -1) < 0) {
-> > +             pr_err("failed to add memory into pool\n");
-> > +             ret =3D -ENOMEM;
-> > +             goto error;
-> > +     }
-> > +
-> > +     info->pool =3D pool;
-> > +
-> > +     exp_info.name =3D rmem->name;
-> > +     exp_info.ops =3D &secure_heap_ops;
-> > +     exp_info.priv =3D info;
-> > +
-> > +     secure_heap =3D dma_heap_add(&exp_info);
-> > +     if (IS_ERR(secure_heap)) {
-> > +             pr_err("dmabuf secure heap allocation failed\n");
-> > +             ret =3D PTR_ERR(secure_heap);
-> > +             goto error;
-> > +     }
-> > +
-> > +     return 0;
-> > +
-> > +error:
-> > +     kfree(info);
-> > +     if (pool)
-> > +             gen_pool_destroy(pool);
->=20
-> nit: I think your order should be reversed here, to match the
-> opposite
-> order of allocation.
-
-agree
->=20
-> > +
-> > +     return ret;
-> > +}
-> > +
-> > +static int secure_heap_create(void)
-> > +{
-> > +     unsigned int i;
-> > +     int ret;
-> > +
-> > +     for (i =3D 0; i < secure_data_count; i++) {
-> > +             ret =3D secure_heap_add(&secure_data[i]);
-> > +             if (ret)
-> > +                     return ret;
-> > +     }
-> > +     return 0;
-> > +}
-> > +
-> > +static int rmem_secure_heap_device_init(struct reserved_mem *rmem,
-> > +                                      struct device *dev)
-> > +{
-> > +     dev_set_drvdata(dev, rmem);
-> > +     return 0;
-> > +}
-> > +
-> > +static void rmem_secure_heap_device_release(struct reserved_mem
-> > *rmem,
-> > +                                      struct device *dev)
-> > +{
-> > +     dev_set_drvdata(dev, NULL);
-> > +}
-> > +
-> > +static const struct reserved_mem_ops rmem_dma_ops =3D {
-> > +     .device_init    =3D rmem_secure_heap_device_init,
-> > +     .device_release =3D rmem_secure_heap_device_release,
-> > +};
->=20
-> What are these reserved_mem_ops for? Setting the drvdata for a random
-> device seems like it could cause lots of problems.
->=20
-> Is there a requirement to support assigning this SDP reserved-memory
-> region to a specific device? If not, I think you can just drop this.
-> Otherwise, I think you need some other mechanism to do the
-> association.
-
-indeed, can be removed as driver private data is set at heap creation
-and should not be modified.
-
->=20
-> > +
-> > +static int __init rmem_secure_heap_setup(struct reserved_mem
-> > *rmem)
-> > +{
-> > +     if (secure_data_count < MAX_SECURE_HEAP) {
-> > +             int name_len =3D 0;
-> > +             const char *s =3D rmem->name;
-> > +
-> > +             secure_data[secure_data_count].base =3D rmem->base;
-> > +             secure_data[secure_data_count].size =3D rmem->size;
-> > +
-> > +             while (name_len < MAX_HEAP_NAME_LEN) {
-> > +                     if ((*s =3D=3D '@') || (*s =3D=3D '\0'))
-> > +                             break;
-> > +                     name_len++;
-> > +                     s++;
-> > +             }
-> > +             if (name_len =3D=3D MAX_HEAP_NAME_LEN)
-> > +                     name_len--;
-> > +
-> > +             strncpy(secure_data[secure_data_count].name, rmem-
-> > >name, name_len);
->=20
-> I think it would be good to explicitly do:
->=20
->   secure_data[secure_data_count].name[name_len] =3D '\0'
-
-ok
->=20
-> I know it's zero-initialised, but that's done on a line far away, so
-> may be best to be defensive.
->=20
-> > +
-> > +             rmem->ops =3D &rmem_dma_ops;
-> > +             pr_info("Reserved memory: DMA buf secure pool %s at
-> > %pa, size %ld MiB\n",
-> > +                     secure_data[secure_data_count].name,
-> > +                     &rmem->base, (unsigned long)rmem->size /
-> > SZ_1M);
->=20
-> nit: What if rmem->size < SZ_1M, or not 1M-aligned
->=20
-> > +
-> > +             secure_data_count++;
-> > +             return 0;
-> > +     }
-> > +     WARN_ONCE(1, "Cannot handle more than %u secure heaps\n",
-> > MAX_SECURE_HEAP);
-> > +     return -EINVAL;
-> > +}
-> > +
-> > +RESERVEDMEM_OF_DECLARE(secure_heap, "linaro,secure-heap",
-> > rmem_secure_heap_setup);
->=20
-> Is there anything linaro-specific about this? Could it be
-> linux,secure-heap?
-
-for now, it's specific to Linaro OPTEE OS.
-but in a more generic way, it could be=20
-linux,unmapped-heap ?
-
->=20
-> Thanks,
-> -Brian
->=20
-> > +
-> > +module_init(secure_heap_create);
-> > +MODULE_LICENSE("GPL v2");
-> > --
-> > 2.25.0
-> >=20
