@@ -2,207 +2,247 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C82C358BCE5
-	for <lists+linux-media@lfdr.de>; Sun,  7 Aug 2022 22:26:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EAF9C58C236
+	for <lists+linux-media@lfdr.de>; Mon,  8 Aug 2022 05:51:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231237AbiHGUZ6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 7 Aug 2022 16:25:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45642 "EHLO
+        id S237212AbiHHDvf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 7 Aug 2022 23:51:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45548 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230386AbiHGUZ5 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sun, 7 Aug 2022 16:25:57 -0400
-Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EAB5364C4;
-        Sun,  7 Aug 2022 13:25:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
-  t=1659903953; x=1691439953;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=eQ5vUTIVjFaJOW49JpDtCqaTs+jr2jaJBCrYgnxt4dI=;
-  b=N5EVe6SWkfIjMBYqNx9tkukCc/lPhO+mzjPh/cSqxKf4hP1wa5WrfskT
-   AA0Sc2CNxrgSaTwnShlmB/AEXz7WnnpKDF0QkO7Ska/ltxnXJDC9dCjO/
-   EwQz28V+6HG7DZeWgrs6LNtdDtBgySnPcZBvCE74AS9LZUaHdLhFu+5qs
-   M=;
-Received: from ironmsg09-lv.qualcomm.com ([10.47.202.153])
-  by alexa-out.qualcomm.com with ESMTP; 07 Aug 2022 13:25:52 -0700
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
-  by ironmsg09-lv.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Aug 2022 13:25:52 -0700
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Sun, 7 Aug 2022 13:25:51 -0700
-Received: from [10.216.42.249] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Sun, 7 Aug 2022
- 13:25:48 -0700
-Message-ID: <62afe47a-1a50-80ef-400d-8c238f1cb332@quicinc.com>
-Date:   Mon, 8 Aug 2022 01:55:45 +0530
+        with ESMTP id S235277AbiHHDve (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sun, 7 Aug 2022 23:51:34 -0400
+Received: from mail-m11885.qiye.163.com (mail-m11885.qiye.163.com [115.236.118.85])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DDB0411817;
+        Sun,  7 Aug 2022 20:51:32 -0700 (PDT)
+Received: from [192.168.111.100] (unknown [58.22.7.114])
+        by mail-m11885.qiye.163.com (Hmail) with ESMTPA id 5A6DD4C04D5;
+        Mon,  8 Aug 2022 11:51:28 +0800 (CST)
+Message-ID: <7cd16264-fa84-7b50-f3ed-64f7f22dcef2@rock-chips.com>
+Date:   Mon, 8 Aug 2022 11:51:26 +0800
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.2
-Subject: Re: [Freedreno] [PATCH 1/3] dma-buf: Add ioctl to query mmap info
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.1.1
+Subject: Re: [PATCH v2] drm/gem: Fix GEM handle release errors
 Content-Language: en-US
-To:     Rob Clark <robdclark@gmail.com>, <dri-devel@lists.freedesktop.org>
-CC:     Rob Clark <robdclark@chromium.org>,
-        =?UTF-8?B?SsOpcsO0bWUgUG91aWxsZXI=?= <jerome.pouiller@silabs.com>,
-        open list <linux-kernel@vger.kernel.org>,
-        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>,
-        <freedreno@lists.freedesktop.org>,
+To:     =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+        Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc:     Andy Yan <andy.yan@rock-chips.com>,
+        Jianqun Xu <jay.xu@rock-chips.com>,
+        Maxime Ripard <mripard@kernel.org>,
         Sumit Semwal <sumit.semwal@linaro.org>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>
-References: <20220729170744.1301044-1-robdclark@gmail.com>
- <20220729170744.1301044-2-robdclark@gmail.com>
-From:   Akhil P Oommen <quic_akhilpo@quicinc.com>
-In-Reply-To: <20220729170744.1301044-2-robdclark@gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org, David Airlie <airlied@linux.ie>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        linux-media@vger.kernel.org, Daniel Vetter <daniel@ffwll.ch>
+References: <20220803083237.3701-1-jeffy.chen@rock-chips.com>
+ <c7cb225b-7f21-8d9a-773b-efc655e6332c@amd.com>
+From:   Chen Jeffy <jeffy.chen@rock-chips.com>
+In-Reply-To: <c7cb225b-7f21-8d9a-773b-efc655e6332c@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+        tZV1koWUFJSktLSjdXWS1ZQUlXWQ8JGhUIEh9ZQVkaGU9NVkNJHU5DSR9KGRgZSFUTARMWGhIXJB
+        QOD1lXWRgSC1lBWU5DVUlJVUxVSkpPWVdZFhoPEhUdFFlBWU9LSFVKSktITkhVS1kG
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6NS46LTo6Qj08HSkyQhILLFYV
+        IU8wFD9VSlVKTU5CQkhLTUNCSUpPVTMWGhIXVREeHR0CVRgTHhU7CRQYEFYYExILCFUYFBZFWVdZ
+        EgtZQVlOQ1VJSVVMVUpKT1lXWQgBWUFCTE1INwY+
+X-HM-Tid: 0a827b943d252eb9kusn5a6dd4c04d5
+X-Spam-Status: No, score=-0.4 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_SORBS_WEB,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 7/29/2022 10:37 PM, Rob Clark wrote:
-> From: Rob Clark <robdclark@chromium.org>
->
-> This is a fairly narrowly focused interface, providing a way for a VMM
-> in userspace to tell the guest kernel what pgprot settings to use when
-> mapping a buffer to guest userspace.
->
-> For buffers that get mapped into guest userspace, virglrenderer returns
-> a dma-buf fd to the VMM (crosvm or qemu).  In addition to mapping the
-> pages into the guest VM, it needs to report to drm/virtio in the guest
-> the cache settings to use for guest userspace.  In particular, on some
-> architectures, creating aliased mappings with different cache attributes
-> is frowned upon, so it is important that the guest mappings have the
-> same cache attributes as any potential host mappings.
->
-> Signed-off-by: Rob Clark <robdclark@chromium.org>
-> ---
->   drivers/dma-buf/dma-buf.c    | 26 ++++++++++++++++++++++++++
->   include/linux/dma-buf.h      |  7 +++++++
->   include/uapi/linux/dma-buf.h | 28 ++++++++++++++++++++++++++++
->   3 files changed, 61 insertions(+)
->
-> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-> index 32f55640890c..d02d6c2a3b49 100644
-> --- a/drivers/dma-buf/dma-buf.c
-> +++ b/drivers/dma-buf/dma-buf.c
-> @@ -326,6 +326,29 @@ static long dma_buf_set_name(struct dma_buf *dmabuf, const char __user *buf)
->   	return 0;
->   }
->   
-> +static long dma_buf_info(struct dma_buf *dmabuf, const void __user *uarg)
-> +{
-> +	struct dma_buf_info arg;
-> +
-> +	if (copy_from_user(&arg, uarg, sizeof(arg)))
-> +		return -EFAULT;
-> +
-> +	switch (arg.param) {
-> +	case DMA_BUF_INFO_VM_PROT:
-> +		if (!dmabuf->ops->mmap_info)
-> +			return -ENOSYS;
-> +		arg.value = dmabuf->ops->mmap_info(dmabuf);
-> +		break;
-> +	default:
-> +		return -EINVAL;
-> +	}
-> +
-> +	if (copy_to_user(uarg, &arg, sizeof(arg)))
-> +		return -EFAULT;
-> +
-> +	return 0;
-> +}
-> +
->   static long dma_buf_ioctl(struct file *file,
->   			  unsigned int cmd, unsigned long arg)
->   {
-> @@ -369,6 +392,9 @@ static long dma_buf_ioctl(struct file *file,
->   	case DMA_BUF_SET_NAME_B:
->   		return dma_buf_set_name(dmabuf, (const char __user *)arg);
->   
-> +	case DMA_BUF_IOCTL_INFO:
-> +		return dma_buf_info(dmabuf, (const void __user *)arg);
-> +
->   	default:
->   		return -ENOTTY;
->   	}
-> diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
-> index 71731796c8c3..6f4de64a5937 100644
-> --- a/include/linux/dma-buf.h
-> +++ b/include/linux/dma-buf.h
-> @@ -283,6 +283,13 @@ struct dma_buf_ops {
->   	 */
->   	int (*mmap)(struct dma_buf *, struct vm_area_struct *vma);
->   
-> +	/**
-> +	 * @mmap_info:
-> +	 *
-> +	 * Return mmapping info for the buffer.  See DMA_BUF_INFO_VM_PROT.
-> +	 */
-> +	int (*mmap_info)(struct dma_buf *);
-> +
->   	int (*vmap)(struct dma_buf *dmabuf, struct iosys_map *map);
->   	void (*vunmap)(struct dma_buf *dmabuf, struct iosys_map *map);
->   };
-> diff --git a/include/uapi/linux/dma-buf.h b/include/uapi/linux/dma-buf.h
-> index b1523cb8ab30..a41adac0f46a 100644
-> --- a/include/uapi/linux/dma-buf.h
-> +++ b/include/uapi/linux/dma-buf.h
-> @@ -85,6 +85,32 @@ struct dma_buf_sync {
->   
->   #define DMA_BUF_NAME_LEN	32
->   
-> +
-> +/**
-> + * struct dma_buf_info - Query info about the buffer.
-> + */
-> +struct dma_buf_info {
-> +
-> +#define DMA_BUF_INFO_VM_PROT      1
-> +#  define DMA_BUF_VM_PROT_WC      0
-> +#  define DMA_BUF_VM_PROT_CACHED  1
-> +
-> +	/**
-> +	 * @param: Which param to query
-> +	 *
-> +	 * DMA_BUF_INFO_BM_PROT:
-Is there a typo here? BM -> VM ?
+Hi Christian,
 
--Akhil.
-> +	 *     Query the access permissions of userspace mmap's of this buffer.
-> +	 *     Returns one of DMA_BUF_VM_PROT_x
-> +	 */
-> +	__u32 param;
-> +	__u32 pad;
-> +
-> +	/**
-> +	 * @value: Return value of the query.
-> +	 */
-> +	__u64 value;
-> +};
-> +
->   #define DMA_BUF_BASE		'b'
->   #define DMA_BUF_IOCTL_SYNC	_IOW(DMA_BUF_BASE, 0, struct dma_buf_sync)
->   
-> @@ -95,4 +121,6 @@ struct dma_buf_sync {
->   #define DMA_BUF_SET_NAME_A	_IOW(DMA_BUF_BASE, 1, __u32)
->   #define DMA_BUF_SET_NAME_B	_IOW(DMA_BUF_BASE, 1, __u64)
->   
-> +#define DMA_BUF_IOCTL_INFO	_IOWR(DMA_BUF_BASE, 2, struct dma_buf_info)
-> +
->   #endif
+Thanks for your reply, and sorry i didn't make it clear.
+
+On 8/8 星期一 0:52, Christian König wrote:
+> Am 03.08.22 um 10:32 schrieb Jeffy Chen:
+>> Currently we are assuming a one to one mapping between dmabuf and handle
+>> when releasing GEM handles.
+>>
+>> But that is not always true, since we would create extra handles for the
+>> GEM obj in cases like gem_open() and getfb{,2}().
+>>
+>> A similar issue was reported at:
+>> https://lore.kernel.org/all/20211105083308.392156-1-jay.xu@rock-chips.com/
+>>
+>> Another problem is that the drm_gem_remove_prime_handles() now only
+>> remove handle to the exported dmabuf (gem_obj->dma_buf), so the imported
+>> ones would leak:
+>> WARNING: CPU: 2 PID: 236 at drivers/gpu/drm/drm_prime.c:228 
+>> drm_prime_destroy_file_private+0x18/0x24
+>>
+>> Let's fix these by using handle to find the exact map to remove.
+> 
+> Well we are clearly something missing here. As far as I can see the 
+> current code is correct.
+> 
+> Creating multiple GEM handles for the same DMA-buf is possible, but 
+> illegal. >
+> In other words when a GEM handle is exported as DMA-buf and imported 
+> again you should intentionally always get the same handle.
+
+These issue are not about having handles for importing an exported 
+dma-buf case, but for having multiple handles to a GEM object(which 
+means having multiple handles to a dma-buf).
+
+I know the drm-prime is trying to make dma-buf and handle maps one to 
+one, but the drm-gem is allowing to create extra handles for a GEM 
+object, for example:
+drm_gem_open_ioctl -> drm_gem_handle_create_tail
+drm_mode_getfb2_ioctl -> drm_gem_handle_create
+drm_mode_getfb -> fb->funcs->create_handle
+
+So we are allowing GEM object to have multiple handles, and GEM object 
+could have at most one dma-buf, doesn't that means that dma-buf could 
+map to multiple handles?
+
+Or should we rewrite the GEM framework to limit GEM object with uniq handle?
+
+
+The other issue is that we are leaking dma-buf <-> handle map for the 
+imported dma-buf, since the drm_gem_remove_prime_handles doesn't take 
+care of obj->import_attach->dmabuf.
+
+But of cause this can be fixed in other way:
++++ b/drivers/gpu/drm/drm_gem.c
+@@ -180,6 +180,9 @@ drm_gem_remove_prime_handles(struct drm_gem_object 
+*obj, struct drm_file *filp)
+                 drm_prime_remove_buf_handle_locked(&filp->prime,
+                                                    obj->dma_buf);
+         }
++       if (obj->import_attach)
++               drm_prime_remove_buf_handle_locked(&filp->prime,
++ 
+obj->import_attach->dmabuf);
+         mutex_unlock(&filp->prime.lock);
+  }
+
+
+> So this is pretty much a clear NAK to this patch since it shouldn't be 
+> necessary or something is seriously broken somewhere else.
+> 
+> Regards,
+> Christian.
+> 
+>>
+>> Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
+>> ---
+>>
+>> Changes in v2:
+>> Fix a typo of rbtree.
+>>
+>>   drivers/gpu/drm/drm_gem.c      | 17 +----------------
+>>   drivers/gpu/drm/drm_internal.h |  4 ++--
+>>   drivers/gpu/drm/drm_prime.c    | 20 ++++++++++++--------
+>>   3 files changed, 15 insertions(+), 26 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
+>> index eb0c2d041f13..ed39da383570 100644
+>> --- a/drivers/gpu/drm/drm_gem.c
+>> +++ b/drivers/gpu/drm/drm_gem.c
+>> @@ -168,21 +168,6 @@ void drm_gem_private_object_init(struct 
+>> drm_device *dev,
+>>   }
+>>   EXPORT_SYMBOL(drm_gem_private_object_init);
+>> -static void
+>> -drm_gem_remove_prime_handles(struct drm_gem_object *obj, struct 
+>> drm_file *filp)
+>> -{
+>> -    /*
+>> -     * Note: obj->dma_buf can't disappear as long as we still hold a
+>> -     * handle reference in obj->handle_count.
+>> -     */
+>> -    mutex_lock(&filp->prime.lock);
+>> -    if (obj->dma_buf) {
+>> -        drm_prime_remove_buf_handle_locked(&filp->prime,
+>> -                           obj->dma_buf);
+>> -    }
+>> -    mutex_unlock(&filp->prime.lock);
+>> -}
+>> -
+>>   /**
+>>    * drm_gem_object_handle_free - release resources bound to userspace 
+>> handles
+>>    * @obj: GEM object to clean up.
+>> @@ -253,7 +238,7 @@ drm_gem_object_release_handle(int id, void *ptr, 
+>> void *data)
+>>       if (obj->funcs->close)
+>>           obj->funcs->close(obj, file_priv);
+>> -    drm_gem_remove_prime_handles(obj, file_priv);
+>> +    drm_prime_remove_buf_handle(&file_priv->prime, id);
+>>       drm_vma_node_revoke(&obj->vma_node, file_priv);
+>>       drm_gem_object_handle_put_unlocked(obj);
+>> diff --git a/drivers/gpu/drm/drm_internal.h 
+>> b/drivers/gpu/drm/drm_internal.h
+>> index 1fbbc19f1ac0..7bb98e6a446d 100644
+>> --- a/drivers/gpu/drm/drm_internal.h
+>> +++ b/drivers/gpu/drm/drm_internal.h
+>> @@ -74,8 +74,8 @@ int drm_prime_fd_to_handle_ioctl(struct drm_device 
+>> *dev, void *data,
+>>   void drm_prime_init_file_private(struct drm_prime_file_private 
+>> *prime_fpriv);
+>>   void drm_prime_destroy_file_private(struct drm_prime_file_private 
+>> *prime_fpriv);
+>> -void drm_prime_remove_buf_handle_locked(struct drm_prime_file_private 
+>> *prime_fpriv,
+>> -                    struct dma_buf *dma_buf);
+>> +void drm_prime_remove_buf_handle(struct drm_prime_file_private 
+>> *prime_fpriv,
+>> +                 uint32_t handle);
+>>   /* drm_drv.c */
+>>   struct drm_minor *drm_minor_acquire(unsigned int minor_id);
+>> diff --git a/drivers/gpu/drm/drm_prime.c b/drivers/gpu/drm/drm_prime.c
+>> index e3f09f18110c..bd5366b16381 100644
+>> --- a/drivers/gpu/drm/drm_prime.c
+>> +++ b/drivers/gpu/drm/drm_prime.c
+>> @@ -190,29 +190,33 @@ static int drm_prime_lookup_buf_handle(struct 
+>> drm_prime_file_private *prime_fpri
+>>       return -ENOENT;
+>>   }
+>> -void drm_prime_remove_buf_handle_locked(struct drm_prime_file_private 
+>> *prime_fpriv,
+>> -                    struct dma_buf *dma_buf)
+>> +void drm_prime_remove_buf_handle(struct drm_prime_file_private 
+>> *prime_fpriv,
+>> +                 uint32_t handle)
+>>   {
+>>       struct rb_node *rb;
+>> -    rb = prime_fpriv->dmabufs.rb_node;
+>> +    mutex_lock(&prime_fpriv->lock);
+>> +
+>> +    rb = prime_fpriv->handles.rb_node;
+>>       while (rb) {
+>>           struct drm_prime_member *member;
+>> -        member = rb_entry(rb, struct drm_prime_member, dmabuf_rb);
+>> -        if (member->dma_buf == dma_buf) {
+>> +        member = rb_entry(rb, struct drm_prime_member, handle_rb);
+>> +        if (member->handle == handle) {
+>>               rb_erase(&member->handle_rb, &prime_fpriv->handles);
+>>               rb_erase(&member->dmabuf_rb, &prime_fpriv->dmabufs);
+>> -            dma_buf_put(dma_buf);
+>> +            dma_buf_put(member->dma_buf);
+>>               kfree(member);
+>> -            return;
+>> -        } else if (member->dma_buf < dma_buf) {
+>> +            break;
+>> +        } else if (member->handle < handle) {
+>>               rb = rb->rb_right;
+>>           } else {
+>>               rb = rb->rb_left;
+>>           }
+>>       }
+>> +
+>> +    mutex_unlock(&prime_fpriv->lock);
+>>   }
+>>   void drm_prime_init_file_private(struct drm_prime_file_private 
+>> *prime_fpriv)
+> 
+> 
 
