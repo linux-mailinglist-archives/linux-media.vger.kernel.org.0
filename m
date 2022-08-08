@@ -2,109 +2,117 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1181158C288
-	for <lists+linux-media@lfdr.de>; Mon,  8 Aug 2022 06:27:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 295F258C312
+	for <lists+linux-media@lfdr.de>; Mon,  8 Aug 2022 07:54:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233625AbiHHE1J (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 8 Aug 2022 00:27:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60824 "EHLO
+        id S235718AbiHHFy3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 8 Aug 2022 01:54:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42282 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231720AbiHHE1H (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 8 Aug 2022 00:27:07 -0400
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D4D72DF8C;
-        Sun,  7 Aug 2022 21:27:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1659932826; x=1691468826;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=itU/psrTDiBxpg2uoXCJ31PzFcxLSRp3phhgRkOS+/4=;
-  b=WfyII6hbq1dS+B/xVwIiSQVn8bSwvFambfwdknSfDSnkgs/QferMJxRu
-   ylC4n03V0kwWBH6+Zp1LvnENid20bB2I5704CEkZBFRqqcmo9Yol3cSkF
-   x28a7jH5JtY/ekNsRilqv3banmZTLZ8WqCTEn0CvcPwRID9DuKpnjFM/x
-   U4HLCG5WtN4s/Y9DomdECJC3fOqkUdCkJDKsnJBpv9RJAzFdKedToqbqG
-   5PsaWEH1j5Qz4lRCJQzvHTCg+bq5ro5+fXz5q27gXqiNaOidjCf9X+Upm
-   wIynE62wXfSAQobiVYMmvU59jvRZ+uNA2jTuSv2+zLVbDcQSzmrdyRydV
-   A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10432"; a="316404407"
-X-IronPort-AV: E=Sophos;i="5.93,221,1654585200"; 
-   d="scan'208";a="316404407"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Aug 2022 21:27:06 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,221,1654585200"; 
-   d="scan'208";a="554761975"
-Received: from lkp-server01.sh.intel.com (HELO e0eace57cfef) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 07 Aug 2022 21:27:05 -0700
-Received: from kbuild by e0eace57cfef with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1oKuM4-000Lsf-1P;
-        Mon, 08 Aug 2022 04:27:04 +0000
-Date:   Mon, 8 Aug 2022 12:26:48 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Lin Ma <linma@zju.edu.cn>, mchehab@kernel.org,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     kbuild-all@lists.01.org, Lin Ma <linma@zju.edu.cn>
-Subject: Re: [PATCH v0] media: dvbdev: adopts refcnt to avoid UAF
-Message-ID: <202208081225.fgMVwVrN-lkp@intel.com>
-References: <20220807145952.10368-1-linma@zju.edu.cn>
+        with ESMTP id S233627AbiHHFy1 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 8 Aug 2022 01:54:27 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F21A11002;
+        Sun,  7 Aug 2022 22:54:26 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 9D443B80DD4;
+        Mon,  8 Aug 2022 05:54:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 75FD7C433C1;
+        Mon,  8 Aug 2022 05:54:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1659938064;
+        bh=fdGOCwmBEK9CWaxIAUwPDifSkxj7PaxAllZU82W3Ry4=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=QDZCAORd+CDcOLkVaf1UPrSE3hL4ymPfTAuq2qSfODI7WxCqUcSnMbh3DtyhlFmJv
+         7SevWPkePl6NqhsK3RYndm1t2fn+fbAom30UPqa0cR2amyetfoRRWdGx3CXGiYHDZt
+         Of7afz3KYKWFNMpBPluGeh5layWLYJjc5TrLg/hYiVSPzaKx/phIj8DYFxCEetS+oo
+         VPrPWivn++E8p3/wtNdfSWjzbrNpsPym6oOUjOxkAaODCg0y8DOZiS8eb0oXiG0/zS
+         mkb3Gcc7zQP6MSKndbsDnnz9oUxVJbMYhXXwdUWBULqeM/HcNnDV8ZG1umR+7Q9Piu
+         gsv6IZjnMR64A==
+Date:   Mon, 8 Aug 2022 07:54:16 +0200
+From:   Wolfram Sang <wsa@kernel.org>
+To:     Robin Reckmann <robin.reckmann@googlemail.com>
+Cc:     Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Konrad Dybcio <konrad.dybcio@somainline.org>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+        Robin Reckmann <robin.reckmann@gmail.com>,
+        linux-arm-msm@vger.kernel.org, linux-i2c@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
+Subject: Re: [PATCH] i2c: qcom-geni: Fix GPI DMA buffer sync-back
+Message-ID: <YvClCC4ArBEjQJl9@shikoro>
+Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
+        Robin Reckmann <robin.reckmann@googlemail.com>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Konrad Dybcio <konrad.dybcio@somainline.org>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+        Robin Reckmann <robin.reckmann@gmail.com>,
+        linux-arm-msm@vger.kernel.org, linux-i2c@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
+References: <20220807140455.409417-1-robin.reckmann@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="XD4kyBoxfGtTDMuX"
 Content-Disposition: inline
-In-Reply-To: <20220807145952.10368-1-linma@zju.edu.cn>
+In-Reply-To: <20220807140455.409417-1-robin.reckmann@gmail.com>
 X-Spam-Status: No, score=-7.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Lin,
 
-Thank you for the patch! Perhaps something to improve:
+--XD4kyBoxfGtTDMuX
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-[auto build test WARNING on media-tree/master]
-[also build test WARNING on linus/master v5.19 next-20220805]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+On Sun, Aug 07, 2022 at 11:04:54PM +0900, Robin Reckmann wrote:
+> Fix i2c transfers using GPI DMA mode for all message types that do not set
+> the I2C_M_DMA_SAFE flag (e.g. SMBus "read byte").
+>=20
+> In this case a bounce buffer is returned by i2c_get_dma_safe_msg_buf(),
+> and it has to synced back to the message after the transfer is done.
+>=20
+> Add missing assignment of dma buffer in geni_i2c_gpi().
+>=20
+> Set xferred in i2c_put_dma_safe_msg_buf() to true in case of no error to
+> ensure the sync-back of this dma buffer to the message.
+>=20
+> Signed-off-by: Robin Reckmann <robin.reckmann@gmail.com>
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Lin-Ma/media-dvbdev-adopts-refcnt-to-avoid-UAF/20220807-230449
-base:   git://linuxtv.org/media_tree.git master
-reproduce: make htmldocs
+Thank you! What would be a Fixes tag for this?
 
-If you fix the issue, kindly add following tag where applicable
-Reported-by: kernel test robot <lkp@intel.com>
 
-All warnings (new ones prefixed by >>):
+--XD4kyBoxfGtTDMuX
+Content-Type: application/pgp-signature; name="signature.asc"
 
->> include/media/dvbdev.h:203: warning: expecting prototype for dvb_device_get(). Prototype was for dvb_device_put() instead
+-----BEGIN PGP SIGNATURE-----
 
-vim +203 include/media/dvbdev.h
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmLwpQQACgkQFA3kzBSg
+KbYMhRAArxGcGhOSEP/LoXFsoUt62gmN7SUbYALnShNEsiAAsIyfcDokRbSxVfPk
+hoe7hFLjoEL+ZcARfiqvYWGbTpX6dlFx3TUdkkVkL6oyCJ/YcfvgFat7FwV0cNyP
+ce2soTTDV0gDRecDLRald5RA50fdPcvcUpEhrwJDb/2JjffKXhJs4rlCOfHVUNXt
+QbVwJVj54xgMeCmLrN6FsR14lTzQ5m+CnbHeDJCrKPFIxAIVIWwXvSU6lhucNYCo
+lFn0Q4ZDdOnBEy2miNvvdPT0BEKxplT4SgJpD3zGjxGnFSIbO0w8kdZLvfioCrA0
+s5gQxVZpHxtLtKtQruAgX8r2+JW1zSSxG8aicdX9QgNABybcYfHV4tH/CJikDLMb
+VTPc8qi0HtPLMnBribfmECcHaeLzEe38gtb7aGDUG4z8wXZgePXRGfnqLtCDGykg
+4Vomw99Ugc/1+XwwrpUr0JLBYqVPXq2veOsirnGo0OR3iJGajMZw4y9Tlct9AQZZ
+IL7lfPhTlO2WS2rVfURyOXZCUg1/tax/RgDfzFvjJesvy9+hpZ/pq9Csl+k1b+GZ
+8lbslOpKD0bM/WLDWYbrel6IH/openjxQ7M5UNusGNAnEmZPpm5QMfxsa3tjQEm7
+Tv2AXDVrVjdsK4dpcqarPjowL/IJ2I8CntN4+KefRLE0ZOhthtU=
+=HpON
+-----END PGP SIGNATURE-----
 
-   187	
-   188		void *priv;
- > 189	};
-   190	
-   191	/**
-   192	 * dvb_device_get - Increase dvb_device reference
-   193	 *
-   194	 * @dvbdev:	pointer to struct dvb_device
-   195	 */
-   196	struct dvb_device *dvb_device_get(struct dvb_device *dvbdev);
-   197	
-   198	/**
-   199	 * dvb_device_get - Decrease dvb_device reference
-   200	 *
-   201	 * @dvbdev:	pointer to struct dvb_device
-   202	 */
- > 203	void dvb_device_put(struct dvb_device *dvbdev);
-   204	
-
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+--XD4kyBoxfGtTDMuX--
