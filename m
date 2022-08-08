@@ -2,499 +2,310 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A084858CAF0
-	for <lists+linux-media@lfdr.de>; Mon,  8 Aug 2022 16:59:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6CAF158CAF8
+	for <lists+linux-media@lfdr.de>; Mon,  8 Aug 2022 17:03:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243810AbiHHO7I (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 8 Aug 2022 10:59:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48752 "EHLO
+        id S235766AbiHHPDt convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Mon, 8 Aug 2022 11:03:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52050 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243818AbiHHO6t (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 8 Aug 2022 10:58:49 -0400
-Received: from EUR04-DB3-obe.outbound.protection.outlook.com (mail-eopbgr60041.outbound.protection.outlook.com [40.107.6.41])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B7B313D31;
-        Mon,  8 Aug 2022 07:58:28 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=NSo24lqrgIwuX8r7x1Fw04y8UNgGJ3H3aVr573V5QMLX8usOmijH3SF00Hg0cGL0XINsdgK0iVF2TdHhdbYRaz+56kYZcNeK2Uo2XTsClnunbCzjcnXy5ENSBJxeFSVr3TEZzDRgMvTMm7e2q0mVOWb+m/xN/3IsAnZfsNJI9KuU3gQQ5lWCmn04fc3cip7Ryec9CCOld0nXgFCB/PMWsr+DzmtDWWF+ITFwDR7ahprqjdPPg5CcICoB9OvAEsUqQorGbS3IKQQ3jpMNXSg2HRiOpcQFOhjOCnqaJZCfg7Vqny+IAvqxPuXofrHrXzhpqExqgw08oapeXvScom5Snw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=FxTuwg1X8qAwF21M87xxBCmOM7qUuvYcbHbpmp88cuk=;
- b=PkJA3T4omNiml/oXfgqGRZlDArRrVpPNf5kO/pinK2Wsu2oFRn4/7GTAwzWTrc50PR/RbRxqy4Rj39+c0VDSagyVhLRn0DV/79/pMRtjbfxwBkhi8MjaoP6M7N59bjalxG92QbMQuYvWoFP80bx8Hxi+MSNUgIkF+c58uM6kov4XQ4zr5/NnFS3QHMfuY3mCUDRRGxCC0qHF/tyUoRuZ/2N82NEuDa7q/xHqzx5sqTKq9QGLpPcfdaecepnME5yJiCgfl6jJc/dIKU+HEMAV0tJWJIdDi+X5oPYieYvWm4ADAXD1IYhdfPPHd8sK4O9cPuijSrLlYXULllxgvoRhqg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=FxTuwg1X8qAwF21M87xxBCmOM7qUuvYcbHbpmp88cuk=;
- b=HdeYoyySZ4V0YT/mNtUfAnVQE5CEMeB+cS1+ZYxIfM3VkkbCNvTP6/2dKYIA6BmuUy7251Nc68C07euXTyoXGCSWFecWJBO9guAF/shC9qYQ+a7HPV5rn4oea0qRfjrBlVAMqSR9Y7Uz646LvOY4McvDOym5OSxiNdFopBr88rk=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from AM6PR04MB6743.eurprd04.prod.outlook.com (2603:10a6:20b:f1::11)
- by DB3PR0402MB3881.eurprd04.prod.outlook.com (2603:10a6:8:12::28) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5504.20; Mon, 8 Aug
- 2022 14:58:25 +0000
-Received: from AM6PR04MB6743.eurprd04.prod.outlook.com
- ([fe80::a401:5ed6:1bfa:89a9]) by AM6PR04MB6743.eurprd04.prod.outlook.com
- ([fe80::a401:5ed6:1bfa:89a9%5]) with mapi id 15.20.5504.019; Mon, 8 Aug 2022
- 14:58:25 +0000
-From:   Olivier Masse <olivier.masse@nxp.com>
-To:     sumit.semwal@linaro.org, benjamin.gaignard@collabora.com,
-        Brian.Starkey@arm.com, christian.koenig@amd.com,
-        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
-Cc:     clement.faure@nxp.com, olivier.masse@nxp.com
-Subject: [PATCH 1/3] dma-buf: heaps: add Linaro secure dmabuf heap support
-Date:   Mon,  8 Aug 2022 16:58:19 +0200
-Message-Id: <20220808145819.12176-1-olivier.masse@nxp.com>
-X-Mailer: git-send-email 2.25.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: AM0PR01CA0094.eurprd01.prod.exchangelabs.com
- (2603:10a6:208:10e::35) To AM6PR04MB6743.eurprd04.prod.outlook.com
- (2603:10a6:20b:f1::11)
+        with ESMTP id S232079AbiHHPDs (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 8 Aug 2022 11:03:48 -0400
+Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 89806B853
+        for <linux-media@vger.kernel.org>; Mon,  8 Aug 2022 08:03:44 -0700 (PDT)
+Received: from builder.linuxtv.org ([140.211.167.10])
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1oL4IA-009JZR-He; Mon, 08 Aug 2022 15:03:42 +0000
+Received: from localhost ([127.0.0.1] helo=builder.linuxtv.org)
+        by builder.linuxtv.org with esmtp (Exim 4.94.2)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1oL4I9-00DJIN-4F; Mon, 08 Aug 2022 15:03:40 +0000
+Date:   Mon, 8 Aug 2022 15:03:40 +0000 (UTC)
+From:   Jenkins Builder Robot <jenkins@linuxtv.org>
+To:     mchehab@kernel.org, linux-media@vger.kernel.org,
+        libcamera-devel@lists.libcamera.org
+Message-ID: <1245165385.1.1659971020507@builder.linuxtv.org>
+Subject: Build failed in Jenkins: libcamera #925
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 88b4f7e9-adcc-40a0-99fb-08da794e71be
-X-MS-TrafficTypeDiagnostic: DB3PR0402MB3881:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: fAh+BtEargVVr6XB/XhN5s1Nq80bhVfm4Ppyt8V83KsQ5Uxaua5JhrDscTaEF8DK10Bq7UfqjzCW/zNCetvtPfl4wOmSifP2f70j8ls7RwnZz1hxdZjHxZP14ElW/EhCLnooYefha+vGObyaY6Wtf2OXJdR3LpT70bb09TYF3wWJFjkXvR5WteI+FbguP5cK1KwE/ZSO8KFMttEYG+ocweSbcVXcDwM3jQ2azEdS00EOZXpYDSXpQhcJht/uLDU1GtjjDy+gBUAPhHsOxN6oJGRHT1PFkE+0NrE3tH3iVMdD1uD79md+saXtYmR7+otxrSUSMr7FgSeazrk1UMer/CmfxW8fIm2k2LUH8YuuLsH1Q151i+e9Z/j/uT6llWHyeRiRvLijSG6Fk6why8kXJzBjkNMcOzytaY7zk/XjbIKHpRKN6PhScK9Ny/tLDFLyBsmVf1wlMwstvLuHQ318bqD9c04S9JK80kfIlR1GQfq77bOvTXdwYT2zihIWGQY/OatYkBZgCxrxDr/lxEJdHGwEyAMoroQYHiQWpHkj6i0Lkgdg3zSppP/n7UQc4C2bBRl2PwdTeP8rrJcCwBRaVKXj3xnGxnYroUSnMszmEmhLFr7fSTqYRDGNopOVDX536ldypCxuFHBlb7OMs2vKydpFwRh+FdCLrvwmHwMSAyLKKQEygNjh72SuOIBuNAQbdBdEmE1a6gpncZ6+nS48sdK2lwKnDebkbpw4VrlEgUFCXcP0Jrcov3g3I4D3NfU78/kfwIIdSzYLcmdUjLQwY4KmpcJb8Za8tW4YRexnP0w=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6PR04MB6743.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(376002)(346002)(366004)(39860400002)(396003)(136003)(38100700002)(38350700002)(2906002)(66476007)(66946007)(66556008)(86362001)(8676002)(52116002)(4326008)(55236004)(6506007)(6512007)(6666004)(26005)(478600001)(316002)(6486002)(41300700001)(186003)(2616005)(1076003)(83380400001)(8936002)(5660300002)(36756003)(44832011);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?v3nFSzNS43bqsrMn8DDxhayNfNM8UUcm6y0RoPztCyJ1A0ZdhVFHC7xj3hWJ?=
- =?us-ascii?Q?ojXJueKzVpJoEhMHI6bd2iZeFTwgTLuXsz+QaJCYfxeLoyjBvuf7AU25qb63?=
- =?us-ascii?Q?qLlPB6i4k1hInsNkV97OUggaULzU082xomHzmZVsOZDujfEygkvTPtXK9L0T?=
- =?us-ascii?Q?Ypo65/Bfl3ayWKTxyQbyRUbafvw/7slvu43uaay4WwCZMBo0ZvzjyVLuCMv/?=
- =?us-ascii?Q?Z4qwFP8GCBxgz29rVegrVu8PYKBavFAm/ye8J9agoSYto7sjX40kvPauW0GI?=
- =?us-ascii?Q?7ZWF33W3rHSbyqZLAWRbsqo9Fti8TzyPkkOFPhiXj5/UECcFZlg/QBOFV4hU?=
- =?us-ascii?Q?JaOsE2tAOiSKQhbwcEyQrSVcGVt42OW4p426S7QJtg1nupEBHi++Ru1aXPa9?=
- =?us-ascii?Q?n8Xh1kldK8E+kWNQOrU53SB1y3xF5UJcczxSQMqOniMo5psinpIp8o0Ry+Ok?=
- =?us-ascii?Q?0kvQe9YntBgvi2+COMEUIASot2H226qAb7Worhafb+AvIvtXuP4ViCI9Kdcl?=
- =?us-ascii?Q?OPCa9oOKOkOT1fFSWrDZsGwx4vIaahIz69DJa3hsJT89jR9metwunoB78ktb?=
- =?us-ascii?Q?JOkhi5UqfELwDx8yeVr7So6FaNc7k0t1e0BgcDuXi6xlf3lb2hNtwZFORGWg?=
- =?us-ascii?Q?yXjXbZp5VHj0vkzhAyQWVPQt9wGFq55Ap6NTn6ioD37H4zFxiIYgcJZjU6we?=
- =?us-ascii?Q?zbIJ1ODi3gOr8G1EMs9OUbjkIXPYR8Po4zFQxfK7WN3z53JUfUBgWd9LaPR0?=
- =?us-ascii?Q?reDuABz8ag/ITxhtCq368Nup1RiBlIz6k6+S+gk4l/hrPSz8yrbbH+4L943/?=
- =?us-ascii?Q?Mg+g5VeZtnQ5M52THIzLpGbmfH7t2HN5QhBVdY4MTx50lg5mzQefgy0yPuzH?=
- =?us-ascii?Q?buACrpDdU+8+KpzF4/Tr7Yw38xNlvj+r47tOzffixKfRgnPkZPgbxSjkNeGX?=
- =?us-ascii?Q?qd33tFmnkRQ/Lsytks7HaN2sswkafXQxORWzCYi4tv6QvZQvlg+kIex8NwMt?=
- =?us-ascii?Q?QjpkxbeJ0DByNQKzAY0xx/ZYIN1LEqGgsUSFLzhFdg5HXmWjkgmvoyrRHmJO?=
- =?us-ascii?Q?zwTMTv3qBAr2qr0chpUW5EoEnrIwfoYx7ZmRy5tk0clwC+4N30Ryu4seD7b5?=
- =?us-ascii?Q?gXkULu5pgreFmsWXvAIOami14AlTf3hIR8myPtEgzDtqdkuAzDldoB3VZH88?=
- =?us-ascii?Q?Djhq27LJhujzn/Ajv7/Hr61+IKAdRHcpc5hA/MSmWamXatemC6z1aJwnW/+v?=
- =?us-ascii?Q?SbfPuumjhMKA+aXvonvVv4wps2ADz1d4l5HXR3kXxJAVAKhFMzYgbAhVtjzl?=
- =?us-ascii?Q?whtVKInNqQfiIuR5KcHc1sww3fY1SlWWKYgwy+fGltAKI6WflwsVXE8/KDGf?=
- =?us-ascii?Q?ovGXoJ7Civ5asZk9zkXeF1jJuHjMwkjhcDkbZ1cH6r4C+MGLYEihyifHxje2?=
- =?us-ascii?Q?IXMmwTOL4d1oeSHuH1SvHF5EwLPguwl/uw27v9USned8+h6JpiKVgWE2AXml?=
- =?us-ascii?Q?BXmpaIUcDtFfE7pOWEa1z4tXleo6M6Ffpoe8owEtVY/mWPfNm5WozHRZfe5C?=
- =?us-ascii?Q?7ev/CY8QfcwmLq8nny+12cx+sbNEgHnOzNGPk2St?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 88b4f7e9-adcc-40a0-99fb-08da794e71be
-X-MS-Exchange-CrossTenant-AuthSource: AM6PR04MB6743.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Aug 2022 14:58:25.1104
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: eXUTNyt/Lcghza+1l0SMInSH5rDZaEX6gPh4akbhdHDYqJT+NQO+tpFHVmIo13Vivl9doqYqRQrhPNfJ0fya7g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB3PR0402MB3881
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
+X-Instance-Identity: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAf928QubrKEjMQ0IZR0WWXn8zG7uTdH33F2Idx4Xmlp6Z138NdNMQYNG71OKzmvn3/E1G4rpd9JsMls16nRZ2NAPgOWX0qfFr6HyOoQklLGZt+vkOFb0BvmBFfdI+00J5B1SPupxv4pT3bDLSiwbBNCOLY4sdB0gG1ng14mzu47G8zmH6l2ZE/9urEd6OLFhzrb6ym4vlkCE8uvNJAdAWbeafd1plHSLdU/TVqHMZELuM0wt9khqhUOkfE+dHr7h6DNrkFpvm/8j/5wTuy98ZwwWimP+pfjSQMgKrhXjwHcJJa2N9v1HdwrwlUaRYuA6o8fwUHNC9vLj7cCXM3qiwIDAQAB
+X-Jenkins-Job: libcamera
+X-Jenkins-Result: FAILURE
+Auto-submitted: auto-generated
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-add Linaro secure heap compatible reserved mem: linaro,secure-heap
-use genalloc to allocate/free buffer from buffer pool.
-buffer pool info is defined from a dts reserved memory.
+See <https://builder.linuxtv.org/job/libcamera/925/display/redirect?page=changes>
 
-Signed-off-by: Olivier Masse <olivier.masse@nxp.com>
----
- drivers/dma-buf/heaps/Kconfig       |   9 +
- drivers/dma-buf/heaps/Makefile      |   1 +
- drivers/dma-buf/heaps/secure_heap.c | 339 ++++++++++++++++++++++++++++
- 3 files changed, 349 insertions(+)
- create mode 100644 drivers/dma-buf/heaps/secure_heap.c
+Changes:
 
-diff --git a/drivers/dma-buf/heaps/Kconfig b/drivers/dma-buf/heaps/Kconfig
-index 3782eeeb91c0..c9070c728b9a 100644
---- a/drivers/dma-buf/heaps/Kconfig
-+++ b/drivers/dma-buf/heaps/Kconfig
-@@ -20,3 +20,12 @@ config DMABUF_HEAPS_DSP
-           Choose this option to enable the dsp dmabuf heap. The dsp heap
-           is allocated by gen allocater. it's allocated according the dts.
-           If in doubt, say Y.
-+
-+config DMABUF_HEAPS_SECURE
-+	tristate "DMA-BUF Secure Heap"
-+	depends on DMABUF_HEAPS
-+	help
-+	  Choose this option to enable the secure dmabuf heap. The secure heap
-+	  pools are defined according to the DT. Heaps are allocated
-+	  in the pools using gen allocater.
-+	  If in doubt, say Y.
-diff --git a/drivers/dma-buf/heaps/Makefile b/drivers/dma-buf/heaps/Makefile
-index 29733f84c354..863ef10056a3 100644
---- a/drivers/dma-buf/heaps/Makefile
-+++ b/drivers/dma-buf/heaps/Makefile
-@@ -2,3 +2,4 @@
- obj-$(CONFIG_DMABUF_HEAPS_SYSTEM)	+= system_heap.o
- obj-$(CONFIG_DMABUF_HEAPS_CMA)		+= cma_heap.o
- obj-$(CONFIG_DMABUF_HEAPS_DSP)          += dsp_heap.o
-+obj-$(CONFIG_DMABUF_HEAPS_SECURE)	+= secure_heap.o
-diff --git a/drivers/dma-buf/heaps/secure_heap.c b/drivers/dma-buf/heaps/secure_heap.c
-new file mode 100644
-index 000000000000..a3023bf8d457
---- /dev/null
-+++ b/drivers/dma-buf/heaps/secure_heap.c
-@@ -0,0 +1,339 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * DMABUF secure heap exporter
-+ *
-+ * Copyright 2022 NXP.
-+ */
-+
-+#include <linux/dma-buf.h>
-+#include <linux/dma-heap.h>
-+#include <linux/dma-mapping.h>
-+#include <linux/err.h>
-+#include <linux/genalloc.h>
-+#include <linux/highmem.h>
-+#include <linux/mm.h>
-+#include <linux/module.h>
-+#include <linux/of.h>
-+#include <linux/of_fdt.h>
-+#include <linux/of_reserved_mem.h>
-+#include <linux/scatterlist.h>
-+#include <linux/slab.h>
-+#include <linux/vmalloc.h>
-+
-+#define MAX_SECURE_HEAP 2
-+#define MAX_HEAP_NAME_LEN 32
-+
-+struct secure_heap_buffer {
-+	struct dma_heap *heap;
-+	struct list_head attachments;
-+	struct mutex lock;
-+	unsigned long len;
-+	struct sg_table sg_table;
-+	int vmap_cnt;
-+	void *vaddr;
-+};
-+
-+struct secure_heap_attachment {
-+	struct device *dev;
-+	struct sg_table *table;
-+	struct list_head list;
-+};
-+
-+struct secure_heap_info {
-+	struct gen_pool *pool;
-+};
-+
-+struct rmem_secure {
-+	phys_addr_t base;
-+	phys_addr_t size;
-+
-+	char name[MAX_HEAP_NAME_LEN];
-+};
-+
-+static struct rmem_secure secure_data[MAX_SECURE_HEAP] = {0};
-+static unsigned int secure_data_count;
-+
-+static struct sg_table *dup_sg_table(struct sg_table *table)
-+{
-+	struct sg_table *new_table;
-+	int ret, i;
-+	struct scatterlist *sg, *new_sg;
-+
-+	new_table = kzalloc(sizeof(*new_table), GFP_KERNEL);
-+	if (!new_table)
-+		return ERR_PTR(-ENOMEM);
-+
-+	ret = sg_alloc_table(new_table, table->orig_nents, GFP_KERNEL);
-+	if (ret) {
-+		kfree(new_table);
-+		return ERR_PTR(-ENOMEM);
-+	}
-+
-+	new_sg = new_table->sgl;
-+	for_each_sgtable_sg(table, sg, i) {
-+		sg_set_page(new_sg, sg_page(sg), sg->length, sg->offset);
-+		new_sg->dma_address = sg->dma_address;
-+#ifdef CONFIG_NEED_SG_DMA_LENGTH
-+		new_sg->dma_length = sg->dma_length;
-+#endif
-+		new_sg = sg_next(new_sg);
-+	}
-+
-+	return new_table;
-+}
-+
-+static int secure_heap_attach(struct dma_buf *dmabuf,
-+			      struct dma_buf_attachment *attachment)
-+{
-+	struct secure_heap_buffer *buffer = dmabuf->priv;
-+	struct secure_heap_attachment *a;
-+	struct sg_table *table;
-+
-+	a = kzalloc(sizeof(*a), GFP_KERNEL);
-+	if (!a)
-+		return -ENOMEM;
-+
-+	table = dup_sg_table(&buffer->sg_table);
-+	if (IS_ERR(table)) {
-+		kfree(a);
-+		return PTR_ERR(table);
-+	}
-+
-+	a->table = table;
-+	a->dev = attachment->dev;
-+	INIT_LIST_HEAD(&a->list);
-+	attachment->priv = a;
-+
-+	mutex_lock(&buffer->lock);
-+	list_add(&a->list, &buffer->attachments);
-+	mutex_unlock(&buffer->lock);
-+
-+	return 0;
-+}
-+
-+static void secure_heap_detach(struct dma_buf *dmabuf,
-+			       struct dma_buf_attachment *attachment)
-+{
-+	struct secure_heap_buffer *buffer = dmabuf->priv;
-+	struct secure_heap_attachment *a = attachment->priv;
-+
-+	mutex_lock(&buffer->lock);
-+	list_del(&a->list);
-+	mutex_unlock(&buffer->lock);
-+
-+	sg_free_table(a->table);
-+	kfree(a->table);
-+	kfree(a);
-+}
-+
-+static struct sg_table *secure_heap_map_dma_buf(struct dma_buf_attachment *attachment,
-+						enum dma_data_direction direction)
-+{
-+	struct secure_heap_attachment *a = attachment->priv;
-+
-+	return a->table;
-+}
-+
-+static void secure_heap_unmap_dma_buf(struct dma_buf_attachment *attachment,
-+				      struct sg_table *table,
-+				      enum dma_data_direction direction)
-+{
-+}
-+
-+static void secure_heap_dma_buf_release(struct dma_buf *dmabuf)
-+{
-+	struct secure_heap_buffer *buffer = dmabuf->priv;
-+	struct secure_heap_info *info;
-+	struct sg_table *table;
-+	struct scatterlist *sg;
-+	int i;
-+
-+	info = dma_heap_get_drvdata(buffer->heap);
-+
-+	table = &buffer->sg_table;
-+	for_each_sg(table->sgl, sg, table->nents, i)
-+		gen_pool_free(info->pool, sg_dma_address(sg), sg_dma_len(sg));
-+
-+	sg_free_table(table);
-+	kfree(buffer);
-+}
-+
-+static const struct dma_buf_ops secure_heap_buf_ops = {
-+	.attach = secure_heap_attach,
-+	.detach = secure_heap_detach,
-+	.map_dma_buf = secure_heap_map_dma_buf,
-+	.unmap_dma_buf = secure_heap_unmap_dma_buf,
-+	.release = secure_heap_dma_buf_release,
-+};
-+
-+static struct dma_buf *secure_heap_allocate(struct dma_heap *heap,
-+					    unsigned long len,
-+					    unsigned long fd_flags,
-+					    unsigned long heap_flags)
-+{
-+	struct secure_heap_buffer *buffer;
-+	struct secure_heap_info *info = dma_heap_get_drvdata(heap);
-+	DEFINE_DMA_BUF_EXPORT_INFO(exp_info);
-+	unsigned long size = roundup(len, PAGE_SIZE);
-+	struct dma_buf *dmabuf;
-+	struct sg_table *table;
-+	int ret = -ENOMEM;
-+	unsigned long phy_addr;
-+
-+	buffer = kzalloc(sizeof(*buffer), GFP_KERNEL);
-+	if (!buffer)
-+		return ERR_PTR(-ENOMEM);
-+
-+	INIT_LIST_HEAD(&buffer->attachments);
-+	mutex_init(&buffer->lock);
-+	buffer->heap = heap;
-+	buffer->len = size;
-+
-+	phy_addr = gen_pool_alloc(info->pool, size);
-+	if (!phy_addr)
-+		goto free_buffer;
-+
-+	table = &buffer->sg_table;
-+	if (sg_alloc_table(table, 1, GFP_KERNEL))
-+		goto free_pool;
-+
-+	sg_set_page(table->sgl,	phys_to_page(phy_addr),	size, 0);
-+	sg_dma_address(table->sgl) = phy_addr;
-+	sg_dma_len(table->sgl) = size;
-+
-+	/* create the dmabuf */
-+	exp_info.exp_name = dma_heap_get_name(heap);
-+	exp_info.ops = &secure_heap_buf_ops;
-+	exp_info.size = buffer->len;
-+	exp_info.flags = fd_flags;
-+	exp_info.priv = buffer;
-+	dmabuf = dma_buf_export(&exp_info);
-+	if (IS_ERR(dmabuf)) {
-+		ret = PTR_ERR(dmabuf);
-+		goto free_table;
-+	}
-+
-+	return dmabuf;
-+
-+free_table:
-+	sg_free_table(table);
-+
-+free_pool:
-+	gen_pool_free(info->pool, phy_addr, size);
-+
-+free_buffer:
-+	mutex_destroy(&buffer->lock);
-+	kfree(buffer);
-+
-+	return ERR_PTR(ret);
-+}
-+
-+static const struct dma_heap_ops secure_heap_ops = {
-+	.allocate = secure_heap_allocate,
-+};
-+
-+static int secure_heap_add(struct rmem_secure *rmem)
-+{
-+	struct dma_heap *secure_heap;
-+	struct dma_heap_export_info exp_info;
-+	struct secure_heap_info *info = NULL;
-+	struct gen_pool *pool = NULL;
-+	int ret = -EINVAL;
-+
-+	if (rmem->base == 0 || rmem->size == 0) {
-+		pr_err("secure_data base or size is not correct\n");
-+		goto error;
-+	}
-+
-+	info = kzalloc(sizeof(*info), GFP_KERNEL);
-+	if (!info) {
-+		pr_err("dmabuf info allocation failed\n");
-+		ret = -ENOMEM;
-+		goto error;
-+	}
-+
-+	pool = gen_pool_create(PAGE_SHIFT, -1);
-+	if (!pool) {
-+		pr_err("can't create gen pool\n");
-+		ret = -ENOMEM;
-+		goto error;
-+	}
-+
-+	if (gen_pool_add(pool, rmem->base, rmem->size, -1) < 0) {
-+		pr_err("failed to add memory into pool\n");
-+		ret = -ENOMEM;
-+		goto error;
-+	}
-+
-+	info->pool = pool;
-+
-+	exp_info.name = rmem->name;
-+	exp_info.ops = &secure_heap_ops;
-+	exp_info.priv = info;
-+
-+	secure_heap = dma_heap_add(&exp_info);
-+	if (IS_ERR(secure_heap)) {
-+		pr_err("dmabuf secure heap allocation failed\n");
-+		ret = PTR_ERR(secure_heap);
-+		goto error;
-+	}
-+
-+	return 0;
-+
-+error:
-+	if (pool)
-+		gen_pool_destroy(pool);
-+	kfree(info);
-+
-+	return ret;
-+}
-+
-+static int secure_heap_create(void)
-+{
-+	unsigned int i;
-+	int ret;
-+
-+	for (i = 0; i < secure_data_count; i++) {
-+		ret = secure_heap_add(&secure_data[i]);
-+		if (ret)
-+			return ret;
-+	}
-+	return 0;
-+}
-+
-+static int __init rmem_secure_heap_setup(struct reserved_mem *rmem)
-+{
-+	if (secure_data_count < MAX_SECURE_HEAP) {
-+		int name_len = 0;
-+		const char *s = rmem->name;
-+
-+		secure_data[secure_data_count].base = rmem->base;
-+		secure_data[secure_data_count].size = rmem->size;
-+
-+		while (name_len < MAX_HEAP_NAME_LEN) {
-+			if ((*s == '@') || (*s == '\0'))
-+				break;
-+			name_len++;
-+			s++;
-+		}
-+		if (name_len == MAX_HEAP_NAME_LEN)
-+			name_len--;
-+
-+		strncpy(secure_data[secure_data_count].name, rmem->name, name_len);
-+		secure_data[secure_data_count].name[name_len] = '\0';
-+
-+		pr_info("Reserved memory: DMA buf secure pool %s at %pa, size %ld MiB\n",
-+			secure_data[secure_data_count].name,
-+			&rmem->base, (unsigned long)rmem->size / SZ_1M);
-+
-+		secure_data_count++;
-+		return 0;
-+	}
-+	WARN_ONCE(1, "Cannot handle more than %u secure heaps\n", MAX_SECURE_HEAP);
-+	return -EINVAL;
-+}
-+
-+RESERVEDMEM_OF_DECLARE(secure_heap, "linaro,secure-heap", rmem_secure_heap_setup);
-+
-+module_init(secure_heap_create);
-+MODULE_LICENSE("GPL v2");
--- 
-2.25.0
+[laurent.pinchart] cam: sdl_texture_yuyv: Make line stride configurable
 
+[laurent.pinchart] cam: Rename sdl_texture_yuyv.{cpp,h} to sdl_texture_yuv.{cpp,h}
+
+[laurent.pinchart] cam: sdl_sink: Support multi-planar formats
+
+[laurent.pinchart] cam: sdl_sink: Add NV12 texture support
+
+
+------------------------------------------
+[...truncated 36.56 KB...]
+[311/547] Compiling C++ object src/ipa/rkisp1/ipa_rkisp1.so.p/algorithms_gsl.cpp.o
+[312/547] Compiling C++ object src/lc-compliance/lc-compliance.p/.._cam_event_loop.cpp.o
+[313/547] Compiling C++ object src/lc-compliance/lc-compliance.p/.._cam_options.cpp.o
+[314/547] Compiling C++ object src/lc-compliance/lc-compliance.p/main.cpp.o
+[315/547] Compiling C++ object src/lc-compliance/lc-compliance.p/simple_capture.cpp.o
+[316/547] Compiling C++ object src/cam/cam.p/capture_script.cpp.o
+[317/547] Compiling C++ object src/lc-compliance/lc-compliance.p/capture_test.cpp.o
+[318/547] Compiling C++ object src/cam/cam.p/event_loop.cpp.o
+[319/547] Compiling C++ object src/cam/cam.p/frame_sink.cpp.o
+[320/547] Compiling C++ object src/lc-compliance/lc-compliance.p/.._.._subprojects_googletest-release-1.11.0_googletest_src_gtest-all.cc.o
+[321/547] Compiling C++ object src/cam/cam.p/camera_session.cpp.o
+[322/547] Compiling C++ object src/cam/cam.p/file_sink.cpp.o
+[323/547] Compiling C++ object src/cam/cam.p/image.cpp.o
+[324/547] Compiling C++ object src/cam/cam.p/main.cpp.o
+[325/547] Compiling C++ object src/cam/cam.p/options.cpp.o
+[326/547] Compiling C++ object src/cam/cam.p/stream_options.cpp.o
+[327/547] Generating qt5-feathericons_qrc with a custom command
+[328/547] Generating qt5-shaders_qrc with a custom command
+[329/547] Compiling C++ object src/qcam/qcam.p/meson-generated_.._qt5-feathericons_qrc.cpp.o
+[330/547] Compiling C++ object src/qcam/qcam.p/meson-generated_.._qt5-shaders_qrc.cpp.o
+[331/547] Generating 'src/qcam/qcam.p/moc_main_window.cpp'.
+[332/547] Generating 'src/qcam/qcam.p/moc_viewfinder_qt.cpp'.
+[333/547] Compiling C++ object src/qcam/qcam.p/.._cam_image.cpp.o
+[334/547] Compiling C++ object src/qcam/qcam.p/meson-generated_moc_main_window.cpp.o
+[335/547] Compiling C++ object src/qcam/qcam.p/meson-generated_moc_viewfinder_qt.cpp.o
+[336/547] Compiling C++ object src/qcam/qcam.p/.._cam_options.cpp.o
+[337/547] Compiling C++ object src/qcam/qcam.p/.._cam_stream_options.cpp.o
+[338/547] Compiling C++ object src/qcam/qcam.p/format_converter.cpp.o
+[339/547] Compiling C++ object src/qcam/qcam.p/main.cpp.o
+[340/547] Compiling C++ object src/libcamera/libcamera.so.0.0.0.p/meson-generated_.._version.cpp.o
+[341/547] Compiling C++ object src/qcam/qcam.p/message_handler.cpp.o
+[342/547] Generating 'src/qcam/qcam.p/moc_viewfinder_gl.cpp'.
+[343/547] Compiling C++ object src/qcam/qcam.p/main_window.cpp.o
+[344/547] Compiling C++ object src/qcam/qcam.p/viewfinder_qt.cpp.o
+[345/547] Compiling C++ object src/qcam/qcam.p/dng_writer.cpp.o
+[346/547] Compiling C++ object src/qcam/qcam.p/meson-generated_moc_viewfinder_gl.cpp.o
+[347/547] Compiling C++ object src/qcam/qcam.p/viewfinder_gl.cpp.o
+[348/547] Compiling C++ object src/gstreamer/libgstlibcamera.so.p/gstlibcamera-utils.cpp.o
+[349/547] Compiling C++ object src/gstreamer/libgstlibcamera.so.p/gstlibcamerapool.cpp.o
+[350/547] Compiling C++ object src/gstreamer/libgstlibcamera.so.p/gstlibcamerapad.cpp.o
+[351/547] Compiling C++ object src/v4l2/v4l2-compat.so.p/v4l2_camera.cpp.o
+[352/547] Compiling C++ object src/v4l2/v4l2-compat.so.p/v4l2_camera_file.cpp.o
+[353/547] Compiling C++ object src/v4l2/v4l2-compat.so.p/v4l2_camera_proxy.cpp.o
+[354/547] Compiling C++ object src/gstreamer/libgstlibcamera.so.p/gstlibcamera.cpp.o
+[355/547] Compiling C++ object src/gstreamer/libgstlibcamera.so.p/gstlibcameraallocator.cpp.o
+[356/547] Compiling C++ object src/v4l2/v4l2-compat.so.p/v4l2_compat.cpp.o
+[357/547] Compiling C++ object src/libcamera/libcamera.so.0.0.0.p/meson-generated_.._ipa_pub_key.cpp.o
+[358/547] Compiling C++ object src/v4l2/v4l2-compat.so.p/v4l2_compat_manager.cpp.o
+[359/547] Compiling C++ object test/media_device/media_device_acquire.p/media_device_acquire.cpp.o
+[360/547] Compiling C++ object test/media_device/media_device_print_test.p/media_device_print_test.cpp.o
+[361/547] Compiling C++ object test/media_device/media_device_link_test.p/media_device_link_test.cpp.o
+[362/547] Compiling C++ object src/gstreamer/libgstlibcamera.so.p/gstlibcameraprovider.cpp.o
+[363/547] Compiling C++ object src/gstreamer/libgstlibcamera.so.p/gstlibcamerasrc.cpp.o
+[364/547] Compiling C++ object test/libtest/liblibtest.a.p/buffer_source.cpp.o
+[365/547] Compiling C++ object test/libtest/liblibtest.a.p/camera_test.cpp.o
+[366/547] Compiling C++ object test/libtest/liblibtest.a.p/test.cpp.o
+[367/547] Compiling C++ object test/camera/configuration_default.p/configuration_default.cpp.o
+[368/547] Compiling C++ object test/camera/configuration_set.p/configuration_set.cpp.o
+[369/547] Linking static target test/libtest/liblibtest.a
+[370/547] Compiling C++ object test/camera/buffer_import.p/buffer_import.cpp.o
+[371/547] Compiling C++ object test/camera/capture.p/capture.cpp.o
+[372/547] Compiling C++ object test/camera/statemachine.p/statemachine.cpp.o
+[373/547] Compiling C++ object test/camera/camera_reconfigure.p/camera_reconfigure.cpp.o
+[374/547] Compiling C++ object test/controls/control_info.p/control_info.cpp.o
+[375/547] Compiling C++ object test/controls/control_list.p/control_list.cpp.o
+[376/547] Compiling C++ object test/controls/control_value.p/control_value.cpp.o
+[377/547] Compiling C++ object test/controls/control_info_map.p/control_info_map.cpp.o
+[378/547] Compiling C++ object test/gstreamer/single_stream_test.p/gstreamer_single_stream_test.cpp.o
+[379/547] Compiling C++ object test/gstreamer/single_stream_test.p/gstreamer_test.cpp.o
+[380/547] Compiling C++ object test/gstreamer/multi_stream_test.p/gstreamer_multi_stream_test.cpp.o
+[381/547] Compiling C++ object test/ipa/ipa_module_test.p/ipa_module_test.cpp.o
+[382/547] Compiling C++ object test/ipa/ipa_interface_test.p/ipa_interface_test.cpp.o
+[383/547] Compiling C++ object test/gstreamer/multi_stream_test.p/gstreamer_test.cpp.o
+[384/547] Compiling C++ object test/ipc/unixsocket_ipc.p/unixsocket_ipc.cpp.o
+[385/547] Compiling C++ object test/ipc/unixsocket.p/unixsocket.cpp.o
+[386/547] Compiling C++ object test/log/log_api.p/log_api.cpp.o
+[387/547] Compiling C++ object test/media_device/liblib_mdev_test.a.p/media_device_test.cpp.o
+[388/547] Compiling C++ object test/log/log_process.p/log_process.cpp.o
+[389/547] Compiling C++ object test/pipeline/ipu3/ipu3_pipeline_test.p/ipu3_pipeline_test.cpp.o
+[390/547] Compiling C++ object test/pipeline/rkisp1/rkisp1_pipeline_test.p/rkisp1_pipeline_test.cpp.o
+[391/547] Linking static target test/media_device/liblib_mdev_test.a
+[392/547] Compiling C++ object test/process/process_test.p/process_test.cpp.o
+[393/547] Compiling C++ object test/serialization/control_serialization.p/control_serialization.cpp.o
+[394/547] Compiling C++ object test/serialization/control_serialization.p/serialization_test.cpp.o
+[395/547] Compiling C++ object test/serialization/ipa_data_serializer_test.p/serialization_test.cpp.o
+[396/547] Compiling C++ object test/serialization/ipa_data_serializer_test.p/ipa_data_serializer_test.cpp.o
+[397/547] Compiling C++ object test/stream/stream_formats.p/stream_formats.cpp.o
+[398/547] Compiling C++ object test/v4l2_subdevice/list_formats.p/v4l2_subdevice_test.cpp.o
+[399/547] Compiling C++ object test/v4l2_subdevice/list_formats.p/list_formats.cpp.o
+[400/547] Compiling C++ object test/v4l2_subdevice/test_formats.p/test_formats.cpp.o
+[401/547] Generating test_mojom_module with a custom command
+[402/547] Compiling C++ object test/v4l2_subdevice/test_formats.p/v4l2_subdevice_test.cpp.o
+[403/547] Compiling C++ object test/v4l2_videodevice/double_open.p/double_open.cpp.o
+[404/547] Compiling C++ object test/v4l2_videodevice/double_open.p/v4l2_videodevice_test.cpp.o
+[405/547] Compiling C++ object test/v4l2_videodevice/controls.p/controls.cpp.o
+[406/547] Compiling C++ object test/v4l2_videodevice/controls.p/v4l2_videodevice_test.cpp.o
+[407/547] Generating test_ipa_interface_h with a custom command
+[408/547] Compiling C++ object test/v4l2_videodevice/formats.p/v4l2_videodevice_test.cpp.o
+[409/547] Compiling C++ object test/v4l2_videodevice/formats.p/formats.cpp.o
+[410/547] Compiling C++ object test/v4l2_videodevice/dequeue_watchdog.p/dequeue_watchdog.cpp.o
+[411/547] Compiling C++ object test/v4l2_videodevice/dequeue_watchdog.p/v4l2_videodevice_test.cpp.o
+[412/547] Compiling C++ object test/v4l2_videodevice/request_buffers.p/request_buffers.cpp.o
+[413/547] Compiling C++ object test/v4l2_videodevice/request_buffers.p/v4l2_videodevice_test.cpp.o
+[414/547] Compiling C++ object test/v4l2_videodevice/buffer_cache.p/buffer_cache.cpp.o
+[415/547] Compiling C++ object test/v4l2_videodevice/stream_on_off.p/stream_on_off.cpp.o
+[416/547] Compiling C++ object test/v4l2_videodevice/buffer_cache.p/v4l2_videodevice_test.cpp.o
+[417/547] Compiling C++ object test/v4l2_videodevice/stream_on_off.p/v4l2_videodevice_test.cpp.o
+[418/547] Compiling C++ object test/v4l2_videodevice/capture_async.p/capture_async.cpp.o
+[419/547] Generating test_ipa_serializer_h with a custom command
+[420/547] Compiling C++ object test/v4l2_videodevice/capture_async.p/v4l2_videodevice_test.cpp.o
+[421/547] Compiling C++ object test/v4l2_videodevice/buffer_sharing.p/buffer_sharing.cpp.o
+[422/547] Compiling C++ object test/v4l2_videodevice/buffer_sharing.p/v4l2_videodevice_test.cpp.o
+[423/547] Compiling C++ object test/v4l2_videodevice/v4l2_m2mdevice.p/v4l2_m2mdevice.cpp.o
+[424/547] Compiling C++ object test/geometry.p/geometry.cpp.o
+[425/547] Compiling C++ object test/v4l2_videodevice/v4l2_m2mdevice.p/v4l2_videodevice_test.cpp.o
+[426/547] Compiling C++ object test/public-api.p/public-api.cpp.o
+[427/547] Compiling C++ object test/signal.p/signal.cpp.o
+[428/547] Compiling C++ object test/span.p/span.cpp.o
+[429/547] Compiling C++ object test/bayer-format.p/bayer-format.cpp.o
+[430/547] Compiling C++ object test/byte-stream-buffer.p/byte-stream-buffer.cpp.o
+[431/547] Compiling C++ object test/delayed_controls.p/delayed_controls.cpp.o
+[432/547] Compiling C++ object test/event.p/event.cpp.o
+[433/547] Compiling C++ object test/event-thread.p/event-thread.cpp.o
+[434/547] Compiling C++ object test/flags.p/flags.cpp.o
+[435/547] Compiling C++ object test/file.p/file.cpp.o
+[436/547] Compiling C++ object test/hotplug-cameras.p/hotplug-cameras.cpp.o
+[437/547] Compiling C++ object test/message.p/message.cpp.o
+[438/547] Compiling C++ object test/object.p/object.cpp.o
+[439/547] Linking target src/libcamera/libcamera.so.0.0.0
+[440/547] Generating documentation with a custom command
+[441/547] Compiling C++ object src/cam/cam.p/sdl_texture.cpp.o
+[442/547] Compiling C++ object test/object-invoke.p/object-invoke.cpp.o
+[443/547] Compiling C++ object test/serialization/generated_serializer/generated_serializer_test.p/generated_serializer_test.cpp.o
+[444/547] Compiling C++ object test/object-delete.p/object-delete.cpp.o
+[445/547] Compiling C++ object test/pixel-format.p/pixel-format.cpp.o
+[446/547] Compiling C++ object src/cam/cam.p/sdl_texture_mjpg.cpp.o
+[447/547] Compiling C++ object src/cam/cam.p/sdl_sink.cpp.o
+[448/547] Compiling C++ object test/shared-fd.p/shared-fd.cpp.o
+[449/547] Compiling C++ object test/signal-threads.p/signal-threads.cpp.o
+[450/547] Compiling C++ object test/timer-thread.p/timer-thread.cpp.o
+[451/547] Compiling C++ object test/unique-fd.p/unique-fd.cpp.o
+[452/547] Compiling C++ object test/threads.p/threads.cpp.o
+[453/547] Compiling C++ object test/timer.p/timer.cpp.o
+[454/547] Compiling C++ object test/utils.p/utils.cpp.o
+[455/547] Compiling C++ object test/mapped-buffer.p/mapped-buffer.cpp.o
+[456/547] Compiling C++ object test/fence.p/fence.cpp.o
+[457/547] Compiling C++ object test/yaml-parser.p/yaml-parser.cpp.o
+[458/547] Compiling C++ object src/cam/cam.p/sdl_texture_yuv.cpp.o
+FAILED: src/cam/cam.p/sdl_texture_yuv.cpp.o 
+ccache c++ -Isrc/cam/cam.p -Isrc/cam -I../src/cam -Iinclude -I../include -Iinclude/libcamera -I/usr/include/SDL2 -fdiagnostics-color=always -pipe -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -Wnon-virtual-dtor -Wextra -Werror -std=c++17 -g -Wshadow -include <https://builder.linuxtv.org/job/libcamera/ws/build/config.h> -D_REENTRANT -pthread -DHAVE_SDL -DHAVE_LIBJPEG -MD -MQ src/cam/cam.p/sdl_texture_yuv.cpp.o -MF src/cam/cam.p/sdl_texture_yuv.cpp.o.d -o src/cam/cam.p/sdl_texture_yuv.cpp.o -c ../src/cam/sdl_texture_yuv.cpp
+../src/cam/sdl_texture_yuv.cpp: In member function ‘virtual void SDLTextureNV12::update(const std::vector<libcamera::Span<const unsigned char> >&)’:
+../src/cam/sdl_texture_yuv.cpp:19:2: error: ‘SDL_UpdateNVTexture’ was not declared in this scope; did you mean ‘SDL_UpdateYUVTexture’?
+   19 |  SDL_UpdateNVTexture(ptr_, &rect_, data[0].data(), pitch_,
+      |  ^~~~~~~~~~~~~~~~~~~
+      |  SDL_UpdateYUVTexture
+[459/547] Generating symbol file src/libcamera/libcamera.so.0.0.0.p/libcamera.so.0.0.0.symbols
+[460/547] Generating doxygen with a custom command
+<https://builder.linuxtv.org/job/libcamera/ws/src/libcamera/base/file.cpp>:49: warning: no matching class member found for 
+  libcamera::File::MapFlag::NoOption
+
+<https://builder.linuxtv.org/job/libcamera/ws/src/libcamera/base/file.cpp>:51: warning: no uniquely matching class member found for 
+  libcamera::File::MapFlag::Private
+
+<https://builder.linuxtv.org/job/libcamera/ws/src/libcamera/base/file.cpp>:64: warning: no matching class member found for 
+  libcamera::File::OpenModeFlag::NotOpen
+
+<https://builder.linuxtv.org/job/libcamera/ws/src/libcamera/base/file.cpp>:66: warning: no matching class member found for 
+  libcamera::File::OpenModeFlag::ReadOnly
+
+<https://builder.linuxtv.org/job/libcamera/ws/src/libcamera/base/file.cpp>:68: warning: no matching class member found for 
+  libcamera::File::OpenModeFlag::WriteOnly
+
+<https://builder.linuxtv.org/job/libcamera/ws/src/libcamera/base/file.cpp>:70: warning: no uniquely matching class member found for 
+  libcamera::File::OpenModeFlag::ReadWrite
+
+<https://builder.linuxtv.org/job/libcamera/ws/src/libcamera/bayer_format.cpp>:58: warning: no uniquely matching class member found for 
+  libcamera::BayerFormat::Packing::None
+
+<https://builder.linuxtv.org/job/libcamera/ws/src/libcamera/bayer_format.cpp>:60: warning: no matching class member found for 
+  libcamera::BayerFormat::Packing::CSI2
+
+<https://builder.linuxtv.org/job/libcamera/ws/src/libcamera/bayer_format.cpp>:62: warning: no matching class member found for 
+  libcamera::BayerFormat::Packing::IPU3
+
+<https://builder.linuxtv.org/job/libcamera/ws/src/libcamera/camera.cpp>:334: warning: no uniquely matching class member found for 
+  libcamera::CameraConfiguration::ColorSpaceFlag::None
+
+<https://builder.linuxtv.org/job/libcamera/ws/src/libcamera/camera.cpp>:336: warning: no matching class member found for 
+  libcamera::CameraConfiguration::ColorSpaceFlag::StreamsShareColorSpace
+
+<https://builder.linuxtv.org/job/libcamera/ws/src/libcamera/color_space.cpp>:53: warning: no uniquely matching class member found for 
+  libcamera::ColorSpace::Primaries::Raw
+
+<https://builder.linuxtv.org/job/libcamera/ws/src/libcamera/color_space.cpp>:57: warning: no uniquely matching class member found for 
+  libcamera::ColorSpace::Primaries::Smpte170m
+
+<https://builder.linuxtv.org/job/libcamera/ws/src/libcamera/color_space.cpp>:60: warning: no uniquely matching class member found for 
+  libcamera::ColorSpace::Primaries::Rec709
+
+<https://builder.linuxtv.org/job/libcamera/ws/src/libcamera/color_space.cpp>:63: warning: no uniquely matching class member found for 
+  libcamera::ColorSpace::Primaries::Rec2020
+
+<https://builder.linuxtv.org/job/libcamera/ws/src/libcamera/color_space.cpp>:71: warning: no matching class member found for 
+  libcamera::ColorSpace::TransferFunction::Linear
+
+<https://builder.linuxtv.org/job/libcamera/ws/src/libcamera/color_space.cpp>:74: warning: no uniquely matching class member found for 
+  libcamera::ColorSpace::TransferFunction::Srgb
+
+<https://builder.linuxtv.org/job/libcamera/ws/src/libcamera/color_space.cpp>:77: warning: no uniquely matching class member found for 
+  libcamera::ColorSpace::TransferFunction::Rec709
+
+<https://builder.linuxtv.org/job/libcamera/ws/src/libcamera/color_space.cpp>:85: warning: no uniquely matching class member found for 
+  libcamera::ColorSpace::YcbcrEncoding::None
+
+<https://builder.linuxtv.org/job/libcamera/ws/src/libcamera/color_space.cpp>:88: warning: no matching class member found for 
+  libcamera::ColorSpace::YcbcrEncoding::Rec601
+
+<https://builder.linuxtv.org/job/libcamera/ws/src/libcamera/color_space.cpp>:91: warning: no uniquely matching class member found for 
+  libcamera::ColorSpace::YcbcrEncoding::Rec709
+
+<https://builder.linuxtv.org/job/libcamera/ws/src/libcamera/color_space.cpp>:94: warning: no uniquely matching class member found for 
+  libcamera::ColorSpace::YcbcrEncoding::Rec2020
+
+<https://builder.linuxtv.org/job/libcamera/ws/src/libcamera/color_space.cpp>:102: warning: no matching class member found for 
+  libcamera::ColorSpace::Range::Full
+
+<https://builder.linuxtv.org/job/libcamera/ws/src/libcamera/color_space.cpp>:105: warning: no matching class member found for 
+  libcamera::ColorSpace::Range::Limited
+
+<https://builder.linuxtv.org/job/libcamera/ws/src/libcamera/control_serializer.cpp>:95: warning: no matching class member found for 
+  libcamera::ControlSerializer::Role::Proxy
+
+<https://builder.linuxtv.org/job/libcamera/ws/src/libcamera/control_serializer.cpp>:98: warning: no matching class member found for 
+  libcamera::ControlSerializer::Role::Worker
+
+<https://builder.linuxtv.org/job/libcamera/ws/src/libcamera/media_object.cpp>:254: warning: no uniquely matching class member found for 
+  libcamera::MediaEntity::Type::Invalid
+
+<https://builder.linuxtv.org/job/libcamera/ws/src/libcamera/media_object.cpp>:257: warning: no uniquely matching class member found for 
+  libcamera::MediaEntity::Type::MediaEntity
+
+<https://builder.linuxtv.org/job/libcamera/ws/src/libcamera/media_object.cpp>:260: warning: no uniquely matching class member found for 
+  libcamera::MediaEntity::Type::V4L2VideoDevice
+
+<https://builder.linuxtv.org/job/libcamera/ws/src/libcamera/media_object.cpp>:263: warning: no uniquely matching class member found for 
+  libcamera::MediaEntity::Type::V4L2Subdevice
+
+ninja: build stopped: subcommand failed.
+Build step 'Execute shell' marked build as failure
