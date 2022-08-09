@@ -2,78 +2,109 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 639B358D1F6
-	for <lists+linux-media@lfdr.de>; Tue,  9 Aug 2022 04:14:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 46BEE58D407
+	for <lists+linux-media@lfdr.de>; Tue,  9 Aug 2022 08:51:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230040AbiHICOe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 8 Aug 2022 22:14:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57946 "EHLO
+        id S234458AbiHIGv1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 9 Aug 2022 02:51:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55950 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229530AbiHICOc (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 8 Aug 2022 22:14:32 -0400
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E96DA186F5;
-        Mon,  8 Aug 2022 19:14:29 -0700 (PDT)
-X-UUID: e8f5d0cb958f4b22a0aa7c1aba99d1e3-20220809
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-        h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID; bh=y8g00+MVfQ7zjg+9qQtJsoC54ym+QwCyy5TT9zwswNA=;
-        b=JsFPM6PS557liQ59PGHrTq7Cy65VMQvZ56hKUF1zyCEsOy+3VI9WWAvfBkittXVxGPp3PANgLXqW52qODCqJ5jb5b5i/Srk790XVBRTRVZpQCqJQfHsoPbppYUGYwZksyisbCmmCqd+sbLKYY1qyNa8BksCok1k8UeSAp8fX08U=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.9,REQID:d670fdfa-5e56-4d00-a3b2-8f919da888de,OB:0,LO
-        B:0,IP:0,URL:0,TC:0,Content:-5,EDM:0,RT:0,SF:45,FILE:0,BULK:0,RULE:Release
-        _Ham,ACTION:release,TS:40
-X-CID-INFO: VERSION:1.1.9,REQID:d670fdfa-5e56-4d00-a3b2-8f919da888de,OB:0,LOB:
-        0,IP:0,URL:0,TC:0,Content:-5,EDM:0,RT:0,SF:45,FILE:0,BULK:0,RULE:Release_H
-        am,ACTION:release,TS:40
-X-CID-META: VersionHash:3d8acc9,CLOUDID:64af1e9c-da39-4e3b-a854-56c7d2111b46,C
-        OID:f4cded7e47b4,Recheck:0,SF:28|17|19|48,TC:nil,Content:0,EDM:-3,IP:nil,U
-        RL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0
-X-UUID: e8f5d0cb958f4b22a0aa7c1aba99d1e3-20220809
-Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw02.mediatek.com
-        (envelope-from <irui.wang@mediatek.com>)
-        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-        with ESMTP id 1012388443; Tue, 09 Aug 2022 10:14:25 +0800
-Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
- mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.792.15; Tue, 9 Aug 2022 10:14:23 +0800
-Received: from mhfsdcap04 (10.17.3.154) by mtkmbs11n2.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.2.792.15 via Frontend
- Transport; Tue, 9 Aug 2022 10:14:22 +0800
-Message-ID: <ceed53ee78f1364771f781a5567dd186ec4694ad.camel@mediatek.com>
-Subject: Re: [PATCH v5, 0/8] Support H264 multi-core encoder on MT8195
-From:   Irui Wang <irui.wang@mediatek.com>
-To:     Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        <angelogioacchino.delregno@collabora.com>,
-        "Rob Herring" <robh+dt@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Tiffany Lin <tiffany.lin@mediatek.com>,
-        "Andrew-CT Chen" <andrew-ct.chen@mediatek.com>,
-        Tzung-Bi Shih <tzungbi@chromium.org>,
-        Tomasz Figa <tfiga@google.com>
-CC:     Maoguang Meng <maoguang.meng@mediatek.com>,
-        Longfei Wang <longfei.wang@mediatek.com>,
-        Yunfei Dong <yunfei.dong@mediatek.com>,
-        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-mediatek@lists.infradead.org>,
-        <Project_Global_Chrome_Upstream_Group@mediatek.com>
-Date:   Tue, 9 Aug 2022 10:14:22 +0800
-In-Reply-To: <8ae4bf37a743755d046f9d0a9e8ad303c7a5041d.camel@collabora.com>
-References: <20220729035129.3634-1-irui.wang@mediatek.com>
-         <8ae4bf37a743755d046f9d0a9e8ad303c7a5041d.camel@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
-MIME-Version: 1.0
+        with ESMTP id S229600AbiHIGv0 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 9 Aug 2022 02:51:26 -0400
+Received: from EUR04-HE1-obe.outbound.protection.outlook.com (mail-eopbgr70077.outbound.protection.outlook.com [40.107.7.77])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F398519C18;
+        Mon,  8 Aug 2022 23:51:24 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=gVucz5FVWS5it579IPxglEpZAIu0jtR3yEBmFhAhyB9/xfnSLiVRIpBbNvjjk3FAzMDP93PTw3I0S+yONl9w19YU/Y2qFMgNfC5aXemnAfGazT7zOU9ROerfRCYtwhGu+sCNbxBYXj18siwrIkHEp7lSJdLHejsLoqXDS1I2HwaNeXDr2zne4d71tc/d+TbbnWdQU/j167UPAOtKUxW+ZTZpnEvwTBN4gbbVbKX0f0dwnvkQtNwS1K6ys7PDSweYfLwu2+9DsBT6ngAVNRSCxonTcBTQkjXIb8QaTLZ3QfHKZyqQ+KAtbqRa4FBqwDwpk9x8GPM6pmTbix2ylORwAg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=nunFY6PB+suxzJNJpqaow7igM+cXdrpCdt8TqkjXzr8=;
+ b=PjNv+zFN+WVFYPyX45aYi1gH7zY3BDOsdZNfxzJFexChDBRWruHwxntEnIFSxguCSInH2nAjcxn53SpNdYc9rLfEo60cw17zC0G1WZqYMXjY30IAABIP4xvtGV4PTJl+/t2WmRE3gAepWLknvA4dq7SunNLKhz6yA/TFb1zcAcjjW30DKfTd8AVrAqWfJrIGNMx+lOQ+5dTSgiuQPZEk+REi1UCyR7rsgfr1or9TinWgXg+62NoU5OZ1uVvFyMTf5IUt9QTIAi5xrWvOUShjL0egX6USq+seDcs1TuxncJX18liGUDfsCWo9bJVWEjfc2GnsbujUQsWp5AGF9JGmsA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=nunFY6PB+suxzJNJpqaow7igM+cXdrpCdt8TqkjXzr8=;
+ b=rSBNwWAfXPDYP1okh5ABCBexo5hOnOb/nMm8TYgDVSUCYlbGIm+Y1jYhjMSiY8OD11Qpz+G1AFzKe8uOiEo74qmUsOvDvrrQr/9I/MFhiH2mTM8hx2gIRltXx+v8mGOS9BMEC3+mjIdCGZuRR4x2ZR3izq/lz+PzXf8NId/fMR0=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from AM6PR04MB6341.eurprd04.prod.outlook.com (2603:10a6:20b:d8::14)
+ by DB6PR0401MB2438.eurprd04.prod.outlook.com (2603:10a6:4:33::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5504.21; Tue, 9 Aug
+ 2022 06:51:22 +0000
+Received: from AM6PR04MB6341.eurprd04.prod.outlook.com
+ ([fe80::5db6:3f08:2e04:33c]) by AM6PR04MB6341.eurprd04.prod.outlook.com
+ ([fe80::5db6:3f08:2e04:33c%4]) with mapi id 15.20.5504.017; Tue, 9 Aug 2022
+ 06:51:21 +0000
+From:   Ming Qian <ming.qian@nxp.com>
+To:     mchehab@kernel.org, hverkuil-cisco@xs4all.nl
+Cc:     shawnguo@kernel.org, robh+dt@kernel.org, s.hauer@pengutronix.de,
+        kernel@pengutronix.de, festevam@gmail.com, linux-imx@nxp.com,
+        xiahong.bao@nxp.com, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Subject: [PATCH v4 0/4] media: amphion: add support for contiguous format
+Date:   Tue,  9 Aug 2022 14:50:37 +0800
+Message-Id: <cover.1660027440.git.ming.qian@nxp.com>
+X-Mailer: git-send-email 2.37.1
 Content-Transfer-Encoding: 8bit
-X-MTK:  N
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE,UNPARSEABLE_RELAY,URIBL_CSS
+Content-Type: text/plain
+X-ClientProxiedBy: SI2PR01CA0038.apcprd01.prod.exchangelabs.com
+ (2603:1096:4:193::20) To AM6PR04MB6341.eurprd04.prod.outlook.com
+ (2603:10a6:20b:d8::14)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 33876da0-4c41-477e-f1a5-08da79d391a4
+X-MS-TrafficTypeDiagnostic: DB6PR0401MB2438:EE_
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: kbjkPJ9n+bKFgKwNU9ZlOShn5tYrmd+/Ek2l5cWVj3M9dSTLRiNrn3YlerBFLT2jmJEwLMPt9Oe3esbJj6upl9zN2fQKpr28R93TVdg3/bCUsGfYzbDtshTaXQSPF0v847DWBC5TmZGDZdzDLsnQp/Fz9TAJD2fV/KT+Y3eY8Q3C5AIFoMELFz8FuWNoK3YmdVXHaXly2wihQE6UBKKlywzfmlGLlrRg6tR5WLq0V2cdVmTgwzQGAPvuDw/Mspbi0pBU5tyQr2YKPHpyyu8Obr64nNf9ZDj75XwLcySCJdM8keH4WtdHI8P9aHCR4Gz4m8B848t6OWKlLzbd3hMMMjGkIXNZuHS000XIiwMC1MxkvnjCFZPrApq2SWgpH3J5wx9Ca+jkmU7O6au87UXFlzInkDKoyo+jnU3LXm6VrLqjxMXhK4aX2DGFdSUID32+GzX5VUZ1JJdQN1KgqhTNCENiVZ5glPfJnPYmeOhxbi8hvKcBtItDD/N7PlNvOuqyl/+479wmd3/5TB0Hf/bxjEGIV1uhCSeYtGjvl+RGiU4CJyp58TysJ2YpycImr9O/SBY4sNaeJ6KwkL7aL7qYYa8Khwl+wdlGNkNxGzzboe32XkuW+TWnU+8uZ1YI5wSdqM1ff3TASwH8LOx5hpm/Vd8s28A2AbrkVodMvxZz7cpPmcRhZxJ3zpj3l4mhL3Ci5egWPQ2arCU7an1dxuamzyPEI9bWkRrwuggC81YNFOXj0IMonTZg7UES6+D6nROxGPkzm3GRGTdWYe/KcgbQgk32izhPRgo+naN2vVsW/qSBxofZjuNQImnZ3Q1zYz1K
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6PR04MB6341.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(396003)(39860400002)(346002)(366004)(376002)(136003)(6486002)(478600001)(52116002)(6666004)(6506007)(41300700001)(36756003)(86362001)(2906002)(6512007)(2616005)(186003)(26005)(83380400001)(8936002)(44832011)(316002)(4326008)(8676002)(66556008)(66946007)(66476007)(5660300002)(7416002)(38100700002)(38350700002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?dVDRsdrX5JrHv15y94vwliUisGLDt+7Rb/kuJEvSM0o9RM+QNeE15Q/cCggq?=
+ =?us-ascii?Q?E8VLXXNVqd6hfnwlwr0VS7Xd98DJ8dqyqUERBCHyFA5W3DGNR2M37t+QU3ob?=
+ =?us-ascii?Q?HovWw+w4bCybivkP5iPUp6axIQ1GshlritaR1IddTNoChMM3RSY+fBChVq34?=
+ =?us-ascii?Q?sVKDHkmqzK0yiHEymD7HZdJhXUNE3TXcK4r6YJZMmfNDNtcisWbqjeoJ3swj?=
+ =?us-ascii?Q?4Egy8ig+RPXhyLTyDhtF0mdf9sp55IeZY3rFhbug4cmjAAqOSmdYIHAsfD2R?=
+ =?us-ascii?Q?lR9E0Q4qRW89dpqCoHkvSug6yewZdlqLO4/0IjyIcqfJRmGSzozYT6VTtBsX?=
+ =?us-ascii?Q?r15PYKWsYHVZey+dNpWCR+6Mhp8GMIxh7dp0+U2GHo0mMeB/pm1fQn2Yqoce?=
+ =?us-ascii?Q?jzN/L6A+LXpWGmnQqFb+PGFhXSSaDidG+hgqMt/icVfLgzj0u31XWMYGnCWq?=
+ =?us-ascii?Q?5Xa3uwL8cEMljXEd3pzqpbwxLmVd1gFEiht+0G8RcxEa4GJCps7TcDOUvYcm?=
+ =?us-ascii?Q?o5ANFQa6DnsYcwangkM5uZAuui4mXvdkq6bnG+SnOjXeBZmH0PfGHTgWivEy?=
+ =?us-ascii?Q?2YZOzfzW15XcUVdr7M9zWvY/NvFMQCtt4pXToH1IMNJW0Ypri/a4GLGF2Nxl?=
+ =?us-ascii?Q?JlTZsAhel7x8cN/9J7/XeSjD8jVF3rRGsFSyagJQwWTclhjp3MDgvh/OIBYQ?=
+ =?us-ascii?Q?imZC/lSUQzPKxrzL1lDb90exKecLzvG+/Pe1LVSRYQjdbDhi78bSWFIoHedT?=
+ =?us-ascii?Q?IRCOCSB08HS/gkGVNhJxxfPTK7TsbvDmpG0Afj6ttRPMcOcNdZc1j/hSqWqG?=
+ =?us-ascii?Q?2KObWUihzt+0qfwmIknhfayJHvMuT+iDhvs35KblnYLCAdzr3oOnUQcHEo2o?=
+ =?us-ascii?Q?4SiwVZhdwrIWvXEGGVMc7nWc5EyFXgWgp27cXyXoMr8BAwkIPA0tD7mGyG6Z?=
+ =?us-ascii?Q?rJrOPsV4xXa9J3GSTmWliRV3H6Ay+Kmkhd8x5t0cwXmVEeanGpgIfL7UWcaD?=
+ =?us-ascii?Q?i4qTGJirfccyhc8/10W8GaM6r3OoVdMHiQsWaAmcphWa4wlHl8R6IOM3T8Tj?=
+ =?us-ascii?Q?VdPvwau+PdTNMY2L33HtzncqWjVbPKvffDkqMv9fzKKILhdJfeXsRYgWQSCT?=
+ =?us-ascii?Q?7XDr09RTTaVlD5ltSYlkz5P7LLOVRpIWO2JRnUiXy2q/+ZZunKztOAq2I6xw?=
+ =?us-ascii?Q?bl2dr5YYo1ighlSIE44pRWqaIGBHdB5C6pS1l1ZcxKJnxaHHxf0wz3sdzqCg?=
+ =?us-ascii?Q?1/5AGlOOYflnI2b+Z8J7wdKUw9n8Oowi21HclcPGhqI/eetVAcETkuid3MSv?=
+ =?us-ascii?Q?lRUQdZ0KTBti38z9xwSzA2x/COeyf8L9cgWumDSeBzKzVOKwgIpHlnwePEjE?=
+ =?us-ascii?Q?Wu3kDEa/xKFCyNPBRilgrXR6JboNjCtqk1LnniqMkUD4LU0fGrKWBp0BvQ/w?=
+ =?us-ascii?Q?UiOpK206oNdRFyg//8cjwtSx1CepiT78+2zrd7nlEaeWIYn2cdroIUZPSZ+O?=
+ =?us-ascii?Q?mndxOh9y/2Wkowe5ymDS6ThuGle9wj0uRL76xISYusglxOkaJqLaCgOFA8At?=
+ =?us-ascii?Q?X/hSrfg/TNaRwuf7iHqaKAdIMGFPguQbyhqWJxyA?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 33876da0-4c41-477e-f1a5-08da79d391a4
+X-MS-Exchange-CrossTenant-AuthSource: AM6PR04MB6341.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Aug 2022 06:51:21.6475
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: lzogVsEcW1FWGe7Sr5iG7+3Yz5L+Sk72dvzVs/7zobQ1cQH7qJd5luSRiYXCyWBeQ2T1NWBYPJiRFqJrxuG6pQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB6PR0401MB2438
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -81,144 +112,51 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Dear Nicolas,
+amphion vpu support non contiguous planes yuv format,
+but when we make pipeline with other device,
+the device may only support contiguous format,
+for example, amphion encoder support NV12M,
+but the capture device may only support NV12.
+we can't connect them directly.
 
-Sorry for late, we have tested this change by chrome tast test before:
+So to improve compatibility, driver can add support for contiguous
+format in the same time.
 
-tast run $IP video.PlatformEncoding.v4l2_h264*
+Then encoder can support NV12 and NV12M,
+decoder can support NV12_8L128 and NV12M_8L128.
 
-here are the average fps results:
-Before:
-180p: 1913
-180_meet: 1935
+v4
+- set bytesperline of compressed formats to 0
 
-360p: 554
-360_meet: 571
+v3
+- negotiate bytesperline with user
+- zero the reserved of v4l2_format
 
-720p: 159
-720_meet: 189
+v2
+-- fix an uninitialized array index read error
+-- remove an used variable
 
-After:
-180p: 2236
-180_meet: 2337
+Ming Qian (4):
+  media: add nv12_8l128 and nv12_10be_8l128 video format.
+  media: amphion: tell and handle contiguous and non contiguous format
+  media: amphion: decoder add support for contiguous planes
+  media: amphion: encoder add support for contiguous planes
 
-360p: 820
-360_meet: 830
+ .../media/v4l/pixfmt-yuv-planar.rst           |   8 +
+ drivers/media/platform/amphion/vdec.c         | 203 ++++++++++--------
+ drivers/media/platform/amphion/venc.c         |  41 ++--
+ drivers/media/platform/amphion/vpu.h          |   4 +-
+ drivers/media/platform/amphion/vpu_dbg.c      |   8 +-
+ drivers/media/platform/amphion/vpu_helpers.c  |  48 ++++-
+ drivers/media/platform/amphion/vpu_helpers.h  |   2 +
+ drivers/media/platform/amphion/vpu_malone.c   |   3 +-
+ drivers/media/platform/amphion/vpu_v4l2.c     | 168 +++++++++++----
+ drivers/media/platform/amphion/vpu_v4l2.h     |   3 +-
+ drivers/media/platform/amphion/vpu_windsor.c  |   8 +-
+ drivers/media/v4l2-core/v4l2-ioctl.c          |   2 +
+ include/uapi/linux/videodev2.h                |   2 +
+ 13 files changed, 335 insertions(+), 165 deletions(-)
 
-720p: 324
-720_meet: 390
-
-Thanks
-BRs
-On Fri, 2022-07-29 at 11:08 -0400, Nicolas Dufresne wrote:
-> Hi Irui,
-> 
-> Le vendredi 29 juillet 2022 à 11:51 +0800, Irui Wang a écrit :
-> > MT8195 has two H264 encoder hardware, named core0 and core1, this
-> > two
-> > cores can encode two input frames separately at the same time to
-> > achieve
-> > higher performance.
-> 
-> I suspect you could provide some performance numbers on that specific
-> HW before
-> and after your change ? This could help integrator regarding what
-> type of gain
-> they can expect of back-porting this feature. This is not strictly
-> mandatory
-> though.
-> 
-> > 
-> > This series of patches are used to enable the two H264 encoder
-> > cores,
-> > the difference between encoding process before and after enable two
-> > cores is just like as below:
-> > As-Is: Synchronous
-> > V4L2_VIDIOC_QBUF#0 --> device_run(triger encoder) --> wait encoder
-> > IRQ
-> > -->
-> > encoding done with result --> job_finish
-> > V4l2_VIDIOC_QBUF#1 --> device_run(triger encoder) --> wait encoder
-> > IRQ
-> > -->
-> > encoding done with result --> job_finish
-> > ...
-> > To-Be: Asynchronous
-> > V4L2_VIDIOC_QBUF#0 --> device_run(triger encoder) --> job_finish
-> > ..V4l2_VIDIOC_QBUF#1 --> device_run(triger encoder) --> job_finish
-> > (venc core0 may encode done here, done the encoding result to
-> > client)
-> > V4L2_VIDIOC_QBUF#2 --> device_run(triger encoder) --> job_finish.
-> > 
-> > ---
-> > changes compared with v4:
-> > - reabse to the newer linux media stage tree.
-> > - remove "mediatek,venc-multi-core" property since sub-device can
-> >   be probed by of_platform_populate api directly.
-> > - some modifications for patch v4's review comments.
-> > 
-> > changes compared with v3:
-> > - rebase to the newer linux media stage.
-> > - add a capability to indicate scp firmware support multi-core.
-> > - probe core0 as main device, core1 as sub-device.
-> > 
-> > changes compared with v2:
-> > - update venc core dt-bindings, add two new properties for current
-> >   usage.
-> > - parse venc multi_core mode from device tree.
-> > - rebase to the newer linux media stage.
-> > 
-> > changes compared with v1:
-> > - of_platform_populate was used in place of the component
-> > framework.
-> > - new yaml file for venc cores.
-> > - some modifications for patch v1's review comments.
-> > ---
-> > 
-> > Irui Wang (8):
-> >   dt-bindings: media: mediatek: vcodec: Adds encoder cores dt-
-> > bindings
-> >     for mt8195
-> >   media: mediatek: vcodec: Enable venc dual core usage
-> >   media: mediatek: vcodec: Refactor venc power manage function
-> >   media: mediatek: vcodec: Add more extra processing for multi-core
-> >     encoding
-> >   media: mediatek: vcodec: Add venc power on/off function
-> >   media: mediatek: vcodec: Refactor encoder clock on/off function
-> >   media: mediatek: vcodec: Add multi-core encoding process
-> >   media: mediatek: vcodec: Return encoding result in asynchronous
-> > mode
-> > 
-> >  .../media/mediatek,vcodec-encoder-core.yaml   | 218
-> > ++++++++++++++++
-> >  .../media/mediatek,vcodec-encoder.yaml        |   1 -
-> >  .../media/platform/mediatek/vcodec/Makefile   |   4 +-
-> >  .../platform/mediatek/vcodec/mtk_vcodec_drv.h |  28 +-
-> >  .../platform/mediatek/vcodec/mtk_vcodec_enc.c | 113 ++++++--
-> >  .../platform/mediatek/vcodec/mtk_vcodec_enc.h |  11 +-
-> >  .../mediatek/vcodec/mtk_vcodec_enc_drv.c      |  44 +++-
-> >  .../mediatek/vcodec/mtk_vcodec_enc_hw.c       | 156 +++++++++++
-> >  .../mediatek/vcodec/mtk_vcodec_enc_hw.h       |  34 +++
-> >  .../mediatek/vcodec/mtk_vcodec_enc_pm.c       | 178 +++++++++++--
-> >  .../mediatek/vcodec/mtk_vcodec_enc_pm.h       |  11 +-
-> >  .../mediatek/vcodec/mtk_vcodec_util.c         |  19 ++
-> >  .../mediatek/vcodec/mtk_vcodec_util.h         |   3 +
-> >  .../mediatek/vcodec/venc/venc_h264_if.c       | 243
-> > ++++++++++++++----
-> >  .../mediatek/vcodec/venc/venc_vp8_if.c        |   3 +-
-> >  .../platform/mediatek/vcodec/venc_drv_if.c    |  75 ++++--
-> >  .../platform/mediatek/vcodec/venc_drv_if.h    |   6 +
-> >  .../platform/mediatek/vcodec/venc_vpu_if.c    |   9 +-
-> >  .../platform/mediatek/vcodec/venc_vpu_if.h    |   3 +-
-> >  19 files changed, 1028 insertions(+), 131 deletions(-)
-> >  create mode 100644
-> > Documentation/devicetree/bindings/media/mediatek,vcodec-encoder-
-> > core.yaml
-> >  create mode 100644
-> > drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc_hw.c
-> >  create mode 100644
-> > drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc_hw.h
-> > 
-> 
-> 
+-- 
+2.37.1
 
