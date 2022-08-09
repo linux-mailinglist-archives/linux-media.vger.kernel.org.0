@@ -2,156 +2,213 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5DC4858D97D
-	for <lists+linux-media@lfdr.de>; Tue,  9 Aug 2022 15:39:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 69A9C58DA80
+	for <lists+linux-media@lfdr.de>; Tue,  9 Aug 2022 16:46:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243821AbiHINjG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 9 Aug 2022 09:39:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49036 "EHLO
+        id S242167AbiHIOqS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 9 Aug 2022 10:46:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34552 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231670AbiHINjF (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 9 Aug 2022 09:39:05 -0400
-Received: from EUR05-VI1-obe.outbound.protection.outlook.com (mail-vi1eur05on2047.outbound.protection.outlook.com [40.107.21.47])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1E37319295;
-        Tue,  9 Aug 2022 06:39:04 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=OmpotJivurqWjU/SgXM6gkCPXBtwXUTsTCxK7LOji8DG7aZMXy43f+pVjMPD/FRaT/IQMRw6+sKPrpRNjZs0+0/bMhVyPe0HMYS0oQYB9tOI4l5IIMaesxOPpxuK6ZSsKYce/Ou4BAGBevBr+bR332HR3lcXhbBHDDalfCnZR9CTjEOb9TJ919EVbE8Nf20ZcgI6NjAFsBaezNtporGaPme6NyJUOngj8AWYonqXOqz7vaplhRyJbKuYX7q5WTRVVeOwQJudwsJZXDEUJBSLOoPTiEIZ0FwW7vmJOwdWu3LwdCBK7357sBoQPX6aPeZjPR+BEqSsz1l+ZPE4GatHyQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=xsW/73XAUpgJI/4b2pVcUZ62NA9Odlc8GVNM5GvZnz8=;
- b=ljm1uRTNchyqLmbXXa5ajzOQY1gaFVpcU6Zsq8R9GmjB8Y0uTWmotvfLFyl9WjVfDpR68wT4m2H2ApSYAg7NIdK1BipXyV5+Bj4RnGKK6SqcN8yqQaSAao6Dk5diOFS6cd7HqV9jO+1DcRQwRM69qEYfisD8o38M66gDuS4U2WU9cZqUZyyVOC1l2dwP6NhMfnCwYTlH/vmHdCSc0qQ0HyQaZU6+w+6mLEpOrNyZih8mcL0WZYOm3biyDQRXuGDs/BdMHXqUi/nrnTWRYzW/F2Y60IERTLxTB85Bwr+guRsIAFdpUqM22Ob1DjLgbcl1yn8owNe2F3buXbTMcFelLQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=xsW/73XAUpgJI/4b2pVcUZ62NA9Odlc8GVNM5GvZnz8=;
- b=khbzf13sH7uupXC5YCWZFyULLMcgFx1WFLWjXQ2h0B4gwcBmpC9YiV2M7bGwDHhrfst1Du+929OwOaDXyoIyBcwoY55a1wllpivasbfXMK4ZQs7kSVS7Klp99G26fb9tc2yzP6vXpIZ1Wf3b9fT5ktZzFRXXHPvE18myF9h+X4w=
-Received: from AM6PR04MB6743.eurprd04.prod.outlook.com (2603:10a6:20b:f1::11)
- by PR3PR04MB7419.eurprd04.prod.outlook.com (2603:10a6:102:80::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5504.21; Tue, 9 Aug
- 2022 13:38:59 +0000
-Received: from AM6PR04MB6743.eurprd04.prod.outlook.com
- ([fe80::a401:5ed6:1bfa:89a9]) by AM6PR04MB6743.eurprd04.prod.outlook.com
- ([fe80::a401:5ed6:1bfa:89a9%5]) with mapi id 15.20.5504.019; Tue, 9 Aug 2022
- 13:38:59 +0000
-From:   Olivier Masse <olivier.masse@nxp.com>
-To:     "brian.starkey@arm.com" <brian.starkey@arm.com>
-CC:     "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
-        "christian.koenig@amd.com" <christian.koenig@amd.com>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "nd@arm.com" <nd@arm.com>,
-        =?iso-8859-15?Q?Cl=E9ment_Faure?= <clement.faure@nxp.com>,
-        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-        "benjamin.gaignard@collabora.com" <benjamin.gaignard@collabora.com>
-Subject: Re: [EXT] Re: [PATCH 1/3] dma-buf: heaps: add Linaro secure dmabuf
- heap support
-Thread-Topic: [EXT] Re: [PATCH 1/3] dma-buf: heaps: add Linaro secure dmabuf
- heap support
-Thread-Index: AQHYqNLEB1kEEMDN2EiJXHn7b90D762gcg6AgAYmygA=
-Date:   Tue, 9 Aug 2022 13:38:58 +0000
-Message-ID: <86524ed0e12cbb76a8d746447b24f90f0aca55fa.camel@nxp.com>
-References: <20220805135330.970-1-olivier.masse@nxp.com>
-         <20220805135330.970-2-olivier.masse@nxp.com>
-         <20220805154139.2qkqxwklufjpsfdx@000377403353>
-In-Reply-To: <20220805154139.2qkqxwklufjpsfdx@000377403353>
-Accept-Language: fr-FR, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 52c61423-bbd6-4211-cad8-08da7a0c838b
-x-ms-traffictypediagnostic: PR3PR04MB7419:EE_
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: RfprcbVvfHi7d61+p/i5/qlUFwhlud26kFMGhgYyOKSnQJogf3DiFhrBcBVxYNu56N/yRx+xDB+lWg+sjZ7i/mstqGlhMPApSaXqwnoVI0InY3Zo+Fn4jZam4yIvF//Fa1ATg7CWINwC05M2KhYZEj0pQESfwUJyDEwIcgsmy9jkBjf9vpQB090kJ7ZCKMwfHCXm5bWKvwC8+QrWjP6HrSUJMb/Sr/aEFtsxPWmNjRA6/Ix35B1qXpcR4C1hlI4Roa/ZRqH2+Ct9kqns7gqjlWxW0a/jGgvm8t7+hYTl7d5j53pOi+rfiZY/aZXKOUoeMOI9teczV1nmY27FwImVgh5ENPAHb5H711JLAOeTyHD3Hlitema4lI+kzc7S2bnikJSROPhou7gF0118HEDr5l+TMEM9uV/9ywRGhrXIxH6p+5diIGLVrnH6ZBDgr0FFMKWR62PKp7SYKOna4yLu8fTKPBZu1YV7YtfrwlCm1OsgfLx3pzmUKnFD4QMysf07msqpF7VFnR5UGkDd/DfQBEYiDucBCthtnX4uRtpbrsEF2ZdICeQryBHk50qWUgboLeuyLqZYgeq47TRWpd1cTjJaTJ0I2JwUXyd8iqzDc+iNwAlaES3NpYJ/zkVCEAFIVviEY9T4Mbez6WvT51SrSEFp+iIt7wZl+KlPrxSFke6yrdlUeMZ2Dml1j1fDlm6KI47zPZQ0OZZqhb8HymkPxmsLpje4+DxJhya0zQpM6T6p8UvSYezVGOvTI+yzuC2uRUcpS+L+LyvOsCZUOibCY5LrekBLRikDLi30MboGqDPcA4Ookd0Jq8tDOqIjr+g4
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6PR04MB6743.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(366004)(396003)(39860400002)(376002)(136003)(346002)(8936002)(66946007)(316002)(4744005)(71200400001)(76116006)(122000001)(4326008)(66446008)(66556008)(8676002)(64756008)(44832011)(66476007)(54906003)(6916009)(36756003)(91956017)(5660300002)(6486002)(478600001)(41300700001)(2906002)(186003)(26005)(6512007)(6506007)(38070700005)(38100700002)(2616005)(86362001)(99106002);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?iso-8859-15?Q?mTbtCZlpLpUxtuQPPk454uXcovBOeMck3ZH41opFaBsfvrzrp3lOs83Dw?=
- =?iso-8859-15?Q?cCrxIKNF7sv0wNrKvKpXjAX6KoclKpzP/IsIy6lvVEPB1F7pdjcQniaxt?=
- =?iso-8859-15?Q?WhBjhHoELd3sUyCxGANOAzrRRIJM977vBLYFfEpjZMm4xHGIHflyUo3O0?=
- =?iso-8859-15?Q?JUxFs2BiBqc5I2WlFFWulF9r82cPSk4sgHXNcxAJOzr2qO/eULv1SRrDN?=
- =?iso-8859-15?Q?L7TQTe+a1sIXcp9cQUwxfhru1sPAdxNbhlmOrSSq/+4qiC5nSMZd3kv+X?=
- =?iso-8859-15?Q?Abigdr0zrLgJH0uaTiPJBQb2ZcoEuv+FnoRNM/YoetJQDMy9XLsIH+Yau?=
- =?iso-8859-15?Q?b/L5ReeBYyZeo7PBuQeDgO9i5FUFLLa43/nCkgLci6f9Y23bGDw349y2/?=
- =?iso-8859-15?Q?MAiXGlMS8zTuCjx03HBa6zlEZojnzHQjsWGuKUcmR/LCbu/tUfBk/RnLz?=
- =?iso-8859-15?Q?EPB5O2Oi8D/uuYlK4uyeZUvlFw5/JIWfUaqRmYqAjbMDZPSlD2s9pJopk?=
- =?iso-8859-15?Q?+qTo+5AL2e8x2PS8B2Z3lywmSU61m/yog7U7Nn3efC1fCVsqUnN73+2Mz?=
- =?iso-8859-15?Q?qAhFi1Xmu5e5/Cmi4oOo6rNzUGChdhTeHWYxQ5swfAtr7FmQNaLvJy98R?=
- =?iso-8859-15?Q?/u5DlCOAOXCtfiYghcduj9qxe0HUEPR/gRIWnLZ7VmUS+ueGt/xbiZNQw?=
- =?iso-8859-15?Q?SG/xErFk91095GB+dvWWv7RyXhWm1jf8TLleeJLdPJ3WhoCHyVRWQAgDl?=
- =?iso-8859-15?Q?cVcElyWZX7LC8IDW3SKvperaGx5Pl5IBmImLfMq2/mAsCtSXS3RUTP/ry?=
- =?iso-8859-15?Q?RYQXS+gGmUUZQnJE1fav+uB27/mERqZu6E3BEekm3dOqrqcWj1bsmbwwj?=
- =?iso-8859-15?Q?rxf6sLkvRpFVYk4KzWlLeo3wtY0N1qGdvJyEGTt0j2TmUT7Raz47Ehx6q?=
- =?iso-8859-15?Q?3B3yOylQHPeNN8zwiX/7aRX6wQL+00osLkerJUOvRquj735Ssc0lAp6U5?=
- =?iso-8859-15?Q?3agntM/orqQrc+vu4mLB0dsZJBA1MIqJ4KXup8gjqEH2HuBX6QdkeFNfR?=
- =?iso-8859-15?Q?EIP29MVz2B9qVb/od20HwARO3r6PS51lOjDKOfxM2WILF7zdUthbgAgZl?=
- =?iso-8859-15?Q?+1WloeUyjlmRtuc8hiWsL6S2HXrSWJTIrn7Hf4u8RENX38X9n5vDPRFi8?=
- =?iso-8859-15?Q?clbq8yJ2qht1q/612EYL+8DcT1welRSzKhsxuXVonscqayKBBa47K/Lir?=
- =?iso-8859-15?Q?n1m3zZaood3jJH2pFdZFDhVuErkE8ZVvl0l5cBqIYW9N1awTmr56Wh4US?=
- =?iso-8859-15?Q?j9DwwrYeUwkUdk6wN7of2VEQo/vUEVC+2CBPbFdthHY6kDgSRQ22DsEGr?=
- =?iso-8859-15?Q?OdQsoOzGuer/58u/5xHzzTfn8F0lSVu2XlzqR5ve4qwFWcz4fCvvv6pRv?=
- =?iso-8859-15?Q?oSiHnMZjym+eNxF23HSXIlIsWz2ZhOYr3PesbDgcvzClt9aLXcNNvmy8e?=
- =?iso-8859-15?Q?KabQ4/bZT0tf/C3mTxuqT5KOOAgVQ2PwvTtOsUHInI/UtJBfgsxMeIBiD?=
- =?iso-8859-15?Q?GF0b11vf94damJX4rV30Je0gOPXz3B4S8DMZJKVR41Hp3Xp99hL6cQRMc?=
- =?iso-8859-15?Q?9iLtyjamSaO2yKAcdWwaQD8usO8teNGwcynKBZNrdt4N2gPFhoHSF9R4G?=
- =?iso-8859-15?Q?vuTN?=
-Content-Type: text/plain; charset="iso-8859-15"
-Content-ID: <75FA77FEE6A4EA4FA7E03430296AEECC@eurprd04.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+        with ESMTP id S231337AbiHIOqR (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 9 Aug 2022 10:46:17 -0400
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com [IPv6:2a00:1450:4864:20::441])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D8FC01ADA4
+        for <linux-media@vger.kernel.org>; Tue,  9 Aug 2022 07:46:15 -0700 (PDT)
+Received: by mail-wr1-x441.google.com with SMTP id l22so14592111wrz.7
+        for <linux-media@vger.kernel.org>; Tue, 09 Aug 2022 07:46:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:mail-followup-to:message-id:subject:cc:to
+         :from:date:from:to:cc;
+        bh=GU85vH0JwZyYgfvgPi4uNIOzQTqcxTNpZf0fdkfbw3E=;
+        b=cGqWfEM031PLNJ3KzfPfP+udllMIZG1weeQeYwd/jHYlN+GzXSzPZDD/+a7LgB0GzI
+         nM3sOrM0M2uKJKnGth6xfOifFqiAinTk2krgDkCfyxbaFrY5ocdohAnd0H/a/vVwe0lS
+         yovylzfg11jKLpxKZL27PpulfArYd+AjLllp8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:mail-followup-to:message-id:subject:cc:to
+         :from:date:x-gm-message-state:from:to:cc;
+        bh=GU85vH0JwZyYgfvgPi4uNIOzQTqcxTNpZf0fdkfbw3E=;
+        b=tdt7VpXwcHsbB+ub9FbKUuRyqzF80HA+eAgh7MdNz9kZ2LysCwgQWNP8QNKImQRnD+
+         fEaSJ+YqAA0hyoBWxX+QMjuFgd9R+iwLbMfoXAVWq/UTOPbwmm4a05A0rCcpx38fF/Yo
+         3mgyCNEWT6ILWUClZXMuSOILXAH3JgRG8XUqBxdsqFwZNbGAT0XtU32yy7RDrHsLaEHe
+         xCdC6rThM3+fjS1ReH0PWN6gaaKl9VrhpabC8Fonpj6r5oGyEUwX3l+6dwnecXbHtvNx
+         r/iv77SbbDqevHju8OMZK3DtQcexWWVlnOrxelLgBP+/Rv1HBD+T+3+7ubVW9Nvf1FSJ
+         yPhg==
+X-Gm-Message-State: ACgBeo3aqJHCEUzLS7LJ1rVMmcd5nLxIu4EQStG8d7l9IH9+CtuTR2xE
+        AzUYS3qKG1juM3aUzSobpqsQzQ==
+X-Google-Smtp-Source: AA6agR4wNTRW3WH6s5IDTVPaHbcPGt8ACxu8E3GaSvcFwrkbIoiXBDALV6KyScP+LquedtXpwKq6nQ==
+X-Received: by 2002:a05:6000:381:b0:221:7507:bb24 with SMTP id u1-20020a056000038100b002217507bb24mr12253940wrf.373.1660056374190;
+        Tue, 09 Aug 2022 07:46:14 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+        by smtp.gmail.com with ESMTPSA id d13-20020adfe88d000000b0021e13efa17esm13713701wrm.70.2022.08.09.07.46.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 09 Aug 2022 07:46:13 -0700 (PDT)
+Date:   Tue, 9 Aug 2022 16:46:11 +0200
+From:   Daniel Vetter <daniel@ffwll.ch>
+To:     Christian =?iso-8859-1?Q?K=F6nig?= 
+        <ckoenig.leichtzumerken@gmail.com>
+Cc:     Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+        Daniel Stone <daniel@fooishbar.org>,
+        Pekka Paalanen <ppaalanen@gmail.com>,
+        "Sharma, Shashank" <Shashank.Sharma@amd.com>,
+        lkml <linux-kernel@vger.kernel.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>,
+        linaro-mm-sig@lists.linaro.org,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        linux-media <linux-media@vger.kernel.org>
+Subject: Re: [Linaro-mm-sig] Re: DMA-buf and uncached system memory
+Message-ID: <YvJzM1km0iJ3eFnR@phenom.ffwll.local>
+Mail-Followup-To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
+        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+        Daniel Stone <daniel@fooishbar.org>,
+        Pekka Paalanen <ppaalanen@gmail.com>,
+        "Sharma, Shashank" <Shashank.Sharma@amd.com>,
+        lkml <linux-kernel@vger.kernel.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>,
+        linaro-mm-sig@lists.linaro.org,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        linux-media <linux-media@vger.kernel.org>
+References: <fbb228cd78e9bebd7e7921c19e0c4c09d0891f23.camel@pengutronix.de>
+ <e691bccc-171d-f674-2817-13a945970f4a@amd.com>
+ <95cca943bbfda6af07339fb8d2dc7f4da3aa0280.camel@pengutronix.de>
+ <05814ddb-4f3e-99d8-025a-c31db7b2c46b@amd.com>
+ <708e27755317a7650ca08ba2e4c14691ac0d6ba2.camel@pengutronix.de>
+ <6287f5f8-d9af-e03d-a2c8-ea8ddcbdc0d8@amd.com>
+ <CAPj87rOykZv7bjNhHPT4StrsPz8Y_DWqab4Ryq=Qqh77LS2e=Q@mail.gmail.com>
+ <578953dd-6298-2bfe-a8fb-52004b84fd17@amd.com>
+ <YrY0cQY1BTL5H7Xp@phenom.ffwll.local>
+ <5eeefadd-7804-3876-c8da-3e6f1bcb9dc0@gmail.com>
 MIME-Version: 1.0
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: AM6PR04MB6743.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 52c61423-bbd6-4211-cad8-08da7a0c838b
-X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Aug 2022 13:38:59.1363
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: xGCuLJ0H3rzKi/vNo31iJZbhcmECRyChxlvcpA3J+1WKoL+bOAX6JtSzdhq6caAjZ3H0VyMGFwOKHV0vgxLyXQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PR3PR04MB7419
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <5eeefadd-7804-3876-c8da-3e6f1bcb9dc0@gmail.com>
+X-Operating-System: Linux phenom 5.10.0-8-amd64 
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Brian,
+On Mon, Jul 04, 2022 at 03:48:03PM +0200, Christian König wrote:
+> Hi Daniel,
+> 
+> Am 25.06.22 um 00:02 schrieb Daniel Vetter:
+> > On Thu, Jun 23, 2022 at 01:32:18PM +0200, Christian König wrote:
+> > > Am 23.06.22 um 13:27 schrieb Daniel Stone:
+> > > > [SNIP]
+> > > > If it's really your belief that dmabuf requires universal snooping, I
+> > > > recommend you send the patch to update the documentation, as well as
+> > > > to remove DRIVER_PRIME from, realistically, most non-PCIE drivers.
+> > > Well, to be honest I think that would indeed be necessary.
+> > > 
+> > > What we have created are essentially two different worlds, one for PCI
+> > > devices and one for the rest.
+> > > 
+> > > This was indeed not the intention, but it's a fact that basically all
+> > > DMA-buf based PCI drivers assume coherent access.
+> > dma-buf does not require universal snooping.
+> > 
+> > It does defacto require that all device access is coherent with all other
+> > device access, and consistent with the exporters notion of how cpu
+> > coherency is achieved. Not that coherent does not mean snooping, as long
+> > as all devices do unsnooped access and the exporter either does wc/uc or
+> > flushes caches that's perfectly fine, and how all the arm soc dma-buf
+> > sharing works.
+> 
+> We should probably start documenting that better.
 
-> > +
-> > +             rmem->ops =3D &rmem_dma_ops;
-> > +             pr_info("Reserved memory: DMA buf secure pool %s at
-> > %pa, size %ld MiB\n",
-> > +                     secure_data[secure_data_count].name,
-> > +                     &rmem->base, (unsigned long)rmem->size /
-> > SZ_1M);
->=20
-> nit: What if rmem->size < SZ_1M, or not 1M-aligned
->=20
+Agreed :-)
 
-Let's assume that size is 1K-aligned, maybe something like that could
-be better ?
+Are you volunteering to type up something that reflects the current sorry
+state of affairs? I'm not sure I'm the best since I guess I've been too
+badly involved in this ...
 
-		unsigned long mb =3D rmem->size >> 20;
-		unsigned long kb =3D (rmem->size & (SZ_1M - 1)) >> 10;
+> > We did originally have the wording in there that you have to map/unamp
+> > around every device access, but that got dropped because no one was doing
+> > that anyway.
+> > 
+> > Now where this totally breaks down is how we make this work, because the
+> > idea was that dma_buf_attach validates this all. Where this means all the
+> > hilarious reasons buffer sharing might not work:
+> > - wrong coherency mode (cpu cached or not)
+> > - not contiguous (we do check that, but only once we get the sg from
+> >    dma_buf_attachment_map, which strictly speaking is a bit too late but
+> >    most drivers do attach&map as one step so not that bad in practice)
+> > - whether the dma api will throw in bounce buffers or not
+> > - random shit like "oh this is in the wrong memory bank", which I think
+> >    never landed in upstream
+> > 
+> > p2p connectivity is about the only one that gets this right, yay. And the
+> > only reason we can even get it right is because all the information is
+> > exposed to drivers fully.
+> 
+> Yeah, that's why I designed P2P that way :)
+> 
+> I also don't think it's that bad, at least for radeon, nouveau and amdgpu
+> all the migration restrictions are actually handled correctly.
+> 
+> In other words when a DMA-buf is about to be used by another device we use
+> TTM to move the buffer around so that it can actually be accessed by that
+> device.
+> 
+> What I haven't foreseen in here is that we need to deal with different
+> caching behaviors between exporter and importer.
 
-		pr_info("Reserved memory: DMA buf secure pool %s at %pa, size %ld MiB and=
- %ld KiB",
-			secure_data[secure_data_count].name,
-			&rmem->base, mb, kb);
+Yeah we should have done caching explicitly and full opt-in like with p2p.
+The trouble is that this would have been a multi-year fight with dma api
+folks, who insist it must be all transparent. So the politically clever
+thing was to just ignore the problem and land dma-buf, but it comes back
+to bite us now :-/
 
-Cheers,
-Olivier
+> > The issue is that the device dma api refuses to share this information
+> > because it would "leak". Which sucks, because we have defacto build every
+> > single cross-device use-case of dma-buf on the assumption we can check
+> > this (up to gl/vk specs), but oh well.
+> > 
+> > So in practice this gets sorted out by endless piles of hacks to make
+> > individual use-cases work.
+> > 
+> > Oh and: This is definitely not limited to arm socs. x86 socs with intel
+> > at least have exactly all the same issues, and they get solved by adding
+> > various shitty hacks to the involved drivers (like i915+amdgpu). Luckily
+> > the intel camera driver isn't in upstream yet, since that would break a
+> > bunch of the hacks since suddently there will be now 2 cpu cache
+> > incoherent devices in an x86 system.
+> > 
+> > Ideally someone fixes this, but I'm not hopeful.
+> > 
+> > I recommend pouring more drinks.
+> > 
+> > What is definitely not correct is claiming that dma-buf wasn't meant for
+> > this. We discussed cache coherency issues endless in budapest 12 or so
+> > years ago, I was there. It's just that the reality of the current
+> > implementation is falling short, and every time someone tries to fix it we
+> > get shouted down by dma api maintainers for looking behind their current.
+> 
+> Well that explains this, I've joined the party a year later and haven't
+> witnessed all of this.
+
+Yay, cleared up another confusion!
+
+> > tldr; You have to magically know to not use cpu cached allocators on these
+> > machines.
+> 
+> Or reject the attachment. As far as I can see that is still the cleanest
+> option.
+
+Yeah rejecting is always an ok thing if it just doesn't work.
+-Daniel
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
