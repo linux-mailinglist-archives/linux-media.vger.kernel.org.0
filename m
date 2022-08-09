@@ -2,283 +2,156 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1064358D914
-	for <lists+linux-media@lfdr.de>; Tue,  9 Aug 2022 15:02:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5DC4858D97D
+	for <lists+linux-media@lfdr.de>; Tue,  9 Aug 2022 15:39:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242972AbiHINCs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 9 Aug 2022 09:02:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54162 "EHLO
+        id S243821AbiHINjG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 9 Aug 2022 09:39:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49036 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237529AbiHINCr (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 9 Aug 2022 09:02:47 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF521BE30
-        for <linux-media@vger.kernel.org>; Tue,  9 Aug 2022 06:02:45 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3D931481;
-        Tue,  9 Aug 2022 15:02:42 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1660050162;
-        bh=Bh0d46J8AhPrLsO6JOFAHYGL8NIzh5XPARQXkX4Y2Nc=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=fNGBItmkzuESkJ5UMDoJOC0/wPSJGGshvn+XgpRlpIgwEeqxfMeJL37sT9pxBbrU/
-         /RCoKnO+vDpZnm1V6BsF20upZjScztETvML53SvA6xCDKfmDg1h6iWCyMOYFA8cfBa
-         HAX8aiDUxBpXAAW/gevWriXxEYq+qHNEPsnrv82Q=
-Date:   Tue, 9 Aug 2022 16:02:31 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     linux-media@vger.kernel.org,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        Hidenori Kobayashi <hidenorik@chromium.org>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Ricardo Ribalda <ribalda@chromium.org>,
-        Maxime Ripard <maxime@cerno.tech>,
-        Daniel Scally <djrscally@gmail.com>,
-        Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Michael Tretter <m.tretter@pengutronix.de>,
-        Michael Olbrich <m.olbrich@pengutronix.de>
-Subject: Re: [ANN] Media Summit at ELCE Dublin, September 12: Draft Agenda V1
-Message-ID: <YvJa5znh+5Rj5xTt@pendragon.ideasonboard.com>
-References: <1ca14c26-2e47-b144-1f5a-02824e81269a@xs4all.nl>
- <ab206a11-0f96-2d97-c17f-1455527ece2a@xs4all.nl>
+        with ESMTP id S231670AbiHINjF (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 9 Aug 2022 09:39:05 -0400
+Received: from EUR05-VI1-obe.outbound.protection.outlook.com (mail-vi1eur05on2047.outbound.protection.outlook.com [40.107.21.47])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1E37319295;
+        Tue,  9 Aug 2022 06:39:04 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=OmpotJivurqWjU/SgXM6gkCPXBtwXUTsTCxK7LOji8DG7aZMXy43f+pVjMPD/FRaT/IQMRw6+sKPrpRNjZs0+0/bMhVyPe0HMYS0oQYB9tOI4l5IIMaesxOPpxuK6ZSsKYce/Ou4BAGBevBr+bR332HR3lcXhbBHDDalfCnZR9CTjEOb9TJ919EVbE8Nf20ZcgI6NjAFsBaezNtporGaPme6NyJUOngj8AWYonqXOqz7vaplhRyJbKuYX7q5WTRVVeOwQJudwsJZXDEUJBSLOoPTiEIZ0FwW7vmJOwdWu3LwdCBK7357sBoQPX6aPeZjPR+BEqSsz1l+ZPE4GatHyQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=xsW/73XAUpgJI/4b2pVcUZ62NA9Odlc8GVNM5GvZnz8=;
+ b=ljm1uRTNchyqLmbXXa5ajzOQY1gaFVpcU6Zsq8R9GmjB8Y0uTWmotvfLFyl9WjVfDpR68wT4m2H2ApSYAg7NIdK1BipXyV5+Bj4RnGKK6SqcN8yqQaSAao6Dk5diOFS6cd7HqV9jO+1DcRQwRM69qEYfisD8o38M66gDuS4U2WU9cZqUZyyVOC1l2dwP6NhMfnCwYTlH/vmHdCSc0qQ0HyQaZU6+w+6mLEpOrNyZih8mcL0WZYOm3biyDQRXuGDs/BdMHXqUi/nrnTWRYzW/F2Y60IERTLxTB85Bwr+guRsIAFdpUqM22Ob1DjLgbcl1yn8owNe2F3buXbTMcFelLQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=xsW/73XAUpgJI/4b2pVcUZ62NA9Odlc8GVNM5GvZnz8=;
+ b=khbzf13sH7uupXC5YCWZFyULLMcgFx1WFLWjXQ2h0B4gwcBmpC9YiV2M7bGwDHhrfst1Du+929OwOaDXyoIyBcwoY55a1wllpivasbfXMK4ZQs7kSVS7Klp99G26fb9tc2yzP6vXpIZ1Wf3b9fT5ktZzFRXXHPvE18myF9h+X4w=
+Received: from AM6PR04MB6743.eurprd04.prod.outlook.com (2603:10a6:20b:f1::11)
+ by PR3PR04MB7419.eurprd04.prod.outlook.com (2603:10a6:102:80::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5504.21; Tue, 9 Aug
+ 2022 13:38:59 +0000
+Received: from AM6PR04MB6743.eurprd04.prod.outlook.com
+ ([fe80::a401:5ed6:1bfa:89a9]) by AM6PR04MB6743.eurprd04.prod.outlook.com
+ ([fe80::a401:5ed6:1bfa:89a9%5]) with mapi id 15.20.5504.019; Tue, 9 Aug 2022
+ 13:38:59 +0000
+From:   Olivier Masse <olivier.masse@nxp.com>
+To:     "brian.starkey@arm.com" <brian.starkey@arm.com>
+CC:     "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
+        "christian.koenig@amd.com" <christian.koenig@amd.com>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "nd@arm.com" <nd@arm.com>,
+        =?iso-8859-15?Q?Cl=E9ment_Faure?= <clement.faure@nxp.com>,
+        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+        "benjamin.gaignard@collabora.com" <benjamin.gaignard@collabora.com>
+Subject: Re: [EXT] Re: [PATCH 1/3] dma-buf: heaps: add Linaro secure dmabuf
+ heap support
+Thread-Topic: [EXT] Re: [PATCH 1/3] dma-buf: heaps: add Linaro secure dmabuf
+ heap support
+Thread-Index: AQHYqNLEB1kEEMDN2EiJXHn7b90D762gcg6AgAYmygA=
+Date:   Tue, 9 Aug 2022 13:38:58 +0000
+Message-ID: <86524ed0e12cbb76a8d746447b24f90f0aca55fa.camel@nxp.com>
+References: <20220805135330.970-1-olivier.masse@nxp.com>
+         <20220805135330.970-2-olivier.masse@nxp.com>
+         <20220805154139.2qkqxwklufjpsfdx@000377403353>
+In-Reply-To: <20220805154139.2qkqxwklufjpsfdx@000377403353>
+Accept-Language: fr-FR, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 52c61423-bbd6-4211-cad8-08da7a0c838b
+x-ms-traffictypediagnostic: PR3PR04MB7419:EE_
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: RfprcbVvfHi7d61+p/i5/qlUFwhlud26kFMGhgYyOKSnQJogf3DiFhrBcBVxYNu56N/yRx+xDB+lWg+sjZ7i/mstqGlhMPApSaXqwnoVI0InY3Zo+Fn4jZam4yIvF//Fa1ATg7CWINwC05M2KhYZEj0pQESfwUJyDEwIcgsmy9jkBjf9vpQB090kJ7ZCKMwfHCXm5bWKvwC8+QrWjP6HrSUJMb/Sr/aEFtsxPWmNjRA6/Ix35B1qXpcR4C1hlI4Roa/ZRqH2+Ct9kqns7gqjlWxW0a/jGgvm8t7+hYTl7d5j53pOi+rfiZY/aZXKOUoeMOI9teczV1nmY27FwImVgh5ENPAHb5H711JLAOeTyHD3Hlitema4lI+kzc7S2bnikJSROPhou7gF0118HEDr5l+TMEM9uV/9ywRGhrXIxH6p+5diIGLVrnH6ZBDgr0FFMKWR62PKp7SYKOna4yLu8fTKPBZu1YV7YtfrwlCm1OsgfLx3pzmUKnFD4QMysf07msqpF7VFnR5UGkDd/DfQBEYiDucBCthtnX4uRtpbrsEF2ZdICeQryBHk50qWUgboLeuyLqZYgeq47TRWpd1cTjJaTJ0I2JwUXyd8iqzDc+iNwAlaES3NpYJ/zkVCEAFIVviEY9T4Mbez6WvT51SrSEFp+iIt7wZl+KlPrxSFke6yrdlUeMZ2Dml1j1fDlm6KI47zPZQ0OZZqhb8HymkPxmsLpje4+DxJhya0zQpM6T6p8UvSYezVGOvTI+yzuC2uRUcpS+L+LyvOsCZUOibCY5LrekBLRikDLi30MboGqDPcA4Ookd0Jq8tDOqIjr+g4
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6PR04MB6743.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(366004)(396003)(39860400002)(376002)(136003)(346002)(8936002)(66946007)(316002)(4744005)(71200400001)(76116006)(122000001)(4326008)(66446008)(66556008)(8676002)(64756008)(44832011)(66476007)(54906003)(6916009)(36756003)(91956017)(5660300002)(6486002)(478600001)(41300700001)(2906002)(186003)(26005)(6512007)(6506007)(38070700005)(38100700002)(2616005)(86362001)(99106002);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?iso-8859-15?Q?mTbtCZlpLpUxtuQPPk454uXcovBOeMck3ZH41opFaBsfvrzrp3lOs83Dw?=
+ =?iso-8859-15?Q?cCrxIKNF7sv0wNrKvKpXjAX6KoclKpzP/IsIy6lvVEPB1F7pdjcQniaxt?=
+ =?iso-8859-15?Q?WhBjhHoELd3sUyCxGANOAzrRRIJM977vBLYFfEpjZMm4xHGIHflyUo3O0?=
+ =?iso-8859-15?Q?JUxFs2BiBqc5I2WlFFWulF9r82cPSk4sgHXNcxAJOzr2qO/eULv1SRrDN?=
+ =?iso-8859-15?Q?L7TQTe+a1sIXcp9cQUwxfhru1sPAdxNbhlmOrSSq/+4qiC5nSMZd3kv+X?=
+ =?iso-8859-15?Q?Abigdr0zrLgJH0uaTiPJBQb2ZcoEuv+FnoRNM/YoetJQDMy9XLsIH+Yau?=
+ =?iso-8859-15?Q?b/L5ReeBYyZeo7PBuQeDgO9i5FUFLLa43/nCkgLci6f9Y23bGDw349y2/?=
+ =?iso-8859-15?Q?MAiXGlMS8zTuCjx03HBa6zlEZojnzHQjsWGuKUcmR/LCbu/tUfBk/RnLz?=
+ =?iso-8859-15?Q?EPB5O2Oi8D/uuYlK4uyeZUvlFw5/JIWfUaqRmYqAjbMDZPSlD2s9pJopk?=
+ =?iso-8859-15?Q?+qTo+5AL2e8x2PS8B2Z3lywmSU61m/yog7U7Nn3efC1fCVsqUnN73+2Mz?=
+ =?iso-8859-15?Q?qAhFi1Xmu5e5/Cmi4oOo6rNzUGChdhTeHWYxQ5swfAtr7FmQNaLvJy98R?=
+ =?iso-8859-15?Q?/u5DlCOAOXCtfiYghcduj9qxe0HUEPR/gRIWnLZ7VmUS+ueGt/xbiZNQw?=
+ =?iso-8859-15?Q?SG/xErFk91095GB+dvWWv7RyXhWm1jf8TLleeJLdPJ3WhoCHyVRWQAgDl?=
+ =?iso-8859-15?Q?cVcElyWZX7LC8IDW3SKvperaGx5Pl5IBmImLfMq2/mAsCtSXS3RUTP/ry?=
+ =?iso-8859-15?Q?RYQXS+gGmUUZQnJE1fav+uB27/mERqZu6E3BEekm3dOqrqcWj1bsmbwwj?=
+ =?iso-8859-15?Q?rxf6sLkvRpFVYk4KzWlLeo3wtY0N1qGdvJyEGTt0j2TmUT7Raz47Ehx6q?=
+ =?iso-8859-15?Q?3B3yOylQHPeNN8zwiX/7aRX6wQL+00osLkerJUOvRquj735Ssc0lAp6U5?=
+ =?iso-8859-15?Q?3agntM/orqQrc+vu4mLB0dsZJBA1MIqJ4KXup8gjqEH2HuBX6QdkeFNfR?=
+ =?iso-8859-15?Q?EIP29MVz2B9qVb/od20HwARO3r6PS51lOjDKOfxM2WILF7zdUthbgAgZl?=
+ =?iso-8859-15?Q?+1WloeUyjlmRtuc8hiWsL6S2HXrSWJTIrn7Hf4u8RENX38X9n5vDPRFi8?=
+ =?iso-8859-15?Q?clbq8yJ2qht1q/612EYL+8DcT1welRSzKhsxuXVonscqayKBBa47K/Lir?=
+ =?iso-8859-15?Q?n1m3zZaood3jJH2pFdZFDhVuErkE8ZVvl0l5cBqIYW9N1awTmr56Wh4US?=
+ =?iso-8859-15?Q?j9DwwrYeUwkUdk6wN7of2VEQo/vUEVC+2CBPbFdthHY6kDgSRQ22DsEGr?=
+ =?iso-8859-15?Q?OdQsoOzGuer/58u/5xHzzTfn8F0lSVu2XlzqR5ve4qwFWcz4fCvvv6pRv?=
+ =?iso-8859-15?Q?oSiHnMZjym+eNxF23HSXIlIsWz2ZhOYr3PesbDgcvzClt9aLXcNNvmy8e?=
+ =?iso-8859-15?Q?KabQ4/bZT0tf/C3mTxuqT5KOOAgVQ2PwvTtOsUHInI/UtJBfgsxMeIBiD?=
+ =?iso-8859-15?Q?GF0b11vf94damJX4rV30Je0gOPXz3B4S8DMZJKVR41Hp3Xp99hL6cQRMc?=
+ =?iso-8859-15?Q?9iLtyjamSaO2yKAcdWwaQD8usO8teNGwcynKBZNrdt4N2gPFhoHSF9R4G?=
+ =?iso-8859-15?Q?vuTN?=
+Content-Type: text/plain; charset="iso-8859-15"
+Content-ID: <75FA77FEE6A4EA4FA7E03430296AEECC@eurprd04.prod.outlook.com>
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <ab206a11-0f96-2d97-c17f-1455527ece2a@xs4all.nl>
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: AM6PR04MB6743.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 52c61423-bbd6-4211-cad8-08da7a0c838b
+X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Aug 2022 13:38:59.1363
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: xGCuLJ0H3rzKi/vNo31iJZbhcmECRyChxlvcpA3J+1WKoL+bOAX6JtSzdhq6caAjZ3H0VyMGFwOKHV0vgxLyXQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PR3PR04MB7419
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans,
+Hi Brian,
 
-On Tue, Aug 09, 2022 at 03:01:01PM +0200, Hans Verkuil wrote:
-> On 8/5/22 13:35, Hans Verkuil wrote:
-> > Hi all,
-> > 
-> > Here is some more information about the Media Summit:
-> > 
-> > Date: Monday September 12
-> > Time: 9:00-17:00
-> > Location: Convention Centre Dublin
-> > Room: The Liffey B - Part 1 (subject to change)
-> > Sponsored by: Cisco Systems Norway and Collabora
-> > 
-> > We will have a projector or display to show presentations, power strips,
-> > a whiteboard and beverages. For lunch we are on our own.
-> > 
-> > It's co-located with the OSS Europe conference:
-> > 
-> > https://events.linuxfoundation.org/open-source-summit-europe/
-> > 
-> > Attendees:
-> > 
-> > Sakari Ailus <sakari.ailus@linux.intel.com>
-> > Kieran Bingham <kieran.bingham@ideasonboard.com>
-> > Nicolas Dufresne <nicolas@ndufresne.ca>
-> > Benjamin Gaignard <benjamin.gaignard@collabora.com>
-> > Hidenori Kobayashi <hidenorik@chromium.org>
-> > Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> > Jacopo Mondi <jacopo@jmondi.org>
-> > Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > Ricardo Ribalda <ribalda@chromium.org>
-> > Maxime Ripard <maxime@cerno.tech>
-> > Daniel Scally <djrscally@gmail.com>
-> > Jernej Škrabec <jernej.skrabec@gmail.com>
-> > Dave Stevenson <dave.stevenson@raspberrypi.com> (from 11 am onwards)
-> > Hans Verkuil <hverkuil@xs4all.nl>
-> > Philipp Zabel <p.zabel@pengutronix.de>
-> > 
-> > Note: there are 5 seats left, so if you are interested in this, mail me.
-> > 
-> > The health and safety regulations will be those of the OSSE LF:
-> > 
-> > https://events.linuxfoundation.org/open-source-summit-europe/attend/health-and-safety/
-> > 
-> > We strongly recommend that you do a self-test before going to the Conference Centre
-> > for this meeting.
-> > 
-> > Code of conduct:
-> > 
-> > https://events.linuxfoundation.org/open-source-summit-europe/attend/code-of-conduct/
-> > 
-> > 
-> > Based on the submitted topics I have made a first draft of the agenda. I have tried
-> > to keep the sensor-related topics to after 11:00 since Dave comes in later in the day.
-> > 
-> > I am also making the (reasonable) assumption that most (if not all) attendees will be
-> > attending the ELCE/OSSE conference Tue-Fri as well. While it is nice if we can come
-> > to a conclusion in the time allotted for each topic, it's also OK if we can set up
-> > a small group that can discuss it further in the following days.
-> > 
-> > If you raised a discussion topic, but will be in Dublin for only the Monday, then
-> > let me know.
-> > 
-> > I added a guesstimate of the time needed for each topic. If you think that guesstimate
-> > is wildly off, then let me know. But remember: it's fine if we decide to discuss it
-> > further in the following days in a smaller group.
-> > 
-> > If you present a topic, then please make a presentation. And if you have material you
-> > can share beforehand, then that would be great.
-> > 
-> > Draft Agenda V1:
-> > 
-> >  9:00 Getting settled
-> >  9:20 Introduction
-> >  9:30 Hans: Presentation on CTA-861 & edid-decode
-> >  9:45 Nicolas: Stateless encoder progress
-> > 10:15 Ricardo: Introduce ChromeOS camera project
-> > 
-> > 11:00 Break
-> > 
-> > 11:15 Kieran: Fault tolerance
-> > 
-> >   I raised this in the past when we first started hitting the issue on
-> >   Renesas platforms with multiple cameras in a single media graph, but now
-> >   I think it's become more critical with desktop / laptop devices that are
-> >   hitting the issue (i.e. the IPU3).
-> > 
-> >   Summary of issue:
-> > 
-> >   - Multiple cameras that can function independently successfully, are
-> >     prevented from functioning or fully probing by V4L2 if one component
-> >     of another camera fails to load or probe.
-> > 
-> >     If Camera A has a VCM, and Camera B does not, Camera B will not be
-> >     available at all if Camera A's VCM is not fully probed, even though
-> >     Camera B can be fully functional and complete.
-> > 
-> >     Even if Camera A does not have the VCM probed, it may still function
-> >     successfully (with a fixed focal position) - but our current
-> >     implementation will mean that it will not even be available to
-> >     capture images.
-> > 
-> >   We talked about this quite a long time ago, and I believe the general
-> >   consensus was that we can have events on the media graph. But
-> >   unfortunately at the time, there was no development scheduled on that,
-> >   and it wasn't something I was able to continue at the time.
-> > 
-> >   I'd like to bring it up to refresh the topic, and see if we can make
-> >   some progress as it's now affecting more general devices.
-> > 
-> > 11:45 Jacopo: Representing addition sensor processing stages.
-> > 
-> >   How to represent additional processing stages that happens
-> >   on the sensor side, mostly additional subsampling/cropping that happen
-> >   between the analogue cropping on the full pixel array and the final
-> >   image sent on the wire.
-> > 
-> >   https://lore.kernel.org/linux-media/CAPY8ntA06L1Xsph79sv9t7MiDSNeSO2vADevuXZdXQdhWpSmow@mail.gmail.com/
-> > 
-> >   Dave made a good introduction of the issue his email which got
-> >   largely unanswered.
-> > 
-> >   The issue is particularly relevant for RAW sensors, where applying
-> >   subsampling has an impact on the sensor's sensitivity and requires
-> >   to adjust the gains and exposure accordingly.
-> > 
-> >   The V4L2 selection API falls short on this and the only other
-> >   solution I am aware of is registering additional subdevices as the
-> >   CCS driver does.
-> > 
-> > 12:30 Lunch
-> > 
-> > 13:30 Dave: On-sensor temperature reporting.
-> > 
-> >   Thread started by Benjamin at
-> >   https://lore.kernel.org/linux-media/20220415111845.27130-3-benjamin.mugnier@foss.st.com/
-> >   but no resolution over using hwmon API or V4L2 control. If hwmon
-> >   then we need Media Controller framework to tie the sensor and thermal
-> >   device together.
-> > 
-> >   It's recently been queried for IMX477 with the Pi
-> >   (https://github.com/raspberrypi/libcamera/issues/19), but it will
-> >   apply to many sensors.
-> > 
-> > 13:45 Dave: Synchronising sensors for stereoscopic operation.
-> > 
-> >   How should that be configured? Allowing configuration from userspace
-> >   would allow sensors to be operated independently which can be useful for
-> >   test purposes, or should it be enforced from DT/ACPI? Do we set a default
-> >   configuration for each sensor from DT/ACPI and then allow userspace to
-> >   override should it wish?
-> > 
-> > 14:00 Dave: Lens drivers.
-> > 
-> >   Each driver will have a "useful" range which is effectively dictated by
-> >   the overall module. Should that be defined via DT as it is a feature of
-> >   the platform, or leave the driver totally generic and expect userspace
-> >   to do something sensible?
-> > 
-> >   In the case of simple systems without libcamera, do we set default for
-> >   V4L2_CID_FOCUS_ABSOLUTE to a sensible hyperfocal distance, and can
-> >   that again be defined in DT as it is defining the hardware?
-> > 
-> > 14:15 Dave: Controlling sensor GPIO outputs.
-> > 
-> >   Controlling sensor GPIO outputs for things such as flash triggers,
-> >   vsync, frame start/end, exposure start/end, etc.
-> > 
-> >   There is a huge range of features available so do we have any hope of
-> >   standardising some of it, or do we end up hiding these away in the
-> >   drivers with custom DT bindings to configure them? If we accept that
-> >   there will be variation, can we vaguely standardise what those
-> >   bindings look like? Or should these be V4L2 controls as things like
-> >   pulse widths may want to be adjusted by userspace?
-> > 
-> > 14:30 Jacopo: Reconcile handling of regulator, gpios and clock on OF and ACPI platforms.
-> > 
-> >   We recently got a few series trying to reconcile handling of regulators,
-> >   gpios and clocks on OF and ACPI platforms all of them doing the usual
-> >   "similar but slightly different" thing:
-> > 
-> >   https://lore.kernel.org/linux-media/20220425061022.1569480-1-paul.elder@ideasonboard.com/
-> >   https://lore.kernel.org/linux-media/20220329090133.338073-1-jacopo@jmondi.org/
-> >   https://lore.kernel.org/linux-media/20220509143226.531117-1-foss+kernel@0leil.net/
-> >   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=0c2c7a1e0d69221b9d489bfd8cf53262d6f82446
-> > 
-> >   ACPI and OF handles clocks slightly differently, and it is not clear
-> >   to me if ACPI based platform need explicit handling of
-> >   clocks/regulator or ACPI does "the right thing" by itself (I'm
-> >   afraid the answer is actually "it depends"). I'm ACPI illiterate
-> >   so I cannot propose anything meaningful but if anyone is interested
-> >   in discussing this further this might be a good time to do so ?
-> > 
-> > 15:00 Break
-> > 
-> > 15:30 Laurent: V4L2 streams series.
-> > 
-> >   I'd like to discuss the V4L2 streams series, in particular how to
-> >   upstream the parts that won't be upstream yet by mid-September.
-> >   Discussing the next steps would also be useful, as there's lots we could
-> >   build on top.
-> > 
-> > 16:00 Laurent: How can we finalize conversion of v4l-utils to meson?
-> > 
-> > 16:15-17:00 Anything else?
-> 
-> One more topic: "Deprecate (and later remove) the last few videobuf version 1 drivers"
-> 
-> Possibly also include drivers that do not use neither videobuf nor vb2, I'll have
-> to check how many of those we have.
+> > +
+> > +             rmem->ops =3D &rmem_dma_ops;
+> > +             pr_info("Reserved memory: DMA buf secure pool %s at
+> > %pa, size %ld MiB\n",
+> > +                     secure_data[secure_data_count].name,
+> > +                     &rmem->base, (unsigned long)rmem->size /
+> > SZ_1M);
+>=20
+> nit: What if rmem->size < SZ_1M, or not 1M-aligned
+>=20
 
-Maybe we can reach an agreement through e-mail discussions on this one ?
-Let's at least try.
+Let's assume that size is 1K-aligned, maybe something like that could
+be better ?
 
-Do you have a list of the vb1 drivers ?
+		unsigned long mb =3D rmem->size >> 20;
+		unsigned long kb =3D (rmem->size & (SZ_1M - 1)) >> 10;
 
--- 
-Regards,
+		pr_info("Reserved memory: DMA buf secure pool %s at %pa, size %ld MiB and=
+ %ld KiB",
+			secure_data[secure_data_count].name,
+			&rmem->base, mb, kb);
 
-Laurent Pinchart
+Cheers,
+Olivier
