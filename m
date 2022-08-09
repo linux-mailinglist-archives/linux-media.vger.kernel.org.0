@@ -2,122 +2,122 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5208958D69A
-	for <lists+linux-media@lfdr.de>; Tue,  9 Aug 2022 11:38:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E8C2358D705
+	for <lists+linux-media@lfdr.de>; Tue,  9 Aug 2022 12:02:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236222AbiHIJif (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 9 Aug 2022 05:38:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34404 "EHLO
+        id S238223AbiHIKCl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 9 Aug 2022 06:02:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52460 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235278AbiHIJie (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 9 Aug 2022 05:38:34 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A87220F5F
-        for <linux-media@vger.kernel.org>; Tue,  9 Aug 2022 02:38:33 -0700 (PDT)
-Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <mtr@pengutronix.de>)
-        id 1oLLh0-0006zv-Qo; Tue, 09 Aug 2022 11:38:30 +0200
-Received: from mtr by ptx.hi.pengutronix.de with local (Exim 4.92)
-        (envelope-from <mtr@pengutronix.de>)
-        id 1oLLgx-0003cR-Q4; Tue, 09 Aug 2022 11:38:27 +0200
-Date:   Tue, 9 Aug 2022 11:38:27 +0200
-From:   Michael Tretter <m.tretter@pengutronix.de>
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     linux-media@vger.kernel.org,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        Hidenori Kobayashi <hidenorik@chromium.org>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Ricardo Ribalda <ribalda@chromium.org>,
-        Maxime Ripard <maxime@cerno.tech>,
-        Daniel Scally <djrscally@gmail.com>,
-        Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>
-Subject: Re: [ANN] Media Summit at ELCE Dublin, September 12: Draft Agenda V1
-Message-ID: <20220809093827.GA8383@pengutronix.de>
-Mail-Followup-To: Michael Tretter <m.tretter@pengutronix.de>,
-        Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        Hidenori Kobayashi <hidenorik@chromium.org>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Ricardo Ribalda <ribalda@chromium.org>,
-        Maxime Ripard <maxime@cerno.tech>,
-        Daniel Scally <djrscally@gmail.com>,
-        Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>
-References: <1ca14c26-2e47-b144-1f5a-02824e81269a@xs4all.nl>
+        with ESMTP id S241053AbiHIKCg (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 9 Aug 2022 06:02:36 -0400
+Received: from mail-m11885.qiye.163.com (mail-m11885.qiye.163.com [115.236.118.85])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DF2D422BCC;
+        Tue,  9 Aug 2022 03:02:30 -0700 (PDT)
+Received: from [192.168.111.100] (unknown [58.22.7.114])
+        by mail-m11885.qiye.163.com (Hmail) with ESMTPA id B6C864C0A76;
+        Tue,  9 Aug 2022 18:02:28 +0800 (CST)
+Message-ID: <6b3e82f9-6902-fd5c-c67d-e2c42c995133@rock-chips.com>
+Date:   Tue, 9 Aug 2022 18:02:27 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.1.1
+Subject: Re: [Linaro-mm-sig] Re: [PATCH v2] drm/gem: Fix GEM handle release
+ errors
+Content-Language: en-US
+To:     =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+        Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc:     Andy Yan <andy.yan@rock-chips.com>,
+        Jianqun Xu <jay.xu@rock-chips.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org, David Airlie <airlied@linux.ie>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        linux-media@vger.kernel.org, Daniel Vetter <daniel@ffwll.ch>
+References: <20220803083237.3701-1-jeffy.chen@rock-chips.com>
+ <c7cb225b-7f21-8d9a-773b-efc655e6332c@amd.com>
+ <7cd16264-fa84-7b50-f3ed-64f7f22dcef2@rock-chips.com>
+ <64bf4e4b-4e22-0ff0-5f92-76f603c04ec0@amd.com>
+ <cd806954-e94e-aec8-2b0c-4047da9a92ec@rock-chips.com>
+ <0e284f57-e03c-f128-f6e7-52a58edbcd54@amd.com>
+ <71e47fe6-440b-e9ea-cd66-8362c41428ca@amd.com>
+From:   Chen Jeffy <jeffy.chen@rock-chips.com>
+In-Reply-To: <71e47fe6-440b-e9ea-cd66-8362c41428ca@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <1ca14c26-2e47-b144-1f5a-02824e81269a@xs4all.nl>
-X-Sent-From: Pengutronix Hildesheim
-X-URL:  http://www.pengutronix.de/
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
-X-SA-Exim-Mail-From: mtr@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+        tZV1koWUFJSktLSjdXWS1ZQUlXWQ8JGhUIEh9ZQVkZGhlMVh5LS0tMTE4dHU8ZSVUTARMWGhIXJB
+        QOD1lXWRgSC1lBWU5DVUlJVUxVSkpPWVdZFhoPEhUdFFlBWU9LSFVKSktISkNVS1kG
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6MDI6KRw5Aj0wPy0WDDoQFBgz
+        DUkKFDVVSlVKTU1LS0hCSE9CT01KVTMWGhIXVREeHR0CVRgTHhU7CRQYEFYYExILCFUYFBZFWVdZ
+        EgtZQVlOQ1VJSVVMVUpKT1lXWQgBWUFPTkJINwY+
+X-HM-Tid: 0a82820e436a2eb9kusnb6c864c0a76
+X-Spam-Status: No, score=-0.4 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_SORBS_WEB,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, 05 Aug 2022 13:35:48 +0200, Hans Verkuil wrote:
-> Here is some more information about the Media Summit:
-> 
-> Date: Monday September 12
-> Time: 9:00-17:00
-> Location: Convention Centre Dublin
-> Room: The Liffey B - Part 1 (subject to change)
-> Sponsored by: Cisco Systems Norway and Collabora
-> 
-> We will have a projector or display to show presentations, power strips,
-> a whiteboard and beverages. For lunch we are on our own.
-> 
-> It's co-located with the OSS Europe conference:
-> 
-> https://events.linuxfoundation.org/open-source-summit-europe/
-> 
-> Attendees:
-> 
-> Sakari Ailus <sakari.ailus@linux.intel.com>
-> Kieran Bingham <kieran.bingham@ideasonboard.com>
-> Nicolas Dufresne <nicolas@ndufresne.ca>
-> Benjamin Gaignard <benjamin.gaignard@collabora.com>
-> Hidenori Kobayashi <hidenorik@chromium.org>
-> Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> Jacopo Mondi <jacopo@jmondi.org>
-> Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Ricardo Ribalda <ribalda@chromium.org>
-> Maxime Ripard <maxime@cerno.tech>
-> Daniel Scally <djrscally@gmail.com>
-> Jernej Škrabec <jernej.skrabec@gmail.com>
-> Dave Stevenson <dave.stevenson@raspberrypi.com> (from 11 am onwards)
-> Hans Verkuil <hverkuil@xs4all.nl>
-> Philipp Zabel <p.zabel@pengutronix.de>
-> 
-> Note: there are 5 seats left, so if you are interested in this, mail me.
+Hi Christian,
 
-I would like to join as well: Michael Tretter <m.tretter@pengutronix.de>
+On 8/9 星期二 17:08, Christian König wrote:
+> Hi Jeffy,
+> 
+> Am 09.08.22 um 09:55 schrieb Christian König:
+>> [SNIP]
+>>>>
+>>>>>
+>>>>>
+>>>>> So we are allowing GEM object to have multiple handles, and GEM 
+>>>>> object could have at most one dma-buf, doesn't that means that 
+>>>>> dma-buf could map to multiple handles?
+>>>>
+>>>> No, at least not for the same GEM file private. That's the reason 
+>>>> why the rb is indexed by the dma_buf object and not the handle.
+>>>>
+>>>> In other words the rb is so that you have exactly one handle for 
+>>>> each dma_buf in each file private.
+>>>
+>>> I don't think so, because if user get multiple handles for the same 
+>>> GEM obj and use drm_gem_prime_handle_to_fd() for those handles
+>>
+>> Mhm, that works? This is illegal and should have been prevented somehow.
+> 
+> At least I see the problem now. I'm just not sure how to fix it.
+> 
+> Your v2 patch indeed prevents leakage of the drm_prime_member for the 
+> additional handles, but those shouldn't have been added in the first place.
+> 
+> The issue is that with this we make it unpredictable which handle is 
+> returned. E.g. if we have handle 2,5,7 it can be that because of 
+> re-balancing the tree sometimes 2 and sometimes 5 is returned.
 
-Michael
+Maybe cache the latest returned handle in the obj(after 
+drm_gem_prime_fd_to_handle), and clear it when that handle been deleted 
+in drm_gem_handle_delete()?
+
+Something like:
+drm_gem_prime_fd_to_handle
+   handle = drm_prime_lookup_buf_handle(buf)
+   obj = obj_from_handle(handle)
+   if !obj->primary_handle
+     obj->primary_handle = handle
+   return obj->primary_handle
+
+Or maybe limit GEM obj with a single lifetime handle?
+
+> 
+> That's not really a good idea and breaks a couple of assumptions as far 
+> as I know.
+> 
+> Ideas?
+> 
+> Thanks,
+> Christian.
+> 
+
