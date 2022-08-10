@@ -2,57 +2,61 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AD27358EF09
-	for <lists+linux-media@lfdr.de>; Wed, 10 Aug 2022 17:11:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 113A858EF7F
+	for <lists+linux-media@lfdr.de>; Wed, 10 Aug 2022 17:38:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232990AbiHJPLm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 10 Aug 2022 11:11:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54542 "EHLO
+        id S231942AbiHJPiL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 10 Aug 2022 11:38:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57874 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232959AbiHJPLl (ORCPT
+        with ESMTP id S231707AbiHJPiH (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 10 Aug 2022 11:11:41 -0400
-Received: from mail-io1-f54.google.com (mail-io1-f54.google.com [209.85.166.54])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4FA876555E;
-        Wed, 10 Aug 2022 08:11:40 -0700 (PDT)
-Received: by mail-io1-f54.google.com with SMTP id y82so5543602iof.7;
-        Wed, 10 Aug 2022 08:11:40 -0700 (PDT)
+        Wed, 10 Aug 2022 11:38:07 -0400
+Received: from mail-il1-f169.google.com (mail-il1-f169.google.com [209.85.166.169])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 237B528E02;
+        Wed, 10 Aug 2022 08:38:06 -0700 (PDT)
+Received: by mail-il1-f169.google.com with SMTP id s16so8478450ilp.3;
+        Wed, 10 Aug 2022 08:38:06 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=message-id:date:subject:references:in-reply-to:cc:to:from
-         :x-gm-message-state:from:to:cc;
-        bh=MtwwWFYU1Uoel2FqSmOeukCvUy+Ds67fehOcNXE8e9w=;
-        b=5OcVIxy4M7azII0QXUgCZTFqCvBtHElHqlNnsIN6bA3U1bKESkudlC7Zlt30SX1xVj
-         SA7jLbwKPYGJ3NKcmazsI8NgSiVKhS3JKf4MJ7YC0jd7nSIPlcJsYE1s/5QMwQ4oHQ0k
-         5J5mOJo9/Rtsp4BYCvAEzVdZEkRl2n+xG/PQrdYG4PiKTZoccirRrtaSR0HTD1tVvLf0
-         sg++Q9922PEQPG1Sq0Ej9FiQj1QviaM/t9RlAr1xo5vhfpSQ6MxMNOW4tACNU72hjHL2
-         pdh32F53bNZgxEDwQ1Q0Aw+RfFQCfv0mSq04P4H/Omlx8Lc6xJwu0x0u77t1YwpRNwTj
-         9HpQ==
-X-Gm-Message-State: ACgBeo0f2EfGd/MecNVSGnlHsW/7mP3kU/KVvkzbwJhjBRTLWjUeRMWV
-        NsHraqOJVneVzF0XxZSMdJjBWn10BQ==
-X-Google-Smtp-Source: AA6agR5vrJZdRv+YRIgJJ5Erl93GQ3Lmfstkt/XR693az+1RfFDbqQ8RgIQeE4J/wOYVSqToOFJCbA==
-X-Received: by 2002:a05:6638:1386:b0:342:8d69:71c2 with SMTP id w6-20020a056638138600b003428d6971c2mr12471346jad.315.1660144299569;
-        Wed, 10 Aug 2022 08:11:39 -0700 (PDT)
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
+        bh=d703OGIAWaJFqE2Rp42TVQVb31FLKdiwbLrmUlLlcDE=;
+        b=L5i95qjc+Nm9zcx0eoQ8Za5h+H8IF/L2ssP9GwAMs8WNO1+LsrBr0IfbK6PZOYCc/H
+         tM2SBhEk6t8ODqzobklRqrBYKFh3o5u08aymsTW1/Ol+XBhTazlTJP/dYAFuVA2tESGu
+         cXXY8KGZv543UmtrI3fWIJoFnk05br1v8Zr66ut2vRgJIJUNEQW1VGzV9BHIgaQ1hPIT
+         dDgJe8U0PEs9slu4IrlVtocp5mIPfTea39kejQuzQxL3ix7ImzTIGMFWkUYt5eY4ud5P
+         GEUB5vO724bGpuYT+3eIlZQvV5nN5QY1tRswnEzMboxbshshg7RdCHU/a+mWw9Cg8kf1
+         6uzg==
+X-Gm-Message-State: ACgBeo3o/V0wVaI/LvXck0iIrEc046AyWt+7R+L5EQ5d/Rdu6LHdgRGa
+        WKnwwcrIB7S1gZLj+txpmvs18t1Qfw==
+X-Google-Smtp-Source: AA6agR7D2VESWtQ+d0hSJfH8s2E2QhlG9jzS2sKVav6VMuiuI2rzKmJsWkaPbCLm1IMZS1BYGQfocA==
+X-Received: by 2002:a92:d950:0:b0:2df:afdb:3908 with SMTP id l16-20020a92d950000000b002dfafdb3908mr9158360ilq.319.1660145885264;
+        Wed, 10 Aug 2022 08:38:05 -0700 (PDT)
 Received: from robh.at.kernel.org ([64.188.179.248])
-        by smtp.gmail.com with ESMTPSA id m14-20020a026d0e000000b0034322c00433sm2680940jac.53.2022.08.10.08.11.38
+        by smtp.gmail.com with ESMTPSA id n12-20020a056638110c00b003433846796esm1317158jal.5.2022.08.10.08.38.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Aug 2022 08:11:38 -0700 (PDT)
-Received: (nullmailer pid 4155390 invoked by uid 1000);
-        Wed, 10 Aug 2022 15:11:36 -0000
+        Wed, 10 Aug 2022 08:38:04 -0700 (PDT)
+Received: (nullmailer pid 6576 invoked by uid 1000);
+        Wed, 10 Aug 2022 15:38:02 -0000
+Date:   Wed, 10 Aug 2022 09:38:02 -0600
 From:   Rob Herring <robh@kernel.org>
 To:     Yuji Ishikawa <yuji2.ishikawa@toshiba.co.jp>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-arm-kernel@lists.infradead.org,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+Cc:     Hans Verkuil <hverkuil@xs4all.nl>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org
+        Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
+        linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
+Subject: Re: [PATCH v3 1/4] dt-bindings: media: platform: visconti: Add
+ Toshiba Visconti Video Input Interface bindings
+Message-ID: <20220810153802.GA585-robh@kernel.org>
+References: <20220810132822.32534-1-yuji2.ishikawa@toshiba.co.jp>
+ <20220810132822.32534-2-yuji2.ishikawa@toshiba.co.jp>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 In-Reply-To: <20220810132822.32534-2-yuji2.ishikawa@toshiba.co.jp>
-References: <20220810132822.32534-1-yuji2.ishikawa@toshiba.co.jp> <20220810132822.32534-2-yuji2.ishikawa@toshiba.co.jp>
-Subject: Re: [PATCH v3 1/4] dt-bindings: media: platform: visconti: Add Toshiba Visconti Video Input Interface bindings
-Date:   Wed, 10 Aug 2022 09:11:36 -0600
-Message-Id: <1660144296.251859.4155389.nullmailer@robh.at.kernel.org>
 X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
         FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
         HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
@@ -64,7 +68,7 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, 10 Aug 2022 22:28:19 +0900, Yuji Ishikawa wrote:
+On Wed, Aug 10, 2022 at 10:28:19PM +0900, Yuji Ishikawa wrote:
 > Adds the Device Tree binding documentation that allows to describe
 > the Video Input Interface found in Toshiba Visconti SoCs.
 > 
@@ -81,34 +85,135 @@ On Wed, 10 Aug 2022 22:28:19 +0900, Yuji Ishikawa wrote:
 >  1 file changed, 103 insertions(+)
 >  create mode 100644 Documentation/devicetree/bindings/media/toshiba,visconti-viif.yaml
 > 
+> diff --git a/Documentation/devicetree/bindings/media/toshiba,visconti-viif.yaml b/Documentation/devicetree/bindings/media/toshiba,visconti-viif.yaml
+> new file mode 100644
+> index 000000000..848ea5019
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/toshiba,visconti-viif.yaml
+> @@ -0,0 +1,103 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/toshiba,visconti-viif.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Toshiba Visconti5 SoC Video Input Interface Device Tree Bindings
+> +
+> +maintainers:
+> +  - Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>
+> +
+> +description: |
 
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
+Don't need '|' if no formatting.
 
-yamllint warnings/errors:
-./Documentation/devicetree/bindings/media/toshiba,visconti-viif.yaml:14:111: [warning] line too long (112 > 110 characters) (line-length)
+> +  Toshiba Visconti5 SoC Video Input Interface (VIIF) receives MIPI CSI2 video stream,
+> +  processes the stream with embedded image signal processor (L1ISP, L2ISP), then stores pictures to main memory.
 
-dtschema/dtc warnings/errors:
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/media/toshiba,visconti-viif.yaml: properties:port:properties:endpoint:properties:data-lanes:items: 'oneOf' conditional failed, one must be fixed:
-	{'minItems': 1, 'maxItems': 4, 'items': [{'const': 1}, {'const': 2}, {'const': 3}, {'const': 4}]} should not be valid under {'required': ['maxItems']}
-		hint: "maxItems" is not needed with an "items" list
-	{'minItems': 1, 'maxItems': 4, 'items': [{'const': 1}, {'const': 2}, {'const': 3}, {'const': 4}]} is not of type 'array'
-	from schema $id: http://devicetree.org/meta-schemas/keywords.yaml#
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/media/toshiba,visconti-viif.yaml: ignoring, error in schema: properties: port: properties: endpoint: properties: data-lanes: items
-Documentation/devicetree/bindings/media/toshiba,visconti-viif.example.dtb:0:0: /example-0/soc/viif@1c000000: failed to match any schema with compatible: ['toshiba,visconti-viif']
+Wrap lines at 80 char.
 
-doc reference errors (make refcheckdocs):
+> +
+> +properties:
+> +  compatible:
+> +    const: toshiba,visconti-viif
+> +
+> +  reg:
+> +    items:
+> +      - description: registers for capture control
+> +      - description: registers for CSI2 receiver control
+> +
+> +  interrupts:
+> +    items:
+> +      - description: Sync Interrupt
+> +      - description: Status (Error) Interrupt
+> +      - description: CSI2 Receiver Interrupt
+> +      - description: L1ISP Interrupt
+> +
+> +  index:
+> +    enum: [0, 1]
 
-See https://patchwork.ozlabs.org/patch/
+No, we don't do indices in DT. Why do you need this?
 
-This check can fail if there are any dependencies. The base for a patch
-series is generally the most recent rc1.
+> +
+> +  port:
+> +    $ref: /schemas/graph.yaml#/$defs/port-base
+> +    unevaluatedProperties: false
+> +    description: Input port node, single endpoint describing the CSI-2 transmitter.
+> +
+> +    properties:
+> +      endpoint:
+> +        $ref: video-interfaces.yaml#
+> +        unevaluatedProperties: false
+> +
+> +        properties:
+> +          data-lanes:
+> +            description: VIIF supports 2 or 4 data lines
+> +            items:
+> +              minItems: 1
+> +              maxItems: 4
+> +              items:
+> +                - const: 1
+> +                - const: 2
+> +                - const: 3
+> +                - const: 4
 
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
+blank line
 
-pip3 install dtschema --upgrade
+> +          clock-lanes:
+> +            description: VIIF supports 1 clock line
+> +            const: 0
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - interrupts
+> +  - port
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +    #include <dt-bindings/interrupt-controller/irq.h>
+> +
+> +    soc {
+> +        #address-cells = <2>;
+> +        #size-cells = <2>;
+> +
+> +        viif0: viif@1c000000 {
 
-Please check and re-submit.
+Drop unused labels.
 
+> +            compatible = "toshiba,visconti-viif";
+> +            reg = <0 0x1c000000 0 0x6000>,
+> +                  <0 0x1c008000 0 0x400>;
+> +            interrupts = <GIC_SPI 64 IRQ_TYPE_LEVEL_HIGH>,
+> +                         <GIC_SPI 67 IRQ_TYPE_LEVEL_HIGH>,
+> +                         <GIC_SPI 73 IRQ_TYPE_LEVEL_HIGH>,
+> +                         <GIC_SPI 76 IRQ_TYPE_LEVEL_HIGH>;
+> +            index = <0>;
+> +            status = "disabled";
+
+Why is your example disabled? Don't put 'status' in examples.
+
+> +
+> +            port {
+> +                #address-cells = <1>;
+> +                #size-cells = <0>;
+> +
+> +                csi_in0: endpoint {
+> +                    remote-endpoint = <&imx219_out0>;
+> +                    bus-type = <4>;
+> +                    data-lanes = <1 2>;
+> +                    clock-lanes = <0>;
+> +                    clock-noncontinuous;
+> +                    link-frequencies = /bits/ 64 <456000000>;
+> +                };
+> +            };
+> +        };
+> +    };
+> +
+> -- 
+> 2.17.1
+> 
+> 
+> 
