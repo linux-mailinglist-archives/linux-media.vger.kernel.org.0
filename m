@@ -2,206 +2,151 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4B8ED58F119
-	for <lists+linux-media@lfdr.de>; Wed, 10 Aug 2022 19:02:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E03D658F120
+	for <lists+linux-media@lfdr.de>; Wed, 10 Aug 2022 19:03:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233004AbiHJRCt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 10 Aug 2022 13:02:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36026 "EHLO
+        id S233153AbiHJRDd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 10 Aug 2022 13:03:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37448 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233231AbiHJRCZ (ORCPT
+        with ESMTP id S233167AbiHJRDb (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 10 Aug 2022 13:02:25 -0400
-Received: from NAM02-DM3-obe.outbound.protection.outlook.com (mail-dm3nam02on2067.outbound.protection.outlook.com [40.107.95.67])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A4B9B74E0A
-        for <linux-media@vger.kernel.org>; Wed, 10 Aug 2022 10:02:10 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=dXceh7NE264nzes4E8f2gIHrscE/Pq/APyMg3N91bBygc+SWKxbEie9CcU87TE9FAruz4K+IShGxpMm1Z+DBaf1LAbMHI3nos62hZlCt6rzkjJE1FZsptFDQVTlTeNnOtp+LjlNZrXW6SaSuIJRcJD6PXKDWkXgc1NfeBsp+Ol6rkpdvmXQQYAte1986ptXI+lvEPt6WxYYdTzpkn0XKopZmt5T37rQuhkgd6GDYuGTSj0mBbk5RaTLox7lmTkij+ZbafnWhnuSplHMwIYFd5BwmKWvaj6CpFEP44I2kaCmAaCLavnBY+ho1K7ujEQLso139guy+YKlxYqF0J4Ge6A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=jTKUcsyDY54dknSFD98thMM2QymJNzAhEEwLm4fQ8t4=;
- b=SjTx1csrHalILcEozsDCdYRrh2QLyOo+cHtnT45UkYREy/WkxpAee5AtwO83rZhu9z3BCTjANgi4wzUAxBhqah1Bwzk52/zszWFSoLIbkH3qKstnVSe8rwByCj2By1NJykim8OkG0CvgQGMS9ZzGkln/aYZoDlF4Br0LhKuh6QDoo4UI3TS3H5x3aDhxkT4918L9bcc71KgMWMzWrpCiyIdbSaxF50oXO4DGqf9hSEzRov8FCKp4G9xqnfTmqA0Jye+wtvlldZsmv1j2HXXMdScRLnhy9WHk7sNsx3wiqCqk9gdeJx6zYNli1L8McYBTZxOsKRbbFsh+6y0qfEhvPA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=jTKUcsyDY54dknSFD98thMM2QymJNzAhEEwLm4fQ8t4=;
- b=v7GAlRPiUfiX8DhlR4Tyn7ZTi4MtgiG4GMFD1SJ1iOYADrmpVd/sJqa3vYPVq6+AfKe6NSVJH3SFUYX+h5jtZyJsAXWQMzWDBOC328RD4ogKEeT1EGCnGMXW9h8AWmoUOBfd1hbd1lvh/PjiRMqF5LCpfDg+tIepVSPC8jvhhJ0=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by DM6PR12MB4697.namprd12.prod.outlook.com (2603:10b6:5:32::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5504.16; Wed, 10 Aug
- 2022 17:02:08 +0000
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::905:1701:3b51:7e39]) by BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::905:1701:3b51:7e39%2]) with mapi id 15.20.5504.020; Wed, 10 Aug 2022
- 17:02:08 +0000
-Message-ID: <c78e4774-6319-a9ce-978b-4489e1913da3@amd.com>
-Date:   Wed, 10 Aug 2022 19:01:55 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
+        Wed, 10 Aug 2022 13:03:31 -0400
+Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com [IPv6:2a00:1450:4864:20::344])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C6BF74DD6
+        for <linux-media@vger.kernel.org>; Wed, 10 Aug 2022 10:03:30 -0700 (PDT)
+Received: by mail-wm1-x344.google.com with SMTP id ay39-20020a05600c1e2700b003a5503a80cfso1303951wmb.2
+        for <linux-media@vger.kernel.org>; Wed, 10 Aug 2022 10:03:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc;
+        bh=RycH3O9/jVtOrwg8Tb4rCPx9NQGJX/8jY/4QeSrvWuA=;
+        b=ahEMB/f1Os7HN/dmBZ/hQpmyqb6o4v/xxFPofPybSlzrEcYUrb651plr/cbP/+fMzr
+         P5NUXhJef0mDLs9iqWCS20L/CffRua3nS9EACIIulJKL7+VNH01XgL+dwLXaKhp+Tfx7
+         LpIwltdiTebuvkDiYQOw92vpVGk8zum9tL3uk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc;
+        bh=RycH3O9/jVtOrwg8Tb4rCPx9NQGJX/8jY/4QeSrvWuA=;
+        b=tDSWtW2IHl1Kv6qlNuoIbT35RvTdKL8OnkVtpcIKpeiOz2J6hJXrCOC829Vs+niXQ3
+         KudYFYn5HSVG3SAEHJAJiVsbJ8xVjBZq/6zztN9cLjUSQwaUya5DfLoGsUq0reVce/Y2
+         kmnvwfmhVTXH29b2ENyb8A2QOg/NULNNxP4Ukcg+m4u64ekHSA9ClJnIMWbRzrFR+FGr
+         NClIBFd0AmBYXURPDiTPID6SgOUQNct25LfPNY+NQfPxsvNtVyogXdSZ+PkRzD2Y14J1
+         5HctN17Yhk5P0M8cJRJXoMUNTPq6zTH0Hwm5aZysJfTAZ2g9mQppEhGwPxyovozBU6F3
+         M8qQ==
+X-Gm-Message-State: ACgBeo36MHddJ6NBYzB4X6Tl8eee9+9dEiCTftnFIiMxP3rWCmuYmM2P
+        udFLdipOsqUYadNiaQ0g/u8wEA==
+X-Google-Smtp-Source: AA6agR7QsEM/xyMBF5xLERrn21uITTdQBdPJFNEQyJKrMuV11k6LvfptsnHkOpDEr4Zozx6IwaLSEA==
+X-Received: by 2002:a05:600c:34c9:b0:3a4:f1d7:edbd with SMTP id d9-20020a05600c34c900b003a4f1d7edbdmr3099490wmq.128.1660151008998;
+        Wed, 10 Aug 2022 10:03:28 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+        by smtp.gmail.com with ESMTPSA id e3-20020adf9bc3000000b0020e6ce4dabdsm16865341wrc.103.2022.08.10.10.03.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 10 Aug 2022 10:03:28 -0700 (PDT)
+Date:   Wed, 10 Aug 2022 19:03:26 +0200
+From:   Daniel Vetter <daniel@ffwll.ch>
+To:     Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc:     Daniel Vetter <daniel@ffwll.ch>,
+        Christian =?iso-8859-1?Q?K=F6nig?= 
+        <ckoenig.leichtzumerken@gmail.com>, karolina.drobnik@intel.com,
+        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+        linux-media@vger.kernel.org, intel-gfx@lists.freedesktop.org
 Subject: Re: [Intel-gfx] [PATCH] dma-buf: revert "return only unsignaled
  fences in dma_fence_unwrap_for_each v3"
-Content-Language: en-US
-To:     Daniel Vetter <daniel@ffwll.ch>,
-        =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Cc:     karolina.drobnik@intel.com, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org, linux-media@vger.kernel.org,
-        intel-gfx@lists.freedesktop.org
+Message-ID: <YvPk3pdz0t81Pz7A@phenom.ffwll.local>
 References: <20220712102849.1562-1-christian.koenig@amd.com>
  <CAKMK7uFnMSKXcU+v_g-Sh62O5MB1uY=K2H-Fq7-5UYtmmjCZ_w@mail.gmail.com>
-From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-In-Reply-To: <CAKMK7uFnMSKXcU+v_g-Sh62O5MB1uY=K2H-Fq7-5UYtmmjCZ_w@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: AM6PR05CA0013.eurprd05.prod.outlook.com
- (2603:10a6:20b:2e::26) To BN8PR12MB3587.namprd12.prod.outlook.com
- (2603:10b6:408:43::13)
+ <c78e4774-6319-a9ce-978b-4489e1913da3@amd.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: c2876b1c-b542-4f3d-7d80-08da7af20f0e
-X-MS-TrafficTypeDiagnostic: DM6PR12MB4697:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: QjFKhiIkv4IfnJ2VOU1kM1J83F8UwqCBM4x6oHV5eEGiOlhlBnOyKjG5vet3lO2nLDHHjz//27oK/W5GBfeDwuYv2W5lIPYDyoUusw8CAib1vmFJVi72Ip9KlFInQnwr6dEVhkupbset6F0w95zQr805u82NLqtq8RyM/M/dFzNc/gygHIoawoDmJzSOSI5HyykZG+6WOyebJ8oP/tI/os+0o+may8lY+bnZ4iFbt2jaeowvXU35VqYwavjyHMDnKFUzLMvDkpSSg/voQp7cSBcBHo0sgLvxRCQ2kfNHsP5cBxoDXo5dbmiXB/W7xDwhuGA/v1N0UcTfevGE/qPEXcBRyZpY/ieZfCgFiZuwAC4xbJ9pauIAlh/Buro0apzwWSYjBPgjdN+ZAC07spb1qA9BuvS9zMNzjZYjMlcjs0Y3/fUmtxtBC3nju7SWRAnXHYTugs6C5zEobxHINQDcPi8UECI3sMTvotJeNH/iypgv0CY3QejgJZZxmGdl0n2NDatoKc58O+7I6gmWUeTkrUFeArlHsHYJ7aIvZKlmvM45zG4J3a37YgcNseBMlWjN1sOEef9Im+tDAHtQYnkkcSnm1sdaZm1IHml99DtuD670kysRJPShX40Qjd8dVTrBgW0thb+zul00EifhYg4uCpTmBZ6IikcWSP9IwvFlyzA/mItdMi6vsMW9q8Xdskglcw6xYgKJ2hjyZIlHOiq7C2Mr6snMevjGacIBrKNdXyr2FKwthaMQtVhd2IIy5ZQvg1NG621+H/6Is69I84lpc0TDCDileWl9Vrh7+LMxkH0eQtS/p3TD2yXajNZrJ5t5GPqgSF0Aq/XjoiDWay33Ow==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN8PR12MB3587.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(396003)(136003)(376002)(39860400002)(366004)(346002)(186003)(41300700001)(8936002)(31686004)(83380400001)(5660300002)(66574015)(2616005)(36756003)(66556008)(66946007)(31696002)(66476007)(38100700002)(86362001)(2906002)(478600001)(6486002)(316002)(110136005)(6506007)(4326008)(8676002)(6666004)(6512007)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VHBCMVNGVUlGeU00Y2tBN2pPNjBXL2lFUWVBQjA0Z3lmb3VhLzROUVJEbzJR?=
- =?utf-8?B?dkJUSkVJZG5Wa3lKUUwvMUpXdUM2RkFwWVhhaFRRQzhGd09OdytMcTBXNFNh?=
- =?utf-8?B?My95c0ZjaU5XZzk5UmE2SmUyU0R4SUE5TUg2VlFkRjJtUk9CWHI4WFVqVXNx?=
- =?utf-8?B?Y1pGN1lhbW15b0E2YzZFeXBKSXRaNTNYakJLckhSQ0ErY3ovZERXRkJOZkVQ?=
- =?utf-8?B?SXVYaXgrbDBiVFE4Mlc0TUhOVno1S0lHZDgvemhyUVRxdWM1ZUJiem1RWUtv?=
- =?utf-8?B?eWgvbjhTR3FpOUFDdmNueG9lZHd6NXR1MktnZS9vaGlpcUo1UmthaFptQXBk?=
- =?utf-8?B?UTZ2aDU5SkFFZ0JmZFFZRnZ5L08ybzFOWUdiclU4YTJSMVBQMUplRTc1MFRO?=
- =?utf-8?B?d2NldDgyeWQ5MHNWdUp3N2hyNEh2V3lwTWo5VHpsc1NpUENxS0hFZkdUc0VG?=
- =?utf-8?B?N1ZxSm9RY2dNTUZtcFdKSHRIakRlbzE5aFhnYXE4eEFETTZlaUpWZmJqZkUr?=
- =?utf-8?B?TTJPUXJLTHdVblRRSmFMUDI3Z1Z1L2V3cm9ZcStqZTF1TEFaT2c1cDdVR1l0?=
- =?utf-8?B?SERxM1BUOHZrODNEZ3NycUZpQnBjdW1xYkQrUFQ4ckVTbncyb3cyNkdJQ0h6?=
- =?utf-8?B?MHRxbFBXZXFOckNjd0JJNHorQ2YxVGFEYThlcUFINkFJZXFuc1JrVzNYNDJ4?=
- =?utf-8?B?TFBYV0ZtOHV0VEI4Q2RNcjUwMDl5VEUvU0N6bmVDekdjL0J4VjNSVFN2UHF5?=
- =?utf-8?B?NklUWFJCd09xaktSc0UyaEpqWmora1cyNmZzWkZVSUNpL2tQQ01jbEF6NTVE?=
- =?utf-8?B?b2h1NlZ0UXVMODlEeU92U3lIYzMrOExrUVhuZG03aW9meFBZU1BpSHhWUlYv?=
- =?utf-8?B?VWxxSkdEc2dsckh2N1BvMzhNUXlhTDZRWUdUeUtEbEd6K3YwS0xJUytUYjZF?=
- =?utf-8?B?WnRyUnNhR2Z1UjBGU1VrOEpWbHNoK0hZOGNBa0tmeUZUZEp3UklmRXdlWlMz?=
- =?utf-8?B?dWJQdzJ0MVF1aHVOdlpoYm8wMnRoYVRja2REaEZzakk3SVh6N0NqUDhXbExs?=
- =?utf-8?B?ZlZ0Z205ZEwxem5xZWd1cGNwcUhEZ2lPUm9jZWtucFRVVE1BQXhBb1JydDY0?=
- =?utf-8?B?Mi9sMEx0RDRXazQzR2k4MytjS2huVXg0M2pIUnBocmZ0M0NKMWhURDRTZ2s0?=
- =?utf-8?B?M0U0ZmZmTWlpcFM0aTZkeDBaOUtBRHROeWJ3UThpVFBPSFdBV1gzZ3VzOWVV?=
- =?utf-8?B?TkZMTGhPTXZYZTJRR29oOEdvSmI0cUgwRkU1NDNiSms0RWo3RlBZSzJveU56?=
- =?utf-8?B?R01ESnlON3hOV0F3NmxMZjlVMExmeFUzRWRxNXdtcjNSTjE0b1hpQ3NjdGxk?=
- =?utf-8?B?cEIyNGFITkgxZ2k2MXplbWxTVkJnbUJNQTQ3cTRZN05NZzk5UFlLQS8xckxi?=
- =?utf-8?B?eWx0eis2K3JPUnBKZmFValFLNFhiTGVDUVZlVllGUFQ2WFJSS011MG1oWGxK?=
- =?utf-8?B?Q01PZy9jSnVKeks2cW1XNDRMVThJOXZKNng2RUZiRmNLVllnV1VUeFNoZjJG?=
- =?utf-8?B?dGtTbXZNcXhqSWxHVHlSMUs4Q2JzTTJvTW14a0VpalQwdHZ1Z0NOMWNSbkQ1?=
- =?utf-8?B?R3VMcEdic3Z5THZZdjdWNzJLTStpRUlERGttVEE2MFhpcWJRMTVmN2xFWDhC?=
- =?utf-8?B?bWNDMlV2K2FQSEJ1VFJwa1hzc2g0SFZSVzNpWVo5SXVReEdrbHFHb0NHMXZo?=
- =?utf-8?B?NHRTakJXZUE5Zm5xZmlZU1FhS2hSZkFsS1JxMEJ1R1hsRThYSnNYQkx3ZXlw?=
- =?utf-8?B?U3NsTkRrVE1PUzNoZGt5a3lDS3lHWlZlMGdCNWJPdytQbDdrSk5XZmZXR2xJ?=
- =?utf-8?B?UEYrR0pSb0M4SXVGRS9SZzVlTW9PYVZ4SURmOTBkNTA5VHZXTWZsMmdvVk9h?=
- =?utf-8?B?MEVRY2dkcExkMmE3cHhqWmIra0ZIQ1BuaVRvSFlBK01vQjFBUzlCbFVPTFMx?=
- =?utf-8?B?bVpLd3k0TnlyY1Z0clBtWk5KdWFJdGUzL3JkaXpSNmFtdERxV1NlOXFnS0ZD?=
- =?utf-8?B?WFk1VXhIOHdqeE5lSWdtWnBWT1p0NXNuYzN3S25hRXdTMXBnSUR1ZWg3UE1h?=
- =?utf-8?B?TUk1cURBWHA0dVpjM29EUE8yVzJyVi9hckh3b1ZuVm1VTFVrc0NwaUlRbU5v?=
- =?utf-8?Q?hmvf6ZEOxXTmsICiGIEKC7/pfncJlxovZnhQyu7CifT+?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c2876b1c-b542-4f3d-7d80-08da7af20f0e
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Aug 2022 17:02:08.1347
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: QJHvifcS+4LgiJBhDok8O0ix0hbFPpwtN2IEAN4hxnWl+OKSFQuQBXYvM5CX2hB1
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4697
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <c78e4774-6319-a9ce-978b-4489e1913da3@amd.com>
+X-Operating-System: Linux phenom 5.10.0-8-amd64 
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am 10.08.22 um 18:54 schrieb Daniel Vetter:
-> On Tue, 12 Jul 2022 at 12:28, Christian KÃ¶nig
-> <ckoenig.leichtzumerken@gmail.com> wrote:
->> This reverts commit 8f61973718485f3e89bc4f408f929048b7b47c83.
->>
->> It turned out that this is not correct. Especially the sync_file info
->> IOCTL needs to see even signaled fences to correctly report back their
->> status to userspace.
->>
->> Instead add the filter in the merge function again where it makes sense.
->>
->> Signed-off-by: Christian KÃ¶nig <christian.koenig@amd.com>
->> ---
->>   drivers/dma-buf/dma-fence-unwrap.c | 3 ++-
->>   include/linux/dma-fence-unwrap.h   | 6 +-----
->>   2 files changed, 3 insertions(+), 6 deletions(-)
->>
->> diff --git a/drivers/dma-buf/dma-fence-unwrap.c b/drivers/dma-buf/dma-fence-unwrap.c
->> index 502a65ea6d44..7002bca792ff 100644
->> --- a/drivers/dma-buf/dma-fence-unwrap.c
->> +++ b/drivers/dma-buf/dma-fence-unwrap.c
->> @@ -72,7 +72,8 @@ struct dma_fence *__dma_fence_unwrap_merge(unsigned int num_fences,
->>          count = 0;
->>          for (i = 0; i < num_fences; ++i) {
->>                  dma_fence_unwrap_for_each(tmp, &iter[i], fences[i])
->> -                       ++count;
->> +                       if (!dma_fence_is_signaled(tmp))
->> +                               ++count;
->>          }
->>
->>          if (count == 0)
->> diff --git a/include/linux/dma-fence-unwrap.h b/include/linux/dma-fence-unwrap.h
->> index 390de1ee9d35..66b1e56fbb81 100644
->> --- a/include/linux/dma-fence-unwrap.h
->> +++ b/include/linux/dma-fence-unwrap.h
->> @@ -43,14 +43,10 @@ struct dma_fence *dma_fence_unwrap_next(struct dma_fence_unwrap *cursor);
->>    * Unwrap dma_fence_chain and dma_fence_array containers and deep dive into all
->>    * potential fences in them. If @head is just a normal fence only that one is
->>    * returned.
->> - *
->> - * Note that signalled fences are opportunistically filtered out, which
->> - * means the iteration is potentially over no fence at all.
->>    */
->>   #define dma_fence_unwrap_for_each(fence, cursor, head)                 \
->>          for (fence = dma_fence_unwrap_first(head, cursor); fence;       \
->> -            fence = dma_fence_unwrap_next(cursor))                     \
->> -               if (!dma_fence_is_signaled(fence))
->> +            fence = dma_fence_unwrap_next(cursor))
-> Not sure it's worth it, but could we still filter but keep the fence
-> if there's an error?
->
-> I'm honestly also not entirely sure whether error propagation is a
-> terrific idea, since every single use-case I've seen in i915 was a
-> mis-design and not good at all. So burning it all down and declaring
-> the testcases invalid might be the right thing to do here.
+On Wed, Aug 10, 2022 at 07:01:55PM +0200, Christian König wrote:
+> Am 10.08.22 um 18:54 schrieb Daniel Vetter:
+> > On Tue, 12 Jul 2022 at 12:28, Christian König
+> > <ckoenig.leichtzumerken@gmail.com> wrote:
+> > > This reverts commit 8f61973718485f3e89bc4f408f929048b7b47c83.
+> > > 
+> > > It turned out that this is not correct. Especially the sync_file info
+> > > IOCTL needs to see even signaled fences to correctly report back their
+> > > status to userspace.
+> > > 
+> > > Instead add the filter in the merge function again where it makes sense.
+> > > 
+> > > Signed-off-by: Christian König <christian.koenig@amd.com>
+> > > ---
+> > >   drivers/dma-buf/dma-fence-unwrap.c | 3 ++-
+> > >   include/linux/dma-fence-unwrap.h   | 6 +-----
+> > >   2 files changed, 3 insertions(+), 6 deletions(-)
+> > > 
+> > > diff --git a/drivers/dma-buf/dma-fence-unwrap.c b/drivers/dma-buf/dma-fence-unwrap.c
+> > > index 502a65ea6d44..7002bca792ff 100644
+> > > --- a/drivers/dma-buf/dma-fence-unwrap.c
+> > > +++ b/drivers/dma-buf/dma-fence-unwrap.c
+> > > @@ -72,7 +72,8 @@ struct dma_fence *__dma_fence_unwrap_merge(unsigned int num_fences,
+> > >          count = 0;
+> > >          for (i = 0; i < num_fences; ++i) {
+> > >                  dma_fence_unwrap_for_each(tmp, &iter[i], fences[i])
+> > > -                       ++count;
+> > > +                       if (!dma_fence_is_signaled(tmp))
+> > > +                               ++count;
+> > >          }
+> > > 
+> > >          if (count == 0)
+> > > diff --git a/include/linux/dma-fence-unwrap.h b/include/linux/dma-fence-unwrap.h
+> > > index 390de1ee9d35..66b1e56fbb81 100644
+> > > --- a/include/linux/dma-fence-unwrap.h
+> > > +++ b/include/linux/dma-fence-unwrap.h
+> > > @@ -43,14 +43,10 @@ struct dma_fence *dma_fence_unwrap_next(struct dma_fence_unwrap *cursor);
+> > >    * Unwrap dma_fence_chain and dma_fence_array containers and deep dive into all
+> > >    * potential fences in them. If @head is just a normal fence only that one is
+> > >    * returned.
+> > > - *
+> > > - * Note that signalled fences are opportunistically filtered out, which
+> > > - * means the iteration is potentially over no fence at all.
+> > >    */
+> > >   #define dma_fence_unwrap_for_each(fence, cursor, head)                 \
+> > >          for (fence = dma_fence_unwrap_first(head, cursor); fence;       \
+> > > -            fence = dma_fence_unwrap_next(cursor))                     \
+> > > -               if (!dma_fence_is_signaled(fence))
+> > > +            fence = dma_fence_unwrap_next(cursor))
+> > Not sure it's worth it, but could we still filter but keep the fence
+> > if there's an error?
+> > 
+> > I'm honestly also not entirely sure whether error propagation is a
+> > terrific idea, since every single use-case I've seen in i915 was a
+> > mis-design and not good at all. So burning it all down and declaring
+> > the testcases invalid might be the right thing to do here.
+> 
+> This is not about error propagation.
+> 
+> The sync_file has an IOCTL which asks how many of the merged fences are
+> already signaled. When we filter signaled fences here the result of this is
+> always 0.
+> 
+> We have an igt test exercising this which reported that the IOCTL doesn't
+> work any more.
 
-This is not about error propagation.
-
-The sync_file has an IOCTL which asks how many of the merged fences are 
-already signaled. When we filter signaled fences here the result of this 
-is always 0.
-
-We have an igt test exercising this which reported that the IOCTL 
-doesn't work any more.
-
-Christian.
-
-> -Daniel
->
->>   struct dma_fence *__dma_fence_unwrap_merge(unsigned int num_fences,
->>                                             struct dma_fence **fences,
->> --
->> 2.25.1
->>
->
-
+Ah ok. I guess we add that to the list of reasons why sync_file is a bit a
+funny interface, and people should just use drm_syncobj instead :-)
+-Daniel
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
