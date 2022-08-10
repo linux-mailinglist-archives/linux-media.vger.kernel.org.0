@@ -2,32 +2,33 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9DD5458ECAE
-	for <lists+linux-media@lfdr.de>; Wed, 10 Aug 2022 15:02:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 321FF58ECAA
+	for <lists+linux-media@lfdr.de>; Wed, 10 Aug 2022 15:02:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231728AbiHJNCK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 10 Aug 2022 09:02:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60254 "EHLO
+        id S230219AbiHJNCF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 10 Aug 2022 09:02:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60250 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232449AbiHJNBg (ORCPT
+        with ESMTP id S232447AbiHJNBg (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
         Wed, 10 Aug 2022 09:01:36 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4480666A74
-        for <linux-media@vger.kernel.org>; Wed, 10 Aug 2022 06:01:35 -0700 (PDT)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E4C1766A70
+        for <linux-media@vger.kernel.org>; Wed, 10 Aug 2022 06:01:34 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 05B54B81C54
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 6FF846142C
         for <linux-media@vger.kernel.org>; Wed, 10 Aug 2022 13:01:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0DEC0C433D7;
-        Wed, 10 Aug 2022 13:01:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 170BAC433C1;
+        Wed, 10 Aug 2022 13:01:32 +0000 (UTC)
 From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
 To:     linux-media@vger.kernel.org
-Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: [PATCH 3/6] media/v4l2-mem2mem.h: rename 'videobuf' to 'vb2'
-Date:   Wed, 10 Aug 2022 15:01:24 +0200
-Message-Id: <20220810130127.2707169-4-hverkuil-cisco@xs4all.nl>
+Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Lad Prabhakar <prabhakar.csengg@gmail.com>
+Subject: [PATCH 4/6] media: platform: ti: avoid using 'videobuf' or 'video-buf'
+Date:   Wed, 10 Aug 2022 15:01:25 +0200
+Message-Id: <20220810130127.2707169-5-hverkuil-cisco@xs4all.nl>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220810130127.2707169-1-hverkuil-cisco@xs4all.nl>
 References: <20220810130127.2707169-1-hverkuil-cisco@xs4all.nl>
@@ -42,77 +43,260 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-It is confusing to refer to vb2 structures with 'videobuf', since
-that typically is used to refer to the old videobuf version 1
-framework.
+These terms typically refer to the old version 1 videobuf framework.
+It is confusing to use them for the vb2 framework, so reword these
+comments.
 
 Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+CC: Lad Prabhakar <prabhakar.csengg@gmail.com>
 ---
- drivers/media/v4l2-core/v4l2-mem2mem.c |  6 +++---
- include/media/v4l2-mem2mem.h           | 12 ++++++------
- 2 files changed, 9 insertions(+), 9 deletions(-)
+ .../media/platform/ti/am437x/am437x-vpfe.h    |  2 +-
+ drivers/media/platform/ti/davinci/vpif.h      | 60 +++++++++----------
+ .../media/platform/ti/davinci/vpif_capture.c  |  6 +-
+ .../media/platform/ti/davinci/vpif_capture.h  |  2 +-
+ .../media/platform/ti/davinci/vpif_display.c  |  6 +-
+ .../media/platform/ti/davinci/vpif_display.h  |  6 +-
+ drivers/media/platform/ti/omap3isp/ispvideo.c |  2 +-
+ include/media/davinci/vpbe_display.h          |  6 +-
+ 8 files changed, 45 insertions(+), 45 deletions(-)
 
-diff --git a/drivers/media/v4l2-core/v4l2-mem2mem.c b/drivers/media/v4l2-core/v4l2-mem2mem.c
-index 837e1855f94b..be7fde1ed3ea 100644
---- a/drivers/media/v4l2-core/v4l2-mem2mem.c
-+++ b/drivers/media/v4l2-core/v4l2-mem2mem.c
-@@ -1,8 +1,8 @@
- // SPDX-License-Identifier: GPL-2.0-or-later
- /*
-- * Memory-to-memory device framework for Video for Linux 2 and videobuf.
-+ * Memory-to-memory device framework for Video for Linux 2 and vb2.
-  *
-- * Helper functions for devices that use videobuf buffers for both their
-+ * Helper functions for devices that use vb2 buffers for both their
-  * source and destination.
-  *
-  * Copyright (c) 2009-2010 Samsung Electronics Co., Ltd.
-@@ -21,7 +21,7 @@
- #include <media/v4l2-fh.h>
- #include <media/v4l2-event.h>
+diff --git a/drivers/media/platform/ti/am437x/am437x-vpfe.h b/drivers/media/platform/ti/am437x/am437x-vpfe.h
+index 05ee37db0273..f8b4e917b91a 100644
+--- a/drivers/media/platform/ti/am437x/am437x-vpfe.h
++++ b/drivers/media/platform/ti/am437x/am437x-vpfe.h
+@@ -267,7 +267,7 @@ struct vpfe_device {
+ 	 * is different from the image window
+ 	 */
+ 	struct v4l2_rect crop;
+-	/* Buffer queue used in video-buf */
++	/* Buffer queue used in vb2 */
+ 	struct vb2_queue buffer_queue;
+ 	/* Queue of filled frames */
+ 	struct list_head dma_queue;
+diff --git a/drivers/media/platform/ti/davinci/vpif.h b/drivers/media/platform/ti/davinci/vpif.h
+index c6d1d890478a..9ac1430f5bf9 100644
+--- a/drivers/media/platform/ti/davinci/vpif.h
++++ b/drivers/media/platform/ti/davinci/vpif.h
+@@ -330,10 +330,10 @@ static inline void channel1_intr_enable(int enable)
+ }
  
--MODULE_DESCRIPTION("Mem to mem device framework for videobuf");
-+MODULE_DESCRIPTION("Mem to mem device framework for vb2");
- MODULE_AUTHOR("Pawel Osciak, <pawel@osciak.com>");
- MODULE_LICENSE("GPL");
+ /* inline function to set buffer addresses in case of Y/C non mux mode */
+-static inline void ch0_set_videobuf_addr_yc_nmux(unsigned long top_strt_luma,
+-						 unsigned long btm_strt_luma,
+-						 unsigned long top_strt_chroma,
+-						 unsigned long btm_strt_chroma)
++static inline void ch0_set_video_buf_addr_yc_nmux(unsigned long top_strt_luma,
++						  unsigned long btm_strt_luma,
++						  unsigned long top_strt_chroma,
++						  unsigned long btm_strt_chroma)
+ {
+ 	regw(top_strt_luma, VPIF_CH0_TOP_STRT_ADD_LUMA);
+ 	regw(btm_strt_luma, VPIF_CH0_BTM_STRT_ADD_LUMA);
+@@ -342,10 +342,10 @@ static inline void ch0_set_videobuf_addr_yc_nmux(unsigned long top_strt_luma,
+ }
  
-diff --git a/include/media/v4l2-mem2mem.h b/include/media/v4l2-mem2mem.h
-index fdbd5257e020..bb9de6a899e0 100644
---- a/include/media/v4l2-mem2mem.h
-+++ b/include/media/v4l2-mem2mem.h
-@@ -486,10 +486,10 @@ __poll_t v4l2_m2m_poll(struct file *file, struct v4l2_m2m_ctx *m2m_ctx,
-  * @vma: pointer to struct &vm_area_struct
+ /* inline function to set buffer addresses in VPIF registers for video data */
+-static inline void ch0_set_videobuf_addr(unsigned long top_strt_luma,
+-					 unsigned long btm_strt_luma,
+-					 unsigned long top_strt_chroma,
+-					 unsigned long btm_strt_chroma)
++static inline void ch0_set_video_buf_addr(unsigned long top_strt_luma,
++					  unsigned long btm_strt_luma,
++					  unsigned long top_strt_chroma,
++					  unsigned long btm_strt_chroma)
+ {
+ 	regw(top_strt_luma, VPIF_CH0_TOP_STRT_ADD_LUMA);
+ 	regw(btm_strt_luma, VPIF_CH0_BTM_STRT_ADD_LUMA);
+@@ -353,10 +353,10 @@ static inline void ch0_set_videobuf_addr(unsigned long top_strt_luma,
+ 	regw(btm_strt_chroma, VPIF_CH0_BTM_STRT_ADD_CHROMA);
+ }
+ 
+-static inline void ch1_set_videobuf_addr(unsigned long top_strt_luma,
+-					 unsigned long btm_strt_luma,
+-					 unsigned long top_strt_chroma,
+-					 unsigned long btm_strt_chroma)
++static inline void ch1_set_video_buf_addr(unsigned long top_strt_luma,
++					  unsigned long btm_strt_luma,
++					  unsigned long top_strt_chroma,
++					  unsigned long btm_strt_chroma)
+ {
+ 
+ 	regw(top_strt_luma, VPIF_CH1_TOP_STRT_ADD_LUMA);
+@@ -546,10 +546,10 @@ static inline void channel3_clipping_enable(int enable)
+ }
+ 
+ /* inline function to set buffer addresses in case of Y/C non mux mode */
+-static inline void ch2_set_videobuf_addr_yc_nmux(unsigned long top_strt_luma,
+-						 unsigned long btm_strt_luma,
+-						 unsigned long top_strt_chroma,
+-						 unsigned long btm_strt_chroma)
++static inline void ch2_set_video_buf_addr_yc_nmux(unsigned long top_strt_luma,
++						  unsigned long btm_strt_luma,
++						  unsigned long top_strt_chroma,
++						  unsigned long btm_strt_chroma)
+ {
+ 	regw(top_strt_luma, VPIF_CH2_TOP_STRT_ADD_LUMA);
+ 	regw(btm_strt_luma, VPIF_CH2_BTM_STRT_ADD_LUMA);
+@@ -558,10 +558,10 @@ static inline void ch2_set_videobuf_addr_yc_nmux(unsigned long top_strt_luma,
+ }
+ 
+ /* inline function to set buffer addresses in VPIF registers for video data */
+-static inline void ch2_set_videobuf_addr(unsigned long top_strt_luma,
+-					 unsigned long btm_strt_luma,
+-					 unsigned long top_strt_chroma,
+-					 unsigned long btm_strt_chroma)
++static inline void ch2_set_video_buf_addr(unsigned long top_strt_luma,
++					  unsigned long btm_strt_luma,
++					  unsigned long top_strt_chroma,
++					  unsigned long btm_strt_chroma)
+ {
+ 	regw(top_strt_luma, VPIF_CH2_TOP_STRT_ADD_LUMA);
+ 	regw(btm_strt_luma, VPIF_CH2_BTM_STRT_ADD_LUMA);
+@@ -569,10 +569,10 @@ static inline void ch2_set_videobuf_addr(unsigned long top_strt_luma,
+ 	regw(btm_strt_chroma, VPIF_CH2_BTM_STRT_ADD_CHROMA);
+ }
+ 
+-static inline void ch3_set_videobuf_addr(unsigned long top_strt_luma,
+-					 unsigned long btm_strt_luma,
+-					 unsigned long top_strt_chroma,
+-					 unsigned long btm_strt_chroma)
++static inline void ch3_set_video_buf_addr(unsigned long top_strt_luma,
++					  unsigned long btm_strt_luma,
++					  unsigned long top_strt_chroma,
++					  unsigned long btm_strt_chroma)
+ {
+ 	regw(top_strt_luma, VPIF_CH3_TOP_STRT_ADD_LUMA);
+ 	regw(btm_strt_luma, VPIF_CH3_BTM_STRT_ADD_LUMA);
+@@ -582,18 +582,18 @@ static inline void ch3_set_videobuf_addr(unsigned long top_strt_luma,
+ 
+ /* inline function to set buffer addresses in VPIF registers for vbi data */
+ static inline void ch2_set_vbi_addr(unsigned long top_strt_luma,
+-					 unsigned long btm_strt_luma,
+-					 unsigned long top_strt_chroma,
+-					 unsigned long btm_strt_chroma)
++				    unsigned long btm_strt_luma,
++				    unsigned long top_strt_chroma,
++				    unsigned long btm_strt_chroma)
+ {
+ 	regw(top_strt_luma, VPIF_CH2_TOP_STRT_ADD_VANC);
+ 	regw(btm_strt_luma, VPIF_CH2_BTM_STRT_ADD_VANC);
+ }
+ 
+ static inline void ch3_set_vbi_addr(unsigned long top_strt_luma,
+-					 unsigned long btm_strt_luma,
+-					 unsigned long top_strt_chroma,
+-					 unsigned long btm_strt_chroma)
++				    unsigned long btm_strt_luma,
++				    unsigned long top_strt_chroma,
++				    unsigned long btm_strt_chroma)
+ {
+ 	regw(top_strt_luma, VPIF_CH3_TOP_STRT_ADD_VANC);
+ 	regw(btm_strt_luma, VPIF_CH3_BTM_STRT_ADD_VANC);
+diff --git a/drivers/media/platform/ti/davinci/vpif_capture.c b/drivers/media/platform/ti/davinci/vpif_capture.c
+index b91eec899eb5..580723333fcc 100644
+--- a/drivers/media/platform/ti/davinci/vpif_capture.c
++++ b/drivers/media/platform/ti/davinci/vpif_capture.c
+@@ -632,11 +632,11 @@ static void vpif_config_addr(struct channel_obj *ch, int muxmode)
+ 	common = &(ch->common[VPIF_VIDEO_INDEX]);
+ 
+ 	if (VPIF_CHANNEL1_VIDEO == ch->channel_id)
+-		common->set_addr = ch1_set_videobuf_addr;
++		common->set_addr = ch1_set_video_buf_addr;
+ 	else if (2 == muxmode)
+-		common->set_addr = ch0_set_videobuf_addr_yc_nmux;
++		common->set_addr = ch0_set_video_buf_addr_yc_nmux;
+ 	else
+-		common->set_addr = ch0_set_videobuf_addr;
++		common->set_addr = ch0_set_video_buf_addr;
+ }
+ 
+ /**
+diff --git a/drivers/media/platform/ti/davinci/vpif_capture.h b/drivers/media/platform/ti/davinci/vpif_capture.h
+index d5951f61df47..6191056500cf 100644
+--- a/drivers/media/platform/ti/davinci/vpif_capture.h
++++ b/drivers/media/platform/ti/davinci/vpif_capture.h
+@@ -50,7 +50,7 @@ struct common_obj {
+ 	struct vpif_cap_buffer *next_frm;
+ 	/* Used to store pixel format */
+ 	struct v4l2_format fmt;
+-	/* Buffer queue used in video-buf */
++	/* Buffer queue used in vb2 */
+ 	struct vb2_queue buffer_queue;
+ 	/* Queue of filled frames */
+ 	struct list_head dma_queue;
+diff --git a/drivers/media/platform/ti/davinci/vpif_display.c b/drivers/media/platform/ti/davinci/vpif_display.c
+index 5d524acc995d..b2df81603f62 100644
+--- a/drivers/media/platform/ti/davinci/vpif_display.c
++++ b/drivers/media/platform/ti/davinci/vpif_display.c
+@@ -563,12 +563,12 @@ static void vpif_config_addr(struct channel_obj *ch, int muxmode)
+ 	struct common_obj *common = &ch->common[VPIF_VIDEO_INDEX];
+ 
+ 	if (VPIF_CHANNEL3_VIDEO == ch->channel_id) {
+-		common->set_addr = ch3_set_videobuf_addr;
++		common->set_addr = ch3_set_video_buf_addr;
+ 	} else {
+ 		if (2 == muxmode)
+-			common->set_addr = ch2_set_videobuf_addr_yc_nmux;
++			common->set_addr = ch2_set_video_buf_addr_yc_nmux;
+ 		else
+-			common->set_addr = ch2_set_videobuf_addr;
++			common->set_addr = ch2_set_video_buf_addr;
+ 	}
+ }
+ 
+diff --git a/drivers/media/platform/ti/davinci/vpif_display.h b/drivers/media/platform/ti/davinci/vpif_display.h
+index f98062e79167..f300de37e041 100644
+--- a/drivers/media/platform/ti/davinci/vpif_display.h
++++ b/drivers/media/platform/ti/davinci/vpif_display.h
+@@ -72,11 +72,11 @@ struct common_obj {
+ 	struct vpif_disp_buffer *next_frm;	/* Pointer pointing to next
+ 						 * vb2_buffer */
+ 	struct v4l2_format fmt;			/* Used to store the format */
+-	struct vb2_queue buffer_queue;		/* Buffer queue used in
+-						 * video-buf */
++	struct vb2_queue buffer_queue;		/* Buffer queue used in vb2 */
+ 
+ 	struct list_head dma_queue;		/* Queue of filled frames */
+-	spinlock_t irqlock;			/* Used in video-buf */
++	spinlock_t irqlock;			/* Used for video buffer
++						 * handling */
+ 
+ 	/* channel specific parameters */
+ 	struct mutex lock;			/* lock used to access this
+diff --git a/drivers/media/platform/ti/omap3isp/ispvideo.c b/drivers/media/platform/ti/omap3isp/ispvideo.c
+index d7059180e80e..cc9a97d5d505 100644
+--- a/drivers/media/platform/ti/omap3isp/ispvideo.c
++++ b/drivers/media/platform/ti/omap3isp/ispvideo.c
+@@ -1071,7 +1071,7 @@ static int isp_video_check_external_subdevs(struct isp_video *video,
+  * processing might be possible but requires more testing.
   *
-  * Call from driver's mmap() function. Will handle mmap() for both queues
-- * seamlessly for videobuffer, which will receive normal per-queue offsets and
-- * proper videobuf queue pointers. The differentiation is made outside videobuf
-- * by adding a predefined offset to buffers from one of the queues and
-- * subtracting it before passing it back to videobuf. Only drivers (and
-+ * seamlessly for the video buffer, which will receive normal per-queue offsets
-+ * and proper vb2 queue pointers. The differentiation is made outside
-+ * vb2 by adding a predefined offset to buffers from one of the queues
-+ * and subtracting it before passing it back to vb2. Only drivers (and
-  * thus applications) receive modified offsets.
+  * Stream start must be delayed until buffers are available at both the input
+- * and output. The pipeline must be started in the videobuf queue callback with
++ * and output. The pipeline must be started in the vb2 queue callback with
+  * the buffers queue spinlock held. The modules subdev set stream operation must
+  * not sleep.
   */
- int v4l2_m2m_mmap(struct file *file, struct v4l2_m2m_ctx *m2m_ctx,
-@@ -544,7 +544,7 @@ void v4l2_m2m_release(struct v4l2_m2m_dev *m2m_dev);
-  * @m2m_dev: opaque pointer to the internal data to handle M2M context
-  * @drv_priv: driver's instance private data
-  * @queue_init: a callback for queue type-specific initialization function
-- *	to be used for initializing videobuf_queues
-+ *	to be used for initializing vb2_queues
-  *
-  * Usually called from driver's ``open()`` function.
-  */
-@@ -579,7 +579,7 @@ void v4l2_m2m_ctx_release(struct v4l2_m2m_ctx *m2m_ctx);
-  * @m2m_ctx: m2m context assigned to the instance given by struct &v4l2_m2m_ctx
-  * @vbuf: pointer to struct &vb2_v4l2_buffer
-  *
-- * Call from videobuf_queue_ops->ops->buf_queue, videobuf_queue_ops callback.
-+ * Call from vb2_queue_ops->ops->buf_queue, vb2_queue_ops callback.
-  */
- void v4l2_m2m_buf_queue(struct v4l2_m2m_ctx *m2m_ctx,
- 			struct vb2_v4l2_buffer *vbuf);
+diff --git a/include/media/davinci/vpbe_display.h b/include/media/davinci/vpbe_display.h
+index 6d2a93740130..d8751ea926a2 100644
+--- a/include/media/davinci/vpbe_display.h
++++ b/include/media/davinci/vpbe_display.h
+@@ -69,13 +69,13 @@ struct vpbe_layer {
+ 	struct vpbe_disp_buffer *cur_frm;
+ 	/* Pointer pointing to next v4l2_buffer */
+ 	struct vpbe_disp_buffer *next_frm;
+-	/* videobuf specific parameters
+-	 * Buffer queue used in video-buf
++	/* vb2 specific parameters
++	 * Buffer queue used in vb2
+ 	 */
+ 	struct vb2_queue buffer_queue;
+ 	/* Queue of filled frames */
+ 	struct list_head dma_queue;
+-	/* Used in video-buf */
++	/* Used for video buffer handling */
+ 	spinlock_t irqlock;
+ 	/* V4l2 specific parameters */
+ 	/* Identifies video device for this layer */
 -- 
 2.35.1
 
