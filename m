@@ -2,29 +2,29 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A59D558EBB1
-	for <lists+linux-media@lfdr.de>; Wed, 10 Aug 2022 14:11:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4B79358EBB2
+	for <lists+linux-media@lfdr.de>; Wed, 10 Aug 2022 14:11:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231867AbiHJMLs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 10 Aug 2022 08:11:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40434 "EHLO
+        id S231994AbiHJMLu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 10 Aug 2022 08:11:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40518 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231877AbiHJMLq (ORCPT
+        with ESMTP id S229797AbiHJMLt (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 10 Aug 2022 08:11:46 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1A4EE6AA30
-        for <linux-media@vger.kernel.org>; Wed, 10 Aug 2022 05:11:46 -0700 (PDT)
+        Wed, 10 Aug 2022 08:11:49 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0B2EE6B64E
+        for <linux-media@vger.kernel.org>; Wed, 10 Aug 2022 05:11:48 -0700 (PDT)
 Received: from deskari.lan (91-158-154-79.elisa-laajakaista.fi [91.158.154.79])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2364CDFA;
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id C5A7410CC;
         Wed, 10 Aug 2022 14:11:41 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1660133501;
-        bh=h2CUIhMly2WIDJgZkdMGS+dT5uoImVIRD25wIGes4SM=;
+        s=mail; t=1660133502;
+        bh=nttYNaf0f0v2ezcj6UeZiQkGdEE32iPQsX48tJu6T5Q=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=SEBInS6OKrpMLiLEPa3cfEIsveoi2Il9lAjULrZir39PfIzj4CbeNSa4Gpb6McJFl
-         VG6I5Onzxwkxf6BpSYTvSlIXZrS7nq2mdqhvyajvj1Ajb+8ORpuUjXXVULsxsLgOb5
-         LscYLbJYn4jSD+rDa8WyRxskUQ3TTAx5EHj8ONPQ=
+        b=olB0sh/PZMDmFDhJkWWI8WcfXwPfZU2hXMxGsTpJV3kEKM8JlYr6GFNM62oBpe9MJ
+         3kMQriSEwJHWfS4Zxthk+nIFqnLMm6boKmdFfzWVzOFvELzKhdfVUG6NJIqU/A9Ga4
+         2g5qPvoed2t0qjTEC3S8qaX+6ARBb8ruNFW3A4ew=
 From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 To:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
         Jacopo Mondi <jacopo+renesas@jmondi.org>,
@@ -36,9 +36,9 @@ To:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
         Kishon Vijay Abraham <kishon@ti.com>,
         satish.nagireddy@getcruise.com, Tomasz Figa <tfiga@chromium.org>
 Cc:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: [PATCH v13 07/34] media: mc: entity: Move media_entity_get_fwnode_pad() out of graph walk section
-Date:   Wed, 10 Aug 2022 15:10:55 +0300
-Message-Id: <20220810121122.3149086-8-tomi.valkeinen@ideasonboard.com>
+Subject: [PATCH v13 08/34] media: mc: entity: Add media_entity_pipeline() to access the media pipeline
+Date:   Wed, 10 Aug 2022 15:10:56 +0300
+Message-Id: <20220810121122.3149086-9-tomi.valkeinen@ideasonboard.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220810121122.3149086-1-tomi.valkeinen@ideasonboard.com>
 References: <20220810121122.3149086-1-tomi.valkeinen@ideasonboard.com>
@@ -55,104 +55,252 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-The media_entity_get_fwnode_pad() function is unrelated to the graph
-traversal code that it is currently bundled with. Move it with the
-media_entity_remote_pad() function.
+Replace direct access to the pipe field in drivers with a new helper
+function. This will allow easier refactoring of media pipeline handling
+in the MC core behind the scenes without affecting drivers.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 ---
- drivers/media/mc/mc-entity.c | 70 ++++++++++++++++++------------------
- 1 file changed, 35 insertions(+), 35 deletions(-)
+ drivers/media/mc/mc-entity.c                   |  6 ++++++
+ .../platform/renesas/rcar-vin/rcar-core.c      |  5 ++---
+ .../media/platform/renesas/rcar-vin/rcar-dma.c |  2 +-
+ drivers/media/platform/ti/omap3isp/isp.c       |  4 +---
+ drivers/media/platform/ti/omap3isp/ispvideo.c  |  3 +--
+ drivers/media/platform/ti/omap3isp/ispvideo.h  | 11 +++++++++--
+ drivers/media/platform/xilinx/xilinx-dma.c     |  3 +--
+ drivers/media/platform/xilinx/xilinx-dma.h     |  7 ++++++-
+ drivers/staging/media/imx/imx-media-utils.c    |  2 +-
+ drivers/staging/media/omap4iss/iss.c           |  4 +---
+ drivers/staging/media/omap4iss/iss_video.c     |  3 +--
+ drivers/staging/media/omap4iss/iss_video.h     | 11 +++++++++--
+ include/media/media-entity.h                   | 18 ++++++++++++++++++
+ 13 files changed, 57 insertions(+), 22 deletions(-)
 
 diff --git a/drivers/media/mc/mc-entity.c b/drivers/media/mc/mc-entity.c
-index d048c3661421..40e302513aa0 100644
+index 40e302513aa0..b1abaa333d13 100644
 --- a/drivers/media/mc/mc-entity.c
 +++ b/drivers/media/mc/mc-entity.c
-@@ -369,41 +369,6 @@ struct media_entity *media_graph_walk_next(struct media_graph *graph)
+@@ -923,6 +923,12 @@ int media_entity_get_fwnode_pad(struct media_entity *entity,
  }
- EXPORT_SYMBOL_GPL(media_graph_walk_next);
+ EXPORT_SYMBOL_GPL(media_entity_get_fwnode_pad);
  
--int media_entity_get_fwnode_pad(struct media_entity *entity,
--				struct fwnode_handle *fwnode,
--				unsigned long direction_flags)
--{
--	struct fwnode_endpoint endpoint;
--	unsigned int i;
--	int ret;
--
--	if (!entity->ops || !entity->ops->get_fwnode_pad) {
--		for (i = 0; i < entity->num_pads; i++) {
--			if (entity->pads[i].flags & direction_flags)
--				return i;
--		}
--
--		return -ENXIO;
--	}
--
--	ret = fwnode_graph_parse_endpoint(fwnode, &endpoint);
--	if (ret)
--		return ret;
--
--	ret = entity->ops->get_fwnode_pad(entity, &endpoint);
--	if (ret < 0)
--		return ret;
--
--	if (ret >= entity->num_pads)
--		return -ENXIO;
--
--	if (!(entity->pads[ret].flags & direction_flags))
--		return -ENXIO;
--
--	return ret;
--}
--EXPORT_SYMBOL_GPL(media_entity_get_fwnode_pad);
--
- /* -----------------------------------------------------------------------------
-  * Pipeline management
-  */
-@@ -923,6 +888,41 @@ struct media_pad *media_entity_remote_pad(const struct media_pad *pad)
- }
- EXPORT_SYMBOL_GPL(media_entity_remote_pad);
- 
-+int media_entity_get_fwnode_pad(struct media_entity *entity,
-+				struct fwnode_handle *fwnode,
-+				unsigned long direction_flags)
++struct media_pipeline *media_entity_pipeline(struct media_entity *entity)
 +{
-+	struct fwnode_endpoint endpoint;
-+	unsigned int i;
-+	int ret;
-+
-+	if (!entity->ops || !entity->ops->get_fwnode_pad) {
-+		for (i = 0; i < entity->num_pads; i++) {
-+			if (entity->pads[i].flags & direction_flags)
-+				return i;
-+		}
-+
-+		return -ENXIO;
-+	}
-+
-+	ret = fwnode_graph_parse_endpoint(fwnode, &endpoint);
-+	if (ret)
-+		return ret;
-+
-+	ret = entity->ops->get_fwnode_pad(entity, &endpoint);
-+	if (ret < 0)
-+		return ret;
-+
-+	if (ret >= entity->num_pads)
-+		return -ENXIO;
-+
-+	if (!(entity->pads[ret].flags & direction_flags))
-+		return -ENXIO;
-+
-+	return ret;
++	return entity->pipe;
 +}
-+EXPORT_SYMBOL_GPL(media_entity_get_fwnode_pad);
++EXPORT_SYMBOL_GPL(media_entity_pipeline);
 +
  static void media_interface_init(struct media_device *mdev,
  				 struct media_interface *intf,
  				 u32 gobj_type,
+diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-core.c b/drivers/media/platform/renesas/rcar-vin/rcar-core.c
+index 49bdcfba010b..7b12af3ed8fb 100644
+--- a/drivers/media/platform/renesas/rcar-vin/rcar-core.c
++++ b/drivers/media/platform/renesas/rcar-vin/rcar-core.c
+@@ -786,9 +786,8 @@ static int rvin_csi2_link_notify(struct media_link *link, u32 flags,
+ 		return 0;
+ 
+ 	/*
+-	 * Don't allow link changes if any entity in the graph is
+-	 * streaming, modifying the CHSEL register fields can disrupt
+-	 * running streams.
++	 * Don't allow link changes if any stream in the graph is active as
++	 * modifying the CHSEL register fields can disrupt running streams.
+ 	 */
+ 	media_device_for_each_entity(entity, &group->mdev)
+ 		if (media_entity_is_streaming(entity))
+diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-dma.c b/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
+index 6644b498929d..924907b71263 100644
+--- a/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
++++ b/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
+@@ -1281,7 +1281,7 @@ static int rvin_set_stream(struct rvin_dev *vin, int on)
+ 	 */
+ 	mdev = vin->vdev.entity.graph_obj.mdev;
+ 	mutex_lock(&mdev->graph_mutex);
+-	pipe = sd->entity.pipe ? sd->entity.pipe : &vin->vdev.pipe;
++	pipe = media_entity_pipeline(&sd->entity) ? : &vin->vdev.pipe;
+ 	ret = __media_pipeline_start(&vin->vdev.entity, pipe);
+ 	mutex_unlock(&mdev->graph_mutex);
+ 	if (ret)
+diff --git a/drivers/media/platform/ti/omap3isp/isp.c b/drivers/media/platform/ti/omap3isp/isp.c
+index 4c937f3f323e..2b5310b07bc3 100644
+--- a/drivers/media/platform/ti/omap3isp/isp.c
++++ b/drivers/media/platform/ti/omap3isp/isp.c
+@@ -937,10 +937,8 @@ static int isp_pipeline_is_last(struct media_entity *me)
+ 	struct isp_pipeline *pipe;
+ 	struct media_pad *pad;
+ 
+-	if (!me->pipe)
+-		return 0;
+ 	pipe = to_isp_pipeline(me);
+-	if (pipe->stream_state == ISP_PIPELINE_STREAM_STOPPED)
++	if (!pipe || pipe->stream_state == ISP_PIPELINE_STREAM_STOPPED)
+ 		return 0;
+ 	pad = media_entity_remote_pad(&pipe->output->pad);
+ 	return pad->entity == me;
+diff --git a/drivers/media/platform/ti/omap3isp/ispvideo.c b/drivers/media/platform/ti/omap3isp/ispvideo.c
+index 8811d6dd4ee7..44b0d55ee5d8 100644
+--- a/drivers/media/platform/ti/omap3isp/ispvideo.c
++++ b/drivers/media/platform/ti/omap3isp/ispvideo.c
+@@ -1093,8 +1093,7 @@ isp_video_streamon(struct file *file, void *fh, enum v4l2_buf_type type)
+ 	/* Start streaming on the pipeline. No link touching an entity in the
+ 	 * pipeline can be activated or deactivated once streaming is started.
+ 	 */
+-	pipe = video->video.entity.pipe
+-	     ? to_isp_pipeline(&video->video.entity) : &video->pipe;
++	pipe = to_isp_pipeline(&video->video.entity) ? : &video->pipe;
+ 
+ 	ret = media_entity_enum_init(&pipe->ent_enum, &video->isp->media_dev);
+ 	if (ret)
+diff --git a/drivers/media/platform/ti/omap3isp/ispvideo.h b/drivers/media/platform/ti/omap3isp/ispvideo.h
+index a0908670c0cf..1d23df576e6b 100644
+--- a/drivers/media/platform/ti/omap3isp/ispvideo.h
++++ b/drivers/media/platform/ti/omap3isp/ispvideo.h
+@@ -99,8 +99,15 @@ struct isp_pipeline {
+ 	unsigned int external_width;
+ };
+ 
+-#define to_isp_pipeline(__e) \
+-	container_of((__e)->pipe, struct isp_pipeline, pipe)
++static inline struct isp_pipeline *to_isp_pipeline(struct media_entity *entity)
++{
++	struct media_pipeline *pipe = media_entity_pipeline(entity);
++
++	if (!pipe)
++		return NULL;
++
++	return container_of(pipe, struct isp_pipeline, pipe);
++}
+ 
+ static inline int isp_pipeline_ready(struct isp_pipeline *pipe)
+ {
+diff --git a/drivers/media/platform/xilinx/xilinx-dma.c b/drivers/media/platform/xilinx/xilinx-dma.c
+index 338c3661d809..72eff5ef626b 100644
+--- a/drivers/media/platform/xilinx/xilinx-dma.c
++++ b/drivers/media/platform/xilinx/xilinx-dma.c
+@@ -402,8 +402,7 @@ static int xvip_dma_start_streaming(struct vb2_queue *vq, unsigned int count)
+ 	 * Use the pipeline object embedded in the first DMA object that starts
+ 	 * streaming.
+ 	 */
+-	pipe = dma->video.entity.pipe
+-	     ? to_xvip_pipeline(&dma->video.entity) : &dma->pipe;
++	pipe = to_xvip_pipeline(&dma->video.entity) ? : &dma->pipe;
+ 
+ 	ret = media_pipeline_start(&dma->video.entity, &pipe->pipe);
+ 	if (ret < 0)
+diff --git a/drivers/media/platform/xilinx/xilinx-dma.h b/drivers/media/platform/xilinx/xilinx-dma.h
+index 2378bdae57ae..3ea10f6b0bb9 100644
+--- a/drivers/media/platform/xilinx/xilinx-dma.h
++++ b/drivers/media/platform/xilinx/xilinx-dma.h
+@@ -47,7 +47,12 @@ struct xvip_pipeline {
+ 
+ static inline struct xvip_pipeline *to_xvip_pipeline(struct media_entity *e)
+ {
+-	return container_of(e->pipe, struct xvip_pipeline, pipe);
++	struct media_pipeline *pipe = media_entity_pipeline(e);
++
++	if (!pipe)
++		return NULL;
++
++	return container_of(pipe, struct xvip_pipeline, pipe);
+ }
+ 
+ /**
+diff --git a/drivers/staging/media/imx/imx-media-utils.c b/drivers/staging/media/imx/imx-media-utils.c
+index 94bc866ca28c..5d9c6fc6f2e0 100644
+--- a/drivers/staging/media/imx/imx-media-utils.c
++++ b/drivers/staging/media/imx/imx-media-utils.c
+@@ -871,7 +871,7 @@ int imx_media_pipeline_set_stream(struct imx_media_dev *imxmd,
+ 			__media_pipeline_stop(entity);
+ 	} else {
+ 		v4l2_subdev_call(sd, video, s_stream, 0);
+-		if (entity->pipe)
++		if (media_entity_pipeline(entity))
+ 			__media_pipeline_stop(entity);
+ 	}
+ 
+diff --git a/drivers/staging/media/omap4iss/iss.c b/drivers/staging/media/omap4iss/iss.c
+index 68588e9dab0b..77760d913b49 100644
+--- a/drivers/staging/media/omap4iss/iss.c
++++ b/drivers/staging/media/omap4iss/iss.c
+@@ -548,10 +548,8 @@ static int iss_pipeline_is_last(struct media_entity *me)
+ 	struct iss_pipeline *pipe;
+ 	struct media_pad *pad;
+ 
+-	if (!me->pipe)
+-		return 0;
+ 	pipe = to_iss_pipeline(me);
+-	if (pipe->stream_state == ISS_PIPELINE_STREAM_STOPPED)
++	if (!pipe || pipe->stream_state == ISS_PIPELINE_STREAM_STOPPED)
+ 		return 0;
+ 	pad = media_entity_remote_pad(&pipe->output->pad);
+ 	return pad->entity == me;
+diff --git a/drivers/staging/media/omap4iss/iss_video.c b/drivers/staging/media/omap4iss/iss_video.c
+index d0da083deed5..67d63a400fa2 100644
+--- a/drivers/staging/media/omap4iss/iss_video.c
++++ b/drivers/staging/media/omap4iss/iss_video.c
+@@ -870,8 +870,7 @@ iss_video_streamon(struct file *file, void *fh, enum v4l2_buf_type type)
+ 	 * Start streaming on the pipeline. No link touching an entity in the
+ 	 * pipeline can be activated or deactivated once streaming is started.
+ 	 */
+-	pipe = entity->pipe
+-	     ? to_iss_pipeline(entity) : &video->pipe;
++	pipe = to_iss_pipeline(&video->video.entity) ? : &video->pipe;
+ 	pipe->external = NULL;
+ 	pipe->external_rate = 0;
+ 	pipe->external_bpp = 0;
+diff --git a/drivers/staging/media/omap4iss/iss_video.h b/drivers/staging/media/omap4iss/iss_video.h
+index 526281bf0051..ca2d5edb6261 100644
+--- a/drivers/staging/media/omap4iss/iss_video.h
++++ b/drivers/staging/media/omap4iss/iss_video.h
+@@ -90,8 +90,15 @@ struct iss_pipeline {
+ 	int external_bpp;
+ };
+ 
+-#define to_iss_pipeline(__e) \
+-	container_of((__e)->pipe, struct iss_pipeline, pipe)
++static inline struct iss_pipeline *to_iss_pipeline(struct media_entity *entity)
++{
++	struct media_pipeline *pipe = media_entity_pipeline(entity);
++
++	if (!pipe)
++		return NULL;
++
++	return container_of(pipe, struct iss_pipeline, pipe);
++}
+ 
+ static inline int iss_pipeline_ready(struct iss_pipeline *pipe)
+ {
+diff --git a/include/media/media-entity.h b/include/media/media-entity.h
+index e0b2353271b6..3438954892b7 100644
+--- a/include/media/media-entity.h
++++ b/include/media/media-entity.h
+@@ -884,6 +884,24 @@ static inline bool media_entity_is_streaming(const struct media_entity *entity)
+ 	return entity->pipe;
+ }
+ 
++/**
++ * media_entity_pipeline - Get the media pipeline an entity is part of
++ * @entity: The entity
++ *
++ * This function returns the media pipeline that an entity has been associated
++ * with when constructing the pipeline with media_pipeline_start(). The pointer
++ * remains valid until media_pipeline_stop() is called.
++ *
++ * In general, entities can be part of multiple pipelines, when carrying
++ * multiple streams (either on different pads, or on the same pad using
++ * multiplexed streams). This function is to be used only for entities that
++ * do not support multiple pipelines.
++ *
++ * Return: The media_pipeline the entity is part of, or NULL if the entity is
++ * not part of any pipeline.
++ */
++struct media_pipeline *media_entity_pipeline(struct media_entity *entity);
++
+ /**
+  * media_entity_get_fwnode_pad - Get pad number from fwnode
+  *
 -- 
 2.34.1
 
