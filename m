@@ -2,139 +2,137 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8E0E458EB85
-	for <lists+linux-media@lfdr.de>; Wed, 10 Aug 2022 13:51:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 52BAF58EB8E
+	for <lists+linux-media@lfdr.de>; Wed, 10 Aug 2022 13:53:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231915AbiHJLvb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 10 Aug 2022 07:51:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48424 "EHLO
+        id S231190AbiHJLxl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 10 Aug 2022 07:53:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51140 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231795AbiHJLvZ (ORCPT
+        with ESMTP id S232103AbiHJLxY (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 10 Aug 2022 07:51:25 -0400
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com [IPv6:2a00:1450:4864:20::444])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 51EDA6C774
-        for <linux-media@vger.kernel.org>; Wed, 10 Aug 2022 04:51:24 -0700 (PDT)
-Received: by mail-wr1-x444.google.com with SMTP id z12so17451891wrs.9
-        for <linux-media@vger.kernel.org>; Wed, 10 Aug 2022 04:51:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=in-reply-to:content-disposition:mime-version:references
-         :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc;
-        bh=LDfEYb5ujn1T+y8ZdrYflg44hRzKk8763KEYo/Jqooc=;
-        b=VsfOftKCJHPLqJmZsbYKzFsC5wiVuqV/8JCiYAVptPF/YYd4ipgoyhzI0tuqldHgzH
-         Ha0LF8Pybi7f5hyNzZO0APTqTQNuLpyB6F/dytyZsNhJNqrIqH+9NgHgqta8zn5/fan6
-         gFqzx8Yco8TA6ivlfRBarvt+OEzZ4TOS10urY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references
-         :mail-followup-to:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc;
-        bh=LDfEYb5ujn1T+y8ZdrYflg44hRzKk8763KEYo/Jqooc=;
-        b=wobWm/lcg29V5P2NNwf8q2zQODdIauhmG97SjLi9DY6l8BvDKPmtfpTySHJWLwLMpV
-         yuN6/2NdCgYmAvt7xEhDvU9Q3fzcps8hWuUN+f/ZN8hYEjC7+vdPo2gV+4ePM0P+emdx
-         i8JMg+Aby5VJ+P3uDgFxLUUdHIIsHvnrV5NSb4xvYtBIMN+JLwvicS2YzZ2o7pylVmxY
-         urKg78f95IxbzAqgU3/eJ06CEVWxb4OBIRREosAV6jXxUwTS3ILtD/p3kGCYCapADMar
-         bh36bXswpfNo2DOdPrmfcx9DVOBblAmXxJOl7jgEg4zPE3aJYyTTYDxSlwmKLVenW5nZ
-         gcjg==
-X-Gm-Message-State: ACgBeo3u/T4YeDSTZ5sjk3X3THScwNjnEwILaM2bq7+y40UDPpC+Ukzk
-        uw3HHOk/kJoPAkn08/HpsigVc0XTC227uHMn
-X-Google-Smtp-Source: AA6agR5l9QMtWYfltZKz7qPF62egv4G39OHczeBaxjZ9CRWiL1TB75raui6OQT3z6KcXev2/EWNGFw==
-X-Received: by 2002:a05:6000:61c:b0:220:6425:c113 with SMTP id bn28-20020a056000061c00b002206425c113mr17742344wrb.612.1660132282843;
-        Wed, 10 Aug 2022 04:51:22 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id a3-20020adfe5c3000000b0021edb2d07bbsm15588661wrn.33.2022.08.10.04.51.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Aug 2022 04:51:22 -0700 (PDT)
-Date:   Wed, 10 Aug 2022 13:51:20 +0200
-From:   Daniel Vetter <daniel@ffwll.ch>
-To:     XueBing Chen <chenxuebing@jari.cn>
-Cc:     sumit.semwal@linaro.org, christian.koenig@amd.com,
-        gustavo@padovan.org, linux-media@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [Linaro-mm-sig] [PATCH] dma-buf/sync_file: use strscpy to
- replace strlcpy
-Message-ID: <YvObuLevnEWEITnS@phenom.ffwll.local>
-Mail-Followup-To: XueBing Chen <chenxuebing@jari.cn>,
-        sumit.semwal@linaro.org, christian.koenig@amd.com,
-        gustavo@padovan.org, linux-media@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-        linux-kernel@vger.kernel.org
-References: <6aad3bff.d1a.181b982d1b1.Coremail.chenxuebing@jari.cn>
+        Wed, 10 Aug 2022 07:53:24 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C6DEE7D1E8
+        for <linux-media@vger.kernel.org>; Wed, 10 Aug 2022 04:53:23 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id A2AF43F1;
+        Wed, 10 Aug 2022 13:53:21 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1660132401;
+        bh=rAs0yAtxTo4mj0wmX+AsFQeDI5hXyG8UBvPDR8xQbS8=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=OzJgSevdDd2RnrAwOFK2cNzlDMc1uVorOjwyWDnxolm7C7RM4Z+ihjK3iFH8oBXM7
+         4WTNsxq3qYaRr8ob8yfZhew3zAkaMqXbWxEk2YyXz91l91QPm2n/R1B7OpVrhOG174
+         Fw7kMkk8A0OE6ps/fnBI4j9OdS2+xxDozavZ4jyE=
+Date:   Wed, 10 Aug 2022 14:53:09 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
+        Hans de Goede <hdegoede@redhat.com>
+Subject: Re: Proposal: removal of old vb1 or custom streaming I/O drivers
+Message-ID: <YvOcJV4o6zHCt0Ua@pendragon.ideasonboard.com>
+References: <1ca14c26-2e47-b144-1f5a-02824e81269a@xs4all.nl>
+ <ab206a11-0f96-2d97-c17f-1455527ece2a@xs4all.nl>
+ <YvJa5znh+5Rj5xTt@pendragon.ideasonboard.com>
+ <a071cf35-3ed6-3c1b-4546-d4536f1fb6f3@xs4all.nl>
+ <20220810122409.5303e8f9@coco.lan>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <6aad3bff.d1a.181b982d1b1.Coremail.chenxuebing@jari.cn>
-X-Operating-System: Linux phenom 5.10.0-8-amd64 
+In-Reply-To: <20220810122409.5303e8f9@coco.lan>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Jul 01, 2022 at 07:26:07PM +0800, XueBing Chen wrote:
-> 
-> The strlcpy should not be used because it doesn't limit the source
-> length. Preferred is strscpy.
-> 
-> Signed-off-by: XueBing Chen <chenxuebing@jari.cn>
+Hello,
 
-I don't think there's an impact here since we don't check the error return
-value, but also doesn't hurt.
-
-Thanks for your patch, applied to drm-misc-next.
--Daniel
-
-> ---
->  drivers/dma-buf/sync_file.c | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
+On Wed, Aug 10, 2022 at 12:24:16PM +0200, Mauro Carvalho Chehab wrote:
+> Em Wed, 10 Aug 2022 10:18:56 +0200 Hans Verkuil escreveu:
 > 
-> diff --git a/drivers/dma-buf/sync_file.c b/drivers/dma-buf/sync_file.c
-> index 3ebec19a8e02..af57799c86ce 100644
-> --- a/drivers/dma-buf/sync_file.c
-> +++ b/drivers/dma-buf/sync_file.c
-> @@ -132,7 +132,7 @@ EXPORT_SYMBOL(sync_file_get_fence);
->  char *sync_file_get_name(struct sync_file *sync_file, char *buf, int len)
->  {
->  	if (sync_file->user_name[0]) {
-> -		strlcpy(buf, sync_file->user_name, len);
-> +		strscpy(buf, sync_file->user_name, len);
->  	} else {
->  		struct dma_fence *fence = sync_file->fence;
->  
-> @@ -172,7 +172,7 @@ static struct sync_file *sync_file_merge(const char *name, struct sync_file *a,
->  		return NULL;
->  	}
->  	sync_file->fence = fence;
-> -	strlcpy(sync_file->user_name, name, sizeof(sync_file->user_name));
-> +	strscpy(sync_file->user_name, name, sizeof(sync_file->user_name));
->  	return sync_file;
->  }
->  
-> @@ -262,9 +262,9 @@ static long sync_file_ioctl_merge(struct sync_file *sync_file,
->  static int sync_fill_fence_info(struct dma_fence *fence,
->  				 struct sync_fence_info *info)
->  {
-> -	strlcpy(info->obj_name, fence->ops->get_timeline_name(fence),
-> +	strscpy(info->obj_name, fence->ops->get_timeline_name(fence),
->  		sizeof(info->obj_name));
-> -	strlcpy(info->driver_name, fence->ops->get_driver_name(fence),
-> +	strscpy(info->driver_name, fence->ops->get_driver_name(fence),
->  		sizeof(info->driver_name));
->  
->  	info->status = dma_fence_get_status(fence);
-> -- 
-> 2.25.1
-> _______________________________________________
-> Linaro-mm-sig mailing list -- linaro-mm-sig@lists.linaro.org
-> To unsubscribe send an email to linaro-mm-sig-leave@lists.linaro.org
+> > We have the following drivers still using vb1:
+> > 
+> > PCI: saa7146, bt8xx, cx18
+> > USB: zr364xx, tm6000
+> > platform: ti/davinci/vpfe_capture, nxp/fsl-viu
+> > staging: atomisp
+> > 
+> > And these drivers rolls their own streaming I/O implementation:
+> > 
+> > pci: meye
+> > usb: cpia2
+> > staging: stkwebcam (deprecated, to be removed by the end of the year)
+> > 
+> > I think we should bite the bullet and move all of these drivers to staging,
+> > mark them deprecated and delete them some time next year if nobody will
+> > convert them to vb2.
+> > 
+> > That includes atomisp: is that going anywhere? Unless someone does the
+> > hard work of converting it to vb2 I think it should be removed as well.
+> 
+> There have been improvements at atomisp driver. Hans de Goede has been
+> doing some work. As far as I understand, he's planning to get VB2 and
+> libcamera support for it. I'm also working on it when I have some spare
+> time available.
+
+That looks like a project that will take a few lifetimes, but as long as
+I don't have to work on it myself, that's fine with me :-)
+
+I don't think it's a blocker anyway, if we move vb1 drivers to staging,
+and hopefully the vb1 core too, then atomisp2 will just be with all its
+vb1 cousins.
+
+> > The two drivers most likely to still be in use somewhere are bt8xx and
+> > cx18. If it turns out that we can't remove them (yet), then I can probably
+> > justify the time to convert cx18 to vb2 myself.
+> 
+> Yeah, bt8xx is probably still widely used, specially on analog camera
+> multi-port capture scenarios. Not sure about cx18 usage those days.
+> 
+> IMO, once we get bt8xx, atomisp (and maybe cx18) converted to VB2, it
+> should be OK to remove the other drivers. 
+> 
+> For now, we can move them to staging, adding a TODO explaining that they
+> should be ported to VB2 or they'll be removed.
+
+Sounds good to me, staging is the right way out.
+
+> Scheduling removal to the end of the year is probably not doable, as
+> the patch moving them to staging would be merged only around Oct.
+> We should grant at least two Kernel cycles for people to convert the
+> drivers - assuming that someone would do that for some driver(s).
+> 
+> > And for bt8xx I would probably be willing to convert it to vb2 as well,
+> > provided we can strip the overlay support from the driver (since, if memory
+> > serves, vb2 doesn't support that) and convert it to vb2. It's a big job, though.
+> 
+> It sounds OK on my eyes to remove overlay support from bt8xx during VB2
+> conversion. We should probably add a warning about such removal before
+> that (see below).
+> 
+> > One other thing we can do is to deprecate/remove video capture overlay support
+> > (in the sense of video capture hardware writing directly to a framebuffer).
+> > 
+> > It's supported by saa7146, bttv, saa7134 and fsl-viu. If we remove vb1
+> > drivers, then that would leave only saa7134 that still supports it.
+> > 
+> > Removing the API will simplify things.
+> 
+> It probably makes sense to add an error-level printks, printed only once,
+> when someone uses VIDIOC_OVERLAY ioctl, warning that this is a deprecated
+> feature that will be removed soon, for the drivers that still supports it.
+> 
+> For sure once we get rid of the VB1 drivers that use overlay, it makes
+> sense to also remove its support for saa7134. Maybe even before ;-)
+
+\o/ I'd be happy to see the V4L2 code base shrink for once.
 
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Regards,
+
+Laurent Pinchart
