@@ -2,65 +2,80 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 113A858EF7F
-	for <lists+linux-media@lfdr.de>; Wed, 10 Aug 2022 17:38:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AE82558F0C0
+	for <lists+linux-media@lfdr.de>; Wed, 10 Aug 2022 18:51:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231942AbiHJPiL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 10 Aug 2022 11:38:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57874 "EHLO
+        id S231826AbiHJQvr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 10 Aug 2022 12:51:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54484 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231707AbiHJPiH (ORCPT
+        with ESMTP id S231707AbiHJQvj (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 10 Aug 2022 11:38:07 -0400
-Received: from mail-il1-f169.google.com (mail-il1-f169.google.com [209.85.166.169])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 237B528E02;
-        Wed, 10 Aug 2022 08:38:06 -0700 (PDT)
-Received: by mail-il1-f169.google.com with SMTP id s16so8478450ilp.3;
-        Wed, 10 Aug 2022 08:38:06 -0700 (PDT)
+        Wed, 10 Aug 2022 12:51:39 -0400
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com [IPv6:2a00:1450:4864:20::341])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C980426139
+        for <linux-media@vger.kernel.org>; Wed, 10 Aug 2022 09:51:37 -0700 (PDT)
+Received: by mail-wm1-x341.google.com with SMTP id v5so8114051wmj.0
+        for <linux-media@vger.kernel.org>; Wed, 10 Aug 2022 09:51:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc;
+        bh=lWfrAoXxVHXbhkuomaZdWya3VTYtQlo2c1Ei9aMf4QI=;
+        b=ap5d/xqFftsbBitBxOcPRemV8XqbP5ZdmM9NGdAdoh0SKuAqcZuc4H8vwixxsdknjY
+         hQxj6sZvqynIarjgcpGo9vJmg8rzvtJrd7VtQ1DZsX7kH2spjdK21lRu+KdFnMjeWQ14
+         PPV/sk+vBgMu7qzpOvWra+vO5YW1ZwJBfv5+Y=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
-        bh=d703OGIAWaJFqE2Rp42TVQVb31FLKdiwbLrmUlLlcDE=;
-        b=L5i95qjc+Nm9zcx0eoQ8Za5h+H8IF/L2ssP9GwAMs8WNO1+LsrBr0IfbK6PZOYCc/H
-         tM2SBhEk6t8ODqzobklRqrBYKFh3o5u08aymsTW1/Ol+XBhTazlTJP/dYAFuVA2tESGu
-         cXXY8KGZv543UmtrI3fWIJoFnk05br1v8Zr66ut2vRgJIJUNEQW1VGzV9BHIgaQ1hPIT
-         dDgJe8U0PEs9slu4IrlVtocp5mIPfTea39kejQuzQxL3ix7ImzTIGMFWkUYt5eY4ud5P
-         GEUB5vO724bGpuYT+3eIlZQvV5nN5QY1tRswnEzMboxbshshg7RdCHU/a+mWw9Cg8kf1
-         6uzg==
-X-Gm-Message-State: ACgBeo3o/V0wVaI/LvXck0iIrEc046AyWt+7R+L5EQ5d/Rdu6LHdgRGa
-        WKnwwcrIB7S1gZLj+txpmvs18t1Qfw==
-X-Google-Smtp-Source: AA6agR7D2VESWtQ+d0hSJfH8s2E2QhlG9jzS2sKVav6VMuiuI2rzKmJsWkaPbCLm1IMZS1BYGQfocA==
-X-Received: by 2002:a92:d950:0:b0:2df:afdb:3908 with SMTP id l16-20020a92d950000000b002dfafdb3908mr9158360ilq.319.1660145885264;
-        Wed, 10 Aug 2022 08:38:05 -0700 (PDT)
-Received: from robh.at.kernel.org ([64.188.179.248])
-        by smtp.gmail.com with ESMTPSA id n12-20020a056638110c00b003433846796esm1317158jal.5.2022.08.10.08.38.03
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc;
+        bh=lWfrAoXxVHXbhkuomaZdWya3VTYtQlo2c1Ei9aMf4QI=;
+        b=rBRur3jaDBUvqhGm6aFPmis8eZk7nFNaeAgoyFNrSXJOxIr87507MpRs6+9qSKBYMh
+         +ufx36T88jS0Bxa5yxuMz/SVr/b61YgpRkRJ/POAZ9hSG+8zYjznX7AKP7rDPNS/GHtX
+         +GSB+n43VWs3V2EABf7/kJGlJrj9ksyic0/3J2UzVLOJxkXAc5A+LZdlu0TFBYR+gDta
+         achYXDjXqtfqEVH4ywEnhgzAGuThfVIqOo718PGc23KOFaKlGNGrJqAhNOm565XJzQI2
+         wUKXyW09s6PPTLIOAoKjNCTn5TO+wRlQrjFyFJ2SPCEo4ONvGMlVbNhLxXIosuSb3sL/
+         cLRw==
+X-Gm-Message-State: ACgBeo17V8UwATTahElooYDmG1EhzQmgVFkk8nUsb8MJfJWUyaFEmmGF
+        86qe6QsJGCr8y6t8LQfyVzYoWA==
+X-Google-Smtp-Source: AA6agR43A0U3CxBaG/pwAjxm6ETbq1ZTA/0wn+vLG7ILpaqLzgTR7ANYl+Syh3bE/yDBKAxRu0QLqQ==
+X-Received: by 2002:a7b:c5d2:0:b0:3a3:55d9:fd36 with SMTP id n18-20020a7bc5d2000000b003a355d9fd36mr3146947wmk.52.1660150296416;
+        Wed, 10 Aug 2022 09:51:36 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+        by smtp.gmail.com with ESMTPSA id j13-20020adfe50d000000b00222d512d96asm7089559wrm.75.2022.08.10.09.51.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Aug 2022 08:38:04 -0700 (PDT)
-Received: (nullmailer pid 6576 invoked by uid 1000);
-        Wed, 10 Aug 2022 15:38:02 -0000
-Date:   Wed, 10 Aug 2022 09:38:02 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Yuji Ishikawa <yuji2.ishikawa@toshiba.co.jp>
-Cc:     Hans Verkuil <hverkuil@xs4all.nl>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
-        linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH v3 1/4] dt-bindings: media: platform: visconti: Add
- Toshiba Visconti Video Input Interface bindings
-Message-ID: <20220810153802.GA585-robh@kernel.org>
-References: <20220810132822.32534-1-yuji2.ishikawa@toshiba.co.jp>
- <20220810132822.32534-2-yuji2.ishikawa@toshiba.co.jp>
+        Wed, 10 Aug 2022 09:51:35 -0700 (PDT)
+Date:   Wed, 10 Aug 2022 18:51:33 +0200
+From:   Daniel Vetter <daniel@ffwll.ch>
+To:     Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
+Cc:     Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+        Alex Deucher <alexdeucher@gmail.com>,
+        Christian =?iso-8859-1?Q?K=F6nig?= 
+        <ckoenig.leichtzumerken@gmail.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        linux-media <linux-media@vger.kernel.org>,
+        Maling list - DRI developers 
+        <dri-devel@lists.freedesktop.org>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>, Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [Linaro-mm-sig] [PATCH] dma-buf/dma_resv_usage: update explicit
+ sync documentation
+Message-ID: <YvPiFYOvH4ZI2frl@phenom.ffwll.local>
+References: <20220712131201.131475-1-christian.koenig@amd.com>
+ <CADnq5_PSECF0b_ynF=UhXu3Os0hYZcvcQtk1pD+T3q+Z1g-Hgg@mail.gmail.com>
+ <a3dfc73f-5867-d442-b74d-a890a42753bd@amd.com>
+ <CAP+8YyHLy9=ueEcgVbk6nnAr=aqJXW1f31xm37gkGVrzdG3o=g@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20220810132822.32534-2-yuji2.ishikawa@toshiba.co.jp>
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAP+8YyHLy9=ueEcgVbk6nnAr=aqJXW1f31xm37gkGVrzdG3o=g@mail.gmail.com>
+X-Operating-System: Linux phenom 5.10.0-8-amd64 
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -68,152 +83,94 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Aug 10, 2022 at 10:28:19PM +0900, Yuji Ishikawa wrote:
-> Adds the Device Tree binding documentation that allows to describe
-> the Video Input Interface found in Toshiba Visconti SoCs.
+On Wed, Jul 13, 2022 at 01:27:13PM +0200, Bas Nieuwenhuizen wrote:
+> With that changed
 > 
-> Signed-off-by: Yuji Ishikawa <yuji2.ishikawa@toshiba.co.jp>
-> Reviewed-by: Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>
-> ---
-> Chengelog v2:
-> - no change
+> Reviewed-by: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
+
+Yeah this is a nice clarification.
+
+Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+
+In case it hasn't landed yet or so.
+-Daniel
+
 > 
-> Changelog v3:
-> - no change
-> ---
->  .../bindings/media/toshiba,visconti-viif.yaml | 103 ++++++++++++++++++
->  1 file changed, 103 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/toshiba,visconti-viif.yaml
+> Thanks!
 > 
-> diff --git a/Documentation/devicetree/bindings/media/toshiba,visconti-viif.yaml b/Documentation/devicetree/bindings/media/toshiba,visconti-viif.yaml
-> new file mode 100644
-> index 000000000..848ea5019
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/toshiba,visconti-viif.yaml
-> @@ -0,0 +1,103 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/toshiba,visconti-viif.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Toshiba Visconti5 SoC Video Input Interface Device Tree Bindings
-> +
-> +maintainers:
-> +  - Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>
-> +
-> +description: |
+> On Tue, Jul 12, 2022 at 3:23 PM Christian König
+> <christian.koenig@amd.com> wrote:
+> >
+> > Am 12.07.22 um 15:20 schrieb Alex Deucher:
+> > > On Tue, Jul 12, 2022 at 9:12 AM Christian König
+> > > <ckoenig.leichtzumerken@gmail.com> wrote:
+> > >> Make it clear that DMA_RESV_USAGE_BOOKMARK can be used for explicit synced
+> > > DMA_RESV_USAGE_BOOKKEEP?
+> >
+> > Crappy autocorrect and copy&paste. Thanks for pointing that out.
+> >
+> > Christian.
+> >
+> > >
+> > >> user space submissions as well and document the rules around adding the
+> > >> same fence with different usages.
+> > >>
+> > >> Signed-off-by: Christian König <christian.koenig@amd.com>
+> > >> ---
+> > >>   include/linux/dma-resv.h | 16 +++++++++++++---
+> > >>   1 file changed, 13 insertions(+), 3 deletions(-)
+> > >>
+> > >> diff --git a/include/linux/dma-resv.h b/include/linux/dma-resv.h
+> > >> index c8ccbc94d5d2..264e27e56dff 100644
+> > >> --- a/include/linux/dma-resv.h
+> > >> +++ b/include/linux/dma-resv.h
+> > >> @@ -62,6 +62,11 @@ struct dma_resv_list;
+> > >>    * For example when asking for WRITE fences then the KERNEL fences are returned
+> > >>    * as well. Similar when asked for READ fences then both WRITE and KERNEL
+> > >>    * fences are returned as well.
+> > >> + *
+> > >> + * Already used fences can be promoted in the sense that a fence with
+> > >> + * DMA_RESV_USAGE_BOOKMARK could become DMA_RESV_USAGE_READ by adding it again
+> > > Same here.
+> > >
+> > > With that fixed,
+> > > Acked-by: Alex Deucher <alexander.deucher@amd.com>
+> > >
+> > > Alex
+> > >
+> > >> + * with this usage. But fences can never be degraded in the sense that a fence
+> > >> + * with DMA_RESV_USAGE_WRITE could become DMA_RESV_USAGE_READ.
+> > >>    */
+> > >>   enum dma_resv_usage {
+> > >>          /**
+> > >> @@ -98,10 +103,15 @@ enum dma_resv_usage {
+> > >>           * @DMA_RESV_USAGE_BOOKKEEP: No implicit sync.
+> > >>           *
+> > >>           * This should be used by submissions which don't want to participate in
+> > >> -        * implicit synchronization.
+> > >> +        * any implicit synchronization.
+> > >> +        *
+> > >> +        * The most common case are preemption fences, page table updates, TLB
+> > >> +        * flushes as well as explicit synced user submissions.
+> > >>           *
+> > >> -        * The most common case are preemption fences as well as page table
+> > >> -        * updates and their TLB flushes.
+> > >> +        * Explicit synced user user submissions can be promoted to
+> > >> +        * DMA_RESV_USAGE_READ or DMA_RESV_USAGE_WRITE as needed using
+> > >> +        * dma_buf_import_sync_file() when implicit synchronization should
+> > >> +        * become necessary after initial adding of the fence.
+> > >>           */
+> > >>          DMA_RESV_USAGE_BOOKKEEP
+> > >>   };
+> > >> --
+> > >> 2.25.1
+> > >>
+> > >> _______________________________________________
+> > >> Linaro-mm-sig mailing list -- linaro-mm-sig@lists.linaro.org
+> > >> To unsubscribe send an email to linaro-mm-sig-leave@lists.linaro.org
+> >
 
-Don't need '|' if no formatting.
-
-> +  Toshiba Visconti5 SoC Video Input Interface (VIIF) receives MIPI CSI2 video stream,
-> +  processes the stream with embedded image signal processor (L1ISP, L2ISP), then stores pictures to main memory.
-
-Wrap lines at 80 char.
-
-> +
-> +properties:
-> +  compatible:
-> +    const: toshiba,visconti-viif
-> +
-> +  reg:
-> +    items:
-> +      - description: registers for capture control
-> +      - description: registers for CSI2 receiver control
-> +
-> +  interrupts:
-> +    items:
-> +      - description: Sync Interrupt
-> +      - description: Status (Error) Interrupt
-> +      - description: CSI2 Receiver Interrupt
-> +      - description: L1ISP Interrupt
-> +
-> +  index:
-> +    enum: [0, 1]
-
-No, we don't do indices in DT. Why do you need this?
-
-> +
-> +  port:
-> +    $ref: /schemas/graph.yaml#/$defs/port-base
-> +    unevaluatedProperties: false
-> +    description: Input port node, single endpoint describing the CSI-2 transmitter.
-> +
-> +    properties:
-> +      endpoint:
-> +        $ref: video-interfaces.yaml#
-> +        unevaluatedProperties: false
-> +
-> +        properties:
-> +          data-lanes:
-> +            description: VIIF supports 2 or 4 data lines
-> +            items:
-> +              minItems: 1
-> +              maxItems: 4
-> +              items:
-> +                - const: 1
-> +                - const: 2
-> +                - const: 3
-> +                - const: 4
-
-blank line
-
-> +          clock-lanes:
-> +            description: VIIF supports 1 clock line
-> +            const: 0
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - interrupts
-> +  - port
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +    #include <dt-bindings/interrupt-controller/irq.h>
-> +
-> +    soc {
-> +        #address-cells = <2>;
-> +        #size-cells = <2>;
-> +
-> +        viif0: viif@1c000000 {
-
-Drop unused labels.
-
-> +            compatible = "toshiba,visconti-viif";
-> +            reg = <0 0x1c000000 0 0x6000>,
-> +                  <0 0x1c008000 0 0x400>;
-> +            interrupts = <GIC_SPI 64 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 67 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 73 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 76 IRQ_TYPE_LEVEL_HIGH>;
-> +            index = <0>;
-> +            status = "disabled";
-
-Why is your example disabled? Don't put 'status' in examples.
-
-> +
-> +            port {
-> +                #address-cells = <1>;
-> +                #size-cells = <0>;
-> +
-> +                csi_in0: endpoint {
-> +                    remote-endpoint = <&imx219_out0>;
-> +                    bus-type = <4>;
-> +                    data-lanes = <1 2>;
-> +                    clock-lanes = <0>;
-> +                    clock-noncontinuous;
-> +                    link-frequencies = /bits/ 64 <456000000>;
-> +                };
-> +            };
-> +        };
-> +    };
-> +
-> -- 
-> 2.17.1
-> 
-> 
-> 
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
