@@ -2,115 +2,121 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5B07458F1AE
-	for <lists+linux-media@lfdr.de>; Wed, 10 Aug 2022 19:41:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2933458F1EC
+	for <lists+linux-media@lfdr.de>; Wed, 10 Aug 2022 19:50:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231994AbiHJRlO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 10 Aug 2022 13:41:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45952 "EHLO
+        id S232473AbiHJRuC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 10 Aug 2022 13:50:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56002 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229446AbiHJRlM (ORCPT
+        with ESMTP id S229924AbiHJRuB (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 10 Aug 2022 13:41:12 -0400
-Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E35E760EC;
-        Wed, 10 Aug 2022 10:41:10 -0700 (PDT)
-Received: from [192.168.1.103] (31.173.82.128) by msexch01.omp.ru
- (10.188.4.12) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.986.14; Wed, 10 Aug
- 2022 20:41:02 +0300
-Subject: Re: [PATCH v2 1/3] media: vsp1: add premultiplied alpha support
-To:     Takanari Hayama <taki@igel.co.jp>,
-        <dri-devel@lists.freedesktop.org>, <linux-media@vger.kernel.org>,
-        <linux-renesas-soc@vger.kernel.org>
-CC:     <laurent.pinchart@ideasonboard.com>,
-        <kieran.bingham+renesas@ideasonboard.com>, <airlied@linux.ie>,
-        <daniel@ffwll.ch>, <mchehab@kernel.org>
-References: <20220810083711.219642-1-taki@igel.co.jp>
- <20220810083711.219642-2-taki@igel.co.jp>
-From:   Sergey Shtylyov <s.shtylyov@omp.ru>
-Organization: Open Mobile Platform
-Message-ID: <0a9fd415-a4e8-2f87-3cbd-8e31b758cede@omp.ru>
-Date:   Wed, 10 Aug 2022 20:41:02 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+        Wed, 10 Aug 2022 13:50:01 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 83B0C86C06;
+        Wed, 10 Aug 2022 10:50:00 -0700 (PDT)
+Received: from [192.168.2.145] (unknown [109.252.119.13])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: dmitry.osipenko)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id D62E36601B74;
+        Wed, 10 Aug 2022 18:49:55 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1660153798;
+        bh=pDHN4Gq67YC5dkFkOigxG5qVuMpoiLudRbA2dlJSe60=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=Dx5zUXAvOHpPG48aUabRl4+njgRCDMJzHPNbYmdwo/RrQaYohgnMXvlpCz6ESzyKs
+         ngzi4Hf9SaHlQm+ddXoAVN+akYwgvtFkSA20LqsgtGm2i+fN5LnbRUM12j66sGvfut
+         405XDLhmATvxt75b00LbDt5bM7vhAV59hvardycmuItJ28RJJs57P9QBEwm4ARIJ4N
+         Xr4LNfrsIBiE9revYn9VBAzA/V28mbhwQUOxsElunyWLFP9ZQpPw69GpUcbMWFAEk2
+         z8VCIqgHR6yyvRNwNJ57VkSQ1xch+gMPcB/ET5a4BOPLluJFgFU8esaLMJAfvVlpuY
+         Juvao4qkUCZIQ==
+Message-ID: <562fbacf-3673-ff3c-23a1-124284b4456c@collabora.com>
+Date:   Wed, 10 Aug 2022 20:49:52 +0300
 MIME-Version: 1.0
-In-Reply-To: <20220810083711.219642-2-taki@igel.co.jp>
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.12.0
+Subject: Re: [Linaro-mm-sig] [PATCH v2 3/5] dma-buf: Move all dma-bufs to
+ dynamic locking specification
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [31.173.82.128]
-X-ClientProxiedBy: msexch01.omp.ru (10.188.4.12) To msexch01.omp.ru
- (10.188.4.12)
-X-KSE-ServerInfo: msexch01.omp.ru, 9
-X-KSE-AntiSpam-Interceptor-Info: scan successful
-X-KSE-AntiSpam-Version: 5.9.20, Database issued on: 08/10/2022 17:26:28
-X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
-X-KSE-AntiSpam-Method: none
-X-KSE-AntiSpam-Rate: 59
-X-KSE-AntiSpam-Info: Lua profiles 172165 [Aug 10 2022]
-X-KSE-AntiSpam-Info: Version: 5.9.20.0
-X-KSE-AntiSpam-Info: Envelope from: s.shtylyov@omp.ru
-X-KSE-AntiSpam-Info: LuaCore: 495 495 bb4e71e2e9e23696ab912b286436360a94c9b107
-X-KSE-AntiSpam-Info: {rep_avail}
-X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
-X-KSE-AntiSpam-Info: {relay has no DNS name}
-X-KSE-AntiSpam-Info: {SMTP from is not routable}
-X-KSE-AntiSpam-Info: {Found in DNSBL: 31.173.82.128 in (user)
- b.barracudacentral.org}
-X-KSE-AntiSpam-Info: 127.0.0.199:7.1.2;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;omp.ru:7.1.1
-X-KSE-AntiSpam-Info: ApMailHostAddress: 31.173.82.128
-X-KSE-AntiSpam-Info: {DNS response errors}
-X-KSE-AntiSpam-Info: Rate: 59
-X-KSE-AntiSpam-Info: Status: not_detected
-X-KSE-AntiSpam-Info: Method: none
-X-KSE-AntiSpam-Info: Auth:dmarc=temperror header.from=omp.ru;spf=temperror
- smtp.mailfrom=omp.ru;dkim=none
-X-KSE-Antiphishing-Info: Clean
-X-KSE-Antiphishing-ScanningType: Heuristic
-X-KSE-Antiphishing-Method: None
-X-KSE-Antiphishing-Bases: 08/10/2022 17:30:00
-X-KSE-AttachmentFiltering-Interceptor-Info: protection disabled
-X-KSE-Antivirus-Interceptor-Info: scan successful
-X-KSE-Antivirus-Info: Clean, bases: 8/10/2022 2:00:00 PM
-X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+To:     =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
+        David Airlie <airlied@linux.ie>,
+        Gerd Hoffmann <kraxel@redhat.com>,
+        Gurchetan Singh <gurchetansingh@chromium.org>,
+        Chia-I Wu <olvaffe@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+        Daniel Almeida <daniel.almeida@collabora.com>,
+        Gert Wollny <gert.wollny@collabora.com>,
+        Gustavo Padovan <gustavo.padovan@collabora.com>,
+        Daniel Stone <daniel@fooishbar.org>,
+        Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Rob Clark <robdclark@gmail.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+        "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+        =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas_os@shipmail.org>
+Cc:     dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+        Dmitry Osipenko <digetx@gmail.com>,
+        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+        amd-gfx@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+        kernel@collabora.com, virtualization@lists.linux-foundation.org,
+        spice-devel@lists.freedesktop.org, linux-rdma@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org
+References: <20220725151839.31622-1-dmitry.osipenko@collabora.com>
+ <20220725151839.31622-4-dmitry.osipenko@collabora.com>
+ <6c8bded9-1809-608f-749a-5ee28b852d32@gmail.com>
+From:   Dmitry Osipenko <dmitry.osipenko@collabora.com>
+In-Reply-To: <6c8bded9-1809-608f-749a-5ee28b852d32@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello!
-
-On 8/10/22 11:37 AM, Takanari Hayama wrote:
-
-> To support DRM blend mode in R-Car DU driver, we must be able to pass
-> a plane with the premultiplied alpha. Adding a new property to
-> vsp1_du_atomic_config allows the R-Car DU driver to pass the
-> premultiplied alpha plane.
+On 8/10/22 14:30, Christian König wrote:
+> Am 25.07.22 um 17:18 schrieb Dmitry Osipenko:
+>> This patch moves the non-dynamic dma-buf users over to the dynamic
+>> locking specification. The strict locking convention prevents deadlock
+>> situation for dma-buf importers and exporters.
+>>
+>> Previously the "unlocked" versions of the dma-buf API functions weren't
+>> taking the reservation lock and this patch makes them to take the lock.
+>>
+>> Intel and AMD GPU drivers already were mapping imported dma-bufs under
+>> the held lock, hence the "locked" variant of the functions are added
+>> for them and the drivers are updated to use the "locked" versions.
 > 
-> Signed-off-by: Takanari Hayama <taki@igel.co.jp>
-> ---
->  drivers/media/platform/renesas/vsp1/vsp1_drm.c | 2 ++
->  include/media/vsp1.h                           | 2 ++
->  2 files changed, 4 insertions(+)
+> In general "Yes, please", but that won't be that easy.
 > 
-> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_drm.c b/drivers/media/platform/renesas/vsp1/vsp1_drm.c
-> index 0c2507dc03d6..019e18976bd8 100644
-> --- a/drivers/media/platform/renesas/vsp1/vsp1_drm.c
-> +++ b/drivers/media/platform/renesas/vsp1/vsp1_drm.c
-> @@ -856,6 +856,8 @@ int vsp1_du_atomic_update(struct device *dev, unsigned int pipe_index,
->  	rpf->mem.addr[1] = cfg->mem[1];
->  	rpf->mem.addr[2] = cfg->mem[2];
->  
-> +	rpf->format.flags = (cfg->premult) ? V4L2_PIX_FMT_FLAG_PREMUL_ALPHA : 0;
-> +
+> You not only need to change amdgpu and i915, but all drivers
+> implementing the map_dma_buf(), unmap_dma_buf() callbacks.
+> 
+> Auditing all that code is a huge bunch of work.
+Hm, neither of drivers take the resv lock in map_dma_buf/unmap_dma_buf.
+It's easy to audit them all and I did it. So either I'm missing
+something or it doesn't take much time to check them all. Am I really
+missing something?
 
-  Parens are hardly needed here... :-)
+https://elixir.bootlin.com/linux/latest/A/ident/map_dma_buf
 
-[...]
-
-MBR, Sergey
+-- 
+Best regards,
+Dmitry
