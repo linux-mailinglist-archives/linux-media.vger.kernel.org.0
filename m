@@ -2,111 +2,95 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A735B58F5C8
-	for <lists+linux-media@lfdr.de>; Thu, 11 Aug 2022 04:20:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1B42358F702
+	for <lists+linux-media@lfdr.de>; Thu, 11 Aug 2022 06:41:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233712AbiHKCUb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 10 Aug 2022 22:20:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41736 "EHLO
+        id S233681AbiHKElY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 11 Aug 2022 00:41:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41428 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233709AbiHKCUa (ORCPT
+        with ESMTP id S231424AbiHKElX (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 10 Aug 2022 22:20:30 -0400
-Received: from mail-io1-f70.google.com (mail-io1-f70.google.com [209.85.166.70])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A8A742B27C
-        for <linux-media@vger.kernel.org>; Wed, 10 Aug 2022 19:20:28 -0700 (PDT)
-Received: by mail-io1-f70.google.com with SMTP id p123-20020a6bbf81000000b00674f66cf13aso9042121iof.23
-        for <linux-media@vger.kernel.org>; Wed, 10 Aug 2022 19:20:28 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc;
-        bh=FRcqXcm04Kybe4wMNMlEndxwmeCXHP6BNbwcOvk5VT8=;
-        b=d/jtiiqB4DfuoZtfC0ZEthmf5bGQSgUCVDfqtTXGFSWNi8ZOVxPUFqH+mgd4H8C8GO
-         XYywNok1Su8rfKHP0HmkZxQd1P21ZvgeaMPhlpElPEQzNfEIUTTK50MuxQyZi83aGafE
-         qBfJXT3smwfqFNWiZQoGuoCcnbRmBSsuhBknSEVBmzsEG9dzV3/01QWXPk19ofbE3j3x
-         XeYOp/D6rhINyAOKRapF29ctD5cjrVyqr4TCOG1z74wB8A+NcOtKXPHSEAIO27OcgWDx
-         AJbiIcZIYyLIkMse+6y/nBXLbEO5qz7BN/lfXQlhybl8Q9VdMBe7Unfb02IlR1CP/W7O
-         /Rwg==
-X-Gm-Message-State: ACgBeo1cxsI3LEyigHqnujw3COK1GCjbjtq0i4ulMykNB+bFBwbg9Vm5
-        VSVALuYwYMq1fVvEbvQAqCxYcYghZZBtKuFwykwjC36E+z30
-X-Google-Smtp-Source: AA6agR5wx/dIc16+Izba6GK/VHZlbf/SOvg1d4j0B1EBQ5U61ChDckzUAkjF3HnvX5JAEttJT8QbZuE+WYosdPWeh6ZHO4AHgWGg
-MIME-Version: 1.0
-X-Received: by 2002:a92:9506:0:b0:2e0:ed70:ea7d with SMTP id
- y6-20020a929506000000b002e0ed70ea7dmr8456781ilh.207.1660184428020; Wed, 10
- Aug 2022 19:20:28 -0700 (PDT)
-Date:   Wed, 10 Aug 2022 19:20:28 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <0000000000001809aa05e5edcf23@google.com>
-Subject: [syzbot] memory leak in airspy_probe
-From:   syzbot <syzbot+bb25f85e5aa482864dc0@syzkaller.appspotmail.com>
-To:     crope@iki.fi, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, mchehab@kernel.org,
-        syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,FROM_LOCAL_HEX,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
-        autolearn_force=no version=3.4.6
+        Thu, 11 Aug 2022 00:41:23 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A2903CBFD
+        for <linux-media@vger.kernel.org>; Wed, 10 Aug 2022 21:41:22 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id C4B9B61280
+        for <linux-media@vger.kernel.org>; Thu, 11 Aug 2022 04:41:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C8E25C433D6
+        for <linux-media@vger.kernel.org>; Thu, 11 Aug 2022 04:41:20 +0000 (UTC)
+Date:   Thu, 11 Aug 2022 06:41:19 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: OK
+Message-Id: <20220811044120.C8E25C433D6@smtp.kernel.org>
+X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello,
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-syzbot found the following issue on:
+Results of the daily build of media_tree:
 
-HEAD commit:    20cf903a0c40 Merge tag 'for-6.0/dm-changes-2' of git://git..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=14fbfa46080000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=9f3121e03e34975
-dashboard link: https://syzkaller.appspot.com/bug?extid=bb25f85e5aa482864dc0
-compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=15cb43fa080000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=165877f2080000
+date:			Thu Aug 11 05:00:07 CEST 2022
+media-tree git hash:	485ade76c95ac5ccaa52fee9d712471c9211b989
+media_build git hash:	0fe857b86addf382f6fd383948bd7736a3201403
+v4l-utils git hash:	4cf258c24026895c74675a8c55efa7a14edb5ef3
+edid-decode git hash:	6816e6a691f40e6fbb64e6d40f012d7727c6315f
+gcc version:		i686-linux-gcc (GCC) 11.2.0
+sparse repo:            git://git.kernel.org/pub/scm/devel/sparse/sparse.git
+sparse version:		v0.6.4-39-gce1a6720-dirty
+smatch repo:            git://repo.or.cz/smatch.git
+smatch version:		v0.5.0-8120-g2b596bf0-dirty
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 2566a5ba93cb728b610d9390608e9edbe589b4ec
+host hardware:		x86_64
+host os:		5.18.0-2-amd64
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+bb25f85e5aa482864dc0@syzkaller.appspotmail.com
+linux-git-sh: OK
+linux-git-mips: OK
+linux-git-arm-stm32: OK
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-multi: OK
+linux-git-arm-pxa: OK
+linux-git-powerpc64: OK
+linux-git-arm64: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+apps: OK
+spec-git: OK
+virtme: OK: Final Summary: 3077, Succeeded: 3077, Failed: 0, Warnings: 0
+virtme-32: OK: Final Summary: 3190, Succeeded: 3190, Failed: 0, Warnings: 0
+sparse: OK
+smatch: OK
+kerneldoc: OK
 
-BUG: memory leak
-unreferenced object 0xffff88810afb7300 (size 128):
-  comm "kworker/0:1", pid 44, jiffies 4294946315 (age 14.410s)
-  hex dump (first 32 bytes):
-    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-  backtrace:
-    [<ffffffff8316980e>] kmalloc include/linux/slab.h:600 [inline]
-    [<ffffffff8316980e>] kzalloc include/linux/slab.h:733 [inline]
-    [<ffffffff8316980e>] airspy_probe+0x8e/0x200 drivers/media/usb/airspy/airspy.c:981
-    [<ffffffff82d83457>] usb_probe_interface+0x177/0x370 drivers/usb/core/driver.c:396
-    [<ffffffff8277ff2d>] call_driver_probe drivers/base/dd.c:530 [inline]
-    [<ffffffff8277ff2d>] really_probe+0x12d/0x390 drivers/base/dd.c:609
-    [<ffffffff8278024f>] __driver_probe_device+0xbf/0x140 drivers/base/dd.c:748
-    [<ffffffff827802fa>] driver_probe_device+0x2a/0x120 drivers/base/dd.c:778
-    [<ffffffff82780c46>] __device_attach_driver+0xf6/0x140 drivers/base/dd.c:901
-    [<ffffffff8277d127>] bus_for_each_drv+0xb7/0x100 drivers/base/bus.c:427
-    [<ffffffff827806d2>] __device_attach+0x102/0x2d0 drivers/base/dd.c:973
-    [<ffffffff8277ed96>] bus_probe_device+0xc6/0xe0 drivers/base/bus.c:487
-    [<ffffffff8277b152>] device_add+0x642/0xe60 drivers/base/core.c:3517
-    [<ffffffff82d80892>] usb_set_configuration+0x8f2/0xb80 drivers/usb/core/message.c:2170
-    [<ffffffff82d9121c>] usb_generic_driver_probe+0x8c/0xc0 drivers/usb/core/generic.c:238
-    [<ffffffff82d82b2c>] usb_probe_device+0x5c/0x140 drivers/usb/core/driver.c:293
-    [<ffffffff8277ff2d>] call_driver_probe drivers/base/dd.c:530 [inline]
-    [<ffffffff8277ff2d>] really_probe+0x12d/0x390 drivers/base/dd.c:609
-    [<ffffffff8278024f>] __driver_probe_device+0xbf/0x140 drivers/base/dd.c:748
-    [<ffffffff827802fa>] driver_probe_device+0x2a/0x120 drivers/base/dd.c:778
+Detailed results are available here:
 
+https://hverkuil.home.xs4all.nl/logs/Thursday.log
 
+Detailed regression test results are available here:
 
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+https://hverkuil.home.xs4all.nl/logs/Thursday-test-media.log
+https://hverkuil.home.xs4all.nl/logs/Thursday-test-media-32.log
+https://hverkuil.home.xs4all.nl/logs/Thursday-test-media-dmesg.log
 
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-syzbot can test patches for this issue, for details see:
-https://goo.gl/tpsmEJ#testing-patches
+Full logs are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Thursday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+https://hverkuil.home.xs4all.nl/spec/index.html
