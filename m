@@ -2,224 +2,130 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 19F1058FDD1
-	for <lists+linux-media@lfdr.de>; Thu, 11 Aug 2022 15:55:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DA9E358FDD9
+	for <lists+linux-media@lfdr.de>; Thu, 11 Aug 2022 15:56:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235091AbiHKNzP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 11 Aug 2022 09:55:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37694 "EHLO
+        id S235272AbiHKN4t (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 11 Aug 2022 09:56:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39724 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234058AbiHKNzN (ORCPT
+        with ESMTP id S235113AbiHKN4s (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 11 Aug 2022 09:55:13 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B76756EF04;
-        Thu, 11 Aug 2022 06:55:09 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id C5CC849C;
-        Thu, 11 Aug 2022 15:55:06 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1660226107;
-        bh=AtrBLll2eFcoFzuJIl6Q1JyFW8bQpIXJsYRVgMBcHH8=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=cA322BuI+TIINDEFApyCmrmFVriiJRJLf0aS8NWXergBgIzvMf2yAOrJc98J/4/4k
-         0B5lssJPasbHKMBQ3fv425lxihMABN91kgz7hkPYN1NKWB8xrmmFrXWYoi00WwGZ/a
-         +Rqvi5oYloP2M2JcWc8EMe5FRqPwmIW7EHDVtAH0=
-Date:   Thu, 11 Aug 2022 16:54:53 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Paul Menzel <pmenzel@molgen.mpg.de>
-Cc:     Greg KH <gregkh@linuxfoundation.org>,
-        Wang Yating <yating.wang@intel.com>,
-        Christoph Jechlitschek <christoph.jechlitschek@intel.com>,
-        Hao Yao <hao.yao@intel.com>, Andy Yeh <andy.yeh@intel.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Bingbu Cao <bingbu.cao@intel.com>,
-        Tianshu Qiu <tian.shu.qiu@intel.com>,
-        linux-media@vger.kernel.org, Mark Pearson <markpearson@lenovo.com>,
-        Dell.Client.Kernel@dell.com, linux-kernel@vger.kernel.org,
-        Guenter Roeck <groeck@google.com>,
-        Sergey Senozhatsky <senozhatsky@chromium.org>,
-        Andy Whitcroft <apw@canonical.com>,
-        Kai-Heng Feng <kai.heng.feng@canonical.com>,
-        Christian Schaller <cschalle@redhat.com>,
-        Wouter Bolsterlee <wouter@bolsterl.ee>,
-        Miguel Palhas <mpalhas@gmail.com>, it+linux-media@molgen.mpg.de
-Subject: Re: Missing MIPI IPU6 camera driver for Intel Alder Lake laptops
-Message-ID: <YvUKLbv/pOfbbeL+@pendragon.ideasonboard.com>
-References: <52c87d91-422d-fca0-4dd5-bbaa559c81b6@molgen.mpg.de>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+        Thu, 11 Aug 2022 09:56:48 -0400
+Received: from EUR04-DB3-obe.outbound.protection.outlook.com (mail-eopbgr60062.outbound.protection.outlook.com [40.107.6.62])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CBD977E314;
+        Thu, 11 Aug 2022 06:56:46 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=CR4ngo2T0R6xS6zMhvFwdn/tamMIQh3q12zwkDc7czPjgbnq+iIhRSzT8tqvv1f0U/t4JpfGIF2wZDrjJefG6zsy9o8aNV3ETSbfqBxS9Ds8sRmo7m8WoXLFLk08HmvrXZS0a94vTo4e+C7LKWHZ7Yw8sRE/zA4lEaPuu8fbYkBYhEliIEO1EN42jowY9yYHTDbTIPfADzzM8/2C/PBlbfHajMbIHC3D76rwOLXzVZDEMsDRP1k8JQC+sHkQ+gf676MNx+a5P+P3m0uI7q96nDvj+y7jByVRH/5wGRCtJHO02VQzRCeJ+G09GTuRGkWiKTxDxMrKCZWMpM7y2ffdrg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ro55ahqmD/bQ6Gk6CfObsUKoUEfzjd1fB64rl3XAr80=;
+ b=ARyTx+eN8DgiowQAEWed0DlbMKRZFAoyQb+zWU1jKCtbLCZ8QtqIawTVd1fOUZtHM1csVcWi3VhL6K9bfLLVWj0iL3O8RjLv57X+aznnph7bV/+JGFaCXcab6hgUKwYS19quz+QXfsjAbQdv1wg5lLpP4xNupYOjt1aIXF1mVm9nO7rjJrZHoT8mw+d+tRDGcrdGAz20HFMeY9DBMWMAszohtchfgVYA0RabdDpiQJzhB4ZTOOxzibmPj6p+Og3vgzADaCERbT97Ljasq1/p0DwRbDjH/orear+hFlM+2tBzZEwKryn0TZl2nlxSnVynWYEKWkQqnbKIPbCy3yWDkw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ro55ahqmD/bQ6Gk6CfObsUKoUEfzjd1fB64rl3XAr80=;
+ b=ef+942J4pA32yPJuHoBnXOkLPR4/smPUOCQt6KWjEzD6LSxZaOTPi3Zx9AwyBXT3maWTs2mOr03K1wdcSxKEuOGkbs2g8kEBUgssnj0U1rvwIekTf+GHahZNO3WBSC2F42Wy3EjCfJ9UMjPFRrK1SEOgDUjcKqH1IkG8X6qvK7Y=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from AM6PR04MB6743.eurprd04.prod.outlook.com (2603:10a6:20b:f1::11)
+ by HE1PR0402MB3436.eurprd04.prod.outlook.com (2603:10a6:7:82::25) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5504.20; Thu, 11 Aug
+ 2022 13:56:43 +0000
+Received: from AM6PR04MB6743.eurprd04.prod.outlook.com
+ ([fe80::c27:3940:d92e:acd6]) by AM6PR04MB6743.eurprd04.prod.outlook.com
+ ([fe80::c27:3940:d92e:acd6%4]) with mapi id 15.20.5525.011; Thu, 11 Aug 2022
+ 13:56:43 +0000
+From:   Olivier Masse <olivier.masse@nxp.com>
+To:     jens.wiklander@linaro.org, sumit.garg@linaro.org,
+        sumit.semwal@linaro.org, christian.koenig@amd.com,
+        op-tee@lists.trustedfirmware.org, linaro-mm-sig@lists.linaro.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        dri-devel@lists.freedesktop.org
+Cc:     clement.faure@nxp.com, olivier.masse@nxp.com
+Subject: [PATCH 0/1] tee: Add tee_shm_register_fd 
+Date:   Thu, 11 Aug 2022 15:56:36 +0200
+Message-Id: <20220811135637.6332-1-olivier.masse@nxp.com>
+X-Mailer: git-send-email 2.25.0
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <52c87d91-422d-fca0-4dd5-bbaa559c81b6@molgen.mpg.de>
+Content-Type: text/plain
+X-ClientProxiedBy: AS4PR09CA0010.eurprd09.prod.outlook.com
+ (2603:10a6:20b:5e0::14) To AM6PR04MB6743.eurprd04.prod.outlook.com
+ (2603:10a6:20b:f1::11)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 64c1188d-f8a0-4c9c-f487-08da7ba1522a
+X-MS-TrafficTypeDiagnostic: HE1PR0402MB3436:EE_
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 8Wk8KZqOZG0VsnhvO0f8eJzoPNm9PH+WiigNJLb2y3q25ZuNqDmElv+PyNosgAs2NfIV6XSh4U99KXSIcq21j99Hg1aoU5MAeveZXzZK1XjEFWCEoqSdbpO2w165eMAQo6AtEo4sncjqsmub0Bgsn4Ly0w+bSVCwKs+wArBOZEz1OyYVZaEHXqs9VC0doUi6MBka1BTbUA8PyE/k9p6reTi9Tm3dBP69AQ95Cmpi9/fg2ZHTfFX6U7di4m3nLWTu3m3It6mbLOZxHDN7pnKMk2HegwMaX5G8LEQNspDbeudfZrSSmde1FHmUAH31+QUxmMUMOCtdmBKMBazMcv+HHRIDPsLjFTGney5V/BBsZPV6rTnL0D1RBq56kv63+Ay6x/AdHciZZ2jOL32pBNrK3MlH3f+P+d0D9WECJEzkqEcy2A4GlKZZ9MCqvgj3OKOdkJGyTba9XB5TsD/Kkd7VsDODogCkzHpZids/fpyiPYixUmxasHY8QRXHsAeBF2uXjJ+uadrc8/Krokohg2a1XIWloFV19erBWAZeEIdBdRU8QVCewtLuTkSnakbQXydlf0Syu+u74Xn10KdWOOc6oVfUTwOBnD92QbIRvaF8VYUO+3WaBwgycG+9YzZcjGQckM103tCGGzjpUlOoqzhLOVMyTbYTQbpf30JCYAPvAKLmO1NyQ/ZucTqiYjnztyFcRJxAenLmWuh9SPQ8/FDUw/9OaD8kcu7GBVg6qKddmK6ewjH+k7YohlN3O0GVQcSGzz2WFHWp6VPtpADP8KhCYjpc0krBGRbgdP0x4wr3xzs=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6PR04MB6743.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(346002)(136003)(39860400002)(396003)(366004)(376002)(26005)(2906002)(316002)(4743002)(52116002)(6506007)(41300700001)(1076003)(83380400001)(36756003)(86362001)(2616005)(6666004)(186003)(6486002)(6512007)(66946007)(44832011)(66476007)(8936002)(4744005)(66556008)(5660300002)(478600001)(8676002)(4326008)(38100700002)(38350700002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?vCfRDgaq+BtZ1FndfjvLZf3vYjsn1EoZFWRKfSTsmVgll9VYaCfEzwL0ggoO?=
+ =?us-ascii?Q?kTdPoVXriBpoTle7tkQNMEhr/23zR0xHu0hErYKmBtUrRmDE2zIP54s3/W2M?=
+ =?us-ascii?Q?jeDRBrBrV/iM8h45Q8L1wW5JdxrvQZ5uVxOwRKtMaH0cpqXUyLurbVZwiIBY?=
+ =?us-ascii?Q?Ep11TkSDkqTsiEmBYI5n7Sno8RBl36Z78lx2mRnqNkf2p6sRHlqZJAQSYPI7?=
+ =?us-ascii?Q?oskFYVKSSLi057GKIJiSZyoINtExddplDZpfpIEcBwc+ABRERtiHl4pu/U3a?=
+ =?us-ascii?Q?Upk47L3RamPj1rwsjuVOyXSrO91frSYVbIJ2uPNukrKwx6TPVHyzgp9UUyT1?=
+ =?us-ascii?Q?VpO1Y3BIr+Z2J2DyqpbI1XNXDBc4waE69rBnFMnyUrVYVMphwuax0e8oe1iA?=
+ =?us-ascii?Q?xaka93v8P3p1vM1euTNbZ2fN+S/FqNZ52V7JzK+B59LV6MbRKL5oux2cuwlS?=
+ =?us-ascii?Q?Rdq8/1ov2ZMyINW9070rMBqkYKOAm7MYvo+EtL2wv5enwZrJsErfhsILkRwL?=
+ =?us-ascii?Q?Mpl7axtw5N2IcJk2she2Z8692IRF3q64MPMJGbqIuUgwrIxu+hSZUdZgm7K6?=
+ =?us-ascii?Q?JnpjV1/1vXw6OL0zskpUA0psvl6MytoSmmTiIXqfHWTaaK++SCpY9aGN2vy7?=
+ =?us-ascii?Q?d91XULU600Dv15/AleqhuaFt01c2UGHY8pV+xXYxdcoBpJ3AegFONjIm7o2k?=
+ =?us-ascii?Q?GuCA3tucKc7ki4LeUPomcCFp6vPm31VwEAKksbRAoGEJMWXlIBjHtrGqkkjU?=
+ =?us-ascii?Q?WNFM+qyA5nq7ArSufPeF7uziPO+higFppVrFH6x+YNuIDuAUYHXR+ulZZuYP?=
+ =?us-ascii?Q?iXxvWoxPigy07jScPLsnaEaM59Ka1s8D/XnSkmqXfqRx3HgGKs3lperAlkgP?=
+ =?us-ascii?Q?WDt4eyJGfYB+Y/Oq9PHaYQW5jsg3JMUXUITOaA+C3N0Sx+13FcZ2OChPtAtS?=
+ =?us-ascii?Q?6EHSF6J81XvHrkqBBaEIYsWboqz+vNqsB3dbtYQaBd5SzXV4QWKCQ5jP+CJI?=
+ =?us-ascii?Q?QQGkO0DVKPc3HYABWkT8kgWSp9VFxPDLkVeEkXJgQi6jOCdJ6p61LSa1TLj0?=
+ =?us-ascii?Q?qVKbIJBYLllRAZt69lnj70I/LfzIVDJ2ay7vk0tDoH//nbkwfDHhkFaif/w8?=
+ =?us-ascii?Q?fCaW42Kr663LVI2iOKqg/a4eOlwOE2VBN3lGPHGltHlAdk7D2NuYk1eB+dFJ?=
+ =?us-ascii?Q?gGxKinQ2d3yO/PHqdcbvoLUnqEcTM8jfV3U4IEt4argeu/YBL1ESWRqM3VD0?=
+ =?us-ascii?Q?j9mqDbIDx8CPtep+pLwO1PYVPEUCtl7hI5S8gZ+zcSDnSx2clLlV2TDrwCgo?=
+ =?us-ascii?Q?7PzuAepswkicVydnpw5SpVSxUlNc4G0wxtFhDTTWa4mn1HMP06mzYixsSHOa?=
+ =?us-ascii?Q?p3wYdTbxpWTodSoM9dSGHxJeqfZhXnOD2A1Vg5WO4lg+LoTtw8TdFqqj5NGl?=
+ =?us-ascii?Q?ZAZav9u7r05mEaWMYQBE7BQT6ZByqmuYe3JBnUmVnd30+1HSOtLNxBx0TvK/?=
+ =?us-ascii?Q?k+iMSGDD9zKB5tWtmd4Y/BdghsIoU4g0r9r3+aPgWS2fAai5CxKIAhcx42Xy?=
+ =?us-ascii?Q?yX8yp86dcqeOGlU6NW9Tj+BJ1kp5Xk2IN5jXIHeJ?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 64c1188d-f8a0-4c9c-f487-08da7ba1522a
+X-MS-Exchange-CrossTenant-AuthSource: AM6PR04MB6743.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Aug 2022 13:56:43.1250
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: XrzmVqXqHKTwIuW6ek/QUHPPEnLM+TKxW+spTxE3aZpARhrJUbKlMChRyodds9WKiR7SACu+Y2vXrDyeGwlzfQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: HE1PR0402MB3436
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Paul,
+Add a new ioctl called TEE_IOC_SHM_REGISTER_FD to register a
+shared memory from a dmabuf file descriptor.
 
-(Adding myself on the CC list, to keep track of the discussion on behalf
-of the libcamera project)
+Etienne Carriere (1):
+  tee: new ioctl to a register tee_shm from a dmabuf file descriptor
 
-On Thu, Aug 11, 2022 at 10:23:26AM +0200, Paul Menzel wrote:
-> [Cc: folks from IPU6 external driver, IPU3 maintainers, Dell, Lenovo, 
-> Chromium, Canonical/Ubuntu, Red Hat]
-> 
-> Dear Greg,
-> 
-> 
-> I am writing you, because I remember you – at least – were active 
-> several years ago in getting good upstream driver support into the Linux 
-> kernel.
-> 
-> It looks like the driver for the MIPI IPU6 camera of Intel Alder Lake 
-> based laptops, for example, Lenovo ThinkPad X1 Carbon and Dell XPS 13 
-> 9315/9320, is not in the upstream Linux kernel.
-> 
-> With Ubuntu’s OEM image pre-installed by Dell, and on Google Chromebooks 
-> the camera is supposedly working [1]. There is a GitHub project with a 
-> repository for the Linux kernel patches [2], but the patches – as 
-> expected, and known from other external drivers, and Android drivers – 
-> do not build against all Linux kernel versions [3]. A request to 
-> upstream the drivers was opened at the end of March [4], and got the 
-> reply below in July:
-> 
-> > Intel is not ready yet to provide technical support to various Linux
-> > distro and all OEM devices at this moment with Intel IPU6 github.
-> > 
-> > Intel is supporting Dell laptop and their MIPI camera functionality
-> > on Ubuntu with release/integration support from Canonical. If you are
-> > using Dell devices, please refer to the devices listed in this link.
-> > (https://wiki.ubuntu.com/Dell) You can learn the latest updates from
-> > the installation guide.
-> 
-> The patches were integrated into ChromiumOS’ Linux kernel tree – for 
-> specific version, like 5.15 [5], and the same for Ubuntu 22.04 with 
-> Linux 5.15 – only in June [6]. A lot of that (redundant) work seems to 
-> be done by the Intel developers involved also in the GitHub project.
-> 
-> In the last seven or so years Linux upstream driver support worked well 
-> for me – especially with Intel hardware –, so I wanted to make you (and 
-> others) aware of the situation, and hope, that you could do something 
-> about the situation. With the current situation I can only recommend to 
-> FLOSS users to *not* buy these devices.
-> 
-> 
-> Kind regards,
-> 
-> Paul
-> 
-> 
-> PS: The proprietary firmware is also not in the linux-firmware 
-> repository [7], and the user space packages [8] are also not packaged 
-> yet for some distributions like Debian.
-
-A few more things to consider.
-
-Support for the IPU6 on Ubuntu is very much of a stop-gap measure as far
-as I can tell. As you correctly stated, the kernel drivers are not
-upstream, and there is a long way to go before that can be fixed. The
-drivers use a vendor-specific userspace API and are thus not fit for
-upstream as-is. They will need to be rewritten to use either the V4L2
-API (the only existing camera API upstream at this point), or a new
-kernel API will need to be developed and upstreamed should V4L2 deemed
-to be unsuitable. I can't comment on whether V4L2 would be a good
-option, as I'm not aware of the detailed architecture of the device, but
-I've heard it's significantly more complex than its predecessor, the
-IPU3 found in selected Sky Lake and Kaby Lake SoCs (I'm pretending here
-not to have heard of the IPU4).
-
-On the userspace side, the stack is based on proprietary software, with
-a userspace daemon and a V4L2 loopback driver to emulate the V4L2 API.
-This complex architecture is due to the fact that this kind of device
-requires complex imaging algorithms running in userspace, and a pure
-V4L2 camera stack has no support for this. This isn't specific to the
-IPU6, the IPU3 has similar requirements, and so do lots of embedded
-SoCs. Given the direction the industry is taking, this situation will
-become increasingly common in the future. With the notable exception of
-Raspberry Pi who is leading the way in open-source camera support, no
-SoC vendor is willing today to open their imaging algorithms. The issue
-will thus not be solved simply by packaging the userspace software
-provided by Intel for Ubuntu in other distributions, it will never make
-it into pure FLOSS distributions, and is unmaintainable by the
-community.
-
-For a piece of good news, this is a problem we have been aware of for
-years, which led to the creation of the libcamera project ([10]).
-libcamera is an open-source userspace camera framework for Linux that
-aims at supporting this exact type of hardware architecture. It already
-supports the Intel IPU3, both on machines that have been designed for
-Chrome OS and for Windows (sparing you the details, the latter describe
-the camera hardware in their ACPI tables in a very different way than
-the former, making them much more difficult to support). We have
-integrated, as a proof of concept, the IPU3 closed-source imaging
-libraries from Intel with libcamera ([11]), and have also developed a
-fully open-source implementation ([12]). The open-source version is not
-as feature-complete as the closed-source library, but it showcases how
-both options are viable, and quite importantly, how multiple actors can
-collaborate on open-source implementations of camera algorithms (the
-auto-focus support for the IPU3 has been developed and contributed to
-libcamera by Kate Hsuan from Red Hat for instance).
-
-Now, the question is how we can get IPU6 support in libcamera. The first
-problem to fix will be the availability of kernel drivers. Given the
-issues listed above, this will require a large effort and a clear
-commitment from vendors to happen. I wouldn't bet on a solution being
-available before at least several years.
-
-For the time being, I agree with your recommendation to not buy these
-devices if you care about camera support.
-
-[10] https://libcamera.org
-[11] https://git.libcamera.org/libcamera/ipu3-ipa.git/
-[12] https://git.libcamera.org/libcamera/libcamera.git/tree/src/ipa/ipu3
-
-> PPS: VA-API support also does not work [9].
-> 
-> [1]: https://ubuntu.com/certified/202203-30070
-> [2]: https://github.com/intel/ipu6-drivers
-> [3]: https://github.com/intel/ipu6-drivers/issues/13
-> [4]: https://github.com/intel/ipu6-drivers/issues/22
-> [5]: https://chromium-review.googlesource.com/c/chromiumos/third_party/kernel/+/3034663
-> [6]: https://git.launchpad.net/~ubuntu-kernel/ubuntu/+source/linux/+git/jammy/log/drivers/media/pci/intel
-> [7]: https://bugs.launchpad.net/ubuntu/+source/linux-firmware/+bug/1955383
-> [8]: https://launchpad.net/~oem-solutions-group/+archive/ubuntu/intel-ipu6/+packages
-> [9]: https://github.com/intel/media-driver/issues/1371
-
-> $ lspci -nn
-> 00:00.0 Host bridge [0600]: Intel Corporation Device [8086:4602] (rev 06)
-> 00:02.0 VGA compatible controller [0300]: Intel Corporation Alder Lake-UP4 GT2 [Iris Xe Graphics] [8086:46aa] (rev 0c)
-> 00:04.0 Signal processing controller [1180]: Intel Corporation Alder Lake Innovation Platform Framework Processor Participant [8086:461d] (rev 06)
-> 00:05.0 Multimedia controller [0480]: Intel Corporation Device [8086:465d] (rev 06)
-> 00:06.0 PCI bridge [0604]: Intel Corporation 12th Gen Core Processor PCI Express x4 Controller #0 [8086:464d] (rev 06)
-> 00:07.0 PCI bridge [0604]: Intel Corporation Alder Lake-P Thunderbolt 4 PCI Express Root Port #0 [8086:466e] (rev 06)
-> 00:07.1 PCI bridge [0604]: Intel Corporation Alder Lake-P Thunderbolt 4 PCI Express Root Port #1 [8086:463f] (rev 06)
-> 00:08.0 System peripheral [0880]: Intel Corporation 12th Gen Core Processor Gaussian & Neural Accelerator [8086:464f] (rev 06)
-> 00:0d.0 USB controller [0c03]: Intel Corporation Alder Lake-P Thunderbolt 4 USB Controller [8086:461e] (rev 06)
-> 00:0d.2 USB controller [0c03]: Intel Corporation Alder Lake-P Thunderbolt 4 NHI #0 [8086:463e] (rev 06)
-> 00:12.0 Serial controller [0700]: Intel Corporation Device [8086:51fc] (rev 01)
-> 00:14.0 USB controller [0c03]: Intel Corporation Alder Lake PCH USB 3.2 xHCI Host Controller [8086:51ed] (rev 01)
-> 00:14.2 RAM memory [0500]: Intel Corporation Alder Lake PCH Shared SRAM [8086:51ef] (rev 01)
-> 00:14.3 Network controller [0280]: Intel Corporation Alder Lake-P PCH CNVi WiFi [8086:51f0] (rev 01)
-> 00:15.0 Serial bus controller [0c80]: Intel Corporation Alder Lake PCH Serial IO I2C Controller #0 [8086:51e8] (rev 01)
-> 00:15.1 Serial bus controller [0c80]: Intel Corporation Alder Lake PCH Serial IO I2C Controller #1 [8086:51e9] (rev 01)
-> 00:16.0 Communication controller [0780]: Intel Corporation Alder Lake PCH HECI Controller [8086:51e0] (rev 01)
-> 00:1e.0 Communication controller [0780]: Intel Corporation Alder Lake PCH UART #0 [8086:51a8] (rev 01)
-> 00:1e.2 Serial bus controller [0c80]: Intel Corporation Device [8086:51aa] (rev 01)
-> 00:1e.3 Serial bus controller [0c80]: Intel Corporation Device [8086:51ab] (rev 01)
-> 00:1f.0 ISA bridge [0601]: Intel Corporation Device [8086:5187] (rev 01)
-> 00:1f.3 Multimedia audio controller [0401]: Intel Corporation Device [8086:51cc] (rev 01)
-> 00:1f.4 SMBus [0c05]: Intel Corporation Alder Lake PCH-P SMBus Host Controller [8086:51a3] (rev 01)
-> 00:1f.5 Serial bus controller [0c80]: Intel Corporation Alder Lake-P PCH SPI Controller [8086:51a4] (rev 01)
-> 01:00.0 Non-Volatile memory controller [0108]: Phison Electronics Corporation Device [1987:5019] (rev 01)
-
+ drivers/tee/tee_core.c   | 38 +++++++++++++++
+ drivers/tee/tee_shm.c    | 99 +++++++++++++++++++++++++++++++++++++++-
+ include/linux/tee_drv.h  | 11 +++++
+ include/uapi/linux/tee.h | 29 ++++++++++++
+ 4 files changed, 175 insertions(+), 2 deletions(-)
 
 -- 
-Regards,
+2.25.0
 
-Laurent Pinchart
