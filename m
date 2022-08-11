@@ -2,95 +2,80 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1B42358F702
-	for <lists+linux-media@lfdr.de>; Thu, 11 Aug 2022 06:41:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 90DBB58F720
+	for <lists+linux-media@lfdr.de>; Thu, 11 Aug 2022 06:59:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233681AbiHKElY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 11 Aug 2022 00:41:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41428 "EHLO
+        id S233779AbiHKE7v (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 11 Aug 2022 00:59:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54060 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231424AbiHKElX (ORCPT
+        with ESMTP id S233459AbiHKE7u (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 11 Aug 2022 00:41:23 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A2903CBFD
-        for <linux-media@vger.kernel.org>; Wed, 10 Aug 2022 21:41:22 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id C4B9B61280
-        for <linux-media@vger.kernel.org>; Thu, 11 Aug 2022 04:41:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C8E25C433D6
-        for <linux-media@vger.kernel.org>; Thu, 11 Aug 2022 04:41:20 +0000 (UTC)
-Date:   Thu, 11 Aug 2022 06:41:19 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: OK
-Message-Id: <20220811044120.C8E25C433D6@smtp.kernel.org>
-X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+        Thu, 11 Aug 2022 00:59:50 -0400
+Received: from hust.edu.cn (unknown [202.114.0.240])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 43B087CB58;
+        Wed, 10 Aug 2022 21:59:47 -0700 (PDT)
+Received: from localhost.localdomain ([172.16.0.254])
+        (user=dzm91@hust.edu.cn mech=LOGIN bits=0)
+        by mx1.hust.edu.cn  with ESMTP id 27B4w4gc000522-27B4w4gf000522
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
+        Thu, 11 Aug 2022 12:58:08 +0800
+From:   Dongliang Mu <dzm91@hust.edu.cn>
+To:     Antti Palosaari <crope@iki.fi>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Oliver Neukum <oneukum@suse.com>
+Cc:     Dongliang Mu <mudongliangabcd@gmail.com>,
+        syzbot+bb25f85e5aa482864dc0@syzkaller.appspotmail.com,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] media: airspy: fix memory leak in airspy probe
+Date:   Thu, 11 Aug 2022 12:57:00 +0800
+Message-Id: <20220811045701.31152-1-dzm91@hust.edu.cn>
+X-Mailer: git-send-email 2.35.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-FEAS-AUTH-USER: dzm91@hust.edu.cn
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_PASS,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+From: Dongliang Mu <mudongliangabcd@gmail.com>
 
-Results of the daily build of media_tree:
+The commit ca9dc8d06ab6 ("media: airspy: respect the DMA coherency
+ rules") moves variable buf from stack to heap, however, it only frees
+buf in the error handling code, missing deallocation in the success
+path.
 
-date:			Thu Aug 11 05:00:07 CEST 2022
-media-tree git hash:	485ade76c95ac5ccaa52fee9d712471c9211b989
-media_build git hash:	0fe857b86addf382f6fd383948bd7736a3201403
-v4l-utils git hash:	4cf258c24026895c74675a8c55efa7a14edb5ef3
-edid-decode git hash:	6816e6a691f40e6fbb64e6d40f012d7727c6315f
-gcc version:		i686-linux-gcc (GCC) 11.2.0
-sparse repo:            git://git.kernel.org/pub/scm/devel/sparse/sparse.git
-sparse version:		v0.6.4-39-gce1a6720-dirty
-smatch repo:            git://repo.or.cz/smatch.git
-smatch version:		v0.5.0-8120-g2b596bf0-dirty
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 2566a5ba93cb728b610d9390608e9edbe589b4ec
-host hardware:		x86_64
-host os:		5.18.0-2-amd64
+Fix this by freeing buf in the success path since this variable does not
+have any references in other code.
 
-linux-git-sh: OK
-linux-git-mips: OK
-linux-git-arm-stm32: OK
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-multi: OK
-linux-git-arm-pxa: OK
-linux-git-powerpc64: OK
-linux-git-arm64: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-apps: OK
-spec-git: OK
-virtme: OK: Final Summary: 3077, Succeeded: 3077, Failed: 0, Warnings: 0
-virtme-32: OK: Final Summary: 3190, Succeeded: 3190, Failed: 0, Warnings: 0
-sparse: OK
-smatch: OK
-kerneldoc: OK
+Fixes: ca9dc8d06ab6 ("media: airspy: respect the DMA coherency rules")
+Reported-by: syzbot+bb25f85e5aa482864dc0@syzkaller.appspotmail.com
+Signed-off-by: Dongliang Mu <mudongliangabcd@gmail.com>
+---
+ drivers/media/usb/airspy/airspy.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-Detailed results are available here:
+diff --git a/drivers/media/usb/airspy/airspy.c b/drivers/media/usb/airspy/airspy.c
+index 240a7cc56777..7b1c40132555 100644
+--- a/drivers/media/usb/airspy/airspy.c
++++ b/drivers/media/usb/airspy/airspy.c
+@@ -1070,6 +1070,10 @@ static int airspy_probe(struct usb_interface *intf,
+ 				ret);
+ 		goto err_free_controls;
+ 	}
++
++	/* Free buf if success*/
++	kfree(buf);
++
+ 	dev_info(s->dev, "Registered as %s\n",
+ 			video_device_node_name(&s->vdev));
+ 	dev_notice(s->dev, "SDR API is still slightly experimental and functionality changes may follow\n");
+-- 
+2.35.1
 
-https://hverkuil.home.xs4all.nl/logs/Thursday.log
-
-Detailed regression test results are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Thursday-test-media.log
-https://hverkuil.home.xs4all.nl/logs/Thursday-test-media-32.log
-https://hverkuil.home.xs4all.nl/logs/Thursday-test-media-dmesg.log
-
-Full logs are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Thursday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-https://hverkuil.home.xs4all.nl/spec/index.html
