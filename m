@@ -2,49 +2,48 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 193D9590023
-	for <lists+linux-media@lfdr.de>; Thu, 11 Aug 2022 17:38:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9B7CF5900B3
+	for <lists+linux-media@lfdr.de>; Thu, 11 Aug 2022 17:47:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236019AbiHKPiC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 11 Aug 2022 11:38:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58196 "EHLO
+        id S236463AbiHKPqa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 11 Aug 2022 11:46:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43230 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236016AbiHKPhj (ORCPT
+        with ESMTP id S236339AbiHKPpT (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 11 Aug 2022 11:37:39 -0400
+        Thu, 11 Aug 2022 11:45:19 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 641C49F188;
-        Thu, 11 Aug 2022 08:33:42 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5E5DA9568D;
+        Thu, 11 Aug 2022 08:39:37 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id A3664615FD;
-        Thu, 11 Aug 2022 15:33:41 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B007FC433B5;
-        Thu, 11 Aug 2022 15:33:39 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id EF95F6148F;
+        Thu, 11 Aug 2022 15:39:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 34CC3C43140;
+        Thu, 11 Aug 2022 15:39:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1660232021;
-        bh=xizQ1FcyAgy3xUVeDsDcPWFhWdEEzYl0CwRjLQCek1c=;
+        s=k20201202; t=1660232376;
+        bh=uBbdPrkQnNq5sVsrdMiCei9SdKxa/e8fnHqBZoUb4Oc=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=JMVw7Tkg1oyV7qv71PPsbFLm947vNv9LkY47OqE4B6P8/iD8FH5pvOKUQFjuCGxTM
-         63Re0Qd6UahsI+jLchAsZzDUKU2Ng65+8PYjZUYDv2Sf1KJzYGkP3nRO1szBpLTyvv
-         xIL5I2g1V2gMDO+5Cso0As21AoSzdyYs25Y/pH1N22PoyjFJuZnkGXy7nW/GsbcFcG
-         DOMn7DybooO43QqF+M6go8786FwNOM4cjrZCJbKlgzat7jFpWkxhNUjvDOY3H1sIzt
-         y3hSf1Zxc3EdGRekpGKVuWL+ITGLnkVLGFrlQLDZxCfQvjvlLGe8ZjjUf+qpplfQQN
-         tFFec03oxFFBQ==
+        b=dR6v0jW+ORGDJDdxE0+y1hsQ9u2yp+r2tTq6rCrulcCOPSHFkn5UowPz95ow93REb
+         veYgFwrQ4wyMKRr08eIl0+BjQGGWw44hiqFWgo3GL1PbzKma5h5nLWuzxPD4LTUPuN
+         82wsL/nFtMG/JMb9wkff59WVbcT73R7uBYQew3l5jYPdMBqgwy6q/vKgJYQNY9qXF3
+         9cY40Bmxh0QS4d6dX89mbcljGyhw/ISF19GyzpiM5YEf1gCQGZMcHObeg4LLy7Q/Kx
+         2t0Jn0WM+jBLNnlgwRl2YbyQiVapSTVbd7qPOO5RA8YouDN/1C42X1/TV0r8X/MBqH
+         oPcyUJMQsYOUQ==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Hirokazu Honda <hiroh@chromium.org>,
-        Irui Wang <irui.wang@mediatek.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Dafna Hirschfeld <dafna@fastmail.com>,
+        Paul Elder <paul.elder@ideasonboard.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sasha Levin <sashal@kernel.org>, tiffany.lin@mediatek.com,
-        andrew-ct.chen@mediatek.com, matthias.bgg@gmail.com,
-        linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org
-Subject: [PATCH AUTOSEL 5.19 049/105] media: mediatek: vcodec: Report supported bitrate modes
-Date:   Thu, 11 Aug 2022 11:27:33 -0400
-Message-Id: <20220811152851.1520029-49-sashal@kernel.org>
+        Sasha Levin <sashal@kernel.org>, heiko@sntech.de,
+        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org
+Subject: [PATCH AUTOSEL 5.19 074/105] media: rkisp1: Disable runtime PM in probe error path
+Date:   Thu, 11 Aug 2022 11:27:58 -0400
+Message-Id: <20220811152851.1520029-74-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220811152851.1520029-1-sashal@kernel.org>
 References: <20220811152851.1520029-1-sashal@kernel.org>
@@ -62,52 +61,43 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Hirokazu Honda <hiroh@chromium.org>
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-[ Upstream commit d8e8aa866ed8636fd6c1017c3d9453eab2922496 ]
+[ Upstream commit 13c9810281f8b24af9b7712cd84a1fce61843e93 ]
 
-The media driver supports constant bitrate mode only.
-The supported rate control mode is reported through querymenu() and
-s_ctrl() fails if non constant bitrate mode (e.g. VBR) is requested.
+If the v4l2_device_register() call fails, runtime PM is left enabled.
+Fix it.
 
-Signed-off-by: Hirokazu Honda <hiroh@chromium.org>
-Reviewed-by: Irui Wang <irui.wang@mediatek.com>
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Reviewed-by: Dafna Hirschfeld <dafna@fastmail.com>
+Reviewed-by: Paul Elder <paul.elder@ideasonboard.com>
 Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- .../media/platform/mediatek/vcodec/mtk_vcodec_enc.c   | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+ drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc.c b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc.c
-index c21367038c34..98d451ce2545 100644
---- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc.c
-+++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc.c
-@@ -50,6 +50,14 @@ static int vidioc_venc_s_ctrl(struct v4l2_ctrl *ctrl)
- 	int ret = 0;
+diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
+index 3f5cfa7eb937..471226d95dbf 100644
+--- a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
++++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
+@@ -552,7 +552,7 @@ static int rkisp1_probe(struct platform_device *pdev)
  
- 	switch (ctrl->id) {
-+	case V4L2_CID_MPEG_VIDEO_BITRATE_MODE:
-+		mtk_v4l2_debug(2, "V4L2_CID_MPEG_VIDEO_BITRATE_MODE val= %d",
-+			       ctrl->val);
-+		if (ctrl->val != V4L2_MPEG_VIDEO_BITRATE_MODE_CBR) {
-+			mtk_v4l2_err("Unsupported bitrate mode =%d", ctrl->val);
-+			ret = -EINVAL;
-+		}
-+		break;
- 	case V4L2_CID_MPEG_VIDEO_BITRATE:
- 		mtk_v4l2_debug(2, "V4L2_CID_MPEG_VIDEO_BITRATE val = %d",
- 			       ctrl->val);
-@@ -1373,6 +1381,9 @@ int mtk_vcodec_enc_ctrls_setup(struct mtk_vcodec_ctx *ctx)
- 			       0, V4L2_MPEG_VIDEO_H264_LEVEL_4_0);
- 	v4l2_ctrl_new_std_menu(handler, ops, V4L2_CID_MPEG_VIDEO_VP8_PROFILE,
- 			       V4L2_MPEG_VIDEO_VP8_PROFILE_0, 0, V4L2_MPEG_VIDEO_VP8_PROFILE_0);
-+	v4l2_ctrl_new_std_menu(handler, ops, V4L2_CID_MPEG_VIDEO_BITRATE_MODE,
-+			       V4L2_MPEG_VIDEO_BITRATE_MODE_CBR,
-+			       0, V4L2_MPEG_VIDEO_BITRATE_MODE_CBR);
+ 	ret = v4l2_device_register(rkisp1->dev, &rkisp1->v4l2_dev);
+ 	if (ret)
+-		return ret;
++		goto err_pm_runtime_disable;
  
- 
- 	if (handler->error) {
+ 	ret = media_device_register(&rkisp1->media_dev);
+ 	if (ret) {
+@@ -572,6 +572,7 @@ static int rkisp1_probe(struct platform_device *pdev)
+ 	media_device_unregister(&rkisp1->media_dev);
+ err_unreg_v4l2_dev:
+ 	v4l2_device_unregister(&rkisp1->v4l2_dev);
++err_pm_runtime_disable:
+ 	pm_runtime_disable(&pdev->dev);
+ 	return ret;
+ }
 -- 
 2.35.1
 
