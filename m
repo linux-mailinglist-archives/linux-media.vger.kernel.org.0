@@ -2,55 +2,62 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9B7CF5900B3
-	for <lists+linux-media@lfdr.de>; Thu, 11 Aug 2022 17:47:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 47CCC58FF97
+	for <lists+linux-media@lfdr.de>; Thu, 11 Aug 2022 17:32:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236463AbiHKPqa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 11 Aug 2022 11:46:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43230 "EHLO
+        id S235854AbiHKPbn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 11 Aug 2022 11:31:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48226 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236339AbiHKPpT (ORCPT
+        with ESMTP id S235853AbiHKPbH (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 11 Aug 2022 11:45:19 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5E5DA9568D;
-        Thu, 11 Aug 2022 08:39:37 -0700 (PDT)
+        Thu, 11 Aug 2022 11:31:07 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8B735307;
+        Thu, 11 Aug 2022 08:30:19 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id EF95F6148F;
-        Thu, 11 Aug 2022 15:39:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 34CC3C43140;
-        Thu, 11 Aug 2022 15:39:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1660232376;
-        bh=uBbdPrkQnNq5sVsrdMiCei9SdKxa/e8fnHqBZoUb4Oc=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=dR6v0jW+ORGDJDdxE0+y1hsQ9u2yp+r2tTq6rCrulcCOPSHFkn5UowPz95ow93REb
-         veYgFwrQ4wyMKRr08eIl0+BjQGGWw44hiqFWgo3GL1PbzKma5h5nLWuzxPD4LTUPuN
-         82wsL/nFtMG/JMb9wkff59WVbcT73R7uBYQew3l5jYPdMBqgwy6q/vKgJYQNY9qXF3
-         9cY40Bmxh0QS4d6dX89mbcljGyhw/ISF19GyzpiM5YEf1gCQGZMcHObeg4LLy7Q/Kx
-         2t0Jn0WM+jBLNnlgwRl2YbyQiVapSTVbd7qPOO5RA8YouDN/1C42X1/TV0r8X/MBqH
-         oPcyUJMQsYOUQ==
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Dafna Hirschfeld <dafna@fastmail.com>,
-        Paul Elder <paul.elder@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sasha Levin <sashal@kernel.org>, heiko@sntech.de,
-        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org
-Subject: [PATCH AUTOSEL 5.19 074/105] media: rkisp1: Disable runtime PM in probe error path
-Date:   Thu, 11 Aug 2022 11:27:58 -0400
-Message-Id: <20220811152851.1520029-74-sashal@kernel.org>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220811152851.1520029-1-sashal@kernel.org>
-References: <20220811152851.1520029-1-sashal@kernel.org>
+        by ams.source.kernel.org (Postfix) with ESMTPS id 1BA0BB82123;
+        Thu, 11 Aug 2022 15:30:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 585DBC433D7;
+        Thu, 11 Aug 2022 15:30:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1660231816;
+        bh=ZxrDlidcW1fSUt1GEXOsflzYG9TTRgiHFTQGnIgMjRY=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=n1tFD1GWrhXUDzh55SvYPrR83fgGnvMzvV7bG4rCfKXBSg3hul31AzYVaISGiiWDu
+         lCMPPu/JPUi9Olqgy8cCXTZxKyJ+Fz0Y7FMWxKYEP1f/O+Zy1YTsYdhl8IT1NWgLBv
+         NoHR+xnd3fw6D2yYclBWE45wbIcZnOqbBTf8bcHo=
+Date:   Thu, 11 Aug 2022 17:30:13 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Paul Menzel <pmenzel@molgen.mpg.de>,
+        Wang Yating <yating.wang@intel.com>,
+        Christoph Jechlitschek <christoph.jechlitschek@intel.com>,
+        Hao Yao <hao.yao@intel.com>, Andy Yeh <andy.yeh@intel.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Bingbu Cao <bingbu.cao@intel.com>,
+        Tianshu Qiu <tian.shu.qiu@intel.com>,
+        linux-media@vger.kernel.org, Mark Pearson <markpearson@lenovo.com>,
+        Dell.Client.Kernel@dell.com, linux-kernel@vger.kernel.org,
+        Guenter Roeck <groeck@google.com>,
+        Sergey Senozhatsky <senozhatsky@chromium.org>,
+        Andy Whitcroft <apw@canonical.com>,
+        Kai-Heng Feng <kai.heng.feng@canonical.com>,
+        Christian Schaller <cschalle@redhat.com>,
+        Wouter Bolsterlee <wouter@bolsterl.ee>,
+        Miguel Palhas <mpalhas@gmail.com>, it+linux-media@molgen.mpg.de
+Subject: Re: Missing MIPI IPU6 camera driver for Intel Alder Lake laptops
+Message-ID: <YvUghWZbXIUofg5A@kroah.com>
+References: <52c87d91-422d-fca0-4dd5-bbaa559c81b6@molgen.mpg.de>
+ <YvUKLbv/pOfbbeL+@pendragon.ideasonboard.com>
+ <YvUaEDMbZD70x+hD@kroah.com>
+ <YvUbhx4HSxAAwIvv@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YvUbhx4HSxAAwIvv@pendragon.ideasonboard.com>
 X-Spam-Status: No, score=-7.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
@@ -61,43 +68,25 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+On Thu, Aug 11, 2022 at 06:08:55PM +0300, Laurent Pinchart wrote:
+> On Thu, Aug 11, 2022 at 05:02:40PM +0200, Greg KH wrote:
+> > On Thu, Aug 11, 2022 at 04:54:53PM +0300, Laurent Pinchart wrote:
+> > > For the time being, I agree with your recommendation to not buy these
+> > > devices if you care about camera support.
+> > 
+> > I second this, don't buy these devices if the vendor is not willing to
+> > get their drivers upstreamed properly.
+> 
+> "Not willing" may be a bit too harsh here. I wouldn't just blame Intel
+> for not upstreaming a driver if it turns out that the V4L2 API isn't a
+> good match and we have no proposal to provide an alternative.
 
-[ Upstream commit 13c9810281f8b24af9b7712cd84a1fce61843e93 ]
+Did they propose an alternative?  From what I saw here they didn't even
+attempt it, or did I miss that?
 
-If the v4l2_device_register() call fails, runtime PM is left enabled.
-Fix it.
+Not even attempting is just not ok, as you say, they know where we are,
+it's not like we can hide...
 
-Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Reviewed-by: Dafna Hirschfeld <dafna@fastmail.com>
-Reviewed-by: Paul Elder <paul.elder@ideasonboard.com>
-Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+thanks,
 
-diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
-index 3f5cfa7eb937..471226d95dbf 100644
---- a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
-+++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
-@@ -552,7 +552,7 @@ static int rkisp1_probe(struct platform_device *pdev)
- 
- 	ret = v4l2_device_register(rkisp1->dev, &rkisp1->v4l2_dev);
- 	if (ret)
--		return ret;
-+		goto err_pm_runtime_disable;
- 
- 	ret = media_device_register(&rkisp1->media_dev);
- 	if (ret) {
-@@ -572,6 +572,7 @@ static int rkisp1_probe(struct platform_device *pdev)
- 	media_device_unregister(&rkisp1->media_dev);
- err_unreg_v4l2_dev:
- 	v4l2_device_unregister(&rkisp1->v4l2_dev);
-+err_pm_runtime_disable:
- 	pm_runtime_disable(&pdev->dev);
- 	return ret;
- }
--- 
-2.35.1
-
+greg k-h
