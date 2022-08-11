@@ -2,47 +2,50 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7A36C58FFFC
-	for <lists+linux-media@lfdr.de>; Thu, 11 Aug 2022 17:37:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DCCFF590020
+	for <lists+linux-media@lfdr.de>; Thu, 11 Aug 2022 17:38:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235935AbiHKPgG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 11 Aug 2022 11:36:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59516 "EHLO
+        id S236258AbiHKPh7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 11 Aug 2022 11:37:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59396 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235462AbiHKPfZ (ORCPT
+        with ESMTP id S235807AbiHKPhi (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 11 Aug 2022 11:35:25 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E61749C8D4;
-        Thu, 11 Aug 2022 08:32:53 -0700 (PDT)
+        Thu, 11 Aug 2022 11:37:38 -0400
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2194D98C8E;
+        Thu, 11 Aug 2022 08:33:39 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id CFD71B82167;
-        Thu, 11 Aug 2022 15:32:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 854FEC433D7;
-        Thu, 11 Aug 2022 15:32:49 +0000 (UTC)
+        by sin.source.kernel.org (Postfix) with ESMTPS id 704C8CE2251;
+        Thu, 11 Aug 2022 15:33:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3EB29C433C1;
+        Thu, 11 Aug 2022 15:33:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1660231970;
-        bh=j4a/PfP+pRSpIzjqaSM4Hx3iCpAMQApk+tKDdQNUBqI=;
+        s=k20201202; t=1660232015;
+        bh=YbP9ChO/K+7SMUXeYPgcaet4O69I6m639FXRxjesmJs=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=SAZwgyQ03ocJ/NZg6lBrBrVpNFXPTkj5ARyp9BkhkJfT0oQw9LGObXSTeVUReUEg1
-         3MpLXhlFN7UAiAwaDsAJqnq3rc9kb76TUyA0kaJL1Yk3Dnm7YdU+i3Iv6I0xmlUIrw
-         81IVNjh2PB7AyNhjFTxyz/Guaq+ww60Th0uUegN32SpbWX+2ty7IRt6bxN+Acx7Dk/
-         hiJ9wcfYl53QgDUMPVoZBnuERVmSJYwLZerxibw/D9uAi4IrVkbKON4CpVqfR5JOEb
-         RMiqToLTKEmrglBMl7IS1rCMyfVOds91iT8pdAOFJkcMYvvgP98udA995nwyZm6ePX
-         hBgk8rxLLtNxg==
+        b=MZNA3Kn4sZPAPZgyI3bHfU5l92+X2XVjPfqDraPC0+Tc0YW1lQQJ8G8FaCSwOglyo
+         rcvuD9vaPL/fEke8mBxUJtGxpulXygVXco2RmtiH+t3xWGlr4UYAeH8wJ+xfxWZWBS
+         5gyLQ97OrFAn8zzpdCgmNREmm8HFjDSeQ2/ahmLxXV+N/1wt6yB49eN3+w+Bk+Baqw
+         Hwn4YnYviAFKv7F469uK5MpPOqxXtNvhf/e7YawViYwGSTZ7FFOYmYQEnZAyy1LxrO
+         xfPhTHgOf9KqCqy5rxZ+Mpz3rwLsStUVVMt4gLAK1grQFhzlBhAG9GJ2as9yNF7ax+
+         fUOpiNHrC01Ng==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Dongliang Mu <mudongliangabcd@gmail.com>,
-        syzbot+77b432d57c4791183ed4@syzkaller.appspotmail.com,
+Cc:     Justin Green <greenjustin@chromium.org>,
+        Andres Calderon Jaramillo <andrescj@chromium.org>,
+        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sasha Levin <sashal@kernel.org>, isely@pobox.com,
-        linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.19 034/105] media: pvrusb2: fix memory leak in pvr_probe
-Date:   Thu, 11 Aug 2022 11:27:18 -0400
-Message-Id: <20220811152851.1520029-34-sashal@kernel.org>
+        Sasha Levin <sashal@kernel.org>, tiffany.lin@mediatek.com,
+        andrew-ct.chen@mediatek.com, matthias.bgg@gmail.com,
+        linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org
+Subject: [PATCH AUTOSEL 5.19 047/105] media: mediatek: vcodec: return EINVAL if plane is too small
+Date:   Thu, 11 Aug 2022 11:27:31 -0400
+Message-Id: <20220811152851.1520029-47-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220811152851.1520029-1-sashal@kernel.org>
 References: <20220811152851.1520029-1-sashal@kernel.org>
@@ -60,39 +63,36 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Dongliang Mu <mudongliangabcd@gmail.com>
+From: Justin Green <greenjustin@chromium.org>
 
-[ Upstream commit 945a9a8e448b65bec055d37eba58f711b39f66f0 ]
+[ Upstream commit f5caaa47f55fa742f1a230e5b4258c139e223c74 ]
 
-The error handling code in pvr2_hdw_create forgets to unregister the
-v4l2 device. When pvr2_hdw_create returns back to pvr2_context_create,
-it calls pvr2_context_destroy to destroy context, but mp->hdw is NULL,
-which leads to that pvr2_hdw_destroy directly returns.
+Modify vb2ops_vdec_buf_prepare to return EINVAL if the size of the plane
+is less than the size of the image. Currently we just log an error and
+return 0 anyway, which may cause a buffer overrun bug.
 
-Fix this by adding v4l2_device_unregister to decrease the refcount of
-usb interface.
-
-Reported-by: syzbot+77b432d57c4791183ed4@syzkaller.appspotmail.com
-Signed-off-by: Dongliang Mu <mudongliangabcd@gmail.com>
+Signed-off-by: Justin Green <greenjustin@chromium.org>
+Suggested-by: Andres Calderon Jaramillo <andrescj@chromium.org>
+Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/usb/pvrusb2/pvrusb2-hdw.c | 1 +
+ drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/drivers/media/usb/pvrusb2/pvrusb2-hdw.c b/drivers/media/usb/pvrusb2/pvrusb2-hdw.c
-index a9666373af6b..92d6db1ad00f 100644
---- a/drivers/media/usb/pvrusb2/pvrusb2-hdw.c
-+++ b/drivers/media/usb/pvrusb2/pvrusb2-hdw.c
-@@ -2610,6 +2610,7 @@ struct pvr2_hdw *pvr2_hdw_create(struct usb_interface *intf,
- 		del_timer_sync(&hdw->encoder_run_timer);
- 		del_timer_sync(&hdw->encoder_wait_timer);
- 		flush_work(&hdw->workpoll);
-+		v4l2_device_unregister(&hdw->v4l2_dev);
- 		usb_free_urb(hdw->ctl_read_urb);
- 		usb_free_urb(hdw->ctl_write_urb);
- 		kfree(hdw->ctl_read_buffer);
+diff --git a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c
+index 52e5d36aa912..191e13344c53 100644
+--- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c
++++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c
+@@ -735,6 +735,7 @@ int vb2ops_vdec_buf_prepare(struct vb2_buffer *vb)
+ 			mtk_v4l2_err("data will not fit into plane %d (%lu < %d)",
+ 				i, vb2_plane_size(vb, i),
+ 				q_data->sizeimage[i]);
++			return -EINVAL;
+ 		}
+ 		if (!V4L2_TYPE_IS_OUTPUT(vb->type))
+ 			vb2_set_plane_payload(vb, i, q_data->sizeimage[i]);
 -- 
 2.35.1
 
