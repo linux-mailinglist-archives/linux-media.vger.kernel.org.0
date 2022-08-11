@@ -2,86 +2,174 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3F96858FED2
-	for <lists+linux-media@lfdr.de>; Thu, 11 Aug 2022 17:09:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 584DC58FF28
+	for <lists+linux-media@lfdr.de>; Thu, 11 Aug 2022 17:19:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234730AbiHKPJM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 11 Aug 2022 11:09:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54252 "EHLO
+        id S235644AbiHKPS7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 11 Aug 2022 11:18:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36596 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229594AbiHKPJL (ORCPT
+        with ESMTP id S235637AbiHKPS6 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 11 Aug 2022 11:09:11 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E6E576F549;
-        Thu, 11 Aug 2022 08:09:10 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id CD53E49C;
-        Thu, 11 Aug 2022 17:09:07 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1660230548;
-        bh=9KDwvbHDtDSz0ZfcYcpfHO4/RJaEHreHeeodbjYv1Ek=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=ew2BMaPPNoYfojHV48Gl46DCVC8jrL5AuY8W/eimNln4QTqr6MIrREknhwhd0Niua
-         zGBqq8sIOyGjDoLFlswIxkRlkjY00GKQj9FTc8ERYd3165+NKuR95+91/xW6pd/F3z
-         j9HZfpZnY8i4N1jAVPpddp+BAByWBsv4iYKzpxw4=
-Date:   Thu, 11 Aug 2022 18:08:55 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Greg KH <gregkh@linuxfoundation.org>
-Cc:     Paul Menzel <pmenzel@molgen.mpg.de>,
-        Wang Yating <yating.wang@intel.com>,
-        Christoph Jechlitschek <christoph.jechlitschek@intel.com>,
-        Hao Yao <hao.yao@intel.com>, Andy Yeh <andy.yeh@intel.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Bingbu Cao <bingbu.cao@intel.com>,
-        Tianshu Qiu <tian.shu.qiu@intel.com>,
-        linux-media@vger.kernel.org, Mark Pearson <markpearson@lenovo.com>,
-        Dell.Client.Kernel@dell.com, linux-kernel@vger.kernel.org,
-        Guenter Roeck <groeck@google.com>,
-        Sergey Senozhatsky <senozhatsky@chromium.org>,
-        Andy Whitcroft <apw@canonical.com>,
-        Kai-Heng Feng <kai.heng.feng@canonical.com>,
-        Christian Schaller <cschalle@redhat.com>,
-        Wouter Bolsterlee <wouter@bolsterl.ee>,
-        Miguel Palhas <mpalhas@gmail.com>, it+linux-media@molgen.mpg.de
-Subject: Re: Missing MIPI IPU6 camera driver for Intel Alder Lake laptops
-Message-ID: <YvUbhx4HSxAAwIvv@pendragon.ideasonboard.com>
-References: <52c87d91-422d-fca0-4dd5-bbaa559c81b6@molgen.mpg.de>
- <YvUKLbv/pOfbbeL+@pendragon.ideasonboard.com>
- <YvUaEDMbZD70x+hD@kroah.com>
+        Thu, 11 Aug 2022 11:18:58 -0400
+Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com [IPv6:2a00:1450:4864:20::433])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2818D91D17
+        for <linux-media@vger.kernel.org>; Thu, 11 Aug 2022 08:18:57 -0700 (PDT)
+Received: by mail-wr1-x433.google.com with SMTP id bv3so21697501wrb.5
+        for <linux-media@vger.kernel.org>; Thu, 11 Aug 2022 08:18:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=amarulasolutions.com; s=google;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc;
+        bh=LvtGbE8ArwA/382zTLFpyTK+JZhPrlQAS4neTYrF8D8=;
+        b=FqNI2i6c2UsDj1wTkrnTqAPc4P95V+sbWj1mjVSJ4UVMbiojwgPil6lpPZYW4HnMx5
+         RfsTkxWU3LwIa28ZIetuq0dSX1nlO1KJIcHhTKgFRjIs1zgCHYnt9nuFz0njvygXJYTS
+         Ofw8lu7WgiwUIF7R3WFYOZNmoEWmyNtNL6giM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
+        bh=LvtGbE8ArwA/382zTLFpyTK+JZhPrlQAS4neTYrF8D8=;
+        b=uIOFTzmSn05C0zO/TYU02bmh5geoU+gbqvTxIgqH3V18aDR5IGQBilBlN/v7UWLYC4
+         vUMzY6PSmhyziR09O9aNnxQGHJyeFQqouQrsFDkisMsYemWSbjGdDArUEAjFiIZRjL6C
+         FIh6vmjF+I3QuJEpSDk5AfLPwP09Kwyei4iXOIUtqhIICtr5VyVGg4iytxHNNx391XSO
+         KbcXD1t8Cd5VrX3XYj8MGvdFeCGyjMW3OgH3VPxJMAcDuo0hUa122vNFGh+tr6Fc0A4W
+         qaXOU0PksyA/h0P3PRnNW8+XZb0x/QQOdsdnXqOeo9S0CpZgAj2rJQD9vByC3m+QFgQ8
+         Ifpg==
+X-Gm-Message-State: ACgBeo0eXeIDeRw2bnc9so54HGfcB1NTfFuQkoV/oBK+ARL7t2KuNqeB
+        gsQ+jWdf0/2zzcbP64XePzlPLA==
+X-Google-Smtp-Source: AA6agR5F2FT3H8CY500By/sS38e5L9n7uHIRX0hN1D3i6sXH97kaKzzhf4o+Ntqmp1nssS0YdADpyw==
+X-Received: by 2002:a05:6000:71e:b0:223:764f:b2a8 with SMTP id bs30-20020a056000071e00b00223764fb2a8mr5668673wrb.79.1660231135716;
+        Thu, 11 Aug 2022 08:18:55 -0700 (PDT)
+Received: from tom-ThinkPad-T14s-Gen-2i (net-188-217-51-7.cust.vodafonedsl.it. [188.217.51.7])
+        by smtp.gmail.com with ESMTPSA id c12-20020a05600c0a4c00b003a32297598csm8145507wmq.43.2022.08.11.08.18.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 11 Aug 2022 08:18:55 -0700 (PDT)
+Date:   Thu, 11 Aug 2022 17:18:53 +0200
+From:   Tommaso Merciai <tommaso.merciai@amarulasolutions.com>
+To:     Ming Qian <ming.qian@nxp.com>
+Cc:     mchehab@kernel.org, hverkuil-cisco@xs4all.nl, shawnguo@kernel.org,
+        robh+dt@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
+        festevam@gmail.com, linux-imx@nxp.com, xiahong.bao@nxp.com,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v4 1/4] media: add nv12_8l128 and nv12_10be_8l128 video
+ format.
+Message-ID: <20220811151853.GB6390@tom-ThinkPad-T14s-Gen-2i>
+References: <cover.1660027440.git.ming.qian@nxp.com>
+ <84842bffb432884a0fd84de96c6e64ee2273e511.1660027440.git.ming.qian@nxp.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YvUaEDMbZD70x+hD@kroah.com>
+In-Reply-To: <84842bffb432884a0fd84de96c6e64ee2273e511.1660027440.git.ming.qian@nxp.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Aug 11, 2022 at 05:02:40PM +0200, Greg KH wrote:
-> On Thu, Aug 11, 2022 at 04:54:53PM +0300, Laurent Pinchart wrote:
-> > For the time being, I agree with your recommendation to not buy these
-> > devices if you care about camera support.
+Hi Ming,
+
+On Tue, Aug 09, 2022 at 02:50:38PM +0800, Ming Qian wrote:
+> add contiguous nv12 tiled format nv12_8l128 and nv12_10be_8l128
 > 
-> I second this, don't buy these devices if the vendor is not willing to
-> get their drivers upstreamed properly.
+> Signed-off-by: Ming Qian <ming.qian@nxp.com>
+> Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+> ---
+>  .../userspace-api/media/v4l/pixfmt-yuv-planar.rst         | 8 ++++++++
+>  drivers/media/v4l2-core/v4l2-ioctl.c                      | 2 ++
+>  include/uapi/linux/videodev2.h                            | 2 ++
+>  3 files changed, 12 insertions(+)
+> 
+> diff --git a/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst b/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst
+> index 10b1feeb0b57..f1d5bb7b806d 100644
+> --- a/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst
+> +++ b/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst
+> @@ -273,7 +273,9 @@ of the luma plane.
+>  .. _V4L2-PIX-FMT-NV12-16L16:
+>  .. _V4L2-PIX-FMT-NV12-32L32:
+>  .. _V4L2-PIX-FMT-NV12M-8L128:
+> +.. _V4L2-PIX-FMT-NV12-8L128:
+>  .. _V4L2-PIX-FMT-NV12M-10BE-8L128:
+> +.. _V4L2-PIX-FMT-NV12-10BE-8L128:
+>  .. _V4L2-PIX-FMT-MM21:
+>  
+>  Tiled NV12
+> @@ -319,6 +321,9 @@ pixels in 2D 8x128 tiles, and stores tiles linearly in memory.
+>  The image height must be aligned to a multiple of 128.
+>  The layouts of the luma and chroma planes are identical.
+>  
+> +``V4L2_PIX_FMT_NV12_8L128`` is similar to ``V4L2_PIX_FMT_NV12M_8L128`` but stores
+> +two planes in one memory.
+> +
 
-"Not willing" may be a bit too harsh here. I wouldn't just blame Intel
-for not upstreaming a driver if it turns out that the V4L2 API isn't a
-good match and we have no proposal to provide an alternative.
+Don't know, maybe we need more details here?
 
-This being said, I agree it's the vendor's responsibility to at least
-engage with the upstream community to find a solution, and collaborate
-on the implementation. I'm sure there have been way more private
-discussions than I'm aware of, maybe now is the right time to extend
-this to a wider audience and create a realistic plan on how to move
-forward. You all know my e-mail address :-)
+>  ``V4L2_PIX_FMT_NV12M_10BE_8L128`` is similar to ``V4L2_PIX_FMT_NV12M`` but stores
+>  10 bits pixels in 2D 8x128 tiles, and stores tiles linearly in memory.
+>  the data is arranged in big endian order.
+> @@ -334,6 +339,9 @@ byte 2: Y1(bits 3-0) Y2(bits 9-6)
+>  byte 3: Y2(bits 5-0) Y3(bits 9-8)
+>  byte 4: Y3(bits 7-0)
+>  
+> +``V4L2_PIX_FMT_NV12_10BE_8L128`` is similar to ``V4L2_PIX_FMT_NV12M_10BE_8L128`` but stores
+> +two planes in one memory.
+> +
+
+here also?
+
+>  ``V4L2_PIX_FMT_MM21`` store luma pixel in 16x32 tiles, and chroma pixels
+>  in 16x16 tiles. The line stride must be aligned to a multiple of 16 and the
+>  image height must be aligned to a multiple of 32. The number of luma and chroma
+> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
+> index c314025d977e..d973bd2ff750 100644
+> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
+> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+> @@ -1444,7 +1444,9 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
+>  	case V4L2_META_FMT_VIVID:       descr = "Vivid Metadata"; break;
+>  	case V4L2_META_FMT_RK_ISP1_PARAMS:	descr = "Rockchip ISP1 3A Parameters"; break;
+>  	case V4L2_META_FMT_RK_ISP1_STAT_3A:	descr = "Rockchip ISP1 3A Statistics"; break;
+> +	case V4L2_PIX_FMT_NV12_8L128:	descr = "NV12 (8x128 Linear)"; break;
+>  	case V4L2_PIX_FMT_NV12M_8L128:	descr = "NV12M (8x128 Linear)"; break;
+> +	case V4L2_PIX_FMT_NV12_10BE_8L128:	descr = "10-bit NV12 (8x128 Linear, BE)"; break;
+>  	case V4L2_PIX_FMT_NV12M_10BE_8L128:	descr = "10-bit NV12M (8x128 Linear, BE)"; break;
+>  
+>  	default:
+> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+> index cd66e01ed3c3..64f16490dd2b 100644
+> --- a/include/uapi/linux/videodev2.h
+> +++ b/include/uapi/linux/videodev2.h
+> @@ -655,6 +655,8 @@ struct v4l2_pix_format {
+>  #define V4L2_PIX_FMT_NV12_16L16 v4l2_fourcc('H', 'M', '1', '2') /* 12  Y/CbCr 4:2:0 16x16 tiles */
+>  #define V4L2_PIX_FMT_NV12_32L32 v4l2_fourcc('S', 'T', '1', '2') /* 12  Y/CbCr 4:2:0 32x32 tiles */
+>  #define V4L2_PIX_FMT_P010_4L4 v4l2_fourcc('T', '0', '1', '0') /* 12  Y/CbCr 4:2:0 10-bit 4x4 macroblocks */
+> +#define V4L2_PIX_FMT_NV12_8L128       v4l2_fourcc('A', 'T', '1', '2') /* Y/CbCr 4:2:0 8x128 tiles */
+> +#define V4L2_PIX_FMT_NV12_10BE_8L128  v4l2_fourcc_be('A', 'X', '1', '2') /* Y/CbCr 4:2:0 10-bit 8x128 tiles */
+>  
+>  /* Tiled YUV formats, non contiguous planes */
+>  #define V4L2_PIX_FMT_NV12MT  v4l2_fourcc('T', 'M', '1', '2') /* 12  Y/CbCr 4:2:0 64x32 tiles */
+> -- 
+> 2.37.1
+> 
+
+For the other parts look's good to me.
+Reviewed-by: Tommaso Merciai <tommaso.merciai@amarulasolutions.com>
+
+Regards,
+Tommaso
 
 -- 
-Regards,
+Tommaso Merciai
+Embedded Linux Engineer
+tommaso.merciai@amarulasolutions.com
+__________________________________
 
-Laurent Pinchart
+Amarula Solutions SRL
+Via Le Canevare 30, 31100 Treviso, Veneto, IT
+T. +39 042 243 5310
+info@amarulasolutions.com
+www.amarulasolutions.com
