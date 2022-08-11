@@ -2,50 +2,52 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9918B59048D
-	for <lists+linux-media@lfdr.de>; Thu, 11 Aug 2022 18:48:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B207F590437
+	for <lists+linux-media@lfdr.de>; Thu, 11 Aug 2022 18:48:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238585AbiHKQcl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 11 Aug 2022 12:32:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58688 "EHLO
+        id S238650AbiHKQhY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 11 Aug 2022 12:37:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43400 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238927AbiHKQbh (ORCPT
+        with ESMTP id S238900AbiHKQd4 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 11 Aug 2022 12:31:37 -0400
+        Thu, 11 Aug 2022 12:33:56 -0400
 Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2085F6611E;
-        Thu, 11 Aug 2022 09:10:10 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7102777560;
+        Thu, 11 Aug 2022 09:11:07 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 9C7EDB821A0;
-        Thu, 11 Aug 2022 16:10:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5DC42C433C1;
-        Thu, 11 Aug 2022 16:10:06 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id A8B72B821B0;
+        Thu, 11 Aug 2022 16:11:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 41ECFC433D7;
+        Thu, 11 Aug 2022 16:11:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1660234207;
-        bh=V0lH4Q1ukIGTbgk/dHF2fHp7g/bWrJQXitNDcr0sry8=;
+        s=k20201202; t=1660234264;
+        bh=OO8x2+4a0MfU5R0wgHThLSWrI2dTRD1AshgT6xMLU4A=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=ZcbNVQj/3xYRAiWGDwnag1WghUjRhV+1iqDLTiv2N8YobAmq6JRqMkEwKJ59zofAO
-         4a8o50GopjujIR6rv1jVLNbx1RJf9TEgSNQYqOkXoLypJbP5uO9kduR+BKl+DTnFJh
-         4ecrs9SrLSPne7jlZ/qL4xwoIeIQKpls+inQQuC+oR4fo+uaGn0zwzsfDX8orzThkX
-         x1hcwogUKz2lxAndHfK6MUlamU1rpP2bjNrZoNELmWkeAY1SSp3iDpuHVIbwNOpqwA
-         zQLCOh6Q+KPDxAIIfUupyvXYl2ohzeP+AiDKMT9CDumyUHFpVH9cb+gv8lwPvR2yUc
-         vbIXSa3E4EvEQ==
+        b=qVGaNIRhDk8juL8OwnowrMCi3U+tsQg+VQza0eENgHsCsblclCXD18UVuPTgKIr8+
+         ZGOFDZBxubpWgvZJ78kNFmUtm1IovGymaZFsixsPIlDXcU4wQz6EarnP03cqf0Uk5/
+         bHx2sQ0fsqL3EXhzJdW6RgrmGfw8p+1dhfV9oej6qdJ6We4Zn9/ZFzGPmdSQDJz5VR
+         zgX2+rpXN6v1u2LTTD0WgAwTf2hy+r+Le+M6Lp58mL87n16cZS/y9LuluJnE6jpUo6
+         f+5npj4C8VlAobbaTLxDfYbwleYrXRp8MUTSb73Gf1lrqUKqfWkpktpIfmap+5oxY+
+         Q7d+gwjjFEpCg==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Dongliang Mu <mudongliangabcd@gmail.com>,
-        syzbot+77b432d57c4791183ed4@syzkaller.appspotmail.com,
+Cc:     Yang Yingliang <yangyingliang@huawei.com>,
+        Hulk Robot <hulkci@huawei.com>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sasha Levin <sashal@kernel.org>, isely@pobox.com,
+        Sasha Levin <sashal@kernel.org>, johan@kernel.org,
+        prabhakar.mahadev-lad.rj@bp.renesas.com,
+        laurent.pinchart@ideasonboard.com, cai.huoqing@linux.dev,
         linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 06/14] media: pvrusb2: fix memory leak in pvr_probe
-Date:   Thu, 11 Aug 2022 12:09:34 -0400
-Message-Id: <20220811160948.1542842-6-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.14 04/14] media: davinci: vpif: add missing of_node_put() in vpif_probe()
+Date:   Thu, 11 Aug 2022 12:10:33 -0400
+Message-Id: <20220811161050.1543183-4-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220811160948.1542842-1-sashal@kernel.org>
-References: <20220811160948.1542842-1-sashal@kernel.org>
+In-Reply-To: <20220811161050.1543183-1-sashal@kernel.org>
+References: <20220811161050.1543183-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -60,39 +62,35 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Dongliang Mu <mudongliangabcd@gmail.com>
+From: Yang Yingliang <yangyingliang@huawei.com>
 
-[ Upstream commit 945a9a8e448b65bec055d37eba58f711b39f66f0 ]
+[ Upstream commit bb45f5433f23cf103ba29c9692ee553e061f2cb4 ]
 
-The error handling code in pvr2_hdw_create forgets to unregister the
-v4l2 device. When pvr2_hdw_create returns back to pvr2_context_create,
-it calls pvr2_context_destroy to destroy context, but mp->hdw is NULL,
-which leads to that pvr2_hdw_destroy directly returns.
+of_graph_get_next_endpoint() returns an 'endpoint' node pointer
+with refcount incremented. The refcount should be decremented
+before returning from vpif_probe().
 
-Fix this by adding v4l2_device_unregister to decrease the refcount of
-usb interface.
-
-Reported-by: syzbot+77b432d57c4791183ed4@syzkaller.appspotmail.com
-Signed-off-by: Dongliang Mu <mudongliangabcd@gmail.com>
+Reported-by: Hulk Robot <hulkci@huawei.com>
+Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
 Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/usb/pvrusb2/pvrusb2-hdw.c | 1 +
+ drivers/media/platform/davinci/vpif.c | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/drivers/media/usb/pvrusb2/pvrusb2-hdw.c b/drivers/media/usb/pvrusb2/pvrusb2-hdw.c
-index bbb5ff16abd6..4cbb39bfb7da 100644
---- a/drivers/media/usb/pvrusb2/pvrusb2-hdw.c
-+++ b/drivers/media/usb/pvrusb2/pvrusb2-hdw.c
-@@ -2602,6 +2602,7 @@ struct pvr2_hdw *pvr2_hdw_create(struct usb_interface *intf,
- 		del_timer_sync(&hdw->encoder_run_timer);
- 		del_timer_sync(&hdw->encoder_wait_timer);
- 		flush_work(&hdw->workpoll);
-+		v4l2_device_unregister(&hdw->v4l2_dev);
- 		usb_free_urb(hdw->ctl_read_urb);
- 		usb_free_urb(hdw->ctl_write_urb);
- 		kfree(hdw->ctl_read_buffer);
+diff --git a/drivers/media/platform/davinci/vpif.c b/drivers/media/platform/davinci/vpif.c
+index 4ac0893282f5..a46316f5467b 100644
+--- a/drivers/media/platform/davinci/vpif.c
++++ b/drivers/media/platform/davinci/vpif.c
+@@ -449,6 +449,7 @@ static int vpif_probe(struct platform_device *pdev)
+ 					      endpoint);
+ 	if (!endpoint)
+ 		return 0;
++	of_node_put(endpoint);
+ 
+ 	/*
+ 	 * For DT platforms, manually create platform_devices for
 -- 
 2.35.1
 
