@@ -2,47 +2,47 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id ECD3658FFC0
-	for <lists+linux-media@lfdr.de>; Thu, 11 Aug 2022 17:33:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8EE6D58FFE8
+	for <lists+linux-media@lfdr.de>; Thu, 11 Aug 2022 17:36:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235695AbiHKPdH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 11 Aug 2022 11:33:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46806 "EHLO
+        id S236085AbiHKPf3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 11 Aug 2022 11:35:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58324 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235935AbiHKPcR (ORCPT
+        with ESMTP id S236061AbiHKPeq (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 11 Aug 2022 11:32:17 -0400
+        Thu, 11 Aug 2022 11:34:46 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2920899268;
-        Thu, 11 Aug 2022 08:31:22 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 407AF98A69;
+        Thu, 11 Aug 2022 08:32:44 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 87CD161629;
-        Thu, 11 Aug 2022 15:31:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CC8B1C433C1;
-        Thu, 11 Aug 2022 15:31:20 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 75CB36162D;
+        Thu, 11 Aug 2022 15:32:43 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D3D61C433D7;
+        Thu, 11 Aug 2022 15:32:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1660231881;
-        bh=tWgSr+DRnRR0cd/P0/BM0NpbtsePMct9xsm4rKnsmRI=;
+        s=k20201202; t=1660231962;
+        bh=aVDfoQXhnCJz3FkHiF1y08f1OF1Zx0Iw4ujPQBH0Bik=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=qZLm6g7ZlPdG119Sb4N/tIRObhMqCUobqSVYuVGEpYO6WyOxZECIQ+JDaQuWg1tNr
-         jghCZfKbDoAYlXF160iJHJODJY0I2EDUoUC93SiUqZqkx3WmeCE+DY3hK2znvSNm4P
-         bBc668R1lvK3cRLtgjzBg/QoDfMmIwV0b5xk3VSO9JGlzGyx+ylTS1SclFTmELm6r0
-         GmdD52EV+X/06yoQK2VK4VIAtB0PHs2v43V9ewT0ja5JzUKHkqEYT1p4hvLgDeY2XI
-         28EyajE2EVTctQxBKlbQ3I/mnX+RidvHVYukDMcAOY/RYjxLJoF9G3r1LpqJKkxkj9
-         JXqd2ldIiWAaQ==
+        b=CZbFGF7VdIL8rzt0i9Bep4/6fCsR3jZpAmzP4x9PS79cSWLIihgy7Rs8fpNpYZHn0
+         uQ/kar1qEfiaaz7OfZNz1wPfJIvN/M2rYxzbxwnQbNu7dNv6zShWzgylpfJCDALpn2
+         PueXHAowka+oZBbSgIeh2C8xfvifDaVl7cKhFVM5mURhc6jyydIR99Ft6/0/dfYjco
+         5eSmwwrcRQBpmJnT8kO8g6NzQbefeSWYnHDYArvJo8Z1JBeuaPx4VXFZUeHhMswBQ9
+         nIOiV/qE3Qck6vrD7yVaPZ+ltMQ4taVjtD5Il0cIOI+SgRkrBZNkC9+8BrayAuoG3u
+         Dv00WAhOx9l3w==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Vivek Kasireddy <vivek.kasireddy@intel.com>,
-        syzbot+10e27961f4da37c443b2@syzkaller.appspotmail.com,
-        Gerd Hoffmann <kraxel@redhat.com>,
-        Sasha Levin <sashal@kernel.org>, sumit.semwal@linaro.org,
-        christian.koenig@amd.com, dri-devel@lists.freedesktop.org,
-        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-Subject: [PATCH AUTOSEL 5.19 021/105] udmabuf: Set the DMA mask for the udmabuf device (v2)
-Date:   Thu, 11 Aug 2022 11:27:05 -0400
-Message-Id: <20220811152851.1520029-21-sashal@kernel.org>
+Cc:     Yang Yingliang <yangyingliang@huawei.com>,
+        Hulk Robot <hulkci@huawei.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sasha Levin <sashal@kernel.org>, prabhakar.csengg@gmail.com,
+        linux-media@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.19 031/105] media: davinci: vpif: add missing of_node_put() in vpif_probe()
+Date:   Thu, 11 Aug 2022 11:27:15 -0400
+Message-Id: <20220811152851.1520029-31-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220811152851.1520029-1-sashal@kernel.org>
 References: <20220811152851.1520029-1-sashal@kernel.org>
@@ -60,104 +60,35 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Vivek Kasireddy <vivek.kasireddy@intel.com>
+From: Yang Yingliang <yangyingliang@huawei.com>
 
-[ Upstream commit 9e9fa6a9198b767b00f48160800128e83a038f9f ]
+[ Upstream commit bb45f5433f23cf103ba29c9692ee553e061f2cb4 ]
 
-If the DMA mask is not set explicitly, the following warning occurs
-when the userspace tries to access the dma-buf via the CPU as
-reported by syzbot here:
+of_graph_get_next_endpoint() returns an 'endpoint' node pointer
+with refcount incremented. The refcount should be decremented
+before returning from vpif_probe().
 
-WARNING: CPU: 1 PID: 3595 at kernel/dma/mapping.c:188
-__dma_map_sg_attrs+0x181/0x1f0 kernel/dma/mapping.c:188
-Modules linked in:
-CPU: 0 PID: 3595 Comm: syz-executor249 Not tainted
-5.17.0-rc2-syzkaller-00316-g0457e5153e0e #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS
-Google 01/01/2011
-RIP: 0010:__dma_map_sg_attrs+0x181/0x1f0 kernel/dma/mapping.c:188
-Code: 00 00 00 00 00 fc ff df 48 c1 e8 03 80 3c 10 00 75 71 4c 8b 3d c0
-83 b5 0d e9 db fe ff ff e8 b6 0f 13 00 0f 0b e8 af 0f 13 00 <0f> 0b 45
-   31 e4 e9 54 ff ff ff e8 a0 0f 13 00 49 8d 7f 50 48 b8 00
-RSP: 0018:ffffc90002a07d68 EFLAGS: 00010293
-RAX: 0000000000000000 RBX: 0000000000000000 RCX: 0000000000000000
-RDX: ffff88807e25e2c0 RSI: ffffffff81649e91 RDI: ffff88801b848408
-RBP: ffff88801b848000 R08: 0000000000000002 R09: ffff88801d86c74f
-R10: ffffffff81649d72 R11: 0000000000000001 R12: 0000000000000002
-R13: ffff88801d86c680 R14: 0000000000000001 R15: 0000000000000000
-FS:  0000555556e30300(0000) GS:ffff8880b9d00000(0000)
-knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00000000200000cc CR3: 000000001d74a000 CR4: 00000000003506e0
-DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-Call Trace:
- <TASK>
- dma_map_sgtable+0x70/0xf0 kernel/dma/mapping.c:264
- get_sg_table.isra.0+0xe0/0x160 drivers/dma-buf/udmabuf.c:72
- begin_cpu_udmabuf+0x130/0x1d0 drivers/dma-buf/udmabuf.c:126
- dma_buf_begin_cpu_access+0xfd/0x1d0 drivers/dma-buf/dma-buf.c:1164
- dma_buf_ioctl+0x259/0x2b0 drivers/dma-buf/dma-buf.c:363
- vfs_ioctl fs/ioctl.c:51 [inline]
- __do_sys_ioctl fs/ioctl.c:874 [inline]
- __se_sys_ioctl fs/ioctl.c:860 [inline]
- __x64_sys_ioctl+0x193/0x200 fs/ioctl.c:860
- do_syscall_x64 arch/x86/entry/common.c:50 [inline]
- do_syscall_64+0x35/0xb0 arch/x86/entry/common.c:80
- entry_SYSCALL_64_after_hwframe+0x44/0xae
-RIP: 0033:0x7f62fcf530f9
-Code: 28 c3 e8 2a 14 00 00 66 2e 0f 1f 84 00 00 00 00 00 48 89 f8 48 89
-f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01
-f0 ff ff 73 01 c3 48 c7 c1 c0 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007ffe3edab9b8 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
-RAX: ffffffffffffffda RBX: 0000000000000000 RCX: 00007f62fcf530f9
-RDX: 0000000020000200 RSI: 0000000040086200 RDI: 0000000000000006
-RBP: 00007f62fcf170e0 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000246 R12: 00007f62fcf17170
-R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000000
- </TASK>
-
-v2: Dont't forget to deregister if DMA mask setup fails.
-
-Reported-by: syzbot+10e27961f4da37c443b2@syzkaller.appspotmail.com
-Cc: Gerd Hoffmann <kraxel@redhat.com>
-Signed-off-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
-Link: http://patchwork.freedesktop.org/patch/msgid/20220520205235.3687336-1-vivek.kasireddy@intel.com
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+Reported-by: Hulk Robot <hulkci@huawei.com>
+Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
+Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/dma-buf/udmabuf.c | 18 +++++++++++++++++-
- 1 file changed, 17 insertions(+), 1 deletion(-)
+ drivers/media/platform/ti/davinci/vpif.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/dma-buf/udmabuf.c b/drivers/dma-buf/udmabuf.c
-index 9631f2fd2faf..38e8767ec371 100644
---- a/drivers/dma-buf/udmabuf.c
-+++ b/drivers/dma-buf/udmabuf.c
-@@ -368,7 +368,23 @@ static struct miscdevice udmabuf_misc = {
+diff --git a/drivers/media/platform/ti/davinci/vpif.c b/drivers/media/platform/ti/davinci/vpif.c
+index 97ef770266af..da27da4c165a 100644
+--- a/drivers/media/platform/ti/davinci/vpif.c
++++ b/drivers/media/platform/ti/davinci/vpif.c
+@@ -469,6 +469,7 @@ static int vpif_probe(struct platform_device *pdev)
+ 					      endpoint);
+ 	if (!endpoint)
+ 		return 0;
++	of_node_put(endpoint);
  
- static int __init udmabuf_dev_init(void)
- {
--	return misc_register(&udmabuf_misc);
-+	int ret;
-+
-+	ret = misc_register(&udmabuf_misc);
-+	if (ret < 0) {
-+		pr_err("Could not initialize udmabuf device\n");
-+		return ret;
-+	}
-+
-+	ret = dma_coerce_mask_and_coherent(udmabuf_misc.this_device,
-+					   DMA_BIT_MASK(64));
-+	if (ret < 0) {
-+		pr_err("Could not setup DMA mask for udmabuf device\n");
-+		misc_deregister(&udmabuf_misc);
-+		return ret;
-+	}
-+
-+	return 0;
- }
- 
- static void __exit udmabuf_dev_exit(void)
+ 	/*
+ 	 * For DT platforms, manually create platform_devices for
 -- 
 2.35.1
 
