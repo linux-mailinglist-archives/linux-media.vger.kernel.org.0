@@ -2,62 +2,54 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 47CCC58FF97
-	for <lists+linux-media@lfdr.de>; Thu, 11 Aug 2022 17:32:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A77BA5901E8
+	for <lists+linux-media@lfdr.de>; Thu, 11 Aug 2022 18:01:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235854AbiHKPbn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 11 Aug 2022 11:31:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48226 "EHLO
+        id S236969AbiHKPyH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 11 Aug 2022 11:54:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36646 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235853AbiHKPbH (ORCPT
+        with ESMTP id S236715AbiHKPxb (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 11 Aug 2022 11:31:07 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8B735307;
-        Thu, 11 Aug 2022 08:30:19 -0700 (PDT)
+        Thu, 11 Aug 2022 11:53:31 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9372D9F185;
+        Thu, 11 Aug 2022 08:44:58 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 1BA0BB82123;
-        Thu, 11 Aug 2022 15:30:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 585DBC433D7;
-        Thu, 11 Aug 2022 15:30:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1660231816;
-        bh=ZxrDlidcW1fSUt1GEXOsflzYG9TTRgiHFTQGnIgMjRY=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=n1tFD1GWrhXUDzh55SvYPrR83fgGnvMzvV7bG4rCfKXBSg3hul31AzYVaISGiiWDu
-         lCMPPu/JPUi9Olqgy8cCXTZxKyJ+Fz0Y7FMWxKYEP1f/O+Zy1YTsYdhl8IT1NWgLBv
-         NoHR+xnd3fw6D2yYclBWE45wbIcZnOqbBTf8bcHo=
-Date:   Thu, 11 Aug 2022 17:30:13 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Paul Menzel <pmenzel@molgen.mpg.de>,
-        Wang Yating <yating.wang@intel.com>,
-        Christoph Jechlitschek <christoph.jechlitschek@intel.com>,
-        Hao Yao <hao.yao@intel.com>, Andy Yeh <andy.yeh@intel.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Bingbu Cao <bingbu.cao@intel.com>,
-        Tianshu Qiu <tian.shu.qiu@intel.com>,
-        linux-media@vger.kernel.org, Mark Pearson <markpearson@lenovo.com>,
-        Dell.Client.Kernel@dell.com, linux-kernel@vger.kernel.org,
-        Guenter Roeck <groeck@google.com>,
-        Sergey Senozhatsky <senozhatsky@chromium.org>,
-        Andy Whitcroft <apw@canonical.com>,
-        Kai-Heng Feng <kai.heng.feng@canonical.com>,
-        Christian Schaller <cschalle@redhat.com>,
-        Wouter Bolsterlee <wouter@bolsterl.ee>,
-        Miguel Palhas <mpalhas@gmail.com>, it+linux-media@molgen.mpg.de
-Subject: Re: Missing MIPI IPU6 camera driver for Intel Alder Lake laptops
-Message-ID: <YvUghWZbXIUofg5A@kroah.com>
-References: <52c87d91-422d-fca0-4dd5-bbaa559c81b6@molgen.mpg.de>
- <YvUKLbv/pOfbbeL+@pendragon.ideasonboard.com>
- <YvUaEDMbZD70x+hD@kroah.com>
- <YvUbhx4HSxAAwIvv@pendragon.ideasonboard.com>
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 2B471616DD;
+        Thu, 11 Aug 2022 15:44:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1E70DC433C1;
+        Thu, 11 Aug 2022 15:44:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1660232697;
+        bh=tWgSr+DRnRR0cd/P0/BM0NpbtsePMct9xsm4rKnsmRI=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=DW3fW0SwAtaHXWzBdEMbtZ9UK7RPDqXuJOkLfrlE1DYjJyCBVA0vO8PH7IB0d8G0E
+         czw+vVxkdlN0HhEsWujEB0dcossyXJH2RFoiP2HwOc3dL/BZDQPwxBb0SboZi4u6Ah
+         DchjAKT/+YBLaBSI5AsUFwXDfDCzdNtXalb1HCecr8OiIXlcW1BDSE8G79CBJksuEr
+         sOxOMwnqK/ERsXR8/66tCnGvBL3sI6W9dkV9XqoQe8TGgjcwtIaFz0RhfLLnq4Cvui
+         FX4J/4eD7JtWokQi804Siru5s6BZ+1I8vuCLwIWe265QXMfXKmh8lHeRvgnHmHPNZ+
+         CfEmvSmuPajkw==
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Vivek Kasireddy <vivek.kasireddy@intel.com>,
+        syzbot+10e27961f4da37c443b2@syzkaller.appspotmail.com,
+        Gerd Hoffmann <kraxel@redhat.com>,
+        Sasha Levin <sashal@kernel.org>, sumit.semwal@linaro.org,
+        christian.koenig@amd.com, dri-devel@lists.freedesktop.org,
+        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
+Subject: [PATCH AUTOSEL 5.18 20/93] udmabuf: Set the DMA mask for the udmabuf device (v2)
+Date:   Thu, 11 Aug 2022 11:41:14 -0400
+Message-Id: <20220811154237.1531313-20-sashal@kernel.org>
+X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220811154237.1531313-1-sashal@kernel.org>
+References: <20220811154237.1531313-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YvUbhx4HSxAAwIvv@pendragon.ideasonboard.com>
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-7.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
@@ -68,25 +60,104 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Aug 11, 2022 at 06:08:55PM +0300, Laurent Pinchart wrote:
-> On Thu, Aug 11, 2022 at 05:02:40PM +0200, Greg KH wrote:
-> > On Thu, Aug 11, 2022 at 04:54:53PM +0300, Laurent Pinchart wrote:
-> > > For the time being, I agree with your recommendation to not buy these
-> > > devices if you care about camera support.
-> > 
-> > I second this, don't buy these devices if the vendor is not willing to
-> > get their drivers upstreamed properly.
-> 
-> "Not willing" may be a bit too harsh here. I wouldn't just blame Intel
-> for not upstreaming a driver if it turns out that the V4L2 API isn't a
-> good match and we have no proposal to provide an alternative.
+From: Vivek Kasireddy <vivek.kasireddy@intel.com>
 
-Did they propose an alternative?  From what I saw here they didn't even
-attempt it, or did I miss that?
+[ Upstream commit 9e9fa6a9198b767b00f48160800128e83a038f9f ]
 
-Not even attempting is just not ok, as you say, they know where we are,
-it's not like we can hide...
+If the DMA mask is not set explicitly, the following warning occurs
+when the userspace tries to access the dma-buf via the CPU as
+reported by syzbot here:
 
-thanks,
+WARNING: CPU: 1 PID: 3595 at kernel/dma/mapping.c:188
+__dma_map_sg_attrs+0x181/0x1f0 kernel/dma/mapping.c:188
+Modules linked in:
+CPU: 0 PID: 3595 Comm: syz-executor249 Not tainted
+5.17.0-rc2-syzkaller-00316-g0457e5153e0e #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS
+Google 01/01/2011
+RIP: 0010:__dma_map_sg_attrs+0x181/0x1f0 kernel/dma/mapping.c:188
+Code: 00 00 00 00 00 fc ff df 48 c1 e8 03 80 3c 10 00 75 71 4c 8b 3d c0
+83 b5 0d e9 db fe ff ff e8 b6 0f 13 00 0f 0b e8 af 0f 13 00 <0f> 0b 45
+   31 e4 e9 54 ff ff ff e8 a0 0f 13 00 49 8d 7f 50 48 b8 00
+RSP: 0018:ffffc90002a07d68 EFLAGS: 00010293
+RAX: 0000000000000000 RBX: 0000000000000000 RCX: 0000000000000000
+RDX: ffff88807e25e2c0 RSI: ffffffff81649e91 RDI: ffff88801b848408
+RBP: ffff88801b848000 R08: 0000000000000002 R09: ffff88801d86c74f
+R10: ffffffff81649d72 R11: 0000000000000001 R12: 0000000000000002
+R13: ffff88801d86c680 R14: 0000000000000001 R15: 0000000000000000
+FS:  0000555556e30300(0000) GS:ffff8880b9d00000(0000)
+knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00000000200000cc CR3: 000000001d74a000 CR4: 00000000003506e0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+Call Trace:
+ <TASK>
+ dma_map_sgtable+0x70/0xf0 kernel/dma/mapping.c:264
+ get_sg_table.isra.0+0xe0/0x160 drivers/dma-buf/udmabuf.c:72
+ begin_cpu_udmabuf+0x130/0x1d0 drivers/dma-buf/udmabuf.c:126
+ dma_buf_begin_cpu_access+0xfd/0x1d0 drivers/dma-buf/dma-buf.c:1164
+ dma_buf_ioctl+0x259/0x2b0 drivers/dma-buf/dma-buf.c:363
+ vfs_ioctl fs/ioctl.c:51 [inline]
+ __do_sys_ioctl fs/ioctl.c:874 [inline]
+ __se_sys_ioctl fs/ioctl.c:860 [inline]
+ __x64_sys_ioctl+0x193/0x200 fs/ioctl.c:860
+ do_syscall_x64 arch/x86/entry/common.c:50 [inline]
+ do_syscall_64+0x35/0xb0 arch/x86/entry/common.c:80
+ entry_SYSCALL_64_after_hwframe+0x44/0xae
+RIP: 0033:0x7f62fcf530f9
+Code: 28 c3 e8 2a 14 00 00 66 2e 0f 1f 84 00 00 00 00 00 48 89 f8 48 89
+f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01
+f0 ff ff 73 01 c3 48 c7 c1 c0 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007ffe3edab9b8 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+RAX: ffffffffffffffda RBX: 0000000000000000 RCX: 00007f62fcf530f9
+RDX: 0000000020000200 RSI: 0000000040086200 RDI: 0000000000000006
+RBP: 00007f62fcf170e0 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 00007f62fcf17170
+R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000000
+ </TASK>
 
-greg k-h
+v2: Dont't forget to deregister if DMA mask setup fails.
+
+Reported-by: syzbot+10e27961f4da37c443b2@syzkaller.appspotmail.com
+Cc: Gerd Hoffmann <kraxel@redhat.com>
+Signed-off-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
+Link: http://patchwork.freedesktop.org/patch/msgid/20220520205235.3687336-1-vivek.kasireddy@intel.com
+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/dma-buf/udmabuf.c | 18 +++++++++++++++++-
+ 1 file changed, 17 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/dma-buf/udmabuf.c b/drivers/dma-buf/udmabuf.c
+index 9631f2fd2faf..38e8767ec371 100644
+--- a/drivers/dma-buf/udmabuf.c
++++ b/drivers/dma-buf/udmabuf.c
+@@ -368,7 +368,23 @@ static struct miscdevice udmabuf_misc = {
+ 
+ static int __init udmabuf_dev_init(void)
+ {
+-	return misc_register(&udmabuf_misc);
++	int ret;
++
++	ret = misc_register(&udmabuf_misc);
++	if (ret < 0) {
++		pr_err("Could not initialize udmabuf device\n");
++		return ret;
++	}
++
++	ret = dma_coerce_mask_and_coherent(udmabuf_misc.this_device,
++					   DMA_BIT_MASK(64));
++	if (ret < 0) {
++		pr_err("Could not setup DMA mask for udmabuf device\n");
++		misc_deregister(&udmabuf_misc);
++		return ret;
++	}
++
++	return 0;
+ }
+ 
+ static void __exit udmabuf_dev_exit(void)
+-- 
+2.35.1
+
