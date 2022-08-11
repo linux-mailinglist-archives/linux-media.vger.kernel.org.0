@@ -2,47 +2,48 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 010EC590304
-	for <lists+linux-media@lfdr.de>; Thu, 11 Aug 2022 18:21:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 856BE59031F
+	for <lists+linux-media@lfdr.de>; Thu, 11 Aug 2022 18:21:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237625AbiHKQTj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 11 Aug 2022 12:19:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58134 "EHLO
+        id S237600AbiHKQVT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 11 Aug 2022 12:21:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58588 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237588AbiHKQSu (ORCPT
+        with ESMTP id S237609AbiHKQUW (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 11 Aug 2022 12:18:50 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 15BE16278;
-        Thu, 11 Aug 2022 09:00:56 -0700 (PDT)
+        Thu, 11 Aug 2022 12:20:22 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 77B91AEDBC;
+        Thu, 11 Aug 2022 09:02:22 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 670AD6133D;
-        Thu, 11 Aug 2022 16:00:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 74818C433B5;
-        Thu, 11 Aug 2022 16:00:54 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 02E846137C;
+        Thu, 11 Aug 2022 16:02:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 01C33C433D6;
+        Thu, 11 Aug 2022 16:02:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1660233655;
-        bh=J+RHHWqG+OekTzNf4DdHUkmytDO27Tl5mVq6gk4cVpA=;
+        s=k20201202; t=1660233741;
+        bh=BV8jj4uDtRkShNpde69E+aTS/tFXYjqy6nYKYoj5vrs=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=RVihyXHAs/sVIjxnRA3VFi4DDxn0tJXN07ybc1I5zYYfJFY76lna+k/PehVpcZFqR
-         +/jI38ZzlYlyvhUuMTONcD29Dw03GtM7oOFdCKPYBZxFnOhhG0bNYdh258XvnOHGj2
-         jwCjtkIBy+h+LceJvqh8cjwBEgnBWkelwafrdcXwmcVpTGh7v2CkoT0Qnq2VTEFJNl
-         yxvmdwqdGsrW7/obTJafFBZW6Kx9JZ7R/533itmTT9mkN+5GwDNvmtu3I4MmfhAcvr
-         Ea/F/73YOSfU6q7p6BUbfTeTz7yTjRTLGyXHRoCFJOrKBlrCzdGkbiqsuOpC9/Hzm8
-         e8wXYLtMad8mA==
+        b=B8GU+AZK72+70tPLCON3fNdIHBnIFzv7jfaQ1wDfwdBQtnMBAI34ljr14tlQGcJsj
+         TuAr/rY/UjfMq/v4L0duEa+GFZlKS1iAVtOkaWXLneZHITlM2oMjM2S7xStw5tYwGd
+         Zq3z8I3iAs6A0k0qps4Or+nuShJ1MuZEiN9l85ShIAoG7vlR1QZwhg2sgrh/JUQD3J
+         +pgyxoyO2B16HixQbcTMXDaL+Ur50BUtV8YBNyI5syvjqB24x7vzbx+Xs6E7hsW5dY
+         Ercx/sGTfdmwgxwHGGMjoFUmCbpR2eQt4Le9V+dA6X3y1a5Uwc9oiOTYy5SElRet0h
+         GLFy+iTHk8Ylw==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Eugen Hristev <eugen.hristev@microchip.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Dafna Hirschfeld <dafna@fastmail.com>,
+        Paul Elder <paul.elder@ideasonboard.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sasha Levin <sashal@kernel.org>, nicolas.ferre@microchip.com,
-        alexandre.belloni@bootlin.com, claudiu.beznea@microchip.com,
-        linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Subject: [PATCH AUTOSEL 5.15 38/69] media: atmel: atmel-isc-base: allow wb ctrls to be changed when isc is not configured
-Date:   Thu, 11 Aug 2022 11:55:47 -0400
-Message-Id: <20220811155632.1536867-38-sashal@kernel.org>
+        Sasha Levin <sashal@kernel.org>, heiko@sntech.de,
+        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org
+Subject: [PATCH AUTOSEL 5.15 53/69] media: rkisp1: Disable runtime PM in probe error path
+Date:   Thu, 11 Aug 2022 11:56:02 -0400
+Message-Id: <20220811155632.1536867-53-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220811155632.1536867-1-sashal@kernel.org>
 References: <20220811155632.1536867-1-sashal@kernel.org>
@@ -60,66 +61,43 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Eugen Hristev <eugen.hristev@microchip.com>
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-[ Upstream commit aa63c5eaf7f7d2d3a4b1cc5782e7151b8ae3079f ]
+[ Upstream commit 13c9810281f8b24af9b7712cd84a1fce61843e93 ]
 
-When attempting to change the white balance (WB) ctrls before starting
-streaming, e.g.:
+If the v4l2_device_register() call fails, runtime PM is left enabled.
+Fix it.
 
- # v4l2-ctl -L
-
-User Controls
-..
-            blue_component_gain 0x009819c1 (int)    : min=0 max=8191 step=1 default=512 value=512 flags=slider
-..
- # v4l2-ctl --set-ctrl=blue_component_gain=500
- # v4l2-ctl -L
-..
-            blue_component_gain 0x009819c1 (int)    : min=0 max=8191 step=1 default=512 value=500 flags=slider
-..
-
-These will not be written to the internal data struct and will not be
-written to the WB hardware module.
-Thus, after starting streaming, they will be reset to default:
-
- # v4l2-ctl -L
-..
-            blue_component_gain 0x009819c1 (int)    : min=0 max=8191 step=1 default=512 value=512 flags=slider
-..
-
-It does not make much sense to not be able to configure the WB controls
-at all times. Even if the sensor would not be RAW Bayer (and in this case the
-WB module is unavailable), the user could configure the ISC itself, as the
-ISC should not care about the sensor format.
-Thus, when WB module is available (if the sensor changes format e.g.) it will
-be already configured as be user's desires.
-In consequence, remove the check in isc_s_awb_ctrl that will return if ISC
-does not know the sensor format.
-
-Signed-off-by: Eugen Hristev <eugen.hristev@microchip.com>
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Reviewed-by: Dafna Hirschfeld <dafna@fastmail.com>
+Reviewed-by: Paul Elder <paul.elder@ideasonboard.com>
 Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/platform/atmel/atmel-isc-base.c | 4 ----
- 1 file changed, 4 deletions(-)
+ drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/media/platform/atmel/atmel-isc-base.c b/drivers/media/platform/atmel/atmel-isc-base.c
-index f768be3c4059..0354d2d8202a 100644
---- a/drivers/media/platform/atmel/atmel-isc-base.c
-+++ b/drivers/media/platform/atmel/atmel-isc-base.c
-@@ -1804,10 +1804,6 @@ static int isc_s_awb_ctrl(struct v4l2_ctrl *ctrl)
- 		else
- 			ctrls->awb = ISC_WB_NONE;
+diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
+index 560f928c3752..79cfa99f2a64 100644
+--- a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
++++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
+@@ -514,7 +514,7 @@ static int rkisp1_probe(struct platform_device *pdev)
  
--		/* we did not configure ISC yet */
--		if (!isc->config.sd_format)
--			break;
--
- 		/* configure the controls with new values from v4l2 */
- 		if (ctrl->cluster[ISC_CTRL_R_GAIN]->is_new)
- 			ctrls->gain[ISC_HIS_CFG_MODE_R] = isc->r_gain_ctrl->val;
+ 	ret = v4l2_device_register(rkisp1->dev, &rkisp1->v4l2_dev);
+ 	if (ret)
+-		return ret;
++		goto err_pm_runtime_disable;
+ 
+ 	ret = media_device_register(&rkisp1->media_dev);
+ 	if (ret) {
+@@ -534,6 +534,7 @@ static int rkisp1_probe(struct platform_device *pdev)
+ 	media_device_unregister(&rkisp1->media_dev);
+ err_unreg_v4l2_dev:
+ 	v4l2_device_unregister(&rkisp1->v4l2_dev);
++err_pm_runtime_disable:
+ 	pm_runtime_disable(&pdev->dev);
+ 	return ret;
+ }
 -- 
 2.35.1
 
