@@ -2,1018 +2,903 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0E300590C57
-	for <lists+linux-media@lfdr.de>; Fri, 12 Aug 2022 09:15:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 41136590C64
+	for <lists+linux-media@lfdr.de>; Fri, 12 Aug 2022 09:20:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237223AbiHLHPG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 12 Aug 2022 03:15:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46886 "EHLO
+        id S236848AbiHLHT7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 12 Aug 2022 03:19:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51284 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236290AbiHLHPF (ORCPT
+        with ESMTP id S236378AbiHLHT4 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 12 Aug 2022 03:15:05 -0400
-Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7500D31DEA
-        for <linux-media@vger.kernel.org>; Fri, 12 Aug 2022 00:15:00 -0700 (PDT)
-Received: by mail-wr1-x431.google.com with SMTP id z12so204147wrs.9
-        for <linux-media@vger.kernel.org>; Fri, 12 Aug 2022 00:15:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amarulasolutions.com; s=google;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc;
-        bh=gkiolBSiflcShdLD6/gi7aG1vw5THmQ+vTU0RwLp9Ok=;
-        b=G2rRLukiLo018B1U9fFKhORr4CwXt1JybwFm+oEJvFspo3gLwBDFh32QjfbJd1k2Mq
-         dcOnzEwBjt2AOcLnTr3OOp5s49Gqhl6tmHm27rvNeu/+E+Ao4LEpnv7Eoo140wt8X/Eo
-         Td7NXI6HMXp1z81dID6KorY03WWtFWxm9vAhk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
-        bh=gkiolBSiflcShdLD6/gi7aG1vw5THmQ+vTU0RwLp9Ok=;
-        b=EoRwnF2L/H7bLsavmPzCx8PwgYpVlJq60Eqda1Anu1xQC5h7muCQzigVATn+Q5irwN
-         6au+xaW25vle9ydsMM2G/Ucdqywvq9fuAv8iApsAUwpsGozzTSImlY4dRX20j10eWZGs
-         w4QMHKpBo4bD+BZGqnO4zr/HcF/8ejqspv+IAMLOG6ZBLIxGCcjYAUhsvY5nhYT6TEg2
-         pDpGmvLs3KagIU8NHMKV6L3a9Pp6lBDZT4veJ77dK62qWSZfHt4CGXbOWN4EIbItDDsv
-         BA+RWhgoyNz8GFR6S2ZKmug7wh9cfQZJBeKxFV/yVOL1TBhmaQqDAW/Gb/IQlRBWQr3m
-         0+FQ==
-X-Gm-Message-State: ACgBeo1B6iPZeQ2fece8VhA5dNxo89TInLEbCriHw3A5U2eSvhadW0/X
-        CHc+nFRY4jVbMEBo/kpgN7T/+w==
-X-Google-Smtp-Source: AA6agR4/Eiijyv1orkdy7rqGKGy96xTkcxQuTEd83wqWp4JG8uwwJQViVrF+p/LJATojPYxaiqeHEg==
-X-Received: by 2002:adf:eb52:0:b0:223:9164:b5b4 with SMTP id u18-20020adfeb52000000b002239164b5b4mr1297926wrn.518.1660288498789;
-        Fri, 12 Aug 2022 00:14:58 -0700 (PDT)
-Received: from tom-ThinkPad-T14s-Gen-2i (net-188-217-51-7.cust.vodafonedsl.it. [188.217.51.7])
-        by smtp.gmail.com with ESMTPSA id x3-20020a5d6503000000b0021f0c05859esm1149955wru.71.2022.08.12.00.14.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 12 Aug 2022 00:14:58 -0700 (PDT)
-Date:   Fri, 12 Aug 2022 09:14:55 +0200
-From:   Tommaso Merciai <tommaso.merciai@amarulasolutions.com>
-To:     Ming Qian <ming.qian@nxp.com>
-Cc:     mchehab@kernel.org, hverkuil-cisco@xs4all.nl, shawnguo@kernel.org,
-        robh+dt@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
-        festevam@gmail.com, linux-imx@nxp.com, xiahong.bao@nxp.com,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v4 2/4] media: amphion: tell and handle contiguous and
- non contiguous format
-Message-ID: <20220812071455.GB5705@tom-ThinkPad-T14s-Gen-2i>
+        Fri, 12 Aug 2022 03:19:56 -0400
+Received: from EUR02-VE1-obe.outbound.protection.outlook.com (mail-eopbgr20050.outbound.protection.outlook.com [40.107.2.50])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 004B9A404F;
+        Fri, 12 Aug 2022 00:19:52 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=TxOMdzDGuK7qg1j5Fh3YRPrCljGHaD/hzPTTp/v4J5NYIwRRXjfnZyikGJZJ9+lY2jfNr/ccCVonZQS9ysiWzYgXzp/VAuwdmS1Zh1gSsdpLX25xUpkVhYLKpHIsrf04yHN7xu0LS8MCw+4mgwYNEpMhcVN/SiqLt+wGAPL0sGC+Mh/mUJdjjilxKq5s7+GNNP73Zjg+Y7+/hsrfywxeO9D2jSyRx/wrfUXCeV8m1Rd3x1ovmO4dzrhOG+pLy6PQYmYTRz+eZNQI0LsSMkNhVcaBEHy1vaqpeun2SjrPt204BKukNx0oPPMQ52VcfJ+rzgFmMIhIyolOu7o5Fmz4rw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=xgPQNWtPUFhVsSEw6CjsIuqVpJ2N/9gHOAvTs9kRxeQ=;
+ b=iQkkqDoNIwDthylSbTRD8ye6bKF+/nGjM6kzGS8+9Hxx55dIhP1qVbptFKPqDCejrxc3UFwrZJZ0dIGUgaValQ+fkx2IijxkdEmfRskDFrgIvnPudyYWz3XbzongGtstvosrCk7Ov7B/D5VLpdRBUSg7/SJqilW1nArouYCqZtaXWXF38pqmxc03LR3TwLZk/k35wst5vIghWDHDdQXplzBqcNMvPtr/q2iEh4BqwAJpeLlWDvAztha7y6627gz/f/ds8mUOuE4kpa7APUOZgSunVRbo/7HnxAd21Ear50vKeSE3pzcBR304DDU3IAKR0sC5SmQ99DzjprvqYYmBaA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=xgPQNWtPUFhVsSEw6CjsIuqVpJ2N/9gHOAvTs9kRxeQ=;
+ b=nS1LYm49s3pI5mRPjLtQtJQlRjdS+zqAIR1LJQ+fPEbFkXntOSJSMSROMl+f9sHg+nSrTuBJJxSBBod+5w1JWU7J97imfvBB0MfRgVWa2gl4KXhllDhG2Ed7esJR64P/HG2mtQAMPM7+zyBpUcVWSMqnQ5EVoYGIq0Q27HTXfa0=
+Received: from AM6PR04MB6341.eurprd04.prod.outlook.com (2603:10a6:20b:d8::14)
+ by VE1PR04MB6719.eurprd04.prod.outlook.com (2603:10a6:803:128::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5525.10; Fri, 12 Aug
+ 2022 07:19:49 +0000
+Received: from AM6PR04MB6341.eurprd04.prod.outlook.com
+ ([fe80::5db6:3f08:2e04:33c]) by AM6PR04MB6341.eurprd04.prod.outlook.com
+ ([fe80::5db6:3f08:2e04:33c%4]) with mapi id 15.20.5504.025; Fri, 12 Aug 2022
+ 07:19:49 +0000
+From:   Ming Qian <ming.qian@nxp.com>
+To:     Tommaso Merciai <tommaso.merciai@amarulasolutions.com>
+CC:     "mchehab@kernel.org" <mchehab@kernel.org>,
+        "hverkuil-cisco@xs4all.nl" <hverkuil-cisco@xs4all.nl>,
+        "shawnguo@kernel.org" <shawnguo@kernel.org>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "s.hauer@pengutronix.de" <s.hauer@pengutronix.de>,
+        "kernel@pengutronix.de" <kernel@pengutronix.de>,
+        "festevam@gmail.com" <festevam@gmail.com>,
+        dl-linux-imx <linux-imx@nxp.com>,
+        "X.H. Bao" <xiahong.bao@nxp.com>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>
+Subject: RE: [EXT] Re: [PATCH v4 2/4] media: amphion: tell and handle
+ contiguous and non contiguous format
+Thread-Topic: [EXT] Re: [PATCH v4 2/4] media: amphion: tell and handle
+ contiguous and non contiguous format
+Thread-Index: AQHYq7vKlvLkxGBCKE6M1xb7c2cV8q2q3vqAgAABDpA=
+Date:   Fri, 12 Aug 2022 07:19:49 +0000
+Message-ID: <AM6PR04MB6341C1F3DABFE3F724E800C7E7679@AM6PR04MB6341.eurprd04.prod.outlook.com>
 References: <cover.1660027440.git.ming.qian@nxp.com>
  <4af9766eb664a02d1c5884cb48fadef24dec142f.1660027440.git.ming.qian@nxp.com>
+ <20220812071455.GB5705@tom-ThinkPad-T14s-Gen-2i>
+In-Reply-To: <20220812071455.GB5705@tom-ThinkPad-T14s-Gen-2i>
+Accept-Language: zh-CN, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: b0785bdb-3dfa-4e89-8d61-08da7c330ace
+x-ms-traffictypediagnostic: VE1PR04MB6719:EE_
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: g7zI6bDjNGLoeW9pWmzmv2Z7aFpuQWQnaj+Uyu9hssq6Pimb5NUgz4z7oFzDrehzw17d171G6Uh4R7+g9pHK2EuOxsbVaYiGV6EEAGoaS+PVzQCzX0/WOfxZ8+ghfDV3liWxaIimpwAM2HkgqnpuEUMUV7ZGgd7WDQf0hEplfcuDVUy9OtfBvIM6HSyDOujYQc+SPLScFi9cPER+26SZorip7PRVJc+Osb7zx08SV2LjAWOrKcbmkHq/EY74+7IM+Q5bf/aPDsWeqjmdpXLKdcYPVL04EzKEm283XWVYFBQA71JpzMQd8RF1cHXVROO9/HMm1exlbawtaA/lbxL89IsupyGTc0xfQtj7a7stxZyutZ6gAHp1To8vPtst5U7x7zIeHcc7mFY9D5mCOXQ/dqSfl0DP6Gb7k+lbwwO1/0WowCq2WKN8nLCcn9C+nM3ghIKdgXFFTIxdkpWFDUTBxR8YVMw3L6jQQ46BdQVa1DhVaTfvyB/x9QKZCqhq4XBn6KVbIVkDb0buGas/yto5vlFIJn1mURGqcOspmX/P7d15qZ5Yg73IB8wCS2lrP1dyU3jlUNJyR5LX0/ey4pEsJrA5idv+su9vPL7b+MjrZPFgVIlMy+dr0HpyjrBaQPk9WdMsMo9KgB7WybovyOlQM3L1exVFncjWixu5uoiOD397ZSVix4DXaKouSHZ8FATMt5/+ccy3qlMBQq6U4qbBZL03fHjs/22adjEuAAvj7fAa4Yw9ljvE8m70c1OmT/iWlspy5OCOfNN24pXfcv5ySXIz3oZI3aBKsjXmHjdWeH7yd36WHHlaF5/t8Izc3S1f8yqOnIz2L0y42YrJdD2lvQ==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6PR04MB6341.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(136003)(376002)(39860400002)(396003)(346002)(366004)(478600001)(7696005)(41300700001)(26005)(9686003)(71200400001)(86362001)(40140700001)(38070700005)(33656002)(186003)(6506007)(966005)(45080400002)(83380400001)(4326008)(64756008)(55016003)(5660300002)(66476007)(66946007)(66556008)(66446008)(316002)(8676002)(54906003)(6916009)(76116006)(122000001)(38100700002)(7416002)(30864003)(2906002)(8936002)(44832011)(52536014)(579004)(559001);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?gb2312?B?UkxQVnNDRzBsQVIxd2VoTlB5WDNuQU1GcFcya2V5cXRaKzEwbmVvdjhjWEt0?=
+ =?gb2312?B?dmJCd1prTStpM2VMS0NGOEEyQXdsK1RKWnBndzZQdFl0ZmRpRHpoZFBkUkFZ?=
+ =?gb2312?B?SFpzYlAxM3hRSVoxRWVvUFlESXJRVlBrWDByN1Njc0dQWE82aUZmVWZZem1i?=
+ =?gb2312?B?d1lQOWN4SE9ncDRLcmI4NGtjVWs2Z2gyb3hLVHhFMVp1TGlZL0xTUFBoaFVs?=
+ =?gb2312?B?c280QXhZK1BNdndPc2pHUEJsU0tJa25GS295VmRib21HZURCSDZPUWt4b2ts?=
+ =?gb2312?B?dnV2TFpPTGZISDlyamluV3RJNmt3Y2N0djIwUmhTbDBieU0rQ1cxTEZYbG51?=
+ =?gb2312?B?YS9tdVZmazhrUDNqeWNvQzRZVHBpN2ZTa1FsUmVqekpxWE9MSjVPYlo0anJr?=
+ =?gb2312?B?Ymh2dTlIYjl6Q1NHaEdvTWJTelRYZCt1eklQOXJiQ3FLZ0YxQkExWnJYaVkw?=
+ =?gb2312?B?OUpBSUZ4Kyt6RkF3azc4eW5FOXExM2JSN0FRUkdJMXdVN0l4Y2M1WFdzQUFn?=
+ =?gb2312?B?ekh3OTB1a3lKMVFyVmdxdzVrdWdpTkZ5Vk5MVjYxTk1VN1BSZ0NXdkhYaWVm?=
+ =?gb2312?B?VHpVWDJVMjBJSE5uTmFDZVlqVWwyVWlLUU5sU2xrai9haTFId1d0NTZlcmx2?=
+ =?gb2312?B?U0xSOXZzeDRQS2t1aFlpQ1k2RHRjbEZGK2IzemxTYWNRbGx4Nno2bXYzNzB3?=
+ =?gb2312?B?WnZCNStONGgzV2xtOVFja1BMeUUzSzkzaUdBTGl1QjUvNGN0Ymd4cWJBbEZy?=
+ =?gb2312?B?cUJwTkJKZXd0NFVNOEJxMmhjL0E4UWh4KzRHSVVOZGxYT1l3UUo5Rmx3SGt2?=
+ =?gb2312?B?Vnk5SVJzUmx2cEtxdC9tQVkrWkMzL1huWHU4UmZpWU5rZ1VVd2FINDB0UzBN?=
+ =?gb2312?B?R0ZLN0ZWUFBtUjR4VFJITUJmb2FqWlhJZUxscCtxSGFKaEVNMk5QV1YrdUNR?=
+ =?gb2312?B?azNKalZneDdHb2dHRkFTZTdOTVRYL1lybytwK0dUMk9MSGR4NW9WTlltYkkx?=
+ =?gb2312?B?ME5JelNhMnJmajI4ZmZsTFpkdFJ6em94NUFNOTdEZnJpTkhCTzFCeXRBc0pn?=
+ =?gb2312?B?NUdyNzlpTU5mNkNFNXQvckRlS0hxWWs2UUtBdlpwT21DSWZFQS9xSmxYd09R?=
+ =?gb2312?B?WDRRVEFsam9HMEJGZmZRTHFvSFB3YU5nRW14OHN5RkFNZXd0bVIzdjJiM1Zs?=
+ =?gb2312?B?THV1SVhwcjMwRjY1TUMxTm1FY09qbGo4dkJzT2wramZFTWpZL1AzZ3NRelpF?=
+ =?gb2312?B?YUI5NlMrNGt0S2QwMkcrZnYvTTJERXFxMjBjSGFXSmxFRTI5bUdKMlloZXBt?=
+ =?gb2312?B?NDRybEdDVHArSzlGQjZDRzhvS0Q3aW1aZHU4U3puOVZHbDRqZ1ZnRUtwcW1Q?=
+ =?gb2312?B?NENHVlE1d0ZkNHRNV2lXT0NJOUYrWmF2bEJmZTJJV3dqMEJmMDZMWE5qeGtL?=
+ =?gb2312?B?a0NIZHNLNmE1dCs0NFdIMzc3enJsd3NWMDYvTHVhQUQ5M0RQMFdPTkFybTNB?=
+ =?gb2312?B?YzNWYU9IZ05zU1ZCSlFGYldnNFMvK0ppbXRlcDFPaEJBSEFzUlJIMnRicHVE?=
+ =?gb2312?B?L0F2QVZqcmhUTnF2MENuZWpQRlUxSGVXM3E4Y0xWQzZneXFmQnc3THVXOS91?=
+ =?gb2312?B?d2N4M3prZnJWdDdkL2ZqSmVmSk94S1pqcGh0M1pkaWlINnI2RVVqaDQyM2NE?=
+ =?gb2312?B?YnZXcGhwcXVpMzFCSnVuait4NGlSMlg5U2tKbFBKVm85bHdWejZrYjVpbVNn?=
+ =?gb2312?B?K3FtSzUwcFBWVjl1RTBYaVlXQUQyQkwyVnBlQ1hmRXIwYU5OMDlsQlpOU0RI?=
+ =?gb2312?B?Mm1oRDcwMHF1VjJyYXd0ZEM3Mnhwczh2NzhCRHVoS0g3V0xranR0NXFheUkr?=
+ =?gb2312?B?V1dmcS9UTXB0WHdpTnd2dnZHL3BFRFJqUWhNVGEwVWlLcnN6aE9BZTRONitU?=
+ =?gb2312?B?SGtpMFN6V0x4MlJraGROUEFpQUd2L0VMMTZmdFBuVmNHTnIzaFo4eWZkVmZI?=
+ =?gb2312?B?ZU1UYmN5TGljUXlyaVhZR0lUR3dVRWNoanBHSVJqOTJOUUlXaFUzWlNYSWY0?=
+ =?gb2312?B?c1RXV2R6eTkrdm96ZnhjNDJ3KzNOY2ZDeWg0cUg4SEN4RUtZSDQ5OUVMUHFq?=
+ =?gb2312?Q?hj7I=3D?=
+Content-Type: text/plain; charset="gb2312"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <4af9766eb664a02d1c5884cb48fadef24dec142f.1660027440.git.ming.qian@nxp.com>
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: AM6PR04MB6341.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b0785bdb-3dfa-4e89-8d61-08da7c330ace
+X-MS-Exchange-CrossTenant-originalarrivaltime: 12 Aug 2022 07:19:49.2675
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: o+Gu9BuvNx9BuSpIilJ74naM+8iRSFxoxssVI7VGP5WZYmFb+yH2dKnaL/hF65W67h4ItbcGm/yWNLdPO93gmg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VE1PR04MB6719
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Ming,
-Just an info. I'm planning to help to review your series.
-On which Linux tree are you working?
-
-Thanks in advance,
-Tommaso
-
-On Tue, Aug 09, 2022 at 02:50:39PM +0800, Ming Qian wrote:
-> Driver should tell the number of memory planes and component planes.
-> the amphion vpu support non contiguous planes,
-> but for compatibility with other device
-> that only support contiguous planes.
-> driver can add support for contiguous planes in the same time.
-> Then the mem_planes can be different from the comp_planes.
-> driver need to handle buffer according mem_planes and comp_planes.
-> 
-> So driver can support NV12 and NV12M.
-> 
-> Signed-off-by: Ming Qian <ming.qian@nxp.com>
-> ---
->  drivers/media/platform/amphion/vdec.c        | 187 ++++++++++---------
->  drivers/media/platform/amphion/venc.c        |  33 ++--
->  drivers/media/platform/amphion/vpu.h         |   4 +-
->  drivers/media/platform/amphion/vpu_dbg.c     |   8 +-
->  drivers/media/platform/amphion/vpu_helpers.c |  48 ++++-
->  drivers/media/platform/amphion/vpu_helpers.h |   2 +
->  drivers/media/platform/amphion/vpu_malone.c  |   3 +-
->  drivers/media/platform/amphion/vpu_v4l2.c    | 168 ++++++++++++-----
->  drivers/media/platform/amphion/vpu_v4l2.h    |   3 +-
->  drivers/media/platform/amphion/vpu_windsor.c |   8 +-
->  10 files changed, 299 insertions(+), 165 deletions(-)
-> 
-> diff --git a/drivers/media/platform/amphion/vdec.c b/drivers/media/platform/amphion/vdec.c
-> index feb75dc204de..48ab664fa7ef 100644
-> --- a/drivers/media/platform/amphion/vdec.c
-> +++ b/drivers/media/platform/amphion/vdec.c
-> @@ -69,72 +69,85 @@ struct vdec_t {
->  static const struct vpu_format vdec_formats[] = {
->  	{
->  		.pixfmt = V4L2_PIX_FMT_NV12M_8L128,
-> -		.num_planes = 2,
-> +		.mem_planes = 2,
-> +		.comp_planes = 2,
->  		.type = V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE,
->  	},
->  	{
->  		.pixfmt = V4L2_PIX_FMT_NV12M_10BE_8L128,
-> -		.num_planes = 2,
-> +		.mem_planes = 2,
-> +		.comp_planes = 2,
->  		.type = V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE,
->  	},
->  	{
->  		.pixfmt = V4L2_PIX_FMT_H264,
-> -		.num_planes = 1,
-> +		.mem_planes = 1,
-> +		.comp_planes = 1,
->  		.type = V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE,
-> -		.flags = V4L2_FMT_FLAG_DYN_RESOLUTION
-> +		.flags = V4L2_FMT_FLAG_DYN_RESOLUTION | V4L2_FMT_FLAG_COMPRESSED
->  	},
->  	{
->  		.pixfmt = V4L2_PIX_FMT_H264_MVC,
-> -		.num_planes = 1,
-> +		.mem_planes = 1,
-> +		.comp_planes = 1,
->  		.type = V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE,
-> -		.flags = V4L2_FMT_FLAG_DYN_RESOLUTION
-> +		.flags = V4L2_FMT_FLAG_DYN_RESOLUTION | V4L2_FMT_FLAG_COMPRESSED
->  	},
->  	{
->  		.pixfmt = V4L2_PIX_FMT_HEVC,
-> -		.num_planes = 1,
-> +		.mem_planes = 1,
-> +		.comp_planes = 1,
->  		.type = V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE,
-> -		.flags = V4L2_FMT_FLAG_DYN_RESOLUTION
-> +		.flags = V4L2_FMT_FLAG_DYN_RESOLUTION | V4L2_FMT_FLAG_COMPRESSED
->  	},
->  	{
->  		.pixfmt = V4L2_PIX_FMT_VC1_ANNEX_G,
-> -		.num_planes = 1,
-> +		.mem_planes = 1,
-> +		.comp_planes = 1,
->  		.type = V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE,
-> -		.flags = V4L2_FMT_FLAG_DYN_RESOLUTION
-> +		.flags = V4L2_FMT_FLAG_DYN_RESOLUTION | V4L2_FMT_FLAG_COMPRESSED
->  	},
->  	{
->  		.pixfmt = V4L2_PIX_FMT_VC1_ANNEX_L,
-> -		.num_planes = 1,
-> +		.mem_planes = 1,
-> +		.comp_planes = 1,
->  		.type = V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE,
-> +		.flags = V4L2_FMT_FLAG_COMPRESSED
->  	},
->  	{
->  		.pixfmt = V4L2_PIX_FMT_MPEG2,
-> -		.num_planes = 1,
-> +		.mem_planes = 1,
-> +		.comp_planes = 1,
->  		.type = V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE,
-> -		.flags = V4L2_FMT_FLAG_DYN_RESOLUTION
-> +		.flags = V4L2_FMT_FLAG_DYN_RESOLUTION | V4L2_FMT_FLAG_COMPRESSED
->  	},
->  	{
->  		.pixfmt = V4L2_PIX_FMT_MPEG4,
-> -		.num_planes = 1,
-> +		.mem_planes = 1,
-> +		.comp_planes = 1,
->  		.type = V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE,
-> -		.flags = V4L2_FMT_FLAG_DYN_RESOLUTION
-> +		.flags = V4L2_FMT_FLAG_DYN_RESOLUTION | V4L2_FMT_FLAG_COMPRESSED
->  	},
->  	{
->  		.pixfmt = V4L2_PIX_FMT_XVID,
-> -		.num_planes = 1,
-> +		.mem_planes = 1,
-> +		.comp_planes = 1,
->  		.type = V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE,
-> -		.flags = V4L2_FMT_FLAG_DYN_RESOLUTION
-> +		.flags = V4L2_FMT_FLAG_DYN_RESOLUTION | V4L2_FMT_FLAG_COMPRESSED
->  	},
->  	{
->  		.pixfmt = V4L2_PIX_FMT_VP8,
-> -		.num_planes = 1,
-> +		.mem_planes = 1,
-> +		.comp_planes = 1,
->  		.type = V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE,
-> -		.flags = V4L2_FMT_FLAG_DYN_RESOLUTION
-> +		.flags = V4L2_FMT_FLAG_DYN_RESOLUTION | V4L2_FMT_FLAG_COMPRESSED
->  	},
->  	{
->  		.pixfmt = V4L2_PIX_FMT_H263,
-> -		.num_planes = 1,
-> +		.mem_planes = 1,
-> +		.comp_planes = 1,
->  		.type = V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE,
-> -		.flags = V4L2_FMT_FLAG_DYN_RESOLUTION
-> +		.flags = V4L2_FMT_FLAG_DYN_RESOLUTION | V4L2_FMT_FLAG_COMPRESSED
->  	},
->  	{0, 0, 0, 0},
->  };
-> @@ -256,23 +269,22 @@ static int vdec_enum_fmt(struct file *file, void *fh, struct v4l2_fmtdesc *f)
->  	int ret = -EINVAL;
->  
->  	vpu_inst_lock(inst);
-> -	if (!V4L2_TYPE_IS_OUTPUT(f->type) && vdec->fixed_fmt) {
-> -		if (f->index == 0) {
-> -			f->pixelformat = inst->cap_format.pixfmt;
-> -			f->flags = inst->cap_format.flags;
-> -			ret = 0;
-> -		}
-> +	if (V4L2_TYPE_IS_CAPTURE(f->type) && vdec->fixed_fmt) {
-> +		fmt = vpu_get_format(inst, f->type);
-> +		if (f->index == 1)
-> +			fmt = vpu_helper_find_sibling(inst, f->type, fmt->pixfmt);
-> +		if (f->index > 1)
-> +			fmt = NULL;
->  	} else {
->  		fmt = vpu_helper_enum_format(inst, f->type, f->index);
-> -		memset(f->reserved, 0, sizeof(f->reserved));
-> -		if (!fmt)
-> -			goto exit;
-> -
-> -		f->pixelformat = fmt->pixfmt;
-> -		f->flags = fmt->flags;
-> -		ret = 0;
->  	}
-> +	if (!fmt)
-> +		goto exit;
->  
-> +	memset(f->reserved, 0, sizeof(f->reserved));
-> +	f->pixelformat = fmt->pixfmt;
-> +	f->flags = fmt->flags;
-> +	ret = 0;
->  exit:
->  	vpu_inst_unlock(inst);
->  	return ret;
-> @@ -289,14 +301,14 @@ static int vdec_g_fmt(struct file *file, void *fh, struct v4l2_format *f)
->  	cur_fmt = vpu_get_format(inst, f->type);
->  
->  	pixmp->pixelformat = cur_fmt->pixfmt;
-> -	pixmp->num_planes = cur_fmt->num_planes;
-> +	pixmp->num_planes = cur_fmt->mem_planes;
->  	pixmp->width = cur_fmt->width;
->  	pixmp->height = cur_fmt->height;
->  	pixmp->field = cur_fmt->field;
->  	pixmp->flags = cur_fmt->flags;
->  	for (i = 0; i < pixmp->num_planes; i++) {
->  		pixmp->plane_fmt[i].bytesperline = cur_fmt->bytesperline[i];
-> -		pixmp->plane_fmt[i].sizeimage = cur_fmt->sizeimage[i];
-> +		pixmp->plane_fmt[i].sizeimage = vpu_get_fmt_plane_size(cur_fmt, i);
->  	}
->  
->  	f->fmt.pix_mp.colorspace = vdec->codec_info.color_primaries;
-> @@ -311,10 +323,19 @@ static int vdec_try_fmt(struct file *file, void *fh, struct v4l2_format *f)
->  {
->  	struct vpu_inst *inst = to_inst(file);
->  	struct vdec_t *vdec = inst->priv;
-> -
-> -	vpu_try_fmt_common(inst, f);
-> +	struct vpu_format fmt;
->  
->  	vpu_inst_lock(inst);
-> +	if (V4L2_TYPE_IS_CAPTURE(f->type) && vdec->fixed_fmt) {
-> +		struct vpu_format *cap_fmt = vpu_get_format(inst, f->type);
-> +
-> +		if (!vpu_helper_match_format(inst, cap_fmt->type, cap_fmt->pixfmt,
-> +					     f->fmt.pix_mp.pixelformat))
-> +			f->fmt.pix_mp.pixelformat = cap_fmt->pixfmt;
-> +	}
-> +
-> +	vpu_try_fmt_common(inst, f, &fmt);
-> +
->  	if (vdec->fixed_fmt) {
->  		f->fmt.pix_mp.colorspace = vdec->codec_info.color_primaries;
->  		f->fmt.pix_mp.xfer_func = vdec->codec_info.transfer_chars;
-> @@ -334,7 +355,7 @@ static int vdec_try_fmt(struct file *file, void *fh, struct v4l2_format *f)
->  static int vdec_s_fmt_common(struct vpu_inst *inst, struct v4l2_format *f)
->  {
->  	struct v4l2_pix_format_mplane *pixmp = &f->fmt.pix_mp;
-> -	const struct vpu_format *fmt;
-> +	struct vpu_format fmt;
->  	struct vpu_format *cur_fmt;
->  	struct vb2_queue *q;
->  	struct vdec_t *vdec = inst->priv;
-> @@ -349,36 +370,30 @@ static int vdec_s_fmt_common(struct vpu_inst *inst, struct v4l2_format *f)
->  	if (vb2_is_busy(q))
->  		return -EBUSY;
->  
-> -	fmt = vpu_try_fmt_common(inst, f);
-> -	if (!fmt)
-> +	if (vpu_try_fmt_common(inst, f, &fmt))
->  		return -EINVAL;
->  
->  	cur_fmt = vpu_get_format(inst, f->type);
->  	if (V4L2_TYPE_IS_OUTPUT(f->type) && inst->state != VPU_CODEC_STATE_DEINIT) {
-> -		if (cur_fmt->pixfmt != fmt->pixfmt) {
-> +		if (cur_fmt->pixfmt != fmt.pixfmt) {
->  			vdec->reset_codec = true;
->  			vdec->fixed_fmt = false;
->  		}
->  	}
-> -	cur_fmt->pixfmt = fmt->pixfmt;
->  	if (V4L2_TYPE_IS_OUTPUT(f->type) || !vdec->fixed_fmt) {
-> -		cur_fmt->num_planes = fmt->num_planes;
-> -		cur_fmt->flags = fmt->flags;
-> -		cur_fmt->width = pixmp->width;
-> -		cur_fmt->height = pixmp->height;
-> -		for (i = 0; i < fmt->num_planes; i++) {
-> -			cur_fmt->sizeimage[i] = pixmp->plane_fmt[i].sizeimage;
-> -			cur_fmt->bytesperline[i] = pixmp->plane_fmt[i].bytesperline;
-> -		}
-> -		if (pixmp->field != V4L2_FIELD_ANY)
-> -			cur_fmt->field = pixmp->field;
-> +		memcpy(cur_fmt, &fmt, sizeof(*cur_fmt));
->  	} else {
-> -		pixmp->num_planes = cur_fmt->num_planes;
-> +		if (vpu_helper_match_format(inst, f->type, cur_fmt->pixfmt, pixmp->pixelformat)) {
-> +			cur_fmt->pixfmt = fmt.pixfmt;
-> +			cur_fmt->mem_planes = fmt.mem_planes;
-> +		}
-> +		pixmp->pixelformat = cur_fmt->pixfmt;
-> +		pixmp->num_planes = cur_fmt->mem_planes;
->  		pixmp->width = cur_fmt->width;
->  		pixmp->height = cur_fmt->height;
->  		for (i = 0; i < pixmp->num_planes; i++) {
->  			pixmp->plane_fmt[i].bytesperline = cur_fmt->bytesperline[i];
-> -			pixmp->plane_fmt[i].sizeimage = cur_fmt->sizeimage[i];
-> +			pixmp->plane_fmt[i].sizeimage = vpu_get_fmt_plane_size(cur_fmt, i);
->  		}
->  		pixmp->field = cur_fmt->field;
->  	}
-> @@ -678,9 +693,11 @@ static struct vpu_vb2_buffer *vdec_find_buffer(struct vpu_inst *inst, u32 luma)
->  static void vdec_buf_done(struct vpu_inst *inst, struct vpu_frame_info *frame)
->  {
->  	struct vdec_t *vdec = inst->priv;
-> +	struct vpu_format *cur_fmt;
->  	struct vpu_vb2_buffer *vpu_buf;
->  	struct vb2_v4l2_buffer *vbuf;
->  	u32 sequence;
-> +	int i;
->  
->  	if (!frame)
->  		return;
-> @@ -699,6 +716,7 @@ static void vdec_buf_done(struct vpu_inst *inst, struct vpu_frame_info *frame)
->  		return;
->  	}
->  
-> +	cur_fmt = vpu_get_format(inst, inst->cap_format.type);
->  	vbuf = &vpu_buf->m2m_buf.vb;
->  	if (vbuf->vb2_buf.index != frame->id)
->  		dev_err(inst->dev, "[%d] buffer id(%d, %d) dismatch\n",
-> @@ -707,9 +725,9 @@ static void vdec_buf_done(struct vpu_inst *inst, struct vpu_frame_info *frame)
->  	if (vpu_get_buffer_state(vbuf) != VPU_BUF_STATE_DECODED)
->  		dev_err(inst->dev, "[%d] buffer(%d) ready without decoded\n", inst->id, frame->id);
->  	vpu_set_buffer_state(vbuf, VPU_BUF_STATE_READY);
-> -	vb2_set_plane_payload(&vbuf->vb2_buf, 0, inst->cap_format.sizeimage[0]);
-> -	vb2_set_plane_payload(&vbuf->vb2_buf, 1, inst->cap_format.sizeimage[1]);
-> -	vbuf->field = inst->cap_format.field;
-> +	for (i = 0; i < vbuf->vb2_buf.num_planes; i++)
-> +		vb2_set_plane_payload(&vbuf->vb2_buf, i, vpu_get_fmt_plane_size(cur_fmt, i));
-> +	vbuf->field = cur_fmt->field;
->  	vbuf->sequence = sequence;
->  	dev_dbg(inst->dev, "[%d][OUTPUT TS]%32lld\n", inst->id, vbuf->vb2_buf.timestamp);
->  
-> @@ -747,15 +765,17 @@ static void vdec_stop_done(struct vpu_inst *inst)
->  static bool vdec_check_source_change(struct vpu_inst *inst)
->  {
->  	struct vdec_t *vdec = inst->priv;
-> -	const struct vpu_format *fmt;
-> -	int i;
-> +	const struct vpu_format *sibling;
->  
->  	if (!inst->fh.m2m_ctx)
->  		return false;
->  
-> +	sibling = vpu_helper_find_sibling(inst, inst->cap_format.type, inst->cap_format.pixfmt);
-> +	if (sibling && vdec->codec_info.pixfmt == sibling->pixfmt)
-> +		vdec->codec_info.pixfmt = inst->cap_format.pixfmt;
-> +
->  	if (!vb2_is_streaming(v4l2_m2m_get_dst_vq(inst->fh.m2m_ctx)))
->  		return true;
-> -	fmt = vpu_helper_find_format(inst, inst->cap_format.type, vdec->codec_info.pixfmt);
->  	if (inst->cap_format.pixfmt != vdec->codec_info.pixfmt)
->  		return true;
->  	if (inst->cap_format.width != vdec->codec_info.decoded_width)
-> @@ -772,14 +792,6 @@ static bool vdec_check_source_change(struct vpu_inst *inst)
->  		return true;
->  	if (inst->crop.height != vdec->codec_info.height)
->  		return true;
-> -	if (fmt && inst->cap_format.num_planes != fmt->num_planes)
-> -		return true;
-> -	for (i = 0; i < inst->cap_format.num_planes; i++) {
-> -		if (inst->cap_format.bytesperline[i] != vdec->codec_info.bytesperline[i])
-> -			return true;
-> -		if (inst->cap_format.sizeimage[i] != vdec->codec_info.sizeimage[i])
-> -			return true;
-> -	}
->  
->  	return false;
->  }
-> @@ -787,27 +799,21 @@ static bool vdec_check_source_change(struct vpu_inst *inst)
->  static void vdec_init_fmt(struct vpu_inst *inst)
->  {
->  	struct vdec_t *vdec = inst->priv;
-> -	const struct vpu_format *fmt;
-> -	int i;
-> +	struct v4l2_format f;
->  
-> -	fmt = vpu_helper_find_format(inst, inst->cap_format.type, vdec->codec_info.pixfmt);
-> -	inst->out_format.width = vdec->codec_info.width;
-> -	inst->out_format.height = vdec->codec_info.height;
-> -	inst->cap_format.width = vdec->codec_info.decoded_width;
-> -	inst->cap_format.height = vdec->codec_info.decoded_height;
-> -	inst->cap_format.pixfmt = vdec->codec_info.pixfmt;
-> -	if (fmt) {
-> -		inst->cap_format.num_planes = fmt->num_planes;
-> -		inst->cap_format.flags = fmt->flags;
-> -	}
-> -	for (i = 0; i < inst->cap_format.num_planes; i++) {
-> -		inst->cap_format.bytesperline[i] = vdec->codec_info.bytesperline[i];
-> -		inst->cap_format.sizeimage[i] = vdec->codec_info.sizeimage[i];
-> -	}
-> +	memset(&f, 0, sizeof(f));
-> +	f.type = inst->cap_format.type;
-> +	f.fmt.pix_mp.pixelformat = vdec->codec_info.pixfmt;
-> +	f.fmt.pix_mp.width = vdec->codec_info.decoded_width;
-> +	f.fmt.pix_mp.height = vdec->codec_info.decoded_height;
->  	if (vdec->codec_info.progressive)
-> -		inst->cap_format.field = V4L2_FIELD_NONE;
-> +		f.fmt.pix_mp.field = V4L2_FIELD_NONE;
->  	else
-> -		inst->cap_format.field = V4L2_FIELD_SEQ_TB;
-> +		f.fmt.pix_mp.field = V4L2_FIELD_SEQ_TB;
-> +	vpu_try_fmt_common(inst, &f, &inst->cap_format);
-> +
-> +	inst->out_format.width = vdec->codec_info.width;
-> +	inst->out_format.height = vdec->codec_info.height;
->  }
->  
->  static void vdec_init_crop(struct vpu_inst *inst)
-> @@ -966,7 +972,10 @@ static int vdec_response_frame(struct vpu_inst *inst, struct vb2_v4l2_buffer *vb
->  	info.tag = vdec->seq_tag;
->  	info.luma_addr = vpu_get_vb_phy_addr(&vbuf->vb2_buf, 0);
->  	info.luma_size = inst->cap_format.sizeimage[0];
-> -	info.chroma_addr = vpu_get_vb_phy_addr(&vbuf->vb2_buf, 1);
-> +	if (vbuf->vb2_buf.num_planes > 1)
-> +		info.chroma_addr = vpu_get_vb_phy_addr(&vbuf->vb2_buf, 1);
-> +	else
-> +		info.chroma_addr = info.luma_addr + info.luma_size;
->  	info.chromau_size = inst->cap_format.sizeimage[1];
->  	info.bytesperline = inst->cap_format.bytesperline[0];
->  	ret = vpu_session_alloc_fs(inst, &info);
-> @@ -975,7 +984,7 @@ static int vdec_response_frame(struct vpu_inst *inst, struct vb2_v4l2_buffer *vb
->  
->  	vpu_buf->tag = info.tag;
->  	vpu_buf->luma = info.luma_addr;
-> -	vpu_buf->chroma_u = info.chromau_size;
-> +	vpu_buf->chroma_u = info.chroma_addr;
->  	vpu_buf->chroma_v = 0;
->  	vpu_set_buffer_state(vbuf, VPU_BUF_STATE_INUSE);
->  	vdec->slots[info.id] = vpu_buf;
-> diff --git a/drivers/media/platform/amphion/venc.c b/drivers/media/platform/amphion/venc.c
-> index 37212f087fdd..060a1ee78b17 100644
-> --- a/drivers/media/platform/amphion/venc.c
-> +++ b/drivers/media/platform/amphion/venc.c
-> @@ -69,13 +69,16 @@ struct venc_frame_t {
->  static const struct vpu_format venc_formats[] = {
->  	{
->  		.pixfmt = V4L2_PIX_FMT_NV12M,
-> -		.num_planes = 2,
-> +		.mem_planes = 2,
-> +		.comp_planes = 2,
->  		.type = V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE,
->  	},
->  	{
->  		.pixfmt = V4L2_PIX_FMT_H264,
-> -		.num_planes = 1,
-> +		.mem_planes = 1,
-> +		.comp_planes = 1,
->  		.type = V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE,
-> +		.flags = V4L2_FMT_FLAG_COMPRESSED
->  	},
->  	{0, 0, 0, 0},
->  };
-> @@ -173,14 +176,14 @@ static int venc_g_fmt(struct file *file, void *fh, struct v4l2_format *f)
->  	cur_fmt = vpu_get_format(inst, f->type);
->  
->  	pixmp->pixelformat = cur_fmt->pixfmt;
-> -	pixmp->num_planes = cur_fmt->num_planes;
-> +	pixmp->num_planes = cur_fmt->mem_planes;
->  	pixmp->width = cur_fmt->width;
->  	pixmp->height = cur_fmt->height;
->  	pixmp->field = cur_fmt->field;
->  	pixmp->flags = cur_fmt->flags;
->  	for (i = 0; i < pixmp->num_planes; i++) {
->  		pixmp->plane_fmt[i].bytesperline = cur_fmt->bytesperline[i];
-> -		pixmp->plane_fmt[i].sizeimage = cur_fmt->sizeimage[i];
-> +		pixmp->plane_fmt[i].sizeimage = vpu_get_fmt_plane_size(cur_fmt, i);
->  	}
->  
->  	f->fmt.pix_mp.colorspace = venc->params.color.primaries;
-> @@ -194,8 +197,9 @@ static int venc_g_fmt(struct file *file, void *fh, struct v4l2_format *f)
->  static int venc_try_fmt(struct file *file, void *fh, struct v4l2_format *f)
->  {
->  	struct vpu_inst *inst = to_inst(file);
-> +	struct vpu_format fmt;
->  
-> -	vpu_try_fmt_common(inst, f);
-> +	vpu_try_fmt_common(inst, f, &fmt);
->  
->  	return 0;
->  }
-> @@ -203,12 +207,11 @@ static int venc_try_fmt(struct file *file, void *fh, struct v4l2_format *f)
->  static int venc_s_fmt(struct file *file, void *fh, struct v4l2_format *f)
->  {
->  	struct vpu_inst *inst = to_inst(file);
-> -	const struct vpu_format *fmt;
-> +	struct vpu_format fmt;
->  	struct vpu_format *cur_fmt;
->  	struct vb2_queue *q;
->  	struct venc_t *venc = inst->priv;
->  	struct v4l2_pix_format_mplane *pix_mp = &f->fmt.pix_mp;
-> -	int i;
->  
->  	q = v4l2_m2m_get_vq(inst->fh.m2m_ctx, f->type);
->  	if (!q)
-> @@ -216,24 +219,12 @@ static int venc_s_fmt(struct file *file, void *fh, struct v4l2_format *f)
->  	if (vb2_is_busy(q))
->  		return -EBUSY;
->  
-> -	fmt = vpu_try_fmt_common(inst, f);
-> -	if (!fmt)
-> +	if (vpu_try_fmt_common(inst, f, &fmt))
->  		return -EINVAL;
->  
->  	cur_fmt = vpu_get_format(inst, f->type);
->  
-> -	cur_fmt->pixfmt = fmt->pixfmt;
-> -	cur_fmt->num_planes = fmt->num_planes;
-> -	cur_fmt->flags = fmt->flags;
-> -	cur_fmt->width = pix_mp->width;
-> -	cur_fmt->height = pix_mp->height;
-> -	for (i = 0; i < fmt->num_planes; i++) {
-> -		cur_fmt->sizeimage[i] = pix_mp->plane_fmt[i].sizeimage;
-> -		cur_fmt->bytesperline[i] = pix_mp->plane_fmt[i].bytesperline;
-> -	}
-> -
-> -	if (pix_mp->field != V4L2_FIELD_ANY)
-> -		cur_fmt->field = pix_mp->field;
-> +	memcpy(cur_fmt, &fmt, sizeof(*cur_fmt));
->  
->  	if (V4L2_TYPE_IS_OUTPUT(f->type)) {
->  		venc->params.input_format = cur_fmt->pixfmt;
-> diff --git a/drivers/media/platform/amphion/vpu.h b/drivers/media/platform/amphion/vpu.h
-> index f914de6ed81e..998591fa5b85 100644
-> --- a/drivers/media/platform/amphion/vpu.h
-> +++ b/drivers/media/platform/amphion/vpu.h
-> @@ -84,7 +84,8 @@ struct vpu_dev {
->  
->  struct vpu_format {
->  	u32 pixfmt;
-> -	unsigned int num_planes;
-> +	u32 mem_planes;
-> +	u32 comp_planes;
->  	u32 type;
->  	u32 flags;
->  	u32 width;
-> @@ -92,6 +93,7 @@ struct vpu_format {
->  	u32 sizeimage[VIDEO_MAX_PLANES];
->  	u32 bytesperline[VIDEO_MAX_PLANES];
->  	u32 field;
-> +	u32 sibling;
->  };
->  
->  struct vpu_core_resources {
-> diff --git a/drivers/media/platform/amphion/vpu_dbg.c b/drivers/media/platform/amphion/vpu_dbg.c
-> index f72c8a506b22..c41c9896912c 100644
-> --- a/drivers/media/platform/amphion/vpu_dbg.c
-> +++ b/drivers/media/platform/amphion/vpu_dbg.c
-> @@ -89,9 +89,9 @@ static int vpu_dbg_instance(struct seq_file *s, void *data)
->  			vq->last_buffer_dequeued);
->  	if (seq_write(s, str, num))
->  		return 0;
-> -	for (i = 0; i < inst->out_format.num_planes; i++) {
-> +	for (i = 0; i < inst->out_format.mem_planes; i++) {
->  		num = scnprintf(str, sizeof(str), " %d(%d)",
-> -				inst->out_format.sizeimage[i],
-> +				vpu_get_fmt_plane_size(&inst->out_format, i),
->  				inst->out_format.bytesperline[i]);
->  		if (seq_write(s, str, num))
->  			return 0;
-> @@ -113,9 +113,9 @@ static int vpu_dbg_instance(struct seq_file *s, void *data)
->  			vq->last_buffer_dequeued);
->  	if (seq_write(s, str, num))
->  		return 0;
-> -	for (i = 0; i < inst->cap_format.num_planes; i++) {
-> +	for (i = 0; i < inst->cap_format.mem_planes; i++) {
->  		num = scnprintf(str, sizeof(str), " %d(%d)",
-> -				inst->cap_format.sizeimage[i],
-> +				vpu_get_fmt_plane_size(&inst->cap_format, i),
->  				inst->cap_format.bytesperline[i]);
->  		if (seq_write(s, str, num))
->  			return 0;
-> diff --git a/drivers/media/platform/amphion/vpu_helpers.c b/drivers/media/platform/amphion/vpu_helpers.c
-> index e9aeb3453dfc..db8f471b9187 100644
-> --- a/drivers/media/platform/amphion/vpu_helpers.c
-> +++ b/drivers/media/platform/amphion/vpu_helpers.c
-> @@ -59,6 +59,39 @@ const struct vpu_format *vpu_helper_find_format(struct vpu_inst *inst, u32 type,
->  	return NULL;
->  }
->  
-> +const struct vpu_format *vpu_helper_find_sibling(struct vpu_inst *inst, u32 type, u32 pixelfmt)
-> +{
-> +	const struct vpu_format *fmt;
-> +	const struct vpu_format *sibling;
-> +
-> +	fmt = vpu_helper_find_format(inst, type, pixelfmt);
-> +	if (!fmt)
-> +		return NULL;
-> +	if (!fmt->sibling)
-> +		return NULL;
-> +	sibling = vpu_helper_find_format(inst, type, fmt->sibling);
-> +	if (!sibling)
-> +		return NULL;
-> +	if (sibling->sibling != fmt->pixfmt)
-> +		return NULL;
-> +	if (sibling->comp_planes != fmt->comp_planes)
-> +		return NULL;
-> +	return sibling;
-> +}
-> +
-> +bool vpu_helper_match_format(struct vpu_inst *inst, u32 type, u32 fmta, u32 fmtb)
-> +{
-> +	const struct vpu_format *sibling;
-> +
-> +	if (fmta == fmtb)
-> +		return true;
-> +
-> +	sibling = vpu_helper_find_sibling(inst, type, fmta);
-> +	if (sibling && sibling->pixfmt == fmtb)
-> +		return true;
-> +	return false;
-> +}
-> +
->  const struct vpu_format *vpu_helper_enum_format(struct vpu_inst *inst, u32 type, int index)
->  {
->  	const struct vpu_format *pfmt;
-> @@ -123,9 +156,10 @@ static u32 get_nv12_plane_size(u32 width, u32 height, int plane_no,
->  	u32 bytesperline;
->  	u32 size = 0;
->  
-> -	bytesperline = ALIGN(width, stride);
-> +	bytesperline = width;
->  	if (pbl)
->  		bytesperline = max(bytesperline, *pbl);
-> +	bytesperline = ALIGN(bytesperline, stride);
->  	height = ALIGN(height, 2);
->  	if (plane_no == 0)
->  		size = bytesperline * height;
-> @@ -148,13 +182,13 @@ static u32 get_tiled_8l128_plane_size(u32 fmt, u32 width, u32 height, int plane_
->  
->  	if (interlaced)
->  		hs++;
-> -	if (fmt == V4L2_PIX_FMT_NV12M_10BE_8L128)
-> +	if (fmt == V4L2_PIX_FMT_NV12M_10BE_8L128 || fmt == V4L2_PIX_FMT_NV12_10BE_8L128)
->  		bitdepth = 10;
->  	bytesperline = DIV_ROUND_UP(width * bitdepth, BITS_PER_BYTE);
-> -	bytesperline = ALIGN(bytesperline, 1 << ws);
-> -	bytesperline = ALIGN(bytesperline, stride);
->  	if (pbl)
->  		bytesperline = max(bytesperline, *pbl);
-> +	bytesperline = ALIGN(bytesperline, 1 << ws);
-> +	bytesperline = ALIGN(bytesperline, stride);
->  	height = ALIGN(height, 1 << hs);
->  	if (plane_no == 0)
->  		size = bytesperline * height;
-> @@ -172,9 +206,10 @@ static u32 get_default_plane_size(u32 width, u32 height, int plane_no,
->  	u32 bytesperline;
->  	u32 size = 0;
->  
-> -	bytesperline = ALIGN(width, stride);
-> +	bytesperline = width;
->  	if (pbl)
->  		bytesperline = max(bytesperline, *pbl);
-> +	bytesperline = ALIGN(bytesperline, stride);
->  	if (plane_no == 0)
->  		size = bytesperline * height;
->  	if (pbl)
-> @@ -187,9 +222,12 @@ u32 vpu_helper_get_plane_size(u32 fmt, u32 w, u32 h, int plane_no,
->  			      u32 stride, u32 interlaced, u32 *pbl)
->  {
->  	switch (fmt) {
-> +	case V4L2_PIX_FMT_NV12:
->  	case V4L2_PIX_FMT_NV12M:
->  		return get_nv12_plane_size(w, h, plane_no, stride, interlaced, pbl);
-> +	case V4L2_PIX_FMT_NV12_8L128:
->  	case V4L2_PIX_FMT_NV12M_8L128:
-> +	case V4L2_PIX_FMT_NV12_10BE_8L128:
->  	case V4L2_PIX_FMT_NV12M_10BE_8L128:
->  		return get_tiled_8l128_plane_size(fmt, w, h, plane_no, stride, interlaced, pbl);
->  	default:
-> diff --git a/drivers/media/platform/amphion/vpu_helpers.h b/drivers/media/platform/amphion/vpu_helpers.h
-> index bc28350958be..0eaddb07190d 100644
-> --- a/drivers/media/platform/amphion/vpu_helpers.h
-> +++ b/drivers/media/platform/amphion/vpu_helpers.h
-> @@ -14,6 +14,8 @@ struct vpu_pair {
->  int vpu_helper_find_in_array_u8(const u8 *array, u32 size, u32 x);
->  bool vpu_helper_check_type(struct vpu_inst *inst, u32 type);
->  const struct vpu_format *vpu_helper_find_format(struct vpu_inst *inst, u32 type, u32 pixelfmt);
-> +const struct vpu_format *vpu_helper_find_sibling(struct vpu_inst *inst, u32 type, u32 pixelfmt);
-> +bool vpu_helper_match_format(struct vpu_inst *inst, u32 type, u32 fmta, u32 fmtb);
->  const struct vpu_format *vpu_helper_enum_format(struct vpu_inst *inst, u32 type, int index);
->  u32 vpu_helper_valid_frame_width(struct vpu_inst *inst, u32 width);
->  u32 vpu_helper_valid_frame_height(struct vpu_inst *inst, u32 height);
-> diff --git a/drivers/media/platform/amphion/vpu_malone.c b/drivers/media/platform/amphion/vpu_malone.c
-> index 51e0702f9ae1..69d9a2269fce 100644
-> --- a/drivers/media/platform/amphion/vpu_malone.c
-> +++ b/drivers/media/platform/amphion/vpu_malone.c
-> @@ -583,7 +583,8 @@ bool vpu_malone_check_fmt(enum vpu_core_type type, u32 pixelfmt)
->  	if (!vpu_imx8q_check_fmt(type, pixelfmt))
->  		return false;
->  
-> -	if (pixelfmt == V4L2_PIX_FMT_NV12M_8L128 || pixelfmt == V4L2_PIX_FMT_NV12M_10BE_8L128)
-> +	if (pixelfmt == V4L2_PIX_FMT_NV12_8L128 || pixelfmt == V4L2_PIX_FMT_NV12_10BE_8L128 ||
-> +	    pixelfmt == V4L2_PIX_FMT_NV12M_8L128 || pixelfmt == V4L2_PIX_FMT_NV12M_10BE_8L128)
->  		return true;
->  	if (vpu_malone_format_remap(pixelfmt) == MALONE_FMT_NULL)
->  		return false;
-> diff --git a/drivers/media/platform/amphion/vpu_v4l2.c b/drivers/media/platform/amphion/vpu_v4l2.c
-> index 8a3eed957ae6..87cce552e906 100644
-> --- a/drivers/media/platform/amphion/vpu_v4l2.c
-> +++ b/drivers/media/platform/amphion/vpu_v4l2.c
-> @@ -140,51 +140,135 @@ bool vpu_is_source_empty(struct vpu_inst *inst)
->  	return true;
->  }
->  
-> -const struct vpu_format *vpu_try_fmt_common(struct vpu_inst *inst, struct v4l2_format *f)
-> +static int vpu_init_format(struct vpu_inst *inst, struct vpu_format *fmt)
-> +{
-> +	const struct vpu_format *info;
-> +
-> +	info = vpu_helper_find_format(inst, fmt->type, fmt->pixfmt);
-> +	if (!info) {
-> +		info = vpu_helper_enum_format(inst, fmt->type, 0);
-> +		if (!info)
-> +			return -EINVAL;
-> +	}
-> +	memcpy(fmt, info, sizeof(*fmt));
-> +
-> +	return 0;
-> +}
-> +
-> +static int vpu_calc_fmt_bytesperline(struct v4l2_format *f, struct vpu_format *fmt)
->  {
->  	struct v4l2_pix_format_mplane *pixmp = &f->fmt.pix_mp;
-> -	u32 type = f->type;
-> +	int i;
-> +
-> +	if (fmt->flags & V4L2_FMT_FLAG_COMPRESSED) {
-> +		for (i = 0; i < fmt->comp_planes; i++)
-> +			fmt->bytesperline[i] = 0;
-> +		return 0;
-> +	}
-> +	if (pixmp->num_planes == fmt->comp_planes) {
-> +		for (i = 0; i < fmt->comp_planes; i++)
-> +			fmt->bytesperline[i] = pixmp->plane_fmt[i].bytesperline;
-> +		return 0;
-> +	}
-> +	if (pixmp->num_planes > 1)
-> +		return -EINVAL;
-> +
-> +	/*amphion vpu only support nv12 and nv12 tiled,
-> +	 * so the bytesperline of luma and chroma should be same
-> +	 */
-> +	for (i = 0; i < fmt->comp_planes; i++)
-> +		fmt->bytesperline[i] = pixmp->plane_fmt[0].bytesperline;
-> +
-> +	return 0;
-> +}
-> +
-> +static int vpu_calc_fmt_sizeimage(struct vpu_inst *inst, struct vpu_format *fmt)
-> +{
->  	u32 stride = 1;
-> -	u32 bytesperline;
-> -	u32 sizeimage;
-> -	const struct vpu_format *fmt;
-> -	const struct vpu_core_resources *res;
->  	int i;
->  
-> -	fmt = vpu_helper_find_format(inst, type, pixmp->pixelformat);
-> -	if (!fmt) {
-> -		fmt = vpu_helper_enum_format(inst, type, 0);
-> -		if (!fmt)
-> -			return NULL;
-> -		pixmp->pixelformat = fmt->pixfmt;
-> +	if (!(fmt->flags & V4L2_FMT_FLAG_COMPRESSED)) {
-> +		const struct vpu_core_resources *res = vpu_get_resource(inst);
-> +
-> +		if (res)
-> +			stride = res->stride;
->  	}
->  
-> -	res = vpu_get_resource(inst);
-> -	if (res)
-> -		stride = res->stride;
-> -	if (pixmp->width)
-> -		pixmp->width = vpu_helper_valid_frame_width(inst, pixmp->width);
-> -	if (pixmp->height)
-> -		pixmp->height = vpu_helper_valid_frame_height(inst, pixmp->height);
-> +	for (i = 0; i < fmt->comp_planes; i++) {
-> +		fmt->sizeimage[i] = vpu_helper_get_plane_size(fmt->pixfmt,
-> +							      fmt->width,
-> +							      fmt->height,
-> +							      i,
-> +							      stride,
-> +							      fmt->field != V4L2_FIELD_NONE ? 1 : 0,
-> +							      &fmt->bytesperline[i]);
-> +		fmt->sizeimage[i] = max_t(u32, fmt->sizeimage[i], PAGE_SIZE);
-> +		if (fmt->flags & V4L2_FMT_FLAG_COMPRESSED) {
-> +			fmt->sizeimage[i] = clamp_val(fmt->sizeimage[i], SZ_128K, SZ_8M);
-> +			fmt->bytesperline[i] = 0;
-> +		}
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +u32 vpu_get_fmt_plane_size(struct vpu_format *fmt, u32 plane_no)
-> +{
-> +	u32 size;
-> +	int i;
-> +
-> +	if (plane_no >= fmt->mem_planes)
-> +		return 0;
-> +
-> +	if (fmt->comp_planes == fmt->mem_planes)
-> +		return fmt->sizeimage[plane_no];
-> +	if (plane_no < fmt->mem_planes - 1)
-> +		return fmt->sizeimage[plane_no];
-> +	size = fmt->sizeimage[plane_no];
-> +	for (i = fmt->mem_planes; i < fmt->comp_planes; i++)
-> +		size += fmt->sizeimage[i];
-> +
-> +	return size;
-> +}
-> +
-> +int vpu_try_fmt_common(struct vpu_inst *inst, struct v4l2_format *f, struct vpu_format *fmt)
-> +{
-> +	struct v4l2_pix_format_mplane *pixmp = &f->fmt.pix_mp;
-> +	int i;
-> +	int ret;
-> +
-> +	fmt->pixfmt = pixmp->pixelformat;
-> +	fmt->type = f->type;
-> +	ret = vpu_init_format(inst, fmt);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	fmt->width = pixmp->width;
-> +	fmt->height = pixmp->height;
-> +	if (fmt->width)
-> +		fmt->width = vpu_helper_valid_frame_width(inst, fmt->width);
-> +	if (fmt->height)
-> +		fmt->height = vpu_helper_valid_frame_height(inst, fmt->height);
-> +	fmt->field = pixmp->field == V4L2_FIELD_ANY ? V4L2_FIELD_NONE : pixmp->field;
-> +	vpu_calc_fmt_bytesperline(f, fmt);
-> +	vpu_calc_fmt_sizeimage(inst, fmt);
-> +	if ((fmt->flags & V4L2_FMT_FLAG_COMPRESSED) && pixmp->plane_fmt[0].sizeimage)
-> +		fmt->sizeimage[0] = clamp_val(pixmp->plane_fmt[0].sizeimage, SZ_128K, SZ_8M);
-> +
-> +	pixmp->pixelformat = fmt->pixfmt;
-> +	pixmp->width = fmt->width;
-> +	pixmp->height = fmt->height;
->  	pixmp->flags = fmt->flags;
-> -	pixmp->num_planes = fmt->num_planes;
-> -	if (pixmp->field == V4L2_FIELD_ANY)
-> -		pixmp->field = V4L2_FIELD_NONE;
-> +	pixmp->num_planes = fmt->mem_planes;
-> +	pixmp->field = fmt->field;
-> +	memset(pixmp->reserved, 0, sizeof(pixmp->reserved));
->  	for (i = 0; i < pixmp->num_planes; i++) {
-> -		bytesperline = max_t(s32, pixmp->plane_fmt[i].bytesperline, 0);
-> -		sizeimage = vpu_helper_get_plane_size(pixmp->pixelformat,
-> -						      pixmp->width,
-> -						      pixmp->height,
-> -						      i,
-> -						      stride,
-> -						      pixmp->field > V4L2_FIELD_NONE ? 1 : 0,
-> -						      &bytesperline);
-> -		sizeimage = max_t(s32, pixmp->plane_fmt[i].sizeimage, sizeimage);
-> -		pixmp->plane_fmt[i].bytesperline = bytesperline;
-> -		pixmp->plane_fmt[i].sizeimage = sizeimage;
-> +		pixmp->plane_fmt[i].bytesperline = fmt->bytesperline[i];
-> +		pixmp->plane_fmt[i].sizeimage = vpu_get_fmt_plane_size(fmt, i);
-> +		memset(pixmp->plane_fmt[i].reserved, 0, sizeof(pixmp->plane_fmt[i].reserved));
->  	}
->  
-> -	return fmt;
-> +	return 0;
->  }
->  
->  static bool vpu_check_ready(struct vpu_inst *inst, u32 type)
-> @@ -389,10 +473,10 @@ static int vpu_vb2_queue_setup(struct vb2_queue *vq,
->  	cur_fmt = vpu_get_format(inst, vq->type);
->  
->  	if (*plane_count) {
-> -		if (*plane_count != cur_fmt->num_planes)
-> +		if (*plane_count != cur_fmt->mem_planes)
->  			return -EINVAL;
-> -		for (i = 0; i < cur_fmt->num_planes; i++) {
-> -			if (psize[i] < cur_fmt->sizeimage[i])
-> +		for (i = 0; i < cur_fmt->mem_planes; i++) {
-> +			if (psize[i] < vpu_get_fmt_plane_size(cur_fmt, i))
->  				return -EINVAL;
->  		}
->  		return 0;
-> @@ -402,9 +486,9 @@ static int vpu_vb2_queue_setup(struct vb2_queue *vq,
->  		*buf_count = max_t(unsigned int, *buf_count, inst->min_buffer_out);
->  	else
->  		*buf_count = max_t(unsigned int, *buf_count, inst->min_buffer_cap);
-> -	*plane_count = cur_fmt->num_planes;
-> -	for (i = 0; i < cur_fmt->num_planes; i++)
-> -		psize[i] = cur_fmt->sizeimage[i];
-> +	*plane_count = cur_fmt->mem_planes;
-> +	for (i = 0; i < cur_fmt->mem_planes; i++)
-> +		psize[i] = vpu_get_fmt_plane_size(cur_fmt, i);
->  
->  	return 0;
->  }
-> @@ -434,8 +518,8 @@ static int vpu_vb2_buf_prepare(struct vb2_buffer *vb)
->  	u32 i;
->  
->  	cur_fmt = vpu_get_format(inst, vb->type);
-> -	for (i = 0; i < cur_fmt->num_planes; i++) {
-> -		if (vpu_get_vb_length(vb, i) < cur_fmt->sizeimage[i]) {
-> +	for (i = 0; i < cur_fmt->mem_planes; i++) {
-> +		if (vpu_get_vb_length(vb, i) < vpu_get_fmt_plane_size(cur_fmt, i)) {
->  			dev_dbg(inst->dev, "[%d] %s buf[%d] is invalid\n",
->  				inst->id, vpu_type_name(vb->type), vb->index);
->  			vpu_set_buffer_state(vbuf, VPU_BUF_STATE_ERROR);
-> diff --git a/drivers/media/platform/amphion/vpu_v4l2.h b/drivers/media/platform/amphion/vpu_v4l2.h
-> index 795ca33a6a50..ef5de6b66e47 100644
-> --- a/drivers/media/platform/amphion/vpu_v4l2.h
-> +++ b/drivers/media/platform/amphion/vpu_v4l2.h
-> @@ -16,7 +16,8 @@ unsigned int vpu_get_buffer_state(struct vb2_v4l2_buffer *vbuf);
->  int vpu_v4l2_open(struct file *file, struct vpu_inst *inst);
->  int vpu_v4l2_close(struct file *file);
->  
-> -const struct vpu_format *vpu_try_fmt_common(struct vpu_inst *inst, struct v4l2_format *f);
-> +u32 vpu_get_fmt_plane_size(struct vpu_format *fmt, u32 plane_no);
-> +int vpu_try_fmt_common(struct vpu_inst *inst, struct v4l2_format *f, struct vpu_format *fmt);
->  int vpu_process_output_buffer(struct vpu_inst *inst);
->  int vpu_process_capture_buffer(struct vpu_inst *inst);
->  struct vb2_v4l2_buffer *vpu_next_src_buf(struct vpu_inst *inst);
-> diff --git a/drivers/media/platform/amphion/vpu_windsor.c b/drivers/media/platform/amphion/vpu_windsor.c
-> index 1526af2ef9da..a454f142ae17 100644
-> --- a/drivers/media/platform/amphion/vpu_windsor.c
-> +++ b/drivers/media/platform/amphion/vpu_windsor.c
-> @@ -775,6 +775,8 @@ static int vpu_windsor_fill_yuv_frame(struct vpu_shared_addr *shared,
->  				      u32 instance,
->  				      struct vb2_buffer *vb)
->  {
-> +	struct vpu_inst *inst = vb2_get_drv_priv(vb->vb2_queue);
-> +	struct vpu_format *out_fmt;
->  	struct vpu_enc_yuv_desc *desc;
->  	struct vb2_v4l2_buffer *vbuf;
->  
-> @@ -782,6 +784,7 @@ static int vpu_windsor_fill_yuv_frame(struct vpu_shared_addr *shared,
->  		return -EINVAL;
->  
->  	desc = get_yuv_desc(shared, instance);
-> +	out_fmt = vpu_get_format(inst, vb->type);
->  
->  	vbuf = to_vb2_v4l2_buffer(vb);
->  	desc->frame_id = vbuf->sequence;
-> @@ -790,7 +793,10 @@ static int vpu_windsor_fill_yuv_frame(struct vpu_shared_addr *shared,
->  	else
->  		desc->key_frame = 0;
->  	desc->luma_base = vpu_get_vb_phy_addr(vb, 0);
-> -	desc->chroma_base = vpu_get_vb_phy_addr(vb, 1);
-> +	if (vb->num_planes > 1)
-> +		desc->chroma_base = vpu_get_vb_phy_addr(vb, 1);
-> +	else
-> +		desc->chroma_base = desc->luma_base + out_fmt->sizeimage[0];
->  
->  	return 0;
->  }
-> -- 
-> 2.37.1
-> 
-
--- 
-Tommaso Merciai
-Embedded Linux Engineer
-tommaso.merciai@amarulasolutions.com
-__________________________________
-
-Amarula Solutions SRL
-Via Le Canevare 30, 31100 Treviso, Veneto, IT
-T. +39 042 243 5310
-info@amarulasolutions.com
-www.amarulasolutions.com
+PkZyb206IFRvbW1hc28gTWVyY2lhaSA8dG9tbWFzby5tZXJjaWFpQGFtYXJ1bGFzb2x1dGlvbnMu
+Y29tPg0KPlNlbnQ6IDIwMjLE6jjUwjEyyNUgMTU6MTUNCj5UbzogTWluZyBRaWFuIDxtaW5nLnFp
+YW5AbnhwLmNvbT4NCj5DYzogbWNoZWhhYkBrZXJuZWwub3JnOyBodmVya3VpbC1jaXNjb0B4czRh
+bGwubmw7IHNoYXduZ3VvQGtlcm5lbC5vcmc7DQo+cm9iaCtkdEBrZXJuZWwub3JnOyBzLmhhdWVy
+QHBlbmd1dHJvbml4LmRlOyBrZXJuZWxAcGVuZ3V0cm9uaXguZGU7DQo+ZmVzdGV2YW1AZ21haWwu
+Y29tOyBkbC1saW51eC1pbXggPGxpbnV4LWlteEBueHAuY29tPjsgWC5ILiBCYW8NCj48eGlhaG9u
+Zy5iYW9AbnhwLmNvbT47IGxpbnV4LW1lZGlhQHZnZXIua2VybmVsLm9yZzsNCj5saW51eC1rZXJu
+ZWxAdmdlci5rZXJuZWwub3JnOyBsaW51eC1hcm0ta2VybmVsQGxpc3RzLmluZnJhZGVhZC5vcmcN
+Cj5TdWJqZWN0OiBbRVhUXSBSZTogW1BBVENIIHY0IDIvNF0gbWVkaWE6IGFtcGhpb246IHRlbGwg
+YW5kIGhhbmRsZSBjb250aWd1b3VzDQo+YW5kIG5vbiBjb250aWd1b3VzIGZvcm1hdA0KPg0KPkNh
+dXRpb246IEVYVCBFbWFpbA0KPg0KPkhpIE1pbmcsDQo+SnVzdCBhbiBpbmZvLiBJJ20gcGxhbm5p
+bmcgdG8gaGVscCB0byByZXZpZXcgeW91ciBzZXJpZXMuDQo+T24gd2hpY2ggTGludXggdHJlZSBh
+cmUgeW91IHdvcmtpbmc/DQoNCkhpIFRvbW1hc28sDQogICAgVGhhbmtzIGZvciB5b3VyIGhlbHAs
+IGFuZCBJJ20gd29ya2luZyBvbiBodHRwczovL2dpdC5saW51eHR2Lm9yZy9tZWRpYV90cmVlLmdp
+dA0KDQpNaW5nDQoNCj4NCj5UaGFua3MgaW4gYWR2YW5jZSwNCj5Ub21tYXNvDQo+DQo+T24gVHVl
+LCBBdWcgMDksIDIwMjIgYXQgMDI6NTA6MzlQTSArMDgwMCwgTWluZyBRaWFuIHdyb3RlOg0KPj4g
+RHJpdmVyIHNob3VsZCB0ZWxsIHRoZSBudW1iZXIgb2YgbWVtb3J5IHBsYW5lcyBhbmQgY29tcG9u
+ZW50IHBsYW5lcy4NCj4+IHRoZSBhbXBoaW9uIHZwdSBzdXBwb3J0IG5vbiBjb250aWd1b3VzIHBs
+YW5lcywgYnV0IGZvciBjb21wYXRpYmlsaXR5DQo+PiB3aXRoIG90aGVyIGRldmljZSB0aGF0IG9u
+bHkgc3VwcG9ydCBjb250aWd1b3VzIHBsYW5lcy4NCj4+IGRyaXZlciBjYW4gYWRkIHN1cHBvcnQg
+Zm9yIGNvbnRpZ3VvdXMgcGxhbmVzIGluIHRoZSBzYW1lIHRpbWUuDQo+PiBUaGVuIHRoZSBtZW1f
+cGxhbmVzIGNhbiBiZSBkaWZmZXJlbnQgZnJvbSB0aGUgY29tcF9wbGFuZXMuDQo+PiBkcml2ZXIg
+bmVlZCB0byBoYW5kbGUgYnVmZmVyIGFjY29yZGluZyBtZW1fcGxhbmVzIGFuZCBjb21wX3BsYW5l
+cy4NCj4+DQo+PiBTbyBkcml2ZXIgY2FuIHN1cHBvcnQgTlYxMiBhbmQgTlYxMk0uDQo+Pg0KPj4g
+U2lnbmVkLW9mZi1ieTogTWluZyBRaWFuIDxtaW5nLnFpYW5AbnhwLmNvbT4NCj4+IC0tLQ0KPj4g
+IGRyaXZlcnMvbWVkaWEvcGxhdGZvcm0vYW1waGlvbi92ZGVjLmMgICAgICAgIHwgMTg3ICsrKysr
+KysrKystLS0tLS0tLS0NCj4+ICBkcml2ZXJzL21lZGlhL3BsYXRmb3JtL2FtcGhpb24vdmVuYy5j
+ICAgICAgICB8ICAzMyArKy0tDQo+PiAgZHJpdmVycy9tZWRpYS9wbGF0Zm9ybS9hbXBoaW9uL3Zw
+dS5oICAgICAgICAgfCAgIDQgKy0NCj4+ICBkcml2ZXJzL21lZGlhL3BsYXRmb3JtL2FtcGhpb24v
+dnB1X2RiZy5jICAgICB8ICAgOCArLQ0KPj4gIGRyaXZlcnMvbWVkaWEvcGxhdGZvcm0vYW1waGlv
+bi92cHVfaGVscGVycy5jIHwgIDQ4ICsrKystDQo+PiAgZHJpdmVycy9tZWRpYS9wbGF0Zm9ybS9h
+bXBoaW9uL3ZwdV9oZWxwZXJzLmggfCAgIDIgKw0KPj4gIGRyaXZlcnMvbWVkaWEvcGxhdGZvcm0v
+YW1waGlvbi92cHVfbWFsb25lLmMgIHwgICAzICstDQo+PiAgZHJpdmVycy9tZWRpYS9wbGF0Zm9y
+bS9hbXBoaW9uL3ZwdV92NGwyLmMgICAgfCAxNjggKysrKysrKysrKysrLS0tLS0NCj4+ICBkcml2
+ZXJzL21lZGlhL3BsYXRmb3JtL2FtcGhpb24vdnB1X3Y0bDIuaCAgICB8ICAgMyArLQ0KPj4gIGRy
+aXZlcnMvbWVkaWEvcGxhdGZvcm0vYW1waGlvbi92cHVfd2luZHNvci5jIHwgICA4ICstDQo+PiAg
+MTAgZmlsZXMgY2hhbmdlZCwgMjk5IGluc2VydGlvbnMoKyksIDE2NSBkZWxldGlvbnMoLSkNCj4+
+DQo+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9tZWRpYS9wbGF0Zm9ybS9hbXBoaW9uL3ZkZWMuYw0K
+Pj4gYi9kcml2ZXJzL21lZGlhL3BsYXRmb3JtL2FtcGhpb24vdmRlYy5jDQo+PiBpbmRleCBmZWI3
+NWRjMjA0ZGUuLjQ4YWI2NjRmYTdlZiAxMDA2NDQNCj4+IC0tLSBhL2RyaXZlcnMvbWVkaWEvcGxh
+dGZvcm0vYW1waGlvbi92ZGVjLmMNCj4+ICsrKyBiL2RyaXZlcnMvbWVkaWEvcGxhdGZvcm0vYW1w
+aGlvbi92ZGVjLmMNCj4+IEBAIC02OSw3MiArNjksODUgQEAgc3RydWN0IHZkZWNfdCB7DQo+PiAg
+c3RhdGljIGNvbnN0IHN0cnVjdCB2cHVfZm9ybWF0IHZkZWNfZm9ybWF0c1tdID0gew0KPj4gICAg
+ICAgew0KPj4gICAgICAgICAgICAgICAucGl4Zm10ID0gVjRMMl9QSVhfRk1UX05WMTJNXzhMMTI4
+LA0KPj4gLSAgICAgICAgICAgICAubnVtX3BsYW5lcyA9IDIsDQo+PiArICAgICAgICAgICAgIC5t
+ZW1fcGxhbmVzID0gMiwNCj4+ICsgICAgICAgICAgICAgLmNvbXBfcGxhbmVzID0gMiwNCj4+ICAg
+ICAgICAgICAgICAgLnR5cGUgPSBWNEwyX0JVRl9UWVBFX1ZJREVPX0NBUFRVUkVfTVBMQU5FLA0K
+Pj4gICAgICAgfSwNCj4+ICAgICAgIHsNCj4+ICAgICAgICAgICAgICAgLnBpeGZtdCA9IFY0TDJf
+UElYX0ZNVF9OVjEyTV8xMEJFXzhMMTI4LA0KPj4gLSAgICAgICAgICAgICAubnVtX3BsYW5lcyA9
+IDIsDQo+PiArICAgICAgICAgICAgIC5tZW1fcGxhbmVzID0gMiwNCj4+ICsgICAgICAgICAgICAg
+LmNvbXBfcGxhbmVzID0gMiwNCj4+ICAgICAgICAgICAgICAgLnR5cGUgPSBWNEwyX0JVRl9UWVBF
+X1ZJREVPX0NBUFRVUkVfTVBMQU5FLA0KPj4gICAgICAgfSwNCj4+ICAgICAgIHsNCj4+ICAgICAg
+ICAgICAgICAgLnBpeGZtdCA9IFY0TDJfUElYX0ZNVF9IMjY0LA0KPj4gLSAgICAgICAgICAgICAu
+bnVtX3BsYW5lcyA9IDEsDQo+PiArICAgICAgICAgICAgIC5tZW1fcGxhbmVzID0gMSwNCj4+ICsg
+ICAgICAgICAgICAgLmNvbXBfcGxhbmVzID0gMSwNCj4+ICAgICAgICAgICAgICAgLnR5cGUgPSBW
+NEwyX0JVRl9UWVBFX1ZJREVPX09VVFBVVF9NUExBTkUsDQo+PiAtICAgICAgICAgICAgIC5mbGFn
+cyA9IFY0TDJfRk1UX0ZMQUdfRFlOX1JFU09MVVRJT04NCj4+ICsgICAgICAgICAgICAgLmZsYWdz
+ID0gVjRMMl9GTVRfRkxBR19EWU5fUkVTT0xVVElPTiB8DQo+PiArIFY0TDJfRk1UX0ZMQUdfQ09N
+UFJFU1NFRA0KPj4gICAgICAgfSwNCj4+ICAgICAgIHsNCj4+ICAgICAgICAgICAgICAgLnBpeGZt
+dCA9IFY0TDJfUElYX0ZNVF9IMjY0X01WQywNCj4+IC0gICAgICAgICAgICAgLm51bV9wbGFuZXMg
+PSAxLA0KPj4gKyAgICAgICAgICAgICAubWVtX3BsYW5lcyA9IDEsDQo+PiArICAgICAgICAgICAg
+IC5jb21wX3BsYW5lcyA9IDEsDQo+PiAgICAgICAgICAgICAgIC50eXBlID0gVjRMMl9CVUZfVFlQ
+RV9WSURFT19PVVRQVVRfTVBMQU5FLA0KPj4gLSAgICAgICAgICAgICAuZmxhZ3MgPSBWNEwyX0ZN
+VF9GTEFHX0RZTl9SRVNPTFVUSU9ODQo+PiArICAgICAgICAgICAgIC5mbGFncyA9IFY0TDJfRk1U
+X0ZMQUdfRFlOX1JFU09MVVRJT04gfA0KPj4gKyBWNEwyX0ZNVF9GTEFHX0NPTVBSRVNTRUQNCj4+
+ICAgICAgIH0sDQo+PiAgICAgICB7DQo+PiAgICAgICAgICAgICAgIC5waXhmbXQgPSBWNEwyX1BJ
+WF9GTVRfSEVWQywNCj4+IC0gICAgICAgICAgICAgLm51bV9wbGFuZXMgPSAxLA0KPj4gKyAgICAg
+ICAgICAgICAubWVtX3BsYW5lcyA9IDEsDQo+PiArICAgICAgICAgICAgIC5jb21wX3BsYW5lcyA9
+IDEsDQo+PiAgICAgICAgICAgICAgIC50eXBlID0gVjRMMl9CVUZfVFlQRV9WSURFT19PVVRQVVRf
+TVBMQU5FLA0KPj4gLSAgICAgICAgICAgICAuZmxhZ3MgPSBWNEwyX0ZNVF9GTEFHX0RZTl9SRVNP
+TFVUSU9ODQo+PiArICAgICAgICAgICAgIC5mbGFncyA9IFY0TDJfRk1UX0ZMQUdfRFlOX1JFU09M
+VVRJT04gfA0KPj4gKyBWNEwyX0ZNVF9GTEFHX0NPTVBSRVNTRUQNCj4+ICAgICAgIH0sDQo+PiAg
+ICAgICB7DQo+PiAgICAgICAgICAgICAgIC5waXhmbXQgPSBWNEwyX1BJWF9GTVRfVkMxX0FOTkVY
+X0csDQo+PiAtICAgICAgICAgICAgIC5udW1fcGxhbmVzID0gMSwNCj4+ICsgICAgICAgICAgICAg
+Lm1lbV9wbGFuZXMgPSAxLA0KPj4gKyAgICAgICAgICAgICAuY29tcF9wbGFuZXMgPSAxLA0KPj4g
+ICAgICAgICAgICAgICAudHlwZSA9IFY0TDJfQlVGX1RZUEVfVklERU9fT1VUUFVUX01QTEFORSwN
+Cj4+IC0gICAgICAgICAgICAgLmZsYWdzID0gVjRMMl9GTVRfRkxBR19EWU5fUkVTT0xVVElPTg0K
+Pj4gKyAgICAgICAgICAgICAuZmxhZ3MgPSBWNEwyX0ZNVF9GTEFHX0RZTl9SRVNPTFVUSU9OIHwN
+Cj4+ICsgVjRMMl9GTVRfRkxBR19DT01QUkVTU0VEDQo+PiAgICAgICB9LA0KPj4gICAgICAgew0K
+Pj4gICAgICAgICAgICAgICAucGl4Zm10ID0gVjRMMl9QSVhfRk1UX1ZDMV9BTk5FWF9MLA0KPj4g
+LSAgICAgICAgICAgICAubnVtX3BsYW5lcyA9IDEsDQo+PiArICAgICAgICAgICAgIC5tZW1fcGxh
+bmVzID0gMSwNCj4+ICsgICAgICAgICAgICAgLmNvbXBfcGxhbmVzID0gMSwNCj4+ICAgICAgICAg
+ICAgICAgLnR5cGUgPSBWNEwyX0JVRl9UWVBFX1ZJREVPX09VVFBVVF9NUExBTkUsDQo+PiArICAg
+ICAgICAgICAgIC5mbGFncyA9IFY0TDJfRk1UX0ZMQUdfQ09NUFJFU1NFRA0KPj4gICAgICAgfSwN
+Cj4+ICAgICAgIHsNCj4+ICAgICAgICAgICAgICAgLnBpeGZtdCA9IFY0TDJfUElYX0ZNVF9NUEVH
+MiwNCj4+IC0gICAgICAgICAgICAgLm51bV9wbGFuZXMgPSAxLA0KPj4gKyAgICAgICAgICAgICAu
+bWVtX3BsYW5lcyA9IDEsDQo+PiArICAgICAgICAgICAgIC5jb21wX3BsYW5lcyA9IDEsDQo+PiAg
+ICAgICAgICAgICAgIC50eXBlID0gVjRMMl9CVUZfVFlQRV9WSURFT19PVVRQVVRfTVBMQU5FLA0K
+Pj4gLSAgICAgICAgICAgICAuZmxhZ3MgPSBWNEwyX0ZNVF9GTEFHX0RZTl9SRVNPTFVUSU9ODQo+
+PiArICAgICAgICAgICAgIC5mbGFncyA9IFY0TDJfRk1UX0ZMQUdfRFlOX1JFU09MVVRJT04gfA0K
+Pj4gKyBWNEwyX0ZNVF9GTEFHX0NPTVBSRVNTRUQNCj4+ICAgICAgIH0sDQo+PiAgICAgICB7DQo+
+PiAgICAgICAgICAgICAgIC5waXhmbXQgPSBWNEwyX1BJWF9GTVRfTVBFRzQsDQo+PiAtICAgICAg
+ICAgICAgIC5udW1fcGxhbmVzID0gMSwNCj4+ICsgICAgICAgICAgICAgLm1lbV9wbGFuZXMgPSAx
+LA0KPj4gKyAgICAgICAgICAgICAuY29tcF9wbGFuZXMgPSAxLA0KPj4gICAgICAgICAgICAgICAu
+dHlwZSA9IFY0TDJfQlVGX1RZUEVfVklERU9fT1VUUFVUX01QTEFORSwNCj4+IC0gICAgICAgICAg
+ICAgLmZsYWdzID0gVjRMMl9GTVRfRkxBR19EWU5fUkVTT0xVVElPTg0KPj4gKyAgICAgICAgICAg
+ICAuZmxhZ3MgPSBWNEwyX0ZNVF9GTEFHX0RZTl9SRVNPTFVUSU9OIHwNCj4+ICsgVjRMMl9GTVRf
+RkxBR19DT01QUkVTU0VEDQo+PiAgICAgICB9LA0KPj4gICAgICAgew0KPj4gICAgICAgICAgICAg
+ICAucGl4Zm10ID0gVjRMMl9QSVhfRk1UX1hWSUQsDQo+PiAtICAgICAgICAgICAgIC5udW1fcGxh
+bmVzID0gMSwNCj4+ICsgICAgICAgICAgICAgLm1lbV9wbGFuZXMgPSAxLA0KPj4gKyAgICAgICAg
+ICAgICAuY29tcF9wbGFuZXMgPSAxLA0KPj4gICAgICAgICAgICAgICAudHlwZSA9IFY0TDJfQlVG
+X1RZUEVfVklERU9fT1VUUFVUX01QTEFORSwNCj4+IC0gICAgICAgICAgICAgLmZsYWdzID0gVjRM
+Ml9GTVRfRkxBR19EWU5fUkVTT0xVVElPTg0KPj4gKyAgICAgICAgICAgICAuZmxhZ3MgPSBWNEwy
+X0ZNVF9GTEFHX0RZTl9SRVNPTFVUSU9OIHwNCj4+ICsgVjRMMl9GTVRfRkxBR19DT01QUkVTU0VE
+DQo+PiAgICAgICB9LA0KPj4gICAgICAgew0KPj4gICAgICAgICAgICAgICAucGl4Zm10ID0gVjRM
+Ml9QSVhfRk1UX1ZQOCwNCj4+IC0gICAgICAgICAgICAgLm51bV9wbGFuZXMgPSAxLA0KPj4gKyAg
+ICAgICAgICAgICAubWVtX3BsYW5lcyA9IDEsDQo+PiArICAgICAgICAgICAgIC5jb21wX3BsYW5l
+cyA9IDEsDQo+PiAgICAgICAgICAgICAgIC50eXBlID0gVjRMMl9CVUZfVFlQRV9WSURFT19PVVRQ
+VVRfTVBMQU5FLA0KPj4gLSAgICAgICAgICAgICAuZmxhZ3MgPSBWNEwyX0ZNVF9GTEFHX0RZTl9S
+RVNPTFVUSU9ODQo+PiArICAgICAgICAgICAgIC5mbGFncyA9IFY0TDJfRk1UX0ZMQUdfRFlOX1JF
+U09MVVRJT04gfA0KPj4gKyBWNEwyX0ZNVF9GTEFHX0NPTVBSRVNTRUQNCj4+ICAgICAgIH0sDQo+
+PiAgICAgICB7DQo+PiAgICAgICAgICAgICAgIC5waXhmbXQgPSBWNEwyX1BJWF9GTVRfSDI2MywN
+Cj4+IC0gICAgICAgICAgICAgLm51bV9wbGFuZXMgPSAxLA0KPj4gKyAgICAgICAgICAgICAubWVt
+X3BsYW5lcyA9IDEsDQo+PiArICAgICAgICAgICAgIC5jb21wX3BsYW5lcyA9IDEsDQo+PiAgICAg
+ICAgICAgICAgIC50eXBlID0gVjRMMl9CVUZfVFlQRV9WSURFT19PVVRQVVRfTVBMQU5FLA0KPj4g
+LSAgICAgICAgICAgICAuZmxhZ3MgPSBWNEwyX0ZNVF9GTEFHX0RZTl9SRVNPTFVUSU9ODQo+PiAr
+ICAgICAgICAgICAgIC5mbGFncyA9IFY0TDJfRk1UX0ZMQUdfRFlOX1JFU09MVVRJT04gfA0KPj4g
+KyBWNEwyX0ZNVF9GTEFHX0NPTVBSRVNTRUQNCj4+ICAgICAgIH0sDQo+PiAgICAgICB7MCwgMCwg
+MCwgMH0sDQo+PiAgfTsNCj4+IEBAIC0yNTYsMjMgKzI2OSwyMiBAQCBzdGF0aWMgaW50IHZkZWNf
+ZW51bV9mbXQoc3RydWN0IGZpbGUgKmZpbGUsIHZvaWQgKmZoLA0KPnN0cnVjdCB2NGwyX2ZtdGRl
+c2MgKmYpDQo+PiAgICAgICBpbnQgcmV0ID0gLUVJTlZBTDsNCj4+DQo+PiAgICAgICB2cHVfaW5z
+dF9sb2NrKGluc3QpOw0KPj4gLSAgICAgaWYgKCFWNEwyX1RZUEVfSVNfT1VUUFVUKGYtPnR5cGUp
+ICYmIHZkZWMtPmZpeGVkX2ZtdCkgew0KPj4gLSAgICAgICAgICAgICBpZiAoZi0+aW5kZXggPT0g
+MCkgew0KPj4gLSAgICAgICAgICAgICAgICAgICAgIGYtPnBpeGVsZm9ybWF0ID0gaW5zdC0+Y2Fw
+X2Zvcm1hdC5waXhmbXQ7DQo+PiAtICAgICAgICAgICAgICAgICAgICAgZi0+ZmxhZ3MgPSBpbnN0
+LT5jYXBfZm9ybWF0LmZsYWdzOw0KPj4gLSAgICAgICAgICAgICAgICAgICAgIHJldCA9IDA7DQo+
+PiAtICAgICAgICAgICAgIH0NCj4+ICsgICAgIGlmIChWNEwyX1RZUEVfSVNfQ0FQVFVSRShmLT50
+eXBlKSAmJiB2ZGVjLT5maXhlZF9mbXQpIHsNCj4+ICsgICAgICAgICAgICAgZm10ID0gdnB1X2dl
+dF9mb3JtYXQoaW5zdCwgZi0+dHlwZSk7DQo+PiArICAgICAgICAgICAgIGlmIChmLT5pbmRleCA9
+PSAxKQ0KPj4gKyAgICAgICAgICAgICAgICAgICAgIGZtdCA9IHZwdV9oZWxwZXJfZmluZF9zaWJs
+aW5nKGluc3QsIGYtPnR5cGUsDQo+Zm10LT5waXhmbXQpOw0KPj4gKyAgICAgICAgICAgICBpZiAo
+Zi0+aW5kZXggPiAxKQ0KPj4gKyAgICAgICAgICAgICAgICAgICAgIGZtdCA9IE5VTEw7DQo+PiAg
+ICAgICB9IGVsc2Ugew0KPj4gICAgICAgICAgICAgICBmbXQgPSB2cHVfaGVscGVyX2VudW1fZm9y
+bWF0KGluc3QsIGYtPnR5cGUsIGYtPmluZGV4KTsNCj4+IC0gICAgICAgICAgICAgbWVtc2V0KGYt
+PnJlc2VydmVkLCAwLCBzaXplb2YoZi0+cmVzZXJ2ZWQpKTsNCj4+IC0gICAgICAgICAgICAgaWYg
+KCFmbXQpDQo+PiAtICAgICAgICAgICAgICAgICAgICAgZ290byBleGl0Ow0KPj4gLQ0KPj4gLSAg
+ICAgICAgICAgICBmLT5waXhlbGZvcm1hdCA9IGZtdC0+cGl4Zm10Ow0KPj4gLSAgICAgICAgICAg
+ICBmLT5mbGFncyA9IGZtdC0+ZmxhZ3M7DQo+PiAtICAgICAgICAgICAgIHJldCA9IDA7DQo+PiAg
+ICAgICB9DQo+PiArICAgICBpZiAoIWZtdCkNCj4+ICsgICAgICAgICAgICAgZ290byBleGl0Ow0K
+Pj4NCj4+ICsgICAgIG1lbXNldChmLT5yZXNlcnZlZCwgMCwgc2l6ZW9mKGYtPnJlc2VydmVkKSk7
+DQo+PiArICAgICBmLT5waXhlbGZvcm1hdCA9IGZtdC0+cGl4Zm10Ow0KPj4gKyAgICAgZi0+Zmxh
+Z3MgPSBmbXQtPmZsYWdzOw0KPj4gKyAgICAgcmV0ID0gMDsNCj4+ICBleGl0Og0KPj4gICAgICAg
+dnB1X2luc3RfdW5sb2NrKGluc3QpOw0KPj4gICAgICAgcmV0dXJuIHJldDsNCj4+IEBAIC0yODks
+MTQgKzMwMSwxNCBAQCBzdGF0aWMgaW50IHZkZWNfZ19mbXQoc3RydWN0IGZpbGUgKmZpbGUsIHZv
+aWQgKmZoLA0KPnN0cnVjdCB2NGwyX2Zvcm1hdCAqZikNCj4+ICAgICAgIGN1cl9mbXQgPSB2cHVf
+Z2V0X2Zvcm1hdChpbnN0LCBmLT50eXBlKTsNCj4+DQo+PiAgICAgICBwaXhtcC0+cGl4ZWxmb3Jt
+YXQgPSBjdXJfZm10LT5waXhmbXQ7DQo+PiAtICAgICBwaXhtcC0+bnVtX3BsYW5lcyA9IGN1cl9m
+bXQtPm51bV9wbGFuZXM7DQo+PiArICAgICBwaXhtcC0+bnVtX3BsYW5lcyA9IGN1cl9mbXQtPm1l
+bV9wbGFuZXM7DQo+PiAgICAgICBwaXhtcC0+d2lkdGggPSBjdXJfZm10LT53aWR0aDsNCj4+ICAg
+ICAgIHBpeG1wLT5oZWlnaHQgPSBjdXJfZm10LT5oZWlnaHQ7DQo+PiAgICAgICBwaXhtcC0+Zmll
+bGQgPSBjdXJfZm10LT5maWVsZDsNCj4+ICAgICAgIHBpeG1wLT5mbGFncyA9IGN1cl9mbXQtPmZs
+YWdzOw0KPj4gICAgICAgZm9yIChpID0gMDsgaSA8IHBpeG1wLT5udW1fcGxhbmVzOyBpKyspIHsN
+Cj4+ICAgICAgICAgICAgICAgcGl4bXAtPnBsYW5lX2ZtdFtpXS5ieXRlc3BlcmxpbmUgPSBjdXJf
+Zm10LT5ieXRlc3BlcmxpbmVbaV07DQo+PiAtICAgICAgICAgICAgIHBpeG1wLT5wbGFuZV9mbXRb
+aV0uc2l6ZWltYWdlID0gY3VyX2ZtdC0+c2l6ZWltYWdlW2ldOw0KPj4gKyAgICAgICAgICAgICBw
+aXhtcC0+cGxhbmVfZm10W2ldLnNpemVpbWFnZSA9DQo+PiArIHZwdV9nZXRfZm10X3BsYW5lX3Np
+emUoY3VyX2ZtdCwgaSk7DQo+PiAgICAgICB9DQo+Pg0KPj4gICAgICAgZi0+Zm10LnBpeF9tcC5j
+b2xvcnNwYWNlID0gdmRlYy0+Y29kZWNfaW5mby5jb2xvcl9wcmltYXJpZXM7IEBADQo+PiAtMzEx
+LDEwICszMjMsMTkgQEAgc3RhdGljIGludCB2ZGVjX3RyeV9mbXQoc3RydWN0IGZpbGUgKmZpbGUs
+IHZvaWQNCj4+ICpmaCwgc3RydWN0IHY0bDJfZm9ybWF0ICpmKSAgew0KPj4gICAgICAgc3RydWN0
+IHZwdV9pbnN0ICppbnN0ID0gdG9faW5zdChmaWxlKTsNCj4+ICAgICAgIHN0cnVjdCB2ZGVjX3Qg
+KnZkZWMgPSBpbnN0LT5wcml2Ow0KPj4gLQ0KPj4gLSAgICAgdnB1X3RyeV9mbXRfY29tbW9uKGlu
+c3QsIGYpOw0KPj4gKyAgICAgc3RydWN0IHZwdV9mb3JtYXQgZm10Ow0KPj4NCj4+ICAgICAgIHZw
+dV9pbnN0X2xvY2soaW5zdCk7DQo+PiArICAgICBpZiAoVjRMMl9UWVBFX0lTX0NBUFRVUkUoZi0+
+dHlwZSkgJiYgdmRlYy0+Zml4ZWRfZm10KSB7DQo+PiArICAgICAgICAgICAgIHN0cnVjdCB2cHVf
+Zm9ybWF0ICpjYXBfZm10ID0gdnB1X2dldF9mb3JtYXQoaW5zdCwNCj4+ICsgZi0+dHlwZSk7DQo+
+PiArDQo+PiArICAgICAgICAgICAgIGlmICghdnB1X2hlbHBlcl9tYXRjaF9mb3JtYXQoaW5zdCwg
+Y2FwX2ZtdC0+dHlwZSwNCj5jYXBfZm10LT5waXhmbXQsDQo+PiArICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgZi0+Zm10LnBpeF9tcC5waXhlbGZvcm1hdCkpDQo+PiAr
+ICAgICAgICAgICAgICAgICAgICAgZi0+Zm10LnBpeF9tcC5waXhlbGZvcm1hdCA9IGNhcF9mbXQt
+PnBpeGZtdDsNCj4+ICsgICAgIH0NCj4+ICsNCj4+ICsgICAgIHZwdV90cnlfZm10X2NvbW1vbihp
+bnN0LCBmLCAmZm10KTsNCj4+ICsNCj4+ICAgICAgIGlmICh2ZGVjLT5maXhlZF9mbXQpIHsNCj4+
+ICAgICAgICAgICAgICAgZi0+Zm10LnBpeF9tcC5jb2xvcnNwYWNlID0NCj52ZGVjLT5jb2RlY19p
+bmZvLmNvbG9yX3ByaW1hcmllczsNCj4+ICAgICAgICAgICAgICAgZi0+Zm10LnBpeF9tcC54ZmVy
+X2Z1bmMgPQ0KPj4gdmRlYy0+Y29kZWNfaW5mby50cmFuc2Zlcl9jaGFyczsgQEAgLTMzNCw3ICsz
+NTUsNyBAQCBzdGF0aWMgaW50DQo+PiB2ZGVjX3RyeV9mbXQoc3RydWN0IGZpbGUgKmZpbGUsIHZv
+aWQgKmZoLCBzdHJ1Y3QgdjRsMl9mb3JtYXQgKmYpDQo+PiBzdGF0aWMgaW50IHZkZWNfc19mbXRf
+Y29tbW9uKHN0cnVjdCB2cHVfaW5zdCAqaW5zdCwgc3RydWN0IHY0bDJfZm9ybWF0ICpmKSAgew0K
+Pj4gICAgICAgc3RydWN0IHY0bDJfcGl4X2Zvcm1hdF9tcGxhbmUgKnBpeG1wID0gJmYtPmZtdC5w
+aXhfbXA7DQo+PiAtICAgICBjb25zdCBzdHJ1Y3QgdnB1X2Zvcm1hdCAqZm10Ow0KPj4gKyAgICAg
+c3RydWN0IHZwdV9mb3JtYXQgZm10Ow0KPj4gICAgICAgc3RydWN0IHZwdV9mb3JtYXQgKmN1cl9m
+bXQ7DQo+PiAgICAgICBzdHJ1Y3QgdmIyX3F1ZXVlICpxOw0KPj4gICAgICAgc3RydWN0IHZkZWNf
+dCAqdmRlYyA9IGluc3QtPnByaXY7IEBAIC0zNDksMzYgKzM3MCwzMCBAQCBzdGF0aWMNCj4+IGlu
+dCB2ZGVjX3NfZm10X2NvbW1vbihzdHJ1Y3QgdnB1X2luc3QgKmluc3QsIHN0cnVjdCB2NGwyX2Zv
+cm1hdCAqZikNCj4+ICAgICAgIGlmICh2YjJfaXNfYnVzeShxKSkNCj4+ICAgICAgICAgICAgICAg
+cmV0dXJuIC1FQlVTWTsNCj4+DQo+PiAtICAgICBmbXQgPSB2cHVfdHJ5X2ZtdF9jb21tb24oaW5z
+dCwgZik7DQo+PiAtICAgICBpZiAoIWZtdCkNCj4+ICsgICAgIGlmICh2cHVfdHJ5X2ZtdF9jb21t
+b24oaW5zdCwgZiwgJmZtdCkpDQo+PiAgICAgICAgICAgICAgIHJldHVybiAtRUlOVkFMOw0KPj4N
+Cj4+ICAgICAgIGN1cl9mbXQgPSB2cHVfZ2V0X2Zvcm1hdChpbnN0LCBmLT50eXBlKTsNCj4+ICAg
+ICAgIGlmIChWNEwyX1RZUEVfSVNfT1VUUFVUKGYtPnR5cGUpICYmIGluc3QtPnN0YXRlICE9DQo+
+VlBVX0NPREVDX1NUQVRFX0RFSU5JVCkgew0KPj4gLSAgICAgICAgICAgICBpZiAoY3VyX2ZtdC0+
+cGl4Zm10ICE9IGZtdC0+cGl4Zm10KSB7DQo+PiArICAgICAgICAgICAgIGlmIChjdXJfZm10LT5w
+aXhmbXQgIT0gZm10LnBpeGZtdCkgew0KPj4gICAgICAgICAgICAgICAgICAgICAgIHZkZWMtPnJl
+c2V0X2NvZGVjID0gdHJ1ZTsNCj4+ICAgICAgICAgICAgICAgICAgICAgICB2ZGVjLT5maXhlZF9m
+bXQgPSBmYWxzZTsNCj4+ICAgICAgICAgICAgICAgfQ0KPj4gICAgICAgfQ0KPj4gLSAgICAgY3Vy
+X2ZtdC0+cGl4Zm10ID0gZm10LT5waXhmbXQ7DQo+PiAgICAgICBpZiAoVjRMMl9UWVBFX0lTX09V
+VFBVVChmLT50eXBlKSB8fCAhdmRlYy0+Zml4ZWRfZm10KSB7DQo+PiAtICAgICAgICAgICAgIGN1
+cl9mbXQtPm51bV9wbGFuZXMgPSBmbXQtPm51bV9wbGFuZXM7DQo+PiAtICAgICAgICAgICAgIGN1
+cl9mbXQtPmZsYWdzID0gZm10LT5mbGFnczsNCj4+IC0gICAgICAgICAgICAgY3VyX2ZtdC0+d2lk
+dGggPSBwaXhtcC0+d2lkdGg7DQo+PiAtICAgICAgICAgICAgIGN1cl9mbXQtPmhlaWdodCA9IHBp
+eG1wLT5oZWlnaHQ7DQo+PiAtICAgICAgICAgICAgIGZvciAoaSA9IDA7IGkgPCBmbXQtPm51bV9w
+bGFuZXM7IGkrKykgew0KPj4gLSAgICAgICAgICAgICAgICAgICAgIGN1cl9mbXQtPnNpemVpbWFn
+ZVtpXSA9DQo+cGl4bXAtPnBsYW5lX2ZtdFtpXS5zaXplaW1hZ2U7DQo+PiAtICAgICAgICAgICAg
+ICAgICAgICAgY3VyX2ZtdC0+Ynl0ZXNwZXJsaW5lW2ldID0NCj5waXhtcC0+cGxhbmVfZm10W2ld
+LmJ5dGVzcGVybGluZTsNCj4+IC0gICAgICAgICAgICAgfQ0KPj4gLSAgICAgICAgICAgICBpZiAo
+cGl4bXAtPmZpZWxkICE9IFY0TDJfRklFTERfQU5ZKQ0KPj4gLSAgICAgICAgICAgICAgICAgICAg
+IGN1cl9mbXQtPmZpZWxkID0gcGl4bXAtPmZpZWxkOw0KPj4gKyAgICAgICAgICAgICBtZW1jcHko
+Y3VyX2ZtdCwgJmZtdCwgc2l6ZW9mKCpjdXJfZm10KSk7DQo+PiAgICAgICB9IGVsc2Ugew0KPj4g
+LSAgICAgICAgICAgICBwaXhtcC0+bnVtX3BsYW5lcyA9IGN1cl9mbXQtPm51bV9wbGFuZXM7DQo+
+PiArICAgICAgICAgICAgIGlmICh2cHVfaGVscGVyX21hdGNoX2Zvcm1hdChpbnN0LCBmLT50eXBl
+LCBjdXJfZm10LT5waXhmbXQsDQo+cGl4bXAtPnBpeGVsZm9ybWF0KSkgew0KPj4gKyAgICAgICAg
+ICAgICAgICAgICAgIGN1cl9mbXQtPnBpeGZtdCA9IGZtdC5waXhmbXQ7DQo+PiArICAgICAgICAg
+ICAgICAgICAgICAgY3VyX2ZtdC0+bWVtX3BsYW5lcyA9IGZtdC5tZW1fcGxhbmVzOw0KPj4gKyAg
+ICAgICAgICAgICB9DQo+PiArICAgICAgICAgICAgIHBpeG1wLT5waXhlbGZvcm1hdCA9IGN1cl9m
+bXQtPnBpeGZtdDsNCj4+ICsgICAgICAgICAgICAgcGl4bXAtPm51bV9wbGFuZXMgPSBjdXJfZm10
+LT5tZW1fcGxhbmVzOw0KPj4gICAgICAgICAgICAgICBwaXhtcC0+d2lkdGggPSBjdXJfZm10LT53
+aWR0aDsNCj4+ICAgICAgICAgICAgICAgcGl4bXAtPmhlaWdodCA9IGN1cl9mbXQtPmhlaWdodDsN
+Cj4+ICAgICAgICAgICAgICAgZm9yIChpID0gMDsgaSA8IHBpeG1wLT5udW1fcGxhbmVzOyBpKysp
+IHsNCj4+ICAgICAgICAgICAgICAgICAgICAgICBwaXhtcC0+cGxhbmVfZm10W2ldLmJ5dGVzcGVy
+bGluZSA9DQo+Y3VyX2ZtdC0+Ynl0ZXNwZXJsaW5lW2ldOw0KPj4gLSAgICAgICAgICAgICAgICAg
+ICAgIHBpeG1wLT5wbGFuZV9mbXRbaV0uc2l6ZWltYWdlID0NCj5jdXJfZm10LT5zaXplaW1hZ2Vb
+aV07DQo+PiArICAgICAgICAgICAgICAgICAgICAgcGl4bXAtPnBsYW5lX2ZtdFtpXS5zaXplaW1h
+Z2UgPQ0KPj4gKyB2cHVfZ2V0X2ZtdF9wbGFuZV9zaXplKGN1cl9mbXQsIGkpOw0KPj4gICAgICAg
+ICAgICAgICB9DQo+PiAgICAgICAgICAgICAgIHBpeG1wLT5maWVsZCA9IGN1cl9mbXQtPmZpZWxk
+Ow0KPj4gICAgICAgfQ0KPj4gQEAgLTY3OCw5ICs2OTMsMTEgQEAgc3RhdGljIHN0cnVjdCB2cHVf
+dmIyX2J1ZmZlcg0KPj4gKnZkZWNfZmluZF9idWZmZXIoc3RydWN0IHZwdV9pbnN0ICppbnN0LCB1
+MzIgbHVtYSkgIHN0YXRpYyB2b2lkDQo+PiB2ZGVjX2J1Zl9kb25lKHN0cnVjdCB2cHVfaW5zdCAq
+aW5zdCwgc3RydWN0IHZwdV9mcmFtZV9pbmZvICpmcmFtZSkgIHsNCj4+ICAgICAgIHN0cnVjdCB2
+ZGVjX3QgKnZkZWMgPSBpbnN0LT5wcml2Ow0KPj4gKyAgICAgc3RydWN0IHZwdV9mb3JtYXQgKmN1
+cl9mbXQ7DQo+PiAgICAgICBzdHJ1Y3QgdnB1X3ZiMl9idWZmZXIgKnZwdV9idWY7DQo+PiAgICAg
+ICBzdHJ1Y3QgdmIyX3Y0bDJfYnVmZmVyICp2YnVmOw0KPj4gICAgICAgdTMyIHNlcXVlbmNlOw0K
+Pj4gKyAgICAgaW50IGk7DQo+Pg0KPj4gICAgICAgaWYgKCFmcmFtZSkNCj4+ICAgICAgICAgICAg
+ICAgcmV0dXJuOw0KPj4gQEAgLTY5OSw2ICs3MTYsNyBAQCBzdGF0aWMgdm9pZCB2ZGVjX2J1Zl9k
+b25lKHN0cnVjdCB2cHVfaW5zdCAqaW5zdCwNCj5zdHJ1Y3QgdnB1X2ZyYW1lX2luZm8gKmZyYW1l
+KQ0KPj4gICAgICAgICAgICAgICByZXR1cm47DQo+PiAgICAgICB9DQo+Pg0KPj4gKyAgICAgY3Vy
+X2ZtdCA9IHZwdV9nZXRfZm9ybWF0KGluc3QsIGluc3QtPmNhcF9mb3JtYXQudHlwZSk7DQo+PiAg
+ICAgICB2YnVmID0gJnZwdV9idWYtPm0ybV9idWYudmI7DQo+PiAgICAgICBpZiAodmJ1Zi0+dmIy
+X2J1Zi5pbmRleCAhPSBmcmFtZS0+aWQpDQo+PiAgICAgICAgICAgICAgIGRldl9lcnIoaW5zdC0+
+ZGV2LCAiWyVkXSBidWZmZXIgaWQoJWQsICVkKSBkaXNtYXRjaFxuIiwNCj4+IEBAIC03MDcsOSAr
+NzI1LDkgQEAgc3RhdGljIHZvaWQgdmRlY19idWZfZG9uZShzdHJ1Y3QgdnB1X2luc3QgKmluc3Qs
+DQo+c3RydWN0IHZwdV9mcmFtZV9pbmZvICpmcmFtZSkNCj4+ICAgICAgIGlmICh2cHVfZ2V0X2J1
+ZmZlcl9zdGF0ZSh2YnVmKSAhPSBWUFVfQlVGX1NUQVRFX0RFQ09ERUQpDQo+PiAgICAgICAgICAg
+ICAgIGRldl9lcnIoaW5zdC0+ZGV2LCAiWyVkXSBidWZmZXIoJWQpIHJlYWR5IHdpdGhvdXQNCj5k
+ZWNvZGVkXG4iLCBpbnN0LT5pZCwgZnJhbWUtPmlkKTsNCj4+ICAgICAgIHZwdV9zZXRfYnVmZmVy
+X3N0YXRlKHZidWYsIFZQVV9CVUZfU1RBVEVfUkVBRFkpOw0KPj4gLSAgICAgdmIyX3NldF9wbGFu
+ZV9wYXlsb2FkKCZ2YnVmLT52YjJfYnVmLCAwLA0KPmluc3QtPmNhcF9mb3JtYXQuc2l6ZWltYWdl
+WzBdKTsNCj4+IC0gICAgIHZiMl9zZXRfcGxhbmVfcGF5bG9hZCgmdmJ1Zi0+dmIyX2J1ZiwgMSwN
+Cj5pbnN0LT5jYXBfZm9ybWF0LnNpemVpbWFnZVsxXSk7DQo+PiAtICAgICB2YnVmLT5maWVsZCA9
+IGluc3QtPmNhcF9mb3JtYXQuZmllbGQ7DQo+PiArICAgICBmb3IgKGkgPSAwOyBpIDwgdmJ1Zi0+
+dmIyX2J1Zi5udW1fcGxhbmVzOyBpKyspDQo+PiArICAgICAgICAgICAgIHZiMl9zZXRfcGxhbmVf
+cGF5bG9hZCgmdmJ1Zi0+dmIyX2J1ZiwgaSwNCj52cHVfZ2V0X2ZtdF9wbGFuZV9zaXplKGN1cl9m
+bXQsIGkpKTsNCj4+ICsgICAgIHZidWYtPmZpZWxkID0gY3VyX2ZtdC0+ZmllbGQ7DQo+PiAgICAg
+ICB2YnVmLT5zZXF1ZW5jZSA9IHNlcXVlbmNlOw0KPj4gICAgICAgZGV2X2RiZyhpbnN0LT5kZXYs
+ICJbJWRdW09VVFBVVCBUU10lMzJsbGRcbiIsIGluc3QtPmlkLA0KPj4gdmJ1Zi0+dmIyX2J1Zi50
+aW1lc3RhbXApOw0KPj4NCj4+IEBAIC03NDcsMTUgKzc2NSwxNyBAQCBzdGF0aWMgdm9pZCB2ZGVj
+X3N0b3BfZG9uZShzdHJ1Y3QgdnB1X2luc3QNCj4+ICppbnN0KSAgc3RhdGljIGJvb2wgdmRlY19j
+aGVja19zb3VyY2VfY2hhbmdlKHN0cnVjdCB2cHVfaW5zdCAqaW5zdCkgIHsNCj4+ICAgICAgIHN0
+cnVjdCB2ZGVjX3QgKnZkZWMgPSBpbnN0LT5wcml2Ow0KPj4gLSAgICAgY29uc3Qgc3RydWN0IHZw
+dV9mb3JtYXQgKmZtdDsNCj4+IC0gICAgIGludCBpOw0KPj4gKyAgICAgY29uc3Qgc3RydWN0IHZw
+dV9mb3JtYXQgKnNpYmxpbmc7DQo+Pg0KPj4gICAgICAgaWYgKCFpbnN0LT5maC5tMm1fY3R4KQ0K
+Pj4gICAgICAgICAgICAgICByZXR1cm4gZmFsc2U7DQo+Pg0KPj4gKyAgICAgc2libGluZyA9IHZw
+dV9oZWxwZXJfZmluZF9zaWJsaW5nKGluc3QsIGluc3QtPmNhcF9mb3JtYXQudHlwZSwNCj5pbnN0
+LT5jYXBfZm9ybWF0LnBpeGZtdCk7DQo+PiArICAgICBpZiAoc2libGluZyAmJiB2ZGVjLT5jb2Rl
+Y19pbmZvLnBpeGZtdCA9PSBzaWJsaW5nLT5waXhmbXQpDQo+PiArICAgICAgICAgICAgIHZkZWMt
+PmNvZGVjX2luZm8ucGl4Zm10ID0gaW5zdC0+Y2FwX2Zvcm1hdC5waXhmbXQ7DQo+PiArDQo+PiAg
+ICAgICBpZiAoIXZiMl9pc19zdHJlYW1pbmcodjRsMl9tMm1fZ2V0X2RzdF92cShpbnN0LT5maC5t
+Mm1fY3R4KSkpDQo+PiAgICAgICAgICAgICAgIHJldHVybiB0cnVlOw0KPj4gLSAgICAgZm10ID0g
+dnB1X2hlbHBlcl9maW5kX2Zvcm1hdChpbnN0LCBpbnN0LT5jYXBfZm9ybWF0LnR5cGUsDQo+dmRl
+Yy0+Y29kZWNfaW5mby5waXhmbXQpOw0KPj4gICAgICAgaWYgKGluc3QtPmNhcF9mb3JtYXQucGl4
+Zm10ICE9IHZkZWMtPmNvZGVjX2luZm8ucGl4Zm10KQ0KPj4gICAgICAgICAgICAgICByZXR1cm4g
+dHJ1ZTsNCj4+ICAgICAgIGlmIChpbnN0LT5jYXBfZm9ybWF0LndpZHRoICE9IHZkZWMtPmNvZGVj
+X2luZm8uZGVjb2RlZF93aWR0aCkgQEANCj4+IC03NzIsMTQgKzc5Miw2IEBAIHN0YXRpYyBib29s
+IHZkZWNfY2hlY2tfc291cmNlX2NoYW5nZShzdHJ1Y3QgdnB1X2luc3QNCj4qaW5zdCkNCj4+ICAg
+ICAgICAgICAgICAgcmV0dXJuIHRydWU7DQo+PiAgICAgICBpZiAoaW5zdC0+Y3JvcC5oZWlnaHQg
+IT0gdmRlYy0+Y29kZWNfaW5mby5oZWlnaHQpDQo+PiAgICAgICAgICAgICAgIHJldHVybiB0cnVl
+Ow0KPj4gLSAgICAgaWYgKGZtdCAmJiBpbnN0LT5jYXBfZm9ybWF0Lm51bV9wbGFuZXMgIT0gZm10
+LT5udW1fcGxhbmVzKQ0KPj4gLSAgICAgICAgICAgICByZXR1cm4gdHJ1ZTsNCj4+IC0gICAgIGZv
+ciAoaSA9IDA7IGkgPCBpbnN0LT5jYXBfZm9ybWF0Lm51bV9wbGFuZXM7IGkrKykgew0KPj4gLSAg
+ICAgICAgICAgICBpZiAoaW5zdC0+Y2FwX2Zvcm1hdC5ieXRlc3BlcmxpbmVbaV0gIT0NCj52ZGVj
+LT5jb2RlY19pbmZvLmJ5dGVzcGVybGluZVtpXSkNCj4+IC0gICAgICAgICAgICAgICAgICAgICBy
+ZXR1cm4gdHJ1ZTsNCj4+IC0gICAgICAgICAgICAgaWYgKGluc3QtPmNhcF9mb3JtYXQuc2l6ZWlt
+YWdlW2ldICE9DQo+dmRlYy0+Y29kZWNfaW5mby5zaXplaW1hZ2VbaV0pDQo+PiAtICAgICAgICAg
+ICAgICAgICAgICAgcmV0dXJuIHRydWU7DQo+PiAtICAgICB9DQo+Pg0KPj4gICAgICAgcmV0dXJu
+IGZhbHNlOw0KPj4gIH0NCj4+IEBAIC03ODcsMjcgKzc5OSwyMSBAQCBzdGF0aWMgYm9vbCB2ZGVj
+X2NoZWNrX3NvdXJjZV9jaGFuZ2Uoc3RydWN0DQo+PiB2cHVfaW5zdCAqaW5zdCkgIHN0YXRpYyB2
+b2lkIHZkZWNfaW5pdF9mbXQoc3RydWN0IHZwdV9pbnN0ICppbnN0KSAgew0KPj4gICAgICAgc3Ry
+dWN0IHZkZWNfdCAqdmRlYyA9IGluc3QtPnByaXY7DQo+PiAtICAgICBjb25zdCBzdHJ1Y3QgdnB1
+X2Zvcm1hdCAqZm10Ow0KPj4gLSAgICAgaW50IGk7DQo+PiArICAgICBzdHJ1Y3QgdjRsMl9mb3Jt
+YXQgZjsNCj4+DQo+PiAtICAgICBmbXQgPSB2cHVfaGVscGVyX2ZpbmRfZm9ybWF0KGluc3QsIGlu
+c3QtPmNhcF9mb3JtYXQudHlwZSwNCj52ZGVjLT5jb2RlY19pbmZvLnBpeGZtdCk7DQo+PiAtICAg
+ICBpbnN0LT5vdXRfZm9ybWF0LndpZHRoID0gdmRlYy0+Y29kZWNfaW5mby53aWR0aDsNCj4+IC0g
+ICAgIGluc3QtPm91dF9mb3JtYXQuaGVpZ2h0ID0gdmRlYy0+Y29kZWNfaW5mby5oZWlnaHQ7DQo+
+PiAtICAgICBpbnN0LT5jYXBfZm9ybWF0LndpZHRoID0gdmRlYy0+Y29kZWNfaW5mby5kZWNvZGVk
+X3dpZHRoOw0KPj4gLSAgICAgaW5zdC0+Y2FwX2Zvcm1hdC5oZWlnaHQgPSB2ZGVjLT5jb2RlY19p
+bmZvLmRlY29kZWRfaGVpZ2h0Ow0KPj4gLSAgICAgaW5zdC0+Y2FwX2Zvcm1hdC5waXhmbXQgPSB2
+ZGVjLT5jb2RlY19pbmZvLnBpeGZtdDsNCj4+IC0gICAgIGlmIChmbXQpIHsNCj4+IC0gICAgICAg
+ICAgICAgaW5zdC0+Y2FwX2Zvcm1hdC5udW1fcGxhbmVzID0gZm10LT5udW1fcGxhbmVzOw0KPj4g
+LSAgICAgICAgICAgICBpbnN0LT5jYXBfZm9ybWF0LmZsYWdzID0gZm10LT5mbGFnczsNCj4+IC0g
+ICAgIH0NCj4+IC0gICAgIGZvciAoaSA9IDA7IGkgPCBpbnN0LT5jYXBfZm9ybWF0Lm51bV9wbGFu
+ZXM7IGkrKykgew0KPj4gLSAgICAgICAgICAgICBpbnN0LT5jYXBfZm9ybWF0LmJ5dGVzcGVybGlu
+ZVtpXSA9DQo+dmRlYy0+Y29kZWNfaW5mby5ieXRlc3BlcmxpbmVbaV07DQo+PiAtICAgICAgICAg
+ICAgIGluc3QtPmNhcF9mb3JtYXQuc2l6ZWltYWdlW2ldID0gdmRlYy0+Y29kZWNfaW5mby5zaXpl
+aW1hZ2VbaV07DQo+PiAtICAgICB9DQo+PiArICAgICBtZW1zZXQoJmYsIDAsIHNpemVvZihmKSk7
+DQo+PiArICAgICBmLnR5cGUgPSBpbnN0LT5jYXBfZm9ybWF0LnR5cGU7DQo+PiArICAgICBmLmZt
+dC5waXhfbXAucGl4ZWxmb3JtYXQgPSB2ZGVjLT5jb2RlY19pbmZvLnBpeGZtdDsNCj4+ICsgICAg
+IGYuZm10LnBpeF9tcC53aWR0aCA9IHZkZWMtPmNvZGVjX2luZm8uZGVjb2RlZF93aWR0aDsNCj4+
+ICsgICAgIGYuZm10LnBpeF9tcC5oZWlnaHQgPSB2ZGVjLT5jb2RlY19pbmZvLmRlY29kZWRfaGVp
+Z2h0Ow0KPj4gICAgICAgaWYgKHZkZWMtPmNvZGVjX2luZm8ucHJvZ3Jlc3NpdmUpDQo+PiAtICAg
+ICAgICAgICAgIGluc3QtPmNhcF9mb3JtYXQuZmllbGQgPSBWNEwyX0ZJRUxEX05PTkU7DQo+PiAr
+ICAgICAgICAgICAgIGYuZm10LnBpeF9tcC5maWVsZCA9IFY0TDJfRklFTERfTk9ORTsNCj4+ICAg
+ICAgIGVsc2UNCj4+IC0gICAgICAgICAgICAgaW5zdC0+Y2FwX2Zvcm1hdC5maWVsZCA9IFY0TDJf
+RklFTERfU0VRX1RCOw0KPj4gKyAgICAgICAgICAgICBmLmZtdC5waXhfbXAuZmllbGQgPSBWNEwy
+X0ZJRUxEX1NFUV9UQjsNCj4+ICsgICAgIHZwdV90cnlfZm10X2NvbW1vbihpbnN0LCAmZiwgJmlu
+c3QtPmNhcF9mb3JtYXQpOw0KPj4gKw0KPj4gKyAgICAgaW5zdC0+b3V0X2Zvcm1hdC53aWR0aCA9
+IHZkZWMtPmNvZGVjX2luZm8ud2lkdGg7DQo+PiArICAgICBpbnN0LT5vdXRfZm9ybWF0LmhlaWdo
+dCA9IHZkZWMtPmNvZGVjX2luZm8uaGVpZ2h0Ow0KPj4gIH0NCj4+DQo+PiAgc3RhdGljIHZvaWQg
+dmRlY19pbml0X2Nyb3Aoc3RydWN0IHZwdV9pbnN0ICppbnN0KSBAQCAtOTY2LDcgKzk3MiwxMA0K
+Pj4gQEAgc3RhdGljIGludCB2ZGVjX3Jlc3BvbnNlX2ZyYW1lKHN0cnVjdCB2cHVfaW5zdCAqaW5z
+dCwgc3RydWN0DQo+dmIyX3Y0bDJfYnVmZmVyICp2Yg0KPj4gICAgICAgaW5mby50YWcgPSB2ZGVj
+LT5zZXFfdGFnOw0KPj4gICAgICAgaW5mby5sdW1hX2FkZHIgPSB2cHVfZ2V0X3ZiX3BoeV9hZGRy
+KCZ2YnVmLT52YjJfYnVmLCAwKTsNCj4+ICAgICAgIGluZm8ubHVtYV9zaXplID0gaW5zdC0+Y2Fw
+X2Zvcm1hdC5zaXplaW1hZ2VbMF07DQo+PiAtICAgICBpbmZvLmNocm9tYV9hZGRyID0gdnB1X2dl
+dF92Yl9waHlfYWRkcigmdmJ1Zi0+dmIyX2J1ZiwgMSk7DQo+PiArICAgICBpZiAodmJ1Zi0+dmIy
+X2J1Zi5udW1fcGxhbmVzID4gMSkNCj4+ICsgICAgICAgICAgICAgaW5mby5jaHJvbWFfYWRkciA9
+IHZwdV9nZXRfdmJfcGh5X2FkZHIoJnZidWYtPnZiMl9idWYsDQo+MSk7DQo+PiArICAgICBlbHNl
+DQo+PiArICAgICAgICAgICAgIGluZm8uY2hyb21hX2FkZHIgPSBpbmZvLmx1bWFfYWRkciArIGlu
+Zm8ubHVtYV9zaXplOw0KPj4gICAgICAgaW5mby5jaHJvbWF1X3NpemUgPSBpbnN0LT5jYXBfZm9y
+bWF0LnNpemVpbWFnZVsxXTsNCj4+ICAgICAgIGluZm8uYnl0ZXNwZXJsaW5lID0gaW5zdC0+Y2Fw
+X2Zvcm1hdC5ieXRlc3BlcmxpbmVbMF07DQo+PiAgICAgICByZXQgPSB2cHVfc2Vzc2lvbl9hbGxv
+Y19mcyhpbnN0LCAmaW5mbyk7IEBAIC05NzUsNyArOTg0LDcgQEANCj4+IHN0YXRpYyBpbnQgdmRl
+Y19yZXNwb25zZV9mcmFtZShzdHJ1Y3QgdnB1X2luc3QgKmluc3QsIHN0cnVjdA0KPj4gdmIyX3Y0
+bDJfYnVmZmVyICp2Yg0KPj4NCj4+ICAgICAgIHZwdV9idWYtPnRhZyA9IGluZm8udGFnOw0KPj4g
+ICAgICAgdnB1X2J1Zi0+bHVtYSA9IGluZm8ubHVtYV9hZGRyOw0KPj4gLSAgICAgdnB1X2J1Zi0+
+Y2hyb21hX3UgPSBpbmZvLmNocm9tYXVfc2l6ZTsNCj4+ICsgICAgIHZwdV9idWYtPmNocm9tYV91
+ID0gaW5mby5jaHJvbWFfYWRkcjsNCj4+ICAgICAgIHZwdV9idWYtPmNocm9tYV92ID0gMDsNCj4+
+ICAgICAgIHZwdV9zZXRfYnVmZmVyX3N0YXRlKHZidWYsIFZQVV9CVUZfU1RBVEVfSU5VU0UpOw0K
+Pj4gICAgICAgdmRlYy0+c2xvdHNbaW5mby5pZF0gPSB2cHVfYnVmOw0KPj4gZGlmZiAtLWdpdCBh
+L2RyaXZlcnMvbWVkaWEvcGxhdGZvcm0vYW1waGlvbi92ZW5jLmMNCj4+IGIvZHJpdmVycy9tZWRp
+YS9wbGF0Zm9ybS9hbXBoaW9uL3ZlbmMuYw0KPj4gaW5kZXggMzcyMTJmMDg3ZmRkLi4wNjBhMWVl
+NzhiMTcgMTAwNjQ0DQo+PiAtLS0gYS9kcml2ZXJzL21lZGlhL3BsYXRmb3JtL2FtcGhpb24vdmVu
+Yy5jDQo+PiArKysgYi9kcml2ZXJzL21lZGlhL3BsYXRmb3JtL2FtcGhpb24vdmVuYy5jDQo+PiBA
+QCAtNjksMTMgKzY5LDE2IEBAIHN0cnVjdCB2ZW5jX2ZyYW1lX3QgeyAgc3RhdGljIGNvbnN0IHN0
+cnVjdA0KPj4gdnB1X2Zvcm1hdCB2ZW5jX2Zvcm1hdHNbXSA9IHsNCj4+ICAgICAgIHsNCj4+ICAg
+ICAgICAgICAgICAgLnBpeGZtdCA9IFY0TDJfUElYX0ZNVF9OVjEyTSwNCj4+IC0gICAgICAgICAg
+ICAgLm51bV9wbGFuZXMgPSAyLA0KPj4gKyAgICAgICAgICAgICAubWVtX3BsYW5lcyA9IDIsDQo+
+PiArICAgICAgICAgICAgIC5jb21wX3BsYW5lcyA9IDIsDQo+PiAgICAgICAgICAgICAgIC50eXBl
+ID0gVjRMMl9CVUZfVFlQRV9WSURFT19PVVRQVVRfTVBMQU5FLA0KPj4gICAgICAgfSwNCj4+ICAg
+ICAgIHsNCj4+ICAgICAgICAgICAgICAgLnBpeGZtdCA9IFY0TDJfUElYX0ZNVF9IMjY0LA0KPj4g
+LSAgICAgICAgICAgICAubnVtX3BsYW5lcyA9IDEsDQo+PiArICAgICAgICAgICAgIC5tZW1fcGxh
+bmVzID0gMSwNCj4+ICsgICAgICAgICAgICAgLmNvbXBfcGxhbmVzID0gMSwNCj4+ICAgICAgICAg
+ICAgICAgLnR5cGUgPSBWNEwyX0JVRl9UWVBFX1ZJREVPX0NBUFRVUkVfTVBMQU5FLA0KPj4gKyAg
+ICAgICAgICAgICAuZmxhZ3MgPSBWNEwyX0ZNVF9GTEFHX0NPTVBSRVNTRUQNCj4+ICAgICAgIH0s
+DQo+PiAgICAgICB7MCwgMCwgMCwgMH0sDQo+PiAgfTsNCj4+IEBAIC0xNzMsMTQgKzE3NiwxNCBA
+QCBzdGF0aWMgaW50IHZlbmNfZ19mbXQoc3RydWN0IGZpbGUgKmZpbGUsIHZvaWQgKmZoLA0KPnN0
+cnVjdCB2NGwyX2Zvcm1hdCAqZikNCj4+ICAgICAgIGN1cl9mbXQgPSB2cHVfZ2V0X2Zvcm1hdChp
+bnN0LCBmLT50eXBlKTsNCj4+DQo+PiAgICAgICBwaXhtcC0+cGl4ZWxmb3JtYXQgPSBjdXJfZm10
+LT5waXhmbXQ7DQo+PiAtICAgICBwaXhtcC0+bnVtX3BsYW5lcyA9IGN1cl9mbXQtPm51bV9wbGFu
+ZXM7DQo+PiArICAgICBwaXhtcC0+bnVtX3BsYW5lcyA9IGN1cl9mbXQtPm1lbV9wbGFuZXM7DQo+
+PiAgICAgICBwaXhtcC0+d2lkdGggPSBjdXJfZm10LT53aWR0aDsNCj4+ICAgICAgIHBpeG1wLT5o
+ZWlnaHQgPSBjdXJfZm10LT5oZWlnaHQ7DQo+PiAgICAgICBwaXhtcC0+ZmllbGQgPSBjdXJfZm10
+LT5maWVsZDsNCj4+ICAgICAgIHBpeG1wLT5mbGFncyA9IGN1cl9mbXQtPmZsYWdzOw0KPj4gICAg
+ICAgZm9yIChpID0gMDsgaSA8IHBpeG1wLT5udW1fcGxhbmVzOyBpKyspIHsNCj4+ICAgICAgICAg
+ICAgICAgcGl4bXAtPnBsYW5lX2ZtdFtpXS5ieXRlc3BlcmxpbmUgPSBjdXJfZm10LT5ieXRlc3Bl
+cmxpbmVbaV07DQo+PiAtICAgICAgICAgICAgIHBpeG1wLT5wbGFuZV9mbXRbaV0uc2l6ZWltYWdl
+ID0gY3VyX2ZtdC0+c2l6ZWltYWdlW2ldOw0KPj4gKyAgICAgICAgICAgICBwaXhtcC0+cGxhbmVf
+Zm10W2ldLnNpemVpbWFnZSA9DQo+PiArIHZwdV9nZXRfZm10X3BsYW5lX3NpemUoY3VyX2ZtdCwg
+aSk7DQo+PiAgICAgICB9DQo+Pg0KPj4gICAgICAgZi0+Zm10LnBpeF9tcC5jb2xvcnNwYWNlID0g
+dmVuYy0+cGFyYW1zLmNvbG9yLnByaW1hcmllczsgQEANCj4+IC0xOTQsOCArMTk3LDkgQEAgc3Rh
+dGljIGludCB2ZW5jX2dfZm10KHN0cnVjdCBmaWxlICpmaWxlLCB2b2lkICpmaCwNCj4+IHN0cnVj
+dCB2NGwyX2Zvcm1hdCAqZikgIHN0YXRpYyBpbnQgdmVuY190cnlfZm10KHN0cnVjdCBmaWxlICpm
+aWxlLA0KPj4gdm9pZCAqZmgsIHN0cnVjdCB2NGwyX2Zvcm1hdCAqZikgIHsNCj4+ICAgICAgIHN0
+cnVjdCB2cHVfaW5zdCAqaW5zdCA9IHRvX2luc3QoZmlsZSk7DQo+PiArICAgICBzdHJ1Y3QgdnB1
+X2Zvcm1hdCBmbXQ7DQo+Pg0KPj4gLSAgICAgdnB1X3RyeV9mbXRfY29tbW9uKGluc3QsIGYpOw0K
+Pj4gKyAgICAgdnB1X3RyeV9mbXRfY29tbW9uKGluc3QsIGYsICZmbXQpOw0KPj4NCj4+ICAgICAg
+IHJldHVybiAwOw0KPj4gIH0NCj4+IEBAIC0yMDMsMTIgKzIwNywxMSBAQCBzdGF0aWMgaW50IHZl
+bmNfdHJ5X2ZtdChzdHJ1Y3QgZmlsZSAqZmlsZSwgdm9pZA0KPj4gKmZoLCBzdHJ1Y3QgdjRsMl9m
+b3JtYXQgKmYpICBzdGF0aWMgaW50IHZlbmNfc19mbXQoc3RydWN0IGZpbGUgKmZpbGUsDQo+PiB2
+b2lkICpmaCwgc3RydWN0IHY0bDJfZm9ybWF0ICpmKSAgew0KPj4gICAgICAgc3RydWN0IHZwdV9p
+bnN0ICppbnN0ID0gdG9faW5zdChmaWxlKTsNCj4+IC0gICAgIGNvbnN0IHN0cnVjdCB2cHVfZm9y
+bWF0ICpmbXQ7DQo+PiArICAgICBzdHJ1Y3QgdnB1X2Zvcm1hdCBmbXQ7DQo+PiAgICAgICBzdHJ1
+Y3QgdnB1X2Zvcm1hdCAqY3VyX2ZtdDsNCj4+ICAgICAgIHN0cnVjdCB2YjJfcXVldWUgKnE7DQo+
+PiAgICAgICBzdHJ1Y3QgdmVuY190ICp2ZW5jID0gaW5zdC0+cHJpdjsNCj4+ICAgICAgIHN0cnVj
+dCB2NGwyX3BpeF9mb3JtYXRfbXBsYW5lICpwaXhfbXAgPSAmZi0+Zm10LnBpeF9tcDsNCj4+IC0g
+ICAgIGludCBpOw0KPj4NCj4+ICAgICAgIHEgPSB2NGwyX20ybV9nZXRfdnEoaW5zdC0+ZmgubTJt
+X2N0eCwgZi0+dHlwZSk7DQo+PiAgICAgICBpZiAoIXEpDQo+PiBAQCAtMjE2LDI0ICsyMTksMTIg
+QEAgc3RhdGljIGludCB2ZW5jX3NfZm10KHN0cnVjdCBmaWxlICpmaWxlLCB2b2lkICpmaCwNCj5z
+dHJ1Y3QgdjRsMl9mb3JtYXQgKmYpDQo+PiAgICAgICBpZiAodmIyX2lzX2J1c3kocSkpDQo+PiAg
+ICAgICAgICAgICAgIHJldHVybiAtRUJVU1k7DQo+Pg0KPj4gLSAgICAgZm10ID0gdnB1X3RyeV9m
+bXRfY29tbW9uKGluc3QsIGYpOw0KPj4gLSAgICAgaWYgKCFmbXQpDQo+PiArICAgICBpZiAodnB1
+X3RyeV9mbXRfY29tbW9uKGluc3QsIGYsICZmbXQpKQ0KPj4gICAgICAgICAgICAgICByZXR1cm4g
+LUVJTlZBTDsNCj4+DQo+PiAgICAgICBjdXJfZm10ID0gdnB1X2dldF9mb3JtYXQoaW5zdCwgZi0+
+dHlwZSk7DQo+Pg0KPj4gLSAgICAgY3VyX2ZtdC0+cGl4Zm10ID0gZm10LT5waXhmbXQ7DQo+PiAt
+ICAgICBjdXJfZm10LT5udW1fcGxhbmVzID0gZm10LT5udW1fcGxhbmVzOw0KPj4gLSAgICAgY3Vy
+X2ZtdC0+ZmxhZ3MgPSBmbXQtPmZsYWdzOw0KPj4gLSAgICAgY3VyX2ZtdC0+d2lkdGggPSBwaXhf
+bXAtPndpZHRoOw0KPj4gLSAgICAgY3VyX2ZtdC0+aGVpZ2h0ID0gcGl4X21wLT5oZWlnaHQ7DQo+
+PiAtICAgICBmb3IgKGkgPSAwOyBpIDwgZm10LT5udW1fcGxhbmVzOyBpKyspIHsNCj4+IC0gICAg
+ICAgICAgICAgY3VyX2ZtdC0+c2l6ZWltYWdlW2ldID0gcGl4X21wLT5wbGFuZV9mbXRbaV0uc2l6
+ZWltYWdlOw0KPj4gLSAgICAgICAgICAgICBjdXJfZm10LT5ieXRlc3BlcmxpbmVbaV0gPSBwaXhf
+bXAtPnBsYW5lX2ZtdFtpXS5ieXRlc3BlcmxpbmU7DQo+PiAtICAgICB9DQo+PiAtDQo+PiAtICAg
+ICBpZiAocGl4X21wLT5maWVsZCAhPSBWNEwyX0ZJRUxEX0FOWSkNCj4+IC0gICAgICAgICAgICAg
+Y3VyX2ZtdC0+ZmllbGQgPSBwaXhfbXAtPmZpZWxkOw0KPj4gKyAgICAgbWVtY3B5KGN1cl9mbXQs
+ICZmbXQsIHNpemVvZigqY3VyX2ZtdCkpOw0KPj4NCj4+ICAgICAgIGlmIChWNEwyX1RZUEVfSVNf
+T1VUUFVUKGYtPnR5cGUpKSB7DQo+PiAgICAgICAgICAgICAgIHZlbmMtPnBhcmFtcy5pbnB1dF9m
+b3JtYXQgPSBjdXJfZm10LT5waXhmbXQ7IGRpZmYgLS1naXQNCj4+IGEvZHJpdmVycy9tZWRpYS9w
+bGF0Zm9ybS9hbXBoaW9uL3ZwdS5oDQo+PiBiL2RyaXZlcnMvbWVkaWEvcGxhdGZvcm0vYW1waGlv
+bi92cHUuaA0KPj4gaW5kZXggZjkxNGRlNmVkODFlLi45OTg1OTFmYTViODUgMTAwNjQ0DQo+PiAt
+LS0gYS9kcml2ZXJzL21lZGlhL3BsYXRmb3JtL2FtcGhpb24vdnB1LmgNCj4+ICsrKyBiL2RyaXZl
+cnMvbWVkaWEvcGxhdGZvcm0vYW1waGlvbi92cHUuaA0KPj4gQEAgLTg0LDcgKzg0LDggQEAgc3Ry
+dWN0IHZwdV9kZXYgew0KPj4NCj4+ICBzdHJ1Y3QgdnB1X2Zvcm1hdCB7DQo+PiAgICAgICB1MzIg
+cGl4Zm10Ow0KPj4gLSAgICAgdW5zaWduZWQgaW50IG51bV9wbGFuZXM7DQo+PiArICAgICB1MzIg
+bWVtX3BsYW5lczsNCj4+ICsgICAgIHUzMiBjb21wX3BsYW5lczsNCj4+ICAgICAgIHUzMiB0eXBl
+Ow0KPj4gICAgICAgdTMyIGZsYWdzOw0KPj4gICAgICAgdTMyIHdpZHRoOw0KPj4gQEAgLTkyLDYg
+KzkzLDcgQEAgc3RydWN0IHZwdV9mb3JtYXQgew0KPj4gICAgICAgdTMyIHNpemVpbWFnZVtWSURF
+T19NQVhfUExBTkVTXTsNCj4+ICAgICAgIHUzMiBieXRlc3BlcmxpbmVbVklERU9fTUFYX1BMQU5F
+U107DQo+PiAgICAgICB1MzIgZmllbGQ7DQo+PiArICAgICB1MzIgc2libGluZzsNCj4+ICB9Ow0K
+Pj4NCj4+ICBzdHJ1Y3QgdnB1X2NvcmVfcmVzb3VyY2VzIHsNCj4+IGRpZmYgLS1naXQgYS9kcml2
+ZXJzL21lZGlhL3BsYXRmb3JtL2FtcGhpb24vdnB1X2RiZy5jDQo+PiBiL2RyaXZlcnMvbWVkaWEv
+cGxhdGZvcm0vYW1waGlvbi92cHVfZGJnLmMNCj4+IGluZGV4IGY3MmM4YTUwNmIyMi4uYzQxYzk4
+OTY5MTJjIDEwMDY0NA0KPj4gLS0tIGEvZHJpdmVycy9tZWRpYS9wbGF0Zm9ybS9hbXBoaW9uL3Zw
+dV9kYmcuYw0KPj4gKysrIGIvZHJpdmVycy9tZWRpYS9wbGF0Zm9ybS9hbXBoaW9uL3ZwdV9kYmcu
+Yw0KPj4gQEAgLTg5LDkgKzg5LDkgQEAgc3RhdGljIGludCB2cHVfZGJnX2luc3RhbmNlKHN0cnVj
+dCBzZXFfZmlsZSAqcywgdm9pZA0KPipkYXRhKQ0KPj4gICAgICAgICAgICAgICAgICAgICAgIHZx
+LT5sYXN0X2J1ZmZlcl9kZXF1ZXVlZCk7DQo+PiAgICAgICBpZiAoc2VxX3dyaXRlKHMsIHN0ciwg
+bnVtKSkNCj4+ICAgICAgICAgICAgICAgcmV0dXJuIDA7DQo+PiAtICAgICBmb3IgKGkgPSAwOyBp
+IDwgaW5zdC0+b3V0X2Zvcm1hdC5udW1fcGxhbmVzOyBpKyspIHsNCj4+ICsgICAgIGZvciAoaSA9
+IDA7IGkgPCBpbnN0LT5vdXRfZm9ybWF0Lm1lbV9wbGFuZXM7IGkrKykgew0KPj4gICAgICAgICAg
+ICAgICBudW0gPSBzY25wcmludGYoc3RyLCBzaXplb2Yoc3RyKSwgIiAlZCglZCkiLA0KPj4gLSAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgaW5zdC0+b3V0X2Zvcm1hdC5zaXplaW1hZ2VbaV0s
+DQo+PiArDQo+PiArIHZwdV9nZXRfZm10X3BsYW5lX3NpemUoJmluc3QtPm91dF9mb3JtYXQsIGkp
+LA0KPj4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgaW5zdC0+b3V0X2Zvcm1hdC5ieXRl
+c3BlcmxpbmVbaV0pOw0KPj4gICAgICAgICAgICAgICBpZiAoc2VxX3dyaXRlKHMsIHN0ciwgbnVt
+KSkNCj4+ICAgICAgICAgICAgICAgICAgICAgICByZXR1cm4gMDsNCj4+IEBAIC0xMTMsOSArMTEz
+LDkgQEAgc3RhdGljIGludCB2cHVfZGJnX2luc3RhbmNlKHN0cnVjdCBzZXFfZmlsZSAqcywgdm9p
+ZA0KPipkYXRhKQ0KPj4gICAgICAgICAgICAgICAgICAgICAgIHZxLT5sYXN0X2J1ZmZlcl9kZXF1
+ZXVlZCk7DQo+PiAgICAgICBpZiAoc2VxX3dyaXRlKHMsIHN0ciwgbnVtKSkNCj4+ICAgICAgICAg
+ICAgICAgcmV0dXJuIDA7DQo+PiAtICAgICBmb3IgKGkgPSAwOyBpIDwgaW5zdC0+Y2FwX2Zvcm1h
+dC5udW1fcGxhbmVzOyBpKyspIHsNCj4+ICsgICAgIGZvciAoaSA9IDA7IGkgPCBpbnN0LT5jYXBf
+Zm9ybWF0Lm1lbV9wbGFuZXM7IGkrKykgew0KPj4gICAgICAgICAgICAgICBudW0gPSBzY25wcmlu
+dGYoc3RyLCBzaXplb2Yoc3RyKSwgIiAlZCglZCkiLA0KPj4gLSAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgaW5zdC0+Y2FwX2Zvcm1hdC5zaXplaW1hZ2VbaV0sDQo+PiArDQo+PiArIHZwdV9n
+ZXRfZm10X3BsYW5lX3NpemUoJmluc3QtPmNhcF9mb3JtYXQsIGkpLA0KPj4gICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgaW5zdC0+Y2FwX2Zvcm1hdC5ieXRlc3BlcmxpbmVbaV0pOw0KPj4g
+ICAgICAgICAgICAgICBpZiAoc2VxX3dyaXRlKHMsIHN0ciwgbnVtKSkNCj4+ICAgICAgICAgICAg
+ICAgICAgICAgICByZXR1cm4gMDsNCj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL21lZGlhL3BsYXRm
+b3JtL2FtcGhpb24vdnB1X2hlbHBlcnMuYw0KPj4gYi9kcml2ZXJzL21lZGlhL3BsYXRmb3JtL2Ft
+cGhpb24vdnB1X2hlbHBlcnMuYw0KPj4gaW5kZXggZTlhZWIzNDUzZGZjLi5kYjhmNDcxYjkxODcg
+MTAwNjQ0DQo+PiAtLS0gYS9kcml2ZXJzL21lZGlhL3BsYXRmb3JtL2FtcGhpb24vdnB1X2hlbHBl
+cnMuYw0KPj4gKysrIGIvZHJpdmVycy9tZWRpYS9wbGF0Zm9ybS9hbXBoaW9uL3ZwdV9oZWxwZXJz
+LmMNCj4+IEBAIC01OSw2ICs1OSwzOSBAQCBjb25zdCBzdHJ1Y3QgdnB1X2Zvcm1hdA0KPip2cHVf
+aGVscGVyX2ZpbmRfZm9ybWF0KHN0cnVjdCB2cHVfaW5zdCAqaW5zdCwgdTMyIHR5cGUsDQo+PiAg
+ICAgICByZXR1cm4gTlVMTDsNCj4+ICB9DQo+Pg0KPj4gK2NvbnN0IHN0cnVjdCB2cHVfZm9ybWF0
+ICp2cHVfaGVscGVyX2ZpbmRfc2libGluZyhzdHJ1Y3QgdnB1X2luc3QNCj4+ICsqaW5zdCwgdTMy
+IHR5cGUsIHUzMiBwaXhlbGZtdCkgew0KPj4gKyAgICAgY29uc3Qgc3RydWN0IHZwdV9mb3JtYXQg
+KmZtdDsNCj4+ICsgICAgIGNvbnN0IHN0cnVjdCB2cHVfZm9ybWF0ICpzaWJsaW5nOw0KPj4gKw0K
+Pj4gKyAgICAgZm10ID0gdnB1X2hlbHBlcl9maW5kX2Zvcm1hdChpbnN0LCB0eXBlLCBwaXhlbGZt
+dCk7DQo+PiArICAgICBpZiAoIWZtdCkNCj4+ICsgICAgICAgICAgICAgcmV0dXJuIE5VTEw7DQo+
+PiArICAgICBpZiAoIWZtdC0+c2libGluZykNCj4+ICsgICAgICAgICAgICAgcmV0dXJuIE5VTEw7
+DQo+PiArICAgICBzaWJsaW5nID0gdnB1X2hlbHBlcl9maW5kX2Zvcm1hdChpbnN0LCB0eXBlLCBm
+bXQtPnNpYmxpbmcpOw0KPj4gKyAgICAgaWYgKCFzaWJsaW5nKQ0KPj4gKyAgICAgICAgICAgICBy
+ZXR1cm4gTlVMTDsNCj4+ICsgICAgIGlmIChzaWJsaW5nLT5zaWJsaW5nICE9IGZtdC0+cGl4Zm10
+KQ0KPj4gKyAgICAgICAgICAgICByZXR1cm4gTlVMTDsNCj4+ICsgICAgIGlmIChzaWJsaW5nLT5j
+b21wX3BsYW5lcyAhPSBmbXQtPmNvbXBfcGxhbmVzKQ0KPj4gKyAgICAgICAgICAgICByZXR1cm4g
+TlVMTDsNCj4+ICsgICAgIHJldHVybiBzaWJsaW5nOw0KPj4gK30NCj4+ICsNCj4+ICtib29sIHZw
+dV9oZWxwZXJfbWF0Y2hfZm9ybWF0KHN0cnVjdCB2cHVfaW5zdCAqaW5zdCwgdTMyIHR5cGUsIHUz
+Mg0KPj4gK2ZtdGEsIHUzMiBmbXRiKSB7DQo+PiArICAgICBjb25zdCBzdHJ1Y3QgdnB1X2Zvcm1h
+dCAqc2libGluZzsNCj4+ICsNCj4+ICsgICAgIGlmIChmbXRhID09IGZtdGIpDQo+PiArICAgICAg
+ICAgICAgIHJldHVybiB0cnVlOw0KPj4gKw0KPj4gKyAgICAgc2libGluZyA9IHZwdV9oZWxwZXJf
+ZmluZF9zaWJsaW5nKGluc3QsIHR5cGUsIGZtdGEpOw0KPj4gKyAgICAgaWYgKHNpYmxpbmcgJiYg
+c2libGluZy0+cGl4Zm10ID09IGZtdGIpDQo+PiArICAgICAgICAgICAgIHJldHVybiB0cnVlOw0K
+Pj4gKyAgICAgcmV0dXJuIGZhbHNlOw0KPj4gK30NCj4+ICsNCj4+ICBjb25zdCBzdHJ1Y3QgdnB1
+X2Zvcm1hdCAqdnB1X2hlbHBlcl9lbnVtX2Zvcm1hdChzdHJ1Y3QgdnB1X2luc3QNCj4+ICppbnN0
+LCB1MzIgdHlwZSwgaW50IGluZGV4KSAgew0KPj4gICAgICAgY29uc3Qgc3RydWN0IHZwdV9mb3Jt
+YXQgKnBmbXQ7DQo+PiBAQCAtMTIzLDkgKzE1NiwxMCBAQCBzdGF0aWMgdTMyIGdldF9udjEyX3Bs
+YW5lX3NpemUodTMyIHdpZHRoLCB1MzINCj5oZWlnaHQsIGludCBwbGFuZV9ubywNCj4+ICAgICAg
+IHUzMiBieXRlc3BlcmxpbmU7DQo+PiAgICAgICB1MzIgc2l6ZSA9IDA7DQo+Pg0KPj4gLSAgICAg
+Ynl0ZXNwZXJsaW5lID0gQUxJR04od2lkdGgsIHN0cmlkZSk7DQo+PiArICAgICBieXRlc3Blcmxp
+bmUgPSB3aWR0aDsNCj4+ICAgICAgIGlmIChwYmwpDQo+PiAgICAgICAgICAgICAgIGJ5dGVzcGVy
+bGluZSA9IG1heChieXRlc3BlcmxpbmUsICpwYmwpOw0KPj4gKyAgICAgYnl0ZXNwZXJsaW5lID0g
+QUxJR04oYnl0ZXNwZXJsaW5lLCBzdHJpZGUpOw0KPj4gICAgICAgaGVpZ2h0ID0gQUxJR04oaGVp
+Z2h0LCAyKTsNCj4+ICAgICAgIGlmIChwbGFuZV9ubyA9PSAwKQ0KPj4gICAgICAgICAgICAgICBz
+aXplID0gYnl0ZXNwZXJsaW5lICogaGVpZ2h0OyBAQCAtMTQ4LDEzICsxODIsMTMgQEANCj4+IHN0
+YXRpYyB1MzIgZ2V0X3RpbGVkXzhsMTI4X3BsYW5lX3NpemUodTMyIGZtdCwgdTMyIHdpZHRoLCB1
+MzIgaGVpZ2h0LA0KPj4gaW50IHBsYW5lXw0KPj4NCj4+ICAgICAgIGlmIChpbnRlcmxhY2VkKQ0K
+Pj4gICAgICAgICAgICAgICBocysrOw0KPj4gLSAgICAgaWYgKGZtdCA9PSBWNEwyX1BJWF9GTVRf
+TlYxMk1fMTBCRV84TDEyOCkNCj4+ICsgICAgIGlmIChmbXQgPT0gVjRMMl9QSVhfRk1UX05WMTJN
+XzEwQkVfOEwxMjggfHwgZm10ID09DQo+PiArIFY0TDJfUElYX0ZNVF9OVjEyXzEwQkVfOEwxMjgp
+DQo+PiAgICAgICAgICAgICAgIGJpdGRlcHRoID0gMTA7DQo+PiAgICAgICBieXRlc3BlcmxpbmUg
+PSBESVZfUk9VTkRfVVAod2lkdGggKiBiaXRkZXB0aCwgQklUU19QRVJfQllURSk7DQo+PiAtICAg
+ICBieXRlc3BlcmxpbmUgPSBBTElHTihieXRlc3BlcmxpbmUsIDEgPDwgd3MpOw0KPj4gLSAgICAg
+Ynl0ZXNwZXJsaW5lID0gQUxJR04oYnl0ZXNwZXJsaW5lLCBzdHJpZGUpOw0KPj4gICAgICAgaWYg
+KHBibCkNCj4+ICAgICAgICAgICAgICAgYnl0ZXNwZXJsaW5lID0gbWF4KGJ5dGVzcGVybGluZSwg
+KnBibCk7DQo+PiArICAgICBieXRlc3BlcmxpbmUgPSBBTElHTihieXRlc3BlcmxpbmUsIDEgPDwg
+d3MpOw0KPj4gKyAgICAgYnl0ZXNwZXJsaW5lID0gQUxJR04oYnl0ZXNwZXJsaW5lLCBzdHJpZGUp
+Ow0KPj4gICAgICAgaGVpZ2h0ID0gQUxJR04oaGVpZ2h0LCAxIDw8IGhzKTsNCj4+ICAgICAgIGlm
+IChwbGFuZV9ubyA9PSAwKQ0KPj4gICAgICAgICAgICAgICBzaXplID0gYnl0ZXNwZXJsaW5lICog
+aGVpZ2h0OyBAQCAtMTcyLDkgKzIwNiwxMCBAQA0KPj4gc3RhdGljIHUzMiBnZXRfZGVmYXVsdF9w
+bGFuZV9zaXplKHUzMiB3aWR0aCwgdTMyIGhlaWdodCwgaW50IHBsYW5lX25vLA0KPj4gICAgICAg
+dTMyIGJ5dGVzcGVybGluZTsNCj4+ICAgICAgIHUzMiBzaXplID0gMDsNCj4+DQo+PiAtICAgICBi
+eXRlc3BlcmxpbmUgPSBBTElHTih3aWR0aCwgc3RyaWRlKTsNCj4+ICsgICAgIGJ5dGVzcGVybGlu
+ZSA9IHdpZHRoOw0KPj4gICAgICAgaWYgKHBibCkNCj4+ICAgICAgICAgICAgICAgYnl0ZXNwZXJs
+aW5lID0gbWF4KGJ5dGVzcGVybGluZSwgKnBibCk7DQo+PiArICAgICBieXRlc3BlcmxpbmUgPSBB
+TElHTihieXRlc3BlcmxpbmUsIHN0cmlkZSk7DQo+PiAgICAgICBpZiAocGxhbmVfbm8gPT0gMCkN
+Cj4+ICAgICAgICAgICAgICAgc2l6ZSA9IGJ5dGVzcGVybGluZSAqIGhlaWdodDsNCj4+ICAgICAg
+IGlmIChwYmwpDQo+PiBAQCAtMTg3LDkgKzIyMiwxMiBAQCB1MzIgdnB1X2hlbHBlcl9nZXRfcGxh
+bmVfc2l6ZSh1MzIgZm10LCB1MzIgdywgdTMyDQo+aCwgaW50IHBsYW5lX25vLA0KPj4gICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgIHUzMiBzdHJpZGUsIHUzMiBpbnRlcmxhY2VkLCB1MzIgKnBi
+bCkgIHsNCj4+ICAgICAgIHN3aXRjaCAoZm10KSB7DQo+PiArICAgICBjYXNlIFY0TDJfUElYX0ZN
+VF9OVjEyOg0KPj4gICAgICAgY2FzZSBWNEwyX1BJWF9GTVRfTlYxMk06DQo+PiAgICAgICAgICAg
+ICAgIHJldHVybiBnZXRfbnYxMl9wbGFuZV9zaXplKHcsIGgsIHBsYW5lX25vLCBzdHJpZGUsDQo+
+PiBpbnRlcmxhY2VkLCBwYmwpOw0KPj4gKyAgICAgY2FzZSBWNEwyX1BJWF9GTVRfTlYxMl84TDEy
+ODoNCj4+ICAgICAgIGNhc2UgVjRMMl9QSVhfRk1UX05WMTJNXzhMMTI4Og0KPj4gKyAgICAgY2Fz
+ZSBWNEwyX1BJWF9GTVRfTlYxMl8xMEJFXzhMMTI4Og0KPj4gICAgICAgY2FzZSBWNEwyX1BJWF9G
+TVRfTlYxMk1fMTBCRV84TDEyODoNCj4+ICAgICAgICAgICAgICAgcmV0dXJuIGdldF90aWxlZF84
+bDEyOF9wbGFuZV9zaXplKGZtdCwgdywgaCwgcGxhbmVfbm8sIHN0cmlkZSwNCj5pbnRlcmxhY2Vk
+LCBwYmwpOw0KPj4gICAgICAgZGVmYXVsdDoNCj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL21lZGlh
+L3BsYXRmb3JtL2FtcGhpb24vdnB1X2hlbHBlcnMuaA0KPj4gYi9kcml2ZXJzL21lZGlhL3BsYXRm
+b3JtL2FtcGhpb24vdnB1X2hlbHBlcnMuaA0KPj4gaW5kZXggYmMyODM1MDk1OGJlLi4wZWFkZGIw
+NzE5MGQgMTAwNjQ0DQo+PiAtLS0gYS9kcml2ZXJzL21lZGlhL3BsYXRmb3JtL2FtcGhpb24vdnB1
+X2hlbHBlcnMuaA0KPj4gKysrIGIvZHJpdmVycy9tZWRpYS9wbGF0Zm9ybS9hbXBoaW9uL3ZwdV9o
+ZWxwZXJzLmgNCj4+IEBAIC0xNCw2ICsxNCw4IEBAIHN0cnVjdCB2cHVfcGFpciB7DQo+PiAgaW50
+IHZwdV9oZWxwZXJfZmluZF9pbl9hcnJheV91OChjb25zdCB1OCAqYXJyYXksIHUzMiBzaXplLCB1
+MzIgeCk7DQo+PiBib29sIHZwdV9oZWxwZXJfY2hlY2tfdHlwZShzdHJ1Y3QgdnB1X2luc3QgKmlu
+c3QsIHUzMiB0eXBlKTsgIGNvbnN0DQo+PiBzdHJ1Y3QgdnB1X2Zvcm1hdCAqdnB1X2hlbHBlcl9m
+aW5kX2Zvcm1hdChzdHJ1Y3QgdnB1X2luc3QgKmluc3QsIHUzMg0KPj4gdHlwZSwgdTMyIHBpeGVs
+Zm10KTsNCj4+ICtjb25zdCBzdHJ1Y3QgdnB1X2Zvcm1hdCAqdnB1X2hlbHBlcl9maW5kX3NpYmxp
+bmcoc3RydWN0IHZwdV9pbnN0DQo+PiArKmluc3QsIHUzMiB0eXBlLCB1MzIgcGl4ZWxmbXQpOyBi
+b29sIHZwdV9oZWxwZXJfbWF0Y2hfZm9ybWF0KHN0cnVjdA0KPj4gK3ZwdV9pbnN0ICppbnN0LCB1
+MzIgdHlwZSwgdTMyIGZtdGEsIHUzMiBmbXRiKTsNCj4+ICBjb25zdCBzdHJ1Y3QgdnB1X2Zvcm1h
+dCAqdnB1X2hlbHBlcl9lbnVtX2Zvcm1hdChzdHJ1Y3QgdnB1X2luc3QNCj4+ICppbnN0LCB1MzIg
+dHlwZSwgaW50IGluZGV4KTsNCj4+ICB1MzIgdnB1X2hlbHBlcl92YWxpZF9mcmFtZV93aWR0aChz
+dHJ1Y3QgdnB1X2luc3QgKmluc3QsIHUzMiB3aWR0aCk7DQo+PiAgdTMyIHZwdV9oZWxwZXJfdmFs
+aWRfZnJhbWVfaGVpZ2h0KHN0cnVjdCB2cHVfaW5zdCAqaW5zdCwgdTMyIGhlaWdodCk7DQo+PiBk
+aWZmIC0tZ2l0IGEvZHJpdmVycy9tZWRpYS9wbGF0Zm9ybS9hbXBoaW9uL3ZwdV9tYWxvbmUuYw0K
+Pj4gYi9kcml2ZXJzL21lZGlhL3BsYXRmb3JtL2FtcGhpb24vdnB1X21hbG9uZS5jDQo+PiBpbmRl
+eCA1MWUwNzAyZjlhZTEuLjY5ZDlhMjI2OWZjZSAxMDA2NDQNCj4+IC0tLSBhL2RyaXZlcnMvbWVk
+aWEvcGxhdGZvcm0vYW1waGlvbi92cHVfbWFsb25lLmMNCj4+ICsrKyBiL2RyaXZlcnMvbWVkaWEv
+cGxhdGZvcm0vYW1waGlvbi92cHVfbWFsb25lLmMNCj4+IEBAIC01ODMsNyArNTgzLDggQEAgYm9v
+bCB2cHVfbWFsb25lX2NoZWNrX2ZtdChlbnVtIHZwdV9jb3JlX3R5cGUNCj50eXBlLCB1MzIgcGl4
+ZWxmbXQpDQo+PiAgICAgICBpZiAoIXZwdV9pbXg4cV9jaGVja19mbXQodHlwZSwgcGl4ZWxmbXQp
+KQ0KPj4gICAgICAgICAgICAgICByZXR1cm4gZmFsc2U7DQo+Pg0KPj4gLSAgICAgaWYgKHBpeGVs
+Zm10ID09IFY0TDJfUElYX0ZNVF9OVjEyTV84TDEyOCB8fCBwaXhlbGZtdCA9PQ0KPlY0TDJfUElY
+X0ZNVF9OVjEyTV8xMEJFXzhMMTI4KQ0KPj4gKyAgICAgaWYgKHBpeGVsZm10ID09IFY0TDJfUElY
+X0ZNVF9OVjEyXzhMMTI4IHx8IHBpeGVsZm10ID09DQo+VjRMMl9QSVhfRk1UX05WMTJfMTBCRV84
+TDEyOCB8fA0KPj4gKyAgICAgICAgIHBpeGVsZm10ID09IFY0TDJfUElYX0ZNVF9OVjEyTV84TDEy
+OCB8fCBwaXhlbGZtdCA9PQ0KPj4gKyBWNEwyX1BJWF9GTVRfTlYxMk1fMTBCRV84TDEyOCkNCj4+
+ICAgICAgICAgICAgICAgcmV0dXJuIHRydWU7DQo+PiAgICAgICBpZiAodnB1X21hbG9uZV9mb3Jt
+YXRfcmVtYXAocGl4ZWxmbXQpID09IE1BTE9ORV9GTVRfTlVMTCkNCj4+ICAgICAgICAgICAgICAg
+cmV0dXJuIGZhbHNlOw0KPj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvbWVkaWEvcGxhdGZvcm0vYW1w
+aGlvbi92cHVfdjRsMi5jDQo+PiBiL2RyaXZlcnMvbWVkaWEvcGxhdGZvcm0vYW1waGlvbi92cHVf
+djRsMi5jDQo+PiBpbmRleCA4YTNlZWQ5NTdhZTYuLjg3Y2NlNTUyZTkwNiAxMDA2NDQNCj4+IC0t
+LSBhL2RyaXZlcnMvbWVkaWEvcGxhdGZvcm0vYW1waGlvbi92cHVfdjRsMi5jDQo+PiArKysgYi9k
+cml2ZXJzL21lZGlhL3BsYXRmb3JtL2FtcGhpb24vdnB1X3Y0bDIuYw0KPj4gQEAgLTE0MCw1MSAr
+MTQwLDEzNSBAQCBib29sIHZwdV9pc19zb3VyY2VfZW1wdHkoc3RydWN0IHZwdV9pbnN0ICppbnN0
+KQ0KPj4gICAgICAgcmV0dXJuIHRydWU7DQo+PiAgfQ0KPj4NCj4+IC1jb25zdCBzdHJ1Y3QgdnB1
+X2Zvcm1hdCAqdnB1X3RyeV9mbXRfY29tbW9uKHN0cnVjdCB2cHVfaW5zdCAqaW5zdCwNCj4+IHN0
+cnVjdCB2NGwyX2Zvcm1hdCAqZikNCj4+ICtzdGF0aWMgaW50IHZwdV9pbml0X2Zvcm1hdChzdHJ1
+Y3QgdnB1X2luc3QgKmluc3QsIHN0cnVjdCB2cHVfZm9ybWF0DQo+PiArKmZtdCkgew0KPj4gKyAg
+ICAgY29uc3Qgc3RydWN0IHZwdV9mb3JtYXQgKmluZm87DQo+PiArDQo+PiArICAgICBpbmZvID0g
+dnB1X2hlbHBlcl9maW5kX2Zvcm1hdChpbnN0LCBmbXQtPnR5cGUsIGZtdC0+cGl4Zm10KTsNCj4+
+ICsgICAgIGlmICghaW5mbykgew0KPj4gKyAgICAgICAgICAgICBpbmZvID0gdnB1X2hlbHBlcl9l
+bnVtX2Zvcm1hdChpbnN0LCBmbXQtPnR5cGUsIDApOw0KPj4gKyAgICAgICAgICAgICBpZiAoIWlu
+Zm8pDQo+PiArICAgICAgICAgICAgICAgICAgICAgcmV0dXJuIC1FSU5WQUw7DQo+PiArICAgICB9
+DQo+PiArICAgICBtZW1jcHkoZm10LCBpbmZvLCBzaXplb2YoKmZtdCkpOw0KPj4gKw0KPj4gKyAg
+ICAgcmV0dXJuIDA7DQo+PiArfQ0KPj4gKw0KPj4gK3N0YXRpYyBpbnQgdnB1X2NhbGNfZm10X2J5
+dGVzcGVybGluZShzdHJ1Y3QgdjRsMl9mb3JtYXQgKmYsIHN0cnVjdA0KPj4gK3ZwdV9mb3JtYXQg
+KmZtdCkNCj4+ICB7DQo+PiAgICAgICBzdHJ1Y3QgdjRsMl9waXhfZm9ybWF0X21wbGFuZSAqcGl4
+bXAgPSAmZi0+Zm10LnBpeF9tcDsNCj4+IC0gICAgIHUzMiB0eXBlID0gZi0+dHlwZTsNCj4+ICsg
+ICAgIGludCBpOw0KPj4gKw0KPj4gKyAgICAgaWYgKGZtdC0+ZmxhZ3MgJiBWNEwyX0ZNVF9GTEFH
+X0NPTVBSRVNTRUQpIHsNCj4+ICsgICAgICAgICAgICAgZm9yIChpID0gMDsgaSA8IGZtdC0+Y29t
+cF9wbGFuZXM7IGkrKykNCj4+ICsgICAgICAgICAgICAgICAgICAgICBmbXQtPmJ5dGVzcGVybGlu
+ZVtpXSA9IDA7DQo+PiArICAgICAgICAgICAgIHJldHVybiAwOw0KPj4gKyAgICAgfQ0KPj4gKyAg
+ICAgaWYgKHBpeG1wLT5udW1fcGxhbmVzID09IGZtdC0+Y29tcF9wbGFuZXMpIHsNCj4+ICsgICAg
+ICAgICAgICAgZm9yIChpID0gMDsgaSA8IGZtdC0+Y29tcF9wbGFuZXM7IGkrKykNCj4+ICsgICAg
+ICAgICAgICAgICAgICAgICBmbXQtPmJ5dGVzcGVybGluZVtpXSA9DQo+cGl4bXAtPnBsYW5lX2Zt
+dFtpXS5ieXRlc3BlcmxpbmU7DQo+PiArICAgICAgICAgICAgIHJldHVybiAwOw0KPj4gKyAgICAg
+fQ0KPj4gKyAgICAgaWYgKHBpeG1wLT5udW1fcGxhbmVzID4gMSkNCj4+ICsgICAgICAgICAgICAg
+cmV0dXJuIC1FSU5WQUw7DQo+PiArDQo+PiArICAgICAvKmFtcGhpb24gdnB1IG9ubHkgc3VwcG9y
+dCBudjEyIGFuZCBudjEyIHRpbGVkLA0KPj4gKyAgICAgICogc28gdGhlIGJ5dGVzcGVybGluZSBv
+ZiBsdW1hIGFuZCBjaHJvbWEgc2hvdWxkIGJlIHNhbWUNCj4+ICsgICAgICAqLw0KPj4gKyAgICAg
+Zm9yIChpID0gMDsgaSA8IGZtdC0+Y29tcF9wbGFuZXM7IGkrKykNCj4+ICsgICAgICAgICAgICAg
+Zm10LT5ieXRlc3BlcmxpbmVbaV0gPSBwaXhtcC0+cGxhbmVfZm10WzBdLmJ5dGVzcGVybGluZTsN
+Cj4+ICsNCj4+ICsgICAgIHJldHVybiAwOw0KPj4gK30NCj4+ICsNCj4+ICtzdGF0aWMgaW50IHZw
+dV9jYWxjX2ZtdF9zaXplaW1hZ2Uoc3RydWN0IHZwdV9pbnN0ICppbnN0LCBzdHJ1Y3QNCj4+ICt2
+cHVfZm9ybWF0ICpmbXQpIHsNCj4+ICAgICAgIHUzMiBzdHJpZGUgPSAxOw0KPj4gLSAgICAgdTMy
+IGJ5dGVzcGVybGluZTsNCj4+IC0gICAgIHUzMiBzaXplaW1hZ2U7DQo+PiAtICAgICBjb25zdCBz
+dHJ1Y3QgdnB1X2Zvcm1hdCAqZm10Ow0KPj4gLSAgICAgY29uc3Qgc3RydWN0IHZwdV9jb3JlX3Jl
+c291cmNlcyAqcmVzOw0KPj4gICAgICAgaW50IGk7DQo+Pg0KPj4gLSAgICAgZm10ID0gdnB1X2hl
+bHBlcl9maW5kX2Zvcm1hdChpbnN0LCB0eXBlLCBwaXhtcC0+cGl4ZWxmb3JtYXQpOw0KPj4gLSAg
+ICAgaWYgKCFmbXQpIHsNCj4+IC0gICAgICAgICAgICAgZm10ID0gdnB1X2hlbHBlcl9lbnVtX2Zv
+cm1hdChpbnN0LCB0eXBlLCAwKTsNCj4+IC0gICAgICAgICAgICAgaWYgKCFmbXQpDQo+PiAtICAg
+ICAgICAgICAgICAgICAgICAgcmV0dXJuIE5VTEw7DQo+PiAtICAgICAgICAgICAgIHBpeG1wLT5w
+aXhlbGZvcm1hdCA9IGZtdC0+cGl4Zm10Ow0KPj4gKyAgICAgaWYgKCEoZm10LT5mbGFncyAmIFY0
+TDJfRk1UX0ZMQUdfQ09NUFJFU1NFRCkpIHsNCj4+ICsgICAgICAgICAgICAgY29uc3Qgc3RydWN0
+IHZwdV9jb3JlX3Jlc291cmNlcyAqcmVzID0NCj4+ICsgdnB1X2dldF9yZXNvdXJjZShpbnN0KTsN
+Cj4+ICsNCj4+ICsgICAgICAgICAgICAgaWYgKHJlcykNCj4+ICsgICAgICAgICAgICAgICAgICAg
+ICBzdHJpZGUgPSByZXMtPnN0cmlkZTsNCj4+ICAgICAgIH0NCj4+DQo+PiAtICAgICByZXMgPSB2
+cHVfZ2V0X3Jlc291cmNlKGluc3QpOw0KPj4gLSAgICAgaWYgKHJlcykNCj4+IC0gICAgICAgICAg
+ICAgc3RyaWRlID0gcmVzLT5zdHJpZGU7DQo+PiAtICAgICBpZiAocGl4bXAtPndpZHRoKQ0KPj4g
+LSAgICAgICAgICAgICBwaXhtcC0+d2lkdGggPSB2cHVfaGVscGVyX3ZhbGlkX2ZyYW1lX3dpZHRo
+KGluc3QsDQo+cGl4bXAtPndpZHRoKTsNCj4+IC0gICAgIGlmIChwaXhtcC0+aGVpZ2h0KQ0KPj4g
+LSAgICAgICAgICAgICBwaXhtcC0+aGVpZ2h0ID0gdnB1X2hlbHBlcl92YWxpZF9mcmFtZV9oZWln
+aHQoaW5zdCwNCj5waXhtcC0+aGVpZ2h0KTsNCj4+ICsgICAgIGZvciAoaSA9IDA7IGkgPCBmbXQt
+PmNvbXBfcGxhbmVzOyBpKyspIHsNCj4+ICsgICAgICAgICAgICAgZm10LT5zaXplaW1hZ2VbaV0g
+PSB2cHVfaGVscGVyX2dldF9wbGFuZV9zaXplKGZtdC0+cGl4Zm10LA0KPj4gKw0KPmZtdC0+d2lk
+dGgsDQo+PiArDQo+Zm10LT5oZWlnaHQsDQo+PiArICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBpLA0KPj4gKyAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgc3RyaWRlLA0KPj4gKw0K
+PmZtdC0+ZmllbGQgIT0gVjRMMl9GSUVMRF9OT05FID8gMSA6IDAsDQo+PiArDQo+JmZtdC0+Ynl0
+ZXNwZXJsaW5lW2ldKTsNCj4+ICsgICAgICAgICAgICAgZm10LT5zaXplaW1hZ2VbaV0gPSBtYXhf
+dCh1MzIsIGZtdC0+c2l6ZWltYWdlW2ldLCBQQUdFX1NJWkUpOw0KPj4gKyAgICAgICAgICAgICBp
+ZiAoZm10LT5mbGFncyAmIFY0TDJfRk1UX0ZMQUdfQ09NUFJFU1NFRCkgew0KPj4gKyAgICAgICAg
+ICAgICAgICAgICAgIGZtdC0+c2l6ZWltYWdlW2ldID0gY2xhbXBfdmFsKGZtdC0+c2l6ZWltYWdl
+W2ldLA0KPlNaXzEyOEssIFNaXzhNKTsNCj4+ICsgICAgICAgICAgICAgICAgICAgICBmbXQtPmJ5
+dGVzcGVybGluZVtpXSA9IDA7DQo+PiArICAgICAgICAgICAgIH0NCj4+ICsgICAgIH0NCj4+ICsN
+Cj4+ICsgICAgIHJldHVybiAwOw0KPj4gK30NCj4+ICsNCj4+ICt1MzIgdnB1X2dldF9mbXRfcGxh
+bmVfc2l6ZShzdHJ1Y3QgdnB1X2Zvcm1hdCAqZm10LCB1MzIgcGxhbmVfbm8pIHsNCj4+ICsgICAg
+IHUzMiBzaXplOw0KPj4gKyAgICAgaW50IGk7DQo+PiArDQo+PiArICAgICBpZiAocGxhbmVfbm8g
+Pj0gZm10LT5tZW1fcGxhbmVzKQ0KPj4gKyAgICAgICAgICAgICByZXR1cm4gMDsNCj4+ICsNCj4+
+ICsgICAgIGlmIChmbXQtPmNvbXBfcGxhbmVzID09IGZtdC0+bWVtX3BsYW5lcykNCj4+ICsgICAg
+ICAgICAgICAgcmV0dXJuIGZtdC0+c2l6ZWltYWdlW3BsYW5lX25vXTsNCj4+ICsgICAgIGlmIChw
+bGFuZV9ubyA8IGZtdC0+bWVtX3BsYW5lcyAtIDEpDQo+PiArICAgICAgICAgICAgIHJldHVybiBm
+bXQtPnNpemVpbWFnZVtwbGFuZV9ub107DQo+PiArICAgICBzaXplID0gZm10LT5zaXplaW1hZ2Vb
+cGxhbmVfbm9dOw0KPj4gKyAgICAgZm9yIChpID0gZm10LT5tZW1fcGxhbmVzOyBpIDwgZm10LT5j
+b21wX3BsYW5lczsgaSsrKQ0KPj4gKyAgICAgICAgICAgICBzaXplICs9IGZtdC0+c2l6ZWltYWdl
+W2ldOw0KPj4gKw0KPj4gKyAgICAgcmV0dXJuIHNpemU7DQo+PiArfQ0KPj4gKw0KPj4gK2ludCB2
+cHVfdHJ5X2ZtdF9jb21tb24oc3RydWN0IHZwdV9pbnN0ICppbnN0LCBzdHJ1Y3QgdjRsMl9mb3Jt
+YXQgKmYsDQo+PiArc3RydWN0IHZwdV9mb3JtYXQgKmZtdCkgew0KPj4gKyAgICAgc3RydWN0IHY0
+bDJfcGl4X2Zvcm1hdF9tcGxhbmUgKnBpeG1wID0gJmYtPmZtdC5waXhfbXA7DQo+PiArICAgICBp
+bnQgaTsNCj4+ICsgICAgIGludCByZXQ7DQo+PiArDQo+PiArICAgICBmbXQtPnBpeGZtdCA9IHBp
+eG1wLT5waXhlbGZvcm1hdDsNCj4+ICsgICAgIGZtdC0+dHlwZSA9IGYtPnR5cGU7DQo+PiArICAg
+ICByZXQgPSB2cHVfaW5pdF9mb3JtYXQoaW5zdCwgZm10KTsNCj4+ICsgICAgIGlmIChyZXQgPCAw
+KQ0KPj4gKyAgICAgICAgICAgICByZXR1cm4gcmV0Ow0KPj4gKw0KPj4gKyAgICAgZm10LT53aWR0
+aCA9IHBpeG1wLT53aWR0aDsNCj4+ICsgICAgIGZtdC0+aGVpZ2h0ID0gcGl4bXAtPmhlaWdodDsN
+Cj4+ICsgICAgIGlmIChmbXQtPndpZHRoKQ0KPj4gKyAgICAgICAgICAgICBmbXQtPndpZHRoID0g
+dnB1X2hlbHBlcl92YWxpZF9mcmFtZV93aWR0aChpbnN0LA0KPmZtdC0+d2lkdGgpOw0KPj4gKyAg
+ICAgaWYgKGZtdC0+aGVpZ2h0KQ0KPj4gKyAgICAgICAgICAgICBmbXQtPmhlaWdodCA9IHZwdV9o
+ZWxwZXJfdmFsaWRfZnJhbWVfaGVpZ2h0KGluc3QsDQo+Zm10LT5oZWlnaHQpOw0KPj4gKyAgICAg
+Zm10LT5maWVsZCA9IHBpeG1wLT5maWVsZCA9PSBWNEwyX0ZJRUxEX0FOWSA/IFY0TDJfRklFTERf
+Tk9ORSA6DQo+cGl4bXAtPmZpZWxkOw0KPj4gKyAgICAgdnB1X2NhbGNfZm10X2J5dGVzcGVybGlu
+ZShmLCBmbXQpOw0KPj4gKyAgICAgdnB1X2NhbGNfZm10X3NpemVpbWFnZShpbnN0LCBmbXQpOw0K
+Pj4gKyAgICAgaWYgKChmbXQtPmZsYWdzICYgVjRMMl9GTVRfRkxBR19DT01QUkVTU0VEKSAmJg0K
+PnBpeG1wLT5wbGFuZV9mbXRbMF0uc2l6ZWltYWdlKQ0KPj4gKyAgICAgICAgICAgICBmbXQtPnNp
+emVpbWFnZVswXSA9DQo+PiArIGNsYW1wX3ZhbChwaXhtcC0+cGxhbmVfZm10WzBdLnNpemVpbWFn
+ZSwgU1pfMTI4SywgU1pfOE0pOw0KPj4gKw0KPj4gKyAgICAgcGl4bXAtPnBpeGVsZm9ybWF0ID0g
+Zm10LT5waXhmbXQ7DQo+PiArICAgICBwaXhtcC0+d2lkdGggPSBmbXQtPndpZHRoOw0KPj4gKyAg
+ICAgcGl4bXAtPmhlaWdodCA9IGZtdC0+aGVpZ2h0Ow0KPj4gICAgICAgcGl4bXAtPmZsYWdzID0g
+Zm10LT5mbGFnczsNCj4+IC0gICAgIHBpeG1wLT5udW1fcGxhbmVzID0gZm10LT5udW1fcGxhbmVz
+Ow0KPj4gLSAgICAgaWYgKHBpeG1wLT5maWVsZCA9PSBWNEwyX0ZJRUxEX0FOWSkNCj4+IC0gICAg
+ICAgICAgICAgcGl4bXAtPmZpZWxkID0gVjRMMl9GSUVMRF9OT05FOw0KPj4gKyAgICAgcGl4bXAt
+Pm51bV9wbGFuZXMgPSBmbXQtPm1lbV9wbGFuZXM7DQo+PiArICAgICBwaXhtcC0+ZmllbGQgPSBm
+bXQtPmZpZWxkOw0KPj4gKyAgICAgbWVtc2V0KHBpeG1wLT5yZXNlcnZlZCwgMCwgc2l6ZW9mKHBp
+eG1wLT5yZXNlcnZlZCkpOw0KPj4gICAgICAgZm9yIChpID0gMDsgaSA8IHBpeG1wLT5udW1fcGxh
+bmVzOyBpKyspIHsNCj4+IC0gICAgICAgICAgICAgYnl0ZXNwZXJsaW5lID0gbWF4X3QoczMyLCBw
+aXhtcC0+cGxhbmVfZm10W2ldLmJ5dGVzcGVybGluZSwNCj4wKTsNCj4+IC0gICAgICAgICAgICAg
+c2l6ZWltYWdlID0gdnB1X2hlbHBlcl9nZXRfcGxhbmVfc2l6ZShwaXhtcC0+cGl4ZWxmb3JtYXQs
+DQo+PiAtICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+cGl4bXAtPndpZHRoLA0KPj4gLSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgIHBpeG1wLT5oZWlnaHQsDQo+PiAtICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgaSwNCj4+IC0gICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICBzdHJpZGUsDQo+PiAtICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgcGl4bXAtPmZpZWxkID4NCj5WNEwy
+X0ZJRUxEX05PTkUgPyAxIDogMCwNCj4+IC0gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAmYnl0ZXNwZXJsaW5lKTsNCj4+IC0gICAgICAgICAgICAgc2l6
+ZWltYWdlID0gbWF4X3QoczMyLCBwaXhtcC0+cGxhbmVfZm10W2ldLnNpemVpbWFnZSwNCj5zaXpl
+aW1hZ2UpOw0KPj4gLSAgICAgICAgICAgICBwaXhtcC0+cGxhbmVfZm10W2ldLmJ5dGVzcGVybGlu
+ZSA9IGJ5dGVzcGVybGluZTsNCj4+IC0gICAgICAgICAgICAgcGl4bXAtPnBsYW5lX2ZtdFtpXS5z
+aXplaW1hZ2UgPSBzaXplaW1hZ2U7DQo+PiArICAgICAgICAgICAgIHBpeG1wLT5wbGFuZV9mbXRb
+aV0uYnl0ZXNwZXJsaW5lID0gZm10LT5ieXRlc3BlcmxpbmVbaV07DQo+PiArICAgICAgICAgICAg
+IHBpeG1wLT5wbGFuZV9mbXRbaV0uc2l6ZWltYWdlID0gdnB1X2dldF9mbXRfcGxhbmVfc2l6ZShm
+bXQsDQo+aSk7DQo+PiArICAgICAgICAgICAgIG1lbXNldChwaXhtcC0+cGxhbmVfZm10W2ldLnJl
+c2VydmVkLCAwLA0KPj4gKyBzaXplb2YocGl4bXAtPnBsYW5lX2ZtdFtpXS5yZXNlcnZlZCkpOw0K
+Pj4gICAgICAgfQ0KPj4NCj4+IC0gICAgIHJldHVybiBmbXQ7DQo+PiArICAgICByZXR1cm4gMDsN
+Cj4+ICB9DQo+Pg0KPj4gIHN0YXRpYyBib29sIHZwdV9jaGVja19yZWFkeShzdHJ1Y3QgdnB1X2lu
+c3QgKmluc3QsIHUzMiB0eXBlKSBAQA0KPj4gLTM4OSwxMCArNDczLDEwIEBAIHN0YXRpYyBpbnQg
+dnB1X3ZiMl9xdWV1ZV9zZXR1cChzdHJ1Y3QgdmIyX3F1ZXVlICp2cSwNCj4+ICAgICAgIGN1cl9m
+bXQgPSB2cHVfZ2V0X2Zvcm1hdChpbnN0LCB2cS0+dHlwZSk7DQo+Pg0KPj4gICAgICAgaWYgKCpw
+bGFuZV9jb3VudCkgew0KPj4gLSAgICAgICAgICAgICBpZiAoKnBsYW5lX2NvdW50ICE9IGN1cl9m
+bXQtPm51bV9wbGFuZXMpDQo+PiArICAgICAgICAgICAgIGlmICgqcGxhbmVfY291bnQgIT0gY3Vy
+X2ZtdC0+bWVtX3BsYW5lcykNCj4+ICAgICAgICAgICAgICAgICAgICAgICByZXR1cm4gLUVJTlZB
+TDsNCj4+IC0gICAgICAgICAgICAgZm9yIChpID0gMDsgaSA8IGN1cl9mbXQtPm51bV9wbGFuZXM7
+IGkrKykgew0KPj4gLSAgICAgICAgICAgICAgICAgICAgIGlmIChwc2l6ZVtpXSA8IGN1cl9mbXQt
+PnNpemVpbWFnZVtpXSkNCj4+ICsgICAgICAgICAgICAgZm9yIChpID0gMDsgaSA8IGN1cl9mbXQt
+Pm1lbV9wbGFuZXM7IGkrKykgew0KPj4gKyAgICAgICAgICAgICAgICAgICAgIGlmIChwc2l6ZVtp
+XSA8IHZwdV9nZXRfZm10X3BsYW5lX3NpemUoY3VyX2ZtdCwNCj4+ICsgaSkpDQo+PiAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICByZXR1cm4gLUVJTlZBTDsNCj4+ICAgICAgICAgICAgICAg
+fQ0KPj4gICAgICAgICAgICAgICByZXR1cm4gMDsNCj4+IEBAIC00MDIsOSArNDg2LDkgQEAgc3Rh
+dGljIGludCB2cHVfdmIyX3F1ZXVlX3NldHVwKHN0cnVjdCB2YjJfcXVldWUNCj4qdnEsDQo+PiAg
+ICAgICAgICAgICAgICpidWZfY291bnQgPSBtYXhfdCh1bnNpZ25lZCBpbnQsICpidWZfY291bnQs
+DQo+aW5zdC0+bWluX2J1ZmZlcl9vdXQpOw0KPj4gICAgICAgZWxzZQ0KPj4gICAgICAgICAgICAg
+ICAqYnVmX2NvdW50ID0gbWF4X3QodW5zaWduZWQgaW50LCAqYnVmX2NvdW50LA0KPmluc3QtPm1p
+bl9idWZmZXJfY2FwKTsNCj4+IC0gICAgICpwbGFuZV9jb3VudCA9IGN1cl9mbXQtPm51bV9wbGFu
+ZXM7DQo+PiAtICAgICBmb3IgKGkgPSAwOyBpIDwgY3VyX2ZtdC0+bnVtX3BsYW5lczsgaSsrKQ0K
+Pj4gLSAgICAgICAgICAgICBwc2l6ZVtpXSA9IGN1cl9mbXQtPnNpemVpbWFnZVtpXTsNCj4+ICsg
+ICAgICpwbGFuZV9jb3VudCA9IGN1cl9mbXQtPm1lbV9wbGFuZXM7DQo+PiArICAgICBmb3IgKGkg
+PSAwOyBpIDwgY3VyX2ZtdC0+bWVtX3BsYW5lczsgaSsrKQ0KPj4gKyAgICAgICAgICAgICBwc2l6
+ZVtpXSA9IHZwdV9nZXRfZm10X3BsYW5lX3NpemUoY3VyX2ZtdCwgaSk7DQo+Pg0KPj4gICAgICAg
+cmV0dXJuIDA7DQo+PiAgfQ0KPj4gQEAgLTQzNCw4ICs1MTgsOCBAQCBzdGF0aWMgaW50IHZwdV92
+YjJfYnVmX3ByZXBhcmUoc3RydWN0IHZiMl9idWZmZXINCj4qdmIpDQo+PiAgICAgICB1MzIgaTsN
+Cj4+DQo+PiAgICAgICBjdXJfZm10ID0gdnB1X2dldF9mb3JtYXQoaW5zdCwgdmItPnR5cGUpOw0K
+Pj4gLSAgICAgZm9yIChpID0gMDsgaSA8IGN1cl9mbXQtPm51bV9wbGFuZXM7IGkrKykgew0KPj4g
+LSAgICAgICAgICAgICBpZiAodnB1X2dldF92Yl9sZW5ndGgodmIsIGkpIDwgY3VyX2ZtdC0+c2l6
+ZWltYWdlW2ldKSB7DQo+PiArICAgICBmb3IgKGkgPSAwOyBpIDwgY3VyX2ZtdC0+bWVtX3BsYW5l
+czsgaSsrKSB7DQo+PiArICAgICAgICAgICAgIGlmICh2cHVfZ2V0X3ZiX2xlbmd0aCh2YiwgaSkg
+PA0KPj4gKyB2cHVfZ2V0X2ZtdF9wbGFuZV9zaXplKGN1cl9mbXQsIGkpKSB7DQo+PiAgICAgICAg
+ICAgICAgICAgICAgICAgZGV2X2RiZyhpbnN0LT5kZXYsICJbJWRdICVzIGJ1ZlslZF0gaXMgaW52
+YWxpZFxuIiwNCj4+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGluc3QtPmlkLCB2cHVf
+dHlwZV9uYW1lKHZiLT50eXBlKSwNCj52Yi0+aW5kZXgpOw0KPj4gICAgICAgICAgICAgICAgICAg
+ICAgIHZwdV9zZXRfYnVmZmVyX3N0YXRlKHZidWYsDQo+VlBVX0JVRl9TVEFURV9FUlJPUik7DQo+
+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9tZWRpYS9wbGF0Zm9ybS9hbXBoaW9uL3ZwdV92NGwyLmgN
+Cj4+IGIvZHJpdmVycy9tZWRpYS9wbGF0Zm9ybS9hbXBoaW9uL3ZwdV92NGwyLmgNCj4+IGluZGV4
+IDc5NWNhMzNhNmE1MC4uZWY1ZGU2YjY2ZTQ3IDEwMDY0NA0KPj4gLS0tIGEvZHJpdmVycy9tZWRp
+YS9wbGF0Zm9ybS9hbXBoaW9uL3ZwdV92NGwyLmgNCj4+ICsrKyBiL2RyaXZlcnMvbWVkaWEvcGxh
+dGZvcm0vYW1waGlvbi92cHVfdjRsMi5oDQo+PiBAQCAtMTYsNyArMTYsOCBAQCB1bnNpZ25lZCBp
+bnQgdnB1X2dldF9idWZmZXJfc3RhdGUoc3RydWN0DQo+PiB2YjJfdjRsMl9idWZmZXIgKnZidWYp
+OyAgaW50IHZwdV92NGwyX29wZW4oc3RydWN0IGZpbGUgKmZpbGUsIHN0cnVjdA0KPj4gdnB1X2lu
+c3QgKmluc3QpOyAgaW50IHZwdV92NGwyX2Nsb3NlKHN0cnVjdCBmaWxlICpmaWxlKTsNCj4+DQo+
+PiAtY29uc3Qgc3RydWN0IHZwdV9mb3JtYXQgKnZwdV90cnlfZm10X2NvbW1vbihzdHJ1Y3QgdnB1
+X2luc3QgKmluc3QsDQo+PiBzdHJ1Y3QgdjRsMl9mb3JtYXQgKmYpOw0KPj4gK3UzMiB2cHVfZ2V0
+X2ZtdF9wbGFuZV9zaXplKHN0cnVjdCB2cHVfZm9ybWF0ICpmbXQsIHUzMiBwbGFuZV9ubyk7IGlu
+dA0KPj4gK3ZwdV90cnlfZm10X2NvbW1vbihzdHJ1Y3QgdnB1X2luc3QgKmluc3QsIHN0cnVjdCB2
+NGwyX2Zvcm1hdCAqZiwNCj4+ICtzdHJ1Y3QgdnB1X2Zvcm1hdCAqZm10KTsNCj4+ICBpbnQgdnB1
+X3Byb2Nlc3Nfb3V0cHV0X2J1ZmZlcihzdHJ1Y3QgdnB1X2luc3QgKmluc3QpOyAgaW50DQo+PiB2
+cHVfcHJvY2Vzc19jYXB0dXJlX2J1ZmZlcihzdHJ1Y3QgdnB1X2luc3QgKmluc3QpOyAgc3RydWN0
+DQo+PiB2YjJfdjRsMl9idWZmZXIgKnZwdV9uZXh0X3NyY19idWYoc3RydWN0IHZwdV9pbnN0ICpp
+bnN0KTsgZGlmZiAtLWdpdA0KPj4gYS9kcml2ZXJzL21lZGlhL3BsYXRmb3JtL2FtcGhpb24vdnB1
+X3dpbmRzb3IuYw0KPj4gYi9kcml2ZXJzL21lZGlhL3BsYXRmb3JtL2FtcGhpb24vdnB1X3dpbmRz
+b3IuYw0KPj4gaW5kZXggMTUyNmFmMmVmOWRhLi5hNDU0ZjE0MmFlMTcgMTAwNjQ0DQo+PiAtLS0g
+YS9kcml2ZXJzL21lZGlhL3BsYXRmb3JtL2FtcGhpb24vdnB1X3dpbmRzb3IuYw0KPj4gKysrIGIv
+ZHJpdmVycy9tZWRpYS9wbGF0Zm9ybS9hbXBoaW9uL3ZwdV93aW5kc29yLmMNCj4+IEBAIC03NzUs
+NiArNzc1LDggQEAgc3RhdGljIGludCB2cHVfd2luZHNvcl9maWxsX3l1dl9mcmFtZShzdHJ1Y3QN
+Cj52cHVfc2hhcmVkX2FkZHIgKnNoYXJlZCwNCj4+ICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgIHUzMiBpbnN0YW5jZSwNCj4+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgIHN0cnVjdCB2YjJfYnVmZmVyICp2YikgIHsNCj4+ICsgICAgIHN0cnVjdCB2cHVfaW5z
+dCAqaW5zdCA9IHZiMl9nZXRfZHJ2X3ByaXYodmItPnZiMl9xdWV1ZSk7DQo+PiArICAgICBzdHJ1
+Y3QgdnB1X2Zvcm1hdCAqb3V0X2ZtdDsNCj4+ICAgICAgIHN0cnVjdCB2cHVfZW5jX3l1dl9kZXNj
+ICpkZXNjOw0KPj4gICAgICAgc3RydWN0IHZiMl92NGwyX2J1ZmZlciAqdmJ1ZjsNCj4+DQo+PiBA
+QCAtNzgyLDYgKzc4NCw3IEBAIHN0YXRpYyBpbnQgdnB1X3dpbmRzb3JfZmlsbF95dXZfZnJhbWUo
+c3RydWN0DQo+dnB1X3NoYXJlZF9hZGRyICpzaGFyZWQsDQo+PiAgICAgICAgICAgICAgIHJldHVy
+biAtRUlOVkFMOw0KPj4NCj4+ICAgICAgIGRlc2MgPSBnZXRfeXV2X2Rlc2Moc2hhcmVkLCBpbnN0
+YW5jZSk7DQo+PiArICAgICBvdXRfZm10ID0gdnB1X2dldF9mb3JtYXQoaW5zdCwgdmItPnR5cGUp
+Ow0KPj4NCj4+ICAgICAgIHZidWYgPSB0b192YjJfdjRsMl9idWZmZXIodmIpOw0KPj4gICAgICAg
+ZGVzYy0+ZnJhbWVfaWQgPSB2YnVmLT5zZXF1ZW5jZTsgQEAgLTc5MCw3ICs3OTMsMTAgQEAgc3Rh
+dGljIGludA0KPj4gdnB1X3dpbmRzb3JfZmlsbF95dXZfZnJhbWUoc3RydWN0IHZwdV9zaGFyZWRf
+YWRkciAqc2hhcmVkLA0KPj4gICAgICAgZWxzZQ0KPj4gICAgICAgICAgICAgICBkZXNjLT5rZXlf
+ZnJhbWUgPSAwOw0KPj4gICAgICAgZGVzYy0+bHVtYV9iYXNlID0gdnB1X2dldF92Yl9waHlfYWRk
+cih2YiwgMCk7DQo+PiAtICAgICBkZXNjLT5jaHJvbWFfYmFzZSA9IHZwdV9nZXRfdmJfcGh5X2Fk
+ZHIodmIsIDEpOw0KPj4gKyAgICAgaWYgKHZiLT5udW1fcGxhbmVzID4gMSkNCj4+ICsgICAgICAg
+ICAgICAgZGVzYy0+Y2hyb21hX2Jhc2UgPSB2cHVfZ2V0X3ZiX3BoeV9hZGRyKHZiLCAxKTsNCj4+
+ICsgICAgIGVsc2UNCj4+ICsgICAgICAgICAgICAgZGVzYy0+Y2hyb21hX2Jhc2UgPSBkZXNjLT5s
+dW1hX2Jhc2UgKw0KPj4gKyBvdXRfZm10LT5zaXplaW1hZ2VbMF07DQo+Pg0KPj4gICAgICAgcmV0
+dXJuIDA7DQo+PiAgfQ0KPj4gLS0NCj4+IDIuMzcuMQ0KPj4NCj4NCj4tLQ0KPlRvbW1hc28gTWVy
+Y2lhaQ0KPkVtYmVkZGVkIExpbnV4IEVuZ2luZWVyDQo+dG9tbWFzby5tZXJjaWFpQGFtYXJ1bGFz
+b2x1dGlvbnMuY29tDQo+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXw0KPg0KPkFt
+YXJ1bGEgU29sdXRpb25zIFNSTA0KPlZpYSBMZSBDYW5ldmFyZSAzMCwgMzExMDAgVHJldmlzbywg
+VmVuZXRvLCBJVCBULiArMzkgMDQyIDI0MyA1MzEwDQo+aW5mb0BhbWFydWxhc29sdXRpb25zLmNv
+bQ0KPmh0dHBzOi8vZXVyMDEuc2FmZWxpbmtzLnByb3RlY3Rpb24ub3V0bG9vay5jb20vP3VybD1o
+dHRwJTNBJTJGJTJGd3d3LmFtDQo+YXJ1bGFzb2x1dGlvbnMuY29tJTJGJmFtcDtkYXRhPTA1JTdD
+MDElN0NtaW5nLnFpYW4lNDBueHAuY29tJTdDMzkNCj44MmFiMjQ3YTUwNDNmZDFmNjYwOGRhN2Mz
+MjVlMjElN0M2ODZlYTFkM2JjMmI0YzZmYTkyY2Q5OWM1YzMwMTYzDQo+NSU3QzAlN0MwJTdDNjM3
+OTU4ODUzMDE1MDAyOTAwJTdDVW5rbm93biU3Q1RXRnBiR1pzYjNkOGV5SlcNCj5Jam9pTUM0d0xq
+QXdNREFpTENKUUlqb2lWMmx1TXpJaUxDSkJUaUk2SWsxaGFXd2lMQ0pYVkNJNk1uMCUzRCU3QzMw
+DQo+MDAlN0MlN0MlN0MmYW1wO3NkYXRhPUlnMjBjVUJUc1ZBT2NSN2Jsd2JSMG1XckdoWnA3aVFZ
+VU82WmFIOA0KPkwwMEklM0QmYW1wO3Jlc2VydmVkPTANCg==
