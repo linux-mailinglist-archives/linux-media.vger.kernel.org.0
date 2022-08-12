@@ -2,118 +2,167 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E6AE2590FD8
-	for <lists+linux-media@lfdr.de>; Fri, 12 Aug 2022 12:58:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 42DAC59101E
+	for <lists+linux-media@lfdr.de>; Fri, 12 Aug 2022 13:34:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237677AbiHLK6s (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 12 Aug 2022 06:58:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37862 "EHLO
+        id S237040AbiHLLeK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 12 Aug 2022 07:34:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38626 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232003AbiHLK6r (ORCPT
+        with ESMTP id S231627AbiHLLeI (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 12 Aug 2022 06:58:47 -0400
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AAB12ACA10;
-        Fri, 12 Aug 2022 03:58:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1660301925; x=1691837925;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=pf+Ur3Mk1CkKkMyfVrI4PlDfV4MGfMJmTcIeuz/L5cE=;
-  b=IypEzPVtvSY1FFJB8d9rFbOYOQVnPLhR498Ac99GEecBxOK74W+1mZZO
-   4THeVQdf9KoyRj8qcU8m09YI9E3xA5BoLrkIdVHyxk2EaFkYNeNuLg4hE
-   MRUcKJMhRRV53resMsm5cxgYk2AwSlar1tO/mYR9eaUz/rucB+wxvAzaS
-   HJObVkbLsWZSXGR41jUc/umJIRqTV/PWBmNZtzajoP18yvPH8wEl80R+p
-   syz8kAVMouDsxQrHfLLwr1wuWFC/R9undS8Ak33xRo9EpjP2cXsBCb6JE
-   QfNKzQZfU54pegLpVJAxWwn8EqcTJgA47VrxMsklc/enRe0DNQVyv26yF
-   Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10436"; a="292367141"
-X-IronPort-AV: E=Sophos;i="5.93,231,1654585200"; 
-   d="scan'208";a="292367141"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Aug 2022 03:58:44 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,231,1654585200"; 
-   d="scan'208";a="748159622"
-Received: from lkp-server02.sh.intel.com (HELO 8745164cafc7) ([10.239.97.151])
-  by fmsmga001.fm.intel.com with ESMTP; 12 Aug 2022 03:58:40 -0700
-Received: from kbuild by 8745164cafc7 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1oMSND-0000S7-1V;
-        Fri, 12 Aug 2022 10:58:39 +0000
-Date:   Fri, 12 Aug 2022 18:58:06 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Jia He <justin.he@arm.com>, Ard Biesheuvel <ardb@kernel.org>,
-        Len Brown <lenb@kernel.org>, James Morse <james.morse@arm.com>,
-        Tony Luck <tony.luck@intel.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Robert Richter <rric@kernel.org>,
-        Robert Moore <robert.moore@intel.com>
-Cc:     kbuild-all@lists.01.org, linux-media@vger.kernel.org,
-        linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-edac@vger.kernel.org, devel@acpica.org,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
-        Shuai Xue <xueshuai@linux.alibaba.com>,
-        Jarkko Sakkinen <jarkko@kernel.org>, linux-efi@vger.kernel.org,
-        nd@arm.com, toshi.kani@hpe.com, Jia He <justin.he@arm.com>,
-        stable@kernel.org
-Subject: Re: [PATCH 2/2] EDAC/ghes: Modularize ghes_edac driver to remove the
- dependency on ghes
-Message-ID: <202208121802.AQBiO8LK-lkp@intel.com>
-References: <20220811091713.10427-3-justin.he@arm.com>
+        Fri, 12 Aug 2022 07:34:08 -0400
+Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com [IPv6:2a00:1450:4864:20::635])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59990AE9F3;
+        Fri, 12 Aug 2022 04:34:07 -0700 (PDT)
+Received: by mail-ej1-x635.google.com with SMTP id i14so1546105ejg.6;
+        Fri, 12 Aug 2022 04:34:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc;
+        bh=2maBmCwKBmigg6muaEXXhf/Ng5GHmKY483ELQvBK7bw=;
+        b=WzmVA6wJmViKgJcjJ28fwTes4+4nkLVN3Mx6n7aAByQjaF1kqlO8c/DkZzzNbQ5PMJ
+         Q6QRifhtEywKPW0BRycraqPgJbNNV4Fkr0BDi9NwSjofj+/eExHcmIHXfmWBqj8nEM+V
+         SJ6yUML0yO8yFd9lLsoNczBtQtybcTMT4WUr1ptuUKBS3/Rda9YC3hjAtXIBeNWzrfQv
+         8awekeP8HdFvSg9RwEt6hfJjxWj4IHX4MucvbIt4QDscDPd/6Xe/c8eYLuCx5yo9ewIX
+         pCKNLJxEdZn4+tUGCfNxm+c1cgbj7a+b8mhWZ+qT9Wu2+c+9oyIWqC1lkYhae0HgqZSg
+         TC0Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc;
+        bh=2maBmCwKBmigg6muaEXXhf/Ng5GHmKY483ELQvBK7bw=;
+        b=HtOTqfpVgGZB0YfPVKTRsiZ3gcNHF4Z69p5FoBOpfGT1Za4F7mRswRcFAlihpMctKv
+         a0Egsq7l/MMAxN2+NpzDJ/3VUSzbfLtecxRW3oAspfsd2UHEdmUXXjH4A3xwG57YORit
+         JvOyAWHstK5mICRDXnREStJIhPACjUFI1qrPO3oEamMQExT1UWSWfDNBcgtf+gLQ/1su
+         u2t6yjNFPkYH+O+o9bKzb44WzemHWWvgRSPCjJ3/BzgtQDuyMMKmcx0UARWieUExpjZa
+         Tcw2hms5QIfXzjiEizX140yGbnC5gdQzgPz3Ej5ncZUK4u17T8bEFAowcT5an+HOJepB
+         zfYw==
+X-Gm-Message-State: ACgBeo2iKt3GI50L7GhgfyhNgjYElW6Hu8z6SAghtY5HNuoN+UJY/yTz
+        10DGu+0Hy8c6PaP4+PkWQZA=
+X-Google-Smtp-Source: AA6agR7yLrz2JyTe8JHAoaW31lDloNP6q9ah/gkL0Xj0JLrU44S+nATJXnQ7Xvnv8KPuB3tTB73pJw==
+X-Received: by 2002:a17:906:eeca:b0:730:6880:c397 with SMTP id wu10-20020a170906eeca00b007306880c397mr2352637ejb.593.1660304045907;
+        Fri, 12 Aug 2022 04:34:05 -0700 (PDT)
+Received: from [192.168.178.21] (p57b0bd9f.dip0.t-ipconnect.de. [87.176.189.159])
+        by smtp.gmail.com with ESMTPSA id jj23-20020a170907985700b0073151ce7726sm696022ejc.100.2022.08.12.04.34.03
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 12 Aug 2022 04:34:05 -0700 (PDT)
+Message-ID: <93484389-1f79-b364-700f-60769fc5f8a5@gmail.com>
+Date:   Fri, 12 Aug 2022 13:34:02 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220811091713.10427-3-justin.he@arm.com>
-X-Spam-Status: No, score=-5.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [Linaro-mm-sig] [PATCH v2 3/5] dma-buf: Move all dma-bufs to
+ dynamic locking specification
+Content-Language: en-US
+To:     Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Cc:     dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+        Dmitry Osipenko <digetx@gmail.com>,
+        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+        amd-gfx@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+        kernel@collabora.com, virtualization@lists.linux-foundation.org,
+        spice-devel@lists.freedesktop.org, linux-rdma@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, David Airlie <airlied@linux.ie>,
+        Gerd Hoffmann <kraxel@redhat.com>,
+        Gurchetan Singh <gurchetansingh@chromium.org>,
+        Chia-I Wu <olvaffe@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+        Daniel Almeida <daniel.almeida@collabora.com>,
+        Gert Wollny <gert.wollny@collabora.com>,
+        Gustavo Padovan <gustavo.padovan@collabora.com>,
+        Daniel Stone <daniel@fooishbar.org>,
+        Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Rob Clark <robdclark@gmail.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+        =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas_os@shipmail.org>
+References: <20220725151839.31622-1-dmitry.osipenko@collabora.com>
+ <20220725151839.31622-4-dmitry.osipenko@collabora.com>
+ <6c8bded9-1809-608f-749a-5ee28b852d32@gmail.com>
+ <562fbacf-3673-ff3c-23a1-124284b4456c@collabora.com>
+ <87724722-b9f3-a016-c25c-4b0415f2c37f@amd.com>
+ <0863cafa-c252-e194-3d23-ef640941e36e@collabora.com>
+From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+In-Reply-To: <0863cafa-c252-e194-3d23-ef640941e36e@collabora.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jia,
 
-Thank you for the patch! Perhaps something to improve:
 
-[auto build test WARNING on rafael-pm/linux-next]
-[also build test WARNING on ras/edac-for-next efi/next linus/master v5.19 next-20220812]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Am 10.08.22 um 20:53 schrieb Dmitry Osipenko:
+> On 8/10/22 21:25, Christian König wrote:
+>> Am 10.08.22 um 19:49 schrieb Dmitry Osipenko:
+>>> On 8/10/22 14:30, Christian König wrote:
+>>>> Am 25.07.22 um 17:18 schrieb Dmitry Osipenko:
+>>>>> This patch moves the non-dynamic dma-buf users over to the dynamic
+>>>>> locking specification. The strict locking convention prevents deadlock
+>>>>> situation for dma-buf importers and exporters.
+>>>>>
+>>>>> Previously the "unlocked" versions of the dma-buf API functions weren't
+>>>>> taking the reservation lock and this patch makes them to take the lock.
+>>>>>
+>>>>> Intel and AMD GPU drivers already were mapping imported dma-bufs under
+>>>>> the held lock, hence the "locked" variant of the functions are added
+>>>>> for them and the drivers are updated to use the "locked" versions.
+>>>> In general "Yes, please", but that won't be that easy.
+>>>>
+>>>> You not only need to change amdgpu and i915, but all drivers
+>>>> implementing the map_dma_buf(), unmap_dma_buf() callbacks.
+>>>>
+>>>> Auditing all that code is a huge bunch of work.
+>>> Hm, neither of drivers take the resv lock in map_dma_buf/unmap_dma_buf.
+>>> It's easy to audit them all and I did it. So either I'm missing
+>>> something or it doesn't take much time to check them all. Am I really
+>>> missing something?
+>> Ok, so this is only changing map/unmap now?
+> It also vmap/vunmap and attach/detach: In the previous patch I added the
+> _unlocked postfix to the func names and in this patch I made them all to
+> actually take the lock.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jia-He/Modularize-ghes_edac-driver/20220811-171953
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git linux-next
-config: x86_64-randconfig-s022 (https://download.01.org/0day-ci/archive/20220812/202208121802.AQBiO8LK-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-3) 11.3.0
-reproduce:
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://github.com/intel-lab-lkp/linux/commit/9cf68330d4fa626e09c8cbc3be9910751e94508c
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Jia-He/Modularize-ghes_edac-driver/20220811-171953
-        git checkout 9cf68330d4fa626e09c8cbc3be9910751e94508c
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/acpi/apei/
 
-If you fix the issue, kindly add following tag where applicable
-Reported-by: kernel test robot <lkp@intel.com>
+Take your patch "[PATCH v2 2/5] drm/gem: Take reservation lock for 
+vmap/vunmap operations" as a blueprint on how to approach it.
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/acpi/apei/ghes.c:97:1: sparse: sparse: symbol 'ghes_report_chain' was not declared. Should it be static?
-   drivers/acpi/apei/ghes.c:733:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   drivers/acpi/apei/ghes.c:733:25: sparse:    struct ghes_estatus_cache [noderef] __rcu *
-   drivers/acpi/apei/ghes.c:733:25: sparse:    struct ghes_estatus_cache *
-   drivers/acpi/apei/ghes.c:813:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   drivers/acpi/apei/ghes.c:813:25: sparse:    struct ghes_estatus_cache [noderef] __rcu *
-   drivers/acpi/apei/ghes.c:813:25: sparse:    struct ghes_estatus_cache *
+E.g. one callback at a time and then document the result in the end.
 
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+Regards,
+Christian.
+
+>
+>> In this case please separate this from the documentation change.
+> I'll factor out the doc in the v3.
+>
+>> I would also drop the _locked postfix from the function name, just
+>> having _unlocked on all functions which are supposed to be called with
+>> the lock held should be sufficient.
+> Noted for the v3.
+>
+>> Thanks for looking into this,
+>> Christian.
+> Thank you for the review.
+>
+
