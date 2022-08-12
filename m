@@ -2,416 +2,309 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 58F7C591237
-	for <lists+linux-media@lfdr.de>; Fri, 12 Aug 2022 16:31:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B04ED591411
+	for <lists+linux-media@lfdr.de>; Fri, 12 Aug 2022 18:40:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237707AbiHLObN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 12 Aug 2022 10:31:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50192 "EHLO
+        id S235047AbiHLQj7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 12 Aug 2022 12:39:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40432 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237771AbiHLObH (ORCPT
+        with ESMTP id S237771AbiHLQjj (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 12 Aug 2022 10:31:07 -0400
-Received: from EUR05-DB8-obe.outbound.protection.outlook.com (mail-db8eur05on2073.outbound.protection.outlook.com [40.107.20.73])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 33CFE1DA54;
-        Fri, 12 Aug 2022 07:31:06 -0700 (PDT)
+        Fri, 12 Aug 2022 12:39:39 -0400
+Received: from EUR01-DB5-obe.outbound.protection.outlook.com (mail-eopbgr150085.outbound.protection.outlook.com [40.107.15.85])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 70FF2ABF31;
+        Fri, 12 Aug 2022 09:39:38 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=pass;
+ b=l0oEyZKxSkcnd9lzlDCZwkSK78Rz37pzqR0rgmnVZ/b0P6UNfv5m0R/gXiJlntKSepmXji15zOt6Qr5HYZTui3+W8N4F1GoUV39Joy99MUHlR1aqkUNCSZUE5Rnybl4FupcGf7V4qsHloB++/mfQm0xbkpdD3ducAgWudBXBzNdjo0s9iE2n/t3CzX70RqsDwbqDzq9VNmBwrcBlYo7cAk8Wrd9UAjMXzmJnSf0kq35yOYsnDJ39VWCratORj7SGxFYRwKTXgwwXvstnHZdeGQyDCWqGw2HqTMp9vs8D4Kx53SMMW6EpZv1ZOhtDNRogAn1AtmxqTIGsz7ucoBVtbA==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=2T6MsxHUqEbPFlCy8q58n+JAr0cjUsaiu3Jkbd/Lfqs=;
+ b=MXp/xzhKdOPVbM/kNlNr5vPf1TAQrOVTh4QiGUqTzcfjADphpwBRqvkhwIX7F8A/F4PcxMqxw/dU0R0RWOrcIFy9YDwhgh/qsTUxsGfnrWFimyiE+RAKHiv3ZyY0L2p/1fjWoVFBI0+0cSsQpkQr85fBMpAVHRgZLWh/uUW1d9EVFZDguO/Ur7lgqSH/BCjdUspwzoHkUtCP2MWJv3HUmQvFg3aqsfvhkmP1ytxh5nrqvm8PCJ4O1b6lAPflgVcx41J5lTmH9R7ScWhNZH7orjOBqNjNx1Ud5wY9Wo2k+g80GS5yG6aa985xBBZIGb2fsk6tDAWJzP2Piip8Ul311g==
+ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
+ 63.35.35.123) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=arm.com;
+ dmarc=pass (p=none sp=none pct=100) action=none header.from=arm.com;
+ dkim=pass (signature was verified) header.d=armh.onmicrosoft.com; arc=pass (0
+ oda=1 ltdi=1 spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
+ dmarc=[1,1,header.from=arm.com])
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=2T6MsxHUqEbPFlCy8q58n+JAr0cjUsaiu3Jkbd/Lfqs=;
+ b=i9dN+B7GwbMqZyvJTFQTh+eqg513zPZd17AujF4mMMi5HTNzVda2tVvww0AnxrNy/QREHu9o/u5/m1j0SiTyZ6t/ZikMLgTRzDSguKGc9lvEZeO8mFqWbIo5KvK/fDp1BotSC4vfPxJHc6/maxDsPPrqGRY1NcIGwf1q3vqcTIY=
+Received: from AM5PR0402CA0017.eurprd04.prod.outlook.com
+ (2603:10a6:203:90::27) by GV2PR08MB8124.eurprd08.prod.outlook.com
+ (2603:10a6:150:74::6) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5525.11; Fri, 12 Aug
+ 2022 16:39:34 +0000
+Received: from AM7EUR03FT061.eop-EUR03.prod.protection.outlook.com
+ (2603:10a6:203:90:cafe::1a) by AM5PR0402CA0017.outlook.office365.com
+ (2603:10a6:203:90::27) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5525.13 via Frontend
+ Transport; Fri, 12 Aug 2022 16:39:34 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
+ smtp.mailfrom=arm.com; dkim=pass (signature was verified)
+ header.d=armh.onmicrosoft.com;dmarc=pass action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
+ client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
+ pr=C
+Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
+ AM7EUR03FT061.mail.protection.outlook.com (100.127.140.72) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.5525.11 via Frontend Transport; Fri, 12 Aug 2022 16:39:34 +0000
+Received: ("Tessian outbound cc6a8ab50b6b:v123"); Fri, 12 Aug 2022 16:39:34 +0000
+X-CheckRecipientChecked: true
+X-CR-MTA-CID: 3554cbd9211e95e4
+X-CR-MTA-TID: 64aa7808
+Received: from dbc98588f6be.1
+        by 64aa7808-outbound-1.mta.getcheckrecipient.com id 130F002B-321C-45A9-9F12-FBCADDDA3572.1;
+        Fri, 12 Aug 2022 16:39:27 +0000
+Received: from EUR05-DB8-obe.outbound.protection.outlook.com
+    by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id dbc98588f6be.1
+    (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
+    Fri, 12 Aug 2022 16:39:27 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=lfXDc3nG1napJViYMyCPTIJQjQby5WmfQVdeF6JV9UQ//vK5dMH1i2M3IfOATJ4AddifkkOZ8JZ1pJh8FmChmuKGnI7wEA6pW6RdFnferN8EW51xkIglju+vQX/SiUW+aXXuiaPr9yK3msHYCC3JzRZ0nucDJF46m7P4U3OgyPCNKBIui+8g3eN3TPE1+u/yP1kVFKUYfH7I0g+iUXFZPqxGTlm3aTbD1v3m68CpzC4sRN8KMsnJTqZdS7fD+QsBkbCMG3yp5F4/5et+zD12Gaq7aLm2YYZT3Y6lzutak4x2Npur8V1QHZ+KTokKWnHn37kGyq7j1MLrpA+7PMUNvQ==
+ b=KdkOdf+eTEgTUQtZxg8DUdEIOGrnsrn8S+kyudaOAzN2Xq47KiXWjsWMIc770h1wwc0OEETg51tqFEX2X/QRNLOpHlCxLMqFzjjfZKGdNZga1EHzpumCfQx8PI/p2Y0WeXud4AlWAjwqEOnCs8tTu+Vud39aicuJRXAWsItFph9N1Pc6+InA2MMoeNow91TLhF8eoOKhSfHaez9EuO8vaUq93leDKn5LX0z0J6Txe49hZWzty4N3Tm2dCrhmDiU998hD3Yr5mxwtlYckIQwew11DjGJpME6E9ZusBjBQVOoF2nrrnvmGpVkh+ud8N26t4xHMQ97j57ZgSX1y+6hjqA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Vlfez9doNTAfQVItxty6BGovJ51cS9bsI/wZyDkHb/g=;
- b=mbR/Qgesyp6pHwECeb+TNwYzo5b+YONGdM6TeMlm1JcZl1hjGdcwBD5qSLuvm5EinO7dluPiJA0PEkABL6BpTm/g8Tz2M+FF3W9kGtAH6Emj4OiQWKOP3qBBE+LifpS+h2TPsCGhnu+ijBf/5WZCfW9LMegfRRzbUl0RSzkQRI6lPiP8t+QTuUSLjpkOV01VxZ1JNUJRXiJk+5tnPuCalwiiMpOXZRj9jLyyRnK1djKemcaNvBcR+TSbuhwzTeokhnla8EzPwelWUc0j4r80ANRyP09Cu6kB6OHEWvvKrnMBCg/Vk4Pz24fzkRVaxtZ8T6NvNBn1YpbWMj30csgQkA==
+ bh=2T6MsxHUqEbPFlCy8q58n+JAr0cjUsaiu3Jkbd/Lfqs=;
+ b=iNwJJXEoxfxC2bVh9PzaVTXFPqKPLsdql7+zwrSH8uWz9RrfF8K1p+9+VBw7akUIDR8/HByihuRYAtwnKsiJLT1TjiHHO90GgUn+c5gQLHvlrZ2G9emBcti+mH7yFwQSVCxTqrqspMfPEYAtyHZJkK7nCI1zHgmWHevWn8ETB10EChRMTI4w4bB2yfknwXZkuuMqGTpFtG/2s6h9/mlQZ7JaXCQptXHzSAm+UFCOjqXP581pdvjTAL1fgGGY2vnodQplQ4DBEquMhNDoyZZ3Agq/tQBOH2W3eaaih8De1RvIspUj3WWTicd66Q0CAK+ZT8Xn6v1fBEHwBeCf9Q6pnQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
+ s=selector2-armh-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Vlfez9doNTAfQVItxty6BGovJ51cS9bsI/wZyDkHb/g=;
- b=GNTFhJ7g+rlAy7cQ6qBNaM54gS90teOztcqxBkEKgVhdUGkuK2A88PySCOnr9HCYKDIXHkIm2k3PlLGmUsNfOM8EpTVWi9FYhUFSyPKgLEl1xcADViVMpj3lXCXoUm+oTty8qR26e1xmxRe+GzduyMIKZfCTQYEV+AVQum8POvs=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from AM6PR04MB6743.eurprd04.prod.outlook.com (2603:10a6:20b:f1::11)
- by AS8PR04MB9208.eurprd04.prod.outlook.com (2603:10a6:20b:44f::20) with
+ bh=2T6MsxHUqEbPFlCy8q58n+JAr0cjUsaiu3Jkbd/Lfqs=;
+ b=i9dN+B7GwbMqZyvJTFQTh+eqg513zPZd17AujF4mMMi5HTNzVda2tVvww0AnxrNy/QREHu9o/u5/m1j0SiTyZ6t/ZikMLgTRzDSguKGc9lvEZeO8mFqWbIo5KvK/fDp1BotSC4vfPxJHc6/maxDsPPrqGRY1NcIGwf1q3vqcTIY=
+Authentication-Results-Original: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+Received: from DB9PR08MB6812.eurprd08.prod.outlook.com (2603:10a6:10:2a2::15)
+ by AM6PR08MB3783.eurprd08.prod.outlook.com (2603:10a6:20b:8a::13) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5525.10; Fri, 12 Aug
- 2022 14:31:02 +0000
-Received: from AM6PR04MB6743.eurprd04.prod.outlook.com
- ([fe80::c27:3940:d92e:acd6]) by AM6PR04MB6743.eurprd04.prod.outlook.com
- ([fe80::c27:3940:d92e:acd6%4]) with mapi id 15.20.5525.011; Fri, 12 Aug 2022
- 14:31:02 +0000
-From:   Olivier Masse <olivier.masse@nxp.com>
-To:     etienne.carriere@linaro.org, jens.wiklander@linaro.org,
-        sumit.garg@linaro.org, sumit.semwal@linaro.org,
-        christian.koenig@amd.com, op-tee@lists.trustedfirmware.org,
-        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org
-Cc:     clement.faure@nxp.com, olivier.masse@nxp.com
-Subject: [PATCH 1/1] tee: new ioctl to a register tee_shm from a dmabuf file descriptor
-Date:   Fri, 12 Aug 2022 16:30:55 +0200
-Message-Id: <20220812143055.12938-2-olivier.masse@nxp.com>
-X-Mailer: git-send-email 2.25.0
-In-Reply-To: <20220812143055.12938-1-olivier.masse@nxp.com>
-References: <20220812143055.12938-1-olivier.masse@nxp.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: AM4PR0202CA0007.eurprd02.prod.outlook.com
- (2603:10a6:200:89::17) To AM6PR04MB6743.eurprd04.prod.outlook.com
- (2603:10a6:20b:f1::11)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5504.14; Fri, 12 Aug
+ 2022 16:39:25 +0000
+Received: from DB9PR08MB6812.eurprd08.prod.outlook.com
+ ([fe80::6cf7:a261:295d:1b8e]) by DB9PR08MB6812.eurprd08.prod.outlook.com
+ ([fe80::6cf7:a261:295d:1b8e%6]) with mapi id 15.20.5525.011; Fri, 12 Aug 2022
+ 16:39:24 +0000
+Date:   Fri, 12 Aug 2022 17:39:22 +0100
+From:   Brian Starkey <brian.starkey@arm.com>
+To:     Olivier Masse <olivier.masse@nxp.com>
+Cc:     "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
+        "christian.koenig@amd.com" <christian.koenig@amd.com>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "nd@arm.com" <nd@arm.com>,
+        =?utf-8?Q?Cl=C3=A9ment?= Faure <clement.faure@nxp.com>,
+        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+        "benjamin.gaignard@collabora.com" <benjamin.gaignard@collabora.com>
+Subject: Re: [EXT] Re: [PATCH 1/3] dma-buf: heaps: add Linaro secure dmabuf
+ heap support
+Message-ID: <20220812163922.v7sf3havi5dpgi5u@000377403353>
+References: <20220805135330.970-1-olivier.masse@nxp.com>
+ <20220805135330.970-2-olivier.masse@nxp.com>
+ <20220805154139.2qkqxwklufjpsfdx@000377403353>
+ <7e61668164f8bf02f6c4ee166e85abc42b5ee958.camel@nxp.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <7e61668164f8bf02f6c4ee166e85abc42b5ee958.camel@nxp.com>
+X-ClientProxiedBy: LO4P123CA0015.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:150::20) To DB9PR08MB6812.eurprd08.prod.outlook.com
+ (2603:10a6:10:2a2::15)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 9cf0ab99-88f4-494f-e58e-08da7c6f4828
-X-MS-TrafficTypeDiagnostic: AS8PR04MB9208:EE_
+X-MS-Office365-Filtering-Correlation-Id: 84c41acb-58bf-4dd2-ea0a-08da7c813d2e
+X-MS-TrafficTypeDiagnostic: AM6PR08MB3783:EE_|AM7EUR03FT061:EE_|GV2PR08MB8124:EE_
+x-checkrecipientrouted: true
+NoDisclaimer: true
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam-Untrusted: BCL:0;
+X-Microsoft-Antispam-Message-Info-Original: f7K3UQWIEuGznb1LSfd/Tid1L9fm8x9H2lEni/GHzHpU6WCQDq1FTuWFvZgbeIPrlbSir3xyEMETonbHA11M753N2xxo9UAXfH4Sor6Bu1FOuW34IKCbFlImqJNC72S7cbyMFNRnuP2T+dOcxYXpgRp/YFrdlWebkgRbylJHnIh5bN/mEYZSBgaj6AHsbRSwWzsxChZx4POdU5dMx+OGDpoVNv06rfw1bUczGFKZVgudn30V2DsKbdiszEOq6h2Fwqh+sE+McYTfJTpJDNKCXzo/0ihbzQjp85umEjYHrKa9XYdEzYg44iyXY5SuNtk9eyiqnMkENqVRFYJPf4K6rcu0sgUylne2yCzXH5wJWG50AmVHyj3M8HtePM3t0Z2JCMWZ8ERabLFT/+StOTYyS6fT5MADiXavJg5vA6RyU2127BT11VCV6Vl23njodjrkLS0ZjjflQfGMRui7WcasoY3TG9kPcy/E9a/rVeh9XMZLCMkVDZLuBVPSsVCLQGKes/8/tfFXivlEHo4zqwWfxn1M14daJ1PUMPJtOwLxEcX/mTy45tvyio0LNXCvsNrWHwd6Eggjed2jhnxue3rN+OQAMZBJuKrtVSaEASnC9WWd71k4oT/rPgEjWXXhbQ1GLj0NFWYJwfIPRx8P5+hPuUYU41bZVjFdro7clzxqAviCezDbRfCMLPiuSCJ3bLcq
+X-Forefront-Antispam-Report-Untrusted: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB9PR08MB6812.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(7916004)(4636009)(136003)(376002)(39860400002)(346002)(366004)(396003)(8936002)(1076003)(186003)(83380400001)(44832011)(86362001)(38100700002)(2906002)(5660300002)(66556008)(6486002)(478600001)(33716001)(966005)(6512007)(6506007)(9686003)(41300700001)(26005)(8676002)(66476007)(66946007)(4326008)(316002)(54906003)(6916009);DIR:OUT;SFP:1101;
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB3783
+Original-Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: AM7EUR03FT061.eop-EUR03.prod.protection.outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id-Prvs: b1eb25f1-9ead-4003-382e-08da7c813747
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: bnpCLplF+jWWEtvWRmTj9CQaU2E87rENp41A6saRNyjg8P8wTC+52jgh93HMxHxNk6dK3Nj9poQaUuHHdXtwI9MwwWfQxqu6W9CSdyzejzPy744pwAx8W60BETSXKWbqkXYXWeZGF+gzJvYbIQwgsu371F4+6VOWTKFepRc6Zi8ymEUiAkLDPxFr7cBkCPS2QYAGI37N2P2g2jZqDRb1gwkuhaaMDDJDG/Y04bdybWKS4rI8j71OMT0C/QCGQFc9iEJ4RlktvcTh1zI5YQeE7xjW84GL87K7HR9GxLMfsFQcIrARdsO4u3qO7A7DJGWBQH4W/mT1Zhj6mNWn2ITYuvibzvVhdIun9b/yaVFvisWJKgAAI7/19UCCrJWCwK5KxP5eyCmST1zqZatWsSECMPXMwq3nOMGylANqXQRTkFJ9VV3JDn19OOyLYvEvG23yB+rvFXv7Jd2Tv0cscdheqt37sscgOpr0CeLjRC7mO1tITClZB5iqyu4YDJes8amrcr0gmMZAFP/YJQ83P9kjroaBPPtblPuE01Q1PLJSETf1p+U9nZcwyRjcGcSf8IcpBTRqTW/QZABZxy57TdnBY5SfV2Q3zY3IAkhstmavYROdKSvLs9MsmF3r7ip46Py33wdB2XSLqAPap1hyCHOvrD5HY/kYNqLkGqaaWCHHox1EeGKkTAsI+7VzJZmHFgnQdcwlbk31jyUaFZHIlho8Oso74hl1D7vzOlsT8KqXV8ycA5WKfzyZRASfcN/Cgg6HP9gzi43Qk/XOiVEjfSHPtA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6PR04MB6743.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(366004)(376002)(346002)(39860400002)(396003)(136003)(478600001)(83380400001)(5660300002)(1076003)(186003)(36756003)(6486002)(2616005)(86362001)(8936002)(966005)(41300700001)(921005)(7416002)(316002)(66476007)(44832011)(38100700002)(55236004)(6512007)(52116002)(66556008)(66946007)(8676002)(2906002)(26005)(4326008)(6506007)(6666004)(38350700002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?+0tBQ3JuOpR3KZIH691bRRXfjvotBX892sSKMuYXCbVsDIMuXeD0QugfSY8Z?=
- =?us-ascii?Q?ys28/6EbaFgjPzYvkcsM/gIC4o8HMJh/yHlTKMTNRJYGXN16F6QVeyi34V5y?=
- =?us-ascii?Q?su1PK0KIFkJcbfmWOcU4uBK8rZ7TCXXBv9ub/4Uc0F3fHqwaHxzpkNHGGflp?=
- =?us-ascii?Q?wqCIEqxxFwZMZpNdB1L9mIg5z9Ih4OGVznjip8GeRQqdZURXY6MIZSKfgmEM?=
- =?us-ascii?Q?Zt+LRB/b59CyhCx/YS37pp8UqP/UTBMmPWaVmpJqVFIWi01ZlG2gt3nBXCnS?=
- =?us-ascii?Q?5PdDKYmOqehWk3oAlXeZZHm7K1XtH7WfLDRKkB7w7GzIHCE7jRNMFZEUaSNa?=
- =?us-ascii?Q?FCjeu9XEjekBJHulej7LCqirL/XJ6GYOoyV9DBMJcKjVmKb62E+b7sTYN7Hj?=
- =?us-ascii?Q?CmLDy0ubgyjJOItdRE6erVVOKogX26UVoYzULw0LoGnQwnwhZLdVHIuLUFXj?=
- =?us-ascii?Q?tTVQurzRsWzcgrtJH9o2YntCoCurWCXfHU8cI7mwgIrrsd2rPtsvvufYgTrM?=
- =?us-ascii?Q?8oLFZSBm4QI5/Xtex6GdtL05w1GQ7E+cUrXMXJzCkAUPrQolDfmYzyuiCCyT?=
- =?us-ascii?Q?l6aZyun4wBNchLxWlJLsv2daq8RVCRKjYDQHefQnbv/A0EleGEjgGg/xTKFp?=
- =?us-ascii?Q?E0FkMJ+cMibkFy182nlbtxBcCmU5K4zbzRwKmzr1swbbwJysQKUCdKTT2NzL?=
- =?us-ascii?Q?j+ZIMgXvl9Jnlz8YxDUYw1on5D5MPM8w9pHr7a5ww7mcKrAI4htTGRAPJAKa?=
- =?us-ascii?Q?NAm2QYFdJdq91ImucfYbFpSIv2u7zu0Ridx1J2S5z2aTluSA0gLcag01AjIY?=
- =?us-ascii?Q?SDW3hn2V+ZTnxvdhGKvg7jkIPmvaiFjC8uOGV280dH5GWlXejXPfXrMeOFBS?=
- =?us-ascii?Q?IGvt+FwiK+5f4FpPqHZc2f0zFk10JBmX+2pLMQCrQGrPDERbqkN0xE8+EF8Z?=
- =?us-ascii?Q?0dnIFismIzoH7OC4w0IcYhxAaW2N6A4vehT7K5XZ3OravWWXTr9vTB5/LmxN?=
- =?us-ascii?Q?XpWf01oFdDbAvLvz1uZZi7iL8p/sbSwBsGwnk7RUriM7EAqHjIFHE9eoekxJ?=
- =?us-ascii?Q?i1S3QNKfaY+Voz+uhlKSOImXuhAc2RjPUkgvzGCX/B5PhTHXfFMc9lxB1T/p?=
- =?us-ascii?Q?ZqsDQwL6c1wnFXpcjC5ShT52//UcMgxPQDbeLc22D7ZpWU6Av7Z124TjKFXz?=
- =?us-ascii?Q?sG+BWT6jS/CbpRWnh72c4UjCe+C7l93rUfS5Y2McvVJ/oZGZ65PN++WD2cXV?=
- =?us-ascii?Q?Tlm8e0Gq4kO18GCh5IB5RHm604IrjDB6OqaxiHo1wO2tivnBgSVxaKa9RuMz?=
- =?us-ascii?Q?WSZlwmH2gDTTQyBSoWr+kwds3E12xB1Dwlpbvz4L1jYsBfEsmLf68GofPgSW?=
- =?us-ascii?Q?c+p+x2R0t2isQuHMauGxb72GcYgMRtjQ9vU5ojhorbarDihN2LLk7sZrL+45?=
- =?us-ascii?Q?bQFUBqP6Ziq8XP+rV2NNTLIG8hlAYTssB3P0QyOWOIojCuLiqdenELUPMkgZ?=
- =?us-ascii?Q?p5qn9hnhxfQicbiEFZ/uyfrooMzH+1Q1L7mynLSn0dqXwje6KPjrodMO+caY?=
- =?us-ascii?Q?55QYapEva6geehNj1Agv+tfF0qMw7tsZ3tU/E+lb?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9cf0ab99-88f4-494f-e58e-08da7c6f4828
-X-MS-Exchange-CrossTenant-AuthSource: AM6PR04MB6743.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Aug 2022 14:31:02.1450
+X-Microsoft-Antispam-Message-Info: HDWvwgVi0iXsSm/Ij3exGM6QnxeGRz+kbHTabxaMO4xgLiEZd7u4Dx0iGtPP3Ck5tm2SLarsmIJr01dRPFnz+eAxeRjcod7cN+4T4Xhgc7+CskgOfcJIKLy5k2zdMwgFT3Kr4P7YtpRl4WCbjnO1oAJO42Gc5C/56tvR85Lv+TR0CoyILrLIyM4n9P1oJ9sQqZDPvY5dwNWHZ5vrgG3n2BbmZkojvAMK6QytKJognEhmU25mmz6fLS9jiRtylM0ifgFfw9CdwV9xFIYvuHcCQ/G4JopvT0FFiyLJLsV89ks9JYdGs9MacujI3l/2lbIoGC/9LdxTrtogS2Q1ryzBFixNopvJJZ9ULWzraY2vIGS7u/3naiT7Rgj01RkY2DVXlDvMLoThDlBmM3RTEwDJcVx8peygpVAKcauH1WPnODo27+LCMw7NP8mXlzw/GNlv4d+htDXKGlauxZ7r7pXOt646B++KaOcMZM3V8fFo7Wsqt5BhVnC/KQjajKTa3y66edOIAgTImx9BC+OlQLPJLt7r3pDeS6JDIZHFJxwqRsgL1snsRiwZi21rn5T9KTR7eRBW0abauzQRj3bteIkV5Zkj14bUwMiZpJg6n8o3Vd3TvbjG0d/IgW7mj1ZkizvtMxZ6I1IhY1FmX3yUOc6nwkGER1+kqLXfoPhenaxo4hnO7mxcDEAnsPmiRDu7VDrwI/yk56CjmQZCb8SY+ajwEDy1YWr+9D1QqhLM7gtRD5Vqje+wdvC4kzbkTmddxHsw
+X-Forefront-Antispam-Report: CIP:63.35.35.123;CTRY:IE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:64aa7808-outbound-1.mta.getcheckrecipient.com;PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com;CAT:NONE;SFS:(13230016)(7916004)(4636009)(39860400002)(376002)(396003)(136003)(346002)(40470700004)(36840700001)(46966006)(5660300002)(356005)(6506007)(81166007)(41300700001)(26005)(6512007)(33716001)(6862004)(86362001)(9686003)(8936002)(316002)(40480700001)(54906003)(70586007)(6486002)(82310400005)(478600001)(70206006)(966005)(8676002)(4326008)(450100002)(2906002)(36860700001)(186003)(44832011)(336012)(83380400001)(40460700003)(107886003)(1076003)(82740400003)(47076005);DIR:OUT;SFP:1101;
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Aug 2022 16:39:34.4675
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: y5YV2hNB5MaFL1G6n8qxJcZIjxGetq2WuWBI6Rqj342Tjx5XVT3VmBxWuDeq23D9YuBmbiWH7Hy0KVKbYIuD4g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR04MB9208
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+X-MS-Exchange-CrossTenant-Network-Message-Id: 84c41acb-58bf-4dd2-ea0a-08da7c813d2e
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[63.35.35.123];Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
+X-MS-Exchange-CrossTenant-AuthSource: AM7EUR03FT061.eop-EUR03.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV2PR08MB8124
+X-Spam-Status: No, score=-0.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,FORGED_SPF_HELO,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_PASS,SPF_NONE,T_SCC_BODY_TEXT_LINE,UNPARSEABLE_RELAY
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Etienne Carriere <etienne.carriere@linaro.org>
+Hi,
 
-This change allows userland to create a tee_shm object that refers
-to a dmabuf reference.
+On Mon, Aug 08, 2022 at 02:39:53PM +0000, Olivier Masse wrote:
+> Hi Brian,
+> 
+> On ven., 2022-08-05 at 16:41 +0100, Brian Starkey wrote:
+> > Caution: EXT Email
+> > 
+> > Hi Olivier,
+> > 
+> > Thanks, I think this is looking much better.
+> > 
+> > I'd like to know how others feel about landing this heap; there's
+> > been
+> > push-back in the past about heaps in device-tree and discussions
+> > around how "custom" heaps should be treated (though IMO this is quite
+> > a generic one).
+> > 
+> > On Fri, Aug 05, 2022 at 03:53:28PM +0200, Olivier Masse wrote:
+> > > add Linaro secure heap bindings: linaro,secure-heap
+> > > use genalloc to allocate/free buffer from buffer pool.
+> > > buffer pool info is from dts.
+> > > use sg_table instore the allocated memory info, the length of
+> > > sg_table is 1.
+> > > implement secure_heap_buf_ops to implement buffer share in
+> > > difference device:
+> > > 1. Userspace passes this fd to all drivers it wants this buffer
+> > > to share with: First the filedescriptor is converted to a &dma_buf
+> > > using
+> > > dma_buf_get(). Then the buffer is attached to the device using
+> > > dma_buf_attach().
+> > > 2. Once the buffer is attached to all devices userspace can
+> > > initiate DMA
+> > > access to the shared buffer. In the kernel this is done by calling
+> > > dma_buf_map_attachment()
+> > > 3. get sg_table with dma_buf_map_attachment in difference device.
+> > > 
+> > 
+> > I think this commit message could use a little rework. A few
+> > thoughts:
+> > 
+> > * The bindings are in a separate commit, so seems strange to mention
+> >   here.
+> 
+> what about:
+> "add Linaro secure heap compatible reserved memory: linaro,secure-heap"
+> 
 
-Userland provides a dmabuf file descriptor as buffer reference.
-The created tee_shm object exported as a brand new dmabuf reference
-used to provide a clean fd to userland. Userland shall closed this new
-fd to release the tee_shm object resources. The initial dmabuf resources
-are tracked independently through original dmabuf file descriptor.
+I'd say something like:
 
-Once the buffer is registered and until it is released, TEE driver
-keeps a refcount on the registered dmabuf structure.
+Add a dma-buf heap to allocate secure buffers from a reserved-memory
+region.
 
-This change only support dmabuf references that relates to physically
-contiguous memory buffers.
+..snip
 
-New tee_shm flag to identify tee_shm objects built from a registered
-dmabuf: TEE_SHM_EXT_DMA_BUF. Such tee_shm structures are flagged with
-TEE_SHM_EXT_DMA_BUF.
+> > > +
+> > > +static struct sg_table *secure_heap_map_dma_buf(struct
+> > > dma_buf_attachment *attachment,
+> > > +                                             enum
+> > > dma_data_direction direction)
+> > > +{
+> > > +     struct secure_heap_attachment *a = attachment->priv;
+> > > +
+> > > +     return a->table;
+> > 
+> > I think you still need to implement mapping and unmapping using the
+> > DMA APIs. For example devices might be behind IOMMUs and the buffer
+> > will need mapping into the IOMMU.
+> 
+> Devices that will need access to the buffer must be in secure.
+> The tee driver will only need the scatter-list table to get dma address
+> and len. Mapping will be done in the TEE.
+> Please find tee_shm_register_fd in the following commit
+> https://github.com/linaro-swg/linux/commit/41e21e5c405530590dc2dd10b2a8dbe64589840f
+> 
+> This patch need to be up-streamed as well.
+> 
 
-Co-Developed-by: Etienne Carriere <etienne.carriere@linaro.org>
-Signed-off-by: Olivier Masse <olivier.masse@nxp.com>
-Reported-by: kernel test robot <lkp@intel.com>
-From: https://github.com/linaro-swg/linux.git
-(cherry picked from commit 41e21e5c405530590dc2dd10b2a8dbe64589840f)
----
- drivers/tee/tee_core.c   | 38 +++++++++++++++
- drivers/tee/tee_shm.c    | 99 +++++++++++++++++++++++++++++++++++++++-
- include/linux/tee_drv.h  | 11 +++++
- include/uapi/linux/tee.h | 29 ++++++++++++
- 4 files changed, 175 insertions(+), 2 deletions(-)
+Interesting, that's not how the devices I've worked on operated.
 
-diff --git a/drivers/tee/tee_core.c b/drivers/tee/tee_core.c
-index 8aa1a4836b92..7c45cbf85eb9 100644
---- a/drivers/tee/tee_core.c
-+++ b/drivers/tee/tee_core.c
-@@ -355,6 +355,42 @@ tee_ioctl_shm_register(struct tee_context *ctx,
- 	return ret;
- }
- 
-+static int tee_ioctl_shm_register_fd(struct tee_context *ctx,
-+				     struct tee_ioctl_shm_register_fd_data __user *udata)
-+{
-+	struct tee_ioctl_shm_register_fd_data data;
-+	struct tee_shm *shm;
-+	long ret;
-+
-+	if (copy_from_user(&data, udata, sizeof(data)))
-+		return -EFAULT;
-+
-+	/* Currently no input flags are supported */
-+	if (data.flags)
-+		return -EINVAL;
-+
-+	shm = tee_shm_register_fd(ctx, data.fd);
-+	if (IS_ERR(shm))
-+		return -EINVAL;
-+
-+	data.id = shm->id;
-+	data.flags = shm->flags;
-+	data.size = shm->size;
-+
-+	if (copy_to_user(udata, &data, sizeof(data)))
-+		ret = -EFAULT;
-+	else
-+		ret = tee_shm_get_fd(shm);
-+
-+	/*
-+	 * When user space closes the file descriptor the shared memory
-+	 * should be freed or if tee_shm_get_fd() failed then it will
-+	 * be freed immediately.
-+	 */
-+	tee_shm_put(shm);
-+	return ret;
-+}
-+
- static int params_from_user(struct tee_context *ctx, struct tee_param *params,
- 			    size_t num_params,
- 			    struct tee_ioctl_param __user *uparams)
-@@ -829,6 +865,8 @@ static long tee_ioctl(struct file *filp, unsigned int cmd, unsigned long arg)
- 		return tee_ioctl_shm_alloc(ctx, uarg);
- 	case TEE_IOC_SHM_REGISTER:
- 		return tee_ioctl_shm_register(ctx, uarg);
-+	case TEE_IOC_SHM_REGISTER_FD:
-+		return tee_ioctl_shm_register_fd(ctx, uarg);
- 	case TEE_IOC_OPEN_SESSION:
- 		return tee_ioctl_open_session(ctx, uarg);
- 	case TEE_IOC_INVOKE:
-diff --git a/drivers/tee/tee_shm.c b/drivers/tee/tee_shm.c
-index 836872467dc6..55a3fbbb022e 100644
---- a/drivers/tee/tee_shm.c
-+++ b/drivers/tee/tee_shm.c
-@@ -4,6 +4,7 @@
-  */
- #include <linux/anon_inodes.h>
- #include <linux/device.h>
-+#include <linux/dma-buf.h>
- #include <linux/idr.h>
- #include <linux/mm.h>
- #include <linux/sched.h>
-@@ -12,6 +13,14 @@
- #include <linux/uio.h>
- #include "tee_private.h"
- 
-+/* extra references appended to shm object for registered shared memory */
-+struct tee_shm_dmabuf_ref {
-+     struct tee_shm shm;
-+     struct dma_buf *dmabuf;
-+     struct dma_buf_attachment *attach;
-+     struct sg_table *sgt;
-+};
-+
- static void shm_put_kernel_pages(struct page **pages, size_t page_count)
- {
- 	size_t n;
-@@ -71,7 +80,16 @@ static void release_registered_pages(struct tee_shm *shm)
- 
- static void tee_shm_release(struct tee_device *teedev, struct tee_shm *shm)
- {
--	if (shm->flags & TEE_SHM_POOL) {
-+	if (shm->flags & TEE_SHM_EXT_DMA_BUF) {
-+		struct tee_shm_dmabuf_ref *ref;
-+
-+		ref = container_of(shm, struct tee_shm_dmabuf_ref, shm);
-+		dma_buf_unmap_attachment(ref->attach, ref->sgt,
-+					 DMA_BIDIRECTIONAL);
-+
-+		dma_buf_detach(ref->dmabuf, ref->attach);
-+		dma_buf_put(ref->dmabuf);
-+	} else if (shm->flags & TEE_SHM_POOL) {
- 		teedev->pool->ops->free(teedev->pool, shm);
- 	} else if (shm->flags & TEE_SHM_DYNAMIC) {
- 		int rc = teedev->desc->ops->shm_unregister(shm->ctx, shm);
-@@ -195,7 +213,7 @@ struct tee_shm *tee_shm_alloc_user_buf(struct tee_context *ctx, size_t size)
-  * tee_client_invoke_func(). The memory allocated is later freed with a
-  * call to tee_shm_free().
-  *
-- * @returns a pointer to 'struct tee_shm'
-+ * @returns a pointer to 'struct tee_shm' on success, and ERR_PTR on failure
-  */
- struct tee_shm *tee_shm_alloc_kernel_buf(struct tee_context *ctx, size_t size)
- {
-@@ -229,6 +247,83 @@ struct tee_shm *tee_shm_alloc_priv_buf(struct tee_context *ctx, size_t size)
- }
- EXPORT_SYMBOL_GPL(tee_shm_alloc_priv_buf);
- 
-+struct tee_shm *tee_shm_register_fd(struct tee_context *ctx, int fd)
-+{
-+	struct tee_shm_dmabuf_ref *ref;
-+	int rc;
-+
-+	if (!tee_device_get(ctx->teedev))
-+		return ERR_PTR(-EINVAL);
-+
-+	teedev_ctx_get(ctx);
-+
-+	ref = kzalloc(sizeof(*ref), GFP_KERNEL);
-+	if (!ref) {
-+		rc = -ENOMEM;
-+		goto err_put_tee;
-+	}
-+
-+	refcount_set(&ref->shm.refcount, 1);
-+	ref->shm.ctx = ctx;
-+	ref->shm.id = -1;
-+
-+	ref->dmabuf = dma_buf_get(fd);
-+	if (IS_ERR(ref->dmabuf)) {
-+		rc = PTR_ERR(ref->dmabuf);
-+		goto err_put_dmabuf;
-+	}
-+
-+	ref->attach = dma_buf_attach(ref->dmabuf, &ref->shm.ctx->teedev->dev);
-+	if (IS_ERR(ref->attach)) {
-+		rc = PTR_ERR(ref->attach);
-+		goto err_detach;
-+	}
-+
-+	ref->sgt = dma_buf_map_attachment(ref->attach, DMA_BIDIRECTIONAL);
-+	if (IS_ERR(ref->sgt)) {
-+		rc = PTR_ERR(ref->sgt);
-+		goto err_unmap_attachement;
-+	}
-+
-+	if (sg_nents(ref->sgt->sgl) != 1) {
-+		rc = PTR_ERR(ref->sgt->sgl);
-+		goto err_unmap_attachement;
-+	}
-+
-+	ref->shm.paddr = sg_dma_address(ref->sgt->sgl);
-+	ref->shm.size = sg_dma_len(ref->sgt->sgl);
-+	ref->shm.flags = TEE_SHM_EXT_DMA_BUF;
-+
-+	mutex_lock(&ref->shm.ctx->teedev->mutex);
-+	ref->shm.id = idr_alloc(&ref->shm.ctx->teedev->idr, &ref->shm,
-+				1, 0, GFP_KERNEL);
-+	mutex_unlock(&ref->shm.ctx->teedev->mutex);
-+	if (ref->shm.id < 0) {
-+		rc = ref->shm.id;
-+		goto err_idr_remove;
-+	}
-+
-+	return &ref->shm;
-+
-+err_idr_remove:
-+	mutex_lock(&ctx->teedev->mutex);
-+	idr_remove(&ctx->teedev->idr, ref->shm.id);
-+	mutex_unlock(&ctx->teedev->mutex);
-+err_unmap_attachement:
-+	dma_buf_unmap_attachment(ref->attach, ref->sgt, DMA_BIDIRECTIONAL);
-+err_detach:
-+	dma_buf_detach(ref->dmabuf, ref->attach);
-+err_put_dmabuf:
-+	dma_buf_put(ref->dmabuf);
-+	kfree(ref);
-+err_put_tee:
-+	teedev_ctx_put(ctx);
-+	tee_device_put(ctx->teedev);
-+
-+	return ERR_PTR(rc);
-+}
-+EXPORT_SYMBOL_GPL(tee_shm_register_fd);
-+
- static struct tee_shm *
- register_shm_helper(struct tee_context *ctx, unsigned long addr,
- 		    size_t length, u32 flags, int id)
-diff --git a/include/linux/tee_drv.h b/include/linux/tee_drv.h
-index 911cad324acc..40ddd5376c2d 100644
---- a/include/linux/tee_drv.h
-+++ b/include/linux/tee_drv.h
-@@ -25,6 +25,7 @@
- #define TEE_SHM_USER_MAPPED	BIT(1)  /* Memory mapped in user space */
- #define TEE_SHM_POOL		BIT(2)  /* Memory allocated from pool */
- #define TEE_SHM_PRIV		BIT(3)  /* Memory private to TEE driver */
-+#define TEE_SHM_EXT_DMA_BUF     BIT(4)  /* Memory with dma-buf handle */
- 
- struct device;
- struct tee_device;
-@@ -276,6 +277,16 @@ struct tee_shm *tee_shm_alloc_kernel_buf(struct tee_context *ctx, size_t size);
- struct tee_shm *tee_shm_register_kernel_buf(struct tee_context *ctx,
- 					    void *addr, size_t length);
- 
-+/**
-+ * tee_shm_register_fd() - Register shared memory from file descriptor
-+ *
-+ * @ctx:	Context that allocates the shared memory
-+ * @fd:		Shared memory file descriptor reference
-+ *
-+ * @returns a pointer to 'struct tee_shm' on success, and ERR_PTR on failure
-+ */
-+struct tee_shm *tee_shm_register_fd(struct tee_context *ctx, int fd);
-+
- /**
-  * tee_shm_is_dynamic() - Check if shared memory object is of the dynamic kind
-  * @shm:	Shared memory handle
-diff --git a/include/uapi/linux/tee.h b/include/uapi/linux/tee.h
-index 25a6c534beb1..baf3cd7cfdac 100644
---- a/include/uapi/linux/tee.h
-+++ b/include/uapi/linux/tee.h
-@@ -121,6 +121,35 @@ struct tee_ioctl_shm_alloc_data {
- #define TEE_IOC_SHM_ALLOC	_IOWR(TEE_IOC_MAGIC, TEE_IOC_BASE + 1, \
- 				     struct tee_ioctl_shm_alloc_data)
- 
-+/**
-+ * struct tee_ioctl_shm_register_fd_data - Shared memory registering argument
-+ * @fd:		[in] File descriptor identifying the shared memory
-+ * @size:	[out] Size of shared memory to allocate
-+ * @flags:	[in] Flags to/from allocation.
-+ * @id:		[out] Identifier of the shared memory
-+ *
-+ * The flags field should currently be zero as input. Updated by the call
-+ * with actual flags as defined by TEE_IOCTL_SHM_* above.
-+ * This structure is used as argument for TEE_IOC_SHM_REGISTER_FD below.
-+ */
-+struct tee_ioctl_shm_register_fd_data {
-+	__s64 fd;
-+	__u64 size;
-+	__u32 flags;
-+	__s32 id;
-+} __attribute__ ((aligned (8)));
-+
-+/**
-+ * TEE_IOC_SHM_REGISTER_FD - register a shared memory from a file descriptor
-+ *
-+ * Returns a file descriptor on success or < 0 on failure
-+ *
-+ * The returned file descriptor refers to the shared memory object in kernel
-+ * land. The shared memory is freed when the descriptor is closed.
-+ */
-+#define TEE_IOC_SHM_REGISTER_FD	_IOWR(TEE_IOC_MAGIC, TEE_IOC_BASE + 8, \
-+				     struct tee_ioctl_shm_register_fd_data)
-+
- /**
-  * struct tee_ioctl_buf_data - Variable sized buffer
-  * @buf_ptr:	[in] A __user pointer to a buffer
--- 
-2.25.0
+Are you saying that you have to have a display controller driver
+running in the TEE to display one of these buffers? If everything
+needs to be in the TEE, then why even have these buffers allocated
+by non-secure Linux at all?
 
+I would have expected there to be HW enforcement of buffer access,
+but for the display driver to be in non-secure Linux. That's how
+TZMP1 works: https://static.linaro.org/connect/hkg18/presentations/hkg18-408.pdf
+
+Looking at this SDP presentation, that also seems to be the case
+there: https://static.linaro.org/connect/san19/presentations/san19-107.pdf
+
+Based on those presentations, I think this heap should be implementing
+map_dma_buf in the "normal" way, using the DMA API to map the buffer
+to the device. It's up to the TEE and HW firewall to prevent access
+to those mappings from non-secure devices.
+
+My understanding is:
+
+* The memory region should never be mapped or accessed from the host
+  CPU. This is not a security requirement - the CPU will be denied
+  access by whatever hardware is enforcing security - but any CPU
+  accesses will fail, so there is no point in ever having a CPU
+  mapping.
+* The allocated buffers _should_ be mapped to devices via map_dma_buf.
+  Again the HW enforcement will prevent access from devices which
+  aren't permitted access, but for example a display controller
+  may be allowed to read the secure buffer, composite it with other
+  buffers, and display it on the screen.
+
+Am I wrong? Even if SDP doesn't work this way, I think we should make
+the heap as generic as possible so that it can work with different
+secure video implementations.
+
+> 
+> > 
+
+.. snip
+
+> > > +
+> > > +RESERVEDMEM_OF_DECLARE(secure_heap, "linaro,secure-heap",
+> > > rmem_secure_heap_setup);
+> > 
+> > Is there anything linaro-specific about this? Could it be
+> > linux,secure-heap?
+> 
+> for now, it's specific to Linaro OPTEE OS.
+> but in a more generic way, it could be 
+> linux,unmapped-heap ?
+
+If these buffers can never be mapped, not to the CPU nor to devices,
+then actually I don't see why it should be a dma-buf heap at all.
+
+If this is just an interface to associate some identifier (in this
+case an fd) with a region of physical address space, then why is it
+useful to pretend that it's a dma-buf, if none of the dma-buf
+operations actually do anything?
+
+Cheers,
+-Brian
+
+> 
+> > 
+> > Thanks,
+> > -Brian
+> > 
+> > > +
+> > > +module_init(secure_heap_create);
+> > > +MODULE_LICENSE("GPL v2");
+> > > --
+> > > 2.25.0
+> > > 
