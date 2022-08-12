@@ -2,97 +2,105 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 14262590A31
-	for <lists+linux-media@lfdr.de>; Fri, 12 Aug 2022 04:15:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D0E5B590B7D
+	for <lists+linux-media@lfdr.de>; Fri, 12 Aug 2022 07:27:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236520AbiHLCPZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 11 Aug 2022 22:15:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51254 "EHLO
+        id S236872AbiHLF1i (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 12 Aug 2022 01:27:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36638 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230006AbiHLCPY (ORCPT
+        with ESMTP id S236270AbiHLF1h (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 11 Aug 2022 22:15:24 -0400
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C37B12528B;
-        Thu, 11 Aug 2022 19:15:22 -0700 (PDT)
+        Fri, 12 Aug 2022 01:27:37 -0400
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC0F8A0274;
+        Thu, 11 Aug 2022 22:27:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1660270522; x=1691806522;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=C5XPX+xgLnybnz3zgClOK3gD/zt1tfCCW/hBJxZSdGc=;
-  b=oF7TBZl8aOmllVL6KMDbw7ZxRxk2s5zzt8yR2JFy5GcCK6rk+N7Bfz6W
-   9RVNzatupPA0/G8vn4chdYF0ttYBtdt4UcqwsQfiEiLOhz9V9E+v8HcPF
-   Znf5sGYrbNAlBylQKB4cZT00QQwNJuC1dnTMIL5AqjfGxZ1janLV8DCbf
-   Cz5dOZxNhzu274VcqXe/kDJnUveYqkitBOJh3AJ5JtylX8SOEfLQK+WXF
-   d/C4sjBXhTaXpsk9qFqUwn0FKbIKu9HEXe5c9wSMqXvWQkLScpFBEscYw
-   sk3pUNgceLkHz4sNzvskyLDxfbZdRa5zQnr868VmJFrX8kLzFq2LMLlEn
-   g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10436"; a="377795945"
+  t=1660282056; x=1691818056;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=aD66a3tlUSHNk9f+LMWfIXawj2d8pgOYlU8yPhvZhyU=;
+  b=ODgj4mUt+jPWKjqYHAmrc57fc7Au6RCRsG69z4u/FaGQYJM7+h1MrDip
+   kM/3aZ6Lt7hlOYokEfHf91H5uZg7g6Pt3FPO7L/ZYHT/aXF7Hr854f37h
+   F1g8/rUrgYvTElf9jKjAV5FsV5VcZt6zkV+f5T+8NcDU8d6NAOPzP/9Gh
+   r65DNUzlFYgKQvxNL+UhYxI8UAYPWr97YBzTJ7huxNeMG3btNyaTxNVRm
+   ntGh5guIcCUq8JJI18XP0S/ZbXWqIs1IWtT+T/hQWaKXcicQIgF5Qo8Gm
+   N4jD36XYaAlMq1ZXzcESjTW/Hrw+5xoylclm0kZG3yIJ/kJFZLLhnw1Tl
+   w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10436"; a="278475234"
 X-IronPort-AV: E=Sophos;i="5.93,231,1654585200"; 
-   d="scan'208";a="377795945"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Aug 2022 19:15:22 -0700
+   d="scan'208";a="278475234"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Aug 2022 22:27:36 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.93,231,1654585200"; 
-   d="scan'208";a="732079410"
-Received: from lkp-server02.sh.intel.com (HELO cfab306db114) ([10.239.97.151])
-  by orsmga004.jf.intel.com with ESMTP; 11 Aug 2022 19:15:20 -0700
-Received: from kbuild by cfab306db114 with local (Exim 4.96)
+   d="scan'208";a="556407140"
+Received: from lkp-server02.sh.intel.com (HELO 8745164cafc7) ([10.239.97.151])
+  by orsmga003.jf.intel.com with ESMTP; 11 Aug 2022 22:27:33 -0700
+Received: from kbuild by 8745164cafc7 with local (Exim 4.96)
         (envelope-from <lkp@intel.com>)
-        id 1oMKCl-0000y8-2E;
-        Fri, 12 Aug 2022 02:15:19 +0000
-Date:   Fri, 12 Aug 2022 10:15:12 +0800
+        id 1oMNCm-0000CU-2a;
+        Fri, 12 Aug 2022 05:27:32 +0000
+Date:   Fri, 12 Aug 2022 13:27:13 +0800
 From:   kernel test robot <lkp@intel.com>
-To:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Cc:     Paul Gazzillo <paul@pgazz.com>,
-        Necip Fazil Yildiran <fazilyildiran@gmail.com>,
-        kbuild-all@lists.01.org, linux-kernel@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>
-Subject: kismet: WARNING: unmet direct dependencies detected for
- PHY_SUN6I_MIPI_DPHY when selected by VIDEO_SUN6I_MIPI_CSI2
-Message-ID: <202208121001.4zu3vDkU-lkp@intel.com>
+To:     Olivier Masse <olivier.masse@nxp.com>, jens.wiklander@linaro.org,
+        sumit.garg@linaro.org, sumit.semwal@linaro.org,
+        christian.koenig@amd.com, op-tee@lists.trustedfirmware.org,
+        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc:     kbuild-all@lists.01.org, clement.faure@nxp.com,
+        olivier.masse@nxp.com
+Subject: Re: [PATCH 1/1] tee: new ioctl to a register tee_shm from a dmabuf
+ file descriptor
+Message-ID: <202208121326.FWVAzlch-lkp@intel.com>
+References: <20220811135637.6332-2-olivier.masse@nxp.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20220811135637.6332-2-olivier.masse@nxp.com>
 X-Spam-Status: No, score=-5.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   7ebfc85e2cd7b08f518b526173e9a33b56b3913b
-commit: af54b4f4c17f54e8c7c43fb34571bc361cfa4ab4 media: sunxi: Add support for the A31 MIPI CSI-2 controller
-date:   5 weeks ago
-config: x86_64-kismet-CONFIG_PHY_SUN6I_MIPI_DPHY-CONFIG_VIDEO_SUN6I_MIPI_CSI2-0-0 (https://download.01.org/0day-ci/archive/20220812/202208121001.4zu3vDkU-lkp@intel.com/config)
-reproduce:
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=af54b4f4c17f54e8c7c43fb34571bc361cfa4ab4
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout af54b4f4c17f54e8c7c43fb34571bc361cfa4ab4
-        # 1. reproduce by kismet
-           # install kmax per https://github.com/paulgazz/kmax/blob/master/README.md
-           kismet --linux-ksrc=linux --selectees CONFIG_PHY_SUN6I_MIPI_DPHY --selectors CONFIG_VIDEO_SUN6I_MIPI_CSI2 -a=x86_64
-        # 2. reproduce by make
-           # save the config file to linux source tree
-           cd linux
-           make ARCH=x86_64 olddefconfig
+Hi Olivier,
+
+Thank you for the patch! Yet something to improve:
+
+[auto build test ERROR on drm-misc/drm-misc-next]
+[also build test ERROR on drm-tip/drm-tip linus/master v5.19 next-20220811]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Olivier-Masse/tee-Add-tee_shm_register_fd/20220811-220012
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20220812/202208121326.FWVAzlch-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-3) 11.3.0
+reproduce (this is a W=1 build):
+        # https://github.com/intel-lab-lkp/linux/commit/2e8827973f200fdfe64366bec5a57686086f4672
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Olivier-Masse/tee-Add-tee_shm_register_fd/20220811-220012
+        git checkout 2e8827973f200fdfe64366bec5a57686086f4672
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for PHY_SUN6I_MIPI_DPHY when selected by VIDEO_SUN6I_MIPI_CSI2
-   
-   WARNING: unmet direct dependencies detected for PHY_SUN6I_MIPI_DPHY
-     Depends on [n]: (ARCH_SUNXI || COMPILE_TEST [=y]) && HAS_IOMEM [=y] && COMMON_CLK [=y] && RESET_CONTROLLER [=n]
-     Selected by [y]:
-     - VIDEO_SUN6I_MIPI_CSI2 [=y] && MEDIA_SUPPORT [=y] && MEDIA_PLATFORM_SUPPORT [=y] && MEDIA_PLATFORM_DRIVERS [=y] && V4L_PLATFORM_DRIVERS [=y] && VIDEO_DEV [=y] && (ARCH_SUNXI || COMPILE_TEST [=y]) && PM [=y] && COMMON_CLK [=y]
+All errors (new ones prefixed by >>):
+
+   In file included from <command-line>:
+>> ./usr/include/linux/tee.h:136:13: error: expected declaration specifiers or '...' before numeric constant
+     136 | } __aligned(8);
+         |             ^
 
 -- 
 0-DAY CI Kernel Test Service
