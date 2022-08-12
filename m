@@ -2,52 +2,52 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 894FF590E4D
-	for <lists+linux-media@lfdr.de>; Fri, 12 Aug 2022 11:42:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E247B590E65
+	for <lists+linux-media@lfdr.de>; Fri, 12 Aug 2022 11:49:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237873AbiHLJmg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 12 Aug 2022 05:42:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58510 "EHLO
+        id S237474AbiHLJtM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 12 Aug 2022 05:49:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35856 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237390AbiHLJmf (ORCPT
+        with ESMTP id S229966AbiHLJtM (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 12 Aug 2022 05:42:35 -0400
-Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com [IPv6:2a00:1450:4864:20::334])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 04E2DAA3C8
-        for <linux-media@vger.kernel.org>; Fri, 12 Aug 2022 02:42:32 -0700 (PDT)
-Received: by mail-wm1-x334.google.com with SMTP id s11-20020a1cf20b000000b003a52a0945e8so268010wmc.1
-        for <linux-media@vger.kernel.org>; Fri, 12 Aug 2022 02:42:31 -0700 (PDT)
+        Fri, 12 Aug 2022 05:49:12 -0400
+Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com [IPv6:2a00:1450:4864:20::42e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E97E9AA4D1
+        for <linux-media@vger.kernel.org>; Fri, 12 Aug 2022 02:49:08 -0700 (PDT)
+Received: by mail-wr1-x42e.google.com with SMTP id l22so608824wrz.7
+        for <linux-media@vger.kernel.org>; Fri, 12 Aug 2022 02:49:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=amarulasolutions.com; s=google;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date:from:to
          :cc;
-        bh=qQ5Fb/m5tOKuGY5L1MB9TpI6Nm3DBr1zgH8HC7WdcdM=;
-        b=NNQTc5xXnWCVYaZ5l4UumUFdY7T/JETi1/YQyq4tc7FzA7zVG1HffHHw/mtWdMRa2d
-         kNQrfoddBQgKU+TzkqlhEcVQJRJae9SHDql6LXIhrCKAo9H7Gr8DSaneVKb6u62NdKxF
-         zIFUw79xZuI9R4MrvU5UMpUEYZTo5bM7+nJSE=
+        bh=RzEhULFh5C11hulah0FUo3JNUtX07F7nVSL48uHPhdI=;
+        b=iD1bwBmFsXbfpXtoHr1UkxxBls3HDdToems9qYPmIWMLupIY7msNWkpkqHzOgNq4V5
+         Fo4Ts42lzKMvuKvD66WZbZrc0WNkUuvgrybkZayS0fb1Mzi6TC0QAbZxqOpwiuZIAqeA
+         J+ebN9HDSQL/dBFllqwM3URsCVheiZuHB1UP0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc;
-        bh=qQ5Fb/m5tOKuGY5L1MB9TpI6Nm3DBr1zgH8HC7WdcdM=;
-        b=CbKQ3htgUnaHBZJJfJKwTadgGpuqomsijw0l+mivUj55rrNuW90r+dlI2MjaxjU+MZ
-         AdgxBPDT2pB69D7Jd6746qE3p4hcad2ANCk063bpOoTBxwqDJsbNMsRJXP8nVGLJl/5m
-         nDxRm3OQROpUyAyKJRzCAaubpPEn+yvJRDbkhyxBZqygIdLQh9eNhGjFodVPLyKNOIWk
-         v+E7zHcYCq4lDd4bN07O6hQSpofubCbqaPW6pRT8/ycWtbmowfdpq8u+Y8KIoy7VH6wS
-         SV3yTENrB+W6i25LGeYc/bRjDeecKNduUgHbmS9eJP8jK2vkhsgoP6aJXBjUJw4IbHWw
-         I9Zw==
-X-Gm-Message-State: ACgBeo1XVaExKxCK8E19HxhS3s/jKM1Nes1mHXV2wmsHTB67WNACrF/z
-        e3nMf1q+h7ezMDNc9pOVn/hDqQ==
-X-Google-Smtp-Source: AA6agR4jUa4SkDBJJDp4PRDYkM84TpemLbevsZKOhgPri9f/Jcr7MUDi6GmdsQYGJ18GG6vTwas/tA==
-X-Received: by 2002:a05:600c:4ecd:b0:3a3:3eb0:9101 with SMTP id g13-20020a05600c4ecd00b003a33eb09101mr2111319wmq.49.1660297350160;
-        Fri, 12 Aug 2022 02:42:30 -0700 (PDT)
+        bh=RzEhULFh5C11hulah0FUo3JNUtX07F7nVSL48uHPhdI=;
+        b=eUK+Ql6FtmHAfhQj7O9lYnc2N5vmMmrXnLZN+n/bqrqzEHGg5bY80GoypvIy7L3cJh
+         l7UtKYQyktJvf9U8U1l4X1xfNvyG2vP/S2mO0KUVLvE9GT7KQCCom6r0sNBiMF0TPN64
+         EhMEmN1nreR9kZybF8aEBmVKgn7hzktkPrWK8BV4B3aBgmNYhGo5vyn9JkfiLTPf8tzN
+         jv9jLkVAlipkUdSok9if9odtlz8nmzGioi9MMuBV4m5UUwYAvkYdZPCs7aNMOBF5aPlV
+         DOkSDZWhk4YfcF4McdZDAgli0cpr/CWb02zOM4mmQFHjY3vsFXyyCo0wD06iBXeeBCls
+         34Mg==
+X-Gm-Message-State: ACgBeo3jgwzu4XVjPIiYsP3eliplmUw+j3BFnwosn/0mkD7lc3ePnx8O
+        EPJzzyVNIe0C8TuxV0APvjse0A==
+X-Google-Smtp-Source: AA6agR6h+G2uTyNPlu28bdLTRju0nOKd6IKAT3sl46Qss2dbz/+mSnbU0Mm84CzFIKh62q6UFyjeaA==
+X-Received: by 2002:a5d:6d04:0:b0:21f:877:e2ef with SMTP id e4-20020a5d6d04000000b0021f0877e2efmr1671175wrq.131.1660297746994;
+        Fri, 12 Aug 2022 02:49:06 -0700 (PDT)
 Received: from tom-ThinkPad-T14s-Gen-2i (net-188-217-51-7.cust.vodafonedsl.it. [188.217.51.7])
-        by smtp.gmail.com with ESMTPSA id bt19-20020a056000081300b0021eaf4138aesm1778378wrb.108.2022.08.12.02.42.29
+        by smtp.gmail.com with ESMTPSA id 8-20020a05600c020800b003a52969e89csm9085149wmi.4.2022.08.12.02.49.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 12 Aug 2022 02:42:29 -0700 (PDT)
-Date:   Fri, 12 Aug 2022 11:42:27 +0200
+        Fri, 12 Aug 2022 02:49:06 -0700 (PDT)
+Date:   Fri, 12 Aug 2022 11:49:04 +0200
 From:   Tommaso Merciai <tommaso.merciai@amarulasolutions.com>
 To:     Ming Qian <ming.qian@nxp.com>
 Cc:     "mchehab@kernel.org" <mchehab@kernel.org>,
@@ -65,7 +65,7 @@ Cc:     "mchehab@kernel.org" <mchehab@kernel.org>,
         <linux-arm-kernel@lists.infradead.org>
 Subject: Re: [EXT] Re: [PATCH v4 2/4] media: amphion: tell and handle
  contiguous and non contiguous format
-Message-ID: <20220812094227.GA11185@tom-ThinkPad-T14s-Gen-2i>
+Message-ID: <20220812094904.GB11185@tom-ThinkPad-T14s-Gen-2i>
 References: <cover.1660027440.git.ming.qian@nxp.com>
  <4af9766eb664a02d1c5884cb48fadef24dec142f.1660027440.git.ming.qian@nxp.com>
  <20220812071455.GB5705@tom-ThinkPad-T14s-Gen-2i>
@@ -105,13 +105,19 @@ On Fri, Aug 12, 2022 at 07:19:49AM +0000, Ming Qian wrote:
 > 
 > Hi Tommaso,
 >     Thanks for your help, and I'm working on https://git.linuxtv.org/media_tree.git
+> 
+> Ming
 
-Thanks for your time.
+Hi Ming,
+Are you working on top of master branch? I have some issue on apply
+this.
+
+Let me know.
+Thanks,
 
 Tommaso
 
-> 
-> Ming
+
 > 
 > >
 > >Thanks in advance,
