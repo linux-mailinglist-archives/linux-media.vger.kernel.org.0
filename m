@@ -2,175 +2,127 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EB7B15924D5
-	for <lists+linux-media@lfdr.de>; Sun, 14 Aug 2022 18:36:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C0C515925A4
+	for <lists+linux-media@lfdr.de>; Sun, 14 Aug 2022 18:56:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242856AbiHNQfj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 14 Aug 2022 12:35:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52260 "EHLO
+        id S242074AbiHNQ4R (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 14 Aug 2022 12:56:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41168 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242731AbiHNQeN (ORCPT
+        with ESMTP id S243546AbiHNQ4C (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 14 Aug 2022 12:34:13 -0400
-Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1F002FFD6;
-        Sun, 14 Aug 2022 09:27:34 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by sin.source.kernel.org (Postfix) with ESMTPS id E7A37CE0B5E;
-        Sun, 14 Aug 2022 16:27:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 361D0C433D6;
-        Sun, 14 Aug 2022 16:27:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1660494451;
-        bh=OVXPhBDlAN+6wBq/lN4PTOu1yqd5ybIqomdkt/gXbqA=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=JNpkWmsKxhCuADfNeA+WcHz8eY0n9QABbqOLuO2oToRKBWf0pyU5sHBclmh7Bfkjs
-         rIWkllefYmT3WA8nD5VkzbynrDaCpj/VTPSyOs42qy1x8hPCCz2AdT7BX2duq/Lf3B
-         xGUz0FB+2zR0rqYcOBJTrW7A/YJcYTopsv+zcX6BbMbO57riT+ddJLnm9KKPhTKECB
-         FiUyNU2z79xlRdqqhscbsIS1z1kWPAFAIUs4fYLeLdElwKwJZR91GHcBi948V+tz7A
-         oX249SSlIvCgA3HSKPrDc9USeuYbCCUPNGWWDKaIWKy7U2xXKJN6j++gkllEz2gQ7P
-         HAnS0GkVl4GaA==
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        Linux Kernel Functional Testing <lkft@linaro.org>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        Sasha Levin <sashal@kernel.org>, agross@kernel.org,
-        bjorn.andersson@linaro.org, mchehab@kernel.org,
-        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.15 26/28] venus: pm_helpers: Fix warning in OPP during probe
-Date:   Sun, 14 Aug 2022 12:26:06 -0400
-Message-Id: <20220814162610.2397644-26-sashal@kernel.org>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220814162610.2397644-1-sashal@kernel.org>
-References: <20220814162610.2397644-1-sashal@kernel.org>
+        Sun, 14 Aug 2022 12:56:02 -0400
+Received: from mail-pg1-x52c.google.com (mail-pg1-x52c.google.com [IPv6:2607:f8b0:4864:20::52c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 747F5BBA45;
+        Sun, 14 Aug 2022 09:44:22 -0700 (PDT)
+Received: by mail-pg1-x52c.google.com with SMTP id r69so4819878pgr.2;
+        Sun, 14 Aug 2022 09:44:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc;
+        bh=pL8g1BLQVZvrcgdrkNSBsPwGKS843D7eAlV+Ro1JYLM=;
+        b=k0ylHWRY53YY1+dlQ/dbkvmTjalxRlqlsppaDkMFbbTxq0XCzrdszvfqaNG/Nxr8py
+         Kbgq1NVl7bhB6wOrf45pn0Mc+LvFtpLdp069E9Ft1DI382mxMMCmXTw1FLDoh9tWyYKT
+         uHhujxKlnb2eEw982KEegE56z1jeOL/FOtw7eyRJJXxqU9bMWrf+srwYqQ09yIDmTENt
+         zMkT5OK8PkEpnmdsrD+1hhZSZ5qIGc8byzvNxRZYGOevjM4ycwbrfo8T3Le3b6cGV2Z7
+         cOHne/7l48Bk1kHcNm0kgwEDa/0FLEfQg0FjnJqQ+F3XAGZm1UebDYGurZdOXFqf1mlw
+         toug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
+        bh=pL8g1BLQVZvrcgdrkNSBsPwGKS843D7eAlV+Ro1JYLM=;
+        b=JcieTw1qKjZfh4H/ibFm13JCTZP/TSrnCrD7qfoQGPQJT867pXDRpRMH7GBzDu747g
+         x45L9zgDxYMWtJ3CFfhVn0M6p0tbeolLjqwkHnGMRuYzVUqxYfDNLdEYNQGpQzNMXqXe
+         dPkGHzTz/9QlI0PpxsAFrqR3VQrTFa8uZXL99hlxQ16PvacubSEWrnxV85HdP1PkHMse
+         10QAnpubSB3W74S9nx89/nhZoMmnwreVDe3FlV0vr2DDCBj40R36n2bvQIhn+59U2kKy
+         OXUyeESNVqpkX1r//CQ7Rf18AA3xgNlZzv2bmDsNblOeMJm0a/mVeBpaugjb7OX8/P8P
+         F5Ow==
+X-Gm-Message-State: ACgBeo07YFLXG/pEKieYlT6tNH9C5mcwc9z0JyDEbk6B7l7HvuUx2hLF
+        zPtIbq2XvHBo0K/HFgTzQhI=
+X-Google-Smtp-Source: AA6agR7HECHODK6Fh2XDOqfqhpiyfU71JkO8dMXKf22iSRHVqgW246kAntAKOSOqcWg48QKEVu2C/Q==
+X-Received: by 2002:a63:d70c:0:b0:420:f9b6:9c3d with SMTP id d12-20020a63d70c000000b00420f9b69c3dmr10701076pgg.377.1660495460514;
+        Sun, 14 Aug 2022 09:44:20 -0700 (PDT)
+Received: from biggie ([103.230.148.189])
+        by smtp.gmail.com with ESMTPSA id c1-20020a170902d48100b001709e3c755fsm5584531plg.230.2022.08.14.09.44.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 14 Aug 2022 09:44:20 -0700 (PDT)
+Date:   Sun, 14 Aug 2022 22:14:14 +0530
+From:   Gautam Menghani <gautammenghani201@gmail.com>
+To:     Greg KH <gregkh@linuxfoundation.org>
+Cc:     sean@mess.org, mchehab@kernel.org, hdanton@sina.com,
+        linux-kernel@vger.kernel.org,
+        syzbot+0c3cb6dc05fbbdc3ad66@syzkaller.appspotmail.com,
+        linux-kernel-mentees@lists.linuxfoundation.org,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH] drivers/media/rc: Ensure usb_submit_urb() is not called
+ if write is in progress
+Message-ID: <YvkmXiZ+8zM9uh+Q@biggie>
+References: <20220814142543.24910-1-gautammenghani201@gmail.com>
+ <YvkKdIL8UVhKrI0Q@kroah.com>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-7.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YvkKdIL8UVhKrI0Q@kroah.com>
+X-Spam-Status: No, score=-0.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,FREEMAIL_REPLY,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Stanimir Varbanov <stanimir.varbanov@linaro.org>
+On Sun, Aug 14, 2022 at 04:45:08PM +0200, Greg KH wrote:
+> On Sun, Aug 14, 2022 at 07:55:42PM +0530, Gautam Menghani wrote:
+> > The warning "URB submitted while active" is reported if the function
+> > send_packet() in imon.c is called if a write is already is in progress.
+> > Add a check to return -EBUSY in case a write is already is in progress.
+> > Also, mark tx.busy as false after transmission is completed.
+> > 
+> > Fixes: 21677cfc562a ("V4L/DVB: ir-core: add imon driver")
+> > Cc: hdanton@sina.com
+> > Suggested-by: hdanton@sina.com
+> > Link: https://syzkaller.appspot.com/bug?id=e378e6a51fbe6c5cc43e34f131cc9a315ef0337e
+> > Reported-by: syzbot+0c3cb6dc05fbbdc3ad66@syzkaller.appspotmail.com
+> > Signed-off-by: Gautam Menghani <gautammenghani201@gmail.com>
+> > ---
+> >  drivers/media/rc/imon.c | 3 +++
+> >  1 file changed, 3 insertions(+)
+> > 
+> > diff --git a/drivers/media/rc/imon.c b/drivers/media/rc/imon.c
+> > index 735b925da998..a5b997c2c7e2 100644
+> > --- a/drivers/media/rc/imon.c
+> > +++ b/drivers/media/rc/imon.c
+> > @@ -598,6 +598,8 @@ static int send_packet(struct imon_context *ictx)
+> >  	int retval = 0;
+> >  	struct usb_ctrlrequest *control_req = NULL;
+> >  
+> > +	if (ictx->tx.busy)
+> > +		return -EBUSY;
+> 
+> What happens if we go busy right after this check?  Where is the locking
+> here to protect this?
 
-[ Upstream commit 1d95af02f23031c2e1cca7607c514b86ce85bc6e ]
+All calls to send_packet() are protected with ictx->lock() held. Are you referring 
+to something else?
 
-Fix the following WARN triggered during Venus driver probe on
-5.19.0-rc8-next-20220728:
+Also, if we return busy, the task is interrupted and the packet transaction fails, 
+just like the current behaviour. With the above patch, warning is not triggered.
+Here's the log from running the reproducer (with patch applied).
 
- WARNING: CPU: 7 PID: 339 at drivers/opp/core.c:2471 dev_pm_opp_set_config+0x49c/0x610
- Modules linked in: qcom_spmi_adc5 rtc_pm8xxx qcom_spmi_adc_tm5 leds_qcom_lpg led_class_multicolor
-  qcom_pon qcom_vadc_common venus_core(+) qcom_spmi_temp_alarm v4l2_mem2mem videobuf2_v4l2 msm(+)
-  videobuf2_common crct10dif_ce spi_geni_qcom snd_soc_sm8250 i2c_qcom_geni gpu_sched
-  snd_soc_qcom_common videodev qcom_q6v5_pas soundwire_qcom drm_dp_aux_bus qcom_stats
-  drm_display_helper qcom_pil_info soundwire_bus snd_soc_lpass_va_macro mc qcom_q6v5
-  phy_qcom_snps_femto_v2 qcom_rng snd_soc_lpass_macro_common snd_soc_lpass_wsa_macro
-  lpass_gfm_sm8250 slimbus qcom_sysmon qcom_common qcom_glink_smem qmi_helpers
-  qcom_wdt mdt_loader socinfo icc_osm_l3 display_connector
-  drm_kms_helper qnoc_sm8250 drm fuse ip_tables x_tables ipv6
- CPU: 7 PID: 339 Comm: systemd-udevd Not tainted 5.19.0-rc8-next-20220728 #4
- Hardware name: Qualcomm Technologies, Inc. Robotics RB5 (DT)
- pstate: 80400005 (Nzcv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
- pc : dev_pm_opp_set_config+0x49c/0x610
- lr : dev_pm_opp_set_config+0x58/0x610
- sp : ffff8000093c3710
- x29: ffff8000093c3710 x28: ffffbca3959d82b8 x27: ffff8000093c3d00
- x26: ffffbca3959d8e08 x25: ffff4396cac98118 x24: ffff4396c0e24810
- x23: ffff4396c4272c40 x22: ffff4396c0e24810 x21: ffff8000093c3810
- x20: ffff4396cac36800 x19: ffff4396cac96800 x18: 0000000000000000
- x17: 0000000000000003 x16: ffffbca3f4edf198 x15: 0000001cba64a858
- x14: 0000000000000180 x13: 000000000000017e x12: 0000000000000000
- x11: 0000000000000002 x10: 0000000000000a60 x9 : ffff8000093c35c0
- x8 : ffff4396c4273700 x7 : ffff43983efca6c0 x6 : ffff43983efca640
- x5 : 00000000410fd0d0 x4 : ffff4396c4272c40 x3 : ffffbca3f5d1e008
- x2 : 0000000000000000 x1 : ffff4396c2421600 x0 : ffff4396cac96860
- Call trace:
-  dev_pm_opp_set_config+0x49c/0x610
-  devm_pm_opp_set_config+0x18/0x70
-  vcodec_domains_get+0xb8/0x1638 [venus_core]
-  core_get_v4+0x1d8/0x218 [venus_core]
-  venus_probe+0xf4/0x468 [venus_core]
-  platform_probe+0x68/0xd8
-  really_probe+0xbc/0x2a8
-  __driver_probe_device+0x78/0xe0
-  driver_probe_device+0x3c/0xf0
-  __driver_attach+0x70/0x120
-  bus_for_each_dev+0x70/0xc0
-  driver_attach+0x24/0x30
-  bus_add_driver+0x150/0x200
-  driver_register+0x64/0x120
-  __platform_driver_register+0x28/0x38
-  qcom_venus_driver_init+0x24/0x1000 [venus_core]
-  do_one_initcall+0x54/0x1c8
-  do_init_module+0x44/0x1d0
-  load_module+0x16c8/0x1aa0
-  __do_sys_finit_module+0xbc/0x110
-  __arm64_sys_finit_module+0x20/0x30
-  invoke_syscall+0x44/0x108
-  el0_svc_common.constprop.0+0xcc/0xf0
-  do_el0_svc+0x2c/0xb8
-  el0_svc+0x2c/0x88
-  el0t_64_sync_handler+0xb8/0xc0
-  el0t_64_sync+0x18c/0x190
-  qcom-venus: probe of aa00000.video-codec failed with error -16
+imon 1-1:0.0: Looks like you're trying to use an IR protocol this device does not support
+imon 1-1:0.0: Unsupported IR protocol specified, overriding to iMON IR protocol
+rc rc0: iMON Remote (15c2:0040) as /devices/platform/dummy_hcd.0/usb1/1-1/1-1:0.0/rc/rc0
+input: iMON Remote (15c2:0040) as /devices/platform/dummy_hcd.0/usb1/1-1/1-1:0.0/rc/rc0/input5
+imon 1-1:0.0: iMON device (15c2:0040, intf0) on usb<1:2> initialized
+imon:vfd_write: send packet #0 failed
+imon:send_packet: task interrupted
+imon:send_packet: packet tx failed (-2)
+imon:vfd_write: send packet #0 failed
+usb 1-1: USB disconnect, device number 2
 
-The fix is re-ordering the code related to OPP core. The OPP core
-expects all configuration options to be provided before the OPP
-table is added.
-
-Reported-by: Linux Kernel Functional Testing <lkft@linaro.org>
-Suggested-by: Viresh Kumar <viresh.kumar@linaro.org>
-Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Signed-off-by: Viresh Kumar <viresh.kumar@linaro.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/media/platform/qcom/venus/pm_helpers.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/media/platform/qcom/venus/pm_helpers.c b/drivers/media/platform/qcom/venus/pm_helpers.c
-index a591dd315ebc..03fc82cb3fea 100644
---- a/drivers/media/platform/qcom/venus/pm_helpers.c
-+++ b/drivers/media/platform/qcom/venus/pm_helpers.c
-@@ -875,7 +875,7 @@ static int vcodec_domains_get(struct venus_core *core)
- 	}
- 
- skip_pmdomains:
--	if (!core->has_opp_table)
-+	if (!core->res->opp_pmdomain)
- 		return 0;
- 
- 	/* Attach the power domain for setting performance state */
-@@ -1007,6 +1007,10 @@ static int core_get_v4(struct venus_core *core)
- 	if (ret)
- 		return ret;
- 
-+	ret = vcodec_domains_get(core);
-+	if (ret)
-+		return ret;
-+
- 	if (core->res->opp_pmdomain) {
- 		ret = devm_pm_opp_of_add_table(dev);
- 		if (!ret) {
-@@ -1017,10 +1021,6 @@ static int core_get_v4(struct venus_core *core)
- 		}
- 	}
- 
--	ret = vcodec_domains_get(core);
--	if (ret)
--		return ret;
--
- 	return 0;
- }
- 
--- 
-2.35.1
-
+Thanks,
+Gautam
