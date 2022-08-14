@@ -2,127 +2,150 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C0C515925A4
-	for <lists+linux-media@lfdr.de>; Sun, 14 Aug 2022 18:56:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 951675925BF
+	for <lists+linux-media@lfdr.de>; Sun, 14 Aug 2022 19:14:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242074AbiHNQ4R (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 14 Aug 2022 12:56:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41168 "EHLO
+        id S230388AbiHNROh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 14 Aug 2022 13:14:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60926 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243546AbiHNQ4C (ORCPT
+        with ESMTP id S229379AbiHNROg (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 14 Aug 2022 12:56:02 -0400
-Received: from mail-pg1-x52c.google.com (mail-pg1-x52c.google.com [IPv6:2607:f8b0:4864:20::52c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 747F5BBA45;
-        Sun, 14 Aug 2022 09:44:22 -0700 (PDT)
-Received: by mail-pg1-x52c.google.com with SMTP id r69so4819878pgr.2;
-        Sun, 14 Aug 2022 09:44:22 -0700 (PDT)
+        Sun, 14 Aug 2022 13:14:36 -0400
+Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com [IPv6:2a00:1450:4864:20::531])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1CDA1BEB0;
+        Sun, 14 Aug 2022 10:14:35 -0700 (PDT)
+Received: by mail-ed1-x531.google.com with SMTP id r4so7019761edi.8;
+        Sun, 14 Aug 2022 10:14:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc;
-        bh=pL8g1BLQVZvrcgdrkNSBsPwGKS843D7eAlV+Ro1JYLM=;
-        b=k0ylHWRY53YY1+dlQ/dbkvmTjalxRlqlsppaDkMFbbTxq0XCzrdszvfqaNG/Nxr8py
-         Kbgq1NVl7bhB6wOrf45pn0Mc+LvFtpLdp069E9Ft1DI382mxMMCmXTw1FLDoh9tWyYKT
-         uHhujxKlnb2eEw982KEegE56z1jeOL/FOtw7eyRJJXxqU9bMWrf+srwYqQ09yIDmTENt
-         zMkT5OK8PkEpnmdsrD+1hhZSZ5qIGc8byzvNxRZYGOevjM4ycwbrfo8T3Le3b6cGV2Z7
-         cOHne/7l48Bk1kHcNm0kgwEDa/0FLEfQg0FjnJqQ+F3XAGZm1UebDYGurZdOXFqf1mlw
-         toug==
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc;
+        bh=lcXhUSdXTZBEx8SZoP2wndcVuxf5BwHzU6Gjyckptts=;
+        b=csWx3BhYGeVOyeUipPUq7Umiysxpgwd1x1SSSCUVIBiXp7sRSBvlv1PQmaRUK/pp1Q
+         uziYUvtY4HkYzwGDIiwY/Thmr1T9BZ8kkxZ5zDDsD3pRr7BhbzvDebxpkyhCv3aNdaxP
+         dk271AYRtadbRBBh+T780jeCgO9gW7sBllq3ixbctSKmvoEgGD9xhN9k16MXepM38VZa
+         aAPE8ysiNZD4g8KS/BkziR4hu58afy4seLzQcx2OEYuEsP/Nh9zbmZl06eH9qJO673xM
+         gqdRh+1FVeg0J+05bowFsiEB7khTokFp9WWLTs+SrMG4/ZPaoOATXSiIID5zoMZOSJ/0
+         ukug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
-        bh=pL8g1BLQVZvrcgdrkNSBsPwGKS843D7eAlV+Ro1JYLM=;
-        b=JcieTw1qKjZfh4H/ibFm13JCTZP/TSrnCrD7qfoQGPQJT867pXDRpRMH7GBzDu747g
-         x45L9zgDxYMWtJ3CFfhVn0M6p0tbeolLjqwkHnGMRuYzVUqxYfDNLdEYNQGpQzNMXqXe
-         dPkGHzTz/9QlI0PpxsAFrqR3VQrTFa8uZXL99hlxQ16PvacubSEWrnxV85HdP1PkHMse
-         10QAnpubSB3W74S9nx89/nhZoMmnwreVDe3FlV0vr2DDCBj40R36n2bvQIhn+59U2kKy
-         OXUyeESNVqpkX1r//CQ7Rf18AA3xgNlZzv2bmDsNblOeMJm0a/mVeBpaugjb7OX8/P8P
-         F5Ow==
-X-Gm-Message-State: ACgBeo07YFLXG/pEKieYlT6tNH9C5mcwc9z0JyDEbk6B7l7HvuUx2hLF
-        zPtIbq2XvHBo0K/HFgTzQhI=
-X-Google-Smtp-Source: AA6agR7HECHODK6Fh2XDOqfqhpiyfU71JkO8dMXKf22iSRHVqgW246kAntAKOSOqcWg48QKEVu2C/Q==
-X-Received: by 2002:a63:d70c:0:b0:420:f9b6:9c3d with SMTP id d12-20020a63d70c000000b00420f9b69c3dmr10701076pgg.377.1660495460514;
-        Sun, 14 Aug 2022 09:44:20 -0700 (PDT)
-Received: from biggie ([103.230.148.189])
-        by smtp.gmail.com with ESMTPSA id c1-20020a170902d48100b001709e3c755fsm5584531plg.230.2022.08.14.09.44.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 14 Aug 2022 09:44:20 -0700 (PDT)
-Date:   Sun, 14 Aug 2022 22:14:14 +0530
-From:   Gautam Menghani <gautammenghani201@gmail.com>
-To:     Greg KH <gregkh@linuxfoundation.org>
-Cc:     sean@mess.org, mchehab@kernel.org, hdanton@sina.com,
-        linux-kernel@vger.kernel.org,
-        syzbot+0c3cb6dc05fbbdc3ad66@syzkaller.appspotmail.com,
-        linux-kernel-mentees@lists.linuxfoundation.org,
-        linux-media@vger.kernel.org
-Subject: Re: [PATCH] drivers/media/rc: Ensure usb_submit_urb() is not called
- if write is in progress
-Message-ID: <YvkmXiZ+8zM9uh+Q@biggie>
-References: <20220814142543.24910-1-gautammenghani201@gmail.com>
- <YvkKdIL8UVhKrI0Q@kroah.com>
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc;
+        bh=lcXhUSdXTZBEx8SZoP2wndcVuxf5BwHzU6Gjyckptts=;
+        b=6JwFhflWfoTZl2eOPR9FTVV3IlmXIaM+46eydrh41xFw0NsOBt1lc0sHlkCpOH9D5I
+         IpuDxd/H97glgDZn6buKp2KFs9/HhzO/t/+EqnZ1i+u1dtc3nFkOD0ys8QeIyoPA41Uw
+         sOVz9pybnML6i79FcLxh7qVD2UNbe/qU9/kvck5UdHPqRmAfnxCGq26ovHwC3GfLSPM2
+         f3ttH8ude9l33fCwgBHDfeVIz+VKD7YZpkeNe/7bQFsBhxlWDppSdbD+roJLnQ2q3Dut
+         e/ZGojVjMt3K7C4NdVZGC970H4vgdvIQ9qxf4qfOaIK23kh5PjuPrFQ3wW9TOUeQ431a
+         sRPg==
+X-Gm-Message-State: ACgBeo2hxXKuLqc9s0juR0ypVhnqEuSzgwTKFllQ1/JGsZWtJ59iG248
+        4DDz56Lk1DBmTv+PgjzVrV4=
+X-Google-Smtp-Source: AA6agR49F60BoKAAj3bxWs5EH7O5Rxjmmbzndw264ksH1sHE2A+sDjwmDCt7uWuElhxtIcwzeeRWmQ==
+X-Received: by 2002:a05:6402:4282:b0:43e:612c:fcf7 with SMTP id g2-20020a056402428200b0043e612cfcf7mr11105056edc.242.1660497274265;
+        Sun, 14 Aug 2022 10:14:34 -0700 (PDT)
+Received: from ?IPV6:2a02:908:1256:79a0:fb92:e16e:a0f2:319d? ([2a02:908:1256:79a0:fb92:e16e:a0f2:319d])
+        by smtp.gmail.com with ESMTPSA id g1-20020a17090604c100b00730aa5f15cfsm3125754eja.63.2022.08.14.10.14.32
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 14 Aug 2022 10:14:33 -0700 (PDT)
+Message-ID: <ebb573b8-237f-602e-8d7d-9c49f0bd73be@gmail.com>
+Date:   Sun, 14 Aug 2022 19:14:31 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YvkKdIL8UVhKrI0Q@kroah.com>
-X-Spam-Status: No, score=-0.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,FREEMAIL_REPLY,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH] drm/amd/amdgpu: Replace kmap() with kmap_local_page()
+Content-Language: en-US
+To:     "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+        "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Felix Kuehling <Felix.Kuehling@amd.com>,
+        Nirmoy Das <nirmoy.das@amd.com>,
+        Jonathan Kim <jonathan.kim@amd.com>,
+        Philip Yang <Philip.Yang@amd.com>,
+        Matthew Auld <matthew.auld@intel.com>,
+        Zack Rusin <zackr@vmware.com>, amd-gfx@lists.freedesktop.org,
+        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
+Cc:     Ira Weiny <ira.weiny@intel.com>
+References: <20220812175753.22926-1-fmdefrancesco@gmail.com>
+From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+In-Reply-To: <20220812175753.22926-1-fmdefrancesco@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sun, Aug 14, 2022 at 04:45:08PM +0200, Greg KH wrote:
-> On Sun, Aug 14, 2022 at 07:55:42PM +0530, Gautam Menghani wrote:
-> > The warning "URB submitted while active" is reported if the function
-> > send_packet() in imon.c is called if a write is already is in progress.
-> > Add a check to return -EBUSY in case a write is already is in progress.
-> > Also, mark tx.busy as false after transmission is completed.
-> > 
-> > Fixes: 21677cfc562a ("V4L/DVB: ir-core: add imon driver")
-> > Cc: hdanton@sina.com
-> > Suggested-by: hdanton@sina.com
-> > Link: https://syzkaller.appspot.com/bug?id=e378e6a51fbe6c5cc43e34f131cc9a315ef0337e
-> > Reported-by: syzbot+0c3cb6dc05fbbdc3ad66@syzkaller.appspotmail.com
-> > Signed-off-by: Gautam Menghani <gautammenghani201@gmail.com>
-> > ---
-> >  drivers/media/rc/imon.c | 3 +++
-> >  1 file changed, 3 insertions(+)
-> > 
-> > diff --git a/drivers/media/rc/imon.c b/drivers/media/rc/imon.c
-> > index 735b925da998..a5b997c2c7e2 100644
-> > --- a/drivers/media/rc/imon.c
-> > +++ b/drivers/media/rc/imon.c
-> > @@ -598,6 +598,8 @@ static int send_packet(struct imon_context *ictx)
-> >  	int retval = 0;
-> >  	struct usb_ctrlrequest *control_req = NULL;
-> >  
-> > +	if (ictx->tx.busy)
-> > +		return -EBUSY;
-> 
-> What happens if we go busy right after this check?  Where is the locking
-> here to protect this?
+Am 12.08.22 um 19:57 schrieb Fabio M. De Francesco:
+> kmap() is being deprecated in favor of kmap_local_page().
+>
+> There are two main problems with kmap(): (1) It comes with an overhead as
+> mapping space is restricted and protected by a global lock for
+> synchronization and (2) it also requires global TLB invalidation when the
+> kmap’s pool wraps and it might block when the mapping space is fully
+> utilized until a slot becomes available.
+>
+> With kmap_local_page() the mappings are per thread, CPU local, can take
+> page faults, and can be called from any context (including interrupts).
+> It is faster than kmap() in kernels with HIGHMEM enabled. Furthermore,
+> the tasks can be preempted and, when they are scheduled to run again, the
+> kernel virtual addresses are restored and are still valid.
+>
+> Since its use in amdgpu/amdgpu_ttm.c is safe, it should be preferred.
+>
+> Therefore, replace kmap() with kmap_local_page() in amdgpu/amdgpu_ttm.c.
+>
+> Suggested-by: Ira Weiny <ira.weiny@intel.com>
+> Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
 
-All calls to send_packet() are protected with ictx->lock() held. Are you referring 
-to something else?
+For those two use cases that looks good to me. Feel free to add an 
+Acked-by: Christian König <christian.koenig@amd.com>
 
-Also, if we return busy, the task is interrupted and the packet transaction fails, 
-just like the current behaviour. With the above patch, warning is not triggered.
-Here's the log from running the reproducer (with patch applied).
+Regards,
+Christian.
 
-imon 1-1:0.0: Looks like you're trying to use an IR protocol this device does not support
-imon 1-1:0.0: Unsupported IR protocol specified, overriding to iMON IR protocol
-rc rc0: iMON Remote (15c2:0040) as /devices/platform/dummy_hcd.0/usb1/1-1/1-1:0.0/rc/rc0
-input: iMON Remote (15c2:0040) as /devices/platform/dummy_hcd.0/usb1/1-1/1-1:0.0/rc/rc0/input5
-imon 1-1:0.0: iMON device (15c2:0040, intf0) on usb<1:2> initialized
-imon:vfd_write: send packet #0 failed
-imon:send_packet: task interrupted
-imon:send_packet: packet tx failed (-2)
-imon:vfd_write: send packet #0 failed
-usb 1-1: USB disconnect, device number 2
+> ---
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c | 8 ++++----
+>   1 file changed, 4 insertions(+), 4 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+> index 3b4c19412625..c11657b5915f 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+> @@ -2301,9 +2301,9 @@ static ssize_t amdgpu_iomem_read(struct file *f, char __user *buf,
+>   		if (p->mapping != adev->mman.bdev.dev_mapping)
+>   			return -EPERM;
+>   
+> -		ptr = kmap(p);
+> +		ptr = kmap_local_page(p);
+>   		r = copy_to_user(buf, ptr + off, bytes);
+> -		kunmap(p);
+> +		kunmap_local(ptr);
+>   		if (r)
+>   			return -EFAULT;
+>   
+> @@ -2352,9 +2352,9 @@ static ssize_t amdgpu_iomem_write(struct file *f, const char __user *buf,
+>   		if (p->mapping != adev->mman.bdev.dev_mapping)
+>   			return -EPERM;
+>   
+> -		ptr = kmap(p);
+> +		ptr = kmap_local_page(p);
+>   		r = copy_from_user(ptr + off, buf, bytes);
+> -		kunmap(p);
+> +		kunmap_local(ptr);
+>   		if (r)
+>   			return -EFAULT;
+>   
 
-Thanks,
-Gautam
