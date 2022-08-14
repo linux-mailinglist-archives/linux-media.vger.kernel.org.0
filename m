@@ -2,36 +2,36 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A512459248B
-	for <lists+linux-media@lfdr.de>; Sun, 14 Aug 2022 18:33:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EB7B15924D5
+	for <lists+linux-media@lfdr.de>; Sun, 14 Aug 2022 18:36:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242539AbiHNQcn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 14 Aug 2022 12:32:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39904 "EHLO
+        id S242856AbiHNQfj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 14 Aug 2022 12:35:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52260 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242832AbiHNQb1 (ORCPT
+        with ESMTP id S242731AbiHNQeN (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 14 Aug 2022 12:31:27 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A317E186CE;
-        Sun, 14 Aug 2022 09:26:02 -0700 (PDT)
+        Sun, 14 Aug 2022 12:34:13 -0400
+Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1F002FFD6;
+        Sun, 14 Aug 2022 09:27:34 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 4BCD8B80B37;
-        Sun, 14 Aug 2022 16:26:01 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D1AA8C43470;
-        Sun, 14 Aug 2022 16:25:58 +0000 (UTC)
+        by sin.source.kernel.org (Postfix) with ESMTPS id E7A37CE0B5E;
+        Sun, 14 Aug 2022 16:27:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 361D0C433D6;
+        Sun, 14 Aug 2022 16:27:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1660494360;
-        bh=jCB3yocuDnO1L80aYS568njTv1ha44rBP6GelQkIIuk=;
+        s=k20201202; t=1660494451;
+        bh=OVXPhBDlAN+6wBq/lN4PTOu1yqd5ybIqomdkt/gXbqA=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=cFOZt0ILYmPWMkubqgZ/aEbIFzm/xtEzxQ0hQQMaKSjQzqmn5jNHqD7csMHonbjSE
-         xIWjdkc0FhJpqCIeto8RIYvdVlLnMbZPHNuTvVP5fsXIiZhq+BTipncBB4aSDL5S5A
-         nvQ0zro3s1CuGGBA2MycZK1r0gSNK2fVHzzRv4Tnve0RxzY54LAiBfNv6UKBDISv08
-         L6PGbNhdC2cdg3Qa5rvzPivqsv2ZRxUndGGGaI0cFCJKTFAm4sh8AmLQUZgNjcM18Y
-         Jh8iC1AA3aWXCi31Rk9/+z2T6CL3F53P/MXQdJ/9yHE7iR9dY23ISxctduNDxGTe7O
-         4Xqlmgtz8WOXQ==
+        b=JNpkWmsKxhCuADfNeA+WcHz8eY0n9QABbqOLuO2oToRKBWf0pyU5sHBclmh7Bfkjs
+         rIWkllefYmT3WA8nD5VkzbynrDaCpj/VTPSyOs42qy1x8hPCCz2AdT7BX2duq/Lf3B
+         xGUz0FB+2zR0rqYcOBJTrW7A/YJcYTopsv+zcX6BbMbO57riT+ddJLnm9KKPhTKECB
+         FiUyNU2z79xlRdqqhscbsIS1z1kWPAFAIUs4fYLeLdElwKwJZR91GHcBi948V+tz7A
+         oX249SSlIvCgA3HSKPrDc9USeuYbCCUPNGWWDKaIWKy7U2xXKJN6j++gkllEz2gQ7P
+         HAnS0GkVl4GaA==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Stanimir Varbanov <stanimir.varbanov@linaro.org>,
@@ -40,12 +40,12 @@ Cc:     Stanimir Varbanov <stanimir.varbanov@linaro.org>,
         Sasha Levin <sashal@kernel.org>, agross@kernel.org,
         bjorn.andersson@linaro.org, mchehab@kernel.org,
         linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.18 37/39] venus: pm_helpers: Fix warning in OPP during probe
-Date:   Sun, 14 Aug 2022 12:23:26 -0400
-Message-Id: <20220814162332.2396012-37-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.15 26/28] venus: pm_helpers: Fix warning in OPP during probe
+Date:   Sun, 14 Aug 2022 12:26:06 -0400
+Message-Id: <20220814162610.2397644-26-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220814162332.2396012-1-sashal@kernel.org>
-References: <20220814162332.2396012-1-sashal@kernel.org>
+In-Reply-To: <20220814162610.2397644-1-sashal@kernel.org>
+References: <20220814162610.2397644-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -137,7 +137,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 5 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/media/platform/qcom/venus/pm_helpers.c b/drivers/media/platform/qcom/venus/pm_helpers.c
-index cb48c5ff3dee..c93d2906e4c7 100644
+index a591dd315ebc..03fc82cb3fea 100644
 --- a/drivers/media/platform/qcom/venus/pm_helpers.c
 +++ b/drivers/media/platform/qcom/venus/pm_helpers.c
 @@ -875,7 +875,7 @@ static int vcodec_domains_get(struct venus_core *core)
