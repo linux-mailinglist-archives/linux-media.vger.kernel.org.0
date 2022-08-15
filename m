@@ -2,33 +2,37 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BCD9059290E
-	for <lists+linux-media@lfdr.de>; Mon, 15 Aug 2022 07:23:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 749765929A3
+	for <lists+linux-media@lfdr.de>; Mon, 15 Aug 2022 08:36:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232645AbiHOFXE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 15 Aug 2022 01:23:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33538 "EHLO
+        id S231132AbiHOGgO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 15 Aug 2022 02:36:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38084 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229915AbiHOFXD (ORCPT
+        with ESMTP id S230466AbiHOGgN (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 15 Aug 2022 01:23:03 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A77F13E37;
-        Sun, 14 Aug 2022 22:23:02 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0467248F;
-        Mon, 15 Aug 2022 07:22:58 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1660540979;
-        bh=FQbxZOfl5hG5q0hY8c6DYp8v+713cbsSwjVadQpIYBk=;
+        Mon, 15 Aug 2022 02:36:13 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A970140BD;
+        Sun, 14 Aug 2022 23:36:12 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 12C3BB80B49;
+        Mon, 15 Aug 2022 06:36:11 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E0ACEC433D6;
+        Mon, 15 Aug 2022 06:36:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1660545369;
+        bh=TcGuqDgOJP0dtdDQMqG/P09V1MvmCgpwJlw0eBSFFUk=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Nhc9UPm1vLzGKDSb4wrwLc/5kbB7TOOqZzICzwhpR6qSkYYTyxWAwrlIqrPI7xpSK
-         pas4mrAEs611Vf0oUSE/jmUCOvwNrRlaxL4YhwAQYubZdXZ/I0njY9oarmOqLq3VLN
-         hcbs6Lz6C6WvZQN6J1eeS40umXRNek6lmk24Q78Y=
-Date:   Mon, 15 Aug 2022 08:22:46 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+        b=wbzQ7/zgd7L7D2yHEoTdzEsr7W2GxU9uF+I2HrknD2YWyQ7GmVsIsbtBmmx9lOBk3
+         4UlA8grc90yoAVD7JMV6m1hZrsT7XtbAXPfv4ObMTnwd8JAwPrmamRky4ohx6hw5KG
+         otnQcb6M3Bwy0bMDJUe29MOA0kMy1W3gwXEu/d5g=
+Date:   Mon, 15 Aug 2022 08:36:06 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
 To:     Sergey Senozhatsky <senozhatsky@chromium.org>
-Cc:     Greg KH <gregkh@linuxfoundation.org>,
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Paul Menzel <pmenzel@molgen.mpg.de>,
         Wang Yating <yating.wang@intel.com>,
         Christoph Jechlitschek <christoph.jechlitschek@intel.com>,
@@ -45,7 +49,7 @@ Cc:     Greg KH <gregkh@linuxfoundation.org>,
         Wouter Bolsterlee <wouter@bolsterl.ee>,
         Miguel Palhas <mpalhas@gmail.com>, it+linux-media@molgen.mpg.de
 Subject: Re: Missing MIPI IPU6 camera driver for Intel Alder Lake laptops
-Message-ID: <YvnYJut3qIvIMVWa@pendragon.ideasonboard.com>
+Message-ID: <YvnpVmnROTsWWw0o@kroah.com>
 References: <52c87d91-422d-fca0-4dd5-bbaa559c81b6@molgen.mpg.de>
  <YvUKLbv/pOfbbeL+@pendragon.ideasonboard.com>
  <YvUaEDMbZD70x+hD@kroah.com>
@@ -53,19 +57,18 @@ References: <52c87d91-422d-fca0-4dd5-bbaa559c81b6@molgen.mpg.de>
  <YvUghWZbXIUofg5A@kroah.com>
  <YvmqL6Wz7o77ukF5@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <YvmqL6Wz7o77ukF5@google.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-7.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
-
-Hi Sergei,
 
 On Mon, Aug 15, 2022 at 11:06:39AM +0900, Sergey Senozhatsky wrote:
 > On (22/08/11 17:30), Greg KH wrote:
@@ -89,13 +92,10 @@ On Mon, Aug 15, 2022 at 11:06:39AM +0900, Sergey Senozhatsky wrote:
 > (driver and user-space) to it so that upstreaming for Intel will
 > be easier.
 
-In its current form, that API will likely have trouble going upstream.
-Reception wasn't exactly positive in the mainline kernel community. I
-would like to restate my recommendation of sitting down with the
-upstream community around the same (virtual) table to design an that
-will be suitable for the upstream kernel.
+And what is the timeframe on the plan?  Where will these changes be sent
+to for review?  I'm guessing they are already in a shipping device so
+what's the delay?
 
--- 
-Regards,
+thanks,
 
-Laurent Pinchart
+greg k-h
