@@ -2,211 +2,266 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EC4CE593172
-	for <lists+linux-media@lfdr.de>; Mon, 15 Aug 2022 17:15:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 48D5E59335F
+	for <lists+linux-media@lfdr.de>; Mon, 15 Aug 2022 18:40:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231465AbiHOPPG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 15 Aug 2022 11:15:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57090 "EHLO
+        id S232342AbiHOQkd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 15 Aug 2022 12:40:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60598 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230451AbiHOPPE (ORCPT
+        with ESMTP id S229586AbiHOQkb (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 15 Aug 2022 11:15:04 -0400
-Received: from mail1.bemta33.messagelabs.com (mail1.bemta33.messagelabs.com [67.219.247.1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4737321E08;
-        Mon, 15 Aug 2022 08:15:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lenovo.com;
-        s=Selector; t=1660576502; i=@lenovo.com;
-        bh=bmk/exeyJ9k0pyPTDzAUVeM545Da+oIJ42Iao6v1Mu8=;
-        h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-         In-Reply-To:Content-Type:Content-Transfer-Encoding;
-        b=3U2ksQT8EMLzkKJy/N9dZD1YE6yTxlLswDV3vffsw+rjW6kpLg1xdUVIc6JFqWho6
-         v3cJteZBQKt6c2hMpe9/7441e8WrYxLj1wRnnr4xzRHdGFPhRdO/tTtr1iyf/jti1b
-         ZBIEVwKFJtUnZkcuVdeOzXicRyUMs4OAeZknGdEUwokSRKz4rVnl4JQUOSusyx40Tu
-         llXLex6IIbVElRbDXrnZpCccHMWY8ArNAliexrv3rFsRbHmmkpJCeVaFlilWW/4P3h
-         W4DfqGwlJjrEosALHYEopRYUCpvfPH7guRrU1V6BHHjkZ5zjoeq5FBGomD9p7vAA/p
-         JKfFMANgtlGsA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA1WTe0xTZxjGOZeeHg2VQ6HhkwlqJ8u4tJah7MO
-  xBBMvx12ZmQTmHLSj0C6lkJ7CwD8MGzNCi4JCUEqpUFASBEHG/TKwG3GAcpEJEcExVuZgQYyC
-  QGfYWg469s+X33Oe733f503OR2L8Aa4nKU/VyjVqqUpIbMYVu9X+ogWZTSbJHg2BFd3DKHxS/
-  SYcuDVMwNFrHRi0jH6LQ0ttFwozymoIeNZcjsPFn0Yw+KiuFYWr+qsEzDpfzoXDrUYCZtc2cG
-  DFgzMYnDHEwaf1z1HYdsNMwLwnM1xofrjMhUs55zhhAvr69SWcNqSfJeii9CGcvlB4CaNbDBN
-  cuqQumS7KLOTQZe0zKG3q+YTuLK7i0tb+XIye/+EeQT+r8w7nfcZRqmWJqTEcxeD341hStWtq
-  Se93WDqSu0WHbCIR6goGcmtP6pDNdjZzwOmcfoQVOShoqxrGHIJPGVEwbfiLy4ouFNRP93Ac9
-  YC6hQB95WHWyEJAW8MywYrzKChfuYmzwoqAonQd4ShZE3VNuxzMo94FVX19XAfjlA8oMJo47H
-  dX0FNoxR0soCLBb1MX1tiNigKW2Rdr9zHKA4xZL6M6hCTdKQV4/OsuxyyMussBuuzi9cGLKCj
-  NnMMcBQTlD+rrbWshNlH7wLlv2jG2kS843fT3etPtoGnOiLFBXwe2nAGM3XMnyL+2grIcAzLy
-  uxGWt4KR+4Nclr1A9x0jzvKHwNY6ts4iYF6dJFj2Br1n+9f7bActNx7guUiAYcPOhg27GTbEM
-  2yIV4Lglcg+mUYZr9AmSJUqUaBEIgoM3CMK3iMKkoilJ0VScTIjkksZregtsfRrRixnGDGTlv
-  ClKlaslmvrEPv/HKsJ825GGitXxBZkK4kKBbyRoRUZf4ssMTZNIWUU0ZpklZyxINtIUgh4dTE
-  2Gd9VI4+Xp8YpVfZX8dIGpLPQnVcebbd5TJI0gVHGs1YvEkL+0tjRgZEDLZ32M6tT14XxcXWi
-  Wu7pwbv9qb2AchQoktWv2r18Z3cRL083HuLk5MR3TpJrEpTa//uziAeJCN14U1H2Ls5KtfbV1
-  Fl7INQeSDyx5Aiklf5neaaj0Y0HUv6ApoKyN6ydRov/U9uqr18pddXH95EwYuCf8erio36TQX
-  nly+Q7NzsE3RVf9Q39+cwlXxuaFtUb3oSpxCnWyv0+/DiBnwfhOdXFmCPjvTtMnCu/ByiOT/a
-  dGFE/f0yU7qxxTQqW3DFs07svjOzdHzFkOqrQvLcy8dE9mUQY+vBQgdcXjeEv3j5wuGbHdOvn
-  7WM5zXrvRfmRn8/oM6rdjg0PnmIuFQqC9KcOiY5Exu/gJnUvufSHOZ04CCNrj2fKAsYaYjTzx
-  hST4RipdNsdzJsP1WGp2bEhe+OKI7j8y/cv6mDlx4sHx/N+/GCOjr690OwSWeuuT/Rddha8/5
-  oQZxTSQD9Mw0j/BTt8Y6biBAAA
-X-Env-Sender: markpearson@lenovo.com
-X-Msg-Ref: server-19.tower-635.messagelabs.com!1660576499!194!1
-X-Originating-IP: [104.47.110.43]
-X-SYMC-ESS-Client-Auth: mailfrom-relay-check=pass
-X-StarScan-Received: 
-X-StarScan-Version: 9.87.3; banners=-,-,-
-X-VirusChecked: Checked
-Received: (qmail 11472 invoked from network); 15 Aug 2022 15:15:00 -0000
-Received: from mail-tyzapc01lp2043.outbound.protection.outlook.com (HELO APC01-TYZ-obe.outbound.protection.outlook.com) (104.47.110.43)
-  by server-19.tower-635.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 15 Aug 2022 15:15:00 -0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=BUu6zA6BYFsbShqR22XXiOjAVBUDBslzjiVzEE5TSvMIjZhZTYSoXT1AkfvMknW+jMtR7qhBTGw2GG2jFK4ft2Z3aK/DyA3helGcbdv7FaToZp4PZjmhUCYb+2DXhmxsKny8GdMKMFDu5MCRdsIK+r0RCZMAHTyygxbvPDem61OaqF7uhNqTA7W280sb0lXQU1stBY0mY+cIA+1rxsi//NDvr9o4XrcK2ryDJKCnAYD5/i/X/wE21UqCNKA+kvROE1TcAHYCyKzT/o7F981jYIuR7fZwXTpvz+oRcNMzdw5Q621jAFi5XNWH7KSzwiap5s/s+YpmsRG1rZQFYmjLKg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=bmk/exeyJ9k0pyPTDzAUVeM545Da+oIJ42Iao6v1Mu8=;
- b=YT6wRY8OIuXeF/duGJ5524edPcN+7PwHrV29JCdzI57SpvNaiTENHXYQ/XmkYmxy5qUdL6UkpbWfpl9vJxcLKBOofr8T1PSVoMlo2pvAadi78u8BJJPLkI/B9WmLAd7CjQqFoUSQ7YVURyeOKyOzK9NXOEt4q8ciRny8G4/9OyVXWb00l5y9gkDWbSks1nuFqA/igE+E2tw0y9ArtRXcJEFhPybUZ8/zh6vq8qw9Z0ujSmXiv+1sP2aSghA4AHhP0jMGVfXcTtiPM6bZ9R+qb85Q56VK9m/GJBhpRZlrkdy16Ki8tAdXliq/SP2rErETiyRPcAh2c1DJeQn9orbAhA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
- is 104.232.225.6) smtp.rcpttodomain=ideasonboard.com
- smtp.mailfrom=lenovo.com; dmarc=fail (p=none sp=none pct=100) action=none
- header.from=lenovo.com; dkim=none (message not signed); arc=none
-Received: from SG2PR06CA0244.apcprd06.prod.outlook.com (2603:1096:4:ac::28) by
- HK0PR03MB3908.apcprd03.prod.outlook.com (2603:1096:203:3c::11) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5546.14; Mon, 15 Aug 2022 15:14:57 +0000
-Received: from SG2APC01FT0024.eop-APC01.prod.protection.outlook.com
- (2603:1096:4:ac:cafe::40) by SG2PR06CA0244.outlook.office365.com
- (2603:1096:4:ac::28) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5525.11 via Frontend
- Transport; Mon, 15 Aug 2022 15:14:57 +0000
-X-MS-Exchange-Authentication-Results: spf=softfail (sender IP is
- 104.232.225.6) smtp.mailfrom=lenovo.com; dkim=none (message not signed)
- header.d=none;dmarc=fail action=none header.from=lenovo.com;
-Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
- lenovo.com discourages use of 104.232.225.6 as permitted sender)
-Received: from mail.lenovo.com (104.232.225.6) by
- SG2APC01FT0024.mail.protection.outlook.com (10.13.36.118) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5525.11 via Frontend Transport; Mon, 15 Aug 2022 15:14:56 +0000
-Received: from reswpmail01.lenovo.com (10.62.32.20) by mail.lenovo.com
- (10.62.123.116) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2375.28; Mon, 15 Aug
- 2022 11:14:54 -0400
-Received: from [10.46.215.102] (10.46.215.102) by reswpmail01.lenovo.com
- (10.62.32.20) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2375.28; Mon, 15 Aug
- 2022 11:14:53 -0400
-Message-ID: <9a396cc3-5b0f-6db3-bad5-b4d81ecdf834@lenovo.com>
-Date:   Mon, 15 Aug 2022 11:14:52 -0400
+        Mon, 15 Aug 2022 12:40:31 -0400
+Received: from mail-io1-f70.google.com (mail-io1-f70.google.com [209.85.166.70])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4E7BDBE23
+        for <linux-media@vger.kernel.org>; Mon, 15 Aug 2022 09:40:29 -0700 (PDT)
+Received: by mail-io1-f70.google.com with SMTP id i20-20020a5d88d4000000b0067d13ffbe8cso4488301iol.22
+        for <linux-media@vger.kernel.org>; Mon, 15 Aug 2022 09:40:29 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=to:from:subject:message-id:in-reply-to:date:mime-version
+         :x-gm-message-state:from:to:cc;
+        bh=Z4LteLU57bSNHxvVT3R1HiDh8KVxcVFhIZWg+AaecIY=;
+        b=GjbejNdDrtgGgtcazpszWEIy7v/exnbGz+Hqw1/Qn3h4pbx7PaXQX7R0JrfHP58pmP
+         2gsndIC4QUK1LXhpi6zisktPsCtOsv4L7aen5TEus0B3d7Y+dkOut4fJf2AYaFHAs15q
+         RaALH3DQ5mccVIUc14wHB6mjIx/LD4qDoWSWPky3HFlLfh3F55+ue51Nfau5lARKYq5l
+         B1GfWXAikD15umUfNWSlWkb/Qo7R6900eSdXYSZpaq2N1xzxYvQA6Wd0r6SHXzORrFou
+         IeqQbs2TCd3C+0W5xvCmutoTk0BCeGh3Je7tXvTC/r/nbelL6YnzEJ11OC9lhr/oxJmJ
+         kCTA==
+X-Gm-Message-State: ACgBeo2AIwk93RFsjCxYHWdtdULFCFRHtc7mvpY9zyntEtiIomPMir98
+        9eWCugw3UZIez/TcUPcmcSJQX061B5TE4d6QcLW2aBj0DSv7
+X-Google-Smtp-Source: AA6agR5ospixN1Nm6jTa5f6sIZEYQMDSRtTlQ06i+Mllx8HofVfF8K7dPblvj9ChF31tS2ulkl/TNwhCX49zIp3bTktaT4xXJ5Bp
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [External] Re: Missing MIPI IPU6 camera driver for Intel Alder
- Lake laptops
-Content-Language: en-US
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Sergey Senozhatsky <senozhatsky@chromium.org>
-CC:     Greg KH <gregkh@linuxfoundation.org>,
-        Paul Menzel <pmenzel@molgen.mpg.de>,
-        Wang Yating <yating.wang@intel.com>,
-        Christoph Jechlitschek <christoph.jechlitschek@intel.com>,
-        Hao Yao <hao.yao@intel.com>, Andy Yeh <andy.yeh@intel.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Bingbu Cao <bingbu.cao@intel.com>,
-        Tianshu Qiu <tian.shu.qiu@intel.com>,
-        <linux-media@vger.kernel.org>, <Dell.Client.Kernel@dell.com>,
-        <linux-kernel@vger.kernel.org>, Guenter Roeck <groeck@google.com>,
-        "Andy Whitcroft" <apw@canonical.com>,
-        Kai-Heng Feng <kai.heng.feng@canonical.com>,
-        Christian Schaller <cschalle@redhat.com>,
-        Wouter Bolsterlee <wouter@bolsterl.ee>,
-        Miguel Palhas <mpalhas@gmail.com>,
-        <it+linux-media@molgen.mpg.de>
-References: <YvUaEDMbZD70x+hD@kroah.com>
- <YvUbhx4HSxAAwIvv@pendragon.ideasonboard.com> <YvUghWZbXIUofg5A@kroah.com>
- <YvmqL6Wz7o77ukF5@google.com> <YvnpVmnROTsWWw0o@kroah.com>
- <YvnrJBI8599+E43T@google.com> <YvnvnL9pBAgWMgTk@kroah.com>
- <YvnwtN1SwQjilJ97@google.com> <YvnybHVFmpUJs4qi@kroah.com>
- <Yvn0o96K8j5gRaWM@google.com> <Yvn4aiVLzFMneZCc@pendragon.ideasonboard.com>
-From:   Mark Pearson <markpearson@lenovo.com>
-In-Reply-To: <Yvn4aiVLzFMneZCc@pendragon.ideasonboard.com>
+X-Received: by 2002:a05:6e02:1aaf:b0:2df:9b36:cf34 with SMTP id
+ l15-20020a056e021aaf00b002df9b36cf34mr7476932ilv.45.1660581628664; Mon, 15
+ Aug 2022 09:40:28 -0700 (PDT)
+Date:   Mon, 15 Aug 2022 09:40:28 -0700
+In-Reply-To: <000000000000c5ea3505e52e44bb@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <00000000000018e33705e64a4a23@google.com>
+Subject: Re: [syzbot] KASAN: use-after-free Read in send_packet
+From:   syzbot <syzbot+f1a69784f6efe748c3bf@syzkaller.appspotmail.com>
+To:     linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-usb@vger.kernel.org, mchehab@kernel.org, sean@mess.org,
+        syzkaller-bugs@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.46.215.102]
-X-ClientProxiedBy: reswpmail01.lenovo.com (10.62.32.20) To
- reswpmail01.lenovo.com (10.62.32.20)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 2ce1ecd6-7cfc-42dc-6115-08da7ed0e9bb
-X-MS-TrafficTypeDiagnostic: HK0PR03MB3908:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: iCcALnHi6sb71gSyHFu7po7z2LJ7PRGa409phPQPDBf+Un11xRKasV62XSlqiYwMkekxv3ZCzwyeKzy2121LHtyBO9rACcEFOhnn8H7E3aPnpigJXz0CqJYHAo5ieC9/dNGZX/SSFZ1k70su9vRli3fop65HW+OEiID7SI9ULmMN4GFlIKws9jlMz6x/+s8nE22zzlqKuDb/ZoPNVNsSS8gUvFPYqGnt/2NkWauAVox6TUH8DlkpYLFpvOm+AW8OJGgxlrM3MRVW36ECb4CyBnOZI1wc2zFbYyQ8O8ieOTLXsOrL+SCnRKelU48RAapF5pZntmhAYE+78vUyw8JTawo4n48sgeqSHOoYmJlqPdUN/5qUcGE6HDPu1oqXnU97uSkbfvkPBxxXFMeJy+YQFK0U0F+3hqetTEnt6HD2ZOe1/0TOEKZZKDmgmVCYThwqwWtttvf8zjRGOp8ILo25eJL2dyZAeNw+Ke8Vi7iSp1XJuEdkcgjVy5KfIYcy6xjbQRC9zE1PRv5oQZ/g2rVH7zu6CQZrBgux+FWrTcC3VW0CEbtjX35sPbvtNOgud3wrII847cfRfhAOoq81FK3hYJ66/GVABl94uzgD6Oo1FjrRc9aZlOGDa9Jq4Y8744k9eeXKU2W/QnJdmEt6ElL14op0cozUgoGlUGM3D5Xhg/rqaCdY0kb5nG6OvSvH8GMC6nT8TIrN54A7F/BPVGZo+ksvr0m3x5x/n7M9AjjOJxm7XLsag0qKzS1cc68OemPg06Bmevo7KfrBZnkjJOu7IP/rVB68ftd2tHf0CqpuWutk50carwj7QIRDJS6UlTh0Bn8cG8NF+ob8k3orQEA7TGfxloj+nF2WCl2jzkqNQwfboIWFDi0fFd2bRQ/PWOQ0sn0O9RtQF4FXkl3LKYEifg==
-X-Forefront-Antispam-Report: CIP:104.232.225.6;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.lenovo.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230016)(4636009)(376002)(39860400002)(136003)(346002)(396003)(40470700004)(46966006)(36840700001)(8676002)(8936002)(478600001)(40480700001)(36860700001)(4326008)(16526019)(82740400003)(70206006)(54906003)(70586007)(186003)(81166007)(47076005)(82310400005)(356005)(336012)(426003)(41300700001)(110136005)(36756003)(82960400001)(53546011)(31696002)(2906002)(40460700003)(31686004)(86362001)(7416002)(2616005)(5660300002)(316002)(16576012)(26005)(36906005)(83380400001)(3940600001)(36900700001)(43740500002);DIR:OUT;SFP:1102;
-X-OriginatorOrg: lenovo.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Aug 2022 15:14:56.0703
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2ce1ecd6-7cfc-42dc-6115-08da7ed0e9bb
-X-MS-Exchange-CrossTenant-Id: 5c7d0b28-bdf8-410c-aa93-4df372b16203
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=5c7d0b28-bdf8-410c-aa93-4df372b16203;Ip=[104.232.225.6];Helo=[mail.lenovo.com]
-X-MS-Exchange-CrossTenant-AuthSource: SG2APC01FT0024.eop-APC01.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: HK0PR03MB3908
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,FROM_LOCAL_HEX,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 8/15/22 03:40, Laurent Pinchart wrote:
-> On Mon, Aug 15, 2022 at 04:24:19PM +0900, Sergey Senozhatsky wrote:
->> On (22/08/15 09:14), Greg KH wrote:
->>>> Definitely not today. Someday, for sure :)
->>>>
->>>> I don't want to promise any timelines. But we are certainly not
->>>> talking "weeks", we are talking "months". Several months is a
->>>> realistic timeline.
->>>
->>> Ok, so getting this merged is a good year out at the best, realisticly 2
->>> years given that once you submit the first version for review, the real
->>> work will start happening.
->>
->> Well, nothing is really set in stone here. We may revisit our strategy,
->> say turn it upside down, and hit upstream mailing list as soon as possible
->> instead.
->>
->>> So I'll stick with my original statement, don't buy this hardware
->>   ... if you plan on running vanilla kernel. Otherwise do buy :)
-> 
-> If you want to run a proprietary OS.
-> 
-Not sure where best to jump in...but just to add some perspective from a
-Lenovo perspective.
+syzbot has found a reproducer for the following issue on:
 
-100% agreed - don't buy the platforms (X1 Carbon G10, X1 Yoga G7, X1
-Nano G2) with the MIPI camera (called 'computer vision' on the Lenovo
-site) if you plan to run Linux. We are disabling that config on our
-Linux preload.
+HEAD commit:    568035b01cfb Linux 6.0-rc1
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=156286a5080000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=e706e91b2a433db
+dashboard link: https://syzkaller.appspot.com/bug?extid=f1a69784f6efe748c3bf
+compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=13e5b2f3080000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=12550915080000
 
-From the 'reaching out to the community' perspective that was flagged
-earlier in the thread - I've been discussing MIPI with Red Hat,
-Canonical and Intel for a year now. We knew it was going to be a problem
-and in fairness to Intel they've been very clear that initially the
-'workaround' was going to be available and that the full solution will
-be coming later. I've had some disappointments with progress but I also
-don't have the expertise to be able to solve it myself and fully
-appreciate these things don't happen overnight. Intel have been working
-with us on this and I appreciate their support.
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+f1a69784f6efe748c3bf@syzkaller.appspotmail.com
 
-If there are people I should be engaged with let me know and we can
-discuss offline. Going forward - I guess the good news is we have some
-platforms with MIPI on to work with....having HW usually helps. I'm also
-very open to any ideas of suggestions for accelerating getting this done
-and where Lenovo can help. We're limited on a technical resource side of
-things, but we do have HW :)
+==================================================================
+BUG: KASAN: use-after-free in __create_pipe include/linux/usb.h:1945 [inline]
+BUG: KASAN: use-after-free in send_packet+0xa2d/0xbc0 drivers/media/rc/imon.c:627
+Read of size 4 at addr ffff8880256fb000 by task syz-executor314/4465
 
-Mark
+CPU: 2 PID: 4465 Comm: syz-executor314 Not tainted 6.0.0-rc1-syzkaller #0
+Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.14.0-2 04/01/2014
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:88 [inline]
+ dump_stack_lvl+0xcd/0x134 lib/dump_stack.c:106
+ print_address_description mm/kasan/report.c:317 [inline]
+ print_report.cold+0x2ba/0x6e9 mm/kasan/report.c:433
+ kasan_report+0xb1/0x1e0 mm/kasan/report.c:495
+ __create_pipe include/linux/usb.h:1945 [inline]
+ send_packet+0xa2d/0xbc0 drivers/media/rc/imon.c:627
+ vfd_write+0x2d9/0x550 drivers/media/rc/imon.c:991
+ vfs_write+0x2d7/0xdd0 fs/read_write.c:576
+ ksys_write+0x127/0x250 fs/read_write.c:631
+ do_syscall_x64 arch/x86/entry/common.c:50 [inline]
+ do_syscall_64+0x35/0xb0 arch/x86/entry/common.c:80
+ entry_SYSCALL_64_after_hwframe+0x63/0xcd
+RIP: 0033:0x7f7590342b49
+Code: 28 00 00 00 75 05 48 83 c4 28 c3 e8 b1 15 00 00 90 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007f75902cd308 EFLAGS: 00000246 ORIG_RAX: 0000000000000001
+RAX: ffffffffffffffda RBX: 00007f75903c74d8 RCX: 00007f7590342b49
+RDX: 0000000000000001 RSI: 0000000020001000 RDI: 0000000000000004
+RBP: 00007f75903c74d0 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 00007f75903c74dc
+R13: 00007f7590394328 R14: 0b8b0509005504e1 R15: 0000000000022000
+ </TASK>
+
+Allocated by task 3757:
+ kasan_save_stack+0x1e/0x40 mm/kasan/common.c:38
+ kasan_set_track mm/kasan/common.c:45 [inline]
+ set_alloc_info mm/kasan/common.c:437 [inline]
+ ____kasan_kmalloc mm/kasan/common.c:516 [inline]
+ ____kasan_kmalloc mm/kasan/common.c:475 [inline]
+ __kasan_kmalloc+0xa6/0xd0 mm/kasan/common.c:525
+ kasan_kmalloc include/linux/kasan.h:234 [inline]
+ kmem_cache_alloc_trace+0x25a/0x460 mm/slab.c:3559
+ kmalloc include/linux/slab.h:600 [inline]
+ kzalloc include/linux/slab.h:733 [inline]
+ usb_alloc_dev+0x51/0xf00 drivers/usb/core/usb.c:582
+ hub_port_connect drivers/usb/core/hub.c:5255 [inline]
+ hub_port_connect_change drivers/usb/core/hub.c:5497 [inline]
+ port_event drivers/usb/core/hub.c:5653 [inline]
+ hub_event+0x214a/0x4610 drivers/usb/core/hub.c:5735
+ process_one_work+0x991/0x1610 kernel/workqueue.c:2289
+ worker_thread+0x665/0x1080 kernel/workqueue.c:2436
+ kthread+0x2e4/0x3a0 kernel/kthread.c:376
+ ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:306
+
+Freed by task 3737:
+ kasan_save_stack+0x1e/0x40 mm/kasan/common.c:38
+ kasan_set_track+0x21/0x30 mm/kasan/common.c:45
+ kasan_set_free_info+0x20/0x30 mm/kasan/generic.c:370
+ ____kasan_slab_free mm/kasan/common.c:367 [inline]
+ ____kasan_slab_free+0x13d/0x1a0 mm/kasan/common.c:329
+ kasan_slab_free include/linux/kasan.h:200 [inline]
+ __cache_free mm/slab.c:3418 [inline]
+ kfree+0x173/0x390 mm/slab.c:3786
+ device_release+0x9f/0x240 drivers/base/core.c:2330
+ kobject_cleanup lib/kobject.c:673 [inline]
+ kobject_release lib/kobject.c:704 [inline]
+ kref_put include/linux/kref.h:65 [inline]
+ kobject_put+0x1be/0x4c0 lib/kobject.c:721
+ put_device+0x1b/0x30 drivers/base/core.c:3624
+ hub_port_connect drivers/usb/core/hub.c:5197 [inline]
+ hub_port_connect_change drivers/usb/core/hub.c:5497 [inline]
+ port_event drivers/usb/core/hub.c:5653 [inline]
+ hub_event+0x1f86/0x4610 drivers/usb/core/hub.c:5735
+ process_one_work+0x991/0x1610 kernel/workqueue.c:2289
+ worker_thread+0x665/0x1080 kernel/workqueue.c:2436
+ kthread+0x2e4/0x3a0 kernel/kthread.c:376
+ ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:306
+
+Last potentially related work creation:
+ kasan_save_stack+0x1e/0x40 mm/kasan/common.c:38
+ __kasan_record_aux_stack+0x7e/0x90 mm/kasan/generic.c:348
+ kvfree_call_rcu+0x74/0x940 kernel/rcu/tree.c:3322
+ free_imon_context+0x15b/0x1f0 drivers/media/rc/imon.c:503
+ imon_disconnect+0x4b9/0x660 drivers/media/rc/imon.c:2543
+ usb_unbind_interface+0x1d8/0x8e0 drivers/usb/core/driver.c:458
+ device_remove drivers/base/dd.c:520 [inline]
+ device_remove+0x11f/0x170 drivers/base/dd.c:512
+ __device_release_driver drivers/base/dd.c:1209 [inline]
+ device_release_driver_internal+0x4a1/0x700 drivers/base/dd.c:1235
+ bus_remove_device+0x2e3/0x590 drivers/base/bus.c:529
+ device_del+0x4f3/0xc80 drivers/base/core.c:3704
+ usb_disable_device+0x356/0x7a0 drivers/usb/core/message.c:1419
+ usb_disconnect.cold+0x259/0x6ed drivers/usb/core/hub.c:2235
+ hub_port_connect drivers/usb/core/hub.c:5197 [inline]
+ hub_port_connect_change drivers/usb/core/hub.c:5497 [inline]
+ port_event drivers/usb/core/hub.c:5653 [inline]
+ hub_event+0x1f86/0x4610 drivers/usb/core/hub.c:5735
+ process_one_work+0x991/0x1610 kernel/workqueue.c:2289
+ worker_thread+0x665/0x1080 kernel/workqueue.c:2436
+ kthread+0x2e4/0x3a0 kernel/kthread.c:376
+ ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:306
+
+Second to last potentially related work creation:
+ kasan_save_stack+0x1e/0x40 mm/kasan/common.c:38
+ __kasan_record_aux_stack+0x7e/0x90 mm/kasan/generic.c:348
+ call_rcu+0x99/0x790 kernel/rcu/tree.c:2793
+ netlink_release+0xeff/0x1db0 net/netlink/af_netlink.c:815
+ __sock_release+0xcd/0x280 net/socket.c:650
+ sock_close+0x18/0x20 net/socket.c:1365
+ __fput+0x277/0x9d0 fs/file_table.c:320
+ task_work_run+0xdd/0x1a0 kernel/task_work.c:177
+ exit_task_work include/linux/task_work.h:38 [inline]
+ do_exit+0xad5/0x29b0 kernel/exit.c:795
+ do_group_exit+0xd2/0x2f0 kernel/exit.c:925
+ __do_sys_exit_group kernel/exit.c:936 [inline]
+ __se_sys_exit_group kernel/exit.c:934 [inline]
+ __x64_sys_exit_group+0x3a/0x50 kernel/exit.c:934
+ do_syscall_x64 arch/x86/entry/common.c:50 [inline]
+ do_syscall_64+0x35/0xb0 arch/x86/entry/common.c:80
+ entry_SYSCALL_64_after_hwframe+0x63/0xcd
+
+The buggy address belongs to the object at ffff8880256fb000
+ which belongs to the cache kmalloc-2k of size 2048
+The buggy address is located 0 bytes inside of
+ 2048-byte region [ffff8880256fb000, ffff8880256fb800)
+
+The buggy address belongs to the physical page:
+page:ffffea000095bec0 refcount:1 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x256fb
+flags: 0xfff00000000200(slab|node=0|zone=1|lastcpupid=0x7ff)
+raw: 00fff00000000200 ffffea000089bb88 ffffea0000727fc8 ffff888011840800
+raw: 0000000000000000 ffff8880256fb000 0000000100000001 0000000000000000
+page dumped because: kasan: bad access detected
+page_owner tracks the page as allocated
+page last allocated via order 0, migratetype Unmovable, gfp_mask 0x2420c0(__GFP_IO|__GFP_FS|__GFP_NOWARN|__GFP_COMP|__GFP_THISNODE), pid 3133, tgid 3133 (udevd), ts 116180599550, free_ts 116180286761
+ prep_new_page mm/page_alloc.c:2532 [inline]
+ get_page_from_freelist+0x109b/0x2ce0 mm/page_alloc.c:4283
+ __alloc_pages+0x1c7/0x510 mm/page_alloc.c:5515
+ __alloc_pages_node include/linux/gfp.h:243 [inline]
+ kmem_getpages mm/slab.c:1363 [inline]
+ cache_grow_begin+0x75/0x360 mm/slab.c:2569
+ cache_alloc_refill+0x27f/0x380 mm/slab.c:2942
+ ____cache_alloc mm/slab.c:3018 [inline]
+ ____cache_alloc mm/slab.c:3001 [inline]
+ __do_cache_alloc mm/slab.c:3246 [inline]
+ slab_alloc mm/slab.c:3287 [inline]
+ __do_kmalloc mm/slab.c:3684 [inline]
+ __kmalloc+0x3a1/0x4a0 mm/slab.c:3695
+ kmalloc include/linux/slab.h:605 [inline]
+ sk_prot_alloc+0x143/0x290 net/core/sock.c:1976
+ sk_alloc+0x36/0x770 net/core/sock.c:2029
+ __netlink_create+0x63/0x380 net/netlink/af_netlink.c:647
+ netlink_create+0x3ad/0x5e0 net/netlink/af_netlink.c:710
+ __sock_create+0x355/0x790 net/socket.c:1515
+ sock_create net/socket.c:1566 [inline]
+ __sys_socket_create net/socket.c:1603 [inline]
+ __sys_socket_create net/socket.c:1588 [inline]
+ __sys_socket+0x12f/0x240 net/socket.c:1636
+ __do_sys_socket net/socket.c:1649 [inline]
+ __se_sys_socket net/socket.c:1647 [inline]
+ __x64_sys_socket+0x6f/0xb0 net/socket.c:1647
+ do_syscall_x64 arch/x86/entry/common.c:50 [inline]
+ do_syscall_64+0x35/0xb0 arch/x86/entry/common.c:80
+ entry_SYSCALL_64_after_hwframe+0x63/0xcd
+page last free stack trace:
+ reset_page_owner include/linux/page_owner.h:24 [inline]
+ free_pages_prepare mm/page_alloc.c:1449 [inline]
+ free_pcp_prepare+0x5e4/0xd20 mm/page_alloc.c:1499
+ free_unref_page_prepare mm/page_alloc.c:3380 [inline]
+ free_unref_page+0x19/0x4d0 mm/page_alloc.c:3476
+ mm_free_pgd kernel/fork.c:737 [inline]
+ __mmdrop+0xcb/0x3f0 kernel/fork.c:788
+ mmdrop include/linux/sched/mm.h:50 [inline]
+ mmdrop_sched include/linux/sched/mm.h:78 [inline]
+ finish_task_switch.isra.0+0x6cc/0xc70 kernel/sched/core.c:5087
+ context_switch kernel/sched/core.c:5185 [inline]
+ __schedule+0xae7/0x52b0 kernel/sched/core.c:6494
+ schedule+0xda/0x1b0 kernel/sched/core.c:6570
+ schedule_hrtimeout_range_clock+0x343/0x390 kernel/time/hrtimer.c:2296
+ ep_poll fs/eventpoll.c:1878 [inline]
+ do_epoll_wait+0x12ba/0x1950 fs/eventpoll.c:2256
+ __do_sys_epoll_wait fs/eventpoll.c:2268 [inline]
+ __se_sys_epoll_wait fs/eventpoll.c:2263 [inline]
+ __x64_sys_epoll_wait+0x158/0x270 fs/eventpoll.c:2263
+ do_syscall_x64 arch/x86/entry/common.c:50 [inline]
+ do_syscall_64+0x35/0xb0 arch/x86/entry/common.c:80
+ entry_SYSCALL_64_after_hwframe+0x63/0xcd
+
+Memory state around the buggy address:
+ ffff8880256faf00: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+ ffff8880256faf80: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+>ffff8880256fb000: fa fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+                   ^
+ ffff8880256fb080: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+ ffff8880256fb100: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+==================================================================
+
