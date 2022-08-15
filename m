@@ -2,33 +2,37 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2A36D592ABE
-	for <lists+linux-media@lfdr.de>; Mon, 15 Aug 2022 10:06:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CE81A592AD2
+	for <lists+linux-media@lfdr.de>; Mon, 15 Aug 2022 10:06:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231359AbiHOHky (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 15 Aug 2022 03:40:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42080 "EHLO
+        id S234621AbiHOH77 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 15 Aug 2022 03:59:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56836 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240918AbiHOHkm (ORCPT
+        with ESMTP id S229816AbiHOH76 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 15 Aug 2022 03:40:42 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1005E5F72;
-        Mon, 15 Aug 2022 00:40:41 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1100348F;
-        Mon, 15 Aug 2022 09:40:39 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1660549239;
-        bh=re86Dl7l8xNna/q8VWonpSa51oBqjSbd45pb7M9d+nE=;
+        Mon, 15 Aug 2022 03:59:58 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 499881DA73;
+        Mon, 15 Aug 2022 00:59:57 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id D157760EDA;
+        Mon, 15 Aug 2022 07:59:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1CAFCC433D7;
+        Mon, 15 Aug 2022 07:59:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1660550396;
+        bh=5EU6qs7xlXyiMpJOkGkhtfjVZtM9FQ/+Wly1q0cPMm0=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=KfwIFaB9bQBr8WqZKH8yhx2WJOkjnZJ9Rl7bccom6jlIb5oJrY09fysur4L5sAIvH
-         siQrw6Qi1c4UThTbcjZTuB/EUwf+RWGrdu/9PgR44yOLKkOIxs5Q7bSjqIXHmsmQRV
-         GRDBKSc6Z2TUbs7IC0uSXmXCmJdycuC4SvxXfQ14=
-Date:   Mon, 15 Aug 2022 10:40:26 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+        b=MHFbiOjb8yuYncVhkPi7blHRwdIutUGK0EZFdxmXvGqBbkcwOoxtSPziHArNrnIpG
+         VJSO5oA3xAdebJTr7lWOSZmxq8aNeujOi+GseFS9wOuGLXdKjEXrWTRo7cfcR57Q4F
+         uIfins+0BpUXz2GvaqftpRA3izAlknZrTTgNyeWI=
+Date:   Mon, 15 Aug 2022 09:59:50 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
 To:     Sergey Senozhatsky <senozhatsky@chromium.org>
-Cc:     Greg KH <gregkh@linuxfoundation.org>,
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Paul Menzel <pmenzel@molgen.mpg.de>,
         Wang Yating <yating.wang@intel.com>,
         Christoph Jechlitschek <christoph.jechlitschek@intel.com>,
@@ -45,7 +49,7 @@ Cc:     Greg KH <gregkh@linuxfoundation.org>,
         Wouter Bolsterlee <wouter@bolsterl.ee>,
         Miguel Palhas <mpalhas@gmail.com>, it+linux-media@molgen.mpg.de
 Subject: Re: Missing MIPI IPU6 camera driver for Intel Alder Lake laptops
-Message-ID: <Yvn4aiVLzFMneZCc@pendragon.ideasonboard.com>
+Message-ID: <Yvn89i6xXSnICxBB@kroah.com>
 References: <YvUaEDMbZD70x+hD@kroah.com>
  <YvUbhx4HSxAAwIvv@pendragon.ideasonboard.com>
  <YvUghWZbXIUofg5A@kroah.com>
@@ -57,12 +61,13 @@ References: <YvUaEDMbZD70x+hD@kroah.com>
  <YvnybHVFmpUJs4qi@kroah.com>
  <Yvn0o96K8j5gRaWM@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <Yvn0o96K8j5gRaWM@google.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-7.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -84,13 +89,15 @@ On Mon, Aug 15, 2022 at 04:24:19PM +0900, Sergey Senozhatsky wrote:
 > Well, nothing is really set in stone here. We may revisit our strategy,
 > say turn it upside down, and hit upstream mailing list as soon as possible
 > instead.
-> 
-> > So I'll stick with my original statement, don't buy this hardware
->   ... if you plan on running vanilla kernel. Otherwise do buy :)
 
-If you want to run a proprietary OS.
+I would recommend this, as you all have been talking about this for a
+very long time now with no actual code submissions anywhere (which is
+what actually matters).  Waiting even longer feels like you are just
+delaying the real work that has to be done, and it prevents hardware
+that people have now from ever being supported in the device's lifetime.
 
--- 
-Regards,
+But hey, what do I know about getting code upstream :)
 
-Laurent Pinchart
+good luck!
+
+greg k-h
