@@ -2,109 +2,102 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B3638593041
-	for <lists+linux-media@lfdr.de>; Mon, 15 Aug 2022 15:53:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 052E85930F9
+	for <lists+linux-media@lfdr.de>; Mon, 15 Aug 2022 16:46:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232331AbiHONxG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 15 Aug 2022 09:53:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36930 "EHLO
+        id S242992AbiHOOqP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 15 Aug 2022 10:46:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55330 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229994AbiHONxF (ORCPT
+        with ESMTP id S232727AbiHOOqF (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 15 Aug 2022 09:53:05 -0400
-Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com [IPv6:2a00:1450:4864:20::52c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E3BE113D29
-        for <linux-media@vger.kernel.org>; Mon, 15 Aug 2022 06:53:00 -0700 (PDT)
-Received: by mail-ed1-x52c.google.com with SMTP id r4so9635219edi.8
-        for <linux-media@vger.kernel.org>; Mon, 15 Aug 2022 06:53:00 -0700 (PDT)
+        Mon, 15 Aug 2022 10:46:05 -0400
+Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com [IPv6:2a00:1450:4864:20::42c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5185624BD2
+        for <linux-media@vger.kernel.org>; Mon, 15 Aug 2022 07:45:55 -0700 (PDT)
+Received: by mail-wr1-x42c.google.com with SMTP id n4so9294537wrp.10
+        for <linux-media@vger.kernel.org>; Mon, 15 Aug 2022 07:45:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=konsulko.com; s=google;
-        h=content-disposition:mime-version:message-id:subject:to:from:date
-         :from:to:cc;
-        bh=bVsAybxu4TB3T39oso5rlihbg5ctRC0CizEcheaeobI=;
-        b=p5V+0gGRwJFMuwIaNiL9uZ9jxLPsOwE2rntaXXQaSV4om2JBrngmxZ5DBcu0zyqfvf
-         jG9cYQFxxepHzEEojLJEf1QqflxCQcm29XrUdZxY0homeu8yobscl/FvVHKXKe9k1qbP
-         Q2MoGSL45Id2wt+GRVCCHAOYIEzucfc1DwFDk=
+        d=gmail.com; s=20210112;
+        h=to:subject:message-id:date:from:reply-to:mime-version:from:to:cc;
+        bh=BP7N97YjVM4PMUACuppi4PcUKAj1aoOhRa9DbafFqaA=;
+        b=Od8tS2k2L5+07MMiPD3I6aujrHGBD8FMTwqhWKf1OUw9RqOlgZd7OJvsdmF8l7etPB
+         G4iXS8Sybl4fQDQ7iHyO+t7C2UyWhrgajxkJeuIY4FmDC8AXtklT/Fu1F1W0jrhtAZ7d
+         myeOhc9LjhHvGfXtNz3HFWUmVpvakA4v3vaJZgTfwuOh+L2CmlVgsf21xhxRaWcgnGFC
+         fxOOzzeuKQc5wmnG1iGKjQsQoYt/VepCjIbtHEl9n/+08KsXwaYdh4vdm+JKaQ767A80
+         P2C2peST+xxFqarth45nDxpp9QqSPWo4AwdnbjHkiINurarLfzzIqW7kGrVw6kncJXsS
+         ziSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-disposition:mime-version:message-id:subject:to:from:date
+        h=to:subject:message-id:date:from:reply-to:mime-version
          :x-gm-message-state:from:to:cc;
-        bh=bVsAybxu4TB3T39oso5rlihbg5ctRC0CizEcheaeobI=;
-        b=ficAjAtcaXNco5SVU/djUDqevhm2usypEyZJBsoks+zK2aqgqa7LsVOKE3hqAyzqA1
-         00YmNXURVW9USv6ei493Lsn81+wCpGtZcta/UdmMVW3W9qS4X43p/ddxWfV+IZ76h7Jl
-         0a3JX47geQv7+1GajZBckwLv80tSvlNxUzcG0NNRlbmVitZG7xkrEKkTAl+WNAYGrAid
-         y/TMlKHMQTNpj4YxHJh6Kko5F8AWEvjOj2RhLofmLyMplmqhvmHmS423QAlpBjgO3uIV
-         fLAlEmXnbPK6vPH/dA4RY/W5q8ha822jAKihBJUBjVV+5G9iy/AjI7nbnT+lb2+MmCTR
-         wk1Q==
-X-Gm-Message-State: ACgBeo2Mrc/UnVzYU6kbGVzobU8b4xRa396MscolhV4dBRaC0++T4I7C
-        kB+vqgsXqxTeR04VrTzeo5PYk7rOTKARCw==
-X-Google-Smtp-Source: AA6agR4ffsu8tDpT0lfjJnpxJMQuxQxl0LXGS37fwH60ks+51Z5r7+cuwQx8FTGQJb9VG2NajwTvUA==
-X-Received: by 2002:a05:6402:1e8d:b0:441:58db:b6a2 with SMTP id f13-20020a0564021e8d00b0044158dbb6a2mr14301818edf.277.1660571579432;
-        Mon, 15 Aug 2022 06:52:59 -0700 (PDT)
-Received: from carbon.k.g (lan.nucleusys.com. [92.247.61.126])
-        by smtp.gmail.com with ESMTPSA id cn19-20020a0564020cb300b0043bdc47803csm6634788edb.30.2022.08.15.06.52.58
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Aug 2022 06:52:59 -0700 (PDT)
-Date:   Mon, 15 Aug 2022 16:52:58 +0300
-From:   Petko Manolov <petko.manolov@konsulko.com>
-To:     linux-media@vger.kernel.org
-Subject: imx8m-mini csi-2 limitations
-Message-ID: <YvpPusE1rOzmgPYN@carbon.k.g>
+        bh=BP7N97YjVM4PMUACuppi4PcUKAj1aoOhRa9DbafFqaA=;
+        b=2k8T4FoLlbHp/ZnPUebMIBYI9JkE9D1/5wBPMRVB3/tipjyXjyXkW4ANP9BVRE+kTq
+         arpB/vMTWnwx+fAO2/uREiO6ECqTykIVktVYVC+M/7Rqd3j7a3O1BptkRN48MccoDk7n
+         FoOYft/ZOyZPOwKDO8XbWQDM9cD4iMrjzlj1YrjgDI92I8fFcy6q2ufIZIMzxGL4hgdM
+         hBlzoNl8+j/3mtP1GTXuNDKKRPScf8XOjhxPOCSpz3SzUbpRGeIwjqYLKxOIG1V/H1dJ
+         L5X+ztnhzSoujTEAQiSHJ86riNCtfBLdfpYcpiftSrazNbuTntvd3HUREGh2j1pfzptv
+         2dmQ==
+X-Gm-Message-State: ACgBeo2E09WdcfUTjlRVqZsuHdM3oDla5rOsM8oAIkkM16VHOeKd9zdh
+        0NIKSBjXXf31Y9s0cd7Rh8fY5RYg9u8dgiCpjW8=
+X-Google-Smtp-Source: AA6agR4y414MfUXp7y6SuTr1UdgniBKka2/mH44Xdzh95SFZT0e5mT8VL5CCRxgRYVEshQukiFwXfuGop5ZQoxbEIqM=
+X-Received: by 2002:a05:6000:2a4:b0:220:687a:cda9 with SMTP id
+ l4-20020a05600002a400b00220687acda9mr8961633wry.187.1660574753410; Mon, 15
+ Aug 2022 07:45:53 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Received: by 2002:adf:e4c9:0:0:0:0:0 with HTTP; Mon, 15 Aug 2022 07:45:52
+ -0700 (PDT)
+Reply-To: rkeenj7@gmail.com
+From:   "Keen J. Richardson" <pamelamcpeak181@gmail.com>
+Date:   Mon, 15 Aug 2022 14:45:52 +0000
+Message-ID: <CADnBHHkCSJhtndZ5sqYsO_Koj-QR1VSzjZJazR5oRFZv1EUMcg@mail.gmail.com>
+Subject: Greetings
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: Yes, score=5.2 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,FREEMAIL_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
+        UNDISC_FREEM autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+        *      https://www.dnswl.org/, no trust
+        *      [2a00:1450:4864:20:0:0:0:42c listed in]
+        [list.dnswl.org]
+        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+        *      [score: 0.4974]
+        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+        *  0.2 FREEMAIL_REPLYTO_END_DIGIT Reply-To freemail username ends in
+        *      digit
+        *      [rkeenj7[at]gmail.com]
+        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
+        *      provider
+        *      [pamelamcpeak181[at]gmail.com]
+        *  0.2 FREEMAIL_ENVFROM_END_DIGIT Envelope-from freemail username ends
+        *       in digit
+        *      [pamelamcpeak181[at]gmail.com]
+        * -0.0 SPF_PASS SPF: sender matches SPF record
+        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+        *       valid
+        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+        *      author's domain
+        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
+        *      envelope-from domain
+        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
+        *  3.1 UNDISC_FREEM Undisclosed recipients + freemail reply-to
+        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
+        *      different freemails
+X-Spam-Level: *****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-	Hello guys,
+-- 
+A mail was sent to you sometime last week with the expectation of
+having a return mail from you but to my surprise you never bothered to replied.
+Kindly reply for further explanations.
 
-I'm developing a driver for Sony imx492 sensor and i'm using imx8m-mini
-(Variscite SoM on Symphony carrier board) platform.  Thanks to Laurent i dumped
-the vendor mipi-csi and csi-bridge drivers in favor of mainline (v5.19-rc6 atm)
-and parts started to click in place.  However, there are still a few rough
-edges.
-
-The sensor is 47mpix, and is only capable of streaming over all four CSI-2
-lanes.  Each lane is 1.728gbit, which makes 6.912gbps total bandwidth.
-imx8m-mini's d-phy can handle (on paper) up to 6gbps.
-
-I guess the main question here is: what's the fastest transfer rate that's known
-to work with this SoC?  Does anyone have experience with imx8m-mini in this
-regard?
-
-
-Even with the settings that i'm able to obtain a (distorted) test pattern image
-with, i keep getting tons of:
-
-[99910.847591] imx-mipi-csis 32e30000.mipi-csi: FIFO Overflow Error events: 1353347
-
-IRQs also look a suspicious on the 'csi' part:
-
-214:    2653716          0          0          0     GICv3  49 Level     32e30000.mipi-csi
-215:          2          0          0          0     GICv3  48 Level     csi
-
-That's with this clock setup:
-
- sys_pll2                             1        1        0  1000000000          0     0  50000         Y
-    sys_pll2_out                      5        5        0  1000000000          0     0  50000         Y
-       sys_pll2_1000m                 3        3        0  1000000000          0     0  50000         Y
-          csi1_phy_ref                1        1        0  1000000000          0     0  50000         Y
-          csi1_core                   1        1        0   500000000          0     0  50000         Y
-             csi1_root_clk            1        1        0   500000000          0     0  50000         Y
-
-However, if i change the latter two (csi1_core & csi1_root_clk) to 1ghz, there
-are still mipi-csi IRQs coming in, but nothing from the csi-bridge.
-
-Any advice on where i shall start looking first?
-
-
-thanks,
-Petko
+Respectfully yours,
+Keen J. Richardson.
