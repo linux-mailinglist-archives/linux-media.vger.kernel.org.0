@@ -2,64 +2,71 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7E7595933BF
-	for <lists+linux-media@lfdr.de>; Mon, 15 Aug 2022 19:00:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5F3CE594CC3
+	for <lists+linux-media@lfdr.de>; Tue, 16 Aug 2022 03:33:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233030AbiHORAy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 15 Aug 2022 13:00:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50708 "EHLO
+        id S245071AbiHPBZV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 15 Aug 2022 21:25:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56470 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236130AbiHORAu (ORCPT
+        with ESMTP id S244647AbiHPBZC (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 15 Aug 2022 13:00:50 -0400
-Received: from mail-lj1-x229.google.com (mail-lj1-x229.google.com [IPv6:2a00:1450:4864:20::229])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6621711C18;
-        Mon, 15 Aug 2022 10:00:49 -0700 (PDT)
-Received: by mail-lj1-x229.google.com with SMTP id bx38so8174546ljb.10;
-        Mon, 15 Aug 2022 10:00:49 -0700 (PDT)
+        Mon, 15 Aug 2022 21:25:02 -0400
+Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7A40F1CB178;
+        Mon, 15 Aug 2022 14:14:49 -0700 (PDT)
+Received: by mail-pj1-x102a.google.com with SMTP id ch17-20020a17090af41100b001fa74771f61so194676pjb.0;
+        Mon, 15 Aug 2022 14:14:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:message-id:in-reply-to:date:subject:cc:to:from
-         :user-agent:references:from:to:cc;
-        bh=SqgMO61HKo9LO3ZR8aj5lCUUOKdlsT1EAnLa0+nEyII=;
-        b=HqrGB3waUaPwt3dbHwnXeNuvp64MFi2z7gFBM7uC6E00IFaxdSjoXBRAtAL7Fhbu7P
-         UbKCSTmwXwkIbmZTMFveEwrS17UJKFAmQo5/AfMFKYrZCyAdzToW80FF/jo+i+MeHDYn
-         jM8CQfzsQYHhOtb7DXpIoDdcWhom0YeoImgwSZH5sy8uhBMve8jZKlifYYVsM2lPqrGm
-         IbrZGxkc4LAuNs2Cm1zv/A6GS8RR5qP7uo3U3jHbkgLqRTK4s9dWR7JT8z7tzsV27IQ+
-         Htt7Puz1TMhnK+HtW/2/78vLOb2ZIXGYlmov72TBueMTVn5JVhVu8pDbLbxhQsZ89VIH
-         jKuA==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc;
+        bh=X3Fu4ehStrUEKyTXt+fee6+Wug+zWXwk64af5B5Ru/4=;
+        b=HaCbD+HDElK/diS+4llLWSlfdYQZ9dhgsMPOP1KRoiDFm0npey1Bqa9/oVRvRlmMgD
+         9RnEx1/9LjeYmmhxwgvIEhTBuv/80m4RTRXqZ2NIIN7342CVBG8pwf7idUapDTtycmNC
+         iMjnjJVXDV1snHkG/s2ykjGrlToed+buswZ10/XVNE93crGX5U9glQ6siCgMZ7wGgSuO
+         +o7Swelyq6Wsr2Wm1lPPhQ7IpyEtlJVwBkiHzC/t4LsipXNSWJ8+cy3EurJuTBTncRBj
+         Tka2ijvbVuiN0O8CfMRv1Db/cGVXkTPRKshz1b5h3QxyqHl1VVMQxzSG1uEXUGNLd60Y
+         eLqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=mime-version:message-id:in-reply-to:date:subject:cc:to:from
-         :user-agent:references:x-gm-message-state:from:to:cc;
-        bh=SqgMO61HKo9LO3ZR8aj5lCUUOKdlsT1EAnLa0+nEyII=;
-        b=6ln48VwZ3L7HuOclzIoy7YbDBGN3esQWI2hb/3B7bZ2Vgi2eeF+dyWGXKdqzBpbRoX
-         RNP/bBuYtdijytsNLW4fhtx4qgUV+UQZcMclDWPmSp+X88Ike81ApFsL4dYCgPVUVUub
-         izp1KUuMTMd4ylZfhiW4zCzrrPdxghPmehjVVlnEhMAZ/xCGgbbXEfkUR5kJSK6Me/Hh
-         h+ADC4XCRqCWmZF0cISKZLmyAosJsBoRrVEayWY5xlm6KhWcnDjJ/44Q9X43SD2Z3/1p
-         set9ThdhTmJIRw4mW9LcMxYhmvbDw/UjBQNb4UoW0lAWqjQ4xs0Oj1xTe6vC6Qp7s7OR
-         9Cyg==
-X-Gm-Message-State: ACgBeo17OAJzIY9TKp+W+rBLz+xN3BAUfTIc6VOSonfcCiqMZ3hut040
-        8BQkLKjEIqXM7HeAi84nfb1T0FI+Lbo=
-X-Google-Smtp-Source: AA6agR5+vnjUDUMm4sYZlKOzZknd6MiC7wdFA2gl0BVCnOf04hu87bgTEZ6uSrZ1YngMeA5ZVd+tzQ==
-X-Received: by 2002:a2e:878b:0:b0:25e:c46f:12a3 with SMTP id n11-20020a2e878b000000b0025ec46f12a3mr4966094lji.466.1660582847612;
-        Mon, 15 Aug 2022 10:00:47 -0700 (PDT)
-Received: from razdolb (95-31-189-152.broadband.corbina.ru. [95.31.189.152])
-        by smtp.gmail.com with ESMTPSA id x8-20020a19e008000000b0048afb8b8e53sm1148441lfg.80.2022.08.15.10.00.46
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc;
+        bh=X3Fu4ehStrUEKyTXt+fee6+Wug+zWXwk64af5B5Ru/4=;
+        b=bphC2vrKWBdIEXY1RkOZkRBrovzsBFFRKfdzxS9CMfX0gzEMQIqx5gawrn2S4Rzh/+
+         De2wYLfYerU1H8mePZci82uHNVFZgmo7NgXch9hZ87KU3ELSMW7F9YXdVLd/f39Z6IOf
+         jQVyqXkjPI0dPjIauIoVEcP7nkHQ+BYf+VcLqiB9J2uPbDGnZdiqBfAFKLmwUUZM/Tih
+         XCP1B7w9pQb3ODaUUil/y98cb7pUaoAvWCrIWUm/gvv6wIeVLNdbY6fNpNpvnGX2LJYG
+         V49CrZ0F71pZtZ3CgrQBdfSTRRTAms1+untfo8uUtP8ygwnnJZEPJcsVPaOjoLHQ48wm
+         vIuw==
+X-Gm-Message-State: ACgBeo2NwRLb4X3d3U4CuF1byvzX2DSgIjgt9iFyPM/cTd8/VItQjuMj
+        YtpPF0bDuMBTnqXpZvLIc50=
+X-Google-Smtp-Source: AA6agR44865ylIMa+b8PphQX9njk4C+gUcPVunj5mJCRWKVNX7lX7QczSovUoJeBOAsy56Hbx/SlLQ==
+X-Received: by 2002:a17:903:120a:b0:172:5a63:7442 with SMTP id l10-20020a170903120a00b001725a637442mr13083405plh.55.1660598088926;
+        Mon, 15 Aug 2022 14:14:48 -0700 (PDT)
+Received: from localhost ([2a00:79e1:abd:4a00:2703:3c72:eb1a:cffd])
+        by smtp.gmail.com with ESMTPSA id a24-20020a63d418000000b004277f43b736sm3569439pgh.92.2022.08.15.14.14.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Aug 2022 10:00:46 -0700 (PDT)
-References: <20220712141925.678595-1-mike.rudenko@gmail.com>
-User-agent: mu4e 1.7.27; emacs 28.1
-From:   Mikhail Rudenko <mike.rudenko@gmail.com>
-To:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc:     Mikhail Rudenko <mike.rudenko@gmail.com>
-Subject: Re: [PATCH 0/2] Add Omnivision OV4689 image sensor driver
-Date:   Mon, 15 Aug 2022 19:59:14 +0300
-In-reply-to: <20220712141925.678595-1-mike.rudenko@gmail.com>
-Message-ID: <87zgg530ht.fsf@gmail.com>
+        Mon, 15 Aug 2022 14:14:47 -0700 (PDT)
+From:   Rob Clark <robdclark@gmail.com>
+To:     dri-devel@lists.freedesktop.org
+Cc:     freedreno@lists.freedesktop.org, Daniel Vetter <daniel@ffwll.ch>,
+        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+        Rob Clark <robdclark@chromium.org>,
+        =?UTF-8?q?J=C3=A9r=C3=B4me=20Pouiller?= 
+        <jerome.pouiller@silabs.com>,
+        linaro-mm-sig@lists.linaro.org (moderated list:DMA BUFFER SHARING
+        FRAMEWORK),
+        linux-arm-msm@vger.kernel.org (open list:DRM DRIVER FOR MSM ADRENO GPU),
+        linux-kernel@vger.kernel.org (open list),
+        linux-media@vger.kernel.org (open list:DMA BUFFER SHARING FRAMEWORK),
+        Sean Paul <sean@poorly.run>
+Subject: [PATCH v2 0/3] dma-buf: map-info support
+Date:   Mon, 15 Aug 2022 14:15:11 -0700
+Message-Id: <20220815211516.3169470-1-robdclark@gmail.com>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
         RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
@@ -70,59 +77,23 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Gentle ping. Still waiting for any [2/2] review. Should I resend?
+From: Rob Clark <robdclark@chromium.org>
 
+See 1/3 for motivation.
 
-On 2022-07-12 at 17:19 +03, Mikhail Rudenko <mike.rudenko@gmail.com> wrote:
-> Hello,
->
-> this series implements support for Omnivision OV4689 image
-> sensor. The Omnivision OV4689 is a high performance, 1/3-inch, 4
-> megapixel image sensor. Ihis chip supports high frame rate speeds up
-> to 90 fps at 2688x1520 resolution. It is programmable through an I2C
-> interface, and sensor output is sent via 1/2/4 lane MIPI CSI-2
-> connection.
->
-> The driver is based on Rockchip BSP kernel [1]. It implements 4-lane CSI-2
-> and single 2688x1520 @ 30 fps mode. The driver was tested on Rockchip
-> 3399-based FriendlyElec NanoPi M4 board with MCAM400 camera module.
->
-> While porting the driver, I stumbled upon two issues:
->
-> (1) In the original driver, horizontal total size (HTS) was set to a
-> value (2584) lower then the frame width (2688), resulting in negative
-> hblank. In this driver, I increased HTS to 2688, but fps dropped from
-> 29.88 to 28.73. What is the preferred way to handle this?
->
-> (2) The original driver exposes analog gain range 0x0 - 0x7ff, but the
-> gain is not linear across that range. Instead, it is piecewise linear
-> (and discontinuous). 0x0-0xff register values result in 0x-2x gain,
-> 0x100-0x1ff to 0x-4x, 0x300-0x3ff to 0x-8x, and 0x700-0x7ff to 0x-16x,
-> with more linear segments in between. Rockchip's camera engine code
-> chooses one of the above segments depenging on the desired gain
-> value. The question is, how should we proceed keeping in mind
-> libcamera use case? Should the whole 0x0-0x7ff be exposed as-is and
-> libcamera will do the mapping, or the driver will do the mapping
-> itself and expose some logical gain units not tied to the actual gain
-> register value? Meanwhile, this driver conservatively exposes only
-> 0x0-0xf8 gain register range.
->
-> [1] https://github.com/rockchip-linux/kernel/blob/develop-4.19/drivers/media/i2c/ov4689.c
->
-> Mikhail Rudenko (2):
->   media: dt-bindings: media: i2c: document OV4689 DT bindings
->   media: i2c: add support for ov4689
->
->  .../bindings/media/i2c/ovti,ov4689.yaml       | 122 +++
->  MAINTAINERS                                   |   8 +
->  drivers/media/i2c/Kconfig                     |  14 +
->  drivers/media/i2c/Makefile                    |   1 +
->  drivers/media/i2c/ov4689.c                    | 899 ++++++++++++++++++
->  5 files changed, 1044 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/i2c/ovti,ov4689.yaml
->  create mode 100644 drivers/media/i2c/ov4689.c
+Rob Clark (3):
+  dma-buf: Add ioctl to query mmap coherency/cache info
+  drm/prime: Wire up mmap_info support
+  drm/msm/prime: Add mmap_info support
 
+ drivers/dma-buf/dma-buf.c     | 63 ++++++++++++++++++++++++++------
+ drivers/gpu/drm/drm_prime.c   |  3 ++
+ drivers/gpu/drm/msm/msm_gem.c | 12 +++++++
+ include/drm/drm_gem.h         | 11 ++++++
+ include/linux/dma-buf.h       | 11 ++++++
+ include/uapi/linux/dma-buf.h  | 68 +++++++++++++++++++++++++++++++++++
+ 6 files changed, 158 insertions(+), 10 deletions(-)
 
---
-Best regards,
-Mikhail Rudenko
+-- 
+2.36.1
+
