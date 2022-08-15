@@ -2,240 +2,112 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8B1205929E3
-	for <lists+linux-media@lfdr.de>; Mon, 15 Aug 2022 08:53:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A7D1C592A0B
+	for <lists+linux-media@lfdr.de>; Mon, 15 Aug 2022 09:03:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241122AbiHOGxB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 15 Aug 2022 02:53:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55166 "EHLO
+        id S241296AbiHOHDB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 15 Aug 2022 03:03:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36402 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241123AbiHOGw7 (ORCPT
+        with ESMTP id S241289AbiHOHC6 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 15 Aug 2022 02:52:59 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 376BB1BE82
-        for <linux-media@vger.kernel.org>; Sun, 14 Aug 2022 23:52:58 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 34B81B6D;
-        Mon, 15 Aug 2022 08:52:56 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1660546376;
-        bh=D2BdLOT932akr644tlLo5CItGUC1co+t81nJG4pmHQY=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=b17SiqCYa/+93ZHB36lCAQiCxYAAL6OCUADZIEP3cpgoji1zIYvbtx0iP7R9Zte01
-         /JjkYbpCX1Zi/GR52pvmX8fI5tPk2JxnRxwVyU2chvo5VS9AJY0haFRC2TOV4pe9z5
-         R3+GNWCWbSxGDLW5AfuqHKzjg7rEbrUMLQDPAB8w=
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     linux-media@vger.kernel.org
-Cc:     Florian Sylvestre <fsylvestre@baylibre.com>,
-        Paul Elder <paul.elder@ideasonboard.com>
-Subject: [PATCH 7/7] media: rkisp1: Configure CSM based on YCbCr encoding
-Date:   Mon, 15 Aug 2022 09:52:35 +0300
-Message-Id: <20220815065235.23797-8-laurent.pinchart@ideasonboard.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220815065235.23797-1-laurent.pinchart@ideasonboard.com>
-References: <20220815065235.23797-1-laurent.pinchart@ideasonboard.com>
+        Mon, 15 Aug 2022 03:02:58 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B3CF61C130;
+        Mon, 15 Aug 2022 00:02:57 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 4D92960D2F;
+        Mon, 15 Aug 2022 07:02:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CF20EC433D6;
+        Mon, 15 Aug 2022 07:02:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1660546976;
+        bh=fC/OC0XWgVeUHhUJakLD7xV+hhjBideZsl6F9+8rcKI=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=XWj2n7SfwVdy7GUnYHcv2vSrdWGaPHPuewcOXs/zIoFgWLhmFJXC1lws7D3qoXBe/
+         kXnlEC8nT2mo6NN7oxwatXgdTBjgqdlSFNyNmOAZkzidQLr4cF4IG4GikKg3HnSBUP
+         O8qc8EacRL9pX9gpqxE2D4gUaLee/VQtfiR0uxKI=
+Date:   Mon, 15 Aug 2022 09:02:52 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Sergey Senozhatsky <senozhatsky@chromium.org>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Paul Menzel <pmenzel@molgen.mpg.de>,
+        Wang Yating <yating.wang@intel.com>,
+        Christoph Jechlitschek <christoph.jechlitschek@intel.com>,
+        Hao Yao <hao.yao@intel.com>, Andy Yeh <andy.yeh@intel.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Bingbu Cao <bingbu.cao@intel.com>,
+        Tianshu Qiu <tian.shu.qiu@intel.com>,
+        linux-media@vger.kernel.org, Mark Pearson <markpearson@lenovo.com>,
+        Dell.Client.Kernel@dell.com, linux-kernel@vger.kernel.org,
+        Guenter Roeck <groeck@google.com>,
+        Andy Whitcroft <apw@canonical.com>,
+        Kai-Heng Feng <kai.heng.feng@canonical.com>,
+        Christian Schaller <cschalle@redhat.com>,
+        Wouter Bolsterlee <wouter@bolsterl.ee>,
+        Miguel Palhas <mpalhas@gmail.com>, it+linux-media@molgen.mpg.de
+Subject: Re: Missing MIPI IPU6 camera driver for Intel Alder Lake laptops
+Message-ID: <YvnvnL9pBAgWMgTk@kroah.com>
+References: <52c87d91-422d-fca0-4dd5-bbaa559c81b6@molgen.mpg.de>
+ <YvUKLbv/pOfbbeL+@pendragon.ideasonboard.com>
+ <YvUaEDMbZD70x+hD@kroah.com>
+ <YvUbhx4HSxAAwIvv@pendragon.ideasonboard.com>
+ <YvUghWZbXIUofg5A@kroah.com>
+ <YvmqL6Wz7o77ukF5@google.com>
+ <YvnpVmnROTsWWw0o@kroah.com>
+ <YvnrJBI8599+E43T@google.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YvnrJBI8599+E43T@google.com>
+X-Spam-Status: No, score=-7.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The driver currently only implements the Rec. 601 YCbCr encoding, extend
-it with support for the other encodings defined by V4L2 (Rec. 709, Rec.
-2020 and SMPTE240m). The coefficients have been calculated by rounding
-the floating point values to the nearest Q1.7 fixed-point value,
-adjusting the rounding to ensure that the sum of each line in the matrix
-is preserved to avoid overflows.
+On Mon, Aug 15, 2022 at 03:43:48PM +0900, Sergey Senozhatsky wrote:
+> On (22/08/15 08:36), Greg KH wrote:
+> > On Mon, Aug 15, 2022 at 11:06:39AM +0900, Sergey Senozhatsky wrote:
+> > > On (22/08/11 17:30), Greg KH wrote:
+> > > > On Thu, Aug 11, 2022 at 06:08:55PM +0300, Laurent Pinchart wrote:
+> > > > > On Thu, Aug 11, 2022 at 05:02:40PM +0200, Greg KH wrote:
+> > > > > > On Thu, Aug 11, 2022 at 04:54:53PM +0300, Laurent Pinchart wrote:
+> > > > > > > For the time being, I agree with your recommendation to not buy these
+> > > > > > > devices if you care about camera support.
+> > > > > > 
+> > > > > > I second this, don't buy these devices if the vendor is not willing to
+> > > > > > get their drivers upstreamed properly.
+> > > > > 
+> > > > > "Not willing" may be a bit too harsh here. I wouldn't just blame Intel
+> > > > > for not upstreaming a driver if it turns out that the V4L2 API isn't a
+> > > > > good match and we have no proposal to provide an alternative.
+> > > > 
+> > > > Did they propose an alternative?  From what I saw here they didn't even
+> > > > attempt it, or did I miss that?
+> > > 
+> > > The plan here is to land CAM kernel API first and then switch IPU
+> > > (driver and user-space) to it so that upstreaming for Intel will
+> > > be easier.
+> > 
+> > And what is the timeframe on the plan?  Where will these changes be sent
+> > to for review?  I'm guessing they are already in a shipping device so
+> > what's the delay?
+> 
+> We haven't sent out KCAM for upstream review yet. It's open sourced,
+> as of this moment [1], but we still need some time and wanted to convert
+> one of the previous generations of IPU drivers (IPU3) to KCAM first to
+> see if everything is working as we wanted it to.
 
-At the hardware level, the RGB to YUV conversion matrix is fully
-configurable, custom encoding could be supported by extending the ISP
-parameters if desired.
+That didn't answer my question on when you were planning to actually
+submit this :)
 
-Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
----
- .../platform/rockchip/rkisp1/rkisp1-common.h  |  5 +-
- .../platform/rockchip/rkisp1/rkisp1-isp.c     |  3 +-
- .../platform/rockchip/rkisp1/rkisp1-params.c  | 97 +++++++++++++++----
- 3 files changed, 84 insertions(+), 21 deletions(-)
+thanks,
 
-diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
-index 589999020a16..1383c13e22b8 100644
---- a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
-+++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
-@@ -393,6 +393,7 @@ struct rkisp1_params {
- 	struct v4l2_format vdev_fmt;
- 
- 	enum v4l2_quantization quantization;
-+	enum v4l2_ycbcr_encoding ycbcr_encoding;
- 	enum rkisp1_fmt_raw_pat_type raw_type;
- };
- 
-@@ -595,10 +596,12 @@ const struct rkisp1_mbus_info *rkisp1_mbus_info_get_by_code(u32 mbus_code);
-  * @params:	  pointer to rkisp1_params.
-  * @bayer_pat:	  the bayer pattern on the isp video sink pad
-  * @quantization: the quantization configured on the isp's src pad
-+ * @ycbcr_encoding: the ycbcr_encoding configured on the isp's src pad
-  */
- void rkisp1_params_configure(struct rkisp1_params *params,
- 			     enum rkisp1_fmt_raw_pat_type bayer_pat,
--			     enum v4l2_quantization quantization);
-+			     enum v4l2_quantization quantization,
-+			     enum v4l2_ycbcr_encoding ycbcr_encoding);
- 
- /* rkisp1_params_disable - disable all parameters.
-  *			   This function is called by the isp entity upon stream start
-diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
-index 9d4d018d58b6..c029d2e86717 100644
---- a/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
-+++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
-@@ -344,7 +344,8 @@ static int rkisp1_config_isp(struct rkisp1_isp *isp,
- 						 RKISP1_ISP_PAD_SOURCE_VIDEO,
- 						 V4L2_SUBDEV_FORMAT_ACTIVE);
- 		rkisp1_params_configure(&rkisp1->params, sink_fmt->bayer_pat,
--					src_frm->quantization);
-+					src_frm->quantization,
-+					src_frm->ycbcr_enc);
- 	}
- 
- 	return 0;
-diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c
-index 163419624370..246a6faa1fc1 100644
---- a/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c
-+++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c
-@@ -1078,37 +1078,94 @@ static void rkisp1_ie_enable(struct rkisp1_params *params, bool en)
- 
- static void rkisp1_csm_config(struct rkisp1_params *params)
- {
--	static const u16 full_range_coeff[] = {
--		0x0026, 0x004b, 0x000f,
--		0x01ea, 0x01d6, 0x0040,
--		0x0040, 0x01ca, 0x01f6
-+	struct csm_coeffs {
-+		u16 limited[9];
-+		u16 full[9];
- 	};
--	static const u16 limited_range_coeff[] = {
--		0x0021, 0x0040, 0x000d,
--		0x01ed, 0x01db, 0x0038,
--		0x0038, 0x01d1, 0x01f7,
-+	static const struct csm_coeffs rec601_coeffs = {
-+		.limited = {
-+			0x0021, 0x0042, 0x000d,
-+			0x01ed, 0x01db, 0x0038,
-+			0x0038, 0x01d1, 0x01f7,
-+		},
-+		.full = {
-+			0x0026, 0x004b, 0x000f,
-+			0x01ea, 0x01d6, 0x0040,
-+			0x0040, 0x01ca, 0x01f6,
-+		},
- 	};
-+	static const struct csm_coeffs rec709_coeffs = {
-+		.limited = {
-+			0x0018, 0x0050, 0x0008,
-+			0x01f3, 0x01d5, 0x0038,
-+			0x0038, 0x01cd, 0x01fb,
-+		},
-+		.full = {
-+			0x001b, 0x005c, 0x0009,
-+			0x01f1, 0x01cf, 0x0040,
-+			0x0040, 0x01c6, 0x01fa,
-+		},
-+	};
-+	static const struct csm_coeffs rec2020_coeffs = {
-+		.limited = {
-+			0x001d, 0x004c, 0x0007,
-+			0x01f0, 0x01d8, 0x0038,
-+			0x0038, 0x01cd, 0x01fb,
-+		},
-+		.full = {
-+			0x0022, 0x0057, 0x0008,
-+			0x01ee, 0x01d2, 0x0040,
-+			0x0040, 0x01c5, 0x01fb,
-+		},
-+	};
-+	static const struct csm_coeffs smpte240m_coeffs = {
-+		.limited = {
-+			0x0018, 0x004f, 0x000a,
-+			0x01f3, 0x01d5, 0x0038,
-+			0x0038, 0x01ce, 0x01fa,
-+		},
-+		.full = {
-+			0x001b, 0x005a, 0x000b,
-+			0x01f1, 0x01cf, 0x0040,
-+			0x0040, 0x01c7, 0x01f9,
-+		},
-+	};
-+
-+	const struct csm_coeffs *coeffs;
-+	const u16 *csm;
- 	unsigned int i;
- 
-+	switch (params->ycbcr_encoding) {
-+	case V4L2_YCBCR_ENC_601:
-+	default:
-+		coeffs = &rec601_coeffs;
-+		break;
-+	case V4L2_YCBCR_ENC_709:
-+		coeffs = &rec709_coeffs;
-+		break;
-+	case V4L2_YCBCR_ENC_BT2020:
-+		coeffs = &rec2020_coeffs;
-+		break;
-+	case V4L2_YCBCR_ENC_SMPTE240M:
-+		coeffs = &smpte240m_coeffs;
-+		break;
-+	}
-+
- 	if (params->quantization == V4L2_QUANTIZATION_FULL_RANGE) {
--		for (i = 0; i < ARRAY_SIZE(full_range_coeff); i++)
--			rkisp1_write(params->rkisp1,
--				     RKISP1_CIF_ISP_CC_COEFF_0 + i * 4,
--				     full_range_coeff[i]);
--
-+		csm = coeffs->full;
- 		rkisp1_param_set_bits(params, RKISP1_CIF_ISP_CTRL,
- 				      RKISP1_CIF_ISP_CTRL_ISP_CSM_Y_FULL_ENA |
- 				      RKISP1_CIF_ISP_CTRL_ISP_CSM_C_FULL_ENA);
- 	} else {
--		for (i = 0; i < ARRAY_SIZE(limited_range_coeff); i++)
--			rkisp1_write(params->rkisp1,
--				     RKISP1_CIF_ISP_CC_COEFF_0 + i * 4,
--				     limited_range_coeff[i]);
--
-+		csm = coeffs->limited;
- 		rkisp1_param_clear_bits(params, RKISP1_CIF_ISP_CTRL,
- 					RKISP1_CIF_ISP_CTRL_ISP_CSM_Y_FULL_ENA |
- 					RKISP1_CIF_ISP_CTRL_ISP_CSM_C_FULL_ENA);
- 	}
-+
-+	for (i = 0; i < 9; i++)
-+		rkisp1_write(params->rkisp1, RKISP1_CIF_ISP_CC_COEFF_0 + i * 4,
-+			     csm[i]);
- }
- 
- /* ISP De-noise Pre-Filter(DPF) function */
-@@ -1574,9 +1631,11 @@ static void rkisp1_params_config_parameter(struct rkisp1_params *params)
- 
- void rkisp1_params_configure(struct rkisp1_params *params,
- 			     enum rkisp1_fmt_raw_pat_type bayer_pat,
--			     enum v4l2_quantization quantization)
-+			     enum v4l2_quantization quantization,
-+			     enum v4l2_ycbcr_encoding ycbcr_encoding)
- {
- 	params->quantization = quantization;
-+	params->ycbcr_encoding = ycbcr_encoding;
- 	params->raw_type = bayer_pat;
- 	rkisp1_params_config_parameter(params);
- }
--- 
-Regards,
-
-Laurent Pinchart
-
+greg k-h
