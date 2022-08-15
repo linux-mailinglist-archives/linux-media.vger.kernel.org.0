@@ -2,125 +2,93 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7EE515929C3
-	for <lists+linux-media@lfdr.de>; Mon, 15 Aug 2022 08:44:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C944F5929DC
+	for <lists+linux-media@lfdr.de>; Mon, 15 Aug 2022 08:52:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240849AbiHOGn7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 15 Aug 2022 02:43:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45598 "EHLO
+        id S241099AbiHOGww (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 15 Aug 2022 02:52:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55014 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240828AbiHOGn6 (ORCPT
+        with ESMTP id S229475AbiHOGwv (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 15 Aug 2022 02:43:58 -0400
-Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com [IPv6:2607:f8b0:4864:20::102f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4E16E1ADA6
-        for <linux-media@vger.kernel.org>; Sun, 14 Aug 2022 23:43:57 -0700 (PDT)
-Received: by mail-pj1-x102f.google.com with SMTP id o3-20020a17090a0a0300b001f7649cd317so13678644pjo.0
-        for <linux-media@vger.kernel.org>; Sun, 14 Aug 2022 23:43:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc;
-        bh=blOwFtIlb0epux0KE7iDtki8GIqZ3py6TisC3Pc7SsQ=;
-        b=KF9pNrtqYb/STvSOhpmkV4gKrvwiRQ1il32mzFZqFx2UInzL9gwqCTFXS57w3Gknd9
-         YW3KI1fv7aXliDnShFTNhC4eZOIwax8BFKHC31zrUx6NGmuLzkzADU8sARdffj+F6edv
-         dJ6ItGnABs/3GqoNb01fJKXyMINytW0rZW8+c=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
-        bh=blOwFtIlb0epux0KE7iDtki8GIqZ3py6TisC3Pc7SsQ=;
-        b=JEE4DAVegQM54yojRX3c4yAEc+Fv/OMbed6oaXv8MhxJJj7tNqpv76HCQ7FcnJZ/2H
-         U2ZmkZKWKn51/avZc91DS6wDiBRs5A+kta5eXSngQblNz0ML+srzckGwKOLw80UEKXyG
-         bKSYBT7gIVcg70h3RnCm4YzS/+4lr0Qq8J4HOzdqxP1Lt+cjIi3MEIiHVyzeBQJwU9WY
-         WHYqlUy/7sTteF/eRIlE+z1iKoHEkfIfOby1s2vkKD3nJzMtMPVlMrJktHPEXdjkuRqM
-         MP4WT4HtsIz5aECScYxt9wZhl+vcUv05pQE3AN1KhZBlLi8ZEn1TkZcAOQNiJ1P1MChH
-         3MrA==
-X-Gm-Message-State: ACgBeo0SJSFpoKPE5WeIhQFaotE3EKS57eoo06jK/0+DaDyXOHRJxsPt
-        gtyE6Qqrn7rD7pzE0kO81y03Aw==
-X-Google-Smtp-Source: AA6agR7CS4fp8rbo2pGtzXt41p1v7FRGQNytkb7NO7kfnScMDxaDCBmsAgzU11jZ2yw3KPG2bhmN1Q==
-X-Received: by 2002:a17:903:210b:b0:16f:d62:1384 with SMTP id o11-20020a170903210b00b0016f0d621384mr15510159ple.133.1660545836748;
-        Sun, 14 Aug 2022 23:43:56 -0700 (PDT)
-Received: from google.com ([240f:75:7537:3187:110b:946c:84b2:7c95])
-        by smtp.gmail.com with ESMTPSA id u14-20020a17090a410e00b001f6c86e6ff0sm3918589pjf.36.2022.08.14.23.43.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 14 Aug 2022 23:43:56 -0700 (PDT)
-Date:   Mon, 15 Aug 2022 15:43:48 +0900
-From:   Sergey Senozhatsky <senozhatsky@chromium.org>
-To:     Greg KH <gregkh@linuxfoundation.org>
-Cc:     Sergey Senozhatsky <senozhatsky@chromium.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Paul Menzel <pmenzel@molgen.mpg.de>,
-        Wang Yating <yating.wang@intel.com>,
-        Christoph Jechlitschek <christoph.jechlitschek@intel.com>,
-        Hao Yao <hao.yao@intel.com>, Andy Yeh <andy.yeh@intel.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Bingbu Cao <bingbu.cao@intel.com>,
-        Tianshu Qiu <tian.shu.qiu@intel.com>,
-        linux-media@vger.kernel.org, Mark Pearson <markpearson@lenovo.com>,
-        Dell.Client.Kernel@dell.com, linux-kernel@vger.kernel.org,
-        Guenter Roeck <groeck@google.com>,
-        Andy Whitcroft <apw@canonical.com>,
-        Kai-Heng Feng <kai.heng.feng@canonical.com>,
-        Christian Schaller <cschalle@redhat.com>,
-        Wouter Bolsterlee <wouter@bolsterl.ee>,
-        Miguel Palhas <mpalhas@gmail.com>, it+linux-media@molgen.mpg.de
-Subject: Re: Missing MIPI IPU6 camera driver for Intel Alder Lake laptops
-Message-ID: <YvnrJBI8599+E43T@google.com>
-References: <52c87d91-422d-fca0-4dd5-bbaa559c81b6@molgen.mpg.de>
- <YvUKLbv/pOfbbeL+@pendragon.ideasonboard.com>
- <YvUaEDMbZD70x+hD@kroah.com>
- <YvUbhx4HSxAAwIvv@pendragon.ideasonboard.com>
- <YvUghWZbXIUofg5A@kroah.com>
- <YvmqL6Wz7o77ukF5@google.com>
- <YvnpVmnROTsWWw0o@kroah.com>
+        Mon, 15 Aug 2022 02:52:51 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 61E4C1B7A6
+        for <linux-media@vger.kernel.org>; Sun, 14 Aug 2022 23:52:50 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3148A48F;
+        Mon, 15 Aug 2022 08:52:48 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1660546368;
+        bh=uf3APt0sRKjQSCO0zctZGynyGISSZToO4UD4cU0cDJo=;
+        h=From:To:Cc:Subject:Date:From;
+        b=c3rylOC8d9a9hu0/X/CtSHcyNIGPNFcJayOSUNGlgQFBPzz0WYhFuP3SEBHzC3YSR
+         HsHuqHyFh70igsljUkp7zNTncv+dSPZ9iznWbkxeWZn0cJfi2Sm2LlLMUTSCmSEOL1
+         mDfura3UFKQlAY0sAzaLNmLYnRxhKgbrodpPSQec=
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     linux-media@vger.kernel.org
+Cc:     Florian Sylvestre <fsylvestre@baylibre.com>,
+        Paul Elder <paul.elder@ideasonboard.com>
+Subject: [PATCH 0/7] media: rkisp1: Fix and improve color space support
+Date:   Mon, 15 Aug 2022 09:52:28 +0300
+Message-Id: <20220815065235.23797-1-laurent.pinchart@ideasonboard.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YvnpVmnROTsWWw0o@kroah.com>
-X-Spam-Status: No, score=1.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FSL_HELO_FAKE,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Level: *
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On (22/08/15 08:36), Greg KH wrote:
-> On Mon, Aug 15, 2022 at 11:06:39AM +0900, Sergey Senozhatsky wrote:
-> > On (22/08/11 17:30), Greg KH wrote:
-> > > On Thu, Aug 11, 2022 at 06:08:55PM +0300, Laurent Pinchart wrote:
-> > > > On Thu, Aug 11, 2022 at 05:02:40PM +0200, Greg KH wrote:
-> > > > > On Thu, Aug 11, 2022 at 04:54:53PM +0300, Laurent Pinchart wrote:
-> > > > > > For the time being, I agree with your recommendation to not buy these
-> > > > > > devices if you care about camera support.
-> > > > > 
-> > > > > I second this, don't buy these devices if the vendor is not willing to
-> > > > > get their drivers upstreamed properly.
-> > > > 
-> > > > "Not willing" may be a bit too harsh here. I wouldn't just blame Intel
-> > > > for not upstreaming a driver if it turns out that the V4L2 API isn't a
-> > > > good match and we have no proposal to provide an alternative.
-> > > 
-> > > Did they propose an alternative?  From what I saw here they didn't even
-> > > attempt it, or did I miss that?
-> > 
-> > The plan here is to land CAM kernel API first and then switch IPU
-> > (driver and user-space) to it so that upstreaming for Intel will
-> > be easier.
-> 
-> And what is the timeframe on the plan?  Where will these changes be sent
-> to for review?  I'm guessing they are already in a shipping device so
-> what's the delay?
+Hello,
 
-We haven't sent out KCAM for upstream review yet. It's open sourced,
-as of this moment [1], but we still need some time and wanted to convert
-one of the previous generations of IPU drivers (IPU3) to KCAM first to
-see if everything is working as we wanted it to.
+This patch series fixes and improves color space support in the rkisp1
+driver.
 
-[1] For everyone who is curious, our first public KCAM version can
-be found here:
-https://chromium-review.googlesource.com/c/chromiumos/third_party/kernel/+/3668500/
+The first two patches initialize the color space fields to default
+values on the ISP subdev video sink and source pads, and allow setting
+the color space on the ISP sink pad (this has no influence on the ISP
+configuration, and only serves to propagate the correct color space on
+the pipeline).
+
+Patch 3/7 fixes a bug in the ISP source pad configuration, which allowed
+setting a Bayer output format with a YUV input format, a clearly invalid
+configuration. Patch then 4/7 mimicks patch 2/7 by allowing setting of
+color space fields on the source pad.
+
+The last three patches configure the RGB to YUV matrix (in the CSM
+module) using the ISP source pad YCbCr encoding. Patch 5/7 fixes a small
+bug in color space handling that resulted in the sink pad quantization
+controlling the ISP output, instead of using the source pad
+quantization. Patch 6/7 is a small internal API refactoring, and finally
+patch 7/7 handles the CSM configuration.
+
+If anyone is curious about how the matrix coefficients of patch 7/7 have
+been computed, see the script posted in [1] that will be merged in
+libcamera.
+
+[1] https://lists.libcamera.org/pipermail/libcamera-devel/2022-August/033183.html
+
+Laurent Pinchart (7):
+  media: rkisp1: Initialize color space on sink and source pads
+  media: rkisp1: Allow setting color space on ISP sink pad
+  media: rkisp1: Fix source pad format configuration
+  media: rkisp1: Allow setting all color space fields on ISP source pad
+  media: rkisp1: Configure quantization using ISP source pad
+  media: rkisp1: Don't pass the quantization to rkisp1_csm_config()
+  media: rkisp1: Configure CSM based on YCbCr encoding
+
+ .../platform/rockchip/rkisp1/rkisp1-common.h  |   5 +-
+ .../platform/rockchip/rkisp1/rkisp1-isp.c     | 139 ++++++++++++++++--
+ .../platform/rockchip/rkisp1/rkisp1-params.c  | 105 +++++++++----
+ 3 files changed, 207 insertions(+), 42 deletions(-)
+
+-- 
+Regards,
+
+Laurent Pinchart
+
