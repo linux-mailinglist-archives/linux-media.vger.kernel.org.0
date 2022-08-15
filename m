@@ -2,46 +2,46 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3A5D659283D
-	for <lists+linux-media@lfdr.de>; Mon, 15 Aug 2022 05:44:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7A3DE59284F
+	for <lists+linux-media@lfdr.de>; Mon, 15 Aug 2022 05:55:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239893AbiHODo5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 14 Aug 2022 23:44:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49046 "EHLO
+        id S230169AbiHODzc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 14 Aug 2022 23:55:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56234 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230081AbiHODo4 (ORCPT
+        with ESMTP id S229528AbiHODza (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 14 Aug 2022 23:44:56 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8BBD213F20;
-        Sun, 14 Aug 2022 20:44:55 -0700 (PDT)
+        Sun, 14 Aug 2022 23:55:30 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C6FD3627A;
+        Sun, 14 Aug 2022 20:55:29 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 2283861010;
-        Mon, 15 Aug 2022 03:44:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 75AF9C433B5;
-        Mon, 15 Aug 2022 03:44:54 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 5DB4160EF1;
+        Mon, 15 Aug 2022 03:55:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id AA553C433C1;
+        Mon, 15 Aug 2022 03:55:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1660535094;
-        bh=v1UpnqbLfX1UxbGmg2rizCP8urRBvwY7qMqiSCMGPGk=;
+        s=k20201202; t=1660535728;
+        bh=MgA5zDE8RPJK79rlqlC3IbBUVTth+II+UBJdAEV4GD4=;
         h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-        b=XCT6HMjsFWmo9IVWaFReUsGC/pH0JN942VzEM34kSVVIuAMcsD+kwQoolC6Z0riC3
-         01eBaq7Ouy9jUBERIz8+3v6+3XMMUJaniPZgV7IpaG1Z1LWyn4fK7f/d8CWKATt6/k
-         9V0EY9P0rRydRbu0auk+GrAIsuLONvtomhP3/kdtAbGiqGcZ1oSM6s6FUyMsqWOOoG
-         /2uzK1cKeTJGhQMwLkdXZdPwQWrLuJRSVBEyUeMs1ONrfZysjPgRiNA9Ua1/3XMD5y
-         qjrYInpczbeSsCgHYtrxcO9VbbZcprwvy0P9d3SLS8T6p5ELEOFsoh3mYyQJhllSQP
-         xdv+uK5bSI1vw==
+        b=mlD/Xp5XqO/1qExsLpw3QDAg2OpnC8B+q+aRc3UpeqWJblr2LJLO2T+Bfs3QnaZun
+         REgqbB/pE0OdxrtDvesTKyAQ74Wp+qeYmGnGiBXrNmLTeGvxw35f94dFWthxfNCYZn
+         V+w7+HC2JIRRmYwAvG2pp/sB+tde6dXzWEuokwRN4mlIpbVSIuawDvRvnVscqyvY+0
+         X6XIvKu8pMf5Y1TWBkNrLW3eH88Q7UYmw/eHHbZKM5/2bnuIgdT3bItEaGLctuxJ4I
+         H6nQghr29j/+H8+bSSa33RlvxZ4kkoIZBEl3g4Se5Y+s0E/UfSDQKt1n3k+uUq9Lqr
+         6z0r8Lfmjnz4g==
 Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 55133E2A04E;
-        Mon, 15 Aug 2022 03:44:54 +0000 (UTC)
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 8F3C7E2A04F;
+        Mon, 15 Aug 2022 03:55:28 +0000 (UTC)
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Subject: Re: [PATCH] [v3] media: platform: cros-ec: Add moli to the match table
 From:   patchwork-bot+chrome-platform@kernel.org
-Message-Id: <166053509434.30867.9008839806122771715.git-patchwork-notify@kernel.org>
-Date:   Mon, 15 Aug 2022 03:44:54 +0000
+Message-Id: <166053572858.30867.5596424089361079581.git-patchwork-notify@kernel.org>
+Date:   Mon, 15 Aug 2022 03:55:28 +0000
 References: <20220520110831.29502-1-scott_chao@wistron.corp-partner.google.com>
 In-Reply-To: <20220520110831.29502-1-scott_chao@wistron.corp-partner.google.com>
 To:     Scott Chao <scott_chao@wistron.corp-partner.google.com>
@@ -61,7 +61,7 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 Hello:
 
-This patch was applied to chrome-platform/linux.git (for-kernelci)
+This patch was applied to chrome-platform/linux.git (for-next)
 by Mauro Carvalho Chehab <mchehab@kernel.org>:
 
 On Fri, 20 May 2022 19:08:31 +0800 you wrote:
