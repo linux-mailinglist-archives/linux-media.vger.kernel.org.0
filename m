@@ -2,119 +2,192 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B1377595517
-	for <lists+linux-media@lfdr.de>; Tue, 16 Aug 2022 10:26:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D854E5955CD
+	for <lists+linux-media@lfdr.de>; Tue, 16 Aug 2022 11:04:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232650AbiHPIYo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 16 Aug 2022 04:24:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56938 "EHLO
+        id S232521AbiHPJE1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 16 Aug 2022 05:04:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51660 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232653AbiHPIXR (ORCPT
+        with ESMTP id S232408AbiHPJDl (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 16 Aug 2022 04:23:17 -0400
-Received: from mail-pf1-x432.google.com (mail-pf1-x432.google.com [IPv6:2607:f8b0:4864:20::432])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 439A683BC2
-        for <linux-media@vger.kernel.org>; Mon, 15 Aug 2022 23:01:36 -0700 (PDT)
-Received: by mail-pf1-x432.google.com with SMTP id a22so7919610pfg.3
-        for <linux-media@vger.kernel.org>; Mon, 15 Aug 2022 23:01:36 -0700 (PDT)
+        Tue, 16 Aug 2022 05:03:41 -0400
+Received: from mail-lj1-x232.google.com (mail-lj1-x232.google.com [IPv6:2a00:1450:4864:20::232])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7931452802
+        for <linux-media@vger.kernel.org>; Tue, 16 Aug 2022 00:16:48 -0700 (PDT)
+Received: by mail-lj1-x232.google.com with SMTP id x9so9761543ljj.13
+        for <linux-media@vger.kernel.org>; Tue, 16 Aug 2022 00:16:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=igel-co-jp.20210112.gappssmtp.com; s=20210112;
-        h=to:references:message-id:content-transfer-encoding:cc:date
-         :in-reply-to:from:subject:mime-version:from:to:cc;
-        bh=PZ595QoZa8bP4cwqIpnehML+1Dy9UIuh1b9whHG0gKs=;
-        b=u9BM4+Epak9V7r5+nRp7i6doaBYYNXUgmKtK1bR2jmbtBhbJNAK4MNZGKiEVCHcQ5D
-         3OCeY2DENTd3RtccQtzsBX6sh/QWIzx4jWyOM6R1V1Ik95WQsGIXp396BJkAvCJ6rMOY
-         yPWA+MT6uI7a8+9rsTtzLpyITnlOzosW2VDtEf5GXaIWjUSdycf/ch3l/islQduIPzb/
-         Juhx4mMH/rsnmez7lo6h2P9dgbFEGoWX+mYtYJgugdfJ5c0qd4e+27iFxMKp3xxpECx9
-         xRRML6lfS50bG135l5lxU7Qv/Pq3rIto0UVaxTaXrhmgbEiRjb4CL2B4NRLq5hSkdil0
-         gNow==
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc;
+        bh=GZywDz79MWkIAWtmsTInAC2U/pDePEap2BTLTRkFC3I=;
+        b=FToQXhXKoD1CRcdeSJx+5as41Y21im/rj/qG83fCoJU6Zke+RApdjsNZjdQts0AjtQ
+         NdyuEWbPEiJUlzKfKFLOgyHmdvWHyVdUT7wUg2VCflIk1BJA6dbwvABrm/JM72iiBQIJ
+         3/Q40UX7jvnRIRIj8WKecpkxSC1ihepYoJh61AJT8I8W58yY/KmNq3gfzweohVJkeF9b
+         Lh0kex59rp1iG7IRBzf2gV4+8+c8L+aimkFmtwBqUNA0cNsPGUs1uHZGYjJOhsebtzpK
+         LjAkIt3RgyA9AIkrtUf+0frkD4hGVoWlmkXhq9+CjLb7zGEayNs2QYJy6r9GY925o1v3
+         NPzg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=to:references:message-id:content-transfer-encoding:cc:date
-         :in-reply-to:from:subject:mime-version:x-gm-message-state:from:to:cc;
-        bh=PZ595QoZa8bP4cwqIpnehML+1Dy9UIuh1b9whHG0gKs=;
-        b=PVd2XGZijSozY5+79/XnVIAonLSc31ULjeFGBwo3ehEXs8iKnTXNotCtOle1KLGLfA
-         SWJMIelu1x813c8fndHAkmusgLRz/jNKizsKpio4oifEnuapMLi9cOxqLbi3YAAkHKj6
-         DCpnNSpkRFSooQ/RIW7r3XqyWR3uj5NssGKqm0XFvgZSvT4O6g10g4XI2BKSyL64fy0Y
-         mSCGbxF5cxkYBjhQabKCxWeGWQ42cIpQvq/ImNBRgwRrQGYP/2OTSgF/EmpdDamRKS6Z
-         cxhdl5iC+6y6Cn8WKxjS2Nt0GprmpYNGGtyWV3kzQoLyUls4UFsSytK6iBqHVTCLuynp
-         pOUA==
-X-Gm-Message-State: ACgBeo1Aw9znAr/9kluSCtWj4V+/htFqxZs6wy1g8XlCTveIDj7J95gK
-        2XUmtNIoiZDBHtzwxzHFkOWr+Q==
-X-Google-Smtp-Source: AA6agR6KElwLD6InLhGTAlll4uDJT/P4HD0PoJbOUphOvAkaITAfOGN3lW7tHiwR8bqgRNq4gv9mFg==
-X-Received: by 2002:a05:6a00:1d0f:b0:52f:d42c:8c60 with SMTP id a15-20020a056a001d0f00b0052fd42c8c60mr19954400pfx.82.1660629695705;
-        Mon, 15 Aug 2022 23:01:35 -0700 (PDT)
-Received: from smtpclient.apple (napt.igel.co.jp. [219.106.231.132])
-        by smtp.gmail.com with ESMTPSA id e9-20020a170902d38900b0016dcc381bbasm7999102pld.144.2022.08.15.23.01.33
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 15 Aug 2022 23:01:35 -0700 (PDT)
-Content-Type: text/plain;
-        charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3696.120.41.1.1\))
-Subject: Re: [PATCH v2 1/3] media: vsp1: add premultiplied alpha support
-From:   Takanari Hayama <taki@igel.co.jp>
-In-Reply-To: <0a9fd415-a4e8-2f87-3cbd-8e31b758cede@omp.ru>
-Date:   Tue, 16 Aug 2022 15:01:30 +0900
-Cc:     dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        laurent.pinchart@ideasonboard.com,
-        kieran.bingham+renesas@ideasonboard.com, airlied@linux.ie,
-        daniel@ffwll.ch, mchehab@kernel.org
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <8FCFDD0A-A885-43E9-9E85-5EABDB2362A5@igel.co.jp>
-References: <20220810083711.219642-1-taki@igel.co.jp>
- <20220810083711.219642-2-taki@igel.co.jp>
- <0a9fd415-a4e8-2f87-3cbd-8e31b758cede@omp.ru>
-To:     Sergey Shtylyov <s.shtylyov@omp.ru>
-X-Mailer: Apple Mail (2.3696.120.41.1.1)
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc;
+        bh=GZywDz79MWkIAWtmsTInAC2U/pDePEap2BTLTRkFC3I=;
+        b=YNFN/Lhl9gcZIjSK4G/Bio+rUKufS3GjGGJawWUCX1KQCgeJBWwfcR/Zu5PR1SGSLD
+         maJ6Db+vaEylJcaHdPAZvWWgMvHBsV7nQsTvFU69m5gtcmvnWDF0NRCN8JYJqDRFQM76
+         qxzLlCpSueE0zpBFyLxitK1D8YBSYgsNajzAios4q0je4kG92A+ZAw9T4uxUiY32N+yR
+         08PorNo8GJA8sDSOXQTB1YXUSlHe42sALf+hRblnH97vaUK+4sACgz6TuwutdPYoSY6u
+         cpfVzID3qbHIAqLTMnojIsFkKHLMHY11XQBGYkhzDdwaNzoNwa6dSm9dWcUgX+PBlbQO
+         RbZA==
+X-Gm-Message-State: ACgBeo0oj6Yqw7LLoJea2sMySD+rPh28eJdb24NylocDWzn3tKjTVa8H
+        xT5FxtYSk9YtBQHOhB6tRxdGUbc6qmsoh12K
+X-Google-Smtp-Source: AA6agR7wXWAEzbwY+ofhbBzjDCV06HAZqVuGUUB6O6ShEzsoiT7RcR2oAAzAOo3yrNf2AGw+/6b15w==
+X-Received: by 2002:a2e:8854:0:b0:25e:6acb:fe8d with SMTP id z20-20020a2e8854000000b0025e6acbfe8dmr6320894ljj.486.1660634206817;
+        Tue, 16 Aug 2022 00:16:46 -0700 (PDT)
+Received: from ?IPV6:2001:14bb:ae:539c:1782:dd68:b0c1:c1a4? (d15l54g8c71znbtrbzt-4.rev.dnainternet.fi. [2001:14bb:ae:539c:1782:dd68:b0c1:c1a4])
+        by smtp.gmail.com with ESMTPSA id x9-20020a056512078900b0048b279fa9a7sm1293349lfr.231.2022.08.16.00.16.45
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 16 Aug 2022 00:16:46 -0700 (PDT)
+Message-ID: <ceb2a42d-0650-6e6f-3408-6347bcd8c5e2@linaro.org>
+Date:   Tue, 16 Aug 2022 10:16:44 +0300
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.12.0
+Subject: Re: [PATCH v4 3/7] media: i2c: ov9282: Add ov9281 compatible
+Content-Language: en-US
+To:     Alexander Stein <alexander.stein@ew.tq-group.com>,
+        Sakari Ailus <sakari.ailus@iki.fi>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        "Paul J . Murphy" <paul.j.murphy@intel.com>,
+        Daniele Alessandrelli <daniele.alessandrelli@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        Dave Stevenson <dave.stevenson@raspberrypi.com>,
+        Naushir Patuck <naush@raspberrypi.com>
+References: <20220728130237.3396663-1-alexander.stein@ew.tq-group.com>
+ <Yuje6wip8KEZG6Af@valkosipuli.retiisi.eu>
+ <0a1e8af3-6c55-8a4a-ec85-9ba6bff22520@linaro.org>
+ <2403639.ElGaqSPkdT@steina-w>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <2403639.ElGaqSPkdT@steina-w>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+On 15/08/2022 14:19, Alexander Stein wrote:
+> Hello,
+> 
+> Am Dienstag, 2. August 2022, 10:30:40 CEST schrieb Krzysztof Kozlowski:
+>> On 02/08/2022 10:23, Sakari Ailus wrote:
+>>> On Mon, Aug 01, 2022 at 08:08:58PM +0200, Krzysztof Kozlowski wrote:
+>>>> On 01/08/2022 20:07, Krzysztof Kozlowski wrote:
+>>>>> On 29/07/2022 10:18, Laurent Pinchart wrote:
+>>>>>> Hi Sakari,
+>>>>>>
+>>>>>> (Adding Dave and Naush to the CC list)
+>>>>>>
+>>>>>> On Fri, Jul 29, 2022 at 10:07:36AM +0300, Sakari Ailus wrote:
+>>>>>>> On Thu, Jul 28, 2022 at 03:13:11PM +0200, Krzysztof Kozlowski wrote:
+>>>>>>>> On 28/07/2022 15:02, Alexander Stein wrote:
+>>>>>>>>> According to product brief they are identical from software point of
+>>>>>>>>> view.
+>>>>>>>>> Differences are a different chief ray angle (CRA) and the package.
+>>>>>>>>>
+>>>>>>>>> Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+>>>>>>>>> Acked-by: Daniele Alessandrelli <daniele.alessandrelli@intel.com>
+>>>>>>>>> ---
+>>>>>>>>>
+>>>>>>>>>  drivers/media/i2c/ov9282.c | 1 +
+>>>>>>>>>  1 file changed, 1 insertion(+)
+>>>>>>>>>
+>>>>>>>>> diff --git a/drivers/media/i2c/ov9282.c b/drivers/media/i2c/ov9282.c
+>>>>>>>>> index 8a252bf3b59f..c8d83a29f9bb 100644
+>>>>>>>>> --- a/drivers/media/i2c/ov9282.c
+>>>>>>>>> +++ b/drivers/media/i2c/ov9282.c
+>>>>>>>>> @@ -1113,6 +1113,7 @@ static const struct dev_pm_ops ov9282_pm_ops =
+>>>>>>>>> {
+>>>>>>>>>
+>>>>>>>>>  };
+>>>>>>>>>  
+>>>>>>>>>  static const struct of_device_id ov9282_of_match[] = {
+>>>>>>>>>
+>>>>>>>>> +	{ .compatible = "ovti,ov9281" },
+>>>>>>>>
+>>>>>>>> The devices seem entirely compatible, so why you add a new compatible
+>>>>>>>> and not re-use existing?
+>>>>>>>>
+>>>>>>>> The difference in lens does not explain this.
+>>>>>>>
+>>>>>>> It is typically necessary to know what kind of related hardware can be
+>>>>>>> found in the system, beyond just the device's register interface.
+>>>>>>> Apart
+>>>>>>> from USB cameras, less integrated cameras require low-level software
+>>>>>>> control in which specific device properties are important. In this
+>>>>>>> case it
+>>>>>>> could be the lens shading table, among other things.
+>>>>>>>
+>>>>>>> 	https://www.ovt.com/sensor/ov9282/
+>>>>>>>
+>>>>>>> Therefore I think adding a specific compatible string for this one is
+>>>>>>> justified.
+>>>>>
+>>>>> Specific compatible in binding is a requirement. No one discussed this.
+>>>>> However not in the driver. None of the arguments above justify adding
+>>>>> such binding, unless user-space depends on matching compatible, but not
+>>>>> real compatible?
+>>>>
+>>>> Eh, now I used vague words. This should be instead:
+>>>>
+>>>> "However not in the driver. None of the arguments above justify adding
+>>>> such compatible to driver, unless user-space depends on matching
+>>>> compatible, but not real compatible?"
+>>>
+>>> If I understand you right, you'd put the more specific model name as well
+>>> as the more generic one to the compatible property and let the driver
+>>> match
+>>> against the more generic one?
+>>
+>> Yes.
+>>
+>>> But in this case neither of these models is more generic than the other.
+>>
+>> It's not a problem. Also the spec explains it similar way:
+>> "They
+>>  allow a device to express its compatibility with a family of similar
+>> devices, potentially allowing a single
+>>  device driver to match against several devices."
+>>
+>> Of course the numbers would suggest that ov9281 should be the family (as
+>> lower number usually means designed earlier), but it is a matter of
+>> convention which here can be skipped. The point is that ov9281 and
+>> ov9282 are compatible between each other, therefore they belong to
+>> single family.
+>>
+>> Best regards,
+>> Krzysztof
+> 
+> So what is the conclusion of this?
+> If using the "family" name there is no way for userspace to see the actual 
+> device name rather than the driver name. This might be confusing, especially 
+> of both ov9281 and ov9282 are attached to the same platform. The only 
+> difference would be the i2c-bus-address.
+> You can also go for ov928x but this is not a real improvement.
 
-> 2022/08/11 2:41=E3=80=81Sergey Shtylyov =
-<s.shtylyov@omp.ru>=E3=81=AE=E3=83=A1=E3=83=BC=E3=83=AB:
->=20
-> Hello!
->=20
-> On 8/10/22 11:37 AM, Takanari Hayama wrote:
->=20
->> To support DRM blend mode in R-Car DU driver, we must be able to pass
->> a plane with the premultiplied alpha. Adding a new property to
->> vsp1_du_atomic_config allows the R-Car DU driver to pass the
->> premultiplied alpha plane.
->>=20
->> Signed-off-by: Takanari Hayama <taki@igel.co.jp>
->> ---
->> drivers/media/platform/renesas/vsp1/vsp1_drm.c | 2 ++
->> include/media/vsp1.h                           | 2 ++
->> 2 files changed, 4 insertions(+)
->>=20
->> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_drm.c =
-b/drivers/media/platform/renesas/vsp1/vsp1_drm.c
->> index 0c2507dc03d6..019e18976bd8 100644
->> --- a/drivers/media/platform/renesas/vsp1/vsp1_drm.c
->> +++ b/drivers/media/platform/renesas/vsp1/vsp1_drm.c
->> @@ -856,6 +856,8 @@ int vsp1_du_atomic_update(struct device *dev, =
-unsigned int pipe_index,
->> 	rpf->mem.addr[1] =3D cfg->mem[1];
->> 	rpf->mem.addr[2] =3D cfg->mem[2];
->>=20
->> +	rpf->format.flags =3D (cfg->premult) ? =
-V4L2_PIX_FMT_FLAG_PREMUL_ALPHA : 0;
->> +
->=20
->  Parens are hardly needed here... :-)
+I still don't understand. Why user-space cannot see this? I really
+cannot find any trouble... Your 3/7 patch does nothing special here for
+user-space...
 
-True. :) Thank you.
-
-Cheers,
-Takanari Hayama, Ph.D. <taki@igel.co.jp>
-IGEL Co., Ltd.
-https://www.igel.co.jp/=
+Best regards,
+Krzysztof
