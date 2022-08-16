@@ -2,112 +2,206 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 46DEC595E72
-	for <lists+linux-media@lfdr.de>; Tue, 16 Aug 2022 16:39:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 710AD595E77
+	for <lists+linux-media@lfdr.de>; Tue, 16 Aug 2022 16:43:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233879AbiHPOjS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 16 Aug 2022 10:39:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39620 "EHLO
+        id S234310AbiHPOm6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 16 Aug 2022 10:42:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41222 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232654AbiHPOjO (ORCPT
+        with ESMTP id S231322AbiHPOm5 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 16 Aug 2022 10:39:14 -0400
-Received: from mail-qk1-x734.google.com (mail-qk1-x734.google.com [IPv6:2607:f8b0:4864:20::734])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 34250B81D0
-        for <linux-media@vger.kernel.org>; Tue, 16 Aug 2022 07:39:13 -0700 (PDT)
-Received: by mail-qk1-x734.google.com with SMTP id b9so2676129qka.2
-        for <linux-media@vger.kernel.org>; Tue, 16 Aug 2022 07:39:13 -0700 (PDT)
+        Tue, 16 Aug 2022 10:42:57 -0400
+Received: from mail-qv1-xf2b.google.com (mail-qv1-xf2b.google.com [IPv6:2607:f8b0:4864:20::f2b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F2351B8A4D
+        for <linux-media@vger.kernel.org>; Tue, 16 Aug 2022 07:42:55 -0700 (PDT)
+Received: by mail-qv1-xf2b.google.com with SMTP id h8so7993340qvs.6
+        for <linux-media@vger.kernel.org>; Tue, 16 Aug 2022 07:42:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
         h=mime-version:user-agent:content-transfer-encoding:references
          :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc;
-        bh=7VGZA0Vew62u25faumdytcpJGC3drao9At9ODOgTXdk=;
-        b=XOTYR5LjvYCMH4w7b4u24Zl5Axh3XDcphJPmhE9oxuD05DEvt4Uon1cPnGz1wQIV9x
-         tgUNsPNfA2igV7qASBowLPqpSkO1lbC/7wN5qCxlpfZr5DOI8DrMiPeIfzKGNyqbt4ft
-         1uff6Hi7bq8aYlBSyIMyMrnyyUtQoOivr3EsXhJglsnvLZPyPV5ovLS3ApTe/KWEqJ60
-         tHyepam2ajpeiist7zFRR+moUnRO06Q9IGoPzjXHy5rvM0VaZ9tGJiDrrYbFisRkyCQ6
-         3L8t/EHYBkaMdyyZ9CrJiJ2n7pSLgWLefpuyZDmHBCjHwaUpxaMpifMYw8KM76cTjzEF
-         cS/w==
+        bh=xiNzdjXaNP/rfFBy+aC0sAbvzY4W1AvNeTyfE61T9IM=;
+        b=Ue1e8CjD7uCQXDi0+DYAfAARDvmv9vkeQtONo0/OS4zI/Kf05PccDnbYFkeli3wZ8s
+         1Fv6tnzdid50fyfPeYg13u+1bYzuUuQ4s6CvWQCN9X7UOUqb+J/PiSmgkUdTdn2APlTl
+         uJ7V4sSO6r2EUC1mnGa4GsjOD0p/t3yUVmt0TP+ghD9n0U0BQfSB6bYaiqh6yQKwahtQ
+         xM1Cu61h2GZOnQ73+tBpediN257oXyqpmEnqbdBAXc8cjvsjBq7U3xiuGfnL2Sz4UKxS
+         /V4b7pRVWdQvwil7p4HqlsxJ+zTOkiC5eQEc5huFLETxK218GpaAxN6b/2mGQabDsuFA
+         Rfvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=mime-version:user-agent:content-transfer-encoding:references
          :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
          :from:to:cc;
-        bh=7VGZA0Vew62u25faumdytcpJGC3drao9At9ODOgTXdk=;
-        b=efv84B0VQSIcxEjhjpoCml2RwsBIad0b6flnAypFAUfZYyMcuK8qYhGP/kTSw00jnh
-         px1LYVcUl5dya3bOmVrkkTnYObuN1mWMhcJPwvAJi3pkV3D/7EbYBmreGakSDBazROOf
-         iMLgLqZGkROjUCT+cxnCEXT+8v70RtqQx38J4c9oCqYIBf8Q5Qmg2Lp/EfSnoV36VdE7
-         /lzT9ej8wQ45CUZ4hHTktGbm6IUJuWBOjbcwH90oeHr7CS2bJbVhCFAFR2MJRQCLpJbh
-         8fqHWypeV9A8klDlkWDKxjcxQXYZGTWgeQc0UGrL3+5gok4zlQ/vwOA0Y2L+xRF5yGjB
-         o9YA==
-X-Gm-Message-State: ACgBeo2UfxGC4LRyiLVJl+b0omoHQ0IPR+REB5Uul7wlFSEwYJtspilM
-        zV+h+j/Qu52ZR1ra6WLQ5gxVKAZj+bWsQg==
-X-Google-Smtp-Source: AA6agR5OjFQINuH5ZxfGwp9PFXJG80CYZBXSk0+g4ea+0hGLsIf90x4mwc4G4tep90zkaSSD8bgvGg==
-X-Received: by 2002:a05:620a:2627:b0:6b8:c8c3:78f9 with SMTP id z39-20020a05620a262700b006b8c8c378f9mr14998083qko.641.1660660752335;
-        Tue, 16 Aug 2022 07:39:12 -0700 (PDT)
+        bh=xiNzdjXaNP/rfFBy+aC0sAbvzY4W1AvNeTyfE61T9IM=;
+        b=1vJgfId2vOZ1j3WhTDgGCoeuxK8h2/15uTsgES09x2RbgOx3ApjLUamOuw7Ldi0VIH
+         3LcLW0wJjiv+XbL7u7gUm7Ck14zcs5XZs+6/Kw3wD22t4yBxdH0LZb3jkvqF36H/iAYH
+         bu4/CcLHO7uFMvgwC1/r6pcImXuo94nkwpB+yhADbNRZvBKF7yd9QXc0VE778s3uztwX
+         vg84qu1FT6DvtqGlcE17EH1nKWCAEgEipaNntDGGuf5EKA678027I2qc9FnwJVVpb8Mk
+         VDGq+LE/jgzk/morfZs03+dXuPXqeCrZy5w1ejQ4IGN2yp11KeMLU4J1o6QncCF3VGik
+         Edlw==
+X-Gm-Message-State: ACgBeo25KvVfUGFQKr01k5KwIw7BV2h8+2my1D7sh3FL7VnNOZ/glDt5
+        Ewo5A+a7p3VCLw0JaGpkuITeZg==
+X-Google-Smtp-Source: AA6agR58neuAi5qQc1HZTWOyyQYGBejH8SdVMOyoXTUT7lBF+okxobWrR7WCsm7kKh4CwNl0KlyP+g==
+X-Received: by 2002:a05:6214:19e5:b0:476:e58a:da88 with SMTP id q5-20020a05621419e500b00476e58ada88mr17719338qvc.81.1660660975038;
+        Tue, 16 Aug 2022 07:42:55 -0700 (PDT)
 Received: from nicolas-tpx395.localdomain (192-222-136-102.qc.cable.ebox.net. [192.222.136.102])
-        by smtp.gmail.com with ESMTPSA id m6-20020a05620a24c600b006b60d5a7205sm12655729qkn.51.2022.08.16.07.39.11
+        by smtp.gmail.com with ESMTPSA id u19-20020a05620a0c5300b006b5f8f32a8fsm11830619qki.114.2022.08.16.07.42.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 16 Aug 2022 07:39:11 -0700 (PDT)
-Message-ID: <b729f0f418838390e14781c5f58649659b0c7199.camel@ndufresne.ca>
-Subject: Re: [PATCH] media: v4l2-ctrls: Fix typo in VP8 comment
+        Tue, 16 Aug 2022 07:42:54 -0700 (PDT)
+Message-ID: <46e128a7767c1c4db226b8a4cef0701a336a3766.camel@ndufresne.ca>
+Subject: Re: [PATCH v4 1/4] media: add nv12_8l128 and nv12_10be_8l128 video
+ format.
 From:   Nicolas Dufresne <nicolas@ndufresne.ca>
-To:     Deborah Brouwer <deborah.brouwer@collabora.com>,
-        linux-media@vger.kernel.org
-Cc:     ezequiel@vanguardiasur.com.ar, daniel.almeida@collabora.com
-Date:   Tue, 16 Aug 2022 10:39:10 -0400
-In-Reply-To: <20220811203756.124673-1-deborah.brouwer@collabora.com>
-References: <20220811203756.124673-1-deborah.brouwer@collabora.com>
+To:     Tommaso Merciai <tommaso.merciai@amarulasolutions.com>,
+        Ming Qian <ming.qian@nxp.com>
+Cc:     mchehab@kernel.org, hverkuil-cisco@xs4all.nl, shawnguo@kernel.org,
+        robh+dt@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
+        festevam@gmail.com, linux-imx@nxp.com, xiahong.bao@nxp.com,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
+Date:   Tue, 16 Aug 2022 10:42:53 -0400
+In-Reply-To: <20220811151853.GB6390@tom-ThinkPad-T14s-Gen-2i>
+References: <cover.1660027440.git.ming.qian@nxp.com>
+         <84842bffb432884a0fd84de96c6e64ee2273e511.1660027440.git.ming.qian@nxp.com>
+         <20220811151853.GB6390@tom-ThinkPad-T14s-Gen-2i>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.44.4 (3.44.4-1.fc36) 
 MIME-Version: 1.0
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Le jeudi 11 ao=C3=BBt 2022 =C3=A0 13:37 -0700, Deborah Brouwer a =C3=A9crit=
+Le jeudi 11 ao=C3=BBt 2022 =C3=A0 17:18 +0200, Tommaso Merciai a =C3=A9crit=
 =C2=A0:
-> The comment for the VP8 loop filter flags uses the partially wrong name
-> for the flags. Unlike the other VP8 flag names, the loop filter flag name=
-s
-> don't have "_FLAG" in them. Change the comment so that it matches the
-> actual flag definitions in the header.
+> Hi Ming,
+>=20
+> On Tue, Aug 09, 2022 at 02:50:38PM +0800, Ming Qian wrote:
+> > add contiguous nv12 tiled format nv12_8l128 and nv12_10be_8l128
+> >=20
+> > Signed-off-by: Ming Qian <ming.qian@nxp.com>
+> > Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+> > ---
+> >  .../userspace-api/media/v4l/pixfmt-yuv-planar.rst         | 8 ++++++++
+> >  drivers/media/v4l2-core/v4l2-ioctl.c                      | 2 ++
+> >  include/uapi/linux/videodev2.h                            | 2 ++
+> >  3 files changed, 12 insertions(+)
+> >=20
+> > diff --git a/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rs=
+t b/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst
+> > index 10b1feeb0b57..f1d5bb7b806d 100644
+> > --- a/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst
+> > +++ b/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst
+> > @@ -273,7 +273,9 @@ of the luma plane.
+> >  .. _V4L2-PIX-FMT-NV12-16L16:
+> >  .. _V4L2-PIX-FMT-NV12-32L32:
+> >  .. _V4L2-PIX-FMT-NV12M-8L128:
+> > +.. _V4L2-PIX-FMT-NV12-8L128:
+> >  .. _V4L2-PIX-FMT-NV12M-10BE-8L128:
+> > +.. _V4L2-PIX-FMT-NV12-10BE-8L128:
+> >  .. _V4L2-PIX-FMT-MM21:
+> > =20
+> >  Tiled NV12
+> > @@ -319,6 +321,9 @@ pixels in 2D 8x128 tiles, and stores tiles linearly=
+ in memory.
+> >  The image height must be aligned to a multiple of 128.
+> >  The layouts of the luma and chroma planes are identical.
+> > =20
+> > +``V4L2_PIX_FMT_NV12_8L128`` is similar to ``V4L2_PIX_FMT_NV12M_8L128``=
+ but stores
+> > +two planes in one memory.
+> > +
+>=20
+> Don't know, maybe we need more details here?
+>=20
+> >  ``V4L2_PIX_FMT_NV12M_10BE_8L128`` is similar to ``V4L2_PIX_FMT_NV12M``=
+ but stores
+> >  10 bits pixels in 2D 8x128 tiles, and stores tiles linearly in memory.
+> >  the data is arranged in big endian order.
+> > @@ -334,6 +339,9 @@ byte 2: Y1(bits 3-0) Y2(bits 9-6)
+> >  byte 3: Y2(bits 5-0) Y3(bits 9-8)
+> >  byte 4: Y3(bits 7-0)
+> > =20
+> > +``V4L2_PIX_FMT_NV12_10BE_8L128`` is similar to ``V4L2_PIX_FMT_NV12M_10=
+BE_8L128`` but stores
+> > +two planes in one memory.
+> > +
+>=20
+> here also?
 
-oops, perhaps it should have had that, but can't change it anymore.
-
-Nice catch!
-
-Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Fixes: 363240ce1c08 ("media: uapi: move VP8 stateless controls out of stagi=
-ng")
-
+Perhaps I'm too much into it, but it felt clear to me. Note that the duplic=
+ation
+of pixel formats based on the number of allocation is pretty unique to V4L2=
+, but
+its also generalized to all planar formats. So adding a lot of documentatio=
+n for
+each specific format will be heavy. Note that one improvement I see, would =
+be
+s/memory/allocation/ , or memory allocation.
 
 >=20
-> Signed-off-by: Deborah Brouwer <deborah.brouwer@collabora.com>
-> ---
->  include/uapi/linux/v4l2-controls.h | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> >  ``V4L2_PIX_FMT_MM21`` store luma pixel in 16x32 tiles, and chroma pixe=
+ls
+> >  in 16x16 tiles. The line stride must be aligned to a multiple of 16 an=
+d the
+> >  image height must be aligned to a multiple of 32. The number of luma a=
+nd chroma
+> > diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-=
+core/v4l2-ioctl.c
+> > index c314025d977e..d973bd2ff750 100644
+> > --- a/drivers/media/v4l2-core/v4l2-ioctl.c
+> > +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+> > @@ -1444,7 +1444,9 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc =
+*fmt)
+> >  	case V4L2_META_FMT_VIVID:       descr =3D "Vivid Metadata"; break;
+> >  	case V4L2_META_FMT_RK_ISP1_PARAMS:	descr =3D "Rockchip ISP1 3A Parame=
+ters"; break;
+> >  	case V4L2_META_FMT_RK_ISP1_STAT_3A:	descr =3D "Rockchip ISP1 3A Stati=
+stics"; break;
+> > +	case V4L2_PIX_FMT_NV12_8L128:	descr =3D "NV12 (8x128 Linear)"; break;
+> >  	case V4L2_PIX_FMT_NV12M_8L128:	descr =3D "NV12M (8x128 Linear)"; brea=
+k;
+> > +	case V4L2_PIX_FMT_NV12_10BE_8L128:	descr =3D "10-bit NV12 (8x128 Line=
+ar, BE)"; break;
+> >  	case V4L2_PIX_FMT_NV12M_10BE_8L128:	descr =3D "10-bit NV12M (8x128 Li=
+near, BE)"; break;
+> > =20
+> >  	default:
+> > diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videod=
+ev2.h
+> > index cd66e01ed3c3..64f16490dd2b 100644
+> > --- a/include/uapi/linux/videodev2.h
+> > +++ b/include/uapi/linux/videodev2.h
+> > @@ -655,6 +655,8 @@ struct v4l2_pix_format {
+> >  #define V4L2_PIX_FMT_NV12_16L16 v4l2_fourcc('H', 'M', '1', '2') /* 12 =
+ Y/CbCr 4:2:0 16x16 tiles */
+> >  #define V4L2_PIX_FMT_NV12_32L32 v4l2_fourcc('S', 'T', '1', '2') /* 12 =
+ Y/CbCr 4:2:0 32x32 tiles */
+> >  #define V4L2_PIX_FMT_P010_4L4 v4l2_fourcc('T', '0', '1', '0') /* 12  Y=
+/CbCr 4:2:0 10-bit 4x4 macroblocks */
+> > +#define V4L2_PIX_FMT_NV12_8L128       v4l2_fourcc('A', 'T', '1', '2') =
+/* Y/CbCr 4:2:0 8x128 tiles */
+> > +#define V4L2_PIX_FMT_NV12_10BE_8L128  v4l2_fourcc_be('A', 'X', '1', '2=
+') /* Y/CbCr 4:2:0 10-bit 8x128 tiles */
+> > =20
+> >  /* Tiled YUV formats, non contiguous planes */
+> >  #define V4L2_PIX_FMT_NV12MT  v4l2_fourcc('T', 'M', '1', '2') /* 12  Y/=
+CbCr 4:2:0 64x32 tiles */
+> > --=20
+> > 2.37.1
+> >=20
 >=20
-> diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2=
--controls.h
-> index 5f46bf4a570c..a1363c59902d 100644
-> --- a/include/uapi/linux/v4l2-controls.h
-> +++ b/
+> For the other parts look's good to me.
+> Reviewed-by: Tommaso Merciai <tommaso.merciai@amarulasolutions.com>
 >=20
-> include/uapi/linux/v4l2-controls.h
-> @@ -1730,7 +1730,7 @@ struct v4l2_vp8_segment {
->   * @sharpness_level: matches sharpness_level syntax element.
->   * @level: matches loop_filter_level syntax element.
->   * @padding: padding field. Should be zeroed by applications.
-> - * @flags: see V4L2_VP8_LF_FLAG_{}.
-> + * @flags: see V4L2_VP8_LF_{}.
->   *
->   * This structure contains loop filter related parameters.
->   * See the 'mb_lf_adjustments()' part of the frame header syntax,
+> Regards,
+> Tommaso
+>=20
 
