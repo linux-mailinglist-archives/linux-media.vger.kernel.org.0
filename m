@@ -2,187 +2,102 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 08DEB595732
-	for <lists+linux-media@lfdr.de>; Tue, 16 Aug 2022 11:56:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4181C5957FF
+	for <lists+linux-media@lfdr.de>; Tue, 16 Aug 2022 12:21:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233549AbiHPJzs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 16 Aug 2022 05:55:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49498 "EHLO
+        id S233767AbiHPKUz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 16 Aug 2022 06:20:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45466 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234016AbiHPJyo (ORCPT
+        with ESMTP id S234330AbiHPKUT (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 16 Aug 2022 05:54:44 -0400
-Received: from EUR05-VI1-obe.outbound.protection.outlook.com (mail-vi1eur05on2072.outbound.protection.outlook.com [40.107.21.72])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DCA3BC6951;
-        Tue, 16 Aug 2022 02:07:00 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=YyuWkgGYDiki/yJft1vnXPsssYED4jZ7gpy16ygm55DMQlAVP7FrkGZ3H9B15B8FQP3d8mgvoGEtEWt04tliq9oTVgo7ehH/y5Vt6oe6MOvY0h2NSIw8eI5zH7QW5ov1htPt9dodtMfV10Q60Z1+qYpQDFkKnvcqePpkE7vQmN7Rkf7RvdPSraqPstSEm1otSOeBtu1LunQixWBphegS+dY8T8CYh+3dWcUTxFzcD4YundhmUBoZIsj2l1WxtCxZ+tKxPWgfnUbZJxannX+ZEgbQn3HdCo2TzDtQ8HxDnweI/BGVkG2J8k8MZeKLVqMXSHedeB8OjY7WyZr98RrV5A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=q3y/Y5XJbccaxB8Sdwx9sH9NZeC8dm8psE3hgAMmSCo=;
- b=MA8r413b07m3CrpbqBjIMhhGPMzmY7jANEmnjmeR81xcold3WFZBI1hocUdxNfjLJNfNfzMWOVFCZrDz8JxLEHJO7Ib/ErvtMpxgWMlIjXFoAmdDk8lK8w6XJNdf7PNuPdFvhl4xP5tD93kt28rV31/J6SEQ7tYCVb65HjyeylvVACZLKrM1JpmCNlqx+qus5mt+eEW62yzRHnfuIqlacyLVNz9nau+TO/023DLGhOmdD4Rx4CjylFXleO8tuI7CdHh1TY5GJkZeHAB1RHM4CQdd08mNXQdYeW1z1cAvZoxETDO5HohHQoXWj1R3TR+U+oc0OCiivH667gHtEjCQyw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=q3y/Y5XJbccaxB8Sdwx9sH9NZeC8dm8psE3hgAMmSCo=;
- b=SbAks66CgU7sgWaFtz2n3PAdXpDnJUe7hk4RHBTJwBOEh3iI9Wqcuww+I2M0N6tIHpQzWG+y7kbqeWAkuQ5jtbHjSkUoKI3cT9xLyADY8zqGjgHi4H+Bm+9uHY4BMZ/X8iEzc4+7cEsK+E1EfPtsA0MdiD3LCYkxF2IvqKficCY=
-Received: from AM6PR04MB6743.eurprd04.prod.outlook.com (2603:10a6:20b:f1::11)
- by HE1PR04MB3114.eurprd04.prod.outlook.com (2603:10a6:7:20::32) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5504.28; Tue, 16 Aug
- 2022 09:06:57 +0000
-Received: from AM6PR04MB6743.eurprd04.prod.outlook.com
- ([fe80::c27:3940:d92e:acd6]) by AM6PR04MB6743.eurprd04.prod.outlook.com
- ([fe80::c27:3940:d92e:acd6%4]) with mapi id 15.20.5525.011; Tue, 16 Aug 2022
- 09:06:57 +0000
-From:   Olivier Masse <olivier.masse@nxp.com>
-To:     "jens.wiklander@linaro.org" <jens.wiklander@linaro.org>
-CC:     "sumit.garg@linaro.org" <sumit.garg@linaro.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
-        "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "christian.koenig@amd.com" <christian.koenig@amd.com>,
-        =?iso-8859-15?Q?Cl=E9ment_Faure?= <clement.faure@nxp.com>,
-        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-        "op-tee@lists.trustedfirmware.org" <op-tee@lists.trustedfirmware.org>,
-        "etienne.carriere@linaro.org" <etienne.carriere@linaro.org>
-Subject: Re: [EXT] Re: [PATCH v2 0/1] tee: Add tee_shm_register_fd
-Thread-Topic: [EXT] Re: [PATCH v2 0/1] tee: Add tee_shm_register_fd
-Thread-Index: AQHYrlglkVt62yOLKU2bEUe77YcK2K2xNLAAgAANWwA=
-Date:   Tue, 16 Aug 2022 09:06:56 +0000
-Message-ID: <0cd2fbe9eac3eff50ed22fcd7ac6742ff46064fd.camel@nxp.com>
-References: <20220812143055.12938-1-olivier.masse@nxp.com>
-         <CAHUa44EgA1btRyj2ByooyLr9Q+8AmW=9EfjtQFxyr7DuCXASvA@mail.gmail.com>
-In-Reply-To: <CAHUa44EgA1btRyj2ByooyLr9Q+8AmW=9EfjtQFxyr7DuCXASvA@mail.gmail.com>
-Accept-Language: fr-FR, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: c839e74c-e71a-4f64-6a2f-08da7f66abb5
-x-ms-traffictypediagnostic: HE1PR04MB3114:EE_
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 03E+iqwbQy+UAezGBG0mZvvN3ozvu9deDmiqPhVsWBJlWme/x17WhHExexubcTSCYEmI4ShOFNjmWMs7J8T9GhV/88iQENtnb1ZIv4dOxY6V5tFuMG4T8Vt1iOF8eU36zFt8MwVOjMA9ycTROAyoMQwfpP5zdCMvD5arXkrnoGd3eKGdCGVmzQm/LpPOzDU0OlJ8dDjVRq03vK5FPirlhcm0AGxAGnHsZfhZA7LzYJhc9I0GiO1l4nJvdd81DWjdkeUoc4hgOebS8hGtUEQZHacmbElVi9RWFjxdWvvbJiz7hMatHlDAI1kxM+UbeH+HyVNMWuzAKxJ8WGuZ1u2tBgZAiF+SACMS7tNbUuOW7XulEgpJjoR2iIpBu0aEvxnYmuh76rmRRiX+9mKnHhSEz5CHO/Hcj0OG+1NY+Nw8NA+8ErcTb56uV+OTGtvR6XcqAoCbWaGazFjJMruIWfQAxDLbyGHEJkgTN96LruqZuVTm4tWY9rz5iVrh6TNZDz1tXaetFQgoVDSj6KC5RBK8TiP1oFrvd2p5bq71hukYRwtDJszT03aP7JaGCPnazz9m3rPEffFFR4dcIZEszQPTuN7FTkZyOzRShEo09eN8iOYgohdhwZihHCzmjpzTVeZRSxh988wVXEFnl8IeU1Z12iOReKbv5Bt/CPygtQCz1EDXk59nquCC6fC+9wy6UTpfps1LJui0xPDsh+rXZbNsrns+C8XshElB7yWQvP5EBKYSun4tZhr3LNHvMYAGuJku888iS9LsbFdfNAzpyWQ7Za33dnAeq60MPwu32y+RIA+JhFY2+Tl0yRh6BOV2aNvgTfocoh5VMTlvbcc2ATrXcg==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6PR04MB6743.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(376002)(346002)(366004)(39860400002)(396003)(136003)(71200400001)(186003)(2616005)(8676002)(6512007)(6506007)(26005)(53546011)(66946007)(36756003)(6486002)(478600001)(41300700001)(966005)(4326008)(86362001)(38070700005)(91956017)(122000001)(83380400001)(316002)(7416002)(45080400002)(8936002)(2906002)(5660300002)(44832011)(64756008)(66556008)(76116006)(66446008)(6916009)(38100700002)(54906003)(66476007)(99106002);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?iso-8859-15?Q?Vvq+iwnWaczp8I8kGqllEizRg4J3IvgxOFleEYKkA7FIN4qFWtZEIKuf6?=
- =?iso-8859-15?Q?KOMeaJwCzj3zrQ20+au7RxZHwmjLmbFxiYQWtFyt2AVsE0YPW9qcYrmqN?=
- =?iso-8859-15?Q?sNbxrqjiDePjZme5z/85uxHiyCXPdz/a/SohmPE2sRGILAlevdH6GyIoH?=
- =?iso-8859-15?Q?/6G6aPSzrgWjIdpsaou+2zLbDqhgPOsL3/6aNDVcJG0NIM7K+e+g739oH?=
- =?iso-8859-15?Q?ZERHCMsUiAm3jQvWUwyMLqHGyRzDIJjU6bsrU4SGyzDo4FgVatm0UODT8?=
- =?iso-8859-15?Q?4+VeHpGLvdYqnAfDv7YKvzBdwaACehu7fKlFXhNRCFmADvDlY0vmzzDem?=
- =?iso-8859-15?Q?RZktTVzrPxisnR+oK9X8qNHIugD//cKzvdKiLFaaT5OWDYpEhDeQJzuN2?=
- =?iso-8859-15?Q?E2HiGSrS8/hNtY47qF5qa1YJ50BZ7T403AR45l8/7RAHrGXgLSG8fJTFb?=
- =?iso-8859-15?Q?2Pwf/BQpLUt9LuvKKC59o+c0XT381A61OAKji1oJuz/X4BxwtYOa/PuRu?=
- =?iso-8859-15?Q?X8Ri+AERWX9VAp55c8hczpmGoayPTU9gtaMAuwo9CbtWqyP1lnu+rGd+M?=
- =?iso-8859-15?Q?mJ0UhTC5Ppw/5WUamkQX72Ogt+yxNyYttA5hjuSU1yx/XKGyl6i1Jpdvv?=
- =?iso-8859-15?Q?Yo6QqtWZB1idMu8qaS2fEeeMZxhD8bzJn4H6KGUmBoENo2sGdWntMUy1u?=
- =?iso-8859-15?Q?RQBMumoN0asVsrw6S4OFJCZWeLvTzoQriJeQZn1MsCQEeyxXP9g0IEGz8?=
- =?iso-8859-15?Q?LRFgmay5kqZ7FouSWZACU8qXD9jdpzFQRxHTfmNqm6lolBhBpszutv8Gz?=
- =?iso-8859-15?Q?9LX1mKpWvUlNrdrkcCUT2P5ym5Do6b/CQ++CsYUFgm5yjxu4fs7ICo0R4?=
- =?iso-8859-15?Q?4FeGt0xESwJFtXqsdfCcj7+CCBp7HimTEQ9Q3bEeiv1LDmj806+SEuQUx?=
- =?iso-8859-15?Q?79xF6XqOuLqFC+ygXPqfz3xjhtXqXn+mcw8jRVl8cv5Mxwud3H+To8Asl?=
- =?iso-8859-15?Q?ECJ+xzyUEQWmX4xUazqqCJXHZ9sTtPv0cA5GI6Gw+TQrBMIg/1j9q3VM9?=
- =?iso-8859-15?Q?XNdnNIzMqk26kMSwszxY/kyB3TfENIQVxiaUXxs6zcwHoP8lAcbwzSAbJ?=
- =?iso-8859-15?Q?k46itJcaAcmWiGj+iRP/3q0TbN+Ly4N8nOwCfORfR6S75wtDTNhYidzn7?=
- =?iso-8859-15?Q?Y1p4C6zlOrYl3DRi2ISw5Pb3IlRWuOHpt3m8CINnVN9qv9/giXsnSeEXV?=
- =?iso-8859-15?Q?31v5jID1SvSKGzyb82MadbP5NPcBmq+7qd6g/u24CVZpHWFYb/qdq+Y/P?=
- =?iso-8859-15?Q?T0aSq3NBE5+p+PavV816XomIiaks42KdR+nAKOg4MpWZaHar1EqdfZjlw?=
- =?iso-8859-15?Q?LH+YgLF2P8nrB5t4LtT5Q7SWbHdyzO/Y4l95VfJ+kRC4S5r6grQKuT4Yu?=
- =?iso-8859-15?Q?+DK3EXyxLYZgHsqhNSrDQgZKoCEDgNBhThz8clA0leZSgPC7fuKEE9+tB?=
- =?iso-8859-15?Q?NPVcjlyQj1StGXMl20HaMtsXlker5hxYk6QRME6ZwxRqo2uctkODXrbri?=
- =?iso-8859-15?Q?mpvCkwIwuPPrhJJT+7AyL8kEzilpItSX/qOn2KWJh6tlpbPfM6vlpW0hO?=
- =?iso-8859-15?Q?6IhGvwbxKbRnlXHCG7GOVOxwHvan8dihdRhmV4c9xyxxPkZp73JR3Jc9S?=
- =?iso-8859-15?Q?4PDD?=
-Content-Type: text/plain; charset="iso-8859-15"
-Content-ID: <A01E2C74227620439EF2D174D5B2867E@eurprd04.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+        Tue, 16 Aug 2022 06:20:19 -0400
+Received: from mail-pf1-x429.google.com (mail-pf1-x429.google.com [IPv6:2607:f8b0:4864:20::429])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7D9CFD8
+        for <linux-media@vger.kernel.org>; Tue, 16 Aug 2022 01:18:07 -0700 (PDT)
+Received: by mail-pf1-x429.google.com with SMTP id f192so8730179pfa.9
+        for <linux-media@vger.kernel.org>; Tue, 16 Aug 2022 01:18:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc;
+        bh=yiBicl/xtck+sUvDa6HbwVr3KCpBiQ3kP9sWsGd0v+M=;
+        b=uT3jiYPYFRn7lq9viYTDzroDVdXL8pYjwBzK6ZhdPWJ3ales5ct7XINz7ercxdfD7Y
+         rvax/AK/RPxyH9Qyvj6cKGyu5Z9eSVcZeTL3ghWM02DMNeRTu1dNZ7beU/wveqK5kb+b
+         cgTDsiraqeHQID8d9ZRhhEi710zRj0h9tNoJIy/ZIZdDiEU/5Tq3uSnDDCMR184RYyCg
+         LVWxI+KwzGdKQ6ji/qPZRP+nel4pcCCfqXweiR63F69BqC+Nt+6QIM31Ab1sSdW2FTPk
+         LjcGqOsRMi5qhAbnOjRjnE/4ICeEvzLIfRc/1JoVKPEsJ2GoYjX+SmVkYwcf+ocJax8W
+         K0eQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc;
+        bh=yiBicl/xtck+sUvDa6HbwVr3KCpBiQ3kP9sWsGd0v+M=;
+        b=yvf5DnomuBXwAaYPY5WEmsUb6g3RLToM+q2CNj8t0EHybnpQYLAozArYnm4bVj5Yzp
+         4eGQj4JqTXYJx0I5EWrZbSVXxapt0tJ125N1k63wVA+ZT86R3peSnPIg3RhbpugYzlhq
+         T25n72TlUNvgIwQpwvSKgqZSJyDHVvPxw2DQdB0sT/ck8080mSm1VhB5KuadHiZgtcrU
+         dA184rQTjx1ywhsZlqJLITeh+LIgy5djPVU11YWRAL5xEWPd7Xk9kuGnJWVmi6XOLBwj
+         Eq4QVqR3hLapqFo2dwo7+vRvXuzXlw956mUdPKNNz4Zovq5NFPXo9j7ImVprV0SRTy/K
+         0/wQ==
+X-Gm-Message-State: ACgBeo0k5NsMLH5nA+k0c2a/1+KWIIy0bW8jiFV2py2vrxM8qH30+sCJ
+        AV4xdYjs17KorJUaGCYvf9ZxAPUpWjrCLCPWfrU53g==
+X-Google-Smtp-Source: AA6agR7a2co2/3EHjLJWWfyl0Y9FC9Qup8Vvr947CQmLmaKAXgb15xFZYz1xNiLfRaHjV9zeEjmoSBme+mzy7PUZf/A=
+X-Received: by 2002:a63:e217:0:b0:41a:69b1:a68e with SMTP id
+ q23-20020a63e217000000b0041a69b1a68emr16488504pgh.428.1660637887011; Tue, 16
+ Aug 2022 01:18:07 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: AM6PR04MB6743.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c839e74c-e71a-4f64-6a2f-08da7f66abb5
-X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Aug 2022 09:06:57.0062
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: /mpJ2eZCnmi7GXXIs4wBXPzLLugS2f0vBXbropqHGcvSOPrUDf8kV7hw4nDjQUDXcl+//VO+7t2uohMhYyXS7A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: HE1PR04MB3114
+References: <20220812143055.12938-1-olivier.masse@nxp.com>
+In-Reply-To: <20220812143055.12938-1-olivier.masse@nxp.com>
+From:   Jens Wiklander <jens.wiklander@linaro.org>
+Date:   Tue, 16 Aug 2022 10:17:56 +0200
+Message-ID: <CAHUa44EgA1btRyj2ByooyLr9Q+8AmW=9EfjtQFxyr7DuCXASvA@mail.gmail.com>
+Subject: Re: [PATCH v2 0/1] tee: Add tee_shm_register_fd
+To:     Olivier Masse <olivier.masse@nxp.com>
+Cc:     etienne.carriere@linaro.org, sumit.garg@linaro.org,
+        sumit.semwal@linaro.org, christian.koenig@amd.com,
+        op-tee@lists.trustedfirmware.org, linaro-mm-sig@lists.linaro.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, clement.faure@nxp.com
+Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jens,
+Hi Olivier,
 
-On mar., 2022-08-16 at 10:17 +0200, Jens Wiklander wrote:
-> Caution: EXT Email
->=20
-> Hi Olivier,
->=20
-> On Fri, Aug 12, 2022 at 4:31 PM Olivier Masse <olivier.masse@nxp.com>
-> wrote:
-> >=20
-> > Add a new ioctl called TEE_IOC_SHM_REGISTER_FD to register a
-> > shared memory from a dmabuf file descriptor.
-> > This new ioctl will allow the Linux Kernel to register a buffer
-> > to be used by the Secure Data Path OPTEE OS feature.
-> >=20
-> > Please find more information here:
-> >=20
-https://eur01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fstatic.=
-linaro.org%2Fconnect%2Fsan19%2Fpresentations%2Fsan19-107.pdf&amp;data=3D05%=
-7C01%7Colivier.masse%40nxp.com%7C20ddb873be8f4cd89b5408da7f5fda26%7C686ea1d=
-3bc2b4c6fa92cd99c5c301635%7C0%7C1%7C637962346897373445%7CUnknown%7CTWFpbGZs=
-b3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C30=
-00%7C%7C%7C&amp;sdata=3DcMbuihC0Hat4DEVORzcGhzwjO%2FxclAW43AIcvR8yReE%3D&am=
-p;reserved=3D0
-> >=20
-> > Patch tested on Hikey 6220.
->=20
-> What's new in this V2?
+On Fri, Aug 12, 2022 at 4:31 PM Olivier Masse <olivier.masse@nxp.com> wrote:
+>
+> Add a new ioctl called TEE_IOC_SHM_REGISTER_FD to register a
+> shared memory from a dmabuf file descriptor.
+> This new ioctl will allow the Linux Kernel to register a buffer
+> to be used by the Secure Data Path OPTEE OS feature.
+>
+> Please find more information here:
+> https://static.linaro.org/connect/san19/presentations/san19-107.pdf
+>
+> Patch tested on Hikey 6220.
 
-Just updated the cover letter and minor change to fix a build error
-with gcc-11 for x86 architecture:
->> ./usr/include/linux/tee.h:136:13: error: expected declaration
-specifiers or '...' before numeric constant
-     136 | } __aligned(8);
-         |             ^
+What's new in this V2?
 
-Best regards,
-Olivier
+Thanks,
+Jens
 
->=20
-> Thanks,
-> Jens
->=20
-> >=20
-> > Etienne Carriere (1):
-> >   tee: new ioctl to a register tee_shm from a dmabuf file
-> > descriptor
-> >=20
-> >  drivers/tee/tee_core.c   | 38 +++++++++++++++
-> >  drivers/tee/tee_shm.c    | 99
-> > +++++++++++++++++++++++++++++++++++++++-
-> >  include/linux/tee_drv.h  | 11 +++++
-> >  include/uapi/linux/tee.h | 29 ++++++++++++
-> >  4 files changed, 175 insertions(+), 2 deletions(-)
-> >=20
-> > --
-> > 2.25.0
-> >=20
+>
+> Etienne Carriere (1):
+>   tee: new ioctl to a register tee_shm from a dmabuf file descriptor
+>
+>  drivers/tee/tee_core.c   | 38 +++++++++++++++
+>  drivers/tee/tee_shm.c    | 99 +++++++++++++++++++++++++++++++++++++++-
+>  include/linux/tee_drv.h  | 11 +++++
+>  include/uapi/linux/tee.h | 29 ++++++++++++
+>  4 files changed, 175 insertions(+), 2 deletions(-)
+>
+> --
+> 2.25.0
+>
