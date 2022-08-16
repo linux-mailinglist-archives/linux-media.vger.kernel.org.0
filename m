@@ -2,409 +2,112 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 39CD4595E4F
-	for <lists+linux-media@lfdr.de>; Tue, 16 Aug 2022 16:26:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 46DEC595E72
+	for <lists+linux-media@lfdr.de>; Tue, 16 Aug 2022 16:39:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234005AbiHPOZf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 16 Aug 2022 10:25:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48810 "EHLO
+        id S233879AbiHPOjS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 16 Aug 2022 10:39:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39620 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231193AbiHPOZe (ORCPT
+        with ESMTP id S232654AbiHPOjO (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 16 Aug 2022 10:25:34 -0400
-Received: from mail-io1-xd34.google.com (mail-io1-xd34.google.com [IPv6:2607:f8b0:4864:20::d34])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 836A18306D;
-        Tue, 16 Aug 2022 07:25:33 -0700 (PDT)
-Received: by mail-io1-xd34.google.com with SMTP id i77so4815116ioa.7;
-        Tue, 16 Aug 2022 07:25:33 -0700 (PDT)
+        Tue, 16 Aug 2022 10:39:14 -0400
+Received: from mail-qk1-x734.google.com (mail-qk1-x734.google.com [IPv6:2607:f8b0:4864:20::734])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 34250B81D0
+        for <linux-media@vger.kernel.org>; Tue, 16 Aug 2022 07:39:13 -0700 (PDT)
+Received: by mail-qk1-x734.google.com with SMTP id b9so2676129qka.2
+        for <linux-media@vger.kernel.org>; Tue, 16 Aug 2022 07:39:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc;
-        bh=hlPqld0MkkDzkP6nlR9+xwe5ym6yN7qtcrF+O0hs2y8=;
-        b=hhVXCUBxtngsOXAc6MKLkbqPptQ7caYH5YoYz2TsHCZipiu4nB29ljNurOc4WPWzPW
-         MKo0WvLARZDo7zmak1U7qrJRQGZY2nuEfNDIyp3qhsQJH63Am9rDKPpYCNg9Njwt8E+T
-         kkz7fH0b+PvbqqQxyp1Hqlw/MvWlGDdWRxq+h5cp4jqYQVwiK4rf5afli4fdqfiFe55B
-         32rP5fbB3A/l0fbZKr6FqUaoruUWBKCOxh1WnaAalrQPPtNVrMdSw8GMEQipYOEKyVcY
-         4OS9ujSuNDmzZZSSWm4EnJ2fPyJq5xr5V2yjx3bikhUe0j6rgFtCKyE5sJYgf9GY4yoP
-         5SkA==
+        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc;
+        bh=7VGZA0Vew62u25faumdytcpJGC3drao9At9ODOgTXdk=;
+        b=XOTYR5LjvYCMH4w7b4u24Zl5Axh3XDcphJPmhE9oxuD05DEvt4Uon1cPnGz1wQIV9x
+         tgUNsPNfA2igV7qASBowLPqpSkO1lbC/7wN5qCxlpfZr5DOI8DrMiPeIfzKGNyqbt4ft
+         1uff6Hi7bq8aYlBSyIMyMrnyyUtQoOivr3EsXhJglsnvLZPyPV5ovLS3ApTe/KWEqJ60
+         tHyepam2ajpeiist7zFRR+moUnRO06Q9IGoPzjXHy5rvM0VaZ9tGJiDrrYbFisRkyCQ6
+         3L8t/EHYBkaMdyyZ9CrJiJ2n7pSLgWLefpuyZDmHBCjHwaUpxaMpifMYw8KM76cTjzEF
+         cS/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc;
-        bh=hlPqld0MkkDzkP6nlR9+xwe5ym6yN7qtcrF+O0hs2y8=;
-        b=C5RNi54raJSfIocVx4QuHVaBd7fOojtj3LyPKxwxnw1QHoKPXQU1j7nPiGZv4EtT4U
-         E3siM15Tq5LYyTujyB/bmvJzdZl58Su1VuXb5BFmiFv6rTwZbU++MQQ7DjvopTwzU2y6
-         muWAb+sSq/ElYU73rcezow9spbnkKhYwDXCoeRNu8HBluAAjp2L9EadYKysOEUvgM7cl
-         xrYcx9pp/gNZuhnXnW13OGOFbQQ5BwZEzH9W6mwB8g3ypol4KXTg0KNYYyHO8j5jlaYI
-         y5Vmp7IWRuqWZlXNJ0s/Fmt0qWHm/GweESdJVVJISavgRmfISaepWS5niDJgvLXtzCNr
-         Yi+Q==
-X-Gm-Message-State: ACgBeo1GkNWcVpBJp4BtsZp3O5M550H6BWbDMYaRE/pQmfoaxD0c5pt3
-        01Ckuhxgf9sUyvzET1fCUXfNevYf+0ajbCDoa1RH3PHhpyg=
-X-Google-Smtp-Source: AA6agR4xEs1XMyR1EW/f5TP3OUKn5DGc+mwcUXNgPFGPvWU/puhG5LB5XDjy/1yi/N+effprNDe6LAh/XgDwkBH0SD4=
-X-Received: by 2002:a05:6638:25d6:b0:342:916c:d59a with SMTP id
- u22-20020a05663825d600b00342916cd59amr9425579jat.51.1660659932782; Tue, 16
- Aug 2022 07:25:32 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220815211516.3169470-1-robdclark@gmail.com> <20220815211516.3169470-2-robdclark@gmail.com>
- <327c77d5-5812-a158-6c9f-c68e15a5a6b4@amd.com>
-In-Reply-To: <327c77d5-5812-a158-6c9f-c68e15a5a6b4@amd.com>
-From:   Rob Clark <robdclark@gmail.com>
-Date:   Tue, 16 Aug 2022 07:26:04 -0700
-Message-ID: <CAF6AEGu3oxM+EX_FsLpw4m0KouMyFMLN=AGGbf=6TVQGkJ7jQg@mail.gmail.com>
-Subject: Re: [PATCH v2 1/3] dma-buf: Add ioctl to query mmap coherency/cache info
-To:     =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc:     dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Rob Clark <robdclark@chromium.org>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?B?SsOpcsO0bWUgUG91aWxsZXI=?= <jerome.pouiller@silabs.com>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>,
-        open list <linux-kernel@vger.kernel.org>
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc;
+        bh=7VGZA0Vew62u25faumdytcpJGC3drao9At9ODOgTXdk=;
+        b=efv84B0VQSIcxEjhjpoCml2RwsBIad0b6flnAypFAUfZYyMcuK8qYhGP/kTSw00jnh
+         px1LYVcUl5dya3bOmVrkkTnYObuN1mWMhcJPwvAJi3pkV3D/7EbYBmreGakSDBazROOf
+         iMLgLqZGkROjUCT+cxnCEXT+8v70RtqQx38J4c9oCqYIBf8Q5Qmg2Lp/EfSnoV36VdE7
+         /lzT9ej8wQ45CUZ4hHTktGbm6IUJuWBOjbcwH90oeHr7CS2bJbVhCFAFR2MJRQCLpJbh
+         8fqHWypeV9A8klDlkWDKxjcxQXYZGTWgeQc0UGrL3+5gok4zlQ/vwOA0Y2L+xRF5yGjB
+         o9YA==
+X-Gm-Message-State: ACgBeo2UfxGC4LRyiLVJl+b0omoHQ0IPR+REB5Uul7wlFSEwYJtspilM
+        zV+h+j/Qu52ZR1ra6WLQ5gxVKAZj+bWsQg==
+X-Google-Smtp-Source: AA6agR5OjFQINuH5ZxfGwp9PFXJG80CYZBXSk0+g4ea+0hGLsIf90x4mwc4G4tep90zkaSSD8bgvGg==
+X-Received: by 2002:a05:620a:2627:b0:6b8:c8c3:78f9 with SMTP id z39-20020a05620a262700b006b8c8c378f9mr14998083qko.641.1660660752335;
+        Tue, 16 Aug 2022 07:39:12 -0700 (PDT)
+Received: from nicolas-tpx395.localdomain (192-222-136-102.qc.cable.ebox.net. [192.222.136.102])
+        by smtp.gmail.com with ESMTPSA id m6-20020a05620a24c600b006b60d5a7205sm12655729qkn.51.2022.08.16.07.39.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 16 Aug 2022 07:39:11 -0700 (PDT)
+Message-ID: <b729f0f418838390e14781c5f58649659b0c7199.camel@ndufresne.ca>
+Subject: Re: [PATCH] media: v4l2-ctrls: Fix typo in VP8 comment
+From:   Nicolas Dufresne <nicolas@ndufresne.ca>
+To:     Deborah Brouwer <deborah.brouwer@collabora.com>,
+        linux-media@vger.kernel.org
+Cc:     ezequiel@vanguardiasur.com.ar, daniel.almeida@collabora.com
+Date:   Tue, 16 Aug 2022 10:39:10 -0400
+In-Reply-To: <20220811203756.124673-1-deborah.brouwer@collabora.com>
+References: <20220811203756.124673-1-deborah.brouwer@collabora.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Evolution 3.44.4 (3.44.4-1.fc36) 
+MIME-Version: 1.0
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Aug 16, 2022 at 1:27 AM Christian K=C3=B6nig
-<christian.koenig@amd.com> wrote:
->
-> Am 15.08.22 um 23:15 schrieb Rob Clark:
-> > From: Rob Clark <robdclark@chromium.org>
-> >
-> > This is a fairly narrowly focused interface, providing a way for a VMM
-> > in userspace to tell the guest kernel what pgprot settings to use when
-> > mapping a buffer to guest userspace.
-> >
-> > For buffers that get mapped into guest userspace, virglrenderer returns
-> > a dma-buf fd to the VMM (crosvm or qemu).  In addition to mapping the
-> > pages into the guest VM, it needs to report to drm/virtio in the guest
-> > the cache settings to use for guest userspace.  In particular, on some
-> > architectures, creating aliased mappings with different cache attribute=
+Le jeudi 11 ao=C3=BBt 2022 =C3=A0 13:37 -0700, Deborah Brouwer a =C3=A9crit=
+=C2=A0:
+> The comment for the VP8 loop filter flags uses the partially wrong name
+> for the flags. Unlike the other VP8 flag names, the loop filter flag name=
 s
-> > is frowned upon, so it is important that the guest mappings have the
-> > same cache attributes as any potential host mappings.
-> >
-> > Signed-off-by: Rob Clark <robdclark@chromium.org>
-> > ---
-> > v2: Combine with coherency, as that is a related concept.. and it is
-> >      relevant to the VMM whether coherent access without the SYNC ioctl
-> >      is possible; set map_info at export time to make it more clear
-> >      that it applies for the lifetime of the dma-buf (for any mmap
-> >      created via the dma-buf)
->
-> Well, exactly that's a conceptual NAK from my side.
->
-> The caching information can change at any time. For CPU mappings even
-> without further notice from the exporter.
+> don't have "_FLAG" in them. Change the comment so that it matches the
+> actual flag definitions in the header.
 
-You should look before you criticize, as I left you a way out.. the
-idea was that DMA_BUF_MAP_INCOHERENT should indicate that the buffer
-cannot be mapped to the guest.  We could ofc add more DMA_BUF_MAP_*
-values if something else would suit you better.  But the goal is to
-give the VMM enough information to dtrt, or return an error if mapping
-to guest is not possible.  That seems better than assuming mapping to
-guest will work and guessing about cache attrs
+oops, perhaps it should have had that, but can't change it anymore.
 
-BR,
--R
+Nice catch!
 
-> If the hardware can't use the caching information from the host CPU page
-> tables directly then that pretty much completely breaks the concept that
-> the exporter is responsible for setting up those page tables.
->
-> Regards,
-> Christian.
->
-> >
-> >   drivers/dma-buf/dma-buf.c    | 63 +++++++++++++++++++++++++++------
-> >   include/linux/dma-buf.h      | 11 ++++++
-> >   include/uapi/linux/dma-buf.h | 68 +++++++++++++++++++++++++++++++++++=
-+
-> >   3 files changed, 132 insertions(+), 10 deletions(-)
-> >
-> > diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-> > index 32f55640890c..262c4706f721 100644
-> > --- a/drivers/dma-buf/dma-buf.c
-> > +++ b/drivers/dma-buf/dma-buf.c
-> > @@ -125,6 +125,32 @@ static struct file_system_type dma_buf_fs_type =3D=
- {
-> >       .kill_sb =3D kill_anon_super,
-> >   };
-> >
-> > +static int __dma_buf_mmap(struct dma_buf *dmabuf, struct vm_area_struc=
-t *vma)
-> > +{
-> > +     int ret;
-> > +
-> > +     /* check if buffer supports mmap */
-> > +     if (!dmabuf->ops->mmap)
-> > +             return -EINVAL;
-> > +
-> > +     ret =3D dmabuf->ops->mmap(dmabuf, vma);
-> > +
-> > +     /*
-> > +      * If the exporter claims to support coherent access, ensure the
-> > +      * pgprot flags match the claim.
-> > +      */
-> > +     if ((dmabuf->map_info !=3D DMA_BUF_MAP_INCOHERENT) && !ret) {
-> > +             pgprot_t wc_prot =3D pgprot_writecombine(vma->vm_page_pro=
-t);
-> > +             if (dmabuf->map_info =3D=3D DMA_BUF_COHERENT_WC) {
-> > +                     WARN_ON_ONCE(pgprot_val(vma->vm_page_prot) !=3D p=
-gprot_val(wc_prot));
-> > +             } else {
-> > +                     WARN_ON_ONCE(pgprot_val(vma->vm_page_prot) =3D=3D=
- pgprot_val(wc_prot));
-> > +             }
-> > +     }
-> > +
-> > +     return ret;
-> > +}
-> > +
-> >   static int dma_buf_mmap_internal(struct file *file, struct vm_area_st=
-ruct *vma)
-> >   {
-> >       struct dma_buf *dmabuf;
-> > @@ -134,16 +160,12 @@ static int dma_buf_mmap_internal(struct file *fil=
-e, struct vm_area_struct *vma)
-> >
-> >       dmabuf =3D file->private_data;
-> >
-> > -     /* check if buffer supports mmap */
-> > -     if (!dmabuf->ops->mmap)
-> > -             return -EINVAL;
-> > -
-> >       /* check for overflowing the buffer's size */
-> >       if (vma->vm_pgoff + vma_pages(vma) >
-> >           dmabuf->size >> PAGE_SHIFT)
-> >               return -EINVAL;
-> >
-> > -     return dmabuf->ops->mmap(dmabuf, vma);
-> > +     return __dma_buf_mmap(dmabuf, vma);
-> >   }
-> >
-> >   static loff_t dma_buf_llseek(struct file *file, loff_t offset, int wh=
-ence)
-> > @@ -326,6 +348,27 @@ static long dma_buf_set_name(struct dma_buf *dmabu=
-f, const char __user *buf)
-> >       return 0;
-> >   }
-> >
-> > +static long dma_buf_info(struct dma_buf *dmabuf, void __user *uarg)
-> > +{
-> > +     struct dma_buf_info arg;
-> > +
-> > +     if (copy_from_user(&arg, uarg, sizeof(arg)))
-> > +             return -EFAULT;
-> > +
-> > +     switch (arg.param) {
-> > +     case DMA_BUF_INFO_MAP_INFO:
-> > +             arg.value =3D dmabuf->map_info;
-> > +             break;
-> > +     default:
-> > +             return -EINVAL;
-> > +     }
-> > +
-> > +     if (copy_to_user(uarg, &arg, sizeof(arg)))
-> > +             return -EFAULT;
-> > +
-> > +     return 0;
-> > +}
-> > +
-> >   static long dma_buf_ioctl(struct file *file,
-> >                         unsigned int cmd, unsigned long arg)
-> >   {
-> > @@ -369,6 +412,9 @@ static long dma_buf_ioctl(struct file *file,
-> >       case DMA_BUF_SET_NAME_B:
-> >               return dma_buf_set_name(dmabuf, (const char __user *)arg)=
-;
-> >
-> > +     case DMA_BUF_IOCTL_INFO:
-> > +             return dma_buf_info(dmabuf, (void __user *)arg);
-> > +
-> >       default:
-> >               return -ENOTTY;
-> >       }
-> > @@ -530,6 +576,7 @@ struct dma_buf *dma_buf_export(const struct dma_buf=
-_export_info *exp_info)
-> >       dmabuf->priv =3D exp_info->priv;
-> >       dmabuf->ops =3D exp_info->ops;
-> >       dmabuf->size =3D exp_info->size;
-> > +     dmabuf->map_info =3D exp_info->map_info;
-> >       dmabuf->exp_name =3D exp_info->exp_name;
-> >       dmabuf->owner =3D exp_info->owner;
-> >       spin_lock_init(&dmabuf->name_lock);
-> > @@ -1245,10 +1292,6 @@ int dma_buf_mmap(struct dma_buf *dmabuf, struct =
-vm_area_struct *vma,
-> >       if (WARN_ON(!dmabuf || !vma))
-> >               return -EINVAL;
-> >
-> > -     /* check if buffer supports mmap */
-> > -     if (!dmabuf->ops->mmap)
-> > -             return -EINVAL;
-> > -
-> >       /* check for offset overflow */
-> >       if (pgoff + vma_pages(vma) < pgoff)
-> >               return -EOVERFLOW;
-> > @@ -1262,7 +1305,7 @@ int dma_buf_mmap(struct dma_buf *dmabuf, struct v=
-m_area_struct *vma,
-> >       vma_set_file(vma, dmabuf->file);
-> >       vma->vm_pgoff =3D pgoff;
-> >
-> > -     return dmabuf->ops->mmap(dmabuf, vma);
-> > +     return __dma_buf_mmap(dmabuf, vma);
-> >   }
-> >   EXPORT_SYMBOL_NS_GPL(dma_buf_mmap, DMA_BUF);
-> >
-> > diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
-> > index 71731796c8c3..37923c8d5c24 100644
-> > --- a/include/linux/dma-buf.h
-> > +++ b/include/linux/dma-buf.h
-> > @@ -23,6 +23,8 @@
-> >   #include <linux/dma-fence.h>
-> >   #include <linux/wait.h>
-> >
-> > +#include <uapi/linux/dma-buf.h>
-> > +
-> >   struct device;
-> >   struct dma_buf;
-> >   struct dma_buf_attachment;
-> > @@ -307,6 +309,13 @@ struct dma_buf {
-> >        */
-> >       size_t size;
-> >
-> > +     /**
-> > +      * @map_info:
-> > +      *
-> > +      * CPU mapping/coherency information for the buffer.
-> > +      */
-> > +     enum dma_buf_map_info map_info;
-> > +
-> >       /**
-> >        * @file:
-> >        *
-> > @@ -533,6 +542,7 @@ struct dma_buf_attachment {
-> >    * @ops:    Attach allocator-defined dma buf ops to the new buffer
-> >    * @size:   Size of the buffer - invariant over the lifetime of the b=
-uffer
-> >    * @flags:  mode flags for the file
-> > + * @map_info:        CPU mapping/coherency information for the buffer
-> >    * @resv:   reservation-object, NULL to allocate default one
-> >    * @priv:   Attach private data of allocator to this buffer
-> >    *
-> > @@ -545,6 +555,7 @@ struct dma_buf_export_info {
-> >       const struct dma_buf_ops *ops;
-> >       size_t size;
-> >       int flags;
-> > +     enum dma_buf_map_info map_info;
-> >       struct dma_resv *resv;
-> >       void *priv;
-> >   };
-> > diff --git a/include/uapi/linux/dma-buf.h b/include/uapi/linux/dma-buf.=
-h
-> > index b1523cb8ab30..07b403ffdb43 100644
-> > --- a/include/uapi/linux/dma-buf.h
-> > +++ b/include/uapi/linux/dma-buf.h
-> > @@ -85,6 +85,72 @@ struct dma_buf_sync {
-> >
-> >   #define DMA_BUF_NAME_LEN    32
-> >
-> > +/**
-> > + * enum dma_buf_map_info - CPU mapping info
-> > + *
-> > + * This enum describes coherency of a userspace mapping of the dmabuf.
-> > + *
-> > + * Importing devices should check dma_buf::map_info flag and reject an
-> > + * import if unsupported.  For example, if the exporting device uses
-> > + * @DMA_BUF_COHERENT_CACHED but the importing device does not support
-> > + * CPU cache coherency, the dma-buf import should fail.
-> > + */
-> > +enum dma_buf_map_info {
-> > +     /**
-> > +      * @DMA_BUF_MAP_INCOHERENT: CPU mapping is incoherent.
-> > +      *
-> > +      * Use of DMA_BUF_IOCTL_SYNC is required for CPU managed coherene=
-ncy.
-> > +      */
-> > +     DMA_BUF_MAP_INCOHERENT,
-> > +
-> > +     /**
-> > +      * @DMA_BUF_COHERENT_WC: CPU mapping is coherent but not cached.
-> > +      *
-> > +      * A cpu mmap'ing is coherent, and DMA_BUF_IOCTL_SYNC is not requ=
-ired.
-> > +      * However fences may be still required for synchronizing access.=
-  Ie.
-> > +      * coherency can only be relied upon by an explicit-fencing users=
-pace.
-> > +      * An implicit-sync userspace must still use DMA_BUF_IOCTL_SYNC.
-> > +      *
-> > +      * The cpu mapping is writecombine.
-> > +      */
-> > +     DMA_BUF_COHERENT_WC,
-> > +
-> > +     /**
-> > +      * @DMA_BUF_COHERENT_CACHED: CPU mapping is coherent and CPU cach=
-ed.
-> > +      *
-> > +      * A cpu mmap'ing is coherent, and DMA_BUF_IOCTL_SYNC is not requ=
-ired.
-> > +      * However fences may be still required for synchronizing access.=
-  Ie.
-> > +      * coherency can only be relied upon by an explicit-fencing users=
-pace.
-> > +      * An implicit-sync userspace must still use DMA_BUF_IOCTL_SYNC.
-> > +      *
-> > +      * The cpu mapping is cached.
-> > +      */
-> > +     DMA_BUF_COHERENT_CACHED,
-> > +};
-> > +
-> > +/**
-> > + * struct dma_buf_info - Query info about the buffer.
-> > + */
-> > +struct dma_buf_info {
-> > +
-> > +#define DMA_BUF_INFO_MAP_INFO    1
-> > +
-> > +     /**
-> > +      * @param: Which param to query
-> > +      *
-> > +      * DMA_BUF_INFO_MAP_INFO:
-> > +      *     Returns enum dma_buf_map_info, describing the coherency an=
-d
-> > +      *     caching of a CPU mapping of the buffer.
-> > +      */
-> > +     __u32 param;
-> > +     __u32 pad;
-> > +
-> > +     /**
-> > +      * @value: Return value of the query.
-> > +      */
-> > +     __u64 value;
-> > +};
-> > +
-> >   #define DMA_BUF_BASE                'b'
-> >   #define DMA_BUF_IOCTL_SYNC  _IOW(DMA_BUF_BASE, 0, struct dma_buf_sync=
-)
-> >
-> > @@ -95,4 +161,6 @@ struct dma_buf_sync {
-> >   #define DMA_BUF_SET_NAME_A  _IOW(DMA_BUF_BASE, 1, __u32)
-> >   #define DMA_BUF_SET_NAME_B  _IOW(DMA_BUF_BASE, 1, __u64)
-> >
-> > +#define DMA_BUF_IOCTL_INFO   _IOWR(DMA_BUF_BASE, 2, struct dma_buf_inf=
-o)
-> > +
-> >   #endif
->
+Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Fixes: 363240ce1c08 ("media: uapi: move VP8 stateless controls out of stagi=
+ng")
+
+
+>=20
+> Signed-off-by: Deborah Brouwer <deborah.brouwer@collabora.com>
+> ---
+>  include/uapi/linux/v4l2-controls.h | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2=
+-controls.h
+> index 5f46bf4a570c..a1363c59902d 100644
+> --- a/include/uapi/linux/v4l2-controls.h
+> +++ b/
+>=20
+> include/uapi/linux/v4l2-controls.h
+> @@ -1730,7 +1730,7 @@ struct v4l2_vp8_segment {
+>   * @sharpness_level: matches sharpness_level syntax element.
+>   * @level: matches loop_filter_level syntax element.
+>   * @padding: padding field. Should be zeroed by applications.
+> - * @flags: see V4L2_VP8_LF_FLAG_{}.
+> + * @flags: see V4L2_VP8_LF_{}.
+>   *
+>   * This structure contains loop filter related parameters.
+>   * See the 'mb_lf_adjustments()' part of the frame header syntax,
+
