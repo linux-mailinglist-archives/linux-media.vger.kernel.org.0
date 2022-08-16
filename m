@@ -2,232 +2,187 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1CC6B595738
-	for <lists+linux-media@lfdr.de>; Tue, 16 Aug 2022 11:56:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 08DEB595732
+	for <lists+linux-media@lfdr.de>; Tue, 16 Aug 2022 11:56:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233259AbiHPJzo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 16 Aug 2022 05:55:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58588 "EHLO
+        id S233549AbiHPJzs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 16 Aug 2022 05:55:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49498 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234121AbiHPJzN (ORCPT
+        with ESMTP id S234016AbiHPJyo (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 16 Aug 2022 05:55:13 -0400
-Received: from mail-il1-f199.google.com (mail-il1-f199.google.com [209.85.166.199])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 439AC390
-        for <linux-media@vger.kernel.org>; Tue, 16 Aug 2022 01:36:24 -0700 (PDT)
-Received: by mail-il1-f199.google.com with SMTP id j5-20020a056e02218500b002de1cf2347bso6573019ila.2
-        for <linux-media@vger.kernel.org>; Tue, 16 Aug 2022 01:36:24 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc;
-        bh=eNWO53sDhcW1Rvld7RgiYbE4mnEsunJEPpn1lTZT5Ho=;
-        b=wOjqO82/IBmizGE2HZnIhj60cBsGBWx6glx0BRDCwVsDPKsv0wH4EKyOQ/tnYX/o95
-         4maMVbIrSRokGbLlD6mN7bl1B8Gia/DSciubLlwgC7Eb8TFzFJpD7Ynq8hooTubjMJFj
-         S641WBZwMHCQGVuFXsjSvx+1sn2aq4cQq/RXm+KTJge3MAHxNi1tXLUdNy+tKCcFUdyn
-         RB8RoDlzgGvyXfDhXtz7xXEJ8SQar/b6yvSRxeOSmgHJSejhVPlSM2+85+gjil57ClwD
-         COKJfLEw6U5RHzF2K6/LVqaa2+7Fu7QV2KlAlsQOlfIYq7ZN247ex1FyRrLjQKjx6VjA
-         OvLA==
-X-Gm-Message-State: ACgBeo2Owu7xcz+nL2QqeLCy6Ar5jlnfKi/0eMzENcTYsAaCH7p3pabs
-        jc7poA1g5LhCAN864/CbBP4zwMw/ldsaLStVKCsspQDQlcTO
-X-Google-Smtp-Source: AA6agR7XSAW/tXIkh889Aj8VoOdFw9iKOC3nLpobcnUVnfHtlnndaXOVQ5jYvCJQh0NARdkkxKGQR8dgLAOVqtk3so56SCRA6hHC
+        Tue, 16 Aug 2022 05:54:44 -0400
+Received: from EUR05-VI1-obe.outbound.protection.outlook.com (mail-vi1eur05on2072.outbound.protection.outlook.com [40.107.21.72])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DCA3BC6951;
+        Tue, 16 Aug 2022 02:07:00 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=YyuWkgGYDiki/yJft1vnXPsssYED4jZ7gpy16ygm55DMQlAVP7FrkGZ3H9B15B8FQP3d8mgvoGEtEWt04tliq9oTVgo7ehH/y5Vt6oe6MOvY0h2NSIw8eI5zH7QW5ov1htPt9dodtMfV10Q60Z1+qYpQDFkKnvcqePpkE7vQmN7Rkf7RvdPSraqPstSEm1otSOeBtu1LunQixWBphegS+dY8T8CYh+3dWcUTxFzcD4YundhmUBoZIsj2l1WxtCxZ+tKxPWgfnUbZJxannX+ZEgbQn3HdCo2TzDtQ8HxDnweI/BGVkG2J8k8MZeKLVqMXSHedeB8OjY7WyZr98RrV5A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=q3y/Y5XJbccaxB8Sdwx9sH9NZeC8dm8psE3hgAMmSCo=;
+ b=MA8r413b07m3CrpbqBjIMhhGPMzmY7jANEmnjmeR81xcold3WFZBI1hocUdxNfjLJNfNfzMWOVFCZrDz8JxLEHJO7Ib/ErvtMpxgWMlIjXFoAmdDk8lK8w6XJNdf7PNuPdFvhl4xP5tD93kt28rV31/J6SEQ7tYCVb65HjyeylvVACZLKrM1JpmCNlqx+qus5mt+eEW62yzRHnfuIqlacyLVNz9nau+TO/023DLGhOmdD4Rx4CjylFXleO8tuI7CdHh1TY5GJkZeHAB1RHM4CQdd08mNXQdYeW1z1cAvZoxETDO5HohHQoXWj1R3TR+U+oc0OCiivH667gHtEjCQyw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=q3y/Y5XJbccaxB8Sdwx9sH9NZeC8dm8psE3hgAMmSCo=;
+ b=SbAks66CgU7sgWaFtz2n3PAdXpDnJUe7hk4RHBTJwBOEh3iI9Wqcuww+I2M0N6tIHpQzWG+y7kbqeWAkuQ5jtbHjSkUoKI3cT9xLyADY8zqGjgHi4H+Bm+9uHY4BMZ/X8iEzc4+7cEsK+E1EfPtsA0MdiD3LCYkxF2IvqKficCY=
+Received: from AM6PR04MB6743.eurprd04.prod.outlook.com (2603:10a6:20b:f1::11)
+ by HE1PR04MB3114.eurprd04.prod.outlook.com (2603:10a6:7:20::32) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5504.28; Tue, 16 Aug
+ 2022 09:06:57 +0000
+Received: from AM6PR04MB6743.eurprd04.prod.outlook.com
+ ([fe80::c27:3940:d92e:acd6]) by AM6PR04MB6743.eurprd04.prod.outlook.com
+ ([fe80::c27:3940:d92e:acd6%4]) with mapi id 15.20.5525.011; Tue, 16 Aug 2022
+ 09:06:57 +0000
+From:   Olivier Masse <olivier.masse@nxp.com>
+To:     "jens.wiklander@linaro.org" <jens.wiklander@linaro.org>
+CC:     "sumit.garg@linaro.org" <sumit.garg@linaro.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
+        "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "christian.koenig@amd.com" <christian.koenig@amd.com>,
+        =?iso-8859-15?Q?Cl=E9ment_Faure?= <clement.faure@nxp.com>,
+        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+        "op-tee@lists.trustedfirmware.org" <op-tee@lists.trustedfirmware.org>,
+        "etienne.carriere@linaro.org" <etienne.carriere@linaro.org>
+Subject: Re: [EXT] Re: [PATCH v2 0/1] tee: Add tee_shm_register_fd
+Thread-Topic: [EXT] Re: [PATCH v2 0/1] tee: Add tee_shm_register_fd
+Thread-Index: AQHYrlglkVt62yOLKU2bEUe77YcK2K2xNLAAgAANWwA=
+Date:   Tue, 16 Aug 2022 09:06:56 +0000
+Message-ID: <0cd2fbe9eac3eff50ed22fcd7ac6742ff46064fd.camel@nxp.com>
+References: <20220812143055.12938-1-olivier.masse@nxp.com>
+         <CAHUa44EgA1btRyj2ByooyLr9Q+8AmW=9EfjtQFxyr7DuCXASvA@mail.gmail.com>
+In-Reply-To: <CAHUa44EgA1btRyj2ByooyLr9Q+8AmW=9EfjtQFxyr7DuCXASvA@mail.gmail.com>
+Accept-Language: fr-FR, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: c839e74c-e71a-4f64-6a2f-08da7f66abb5
+x-ms-traffictypediagnostic: HE1PR04MB3114:EE_
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 03E+iqwbQy+UAezGBG0mZvvN3ozvu9deDmiqPhVsWBJlWme/x17WhHExexubcTSCYEmI4ShOFNjmWMs7J8T9GhV/88iQENtnb1ZIv4dOxY6V5tFuMG4T8Vt1iOF8eU36zFt8MwVOjMA9ycTROAyoMQwfpP5zdCMvD5arXkrnoGd3eKGdCGVmzQm/LpPOzDU0OlJ8dDjVRq03vK5FPirlhcm0AGxAGnHsZfhZA7LzYJhc9I0GiO1l4nJvdd81DWjdkeUoc4hgOebS8hGtUEQZHacmbElVi9RWFjxdWvvbJiz7hMatHlDAI1kxM+UbeH+HyVNMWuzAKxJ8WGuZ1u2tBgZAiF+SACMS7tNbUuOW7XulEgpJjoR2iIpBu0aEvxnYmuh76rmRRiX+9mKnHhSEz5CHO/Hcj0OG+1NY+Nw8NA+8ErcTb56uV+OTGtvR6XcqAoCbWaGazFjJMruIWfQAxDLbyGHEJkgTN96LruqZuVTm4tWY9rz5iVrh6TNZDz1tXaetFQgoVDSj6KC5RBK8TiP1oFrvd2p5bq71hukYRwtDJszT03aP7JaGCPnazz9m3rPEffFFR4dcIZEszQPTuN7FTkZyOzRShEo09eN8iOYgohdhwZihHCzmjpzTVeZRSxh988wVXEFnl8IeU1Z12iOReKbv5Bt/CPygtQCz1EDXk59nquCC6fC+9wy6UTpfps1LJui0xPDsh+rXZbNsrns+C8XshElB7yWQvP5EBKYSun4tZhr3LNHvMYAGuJku888iS9LsbFdfNAzpyWQ7Za33dnAeq60MPwu32y+RIA+JhFY2+Tl0yRh6BOV2aNvgTfocoh5VMTlvbcc2ATrXcg==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6PR04MB6743.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(376002)(346002)(366004)(39860400002)(396003)(136003)(71200400001)(186003)(2616005)(8676002)(6512007)(6506007)(26005)(53546011)(66946007)(36756003)(6486002)(478600001)(41300700001)(966005)(4326008)(86362001)(38070700005)(91956017)(122000001)(83380400001)(316002)(7416002)(45080400002)(8936002)(2906002)(5660300002)(44832011)(64756008)(66556008)(76116006)(66446008)(6916009)(38100700002)(54906003)(66476007)(99106002);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?iso-8859-15?Q?Vvq+iwnWaczp8I8kGqllEizRg4J3IvgxOFleEYKkA7FIN4qFWtZEIKuf6?=
+ =?iso-8859-15?Q?KOMeaJwCzj3zrQ20+au7RxZHwmjLmbFxiYQWtFyt2AVsE0YPW9qcYrmqN?=
+ =?iso-8859-15?Q?sNbxrqjiDePjZme5z/85uxHiyCXPdz/a/SohmPE2sRGILAlevdH6GyIoH?=
+ =?iso-8859-15?Q?/6G6aPSzrgWjIdpsaou+2zLbDqhgPOsL3/6aNDVcJG0NIM7K+e+g739oH?=
+ =?iso-8859-15?Q?ZERHCMsUiAm3jQvWUwyMLqHGyRzDIJjU6bsrU4SGyzDo4FgVatm0UODT8?=
+ =?iso-8859-15?Q?4+VeHpGLvdYqnAfDv7YKvzBdwaACehu7fKlFXhNRCFmADvDlY0vmzzDem?=
+ =?iso-8859-15?Q?RZktTVzrPxisnR+oK9X8qNHIugD//cKzvdKiLFaaT5OWDYpEhDeQJzuN2?=
+ =?iso-8859-15?Q?E2HiGSrS8/hNtY47qF5qa1YJ50BZ7T403AR45l8/7RAHrGXgLSG8fJTFb?=
+ =?iso-8859-15?Q?2Pwf/BQpLUt9LuvKKC59o+c0XT381A61OAKji1oJuz/X4BxwtYOa/PuRu?=
+ =?iso-8859-15?Q?X8Ri+AERWX9VAp55c8hczpmGoayPTU9gtaMAuwo9CbtWqyP1lnu+rGd+M?=
+ =?iso-8859-15?Q?mJ0UhTC5Ppw/5WUamkQX72Ogt+yxNyYttA5hjuSU1yx/XKGyl6i1Jpdvv?=
+ =?iso-8859-15?Q?Yo6QqtWZB1idMu8qaS2fEeeMZxhD8bzJn4H6KGUmBoENo2sGdWntMUy1u?=
+ =?iso-8859-15?Q?RQBMumoN0asVsrw6S4OFJCZWeLvTzoQriJeQZn1MsCQEeyxXP9g0IEGz8?=
+ =?iso-8859-15?Q?LRFgmay5kqZ7FouSWZACU8qXD9jdpzFQRxHTfmNqm6lolBhBpszutv8Gz?=
+ =?iso-8859-15?Q?9LX1mKpWvUlNrdrkcCUT2P5ym5Do6b/CQ++CsYUFgm5yjxu4fs7ICo0R4?=
+ =?iso-8859-15?Q?4FeGt0xESwJFtXqsdfCcj7+CCBp7HimTEQ9Q3bEeiv1LDmj806+SEuQUx?=
+ =?iso-8859-15?Q?79xF6XqOuLqFC+ygXPqfz3xjhtXqXn+mcw8jRVl8cv5Mxwud3H+To8Asl?=
+ =?iso-8859-15?Q?ECJ+xzyUEQWmX4xUazqqCJXHZ9sTtPv0cA5GI6Gw+TQrBMIg/1j9q3VM9?=
+ =?iso-8859-15?Q?XNdnNIzMqk26kMSwszxY/kyB3TfENIQVxiaUXxs6zcwHoP8lAcbwzSAbJ?=
+ =?iso-8859-15?Q?k46itJcaAcmWiGj+iRP/3q0TbN+Ly4N8nOwCfORfR6S75wtDTNhYidzn7?=
+ =?iso-8859-15?Q?Y1p4C6zlOrYl3DRi2ISw5Pb3IlRWuOHpt3m8CINnVN9qv9/giXsnSeEXV?=
+ =?iso-8859-15?Q?31v5jID1SvSKGzyb82MadbP5NPcBmq+7qd6g/u24CVZpHWFYb/qdq+Y/P?=
+ =?iso-8859-15?Q?T0aSq3NBE5+p+PavV816XomIiaks42KdR+nAKOg4MpWZaHar1EqdfZjlw?=
+ =?iso-8859-15?Q?LH+YgLF2P8nrB5t4LtT5Q7SWbHdyzO/Y4l95VfJ+kRC4S5r6grQKuT4Yu?=
+ =?iso-8859-15?Q?+DK3EXyxLYZgHsqhNSrDQgZKoCEDgNBhThz8clA0leZSgPC7fuKEE9+tB?=
+ =?iso-8859-15?Q?NPVcjlyQj1StGXMl20HaMtsXlker5hxYk6QRME6ZwxRqo2uctkODXrbri?=
+ =?iso-8859-15?Q?mpvCkwIwuPPrhJJT+7AyL8kEzilpItSX/qOn2KWJh6tlpbPfM6vlpW0hO?=
+ =?iso-8859-15?Q?6IhGvwbxKbRnlXHCG7GOVOxwHvan8dihdRhmV4c9xyxxPkZp73JR3Jc9S?=
+ =?iso-8859-15?Q?4PDD?=
+Content-Type: text/plain; charset="iso-8859-15"
+Content-ID: <A01E2C74227620439EF2D174D5B2867E@eurprd04.prod.outlook.com>
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-X-Received: by 2002:a05:6638:25d3:b0:342:fa3d:1275 with SMTP id
- u19-20020a05663825d300b00342fa3d1275mr9729266jat.70.1660638983648; Tue, 16
- Aug 2022 01:36:23 -0700 (PDT)
-Date:   Tue, 16 Aug 2022 01:36:23 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000b87c4405e657a415@google.com>
-Subject: [syzbot] upstream boot error: BUG: unable to handle kernel paging
- request in media_entity_pads_init
-From:   syzbot <syzbot+47c70875ed0bc4fdc9f4@syzkaller.appspotmail.com>
-To:     laurent.pinchart@ideasonboard.com, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, mchehab@kernel.org,
-        sakari.ailus@linux.intel.com, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,FROM_LOCAL_HEX,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
-        autolearn_force=no version=3.4.6
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: AM6PR04MB6743.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c839e74c-e71a-4f64-6a2f-08da7f66abb5
+X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Aug 2022 09:06:57.0062
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: /mpJ2eZCnmi7GXXIs4wBXPzLLugS2f0vBXbropqHGcvSOPrUDf8kV7hw4nDjQUDXcl+//VO+7t2uohMhYyXS7A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: HE1PR04MB3114
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello,
+Hi Jens,
 
-syzbot found the following issue on:
+On mar., 2022-08-16 at 10:17 +0200, Jens Wiklander wrote:
+> Caution: EXT Email
+>=20
+> Hi Olivier,
+>=20
+> On Fri, Aug 12, 2022 at 4:31 PM Olivier Masse <olivier.masse@nxp.com>
+> wrote:
+> >=20
+> > Add a new ioctl called TEE_IOC_SHM_REGISTER_FD to register a
+> > shared memory from a dmabuf file descriptor.
+> > This new ioctl will allow the Linux Kernel to register a buffer
+> > to be used by the Secure Data Path OPTEE OS feature.
+> >=20
+> > Please find more information here:
+> >=20
+https://eur01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fstatic.=
+linaro.org%2Fconnect%2Fsan19%2Fpresentations%2Fsan19-107.pdf&amp;data=3D05%=
+7C01%7Colivier.masse%40nxp.com%7C20ddb873be8f4cd89b5408da7f5fda26%7C686ea1d=
+3bc2b4c6fa92cd99c5c301635%7C0%7C1%7C637962346897373445%7CUnknown%7CTWFpbGZs=
+b3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C30=
+00%7C%7C%7C&amp;sdata=3DcMbuihC0Hat4DEVORzcGhzwjO%2FxclAW43AIcvR8yReE%3D&am=
+p;reserved=3D0
+> >=20
+> > Patch tested on Hikey 6220.
+>=20
+> What's new in this V2?
 
-HEAD commit:    568035b01cfb Linux 6.0-rc1
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=160e6b35080000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=126b81cc3ce4f07e
-dashboard link: https://syzkaller.appspot.com/bug?extid=47c70875ed0bc4fdc9f4
-compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
+Just updated the cover letter and minor change to fix a build error
+with gcc-11 for x86 architecture:
+>> ./usr/include/linux/tee.h:136:13: error: expected declaration
+specifiers or '...' before numeric constant
+     136 | } __aligned(8);
+         |             ^
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+47c70875ed0bc4fdc9f4@syzkaller.appspotmail.com
+Best regards,
+Olivier
 
-usbcore: registered new interface driver spca501
-usbcore: registered new interface driver spca505
-usbcore: registered new interface driver spca506
-usbcore: registered new interface driver spca508
-usbcore: registered new interface driver spca561
-usbcore: registered new interface driver spca1528
-usbcore: registered new interface driver sq905
-usbcore: registered new interface driver sq905c
-usbcore: registered new interface driver sq930x
-usbcore: registered new interface driver sunplus
-usbcore: registered new interface driver stk014
-usbcore: registered new interface driver stk1135
-usbcore: registered new interface driver stv0680
-usbcore: registered new interface driver t613
-usbcore: registered new interface driver gspca_topro
-usbcore: registered new interface driver touptek
-usbcore: registered new interface driver tv8532
-usbcore: registered new interface driver vc032x
-usbcore: registered new interface driver vicam
-usbcore: registered new interface driver xirlink-cit
-usbcore: registered new interface driver gspca_zc3xx
-usbcore: registered new interface driver ALi m5602
-usbcore: registered new interface driver STV06xx
-usbcore: registered new interface driver gspca_gl860
-usbcore: registered new interface driver hackrf
-usbcore: registered new interface driver msi2500
-usbcore: registered new interface driver Philips webcam
-usbcore: registered new interface driver uvcvideo
-au0828: au0828 driver loaded
-usbcore: registered new interface driver au0828
-cpia2: V4L-Driver for Vision CPiA2 based cameras v3.0.1
-usbcore: registered new interface driver cpia2
-usbcore: registered new interface driver cx231xx
-usbcore: registered new interface driver em28xx
-em28xx: Registered (Em28xx v4l2 Extension) extension
-em28xx: Registered (Em28xx Audio Extension) extension
-em28xx: Registered (Em28xx dvb Extension) extension
-em28xx: Registered (Em28xx Input Extension) extension
-usbcore: registered new interface driver go7007
-usbcore: registered new interface driver go7007-loader
-usbcore: registered new interface driver hdpvr
-usbcore: registered new interface driver pvrusb2
-pvrusb2: V4L in-tree version:Hauppauge WinTV-PVR-USB2 MPEG2 Encoder/Tuner
-pvrusb2: Debug mask is 31 (0x1f)
-usbcore: registered new interface driver stk1160
-usbcore: registered new interface driver tm6000
-usbcore: registered new interface driver usbtv
-dvbdev: DVB: registering new adapter (dvb_vidtv_bridge)
-i2c i2c-0: DVB: registering adapter 0 frontend 0 (Dummy demod for DVB-T/T2/C/S/S2)...
-dvbdev: dvb_create_media_entity: media entity 'Dummy demod for DVB-T/T2/C/S/S2' registered.
-BUG: unable to handle page fault for address: 00000881b7bf0118
-#PF: supervisor write access in kernel mode
-#PF: error_code(0x0002) - not-present page
-PGD 0 P4D 0 
-Oops: 0002 [#1] PREEMPT SMP
-CPU: 1 PID: 1 Comm: swapper/0 Tainted: G        W          6.0.0-rc1-syzkaller #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/22/2022
-RIP: 0010:arch_atomic64_try_cmpxchg arch/x86/include/asm/atomic64_64.h:190 [inline]
-RIP: 0010:arch_atomic_long_try_cmpxchg_acquire include/linux/atomic/atomic-long.h:443 [inline]
-RIP: 0010:atomic_long_try_cmpxchg_acquire include/linux/atomic/atomic-instrumented.h:1781 [inline]
-RIP: 0010:__mutex_trylock_fast kernel/locking/mutex.c:171 [inline]
-RIP: 0010:mutex_lock+0x14/0x30 kernel/locking/mutex.c:285
-Code: 84 00 00 00 00 00 be 02 00 00 00 e9 86 f8 ff ff 66 0f 1f 44 00 00 55 48 89 fd 2e 2e 2e 31 c0 31 c0 65 48 8b 14 25 80 ad 01 00 <f0> 48 0f b1 55 00 75 02 5d c3 48 89 ef 5d eb cc 66 66 2e 0f 1f 84
-RSP: 0000:ffffc90000273b68 EFLAGS: 00010246
-RAX: 0000000000000000 RBX: 00000881b7bf0000 RCX: 0000000000000000
-RDX: ffff888101818040 RSI: ffffffff83098dc5 RDI: 00000881b7bf0118
-RBP: 00000881b7bf0118 R08: 0000000000000003 R09: 00000000000001ff
-R10: 0000000000000001 R11: 000000000002f8b8 R12: 00000881b7bf0118
-R13: ffff888141351500 R14: ffff888142493000 R15: 0000000000000001
-FS:  0000000000000000(0000) GS:ffff88813bd00000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00000881b7bf0118 CR3: 0000000005a29000 CR4: 00000000003506e0
-DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-Call Trace:
- <TASK>
- media_entity_pads_init+0x64/0x1d0 drivers/media/mc/mc-entity.c:205
- dvb_create_tsout_entity drivers/media/dvb-core/dvbdev.c:271 [inline]
- dvb_create_tsout_entity+0x149/0x190 drivers/media/dvb-core/dvbdev.c:243
- dvb_create_media_entity drivers/media/dvb-core/dvbdev.c:301 [inline]
- dvb_register_media_device drivers/media/dvb-core/dvbdev.c:394 [inline]
- dvb_register_device+0x291/0x7d0 drivers/media/dvb-core/dvbdev.c:514
- dvb_dmxdev_init+0x144/0x200 drivers/media/dvb-core/dmxdev.c:1425
- vidtv_bridge_dmxdev_init drivers/media/test-drivers/vidtv/vidtv_bridge.c:337 [inline]
- vidtv_bridge_dvb_init drivers/media/test-drivers/vidtv/vidtv_bridge.c:439 [inline]
- vidtv_bridge_probe+0x3bc/0x4d0 drivers/media/test-drivers/vidtv/vidtv_bridge.c:508
- platform_probe+0x81/0x120 drivers/base/platform.c:1400
- call_driver_probe drivers/base/dd.c:530 [inline]
- really_probe+0x12d/0x390 drivers/base/dd.c:609
- __driver_probe_device+0xbf/0x140 drivers/base/dd.c:748
- driver_probe_device+0x2a/0x120 drivers/base/dd.c:778
- __driver_attach drivers/base/dd.c:1150 [inline]
- __driver_attach+0xe6/0x1f0 drivers/base/dd.c:1099
- bus_for_each_dev+0xa9/0x100 drivers/base/bus.c:301
- bus_add_driver+0x214/0x290 drivers/base/bus.c:618
- driver_register+0xc3/0x150 drivers/base/driver.c:240
- vidtv_bridge_init+0x37/0x64 drivers/media/test-drivers/vidtv/vidtv_bridge.c:600
- do_one_initcall+0x5e/0x2e0 init/main.c:1296
- do_initcall_level init/main.c:1369 [inline]
- do_initcalls init/main.c:1385 [inline]
- do_basic_setup init/main.c:1404 [inline]
- kernel_init_freeable+0x255/0x2cf init/main.c:1611
- kernel_init+0x1a/0x1c0 init/main.c:1500
- ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:306
- </TASK>
-Modules linked in:
-CR2: 00000881b7bf0118
----[ end trace 0000000000000000 ]---
-RIP: 0010:arch_atomic64_try_cmpxchg arch/x86/include/asm/atomic64_64.h:190 [inline]
-RIP: 0010:arch_atomic_long_try_cmpxchg_acquire include/linux/atomic/atomic-long.h:443 [inline]
-RIP: 0010:atomic_long_try_cmpxchg_acquire include/linux/atomic/atomic-instrumented.h:1781 [inline]
-RIP: 0010:__mutex_trylock_fast kernel/locking/mutex.c:171 [inline]
-RIP: 0010:mutex_lock+0x14/0x30 kernel/locking/mutex.c:285
-Code: 84 00 00 00 00 00 be 02 00 00 00 e9 86 f8 ff ff 66 0f 1f 44 00 00 55 48 89 fd 2e 2e 2e 31 c0 31 c0 65 48 8b 14 25 80 ad 01 00 <f0> 48 0f b1 55 00 75 02 5d c3 48 89 ef 5d eb cc 66 66 2e 0f 1f 84
-RSP: 0000:ffffc90000273b68 EFLAGS: 00010246
-RAX: 0000000000000000 RBX: 00000881b7bf0000 RCX: 0000000000000000
-RDX: ffff888101818040 RSI: ffffffff83098dc5 RDI: 00000881b7bf0118
-RBP: 00000881b7bf0118 R08: 0000000000000003 R09: 00000000000001ff
-R10: 0000000000000001 R11: 000000000002f8b8 R12: 00000881b7bf0118
-R13: ffff888141351500 R14: ffff888142493000 R15: 0000000000000001
-FS:  0000000000000000(0000) GS:ffff88813bd00000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00000881b7bf0118 CR3: 0000000005a29000 CR4: 00000000003506e0
-DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-----------------
-Code disassembly (best guess):
-   0:	84 00                	test   %al,(%rax)
-   2:	00 00                	add    %al,(%rax)
-   4:	00 00                	add    %al,(%rax)
-   6:	be 02 00 00 00       	mov    $0x2,%esi
-   b:	e9 86 f8 ff ff       	jmpq   0xfffff896
-  10:	66 0f 1f 44 00 00    	nopw   0x0(%rax,%rax,1)
-  16:	55                   	push   %rbp
-  17:	48 89 fd             	mov    %rdi,%rbp
-  1a:	2e 2e 2e 31 c0       	cs cs cs xor %eax,%eax
-  1f:	31 c0                	xor    %eax,%eax
-  21:	65 48 8b 14 25 80 ad 	mov    %gs:0x1ad80,%rdx
-  28:	01 00
-* 2a:	f0 48 0f b1 55 00    	lock cmpxchg %rdx,0x0(%rbp) <-- trapping instruction
-  30:	75 02                	jne    0x34
-  32:	5d                   	pop    %rbp
-  33:	c3                   	retq
-  34:	48 89 ef             	mov    %rbp,%rdi
-  37:	5d                   	pop    %rbp
-  38:	eb cc                	jmp    0x6
-  3a:	66                   	data16
-  3b:	66                   	data16
-  3c:	2e                   	cs
-  3d:	0f                   	.byte 0xf
-  3e:	1f                   	(bad)
-  3f:	84                   	.byte 0x84
-
-
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+>=20
+> Thanks,
+> Jens
+>=20
+> >=20
+> > Etienne Carriere (1):
+> >   tee: new ioctl to a register tee_shm from a dmabuf file
+> > descriptor
+> >=20
+> >  drivers/tee/tee_core.c   | 38 +++++++++++++++
+> >  drivers/tee/tee_shm.c    | 99
+> > +++++++++++++++++++++++++++++++++++++++-
+> >  include/linux/tee_drv.h  | 11 +++++
+> >  include/uapi/linux/tee.h | 29 ++++++++++++
+> >  4 files changed, 175 insertions(+), 2 deletions(-)
+> >=20
+> > --
+> > 2.25.0
+> >=20
