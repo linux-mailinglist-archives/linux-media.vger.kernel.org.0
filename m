@@ -2,81 +2,119 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 21A1759615F
-	for <lists+linux-media@lfdr.de>; Tue, 16 Aug 2022 19:44:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A29EF59634D
+	for <lists+linux-media@lfdr.de>; Tue, 16 Aug 2022 21:41:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235519AbiHPRoj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 16 Aug 2022 13:44:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42828 "EHLO
+        id S237204AbiHPTll (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 16 Aug 2022 15:41:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52244 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229607AbiHPRoi (ORCPT
+        with ESMTP id S236448AbiHPTlj (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 16 Aug 2022 13:44:38 -0400
-Received: from mail-vs1-xe35.google.com (mail-vs1-xe35.google.com [IPv6:2607:f8b0:4864:20::e35])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0FC927A743;
-        Tue, 16 Aug 2022 10:44:37 -0700 (PDT)
-Received: by mail-vs1-xe35.google.com with SMTP id d126so10850225vsd.13;
-        Tue, 16 Aug 2022 10:44:37 -0700 (PDT)
+        Tue, 16 Aug 2022 15:41:39 -0400
+Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com [IPv6:2a00:1450:4864:20::62c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0CA2286889
+        for <linux-media@vger.kernel.org>; Tue, 16 Aug 2022 12:41:38 -0700 (PDT)
+Received: by mail-ej1-x62c.google.com with SMTP id gk3so20807415ejb.8
+        for <linux-media@vger.kernel.org>; Tue, 16 Aug 2022 12:41:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
+        d=chromium.org; s=google;
+        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
          :from:to:cc;
-        bh=fyBpZx17POe0IWvyygwEd4I2pv2A4jN4S+7DSdDHB94=;
-        b=PYr69wP9biG9a12s2MhSL1ThekQKS1VcDLnrZ/rizWErjGZ9cya+6jhLT6JculwVXt
-         8Emlkpx/C2yGmnQNg+WX/Y3rIXe+dN/MCzVQOwRwPFvtNPBGvhjJ3nxvXFyHRpIAIcbc
-         I/YhfF/9LP5/G29Z7AqdktMQgGxqCS2FT+OjQS5gNAEK0vqK3I0ULqHMSKP29lCzjbCU
-         1jmHQ88W+AHuOZs++Ju7Eu38NUICCdf230OdGmctKtvIHm+50xMw3sSZfIY6HcYRMakv
-         ZDPk8BC0zzSO+w0Nxa579iIW7xSfnlszMlSUTA+yJc0rs/s1ZHUrrJAfCvfCaKTobdyd
-         sAKA==
+        bh=SyeqGw0nngnNJCR1WwWI13FtGCXgGuXLth8v0KzfWY8=;
+        b=JXuzvD4yEhrluCAtWN7YSiZ0wDfz6SslQxouAjYPA3mok9T0119yOIoLuiHncTpgLQ
+         BRxzBVj2QW/G+n/Hk1cO8uDnh443hBTZX/FMv6lPJ+67ZgEmpT9oRzrgooMEFb8a3hTl
+         LRwH16FId9E7f+7Hj0LZn2HVKqL+C+0H8BHIw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
+        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
          :x-gm-message-state:from:to:cc;
-        bh=fyBpZx17POe0IWvyygwEd4I2pv2A4jN4S+7DSdDHB94=;
-        b=XNSlQHEbLTOs/syoTPF/pUHSSMfTFpJGlBbM2SwZYgtmg1vetfNcyhJQQCy4sEV2Ns
-         Li0/qDeU9EYTaNZJLJzqkPz+e1qUmmaxh6UooOxq2TudyrURHPrP2TXyEO2AlzXitI1V
-         ZeIvY2QN7eFaBNuGgXCRz1SgVh+UfQpRA8D0UoM6HsrJVaqSJNd36M+63Ex+Q4HnBHKU
-         +5aOdH/Udhp7klbsHjiN0vOtHub5TSlA5Ugo90MFfLXI5nCX/eyQXRtUBhIr94xH7QEL
-         ux0+xBbxYPRyjhjmrsELPThxI8Aqydc5F61Nrsak5OZfExEM5ciTIOgBSxsQSV0lPTUT
-         kV7w==
-X-Gm-Message-State: ACgBeo2OFSRa8O8r/E6BcECFLRP4lTsVktcmBK6R4iZR4QMsTpSOxjhY
-        I5sDfrQTAL1QKS/SJWys8o0=
-X-Google-Smtp-Source: AA6agR64weW8q+6jGycK/7hg0Kqi6hxNMUNXxIqKFgWA1ZRFJHn2gn4q1san+FdnWvrp4eqiP8u7iQ==
-X-Received: by 2002:a67:d21b:0:b0:388:4e12:eff9 with SMTP id y27-20020a67d21b000000b003884e12eff9mr8845733vsi.35.1660671876074;
-        Tue, 16 Aug 2022 10:44:36 -0700 (PDT)
-Received: from ?IPV6:2804:14d:72b4:8284:19ed:f36a:47fa:2c31? ([2804:14d:72b4:8284:19ed:f36a:47fa:2c31])
-        by smtp.gmail.com with ESMTPSA id n65-20020a1f5944000000b00378fe8518dcsm9110810vkb.51.2022.08.16.10.44.33
+        bh=SyeqGw0nngnNJCR1WwWI13FtGCXgGuXLth8v0KzfWY8=;
+        b=E6T8xHbPjpjKnltbvhf3bxYTpvx3MU4BJTu12deqHnvgG2a8yOq8gtFrtFr4n/BsA2
+         pKWnK7CknRRxEi/EmjZrFmXiVGbgXEx4jfp4BUYhE3O9Vsp/rY+/Xr83fRGjKs/sjOhl
+         MFEwPEosDjJ1ctBdORRPUcnAGZ6zZbDMVVvzUh7JCs/yDp0jJ/bj3Hgugl/7eJfwlN6r
+         fD6s0mwGrSefGpk5ySS1z3WYT1A7BCdfvIEsaF4/+eygMJh9x2du70kBnY8oRlMefWax
+         lBrzE/DXwrNwspHy6xZs93lJ3F2+sY1RkFhdxm6Ks8ei9sVqVMMJKokf646NtGQszUfb
+         er1A==
+X-Gm-Message-State: ACgBeo1SehDdAJayfQyxK4HjBwAd3lXERznvabiNQD2A6sLVYLARyqUt
+        Vn5tH9IW2rnTT3arIr3Lr0IQnyh95lqDSA==
+X-Google-Smtp-Source: AA6agR5h49RWfan5miq3iXReajT3ASycNH6w/JjDADUregjMdm49f9kfZlQXfKW+BDPNQzcPm5xFkQ==
+X-Received: by 2002:a17:907:75dc:b0:730:9c68:9a2e with SMTP id jl28-20020a17090775dc00b007309c689a2emr14996591ejc.22.1660678896493;
+        Tue, 16 Aug 2022 12:41:36 -0700 (PDT)
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com. [209.85.218.46])
+        by smtp.gmail.com with ESMTPSA id g17-20020a50ee11000000b00442b388c743sm8978988eds.14.2022.08.16.12.41.36
+        for <linux-media@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 16 Aug 2022 10:44:35 -0700 (PDT)
-Message-ID: <ce2a98bf-a8c6-c666-b7b3-c6c97de0e23c@gmail.com>
-Date:   Tue, 16 Aug 2022 14:44:31 -0300
+        Tue, 16 Aug 2022 12:41:36 -0700 (PDT)
+Received: by mail-ej1-f46.google.com with SMTP id tl27so20841659ejc.1
+        for <linux-media@vger.kernel.org>; Tue, 16 Aug 2022 12:41:36 -0700 (PDT)
+X-Received: by 2002:a17:907:2ccd:b0:731:53bc:6a6b with SMTP id
+ hg13-20020a1709072ccd00b0073153bc6a6bmr14402142ejc.40.1660678895757; Tue, 16
+ Aug 2022 12:41:35 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [syzbot] upstream boot error: BUG: unable to handle kernel paging
- request in media_entity_pads_init
-Content-Language: en-US
-To:     syzbot <syzbot+47c70875ed0bc4fdc9f4@syzkaller.appspotmail.com>,
-        laurent.pinchart@ideasonboard.com, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, mchehab@kernel.org,
-        sakari.ailus@linux.intel.com, syzkaller-bugs@googlegroups.com
-References: <000000000000b87c4405e657a415@google.com>
-From:   Daniel Almeida <dwlsalmeida@gmail.com>
-In-Reply-To: <000000000000b87c4405e657a415@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=0.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,SORTED_RECIPS,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+References: <8bd3b659-5e1c-4985-ceac-7b9956f2158f@neuf.fr> <CANiDSCvYLv_SX1nCS9s2TWbCQS54JL1kXcfLqE60LiGW+YsZDg@mail.gmail.com>
+ <ed649780-bab6-bb7d-5ca1-cc6680c38702@neuf.fr> <CANiDSCsDc-MFpZ9fN_T+VuU9F6Cp6xUCEaoZmmmOJhUcvANJiw@mail.gmail.com>
+ <4268c301-6f42-6345-1a8d-f670f53b0c5c@neuf.fr>
+In-Reply-To: <4268c301-6f42-6345-1a8d-f670f53b0c5c@neuf.fr>
+From:   Ricardo Ribalda <ribalda@chromium.org>
+Date:   Tue, 16 Aug 2022 21:41:24 +0200
+X-Gmail-Original-Message-ID: <CANiDSCvgSf2JZoEZ1hxReJPrQkb8BmSdes8AnjKK_8u=F3R91g@mail.gmail.com>
+Message-ID: <CANiDSCvgSf2JZoEZ1hxReJPrQkb8BmSdes8AnjKK_8u=F3R91g@mail.gmail.com>
+Subject: Re: Adding a new UVC Device
+To:     Bertrand COEZ <coez.bertrand@neuf.fr>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-I will have a look at this issue.
+Hi
 
--- Daniel
+So it seems like there is a camera working. What makes you think that
+it does not work?
+
+Can you try to run
+
+ls -la /dev/video*
+v4l2-ctl --all -d /dev/video0
+yavta -c /dev/video0
+
+Regards!
+
+On Tue, 16 Aug 2022 at 20:57, Bertrand COEZ <coez.bertrand@neuf.fr> wrote:
+>
+> cat /sys/class/video4linux/video*/name :
+> HD Webcam: HD Webcam
+> HD Webcam: HD Webcam
+>
+> for dmesg, are there any particular lines you are looking for ? or do
+> you prefer that I send you the whole stdout ?
+>
+> On 16/08/2022 18:07, Ricardo Ribalda wrote:
+> > Hi
+> >
+> > This seems correct to me:
+> >     bFunctionClass         14 Video
+> >         bFunctionSubClass       3 Video Interface Collection
+> >         bFunctionProtocol       0
+> >
+> > It should be matched by the driver.
+> >
+> > Can you share the output of `dmesg` just after starting the computer?
+> > Also the output of
+> >
+> > cat /sys/class/video4linux/video*/name
+> >
+> >
+> > Thanks!
+
+
+
+-- 
+Ricardo Ribalda
