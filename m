@@ -2,119 +2,91 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A29EF59634D
-	for <lists+linux-media@lfdr.de>; Tue, 16 Aug 2022 21:41:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1EC37596759
+	for <lists+linux-media@lfdr.de>; Wed, 17 Aug 2022 04:21:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237204AbiHPTll (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 16 Aug 2022 15:41:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52244 "EHLO
+        id S238127AbiHQCTL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 16 Aug 2022 22:19:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50448 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236448AbiHPTlj (ORCPT
+        with ESMTP id S232009AbiHQCTJ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 16 Aug 2022 15:41:39 -0400
-Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com [IPv6:2a00:1450:4864:20::62c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0CA2286889
-        for <linux-media@vger.kernel.org>; Tue, 16 Aug 2022 12:41:38 -0700 (PDT)
-Received: by mail-ej1-x62c.google.com with SMTP id gk3so20807415ejb.8
-        for <linux-media@vger.kernel.org>; Tue, 16 Aug 2022 12:41:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
-         :from:to:cc;
-        bh=SyeqGw0nngnNJCR1WwWI13FtGCXgGuXLth8v0KzfWY8=;
-        b=JXuzvD4yEhrluCAtWN7YSiZ0wDfz6SslQxouAjYPA3mok9T0119yOIoLuiHncTpgLQ
-         BRxzBVj2QW/G+n/Hk1cO8uDnh443hBTZX/FMv6lPJ+67ZgEmpT9oRzrgooMEFb8a3hTl
-         LRwH16FId9E7f+7Hj0LZn2HVKqL+C+0H8BHIw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
-         :x-gm-message-state:from:to:cc;
-        bh=SyeqGw0nngnNJCR1WwWI13FtGCXgGuXLth8v0KzfWY8=;
-        b=E6T8xHbPjpjKnltbvhf3bxYTpvx3MU4BJTu12deqHnvgG2a8yOq8gtFrtFr4n/BsA2
-         pKWnK7CknRRxEi/EmjZrFmXiVGbgXEx4jfp4BUYhE3O9Vsp/rY+/Xr83fRGjKs/sjOhl
-         MFEwPEosDjJ1ctBdORRPUcnAGZ6zZbDMVVvzUh7JCs/yDp0jJ/bj3Hgugl/7eJfwlN6r
-         fD6s0mwGrSefGpk5ySS1z3WYT1A7BCdfvIEsaF4/+eygMJh9x2du70kBnY8oRlMefWax
-         lBrzE/DXwrNwspHy6xZs93lJ3F2+sY1RkFhdxm6Ks8ei9sVqVMMJKokf646NtGQszUfb
-         er1A==
-X-Gm-Message-State: ACgBeo1SehDdAJayfQyxK4HjBwAd3lXERznvabiNQD2A6sLVYLARyqUt
-        Vn5tH9IW2rnTT3arIr3Lr0IQnyh95lqDSA==
-X-Google-Smtp-Source: AA6agR5h49RWfan5miq3iXReajT3ASycNH6w/JjDADUregjMdm49f9kfZlQXfKW+BDPNQzcPm5xFkQ==
-X-Received: by 2002:a17:907:75dc:b0:730:9c68:9a2e with SMTP id jl28-20020a17090775dc00b007309c689a2emr14996591ejc.22.1660678896493;
-        Tue, 16 Aug 2022 12:41:36 -0700 (PDT)
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com. [209.85.218.46])
-        by smtp.gmail.com with ESMTPSA id g17-20020a50ee11000000b00442b388c743sm8978988eds.14.2022.08.16.12.41.36
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 16 Aug 2022 12:41:36 -0700 (PDT)
-Received: by mail-ej1-f46.google.com with SMTP id tl27so20841659ejc.1
-        for <linux-media@vger.kernel.org>; Tue, 16 Aug 2022 12:41:36 -0700 (PDT)
-X-Received: by 2002:a17:907:2ccd:b0:731:53bc:6a6b with SMTP id
- hg13-20020a1709072ccd00b0073153bc6a6bmr14402142ejc.40.1660678895757; Tue, 16
- Aug 2022 12:41:35 -0700 (PDT)
+        Tue, 16 Aug 2022 22:19:09 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F142F80366
+        for <linux-media@vger.kernel.org>; Tue, 16 Aug 2022 19:19:07 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7BBEECC;
+        Wed, 17 Aug 2022 04:19:04 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1660702744;
+        bh=p6YhSLc/MbFiHL92Bsw4xKgsyTThualgTp23OJPrJI4=;
+        h=From:To:Cc:Subject:Date:From;
+        b=o1g27KOt7z77qjV4n4wgveO8LUo9tP3lA6kiigrIifa/7v2pBcq7DV4w0lZPvChMT
+         +I2llpS6if7Hv0n2Q7hPgOjdwvHxeNcvhp4D4VhuvUuAiTSysokUwHgG7XaWbE+2k4
+         Ae6JZ1kf9EnfpMiRQrmZhPUETgE1qxxXQSygSudY=
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     linux-media@vger.kernel.org
+Cc:     Dafna Hirschfeld <dafna@fastmail.com>,
+        Heiko Stuebner <heiko@sntech.de>,
+        linux-rockchip@lists.infradead.org,
+        Paul Elder <paul.elder@ideasonboard.com>,
+        Florian Sylvestre <fsylvestre@baylibre.com>
+Subject: [PATCH 0/5] media: rkisp1: Fix LSC initial configuration on i.MX8MP
+Date:   Wed, 17 Aug 2022 05:18:45 +0300
+Message-Id: <20220817021850.20460-1-laurent.pinchart@ideasonboard.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-References: <8bd3b659-5e1c-4985-ceac-7b9956f2158f@neuf.fr> <CANiDSCvYLv_SX1nCS9s2TWbCQS54JL1kXcfLqE60LiGW+YsZDg@mail.gmail.com>
- <ed649780-bab6-bb7d-5ca1-cc6680c38702@neuf.fr> <CANiDSCsDc-MFpZ9fN_T+VuU9F6Cp6xUCEaoZmmmOJhUcvANJiw@mail.gmail.com>
- <4268c301-6f42-6345-1a8d-f670f53b0c5c@neuf.fr>
-In-Reply-To: <4268c301-6f42-6345-1a8d-f670f53b0c5c@neuf.fr>
-From:   Ricardo Ribalda <ribalda@chromium.org>
-Date:   Tue, 16 Aug 2022 21:41:24 +0200
-X-Gmail-Original-Message-ID: <CANiDSCvgSf2JZoEZ1hxReJPrQkb8BmSdes8AnjKK_8u=F3R91g@mail.gmail.com>
-Message-ID: <CANiDSCvgSf2JZoEZ1hxReJPrQkb8BmSdes8AnjKK_8u=F3R91g@mail.gmail.com>
-Subject: Re: Adding a new UVC Device
-To:     Bertrand COEZ <coez.bertrand@neuf.fr>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi
+Hello,
 
-So it seems like there is a camera working. What makes you think that
-it does not work?
+This patch series fixes the Lens Shading Correction initial
+configuration on the i.MX8MP.
 
-Can you try to run
+The i.MX8MP integrates an ISP8000Nano v18.02, which unlike other
+versions currently supported by the driver, gates access to the LSC RAM
+with the ISP_CTRL.ISP_ENABLE bit. The initial LSC configuration being
+performed before the ISP gets enabled, the writes to the RAM are
+ignored, leading to incorrect results.
 
-ls -la /dev/video*
-v4l2-ctl --all -d /dev/video0
-yavta -c /dev/video0
+The series starts with four small drive-by cleanups of the LSC code, and
+patch 5/5 then fixes the issue. I'm not totally thrilled by the code
+architecture, but I'm not sure why, and I have a feeling doing better
+would require a large refactoring of the ISP parameters handling. If
+anyone sees an option for a better implementation, please say so.
 
-Regards!
+The series is based on top of "[PATCH 0/7] media: rkisp1: Fix and
+improve color space support" ([1]). Reviews for that base series would
+thus be appreciated too.
 
-On Tue, 16 Aug 2022 at 20:57, Bertrand COEZ <coez.bertrand@neuf.fr> wrote:
->
-> cat /sys/class/video4linux/video*/name :
-> HD Webcam: HD Webcam
-> HD Webcam: HD Webcam
->
-> for dmesg, are there any particular lines you are looking for ? or do
-> you prefer that I send you the whole stdout ?
->
-> On 16/08/2022 18:07, Ricardo Ribalda wrote:
-> > Hi
-> >
-> > This seems correct to me:
-> >     bFunctionClass         14 Video
-> >         bFunctionSubClass       3 Video Interface Collection
-> >         bFunctionProtocol       0
-> >
-> > It should be matched by the driver.
-> >
-> > Can you share the output of `dmesg` just after starting the computer?
-> > Also the output of
-> >
-> > cat /sys/class/video4linux/video*/name
-> >
-> >
-> > Thanks!
+[1] https://lore.kernel.org/linux-media/20220815065235.23797-1-laurent.pinchart@ideasonboard.com
 
+Laurent Pinchart (5):
+  media: rkisp1: Clean up LSC configuration code
+  media: rkisp1: Store LSC register values in u32 variables
+  media: rkisp1: Simplify LSC x/y size and grad register macros
+  media: rkisp1: Use RKISP1_CIF_ISP_LSC_GRAD_SIZE() for gradient
+    registers
+  media: rkisp1: Configure LSC after enabling the ISP
 
+ .../platform/rockchip/rkisp1/rkisp1-common.h  |  29 +-
+ .../platform/rockchip/rkisp1/rkisp1-isp.c     |   9 +-
+ .../platform/rockchip/rkisp1/rkisp1-params.c  | 378 ++++++++++--------
+ .../platform/rockchip/rkisp1/rkisp1-regs.h    |  20 +-
+ 4 files changed, 239 insertions(+), 197 deletions(-)
 
 -- 
-Ricardo Ribalda
+Regards,
+
+Laurent Pinchart
+
