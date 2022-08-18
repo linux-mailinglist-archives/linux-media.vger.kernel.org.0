@@ -2,163 +2,172 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 965CC5982EA
-	for <lists+linux-media@lfdr.de>; Thu, 18 Aug 2022 14:08:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3C71B59833A
+	for <lists+linux-media@lfdr.de>; Thu, 18 Aug 2022 14:41:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244559AbiHRMFu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 18 Aug 2022 08:05:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56782 "EHLO
+        id S244673AbiHRMl3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 18 Aug 2022 08:41:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45468 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244554AbiHRMFb (ORCPT
+        with ESMTP id S236846AbiHRMlZ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 18 Aug 2022 08:05:31 -0400
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (mail-bn8nam12on2089.outbound.protection.outlook.com [40.107.237.89])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1B18AF0C3;
-        Thu, 18 Aug 2022 05:05:28 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=jnpYRw8wc/bY4UndihlURVUp2bqn3D9p9Fs+KzfqbQ9pRATt77UHux4nG4cQL69H4jQIJxol3W6QCMXTnXHljziCaAgaxIhGughlucbpSwxxnvmNe493gott2YTJCvkOJPeSninJLgQLI1Dhc1Qddvc9vuVLDiCQUo/DvMjZa4UZhI3llGrE6fFri5ikc2T/MTLbOAqiK+eennhPW7Cx2py3ivTcgrKPmXnhQbEl1F9abE9aIBpEp2aY2bIXf4/PuibOm56v/wK+GY1uIE2Mdb2cKOkr76KbW3839/Q2jm3nyAKUxIjt2UwXhwzGd/vK4RNGZpGZVokdCLNlhEHvxg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=zP8MSOtF3dL1saDG5XPClaJlssrJanTms9US1iaCdnI=;
- b=gxt9NET9wMTD9VEOF2LlU7OJ7bj0VbWpVS5ulaor7GVT0qWLxdwjzS4R3Zy8wPvWi8SdfaniiDXZUz0dylBBkoorR5YcvE0cD5dwL6STwjASTUaFbl1I8soR8I3UCOqOH5fim4Lo1nj2wKhNM/xXirylMfVc/lVgPVjuOzODIRugrZWmOcMUSkXsMC7zmSDv2HNcXdqzlMj0ABg+Jb5et3TnTQBNGYwR77YlQ6qXOprJ7pSh13AgDkfa935INjn4634OPZbJzHD0pd+9FYbV2UsJe1CKImXnQnHIKOZ2KbA3MmyyUt3TQaVYKmM9HXuy2qcFxhPcvP1RT9/LgaeEww==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=zP8MSOtF3dL1saDG5XPClaJlssrJanTms9US1iaCdnI=;
- b=GklZkeM3N9hYGfV2quTWXbSI2z6Hx+uv4VmX8fMWRYN6+g98wH9NnXwd4dHEHN1vCSZ3+GotkpnNZORTykv/ImbrDGPv5p6Rng+w6h6A2pcSILc4bSZ/QJFUow+BbQhi4Wwkji3XnDyVYYUy3wmhi+p0DahV6Kqv/YINEF57U8h0zmaNr2ZdbuKfTfNRcxOSOyA88Bxz8FFnjX2BGdI9OrvDV4FsH2lLgPOf2Sg04+I/ZJ9EZ7OeUWGjIGtgR0kK6XIWdEs2qyTfj+TZ4Yq3QBsmOjYgm+QhT066AfOr4Jc/Ug2qhN7agXRxAwOkRx5uBU99kKiSJUgIAOTHHnQlcQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from MN2PR12MB4192.namprd12.prod.outlook.com (2603:10b6:208:1d5::15)
- by PH7PR12MB6933.namprd12.prod.outlook.com (2603:10b6:510:1b7::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5525.11; Thu, 18 Aug
- 2022 12:05:25 +0000
-Received: from MN2PR12MB4192.namprd12.prod.outlook.com
- ([fe80::462:7fe:f04f:d0d5]) by MN2PR12MB4192.namprd12.prod.outlook.com
- ([fe80::462:7fe:f04f:d0d5%6]) with mapi id 15.20.5525.019; Thu, 18 Aug 2022
- 12:05:25 +0000
-Date:   Thu, 18 Aug 2022 09:05:24 -0300
-From:   Jason Gunthorpe <jgg@nvidia.com>
-To:     Alex Williamson <alex.williamson@redhat.com>,
-        Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
-        Cornelia Huck <cohuck@redhat.com>,
-        dri-devel@lists.freedesktop.org, kvm@vger.kernel.org,
-        linaro-mm-sig@lists.linaro.org, linux-media@vger.kernel.org,
-        Sumit Semwal <sumit.semwal@linaro.org>
-Cc:     Daniel Vetter <daniel.vetter@ffwll.ch>,
-        Leon Romanovsky <leon@kernel.org>, linux-rdma@vger.kernel.org,
-        Maor Gottlieb <maorg@nvidia.com>,
-        Oded Gabbay <ogabbay@kernel.org>
-Subject: Re: [PATCH 0/4] Allow MMIO regions to be exported through dma-buf
-Message-ID: <Yv4rBEeUMQyIdEzi@nvidia.com>
-References: <0-v1-9e6e1739ed95+5fa-vfio_dma_buf_jgg@nvidia.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <0-v1-9e6e1739ed95+5fa-vfio_dma_buf_jgg@nvidia.com>
-X-ClientProxiedBy: BL1PR13CA0156.namprd13.prod.outlook.com
- (2603:10b6:208:2bd::11) To MN2PR12MB4192.namprd12.prod.outlook.com
- (2603:10b6:208:1d5::15)
+        Thu, 18 Aug 2022 08:41:25 -0400
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD592785BA
+        for <linux-media@vger.kernel.org>; Thu, 18 Aug 2022 05:41:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1660826483; x=1692362483;
+  h=subject:from:to:cc:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=jKBvtFTKQWwmqKWs7f17X4RJCrtLX2wno32ap7NXSYs=;
+  b=T/gOd6uMAXpF2m424l+NaANZQpj6IFkN/NyIJb0RR7xrUVtk5agYGk2C
+   k1HA5gVHe7pT0OvRSbaRi8Gdcy5ZnWTBkh7VqXmXXJYiidGKycrGBi5uQ
+   s7WVox8LdyfHWrVX3LF/1Quck/RFGCipx1kzoWJ26o5dpynZIIEqj1XMl
+   WHEzaKTFviR7aE5n47f/ZVrhYd2o0YNzVgIXN96lWT8YEvKFSPWApVG7H
+   uUZMODZ+kPkjTX5LsUShaekjMxcAYt6lfnRDtNb7WojqiHUxYIB1jZFS+
+   ioe+S0U8H/uKSIwiBRd+u//YBuihCMc23OXkBtG2o6P4AGA0fwuRzQ1EF
+   Q==;
+X-IronPort-AV: E=Sophos;i="5.93,246,1654552800"; 
+   d="scan'208";a="25677675"
+Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
+  by mx1-pgp.tq-group.com with ESMTP; 18 Aug 2022 14:41:21 +0200
+Received: from mx1.tq-group.com ([192.168.6.7])
+  by tq-pgp-pr1.tq-net.de (PGP Universal service);
+  Thu, 18 Aug 2022 14:41:21 +0200
+X-PGP-Universal: processed;
+        by tq-pgp-pr1.tq-net.de on Thu, 18 Aug 2022 14:41:21 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1660826481; x=1692362481;
+  h=from:to:cc:date:message-id:in-reply-to:references:
+   mime-version:content-transfer-encoding:subject;
+  bh=jKBvtFTKQWwmqKWs7f17X4RJCrtLX2wno32ap7NXSYs=;
+  b=Aqn+B17mBZCkTzV0HeKZcuL7Pyi+zJV4epbEGdQIem00RiDrDDqhtDTY
+   fErbLk4MgRScyHbgsx+ndvC6lZizxFe6xhIfkzVpktWstrDVFy3QyDANb
+   fAc4xBaEMWVoZOMGAM8pJet1hmtYRmEYF/uZwoWeeIeete3z+9LnXKnuA
+   Q4OYHH/HduuprSQlk11tobmye3k9itvtQ6PX43RDx91BaWfBdsCsLmyvZ
+   avTmdAAZpuTKOyEg4MRV0mkYcKoxiGLEldHs2eBX9idMQuZBdsJk+yUDN
+   9Ug4OkehuBf8LaLynLYj3DBwAzOCsiwfzl0605RIz6FR4v21PgkhkbBom
+   g==;
+X-IronPort-AV: E=Sophos;i="5.93,246,1654552800"; 
+   d="scan'208";a="25677674"
+Subject: Re: Re: imx8m-mini csi-2 limitations
+Received: from vtuxmail01.tq-net.de ([10.115.0.20])
+  by mx1.tq-group.com with ESMTP; 18 Aug 2022 14:41:21 +0200
+Received: from steina-w.localnet (unknown [10.123.49.11])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+        (No client certificate requested)
+        by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 3A0FD280056;
+        Thu, 18 Aug 2022 14:41:21 +0200 (CEST)
+From:   Alexander Stein <alexander.stein@ew.tq-group.com>
+To:     Petko Manolov <petko.manolov@konsulko.com>
+Cc:     Jacopo Mondi <jacopo@jmondi.org>, linux-media@vger.kernel.org,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Xavier Roumegue <xavier.roumegue@oss.nxp.com>
+Date:   Thu, 18 Aug 2022 14:41:18 +0200
+Message-ID: <6573133.31r3eYUQgx@steina-w>
+Organization: TQ-Systems GmbH
+In-Reply-To: <20220818105131.gurtn74av2ilr7bi@uno.localdomain>
+References: <YvpPusE1rOzmgPYN@carbon.k.g> <Yv4GEUTj4rMiagAX@p310.k.g> <20220818105131.gurtn74av2ilr7bi@uno.localdomain>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 9d963fbd-e890-4481-5913-08da8111ef4e
-X-MS-TrafficTypeDiagnostic: PH7PR12MB6933:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: q4PHKi+rkEFdv/HFvFWP94w3f+t0EBS/W2K1nYxHzgUUFazudU6LIfMJHKVs+EivAnvRTY5qzvovzoyQxZhBCeW0kawuki6f8f+0W0OoODjZQEy+zSNEJXJXBQB9KRU7pwlzGka1HXh7eAovxFO72RESts63fzGDnVJ1JK7F/XRNyIs9fC7aU3HzsoFAnAah603saUs9DTbOVfhINsyz9n2Osw9HUHdGjlaW4+rppVOZeSXcZKVIJvHywU+U+NMGKSIFOwxZWfDV95FE3ufRyeya+xuAtzgkATan+LSIShvb9eN1Qfr7TP3wgW/hKrNNEGnkjiNvZo8PjvTBDETwNU8feBdC489zJtPIY4fTmaNcZ8npWHduQrMbURuBQ/fCKXbMlu4Ma7NPBLAbNJ0Q1Bw+RhdAFOc02gH17s2czOA/d8DgL7O+i9WS/0V8K9IqMhgNFA6XP3nJDB+1RhuSbNh4q5Ed0VUifqL4Vz6erN+KvAqeT6mgxYHcuhISlJFw0Ar+LJUzLDnZzo8iPO7dPz6r8I826sCTfj3+E+73q/J47Chn4/dKoq4Ncjn/AWeQBPnQhhnHzvX6SJdeE/Bdtu30bxbR2w0NkRP8LRMKym2BJfxWSLQ2ftBJoC2E//HTME4K9dJsry6SeHWxLTsWQwe0vZ+60QonRq7xhS+3lk9FXKQSO6JBWyIjqxEuFk8AOf0vJeSehCTXP2Jaj+wxH22J+JHeXzkl9bLK2q4gzXmaNeXWhH32m6ZHoS5ADMWHaZEEB6T4kScJ/TiE8ephcuF3bc1ouMlN51dka0ZE4EY=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR12MB4192.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(39860400002)(366004)(396003)(376002)(346002)(136003)(26005)(6506007)(86362001)(186003)(36756003)(2616005)(83380400001)(6512007)(316002)(54906003)(478600001)(966005)(41300700001)(66476007)(8936002)(110136005)(7416002)(66946007)(8676002)(66556008)(4326008)(2906002)(5660300002)(38100700002)(6486002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?vkHMa7D5EO3NiucPq8lx0/C1zLj9/nyCpewq32dKFSETP+a44kEg91tPvTRT?=
- =?us-ascii?Q?JaUGQjZGvQIPtc16jmi/f83QOpESOXk6tHy3nfxmVCo2BD12kt/IhbuhI7q1?=
- =?us-ascii?Q?EUA61YPSW7hS3aGJ6+UMcjqWfcO+8Xa0JNrwTllFqvqmI+5v8q0mF021BSux?=
- =?us-ascii?Q?yXVjQrALyE5QSDJDj0bby8KOwPqIHBccU2/fK4t6GCLz3VIZXPwKcSy65yNj?=
- =?us-ascii?Q?JxcFfxc5JS2FGXcPTQ87RC5CzjDKnTWamoe6VQLBk64q1q1ArDiQrSEEqnWS?=
- =?us-ascii?Q?qMBjR5boutfzRJsYBfs4p+viQqKa+kkpTful4g4RAZDXCveg2guMK94jqG5r?=
- =?us-ascii?Q?PhURRtT7AEugXh34xN8uYyKxMRSN05nCwSLveeD3kF5efN9WoObiw22I9M/c?=
- =?us-ascii?Q?l6g75Apva/nbXyCSSo7xomvocDaDS2ENNIHAD49gS+nVZp4Ffkik/g5VRTer?=
- =?us-ascii?Q?QOTDWNa4uDothLx37xDdwZCTrZFogLdmlrOeB8R1ob+ocdvqwK7svWgY11ay?=
- =?us-ascii?Q?OJtYgcPw7zKtvk1/HwYdpeQKiWBIh4kp3irGUHIQWo+uhZsyhE2bx3g0zANG?=
- =?us-ascii?Q?8jrg9B6Vmz/F7Pk/ndh7yLpDV94WfMrf9HOQ009ao8AFN6EQnETVVos6PZpq?=
- =?us-ascii?Q?8fBPTCeOsy7gGMKtctICcACKNOhOgbPqM9LUjxbIFM59TXDIVmWI4FUXE3QT?=
- =?us-ascii?Q?tty4fVmsozr8qfsghg1HpJhZzy5dqtANzow6z1HyVqwIV5rTayC8DXl6D6YN?=
- =?us-ascii?Q?oaICi9bBP3RZDZmRQIwMfjCMabfoyDK9fIyV3ZcLRkf1ILkMm+ZcoMGLulVf?=
- =?us-ascii?Q?4LRxGpy4iZpBCY6K3Bnhs1wmU97VKNiKCw0gaI1AWOyWmePsBGmFcb75hM1O?=
- =?us-ascii?Q?WA2O8u+wcA/SxqOmAQln0T7D5HJTErGnJ67a/gYqw6jXKFR3Bk6fbbsD4Us0?=
- =?us-ascii?Q?cNpalFDeTeCVkleJsru3s2R8LW0KQv9LnhoMHINmIP/e+j9J0JG8KEwhyPI2?=
- =?us-ascii?Q?58NCcpwPOeAeoXhGHTnpIEmVzs1wklCavpvVj9+Fhrv26PkuEN8Ca8Rln7ph?=
- =?us-ascii?Q?0ls2Vb9BOhdxREEcgWXLbs2xP2Gw7sMSpwOybKaZpKl/2PItZwjt/kehJb9x?=
- =?us-ascii?Q?swVlOCyjqCYyg0nnT/0GgNEadBKKrly/k8YsTpaxwAI528h8csq6vmRnSgqZ?=
- =?us-ascii?Q?xuqt+1aKdROfM+NbM5u2SsBfbhj+FJgY8KHdDC0kOxyS5qCh9NfNfhCbRoK4?=
- =?us-ascii?Q?jhMRZU86CFrjwX1yQAaSJqvuTq+rSL03Fjl5fVDFLG9GggdfHdyxIIuZv7hx?=
- =?us-ascii?Q?WvJO3JJ9AoyhkDg0+prPdzwd+CXnYszeFLDOLlvmqBJ5IhAS3YvqsCa7IkqQ?=
- =?us-ascii?Q?lgJd7b/IiM+nz51ToVYxcAE0LsJBg5Po3W42ETpcVGUb6hDHQ1lCScRxzKo4?=
- =?us-ascii?Q?tqy41IwK5LrbP6YaL02BkMY65J7aY7hRDCVa9Mcy9Hvvg8PUhXNc0n4uBfEh?=
- =?us-ascii?Q?K0s7LvQlbL5rMWGxlKJSRacUSX2jfhlHrJqpAbfkRPm/dllBOWLiRC0Oc4q1?=
- =?us-ascii?Q?vi+KhjWDJImxgv/Q4mu57rr/u1L+zYYr1ZUGzEha?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9d963fbd-e890-4481-5913-08da8111ef4e
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB4192.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Aug 2022 12:05:25.6912
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: EwDkrUNEqB6zt+C+lVIEZShnak/ZfQmaQjnG67ND3AQx8wtfSMc/7yt8bu8GS7fC
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB6933
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=no autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Aug 17, 2022 at 01:11:38PM -0300, Jason Gunthorpe wrote:
-> dma-buf has become a way to safely acquire a handle to non-struct page
-> memory that can still have lifetime controlled by the exporter. Notably
-> RDMA can now import dma-buf FDs and build them into MRs which allows for
-> PCI P2P operations. Extend this to allow vfio-pci to export MMIO memory
-> from PCI device BARs.
-> 
-> This series supports a use case for SPDK where a NVMe device will be owned
-> by SPDK through VFIO but interacting with a RDMA device. The RDMA device
-> may directly access the NVMe CMB or directly manipulate the NVMe device's
-> doorbell using PCI P2P.
-> 
-> However, as a general mechanism, it can support many other scenarios with
-> VFIO. I imagine this dmabuf approach to be usable by iommufd as well for
-> generic and safe P2P mappings.
-> 
-> This series goes after the "Break up ioctl dispatch functions to one
-> function per ioctl" series.
-> 
-> This is on github: https://github.com/jgunthorpe/linux/commits/vfio_dma_buf
-> 
-> Jason Gunthorpe (4):
->   dma-buf: Add dma_buf_try_get()
->   vfio: Add vfio_device_get()
->   vfio_pci: Do not open code pci_try_reset_function()
->   vfio/pci: Allow MMIO regions to be exported through dma-buf
-> 
->  drivers/vfio/pci/Makefile           |   1 +
->  drivers/vfio/pci/vfio_pci_config.c  |  22 ++-
->  drivers/vfio/pci/vfio_pci_core.c    |  33 +++-
->  drivers/vfio/pci/vfio_pci_dma_buf.c | 265 ++++++++++++++++++++++++++++
+Hi Petko,
 
-I forget about this..
+Am Donnerstag, 18. August 2022, 12:51:31 CEST schrieb Jacopo Mondi:
+> Hi Petko
+> 
+> On Thu, Aug 18, 2022 at 12:27:45PM +0300, Petko Manolov wrote:
+> > 	Hello again,
+> > 
+> > After digging down NXP's documentation and reading some comments within
+> > kernel drivers (sorry Jacopo, you've left some nice comments in
+> > imx7-media-csi.c, hence you're spammed now :) i came to the conclusion
+> > that mipi-csi to csi-bridge data
+> No worries.
+> 
+> I tried re-reading all the discussions, but memory still fails me
+> here.
+> 
+> I recall I had an issue with the CSIS bandwidth and somewhere I
+> suggested that it might be due to the CSI-2 specification version that
+> the peripheral implemented. I can't find that email anymore though :/
+> 
+> > path can only be 8bits in raw12 format.  The only exception is YUV422
+> > format, which get BIT_MIPI_DOUBLE_CMPNT flag set.
+> 
+> Yes, there has been quite some discussions about how to mix-and-match
+> the settings between the CSIS (mipi-csi) and the CSI (csi-bridge) [*]
+> 
+> If I recall correctly there are at least three configurations at play:
+> 
+> - The CSIS pixel mode selection
+> 
+>   MIPI_CSI_ISP_CONFIG[13:12]
+> 
+>   The driver currently forces dual pixel sampling mode for YUV422
+>   and report a TODO:
+> 
+>   * TODO: Verify which other formats require DUAL (or QUAD) modes.
+> 
+>   Here you're trying to transfer RAW12 data, which is indicated in the
+>   register documentation as one of the formats suitable for DUAL/QUAD
+>   mode transfer
+> 
+>   - I'm actually not sure how and if RAW12 gets expanded to 16 bit
+>     samples by filling the 16-bit word with 0s or it either gets
+>     packed in 6 bytes with no paddings. Figure "13-33. Pixel
+>     alignment" seems to suggest that, but I'm not sure I really got
+>     that diagram
+> 
+> - The CSI-bridge
+> 
+>   - CSI_CR3[3] SENSOR_16BITS
+>   - CSI_CR18[20] MIPI_DOUBLE_CMP
+> 
+>   The comment in imx7_csi_configure() explains how different versions
+>   of YUYV (2X8 and 1X16) are handled, and why SENSOR_16BITS and
+>   MIPI_DOUBLE_CMP have to be enabled when the csi-bridge has to be
+> instructed to sample 16 bits samples from the RX queue.
+> 
+> I guess the key would be here to find out what combination of
+> SINGLE/DUAL/QUAD sampling is opportune for RAW12 (I would try with
+> DUAL first and then QUAD) and then configure the csi-bridge bus
+> sampling mode accordingly (likely in the same was as it is done for
+> YUYV_1X16)
+> 
+> When it comes to bandwidth limitation, can you try to reduce the
+> sensor output size to make sure you chase one issue at the time ?
+> 
+> [*] Is "CSI" the most abused acronym of history ?
+> 
+> > So i guess there are two questions:
+> > 	a) can the csi-bridge (and mipi-csi) be persuaded to do two-bytes 
+for
+> > 	raw12 format;
+> 
+> See above :)
+> 
+> > 	b) what's the maximum frequency for csi-bridge PIXCLK?
 
-Alex, do you want to start doing as Linus discused and I will rename
-this new file to "dma_buf.c" ?
+While it does not exactly answer your question, the i.MX8M Mini Datasheet 
+(both for Commercial and Industrial) mentions "four-lane MIPI camera serial 
+interfaces, which operates up to a maximum bit rate of 1.5 Gbps".
+I would assume the bridge is capable of handling the full link speed on four 
+lanes, otherwise this would be quite useless.
 
-Or keep this directory as having the vfio_pci_* prefix for
-consistency?
+Best regards,
+Alexander
 
-Jason
+
+
