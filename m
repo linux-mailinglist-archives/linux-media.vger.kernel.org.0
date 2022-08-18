@@ -2,104 +2,104 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9DE83597B1F
-	for <lists+linux-media@lfdr.de>; Thu, 18 Aug 2022 03:35:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AFC34597B74
+	for <lists+linux-media@lfdr.de>; Thu, 18 Aug 2022 04:24:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239267AbiHRBdk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 17 Aug 2022 21:33:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42238 "EHLO
+        id S242731AbiHRCXw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 17 Aug 2022 22:23:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53068 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239507AbiHRBdi (ORCPT
+        with ESMTP id S234661AbiHRCXv (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 17 Aug 2022 21:33:38 -0400
-Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com [IPv6:2a00:1450:4864:20::52e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D20C95E575
-        for <linux-media@vger.kernel.org>; Wed, 17 Aug 2022 18:33:33 -0700 (PDT)
-Received: by mail-ed1-x52e.google.com with SMTP id x21so165588edd.3
-        for <linux-media@vger.kernel.org>; Wed, 17 Aug 2022 18:33:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20210112.gappssmtp.com; s=20210112;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc;
-        bh=36nMovJodSQk/UhxzoEQiL9A6ldnah9kAzJHQH+ywDs=;
-        b=COUn8NH9jwn50Vg6PzVupW+LVPhCo+6i8GgW+5/i/y/eYMNpClkBvTZQpuJAFP8zLx
-         VPuZm7k1TJAF7ZgG4yesOlvl4mUu7erYDRBm4ntGipUh6A3Hw2mxTYUxiRsoLNA1KTlt
-         y/r5zLjkPtlM5sqQbkJ0AMyvv9Iz+Sq0vnqUhYvVBdwJGf3gYkH3iQRuhQgET8ZIFUD/
-         tWZ89uo8S19KYeMyePa91BFkxlM57eN/2uBPa1BXhc91bytmW2WYNoGAaLk3Ejqno/vJ
-         hCgm9TzHcXGG2ii6DHbe6ZUHCjkckHupxB/IH4GgBSAnO2NhAEL4tRB6Q1n304yBvPN8
-         rzKg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc;
-        bh=36nMovJodSQk/UhxzoEQiL9A6ldnah9kAzJHQH+ywDs=;
-        b=fSDpRa6qdVtnyKRyaUrMK4oY6OleHKdhfaNcACBjjyfkPiqFnusbhJMusnT+dM56zU
-         H0zIFhj+tdj1KIeVcWMcG99cnJwne/DGTEhYgG/m6Nfm07lB/eIU90Nl7J62itwzbKjT
-         +nLmQLXjQ2DnY4/jxgNLBO6+xoY724UaK1rgSoZLnIJN1GDWHsx+sZIfAeFJ33ci3zzb
-         q6q1keodeNnmXRPZsh8NWqJH43U1TwQ1au3iINFMCznMJAmB0Q5/1T+ZkWOJ+zVq2m9L
-         EnnjW/H9ykYzle6NtcsBbRURgYMHEpRSROtwIwprjEtf2Pzchq+3A8wm4TVDMimbzISw
-         hL2A==
-X-Gm-Message-State: ACgBeo0qtLDH/AWmydxQx8BbiIXHrr7JuHr9gxuPmKzOfClEVFLBgKCg
-        kuY/MiEkeIN1VMkDm4DnrnEjyQ==
-X-Google-Smtp-Source: AA6agR57rygPKsHZ7CI5QWJA5IkaPkSLiHzTlLN2MkH3zPvIQNEPKU6kL1sKckPrIKb1McvUKsPirg==
-X-Received: by 2002:a05:6402:f22:b0:43e:8623:d32c with SMTP id i34-20020a0564020f2200b0043e8623d32cmr512949eda.265.1660786412414;
-        Wed, 17 Aug 2022 18:33:32 -0700 (PDT)
-Received: from localhost (p54ac5370.dip0.t-ipconnect.de. [84.172.83.112])
-        by smtp.gmail.com with ESMTPSA id p6-20020a05640210c600b0043df40e4cfdsm215699edu.35.2022.08.17.18.33.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Aug 2022 18:33:31 -0700 (PDT)
-Date:   Thu, 18 Aug 2022 03:33:31 +0200
-From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund@ragnatech.se>
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     linux-media@vger.kernel.org,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        Hidenori Kobayashi <hidenorik@chromium.org>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Ricardo Ribalda <ribalda@chromium.org>,
-        Maxime Ripard <maxime@cerno.tech>,
-        Daniel Scally <djrscally@gmail.com>,
-        Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>
-Subject: Re: [ANN] Media Summit at ELCE Dublin, September 12: Draft Agenda V1
-Message-ID: <Yv2Wfl1FRH6iJPML@sleipner.dyn.berto.se>
-References: <1ca14c26-2e47-b144-1f5a-02824e81269a@xs4all.nl>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <1ca14c26-2e47-b144-1f5a-02824e81269a@xs4all.nl>
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+        Wed, 17 Aug 2022 22:23:51 -0400
+Received: from mailgw.kylinos.cn (unknown [124.126.103.232])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2202E520BF;
+        Wed, 17 Aug 2022 19:23:46 -0700 (PDT)
+X-UUID: 281874f6fb504b1380983b1d6bb40172-20220818
+X-CPASD-INFO: 2646bc0e11794639b8f47462f07b1dfb@e4ZuVo-VXpVdUXmFg3l-
+        c4JplmRnYFaBqGpXkl-
+        UkoKVgnxsTV5qXFWCgGpQYWNdYlV3fGtQYmBgZFB5i4Jyj1RgXmCCVHSTgHRwVGaQkw==
+X-CLOUD-ID: 2646bc0e11794639b8f47462f07b1dfb
+X-CPASD-SUMMARY: SIP:-1,APTIP:-2.0,KEY:0.0,FROMBLOCK:1,OB:0.0,URL:-5,TVAL:173.
+        0,ESV:0.0,ECOM:-5.0,ML:0.0,FD:0.0,CUTS:166.0,IP:-2.0,MAL:-5.0,PHF:-5.0,PHC:-5
+        .0,SPF:4.0,EDMS:-5,IPLABEL:4480.0,FROMTO:0,AD:0,FFOB:0.0,CFOB:0.0,SPC:0,SIG:-
+        5,AUF:1,DUF:2660,ACD:52,DCD:52,SL:0,EISP:0,AG:0,CFC:0.416,CFSR:0.068,UAT:0,RA
+        F:0,IMG:-5.0,DFA:0,DTA:0,IBL:-2.0,ADI:-5,SBL:0,REDM:0,REIP:0,ESB:0,ATTNUM:0,E
+        AF:0,CID:-5.0,VERSION:2.3.17
+X-CPASD-ID: 281874f6fb504b1380983b1d6bb40172-20220818
+X-CPASD-BLOCK: 1000
+X-CPASD-STAGE: 1
+X-UUID: 281874f6fb504b1380983b1d6bb40172-20220818
+X-User: huanglei@kylinos.cn
+Received: from localhost.localdomain [(116.128.244.169)] by mailgw
+        (envelope-from <huanglei@kylinos.cn>)
+        (Generic MTA)
+        with ESMTP id 1783756006; Thu, 18 Aug 2022 10:23:48 +0800
+From:   huanglei <huanglei@kylinos.cn>
+To:     laurent.pinchart@ideasonboard.com
+Cc:     mchehab@kernel.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, huanglei <huanglei@kylinos.cn>
+Subject: [PATCH v2] media: uvcvideo: limit power line control for Sonix Technology
+Date:   Thu, 18 Aug 2022 10:23:38 +0800
+Message-Id: <20220818022338.13374-1-huanglei@kylinos.cn>
+X-Mailer: git-send-email 2.17.1
+X-Spam-Status: No, score=-0.5 required=5.0 tests=BAYES_00,KHOP_HELO_FCRDNS,
+        RDNS_DYNAMIC,SPF_HELO_NONE,T_SCC_BODY_TEXT_LINE,T_SPF_PERMERROR,
+        UNPARSEABLE_RELAY autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans, all,
+The device does not implement the power line control correctly. Add a
+corresponding control mapping override.
 
-On 2022-08-05 13:35:48 +0200, Hans Verkuil wrote:
-> 15:30 Laurent: V4L2 streams series.
-> 
->   I'd like to discuss the V4L2 streams series, in particular how to
->   upstream the parts that won't be upstream yet by mid-September.
->   Discussing the next steps would also be useful, as there's lots we could
->   build on top.
+Bus 003 Device 003: ID 3277:0072 Sonix Technology Co., Ltd. USB 2.0 Camera
+Device Descriptor:
+  bLength                18
+  bDescriptorType         1
+  bcdUSB               2.00
+  bDeviceClass          239 Miscellaneous Device
+  bDeviceSubClass         2
+  bDeviceProtocol         1 Interface Association
+  bMaxPacketSize0        64
+  idVendor           0x3277
+  idProduct          0x0072
+  bcdDevice            1.00
+  iManufacturer           2 Sonix Technology Co., Ltd.
+  iProduct                1 USB 2.0 Camera
+  iSerial                 3 REV0001
+  bNumConfigurations      1
 
-I have no ticket for OSS Europe but will be in town for LPC and I would 
-like to attend the media summit afternoon seasons, this one in 
-particular. Would that be possible?
+Signed-off-by: huanglei <huanglei@kylinos.cn>
+---
+ drivers/media/usb/uvc/uvc_driver.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
+diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
+index 9c05776f11d1..218db3f1db5d 100644
+--- a/drivers/media/usb/uvc/uvc_driver.c
++++ b/drivers/media/usb/uvc/uvc_driver.c
+@@ -3282,6 +3282,15 @@ static const struct usb_device_id uvc_ids[] = {
+ 	  .bInterfaceSubClass	= 1,
+ 	  .bInterfaceProtocol	= 0,
+ 	  .driver_info		= UVC_INFO_META(V4L2_META_FMT_D4XX) },
++	/* Sonix Technology USB 2.0 Camera */
++	{ .match_flags		= USB_DEVICE_ID_MATCH_DEVICE
++				| USB_DEVICE_ID_MATCH_INT_INFO,
++	  .idVendor		= 0x3277,
++	  .idProduct		= 0x0072,
++	  .bInterfaceClass	= USB_CLASS_VENDOR_SPEC,
++	  .bInterfaceSubClass	= 1,
++	  .bInterfaceProtocol	= 0,
++	  .driver_info		= (kernel_ulong_t)&uvc_ctrl_power_line_limited },
+ 	/* Generic USB Video Class */
+ 	{ USB_INTERFACE_INFO(USB_CLASS_VIDEO, 1, UVC_PC_PROTOCOL_UNDEFINED) },
+ 	{ USB_INTERFACE_INFO(USB_CLASS_VIDEO, 1, UVC_PC_PROTOCOL_15) },
 -- 
-Kind Regards,
-Niklas Söderlund
+2.17.1
+
+
+No virus found
+		Checked by Hillstone Network AntiVirus
