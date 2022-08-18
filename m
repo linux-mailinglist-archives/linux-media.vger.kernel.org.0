@@ -2,116 +2,110 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 065EF598053
-	for <lists+linux-media@lfdr.de>; Thu, 18 Aug 2022 10:50:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 151C859807A
+	for <lists+linux-media@lfdr.de>; Thu, 18 Aug 2022 11:04:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243040AbiHRIub (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 18 Aug 2022 04:50:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55710 "EHLO
+        id S243512AbiHRJDJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 18 Aug 2022 05:03:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41258 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242970AbiHRIua (ORCPT
+        with ESMTP id S230514AbiHRJDI (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 18 Aug 2022 04:50:30 -0400
-Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com [209.85.222.181])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E59297D6C;
-        Thu, 18 Aug 2022 01:50:28 -0700 (PDT)
-Received: by mail-qk1-f181.google.com with SMTP id m5so640911qkk.1;
-        Thu, 18 Aug 2022 01:50:28 -0700 (PDT)
+        Thu, 18 Aug 2022 05:03:08 -0400
+Received: from mail-oa1-f52.google.com (mail-oa1-f52.google.com [209.85.160.52])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ACB6FB07E5;
+        Thu, 18 Aug 2022 02:03:07 -0700 (PDT)
+Received: by mail-oa1-f52.google.com with SMTP id 586e51a60fabf-f2a4c51c45so1074518fac.9;
+        Thu, 18 Aug 2022 02:03:07 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc;
-        bh=T9SPDlWI1HdJSmKo8bLd/MkM9a/SFyk6lU9EnvkTbTk=;
-        b=poAuRwW02LBRa3ktdhCfWRuPBF878QZ+Uoyl/TGdKrO9nfBqTtFTJT6iOhqGIHuyyP
-         PlAHIFjPjxZwShdM0DoMrNEq4JmNLxe8y6eqRi0B8cAbDoHkxbHuDIcAapRgC1JJ92Sv
-         jCPDxVekSkbeZfKb6W/nr3rxfWwnO7OTdT97nGBy4B1Xi/PW2WnYAWLpNJeXkgZm8wg6
-         2cvnCDUuNbVX4ovq0rcTNeRlPxrscSXbD1aDKGsiwWDpJV/h1DtCcnaxuDee8QkBcFS0
-         3lENq0/Sdsg/wSloJXs8QfzXR0/CZhFNnREWQU2n1ICVdbRltWAB/nKthz8IeNjBlz0c
-         BA3g==
-X-Gm-Message-State: ACgBeo0Ppd34Da/Dz+Z9kpueXTisK0z9ceZRxXnNDwOTIeaPL+Bexcc+
-        gwYr0ZDvjJccibiw3xbHmID2soYTyXtaJg==
-X-Google-Smtp-Source: AA6agR4n6KhLQDeiLzwkMez/bNfU7tX6QcNJj0wyqzyUPLOwFtQfvJ9qh2mBduiSpBl8D5PisUKcMg==
-X-Received: by 2002:a05:620a:448a:b0:6ba:c5dc:b7f2 with SMTP id x10-20020a05620a448a00b006bac5dcb7f2mr1228559qkp.297.1660812627428;
-        Thu, 18 Aug 2022 01:50:27 -0700 (PDT)
-Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com. [209.85.128.180])
-        by smtp.gmail.com with ESMTPSA id bn44-20020a05620a2aec00b006bb619a6a85sm1014883qkb.48.2022.08.18.01.50.26
+        bh=ZmOw2Ye6D3rDsXvEq+Hj2UxFw02iY07PBYlER+Z5IJs=;
+        b=Q3Fre+R1RjpfZX4kxBErGHtKC6H8E2ckTe1z2CBeIKwJZL3S5BsLtiQPbQtN3RDCS4
+         TsvoqB23mlWY6TOlC/ypJChNVQI/GcbJ2ejwD7rHYUb7jgZREbfFHHyd2by9RJ3HQwJV
+         bBCL+/0wBSFROazXYBbb/JHVI4cpF9DGH3AcgMEOlyV4cYFtHuLGcPdCzLnmcerwWfxv
+         +AavissL6J8FWnRPFOQ1x5Jb2xCA6S8T5kL+P4p1tt2UtiMsNOd9VNl/2soFZ6hkJpAO
+         mJWvoHpLItsfSX+2ygcAEWHw0t48zsQn4J+zXtgIql3+nrrVMwWCznzGx/zn9B4kUsd1
+         b8ww==
+X-Gm-Message-State: ACgBeo2/oqlHcHSwY2BhG8/5Z0x7RKijJBYPQofDag3AiVTJJQeW89/c
+        giDKD3yzrlZa4p5pgcIZhjFZ5g5neDwvtQ==
+X-Google-Smtp-Source: AA6agR7snnj50rO52+s+YlU9cl70Q6phrgmPr4knQPg5NNXja5M/hr3ABAgrLrkFzslQaNGliwqm3g==
+X-Received: by 2002:a05:6870:5a9:b0:11c:43b:5810 with SMTP id m41-20020a05687005a900b0011c043b5810mr3774158oap.159.1660813386760;
+        Thu, 18 Aug 2022 02:03:06 -0700 (PDT)
+Received: from mail-ot1-f50.google.com (mail-ot1-f50.google.com. [209.85.210.50])
+        by smtp.gmail.com with ESMTPSA id el3-20020a056870f68300b00101bc3380a5sm283490oab.12.2022.08.18.02.03.06
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 18 Aug 2022 01:50:26 -0700 (PDT)
-Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-3246910dac3so22919877b3.12;
-        Thu, 18 Aug 2022 01:50:26 -0700 (PDT)
-X-Received: by 2002:a81:1e45:0:b0:336:bade:e0 with SMTP id e66-20020a811e45000000b00336bade00e0mr1144304ywe.358.1660812626475;
- Thu, 18 Aug 2022 01:50:26 -0700 (PDT)
+        Thu, 18 Aug 2022 02:03:06 -0700 (PDT)
+Received: by mail-ot1-f50.google.com with SMTP id v12-20020a9d7d0c000000b00638e210c995so770987otn.13;
+        Thu, 18 Aug 2022 02:03:06 -0700 (PDT)
+X-Received: by 2002:a81:f47:0:b0:31f:434b:5ee with SMTP id 68-20020a810f47000000b0031f434b05eemr1877711ywp.383.1660812973568;
+ Thu, 18 Aug 2022 01:56:13 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220722164907.16587-1-biju.das.jz@bp.renesas.com> <20220722164907.16587-3-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20220722164907.16587-3-biju.das.jz@bp.renesas.com>
+References: <20220801214718.16943-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20220801214718.16943-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20220801214718.16943-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 18 Aug 2022 10:50:14 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXNNqgc=JU=UdnFRGRTCp484wjOqFc6M6J4Oq=-91Xbxw@mail.gmail.com>
-Message-ID: <CAMuHMdXNNqgc=JU=UdnFRGRTCp484wjOqFc6M6J4Oq=-91Xbxw@mail.gmail.com>
-Subject: Re: [PATCH v12 2/5] media: renesas: vsp1: Add support to
- deassert/assert reset line
-To:     Biju Das <biju.das.jz@bp.renesas.com>
+Date:   Thu, 18 Aug 2022 10:56:01 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXKnve1-KE+GF5YVe3k8w0oQA96P9VAfB9XxVMbuKiN7g@mail.gmail.com>
+Message-ID: <CAMuHMdXKnve1-KE+GF5YVe3k8w0oQA96P9VAfB9XxVMbuKiN7g@mail.gmail.com>
+Subject: Re: [PATCH 1/4] media: dt-bindings: media: Document RZ/G2L CSI-2 block
+To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Philipp Zabel <p.zabel@pengutronix.de>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Prabhakar <prabhakar.csengg@gmail.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
         FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Biju,
+Hi Prabhakar,
 
-On Fri, Jul 22, 2022 at 6:49 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> As the resets DT property is mandatory, and is present in all .dtsi
-> in mainline, add support to perform deassert/assert using reference
-> counted reset handle.
+On Mon, Aug 1, 2022 at 11:47 PM Lad Prabhakar
+<prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
+> Document the CSI-2 block which is part of CRU found in Renesas
+> RZ/G2L SoC.
 >
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > ---
-> v11->v12:
->  * Replaced read_poll_timeout_atomic-> udelay(1) as testing on RZ/G1N
->    shows this delay is sufficient to avoid lock-up.
->  * Removed Rb tags.
+> RFC v2 -> v1
+> * Fixed review comments pointed by Rob and Jacopo.
 
 Thanks for the update!
 
-> --- a/drivers/media/platform/renesas/vsp1/vsp1_drv.c
-> +++ b/drivers/media/platform/renesas/vsp1/vsp1_drv.c
-> @@ -11,11 +11,13 @@
->  #include <linux/delay.h>
->  #include <linux/device.h>
->  #include <linux/interrupt.h>
-> +#include <linux/iopoll.h>
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/renesas,rzg2l-csi2.yaml
+> @@ -0,0 +1,149 @@
 
-This is no longer needed.
+> +  resets:
+> +    items:
+> +      - description: CRU_CMN_RSTB reset terminal
+> +
+> +  reset-names:
+> +    const: cmn-rstb
 
->  #include <linux/module.h>
->  #include <linux/of.h>
->  #include <linux/of_device.h>
->  #include <linux/platform_device.h>
->  #include <linux/pm_runtime.h>
-> +#include <linux/reset.h>
->  #include <linux/videodev2.h>
->
->  #include <media/rcar-fcp.h>
-
-The rest LGTM, so with the above fixed:
-
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+While it doesn't hurt to always have reset-names, you may want to drop
+it, as there is only a single reset.
 
 Gr{oetje,eeting}s,
 
