@@ -2,38 +2,62 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 11AA65981AA
-	for <lists+linux-media@lfdr.de>; Thu, 18 Aug 2022 12:53:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 51CF75981B9
+	for <lists+linux-media@lfdr.de>; Thu, 18 Aug 2022 12:55:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244125AbiHRKvj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 18 Aug 2022 06:51:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46384 "EHLO
+        id S244190AbiHRKzh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 18 Aug 2022 06:55:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48724 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243983AbiHRKvh (ORCPT
+        with ESMTP id S244196AbiHRKz0 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 18 Aug 2022 06:51:37 -0400
-Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5403D8606A
-        for <linux-media@vger.kernel.org>; Thu, 18 Aug 2022 03:51:36 -0700 (PDT)
-Received: (Authenticated sender: jacopo@jmondi.org)
-        by mail.gandi.net (Postfix) with ESMTPSA id B4A51C0007;
-        Thu, 18 Aug 2022 10:51:33 +0000 (UTC)
-Date:   Thu, 18 Aug 2022 12:51:31 +0200
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Petko Manolov <petko.manolov@konsulko.com>
-Cc:     linux-media@vger.kernel.org,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Xavier Roumegue <xavier.roumegue@oss.nxp.com>
-Subject: Re: imx8m-mini csi-2 limitations
-Message-ID: <20220818105131.gurtn74av2ilr7bi@uno.localdomain>
-References: <YvpPusE1rOzmgPYN@carbon.k.g>
- <Yv4GEUTj4rMiagAX@p310.k.g>
+        Thu, 18 Aug 2022 06:55:26 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 48D6C8D3D9;
+        Thu, 18 Aug 2022 03:55:25 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 73568B81DEB;
+        Thu, 18 Aug 2022 10:55:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C3CC0C433C1;
+        Thu, 18 Aug 2022 10:55:17 +0000 (UTC)
+Message-ID: <e716f649-dec7-ec71-8054-05f05167a042@xs4all.nl>
+Date:   Thu, 18 Aug 2022 12:55:15 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <Yv4GEUTj4rMiagAX@p310.k.g>
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH v25 4/4] media: platform: mtk-mdp3: add MediaTek MDP3
+ driver
+Content-Language: en-US
+To:     Moudy Ho <moudy.ho@mediatek.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Cc:     Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+        Rob Landley <rob@landley.net>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org,
+        Alexandre Courbot <acourbot@chromium.org>, tfiga@chromium.org,
+        drinkcat@chromium.org, pihsun@chromium.org, hsinyi@google.com,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Project_Global_Chrome_Upstream_Group@mediatek.com,
+        cellopoint.kai@gmail.com, Ping-Hsun Wu <ping-hsun.wu@mediatek.com>,
+        daoyuan huang <daoyuan.huang@mediatek.com>
+References: <20220817095629.29911-1-moudy.ho@mediatek.com>
+ <20220817095629.29911-5-moudy.ho@mediatek.com>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <20220817095629.29911-5-moudy.ho@mediatek.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -41,140 +65,117 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Petko
+Hi Moudy,
 
-On Thu, Aug 18, 2022 at 12:27:45PM +0300, Petko Manolov wrote:
-> 	Hello again,
->
-> After digging down NXP's documentation and reading some comments within kernel
-> drivers (sorry Jacopo, you've left some nice comments in imx7-media-csi.c, hence
-> you're spammed now :) i came to the conclusion that mipi-csi to csi-bridge data
+Just two nitpicks:
 
-No worries.
+On 17/08/2022 11:56, Moudy Ho wrote:
+> This patch adds driver for MediaTek's Media Data Path ver.3 (MDP3).
+> It provides the following functions:
+>   color transform, format conversion, resize, crop, rotate, flip
+>   and additional image quality enhancement.
+> 
+> The MDP3 driver is mainly used for Google Chromebook products to
+> import the new architecture to set the HW settings as shown below:
+>   User -> V4L2 framework
+>     -> MDP3 driver -> SCP (setting calculations)
+>       -> MDP3 driver -> CMDQ (GCE driver) -> HW
+> 
+> Each modules' related operation control is sited in mtk-mdp3-comp.c
+> Each modules' register table is defined in file with "mdp_reg_" prefix
+> GCE related API, operation control  sited in mtk-mdp3-cmdq.c
+> V4L2 m2m device functions are implemented in mtk-mdp3-m2m.c
+> Probe, power, suspend/resume, system level functions are defined in
+> mtk-mdp3-core.c
 
-I tried re-reading all the discussions, but memory still fails me
-here.
+<snip>
 
-I recall I had an issue with the CSIS bandwidth and somewhere I
-suggested that it might be due to the CSI-2 specification version that
-the peripheral implemented. I can't find that email anymore though :/
+> diff --git a/drivers/media/platform/mediatek/mdp3/Kconfig b/drivers/media/platform/mediatek/mdp3/Kconfig
+> new file mode 100644
+> index 000000000000..e8c593c1eb69
+> --- /dev/null
+> +++ b/drivers/media/platform/mediatek/mdp3/Kconfig
+> @@ -0,0 +1,20 @@
+> +# SPDX-License-Identifier: GPL-2.0-only
+> +config VIDEO_MEDIATEK_MDP3
+> +	tristate "MediaTek MDP v3 driver"
+> +	depends on MTK_IOMMU || COMPILE_TEST
+> +	depends on VIDEO_DEV
+> +	depends on ARCH_MEDIATEK || COMPILE_TEST
+> +	depends on MTK_MMSYS
 
-> path can only be 8bits in raw12 format.  The only exception is YUV422 format,
-> which get BIT_MIPI_DOUBLE_CMPNT flag set.
->
+This needs to be MTK_MMSYS || COMPILE_TEST.
 
-Yes, there has been quite some discussions about how to mix-and-match
-the settings between the CSIS (mipi-csi) and the CSI (csi-bridge) [*]
+> +	depends on HAS_DMA
+> +	select VIDEOBUF2_DMA_CONTIG
+> +	select V4L2_MEM2MEM_DEV
+> +	select VIDEO_MEDIATEK_VPU
+> +	select MTK_CMDQ
+> +	select MTK_SCP
+> +	default n
+> +	help
+> +	    It is a v4l2 driver and present in MediaTek MT8183 SoC.
+> +	    The driver supports scaling and color space conversion.
+> +
+> +	    To compile this driver as a module, choose M here: the
+> +	    module will be called mtk-mdp3.
 
-If I recall correctly there are at least three configurations at play:
+<snip>
 
-- The CSIS pixel mode selection
+> diff --git a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-m2m.c b/drivers/media/platform/mediatek/mdp3/mtk-mdp3-m2m.c
+> new file mode 100644
+> index 000000000000..0c1675c6dce2
+> --- /dev/null
+> +++ b/drivers/media/platform/mediatek/mdp3/mtk-mdp3-m2m.c
+> @@ -0,0 +1,724 @@
 
-  MIPI_CSI_ISP_CONFIG[13:12]
+<snip>
 
-  The driver currently forces dual pixel sampling mode for YUV422
-  and report a TODO:
+> +static int mdp_m2m_s_selection(struct file *file, void *fh,
+> +			       struct v4l2_selection *s)
+> +{
+> +	struct mdp_m2m_ctx *ctx = fh_to_ctx(fh);
+> +	struct mdp_frame *frame = ctx_get_frame(ctx, s->type);
+> +	struct mdp_frame *capture;
+> +	struct v4l2_rect r;
+> +	struct device *dev = &ctx->mdp_dev->pdev->dev;
+> +	bool valid = false;
+> +	int ret;
+> +
+> +	if (s->type == V4L2_BUF_TYPE_VIDEO_OUTPUT)
+> +		valid = (s->target == V4L2_SEL_TGT_CROP);
+> +	else if (s->type == V4L2_BUF_TYPE_VIDEO_CAPTURE)
+> +		valid = (s->target == V4L2_SEL_TGT_COMPOSE);
+> +
+> +	if (!valid) {
+> +		dev_err(dev, "[%s:%d] invalid type:%u target:%u", __func__,
+> +			ctx->id, s->type, s->target);
 
-  * TODO: Verify which other formats require DUAL (or QUAD) modes.
+This needs to be dev_dbg: you don't want to spam the kernel log for
+userspace errors.
 
-  Here you're trying to transfer RAW12 data, which is indicated in the
-  register documentation as one of the formats suitable for DUAL/QUAD
-  mode transfer
+> +		return -EINVAL;
+> +	}
+> +
+> +	ret = mdp_try_crop(ctx, &r, s, frame);
+> +	if (ret)
+> +		return ret;
+> +	capture = ctx_get_frame(ctx, V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE);
+> +
+> +	if (mdp_target_is_crop(s->target))
+> +		capture->crop.c = r;
+> +	else
+> +		capture->compose = r;
+> +
+> +	s->r = r;
+> +
+> +	return 0;
+> +}
 
-  - I'm actually not sure how and if RAW12 gets expanded to 16 bit
-    samples by filling the 16-bit word with 0s or it either gets
-    packed in 6 bytes with no paddings. Figure "13-33. Pixel
-    alignment" seems to suggest that, but I'm not sure I really got
-    that diagram
+I can modify these two changes myself if you are OK with that. Just let me know.
 
-- The CSI-bridge
+If you prefer to post a v26 that's OK too.
 
-  - CSI_CR3[3] SENSOR_16BITS
-  - CSI_CR18[20] MIPI_DOUBLE_CMP
+Regards,
 
-  The comment in imx7_csi_configure() explains how different versions
-  of YUYV (2X8 and 1X16) are handled, and why SENSOR_16BITS and
-  MIPI_DOUBLE_CMP have to be enabled when the csi-bridge has to be instructed
-  to sample 16 bits samples from the RX queue.
-
-I guess the key would be here to find out what combination of
-SINGLE/DUAL/QUAD sampling is opportune for RAW12 (I would try with
-DUAL first and then QUAD) and then configure the csi-bridge bus
-sampling mode accordingly (likely in the same was as it is done for
-YUYV_1X16)
-
-When it comes to bandwidth limitation, can you try to reduce the
-sensor output size to make sure you chase one issue at the time ?
-
-[*] Is "CSI" the most abused acronym of history ?
-
-> So i guess there are two questions:
->
-> 	a) can the csi-bridge (and mipi-csi) be persuaded to do two-bytes for
-> 	raw12 format;
-
-See above :)
-
-> 	b) what's the maximum frequency for csi-bridge PIXCLK?
->
-
-Not sure about this one.
-
-I've anyway cc-ed Laurent and Xavier, which can surely be helpful here
-
-Thanks
-   j
-
-> I've increased PIXCLK up to 1ghz (as opposed to the default 500mhz) and this seem
-> to hung the bridge.
->
->
-> cheers,
-> Petko
->
->
-> On 22-08-15 16:52:59, Petko Manolov wrote:
-> > 	Hello guys,
-> >
-> > I'm developing a driver for Sony imx492 sensor and i'm using imx8m-mini
-> > (Variscite SoM on Symphony carrier board) platform.  Thanks to Laurent i dumped
-> > the vendor mipi-csi and csi-bridge drivers in favor of mainline (v5.19-rc6 atm)
-> > and parts started to click in place.  However, there are still a few rough
-> > edges.
-> >
-> > The sensor is 47mpix, and is only capable of streaming over all four CSI-2
-> > lanes.  Each lane is 1.728gbit, which makes 6.912gbps total bandwidth.
-> > imx8m-mini's d-phy can handle (on paper) up to 6gbps.
-> >
-> > I guess the main question here is: what's the fastest transfer rate that's known
-> > to work with this SoC?  Does anyone have experience with imx8m-mini in this
-> > regard?
-> >
-> >
-> > Even with the settings that i'm able to obtain a (distorted) test pattern image
-> > with, i keep getting tons of:
-> >
-> > [99910.847591] imx-mipi-csis 32e30000.mipi-csi: FIFO Overflow Error events: 1353347
-> >
-> > IRQs also look a suspicious on the 'csi' part:
-> >
-> > 214:    2653716          0          0          0     GICv3  49 Level     32e30000.mipi-csi
-> > 215:          2          0          0          0     GICv3  48 Level     csi
-> >
-> > That's with this clock setup:
-> >
-> >  sys_pll2                             1        1        0  1000000000          0     0  50000         Y
-> >     sys_pll2_out                      5        5        0  1000000000          0     0  50000         Y
-> >        sys_pll2_1000m                 3        3        0  1000000000          0     0  50000         Y
-> >           csi1_phy_ref                1        1        0  1000000000          0     0  50000         Y
-> >           csi1_core                   1        1        0   500000000          0     0  50000         Y
-> >              csi1_root_clk            1        1        0   500000000          0     0  50000         Y
-> >
-> > However, if i change the latter two (csi1_core & csi1_root_clk) to 1ghz, there
-> > are still mipi-csi IRQs coming in, but nothing from the csi-bridge.
-> >
-> > Any advice on where i shall start looking first?
-> >
-> >
-> > thanks,
-> > Petko
+	Hans
