@@ -2,88 +2,138 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0AC9E597EE9
-	for <lists+linux-media@lfdr.de>; Thu, 18 Aug 2022 09:05:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1EA7E597F64
+	for <lists+linux-media@lfdr.de>; Thu, 18 Aug 2022 09:42:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243757AbiHRHEz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 18 Aug 2022 03:04:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47434 "EHLO
+        id S243751AbiHRHmD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 18 Aug 2022 03:42:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54074 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242093AbiHRHEy (ORCPT
+        with ESMTP id S243631AbiHRHmB (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 18 Aug 2022 03:04:54 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ACDBE86C18
-        for <linux-media@vger.kernel.org>; Thu, 18 Aug 2022 00:04:52 -0700 (PDT)
+        Thu, 18 Aug 2022 03:42:01 -0400
+Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3D2024BD08
+        for <linux-media@vger.kernel.org>; Thu, 18 Aug 2022 00:41:59 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 52C45616C2
-        for <linux-media@vger.kernel.org>; Thu, 18 Aug 2022 07:04:52 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CF140C433C1;
-        Thu, 18 Aug 2022 07:04:48 +0000 (UTC)
-Message-ID: <94877ad5-e07b-8eb6-4dfa-836698efd87b@xs4all.nl>
-Date:   Thu, 18 Aug 2022 09:04:47 +0200
+        by sin.source.kernel.org (Postfix) with ESMTPS id D99E2CE1F21
+        for <linux-media@vger.kernel.org>; Thu, 18 Aug 2022 07:41:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A16F1C433C1;
+        Thu, 18 Aug 2022 07:41:53 +0000 (UTC)
+Message-ID: <9ef830aa-fd39-5dae-af8d-99751468fb19@xs4all.nl>
+Date:   Thu, 18 Aug 2022 09:41:51 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.10.0
-Subject: Re: [ANN] Media Summit at ELCE Dublin, September 12: Draft Agenda V1
+Subject: Re: [PATCH v2 2/5] media: docs: Add V4L2_CAP_EDID_MEMORY
 Content-Language: en-US
-To:     =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>
-Cc:     linux-media@vger.kernel.org,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        Hidenori Kobayashi <hidenorik@chromium.org>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Ricardo Ribalda <ribalda@chromium.org>,
-        Maxime Ripard <maxime@cerno.tech>,
-        Daniel Scally <djrscally@gmail.com>,
-        =?UTF-8?Q?Jernej_=c5=a0krabec?= <jernej.skrabec@gmail.com>,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>
-References: <1ca14c26-2e47-b144-1f5a-02824e81269a@xs4all.nl>
- <Yv2Wfl1FRH6iJPML@sleipner.dyn.berto.se>
+To:     Erling Ljunggren <hljunggr@cisco.com>, linux-media@vger.kernel.org
+References: <20220803075850.1196988-1-hljunggr@cisco.com>
+ <20220803075850.1196988-3-hljunggr@cisco.com>
 From:   Hans Verkuil <hverkuil@xs4all.nl>
-In-Reply-To: <Yv2Wfl1FRH6iJPML@sleipner.dyn.berto.se>
+In-Reply-To: <20220803075850.1196988-3-hljunggr@cisco.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
         HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Erling,
 
-
-On 18/08/2022 03:33, Niklas Söderlund wrote:
-> Hi Hans, all,
+On 03/08/2022 09:58, Erling Ljunggren wrote:
+> Add documentation for the new edid eeprom capability.
 > 
-> On 2022-08-05 13:35:48 +0200, Hans Verkuil wrote:
->> 15:30 Laurent: V4L2 streams series.
->>
->>   I'd like to discuss the V4L2 streams series, in particular how to
->>   upstream the parts that won't be upstream yet by mid-September.
->>   Discussing the next steps would also be useful, as there's lots we could
->>   build on top.
+> Signed-off-by: Erling Ljunggren <hljunggr@cisco.com>
+> ---
+>  Documentation/userspace-api/media/v4l/biblio.rst      | 11 +++++++++++
+>  .../userspace-api/media/v4l/vidioc-querycap.rst       |  7 +++++++
+>  .../userspace-api/media/videodev2.h.rst.exceptions    |  1 +
+>  3 files changed, 19 insertions(+)
 > 
-> I have no ticket for OSS Europe but will be in town for LPC and I would 
-> like to attend the media summit afternoon seasons, this one in 
-> particular. Would that be possible?
-> 
+> diff --git a/Documentation/userspace-api/media/v4l/biblio.rst b/Documentation/userspace-api/media/v4l/biblio.rst
+> index 9cd18c153d19..5cbe41877a63 100644
+> --- a/Documentation/userspace-api/media/v4l/biblio.rst
+> +++ b/Documentation/userspace-api/media/v4l/biblio.rst
+> @@ -334,6 +334,17 @@ VESA DMT
+>  
+>  :author:    Video Electronics Standards Association (http://www.vesa.org)
+>  
+> +.. _vesaeddc:
+> +
+> +E-DDC
+> +====
+> +
+> +
+> +:title:     VESA Enhanced Display Data Channel (E-DDC) Standard
+> +:subtitle:  Version 1.3
+> +
+> +:author:    Video Electronics Standards Association (http://www.vesa.org)
+> +
+>  .. _vesaedid:
+>  
+>  EDID
+> diff --git a/Documentation/userspace-api/media/v4l/vidioc-querycap.rst b/Documentation/userspace-api/media/v4l/vidioc-querycap.rst
+> index 63e23f6f95ee..bdb530bd6816 100644
+> --- a/Documentation/userspace-api/media/v4l/vidioc-querycap.rst
+> +++ b/Documentation/userspace-api/media/v4l/vidioc-querycap.rst
+> @@ -173,6 +173,13 @@ specification the ioctl returns an ``EINVAL`` error code.
+>  	interface. A video overlay device typically stores captured images
+>  	directly in the video memory of a graphics card, with hardware
+>  	clipping and scaling.
+> +    * - ``V4L2_CAP_EDID_MEMORY``
+> +      - 0x00000008
+> +      - The device is a standalone EDID memory device. This is typically an eeprom
+> +        that supports the VESA Enhanced Display Data Channel Standard.
+> +
+> +        While an eeprom is the most common implementation, it can be something else
+> +        as well, such as a microcontroller. Hence the generic name 'memory'.
 
-Yes, that's possible. No registration is required for this, I just need to
-know who'll be there.
+I realized that this is not just needed for inputs, but also for outputs.
 
-I've added you to the attendees list.
+This is the case for an HDMI splitter that is connected to a computer via (typically)
+a serial port where you can use that to get/set the EDID for the input port and
+get the EDIDs for the output ports (i.e. the EDIDs from the connected displays).
+
+It's the same concept: a standalone EDID device. However, you are not talking
+directly to a memory device like an eeprom. So I think to keep things generic
+this capability should be renamed to just V4L2_CAP_EDID.
+
+The description should be updated as well since it is no longer just for inputs.
+
+And I think we can drop the references to 'memory'. It's really about hardware
+devices that store an EDID for a sink or read an EDID from a source.
+
+Patch 5 will have to be updated as well since for an output device this cap is
+associated with ENUM/S/G_OUTPUT. And for output S_EDID is not supported, of
+course.
+
+I'm working on a driver for an HDMI Splitter (CEC and EDID support), so this
+would come in very handy for that.
 
 Regards,
 
 	Hans
+
+>      * - ``V4L2_CAP_VBI_CAPTURE``
+>        - 0x00000010
+>        - The device supports the :ref:`Raw VBI Capture <raw-vbi>`
+> diff --git a/Documentation/userspace-api/media/videodev2.h.rst.exceptions b/Documentation/userspace-api/media/videodev2.h.rst.exceptions
+> index 9cbb7a0c354a..12fa290828e7 100644
+> --- a/Documentation/userspace-api/media/videodev2.h.rst.exceptions
+> +++ b/Documentation/userspace-api/media/videodev2.h.rst.exceptions
+> @@ -185,6 +185,7 @@ replace define V4L2_CAP_META_OUTPUT device-capabilities
+>  replace define V4L2_CAP_DEVICE_CAPS device-capabilities
+>  replace define V4L2_CAP_TOUCH device-capabilities
+>  replace define V4L2_CAP_IO_MC device-capabilities
+> +replace define V4L2_CAP_EDID_MEMORY device-capabilities
+>  
+>  # V4L2 pix flags
+>  replace define V4L2_PIX_FMT_PRIV_MAGIC :c:type:`v4l2_pix_format`
