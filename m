@@ -2,47 +2,64 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0FB30598E84
-	for <lists+linux-media@lfdr.de>; Thu, 18 Aug 2022 23:01:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A9120598F7E
+	for <lists+linux-media@lfdr.de>; Thu, 18 Aug 2022 23:30:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346329AbiHRVA5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 18 Aug 2022 17:00:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35908 "EHLO
+        id S243453AbiHRVZh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 18 Aug 2022 17:25:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60446 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346208AbiHRVAL (ORCPT
+        with ESMTP id S1347037AbiHRVZQ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 18 Aug 2022 17:00:11 -0400
-Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8133CD31FC
-        for <linux-media@vger.kernel.org>; Thu, 18 Aug 2022 14:00:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        from:to:cc:subject:date:message-id:mime-version
-        :content-transfer-encoding; s=k1; bh=DNFHSkc/9XD0IHp+EWFcSaSQYS0
-        nS/muBE/k1ZBILf8=; b=H6uoo853Vu3QQNSs1Tt7SlUYVDfJ6r0x5E65BgTaa/7
-        FaUXVhinALbmG/Yh6c5yDqWe1VGNQmJsm4Mvb4QGp6vgXhMIQxF0zhLckXw34ss8
-        rNnSQxv74/kFjFlNrH2+ZqShDoFZE0BCR09E2ClmUW8luDro4NnFOEEfukAB9wZY
-        =
-Received: (qmail 3959804 invoked from network); 18 Aug 2022 23:00:05 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 18 Aug 2022 23:00:05 +0200
-X-UD-Smtp-Session: l3s3148p1@l0sQRIrmEpQucref
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Gustavo Padovan <gustavo@padovan.org>,
-        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org
-Subject: [PATCH] dma-buf: move from strlcpy with unused retval to strscpy
-Date:   Thu, 18 Aug 2022 23:00:04 +0200
-Message-Id: <20220818210005.6673-1-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.35.1
+        Thu, 18 Aug 2022 17:25:16 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 14649EA160;
+        Thu, 18 Aug 2022 14:17:26 -0700 (PDT)
+Received: from nicolas-tpx395.localdomain (192-222-136-102.qc.cable.ebox.net [192.222.136.102])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: nicolas)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 10B05660037D;
+        Thu, 18 Aug 2022 22:17:11 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1660857433;
+        bh=KE0bQCqNtR+z+ksSI4I4sg0fOlUJH2F/9l/R0xeYO+U=;
+        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+        b=DQfoSdbAkNSPx81fc4H4bxwQbs7bvPPoYktXNZCJ7bB2f3xrzadMZxR2D/0hk/+Jq
+         UbhfJZsWzD4NfTQ4mKM4P/320wJoRYHOIuMWn8/rb6sIc+weuRBCbe6lUBrC9QkJD+
+         Sp6s34Ae66PjHnspNfxF08vtHrwOLIBUnDJx/IOyFIkki58/PTI0d4IAHd8UxYI0pg
+         irPIPFf6QODS+LuzvfkhTzDlu/wh5rnHeZe76qBx4nXPHBDcWAvmVRoAA5SiYLHV64
+         prkIEfGfgAu1weyyppxzD9T7wuTrrLDD7FE7EApyRpwysOdGJG2aPQBg41t7bKPAFc
+         5JbRy9nso92tA==
+Message-ID: <212924d309cb8594fc61e1c5bb2ad07d5bb9312d.camel@collabora.com>
+Subject: Re: [PATCH v1 3/3] media: cedrus: Fix endless loop in
+ cedrus_h265_skip_bits()
+From:   Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To:     Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+        linux-media@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Samuel Holland <samuel@sholland.org>
+Cc:     kernel@collabora.com, stable@vger.kernel.org,
+        linux-staging@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+        linux-kernel@vger.kernel.org
+Date:   Thu, 18 Aug 2022 17:17:02 -0400
+In-Reply-To: <2182ae07-4c0a-5937-7acc-3fad68d28baa@collabora.com>
+References: <20220818203308.439043-1-nicolas.dufresne@collabora.com>
+         <20220818203308.439043-4-nicolas.dufresne@collabora.com>
+         <2182ae07-4c0a-5937-7acc-3fad68d28baa@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.4 (3.44.4-1.fc36) 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=no autolearn_force=no
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -50,64 +67,60 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Follow the advice of the below link and prefer 'strscpy' in this
-subsystem. Conversion is 1:1 because the return value is not used.
-Generated by a coccinelle script.
+Le jeudi 18 ao=C3=BBt 2022 =C3=A0 23:39 +0300, Dmitry Osipenko a =C3=A9crit=
+=C2=A0:
+> On 8/18/22 23:33, Nicolas Dufresne wrote:
+> > From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+> >=20
+> > The busy status bit may never de-assert if number of programmed skip
+> > bits is incorrect, resulting in a kernel hang because the bit is polled
+> > endlessly in the code. Fix it by adding timeout for the bit-polling.
+> > This problem is reproducible by setting the data_bit_offset field of
+> > the HEVC slice params to a wrong value by userspace.
+> >=20
+> > Cc: stable@vger.kernel.org
+> > Reported-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+> > Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+> > Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+> > ---
+> >  drivers/staging/media/sunxi/cedrus/cedrus_h265.c | 6 ++++--
+> >  1 file changed, 4 insertions(+), 2 deletions(-)
+> >=20
+> > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c b/drivers=
+/staging/media/sunxi/cedrus/cedrus_h265.c
+> > index f703c585d91c5..f0bc118021b0a 100644
+> > --- a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
+> > +++ b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
+> > @@ -227,6 +227,7 @@ static void cedrus_h265_pred_weight_write(struct ce=
+drus_dev *dev,
+> >  static void cedrus_h265_skip_bits(struct cedrus_dev *dev, int num)
+> >  {
+> >  	int count =3D 0;
+> > +	u32 reg;
+>=20
+> This "reg" variable isn't needed anymore after switching to
+> cedrus_wait_for(). Sorry, I missed it :)
 
-Link: https://lore.kernel.org/r/CAHk-=wgfRnXz0W3D37d01q3JFkr_i_uTL=V6A6G1oUZcprmknw@mail.gmail.com/
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
----
- drivers/dma-buf/sw_sync.c   | 2 +-
- drivers/dma-buf/sync_file.c | 8 ++++----
- 2 files changed, 5 insertions(+), 5 deletions(-)
+Good catch thanks, will fix.
 
-diff --git a/drivers/dma-buf/sw_sync.c b/drivers/dma-buf/sw_sync.c
-index 348b3a9170fa..63f0aeb66db6 100644
---- a/drivers/dma-buf/sw_sync.c
-+++ b/drivers/dma-buf/sw_sync.c
-@@ -85,7 +85,7 @@ static struct sync_timeline *sync_timeline_create(const char *name)
- 
- 	kref_init(&obj->kref);
- 	obj->context = dma_fence_context_alloc(1);
--	strlcpy(obj->name, name, sizeof(obj->name));
-+	strscpy(obj->name, name, sizeof(obj->name));
- 
- 	obj->pt_tree = RB_ROOT;
- 	INIT_LIST_HEAD(&obj->pt_list);
-diff --git a/drivers/dma-buf/sync_file.c b/drivers/dma-buf/sync_file.c
-index 3ebec19a8e02..af57799c86ce 100644
---- a/drivers/dma-buf/sync_file.c
-+++ b/drivers/dma-buf/sync_file.c
-@@ -132,7 +132,7 @@ EXPORT_SYMBOL(sync_file_get_fence);
- char *sync_file_get_name(struct sync_file *sync_file, char *buf, int len)
- {
- 	if (sync_file->user_name[0]) {
--		strlcpy(buf, sync_file->user_name, len);
-+		strscpy(buf, sync_file->user_name, len);
- 	} else {
- 		struct dma_fence *fence = sync_file->fence;
- 
-@@ -172,7 +172,7 @@ static struct sync_file *sync_file_merge(const char *name, struct sync_file *a,
- 		return NULL;
- 	}
- 	sync_file->fence = fence;
--	strlcpy(sync_file->user_name, name, sizeof(sync_file->user_name));
-+	strscpy(sync_file->user_name, name, sizeof(sync_file->user_name));
- 	return sync_file;
- }
- 
-@@ -262,9 +262,9 @@ static long sync_file_ioctl_merge(struct sync_file *sync_file,
- static int sync_fill_fence_info(struct dma_fence *fence,
- 				 struct sync_fence_info *info)
- {
--	strlcpy(info->obj_name, fence->ops->get_timeline_name(fence),
-+	strscpy(info->obj_name, fence->ops->get_timeline_name(fence),
- 		sizeof(info->obj_name));
--	strlcpy(info->driver_name, fence->ops->get_driver_name(fence),
-+	strscpy(info->driver_name, fence->ops->get_driver_name(fence),
- 		sizeof(info->driver_name));
- 
- 	info->status = dma_fence_get_status(fence);
--- 
-2.35.1
+>=20
+> >  	while (count < num) {
+> >  		int tmp =3D min(num - count, 32);
+> > @@ -234,8 +235,9 @@ static void cedrus_h265_skip_bits(struct cedrus_dev=
+ *dev, int num)
+> >  		cedrus_write(dev, VE_DEC_H265_TRIGGER,
+> >  			     VE_DEC_H265_TRIGGER_FLUSH_BITS |
+> >  			     VE_DEC_H265_TRIGGER_TYPE_N_BITS(tmp));
+> > -		while (cedrus_read(dev, VE_DEC_H265_STATUS) & VE_DEC_H265_STATUS_VLD=
+_BUSY)
+> > -			udelay(1);
+> > +
+> > +		if (cedrus_wait_for(dev, VE_DEC_H265_STATUS, VE_DEC_H265_STATUS_VLD_=
+BUSY))
+> > +			dev_err_ratelimited(dev->dev, "timed out waiting to skip bits\n");
+> > =20
+> >  		count +=3D tmp;
+> >  	}
+>=20
+>=20
 
