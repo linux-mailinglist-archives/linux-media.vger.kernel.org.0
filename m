@@ -2,172 +2,164 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D174D598370
-	for <lists+linux-media@lfdr.de>; Thu, 18 Aug 2022 14:51:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 18B0C598381
+	for <lists+linux-media@lfdr.de>; Thu, 18 Aug 2022 14:56:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244819AbiHRMu5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 18 Aug 2022 08:50:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37998 "EHLO
+        id S244602AbiHRMz6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 18 Aug 2022 08:55:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45232 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244817AbiHRMur (ORCPT
+        with ESMTP id S244143AbiHRMz4 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 18 Aug 2022 08:50:47 -0400
-Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com [IPv6:2607:f8b0:4864:20::102b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ADADA72B48;
-        Thu, 18 Aug 2022 05:50:36 -0700 (PDT)
-Received: by mail-pj1-x102b.google.com with SMTP id s3-20020a17090a2f0300b001facfc6fdbcso1076427pjd.1;
-        Thu, 18 Aug 2022 05:50:36 -0700 (PDT)
+        Thu, 18 Aug 2022 08:55:56 -0400
+Received: from mail-vk1-xa29.google.com (mail-vk1-xa29.google.com [IPv6:2607:f8b0:4864:20::a29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2048321838;
+        Thu, 18 Aug 2022 05:55:55 -0700 (PDT)
+Received: by mail-vk1-xa29.google.com with SMTP id j11so715262vkk.11;
+        Thu, 18 Aug 2022 05:55:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=message-id:date:subject:cc:to:from:from:to:cc;
-        bh=vJnTLCeVR9FrR1fGRSRdR2jBPsd1aq0zZ9FQzI+eolU=;
-        b=MNghI+LDP186da8pPH5kN9fVLYJujS42WIxMQGjKnlNZa8RCbzlRfVTcF3q1cKj0zk
-         mcKXl5kVByFhgGoY8VY20bK91f6X/X25Swf/+nFpCSy5Xk28gky5VRN6ZIYUJ3hTSkFa
-         Raa6L68H0Toq88Lke3DIDhAoTzplcZQ3DOmDLFEkq7Q3szoxucTNmwtGsFkDZ+PY+KQV
-         k0QlCJ4WH0WiUmXCS7ZcMnniRhboVtbtoG+yJvcbnxWPRVoqiZhIy5GYnIJ7QEbKXtlh
-         Z1na53a+UmfHyXM5axPf8OcGmJrUXUvuSweboWqtf5+wU0Ddl3sbXs/02kMQ2xfgYRUY
-         iRKw==
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc;
+        bh=hdLIdfFHv3QXdsm7syIIcLHy/dA4pzmBakkxNtwnQ88=;
+        b=o4AQJs4EQBaaxaXP2SBezP608FaT/gCyKwh720xEW0SYsAhVydbNQ+ULcm3QbmaDWq
+         qGlstBouChh9bl8Wdu9MAfLXofhrblPQLZI8lnnMFCTJOERS/2tPGk7gjWdADDqdU0rl
+         dGIKKEU4G5D/69S0+9GVWzTe8dJKEiAX4iQsHLp4WpzGXT8pmTbnD7QllvxZ+6XBKw6u
+         OYS+2GVEsB5qDOwEVEGKypcfap13E1QWghJdayKM4k2EoJyqE8i46hCe5KlqMmfoxecP
+         RnqsZRVdalrunv3Nzo8vUcMaZKeE+EnsKBHn1fP8gW6Ji9PprHdWYAbpPvrSDyK/fZO7
+         etIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
-        bh=vJnTLCeVR9FrR1fGRSRdR2jBPsd1aq0zZ9FQzI+eolU=;
-        b=4ZynomhOXuyG334Ae9T5CzJllHGHktzHfXmhu1y7W/U9ysGlXZKV3MxlcH9RTNI5yB
-         bqos4pzaeD1OFjgp+9e6Rg3rsMVmb3ZpFE4t2G3vL0t2kgiAGhdoQvw1JzMOaxlBojnj
-         B7n1sQdL/du5ycgpumDmBW1FrTPfxu3Vo4WPRQmK0MF2kcxyOF/yXB6v4Nuyhb9eQnGR
-         b0CiuFUr/DxG5aL9H84iQK4KZ0VjIVgKZIKQCpjSqZSw6x7ScnxglD8np5I1fygWPVRw
-         /plJis3cumct88I2VgK6f5oAxoobE7208sYNOCOOeK1MhIEcmIZT0fhtWqocpyCPwiUn
-         2KiA==
-X-Gm-Message-State: ACgBeo0A/+Cu0GxzScj4Zk0h/TAa+GaZPhwIT35lqVj0oZpt9a31iyIo
-        6CR8x/MtfNL/SViPk2pF2x8=
-X-Google-Smtp-Source: AA6agR6XIc1+iaF72gu2Yv5kU53Tf7XtCVTsB/UrrSTAgOpxlJ5jT/K/Kg28sATRWPJ7zrAo3Ia6Nw==
-X-Received: by 2002:a17:90b:4f49:b0:1f5:c7c:b565 with SMTP id pj9-20020a17090b4f4900b001f50c7cb565mr8929936pjb.32.1660827034057;
-        Thu, 18 Aug 2022 05:50:34 -0700 (PDT)
-Received: from goorm.ap-northeast-2.compute.internal (ec2-3-39-17-166.ap-northeast-2.compute.amazonaws.com. [3.39.17.166])
-        by smtp.gmail.com with ESMTPSA id t15-20020a1709027fcf00b0016d5428f041sm1301228plb.199.2022.08.18.05.50.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Aug 2022 05:50:33 -0700 (PDT)
-From:   YongSu Yoo <yongsuyoo0215@gmail.com>
-To:     mchehab@kernel.org, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, yongsu.yoo@lge.com
-Cc:     YongSu Yoo <yongsuyoo0215@gmail.com>
-Subject: [PATCH] media: dvb_ca_en50221: A bug is fixed for size write
-Date:   Thu, 18 Aug 2022 12:50:27 +0000
-Message-Id: <20220818125027.1131-1-yongsuyoo0215@gmail.com>
-X-Mailer: git-send-email 2.17.1
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc;
+        bh=hdLIdfFHv3QXdsm7syIIcLHy/dA4pzmBakkxNtwnQ88=;
+        b=RQJHat+onoXbgkiqclwrU8jG5YGR8N2bRDO+MJ0JRhHUhtfB6ScJ0nubcYmP6E6Tsu
+         zUWfM6lHnJ5uqxbT9QIXSgeeE9D11C7cXyNVBSdHP5s0mZog1MOcnppK9K1SqQ1K+CsR
+         3GZyx4btzHe8gLxe9WKRse2YgwFGTG3egEOCRCXCc07tStAXsZjzIhNDa84NOQ9CRfYP
+         8viF630jwBruZVV22lKK3Fsg61zT/6fdcwNebp3Wb7/JVbAQc1+JpcTixnCDVlIazU7g
+         neof+KeeQ0E/1dyb2ALpg8+d3xtp9Zh20g9HK15npxwZcUsPxTSfiiflgEQFULBCyZmp
+         zZYw==
+X-Gm-Message-State: ACgBeo1ZcPqchMzbmdQ4kT9UHRlTLPBQRiXt9K/SAJ8Dzdi0nn3G/vLd
+        PA1YEBDpm19SExAhdZSCKft3SpvMWtsOV984CqK2GnXV
+X-Google-Smtp-Source: AA6agR515wlLrzNdYxk5EBy6qTgyBURqAAfnHWw4Yfs+cfqheuhvLpxfV7SJ4xHBR9yfkOPjA13VjUYxqn9wF8x/tpY=
+X-Received: by 2002:a1f:2b47:0:b0:380:59c5:8b8f with SMTP id
+ r68-20020a1f2b47000000b0038059c58b8fmr1095475vkr.20.1660827354101; Thu, 18
+ Aug 2022 05:55:54 -0700 (PDT)
+MIME-Version: 1.0
+References: <CANXPkT6mYusYe8O0dbq3vW+24SsUZ19PqhOL+wLFRnbFXwu0Zg@mail.gmail.com>
+ <CANXPkT7nOhH+5bD0ycyRBT9FKQBBszCVuWkqp4tFtVRf2+8DFg@mail.gmail.com>
+ <CANXPkT5k9Pw4ka6CihyCg0oTd-32Te-ox=f3=9rtCphVgrdctA@mail.gmail.com>
+ <165590120140.1149771.2257818527859865760@Monstersaurus> <4883f0a7-6a1b-31bd-33fe-db8f6dcf73fa@selasky.org>
+ <CANXPkT73ssg6RRyfDtp7c_8sO60a-UT0-Y4S1_=D=M_mcLNN9g@mail.gmail.com> <CANXPkT4qYOYPL+F=-Pi_NbQErq9WwrR-M-BHe=gP9Ay4bSs+=w@mail.gmail.com>
+In-Reply-To: <CANXPkT4qYOYPL+F=-Pi_NbQErq9WwrR-M-BHe=gP9Ay4bSs+=w@mail.gmail.com>
+From:   =?UTF-8?B?7Jyg7Jqp7IiY?= <yongsuyoo0215@gmail.com>
+Date:   Thu, 18 Aug 2022 21:55:43 +0900
+Message-ID: <CANXPkT5=ryAFvb1cO+Wb0CQYmytwedS2dqVTYqt2Km1fkK4w9Q@mail.gmail.com>
+Subject: Re: [PATCH] media: dvb_ringbuffer : Fix a bug in dvb_ringbuffer.c
+To:     Hans Petter Selasky <hps@selasky.org>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        mchehab@kernel.org
+Cc:     0215yys@hanmail.net,
+        =?UTF-8?B?7Jyg7Jqp7IiY?= <yongsuyoo0215@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
         FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Signed-off-by:Yongsu Yoo <yongsuyoo0215@gmail.com>
+Dear All,
 
-The function of "dvb_ca_en50221_write_data" at source/drivers/media
-/dvb-core/dvb_ca_en50221.c is used for two cases.
-The first case is for writing APDU data in the function of
-"dvb_ca_en50221_io_write" at source/drivers/media/dvb-core/
-dvb_ca_en50221.c.
-The second case is for writing the host link buf size on the
-Command Register in the function of "dvb_ca_en50221_link_init"
-at source/drivers/media/dvb-core/dvb_ca_en50221.c.
-In the second case, there exists a bug like followings.
-In the function of the "dvb_ca_en50221_link_init",
-after a TV host calculates the host link buf_size,
-the TV host writes the calculated host link buf_size on the
-Size Register.
-Accroding to the en50221 Spec (the page 60 of
-https://dvb.org/wp-content/uploads/2020/02/En50221.V1.pdf),
-before this writing operation, the "SW(CMDREG_SW)" flag in the
-Command Register should be set. We can see this setting operation
-in the function of the "dvb_ca_en50221_link_init" like below.
-...
-	if ((ret = ca->pub->write_cam_control(ca->pub, slot,
-CTRLIF_COMMAND, IRQEN | CMDREG_SW)) != 0)
-		return ret;
-...
-But, after that, the real writing operation is implemented using
-the function of the "dvb_ca_en50221_write_data" in the function of
-"dvb_ca_en50221_link_init", and the "dvb_ca_en50221_write_data"
-includes the function of "ca->pub->write_cam_control",
-and the function of the "ca->pub->write_cam_control" in the
-function of the "dvb_ca_en50221_wrte_data" does not include
-"CMDREG_SW" flag like below.
-...
-	if ((status = ca->pub->write_cam_control(ca->pub, slot,
-CTRLIF_COMMAND, IRQEN | CMDREG_HC)) != 0)
-...
-In the above source code, we can see only the "IRQEN | CMDREG_HC",
-but we cannot see the "CMDREG_SW".
-The "CMDREG_SW" flag which was set in the function of the
-"dvb_ca_en50221_link_init" was rollbacked by the follwoing function
-of the "dvb_ca_en50221_write_data".
-This is a bug. and this bug causes that the calculated host link buf_size
-is not properly written in the CI module.
-Through this patch, we fix this bug.
----
- drivers/media/dvb-core/dvb_ca_en50221.c | 12 +++++++-----
- 1 file changed, 7 insertions(+), 5 deletions(-)
+Can you pay your attention to this patch ?
+This is a very simple modification.
+But, too much time has already passed since I sent the first E-mail.
 
-diff --git a/drivers/media/dvb-core/dvb_ca_en50221.c b/drivers/media/dvb-core/dvb_ca_en50221.c
-index 15a08d8c69ef..13f249b0a080 100644
---- a/drivers/media/dvb-core/dvb_ca_en50221.c
-+++ b/drivers/media/dvb-core/dvb_ca_en50221.c
-@@ -187,7 +187,7 @@ static void dvb_ca_en50221_thread_wakeup(struct dvb_ca_private *ca);
- static int dvb_ca_en50221_read_data(struct dvb_ca_private *ca, int slot,
- 				    u8 *ebuf, int ecount);
- static int dvb_ca_en50221_write_data(struct dvb_ca_private *ca, int slot,
--				     u8 *ebuf, int ecount);
-+				     u8 *ebuf, int ecount, int size_write_flag);
- 
- /**
-  * findstr - Safely find needle in haystack.
-@@ -370,7 +370,7 @@ static int dvb_ca_en50221_link_init(struct dvb_ca_private *ca, int slot)
- 	ret = dvb_ca_en50221_wait_if_status(ca, slot, STATUSREG_FR, HZ / 10);
- 	if (ret)
- 		return ret;
--	ret = dvb_ca_en50221_write_data(ca, slot, buf, 2);
-+	ret = dvb_ca_en50221_write_data(ca, slot, buf, 2, CMDREG_SW);
- 	if (ret != 2)
- 		return -EIO;
- 	ret = ca->pub->write_cam_control(ca->pub, slot, CTRLIF_COMMAND, IRQEN);
-@@ -778,11 +778,13 @@ static int dvb_ca_en50221_read_data(struct dvb_ca_private *ca, int slot,
-  * @buf: The data in this buffer is treated as a complete link-level packet to
-  *	 be written.
-  * @bytes_write: Size of ebuf.
-+ * @size_write_flag: A flag on Command Register which says whether the link size
-+ * information will be writen or not. 
-  *
-  * return: Number of bytes written, or < 0 on error.
-  */
- static int dvb_ca_en50221_write_data(struct dvb_ca_private *ca, int slot,
--				     u8 *buf, int bytes_write)
-+				     u8 *buf, int bytes_write, int size_write_flag)
- {
- 	struct dvb_ca_slot *sl = &ca->slot_info[slot];
- 	int status;
-@@ -817,7 +819,7 @@ static int dvb_ca_en50221_write_data(struct dvb_ca_private *ca, int slot,
- 
- 	/* OK, set HC bit */
- 	status = ca->pub->write_cam_control(ca->pub, slot, CTRLIF_COMMAND,
--					    IRQEN | CMDREG_HC);
-+					    IRQEN | CMDREG_HC | size_write_flag);
- 	if (status)
- 		goto exit;
- 
-@@ -1508,7 +1510,7 @@ static ssize_t dvb_ca_en50221_io_write(struct file *file,
- 
- 			mutex_lock(&sl->slot_lock);
- 			status = dvb_ca_en50221_write_data(ca, slot, fragbuf,
--							   fraglen + 2);
-+							   fraglen + 2, 0);
- 			mutex_unlock(&sl->slot_lock);
- 			if (status == (fraglen + 2)) {
- 				written = 1;
--- 
-2.17.1
-
+2022=EB=85=84 8=EC=9B=94 3=EC=9D=BC (=EC=88=98) =EC=98=A4=ED=9B=84 9:04, =
+=EC=9C=A0=EC=9A=A9=EC=88=98 <yongsuyoo0215@gmail.com>=EB=8B=98=EC=9D=B4 =EC=
+=9E=91=EC=84=B1:
+>
+> Dear All.
+> Too much time has already passed since I first sent this Email.
+> Can you share how this patch is going ?
+>
+> 2022=EB=85=84 6=EC=9B=94 23=EC=9D=BC (=EB=AA=A9) =EC=98=A4=ED=9B=84 6:11,=
+ =EC=9C=A0=EC=9A=A9=EC=88=98 <yongsuyoo0215@gmail.com>=EB=8B=98=EC=9D=B4 =
+=EC=9E=91=EC=84=B1:
+> >
+> > Dear Kieran Bingham
+> >
+> > I sent E-mail again by Linux terminal by using the command " ... git
+> > send-email .."
+> > I believe that you will surely get the diff file.
+> >
+> > Thank you
+> >
+> > 2022=EB=85=84 6=EC=9B=94 22=EC=9D=BC (=EC=88=98) =EC=98=A4=ED=9B=84 10:=
+12, Hans Petter Selasky <hps@selasky.org>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=
+=B1:
+> > >
+> > > Hi Kieran,
+> > >
+> > > The consumed variable should not be negative. This bug has been there
+> > > since the beginning of the GIT at Linux from what I can see.
+> > >
+> > > +1
+> > >
+> > > --HPS
+> > >
+> > >  From 108c6acb2cc4bc4314b96f6f254a04b2873a096c Mon Sep 17 00:00:00 20=
+01
+> > > From: YongSu Yoo <yongsuyoo0215@gmail.com>
+> > > Date: Sun, 22 May 2022 04:53:12 +0000
+> > > Subject: [PATCH] media: dvb_ringbuffer : Fix a bug in dvb_ringbuffer.=
+c
+> > >
+> > > Signed-off-by:Yongsu Yoo <yongsuyoo0215@gmail.com>
+> > >
+> > > The function dvb_ringbuffer_pkt_next in
+> > > /linux-next/drviers/media/dvb-core/dvb_ringbuffer.c,
+> > > which searches the idx of the next valid packet in the ring
+> > > buffer of the ca->slot_info[slot].rx_buffer at
+> > > /linux-next/drivers/media/dvb-core/dvb_ca_en50221.c,
+> > > has the following problem.
+> > > In calculating the amounts of the consumed address of the ring
+> > > buffer, if the read address(rbuf->pread) of the ring buffer is
+> > > smaller than the idx, the amounts of the searched address
+> > > should be (idx - rbuf->pread),
+> > > whereas if the read address(rbuf->pread) of the ring buffer is
+> > > larger than the idx, the amounts of the consumed address should
+> > > be (idx - rbuf->pread + rbug->size). But there exists an
+> > > incorrect logic that the rbug-size was not properly added on
+> > > (idx - rbug->pread) in the later case. With this commit, we
+> > > fixed this bug.
+> > > ---
+> > >   drivers/media/dvb-core/dvb_ringbuffer.c | 4 +++-
+> > >   1 file changed, 3 insertions(+), 1 deletion(-)
+> > >
+> > > diff --git a/drivers/media/dvb-core/dvb_ringbuffer.c
+> > > b/drivers/media/dvb-core/dvb_ringbuffer.c
+> > > index d1d471af0636..7d4558de8e83 100644
+> > > --- a/drivers/media/dvb-core/dvb_ringbuffer.c
+> > > +++ b/drivers/media/dvb-core/dvb_ringbuffer.c
+> > > @@ -335,7 +335,9 @@ ssize_t dvb_ringbuffer_pkt_next(struct
+> > > dvb_ringbuffer *rbuf, size_t idx, size_t*
+> > >                 idx =3D (idx + curpktlen + DVB_RINGBUFFER_PKTHDRSIZE)=
+ % rbuf->size;
+> > >         }
+> > >
+> > > -       consumed =3D (idx - rbuf->pread) % rbuf->size;
+> > > +       consumed =3D (idx - rbuf->pread);
+> > > +       if (consumed < 0)
+> > > +               consumed +=3D rbuf->size;
+> > >
+> > >         while((dvb_ringbuffer_avail(rbuf) - consumed) >
+> > > DVB_RINGBUFFER_PKTHDRSIZE) {
+> > >
+> > > --
+> > > 2.17.1
