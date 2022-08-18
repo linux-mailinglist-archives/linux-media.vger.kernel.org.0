@@ -2,77 +2,77 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9A931597E3D
-	for <lists+linux-media@lfdr.de>; Thu, 18 Aug 2022 07:51:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CC1E6597E5D
+	for <lists+linux-media@lfdr.de>; Thu, 18 Aug 2022 08:07:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243432AbiHRFuy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 18 Aug 2022 01:50:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39764 "EHLO
+        id S240330AbiHRGGk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 18 Aug 2022 02:06:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53236 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243198AbiHRFuw (ORCPT
+        with ESMTP id S238407AbiHRGGj (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 18 Aug 2022 01:50:52 -0400
-Received: from mail-qk1-x736.google.com (mail-qk1-x736.google.com [IPv6:2607:f8b0:4864:20::736])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 52DCE7DF47
-        for <linux-media@vger.kernel.org>; Wed, 17 Aug 2022 22:50:50 -0700 (PDT)
-Received: by mail-qk1-x736.google.com with SMTP id g16so417431qkl.11
-        for <linux-media@vger.kernel.org>; Wed, 17 Aug 2022 22:50:50 -0700 (PDT)
+        Thu, 18 Aug 2022 02:06:39 -0400
+Received: from mail-qv1-xf2f.google.com (mail-qv1-xf2f.google.com [IPv6:2607:f8b0:4864:20::f2f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DA62689CCE
+        for <linux-media@vger.kernel.org>; Wed, 17 Aug 2022 23:06:38 -0700 (PDT)
+Received: by mail-qv1-xf2f.google.com with SMTP id y4so557468qvp.3
+        for <linux-media@vger.kernel.org>; Wed, 17 Aug 2022 23:06:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc;
-        bh=KnXVfj+T4u59u5J2KygjH6Rp2ec5Yoi6AW22Q/4H+6I=;
-        b=gYFJGDKAZN34/WoR5EjsSipswRGwu4w7Ht8XDPDeVPSVtQHCznF5MPwovMhqc8OC8u
-         8THI+3cp0xPYujus/2EiU0efdwxnIE5LnwRoH/V8aNGE7bdRG1C7p2AH6QjaM1p/3xVQ
-         aYAT62RdhRis0COJDJJ5ZL5+dKJu7zqxUmYmc=
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc;
+        bh=cT4f2XhjXBJBHTSJpC4pdUChqVFRK77ChBprqcQ+BVU=;
+        b=bq60LqMxqmmufCyuH6E8yRgzSpa0YgzrXIQoeCjJyytvS1FVdZNZidQ7JY6qWrcEm+
+         Aec8EbmTohoEYZdrL/KXEuBb9ei088WCipMorbwpAlwCOx+yT+hYnVFKcWDV0Uox9IBa
+         eAk/QIIB7ypgUuMjQPcl3mgUEOQhVQ2AUbHgk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc;
-        bh=KnXVfj+T4u59u5J2KygjH6Rp2ec5Yoi6AW22Q/4H+6I=;
-        b=M6KVyCMFvfBZx2hQZ6DE84dCFBoieav2DtnB0+Sdyzlu92Zj+GkWEQCL8+eVEyGKe2
-         Kq3dCyKl1oW5TrKfNS4kIdd4mCop4z7Lu0WK+dQm5tp3Z//bvllSfuTayX8vjqEgXtkN
-         dA8rRuPQS5ephTkxaZvWAbPzOytU4uxurbNUV255VgFuoHBsI0Rl92OozJr9Jl9ZQ5GX
-         hVkYE1SZZFjevt/Ky4tQpI02+w5ylitKXxSbepMxozTjGqtOGFuhNJWm+qb41UMdMoet
-         bs4Mw0ZMLbYKq8WoV/OIftmMkoGmOlYIGfPObX1N017XV3laQVoB+yWMwyAsjURuahPu
-         QvSg==
-X-Gm-Message-State: ACgBeo1PjATxm3TKtsD/dkVgUVnSSO58/UMAsnQ+Com3txq4A0t6rf7y
-        J3SvHzYaw6ihoVWqwYw9d8biOzlkKiw7Yw==
-X-Google-Smtp-Source: AA6agR4ypHE633u64K6IlP2Y3rClc2cY0bRrQ5EKQTXv7zmFnlpIfAakoCohJitGDp1z0aaGWrgOLw==
-X-Received: by 2002:a05:620a:15ec:b0:6bb:4bcf:a14 with SMTP id p12-20020a05620a15ec00b006bb4bcf0a14mr974134qkm.242.1660801849076;
-        Wed, 17 Aug 2022 22:50:49 -0700 (PDT)
-Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com. [209.85.128.177])
-        by smtp.gmail.com with ESMTPSA id bl5-20020a05620a1a8500b006b9c6d590fasm744347qkb.61.2022.08.17.22.50.47
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc;
+        bh=cT4f2XhjXBJBHTSJpC4pdUChqVFRK77ChBprqcQ+BVU=;
+        b=QOm3FuNpmK7LM9nwmUCn1aDH+yxyP3DEJFptym1DFbUtbCtEmLdn6W7vD0EXU8eavf
+         4/V6H/eT44hGO/IiEVd48UpXWCmlstJWgwuicePBkCudW9H+ocMVIPCUcjOhHSdJwQq6
+         zsDJZbMRAtbaFHql6myj1EpnAigQAIh/ritSGcYIEmUmQrGKxII7JbiZWqw9svdamIYW
+         HtYuGP3/fwlqnjyRVccw3eo9f4U0xf67nAaImcHF71qgG+8mAcX/6zHsxA5Oeo/eEEPM
+         bI13EjnLQlOa4H/Bjo2Re8Q+es3tWPY28NjEWANKGlZ00Gf6hvrxqB318syaTe8T1SXt
+         nhGw==
+X-Gm-Message-State: ACgBeo17l7Vh+2R3zy+qjRa2QzXeBSWR/aXDy0ELhBmwESSa/DlOzgmR
+        mAaxRPyRk5QaXzCwII9p1GGsq4qbvoxyux3i
+X-Google-Smtp-Source: AA6agR5vRncjYko6rOXr0DUzm8TlTvYH3DSSbvT105K3vocO9BLVg9x7TiHcgGp+8VCrQNc8AnIgxg==
+X-Received: by 2002:a05:6214:c43:b0:476:eb8c:bae8 with SMTP id r3-20020a0562140c4300b00476eb8cbae8mr1073819qvj.125.1660802797713;
+        Wed, 17 Aug 2022 23:06:37 -0700 (PDT)
+Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com. [209.85.128.169])
+        by smtp.gmail.com with ESMTPSA id 22-20020ac85956000000b00343057845f7sm451882qtz.20.2022.08.17.23.06.36
         for <linux-media@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 17 Aug 2022 22:50:48 -0700 (PDT)
-Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-32a17d3bba2so14254587b3.9
-        for <linux-media@vger.kernel.org>; Wed, 17 Aug 2022 22:50:47 -0700 (PDT)
-X-Received: by 2002:a25:6a46:0:b0:67b:66ad:ae40 with SMTP id
- f67-20020a256a46000000b0067b66adae40mr1387247ybc.261.1660801846946; Wed, 17
- Aug 2022 22:50:46 -0700 (PDT)
+        Wed, 17 Aug 2022 23:06:36 -0700 (PDT)
+Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-324ec5a9e97so15097687b3.7
+        for <linux-media@vger.kernel.org>; Wed, 17 Aug 2022 23:06:36 -0700 (PDT)
+X-Received: by 2002:a25:a0c3:0:b0:68f:69c2:99ba with SMTP id
+ i3-20020a25a0c3000000b0068f69c299bamr1428785ybm.575.1660802796196; Wed, 17
+ Aug 2022 23:06:36 -0700 (PDT)
 MIME-Version: 1.0
-References: <CAAFQd5AL=OejdaubnYDRF4M1EKyStZP_FAMPz4CJ=KCa_8QjaA@mail.gmail.com>
- <CF192A87-1664-45B2-B26C-A9B8B6A52523@soulik.info> <CAAFQd5DTNDkZ7W0Rs8Xfq-x+y+cmHZHkDYQys29aNt2YvCJc1A@mail.gmail.com>
- <7c7c2c49-a0e4-cda8-be29-0d143851b9fd@synaptics.com>
-In-Reply-To: <7c7c2c49-a0e4-cda8-be29-0d143851b9fd@synaptics.com>
+References: <20220808162750.828001-1-randy.li@synaptics.com> <20220808162750.828001-3-randy.li@synaptics.com>
+In-Reply-To: <20220808162750.828001-3-randy.li@synaptics.com>
 From:   Tomasz Figa <tfiga@chromium.org>
-Date:   Thu, 18 Aug 2022 14:50:35 +0900
-X-Gmail-Original-Message-ID: <CAAFQd5BDWBwYH=hfQBmvuyB6xSgXhHKhv2093w2irz4C4_kX5w@mail.gmail.com>
-Message-ID: <CAAFQd5BDWBwYH=hfQBmvuyB6xSgXhHKhv2093w2irz4C4_kX5w@mail.gmail.com>
-Subject: Re: [PATCH] [Draft]: media: videobuf2-dma-heap: add a vendor defined
- memory runtine
-To:     Hsia-Jun Li <Randy.Li@synaptics.com>
-Cc:     linux-media@vger.kernel.org, m.szyprowski@samsung.com,
-        sumit.semwal@linaro.org, christian.koenig@amd.com,
-        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org, ayaka <ayaka@soulik.info>
+Date:   Thu, 18 Aug 2022 15:06:25 +0900
+X-Gmail-Original-Message-ID: <CAAFQd5AKjpJ+fPAeCqdNnJbS4R7SdaHkfyW4qG1xXr-sE801pQ@mail.gmail.com>
+Message-ID: <CAAFQd5AKjpJ+fPAeCqdNnJbS4R7SdaHkfyW4qG1xXr-sE801pQ@mail.gmail.com>
+Subject: Re: [PATCH 2/2] [WIP]: media: Add Synaptics compressed tiled format
+To:     Hsia-Jun Li <randy.li@synaptics.com>
+Cc:     dri-devel@lists.freedesktop.org, maarten.lankhorst@linux.intel.com,
+        mripard@kernel.org, tzimmermann@suse.de, airlied@linux.ie,
+        daniel@ffwll.ch, mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
+        laurent.pinchart@ideasonboard.com, ezequiel@vanguardiasur.com.ar,
+        sakari.ailus@linux.intel.com, ribalda@chromium.org,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        sebastian.hesselbarth@gmail.com, jszhang@kernel.org,
+        linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=unavailable autolearn_force=no version=3.4.6
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -81,251 +81,69 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 Hi Randy,
 
-Sorry for the late reply, I went on vacation last week.
-
-On Sun, Aug 7, 2022 at 12:23 AM Hsia-Jun Li <Randy.Li@synaptics.com> wrote:
+On Tue, Aug 9, 2022 at 1:28 AM Hsia-Jun Li <randy.li@synaptics.com> wrote:
 >
+> From: "Hsia-Jun(Randy) Li" <randy.li@synaptics.com>
 >
->
-> On 8/5/22 18:09, Tomasz Figa wrote:
-> > CAUTION: Email originated externally, do not click links or open attach=
-ments unless you recognize the sender and know the content is safe.
-> >
-> >
-> > On Tue, Aug 2, 2022 at 9:21 PM ayaka <ayaka@soulik.info> wrote:
-> >>
-> >> Sorry, the previous one contains html data.
-> >>
-> >>> On Aug 2, 2022, at 3:33 PM, Tomasz Figa <tfiga@chromium.org> wrote:
-> >>>
-> >>> =EF=BB=BFOn Mon, Aug 1, 2022 at 8:43 PM ayaka <ayaka@soulik.info> wro=
-te:
-> >>>> Sent from my iPad
-> >>>>>> On Aug 1, 2022, at 5:46 PM, Tomasz Figa <tfiga@chromium.org> wrote=
-:
-> >>>>> =EF=BB=BFCAUTION: Email originated externally, do not click links o=
-r open attachments unless you recognize the sender and know the content is =
-safe.
-> >>>>>> On Mon, Aug 1, 2022 at 3:44 PM Hsia-Jun Li <Randy.Li@synaptics.com=
-> wrote:
-> >>>>>>> On 8/1/22 14:19, Tomasz Figa wrote:
-> >>>>>> Hello Tomasz
-> >>>>>>> ?Hi Randy,
-> >>>>>>> On Mon, Aug 1, 2022 at 5:21 AM <ayaka@soulik.info> wrote:
-> >>>>>>>> From: Randy Li <ayaka@soulik.info>
-> >>>>>>>> This module is still at a early stage, I wrote this for showing =
-what
-> >>>>>>>> APIs we need here.
-> >>>>>>>> Let me explain why we need such a module here.
-> >>>>>>>> If you won't allocate buffers from a V4L2 M2M device, this modul=
-e
-> >>>>>>>> may not be very useful. I am sure the most of users won't know a
-> >>>>>>>> device would require them allocate buffers from a DMA-Heap then
-> >>>>>>>> import those buffers into a V4L2's queue.
-> >>>>>>>> Then the question goes back to why DMA-Heap. From the Android's
-> >>>>>>>> description, we know it is about the copyright's DRM.
-> >>>>>>>> When we allocate a buffer in a DMA-Heap, it may register that bu=
-ffer
-> >>>>>>>> in the trusted execution environment so the firmware which is ru=
-nning
-> >>>>>>>> or could only be acccesed from there could use that buffer later=
-.
-> >>>>>>>> The answer above leads to another thing which is not done in thi=
-s
-> >>>>>>>> version, the DMA mapping. Although in some platforms, a DMA-Heap
-> >>>>>>>> responses a IOMMU device as well. For the genernal purpose, we w=
-ould
-> >>>>>>>> be better assuming the device mapping should be done for each de=
-vice
-> >>>>>>>> itself. The problem here we only know alloc_devs in those DMAbuf
-> >>>>>>>> methods, which are DMA-heaps in my design, the device from the q=
-ueue
-> >>>>>>>> is not enough, a plane may requests another IOMMU device or tabl=
-e
-> >>>>>>>> for mapping.
-> >>>>>>>> Signed-off-by: Randy Li <ayaka@soulik.info>
-> >>>>>>>> ---
-> >>>>>>>> drivers/media/common/videobuf2/Kconfig        |   6 +
-> >>>>>>>> drivers/media/common/videobuf2/Makefile       |   1 +
-> >>>>>>>> .../common/videobuf2/videobuf2-dma-heap.c     | 350 ++++++++++++=
-++++++
-> >>>>>>>> include/media/videobuf2-dma-heap.h            |  30 ++
-> >>>>>>>> 4 files changed, 387 insertions(+)
-> >>>>>>>> create mode 100644 drivers/media/common/videobuf2/videobuf2-dma-=
-heap.c
-> >>>>>>>> create mode 100644 include/media/videobuf2-dma-heap.h
-> >>>>>>> First of all, thanks for the series.
-> >>>>>>> Possibly a stupid question, but why not just allocate the DMA-buf=
-s
-> >>>>>>> directly from the DMA-buf heap device in the userspace and just i=
-mport
-> >>>>>>> the buffers to the V4L2 device using V4L2_MEMORY_DMABUF?
-> >>>>>> Sometimes the allocation policy could be very complex, let's suppo=
-se a
-> >>>>>> multiple planes pixel format enabling with frame buffer compressio=
-n.
-> >>>>>> Its luma, chroma data could be allocated from a pool which is dele=
-gated
-> >>>>>> for large buffers while its metadata would come from a pool which =
-many
-> >>>>>> users could take some few slices from it(likes system pool).
-> >>>>>> Then when we have a new users knowing nothing about this platform,=
- if we
-> >>>>>> just configure the alloc_devs in each queues well. The user won't =
-need
-> >>>>>> to know those complex rules.
-> >>>>>> The real situation could be more complex, Samsung MFC's left and r=
-ight
-> >>>>>> banks could be regarded as two pools, many devices would benefit f=
-rom
-> >>>>>> this either from the allocation times or the security buffers poli=
-cy.
-> >>>>>> In our design, when we need to do some security decoding(DRM video=
-),
-> >>>>>> codecs2 would allocate buffers from the pool delegated for that. W=
-hile
-> >>>>>> the non-DRM video, users could not care about this.
-> >>>>> I'm a little bit surprised about this, because on Android all the
-> >>>>> graphics buffers are allocated from the system IAllocator and impor=
-ted
-> >>>>> to the specific devices.
-> >>>> In the non-tunnel mode, yes it is. While the tunnel mode is complete=
-ly vendor defined. Neither HWC nor codec2 cares about where the buffers com=
-ing from, you could do what ever you want.
-> >>>> Besides there are DRM video in GNU Linux platform, I heard the webki=
-t has made huge effort here and Playready is one could work in non-Android =
-Linux.
-> >>>>> Would it make sense to instead extend the UAPI to expose enough
-> >>>>> information about the allocation requirements to the userspace, so =
-it
-> >>>>> can allocate correctly?
-> >>>> Yes, it could. But as I said it would need the users to do more work=
-s.
-> >>>>> My reasoning here is that it's not a driver's decision to allocate
-> >>>>> from a DMA-buf heap (and which one) or not. It's the userspace whic=
-h
-> >>>>> knows that, based on the specific use case that it wants to fulfill=
-.
-> >>>> Although I would like to let the users decide that, users just can=
-=E2=80=99t do that which would violate the security rules in some platforms=
-.
-> >>>> For example,  video codec and display device could only access a reg=
-ion of memory, any other device or trusted apps can=E2=80=99t access it. Us=
-ers have to allocate the buffer from the pool the vendor decided.
-> >>>> So why not we offer a quick way that users don=E2=80=99t need to try=
- and error.
-> >>>
-> >>> In principle, I'm not against integrating DMA-buf heap with vb2,
-> >>> however I see some problems I mentioned before:
-> >>>
-> >>> 1) How would the driver know if it should allocate from a DMA-buf hea=
-p or not?
-> >>
-> >> struct vb2_queue.mem_ops
-> >>
-> >> int (*queue_setup)(struct vb2_queue *q,unsigned int *num_buffers, unsi=
-gned int *num_planes, unsigned int sizes[], struct device *alloc_devs[]);
-> >
-> > Sorry, I don't understand what you mean here.
-> >
-> > Just to make sure we're on the same page - what I'm referring to is
-> > that whether DMA-buf heap is used or not is specific to a given use
-> > case, which is controlled by the userspace. So the userspace must be
-> > able to control whether the driver allocates from a DMA-buf heap or
-> > the regular way.
-> No, it does not depend on the use case here. We don't accept any buffers
-> beyond the region we decided. Even for the non-DRM, non-security video,
-> our codec devices are running under the secure mode.
->
-> You MUST allocate the buffer for a device from the DMA-heap we(SYNA)
-> decided.
+> The most of detail has been written in the drm.
+> Please notice that the tiled formats here request
+> one more plane for storing the motion vector metadata.
+> This buffer won't be compressed, so you can't append
+> it to luma or chroma plane.
 
-That's your use case, but there could be use cases which work
-differently. In fact, in ChromeOS we only use the secure allocation
-path for protected content, because it imposes some overhead.
-
->
-> I believe some other devices may have much limitation for not the
-> security reason, for example, it can't access the memory above 4 GiB or
-> for the performance's reason.
-
-For such limitations, there is the shared DMA pool or restricted DMA
-pool functionality, which can be given to a device in DT and then the
-DMA mapping API would just allocate within that area for that device.
-Maybe that's what you need here?
-
-> >
-> >>
-> >>> 2) How would the driver know which heap to allocate from?
-> >>
-> >>  From vb2_queue.alloc_devs
-> >>
-> >> What I did now is likes what MFC does, create some mem_alloc_devs.
-> >> It would be better that we could retrieve the DMA-heaps=E2=80=99 devic=
-es from kernel, but that is not enough, we need a place to store the heap f=
-lags although none of them are defined yet.
-> >>
-> >>  From Android documents, I think it is unlikely we would have heap fla=
-gs.
-> >> =E2=80=9CStandardization: The DMA-BUF heaps framework offers a well-de=
-fined UAPI. ION allowed custom flags and heap IDs that prevented developing=
- a common testing framework because each device=E2=80=99s ION implementatio=
-n could behave differently.=E2=80=9D
-> >>
-> >
-> > alloc_devs is something that the driver sets and it's a struct device
-> > for which the DMA API can be called to manage the DMA buffers for this
-> > video device. It's not a way to select a use case-dependent allocation
-> > method.
-> >
-> I see, then move to the last question, we need to expand the V4L2
-> framework's structure.
-> >>> 3) How would the heap know how to allocate properly for the device?
-> >>>
-> >> Because =E2=80=9Ceach DMA-BUF heap is a separate character device=E2=
-=80=9D.
-> >
-> > Could you elaborate? Sorry, I'm not sure how this answers my question.
-> Because a DMA-heap, a heap device itself is enough here, may plus HEAP
-> flag when there is.
->
-> I don't know what else would be need to do here.
-> If you allocate a buffer from a heap which is delegated for security
-> memory of that device, the heap driver itself would inform the TEE the
-> pages occupied by it or the memory allocated from the pool which is in a
-> region of memory reserved for this purpose.
-
-So the heap is only for the video device?
-
-> >
-> >> But as I said in the first draft I am not sure about the DMA mapping p=
-art. alloc_devs responds for the heap, we have a device variable in the que=
-ue that mapping function could access, but that may not be enough. A plane =
-may apply a different mapping policy or IOMMU here.
-> >>
-> >> Would it be better that I create a interface here that creating a memd=
-ev with DMA-heap description ?
-> >
-> > My intuition still tells me that it would be universally better to
-> > just let the userspace allocate the buffers independently (like with
-> > gralloc/Ion) and import to V4L2 using V4L2_MEM_DMABUF. It was possible
-> > to do things this way nicely with regular Android graphics buffers, so
-> > could you explain what difference of your use case makes it
-> > impossible?
-> Without keeping the backward compatibility, it won't have any problem IF
-> we could tell the users the acceptable DMA-heap for each of planes and
-> DMA-heap's heap flags.
->
-> We don't have an ioctl for this yet, the most possible for the decoder
-> is doing that at GET_FMT ioctl()?.
-
-Do we need the kernel to tell the userspace which heap to use? As you
-mentioned above, the heap would be specific for the video device and
-the userspace would also be specific for your use case, so why
-couldn't it just find the right heap on its own (e.g. by name)?
-
-As for heap flags, could you elaborate on what kind of flags you
-imagine could be decided by a V4L2 driver?
+Does the motion vector buffer need to be exposed to userspace? Is the
+decoder stateless (requires userspace to specify the reference frames)
+or stateful (manages the entire decoding process internally)?
 
 Best regards,
 Tomasz
+
+>
+> Signed-off-by: Hsia-Jun(Randy) Li <randy.li@synaptics.com>
+> ---
+>  drivers/media/v4l2-core/v4l2-common.c | 1 +
+>  drivers/media/v4l2-core/v4l2-ioctl.c  | 2 ++
+>  include/uapi/linux/videodev2.h        | 2 ++
+>  3 files changed, 5 insertions(+)
+>
+> diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-core/v4l2-common.c
+> index e0fbe6ba4b6c..f645278b3055 100644
+> --- a/drivers/media/v4l2-core/v4l2-common.c
+> +++ b/drivers/media/v4l2-core/v4l2-common.c
+> @@ -314,6 +314,7 @@ const struct v4l2_format_info *v4l2_format_info(u32 format)
+>                 { .format = V4L2_PIX_FMT_SGBRG12,       .pixel_enc = V4L2_PIXEL_ENC_BAYER, .mem_planes = 1, .comp_planes = 1, .bpp = { 2, 0, 0, 0 }, .hdiv = 1, .vdiv = 1 },
+>                 { .format = V4L2_PIX_FMT_SGRBG12,       .pixel_enc = V4L2_PIXEL_ENC_BAYER, .mem_planes = 1, .comp_planes = 1, .bpp = { 2, 0, 0, 0 }, .hdiv = 1, .vdiv = 1 },
+>                 { .format = V4L2_PIX_FMT_SRGGB12,       .pixel_enc = V4L2_PIXEL_ENC_BAYER, .mem_planes = 1, .comp_planes = 1, .bpp = { 2, 0, 0, 0 }, .hdiv = 1, .vdiv = 1 },
+> +               { .format = V4L2_PIX_FMT_NV12M_V4H1C, .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 5, .comp_planes = 2, .bpp = { 1, 2, 0, 0 }, .hdiv = 2, .vdiv = 2, .block_w = { 128, 128 }, .block_h = { 128, 128 } },
+>         };
+>         unsigned int i;
+>
+> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
+> index e6fd355a2e92..8f65964aff08 100644
+> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
+> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+> @@ -1497,6 +1497,8 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
+>                 case V4L2_PIX_FMT_MT21C:        descr = "Mediatek Compressed Format"; break;
+>                 case V4L2_PIX_FMT_QC08C:        descr = "QCOM Compressed 8-bit Format"; break;
+>                 case V4L2_PIX_FMT_QC10C:        descr = "QCOM Compressed 10-bit Format"; break;
+> +               case V4L2_PIX_FMT_NV12M_V4H1C:  descr = "Synaptics Compressed 8-bit tiled Format";break;
+> +               case V4L2_PIX_FMT_NV12M_10_V4H3P8C:     descr = "Synaptics Compressed 10-bit tiled Format";break;
+>                 default:
+>                         if (fmt->description[0])
+>                                 return;
+> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+> index 01e630f2ec78..7e928cb69e7c 100644
+> --- a/include/uapi/linux/videodev2.h
+> +++ b/include/uapi/linux/videodev2.h
+> @@ -661,6 +661,8 @@ struct v4l2_pix_format {
+>  #define V4L2_PIX_FMT_NV12MT_16X16 v4l2_fourcc('V', 'M', '1', '2') /* 12  Y/CbCr 4:2:0 16x16 tiles */
+>  #define V4L2_PIX_FMT_NV12M_8L128      v4l2_fourcc('N', 'A', '1', '2') /* Y/CbCr 4:2:0 8x128 tiles */
+>  #define V4L2_PIX_FMT_NV12M_10BE_8L128 v4l2_fourcc_be('N', 'T', '1', '2') /* Y/CbCr 4:2:0 10-bit 8x128 tiles */
+> +#define V4L2_PIX_FMT_NV12M_V4H1C v4l2_fourcc('S', 'Y', '1', '2')   /* 12  Y/CbCr 4:2:0 tiles */
+> +#define V4L2_PIX_FMT_NV12M_10_V4H3P8C v4l2_fourcc('S', 'Y', '1', '0')   /* 12  Y/CbCr 4:2:0 10-bits tiles */
+>
+>  /* Bayer formats - see http://www.siliconimaging.com/RGB%20Bayer.htm */
+>  #define V4L2_PIX_FMT_SBGGR8  v4l2_fourcc('B', 'A', '8', '1') /*  8  BGBG.. GRGR.. */
+> --
+> 2.17.1
+>
