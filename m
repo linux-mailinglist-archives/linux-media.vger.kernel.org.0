@@ -2,276 +2,330 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6F214597E12
-	for <lists+linux-media@lfdr.de>; Thu, 18 Aug 2022 07:28:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9A931597E3D
+	for <lists+linux-media@lfdr.de>; Thu, 18 Aug 2022 07:51:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243165AbiHRF0A (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 18 Aug 2022 01:26:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53484 "EHLO
+        id S243432AbiHRFuy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 18 Aug 2022 01:50:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39764 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237986AbiHRFZ7 (ORCPT
+        with ESMTP id S243198AbiHRFuw (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 18 Aug 2022 01:25:59 -0400
-Received: from EUR04-HE1-obe.outbound.protection.outlook.com (mail-eopbgr70070.outbound.protection.outlook.com [40.107.7.70])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A0ABA74C9;
-        Wed, 17 Aug 2022 22:25:58 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=mh0i1tJWMMGJ/SAwHCSSU12lJD3vlaI8Jk+B0h0JxzknBC0KfhYxYETryHzSRCXX59I7sMVZfP/Fe8fotcS08E55CQxekI2WZp55cRd/s8ocNgQFU1kOio6R4zkc0k1dW3xBjGzo50VWyePmZuWxbjXYdnw1XujigvHAdH4Qn9br9wBJEojnMusqfDCjF2w1dlgisnWPxUx8qk63AfqHuwCt74u7oKtZf6n2hsXmn4+mEZlUs3YQMX7uToGM3YPms/4eosTJhLCGcWNqdTVtgvdi0qosV+Wu9aCzi8YhmpcBI98BRtZ00dDzVT3dNL7vQnHHfPmPEuRcbqrJzAmgcA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=0aoWtvM6uSLpvqj9J5mtnXFmaJwxNXQLzv43nqWnnGw=;
- b=cd7ialmshx+Nu/Jr50rMP5kOmxJVMLsSh2AEh9XKkH3DjmRy5WE+77D+L44CciRiU771EA8UzW8oHoTiEDVtPCX86eQvuT/4+gX7E10L8gK0xrgTbF9e73dBxih33gKl4JphPYuSx0P4fN/L6xQsk0Hu3az2jOKVOvwjPwaXYgNBQ8eMcj7M0Rb2OkhTqWOy1i3w83m6eIxcSJ5AXaN6gb8UGStFH83Xxg7RbSrrmbxX8hoRw5ERJWHgu4dopBsQ1o+pFaVML8eBvoQAoi7Ul4a332sBGCeXSxySUivrrKvrK+GIpIcT0myGi9X4qhbXP5bmUNEQs0NAZND57XY2KA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=0aoWtvM6uSLpvqj9J5mtnXFmaJwxNXQLzv43nqWnnGw=;
- b=JJx1j3AM6kyoe+FuKjKw6MN70Mv95x7K0NHnqX/MXlN+X1qRUc+/lX7hCLnuNLNMWsw74BF6S0vmJ/jrsLF7L+J2SInaV7GLoeAL+vW6FWeFLJ0JjdMmOejtZeJUYSfLkKUH7pVokkRZEeCUNp3PT7azdYxLKzmsY6u7I6+jPFI=
-Received: from AS8PR04MB7511.eurprd04.prod.outlook.com (2603:10a6:20b:23f::5)
- by VE1PR04MB6720.eurprd04.prod.outlook.com (2603:10a6:803:123::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5525.11; Thu, 18 Aug
- 2022 05:25:54 +0000
-Received: from AS8PR04MB7511.eurprd04.prod.outlook.com
- ([fe80::38a3:f13:e15d:f94a]) by AS8PR04MB7511.eurprd04.prod.outlook.com
- ([fe80::38a3:f13:e15d:f94a%9]) with mapi id 15.20.5525.019; Thu, 18 Aug 2022
- 05:25:53 +0000
-From:   Cyrille Fleury <cyrille.fleury@nxp.com>
-To:     Olivier Masse <olivier.masse@nxp.com>,
-        "nicolas@ndufresne.ca" <nicolas@ndufresne.ca>,
-        "brian.starkey@arm.com" <brian.starkey@arm.com>
-CC:     "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
-        "christian.koenig@amd.com" <christian.koenig@amd.com>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "nd@arm.com" <nd@arm.com>,
-        =?iso-8859-1?Q?Cl=E9ment_Faure?= <clement.faure@nxp.com>,
-        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-        "benjamin.gaignard@collabora.com" <benjamin.gaignard@collabora.com>
-Subject: RE: [EXT] Re: [PATCH 1/3] dma-buf: heaps: add Linaro secure dmabuf
- heap support
-Thread-Topic: [EXT] Re: [PATCH 1/3] dma-buf: heaps: add Linaro secure dmabuf
- heap support
-Thread-Index: AQHYqNLEB1kEEMDN2EiJXHn7b90D762gcg6AgASkiYCABmvpAIAF7/SAgAHHYgCAAAWHgIAA1G/g
-Date:   Thu, 18 Aug 2022 05:25:53 +0000
-Message-ID: <AS8PR04MB75119C61E3222786A5BBF1D6886D9@AS8PR04MB7511.eurprd04.prod.outlook.com>
-References: <20220805135330.970-1-olivier.masse@nxp.com>
-         <20220805135330.970-2-olivier.masse@nxp.com>
-         <20220805154139.2qkqxwklufjpsfdx@000377403353>
-         <7e61668164f8bf02f6c4ee166e85abc42b5ee958.camel@nxp.com>
-         <20220812163922.v7sf3havi5dpgi5u@000377403353>
-         <de46324d8fa8fb6a8dda4641e531d30842410744.camel@nxp.com>
-         <eef2fc413695cb96a5071627bfe44830f80cfe9e.camel@ndufresne.ca>
- <fb022db983aa44a5b1a8478d340198ecc52c4e11.camel@nxp.com>
-In-Reply-To: <fb022db983aa44a5b1a8478d340198ecc52c4e11.camel@nxp.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 7a523923-e998-4e2e-7dae-08da80da1efe
-x-ms-traffictypediagnostic: VE1PR04MB6720:EE_
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: YqykJ6aAR6dyWkIhyYbIlbXHukxwpa3GqhYDcHokk5x3XJcOFRuHew72NYA5QdW2xxWvPGhcEPoV3d4OcT0SlVVcDmjQtGh8thL4nwe4cHnDfTzjxe3HcRG7XzhDonVv61Wxhp+RTGnPBr+rupo8Ks7s2qQs4VUfBJzH+pkgoyqTFbpe2xZhzCkuRDFTp2VFDCmXnGxJamX07gPJiZ1UH6uV5QU7bqBwlGp1jDN/1z+Q0dGC941yzFNE5YSNxLNfaMgHQTKQsd5gJUB/ESdh8+wXVOKUPGax+BZjuXtlqjBgE4c7FbjBSgI8+M19aoMRasrHdaKk6n8JdBIzQ+z3zHPOGfPT4gkI1gBwNT7uY8Z2SY+9YwnSaZgbFk4cjQ/d1feZlj7GljqMu2RgotCfXmSOKki9drEaC8wsBaA0StdTmbX11lTaTZYNqLIEd7Ri6wNNanwMsHL6OOLgvl1NXtQbUJEagtCcf4fP+jX1aD238qmsy9qQjlVG+PwKnrs1TQxmKvqqS0EII+SOo6AE7EadzgDa+bn2shYXeKx5uXdn8aPxV8jMuvH91Zz5/CcT65ZZhlFqKwNJANbwa6q0ocnt8eQUUaQAJzlFUK1qkIWMwh7EA7v1aGptEvO2/ELwAqRjqhMRqjfWN/w/c4/y/C1+hsMlaK76w4yVWso/QgQpIeTKrxbgGz0gqT/l15jHd8UZ/AvNQWiFOIEXRIvI/x9PE2apQnEKnPJTDuNHAuSTFb25PEicvlY3d5tZr+NblrNaA5vrOfEc1wLAWFr++8l0fR5JpvVNRTgOmTdlHpo=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS8PR04MB7511.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(376002)(346002)(136003)(39860400002)(366004)(396003)(7696005)(33656002)(38070700005)(186003)(71200400001)(7416002)(9686003)(478600001)(53546011)(26005)(41300700001)(86362001)(83380400001)(6506007)(66574015)(45080400002)(966005)(4326008)(66946007)(76116006)(54906003)(110136005)(8676002)(64756008)(55016003)(66446008)(52536014)(66476007)(66556008)(5660300002)(122000001)(44832011)(2906002)(8936002)(316002)(38100700002);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?qXpVuqUs/FrjaTDX57IHIpngcyW+awPRCSjl1iyuV7Bx/YR9+g6q71/SWt?=
- =?iso-8859-1?Q?VJzet7qUyscnwqcPZgIhUZjGfxLT2SvkWNlZ+j5AYvI2LwqJFCHnDLN3uC?=
- =?iso-8859-1?Q?CaHw6i2kA2gTM2igcFlWSYoJ4Rdn6nD0z+6s52OzHuPBv2iyN2BWJdizmV?=
- =?iso-8859-1?Q?Bx246yW6x2FsNDJowYPUd+UbeNXKsodvDALa7kq7sE57gCem6xCkP4qKGQ?=
- =?iso-8859-1?Q?dntzi8E6qaXk1tR4wHAEEwk7ARWpttluBPb2XgVhiOQxlGHe/xWZMsb8nL?=
- =?iso-8859-1?Q?D7/2IWVM1Zs3yGqp0aXM7+qsZySFbeTufBEvycpv9ihfkdFHQ1NfpYrHer?=
- =?iso-8859-1?Q?BT4eaKleTiHg9j+Te6fLEG2D9F7zU2eOMxl85Cv79w2JXjNbGkEbDptAQr?=
- =?iso-8859-1?Q?WfRY+l6UGiR/DoTdG+NJyaXUracdx6nlGw7ENRgHXnUTjU5xZDDbMW6bXy?=
- =?iso-8859-1?Q?XX+LYgd6Z0g4hFchTFky4JCpGQW2QIiCRAtfUynLL1nNzv98gqPzgMiBZB?=
- =?iso-8859-1?Q?xll8HOMd+nmQW0DmzvAAO8EnOfo59yQz4g1xzTJPhfrtd7tECewH5BjseY?=
- =?iso-8859-1?Q?PfFJOakgZy9DjNQ3a8iUQVgnFSvYT4PlbsZkv7/0uMYpyPDYqPpey45WnH?=
- =?iso-8859-1?Q?RnSQ3YEAwrX4U1bX8IgfeFBygE6by4yd4EXk/Xncfqpk1DYMhmd4uS7YaM?=
- =?iso-8859-1?Q?g6Qg14RNNz1TrtXph6vRb9nZpsqUVoNq9Egdm2EgJz1wkyx+xnf6kfB3lG?=
- =?iso-8859-1?Q?cpM1cxUfX0VeutcOAPm2zVxs2KtvWHSnb6QFNpKe36DlnuMLpjlTqtilJv?=
- =?iso-8859-1?Q?FZMBevtpUH6us92Kpy7/XPasEjE1wyoetuVlt4bqASUG5jfC6muGudZ3lw?=
- =?iso-8859-1?Q?lxLkU/g1MQwVky4/sYHigmHpkfywsEyGzvYzkDD+QWCMiW+NkfldyrwQUX?=
- =?iso-8859-1?Q?CZYu5gqWDqtgljlbSI3M500Zu0oWZ8kaDMKs/xd03P/rkH2sMPhykroBjH?=
- =?iso-8859-1?Q?SKj7mbJVM5ZRyieavEU6q5dnWxFv1lxJdEta4xXfdzQc5elSOMUelITb++?=
- =?iso-8859-1?Q?BM2kHI1Pm/ZtaP+mg1LihyCDShXLOCU4TzS6z1C0h5grSsyxobckh+3EM9?=
- =?iso-8859-1?Q?iEQE7SDCJZZBIDnv4E5M5+QHM2PHCVRTBUdKatAIraqVUtoI9KvkW/lHhX?=
- =?iso-8859-1?Q?lAMQ5hPfXON1+IVM7tZvqzM5h7hAsnPh+ztB+AVgpQ+IUEJKNBKG+lsTYX?=
- =?iso-8859-1?Q?MC7VV8Mg53rcHOLqRQUsSFcYYMApQNMX9uGZATNQDjvC14V4B4TqFGWMzp?=
- =?iso-8859-1?Q?WH20egAG2/HW++RaTACWdXoEWf54NB5SNJAGw5bT/t1RvRIsxebWEwrZC6?=
- =?iso-8859-1?Q?aHtHWMm2mcoM2ekYY9Dd2oeG88mngGBDunXX5NbiTOIhT3TVim41oIb4C7?=
- =?iso-8859-1?Q?CFJvTrBfAGlEW9OoBgFmKzs7Pq4NcosXHxPGrbAmR02tYPVmk3pEVP53BV?=
- =?iso-8859-1?Q?u3aJmg9TWW95DWSN5aYsPCDkmtCWVmP2Ob1XdGot/O8bID+/FvkwQXt/aB?=
- =?iso-8859-1?Q?atVb6P9sAP1cLWVdS3SMyJbFBe5qoFTtf8gbkqKCY35/xDDNZ9gjx78Ka5?=
- =?iso-8859-1?Q?C+oIEaM0WVMhx3fjsF42aWy3j3ICa2kO3k?=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+        Thu, 18 Aug 2022 01:50:52 -0400
+Received: from mail-qk1-x736.google.com (mail-qk1-x736.google.com [IPv6:2607:f8b0:4864:20::736])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 52DCE7DF47
+        for <linux-media@vger.kernel.org>; Wed, 17 Aug 2022 22:50:50 -0700 (PDT)
+Received: by mail-qk1-x736.google.com with SMTP id g16so417431qkl.11
+        for <linux-media@vger.kernel.org>; Wed, 17 Aug 2022 22:50:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc;
+        bh=KnXVfj+T4u59u5J2KygjH6Rp2ec5Yoi6AW22Q/4H+6I=;
+        b=gYFJGDKAZN34/WoR5EjsSipswRGwu4w7Ht8XDPDeVPSVtQHCznF5MPwovMhqc8OC8u
+         8THI+3cp0xPYujus/2EiU0efdwxnIE5LnwRoH/V8aNGE7bdRG1C7p2AH6QjaM1p/3xVQ
+         aYAT62RdhRis0COJDJJ5ZL5+dKJu7zqxUmYmc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc;
+        bh=KnXVfj+T4u59u5J2KygjH6Rp2ec5Yoi6AW22Q/4H+6I=;
+        b=M6KVyCMFvfBZx2hQZ6DE84dCFBoieav2DtnB0+Sdyzlu92Zj+GkWEQCL8+eVEyGKe2
+         Kq3dCyKl1oW5TrKfNS4kIdd4mCop4z7Lu0WK+dQm5tp3Z//bvllSfuTayX8vjqEgXtkN
+         dA8rRuPQS5ephTkxaZvWAbPzOytU4uxurbNUV255VgFuoHBsI0Rl92OozJr9Jl9ZQ5GX
+         hVkYE1SZZFjevt/Ky4tQpI02+w5ylitKXxSbepMxozTjGqtOGFuhNJWm+qb41UMdMoet
+         bs4Mw0ZMLbYKq8WoV/OIftmMkoGmOlYIGfPObX1N017XV3laQVoB+yWMwyAsjURuahPu
+         QvSg==
+X-Gm-Message-State: ACgBeo1PjATxm3TKtsD/dkVgUVnSSO58/UMAsnQ+Com3txq4A0t6rf7y
+        J3SvHzYaw6ihoVWqwYw9d8biOzlkKiw7Yw==
+X-Google-Smtp-Source: AA6agR4ypHE633u64K6IlP2Y3rClc2cY0bRrQ5EKQTXv7zmFnlpIfAakoCohJitGDp1z0aaGWrgOLw==
+X-Received: by 2002:a05:620a:15ec:b0:6bb:4bcf:a14 with SMTP id p12-20020a05620a15ec00b006bb4bcf0a14mr974134qkm.242.1660801849076;
+        Wed, 17 Aug 2022 22:50:49 -0700 (PDT)
+Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com. [209.85.128.177])
+        by smtp.gmail.com with ESMTPSA id bl5-20020a05620a1a8500b006b9c6d590fasm744347qkb.61.2022.08.17.22.50.47
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 17 Aug 2022 22:50:48 -0700 (PDT)
+Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-32a17d3bba2so14254587b3.9
+        for <linux-media@vger.kernel.org>; Wed, 17 Aug 2022 22:50:47 -0700 (PDT)
+X-Received: by 2002:a25:6a46:0:b0:67b:66ad:ae40 with SMTP id
+ f67-20020a256a46000000b0067b66adae40mr1387247ybc.261.1660801846946; Wed, 17
+ Aug 2022 22:50:46 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: AS8PR04MB7511.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7a523923-e998-4e2e-7dae-08da80da1efe
-X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Aug 2022 05:25:53.7411
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: B3Bq46s65+TeUseoICEgB9WDsQJlgWtO+y+q3Nuwg4+vujAprs0nyQitJTyWDNYEjoUAXqwzetWQJQCteSGqmQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VE1PR04MB6720
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+References: <CAAFQd5AL=OejdaubnYDRF4M1EKyStZP_FAMPz4CJ=KCa_8QjaA@mail.gmail.com>
+ <CF192A87-1664-45B2-B26C-A9B8B6A52523@soulik.info> <CAAFQd5DTNDkZ7W0Rs8Xfq-x+y+cmHZHkDYQys29aNt2YvCJc1A@mail.gmail.com>
+ <7c7c2c49-a0e4-cda8-be29-0d143851b9fd@synaptics.com>
+In-Reply-To: <7c7c2c49-a0e4-cda8-be29-0d143851b9fd@synaptics.com>
+From:   Tomasz Figa <tfiga@chromium.org>
+Date:   Thu, 18 Aug 2022 14:50:35 +0900
+X-Gmail-Original-Message-ID: <CAAFQd5BDWBwYH=hfQBmvuyB6xSgXhHKhv2093w2irz4C4_kX5w@mail.gmail.com>
+Message-ID: <CAAFQd5BDWBwYH=hfQBmvuyB6xSgXhHKhv2093w2irz4C4_kX5w@mail.gmail.com>
+Subject: Re: [PATCH] [Draft]: media: videobuf2-dma-heap: add a vendor defined
+ memory runtine
+To:     Hsia-Jun Li <Randy.Li@synaptics.com>
+Cc:     linux-media@vger.kernel.org, m.szyprowski@samsung.com,
+        sumit.semwal@linaro.org, christian.koenig@amd.com,
+        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org, ayaka <ayaka@soulik.info>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Nicolas, all,
+Hi Randy,
 
- The short reply:
-      - For DRM, gstreamer, ffmeg, ... we don't use anymore NXP VPU proprie=
-tary API=20
-      - We need secure dma-buf heaps to replace secure ion heaps
+Sorry for the late reply, I went on vacation last week.
 
-  The more detailed reply to address concerns below in the thread:
-      - NXP doesn't design VPU, but rely on third party VPU hardware IP we =
-integrate in our soc.  NXP proprietary API are for legacy applications our =
-customers did without using gstreamer or ffmpeg, but we are now relying on =
-V4L2 API for WPE/gstreamer, chromium/ffmpeg ...
-      - Even with NXP legacy BSP, there was no API impact for WPE (or chrom=
-ium) due to NXP VPU API. We use WPE/gstreamer, then a gstreamer pluging rel=
-ying on NXP VPU proprietary API. But now we use V4L2. So we can forget NXP =
-VPU proprietary API, and I'm very happy with that.
-      - We have moved from ion buffer to dma buff to manage secure memory m=
-anagement. This is why we need secure dma-buf heaps, we protect with NXP ha=
-rdware as we did with ion heaps in the presentation Olivier shared.       =
-=20
-      - For secure video playback, the changes we need to do are in user sp=
-ace world (gstreamer, WPE, ...), to update our patches managing secure ion =
-heaps by secure dma-buf heaps. But dma-buf is file descriptor based as ion =
-heap are.
-      - What will change between platforms, is how memory is protected. Thi=
-s is why we requested to have dtb in OPTEE for secure memory, to be able to=
- provide a common API to secure DDR memory, and  then to rely on proprietar=
-y code in OPTEE to secure it.
-      - We don't have a display controller or VPU decoder running in TEE. T=
-hey remain under the full control of Linux/REE Word. If Linux/REE ask somet=
-hing breaking Widevine/PlayReady security rules, for example decode secure =
-memory to non-secure memory, read from secure memory will return 0, write t=
-o secure memory will be ignored. Same with keys, certificates ...
-      - i.MX8 socs have a stateless VPU and there is no VPU firmware. i.MX9=
- socs have a stateful VPU with firmware. In secure memory context, with sec=
-ure memory, at software level, stateful VPU are even more simple to manage =
-->  less read/write operations performed by Linux world to parse the stream=
-, so less patch to be done in the video framework. But for memory managemen=
-t, stateful/stateless, same concern: we  need  to provide support of secure=
- dma heaps to Linux, to allocate secure memory for the VPU and the display =
-controller, so it is just a different dma-buf heaps, so a different file de=
-scriptor.
-      - i.MX9 VPU will support "Virtual Machine VPU". Till now I don't see =
-why it will not work. I'm not an expert in VM, but from what I understood f=
-rom my discussions with NXP VPU team integrating the new VPU hardware IP, f=
-rom outside world, VPU is seen as multiple VPUs, with multiple register ban=
-ks. So virtualized OS will continue to read/write registers as today, and a=
-t software level, secure memory is as non-secure memory, I mean at this end=
-, it is physical DDR memory. Of course hardware shall be able to read/write=
- it, but this is not software related, this is hardware concern. And even w=
-ithout VM, we target to dedicate one virtual VPU to DRM,  so one register b=
-ank, to setup dedicated security rules for DRM.
-     =20
-  I'm on vacation until end of this week. I can setup a call next week to d=
-iscuss this topic if more clarifications are needed.
+On Sun, Aug 7, 2022 at 12:23 AM Hsia-Jun Li <Randy.Li@synaptics.com> wrote:
+>
+>
+>
+> On 8/5/22 18:09, Tomasz Figa wrote:
+> > CAUTION: Email originated externally, do not click links or open attach=
+ments unless you recognize the sender and know the content is safe.
+> >
+> >
+> > On Tue, Aug 2, 2022 at 9:21 PM ayaka <ayaka@soulik.info> wrote:
+> >>
+> >> Sorry, the previous one contains html data.
+> >>
+> >>> On Aug 2, 2022, at 3:33 PM, Tomasz Figa <tfiga@chromium.org> wrote:
+> >>>
+> >>> =EF=BB=BFOn Mon, Aug 1, 2022 at 8:43 PM ayaka <ayaka@soulik.info> wro=
+te:
+> >>>> Sent from my iPad
+> >>>>>> On Aug 1, 2022, at 5:46 PM, Tomasz Figa <tfiga@chromium.org> wrote=
+:
+> >>>>> =EF=BB=BFCAUTION: Email originated externally, do not click links o=
+r open attachments unless you recognize the sender and know the content is =
+safe.
+> >>>>>> On Mon, Aug 1, 2022 at 3:44 PM Hsia-Jun Li <Randy.Li@synaptics.com=
+> wrote:
+> >>>>>>> On 8/1/22 14:19, Tomasz Figa wrote:
+> >>>>>> Hello Tomasz
+> >>>>>>> ?Hi Randy,
+> >>>>>>> On Mon, Aug 1, 2022 at 5:21 AM <ayaka@soulik.info> wrote:
+> >>>>>>>> From: Randy Li <ayaka@soulik.info>
+> >>>>>>>> This module is still at a early stage, I wrote this for showing =
+what
+> >>>>>>>> APIs we need here.
+> >>>>>>>> Let me explain why we need such a module here.
+> >>>>>>>> If you won't allocate buffers from a V4L2 M2M device, this modul=
+e
+> >>>>>>>> may not be very useful. I am sure the most of users won't know a
+> >>>>>>>> device would require them allocate buffers from a DMA-Heap then
+> >>>>>>>> import those buffers into a V4L2's queue.
+> >>>>>>>> Then the question goes back to why DMA-Heap. From the Android's
+> >>>>>>>> description, we know it is about the copyright's DRM.
+> >>>>>>>> When we allocate a buffer in a DMA-Heap, it may register that bu=
+ffer
+> >>>>>>>> in the trusted execution environment so the firmware which is ru=
+nning
+> >>>>>>>> or could only be acccesed from there could use that buffer later=
+.
+> >>>>>>>> The answer above leads to another thing which is not done in thi=
+s
+> >>>>>>>> version, the DMA mapping. Although in some platforms, a DMA-Heap
+> >>>>>>>> responses a IOMMU device as well. For the genernal purpose, we w=
+ould
+> >>>>>>>> be better assuming the device mapping should be done for each de=
+vice
+> >>>>>>>> itself. The problem here we only know alloc_devs in those DMAbuf
+> >>>>>>>> methods, which are DMA-heaps in my design, the device from the q=
+ueue
+> >>>>>>>> is not enough, a plane may requests another IOMMU device or tabl=
+e
+> >>>>>>>> for mapping.
+> >>>>>>>> Signed-off-by: Randy Li <ayaka@soulik.info>
+> >>>>>>>> ---
+> >>>>>>>> drivers/media/common/videobuf2/Kconfig        |   6 +
+> >>>>>>>> drivers/media/common/videobuf2/Makefile       |   1 +
+> >>>>>>>> .../common/videobuf2/videobuf2-dma-heap.c     | 350 ++++++++++++=
+++++++
+> >>>>>>>> include/media/videobuf2-dma-heap.h            |  30 ++
+> >>>>>>>> 4 files changed, 387 insertions(+)
+> >>>>>>>> create mode 100644 drivers/media/common/videobuf2/videobuf2-dma-=
+heap.c
+> >>>>>>>> create mode 100644 include/media/videobuf2-dma-heap.h
+> >>>>>>> First of all, thanks for the series.
+> >>>>>>> Possibly a stupid question, but why not just allocate the DMA-buf=
+s
+> >>>>>>> directly from the DMA-buf heap device in the userspace and just i=
+mport
+> >>>>>>> the buffers to the V4L2 device using V4L2_MEMORY_DMABUF?
+> >>>>>> Sometimes the allocation policy could be very complex, let's suppo=
+se a
+> >>>>>> multiple planes pixel format enabling with frame buffer compressio=
+n.
+> >>>>>> Its luma, chroma data could be allocated from a pool which is dele=
+gated
+> >>>>>> for large buffers while its metadata would come from a pool which =
+many
+> >>>>>> users could take some few slices from it(likes system pool).
+> >>>>>> Then when we have a new users knowing nothing about this platform,=
+ if we
+> >>>>>> just configure the alloc_devs in each queues well. The user won't =
+need
+> >>>>>> to know those complex rules.
+> >>>>>> The real situation could be more complex, Samsung MFC's left and r=
+ight
+> >>>>>> banks could be regarded as two pools, many devices would benefit f=
+rom
+> >>>>>> this either from the allocation times or the security buffers poli=
+cy.
+> >>>>>> In our design, when we need to do some security decoding(DRM video=
+),
+> >>>>>> codecs2 would allocate buffers from the pool delegated for that. W=
+hile
+> >>>>>> the non-DRM video, users could not care about this.
+> >>>>> I'm a little bit surprised about this, because on Android all the
+> >>>>> graphics buffers are allocated from the system IAllocator and impor=
+ted
+> >>>>> to the specific devices.
+> >>>> In the non-tunnel mode, yes it is. While the tunnel mode is complete=
+ly vendor defined. Neither HWC nor codec2 cares about where the buffers com=
+ing from, you could do what ever you want.
+> >>>> Besides there are DRM video in GNU Linux platform, I heard the webki=
+t has made huge effort here and Playready is one could work in non-Android =
+Linux.
+> >>>>> Would it make sense to instead extend the UAPI to expose enough
+> >>>>> information about the allocation requirements to the userspace, so =
+it
+> >>>>> can allocate correctly?
+> >>>> Yes, it could. But as I said it would need the users to do more work=
+s.
+> >>>>> My reasoning here is that it's not a driver's decision to allocate
+> >>>>> from a DMA-buf heap (and which one) or not. It's the userspace whic=
+h
+> >>>>> knows that, based on the specific use case that it wants to fulfill=
+.
+> >>>> Although I would like to let the users decide that, users just can=
+=E2=80=99t do that which would violate the security rules in some platforms=
+.
+> >>>> For example,  video codec and display device could only access a reg=
+ion of memory, any other device or trusted apps can=E2=80=99t access it. Us=
+ers have to allocate the buffer from the pool the vendor decided.
+> >>>> So why not we offer a quick way that users don=E2=80=99t need to try=
+ and error.
+> >>>
+> >>> In principle, I'm not against integrating DMA-buf heap with vb2,
+> >>> however I see some problems I mentioned before:
+> >>>
+> >>> 1) How would the driver know if it should allocate from a DMA-buf hea=
+p or not?
+> >>
+> >> struct vb2_queue.mem_ops
+> >>
+> >> int (*queue_setup)(struct vb2_queue *q,unsigned int *num_buffers, unsi=
+gned int *num_planes, unsigned int sizes[], struct device *alloc_devs[]);
+> >
+> > Sorry, I don't understand what you mean here.
+> >
+> > Just to make sure we're on the same page - what I'm referring to is
+> > that whether DMA-buf heap is used or not is specific to a given use
+> > case, which is controlled by the userspace. So the userspace must be
+> > able to control whether the driver allocates from a DMA-buf heap or
+> > the regular way.
+> No, it does not depend on the use case here. We don't accept any buffers
+> beyond the region we decided. Even for the non-DRM, non-security video,
+> our codec devices are running under the secure mode.
+>
+> You MUST allocate the buffer for a device from the DMA-heap we(SYNA)
+> decided.
 
-Regards.
+That's your use case, but there could be use cases which work
+differently. In fact, in ChromeOS we only use the secure allocation
+path for protected content, because it imposes some overhead.
 
------Original Message-----
-From: Olivier Masse <olivier.masse@nxp.com>=20
-Sent: Wednesday, August 17, 2022 4:52 PM
-To: nicolas@ndufresne.ca; Cyrille Fleury <cyrille.fleury@nxp.com>; brian.st=
-arkey@arm.com
-Cc: sumit.semwal@linaro.org; linux-kernel@vger.kernel.org; linaro-mm-sig@li=
-sts.linaro.org; christian.koenig@amd.com; linux-media@vger.kernel.org; nd@a=
-rm.com; Cl=E9ment Faure <clement.faure@nxp.com>; dri-devel@lists.freedeskto=
-p.org; benjamin.gaignard@collabora.com
-Subject: Re: [EXT] Re: [PATCH 1/3] dma-buf: heaps: add Linaro secure dmabuf=
- heap support
+>
+> I believe some other devices may have much limitation for not the
+> security reason, for example, it can't access the memory above 4 GiB or
+> for the performance's reason.
 
-+Cyrille
+For such limitations, there is the shared DMA pool or restricted DMA
+pool functionality, which can be given to a device in DT and then the
+DMA mapping API would just allocate within that area for that device.
+Maybe that's what you need here?
 
-Hi Nicolas,
+> >
+> >>
+> >>> 2) How would the driver know which heap to allocate from?
+> >>
+> >>  From vb2_queue.alloc_devs
+> >>
+> >> What I did now is likes what MFC does, create some mem_alloc_devs.
+> >> It would be better that we could retrieve the DMA-heaps=E2=80=99 devic=
+es from kernel, but that is not enough, we need a place to store the heap f=
+lags although none of them are defined yet.
+> >>
+> >>  From Android documents, I think it is unlikely we would have heap fla=
+gs.
+> >> =E2=80=9CStandardization: The DMA-BUF heaps framework offers a well-de=
+fined UAPI. ION allowed custom flags and heap IDs that prevented developing=
+ a common testing framework because each device=E2=80=99s ION implementatio=
+n could behave differently.=E2=80=9D
+> >>
+> >
+> > alloc_devs is something that the driver sets and it's a struct device
+> > for which the DMA API can be called to manage the DMA buffers for this
+> > video device. It's not a way to select a use case-dependent allocation
+> > method.
+> >
+> I see, then move to the last question, we need to expand the V4L2
+> framework's structure.
+> >>> 3) How would the heap know how to allocate properly for the device?
+> >>>
+> >> Because =E2=80=9Ceach DMA-BUF heap is a separate character device=E2=
+=80=9D.
+> >
+> > Could you elaborate? Sorry, I'm not sure how this answers my question.
+> Because a DMA-heap, a heap device itself is enough here, may plus HEAP
+> flag when there is.
+>
+> I don't know what else would be need to do here.
+> If you allocate a buffer from a heap which is delegated for security
+> memory of that device, the heap driver itself would inform the TEE the
+> pages occupied by it or the memory allocated from the pool which is in a
+> region of memory reserved for this purpose.
 
-On mer., 2022-08-17 at 10:29 -0400, Nicolas Dufresne wrote:
-> Caution: EXT Email
->=20
-> Hi Folks,
->=20
-> Le mardi 16 ao=FBt 2022 =E0 11:20 +0000, Olivier Masse a =E9crit :
-> > Hi Brian,
-> >=20
-> >=20
-> > On ven., 2022-08-12 at 17:39 +0100, Brian Starkey wrote:
-> > > Caution: EXT Ema
-> > >=20
->=20
-> [...]
->=20
-> > >=20
-> > > Interesting, that's not how the devices I've worked on operated.
-> > >=20
-> > > Are you saying that you have to have a display controller driver=20
-> > > running in the TEE to display one of these buffers?
-> >=20
-> > In fact the display controller is managing 3 plans : UI, PiP and=20
-> > video. The video plan is protected in secure as you can see on slide
-> > 11:
-> >=20
-https://eur01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fstatic.=
-linaro.org%2Fconnect%2Fsan19%2Fpresentations%2Fsan19-107.pdf&amp;data=3D05%=
-7C01%7Colivier.masse%40nxp.com%7Ce0e00be789a54dff8e5208da805ce2f6%7C686ea1d=
-3bc2b4c6fa92cd99c5c301635%7C0%7C1%7C637963433695707516%7CUnknown%7CTWFpbGZs=
-b3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C30=
-00%7C%7C%7C&amp;sdata=3DGHjEfbgqRkfHK16oyNaYJob4LRVqvoffRElKR%2F7Rtes%3D&am=
-p;reserved=3D0
->=20
->=20
->=20
-> just wanted to highlight that all the WPE/GStreamer bit in this=20
-> presentation is based on NXP Vendor Media CODEC design, which rely on=20
-> their own i.MX VPU API. I don't see any effort to extend this to a=20
-> wider audience. It is not explaining how this can work with a mainline=20
-> kernel with v4l2 stateful or stateless drivers and generic=20
-> GStreamer/FFMPEG/Chromium support.
+So the heap is only for the video device?
 
-Maybe Cyrille can explain what it is currently done at NXP level regarding =
-the integration of v4l2 with NXP VPU.
+> >
+> >> But as I said in the first draft I am not sure about the DMA mapping p=
+art. alloc_devs responds for the heap, we have a device variable in the que=
+ue that mapping function could access, but that may not be enough. A plane =
+may apply a different mapping policy or IOMMU here.
+> >>
+> >> Would it be better that I create a interface here that creating a memd=
+ev with DMA-heap description ?
+> >
+> > My intuition still tells me that it would be universally better to
+> > just let the userspace allocate the buffers independently (like with
+> > gralloc/Ion) and import to V4L2 using V4L2_MEM_DMABUF. It was possible
+> > to do things this way nicely with regular Android graphics buffers, so
+> > could you explain what difference of your use case makes it
+> > impossible?
+> Without keeping the backward compatibility, it won't have any problem IF
+> we could tell the users the acceptable DMA-heap for each of planes and
+> DMA-heap's heap flags.
+>
+> We don't have an ioctl for this yet, the most possible for the decoder
+> is doing that at GET_FMT ioctl()?.
 
->=20
-> I'm raising this, since I'm worried that no one cares of solving that=20
-> high level problem from a generic point of view. In that context, any=20
-> additions to the mainline Linux kernel can only be flawed and will=20
-> only serves specific vendors and not the larger audience.
->=20
-> Another aspect, is that this design might be bound to a specific (NXP
-> ?)
-> security design. I've learn recently that newer HW is going to use=20
-> multiple level of MMU (like virtual machines do) to protect the memory=20
-> rather then marking pages. Will all this work for that too ?
+Do we need the kernel to tell the userspace which heap to use? As you
+mentioned above, the heap would be specific for the video device and
+the userspace would also be specific for your use case, so why
+couldn't it just find the right heap on its own (e.g. by name)?
 
-our fire-walling hardware is protecting memory behind the MMU and so rely o=
-n physical memory layout.
-this work is only relying on a reserved physical memory.
+As for heap flags, could you elaborate on what kind of flags you
+imagine could be decided by a V4L2 driver?
 
-Regards,
-Olivier
-
->=20
-> regards,
-> Nicolas
+Best regards,
+Tomasz
