@@ -2,80 +2,80 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 58291597D89
-	for <lists+linux-media@lfdr.de>; Thu, 18 Aug 2022 06:34:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 71DCB597D86
+	for <lists+linux-media@lfdr.de>; Thu, 18 Aug 2022 06:34:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239560AbiHRE2j (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 18 Aug 2022 00:28:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36744 "EHLO
+        id S243364AbiHRE3i (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 18 Aug 2022 00:29:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42986 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243152AbiHRE2c (ORCPT
+        with ESMTP id S238358AbiHRE3g (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 18 Aug 2022 00:28:32 -0400
+        Thu, 18 Aug 2022 00:29:36 -0400
 Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com [66.111.4.26])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 299E926AE7
-        for <linux-media@vger.kernel.org>; Wed, 17 Aug 2022 21:28:32 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3BAC671731
+        for <linux-media@vger.kernel.org>; Wed, 17 Aug 2022 21:29:33 -0700 (PDT)
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-        by mailout.nyi.internal (Postfix) with ESMTP id 8CE1C5C0140;
-        Thu, 18 Aug 2022 00:28:31 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute4.internal (MEProxy); Thu, 18 Aug 2022 00:28:31 -0400
+        by mailout.nyi.internal (Postfix) with ESMTP id E77BD5C013B;
+        Thu, 18 Aug 2022 00:29:31 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute4.internal (MEProxy); Thu, 18 Aug 2022 00:29:31 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fastmail.com; h=
         cc:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
         :message-id:mime-version:references:reply-to:sender:subject
-        :subject:to:to; s=fm1; t=1660796911; x=1660883311; bh=rb+uburvzG
-        ICi3Fmjev28CYAJl+gtFPjxoIQiLqp/bc=; b=Z9dE1L1hPqWGC+ELgqRkrqjeuf
-        wgQjKDOjRsuOfOVDUJWlDwsHFi8x2wTkfxCi/Sp2vo9HWTBr1JkKAD6rbJKeslxl
-        zCSFn5GmBbkC0oKj2sZYs8bNq7b+b8/Q0hKMxD6qpHuhr0vNIemEEK9VQxdyPTNr
-        B4XBtRrcNAMjO0x2AmH9Hm0UKJz7wsPBjHOyoQwVMxv6sCw1Rm9xVkqtGhlIjS1Q
-        hReGB5JSZap4jvqXQ5DaCi9TwSbQxYONPRsQVDUjzQS3yCDjdF04XziTJ7+8K9cH
-        XP6uJl6H3plUa9erKVSPf9G4aAr0jHs6ae1Fm/lBwq0TZcnyVeYkel1PtCkw==
+        :subject:to:to; s=fm1; t=1660796971; x=1660883371; bh=mitA3JOgxG
+        VWWPO0mBM9chuIuxnyUAwknbDH7vRNOBM=; b=G1JZBCdpyJ4RCHe1EtHArHxfdn
+        W7c9QUfUbVPTu51glL2A7co7RXHRaouQ0EBHJFvhjWgQpdE9yO8OHQm5QdMy0Oz6
+        SUiTFFstFnyqUIBbABAScF+N31Hd6zCuxAD3frtO/fJ1p3AV6bv8FExPSiArChic
+        8G5Lw3Mj9CMOvF84WRKU5qSS9TAiRKlRWwlZZ0NJ6RjygUdg9Ke7dXUvsEppYjlj
+        eIiGQCdfJI+hajhpfTh7rStuy2iP5iOwf11MzzgAqdIDS9Sw0tZO448KQFxxRj1q
+        dDUgBj6qmp0nqPfiBPge1uiYpPivRt/i0NbMGIrD2fwJaOp52ocmMvminS+A==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
         messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
         :feedback-id:from:from:in-reply-to:in-reply-to:message-id
         :mime-version:references:reply-to:sender:subject:subject:to:to
         :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-        fm1; t=1660796911; x=1660883311; bh=rb+uburvzGICi3Fmjev28CYAJl+g
-        tFPjxoIQiLqp/bc=; b=sUHWIM1T3PkARtz4PQOy2L5ZLQDjA55lVqt2oFrass2U
-        qXeIjan08mWADty++kAx23kxXmQD0ouKM9FtN2uiPArDbVhSqyabZXqVYzVXgYJt
-        RVYJURXJh0W0vcgMoQ9kdT+bI9uxxJzQ2oMbBNRTDRKSmT9Lxhm9XPpt+60I5icj
-        uXeaHtk8nDSj2DOlz8ioJrc5vudwXzmnuxyH+hNTG/lyIMQJUIqnaIM29kdumdnm
-        lYPX8n+Gbi1Horjt/vdnOE5XZA5MuNz4TKLIBDQp4d7DCRjvkt1RBvX13Tps9nqu
-        RHnFealFn+bKg8xyF+Sbsq7VLk8986mnfNjd2iIj6A==
-X-ME-Sender: <xms:77_9YuzyHVJ8bJdAVESMDrIpy71s_8gyT8kgurdBPh7qeAwdyrFzrQ>
-    <xme:77_9YqSShsBEtcrcwwj9xqhGE3RNfsm4BzaUtNfpBYkueurE2p-7XhA0YROv2gp0_
-    QV-T28EZCUA7D4WxcQ>
-X-ME-Received: <xmr:77_9YgUgnD-pJldU68rEdT79TACRY1tpFmfPJ5EAuPZQsJKb7vBzVg>
+        fm1; t=1660796971; x=1660883371; bh=mitA3JOgxGVWWPO0mBM9chuIuxny
+        UAwknbDH7vRNOBM=; b=ypeThDiOQEGtUpNQhMu4xYV/jgfk0ioU1KhJQQd2v1wB
+        ST41yLc3nRMoTqUJwWdO/6VRWR2zy/yikfH596+GQpTWQenqzfEmwHpZCjwmp4Ip
+        4EdAu7awP36XQIzzUvjTUGOTZeF9UtlE5AabASAAUwB7bTem9goLcsuotfD11EXd
+        /YClIKuoJ7mu2ck6/7hp7ICYDIMkmOgyUXOpOwRyEB1VtVpn9k3BSigaHpOArPR8
+        00Iu0RoRALvNViPEkBx5BrnJKyM4EhEeJmXT8vrz5/bDImSuBbFnmwLMxCzP4Fd3
+        Sh5betqO//blaPexhgPjhAXHNb2fev5rSNvA9W4tjA==
+X-ME-Sender: <xms:K8D9Ynn0-1vsFJa1hE9zOOvhz9HJ9pqDiET9nV2ax-r8KQDgQ9PvTg>
+    <xme:K8D9Yq3pbR2bLoAHck6-QkjKtnJUx-NvfN21qLHFdFNqi2eeLkAeMxre-CnhipUNS
+    qfh5OyTTtqdtzsV9gc>
+X-ME-Received: <xmr:K8D9YtpEmrBQ3qkda9k9gtpXA3FAORDaZte9xitg4qoPBLbaXsT-PQ>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdehjedgkeehucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
     uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
     cujfgurhepfffhvfevuffkfhggtggujgesthdtredttddtjeenucfhrhhomhepffgrfhhn
     rgcujfhirhhstghhfhgvlhguuceouggrfhhnrgesfhgrshhtmhgrihhlrdgtohhmqeenuc
     ggtffrrghtthgvrhhnpedvhedtledukeegveelfeeuvddujeeiteehkedvhfetkeffudej
-    hfeftdduhedvkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfh
+    hfeftdduhedvkeenucevlhhushhtvghrufhiiigvpedunecurfgrrhgrmhepmhgrihhlfh
     hrohhmpegurghfnhgrsehfrghsthhmrghilhdrtghomh
-X-ME-Proxy: <xmx:77_9YkiMvXknLMKNTCLzfGCmCWqRXK9DitqRU_ttj7AOdqc75I1EQg>
-    <xmx:77_9YgAvYSAJi0A-kAbOranIur1FegF7HuFGD19bhPVm_WewP-xCpA>
-    <xmx:77_9YlKfge6OS8fHJRugBNicLuFjGJ8UslYvZpAgKAdedIPRBGqsmw>
-    <xmx:77_9YjMcgxBZbD4KUrEdt9VOqqpaEWGEX-aoOBBkMk_iWqM-ncnrdw>
+X-ME-Proxy: <xmx:K8D9YvmYZpWIQxQhy8yt_D2lhBMfIKWWJ_tcTn7MsYX8fz7qhwsFcA>
+    <xmx:K8D9Yl2c7vkN8-WIbR4X_idELiK29FJwOHqM7N9fS6J0gI-N8S08hA>
+    <xmx:K8D9Yuu9thcubJ3LApbIxPbqI_-Xpl_GQuLDD7ORk8o9AcWEZPYGuw>
+    <xmx:K8D9YjD4G4RnO9g5gzU4Do42OY5VKWj-44F7lT7g5ill_cydF493uw>
 Feedback-ID: i0e894699:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 18 Aug 2022 00:28:29 -0400 (EDT)
-Date:   Thu, 18 Aug 2022 07:28:27 +0300
+ 18 Aug 2022 00:29:30 -0400 (EDT)
+Date:   Thu, 18 Aug 2022 07:29:27 +0300
 From:   Dafna Hirschfeld <dafna@fastmail.com>
 To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Cc:     linux-media@vger.kernel.org,
         Florian Sylvestre <fsylvestre@baylibre.com>,
         Paul Elder <paul.elder@ideasonboard.com>
-Subject: Re: [PATCH 5/7] media: rkisp1: Configure quantization using ISP
- source pad
-Message-ID: <20220818042827.qn4hqirnasdp7sxr@guri>
+Subject: Re: [PATCH 6/7] media: rkisp1: Don't pass the quantization to
+ rkisp1_csm_config()
+Message-ID: <20220818042927.jil7wf6iz7wfl3ti@guri>
 References: <20220815065235.23797-1-laurent.pinchart@ideasonboard.com>
- <20220815065235.23797-6-laurent.pinchart@ideasonboard.com>
+ <20220815065235.23797-7-laurent.pinchart@ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Disposition: inline
-In-Reply-To: <20220815065235.23797-6-laurent.pinchart@ideasonboard.com>
+In-Reply-To: <20220815065235.23797-7-laurent.pinchart@ideasonboard.com>
 X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_LOW,
         RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS,
@@ -88,32 +88,53 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 On 15.08.2022 09:52, Laurent Pinchart wrote:
->The rkisp1_config_isp() function uses the format on the sink pad of the
->ISP to configure quantization at the output of the ISP. This is
->incorrect, as hinted by the src_frm variable name that stores the
->format. Fix it by using the source pad.
+>The rkisp1_csm_config() function takes a pointer to the rkisp1_params
+>structure which contains the quantization value. There's no need to pass
+>it separately to the function. Drop it from the function parameters.
 >
 >Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
 Reviewed-by: Dafna Hirschfeld <dafna@fastmail.com>
 
 >---
-> drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c | 2 +-
-> 1 file changed, 1 insertion(+), 1 deletion(-)
+> drivers/media/platform/rockchip/rkisp1/rkisp1-params.c | 10 +++-------
+> 1 file changed, 3 insertions(+), 7 deletions(-)
 >
->diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
->index 8b93b5c03bce..9d4d018d58b6 100644
->--- a/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
->+++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
->@@ -341,7 +341,7 @@ static int rkisp1_config_isp(struct rkisp1_isp *isp,
-> 		struct v4l2_mbus_framefmt *src_frm;
+>diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c
+>index 8b4eea77af0d..163419624370 100644
+>--- a/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c
+>+++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c
+>@@ -1076,7 +1076,7 @@ static void rkisp1_ie_enable(struct rkisp1_params *params, bool en)
+> 	}
+> }
 >
-> 		src_frm = rkisp1_isp_get_pad_fmt(isp, NULL,
->-						 RKISP1_ISP_PAD_SINK_VIDEO,
->+						 RKISP1_ISP_PAD_SOURCE_VIDEO,
-> 						 V4L2_SUBDEV_FORMAT_ACTIVE);
-> 		rkisp1_params_configure(&rkisp1->params, sink_fmt->bayer_pat,
-> 					src_frm->quantization);
+>-static void rkisp1_csm_config(struct rkisp1_params *params, bool full_range)
+>+static void rkisp1_csm_config(struct rkisp1_params *params)
+> {
+> 	static const u16 full_range_coeff[] = {
+> 		0x0026, 0x004b, 0x000f,
+>@@ -1090,7 +1090,7 @@ static void rkisp1_csm_config(struct rkisp1_params *params, bool full_range)
+> 	};
+> 	unsigned int i;
+>
+>-	if (full_range) {
+>+	if (params->quantization == V4L2_QUANTIZATION_FULL_RANGE) {
+> 		for (i = 0; i < ARRAY_SIZE(full_range_coeff); i++)
+> 			rkisp1_write(params->rkisp1,
+> 				     RKISP1_CIF_ISP_CC_COEFF_0 + i * 4,
+>@@ -1562,11 +1562,7 @@ static void rkisp1_params_config_parameter(struct rkisp1_params *params)
+> 	rkisp1_param_set_bits(params, RKISP1_CIF_ISP_HIST_PROP_V10,
+> 			      rkisp1_hst_params_default_config.mode);
+>
+>-	/* set the  range */
+>-	if (params->quantization == V4L2_QUANTIZATION_FULL_RANGE)
+>-		rkisp1_csm_config(params, true);
+>-	else
+>-		rkisp1_csm_config(params, false);
+>+	rkisp1_csm_config(params);
+>
+> 	spin_lock_irq(&params->config_lock);
+>
 >-- 
 >Regards,
 >
