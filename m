@@ -2,138 +2,135 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1EA7E597F64
-	for <lists+linux-media@lfdr.de>; Thu, 18 Aug 2022 09:42:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A08F3597F72
+	for <lists+linux-media@lfdr.de>; Thu, 18 Aug 2022 09:47:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243751AbiHRHmD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 18 Aug 2022 03:42:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54074 "EHLO
+        id S243851AbiHRHqC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 18 Aug 2022 03:46:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32810 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243631AbiHRHmB (ORCPT
+        with ESMTP id S243066AbiHRHqA (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 18 Aug 2022 03:42:01 -0400
-Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3D2024BD08
-        for <linux-media@vger.kernel.org>; Thu, 18 Aug 2022 00:41:59 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by sin.source.kernel.org (Postfix) with ESMTPS id D99E2CE1F21
-        for <linux-media@vger.kernel.org>; Thu, 18 Aug 2022 07:41:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A16F1C433C1;
-        Thu, 18 Aug 2022 07:41:53 +0000 (UTC)
-Message-ID: <9ef830aa-fd39-5dae-af8d-99751468fb19@xs4all.nl>
-Date:   Thu, 18 Aug 2022 09:41:51 +0200
+        Thu, 18 Aug 2022 03:46:00 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A59354DB35
+        for <linux-media@vger.kernel.org>; Thu, 18 Aug 2022 00:45:59 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 87F668B;
+        Thu, 18 Aug 2022 09:45:57 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1660808757;
+        bh=z0UzPVjgH5xJJqp5yqPNqSWdPJDx6w4WfYZTFEUdaVA=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=pCYXEQUGgxlqmoVqzo7PH4PExDtS/fd5vtVeeS7dXPFxwh4gxGdoBPC/B7aEXR4UV
+         aDoII9S0kCNkegZ2bNJw1gLG3IeJFrvt2zaTZROlTqWsiwL+g5vhVCVfeGC8kQLtpm
+         8d4tOLYK1P7t+VzIWGD6/ppMdnOdasmEog330n5w=
+Date:   Thu, 18 Aug 2022 10:45:54 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Dafna Hirschfeld <dafna@fastmail.com>
+Cc:     linux-media@vger.kernel.org,
+        Florian Sylvestre <fsylvestre@baylibre.com>,
+        Paul Elder <paul.elder@ideasonboard.com>
+Subject: Re: [PATCH 2/7] media: rkisp1: Allow setting color space on ISP sink
+ pad
+Message-ID: <Yv3uMmxx/n/mCsnr@pendragon.ideasonboard.com>
+References: <20220815065235.23797-1-laurent.pinchart@ideasonboard.com>
+ <20220815065235.23797-3-laurent.pinchart@ideasonboard.com>
+ <20220818040027.mqqrimh4pyxpb4qq@guri>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH v2 2/5] media: docs: Add V4L2_CAP_EDID_MEMORY
-Content-Language: en-US
-To:     Erling Ljunggren <hljunggr@cisco.com>, linux-media@vger.kernel.org
-References: <20220803075850.1196988-1-hljunggr@cisco.com>
- <20220803075850.1196988-3-hljunggr@cisco.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-In-Reply-To: <20220803075850.1196988-3-hljunggr@cisco.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20220818040027.mqqrimh4pyxpb4qq@guri>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Erling,
+Hi Dafna,
 
-On 03/08/2022 09:58, Erling Ljunggren wrote:
-> Add documentation for the new edid eeprom capability.
+On Thu, Aug 18, 2022 at 07:00:27AM +0300, Dafna Hirschfeld wrote:
+> On 15.08.2022 09:52, Laurent Pinchart wrote:
+> > The ISP accepts different color spaces on its input: for YUV input, it
+> > doesn't set any restrictions, and for Bayer inputs, any color primaries
+> > or transfer function can be accepted (YCbCr encoding isn't applicable
+> > there, and quantization range can only be full).
+> > 
+> > Allow setting a color space on the ISP sink pad, with the aforementioned
+> > restrictions. The settings don't influence hardware yet (only the YUV
+> > quantization range will, anything else has no direct effect on the ISP
+> > configuration), but can already be set to allow color space information
+> > to be coherent across the ISP sink link.
+> > 
+> > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > ---
+> >  .../platform/rockchip/rkisp1/rkisp1-isp.c     | 31 +++++++++++++++++++
+> >  1 file changed, 31 insertions(+)
+> > 
+> > diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
+> > index a52b22824739..32114d1e8ad1 100644
+> > --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
+> > +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
+> > @@ -705,6 +705,7 @@ static void rkisp1_isp_set_sink_fmt(struct rkisp1_isp *isp,
+> >  	const struct rkisp1_mbus_info *mbus_info;
+> >  	struct v4l2_mbus_framefmt *sink_fmt;
+> >  	struct v4l2_rect *sink_crop;
+> > +	bool is_yuv;
+> > 
+> >  	sink_fmt = rkisp1_isp_get_pad_fmt(isp, sd_state,
+> >  					  RKISP1_ISP_PAD_SINK_VIDEO,
+> > @@ -725,6 +726,36 @@ static void rkisp1_isp_set_sink_fmt(struct rkisp1_isp *isp,
+> >  				   RKISP1_ISP_MIN_HEIGHT,
+> >  				   RKISP1_ISP_MAX_HEIGHT);
+> > 
+> > +	/*
+> > +	 * Adjust the color space fields. Accept any color primaries and
+> > +	 * transfer function for both YUV and Bayer. For YUV any YCbCr encoding
+> > +	 * and quantization range is also accepted. For Bayer formats, the YCbCr
+> > +	 * encoding isn't applicable, and the quantization range can only be
+> > +	 * full.
+> > +	 */
+> > +	is_yuv = mbus_info->pixel_enc == V4L2_PIXEL_ENC_YUV;
+> > +
+> > +	sink_fmt->colorspace = format->colorspace ? format->colorspace :
+> > +			       (is_yuv ? V4L2_COLORSPACE_RAW :
 > 
-> Signed-off-by: Erling Ljunggren <hljunggr@cisco.com>
-> ---
->  Documentation/userspace-api/media/v4l/biblio.rst      | 11 +++++++++++
->  .../userspace-api/media/v4l/vidioc-querycap.rst       |  7 +++++++
->  .../userspace-api/media/videodev2.h.rst.exceptions    |  1 +
->  3 files changed, 19 insertions(+)
-> 
-> diff --git a/Documentation/userspace-api/media/v4l/biblio.rst b/Documentation/userspace-api/media/v4l/biblio.rst
-> index 9cd18c153d19..5cbe41877a63 100644
-> --- a/Documentation/userspace-api/media/v4l/biblio.rst
-> +++ b/Documentation/userspace-api/media/v4l/biblio.rst
-> @@ -334,6 +334,17 @@ VESA DMT
->  
->  :author:    Video Electronics Standards Association (http://www.vesa.org)
->  
-> +.. _vesaeddc:
-> +
-> +E-DDC
-> +====
-> +
-> +
-> +:title:     VESA Enhanced Display Data Channel (E-DDC) Standard
-> +:subtitle:  Version 1.3
-> +
-> +:author:    Video Electronics Standards Association (http://www.vesa.org)
-> +
->  .. _vesaedid:
->  
->  EDID
-> diff --git a/Documentation/userspace-api/media/v4l/vidioc-querycap.rst b/Documentation/userspace-api/media/v4l/vidioc-querycap.rst
-> index 63e23f6f95ee..bdb530bd6816 100644
-> --- a/Documentation/userspace-api/media/v4l/vidioc-querycap.rst
-> +++ b/Documentation/userspace-api/media/v4l/vidioc-querycap.rst
-> @@ -173,6 +173,13 @@ specification the ioctl returns an ``EINVAL`` error code.
->  	interface. A video overlay device typically stores captured images
->  	directly in the video memory of a graphics card, with hardware
->  	clipping and scaling.
-> +    * - ``V4L2_CAP_EDID_MEMORY``
-> +      - 0x00000008
-> +      - The device is a standalone EDID memory device. This is typically an eeprom
-> +        that supports the VESA Enhanced Display Data Channel Standard.
-> +
-> +        While an eeprom is the most common implementation, it can be something else
-> +        as well, such as a microcontroller. Hence the generic name 'memory'.
+> I don't understand enough of the different colorspaces, why is 'raw'
+> chosen for yuv input?
 
-I realized that this is not just needed for inputs, but also for outputs.
+You clearly understand the topic as you've spotted a bug :-) It should
+be the other way around, for Bayer input the driver should default to
+RAW, and for YUV input, to SRGB (which in V4L2 is used to describe
+limited-range, Rec. 601 encoded sRGB RGB data).
 
-This is the case for an HDMI splitter that is connected to a computer via (typically)
-a serial port where you can use that to get/set the EDID for the input port and
-get the EDIDs for the output ports (i.e. the EDIDs from the connected displays).
+> > +				V4L2_COLORSPACE_SRGB);
+> > +	sink_fmt->xfer_func = format->xfer_func ? format->xfer_func :
+> > +			      V4L2_MAP_XFER_FUNC_DEFAULT(sink_fmt->colorspace);
+> > +	if (is_yuv) {
+> > +		sink_fmt->ycbcr_enc = format->ycbcr_enc ? :
+> > +			V4L2_MAP_YCBCR_ENC_DEFAULT(sink_fmt->colorspace);
+> > +		sink_fmt->quantization = format->quantization ? :
+> > +			V4L2_MAP_QUANTIZATION_DEFAULT(false, sink_fmt->colorspace,
+> > +						      sink_fmt->ycbcr_enc);
+> > +	} else {
+> > +		/*
+> > +		 * The YCbCr encoding isn't applicable for non-YUV formats, but
+> > +		 * V4L2 has no "no encoding" value. Hardcode it to Rec. 601, it
+> > +		 * should be ignored by userspace.
+> > +		 */
+> > +		sink_fmt->ycbcr_enc = V4L2_YCBCR_ENC_601;
+> > +		sink_fmt->quantization = V4L2_QUANTIZATION_FULL_RANGE;
+> > +	}
+> > +
+> >  	*format = *sink_fmt;
+> > 
+> >  	/* Propagate to in crop */
 
-It's the same concept: a standalone EDID device. However, you are not talking
-directly to a memory device like an eeprom. So I think to keep things generic
-this capability should be renamed to just V4L2_CAP_EDID.
-
-The description should be updated as well since it is no longer just for inputs.
-
-And I think we can drop the references to 'memory'. It's really about hardware
-devices that store an EDID for a sink or read an EDID from a source.
-
-Patch 5 will have to be updated as well since for an output device this cap is
-associated with ENUM/S/G_OUTPUT. And for output S_EDID is not supported, of
-course.
-
-I'm working on a driver for an HDMI Splitter (CEC and EDID support), so this
-would come in very handy for that.
-
+-- 
 Regards,
 
-	Hans
-
->      * - ``V4L2_CAP_VBI_CAPTURE``
->        - 0x00000010
->        - The device supports the :ref:`Raw VBI Capture <raw-vbi>`
-> diff --git a/Documentation/userspace-api/media/videodev2.h.rst.exceptions b/Documentation/userspace-api/media/videodev2.h.rst.exceptions
-> index 9cbb7a0c354a..12fa290828e7 100644
-> --- a/Documentation/userspace-api/media/videodev2.h.rst.exceptions
-> +++ b/Documentation/userspace-api/media/videodev2.h.rst.exceptions
-> @@ -185,6 +185,7 @@ replace define V4L2_CAP_META_OUTPUT device-capabilities
->  replace define V4L2_CAP_DEVICE_CAPS device-capabilities
->  replace define V4L2_CAP_TOUCH device-capabilities
->  replace define V4L2_CAP_IO_MC device-capabilities
-> +replace define V4L2_CAP_EDID_MEMORY device-capabilities
->  
->  # V4L2 pix flags
->  replace define V4L2_PIX_FMT_PRIV_MAGIC :c:type:`v4l2_pix_format`
+Laurent Pinchart
