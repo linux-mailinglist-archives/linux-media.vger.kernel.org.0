@@ -2,51 +2,51 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7C235597C6F
-	for <lists+linux-media@lfdr.de>; Thu, 18 Aug 2022 05:56:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9FF93597CA2
+	for <lists+linux-media@lfdr.de>; Thu, 18 Aug 2022 06:03:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243191AbiHRDtU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 17 Aug 2022 23:49:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42784 "EHLO
+        id S243161AbiHREAg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 18 Aug 2022 00:00:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51874 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243198AbiHRDsn (ORCPT
+        with ESMTP id S243111AbiHREAd (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 17 Aug 2022 23:48:43 -0400
+        Thu, 18 Aug 2022 00:00:33 -0400
 Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com [66.111.4.26])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 590B25E336
-        for <linux-media@vger.kernel.org>; Wed, 17 Aug 2022 20:48:41 -0700 (PDT)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-        by mailout.nyi.internal (Postfix) with ESMTP id BBA4F5C0070;
-        Wed, 17 Aug 2022 23:48:40 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute5.internal (MEProxy); Wed, 17 Aug 2022 23:48:40 -0400
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 91A2F9E134
+        for <linux-media@vger.kernel.org>; Wed, 17 Aug 2022 21:00:32 -0700 (PDT)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+        by mailout.nyi.internal (Postfix) with ESMTP id F01745C0125;
+        Thu, 18 Aug 2022 00:00:31 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute1.internal (MEProxy); Thu, 18 Aug 2022 00:00:31 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fastmail.com; h=
         cc:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
         :message-id:mime-version:references:reply-to:sender:subject
-        :subject:to:to; s=fm1; t=1660794520; x=1660880920; bh=uCFWkcf5aa
-        r3NA7j/VNhGFJhNCWMCuG1CjdQ+sHEMxI=; b=Qf1BE2OviVC7GkUnL0aGXjR/J1
-        mDBMtjGlTSJZKW+4mSP6vdwPyO8A4fff0jqVkATAJpPHhqznHup3NXNgIs7XAUFb
-        mp5AU4iqFJO22+SVQdBTzBAvghHo8AnrQu095JdPF32Bne+eBaG15ddlCSqFNoQC
-        VFmTbbgPXepPNj4A0CEcPaGQT48Lq+/CJ0O2fuM+/S8WNo0EXSEg8aTASJvUGAd7
-        01A/0LxWbz7wasCcil8lZ0QeFJbQdlcx+kqB9ZptQ9OSWgNjiHx9t+Wh+kshbwJe
-        AH8SlJU3tZtVHLS0oq81WofToY4wbbwVQHi0tn9dBOvUSLxSQzZ++96nF0JQ==
+        :subject:to:to; s=fm1; t=1660795231; x=1660881631; bh=0nJRbd5Jsv
+        p2N+V9SUVN05zSAkrVJmhpCc9BLWme2Ww=; b=ItB9DQYVcfpBawx9G08qt97vOm
+        SgeGceq7yeZ47zec3CtaPbYi/u0naPS5QIZ8JqdyGhqMFjjt0nDYbemuPKs066G2
+        qRUDdBUn80v8tIbxjaG6u3lmmaYjA4K6e8+4pVjiHfgBlC+bUzG1I9By7uQ9nXii
+        GUcFeqviIXXdLjYZKh3mhtOYCfJR5BHVaj5PmF26mJONVoEmEf8IJolCdEfD5PQY
+        kF2kD+qPoqOz2NXdYoBtYpWIZH82yjtDjLGqN4Sf/3GwOZsxfWQpNDDtgNnlBEVv
+        xFqfbbW8QmO8iCf37eYNPozCsZ6e7zp1maRpqaOuyrZhNip6ja6VAEa/99yw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
         messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
         :feedback-id:from:from:in-reply-to:in-reply-to:message-id
         :mime-version:references:reply-to:sender:subject:subject:to:to
         :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-        fm1; t=1660794520; x=1660880920; bh=uCFWkcf5aar3NA7j/VNhGFJhNCWM
-        CuG1CjdQ+sHEMxI=; b=0ubFzNg0UVhm8CA8Yr4CowShl1WHKzH+8gQzmZXSUqRT
-        uDXmqeKB1XSNbM56Oq7GV2JRe/c0CrbsK1wV6D4+cRvMmpTvXQaxwEyan6ZrIZYj
-        l5ntcIk+X4x7E3iOPcgHho/Wg8Op07cotG3DG8QMNso22v42YOS+sRYYCqPkv5C4
-        1eIy4QEpb9NMXFTVREOGH1VUrf40uFs05ffp6IMAPz/XcawxbR5ALapm/p6hHC8D
-        Q44DnwstR7xmIiFg2nFMHvVaEDc6ATbsGytd8ctJkKhqbNdMQ/LepWSazn+j7XB9
-        RTKUGzxR4yKA8BKtmZ7HnDC6jIicNqqENZu3UCKuqA==
-X-ME-Sender: <xms:l7b9YnHtFN90lOHTlQEC9eVAgypeMzHXYWXGTkZyRbc8vqGHm1lTeQ>
-    <xme:l7b9YkW7XvMl1kTDVoB1ueN68PkA_8be7NVxgOdSuPaHt-c0Uqp6DvKQhht0n8Gzp
-    VFxaVmgpY1ODfMPYvo>
-X-ME-Received: <xmr:l7b9YpISkiy2LaRFagiyTRycaDF5V5C9vY2MG0Ytq9yOF53GmRXo6A>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdehjedgjeeiucetufdoteggodetrfdotf
+        fm1; t=1660795231; x=1660881631; bh=0nJRbd5Jsvp2N+V9SUVN05zSAkrV
+        JmhpCc9BLWme2Ww=; b=RMZlrqCQsqZFsdpDv74OGMXPg+T5cq3BGyr3sQJ8PvHz
+        x7jwUHKWYK50ZTXoD/1DZVwEExvWQ03b5sMQ2pSrBGe7mJP9h4TTbTv0JeddSbHT
+        PgMbxoibDozYwHd6kK0fhWvGUlQsYP7rr/ruHyqH1Bkf35JUGoo5BXcP9YYQ+EC/
+        VtkAcIOGgegZ6+G1A6HOUc5QbQHq46EkQY/MF67M1xrNfy5K2Je5d6n0d/wvhfdo
+        NvftrFAdfRSEMw3IiVyamC8egVw4JyJbsFW6f9cRLKUfdGnZrBZSXLBrpUroEkpb
+        OEJLpe8+840ZhWT+SeGXpUPil5XYxqqhN8vqH1kDTw==
+X-ME-Sender: <xms:X7n9Yv3OVsS9g9dG7VP2qzFioVSy1wIQZK_ja4febCa6Y7NpJ1PU0w>
+    <xme:X7n9YuGLHxZVuCmycozP63uJHt5HbBmVxh8sa8NRIyIj7Ms0YpRpPownH4T-wheHi
+    N_9LP2eg-j5ysexDig>
+X-ME-Received: <xmr:X7n9Yv4M58tLKjNAKp54-Rkp0fhZrIXJuc7Wh2rOaoUJ9M8Dyx3ESA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdehjedgjeekucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
     uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
     cujfgurhepfffhvfevuffkfhggtggujgesthdtredttddtjeenucfhrhhomhepffgrfhhn
@@ -54,28 +54,28 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdehjedgjeeiucetufdoteggod
     ggtffrrghtthgvrhhnpedvhedtledukeegveelfeeuvddujeeiteehkedvhfetkeffudej
     hfeftdduhedvkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfh
     hrohhmpegurghfnhgrsehfrghsthhmrghilhdrtghomh
-X-ME-Proxy: <xmx:l7b9YlGAXDbeogD5nfR-KFg5ilJjiqUF82lDX4GPp6y-gmW_x-eFCQ>
-    <xmx:l7b9YtUsmwX04aIiT98CEaXefj0lcAR3bF9eehhEmqm31PscMx7J8w>
-    <xmx:l7b9YgMRnFiefs7_5LAb3q71vlnXdhPdMwScmAtiBZz_eP0DhCLhXg>
-    <xmx:mLb9YqgfbZzEncNXE4kXc-jEiCDS7ffZAXdcFpfyNt3cxSeGd5HQbQ>
+X-ME-Proxy: <xmx:X7n9Yk0oGOoYjngXCS36fL-AM3eANGcvBjFco3sbfSEi0vESKHjekA>
+    <xmx:X7n9YiEbvolVFJZTQ8Z2DyuZCIvVX3ufZ_G2n45wmobNKyS8IPsaCw>
+    <xmx:X7n9Yl_Po5NtGHPnLdCmFXpm7VFGNZ2T224Xd688WrGesql7sHWM_Q>
+    <xmx:X7n9YnQL6_uFoS83AELR7NYv1Yh14jOJwbVS0jg21aT7-1bmlFMvoQ>
 Feedback-ID: i0e894699:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 17 Aug 2022 23:48:38 -0400 (EDT)
-Date:   Thu, 18 Aug 2022 06:48:35 +0300
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 18 Aug 2022 00:00:30 -0400 (EDT)
+Date:   Thu, 18 Aug 2022 07:00:27 +0300
 From:   Dafna Hirschfeld <dafna@fastmail.com>
 To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Cc:     linux-media@vger.kernel.org,
         Florian Sylvestre <fsylvestre@baylibre.com>,
         Paul Elder <paul.elder@ideasonboard.com>
-Subject: Re: [PATCH 1/7] media: rkisp1: Initialize color space on sink and
- source pads
-Message-ID: <20220818034835.sa5mzgcloyjh2reh@guri>
+Subject: Re: [PATCH 2/7] media: rkisp1: Allow setting color space on ISP sink
+ pad
+Message-ID: <20220818040027.mqqrimh4pyxpb4qq@guri>
 References: <20220815065235.23797-1-laurent.pinchart@ideasonboard.com>
- <20220815065235.23797-2-laurent.pinchart@ideasonboard.com>
+ <20220815065235.23797-3-laurent.pinchart@ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Disposition: inline
-In-Reply-To: <20220815065235.23797-2-laurent.pinchart@ideasonboard.com>
+In-Reply-To: <20220815065235.23797-3-laurent.pinchart@ideasonboard.com>
 X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_LOW,
         RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS,
@@ -88,59 +88,77 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 On 15.08.2022 09:52, Laurent Pinchart wrote:
->Initialize the four color space fields on the sink and source
->video pads in the .init_cfg() operation. As the main use case for the
->ISP is to convert Bayer data to YUV, select a raw color space on the
->sink pad and a limited range quantization of SYCC on the source pad by
->default.
+>The ISP accepts different color spaces on its input: for YUV input, it
+>doesn't set any restrictions, and for Bayer inputs, any color primaries
+>or transfer function can be accepted (YCbCr encoding isn't applicable
+>there, and quantization range can only be full).
+>
+>Allow setting a color space on the ISP sink pad, with the aforementioned
+>restrictions. The settings don't influence hardware yet (only the YUV
+>quantization range will, anything else has no direct effect on the ISP
+>configuration), but can already be set to allow color space information
+>to be coherent across the ISP sink link.
 >
 >Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-Reviewed-by: Dafna Hirschfeld <dafna@fastmail.com>
-
 >---
-> drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c | 10 ++++++++++
-> 1 file changed, 10 insertions(+)
+> .../platform/rockchip/rkisp1/rkisp1-isp.c     | 31 +++++++++++++++++++
+> 1 file changed, 31 insertions(+)
 >
 >diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
->index a3c7d4d88387..a52b22824739 100644
+>index a52b22824739..32114d1e8ad1 100644
 >--- a/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
 >+++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
->@@ -553,12 +553,17 @@ static int rkisp1_isp_init_config(struct v4l2_subdev *sd,
-> 	struct v4l2_mbus_framefmt *sink_fmt, *src_fmt;
-> 	struct v4l2_rect *sink_crop, *src_crop;
+>@@ -705,6 +705,7 @@ static void rkisp1_isp_set_sink_fmt(struct rkisp1_isp *isp,
+> 	const struct rkisp1_mbus_info *mbus_info;
+> 	struct v4l2_mbus_framefmt *sink_fmt;
+> 	struct v4l2_rect *sink_crop;
+>+	bool is_yuv;
 >
->+	/* Video. */
-> 	sink_fmt = v4l2_subdev_get_try_format(sd, sd_state,
-> 					      RKISP1_ISP_PAD_SINK_VIDEO);
-> 	sink_fmt->width = RKISP1_DEFAULT_WIDTH;
-> 	sink_fmt->height = RKISP1_DEFAULT_HEIGHT;
-> 	sink_fmt->field = V4L2_FIELD_NONE;
-> 	sink_fmt->code = RKISP1_DEF_SINK_PAD_FMT;
->+	sink_fmt->colorspace = V4L2_COLORSPACE_RAW;
->+	sink_fmt->xfer_func = V4L2_XFER_FUNC_NONE;
->+	sink_fmt->ycbcr_enc = V4L2_YCBCR_ENC_601;
->+	sink_fmt->quantization = V4L2_QUANTIZATION_FULL_RANGE;
+> 	sink_fmt = rkisp1_isp_get_pad_fmt(isp, sd_state,
+> 					  RKISP1_ISP_PAD_SINK_VIDEO,
+>@@ -725,6 +726,36 @@ static void rkisp1_isp_set_sink_fmt(struct rkisp1_isp *isp,
+> 				   RKISP1_ISP_MIN_HEIGHT,
+> 				   RKISP1_ISP_MAX_HEIGHT);
 >
-> 	sink_crop = v4l2_subdev_get_try_crop(sd, sd_state,
-> 					     RKISP1_ISP_PAD_SINK_VIDEO);
->@@ -571,11 +576,16 @@ static int rkisp1_isp_init_config(struct v4l2_subdev *sd,
-> 					     RKISP1_ISP_PAD_SOURCE_VIDEO);
-> 	*src_fmt = *sink_fmt;
-> 	src_fmt->code = RKISP1_DEF_SRC_PAD_FMT;
->+	src_fmt->colorspace = V4L2_COLORSPACE_SRGB;
->+	src_fmt->xfer_func = V4L2_XFER_FUNC_SRGB;
->+	src_fmt->ycbcr_enc = V4L2_YCBCR_ENC_601;
->+	src_fmt->quantization = V4L2_QUANTIZATION_LIM_RANGE;
+>+	/*
+>+	 * Adjust the color space fields. Accept any color primaries and
+>+	 * transfer function for both YUV and Bayer. For YUV any YCbCr encoding
+>+	 * and quantization range is also accepted. For Bayer formats, the YCbCr
+>+	 * encoding isn't applicable, and the quantization range can only be
+>+	 * full.
+>+	 */
+>+	is_yuv = mbus_info->pixel_enc == V4L2_PIXEL_ENC_YUV;
+>+
+>+	sink_fmt->colorspace = format->colorspace ? format->colorspace :
+>+			       (is_yuv ? V4L2_COLORSPACE_RAW :
+
+I don't understand enough of the different colorspaces, why is 'raw' chosen for yuv input?
+
+Thanks,
+Dafna
+
+>+				V4L2_COLORSPACE_SRGB);
+>+	sink_fmt->xfer_func = format->xfer_func ? format->xfer_func :
+>+			      V4L2_MAP_XFER_FUNC_DEFAULT(sink_fmt->colorspace);
+>+	if (is_yuv) {
+>+		sink_fmt->ycbcr_enc = format->ycbcr_enc ? :
+>+			V4L2_MAP_YCBCR_ENC_DEFAULT(sink_fmt->colorspace);
+>+		sink_fmt->quantization = format->quantization ? :
+>+			V4L2_MAP_QUANTIZATION_DEFAULT(false, sink_fmt->colorspace,
+>+						      sink_fmt->ycbcr_enc);
+>+	} else {
+>+		/*
+>+		 * The YCbCr encoding isn't applicable for non-YUV formats, but
+>+		 * V4L2 has no "no encoding" value. Hardcode it to Rec. 601, it
+>+		 * should be ignored by userspace.
+>+		 */
+>+		sink_fmt->ycbcr_enc = V4L2_YCBCR_ENC_601;
+>+		sink_fmt->quantization = V4L2_QUANTIZATION_FULL_RANGE;
+>+	}
+>+
+> 	*format = *sink_fmt;
 >
-> 	src_crop = v4l2_subdev_get_try_crop(sd, sd_state,
-> 					    RKISP1_ISP_PAD_SOURCE_VIDEO);
-> 	*src_crop = *sink_crop;
->
->+	/* Parameters and statistics. */
-> 	sink_fmt = v4l2_subdev_get_try_format(sd, sd_state,
-> 					      RKISP1_ISP_PAD_SINK_PARAMS);
-> 	src_fmt = v4l2_subdev_get_try_format(sd, sd_state,
+> 	/* Propagate to in crop */
 >-- 
 >Regards,
 >
