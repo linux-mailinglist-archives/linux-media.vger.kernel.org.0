@@ -2,79 +2,63 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C365C599E26
-	for <lists+linux-media@lfdr.de>; Fri, 19 Aug 2022 17:31:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 77343599E64
+	for <lists+linux-media@lfdr.de>; Fri, 19 Aug 2022 17:43:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349607AbiHSP2P (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 19 Aug 2022 11:28:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45804 "EHLO
+        id S1349821AbiHSPhi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 19 Aug 2022 11:37:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33554 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1349429AbiHSP2J (ORCPT
+        with ESMTP id S1349817AbiHSPhg (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 19 Aug 2022 11:28:09 -0400
-Received: from mail-qt1-x832.google.com (mail-qt1-x832.google.com [IPv6:2607:f8b0:4864:20::832])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB0EE101C45
-        for <linux-media@vger.kernel.org>; Fri, 19 Aug 2022 08:28:07 -0700 (PDT)
-Received: by mail-qt1-x832.google.com with SMTP id h21so3583025qta.3
-        for <linux-media@vger.kernel.org>; Fri, 19 Aug 2022 08:28:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc;
-        bh=iA9FPyd1nVi+5ANzlnbkk2becmIxzDV5Vq9MszOeMik=;
-        b=BR81CJRUyoDiW6jn9a7JfCde43ZAfHclIbU+KinvYPofdBD0gEF2AhhMPdqGT1Vj5X
-         5nErMs6lUjEStZhPblbRZ7VqtQp2SetHyO8Ys9EB756PmvtIEIUuKhvQ11FX1dRvsY8V
-         iEVMl64per07X5+eNjU20MCm0AFjphbawvNxTpvkpvgVuqpNdimPa28fQORsIAP3T9xL
-         f+dj9/KhvHPICwjMCTr+RfTxkKLQuNOaXOMwWiInOMNYSbo5W1VAAFbKTzzpRVxaYHwH
-         WnQZCAAQMzrScA9hVdQNFgRG8NtfQgfdCr2XYtbjwxia+iTONOWMq/znu5v2C+ii8FTU
-         kHeQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc;
-        bh=iA9FPyd1nVi+5ANzlnbkk2becmIxzDV5Vq9MszOeMik=;
-        b=jQJaFr4/WhfvOG0hlTlPDz1UhsTySkyA5sPUDBrKkpuxkfOhqdGJ+UMS+JJoQvcwpP
-         DFLrqQeHnXkYQDZAnADNIT4VYEpjpk64sdbFerTbuyHVN/j55k7gWpzGZNRZcHcuaQP/
-         blkuJ3ng9T4f2uWTvLRmntJqvArhZrvXZ56hFIRtEX5UxZhB9fyChPqBiR4Nmc6Y2WAz
-         n7asbhPPk06s5oMTWQfD7DCIj0ntE5MOaaHCfYJHQxUNyTT75+rSr9lPZrg4kbbmdLUg
-         UDvWxwJ3t1ef06lCyTLW3oiHqaUU5j0hG4t4O8jkPsMkRWlVENKQdHIIh2CIEk/7FER9
-         f8Yw==
-X-Gm-Message-State: ACgBeo28YkbPq8+YGE0n6ypXZXIoHYjMTGDcxIYE0EUU2pScbwl9xyg0
-        Ps3ZxMAStXqDgvOMLQR0kMKvBg==
-X-Google-Smtp-Source: AA6agR78yg020o3BQrSjbyOHf2K23nLFedXybdJ5R96QMH31H/Um1bHSOfOeF4uB98Jhlhnwd5sW7w==
-X-Received: by 2002:ac8:59c6:0:b0:344:6f73:da07 with SMTP id f6-20020ac859c6000000b003446f73da07mr6813160qtf.199.1660922886865;
-        Fri, 19 Aug 2022 08:28:06 -0700 (PDT)
-Received: from nicolas-tpx395.localdomain (192-222-136-102.qc.cable.ebox.net. [192.222.136.102])
-        by smtp.gmail.com with ESMTPSA id w4-20020a05620a424400b006b6757a11fcsm3976599qko.36.2022.08.19.08.28.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 19 Aug 2022 08:28:06 -0700 (PDT)
-Message-ID: <6da7faf329128312f0862f555d1a855437ae99f3.camel@ndufresne.ca>
-Subject: Re: [PATCH 2/2] [WIP]: media: Add Synaptics compressed tiled format
-From:   Nicolas Dufresne <nicolas@ndufresne.ca>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Hsia-Jun Li <Randy.Li@synaptics.com>
-Cc:     Tomasz Figa <tfiga@chromium.org>, dri-devel@lists.freedesktop.org,
-        maarten.lankhorst@linux.intel.com, mripard@kernel.org,
-        tzimmermann@suse.de, airlied@linux.ie, daniel@ffwll.ch,
-        mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
-        ezequiel@vanguardiasur.com.ar, sakari.ailus@linux.intel.com,
-        ribalda@chromium.org, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, sebastian.hesselbarth@gmail.com,
-        jszhang@kernel.org, linux-arm-kernel@lists.infradead.org
-Date:   Fri, 19 Aug 2022 11:28:04 -0400
-In-Reply-To: <Yv7HnHE7bLmgq5D0@pendragon.ideasonboard.com>
-References: <20220808162750.828001-1-randy.li@synaptics.com>
-         <20220808162750.828001-3-randy.li@synaptics.com>
-         <CAAFQd5AKjpJ+fPAeCqdNnJbS4R7SdaHkfyW4qG1xXr-sE801pQ@mail.gmail.com>
-         <13d37c15-79f3-4e16-8cf4-fc37846f4a04@synaptics.com>
-         <Yv7HnHE7bLmgq5D0@pendragon.ideasonboard.com>
+        Fri, 19 Aug 2022 11:37:36 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B15ACE831F;
+        Fri, 19 Aug 2022 08:37:35 -0700 (PDT)
+Received: from nicolas-tpx395.localdomain (zone.collabora.co.uk [167.235.23.81])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: nicolas)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id CEFC36601DC1;
+        Fri, 19 Aug 2022 16:37:30 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1660923453;
+        bh=yPtWZ9dIeoSnNCWNTE1Z+qUHDWr0Ag6n3/7+J9VVv8s=;
+        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+        b=YPyLcdiuSpMv6Qmg1v2M1IdOBzsVHjTCwxcqM/eVA5UQqG0DxkbKaMW4tTqCfl4Xt
+         GpmOwmCRrvzvkpqsZ9iFJo9+h/QofDgaI3+Qzd/7lT/EEVf/wBKaiuLstvdh2kPyeT
+         tmrybLzL/faEvfdmudArNQhS2hKEFxnKDVZs/BNIiSe+7TG1riqXhff15tUd1wfYxq
+         VT7nllVpMuW3ENKXdWS393D/qsgSoyQtHbzQcgSRWE2McS0CuurppiLmDHmC91455Z
+         WLl9a2zBjsqubtRWacvH2nAxEQvsFPetiivf5nTO/3Ikm7rNb9P37HKaPaTtQhhi+M
+         FQJbeXK/gDvgA==
+Message-ID: <47ce07adc73887b5afaf9815a78b793d0e9a6b54.camel@collabora.com>
+Subject: Re: [PATCH v1 2/3] media: cedrus: Set the platform driver data
+ earlier
+From:   Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To:     Jernej =?UTF-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>,
+        linux-media@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Samuel Holland <samuel@sholland.org>
+Cc:     kernel@collabora.com,
+        Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+        stable@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+        linux-kernel@vger.kernel.org
+Date:   Fri, 19 Aug 2022 11:37:20 -0400
+In-Reply-To: <4418189.LvFx2qVVIh@jernej-laptop>
+References: <20220818203308.439043-1-nicolas.dufresne@collabora.com>
+         <20220818203308.439043-3-nicolas.dufresne@collabora.com>
+         <4418189.LvFx2qVVIh@jernej-laptop>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.44.4 (3.44.4-1.fc36) 
 MIME-Version: 1.0
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -82,115 +66,62 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Le vendredi 19 ao=C3=BBt 2022 =C3=A0 02:13 +0300, Laurent Pinchart a =C3=A9=
-crit=C2=A0:
-> On Thu, Aug 18, 2022 at 02:33:42PM +0800, Hsia-Jun Li wrote:
-> > On 8/18/22 14:06, Tomasz Figa wrote:
-> > > On Tue, Aug 9, 2022 at 1:28 AM Hsia-Jun Li <randy.li@synaptics.com> w=
-rote:
-> > > >=20
-> > > > From: "Hsia-Jun(Randy) Li" <randy.li@synaptics.com>
-> > > >=20
-> > > > The most of detail has been written in the drm.
->=20
-> This patch still needs a description of the format, which should go to
-> Documentation/userspace-api/media/v4l/.
->=20
-> > > > Please notice that the tiled formats here request
-> > > > one more plane for storing the motion vector metadata.
-> > > > This buffer won't be compressed, so you can't append
-> > > > it to luma or chroma plane.
-> > >=20
-> > > Does the motion vector buffer need to be exposed to userspace? Is the
-> > > decoder stateless (requires userspace to specify the reference frames=
-)
-> > > or stateful (manages the entire decoding process internally)?
+Le vendredi 19 ao=C3=BBt 2022 =C3=A0 06:17 +0200, Jernej =C5=A0krabec a =C3=
+=A9crit=C2=A0:
+> Dne =C4=8Detrtek, 18. avgust 2022 ob 22:33:07 CEST je Nicolas Dufresne na=
+pisal(a):
+> > From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 > >=20
-> > No, users don't need to access them at all. Just they need a different=
-=20
-> > dma-heap.
-> >=20
-> > You would only get the stateful version of both encoder and decoder.
+> > The cedrus_hw_resume() crashes with NULL deference on driver probe if
+> > runtime PM is disabled because it uses platform data that hasn't been
+> > set up yet. Fix this by setting the platform data earlier during probe.
 >=20
-> Shouldn't the motion vectors be stored in a separate V4L2 buffer,
-> submitted through a different queue then ?
+> Does it even work without PM? Maybe it would be better if Cedrus would se=
+lect=20
+> PM in Kconfig.
 
-Imho, I believe these should be invisible to users and pooled separately to
-reduce the overhead. The number of reference is usually lower then the numb=
-er of
-allocated display buffers.
+I cannot comment myself on this, but it does not seem to invalidate this
+Dmitry's fix.
 
 >=20
-> > > > Signed-off-by: Hsia-Jun(Randy) Li <randy.li@synaptics.com>
-> > > > ---
-> > > >   drivers/media/v4l2-core/v4l2-common.c | 1 +
-> > > >   drivers/media/v4l2-core/v4l2-ioctl.c  | 2 ++
-> > > >   include/uapi/linux/videodev2.h        | 2 ++
-> > > >   3 files changed, 5 insertions(+)
-> > > >=20
-> > > > diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/=
-v4l2-core/v4l2-common.c
-> > > > index e0fbe6ba4b6c..f645278b3055 100644
-> > > > --- a/drivers/media/v4l2-core/v4l2-common.c
-> > > > +++ b/drivers/media/v4l2-core/v4l2-common.c
-> > > > @@ -314,6 +314,7 @@ const struct v4l2_format_info *v4l2_format_info=
-(u32 format)
-> > > >                  { .format =3D V4L2_PIX_FMT_SGBRG12,       .pixel_e=
-nc =3D V4L2_PIXEL_ENC_BAYER, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =
-=3D { 2, 0, 0, 0 }, .hdiv =3D 1, .vdiv =3D 1 },
-> > > >                  { .format =3D V4L2_PIX_FMT_SGRBG12,       .pixel_e=
-nc =3D V4L2_PIXEL_ENC_BAYER, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =
-=3D { 2, 0, 0, 0 }, .hdiv =3D 1, .vdiv =3D 1 },
-> > > >                  { .format =3D V4L2_PIX_FMT_SRGGB12,       .pixel_e=
-nc =3D V4L2_PIXEL_ENC_BAYER, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =
-=3D { 2, 0, 0, 0 }, .hdiv =3D 1, .vdiv =3D 1 },
-> > > > +               { .format =3D V4L2_PIX_FMT_NV12M_V4H1C, .pixel_enc =
-=3D V4L2_PIXEL_ENC_YUV, .mem_planes =3D 5, .comp_planes =3D 2, .bpp =3D { 1=
-, 2, 0, 0 }, .hdiv =3D 2, .vdiv =3D 2, .block_w =3D { 128, 128 }, .block_h =
-=3D { 128, 128 } },
-> > > >          };
-> > > >          unsigned int i;
-> > > >=20
-> > > > diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v=
-4l2-core/v4l2-ioctl.c
-> > > > index e6fd355a2e92..8f65964aff08 100644
-> > > > --- a/drivers/media/v4l2-core/v4l2-ioctl.c
-> > > > +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-> > > > @@ -1497,6 +1497,8 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtd=
-esc *fmt)
-> > > >                  case V4L2_PIX_FMT_MT21C:        descr =3D "Mediate=
-k Compressed Format"; break;
-> > > >                  case V4L2_PIX_FMT_QC08C:        descr =3D "QCOM Co=
-mpressed 8-bit Format"; break;
-> > > >                  case V4L2_PIX_FMT_QC10C:        descr =3D "QCOM Co=
-mpressed 10-bit Format"; break;
-> > > > +               case V4L2_PIX_FMT_NV12M_V4H1C:  descr =3D "Synaptic=
-s Compressed 8-bit tiled Format";break;
-> > > > +               case V4L2_PIX_FMT_NV12M_10_V4H3P8C:     descr =3D "=
-Synaptics Compressed 10-bit tiled Format";break;
-> > > >                  default:
-> > > >                          if (fmt->description[0])
-> > > >                                  return;
-> > > > diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/vi=
-deodev2.h
-> > > > index 01e630f2ec78..7e928cb69e7c 100644
-> > > > --- a/include/uapi/linux/videodev2.h
-> > > > +++ b/include/uapi/linux/videodev2.h
-> > > > @@ -661,6 +661,8 @@ struct v4l2_pix_format {
-> > > >   #define V4L2_PIX_FMT_NV12MT_16X16 v4l2_fourcc('V', 'M', '1', '2')=
- /* 12  Y/CbCr 4:2:0 16x16 tiles */
-> > > >   #define V4L2_PIX_FMT_NV12M_8L128      v4l2_fourcc('N', 'A', '1', =
-'2') /* Y/CbCr 4:2:0 8x128 tiles */
-> > > >   #define V4L2_PIX_FMT_NV12M_10BE_8L128 v4l2_fourcc_be('N', 'T', '1=
-', '2') /* Y/CbCr 4:2:0 10-bit 8x128 tiles */
-> > > > +#define V4L2_PIX_FMT_NV12M_V4H1C v4l2_fourcc('S', 'Y', '1', '2')  =
- /* 12  Y/CbCr 4:2:0 tiles */
-> > > > +#define V4L2_PIX_FMT_NV12M_10_V4H3P8C v4l2_fourcc('S', 'Y', '1', '=
-0')   /* 12  Y/CbCr 4:2:0 10-bits tiles */
-> > > >=20
-> > > >   /* Bayer formats - see http://www.siliconimaging.com/RGB%20Bayer.=
-htm */
-> > > >   #define V4L2_PIX_FMT_SBGGR8  v4l2_fourcc('B', 'A', '8', '1') /*  =
-8  BGBG.. GRGR.. */
+> Best regards,
+> Jernej
+>=20
+> >=20
+> > Cc: stable@vger.kernel.org
+> > Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+> > Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+> > ---
+> >  drivers/staging/media/sunxi/cedrus/cedrus.c | 4 ++--
+> >  1 file changed, 2 insertions(+), 2 deletions(-)
+> >=20
+> > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.c
+> > b/drivers/staging/media/sunxi/cedrus/cedrus.c index
+> > 960a0130cd620..55c54dfdc585c 100644
+> > --- a/drivers/staging/media/sunxi/cedrus/cedrus.c
+> > +++ b/drivers/staging/media/sunxi/cedrus/cedrus.c
+> > @@ -448,6 +448,8 @@ static int cedrus_probe(struct platform_device *pde=
+v)
+> >  	if (!dev)
+> >  		return -ENOMEM;
+> >=20
+> > +	platform_set_drvdata(pdev, dev);
+> > +
+> >  	dev->vfd =3D cedrus_video_device;
+> >  	dev->dev =3D &pdev->dev;
+> >  	dev->pdev =3D pdev;
+> > @@ -521,8 +523,6 @@ static int cedrus_probe(struct platform_device *pde=
+v)
+> >  		goto err_m2m_mc;
+> >  	}
+> >=20
+> > -	platform_set_drvdata(pdev, dev);
+> > -
+> >  	return 0;
+> >=20
+> >  err_m2m_mc:
+>=20
+>=20
+>=20
 >=20
 
