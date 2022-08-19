@@ -2,130 +2,107 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 33D4F599712
-	for <lists+linux-media@lfdr.de>; Fri, 19 Aug 2022 10:19:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9CCFA599762
+	for <lists+linux-media@lfdr.de>; Fri, 19 Aug 2022 10:36:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346785AbiHSIS6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 19 Aug 2022 04:18:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53072 "EHLO
+        id S1344651AbiHSIYp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 19 Aug 2022 04:24:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40982 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1347260AbiHSISV (ORCPT
+        with ESMTP id S244461AbiHSIYo (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 19 Aug 2022 04:18:21 -0400
-Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::227])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A02A0E990D;
-        Fri, 19 Aug 2022 01:18:01 -0700 (PDT)
-Received: (Authenticated sender: jacopo@jmondi.org)
-        by mail.gandi.net (Postfix) with ESMTPSA id DDF9120007;
-        Fri, 19 Aug 2022 08:17:56 +0000 (UTC)
-Date:   Fri, 19 Aug 2022 10:17:55 +0200
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Marco Felsch <m.felsch@pengutronix.de>
-Cc:     mchehab@kernel.org, sakari.ailus@linux.intel.com,
-        laurent.pinchart+renesas@ideasonboard.com,
-        jacopo+renesas@jmondi.org, akinobu.mita@gmail.com,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kernel@pengutronix.de
-Subject: Re: [PATCH 4/4] media: mt9m111: remove .s_power callback
-Message-ID: <20220819081755.wlsryhcr7xjouor5@uno.localdomain>
-References: <20220818144712.997477-1-m.felsch@pengutronix.de>
- <20220818144712.997477-4-m.felsch@pengutronix.de>
- <20220818161408.76ofg2rjvp5whtof@uno.localdomain>
- <20220819071832.3mr7u7jhp2ud4fv6@pengutronix.de>
- <20220819073512.ulud7ppnrudxewdn@uno.localdomain>
- <20220819080626.34ghffj6hmkk5ntm@pengutronix.de>
+        Fri, 19 Aug 2022 04:24:44 -0400
+Received: from mail-yw1-x112d.google.com (mail-yw1-x112d.google.com [IPv6:2607:f8b0:4864:20::112d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 11725C229C
+        for <linux-media@vger.kernel.org>; Fri, 19 Aug 2022 01:24:43 -0700 (PDT)
+Received: by mail-yw1-x112d.google.com with SMTP id 00721157ae682-3378303138bso63195117b3.9
+        for <linux-media@vger.kernel.org>; Fri, 19 Aug 2022 01:24:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc;
+        bh=GridmYqKIl9YhRzWxWOzxfd24n2YkgbOm/HqzMAUhEQ=;
+        b=bwNIyABVmu81M7BGPfjuHZ6PjIx00blv/MpdYbhXPXackmXOce8DP2CjV/tCB/03Si
+         /FmDOotUt4VGGVOPk7no9TMR+TuGC7n73wb594mU54kKQ+XCvHraCCmCzIVrPJbhPpsm
+         jjdZZSO942VUB/CVHr+wodkZPIzhIaTwLheZDB0+BeLUGC1Rmzi+4CYlvzHf9VIlSsaj
+         ggHRRVyYDnrW6QmjXK1pmuYAURpmrYSbNORQBd7Hna4JgukZcEaIdFcLAGzLz+g3JBos
+         GeCdgmv1eq8LW+Iz3ANUpnfGua4NLHGX62ulRSTOHK0XLfbaRoLxVSMBgzs6JBPA4OgR
+         WDEg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc;
+        bh=GridmYqKIl9YhRzWxWOzxfd24n2YkgbOm/HqzMAUhEQ=;
+        b=Wku4rjm2Dr4Q7iOUBI3HhUbysPVax7BpBc71W0RzuLDelm8OFS5TGtCpDFKDkFMbtD
+         G871qeM66rc1GYHEBzutD7QYgtJ7lrUI+48y7ISZqHGa+SqSCL8FKG5rSJyhVuPa+Pcc
+         jw7G+qjXId+V2Xn2lSifUfMwC3DHngCrztCKbPtIv07AB7MhN/q+ep45BkU6hX66iWM5
+         sRCDIyTQuveU2kTg4eerHUAH/odqFUFFIgBZi05K8yFZoyMCRzT21EEPXXV0vB/VPM27
+         puGBbUi7gBVCGchKWC4A585AwfJh2z2qFZYpVXfVF7RrCHUE1ZIzgz69eadlrwRD+JSI
+         o+cg==
+X-Gm-Message-State: ACgBeo1pslqoEhKM7XdF8VVuUCsPLkhOO7XB7g2u9ecnWLF+Au2RT8Ao
+        WAsCM9vifDkwaZeH1hZyrd+S+YOu5WREtRhEnIHgBw==
+X-Google-Smtp-Source: AA6agR5Xeeq2XXdslKqjNOEIt8ha4tkJ3suR0T/hScDsfaXCZ/KwX1otEr27K/Qwm11NBboU15GFBLmyI/AXH0D6BfA=
+X-Received: by 2002:a81:d543:0:b0:325:2240:ce5 with SMTP id
+ l3-20020a81d543000000b0032522400ce5mr6410102ywj.210.1660897482275; Fri, 19
+ Aug 2022 01:24:42 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220819080626.34ghffj6hmkk5ntm@pengutronix.de>
-X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_NONE,TVD_SUBJ_WIPE_DEBT,T_SCC_BODY_TEXT_LINE
-        autolearn=no autolearn_force=no version=3.4.6
+References: <20220812143055.12938-1-olivier.masse@nxp.com>
+In-Reply-To: <20220812143055.12938-1-olivier.masse@nxp.com>
+From:   Sumit Garg <sumit.garg@linaro.org>
+Date:   Fri, 19 Aug 2022 13:54:31 +0530
+Message-ID: <CAFA6WYM89+SrW2Br-fnFke4djt4GgGHXn7JS3=rxvAa7dAAY7w@mail.gmail.com>
+Subject: Re: [PATCH v2 0/1] tee: Add tee_shm_register_fd
+To:     Olivier Masse <olivier.masse@nxp.com>
+Cc:     etienne.carriere@linaro.org, jens.wiklander@linaro.org,
+        sumit.semwal@linaro.org, christian.koenig@amd.com,
+        op-tee@lists.trustedfirmware.org, linaro-mm-sig@lists.linaro.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, clement.faure@nxp.com
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Marco
+Hi Olivier,
 
-On Fri, Aug 19, 2022 at 10:06:26AM +0200, Marco Felsch wrote:
-> On 22-08-19, Jacopo Mondi wrote:
-> > Hi Marco
-> >
-> > On Fri, Aug 19, 2022 at 09:18:32AM +0200, Marco Felsch wrote:
-> > > Hi Jacopo,
-> > >
-> > > thanks for your fast feedback :)
-> > >
-> > > On 22-08-18, Jacopo Mondi wrote:
-> > > > Hi Marco
-> > > >
-> > > > On Thu, Aug 18, 2022 at 04:47:12PM +0200, Marco Felsch wrote:
-> > > > > This is in preparation of switching to the generic dev PM mechanism.
-> > > > > Since the .s_power callback will be removed in the near future move the
-> > > > > powering into the .s_stream callback. So this driver no longer depends
-> > > > > on the .s_power mechanism.
-> > > > >
-> > > > > Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
-> > > >
-> > > > If you want to move to runtime_pm, I would implement it first and have
-> > > > s_power call the _resume and _suspend routines, as some platform
-> > > > drivers still use s_power() and some of them might depend on it.
-> > >
-> > > Do we really have platforms which depend on this? IMHO if that is the
-> >
-> > $ git grep "v4l2_subdev_call(.*, s_power" drivers/media/platform/  | cut -d : -f1 | uniq  | wc -l
-> > 8
-> >
-> > > case than we should fix those platfoms. Since new drivers shouldn't use
-> > > this callback anymore.
-> >
-> > Patches are clearly welcome I guess..
+On Fri, 12 Aug 2022 at 20:01, Olivier Masse <olivier.masse@nxp.com> wrote:
 >
-> :)
+> Add a new ioctl called TEE_IOC_SHM_REGISTER_FD to register a
+> shared memory from a dmabuf file descriptor.
+> This new ioctl will allow the Linux Kernel to register a buffer
+> to be used by the Secure Data Path OPTEE OS feature.
 >
-> > > In my case, I worked on [1] and wondered why the sensor was enabled
-> > > before I told him to do so. Since I didn't implement the s_power()
-> > > callback, I had no chance to get enabled before.
-> > >
-> >
-> > I'm not sure I got this part
+> Please find more information here:
+> https://static.linaro.org/connect/san19/presentations/san19-107.pdf
 >
-> What I mean is, that the MT9M131 sensor gets enabled and immediately
-> start sending frames before I told him to do so e.g. by calling
-
-Why does this happen ?
-
-> s_stream(). This can confuse the downstream device. The only way to get
-> enable the downstream device first is to add the s_power() callback.
->
-> > > Can we please decide:
-> > >  - Do we wanna get rid of the s_power() callback?
-> >
-> > I think that would be everyone's desire, but drivers have to be moved
-> > away from it
-> >
-> > >  - If not, how do we handle those devices then with drivers not
-> > >    implementing this callback?
-> >
-> > By maintaining compatibility. I suggested to move to runtime_pm() and
-> > wrap _resume/_suspend in s_power().
->
-> But then you're introducing new drivers with s_power() callbacks and so
-> the behaviour isn't really changed.
+> Patch tested on Hikey 6220.
 >
 
-I only meant in existing ones
+AFAIU, for the OP-TEE SDP feature to work you need to have a DMA-BUF
+heap driver for allocating secure buffers through exposed chardev:
+"/dev/dma_heap/sdp". Have you tested it with some out-of-tree driver
+as I can't find it upstream? Also, do you plan to push that upstream
+as well?
 
-> > My understanding is that the two (runtime_pm/s_power) are mutually
-> > exclusive, but even if that was not the case, runtime_pm is reference
-> > counted, hence as long as calls are balanced this should work, right ?
->
-> Right but the s_power() behaviour is not changed and drivers still rely
-> on it to work as right now.
+BTW, please add a changelog while sending newer patch-set versions.
 
-As long as we have bridge drivers using it, isn't this what we want ?
+-Sumit
+
+> Etienne Carriere (1):
+>   tee: new ioctl to a register tee_shm from a dmabuf file descriptor
 >
-> Regards,
->   Marco
+>  drivers/tee/tee_core.c   | 38 +++++++++++++++
+>  drivers/tee/tee_shm.c    | 99 +++++++++++++++++++++++++++++++++++++++-
+>  include/linux/tee_drv.h  | 11 +++++
+>  include/uapi/linux/tee.h | 29 ++++++++++++
+>  4 files changed, 175 insertions(+), 2 deletions(-)
+>
+> --
+> 2.25.0
+>
