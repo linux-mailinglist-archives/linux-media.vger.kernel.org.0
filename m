@@ -2,113 +2,209 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5D39859982A
-	for <lists+linux-media@lfdr.de>; Fri, 19 Aug 2022 11:06:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7AB0359981A
+	for <lists+linux-media@lfdr.de>; Fri, 19 Aug 2022 11:06:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347972AbiHSI7I (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 19 Aug 2022 04:59:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52092 "EHLO
+        id S1347135AbiHSJEs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 19 Aug 2022 05:04:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33294 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1347905AbiHSI65 (ORCPT
+        with ESMTP id S1346618AbiHSJEr (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 19 Aug 2022 04:58:57 -0400
-Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com [IPv6:2a00:1450:4864:20::42f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4DB76D83F0
-        for <linux-media@vger.kernel.org>; Fri, 19 Aug 2022 01:58:46 -0700 (PDT)
-Received: by mail-wr1-x42f.google.com with SMTP id h24so4410405wrb.8
-        for <linux-media@vger.kernel.org>; Fri, 19 Aug 2022 01:58:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:organization:from:references
-         :cc:to:content-language:subject:user-agent:mime-version:date
-         :message-id:from:to:cc;
-        bh=Ffq4pm+fBB/gtznE6uzX6IlBd2C6b+2crFJbBiVCYtQ=;
-        b=8VkEaXPL3aUVEP3xoIeg33AjWpzKZwXE2gqCdHw5p9R8nSxW4kxlM6fPaINhC5ekFT
-         t0uxzysoj5lVT/Kuu4TqZMM1Ky7EdQIyvJcOkkIxFUe4lPghaLZEmSEXPAavpDtQ53op
-         O0R5nrfJtG8HS9btNLxeDpgTm5SZZcNnKDZLI8MnV2Df/49wVMu/kTjtZLNtwOlqDRw2
-         SYEGuYLcgyfwurUiSH+E2Qqf/QtnLT3wOdEOkVrwVCv3G6CpQS0Z5NeeK/th9PbeE/Qo
-         PnkKV1dBYAxeStHgCseXyw58ZqWie+3mDw4WmF3PHj4yaDT45SMCu+WM82pov/cAcJxJ
-         MMsQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:organization:from:references
-         :cc:to:content-language:subject:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc;
-        bh=Ffq4pm+fBB/gtznE6uzX6IlBd2C6b+2crFJbBiVCYtQ=;
-        b=F2CsNAjht/nwHC1XyNBz0Cy7CslQ08i1dNwlEAJ/cqUJvwerBXR44sHxrTNdQ3dC2l
-         YMU22Fov9QR4YQt6tRS1Wg4rly9qpkg6brS9vfxurowGtfNtSXRmwX8PCzhRYpCBmJip
-         g77/buU1aAJflVULbXxXBEX2qMWamgLQ/Yf9YzbYBJ98mqH7M+GwWErP1lzDDrlUnhEb
-         qAC9WXOBQi2dxJtK0UvEzUaw+neEO5dhQNGhFdd2g5Ds/EDW5/+6udiAS/DOS6wEZVEj
-         FWHvbpYNEMW4iD8uK8ewvpxbF4okIPCwqH2J/JzIBMa59MBJytq+6l0UkHEh5vZUheAm
-         4RmQ==
-X-Gm-Message-State: ACgBeo0DyE5RWLsLm5JhvsQNQVQ9RsE+KmHFg1ZXg4e5kT2yEHoAjLpB
-        SYMYHQFaaKJwFUdzuAv3N0ZxXw==
-X-Google-Smtp-Source: AA6agR44T/L9Brv1d9i92rACo/P9wJDvvm/ddfSSTDIy5nJySAfUIW7ZgMh1piSA1Fg7P41G6UNHfw==
-X-Received: by 2002:a05:6000:1e0e:b0:220:5c9f:a468 with SMTP id bj14-20020a0560001e0e00b002205c9fa468mr3434353wrb.587.1660899524029;
-        Fri, 19 Aug 2022 01:58:44 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:982:cbb0:5a02:227:fda7:6a0? ([2a01:e0a:982:cbb0:5a02:227:fda7:6a0])
-        by smtp.gmail.com with ESMTPSA id o14-20020adfcf0e000000b0021f1ec8776fsm3542436wrj.61.2022.08.19.01.58.42
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 19 Aug 2022 01:58:43 -0700 (PDT)
-Message-ID: <6ddb18be-2b89-03ca-a839-4ec97fe9f8d4@baylibre.com>
-Date:   Fri, 19 Aug 2022 10:58:41 +0200
+        Fri, 19 Aug 2022 05:04:47 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C93EDB05F
+        for <linux-media@vger.kernel.org>; Fri, 19 Aug 2022 02:04:45 -0700 (PDT)
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <mfe@pengutronix.de>)
+        id 1oOxvi-0002YL-Ml; Fri, 19 Aug 2022 11:04:38 +0200
+Received: from mfe by ptx.hi.pengutronix.de with local (Exim 4.92)
+        (envelope-from <mfe@pengutronix.de>)
+        id 1oOxvi-0003su-40; Fri, 19 Aug 2022 11:04:38 +0200
+Date:   Fri, 19 Aug 2022 11:04:38 +0200
+From:   Marco Felsch <m.felsch@pengutronix.de>
+To:     Jacopo Mondi <jacopo@jmondi.org>
+Cc:     mchehab@kernel.org, sakari.ailus@linux.intel.com,
+        laurent.pinchart+renesas@ideasonboard.com,
+        jacopo+renesas@jmondi.org, akinobu.mita@gmail.com,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kernel@pengutronix.de
+Subject: Re: [PATCH 1/4] media: mt9m111: add V4L2_CID_PIXEL_RATE support
+Message-ID: <20220819090438.72vlat6by3ag6pvd@pengutronix.de>
+References: <20220818144712.997477-1-m.felsch@pengutronix.de>
+ <20220818161108.dlmi77o6j7wcyayc@uno.localdomain>
+ <20220819075615.a3nuakrac54kn7t3@pengutronix.de>
+ <20220819081548.q6c5pwio2z2ambqq@uno.localdomain>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH -next] media: meson: vdec: add missing
- clk_disable_unprepare on error in vdec_hevc_start()
-Content-Language: en-US
-To:     Xu Qiang <xuqiang36@huawei.com>, mchehab@kernel.org,
-        gregkh@linuxfoundation.org, khilman@baylibre.com,
-        jbrunet@baylibre.com, martin.blumenstingl@googlemail.com,
-        mjourdan@baylibre.com, hverkuil-cisco@xs4all.nl
-Cc:     linux-media@vger.kernel.org, linux-amlogic@lists.infradead.org,
-        linux-staging@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        guohanjun@huawei.com, weiyongjun1@huawei.com
-References: <20220818065753.104050-1-xuqiang36@huawei.com>
-From:   Neil Armstrong <narmstrong@baylibre.com>
-Organization: Baylibre
-In-Reply-To: <20220818065753.104050-1-xuqiang36@huawei.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220819081548.q6c5pwio2z2ambqq@uno.localdomain>
+User-Agent: NeoMutt/20180716
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: mfe@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 18/08/2022 08:57, Xu Qiang wrote:
-> Add the missing clk_disable_unprepare() before return
-> from vdec_hevc_start() in the error handling case.
+On 22-08-19, Jacopo Mondi wrote:
+> Hi Marco
 > 
-> Fixes: 823a7300340e (“media: meson: vdec: add common HEVC decoder support”)
-> Signed-off-by: Xu Qiang <xuqiang36@huawei.com>
-> ---
->   drivers/staging/media/meson/vdec/vdec_hevc.c | 6 +++++-
->   1 file changed, 5 insertions(+), 1 deletion(-)
+> On Fri, Aug 19, 2022 at 09:56:15AM +0200, Marco Felsch wrote:
+> > Hi Jacopo,
+> >
+> > On 22-08-18, Jacopo Mondi wrote:
+> > > Hi Marco
+> > >
+> > > On Thu, Aug 18, 2022 at 04:47:09PM +0200, Marco Felsch wrote:
+> > > > Add support to report the PIXEL_RATE so a host or bridge device can ask
+> > > > the sensor.
+> > > >
+> > > > Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
+> > > > ---
+> > > >  drivers/media/i2c/mt9m111.c | 15 ++++++++++++++-
+> > > >  1 file changed, 14 insertions(+), 1 deletion(-)
+> > > >
+> > > > diff --git a/drivers/media/i2c/mt9m111.c b/drivers/media/i2c/mt9m111.c
+> > > > index afc86efa9e3e..cdaf283e1309 100644
+> > > > --- a/drivers/media/i2c/mt9m111.c
+> > > > +++ b/drivers/media/i2c/mt9m111.c
+> > > > @@ -908,6 +908,8 @@ static int mt9m111_s_ctrl(struct v4l2_ctrl *ctrl)
+> > > >  		return mt9m111_set_test_pattern(mt9m111, ctrl->val);
+> > > >  	case V4L2_CID_COLORFX:
+> > > >  		return mt9m111_set_colorfx(mt9m111, ctrl->val);
+> > > > +	case V4L2_CID_PIXEL_RATE:
+> > > > +		return 0;
+> > >
+> > > By default PIXEL_RATE is read-only.
+> > > Do you get a call to s_ctrl for it ?
+> >
+> > You're absolutly right, we don't need to do this.
+> >
+> > > >  	}
+> > > >
+> > > >  	return -EINVAL;
+> > > > @@ -1249,6 +1251,7 @@ static int mt9m111_probe(struct i2c_client *client)
+> > > >  {
+> > > >  	struct mt9m111 *mt9m111;
+> > > >  	struct i2c_adapter *adapter = client->adapter;
+> > > > +	unsigned long mclk_rate;
+> > > >  	int ret;
+> > > >
+> > > >  	if (!i2c_check_functionality(adapter, I2C_FUNC_SMBUS_WORD_DATA)) {
+> > > > @@ -1271,6 +1274,13 @@ static int mt9m111_probe(struct i2c_client *client)
+> > > >  	if (IS_ERR(mt9m111->clk))
+> > > >  		return PTR_ERR(mt9m111->clk);
+> > > >
+> > > > +	ret = clk_prepare_enable(mt9m111->clk);
+> > > > +	if (ret < 0)
+> > > > +		return ret;
+> > > > +
+> > >
+> > > Do you need to enable clock to read its rate ?
+> >
+> > Yes, accroding the API [1].
+> >
+> > [1] https://elixir.bootlin.com/linux/v6.0-rc1/source/include/linux/clk.h#L682
 > 
-> diff --git a/drivers/staging/media/meson/vdec/vdec_hevc.c b/drivers/staging/media/meson/vdec/vdec_hevc.c
-> index 9530e580e57a..afced435c907 100644
-> --- a/drivers/staging/media/meson/vdec/vdec_hevc.c
-> +++ b/drivers/staging/media/meson/vdec/vdec_hevc.c
-> @@ -167,8 +167,12 @@ static int vdec_hevc_start(struct amvdec_session *sess)
->   
->   	clk_set_rate(core->vdec_hevc_clk, 666666666);
->   	ret = clk_prepare_enable(core->vdec_hevc_clk);
-> -	if (ret)
-> +	if (ret) {
-> +		if (core->platform->revision == VDEC_REVISION_G12A ||
-> +		    core->platform->revision == VDEC_REVISION_SM1)
-> +			clk_disable_unprepare(core->vdec_hevcf_clk);
->   		return ret;
-> +	}
->   
->   	if (core->platform->revision == VDEC_REVISION_SM1)
->   		regmap_update_bits(core->regmap_ao, AO_RTI_GEN_PWR_SLEEP0,
+> So weird! none of the drivers I checked do that. The most common
+> pattern is
+> 
+>         clk = devm_clk_get();
+>         rate = clk_get_rate(clk)
+>         if (rate != RATE)
+>                 ...
 
-Reviewed-by: Neil Armstrong <narmstrong@baylibre.com>
+Yep, I know. There are a lot of drivers not respecting this.
+
+> >
+> > > > +	mclk_rate = clk_get_rate(mt9m111->clk);
+> > > > +	clk_disable_unprepare(mt9m111->clk);
+> > > > +
+> > > >  	mt9m111->regulator = devm_regulator_get(&client->dev, "vdd");
+> > > >  	if (IS_ERR(mt9m111->regulator)) {
+> > > >  		dev_err(&client->dev, "regulator not found: %ld\n",
+> > > > @@ -1285,7 +1295,7 @@ static int mt9m111_probe(struct i2c_client *client)
+> > > >  	mt9m111->subdev.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE |
+> > > >  				 V4L2_SUBDEV_FL_HAS_EVENTS;
+> > > >
+> > > > -	v4l2_ctrl_handler_init(&mt9m111->hdl, 7);
+> > > > +	v4l2_ctrl_handler_init(&mt9m111->hdl, 8);
+> > > >  	v4l2_ctrl_new_std(&mt9m111->hdl, &mt9m111_ctrl_ops,
+> > > >  			V4L2_CID_VFLIP, 0, 1, 1, 0);
+> > > >  	v4l2_ctrl_new_std(&mt9m111->hdl, &mt9m111_ctrl_ops,
+> > > > @@ -1309,6 +1319,9 @@ static int mt9m111_probe(struct i2c_client *client)
+> > > >  				BIT(V4L2_COLORFX_NEGATIVE) |
+> > > >  				BIT(V4L2_COLORFX_SOLARIZATION)),
+> > > >  			V4L2_COLORFX_NONE);
+> > > > +	v4l2_ctrl_new_std(&mt9m111->hdl, &mt9m111_ctrl_ops, V4L2_CID_PIXEL_RATE,
+> > > > +			  mclk_rate, mclk_rate, 1, mclk_rate);
+> > > > +
+> > >
+> > > I don't have a datasheet but it seems a little weird that the mclk
+> > > frequency is the same as the pixel clock rate ?
+> >
+> > I see your confusion here. I can only speak for the MT9M131 device which
+> > is covered by this driver as well. This device is composed of a
+> > internal-sensor and a internal-isp. The internal-sensor is clocked by
+> > mclk/2 but the final image device/sensor output-fifo is clocked by mclk.
+> 
+> No PLL, no rate multiplier/divider ? Does this sensor only work with
+> one pixel rate that is defined by the input clock rate ?
+> 
+> > There are options to devide the output clock as well, but these options
+> > are not enabled yet. So yes, the pixel clock rate == mclk rate. To avoid
+> 
+> Ah ok
+> 
+> Could you share your setup mclk, resolution and frame rate to show how
+> the pixel rate and the mclk rate are related ?
+
+
+mclk:      54 MHz (input)
+pixelclk:  54 MHz (output)
+res:       1280x1024
+fps:       15
+bus-width: 8
+bpp:       16
+
+After re-reading the PIXEL_RATE, maybe I missunderstood the control. As
+of now I thought it is the amount of bytes per second send on the bus.
+But the documentation says pixels per second... Is there a control to
+expose the current pixelclk on the mbus? What I wanna do in the end is
+to calculate the througput on the (parallel-)bus.
+
+> > confusion I could rename the mclk_rate to extclk_rate but then clock
+> > request is not 100% correct since we are requesting a "mclk", this
+> > should be "extclk".
+> 
+> Doesn't really make a difference!
+> 
+> A comment in the code to explain what happens would help though!
+
+I did that right now, after your confusion :)
+
+Regards,
+  Marco
+
+> 
+> >
+> > Regards,
+> >   Marco
+> >
+> > > >  	mt9m111->subdev.ctrl_handler = &mt9m111->hdl;
+> > > >  	if (mt9m111->hdl.error) {
+> > > >  		ret = mt9m111->hdl.error;
+> > > > --
+> > > > 2.30.2
+> > > >
+> > >
+> 
