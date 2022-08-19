@@ -2,42 +2,82 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 930E459964D
-	for <lists+linux-media@lfdr.de>; Fri, 19 Aug 2022 09:43:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4C47A59962D
+	for <lists+linux-media@lfdr.de>; Fri, 19 Aug 2022 09:43:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347075AbiHSHkN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 19 Aug 2022 03:40:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55448 "EHLO
+        id S1347161AbiHSHmo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 19 Aug 2022 03:42:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57712 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1347073AbiHSHkM (ORCPT
+        with ESMTP id S1347144AbiHSHmm (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 19 Aug 2022 03:40:12 -0400
-Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [217.70.183.200])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 37BB4332;
-        Fri, 19 Aug 2022 00:40:10 -0700 (PDT)
-Received: (Authenticated sender: jacopo@jmondi.org)
-        by mail.gandi.net (Postfix) with ESMTPSA id 3D58220007;
-        Fri, 19 Aug 2022 07:40:04 +0000 (UTC)
-Date:   Fri, 19 Aug 2022 09:40:03 +0200
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Marco Felsch <m.felsch@pengutronix.de>
-Cc:     mchehab@kernel.org, sakari.ailus@linux.intel.com,
-        laurent.pinchart+renesas@ideasonboard.com,
-        jacopo+renesas@jmondi.org, akinobu.mita@gmail.com,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kernel@pengutronix.de
-Subject: Re: [PATCH 2/4] media: mt9m111: fix subdev API usage
-Message-ID: <20220819074003.l3f5revgmmfmzya3@uno.localdomain>
-References: <20220818144712.997477-1-m.felsch@pengutronix.de>
- <20220818144712.997477-2-m.felsch@pengutronix.de>
- <20220819071619.brhhbypmnt5pr2f7@uno.localdomain>
- <20220819072804.j6qj2r2mqrzcdmsg@pengutronix.de>
+        Fri, 19 Aug 2022 03:42:42 -0400
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6EFD7CCE3E;
+        Fri, 19 Aug 2022 00:42:37 -0700 (PDT)
+X-UUID: ac2a3019fb664eaebc80487541f66bf5-20220819
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+        h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID; bh=xRra99ybeDU1VvzdrVMw86yXkS8LgIZdc8GNqbtCaOw=;
+        b=p7ToznoCPDfmE76ARNVQLvU6hK9DWBauDsmYSbnCvzFvOQrCMRx6j5P4XwCwYMFfQjrAWnR2zKmT5aRN4kdPZ28s9XmFd7frgxf/+Qe32+Hx4RpKKK4Ti8rkNflcyecRGHCzu7tr7ntpTQXBHIQxT8D2U0eeOxqMYDSK4q308qw=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.10,REQID:6c3d19b9-27de-4aff-a722-8d1ab8afefd8,OB:0,L
+        OB:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_
+        Ham,ACTION:release,TS:0
+X-CID-META: VersionHash:84eae18,CLOUDID:2477219d-da39-4e3b-a854-56c7d2111b46,C
+        OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,URL:1,File:nil
+        ,Bulk:nil,QS:nil,BEC:nil,COL:0
+X-UUID: ac2a3019fb664eaebc80487541f66bf5-20220819
+Received: from mtkexhb02.mediatek.inc [(172.21.101.103)] by mailgw01.mediatek.com
+        (envelope-from <rex-bc.chen@mediatek.com>)
+        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+        with ESMTP id 312840282; Fri, 19 Aug 2022 15:42:31 +0800
+Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
+ mtkmbs11n2.mediatek.inc (172.21.101.187) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.792.15; Fri, 19 Aug 2022 15:42:29 +0800
+Received: from mtksdccf07 (172.21.84.99) by mtkmbs11n2.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.2.792.15 via Frontend
+ Transport; Fri, 19 Aug 2022 15:42:29 +0800
+Message-ID: <c6e34df9896a1da0c3a72aff5b170a81a4252f1b.camel@mediatek.com>
+Subject: Re: [PATCH v25 4/4] media: platform: mtk-mdp3: add MediaTek MDP3
+ driver
+From:   Bo-Chen Chen <rex-bc.chen@mediatek.com>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Moudy Ho <moudy.ho@mediatek.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        "Rob Herring" <robh+dt@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+CC:     Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+        Rob Landley <rob@landley.net>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-mediatek@lists.infradead.org>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        <tfiga@chromium.org>, <drinkcat@chromium.org>,
+        <pihsun@chromium.org>, <hsinyi@google.com>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        <Project_Global_Chrome_Upstream_Group@mediatek.com>,
+        <cellopoint.kai@gmail.com>,
+        Ping-Hsun Wu <ping-hsun.wu@mediatek.com>,
+        daoyuan huang <daoyuan.huang@mediatek.com>
+Date:   Fri, 19 Aug 2022 15:42:29 +0800
+In-Reply-To: <b0b4ff87-355e-1910-c6d2-a9690f3d7543@xs4all.nl>
+References: <20220817095629.29911-1-moudy.ho@mediatek.com>
+         <20220817095629.29911-5-moudy.ho@mediatek.com>
+         <b0b4ff87-355e-1910-c6d2-a9690f3d7543@xs4all.nl>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220819072804.j6qj2r2mqrzcdmsg@pengutronix.de>
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+Content-Transfer-Encoding: 7bit
+X-MTK:  N
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,
+        T_SCC_BODY_TEXT_LINE,T_SPF_TEMPERROR,UNPARSEABLE_RELAY autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -45,284 +85,94 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Marco
-
-On Fri, Aug 19, 2022 at 09:28:04AM +0200, Marco Felsch wrote:
-> Hi Jacopo,
->
-> On 22-08-19, Jacopo Mondi wrote:
-> > Hi Marco
-> >
-> > On Thu, Aug 18, 2022 at 04:47:10PM +0200, Marco Felsch wrote:
-> > > In case of I2C transfer failures the driver return failure codes which
-> > > are not allowed according the API documentation. Fix that by ignore the
-> > > register access failure codes.
-> >
-> > I might have missed the reason why subdev ops are not allowed to
-> > fail..
->
-> Please see the links below:
->
-> https://www.kernel.org/doc/html/latest/userspace-api/media/v4l/vidioc-subdev-g-fmt.html?highlight=subdev_s_fmt#return-value
-> https://www.kernel.org/doc/html/latest/userspace-api/media/v4l/vidioc-subdev-g-selection.html#return-value
-> https://www.kernel.org/doc/html/latest/userspace-api/media/v4l/vidioc-g-ext-ctrls.html#return-value
->
-> There is e.g. no ENXIO error code allowed.
-
-Ah ok, my understanding is that you were removing all return values.
-
-I don't think un-checked HW access is a good idea though ?
-
-You should remove HW access from the subdev ops and move the driver to
-setup formats/controls at s_stream() time, like you're doing in the
-next patches.
-
->
-> > Also you're here changing both subdev ops handler and function that handle
-> > controls if I'm not mistaken.
->
-> Yes I did that for the controls because the errors are incorrect there
-> as well. You're right, I forgot to mention this in the commit message.
->
+On Thu, 2022-08-18 at 13:02 +0200, Hans Verkuil wrote:
+> Hi Moudy,
+> 
+> I noticed one more thing (and it is probably better to post a v26
+> after all):
+> 
+> On 17/08/2022 11:56, Moudy Ho wrote:
+> > This patch adds driver for MediaTek's Media Data Path ver.3 (MDP3).
+> > It provides the following functions:
+> >   color transform, format conversion, resize, crop, rotate, flip
+> >   and additional image quality enhancement.
+> > 
+> > The MDP3 driver is mainly used for Google Chromebook products to
+> > import the new architecture to set the HW settings as shown below:
+> >   User -> V4L2 framework
+> >     -> MDP3 driver -> SCP (setting calculations)
+> >       -> MDP3 driver -> CMDQ (GCE driver) -> HW
+> > 
+> > Each modules' related operation control is sited in mtk-mdp3-comp.c
+> > Each modules' register table is defined in file with "mdp_reg_"
+> > prefix
+> > GCE related API, operation control  sited in mtk-mdp3-cmdq.c
+> > V4L2 m2m device functions are implemented in mtk-mdp3-m2m.c
+> > Probe, power, suspend/resume, system level functions are defined in
+> > mtk-mdp3-core.c
+> > 
+> > v4l2-compliance 1.22.1, 32 bits, 32-bit time_t
+> 
+> First of all, the v4l2-compliance output belongs to the cover letter,
+> not
+> to a commit log for a patch.
+> 
+> More importantly, I can tell that v4l2-compliance was a prepackaged
+> version,
+> but you need to compile it from the git repo yourself:
+> 
+> git clone git://linuxtv.org/v4l-utils.git
+> cd v4l-utils
+> ./bootstrap.sh
+> ./configure
+> make
+> sudo make install
+> 
+> Running v4l2-compliance should start with this (or something close):
+> 
+> v4l2-compliance 1.23.0-4941, 64 bits, 64-bit time_t
+> v4l2-compliance SHA: 71112d214762 2022-07-28 15:31:13
+> 
+> I need to see the SHA to confirm that you tested with a sufficiently
+> new
+> v4l2-compliance version. Prepackaged v4l2-compliance binaries tend to
+> be too old, at least for the purpose of compliance checking a new
+> driver.
+> 
 > Regards,
->   Marco
->
-> > > Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
-> > > ---
-> > >  drivers/media/i2c/mt9m111.c | 116 ++++++++++++++++++++----------------
-> > >  1 file changed, 66 insertions(+), 50 deletions(-)
-> > >
-> > > diff --git a/drivers/media/i2c/mt9m111.c b/drivers/media/i2c/mt9m111.c
-> > > index cdaf283e1309..53c4dac4e4bd 100644
-> > > --- a/drivers/media/i2c/mt9m111.c
-> > > +++ b/drivers/media/i2c/mt9m111.c
-> > > @@ -455,7 +455,7 @@ static int mt9m111_set_selection(struct v4l2_subdev *sd,
-> > >  	struct mt9m111 *mt9m111 = to_mt9m111(client);
-> > >  	struct v4l2_rect rect = sel->r;
-> > >  	int width, height;
-> > > -	int ret, align = 0;
-> > > +	int align = 0;
-> > >
-> > >  	if (sel->which != V4L2_SUBDEV_FORMAT_ACTIVE ||
-> > >  	    sel->target != V4L2_SEL_TGT_CROP)
-> > > @@ -481,14 +481,13 @@ static int mt9m111_set_selection(struct v4l2_subdev *sd,
-> > >  	width = min(mt9m111->width, rect.width);
-> > >  	height = min(mt9m111->height, rect.height);
-> > >
-> > > -	ret = mt9m111_setup_geometry(mt9m111, &rect, width, height, mt9m111->fmt->code);
-> > > -	if (!ret) {
-> > > -		mt9m111->rect = rect;
-> > > -		mt9m111->width = width;
-> > > -		mt9m111->height = height;
-> > > -	}
-> > >
-> > > -	return ret;
-> > > +	mt9m111_setup_geometry(mt9m111, &rect, width, height, mt9m111->fmt->code);
-> > > +	mt9m111->rect = rect;
-> > > +	mt9m111->width = width;
-> > > +	mt9m111->height = height;
-> > > +
-> > > +	return 0;
-> > >  }
-> > >
-> > >  static int mt9m111_get_selection(struct v4l2_subdev *sd,
-> > > @@ -558,7 +557,6 @@ static int mt9m111_set_pixfmt(struct mt9m111 *mt9m111,
-> > >  		MT9M111_OUTFMT_RGB444x | MT9M111_OUTFMT_RGBx444 |
-> > >  		MT9M111_OUTFMT_SWAP_YCbCr_C_Y_RGB_EVEN |
-> > >  		MT9M111_OUTFMT_SWAP_YCbCr_Cb_Cr_RGB_R_B;
-> > > -	int ret;
-> > >
-> > >  	switch (code) {
-> > >  	case MEDIA_BUS_FMT_SBGGR8_1X8:
-> > > @@ -613,13 +611,13 @@ static int mt9m111_set_pixfmt(struct mt9m111 *mt9m111,
-> > >  	if (mt9m111->pclk_sample == 0)
-> > >  		mask_outfmt2 |= MT9M111_OUTFMT_INV_PIX_CLOCK;
-> > >
-> > > -	ret = mt9m111_reg_mask(client, context_a.output_fmt_ctrl2,
-> > > -			       data_outfmt2, mask_outfmt2);
-> > > -	if (!ret)
-> > > -		ret = mt9m111_reg_mask(client, context_b.output_fmt_ctrl2,
-> > > -				       data_outfmt2, mask_outfmt2);
-> > >
-> > > -	return ret;
-> > > +	mt9m111_reg_mask(client, context_a.output_fmt_ctrl2,
-> > > +			 data_outfmt2, mask_outfmt2);
-> > > +	mt9m111_reg_mask(client, context_b.output_fmt_ctrl2,
-> > > +			 data_outfmt2, mask_outfmt2);
-> > > +
-> > > +	return 0;
-> > >  }
-> > >
-> > >  static int mt9m111_set_fmt(struct v4l2_subdev *sd,
-> > > @@ -632,7 +630,6 @@ static int mt9m111_set_fmt(struct v4l2_subdev *sd,
-> > >  	const struct mt9m111_datafmt *fmt;
-> > >  	struct v4l2_rect *rect = &mt9m111->rect;
-> > >  	bool bayer;
-> > > -	int ret;
-> > >
-> > >  	if (mt9m111->is_streaming)
-> > >  		return -EBUSY;
-> > > @@ -681,16 +678,14 @@ static int mt9m111_set_fmt(struct v4l2_subdev *sd,
-> > >  		return 0;
-> > >  	}
-> > >
-> > > -	ret = mt9m111_setup_geometry(mt9m111, rect, mf->width, mf->height, mf->code);
-> > > -	if (!ret)
-> > > -		ret = mt9m111_set_pixfmt(mt9m111, mf->code);
-> > > -	if (!ret) {
-> > > -		mt9m111->width	= mf->width;
-> > > -		mt9m111->height	= mf->height;
-> > > -		mt9m111->fmt	= fmt;
-> > > -	}
-> > >
-> > > -	return ret;
-> > > +	mt9m111_setup_geometry(mt9m111, rect, mf->width, mf->height, mf->code);
-> > > +	mt9m111_set_pixfmt(mt9m111, mf->code);
-> > > +	mt9m111->width	= mf->width;
-> > > +	mt9m111->height	= mf->height;
-> > > +	mt9m111->fmt	= fmt;
-> > > +
-> > > +	return 0;
-> > >  }
-> > >
-> > >  static const struct mt9m111_mode_info *
-> > > @@ -786,14 +781,13 @@ static int mt9m111_s_register(struct v4l2_subdev *sd,
-> > >  static int mt9m111_set_flip(struct mt9m111 *mt9m111, int flip, int mask)
-> > >  {
-> > >  	struct i2c_client *client = v4l2_get_subdevdata(&mt9m111->subdev);
-> > > -	int ret;
-> > >
-> > >  	if (flip)
-> > > -		ret = mt9m111_reg_set(client, mt9m111->ctx->read_mode, mask);
-> > > +		mt9m111_reg_set(client, mt9m111->ctx->read_mode, mask);
-> > >  	else
-> > > -		ret = mt9m111_reg_clear(client, mt9m111->ctx->read_mode, mask);
-> > > +		mt9m111_reg_clear(client, mt9m111->ctx->read_mode, mask);
-> > >
-> > > -	return ret;
-> > > +	return 0;
-> > >  }
-> > >
-> > >  static int mt9m111_get_global_gain(struct mt9m111 *mt9m111)
-> > > @@ -823,7 +817,9 @@ static int mt9m111_set_global_gain(struct mt9m111 *mt9m111, int gain)
-> > >  	else
-> > >  		val = gain;
-> > >
-> > > -	return reg_write(GLOBAL_GAIN, val);
-> > > +	reg_write(GLOBAL_GAIN, val);
-> > > +
-> > > +	return 0;
-> > >  }
-> > >
-> > >  static int mt9m111_set_autoexposure(struct mt9m111 *mt9m111, int val)
-> > > @@ -831,8 +827,11 @@ static int mt9m111_set_autoexposure(struct mt9m111 *mt9m111, int val)
-> > >  	struct i2c_client *client = v4l2_get_subdevdata(&mt9m111->subdev);
-> > >
-> > >  	if (val == V4L2_EXPOSURE_AUTO)
-> > > -		return reg_set(OPER_MODE_CTRL, MT9M111_OPMODE_AUTOEXPO_EN);
-> > > -	return reg_clear(OPER_MODE_CTRL, MT9M111_OPMODE_AUTOEXPO_EN);
-> > > +		reg_set(OPER_MODE_CTRL, MT9M111_OPMODE_AUTOEXPO_EN);
-> > > +	else
-> > > +		reg_clear(OPER_MODE_CTRL, MT9M111_OPMODE_AUTOEXPO_EN);
-> > > +
-> > > +	return 0;
-> > >  }
-> > >
-> > >  static int mt9m111_set_autowhitebalance(struct mt9m111 *mt9m111, int on)
-> > > @@ -840,8 +839,11 @@ static int mt9m111_set_autowhitebalance(struct mt9m111 *mt9m111, int on)
-> > >  	struct i2c_client *client = v4l2_get_subdevdata(&mt9m111->subdev);
-> > >
-> > >  	if (on)
-> > > -		return reg_set(OPER_MODE_CTRL, MT9M111_OPMODE_AUTOWHITEBAL_EN);
-> > > -	return reg_clear(OPER_MODE_CTRL, MT9M111_OPMODE_AUTOWHITEBAL_EN);
-> > > +		reg_set(OPER_MODE_CTRL, MT9M111_OPMODE_AUTOWHITEBAL_EN);
-> > > +	else
-> > > +		reg_clear(OPER_MODE_CTRL, MT9M111_OPMODE_AUTOWHITEBAL_EN);
-> > > +
-> > > +	return 0;
-> > >  }
-> > >
-> > >  static const char * const mt9m111_test_pattern_menu[] = {
-> > > @@ -859,8 +861,9 @@ static int mt9m111_set_test_pattern(struct mt9m111 *mt9m111, int val)
-> > >  {
-> > >  	struct i2c_client *client = v4l2_get_subdevdata(&mt9m111->subdev);
-> > >
-> > > -	return mt9m111_reg_mask(client, MT9M111_TPG_CTRL, val,
-> > > -				MT9M111_TPG_SEL_MASK);
-> > > +	mt9m111_reg_mask(client, MT9M111_TPG_CTRL, val, MT9M111_TPG_SEL_MASK);
-> > > +
-> > > +	return 0;
-> > >  }
-> > >
-> > >  static int mt9m111_set_colorfx(struct mt9m111 *mt9m111, int val)
-> > > @@ -877,9 +880,10 @@ static int mt9m111_set_colorfx(struct mt9m111 *mt9m111, int val)
-> > >
-> > >  	for (i = 0; i < ARRAY_SIZE(colorfx); i++) {
-> > >  		if (colorfx[i].id == val) {
-> > > -			return mt9m111_reg_mask(client, MT9M111_EFFECTS_MODE,
-> > > -						colorfx[i].value,
-> > > -						MT9M111_EFFECTS_MODE_MASK);
-> > > +			mt9m111_reg_mask(client, MT9M111_EFFECTS_MODE,
-> > > +					 colorfx[i].value,
-> > > +					 MT9M111_EFFECTS_MODE_MASK);
-> > > +			return 0;
-> > >  		}
-> > >  	}
-> > >
-> > > @@ -890,29 +894,41 @@ static int mt9m111_s_ctrl(struct v4l2_ctrl *ctrl)
-> > >  {
-> > >  	struct mt9m111 *mt9m111 = container_of(ctrl->handler,
-> > >  					       struct mt9m111, hdl);
-> > > +	int ret;
-> > >
-> > >  	switch (ctrl->id) {
-> > >  	case V4L2_CID_VFLIP:
-> > > -		return mt9m111_set_flip(mt9m111, ctrl->val,
-> > > -					MT9M111_RMB_MIRROR_ROWS);
-> > > +		ret = mt9m111_set_flip(mt9m111, ctrl->val,
-> > > +				       MT9M111_RMB_MIRROR_ROWS);
-> > > +		break;
-> > >  	case V4L2_CID_HFLIP:
-> > > -		return mt9m111_set_flip(mt9m111, ctrl->val,
-> > > -					MT9M111_RMB_MIRROR_COLS);
-> > > +		ret = mt9m111_set_flip(mt9m111, ctrl->val,
-> > > +				       MT9M111_RMB_MIRROR_COLS);
-> > > +		break;
-> > >  	case V4L2_CID_GAIN:
-> > > -		return mt9m111_set_global_gain(mt9m111, ctrl->val);
-> > > +		ret = mt9m111_set_global_gain(mt9m111, ctrl->val);
-> > > +		break;
-> > >  	case V4L2_CID_EXPOSURE_AUTO:
-> > > -		return mt9m111_set_autoexposure(mt9m111, ctrl->val);
-> > > +		ret = mt9m111_set_autoexposure(mt9m111, ctrl->val);
-> > > +		break;
-> > >  	case V4L2_CID_AUTO_WHITE_BALANCE:
-> > > -		return mt9m111_set_autowhitebalance(mt9m111, ctrl->val);
-> > > +		ret = mt9m111_set_autowhitebalance(mt9m111, ctrl->val);
-> > > +		break;
-> > >  	case V4L2_CID_TEST_PATTERN:
-> > > -		return mt9m111_set_test_pattern(mt9m111, ctrl->val);
-> > > +		ret = mt9m111_set_test_pattern(mt9m111, ctrl->val);
-> > > +		break;
-> > >  	case V4L2_CID_COLORFX:
-> > > -		return mt9m111_set_colorfx(mt9m111, ctrl->val);
-> > > +		ret = mt9m111_set_colorfx(mt9m111, ctrl->val);
-> > > +		break;
-> > >  	case V4L2_CID_PIXEL_RATE:
-> > > -		return 0;
-> > > +		ret = 0;
-> > > +		break;
-> > > +	default:
-> > > +		ret = -EINVAL;
-> > >  	}
-> > >
-> > > -	return -EINVAL;
-> > > +
-> > > +	return ret;
-> > >  }
-> > >
-> > >  static int mt9m111_suspend(struct mt9m111 *mt9m111)
-> > > --
-> > > 2.30.2
-> > >
-> >
+> 
+> 	Hans
+> 
+
+Hello Hans,
+
+Because there are some issues for Moudy's mail account, I help him
+reply the mail:
+
+Thanks for your review and comment, those two errors you mentioned have
+been corrected accordingly.
+
+I will test it with the latest version of v4l2-compliance, and it will
+be released in v26 together with the testing report.
+
+BRs,
+Bo-Chen
+
+> > Compliance test for mtk-mdp3 device /dev/video0:
+> > Driver Info:
+> > 	Driver name      : mtk-mdp3
+> > 	Card type        : MediaTek MDP3
+> > 	Bus info         : platform:14001000.mdp3-rdma0
+> > 	Driver version   : 6.0.0
+> > 	Capabilities     : 0x84204000
+> > 		Video Memory-to-Memory Multiplanar
+> > 		Streaming
+> > 		Extended Pix Format
+> > 		Device Capabilities
+> > 	Device Caps      : 0x04204000
+> > 		Video Memory-to-Memory Multiplanar
+> > 		Streaming
+> > 		Extended Pix Format
+> 
+> 
+
