@@ -2,65 +2,49 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9CCFA599762
-	for <lists+linux-media@lfdr.de>; Fri, 19 Aug 2022 10:36:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8EA9D5997B6
+	for <lists+linux-media@lfdr.de>; Fri, 19 Aug 2022 10:49:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344651AbiHSIYp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 19 Aug 2022 04:24:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40982 "EHLO
+        id S1347690AbiHSIgm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 19 Aug 2022 04:36:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54780 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244461AbiHSIYo (ORCPT
+        with ESMTP id S1346775AbiHSIgN (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 19 Aug 2022 04:24:44 -0400
-Received: from mail-yw1-x112d.google.com (mail-yw1-x112d.google.com [IPv6:2607:f8b0:4864:20::112d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 11725C229C
-        for <linux-media@vger.kernel.org>; Fri, 19 Aug 2022 01:24:43 -0700 (PDT)
-Received: by mail-yw1-x112d.google.com with SMTP id 00721157ae682-3378303138bso63195117b3.9
-        for <linux-media@vger.kernel.org>; Fri, 19 Aug 2022 01:24:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc;
-        bh=GridmYqKIl9YhRzWxWOzxfd24n2YkgbOm/HqzMAUhEQ=;
-        b=bwNIyABVmu81M7BGPfjuHZ6PjIx00blv/MpdYbhXPXackmXOce8DP2CjV/tCB/03Si
-         /FmDOotUt4VGGVOPk7no9TMR+TuGC7n73wb594mU54kKQ+XCvHraCCmCzIVrPJbhPpsm
-         jjdZZSO942VUB/CVHr+wodkZPIzhIaTwLheZDB0+BeLUGC1Rmzi+4CYlvzHf9VIlSsaj
-         ggHRRVyYDnrW6QmjXK1pmuYAURpmrYSbNORQBd7Hna4JgukZcEaIdFcLAGzLz+g3JBos
-         GeCdgmv1eq8LW+Iz3ANUpnfGua4NLHGX62ulRSTOHK0XLfbaRoLxVSMBgzs6JBPA4OgR
-         WDEg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc;
-        bh=GridmYqKIl9YhRzWxWOzxfd24n2YkgbOm/HqzMAUhEQ=;
-        b=Wku4rjm2Dr4Q7iOUBI3HhUbysPVax7BpBc71W0RzuLDelm8OFS5TGtCpDFKDkFMbtD
-         G871qeM66rc1GYHEBzutD7QYgtJ7lrUI+48y7ISZqHGa+SqSCL8FKG5rSJyhVuPa+Pcc
-         jw7G+qjXId+V2Xn2lSifUfMwC3DHngCrztCKbPtIv07AB7MhN/q+ep45BkU6hX66iWM5
-         sRCDIyTQuveU2kTg4eerHUAH/odqFUFFIgBZi05K8yFZoyMCRzT21EEPXXV0vB/VPM27
-         puGBbUi7gBVCGchKWC4A585AwfJh2z2qFZYpVXfVF7RrCHUE1ZIzgz69eadlrwRD+JSI
-         o+cg==
-X-Gm-Message-State: ACgBeo1pslqoEhKM7XdF8VVuUCsPLkhOO7XB7g2u9ecnWLF+Au2RT8Ao
-        WAsCM9vifDkwaZeH1hZyrd+S+YOu5WREtRhEnIHgBw==
-X-Google-Smtp-Source: AA6agR5Xeeq2XXdslKqjNOEIt8ha4tkJ3suR0T/hScDsfaXCZ/KwX1otEr27K/Qwm11NBboU15GFBLmyI/AXH0D6BfA=
-X-Received: by 2002:a81:d543:0:b0:325:2240:ce5 with SMTP id
- l3-20020a81d543000000b0032522400ce5mr6410102ywj.210.1660897482275; Fri, 19
- Aug 2022 01:24:42 -0700 (PDT)
+        Fri, 19 Aug 2022 04:36:13 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 529CA48E9F;
+        Fri, 19 Aug 2022 01:34:16 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id B8E2CB82668;
+        Fri, 19 Aug 2022 08:33:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BF334C433D6;
+        Fri, 19 Aug 2022 08:33:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1660898015;
+        bh=+D2Wg1a/O5UimI6at2BG7aW7+TVM/Y73cSP/vFrgmB8=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=UwEeFS4IVGO+3rmmZa6OoUq+zejprZZz6X/CvooieDDbTnfDm64yw2V5QbgmC5XS1
+         pO8319d3Ew0+1Xc0jECBaGQDRPs09bmpFoEFydNoAIj0CQr8ClLari7FAc+TwLuAW4
+         LQXyxcD68bqDHHLpM17M7dLBmn+vNmeT24SmwMBU=
+Date:   Fri, 19 Aug 2022 10:33:32 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Michael Grzeschik <m.grzeschik@pengutronix.de>
+Cc:     linux-usb@vger.kernel.org, linux-media@vger.kernel.org,
+        balbi@kernel.org, paul.elder@ideasonboard.com,
+        kieran.bingham@ideasonboard.com, nicolas@ndufresne.ca,
+        laurent.pinchart@ideasonboard.com, kernel@pengutronix.de
+Subject: Re: [PATCH v3] usb: gadget: uvc: increase worker prio to WQ_HIGHPRI
+Message-ID: <Yv9K3GPsyw6ZAEMm@kroah.com>
+References: <20220720144641.3480432-1-m.grzeschik@pengutronix.de>
 MIME-Version: 1.0
-References: <20220812143055.12938-1-olivier.masse@nxp.com>
-In-Reply-To: <20220812143055.12938-1-olivier.masse@nxp.com>
-From:   Sumit Garg <sumit.garg@linaro.org>
-Date:   Fri, 19 Aug 2022 13:54:31 +0530
-Message-ID: <CAFA6WYM89+SrW2Br-fnFke4djt4GgGHXn7JS3=rxvAa7dAAY7w@mail.gmail.com>
-Subject: Re: [PATCH v2 0/1] tee: Add tee_shm_register_fd
-To:     Olivier Masse <olivier.masse@nxp.com>
-Cc:     etienne.carriere@linaro.org, jens.wiklander@linaro.org,
-        sumit.semwal@linaro.org, christian.koenig@amd.com,
-        op-tee@lists.trustedfirmware.org, linaro-mm-sig@lists.linaro.org,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, clement.faure@nxp.com
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220720144641.3480432-1-m.grzeschik@pengutronix.de>
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -69,40 +53,19 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Olivier,
+On Wed, Jul 20, 2022 at 04:46:41PM +0200, Michael Grzeschik wrote:
+> Likewise to the uvcvideo hostside driver, this patch is changing the
 
-On Fri, 12 Aug 2022 at 20:01, Olivier Masse <olivier.masse@nxp.com> wrote:
->
-> Add a new ioctl called TEE_IOC_SHM_REGISTER_FD to register a
-> shared memory from a dmabuf file descriptor.
-> This new ioctl will allow the Linux Kernel to register a buffer
-> to be used by the Secure Data Path OPTEE OS feature.
->
-> Please find more information here:
-> https://static.linaro.org/connect/san19/presentations/san19-107.pdf
->
-> Patch tested on Hikey 6220.
->
+"Likewise" implies a previous patch being mentioned, which I do not see
+here :(
 
-AFAIU, for the OP-TEE SDP feature to work you need to have a DMA-BUF
-heap driver for allocating secure buffers through exposed chardev:
-"/dev/dma_heap/sdp". Have you tested it with some out-of-tree driver
-as I can't find it upstream? Also, do you plan to push that upstream
-as well?
+> simple workqueue to an async_wq with higher priority. This ensures that
+> the worker will not be scheduled away while the video stream is handled.
 
-BTW, please add a changelog while sending newer patch-set versions.
+How will this ensure that?  What happens if yet-another higher priority
+task comes in?  This feels like a race that will just never be won
+without fixing this properly.
 
--Sumit
+thanks,
 
-> Etienne Carriere (1):
->   tee: new ioctl to a register tee_shm from a dmabuf file descriptor
->
->  drivers/tee/tee_core.c   | 38 +++++++++++++++
->  drivers/tee/tee_shm.c    | 99 +++++++++++++++++++++++++++++++++++++++-
->  include/linux/tee_drv.h  | 11 +++++
->  include/uapi/linux/tee.h | 29 ++++++++++++
->  4 files changed, 175 insertions(+), 2 deletions(-)
->
-> --
-> 2.25.0
->
+greg k-h
