@@ -2,50 +2,50 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DB88A59964E
-	for <lists+linux-media@lfdr.de>; Fri, 19 Aug 2022 09:43:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 735F2599641
+	for <lists+linux-media@lfdr.de>; Fri, 19 Aug 2022 09:43:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346201AbiHSHd6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 19 Aug 2022 03:33:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46240 "EHLO
+        id S1346377AbiHSHdF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 19 Aug 2022 03:33:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43378 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242638AbiHSHd5 (ORCPT
+        with ESMTP id S1343728AbiHSHdD (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 19 Aug 2022 03:33:57 -0400
-Received: from mail-m11885.qiye.163.com (mail-m11885.qiye.163.com [115.236.118.85])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BA8976BCF3;
-        Fri, 19 Aug 2022 00:33:53 -0700 (PDT)
-Received: from localhost (unknown [103.29.142.67])
-        by mail-m11885.qiye.163.com (Hmail) with ESMTPA id 5AF324C02BD;
-        Fri, 19 Aug 2022 15:33:51 +0800 (CST)
-From:   Jeffy Chen <jeffy.chen@rock-chips.com>
-To:     Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc:     Andy Yan <andy.yan@rock-chips.com>,
-        Jianqun Xu <jay.xu@rock-chips.com>,
-        Jeffy Chen <jeffy.chen@rock-chips.com>,
-        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org, David Airlie <airlied@linux.ie>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        linux-media@vger.kernel.org, Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH v3] drm/gem: Fix GEM handle release errors
-Date:   Fri, 19 Aug 2022 15:28:34 +0800
-Message-Id: <20220819072834.17888-1-jeffy.chen@rock-chips.com>
-X-Mailer: git-send-email 2.20.1
+        Fri, 19 Aug 2022 03:33:03 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8BD10E3C31
+        for <linux-media@vger.kernel.org>; Fri, 19 Aug 2022 00:33:02 -0700 (PDT)
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <mfe@pengutronix.de>)
+        id 1oOwUx-0005VQ-U4; Fri, 19 Aug 2022 09:32:55 +0200
+Received: from mfe by ptx.hi.pengutronix.de with local (Exim 4.92)
+        (envelope-from <mfe@pengutronix.de>)
+        id 1oOwUx-0006rP-E7; Fri, 19 Aug 2022 09:32:55 +0200
+Date:   Fri, 19 Aug 2022 09:32:55 +0200
+From:   Marco Felsch <m.felsch@pengutronix.de>
+To:     Jacopo Mondi <jacopo@jmondi.org>
+Cc:     mchehab@kernel.org, sakari.ailus@linux.intel.com,
+        laurent.pinchart+renesas@ideasonboard.com,
+        jacopo+renesas@jmondi.org, akinobu.mita@gmail.com,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kernel@pengutronix.de
+Subject: Re: [PATCH 3/4] media: mt9m111: fix device power usage
+Message-ID: <20220819073255.lgdcjlczfv6fx7xg@pengutronix.de>
+References: <20220818144712.997477-1-m.felsch@pengutronix.de>
+ <20220818144712.997477-3-m.felsch@pengutronix.de>
+ <20220819072605.sbp6ycsf3oj74j6c@uno.localdomain>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-        tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVkZTh4fVk9MHk4fQxlKGE9DS1UTARMWGhIXJBQOD1
-        lXWRgSC1lBWUpLSFVJQlVKT0lVTUxZV1kWGg8SFR0UWUFZT0tIVUpKS0hKQ1VLWQY+
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6OQw6Hgw*IT0wCRYyFh9NEEMj
-        DCswFDNVSlVKTU1LQ0JPT0hKQk9IVTMWGhIXVREeHR0CVRgTHhU7CRQYEFYYExILCFUYFBZFWVdZ
-        EgtZQVlKS0hVSUJVSk9JVU1MWVdZCAFZQU1KT043Bg++
-X-HM-Tid: 0a82b505c8ac2eb9kusn5af324c02bd
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220819072605.sbp6ycsf3oj74j6c@uno.localdomain>
+User-Agent: NeoMutt/20180716
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: mfe@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -54,133 +54,134 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Currently we are assuming a one to one mapping between dmabuf and
-GEM handle when releasing GEM handles.
+Hi Jacopo,
 
-But that is not always true, since we would create extra handles for the
-GEM obj in cases like gem_open() and getfb{,2}().
+On 22-08-19, Jacopo Mondi wrote:
+> Hi Marco
+> 
+> On Thu, Aug 18, 2022 at 04:47:11PM +0200, Marco Felsch wrote:
+> > Currently the driver turn off the power after probe and toggle it during
+> > .stream by using the .s_power callback. This is problematic since other
+> > callbacks like .set_fmt accessing the hardware as well which will fail.
+> 
+> Ouch!
+> 
+> > So in the end the default format is the only supported format.
+> >
+> > Remove the hardware register access from the callbacks and instead sync
+> > the state once right before the stream gets enabled to fix this.
+> 
+> Where does it happen in this patch ?
 
-A similar issue was reported at:
-https://lore.kernel.org/all/20211105083308.392156-1-jay.xu@rock-chips.com/
+during mt9m111_s_power which gets called by s_power() or after this
+small series during s_stream().
 
-Another problem is that the imported dmabuf might not always have
-gem_obj->dma_buf set, which would cause leaks in
-drm_gem_remove_prime_handles().
+> >
+> > Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
+> > ---
+> >  drivers/media/i2c/mt9m111.c | 20 +++++++++++++-------
+> >  1 file changed, 13 insertions(+), 7 deletions(-)
+> >
+> > diff --git a/drivers/media/i2c/mt9m111.c b/drivers/media/i2c/mt9m111.c
+> > index 53c4dac4e4bd..cd74c408e110 100644
+> > --- a/drivers/media/i2c/mt9m111.c
+> > +++ b/drivers/media/i2c/mt9m111.c
+> > @@ -481,8 +481,6 @@ static int mt9m111_set_selection(struct v4l2_subdev *sd,
+> >  	width = min(mt9m111->width, rect.width);
+> >  	height = min(mt9m111->height, rect.height);
+> >
+> > -
+> 
+> Why in mainline I don't see these empty lines ?
 
-Let's fix these for now by using handle to find the exact map to remove.
+Hm.. because I introduced this during my "media: mt9m111: fix subdev API
+usage" patch.. Sorry.
 
-Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
-Reviewed-by: Christian König <christian.koenig@amd.com>
+> > -	mt9m111_setup_geometry(mt9m111, &rect, width, height, mt9m111->fmt->code);
+> >  	mt9m111->rect = rect;
+> >  	mt9m111->width = width;
+> >  	mt9m111->height = height;
+> > @@ -611,7 +609,6 @@ static int mt9m111_set_pixfmt(struct mt9m111 *mt9m111,
+> >  	if (mt9m111->pclk_sample == 0)
+> >  		mask_outfmt2 |= MT9M111_OUTFMT_INV_PIX_CLOCK;
+> >
+> > -
+> >  	mt9m111_reg_mask(client, context_a.output_fmt_ctrl2,
+> >  			 data_outfmt2, mask_outfmt2);
+> >  	mt9m111_reg_mask(client, context_b.output_fmt_ctrl2,
+> > @@ -678,9 +675,6 @@ static int mt9m111_set_fmt(struct v4l2_subdev *sd,
+> >  		return 0;
+> >  	}
+> >
+> > -
+> > -	mt9m111_setup_geometry(mt9m111, rect, mf->width, mf->height, mf->code);
+> > -	mt9m111_set_pixfmt(mt9m111, mf->code);
+> 
+> Are we looking at two different versions of the driver ??
+> https://elixir.bootlin.com/linux/latest/source/drivers/media/i2c/mt9m111.c#L684
 
----
+Same here.
 
-Changes in v3:
-Rewrite commit message a bit.
-
-Changes in v2:
-Fix a typo of rbtree.
-
- drivers/gpu/drm/drm_gem.c      | 17 +----------------
- drivers/gpu/drm/drm_internal.h |  4 ++--
- drivers/gpu/drm/drm_prime.c    | 20 ++++++++++++--------
- 3 files changed, 15 insertions(+), 26 deletions(-)
-
-diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
-index eb0c2d041f13..ed39da383570 100644
---- a/drivers/gpu/drm/drm_gem.c
-+++ b/drivers/gpu/drm/drm_gem.c
-@@ -168,21 +168,6 @@ void drm_gem_private_object_init(struct drm_device *dev,
- }
- EXPORT_SYMBOL(drm_gem_private_object_init);
- 
--static void
--drm_gem_remove_prime_handles(struct drm_gem_object *obj, struct drm_file *filp)
--{
--	/*
--	 * Note: obj->dma_buf can't disappear as long as we still hold a
--	 * handle reference in obj->handle_count.
--	 */
--	mutex_lock(&filp->prime.lock);
--	if (obj->dma_buf) {
--		drm_prime_remove_buf_handle_locked(&filp->prime,
--						   obj->dma_buf);
--	}
--	mutex_unlock(&filp->prime.lock);
--}
--
- /**
-  * drm_gem_object_handle_free - release resources bound to userspace handles
-  * @obj: GEM object to clean up.
-@@ -253,7 +238,7 @@ drm_gem_object_release_handle(int id, void *ptr, void *data)
- 	if (obj->funcs->close)
- 		obj->funcs->close(obj, file_priv);
- 
--	drm_gem_remove_prime_handles(obj, file_priv);
-+	drm_prime_remove_buf_handle(&file_priv->prime, id);
- 	drm_vma_node_revoke(&obj->vma_node, file_priv);
- 
- 	drm_gem_object_handle_put_unlocked(obj);
-diff --git a/drivers/gpu/drm/drm_internal.h b/drivers/gpu/drm/drm_internal.h
-index 1fbbc19f1ac0..7bb98e6a446d 100644
---- a/drivers/gpu/drm/drm_internal.h
-+++ b/drivers/gpu/drm/drm_internal.h
-@@ -74,8 +74,8 @@ int drm_prime_fd_to_handle_ioctl(struct drm_device *dev, void *data,
- 
- void drm_prime_init_file_private(struct drm_prime_file_private *prime_fpriv);
- void drm_prime_destroy_file_private(struct drm_prime_file_private *prime_fpriv);
--void drm_prime_remove_buf_handle_locked(struct drm_prime_file_private *prime_fpriv,
--					struct dma_buf *dma_buf);
-+void drm_prime_remove_buf_handle(struct drm_prime_file_private *prime_fpriv,
-+				 uint32_t handle);
- 
- /* drm_drv.c */
- struct drm_minor *drm_minor_acquire(unsigned int minor_id);
-diff --git a/drivers/gpu/drm/drm_prime.c b/drivers/gpu/drm/drm_prime.c
-index e3f09f18110c..bd5366b16381 100644
---- a/drivers/gpu/drm/drm_prime.c
-+++ b/drivers/gpu/drm/drm_prime.c
-@@ -190,29 +190,33 @@ static int drm_prime_lookup_buf_handle(struct drm_prime_file_private *prime_fpri
- 	return -ENOENT;
- }
- 
--void drm_prime_remove_buf_handle_locked(struct drm_prime_file_private *prime_fpriv,
--					struct dma_buf *dma_buf)
-+void drm_prime_remove_buf_handle(struct drm_prime_file_private *prime_fpriv,
-+				 uint32_t handle)
- {
- 	struct rb_node *rb;
- 
--	rb = prime_fpriv->dmabufs.rb_node;
-+	mutex_lock(&prime_fpriv->lock);
-+
-+	rb = prime_fpriv->handles.rb_node;
- 	while (rb) {
- 		struct drm_prime_member *member;
- 
--		member = rb_entry(rb, struct drm_prime_member, dmabuf_rb);
--		if (member->dma_buf == dma_buf) {
-+		member = rb_entry(rb, struct drm_prime_member, handle_rb);
-+		if (member->handle == handle) {
- 			rb_erase(&member->handle_rb, &prime_fpriv->handles);
- 			rb_erase(&member->dmabuf_rb, &prime_fpriv->dmabufs);
- 
--			dma_buf_put(dma_buf);
-+			dma_buf_put(member->dma_buf);
- 			kfree(member);
--			return;
--		} else if (member->dma_buf < dma_buf) {
-+			break;
-+		} else if (member->handle < handle) {
- 			rb = rb->rb_right;
- 		} else {
- 			rb = rb->rb_left;
- 		}
- 	}
-+
-+	mutex_unlock(&prime_fpriv->lock);
- }
- 
- void drm_prime_init_file_private(struct drm_prime_file_private *prime_fpriv)
--- 
-2.20.1
-
+> >  	mt9m111->width	= mf->width;
+> >  	mt9m111->height	= mf->height;
+> >  	mt9m111->fmt	= fmt;
+> > @@ -743,6 +737,8 @@ mt9m111_find_mode(struct mt9m111 *mt9m111, unsigned int req_fps,
+> >  	return mode;
+> >  }
+> >
+> > +static int mt9m111_s_power(struct v4l2_subdev *sd, int on);
+> > +
+> >  #ifdef CONFIG_VIDEO_ADV_DEBUG
+> >  static int mt9m111_g_register(struct v4l2_subdev *sd,
+> >  			      struct v4l2_dbg_register *reg)
+> > @@ -753,10 +749,14 @@ static int mt9m111_g_register(struct v4l2_subdev *sd,
+> >  	if (reg->reg > 0x2ff)
+> >  		return -EINVAL;
+> >
+> > +	mt9m111_s_power(sd, 1);
+> > +
+> >  	val = mt9m111_reg_read(client, reg->reg);
+> >  	reg->size = 2;
+> >  	reg->val = (u64)val;
+> >
+> > +	mt9m111_s_power(sd, 0);
+> > +
+> >  	if (reg->val > 0xffff)
+> >  		return -EIO;
+> >
+> > @@ -771,9 +771,13 @@ static int mt9m111_s_register(struct v4l2_subdev *sd,
+> >  	if (reg->reg > 0x2ff)
+> >  		return -EINVAL;
+> >
+> > +	mt9m111_s_power(sd, 1);
+> > +
+> >  	if (mt9m111_reg_write(client, reg->reg, reg->val) < 0)
+> >  		return -EIO;
+> >
+> > +	mt9m111_s_power(sd, 0);
+> > +
+> >  	return 0;
+> >  }
+> >  #endif
+> > @@ -896,6 +900,9 @@ static int mt9m111_s_ctrl(struct v4l2_ctrl *ctrl)
+> >  					       struct mt9m111, hdl);
+> >  	int ret;
+> >
+> > +	if (!mt9m111->is_streaming)
+> > +		return 0;
+> > +
+> >  	switch (ctrl->id) {
+> >  	case V4L2_CID_VFLIP:
+> >  		ret = mt9m111_set_flip(mt9m111, ctrl->val,
+> > @@ -927,7 +934,6 @@ static int mt9m111_s_ctrl(struct v4l2_ctrl *ctrl)
+> >  		ret = -EINVAL;
+> >  	}
+> >
+> > -
+> >  	return ret;
+> >  }
+> >
+> > --
+> > 2.30.2
+> >
+> 
