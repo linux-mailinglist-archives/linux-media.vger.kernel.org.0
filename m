@@ -2,23 +2,23 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CBD315996F8
-	for <lists+linux-media@lfdr.de>; Fri, 19 Aug 2022 10:18:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 33D4F599712
+	for <lists+linux-media@lfdr.de>; Fri, 19 Aug 2022 10:19:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347615AbiHSIQV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 19 Aug 2022 04:16:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49152 "EHLO
+        id S1346785AbiHSIS6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 19 Aug 2022 04:18:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53072 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1347816AbiHSIP5 (ORCPT
+        with ESMTP id S1347260AbiHSISV (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 19 Aug 2022 04:15:57 -0400
-Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::228])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0F5D5B8A64;
-        Fri, 19 Aug 2022 01:15:55 -0700 (PDT)
+        Fri, 19 Aug 2022 04:18:21 -0400
+Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::227])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A02A0E990D;
+        Fri, 19 Aug 2022 01:18:01 -0700 (PDT)
 Received: (Authenticated sender: jacopo@jmondi.org)
-        by mail.gandi.net (Postfix) with ESMTPSA id 8F6011BF208;
-        Fri, 19 Aug 2022 08:15:50 +0000 (UTC)
-Date:   Fri, 19 Aug 2022 10:15:48 +0200
+        by mail.gandi.net (Postfix) with ESMTPSA id DDF9120007;
+        Fri, 19 Aug 2022 08:17:56 +0000 (UTC)
+Date:   Fri, 19 Aug 2022 10:17:55 +0200
 From:   Jacopo Mondi <jacopo@jmondi.org>
 To:     Marco Felsch <m.felsch@pengutronix.de>
 Cc:     mchehab@kernel.org, sakari.ailus@linux.intel.com,
@@ -26,18 +26,21 @@ Cc:     mchehab@kernel.org, sakari.ailus@linux.intel.com,
         jacopo+renesas@jmondi.org, akinobu.mita@gmail.com,
         linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
         kernel@pengutronix.de
-Subject: Re: [PATCH 1/4] media: mt9m111: add V4L2_CID_PIXEL_RATE support
-Message-ID: <20220819081548.q6c5pwio2z2ambqq@uno.localdomain>
+Subject: Re: [PATCH 4/4] media: mt9m111: remove .s_power callback
+Message-ID: <20220819081755.wlsryhcr7xjouor5@uno.localdomain>
 References: <20220818144712.997477-1-m.felsch@pengutronix.de>
- <20220818161108.dlmi77o6j7wcyayc@uno.localdomain>
- <20220819075615.a3nuakrac54kn7t3@pengutronix.de>
+ <20220818144712.997477-4-m.felsch@pengutronix.de>
+ <20220818161408.76ofg2rjvp5whtof@uno.localdomain>
+ <20220819071832.3mr7u7jhp2ud4fv6@pengutronix.de>
+ <20220819073512.ulud7ppnrudxewdn@uno.localdomain>
+ <20220819080626.34ghffj6hmkk5ntm@pengutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20220819075615.a3nuakrac54kn7t3@pengutronix.de>
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+In-Reply-To: <20220819080626.34ghffj6hmkk5ntm@pengutronix.de>
+X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
+        SPF_HELO_NONE,SPF_NONE,TVD_SUBJ_WIPE_DEBT,T_SCC_BODY_TEXT_LINE
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -46,130 +49,83 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 Hi Marco
 
-On Fri, Aug 19, 2022 at 09:56:15AM +0200, Marco Felsch wrote:
-> Hi Jacopo,
->
-> On 22-08-18, Jacopo Mondi wrote:
+On Fri, Aug 19, 2022 at 10:06:26AM +0200, Marco Felsch wrote:
+> On 22-08-19, Jacopo Mondi wrote:
 > > Hi Marco
 > >
-> > On Thu, Aug 18, 2022 at 04:47:09PM +0200, Marco Felsch wrote:
-> > > Add support to report the PIXEL_RATE so a host or bridge device can ask
-> > > the sensor.
+> > On Fri, Aug 19, 2022 at 09:18:32AM +0200, Marco Felsch wrote:
+> > > Hi Jacopo,
 > > >
-> > > Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
-> > > ---
-> > >  drivers/media/i2c/mt9m111.c | 15 ++++++++++++++-
-> > >  1 file changed, 14 insertions(+), 1 deletion(-)
+> > > thanks for your fast feedback :)
 > > >
-> > > diff --git a/drivers/media/i2c/mt9m111.c b/drivers/media/i2c/mt9m111.c
-> > > index afc86efa9e3e..cdaf283e1309 100644
-> > > --- a/drivers/media/i2c/mt9m111.c
-> > > +++ b/drivers/media/i2c/mt9m111.c
-> > > @@ -908,6 +908,8 @@ static int mt9m111_s_ctrl(struct v4l2_ctrl *ctrl)
-> > >  		return mt9m111_set_test_pattern(mt9m111, ctrl->val);
-> > >  	case V4L2_CID_COLORFX:
-> > >  		return mt9m111_set_colorfx(mt9m111, ctrl->val);
-> > > +	case V4L2_CID_PIXEL_RATE:
-> > > +		return 0;
+> > > On 22-08-18, Jacopo Mondi wrote:
+> > > > Hi Marco
+> > > >
+> > > > On Thu, Aug 18, 2022 at 04:47:12PM +0200, Marco Felsch wrote:
+> > > > > This is in preparation of switching to the generic dev PM mechanism.
+> > > > > Since the .s_power callback will be removed in the near future move the
+> > > > > powering into the .s_stream callback. So this driver no longer depends
+> > > > > on the .s_power mechanism.
+> > > > >
+> > > > > Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
+> > > >
+> > > > If you want to move to runtime_pm, I would implement it first and have
+> > > > s_power call the _resume and _suspend routines, as some platform
+> > > > drivers still use s_power() and some of them might depend on it.
+> > >
+> > > Do we really have platforms which depend on this? IMHO if that is the
 > >
-> > By default PIXEL_RATE is read-only.
-> > Do you get a call to s_ctrl for it ?
->
-> You're absolutly right, we don't need to do this.
->
-> > >  	}
-> > >
-> > >  	return -EINVAL;
-> > > @@ -1249,6 +1251,7 @@ static int mt9m111_probe(struct i2c_client *client)
-> > >  {
-> > >  	struct mt9m111 *mt9m111;
-> > >  	struct i2c_adapter *adapter = client->adapter;
-> > > +	unsigned long mclk_rate;
-> > >  	int ret;
-> > >
-> > >  	if (!i2c_check_functionality(adapter, I2C_FUNC_SMBUS_WORD_DATA)) {
-> > > @@ -1271,6 +1274,13 @@ static int mt9m111_probe(struct i2c_client *client)
-> > >  	if (IS_ERR(mt9m111->clk))
-> > >  		return PTR_ERR(mt9m111->clk);
-> > >
-> > > +	ret = clk_prepare_enable(mt9m111->clk);
-> > > +	if (ret < 0)
-> > > +		return ret;
-> > > +
+> > $ git grep "v4l2_subdev_call(.*, s_power" drivers/media/platform/  | cut -d : -f1 | uniq  | wc -l
+> > 8
 > >
-> > Do you need to enable clock to read its rate ?
->
-> Yes, accroding the API [1].
->
-> [1] https://elixir.bootlin.com/linux/v6.0-rc1/source/include/linux/clk.h#L682
-
-So weird! none of the drivers I checked do that. The most common
-pattern is
-
-        clk = devm_clk_get();
-        rate = clk_get_rate(clk)
-        if (rate != RATE)
-                ...
-
->
-> > > +	mclk_rate = clk_get_rate(mt9m111->clk);
-> > > +	clk_disable_unprepare(mt9m111->clk);
-> > > +
-> > >  	mt9m111->regulator = devm_regulator_get(&client->dev, "vdd");
-> > >  	if (IS_ERR(mt9m111->regulator)) {
-> > >  		dev_err(&client->dev, "regulator not found: %ld\n",
-> > > @@ -1285,7 +1295,7 @@ static int mt9m111_probe(struct i2c_client *client)
-> > >  	mt9m111->subdev.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE |
-> > >  				 V4L2_SUBDEV_FL_HAS_EVENTS;
-> > >
-> > > -	v4l2_ctrl_handler_init(&mt9m111->hdl, 7);
-> > > +	v4l2_ctrl_handler_init(&mt9m111->hdl, 8);
-> > >  	v4l2_ctrl_new_std(&mt9m111->hdl, &mt9m111_ctrl_ops,
-> > >  			V4L2_CID_VFLIP, 0, 1, 1, 0);
-> > >  	v4l2_ctrl_new_std(&mt9m111->hdl, &mt9m111_ctrl_ops,
-> > > @@ -1309,6 +1319,9 @@ static int mt9m111_probe(struct i2c_client *client)
-> > >  				BIT(V4L2_COLORFX_NEGATIVE) |
-> > >  				BIT(V4L2_COLORFX_SOLARIZATION)),
-> > >  			V4L2_COLORFX_NONE);
-> > > +	v4l2_ctrl_new_std(&mt9m111->hdl, &mt9m111_ctrl_ops, V4L2_CID_PIXEL_RATE,
-> > > +			  mclk_rate, mclk_rate, 1, mclk_rate);
-> > > +
+> > > case than we should fix those platfoms. Since new drivers shouldn't use
+> > > this callback anymore.
 > >
-> > I don't have a datasheet but it seems a little weird that the mclk
-> > frequency is the same as the pixel clock rate ?
+> > Patches are clearly welcome I guess..
 >
-> I see your confusion here. I can only speak for the MT9M131 device which
-> is covered by this driver as well. This device is composed of a
-> internal-sensor and a internal-isp. The internal-sensor is clocked by
-> mclk/2 but the final image device/sensor output-fifo is clocked by mclk.
+> :)
+>
+> > > In my case, I worked on [1] and wondered why the sensor was enabled
+> > > before I told him to do so. Since I didn't implement the s_power()
+> > > callback, I had no chance to get enabled before.
+> > >
+> >
+> > I'm not sure I got this part
+>
+> What I mean is, that the MT9M131 sensor gets enabled and immediately
+> start sending frames before I told him to do so e.g. by calling
 
-No PLL, no rate multiplier/divider ? Does this sensor only work with
-one pixel rate that is defined by the input clock rate ?
+Why does this happen ?
 
-> There are options to devide the output clock as well, but these options
-> are not enabled yet. So yes, the pixel clock rate == mclk rate. To avoid
+> s_stream(). This can confuse the downstream device. The only way to get
+> enable the downstream device first is to add the s_power() callback.
+>
+> > > Can we please decide:
+> > >  - Do we wanna get rid of the s_power() callback?
+> >
+> > I think that would be everyone's desire, but drivers have to be moved
+> > away from it
+> >
+> > >  - If not, how do we handle those devices then with drivers not
+> > >    implementing this callback?
+> >
+> > By maintaining compatibility. I suggested to move to runtime_pm() and
+> > wrap _resume/_suspend in s_power().
+>
+> But then you're introducing new drivers with s_power() callbacks and so
+> the behaviour isn't really changed.
+>
 
-Ah ok
+I only meant in existing ones
 
-Could you share your setup mclk, resolution and frame rate to show how
-the pixel rate and the mclk rate are related ?
+> > My understanding is that the two (runtime_pm/s_power) are mutually
+> > exclusive, but even if that was not the case, runtime_pm is reference
+> > counted, hence as long as calls are balanced this should work, right ?
+>
+> Right but the s_power() behaviour is not changed and drivers still rely
+> on it to work as right now.
 
-> confusion I could rename the mclk_rate to extclk_rate but then clock
-> request is not 100% correct since we are requesting a "mclk", this
-> should be "extclk".
-
-Doesn't really make a difference!
-
-A comment in the code to explain what happens would help though!
-
+As long as we have bridge drivers using it, isn't this what we want ?
 >
 > Regards,
 >   Marco
->
-> > >  	mt9m111->subdev.ctrl_handler = &mt9m111->hdl;
-> > >  	if (mt9m111->hdl.error) {
-> > >  		ret = mt9m111->hdl.error;
-> > > --
-> > > 2.30.2
-> > >
-> >
