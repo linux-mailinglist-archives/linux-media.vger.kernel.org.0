@@ -2,82 +2,50 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4C47A59962D
-	for <lists+linux-media@lfdr.de>; Fri, 19 Aug 2022 09:43:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0D151599697
+	for <lists+linux-media@lfdr.de>; Fri, 19 Aug 2022 10:06:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347161AbiHSHmo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 19 Aug 2022 03:42:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57712 "EHLO
+        id S1347148AbiHSH41 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 19 Aug 2022 03:56:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51412 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1347144AbiHSHmm (ORCPT
+        with ESMTP id S1347128AbiHSH41 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 19 Aug 2022 03:42:42 -0400
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6EFD7CCE3E;
-        Fri, 19 Aug 2022 00:42:37 -0700 (PDT)
-X-UUID: ac2a3019fb664eaebc80487541f66bf5-20220819
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-        h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID; bh=xRra99ybeDU1VvzdrVMw86yXkS8LgIZdc8GNqbtCaOw=;
-        b=p7ToznoCPDfmE76ARNVQLvU6hK9DWBauDsmYSbnCvzFvOQrCMRx6j5P4XwCwYMFfQjrAWnR2zKmT5aRN4kdPZ28s9XmFd7frgxf/+Qe32+Hx4RpKKK4Ti8rkNflcyecRGHCzu7tr7ntpTQXBHIQxT8D2U0eeOxqMYDSK4q308qw=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.10,REQID:6c3d19b9-27de-4aff-a722-8d1ab8afefd8,OB:0,L
-        OB:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_
-        Ham,ACTION:release,TS:0
-X-CID-META: VersionHash:84eae18,CLOUDID:2477219d-da39-4e3b-a854-56c7d2111b46,C
-        OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,URL:1,File:nil
-        ,Bulk:nil,QS:nil,BEC:nil,COL:0
-X-UUID: ac2a3019fb664eaebc80487541f66bf5-20220819
-Received: from mtkexhb02.mediatek.inc [(172.21.101.103)] by mailgw01.mediatek.com
-        (envelope-from <rex-bc.chen@mediatek.com>)
-        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-        with ESMTP id 312840282; Fri, 19 Aug 2022 15:42:31 +0800
-Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
- mtkmbs11n2.mediatek.inc (172.21.101.187) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.792.15; Fri, 19 Aug 2022 15:42:29 +0800
-Received: from mtksdccf07 (172.21.84.99) by mtkmbs11n2.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.2.792.15 via Frontend
- Transport; Fri, 19 Aug 2022 15:42:29 +0800
-Message-ID: <c6e34df9896a1da0c3a72aff5b170a81a4252f1b.camel@mediatek.com>
-Subject: Re: [PATCH v25 4/4] media: platform: mtk-mdp3: add MediaTek MDP3
- driver
-From:   Bo-Chen Chen <rex-bc.chen@mediatek.com>
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Moudy Ho <moudy.ho@mediatek.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        "Rob Herring" <robh+dt@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-CC:     Chun-Kuang Hu <chunkuang.hu@kernel.org>,
-        Rob Landley <rob@landley.net>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-mediatek@lists.infradead.org>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        <tfiga@chromium.org>, <drinkcat@chromium.org>,
-        <pihsun@chromium.org>, <hsinyi@google.com>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        <Project_Global_Chrome_Upstream_Group@mediatek.com>,
-        <cellopoint.kai@gmail.com>,
-        Ping-Hsun Wu <ping-hsun.wu@mediatek.com>,
-        daoyuan huang <daoyuan.huang@mediatek.com>
-Date:   Fri, 19 Aug 2022 15:42:29 +0800
-In-Reply-To: <b0b4ff87-355e-1910-c6d2-a9690f3d7543@xs4all.nl>
-References: <20220817095629.29911-1-moudy.ho@mediatek.com>
-         <20220817095629.29911-5-moudy.ho@mediatek.com>
-         <b0b4ff87-355e-1910-c6d2-a9690f3d7543@xs4all.nl>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+        Fri, 19 Aug 2022 03:56:27 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D9BFDC093
+        for <linux-media@vger.kernel.org>; Fri, 19 Aug 2022 00:56:25 -0700 (PDT)
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <mfe@pengutronix.de>)
+        id 1oOwrZ-0000mt-EJ; Fri, 19 Aug 2022 09:56:17 +0200
+Received: from mfe by ptx.hi.pengutronix.de with local (Exim 4.92)
+        (envelope-from <mfe@pengutronix.de>)
+        id 1oOwrY-0007gu-0D; Fri, 19 Aug 2022 09:56:16 +0200
+Date:   Fri, 19 Aug 2022 09:56:15 +0200
+From:   Marco Felsch <m.felsch@pengutronix.de>
+To:     Jacopo Mondi <jacopo@jmondi.org>
+Cc:     mchehab@kernel.org, sakari.ailus@linux.intel.com,
+        laurent.pinchart+renesas@ideasonboard.com,
+        jacopo+renesas@jmondi.org, akinobu.mita@gmail.com,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kernel@pengutronix.de
+Subject: Re: [PATCH 1/4] media: mt9m111: add V4L2_CID_PIXEL_RATE support
+Message-ID: <20220819075615.a3nuakrac54kn7t3@pengutronix.de>
+References: <20220818144712.997477-1-m.felsch@pengutronix.de>
+ <20220818161108.dlmi77o6j7wcyayc@uno.localdomain>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-MTK:  N
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,
-        T_SCC_BODY_TEXT_LINE,T_SPF_TEMPERROR,UNPARSEABLE_RELAY autolearn=ham
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220818161108.dlmi77o6j7wcyayc@uno.localdomain>
+User-Agent: NeoMutt/20180716
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: mfe@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -85,94 +53,105 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, 2022-08-18 at 13:02 +0200, Hans Verkuil wrote:
-> Hi Moudy,
-> 
-> I noticed one more thing (and it is probably better to post a v26
-> after all):
-> 
-> On 17/08/2022 11:56, Moudy Ho wrote:
-> > This patch adds driver for MediaTek's Media Data Path ver.3 (MDP3).
-> > It provides the following functions:
-> >   color transform, format conversion, resize, crop, rotate, flip
-> >   and additional image quality enhancement.
-> > 
-> > The MDP3 driver is mainly used for Google Chromebook products to
-> > import the new architecture to set the HW settings as shown below:
-> >   User -> V4L2 framework
-> >     -> MDP3 driver -> SCP (setting calculations)
-> >       -> MDP3 driver -> CMDQ (GCE driver) -> HW
-> > 
-> > Each modules' related operation control is sited in mtk-mdp3-comp.c
-> > Each modules' register table is defined in file with "mdp_reg_"
-> > prefix
-> > GCE related API, operation control  sited in mtk-mdp3-cmdq.c
-> > V4L2 m2m device functions are implemented in mtk-mdp3-m2m.c
-> > Probe, power, suspend/resume, system level functions are defined in
-> > mtk-mdp3-core.c
-> > 
-> > v4l2-compliance 1.22.1, 32 bits, 32-bit time_t
-> 
-> First of all, the v4l2-compliance output belongs to the cover letter,
-> not
-> to a commit log for a patch.
-> 
-> More importantly, I can tell that v4l2-compliance was a prepackaged
-> version,
-> but you need to compile it from the git repo yourself:
-> 
-> git clone git://linuxtv.org/v4l-utils.git
-> cd v4l-utils
-> ./bootstrap.sh
-> ./configure
-> make
-> sudo make install
-> 
-> Running v4l2-compliance should start with this (or something close):
-> 
-> v4l2-compliance 1.23.0-4941, 64 bits, 64-bit time_t
-> v4l2-compliance SHA: 71112d214762 2022-07-28 15:31:13
-> 
-> I need to see the SHA to confirm that you tested with a sufficiently
-> new
-> v4l2-compliance version. Prepackaged v4l2-compliance binaries tend to
-> be too old, at least for the purpose of compliance checking a new
-> driver.
-> 
-> Regards,
-> 
-> 	Hans
-> 
+Hi Jacopo,
 
-Hello Hans,
-
-Because there are some issues for Moudy's mail account, I help him
-reply the mail:
-
-Thanks for your review and comment, those two errors you mentioned have
-been corrected accordingly.
-
-I will test it with the latest version of v4l2-compliance, and it will
-be released in v26 together with the testing report.
-
-BRs,
-Bo-Chen
-
-> > Compliance test for mtk-mdp3 device /dev/video0:
-> > Driver Info:
-> > 	Driver name      : mtk-mdp3
-> > 	Card type        : MediaTek MDP3
-> > 	Bus info         : platform:14001000.mdp3-rdma0
-> > 	Driver version   : 6.0.0
-> > 	Capabilities     : 0x84204000
-> > 		Video Memory-to-Memory Multiplanar
-> > 		Streaming
-> > 		Extended Pix Format
-> > 		Device Capabilities
-> > 	Device Caps      : 0x04204000
-> > 		Video Memory-to-Memory Multiplanar
-> > 		Streaming
-> > 		Extended Pix Format
+On 22-08-18, Jacopo Mondi wrote:
+> Hi Marco
 > 
+> On Thu, Aug 18, 2022 at 04:47:09PM +0200, Marco Felsch wrote:
+> > Add support to report the PIXEL_RATE so a host or bridge device can ask
+> > the sensor.
+> >
+> > Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
+> > ---
+> >  drivers/media/i2c/mt9m111.c | 15 ++++++++++++++-
+> >  1 file changed, 14 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/media/i2c/mt9m111.c b/drivers/media/i2c/mt9m111.c
+> > index afc86efa9e3e..cdaf283e1309 100644
+> > --- a/drivers/media/i2c/mt9m111.c
+> > +++ b/drivers/media/i2c/mt9m111.c
+> > @@ -908,6 +908,8 @@ static int mt9m111_s_ctrl(struct v4l2_ctrl *ctrl)
+> >  		return mt9m111_set_test_pattern(mt9m111, ctrl->val);
+> >  	case V4L2_CID_COLORFX:
+> >  		return mt9m111_set_colorfx(mt9m111, ctrl->val);
+> > +	case V4L2_CID_PIXEL_RATE:
+> > +		return 0;
 > 
+> By default PIXEL_RATE is read-only.
+> Do you get a call to s_ctrl for it ?
 
+You're absolutly right, we don't need to do this.
+
+> >  	}
+> >
+> >  	return -EINVAL;
+> > @@ -1249,6 +1251,7 @@ static int mt9m111_probe(struct i2c_client *client)
+> >  {
+> >  	struct mt9m111 *mt9m111;
+> >  	struct i2c_adapter *adapter = client->adapter;
+> > +	unsigned long mclk_rate;
+> >  	int ret;
+> >
+> >  	if (!i2c_check_functionality(adapter, I2C_FUNC_SMBUS_WORD_DATA)) {
+> > @@ -1271,6 +1274,13 @@ static int mt9m111_probe(struct i2c_client *client)
+> >  	if (IS_ERR(mt9m111->clk))
+> >  		return PTR_ERR(mt9m111->clk);
+> >
+> > +	ret = clk_prepare_enable(mt9m111->clk);
+> > +	if (ret < 0)
+> > +		return ret;
+> > +
+> 
+> Do you need to enable clock to read its rate ?
+
+Yes, accroding the API [1].
+
+[1] https://elixir.bootlin.com/linux/v6.0-rc1/source/include/linux/clk.h#L682
+
+> > +	mclk_rate = clk_get_rate(mt9m111->clk);
+> > +	clk_disable_unprepare(mt9m111->clk);
+> > +
+> >  	mt9m111->regulator = devm_regulator_get(&client->dev, "vdd");
+> >  	if (IS_ERR(mt9m111->regulator)) {
+> >  		dev_err(&client->dev, "regulator not found: %ld\n",
+> > @@ -1285,7 +1295,7 @@ static int mt9m111_probe(struct i2c_client *client)
+> >  	mt9m111->subdev.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE |
+> >  				 V4L2_SUBDEV_FL_HAS_EVENTS;
+> >
+> > -	v4l2_ctrl_handler_init(&mt9m111->hdl, 7);
+> > +	v4l2_ctrl_handler_init(&mt9m111->hdl, 8);
+> >  	v4l2_ctrl_new_std(&mt9m111->hdl, &mt9m111_ctrl_ops,
+> >  			V4L2_CID_VFLIP, 0, 1, 1, 0);
+> >  	v4l2_ctrl_new_std(&mt9m111->hdl, &mt9m111_ctrl_ops,
+> > @@ -1309,6 +1319,9 @@ static int mt9m111_probe(struct i2c_client *client)
+> >  				BIT(V4L2_COLORFX_NEGATIVE) |
+> >  				BIT(V4L2_COLORFX_SOLARIZATION)),
+> >  			V4L2_COLORFX_NONE);
+> > +	v4l2_ctrl_new_std(&mt9m111->hdl, &mt9m111_ctrl_ops, V4L2_CID_PIXEL_RATE,
+> > +			  mclk_rate, mclk_rate, 1, mclk_rate);
+> > +
+> 
+> I don't have a datasheet but it seems a little weird that the mclk
+> frequency is the same as the pixel clock rate ?
+
+I see your confusion here. I can only speak for the MT9M131 device which
+is covered by this driver as well. This device is composed of a
+internal-sensor and a internal-isp. The internal-sensor is clocked by
+mclk/2 but the final image device/sensor output-fifo is clocked by mclk.
+There are options to devide the output clock as well, but these options
+are not enabled yet. So yes, the pixel clock rate == mclk rate. To avoid
+confusion I could rename the mclk_rate to extclk_rate but then clock
+request is not 100% correct since we are requesting a "mclk", this
+should be "extclk".
+
+Regards,
+  Marco
+
+> >  	mt9m111->subdev.ctrl_handler = &mt9m111->hdl;
+> >  	if (mt9m111->hdl.error) {
+> >  		ret = mt9m111->hdl.error;
+> > --
+> > 2.30.2
+> >
+> 
