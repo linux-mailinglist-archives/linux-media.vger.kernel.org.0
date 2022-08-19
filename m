@@ -2,269 +2,186 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 40FF6599CC9
+	by mail.lfdr.de (Postfix) with ESMTP id D8516599CCB
 	for <lists+linux-media@lfdr.de>; Fri, 19 Aug 2022 15:19:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349246AbiHSNLs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 19 Aug 2022 09:11:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45358 "EHLO
+        id S1349304AbiHSNLw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 19 Aug 2022 09:11:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45446 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1349153AbiHSNLq (ORCPT
+        with ESMTP id S1349153AbiHSNLu (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 19 Aug 2022 09:11:46 -0400
-Received: from NAM04-BN8-obe.outbound.protection.outlook.com (mail-bn8nam04on2047.outbound.protection.outlook.com [40.107.100.47])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 17509E01E;
-        Fri, 19 Aug 2022 06:11:45 -0700 (PDT)
+        Fri, 19 Aug 2022 09:11:50 -0400
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2044.outbound.protection.outlook.com [40.107.220.44])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 25105E01E;
+        Fri, 19 Aug 2022 06:11:47 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=DsVgXS5xzAb7yQKftDaIzT+UJR1kSiFx/2k9XXlUJsSGsJ+mv7kMShu89ZOtJnZHaso11tSLXcLpNYNStvWxGjNPffeLrfp6H3rSV6PcSwe1XqatPfxGpXKcR6wlWIawLNTzp2i8V8tJZcpJeGIbuU36SD/xYplyFtgjOLv+6ZQhVU8aMBzXlz7VpiRRqblQZQiBHZEKGihBo+9ebWmWNCJLR/dEPWkJLZ6qT97hpsC8zzaMKXBtQ+vTWavh5TMBhJDkHWHj+LhhEzFtkKYe1Ytfbb+D7e54pGtmOsyQJcXP2cRBG+vrMi0FPj0QzzGOuOWMj3AksyJ0Ot2ycucIIQ==
+ b=HHaVe1BeOsGddif1jYbqsx5VIBIv9YsNWwtn2kL/gpYKXh55PEFlLbnjSWCAGssSKVhIp/zASLFfSHjUDJjZ6i/08YSX9KuBQMK8rnAOMlmCZ7qQnAC4XXAblv4rDo8H6fgDEcHlhe7t4G2wtxTjxNZZYVZ7ObAnqpZpqMLsN8WcrM2aOMsOeyYmV8ITfNK0XjxjYm/hKSPrFFhS/6TicpPYRGN97/LM97PnZOC1V8URrCT06tVS5wsF6n9ucZZRihc8C6PMK+7InICWlDYrpVE38DrennjBX8dZxvV+ZZDGYeeVWY9lGXezYVgZ9mO7+k9ajA6Ml66Fm9SkU59y5g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=K4sE+hR1hmQzL5Z180IgRUAwJU2pdygDjEazCAFWhAY=;
- b=T9N3D1XYyffY9wUK6W3snb4pYz9+OO/R8YAvbWLdMScrDj6DsIGFWEldNjrO1SeXI2SkZpzq24Ey/vo67jbfvNo6SxfKuYWL0o3Dq/YgXb29QQv6qjti1OBOswubzBop6DtgmHNCUQh9fj9gQOjoxh7wuV565+EFX1x+Trp0xeJ328A7r9deZ7de8aGhg+wUbz62qg/Mqj5tfjwGn9easNWKVc3LL+udYrSRvOYJAc4wyRRniuKoHKGo9bvnQJ8sXur6TIZCwhXc1k5GdvbOi7/oCoNcOn9fe1VPX0MXMfn4pPVfAAFgn5Og3/jyXPRxlk8crSjCGKchykq5OrYSyw==
+ bh=mm6haemPaeQXoj6x7SfwnKk1lPYJPeZJqGZnLQ6xNEg=;
+ b=NKRjMOE6ZctQ0y8MT14nno1vPrHpD4DToGfiU4Ll7z7TXXJ2rGMbqKQezPVT8P9EHq5lMePfQ2AewSTMcDzd/ZMccahHz9BsmDziz4JGnuFaVMOmB3f3RUACjvwQ1bhpradZa1UE17GXjzm6heyTTEeQFDiUWHKDy9wmn3Qv9VfbcV5NoD1tQXA9+OXVfPWgDIFUO83yjo/ehqTT02KKXpClNxhS1/dZEuZ7170wT9PMR2C/wKI6+o9nl4ysdlOtt+rP5cGxjJk9KpENtIsOKanSZCVBkdSTKLIxrt+Yn45JL6XYcJiVA4PrxvWWo0VimDAq016ZXcvYFBPcVaEEqA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=K4sE+hR1hmQzL5Z180IgRUAwJU2pdygDjEazCAFWhAY=;
- b=lT3WM8uvZtTGJ2TlDXx6rVk4r8fNGgEN45dFtWQ84dR2eF8LfftGPTpddXuoJ+6wbaiGBQoHMVvC57jkaGbzRWh1TSMwJag4qeiTRKj1gqmhT1/p2Age67sU94Kv9HR8AM1U3H5L1aCszHvIzSMvjL2/w/bBLGGjJjAd148kNz0=
+ bh=mm6haemPaeQXoj6x7SfwnKk1lPYJPeZJqGZnLQ6xNEg=;
+ b=R5Q5xOH2tPe7v+Tzj43DvxlHtA5SzxVEryNdhxeoUiKdo9zz8BqvN8wAtW09mpJq7rWZtNuworhyIrkp6zHmdEID+aNuxIGsCT9CIto6LzA8ig7U1DfRqOC/wQS6Icuow3Hf+R+58eNPKCGEY8urRfsHfrpXVVji9dUoYc1cXO8EBGfZL5NcwkHNYN6bKCLC55Em1Ck5eepLLranvAohREss2ADkZ/sEg2RCOnS6zKJYx7HyJxImt60jmJFqN6PRT6ckPz1mqKSzBNcvCq4aXyVMChx56M+faUlms3qX62c+avCtfwdJbmy0FMW9SHWhSgEOnHxEatr3MKVawDGY0g==
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by BN6PR12MB1923.namprd12.prod.outlook.com (2603:10b6:404:107::21) with
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from MN2PR12MB4192.namprd12.prod.outlook.com (2603:10b6:208:1d5::15)
+ by DM4PR12MB5937.namprd12.prod.outlook.com (2603:10b6:8:68::11) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5525.19; Fri, 19 Aug
- 2022 13:11:42 +0000
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::905:1701:3b51:7e39]) by BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::905:1701:3b51:7e39%2]) with mapi id 15.20.5504.020; Fri, 19 Aug 2022
- 13:11:42 +0000
-Message-ID: <1d598742-5014-4b63-a2c7-aeacce8448f0@amd.com>
-Date:   Fri, 19 Aug 2022 15:11:36 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v3] drm/gem: Fix GEM handle release errors
-Content-Language: en-US
-To:     Jeffy Chen <jeffy.chen@rock-chips.com>,
-        Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc:     Andy Yan <andy.yan@rock-chips.com>,
-        Jianqun Xu <jay.xu@rock-chips.com>,
-        Maxime Ripard <mripard@kernel.org>,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5546.16; Fri, 19 Aug
+ 2022 13:11:45 +0000
+Received: from MN2PR12MB4192.namprd12.prod.outlook.com
+ ([fe80::462:7fe:f04f:d0d5]) by MN2PR12MB4192.namprd12.prod.outlook.com
+ ([fe80::462:7fe:f04f:d0d5%6]) with mapi id 15.20.5525.019; Fri, 19 Aug 2022
+ 13:11:45 +0000
+Date:   Fri, 19 Aug 2022 10:11:43 -0300
+From:   Jason Gunthorpe <jgg@nvidia.com>
+To:     Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
+Cc:     Alex Williamson <alex.williamson@redhat.com>,
+        Cornelia Huck <cohuck@redhat.com>,
+        dri-devel@lists.freedesktop.org, kvm@vger.kernel.org,
+        linaro-mm-sig@lists.linaro.org, linux-media@vger.kernel.org,
         Sumit Semwal <sumit.semwal@linaro.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org, David Airlie <airlied@linux.ie>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        linux-media@vger.kernel.org, Daniel Vetter <daniel@ffwll.ch>
-References: <20220819072834.17888-1-jeffy.chen@rock-chips.com>
-From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20220819072834.17888-1-jeffy.chen@rock-chips.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+        Daniel Vetter <daniel.vetter@ffwll.ch>,
+        Leon Romanovsky <leon@kernel.org>, linux-rdma@vger.kernel.org,
+        Maor Gottlieb <maorg@nvidia.com>,
+        Oded Gabbay <ogabbay@kernel.org>
+Subject: Re: [PATCH 0/4] Allow MMIO regions to be exported through dma-buf
+Message-ID: <Yv+MD44ET211LMIl@nvidia.com>
+References: <0-v1-9e6e1739ed95+5fa-vfio_dma_buf_jgg@nvidia.com>
+ <921de79a-9cb3-4217-f079-4b23958a16aa@amd.com>
+ <Yv4qlOp9n78B8TFb@nvidia.com>
+ <d12fdf94-fbef-b981-2eff-660470ceca22@amd.com>
+ <Yv47lkz7FG8vhqA5@nvidia.com>
+ <23cb08e4-6de8-8ff4-b569-c93533bf0e19@amd.com>
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR0P281CA0094.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:a9::14) To BN8PR12MB3587.namprd12.prod.outlook.com
- (2603:10b6:408:43::13)
+In-Reply-To: <23cb08e4-6de8-8ff4-b569-c93533bf0e19@amd.com>
+X-ClientProxiedBy: MN2PR19CA0001.namprd19.prod.outlook.com
+ (2603:10b6:208:178::14) To MN2PR12MB4192.namprd12.prod.outlook.com
+ (2603:10b6:208:1d5::15)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 6b6756c3-3cef-4063-14de-08da81e45c2d
-X-MS-TrafficTypeDiagnostic: BN6PR12MB1923:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2d67048c-581c-47ae-1575-08da81e45d7e
+X-MS-TrafficTypeDiagnostic: DM4PR12MB5937:EE_
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: G6V4/vOkw3d/AYMyDsS3Qmltv+CyVu5vmYGKtr26Keb1Cfl7geIXotvybmOIxo5ZDyw37JGEgbozVeWUV0E4xpYWqjTIE4+XYsJQCjfhr4k/mkOhB47pDqs23EgBh7If48lP6OdjL+KlwXAj/L/dfrMm8jP9817aP2kYxtiKl7XjZEWDywuaPj7zIwXlVW7YKsJBBH9Eww5GXJdjZC2HkUGtWJ89IR9f6rMOwxtSNt/q/f96YkOxq6jwCz95JlwFNwe9XwIkI9UBxYxgVcbJxUR/wwNOF1X0DolvP3SalGzs5a+HtNfrLa2NsEB++bghH0pC9n9T250kaEERSxDAQ+LL4hbXEWdYv6/tDS1bgazs0hZXrsQ6Sj+cSeg+n5v0hMtx9kV8opjCY5kdaymRJgFWBWAWDi8rc3nlIQDFNUt7TNVwIKeDrAonMm3TB7KKrw9Rm3Wde/rIegpDcHzifboASCr2iTXfMTiBwb2/+zGV74ZhDjTZTvcMMjGkcA8vHjiqWwkAxvY6MlS/ryr4FfpueSq9+qj535YdrWu2jCCTH8Zh1qzFtZqXm1u4ee9ZhifK8L333oMVEBu5Xfpeq/Aa+g5eRuyKSV1HbWU1GphyA1j0enYXoHkxZt1YR/S/BgXJmuWswi1nvzRiikWryIpDp8qp4wAVIHjUlXjCrj9Q3y/2T4wgKwgYFJIX+TbiRO+AV97yy7F9idmBDbF44UINpldtEAVmrxtkKdbVYG6nXRjHhV7vL9XQOEFStY5gRI7ookzfLtS0U3C0y19npvvls6H1/DTC+O6zTTgXkULv05zX0FUR6My4ebVkWM6U9pz5XrEdgrNhJ+Uqc25Ajg==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN8PR12MB3587.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(396003)(346002)(366004)(376002)(39860400002)(136003)(38100700002)(6512007)(6506007)(6666004)(2906002)(66574015)(83380400001)(186003)(66556008)(66946007)(4326008)(66476007)(31686004)(8676002)(478600001)(6486002)(54906003)(966005)(36756003)(45080400002)(110136005)(31696002)(316002)(86362001)(5660300002)(41300700001)(8936002)(7416002)(2616005)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam-Message-Info: z0P9BGtKtkrAyn6HBZso/mVCa4j6ytlB9C4BNT/b1YBLi+ClifYleQaRqjqlgotc3J//T8A9COlUCW76kEp1I5onZ7dP3VgYhVl2ZzgluOBHpio5O6kYx3bJOzwIxnBhKzVC8yhJKSwb4O84M91hW2xWCe5YLx9btIUOp4TXnVJqvYLeesNd9E4FehS1j3krulvyrBIe5DkGx2N2Cf8+avbvwZsR674nlIQnFzeIJKyFpwEUf0l6qOGD4G3xSPZpe8ap83RBnYDj3rlk9ZnsrDkXgo/JCKKuJyWlEh7DTZk2WNTpAXKwU8U0IaWLnj6VUAeU0hUwJQY/PQu2fom8geAmaCGXmI7acVi7rnM+R1vhErG4JQN3dw0aF9sja2axx6sOuDZCrrhZdhHPJq++A1oWLXOWQH2s5V4KvnMNkyFF15uubcuWSTW5qSz4nVVa8wYkaQDUSogcwINj/3Rf/0b5B8mBbOZQZD0S4ak61BdK+cMgPf2DI3mKXWO9l/FcMVAV8o2Aox87ElDurZvqmZp/15rw2ovpGgumShhDaqhDd/iGj7ynmMfSLoqyJkKSkR5w+JcdLQ5JtOGphU9+f6o9Swn0aBCGwmobG2JRW/t+ABdpvFxCji3X5jOdEaLWWKod61as79dftaoljT+9dm263ZHGfSCXd7Iar8h+jT+rSiWRfygDhFg1/F2ToLbWYi2Sb4YyoRwdGWCt3+12Xe4rN0g6Kw1QAmcuO7iA2fHdI8MxYLEk+Lg+ahKf1CgU
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR12MB4192.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(396003)(346002)(366004)(39860400002)(136003)(376002)(41300700001)(6486002)(66574015)(478600001)(2616005)(186003)(83380400001)(7416002)(6512007)(26005)(6506007)(5660300002)(66476007)(8936002)(4326008)(8676002)(2906002)(38100700002)(36756003)(6916009)(54906003)(66556008)(66946007)(86362001)(316002)(67856001);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?L09yT3lCbjVab2R0WVlSWmQ0anBqN3ZWTVFhNE02akNQc050Vzg0OUJ3TDBo?=
- =?utf-8?B?dHVZMUN5TDlJOG5zMTU2ODFJVGsyempNdU84aTFjaUx5K2thUVAzeTEzUkh4?=
- =?utf-8?B?L0hITUhkaGQ3WkpKTUpOdDZ3dVExdXZoRklzL3hMZXVweTJrSjFtbmlqdFdn?=
- =?utf-8?B?aEZSY3NIdDBiQWZWbEtzSmVCSVE4Y3RPeGtvY21FaWVDSTdIT3lPMFJuWFFi?=
- =?utf-8?B?c3RCcVBUc2VZY0kvREI3RTgzdmhpMzdjNVlMcStVVTFRc3N5NDQrai83Z3VE?=
- =?utf-8?B?QTdyMVJXeXpIZmIyNVloc2FZMFFlRklGRmlxZjY5UXFHdlFDN0dtSzBOT3gx?=
- =?utf-8?B?NlRHdTJZUmZkalRlTEFoYkdZWjVlQmFjTnpDbCs2RENncnpPbFhjdWJkNHlx?=
- =?utf-8?B?UkNyeEhXSU8xZ21GT2t2SktYTEI1NjA3d1ZkS1ZySHZOeUdLVVltS05vc3h2?=
- =?utf-8?B?QzVEUEp3QjNvS2V5Zk5JTGZ6TWxOS2p1VjAxaWFuL3N3ekh6THhOcU53dVB6?=
- =?utf-8?B?azNRSlBoU3d5U1haY2FzaWxESXJoQTdMWlpRaDh0djFkWXRERHlNTTI2Vk9D?=
- =?utf-8?B?NU9YVmZKMmZMNlNaRGRLRm8xTS90czdmOTVSci9EOTM5Smt0c1FMSWp1VlhD?=
- =?utf-8?B?V2VWSHZrYzhOc2ZWSUNKcDJyNTE3TGJIQjNTTTVaN2E2R1ZYVmlCSW1tblZV?=
- =?utf-8?B?UFA2ZjNtem5lWTRSbjVoRGlodUFQT1dxMjkwYmI3enE0UGdZclo3L2E5WnZj?=
- =?utf-8?B?WVNLSW8raXdnOEduOS9aWk16aWhjbWxiV24ra2Zkai9hRVE1ZWpvc1llbm1x?=
- =?utf-8?B?ZFVRNnMzSXRFMHZwTk80YUNqVGV6WFJCeEU4ditkUzUwekhQK3hZeTNQV3pp?=
- =?utf-8?B?Q3Q3NWRubWZxa0duV1FoN2lvTjVFQzJGSm55eGRoeTlqY29tSWZrdlJGQVR2?=
- =?utf-8?B?RjdpNXNnWjZhaHJHMFRCYWNZOUNveithRisxRVZnY2N1YjZTVDdyTzJFVTMz?=
- =?utf-8?B?MFYyVlpEVy9lc1p4QUJXbzAzc2VNcVNtb0M5TURRK1kvWkZoS1l4bG1hK2lI?=
- =?utf-8?B?UGxCMit2TXk0N1BVeERsS2ZCc3hnOGF2ZDJvUmZrU1hUekgzc3ZvUUhBQVIy?=
- =?utf-8?B?d0lrS1ZPc1crMmRrc2M1WlFPeDhEQTN6Vnk3R2loOVpuZlE2enZ5Ly9FMzNL?=
- =?utf-8?B?dU9oMmZvQjFUamxmNXV2UG9va1NSVndCY2VQeHl0bWlqS3dTWC96dFRFMUEw?=
- =?utf-8?B?Z1c3WXNvRXNZMGhaQS9vWVF6Sk9kaWdrSkltSm5xeFE5dnNMNi91ejljRE9Q?=
- =?utf-8?B?SEFLVVNFRzQ3U1A0UzZoNkk4S2pNQnF6cWtHQmpHM2dzUkU2MUtSazF3MXc4?=
- =?utf-8?B?V2ppYVpYRGFqeXVxR3NLQ1kvSGI2T3RIMDlhakd5TkRaWVZUSTVqQ2ltMkd3?=
- =?utf-8?B?bDE3TDBKeUVwRUdXUGtCbXprU05hclZLVXZEZzhreGJxVklwa0gvcFBEei9P?=
- =?utf-8?B?TkxRSm1xWjZESDh0d3QwaVM5dlRpZSt2ODUzbDJia29HOUJJRjVhQ0FhOXdQ?=
- =?utf-8?B?Z3ZQOUZsNmwyOVRKUGVERU5FbmVXYlQ3MDE3K041eWdrN25GdUxJOUdYUW9n?=
- =?utf-8?B?OEFrOExzaTRDbUJNRDk3dVg1a2F5ZWNKdjNNekV2UzhJaVp1UkEvYXluTWls?=
- =?utf-8?B?aVNqK3hSeXVtRDI4amJ2UzJKempLMUJtSVdDU0lrZ3BtUEtLVGdMYVMwTzY3?=
- =?utf-8?B?VjltdWF1NWEvMjZUeUNnamVOSGkwV2VHQkp6cFpSYXdUZ0lHMDM1ZWpKOFVF?=
- =?utf-8?B?b1BZS3BneFFGUU5SWE1paGkrV0U1M1dzTVFndk9aNzJlN2VGVUdTWXgyZ3F3?=
- =?utf-8?B?ZXZsbVB5S2c1eDNnVkw1VE1CRjVOcU1ZblplZWJ0Q2J2bFVqWEtCTktTS25O?=
- =?utf-8?B?M2RYZFlMaVhabis0QWpUU2ZKL2djRGlxMTZlMnY1UTRaOUlKZno3b2d2dkw1?=
- =?utf-8?B?ZUpxdTdwaTNScE1DbzJzeUl3RWtYNWhqTkxBL0FFdHE1cDNhMFhibUxsdU5R?=
- =?utf-8?B?d2JMQ0hpZVAvWlcxb2dsUkMybkFRZjZHTU51K0FKK2RVWGNvZVdsZ2w5L2ha?=
- =?utf-8?B?K1pRL2ZnVVl4QURORzB0Zy9YQUFpZzYxejRPV3hxMTgvbHgrKzdEYlZhZ1hN?=
- =?utf-8?Q?CvUcVcgNczR8p4iaa37lBN5oTbX0QMdsyzp+01UpNZDO?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6b6756c3-3cef-4063-14de-08da81e45c2d
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Wm9GUW5Ma3NHenJnbUI0Ni8vMDlnN1haUG84c0NMN0lSVzRYdWVXcE4vRkdz?=
+ =?utf-8?B?M3FNQVJvOG9oLzZaZkc0LzEvWlNTV0U2T2ZaUUhLU3NKczhIaFFTTVhkWGxG?=
+ =?utf-8?B?K1ljaFJNTW9vNnNUaEFiNHpvQlpnV0NTcTFNR3dyWXdhSmdRVWhUQ0pCSVFB?=
+ =?utf-8?B?clVrTFZTOG1lZzBod1EwWHpZVkk3dG5UaWExZlpCSWlmNzRaUEg5bDZMSGpS?=
+ =?utf-8?B?ZWtOeXl4UFVrS2J4aml0eCtIOEYwV1F2enl2R0VWUW44eFNycFdEUVk0a1Bo?=
+ =?utf-8?B?NkFLUVdWM1JKb0dVSUp4NktFRUtpMHNUWm1wa3ZtM2daSTBwN1VlMzA3NWtv?=
+ =?utf-8?B?VWRiUGI1OHVrVXhvYlFCZTJ3Tys0Y3c3ZDc3OTQyZWE2Q1FwRzAvQ1A1MUV6?=
+ =?utf-8?B?NllMcWtCMStkNDNWdHhxUzVER2VGK1pnUzdiS0dUQkZYbFlNcjA0Z1pxTkd4?=
+ =?utf-8?B?RU4yeEwxdmUxZnoyaWpVaWZzckt6aUhQTUlwQnR3d0xWS3kzMmlLcVZ3UStY?=
+ =?utf-8?B?czAxUkhjQzR4MHNnc0h1emp1Z1RGZ3k3TDlTUzU0RHF6TE95Z2s3d04zQkZr?=
+ =?utf-8?B?MjZTOGlXUDJ5bUJ5cm5XOUpwMEY0aWVuOEtLVWRvK1BRZk1hRzl5N0F3bk1H?=
+ =?utf-8?B?UU9kYUVYTmJJcElPeVN6M0FqNnc1QVJoYzAxOUVLOHZDZFBwNmdYZWRSMG80?=
+ =?utf-8?B?NldESUM3cWd2YWE4RGNxTUtEcC90K3pWYXUySkpMdUo5MC9VU3Ywdm55UWdk?=
+ =?utf-8?B?S3JublUrYlBwK2hGekNNQXg2ZFpURnFhY1ZiVlVWVTliWFh3ZmF4UjE4UkRC?=
+ =?utf-8?B?N1VjM29VeWZ0OGltcW8wdVJwSDdQMEhidnBRT3lGZjI5N083K0VpQUkzVVdI?=
+ =?utf-8?B?RlNVK2had2ZrOWMrQWIyTzhwSHhPN1FBM2NzOUhBb1daL3dGTkYweGIvL0RP?=
+ =?utf-8?B?UzI2aWYvcXJYWnhObTkyVTk0VFhTSVZTWE5RSGdzamxGZXRoQW9MeW5lVFla?=
+ =?utf-8?B?eloxdExXWnBpZXRyQ3g2VjN5akRCdFFiRmZYU2lVdGdLQUllY1ZzOEs5SktB?=
+ =?utf-8?B?bXZlcm02TDhwYnlxYjduU1RsZ2E0NTVDL0ZDZlRHRlBhdzJwN3JydDMvcGNT?=
+ =?utf-8?B?STlnWGt4NFFwUTZpRUJYQ2Q2UDFqZkdFYTVidmxyTHcrWElvNW9EbjYvK2xS?=
+ =?utf-8?B?SHhNZW8wZFRqZy9LY25rMWJHOHFnSmx1a1VBckpjM1gvNXFZZnFydGtETDc2?=
+ =?utf-8?B?ZXYxclRLRlJTTGE3Zm9aV3Jacks4STRsTlBFNGFtRnJzak4yQkRSb0dBQmtB?=
+ =?utf-8?B?blNwTVpVUmkvekdxQllmN3VyWnY0LzRQNVRMR3diajJqaGRoRnhwcVJta0RQ?=
+ =?utf-8?B?MDl1NktQR2JrMGdFT2xiRjBGVlMybG91aWMyYWJONlFmNkYvVHZZa0R4YWZB?=
+ =?utf-8?B?RFNVcmZVb2dRVC9sT0dYUWYzaTM5TVZpcjVXdzNXRkxaL2dCQlBKY09UVlRB?=
+ =?utf-8?B?YWJjMkdndXpFNG5rM3EzRkFNclRYUnNFUWFHdWtDcXN0Vm9MU29XaWprdEMy?=
+ =?utf-8?B?L3NvSWtlOWNldXJTV25jZW9JS3p1WnYrRFZ0c2pab1kxMHVVTmxhL2pPYnBJ?=
+ =?utf-8?B?NzBXOFhTeE8vS29SZXFBUjhSSU5hNmFLSDVxb2M0ZXVVVjFLQnllT01GdGNs?=
+ =?utf-8?B?bDFUYTNmaXZrV0I4OCtHTkhmZng2QXFVclQ2RTNZV2YrVHBtMFlFempWM2Q1?=
+ =?utf-8?B?MXNkUUMvTkdOR2FNTHN1UW9jRHl3ZkQrK25WL21CbS9VQ28yRnl5enhCU2pU?=
+ =?utf-8?B?Y2x5UG4yNlN2Yy8rVFIwSGVIMisvakFRQ2F5RUlKTVFsWi9sUFEyVnJUNlBS?=
+ =?utf-8?B?OTFzZGIwUm1XVWVYcWF4UDNpWHVnVVMvRWFQdEJXUjlDUWd5OWdsZlIrd244?=
+ =?utf-8?B?NDhZbGJtQXFJNDVPTW0vb0RXMkZueGxXM1JTL1VUK3FXd25FNXVUUi9sb21i?=
+ =?utf-8?B?TGF6Q2NXL0x6RytzOTgxTXNLakJoU0hOZmwyN0d1SFdpNjZNVERlKzB2YWJh?=
+ =?utf-8?B?ZUw0VWY3NEtHOXRwSGRqd1d6TnFBeE9oS0l2TGZDQTdtVkt6QlZyZW82blFW?=
+ =?utf-8?Q?OFihAYhKcvWf9nDWXtBnAbTYD?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2d67048c-581c-47ae-1575-08da81e45d7e
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB4192.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Aug 2022 13:11:42.8456
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Aug 2022 13:11:44.9609
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: q1RE5lki43b0VrXjTwOchfmaP37LaTPGjjRXF5bEMq6MCP3IaBvPtKC6dJnE0JSg
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR12MB1923
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+X-MS-Exchange-CrossTenant-UserPrincipalName: /DaQ1rrQYUBesKqiUZf+SUS2tq97XzGev/lUcqJLbOB4Et8V3h12J7DU3hpMpg0n
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB5937
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am 19.08.22 um 09:28 schrieb Jeffy Chen:
-> Currently we are assuming a one to one mapping between dmabuf and
-> GEM handle when releasing GEM handles.
->
-> But that is not always true, since we would create extra handles for the
-> GEM obj in cases like gem_open() and getfb{,2}().
->
-> A similar issue was reported at:
-> https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Flore.kernel.org%2Fall%2F20211105083308.392156-1-jay.xu%40rock-chips.com%2F&amp;data=05%7C01%7Cchristian.koenig%40amd.com%7Cd1716ddbdbea410a724408da81b52ba2%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637964912375829248%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;sdata=uNdN7MgujJMgBMISdZowKDh1PFZ2sqsueCvn%2BX1hYuc%3D&amp;reserved=0
->
-> Another problem is that the imported dmabuf might not always have
-> gem_obj->dma_buf set, which would cause leaks in
-> drm_gem_remove_prime_handles().
->
-> Let's fix these for now by using handle to find the exact map to remove.
->
-> Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
-> Reviewed-by: Christian König <christian.koenig@amd.com>
+On Thu, Aug 18, 2022 at 03:37:01PM +0200, Christian König wrote:
+> Am 18.08.22 um 15:16 schrieb Jason Gunthorpe:
+> > On Thu, Aug 18, 2022 at 02:58:10PM +0200, Christian König wrote:
+> > 
+> > > > > The only thing I'm not 100% convinced of is dma_buf_try_get(), I've seen
+> > > > > this incorrectly used so many times that I can't count them any more.
+> > > > > 
+> > > > > Would that be somehow avoidable? Or could you at least explain the use case
+> > > > > a bit better.
+> > > > I didn't see a way, maybe you know of one
+> > > For GEM objects we usually don't use the reference count of the DMA-buf, but
+> > > rather that of the GEM object for this. But that's not an ideal solution
+> > > either.
+> > You can't really ignore the dmabuf refcount. At some point you have to
+> > deal with the dmabuf being asynchronously released by userspace.
+> 
+> Yeah, but in this case the dma-buf is just a reference to the real/private
+> object which holds the backing store.
 
-I've just pushed this one to drm-misc-fixes.
+The gem approach is backwards to what I did here.
 
-Thanks,
-Christian.
+GEM holds a singleton pointer to the dmabuf and holds a reference on
+it as long as it has the pointer. This means the dmabuf can not be
+freed until the GEM object is freed.
 
->
-> ---
->
-> Changes in v3:
-> Rewrite commit message a bit.
->
-> Changes in v2:
-> Fix a typo of rbtree.
->
->   drivers/gpu/drm/drm_gem.c      | 17 +----------------
->   drivers/gpu/drm/drm_internal.h |  4 ++--
->   drivers/gpu/drm/drm_prime.c    | 20 ++++++++++++--------
->   3 files changed, 15 insertions(+), 26 deletions(-)
->
-> diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
-> index eb0c2d041f13..ed39da383570 100644
-> --- a/drivers/gpu/drm/drm_gem.c
-> +++ b/drivers/gpu/drm/drm_gem.c
-> @@ -168,21 +168,6 @@ void drm_gem_private_object_init(struct drm_device *dev,
->   }
->   EXPORT_SYMBOL(drm_gem_private_object_init);
->   
-> -static void
-> -drm_gem_remove_prime_handles(struct drm_gem_object *obj, struct drm_file *filp)
-> -{
-> -	/*
-> -	 * Note: obj->dma_buf can't disappear as long as we still hold a
-> -	 * handle reference in obj->handle_count.
-> -	 */
-> -	mutex_lock(&filp->prime.lock);
-> -	if (obj->dma_buf) {
-> -		drm_prime_remove_buf_handle_locked(&filp->prime,
-> -						   obj->dma_buf);
-> -	}
-> -	mutex_unlock(&filp->prime.lock);
-> -}
-> -
->   /**
->    * drm_gem_object_handle_free - release resources bound to userspace handles
->    * @obj: GEM object to clean up.
-> @@ -253,7 +238,7 @@ drm_gem_object_release_handle(int id, void *ptr, void *data)
->   	if (obj->funcs->close)
->   		obj->funcs->close(obj, file_priv);
->   
-> -	drm_gem_remove_prime_handles(obj, file_priv);
-> +	drm_prime_remove_buf_handle(&file_priv->prime, id);
->   	drm_vma_node_revoke(&obj->vma_node, file_priv);
->   
->   	drm_gem_object_handle_put_unlocked(obj);
-> diff --git a/drivers/gpu/drm/drm_internal.h b/drivers/gpu/drm/drm_internal.h
-> index 1fbbc19f1ac0..7bb98e6a446d 100644
-> --- a/drivers/gpu/drm/drm_internal.h
-> +++ b/drivers/gpu/drm/drm_internal.h
-> @@ -74,8 +74,8 @@ int drm_prime_fd_to_handle_ioctl(struct drm_device *dev, void *data,
->   
->   void drm_prime_init_file_private(struct drm_prime_file_private *prime_fpriv);
->   void drm_prime_destroy_file_private(struct drm_prime_file_private *prime_fpriv);
-> -void drm_prime_remove_buf_handle_locked(struct drm_prime_file_private *prime_fpriv,
-> -					struct dma_buf *dma_buf);
-> +void drm_prime_remove_buf_handle(struct drm_prime_file_private *prime_fpriv,
-> +				 uint32_t handle);
->   
->   /* drm_drv.c */
->   struct drm_minor *drm_minor_acquire(unsigned int minor_id);
-> diff --git a/drivers/gpu/drm/drm_prime.c b/drivers/gpu/drm/drm_prime.c
-> index e3f09f18110c..bd5366b16381 100644
-> --- a/drivers/gpu/drm/drm_prime.c
-> +++ b/drivers/gpu/drm/drm_prime.c
-> @@ -190,29 +190,33 @@ static int drm_prime_lookup_buf_handle(struct drm_prime_file_private *prime_fpri
->   	return -ENOENT;
->   }
->   
-> -void drm_prime_remove_buf_handle_locked(struct drm_prime_file_private *prime_fpriv,
-> -					struct dma_buf *dma_buf)
-> +void drm_prime_remove_buf_handle(struct drm_prime_file_private *prime_fpriv,
-> +				 uint32_t handle)
->   {
->   	struct rb_node *rb;
->   
-> -	rb = prime_fpriv->dmabufs.rb_node;
-> +	mutex_lock(&prime_fpriv->lock);
-> +
-> +	rb = prime_fpriv->handles.rb_node;
->   	while (rb) {
->   		struct drm_prime_member *member;
->   
-> -		member = rb_entry(rb, struct drm_prime_member, dmabuf_rb);
-> -		if (member->dma_buf == dma_buf) {
-> +		member = rb_entry(rb, struct drm_prime_member, handle_rb);
-> +		if (member->handle == handle) {
->   			rb_erase(&member->handle_rb, &prime_fpriv->handles);
->   			rb_erase(&member->dmabuf_rb, &prime_fpriv->dmabufs);
->   
-> -			dma_buf_put(dma_buf);
-> +			dma_buf_put(member->dma_buf);
->   			kfree(member);
-> -			return;
-> -		} else if (member->dma_buf < dma_buf) {
-> +			break;
-> +		} else if (member->handle < handle) {
->   			rb = rb->rb_right;
->   		} else {
->   			rb = rb->rb_left;
->   		}
->   	}
-> +
-> +	mutex_unlock(&prime_fpriv->lock);
->   }
->   
->   void drm_prime_init_file_private(struct drm_prime_file_private *prime_fpriv)
+For this I held a "weak reference" on the dmabuf in a list, and we
+convert the weak reference to a strong reference in the usual way
+using a try_get.
 
+The reason it is different is because the VFIO interface allows
+creating a DMABUF with unique parameters on every user request. Eg the
+user can select a BAR index and a slice of the MMIO space unique to
+each each request and this results in a unique DMABUF.
+
+Due to this we have to store a list of DMABUFs and we need the
+DMABUF's to clean up their memory when the user closes the file.
+
+> > So we could delete the try_buf and just rely on move being safe on
+> > partially destroyed dma_buf's as part of the API design.
+> 
+> I think that might be the more defensive approach. A comment on the
+> dma_buf_move_notify() function should probably be a good idea.
+
+IMHO, it is an anti-pattern. The caller should hold a strong reference
+on an object before invoking any API surface. Upgrading a weak
+reference to a strong reference requires the standard "try get" API.
+
+But if you feel strongly I don't mind dropping the try_get around move.
+
+Jason
