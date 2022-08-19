@@ -2,82 +2,142 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8E0105993D7
-	for <lists+linux-media@lfdr.de>; Fri, 19 Aug 2022 06:07:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 594305993FF
+	for <lists+linux-media@lfdr.de>; Fri, 19 Aug 2022 06:18:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345840AbiHSD7a (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 18 Aug 2022 23:59:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55744 "EHLO
+        id S1346066AbiHSEQU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 19 Aug 2022 00:16:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46256 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345788AbiHSD72 (ORCPT
+        with ESMTP id S232389AbiHSEQR (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 18 Aug 2022 23:59:28 -0400
-Received: from mail-0301.mail-europe.com (mail-0301.mail-europe.com [188.165.51.139])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7A35B71BDE
-        for <linux-media@vger.kernel.org>; Thu, 18 Aug 2022 20:59:26 -0700 (PDT)
-Date:   Fri, 19 Aug 2022 03:59:18 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
-        s=protonmail; t=1660881561; x=1661140761;
-        bh=z8TRG7QrbVbda8C8nKyYXZo+z6zBHklEkXfbMVjn5gM=;
-        h=Date:To:From:Reply-To:Subject:Message-ID:Feedback-ID:From:To:Cc:
-         Date:Subject:Reply-To:Feedback-ID:Message-ID;
-        b=eQB7BdUZL3jVhqR3+NCaQXvFzKaoRAGmgou7EwEPw9HcCoUBz0a4eAST/RWB1xHUF
-         /GzdYtpQXi5T2aWVmWu7STVsmXKHmkf1+CKonCN1QNRQfyGh7umD0iEWRH7llluK+U
-         57rNnQCeVJcO4N4HH4ZJwiAGivWJOKEPwDCN2a7QdFfAPsSk64IDGV/8sVRqFypeA8
-         mcSl5sMaEAAEkHndFM81XQfDenaOiOlqfVZkIjclmaKr+/LVlQNrql420eBJuiWSgC
-         48eYrCyDc9DnO3l27PSjC1Boav+zGNTsYvg7fhNQmoBrc1NtMjYRj+pboBv6Pz7xMd
-         Y++piXtvRRCEg==
-To:     "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
-From:   Daniel Kruse <daniel.lee.kruse@proton.me>
-Reply-To: Daniel Kruse <daniel.lee.kruse@proton.me>
-Subject: [PATCH] media: cx23885: reset DMA on AMD Renior/Cezanne IOMMU due to RiSC engine stall
-Message-ID: <0-5YZkVe3JRt88zsfDeQI1Bb44YvZwiWCsj1bgLL0bx-ItVzDmHcWnnSqNWazsCSa3mNBB2ra_SHMHWnpoLOnp68LG46q7JMQZt8rseG8Uc=@proton.me>
-Feedback-ID: 45782596:user:proton
+        Fri, 19 Aug 2022 00:16:17 -0400
+Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com [IPv6:2a00:1450:4864:20::636])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 78738DA3C8;
+        Thu, 18 Aug 2022 21:16:16 -0700 (PDT)
+Received: by mail-ej1-x636.google.com with SMTP id i14so6688596ejg.6;
+        Thu, 18 Aug 2022 21:16:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc;
+        bh=vq1yZ0EE5iMuU3VXtaQDcy0x0rnS5PWC/88eh+empEo=;
+        b=NzNdQOgCrCIL0I2Xc0Dm59Sa6UUlWHOuEF95rHuCDjE/E440pppYQd44fnia0iqGtc
+         bwrQsf4YpQyO/n/cdcFwf/dYenrPlNLBnso/zOeK05h0izgq2sP8+b8Ys27UMzxR2Pzs
+         OtR0kJbOqNbMTjefPUPKHWoqtFAhKe7dmjRla7jlQrTff7D/4gK+ZY+1zL/xHtoV6iNC
+         0hsPBixC4WGZjgzRpoZy6nXKaPZMJ9PkfJOIazDqbFC+NbZLxcwJvhRVt3AZgADfKj9E
+         c2NBWcW3wO/FFXerQkEgthOmPvXInrhsgroOCxn1oWrDPI4lv6mUhBEi2mn4rSG7vLh5
+         TU4g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
+        bh=vq1yZ0EE5iMuU3VXtaQDcy0x0rnS5PWC/88eh+empEo=;
+        b=f2o408t5e7sUt4jgKvK/+uZiZMwNtx+3KlqTsS7nYP8pSDJDQsdLqVSltabBqUBxB6
+         CSwnUG7NHuU2x2b055oizsk3N5n3X4+/lIPcaqPzPF95y1ldWNXbvL/c30nvzr3l84SK
+         UGQC8a/xAfAqcqpIHLmMPBT5nAEDFOy2bs8J5tSL1E1I0DbypRbCBxtQxxj8yiHyESox
+         +7qgzEwd11YkROWciP+UtuQdnPcQ/hRUJshmaVRlAGgQkZpfnIAU8v4hWTVgTraCo9fN
+         4tFcAt4trPTL6SSTf2cN44D1D6KNbgYp4jufCvZt+HIb89tpZnXZqMSScqxg3GBMqGiP
+         B6gA==
+X-Gm-Message-State: ACgBeo21403EaXFATk5ex7ZfEhfpHjZl+d8CKJpu0gyUykFexc647XQR
+        i6ptboJzmxjpLRs29MCIJu5Q+0CELz0=
+X-Google-Smtp-Source: AA6agR4u+xoL53tF8jTeclefhfqlSHhBWjqPkJU0U4z6pxBmppCwnNGc/weUdHGATmCfPOiVyXK0rw==
+X-Received: by 2002:a17:907:60c7:b0:731:2be4:f72d with SMTP id hv7-20020a17090760c700b007312be4f72dmr3597074ejc.639.1660882575071;
+        Thu, 18 Aug 2022 21:16:15 -0700 (PDT)
+Received: from jernej-laptop.localnet (82-149-1-172.dynamic.telemach.net. [82.149.1.172])
+        by smtp.gmail.com with ESMTPSA id h22-20020a1709070b1600b0073087f7dfe2sm1703723ejl.125.2022.08.18.21.16.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 18 Aug 2022 21:16:14 -0700 (PDT)
+From:   Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To:     linux-media@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Samuel Holland <samuel@sholland.org>,
+        Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Cc:     kernel@collabora.com,
+        Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+        stable@vger.kernel.org,
+        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+        linux-staging@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 3/3] media: cedrus: Fix endless loop in cedrus_h265_skip_bits()
+Date:   Fri, 19 Aug 2022 06:16:12 +0200
+Message-ID: <5849126.lOV4Wx5bFT@jernej-laptop>
+In-Reply-To: <20220818203308.439043-4-nicolas.dufresne@collabora.com>
+References: <20220818203308.439043-1-nicolas.dufresne@collabora.com> <20220818203308.439043-4-nicolas.dufresne@collabora.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=0.9 required=5.0 tests=AC_FROM_MANY_DOTS,BAYES_00,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi everybody,
+Dne =C4=8Detrtek, 18. avgust 2022 ob 22:33:08 CEST je Nicolas Dufresne napi=
+sal(a):
+> From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+>=20
+> The busy status bit may never de-assert if number of programmed skip
+> bits is incorrect, resulting in a kernel hang because the bit is polled
+> endlessly in the code. Fix it by adding timeout for the bit-polling.
+> This problem is reproducible by setting the data_bit_offset field of
+> the HEVC slice params to a wrong value by userspace.
+>=20
+> Cc: stable@vger.kernel.org
+> Reported-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+> Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 
-MythTv is unable to scan channels with APUs with the Renior IOMMU that is a=
-lso contained in the Cezanne line of APUs.  This issue was discovered on th=
-e 5.15 version the kernel.  This patch adds the IOMMU PCI ID to the broken_=
-dev_id array.  This patch was developed with 5.19 of the media_tree repo.
+=46ixes tag would be nice.
 
-Checkpatch results:
-./scripts/checkpatch.pl -f cx23885-core.patch=20
-total: 0 errors, 0 warnings, 14 lines checked
+> ---
+>  drivers/staging/media/sunxi/cedrus/cedrus_h265.c | 6 ++++--
+>  1 file changed, 4 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
+> b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c index
+> f703c585d91c5..f0bc118021b0a 100644
+> --- a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
+> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
+> @@ -227,6 +227,7 @@ static void cedrus_h265_pred_weight_write(struct
+> cedrus_dev *dev, static void cedrus_h265_skip_bits(struct cedrus_dev *dev,
+> int num) {
+>  	int count =3D 0;
+> +	u32 reg;
+>=20
+>  	while (count < num) {
+>  		int tmp =3D min(num - count, 32);
+> @@ -234,8 +235,9 @@ static void cedrus_h265_skip_bits(struct cedrus_dev
+> *dev, int num) cedrus_write(dev, VE_DEC_H265_TRIGGER,
+>  			     VE_DEC_H265_TRIGGER_FLUSH_BITS |
+>  			     VE_DEC_H265_TRIGGER_TYPE_N_BITS(tmp));
+> -		while (cedrus_read(dev, VE_DEC_H265_STATUS) &
+> VE_DEC_H265_STATUS_VLD_BUSY) -			udelay(1);
+> +
+> +		if (cedrus_wait_for(dev, VE_DEC_H265_STATUS,
+> VE_DEC_H265_STATUS_VLD_BUSY)) +		=09
+dev_err_ratelimited(dev->dev, "timed out
+> waiting to skip bits\n");
 
-cx23885-core.patch has no obvious style problems and is ready for submissio=
-n.
+Reporting issue is nice, but better would be to propagate error, since ther=
+e=20
+is no way to properly decode this slice if above code block fails.
 
-Signed-off-by: Daniel Lee Kruse <daniel.lee.kruse@proton.me>
+Best regards,
+Jernej
 
----
+>=20
+>  		count +=3D tmp;
+>  	}
 
-diff --git a/drivers/media/pci/cx23885/cx23885-core.c b/drivers/media/pci/c=
-x23885/cx23885-core.c
-index a07b18f2034e..9232a966bcab 100644
---- a/drivers/media/pci/cx23885/cx23885-core.c
-+++ b/drivers/media/pci/cx23885/cx23885-core.c
-@@ -2086,6 +2086,9 @@ static struct {
-        /* 0x1419 is the PCI ID for the IOMMU found on 15h (Models 10h-1fh)=
- family
-         */
-        { PCI_VENDOR_ID_AMD, 0x1419 },
-+       /* 0x1631 is the PCI ID for the IOMMU found on Renoir/Cezanne
-+        */
-+       { PCI_VENDOR_ID_AMD, 0x1631 },
-        /* 0x5a23 is the PCI ID for the IOMMU found on RD890S/RD990
-         */
-        { PCI_VENDOR_ID_ATI, 0x5a23 },
+
+
 
