@@ -2,207 +2,195 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6BB46599E28
-	for <lists+linux-media@lfdr.de>; Fri, 19 Aug 2022 17:31:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C365C599E26
+	for <lists+linux-media@lfdr.de>; Fri, 19 Aug 2022 17:31:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349729AbiHSP0w (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 19 Aug 2022 11:26:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44322 "EHLO
+        id S1349607AbiHSP2P (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 19 Aug 2022 11:28:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45804 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1349720AbiHSP0v (ORCPT
+        with ESMTP id S1349429AbiHSP2J (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 19 Aug 2022 11:26:51 -0400
-Received: from mail-qv1-xf29.google.com (mail-qv1-xf29.google.com [IPv6:2607:f8b0:4864:20::f29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 147F198A70
-        for <linux-media@vger.kernel.org>; Fri, 19 Aug 2022 08:26:50 -0700 (PDT)
-Received: by mail-qv1-xf29.google.com with SMTP id m5so754931qvo.4
-        for <linux-media@vger.kernel.org>; Fri, 19 Aug 2022 08:26:50 -0700 (PDT)
+        Fri, 19 Aug 2022 11:28:09 -0400
+Received: from mail-qt1-x832.google.com (mail-qt1-x832.google.com [IPv6:2607:f8b0:4864:20::832])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB0EE101C45
+        for <linux-media@vger.kernel.org>; Fri, 19 Aug 2022 08:28:07 -0700 (PDT)
+Received: by mail-qt1-x832.google.com with SMTP id h21so3583025qta.3
+        for <linux-media@vger.kernel.org>; Fri, 19 Aug 2022 08:28:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
         h=mime-version:user-agent:content-transfer-encoding:references
          :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc;
-        bh=R+dNyyhZWqiKyDnj3wr9Zou8hF3lxJeexkrsHsTQHCs=;
-        b=gIDMRZx+giubIoQBdvXlT0umgT/qdGwDGI05hYyh2Vvu0kpK5kdNyw1KGVPnTyVcS4
-         PSPoWV70wIKHa4mFlRK/CiXR892ZCQmDp9V0E2iIYQnrn6PlCj2jk64SBmmKC6K20De9
-         PG5VnUWE6kIHmWUPCbBn9B79Q5f0hRBiDP3mcL4Eafkyr1HTjJiEHKcteD9UWxFQb3i5
-         OQJNEairgzp2nTftuwMeHSkXzzviY++/vPgW5it1RfWCMh9b350LmCkohPl8n6NFyhLq
-         /9JennJOD4aTdblZCluX4cAijvnPMuW2VHNg8bz+WkObDLFYgqSH96PU3TaY5asFjKeF
-         LV/A==
+        bh=iA9FPyd1nVi+5ANzlnbkk2becmIxzDV5Vq9MszOeMik=;
+        b=BR81CJRUyoDiW6jn9a7JfCde43ZAfHclIbU+KinvYPofdBD0gEF2AhhMPdqGT1Vj5X
+         5nErMs6lUjEStZhPblbRZ7VqtQp2SetHyO8Ys9EB756PmvtIEIUuKhvQ11FX1dRvsY8V
+         iEVMl64per07X5+eNjU20MCm0AFjphbawvNxTpvkpvgVuqpNdimPa28fQORsIAP3T9xL
+         f+dj9/KhvHPICwjMCTr+RfTxkKLQuNOaXOMwWiInOMNYSbo5W1VAAFbKTzzpRVxaYHwH
+         WnQZCAAQMzrScA9hVdQNFgRG8NtfQgfdCr2XYtbjwxia+iTONOWMq/znu5v2C+ii8FTU
+         kHeQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=mime-version:user-agent:content-transfer-encoding:references
          :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
          :from:to:cc;
-        bh=R+dNyyhZWqiKyDnj3wr9Zou8hF3lxJeexkrsHsTQHCs=;
-        b=RwwE+SOFU14qtqakXE3rS10k5GcGhMZMorGhC+pRhJKniG5S6xO7O9qALjtQz7dwz9
-         MuddGfc24oweAX4AGthp8EoRB8up/PmMb6A9+mmb+z0hQgjNT221/LIyeBh4YaBntusO
-         5QF2/CrE2Vp5BGizpId423ywbX3FMiqeSSyqVlG16jFzb1SdP9QFkTbEGHB8F0dpLlGO
-         wMNuu2+6ECClBmM1USeu2guZ6StYK+OUx1VGReO0jsWYNfDROH5Ds5smwcL1V4tSh7Ey
-         NLEzAcjS9TXkrEN0doKal44gyUr73NFveCxQY44xcDKNN6pIYgM8My84doKg8n6NM8aB
-         3cOw==
-X-Gm-Message-State: ACgBeo13XZvLHv8cL1JEV8NXRjpBxpjqmzF0k+AC2JccLuPnCyCurKfK
-        DuPca8MjffbLrbiiNktxTulxHg==
-X-Google-Smtp-Source: AA6agR7U56cQNY2xUyo+d5l6PVKsi2MOXOr/PEkSHhmZKzpQfdPj2IQ/vETNRnqdrxY7d2iUdYlsbA==
-X-Received: by 2002:a05:6214:e68:b0:474:89bf:ca1b with SMTP id jz8-20020a0562140e6800b0047489bfca1bmr6975461qvb.107.1660922809183;
-        Fri, 19 Aug 2022 08:26:49 -0700 (PDT)
+        bh=iA9FPyd1nVi+5ANzlnbkk2becmIxzDV5Vq9MszOeMik=;
+        b=jQJaFr4/WhfvOG0hlTlPDz1UhsTySkyA5sPUDBrKkpuxkfOhqdGJ+UMS+JJoQvcwpP
+         DFLrqQeHnXkYQDZAnADNIT4VYEpjpk64sdbFerTbuyHVN/j55k7gWpzGZNRZcHcuaQP/
+         blkuJ3ng9T4f2uWTvLRmntJqvArhZrvXZ56hFIRtEX5UxZhB9fyChPqBiR4Nmc6Y2WAz
+         n7asbhPPk06s5oMTWQfD7DCIj0ntE5MOaaHCfYJHQxUNyTT75+rSr9lPZrg4kbbmdLUg
+         UDvWxwJ3t1ef06lCyTLW3oiHqaUU5j0hG4t4O8jkPsMkRWlVENKQdHIIh2CIEk/7FER9
+         f8Yw==
+X-Gm-Message-State: ACgBeo28YkbPq8+YGE0n6ypXZXIoHYjMTGDcxIYE0EUU2pScbwl9xyg0
+        Ps3ZxMAStXqDgvOMLQR0kMKvBg==
+X-Google-Smtp-Source: AA6agR78yg020o3BQrSjbyOHf2K23nLFedXybdJ5R96QMH31H/Um1bHSOfOeF4uB98Jhlhnwd5sW7w==
+X-Received: by 2002:ac8:59c6:0:b0:344:6f73:da07 with SMTP id f6-20020ac859c6000000b003446f73da07mr6813160qtf.199.1660922886865;
+        Fri, 19 Aug 2022 08:28:06 -0700 (PDT)
 Received: from nicolas-tpx395.localdomain (192-222-136-102.qc.cable.ebox.net. [192.222.136.102])
-        by smtp.gmail.com with ESMTPSA id ee7-20020a05620a800700b006bb82221013sm4292050qkb.0.2022.08.19.08.26.47
+        by smtp.gmail.com with ESMTPSA id w4-20020a05620a424400b006b6757a11fcsm3976599qko.36.2022.08.19.08.28.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 19 Aug 2022 08:26:48 -0700 (PDT)
-Message-ID: <64fbaceed1cc140e54aec54747e56b40b68378ca.camel@ndufresne.ca>
+        Fri, 19 Aug 2022 08:28:06 -0700 (PDT)
+Message-ID: <6da7faf329128312f0862f555d1a855437ae99f3.camel@ndufresne.ca>
 Subject: Re: [PATCH 2/2] [WIP]: media: Add Synaptics compressed tiled format
 From:   Nicolas Dufresne <nicolas@ndufresne.ca>
-To:     Hsia-Jun Li <Randy.Li@synaptics.com>,
-        Tomasz Figa <tfiga@chromium.org>
-Cc:     dri-devel@lists.freedesktop.org, maarten.lankhorst@linux.intel.com,
-        mripard@kernel.org, tzimmermann@suse.de, airlied@linux.ie,
-        daniel@ffwll.ch, mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
-        laurent.pinchart@ideasonboard.com, ezequiel@vanguardiasur.com.ar,
-        sakari.ailus@linux.intel.com, ribalda@chromium.org,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        sebastian.hesselbarth@gmail.com, jszhang@kernel.org,
-        linux-arm-kernel@lists.infradead.org
-Date:   Fri, 19 Aug 2022 11:26:45 -0400
-In-Reply-To: <13d37c15-79f3-4e16-8cf4-fc37846f4a04@synaptics.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Hsia-Jun Li <Randy.Li@synaptics.com>
+Cc:     Tomasz Figa <tfiga@chromium.org>, dri-devel@lists.freedesktop.org,
+        maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+        tzimmermann@suse.de, airlied@linux.ie, daniel@ffwll.ch,
+        mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
+        ezequiel@vanguardiasur.com.ar, sakari.ailus@linux.intel.com,
+        ribalda@chromium.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, sebastian.hesselbarth@gmail.com,
+        jszhang@kernel.org, linux-arm-kernel@lists.infradead.org
+Date:   Fri, 19 Aug 2022 11:28:04 -0400
+In-Reply-To: <Yv7HnHE7bLmgq5D0@pendragon.ideasonboard.com>
 References: <20220808162750.828001-1-randy.li@synaptics.com>
          <20220808162750.828001-3-randy.li@synaptics.com>
          <CAAFQd5AKjpJ+fPAeCqdNnJbS4R7SdaHkfyW4qG1xXr-sE801pQ@mail.gmail.com>
          <13d37c15-79f3-4e16-8cf4-fc37846f4a04@synaptics.com>
+         <Yv7HnHE7bLmgq5D0@pendragon.ideasonboard.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.44.4 (3.44.4-1.fc36) 
 MIME-Version: 1.0
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
-        version=3.4.6
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Le jeudi 18 ao=C3=BBt 2022 =C3=A0 14:33 +0800, Hsia-Jun Li a =C3=A9crit=C2=
-=A0:
+Le vendredi 19 ao=C3=BBt 2022 =C3=A0 02:13 +0300, Laurent Pinchart a =C3=A9=
+crit=C2=A0:
+> On Thu, Aug 18, 2022 at 02:33:42PM +0800, Hsia-Jun Li wrote:
+> > On 8/18/22 14:06, Tomasz Figa wrote:
+> > > On Tue, Aug 9, 2022 at 1:28 AM Hsia-Jun Li <randy.li@synaptics.com> w=
+rote:
+> > > >=20
+> > > > From: "Hsia-Jun(Randy) Li" <randy.li@synaptics.com>
+> > > >=20
+> > > > The most of detail has been written in the drm.
 >=20
-> On 8/18/22 14:06, Tomasz Figa wrote:
-> > CAUTION: Email originated externally, do not click links or open attach=
-ments unless you recognize the sender and know the content is safe.
-> >=20
-> >=20
-> > Hi Randy,
-> >=20
-> > On Tue, Aug 9, 2022 at 1:28 AM Hsia-Jun Li <randy.li@synaptics.com> wro=
-te:
+> This patch still needs a description of the format, which should go to
+> Documentation/userspace-api/media/v4l/.
+>=20
+> > > > Please notice that the tiled formats here request
+> > > > one more plane for storing the motion vector metadata.
+> > > > This buffer won't be compressed, so you can't append
+> > > > it to luma or chroma plane.
 > > >=20
-> > > From: "Hsia-Jun(Randy) Li" <randy.li@synaptics.com>
-> > >=20
-> > > The most of detail has been written in the drm.
-> > > Please notice that the tiled formats here request
-> > > one more plane for storing the motion vector metadata.
-> > > This buffer won't be compressed, so you can't append
-> > > it to luma or chroma plane.
+> > > Does the motion vector buffer need to be exposed to userspace? Is the
+> > > decoder stateless (requires userspace to specify the reference frames=
+)
+> > > or stateful (manages the entire decoding process internally)?
 > >=20
-> > Does the motion vector buffer need to be exposed to userspace? Is the
-> > decoder stateless (requires userspace to specify the reference frames)
-> > or stateful (manages the entire decoding process internally)?
-> >=20
-> No, users don't need to access them at all. Just they need a different=
+> > No, users don't need to access them at all. Just they need a different=
 =20
-> dma-heap.
->=20
-> You would only get the stateful version of both encoder and decoder.
-
-Can't you just allocate and manage these internally in the kernel driver wi=
-thout
-adding kernel APIs ? This is notably what Mediatek and (downstream) RPi HEV=
-C
-driver do, as it allow reducing quite a lot the memory usage. In Hantro, we=
- bind
-them due to HW limitation.
-
-Nicolas
-
-> > Best regards,
-> > Tomasz
+> > dma-heap.
 > >=20
-> > >=20
-> > > Signed-off-by: Hsia-Jun(Randy) Li <randy.li@synaptics.com>
-> > > ---
-> > >   drivers/media/v4l2-core/v4l2-common.c | 1 +
-> > >   drivers/media/v4l2-core/v4l2-ioctl.c  | 2 ++
-> > >   include/uapi/linux/videodev2.h        | 2 ++
-> > >   3 files changed, 5 insertions(+)
-> > >=20
-> > > diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4=
-l2-core/v4l2-common.c
-> > > index e0fbe6ba4b6c..f645278b3055 100644
-> > > --- a/drivers/media/v4l2-core/v4l2-common.c
-> > > +++ b/drivers/media/v4l2-core/v4l2-common.c
-> > > @@ -314,6 +314,7 @@ const struct v4l2_format_info *v4l2_format_info(u=
-32 format)
-> > >                  { .format =3D V4L2_PIX_FMT_SGBRG12,       .pixel_enc=
- =3D V4L2_PIXEL_ENC_BAYER, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D =
-{ 2, 0, 0, 0 }, .hdiv =3D 1, .vdiv =3D 1 },
-> > >                  { .format =3D V4L2_PIX_FMT_SGRBG12,       .pixel_enc=
- =3D V4L2_PIXEL_ENC_BAYER, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D =
-{ 2, 0, 0, 0 }, .hdiv =3D 1, .vdiv =3D 1 },
-> > >                  { .format =3D V4L2_PIX_FMT_SRGGB12,       .pixel_enc=
- =3D V4L2_PIXEL_ENC_BAYER, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D =
-{ 2, 0, 0, 0 }, .hdiv =3D 1, .vdiv =3D 1 },
-> > > +               { .format =3D V4L2_PIX_FMT_NV12M_V4H1C, .pixel_enc =
+> > You would only get the stateful version of both encoder and decoder.
+>=20
+> Shouldn't the motion vectors be stored in a separate V4L2 buffer,
+> submitted through a different queue then ?
+
+Imho, I believe these should be invisible to users and pooled separately to
+reduce the overhead. The number of reference is usually lower then the numb=
+er of
+allocated display buffers.
+
+>=20
+> > > > Signed-off-by: Hsia-Jun(Randy) Li <randy.li@synaptics.com>
+> > > > ---
+> > > >   drivers/media/v4l2-core/v4l2-common.c | 1 +
+> > > >   drivers/media/v4l2-core/v4l2-ioctl.c  | 2 ++
+> > > >   include/uapi/linux/videodev2.h        | 2 ++
+> > > >   3 files changed, 5 insertions(+)
+> > > >=20
+> > > > diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/=
+v4l2-core/v4l2-common.c
+> > > > index e0fbe6ba4b6c..f645278b3055 100644
+> > > > --- a/drivers/media/v4l2-core/v4l2-common.c
+> > > > +++ b/drivers/media/v4l2-core/v4l2-common.c
+> > > > @@ -314,6 +314,7 @@ const struct v4l2_format_info *v4l2_format_info=
+(u32 format)
+> > > >                  { .format =3D V4L2_PIX_FMT_SGBRG12,       .pixel_e=
+nc =3D V4L2_PIXEL_ENC_BAYER, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =
+=3D { 2, 0, 0, 0 }, .hdiv =3D 1, .vdiv =3D 1 },
+> > > >                  { .format =3D V4L2_PIX_FMT_SGRBG12,       .pixel_e=
+nc =3D V4L2_PIXEL_ENC_BAYER, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =
+=3D { 2, 0, 0, 0 }, .hdiv =3D 1, .vdiv =3D 1 },
+> > > >                  { .format =3D V4L2_PIX_FMT_SRGGB12,       .pixel_e=
+nc =3D V4L2_PIXEL_ENC_BAYER, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =
+=3D { 2, 0, 0, 0 }, .hdiv =3D 1, .vdiv =3D 1 },
+> > > > +               { .format =3D V4L2_PIX_FMT_NV12M_V4H1C, .pixel_enc =
 =3D V4L2_PIXEL_ENC_YUV, .mem_planes =3D 5, .comp_planes =3D 2, .bpp =3D { 1=
 , 2, 0, 0 }, .hdiv =3D 2, .vdiv =3D 2, .block_w =3D { 128, 128 }, .block_h =
 =3D { 128, 128 } },
-> > >          };
-> > >          unsigned int i;
-> > >=20
-> > > diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l=
-2-core/v4l2-ioctl.c
-> > > index e6fd355a2e92..8f65964aff08 100644
-> > > --- a/drivers/media/v4l2-core/v4l2-ioctl.c
-> > > +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-> > > @@ -1497,6 +1497,8 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdes=
-c *fmt)
-> > >                  case V4L2_PIX_FMT_MT21C:        descr =3D "Mediatek =
-Compressed Format"; break;
-> > >                  case V4L2_PIX_FMT_QC08C:        descr =3D "QCOM Comp=
-ressed 8-bit Format"; break;
-> > >                  case V4L2_PIX_FMT_QC10C:        descr =3D "QCOM Comp=
-ressed 10-bit Format"; break;
-> > > +               case V4L2_PIX_FMT_NV12M_V4H1C:  descr =3D "Synaptics =
-Compressed 8-bit tiled Format";break;
-> > > +               case V4L2_PIX_FMT_NV12M_10_V4H3P8C:     descr =3D "Sy=
-naptics Compressed 10-bit tiled Format";break;
-> > >                  default:
-> > >                          if (fmt->description[0])
-> > >                                  return;
-> > > diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/vide=
-odev2.h
-> > > index 01e630f2ec78..7e928cb69e7c 100644
-> > > --- a/include/uapi/linux/videodev2.h
-> > > +++ b/include/uapi/linux/videodev2.h
-> > > @@ -661,6 +661,8 @@ struct v4l2_pix_format {
-> > >   #define V4L2_PIX_FMT_NV12MT_16X16 v4l2_fourcc('V', 'M', '1', '2') /=
-* 12  Y/CbCr 4:2:0 16x16 tiles */
-> > >   #define V4L2_PIX_FMT_NV12M_8L128      v4l2_fourcc('N', 'A', '1', '2=
-') /* Y/CbCr 4:2:0 8x128 tiles */
-> > >   #define V4L2_PIX_FMT_NV12M_10BE_8L128 v4l2_fourcc_be('N', 'T', '1',=
- '2') /* Y/CbCr 4:2:0 10-bit 8x128 tiles */
-> > > +#define V4L2_PIX_FMT_NV12M_V4H1C v4l2_fourcc('S', 'Y', '1', '2')   /=
-* 12  Y/CbCr 4:2:0 tiles */
-> > > +#define V4L2_PIX_FMT_NV12M_10_V4H3P8C v4l2_fourcc('S', 'Y', '1', '0'=
-)   /* 12  Y/CbCr 4:2:0 10-bits tiles */
-> > >=20
-> > >   /* Bayer formats - see https://urldefense.proofpoint.com/v2/url?u=
-=3Dhttp-3A__www.siliconimaging.com_RGB-2520Bayer.htm&d=3DDwIBaQ&c=3D7dfBJ8c=
-XbWjhc0BhImu8wVIoUFmBzj1s88r8EGyM0UY&r=3DP4xb2_7biqBxD4LGGPrSV6j-jf3C3xlR7P=
-XU-mLTeZE&m=3DvmpysqneiHK3UXcq6UOewdMwobFa70zKB3RuOgYT02aFw9fCs6qd7j-U1sYSe=
-y79&s=3DyblzF1GwanMEJFC3yt9nBAQjaaAEJKKlNgj4k64v5eE&e=3D   */
-> > >   #define V4L2_PIX_FMT_SBGGR8  v4l2_fourcc('B', 'A', '8', '1') /*  8 =
- BGBG.. GRGR.. */
-> > > --
-> > > 2.17.1
-> > >=20
+> > > >          };
+> > > >          unsigned int i;
+> > > >=20
+> > > > diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v=
+4l2-core/v4l2-ioctl.c
+> > > > index e6fd355a2e92..8f65964aff08 100644
+> > > > --- a/drivers/media/v4l2-core/v4l2-ioctl.c
+> > > > +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+> > > > @@ -1497,6 +1497,8 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtd=
+esc *fmt)
+> > > >                  case V4L2_PIX_FMT_MT21C:        descr =3D "Mediate=
+k Compressed Format"; break;
+> > > >                  case V4L2_PIX_FMT_QC08C:        descr =3D "QCOM Co=
+mpressed 8-bit Format"; break;
+> > > >                  case V4L2_PIX_FMT_QC10C:        descr =3D "QCOM Co=
+mpressed 10-bit Format"; break;
+> > > > +               case V4L2_PIX_FMT_NV12M_V4H1C:  descr =3D "Synaptic=
+s Compressed 8-bit tiled Format";break;
+> > > > +               case V4L2_PIX_FMT_NV12M_10_V4H3P8C:     descr =3D "=
+Synaptics Compressed 10-bit tiled Format";break;
+> > > >                  default:
+> > > >                          if (fmt->description[0])
+> > > >                                  return;
+> > > > diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/vi=
+deodev2.h
+> > > > index 01e630f2ec78..7e928cb69e7c 100644
+> > > > --- a/include/uapi/linux/videodev2.h
+> > > > +++ b/include/uapi/linux/videodev2.h
+> > > > @@ -661,6 +661,8 @@ struct v4l2_pix_format {
+> > > >   #define V4L2_PIX_FMT_NV12MT_16X16 v4l2_fourcc('V', 'M', '1', '2')=
+ /* 12  Y/CbCr 4:2:0 16x16 tiles */
+> > > >   #define V4L2_PIX_FMT_NV12M_8L128      v4l2_fourcc('N', 'A', '1', =
+'2') /* Y/CbCr 4:2:0 8x128 tiles */
+> > > >   #define V4L2_PIX_FMT_NV12M_10BE_8L128 v4l2_fourcc_be('N', 'T', '1=
+', '2') /* Y/CbCr 4:2:0 10-bit 8x128 tiles */
+> > > > +#define V4L2_PIX_FMT_NV12M_V4H1C v4l2_fourcc('S', 'Y', '1', '2')  =
+ /* 12  Y/CbCr 4:2:0 tiles */
+> > > > +#define V4L2_PIX_FMT_NV12M_10_V4H3P8C v4l2_fourcc('S', 'Y', '1', '=
+0')   /* 12  Y/CbCr 4:2:0 10-bits tiles */
+> > > >=20
+> > > >   /* Bayer formats - see http://www.siliconimaging.com/RGB%20Bayer.=
+htm */
+> > > >   #define V4L2_PIX_FMT_SBGGR8  v4l2_fourcc('B', 'A', '8', '1') /*  =
+8  BGBG.. GRGR.. */
 >=20
 
