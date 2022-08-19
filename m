@@ -2,174 +2,109 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 47A03599199
-	for <lists+linux-media@lfdr.de>; Fri, 19 Aug 2022 02:10:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F415C5992DD
+	for <lists+linux-media@lfdr.de>; Fri, 19 Aug 2022 04:03:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245602AbiHSAJ1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 18 Aug 2022 20:09:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55876 "EHLO
+        id S240849AbiHSCBQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 18 Aug 2022 22:01:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51072 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242599AbiHSAJ0 (ORCPT
+        with ESMTP id S236015AbiHSCBP (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 18 Aug 2022 20:09:26 -0400
-Received: from mail-il1-f197.google.com (mail-il1-f197.google.com [209.85.166.197])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D8F06C8777
-        for <linux-media@vger.kernel.org>; Thu, 18 Aug 2022 17:09:24 -0700 (PDT)
-Received: by mail-il1-f197.google.com with SMTP id y4-20020a056e021be400b002e5a1e77e04so2177998ilv.22
-        for <linux-media@vger.kernel.org>; Thu, 18 Aug 2022 17:09:24 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc;
-        bh=Cgqnygv45IvmE/0nA636AfgKPr1Y9HZ7ogG80q4bafI=;
-        b=xJgh6xaj3r4W/iRdafGCKYegQJL9fQf2ChJXmQjZ/kwzV5Ppccd+iauPrubNc3ZVpp
-         lorLAez3XEkNn3CguuTYv8rkJejfAETPksn07Xqu2iYTPaCNXZ5+ZJjI8LxDhvhebzg/
-         SkNH0HrTAoUHANzVtMR1MJ3lewQz+L1Hjnk91le+6epazOBMQkI6+c1hmHZ66E9fLDj+
-         kBtI2Rx1sWTSBmdK9DijvxywJYnxTrKctD66NThgFp23vMu237Tx0fS2366nu1xNvwm9
-         ASbfImT0T4VBH6AUgTdbErI1pGywWmqLr0QYy/JKy8cM9TnIo9kImaep5wd/hMKd9ytK
-         piFA==
-X-Gm-Message-State: ACgBeo19hMSEOWl0WecngFLt91PKXEEj3hHy3+t8jislQN5NXLhLpJw/
-        fefDK7e46eN+Efk5kijlBE0TvxPTg82CaKwW+GTvY0XrJWbz
-X-Google-Smtp-Source: AA6agR5Th/47m9oDxR6e09YyIyM4u883zYiv57Xptl+BEAqccJCssp1yY4RYeXlYdcyQ/z/03m3XavyH1f3JkfswClq+JWxRywbt
+        Thu, 18 Aug 2022 22:01:15 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 51D9ADCFE1;
+        Thu, 18 Aug 2022 19:01:14 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 498F63F1;
+        Fri, 19 Aug 2022 04:01:12 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1660874472;
+        bh=yUNwAR0eAnW44PVw7Dor2GeL5K5d/TyZGCrLPhkWrZ4=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=JX+0HQ7nSuidUbmNcZsFtnHzpxHKyVkhYUHyLttjEUxylc97F6uTiBMlbLlg/xplx
+         Q3ko6fM6cBzvfGg6vtrMrijeIIVwNmCoPiw54hU/nhUA57LNFYVr18L3Rjl62Wgvpn
+         c56igeCZoGMLE61Tl/15PEhBo2DNRQL4AzYH8y6M=
+Date:   Fri, 19 Aug 2022 05:01:09 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Takanari Hayama <taki@igel.co.jp>
+Cc:     dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        kieran.bingham+renesas@ideasonboard.com, airlied@linux.ie,
+        daniel@ffwll.ch, mchehab@kernel.org
+Subject: Re: [PATCH v2 1/3] media: vsp1: add premultiplied alpha support
+Message-ID: <Yv7u5cFdXIeGm5PQ@pendragon.ideasonboard.com>
+References: <20220810083711.219642-1-taki@igel.co.jp>
+ <20220810083711.219642-2-taki@igel.co.jp>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6e02:b4c:b0:2de:de3e:6c5a with SMTP id
- f12-20020a056e020b4c00b002dede3e6c5amr2568816ilu.6.1660867764236; Thu, 18 Aug
- 2022 17:09:24 -0700 (PDT)
-Date:   Thu, 18 Aug 2022 17:09:24 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <0000000000001b37dc05e68ce911@google.com>
-Subject: [syzbot] general protection fault in release_udmabuf
-From:   syzbot <syzbot+c80e9ef5d8bb45894db0@syzkaller.appspotmail.com>
-To:     christian.koenig@amd.com, dri-devel@lists.freedesktop.org,
-        kraxel@redhat.com, linaro-mm-sig@lists.linaro.org,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        sumit.semwal@linaro.org, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=0.8 required=5.0 tests=BAYES_00,FROM_LOCAL_HEX,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SORTED_RECIPS,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
-        URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20220810083711.219642-2-taki@igel.co.jp>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello,
+Hi Hayama-san,
 
-syzbot found the following issue on:
+Thank you for the patch.
 
-HEAD commit:    7ebfc85e2cd7 Merge tag 'net-6.0-rc1' of git://git.kernel.o..
-git tree:       upstream
-console+strace: https://syzkaller.appspot.com/x/log.txt?x=1331f447080000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=924833c12349a8c0
-dashboard link: https://syzkaller.appspot.com/bug?extid=c80e9ef5d8bb45894db0
-compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=1601336b080000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=16d3292d080000
+On Wed, Aug 10, 2022 at 05:37:09PM +0900, Takanari Hayama wrote:
+> To support DRM blend mode in R-Car DU driver, we must be able to pass
+> a plane with the premultiplied alpha. Adding a new property to
+> vsp1_du_atomic_config allows the R-Car DU driver to pass the
+> premultiplied alpha plane.
+> 
+> Signed-off-by: Takanari Hayama <taki@igel.co.jp>
+> ---
+>  drivers/media/platform/renesas/vsp1/vsp1_drm.c | 2 ++
+>  include/media/vsp1.h                           | 2 ++
+>  2 files changed, 4 insertions(+)
+> 
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_drm.c b/drivers/media/platform/renesas/vsp1/vsp1_drm.c
+> index 0c2507dc03d6..019e18976bd8 100644
+> --- a/drivers/media/platform/renesas/vsp1/vsp1_drm.c
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1_drm.c
+> @@ -856,6 +856,8 @@ int vsp1_du_atomic_update(struct device *dev, unsigned int pipe_index,
+>  	rpf->mem.addr[1] = cfg->mem[1];
+>  	rpf->mem.addr[2] = cfg->mem[2];
+>  
+> +	rpf->format.flags = (cfg->premult) ? V4L2_PIX_FMT_FLAG_PREMUL_ALPHA : 0;
 
-Bisection is inconclusive: the issue happens on the oldest tested release.
+I'll drop the parentheses when applying.
 
-bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=16e01a3d080000
-final oops:     https://syzkaller.appspot.com/x/report.txt?x=15e01a3d080000
-console output: https://syzkaller.appspot.com/x/log.txt?x=11e01a3d080000
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+c80e9ef5d8bb45894db0@syzkaller.appspotmail.com
+> +
+>  	vsp1->drm->inputs[rpf_index].crop = cfg->src;
+>  	vsp1->drm->inputs[rpf_index].compose = cfg->dst;
+>  	vsp1->drm->inputs[rpf_index].zpos = cfg->zpos;
+> diff --git a/include/media/vsp1.h b/include/media/vsp1.h
+> index cc1b0d42ce95..48f4a5023d81 100644
+> --- a/include/media/vsp1.h
+> +++ b/include/media/vsp1.h
+> @@ -51,6 +51,7 @@ int vsp1_du_setup_lif(struct device *dev, unsigned int pipe_index,
+>   * @dst: destination rectangle on the display (integer coordinates)
+>   * @alpha: alpha value (0: fully transparent, 255: fully opaque)
+>   * @zpos: Z position of the plane (from 0 to number of planes minus 1)
+> + * @premult: true for premultiplied alpha
+>   */
+>  struct vsp1_du_atomic_config {
+>  	u32 pixelformat;
+> @@ -60,6 +61,7 @@ struct vsp1_du_atomic_config {
+>  	struct v4l2_rect dst;
+>  	unsigned int alpha;
+>  	unsigned int zpos;
+> +	bool premult;
+>  };
+>  
+>  /**
 
-general protection fault, probably for non-canonical address 0xdffffc0000000000: 0000 [#1] PREEMPT SMP KASAN
-KASAN: null-ptr-deref in range [0x0000000000000000-0x0000000000000007]
-CPU: 0 PID: 3609 Comm: syz-executor487 Not tainted 5.19.0-syzkaller-13930-g7ebfc85e2cd7 #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/22/2022
-RIP: 0010:dma_unmap_sgtable include/linux/dma-mapping.h:378 [inline]
-RIP: 0010:put_sg_table drivers/dma-buf/udmabuf.c:89 [inline]
-RIP: 0010:release_udmabuf+0xcb/0x4f0 drivers/dma-buf/udmabuf.c:114
-Code: 48 89 fa 48 c1 ea 03 80 3c 02 00 0f 85 2b 04 00 00 48 8d 7d 0c 4c 8b 63 30 48 b8 00 00 00 00 00 fc ff df 48 89 fa 48 c1 ea 03 <0f> b6 14 02 48 89 f8 83 e0 07 83 c0 03 38 d0 7c 08 84 d2 0f 85 e2
-RSP: 0018:ffffc900037efd30 EFLAGS: 00010246
-RAX: dffffc0000000000 RBX: ffffffff8cb67800 RCX: 0000000000000000
-RDX: 0000000000000000 RSI: ffffffff84ad27e0 RDI: 0000000000000000
-RBP: fffffffffffffff4 R08: 0000000000000005 R09: 0000000000000000
-R10: 0000000000000000 R11: 000000000008c07c R12: ffff88801fa05000
-R13: ffff888073db07e8 R14: ffff888025c25440 R15: 0000000000000000
-FS:  0000555555fc4300(0000) GS:ffff8880b9a00000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007fc1c0ce06e4 CR3: 00000000715e6000 CR4: 00000000003506f0
-DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-Call Trace:
- <TASK>
- dma_buf_release+0x157/0x2d0 drivers/dma-buf/dma-buf.c:78
- __dentry_kill+0x42b/0x640 fs/dcache.c:612
- dentry_kill fs/dcache.c:733 [inline]
- dput+0x806/0xdb0 fs/dcache.c:913
- __fput+0x39c/0x9d0 fs/file_table.c:333
- task_work_run+0xdd/0x1a0 kernel/task_work.c:177
- ptrace_notify+0x114/0x140 kernel/signal.c:2353
- ptrace_report_syscall include/linux/ptrace.h:420 [inline]
- ptrace_report_syscall_exit include/linux/ptrace.h:482 [inline]
- syscall_exit_work kernel/entry/common.c:249 [inline]
- syscall_exit_to_user_mode_prepare+0x129/0x280 kernel/entry/common.c:276
- __syscall_exit_to_user_mode_work kernel/entry/common.c:281 [inline]
- syscall_exit_to_user_mode+0x9/0x50 kernel/entry/common.c:294
- do_syscall_64+0x42/0xb0 arch/x86/entry/common.c:86
- entry_SYSCALL_64_after_hwframe+0x63/0xcd
-RIP: 0033:0x7fc1c0c35b6b
-Code: 0f 05 48 3d 00 f0 ff ff 77 45 c3 0f 1f 40 00 48 83 ec 18 89 7c 24 0c e8 63 fc ff ff 8b 7c 24 0c 41 89 c0 b8 03 00 00 00 0f 05 <48> 3d 00 f0 ff ff 77 35 44 89 c7 89 44 24 0c e8 a1 fc ff ff 8b 44
-RSP: 002b:00007ffd78a06090 EFLAGS: 00000293 ORIG_RAX: 0000000000000003
-RAX: 0000000000000000 RBX: 0000000000000007 RCX: 00007fc1c0c35b6b
-RDX: 0000000020000280 RSI: 0000000040086200 RDI: 0000000000000006
-RBP: 0000000000000007 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000293 R12: 000000000000000c
-R13: 0000000000000003 R14: 00007fc1c0cfe4a0 R15: 00007ffd78a06140
- </TASK>
-Modules linked in:
----[ end trace 0000000000000000 ]---
-RIP: 0010:dma_unmap_sgtable include/linux/dma-mapping.h:378 [inline]
-RIP: 0010:put_sg_table drivers/dma-buf/udmabuf.c:89 [inline]
-RIP: 0010:release_udmabuf+0xcb/0x4f0 drivers/dma-buf/udmabuf.c:114
-Code: 48 89 fa 48 c1 ea 03 80 3c 02 00 0f 85 2b 04 00 00 48 8d 7d 0c 4c 8b 63 30 48 b8 00 00 00 00 00 fc ff df 48 89 fa 48 c1 ea 03 <0f> b6 14 02 48 89 f8 83 e0 07 83 c0 03 38 d0 7c 08 84 d2 0f 85 e2
-RSP: 0018:ffffc900037efd30 EFLAGS: 00010246
-RAX: dffffc0000000000 RBX: ffffffff8cb67800 RCX: 0000000000000000
-RDX: 0000000000000000 RSI: ffffffff84ad27e0 RDI: 0000000000000000
-RBP: fffffffffffffff4 R08: 0000000000000005 R09: 0000000000000000
-R10: 0000000000000000 R11: 000000000008c07c R12: ffff88801fa05000
-R13: ffff888073db07e8 R14: ffff888025c25440 R15: 0000000000000000
-FS:  0000555555fc4300(0000) GS:ffff8880b9b00000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 0000564b46eeb2c8 CR3: 00000000715e6000 CR4: 00000000003506e0
-DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-----------------
-Code disassembly (best guess):
-   0:	48 89 fa             	mov    %rdi,%rdx
-   3:	48 c1 ea 03          	shr    $0x3,%rdx
-   7:	80 3c 02 00          	cmpb   $0x0,(%rdx,%rax,1)
-   b:	0f 85 2b 04 00 00    	jne    0x43c
-  11:	48 8d 7d 0c          	lea    0xc(%rbp),%rdi
-  15:	4c 8b 63 30          	mov    0x30(%rbx),%r12
-  19:	48 b8 00 00 00 00 00 	movabs $0xdffffc0000000000,%rax
-  20:	fc ff df
-  23:	48 89 fa             	mov    %rdi,%rdx
-  26:	48 c1 ea 03          	shr    $0x3,%rdx
-* 2a:	0f b6 14 02          	movzbl (%rdx,%rax,1),%edx <-- trapping instruction
-  2e:	48 89 f8             	mov    %rdi,%rax
-  31:	83 e0 07             	and    $0x7,%eax
-  34:	83 c0 03             	add    $0x3,%eax
-  37:	38 d0                	cmp    %dl,%al
-  39:	7c 08                	jl     0x43
-  3b:	84 d2                	test   %dl,%dl
-  3d:	0f                   	.byte 0xf
-  3e:	85 e2                	test   %esp,%edx
+-- 
+Regards,
 
-
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-For information about bisection process see: https://goo.gl/tpsmEJ#bisection
-syzbot can test patches for this issue, for details see:
-https://goo.gl/tpsmEJ#testing-patches
+Laurent Pinchart
