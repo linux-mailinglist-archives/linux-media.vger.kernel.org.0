@@ -2,71 +2,331 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3D9C1599D66
-	for <lists+linux-media@lfdr.de>; Fri, 19 Aug 2022 16:18:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E0383599E19
+	for <lists+linux-media@lfdr.de>; Fri, 19 Aug 2022 17:21:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349258AbiHSOQb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 19 Aug 2022 10:16:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39742 "EHLO
+        id S1349591AbiHSPOC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 19 Aug 2022 11:14:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57048 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1349301AbiHSOQa (ORCPT
+        with ESMTP id S1348395AbiHSPOB (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 19 Aug 2022 10:16:30 -0400
-Received: from mail-yw1-x1130.google.com (mail-yw1-x1130.google.com [IPv6:2607:f8b0:4864:20::1130])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B75EA061E
-        for <linux-media@vger.kernel.org>; Fri, 19 Aug 2022 07:16:29 -0700 (PDT)
-Received: by mail-yw1-x1130.google.com with SMTP id 00721157ae682-3321c2a8d4cso124788747b3.5
-        for <linux-media@vger.kernel.org>; Fri, 19 Aug 2022 07:16:29 -0700 (PDT)
+        Fri, 19 Aug 2022 11:14:01 -0400
+Received: from mail-qk1-x733.google.com (mail-qk1-x733.google.com [IPv6:2607:f8b0:4864:20::733])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 37FB73ED7C
+        for <linux-media@vger.kernel.org>; Fri, 19 Aug 2022 08:13:57 -0700 (PDT)
+Received: by mail-qk1-x733.google.com with SMTP id m5so3453561qkk.1
+        for <linux-media@vger.kernel.org>; Fri, 19 Aug 2022 08:13:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=to:subject:message-id:date:from:mime-version:from:to:cc;
-        bh=/KBW+BzX2vV1CEJH0iXO7Z03r0qxUoUkGVUKMOGqEQo=;
-        b=M2Gjp83YBe34ACXb/T0lSRHxCoEvH3+4U9ge3W8nUUaztKVooy9/j/HvSk+z3qOxoO
-         SV7JLoDFrAc+RIE3ZbjjbzjemBA7d3iF4syamG5XLn2us/IRUh5MbxtCLMb9aIZMVF0J
-         0ZRl7ZMhx+GGGxY1Q1QJsugrrQWNQdMNsZf6VI4gch/NJ66Jju1KfEId3IXwaTDe7BHw
-         E0G6EA27Xd1z8kxZDtuglN8nN0HGDSpkl+3xdp9JsvceZ5FnmMdfXC2HrcVHZCTjVgaT
-         /68WxH/IhFnx7UhAVjI6C5UQ5sDu7DMkvgQ2BmPWd6IKR7qL5xCILgFgfCJBmBp2dEDC
-         i6YQ==
+        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc;
+        bh=nr8rrMVNiWjbEMsQN+8tx5Aw+8LLAcLghfGpTh/DJgw=;
+        b=5nvP9M5Wh8IYYhZVJKc2Oil4ZK2LMQGsrk0Wh0yM2uyzwONdTlmAKiw0w/GNLRYA7M
+         OTM9tisDyr5QHkdmU0u5CzFlDjrkubLL3JVPTKXqBx/2uKS5fuMU68tpMFhmnsjPt3aq
+         +hd0BfqjCM6gxUO9J2JZRQOWSVxHB8IHiAhXVFtBQ8QA87JtpddvsED8dUlYzHy3Ia0A
+         MymngRgRf5NT8GpoX5PmEwaJ0A4XE4bypuod4FAfaAAHXhjmM8/V89k40+DrTN6QnhT4
+         IQWQEgVKCzz59J0tOKHgEdor7QYFEIzAYvt4z2zuq5b8sF2rNqBUQ2LtwhlNrLwr4nJf
+         VEag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
          :from:to:cc;
-        bh=/KBW+BzX2vV1CEJH0iXO7Z03r0qxUoUkGVUKMOGqEQo=;
-        b=utsgcejlgqO511iCHaZWauxBzSSUvmX0715jJGbolMEaaOka3DhtOXHbJ4CsDdO3Et
-         r7H0p5vnEGhMg7fqpmkb3RaLZpiIzmOjzWEA4Jb/FUUgvZMGoLTP0eDkdIb4MRsgAEcw
-         Qk4FbjWbz5nvaPkOTOBPk5GWhRmf//9m8vs45OPMctd2APbIwFa/uPK7HHyXCrx5ddpv
-         vOEc3hbrDXZGA/oE+91+TQXM/nyyvzb1zxY7/FjIybDB7H6F9/snwF2gmHKF3UbEb8k1
-         b0cV+/PDJ2LK0EUE3tQtCWfdeQ5R0SWsDqlZ8pmKWRIW1c3nXQTU047X+/Nbz167Y+gc
-         EG2A==
-X-Gm-Message-State: ACgBeo0kagH6tx7IMJux2t8CcLRSI1KQALcJlObs3hZni+lIP3BKUZwx
-        I0GnKBo9qc/3xqdzL73Jq/5KgzYwSaiD6b/SPZSuPJfltAQ=
-X-Google-Smtp-Source: AA6agR5UIwVjXlurrYKjL0tRXvghMen7iOpYLjkVqxIECL8V9HLXfo7SqfUW8yfynBmyNAdIFEAJJJMpo4BP9ZlCHNQ=
-X-Received: by 2002:a25:1857:0:b0:68f:104d:15eb with SMTP id
- 84-20020a251857000000b0068f104d15ebmr7886262yby.5.1660918588280; Fri, 19 Aug
- 2022 07:16:28 -0700 (PDT)
-MIME-Version: 1.0
-From:   linux guy <linuxguy123@gmail.com>
-Date:   Fri, 19 Aug 2022 08:16:17 -0600
-Message-ID: <CAJPRYe+h9s4_hrdTR6ezwCpZF5xMCAPrP8t828QeW6STT_ShxQ@mail.gmail.com>
-Subject: Mobius camera demux error in v4l2 ?
-To:     linux-media@vger.kernel.org
+        bh=nr8rrMVNiWjbEMsQN+8tx5Aw+8LLAcLghfGpTh/DJgw=;
+        b=0zhrnleTwcLIPQJf9Jrro5W5gzKSASMrFPJC7uPX2LvHlYjul9nRUrHD3rq3FV3upf
+         AIAKOcNbd2ac0xPBQVUOmknUd7QGRC5koYJhsnyJncXYwcWYi9SCi1hEZCxrgyel4qxN
+         iU4o7qYLDkiVSJaVqja0qXDpOZFk1vyK/5noHIPz8jWCBsmNnUjFxWFyHsI3f1f9pEeU
+         RHKyxMwbUmpBq35uq+ojnZI05YXWS2ptULT3G/Ry7vn8avcfZSY+jA8zehr3wZP2w3OU
+         9keRbbySn+CNk0+xJYqa1OBzimoGavRrajmjunOG7jQ48Er/SXi4qKOqXDGIdRV55Ypx
+         5GvA==
+X-Gm-Message-State: ACgBeo0gvC/V1UTZuhu1gpZ05446qTF9TqqBSTJaQHjl4KJMblmqJUbM
+        DahUXS65NYpZQalLvLj4pVzwsw==
+X-Google-Smtp-Source: AA6agR4eWfFB1Bowm5gYk7Q6tOCoL/CkVKWvfNXsd5Spa4qHQiSXId5pZrh+uvQgAccJn15Tb5qZUA==
+X-Received: by 2002:a05:620a:1289:b0:6ba:e98f:d2b0 with SMTP id w9-20020a05620a128900b006bae98fd2b0mr5628589qki.509.1660922036185;
+        Fri, 19 Aug 2022 08:13:56 -0700 (PDT)
+Received: from nicolas-tpx395.localdomain (192-222-136-102.qc.cable.ebox.net. [192.222.136.102])
+        by smtp.gmail.com with ESMTPSA id q4-20020ac87344000000b00342f960d26esm3208762qtp.15.2022.08.19.08.13.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 19 Aug 2022 08:13:55 -0700 (PDT)
+Message-ID: <09942d325e3b3c3149ebd9787794b065554f6064.camel@ndufresne.ca>
+Subject: Re: [EXT] Re: [PATCH 1/3] dma-buf: heaps: add Linaro secure dmabuf
+ heap support
+From:   Nicolas Dufresne <nicolas@ndufresne.ca>
+To:     Cyrille Fleury <cyrille.fleury@nxp.com>,
+        Olivier Masse <olivier.masse@nxp.com>,
+        "brian.starkey@arm.com" <brian.starkey@arm.com>
+Cc:     "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
+        "christian.koenig@amd.com" <christian.koenig@amd.com>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "nd@arm.com" <nd@arm.com>,
+        =?ISO-8859-1?Q?Cl=E9ment?= Faure <clement.faure@nxp.com>,
+        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+        "benjamin.gaignard@collabora.com" <benjamin.gaignard@collabora.com>
+Date:   Fri, 19 Aug 2022 11:13:53 -0400
+In-Reply-To: <AS8PR04MB75119C61E3222786A5BBF1D6886D9@AS8PR04MB7511.eurprd04.prod.outlook.com>
+References: <20220805135330.970-1-olivier.masse@nxp.com>
+         <20220805135330.970-2-olivier.masse@nxp.com>
+         <20220805154139.2qkqxwklufjpsfdx@000377403353>
+         <7e61668164f8bf02f6c4ee166e85abc42b5ee958.camel@nxp.com>
+         <20220812163922.v7sf3havi5dpgi5u@000377403353>
+         <de46324d8fa8fb6a8dda4641e531d30842410744.camel@nxp.com>
+         <eef2fc413695cb96a5071627bfe44830f80cfe9e.camel@ndufresne.ca>
+         <fb022db983aa44a5b1a8478d340198ecc52c4e11.camel@nxp.com>
+         <AS8PR04MB75119C61E3222786A5BBF1D6886D9@AS8PR04MB7511.eurprd04.prod.outlook.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.4 (3.44.4-1.fc36) 
+MIME-Version: 1.0
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi.
+Hi,
 
-I'm having an issue using my Mobius camera in Linux.   A summary of
-the issue can be found here:
-https://bugzilla.redhat.com/show_bug.cgi?id=2107763
+thanks for the additional information, we are starting to have a (still par=
+tial)
+overview of your team goals.
 
-Is this the appropriate place to discuss this problem ?
+Le jeudi 18 ao=C3=BBt 2022 =C3=A0 05:25 +0000, Cyrille Fleury a =C3=A9crit=
+=C2=A0:
+> Hi Nicolas, all,
+>=20
+>  The short reply:
+>       - For DRM, gstreamer, ffmeg, ... we don't use anymore NXP VPU
+> proprietary API=20
+>       - We need secure dma-buf heaps to replace secure ion heaps
+>=20
+>   The more detailed reply to address concerns below in the thread:
+>       - NXP doesn't design VPU, but rely on third party VPU hardware IP w=
+e
+> integrate in our soc.  NXP proprietary API are for legacy applications ou=
+r
+> customers did without using gstreamer or ffmpeg, but we are now relying o=
+n
+> V4L2 API for WPE/gstreamer, chromium/ffmpeg ...
+>       - Even with NXP legacy BSP, there was no API impact for WPE (or
+> chromium) due to NXP VPU API. We use WPE/gstreamer, then a gstreamer plug=
+ing
+> relying on NXP VPU proprietary API. But now we use V4L2. So we can forget=
+ NXP
+> VPU proprietary API, and I'm very happy with that.
+>       - We have moved from ion buffer to dma buff to manage secure memory
+> management. This is why we need secure dma-buf heaps, we protect with NXP
+> hardware as we did with ion heaps in the presentation Olivier shared.    =
+   =20
+>       - For secure video playback, the changes we need to do are in user =
+space
+> world (gstreamer, WPE, ...), to update our patches managing secure ion he=
+aps
+> by secure dma-buf heaps. But dma-buf is file descriptor based as ion heap=
+ are.
 
-Thanks
+Do you have some links to these changes to user-space code that demonstrate=
+ the
+usage of this new heap in its real context ?
+
+>       - What will change between platforms, is how memory is protected. T=
+his
+> is why we requested to have dtb in OPTEE for secure memory, to be able to
+> provide a common API to secure DDR memory, and  then to rely on proprieta=
+ry
+> code in OPTEE to secure it.
+>       - We don't have a display controller or VPU decoder running in TEE.=
+ They
+> remain under the full control of Linux/REE Word. If Linux/REE ask somethi=
+ng
+> breaking Widevine/PlayReady security rules, for example decode secure mem=
+ory
+> to non-secure memory, read from secure memory will return 0, write to sec=
+ure
+> memory will be ignored. Same with keys, certificates ...
+
+Can you explain how you would manage to make VP9 stateless decoding work ? =
+On
+IMX8MQ you have a chip that will produce a feedback binary, which contains =
+the
+probability data. The mainline driver will merge the forward probability to
+prepare the probability for the next decode.
+
+This basically means at least 1 output of the decoder needs to be non-secur=
+e
+(for CPU read-back). That breaks the notion of secure memory domain, which =
+is
+global to the HW. One could think you could just ask the TEE to copy it bac=
+k for
+you, but to do that safely, the TEE would need to control the CODEC program=
+ming,
+hence have a CODEC driver in the secure OS.
+
+I'm not familiar with it, but may that have impact on HDMI receivers, which=
+ may
+need some buffers for CPU usage (perhaps HDR metadata, EDID, etc.).
+
+>       - i.MX8 socs have a stateless VPU and there is no VPU firmware. i.M=
+X9
+> socs have a stateful VPU with firmware. In secure memory context, with se=
+cure
+> memory, at software level, stateful VPU are even more simple to manage ->=
+=20
+> less read/write operations performed by Linux world to parse the stream, =
+so
+> less patch to be done in the video framework. But for memory management,
+> stateful/stateless, same concern: we  need  to provide support of secure =
+dma
+> heaps to Linux, to allocate secure memory for the VPU and the display
+> controller, so it is just a different dma-buf heaps, so a different file
+> descriptor.
+
+i.MX8 boards may have stateless or stateful CODEC (Hantro chips are used in
+stateless fashion, while Amphion chips are driven by a stateful firmware). =
+I
+would have hoped NXP folks would know that, as this is what their users hav=
+e to
+deal with on day-to-day.
+
+May I interpret this as NXP is giving up on i.MX8 memory protection (or per=
+haps
+your team is only caring about i.MX9 ?), and this solution is on usable for
+stateful (less flexible) CODECs ?
+
+>       - i.MX9 VPU will support "Virtual Machine VPU". Till now I don't se=
+e why
+> it will not work. I'm not an expert in VM, but from what I understood fro=
+m my
+> discussions with NXP VPU team integrating the new VPU hardware IP, from
+> outside world, VPU is seen as multiple VPUs, with multiple register banks=
+. So
+> virtualized OS will continue to read/write registers as today, and at sof=
+tware
+> level, secure memory is as non-secure memory, I mean at this end, it is
+> physical DDR memory. Of course hardware shall be able to read/write it, b=
+ut
+> this is not software related, this is hardware concern. And even without =
+VM,
+> we target to dedicate one virtual VPU to DRM,  so one register bank, to s=
+etup
+> dedicated security rules for DRM.
+
+What you wrote here is about as much as I heard about the new security mode=
+l
+coming in newer chips (this is not NXP specific). I think in order to push
+forward designs and APIs, it would be logical to first present about these
+mechanism, now they work and how they affect drivers and user space. Its no=
+t
+clear how this mechanism inforces usage of non-mappable to kernel mmu memor=
+y.
+Providing Open Source kernel and userland to demonstrate and use this featu=
+re is
+also very helpful for reviewers and adopters, but also a requirement in the=
+ drm
+tree.
+
+regards,
+Nicolas
+
+>      =20
+>   I'm on vacation until end of this week. I can setup a call next week to=
+ discuss this topic if more clarifications are needed.
+>=20
+> Regards.
+>=20
+> -----Original Message-----
+> From: Olivier Masse <olivier.masse@nxp.com>=20
+> Sent: Wednesday, August 17, 2022 4:52 PM
+> To: nicolas@ndufresne.ca; Cyrille Fleury <cyrille.fleury@nxp.com>; brian.=
+starkey@arm.com
+> Cc: sumit.semwal@linaro.org; linux-kernel@vger.kernel.org; linaro-mm-sig@=
+lists.linaro.org; christian.koenig@amd.com; linux-media@vger.kernel.org; nd=
+@arm.com; Cl=C3=A9ment Faure <clement.faure@nxp.com>; dri-devel@lists.freed=
+esktop.org; benjamin.gaignard@collabora.com
+> Subject: Re: [EXT] Re: [PATCH 1/3] dma-buf: heaps: add Linaro secure dmab=
+uf heap support
+>=20
+> +Cyrille
+>=20
+> Hi Nicolas,
+>=20
+> On mer., 2022-08-17 at 10:29 -0400, Nicolas Dufresne wrote:
+> > Caution: EXT Email
+> >=20
+> > Hi Folks,
+> >=20
+> > Le mardi 16 ao=C3=BBt 2022 =C3=A0 11:20 +0000, Olivier Masse a =C3=A9cr=
+it :
+> > > Hi Brian,
+> > >=20
+> > >=20
+> > > On ven., 2022-08-12 at 17:39 +0100, Brian Starkey wrote:
+> > > > Caution: EXT Ema
+> > > >=20
+> >=20
+> > [...]
+> >=20
+> > > >=20
+> > > > Interesting, that's not how the devices I've worked on operated.
+> > > >=20
+> > > > Are you saying that you have to have a display controller driver=
+=20
+> > > > running in the TEE to display one of these buffers?
+> > >=20
+> > > In fact the display controller is managing 3 plans : UI, PiP and=20
+> > > video. The video plan is protected in secure as you can see on slide
+> > > 11:
+> > >=20
+> https://eur01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fstati=
+c.linaro.org%2Fconnect%2Fsan19%2Fpresentations%2Fsan19-107.pdf&amp;data=3D0=
+5%7C01%7Colivier.masse%40nxp.com%7Ce0e00be789a54dff8e5208da805ce2f6%7C686ea=
+1d3bc2b4c6fa92cd99c5c301635%7C0%7C1%7C637963433695707516%7CUnknown%7CTWFpbG=
+Zsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C=
+3000%7C%7C%7C&amp;sdata=3DGHjEfbgqRkfHK16oyNaYJob4LRVqvoffRElKR%2F7Rtes%3D&=
+amp;reserved=3D0
+> >=20
+> >=20
+> >=20
+> > just wanted to highlight that all the WPE/GStreamer bit in this=20
+> > presentation is based on NXP Vendor Media CODEC design, which rely on=
+=20
+> > their own i.MX VPU API. I don't see any effort to extend this to a=20
+> > wider audience. It is not explaining how this can work with a mainline=
+=20
+> > kernel with v4l2 stateful or stateless drivers and generic=20
+> > GStreamer/FFMPEG/Chromium support.
+>=20
+> Maybe Cyrille can explain what it is currently done at NXP level regardin=
+g the integration of v4l2 with NXP VPU.
+>=20
+> >=20
+> > I'm raising this, since I'm worried that no one cares of solving that=
+=20
+> > high level problem from a generic point of view. In that context, any=
+=20
+> > additions to the mainline Linux kernel can only be flawed and will=20
+> > only serves specific vendors and not the larger audience.
+> >=20
+> > Another aspect, is that this design might be bound to a specific (NXP
+> > ?)
+> > security design. I've learn recently that newer HW is going to use=20
+> > multiple level of MMU (like virtual machines do) to protect the memory=
+=20
+> > rather then marking pages. Will all this work for that too ?
+>=20
+> our fire-walling hardware is protecting memory behind the MMU and so rely=
+ on physical memory layout.
+> this work is only relying on a reserved physical memory.
+>=20
+> Regards,
+> Olivier
+>=20
+> >=20
+> > regards,
+> > Nicolas
+
