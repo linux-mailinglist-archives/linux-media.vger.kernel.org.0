@@ -2,105 +2,106 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3E93359B658
-	for <lists+linux-media@lfdr.de>; Sun, 21 Aug 2022 22:40:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 924B259B682
+	for <lists+linux-media@lfdr.de>; Sun, 21 Aug 2022 23:51:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230416AbiHUUkc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 21 Aug 2022 16:40:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58076 "EHLO
+        id S231557AbiHUVuh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 21 Aug 2022 17:50:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40268 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231429AbiHUUka (ORCPT
+        with ESMTP id S230281AbiHUVug (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 21 Aug 2022 16:40:30 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AE0FB20BD8;
-        Sun, 21 Aug 2022 13:40:29 -0700 (PDT)
-Received: from [10.3.2.13] (zone.collabora.co.uk [167.235.23.81])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        Sun, 21 Aug 2022 17:50:36 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 88B2E17E27
+        for <linux-media@vger.kernel.org>; Sun, 21 Aug 2022 14:50:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1661118633;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=EVWt5YPv1Y6lfXEBnEhRkbFkVD05nIjy2jLaiBmAqYM=;
+        b=f3CJiMfJ3nEZpv6GAy0rXLpym6qFKe1t9nQC9vOp1ADRbTRhmBhPtSESe3Mm5dePcIQPSw
+        gXcQn1e1L5PMXognesMosZD1z//HBgDbI4zQxTqmTN7AcuY29MRj9ueXXw80qLQANxHS15
+        ivHMDh3TqEwSq5IgjY9pkN7vBpru0Wk=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-606-s0xaAefdPGm0dI0L4TXwfQ-1; Sun, 21 Aug 2022 17:50:30 -0400
+X-MC-Unique: s0xaAefdPGm0dI0L4TXwfQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com [10.11.54.1])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        (Authenticated sender: dmitry.osipenko)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 9DE24660036A;
-        Sun, 21 Aug 2022 21:40:26 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1661114427;
-        bh=Z2il1kngXjDQKOBuq7K0dhVJT9L7d/e1zgH7CmQvLiU=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=k71g0emvhmeKjwzAJT0z95v48M3tVfuLio8KPqccCNWQquJrRIab1N9SHrGBlm89L
-         K7R86aNuryNXJhbfMdnkikx8maiRNlGhy7FdP1zilan2I+MohRvMctXrlu8KBho13d
-         CpvWSoJyUzlIdJNoliIhJYgcsFkCRzxdjizaAu4nIgurIpG+kz2AQjDVrXmxmDzr8J
-         LGmxgeNrFqS6oKTPOCfvd2HhBy2biikeWeJ9U3LFBQBAYDsE3y/6ZM5yeFbyGSSBup
-         xRj1ETKHiR1uDUYVMK0VRrlzLGXonvsP/PXgT2nIr8VCm7QNW6AJpQ9uFJ/qUpXO25
-         gtmh0j3uElVEg==
-Message-ID: <6a8f2555-1bd4-ac81-390e-b597e3c886f6@collabora.com>
-Date:   Sun, 21 Aug 2022 23:40:21 +0300
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 99F25811E76;
+        Sun, 21 Aug 2022 21:50:29 +0000 (UTC)
+Received: from shalem.redhat.com (unknown [10.39.192.47])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id DC330404C6F2;
+        Sun, 21 Aug 2022 21:50:27 +0000 (UTC)
+From:   Hans de Goede <hdegoede@redhat.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     Hans de Goede <hdegoede@redhat.com>,
+        Tsuchiya Yuto <kitakar@gmail.com>,
+        Andy Shevchenko <andy@kernel.org>,
+        Yury Luneff <yury.lunev@gmail.com>,
+        Nable <nable.maininbox@googlemail.com>,
+        andrey.i.trufanov@gmail.com, Fabio Aiuto <fabioaiuto83@gmail.com>,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Subject: [PATCH 01/13] media: atomisp_gmin_platform: Switch to use acpi_evaluate_dsm_typed()
+Date:   Sun, 21 Aug 2022 23:50:15 +0200
+Message-Id: <20220821215027.461344-1-hdegoede@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [PATCH v1 2/3] media: cedrus: Set the platform driver data
- earlier
-Content-Language: en-US
-To:     =?UTF-8?Q?Jernej_=c5=a0krabec?= <jernej.skrabec@gmail.com>,
-        linux-media@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Samuel Holland <samuel@sholland.org>,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Cc:     kernel@collabora.com, stable@vger.kernel.org,
-        linux-staging@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-        linux-kernel@vger.kernel.org
-References: <20220818203308.439043-1-nicolas.dufresne@collabora.com>
- <4418189.LvFx2qVVIh@jernej-laptop>
- <47ce07adc73887b5afaf9815a78b793d0e9a6b54.camel@collabora.com>
- <4733096.GXAFRqVoOG@jernej-laptop>
-From:   Dmitry Osipenko <dmitry.osipenko@collabora.com>
-In-Reply-To: <4733096.GXAFRqVoOG@jernej-laptop>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 8/20/22 11:25, Jernej Škrabec wrote:
-> Dne petek, 19. avgust 2022 ob 17:37:20 CEST je Nicolas Dufresne napisal(a):
->> Le vendredi 19 août 2022 à 06:17 +0200, Jernej Škrabec a écrit :
->>> Dne četrtek, 18. avgust 2022 ob 22:33:07 CEST je Nicolas Dufresne 
-> napisal(a):
->>>> From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
->>>>
->>>> The cedrus_hw_resume() crashes with NULL deference on driver probe if
->>>> runtime PM is disabled because it uses platform data that hasn't been
->>>> set up yet. Fix this by setting the platform data earlier during probe.
->>>
->>> Does it even work without PM? Maybe it would be better if Cedrus would
->>> select PM in Kconfig.
->>
->> I cannot comment myself on this, but it does not seem to invalidate this
->> Dmitry's fix.
-> 
-> If NULL pointer dereference happens only when PM is disabled, then it does. I 
-> have PM always enabled and I never experienced above issue.
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 
-Originally this fix was needed when I changed cedrus_hw_probe() to do
-the rpm-resume while was debugging the hang issue and then also noticed
-that the !PM should be broken. It's a good common practice for all
-drivers to have the drv data set early to avoid such problems, hence it
-won't hurt to make this change anyways.
+The acpi_evaluate_dsm_typed() provides a way to check the type of the
+object evaluated by _DSM call. Use it instead of open coded variant.
 
-In practice nobody disables PM other than for debugging purposes and !PM
-handling is often broken in drivers. I assume that it might be even
-better to enable PM for all Allwiner SoCs and remove !PM handling from
-all the affected drivers, like it was done for Tegra some time ago.
+Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Link: https://lore.kernel.org/r/20220730155905.90091-1-andriy.shevchenko@linux.intel.com
+Reviewed-by: Hans de Goede <hdegoede@redhat.com>
+Tested-by: Hans de Goede <hdegoede@redhat.com>
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+---
+ drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c | 8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
 
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c b/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
+index 133d7d56fff2..648469de2cdc 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
+@@ -1250,16 +1250,14 @@ static int gmin_get_config_dsm_var(struct device *dev,
+ 	if (!strcmp(var, "CamClk"))
+ 		return -EINVAL;
+ 
+-	obj = acpi_evaluate_dsm(handle, &atomisp_dsm_guid, 0, 0, NULL);
++	/* Return on unexpected object type */
++	obj = acpi_evaluate_dsm_typed(handle, &atomisp_dsm_guid, 0, 0, NULL,
++				      ACPI_TYPE_PACKAGE);
+ 	if (!obj) {
+ 		dev_info_once(dev, "Didn't find ACPI _DSM table.\n");
+ 		return -EINVAL;
+ 	}
+ 
+-	/* Return on unexpected object type */
+-	if (obj->type != ACPI_TYPE_PACKAGE)
+-		return -EINVAL;
+-
+ #if 0 /* Just for debugging purposes */
+ 	for (i = 0; i < obj->package.count; i++) {
+ 		union acpi_object *cur = &obj->package.elements[i];
 -- 
-Best regards,
-Dmitry
+2.37.2
+
