@@ -2,42 +2,42 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B179A59B67F
-	for <lists+linux-media@lfdr.de>; Sun, 21 Aug 2022 23:51:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D025459B67C
+	for <lists+linux-media@lfdr.de>; Sun, 21 Aug 2022 23:51:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231731AbiHUVup (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 21 Aug 2022 17:50:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40318 "EHLO
+        id S231721AbiHUVun (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 21 Aug 2022 17:50:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40294 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231637AbiHUVuo (ORCPT
+        with ESMTP id S231628AbiHUVul (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 21 Aug 2022 17:50:44 -0400
+        Sun, 21 Aug 2022 17:50:41 -0400
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0F9B317E27
-        for <linux-media@vger.kernel.org>; Sun, 21 Aug 2022 14:50:43 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 035B817E27
+        for <linux-media@vger.kernel.org>; Sun, 21 Aug 2022 14:50:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1661118643;
+        s=mimecast20190719; t=1661118640;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=5VS9amO72hF1V9dJNX52MSr0HM+WL3/Syrhp9RikJrk=;
-        b=gXNYLu5bNzSiiS9OLHtTu1rgcRRMWb5H/6pzJNpYaBR9nuaxuErxTJWOfrI674sNCPfT9j
-        7pDPCXRiOxukcN1obSNbiy4tmqpSpNRQSxc6Jj7TS1lmSr9dhbOrCnDCGMrhnm3cjZrUT4
-        9xNyuOVG34bF6nPcfVricmgBl9QdTvo=
+        bh=S8tIB/QPRx3UpD47H64HSc2vCo7fpNfJFxYtsEVz1VA=;
+        b=Sptqo0+mg2OyoPM3neEw4Za1PQHrZtI0iz09PMWoJbX3WIlsJIGPMD/Ig+f42Qbw5AgaPT
+        2GWHYUh8iUUhoWfxxPCcsNPkw4jNl6jsqtBNsp3b4QQhwvpkoHjwAloJtviz1ef9ETeDOx
+        C9oMMx/d+ZpPmiW9q32oP4e8OiBCEAU=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-624-rZ6z3ocwNO-jWqrCl4VREw-1; Sun, 21 Aug 2022 17:50:35 -0400
-X-MC-Unique: rZ6z3ocwNO-jWqrCl4VREw-1
+ us-mta-664-wBW07bxSNIGiPrRJt-Idcw-1; Sun, 21 Aug 2022 17:50:36 -0400
+X-MC-Unique: wBW07bxSNIGiPrRJt-Idcw-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com [10.11.54.1])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AF1DE804196;
-        Sun, 21 Aug 2022 21:50:34 +0000 (UTC)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6485B85A581;
+        Sun, 21 Aug 2022 21:50:36 +0000 (UTC)
 Received: from shalem.redhat.com (unknown [10.39.192.47])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 3B1AF404C6F2;
-        Sun, 21 Aug 2022 21:50:33 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id E495240CF8EB;
+        Sun, 21 Aug 2022 21:50:34 +0000 (UTC)
 From:   Hans de Goede <hdegoede@redhat.com>
 To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Sakari Ailus <sakari.ailus@linux.intel.com>
@@ -48,9 +48,9 @@ Cc:     Hans de Goede <hdegoede@redhat.com>,
         Nable <nable.maininbox@googlemail.com>,
         andrey.i.trufanov@gmail.com, Fabio Aiuto <fabioaiuto83@gmail.com>,
         linux-media@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: [PATCH 04/13] media: atomisp-ov2680: Improve ov2680_set_fmt() error handling
-Date:   Sun, 21 Aug 2022 23:50:18 +0200
-Message-Id: <20220821215027.461344-4-hdegoede@redhat.com>
+Subject: [PATCH 05/13] media: atomisp-notes: Add info about sensors v4l2_get_subdev_hostdata() use
+Date:   Sun, 21 Aug 2022 23:50:19 +0200
+Message-Id: <20220821215027.461344-5-hdegoede@redhat.com>
 In-Reply-To: <20220821215027.461344-1-hdegoede@redhat.com>
 References: <20220821215027.461344-1-hdegoede@redhat.com>
 MIME-Version: 1.0
@@ -66,43 +66,40 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Exit with an error on any i2c-write errors, rather then only
-exiting with an error when ov2680_get_intg_factor() fails.
+Add info about sensors v4l2_get_subdev_hostdata() use, to notes.txt.
 
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- drivers/staging/media/atomisp/i2c/atomisp-ov2680.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+ drivers/staging/media/atomisp/notes.txt | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
 
-diff --git a/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c b/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c
-index 9ac469878eea..5ba4c52a06a2 100644
---- a/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c
-+++ b/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c
-@@ -864,9 +864,11 @@ static int ov2680_set_fmt(struct v4l2_subdev *sd,
- 	/* s_power has not been called yet for std v4l2 clients (camorama) */
- 	power_up(sd);
- 	ret = ov2680_write_reg_array(client, dev->res->regs);
--	if (ret)
-+	if (ret) {
- 		dev_err(&client->dev,
- 			"ov2680 write resolution register err: %d\n", ret);
-+		goto err;
-+	}
- 
- 	vts = dev->res->lines_per_frame;
- 
-@@ -875,8 +877,10 @@ static int ov2680_set_fmt(struct v4l2_subdev *sd,
- 		vts = dev->exposure + OV2680_INTEGRATION_TIME_MARGIN;
- 
- 	ret = ov2680_write_reg(client, 2, OV2680_TIMING_VTS_H, vts);
--	if (ret)
-+	if (ret) {
- 		dev_err(&client->dev, "ov2680 write vts err: %d\n", ret);
-+		goto err;
-+	}
- 
- 	ret = ov2680_get_intg_factor(client, ov2680_info, res);
- 	if (ret) {
+diff --git a/drivers/staging/media/atomisp/notes.txt b/drivers/staging/media/atomisp/notes.txt
+index d128b792e05f..d3cf6ed547ae 100644
+--- a/drivers/staging/media/atomisp/notes.txt
++++ b/drivers/staging/media/atomisp/notes.txt
+@@ -28,3 +28,22 @@ Since getting a picture requires multiple processing steps,
+ this means that unlike in fixed pipelines the soft pipelines
+ on the ISP can do multiple processing steps in a single pipeline
+ element (in a single binary).
++
++###
++
++The sensor drivers use of v4l2_get_subdev_hostdata(), which returns
++a camera_mipi_info struct. This struct is allocated/managed by
++the core atomisp code. The most important parts of the struct
++are filled by the atomisp core itself, like e.g. the port number.
++
++The sensor drivers on a set_fmt call do fill in camera_mipi_info.data
++which is a atomisp_sensor_mode_data struct. This gets filled from
++a function called <sensor_name>_get_intg_factor(). This struct is not
++used by the atomisp code at all. It is returned to userspace by
++a ATOMISP_IOC_G_SENSOR_MODE_DATA and the Android userspace does use this.
++
++Other members of camera_mipi_info which are set by some drivers are:
++-metadata_width, metadata_height, metadata_effective_width, set by
++ the ov5693 driver (and used by the atomisp core)
++-raw_bayer_order, adjusted by the ov2680 driver when flipping since
++ flipping can change the bayer order
 -- 
 2.37.2
 
