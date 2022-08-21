@@ -2,42 +2,42 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BB7DF59B686
-	for <lists+linux-media@lfdr.de>; Sun, 21 Aug 2022 23:51:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 55B7B59B688
+	for <lists+linux-media@lfdr.de>; Sun, 21 Aug 2022 23:51:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231758AbiHUVu5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 21 Aug 2022 17:50:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40442 "EHLO
+        id S231785AbiHUVvB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 21 Aug 2022 17:51:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40488 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230456AbiHUVuz (ORCPT
+        with ESMTP id S231822AbiHUVvA (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 21 Aug 2022 17:50:55 -0400
+        Sun, 21 Aug 2022 17:51:00 -0400
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA341205E5
-        for <linux-media@vger.kernel.org>; Sun, 21 Aug 2022 14:50:54 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A18E205E4
+        for <linux-media@vger.kernel.org>; Sun, 21 Aug 2022 14:50:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1661118653;
+        s=mimecast20190719; t=1661118656;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=VKGA3j/T+5+Fjr7a0xK8xS+vF6ZOCeAocyE/OD99v+E=;
-        b=EFulpdw+4INPRr20FmKOM6/PBU6aM+fH6oqhYdTpM7F3438HE9FhLstMe3UEK4Fylvxobz
-        rdKUBpIgixHtOwWOlLY+lWxBQjeUYYbryYYm5XOIOPmTgbJN8Ebgt1BQDbxNQsKnGOCpuT
-        GodQrYh+sIi/LF8vyPwYOBmXeTPTjsM=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+        bh=t7dC7NDfGX7Y/cZVoS4u5giB9bv/f9bDCicbc12GB1M=;
+        b=Bl8GWtgX0E+OHO1z91CRR43zrsofXtaNoK2YBjCEpVd/ZswxuAZZLxczbdeO7g9uNJ2D5C
+        hG2wU3F9DBRNPzTsyYINPIs5GDMZvlC8XoykdfC1EDH4a48NI6R+liyCEoS03COyyfWZ6e
+        I95/W2T1mouo/cWzSo+B3+0Zjocs70Y=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-58-hF4Ymky5N4yz6mFNDtVGUg-1; Sun, 21 Aug 2022 17:50:48 -0400
-X-MC-Unique: hF4Ymky5N4yz6mFNDtVGUg-1
+ us-mta-290-xX9kyP1fOyiPVQjCSVO4iw-1; Sun, 21 Aug 2022 17:50:50 -0400
+X-MC-Unique: xX9kyP1fOyiPVQjCSVO4iw-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com [10.11.54.1])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 321B03C01E0D;
-        Sun, 21 Aug 2022 21:50:48 +0000 (UTC)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DE9F6185A79C;
+        Sun, 21 Aug 2022 21:50:49 +0000 (UTC)
 Received: from shalem.redhat.com (unknown [10.39.192.47])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id B53A9404C6F2;
-        Sun, 21 Aug 2022 21:50:46 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 6746140CF8EB;
+        Sun, 21 Aug 2022 21:50:48 +0000 (UTC)
 From:   Hans de Goede <hdegoede@redhat.com>
 To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Sakari Ailus <sakari.ailus@linux.intel.com>
@@ -48,9 +48,9 @@ Cc:     Hans de Goede <hdegoede@redhat.com>,
         Nable <nable.maininbox@googlemail.com>,
         andrey.i.trufanov@gmail.com, Fabio Aiuto <fabioaiuto83@gmail.com>,
         linux-media@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: [PATCH 12/13] media: atomisp: hmm_bo: Drop PFN code path from alloc_user_pages()
-Date:   Sun, 21 Aug 2022 23:50:26 +0200
-Message-Id: <20220821215027.461344-12-hdegoede@redhat.com>
+Subject: [PATCH 13/13] media: atomisp: Ensure that USERPTR pointers are page aligned
+Date:   Sun, 21 Aug 2022 23:50:27 +0200
+Message-Id: <20220821215027.461344-13-hdegoede@redhat.com>
 In-Reply-To: <20220821215027.461344-1-hdegoede@redhat.com>
 References: <20220821215027.461344-1-hdegoede@redhat.com>
 MIME-Version: 1.0
@@ -66,113 +66,35 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-alloc_user_pages() is only ever called on qbuf for USERPTR buffers which
-always hits the get_user_pages_fast() path, so the pin_user_pages() path
-can be removed.
+The atomisp code needs USERPTR pointers to be page aligned,
+otherwise bad things (scribbling over other parts of the
+process' RAM) happen.
 
-Getting the vma then also is no longer necessary since that is only
-done to determine which path to use.
-
-And this also removes the only users of the mem_type struct hmm_bo member,
-so remove that as well.
+Add a check to ensure this and exit VIDIOC_QBUF calls with
+unaligned pointers with -EINVAL.
 
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- .../media/atomisp/include/hmm/hmm_bo.h        |  3 --
- .../staging/media/atomisp/pci/hmm/hmm_bo.c    | 48 ++++---------------
- 2 files changed, 9 insertions(+), 42 deletions(-)
+ drivers/staging/media/atomisp/pci/atomisp_ioctl.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/drivers/staging/media/atomisp/include/hmm/hmm_bo.h b/drivers/staging/media/atomisp/include/hmm/hmm_bo.h
-index 901dc37c80bc..c5cbae1d9cf9 100644
---- a/drivers/staging/media/atomisp/include/hmm/hmm_bo.h
-+++ b/drivers/staging/media/atomisp/include/hmm/hmm_bo.h
-@@ -86,8 +86,6 @@ enum hmm_bo_type {
- #define	HMM_BO_VMAPED		0x10
- #define	HMM_BO_VMAPED_CACHED	0x20
- #define	HMM_BO_ACTIVE		0x1000
--#define	HMM_BO_MEM_TYPE_USER     0x1
--#define	HMM_BO_MEM_TYPE_PFN      0x2
- 
- struct hmm_bo_device {
- 	struct isp_mmu		mmu;
-@@ -123,7 +121,6 @@ struct hmm_buffer_object {
- 	enum hmm_bo_type	type;
- 	int		mmap_count;
- 	int		status;
--	int		mem_type;
- 	void		*vmap_addr; /* kernel virtual address by vmap */
- 
- 	struct rb_node	node;
-diff --git a/drivers/staging/media/atomisp/pci/hmm/hmm_bo.c b/drivers/staging/media/atomisp/pci/hmm/hmm_bo.c
-index d7f42a4ce40a..c1d5490742be 100644
---- a/drivers/staging/media/atomisp/pci/hmm/hmm_bo.c
-+++ b/drivers/staging/media/atomisp/pci/hmm/hmm_bo.c
-@@ -656,12 +656,8 @@ static void free_user_pages(struct hmm_buffer_object *bo,
- {
- 	int i;
- 
--	if (bo->mem_type == HMM_BO_MEM_TYPE_PFN) {
--		unpin_user_pages(bo->pages, page_nr);
--	} else {
--		for (i = 0; i < page_nr; i++)
--			put_page(bo->pages[i]);
--	}
-+	for (i = 0; i < page_nr; i++)
-+		put_page(bo->pages[i]);
- }
- 
- /*
-@@ -671,43 +667,17 @@ static int alloc_user_pages(struct hmm_buffer_object *bo,
- 			    const void __user *userptr)
- {
- 	int page_nr;
--	struct vm_area_struct *vma;
--
--	mutex_unlock(&bo->mutex);
--	mmap_read_lock(current->mm);
--	vma = find_vma(current->mm, (unsigned long)userptr);
--	mmap_read_unlock(current->mm);
--	if (!vma) {
--		dev_err(atomisp_dev, "find_vma failed\n");
--		mutex_lock(&bo->mutex);
--		return -EFAULT;
--	}
--	mutex_lock(&bo->mutex);
--	/*
--	 * Handle frame buffer allocated in other kerenl space driver
--	 * and map to user space
--	 */
- 
- 	userptr = untagged_addr(userptr);
- 
--	if (vma->vm_flags & (VM_IO | VM_PFNMAP)) {
--		page_nr = pin_user_pages((unsigned long)userptr, bo->pgnr,
--					 FOLL_LONGTERM | FOLL_WRITE,
--					 bo->pages, NULL);
--		bo->mem_type = HMM_BO_MEM_TYPE_PFN;
--	} else {
--		/*Handle frame buffer allocated in user space*/
--		mutex_unlock(&bo->mutex);
--		page_nr = get_user_pages_fast((unsigned long)userptr,
--					      (int)(bo->pgnr), 1, bo->pages);
--		mutex_lock(&bo->mutex);
--		bo->mem_type = HMM_BO_MEM_TYPE_USER;
--	}
-+	/*Handle frame buffer allocated in user space*/
-+	mutex_unlock(&bo->mutex);
-+	page_nr = get_user_pages_fast((unsigned long)userptr,
-+				      (int)(bo->pgnr), 1, bo->pages);
-+	mutex_lock(&bo->mutex);
- 
--	dev_dbg(atomisp_dev, "%s: %d %s pages were allocated as 0x%08x\n",
--		__func__,
--		bo->pgnr,
--		bo->mem_type == HMM_BO_MEM_TYPE_USER ? "user" : "pfn", page_nr);
-+	dev_dbg(atomisp_dev, "%s: %d user pages were allocated as 0x%08x\n",
-+		__func__, bo->pgnr, page_nr);
- 
- 	/* can be written by caller, not forced */
- 	if (page_nr != bo->pgnr) {
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
+index 7ecee39ef5a4..c8c6f9f8f0b8 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
+@@ -1345,6 +1345,12 @@ static int atomisp_qbuf(struct file *file, void *fh, struct v4l2_buffer *buf)
+ 	 * address and reprograme out page table properly
+ 	 */
+ 	if (buf->memory == V4L2_MEMORY_USERPTR) {
++		if (buf->m.userptr & ~PAGE_MASK) {
++			dev_err(isp->dev, "Error userptr is not page aligned.\n");
++			ret = -EINVAL;
++			goto error;
++		}
++
+ 		vb = pipe->capq.bufs[buf->index];
+ 		vm_mem = vb->priv;
+ 		if (!vm_mem) {
 -- 
 2.37.2
 
