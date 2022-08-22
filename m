@@ -2,90 +2,136 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1EC9859CA5D
-	for <lists+linux-media@lfdr.de>; Mon, 22 Aug 2022 22:50:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3FC3159CA76
+	for <lists+linux-media@lfdr.de>; Mon, 22 Aug 2022 23:03:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237572AbiHVUuy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 22 Aug 2022 16:50:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47556 "EHLO
+        id S237764AbiHVVDX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 22 Aug 2022 17:03:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57706 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234517AbiHVUux (ORCPT
+        with ESMTP id S237202AbiHVVDT (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 22 Aug 2022 16:50:53 -0400
-Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6896C50040;
-        Mon, 22 Aug 2022 13:50:51 -0700 (PDT)
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id A3F7E1C0005; Mon, 22 Aug 2022 22:50:49 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
-        t=1661201449;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=fZ/pgSVExMd0u5k55JxcceZ7T5/ac1VGYLI2Pl48nAw=;
-        b=BjtHnrzjejjTBlfHYD7qko+43NbC0qN1C1K4S0mY7A24qVUxhC1tCg0mIqxqpEUrnPgVla
-        srBaus38/LBTcnsHCLDzt12gsBpbBgyexLT6miJ+oRzX/rw1I+IX/k2JaQXXJYjwcuxFqI
-        v7Jn4drq8K1FyUHs5S63KguG+ySahcg=
-Date:   Mon, 22 Aug 2022 22:50:49 +0200
-From:   Pavel Machek <pavel@ucw.cz>
-To:     =?utf-8?Q?Ond=C5=99ej?= Jirman <megous@megous.com>,
-        icenowy@aosc.xyz, martijn@brixit.nl,
-        kernel list <linux-kernel@vger.kernel.org>,
-        phone-devel@vger.kernel.org, mchehab@kernel.org,
-        linux-media@vger.kernel.org
-Subject: Re: gc2145 camera driver (front camera on PinePhone)
-Message-ID: <20220822205049.GA18272@duo.ucw.cz>
-References: <20220822180531.GA27226@duo.ucw.cz>
- <20220822182058.xnpwfdjm7zmoid7y@core>
+        Mon, 22 Aug 2022 17:03:19 -0400
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A7AF1160
+        for <linux-media@vger.kernel.org>; Mon, 22 Aug 2022 14:03:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1661202198; x=1692738198;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=HPLfb0ApsapKmQ8tvYj8MITizmFY4WByJqcmvgwMu80=;
+  b=lOnMrcuJWhUWx9Gj7zzT8LeQTkUCTp8Lp0pENzssQ2KyHSOH01vRyoFx
+   o7gbZoUv4VY5RiOSImM0zQaCWxBnrn2lWiepyDPBc6GSQoV34n2/OGcHB
+   xFr8Bj7+TtTjXNUB/6/EzcCMr0UResTw2tuk+MkEkOCO9GLgpGNZSD4hu
+   jLrcklYgniYTVBGuXlFFts3mFeGAlkL/J2i22laBeoGvKFgXfhTtjkvpU
+   WzvSLfRljh8DIHtrjyzCHCfkY+TPwK3fGNOnscKttFxbLkmH/fr6yriIk
+   7MCySAd4l31cCPQxLwgBztxYSYiMli/m317fndAs8R2LtX1EDTf9AxLkp
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10447"; a="294804111"
+X-IronPort-AV: E=Sophos;i="5.93,255,1654585200"; 
+   d="scan'208";a="294804111"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Aug 2022 14:03:17 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,255,1654585200"; 
+   d="scan'208";a="698428400"
+Received: from lkp-server01.sh.intel.com (HELO dd9b29378baa) ([10.239.97.150])
+  by FMSMGA003.fm.intel.com with ESMTP; 22 Aug 2022 14:03:08 -0700
+Received: from kbuild by dd9b29378baa with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1oQEZf-0000ij-2R;
+        Mon, 22 Aug 2022 21:03:07 +0000
+Date:   Tue, 23 Aug 2022 05:02:15 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     martin.tuma@digiteqautomotive.com, linux-media@vger.kernel.org
+Cc:     kbuild-all@lists.01.org,
+        Martin =?utf-8?B?VMWvbWE=?= <martin.tuma@digiteqautomotive.com>
+Subject: Re: [PATCH 3/3] Added Digiteq Automotive MGB4 driver
+Message-ID: <202208230454.wUB5ighv-lkp@intel.com>
+References: <20220822194721.1238-4-martin.tuma@digiteqautomotive.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="UlVJffcvxoiEqYs2"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220822182058.xnpwfdjm7zmoid7y@core>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <20220822194721.1238-4-martin.tuma@digiteqautomotive.com>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi,
 
---UlVJffcvxoiEqYs2
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Thank you for the patch! Perhaps something to improve:
 
-Hi!
+[auto build test WARNING on media-tree/master]
+[also build test WARNING on vkoul-dmaengine/next linus/master v6.0-rc2 next-20220822]
+[cannot apply to xilinx-xlnx/master]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-> > I'd like to mainline support for gc2145 camera on pinephone. So far I
-> > did trivial cleanups over the Megi's driver. I started with 5.15
-> > version from Mobian.  I guess yaml description of the binding needs to
-> > be provided, too? (Would someone have a good starting point here?)
-> >=20
-> > Any hints? Are there better starting points?
->=20
-> Here's some reverse engineering work: https://xnux.eu/tablet-hacking/#017
-> that went into it, that may be helpful.
+url:    https://github.com/intel-lab-lkp/linux/commits/martin-tuma-digiteqautomotive-com/Digiteq-Automotive-MGB4-driver/20220823-015724
+base:   git://linuxtv.org/media_tree.git master
+config: loongarch-allyesconfig (https://download.01.org/0day-ci/archive/20220823/202208230454.wUB5ighv-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/54f06e839ff47e3223a38eb48ab44aee9866eb30
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review martin-tuma-digiteqautomotive-com/Digiteq-Automotive-MGB4-driver/20220823-015724
+        git checkout 54f06e839ff47e3223a38eb48ab44aee9866eb30
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=loongarch SHELL=/bin/bash drivers/media/
 
-Thanks for pointer. I was able to find register descriptions (etc) on
-the web, but I assume you already know about these?
+If you fix the issue, kindly add following tag where applicable
+Reported-by: kernel test robot <lkp@intel.com>
 
-Best regards,
-								Pavel
---=20
-People of Russia, stop Putin before his war on Ukraine escalates.
+All warnings (new ones prefixed by >>):
 
---UlVJffcvxoiEqYs2
-Content-Type: application/pgp-signature; name="signature.asc"
+>> drivers/media/pci/mgb4/mgb4_vout.c:202:5: warning: no previous prototype for 'vidioc_g_output' [-Wmissing-prototypes]
+     202 | int vidioc_g_output(struct file *file, void *priv, unsigned int *i)
+         |     ^~~~~~~~~~~~~~~
+>> drivers/media/pci/mgb4/mgb4_vout.c:208:5: warning: no previous prototype for 'vidioc_s_output' [-Wmissing-prototypes]
+     208 | int vidioc_s_output(struct file *file, void *priv, unsigned int i)
+         |     ^~~~~~~~~~~~~~~
+>> drivers/media/pci/mgb4/mgb4_vout.c:213:5: warning: no previous prototype for 'vidioc_enum_output' [-Wmissing-prototypes]
+     213 | int vidioc_enum_output(struct file *file, void *priv, struct v4l2_output *out)
+         |     ^~~~~~~~~~~~~~~~~~
 
------BEGIN PGP SIGNATURE-----
 
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCYwPsKQAKCRAw5/Bqldv6
-8rDwAJ4gLtDlsznXiPxQoOv8TKYRJ6siuwCbBH6YrDQfUFBZ8FoTiPkbEnHrQps=
-=2MYQ
------END PGP SIGNATURE-----
+vim +/vidioc_g_output +202 drivers/media/pci/mgb4/mgb4_vout.c
 
---UlVJffcvxoiEqYs2--
+   201	
+ > 202	int vidioc_g_output(struct file *file, void *priv, unsigned int *i)
+   203	{
+   204		*i = 0;
+   205		return 0;
+   206	}
+   207	
+ > 208	int vidioc_s_output(struct file *file, void *priv, unsigned int i)
+   209	{
+   210		return i ? -EINVAL : 0;
+   211	}
+   212	
+ > 213	int vidioc_enum_output(struct file *file, void *priv, struct v4l2_output *out)
+   214	{
+   215		if (out->index != 0)
+   216			return -EINVAL;
+   217	
+   218		out->type = V4L2_OUTPUT_TYPE_ANALOG;
+   219		strscpy(out->name, "MGB4", sizeof(out->name));
+   220	
+   221		return 0;
+   222	}
+   223	
+
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
