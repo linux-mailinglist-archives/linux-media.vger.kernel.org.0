@@ -2,327 +2,389 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BFE6359C179
-	for <lists+linux-media@lfdr.de>; Mon, 22 Aug 2022 16:16:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8374459C1A2
+	for <lists+linux-media@lfdr.de>; Mon, 22 Aug 2022 16:32:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235755AbiHVOPX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 22 Aug 2022 10:15:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37512 "EHLO
+        id S235072AbiHVOcA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 22 Aug 2022 10:32:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49850 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235745AbiHVOPW (ORCPT
+        with ESMTP id S234683AbiHVOb6 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 22 Aug 2022 10:15:22 -0400
-Received: from mail-qt1-x82b.google.com (mail-qt1-x82b.google.com [IPv6:2607:f8b0:4864:20::82b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C0DAB248E2
-        for <linux-media@vger.kernel.org>; Mon, 22 Aug 2022 07:15:20 -0700 (PDT)
-Received: by mail-qt1-x82b.google.com with SMTP id h21so7950174qta.3
-        for <linux-media@vger.kernel.org>; Mon, 22 Aug 2022 07:15:20 -0700 (PDT)
+        Mon, 22 Aug 2022 10:31:58 -0400
+Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com [IPv6:2a00:1450:4864:20::42c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 702F42E6A1;
+        Mon, 22 Aug 2022 07:31:56 -0700 (PDT)
+Received: by mail-wr1-x42c.google.com with SMTP id n4so13442684wrp.10;
+        Mon, 22 Aug 2022 07:31:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc;
-        bh=7erYZR7y/baNHdFg/R+eq9CtBmAuN+I62W1+/+lw+cU=;
-        b=VGl87qAgSZFH5MQo+ucFhoxCnIbvfvn64GrCfEeXBnJta/mV/9ThbXHC4Z1Yw8tvQt
-         H30d7fI7JYw9d4r2DQM590OqsBL+0GT2ctVypAIYJdv3LW9zDW1onsLALZRmgRzCNujb
-         cU5uNXO8yXxGfK8yhQTh41pNMMVI6skHYZduyRzucyoxNFN6ldlVVJ8qWPSkxGgPDUjp
-         eeNfQipmPbvcTyvkyoo3LRMe9gb+V0vBubB3JMJ75OV17Fp6f2uogwHNWurKs+9ajlTS
-         xo6BEMzOfG2zvYz+Yx20o2WYRoHP4Xsr3V52hyxVX9G3aSyviZsaKwQaIOlP6L1FzWFH
-         enwQ==
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc;
+        bh=e8rp45GCMeCz0OMnywxQPCUJjJPUfEFDilX4Y8pEpZI=;
+        b=MMmcWfq/cL54YCfYi+QRrMezlys3RuKILMv0NhI7kuz5I02Ue9qmQmAWRs75ABwrOQ
+         NzgXznxWFSZ8UrinTlq1oRipNyVfHptGlbXSbYTMvgQJtbvVKZjwONe/g5oc/7TIcwxN
+         BTs6WywE/RqKj4W4SB5N80HNtfgsxV8N+3UN+rzIzdvhLHkKhqKVpJJzDmo0aeHpZA8f
+         4V9bxZ00Jy1UmBjO/XzqkIuNa/qrEXKNGiVpqiwui9VfN6R9nJlbq7q88Rtnoef88AMa
+         QTYOGQdpZG8ID8v1gGTNF4ADrQl/OwAK1Qw8mU+vuazIFnIq4M8mxHI8BPxgicmon6xL
+         XouQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc;
-        bh=7erYZR7y/baNHdFg/R+eq9CtBmAuN+I62W1+/+lw+cU=;
-        b=rfxS6kfnH4O1cTuGeThKm6Spoe8w/N+8FZIUS8ENDvUdxD2s86docbWSYHPD7NMdTf
-         OkEK8vTumaITLLcT5G6iJr4HpxNGazei6W2iecThu2KnSzsNRwgEmlbTp8KhioZy10re
-         6W8psq/BqELmgzDKqIfIpF8BZ919vP3mwbhgP0rYxmxmZd8qkmzFAR/XRs3ff0UtYVg/
-         BNG2qhrQO5GaYJLli3x5hx84By0/i5O8OyP3Y9EZum+OiFlUeKSopkiKH6dUM4N0lfF/
-         M7zjRvj/8bEZdFy55HB2+l4uMq6wABwC9maL1OH8AuRFNwU8JQwVNci/4cDo8bAxKQ1X
-         Ho4A==
-X-Gm-Message-State: ACgBeo0lmdXE8FkSebcSp1N0xkH482r8/uDKg2TUu9p1+xwMruv/HEMO
-        jdwG4xT+63oFsSDMxpO1WRlQYQ==
-X-Google-Smtp-Source: AA6agR4eJVG9jPyBnQMQqk64yg+IQ0/B6Zje6l0qsBpO5D/bkbMtbjsyJJGN9JYXm9KZAObzs3WV0g==
-X-Received: by 2002:a05:622a:58d:b0:344:62be:dae with SMTP id c13-20020a05622a058d00b0034462be0daemr15450664qtb.596.1661177719836;
-        Mon, 22 Aug 2022 07:15:19 -0700 (PDT)
-Received: from nicolas-tpx395.localdomain (192-222-136-102.qc.cable.ebox.net. [192.222.136.102])
-        by smtp.gmail.com with ESMTPSA id l16-20020a37f910000000b006bbe6e89bdcsm7457760qkj.31.2022.08.22.07.15.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Aug 2022 07:15:19 -0700 (PDT)
-Message-ID: <e15165f60ce801dd502bfe1992ea430fe37c5a91.camel@ndufresne.ca>
-Subject: Re: [PATCH 2/2] [WIP]: media: Add Synaptics compressed tiled format
-From:   Nicolas Dufresne <nicolas@ndufresne.ca>
-To:     Hsia-Jun Li <Randy.Li@synaptics.com>
-Cc:     Tomasz Figa <tfiga@chromium.org>, dri-devel@lists.freedesktop.org,
-        maarten.lankhorst@linux.intel.com, mripard@kernel.org,
-        tzimmermann@suse.de, airlied@linux.ie, daniel@ffwll.ch,
-        mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
-        ezequiel@vanguardiasur.com.ar, sakari.ailus@linux.intel.com,
-        ribalda@chromium.org,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        sebastian.hesselbarth@gmail.com, jszhang@kernel.org,
-        linux-arm-kernel@lists.infradead.org
-Date:   Mon, 22 Aug 2022 10:15:17 -0400
-In-Reply-To: <1f926989-eb13-14ee-e30d-ac6d01b86c52@synaptics.com>
-References: <20220808162750.828001-1-randy.li@synaptics.com>
-         <20220808162750.828001-3-randy.li@synaptics.com>
-         <CAAFQd5AKjpJ+fPAeCqdNnJbS4R7SdaHkfyW4qG1xXr-sE801pQ@mail.gmail.com>
-         <13d37c15-79f3-4e16-8cf4-fc37846f4a04@synaptics.com>
-         <Yv7HnHE7bLmgq5D0@pendragon.ideasonboard.com>
-         <6da7faf329128312f0862f555d1a855437ae99f3.camel@ndufresne.ca>
-         <50dd9b7a-8f48-0799-57f6-048d20de8dcc@synaptics.com>
-         <2662ac698898f71f60b9b7e0ad4703854de1d012.camel@ndufresne.ca>
-         <1f926989-eb13-14ee-e30d-ac6d01b86c52@synaptics.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.4 (3.44.4-1.fc36) 
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc;
+        bh=e8rp45GCMeCz0OMnywxQPCUJjJPUfEFDilX4Y8pEpZI=;
+        b=OjdzHZNhelKjGl6iwCOj9DaxK/m9wUpdR8+qZN1K8Q6qyQeJNEBIVa1cp3dZ67Fgud
+         VjA56iEOn7ckQkRE0qvPjTE5Y6dQS3ltRGORw2RvzodJr7J/C/+pZ8FJQk9frtXN1lZY
+         xDXo1davRbUF62efUnnCXl/xVXxYB5fF5575mb+CqkbHx6rzi8mUekC0fY80I8XdUxzC
+         bUFrLpkxCSWIDo2tr3Svhzj0HDDO7/BmivG5HwC++rxT9I1ASYDsC+dItwmVFXCB3k00
+         sg+FGAFB/TnRcrcXKdFwfgXfw9lhd8eV82D87HZsEqVHnC1CWHDwVxSxcfwKzrMzyZPI
+         vaIQ==
+X-Gm-Message-State: ACgBeo3XMgpEuUVIqJhDauBCLAog3eiqTEDiZ7zvA1LwDT/6K2LvjYmy
+        X05rsi41Sah2REiDUkfl4pY=
+X-Google-Smtp-Source: AA6agR7V2xlMA1x2MOGtaJffxWJTddD22Tpk+8uk6FO/HmgUscNGWvV/0bH34ZDI2j5RtVTO1jL4EQ==
+X-Received: by 2002:adf:f74b:0:b0:225:1fdb:a787 with SMTP id z11-20020adff74b000000b002251fdba787mr11319386wrp.33.1661178714778;
+        Mon, 22 Aug 2022 07:31:54 -0700 (PDT)
+Received: from [192.168.0.30] ([47.62.125.55])
+        by smtp.gmail.com with ESMTPSA id c7-20020a05600c0a4700b003a342933727sm6098056wmq.3.2022.08.22.07.31.52
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 22 Aug 2022 07:31:52 -0700 (PDT)
+Message-ID: <2e71f901-98da-9a40-780c-5e95c251d78a@gmail.com>
+Date:   Mon, 22 Aug 2022 16:31:51 +0200
 MIME-Version: 1.0
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.1.2
+Subject: Re: [PATCH v25 1/4] dt-binding: mediatek: add bindings for MediaTek
+ MDP3 components
+To:     Moudy Ho <moudy.ho@mediatek.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+        Rob Landley <rob@landley.net>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org,
+        Alexandre Courbot <acourbot@chromium.org>, tfiga@chromium.org,
+        drinkcat@chromium.org, pihsun@chromium.org, hsinyi@google.com,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Project_Global_Chrome_Upstream_Group@mediatek.com,
+        cellopoint.kai@gmail.com
+References: <20220817095629.29911-1-moudy.ho@mediatek.com>
+ <20220817095629.29911-2-moudy.ho@mediatek.com>
+Content-Language: en-US
+From:   Matthias Brugger <matthias.bgg@gmail.com>
+In-Reply-To: <20220817095629.29911-2-moudy.ho@mediatek.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Le samedi 20 ao=C3=BBt 2022 =C3=A0 08:10 +0800, Hsia-Jun Li a =C3=A9crit=C2=
-=A0:
->=20
-> On 8/20/22 03:17, Nicolas Dufresne wrote:
-> > CAUTION: Email originated externally, do not click links or open attach=
-ments unless you recognize the sender and know the content is safe.
-> >=20
-> >=20
-> > Le vendredi 19 ao=C3=BBt 2022 =C3=A0 23:44 +0800, Hsia-Jun Li a =C3=A9c=
-rit :
-> > >=20
-> > > On 8/19/22 23:28, Nicolas Dufresne wrote:
-> > > > CAUTION: Email originated externally, do not click links or open at=
-tachments unless you recognize the sender and know the content is safe.
-> > > >=20
-> > > >=20
-> > > > Le vendredi 19 ao=C3=BBt 2022 =C3=A0 02:13 +0300, Laurent Pinchart =
-a =C3=A9crit :
-> > > > > On Thu, Aug 18, 2022 at 02:33:42PM +0800, Hsia-Jun Li wrote:
-> > > > > > On 8/18/22 14:06, Tomasz Figa wrote:
-> > > > > > > On Tue, Aug 9, 2022 at 1:28 AM Hsia-Jun Li <randy.li@synaptic=
-s.com> wrote:
-> > > > > > > >=20
-> > > > > > > > From: "Hsia-Jun(Randy) Li" <randy.li@synaptics.com>
-> > > > > > > >=20
-> > > > > > > > The most of detail has been written in the drm.
-> > > > >=20
-> > > > > This patch still needs a description of the format, which should =
-go to
-> > > > > Documentation/userspace-api/media/v4l/.
-> > > > >=20
-> > > > > > > > Please notice that the tiled formats here request
-> > > > > > > > one more plane for storing the motion vector metadata.
-> > > > > > > > This buffer won't be compressed, so you can't append
-> > > > > > > > it to luma or chroma plane.
-> > > > > > >=20
-> > > > > > > Does the motion vector buffer need to be exposed to userspace=
-? Is the
-> > > > > > > decoder stateless (requires userspace to specify the referenc=
-e frames)
-> > > > > > > or stateful (manages the entire decoding process internally)?
-> > > > > >=20
-> > > > > > No, users don't need to access them at all. Just they need a di=
-fferent
-> > > > > > dma-heap.
-> > > > > >=20
-> > > > > > You would only get the stateful version of both encoder and dec=
-oder.
-> > > > >=20
-> > > > > Shouldn't the motion vectors be stored in a separate V4L2 buffer,
-> > > > > submitted through a different queue then ?
-> > > >=20
-> > > > Imho, I believe these should be invisible to users and pooled separ=
-ately to
-> > > > reduce the overhead. The number of reference is usually lower then =
-the number of
-> > > > allocated display buffers.
-> > > >=20
-> > > You can't. The motion vector buffer can't share with the luma and chr=
-oma
-> > > data planes, nor the data plane for the compression meta data.
-> > >=20
-> > > You could consider this as a security requirement(the memory region f=
-or
-> > > the MV could only be accessed by the decoder) or hardware limitation.
-> > >=20
-> > > It is also not very easy to manage such a large buffer that would cha=
-nge
-> > > when the resolution changed.
-> >=20
-> > Your argument are just aiming toward the fact that you should not let t=
-he user
-> > allocate these in the first place. They should not be bound to the v4l2=
- buffer.
-> > Allocate these in your driver, and leave to your user the pixel buffer =
-(and
-> > compress meta) allocation work.
-> >=20
-> What I want to say is that userspace could allocate buffers then make=20
-> the v4l2 decoder import these buffers, but each planes should come from=
-=20
-> the right DMA-heaps. Usually the userspace would know better the memory=
-=20
-> occupation, it would bring some flexibility here.
->=20
-> Currently, they are another thing bothers me, I need to allocate a small=
-=20
-> piece of memory(less than 128KiB) as the compression metadata buffers as=
-=20
-> I mentioned here. And these pieces of memory should be located in a=20
-> small region, or the performance could be badly hurt, besides, we don't=
-=20
-> support IOMMU for this kind of data.
->=20
-> Any idea about assign a small piece of memory from a pre-allocated=20
-> memory or select region(I don't think I could reserve them in a=20
-> DMA-heap) for a plane in the MMAP type buffer ?
 
-A V4L2 driver should first implement the V4L2 semantic before adding option=
-al
-use case like buffer importation. For this reason, your V4L2 driver should =
-know
-all the memory requirements and how to allocate that memory. Later on, your
-importing driver will have to validate that the userland did it right at
-importation. This is to follow V4L2 semantic and security model. If you mov=
-e
-simply trust the userland (gralloc), you are not doing it right.
 
->=20
-> Besides, I am not very satisfied with the dynamic resolution change=20
-> steps if I understand it correct. Buffers reallocation should happen=20
-> when we receive the event not until the drain is done. A resolution=20
-> rising is very common when you are playing a network stream, it would be=
-=20
-> better that the decoder decided how many buffers it need for the=20
-> previous sequence while the userspace could reallocate the reset of=20
-> buffers in the CAPTURE queue.
-> > Other driver handle this just fine, if your v4l2 driver implement the v=
-4l2
-> > resolution change mechanism, is should be very simple to manage.
+On 17/08/2022 11:56, Moudy Ho wrote:
+> This patch adds DT binding documents for Media Data Path 3 (MDP3)
+> a unit in multimedia system combined with several components and
+> used for scaling and color format convert.
+> 
+> Signed-off-by: Moudy Ho <moudy.ho@mediatek.com>
+> Reviewed-by: Rob Herring <robh@kernel.org>
+> Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+> ---
+>   .../bindings/media/mediatek,mdp3-rdma.yaml    | 95 +++++++++++++++++++
+>   .../bindings/media/mediatek,mdp3-rsz.yaml     | 77 +++++++++++++++
+>   .../bindings/media/mediatek,mdp3-wrot.yaml    | 80 ++++++++++++++++
+>   3 files changed, 252 insertions(+)
+>   create mode 100644 Documentation/devicetree/bindings/media/mediatek,mdp3-rdma.yaml
+>   create mode 100644 Documentation/devicetree/bindings/media/mediatek,mdp3-rsz.yaml
+>   create mode 100644 Documentation/devicetree/bindings/media/mediatek,mdp3-wrot.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/media/mediatek,mdp3-rdma.yaml b/Documentation/devicetree/bindings/media/mediatek,mdp3-rdma.yaml
+> new file mode 100644
+> index 000000000000..94ff74d9c04a
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/mediatek,mdp3-rdma.yaml
+> @@ -0,0 +1,95 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/mediatek,mdp3-rdma.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: MediaTek Read Direct Memory Access
+> +
+> +maintainers:
+> +  - Matthias Brugger <matthias.bgg@gmail.com>
+> +  - Ping-Hsun Wu <ping-hsun.wu@mediatek.com>
 
-This is a limitation of the queue design of V4L2. While streaming the buffe=
-rs
-associated with the queue must currently be large enough to support the sel=
-ected
-format. "large enough" in your case is complex, and validation must be
-programmed in your driver.
+Ping-Hsun Wu isn't even CCed on this mail. Why aren't you the maintainer if you 
+submit the patch?
 
-There was discussion on perhaps extending on CREATE_BUFS feature, that let =
-you
-allocate at run-time for a different format/resolution (no drivers currentl=
-y
-allow that). The rules around that aren't specified (and will have to be de=
-fined
-before a driver starts making use of that). Note that to be usable, a
-DELETE_BUF(s) ioctl would probably be needed too.
+Regards,
+Matthias
 
-In current state, If your driver can support it, userland does not strictly=
- need
-to re-allocate if the resolution is changed to smaller. In most SVC scenari=
-os,
-the largest resolution is known in advance, so pre-allocation can happen to=
- the
-appropriate resolution and queue size. Re-allocation is then rarely trigger=
-ed at
-run time. Unlike your system, IOMMU system are not as affected by allocatio=
-n
-latency and manages to do gapless transition despite this inefficiency.
-
-Note that all this is pure recommendation. What I'm seeing here is a pixel
-format documented with Android assumptions rather then mainline, and sent
-without the associated implementation. This simply raises some question on =
-the
-viability of the whole. This is not a critic but just some verification tha=
-t
-ensure you are following the V4L2 spec.
-
-> >=20
-> > > > >=20
-> > > > > > > > Signed-off-by: Hsia-Jun(Randy) Li <randy.li@synaptics.com>
-> > > > > > > > ---
-> > > > > > > >     drivers/media/v4l2-core/v4l2-common.c | 1 +
-> > > > > > > >     drivers/media/v4l2-core/v4l2-ioctl.c  | 2 ++
-> > > > > > > >     include/uapi/linux/videodev2.h        | 2 ++
-> > > > > > > >     3 files changed, 5 insertions(+)
-> > > > > > > >=20
-> > > > > > > > diff --git a/drivers/media/v4l2-core/v4l2-common.c b/driver=
-s/media/v4l2-core/v4l2-common.c
-> > > > > > > > index e0fbe6ba4b6c..f645278b3055 100644
-> > > > > > > > --- a/drivers/media/v4l2-core/v4l2-common.c
-> > > > > > > > +++ b/drivers/media/v4l2-core/v4l2-common.c
-> > > > > > > > @@ -314,6 +314,7 @@ const struct v4l2_format_info *v4l2_for=
-mat_info(u32 format)
-> > > > > > > >                    { .format =3D V4L2_PIX_FMT_SGBRG12,     =
-  .pixel_enc =3D V4L2_PIXEL_ENC_BAYER, .mem_planes =3D 1, .comp_planes =3D =
-1, .bpp =3D { 2, 0, 0, 0 }, .hdiv =3D 1, .vdiv =3D 1 },
-> > > > > > > >                    { .format =3D V4L2_PIX_FMT_SGRBG12,     =
-  .pixel_enc =3D V4L2_PIXEL_ENC_BAYER, .mem_planes =3D 1, .comp_planes =3D =
-1, .bpp =3D { 2, 0, 0, 0 }, .hdiv =3D 1, .vdiv =3D 1 },
-> > > > > > > >                    { .format =3D V4L2_PIX_FMT_SRGGB12,     =
-  .pixel_enc =3D V4L2_PIXEL_ENC_BAYER, .mem_planes =3D 1, .comp_planes =3D =
-1, .bpp =3D { 2, 0, 0, 0 }, .hdiv =3D 1, .vdiv =3D 1 },
-> > > > > > > > +               { .format =3D V4L2_PIX_FMT_NV12M_V4H1C, .pi=
-xel_enc =3D V4L2_PIXEL_ENC_YUV, .mem_planes =3D 5, .comp_planes =3D 2, .bpp=
- =3D { 1, 2, 0, 0 }, .hdiv =3D 2, .vdiv =3D 2, .block_w =3D { 128, 128 }, .=
-block_h =3D { 128, 128 } },
-> > > > > > > >            };
-> > > > > > > >            unsigned int i;
-> > > > > > > >=20
-> > > > > > > > diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers=
-/media/v4l2-core/v4l2-ioctl.c
-> > > > > > > > index e6fd355a2e92..8f65964aff08 100644
-> > > > > > > > --- a/drivers/media/v4l2-core/v4l2-ioctl.c
-> > > > > > > > +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-> > > > > > > > @@ -1497,6 +1497,8 @@ static void v4l_fill_fmtdesc(struct v=
-4l2_fmtdesc *fmt)
-> > > > > > > >                    case V4L2_PIX_FMT_MT21C:        descr =
-=3D "Mediatek Compressed Format"; break;
-> > > > > > > >                    case V4L2_PIX_FMT_QC08C:        descr =
-=3D "QCOM Compressed 8-bit Format"; break;
-> > > > > > > >                    case V4L2_PIX_FMT_QC10C:        descr =
-=3D "QCOM Compressed 10-bit Format"; break;
-> > > > > > > > +               case V4L2_PIX_FMT_NV12M_V4H1C:  descr =3D "=
-Synaptics Compressed 8-bit tiled Format";break;
-> > > > > > > > +               case V4L2_PIX_FMT_NV12M_10_V4H3P8C:     des=
-cr =3D "Synaptics Compressed 10-bit tiled Format";break;
-> > > > > > > >                    default:
-> > > > > > > >                            if (fmt->description[0])
-> > > > > > > >                                    return;
-> > > > > > > > diff --git a/include/uapi/linux/videodev2.h b/include/uapi/=
-linux/videodev2.h
-> > > > > > > > index 01e630f2ec78..7e928cb69e7c 100644
-> > > > > > > > --- a/include/uapi/linux/videodev2.h
-> > > > > > > > +++ b/include/uapi/linux/videodev2.h
-> > > > > > > > @@ -661,6 +661,8 @@ struct v4l2_pix_format {
-> > > > > > > >     #define V4L2_PIX_FMT_NV12MT_16X16 v4l2_fourcc('V', 'M',=
- '1', '2') /* 12  Y/CbCr 4:2:0 16x16 tiles */
-> > > > > > > >     #define V4L2_PIX_FMT_NV12M_8L128      v4l2_fourcc('N', =
-'A', '1', '2') /* Y/CbCr 4:2:0 8x128 tiles */
-> > > > > > > >     #define V4L2_PIX_FMT_NV12M_10BE_8L128 v4l2_fourcc_be('N=
-', 'T', '1', '2') /* Y/CbCr 4:2:0 10-bit 8x128 tiles */
-> > > > > > > > +#define V4L2_PIX_FMT_NV12M_V4H1C v4l2_fourcc('S', 'Y', '1'=
-, '2')   /* 12  Y/CbCr 4:2:0 tiles */
-> > > > > > > > +#define V4L2_PIX_FMT_NV12M_10_V4H3P8C v4l2_fourcc('S', 'Y'=
-, '1', '0')   /* 12  Y/CbCr 4:2:0 10-bits tiles */
-> > > > > > > >=20
-> > > > > > > >     /* Bayer formats - see https://urldefense.proofpoint.co=
-m/v2/url?u=3Dhttp-3A__www.siliconimaging.com_RGB-2520Bayer.htm&d=3DDwIFaQ&c=
-=3D7dfBJ8cXbWjhc0BhImu8wVIoUFmBzj1s88r8EGyM0UY&r=3DP4xb2_7biqBxD4LGGPrSV6j-=
-jf3C3xlR7PXU-mLTeZE&m=3DlkQiuhx0yMAYHGcW-0WaHlF3e2etMHsu-FoNIBdZILGH6FPigwS=
-Amel2vAdcVLkp&s=3DJKsBzpb_3u9xv52MaMuT4U3T1pPqcObYkpHDBxvcx_4&e=3D   */
-> > > > > > > >     #define V4L2_PIX_FMT_SBGGR8  v4l2_fourcc('B', 'A', '8',=
- '1') /*  8  BGBG.. GRGR.. */
-> > > > >=20
-> > > >=20
-> > >=20
-> >=20
->=20
-
+> +
+> +description: |
+> +  MediaTek Read Direct Memory Access(RDMA) component used to do read DMA.
+> +  It contains one line buffer to store the sufficient pixel data, and
+> +  must be siblings to the central MMSYS_CONFIG node.
+> +  For a description of the MMSYS_CONFIG binding, see
+> +  Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml
+> +  for details.
+> +
+> +properties:
+> +  compatible:
+> +    items:
+> +      - const: mediatek,mt8183-mdp3-rdma
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  mediatek,gce-client-reg:
+> +    $ref: '/schemas/types.yaml#/definitions/phandle-array'
+> +    items:
+> +      items:
+> +        - description: phandle of GCE
+> +        - description: GCE subsys id
+> +        - description: register offset
+> +        - description: register size
+> +    description: The register of client driver can be configured by gce with
+> +      4 arguments defined in this property. Each GCE subsys id is mapping to
+> +      a client defined in the header include/dt-bindings/gce/<chip>-gce.h.
+> +
+> +  mediatek,gce-events:
+> +    description:
+> +      The event id which is mapping to the specific hardware event signal
+> +      to gce. The event id is defined in the gce header
+> +      include/dt-bindings/gce/<chip>-gce.h of each chips.
+> +    $ref: /schemas/types.yaml#/definitions/uint32-array
+> +
+> +  power-domains:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    items:
+> +      - description: RDMA clock
+> +      - description: RSZ clock
+> +
+> +  iommus:
+> +    maxItems: 1
+> +
+> +  mboxes:
+> +    items:
+> +      - description: used for 1st data pipe from RDMA
+> +      - description: used for 2nd data pipe from RDMA
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - mediatek,gce-client-reg
+> +  - mediatek,gce-events
+> +  - power-domains
+> +  - clocks
+> +  - iommus
+> +  - mboxes
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/clock/mt8183-clk.h>
+> +    #include <dt-bindings/gce/mt8183-gce.h>
+> +    #include <dt-bindings/power/mt8183-power.h>
+> +    #include <dt-bindings/memory/mt8183-larb-port.h>
+> +
+> +    mdp3_rdma0: mdp3-rdma0@14001000 {
+> +      compatible = "mediatek,mt8183-mdp3-rdma";
+> +      reg = <0x14001000 0x1000>;
+> +      mediatek,gce-client-reg = <&gce SUBSYS_1400XXXX 0x1000 0x1000>;
+> +      mediatek,gce-events = <CMDQ_EVENT_MDP_RDMA0_SOF>,
+> +                            <CMDQ_EVENT_MDP_RDMA0_EOF>;
+> +      power-domains = <&spm MT8183_POWER_DOMAIN_DISP>;
+> +      clocks = <&mmsys CLK_MM_MDP_RDMA0>,
+> +               <&mmsys CLK_MM_MDP_RSZ1>;
+> +      iommus = <&iommu>;
+> +      mboxes = <&gce 20 CMDQ_THR_PRIO_LOWEST>,
+> +               <&gce 21 CMDQ_THR_PRIO_LOWEST>;
+> +    };
+> diff --git a/Documentation/devicetree/bindings/media/mediatek,mdp3-rsz.yaml b/Documentation/devicetree/bindings/media/mediatek,mdp3-rsz.yaml
+> new file mode 100644
+> index 000000000000..22c61ed00fdd
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/mediatek,mdp3-rsz.yaml
+> @@ -0,0 +1,77 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/mediatek,mdp3-rsz.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: MediaTek Resizer
+> +
+> +maintainers:
+> +  - Matthias Brugger <matthias.bgg@gmail.com>
+> +  - Ping-Hsun Wu <ping-hsun.wu@mediatek.com>
+> +
+> +description: |
+> +  One of Media Data Path 3 (MDP3) components used to do frame resizing.
+> +
+> +properties:
+> +  compatible:
+> +    items:
+> +      - enum:
+> +          - mediatek,mt8183-mdp3-rsz
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  mediatek,gce-client-reg:
+> +    $ref: /schemas/types.yaml#/definitions/phandle-array
+> +    items:
+> +      items:
+> +        - description: phandle of GCE
+> +        - description: GCE subsys id
+> +        - description: register offset
+> +        - description: register size
+> +    description: The register of client driver can be configured by gce with
+> +      4 arguments defined in this property. Each GCE subsys id is mapping to
+> +      a client defined in the header include/dt-bindings/gce/<chip>-gce.h.
+> +
+> +  mediatek,gce-events:
+> +    description:
+> +      The event id which is mapping to the specific hardware event signal
+> +      to gce. The event id is defined in the gce header
+> +      include/dt-bindings/gce/<chip>-gce.h of each chips.
+> +    $ref: /schemas/types.yaml#/definitions/uint32-array
+> +
+> +  clocks:
+> +    minItems: 1
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - mediatek,gce-client-reg
+> +  - mediatek,gce-events
+> +  - clocks
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/clock/mt8183-clk.h>
+> +    #include <dt-bindings/gce/mt8183-gce.h>
+> +
+> +    mdp3_rsz0: mdp3-rsz0@14003000 {
+> +      compatible = "mediatek,mt8183-mdp3-rsz";
+> +      reg = <0x14003000 0x1000>;
+> +      mediatek,gce-client-reg = <&gce SUBSYS_1400XXXX 0x3000 0x1000>;
+> +      mediatek,gce-events = <CMDQ_EVENT_MDP_RSZ0_SOF>,
+> +                            <CMDQ_EVENT_MDP_RSZ0_EOF>;
+> +      clocks = <&mmsys CLK_MM_MDP_RSZ0>;
+> +    };
+> +
+> +    mdp3_rsz1: mdp3-rsz1@14004000 {
+> +      compatible = "mediatek,mt8183-mdp3-rsz";
+> +      reg = <0x14004000 0x1000>;
+> +      mediatek,gce-client-reg = <&gce SUBSYS_1400XXXX 0x4000 0x1000>;
+> +      mediatek,gce-events = <CMDQ_EVENT_MDP_RSZ1_SOF>,
+> +                            <CMDQ_EVENT_MDP_RSZ1_EOF>;
+> +      clocks = <&mmsys CLK_MM_MDP_RSZ1>;
+> +    };
+> diff --git a/Documentation/devicetree/bindings/media/mediatek,mdp3-wrot.yaml b/Documentation/devicetree/bindings/media/mediatek,mdp3-wrot.yaml
+> new file mode 100644
+> index 000000000000..76c010720d43
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/mediatek,mdp3-wrot.yaml
+> @@ -0,0 +1,80 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/mediatek,mdp3-wrot.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: MediaTek Write DMA with Rotation
+> +
+> +maintainers:
+> +  - Matthias Brugger <matthias.bgg@gmail.com>
+> +  - Ping-Hsun Wu <ping-hsun.wu@mediatek.com>
+> +
+> +description: |
+> +  One of Media Data Path 3 (MDP3) components used to write DMA with frame rotation.
+> +
+> +properties:
+> +  compatible:
+> +    items:
+> +      - enum:
+> +          - mediatek,mt8183-mdp3-wrot
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  mediatek,gce-client-reg:
+> +    $ref: /schemas/types.yaml#/definitions/phandle-array
+> +    items:
+> +      items:
+> +        - description: phandle of GCE
+> +        - description: GCE subsys id
+> +        - description: register offset
+> +        - description: register size
+> +    description: The register of client driver can be configured by gce with
+> +      4 arguments defined in this property. Each GCE subsys id is mapping to
+> +      a client defined in the header include/dt-bindings/gce/<chip>-gce.h.
+> +
+> +  mediatek,gce-events:
+> +    description:
+> +      The event id which is mapping to the specific hardware event signal
+> +      to gce. The event id is defined in the gce header
+> +      include/dt-bindings/gce/<chip>-gce.h of each chips.
+> +    $ref: /schemas/types.yaml#/definitions/uint32-array
+> +
+> +  power-domains:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    minItems: 1
+> +
+> +  iommus:
+> +    maxItems: 1
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - mediatek,gce-client-reg
+> +  - mediatek,gce-events
+> +  - power-domains
+> +  - clocks
+> +  - iommus
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/clock/mt8183-clk.h>
+> +    #include <dt-bindings/gce/mt8183-gce.h>
+> +    #include <dt-bindings/power/mt8183-power.h>
+> +    #include <dt-bindings/memory/mt8183-larb-port.h>
+> +
+> +    mdp3_wrot0: mdp3-wrot0@14005000 {
+> +      compatible = "mediatek,mt8183-mdp3-wrot";
+> +      reg = <0x14005000 0x1000>;
+> +      mediatek,gce-client-reg = <&gce SUBSYS_1400XXXX 0x5000 0x1000>;
+> +      mediatek,gce-events = <CMDQ_EVENT_MDP_WROT0_SOF>,
+> +                            <CMDQ_EVENT_MDP_WROT0_EOF>;
+> +      power-domains = <&spm MT8183_POWER_DOMAIN_DISP>;
+> +      clocks = <&mmsys CLK_MM_MDP_WROT0>;
+> +      iommus = <&iommu>;
+> +    };
