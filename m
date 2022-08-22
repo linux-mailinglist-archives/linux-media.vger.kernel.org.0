@@ -2,68 +2,75 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CEFCE59BB34
-	for <lists+linux-media@lfdr.de>; Mon, 22 Aug 2022 10:18:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2709659BB47
+	for <lists+linux-media@lfdr.de>; Mon, 22 Aug 2022 10:22:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231805AbiHVISU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 22 Aug 2022 04:18:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49094 "EHLO
+        id S233866AbiHVIWR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 22 Aug 2022 04:22:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53304 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231139AbiHVISS (ORCPT
+        with ESMTP id S233820AbiHVIWG (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 22 Aug 2022 04:18:18 -0400
+        Mon, 22 Aug 2022 04:22:06 -0400
 Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com [91.207.212.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E4F2E94
-        for <linux-media@vger.kernel.org>; Mon, 22 Aug 2022 01:18:16 -0700 (PDT)
-Received: from pps.filterd (m0046660.ppops.net [127.0.0.1])
-        by mx07-00178001.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 27M7Kq1F023227;
-        Mon, 22 Aug 2022 10:18:03 +0200
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 67CC11EC4E
+        for <linux-media@vger.kernel.org>; Mon, 22 Aug 2022 01:22:05 -0700 (PDT)
+Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
+        by mx07-00178001.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 27M75mdp029969;
+        Mon, 22 Aug 2022 10:21:53 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=message-id : date :
  mime-version : subject : to : cc : references : from : in-reply-to :
  content-type : content-transfer-encoding; s=selector1;
- bh=YwQaO4htgPOPeiWSo+7FJM0eGv8yjFZKxQrxnANqKis=;
- b=7vMTbQkOul52g/e8hDftTGhsHeco146g1lLsLlFjCYKnObyLjWMFRoQUSJxavbO4aNt0
- Fe//neqRX+zpN/HluwdP6gA1Mau/k+LJP7tsKuXNyC04Wcovt/87nckR+mKrvz93E15H
- kZreNHQgQ/ZXVPfF528igbdyWXRCf7+8VQNLM3Tx84v95aj/FZKbNzhAr4Ok8JJA5v0T
- hN88GGN1SofVOGZVZVS2sBidgDP+ujgGhA8rZrfmRddMj5g2nSyaZ6wRIorPRfVuBBtf
- alJHxtKugnmqPDrtZXkHezyzhF1jjTQTUNdAFFrG9QEbEdDu3pGULHHcyTUAXdXLNUXo Gg== 
+ bh=8jWIxUMaHrj0pDB0Fv8mAdAk25S74EagUet1bpmzRnM=;
+ b=kE7Y1esEbC4X1LPB8VxwK6S8MltXr11PG20AmuXGbLdTQt4DSvCYy9X3FmWwzAekL/RJ
+ KFc+zTYSAM7Qqmpe+Ix3vY6+frOfGnFqEFV+EJGy1g8ABc6dLMm7c6QWD8a6H9PDDxQG
+ 9LoZYTUEQ5OZifRSE9v3JwoghqESkrfGbsbPwizRXEaKEhEOiKANWWXsFM1VnnFkBTD8
+ 5GeuVl+tlEZNT0HZwoAodj+ktSJpIimvMFwkxD9oOxtyNWkNL1MBvufg6JoDWeEG+uI6
+ pKAWnGoujmHt7Ikqq3OcvGGp3jDhY2lHA3RBj2XK5A5PRmZCyAU46uRhw4FQXBxnGCVt pw== 
 Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-        by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3j2x2ypfrt-1
+        by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3j2x2r6gv0-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 22 Aug 2022 10:18:03 +0200
+        Mon, 22 Aug 2022 10:21:53 +0200
 Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 50E4E10002A;
-        Mon, 22 Aug 2022 10:18:02 +0200 (CEST)
+        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id DD09810002A;
+        Mon, 22 Aug 2022 10:21:51 +0200 (CEST)
 Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
-        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 3F24A21A200;
-        Mon, 22 Aug 2022 10:18:02 +0200 (CEST)
-Received: from [10.252.11.24] (10.75.127.51) by SHFDAG1NODE1.st.com
+        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id B2B3221A20F;
+        Mon, 22 Aug 2022 10:21:51 +0200 (CEST)
+Received: from [10.252.11.24] (10.75.127.50) by SHFDAG1NODE1.st.com
  (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.1.2308.20; Mon, 22 Aug
- 2022 10:18:01 +0200
-Message-ID: <3791c2b2-a7e4-6a45-819e-06808528d842@foss.st.com>
-Date:   Mon, 22 Aug 2022 10:18:01 +0200
+ 2022 10:21:51 +0200
+Message-ID: <a922c43b-621e-8337-609b-e8fd9bb8ce16@foss.st.com>
+Date:   Mon, 22 Aug 2022 10:21:50 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH v3 0/5] media: Add ST VGXY61 camera sensor driver
+Subject: Re: [ANN] Media Summit at ELCE Dublin, September 12: Draft Agenda V1
 Content-Language: en-US
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-CC:     <linux-media@vger.kernel.org>, <alain.volmat@foss.st.com>,
-        <hugues.fruchet@foss.st.com>, <sylvain.petinot@foss.st.com>,
-        <dave.stevenson@raspberrypi.com>,
-        <laurent.pinchart@ideasonboard.com>,
-        <kieran.bingham@ideasonboard.com>
-References: <20220512074037.3829926-1-benjamin.mugnier@foss.st.com>
- <e920c5e2-dba1-bcf7-7d83-ee797ca51b49@foss.st.com>
- <5a4cbabe-c701-6ab3-adec-592289b7b52b@foss.st.com>
- <7ae752d9-f7a5-a95a-79b3-437ef9aeeb74@foss.st.com>
- <YtUimiUvbzv1SvPo@paasikivi.fi.intel.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>
+CC:     <linux-media@vger.kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Hidenori Kobayashi <hidenorik@chromium.org>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Ricardo Ribalda <ribalda@chromium.org>,
+        Maxime Ripard <maxime@cerno.tech>,
+        Daniel Scally <djrscally@gmail.com>,
+        =?UTF-8?Q?Jernej_=c5=a0krabec?= <jernej.skrabec@gmail.com>,
+        Dave Stevenson <dave.stevenson@raspberrypi.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>
+References: <1ca14c26-2e47-b144-1f5a-02824e81269a@xs4all.nl>
+ <Yu0aWXxuoyJJolyU@pendragon.ideasonboard.com>
 From:   Benjamin MUGNIER <benjamin.mugnier@foss.st.com>
-In-Reply-To: <YtUimiUvbzv1SvPo@paasikivi.fi.intel.com>
+In-Reply-To: <Yu0aWXxuoyJJolyU@pendragon.ideasonboard.com>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.75.127.51]
+X-Originating-IP: [10.75.127.50]
 X-ClientProxiedBy: SFHDAG2NODE3.st.com (10.75.127.6) To SHFDAG1NODE1.st.com
  (10.75.129.69)
 X-Proofpoint-Virus-Version: vendor=baseguard
@@ -80,18 +87,24 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 
-On 7/18/22 11:06, Sakari Ailus wrote:
-> Hi Benjamin,
+>> 13:30 Dave: On-sensor temperature reporting.
+>>
+>>    Thread started by Benjamin at
+>>    https://lore.kernel.org/linux-media/20220415111845.27130-3-benjamin.mugnier@foss.st.com/
+>>    but no resolution over using hwmon API or V4L2 control. If hwmon
+>>    then we need Media Controller framework to tie the sensor and thermal
+>>    device together.
+>>
+>>    It's recently been queried for IMX477 with the Pi
+>>    (https://github.com/raspberrypi/libcamera/issues/19), but it will
+>>    apply to many sensors.
 > 
-> On Mon, Jul 18, 2022 at 09:26:01AM +0200, Benjamin Mugnier wrote:
->> Gentle ping :)
-> 
-> I'll try to review the set this week.
-> 
+> Dave, it would be very useful if you could summarize, based on your
+> experience, how that information is reported by sensors (I2C reads,
+> embedded data, ..., but also single value, multiple values, ...) and
+> what use cases are expected to consume it.
 
-Hi Sakari,
+I will only attend in remote so I won't be able to talk with you about 
+this topic.
 
-This is another gentle ping ;)
-Thank you.
-
-Benjamin
+But indeed I'm really interested in the outcome.
