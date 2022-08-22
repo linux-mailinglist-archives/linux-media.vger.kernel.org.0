@@ -2,28 +2,29 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BEF0359C588
-	for <lists+linux-media@lfdr.de>; Mon, 22 Aug 2022 19:55:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7D42C59C58A
+	for <lists+linux-media@lfdr.de>; Mon, 22 Aug 2022 19:55:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237314AbiHVRy5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 22 Aug 2022 13:54:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46742 "EHLO
+        id S237321AbiHVRy6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 22 Aug 2022 13:54:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46756 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237326AbiHVRyy (ORCPT
+        with ESMTP id S237328AbiHVRyy (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
         Mon, 22 Aug 2022 13:54:54 -0400
+X-Greylist: delayed 477 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 22 Aug 2022 10:54:49 PDT
 Received: from mx.gpxsee.org (mx.gpxsee.org [37.205.14.76])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 02AB04331E
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 02BF0459AE
         for <linux-media@vger.kernel.org>; Mon, 22 Aug 2022 10:54:49 -0700 (PDT)
 Received: from mgb4.digiteq.red (unknown [62.77.71.229])
-        by mx.gpxsee.org (Postfix) with ESMTPSA id 97B6A2E8C8;
-        Mon, 22 Aug 2022 19:46:53 +0200 (CEST)
+        by mx.gpxsee.org (Postfix) with ESMTPSA id 938B32E543;
+        Mon, 22 Aug 2022 19:46:54 +0200 (CEST)
 From:   martin.tuma@digiteqautomotive.com
 To:     linux-media@vger.kernel.org
 Cc:     =?UTF-8?q?Martin=20T=C5=AFma?= <martin.tuma@digiteqautomotive.com>
-Subject: [PATCH 2/3] Added Xilinx PCIe DMA IP core driver
-Date:   Mon, 22 Aug 2022 21:47:20 +0200
-Message-Id: <20220822194721.1238-3-martin.tuma@digiteqautomotive.com>
+Subject: [PATCH 3/3] Added Digiteq Automotive MGB4 driver
+Date:   Mon, 22 Aug 2022 21:47:21 +0200
+Message-Id: <20220822194721.1238-4-martin.tuma@digiteqautomotive.com>
 X-Mailer: git-send-email 2.37.2
 In-Reply-To: <20220822194721.1238-1-martin.tuma@digiteqautomotive.com>
 References: <20220822194721.1238-1-martin.tuma@digiteqautomotive.com>
@@ -41,5075 +42,4757 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 From: Martin Tůma <martin.tuma@digiteqautomotive.com>
 
-The driver is based on the code provided by Xilinx at
-https://github.com/Xilinx/dma_ip_drivers
+Digiteq Automotive MGB4 is a modular frame grabber PCIe card for automotive
+video interfaces. As for now, two modules - FPD-Link and GMSL - are
+available and supported by the driver. The card has two inputs and two
+outputs (FPD-Link only).
 
-There are no significant functional changes in the code except
-of separating the core DMA driver functionality in a way that the code
-can be used by device drivers in the kernel.
+In addition to the video interfaces it also provides a trigger signal
+interface and a MTD interface for FPGA firmware upload.
 
 Signed-off-by: Martin Tůma <martin.tuma@digiteqautomotive.com>
 ---
- drivers/dma/Kconfig               |    7 +
- drivers/dma/xilinx/Makefile       |    2 +
- drivers/dma/xilinx/xdma_core.c    | 3835 +++++++++++++++++++++++++++++
- drivers/dma/xilinx/xdma_core.h    |  588 +++++
- drivers/dma/xilinx/xdma_thread.c  |  309 +++
- drivers/dma/xilinx/xdma_thread.h  |  134 +
- drivers/dma/xilinx/xdma_version.h |   23 +
- include/linux/dma/xilinx_xdma.h   |   91 +
- 8 files changed, 4989 insertions(+)
- create mode 100644 drivers/dma/xilinx/xdma_core.c
- create mode 100644 drivers/dma/xilinx/xdma_core.h
- create mode 100644 drivers/dma/xilinx/xdma_thread.c
- create mode 100644 drivers/dma/xilinx/xdma_thread.h
- create mode 100644 drivers/dma/xilinx/xdma_version.h
- create mode 100644 include/linux/dma/xilinx_xdma.h
+ Documentation/admin-guide/media/mgb4-iio.rst  |  30 +
+ Documentation/admin-guide/media/mgb4-mtd.rst  |  16 +
+ .../admin-guide/media/mgb4-sysfs.rst          | 297 +++++++
+ drivers/media/pci/Kconfig                     |   1 +
+ drivers/media/pci/Makefile                    |   1 +
+ drivers/media/pci/mgb4/Kconfig                |  17 +
+ drivers/media/pci/mgb4/Makefile               |   6 +
+ drivers/media/pci/mgb4/mgb4_cmt.c             | 243 ++++++
+ drivers/media/pci/mgb4/mgb4_cmt.h             |  16 +
+ drivers/media/pci/mgb4/mgb4_core.c            | 512 ++++++++++++
+ drivers/media/pci/mgb4/mgb4_core.h            |  49 ++
+ drivers/media/pci/mgb4/mgb4_i2c.c             | 139 ++++
+ drivers/media/pci/mgb4/mgb4_i2c.h             |  35 +
+ drivers/media/pci/mgb4/mgb4_io.h              |  36 +
+ drivers/media/pci/mgb4/mgb4_regs.c            |  30 +
+ drivers/media/pci/mgb4/mgb4_regs.h            |  35 +
+ drivers/media/pci/mgb4/mgb4_sysfs.h           |  18 +
+ drivers/media/pci/mgb4/mgb4_sysfs_in.c        | 750 ++++++++++++++++++
+ drivers/media/pci/mgb4/mgb4_sysfs_out.c       | 734 +++++++++++++++++
+ drivers/media/pci/mgb4/mgb4_sysfs_pci.c       |  83 ++
+ drivers/media/pci/mgb4/mgb4_trigger.c         | 200 +++++
+ drivers/media/pci/mgb4/mgb4_trigger.h         |   8 +
+ drivers/media/pci/mgb4/mgb4_vin.c             | 649 +++++++++++++++
+ drivers/media/pci/mgb4/mgb4_vin.h             |  64 ++
+ drivers/media/pci/mgb4/mgb4_vout.c            | 496 ++++++++++++
+ drivers/media/pci/mgb4/mgb4_vout.h            |  58 ++
+ 26 files changed, 4523 insertions(+)
+ create mode 100644 Documentation/admin-guide/media/mgb4-iio.rst
+ create mode 100644 Documentation/admin-guide/media/mgb4-mtd.rst
+ create mode 100644 Documentation/admin-guide/media/mgb4-sysfs.rst
+ create mode 100644 drivers/media/pci/mgb4/Kconfig
+ create mode 100644 drivers/media/pci/mgb4/Makefile
+ create mode 100644 drivers/media/pci/mgb4/mgb4_cmt.c
+ create mode 100644 drivers/media/pci/mgb4/mgb4_cmt.h
+ create mode 100644 drivers/media/pci/mgb4/mgb4_core.c
+ create mode 100644 drivers/media/pci/mgb4/mgb4_core.h
+ create mode 100644 drivers/media/pci/mgb4/mgb4_i2c.c
+ create mode 100644 drivers/media/pci/mgb4/mgb4_i2c.h
+ create mode 100644 drivers/media/pci/mgb4/mgb4_io.h
+ create mode 100644 drivers/media/pci/mgb4/mgb4_regs.c
+ create mode 100644 drivers/media/pci/mgb4/mgb4_regs.h
+ create mode 100644 drivers/media/pci/mgb4/mgb4_sysfs.h
+ create mode 100644 drivers/media/pci/mgb4/mgb4_sysfs_in.c
+ create mode 100644 drivers/media/pci/mgb4/mgb4_sysfs_out.c
+ create mode 100644 drivers/media/pci/mgb4/mgb4_sysfs_pci.c
+ create mode 100644 drivers/media/pci/mgb4/mgb4_trigger.c
+ create mode 100644 drivers/media/pci/mgb4/mgb4_trigger.h
+ create mode 100644 drivers/media/pci/mgb4/mgb4_vin.c
+ create mode 100644 drivers/media/pci/mgb4/mgb4_vin.h
+ create mode 100644 drivers/media/pci/mgb4/mgb4_vout.c
+ create mode 100644 drivers/media/pci/mgb4/mgb4_vout.h
 
-diff --git a/drivers/dma/Kconfig b/drivers/dma/Kconfig
-index 487ed4ddc3be..e37578a5d94e 100644
---- a/drivers/dma/Kconfig
-+++ b/drivers/dma/Kconfig
-@@ -793,6 +793,13 @@ config DMATEST
- 	  Simple DMA test client. Say N unless you're debugging a
- 	  DMA Device driver.
- 
-+config XILINX_XDMA
-+	tristate "Xilinx XDMA Engine"
-+	depends on PCI
-+	select DMA_ENGINE
-+	help
-+	  Enable support for Xilinx XDMA IP controller.
-+
- config DMA_ENGINE_RAID
- 	bool
- 
-diff --git a/drivers/dma/xilinx/Makefile b/drivers/dma/xilinx/Makefile
-index 767bb45f641f..890c9c04e3c7 100644
---- a/drivers/dma/xilinx/Makefile
-+++ b/drivers/dma/xilinx/Makefile
-@@ -2,3 +2,5 @@
- obj-$(CONFIG_XILINX_DMA) += xilinx_dma.o
- obj-$(CONFIG_XILINX_ZYNQMP_DMA) += zynqmp_dma.o
- obj-$(CONFIG_XILINX_ZYNQMP_DPDMA) += xilinx_dpdma.o
-+obj-$(CONFIG_XILINX_XDMA) += xilinx_xdma.o
-+xilinx_xdma-objs := xdma_core.o xdma_thread.o
-diff --git a/drivers/dma/xilinx/xdma_core.c b/drivers/dma/xilinx/xdma_core.c
+diff --git a/Documentation/admin-guide/media/mgb4-iio.rst b/Documentation/admin-guide/media/mgb4-iio.rst
 new file mode 100644
-index 000000000000..03f02acb5904
+index 000000000000..8e708ddd1b15
 --- /dev/null
-+++ b/drivers/dma/xilinx/xdma_core.c
-@@ -0,0 +1,3835 @@
-+// SPDX-License-Identifier: GPL-2.0
++++ b/Documentation/admin-guide/media/mgb4-iio.rst
+@@ -0,0 +1,30 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++====================
++mgb4 iio (triggers)
++====================
++
++The mgb4 driver creates an Industrial I/O (IIO) device that provides trigger and
++signal level status capability. The following scan elements are available:
++
++**activity**:
++	The trigger levels and pending status.
++
++	| bit 1 - trigger 1 pending
++	| bit 2 - trigger 2 pending
++	| bit 5 - trigger 1 level
++	| bit 6 - trigger 2 level
++
++**timestamp**:
++	The trigger event timestamp.
++
++The iio device can operate either in "raw" mode where you can fetch the signal
++levels (activity bits 5 and 6) using sysfs access or in triggered buffer mode.
++In the triggered buffer mode you can follow the signal level changes (activity
++bits 1 and 2) using the iio device in /dev. If you enable the timestamps, you
++will also get the exact trigger event time that can be matched to a video frame
++(every mgb4 video frame has a timestamp with the same clock source).
++
++*Note: although the activity sample always contains all the status bits, it makes
++no sense to get the pending bits in raw mode or the level bits in the triggered
++buffer mode - the values do not represent valid data in such case.*
+diff --git a/Documentation/admin-guide/media/mgb4-mtd.rst b/Documentation/admin-guide/media/mgb4-mtd.rst
+new file mode 100644
+index 000000000000..ca20b799f00f
+--- /dev/null
++++ b/Documentation/admin-guide/media/mgb4-mtd.rst
+@@ -0,0 +1,16 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++====================
++mgb4 mtd partitions
++====================
++
++The mgb4 driver creates a MTD device with two partitions:
++ - mgb4-fw.X - FPGA firmware.
++ - mgb4-data.X - Factory settings, e.g. card serial number.
++
++The *mgb4-fw* partition is writable and is used for FW updates, *mgb4-data* is
++read-only. The *X* attached to the partition name represents the card number.
++Depending on the CONFIG_MTD_PARTITIONED_MASTER kernel configuration, you may
++also have a third partition named *mgb4-flash* available in the system. This
++partition represents the whole, unpartitioned, card's FLASH memory and one should
++not fiddle with it...
+diff --git a/Documentation/admin-guide/media/mgb4-sysfs.rst b/Documentation/admin-guide/media/mgb4-sysfs.rst
+new file mode 100644
+index 000000000000..21ff1b5d026e
+--- /dev/null
++++ b/Documentation/admin-guide/media/mgb4-sysfs.rst
+@@ -0,0 +1,297 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++====================
++mgb4 sysfs interface
++====================
++
++The mgb4 driver provides a sysfs interface, that is used to configure video
++stream related parameters (some of them must be set properly before the v4l2
++device can be opened) and obtain the video device/stream status.
++
++There are two types of parameters - global / PCI card related, found under
++``/sys/class/video4linux/videoX/device`` and module specific found under
++``/sys/class/video4linux/videoX``.
++
++
++Global (PCI card) parameters
++============================
++
++**module_type** (R):
++    Module type.
++
++    | 0 - No module present
++    | 1 - FPDL3
++    | 2 - GMSL
++
++**module_version** (R):
++    Module version number. Zero in case of a missing module.
++
++**fw_type** (R):
++    Firmware type.
++
++    | 1 - FPDL3
++    | 2 - GMSL
++
++**fw_version** (R):
++    Firmware version number.
++
++**serial_number** (R):
++    Card serial number. The format is::
++
++        PRODUCT-REVISION-SERIES-SERIAL
++
++    where each component is a 8b number.
++
++**temperature** (R):
++    FPGA core temperature in Celsius degree.
++
++Common FPDL3/GMSL input parameters
++==================================
++
++**input_id** (R):
++    Input number ID, zero based.
++
++**oldi_lane_width** (RW):
++    Number of deserializer output lanes.
++
++    | 0 - single
++    | 1 - dual
++
++**color_mapping** (RW):
++    Mapping of the incoming bits in the signal to the colour bits of the pixels.
++
++    | 0 - OLDI/JEIDA
++    | 1 - SPWG/VESA
++
++**link_status** (R):
++    Video link status. If the link is locked, chips are properly connected and
++    communicating at the same speed and protocol. The link can be locked without
++    an active video stream.
++
++    | 0 - unlocked
++    | 1 - locked
++
++**stream_status** (R):
++    Video stream status. A stream is detected if the link is locked, the input
++    pixel clock is running and the DE signal is moving.
++
++    | 0 - not detected
++    | 1 - detected
++
++**vsync_status** (R):
++    The type of VSYNC pulses as detected by the video format detector.
++
++    | 0 - active low
++    | 1 - active high
++    | 2 - not available
++
++**hsync_status** (R):
++    The type of HSYNC pulses as detected by the video format detector.
++
++    | 0 - active low
++    | 1 - active high
++    | 2 - not available
++
++**vsync_gap_length** (RW):
++    If the incoming video signal does not contain synchronization VSYNC and
++    HSYNC pulses, these must be generated internally in the FPGA to achieve
++    the correct frame ordering. This value indicates, how many "empty" pixels
++    (pixels with deasserted Data Enable signal) are necessary to generate the
++    internal VSYNC pulse.
++
++**hsync_gap_length** (RW):
++    If the incoming video signal does not contain synchronization VSYNC and
++    HSYNC pulses, these must be generated internally in the FPGA to achieve
++    the correct frame ordering. This value indicates, how many "empty" pixels
++    (pixels with deasserted Data Enable signal) are necessary to generate the
++    internal HSYNC pulse. The value must be greater than 1 and smaller than
++    vsync_gap_length.
++
++**pclk_frequency** (R):
++    Input pixel clock frequency in kHz.
++
++    *Note: The frequency_range parameter must be set properly first to get
++    a valid frequency here.*
++
++**hsync_width** (R):
++    Width of the HSYNC signal in PCLK clock ticks.
++
++**vsync_width** (R):
++    Width of the VSYNC signal in PCLK clock ticks.
++
++**hback_porch** (R):
++    Number of PCLK pulses between deassertion of the HSYNC signal and the first
++    valid pixel in the video line (marked by DE=1).
++
++**hfront_porch** (R):
++    Number of PCLK pulses between the end of the last valid pixel in the video
++    line (marked by DE=1) and assertion of the HSYNC signal.
++
++**vback_porch** (R):
++    Number of video lines between deassertion of the VSYNC signal and the video
++    line with the first valid pixel (marked by DE=1).
++
++**vfront_porch** (R):
++    Number of video lines between the end of the last valid pixel line (marked
++    by DE=1) and assertion of the VSYNC signal.
++
++**frequency_range** (RW)
++    PLL frequency range of the OLDI input clock generator. The PLL frequency is
++    derived from the Pixel Clock Frequency (PCLK) and is equal to PCLK if
++    oldi_lane_width is set to "single" and PCLK/2 if oldi_lane_width is set to
++    "dual".
++
++    | 0 - PLL < 50MHz
++    | 1 - PLL >= 50MHz
++
++    *Note: This parameter can not be changed while the input v4l2 device is
++    open.*
++
++**alignment** (RW)
++    Pixel line alignment. Sets the pixel line alignment in bytes of the frame
++    buffers provided via the v4l2 interface. The number must be a power of 2.
++
++    *Note: This parameter can not be changed while the input v4l2 device is
++    open.*
++
++Common FPDL3/GMSL output parameters
++===================================
++
++**output_id** (R):
++    Output number ID, zero based.
++
++**video_source** (RW):
++    Output video source. If set to 0 or 1, the source is the corresponding card
++    input and the v4l2 output devices are disabled. If set to 2 or 3, the source
++    is the corresponding v4l2 video output device.
++
++    | 0 - input 0
++    | 1 - input 1
++    | 2 - v4l2 output 0
++    | 3 - v4l2 output 1
++
++    *Note: This parameter can not be changed while ANY of the input/output v4l2
++    devices is open.*
++
++**display_width** (RW):
++    Display width. There is no autodetection of the connected display, so the
++    propper value must be set before the start of streaming.
++
++    *Note: This parameter can not be changed while the output v4l2 device is
++    open.*
++
++**display_height** (RW):
++    Display height. There is no autodetection of the connected display, so the
++    propper value must be set before the start of streaming.
++
++    *Note: This parameter can not be changed while the output v4l2 device is
++    open.*
++
++**frame_rate** (RW):
++    Output video frame rate in frames per second.
++
++**hsync_polarity** (RW):
++    HSYNC signal polarity.
++
++    | 0 - active low
++    | 1 - active high
++
++**vsync_polarity** (RW):
++    VSYNC signal polarity.
++
++    | 0 - active low
++    | 1 - active high
++
++**de_polarity** (RW):
++    DE signal polarity.
++
++    | 0 - active low
++    | 1 - active high
++
++**pclk_frequency** (RW):
++    Output pixel clock frequency. Allowed values are between 25000-190000(kHz)
++    and there is a non-linear stepping between two consecutive allowed
++    frequencies. The driver finds the nearest allowed frequency to the given
++    value and sets it. When reading this property, you get the exact
++    frequency set by the driver.
++
++    *Note: This parameter can not be changed while the output v4l2 device is
++    open.*
++
++**hsync_width** (RW):
++    Width of the HSYNC signal in PCLK clock ticks.
++
++**vsync_width** (RW):
++    Width of the VSYNC signal in PCLK clock ticks.
++
++**hback_porch** (RW):
++    Number of PCLK pulses between deassertion of the HSYNC signal and the first
++    valid pixel in the video line (marked by DE=1).
++
++**hfront_porch** (RW):
++    Number of PCLK pulses between the end of the last valid pixel in the video
++    line (marked by DE=1) and assertion of the HSYNC signal.
++
++**vback_porch** (RW):
++    Number of video lines between deassertion of the VSYNC signal and the video
++    line with the first valid pixel (marked by DE=1).
++
++**vfront_porch** (RW):
++    Number of video lines between the end of the last valid pixel line (marked
++    by DE=1) and assertion of the VSYNC signal.
++
++**alignment** (RW)
++    Pixel line alignment. Sets the pixel line alignment in bytes of the frame
++    buffers provided via the v4l2 interface. The number must be a power of 2.
++
++    *Note: This parameter can not be changed while the output v4l2 device is
++    open.*
++
++    *Note: This parameter can not be changed when loopback mode is active
++    (video_source is 0 or 1). When loopback mode is enabled, the alignment is
++    automatically set to the alignment of the input device.*
++
++FPDL3 specific input parameters
++===============================
++
++**fpdl3_input_width** (RW):
++    Number of deserializer input lines.
++
++    | 0 - auto
++    | 1 - single
++    | 2 - dual
++
++FPDL3 specific output parameters
++================================
++
++**fpdl3_output_width** (RW):
++    Number of serializer output lines.
++
++    | 0 - auto
++    | 1 - single
++    | 2 - dual
++
++GMSL specific input parameters
++==============================
++
++**gmsl_mode** (RW):
++    GMSL speed mode.
++
++    | 0 - 12Gb/s
++    | 1 - 6Gb/s
++    | 2 - 3Gb/s
++    | 3 - 1.5Gb/s
++
++**gmsl_stream_id** (RW):
++    The GMSL multi-stream contains up to four video streams. This parameter
++    selects which stream is captured by the video input. The value is the
++    zero-based index of the stream.
++
++    *Note: This parameter can not be changed while the input v4l2 device is
++    open.*
++
++**gmsl_fec** (RW):
++    GMSL Forward Error Correction (FEC).
++
++    | 0 - disabled
++    | 1 - enabled
+diff --git a/drivers/media/pci/Kconfig b/drivers/media/pci/Kconfig
+index 1224d908713a..e3f9d0d4e4cc 100644
+--- a/drivers/media/pci/Kconfig
++++ b/drivers/media/pci/Kconfig
+@@ -13,6 +13,7 @@ if MEDIA_PCI_SUPPORT
+ if MEDIA_CAMERA_SUPPORT
+ 	comment "Media capture support"
+ 
++source "drivers/media/pci/mgb4/Kconfig"
+ source "drivers/media/pci/meye/Kconfig"
+ source "drivers/media/pci/solo6x10/Kconfig"
+ source "drivers/media/pci/sta2x11/Kconfig"
+diff --git a/drivers/media/pci/Makefile b/drivers/media/pci/Makefile
+index 551169a3e434..8ca819cf3cc1 100644
+--- a/drivers/media/pci/Makefile
++++ b/drivers/media/pci/Makefile
+@@ -33,6 +33,7 @@ obj-$(CONFIG_VIDEO_CX88) += cx88/
+ obj-$(CONFIG_VIDEO_DT3155) += dt3155/
+ obj-$(CONFIG_VIDEO_IVTV) += ivtv/
+ obj-$(CONFIG_VIDEO_MEYE) += meye/
++obj-$(CONFIG_VIDEO_MGB4) += mgb4/
+ obj-$(CONFIG_VIDEO_SAA7134) += saa7134/
+ obj-$(CONFIG_VIDEO_SAA7164) += saa7164/
+ obj-$(CONFIG_VIDEO_SOLO6X10) += solo6x10/
+diff --git a/drivers/media/pci/mgb4/Kconfig b/drivers/media/pci/mgb4/Kconfig
+new file mode 100644
+index 000000000000..13fad15a434c
+--- /dev/null
++++ b/drivers/media/pci/mgb4/Kconfig
+@@ -0,0 +1,17 @@
++# SPDX-License-Identifier: GPL-2.0-only
++config VIDEO_MGB4
++	tristate "Digiteq Automotive MGB4 support"
++	depends on VIDEO_DEV && PCI && I2C && DMADEVICES && SPI && MTD && IIO
++	select VIDEOBUF2_DMA_SG
++	select IIO_BUFFER
++	select IIO_TRIGGERED_BUFFER
++	select I2C_XILINX
++	select SPI_XILINX
++	select MTD_SPI_NOR
++	select XILINX_XDMA
++	help
++	  This is a video4linux driver for Digiteq Automotive MGB4 grabber
++	  cards.
++
++	  To compile this driver as a module, choose M here: the
++	  module will be called mgb4.
+diff --git a/drivers/media/pci/mgb4/Makefile b/drivers/media/pci/mgb4/Makefile
+new file mode 100644
+index 000000000000..aeac053b8031
+--- /dev/null
++++ b/drivers/media/pci/mgb4/Makefile
+@@ -0,0 +1,6 @@
++# SPDX-License-Identifier: GPL-2.0
++mgb4-objs	:= mgb4_regs.o mgb4_core.o mgb4_vin.o mgb4_vout.o \
++               mgb4_sysfs_pci.o mgb4_sysfs_in.o mgb4_sysfs_out.o \
++               mgb4_i2c.o mgb4_cmt.o mgb4_trigger.o
++
++obj-$(CONFIG_VIDEO_MGB4) += mgb4.o
+diff --git a/drivers/media/pci/mgb4/mgb4_cmt.c b/drivers/media/pci/mgb4/mgb4_cmt.c
+new file mode 100644
+index 000000000000..3ec394e46bd0
+--- /dev/null
++++ b/drivers/media/pci/mgb4/mgb4_cmt.c
+@@ -0,0 +1,243 @@
++// SPDX-License-Identifier: GPL-2.0-only
 +/*
-+ * This file is part of the Xilinx DMA IP Core driver for Linux
-+ *
-+ * Copyright (c) 2016-present,  Xilinx, Inc.
-+ * Copyright (c) 2020-present,  Digiteq Automotive s.r.o.
++ * Copyright (C) 2021-2022 Digiteq Automotive
++ *     author: Martin Tuma <martin.tuma@digiteqautomotive.com>
 + */
 +
-+#include <linux/module.h>
++#include <linux/types.h>
 +#include <linux/kernel.h>
-+#include <linux/string.h>
-+#include <linux/mm.h>
-+#include <linux/errno.h>
-+#include <linux/sched.h>
-+#include <linux/vmalloc.h>
-+#include <linux/dma/xilinx_xdma.h>
-+#include "xdma_core.h"
-+#include "xdma_thread.h"
-+#include "xdma_version.h"
++#include "mgb4_core.h"
++#include "mgb4_cmt.h"
 +
-+#define DRV_MODULE_NAME "xdma"
-+#define DRV_MODULE_DESC "Xilinx XDMA Base Driver"
-+#define DRV_MODULE_RELDATE "04/2021"
++static const uint16_t cmt_vals_out[][15] = {
++	{0x1208, 0x0000, 0x171C, 0x0000, 0x1E38, 0x0000, 0x11C7, 0x0000, 0x1041, 0x01BC, 0x7C01, 0x7DE9, 0xFFFF, 0x9900, 0x8100, },
++	{0x11C7, 0x0000, 0x1619, 0x0080, 0x1C71, 0x0000, 0x130D, 0x0080, 0x0041, 0x0090, 0x7C01, 0x7DE9, 0xFFFF, 0x1100, 0x9000, },
++	{0x11C7, 0x0000, 0x1619, 0x0080, 0x1C71, 0x0000, 0x165A, 0x0080, 0x0082, 0x00FA, 0x7C01, 0x7DE9, 0xFFFF, 0x1000, 0x9000, },
++	{0x11C7, 0x0000, 0x1619, 0x0080, 0x1C71, 0x0000, 0x1187, 0x0080, 0x1041, 0x01EE, 0x7C01, 0x7DE9, 0xFFFF, 0x9900, 0x8100, },
++	{0x1186, 0x0000, 0x1555, 0x0000, 0x1AAA, 0x0000, 0x1451, 0x0000, 0x0042, 0x0013, 0x7C01, 0x7DE9, 0xFFFF, 0x0900, 0x1000, },
++	{0x11C7, 0x0000, 0x1619, 0x0080, 0x1C71, 0x0000, 0x134E, 0x0080, 0x0041, 0x005E, 0x7C01, 0x7DE9, 0xFFFF, 0x0900, 0x1000, },
++	{0x1145, 0x0000, 0x1452, 0x0080, 0x18E3, 0x0000, 0x1619, 0x0080, 0x0083, 0x00FA, 0x7C01, 0x7DE9, 0xFFFF, 0x1000, 0x9000, },
++	{0x1145, 0x0000, 0x1452, 0x0080, 0x18E3, 0x0000, 0x179E, 0x0000, 0x00C3, 0x00FA, 0x7C01, 0x7DE9, 0xFFFF, 0x0800, 0x1000, },
++	{0x1145, 0x0000, 0x1452, 0x0080, 0x18E3, 0x0000, 0x179F, 0x0080, 0x00C3, 0x00FA, 0x7C01, 0x7DE9, 0xFFFF, 0x0800, 0x1000, },
++	{0x1145, 0x0000, 0x1452, 0x0080, 0x18E3, 0x0000, 0x17DF, 0x0000, 0x00C3, 0x00FA, 0x7C01, 0x7DE9, 0xFFFF, 0x1000, 0x8800, },
++	{0x1145, 0x0000, 0x1452, 0x0080, 0x18E3, 0x0000, 0x128B, 0x0080, 0x0041, 0x00DB, 0x7C01, 0x7DE9, 0xFFFF, 0x9000, 0x0100, },
++	{0x1186, 0x0000, 0x1555, 0x0000, 0x1AAA, 0x0000, 0x1820, 0x0000, 0x0083, 0x00FA, 0x7DE9, 0x7DE8, 0xFFFF, 0x0900, 0x9000, },
++	{0x1186, 0x0000, 0x1555, 0x0000, 0x1AAA, 0x0000, 0x1187, 0x0080, 0x1041, 0x01EE, 0x7C01, 0x7DE9, 0xFFFF, 0x9900, 0x8100, },
++	{0x1104, 0x0000, 0x138E, 0x0000, 0x171C, 0x0000, 0x169B, 0x0080, 0x00C3, 0x00FA, 0x7C01, 0x7DE9, 0xFFFF, 0x1800, 0x0100, },
++	{0x1145, 0x0000, 0x1452, 0x0080, 0x18E3, 0x0000, 0x171C, 0x0000, 0x0083, 0x00FA, 0x7C01, 0x7DE9, 0xFFFF, 0x1100, 0x1800, },
++	{0x1186, 0x0000, 0x1555, 0x0000, 0x1AAA, 0x0000, 0x1515, 0x0080, 0x0042, 0x00FA, 0x7C01, 0x7DE9, 0xFFFF, 0x0900, 0x1000, },
++	{0x1104, 0x0000, 0x138E, 0x0000, 0x171C, 0x0000, 0x1493, 0x0080, 0x0082, 0x00FA, 0x7C01, 0x7DE9, 0xFFFF, 0x0900, 0x1000, },
++	{0x1145, 0x0000, 0x1452, 0x0080, 0x18E3, 0x0000, 0x15D8, 0x0080, 0x0082, 0x00FA, 0x7C01, 0x7DE9, 0xFFFF, 0x1900, 0x0100, },
++	{0x1104, 0x0000, 0x138E, 0x0000, 0x171C, 0x0000, 0x124A, 0x0080, 0x0041, 0x010D, 0x7C01, 0x7DE9, 0xFFFF, 0x9000, 0x0100, },
++	{0x1104, 0x0000, 0x138E, 0x0000, 0x171C, 0x0000, 0x175D, 0x0000, 0x00C3, 0x00FA, 0x7C01, 0x7DE9, 0xFFFF, 0x0800, 0x1000, },
++	{0x1145, 0x0000, 0x1452, 0x0080, 0x18E3, 0x0000, 0x1619, 0x0080, 0x0082, 0x00FA, 0x7C01, 0x7DE9, 0xFFFF, 0x1000, 0x9000, },
++	{0x1145, 0x0000, 0x1452, 0x0080, 0x18E3, 0x0000, 0x17DF, 0x0000, 0x0083, 0x00FA, 0x7C01, 0x7DE9, 0xFFFF, 0x1000, 0x8800, },
++	{0x1145, 0x0000, 0x1452, 0x0080, 0x18E3, 0x0000, 0x17E0, 0x0080, 0x0083, 0x00FA, 0x7C01, 0x7DE9, 0xFFFF, 0x0900, 0x9000, },
++	{0x1145, 0x0000, 0x1452, 0x0080, 0x18E3, 0x0000, 0x1820, 0x0000, 0x0083, 0x00FA, 0x7DE9, 0x7DE8, 0xFFFF, 0x0900, 0x9000, },
++	{0x1104, 0x0000, 0x138E, 0x0000, 0x171C, 0x0000, 0x13D0, 0x0080, 0x0042, 0x002C, 0x7C01, 0x7DE9, 0xFFFF, 0x0900, 0x1000, },
++	{0x1104, 0x0000, 0x138E, 0x0000, 0x171C, 0x0000, 0x128B, 0x0080, 0x0041, 0x00DB, 0x7C01, 0x7DE9, 0xFFFF, 0x9000, 0x0100, },
++	{0x1104, 0x0000, 0x138E, 0x0000, 0x171C, 0x0000, 0x1820, 0x0000, 0x00C3, 0x00FA, 0x7DE9, 0x7DE8, 0xFFFF, 0x0900, 0x9000, },
++	{0x1145, 0x0000, 0x1452, 0x0080, 0x18E3, 0x0000, 0x134E, 0x0080, 0x0041, 0x005E, 0x7C01, 0x7DE9, 0xFFFF, 0x0900, 0x1000, },
++	{0x1145, 0x0000, 0x1452, 0x0080, 0x18E3, 0x0000, 0x1515, 0x0080, 0x0042, 0x00FA, 0x7C01, 0x7DE9, 0xFFFF, 0x0900, 0x1000, },
++	{0x10C3, 0x0000, 0x128B, 0x0080, 0x1555, 0x0000, 0x175D, 0x0000, 0x00C4, 0x00FA, 0x7C01, 0x7DE9, 0xFFFF, 0x0800, 0x1000, },
++	{0x1145, 0x0000, 0x1452, 0x0080, 0x18E3, 0x0000, 0x11C7, 0x0000, 0x1041, 0x01BC, 0x7C01, 0x7DE9, 0xFFFF, 0x9900, 0x8100, },
++	{0x10C3, 0x0000, 0x128B, 0x0080, 0x1555, 0x0000, 0x1209, 0x0080, 0x0041, 0x013F, 0x7C01, 0x7DE9, 0xFFFF, 0x9900, 0x1100, },
++	{0x10C3, 0x0000, 0x128B, 0x0080, 0x1555, 0x0000, 0x1556, 0x0080, 0x0083, 0x00FA, 0x7C01, 0x7DE9, 0xFFFF, 0x0800, 0x8000, },
++	{0x10C3, 0x0000, 0x128B, 0x0080, 0x1555, 0x0000, 0x179F, 0x0080, 0x00C4, 0x00FA, 0x7C01, 0x7DE9, 0xFFFF, 0x0800, 0x1000, },
++	{0x1104, 0x0000, 0x138E, 0x0000, 0x171C, 0x0000, 0x15D8, 0x0080, 0x0082, 0x00FA, 0x7C01, 0x7DE9, 0xFFFF, 0x1900, 0x0100, },
++	{0x10C3, 0x0000, 0x128B, 0x0080, 0x1555, 0x0000, 0x1105, 0x0080, 0x1041, 0x01E8, 0x6401, 0x65E9, 0xFFFF, 0x9800, 0x1100, },
++	{0x10C3, 0x0000, 0x128B, 0x0080, 0x1555, 0x0000, 0x1820, 0x0000, 0x00C4, 0x00FA, 0x7DE9, 0x7DE8, 0xFFFF, 0x0900, 0x9000, },
++	{0x1104, 0x0000, 0x138E, 0x0000, 0x171C, 0x0000, 0x1493, 0x0080, 0x0042, 0x00FA, 0x7C01, 0x7DE9, 0xFFFF, 0x0900, 0x1000, },
++	{0x10C3, 0x0000, 0x128B, 0x0080, 0x1555, 0x0000, 0x138E, 0x0000, 0x0042, 0x005E, 0x7C01, 0x7DE9, 0xFFFF, 0x0900, 0x1000, },
++	{0x1104, 0x0000, 0x138E, 0x0000, 0x171C, 0x0000, 0x17E0, 0x0080, 0x0083, 0x00FA, 0x7C01, 0x7DE9, 0xFFFF, 0x0900, 0x9000, },
++	{0x1104, 0x0000, 0x138E, 0x0000, 0x171C, 0x0000, 0x165A, 0x0080, 0x0082, 0x00FA, 0x7C01, 0x7DE9, 0xFFFF, 0x1000, 0x9000, },
++	{0x10C3, 0x0000, 0x128B, 0x0080, 0x1555, 0x0000, 0x175D, 0x0000, 0x00C3, 0x00FA, 0x7C01, 0x7DE9, 0xFFFF, 0x0800, 0x1000, },
++	{0x1104, 0x0000, 0x138E, 0x0000, 0x171C, 0x0000, 0x1187, 0x0080, 0x1041, 0x01EE, 0x7C01, 0x7DE9, 0xFFFF, 0x9900, 0x8100, },
++	{0x10C3, 0x0000, 0x128B, 0x0080, 0x1555, 0x0000, 0x175E, 0x0080, 0x00C3, 0x00FA, 0x7C01, 0x7DE9, 0xFFFF, 0x0800, 0x1000, },
++	{0x10C3, 0x0000, 0x128B, 0x0080, 0x1555, 0x0000, 0x179E, 0x0000, 0x00C3, 0x00FA, 0x7C01, 0x7DE9, 0xFFFF, 0x0800, 0x1000, },
++	{0x1104, 0x0000, 0x138E, 0x0000, 0x171C, 0x0000, 0x134E, 0x0080, 0x0041, 0x005E, 0x7C01, 0x7DE9, 0xFFFF, 0x0900, 0x1000, },
++	{0x10C3, 0x0000, 0x128B, 0x0080, 0x1555, 0x0000, 0x165A, 0x0080, 0x0083, 0x00FA, 0x7C01, 0x7DE9, 0xFFFF, 0x1000, 0x9000, },
++	{0x1104, 0x0000, 0x138E, 0x0000, 0x171C, 0x0000, 0x16DC, 0x0080, 0x0082, 0x00FA, 0x7C01, 0x7DE9, 0xFFFF, 0x1100, 0x1800, },
++	{0x10C3, 0x0000, 0x128B, 0x0080, 0x1555, 0x0000, 0x169A, 0x0000, 0x0083, 0x00FA, 0x7C01, 0x7DE9, 0xFFFF, 0x1000, 0x9000, },
++	{0x1104, 0x0000, 0x138E, 0x0000, 0x171C, 0x0000, 0x11C7, 0x0000, 0x1041, 0x01BC, 0x7C01, 0x7DE9, 0xFFFF, 0x9900, 0x8100, },
++	{0x10C3, 0x0000, 0x128B, 0x0080, 0x1555, 0x0000, 0x169B, 0x0080, 0x0083, 0x00FA, 0x7C01, 0x7DE9, 0xFFFF, 0x1800, 0x0100, },
++	{0x1104, 0x0000, 0x138E, 0x0000, 0x171C, 0x0000, 0x171D, 0x0080, 0x0082, 0x00FA, 0x7C01, 0x7DE9, 0xFFFF, 0x1100, 0x1800, },
++	{0x10C3, 0x0000, 0x128B, 0x0080, 0x1555, 0x0000, 0x16DB, 0x0000, 0x0083, 0x00FA, 0x7C01, 0x7DE9, 0xFFFF, 0x1800, 0x0100, },
++	{0x10C3, 0x0000, 0x128B, 0x0080, 0x1555, 0x0000, 0x1146, 0x0080, 0x1041, 0x0184, 0x7C01, 0x7DE9, 0xFFFF, 0x9900, 0x8100, },
++	{0x10C3, 0x0000, 0x128B, 0x0080, 0x1555, 0x0000, 0x171C, 0x0000, 0x0083, 0x00FA, 0x7C01, 0x7DE9, 0xFFFF, 0x1100, 0x1800, },
++	{0x10C3, 0x0000, 0x128B, 0x0080, 0x1555, 0x0000, 0x1451, 0x0000, 0x0042, 0x0013, 0x7C01, 0x7DE9, 0xFFFF, 0x0900, 0x1000, },
++	{0x10C3, 0x0000, 0x128B, 0x0080, 0x1555, 0x0000, 0x171D, 0x0080, 0x0083, 0x00FA, 0x7C01, 0x7DE9, 0xFFFF, 0x1100, 0x1800, },
++	{0x10C3, 0x0000, 0x128B, 0x0080, 0x1555, 0x0000, 0x175D, 0x0000, 0x0083, 0x00FA, 0x7C01, 0x7DE9, 0xFFFF, 0x0800, 0x1000, },
++	{0x10C3, 0x0000, 0x128B, 0x0080, 0x1555, 0x0000, 0x1452, 0x0080, 0x0042, 0x0013, 0x7C01, 0x7DE9, 0xFFFF, 0x0900, 0x1000, },
++	{0x10C3, 0x0000, 0x128B, 0x0080, 0x1555, 0x0000, 0x15D8, 0x0080, 0x0082, 0x00FA, 0x7C01, 0x7DE9, 0xFFFF, 0x1900, 0x0100, },
++	{0x1082, 0x0000, 0x11C7, 0x0000, 0x138E, 0x0000, 0x1104, 0x0000, 0x1041, 0x01E8, 0x5801, 0x59E9, 0xFFFF, 0x9900, 0x0900, },
++	{0x10C3, 0x0000, 0x128B, 0x0080, 0x1555, 0x0000, 0x179F, 0x0080, 0x0083, 0x00FA, 0x7C01, 0x7DE9, 0xFFFF, 0x0800, 0x1000, },
++	{0x1082, 0x0000, 0x11C7, 0x0000, 0x138E, 0x0000, 0x1515, 0x0080, 0x0083, 0x00FA, 0x7C01, 0x7DE9, 0xFFFF, 0x0900, 0x1000, },
++	{0x10C3, 0x0000, 0x128B, 0x0080, 0x1555, 0x0000, 0x17DF, 0x0000, 0x0083, 0x00FA, 0x7C01, 0x7DE9, 0xFFFF, 0x1000, 0x8800, },
++	{0x1082, 0x0000, 0x11C7, 0x0000, 0x138E, 0x0000, 0x1659, 0x0000, 0x00C3, 0x00FA, 0x7C01, 0x7DE9, 0xFFFF, 0x1000, 0x9000, },
++	{0x1082, 0x0000, 0x11C7, 0x0000, 0x138E, 0x0000, 0x1555, 0x0000, 0x0083, 0x00FA, 0x7C01, 0x7DE9, 0xFFFF, 0x0800, 0x8000, },
++	{0x10C3, 0x0000, 0x128B, 0x0080, 0x1555, 0x0000, 0x14D3, 0x0000, 0x0042, 0x00FA, 0x7C01, 0x7DE9, 0xFFFF, 0x0900, 0x1000, },
++	{0x10C3, 0x0000, 0x128B, 0x0080, 0x1555, 0x0000, 0x1820, 0x0000, 0x0083, 0x00FA, 0x7DE9, 0x7DE8, 0xFFFF, 0x0900, 0x9000, },
++	{0x1082, 0x0000, 0x11C7, 0x0000, 0x138E, 0x0000, 0x1556, 0x0080, 0x0083, 0x00FA, 0x7C01, 0x7DE9, 0xFFFF, 0x0800, 0x8000, },
++	{0x10C3, 0x0000, 0x128B, 0x0080, 0x1555, 0x0000, 0x1187, 0x0080, 0x1041, 0x01EE, 0x7C01, 0x7DE9, 0xFFFF, 0x9900, 0x8100, },
++	{0x1082, 0x0000, 0x11C7, 0x0000, 0x138E, 0x0000, 0x1452, 0x0080, 0x0082, 0x0013, 0x7C01, 0x7DE9, 0xFFFF, 0x0900, 0x1000, },
++	{0x1082, 0x0000, 0x11C7, 0x0000, 0x138E, 0x0000, 0x169B, 0x0080, 0x00C3, 0x00FA, 0x7C01, 0x7DE9, 0xFFFF, 0x1800, 0x0100, },
++	{0x10C3, 0x0000, 0x128B, 0x0080, 0x1555, 0x0000, 0x1514, 0x0000, 0x0042, 0x00FA, 0x7C01, 0x7DE9, 0xFFFF, 0x0900, 0x1000, },
++	{0x1082, 0x0000, 0x11C7, 0x0000, 0x138E, 0x0000, 0x17E0, 0x0080, 0x00C4, 0x00FA, 0x7C01, 0x7DE9, 0xFFFF, 0x0900, 0x9000, },
++	{0x10C3, 0x0000, 0x128B, 0x0080, 0x1555, 0x0000, 0x1515, 0x0080, 0x0042, 0x00FA, 0x7C01, 0x7DE9, 0xFFFF, 0x0900, 0x1000, },
++	{0x10C3, 0x0000, 0x128B, 0x0080, 0x1555, 0x0000, 0x16DC, 0x0080, 0x0082, 0x00FA, 0x7C01, 0x7DE9, 0xFFFF, 0x1100, 0x1800, },
++	{0x1082, 0x0000, 0x11C7, 0x0000, 0x138E, 0x0000, 0x1493, 0x0080, 0x0082, 0x00FA, 0x7C01, 0x7DE9, 0xFFFF, 0x0900, 0x1000, },
++	{0x1082, 0x0000, 0x11C7, 0x0000, 0x138E, 0x0000, 0x171C, 0x0000, 0x00C3, 0x00FA, 0x7C01, 0x7DE9, 0xFFFF, 0x1100, 0x1800, },
++	{0x1082, 0x0000, 0x11C7, 0x0000, 0x138E, 0x0000, 0x15D8, 0x0080, 0x0083, 0x00FA, 0x7C01, 0x7DE9, 0xFFFF, 0x1900, 0x0100, },
++	{0x1082, 0x0000, 0x11C7, 0x0000, 0x138E, 0x0000, 0x171D, 0x0080, 0x00C3, 0x00FA, 0x7C01, 0x7DE9, 0xFFFF, 0x1100, 0x1800, },
++	{0x1082, 0x0000, 0x11C7, 0x0000, 0x138E, 0x0000, 0x1618, 0x0000, 0x0083, 0x00FA, 0x7C01, 0x7DE9, 0xFFFF, 0x1900, 0x0100, },
++	{0x1082, 0x0000, 0x11C7, 0x0000, 0x138E, 0x0000, 0x175D, 0x0000, 0x00C3, 0x00FA, 0x7C01, 0x7DE9, 0xFFFF, 0x0800, 0x1000, },
++	{0x1082, 0x0000, 0x11C7, 0x0000, 0x138E, 0x0000, 0x14D4, 0x0080, 0x0082, 0x00FA, 0x7C01, 0x7DE9, 0xFFFF, 0x0900, 0x1000, },
++	{0x1082, 0x0000, 0x11C7, 0x0000, 0x138E, 0x0000, 0x1619, 0x0080, 0x0083, 0x00FA, 0x7C01, 0x7DE9, 0xFFFF, 0x1000, 0x9000, },
++	{0x1082, 0x0000, 0x11C7, 0x0000, 0x138E, 0x0000, 0x179E, 0x0000, 0x00C3, 0x00FA, 0x7C01, 0x7DE9, 0xFFFF, 0x0800, 0x1000, },
++	{0x1082, 0x0000, 0x11C7, 0x0000, 0x138E, 0x0000, 0x179F, 0x0080, 0x00C3, 0x00FA, 0x7C01, 0x7DE9, 0xFFFF, 0x0800, 0x1000, },
++	{0x1082, 0x0000, 0x11C7, 0x0000, 0x138E, 0x0000, 0x1515, 0x0080, 0x0082, 0x00FA, 0x7C01, 0x7DE9, 0xFFFF, 0x0900, 0x1000, },
++	{0x1082, 0x0000, 0x11C7, 0x0000, 0x138E, 0x0000, 0x13D0, 0x0080, 0x0042, 0x002C, 0x7C01, 0x7DE9, 0xFFFF, 0x0900, 0x1000, },
++	{0x1082, 0x0000, 0x11C7, 0x0000, 0x138E, 0x0000, 0x169A, 0x0000, 0x0083, 0x00FA, 0x7C01, 0x7DE9, 0xFFFF, 0x1000, 0x9000, },
++	{0x1082, 0x0000, 0x11C7, 0x0000, 0x138E, 0x0000, 0x128B, 0x0080, 0x0041, 0x00DB, 0x7C01, 0x7DE9, 0xFFFF, 0x9000, 0x0100, },
++	{0x1082, 0x0000, 0x11C7, 0x0000, 0x138E, 0x0000, 0x169B, 0x0080, 0x0083, 0x00FA, 0x7C01, 0x7DE9, 0xFFFF, 0x1800, 0x0100, },
++	{0x1082, 0x0000, 0x11C7, 0x0000, 0x138E, 0x0000, 0x1820, 0x0000, 0x00C3, 0x00FA, 0x7DE9, 0x7DE8, 0xFFFF, 0x0900, 0x9000, },
++	{0x1082, 0x0000, 0x11C7, 0x0000, 0x138E, 0x0000, 0x1556, 0x0080, 0x0082, 0x00FA, 0x7C01, 0x7DE9, 0xFFFF, 0x0800, 0x8000, },
++	{0x1082, 0x0000, 0x11C7, 0x0000, 0x138E, 0x0000, 0x16DB, 0x0000, 0x0083, 0x00FA, 0x7C01, 0x7DE9, 0xFFFF, 0x1800, 0x0100, },
++	{0x1082, 0x0000, 0x11C7, 0x0000, 0x138E, 0x0000, 0x1411, 0x0080, 0x0042, 0x002C, 0x7C01, 0x7DE9, 0xFFFF, 0x0900, 0x1000, },
++	{0x1082, 0x0000, 0x11C7, 0x0000, 0x138E, 0x0000, 0x171C, 0x0000, 0x0083, 0x00FA, 0x7C01, 0x7DE9, 0xFFFF, 0x1100, 0x1800, },
++	{0x1082, 0x0000, 0x11C7, 0x0000, 0x138E, 0x0000, 0x1597, 0x0080, 0x0082, 0x00FA, 0x7C01, 0x7DE9, 0xFFFF, 0x0800, 0x8000, },
++	{0x1082, 0x0000, 0x11C7, 0x0000, 0x138E, 0x0000, 0x1451, 0x0000, 0x0042, 0x0013, 0x7C01, 0x7DE9, 0xFFFF, 0x0900, 0x1000, },
++	{0x1082, 0x0000, 0x11C7, 0x0000, 0x138E, 0x0000, 0x171D, 0x0080, 0x0083, 0x00FA, 0x7C01, 0x7DE9, 0xFFFF, 0x1100, 0x1800, },
++	{0x1082, 0x0000, 0x11C7, 0x0000, 0x138E, 0x0000, 0x12CC, 0x0080, 0x0041, 0x00A9, 0x7C01, 0x7DE9, 0xFFFF, 0x1100, 0x9000, },
++	{0x1082, 0x0000, 0x11C7, 0x0000, 0x138E, 0x0000, 0x175D, 0x0000, 0x0083, 0x00FA, 0x7C01, 0x7DE9, 0xFFFF, 0x0800, 0x1000, },
++	{0x1082, 0x0000, 0x11C7, 0x0000, 0x138E, 0x0000, 0x1452, 0x0080, 0x0042, 0x0013, 0x7C01, 0x7DE9, 0xFFFF, 0x0900, 0x1000, },
++	{0x1082, 0x0000, 0x11C7, 0x0000, 0x138E, 0x0000, 0x15D8, 0x0080, 0x0082, 0x00FA, 0x7C01, 0x7DE9, 0xFFFF, 0x1900, 0x0100, },
++	{0x1082, 0x0000, 0x11C7, 0x0000, 0x138E, 0x0000, 0x175E, 0x0080, 0x0083, 0x00FA, 0x7C01, 0x7DE9, 0xFFFF, 0x0800, 0x1000, },
++	{0x1082, 0x0000, 0x11C7, 0x0000, 0x138E, 0x0000, 0x1492, 0x0000, 0x0042, 0x0013, 0x7C01, 0x7DE9, 0xFFFF, 0x0900, 0x1000, },
++	{0x1082, 0x0000, 0x11C7, 0x0000, 0x138E, 0x0000, 0x179F, 0x0080, 0x0083, 0x00FA, 0x7C01, 0x7DE9, 0xFFFF, 0x0800, 0x1000, },
++	{0x1082, 0x0000, 0x11C7, 0x0000, 0x138E, 0x0000, 0x1619, 0x0080, 0x0082, 0x00FA, 0x7C01, 0x7DE9, 0xFFFF, 0x1000, 0x9000, },
++	{0x1082, 0x0000, 0x11C7, 0x0000, 0x138E, 0x0000, 0x1493, 0x0080, 0x0042, 0x00FA, 0x7C01, 0x7DE9, 0xFFFF, 0x0900, 0x1000, },
++	{0x1082, 0x0000, 0x11C7, 0x0000, 0x138E, 0x0000, 0x17DF, 0x0000, 0x0083, 0x00FA, 0x7C01, 0x7DE9, 0xFFFF, 0x1000, 0x8800, },
++	{0x1082, 0x0000, 0x11C7, 0x0000, 0x138E, 0x0000, 0x130D, 0x0080, 0x0041, 0x0090, 0x7C01, 0x7DE9, 0xFFFF, 0x1100, 0x9000, },
++	{0x1082, 0x0000, 0x11C7, 0x0000, 0x138E, 0x0000, 0x17E0, 0x0080, 0x0083, 0x00FA, 0x7C01, 0x7DE9, 0xFFFF, 0x0900, 0x9000, },
++	{0x1082, 0x0000, 0x11C7, 0x0000, 0x138E, 0x0000, 0x14D3, 0x0000, 0x0042, 0x00FA, 0x7C01, 0x7DE9, 0xFFFF, 0x0900, 0x1000, },
++	{0x1082, 0x0000, 0x11C7, 0x0000, 0x138E, 0x0000, 0x165A, 0x0080, 0x0082, 0x00FA, 0x7C01, 0x7DE9, 0xFFFF, 0x1000, 0x9000, },
++	{0x1082, 0x0000, 0x11C7, 0x0000, 0x138E, 0x0000, 0x1820, 0x0000, 0x0083, 0x00FA, 0x7DE9, 0x7DE8, 0xFFFF, 0x0900, 0x9000, },
++	{0x1082, 0x0000, 0x11C7, 0x0000, 0x138E, 0x0000, 0x14D4, 0x0080, 0x0042, 0x00FA, 0x7C01, 0x7DE9, 0xFFFF, 0x0900, 0x1000, },
++	{0x1082, 0x0000, 0x11C7, 0x0000, 0x138E, 0x0000, 0x169B, 0x0080, 0x0082, 0x00FA, 0x7C01, 0x7DE9, 0xFFFF, 0x1800, 0x0100, },
++};
 +
-+static char version[] =
-+	DRV_MODULE_DESC " " DRV_MODULE_NAME " v" DRV_MODULE_VERSION "\n";
++static const uint16_t cmt_vals_in[][13] = {
++	{0x1082, 0x0000, 0x5104, 0x0000, 0x11C7, 0x0000, 0x1041, 0x02BC, 0x7C01, 0xFFE9, 0x9900, 0x9908, 0x8100},
++	{0x1104, 0x0000, 0x9208, 0x0000, 0x138E, 0x0000, 0x1041, 0x015E, 0x7C01, 0xFFE9, 0x0100, 0x0908, 0x1000},
++};
 +
-+MODULE_AUTHOR("Xilinx, Inc.");
-+MODULE_DESCRIPTION(DRV_MODULE_DESC);
-+MODULE_VERSION(DRV_MODULE_VERSION);
-+MODULE_LICENSE("Dual BSD/GPL");
++static const uint32_t cmt_addrs_out[][15] = {
++	{0x420, 0x424, 0x428, 0x42C, 0x430, 0x434, 0x450, 0x454, 0x458, 0x460, 0x464, 0x468, 0x4A0, 0x538, 0x53C},
++	{0x620, 0x624, 0x628, 0x62C, 0x630, 0x634, 0x650, 0x654, 0x658, 0x660, 0x664, 0x668, 0x6A0, 0x738, 0x73C},
++};
 +
-+/* Module Parameters */
-+static unsigned int poll_mode;
-+module_param(poll_mode, uint, 0644);
-+MODULE_PARM_DESC(poll_mode, "Set 1 for hw polling, default is 0 (interrupts)");
++static const uint32_t cmt_addrs_in[][13] = {
++	{0x020, 0x024, 0x028, 0x02C, 0x050, 0x054, 0x058, 0x060, 0x064, 0x068, 0x0A0, 0x138, 0x13C},
++	{0x220, 0x224, 0x228, 0x22C, 0x250, 0x254, 0x258, 0x260, 0x264, 0x268, 0x2A0, 0x338, 0x33C},
++};
 +
-+static unsigned int interrupt_mode;
-+module_param(interrupt_mode, uint, 0644);
-+MODULE_PARM_DESC(interrupt_mode, "0 - Auto, 1 - MSI, 2 - MSI-x");
++static const uint32_t cmt_freq[] = {
++	25000, 25510, 26020, 26530, 26983, 27551, 28000, 28570,
++	29046, 29522, 30000, 30476, 30952, 31546, 32000, 32539,
++	33035, 33571, 33928, 34522, 35000, 35428, 36000, 36571,
++	36904, 37500, 38093, 38571, 39047, 39453, 40000, 40476,
++	40952, 41494, 41964, 42857, 43535, 44047, 44444, 45000,
++	45535, 46029, 46428, 46823, 47617, 48214, 48571, 49107,
++	49523, 50000, 50476, 50892, 51428, 52380, 53333, 53967,
++	54285, 55238, 55555, 55952, 57142, 58095, 58571, 59047,
++	59521, 60000, 60316, 60952, 61428, 61904, 62500, 63092,
++	63491, 64282, 65078, 65476, 66071, 66664, 67142, 67854,
++	68571, 69044, 69642, 70000, 71425, 72616, 73214, 73808,
++	74285, 75000, 75714, 76187, 76785, 77142, 78570, 80000,
++	80357, 80951, 81428, 82142, 82857, 83332, 83928, 84285,
++	85713, 87142, 87500, 88094, 88571, 89285, 90000, 90475,
++	91071, 91428, 92856, 94642,
++};
 +
-+static unsigned int enable_credit_mp = 1;
-+module_param(enable_credit_mp, uint, 0644);
-+MODULE_PARM_DESC(enable_credit_mp,
-+		 "Set 0 to disable credit feature, default is 1 (credit control enabled)");
 +
-+static unsigned int desc_blen_max = XDMA_DESC_BLEN_MAX;
-+module_param(desc_blen_max, uint, 0644);
-+MODULE_PARM_DESC(desc_blen_max,
-+		 "per descriptor max. buffer length, default is (1 << 28) - 1");
++static size_t freq_srch(u32 key, const u32 *array, size_t size)
++{
++	int l = 0;
++	int r = size - 1;
++	int m;
 +
++	while (l <= r) {
++		m = (l + r) / 2;
++		if (array[m] < key)
++			l = m + 1;
++		else if (array[m] > key)
++			r = m - 1;
++		else
++			return m;
++	}
++
++	if (r < 0 || l > size - 1)
++		return m;
++	else
++		return (abs(key - array[l]) < abs(key - array[r])) ? l : r;
++}
++
++
++u32 mgb4_cmt_set_vout(struct mgb4_vout_dev *voutdev, unsigned int freq)
++{
++	const uint16_t *reg_set;
++	const uint32_t *addr;
++	u32 config;
++	size_t i, index;
++
++	index = freq_srch(freq, cmt_freq, ARRAY_SIZE(cmt_freq));
++	addr = cmt_addrs_out[voutdev->config->id];
++	reg_set = cmt_vals_out[index];
++
++	config = mgb4_read_reg(&voutdev->mgbdev->video, voutdev->config->regs.config);
++
++	mgb4_write_reg(&voutdev->mgbdev->video, voutdev->config->regs.config,
++	  0x1 | (config & ~0x3));
++
++	for (i = 0; i < ARRAY_SIZE(cmt_addrs_out[0]); i++)
++		mgb4_write_reg(&voutdev->mgbdev->cmt, addr[i], reg_set[i]);
++
++	mgb4_mask_reg(&voutdev->mgbdev->video, voutdev->config->regs.config,
++	  0x100, 0x100);
++	mgb4_mask_reg(&voutdev->mgbdev->video, voutdev->config->regs.config,
++	  0x100, 0x0);
++
++	mgb4_write_reg(&voutdev->mgbdev->video, voutdev->config->regs.config,
++	  config & ~0x1);
++
++	return cmt_freq[index];
++}
++
++void mgb4_cmt_set_vin(struct mgb4_vin_dev *vindev, unsigned int freq_range)
++{
++	const uint16_t *reg_set;
++	const uint32_t *addr;
++	u32 config;
++	size_t i;
++
++	addr = cmt_addrs_in[vindev->config->id];
++	reg_set = cmt_vals_in[freq_range];
++
++	config = mgb4_read_reg(&vindev->mgbdev->video, vindev->config->regs.config);
++
++	mgb4_write_reg(&vindev->mgbdev->video, vindev->config->regs.config,
++	  0x1 | (config & ~0x3));
++
++	for (i = 0; i < ARRAY_SIZE(cmt_addrs_in[0]); i++)
++		mgb4_write_reg(&vindev->mgbdev->cmt, addr[i], reg_set[i]);
++
++	mgb4_mask_reg(&vindev->mgbdev->video, vindev->config->regs.config,
++	  0x1000, 0x1000);
++	mgb4_mask_reg(&vindev->mgbdev->video, vindev->config->regs.config,
++	  0x1000, 0x0);
++
++	mgb4_write_reg(&vindev->mgbdev->video, vindev->config->regs.config,
++	  config & ~0x1);
++}
+diff --git a/drivers/media/pci/mgb4/mgb4_cmt.h b/drivers/media/pci/mgb4/mgb4_cmt.h
+new file mode 100644
+index 000000000000..353966654c95
+--- /dev/null
++++ b/drivers/media/pci/mgb4/mgb4_cmt.h
+@@ -0,0 +1,16 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
 +/*
-+ * xdma device management
-+ * maintains a list of the xdma devices
++ * Copyright (C) 2021-2022 Digiteq Automotive
++ *     author: Martin Tuma <martin.tuma@digiteqautomotive.com>
 + */
-+static LIST_HEAD(xdev_list);
-+static DEFINE_MUTEX(xdev_mutex);
 +
-+static LIST_HEAD(xdev_rcu_list);
-+static DEFINE_SPINLOCK(xdev_rcu_lock);
++#ifndef __MGB4_CMT_H__
++#define __MGB4_CMT_H__
 +
-+static inline int xdev_list_add(struct xdma_dev *xdev)
++#include "mgb4_vout.h"
++#include "mgb4_vin.h"
++
++u32 mgb4_cmt_set_vout(struct mgb4_vout_dev *voutdev, unsigned int freq);
++void mgb4_cmt_set_vin(struct mgb4_vin_dev *vindev, unsigned int freq_range);
++
++#endif
+diff --git a/drivers/media/pci/mgb4/mgb4_core.c b/drivers/media/pci/mgb4/mgb4_core.c
+new file mode 100644
+index 000000000000..833501a8fd07
+--- /dev/null
++++ b/drivers/media/pci/mgb4/mgb4_core.c
+@@ -0,0 +1,512 @@
++// SPDX-License-Identifier: GPL-2.0-only
++/*
++ * This is the driver for the MGB4 video grabber card by Digiteq Automotive.
++ *
++ * Copyright (C) 2021-2022 Digiteq Automotive
++ *     author: Martin Tuma <martin.tuma@digiteqautomotive.com>
++ */
++
++#include <linux/types.h>
++#include <linux/version.h>
++#include <linux/module.h>
++#include <linux/pci.h>
++#include <linux/platform_device.h>
++#include <linux/clk.h>
++#include <linux/clk-provider.h>
++#include <linux/clkdev.h>
++#include <linux/i2c.h>
++#include <linux/delay.h>
++#include <linux/spi/xilinx_spi.h>
++#include <linux/mtd/mtd.h>
++#include <linux/dma/xilinx_xdma.h>
++#include "mgb4_i2c.h"
++#include "mgb4_sysfs.h"
++#include "mgb4_vout.h"
++#include "mgb4_vin.h"
++#include "mgb4_trigger.h"
++#include "mgb4_core.h"
++
++MODULE_AUTHOR("Digiteq Automotive s.r.o.");
++MODULE_DESCRIPTION("Digiteq Automotive MGB4 Driver");
++MODULE_VERSION("0.5");
++MODULE_LICENSE("GPL");
++MODULE_SOFTDEP("pre: platform:xiic-i2c platform:xilinx_spi spi-nor");
++
++static int flashid;
++
++static const struct pci_device_id pci_ids[] = {
++	{ PCI_DEVICE(0x1ed8, 0x0101), },
++	{ 0, }
++};
++MODULE_DEVICE_TABLE(pci, pci_ids);
++
++static struct xspi_platform_data spi_platform_data = {
++	.num_chipselect = 1,
++	.bits_per_word = 8
++};
++
++static const struct i2c_board_info extender_info = {
++	I2C_BOARD_INFO("extender", 0x21)
++};
++
++static int match_i2c_adap(struct device *dev, void *data)
 +{
-+	mutex_lock(&xdev_mutex);
-+	if (list_empty(&xdev_list)) {
-+		xdev->idx = 0;
-+		if (poll_mode) {
-+			int rv = xdma_threads_create(xdev->h2c_channel_max +
-+					xdev->c2h_channel_max);
-+			if (rv < 0) {
-+				mutex_unlock(&xdev_mutex);
-+				return rv;
-+			}
-+		}
-+	} else {
-+		struct xdma_dev *last;
-+
-+		last = list_last_entry(&xdev_list, struct xdma_dev, list_head);
-+		xdev->idx = last->idx + 1;
-+	}
-+	list_add_tail(&xdev->list_head, &xdev_list);
-+	mutex_unlock(&xdev_mutex);
-+
-+	dbg_init("dev %s, xdev 0x%p, xdma idx %d.\n",
-+		 dev_name(&xdev->pdev->dev), xdev, xdev->idx);
-+
-+	spin_lock(&xdev_rcu_lock);
-+	list_add_tail_rcu(&xdev->rcu_node, &xdev_rcu_list);
-+	spin_unlock(&xdev_rcu_lock);
-+
-+	return 0;
++	return (i2c_verify_adapter(dev) != NULL);
 +}
 +
-+static inline void xdev_list_remove(struct xdma_dev *xdev)
++static struct i2c_adapter *get_i2c_adap(struct platform_device *pdev)
 +{
-+	mutex_lock(&xdev_mutex);
-+	list_del(&xdev->list_head);
-+	if (poll_mode && list_empty(&xdev_list))
-+		xdma_threads_destroy();
-+	mutex_unlock(&xdev_mutex);
++	struct device *dev;
++	int i;
 +
-+	spin_lock(&xdev_rcu_lock);
-+	list_del_rcu(&xdev->rcu_node);
-+	spin_unlock(&xdev_rcu_lock);
-+	synchronize_rcu();
-+}
-+
-+static struct xdma_dev *xdev_find_by_pdev(struct pci_dev *pdev)
-+{
-+	struct xdma_dev *xdev, *tmp;
-+
-+	mutex_lock(&xdev_mutex);
-+	list_for_each_entry_safe(xdev, tmp, &xdev_list, list_head) {
-+		if (xdev->pdev == pdev) {
-+			mutex_unlock(&xdev_mutex);
-+			return xdev;
-+		}
++	for (i = 0; i < 10; i++) {
++		msleep(100);
++		mutex_lock(&pdev->dev.mutex);
++		dev = device_find_child(&pdev->dev, NULL, match_i2c_adap);
++		mutex_unlock(&pdev->dev.mutex);
++		if (dev)
++			return to_i2c_adapter(dev);
 +	}
-+	mutex_unlock(&xdev_mutex);
++
 +	return NULL;
 +}
 +
-+static inline int debug_check_dev_hndl(const char *fname, struct pci_dev *pdev,
-+				       void *hndl)
++static int match_spi_adap(struct device *dev, void *data)
 +{
-+	struct xdma_dev *xdev;
-+
-+	if (!pdev)
-+		return -EINVAL;
-+
-+	xdev = xdev_find_by_pdev(pdev);
-+	if (!xdev) {
-+		pr_info("%s pdev 0x%p, hndl 0x%p, NO match found!\n", fname,
-+			pdev, hndl);
-+		return -EINVAL;
-+	}
-+	if (xdev != hndl) {
-+		pr_err("%s pdev 0x%p, hndl 0x%p != 0x%p!\n", fname, pdev, hndl,
-+		       xdev);
-+		return -EINVAL;
-+	}
-+
-+	return 0;
++	return (to_spi_device(dev) != NULL);
 +}
 +
-+#ifdef __LIBXDMA_DEBUG__
-+/* SECTION: Function definitions */
-+inline void __write_register(const char *fn, u32 value, void *iomem,
-+			     unsigned long off)
++static struct spi_master *get_spi_adap(struct platform_device *pdev)
 +{
-+	pr_err("%s: w reg 0x%lx(0x%p), 0x%x.\n", fn, off, iomem, value);
-+	iowrite32(value, iomem);
-+}
-+#define write_register(v, mem, off) __write_register(__func__, v, mem, off)
-+#else
-+#define write_register(v, mem, off) iowrite32(v, mem)
-+#endif
-+
-+inline u32 read_register(void *iomem)
-+{
-+	return ioread32(iomem);
-+}
-+
-+static inline u32 build_u32(u32 hi, u32 lo)
-+{
-+	return ((hi & 0xFFFFUL) << 16) | (lo & 0xFFFFUL);
-+}
-+
-+static inline u64 build_u64(u64 hi, u64 lo)
-+{
-+	return ((hi & 0xFFFFFFFULL) << 32) | (lo & 0xFFFFFFFFULL);
-+}
-+
-+static void check_nonzero_interrupt_status(struct xdma_dev *xdev)
-+{
-+	struct interrupt_regs *reg =
-+		(struct interrupt_regs *)(xdev->bar[xdev->config_bar_idx] +
-+					  XDMA_OFS_INT_CTRL);
-+	u32 w;
-+
-+	w = read_register(&reg->user_int_enable);
-+	if (w)
-+		pr_info("%s xdma%d user_int_enable = 0x%08x\n",
-+			dev_name(&xdev->pdev->dev), xdev->idx, w);
-+
-+	w = read_register(&reg->channel_int_enable);
-+	if (w)
-+		pr_info("%s xdma%d channel_int_enable = 0x%08x\n",
-+			dev_name(&xdev->pdev->dev), xdev->idx, w);
-+
-+	w = read_register(&reg->user_int_request);
-+	if (w)
-+		pr_info("%s xdma%d user_int_request = 0x%08x\n",
-+			dev_name(&xdev->pdev->dev), xdev->idx, w);
-+	w = read_register(&reg->channel_int_request);
-+	if (w)
-+		pr_info("%s xdma%d channel_int_request = 0x%08x\n",
-+			dev_name(&xdev->pdev->dev), xdev->idx, w);
-+
-+	w = read_register(&reg->user_int_pending);
-+	if (w)
-+		pr_info("%s xdma%d user_int_pending = 0x%08x\n",
-+			dev_name(&xdev->pdev->dev), xdev->idx, w);
-+	w = read_register(&reg->channel_int_pending);
-+	if (w)
-+		pr_info("%s xdma%d channel_int_pending = 0x%08x\n",
-+			dev_name(&xdev->pdev->dev), xdev->idx, w);
-+}
-+
-+/* channel_interrupts_enable -- Enable interrupts we are interested in */
-+static void channel_interrupts_enable(struct xdma_dev *xdev, u32 mask)
-+{
-+	struct interrupt_regs *reg =
-+		(struct interrupt_regs *)(xdev->bar[xdev->config_bar_idx] +
-+					  XDMA_OFS_INT_CTRL);
-+
-+	write_register(mask, &reg->channel_int_enable_w1s, XDMA_OFS_INT_CTRL);
-+}
-+
-+/* channel_interrupts_disable -- Disable interrupts we not interested in */
-+static void channel_interrupts_disable(struct xdma_dev *xdev, u32 mask)
-+{
-+	struct interrupt_regs *reg =
-+		(struct interrupt_regs *)(xdev->bar[xdev->config_bar_idx] +
-+					  XDMA_OFS_INT_CTRL);
-+
-+	write_register(mask, &reg->channel_int_enable_w1c, XDMA_OFS_INT_CTRL);
-+}
-+
-+/* user_interrupts_enable -- Enable interrupts we are interested in */
-+static void user_interrupts_enable(struct xdma_dev *xdev, u32 mask)
-+{
-+	struct interrupt_regs *reg =
-+		(struct interrupt_regs *)(xdev->bar[xdev->config_bar_idx] +
-+					  XDMA_OFS_INT_CTRL);
-+
-+	write_register(mask, &reg->user_int_enable_w1s, XDMA_OFS_INT_CTRL);
-+}
-+
-+/* user_interrupts_disable -- Disable interrupts we not interested in */
-+static void user_interrupts_disable(struct xdma_dev *xdev, u32 mask)
-+{
-+	struct interrupt_regs *reg =
-+		(struct interrupt_regs *)(xdev->bar[xdev->config_bar_idx] +
-+					  XDMA_OFS_INT_CTRL);
-+
-+	write_register(mask, &reg->user_int_enable_w1c, XDMA_OFS_INT_CTRL);
-+}
-+
-+/* read_interrupts -- Print the interrupt controller status */
-+static u32 read_interrupts(struct xdma_dev *xdev)
-+{
-+	struct interrupt_regs *reg =
-+		(struct interrupt_regs *)(xdev->bar[xdev->config_bar_idx] +
-+					  XDMA_OFS_INT_CTRL);
-+	u32 lo;
-+	u32 hi;
-+
-+	/* extra debugging; inspect complete engine set of registers */
-+	hi = read_register(&reg->user_int_request);
-+	dbg_io("ioread32(0x%p) returned 0x%08x (user_int_request).\n",
-+	       &reg->user_int_request, hi);
-+	lo = read_register(&reg->channel_int_request);
-+	dbg_io("ioread32(0x%p) returned 0x%08x (channel_int_request)\n",
-+	       &reg->channel_int_request, lo);
-+
-+	/* return interrupts: user in upper 16-bits, channel in lower 16-bits */
-+	return build_u32(hi, lo);
-+}
-+
-+static int engine_reg_dump(struct xdma_engine *engine)
-+{
-+	u32 w;
-+
-+	if (!engine) {
-+		pr_err("dma engine NULL\n");
-+		return -EINVAL;
-+	}
-+
-+	w = read_register(&engine->regs->identifier);
-+	pr_info("%s: ioread32(0x%p) = 0x%08x (id).\n", engine->name,
-+		&engine->regs->identifier, w);
-+	w &= BLOCK_ID_MASK;
-+	if (w != BLOCK_ID_HEAD) {
-+		pr_err("%s: engine id missing, 0x%08x exp. & 0x%x = 0x%x\n",
-+		       engine->name, w, BLOCK_ID_MASK, BLOCK_ID_HEAD);
-+		return -EINVAL;
-+	}
-+	/* extra debugging; inspect complete engine set of registers */
-+	w = read_register(&engine->regs->status);
-+	pr_info("%s: ioread32(0x%p) = 0x%08x (status).\n", engine->name,
-+		&engine->regs->status, w);
-+	w = read_register(&engine->regs->control);
-+	pr_info("%s: ioread32(0x%p) = 0x%08x (control)\n", engine->name,
-+		&engine->regs->control, w);
-+	w = read_register(&engine->sgdma_regs->first_desc_lo);
-+	pr_info("%s: ioread32(0x%p) = 0x%08x (first_desc_lo)\n", engine->name,
-+		&engine->sgdma_regs->first_desc_lo, w);
-+	w = read_register(&engine->sgdma_regs->first_desc_hi);
-+	pr_info("%s: ioread32(0x%p) = 0x%08x (first_desc_hi)\n", engine->name,
-+		&engine->sgdma_regs->first_desc_hi, w);
-+	w = read_register(&engine->sgdma_regs->first_desc_adjacent);
-+	pr_info("%s: ioread32(0x%p) = 0x%08x (first_desc_adjacent).\n",
-+		engine->name, &engine->sgdma_regs->first_desc_adjacent, w);
-+	w = read_register(&engine->regs->completed_desc_count);
-+	pr_info("%s: ioread32(0x%p) = 0x%08x (completed_desc_count).\n",
-+		engine->name, &engine->regs->completed_desc_count, w);
-+	w = read_register(&engine->regs->interrupt_enable_mask);
-+	pr_info("%s: ioread32(0x%p) = 0x%08x (interrupt_enable_mask)\n",
-+		engine->name, &engine->regs->interrupt_enable_mask, w);
-+
-+	return 0;
-+}
-+
-+static void engine_status_dump(struct xdma_engine *engine)
-+{
-+	u32 v = engine->status;
-+	char buffer[256];
-+	char *buf = buffer;
-+	int len = 0;
-+
-+	len = sprintf(buf, "SG engine %s status: 0x%08x: ", engine->name, v);
-+
-+	if ((v & XDMA_STAT_BUSY))
-+		len += sprintf(buf + len, "BUSY,");
-+	if ((v & XDMA_STAT_DESC_STOPPED))
-+		len += sprintf(buf + len, "DESC_STOPPED,");
-+	if ((v & XDMA_STAT_DESC_COMPLETED))
-+		len += sprintf(buf + len, "DESC_COMPL,");
-+
-+	/* common H2C & C2H */
-+	if ((v & XDMA_STAT_COMMON_ERR_MASK)) {
-+		if ((v & XDMA_STAT_ALIGN_MISMATCH))
-+			len += sprintf(buf + len, "ALIGN_MISMATCH ");
-+		if ((v & XDMA_STAT_MAGIC_STOPPED))
-+			len += sprintf(buf + len, "MAGIC_STOPPED ");
-+		if ((v & XDMA_STAT_INVALID_LEN))
-+			len += sprintf(buf + len, "INVLIAD_LEN ");
-+		if ((v & XDMA_STAT_IDLE_STOPPED))
-+			len += sprintf(buf + len, "IDLE_STOPPED ");
-+		buf[len - 1] = ',';
-+	}
-+
-+	if (engine->dir == DMA_TO_DEVICE) {
-+		/* H2C only */
-+		if ((v & XDMA_STAT_H2C_R_ERR_MASK)) {
-+			len += sprintf(buf + len, "R:");
-+			if ((v & XDMA_STAT_H2C_R_UNSUPP_REQ))
-+				len += sprintf(buf + len, "UNSUPP_REQ ");
-+			if ((v & XDMA_STAT_H2C_R_COMPL_ABORT))
-+				len += sprintf(buf + len, "COMPL_ABORT ");
-+			if ((v & XDMA_STAT_H2C_R_PARITY_ERR))
-+				len += sprintf(buf + len, "PARITY ");
-+			if ((v & XDMA_STAT_H2C_R_HEADER_EP))
-+				len += sprintf(buf + len, "HEADER_EP ");
-+			if ((v & XDMA_STAT_H2C_R_UNEXP_COMPL))
-+				len += sprintf(buf + len, "UNEXP_COMPL ");
-+			buf[len - 1] = ',';
-+		}
-+
-+		if ((v & XDMA_STAT_H2C_W_ERR_MASK)) {
-+			len += sprintf(buf + len, "W:");
-+			if ((v & XDMA_STAT_H2C_W_DECODE_ERR))
-+				len += sprintf(buf + len, "DECODE_ERR ");
-+			if ((v & XDMA_STAT_H2C_W_SLAVE_ERR))
-+				len += sprintf(buf + len, "SLAVE_ERR ");
-+			buf[len - 1] = ',';
-+		}
-+
-+	} else {
-+		/* C2H only */
-+		if ((v & XDMA_STAT_C2H_R_ERR_MASK)) {
-+			len += sprintf(buf + len, "R:");
-+			if ((v & XDMA_STAT_C2H_R_DECODE_ERR))
-+				len += sprintf(buf + len, "DECODE_ERR ");
-+			if ((v & XDMA_STAT_C2H_R_SLAVE_ERR))
-+				len += sprintf(buf + len, "SLAVE_ERR ");
-+			buf[len - 1] = ',';
-+		}
-+	}
-+
-+	/* common H2C & C2H */
-+	if ((v & XDMA_STAT_DESC_ERR_MASK)) {
-+		len += sprintf(buf + len, "DESC_ERR:");
-+		if ((v & XDMA_STAT_DESC_UNSUPP_REQ))
-+			len += sprintf(buf + len, "UNSUPP_REQ ");
-+		if ((v & XDMA_STAT_DESC_COMPL_ABORT))
-+			len += sprintf(buf + len, "COMPL_ABORT ");
-+		if ((v & XDMA_STAT_DESC_PARITY_ERR))
-+			len += sprintf(buf + len, "PARITY ");
-+		if ((v & XDMA_STAT_DESC_HEADER_EP))
-+			len += sprintf(buf + len, "HEADER_EP ");
-+		if ((v & XDMA_STAT_DESC_UNEXP_COMPL))
-+			len += sprintf(buf + len, "UNEXP_COMPL ");
-+		buf[len - 1] = ',';
-+	}
-+
-+	buf[len - 1] = '\0';
-+	pr_info("%s\n", buffer);
-+}
-+
-+/**
-+ * engine_status_read() - read status of SG DMA engine (optionally reset)
-+ *
-+ * Stores status in engine->status.
-+ *
-+ * @return error value on failure, 0 otherwise
-+ */
-+static int engine_status_read(struct xdma_engine *engine, bool clear, bool dump)
-+{
-+	int rv = 0;
-+
-+	if (!engine) {
-+		pr_err("dma engine NULL\n");
-+		return -EINVAL;
-+	}
-+
-+	if (dump) {
-+		rv = engine_reg_dump(engine);
-+		if (rv < 0) {
-+			pr_err("Failed to dump register\n");
-+			return rv;
-+		}
-+	}
-+
-+	/* read status register */
-+	if (clear)
-+		engine->status = read_register(&engine->regs->status_rc);
-+	else
-+		engine->status = read_register(&engine->regs->status);
-+
-+	if (dump)
-+		engine_status_dump(engine);
-+
-+	return rv;
-+}
-+
-+/**
-+ * xdma_engine_stop() - stop an SG DMA engine
-+ *
-+ */
-+static int xdma_engine_stop(struct xdma_engine *engine)
-+{
-+	u32 w;
-+
-+	if (!engine) {
-+		pr_err("dma engine NULL\n");
-+		return -EINVAL;
-+	}
-+	dbg_tfr("%s(engine=%p)\n", __func__, engine);
-+
-+	if (enable_credit_mp && engine->streaming &&
-+	    engine->dir == DMA_FROM_DEVICE)
-+		write_register(0, &engine->sgdma_regs->credits, 0);
-+
-+	w = 0;
-+	w |= (u32)XDMA_CTRL_IE_DESC_ALIGN_MISMATCH;
-+	w |= (u32)XDMA_CTRL_IE_MAGIC_STOPPED;
-+	w |= (u32)XDMA_CTRL_IE_READ_ERROR;
-+	w |= (u32)XDMA_CTRL_IE_DESC_ERROR;
-+
-+	if (poll_mode) {
-+		w |= (u32)XDMA_CTRL_POLL_MODE_WB;
-+	} else {
-+		w |= (u32)XDMA_CTRL_IE_DESC_STOPPED;
-+		w |= (u32)XDMA_CTRL_IE_DESC_COMPLETED;
-+	}
-+
-+	dbg_tfr("Stopping SG DMA %s engine; writing 0x%08x to 0x%p.\n",
-+		engine->name, w, (u32 *)&engine->regs->control);
-+	write_register(w, &engine->regs->control,
-+			(unsigned long)(&engine->regs->control) -
-+				(unsigned long)(&engine->regs));
-+	/* dummy read of status register to flush all previous writes */
-+	dbg_tfr("%s(%s) done\n", __func__, engine->name);
-+	engine->running = 0;
-+	return 0;
-+}
-+
-+static int engine_start_mode_config(struct xdma_engine *engine)
-+{
-+	u32 w;
-+
-+	if (!engine) {
-+		pr_err("dma engine NULL\n");
-+		return -EINVAL;
-+	}
-+
-+	/* write control register of SG DMA engine */
-+	w = (u32)XDMA_CTRL_RUN_STOP;
-+	w |= (u32)XDMA_CTRL_IE_READ_ERROR;
-+	w |= (u32)XDMA_CTRL_IE_DESC_ERROR;
-+	w |= (u32)XDMA_CTRL_IE_DESC_ALIGN_MISMATCH;
-+	w |= (u32)XDMA_CTRL_IE_MAGIC_STOPPED;
-+
-+	if (poll_mode) {
-+		w |= (u32)XDMA_CTRL_POLL_MODE_WB;
-+	} else {
-+		w |= (u32)XDMA_CTRL_IE_DESC_STOPPED;
-+		w |= (u32)XDMA_CTRL_IE_DESC_COMPLETED;
-+	}
-+
-+	/* set non-incremental addressing mode */
-+	if (engine->non_incr_addr)
-+		w |= (u32)XDMA_CTRL_NON_INCR_ADDR;
-+
-+	dbg_tfr("iowrite32(0x%08x to 0x%p) (control)\n", w,
-+		(void *)&engine->regs->control);
-+
-+	/* start the engine */
-+	write_register(w, &engine->regs->control,
-+		       (unsigned long)(&engine->regs->control) -
-+			       (unsigned long)(&engine->regs));
-+
-+	/* dummy read of status register to flush all previous writes */
-+	w = read_register(&engine->regs->status);
-+	dbg_tfr("ioread32(0x%p) = 0x%08x (dummy read flushes writes).\n",
-+		&engine->regs->status, w);
-+	return 0;
-+}
-+
-+/**
-+ * xdma_get_next_adj()
-+ *
-+ * Get the number for adjacent descriptors to set in a descriptor, based on the
-+ * remaining number of descriptors and the lower bits of the address of the
-+ * next descriptor.
-+ * Since the number of descriptors in a page (XDMA_PAGE_SIZE) is 128 and the
-+ * maximum size of a block of adjacent descriptors is 64 (63 max adjacent
-+ * descriptors for any descriptor), align the blocks of adjacent descriptors
-+ * to the block size.
-+ */
-+static u32 xdma_get_next_adj(unsigned int remaining, u32 next_lo)
-+{
-+	unsigned int next_index;
-+
-+	dbg_desc("%s: remaining_desc %u, next_lo 0x%x\n", __func__, remaining,
-+			next_lo);
-+
-+	if (remaining <= 1)
-+		return 0;
-+
-+	/* shift right 5 times corresponds to a division by
-+	 * sizeof(xdma_desc) = 32
-+	 */
-+	next_index = ((next_lo & (XDMA_PAGE_SIZE - 1)) >> 5) %
-+		XDMA_MAX_ADJ_BLOCK_SIZE;
-+	return min(XDMA_MAX_ADJ_BLOCK_SIZE - next_index - 1, remaining - 1);
-+}
-+
-+/**
-+ * engine_start() - start an idle engine with its first transfer on queue
-+ *
-+ * The engine will run and process all transfers that are queued using
-+ * transfer_queue() and thus have their descriptor lists chained.
-+ *
-+ * During the run, new transfers will be processed if transfer_queue() has
-+ * chained the descriptors before the hardware fetches the last descriptor.
-+ * A transfer that was chained too late will invoke a new run of the engine
-+ * initiated from the engine_service() routine.
-+ *
-+ * The engine must be idle and at least one transfer must be queued.
-+ * This function does not take locks; the engine spinlock must already be
-+ * taken.
-+ *
-+ */
-+static struct xdma_transfer *engine_start(struct xdma_engine *engine)
-+{
-+	struct xdma_transfer *transfer;
-+	u32 w, next_adj;
-+	int rv;
-+
-+	if (!engine) {
-+		pr_err("dma engine NULL\n");
-+		return NULL;
-+	}
-+
-+	/* engine must be idle */
-+	if (engine->running) {
-+		pr_info("%s engine is not in idle state to start\n",
-+			engine->name);
-+		return NULL;
-+	}
-+
-+	/* engine transfer queue must not be empty */
-+	if (list_empty(&engine->transfer_list)) {
-+		pr_debug("%s engine transfer queue must not be empty\n",
-+			 engine->name);
-+		return NULL;
-+	}
-+	/* inspect first transfer queued on the engine */
-+	transfer = list_entry(engine->transfer_list.next, struct xdma_transfer,
-+			      entry);
-+	if (!transfer) {
-+		pr_debug("%s queued transfer must not be empty\n",
-+			 engine->name);
-+		return NULL;
-+	}
-+
-+	/* engine is no longer shutdown */
-+	engine->shutdown = ENGINE_SHUTDOWN_NONE;
-+
-+	dbg_tfr("%s(%s): transfer=0x%p.\n", __func__, engine->name, transfer);
-+
-+	/* Add credits for Streaming mode C2H */
-+	if (enable_credit_mp && engine->streaming &&
-+	    engine->dir == DMA_FROM_DEVICE)
-+		write_register(engine->desc_used,
-+					&engine->sgdma_regs->credits, 0);
-+
-+	/* initialize number of descriptors of dequeued transfers */
-+	engine->desc_dequeued = 0;
-+
-+	/* write lower 32-bit of bus address of transfer first descriptor */
-+	w = cpu_to_le32(PCI_DMA_L(transfer->desc_bus));
-+	dbg_tfr("iowrite32(0x%08x to 0x%p) (first_desc_lo)\n", w,
-+		(void *)&engine->sgdma_regs->first_desc_lo);
-+	write_register(w, &engine->sgdma_regs->first_desc_lo,
-+		       (unsigned long)(&engine->sgdma_regs->first_desc_lo) -
-+			       (unsigned long)(&engine->sgdma_regs));
-+	/* write upper 32-bit of bus address of transfer first descriptor */
-+	w = cpu_to_le32(PCI_DMA_H(transfer->desc_bus));
-+	dbg_tfr("iowrite32(0x%08x to 0x%p) (first_desc_hi)\n", w,
-+		(void *)&engine->sgdma_regs->first_desc_hi);
-+	write_register(w, &engine->sgdma_regs->first_desc_hi,
-+		       (unsigned long)(&engine->sgdma_regs->first_desc_hi) -
-+			       (unsigned long)(&engine->sgdma_regs));
-+
-+	next_adj = xdma_get_next_adj(transfer->desc_adjacent,
-+				     cpu_to_le32(PCI_DMA_L(transfer->desc_bus)));
-+
-+	dbg_tfr("iowrite32(0x%08x to 0x%p) (first_desc_adjacent)\n", next_adj,
-+		(void *)&engine->sgdma_regs->first_desc_adjacent);
-+
-+	write_register(
-+		next_adj, &engine->sgdma_regs->first_desc_adjacent,
-+		(unsigned long)(&engine->sgdma_regs->first_desc_adjacent) -
-+			(unsigned long)(&engine->sgdma_regs));
-+
-+	dbg_tfr("ioread32(0x%p) (dummy read flushes writes).\n",
-+		&engine->regs->status);
-+
-+	rv = engine_start_mode_config(engine);
-+	if (rv < 0) {
-+		pr_err("Failed to start engine mode config\n");
-+		return NULL;
-+	}
-+
-+	rv = engine_status_read(engine, 0, 0);
-+	if (rv < 0) {
-+		pr_err("Failed to read engine status\n");
-+		return NULL;
-+	}
-+	dbg_tfr("%s engine 0x%p now running\n", engine->name, engine);
-+	/* remember the engine is running */
-+	engine->running = 1;
-+	return transfer;
-+}
-+
-+/**
-+ * engine_service() - service an SG DMA engine
-+ *
-+ * must be called with engine->lock already acquired
-+ *
-+ * @engine pointer to struct xdma_engine
-+ *
-+ */
-+static int engine_service_shutdown(struct xdma_engine *engine)
-+{
-+	int rv;
-+	/* if the engine stopped with RUN still asserted, de-assert RUN now */
-+	dbg_tfr("engine just went idle, resetting RUN_STOP.\n");
-+	rv = xdma_engine_stop(engine);
-+	if (rv < 0) {
-+		pr_err("Failed to stop engine\n");
-+		return rv;
-+	}
-+
-+	/* awake task on engine's shutdown wait queue */
-+	swake_up_one(&engine->shutdown_wq);
-+	return 0;
-+}
-+
-+static struct xdma_transfer *engine_transfer_completion(
-+		struct xdma_engine *engine,
-+		struct xdma_transfer *transfer)
-+{
-+	if (!engine) {
-+		pr_err("dma engine NULL\n");
-+		return NULL;
-+	}
-+
-+	if (unlikely(!transfer)) {
-+		pr_info("%s: xfer empty.\n", engine->name);
-+		return NULL;
-+	}
-+
-+	/* synchronous I/O? */
-+	/* awake task on transfer's wait queue */
-+	swake_up_one(&transfer->wq);
-+
-+	/* Send completion notification for Last transfer */
-+	if (transfer->cb && transfer->last_in_request)
-+		transfer->cb->io_done((unsigned long)transfer->cb, 0);
-+
-+	return transfer;
-+}
-+
-+static struct xdma_transfer *
-+engine_service_transfer_list(struct xdma_engine *engine,
-+			     struct xdma_transfer *transfer,
-+			     u32 *pdesc_completed)
-+{
-+	if (!engine) {
-+		pr_err("dma engine NULL\n");
-+		return NULL;
-+	}
-+
-+	if (!pdesc_completed) {
-+		pr_err("%s completed descriptors are null.\n", engine->name);
-+		return NULL;
-+	}
-+
-+	if (unlikely(!transfer)) {
-+		pr_info("%s xfer empty, pdesc completed %u.\n", engine->name,
-+			*pdesc_completed);
-+		return NULL;
-+	}
-+
-+	/*
-+	 * iterate over all the transfers completed by the engine,
-+	 * except for the last (i.e. use > instead of >=).
-+	 */
-+	while (transfer && (!transfer->cyclic) &&
-+	       (*pdesc_completed > transfer->desc_num)) {
-+		/* remove this transfer from pdesc_completed */
-+		*pdesc_completed -= transfer->desc_num;
-+		dbg_tfr("%s engine completed non-cyclic xfer 0x%p (%d desc)\n",
-+			engine->name, transfer, transfer->desc_num);
-+
-+		/* remove completed transfer from list */
-+		list_del(engine->transfer_list.next);
-+		/* add to dequeued number of descriptors during this run */
-+		engine->desc_dequeued += transfer->desc_num;
-+		/* mark transfer as successfully completed */
-+		transfer->state = TRANSFER_STATE_COMPLETED;
-+
-+		/*
-+		 * Complete transfer - sets transfer to NULL if an async
-+		 * transfer has completed
-+		 */
-+		transfer = engine_transfer_completion(engine, transfer);
-+
-+		/* if exists, get the next transfer on the list */
-+		if (!list_empty(&engine->transfer_list)) {
-+			transfer = list_entry(engine->transfer_list.next,
-+					      struct xdma_transfer, entry);
-+			dbg_tfr("Non-completed transfer %p\n", transfer);
-+		} else {
-+			/* no further transfers? */
-+			transfer = NULL;
-+		}
-+	}
-+
-+	return transfer;
-+}
-+
-+static int engine_err_handle(struct xdma_engine *engine,
-+			     struct xdma_transfer *transfer, u32 desc_completed)
-+{
-+	u32 value;
-+	int rv = 0;
-+	/*
-+	 * The BUSY bit is expected to be clear now but older HW has a race
-+	 * condition which could cause it to be still set.  If it's set, re-read
-+	 * and check again.  If it's still set, log the issue.
-+	 */
-+	if (engine->status & XDMA_STAT_BUSY) {
-+		value = read_register(&engine->regs->status);
-+		if ((value & XDMA_STAT_BUSY))
-+			printk_ratelimited(KERN_INFO "%s has errors but is still BUSY\n",
-+				engine->name);
-+	}
-+
-+	printk_ratelimited(KERN_INFO "%s, s 0x%x, aborted xfer 0x%p, cmpl %d/%d\n",
-+			engine->name, engine->status, transfer, desc_completed,
-+			transfer->desc_num);
-+
-+	/* mark transfer as failed */
-+	transfer->state = TRANSFER_STATE_FAILED;
-+	rv = xdma_engine_stop(engine);
-+	if (rv < 0)
-+		pr_err("Failed to stop engine\n");
-+	return rv;
-+}
-+
-+static struct xdma_transfer *
-+engine_service_final_transfer(struct xdma_engine *engine,
-+			      struct xdma_transfer *transfer,
-+			      u32 *pdesc_completed)
-+{
-+	if (!engine) {
-+		pr_err("dma engine NULL\n");
-+		return NULL;
-+	}
-+
-+	if (!pdesc_completed) {
-+		pr_err("%s completed descriptors are null.\n", engine->name);
-+		return NULL;
-+	}
-+
-+	/* inspect the current transfer */
-+	if (unlikely(!transfer)) {
-+		pr_info("%s xfer empty, pdesc completed %u.\n", engine->name,
-+			*pdesc_completed);
-+		return NULL;
-+	}
-+
-+	if (((engine->dir == DMA_FROM_DEVICE) &&
-+	     (engine->status & XDMA_STAT_C2H_ERR_MASK)) ||
-+	    ((engine->dir == DMA_TO_DEVICE) &&
-+	     (engine->status & XDMA_STAT_H2C_ERR_MASK))) {
-+		pr_info("engine %s, status error 0x%x.\n", engine->name,
-+			engine->status);
-+		engine_status_dump(engine);
-+		engine_err_handle(engine, transfer, *pdesc_completed);
-+		goto transfer_del;
-+	}
-+
-+	if (engine->status & XDMA_STAT_BUSY)
-+		pr_debug("engine %s is unexpectedly busy - ignoring\n",
-+			 engine->name);
-+
-+	/* the engine stopped on current transfer? */
-+	if (*pdesc_completed < transfer->desc_num) {
-+		if (engine->eop_flush) {
-+			/* check if eop received */
-+			struct xdma_result *result = transfer->res_virt;
-+			int i;
-+			int max = *pdesc_completed;
-+
-+			for (i = 0; i < max; i++) {
-+				if ((result[i].status & RX_STATUS_EOP) != 0) {
-+					transfer->flags |=
-+						XFER_FLAG_ST_C2H_EOP_RCVED;
-+					break;
-+				}
-+			}
-+
-+			transfer->desc_cmpl += *pdesc_completed;
-+			if (!(transfer->flags & XFER_FLAG_ST_C2H_EOP_RCVED))
-+				return NULL;
-+
-+			/* mark transfer as successfully completed */
-+			engine_service_shutdown(engine);
-+
-+			transfer->state = TRANSFER_STATE_COMPLETED;
-+
-+			engine->desc_dequeued += transfer->desc_cmpl;
-+
-+		} else {
-+			transfer->state = TRANSFER_STATE_FAILED;
-+			pr_info("%s, xfer 0x%p, stopped half-way, %d/%d.\n",
-+				engine->name, transfer, *pdesc_completed,
-+				transfer->desc_num);
-+
-+			/* add dequeued number of descriptors during this run */
-+			engine->desc_dequeued += transfer->desc_num;
-+			transfer->desc_cmpl = *pdesc_completed;
-+		}
-+	} else {
-+		dbg_tfr("engine %s completed transfer\n", engine->name);
-+		dbg_tfr("Completed transfer ID = 0x%p\n", transfer);
-+		dbg_tfr("*pdesc_completed=%d, transfer->desc_num=%d",
-+			*pdesc_completed, transfer->desc_num);
-+
-+		if (!transfer->cyclic) {
-+			/*
-+			 * if the engine stopped on this transfer,
-+			 * it should be the last
-+			 */
-+			WARN_ON(*pdesc_completed > transfer->desc_num);
-+		}
-+		/* mark transfer as successfully completed */
-+		transfer->state = TRANSFER_STATE_COMPLETED;
-+		transfer->desc_cmpl = transfer->desc_num;
-+		/* add dequeued number of descriptors during this run */
-+		engine->desc_dequeued += transfer->desc_num;
-+	}
-+
-+transfer_del:
-+	/* remove completed transfer from list */
-+	list_del(engine->transfer_list.next);
-+
-+	/*
-+	 * Complete transfer - sets transfer to NULL if an asynchronous
-+	 * transfer has completed
-+	 */
-+	transfer = engine_transfer_completion(engine, transfer);
-+
-+	return transfer;
-+}
-+
-+static int engine_service_resume(struct xdma_engine *engine)
-+{
-+	struct xdma_transfer *transfer_started;
-+
-+	if (!engine) {
-+		pr_err("dma engine NULL\n");
-+		return -EINVAL;
-+	}
-+
-+	/* engine stopped? */
-+	if (!engine->running) {
-+		/* in the case of shutdown, let it finish what's in the Q */
-+		if (!list_empty(&engine->transfer_list)) {
-+			/* (re)start engine */
-+			transfer_started = engine_start(engine);
-+			if (!transfer_started) {
-+				pr_err("Failed to start dma engine\n");
-+				return -EINVAL;
-+			}
-+			dbg_tfr("re-started %s engine with pending xfer 0x%p\n",
-+				engine->name, transfer_started);
-+			/* engine was requested to be shutdown? */
-+		} else if (engine->shutdown & ENGINE_SHUTDOWN_REQUEST) {
-+			engine->shutdown |= ENGINE_SHUTDOWN_IDLE;
-+			/* awake task on engine's shutdown wait queue */
-+			swake_up_one(&engine->shutdown_wq);
-+		} else {
-+			dbg_tfr("no pending transfers, %s engine stays idle.\n",
-+				engine->name);
-+		}
-+	} else if (list_empty(&engine->transfer_list)) {
-+		engine_service_shutdown(engine);
-+	}
-+	return 0;
-+}
-+
-+/**
-+ * engine_service() - service an SG DMA engine
-+ *
-+ * must be called with engine->lock already acquired
-+ *
-+ * @engine pointer to struct xdma_engine
-+ *
-+ */
-+static int engine_service(struct xdma_engine *engine, int desc_writeback)
-+{
-+	struct xdma_transfer *transfer = NULL;
-+	u32 desc_count = desc_writeback & WB_COUNT_MASK;
-+	u32 err_flag = desc_writeback & WB_ERR_MASK;
-+	int rv = 0;
-+
-+	if (!engine) {
-+		pr_err("dma engine NULL\n");
-+		return -EINVAL;
-+	}
-+
-+	/* Service the engine */
-+	if (!engine->running) {
-+		dbg_tfr("Engine was not running!!! Clearing status\n");
-+		rv = engine_status_read(engine, 1, 0);
-+		if (rv < 0) {
-+			pr_err("%s failed to read status\n", engine->name);
-+			return rv;
-+		}
-+		return 0;
-+	}
-+
-+	/*
-+	 * If called by the ISR or polling detected an error, read and clear
-+	 * engine status. For polled mode descriptor completion, this read is
-+	 * unnecessary and is skipped to reduce latency
-+	 */
-+	if ((desc_count == 0) || (err_flag != 0)) {
-+		rv = engine_status_read(engine, 1, 0);
-+		if (rv < 0) {
-+			pr_err("Failed to read engine status\n");
-+			return rv;
-+		}
-+	}
-+
-+	/*
-+	 * engine was running but is no longer busy, or writeback occurred,
-+	 * shut down
-+	 */
-+	if ((engine->running && !(engine->status & XDMA_STAT_BUSY)) ||
-+	    (!engine->eop_flush && desc_count != 0)) {
-+		rv = engine_service_shutdown(engine);
-+		if (rv < 0) {
-+			pr_err("Failed to shutdown engine\n");
-+			return rv;
-+		}
-+	}
-+
-+	/*
-+	 * If called from the ISR, or if an error occurred, the descriptor
-+	 * count will be zero.  In this scenario, read the descriptor count
-+	 * from HW.  In polled mode descriptor completion, this read is
-+	 * unnecessary and is skipped to reduce latency
-+	 */
-+	if (!desc_count)
-+		desc_count = read_register(&engine->regs->completed_desc_count);
-+	dbg_tfr("%s wb 0x%x, desc_count %u, err %u, dequeued %u.\n",
-+		engine->name, desc_writeback, desc_count, err_flag,
-+		engine->desc_dequeued);
-+
-+	if (!desc_count)
-+		goto done;
-+
-+	/* transfers on queue? */
-+	if (!list_empty(&engine->transfer_list)) {
-+		/* pick first transfer on queue (was submitted to the engine) */
-+		transfer = list_entry(engine->transfer_list.next,
-+				      struct xdma_transfer, entry);
-+
-+		dbg_tfr("head of queue transfer 0x%p has %d descriptors\n",
-+			transfer, (int)transfer->desc_num);
-+
-+		dbg_tfr("Engine completed %d desc, %d not yet dequeued\n",
-+			(int)desc_count,
-+			(int)desc_count - engine->desc_dequeued);
-+	}
-+
-+	/* account for already dequeued transfers during this engine run */
-+	desc_count -= engine->desc_dequeued;
-+
-+	/* Process all but the last transfer */
-+	transfer = engine_service_transfer_list(engine, transfer, &desc_count);
-+
-+	/*
-+	 * Process final transfer - includes checks of number of descriptors to
-+	 * detect faulty completion
-+	 */
-+	transfer = engine_service_final_transfer(engine, transfer, &desc_count);
-+
-+	/* Restart the engine following the servicing */
-+	if (!engine->eop_flush) {
-+		rv = engine_service_resume(engine);
-+		if (rv < 0)
-+			pr_err("Failed to resume engine\n");
-+	}
-+
-+done:
-+	/* If polling detected an error, signal to the caller */
-+	return err_flag ? -1 : 0;
-+}
-+
-+/* engine_service_work */
-+static void engine_service_work(struct work_struct *work)
-+{
-+	struct xdma_engine *engine;
-+	unsigned long flags;
-+	int rv;
-+
-+	engine = container_of(work, struct xdma_engine, work);
-+	if (engine->magic != MAGIC_ENGINE) {
-+		pr_err("%s has invalid magic number %lx\n", engine->name,
-+		       engine->magic);
-+		return;
-+	}
-+
-+	/* lock the engine */
-+	spin_lock_irqsave(&engine->lock, flags);
-+
-+	dbg_tfr("engine_service() for %s engine %p\n", engine->name, engine);
-+	rv = engine_service(engine, 0);
-+	if (rv < 0) {
-+		pr_err("Failed to service engine\n");
-+		goto unlock;
-+	}
-+	/* re-enable interrupts for this engine */
-+	if (engine->xdev->msix_enabled) {
-+		write_register(
-+			engine->interrupt_enable_mask_value,
-+			&engine->regs->interrupt_enable_mask_w1s,
-+			(unsigned long)(&engine->regs
-+						 ->interrupt_enable_mask_w1s) -
-+				(unsigned long)(&engine->regs));
-+	} else
-+		channel_interrupts_enable(engine->xdev, engine->irq_bitmask);
-+
-+	/* unlock the engine */
-+unlock:
-+	spin_unlock_irqrestore(&engine->lock, flags);
-+}
-+
-+static u32 engine_service_wb_monitor(struct xdma_engine *engine,
-+				     u32 expected_wb)
-+{
-+	struct xdma_poll_wb *wb_data;
-+	u32 desc_wb = 0;
-+	u32 sched_limit = 0;
-+	unsigned long timeout;
-+
-+	if (!engine) {
-+		pr_err("dma engine NULL\n");
-+		return -EINVAL;
-+	}
-+	wb_data = (struct xdma_poll_wb *)engine->poll_mode_addr_virt;
-+
-+	/*
-+	 * Poll the writeback location for the expected number of
-+	 * descriptors / error events This loop is skipped for cyclic mode,
-+	 * where the expected_desc_count passed in is zero, since it cannot be
-+	 * determined before the function is called
-+	 */
-+
-+	timeout = jiffies + (POLL_TIMEOUT_SECONDS * HZ);
-+	while (expected_wb != 0) {
-+		desc_wb = wb_data->completed_desc_count;
-+
-+		if (desc_wb)
-+			wb_data->completed_desc_count = 0;
-+
-+		if (desc_wb & WB_ERR_MASK)
-+			break;
-+		else if (desc_wb >= expected_wb)
-+			break;
-+
-+		/* prevent system from hanging in polled mode */
-+		if (time_after(jiffies, timeout)) {
-+			dbg_tfr("Polling timeout occurred");
-+			dbg_tfr("desc_wb = 0x%08x, expected 0x%08x\n", desc_wb,
-+				expected_wb);
-+			if ((desc_wb & WB_COUNT_MASK) > expected_wb)
-+				desc_wb = expected_wb | WB_ERR_MASK;
-+
-+			break;
-+		}
-+
-+		/*
-+		 * Define NUM_POLLS_PER_SCHED to limit how much time is spent
-+		 * in the scheduler
-+		 */
-+
-+		if (sched_limit != 0) {
-+			if ((sched_limit % NUM_POLLS_PER_SCHED) == 0)
-+				schedule();
-+		}
-+		sched_limit++;
-+	}
-+
-+	return desc_wb;
-+}
-+
-+int xdma_engine_service_poll(struct xdma_engine *engine,
-+			       u32 expected_desc_count)
-+{
-+	u32 desc_wb = 0;
-+	unsigned long flags;
-+	int rv = 0;
-+
-+	if (!engine) {
-+		pr_err("dma engine NULL\n");
-+		return -EINVAL;
-+	}
-+
-+	if (engine->magic != MAGIC_ENGINE) {
-+		pr_err("%s has invalid magic number %lx\n", engine->name,
-+		       engine->magic);
-+		return -EINVAL;
-+	}
-+
-+	/*
-+	 * Poll the writeback location for the expected number of
-+	 * descriptors / error events This loop is skipped for cyclic mode,
-+	 * where the expected_desc_count passed in is zero, since it cannot be
-+	 * determined before the function is called
-+	 */
-+
-+	desc_wb = engine_service_wb_monitor(engine, expected_desc_count);
-+	if (!desc_wb)
-+		return 0;
-+
-+	spin_lock_irqsave(&engine->lock, flags);
-+	dbg_tfr("%s service.\n", engine->name);
-+	rv = engine_service(engine, desc_wb);
-+	spin_unlock_irqrestore(&engine->lock, flags);
-+
-+	return rv;
-+}
-+
-+/*
-+ * xdma_isr() - Interrupt handler
-+ *
-+ * @dev_id pointer to xdma_dev
-+ */
-+static irqreturn_t xdma_isr(int irq, void *dev_id)
-+{
-+	u32 ch_irq;
-+	u32 mask;
-+	struct xdma_dev *xdev;
-+	struct interrupt_regs *irq_regs;
-+
-+	dbg_irq("(irq=%d, dev 0x%p) <<<< ISR.\n", irq, dev_id);
-+	if (!dev_id) {
-+		pr_err("Invalid dev_id on irq line %d\n", irq);
-+		return -IRQ_NONE;
-+	}
-+	xdev = (struct xdma_dev *)dev_id;
-+
-+	if (!xdev) {
-+		WARN_ON(!xdev);
-+		dbg_irq("%s(irq=%d) xdev=%p ??\n", __func__, irq, xdev);
-+		return IRQ_NONE;
-+	}
-+
-+	irq_regs = (struct interrupt_regs *)(xdev->bar[xdev->config_bar_idx] +
-+					     XDMA_OFS_INT_CTRL);
-+
-+	/* read channel interrupt requests */
-+	ch_irq = read_register(&irq_regs->channel_int_request);
-+	dbg_irq("ch_irq = 0x%08x\n", ch_irq);
-+
-+	/*
-+	 * disable all interrupts that fired; these are re-enabled individually
-+	 * after the causing module has been fully serviced.
-+	 */
-+	if (ch_irq)
-+		channel_interrupts_disable(xdev, ch_irq);
-+	// flushes the above write
-+	read_register(&irq_regs->channel_int_request);
-+
-+	mask = ch_irq & xdev->mask_irq_h2c;
-+	if (mask) {
-+		int channel = 0;
-+		int max = xdev->h2c_channel_max;
-+
-+		/* iterate over H2C (PCIe read) */
-+		for (channel = 0; channel < max && mask; channel++) {
-+			struct xdma_engine *engine = &xdev->engine_h2c[channel];
-+
-+			/* engine present and its interrupt fired? */
-+			if ((engine->irq_bitmask & mask) &&
-+			    (engine->magic == MAGIC_ENGINE)) {
-+				mask &= ~engine->irq_bitmask;
-+				dbg_tfr("schedule_work, %s.\n", engine->name);
-+				schedule_work(&engine->work);
-+			}
-+		}
-+	}
-+
-+	mask = ch_irq & xdev->mask_irq_c2h;
-+	if (mask) {
-+		int channel = 0;
-+		int max = xdev->c2h_channel_max;
-+
-+		/* iterate over C2H (PCIe write) */
-+		for (channel = 0; channel < max && mask; channel++) {
-+			struct xdma_engine *engine = &xdev->engine_c2h[channel];
-+
-+			/* engine present and its interrupt fired? */
-+			if ((engine->irq_bitmask & mask) &&
-+			    (engine->magic == MAGIC_ENGINE)) {
-+				mask &= ~engine->irq_bitmask;
-+				dbg_tfr("schedule_work, %s.\n", engine->name);
-+				schedule_work(&engine->work);
-+			}
-+		}
-+	}
-+
-+	xdev->irq_count++;
-+	return IRQ_HANDLED;
-+}
-+
-+/*
-+ * xdma_channel_irq() - Interrupt handler for channel interrupts in MSI-X mode
-+ *
-+ * @dev_id pointer to xdma_dev
-+ */
-+static irqreturn_t xdma_channel_irq(int irq, void *dev_id)
-+{
-+	struct xdma_dev *xdev;
-+	struct xdma_engine *engine;
-+	struct interrupt_regs *irq_regs;
-+
-+	dbg_irq("(irq=%d) <<<< INTERRUPT service ROUTINE\n", irq);
-+	if (!dev_id) {
-+		pr_err("Invalid dev_id on irq line %d\n", irq);
-+		return IRQ_NONE;
-+	}
-+
-+	engine = (struct xdma_engine *)dev_id;
-+	xdev = engine->xdev;
-+
-+	if (!xdev) {
-+		WARN_ON(!xdev);
-+		dbg_irq("%s(irq=%d) xdev=%p ??\n", __func__, irq, xdev);
-+		return IRQ_NONE;
-+	}
-+
-+	irq_regs = (struct interrupt_regs *)(xdev->bar[xdev->config_bar_idx] +
-+					     XDMA_OFS_INT_CTRL);
-+
-+	/* Disable the interrupt for this engine */
-+	write_register(
-+		engine->interrupt_enable_mask_value,
-+		&engine->regs->interrupt_enable_mask_w1c,
-+		(unsigned long)(&engine->regs->interrupt_enable_mask_w1c) -
-+			(unsigned long)(&engine->regs));
-+	/* Dummy read to flush the above write */
-+	read_register(&irq_regs->channel_int_pending);
-+	/* Schedule the bottom half */
-+	schedule_work(&engine->work);
-+
-+	/*
-+	 * RTO - need to protect access here if multiple MSI-X are used for
-+	 * user interrupts
-+	 */
-+	xdev->irq_count++;
-+	return IRQ_HANDLED;
-+}
-+
-+/*
-+ * Unmap the BAR regions that had been mapped earlier using map_bars()
-+ */
-+static void unmap_bars(struct xdma_dev *xdev, struct pci_dev *dev)
-+{
++	struct device *dev;
 +	int i;
 +
-+	for (i = 0; i < XDMA_BAR_NUM; i++) {
-+		/* is this BAR mapped? */
-+		if (xdev->bar[i]) {
-+			/* unmap BAR */
-+			pci_iounmap(dev, xdev->bar[i]);
-+			/* mark as unmapped */
-+			xdev->bar[i] = NULL;
-+		}
++	for (i = 0; i < 10; i++) {
++		msleep(100);
++		mutex_lock(&pdev->dev.mutex);
++		dev = device_find_child(&pdev->dev, NULL, match_spi_adap);
++		mutex_unlock(&pdev->dev.mutex);
++		if (dev)
++			return container_of(dev, struct spi_master, dev);
 +	}
++
++	return NULL;
 +}
 +
-+static int map_single_bar(struct xdma_dev *xdev, struct pci_dev *dev, int idx)
++static int init_spi(struct mgb4_dev *mgbdev)
 +{
-+	resource_size_t bar_start;
-+	resource_size_t bar_len;
-+	resource_size_t map_len;
++	struct resource spi_resources[] = {
++		{
++			.start	= 0x400,
++			.end	= 0x47f,
++			.flags	= IORESOURCE_MEM,
++			.name	= "io-memory",
++		},
++		{
++			.start	= 14,
++			.end	= 14,
++			.flags	= IORESOURCE_IRQ,
++			.name	= "irq",
++		},
++	};
++	struct spi_board_info spi_info = {
++		.max_speed_hz = 10000000,
++		.modalias = "m25p80",
++		.chip_select = 0,
++		.mode = SPI_MODE_3,
++	};
++	struct spi_master *master;
++	struct spi_device *dev;
++	int rv, id;
++	resource_size_t mapbase = pci_resource_start(mgbdev->pdev, 0);
 +
-+	bar_start = pci_resource_start(dev, idx);
-+	bar_len = pci_resource_len(dev, idx);
-+	map_len = bar_len;
++	spi_resources[0].parent = &mgbdev->pdev->resource[0];
++	spi_resources[0].start += mapbase;
++	spi_resources[0].end += mapbase;
++	spi_resources[1].start += xdma_user_irq_base(mgbdev->xdev);
++	spi_resources[1].end += xdma_user_irq_base(mgbdev->xdev);
 +
-+	xdev->bar[idx] = NULL;
++	xdma_user_isr_enable(mgbdev->xdev, 1U<<14);
 +
-+	/* do not map BARs with length 0. Note that start MAY be 0! */
-+	if (!bar_len) {
-+		//pr_info("BAR #%d is not present - skipping\n", idx);
-+		return 0;
++	id = pci_dev_id(mgbdev->pdev);
++	mgbdev->spi_pdev = platform_device_register_resndata(&mgbdev->pdev->dev,
++	  "xilinx_spi", id, spi_resources, ARRAY_SIZE(spi_resources),
++	  &spi_platform_data, sizeof(spi_platform_data));
++	if (IS_ERR(mgbdev->spi_pdev)) {
++		dev_err(&mgbdev->pdev->dev, "failed to register SPI device\n");
++		return PTR_ERR(mgbdev->spi_pdev);
 +	}
 +
-+	/* BAR size exceeds maximum desired mapping? */
-+	if (bar_len > INT_MAX) {
-+		pr_info("Limit BAR %d mapping from %llu to %d bytes\n", idx,
-+			(u64)bar_len, INT_MAX);
-+		map_len = (resource_size_t)INT_MAX;
-+	}
-+	/*
-+	 * map the full device memory or IO region into kernel virtual
-+	 * address space
-+	 */
-+	dbg_init("BAR%d: %llu bytes to be mapped.\n", idx, (u64)map_len);
-+	xdev->bar[idx] = pci_iomap(dev, idx, map_len);
-+
-+	if (!xdev->bar[idx]) {
-+		pr_info("Could not map BAR %d.\n", idx);
-+		return -1;
-+	}
-+
-+	pr_info("BAR%d at 0x%llx mapped at 0x%p, length=%llu(/%llu)\n", idx,
-+		(u64)bar_start, xdev->bar[idx], (u64)map_len, (u64)bar_len);
-+
-+	return (int)map_len;
-+}
-+
-+static int is_config_bar(struct xdma_dev *xdev, int idx)
-+{
-+	u32 irq_id = 0;
-+	u32 cfg_id = 0;
-+	int flag = 0;
-+	u32 mask = 0xffff0000; /* Compare only XDMA ID's not Version number */
-+	struct interrupt_regs *irq_regs =
-+		(struct interrupt_regs *)(xdev->bar[idx] + XDMA_OFS_INT_CTRL);
-+	struct config_regs *cfg_regs =
-+		(struct config_regs *)(xdev->bar[idx] + XDMA_OFS_CONFIG);
-+
-+	irq_id = read_register(&irq_regs->identifier);
-+	cfg_id = read_register(&cfg_regs->identifier);
-+
-+	if (((irq_id & mask) == IRQ_BLOCK_ID) &&
-+	    ((cfg_id & mask) == CONFIG_BLOCK_ID)) {
-+		dbg_init("BAR %d is the XDMA config BAR\n", idx);
-+		flag = 1;
-+	} else {
-+		dbg_init("BAR %d is NOT the XDMA config BAR: 0x%x, 0x%x.\n",
-+			 idx, irq_id, cfg_id);
-+		flag = 0;
-+	}
-+
-+	return flag;
-+}
-+
-+#ifndef XDMA_CONFIG_BAR_NUM
-+static int identify_bars(struct xdma_dev *xdev, int *bar_id_list, int num_bars,
-+			 int config_bar_pos)
-+{
-+	/*
-+	 * The following logic identifies which BARs contain what functionality
-+	 * based on the position of the XDMA config BAR and the number of BARs
-+	 * detected. The rules are that the user logic and bypass logic BARs
-+	 * are optional.  When both are present, the XDMA config BAR will be the
-+	 * 2nd BAR detected (config_bar_pos = 1), with the user logic being
-+	 * detected first and the bypass being detected last. When one is
-+	 * omitted, the type of BAR present can be identified by whether the
-+	 * XDMA config BAR is detected first or last.  When both are omitted,
-+	 * only the XDMA config BAR is present.  This somewhat convoluted
-+	 * approach is used instead of relying on BAR numbers in order to work
-+	 * correctly with both 32-bit and 64-bit BARs.
-+	 */
-+
-+	if (!xdev) {
-+		pr_err("Invalid xdev\n");
-+		return -EINVAL;
-+	}
-+
-+	if (!bar_id_list) {
-+		pr_err("Invalid bar id list.\n");
-+		return -EINVAL;
-+	}
-+
-+	dbg_init("xdev 0x%p, bars %d, config at %d.\n", xdev, num_bars,
-+		 config_bar_pos);
-+
-+	switch (num_bars) {
-+	case 1:
-+		/* Only one BAR present - no extra work necessary */
-+		break;
-+
-+	case 2:
-+		if (config_bar_pos == 0) {
-+			xdev->bypass_bar_idx = bar_id_list[1];
-+		} else if (config_bar_pos == 1) {
-+			xdev->user_bar_idx = bar_id_list[0];
-+		} else {
-+			pr_info("2, XDMA config BAR unexpected %d.\n",
-+				config_bar_pos);
-+		}
-+		break;
-+
-+	case 3:
-+	case 4:
-+		if ((config_bar_pos == 1) || (config_bar_pos == 2)) {
-+			/* user bar at bar #0 */
-+			xdev->user_bar_idx = bar_id_list[0];
-+			/* bypass bar at the last bar */
-+			xdev->bypass_bar_idx = bar_id_list[num_bars - 1];
-+		} else {
-+			pr_info("3/4, XDMA config BAR unexpected %d.\n",
-+				config_bar_pos);
-+		}
-+		break;
-+
-+	default:
-+		/* Should not occur - warn user but safe to continue */
-+		pr_info("Unexpected # BARs (%d), XDMA config BAR only.\n",
-+			num_bars);
-+		break;
-+	}
-+	pr_info("%d BARs: config %d, user %d, bypass %d.\n", num_bars,
-+		config_bar_pos, xdev->user_bar_idx, xdev->bypass_bar_idx);
-+	return 0;
-+}
-+#endif
-+
-+/* map_bars() -- map device regions into kernel virtual address space
-+ *
-+ * Map the device memory regions into kernel virtual address space after
-+ * verifying their sizes respect the minimum sizes needed
-+ */
-+static int map_bars(struct xdma_dev *xdev, struct pci_dev *dev)
-+{
-+	int rv;
-+
-+#ifdef XDMA_CONFIG_BAR_NUM
-+	rv = map_single_bar(xdev, dev, XDMA_CONFIG_BAR_NUM);
-+	if (rv <= 0) {
-+		pr_info("%s, map config bar %d failed, %d.\n",
-+			dev_name(&dev->dev), XDMA_CONFIG_BAR_NUM, rv);
-+		return -EINVAL;
-+	}
-+
-+	if (is_config_bar(xdev, XDMA_CONFIG_BAR_NUM) == 0) {
-+		pr_info("%s, unable to identify config bar %d.\n",
-+			dev_name(&dev->dev), XDMA_CONFIG_BAR_NUM);
-+		return -EINVAL;
-+	}
-+	xdev->config_bar_idx = XDMA_CONFIG_BAR_NUM;
-+
-+	return 0;
-+#else
-+	int i;
-+	int bar_id_list[XDMA_BAR_NUM];
-+	int bar_id_idx = 0;
-+	int config_bar_pos = 0;
-+
-+	/* iterate through all the BARs */
-+	for (i = 0; i < XDMA_BAR_NUM; i++) {
-+		int bar_len;
-+
-+		bar_len = map_single_bar(xdev, dev, i);
-+		if (bar_len == 0) {
-+			continue;
-+		} else if (bar_len < 0) {
-+			rv = -EINVAL;
-+			goto fail;
-+		}
-+
-+		/* Try to identify BAR as XDMA control BAR */
-+		if ((bar_len >= XDMA_BAR_SIZE) && (xdev->config_bar_idx < 0)) {
-+			if (is_config_bar(xdev, i)) {
-+				xdev->config_bar_idx = i;
-+				config_bar_pos = bar_id_idx;
-+				pr_info("config bar %d, pos %d.\n",
-+					xdev->config_bar_idx, config_bar_pos);
-+			}
-+		}
-+
-+		bar_id_list[bar_id_idx] = i;
-+		bar_id_idx++;
-+	}
-+
-+	/* The XDMA config BAR must always be present */
-+	if (xdev->config_bar_idx < 0) {
-+		pr_info("Failed to detect XDMA config BAR\n");
++	master = get_spi_adap(mgbdev->spi_pdev);
++	if (!master) {
++		dev_err(&mgbdev->pdev->dev, "failed to get SPI adapter\n");
 +		rv = -EINVAL;
-+		goto fail;
++		goto err_pdev;
 +	}
 +
-+	rv = identify_bars(xdev, bar_id_list, bar_id_idx, config_bar_pos);
++	snprintf(mgbdev->fw_part_name, sizeof(mgbdev->fw_part_name), "mgb4-fw.%d",
++	  flashid);
++	mgbdev->partitions[0].name = mgbdev->fw_part_name;
++	mgbdev->partitions[0].size = 0x400000;
++	mgbdev->partitions[0].offset = 0x400000;
++	mgbdev->partitions[0].mask_flags = 0;
++
++	snprintf(mgbdev->data_part_name, sizeof(mgbdev->data_part_name),
++	  "mgb4-data.%d", flashid);
++	mgbdev->partitions[1].name = mgbdev->data_part_name;
++	mgbdev->partitions[1].size = 0x10000;
++	mgbdev->partitions[1].offset = 0xFF0000;
++	mgbdev->partitions[1].mask_flags = MTD_CAP_NORFLASH;
++
++	snprintf(mgbdev->flash_name, sizeof(mgbdev->flash_name), "mgb4-flash.%d",
++	  flashid);
++	mgbdev->flash_data.name = mgbdev->flash_name;
++	mgbdev->flash_data.parts = mgbdev->partitions;
++	mgbdev->flash_data.nr_parts = ARRAY_SIZE(mgbdev->partitions);
++	mgbdev->flash_data.type = "spi-nor";
++
++	spi_info.platform_data = &(mgbdev->flash_data);
++
++	dev = spi_new_device(master, &spi_info);
++	put_device(&master->dev);
++	if (!dev) {
++		dev_err(&mgbdev->pdev->dev, "failed to create MTD device\n");
++		rv = -EINVAL;
++		goto err_pdev;
++	}
++
++	return 0;
++
++err_pdev:
++	platform_device_unregister(mgbdev->spi_pdev);
++
++	return rv;
++}
++
++static void free_spi(struct mgb4_dev *mgbdev)
++{
++	platform_device_unregister(mgbdev->spi_pdev);
++}
++
++static int init_i2c(struct mgb4_dev *mgbdev)
++{
++	struct resource i2c_resources[] = {
++		{
++			.start	= 0x200,
++			.end	= 0x3ff,
++			.flags	= IORESOURCE_MEM,
++			.name	= "io-memory",
++		},
++		{
++			.start	= 15,
++			.end	= 15,
++			.flags	= IORESOURCE_IRQ,
++			.name	= "irq",
++		},
++	};
++	char clk_name[16];
++	int rv, id;
++	resource_size_t mapbase = pci_resource_start(mgbdev->pdev, 0);
++
++	i2c_resources[0].parent = &mgbdev->pdev->resource[0];
++	i2c_resources[0].start += mapbase;
++	i2c_resources[0].end += mapbase;
++	i2c_resources[1].start += xdma_user_irq_base(mgbdev->xdev);
++	i2c_resources[1].end += xdma_user_irq_base(mgbdev->xdev);
++
++	id = pci_dev_id(mgbdev->pdev);
++
++	// create dummy clock required by the xiic-i2c adapter
++	snprintf(clk_name, sizeof(clk_name), "xiic-i2c.%d", id);
++	mgbdev->i2c_clk = clk_hw_register_fixed_rate(NULL, clk_name, NULL, 0, 125000000);
++	if (IS_ERR(mgbdev->i2c_clk)) {
++		dev_err(&mgbdev->pdev->dev, "failed to register I2C clock\n");
++		return PTR_ERR(mgbdev->i2c_clk);
++	}
++	mgbdev->i2c_cl = clkdev_hw_create(mgbdev->i2c_clk, NULL, "xiic-i2c.%d", id);
++	if (!mgbdev->i2c_cl) {
++		dev_err(&mgbdev->pdev->dev, "failed to register I2C clockdev\n");
++		rv = -ENOMEM;
++		goto err_clk;
++	}
++
++	xdma_user_isr_enable(mgbdev->xdev, 1U<<15);
++
++	mgbdev->i2c_pdev = platform_device_register_resndata(&mgbdev->pdev->dev,
++	  "xiic-i2c", id, i2c_resources, ARRAY_SIZE(i2c_resources), NULL, 0);
++	if (IS_ERR(mgbdev->i2c_pdev)) {
++		dev_err(&mgbdev->pdev->dev, "failed to register I2C device\n");
++		rv = PTR_ERR(mgbdev->i2c_pdev);
++		goto err_clkdev;
++	}
++
++	mgbdev->i2c_adap = get_i2c_adap(mgbdev->i2c_pdev);
++	if (!mgbdev->i2c_adap) {
++		dev_err(&mgbdev->pdev->dev, "failed to get I2C adapter\n");
++		rv = -EINVAL;
++		goto err_pdev;
++	}
++
++	mutex_init(&mgbdev->i2c_lock);
++
++	return 0;
++
++err_pdev:
++	platform_device_unregister(mgbdev->i2c_pdev);
++err_clkdev:
++	clkdev_drop(mgbdev->i2c_cl);
++err_clk:
++	clk_hw_unregister(mgbdev->i2c_clk);
++
++	return rv;
++}
++
++static void free_i2c(struct mgb4_dev *mgbdev)
++{
++	put_device(&mgbdev->i2c_adap->dev);
++	platform_device_unregister(mgbdev->i2c_pdev);
++	clkdev_drop(mgbdev->i2c_cl);
++	clk_hw_unregister(mgbdev->i2c_clk);
++}
++
++static int init_sysfs(struct pci_dev *pdev)
++{
++	struct device_attribute **attr, **eattr;
++	int rv;
++
++	for (attr = mgb4_pci_attrs; *attr; attr++) {
++		rv = device_create_file(&pdev->dev, *attr);
++		if (rv < 0)
++			goto err_file;
++	}
++
++	return 0;
++
++err_file:
++	for (eattr = mgb4_pci_attrs; eattr != attr; eattr++)
++		device_remove_file(&pdev->dev, *eattr);
++
++	return rv;
++}
++
++static void free_sysfs(struct pci_dev *pdev)
++{
++	struct device_attribute **attr;
++
++	for (attr = mgb4_pci_attrs; *attr; attr++)
++		device_remove_file(&pdev->dev, *attr);
++}
++
++static int get_serial_number(struct mgb4_dev *mgbdev)
++{
++	struct mtd_info *mtd;
++	size_t rs;
++	int rv;
++
++	mgbdev->serial_number = 0;
++
++	mtd = get_mtd_device_nm(mgbdev->data_part_name);
++	if (IS_ERR(mtd)) {
++		dev_warn(&mgbdev->pdev->dev, "failed to get data MTD device\n");
++		return -ENOENT;
++	}
++	rv = mtd_read(mtd, 0, sizeof(mgbdev->serial_number), &rs,
++	  (u_char *)&mgbdev->serial_number);
++	put_mtd_device(mtd);
++	if (rv < 0 || rs != sizeof(mgbdev->serial_number)) {
++		dev_warn(&mgbdev->pdev->dev, "error reading MTD device\n");
++		return -EIO;
++	}
++
++	return 0;
++}
++
++static int get_module_version(struct mgb4_dev *mgbdev)
++{
++	struct mgb4_i2c_client extender;
++	s32 version;
++	u32 fw_version;
++	int rv;
++
++	rv = mgb4_i2c_init(&extender, mgbdev->i2c_adap, &extender_info, 8);
 +	if (rv < 0) {
-+		pr_err("Failed to identify bars\n");
++		dev_err(&mgbdev->pdev->dev, "failed to create extender I2C device\n");
++		return rv;
++	}
++	version = mgb4_i2c_read_byte(&extender, 0x00);
++	mgb4_i2c_free(&extender);
++	if (version < 0) {
++		dev_err(&mgbdev->pdev->dev, "error reading module version\n");
++		return -EIO;
++	}
++
++	mgbdev->module_version = ~((u32)version) & 0xff;
++	if (!(IS_FPDL3(mgbdev) || IS_GMSL(mgbdev))) {
++		dev_err(&mgbdev->pdev->dev, "unknown module type\n");
++		return -EINVAL;
++	}
++	fw_version = mgb4_read_reg(&mgbdev->video, 0xC4);
++	if (fw_version >> 24 != mgbdev->module_version >> 4) {
++		dev_err(&mgbdev->pdev->dev, "module/firmware type mismatch\n");
++		return -EINVAL;
++	}
++
++	return 0;
++}
++
++static int map_regs(struct pci_dev *pdev, struct resource *res,
++		    struct mgb4_regs *regs)
++{
++	int rv;
++	resource_size_t mapbase = pci_resource_start(pdev, 0);
++
++	res->start += mapbase;
++	res->end += mapbase;
++
++	rv = mgb4_regs_map(res, regs);
++	if (rv < 0) {
++		dev_err(&pdev->dev, "failed to map %s registers\n", res->name);
 +		return rv;
 +	}
 +
-+	/* successfully mapped all required BAR regions */
++	return 0;
++}
++
++static int probe_one(struct pci_dev *pdev, const struct pci_device_id *id)
++{
++	int i, rv;
++	struct mgb4_dev *mgbdev = NULL;
++	int user_max = 16;
++	int c2h_channel_max = 2;
++	int h2c_channel_max = 2;
++	struct resource video = {
++		.start	= 0x0,
++		.end	= 0x100,
++		.flags	= IORESOURCE_MEM,
++		.name	= "mgb4-video",
++	};
++	struct resource cmt = {
++		.start	= 0x1000,
++		.end	= 0x1800,
++		.flags	= IORESOURCE_MEM,
++		.name	= "mgb4-cmt",
++	};
++
++	mgbdev = kzalloc(sizeof(*mgbdev), GFP_KERNEL);
++	if (!mgbdev)
++		return -ENOMEM;
++	mgbdev->pdev = pdev;
++	pci_set_drvdata(pdev, mgbdev);
++
++	/* DMA + IRQ engine */
++	mgbdev->xdev = xdma_device_open("mgb4-xdma", pdev, &user_max,
++	  &h2c_channel_max, &c2h_channel_max);
++	if (!mgbdev->xdev) {
++		dev_err(&pdev->dev, "failed to open XDMA device\n");
++		rv = -EINVAL;
++		goto err_mgbdev;
++	}
++
++	/* mgb4 video registers */
++	rv = map_regs(pdev, &video, &mgbdev->video);
++	if (rv < 0)
++		goto err_xdev;
++	/* mgb4 cmt registers */
++	rv = map_regs(pdev, &cmt, &mgbdev->cmt);
++	if (rv < 0)
++		goto err_video_regs;
++
++	/* SPI FLASH */
++	rv = init_spi(mgbdev);
++	if (rv < 0)
++		goto err_cmt_regs;
++
++	/* I2C controller */
++	rv = init_i2c(mgbdev);
++	if (rv < 0)
++		goto err_spi;
++
++	/* PCI card related sysfs attributes */
++	rv = init_sysfs(pdev);
++	if (rv < 0)
++		goto err_i2c;
++
++	/* Get card serial number. On systems without MTD flash support we may
++	 * get an error thus ignore the return value. An invalid serial number
++	 * should not break anything...
++	 */
++	if (get_serial_number(mgbdev) < 0)
++		dev_warn(&pdev->dev, "error reading card serial number\n");
++
++	/* Get module type. If no valid module is found, skip the video device
++	 * creation part but do not exit with error to allow flashing the card.
++	 */
++	rv = get_module_version(mgbdev);
++	if (rv < 0)
++		goto exit;
++
++	/* Video input v4l2 devices */
++	for (i = 0; i < NUM_VIN_DEVICES; i++)
++		mgbdev->vin[i] = mgb4_vin_create(mgbdev, i);
++
++	/* Video output v4l2 devices */
++	for (i = 0; i < NUM_VOUT_DEVICES; i++)
++		mgbdev->vout[i] = mgb4_vout_create(mgbdev, i);
++
++	/* Triggers */
++	mgbdev->indio_dev = mgb4_trigger_create(mgbdev);
++
++exit:
++	flashid++;
++
 +	return 0;
 +
-+fail:
-+	/* unwind; unmap any BARs that we did map */
-+	unmap_bars(xdev, dev);
++err_i2c:
++	free_i2c(mgbdev);
++err_spi:
++	free_spi(mgbdev);
++err_cmt_regs:
++	mgb4_regs_free(&mgbdev->cmt);
++err_video_regs:
++	mgb4_regs_free(&mgbdev->video);
++err_xdev:
++	xdma_device_close(pdev, mgbdev->xdev);
++err_mgbdev:
++	kfree(mgbdev);
++
 +	return rv;
-+#endif
 +}
 +
-+/*
-+ * MSI-X interrupt:
-+ *	<h2c+c2h channel_max> vectors, followed by <user_max> vectors
-+ */
-+
-+/*
-+ * code to detect if MSI/MSI-X capability exists is derived
-+ * from linux/pci/msi.c - pci_msi_check_device
-+ */
-+
-+#ifndef arch_msi_check_device
-+static int arch_msi_check_device(struct pci_dev *dev, int nvec, int type)
++static void remove_one(struct pci_dev *pdev)
 +{
++	struct mgb4_dev *mgbdev = pci_get_drvdata(pdev);
++	int i;
++
++	if (mgbdev->indio_dev)
++		mgb4_trigger_free(mgbdev->indio_dev);
++
++	for (i = 0; i < NUM_VOUT_DEVICES; i++)
++		if (mgbdev->vout[i])
++			mgb4_vout_free(mgbdev->vout[i]);
++	for (i = 0; i < NUM_VIN_DEVICES; i++)
++		if (mgbdev->vin[i])
++			mgb4_vin_free(mgbdev->vin[i]);
++
++	free_sysfs(mgbdev->pdev);
++	free_spi(mgbdev);
++	free_i2c(mgbdev);
++	mgb4_regs_free(&mgbdev->video);
++	mgb4_regs_free(&mgbdev->cmt);
++
++	xdma_device_close(pdev, mgbdev->xdev);
++	kfree(mgbdev);
++}
++
++static struct pci_driver pci_driver = {
++	.name = KBUILD_MODNAME,
++	.id_table = pci_ids,
++	.probe = probe_one,
++	.remove = remove_one,
++};
++
++module_pci_driver(pci_driver);
+diff --git a/drivers/media/pci/mgb4/mgb4_core.h b/drivers/media/pci/mgb4/mgb4_core.h
+new file mode 100644
+index 000000000000..71a5e8283ad8
+--- /dev/null
++++ b/drivers/media/pci/mgb4/mgb4_core.h
+@@ -0,0 +1,49 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
++/*
++ * Copyright (C) 2021-2022 Digiteq Automotive
++ *     author: Martin Tuma <martin.tuma@digiteqautomotive.com>
++ */
++
++#ifndef __MGB4_CORE_H__
++#define __MGB4_CORE_H__
++
++#include <linux/spi/flash.h>
++#include <linux/mtd/partitions.h>
++#include <linux/mutex.h>
++#include "mgb4_regs.h"
++
++#define NUM_VIN_DEVICES   2
++#define NUM_VOUT_DEVICES  2
++
++#define IS_GMSL(mgbdev) ((mgbdev)->module_version >> 4 == 2)
++#define IS_FPDL3(mgbdev) ((mgbdev)->module_version >> 4 == 1)
++
++struct mgb4_dev {
++	struct pci_dev *pdev;
++	struct xdma_dev *xdev;
++	struct mgb4_vin_dev *vin[NUM_VIN_DEVICES];
++	struct mgb4_vout_dev *vout[NUM_VOUT_DEVICES];
++
++	struct mgb4_regs video;
++	struct mgb4_regs cmt;
++
++	struct clk_hw *i2c_clk;
++	struct clk_lookup *i2c_cl;
++	struct platform_device *i2c_pdev;
++	struct i2c_adapter *i2c_adap;
++	struct mutex i2c_lock;
++
++	struct platform_device *spi_pdev;
++	struct flash_platform_data flash_data;
++	char flash_name[16];
++	struct mtd_partition partitions[2];
++	char fw_part_name[16];
++	char data_part_name[16];
++
++	struct iio_dev *indio_dev;
++
++	u8 module_version;
++	u32 serial_number;
++};
++
++#endif
+diff --git a/drivers/media/pci/mgb4/mgb4_i2c.c b/drivers/media/pci/mgb4/mgb4_i2c.c
+new file mode 100644
+index 000000000000..536dc34b7f82
+--- /dev/null
++++ b/drivers/media/pci/mgb4/mgb4_i2c.c
+@@ -0,0 +1,139 @@
++// SPDX-License-Identifier: GPL-2.0-only
++/*
++ * Copyright (C) 2021-2022 Digiteq Automotive
++ *     author: Martin Tuma <martin.tuma@digiteqautomotive.com>
++ */
++
++#include <linux/version.h>
++#include "mgb4_i2c.h"
++
++static int read_r16(struct i2c_client *client, u16 reg, u8 *val, int len)
++{
++	int ret;
++	u8 buf[2];
++	struct i2c_msg msg[2] = {
++		{
++			.addr = client->addr,
++			.flags = 0,
++			.len = 2,
++			.buf = buf,
++		}, {
++			.addr = client->addr,
++			.flags = I2C_M_RD,
++			.len = len,
++			.buf = val,
++		}
++	};
++
++	buf[0] = (reg >> 8) & 0xff;
++	buf[1] = (reg >> 0) & 0xff;
++
++	ret = i2c_transfer(client->adapter, msg, 2);
++	if (ret < 0)
++		return ret;
++	else if (ret != 2)
++		return -EREMOTEIO;
++	else
++		return 0;
++}
++
++static int write_r16(struct i2c_client *client, u16 reg, const u8 *val, int len)
++{
++	int ret;
++	u8 buf[4];
++	struct i2c_msg msg[1] = {
++		{
++			.addr = client->addr,
++			.flags = 0,
++			.len = 2 + len,
++			.buf = buf,
++		}
++	};
++
++	if (2 + len > sizeof(buf))
++		return -EINVAL;
++
++	buf[0] = (reg >> 8) & 0xff;
++	buf[1] = (reg >> 0) & 0xff;
++	memcpy(&buf[2], val, len);
++
++	ret = i2c_transfer(client->adapter, msg, 1);
++	if (ret < 0)
++		return ret;
++	else if (ret != 1)
++		return -EREMOTEIO;
++	else
++		return 0;
++}
++
++
++int mgb4_i2c_init(struct mgb4_i2c_client *client, struct i2c_adapter *adap,
++		  struct i2c_board_info const *info, int addr_size)
++{
++	client->client = i2c_new_client_device(adap, info);
++	if (IS_ERR(client->client))
++		return PTR_ERR(client->client);
++
++	client->addr_size = addr_size;
++
 +	return 0;
 +}
++
++void mgb4_i2c_free(struct mgb4_i2c_client *client)
++{
++	i2c_unregister_device(client->client);
++}
++
++
++s32 mgb4_i2c_read_byte(struct mgb4_i2c_client *client, u16 reg)
++{
++	int ret;
++	u8 b;
++
++	if (client->addr_size == 8)
++		return i2c_smbus_read_byte_data(client->client, reg);
++
++	ret = read_r16(client->client, reg, &b, 1);
++	if (ret < 0)
++		return ret;
++
++	return (s32)b;
++}
++
++s32 mgb4_i2c_write_byte(struct mgb4_i2c_client *client, u16 reg, u8 val)
++{
++	if (client->addr_size == 8)
++		return i2c_smbus_write_byte_data(client->client, reg, val);
++	else
++		return write_r16(client->client, reg, &val, 1);
++}
++
++s32 mgb4_i2c_mask_byte(struct mgb4_i2c_client *client, u16 reg, u8 mask, u8 val)
++{
++	s32 ret;
++
++	if (mask != 0xFF) {
++		ret = mgb4_i2c_read_byte(client, reg);
++		if (ret < 0)
++			return ret;
++		val |= (u8)ret & ~mask;
++	}
++
++	return mgb4_i2c_write_byte(client, reg, val);
++}
++
++int mgb4_i2c_configure(struct mgb4_i2c_client *client,
++		       const struct mgb4_i2c_kv *values, size_t count)
++{
++	size_t i;
++	s32 res;
++
++	for (i = 0; i < count; i++) {
++		res = mgb4_i2c_mask_byte(client, values[i].reg, values[i].mask,
++		  values[i].val);
++		if (res < 0)
++			return res;
++	}
++
++	return 0;
++}
+diff --git a/drivers/media/pci/mgb4/mgb4_i2c.h b/drivers/media/pci/mgb4/mgb4_i2c.h
+new file mode 100644
+index 000000000000..e5003927509f
+--- /dev/null
++++ b/drivers/media/pci/mgb4/mgb4_i2c.h
+@@ -0,0 +1,35 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
++/*
++ * Copyright (C) 2021-2022 Digiteq Automotive
++ *     author: Martin Tuma <martin.tuma@digiteqautomotive.com>
++ */
++
++#ifndef __MGB4_I2C_H__
++#define __MGB4_I2C_H__
++
++#include <linux/i2c.h>
++
++struct mgb4_i2c_client {
++	struct i2c_client *client;
++	int addr_size;
++};
++
++struct mgb4_i2c_kv {
++	u16 reg;
++	u8 mask;
++	u8 val;
++};
++
++extern int mgb4_i2c_init(struct mgb4_i2c_client *client, struct i2c_adapter *adap,
++			 struct i2c_board_info const *info, int addr_size);
++extern void mgb4_i2c_free(struct mgb4_i2c_client *client);
++
++extern s32 mgb4_i2c_read_byte(struct mgb4_i2c_client *client, u16 reg);
++extern s32 mgb4_i2c_write_byte(struct mgb4_i2c_client *client, u16 reg, u8 val);
++extern s32 mgb4_i2c_mask_byte(struct mgb4_i2c_client *client, u16 reg, u8 mask,
++			      u8 val);
++
++extern int mgb4_i2c_configure(struct mgb4_i2c_client *client,
++			      const struct mgb4_i2c_kv *values, size_t count);
++
++#endif
+diff --git a/drivers/media/pci/mgb4/mgb4_io.h b/drivers/media/pci/mgb4/mgb4_io.h
+new file mode 100644
+index 000000000000..dff92065f2c0
+--- /dev/null
++++ b/drivers/media/pci/mgb4/mgb4_io.h
+@@ -0,0 +1,36 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
++/*
++ * Copyright (C) 2021-2022 Digiteq Automotive
++ *     author: Martin Tuma <martin.tuma@digiteqautomotive.com>
++ */
++
++#ifndef __MGB4_IO_H__
++#define __MGB4_IO_H__
++
++#include <media/v4l2-dev.h>
++
++#ifndef VFL_TYPE_GRABBER
++#define VFL_TYPE_GRABBER VFL_TYPE_VIDEO
 +#endif
 +
-+/* type = PCI_CAP_ID_MSI or PCI_CAP_ID_MSIX */
-+static int msi_msix_capable(struct pci_dev *dev, int type)
++#define ERR_NO_REG        0xFFFFFFFE
++#define ERR_QUEUE_TIMEOUT 0xFFFFFFFD
++#define ERR_QUEUE_EMPTY   0xFFFFFFFC
++#define ERR_QUEUE_FULL    0xFFFFFFFB
++
++#define BYTESPERLINE(width, alignment) \
++	(((((width) * 4) - 1) | ((alignment) - 1)) + 1)
++#define PADDING(width, alignment) \
++	((BYTESPERLINE((width), (alignment)) - ((width) * 4)) / 4)
++
++struct frame_buffer {
++	struct vb2_v4l2_buffer vb;
++	struct list_head list;
++};
++
++extern inline struct frame_buffer *to_frame_buffer(struct vb2_v4l2_buffer *vbuf)
 +{
-+	struct pci_bus *bus;
++	return container_of(vbuf, struct frame_buffer, vb);
++}
++
++#endif
+diff --git a/drivers/media/pci/mgb4/mgb4_regs.c b/drivers/media/pci/mgb4/mgb4_regs.c
+new file mode 100644
+index 000000000000..53d4e4503a74
+--- /dev/null
++++ b/drivers/media/pci/mgb4/mgb4_regs.c
+@@ -0,0 +1,30 @@
++// SPDX-License-Identifier: GPL-2.0-only
++/*
++ * Copyright (C) 2021-2022 Digiteq Automotive
++ *     author: Martin Tuma <martin.tuma@digiteqautomotive.com>
++ */
++
++#include <linux/ioport.h>
++#include "mgb4_regs.h"
++
++int mgb4_regs_map(struct resource *res, struct mgb4_regs *regs)
++{
++	regs->mapbase = res->start;
++	regs->mapsize = res->end - res->start;
++
++	if (!request_mem_region(regs->mapbase, regs->mapsize, res->name))
++		return -EINVAL;
++	regs->membase = ioremap(regs->mapbase, regs->mapsize);
++	if (!regs->membase) {
++		release_mem_region(regs->mapbase, regs->mapsize);
++		return -EINVAL;
++	}
++
++	return 0;
++}
++
++void mgb4_regs_free(struct mgb4_regs *regs)
++{
++	iounmap(regs->membase);
++	release_mem_region(regs->mapbase, regs->mapsize);
++}
+diff --git a/drivers/media/pci/mgb4/mgb4_regs.h b/drivers/media/pci/mgb4/mgb4_regs.h
+new file mode 100644
+index 000000000000..1cc16941ea45
+--- /dev/null
++++ b/drivers/media/pci/mgb4/mgb4_regs.h
+@@ -0,0 +1,35 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
++/*
++ * Copyright (C) 2021-2022 Digiteq Automotive
++ *     author: Martin Tuma <martin.tuma@digiteqautomotive.com>
++ */
++
++#ifndef __MGB4_REGS_H__
++#define __MGB4_REGS_H__
++
++#include <linux/io.h>
++
++struct mgb4_regs {
++	resource_size_t mapbase;
++	resource_size_t mapsize;
++	void __iomem *membase;
++};
++
++#define mgb4_write_reg(regs, offset, val) \
++	iowrite32(val, (regs)->membase + (offset))
++#define  mgb4_read_reg(regs, offset) \
++	ioread32((regs)->membase + (offset))
++
++static inline void mgb4_mask_reg(struct mgb4_regs *regs, u32 reg, u32 mask,
++				 u32 val)
++{
++	u32 ret = mgb4_read_reg(regs, reg);
++
++	val |= ret & ~mask;
++	mgb4_write_reg(regs, reg, val);
++}
++
++extern int mgb4_regs_map(struct resource *res, struct mgb4_regs *regs);
++extern void mgb4_regs_free(struct mgb4_regs *regs);
++
++#endif
+diff --git a/drivers/media/pci/mgb4/mgb4_sysfs.h b/drivers/media/pci/mgb4/mgb4_sysfs.h
+new file mode 100644
+index 000000000000..2b42a8ba37f7
+--- /dev/null
++++ b/drivers/media/pci/mgb4/mgb4_sysfs.h
+@@ -0,0 +1,18 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
++/*
++ * Copyright (C) 2021-2022 Digiteq Automotive
++ *     author: Martin Tuma <martin.tuma@digiteqautomotive.com>
++ */
++
++#ifndef __MGB4_SYSFS_H__
++#define __MGB4_SYSFS_H__
++
++#include <linux/sysfs.h>
++
++extern struct device_attribute *mgb4_pci_attrs[];
++extern struct device_attribute *mgb4_fpdl3_in_attrs[];
++extern struct device_attribute *mgb4_gmsl_in_attrs[];
++extern struct device_attribute *mgb4_fpdl3_out_attrs[];
++extern struct device_attribute *mgb4_gmsl_out_attrs[];
++
++#endif
+diff --git a/drivers/media/pci/mgb4/mgb4_sysfs_in.c b/drivers/media/pci/mgb4/mgb4_sysfs_in.c
+new file mode 100644
+index 000000000000..9266d65c6c97
+--- /dev/null
++++ b/drivers/media/pci/mgb4/mgb4_sysfs_in.c
+@@ -0,0 +1,750 @@
++// SPDX-License-Identifier: GPL-2.0-only
++/*
++ * Copyright (C) 2021-2022 Digiteq Automotive
++ *     author: Martin Tuma <martin.tuma@digiteqautomotive.com>
++ */
++
++#include <linux/device.h>
++#include "mgb4_core.h"
++#include "mgb4_i2c.h"
++#include "mgb4_vin.h"
++#include "mgb4_cmt.h"
++#include "mgb4_sysfs.h"
++
++/* Common for both FPDL3 and GMSL */
++
++static ssize_t read_input_id(struct device *dev,
++			     struct device_attribute *attr, char *buf)
++{
++	struct video_device *vdev = to_video_device(dev);
++	struct mgb4_vin_dev *vindev = video_get_drvdata(vdev);
++
++	return sprintf(buf, "%d\n", vindev->config->id);
++}
++
++static ssize_t read_oldi_lane_width(struct device *dev,
++				    struct device_attribute *attr, char *buf)
++{
++	struct video_device *vdev = to_video_device(dev);
++	struct mgb4_vin_dev *vindev = video_get_drvdata(vdev);
++	u16 i2c_reg;
++	u8 i2c_mask, i2c_single_val, i2c_dual_val;
++	u32 config;
 +	int ret;
 +
-+	if (!dev || dev->no_msi)
-+		return 0;
++	i2c_reg = IS_GMSL(vindev->mgbdev) ? 0x1CE : 0x49;
++	i2c_mask = IS_GMSL(vindev->mgbdev) ? 0x0E : 0x03;
++	i2c_single_val = IS_GMSL(vindev->mgbdev) ? 0x00 : 0x02;
++	i2c_dual_val = IS_GMSL(vindev->mgbdev) ? 0x0E : 0x00;
 +
-+	for (bus = dev->bus; bus; bus = bus->parent)
-+		if (bus->bus_flags & PCI_BUS_FLAGS_NO_MSI)
-+			return 0;
++	mutex_lock(&vindev->mgbdev->i2c_lock);
++	ret = mgb4_i2c_read_byte(&vindev->deser, i2c_reg);
++	mutex_unlock(&vindev->mgbdev->i2c_lock);
++	if (ret < 0)
++		return -EIO;
 +
-+	ret = arch_msi_check_device(dev, 1, type);
++	config = mgb4_read_reg(&vindev->mgbdev->video, vindev->config->regs.config);
++
++	if (((config & (1U<<9)) && ((ret & i2c_mask) != i2c_dual_val))
++	  || (!(config & (1U<<9)) && ((ret & i2c_mask) != i2c_single_val))) {
++		dev_err(dev, "I2C/FPGA register value mismatch\n");
++		return -EINVAL;
++	}
++
++	return sprintf(buf, "%s\n", config & (1U<<9) ? "1" : "0");
++}
++
++static ssize_t write_oldi_lane_width(struct device *dev,
++				     struct device_attribute *attr,
++				     const char *buf, size_t count)
++{
++	struct video_device *vdev = to_video_device(dev);
++	struct mgb4_vin_dev *vindev = video_get_drvdata(vdev);
++	u32 fpga_data;
++	u16 i2c_reg;
++	u8 i2c_mask, i2c_data;
++	unsigned long val;
++	int ret;
++
++	ret = kstrtoul(buf, 10, &val);
 +	if (ret)
-+		return 0;
++		return ret;
 +
-+	if (!pci_find_capability(dev, type))
-+		return 0;
-+
-+	return 1;
-+}
-+
-+static void disable_msi_msix(struct xdma_dev *xdev, struct pci_dev *pdev)
-+{
-+	if (xdev->msix_enabled) {
-+		pci_disable_msix(pdev);
-+		xdev->msix_enabled = 0;
-+	} else if (xdev->msi_enabled) {
-+		pci_disable_msi(pdev);
-+		xdev->msi_enabled = 0;
-+	}
-+}
-+
-+static int enable_msi_msix(struct xdma_dev *xdev, struct pci_dev *pdev)
-+{
-+	int rv = 0;
-+
-+	if (!xdev) {
-+		pr_err("Invalid xdev\n");
++	switch (val) {
++	case 0: /* single */
++		fpga_data = 0;
++		i2c_data = IS_GMSL(vindev->mgbdev) ? 0x00 : 0x02;
++		break;
++	case 1: /* dual */
++		fpga_data = 1U<<9;
++		i2c_data = IS_GMSL(vindev->mgbdev) ? 0x0E : 0x00;
++		break;
++	default:
 +		return -EINVAL;
 +	}
 +
-+	if (!pdev) {
-+		pr_err("Invalid pdev\n");
++	i2c_reg = IS_GMSL(vindev->mgbdev) ? 0x1CE : 0x49;
++	i2c_mask = IS_GMSL(vindev->mgbdev) ? 0x0E : 0x03;
++
++	mutex_lock(&vindev->mgbdev->i2c_lock);
++	ret = mgb4_i2c_mask_byte(&vindev->deser, i2c_reg, i2c_mask, i2c_data);
++	mutex_unlock(&vindev->mgbdev->i2c_lock);
++	if (ret < 0)
++		return -EIO;
++	mgb4_mask_reg(&vindev->mgbdev->video, vindev->config->regs.config, 1U<<9,
++	  fpga_data);
++	if (IS_GMSL(vindev->mgbdev)) {
++		/* reset input link */
++		mutex_lock(&vindev->mgbdev->i2c_lock);
++		ret = mgb4_i2c_mask_byte(&vindev->deser, 0x10, 1U<<5, 1U<<5);
++		mutex_unlock(&vindev->mgbdev->i2c_lock);
++		if (ret < 0)
++			return -EIO;
++	}
++
++	return count;
++}
++
++static ssize_t read_color_mapping(struct device *dev,
++				  struct device_attribute *attr, char *buf)
++{
++	struct video_device *vdev = to_video_device(dev);
++	struct mgb4_vin_dev *vindev = video_get_drvdata(vdev);
++	u32 config = mgb4_read_reg(&vindev->mgbdev->video,
++	  vindev->config->regs.config);
++
++	return sprintf(buf, "%s\n", config & (1U<<8) ? "0" : "1");
++}
++
++static ssize_t write_color_mapping(struct device *dev,
++				   struct device_attribute *attr,
++				   const char *buf, size_t count)
++{
++	struct video_device *vdev = to_video_device(dev);
++	struct mgb4_vin_dev *vindev = video_get_drvdata(vdev);
++	u32 fpga_data;
++	unsigned long val;
++	int ret;
++
++	ret = kstrtoul(buf, 10, &val);
++	if (ret)
++		return ret;
++
++	switch (val) {
++	case 0: /* OLDI/JEIDA */
++		fpga_data = (1U<<8);
++		break;
++	case 1: /* SPWG/VESA */
++		fpga_data = 0;
++		break;
++	default:
 +		return -EINVAL;
 +	}
 +
-+	if ((interrupt_mode == 2 || !interrupt_mode)
-+	    && msi_msix_capable(pdev, PCI_CAP_ID_MSIX)) {
-+		int req_nvec = xdev->c2h_channel_max + xdev->h2c_channel_max +
-+			       xdev->user_max;
++	mgb4_mask_reg(&vindev->mgbdev->video, vindev->config->regs.config, 1U<<8,
++	  fpga_data);
 +
-+		dbg_init("Enabling MSI-X\n");
-+		rv = pci_alloc_irq_vectors(pdev, req_nvec, req_nvec, PCI_IRQ_MSIX);
-+		if (rv < 0)
-+			dbg_init("Couldn't enable MSI-X mode: %d\n", rv);
-+
-+		xdev->msix_enabled = 1;
-+
-+	} else if ((interrupt_mode == 1 || !interrupt_mode)
-+		    && msi_msix_capable(pdev, PCI_CAP_ID_MSI)) {
-+		int req_nvec = xdev->user_max + 1;
-+
-+		dbg_init("Enabling MSI\n");
-+		rv = pci_alloc_irq_vectors(pdev, req_nvec, req_nvec, PCI_IRQ_MSI);
-+		if (rv < 0)
-+			dbg_init("Couldn't enable MSI mode: %d\n", rv);
-+		xdev->msi_enabled = 1;
-+
-+	} else {
-+		dbg_init("MSI/MSI-X not detected\n");
-+		rv = -EINVAL;
-+	}
-+
-+	return rv;
++	return count;
 +}
 +
-+static void pci_check_intr_pend(struct pci_dev *pdev)
++static ssize_t read_link_status(struct device *dev, struct device_attribute *attr,
++				char *buf)
 +{
-+	u16 v;
++	struct video_device *vdev = to_video_device(dev);
++	struct mgb4_vin_dev *vindev = video_get_drvdata(vdev);
++	u32 status = mgb4_read_reg(&vindev->mgbdev->video, vindev->config->regs.status);
 +
-+	pci_read_config_word(pdev, PCI_STATUS, &v);
-+	if (v & PCI_STATUS_INTERRUPT) {
-+		pr_info("%s PCI STATUS Interrupt pending 0x%x.\n",
-+			dev_name(&pdev->dev), v);
-+		pci_write_config_word(pdev, PCI_STATUS, PCI_STATUS_INTERRUPT);
-+	}
++	return sprintf(buf, "%s\n", status & (1U<<2) ? "1" : "0");
 +}
 +
-+static void pci_keep_intx_enabled(struct pci_dev *pdev)
++static ssize_t read_stream_status(struct device *dev, struct device_attribute *attr,
++				  char *buf)
 +{
-+	/* workaround to a h/w bug:
-+	 * when msix/msi become unavaile, default to legacy.
-+	 * However the legacy enable was not checked.
-+	 * If the legacy was disabled, no ack then everything stuck
-+	 */
-+	u16 pcmd, pcmd_new;
++	struct video_device *vdev = to_video_device(dev);
++	struct mgb4_vin_dev *vindev = video_get_drvdata(vdev);
++	u32 status = mgb4_read_reg(&vindev->mgbdev->video, vindev->config->regs.status);
 +
-+	pci_read_config_word(pdev, PCI_COMMAND, &pcmd);
-+	pcmd_new = pcmd & ~PCI_COMMAND_INTX_DISABLE;
-+	if (pcmd_new != pcmd) {
-+		pr_info("%s: clear INTX_DISABLE, 0x%x -> 0x%x.\n",
-+			dev_name(&pdev->dev), pcmd, pcmd_new);
-+		pci_write_config_word(pdev, PCI_COMMAND, pcmd_new);
-+	}
++	return sprintf(buf, "%s\n", ((status & (1<<14)) && (status & (1<<2))
++	  && (status & (3<<9))) ? "1" : "0");
 +}
 +
-+static void prog_irq_user(struct xdma_dev *xdev, bool clear)
++static ssize_t read_hsync_status(struct device *dev, struct device_attribute *attr,
++				 char *buf)
 +{
-+	/* user */
-+	struct interrupt_regs *int_regs =
-+		(struct interrupt_regs *)(xdev->bar[xdev->config_bar_idx] +
-+					  XDMA_OFS_INT_CTRL);
-+	u32 i = xdev->msix_enabled
-+	  ? xdev->c2h_channel_max + xdev->h2c_channel_max : 1;
-+	u32 max = i + xdev->user_max;
-+	int j;
++	struct video_device *vdev = to_video_device(dev);
++	struct mgb4_vin_dev *vindev = video_get_drvdata(vdev);
++	u32 status = mgb4_read_reg(&vindev->mgbdev->video, vindev->config->regs.status);
++	u32 res;
 +
-+	for (j = 0; i < max; j++) {
-+		u32 val = 0;
-+		int k;
-+		int shift = 0;
-+
-+		if (clear)
-+			i += 4;
-+		else
-+			for (k = 0; k < 4 && i < max; i++, k++, shift += 8)
-+				val |= (i & 0x1f) << shift;
-+
-+		write_register(
-+			val, &int_regs->user_msi_vector[j],
-+			XDMA_OFS_INT_CTRL +
-+				((unsigned long)&int_regs->user_msi_vector[j] -
-+				 (unsigned long)int_regs));
-+
-+		dbg_init("vector %d, 0x%x.\n", j, val);
-+	}
-+}
-+
-+static void prog_irq_msix_channel(struct xdma_dev *xdev, bool clear)
-+{
-+	struct interrupt_regs *int_regs =
-+		(struct interrupt_regs *)(xdev->bar[xdev->config_bar_idx] +
-+					  XDMA_OFS_INT_CTRL);
-+	u32 max = xdev->c2h_channel_max + xdev->h2c_channel_max;
-+	u32 i;
-+	int j;
-+
-+	/* engine */
-+	for (i = 0, j = 0; i < max; j++) {
-+		u32 val = 0;
-+		int k;
-+		int shift = 0;
-+
-+		if (clear)
-+			i += 4;
-+		else
-+			for (k = 0; k < 4 && i < max; i++, k++, shift += 8)
-+				val |= (i & 0x1f) << shift;
-+
-+		write_register(val, &int_regs->channel_msi_vector[j],
-+			       XDMA_OFS_INT_CTRL +
-+				       ((unsigned long)&int_regs
-+						->channel_msi_vector[j] -
-+					(unsigned long)int_regs));
-+		dbg_init("vector %d, 0x%x.\n", j, val);
-+	}
-+}
-+
-+static void irq_msix_channel_teardown(struct xdma_dev *xdev)
-+{
-+	struct xdma_engine *engine;
-+	int j = 0;
-+	int i = 0;
-+
-+	if (!xdev->msix_enabled)
-+		return;
-+
-+	prog_irq_msix_channel(xdev, 1);
-+
-+	engine = xdev->engine_h2c;
-+	for (i = 0; i < xdev->h2c_channel_max; i++, j++, engine++) {
-+		if (!engine->msix_irq_line)
-+			break;
-+		dbg_sg("Release IRQ#%d for engine %p\n", engine->msix_irq_line,
-+		       engine);
-+		free_irq(engine->msix_irq_line, engine);
-+	}
-+
-+	engine = xdev->engine_c2h;
-+	for (i = 0; i < xdev->c2h_channel_max; i++, j++, engine++) {
-+		if (!engine->msix_irq_line)
-+			break;
-+		dbg_sg("Release IRQ#%d for engine %p\n", engine->msix_irq_line,
-+		       engine);
-+		free_irq(engine->msix_irq_line, engine);
-+	}
-+}
-+
-+static int irq_msix_channel_setup(struct xdma_dev *xdev)
-+{
-+	int i;
-+	int j;
-+	int rv = 0;
-+	u32 vector;
-+	struct xdma_engine *engine;
-+
-+	if (!xdev) {
-+		pr_err("dma engine NULL\n");
-+		return -EINVAL;
-+	}
-+
-+	if (!xdev->msix_enabled)
-+		return 0;
-+
-+	j = xdev->h2c_channel_max;
-+	engine = xdev->engine_h2c;
-+	for (i = 0; i < xdev->h2c_channel_max; i++, engine++) {
-+		vector = pci_irq_vector(xdev->pdev, i);
-+		rv = request_irq(vector, xdma_channel_irq, 0, xdev->mod_name,
-+				 engine);
-+		if (rv) {
-+			pr_info("requesti irq#%d failed %d, engine %s.\n",
-+				vector, rv, engine->name);
-+			return rv;
-+		}
-+		pr_info("engine %s, irq#%d.\n", engine->name, vector);
-+		engine->msix_irq_line = vector;
-+	}
-+
-+	engine = xdev->engine_c2h;
-+	for (i = 0; i < xdev->c2h_channel_max; i++, j++, engine++) {
-+		vector = pci_irq_vector(xdev->pdev, j);
-+		rv = request_irq(vector, xdma_channel_irq, 0, xdev->mod_name,
-+				 engine);
-+		if (rv) {
-+			pr_info("requesti irq#%d failed %d, engine %s.\n",
-+				vector, rv, engine->name);
-+			return rv;
-+		}
-+		pr_info("engine %s, irq#%d.\n", engine->name, vector);
-+		engine->msix_irq_line = vector;
-+	}
-+
-+	return 0;
-+}
-+
-+static int irq_msi_channel_setup(struct xdma_dev *xdev)
-+{
-+	int rv;
-+
-+	xdev->irq_line = (int)xdev->pdev->irq;
-+	rv = request_irq(xdev->pdev->irq, xdma_isr, 0, xdev->mod_name, xdev);
-+	if (rv)
-+		dbg_init("engine couldn't use IRQ#%d, %d\n", xdev->pdev->irq, rv);
++	if (!(status & (1U<<11)))
++		res = 0x02; // not available
++	else if (status & (1U<<12))
++		res = 0x01; // active high
 +	else
-+		dbg_init("engine using IRQ#%d with 0x%p\n", xdev->pdev->irq, xdev);
++		res = 0x00; // active low
 +
-+	return rv;
++	return sprintf(buf, "%u\n", res);
 +}
 +
-+static void irq_teardown(struct xdma_dev *xdev)
++static ssize_t read_vsync_status(struct device *dev, struct device_attribute *attr,
++				 char *buf)
 +{
-+	if (xdev->msix_enabled) {
-+		irq_msix_channel_teardown(xdev);
-+	} else if (xdev->irq_line != -1) {
-+		dbg_init("Releasing IRQ#%d\n", xdev->irq_line);
-+		free_irq(xdev->irq_line, xdev);
-+	}
++	struct video_device *vdev = to_video_device(dev);
++	struct mgb4_vin_dev *vindev = video_get_drvdata(vdev);
++	u32 status = mgb4_read_reg(&vindev->mgbdev->video, vindev->config->regs.status);
++	u32 res;
 +
-+	if (xdev->msi_enabled || xdev->msix_enabled)
-+		prog_irq_user(xdev, 1);
++	if (!(status & (1U<<11)))
++		res = 0x02; // not available
++	else if (status & (1U<<13))
++		res = 0x01; // active high
++	else
++		res = 0x00; // active low
++
++	return sprintf(buf, "%u\n", res);
 +}
 +
-+static int irq_setup(struct xdma_dev *xdev, struct pci_dev *pdev)
++static ssize_t read_hsync_gap(struct device *dev, struct device_attribute *attr,
++			      char *buf)
 +{
-+	int rv;
++	struct video_device *vdev = to_video_device(dev);
++	struct mgb4_vin_dev *vindev = video_get_drvdata(vdev);
++	u32 sync = mgb4_read_reg(&vindev->mgbdev->video, vindev->config->regs.sync);
 +
-+	pci_keep_intx_enabled(pdev);
++	return sprintf(buf, "%u\n", sync >> 16);
++}
 +
-+	if (xdev->msix_enabled) {
-+		rv = irq_msix_channel_setup(xdev);
-+		if (rv)
-+			return rv;
-+		prog_irq_msix_channel(xdev, 0);
-+	} else if (xdev->msi_enabled) {
-+		rv = irq_msi_channel_setup(xdev);
-+		if (rv)
-+			return rv;
-+	} else
++static ssize_t write_hsync_gap(struct device *dev,
++			       struct device_attribute *attr, const char *buf,
++			       size_t count)
++{
++	struct video_device *vdev = to_video_device(dev);
++	struct mgb4_vin_dev *vindev = video_get_drvdata(vdev);
++	unsigned long val;
++	int ret;
++
++	ret = kstrtoul(buf, 10, &val);
++	if (ret)
++		return ret;
++	if (val > 0xFFFF)
 +		return -EINVAL;
 +
-+	prog_irq_user(xdev, 0);
++	mgb4_mask_reg(&vindev->mgbdev->video, vindev->config->regs.sync, 0xFFFF0000,
++	  val << 16);
 +
-+	return 0;
++	return count;
 +}
 +
-+#ifdef __LIBXDMA_DEBUG__
-+static void dump_desc(struct xdma_desc *desc_virt)
++static ssize_t read_vsync_gap(struct device *dev, struct device_attribute *attr,
++			      char *buf)
 +{
-+	int j;
-+	u32 *p = (u32 *)desc_virt;
-+	static char *const field_name[] = { "magic|extra_adjacent|control",
-+					    "bytes",
-+					    "src_addr_lo",
-+					    "src_addr_hi",
-+					    "dst_addr_lo",
-+					    "dst_addr_hi",
-+					    "next_addr",
-+					    "next_addr_pad" };
-+	char *dummy;
++	struct video_device *vdev = to_video_device(dev);
++	struct mgb4_vin_dev *vindev = video_get_drvdata(vdev);
++	u32 sync = mgb4_read_reg(&vindev->mgbdev->video, vindev->config->regs.sync);
 +
-+	/* remove warning about unused variable when debug printing is off */
-+	dummy = field_name[0];
++	return sprintf(buf, "%u\n", sync & 0xFFFF);
++}
 +
-+	for (j = 0; j < 8; j += 1) {
-+		pr_info("0x%08lx/0x%02lx: 0x%08x 0x%08x %s\n", (uintptr_t)p,
-+			(uintptr_t)p & 15, (int)*p, le32_to_cpu(*p),
-+			field_name[j]);
-+		p++;
++static ssize_t write_vsync_gap(struct device *dev,
++			       struct device_attribute *attr, const char *buf,
++			       size_t count)
++{
++	struct video_device *vdev = to_video_device(dev);
++	struct mgb4_vin_dev *vindev = video_get_drvdata(vdev);
++	unsigned long val;
++	int ret;
++
++	ret = kstrtoul(buf, 10, &val);
++	if (ret)
++		return ret;
++	if (val > 0xFFFF)
++		return -EINVAL;
++
++	mgb4_mask_reg(&vindev->mgbdev->video, vindev->config->regs.sync, 0xFFFF, val);
++
++	return count;
++}
++
++static ssize_t read_pclk_frequency(struct device *dev,
++				   struct device_attribute *attr, char *buf)
++{
++	struct video_device *vdev = to_video_device(dev);
++	struct mgb4_vin_dev *vindev = video_get_drvdata(vdev);
++	u32 freq = mgb4_read_reg(&vindev->mgbdev->video, vindev->config->regs.pclk);
++
++	return sprintf(buf, "%u\n", freq);
++}
++
++static ssize_t read_hsync_width(struct device *dev,
++				struct device_attribute *attr, char *buf)
++{
++	struct video_device *vdev = to_video_device(dev);
++	struct mgb4_vin_dev *vindev = video_get_drvdata(vdev);
++	u32 sig = mgb4_read_reg(&vindev->mgbdev->video, vindev->config->regs.signal);
++
++	return sprintf(buf, "%u\n", (sig & 0x00FF0000) >> 16);
++}
++
++static ssize_t read_vsync_width(struct device *dev,
++				struct device_attribute *attr, char *buf)
++{
++	struct video_device *vdev = to_video_device(dev);
++	struct mgb4_vin_dev *vindev = video_get_drvdata(vdev);
++	u32 sig = mgb4_read_reg(&vindev->mgbdev->video, vindev->config->regs.signal2);
++
++	return sprintf(buf, "%u\n", (sig & 0x00FF0000) >> 16);
++}
++
++static ssize_t read_hback_porch(struct device *dev,
++				struct device_attribute *attr, char *buf)
++{
++	struct video_device *vdev = to_video_device(dev);
++	struct mgb4_vin_dev *vindev = video_get_drvdata(vdev);
++	u32 sig = mgb4_read_reg(&vindev->mgbdev->video, vindev->config->regs.signal);
++
++	return sprintf(buf, "%u\n", (sig & 0x0000FF00) >> 8);
++}
++
++static ssize_t read_hfront_porch(struct device *dev,
++				 struct device_attribute *attr, char *buf)
++{
++	struct video_device *vdev = to_video_device(dev);
++	struct mgb4_vin_dev *vindev = video_get_drvdata(vdev);
++	u32 sig = mgb4_read_reg(&vindev->mgbdev->video, vindev->config->regs.signal);
++
++	return sprintf(buf, "%u\n", (sig & 0x000000FF));
++}
++
++static ssize_t read_vback_porch(struct device *dev,
++				struct device_attribute *attr, char *buf)
++{
++	struct video_device *vdev = to_video_device(dev);
++	struct mgb4_vin_dev *vindev = video_get_drvdata(vdev);
++	u32 sig = mgb4_read_reg(&vindev->mgbdev->video, vindev->config->regs.signal2);
++
++	return sprintf(buf, "%u\n", (sig & 0x0000FF00) >> 8);
++}
++
++static ssize_t read_vfront_porch(struct device *dev,
++				 struct device_attribute *attr, char *buf)
++{
++	struct video_device *vdev = to_video_device(dev);
++	struct mgb4_vin_dev *vindev = video_get_drvdata(vdev);
++	u32 sig = mgb4_read_reg(&vindev->mgbdev->video, vindev->config->regs.signal2);
++
++	return sprintf(buf, "%u\n", (sig & 0x000000FF));
++}
++
++static ssize_t read_frequency_range(struct device *dev,
++				    struct device_attribute *attr, char *buf)
++{
++	struct video_device *vdev = to_video_device(dev);
++	struct mgb4_vin_dev *vindev = video_get_drvdata(vdev);
++
++	return sprintf(buf, "%d\n", vindev->freq_range);
++}
++
++static ssize_t write_frequency_range(struct device *dev,
++				     struct device_attribute *attr,
++				     const char *buf, size_t count)
++{
++	struct video_device *vdev = to_video_device(dev);
++	struct mgb4_vin_dev *vindev = video_get_drvdata(vdev);
++	unsigned long val, flags;
++	int ret;
++
++	ret = kstrtoul(buf, 10, &val);
++	if (ret)
++		return ret;
++	if (val > 1)
++		return -EINVAL;
++
++	spin_lock_irqsave(&(vindev->vdev.fh_lock), flags);
++	if (!list_empty(&(vindev->vdev.fh_list))) {
++		spin_unlock_irqrestore(&(vindev->vdev.fh_lock), flags);
++		return -EBUSY;
 +	}
-+	pr_info("\n");
++
++	mgb4_cmt_set_vin(vindev, val);
++	vindev->freq_range = val;
++
++	spin_unlock_irqrestore(&(vindev->vdev.fh_lock), flags);
++
++	return count;
 +}
 +
-+static void transfer_dump(struct xdma_transfer *transfer)
++static ssize_t read_alignment(struct device *dev,
++			      struct device_attribute *attr, char *buf)
 +{
-+	int i;
-+	struct xdma_desc *desc_virt = transfer->desc_virt;
++	struct video_device *vdev = to_video_device(dev);
++	struct mgb4_vin_dev *vindev = video_get_drvdata(vdev);
 +
-+	pr_info("xfer 0x%p, state 0x%x, f 0x%x, dir %d, len %u, last %d.\n",
-+		transfer, transfer->state, transfer->flags, transfer->dir,
-+		transfer->len, transfer->last_in_request);
-+
-+	pr_info("transfer 0x%p, desc %d, bus 0x%llx, adj %d.\n", transfer,
-+		transfer->desc_num, (u64)transfer->desc_bus,
-+		transfer->desc_adjacent);
-+	for (i = 0; i < transfer->desc_num; i += 1)
-+		dump_desc(desc_virt + i);
++	return sprintf(buf, "%d\n", vindev->alignment);
 +}
-+#endif /* __LIBXDMA_DEBUG__ */
 +
-+/* transfer_desc_init() - Chains the descriptors as a singly-linked list
-+ *
-+ * Each descriptor's next * pointer specifies the bus address
-+ * of the next descriptor.
-+ * Terminates the last descriptor to form a singly-linked list
-+ *
-+ * @transfer Pointer to SG DMA transfers
-+ * @count Number of descriptors allocated in continuous PCI bus addressable
-+ * memory
-+ *
-+ * @return 0 on success, EINVAL on failure
-+ */
-+static int transfer_desc_init(struct xdma_transfer *transfer, int count)
++static ssize_t write_alignment(struct device *dev,
++			       struct device_attribute *attr, const char *buf,
++			       size_t count)
 +{
-+	struct xdma_desc *desc_virt = transfer->desc_virt;
-+	dma_addr_t desc_bus = transfer->desc_bus;
-+	int i;
++	struct video_device *vdev = to_video_device(dev);
++	struct mgb4_vin_dev *vindev = video_get_drvdata(vdev);
++	unsigned long val, flags;
++	int ret;
 +
-+	if (count > XDMA_TRANSFER_MAX_DESC) {
-+		pr_err("Engine cannot transfer more than %d descriptors\n",
-+		       XDMA_TRANSFER_MAX_DESC);
++	ret = kstrtoul(buf, 10, &val);
++	if (ret)
++		return ret;
++	if (!val || (val & (val - 1)))
++		return -EINVAL;
++
++	spin_lock_irqsave(&(vindev->vdev.fh_lock), flags);
++	if (!list_empty(&(vindev->vdev.fh_list))) {
++		spin_unlock_irqrestore(&(vindev->vdev.fh_lock), flags);
++		return -EBUSY;
++	}
++
++	vindev->alignment = val;
++
++	spin_unlock_irqrestore(&(vindev->vdev.fh_lock), flags);
++
++	return count;
++}
++
++/* FPDL3 only */
++
++static ssize_t read_fpdl3_input_width(struct device *dev,
++				      struct device_attribute *attr, char *buf)
++{
++	struct video_device *vdev = to_video_device(dev);
++	struct mgb4_vin_dev *vindev = video_get_drvdata(vdev);
++	s32 ret;
++
++	mutex_lock(&vindev->mgbdev->i2c_lock);
++	ret = mgb4_i2c_read_byte(&vindev->deser, 0x34);
++	mutex_unlock(&vindev->mgbdev->i2c_lock);
++	if (ret < 0)
++		return -EIO;
++
++	switch ((u8)ret & 0x18) {
++	case 0:
++		return sprintf(buf, "0\n");
++	case 0x10:
++		return sprintf(buf, "1\n");
++	case 0x08:
++		return sprintf(buf, "2\n");
++	default:
++		return -EINVAL;
++	}
++}
++
++static ssize_t write_fpdl3_input_width(struct device *dev,
++				       struct device_attribute *attr,
++				       const char *buf, size_t count)
++{
++	struct video_device *vdev = to_video_device(dev);
++	struct mgb4_vin_dev *vindev = video_get_drvdata(vdev);
++	u8 i2c_data;
++	unsigned long val;
++	int ret;
++
++	ret = kstrtoul(buf, 10, &val);
++	if (ret)
++		return ret;
++
++	switch (val) {
++	case 0: /* auto */
++		i2c_data = 0x00;
++		break;
++	case 1: /* single */
++		i2c_data = 0x10;
++		break;
++	case 2: /* dual */
++		i2c_data = 0x08;
++		break;
++	default:
 +		return -EINVAL;
 +	}
 +
-+	/* create singly-linked list for SG DMA controller */
-+	for (i = 0; i < count - 1; i++) {
-+		/* increment bus address to next in array */
-+		desc_bus += sizeof(struct xdma_desc);
++	mutex_lock(&vindev->mgbdev->i2c_lock);
++	ret = mgb4_i2c_mask_byte(&vindev->deser, 0x34, 0x18, i2c_data);
++	mutex_unlock(&vindev->mgbdev->i2c_lock);
++	if (ret < 0)
++		return -EIO;
 +
-+		/* singly-linked list uses bus addresses */
-+		desc_virt[i].next_lo = cpu_to_le32(PCI_DMA_L(desc_bus));
-+		desc_virt[i].next_hi = cpu_to_le32(PCI_DMA_H(desc_bus));
-+		desc_virt[i].bytes = cpu_to_le32(0);
-+
-+		desc_virt[i].control = cpu_to_le32(DESC_MAGIC);
-+	}
-+	/* { i = number - 1 } */
-+	/* zero the last descriptor next pointer */
-+	desc_virt[i].next_lo = cpu_to_le32(0);
-+	desc_virt[i].next_hi = cpu_to_le32(0);
-+	desc_virt[i].bytes = cpu_to_le32(0);
-+	desc_virt[i].control = cpu_to_le32(DESC_MAGIC);
-+
-+	return 0;
++	return count;
 +}
 +
-+/* xdma_desc_adjacent -- Set how many descriptors are adjacent to this one */
-+static void xdma_desc_adjacent(struct xdma_desc *desc, u32 next_adjacent)
++
++/* GMSL only */
++
++static ssize_t read_gmsl_mode(struct device *dev,
++			      struct device_attribute *attr, char *buf)
 +{
-+	/* remember reserved and control bits */
-+	u32 control = le32_to_cpu(desc->control) & 0x0000f0ffUL;
-+	/* merge adjacent and control field */
-+	control |= 0xAD4B0000UL | (next_adjacent << 8);
-+	/* write control and next_adjacent */
-+	desc->control = cpu_to_le32(control);
++	struct video_device *vdev = to_video_device(dev);
++	struct mgb4_vin_dev *vindev = video_get_drvdata(vdev);
++	s32 r1, r300, r3;
++
++	mutex_lock(&vindev->mgbdev->i2c_lock);
++	r1 = mgb4_i2c_read_byte(&vindev->deser, 0x01);
++	r300 = mgb4_i2c_read_byte(&vindev->deser, 0x300);
++	r3 = mgb4_i2c_read_byte(&vindev->deser, 0x03);
++	mutex_unlock(&vindev->mgbdev->i2c_lock);
++	if (r1 < 0 || r300 < 0 || r3 < 0)
++		return -EIO;
++
++	if ((r1 & 0x03) == 0x03 && (r300 & 0x0C) == 0x0C && (r3 & 0xC0) == 0xC0)
++		return sprintf(buf, "0\n");
++	else if ((r1 & 0x03) == 0x02 && (r300 & 0x0C) == 0x08 && (r3 & 0xC0) == 0x00)
++		return sprintf(buf, "1\n");
++	else if ((r1 & 0x03) == 0x01 && (r300 & 0x0C) == 0x04 && (r3 & 0xC0) == 0x00)
++		return sprintf(buf, "2\n");
++	else if ((r1 & 0x03) == 0x00 && (r300 & 0x0C) == 0x00 && (r3 & 0xC0) == 0x00)
++		return sprintf(buf, "3\n");
++	else
++		return -EINVAL;
 +}
 +
-+/* xdma_desc_control -- Set complete control field of a descriptor. */
-+static int xdma_desc_control_set(struct xdma_desc *first, u32 control_field)
++static ssize_t write_gmsl_mode(struct device *dev,
++			       struct device_attribute *attr, const char *buf,
++			       size_t count)
 +{
-+	/* remember magic and adjacent number */
-+	u32 control = le32_to_cpu(first->control) & ~(LS_BYTE_MASK);
++	static const struct mgb4_i2c_kv G12[] = {
++		{0x01, 0x03, 0x03}, {0x300, 0x0C, 0x0C}, {0x03, 0xC0, 0xC0}};
++	static const struct mgb4_i2c_kv G6[] = {
++		{0x01, 0x03, 0x02}, {0x300, 0x0C, 0x08}, {0x03, 0xC0, 0x00}};
++	static const struct mgb4_i2c_kv G3[] = {
++		{0x01, 0x03, 0x01}, {0x300, 0x0C, 0x04}, {0x03, 0xC0, 0x00}};
++	static const struct mgb4_i2c_kv G1[] = {
++		{0x01, 0x03, 0x00}, {0x300, 0x0C, 0x00}, {0x03, 0xC0, 0x00}};
++	static const struct mgb4_i2c_kv reset[] = {
++		{0x10, 1U<<5, 1U<<5}, {0x300, 1U<<6, 1U<<6}};
++	struct video_device *vdev = to_video_device(dev);
++	struct mgb4_vin_dev *vindev = video_get_drvdata(vdev);
++	const struct mgb4_i2c_kv *values;
++	unsigned long val;
++	int ret;
 +
-+	if (control_field & ~(LS_BYTE_MASK)) {
-+		pr_err("Invalid control field\n");
++	ret = kstrtoul(buf, 10, &val);
++	if (ret)
++		return ret;
++
++	switch (val) {
++	case 0: /* 12Gb/s */
++		values = G12;
++		break;
++	case 1: /* 6Gb/s */
++		values = G6;
++		break;
++	case 2: /* 3Gb/s */
++		values = G3;
++		break;
++	case 3: /* 1.5Gb/s */
++		values = G1;
++		break;
++	default:
 +		return -EINVAL;
 +	}
-+	/* merge adjacent and control field */
-+	control |= control_field;
-+	/* write control and next_adjacent */
-+	first->control = cpu_to_le32(control);
-+	return 0;
++
++	mutex_lock(&vindev->mgbdev->i2c_lock);
++	ret = mgb4_i2c_configure(&vindev->deser, values, 3);
++	ret |= mgb4_i2c_configure(&vindev->deser, reset, 2);
++	mutex_unlock(&vindev->mgbdev->i2c_lock);
++	if (ret < 0)
++		return -EIO;
++
++	return count;
 +}
 +
-+/* xdma_desc_done - recycle cache-coherent linked list of descriptors.
-+ *
-+ * @dev Pointer to pci_dev
-+ * @number Number of descriptors to be allocated
-+ * @desc_virt Pointer to (i.e. virtual address of) first descriptor in list
-+ * @desc_bus Bus address of first descriptor in list
-+ */
-+static inline void xdma_desc_done(struct xdma_desc *desc_virt, int count)
++static ssize_t read_gmsl_stream_id(struct device *dev,
++				   struct device_attribute *attr, char *buf)
 +{
-+	memset(desc_virt, 0, count * sizeof(struct xdma_desc));
++	struct video_device *vdev = to_video_device(dev);
++	struct mgb4_vin_dev *vindev = video_get_drvdata(vdev);
++	s32 ret;
++
++	mutex_lock(&vindev->mgbdev->i2c_lock);
++	ret = mgb4_i2c_read_byte(&vindev->deser, 0xA0);
++	mutex_unlock(&vindev->mgbdev->i2c_lock);
++	if (ret < 0)
++		return -EIO;
++
++	return sprintf(buf, "%d\n", ret & 0x03);
 +}
 +
-+/* xdma_desc() - Fill a descriptor with the transfer details
-+ *
-+ * @desc pointer to descriptor to be filled
-+ * @addr root complex address
-+ * @ep_addr end point address
-+ * @len number of bytes, must be a (non-negative) multiple of 4.
-+ * @dir, dma direction
-+ * is the end point address. If zero, vice versa.
-+ *
-+ * Does not modify the next pointer
-+ */
-+static void xdma_desc_set(struct xdma_desc *desc, dma_addr_t rc_bus_addr,
-+			  u64 ep_addr, int len, int dir)
++static ssize_t write_gmsl_stream_id(struct device *dev,
++				    struct device_attribute *attr,
++				    const char *buf, size_t count)
 +{
-+	/* transfer length */
-+	desc->bytes = cpu_to_le32(len);
-+	if (dir == DMA_TO_DEVICE) {
-+		/* read from root complex memory (source address) */
-+		desc->src_addr_lo = cpu_to_le32(PCI_DMA_L(rc_bus_addr));
-+		desc->src_addr_hi = cpu_to_le32(PCI_DMA_H(rc_bus_addr));
-+		/* write to end point address (destination address) */
-+		desc->dst_addr_lo = cpu_to_le32(PCI_DMA_L(ep_addr));
-+		desc->dst_addr_hi = cpu_to_le32(PCI_DMA_H(ep_addr));
-+	} else {
-+		/* read from end point address (source address) */
-+		desc->src_addr_lo = cpu_to_le32(PCI_DMA_L(ep_addr));
-+		desc->src_addr_hi = cpu_to_le32(PCI_DMA_H(ep_addr));
-+		/* write to root complex memory (destination address) */
-+		desc->dst_addr_lo = cpu_to_le32(PCI_DMA_L(rc_bus_addr));
-+		desc->dst_addr_hi = cpu_to_le32(PCI_DMA_H(rc_bus_addr));
++	struct video_device *vdev = to_video_device(dev);
++	struct mgb4_vin_dev *vindev = video_get_drvdata(vdev);
++	unsigned long val, flags;
++	int ret;
++
++	ret = kstrtoul(buf, 10, &val);
++	if (ret)
++		return ret;
++	if (val > 3)
++		return -EINVAL;
++
++	spin_lock_irqsave(&(vindev->vdev.fh_lock), flags);
++	ret = list_empty(&(vindev->vdev.fh_list));
++	spin_unlock_irqrestore(&(vindev->vdev.fh_lock), flags);
++	if (!ret)
++		return -EBUSY;
++
++	/* Formaly, there is a race condition here as the change should be formaly
++	 * done under the spinlock, but we only want to prevent a resolution change
++	 * where possible. However, resolution changes can happen anyway and the
++	 * driver can handle them (they only break the image, not the system).
++	 *
++	 * So instead of trying to workaround the spinlock - mgb4_i2c_mask_byte()
++	 * does sleep - we simply let the rare race condition happen...
++	 */
++	mutex_lock(&vindev->mgbdev->i2c_lock);
++	ret = mgb4_i2c_mask_byte(&vindev->deser, 0xA0, 0x03, (u8)val);
++	mutex_unlock(&vindev->mgbdev->i2c_lock);
++	if (ret < 0)
++		return -EIO;
++
++	return count;
++}
++
++static ssize_t read_gmsl_fec(struct device *dev, struct device_attribute *attr,
++			     char *buf)
++{
++	struct video_device *vdev = to_video_device(dev);
++	struct mgb4_vin_dev *vindev = video_get_drvdata(vdev);
++	s32 r3e0, r308;
++
++	mutex_lock(&vindev->mgbdev->i2c_lock);
++	r3e0 = mgb4_i2c_read_byte(&vindev->deser, 0x3E0);
++	r308 = mgb4_i2c_read_byte(&vindev->deser, 0x308);
++	mutex_unlock(&vindev->mgbdev->i2c_lock);
++	if (r3e0 < 0 || r308 < 0)
++		return -EIO;
++
++	if ((r3e0 & 0x07) == 0x00 && (r308 & 0x01) == 0x00)
++		return sprintf(buf, "0\n");
++	else if ((r3e0 & 0x07) == 0x07 && (r308 & 0x01) == 0x01)
++		return sprintf(buf, "1\n");
++	else
++		return -EINVAL;
++}
++
++static ssize_t write_gmsl_fec(struct device *dev, struct device_attribute *attr,
++			      const char *buf, size_t count)
++{
++	struct video_device *vdev = to_video_device(dev);
++	struct mgb4_vin_dev *vindev = video_get_drvdata(vdev);
++	static const struct mgb4_i2c_kv enable[] = {
++		{0x3E0, 0x07, 0x07}, {0x308, 0x01, 0x01}};
++	static const struct mgb4_i2c_kv disable[] = {
++		{0x3E0, 0x07, 0x00}, {0x308, 0x01, 0x00}};
++	static const struct mgb4_i2c_kv reset[] = {
++		{0x10, 1U<<5, 1U<<5}, {0x300, 1U<<6, 1U<<6}};
++	const struct mgb4_i2c_kv *values;
++	unsigned long val;
++	int ret;
++
++	ret = kstrtoul(buf, 10, &val);
++	if (ret)
++		return ret;
++
++	switch (val) {
++	case 0: /* disabled */
++		values = disable;
++		break;
++	case 1: /* enabled */
++		values = enable;
++		break;
++	default:
++		return -EINVAL;
 +	}
++
++	mutex_lock(&vindev->mgbdev->i2c_lock);
++	ret = mgb4_i2c_configure(&vindev->deser, values, 2);
++	ret |= mgb4_i2c_configure(&vindev->deser, reset, 2);
++	mutex_unlock(&vindev->mgbdev->i2c_lock);
++	if (ret < 0)
++		return -EIO;
++
++	return count;
 +}
 +
++static DEVICE_ATTR(input_id, 0444, read_input_id, NULL);
++static DEVICE_ATTR(oldi_lane_width, 0644, read_oldi_lane_width,
++		   write_oldi_lane_width);
++static DEVICE_ATTR(color_mapping, 0644, read_color_mapping,
++		   write_color_mapping);
++static DEVICE_ATTR(link_status, 0444, read_link_status, NULL);
++static DEVICE_ATTR(stream_status, 0444, read_stream_status, NULL);
++static DEVICE_ATTR(hsync_status, 0444, read_hsync_status, NULL);
++static DEVICE_ATTR(vsync_status, 0444, read_vsync_status, NULL);
++static DEVICE_ATTR(hsync_gap_length, 0644, read_hsync_gap, write_hsync_gap);
++static DEVICE_ATTR(vsync_gap_length, 0644, read_vsync_gap, write_vsync_gap);
++static DEVICE_ATTR(pclk_frequency, 0444, read_pclk_frequency, NULL);
++static DEVICE_ATTR(hsync_width, 0444, read_hsync_width, NULL);
++static DEVICE_ATTR(vsync_width, 0444, read_vsync_width, NULL);
++static DEVICE_ATTR(hback_porch, 0444, read_hback_porch, NULL);
++static DEVICE_ATTR(hfront_porch, 0444, read_hfront_porch, NULL);
++static DEVICE_ATTR(vback_porch, 0444, read_vback_porch, NULL);
++static DEVICE_ATTR(vfront_porch, 0444, read_vfront_porch, NULL);
++static DEVICE_ATTR(frequency_range, 0644, read_frequency_range,
++		   write_frequency_range);
++static DEVICE_ATTR(alignment, 0644, read_alignment, write_alignment);
++
++static DEVICE_ATTR(fpdl3_input_width, 0644, read_fpdl3_input_width,
++		   write_fpdl3_input_width);
++
++static DEVICE_ATTR(gmsl_mode, 0644, read_gmsl_mode, write_gmsl_mode);
++static DEVICE_ATTR(gmsl_stream_id, 0644, read_gmsl_stream_id,
++		   write_gmsl_stream_id);
++static DEVICE_ATTR(gmsl_fec, 0644, read_gmsl_fec, write_gmsl_fec);
++
++struct device_attribute *mgb4_fpdl3_in_attrs[] = {
++	&dev_attr_input_id,
++	&dev_attr_link_status,
++	&dev_attr_stream_status,
++	&dev_attr_hsync_status,
++	&dev_attr_vsync_status,
++	&dev_attr_oldi_lane_width,
++	&dev_attr_color_mapping,
++	&dev_attr_hsync_gap_length,
++	&dev_attr_vsync_gap_length,
++	&dev_attr_pclk_frequency,
++	&dev_attr_hsync_width,
++	&dev_attr_vsync_width,
++	&dev_attr_hback_porch,
++	&dev_attr_hfront_porch,
++	&dev_attr_vback_porch,
++	&dev_attr_vfront_porch,
++	&dev_attr_frequency_range,
++	&dev_attr_alignment,
++	&dev_attr_fpdl3_input_width,
++	NULL
++};
++
++struct device_attribute *mgb4_gmsl_in_attrs[] = {
++	&dev_attr_input_id,
++	&dev_attr_link_status,
++	&dev_attr_stream_status,
++	&dev_attr_hsync_status,
++	&dev_attr_vsync_status,
++	&dev_attr_oldi_lane_width,
++	&dev_attr_color_mapping,
++	&dev_attr_hsync_gap_length,
++	&dev_attr_vsync_gap_length,
++	&dev_attr_pclk_frequency,
++	&dev_attr_hsync_width,
++	&dev_attr_vsync_width,
++	&dev_attr_hback_porch,
++	&dev_attr_hfront_porch,
++	&dev_attr_vback_porch,
++	&dev_attr_vfront_porch,
++	&dev_attr_frequency_range,
++	&dev_attr_alignment,
++	&dev_attr_gmsl_mode,
++	&dev_attr_gmsl_stream_id,
++	&dev_attr_gmsl_fec,
++	NULL
++};
+diff --git a/drivers/media/pci/mgb4/mgb4_sysfs_out.c b/drivers/media/pci/mgb4/mgb4_sysfs_out.c
+new file mode 100644
+index 000000000000..f23ebdde42a8
+--- /dev/null
++++ b/drivers/media/pci/mgb4/mgb4_sysfs_out.c
+@@ -0,0 +1,734 @@
++// SPDX-License-Identifier: GPL-2.0-only
 +/*
-+ * should hold the engine->lock;
++ * Copyright (C) 2021-2022 Digiteq Automotive
++ *     author: Martin Tuma <martin.tuma@digiteqautomotive.com>
 + */
-+static int transfer_abort(struct xdma_engine *engine,
-+			  struct xdma_transfer *transfer)
++
++#include <linux/device.h>
++#include "mgb4_core.h"
++#include "mgb4_i2c.h"
++#include "mgb4_vout.h"
++#include "mgb4_vin.h"
++#include "mgb4_cmt.h"
++#include "mgb4_sysfs.h"
++
++static int loopin_cnt(struct mgb4_vin_dev *vindev)
 +{
-+	struct xdma_transfer *head;
++	struct mgb4_vout_dev *voutdev;
++	u32 config;
++	int i, cnt = 0;
 +
-+	if (!engine) {
-+		pr_err("dma engine NULL\n");
-+		return -EINVAL;
++	for (i = 0; i < NUM_VOUT_DEVICES; i++) {
++		voutdev = vindev->mgbdev->vout[i];
++		if (!voutdev)
++			continue;
++
++		config = mgb4_read_reg(&voutdev->mgbdev->video,
++		  voutdev->config->regs.config);
++		if ((config & 0xc) >> 2 == vindev->config->id)
++			cnt++;
 +	}
 +
-+	if (!transfer) {
-+		pr_err("Invalid DMA transfer\n");
-+		return -EINVAL;
-+	}
-+
-+	if (transfer->desc_num == 0) {
-+		pr_err("%s void descriptors in the transfer list\n",
-+		       engine->name);
-+		return -EINVAL;
-+	}
-+
-+	pr_info("abort transfer 0x%p, desc %d, engine desc queued %d.\n",
-+		transfer, transfer->desc_num, engine->desc_dequeued);
-+
-+	head = list_entry(engine->transfer_list.next, struct xdma_transfer,
-+			  entry);
-+	if (head == transfer)
-+		list_del(engine->transfer_list.next);
-+	else
-+		pr_info("engine %s, transfer 0x%p NOT found, 0x%p.\n",
-+			engine->name, transfer, head);
-+
-+	if (transfer->state == TRANSFER_STATE_SUBMITTED)
-+		transfer->state = TRANSFER_STATE_ABORTED;
-+	return 0;
++	return cnt;
 +}
 +
-+/* transfer_queue() - Queue a DMA transfer on the engine
-+ *
-+ * @engine DMA engine doing the transfer
-+ * @transfer DMA transfer submitted to the engine
-+ *
-+ * Takes and releases the engine spinlock
-+ */
-+static int transfer_queue(struct xdma_engine *engine,
-+			  struct xdma_transfer *transfer)
++
++/* Common for both FPDL3 and GMSL */
++
++static ssize_t read_output_id(struct device *dev,
++			      struct device_attribute *attr, char *buf)
 +{
-+	int rv = 0;
-+	struct xdma_transfer *transfer_started;
-+	struct xdma_dev *xdev;
-+	unsigned long flags;
++	struct video_device *vdev = to_video_device(dev);
++	struct mgb4_vout_dev *voutdev = video_get_drvdata(vdev);
 +
-+	if (!engine) {
-+		pr_err("dma engine NULL\n");
++	return sprintf(buf, "%d\n", voutdev->config->id);
++}
++
++static ssize_t read_video_source(struct device *dev,
++				 struct device_attribute *attr, char *buf)
++{
++	struct video_device *vdev = to_video_device(dev);
++	struct mgb4_vout_dev *voutdev = video_get_drvdata(vdev);
++	u32 config = mgb4_read_reg(&voutdev->mgbdev->video,
++	  voutdev->config->regs.config);
++
++	return sprintf(buf, "%u\n", (config & 0xc) >> 2);
++}
++
++static ssize_t write_video_source(struct device *dev,
++				  struct device_attribute *attr,
++				  const char *buf, size_t count)
++{
++	struct video_device *vdev = to_video_device(dev);
++	struct mgb4_vout_dev *voutdev = video_get_drvdata(vdev);
++	struct mgb4_dev *mgbdev = voutdev->mgbdev;
++	struct mgb4_vin_dev *loopin_new = 0, *loopin_old = 0;
++	unsigned long val;
++	unsigned long flags_in[NUM_VIN_DEVICES], flags_out[NUM_VOUT_DEVICES];
++	ssize_t ret;
++	u32 config;
++	int i;
++
++
++	memset(flags_in, 0, sizeof(flags_in));
++	memset(flags_out, 0, sizeof(flags_out));
++
++	ret = kstrtoul(buf, 10, &val);
++	if (ret)
++		return ret;
++	if (val > 3)
 +		return -EINVAL;
-+	}
 +
-+	if (!engine->xdev) {
-+		pr_err("Invalid xdev\n");
++	for (i = 0; i < NUM_VIN_DEVICES; i++)
++		if (mgbdev->vin[i])
++			spin_lock_irqsave(&(mgbdev->vin[i]->vdev.fh_lock), flags_in[i]);
++	for (i = 0; i < NUM_VOUT_DEVICES; i++)
++		if (mgbdev->vout[i])
++			spin_lock_irqsave(&(mgbdev->vout[i]->vdev.fh_lock), flags_out[i]);
++
++	ret = -EBUSY;
++	for (i = 0; i < NUM_VIN_DEVICES; i++)
++		if (mgbdev->vin[i] && !list_empty(&(mgbdev->vin[i]->vdev.fh_list)))
++			goto error;
++	for (i = 0; i < NUM_VOUT_DEVICES; i++)
++		if (mgbdev->vout[i] && !list_empty(&(mgbdev->vout[i]->vdev.fh_list)))
++			goto error;
++
++	config = mgb4_read_reg(&mgbdev->video, voutdev->config->regs.config);
++
++	if (((config & 0xc) >> 2) < NUM_VIN_DEVICES)
++		loopin_old = mgbdev->vin[(config & 0xc) >> 2];
++	if (val < NUM_VIN_DEVICES)
++		loopin_new = mgbdev->vin[val];
++	if (loopin_old && loopin_cnt(loopin_old) == 1)
++		mgb4_mask_reg(&mgbdev->video, loopin_old->config->regs.config, 0x2, 0x0);
++	if (loopin_new)
++		mgb4_mask_reg(&mgbdev->video, loopin_new->config->regs.config, 0x2, 0x2);
++
++	if (val == voutdev->config->id + NUM_VIN_DEVICES)
++		mgb4_write_reg(&mgbdev->video, voutdev->config->regs.config,
++		  config & ~(1<<1));
++	else
++		mgb4_write_reg(&mgbdev->video, voutdev->config->regs.config,
++		  config | (1U<<1));
++
++	mgb4_mask_reg(&mgbdev->video, voutdev->config->regs.config, 0xc, val << 2);
++
++	ret = count;
++
++error:
++	for (i = NUM_VOUT_DEVICES - 1; i >= 0; i--)
++		if (mgbdev->vout[i])
++			spin_unlock_irqrestore(&(mgbdev->vout[i]->vdev.fh_lock), flags_out[i]);
++	for (i = NUM_VIN_DEVICES - 1; i >= 0; i--)
++		if (mgbdev->vin[i])
++			spin_unlock_irqrestore(&(mgbdev->vin[i]->vdev.fh_lock), flags_in[i]);
++
++	return ret;
++}
++
++static ssize_t read_display_width(struct device *dev,
++				  struct device_attribute *attr, char *buf)
++{
++	struct video_device *vdev = to_video_device(dev);
++	struct mgb4_vout_dev *voutdev = video_get_drvdata(vdev);
++	u32 config = mgb4_read_reg(&voutdev->mgbdev->video,
++	  voutdev->config->regs.resolution);
++
++	return sprintf(buf, "%u\n", config >> 16);
++}
++
++static ssize_t write_display_width(struct device *dev,
++				   struct device_attribute *attr,
++				   const char *buf, size_t count)
++{
++	struct video_device *vdev = to_video_device(dev);
++	struct mgb4_vout_dev *voutdev = video_get_drvdata(vdev);
++	unsigned long val, flags;
++	int ret, busy;
++
++	ret = kstrtoul(buf, 10, &val);
++	if (ret)
++		return ret;
++	if (val > 0xFFFF)
 +		return -EINVAL;
-+	}
 +
-+	if (!transfer) {
-+		pr_err("%s Invalid DMA transfer\n", engine->name);
-+		return -EINVAL;
-+	}
-+
-+	if (transfer->desc_num == 0) {
-+		pr_err("%s void descriptors in the transfer list\n",
-+		       engine->name);
-+		return -EINVAL;
-+	}
-+	dbg_tfr("%s (transfer=0x%p).\n", __func__, transfer);
-+
-+	xdev = engine->xdev;
-+	if (xdma_device_flag_check(xdev, XDEV_FLAG_OFFLINE)) {
-+		pr_info("dev 0x%p offline, transfer 0x%p not queued.\n", xdev,
-+			transfer);
++	spin_lock_irqsave(&(voutdev->vdev.fh_lock), flags);
++	busy = !list_empty(&(voutdev->vdev.fh_list));
++	if (busy) {
++		spin_unlock_irqrestore(&(voutdev->vdev.fh_lock), flags);
 +		return -EBUSY;
 +	}
 +
-+	/* lock the engine state */
-+	spin_lock_irqsave(&engine->lock, flags);
++	mgb4_mask_reg(&voutdev->mgbdev->video, voutdev->config->regs.resolution,
++	  0xFFFF0000, val << 16);
 +
-+	engine->prev_cpu = get_cpu();
-+	put_cpu();
++	spin_unlock_irqrestore(&(voutdev->vdev.fh_lock), flags);
 +
-+	/* engine is being shutdown; do not accept new transfers */
-+	if (engine->shutdown & ENGINE_SHUTDOWN_REQUEST) {
-+		pr_info("engine %s offline, transfer 0x%p not queued.\n",
-+			engine->name, transfer);
-+		rv = -EBUSY;
-+		goto shutdown;
-+	}
-+
-+	/* mark the transfer as submitted */
-+	transfer->state = TRANSFER_STATE_SUBMITTED;
-+	/* add transfer to the tail of the engine transfer queue */
-+	list_add_tail(&transfer->entry, &engine->transfer_list);
-+
-+	/* engine is idle? */
-+	if (!engine->running) {
-+		/* start engine */
-+		dbg_tfr("%s(): starting %s engine.\n", __func__, engine->name);
-+		transfer_started = engine_start(engine);
-+		if (!transfer_started) {
-+			pr_err("Failed to start dma engine\n");
-+			goto shutdown;
-+		}
-+		dbg_tfr("transfer=0x%p started %s engine with transfer 0x%p.\n",
-+			transfer, engine->name, transfer_started);
-+	} else {
-+		dbg_tfr("transfer=0x%p queued, with %s engine running.\n",
-+			transfer, engine->name);
-+	}
-+
-+shutdown:
-+	/* unlock the engine state */
-+	dbg_tfr("engine->running = %d\n", engine->running);
-+	spin_unlock_irqrestore(&engine->lock, flags);
-+	return rv;
++	return count;
 +}
 +
-+static void engine_alignments(struct xdma_engine *engine)
++static ssize_t read_display_height(struct device *dev,
++				   struct device_attribute *attr, char *buf)
 +{
-+	u32 w;
-+	u32 align_bytes;
-+	u32 granularity_bytes;
-+	u32 address_bits;
++	struct video_device *vdev = to_video_device(dev);
++	struct mgb4_vout_dev *voutdev = video_get_drvdata(vdev);
++	u32 config = mgb4_read_reg(&voutdev->mgbdev->video,
++	  voutdev->config->regs.resolution);
 +
-+	w = read_register(&engine->regs->alignments);
-+	dbg_init("engine %p name %s alignments=0x%08x\n", engine, engine->name,
-+		 (int)w);
++	return sprintf(buf, "%u\n", config & 0xFFFF);
++}
 +
-+	align_bytes = (w & 0x00ff0000U) >> 16;
-+	granularity_bytes = (w & 0x0000ff00U) >> 8;
-+	address_bits = (w & 0x000000ffU);
++static ssize_t write_display_height(struct device *dev,
++				    struct device_attribute *attr,
++				    const char *buf, size_t count)
++{
++	struct video_device *vdev = to_video_device(dev);
++	struct mgb4_vout_dev *voutdev = video_get_drvdata(vdev);
++	unsigned long val, flags;
++	int ret, busy;
 +
-+	dbg_init("align_bytes = %d\n", align_bytes);
-+	dbg_init("granularity_bytes = %d\n", granularity_bytes);
-+	dbg_init("address_bits = %d\n", address_bits);
++	ret = kstrtoul(buf, 10, &val);
++	if (ret)
++		return ret;
++	if (val > 0xFFFF)
++		return -EINVAL;
 +
-+	if (w) {
-+		engine->addr_align = align_bytes;
-+		engine->len_granularity = granularity_bytes;
-+		engine->addr_bits = address_bits;
-+	} else {
-+		/* Some default values if alignments are unspecified */
-+		engine->addr_align = 1;
-+		engine->len_granularity = 1;
-+		engine->addr_bits = 64;
++	spin_lock_irqsave(&(voutdev->vdev.fh_lock), flags);
++	busy = !list_empty(&(voutdev->vdev.fh_list));
++	if (busy) {
++		spin_unlock_irqrestore(&(voutdev->vdev.fh_lock), flags);
++		return -EBUSY;
++	}
++
++	mgb4_mask_reg(&voutdev->mgbdev->video, voutdev->config->regs.resolution,
++	  0xFFFF, val);
++
++	spin_unlock_irqrestore(&(voutdev->vdev.fh_lock), flags);
++
++	return count;
++}
++
++static ssize_t read_frame_rate(struct device *dev,
++			       struct device_attribute *attr, char *buf)
++{
++	struct video_device *vdev = to_video_device(dev);
++	struct mgb4_vout_dev *voutdev = video_get_drvdata(vdev);
++	u32 period = mgb4_read_reg(&voutdev->mgbdev->video,
++	  voutdev->config->regs.frame_period);
++
++	return sprintf(buf, "%u\n", 125000000 / period);
++}
++
++static ssize_t write_frame_rate(struct device *dev,
++				struct device_attribute *attr, const char *buf,
++				size_t count)
++{
++	struct video_device *vdev = to_video_device(dev);
++	struct mgb4_vout_dev *voutdev = video_get_drvdata(vdev);
++	unsigned long val;
++	int ret;
++
++	ret = kstrtoul(buf, 10, &val);
++	if (ret)
++		return ret;
++
++	mgb4_write_reg(&voutdev->mgbdev->video, voutdev->config->regs.frame_period,
++	  125000000 / val);
++
++	return count;
++}
++
++static ssize_t read_hsync_width(struct device *dev,
++				struct device_attribute *attr, char *buf)
++{
++	struct video_device *vdev = to_video_device(dev);
++	struct mgb4_vout_dev *voutdev = video_get_drvdata(vdev);
++	u32 sig = mgb4_read_reg(&voutdev->mgbdev->video, voutdev->config->regs.hsync);
++
++	return sprintf(buf, "%u\n", (sig & 0x00FF0000) >> 16);
++}
++
++static ssize_t write_hsync_width(struct device *dev,
++				 struct device_attribute *attr, const char *buf,
++				 size_t count)
++{
++	struct video_device *vdev = to_video_device(dev);
++	struct mgb4_vout_dev *voutdev = video_get_drvdata(vdev);
++	unsigned long val;
++	int ret;
++
++	ret = kstrtoul(buf, 10, &val);
++	if (ret)
++		return ret;
++	if (val > 0xFF)
++		return -EINVAL;
++
++	mgb4_mask_reg(&voutdev->mgbdev->video, voutdev->config->regs.hsync,
++	  0x00FF0000, val << 16);
++
++	return count;
++}
++
++static ssize_t read_vsync_width(struct device *dev,
++				struct device_attribute *attr, char *buf)
++{
++	struct video_device *vdev = to_video_device(dev);
++	struct mgb4_vout_dev *voutdev = video_get_drvdata(vdev);
++	u32 sig = mgb4_read_reg(&voutdev->mgbdev->video, voutdev->config->regs.vsync);
++
++	return sprintf(buf, "%u\n", (sig & 0x00FF0000) >> 16);
++}
++
++static ssize_t write_vsync_width(struct device *dev,
++				 struct device_attribute *attr, const char *buf,
++				 size_t count)
++{
++	struct video_device *vdev = to_video_device(dev);
++	struct mgb4_vout_dev *voutdev = video_get_drvdata(vdev);
++	unsigned long val;
++	int ret;
++
++	ret = kstrtoul(buf, 10, &val);
++	if (ret)
++		return ret;
++	if (val > 0xFF)
++		return -EINVAL;
++
++	mgb4_mask_reg(&voutdev->mgbdev->video, voutdev->config->regs.vsync,
++	  0x00FF0000, val << 16);
++
++	return count;
++}
++
++static ssize_t read_hback_porch(struct device *dev,
++				struct device_attribute *attr, char *buf)
++{
++	struct video_device *vdev = to_video_device(dev);
++	struct mgb4_vout_dev *voutdev = video_get_drvdata(vdev);
++	u32 sig = mgb4_read_reg(&voutdev->mgbdev->video, voutdev->config->regs.hsync);
++
++	return sprintf(buf, "%u\n", (sig & 0x0000FF00) >> 8);
++}
++
++static ssize_t write_hback_porch(struct device *dev,
++				 struct device_attribute *attr, const char *buf,
++				 size_t count)
++{
++	struct video_device *vdev = to_video_device(dev);
++	struct mgb4_vout_dev *voutdev = video_get_drvdata(vdev);
++	unsigned long val;
++	int ret;
++
++	ret = kstrtoul(buf, 10, &val);
++	if (ret)
++		return ret;
++	if (val > 0xFF)
++		return -EINVAL;
++
++	mgb4_mask_reg(&voutdev->mgbdev->video, voutdev->config->regs.hsync,
++	  0x0000FF00, val << 8);
++
++	return count;
++}
++
++static ssize_t read_vback_porch(struct device *dev,
++				struct device_attribute *attr, char *buf)
++{
++	struct video_device *vdev = to_video_device(dev);
++	struct mgb4_vout_dev *voutdev = video_get_drvdata(vdev);
++	u32 sig = mgb4_read_reg(&voutdev->mgbdev->video, voutdev->config->regs.vsync);
++
++	return sprintf(buf, "%u\n", (sig & 0x0000FF00) >> 8);
++}
++
++static ssize_t write_vback_porch(struct device *dev,
++				 struct device_attribute *attr, const char *buf,
++				 size_t count)
++{
++	struct video_device *vdev = to_video_device(dev);
++	struct mgb4_vout_dev *voutdev = video_get_drvdata(vdev);
++	unsigned long val;
++	int ret;
++
++	ret = kstrtoul(buf, 10, &val);
++	if (ret)
++		return ret;
++	if (val > 0xFF)
++		return -EINVAL;
++
++	mgb4_mask_reg(&voutdev->mgbdev->video, voutdev->config->regs.vsync,
++	  0x0000FF00, val << 8);
++
++	return count;
++}
++
++static ssize_t read_hfront_porch(struct device *dev,
++				 struct device_attribute *attr, char *buf)
++{
++	struct video_device *vdev = to_video_device(dev);
++	struct mgb4_vout_dev *voutdev = video_get_drvdata(vdev);
++	u32 sig = mgb4_read_reg(&voutdev->mgbdev->video, voutdev->config->regs.hsync);
++
++	return sprintf(buf, "%u\n", (sig & 0x000000FF));
++}
++
++static ssize_t write_hfront_porch(struct device *dev,
++				  struct device_attribute *attr,
++				  const char *buf, size_t count)
++{
++	struct video_device *vdev = to_video_device(dev);
++	struct mgb4_vout_dev *voutdev = video_get_drvdata(vdev);
++	unsigned long val;
++	int ret;
++
++	ret = kstrtoul(buf, 10, &val);
++	if (ret)
++		return ret;
++	if (val > 0xFF)
++		return -EINVAL;
++
++	mgb4_mask_reg(&voutdev->mgbdev->video, voutdev->config->regs.hsync,
++	  0x000000FF, val);
++
++	return count;
++}
++
++static ssize_t read_vfront_porch(struct device *dev,
++				 struct device_attribute *attr, char *buf)
++{
++	struct video_device *vdev = to_video_device(dev);
++	struct mgb4_vout_dev *voutdev = video_get_drvdata(vdev);
++	u32 sig = mgb4_read_reg(&voutdev->mgbdev->video, voutdev->config->regs.vsync);
++
++	return sprintf(buf, "%u\n", (sig & 0x000000FF));
++}
++
++static ssize_t write_vfront_porch(struct device *dev,
++				  struct device_attribute *attr, const char *buf,
++				  size_t count)
++{
++	struct video_device *vdev = to_video_device(dev);
++	struct mgb4_vout_dev *voutdev = video_get_drvdata(vdev);
++	unsigned long val;
++	int ret;
++
++	ret = kstrtoul(buf, 10, &val);
++	if (ret)
++		return ret;
++	if (val > 0xFF)
++		return -EINVAL;
++
++	mgb4_mask_reg(&voutdev->mgbdev->video, voutdev->config->regs.vsync,
++	  0x000000FF, val);
++
++	return count;
++}
++
++static ssize_t read_alignment(struct device *dev,
++			      struct device_attribute *attr, char *buf)
++{
++	struct video_device *vdev = to_video_device(dev);
++	struct mgb4_vout_dev *voutdev = video_get_drvdata(vdev);
++
++	return sprintf(buf, "%d\n", voutdev->alignment);
++}
++
++static ssize_t write_alignment(struct device *dev,
++			       struct device_attribute *attr, const char *buf,
++			       size_t count)
++{
++	struct video_device *vdev = to_video_device(dev);
++	struct mgb4_vout_dev *voutdev = video_get_drvdata(vdev);
++	unsigned long val, flags;
++	u32 config;
++	int ret;
++
++	ret = kstrtoul(buf, 10, &val);
++	if (ret)
++		return ret;
++	if (!val || (val & (val - 1)))
++		return -EINVAL;
++
++	spin_lock_irqsave(&(voutdev->vdev.fh_lock), flags);
++	if (!list_empty(&(voutdev->vdev.fh_list))) {
++		spin_unlock_irqrestore(&(voutdev->vdev.fh_lock), flags);
++		return -EBUSY;
++	}
++	/* Do not allow the change if loopback is active */
++	config = mgb4_read_reg(&voutdev->mgbdev->video, voutdev->config->regs.config);
++	if (((config & 0xc) >> 2) < 2) {
++		spin_unlock_irqrestore(&(voutdev->vdev.fh_lock), flags);
++		return -EPERM;
++	}
++
++	voutdev->alignment = val;
++
++	spin_unlock_irqrestore(&(voutdev->vdev.fh_lock), flags);
++
++	return count;
++}
++
++/* FPDL3 only */
++
++static ssize_t read_hsync_polarity(struct device *dev,
++				   struct device_attribute *attr, char *buf)
++{
++	struct video_device *vdev = to_video_device(dev);
++	struct mgb4_vout_dev *voutdev = video_get_drvdata(vdev);
++	u32 config = mgb4_read_reg(&voutdev->mgbdev->video,
++	  voutdev->config->regs.hsync);
++
++	return sprintf(buf, "%u\n", (config & (1<<31)) >> 31);
++}
++
++static ssize_t write_hsync_polarity(struct device *dev,
++				    struct device_attribute *attr,
++				    const char *buf, size_t count)
++{
++	struct video_device *vdev = to_video_device(dev);
++	struct mgb4_vout_dev *voutdev = video_get_drvdata(vdev);
++	unsigned long val;
++	int ret;
++
++	ret = kstrtoul(buf, 10, &val);
++	if (ret)
++		return ret;
++	if (val > 1)
++		return -EINVAL;
++
++	mgb4_mask_reg(&voutdev->mgbdev->video, voutdev->config->regs.hsync, (1<<31),
++	  val << 31);
++
++	return count;
++}
++
++static ssize_t read_vsync_polarity(struct device *dev,
++				   struct device_attribute *attr, char *buf)
++{
++	struct video_device *vdev = to_video_device(dev);
++	struct mgb4_vout_dev *voutdev = video_get_drvdata(vdev);
++	u32 config = mgb4_read_reg(&voutdev->mgbdev->video,
++	  voutdev->config->regs.vsync);
++
++	return sprintf(buf, "%u\n", (config & (1<<31)) >> 31);
++}
++
++static ssize_t write_vsync_polarity(struct device *dev,
++				    struct device_attribute *attr,
++				    const char *buf, size_t count)
++{
++	struct video_device *vdev = to_video_device(dev);
++	struct mgb4_vout_dev *voutdev = video_get_drvdata(vdev);
++	unsigned long val;
++	int ret;
++
++	ret = kstrtoul(buf, 10, &val);
++	if (ret)
++		return ret;
++	if (val > 1)
++		return -EINVAL;
++
++	mgb4_mask_reg(&voutdev->mgbdev->video, voutdev->config->regs.vsync, (1<<31),
++	  val << 31);
++
++	return count;
++}
++
++static ssize_t read_de_polarity(struct device *dev,
++				struct device_attribute *attr, char *buf)
++{
++	struct video_device *vdev = to_video_device(dev);
++	struct mgb4_vout_dev *voutdev = video_get_drvdata(vdev);
++	u32 config = mgb4_read_reg(&voutdev->mgbdev->video,
++	  voutdev->config->regs.vsync);
++
++	return sprintf(buf, "%u\n", (config & (1<<30)) >> 30);
++}
++
++static ssize_t write_de_polarity(struct device *dev,
++				 struct device_attribute *attr, const char *buf,
++				 size_t count)
++{
++	struct video_device *vdev = to_video_device(dev);
++	struct mgb4_vout_dev *voutdev = video_get_drvdata(vdev);
++	unsigned long val;
++	int ret;
++
++	ret = kstrtoul(buf, 10, &val);
++	if (ret)
++		return ret;
++	if (val > 1)
++		return -EINVAL;
++
++	mgb4_mask_reg(&voutdev->mgbdev->video, voutdev->config->regs.vsync, (1<<30),
++	  val << 30);
++
++	return count;
++}
++
++static ssize_t read_fpdl3_output_width(struct device *dev,
++				       struct device_attribute *attr, char *buf)
++{
++	struct video_device *vdev = to_video_device(dev);
++	struct mgb4_vout_dev *voutdev = video_get_drvdata(vdev);
++	s32 ret;
++
++	mutex_lock(&voutdev->mgbdev->i2c_lock);
++	ret = mgb4_i2c_read_byte(&voutdev->ser, 0x5B);
++	mutex_unlock(&voutdev->mgbdev->i2c_lock);
++	if (ret < 0)
++		return -EIO;
++
++	switch ((u8)ret & 0x03) {
++	case 0:
++		return sprintf(buf, "0\n");
++	case 1:
++		return sprintf(buf, "1\n");
++	case 3:
++		return sprintf(buf, "2\n");
++	default:
++		return -EINVAL;
 +	}
 +}
 +
-+static void engine_free_resource(struct xdma_engine *engine)
++static ssize_t write_fpdl3_output_width(struct device *dev,
++					struct device_attribute *attr,
++					const char *buf, size_t count)
 +{
-+	struct xdma_dev *xdev = engine->xdev;
++	struct video_device *vdev = to_video_device(dev);
++	struct mgb4_vout_dev *voutdev = video_get_drvdata(vdev);
++	u8 i2c_data;
++	unsigned long val;
++	int ret;
 +
-+	/* Release memory use for descriptor writebacks */
-+	if (engine->poll_mode_addr_virt) {
-+		dbg_sg("Releasing memory for descriptor writeback\n");
-+		dma_free_coherent(&xdev->pdev->dev, sizeof(struct xdma_poll_wb),
-+				  engine->poll_mode_addr_virt,
-+				  engine->poll_mode_bus);
-+		dbg_sg("Released memory for descriptor writeback\n");
-+		engine->poll_mode_addr_virt = NULL;
-+	}
++	ret = kstrtoul(buf, 10, &val);
++	if (ret)
++		return ret;
 +
-+	if (engine->desc) {
-+		dbg_init("device %s, engine %s pre-alloc desc 0x%p,0x%llx.\n",
-+			 dev_name(&xdev->pdev->dev), engine->name, engine->desc,
-+			 engine->desc_bus);
-+		dma_free_coherent(&xdev->pdev->dev,
-+				  XDMA_TRANSFER_MAX_DESC *
-+					  sizeof(struct xdma_desc),
-+				  engine->desc, engine->desc_bus);
-+		engine->desc = NULL;
-+	}
-+
-+	if (engine->cyclic_result) {
-+		dma_free_coherent(
-+			&xdev->pdev->dev,
-+			XDMA_TRANSFER_MAX_DESC * sizeof(struct xdma_result),
-+			engine->cyclic_result, engine->cyclic_result_bus);
-+		engine->cyclic_result = NULL;
-+	}
-+}
-+
-+static int engine_destroy(struct xdma_dev *xdev, struct xdma_engine *engine)
-+{
-+	if (!xdev) {
-+		pr_err("Invalid xdev\n");
++	switch (val) {
++	case 0: /* auto */
++		i2c_data = 0x00;
++		break;
++	case 1: /* single */
++		i2c_data = 0x01;
++		break;
++	case 2: /* dual */
++		i2c_data = 0x03;
++		break;
++	default:
 +		return -EINVAL;
 +	}
 +
-+	if (!engine) {
-+		pr_err("dma engine NULL\n");
-+		return -EINVAL;
-+	}
++	mutex_lock(&voutdev->mgbdev->i2c_lock);
++	ret = mgb4_i2c_mask_byte(&voutdev->ser, 0x5B, 0x03, i2c_data);
++	mutex_unlock(&voutdev->mgbdev->i2c_lock);
++	if (ret < 0)
++		return -EIO;
 +
-+	dbg_sg("Shutting down engine %s%d", engine->name, engine->channel);
-+
-+	/* Disable interrupts to stop processing new events during shutdown */
-+	write_register(0x0, &engine->regs->interrupt_enable_mask,
-+		       (unsigned long)(&engine->regs->interrupt_enable_mask) -
-+			       (unsigned long)(&engine->regs));
-+
-+	if (enable_credit_mp && engine->streaming &&
-+	    engine->dir == DMA_FROM_DEVICE) {
-+		u32 reg_value = (0x1 << engine->channel) << 16;
-+		struct sgdma_common_regs *reg =
-+			(struct sgdma_common_regs
-+				 *)(xdev->bar[xdev->config_bar_idx] +
-+				    (0x6 * TARGET_SPACING));
-+		write_register(reg_value, &reg->credit_mode_enable_w1c, 0);
-+	}
-+
-+	if (poll_mode)
-+		xdma_thread_remove_work(engine);
-+
-+	/* Release memory use for descriptor writebacks */
-+	engine_free_resource(engine);
-+
-+	memset(engine, 0, sizeof(struct xdma_engine));
-+	/* Decrement the number of engines available */
-+	xdev->engines_num--;
-+	return 0;
++	return count;
 +}
 +
-+static int engine_writeback_setup(struct xdma_engine *engine)
++static ssize_t read_pclk_frequency(struct device *dev,
++				   struct device_attribute *attr, char *buf)
 +{
-+	u32 w;
-+	struct xdma_dev *xdev;
-+	struct xdma_poll_wb *writeback;
++	struct video_device *vdev = to_video_device(dev);
++	struct mgb4_vout_dev *voutdev = video_get_drvdata(vdev);
 +
-+	if (!engine) {
-+		pr_err("dma engine NULL\n");
-+		return -EINVAL;
-+	}
-+
-+	xdev = engine->xdev;
-+	if (!xdev) {
-+		pr_err("Invalid xdev\n");
-+		return -EINVAL;
-+	}
-+
-+	/*
-+	 * RTO - doing the allocation per engine is wasteful since a full page
-+	 * is allocated each time - better to allocate one page for the whole
-+	 * device during probe() and set per-engine offsets here
-+	 */
-+	writeback = (struct xdma_poll_wb *)engine->poll_mode_addr_virt;
-+	writeback->completed_desc_count = 0;
-+
-+	dbg_init("Setting writeback location to 0x%llx for engine %p",
-+		 engine->poll_mode_bus, engine);
-+	w = cpu_to_le32(PCI_DMA_L(engine->poll_mode_bus));
-+	write_register(w, &engine->regs->poll_mode_wb_lo,
-+		       (unsigned long)(&engine->regs->poll_mode_wb_lo) -
-+			       (unsigned long)(&engine->regs));
-+	w = cpu_to_le32(PCI_DMA_H(engine->poll_mode_bus));
-+	write_register(w, &engine->regs->poll_mode_wb_hi,
-+		       (unsigned long)(&engine->regs->poll_mode_wb_hi) -
-+			       (unsigned long)(&engine->regs));
-+
-+	return 0;
++	return sprintf(buf, "%u\n", voutdev->freq);
 +}
 +
-+/* engine_create() - Create an SG DMA engine bookkeeping data structure
-+ *
-+ * An SG DMA engine consists of the resources for a single-direction transfer
-+ * queue; the SG DMA hardware, the software queue and interrupt handling.
-+ *
-+ * @dev Pointer to pci_dev
-+ * @offset byte address offset in BAR[xdev->config_bar_idx] resource for the
-+ * SG DMA * controller registers.
-+ * @dir: DMA_TO/FROM_DEVICE
-+ * @streaming Whether the engine is attached to AXI ST (rather than MM)
++static ssize_t write_pclk_frequency(struct device *dev,
++				    struct device_attribute *attr,
++				    const char *buf, size_t count)
++{
++	struct video_device *vdev = to_video_device(dev);
++	struct mgb4_vout_dev *voutdev = video_get_drvdata(vdev);
++	unsigned long val, flags;
++	int ret, busy;
++	unsigned int dp;
++
++	ret = kstrtoul(buf, 10, &val);
++	if (ret)
++		return ret;
++
++	spin_lock_irqsave(&(voutdev->vdev.fh_lock), flags);
++	busy = !list_empty(&(voutdev->vdev.fh_list));
++	if (busy) {
++		spin_unlock_irqrestore(&(voutdev->vdev.fh_lock), flags);
++		return -EBUSY;
++	}
++
++	dp = (val > 50000) ? 1 : 0;
++	voutdev->freq = mgb4_cmt_set_vout(voutdev, val >> dp) << dp;
++
++	spin_unlock_irqrestore(&(voutdev->vdev.fh_lock), flags);
++
++	mgb4_mask_reg(&voutdev->mgbdev->video, voutdev->config->regs.config,
++	  0x10, dp << 4);
++	mutex_lock(&voutdev->mgbdev->i2c_lock);
++	ret = mgb4_i2c_mask_byte(&voutdev->ser, 0x4F, 1<<6, ((~dp)&1)<<6);
++	mutex_unlock(&voutdev->mgbdev->i2c_lock);
++	if (ret < 0)
++		return -EIO;
++
++	return count;
++}
++
++
++static DEVICE_ATTR(output_id, 0444, read_output_id, NULL);
++static DEVICE_ATTR(video_source, 0644, read_video_source, write_video_source);
++static DEVICE_ATTR(display_width, 0644, read_display_width,
++		   write_display_width);
++static DEVICE_ATTR(display_height, 0644, read_display_height,
++		   write_display_height);
++static DEVICE_ATTR(frame_rate, 0644, read_frame_rate, write_frame_rate);
++static DEVICE_ATTR(hsync_polarity, 0644, read_hsync_polarity,
++		   write_hsync_polarity);
++static DEVICE_ATTR(vsync_polarity, 0644, read_vsync_polarity,
++		   write_vsync_polarity);
++static DEVICE_ATTR(de_polarity, 0644, read_de_polarity,
++		   write_de_polarity);
++static DEVICE_ATTR(pclk_frequency, 0644, read_pclk_frequency,
++		   write_pclk_frequency);
++static DEVICE_ATTR(hsync_width, 0644, read_hsync_width, write_hsync_width);
++static DEVICE_ATTR(vsync_width, 0644, read_vsync_width, write_vsync_width);
++static DEVICE_ATTR(hback_porch, 0644, read_hback_porch, write_hback_porch);
++static DEVICE_ATTR(hfront_porch, 0644, read_hfront_porch, write_hfront_porch);
++static DEVICE_ATTR(vback_porch, 0644, read_vback_porch, write_vback_porch);
++static DEVICE_ATTR(vfront_porch, 0644, read_vfront_porch, write_vfront_porch);
++static DEVICE_ATTR(alignment, 0644, read_alignment, write_alignment);
++
++static DEVICE_ATTR(fpdl3_output_width, 0644, read_fpdl3_output_width,
++		   write_fpdl3_output_width);
++
++
++struct device_attribute *mgb4_fpdl3_out_attrs[] = {
++	&dev_attr_output_id,
++	&dev_attr_video_source,
++	&dev_attr_display_width,
++	&dev_attr_display_height,
++	&dev_attr_frame_rate,
++	&dev_attr_hsync_polarity,
++	&dev_attr_vsync_polarity,
++	&dev_attr_de_polarity,
++	&dev_attr_pclk_frequency,
++	&dev_attr_hsync_width,
++	&dev_attr_vsync_width,
++	&dev_attr_hback_porch,
++	&dev_attr_hfront_porch,
++	&dev_attr_vback_porch,
++	&dev_attr_vfront_porch,
++	&dev_attr_alignment,
++	&dev_attr_fpdl3_output_width,
++	NULL
++};
++
++struct device_attribute *mgb4_gmsl_out_attrs[] = {
++	&dev_attr_output_id,
++	&dev_attr_video_source,
++	&dev_attr_display_width,
++	&dev_attr_display_height,
++	&dev_attr_frame_rate,
++	NULL
++};
+diff --git a/drivers/media/pci/mgb4/mgb4_sysfs_pci.c b/drivers/media/pci/mgb4/mgb4_sysfs_pci.c
+new file mode 100644
+index 000000000000..a7f59cd9cfc9
+--- /dev/null
++++ b/drivers/media/pci/mgb4/mgb4_sysfs_pci.c
+@@ -0,0 +1,83 @@
++// SPDX-License-Identifier: GPL-2.0-only
++/*
++ * Copyright (C) 2021-2022 Digiteq Automotive
++ *     author: Martin Tuma <martin.tuma@digiteqautomotive.com>
 + */
-+static int engine_init_regs(struct xdma_engine *engine)
++
++#include <linux/device.h>
++#include "mgb4_core.h"
++#include "mgb4_sysfs.h"
++
++static ssize_t read_module_version(struct device *dev,
++				   struct device_attribute *attr, char *buf)
 +{
-+	u32 reg_value;
-+	int rv = 0;
++	struct mgb4_dev *mgbdev = dev_get_drvdata(dev);
 +
-+	write_register(XDMA_CTRL_NON_INCR_ADDR, &engine->regs->control_w1c,
-+		       (unsigned long)(&engine->regs->control_w1c) -
-+			       (unsigned long)(&engine->regs));
-+
-+	engine_alignments(engine);
-+
-+	/* Configure error interrupts by default */
-+	reg_value = XDMA_CTRL_IE_DESC_ALIGN_MISMATCH;
-+	reg_value |= XDMA_CTRL_IE_MAGIC_STOPPED;
-+	reg_value |= XDMA_CTRL_IE_MAGIC_STOPPED;
-+	reg_value |= XDMA_CTRL_IE_READ_ERROR;
-+	reg_value |= XDMA_CTRL_IE_DESC_ERROR;
-+
-+	/* if using polled mode, configure writeback address */
-+	if (poll_mode) {
-+		rv = engine_writeback_setup(engine);
-+		if (rv) {
-+			dbg_init("%s descr writeback setup failed.\n",
-+				 engine->name);
-+			goto fail_wb;
-+		}
-+	} else {
-+		/* enable the relevant completion interrupts */
-+		reg_value |= XDMA_CTRL_IE_DESC_STOPPED;
-+		reg_value |= XDMA_CTRL_IE_DESC_COMPLETED;
-+	}
-+
-+	/* Apply engine configurations */
-+	write_register(reg_value, &engine->regs->interrupt_enable_mask,
-+		       (unsigned long)(&engine->regs->interrupt_enable_mask) -
-+			       (unsigned long)(&engine->regs));
-+
-+	engine->interrupt_enable_mask_value = reg_value;
-+
-+	/* only enable credit mode for AXI-ST C2H */
-+	if (enable_credit_mp && engine->streaming &&
-+	    engine->dir == DMA_FROM_DEVICE) {
-+		struct xdma_dev *xdev = engine->xdev;
-+		u32 reg_value = (0x1 << engine->channel) << 16;
-+		struct sgdma_common_regs *reg =
-+			(struct sgdma_common_regs
-+				 *)(xdev->bar[xdev->config_bar_idx] +
-+				    (0x6 * TARGET_SPACING));
-+
-+		write_register(reg_value, &reg->credit_mode_enable_w1s, 0);
-+	}
-+
-+	return 0;
-+
-+fail_wb:
-+	return rv;
++	return sprintf(buf, "%u\n", mgbdev->module_version & 0x0F);
 +}
 +
-+static int engine_alloc_resource(struct xdma_engine *engine)
++static ssize_t read_module_type(struct device *dev,
++				struct device_attribute *attr, char *buf)
 +{
-+	struct xdma_dev *xdev = engine->xdev;
++	struct mgb4_dev *mgbdev = dev_get_drvdata(dev);
 +
-+	engine->desc = dma_alloc_coherent(&xdev->pdev->dev,
-+					  XDMA_TRANSFER_MAX_DESC *
-+						  sizeof(struct xdma_desc),
-+					  &engine->desc_bus, GFP_KERNEL);
-+	if (!engine->desc) {
-+		pr_warn("dev %s, %s pre-alloc desc OOM.\n",
-+			dev_name(&xdev->pdev->dev), engine->name);
-+		goto err_out;
-+	}
-+
-+	if (poll_mode) {
-+		engine->poll_mode_addr_virt =
-+			dma_alloc_coherent(&xdev->pdev->dev,
-+					   sizeof(struct xdma_poll_wb),
-+					   &engine->poll_mode_bus, GFP_KERNEL);
-+		if (!engine->poll_mode_addr_virt) {
-+			pr_warn("%s, %s poll pre-alloc writeback OOM.\n",
-+				dev_name(&xdev->pdev->dev), engine->name);
-+			goto err_out;
-+		}
-+	}
-+
-+	if (engine->streaming && engine->dir == DMA_FROM_DEVICE) {
-+		engine->cyclic_result = dma_alloc_coherent(
-+			&xdev->pdev->dev,
-+			XDMA_TRANSFER_MAX_DESC * sizeof(struct xdma_result),
-+			&engine->cyclic_result_bus, GFP_KERNEL);
-+
-+		if (!engine->cyclic_result) {
-+			pr_warn("%s, %s pre-alloc result OOM.\n",
-+				dev_name(&xdev->pdev->dev), engine->name);
-+			goto err_out;
-+		}
-+	}
-+
-+	return 0;
-+
-+err_out:
-+	engine_free_resource(engine);
-+	return -ENOMEM;
++	return sprintf(buf, "%u\n", mgbdev->module_version >> 4);
 +}
 +
-+static int engine_init(struct xdma_engine *engine, struct xdma_dev *xdev,
-+		       int offset, enum dma_data_direction dir, int channel)
++static ssize_t read_fw_version(struct device *dev,
++			       struct device_attribute *attr, char *buf)
 +{
-+	int rv;
-+	u32 val;
++	struct mgb4_dev *mgbdev = dev_get_drvdata(dev);
++	u32 config = mgb4_read_reg(&mgbdev->video, 0xC4);
 +
-+	dbg_init("channel %d, offset 0x%x, dir %d.\n", channel, offset, dir);
-+
-+	/* set magic */
-+	engine->magic = MAGIC_ENGINE;
-+
-+	engine->channel = channel;
-+
-+	/* engine interrupt request bit */
-+	engine->irq_bitmask = (1 << XDMA_ENG_IRQ_NUM) - 1;
-+	engine->irq_bitmask <<= (xdev->engines_num * XDMA_ENG_IRQ_NUM);
-+	engine->bypass_offset = xdev->engines_num * BYPASS_MODE_SPACING;
-+
-+	/* parent */
-+	engine->xdev = xdev;
-+	/* register address */
-+	engine->regs = (xdev->bar[xdev->config_bar_idx] + offset);
-+	engine->sgdma_regs = xdev->bar[xdev->config_bar_idx] + offset +
-+			     SGDMA_OFFSET_FROM_CHANNEL;
-+	val = read_register(&engine->regs->identifier);
-+	if (val & 0x8000U)
-+		engine->streaming = 1;
-+
-+	/* remember SG DMA direction */
-+	engine->dir = dir;
-+	sprintf(engine->name, "%d-%s%d-%s", xdev->idx,
-+		(dir == DMA_TO_DEVICE) ? "H2C" : "C2H", channel,
-+		engine->streaming ? "ST" : "MM");
-+
-+	dbg_init("engine %p name %s irq_bitmask=0x%08x\n", engine, engine->name,
-+		 (int)engine->irq_bitmask);
-+
-+	/* initialize the deferred work for transfer completion */
-+	INIT_WORK(&engine->work, engine_service_work);
-+
-+	if (dir == DMA_TO_DEVICE)
-+		xdev->mask_irq_h2c |= engine->irq_bitmask;
-+	else
-+		xdev->mask_irq_c2h |= engine->irq_bitmask;
-+	xdev->engines_num++;
-+
-+	rv = engine_alloc_resource(engine);
-+	if (rv)
-+		return rv;
-+
-+	rv = engine_init_regs(engine);
-+	if (rv)
-+		return rv;
-+
-+	if (poll_mode)
-+		xdma_thread_add_work(engine);
-+
-+	return 0;
++	return sprintf(buf, "%u\n", config & 0xFFFF);
 +}
 +
-+/* transfer_destroy() - free transfer */
-+static void transfer_destroy(struct xdma_dev *xdev, struct xdma_transfer *xfer)
++static ssize_t read_fw_type(struct device *dev,
++			    struct device_attribute *attr, char *buf)
 +{
-+    /* free descriptors */
-+	xdma_desc_done(xfer->desc_virt, xfer->desc_num);
++	struct mgb4_dev *mgbdev = dev_get_drvdata(dev);
++	u32 config = mgb4_read_reg(&mgbdev->video, 0xC4);
 +
-+	if (xfer->last_in_request && (xfer->flags & XFER_FLAG_NEED_UNMAP)) {
-+		struct sg_table *sgt = xfer->sgt;
-+
-+		if (sgt->nents) {
-+			dma_unmap_sg(&xdev->pdev->dev, sgt->sgl, sgt->nents,
-+				     xfer->dir);
-+			sgt->nents = 0;
-+		}
-+	}
++	return sprintf(buf, "%u\n", config >> 24);
 +}
 +
-+static int transfer_build(struct xdma_engine *engine,
-+			struct xdma_request_cb *req, struct xdma_transfer *xfer,
-+			unsigned int desc_max)
++static ssize_t read_serial_number(struct device *dev,
++				  struct device_attribute *attr, char *buf)
 +{
-+	struct sw_desc *sdesc = &(req->sdesc[req->sw_desc_idx]);
-+	int i = 0;
-+	int j = 0;
-+	dma_addr_t bus = xfer->res_bus;
++	struct mgb4_dev *mgbdev = dev_get_drvdata(dev);
++	u32 sn = mgbdev->serial_number;
 +
-+	for (; i < desc_max; i++, j++, sdesc++) {
-+		dbg_desc("sw desc %d/%u: 0x%llx, 0x%x, ep 0x%llx.\n",
-+			 i + req->sw_desc_idx, req->sw_desc_cnt, sdesc->addr,
-+			 sdesc->len, req->ep_addr);
-+
-+		/* fill in descriptor entry j with transfer details */
-+		xdma_desc_set(xfer->desc_virt + j, sdesc->addr, req->ep_addr,
-+			      sdesc->len, xfer->dir);
-+		xfer->len += sdesc->len;
-+
-+		/* for non-inc-add mode don't increment ep_addr */
-+		if (!engine->non_incr_addr)
-+			req->ep_addr += sdesc->len;
-+
-+		if (engine->streaming && engine->dir == DMA_FROM_DEVICE) {
-+			memset(xfer->res_virt + j, 0,
-+				sizeof(struct xdma_result));
-+			xfer->desc_virt[j].src_addr_lo =
-+						cpu_to_le32(PCI_DMA_L(bus));
-+			xfer->desc_virt[j].src_addr_hi =
-+						cpu_to_le32(PCI_DMA_H(bus));
-+			bus += sizeof(struct xdma_result);
-+		}
-+
-+	}
-+	req->sw_desc_idx += desc_max;
-+	return 0;
++	return sprintf(buf, "%03d-%03d-%03d-%03d\n", sn >> 24, (sn >> 16) & 0xFF,
++	  (sn >> 8) & 0xFF, sn & 0xFF);
 +}
 +
-+static int transfer_init(struct xdma_engine *engine,
-+			struct xdma_request_cb *req, struct xdma_transfer *xfer)
++static ssize_t read_temperature(struct device *dev,
++				struct device_attribute *attr, char *buf)
 +{
-+	unsigned int desc_max = min_t(unsigned int,
-+				req->sw_desc_cnt - req->sw_desc_idx,
-+				XDMA_TRANSFER_MAX_DESC);
-+	int i = 0;
-+	int last = 0;
-+	u32 control;
-+	unsigned long flags;
++	struct mgb4_dev *mgbdev = dev_get_drvdata(dev);
++	u32 val10, val;
 +
-+	memset(xfer, 0, sizeof(*xfer));
++	val  = mgb4_read_reg(&mgbdev->video, 0xD0);
++	val10 = ((((val >> 20) & 0xFFF) * 503975) - 1118822400) / 409600;
 +
-+	/* lock the engine state */
-+	spin_lock_irqsave(&engine->lock, flags);
-+	/* initialize wait queue */
-+	init_swait_queue_head(&xfer->wq);
-+
-+	/* remember direction of transfer */
-+	xfer->dir = engine->dir;
-+	xfer->desc_virt = engine->desc + engine->desc_idx;
-+	xfer->res_virt = engine->cyclic_result + engine->desc_idx;
-+	xfer->desc_bus = engine->desc_bus +
-+			(sizeof(struct xdma_desc) * engine->desc_idx);
-+	xfer->res_bus = engine->cyclic_result_bus +
-+			(sizeof(struct xdma_result) * engine->desc_idx);
-+	xfer->desc_index = engine->desc_idx;
-+
-+	/* Need to handle desc_used >= XDMA_TRANSFER_MAX_DESC */
-+
-+	if ((engine->desc_idx + desc_max) >= XDMA_TRANSFER_MAX_DESC)
-+		desc_max = XDMA_TRANSFER_MAX_DESC - engine->desc_idx;
-+
-+	transfer_desc_init(xfer, desc_max);
-+
-+	dbg_sg("xfer= %p transfer->desc_bus = 0x%llx.\n",
-+		xfer, (u64)xfer->desc_bus);
-+	transfer_build(engine, req, xfer, desc_max);
-+
-+	xfer->desc_adjacent = desc_max;
-+
-+	/* terminate last descriptor */
-+	last = desc_max - 1;
-+	/* stop engine, EOP for AXI ST, req IRQ on last descriptor */
-+	control = XDMA_DESC_STOPPED;
-+	control |= XDMA_DESC_EOP;
-+	control |= XDMA_DESC_COMPLETED;
-+	xdma_desc_control_set(xfer->desc_virt + last, control);
-+
-+	if (engine->eop_flush) {
-+		for (i = 0; i < last; i++)
-+			xdma_desc_control_set(xfer->desc_virt + i,
-+					XDMA_DESC_COMPLETED);
-+		xfer->desc_cmpl_th = 1;
-+	} else
-+		xfer->desc_cmpl_th = desc_max;
-+
-+	xfer->desc_num = desc_max;
-+	engine->desc_idx = (engine->desc_idx + desc_max) %
-+					XDMA_TRANSFER_MAX_DESC;
-+	engine->desc_used += desc_max;
-+
-+	/* fill in adjacent numbers */
-+	for (i = 0; i < xfer->desc_num; i++) {
-+		u32 next_adj = xdma_get_next_adj(xfer->desc_num - i - 1,
-+						(xfer->desc_virt + i)->next_lo);
-+
-+		dbg_desc("set next adj at index %d to %u\n", i, next_adj);
-+		xdma_desc_adjacent(xfer->desc_virt + i, next_adj);
-+	}
-+
-+	spin_unlock_irqrestore(&engine->lock, flags);
-+	return 0;
++	return sprintf(buf, "%u\n", ((val10 % 10) > 4)
++	  ? (val10 / 10) + 1 : val10 / 10);
 +}
 +
-+#ifdef __LIBXDMA_DEBUG__
-+static void sgt_dump(struct sg_table *sgt)
++static DEVICE_ATTR(module_version, 0444, read_module_version, NULL);
++static DEVICE_ATTR(module_type, 0444, read_module_type, NULL);
++static DEVICE_ATTR(fw_version, 0444, read_fw_version, NULL);
++static DEVICE_ATTR(fw_type, 0444, read_fw_type, NULL);
++static DEVICE_ATTR(serial_number, 0444, read_serial_number, NULL);
++static DEVICE_ATTR(temperature, 0444, read_temperature, NULL);
++
++struct device_attribute *mgb4_pci_attrs[] = {
++	&dev_attr_module_type,
++	&dev_attr_module_version,
++	&dev_attr_fw_type,
++	&dev_attr_fw_version,
++	&dev_attr_serial_number,
++	&dev_attr_temperature,
++	NULL
++};
+diff --git a/drivers/media/pci/mgb4/mgb4_trigger.c b/drivers/media/pci/mgb4/mgb4_trigger.c
+new file mode 100644
+index 000000000000..e5cff18da1ca
+--- /dev/null
++++ b/drivers/media/pci/mgb4/mgb4_trigger.c
+@@ -0,0 +1,200 @@
++// SPDX-License-Identifier: GPL-2.0-only
++/*
++ * Copyright (C) 2021-2022 Digiteq Automotive
++ *     author: Martin Tuma <martin.tuma@digiteqautomotive.com>
++ */
++
++#include <linux/version.h>
++#include <linux/iio/iio.h>
++#include <linux/iio/buffer.h>
++#include <linux/iio/trigger.h>
++#include <linux/iio/trigger_consumer.h>
++#include <linux/iio/triggered_buffer.h>
++#include <linux/pci.h>
++#include <linux/dma/xilinx_xdma.h>
++#include "mgb4_core.h"
++#include "mgb4_trigger.h"
++
++struct trigger_data {
++	struct mgb4_dev *mgbdev;
++	struct iio_trigger *trig;
++};
++
++static int trigger_read_raw(struct iio_dev *indio_dev,
++			    struct iio_chan_spec const *chan, int *val,
++			    int *val2, long mask)
 +{
-+	int i;
-+	struct scatterlist *sg = sgt->sgl;
++	struct trigger_data *st = iio_priv(indio_dev);
 +
-+	pr_info("sgt 0x%p, sgl 0x%p, nents %u/%u.\n", sgt, sgt->sgl, sgt->nents,
-+		sgt->orig_nents);
++	switch (mask) {
++	case IIO_CHAN_INFO_RAW:
++		if (iio_buffer_enabled(indio_dev))
++			return -EBUSY;
++		*val = mgb4_read_reg(&st->mgbdev->video, 0xA0);
 +
-+	for (i = 0; i < sgt->orig_nents; i++, sg = sg_next(sg))
-+		pr_info("%d, 0x%p, pg 0x%p,%u+%u, dma 0x%llx,%u.\n", i, sg,
-+			sg_page(sg), sg->offset, sg->length, sg_dma_address(sg),
-+			sg_dma_len(sg));
-+}
-+
-+static void xdma_request_cb_dump(struct xdma_request_cb *req)
-+{
-+	int i;
-+
-+	pr_info("request 0x%p, total %u, ep 0x%llx, sw_desc %u, sgt 0x%p.\n",
-+		req, req->total_len, req->ep_addr, req->sw_desc_cnt, req->sgt);
-+	sgt_dump(req->sgt);
-+	for (i = 0; i < req->sw_desc_cnt; i++)
-+		pr_info("%d/%u, 0x%llx, %u.\n", i, req->sw_desc_cnt,
-+			req->sdesc[i].addr, req->sdesc[i].len);
-+}
-+#endif
-+
-+static void xdma_request_free(struct xdma_request_cb *req)
-+{
-+	if (((unsigned long)req) >= VMALLOC_START &&
-+	    ((unsigned long)req) < VMALLOC_END)
-+		vfree(req);
-+	else
-+		kfree(req);
-+}
-+
-+static struct xdma_request_cb *xdma_request_alloc(unsigned int sdesc_nr)
-+{
-+	struct xdma_request_cb *req;
-+	unsigned int size = sizeof(struct xdma_request_cb) +
-+			    sdesc_nr * sizeof(struct sw_desc);
-+
-+	req = kzalloc(size, GFP_KERNEL);
-+	if (!req) {
-+		req = vmalloc(size);
-+		if (req)
-+			memset(req, 0, size);
-+	}
-+	if (!req) {
-+		pr_info("OOM, %u sw_desc, %u.\n", sdesc_nr, size);
-+		return NULL;
++		return IIO_VAL_INT;
 +	}
 +
-+	return req;
-+}
-+
-+static struct xdma_request_cb *xdma_init_request(struct sg_table *sgt,
-+						 u64 ep_addr)
-+{
-+	struct xdma_request_cb *req;
-+	struct scatterlist *sg = sgt->sgl;
-+	int max = sgt->nents;
-+	int extra = 0;
-+	int i, j = 0;
-+
-+	for (i = 0; i < max; i++, sg = sg_next(sg)) {
-+		unsigned int len = sg_dma_len(sg);
-+
-+		if (unlikely(len > desc_blen_max))
-+			extra += (len + desc_blen_max - 1) / desc_blen_max;
-+	}
-+
-+	dbg_tfr("ep 0x%llx, desc %u+%u.\n", ep_addr, max, extra);
-+
-+	max += extra;
-+	req = xdma_request_alloc(max);
-+	if (!req)
-+		return NULL;
-+
-+	req->sgt = sgt;
-+	req->ep_addr = ep_addr;
-+
-+	for (i = 0, sg = sgt->sgl; i < sgt->nents; i++, sg = sg_next(sg)) {
-+		unsigned int tlen = sg_dma_len(sg);
-+		dma_addr_t addr = sg_dma_address(sg);
-+
-+		req->total_len += tlen;
-+		while (tlen) {
-+			req->sdesc[j].addr = addr;
-+			if (tlen > desc_blen_max) {
-+				req->sdesc[j].len = desc_blen_max;
-+				addr += desc_blen_max;
-+				tlen -= desc_blen_max;
-+			} else {
-+				req->sdesc[j].len = tlen;
-+				tlen = 0;
-+			}
-+			j++;
-+		}
-+	}
-+
-+	if (j > max) {
-+		pr_err("Cannot transfer more than supported length %d\n",
-+		       desc_blen_max);
-+		xdma_request_free(req);
-+		return NULL;
-+	}
-+	req->sw_desc_cnt = j;
-+#ifdef __LIBXDMA_DEBUG__
-+	xdma_request_cb_dump(req);
-+#endif
-+	return req;
-+}
-+
-+ssize_t xdma_xfer_submit(void *dev_hndl, int channel, bool write, u64 ep_addr,
-+			 struct sg_table *sgt, bool dma_mapped, int timeout_ms)
-+{
-+	struct xdma_dev *xdev = (struct xdma_dev *)dev_hndl;
-+	struct xdma_engine *engine;
-+	int rv = 0, tfer_idx = 0, i;
-+	ssize_t done = 0;
-+	struct scatterlist *sg = sgt->sgl;
-+	int nents;
-+	enum dma_data_direction dir = write ? DMA_TO_DEVICE : DMA_FROM_DEVICE;
-+	struct xdma_request_cb *req = NULL;
-+
-+	if (!dev_hndl)
-+		return -EINVAL;
-+
-+	if (debug_check_dev_hndl(__func__, xdev->pdev, dev_hndl) < 0)
-+		return -EINVAL;
-+
-+	if (write == 1) {
-+		if (channel >= xdev->h2c_channel_max) {
-+			pr_err("H2C channel %d >= %d.\n", channel,
-+				xdev->h2c_channel_max);
-+			return -EINVAL;
-+		}
-+		engine = &xdev->engine_h2c[channel];
-+	} else if (write == 0) {
-+		if (channel >= xdev->c2h_channel_max) {
-+			pr_err("C2H channel %d >= %d.\n", channel,
-+				xdev->c2h_channel_max);
-+			return -EINVAL;
-+		}
-+		engine = &xdev->engine_c2h[channel];
-+	}
-+
-+	if (!engine) {
-+		pr_err("dma engine NULL\n");
-+		return -EINVAL;
-+	}
-+
-+	if (engine->magic != MAGIC_ENGINE) {
-+		pr_err("%s has invalid magic number %lx\n", engine->name,
-+		       engine->magic);
-+		return -EINVAL;
-+	}
-+
-+	xdev = engine->xdev;
-+	if (xdma_device_flag_check(xdev, XDEV_FLAG_OFFLINE)) {
-+		pr_info("xdev 0x%p, offline.\n", xdev);
-+		return -EBUSY;
-+	}
-+
-+	/* check the direction */
-+	if (engine->dir != dir) {
-+		pr_info("0x%p, %s, %d, W %d, 0x%x/0x%x mismatch.\n", engine,
-+			engine->name, channel, write, engine->dir, dir);
-+		return -EINVAL;
-+	}
-+
-+	if (!dma_mapped) {
-+		nents = dma_map_sg(&xdev->pdev->dev, sg, sgt->orig_nents, dir);
-+		if (!nents) {
-+			pr_info("map sgl failed, sgt 0x%p.\n", sgt);
-+			return -EIO;
-+		}
-+		sgt->nents = nents;
-+	} else {
-+		if (!sgt->nents) {
-+			pr_err("sg table has invalid number of entries 0x%p.\n",
-+			       sgt);
-+			return -EIO;
-+		}
-+	}
-+
-+	req = xdma_init_request(sgt, ep_addr);
-+	if (!req) {
-+		rv = -ENOMEM;
-+		goto unmap_sgl;
-+	}
-+
-+	dbg_tfr("%s, len %u sg cnt %u.\n", engine->name, req->total_len,
-+		req->sw_desc_cnt);
-+
-+	sg = sgt->sgl;
-+	nents = req->sw_desc_cnt;
-+	mutex_lock(&engine->desc_lock);
-+
-+	while (nents) {
-+		unsigned long flags;
-+		struct xdma_transfer *xfer;
-+
-+		/* build transfer */
-+		rv = transfer_init(engine, req, &req->tfer[0]);
-+		if (rv < 0) {
-+			mutex_unlock(&engine->desc_lock);
-+			goto unmap_sgl;
-+		}
-+		xfer = &req->tfer[0];
-+
-+		if (!dma_mapped)
-+			xfer->flags = XFER_FLAG_NEED_UNMAP;
-+
-+		/* last transfer for the given request? */
-+		nents -= xfer->desc_num;
-+		if (!nents) {
-+			xfer->last_in_request = 1;
-+			xfer->sgt = sgt;
-+		}
-+
-+		dbg_tfr("xfer, %u, ep 0x%llx, done %lu, sg %u/%u.\n", xfer->len,
-+			req->ep_addr, done, req->sw_desc_idx, req->sw_desc_cnt);
-+
-+#ifdef __LIBXDMA_DEBUG__
-+		transfer_dump(xfer);
-+#endif
-+
-+		rv = transfer_queue(engine, xfer);
-+		if (rv < 0) {
-+			mutex_unlock(&engine->desc_lock);
-+			pr_info("unable to submit %s, %d.\n", engine->name, rv);
-+			goto unmap_sgl;
-+		}
-+
-+		if (engine->cmplthp)
-+			xdma_kthread_wakeup(engine->cmplthp);
-+
-+		if (timeout_ms > 0)
-+			swait_event_interruptible_timeout_exclusive(xfer->wq,
-+				(xfer->state != TRANSFER_STATE_SUBMITTED),
-+				msecs_to_jiffies(timeout_ms));
-+		else
-+			swait_event_interruptible_exclusive(xfer->wq,
-+				(xfer->state != TRANSFER_STATE_SUBMITTED));
-+
-+		spin_lock_irqsave(&engine->lock, flags);
-+
-+		switch (xfer->state) {
-+		case TRANSFER_STATE_COMPLETED:
-+			spin_unlock_irqrestore(&engine->lock, flags);
-+
-+			rv = 0;
-+			dbg_tfr("transfer %p, %u, ep 0x%llx compl, +%lu.\n",
-+				xfer, xfer->len, req->ep_addr - xfer->len,
-+				done);
-+
-+			/* For C2H streaming use writeback results */
-+			if (engine->streaming &&
-+			    engine->dir == DMA_FROM_DEVICE) {
-+				struct xdma_result *result = xfer->res_virt;
-+
-+				for (i = 0; i < xfer->desc_cmpl; i++)
-+					done += result[i].length;
-+
-+				/* finish the whole request */
-+				if (engine->eop_flush)
-+					nents = 0;
-+			} else
-+				done += xfer->len;
-+
-+			break;
-+		case TRANSFER_STATE_FAILED:
-+			pr_info("xfer 0x%p,%u, failed, ep 0x%llx.\n", xfer,
-+				xfer->len, req->ep_addr - xfer->len);
-+			spin_unlock_irqrestore(&engine->lock, flags);
-+
-+#ifdef __LIBXDMA_DEBUG__
-+			transfer_dump(xfer);
-+			sgt_dump(sgt);
-+#endif
-+			rv = -EIO;
-+			break;
-+		default:
-+			/* transfer can still be in-flight */
-+			pr_info("xfer 0x%p,%u, s 0x%x timed out, ep 0x%llx.\n",
-+				xfer, xfer->len, xfer->state, req->ep_addr);
-+			rv = engine_status_read(engine, 0, 1);
-+			if (rv < 0) {
-+				pr_err("Failed to read engine status\n");
-+			} else if (rv == 0) {
-+				//engine_status_dump(engine);
-+				rv = transfer_abort(engine, xfer);
-+				if (rv < 0) {
-+					pr_err("Failed to stop engine\n");
-+				} else if (rv == 0) {
-+					rv = xdma_engine_stop(engine);
-+					if (rv < 0)
-+						pr_err("Failed to stop engine\n");
-+				}
-+			}
-+			spin_unlock_irqrestore(&engine->lock, flags);
-+
-+#ifdef __LIBXDMA_DEBUG__
-+			transfer_dump(xfer);
-+			sgt_dump(sgt);
-+#endif
-+			rv = -ERESTARTSYS;
-+			break;
-+		}
-+
-+		engine->desc_used -= xfer->desc_num;
-+		transfer_destroy(xdev, xfer);
-+
-+		/* use multiple transfers per request if we could not fit
-+		 * all data within single descriptor chain.
-+		 */
-+		tfer_idx++;
-+
-+		if (rv < 0) {
-+			mutex_unlock(&engine->desc_lock);
-+			goto unmap_sgl;
-+		}
-+	} /* while (sg) */
-+	mutex_unlock(&engine->desc_lock);
-+
-+unmap_sgl:
-+	if (!dma_mapped && sgt->nents) {
-+		dma_unmap_sg(&xdev->pdev->dev, sgt->sgl, sgt->orig_nents, dir);
-+		sgt->nents = 0;
-+	}
-+
-+	if (req)
-+		xdma_request_free(req);
-+
-+	/* as long as some data is processed, return the count */
-+	return done ? done : rv;
-+}
-+EXPORT_SYMBOL_GPL(xdma_xfer_submit);
-+
-+ssize_t xdma_xfer_completion(void *cb_hndl, void *dev_hndl, int channel,
-+			     bool write, u64 ep_addr, struct sg_table *sgt,
-+			     bool dma_mapped, int timeout_ms)
-+{
-+	struct xdma_dev *xdev = (struct xdma_dev *)dev_hndl;
-+	struct xdma_io_cb *cb = (struct xdma_io_cb *)cb_hndl;
-+	struct xdma_engine *engine;
-+	int rv = 0, tfer_idx = 0;
-+	ssize_t done = 0;
-+	int nents;
-+	enum dma_data_direction dir = write ? DMA_TO_DEVICE : DMA_FROM_DEVICE;
-+	struct xdma_request_cb *req = NULL;
-+	struct xdma_transfer *xfer;
-+	int i;
-+	struct xdma_result *result;
-+
-+	if (write == 1) {
-+		if (channel >= xdev->h2c_channel_max) {
-+			pr_warn("H2C channel %d >= %d.\n",
-+				channel, xdev->h2c_channel_max);
-+			return -EINVAL;
-+		}
-+		engine = &xdev->engine_h2c[channel];
-+	} else if (write == 0) {
-+		if (channel >= xdev->c2h_channel_max) {
-+			pr_warn("C2H channel %d >= %d.\n",
-+				channel, xdev->c2h_channel_max);
-+			return -EINVAL;
-+		}
-+		engine = &xdev->engine_c2h[channel];
-+	} else {
-+		pr_warn("write %d, exp. 0|1.\n", write);
-+		return -EINVAL;
-+	}
-+
-+	if (!engine) {
-+		pr_err("dma engine NULL\n");
-+		return -EINVAL;
-+	}
-+
-+	if (engine->magic != MAGIC_ENGINE) {
-+		pr_err("%s has invalid magic number %lx\n", engine->name,
-+		       engine->magic);
-+		return -EINVAL;
-+	}
-+
-+	xdev = engine->xdev;
-+	req = cb->req;
-+
-+	nents = req->sw_desc_cnt;
-+	while (nents) {
-+		xfer = &req->tfer[tfer_idx];
-+		nents -= xfer->desc_num;
-+		switch (xfer->state) {
-+		case TRANSFER_STATE_COMPLETED:
-+
-+			dbg_tfr("transfer %p, %u, ep 0x%llx compl, +%lu.\n",
-+				xfer, xfer->len, req->ep_addr - xfer->len, done);
-+
-+			result = xfer->res_virt;
-+			dbg_tfr("transfer %p, %u, ep 0x%llx compl, +%lu.\n",
-+				xfer, xfer->len, req->ep_addr - xfer->len, done);
-+			/* For C2H streaming use writeback results */
-+			if (engine->streaming && engine->dir == DMA_FROM_DEVICE) {
-+				for (i = 0; i < xfer->desc_num; i++)
-+					done += result[i].length;
-+			} else
-+				done += xfer->len;
-+
-+			rv = 0;
-+			break;
-+		case TRANSFER_STATE_FAILED:
-+			pr_info("xfer 0x%p,%u, failed, ep 0x%llx.\n",
-+				xfer, xfer->len, req->ep_addr - xfer->len);
-+#ifdef __LIBXDMA_DEBUG__
-+			transfer_dump(xfer);
-+			sgt_dump(sgt);
-+#endif
-+			rv = -EIO;
-+			break;
-+		default:
-+			/* transfer can still be in-flight */
-+			pr_info("xfer 0x%p,%u, s 0x%x timed out, ep 0x%llx.\n",
-+				xfer, xfer->len, xfer->state, req->ep_addr);
-+			engine_status_read(engine, 0, 1);
-+			engine_status_dump(engine);
-+			transfer_abort(engine, xfer);
-+
-+			xdma_engine_stop(engine);
-+#ifdef __LIBXDMA_DEBUG__
-+			transfer_dump(xfer);
-+			sgt_dump(sgt);
-+#endif
-+			rv = -ERESTARTSYS;
-+			break;
-+		}
-+
-+		transfer_destroy(xdev, xfer);
-+		engine->desc_used -= xfer->desc_num;
-+
-+		tfer_idx++;
-+
-+		if (rv < 0)
-+			goto unmap_sgl;
-+	} /* while (sg) */
-+
-+unmap_sgl:
-+	if (!dma_mapped && sgt->nents) {
-+		dma_unmap_sg(&xdev->pdev->dev, sgt->sgl, sgt->orig_nents, dir);
-+		sgt->nents = 0;
-+	}
-+
-+	if (req)
-+		xdma_request_free(req);
-+
-+	return done;
-+
-+}
-+EXPORT_SYMBOL_GPL(xdma_xfer_completion);
-+
-+
-+ssize_t xdma_xfer_submit_nowait(void *cb_hndl, void *dev_hndl, int channel,
-+				bool write, u64 ep_addr, struct sg_table *sgt,
-+				bool dma_mapped, int timeout_ms)
-+{
-+	struct xdma_dev *xdev = (struct xdma_dev *)dev_hndl;
-+	struct xdma_engine *engine;
-+	struct xdma_io_cb *cb = (struct xdma_io_cb *)cb_hndl;
-+	int rv = 0, tfer_idx = 0;
-+	struct scatterlist *sg = sgt->sgl;
-+	int nents;
-+	enum dma_data_direction dir = write ? DMA_TO_DEVICE : DMA_FROM_DEVICE;
-+	struct xdma_request_cb *req = NULL;
-+
-+	if (!dev_hndl)
-+		return -EINVAL;
-+
-+	if (debug_check_dev_hndl(__func__, xdev->pdev, dev_hndl) < 0)
-+		return -EINVAL;
-+
-+	if (write == 1) {
-+		if (channel >= xdev->h2c_channel_max) {
-+			pr_warn("H2C channel %d >= %d.\n",
-+				channel, xdev->h2c_channel_max);
-+			return -EINVAL;
-+		}
-+		engine = &xdev->engine_h2c[channel];
-+	} else if (write == 0) {
-+		if (channel >= xdev->c2h_channel_max) {
-+			pr_warn("C2H channel %d >= %d.\n",
-+				channel, xdev->c2h_channel_max);
-+			return -EINVAL;
-+		}
-+		engine = &xdev->engine_c2h[channel];
-+	} else {
-+		pr_warn("write %d, exp. 0|1.\n", write);
-+		return -EINVAL;
-+	}
-+
-+	if (!engine) {
-+		pr_err("dma engine NULL\n");
-+		return -EINVAL;
-+	}
-+
-+	if (engine->magic != MAGIC_ENGINE) {
-+		pr_err("%s has invalid magic number %lx\n", engine->name,
-+		       engine->magic);
-+		return -EINVAL;
-+	}
-+
-+	xdev = engine->xdev;
-+	if (xdma_device_flag_check(xdev, XDEV_FLAG_OFFLINE)) {
-+		pr_info("xdev 0x%p, offline.\n", xdev);
-+		return -EBUSY;
-+	}
-+
-+	/* check the direction */
-+	if (engine->dir != dir) {
-+		pr_info("0x%p, %s, %d, W %d, 0x%x/0x%x mismatch.\n",
-+			engine, engine->name, channel, write, engine->dir, dir);
-+		return -EINVAL;
-+	}
-+
-+	if (!dma_mapped) {
-+		nents = dma_map_sg(&xdev->pdev->dev, sg, sgt->orig_nents, dir);
-+		if (!nents) {
-+			pr_info("map sgl failed, sgt 0x%p.\n", sgt);
-+			return -EIO;
-+		}
-+		sgt->nents = nents;
-+	} else {
-+		if (!sgt->nents) {
-+			pr_err("sg table has invalid number of entries 0x%p.\n",
-+			       sgt);
-+			return -EIO;
-+		}
-+	}
-+
-+	req = xdma_init_request(sgt, ep_addr);
-+	if (!req) {
-+		rv = -ENOMEM;
-+		goto unmap_sgl;
-+	}
-+
-+	//used when doing completion.
-+	req->cb = cb;
-+	cb->req = req;
-+	dbg_tfr("%s, len %u sg cnt %u.\n",
-+		engine->name, req->total_len, req->sw_desc_cnt);
-+
-+	sg = sgt->sgl;
-+	nents = req->sw_desc_cnt;
-+	while (nents) {
-+		struct xdma_transfer *xfer;
-+
-+		/* one transfer at a time */
-+		xfer = &req->tfer[tfer_idx];
-+		/* build transfer */
-+		rv = transfer_init(engine, req, xfer);
-+		if (rv < 0) {
-+			pr_info("transfer_init failed\n");
-+
-+			if (!dma_mapped && sgt->nents) {
-+				dma_unmap_sg(&xdev->pdev->dev, sgt->sgl,
-+					     sgt->orig_nents, dir);
-+				sgt->nents = 0;
-+			}
-+
-+			/* Transfer failed return BUSY */
-+			if (cb->io_done)
-+				cb->io_done((unsigned long)cb, -EBUSY);
-+
-+			goto rel_req;
-+		}
-+
-+		xfer->cb = cb;
-+
-+		if (!dma_mapped)
-+			xfer->flags = XFER_FLAG_NEED_UNMAP;
-+
-+		/* last transfer for the given request? */
-+		nents -= xfer->desc_num;
-+		if (!nents) {
-+			xfer->last_in_request = 1;
-+			xfer->sgt = sgt;
-+		}
-+
-+		dbg_tfr("xfer %p, len %u, ep 0x%llx, sg %u/%u. nents = %d\n",
-+			xfer, xfer->len, req->ep_addr, req->sw_desc_idx,
-+			req->sw_desc_cnt, nents);
-+
-+#ifdef __LIBXDMA_DEBUG__
-+		transfer_dump(xfer);
-+#endif
-+
-+		rv = transfer_queue(engine, xfer);
-+		if (rv < 0) {
-+			pr_info("unable to submit %s, %d.\n", engine->name, rv);
-+			goto unmap_sgl;
-+		}
-+
-+		/*
-+		 * use multiple transfers per request if we could not fit all
-+		 * data within single descriptor chain.
-+		 */
-+		tfer_idx++;
-+	}
-+
-+	return -EIOCBQUEUED;
-+
-+unmap_sgl:
-+	if (!dma_mapped && sgt->nents) {
-+		dma_unmap_sg(&xdev->pdev->dev, sgt->sgl, sgt->orig_nents, dir);
-+		sgt->nents = 0;
-+	}
-+
-+rel_req:
-+	if (req)
-+		xdma_request_free(req);
-+
-+	return rv;
-+}
-+EXPORT_SYMBOL_GPL(xdma_xfer_submit_nowait);
-+
-+
-+static struct xdma_dev *alloc_dev_instance(struct pci_dev *pdev)
-+{
-+	int i;
-+	struct xdma_dev *xdev;
-+	struct xdma_engine *engine;
-+
-+	if (!pdev) {
-+		pr_err("Invalid pdev\n");
-+		return NULL;
-+	}
-+
-+	/* allocate zeroed device book keeping structure */
-+	xdev = kzalloc(sizeof(struct xdma_dev), GFP_KERNEL);
-+	if (!xdev)
-+		return NULL;
-+
-+	spin_lock_init(&xdev->lock);
-+
-+	xdev->magic = MAGIC_DEVICE;
-+	xdev->config_bar_idx = -1;
-+	xdev->user_bar_idx = -1;
-+	xdev->bypass_bar_idx = -1;
-+	xdev->irq_line = -1;
-+
-+	/* create a driver to device reference */
-+	xdev->pdev = pdev;
-+	dbg_init("xdev = 0x%p\n", xdev);
-+
-+	engine = xdev->engine_h2c;
-+	for (i = 0; i < XDMA_CHANNEL_NUM_MAX; i++, engine++) {
-+		spin_lock_init(&engine->lock);
-+		mutex_init(&engine->desc_lock);
-+		INIT_LIST_HEAD(&engine->transfer_list);
-+		init_swait_queue_head(&engine->shutdown_wq);
-+	}
-+
-+	engine = xdev->engine_c2h;
-+	for (i = 0; i < XDMA_CHANNEL_NUM_MAX; i++, engine++) {
-+		spin_lock_init(&engine->lock);
-+		mutex_init(&engine->desc_lock);
-+		INIT_LIST_HEAD(&engine->transfer_list);
-+		init_swait_queue_head(&engine->shutdown_wq);
-+	}
-+
-+	return xdev;
-+}
-+
-+static int request_regions(struct xdma_dev *xdev, struct pci_dev *pdev)
-+{
-+	int rv;
-+
-+	if (!xdev) {
-+		pr_err("Invalid xdev\n");
-+		return -EINVAL;
-+	}
-+
-+	if (!pdev) {
-+		pr_err("Invalid pdev\n");
-+		return -EINVAL;
-+	}
-+
-+	rv = pci_request_selected_regions(pdev, XDMA_CONFIG_BAR_MASK, xdev->mod_name);
-+	/* could not request config BAR regions? */
-+	if (rv) {
-+		dbg_init("pci_request_selected_regions() = %d, device in use?\n", rv);
-+		/* assume device is in use so do not disable it later */
-+		xdev->regions_in_use = 1;
-+	} else {
-+		xdev->got_regions = 1;
-+	}
-+
-+	return rv;
-+}
-+
-+static int set_dma_mask(struct pci_dev *pdev)
-+{
-+	if (!pdev) {
-+		pr_err("Invalid pdev\n");
-+		return -EINVAL;
-+	}
-+
-+	dbg_init("sizeof(dma_addr_t) == %ld\n", sizeof(dma_addr_t));
-+	/* 64-bit addressing capability for XDMA? */
-+	if (!dma_set_mask(&pdev->dev, DMA_BIT_MASK(64))) {
-+		/* query for DMA transfer */
-+		/* @see Documentation/DMA-mapping.txt */
-+		dbg_init("pci_set_dma_mask()\n");
-+		/* use 64-bit DMA */
-+		dbg_init("Using a 64-bit DMA mask.\n");
-+		/* use 32-bit DMA for descriptors */
-+		dma_set_coherent_mask(&pdev->dev, DMA_BIT_MASK(32));
-+		/* use 64-bit DMA, 32-bit for consistent */
-+	} else if (!dma_set_mask(&pdev->dev, DMA_BIT_MASK(32))) {
-+		dbg_init("Could not set 64-bit DMA mask.\n");
-+		dma_set_coherent_mask(&pdev->dev, DMA_BIT_MASK(32));
-+		/* use 32-bit DMA */
-+		dbg_init("Using a 32-bit DMA mask.\n");
-+	} else {
-+		dbg_init("No suitable DMA possible.\n");
-+		return -EINVAL;
-+	}
-+
-+	return 0;
-+}
-+
-+static int get_engine_channel_id(struct engine_regs *regs)
-+{
-+	int value;
-+
-+	if (!regs) {
-+		pr_err("Invalid engine registers\n");
-+		return -EINVAL;
-+	}
-+
-+	value = read_register(&regs->identifier);
-+
-+	return (value & 0x00000f00U) >> 8;
-+}
-+
-+static int get_engine_id(struct engine_regs *regs)
-+{
-+	int value;
-+
-+	if (!regs) {
-+		pr_err("Invalid engine registers\n");
-+		return -EINVAL;
-+	}
-+
-+	value = read_register(&regs->identifier);
-+	return (value & 0xffff0000U) >> 16;
-+}
-+
-+static void remove_engines(struct xdma_dev *xdev)
-+{
-+	struct xdma_engine *engine;
-+	int i;
-+	int rv;
-+
-+	if (!xdev) {
-+		pr_err("Invalid xdev\n");
-+		return;
-+	}
-+
-+	/* iterate over channels */
-+	for (i = 0; i < xdev->h2c_channel_max; i++) {
-+		engine = &xdev->engine_h2c[i];
-+		if (engine->magic == MAGIC_ENGINE) {
-+			dbg_sg("Remove %s, %d", engine->name, i);
-+			rv = engine_destroy(xdev, engine);
-+			if (rv < 0)
-+				pr_err("Failed to destroy H2C engine %d\n", i);
-+			dbg_sg("%s, %d removed", engine->name, i);
-+		}
-+	}
-+
-+	for (i = 0; i < xdev->c2h_channel_max; i++) {
-+		engine = &xdev->engine_c2h[i];
-+		if (engine->magic == MAGIC_ENGINE) {
-+			dbg_sg("Remove %s, %d", engine->name, i);
-+			rv = engine_destroy(xdev, engine);
-+			if (rv < 0)
-+				pr_err("Failed to destroy C2H engine %d\n", i);
-+			dbg_sg("%s, %d removed", engine->name, i);
-+		}
-+	}
-+}
-+
-+static int probe_for_engine(struct xdma_dev *xdev, enum dma_data_direction dir,
-+			    int channel)
-+{
-+	struct engine_regs *regs;
-+	int offset = channel * CHANNEL_SPACING;
-+	u32 engine_id;
-+	u32 engine_id_expected;
-+	u32 channel_id;
-+	struct xdma_engine *engine;
-+	int rv;
-+
-+	/* register offset for the engine */
-+	/* read channels at 0x0000, write channels at 0x1000,
-+	 * channels at 0x100 interval
-+	 */
-+	if (dir == DMA_TO_DEVICE) {
-+		engine_id_expected = XDMA_ID_H2C;
-+		engine = &xdev->engine_h2c[channel];
-+	} else {
-+		offset += H2C_CHANNEL_OFFSET;
-+		engine_id_expected = XDMA_ID_C2H;
-+		engine = &xdev->engine_c2h[channel];
-+	}
-+
-+	regs = xdev->bar[xdev->config_bar_idx] + offset;
-+	engine_id = get_engine_id(regs);
-+	channel_id = get_engine_channel_id(regs);
-+
-+	if ((engine_id != engine_id_expected) || (channel_id != channel)) {
-+		dbg_init(
-+			"%s %d engine, reg off 0x%x, id mismatch 0x%x,0x%x,exp 0x%x,0x%x, SKIP.\n",
-+			dir == DMA_TO_DEVICE ? "H2C" : "C2H", channel, offset,
-+			engine_id, channel_id, engine_id_expected,
-+			channel_id != channel);
-+		return -EINVAL;
-+	}
-+
-+	dbg_init("found AXI %s %d engine, reg. off 0x%x, id 0x%x,0x%x.\n",
-+		 dir == DMA_TO_DEVICE ? "H2C" : "C2H", channel, offset,
-+		 engine_id, channel_id);
-+
-+	/* allocate and initialize engine */
-+	rv = engine_init(engine, xdev, offset, dir, channel);
-+	if (rv != 0) {
-+		pr_info("failed to create AXI %s %d engine.\n",
-+			dir == DMA_TO_DEVICE ? "H2C" : "C2H", channel);
-+		return rv;
-+	}
-+
-+	return 0;
-+}
-+
-+static int probe_engines(struct xdma_dev *xdev)
-+{
-+	int i;
-+	int rv = 0;
-+
-+	if (!xdev) {
-+		pr_err("Invalid xdev\n");
-+		return -EINVAL;
-+	}
-+
-+	/* iterate over channels */
-+	for (i = 0; i < xdev->h2c_channel_max; i++) {
-+		rv = probe_for_engine(xdev, DMA_TO_DEVICE, i);
-+		if (rv)
-+			break;
-+	}
-+	xdev->h2c_channel_max = i;
-+
-+	for (i = 0; i < xdev->c2h_channel_max; i++) {
-+		rv = probe_for_engine(xdev, DMA_FROM_DEVICE, i);
-+		if (rv)
-+			break;
-+	}
-+	xdev->c2h_channel_max = i;
-+
-+	return 0;
-+}
-+
-+static void pci_enable_capability(struct pci_dev *pdev, int cap)
-+{
-+	pcie_capability_set_word(pdev, PCI_EXP_DEVCTL, cap);
-+}
-+
-+void *xdma_device_open(const char *mname, struct pci_dev *pdev, int *user_max,
-+		       int *h2c_channel_max, int *c2h_channel_max)
-+{
-+	struct xdma_dev *xdev = NULL;
-+	int rv = 0;
-+
-+	pr_info("%s device %s, 0x%p.\n", mname, dev_name(&pdev->dev), pdev);
-+
-+	/* allocate zeroed device book keeping structure */
-+	xdev = alloc_dev_instance(pdev);
-+	if (!xdev)
-+		return NULL;
-+	xdev->mod_name = mname;
-+	xdev->user_max = *user_max;
-+	xdev->h2c_channel_max = *h2c_channel_max;
-+	xdev->c2h_channel_max = *c2h_channel_max;
-+
-+	xdma_device_flag_set(xdev, XDEV_FLAG_OFFLINE);
-+	xdev_list_add(xdev);
-+
-+	if (xdev->user_max == 0 || xdev->user_max > MAX_USER_IRQ)
-+		xdev->user_max = MAX_USER_IRQ;
-+	if (xdev->h2c_channel_max == 0 ||
-+	    xdev->h2c_channel_max > XDMA_CHANNEL_NUM_MAX)
-+		xdev->h2c_channel_max = XDMA_CHANNEL_NUM_MAX;
-+	if (xdev->c2h_channel_max == 0 ||
-+	    xdev->c2h_channel_max > XDMA_CHANNEL_NUM_MAX)
-+		xdev->c2h_channel_max = XDMA_CHANNEL_NUM_MAX;
-+
-+	rv = pci_enable_device(pdev);
-+	if (rv) {
-+		dbg_init("pci_enable_device() failed, %d.\n", rv);
-+		goto err_enable;
-+	}
-+
-+	/* keep INTx enabled */
-+	pci_check_intr_pend(pdev);
-+
-+	/* enable relaxed ordering */
-+	pci_enable_capability(pdev, PCI_EXP_DEVCTL_RELAX_EN);
-+
-+	/* enable extended tag */
-+	pci_enable_capability(pdev, PCI_EXP_DEVCTL_EXT_TAG);
-+
-+	/* force MRRS to be 512 */
-+	rv = pcie_set_readrq(pdev, 512);
-+	if (rv)
-+		pr_info("device %s, error set PCI_EXP_DEVCTL_READRQ: %d.\n",
-+			dev_name(&pdev->dev), rv);
-+
-+	/* enable bus master capability */
-+	pci_set_master(pdev);
-+
-+	rv = request_regions(xdev, pdev);
-+	if (rv)
-+		goto err_regions;
-+
-+	rv = map_bars(xdev, pdev);
-+	if (rv)
-+		goto err_map;
-+
-+	rv = set_dma_mask(pdev);
-+	if (rv)
-+		goto err_mask;
-+
-+	check_nonzero_interrupt_status(xdev);
-+	/* explicitly zero all interrupt enable masks */
-+	channel_interrupts_disable(xdev, ~0);
-+	user_interrupts_disable(xdev, ~0);
-+	read_interrupts(xdev);
-+
-+	rv = probe_engines(xdev);
-+	if (rv)
-+		goto err_engines;
-+
-+	rv = enable_msi_msix(xdev, pdev);
-+	if (rv < 0)
-+		goto err_enable_msix;
-+
-+	rv = irq_setup(xdev, pdev);
-+	if (rv < 0)
-+		goto err_interrupts;
-+
-+	if (!poll_mode)
-+		channel_interrupts_enable(xdev, ~0);
-+
-+	/* Flush writes */
-+	read_interrupts(xdev);
-+
-+	*user_max = xdev->user_max;
-+	*h2c_channel_max = xdev->h2c_channel_max;
-+	*c2h_channel_max = xdev->c2h_channel_max;
-+
-+	xdma_device_flag_clear(xdev, XDEV_FLAG_OFFLINE);
-+	return (void *)xdev;
-+
-+err_interrupts:
-+	irq_teardown(xdev);
-+err_enable_msix:
-+	disable_msi_msix(xdev, pdev);
-+err_engines:
-+	remove_engines(xdev);
-+err_mask:
-+	unmap_bars(xdev, pdev);
-+err_map:
-+	if (xdev->got_regions)
-+		pci_release_selected_regions(pdev, XDMA_CONFIG_BAR_MASK);
-+err_regions:
-+	if (!xdev->regions_in_use)
-+		pci_disable_device(pdev);
-+err_enable:
-+	xdev_list_remove(xdev);
-+	kfree(xdev);
-+	return NULL;
-+}
-+EXPORT_SYMBOL_GPL(xdma_device_open);
-+
-+void xdma_device_close(struct pci_dev *pdev, void *dev_hndl)
-+{
-+	struct xdma_dev *xdev = (struct xdma_dev *)dev_hndl;
-+
-+	dbg_init("pdev 0x%p, xdev 0x%p.\n", pdev, dev_hndl);
-+
-+	if (!dev_hndl)
-+		return;
-+
-+	if (debug_check_dev_hndl(__func__, pdev, dev_hndl) < 0)
-+		return;
-+
-+	dbg_sg("remove(dev = 0x%p) where pdev->dev.driver_data = 0x%p\n", pdev,
-+	       xdev);
-+	if (xdev->pdev != pdev) {
-+		dbg_sg("pci_dev(0x%lx) != pdev(0x%lx)\n",
-+		       (unsigned long)xdev->pdev, (unsigned long)pdev);
-+	}
-+
-+	channel_interrupts_disable(xdev, ~0);
-+	user_interrupts_disable(xdev, ~0);
-+	read_interrupts(xdev);
-+
-+	irq_teardown(xdev);
-+	disable_msi_msix(xdev, pdev);
-+
-+	remove_engines(xdev);
-+	unmap_bars(xdev, pdev);
-+
-+	if (xdev->got_regions) {
-+		dbg_init("pci_release_selected_regions 0x%p.\n", pdev);
-+		pci_release_selected_regions(pdev, XDMA_CONFIG_BAR_MASK);
-+	}
-+
-+	if (!xdev->regions_in_use) {
-+		dbg_init("pci_disable_device 0x%p.\n", pdev);
-+		pci_disable_device(pdev);
-+	}
-+
-+	xdev_list_remove(xdev);
-+
-+	kfree(xdev);
-+}
-+EXPORT_SYMBOL_GPL(xdma_device_close);
-+
-+void xdma_device_offline(struct pci_dev *pdev, void *dev_hndl)
-+{
-+	struct xdma_dev *xdev = (struct xdma_dev *)dev_hndl;
-+	struct xdma_engine *engine;
-+	int i;
-+	int rv;
-+
-+	if (!dev_hndl)
-+		return;
-+
-+	if (debug_check_dev_hndl(__func__, pdev, dev_hndl) < 0)
-+		return;
-+
-+	pr_info("pdev 0x%p, xdev 0x%p.\n", pdev, xdev);
-+	xdma_device_flag_set(xdev, XDEV_FLAG_OFFLINE);
-+
-+	/* wait for all engines to be idle */
-+	for (i = 0; i < xdev->h2c_channel_max; i++) {
-+		unsigned long flags;
-+
-+		engine = &xdev->engine_h2c[i];
-+
-+		if (engine->magic == MAGIC_ENGINE) {
-+			spin_lock_irqsave(&engine->lock, flags);
-+			engine->shutdown |= ENGINE_SHUTDOWN_REQUEST;
-+
-+			rv = xdma_engine_stop(engine);
-+			if (rv < 0)
-+				pr_err("Failed to stop engine\n");
-+			spin_unlock_irqrestore(&engine->lock, flags);
-+		}
-+	}
-+
-+	for (i = 0; i < xdev->c2h_channel_max; i++) {
-+		unsigned long flags;
-+
-+		engine = &xdev->engine_c2h[i];
-+		if (engine->magic == MAGIC_ENGINE) {
-+			spin_lock_irqsave(&engine->lock, flags);
-+			engine->shutdown |= ENGINE_SHUTDOWN_REQUEST;
-+
-+			rv = xdma_engine_stop(engine);
-+			if (rv < 0)
-+				pr_err("Failed to stop engine\n");
-+			spin_unlock_irqrestore(&engine->lock, flags);
-+		}
-+	}
-+
-+	/* turn off interrupts */
-+	channel_interrupts_disable(xdev, ~0);
-+	user_interrupts_disable(xdev, ~0);
-+	read_interrupts(xdev);
-+	irq_teardown(xdev);
-+
-+	pr_info("xdev 0x%p, done.\n", xdev);
-+}
-+EXPORT_SYMBOL_GPL(xdma_device_offline);
-+
-+void xdma_device_online(struct pci_dev *pdev, void *dev_hndl)
-+{
-+	struct xdma_dev *xdev = (struct xdma_dev *)dev_hndl;
-+	struct xdma_engine *engine;
-+	unsigned long flags;
-+	int i;
-+
-+	if (!dev_hndl)
-+		return;
-+
-+	if (debug_check_dev_hndl(__func__, pdev, dev_hndl) < 0)
-+		return;
-+
-+	pr_info("pdev 0x%p, xdev 0x%p.\n", pdev, xdev);
-+
-+	for (i = 0; i < xdev->h2c_channel_max; i++) {
-+		engine = &xdev->engine_h2c[i];
-+		if (engine->magic == MAGIC_ENGINE) {
-+			engine_init_regs(engine);
-+			spin_lock_irqsave(&engine->lock, flags);
-+			engine->shutdown &= ~ENGINE_SHUTDOWN_REQUEST;
-+			spin_unlock_irqrestore(&engine->lock, flags);
-+		}
-+	}
-+
-+	for (i = 0; i < xdev->c2h_channel_max; i++) {
-+		engine = &xdev->engine_c2h[i];
-+		if (engine->magic == MAGIC_ENGINE) {
-+			engine_init_regs(engine);
-+			spin_lock_irqsave(&engine->lock, flags);
-+			engine->shutdown &= ~ENGINE_SHUTDOWN_REQUEST;
-+			spin_unlock_irqrestore(&engine->lock, flags);
-+		}
-+	}
-+
-+	/* re-write the interrupt table */
-+	if (!poll_mode) {
-+		irq_setup(xdev, pdev);
-+
-+		channel_interrupts_enable(xdev, ~0);
-+		user_interrupts_enable(xdev, xdev->mask_irq_user);
-+		read_interrupts(xdev);
-+	}
-+
-+	xdma_device_flag_clear(xdev, XDEV_FLAG_OFFLINE);
-+	pr_info("xdev 0x%p, done.\n", xdev);
-+}
-+EXPORT_SYMBOL_GPL(xdma_device_online);
-+
-+int xdma_device_restart(struct pci_dev *pdev, void *dev_hndl)
-+{
-+	struct xdma_dev *xdev = (struct xdma_dev *)dev_hndl;
-+
-+	if (!dev_hndl)
-+		return -EINVAL;
-+
-+	if (debug_check_dev_hndl(__func__, pdev, dev_hndl) < 0)
-+		return -EINVAL;
-+
-+	pr_info("NOT implemented, 0x%p.\n", xdev);
 +	return -EINVAL;
 +}
-+EXPORT_SYMBOL_GPL(xdma_device_restart);
 +
-+int xdma_user_irq_base(void *dev_hndl)
++static int trigger_set_state(struct iio_trigger *trig, bool state)
 +{
-+	struct xdma_dev *xdev = (struct xdma_dev *)dev_hndl;
++	struct iio_dev *indio_dev = iio_trigger_get_drvdata(trig);
++	struct trigger_data *st = iio_priv(indio_dev);
 +
-+	if (xdev->msix_enabled)
-+		return pci_irq_vector(xdev->pdev, 0) + xdev->c2h_channel_max
-+		  + xdev->h2c_channel_max;
-+	else if (xdev->msi_enabled)
-+		return pci_irq_vector(xdev->pdev, 0) + 1;
++	if (state)
++		xdma_user_isr_enable(st->mgbdev->xdev, 1U<<11);
 +	else
-+		return -1;
-+}
-+EXPORT_SYMBOL_GPL(xdma_user_irq_base);
-+
-+int xdma_user_isr_enable(void *dev_hndl, unsigned int mask)
-+{
-+	struct xdma_dev *xdev = (struct xdma_dev *)dev_hndl;
-+
-+	if (!dev_hndl)
-+		return -EINVAL;
-+
-+	if (debug_check_dev_hndl(__func__, xdev->pdev, dev_hndl) < 0)
-+		return -EINVAL;
-+
-+	xdev->mask_irq_user |= mask;
-+	/* enable user interrupts */
-+	user_interrupts_enable(xdev, mask);
-+	read_interrupts(xdev);
++		xdma_user_isr_disable(st->mgbdev->xdev, 1U<<11);
 +
 +	return 0;
-+}
-+EXPORT_SYMBOL_GPL(xdma_user_isr_enable);
 +
-+int xdma_user_isr_disable(void *dev_hndl, unsigned int mask)
-+{
-+	struct xdma_dev *xdev = (struct xdma_dev *)dev_hndl;
-+
-+	if (!dev_hndl)
-+		return -EINVAL;
-+
-+	if (debug_check_dev_hndl(__func__, xdev->pdev, dev_hndl) < 0)
-+		return -EINVAL;
-+
-+	xdev->mask_irq_user &= ~mask;
-+	user_interrupts_disable(xdev, mask);
-+	read_interrupts(xdev);
-+
-+	return 0;
-+}
-+EXPORT_SYMBOL_GPL(xdma_user_isr_disable);
-+
-+static int __init xdma_base_init(void)
-+{
-+	pr_info("%s", version);
-+	return 0;
 +}
 +
-+static void __exit xdma_base_exit(void)
-+{
-+	pr_info("%s", __func__);
-+}
-+
-+module_init(xdma_base_init);
-+module_exit(xdma_base_exit);
-diff --git a/drivers/dma/xilinx/xdma_core.h b/drivers/dma/xilinx/xdma_core.h
-new file mode 100644
-index 000000000000..7c09a5d3885c
---- /dev/null
-+++ b/drivers/dma/xilinx/xdma_core.h
-@@ -0,0 +1,588 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/*
-+ * This file is part of the Xilinx DMA IP Core driver for Linux
-+ *
-+ * Copyright (c) 2016-present,  Xilinx, Inc.
-+ * Copyright (c) 2020-present,  Digiteq Automotive s.r.o.
-+ */
-+
-+#ifndef XDMA_CORE_H
-+#define XDMA_CORE_H
-+
-+#include <linux/version.h>
-+#include <linux/types.h>
-+#include <linux/uaccess.h>
-+#include <linux/module.h>
-+#include <linux/dma-mapping.h>
-+#include <linux/init.h>
-+#include <linux/interrupt.h>
-+#include <linux/jiffies.h>
-+#include <linux/kernel.h>
-+#include <linux/pci.h>
-+#include <linux/workqueue.h>
-+#include <linux/swait.h>
-+
-+/*
-+ *  if the config bar is fixed, the driver does not neeed to search through
-+ *  all of the bars
-+ */
-+#define XDMA_CONFIG_BAR_NUM	1
-+#define XDMA_CONFIG_BAR_MASK (1U<<XDMA_CONFIG_BAR_NUM)
-+
-+/* Switch debug printing on/off */
-+#define XDMA_DEBUG 0
-+
-+/* SECTION: Preprocessor macros/constants */
-+#define XDMA_BAR_NUM (6)
-+
-+/* maximum amount of register space to map */
-+#define XDMA_BAR_SIZE (0x8000UL)
-+
-+/* Use this definition to poll several times between calls to schedule */
-+#define NUM_POLLS_PER_SCHED 100
-+
-+#define XDMA_CHANNEL_NUM_MAX (4)
-+/*
-+ * interrupts per engine, rad2_vul.sv:237
-+ * .REG_IRQ_OUT	(reg_irq_from_ch[(channel*2) +: 2]),
-+ */
-+#define XDMA_ENG_IRQ_NUM (1)
-+#define XDMA_MAX_ADJ_BLOCK_SIZE	0x40
-+#define XDMA_PAGE_SIZE		0x1000
-+#define RX_STATUS_EOP (1)
-+
-+/* Target internal components on XDMA control BAR */
-+#define XDMA_OFS_INT_CTRL	(0x2000UL)
-+#define XDMA_OFS_CONFIG		(0x3000UL)
-+
-+/* maximum number of desc per transfer request */
-+#define XDMA_TRANSFER_MAX_DESC (2048)
-+
-+/* maximum size of a single DMA transfer descriptor */
-+#define XDMA_DESC_BLEN_BITS	28
-+#define XDMA_DESC_BLEN_MAX	((1 << (XDMA_DESC_BLEN_BITS)) - 1)
-+
-+/* bits of the SG DMA control register */
-+#define XDMA_CTRL_RUN_STOP			(1UL << 0)
-+#define XDMA_CTRL_IE_DESC_STOPPED		(1UL << 1)
-+#define XDMA_CTRL_IE_DESC_COMPLETED		(1UL << 2)
-+#define XDMA_CTRL_IE_DESC_ALIGN_MISMATCH	(1UL << 3)
-+#define XDMA_CTRL_IE_MAGIC_STOPPED		(1UL << 4)
-+#define XDMA_CTRL_IE_IDLE_STOPPED		(1UL << 6)
-+#define XDMA_CTRL_IE_READ_ERROR			(0x1FUL << 9)
-+#define XDMA_CTRL_IE_DESC_ERROR			(0x1FUL << 19)
-+#define XDMA_CTRL_NON_INCR_ADDR			(1UL << 25)
-+#define XDMA_CTRL_POLL_MODE_WB			(1UL << 26)
-+#define XDMA_CTRL_STM_MODE_WB			(1UL << 27)
-+
-+/* bits of the SG DMA status register */
-+#define XDMA_STAT_BUSY			(1UL << 0)
-+#define XDMA_STAT_DESC_STOPPED		(1UL << 1)
-+#define XDMA_STAT_DESC_COMPLETED	(1UL << 2)
-+#define XDMA_STAT_ALIGN_MISMATCH	(1UL << 3)
-+#define XDMA_STAT_MAGIC_STOPPED		(1UL << 4)
-+#define XDMA_STAT_INVALID_LEN		(1UL << 5)
-+#define XDMA_STAT_IDLE_STOPPED		(1UL << 6)
-+
-+#define XDMA_STAT_COMMON_ERR_MASK \
-+	(XDMA_STAT_ALIGN_MISMATCH | XDMA_STAT_MAGIC_STOPPED | \
-+	 XDMA_STAT_INVALID_LEN)
-+
-+/* desc_error, C2H & H2C */
-+#define XDMA_STAT_DESC_UNSUPP_REQ	(1UL << 19)
-+#define XDMA_STAT_DESC_COMPL_ABORT	(1UL << 20)
-+#define XDMA_STAT_DESC_PARITY_ERR	(1UL << 21)
-+#define XDMA_STAT_DESC_HEADER_EP	(1UL << 22)
-+#define XDMA_STAT_DESC_UNEXP_COMPL	(1UL << 23)
-+
-+#define XDMA_STAT_DESC_ERR_MASK	\
-+	(XDMA_STAT_DESC_UNSUPP_REQ | XDMA_STAT_DESC_COMPL_ABORT | \
-+	 XDMA_STAT_DESC_PARITY_ERR | XDMA_STAT_DESC_HEADER_EP | \
-+	 XDMA_STAT_DESC_UNEXP_COMPL)
-+
-+/* read error: H2C */
-+#define XDMA_STAT_H2C_R_UNSUPP_REQ	(1UL << 9)
-+#define XDMA_STAT_H2C_R_COMPL_ABORT	(1UL << 10)
-+#define XDMA_STAT_H2C_R_PARITY_ERR	(1UL << 11)
-+#define XDMA_STAT_H2C_R_HEADER_EP	(1UL << 12)
-+#define XDMA_STAT_H2C_R_UNEXP_COMPL	(1UL << 13)
-+
-+#define XDMA_STAT_H2C_R_ERR_MASK	\
-+	(XDMA_STAT_H2C_R_UNSUPP_REQ | XDMA_STAT_H2C_R_COMPL_ABORT | \
-+	 XDMA_STAT_H2C_R_PARITY_ERR | XDMA_STAT_H2C_R_HEADER_EP | \
-+	 XDMA_STAT_H2C_R_UNEXP_COMPL)
-+
-+/* write error, H2C only */
-+#define XDMA_STAT_H2C_W_DECODE_ERR	(1UL << 14)
-+#define XDMA_STAT_H2C_W_SLAVE_ERR	(1UL << 15)
-+
-+#define XDMA_STAT_H2C_W_ERR_MASK	\
-+	(XDMA_STAT_H2C_W_DECODE_ERR | XDMA_STAT_H2C_W_SLAVE_ERR)
-+
-+/* read error: C2H */
-+#define XDMA_STAT_C2H_R_DECODE_ERR	(1UL << 9)
-+#define XDMA_STAT_C2H_R_SLAVE_ERR	(1UL << 10)
-+
-+#define XDMA_STAT_C2H_R_ERR_MASK	\
-+	(XDMA_STAT_C2H_R_DECODE_ERR | XDMA_STAT_C2H_R_SLAVE_ERR)
-+
-+/* all combined */
-+#define XDMA_STAT_H2C_ERR_MASK	\
-+	(XDMA_STAT_COMMON_ERR_MASK | XDMA_STAT_DESC_ERR_MASK | \
-+	 XDMA_STAT_H2C_R_ERR_MASK | XDMA_STAT_H2C_W_ERR_MASK)
-+
-+#define XDMA_STAT_C2H_ERR_MASK	\
-+	(XDMA_STAT_COMMON_ERR_MASK | XDMA_STAT_DESC_ERR_MASK | \
-+	 XDMA_STAT_C2H_R_ERR_MASK)
-+
-+/* bits of the SGDMA descriptor control field */
-+#define XDMA_DESC_STOPPED	(1UL << 0)
-+#define XDMA_DESC_COMPLETED	(1UL << 1)
-+#define XDMA_DESC_EOP		(1UL << 4)
-+
-+#define XDMA_PERF_RUN	(1UL << 0)
-+#define XDMA_PERF_CLEAR	(1UL << 1)
-+#define XDMA_PERF_AUTO	(1UL << 2)
-+
-+#define MAGIC_ENGINE	0xEEEEEEEEUL
-+#define MAGIC_DEVICE	0xDDDDDDDDUL
-+
-+/* upper 16-bits of engine identifier register */
-+#define XDMA_ID_H2C 0x1fc0U
-+#define XDMA_ID_C2H 0x1fc1U
-+
-+/* for C2H AXI-ST mode */
-+#define CYCLIC_RX_PAGES_MAX	256
-+
-+#define LS_BYTE_MASK 0x000000FFUL
-+
-+#define BLOCK_ID_MASK 0xFFF00000
-+#define BLOCK_ID_HEAD 0x1FC00000
-+
-+#define IRQ_BLOCK_ID 0x1fc20000UL
-+#define CONFIG_BLOCK_ID 0x1fc30000UL
-+
-+#define WB_COUNT_MASK 0x00ffffffUL
-+#define WB_ERR_MASK (1UL << 31)
-+#define POLL_TIMEOUT_SECONDS 10
-+
-+#define MAX_USER_IRQ 16
-+
-+#define MAX_DESC_BUS_ADDR (0xffffffffULL)
-+
-+#define DESC_MAGIC 0xAD4B0000UL
-+
-+#define C2H_WB 0x52B4UL
-+
-+#define MAX_NUM_ENGINES (XDMA_CHANNEL_NUM_MAX * 2)
-+#define H2C_CHANNEL_OFFSET 0x1000
-+#define SGDMA_OFFSET_FROM_CHANNEL 0x4000
-+#define CHANNEL_SPACING 0x100
-+#define TARGET_SPACING 0x1000
-+
-+#define BYPASS_MODE_SPACING 0x0100
-+
-+/* obtain the 32 most significant (high) bits of a 32-bit or 64-bit address */
-+#define PCI_DMA_H(addr) ((addr >> 16) >> 16)
-+/* obtain the 32 least significant (low) bits of a 32-bit or 64-bit address */
-+#define PCI_DMA_L(addr) (addr & 0xffffffffUL)
-+
-+#ifndef VM_RESERVED
-+	#define VMEM_FLAGS (VM_IO | VM_DONTEXPAND | VM_DONTDUMP)
-+#else
-+	#define VMEM_FLAGS (VM_IO | VM_RESERVED)
-+#endif
-+
-+#ifdef __LIBXDMA_DEBUG__
-+#define dbg_io		pr_err
-+#define dbg_fops	pr_err
-+#define dbg_perf	pr_err
-+#define dbg_sg		pr_err
-+#define dbg_tfr		pr_err
-+#define dbg_irq		pr_err
-+#define dbg_init	pr_err
-+#define dbg_desc	pr_err
-+#else
-+/* disable debugging */
-+#define dbg_io(...)
-+#define dbg_fops(...)
-+#define dbg_perf(...)
-+#define dbg_sg(...)
-+#define dbg_tfr(...)
-+#define dbg_irq(...)
-+#define dbg_init(...)
-+#define dbg_desc(...)
-+#endif
-+
-+/* SECTION: Enum definitions */
-+enum transfer_state {
-+	TRANSFER_STATE_NEW = 0,
-+	TRANSFER_STATE_SUBMITTED,
-+	TRANSFER_STATE_COMPLETED,
-+	TRANSFER_STATE_FAILED,
-+	TRANSFER_STATE_ABORTED
++static const struct iio_trigger_ops trigger_ops = {
++	.set_trigger_state = &trigger_set_state,
 +};
 +
-+enum shutdown_state {
-+	ENGINE_SHUTDOWN_NONE = 0,	/* No shutdown in progress */
-+	ENGINE_SHUTDOWN_REQUEST = 1,	/* engine requested to shutdown */
-+	ENGINE_SHUTDOWN_IDLE = 2	/* engine has shutdown and is idle */
++static const struct iio_info trigger_info = {
++	.read_raw         = trigger_read_raw,
 +};
 +
-+enum dev_capabilities {
-+	CAP_64BIT_DMA = 2,
-+	CAP_64BIT_DESC = 4,
-+	CAP_ENGINE_WRITE = 8,
-+	CAP_ENGINE_READ = 16
++#define TRIGGER_CHANNEL(_si) {                    \
++	.type = IIO_ACTIVITY,                         \
++	.info_mask_separate = BIT(IIO_CHAN_INFO_RAW), \
++	.scan_index = _si,                            \
++	.scan_type = {                                \
++		.sign = 'u',                              \
++		.realbits = 32,                           \
++		.storagebits = 32,                        \
++		.shift = 0,                               \
++		.endianness = IIO_CPU                     \
++	},                                            \
++}
++
++static const struct iio_chan_spec trigger_channels[] = {
++	TRIGGER_CHANNEL(0),
++	IIO_CHAN_SOFT_TIMESTAMP(1),
 +};
 +
-+/* SECTION: Structure definitions */
-+
-+struct xdma_io_cb {
-+	void __user *buf;
-+	size_t len;
-+	void *private;
-+	unsigned int pages_nr;
-+	struct sg_table sgt;
-+	struct page **pages;
-+	/** total data size */
-+	unsigned int count;
-+	/** MM only, DDR/BRAM memory addr */
-+	u64 ep_addr;
-+	/** write: if write to the device */
-+	struct xdma_request_cb *req;
-+	u8 write:1;
-+	void (*io_done)(unsigned long cb_hndl, int err);
-+};
-+
-+struct config_regs {
-+	u32 identifier;
-+	u32 reserved_1[4];
-+	u32 msi_enable;
-+};
-+
-+/**
-+ * SG DMA Controller status and control registers
-+ *
-+ * These registers make the control interface for DMA transfers.
-+ *
-+ * It sits in End Point (FPGA) memory BAR[0] for 32-bit or BAR[0:1] for 64-bit.
-+ * It references the first descriptor which exists in Root Complex (PC) memory.
-+ *
-+ * @note The registers must be accessed using 32-bit (PCI DWORD) read/writes,
-+ * and their values are in little-endian byte ordering.
-+ */
-+struct engine_regs {
-+	u32 identifier;
-+	u32 control;
-+	u32 control_w1s;
-+	u32 control_w1c;
-+	u32 reserved_1[12];	/* padding */
-+
-+	u32 status;
-+	u32 status_rc;
-+	u32 completed_desc_count;
-+	u32 alignments;
-+	u32 reserved_2[14];	/* padding */
-+
-+	u32 poll_mode_wb_lo;
-+	u32 poll_mode_wb_hi;
-+	u32 interrupt_enable_mask;
-+	u32 interrupt_enable_mask_w1s;
-+	u32 interrupt_enable_mask_w1c;
-+	u32 reserved_3[9];	/* padding */
-+
-+	u32 perf_ctrl;
-+	u32 perf_cyc_lo;
-+	u32 perf_cyc_hi;
-+	u32 perf_dat_lo;
-+	u32 perf_dat_hi;
-+	u32 perf_pnd_lo;
-+	u32 perf_pnd_hi;
-+} __packed;
-+
-+struct engine_sgdma_regs {
-+	u32 identifier;
-+	u32 reserved_1[31];	/* padding */
-+
-+	/* bus address to first descriptor in Root Complex Memory */
-+	u32 first_desc_lo;
-+	u32 first_desc_hi;
-+	/* number of adjacent descriptors at first_desc */
-+	u32 first_desc_adjacent;
-+	u32 credits;
-+} __packed;
-+
-+struct interrupt_regs {
-+	u32 identifier;
-+	u32 user_int_enable;
-+	u32 user_int_enable_w1s;
-+	u32 user_int_enable_w1c;
-+	u32 channel_int_enable;
-+	u32 channel_int_enable_w1s;
-+	u32 channel_int_enable_w1c;
-+	u32 reserved_1[9];	/* padding */
-+
-+	u32 user_int_request;
-+	u32 channel_int_request;
-+	u32 user_int_pending;
-+	u32 channel_int_pending;
-+	u32 reserved_2[12];	/* padding */
-+
-+	u32 user_msi_vector[8];
-+	u32 channel_msi_vector[8];
-+} __packed;
-+
-+struct sgdma_common_regs {
-+	u32 padding[8];
-+	u32 credit_mode_enable;
-+	u32 credit_mode_enable_w1s;
-+	u32 credit_mode_enable_w1c;
-+} __packed;
-+
-+
-+/* Structure for polled mode descriptor writeback */
-+struct xdma_poll_wb {
-+	u32 completed_desc_count;
-+	u32 reserved_1[7];
-+} __packed;
-+
-+
-+/**
-+ * Descriptor for a single contiguous memory block transfer.
-+ *
-+ * Multiple descriptors are linked by means of the next pointer. An additional
-+ * extra adjacent number gives the amount of extra contiguous descriptors.
-+ *
-+ * The descriptors are in root complex memory, and the bytes in the 32-bit
-+ * words must be in little-endian byte ordering.
-+ */
-+struct xdma_desc {
-+	u32 control;
-+	u32 bytes;		/* transfer length in bytes */
-+	u32 src_addr_lo;	/* source address (low 32-bit) */
-+	u32 src_addr_hi;	/* source address (high 32-bit) */
-+	u32 dst_addr_lo;	/* destination address (low 32-bit) */
-+	u32 dst_addr_hi;	/* destination address (high 32-bit) */
-+	/*
-+	 * next descriptor in the single-linked list of descriptors;
-+	 * this is the PCIe (bus) address of the next descriptor in the
-+	 * root complex memory
-+	 */
-+	u32 next_lo;		/* next desc address (low 32-bit) */
-+	u32 next_hi;		/* next desc address (high 32-bit) */
-+} __packed;
-+
-+/* 32 bytes (four 32-bit words) or 64 bytes (eight 32-bit words) */
-+struct xdma_result {
-+	u32 status;
-+	u32 length;
-+	u32 reserved_1[6];	/* padding */
-+} __packed;
-+
-+struct sw_desc {
-+	dma_addr_t addr;
-+	unsigned int len;
-+};
-+
-+/* Describes a (SG DMA) single transfer for the engine */
-+#define XFER_FLAG_NEED_UNMAP		0x1
-+#define XFER_FLAG_ST_C2H_EOP_RCVED	0x2	/* ST c2h only */
-+struct xdma_transfer {
-+	struct list_head entry;		/* queue of non-completed transfers */
-+	struct xdma_desc *desc_virt;	/* virt addr of the 1st descriptor */
-+	struct xdma_result *res_virt;   /* virt addr of result, c2h streaming */
-+	dma_addr_t res_bus;		/* bus addr for result descriptors */
-+	dma_addr_t desc_bus;		/* bus addr of the first descriptor */
-+	int desc_adjacent;		/* adjacent descriptors at desc_bus */
-+	int desc_num;			/* number of descriptors in transfer */
-+	int desc_index;			/* index for 1st desc. in transfer */
-+	int desc_cmpl;			/* completed descriptors */
-+	int desc_cmpl_th;		/* completed descriptor threshold */
-+	enum dma_data_direction dir;
-+	struct swait_queue_head wq;	/* wait queue for transfer completion */
-+
-+	enum transfer_state state;	/* state of the transfer */
-+	unsigned int flags;
-+	int cyclic;			/* flag if transfer is cyclic */
-+	int last_in_request;		/* flag if last within request */
-+	unsigned int len;
-+	struct sg_table *sgt;
-+	struct xdma_io_cb *cb;
-+};
-+
-+struct xdma_request_cb {
-+	struct sg_table *sgt;
-+	unsigned int total_len;
-+	u64 ep_addr;
-+
-+	struct xdma_transfer tfer[2]; /* Use two transfers in case single request needs to be split */
-+	struct xdma_io_cb *cb;
-+
-+	unsigned int sw_desc_idx;
-+	unsigned int sw_desc_cnt;
-+	struct sw_desc sdesc[0];
-+};
-+
-+struct xdma_engine {
-+	unsigned long magic;	/* structure ID for sanity checks */
-+	struct xdma_dev *xdev;	/* parent device */
-+	char name[16];		/* name of this engine */
-+	int version;		/* version of this engine */
-+
-+	/* HW register address offsets */
-+	struct engine_regs *regs;		/* Control reg BAR offset */
-+	struct engine_sgdma_regs *sgdma_regs;	/* SGDAM reg BAR offset */
-+	u32 bypass_offset;			/* Bypass mode BAR offset */
-+
-+	/* Engine state, configuration and flags */
-+	enum shutdown_state shutdown;	/* engine shutdown mode */
-+	enum dma_data_direction dir;
-+	u8 addr_align;		/* source/dest alignment in bytes */
-+	u8 len_granularity;	/* transfer length multiple */
-+	u8 addr_bits;		/* HW datapath address width */
-+	u8 channel:2;		/* engine indices */
-+	u8 streaming:1;
-+	u8 device_open:1;	/* flag if engine node open, ST mode only */
-+	u8 running:1;		/* flag if the driver started engine */
-+	u8 non_incr_addr:1;	/* flag if non-incremental addressing used */
-+	u8 eop_flush:1;		/* st c2h only, flush up the data with eop */
-+	u8 filler:1;
-+
-+	int max_extra_adj;	/* descriptor prefetch capability */
-+	int desc_dequeued;	/* num descriptors of completed transfers */
-+	u32 status;		/* last known status of device */
-+	/* only used for MSIX mode to store per-engine interrupt mask value */
-+	u32 interrupt_enable_mask_value;
-+
-+	/* Transfer list management */
-+	struct list_head transfer_list;	/* queue of transfers */
-+
-+	/* Members applicable to AXI-ST C2H (cyclic) transfers */
-+	struct xdma_result *cyclic_result;
-+	dma_addr_t cyclic_result_bus;	/* bus addr for transfer */
-+	u8 *perf_buf_virt;
-+	dma_addr_t perf_buf_bus; /* bus address */
-+
-+	/* Members associated with polled mode support */
-+	u8 *poll_mode_addr_virt;	/* virt addr for descriptor writeback */
-+	dma_addr_t poll_mode_bus;	/* bus addr for descriptor writeback */
-+
-+	/* Members associated with interrupt mode support */
-+	struct swait_queue_head shutdown_wq;
-+	spinlock_t lock;		/* protects concurrent access */
-+	int prev_cpu;			/* remember CPU# of (last) locker */
-+	int msix_irq_line;		/* MSI-X vector for this engine */
-+	u32 irq_bitmask;		/* IRQ bit mask for this engine */
-+	struct work_struct work;	/* Work queue for interrupt handling */
-+
-+	struct mutex desc_lock;		/* protects concurrent access */
-+	dma_addr_t desc_bus;
-+	struct xdma_desc *desc;
-+	int desc_idx;			/* current descriptor index */
-+	int desc_used;			/* total descriptors used */
-+
-+	struct xdma_kthread *cmplthp;
-+	/* completion status thread list for the queue */
-+	struct list_head cmplthp_list;
-+	/* pending work thread list */
-+	/* cpu attached to intr_work */
-+	unsigned int intr_work_cpu;
-+};
-+
-+/* XDMA PCIe device specific book-keeping */
-+#define XDEV_FLAG_OFFLINE	0x1
-+struct xdma_dev {
-+	struct list_head list_head;
-+	struct list_head rcu_node;
-+
-+	unsigned long magic;		/* structure ID for sanity checks */
-+	struct pci_dev *pdev;	/* pci device struct from probe() */
-+	int idx;		/* dev index */
-+
-+	const char *mod_name;		/* name of module owning the dev */
-+
-+	spinlock_t lock;		/* protects concurrent access */
-+	unsigned int flags;
-+
-+	/* PCIe BAR management */
-+	void __iomem *bar[XDMA_BAR_NUM];	/* addresses for mapped BARs */
-+	int user_bar_idx;	/* BAR index of user logic */
-+	int config_bar_idx;	/* BAR index of XDMA config logic */
-+	int bypass_bar_idx;	/* BAR index of XDMA bypass logic */
-+	int regions_in_use;	/* flag if dev was in use during probe() */
-+	int got_regions;	/* flag if probe() obtained the regions */
-+
-+	int user_max;
-+	int c2h_channel_max;
-+	int h2c_channel_max;
-+
-+	/* Interrupt management */
-+	int irq_count;		/* interrupt counter */
-+	int irq_line;		/* flag if irq allocated successfully */
-+	int msi_enabled;	/* flag if msi was enabled for the device */
-+	int msix_enabled;	/* flag if msi-x was enabled for the device */
-+	unsigned int mask_irq_user;
-+
-+	/* XDMA engine management */
-+	int engines_num;	/* Total engine count */
-+	u32 mask_irq_h2c;
-+	u32 mask_irq_c2h;
-+	struct xdma_engine engine_h2c[XDMA_CHANNEL_NUM_MAX];
-+	struct xdma_engine engine_c2h[XDMA_CHANNEL_NUM_MAX];
-+
-+	/* SD_Accel specific */
-+	enum dev_capabilities capabilities;
-+	u64 feature_id;
-+};
-+
-+static inline int xdma_device_flag_check(struct xdma_dev *xdev, unsigned int f)
++static irqreturn_t trigger_handler(int irq, void *p)
 +{
-+	unsigned long flags;
++	struct iio_poll_func *pf = p;
++	struct iio_dev *indio_dev = pf->indio_dev;
++	struct trigger_data *st = iio_priv(indio_dev);
++	struct {
++		u32 data;
++		s64 ts __aligned(8);
++	} scan;
 +
-+	spin_lock_irqsave(&xdev->lock, flags);
-+	if (xdev->flags & f) {
-+		spin_unlock_irqrestore(&xdev->lock, flags);
-+		return 1;
-+	}
-+	spin_unlock_irqrestore(&xdev->lock, flags);
-+	return 0;
++	scan.data = mgb4_read_reg(&st->mgbdev->video, 0xA0);
++	mgb4_write_reg(&st->mgbdev->video, 0xA0, scan.data);
++
++	iio_push_to_buffers_with_timestamp(indio_dev, &scan, pf->timestamp);
++	iio_trigger_notify_done(indio_dev->trig);
++
++	mgb4_write_reg(&st->mgbdev->video, 0xB4, 1U<<11);
++
++	return IRQ_HANDLED;
 +}
 +
-+static inline int xdma_device_flag_test_n_set(struct xdma_dev *xdev,
-+					 unsigned int f)
++static int probe_trigger(struct iio_dev *indio_dev, int irq)
 +{
-+	unsigned long flags;
-+	int rv = 0;
-+
-+	spin_lock_irqsave(&xdev->lock, flags);
-+	if (xdev->flags & f) {
-+		spin_unlock_irqrestore(&xdev->lock, flags);
-+		rv = 1;
-+	} else
-+		xdev->flags |= f;
-+	spin_unlock_irqrestore(&xdev->lock, flags);
-+	return rv;
-+}
-+
-+static inline void xdma_device_flag_set(struct xdma_dev *xdev, unsigned int f)
-+{
-+	unsigned long flags;
-+
-+	spin_lock_irqsave(&xdev->lock, flags);
-+	xdev->flags |= f;
-+	spin_unlock_irqrestore(&xdev->lock, flags);
-+}
-+
-+static inline void xdma_device_flag_clear(struct xdma_dev *xdev, unsigned int f)
-+{
-+	unsigned long flags;
-+
-+	spin_lock_irqsave(&xdev->lock, flags);
-+	xdev->flags &= ~f;
-+	spin_unlock_irqrestore(&xdev->lock, flags);
-+}
-+
-+int xdma_engine_service_poll(struct xdma_engine *engine, u32 expected_desc_count);
-+
-+#endif /* XDMA_CORE_H */
-diff --git a/drivers/dma/xilinx/xdma_thread.c b/drivers/dma/xilinx/xdma_thread.c
-new file mode 100644
-index 000000000000..718929cc2d0b
---- /dev/null
-+++ b/drivers/dma/xilinx/xdma_thread.c
-@@ -0,0 +1,309 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * This file is part of the Xilinx DMA IP Core driver for Linux
-+ *
-+ * Copyright (c) 2017-present,  Xilinx, Inc.
-+ */
-+
-+#include <linux/kernel.h>
-+#include <linux/slab.h>
-+#include "xdma_thread.h"
-+
-+/* ********************* global variables *********************************** */
-+static struct xdma_kthread *cs_threads;
-+static unsigned int thread_cnt;
-+
-+
-+/* ********************* static function definitions ************************ */
-+static int xdma_thread_cmpl_status_pend(struct list_head *work_item)
-+{
-+	struct xdma_engine *engine = list_entry(work_item, struct xdma_engine,
-+						cmplthp_list);
-+	int pend = 0;
-+	unsigned long flags;
-+
-+	spin_lock_irqsave(&engine->lock, flags);
-+	pend = !list_empty(&engine->transfer_list);
-+	spin_unlock_irqrestore(&engine->lock, flags);
-+
-+	return pend;
-+}
-+
-+static int xdma_thread_cmpl_status_proc(struct list_head *work_item)
-+{
-+	struct xdma_engine *engine;
-+	struct xdma_transfer *transfer;
-+
-+	engine = list_entry(work_item, struct xdma_engine, cmplthp_list);
-+	transfer = list_entry(engine->transfer_list.next, struct xdma_transfer,
-+			entry);
-+	if (transfer)
-+		xdma_engine_service_poll(engine, transfer->desc_cmpl_th);
-+	return 0;
-+}
-+
-+static inline int xthread_work_pending(struct xdma_kthread *thp)
-+{
-+	struct list_head *work_item, *next;
-+
-+	/* any work items assigned to this thread? */
-+	if (list_empty(&thp->work_list))
-+		return 0;
-+
-+	/* any work item has pending work to do? */
-+	list_for_each_safe(work_item, next, &thp->work_list) {
-+		if (thp->fpending && thp->fpending(work_item))
-+			return 1;
-+
-+	}
-+	return 0;
-+}
-+
-+static inline void xthread_reschedule(struct xdma_kthread *thp)
-+{
-+	if (thp->timeout) {
-+		pr_debug_thread("%s rescheduling for %u seconds",
-+				thp->name, thp->timeout);
-+		wait_event_interruptible_timeout(thp->waitq, thp->schedule,
-+					      msecs_to_jiffies(thp->timeout));
-+	} else {
-+		pr_debug_thread("%s rescheduling", thp->name);
-+		wait_event_interruptible(thp->waitq, thp->schedule);
-+	}
-+}
-+
-+static int xthread_main(void *data)
-+{
-+	struct xdma_kthread *thp = (struct xdma_kthread *)data;
-+
-+	pr_debug_thread("%s UP.\n", thp->name);
-+
-+	disallow_signal(SIGPIPE);
-+
-+	if (thp->finit)
-+		thp->finit(thp);
-+
-+	while (!kthread_should_stop()) {
-+
-+		struct list_head *work_item, *next;
-+
-+		pr_debug_thread("%s interruptible\n", thp->name);
-+
-+		/* any work to do? */
-+		lock_thread(thp);
-+		if (!xthread_work_pending(thp)) {
-+			unlock_thread(thp);
-+			xthread_reschedule(thp);
-+			lock_thread(thp);
-+		}
-+		thp->schedule = 0;
-+
-+		if (thp->work_cnt) {
-+			pr_debug_thread("%s processing %u work items\n",
-+					thp->name, thp->work_cnt);
-+			/* do work */
-+			list_for_each_safe(work_item, next, &thp->work_list) {
-+				thp->fproc(work_item);
-+			}
-+		}
-+		unlock_thread(thp);
-+		schedule();
-+	}
-+
-+	pr_debug_thread("%s, work done.\n", thp->name);
-+
-+	if (thp->fdone)
-+		thp->fdone(thp);
-+
-+	pr_debug_thread("%s, exit.\n", thp->name);
-+	return 0;
-+}
-+
-+
-+int xdma_kthread_start(struct xdma_kthread *thp, char *name, int id)
-+{
-+	int len;
-+	int node;
-+
-+	if (thp->task) {
-+		pr_warn("kthread %s task already running?\n", thp->name);
-+		return -EINVAL;
-+	}
-+
-+	len = snprintf(thp->name, sizeof(thp->name), "%s%d", name, id);
-+	if (len < 0) {
-+		pr_err("thread %d, error in snprintf name %s.\n", id, name);
-+		return -EINVAL;
-+	}
-+
-+	thp->id = id;
-+
-+	spin_lock_init(&thp->lock);
-+	INIT_LIST_HEAD(&thp->work_list);
-+	init_waitqueue_head(&thp->waitq);
-+
-+	node = cpu_to_node(thp->cpu);
-+	pr_debug("node : %d\n", node);
-+
-+	thp->task = kthread_create_on_node(xthread_main, (void *)thp,
-+					node, "%s", thp->name);
-+	if (IS_ERR(thp->task)) {
-+		pr_err("kthread %s, create task failed: 0x%lx\n",
-+			thp->name, (unsigned long)IS_ERR(thp->task));
-+		thp->task = NULL;
-+		return -EFAULT;
-+	}
-+
-+	kthread_bind(thp->task, thp->cpu);
-+
-+	pr_debug_thread("kthread 0x%p, %s, cpu %u, task 0x%p.\n",
-+		thp, thp->name, thp->cpu, thp->task);
-+
-+	wake_up_process(thp->task);
-+	return 0;
-+}
-+
-+int xdma_kthread_stop(struct xdma_kthread *thp)
-+{
-+	int rv;
-+
-+	if (!thp->task) {
-+		pr_debug_thread("kthread %s, already stopped.\n", thp->name);
-+		return 0;
-+	}
-+
-+	thp->schedule = 1;
-+	rv = kthread_stop(thp->task);
-+	if (rv < 0) {
-+		pr_warn("kthread %s, stop err %d.\n", thp->name, rv);
-+		return rv;
-+	}
-+
-+	pr_debug_thread("kthread %s, 0x%p, stopped.\n", thp->name, thp->task);
-+	thp->task = NULL;
-+
-+	return 0;
-+}
-+
-+
-+
-+void xdma_thread_remove_work(struct xdma_engine *engine)
-+{
-+	struct xdma_kthread *cmpl_thread;
-+	unsigned long flags;
-+
-+	spin_lock_irqsave(&engine->lock, flags);
-+	cmpl_thread = engine->cmplthp;
-+	engine->cmplthp = NULL;
-+
-+	spin_unlock_irqrestore(&engine->lock, flags);
-+
-+	if (cmpl_thread) {
-+		lock_thread(cmpl_thread);
-+		list_del(&engine->cmplthp_list);
-+		cmpl_thread->work_cnt--;
-+		unlock_thread(cmpl_thread);
-+	}
-+}
-+
-+void xdma_thread_add_work(struct xdma_engine *engine)
-+{
-+	struct xdma_kthread *thp = cs_threads;
-+	unsigned int v = 0;
-+	int i, idx = thread_cnt;
-+	unsigned long flags;
-+
-+
-+	/* Polled mode only */
-+	for (i = 0; i < thread_cnt; i++, thp++) {
-+		lock_thread(thp);
-+		if (idx == thread_cnt) {
-+			v = thp->work_cnt;
-+			idx = i;
-+		} else if (!thp->work_cnt) {
-+			idx = i;
-+			unlock_thread(thp);
-+			break;
-+		} else if (thp->work_cnt < v)
-+			idx = i;
-+		unlock_thread(thp);
-+	}
-+
-+	thp = cs_threads + idx;
-+	lock_thread(thp);
-+	list_add_tail(&engine->cmplthp_list, &thp->work_list);
-+	engine->intr_work_cpu = idx;
-+	thp->work_cnt++;
-+	unlock_thread(thp);
-+
-+	pr_info("%s 0x%p assigned to cmpl status thread %s,%u.\n",
-+		engine->name, engine, thp->name, thp->work_cnt);
-+
-+
-+	spin_lock_irqsave(&engine->lock, flags);
-+	engine->cmplthp = thp;
-+	spin_unlock_irqrestore(&engine->lock, flags);
-+}
-+
-+int xdma_threads_create(unsigned int num_threads)
-+{
-+	struct xdma_kthread *thp;
-+	int rv;
-+	int cpu;
-+
-+	if (thread_cnt) {
-+		pr_warn("threads already created!");
-+		return 0;
-+	}
-+
-+	cs_threads = kzalloc(num_threads * sizeof(struct xdma_kthread),
-+					GFP_KERNEL);
-+	if (!cs_threads)
++	int ret;
++	struct trigger_data *st = iio_priv(indio_dev);
++
++	st->trig = iio_trigger_alloc(&st->mgbdev->pdev->dev, "%s-dev%d",
++	  indio_dev->name, iio_device_id(indio_dev));
++	if (!st->trig)
 +		return -ENOMEM;
 +
-+	/* N dma writeback monitoring threads */
-+	thp = cs_threads;
-+	for_each_online_cpu(cpu) {
-+		pr_debug("index %d cpu %d online\n", thread_cnt, cpu);
-+		thp->cpu = cpu;
-+		thp->timeout = 0;
-+		thp->fproc = xdma_thread_cmpl_status_proc;
-+		thp->fpending = xdma_thread_cmpl_status_pend;
-+		rv = xdma_kthread_start(thp, "cmpl_status_th", thread_cnt);
-+		if (rv < 0)
-+			goto cleanup_threads;
++	ret = request_irq(irq, &iio_trigger_generic_data_rdy_poll,
++	 0, "mgb4-trigger", st->trig);
++	if (ret)
++		goto error_free_trig;
 +
-+		thread_cnt++;
-+		if (thread_cnt == num_threads)
-+			break;
-+		thp++;
++	st->trig->ops = &trigger_ops;
++	iio_trigger_set_drvdata(st->trig, indio_dev);
++	ret = iio_trigger_register(st->trig);
++	if (ret)
++		goto error_free_irq;
++
++	indio_dev->trig = iio_trigger_get(st->trig);
++
++	return 0;
++
++error_free_irq:
++	free_irq(irq, st->trig);
++error_free_trig:
++	iio_trigger_free(st->trig);
++
++	return ret;
++}
++
++static void remove_trigger(struct iio_dev *indio_dev, int irq)
++{
++	struct trigger_data *st = iio_priv(indio_dev);
++
++	iio_trigger_unregister(st->trig);
++	free_irq(irq, st->trig);
++	iio_trigger_free(st->trig);
++}
++
++struct iio_dev *mgb4_trigger_create(struct mgb4_dev *mgbdev)
++{
++	struct iio_dev *indio_dev;
++	struct trigger_data *data;
++	int rv;
++
++	indio_dev = iio_device_alloc(&mgbdev->pdev->dev, sizeof(*data));
++	if (!indio_dev)
++		return NULL;
++
++	indio_dev->info = &trigger_info;
++	indio_dev->name = "mgb4";
++	indio_dev->modes = INDIO_DIRECT_MODE;
++	indio_dev->channels = trigger_channels;
++	indio_dev->num_channels = ARRAY_SIZE(trigger_channels);
++
++	data = iio_priv(indio_dev);
++	data->mgbdev = mgbdev;
++
++	rv = probe_trigger(indio_dev, xdma_user_irq_base(mgbdev->xdev) + 11);
++	if (rv < 0) {
++		dev_err(&mgbdev->pdev->dev, "iio triggered setup failed\n");
++		goto error_alloc;
++	}
++	rv = iio_triggered_buffer_setup(indio_dev, &iio_pollfunc_store_time,
++	  trigger_handler, NULL);
++	if (rv < 0) {
++		dev_err(&mgbdev->pdev->dev, "iio triggered buffer setup failed\n");
++		goto error_trigger;
++	}
++	rv = iio_device_register(indio_dev);
++	if (rv < 0) {
++		dev_err(&mgbdev->pdev->dev, "iio device register failed\n");
++		goto error_buffer;
++	}
++
++	return indio_dev;
++
++error_buffer:
++	iio_triggered_buffer_cleanup(indio_dev);
++error_trigger:
++	remove_trigger(indio_dev, xdma_user_irq_base(mgbdev->xdev) + 11);
++error_alloc:
++	iio_device_free(indio_dev);
++
++	return NULL;
++}
++
++void mgb4_trigger_free(struct iio_dev *indio_dev)
++{
++	struct trigger_data *st = iio_priv(indio_dev);
++
++	iio_device_unregister(indio_dev);
++	iio_triggered_buffer_cleanup(indio_dev);
++	remove_trigger(indio_dev, xdma_user_irq_base(st->mgbdev->xdev) + 11);
++	iio_device_free(indio_dev);
++}
+diff --git a/drivers/media/pci/mgb4/mgb4_trigger.h b/drivers/media/pci/mgb4/mgb4_trigger.h
+new file mode 100644
+index 000000000000..9e6a651817d5
+--- /dev/null
++++ b/drivers/media/pci/mgb4/mgb4_trigger.h
+@@ -0,0 +1,8 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
++/*
++ * Copyright (C) 2021-2022 Digiteq Automotive
++ *     author: Martin Tuma <martin.tuma@digiteqautomotive.com>
++ */
++
++extern struct iio_dev *mgb4_trigger_create(struct mgb4_dev *mgbdev);
++extern void mgb4_trigger_free(struct iio_dev *indio_dev);
+diff --git a/drivers/media/pci/mgb4/mgb4_vin.c b/drivers/media/pci/mgb4/mgb4_vin.c
+new file mode 100644
+index 000000000000..ab56165d7714
+--- /dev/null
++++ b/drivers/media/pci/mgb4/mgb4_vin.c
+@@ -0,0 +1,649 @@
++// SPDX-License-Identifier: GPL-2.0-only
++/*
++ * Copyright (C) 2021-2022 Digiteq Automotive
++ *     author: Martin Tuma <martin.tuma@digiteqautomotive.com>
++ */
++
++#include <linux/pci.h>
++#include <linux/workqueue.h>
++#include <media/v4l2-ioctl.h>
++#include <media/videobuf2-v4l2.h>
++#include <media/videobuf2-dma-sg.h>
++#include <linux/dma/xilinx_xdma.h>
++#include "mgb4_core.h"
++#include "mgb4_sysfs.h"
++#include "mgb4_io.h"
++#include "mgb4_vout.h"
++#include "mgb4_vin.h"
++
++static const struct mgb4_vin_config vin_cfg[] = {
++	{0, 0, 0, 6, {0x10, 0x00, 0x04, 0x08, 0x1C, 0x14, 0x18, 0x20, 0x24, 0x28}},
++	{1, 1, 1, 7, {0x40, 0x30, 0x34, 0x38, 0x4C, 0x44, 0x48, 0x50, 0x54, 0x58}}
++};
++
++static const struct i2c_board_info fpdl3_deser_info[] = {
++	{I2C_BOARD_INFO("deserializer1", 0x36)},
++	{I2C_BOARD_INFO("deserializer2", 0x38)},
++};
++static const struct i2c_board_info gmsl_deser_info[] = {
++	{I2C_BOARD_INFO("deserializer1", 0x4C)},
++	{I2C_BOARD_INFO("deserializer2", 0x2A)},
++};
++
++static const struct mgb4_i2c_kv fpdl3_i2c[] = {
++	{0x06, 0xFF, 0x04}, {0x07, 0xFF, 0x01}, {0x45, 0xFF, 0xE8},
++	{0x49, 0xFF, 0x00}, {0x34, 0xFF, 0x00}, {0x23, 0xFF, 0x00}
++};
++
++static const struct mgb4_i2c_kv gmsl_i2c[] = {
++	{0x01, 0x03, 0x03}, {0x300, 0x0C, 0x0C}, {0x03, 0xC0, 0xC0},
++	{0x1CE, 0x0E, 0x0E}, {0x11, 0x05, 0x00}, {0x05, 0xC0, 0x40},
++	{0x307, 0x0F, 0x00}, {0xA0, 0x03, 0x00}, {0x3E0, 0x07, 0x07},
++	{0x308, 0x01, 0x01}, {0x10, 0x20, 0x20}, {0x300, 0x40, 0x40}
++};
++
++
++static struct mgb4_vout_dev *loopback_dev(struct mgb4_vin_dev *vindev, int i)
++{
++	struct mgb4_vout_dev *voutdev;
++	u32 config;
++
++	voutdev = vindev->mgbdev->vout[i];
++	if (!voutdev)
++		return NULL;
++
++	config = mgb4_read_reg(&voutdev->mgbdev->video, voutdev->config->regs.config);
++	if ((config & 0xc) >> 2 == vindev->config->id)
++		return voutdev;
++
++	return NULL;
++}
++
++static int loopback_active(struct mgb4_vin_dev *vindev)
++{
++	int i;
++
++	for (i = 0; i < NUM_VOUT_DEVICES; i++)
++		if (loopback_dev(vindev, i))
++			return 1;
++
++	return 0;
++}
++
++static void set_loopback_padding(struct mgb4_vin_dev *vindev, u32 padding)
++{
++	struct mgb4_regs *video = &vindev->mgbdev->video;
++	struct mgb4_vout_dev *voutdev;
++	int i;
++
++	for (i = 0; i < NUM_VOUT_DEVICES; i++) {
++		voutdev = loopback_dev(vindev, i);
++		if (voutdev)
++			mgb4_write_reg(video, voutdev->config->regs.padding, padding);
++	}
++}
++
++static void return_all_buffers(struct mgb4_vin_dev *vindev,
++			       enum vb2_buffer_state state)
++{
++	struct frame_buffer *buf, *node;
++	unsigned long flags;
++
++	spin_lock_irqsave(&vindev->qlock, flags);
++	list_for_each_entry_safe(buf, node, &vindev->buf_list, list) {
++		vb2_buffer_done(&buf->vb.vb2_buf, state);
++		list_del(&buf->list);
++	}
++	spin_unlock_irqrestore(&vindev->qlock, flags);
++}
++
++static int queue_setup(struct vb2_queue *q, unsigned int *nbuffers,
++		       unsigned int *nplanes, unsigned int sizes[],
++		       struct device *alloc_devs[])
++{
++	struct mgb4_vin_dev *vindev = vb2_get_drv_priv(q);
++	unsigned int size = BYTESPERLINE(vindev->width, vindev->alignment)
++	  * vindev->height;
++
++	if (*nbuffers < 2)
++		*nbuffers = 2;
++
++	if (*nplanes)
++		return sizes[0] < size ? -EINVAL : 0;
++	*nplanes = 1;
++	sizes[0] = size;
++
++	return 0;
++}
++
++static int buffer_init(struct vb2_buffer *vb)
++{
++	struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
++	struct frame_buffer *buf = to_frame_buffer(vbuf);
++
++	INIT_LIST_HEAD(&buf->list);
++
++	return 0;
++}
++
++static int buffer_prepare(struct vb2_buffer *vb)
++{
++	struct mgb4_vin_dev *vindev = vb2_get_drv_priv(vb->vb2_queue);
++	unsigned int size = BYTESPERLINE(vindev->width, vindev->alignment)
++	  * vindev->height;
++
++	if (vb2_plane_size(vb, 0) < size) {
++		dev_err(&vindev->mgbdev->pdev->dev, "buffer too small (%lu < %u)\n",
++		  vb2_plane_size(vb, 0), size);
++		return -EINVAL;
++	}
++
++	vb2_set_plane_payload(vb, 0, size);
++
++	return 0;
++}
++
++static void buffer_queue(struct vb2_buffer *vb)
++{
++	struct mgb4_vin_dev *vindev = vb2_get_drv_priv(vb->vb2_queue);
++	struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
++	struct frame_buffer *buf = to_frame_buffer(vbuf);
++	unsigned long flags;
++
++	spin_lock_irqsave(&vindev->qlock, flags);
++	list_add_tail(&buf->list, &vindev->buf_list);
++	spin_unlock_irqrestore(&vindev->qlock, flags);
++}
++
++static void stop_streaming(struct vb2_queue *vq)
++{
++	struct mgb4_vin_dev *vindev = vb2_get_drv_priv(vq);
++
++	xdma_user_isr_disable(vindev->mgbdev->xdev, 1U<<vindev->config->vin_irq);
++
++	if (!loopback_active(vindev))
++		mgb4_mask_reg(&vindev->mgbdev->video, vindev->config->regs.config,
++		  0x2, 0x0);
++
++	cancel_work_sync(&vindev->dma_work);
++	return_all_buffers(vindev, VB2_BUF_STATE_ERROR);
++}
++
++static int start_streaming(struct vb2_queue *vq, unsigned int count)
++{
++	struct mgb4_vin_dev *vindev = vb2_get_drv_priv(vq);
++	u32 resolution = mgb4_read_reg(&vindev->mgbdev->video,
++	  vindev->config->regs.resolution);
++
++	if ((vindev->width != (resolution >> 16))
++	  || (vindev->height != (resolution & 0xFFFF))) {
++		return_all_buffers(vindev, VB2_BUF_STATE_ERROR);
++		return -EIO;
++	}
++
++	vindev->sequence = 0;
++
++	if (!loopback_active(vindev))
++		mgb4_mask_reg(&vindev->mgbdev->video, vindev->config->regs.config,
++		  0x2, 0x2);
++
++	xdma_user_isr_enable(vindev->mgbdev->xdev, 1U<<vindev->config->vin_irq);
++
++	return 0;
++}
++
++static const struct vb2_ops queue_ops = {
++	.queue_setup = queue_setup,
++	.buf_init = buffer_init,
++	.buf_prepare = buffer_prepare,
++	.buf_queue = buffer_queue,
++	.start_streaming = start_streaming,
++	.stop_streaming = stop_streaming,
++	.wait_prepare = vb2_ops_wait_prepare,
++	.wait_finish = vb2_ops_wait_finish
++};
++
++static int fh_open(struct file *file)
++{
++	struct mgb4_vin_dev *vindev = video_drvdata(file);
++	struct mgb4_regs *video = &vindev->mgbdev->video;
++	u32 resolution, padding;
++	int ret;
++
++	ret = v4l2_fh_open(file);
++	if (ret)
++		return ret;
++
++	resolution = mgb4_read_reg(video, vindev->config->regs.resolution);
++	if (resolution >= ERR_NO_REG)
++		goto error;
++
++	vindev->width = resolution >> 16;
++	vindev->height = resolution & 0xFFFF;
++	if (!vindev->width || !vindev->height)
++		goto error;
++
++	xdma_user_isr_enable(vindev->mgbdev->xdev, 1U<<vindev->config->err_irq);
++
++	vindev->period = mgb4_read_reg(video, vindev->config->regs.frame_period);
++
++	padding = PADDING(vindev->width, vindev->alignment);
++	mgb4_write_reg(video, vindev->config->regs.padding, padding);
++	set_loopback_padding(vindev, padding);
++
++	return 0;
++
++error:
++	v4l2_fh_release(file);
++	return -EIO;
++}
++
++static int fh_release(struct file *file)
++{
++	struct mgb4_vin_dev *vindev = video_drvdata(file);
++	struct mgb4_regs *video = &vindev->mgbdev->video;
++
++	xdma_user_isr_disable(vindev->mgbdev->xdev, 1U<<vindev->config->err_irq);
++
++	mgb4_write_reg(video, vindev->config->regs.padding, 0);
++	set_loopback_padding(vindev, 0);
++
++	return vb2_fop_release(file);
++}
++
++static const struct v4l2_file_operations video_fops = {
++	.owner = THIS_MODULE,
++	.open = fh_open,
++	.release = fh_release,
++	.unlocked_ioctl = video_ioctl2,
++	.read = vb2_fop_read,
++	.mmap = vb2_fop_mmap,
++	.poll = vb2_fop_poll,
++};
++
++static int vidioc_querycap(struct file *file, void *priv,
++			   struct v4l2_capability *cap)
++{
++	struct mgb4_vin_dev *vindev = video_drvdata(file);
++
++	strscpy(cap->driver, KBUILD_MODNAME, sizeof(cap->driver));
++	strscpy(cap->card, "MGB4 PCIe Card", sizeof(cap->card));
++	snprintf(cap->bus_info, sizeof(cap->bus_info), "PCI:%s",
++	  pci_name(vindev->mgbdev->pdev));
++
++	return 0;
++}
++
++static int vidioc_enum_fmt(struct file *file, void *priv,
++			   struct v4l2_fmtdesc *f)
++{
++	if (f->index != 0)
++		return -EINVAL;
++
++	f->pixelformat = V4L2_PIX_FMT_ABGR32;
++
++	return 0;
++}
++
++static int vidioc_enum_frameintervals(struct file *file, void *priv,
++				      struct v4l2_frmivalenum *ival)
++{
++	struct mgb4_vin_dev *vindev = video_drvdata(file);
++
++	if (ival->index != 0)
++		return -EINVAL;
++	if (ival->pixel_format != V4L2_PIX_FMT_ABGR32)
++		return -EINVAL;
++	if (ival->width != vindev->width || ival->height != vindev->height)
++		return -EINVAL;
++
++	ival->type = V4L2_FRMIVAL_TYPE_DISCRETE;
++	ival->discrete.numerator = vindev->period;
++	ival->discrete.denominator = 125000000;
++
++	return 0;
++}
++
++static int vidioc_fmt(struct file *file, void *priv, struct v4l2_format *f)
++{
++	struct mgb4_vin_dev *vindev = video_drvdata(file);
++
++	f->fmt.pix.pixelformat = V4L2_PIX_FMT_ABGR32;
++	f->fmt.pix.width = vindev->width;
++	f->fmt.pix.height = vindev->height;
++	f->fmt.pix.field = V4L2_FIELD_NONE;
++	f->fmt.pix.colorspace = V4L2_COLORSPACE_RAW;
++	f->fmt.pix.bytesperline = BYTESPERLINE(vindev->width, vindev->alignment);
++	f->fmt.pix.sizeimage = f->fmt.pix.bytesperline * f->fmt.pix.height;
++
++	return 0;
++}
++
++static int vidioc_enum_input(struct file *file, void *priv,
++			     struct v4l2_input *i)
++{
++	if (i->index != 0)
++		return -EINVAL;
++
++	i->type = V4L2_INPUT_TYPE_CAMERA;
++	strscpy(i->name, "MGB4", sizeof(i->name));
++
++	return 0;
++}
++
++static int vidioc_enum_framesizes(struct file *file, void *fh,
++				  struct v4l2_frmsizeenum *fsize)
++{
++	struct mgb4_vin_dev *vindev = video_drvdata(file);
++
++	if (fsize->index != 0 || fsize->pixel_format != V4L2_PIX_FMT_ABGR32)
++		return -EINVAL;
++
++	fsize->discrete.width = vindev->width;
++	fsize->discrete.height = vindev->height;
++	fsize->type = V4L2_FRMSIZE_TYPE_DISCRETE;
++
++	return 0;
++}
++
++static int vidioc_s_input(struct file *file, void *priv, unsigned int i)
++{
++	return (i == 0) ? 0 : -EINVAL;
++}
++
++static int vidioc_g_input(struct file *file, void *priv, unsigned int *i)
++{
++	*i = 0;
++	return 0;
++}
++
++static int vidioc_queryctrl(struct file *file, void *priv,
++			    struct v4l2_queryctrl *qc)
++{
++	return -EINVAL;
++}
++
++static int vidioc_parm(struct file *file, void *priv,
++			 struct v4l2_streamparm *parm)
++{
++	struct mgb4_vin_dev *vindev = video_drvdata(file);
++	struct v4l2_fract timeperframe = {
++		.numerator = vindev->period,
++		.denominator = 125000000,
++	};
++
++	if (parm->type != V4L2_BUF_TYPE_VIDEO_CAPTURE)
++		return -EINVAL;
++
++	parm->parm.capture.readbuffers = 2;
++	parm->parm.capture.capability = V4L2_CAP_TIMEPERFRAME;
++	parm->parm.capture.timeperframe = timeperframe;
++
++	return 0;
++}
++
++static const struct v4l2_ioctl_ops video_ioctl_ops = {
++	.vidioc_querycap = vidioc_querycap,
++	.vidioc_enum_fmt_vid_cap = vidioc_enum_fmt,
++	.vidioc_try_fmt_vid_cap = vidioc_fmt,
++	.vidioc_s_fmt_vid_cap = vidioc_fmt,
++	.vidioc_g_fmt_vid_cap = vidioc_fmt,
++	.vidioc_enum_framesizes = vidioc_enum_framesizes,
++	.vidioc_enum_frameintervals = vidioc_enum_frameintervals,
++	.vidioc_enum_input = vidioc_enum_input,
++	.vidioc_g_input = vidioc_g_input,
++	.vidioc_s_input = vidioc_s_input,
++	.vidioc_queryctrl = vidioc_queryctrl,
++	.vidioc_reqbufs = vb2_ioctl_reqbufs,
++	.vidioc_create_bufs = vb2_ioctl_create_bufs,
++	.vidioc_querybuf = vb2_ioctl_querybuf,
++	.vidioc_qbuf = vb2_ioctl_qbuf,
++	.vidioc_dqbuf = vb2_ioctl_dqbuf,
++	.vidioc_expbuf = vb2_ioctl_expbuf,
++	.vidioc_streamon = vb2_ioctl_streamon,
++	.vidioc_streamoff = vb2_ioctl_streamoff,
++	.vidioc_g_parm = vidioc_parm,
++	.vidioc_s_parm = vidioc_parm
++};
++
++
++static void dma_transfer(struct work_struct *work)
++{
++	struct mgb4_vin_dev *vindev = container_of(work, struct mgb4_vin_dev, dma_work);
++	struct frame_buffer *buf = 0;
++	unsigned long flags;
++	u32 addr;
++
++
++	spin_lock_irqsave(&vindev->qlock, flags);
++	if (!list_empty(&vindev->buf_list)) {
++		buf = list_first_entry(&vindev->buf_list, struct frame_buffer, list);
++		list_del_init(vindev->buf_list.next);
++	}
++	spin_unlock_irqrestore(&vindev->qlock, flags);
++
++	if (!buf)
++		return;
++
++
++	addr = mgb4_read_reg(&vindev->mgbdev->video, vindev->config->regs.address);
++	if (addr >= ERR_QUEUE_FULL) {
++		dev_warn(&vindev->mgbdev->pdev->dev, "frame queue error (%d)\n",
++		  (int)addr);
++		vb2_buffer_done(&buf->vb.vb2_buf, VB2_BUF_STATE_ERROR);
++		return;
++	}
++
++	if (xdma_xfer_submit(vindev->mgbdev->xdev, vindev->config->dma_channel, false,
++	  addr, vb2_dma_sg_plane_desc(&buf->vb.vb2_buf, 0), true, 1000) > 0) {
++		buf->vb.vb2_buf.timestamp = ktime_get_ns();
++		buf->vb.sequence = vindev->sequence++;
++		buf->vb.field = V4L2_FIELD_NONE;
++		vb2_buffer_done(&buf->vb.vb2_buf, VB2_BUF_STATE_DONE);
++	} else {
++		dev_warn(&vindev->mgbdev->pdev->dev, "DMA transfer error\n");
++		vb2_buffer_done(&buf->vb.vb2_buf, VB2_BUF_STATE_ERROR);
++	}
++}
++
++static irqreturn_t vin_handler(int irq, void *ctx)
++{
++	struct mgb4_vin_dev *vindev = (struct mgb4_vin_dev *)ctx;
++
++	schedule_work(&vindev->dma_work);
++
++	mgb4_write_reg(&vindev->mgbdev->video, 0xB4, 1U<<vindev->config->vin_irq);
++
++	return IRQ_HANDLED;
++}
++
++static irqreturn_t err_handler(int irq, void *ctx)
++{
++	struct mgb4_vin_dev *vindev = (struct mgb4_vin_dev *)ctx;
++	struct vb2_queue *vq = &(vindev->queue);
++
++	u32 resolution = mgb4_read_reg(&vindev->mgbdev->video,
++	  vindev->config->regs.resolution);
++
++	if ((vindev->width != (resolution >> 16))
++	  || (vindev->height != (resolution & 0xFFFF))) {
++		dev_warn(&vindev->mgbdev->pdev->dev, "stream changed (%ux%u -> %ux%u)\n",
++		  vindev->width, vindev->height, resolution>>16, resolution & 0xFFFF);
++
++		if (vb2_is_streaming(vq)) {
++			return_all_buffers(vindev, VB2_BUF_STATE_ERROR);
++			vb2_queue_error(vq);
++		}
++	}
++
++	mgb4_write_reg(&vindev->mgbdev->video, 0xB4, 1U<<vindev->config->err_irq);
++
++	return IRQ_HANDLED;
++}
++
++static int deser_init(struct mgb4_vin_dev *vindev, int id)
++{
++	int rv, addr_size;
++	size_t values_count;
++	const struct mgb4_i2c_kv *values;
++	const struct i2c_board_info *info;
++
++
++	if (IS_GMSL(vindev->mgbdev)) {
++		info = &gmsl_deser_info[id];
++		addr_size = 16;
++		values = gmsl_i2c;
++		values_count = ARRAY_SIZE(gmsl_i2c);
++	} else {
++		info = &fpdl3_deser_info[id];
++		addr_size = 8;
++		values = fpdl3_i2c;
++		values_count = ARRAY_SIZE(fpdl3_i2c);
++	}
++
++	rv = mgb4_i2c_init(&vindev->deser, vindev->mgbdev->i2c_adap, info, addr_size);
++	if (rv < 0) {
++		dev_err(&vindev->mgbdev->pdev->dev, "failed to create deserializer\n");
++		return rv;
++	}
++	rv = mgb4_i2c_configure(&vindev->deser, values, values_count);
++	if (rv < 0) {
++		dev_err(&vindev->mgbdev->pdev->dev, "failed to configure deserializer\n");
++		goto err_i2c_dev;
 +	}
 +
 +	return 0;
 +
-+cleanup_threads:
-+	kfree(cs_threads);
-+	cs_threads = NULL;
-+	thread_cnt = 0;
++err_i2c_dev:
++	mgb4_i2c_free(&vindev->deser);
 +
 +	return rv;
 +}
 +
-+void xdma_threads_destroy(void)
++struct mgb4_vin_dev *mgb4_vin_create(struct mgb4_dev *mgbdev, int id)
 +{
-+	int i;
-+	struct xdma_kthread *thp;
++	int rv;
++	struct device_attribute **attr, **module_attr;
++	struct mgb4_vin_dev *vindev;
++	int base_irq = xdma_user_irq_base(mgbdev->xdev);
 +
-+	if (!thread_cnt)
-+		return;
++	vindev = kzalloc(sizeof(struct mgb4_vin_dev), GFP_KERNEL);
++	if (!vindev)
++		return NULL;
 +
-+	/* N dma writeback monitoring threads */
-+	thp = cs_threads;
-+	for (i = 0; i < thread_cnt; i++, thp++)
-+		if (thp->fproc)
-+			xdma_kthread_stop(thp);
++	vindev->mgbdev = mgbdev;
++	vindev->config = &(vin_cfg[id]);
 +
-+	kfree(cs_threads);
-+	cs_threads = NULL;
-+	thread_cnt = 0;
++	/* Frame queue*/
++	INIT_LIST_HEAD(&vindev->buf_list);
++	spin_lock_init(&vindev->qlock);
++
++	/* DMA transfer stuff */
++	INIT_WORK(&vindev->dma_work, dma_transfer);
++
++	/* IRQ callback */
++	rv = request_irq(base_irq + vindev->config->vin_irq, vin_handler, 0,
++	  "mgb4-vin", vindev);
++	if (rv) {
++		dev_err(&mgbdev->pdev->dev, "failed to register vin irq handler\n");
++		goto err_alloc;
++	}
++	/* Error IRQ callback */
++	rv = request_irq(base_irq + vindev->config->err_irq, err_handler, 0,
++	  "mgb4-err", vindev);
++	if (rv) {
++		dev_err(&mgbdev->pdev->dev, "failed to register err irq handler\n");
++		goto err_vin_irq;
++	}
++
++	/* V4L2 */
++	rv = v4l2_device_register(&mgbdev->pdev->dev, &vindev->v4l2dev);
++	if (rv) {
++		dev_err(&mgbdev->pdev->dev, "failed to register v4l2 device\n");
++		goto err_err_irq;
++	}
++
++	mutex_init(&vindev->lock);
++
++	vindev->queue.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
++	vindev->queue.io_modes = VB2_MMAP | VB2_USERPTR | VB2_DMABUF | VB2_READ;
++	vindev->queue.buf_struct_size = sizeof(struct frame_buffer);
++	vindev->queue.ops = &queue_ops;
++	vindev->queue.mem_ops = &vb2_dma_sg_memops;
++	vindev->queue.gfp_flags = GFP_DMA32;
++	vindev->queue.timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
++	vindev->queue.min_buffers_needed = 2;
++	vindev->queue.drv_priv = vindev;
++	vindev->queue.lock = &vindev->lock;
++	vindev->queue.dev = &mgbdev->pdev->dev;
++	rv = vb2_queue_init(&vindev->queue);
++	if (rv) {
++		dev_err(&mgbdev->pdev->dev, "failed to initialize vb2 queue\n");
++		goto err_v4l2_dev;
++	}
++
++	snprintf(vindev->vdev.name, sizeof(vindev->vdev.name), "mgb4-in%d", id+1);
++	vindev->vdev.device_caps = V4L2_CAP_VIDEO_CAPTURE | V4L2_CAP_READWRITE
++	  | V4L2_CAP_STREAMING;
++	vindev->vdev.fops = &video_fops;
++	vindev->vdev.ioctl_ops = &video_ioctl_ops;
++	vindev->vdev.release = video_device_release_empty;
++	vindev->vdev.v4l2_dev = &vindev->v4l2dev;
++	vindev->vdev.lock = &vindev->lock;
++	vindev->vdev.queue = &vindev->queue;
++	video_set_drvdata(&vindev->vdev, vindev);
++
++	rv = video_register_device(&vindev->vdev, VFL_TYPE_GRABBER, -1);
++	if (rv) {
++		dev_err(&mgbdev->pdev->dev, "failed to register video device\n");
++		goto err_v4l2_dev;
++	}
++
++	/* Deserializer */
++	rv = deser_init(vindev, id);
++	if (rv)
++		goto err_video_dev;
++
++	/* Set FPGA regs to comply with the deserializer state */
++	mgb4_mask_reg(&vindev->mgbdev->video, vindev->config->regs.config,
++	  1U<<9, 1U<<9);
++
++	/* Module sysfs attributes */
++	vindev->alignment = 1;
++	module_attr =  IS_GMSL(mgbdev) ? mgb4_gmsl_in_attrs : mgb4_fpdl3_in_attrs;
++	for (attr = module_attr; *attr; attr++)
++		device_create_file(&vindev->vdev.dev, *attr);
++
++	return vindev;
++
++err_video_dev:
++	video_unregister_device(&vindev->vdev);
++err_v4l2_dev:
++	v4l2_device_unregister(&vindev->v4l2dev);
++err_err_irq:
++	free_irq(base_irq + vindev->config->err_irq, vindev);
++err_vin_irq:
++	free_irq(base_irq + vindev->config->vin_irq, vindev);
++err_alloc:
++	kfree(vindev);
++
++	return NULL;
 +}
-diff --git a/drivers/dma/xilinx/xdma_thread.h b/drivers/dma/xilinx/xdma_thread.h
++
++void mgb4_vin_free(struct mgb4_vin_dev *vindev)
++{
++	struct device_attribute **attr, **module_attr;
++	int base_irq = xdma_user_irq_base(vindev->mgbdev->xdev);
++
++	free_irq(base_irq + vindev->config->err_irq, vindev);
++	free_irq(base_irq + vindev->config->vin_irq, vindev);
++
++	module_attr = IS_GMSL(vindev->mgbdev)
++	  ? mgb4_gmsl_in_attrs : mgb4_fpdl3_in_attrs;
++	for (attr = module_attr; *attr; attr++)
++		device_remove_file(&vindev->vdev.dev, *attr);
++
++	mgb4_i2c_free(&vindev->deser);
++	video_unregister_device(&vindev->vdev);
++	v4l2_device_unregister(&vindev->v4l2dev);
++}
+diff --git a/drivers/media/pci/mgb4/mgb4_vin.h b/drivers/media/pci/mgb4/mgb4_vin.h
 new file mode 100644
-index 000000000000..508dd4c4c890
+index 000000000000..4b01b61c3f90
 --- /dev/null
-+++ b/drivers/dma/xilinx/xdma_thread.h
-@@ -0,0 +1,134 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
++++ b/drivers/media/pci/mgb4/mgb4_vin.h
+@@ -0,0 +1,64 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
 +/*
-+ * This file is part of the Xilinx DMA IP Core driver for Linux
-+ *
-+ * Copyright (c) 2017-present,  Xilinx, Inc.
++ * Copyright (C) 2021-2022 Digiteq Automotive
++ *     author: Martin Tuma <martin.tuma@digiteqautomotive.com>
 + */
 +
-+#ifndef XDMA_THREAD_H
-+#define XDMA_THREAD_H
-+/**
-+ * @file
-+ * @brief This file contains the declarations for xdma kernel threads
-+ *
-+ */
-+#include <linux/version.h>
-+#include <linux/spinlock.h>
-+#include <linux/kthread.h>
-+#include <linux/cpuset.h>
-+#include <linux/signal.h>
-+#include <linux/kernel.h>
-+#include <linux/types.h>
-+#include <linux/uaccess.h>
-+#include <linux/errno.h>
-+#include "xdma_core.h"
++#ifndef __MGB4_VIN_H__
++#define __MGB4_VIN_H__
 +
-+#ifdef DEBUG_THREADS
-+#define lock_thread(thp)	\
-+	do { \
-+		pr_debug("locking thp %s ...\n", (thp)->name); \
-+		spin_lock(&(thp)->lock); \
-+	} while (0)
++#include <media/v4l2-device.h>
++#include <media/v4l2-dev.h>
++#include <media/v4l2-ctrls.h>
++#include <media/videobuf2-core.h>
++#include "mgb4_i2c.h"
 +
-+#define unlock_thread(thp)	\
-+	do { \
-+		pr_debug("unlock thp %s ...\n", (thp)->name); \
-+		spin_unlock(&(thp)->lock); \
-+	} while (0)
++struct mgb4_vin_regs {
++	u32 address;
++	u32 config;
++	u32 status;
++	u32 resolution;
++	u32 frame_period;
++	u32 sync;
++	u32 pclk;
++	u32 signal;
++	u32 signal2;
++	u32 padding;
++};
 +
-+#define xdma_kthread_wakeup(thp)	\
-+	do { \
-+		pr_info("signaling thp %s ...\n", (thp)->name); \
-+		wake_up_process((thp)->task); \
-+	} while (0)
++struct mgb4_vin_config {
++	int id;
++	int dma_channel;
++	int vin_irq;
++	int err_irq;
++	struct mgb4_vin_regs regs;
++};
 +
-+#define pr_debug_thread(fmt, ...) pr_info(fmt, __VA_ARGS__)
++struct mgb4_vin_dev {
++	struct mgb4_dev *mgbdev;
++	struct v4l2_device v4l2dev;
++	struct video_device vdev;
++	struct vb2_queue queue;
++	struct mutex lock;
 +
-+#else
-+/** lock thread macro */
-+#define lock_thread(thp)		spin_lock(&(thp)->lock)
-+/** un lock thread macro */
-+#define unlock_thread(thp)		spin_unlock(&(thp)->lock)
-+#define xdma_kthread_wakeup(thp) \
-+	do { \
-+		thp->schedule = 1; \
-+		wake_up_interruptible(&thp->waitq); \
-+	} while (0)
-+/** pr_debug_thread */
-+#define pr_debug_thread(fmt, ...)
++	spinlock_t qlock;
++	struct list_head buf_list;
++	struct work_struct dma_work;
++
++	unsigned int sequence;
++
++	u32 width;
++	u32 height;
++	u32 period;
++	u32 freq_range;
++	u32 alignment;
++
++	struct mgb4_i2c_client deser;
++
++	const struct mgb4_vin_config *config;
++};
++
++extern struct mgb4_vin_dev *mgb4_vin_create(struct mgb4_dev *mgbdev, int id);
++extern void mgb4_vin_free(struct mgb4_vin_dev *vindev);
++
 +#endif
-+
-+/**
-+ * @struct - xdma_kthread
-+ * @brief	xdma thread book keeping parameters
+diff --git a/drivers/media/pci/mgb4/mgb4_vout.c b/drivers/media/pci/mgb4/mgb4_vout.c
+new file mode 100644
+index 000000000000..6223de79582e
+--- /dev/null
++++ b/drivers/media/pci/mgb4/mgb4_vout.c
+@@ -0,0 +1,496 @@
++// SPDX-License-Identifier: GPL-2.0-only
++/*
++ * Copyright (C) 2021-2022 Digiteq Automotive
++ *     author: Martin Tuma <martin.tuma@digiteqautomotive.com>
 + */
-+struct xdma_kthread {
-+	/**  thread lock*/
-+	spinlock_t lock;
-+	/**  name of the thread */
-+	char name[16];
-+	/**  cpu number for which the thread associated with */
-+	unsigned short cpu;
-+	/**  thread id */
-+	unsigned short id;
-+	/**  thread sleep timeout value */
-+	unsigned int timeout;
-+	/**  flags for thread */
-+	unsigned long flag;
-+	/**  thread wait queue */
-+	wait_queue_head_t waitq;
-+	/* flag to indicate scheduling of thread */
-+	unsigned int schedule;
-+	/**  kernel task structure associated with thread*/
-+	struct task_struct *task;
-+	/**  thread work list count */
-+	unsigned int work_cnt;
-+	/**  thread work list count */
-+	struct list_head work_list;
-+	/**  thread initialization handler */
-+	int (*finit)(struct xdma_kthread *thread);
-+	/**  thread pending handler */
-+	int (*fpending)(struct list_head *list);
-+	/**  thread peocessing handler */
-+	int (*fproc)(struct list_head *list);
-+	/**  thread done handler */
-+	int (*fdone)(struct xdma_kthread *thread);
++
++#include <linux/pci.h>
++#include <media/v4l2-ioctl.h>
++#include <media/videobuf2-v4l2.h>
++#include <media/videobuf2-dma-sg.h>
++#include <linux/dma/xilinx_xdma.h>
++#include "mgb4_core.h"
++#include "mgb4_sysfs.h"
++#include "mgb4_io.h"
++#include "mgb4_vout.h"
++
++#define DEFAULT_WIDTH     1280
++#define DEFAULT_HEIGHT    640
++#define DEFAULT_PERIOD    (125000000 / 60)
++
++static const struct mgb4_vout_config vout_cfg[] = {
++	{0, 0, 8, {0x78, 0x60, 0x64, 0x68, 0x74, 0x6C, 0x70, 0x7c}},
++	{1, 1, 9, {0x98, 0x80, 0x84, 0x88, 0x94, 0x8c, 0x90, 0x9c}}
++};
++
++static const struct i2c_board_info fpdl3_ser_info[] = {
++	{I2C_BOARD_INFO("serializer1", 0x14)},
++	{I2C_BOARD_INFO("serializer2", 0x16)},
++};
++
++static const struct mgb4_i2c_kv fpdl3_i2c[] = {
++	{0x05, 0xFF, 0x04}, {0x06, 0xFF, 0x01}, {0xC2, 0xFF, 0x80}
++};
++
++static int queue_setup(struct vb2_queue *q, unsigned int *nbuffers,
++		       unsigned int *nplanes, unsigned int sizes[],
++		       struct device *alloc_devs[])
++{
++	struct mgb4_vout_dev *voutdev = vb2_get_drv_priv(q);
++	unsigned long size = BYTESPERLINE(voutdev->width, voutdev->alignment)
++	  * voutdev->height;
++
++	if (*nbuffers < 2)
++		*nbuffers = 2;
++
++	if (*nplanes)
++		return sizes[0] < size ? -EINVAL : 0;
++	*nplanes = 1;
++	sizes[0] = size;
++
++	return 0;
++}
++
++static int buffer_init(struct vb2_buffer *vb)
++{
++	struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
++	struct frame_buffer *buf = to_frame_buffer(vbuf);
++
++	INIT_LIST_HEAD(&buf->list);
++
++	return 0;
++}
++
++static int buffer_prepare(struct vb2_buffer *vb)
++{
++	struct mgb4_vout_dev *voutdev = vb2_get_drv_priv(vb->vb2_queue);
++	unsigned long size = BYTESPERLINE(voutdev->width, voutdev->alignment)
++	  * voutdev->height;
++
++	if (vb2_plane_size(vb, 0) < size) {
++		dev_err(&voutdev->mgbdev->pdev->dev, "buffer too small (%lu < %lu)\n",
++		  vb2_plane_size(vb, 0), size);
++		return -EINVAL;
++	}
++
++	vb2_set_plane_payload(vb, 0, size);
++
++	return 0;
++}
++
++static void buffer_queue(struct vb2_buffer *vb)
++{
++	struct mgb4_vout_dev *vindev = vb2_get_drv_priv(vb->vb2_queue);
++	struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
++	struct frame_buffer *buf = to_frame_buffer(vbuf);
++	unsigned long flags;
++
++	spin_lock_irqsave(&vindev->qlock, flags);
++	list_add_tail(&buf->list, &vindev->buf_list);
++	spin_unlock_irqrestore(&vindev->qlock, flags);
++}
++
++static void stop_streaming(struct vb2_queue *vq)
++{
++	struct mgb4_vout_dev *voutdev = vb2_get_drv_priv(vq);
++	struct frame_buffer *buf, *node;
++	unsigned long flags;
++
++	xdma_user_isr_disable(voutdev->mgbdev->xdev, 1U<<voutdev->config->irq);
++
++	cancel_work_sync(&voutdev->dma_work);
++
++	mgb4_mask_reg(&voutdev->mgbdev->video, voutdev->config->regs.config,
++	  0x2, 0x0);
++
++	spin_lock_irqsave(&voutdev->qlock, flags);
++	list_for_each_entry_safe(buf, node, &voutdev->buf_list, list) {
++		vb2_buffer_done(&buf->vb.vb2_buf, VB2_BUF_STATE_ERROR);
++		list_del(&buf->list);
++	}
++	spin_unlock_irqrestore(&voutdev->qlock, flags);
++}
++
++static int start_streaming(struct vb2_queue *vq, unsigned int count)
++{
++	struct mgb4_vout_dev *voutdev = vb2_get_drv_priv(vq);
++	struct frame_buffer *buf = 0;
++	struct mgb4_regs *video = &voutdev->mgbdev->video;
++	u32 addr;
++
++	mgb4_mask_reg(video, voutdev->config->regs.config, 0x2, 0x2);
++
++	addr = mgb4_read_reg(video, voutdev->config->regs.address);
++	if (addr >= ERR_QUEUE_FULL) {
++		dev_err(&voutdev->mgbdev->pdev->dev, "frame queue error (%d)\n",
++		  (int)addr);
++		return -EIO;
++	}
++
++	if (!list_empty(&voutdev->buf_list)) {
++		buf = list_first_entry(&voutdev->buf_list, struct frame_buffer, list);
++		list_del_init(voutdev->buf_list.next);
++	}
++	if (!buf) {
++		dev_err(&voutdev->mgbdev->pdev->dev, "empty v4l2 queue\n");
++		return -EIO;
++	}
++
++	if (xdma_xfer_submit(voutdev->mgbdev->xdev, voutdev->config->dma_channel,
++	  true, addr, vb2_dma_sg_plane_desc(&buf->vb.vb2_buf, 0), true, 1000) > 0) {
++		vb2_buffer_done(&buf->vb.vb2_buf, VB2_BUF_STATE_DONE);
++	} else {
++		dev_warn(&voutdev->mgbdev->pdev->dev, "DMA transfer error\n");
++		vb2_buffer_done(&buf->vb.vb2_buf, VB2_BUF_STATE_ERROR);
++	}
++
++	return xdma_user_isr_enable(voutdev->mgbdev->xdev, 1U<<voutdev->config->irq);
++}
++
++static const struct vb2_ops queue_ops = {
++	.queue_setup = queue_setup,
++	.buf_init = buffer_init,
++	.buf_prepare = buffer_prepare,
++	.buf_queue = buffer_queue,
++	.start_streaming = start_streaming,
++	.stop_streaming = stop_streaming,
++	.wait_prepare = vb2_ops_wait_prepare,
++	.wait_finish = vb2_ops_wait_finish
 +};
 +
 +
-+/*****************************************************************************/
-+/**
-+ * xdma_threads_create() - create xdma threads
-+ *****************************************************************************/
-+int xdma_threads_create(unsigned int num_threads);
++static int vidioc_querycap(struct file *file, void *priv,
++			   struct v4l2_capability *cap)
++{
++	struct mgb4_vout_dev *voutdev = video_drvdata(file);
 +
-+/*****************************************************************************/
-+/**
-+ * xdma_threads_destroy() - destroy all the xdma threads created
-+ *                          during system initialization
-+ *
-+ * @return	none
-+ *****************************************************************************/
-+void xdma_threads_destroy(void);
++	strscpy(cap->driver, KBUILD_MODNAME, sizeof(cap->driver));
++	strscpy(cap->card, "MGB4 PCIe Card", sizeof(cap->card));
++	snprintf(cap->bus_info, sizeof(cap->bus_info), "PCI:%s",
++	  pci_name(voutdev->mgbdev->pdev));
 +
-+/*****************************************************************************/
-+/**
-+ * xdma_thread_remove_work() - handler to remove the attached work thread
-+ *
-+ * @param[in]	engine:	pointer to xdma_engine
-+ *
-+ * @return	none
-+ *****************************************************************************/
-+void xdma_thread_remove_work(struct xdma_engine *engine);
++	return 0;
++}
 +
-+/*****************************************************************************/
-+/**
-+ * xdma_thread_add_work() - handler to add a work thread
-+ *
-+ * @param[in]	engine:	pointer to xdma_engine
-+ *
-+ * @return	none
-+ *****************************************************************************/
-+void xdma_thread_add_work(struct xdma_engine *engine);
 +
-+#endif /* XDMA_THREAD_H */
-diff --git a/drivers/dma/xilinx/xdma_version.h b/drivers/dma/xilinx/xdma_version.h
++static int vidioc_enum_fmt(struct file *file, void *priv,
++			   struct v4l2_fmtdesc *f)
++{
++	if (f->index != 0)
++		return -EINVAL;
++
++	f->pixelformat = V4L2_PIX_FMT_ABGR32;
++
++	return 0;
++}
++
++static int vidioc_fmt(struct file *file, void *priv, struct v4l2_format *f)
++{
++	struct mgb4_vout_dev *voutdev = video_drvdata(file);
++
++	f->fmt.pix.pixelformat = V4L2_PIX_FMT_ABGR32;
++	f->fmt.pix.width = voutdev->width;
++	f->fmt.pix.height = voutdev->height;
++	f->fmt.pix.field = V4L2_FIELD_NONE;
++	f->fmt.pix.colorspace = V4L2_COLORSPACE_RAW;
++	f->fmt.pix.bytesperline = BYTESPERLINE(voutdev->width, voutdev->alignment);
++	f->fmt.pix.sizeimage = f->fmt.pix.width * 4 * f->fmt.pix.height;
++
++	return 0;
++}
++
++int vidioc_g_output(struct file *file, void *priv, unsigned int *i)
++{
++	*i = 0;
++	return 0;
++}
++
++int vidioc_s_output(struct file *file, void *priv, unsigned int i)
++{
++	return i ? -EINVAL : 0;
++}
++
++int vidioc_enum_output(struct file *file, void *priv, struct v4l2_output *out)
++{
++	if (out->index != 0)
++		return -EINVAL;
++
++	out->type = V4L2_OUTPUT_TYPE_ANALOG;
++	strscpy(out->name, "MGB4", sizeof(out->name));
++
++	return 0;
++}
++
++static int vidioc_queryctrl(struct file *file, void *priv,
++			    struct v4l2_queryctrl *qc)
++{
++	return -EINVAL;
++}
++
++static const struct v4l2_ioctl_ops video_ioctl_ops = {
++	.vidioc_querycap = vidioc_querycap,
++	.vidioc_enum_fmt_vid_out = vidioc_enum_fmt,
++	.vidioc_try_fmt_vid_out = vidioc_fmt,
++	.vidioc_s_fmt_vid_out = vidioc_fmt,
++	.vidioc_g_fmt_vid_out = vidioc_fmt,
++	.vidioc_enum_output = vidioc_enum_output,
++	.vidioc_g_output = vidioc_g_output,
++	.vidioc_s_output = vidioc_s_output,
++	.vidioc_queryctrl = vidioc_queryctrl,
++	.vidioc_reqbufs = vb2_ioctl_reqbufs,
++	.vidioc_create_bufs = vb2_ioctl_create_bufs,
++	.vidioc_querybuf = vb2_ioctl_querybuf,
++	.vidioc_qbuf = vb2_ioctl_qbuf,
++	.vidioc_dqbuf = vb2_ioctl_dqbuf,
++	.vidioc_expbuf = vb2_ioctl_expbuf,
++	.vidioc_streamon = vb2_ioctl_streamon,
++	.vidioc_streamoff = vb2_ioctl_streamoff,
++};
++
++static int fh_open(struct file *file)
++{
++	struct mgb4_vout_dev *voutdev = video_drvdata(file);
++	struct mgb4_regs *video = &voutdev->mgbdev->video;
++	u32 config, resolution;
++	int ret;
++
++	ret = v4l2_fh_open(file);
++	if (ret)
++		return ret;
++
++	config = mgb4_read_reg(video, voutdev->config->regs.config);
++	if ((config & 0xc) >> 2 != voutdev->config->id + NUM_VIN_DEVICES)
++		goto error;
++
++	resolution = mgb4_read_reg(video, voutdev->config->regs.resolution);
++	voutdev->width = resolution >> 16;
++	voutdev->height = resolution & 0xFFFF;
++
++	mgb4_write_reg(video, voutdev->config->regs.padding,
++	  PADDING(voutdev->width, voutdev->alignment));
++
++	return 0;
++
++error:
++	v4l2_fh_release(file);
++	return -EBUSY;
++}
++
++static const struct v4l2_file_operations video_fops = {
++	.owner = THIS_MODULE,
++	.open = fh_open,
++	.release = vb2_fop_release,
++	.unlocked_ioctl = video_ioctl2,
++	.write = vb2_fop_write,
++	.mmap = vb2_fop_mmap,
++	.poll = vb2_fop_poll,
++};
++
++static void dma_transfer(struct work_struct *work)
++{
++	struct mgb4_vout_dev *voutdev = container_of(work, struct mgb4_vout_dev,
++	  dma_work);
++	struct frame_buffer *buf = 0;
++	unsigned long flags;
++	u32 addr;
++
++	spin_lock_irqsave(&voutdev->qlock, flags);
++	if (!list_empty(&voutdev->buf_list)) {
++		buf = list_first_entry(&voutdev->buf_list, struct frame_buffer, list);
++		list_del_init(voutdev->buf_list.next);
++	}
++	spin_unlock_irqrestore(&voutdev->qlock, flags);
++
++	if (!buf)
++		return;
++
++	addr = mgb4_read_reg(&voutdev->mgbdev->video, voutdev->config->regs.address);
++	if (addr >= ERR_QUEUE_FULL) {
++		dev_warn(&voutdev->mgbdev->pdev->dev, "frame queue error (%d)\n",
++		  (int)addr);
++		vb2_buffer_done(&buf->vb.vb2_buf, VB2_BUF_STATE_ERROR);
++		return;
++	}
++
++	if (xdma_xfer_submit(voutdev->mgbdev->xdev, voutdev->config->dma_channel,
++	  true, addr, vb2_dma_sg_plane_desc(&buf->vb.vb2_buf, 0), true, 1000) > 0) {
++		vb2_buffer_done(&buf->vb.vb2_buf, VB2_BUF_STATE_DONE);
++	} else {
++		dev_warn(&voutdev->mgbdev->pdev->dev, "DMA transfer error\n");
++		vb2_buffer_done(&buf->vb.vb2_buf, VB2_BUF_STATE_ERROR);
++	}
++}
++
++static irqreturn_t handler(int irq, void *ctx)
++{
++	struct mgb4_vout_dev *voutdev = (struct mgb4_vout_dev *)ctx;
++
++	schedule_work(&voutdev->dma_work);
++
++	mgb4_write_reg(&voutdev->mgbdev->video, 0xB4, 1U<<voutdev->config->irq);
++
++	return IRQ_HANDLED;
++}
++
++static int ser_init(struct mgb4_vout_dev *voutdev, int id)
++{
++	int rv, addr_size;
++	size_t values_count;
++	const struct mgb4_i2c_kv *values;
++	const struct i2c_board_info *info;
++
++
++	if (IS_GMSL(voutdev->mgbdev))
++		return 0;
++
++	info = &fpdl3_ser_info[id];
++	addr_size = 8;
++	values = fpdl3_i2c;
++	values_count = ARRAY_SIZE(fpdl3_i2c);
++
++	rv = mgb4_i2c_init(&voutdev->ser, voutdev->mgbdev->i2c_adap, info, addr_size);
++	if (rv < 0) {
++		dev_err(&voutdev->mgbdev->pdev->dev, "failed to create serializer\n");
++		return rv;
++	}
++	rv = mgb4_i2c_configure(&voutdev->ser, values, values_count);
++	if (rv < 0) {
++		dev_err(&voutdev->mgbdev->pdev->dev, "failed to configure serializer\n");
++		goto err_i2c_dev;
++	}
++
++	return 0;
++
++err_i2c_dev:
++	mgb4_i2c_free(&voutdev->ser);
++
++	return rv;
++}
++
++struct mgb4_vout_dev *mgb4_vout_create(struct mgb4_dev *mgbdev, int id)
++{
++	int rv;
++	struct device_attribute **attr, **module_attr;
++	struct mgb4_vout_dev *voutdev;
++	struct mgb4_regs *video;
++
++	voutdev = kzalloc(sizeof(struct mgb4_vout_dev), GFP_KERNEL);
++	if (!voutdev)
++		return NULL;
++
++	voutdev->mgbdev = mgbdev;
++	voutdev->config = &(vout_cfg[id]);
++	video = &voutdev->mgbdev->video;
++
++	/* Frame queue*/
++	INIT_LIST_HEAD(&voutdev->buf_list);
++	spin_lock_init(&voutdev->qlock);
++
++	/* DMA transfer stuff */
++	INIT_WORK(&voutdev->dma_work, dma_transfer);
++
++	/* IRQ callback */
++	rv = request_irq(xdma_user_irq_base(mgbdev->xdev) + voutdev->config->irq,
++	  handler, 0, "mgb4-vout", voutdev);
++	if (rv) {
++		dev_err(&mgbdev->pdev->dev, "failed to register irq handler\n");
++		goto err_alloc;
++	}
++
++	/* V4L2 */
++	rv = v4l2_device_register(&mgbdev->pdev->dev, &voutdev->v4l2dev);
++	if (rv) {
++		dev_err(&mgbdev->pdev->dev, "failed to register v4l2 device\n");
++		goto err_irq;
++	}
++
++	mutex_init(&voutdev->lock);
++
++	voutdev->queue.type = V4L2_BUF_TYPE_VIDEO_OUTPUT;
++	voutdev->queue.io_modes = VB2_MMAP | VB2_USERPTR | VB2_DMABUF | VB2_WRITE;
++	voutdev->queue.buf_struct_size = sizeof(struct frame_buffer);
++	voutdev->queue.ops = &queue_ops;
++	voutdev->queue.mem_ops = &vb2_dma_sg_memops;
++	voutdev->queue.gfp_flags = GFP_DMA32;
++	voutdev->queue.timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
++	voutdev->queue.min_buffers_needed = 2;
++	voutdev->queue.drv_priv = voutdev;
++	voutdev->queue.lock = &voutdev->lock;
++	voutdev->queue.dev = &mgbdev->pdev->dev;
++	rv = vb2_queue_init(&voutdev->queue);
++	if (rv) {
++		dev_err(&mgbdev->pdev->dev, "failed to initialize vb2 queue\n");
++		goto err_v4l2_dev;
++	}
++
++	snprintf(voutdev->vdev.name, sizeof(voutdev->vdev.name), "mgb4-out%d", id+1);
++	voutdev->vdev.device_caps = V4L2_CAP_VIDEO_OUTPUT | V4L2_CAP_READWRITE
++	  | V4L2_CAP_STREAMING;
++	voutdev->vdev.vfl_dir = VFL_DIR_TX;
++	voutdev->vdev.fops = &video_fops;
++	voutdev->vdev.ioctl_ops = &video_ioctl_ops;
++	voutdev->vdev.release = video_device_release_empty;
++	voutdev->vdev.v4l2_dev = &voutdev->v4l2dev;
++	voutdev->vdev.lock = &voutdev->lock;
++	voutdev->vdev.queue = &voutdev->queue;
++	video_set_drvdata(&voutdev->vdev, voutdev);
++
++	rv = video_register_device(&voutdev->vdev, VFL_TYPE_GRABBER, -1);
++	if (rv) {
++		dev_err(&mgbdev->pdev->dev, "failed to register video device\n");
++		goto err_v4l2_dev;
++	}
++
++	/* Serializer */
++	rv = ser_init(voutdev, id);
++	if (rv)
++		goto err_video_dev;
++
++	/* Set the FPGA registers default values */
++	mgb4_mask_reg(video, voutdev->config->regs.config, 0xc,
++	  (voutdev->config->id + NUM_VIN_DEVICES) << 2);
++	mgb4_write_reg(video, voutdev->config->regs.resolution,
++	  (DEFAULT_WIDTH << 16) | DEFAULT_HEIGHT);
++	mgb4_write_reg(video, voutdev->config->regs.frame_period,
++	  DEFAULT_PERIOD);
++
++	/* Module sysfs attributes */
++	voutdev->alignment = 1;
++	module_attr = IS_GMSL(mgbdev) ? mgb4_gmsl_out_attrs : mgb4_fpdl3_out_attrs;
++	for (attr = module_attr; *attr; attr++)
++		device_create_file(&voutdev->vdev.dev, *attr);
++
++	/* Set the output frequency according to the FPGA defaults */
++	voutdev->freq = 70000;
++
++	return voutdev;
++
++err_video_dev:
++	video_unregister_device(&voutdev->vdev);
++err_v4l2_dev:
++	v4l2_device_unregister(&voutdev->v4l2dev);
++err_irq:
++	free_irq(xdma_user_irq_base(voutdev->mgbdev->xdev) + voutdev->config->irq,
++	  voutdev);
++err_alloc:
++	kfree(voutdev);
++
++	return NULL;
++}
++
++void mgb4_vout_free(struct mgb4_vout_dev *voutdev)
++{
++	struct device_attribute **attr, **module_attr;
++
++	free_irq(xdma_user_irq_base(voutdev->mgbdev->xdev) + voutdev->config->irq,
++	  voutdev);
++
++	module_attr = IS_GMSL(voutdev->mgbdev)
++	  ? mgb4_gmsl_out_attrs : mgb4_fpdl3_out_attrs;
++	for (attr = module_attr; *attr; attr++)
++		device_remove_file(&voutdev->vdev.dev, *attr);
++
++	mgb4_i2c_free(&voutdev->ser);
++	video_unregister_device(&voutdev->vdev);
++	v4l2_device_unregister(&voutdev->v4l2dev);
++}
+diff --git a/drivers/media/pci/mgb4/mgb4_vout.h b/drivers/media/pci/mgb4/mgb4_vout.h
 new file mode 100644
-index 000000000000..bd061b6bc513
+index 000000000000..902b6b8deb21
 --- /dev/null
-+++ b/drivers/dma/xilinx/xdma_version.h
-@@ -0,0 +1,23 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
++++ b/drivers/media/pci/mgb4/mgb4_vout.h
+@@ -0,0 +1,58 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
 +/*
-+ * This file is part of the Xilinx DMA IP Core driver for Linux
-+ *
-+ * Copyright (c) 2016-present,  Xilinx, Inc.
++ * Copyright (C) 2021-2022 Digiteq Automotive
++ *     author: Martin Tuma <martin.tuma@digiteqautomotive.com>
 + */
 +
-+#ifndef XDMA_VERSION_H
-+#define XDMA_VERSION_H
++#ifndef __MGB4_VOUT_H__
++#define __MGB4_VOUT_H__
 +
-+#define DRV_MOD_MAJOR		2021
-+#define DRV_MOD_MINOR		4
-+#define DRV_MOD_PATCHLEVEL	1
++#include <media/v4l2-device.h>
++#include <media/v4l2-dev.h>
++#include <media/v4l2-ctrls.h>
++#include <media/videobuf2-core.h>
++#include "mgb4_i2c.h"
 +
-+#define DRV_MODULE_VERSION      \
-+	__stringify(DRV_MOD_MAJOR) "." \
-+	__stringify(DRV_MOD_MINOR) "." \
-+	__stringify(DRV_MOD_PATCHLEVEL)
++struct mgb4_vout_regs {
++	u32 address;
++	u32 config;
++	u32 status;
++	u32 resolution;
++	u32 frame_period;
++	u32 hsync;
++	u32 vsync;
++	u32 padding;
++};
 +
-+#define DRV_MOD_VERSION_NUMBER  \
-+	((DRV_MOD_MAJOR)*1000 + (DRV_MOD_MINOR)*100 + DRV_MOD_PATCHLEVEL)
++struct mgb4_vout_config {
++	int id;
++	int dma_channel;
++	int irq;
++	struct mgb4_vout_regs regs;
++};
 +
-+#endif /* XDMA_VERSION_H */
-diff --git a/include/linux/dma/xilinx_xdma.h b/include/linux/dma/xilinx_xdma.h
-new file mode 100644
-index 000000000000..4a0c3e02ec6f
---- /dev/null
-+++ b/include/linux/dma/xilinx_xdma.h
-@@ -0,0 +1,91 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/*
-+ * This file is part of the Xilinx DMA IP Core driver for Linux
-+ *
-+ * Copyright (c) 2016-present,  Xilinx, Inc.
-+ * Copyright (c) 2020-present,  Digiteq Automotive s.r.o.
-+ */
++struct mgb4_vout_dev {
++	struct mgb4_dev *mgbdev;
++	struct v4l2_device v4l2dev;
++	struct video_device vdev;
++	struct vb2_queue queue;
++	struct mutex lock;
 +
-+#ifndef XILINX_XDMA_H
-+#define XILINX_XDMA_H
++	spinlock_t qlock;
++	struct list_head buf_list;
++	struct work_struct dma_work;
 +
-+#include <linux/types.h>
-+#include <linux/scatterlist.h>
-+#include <linux/interrupt.h>
++	u32 width;
++	u32 height;
++	u32 freq;
++	u32 alignment;
 +
-+/*
-+ * xdma_device_open - read the pci bars and configure the fpga
-+ *	should be called from probe()
-+ *	NOTE: user interrupt will not enabled until xdma_user_isr_enable() is called
-+ *
-+ * @pdev: ptr to pci_dev
-+ * @mod_name: the module name to be used for request_irq
-+ * @user_max: max # of user/event (interrupts) to be configured
-+ * @channel_max: max # of c2h and h2c channels to be configured
-+ *	NOTE: if the user/channel provisioned is less than the max specified,
-+ *	libxdma will update the user_max/channel_max
-+ *
-+ * returns a opaque handle (for libxdma to identify the device) NULL, in case of
-+ * error
-+ */
-+void *xdma_device_open(const char *mod_name, struct pci_dev *pdev,
-+		 int *user_max, int *h2c_channel_max, int *c2h_channel_max);
++	struct mgb4_i2c_client ser;
 +
-+/*
-+ * xdma_device_close - prepare fpga for removal: disable all interrupts (users
-+ *	and xdma) and release all resources. should called from remove()
-+ *
-+ * @pdev: ptr to struct pci_dev
-+ * @tuples: from xdma_device_open()
-+ */
-+void xdma_device_close(struct pci_dev *pdev, void *dev_handle);
++	const struct mgb4_vout_config *config;
++};
 +
-+/*
-+ * xdma_device_restart - restart the fpga
-+ * @pdev: ptr to struct pci_dev
-+ * return < 0 in case of error
-+ */
-+int xdma_device_restart(struct pci_dev *pdev, void *dev_handle);
++extern struct mgb4_vout_dev *mgb4_vout_create(struct mgb4_dev *mgbdev, int id);
++extern void mgb4_vout_free(struct mgb4_vout_dev *voutdev);
 +
-+/*
-+ * xdma_user_irq_base - return the base irq number of the user interrupts
-+ */
-+int xdma_user_irq_base(void *dev_hndl);
-+
-+/*
-+ * xdma_user_isr_enable/disable - enable or disable user interrupt
-+ * @pdev: ptr to the pci_dev struct
-+ * @mask: bitmask of user interrupts (0 ~ 15)to be registered
-+ * return < 0 in case of error
-+ */
-+int xdma_user_isr_enable(void *dev_hndl, unsigned int mask);
-+int xdma_user_isr_disable(void *dev_hndl, unsigned int mask);
-+
-+/*
-+ * xdma_xfer_submit - submit data for dma operation (for both read and write)
-+ *	This is a blocking call
-+ * @channel: channel number (< channel_max)
-+ *	== channel_max means libxdma can pick any channel available:q
-+
-+ * @dir: DMA_FROM/TO_DEVICE
-+ * @offset: offset into the DDR/BRAM memory to read from or write to
-+ * @sg_tbl: the scatter-gather list of data buffers
-+ * @timeout: timeout in mili-seconds, *currently ignored
-+ * return # of bytes transferred or < 0 in case of error
-+ */
-+ssize_t xdma_xfer_submit(void *dev_hndl, int channel, bool write, u64 ep_addr,
-+			 struct sg_table *sgt, bool dma_mapped, int timeout_ms);
-+
-+ssize_t xdma_xfer_submit_nowait(void *cb_hndl, void *dev_hndl, int channel,
-+				bool write, u64 ep_addr, struct sg_table *sgt,
-+				bool dma_mapped, int timeout_ms);
-+
-+
-+ssize_t xdma_xfer_completion(void *cb_hndl, void *dev_hndl, int channel,
-+			     bool write, u64 ep_addr, struct sg_table *sgt,
-+			     bool dma_mapped, int timeout_ms);
-+
-+void xdma_device_online(struct pci_dev *pdev, void *dev_hndl);
-+void xdma_device_offline(struct pci_dev *pdev, void *dev_hndl);
-+
-+#endif /* XILINX_XDMA_H */
++#endif
 -- 
 2.37.2
 
