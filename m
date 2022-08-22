@@ -2,90 +2,74 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7250059BCA6
-	for <lists+linux-media@lfdr.de>; Mon, 22 Aug 2022 11:20:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8160759BD02
+	for <lists+linux-media@lfdr.de>; Mon, 22 Aug 2022 11:41:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234321AbiHVJTO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 22 Aug 2022 05:19:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42278 "EHLO
+        id S234499AbiHVJku (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 22 Aug 2022 05:40:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42366 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233034AbiHVJSy (ORCPT
+        with ESMTP id S233487AbiHVJkt (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 22 Aug 2022 05:18:54 -0400
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D52BAB49F;
-        Mon, 22 Aug 2022 02:18:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1661159927; x=1692695927;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=PODeVLuIX9g0BxkQuwOWxZfhH1PA5lu7oTDDA6VcGDY=;
-  b=c28ifSh33/npFdtCxASSDUnnvKUIOOKZZCyhPFV+cFgxC0Fn9PJr7sLK
-   l9fTRE/jhAECfsHAKyK/KzgaDdES+Kw8AAoEpgnvxJKtxNK50mmjIEQoB
-   Uyobwd/vKehQDrHlA8Dx0tY7ybChLDJQmdfYGCGnZelQ8Vb4Ae3T1SSo9
-   qP8qT/h3ItO+F60WM5ebVJAmyIkTQXBW9EblXTjkcD+JJCOdJ+fCbYBrV
-   mfgWWt3HEXsvAlQbpg1EUd1oSUBo+I+4S0E2+uzwMRyAj9TwQ6HY953M8
-   4DMBRpdGcGRJdzDlxR+usJfj9uKCZskiid9IjKRxBUq9UOuMimsUp3S8p
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10446"; a="355097453"
-X-IronPort-AV: E=Sophos;i="5.93,254,1654585200"; 
-   d="scan'208";a="355097453"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Aug 2022 02:18:45 -0700
-X-IronPort-AV: E=Sophos;i="5.93,254,1654585200"; 
-   d="scan'208";a="641961795"
-Received: from punajuuri.fi.intel.com (HELO paasikivi.fi.intel.com) ([10.237.72.43])
-  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Aug 2022 02:18:43 -0700
-Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
-        by paasikivi.fi.intel.com (Postfix) with SMTP id 77AA020656;
-        Mon, 22 Aug 2022 12:18:41 +0300 (EEST)
-Date:   Mon, 22 Aug 2022 09:18:41 +0000
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Marco Felsch <m.felsch@pengutronix.de>
-Cc:     mchehab@kernel.org, laurent.pinchart+renesas@ideasonboard.com,
-        jacopo+renesas@jmondi.org, akinobu.mita@gmail.com,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kernel@pengutronix.de
-Subject: Re: [PATCH 3/4] media: mt9m111: fix device power usage
-Message-ID: <YwNJ8RpSR+oVxnS/@paasikivi.fi.intel.com>
-References: <20220818144712.997477-1-m.felsch@pengutronix.de>
- <20220818144712.997477-3-m.felsch@pengutronix.de>
- <YwMix1+Bm1jEbWqv@paasikivi.fi.intel.com>
- <20220822075426.qjgxue7sjehazga4@pengutronix.de>
+        Mon, 22 Aug 2022 05:40:49 -0400
+Received: from smtp.smtpout.orange.fr (smtp-20.smtpout.orange.fr [80.12.242.20])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DDB182981D
+        for <linux-media@vger.kernel.org>; Mon, 22 Aug 2022 02:40:47 -0700 (PDT)
+Received: from pop-os.home ([90.11.190.129])
+        by smtp.orange.fr with ESMTPA
+        id Q3vIojkHpGYmzQ3vIop5B6; Mon, 22 Aug 2022 11:40:46 +0200
+X-ME-Helo: pop-os.home
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Mon, 22 Aug 2022 11:40:46 +0200
+X-ME-IP: 90.11.190.129
+From:   Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+To:     Xavier Roumegue <xavier.roumegue@oss.nxp.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
+        Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+        linux-media@vger.kernel.org
+Subject: [PATCH] media: dw100: Fix an error handling path in dw100_probe()
+Date:   Mon, 22 Aug 2022 11:40:43 +0200
+Message-Id: <7213b90d0d872be154cff81aec1ad8a4a77116af.1661161223.git.christophe.jaillet@wanadoo.fr>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220822075426.qjgxue7sjehazga4@pengutronix.de>
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Aug 22, 2022 at 09:54:26AM +0200, Marco Felsch wrote:
-> Hi Sakari,
-> 
-> On 22-08-22, Sakari Ailus wrote:
-> > Hi Marco,
-> > 
-> > On Thu, Aug 18, 2022 at 04:47:11PM +0200, Marco Felsch wrote:
-> > > Currently the driver turn off the power after probe and toggle it during
-> > > .stream by using the .s_power callback. This is problematic since other
-> > > callbacks like .set_fmt accessing the hardware as well which will fail.
-> > > So in the end the default format is the only supported format.
-> > 
-> > It'd be much better to add runtime PM support to the driver instead.
-> 
-> I got your point, but didn't have the time for it right now, I will drop
-> the patch from my v2.
+After a successful call to media_device_init() it is safer to call
+media_device_init().
 
-The API is different but generally involves doing more or less the same
-what this and the 4th patch do together.
+Add the missing call in the error handling path of the probe, as already
+done in the remove function.
 
+Fixes: bd090d4d995a ("media: dw100: Add i.MX8MP dw100 dewarper driver")
+Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+---
+ drivers/media/platform/nxp/dw100/dw100.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/media/platform/nxp/dw100/dw100.c b/drivers/media/platform/nxp/dw100/dw100.c
+index 94518f0e486b..b3b057798ab6 100644
+--- a/drivers/media/platform/nxp/dw100/dw100.c
++++ b/drivers/media/platform/nxp/dw100/dw100.c
+@@ -1623,6 +1623,7 @@ static int dw100_probe(struct platform_device *pdev)
+ error_v4l2:
+ 	video_unregister_device(vfd);
+ err_m2m:
++	media_device_cleanup(&dw_dev->mdev);
+ 	v4l2_m2m_release(dw_dev->m2m_dev);
+ err_v4l2:
+ 	v4l2_device_unregister(&dw_dev->v4l2_dev);
 -- 
-Sakari Ailus
+2.34.1
+
