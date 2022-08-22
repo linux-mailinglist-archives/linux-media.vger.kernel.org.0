@@ -2,41 +2,42 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3702C59C230
-	for <lists+linux-media@lfdr.de>; Mon, 22 Aug 2022 17:09:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6D45959C226
+	for <lists+linux-media@lfdr.de>; Mon, 22 Aug 2022 17:09:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235864AbiHVPI5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 22 Aug 2022 11:08:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56088 "EHLO
+        id S235853AbiHVPJA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 22 Aug 2022 11:09:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55982 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235880AbiHVPIY (ORCPT
+        with ESMTP id S236064AbiHVPI1 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 22 Aug 2022 11:08:24 -0400
+        Mon, 22 Aug 2022 11:08:27 -0400
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D895F3D5A8
-        for <linux-media@vger.kernel.org>; Mon, 22 Aug 2022 08:06:49 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BAE4D3D5B9
+        for <linux-media@vger.kernel.org>; Mon, 22 Aug 2022 08:06:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1661180778;
+        s=mimecast20190719; t=1661180782;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=RKXwDGpmDr23gQp1zQtFHLaDkpZw2aRFQ7hDt/VKdow=;
-        b=diBvPFHOxrvbPSTtOVRqC2Wr0xUKNzGMA4sZtmbx8ZJifRTp4946oi/zSc37wrNidoGwQU
-        GZ8j8kDwpo0btott69kyhgDswHLkio1PFnQ1fk1EHeefalNIpAi8Jr2CgNF/8rO9Pd0zh2
-        gRF6dXPY0eVgS0miGckHdQ+d9xVVpFE=
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=4jkL3AG5p1xchw2SzpTnx63ZLD5wc0KsNOUMT+cctLA=;
+        b=Jierc+ATcj1fQabsdJqV6YWLRz4BbYSsOF97lE320yLZLMyOAkq6xX2b9/MVvKm8WROT0P
+        O3NBsq1giLRfg2Emy6G32IVZjk8tNr8FFGx5xbGElxmT+ZVCw9gnXXI9cHqOO/NHOR4xEr
+        +A/MIVyqo0nLpufa3uD8Fp48dT7BZro=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-516-yV9m1C7QPV2YO15rlCXbFg-1; Mon, 22 Aug 2022 11:06:15 -0400
-X-MC-Unique: yV9m1C7QPV2YO15rlCXbFg-1
+ us-mta-444-uYApj0T2N7CyIoXeXjfaLw-1; Mon, 22 Aug 2022 11:06:18 -0400
+X-MC-Unique: uYApj0T2N7CyIoXeXjfaLw-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com [10.11.54.1])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D5827811E75;
-        Mon, 22 Aug 2022 15:06:14 +0000 (UTC)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CE9C885A587;
+        Mon, 22 Aug 2022 15:06:17 +0000 (UTC)
 Received: from x1.localdomain.com (unknown [10.39.193.25])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 196AF404C6ED;
-        Mon, 22 Aug 2022 15:06:11 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 4208440CFD0B;
+        Mon, 22 Aug 2022 15:06:15 +0000 (UTC)
 From:   Hans de Goede <hdegoede@redhat.com>
 To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Sakari Ailus <sakari.ailus@linux.intel.com>
@@ -46,11 +47,12 @@ Cc:     Hans de Goede <hdegoede@redhat.com>,
         Yury Luneff <yury.lunev@gmail.com>,
         Nable <nable.maininbox@googlemail.com>,
         andrey.i.trufanov@gmail.com, Fabio Aiuto <fabioaiuto83@gmail.com>,
-        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Subject: [PATCH v2 01/13] media: atomisp_gmin_platform: Switch to use acpi_evaluate_dsm_typed()
-Date:   Mon, 22 Aug 2022 17:05:58 +0200
-Message-Id: <20220822150610.45186-1-hdegoede@redhat.com>
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: [PATCH v2 02/13] media: atomisp-ov2680: Fix ov2680_set_fmt()
+Date:   Mon, 22 Aug 2022 17:05:59 +0200
+Message-Id: <20220822150610.45186-2-hdegoede@redhat.com>
+In-Reply-To: <20220822150610.45186-1-hdegoede@redhat.com>
+References: <20220822150610.45186-1-hdegoede@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
@@ -64,45 +66,43 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+On sets actually store the set (closest) format inside ov2680_device.dev,
+so that it also properly gets returned by get_fmt.
 
-The acpi_evaluate_dsm_typed() provides a way to check the type of the
-object evaluated by _DSM call. Use it instead of open coded variant.
+This fixes the following problem:
 
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-Link: https://lore.kernel.org/r/20220730155905.90091-1-andriy.shevchenko@linux.intel.com
-Reviewed-by: Hans de Goede <hdegoede@redhat.com>
-Tested-by: Hans de Goede <hdegoede@redhat.com>
+1. App does an VIDIOC_SET_FMT 640x480, calling ov2680_set_fmt()
+2. Internal buffers (atomisp_create_pipes_stream()) get allocated
+   at 640x480 size by atomisp_set_fmt()
+3. ov2680_get_fmt() gets called later on and returns 1600x1200
+   since ov2680_device.dev was not updated. So things get configured
+   to stream at 1600x1200, but the internal buffers created during
+   atomisp_create_pipes_stream() do not get updated in size
+4. streaming starts, internal buffers overflow and the entire
+   machine freezes eventually due to memory being corrupted
+
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c | 8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
+ drivers/staging/media/atomisp/i2c/atomisp-ov2680.c | 6 +-----
+ 1 file changed, 1 insertion(+), 5 deletions(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c b/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
-index 133d7d56fff2..648469de2cdc 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
-@@ -1250,16 +1250,14 @@ static int gmin_get_config_dsm_var(struct device *dev,
- 	if (!strcmp(var, "CamClk"))
- 		return -EINVAL;
+diff --git a/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c b/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c
+index 4ba99c660681..ab52e35266bb 100644
+--- a/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c
++++ b/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c
+@@ -894,11 +894,7 @@ static int ov2680_set_fmt(struct v4l2_subdev *sd,
+ 	if (v_flag)
+ 		ov2680_v_flip(sd, v_flag);
  
--	obj = acpi_evaluate_dsm(handle, &atomisp_dsm_guid, 0, 0, NULL);
-+	/* Return on unexpected object type */
-+	obj = acpi_evaluate_dsm_typed(handle, &atomisp_dsm_guid, 0, 0, NULL,
-+				      ACPI_TYPE_PACKAGE);
- 	if (!obj) {
- 		dev_info_once(dev, "Didn't find ACPI _DSM table.\n");
- 		return -EINVAL;
- 	}
- 
--	/* Return on unexpected object type */
--	if (obj->type != ACPI_TYPE_PACKAGE)
--		return -EINVAL;
--
- #if 0 /* Just for debugging purposes */
- 	for (i = 0; i < obj->package.count; i++) {
- 		union acpi_object *cur = &obj->package.elements[i];
+-	/*
+-	 * ret = startup(sd);
+-	 * if (ret)
+-	 * dev_err(&client->dev, "ov2680 startup err\n");
+-	 */
++	dev->res = res;
+ err:
+ 	mutex_unlock(&dev->input_lock);
+ 	return ret;
 -- 
 2.36.1
 
