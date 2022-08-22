@@ -2,142 +2,109 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0B32359BB07
+	by mail.lfdr.de (Postfix) with ESMTP id D9AC059BB09
 	for <lists+linux-media@lfdr.de>; Mon, 22 Aug 2022 10:08:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233696AbiHVIHW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 22 Aug 2022 04:07:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55686 "EHLO
+        id S233814AbiHVIHB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 22 Aug 2022 04:07:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33526 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233393AbiHVIEz (ORCPT
+        with ESMTP id S233817AbiHVIGk (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 22 Aug 2022 04:04:55 -0400
-Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C5CA2B1BF;
-        Mon, 22 Aug 2022 01:04:17 -0700 (PDT)
-Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPSA id 915AE40002;
-        Mon, 22 Aug 2022 08:04:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1661155456;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=Af8UEwDVr1WeGoIs7qSh0v1VGOmRYqe15mtkRmwM7uI=;
-        b=F6wrILK6/Vtb/q8w5hOXTvAsOa3WjkHRwEnPve2X3KrHfH1qA61FhjSKDyZrYWPg/yj3hV
-        HFTOtY/Qu8Oi/VWaorVVxt+27huAxDuUSodv34SjWC99G4DvSZsti2lCCk6e5iuFlaGmVI
-        CC/4b6m2ZoRNFAgueszlc7rX4iTGBqthYkeqISeAR63AkgPINL78Z39GLMOZ8E48S6xDDX
-        r0LdNf7sudzs+grPZ4SfAQ/EyhF1WsoDGHH0DEri8U2IBF0eN26CSmi9MUPkfVJ9PrGcLy
-        6a98B4isZpl/21k/Gu+HCnMnXl05BE2SSMjW5YzQFVacOl+NsOMh9tsh291t5A==
-Date:   Mon, 22 Aug 2022 10:04:09 +0200
-From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To:     Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Cc:     linux-media@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Samuel Holland <samuel@sholland.org>,
-        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>, kernel@collabora.com,
-        stable@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 1/3] media: cedrus: Fix watchdog race condition
-Message-ID: <YwM4efK9V4t38RFe@aptenodytes>
-References: <20220818203308.439043-1-nicolas.dufresne@collabora.com>
- <20220818203308.439043-2-nicolas.dufresne@collabora.com>
+        Mon, 22 Aug 2022 04:06:40 -0400
+Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27A9ADEDB;
+        Mon, 22 Aug 2022 01:06:17 -0700 (PDT)
+Received: by mail-qt1-f173.google.com with SMTP id cr9so7297165qtb.13;
+        Mon, 22 Aug 2022 01:06:17 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc;
+        bh=BZuv70St0sfOAw+lBqzRl+fUBQWph+V4RqtW+LWAJXE=;
+        b=HpCMa5q0BkC8C6NA7QON4b4dwUPm6vJObWQTWTcXsGnVVOxeOF19mR3YDnK+jRmbmT
+         dnIsRhOKt8oxttFWj1sKWO/C1Hhlfm1mdvaLslRTo9QTy4AipTjbe0t8S0iPfR1+wx0Y
+         iO687VPfF9HxH9cS2MFhA+KYHl6nbnGHuS/atql0Dc/nXnVpT5jeF8ysJZKZweB7yQxk
+         n+dIDlGCoGRAVafesKTUDBiyz7jpLxm6nbHBwK+oQ55HTNDXTsMnhXDz4X8BLQdCC5qY
+         R8AySjmroAwGCFCIBqqEu1rQkgOBWc5qECCh4MKpH945vDUtQLNiwajcmQg6OOufBohA
+         ATXQ==
+X-Gm-Message-State: ACgBeo3H8bkl8lxQrxO9KEhIYH/KpzY25jR9hEIkJxuF3L+EqRBX9vjX
+        44AZquT9bQfWSoGXY7sZo90xRnw8iXvzAA==
+X-Google-Smtp-Source: AA6agR4Lz7xnFu8617hLfifGepI/cBlsg6L4EdUGzbKwBzxcUkrB/7bb1SsSbLQ/qR8JteQ9j6+aHA==
+X-Received: by 2002:a05:622a:95:b0:343:66b1:d32a with SMTP id o21-20020a05622a009500b0034366b1d32amr14111455qtw.32.1661155576434;
+        Mon, 22 Aug 2022 01:06:16 -0700 (PDT)
+Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com. [209.85.128.171])
+        by smtp.gmail.com with ESMTPSA id t13-20020a05620a450d00b006bb6c63114fsm10930354qkp.110.2022.08.22.01.06.15
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 22 Aug 2022 01:06:16 -0700 (PDT)
+Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-33365a01f29so271503647b3.2;
+        Mon, 22 Aug 2022 01:06:15 -0700 (PDT)
+X-Received: by 2002:a25:e004:0:b0:695:d8b6:57e7 with SMTP id
+ x4-20020a25e004000000b00695d8b657e7mr3698ybg.380.1661155575524; Mon, 22 Aug
+ 2022 01:06:15 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="9C9XXDtt+KGo1SiH"
-Content-Disposition: inline
-In-Reply-To: <20220818203308.439043-2-nicolas.dufresne@collabora.com>
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+References: <20220821145435.49842-1-wangjianli@cdjrlc.com>
+In-Reply-To: <20220821145435.49842-1-wangjianli@cdjrlc.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 22 Aug 2022 10:06:03 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWCJCcs4thnjuwa9ZpLCdtFgptLUd9eo_gAvuKwGhG-jw@mail.gmail.com>
+Message-ID: <CAMuHMdWCJCcs4thnjuwa9ZpLCdtFgptLUd9eo_gAvuKwGhG-jw@mail.gmail.com>
+Subject: Re: [PATCH] platform/renesas: fix repeated words in comments
+To:     wangjianli <wangjianli@cdjrlc.com>
+Cc:     Jacopo Mondi <jacopo@jmondi.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Wangjianli,
 
---9C9XXDtt+KGo1SiH
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Sun, Aug 21, 2022 at 4:58 PM wangjianli <wangjianli@cdjrlc.com> wrote:
+>  Delete the redundant word 'on'.
+>
+> Signed-off-by: wangjianli <wangjianli@cdjrlc.com>
 
-Hi Nicolas,
+Thanks for your patch!
 
-On Thu 18 Aug 22, 16:33, Nicolas Dufresne wrote:
-> The watchdog needs to be schedule before we trigger the decode
-> operation, otherwise there is a risk that the decoder IRQ will be
-> called before we have schedule the watchdog. As a side effect, the
-> watchdog would never be cancelled and its function would be called
-> at an inappropriate time.
->=20
-> This was observed while running Fluster with GStreamer as a backend.
-> Some programming error would cause the decoder IRQ to be call very
-> quickly after the trigger. Later calls into the driver would deadlock
-> due to the unbalanced state.
+> --- a/drivers/media/platform/renesas/renesas-ceu.c
+> +++ b/drivers/media/platform/renesas/renesas-ceu.c
+> @@ -1101,7 +1101,7 @@ static int ceu_open(struct file *file)
+>                 return ret;
+>
+>         mutex_lock(&ceudev->mlock);
+> -       /* Causes soft-reset and sensor power on on first open */
+> +       /* Causes soft-reset and sensor power on first open */
 
-Good catch, thanks!
+The double "on" is actually correct.  Please ask yourself the question:
+"When should the sensor be powered on?".
+Answer: "On first open".
 
-Reviewed-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Personally, I would have written "power-on" instead of "power on"
+(cfr. "soft-reset"), so perhaps it's a good idea to make that change,
+to prevent the next person looking for double words falling for
+this again?
 
-Cheers,
+>         ret = pm_runtime_resume_and_get(ceudev->dev);
+>         mutex_unlock(&ceudev->mlock);
 
-Paul
+Gr{oetje,eeting}s,
 
-> Cc: stable@vger.kernel.org
-> Fixes: 7c38a551bda1 ("media: cedrus: Add watchdog for job completion")
-> Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-> ---
->  drivers/staging/media/sunxi/cedrus/cedrus_dec.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->=20
-> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_dec.c b/drivers/st=
-aging/media/sunxi/cedrus/cedrus_dec.c
-> index 3b6aa78a2985f..e7f7602a5ab40 100644
-> --- a/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
-> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
-> @@ -106,11 +106,11 @@ void cedrus_device_run(void *priv)
-> =20
->  	/* Trigger decoding if setup went well, bail out otherwise. */
->  	if (!error) {
-> -		dev->dec_ops[ctx->current_codec]->trigger(ctx);
-> -
->  		/* Start the watchdog timer. */
->  		schedule_delayed_work(&dev->watchdog_work,
->  				      msecs_to_jiffies(2000));
-> +
-> +		dev->dec_ops[ctx->current_codec]->trigger(ctx);
->  	} else {
->  		v4l2_m2m_buf_done_and_job_finish(ctx->dev->m2m_dev,
->  						 ctx->fh.m2m_ctx,
-> --=20
-> 2.37.2
->=20
+                        Geert
 
---=20
-Paul Kocialkowski, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
---9C9XXDtt+KGo1SiH
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmMDOHgACgkQ3cLmz3+f
-v9ENKwf+JRXzzEmrQxZWhfCKskt7uuVhWKW/HBMQrYb3guv4d6PGcqi52+9lyStB
-49tTvjlH655bRsQKMEC3DT6Md1inbO6G7CZhH8uAaX43iLx3UgXbI13OCTEfz2V2
-CF1UK+Rm/Cv6eZhS7jCml/bOTA058ScUkemASDt61IhDcsjNo1rmKWulkGtiKhl4
-Fj+Hq4ut9YLfyb/l5RAVPixiXgsMUye4J0z0ANN8XADhL5pkjLIh+wU9BT4jB3Y6
-u9KVVjjwRsux5p78R5jZ9PKhWIbtySCtWWmjK+vsl/+X6jUwcgWUW3tPnxB/JYSI
-FRlmnT/A5hJvZu8f2xD+DF23Oyv1HA==
-=7kSt
------END PGP SIGNATURE-----
-
---9C9XXDtt+KGo1SiH--
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
