@@ -2,98 +2,122 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F244E59BBD0
-	for <lists+linux-media@lfdr.de>; Mon, 22 Aug 2022 10:40:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3D7F259BCAD
+	for <lists+linux-media@lfdr.de>; Mon, 22 Aug 2022 11:20:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233627AbiHVIj7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 22 Aug 2022 04:39:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49994 "EHLO
+        id S234286AbiHVJRs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 22 Aug 2022 05:17:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40230 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233370AbiHVIj5 (ORCPT
+        with ESMTP id S233613AbiHVJRr (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 22 Aug 2022 04:39:57 -0400
-Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA8632CE25;
-        Mon, 22 Aug 2022 01:39:54 -0700 (PDT)
-Received: (Authenticated sender: jacopo@jmondi.org)
-        by mail.gandi.net (Postfix) with ESMTPSA id E630040007;
-        Mon, 22 Aug 2022 08:39:51 +0000 (UTC)
-Date:   Mon, 22 Aug 2022 10:39:50 +0200
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     wangjianli <wangjianli@cdjrlc.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] platform/renesas: fix repeated words in comments
-Message-ID: <20220822083950.xnuwzz5specjpmxq@uno.localdomain>
-References: <20220821145435.49842-1-wangjianli@cdjrlc.com>
- <CAMuHMdWCJCcs4thnjuwa9ZpLCdtFgptLUd9eo_gAvuKwGhG-jw@mail.gmail.com>
+        Mon, 22 Aug 2022 05:17:47 -0400
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F039911166;
+        Mon, 22 Aug 2022 02:17:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1661159865; x=1692695865;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=6d17F0vfyYCfy1y5XTyYgJ9Isihgj/pGEDhDb6BTYVE=;
+  b=daY5fbNpuTG0x1vbC99jrm1D3z0uyCb3IBqjDYLoeOFy2vY4aEc8V2Jj
+   WXtR9oUSb89W24szU/gIW0wOObX4bpj2K5MsgpmkTfhwHbcNDvracuZZ4
+   5QBgKBc+nxI7DKMR0rHYq2aUHec8rtjA2jnXzP175dySV7sfP8BOvTgBy
+   aEELwCr/qds5dOs+eUR9w9eftosxIACneu1Jq8AReTMTJFV19/QE78bdW
+   AMihvDFP2VJczn5e/Lps2aEMUg9X2/gFExfZGDKWGi9gP5eMOyhgoLKFA
+   5YSEkYHEagkOOH+zMAkgbbK6tUHahJw7jwd9BqLvy6EO976c2U/hE3wwN
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10446"; a="290921152"
+X-IronPort-AV: E=Sophos;i="5.93,254,1654585200"; 
+   d="scan'208";a="290921152"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Aug 2022 02:17:45 -0700
+X-IronPort-AV: E=Sophos;i="5.93,254,1654585200"; 
+   d="scan'208";a="608889608"
+Received: from punajuuri.fi.intel.com (HELO paasikivi.fi.intel.com) ([10.237.72.43])
+  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Aug 2022 02:17:43 -0700
+Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
+        by paasikivi.fi.intel.com (Postfix) with SMTP id 1660B20656;
+        Mon, 22 Aug 2022 12:17:41 +0300 (EEST)
+Date:   Mon, 22 Aug 2022 09:17:41 +0000
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Marco Felsch <m.felsch@pengutronix.de>
+Cc:     mchehab@kernel.org, laurent.pinchart+renesas@ideasonboard.com,
+        jacopo+renesas@jmondi.org, akinobu.mita@gmail.com,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kernel@pengutronix.de
+Subject: Re: [PATCH 2/4] media: mt9m111: fix subdev API usage
+Message-ID: <YwNJtWCLsZgy3iHG@paasikivi.fi.intel.com>
+References: <20220818144712.997477-1-m.felsch@pengutronix.de>
+ <20220818144712.997477-2-m.felsch@pengutronix.de>
+ <YwMiJYympE18tkmm@paasikivi.fi.intel.com>
+ <20220822075101.75dv3cv2evb2qeqq@pengutronix.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAMuHMdWCJCcs4thnjuwa9ZpLCdtFgptLUd9eo_gAvuKwGhG-jw@mail.gmail.com>
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <20220822075101.75dv3cv2evb2qeqq@pengutronix.de>
+X-Spam-Status: No, score=-7.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Geert
+On Mon, Aug 22, 2022 at 09:51:01AM +0200, Marco Felsch wrote:
+> Hi Sakari,
+> 
+> On 22-08-22, Sakari Ailus wrote:
+> > Hi Marco,
+> > 
+> > On Thu, Aug 18, 2022 at 04:47:10PM +0200, Marco Felsch wrote:
+> > > In case of I2C transfer failures the driver return failure codes which
+> > > are not allowed according the API documentation. Fix that by ignore the
+> > > register access failure codes.
+> > > 
+> > > Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
+> > > ---
+> > >  drivers/media/i2c/mt9m111.c | 116 ++++++++++++++++++++----------------
+> > >  1 file changed, 66 insertions(+), 50 deletions(-)
+> > > 
+> > > diff --git a/drivers/media/i2c/mt9m111.c b/drivers/media/i2c/mt9m111.c
+> > > index cdaf283e1309..53c4dac4e4bd 100644
+> > > --- a/drivers/media/i2c/mt9m111.c
+> > > +++ b/drivers/media/i2c/mt9m111.c
+> > > @@ -455,7 +455,7 @@ static int mt9m111_set_selection(struct v4l2_subdev *sd,
+> > >  	struct mt9m111 *mt9m111 = to_mt9m111(client);
+> > >  	struct v4l2_rect rect = sel->r;
+> > >  	int width, height;
+> > > -	int ret, align = 0;
+> > > +	int align = 0;
+> > >  
+> > >  	if (sel->which != V4L2_SUBDEV_FORMAT_ACTIVE ||
+> > >  	    sel->target != V4L2_SEL_TGT_CROP)
+> > > @@ -481,14 +481,13 @@ static int mt9m111_set_selection(struct v4l2_subdev *sd,
+> > >  	width = min(mt9m111->width, rect.width);
+> > >  	height = min(mt9m111->height, rect.height);
+> > >  
+> > > -	ret = mt9m111_setup_geometry(mt9m111, &rect, width, height, mt9m111->fmt->code);
+> > > -	if (!ret) {
+> > > -		mt9m111->rect = rect;
+> > > -		mt9m111->width = width;
+> > > -		mt9m111->height = height;
+> > > -	}
+> > >  
+> > > -	return ret;
+> > > +	mt9m111_setup_geometry(mt9m111, &rect, width, height, mt9m111->fmt->code);
+> > 
+> > If the function can fail, it'd be much better to move it to s_stream
+> > callback than ignore the error.
+> > 
+> > Same for the rest of such changes.
+> 
+> I did that in the following patch, but I can merge them if you want.
 
-On Mon, Aug 22, 2022 at 10:06:03AM +0200, Geert Uytterhoeven wrote:
-> Hi Wangjianli,
->
-> On Sun, Aug 21, 2022 at 4:58 PM wangjianli <wangjianli@cdjrlc.com> wrote:
-> >  Delete the redundant word 'on'.
-> >
-> > Signed-off-by: wangjianli <wangjianli@cdjrlc.com>
->
-> Thanks for your patch!
->
-> > --- a/drivers/media/platform/renesas/renesas-ceu.c
-> > +++ b/drivers/media/platform/renesas/renesas-ceu.c
-> > @@ -1101,7 +1101,7 @@ static int ceu_open(struct file *file)
-> >                 return ret;
-> >
-> >         mutex_lock(&ceudev->mlock);
-> > -       /* Causes soft-reset and sensor power on on first open */
-> > +       /* Causes soft-reset and sensor power on first open */
->
-> The double "on" is actually correct.  Please ask yourself the question:
-> "When should the sensor be powered on?".
-> Answer: "On first open".
->
+Yes, please.
 
-So I overlooked this patch so badly, that I didn't get what I meant when I
-first wrote this comment ?
-
-> Personally, I would have written "power-on" instead of "power on"
-> (cfr. "soft-reset"), so perhaps it's a good idea to make that change,
-> to prevent the next person looking for double words falling for
-> this again?
->
-
-Wangjianli please ignore my acked-by and follow instead Geert's
-suggestion to change this to power-on, if you want to re-submit the
-patch.
-
-Thanks Geert for being awake, as I'm clearly not yet.
-
-> >         ret = pm_runtime_resume_and_get(ceudev->dev);
-> >         mutex_unlock(&ceudev->mlock);
->
-> Gr{oetje,eeting}s,
->
->                         Geert
->
-> --
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
->
-> In personal conversations with technical people, I call myself a hacker. But
-> when I'm talking to journalists I just say "programmer" or something like that.
->                                 -- Linus Torvalds
+-- 
+Sakari Ailus
