@@ -2,297 +2,108 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7897D59BF2E
-	for <lists+linux-media@lfdr.de>; Mon, 22 Aug 2022 14:04:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6821259BFB5
+	for <lists+linux-media@lfdr.de>; Mon, 22 Aug 2022 14:50:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234817AbiHVMDb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 22 Aug 2022 08:03:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41960 "EHLO
+        id S234641AbiHVMux (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 22 Aug 2022 08:50:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55772 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234777AbiHVMD2 (ORCPT
+        with ESMTP id S229882AbiHVMuw (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 22 Aug 2022 08:03:28 -0400
-Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com [IPv6:2a00:1450:4864:20::52c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7D930A47F
-        for <linux-media@vger.kernel.org>; Mon, 22 Aug 2022 05:03:26 -0700 (PDT)
-Received: by mail-ed1-x52c.google.com with SMTP id e21so8718821edc.7
-        for <linux-media@vger.kernel.org>; Mon, 22 Aug 2022 05:03:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amarulasolutions.com; s=google;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc;
-        bh=5bsRy8NmbqAJ5Fg8qdrRQ5r91QFBlNcy6cH/Qzqv7m8=;
-        b=asgePyz0CxZM9KLikVoyogbZcYggCpzQYNR4oxwrlvgcOmJZqmREcmlXxTyJjbceBg
-         N8h65kpi9teX2/SJ7pI63oq1itQUgwoAbGyeLADZBAGsE0Ge/IL3ikb6ps615xJT+JXd
-         jztDQOyUsDiBv7628AnPBPS3kZuwvsJ4HnkGs=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
-        bh=5bsRy8NmbqAJ5Fg8qdrRQ5r91QFBlNcy6cH/Qzqv7m8=;
-        b=vYmBUxUlf1D5we+s/4WDllIfWy+tvnmDfgBaoAcTVp0xOhxiAWGlT91CKC+X5i68yn
-         eZpfKaRu6zj87Dw0e19OOQrTzhEze9xBN1MneUDnrkYWxXjfh161Nl8LcbHPBze89BRL
-         iKMgJx3FS/CFnD/QS4xu4lkCMwFLT38tj/epiPjUH27ilTWJPKxULF6Ny4hxmB2xK14Q
-         CJ5i3N6XfR+436H8xQZ2ROkuNZOyF4uyxbDXNcMwkwGcIR9iqHIDa3MG9hO+FgjDbvBh
-         LccXGH2SnSGbZF5ryDTM6Q8VpT2fQ+qcLXe9MyJIyDqhDjnjf0LHkyAhovPluSYl6Gri
-         e1ZA==
-X-Gm-Message-State: ACgBeo05XGTfE3W0cdo6ks4heuDh1RADlCdtnX+3PGYltQOcXg6gt3lE
-        nid6IMuaJGIFQ4TIs9Tt3xQLSA==
-X-Google-Smtp-Source: AA6agR7DzGqJD0yEZSf2uStXMrGk/irCyGL6RLzZ4ikIqfI80SKc0OuyH4itNpIQs0qxTPg93rcXKg==
-X-Received: by 2002:a05:6402:3227:b0:446:e48c:1251 with SMTP id g39-20020a056402322700b00446e48c1251mr1872833eda.186.1661169804974;
-        Mon, 22 Aug 2022 05:03:24 -0700 (PDT)
-Received: from tom-ThinkPad-T14s-Gen-2i (net-188-217-57-252.cust.vodafonedsl.it. [188.217.57.252])
-        by smtp.gmail.com with ESMTPSA id bd11-20020a056402206b00b00445f3ba4674sm8084493edb.63.2022.08.22.05.03.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Aug 2022 05:03:24 -0700 (PDT)
-Date:   Mon, 22 Aug 2022 14:03:22 +0200
-From:   Tommaso Merciai <tommaso.merciai@amarulasolutions.com>
-To:     Ming Qian <ming.qian@nxp.com>
-Cc:     "mchehab@kernel.org" <mchehab@kernel.org>,
-        "hverkuil-cisco@xs4all.nl" <hverkuil-cisco@xs4all.nl>,
-        "shawnguo@kernel.org" <shawnguo@kernel.org>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>,
-        "s.hauer@pengutronix.de" <s.hauer@pengutronix.de>,
-        "kernel@pengutronix.de" <kernel@pengutronix.de>,
-        "festevam@gmail.com" <festevam@gmail.com>,
-        dl-linux-imx <linux-imx@nxp.com>,
-        "X.H. Bao" <xiahong.bao@nxp.com>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>
-Subject: Re: [EXT] Re: [PATCH v4 2/4] media: amphion: tell and handle
- contiguous and non contiguous format
-Message-ID: <20220822120322.GD17530@tom-ThinkPad-T14s-Gen-2i>
-References: <cover.1660027440.git.ming.qian@nxp.com>
- <4af9766eb664a02d1c5884cb48fadef24dec142f.1660027440.git.ming.qian@nxp.com>
- <20220822111655.GA17530@tom-ThinkPad-T14s-Gen-2i>
- <AM6PR04MB6341A3B117F6FDB818DAB5E6E7719@AM6PR04MB6341.eurprd04.prod.outlook.com>
+        Mon, 22 Aug 2022 08:50:52 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 940342CE27;
+        Mon, 22 Aug 2022 05:50:51 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 37D6D2B3;
+        Mon, 22 Aug 2022 14:50:49 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1661172649;
+        bh=wU4ONctRZSKCRxX625nmts14wxrRJ5eBmdXPz3iSBqY=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=C1912lHlGZYYAf46PBNc6FBKALHLz9Cz975vVlRCZAqqC06/907G0h8iP4QW5Vqaj
+         V4l3sjGQBanU06xLcR4NfxVqYmp6KY6fitEnmiza9ynO7pN7BcYYw6ZFWxU+7WAlWe
+         FdLaTJjBJfZJbZYqk0ZOOIgmNovwkZl7B4GYPMq0=
+Date:   Mon, 22 Aug 2022 15:50:45 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     huanglei <huanglei814@163.com>
+Cc:     mchehab@kernel.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, huanglei <huanglei@kylinos.cn>
+Subject: Re: [PATCH v3] media: uvcvideo: limit power line control for Sonix
+ Technology
+Message-ID: <YwN7pSpORzIZaaSW@pendragon.ideasonboard.com>
+References: <20220820005658.21456-1-huanglei814@163.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <AM6PR04MB6341A3B117F6FDB818DAB5E6E7719@AM6PR04MB6341.eurprd04.prod.outlook.com>
+In-Reply-To: <20220820005658.21456-1-huanglei814@163.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Ming,
+Hello Huang Lei,
 
-On Mon, Aug 22, 2022 at 11:56:11AM +0000, Ming Qian wrote:
-> >Hi Ming,
-> >Sorry for delay. I'm on vacation last week :)
-> >
-> >On Tue, Aug 09, 2022 at 02:50:39PM +0800, Ming Qian wrote:
-> >> Driver should tell the number of memory planes and component planes.
-> >> the amphion vpu support non contiguous planes, but for compatibility
-> >> with other device that only support contiguous planes.
-> >> driver can add support for contiguous planes in the same time.
-> >> Then the mem_planes can be different from the comp_planes.
-> >> driver need to handle buffer according mem_planes and comp_planes.
-> >>
-> >> So driver can support NV12 and NV12M.
-> >>
-> >> Signed-off-by: Ming Qian <ming.qian@nxp.com>
-> >> ---
-> >>  drivers/media/platform/amphion/vdec.c        | 187 ++++++++++---------
-> >>  drivers/media/platform/amphion/venc.c        |  33 ++--
-> >>  drivers/media/platform/amphion/vpu.h         |   4 +-
-> >>  drivers/media/platform/amphion/vpu_dbg.c     |   8 +-
-> >>  drivers/media/platform/amphion/vpu_helpers.c |  48 ++++-
-> >>  drivers/media/platform/amphion/vpu_helpers.h |   2 +
-> >>  drivers/media/platform/amphion/vpu_malone.c  |   3 +-
-> >>  drivers/media/platform/amphion/vpu_v4l2.c    | 168 ++++++++++++-----
-> >>  drivers/media/platform/amphion/vpu_v4l2.h    |   3 +-
-> >>  drivers/media/platform/amphion/vpu_windsor.c |   8 +-
-> >>  10 files changed, 299 insertions(+), 165 deletions(-)
-> >>
-> 
-> [snip]
-> 
-> >> +const struct vpu_format *vpu_helper_find_sibling(struct vpu_inst
-> >> +*inst, u32 type, u32 pixelfmt) {
-> >> +     const struct vpu_format *fmt;
-> >> +     const struct vpu_format *sibling;
-> >> +
-> >> +     fmt = vpu_helper_find_format(inst, type, pixelfmt);
-> >> +     if (!fmt)
-> >> +             return NULL;
-> >> +     if (!fmt->sibling)
-> >> +             return NULL;
-> >> +     sibling = vpu_helper_find_format(inst, type, fmt->sibling);
-> >> +     if (!sibling)
-> >> +             return NULL;
-> >> +     if (sibling->sibling != fmt->pixfmt)
-> >> +             return NULL;
-> >> +     if (sibling->comp_planes != fmt->comp_planes)
-> >> +             return NULL;
-> >> +     return sibling;
-> >> +}
-> >
-> >I think we can limit the use of "if" statement here. What about this?
-> >
-> >const struct vpu_format *vpu_helper_find_sibling(struct vpu_inst *inst, u32
-> >type, u32 pixelfmt) {
-> >        const struct vpu_format *fmt;
-> >        const struct vpu_format *sibling;
-> >
-> >        fmt = vpu_helper_find_format(inst, type, pixelfmt);
-> >        if (!fmt || !fmt->sibling)
-> >                return NULL;
-> >
-> >        sibling = vpu_helper_find_format(inst, type, fmt->sibling);
-> >        if (!sibling || (sibling->sibling != fmt->pixfmt) ||
-> >                (sibling->comp_planes != fmt->comp_planes))
-> >                return NULL;
-> >
-> >        return sibling;
-> >}
-> >
-> 
-> OK, I'll apply this change in v5
-> 
-> >> +
-> >> +bool vpu_helper_match_format(struct vpu_inst *inst, u32 type, u32
-> >> +fmta, u32 fmtb) {
-> >> +     const struct vpu_format *sibling;
-> >> +
-> >> +     if (fmta == fmtb)
-> >> +             return true;
-> >> +
-> >> +     sibling = vpu_helper_find_sibling(inst, type, fmta);
-> >> +     if (sibling && sibling->pixfmt == fmtb)
-> >> +             return true;
-> >> +     return false;
-> >> +}
-> >> +
-> 
-> [snip]
-> 
-> >> --- a/drivers/media/platform/amphion/vpu_malone.c
-> >> +++ b/drivers/media/platform/amphion/vpu_malone.c
-> >> @@ -583,7 +583,8 @@ bool vpu_malone_check_fmt(enum vpu_core_type
-> >type, u32 pixelfmt)
-> >>       if (!vpu_imx8q_check_fmt(type, pixelfmt))
-> >>               return false;
-> >>
-> >> -     if (pixelfmt == V4L2_PIX_FMT_NV12M_8L128 || pixelfmt ==
-> >V4L2_PIX_FMT_NV12M_10BE_8L128)
-> >> +     if (pixelfmt == V4L2_PIX_FMT_NV12_8L128 || pixelfmt ==
-> >V4L2_PIX_FMT_NV12_10BE_8L128 ||
-> >> +         pixelfmt == V4L2_PIX_FMT_NV12M_8L128 || pixelfmt ==
-> >> + V4L2_PIX_FMT_NV12M_10BE_8L128)
-> >
-> >^Here are we using spaces instead of tab or I'm wrong?
-> >
-> 
-> It's following the rule of checkpatch.pl
-> 
-> >>               return true;
-> >>       if (vpu_malone_format_remap(pixelfmt) == MALONE_FMT_NULL)
-> >>               return false;
-> 
-> [snip]
-> 
-> >> +static int vpu_calc_fmt_sizeimage(struct vpu_inst *inst, struct
-> >> +vpu_format *fmt) {
-> >>       u32 stride = 1;
-> >> -     u32 bytesperline;
-> >> -     u32 sizeimage;
-> >> -     const struct vpu_format *fmt;
-> >> -     const struct vpu_core_resources *res;
-> >>       int i;
-> >>
-> >> -     fmt = vpu_helper_find_format(inst, type, pixmp->pixelformat);
-> >> -     if (!fmt) {
-> >> -             fmt = vpu_helper_enum_format(inst, type, 0);
-> >> -             if (!fmt)
-> >> -                     return NULL;
-> >> -             pixmp->pixelformat = fmt->pixfmt;
-> >> +     if (!(fmt->flags & V4L2_FMT_FLAG_COMPRESSED)) {
-> >> +             const struct vpu_core_resources *res =
-> >> + vpu_get_resource(inst);
-> >> +
-> >> +             if (res)
-> >> +                     stride = res->stride;
-> >
-> >If res=NULL stride=1 it is ok? Or we need to return some error?
-> >
-> 
-> If res is NULL, it means there is no additional alignment constraints
-> So it's ok to set stride to 1 in this case.
-> 
-> >>       }
-> >>
-> >> -     res = vpu_get_resource(inst);
-> >> -     if (res)
-> >> -             stride = res->stride;
-> >> -     if (pixmp->width)
-> >> -             pixmp->width = vpu_helper_valid_frame_width(inst,
-> >pixmp->width);
-> >> -     if (pixmp->height)
-> >> -             pixmp->height = vpu_helper_valid_frame_height(inst,
-> >pixmp->height);
-> >> +     for (i = 0; i < fmt->comp_planes; i++) {
-> >> +             fmt->sizeimage[i] = vpu_helper_get_plane_size(fmt->pixfmt,
-> >> +
-> >fmt->width,
-> >> +
-> >fmt->height,
-> >> +                                                           i,
-> >> +                                                           stride,
-> >> +
-> >fmt->field != V4L2_FIELD_NONE ? 1 : 0,
-> >> +
-> >&fmt->bytesperline[i]);
-> >> +             fmt->sizeimage[i] = max_t(u32, fmt->sizeimage[i], PAGE_SIZE);
-> >> +             if (fmt->flags & V4L2_FMT_FLAG_COMPRESSED) {
-> >> +                     fmt->sizeimage[i] = clamp_val(fmt->sizeimage[i],
-> >SZ_128K, SZ_8M);
-> >> +                     fmt->bytesperline[i] = 0;
-> >> +             }
-> >> +     }
-> >> +
-> >> +     return 0;
-> >> +}
-> >> +
-> >> +u32 vpu_get_fmt_plane_size(struct vpu_format *fmt, u32 plane_no) {
-> >> +     u32 size;
-> >> +     int i;
-> >> +
-> >> +     if (plane_no >= fmt->mem_planes)
-> >> +             return 0;
-> >> +
-> >> +     if (fmt->comp_planes == fmt->mem_planes)
-> >> +             return fmt->sizeimage[plane_no];
-> >> +     if (plane_no < fmt->mem_planes - 1)
-> >> +             return fmt->sizeimage[plane_no];
-> >
-> >I like a space here but is my personal opinion :)
-> >
-> 
-> OK, I'll add a space line here in v5
-> 
-> [snip]
+Thank you for the patch.
 
-Thanks for clarifications.
+On Sat, Aug 20, 2022 at 08:56:58AM +0800, huanglei wrote:
+> From: huanglei <huanglei@kylinos.cn>
+> 
+> The device does not implement the power line control correctly. Add a
+> corresponding control mapping override.
+> 
+> Bus 003 Device 003: ID 3277:0072 Sonix Technology Co., Ltd. USB 2.0 Camera
+> Device Descriptor:
+>   bLength                18
+>   bDescriptorType         1
+>   bcdUSB               2.00
+>   bDeviceClass          239 Miscellaneous Device
+>   bDeviceSubClass         2
+>   bDeviceProtocol         1 Interface Association
+>   bMaxPacketSize0        64
+>   idVendor           0x3277
+>   idProduct          0x0072
+>   bcdDevice            1.00
+>   iManufacturer           2 Sonix Technology Co., Ltd.
+>   iProduct                1 USB 2.0 Camera
+>   iSerial                 3 REV0001
+>   bNumConfigurations      1
+> 
+> Signed-off-by: huanglei <huanglei@kylinos.cn>
 
-Regards,
-Tommaso
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+> ---
+>  drivers/media/usb/uvc/uvc_driver.c | 9 +++++++++
+>  1 file changed, 9 insertions(+)
+> 
+> diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
+> index 9c05776f11d1..e8f823685139 100644
+> --- a/drivers/media/usb/uvc/uvc_driver.c
+> +++ b/drivers/media/usb/uvc/uvc_driver.c
+> @@ -3264,6 +3264,15 @@ static const struct usb_device_id uvc_ids[] = {
+>  	  .bInterfaceSubClass	= 1,
+>  	  .bInterfaceProtocol	= 0,
+>  	  .driver_info		= UVC_INFO_QUIRK(UVC_QUIRK_FORCE_BPP) },
+> +	/* Sonix Technology USB 2.0 Camera */
+> +	{ .match_flags		= USB_DEVICE_ID_MATCH_DEVICE
+> +				| USB_DEVICE_ID_MATCH_INT_INFO,
+> +	  .idVendor		= 0x3277,
+> +	  .idProduct		= 0x0072,
+> +	  .bInterfaceClass	= USB_CLASS_VIDEO,
+> +	  .bInterfaceSubClass	= 1,
+> +	  .bInterfaceProtocol	= 0,
+> +	  .driver_info		= (kernel_ulong_t)&uvc_ctrl_power_line_limited },
+>  	/* Acer EasyCamera */
+>  	{ .match_flags		= USB_DEVICE_ID_MATCH_DEVICE
+>  				| USB_DEVICE_ID_MATCH_INT_INFO,
 
 -- 
-Tommaso Merciai
-Embedded Linux Engineer
-tommaso.merciai@amarulasolutions.com
-__________________________________
+Regards,
 
-Amarula Solutions SRL
-Via Le Canevare 30, 31100 Treviso, Veneto, IT
-T. +39 042 243 5310
-info@amarulasolutions.com
-www.amarulasolutions.com
+Laurent Pinchart
