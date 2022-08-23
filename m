@@ -2,38 +2,38 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B40F759EB83
-	for <lists+linux-media@lfdr.de>; Tue, 23 Aug 2022 20:54:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 07DFD59EB84
+	for <lists+linux-media@lfdr.de>; Tue, 23 Aug 2022 20:54:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233001AbiHWSyD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 23 Aug 2022 14:54:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40096 "EHLO
+        id S233656AbiHWSyN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 23 Aug 2022 14:54:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42048 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233288AbiHWSxp (ORCPT
+        with ESMTP id S230426AbiHWSxz (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 23 Aug 2022 14:53:45 -0400
+        Tue, 23 Aug 2022 14:53:55 -0400
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D377205D8
-        for <linux-media@vger.kernel.org>; Tue, 23 Aug 2022 10:18:49 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1EC53E1142
+        for <linux-media@vger.kernel.org>; Tue, 23 Aug 2022 10:19:07 -0700 (PDT)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id E430B484;
-        Tue, 23 Aug 2022 19:18:46 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 455636BB;
+        Tue, 23 Aug 2022 19:18:48 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1661275127;
-        bh=qc4dX5X6pcswRfuYM0u0Kk5nQTzPLRvQQ3wiK+TRz2g=;
+        s=mail; t=1661275128;
+        bh=dpRQoQdidwsPDR2uIIecPAZtZqaBPiziKux6rvilmys=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=jm/670bQrEC9gfWreLhXIviKU0Q3dz7ikUl+rxizGDmJIE6C4W7wVvlD53NaXThxB
-         BSCeafu7i0BGJFJYSKIv9nh5D3IMA6gRBxFXf5waTwYxlhwY0ztYRKUvVoiImsjyVF
-         1uxyXj1zDkdXLQyLpnyEBih3mINTT4ULdRR48jbM=
+        b=Gdu7QqWoyzEVt/xGlp0het0DkeCBsTQXiT5wVn+VKoxNwlxxyGcyDXVoFZ7BE+itM
+         Ujg3npeLKScHmatkuY8+2fAZoGq43HbTbuHkN/tsKk9rBnHFT+CvHVGDDmBKZ+yExC
+         4oc1Z6sH+yA1WRc8DTKZ60c0VjREPETBuJtu1+L0=
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     linux-media@vger.kernel.org
 Cc:     Dafna Hirschfeld <dafna@fastmail.com>,
         Heiko Stuebner <heiko@sntech.de>,
         Florian Sylvestre <fsylvestre@baylibre.com>,
         Paul Elder <paul.elder@ideasonboard.com>
-Subject: [PATCH v2 1/9] media: rkisp1: Initialize color space on ISP sink and source pads
-Date:   Tue, 23 Aug 2022 20:18:32 +0300
-Message-Id: <20220823171840.8958-2-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH v2 2/9] media: rkisp1: Allow setting color space on ISP sink pad
+Date:   Tue, 23 Aug 2022 20:18:33 +0300
+Message-Id: <20220823171840.8958-3-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220823171840.8958-1-laurent.pinchart@ideasonboard.com>
 References: <20220823171840.8958-1-laurent.pinchart@ideasonboard.com>
@@ -48,61 +48,76 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Initialize the four color space fields on the sink and source video pads
-of the ISP in the .init_cfg() operation. As the main use case for the
-ISP is to convert Bayer data to YUV, select a raw color space on the
-sink pad and a limited range quantization of SYCC on the source pad by
-default.
+The ISP accepts different color spaces on its input: for YUV input, it
+doesn't set any restrictions, and for Bayer inputs, any color primaries
+or transfer function can be accepted (YCbCr encoding isn't applicable
+there, and quantization range can only be full).
+
+Allow setting a color space on the ISP sink pad, with the aforementioned
+restrictions. The settings don't influence hardware yet (only the YUV
+quantization range will, anything else has no direct effect on the ISP
+configuration), but can already be set to allow color space information
+to be coherent across the ISP sink link.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Reviewed-by: Dafna Hirschfeld <dafna@fastmail.com>
 ---
 Changes since v1:
 
-- Mention ISP in the subject line
+- Fix swapped default color spaces for YUV and Bayer
+- Improve coherency in usage of ternary operator ? :
 ---
- drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ .../platform/rockchip/rkisp1/rkisp1-isp.c     | 31 +++++++++++++++++++
+ 1 file changed, 31 insertions(+)
 
 diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
-index a3c7d4d88387..a52b22824739 100644
+index a52b22824739..b5bdf427c7e1 100644
 --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
 +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
-@@ -553,12 +553,17 @@ static int rkisp1_isp_init_config(struct v4l2_subdev *sd,
- 	struct v4l2_mbus_framefmt *sink_fmt, *src_fmt;
- 	struct v4l2_rect *sink_crop, *src_crop;
+@@ -705,6 +705,7 @@ static void rkisp1_isp_set_sink_fmt(struct rkisp1_isp *isp,
+ 	const struct rkisp1_mbus_info *mbus_info;
+ 	struct v4l2_mbus_framefmt *sink_fmt;
+ 	struct v4l2_rect *sink_crop;
++	bool is_yuv;
  
-+	/* Video. */
- 	sink_fmt = v4l2_subdev_get_try_format(sd, sd_state,
- 					      RKISP1_ISP_PAD_SINK_VIDEO);
- 	sink_fmt->width = RKISP1_DEFAULT_WIDTH;
- 	sink_fmt->height = RKISP1_DEFAULT_HEIGHT;
- 	sink_fmt->field = V4L2_FIELD_NONE;
- 	sink_fmt->code = RKISP1_DEF_SINK_PAD_FMT;
-+	sink_fmt->colorspace = V4L2_COLORSPACE_RAW;
-+	sink_fmt->xfer_func = V4L2_XFER_FUNC_NONE;
-+	sink_fmt->ycbcr_enc = V4L2_YCBCR_ENC_601;
-+	sink_fmt->quantization = V4L2_QUANTIZATION_FULL_RANGE;
+ 	sink_fmt = rkisp1_isp_get_pad_fmt(isp, sd_state,
+ 					  RKISP1_ISP_PAD_SINK_VIDEO,
+@@ -725,6 +726,36 @@ static void rkisp1_isp_set_sink_fmt(struct rkisp1_isp *isp,
+ 				   RKISP1_ISP_MIN_HEIGHT,
+ 				   RKISP1_ISP_MAX_HEIGHT);
  
- 	sink_crop = v4l2_subdev_get_try_crop(sd, sd_state,
- 					     RKISP1_ISP_PAD_SINK_VIDEO);
-@@ -571,11 +576,16 @@ static int rkisp1_isp_init_config(struct v4l2_subdev *sd,
- 					     RKISP1_ISP_PAD_SOURCE_VIDEO);
- 	*src_fmt = *sink_fmt;
- 	src_fmt->code = RKISP1_DEF_SRC_PAD_FMT;
-+	src_fmt->colorspace = V4L2_COLORSPACE_SRGB;
-+	src_fmt->xfer_func = V4L2_XFER_FUNC_SRGB;
-+	src_fmt->ycbcr_enc = V4L2_YCBCR_ENC_601;
-+	src_fmt->quantization = V4L2_QUANTIZATION_LIM_RANGE;
++	/*
++	 * Adjust the color space fields. Accept any color primaries and
++	 * transfer function for both YUV and Bayer. For YUV any YCbCr encoding
++	 * and quantization range is also accepted. For Bayer formats, the YCbCr
++	 * encoding isn't applicable, and the quantization range can only be
++	 * full.
++	 */
++	is_yuv = mbus_info->pixel_enc == V4L2_PIXEL_ENC_YUV;
++
++	sink_fmt->colorspace = format->colorspace ? :
++			       (is_yuv ? V4L2_COLORSPACE_SRGB :
++				V4L2_COLORSPACE_RAW);
++	sink_fmt->xfer_func = format->xfer_func ? :
++			      V4L2_MAP_XFER_FUNC_DEFAULT(sink_fmt->colorspace);
++	if (is_yuv) {
++		sink_fmt->ycbcr_enc = format->ycbcr_enc ? :
++			V4L2_MAP_YCBCR_ENC_DEFAULT(sink_fmt->colorspace);
++		sink_fmt->quantization = format->quantization ? :
++			V4L2_MAP_QUANTIZATION_DEFAULT(false, sink_fmt->colorspace,
++						      sink_fmt->ycbcr_enc);
++	} else {
++		/*
++		 * The YCbCr encoding isn't applicable for non-YUV formats, but
++		 * V4L2 has no "no encoding" value. Hardcode it to Rec. 601, it
++		 * should be ignored by userspace.
++		 */
++		sink_fmt->ycbcr_enc = V4L2_YCBCR_ENC_601;
++		sink_fmt->quantization = V4L2_QUANTIZATION_FULL_RANGE;
++	}
++
+ 	*format = *sink_fmt;
  
- 	src_crop = v4l2_subdev_get_try_crop(sd, sd_state,
- 					    RKISP1_ISP_PAD_SOURCE_VIDEO);
- 	*src_crop = *sink_crop;
- 
-+	/* Parameters and statistics. */
- 	sink_fmt = v4l2_subdev_get_try_format(sd, sd_state,
- 					      RKISP1_ISP_PAD_SINK_PARAMS);
- 	src_fmt = v4l2_subdev_get_try_format(sd, sd_state,
+ 	/* Propagate to in crop */
 -- 
 Regards,
 
