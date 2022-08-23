@@ -2,49 +2,98 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E1D8F59CECD
-	for <lists+linux-media@lfdr.de>; Tue, 23 Aug 2022 04:53:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A9B3859CFBE
+	for <lists+linux-media@lfdr.de>; Tue, 23 Aug 2022 05:59:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239787AbiHWCv2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 22 Aug 2022 22:51:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46354 "EHLO
+        id S240073AbiHWD5n (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 22 Aug 2022 23:57:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50878 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239777AbiHWCv1 (ORCPT
+        with ESMTP id S239454AbiHWD5m (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 22 Aug 2022 22:51:27 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F31D95A3D4
-        for <linux-media@vger.kernel.org>; Mon, 22 Aug 2022 19:51:26 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id D47202B3;
-        Tue, 23 Aug 2022 04:51:23 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1661223084;
-        bh=9YAnzJDbdyA4o6fptSC+kOD8rfQMaMjmd7WH0BBXx54=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=wFoP6V36/jeh60dIYoJ/DBeWl57SRDANW86j9rWI4pp2l3by7tzu4uw1Rv892rMpG
-         TW80bvrgOJWNJ6kZcXaY5TjXYOcGZNVgLJchwpmGxf28f3TRNOLEsGJHimG9buR3rm
-         8LuGS1R7Tkc6VIO/3zGrphOEwrIfxijKhuMCePTk=
-Date:   Tue, 23 Aug 2022 05:51:20 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Alexander Stein <alexander.stein@ew.tq-group.com>
-Cc:     Sakari Ailus <sakari.ailus@iki.fi>, linux-media@vger.kernel.org,
-        Manivannan Sadhasivam <mani@kernel.org>
-Subject: Re: Re: Re: [PATCH 07/19] media: i2c: imx290: Support variable-sized
- registers
-Message-ID: <YwRAqFwgPy6rmuD7@pendragon.ideasonboard.com>
-References: <20220721083540.1525-1-laurent.pinchart@ideasonboard.com>
- <Ytq2Qb04baTNy+I4@valkosipuli.retiisi.eu>
- <Ytx+9f3y99EpQ5z5@pendragon.ideasonboard.com>
- <4728760.GXAFRqVoOG@steina-w>
- <YwQog5af3QY32Ywn@pendragon.ideasonboard.com>
+        Mon, 22 Aug 2022 23:57:42 -0400
+Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com [66.111.4.25])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E703C5A2D9;
+        Mon, 22 Aug 2022 20:57:41 -0700 (PDT)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+        by mailout.nyi.internal (Postfix) with ESMTP id 4B0ED5C017D;
+        Mon, 22 Aug 2022 23:57:41 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute1.internal (MEProxy); Mon, 22 Aug 2022 23:57:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
+        cc:cc:content-transfer-encoding:content-type:date:date:from:from
+        :in-reply-to:in-reply-to:message-id:mime-version:references
+        :reply-to:sender:subject:subject:to:to; s=fm2; t=1661227061; x=
+        1661313461; bh=DCa1+tn2wL/qaiJJ/v6UFWHx8ak4jYt6XIvYs1ogASU=; b=d
+        Nm7xjWcTOqvSwz3gYuAarLkMwyk1L93rhjRpVFZPXwz6dFmRC4aCEh7aEUK0CdWn
+        22sNwpjO0dIWuGu8prCS9bBX1i/IyA51+FVUSZaVQZKK9btir7e4vipNEijX/Tkn
+        vO4fLwEFj2npXJMrqQ81ogpkboWCkX0dDcNBIQtajYby3vP7vl+5G4+8q0EsSro6
+        eKGOifWHQ/RRa9x3V1G9XLKpm6bqpfKVHRYtE93SlymFQDGo1813dhBhO67xidO1
+        dgMvadrQ97zo1PBynbXRYJ4ysZzVyxsZOUy/GS2rqLahrz0L/dFcMV2cydJDPfoK
+        YT1+XlAjXjkjmi4KO7diw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-transfer-encoding
+        :content-type:date:date:feedback-id:feedback-id:from:from
+        :in-reply-to:in-reply-to:message-id:mime-version:references
+        :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+        :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1661227061; x=
+        1661313461; bh=DCa1+tn2wL/qaiJJ/v6UFWHx8ak4jYt6XIvYs1ogASU=; b=Z
+        Jm0FM3OvLfkKYN4sFPWIgRAG1XV2ynPZLtVnBLuBZl62D6YysNIz7b9vkCCrT6hW
+        EPgcH+DIJI5sEeNMzV2E4ArYg+k3sKLSiJ3n1nyV/TKtDwLt0VH6biHkGvPPsiFM
+        i1k04urhL3vAYWBJmKPmE/LzCUpVtL75ZiQREHCOQiECVcsf4pAHlR5gyHBv92C1
+        bKYLODji5n6xouXrL3ctRK9srwUY83uySJj5Yi2Mi6w3CyLm/O5+7Y4iu6lBmNCJ
+        FqHVHQfFnWwJuYHZXYaEsRr9c2lcFq5ve6ktzx1MuQkW3sV8BeJgEsI3T48Ks8wg
+        qeo2EapXXryyZU/BKS5jw==
+X-ME-Sender: <xms:NFAEYwBBNuYE_ZHBdryobgdhF8_0FG4RPvEblMksXZuNiyuy51I2Ww>
+    <xme:NFAEYyjJdfcIt3etKUTInGw1u1wHZVWXWqC4xaEyXoQ7ERabdn_xH5bE87l5Mv5iG
+    aa03CUynG3Z_JXodg>
+X-ME-Received: <xmr:NFAEYznuIEgctqizdbNdpLa6Ddy8i5i95biA3eqkV7camQpV-kBM3mqQlNQ3WHgp4sLJFU_z7XHTL1Sf5Sm7vUyyREGLK5M1DDmOvZiy_q7CvoW8sg3-ro-mxQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdeikedgjeekucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepuffvvehfhffkffgfgggjtgfgsehtkeertddtfeejnecuhfhrohhmpefurghm
+    uhgvlhcujfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenuc
+    ggtffrrghtthgvrhhnpedtvefhheehgfdvkeetffeludeuudehudeuvddtveelleekvedv
+    uedviefhkeeuheenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfh
+    hrohhmpehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
+X-ME-Proxy: <xmx:NFAEY2wQfJuLXStVYDzD7MonbWVO01PvpejRvoHL4XXZ6NpJ0hC_dw>
+    <xmx:NFAEY1TKZ7KRMqXiDDkjRYvmTKCZf3hliiL0xNW8clijGVYSn1tqrA>
+    <xmx:NFAEYxY6TxQu5Kp0zRAHWT5xJFekjf818HchEHzmIgOInMIqav1wHA>
+    <xmx:NVAEY7CNXyIiw1a_-etXr3089TIFW41h48u5JJEGquqbDFAgyEZ5oA>
+Feedback-ID: i0ad843c9:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 22 Aug 2022 23:57:40 -0400 (EDT)
+Subject: Re: [PATCH v1 2/3] media: cedrus: Set the platform driver data
+ earlier
+To:     =?UTF-8?Q?Jernej_=c5=a0krabec?= <jernej.skrabec@gmail.com>,
+        linux-media@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Cc:     kernel@collabora.com,
+        Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+        stable@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+        linux-kernel@vger.kernel.org
+References: <20220818203308.439043-1-nicolas.dufresne@collabora.com>
+ <4418189.LvFx2qVVIh@jernej-laptop>
+ <47ce07adc73887b5afaf9815a78b793d0e9a6b54.camel@collabora.com>
+ <4733096.GXAFRqVoOG@jernej-laptop>
+From:   Samuel Holland <samuel@sholland.org>
+Message-ID: <0aab3720-7211-9414-0005-6a419b5f04c8@sholland.org>
+Date:   Mon, 22 Aug 2022 22:57:39 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
+In-Reply-To: <4733096.GXAFRqVoOG@jernej-laptop>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <YwQog5af3QY32Ywn@pendragon.ideasonboard.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -52,87 +101,68 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Alexander,
-
-On Tue, Aug 23, 2022 at 04:08:20AM +0300, Laurent Pinchart wrote:
-> On Mon, Jul 25, 2022 at 08:49:40AM +0200, Alexander Stein wrote:
-> > Am Sonntag, 24. Juli 2022, 01:06:29 CEST schrieb Laurent Pinchart:
-> > > On Fri, Jul 22, 2022 at 05:37:53PM +0300, Sakari Ailus wrote:
-> > > > On Thu, Jul 21, 2022 at 01:43:54PM +0200, Alexander Stein wrote:
-> > > > ...
-> > > > 
-> > > > > Nice the following snippet does the trick already:
-> > > > > ---8<---
-> > > > > --- a/drivers/media/i2c/imx290.c
-> > > > > +++ b/drivers/media/i2c/imx290.c
-> > > > > @@ -221,6 +221,7 @@ static const struct imx290_pixfmt imx290_formats[] =
-> > > > > {
-> > > > >  static const struct regmap_config imx290_regmap_config = {
-> > > > >         .reg_bits = 16,
-> > > > >         .val_bits = 8,
-> > > > > +       .use_single_read = true,
-> > > > >  };
-> > > > >  
-> > > > >  static const char * const imx290_test_pattern_menu[] = {
-> > > > > 
-> > > > > ---8<---
-> > > > > 
-> > > > > As this affects the VC OV9281 as well, any suggestions for a common
-> > > > > property?
-> > > > 
-> > > > If there's a 1:1 I²C mux in there between the host and the sensor, should
-> > > > it be in DT as well? I'm not entirely certain it's necessary.
-> > > 
-> > > The microcontroller also the sensor clock and power supplies, so it has
-> > > to be modelled in DT in any case. I was trying to avoid exposing it as
-> > > an I2C mux, but maybe we'll have to bite the bullet...
-> > 
-> > What is the benefit about exposing a I2C mux? The needed regmap config option 
-> > is configured completely independent to this.
+On 8/20/22 3:25 AM, Jernej Škrabec wrote:
+> Dne petek, 19. avgust 2022 ob 17:37:20 CEST je Nicolas Dufresne napisal(a):
+>> Le vendredi 19 août 2022 à 06:17 +0200, Jernej Škrabec a écrit :
+>>> Dne četrtek, 18. avgust 2022 ob 22:33:07 CEST je Nicolas Dufresne 
+> napisal(a):
+>>>> From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+>>>>
+>>>> The cedrus_hw_resume() crashes with NULL deference on driver probe if
+>>>> runtime PM is disabled because it uses platform data that hasn't been
+>>>> set up yet. Fix this by setting the platform data earlier during probe.
+>>>
+>>> Does it even work without PM? Maybe it would be better if Cedrus would
+>>> select PM in Kconfig.
+>>
+>> I cannot comment myself on this, but it does not seem to invalidate this
+>> Dmitry's fix.
 > 
-> If the I2C mux in the camera module messes up I2C transfers, the related
-> quirks need to be handled somewhere, and a specific mux driver device in
-> DT could be a good place to report that. There may be other options
-> though.
-> 
-> > > I've implement support for two camera modules from Vision Components but
-> > > haven't submitted patches yet. See [1] and [2] for DT examples and [3]
-> > > for the driver that handles the microcontroller.
-> > > 
-> > > Note that one purpose of the microcontroller is to configure the sensor
-> > > automatically. It can be queried through I2C for a list of supported
-> > > modes, and it can also reconfigure the sensor fully when a mode is
-> > > selected. This is meant to enable development of a single driver that
-> > > will cover all modules, regardless of which camera sensor it integrates.
-> > > I'm not sure what words you will use to voice your opinion on this
-> > > design, but I think I already agree :-)
-> > > 
-> > > [1] https://gitlab.com/ideasonboard/nxp/linux/-/blob/pinchartl/v5.19/dev/isp/next/arch/arm64/boot/dts/freescale/imx8mp-maivin-csi1-imx296.dts
-> > > [2] https://gitlab.com/ideasonboard/nxp/linux/-/blob/pinchartl/v5.19/dev/isp/next/arch/arm64/boot/dts/freescale/imx8mp-maivin-csi1-imx327.dts
-> > > [3] https://gitlab.com/ideasonboard/nxp/linux/-/blob/pinchartl/v5.19/dev/isp/next/drivers/media/i2c/vc-mipi.c
-> > > 
-> > > > The property could be called e.g. "single-octet-read". I think this should
-> > > > probably be documented in I²C bindings (or even regmap).
-> > > 
-> > > I like the idea of making it a DT property global to all I2C devices. It
-> > > should ideally be parsed by the I2C core or by regmap.
-> > 
-> > I agree with adding this as a regmap option, like 'big-endian' & friends, but 
-> > not so much for I2C core. IMHO the core should only be interested in handling 
-> > messages and transfers. Setting up those correctly is a matter for drivers 
-> > (which in turn use regmap).
-> 
-> I don't want to polute a large number of sensor drivers because of
-> questionable design decisions of a particular module vendor. This type
-> of quirk needs to be handled outside of the sensor driver.
+> If NULL pointer dereference happens only when PM is disabled, then it does. I 
+> have PM always enabled and I never experienced above issue.
 
-Given that the chip ID is only read to print it to the kernel log, and
-that an incorrectly read ID will not prevent the driver from probing or
-affect its behaviour in any way, would you object to merging this patch,
-with the single read issue to support the Vision Components module being
-handled later ?
+There's still a bug even with PM enabled: the v4l2 device is exposed to
+userspace, and therefore userspace could trigger a PM resume, before
+platform_set_drvdata() is called.
 
--- 
-Regards,
+>>>> Cc: stable@vger.kernel.org
+>>>> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+>>>> Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 
-Laurent Pinchart
+Please add a Fixes tag. With that:
+
+Reviewed-by: Samuel Holland <samuel@sholland.org>
+
+>>>> ---
+>>>>
+>>>>  drivers/staging/media/sunxi/cedrus/cedrus.c | 4 ++--
+>>>>  1 file changed, 2 insertions(+), 2 deletions(-)
+>>>>
+>>>> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.c
+>>>> b/drivers/staging/media/sunxi/cedrus/cedrus.c index
+>>>> 960a0130cd620..55c54dfdc585c 100644
+>>>> --- a/drivers/staging/media/sunxi/cedrus/cedrus.c
+>>>> +++ b/drivers/staging/media/sunxi/cedrus/cedrus.c
+>>>> @@ -448,6 +448,8 @@ static int cedrus_probe(struct platform_device
+>>>> *pdev)
+>>>>
+>>>>  	if (!dev)
+>>>>  		return -ENOMEM;
+>>>>
+>>>> +	platform_set_drvdata(pdev, dev);
+>>>> +
+>>>>  	dev->vfd = cedrus_video_device;
+>>>>  	dev->dev = &pdev->dev;
+>>>>  	dev->pdev = pdev;
+>>>>
+>>>> @@ -521,8 +523,6 @@ static int cedrus_probe(struct platform_device
+>>>> *pdev)
+>>>>
+>>>>  		goto err_m2m_mc;
+>>>>  	}
+>>>>
+>>>> -	platform_set_drvdata(pdev, dev);
+>>>> -
+>>>>  	return 0;
+>>>>  
+>>>>  err_m2m_mc:
