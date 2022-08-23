@@ -2,288 +2,179 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E279059E4C3
-	for <lists+linux-media@lfdr.de>; Tue, 23 Aug 2022 15:59:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 57E4D59E57D
+	for <lists+linux-media@lfdr.de>; Tue, 23 Aug 2022 16:58:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241538AbiHWN7G (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 23 Aug 2022 09:59:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44068 "EHLO
+        id S241667AbiHWO6X (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 23 Aug 2022 10:58:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56354 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241657AbiHWN6r (ORCPT
+        with ESMTP id S241791AbiHWO6H (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 23 Aug 2022 09:58:47 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F279C234373
-        for <linux-media@vger.kernel.org>; Tue, 23 Aug 2022 04:05:27 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id A5C76B81CD2
-        for <linux-media@vger.kernel.org>; Tue, 23 Aug 2022 10:53:49 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CF506C433D6;
-        Tue, 23 Aug 2022 10:53:45 +0000 (UTC)
-Message-ID: <3840c3cc-00fb-45dd-cb89-39b36fb6d733@xs4all.nl>
-Date:   Tue, 23 Aug 2022 12:53:44 +0200
+        Tue, 23 Aug 2022 10:58:07 -0400
+Received: from relay12.mail.gandi.net (relay12.mail.gandi.net [IPv6:2001:4b98:dc4:8::232])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 544A430A79E;
+        Tue, 23 Aug 2022 05:23:31 -0700 (PDT)
+Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
+        by mail.gandi.net (Postfix) with ESMTPSA id B6140200004;
+        Tue, 23 Aug 2022 12:22:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+        t=1661257371;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=mH/IsYL2UPBaCXvhJbSLyyoriNuaQXpxdb7a7Mfls2k=;
+        b=DAzEwz0Yj5FE2S/Gf2B5PDjuh2A9BbgMkrwUgaEn6TEf+aSR3AWc5hjukvQOyOUIX2tjnT
+        VqHvjbLQRHRi83kxjT8K4c88QHMOcDAeSxydZnwV/NPnW4a7B5cx4tytI0vZMGagEYlGT8
+        Wq9aDliGZjnH+ItFFvPkeblGaypN0er1s0CmnRvpvfPU1uONta8FqtcbSoCU+5A7wM3R3g
+        HdM2rf13SnCK0/ta9Tn4S/AVqUE9mhik4oQhhEYpANOwI6HHZIDL8f7gR+IJ8MFa0ATeWa
+        Gro75d/mDXIQ/4nkvme6/rwYAwas01UqUck8kxNFPfDGk/xTj+J0V38F/WC5ww==
+Date:   Tue, 23 Aug 2022 14:22:44 +0200
+From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+To:     Samuel Holland <samuel@sholland.org>
+Cc:     Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>,
+        linux-media@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+        kernel@collabora.com,
+        Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+        stable@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 2/3] media: cedrus: Set the platform driver data
+ earlier
+Message-ID: <YwTGlENw/7+SDal/@aptenodytes>
+References: <20220818203308.439043-1-nicolas.dufresne@collabora.com>
+ <4418189.LvFx2qVVIh@jernej-laptop>
+ <47ce07adc73887b5afaf9815a78b793d0e9a6b54.camel@collabora.com>
+ <4733096.GXAFRqVoOG@jernej-laptop>
+ <0aab3720-7211-9414-0005-6a419b5f04c8@sholland.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [ANN] Media Summit at ELCE Dublin, September 12: Draft Agenda V2
-To:     linux-media@vger.kernel.org
-Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        Hidenori Kobayashi <hidenorik@chromium.org>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Ricardo Ribalda <ribalda@chromium.org>,
-        Maxime Ripard <maxime@cerno.tech>,
-        Daniel Scally <djrscally@gmail.com>,
-        =?UTF-8?Q?Jernej_=c5=a0krabec?= <jernej.skrabec@gmail.com>,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="VACStzkiwKlyW1sA"
+Content-Disposition: inline
+In-Reply-To: <0aab3720-7211-9414-0005-6a419b5f04c8@sholland.org>
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi all,
 
-Here is some more information about the Media Summit:
-
-Date: Monday September 12
-Time: 8:45-18:00
-Location: Convention Centre Dublin
-Room: The Liffey B - Part 1 (subject to change)
-Sponsored by: Cisco Systems Norway, Collabora and the Kodi Foundation
-
-We will have a projector or display to show presentations, power strips,
-a whiteboard and beverages. Lunch is sponsored by the Kodi Foundation,
-details to follow.
-
-It's co-located with the OSS Europe conference:
-
-https://events.linuxfoundation.org/open-source-summit-europe/
-
-Attendees:
-
-Sakari Ailus <sakari.ailus@linux.intel.com>
-Kieran Bingham <kieran.bingham@ideasonboard.com>
-Nicolas Dufresne <nicolas@ndufresne.ca>
-Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Hidenori Kobayashi <hidenorik@chromium.org>
-Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Jacopo Mondi <jacopo@jmondi.org>
-Michael Olbrich <m.olbrich@pengutronix.de>
-Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Ricardo Ribalda <ribalda@chromium.org>
-Maxime Ripard <maxime@cerno.tech>
-Daniel Scally <djrscally@gmail.com>
-Jernej Škrabec <jernej.skrabec@gmail.com>
-Niklas Söderlund <niklas.soderlund@ragnatech.se> (afternoon only)
-Dave Stevenson <dave.stevenson@raspberrypi.com> (from 11 am approx.)
-Michael Tretter <m.tretter@pengutronix.de>
-Hans Verkuil <hverkuil@xs4all.nl>
-Philipp Zabel <p.zabel@pengutronix.de>
-
-Note: there are 2 seats left, so if you are interested in this, mail me.
-
-Tentative remote attendees:
-
-Mauro Carvalho Chehab <mchehab@kernel.org>
-Benjamin MUGNIER <benjamin.mugnier@foss.st.com>
-
-Regarding remote attendance: I plan to bring a second laptop with me and a good webcam.
-But whether this will work is not at all certain, esp. audio is often very poor. It very
-much depends on the room. More info to follow.
-
-The health and safety regulations will be those of the OSSE LF (updated on August 22):
-
-https://events.linuxfoundation.org/open-source-summit-europe/attend/health-and-safety/
-
-As you can read above masks are needed for this event, so make sure you bring them!
-You also need to be fully vaccinated (Duh!), or show a negative test. See the details
-in the link.
-
-We also strongly recommend that you do a self-test before going to the Conference Centre
-for this meeting.
-
-Code of conduct:
-
-https://events.linuxfoundation.org/open-source-summit-europe/attend/code-of-conduct/
-
-
-Based on the submitted topics I have made a first draft of the agenda. I have tried
-to keep the sensor-related topics to after 11:00 since Dave comes in later in the day.
-
-I am also making the (reasonable) assumption that most (if not all) attendees will be
-attending the ELCE/OSSE conference Tue-Fri as well. While it is nice if we can come
-to a conclusion in the time allotted for each topic, it's also OK if we can set up
-a small group that can discuss it further in the following days.
-
-If you raised a discussion topic, but will be in Dublin for only the Monday, then
-let me know.
-
-I added a guesstimate of the time needed for each topic. If you think that guesstimate
-is wildly off, then let me know. But remember: it's fine if we decide to discuss it
-further in the following days in a smaller group.
-
-If you present a topic, then please make a presentation. And if you have material you
-can share beforehand, then that would be great.
-
-We have the room from 8:30-18:00, so I moved a few things around since V1, in particular
-please come in a bit earlier so you can set everything up (power, internet, etc.) so
-we can begin at 9 AM sharp.
-
-Don't expect that the times below are precise (esp. after 11:00): past experience tells
-us that it can vary wildly.
-
-Draft Agenda V2:
-
- 8:40 Getting settled
- 9:00 Introduction
- 9:10 Hans: Presentation on CTA-861 & edid-decode
- 9:25 Nicolas: Stateless encoder progress
-10:00 Ricardo: Introduce ChromeOS camera project
-
-11:00 Break
-
-11:15 Kieran: Fault tolerance
-
-  I raised this in the past when we first started hitting the issue on
-  Renesas platforms with multiple cameras in a single media graph, but now
-  I think it's become more critical with desktop / laptop devices that are
-  hitting the issue (i.e. the IPU3).
-
-  Summary of issue:
-
-  - Multiple cameras that can function independently successfully, are
-    prevented from functioning or fully probing by V4L2 if one component
-    of another camera fails to load or probe.
-
-    If Camera A has a VCM, and Camera B does not, Camera B will not be
-    available at all if Camera A's VCM is not fully probed, even though
-    Camera B can be fully functional and complete.
-
-    Even if Camera A does not have the VCM probed, it may still function
-    successfully (with a fixed focal position) - but our current
-    implementation will mean that it will not even be available to
-    capture images.
-
-  We talked about this quite a long time ago, and I believe the general
-  consensus was that we can have events on the media graph. But
-  unfortunately at the time, there was no development scheduled on that,
-  and it wasn't something I was able to continue at the time.
-
-  I'd like to bring it up to refresh the topic, and see if we can make
-  some progress as it's now affecting more general devices.
-
-11:45 Jacopo: Representing addition sensor processing stages.
-
-  How to represent additional processing stages that happens
-  on the sensor side, mostly additional subsampling/cropping that happen
-  between the analogue cropping on the full pixel array and the final
-  image sent on the wire.
-
-  https://lore.kernel.org/linux-media/CAPY8ntA06L1Xsph79sv9t7MiDSNeSO2vADevuXZdXQdhWpSmow@mail.gmail.com/
-
-  Dave made a good introduction of the issue his email which got
-  largely unanswered.
-
-  The issue is particularly relevant for RAW sensors, where applying
-  subsampling has an impact on the sensor's sensitivity and requires
-  to adjust the gains and exposure accordingly.
-
-  The V4L2 selection API falls short on this and the only other
-  solution I am aware of is registering additional subdevices as the
-  CCS driver does.
-
-12:30 Lunch
-
-13:30 Dave: On-sensor temperature reporting.
-
-  Thread started by Benjamin at
-  https://lore.kernel.org/linux-media/20220415111845.27130-3-benjamin.mugnier@foss.st.com/
-  but no resolution over using hwmon API or V4L2 control. If hwmon
-  then we need Media Controller framework to tie the sensor and thermal
-  device together.
-
-  It's recently been queried for IMX477 with the Pi
-  (https://github.com/raspberrypi/libcamera/issues/19), but it will
-  apply to many sensors.
-
-13:50 Dave: Synchronising sensors for stereoscopic operation.
-
-  How should that be configured? Allowing configuration from userspace
-  would allow sensors to be operated independently which can be useful for
-  test purposes, or should it be enforced from DT/ACPI? Do we set a default
-  configuration for each sensor from DT/ACPI and then allow userspace to
-  override should it wish?
-
-14:10 Dave: Lens drivers.
-
-  Each driver will have a "useful" range which is effectively dictated by
-  the overall module. Should that be defined via DT as it is a feature of
-  the platform, or leave the driver totally generic and expect userspace
-  to do something sensible?
-
-  In the case of simple systems without libcamera, do we set default for
-  V4L2_CID_FOCUS_ABSOLUTE to a sensible hyperfocal distance, and can
-  that again be defined in DT as it is defining the hardware?
-
-14:30 Dave: Controlling sensor GPIO outputs.
-
-  Controlling sensor GPIO outputs for things such as flash triggers,
-  vsync, frame start/end, exposure start/end, etc.
-
-  There is a huge range of features available so do we have any hope of
-  standardising some of it, or do we end up hiding these away in the
-  drivers with custom DT bindings to configure them? If we accept that
-  there will be variation, can we vaguely standardise what those
-  bindings look like? Or should these be V4L2 controls as things like
-  pulse widths may want to be adjusted by userspace?
-
-15:00 Break
-
-15:30 Jacopo: Reconcile handling of regulator, gpios and clock on OF and ACPI platforms.
-
-  We recently got a few series trying to reconcile handling of regulators,
-  gpios and clocks on OF and ACPI platforms all of them doing the usual
-  "similar but slightly different" thing:
-
-  https://lore.kernel.org/linux-media/20220425061022.1569480-1-paul.elder@ideasonboard.com/
-  https://lore.kernel.org/linux-media/20220329090133.338073-1-jacopo@jmondi.org/
-  https://lore.kernel.org/linux-media/20220509143226.531117-1-foss+kernel@0leil.net/
-  https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=0c2c7a1e0d69221b9d489bfd8cf53262d6f82446
-
-  ACPI and OF handles clocks slightly differently, and it is not clear
-  to me if ACPI based platform need explicit handling of
-  clocks/regulator or ACPI does "the right thing" by itself (I'm
-  afraid the answer is actually "it depends"). I'm ACPI illiterate
-  so I cannot propose anything meaningful but if anyone is interested
-  in discussing this further this might be a good time to do so ?
-
-
-16:00 Laurent: V4L2 streams series.
-
-  I'd like to discuss the V4L2 streams series, in particular how to
-  upstream the parts that won't be upstream yet by mid-September.
-  Discussing the next steps would also be useful, as there's lots we could
-  build on top.
-
-16:30 Laurent: How can we finalize conversion of v4l-utils to meson?
-
-16:45-18:00 Anything else?
-
-Regards,
-
-	Hans
+--VACStzkiwKlyW1sA
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Hi,
+
+On Mon 22 Aug 22, 22:57, Samuel Holland wrote:
+> On 8/20/22 3:25 AM, Jernej =C5=A0krabec wrote:
+> > Dne petek, 19. avgust 2022 ob 17:37:20 CEST je Nicolas Dufresne napisal=
+(a):
+> >> Le vendredi 19 ao=C3=BBt 2022 =C3=A0 06:17 +0200, Jernej =C5=A0krabec =
+a =C3=A9crit :
+> >>> Dne =C4=8Detrtek, 18. avgust 2022 ob 22:33:07 CEST je Nicolas Dufresn=
+e=20
+> > napisal(a):
+> >>>> From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+> >>>>
+> >>>> The cedrus_hw_resume() crashes with NULL deference on driver probe if
+> >>>> runtime PM is disabled because it uses platform data that hasn't been
+> >>>> set up yet. Fix this by setting the platform data earlier during pro=
+be.
+> >>>
+> >>> Does it even work without PM? Maybe it would be better if Cedrus would
+> >>> select PM in Kconfig.
+> >>
+> >> I cannot comment myself on this, but it does not seem to invalidate th=
+is
+> >> Dmitry's fix.
+> >=20
+> > If NULL pointer dereference happens only when PM is disabled, then it d=
+oes. I=20
+> > have PM always enabled and I never experienced above issue.
+>=20
+> There's still a bug even with PM enabled: the v4l2 device is exposed to
+> userspace, and therefore userspace could trigger a PM resume, before
+> platform_set_drvdata() is called.
+
+Absolutely agreed!
+
+> >>>> Cc: stable@vger.kernel.org
+> >>>> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+> >>>> Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+>=20
+> Please add a Fixes tag. With that:
+>=20
+> Reviewed-by: Samuel Holland <samuel@sholland.org>
+
+Same here:
+
+Acked-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+
+Thanks!
+
+Paul
+
+> >>>> ---
+> >>>>
+> >>>>  drivers/staging/media/sunxi/cedrus/cedrus.c | 4 ++--
+> >>>>  1 file changed, 2 insertions(+), 2 deletions(-)
+> >>>>
+> >>>> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.c
+> >>>> b/drivers/staging/media/sunxi/cedrus/cedrus.c index
+> >>>> 960a0130cd620..55c54dfdc585c 100644
+> >>>> --- a/drivers/staging/media/sunxi/cedrus/cedrus.c
+> >>>> +++ b/drivers/staging/media/sunxi/cedrus/cedrus.c
+> >>>> @@ -448,6 +448,8 @@ static int cedrus_probe(struct platform_device
+> >>>> *pdev)
+> >>>>
+> >>>>  	if (!dev)
+> >>>>  		return -ENOMEM;
+> >>>>
+> >>>> +	platform_set_drvdata(pdev, dev);
+> >>>> +
+> >>>>  	dev->vfd =3D cedrus_video_device;
+> >>>>  	dev->dev =3D &pdev->dev;
+> >>>>  	dev->pdev =3D pdev;
+> >>>>
+> >>>> @@ -521,8 +523,6 @@ static int cedrus_probe(struct platform_device
+> >>>> *pdev)
+> >>>>
+> >>>>  		goto err_m2m_mc;
+> >>>>  	}
+> >>>>
+> >>>> -	platform_set_drvdata(pdev, dev);
+> >>>> -
+> >>>>  	return 0;
+> >>>> =20
+> >>>>  err_m2m_mc:
+
+--=20
+Paul Kocialkowski, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
+
+--VACStzkiwKlyW1sA
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmMExpQACgkQ3cLmz3+f
+v9Hphgf/RHIkNtIHgUBj1wEt+9CgUUYKzkUCP8Iwi0xIbXLJz4GeHQwIrL8VNnrT
+1xZCbn9LrUxPEx48WPdyxs2DMCk3JgIw0M4xGltx8VBPsmRo2GzslC8nWGYt9HyX
+r3sVL/Vx8GC0Do/yTaTA22LfBQOBOMebdEWZx2M05z/UL5aYC5QLHeaRo88fXqlE
+RLUhSbWZg3CIRQK4K8aIIa20mW/BpPGvp4af+NqFMezJiY9XsvAmv23dNhnYxZk9
+vrkXYKOK5L9WppdzVxqkBGl2jjeKqf5DHAwpIiQaf1iq7DJmdUTPZ193Vs3T9pHC
+c9btoDAjNoaJGV5Vir/sRaOTUBxmrg==
+=Aw5f
+-----END PGP SIGNATURE-----
+
+--VACStzkiwKlyW1sA--
