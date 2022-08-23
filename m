@@ -2,113 +2,166 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B251B59EEF2
-	for <lists+linux-media@lfdr.de>; Wed, 24 Aug 2022 00:23:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3C3BF59EFD0
+	for <lists+linux-media@lfdr.de>; Wed, 24 Aug 2022 01:44:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232704AbiHWWW4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 23 Aug 2022 18:22:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47656 "EHLO
+        id S232108AbiHWXno (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 23 Aug 2022 19:43:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43576 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230324AbiHWWWz (ORCPT
+        with ESMTP id S229446AbiHWXnn (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 23 Aug 2022 18:22:55 -0400
-Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5F92886FE4
-        for <linux-media@vger.kernel.org>; Tue, 23 Aug 2022 15:22:54 -0700 (PDT)
-Received: from tr.lan (ip-86-49-12-201.bb.vodafone.cz [86.49.12.201])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-        (No client certificate requested)
-        (Authenticated sender: marex@denx.de)
-        by phobos.denx.de (Postfix) with ESMTPSA id 206D683FFF;
-        Wed, 24 Aug 2022 00:22:52 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
-        s=phobos-20191101; t=1661293372;
-        bh=hOiSZugmoF9jVzqkdQoziypvzu4DRa2HP/VGKDMlXpQ=;
-        h=From:To:Cc:Subject:Date:From;
-        b=qhQIg6qbG9c/J289FI6jX6RP+u8Rxg3qJnpMcL5Mmo0N6SLFhLUtzrSCHXAtGnrgB
-         z42Ou9dSRFOA7d/VYUv9a3jA09igg0DSJYpg4ngzo/CQR4TJ4pSGsb2zo0PFJLME3t
-         yp/DH8uhpo25vFWSbsCRmjfK5oo89yXURQwOcOnryHrh9WXpZEKKIuSmtPPdalpqol
-         3fFbYK3XjdHfBMkGxiVIWYN6H5kbwdtHSJSe/A2ruCR8wvKi2zGFIeatOpvHRqPSBP
-         sKeTfsDr2aIRkpdvM0jDc6OwfFyjPMQTBRcdEZzqyGUorcJK5tr+kx/peP2o/jXX3a
-         JnKbg/50fBKNg==
-From:   Marek Vasut <marex@denx.de>
-To:     linux-media@vger.kernel.org
-Cc:     Marek Vasut <marex@denx.de>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Stefan Riedmueller <s.riedmueller@phytec.de>
-Subject: [PATCH v2] media: mt9p031: Increase post-reset delay
-Date:   Wed, 24 Aug 2022 00:22:16 +0200
-Message-Id: <20220823222216.411656-1-marex@denx.de>
-X-Mailer: git-send-email 2.35.1
+        Tue, 23 Aug 2022 19:43:43 -0400
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3CB60895E3;
+        Tue, 23 Aug 2022 16:43:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1661298222; x=1692834222;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=MCO4VTWPjr/7LqzHSAIUYtAKtbbOGlRNQ96nMCvQHG4=;
+  b=bt5fKKYtUbUJ2Wr3CiozvcZgbEi+r/VwnlKIulrFOG4RfJ6FKbFpDAUH
+   DVGPJYij6DPRdFfE3qz02UNrMp57MT927WyOvEYlKoBDpvK1sBPgwCmuA
+   yyUaP1mRFHp7ww2dfTsx3VkHzy4toyy+MycZ5BQgaQ4uTdj18zcY2i/uS
+   xQCafWZE4awRwimL16zB8k0JFIcIeG1zkkmbM09GjC//O4at2qsSEYEyt
+   C4/Rv2C9+fJ9SMxC8KTyc8n977YaWP4mqWLFl5/0dXTgqrvwN24czzGk3
+   M3eJEnHvIOf/6gb47Yy2ptld9Y973bFd0ndGuwevCsuOcF7RYbfnXkcKI
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10448"; a="294609159"
+X-IronPort-AV: E=Sophos;i="5.93,259,1654585200"; 
+   d="scan'208";a="294609159"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2022 16:43:15 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,259,1654585200"; 
+   d="scan'208";a="677813040"
+Received: from lkp-server02.sh.intel.com (HELO 9bbcefcddf9f) ([10.239.97.151])
+  by fmsmga004.fm.intel.com with ESMTP; 23 Aug 2022 16:43:11 -0700
+Received: from kbuild by 9bbcefcddf9f with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1oQdY6-0000ia-1Z;
+        Tue, 23 Aug 2022 23:43:10 +0000
+Date:   Wed, 24 Aug 2022 07:42:34 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Serge Semin <Sergey.Semin@baikalelectronics.ru>,
+        Rob Herring <robh@kernel.org>, Michal Simek <monstr@monstr.eu>,
+        Borislav Petkov <bp@alien8.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Tony Luck <tony.luck@intel.com>,
+        James Morse <james.morse@arm.com>,
+        Robert Richter <rric@kernel.org>
+Cc:     kbuild-all@lists.01.org, linux-media@vger.kernel.org,
+        Serge Semin <Sergey.Semin@baikalelectronics.ru>,
+        Alexey Malahov <Alexey.Malahov@baikalelectronics.ru>,
+        Michail Ivanov <Michail.Ivanov@baikalelectronics.ru>,
+        Pavel Parkhomenko <Pavel.Parkhomenko@baikalelectronics.ru>,
+        Punnaiah Choudary Kalluri 
+        <punnaiah.choudary.kalluri@xilinx.com>,
+        Manish Narani <manish.narani@xilinx.com>,
+        Dinh Nguyen <dinguyen@kernel.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 18/20] EDAC/synopsys: Drop unused platform-specific setup
+ API
+Message-ID: <202208240709.CwTZS8Qo-lkp@intel.com>
+References: <20220822190730.27277-19-Sergey.Semin@baikalelectronics.ru>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Virus-Scanned: clamav-milter 0.103.6 at phobos.denx.de
-X-Virus-Status: Clean
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220822190730.27277-19-Sergey.Semin@baikalelectronics.ru>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The MT9P006 sensor driver sporadically fails to probe because the sensor
-responds with a NACK condition to I2C address on the bus during an attempt
-to read the sensor MT9P031_CHIP_VERSION register in mt9p031_registered().
+Hi Serge,
 
-Neither the MT9P006 nor MT9P031 datasheets are clear on reset signal timing.
-Older MT9M034 [1] datasheet provides those timing figures in Appendix-A and
-indicates it is necessary to wait 850000 EXTCLK cycles before starting any
-I2C communication.
+I love your patch! Perhaps something to improve:
 
-Add such a delay, which does make the sporadic I2C NACK go away, so it is
-likely similar constraint applies to this sensor.
+[auto build test WARNING on ras/edac-for-next]
+[also build test WARNING on robh/for-next linus/master v6.0-rc2 next-20220823]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-[1] https://www.onsemi.com/pdf/datasheet/mt9m034-d.pdf
+url:    https://github.com/intel-lab-lkp/linux/commits/Serge-Semin/EDAC-mc-synopsys-Various-fixes-and-cleanups/20220823-031020
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/ras/ras.git edac-for-next
+config: arm-buildonly-randconfig-r006-20220823 (https://download.01.org/0day-ci/archive/20220824/202208240709.CwTZS8Qo-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/ec4a1d5280959bf5c6ff8d63006c62d54e01f9cc
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Serge-Semin/EDAC-mc-synopsys-Various-fixes-and-cleanups/20220823-031020
+        git checkout ec4a1d5280959bf5c6ff8d63006c62d54e01f9cc
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash drivers/edac/
 
-Signed-off-by: Marek Vasut <marex@denx.de>
----
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Stefan Riedmueller <s.riedmueller@phytec.de>
----
-V2: - In case clk_get_rate() returns 0, use slowest supported clock
-      to avoid division by zero
----
- drivers/media/i2c/mt9p031.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+If you fix the issue, kindly add following tag where applicable
+Reported-by: kernel test robot <lkp@intel.com>
 
-diff --git a/drivers/media/i2c/mt9p031.c b/drivers/media/i2c/mt9p031.c
-index 45f7b5e52bc39..5f5caafe56887 100644
---- a/drivers/media/i2c/mt9p031.c
-+++ b/drivers/media/i2c/mt9p031.c
-@@ -307,6 +307,7 @@ static inline int mt9p031_pll_disable(struct mt9p031 *mt9p031)
- 
- static int mt9p031_power_on(struct mt9p031 *mt9p031)
- {
-+	unsigned long rate, delay;
- 	int ret;
- 
- 	/* Ensure RESET_BAR is active */
-@@ -334,7 +335,12 @@ static int mt9p031_power_on(struct mt9p031 *mt9p031)
- 	/* Now RESET_BAR must be high */
- 	if (mt9p031->reset) {
- 		gpiod_set_value(mt9p031->reset, 0);
--		usleep_range(1000, 2000);
-+		/* Wait 850000 EXTCLK cycles before de-asserting reset. */
-+		rate = clk_get_rate(mt9p031->clk);
-+		if (!rate)
-+			rate = 6000000;	/* Slowest supported clock, 6 MHz */
-+		delay = DIV_ROUND_UP(850000 * 1000, rate);
-+		msleep(delay);
- 	}
- 
- 	return 0;
+All warnings (new ones prefixed by >>):
+
+   drivers/edac/synopsys_edac.c: In function 'synps_get_dtype':
+   drivers/edac/synopsys_edac.c:485:18: error: implicit declaration of function 'FIELD_GET'; did you mean 'FOLL_GET'? [-Werror=implicit-function-declaration]
+     485 |         regval = FIELD_GET(DDR_MSTR_DEV_CFG_MASK, regval);
+         |                  ^~~~~~~~~
+         |                  FOLL_GET
+   drivers/edac/synopsys_edac.c: In function 'mc_init':
+>> drivers/edac/synopsys_edac.c:600:33: warning: variable 'priv' set but not used [-Wunused-but-set-variable]
+     600 |         struct synps_edac_priv *priv;
+         |                                 ^~~~
+   cc1: some warnings being treated as errors
+
+
+vim +/priv +600 drivers/edac/synopsys_edac.c
+
+ae9b56e3996dadb Punnaiah Choudary Kalluri 2015-01-06  588  
+ae9b56e3996dadb Punnaiah Choudary Kalluri 2015-01-06  589  /**
+225af74d6312b2a Manish Narani             2018-10-04  590   * mc_init - Initialize one driver instance.
+225af74d6312b2a Manish Narani             2018-10-04  591   * @mci:	EDAC memory controller instance.
+225af74d6312b2a Manish Narani             2018-10-04  592   * @pdev:	platform device.
+ae9b56e3996dadb Punnaiah Choudary Kalluri 2015-01-06  593   *
+225af74d6312b2a Manish Narani             2018-10-04  594   * Perform initialization of the EDAC memory controller instance and
+ae9b56e3996dadb Punnaiah Choudary Kalluri 2015-01-06  595   * related driver-private data associated with the memory controller the
+ae9b56e3996dadb Punnaiah Choudary Kalluri 2015-01-06  596   * instance is bound to.
+ae9b56e3996dadb Punnaiah Choudary Kalluri 2015-01-06  597   */
+fa9f6b9e1cf9620 Manish Narani             2018-10-04  598  static void mc_init(struct mem_ctl_info *mci, struct platform_device *pdev)
+ae9b56e3996dadb Punnaiah Choudary Kalluri 2015-01-06  599  {
+ae9b56e3996dadb Punnaiah Choudary Kalluri 2015-01-06 @600  	struct synps_edac_priv *priv;
+ae9b56e3996dadb Punnaiah Choudary Kalluri 2015-01-06  601  
+ae9b56e3996dadb Punnaiah Choudary Kalluri 2015-01-06  602  	mci->pdev = &pdev->dev;
+ae9b56e3996dadb Punnaiah Choudary Kalluri 2015-01-06  603  	priv = mci->pvt_info;
+ae9b56e3996dadb Punnaiah Choudary Kalluri 2015-01-06  604  	platform_set_drvdata(pdev, mci);
+ae9b56e3996dadb Punnaiah Choudary Kalluri 2015-01-06  605  
+ae9b56e3996dadb Punnaiah Choudary Kalluri 2015-01-06  606  	/* Initialize controller capabilities and configuration */
+ae9b56e3996dadb Punnaiah Choudary Kalluri 2015-01-06  607  	mci->mtype_cap = MEM_FLAG_DDR3 | MEM_FLAG_DDR2;
+ae9b56e3996dadb Punnaiah Choudary Kalluri 2015-01-06  608  	mci->edac_ctl_cap = EDAC_FLAG_NONE | EDAC_FLAG_SECDED;
+5cfa57cc8481722 Serge Semin               2022-08-22  609  	mci->scrub_cap = SCRUB_FLAG_HW_SRC;
+ae9b56e3996dadb Punnaiah Choudary Kalluri 2015-01-06  610  	mci->scrub_mode = SCRUB_NONE;
+ae9b56e3996dadb Punnaiah Choudary Kalluri 2015-01-06  611  
+ae9b56e3996dadb Punnaiah Choudary Kalluri 2015-01-06  612  	mci->edac_cap = EDAC_FLAG_SECDED;
+ae9b56e3996dadb Punnaiah Choudary Kalluri 2015-01-06  613  	mci->ctl_name = "synps_ddr_controller";
+ae9b56e3996dadb Punnaiah Choudary Kalluri 2015-01-06  614  	mci->dev_name = SYNPS_EDAC_MOD_STRING;
+ae9b56e3996dadb Punnaiah Choudary Kalluri 2015-01-06  615  	mci->mod_name = SYNPS_EDAC_MOD_VER;
+ae9b56e3996dadb Punnaiah Choudary Kalluri 2015-01-06  616  
+b500b4a029d577c Manish Narani             2018-10-25  617  	edac_op_state = EDAC_OPSTATE_INT;
+b500b4a029d577c Manish Narani             2018-10-25  618  
+ae9b56e3996dadb Punnaiah Choudary Kalluri 2015-01-06  619  	mci->ctl_page_to_phys = NULL;
+ae9b56e3996dadb Punnaiah Choudary Kalluri 2015-01-06  620  
+fa9f6b9e1cf9620 Manish Narani             2018-10-04  621  	init_csrows(mci);
+ae9b56e3996dadb Punnaiah Choudary Kalluri 2015-01-06  622  }
+ae9b56e3996dadb Punnaiah Choudary Kalluri 2015-01-06  623  
+
 -- 
-2.35.1
-
+0-DAY CI Kernel Test Service
+https://01.org/lkp
