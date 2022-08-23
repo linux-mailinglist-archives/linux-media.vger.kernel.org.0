@@ -2,210 +2,115 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3BDBE59D1E1
-	for <lists+linux-media@lfdr.de>; Tue, 23 Aug 2022 09:20:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C527659D213
+	for <lists+linux-media@lfdr.de>; Tue, 23 Aug 2022 09:27:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240571AbiHWHTm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 23 Aug 2022 03:19:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53622 "EHLO
+        id S240953AbiHWH0W (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 23 Aug 2022 03:26:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59170 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240547AbiHWHTj (ORCPT
+        with ESMTP id S240950AbiHWH0R (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 23 Aug 2022 03:19:39 -0400
-Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 753BD61D9A
-        for <linux-media@vger.kernel.org>; Tue, 23 Aug 2022 00:19:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1661239178; x=1692775178;
-  h=subject:from:to:cc:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=pmYO8cCS7jam5hLD1pcOkLgWHVnYxYIOLBwAZfW2TlM=;
-  b=iesxVC+d1PYv4HhgLdvI45NTvB/wU9aWingM7hM2OgWGVhrCQukOowN1
-   vgJOSmNHyIa2YWiglOpjZxNiy6za/XQFBsJcdkxThoXqAZ1hZbvfLxvK7
-   VKXHpo/XwWm5eDrqYwkGwuG2pRJCnnIiZpLqnfr5023WfWN6K+0i1eina
-   lzWy5hiLZwkGR3IvumDJzaPM+HQU+Vn60VkBI/KqY7E+EV/mLq0zZBDb3
-   eS7Acfndy2FtBk6uUGUX+YA3KdWWawt0RynzOaZBfnvROrj6Wa4vA7MTB
-   A30RZH2j743xwdYrWD7OlyOtCyToKEgYAZOyViGNuQXTEsYL4a1RLOs5N
-   g==;
-X-IronPort-AV: E=Sophos;i="5.93,256,1654552800"; 
-   d="scan'208";a="25746067"
-Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
-  by mx1-pgp.tq-group.com with ESMTP; 23 Aug 2022 09:19:36 +0200
-Received: from mx1.tq-group.com ([192.168.6.7])
-  by tq-pgp-pr1.tq-net.de (PGP Universal service);
-  Tue, 23 Aug 2022 09:19:36 +0200
-X-PGP-Universal: processed;
-        by tq-pgp-pr1.tq-net.de on Tue, 23 Aug 2022 09:19:36 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1661239176; x=1692775176;
-  h=from:to:cc:date:message-id:in-reply-to:references:
-   mime-version:content-transfer-encoding:subject;
-  bh=pmYO8cCS7jam5hLD1pcOkLgWHVnYxYIOLBwAZfW2TlM=;
-  b=BrXSNqFX10uBu/fTCeQfwk6zL8rg+xHXbQBqWOgwXqGJkeoSyTFOlNBK
-   zD30z4COJVR2jiwczU4V9U/myiyXSo0b6t6Cb/XrpUXxOQ+FBeZ+Vq/7P
-   erLvPxHNce2M4DZwQIuKToVYbKTyVXwbvFChk/Pr90vZlni2MozrS1Ao9
-   njlY8tSA9WGngnImSxEyPoNiSMKN+XpoKjN2EYIInXx+Gbez7NVOxwoyH
-   iCqs1XvZtPmLE2T7et2FNfuDjps/X491JTYYVWnvOBdyO2iyfVOguAiZ5
-   314/H09lD5W3VSb8I3YF6BXD+djO5w9WsdqsTlC8en2Y/VGxhQ4/oDBuQ
-   Q==;
-X-IronPort-AV: E=Sophos;i="5.93,256,1654552800"; 
-   d="scan'208";a="25746066"
-Subject: Re: Re: Re: Re: [PATCH 07/19] media: i2c: imx290: Support variable-sized
- registers
-Received: from vtuxmail01.tq-net.de ([10.115.0.20])
-  by mx1.tq-group.com with ESMTP; 23 Aug 2022 09:19:36 +0200
-Received: from steina-w.localnet (unknown [10.123.49.11])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-        (No client certificate requested)
-        by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 6C98B280056;
-        Tue, 23 Aug 2022 09:19:36 +0200 (CEST)
-From:   Alexander Stein <alexander.stein@ew.tq-group.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Sakari Ailus <sakari.ailus@iki.fi>, linux-media@vger.kernel.org,
-        Manivannan Sadhasivam <mani@kernel.org>
-Date:   Tue, 23 Aug 2022 09:19:36 +0200
-Message-ID: <2761166.tdWV9SEqCh@steina-w>
-Organization: TQ-Systems GmbH
-In-Reply-To: <YwRAqFwgPy6rmuD7@pendragon.ideasonboard.com>
-References: <20220721083540.1525-1-laurent.pinchart@ideasonboard.com> <YwQog5af3QY32Ywn@pendragon.ideasonboard.com> <YwRAqFwgPy6rmuD7@pendragon.ideasonboard.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        Tue, 23 Aug 2022 03:26:17 -0400
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7EFBC62AB5;
+        Tue, 23 Aug 2022 00:26:14 -0700 (PDT)
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 27N4kUPh019833;
+        Tue, 23 Aug 2022 07:26:11 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
+ subject : date : message-id; s=qcppdkim1;
+ bh=0xR3cyRD3C2g9deJD4LqveBJc09hQMPGu6r0uA37snk=;
+ b=EvnLVGZ0pezRAp1ESTzVxpWMOH9wPn+P/GsiRFOGXo6xx2ew56RBsqjEw62nRxP0MTod
+ 8z0luzJqQH5KSx4XE3xNbwblk9GUIUqkxnLhiJaHpwk+eJ0aWXR/AHfNMz+wsxXk199c
+ QJN4fuuQNicT/w/kDVEFQutqxygrpzbt7UEMaHpJcQhJD6W0YfWYdpXZ2bdeIq9Dnxa0
+ dOdP67z/RQmwRkXllLIzoB/lL0gOqp4/jjje/JTWrkCDb1GaZUOEJmhXv9slvmegXg54
+ CypOCWU2pyB6RoblfqrqtvYceqOJ1ojTX2Xwr2I6Y1ZFxj6iSAPlvpxShkET8LEs+I/W ZQ== 
+Received: from apblrppmta01.qualcomm.com (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3j4p7ps51h-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 23 Aug 2022 07:26:11 +0000
+Received: from pps.filterd (APBLRPPMTA01.qualcomm.com [127.0.0.1])
+        by APBLRPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTP id 27N7Q7bt027746;
+        Tue, 23 Aug 2022 07:26:07 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+        by APBLRPPMTA01.qualcomm.com (PPS) with ESMTP id 3j2rpkjuxd-1;
+        Tue, 23 Aug 2022 07:26:07 +0000
+Received: from APBLRPPMTA01.qualcomm.com (APBLRPPMTA01.qualcomm.com [127.0.0.1])
+        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 27N7Q7qL027740;
+        Tue, 23 Aug 2022 07:26:07 GMT
+Received: from hu-sgudaval-hyd.qualcomm.com (hu-dikshita-hyd.qualcomm.com [10.213.110.13])
+        by APBLRPPMTA01.qualcomm.com (PPS) with ESMTP id 27N7Q6eb027739;
+        Tue, 23 Aug 2022 07:26:07 +0000
+Received: by hu-sgudaval-hyd.qualcomm.com (Postfix, from userid 347544)
+        id 60DB9481D; Tue, 23 Aug 2022 12:56:06 +0530 (+0530)
+From:   Dikshita Agarwal <quic_dikshita@quicinc.com>
+To:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        hverkuil-cisco@xs4all.nl, ezequiel@collabora.com
+Cc:     stanimir.varbanov@linaro.org, linux-arm-msm@vger.kernel.org,
+        quic_vgarodia@quicinc.com, quic_majja@quicinc.com,
+        quic_jdas@quicinc.com, Dikshita Agarwal <quic_dikshita@quicinc.com>
+Subject: [PATCH] media: v4l2-ctrl: Add main 10 still picture profile for hevc
+Date:   Tue, 23 Aug 2022 12:56:03 +0530
+Message-Id: <1661239563-14346-1-git-send-email-quic_dikshita@quicinc.com>
+X-Mailer: git-send-email 2.7.4
+X-QCInternal: smtphost
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: I3M_GkfxWXxb4ojFan6Nn8QeTnRaAP_9
+X-Proofpoint-ORIG-GUID: I3M_GkfxWXxb4ojFan6Nn8QeTnRaAP_9
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.517,FMLib:17.11.122.1
+ definitions=2022-08-23_02,2022-08-22_02,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
+ malwarescore=0 clxscore=1011 priorityscore=1501 mlxscore=0 suspectscore=0
+ bulkscore=0 spamscore=0 phishscore=0 lowpriorityscore=0 mlxlogscore=488
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2207270000 definitions=main-2208230028
+X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello Laurent,
+Add main 10 still picture profile for HEVC encoder.
 
-Am Dienstag, 23. August 2022, 04:51:20 CEST schrieb Laurent Pinchart:
-> Hi Alexander,
->=20
-> On Tue, Aug 23, 2022 at 04:08:20AM +0300, Laurent Pinchart wrote:
-> > On Mon, Jul 25, 2022 at 08:49:40AM +0200, Alexander Stein wrote:
-> > > Am Sonntag, 24. Juli 2022, 01:06:29 CEST schrieb Laurent Pinchart:
-> > > > On Fri, Jul 22, 2022 at 05:37:53PM +0300, Sakari Ailus wrote:
-> > > > > On Thu, Jul 21, 2022 at 01:43:54PM +0200, Alexander Stein wrote:
-> > > > > ...
-> > > > >=20
-> > > > > > Nice the following snippet does the trick already:
-> > > > > > ---8<---
-> > > > > > --- a/drivers/media/i2c/imx290.c
-> > > > > > +++ b/drivers/media/i2c/imx290.c
-> > > > > > @@ -221,6 +221,7 @@ static const struct imx290_pixfmt
-> > > > > > imx290_formats[] =3D
-> > > > > > {
-> > > > > >=20
-> > > > > >  static const struct regmap_config imx290_regmap_config =3D {
-> > > > > > =20
-> > > > > >         .reg_bits =3D 16,
-> > > > > >         .val_bits =3D 8,
-> > > > > >=20
-> > > > > > +       .use_single_read =3D true,
-> > > > > >=20
-> > > > > >  };
-> > > > > > =20
-> > > > > >  static const char * const imx290_test_pattern_menu[] =3D {
-> > > > > >=20
-> > > > > > ---8<---
-> > > > > >=20
-> > > > > > As this affects the VC OV9281 as well, any suggestions for a
-> > > > > > common
-> > > > > > property?
-> > > > >=20
-> > > > > If there's a 1:1 I=B2C mux in there between the host and the sens=
-or,
-> > > > > should
-> > > > > it be in DT as well? I'm not entirely certain it's necessary.
-> > > >=20
-> > > > The microcontroller also the sensor clock and power supplies, so it
-> > > > has
-> > > > to be modelled in DT in any case. I was trying to avoid exposing it=
- as
-> > > > an I2C mux, but maybe we'll have to bite the bullet...
-> > >=20
-> > > What is the benefit about exposing a I2C mux? The needed regmap config
-> > > option is configured completely independent to this.
-> >=20
-> > If the I2C mux in the camera module messes up I2C transfers, the related
-> > quirks need to be handled somewhere, and a specific mux driver device in
-> > DT could be a good place to report that. There may be other options
-> > though.
+Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
+---
+ Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst | 2 ++
+ include/uapi/linux/v4l2-controls.h                        | 1 +
+ 2 files changed, 3 insertions(+)
 
-=46rom a logical point of view, a i2c mux seems to be correct, but in the e=
-nd=20
-this quirk is handled by regmap which parses device specific properties.
-Adding a (mux) bus property which is applied to all devices seems to be a=20
-hassle, IMHO.
-Taking Sakari's suggestion of 'single-octet-read' property where in the DT=
-=20
-bindings this should be added?
-
-> > > > I've implement support for two camera modules from Vision Components
-> > > > but
-> > > > haven't submitted patches yet. See [1] and [2] for DT examples and =
-[3]
-> > > > for the driver that handles the microcontroller.
-> > > >=20
-> > > > Note that one purpose of the microcontroller is to configure the
-> > > > sensor
-> > > > automatically. It can be queried through I2C for a list of supported
-> > > > modes, and it can also reconfigure the sensor fully when a mode is
-> > > > selected. This is meant to enable development of a single driver th=
-at
-> > > > will cover all modules, regardless of which camera sensor it
-> > > > integrates.
-> > > > I'm not sure what words you will use to voice your opinion on this
-> > > > design, but I think I already agree :-)
-> > > >=20
-> > > > [1]
-> > > > https://gitlab.com/ideasonboard/nxp/linux/-/blob/pinchartl/v5.19/de=
-v/
-> > > > isp/next/arch/arm64/boot/dts/freescale/imx8mp-maivin-csi1-imx296.dts
-> > > > [2]
-> > > > https://gitlab.com/ideasonboard/nxp/linux/-/blob/pinchartl/v5.19/de=
-v/
-> > > > isp/next/arch/arm64/boot/dts/freescale/imx8mp-maivin-csi1-imx327.dts
-> > > > [3]
-> > > > https://gitlab.com/ideasonboard/nxp/linux/-/blob/pinchartl/v5.19/de=
-v/
-> > > > isp/next/drivers/media/i2c/vc-mipi.c> > >=20
-> > > > > The property could be called e.g. "single-octet-read". I think th=
-is
-> > > > > should
-> > > > > probably be documented in I=B2C bindings (or even regmap).
-> > > >=20
-> > > > I like the idea of making it a DT property global to all I2C device=
-s.
-> > > > It
-> > > > should ideally be parsed by the I2C core or by regmap.
-> > >=20
-> > > I agree with adding this as a regmap option, like 'big-endian' &
-> > > friends, but not so much for I2C core. IMHO the core should only be
-> > > interested in handling messages and transfers. Setting up those
-> > > correctly is a matter for drivers (which in turn use regmap).
-> >=20
-> > I don't want to polute a large number of sensor drivers because of
-> > questionable design decisions of a particular module vendor. This type
-> > of quirk needs to be handled outside of the sensor driver.
->=20
-> Given that the chip ID is only read to print it to the kernel log, and
-> that an incorrectly read ID will not prevent the driver from probing or
-> affect its behaviour in any way, would you object to merging this patch,
-> with the single read issue to support the Vision Components module being
-> handled later ?
-
-No objection here. This problem is and should stay outside of the sensor=20
-driver. VC platform integration is an additional step.
-
-Best regards,
-Alexander
-
-
+diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+index 2a165ae..5b2da84 100644
+--- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
++++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+@@ -2424,6 +2424,8 @@ enum v4l2_mpeg_video_hevc_profile -
+       - Main still picture profile.
+     * - ``V4L2_MPEG_VIDEO_HEVC_PROFILE_MAIN_10``
+       - Main 10 profile.
++    * - ``V4L2_MPEG_VIDEO_HEVC_PROFILE_MAIN_10_STILL_PICTURE``
++      - Main 10 still picture profile.
+ 
+ .. raw:: latex
+ 
+diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
+index 5f46bf4..1159337 100644
+--- a/include/uapi/linux/v4l2-controls.h
++++ b/include/uapi/linux/v4l2-controls.h
+@@ -743,6 +743,7 @@ enum v4l2_mpeg_video_hevc_profile {
+ 	V4L2_MPEG_VIDEO_HEVC_PROFILE_MAIN = 0,
+ 	V4L2_MPEG_VIDEO_HEVC_PROFILE_MAIN_STILL_PICTURE = 1,
+ 	V4L2_MPEG_VIDEO_HEVC_PROFILE_MAIN_10 = 2,
++	V4L2_MPEG_VIDEO_HEVC_PROFILE_MAIN_10_STILL_PICTURE = 3,
+ };
+ #define V4L2_CID_MPEG_VIDEO_HEVC_LEVEL		(V4L2_CID_CODEC_BASE + 616)
+ enum v4l2_mpeg_video_hevc_level {
+-- 
+2.7.4
 
