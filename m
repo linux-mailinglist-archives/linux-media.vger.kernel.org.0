@@ -2,115 +2,102 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C527659D213
-	for <lists+linux-media@lfdr.de>; Tue, 23 Aug 2022 09:27:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7B2A559D25E
+	for <lists+linux-media@lfdr.de>; Tue, 23 Aug 2022 09:39:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240953AbiHWH0W (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 23 Aug 2022 03:26:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59170 "EHLO
+        id S240274AbiHWHir (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 23 Aug 2022 03:38:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48136 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240950AbiHWH0R (ORCPT
+        with ESMTP id S240545AbiHWHip (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 23 Aug 2022 03:26:17 -0400
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7EFBC62AB5;
-        Tue, 23 Aug 2022 00:26:14 -0700 (PDT)
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 27N4kUPh019833;
-        Tue, 23 Aug 2022 07:26:11 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
- subject : date : message-id; s=qcppdkim1;
- bh=0xR3cyRD3C2g9deJD4LqveBJc09hQMPGu6r0uA37snk=;
- b=EvnLVGZ0pezRAp1ESTzVxpWMOH9wPn+P/GsiRFOGXo6xx2ew56RBsqjEw62nRxP0MTod
- 8z0luzJqQH5KSx4XE3xNbwblk9GUIUqkxnLhiJaHpwk+eJ0aWXR/AHfNMz+wsxXk199c
- QJN4fuuQNicT/w/kDVEFQutqxygrpzbt7UEMaHpJcQhJD6W0YfWYdpXZ2bdeIq9Dnxa0
- dOdP67z/RQmwRkXllLIzoB/lL0gOqp4/jjje/JTWrkCDb1GaZUOEJmhXv9slvmegXg54
- CypOCWU2pyB6RoblfqrqtvYceqOJ1ojTX2Xwr2I6Y1ZFxj6iSAPlvpxShkET8LEs+I/W ZQ== 
-Received: from apblrppmta01.qualcomm.com (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3j4p7ps51h-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 23 Aug 2022 07:26:11 +0000
-Received: from pps.filterd (APBLRPPMTA01.qualcomm.com [127.0.0.1])
-        by APBLRPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTP id 27N7Q7bt027746;
-        Tue, 23 Aug 2022 07:26:07 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-        by APBLRPPMTA01.qualcomm.com (PPS) with ESMTP id 3j2rpkjuxd-1;
-        Tue, 23 Aug 2022 07:26:07 +0000
-Received: from APBLRPPMTA01.qualcomm.com (APBLRPPMTA01.qualcomm.com [127.0.0.1])
-        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 27N7Q7qL027740;
-        Tue, 23 Aug 2022 07:26:07 GMT
-Received: from hu-sgudaval-hyd.qualcomm.com (hu-dikshita-hyd.qualcomm.com [10.213.110.13])
-        by APBLRPPMTA01.qualcomm.com (PPS) with ESMTP id 27N7Q6eb027739;
-        Tue, 23 Aug 2022 07:26:07 +0000
-Received: by hu-sgudaval-hyd.qualcomm.com (Postfix, from userid 347544)
-        id 60DB9481D; Tue, 23 Aug 2022 12:56:06 +0530 (+0530)
-From:   Dikshita Agarwal <quic_dikshita@quicinc.com>
-To:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        hverkuil-cisco@xs4all.nl, ezequiel@collabora.com
-Cc:     stanimir.varbanov@linaro.org, linux-arm-msm@vger.kernel.org,
-        quic_vgarodia@quicinc.com, quic_majja@quicinc.com,
-        quic_jdas@quicinc.com, Dikshita Agarwal <quic_dikshita@quicinc.com>
-Subject: [PATCH] media: v4l2-ctrl: Add main 10 still picture profile for hevc
-Date:   Tue, 23 Aug 2022 12:56:03 +0530
-Message-Id: <1661239563-14346-1-git-send-email-quic_dikshita@quicinc.com>
-X-Mailer: git-send-email 2.7.4
-X-QCInternal: smtphost
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: I3M_GkfxWXxb4ojFan6Nn8QeTnRaAP_9
-X-Proofpoint-ORIG-GUID: I3M_GkfxWXxb4ojFan6Nn8QeTnRaAP_9
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.517,FMLib:17.11.122.1
- definitions=2022-08-23_02,2022-08-22_02,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
- malwarescore=0 clxscore=1011 priorityscore=1501 mlxscore=0 suspectscore=0
- bulkscore=0 spamscore=0 phishscore=0 lowpriorityscore=0 mlxlogscore=488
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2207270000 definitions=main-2208230028
-X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
-        autolearn=no autolearn_force=no version=3.4.6
+        Tue, 23 Aug 2022 03:38:45 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 57A551EAC0
+        for <linux-media@vger.kernel.org>; Tue, 23 Aug 2022 00:38:43 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 02CD22B3;
+        Tue, 23 Aug 2022 09:38:39 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1661240320;
+        bh=hokrIfw9v+DR90/ov9yU7jeNcfgdr2d/vcSV4bLbpBY=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=PYQPiyJu/I8OpnO8DgF0bdp9fnFt607WImld+k+1zYIzVZ7+KoSUn3LYMAbYD/nuX
+         ym9LQTLLyQvv3ANtHVlRjkDPyOOphWm1uPpiZyJRj3yCW6vXrCLsSk4IwpzuVEnUdw
+         Bn9S/4y49vnD1ajkbHIVEmCpuvV4C9MAKPpmKSXM=
+Date:   Tue, 23 Aug 2022 10:38:35 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     "Massimo B." <massimo.b@gmx.net>
+Cc:     linux-media@vger.kernel.org
+Subject: Re: Quanta Computer Inc. Astro HD Cam, not initializing
+Message-ID: <YwSD+68XuLk1zU7v@pendragon.ideasonboard.com>
+References: <1e3fff6f44830e910261bfb7629247cd89bf615a.camel@gmx.net>
+ <YkGMSaAyUVNWMOsq@pendragon.ideasonboard.com>
+ <771493a1110cacd87c42e66eea84c962be789532.camel@gmx.net>
+ <YkxLR4Xqsxzu0hh2@pendragon.ideasonboard.com>
+ <129a1a8cad21c569e67897ac303cf4ca9d9bca99.camel@gmx.net>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <129a1a8cad21c569e67897ac303cf4ca9d9bca99.camel@gmx.net>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add main 10 still picture profile for HEVC encoder.
+Hi Massimo,
 
-Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
----
- Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst | 2 ++
- include/uapi/linux/v4l2-controls.h                        | 1 +
- 2 files changed, 3 insertions(+)
+On Tue, Aug 23, 2022 at 08:47:14AM +0200, Massimo B. wrote:
+> On Tue, 2022-04-05 at 16:59 +0300, Laurent Pinchart wrote:
+> 
+> > > > The audio interface causes issues, it seems it crashed the webcam
+> > > > firmware. Could you try blacklisting the snd-usb-audio module and see if
+> > > > video then works ?
+> 
+> > > Yes, that makes the video part work again.
+> 
+> > So this confirms it's a USB audio issue. It may be possible to work
+> > around it in the snd-usb-audio driver, but that's beyond my area of
+> > expertise. You may want to contact the alsa-devel mailing list.
+> 
+> Currently I have again the situation that nothing works. Audio is blacklisted:
+> 
+> # cat /etc/udev/rules.d/50-camera.rules 
+> ACTION=="add", SUBSYSTEMS=="usb", ATTRS{idVendor}=="0408", ATTRS{idProduct}=="2090", ATTR{bInterfaceClass}=="01", ATTR{authorized}="0"
+> 
+> Re-plugging doesn't make it work again.
+> 
+> From syslog:
+> Aug 22 10:28:46 [kernel] usb 3-11.2: new high-speed USB device number 21 using xhci_hcd
+> Aug 22 10:28:46 [kernel] usb 3-11.2: New USB device found, idVendor=0408, idProduct=2090, bcdDevice=21.17
+> Aug 22 10:28:46 [kernel] usb 3-11.2: New USB device strings: Mfr=1, Product=2, SerialNumber=0
+> Aug 22 10:28:46 [kernel] usb 3-11.2: Product: Astro HD Camera
+> Aug 22 10:28:46 [kernel] usb 3-11.2: Manufacturer: QCM
+> Aug 22 10:28:46 [kernel] usb 3-11.2: Found UVC 1.00 device Astro HD Camera (0408:2090)
+> Aug 22 10:28:46 [kernel] usb 3-11.2: No streaming interface found for terminal 9.
+> Aug 22 10:28:46 [kernel] input: Astro HD Camera: Astro HD Camer as /devices/pci0000:00/0000:00:14.0/usb3/3-11/3-11.2/3-11.2:1.0/input/input41
+> Aug 22 10:28:51 [kernel] usb 3-11.2: 4:1: cannot set freq 48000 to ep 0x84
+> Aug 22 10:28:56 [kernel] usb 3-11.2: 10:3: cannot get min/max values for control 2 (id 10)
 
-diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-index 2a165ae..5b2da84 100644
---- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-+++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-@@ -2424,6 +2424,8 @@ enum v4l2_mpeg_video_hevc_profile -
-       - Main still picture profile.
-     * - ``V4L2_MPEG_VIDEO_HEVC_PROFILE_MAIN_10``
-       - Main 10 profile.
-+    * - ``V4L2_MPEG_VIDEO_HEVC_PROFILE_MAIN_10_STILL_PICTURE``
-+      - Main 10 still picture profile.
- 
- .. raw:: latex
- 
-diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
-index 5f46bf4..1159337 100644
---- a/include/uapi/linux/v4l2-controls.h
-+++ b/include/uapi/linux/v4l2-controls.h
-@@ -743,6 +743,7 @@ enum v4l2_mpeg_video_hevc_profile {
- 	V4L2_MPEG_VIDEO_HEVC_PROFILE_MAIN = 0,
- 	V4L2_MPEG_VIDEO_HEVC_PROFILE_MAIN_STILL_PICTURE = 1,
- 	V4L2_MPEG_VIDEO_HEVC_PROFILE_MAIN_10 = 2,
-+	V4L2_MPEG_VIDEO_HEVC_PROFILE_MAIN_10_STILL_PICTURE = 3,
- };
- #define V4L2_CID_MPEG_VIDEO_HEVC_LEVEL		(V4L2_CID_CODEC_BASE + 616)
- enum v4l2_mpeg_video_hevc_level {
+These messages come from the snd-usb-audio module as far as I can tell.
+
+> Aug 22 10:28:56 [mtp-probe] checking bus 3, device 21: "/sys/devices/pci0000:00/0000:00:14.0/usb3/3-11/3-11.2"_
+> Aug 22 10:28:56 [mtp-probe] bus: 3, device: 21 was not an MTP device_
+> Aug 22 10:28:56 [laptop-mode] Laptop Mode Tools disabled in config file\n
+>                 - Last output repeated 5 times -
+> Aug 22 10:28:56 [mtp-probe] checking bus 3, device 21: "/sys/devices/pci0000:00/0000:00:14.0/usb3/3-11/3-11.2"_
+> Aug 22 10:28:56 [mtp-probe] bus: 3, device: 21 was not an MTP device_
+> Aug 22 10:29:02 [kernel] usb 3-11.2: Failed to query (GET_DEF) UVC control 13 on unit 1: -110 (exp. 8).
+>                 - Last output repeated twice -
+> Aug 22 10:29:12 [kernel] usb 3-11.2: Failed to query (GET_DEF) UVC control 2 on unit 2: -110 (exp. 2).
+> Aug 22 10:29:17 [kernel] usb 3-11.2: Failed to query (GET_DEF) UVC control 11 on unit 1: -110 (exp. 2).
+> Aug 22 10:29:22 [kernel] usb 3-11.2: Failed to query (GET_DEF) UVC control 2 on unit 2: -110 (exp. 2).
+
 -- 
-2.7.4
+Regards,
 
+Laurent Pinchart
