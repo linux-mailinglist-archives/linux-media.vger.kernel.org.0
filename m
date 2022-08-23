@@ -2,64 +2,45 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6A4EA59E859
-	for <lists+linux-media@lfdr.de>; Tue, 23 Aug 2022 19:07:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4B4EB59E7B2
+	for <lists+linux-media@lfdr.de>; Tue, 23 Aug 2022 18:40:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343593AbiHWRB4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 23 Aug 2022 13:01:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56712 "EHLO
+        id S245134AbiHWQkT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 23 Aug 2022 12:40:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57754 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344337AbiHWRBM (ORCPT
+        with ESMTP id S245117AbiHWQjf (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 23 Aug 2022 13:01:12 -0400
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 94BD48B9A8;
-        Tue, 23 Aug 2022 07:10:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1661263840; x=1692799840;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ygPyyv+pU7SFDB61ANVVMzLHJfkZTW1nqc/MGK8nQSs=;
-  b=fHoWHDkqGG/DkLu9Sxx5O4huPaIoiZNt8MndxlG7aZg5GjCLMEwPPHjD
-   xJTDqAr3aZwJwQ3RkxfXHquqshAmbg2eHxEQyBUgMqlKpozrwIOrHJdMB
-   djC8SbxCtstI9m29IzIq1y71n8Bn/6AtTcV7jIfn8TJQoTLIE/UTMsV/6
-   xrZiJYsRJGA7v1OVwmFSwkU85GEq8ixSHgv0iTwGj9lrvp+eaPjiBmmfL
-   ZEqDwzbRShEioyU5MZILpf9kAxUztind/lUDCp/CN74VyMZB5bzPcX3Rp
-   fEM9HRrSK80XPF/SiaKvNTo8iIkAqmPVJmD/Y+YuhKy8y6MJrbudiDm36
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10448"; a="294978544"
-X-IronPort-AV: E=Sophos;i="5.93,257,1654585200"; 
-   d="scan'208";a="294978544"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2022 07:10:40 -0700
-X-IronPort-AV: E=Sophos;i="5.93,257,1654585200"; 
-   d="scan'208";a="642453030"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2022 07:10:38 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1oQUbz-002T6k-2M;
-        Tue, 23 Aug 2022 17:10:35 +0300
-Date:   Tue, 23 Aug 2022 17:10:35 +0300
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     Tianshu Qiu <tian.shu.qiu@intel.com>,
-        Shawn Tu <shawnx.tu@intel.com>,
-        Bingbu Cao <bingbu.cao@intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: Re: [PATCH v1 1/8] media: ov2740: Remove duplicative pointer in
- struct nvm_data
-Message-ID: <YwTf22gkWxeyNKlR@smile.fi.intel.com>
-References: <20220726120556.2881-1-andriy.shevchenko@linux.intel.com>
+        Tue, 23 Aug 2022 12:39:35 -0400
+Received: from bg5.exmail.qq.com (bg4.exmail.qq.com [43.155.67.158])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C2FBE8980F;
+        Tue, 23 Aug 2022 07:40:15 -0700 (PDT)
+X-QQ-mid: bizesmtp85t1661265608tf31jrqk
+Received: from localhost.localdomain ( [182.148.14.124])
+        by bizesmtp.qq.com (ESMTP) with 
+        id ; Tue, 23 Aug 2022 22:40:06 +0800 (CST)
+X-QQ-SSF: 0100000000200040B000B00A0000000
+X-QQ-FEAT: ILHsT53NKPhh1JcB21Zo5hbOeQlvmw+DRAowyExZ9pBnBkOF0Y6qBA1QuzaLJ
+        YbKpnVftSbO1gX1nH3AfrPyi3PHtbnYxMHg+m5aJyroYCid8wM47BGlN2n/8TPn6c+VM6II
+        4DGguhtrP/6uozRnH/K639R0zyHVt8L5JvPe6ckkPTlQ9+vlaEjP2/njjLx1V4iy7kpibGs
+        iOfR/zmbWCVedlU7/VXKYVvpZbjCSEk9XKM/7SN1csPm0lg9qCrWFT1rB/kqa6iFU4TLDRR
+        /xEVJbGKOKwn+Rgs936RJG4BuVjlgSXw/hurMEGL3aW8dLoTPJIZgLVOB15vzlY+XCB6oSZ
+        z/ispCG707g1g5fH09aHU2ldhSnsd4MiHRoVI/gn63bgNOk9GqDTbB4Kp1TVw==
+X-QQ-GoodBg: 0
+From:   wangjianli <wangjianli@cdjrlc.com>
+To:     laurent.pinchart@ideasonboard.com, mchehab@kernel.org
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        wangjianli <wangjianli@cdjrlc.com>
+Subject: [PATCH] ti/omap3isp: fix repeated words in comments
+Date:   Tue, 23 Aug 2022 22:40:00 +0800
+Message-Id: <20220823144000.30876-1-wangjianli@cdjrlc.com>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220726120556.2881-1-andriy.shevchenko@linux.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-QQ-SENDSIZE: 520
+Feedback-ID: bizesmtp:cdjrlc.com:qybglogicsvr:qybglogicsvr7
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -67,17 +48,26 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Jul 26, 2022 at 03:05:49PM +0300, Andy Shevchenko wrote:
-> The struct i2c_client pointer is used only to get driver data,
-> associated with a struct device or print messages on behalf.
-> Moreover, the very same pointer to a struct device is already
-> assigned by a regmap and can be retrieved from there.
-> No need to keep a duplicative pointer.
+Delete the redundant word 'the'.
 
-Thanks, Bungbu, for the review. Can it be now applied?
+Signed-off-by: wangjianli <wangjianli@cdjrlc.com>
+---
+ drivers/media/platform/ti/omap3isp/isp.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/drivers/media/platform/ti/omap3isp/isp.c b/drivers/media/platform/ti/omap3isp/isp.c
+index 4c937f3f323e..f99dda7337b9 100644
+--- a/drivers/media/platform/ti/omap3isp/isp.c
++++ b/drivers/media/platform/ti/omap3isp/isp.c
+@@ -1528,7 +1528,7 @@ void omap3isp_print_status(struct isp_device *isp)
+  * To solve this problem power management support is split into prepare/complete
+  * and suspend/resume operations. The pipelines are stopped in prepare() and the
+  * ISP clocks get disabled in suspend(). Similarly, the clocks are re-enabled in
+- * resume(), and the the pipelines are restarted in complete().
++ * resume(), and the pipelines are restarted in complete().
+  *
+  * TODO: PM dependencies between the ISP and sensors are not modelled explicitly
+  * yet.
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.36.1
 
