@@ -2,92 +2,72 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4FF3759E784
-	for <lists+linux-media@lfdr.de>; Tue, 23 Aug 2022 18:39:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C33D859E76C
+	for <lists+linux-media@lfdr.de>; Tue, 23 Aug 2022 18:37:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245122AbiHWQiD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 23 Aug 2022 12:38:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52036 "EHLO
+        id S244911AbiHWQhJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 23 Aug 2022 12:37:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52632 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245014AbiHWQh2 (ORCPT
+        with ESMTP id S244875AbiHWQgr (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 23 Aug 2022 12:37:28 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 94D7E5FAD0
-        for <linux-media@vger.kernel.org>; Tue, 23 Aug 2022 07:44:59 -0700 (PDT)
-Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <mfe@pengutronix.de>)
-        id 1oQV99-0004jZ-Jk; Tue, 23 Aug 2022 16:44:51 +0200
-Received: from mfe by ptx.hi.pengutronix.de with local (Exim 4.92)
-        (envelope-from <mfe@pengutronix.de>)
-        id 1oQV98-0007MY-Tu; Tue, 23 Aug 2022 16:44:50 +0200
-Date:   Tue, 23 Aug 2022 16:44:50 +0200
-From:   Marco Felsch <m.felsch@pengutronix.de>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     mchehab@kernel.org, laurent.pinchart+renesas@ideasonboard.com,
-        jacopo+renesas@jmondi.org, akinobu.mita@gmail.com,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kernel@pengutronix.de
-Subject: Re: [PATCH 3/4] media: mt9m111: fix device power usage
-Message-ID: <20220823144450.ctjmby53prjw5qis@pengutronix.de>
-References: <20220818144712.997477-1-m.felsch@pengutronix.de>
- <20220818144712.997477-3-m.felsch@pengutronix.de>
- <YwMix1+Bm1jEbWqv@paasikivi.fi.intel.com>
- <20220822075426.qjgxue7sjehazga4@pengutronix.de>
- <YwNJ8RpSR+oVxnS/@paasikivi.fi.intel.com>
+        Tue, 23 Aug 2022 12:36:47 -0400
+Received: from bg5.exmail.qq.com (bg4.exmail.qq.com [43.155.67.158])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B526B9C51B;
+        Tue, 23 Aug 2022 07:46:34 -0700 (PDT)
+X-QQ-mid: bizesmtp79t1661265990twxfk9ef
+Received: from localhost.localdomain ( [182.148.14.124])
+        by bizesmtp.qq.com (ESMTP) with 
+        id ; Tue, 23 Aug 2022 22:46:29 +0800 (CST)
+X-QQ-SSF: 0100000000200040B000B00A0000000
+X-QQ-FEAT: znfcQSa1hKZhyJBQOdcyLOVLZXnBiwv5xjD25h3dvn7PDcLPNGx7ckGYofWqZ
+        2NafTPQ2nFwNAneoso14gpF4XbSHr/isTDouLgg4gCkq+TLHvoFbv5IG/8MkLbqshGb/zOR
+        cR0JIShLL9M3nj9EJwhpXSZeNao0Ji4wfCCd/uX8HL8cPrF7NxF0P11SlQQ1aWUsOJ9El7O
+        YwkoBfuaxHPjXUo1MaU5057chMJrlSeH/z3avPOvv/YdXHO0eFWmGLeM1RQuqofgpfXReVV
+        JcUHw34QmS5cU/K8fxSoIqcNrKIx+BdT2HY3MxwFIINIWvXmpRu8cww4+SJqsI+dAoa3W/C
+        E7NEHdSa1A9blYuGdGhq1cC7Sac4RiDKHSTeNth9W8TRXm5CGE7fboXR+aexg==
+X-QQ-GoodBg: 0
+From:   wangjianli <wangjianli@cdjrlc.com>
+To:     mchehab@kernel.org
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        wangjianli <wangjianli@cdjrlc.com>
+Subject: [PATCH] usb/tm6000: fix repeated words in comments
+Date:   Tue, 23 Aug 2022 22:46:22 +0800
+Message-Id: <20220823144622.34949-1-wangjianli@cdjrlc.com>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YwNJ8RpSR+oVxnS/@paasikivi.fi.intel.com>
-User-Agent: NeoMutt/20180716
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
-X-SA-Exim-Mail-From: mfe@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-QQ-SENDSIZE: 520
+Feedback-ID: bizesmtp:cdjrlc.com:qybglogicsvr:qybglogicsvr7
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sakari,
+Delete the redundant word 'the'.
 
-On 22-08-22, Sakari Ailus wrote:
-> On Mon, Aug 22, 2022 at 09:54:26AM +0200, Marco Felsch wrote:
-> > Hi Sakari,
-> > 
-> > On 22-08-22, Sakari Ailus wrote:
-> > > Hi Marco,
-> > > 
-> > > On Thu, Aug 18, 2022 at 04:47:11PM +0200, Marco Felsch wrote:
-> > > > Currently the driver turn off the power after probe and toggle it during
-> > > > .stream by using the .s_power callback. This is problematic since other
-> > > > callbacks like .set_fmt accessing the hardware as well which will fail.
-> > > > So in the end the default format is the only supported format.
-> > > 
-> > > It'd be much better to add runtime PM support to the driver instead.
-> > 
-> > I got your point, but didn't have the time for it right now, I will drop
-> > the patch from my v2.
-> 
-> The API is different but generally involves doing more or less the same
-> what this and the 4th patch do together.
+Signed-off-by: wangjianli <wangjianli@cdjrlc.com>
+---
+ drivers/media/usb/tm6000/tm6000-cards.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I know :) as soon as I got feedback on my TC35 series [1] I give it a
-try and change it to dev-pm.
+diff --git a/drivers/media/usb/tm6000/tm6000-cards.c b/drivers/media/usb/tm6000/tm6000-cards.c
+index 98f4a63adc2a..b7842cd6f9af 100644
+--- a/drivers/media/usb/tm6000/tm6000-cards.c
++++ b/drivers/media/usb/tm6000/tm6000-cards.c
+@@ -1297,7 +1297,7 @@ static int tm6000_usb_probe(struct usb_interface *interface,
+ 		le16_to_cpu(dev->udev->descriptor.idProduct),
+ 		interface->altsetting->desc.bInterfaceNumber);
+ 
+-/* check if the the device has the iso in endpoint at the correct place */
++/* check if the device has the iso in endpoint at the correct place */
+ 	if (!dev->isoc_in.endp) {
+ 		printk(KERN_ERR "tm6000: probing error: no IN ISOC endpoint!\n");
+ 		rc = -ENODEV;
+-- 
+2.36.1
 
-[1] https://lore.kernel.org/linux-media/20220818143307.967150-1-m.felsch@pengutronix.de/T/#t
-
-Regards,
-  Marco
-
-
-> 
-> -- 
-> Sakari Ailus
-> 
