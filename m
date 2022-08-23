@@ -2,218 +2,288 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B433859D8CF
-	for <lists+linux-media@lfdr.de>; Tue, 23 Aug 2022 12:04:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E279059E4C3
+	for <lists+linux-media@lfdr.de>; Tue, 23 Aug 2022 15:59:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1350786AbiHWJeB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 23 Aug 2022 05:34:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38778 "EHLO
+        id S241538AbiHWN7G (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 23 Aug 2022 09:59:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44068 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1350743AbiHWJcp (ORCPT
+        with ESMTP id S241657AbiHWN6r (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 23 Aug 2022 05:32:45 -0400
-Received: from mail-yw1-x1136.google.com (mail-yw1-x1136.google.com [IPv6:2607:f8b0:4864:20::1136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0FD747435F
-        for <linux-media@vger.kernel.org>; Tue, 23 Aug 2022 01:38:51 -0700 (PDT)
-Received: by mail-yw1-x1136.google.com with SMTP id 00721157ae682-3246910dac3so359912837b3.12
-        for <linux-media@vger.kernel.org>; Tue, 23 Aug 2022 01:38:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=semihalf.com; s=google;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc;
-        bh=cgc+e/QzNdyD2sfucJY+c/VRbtSyirfoyG9awCiqMa4=;
-        b=kUrFjIHECTaBr9+CKEUTz4OLFtxjYaXXGh+DIth9fw223PK1yidFfqVYBKotKgREon
-         rn0SdwopAWDltNNwEtcw8x2F4jYDo+6O72ACtJg7eBBRL/AtQFzIr6nPHvoVFHuF6wWG
-         46gE7n2khQGERr18D6bX/yfDzzeEfTcEyt3a4PX0Lpn8i8eI2QGzBb1k1k5n+VLPfqmT
-         gSrfA521jCdxvgWL9H8ZopNm35pxb0KtwT0tRmg2ex7JMIFXZiYCZUrsbBv3K3M4IqNV
-         wgimq51IM18LsFVOViGgvdqQzAZsqDCvnWjnghr+KMQxIUS2HTY1R+lgifuQMzMiyfA2
-         UU8A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc;
-        bh=cgc+e/QzNdyD2sfucJY+c/VRbtSyirfoyG9awCiqMa4=;
-        b=C0/9VcvUF6ECVZOX1V4GcGAgSeCcpKMoA16mo0mXStTP8Cqglaj9lRG0TAbSIO2f9X
-         t1ydTvemp/iXUv2tqVD5cwg3TWZeOM4I+X1223Jk0s/Nd5vFeEVKwf2pfKauaQvw8q4G
-         VMy5o79G5QBy18hPlXIenh+W3SEEUPA10r+/uzAifhFYZvT1QvZJ9ZrPYKE/mdAonP29
-         P/PK7XGCjE6+5/KOT7CVKV01thbWhEM0svEyQgndmBYNeFFXMLzITzXO+3ylRZ2Wi3XB
-         +JnmkhoJMlLd1R4dLrI2VvGoft6E1Y/20P2WNoSO7soa19Lpsf22DkgDrLagh0hyNjOW
-         akIg==
-X-Gm-Message-State: ACgBeo2JkaqcupclNQ4cn7j4G8OeaVDCFmUWKDHG115RPuHMmOJ04wNX
-        p2P1kd29zubZn3YwHweVOt0exk7YKgXvnkmntESxJA==
-X-Google-Smtp-Source: AA6agR5Cgtu718MiKMVY1/XiyInsuBVJHNdFRsvSqTrNoHkmhAshU/tLTB8cZgDu+q0Z/EZnw0wrJC4b3x0GnuHi6qs=
-X-Received: by 2002:a05:6902:387:b0:694:159f:ad3c with SMTP id
- f7-20020a056902038700b00694159fad3cmr20730903ybs.223.1661243870140; Tue, 23
- Aug 2022 01:37:50 -0700 (PDT)
+        Tue, 23 Aug 2022 09:58:47 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F279C234373
+        for <linux-media@vger.kernel.org>; Tue, 23 Aug 2022 04:05:27 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id A5C76B81CD2
+        for <linux-media@vger.kernel.org>; Tue, 23 Aug 2022 10:53:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CF506C433D6;
+        Tue, 23 Aug 2022 10:53:45 +0000 (UTC)
+Message-ID: <3840c3cc-00fb-45dd-cb89-39b36fb6d733@xs4all.nl>
+Date:   Tue, 23 Aug 2022 12:53:44 +0200
 MIME-Version: 1.0
-References: <20200917022547.198090-1-linux@roeck-us.net> <20220311202426.GE23776@pengutronix.de>
- <YizpxhxPBxJ0EHQR@pendragon.ideasonboard.com>
-In-Reply-To: <YizpxhxPBxJ0EHQR@pendragon.ideasonboard.com>
-From:   Lukasz Majczak <lma@semihalf.com>
-Date:   Tue, 23 Aug 2022 10:37:39 +0200
-Message-ID: <CAFJ_xbr+b26DdNomysXKJZ57SaRAJi3nSJd8VK90y=hicEWZ=A@mail.gmail.com>
-Subject: Re: [PATCH RESEND v3 0/5] media: uvcvideo: Fix race conditions
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Michael Grzeschik <mgr@pengutronix.de>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@iki.fi>,
-        linux-uvc-devel@lists.sourceforge.net, linux-usb@vger.kernel.org,
-        linux-media@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [ANN] Media Summit at ELCE Dublin, September 12: Draft Agenda V2
+To:     linux-media@vger.kernel.org
+Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Hidenori Kobayashi <hidenorik@chromium.org>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Ricardo Ribalda <ribalda@chromium.org>,
+        Maxime Ripard <maxime@cerno.tech>,
+        Daniel Scally <djrscally@gmail.com>,
+        =?UTF-8?Q?Jernej_=c5=a0krabec?= <jernej.skrabec@gmail.com>,
+        Dave Stevenson <dave.stevenson@raspberrypi.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-sob., 12 mar 2022 o 19:43 Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> napisa=C5=82(a):
->
-> Hi Michael,
->
-> On Fri, Mar 11, 2022 at 09:24:26PM +0100, Michael Grzeschik wrote:
-> > Ping!
-> >
-> > This series seems to be hanging around. It would be nice to get these
-> > patches upstream, as they help my uvc-gadget workflow. Without them it
-> > is likely that in the development cases my gadget won't start and then
-> > leave the whole xhci controller broken.
-> >
-> > @Laurent, what do you think?
->
-> I think I've explained before how this should be fixed at the V4L2
-> level. The problem actually affects character devices globally, and Greg
-> KH said he would have a go at fixing it there, but I don't think much
-> happened. Starting with a V4L2-level fix is fine with me.
->
-> There are a few patches in the series that are specific to uvcvideo,
-> I'll have another look and merge those.
->
-> > On Wed, Sep 16, 2020 at 07:25:42PM -0700, Guenter Roeck wrote:
-> > > Something seems to have gone wrong with v3 of this patch series.
-> > > I am sure I sent it out, but I don't find it anywhere.
-> > > Resending. Sorry for any duplicates.
-> > >
-> > > The uvcvideo code has no lock protection against USB disconnects
-> > > while video operations are ongoing. This has resulted in random
-> > > error reports, typically pointing to a crash in usb_ifnum_to_if(),
-> > > called from usb_hcd_alloc_bandwidth(). A typical traceback is as
-> > > follows.
-> > >
-> > > usb 1-4: USB disconnect, device number 3
-> > > BUG: unable to handle kernel NULL pointer dereference at 000000000000=
-0000
-> > > PGD 0 P4D 0
-> > > Oops: 0000 [#1] PREEMPT SMP PTI
-> > > CPU: 0 PID: 5633 Comm: V4L2CaptureThre Not tainted 4.19.113-08536-g5d=
-29ca36db06 #1
-> > > Hardware name: GOOGLE Edgar, BIOS Google_Edgar.7287.167.156 03/25/201=
-9
-> > > RIP: 0010:usb_ifnum_to_if+0x29/0x40
-> > > Code: <...>
-> > > RSP: 0018:ffffa46f42a47a80 EFLAGS: 00010246
-> > > RAX: 0000000000000000 RBX: 0000000000000000 RCX: ffff904a396c9000
-> > > RDX: ffff904a39641320 RSI: 0000000000000001 RDI: 0000000000000000
-> > > RBP: ffffa46f42a47a80 R08: 0000000000000002 R09: 0000000000000000
-> > > R10: 0000000000009975 R11: 0000000000000009 R12: 0000000000000000
-> > > R13: ffff904a396b3800 R14: ffff904a39e88000 R15: 0000000000000000
-> > > FS: 00007f396448e700(0000) GS:ffff904a3ba00000(0000) knlGS:0000000000=
-000000
-> > > CS: 0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> > > CR2: 0000000000000000 CR3: 000000016cb46000 CR4: 00000000001006f0
-> > > Call Trace:
-> > >  usb_hcd_alloc_bandwidth+0x1ee/0x30f
-> > >  usb_set_interface+0x1a3/0x2b7
-> > >  uvc_video_start_transfer+0x29b/0x4b8 [uvcvideo]
-> > >  uvc_video_start_streaming+0x91/0xdd [uvcvideo]
-> > >  uvc_start_streaming+0x28/0x5d [uvcvideo]
-> > >  vb2_start_streaming+0x61/0x143 [videobuf2_common]
-> > >  vb2_core_streamon+0xf7/0x10f [videobuf2_common]
-> > >  uvc_queue_streamon+0x2e/0x41 [uvcvideo]
-> > >  uvc_ioctl_streamon+0x42/0x5c [uvcvideo]
-> > >  __video_do_ioctl+0x33d/0x42a
-> > >  video_usercopy+0x34e/0x5ff
-> > >  ? video_ioctl2+0x16/0x16
-> > >  v4l2_ioctl+0x46/0x53
-> > >  do_vfs_ioctl+0x50a/0x76f
-> > >  ksys_ioctl+0x58/0x83
-> > >  __x64_sys_ioctl+0x1a/0x1e
-> > >  do_syscall_64+0x54/0xde
-> > >
-> > > While there are not many references to this problem on mailing lists,=
- it is
-> > > reported on a regular basis on various Chromebooks (roughly 300 repor=
-ts
-> > > per month). The problem is relatively easy to reproduce by adding msl=
-eep()
-> > > calls into the code.
-> > >
-> > > I tried to reproduce the problem with non-uvcvideo webcams, but was
-> > > unsuccessful. I was unable to get Philips (pwc) webcams to work. gspc=
-a
-> > > based webcams don't experience the problem, or at least I was unable =
-to
-> > > reproduce it (The gspa driver does not trigger sending USB messages i=
-n the
-> > > open function, and otherwise uses the locking mechanism provided by t=
-he
-> > > v4l2/vb2 core).
-> > >
-> > > I don't presume to claim that I found every issue, but this patch ser=
-ies
-> > > should fix at least the major problems.
-> > >
-> > > The patch series was tested exensively on a Chromebook running chrome=
-os-4.19
-> > > and on a Linux system running a v5.8.y based kernel.
-> > >
-> > > v3:
-> > > - In patch 5/5, add missing calls to usb_autopm_put_interface() and k=
-free()
-> > >   to failure code path
-> > >
-> > > v2:
-> > > - Added details about problem frequency and testing with non-uvc webc=
-ams
-> > >   to summary
-> > > - In patch 4/5, return EPOLLERR instead of -ENODEV on poll errors
-> > > - Fix description in patch 5/5
-> > >
-> > > ----------------------------------------------------------------
-> > > Guenter Roeck (5):
-> > >       media: uvcvideo: Cancel async worker earlier
-> > >       media: uvcvideo: Lock video streams and queues while unregister=
-ing
-> > >       media: uvcvideo: Release stream queue when unregistering video =
-device
-> > >       media: uvcvideo: Protect uvc queue file operations against disc=
-onnect
-> > >       media: uvcvideo: Abort uvc_v4l2_open if video device is unregis=
-tered
-> > >
-> > >  drivers/media/usb/uvc/uvc_ctrl.c   | 11 ++++++----
-> > >  drivers/media/usb/uvc/uvc_driver.c | 12 ++++++++++
-> > >  drivers/media/usb/uvc/uvc_queue.c  | 32 +++++++++++++++++++++++++--
-> > >  drivers/media/usb/uvc/uvc_v4l2.c   | 45 ++++++++++++++++++++++++++++=
-++++++++--
-> > >  drivers/media/usb/uvc/uvcvideo.h   |  1 +
-> > >  5 files changed, 93 insertions(+), 8 deletions(-)
->
-> --
-> Regards,
->
-> Laurent Pinchart
+Hi all,
 
-Hi Laurent,
+Here is some more information about the Media Summit:
 
-Have you had time to take another look at those patches? Can we
-somehow move at least with the uvcvideo patches?
+Date: Monday September 12
+Time: 8:45-18:00
+Location: Convention Centre Dublin
+Room: The Liffey B - Part 1 (subject to change)
+Sponsored by: Cisco Systems Norway, Collabora and the Kodi Foundation
 
-Best regards,
-Lukasz
+We will have a projector or display to show presentations, power strips,
+a whiteboard and beverages. Lunch is sponsored by the Kodi Foundation,
+details to follow.
+
+It's co-located with the OSS Europe conference:
+
+https://events.linuxfoundation.org/open-source-summit-europe/
+
+Attendees:
+
+Sakari Ailus <sakari.ailus@linux.intel.com>
+Kieran Bingham <kieran.bingham@ideasonboard.com>
+Nicolas Dufresne <nicolas@ndufresne.ca>
+Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Hidenori Kobayashi <hidenorik@chromium.org>
+Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Jacopo Mondi <jacopo@jmondi.org>
+Michael Olbrich <m.olbrich@pengutronix.de>
+Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Ricardo Ribalda <ribalda@chromium.org>
+Maxime Ripard <maxime@cerno.tech>
+Daniel Scally <djrscally@gmail.com>
+Jernej Škrabec <jernej.skrabec@gmail.com>
+Niklas Söderlund <niklas.soderlund@ragnatech.se> (afternoon only)
+Dave Stevenson <dave.stevenson@raspberrypi.com> (from 11 am approx.)
+Michael Tretter <m.tretter@pengutronix.de>
+Hans Verkuil <hverkuil@xs4all.nl>
+Philipp Zabel <p.zabel@pengutronix.de>
+
+Note: there are 2 seats left, so if you are interested in this, mail me.
+
+Tentative remote attendees:
+
+Mauro Carvalho Chehab <mchehab@kernel.org>
+Benjamin MUGNIER <benjamin.mugnier@foss.st.com>
+
+Regarding remote attendance: I plan to bring a second laptop with me and a good webcam.
+But whether this will work is not at all certain, esp. audio is often very poor. It very
+much depends on the room. More info to follow.
+
+The health and safety regulations will be those of the OSSE LF (updated on August 22):
+
+https://events.linuxfoundation.org/open-source-summit-europe/attend/health-and-safety/
+
+As you can read above masks are needed for this event, so make sure you bring them!
+You also need to be fully vaccinated (Duh!), or show a negative test. See the details
+in the link.
+
+We also strongly recommend that you do a self-test before going to the Conference Centre
+for this meeting.
+
+Code of conduct:
+
+https://events.linuxfoundation.org/open-source-summit-europe/attend/code-of-conduct/
+
+
+Based on the submitted topics I have made a first draft of the agenda. I have tried
+to keep the sensor-related topics to after 11:00 since Dave comes in later in the day.
+
+I am also making the (reasonable) assumption that most (if not all) attendees will be
+attending the ELCE/OSSE conference Tue-Fri as well. While it is nice if we can come
+to a conclusion in the time allotted for each topic, it's also OK if we can set up
+a small group that can discuss it further in the following days.
+
+If you raised a discussion topic, but will be in Dublin for only the Monday, then
+let me know.
+
+I added a guesstimate of the time needed for each topic. If you think that guesstimate
+is wildly off, then let me know. But remember: it's fine if we decide to discuss it
+further in the following days in a smaller group.
+
+If you present a topic, then please make a presentation. And if you have material you
+can share beforehand, then that would be great.
+
+We have the room from 8:30-18:00, so I moved a few things around since V1, in particular
+please come in a bit earlier so you can set everything up (power, internet, etc.) so
+we can begin at 9 AM sharp.
+
+Don't expect that the times below are precise (esp. after 11:00): past experience tells
+us that it can vary wildly.
+
+Draft Agenda V2:
+
+ 8:40 Getting settled
+ 9:00 Introduction
+ 9:10 Hans: Presentation on CTA-861 & edid-decode
+ 9:25 Nicolas: Stateless encoder progress
+10:00 Ricardo: Introduce ChromeOS camera project
+
+11:00 Break
+
+11:15 Kieran: Fault tolerance
+
+  I raised this in the past when we first started hitting the issue on
+  Renesas platforms with multiple cameras in a single media graph, but now
+  I think it's become more critical with desktop / laptop devices that are
+  hitting the issue (i.e. the IPU3).
+
+  Summary of issue:
+
+  - Multiple cameras that can function independently successfully, are
+    prevented from functioning or fully probing by V4L2 if one component
+    of another camera fails to load or probe.
+
+    If Camera A has a VCM, and Camera B does not, Camera B will not be
+    available at all if Camera A's VCM is not fully probed, even though
+    Camera B can be fully functional and complete.
+
+    Even if Camera A does not have the VCM probed, it may still function
+    successfully (with a fixed focal position) - but our current
+    implementation will mean that it will not even be available to
+    capture images.
+
+  We talked about this quite a long time ago, and I believe the general
+  consensus was that we can have events on the media graph. But
+  unfortunately at the time, there was no development scheduled on that,
+  and it wasn't something I was able to continue at the time.
+
+  I'd like to bring it up to refresh the topic, and see if we can make
+  some progress as it's now affecting more general devices.
+
+11:45 Jacopo: Representing addition sensor processing stages.
+
+  How to represent additional processing stages that happens
+  on the sensor side, mostly additional subsampling/cropping that happen
+  between the analogue cropping on the full pixel array and the final
+  image sent on the wire.
+
+  https://lore.kernel.org/linux-media/CAPY8ntA06L1Xsph79sv9t7MiDSNeSO2vADevuXZdXQdhWpSmow@mail.gmail.com/
+
+  Dave made a good introduction of the issue his email which got
+  largely unanswered.
+
+  The issue is particularly relevant for RAW sensors, where applying
+  subsampling has an impact on the sensor's sensitivity and requires
+  to adjust the gains and exposure accordingly.
+
+  The V4L2 selection API falls short on this and the only other
+  solution I am aware of is registering additional subdevices as the
+  CCS driver does.
+
+12:30 Lunch
+
+13:30 Dave: On-sensor temperature reporting.
+
+  Thread started by Benjamin at
+  https://lore.kernel.org/linux-media/20220415111845.27130-3-benjamin.mugnier@foss.st.com/
+  but no resolution over using hwmon API or V4L2 control. If hwmon
+  then we need Media Controller framework to tie the sensor and thermal
+  device together.
+
+  It's recently been queried for IMX477 with the Pi
+  (https://github.com/raspberrypi/libcamera/issues/19), but it will
+  apply to many sensors.
+
+13:50 Dave: Synchronising sensors for stereoscopic operation.
+
+  How should that be configured? Allowing configuration from userspace
+  would allow sensors to be operated independently which can be useful for
+  test purposes, or should it be enforced from DT/ACPI? Do we set a default
+  configuration for each sensor from DT/ACPI and then allow userspace to
+  override should it wish?
+
+14:10 Dave: Lens drivers.
+
+  Each driver will have a "useful" range which is effectively dictated by
+  the overall module. Should that be defined via DT as it is a feature of
+  the platform, or leave the driver totally generic and expect userspace
+  to do something sensible?
+
+  In the case of simple systems without libcamera, do we set default for
+  V4L2_CID_FOCUS_ABSOLUTE to a sensible hyperfocal distance, and can
+  that again be defined in DT as it is defining the hardware?
+
+14:30 Dave: Controlling sensor GPIO outputs.
+
+  Controlling sensor GPIO outputs for things such as flash triggers,
+  vsync, frame start/end, exposure start/end, etc.
+
+  There is a huge range of features available so do we have any hope of
+  standardising some of it, or do we end up hiding these away in the
+  drivers with custom DT bindings to configure them? If we accept that
+  there will be variation, can we vaguely standardise what those
+  bindings look like? Or should these be V4L2 controls as things like
+  pulse widths may want to be adjusted by userspace?
+
+15:00 Break
+
+15:30 Jacopo: Reconcile handling of regulator, gpios and clock on OF and ACPI platforms.
+
+  We recently got a few series trying to reconcile handling of regulators,
+  gpios and clocks on OF and ACPI platforms all of them doing the usual
+  "similar but slightly different" thing:
+
+  https://lore.kernel.org/linux-media/20220425061022.1569480-1-paul.elder@ideasonboard.com/
+  https://lore.kernel.org/linux-media/20220329090133.338073-1-jacopo@jmondi.org/
+  https://lore.kernel.org/linux-media/20220509143226.531117-1-foss+kernel@0leil.net/
+  https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=0c2c7a1e0d69221b9d489bfd8cf53262d6f82446
+
+  ACPI and OF handles clocks slightly differently, and it is not clear
+  to me if ACPI based platform need explicit handling of
+  clocks/regulator or ACPI does "the right thing" by itself (I'm
+  afraid the answer is actually "it depends"). I'm ACPI illiterate
+  so I cannot propose anything meaningful but if anyone is interested
+  in discussing this further this might be a good time to do so ?
+
+
+16:00 Laurent: V4L2 streams series.
+
+  I'd like to discuss the V4L2 streams series, in particular how to
+  upstream the parts that won't be upstream yet by mid-September.
+  Discussing the next steps would also be useful, as there's lots we could
+  build on top.
+
+16:30 Laurent: How can we finalize conversion of v4l-utils to meson?
+
+16:45-18:00 Anything else?
+
+Regards,
+
+	Hans
