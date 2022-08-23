@@ -2,131 +2,218 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 04F1A59D26A
-	for <lists+linux-media@lfdr.de>; Tue, 23 Aug 2022 09:43:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B433859D8CF
+	for <lists+linux-media@lfdr.de>; Tue, 23 Aug 2022 12:04:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241134AbiHWHmj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 23 Aug 2022 03:42:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51660 "EHLO
+        id S1350786AbiHWJeB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 23 Aug 2022 05:34:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38778 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241121AbiHWHm2 (ORCPT
+        with ESMTP id S1350743AbiHWJcp (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 23 Aug 2022 03:42:28 -0400
-Received: from smtp.smtpout.orange.fr (smtp08.smtpout.orange.fr [80.12.242.130])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 70AF56527C
-        for <linux-media@vger.kernel.org>; Tue, 23 Aug 2022 00:42:22 -0700 (PDT)
-Received: from pop-os.home ([90.11.190.129])
-        by smtp.orange.fr with ESMTPA
-        id QOY9onTPyvd84QOY9oHp0q; Tue, 23 Aug 2022 09:42:20 +0200
-X-ME-Helo: pop-os.home
-X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
-X-ME-Date: Tue, 23 Aug 2022 09:42:20 +0200
-X-ME-IP: 90.11.190.129
-From:   Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-To:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Samuel Holland <samuel@sholland.org>,
-        Maxime Ripard <mripard@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
-        Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-        linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-sunxi@lists.linux.dev
-Subject: [PATCH v2 2/2] media: sunxi: Fix some error handling path of sun6i_mipi_csi2_probe()
-Date:   Tue, 23 Aug 2022 09:42:11 +0200
-Message-Id: <69f418936bf0060287d237824a677192343b91ab.1661240416.git.christophe.jaillet@wanadoo.fr>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <28d04b260acff7eb4416a410d5678cbafb5e2784.1661240416.git.christophe.jaillet@wanadoo.fr>
-References: <28d04b260acff7eb4416a410d5678cbafb5e2784.1661240416.git.christophe.jaillet@wanadoo.fr>
+        Tue, 23 Aug 2022 05:32:45 -0400
+Received: from mail-yw1-x1136.google.com (mail-yw1-x1136.google.com [IPv6:2607:f8b0:4864:20::1136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0FD747435F
+        for <linux-media@vger.kernel.org>; Tue, 23 Aug 2022 01:38:51 -0700 (PDT)
+Received: by mail-yw1-x1136.google.com with SMTP id 00721157ae682-3246910dac3so359912837b3.12
+        for <linux-media@vger.kernel.org>; Tue, 23 Aug 2022 01:38:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=semihalf.com; s=google;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc;
+        bh=cgc+e/QzNdyD2sfucJY+c/VRbtSyirfoyG9awCiqMa4=;
+        b=kUrFjIHECTaBr9+CKEUTz4OLFtxjYaXXGh+DIth9fw223PK1yidFfqVYBKotKgREon
+         rn0SdwopAWDltNNwEtcw8x2F4jYDo+6O72ACtJg7eBBRL/AtQFzIr6nPHvoVFHuF6wWG
+         46gE7n2khQGERr18D6bX/yfDzzeEfTcEyt3a4PX0Lpn8i8eI2QGzBb1k1k5n+VLPfqmT
+         gSrfA521jCdxvgWL9H8ZopNm35pxb0KtwT0tRmg2ex7JMIFXZiYCZUrsbBv3K3M4IqNV
+         wgimq51IM18LsFVOViGgvdqQzAZsqDCvnWjnghr+KMQxIUS2HTY1R+lgifuQMzMiyfA2
+         UU8A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc;
+        bh=cgc+e/QzNdyD2sfucJY+c/VRbtSyirfoyG9awCiqMa4=;
+        b=C0/9VcvUF6ECVZOX1V4GcGAgSeCcpKMoA16mo0mXStTP8Cqglaj9lRG0TAbSIO2f9X
+         t1ydTvemp/iXUv2tqVD5cwg3TWZeOM4I+X1223Jk0s/Nd5vFeEVKwf2pfKauaQvw8q4G
+         VMy5o79G5QBy18hPlXIenh+W3SEEUPA10r+/uzAifhFYZvT1QvZJ9ZrPYKE/mdAonP29
+         P/PK7XGCjE6+5/KOT7CVKV01thbWhEM0svEyQgndmBYNeFFXMLzITzXO+3ylRZ2Wi3XB
+         +JnmkhoJMlLd1R4dLrI2VvGoft6E1Y/20P2WNoSO7soa19Lpsf22DkgDrLagh0hyNjOW
+         akIg==
+X-Gm-Message-State: ACgBeo2JkaqcupclNQ4cn7j4G8OeaVDCFmUWKDHG115RPuHMmOJ04wNX
+        p2P1kd29zubZn3YwHweVOt0exk7YKgXvnkmntESxJA==
+X-Google-Smtp-Source: AA6agR5Cgtu718MiKMVY1/XiyInsuBVJHNdFRsvSqTrNoHkmhAshU/tLTB8cZgDu+q0Z/EZnw0wrJC4b3x0GnuHi6qs=
+X-Received: by 2002:a05:6902:387:b0:694:159f:ad3c with SMTP id
+ f7-20020a056902038700b00694159fad3cmr20730903ybs.223.1661243870140; Tue, 23
+ Aug 2022 01:37:50 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=unavailable autolearn_force=no version=3.4.6
+References: <20200917022547.198090-1-linux@roeck-us.net> <20220311202426.GE23776@pengutronix.de>
+ <YizpxhxPBxJ0EHQR@pendragon.ideasonboard.com>
+In-Reply-To: <YizpxhxPBxJ0EHQR@pendragon.ideasonboard.com>
+From:   Lukasz Majczak <lma@semihalf.com>
+Date:   Tue, 23 Aug 2022 10:37:39 +0200
+Message-ID: <CAFJ_xbr+b26DdNomysXKJZ57SaRAJi3nSJd8VK90y=hicEWZ=A@mail.gmail.com>
+Subject: Re: [PATCH RESEND v3 0/5] media: uvcvideo: Fix race conditions
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Michael Grzeschik <mgr@pengutronix.de>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@iki.fi>,
+        linux-uvc-devel@lists.sourceforge.net, linux-usb@vger.kernel.org,
+        linux-media@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Release some resources in the error handling path of the probe and of
-sun6i_mipi_csi2_resources_setup(), as already done in the remove
-function.
+sob., 12 mar 2022 o 19:43 Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> napisa=C5=82(a):
+>
+> Hi Michael,
+>
+> On Fri, Mar 11, 2022 at 09:24:26PM +0100, Michael Grzeschik wrote:
+> > Ping!
+> >
+> > This series seems to be hanging around. It would be nice to get these
+> > patches upstream, as they help my uvc-gadget workflow. Without them it
+> > is likely that in the development cases my gadget won't start and then
+> > leave the whole xhci controller broken.
+> >
+> > @Laurent, what do you think?
+>
+> I think I've explained before how this should be fixed at the V4L2
+> level. The problem actually affects character devices globally, and Greg
+> KH said he would have a go at fixing it there, but I don't think much
+> happened. Starting with a V4L2-level fix is fine with me.
+>
+> There are a few patches in the series that are specific to uvcvideo,
+> I'll have another look and merge those.
+>
+> > On Wed, Sep 16, 2020 at 07:25:42PM -0700, Guenter Roeck wrote:
+> > > Something seems to have gone wrong with v3 of this patch series.
+> > > I am sure I sent it out, but I don't find it anywhere.
+> > > Resending. Sorry for any duplicates.
+> > >
+> > > The uvcvideo code has no lock protection against USB disconnects
+> > > while video operations are ongoing. This has resulted in random
+> > > error reports, typically pointing to a crash in usb_ifnum_to_if(),
+> > > called from usb_hcd_alloc_bandwidth(). A typical traceback is as
+> > > follows.
+> > >
+> > > usb 1-4: USB disconnect, device number 3
+> > > BUG: unable to handle kernel NULL pointer dereference at 000000000000=
+0000
+> > > PGD 0 P4D 0
+> > > Oops: 0000 [#1] PREEMPT SMP PTI
+> > > CPU: 0 PID: 5633 Comm: V4L2CaptureThre Not tainted 4.19.113-08536-g5d=
+29ca36db06 #1
+> > > Hardware name: GOOGLE Edgar, BIOS Google_Edgar.7287.167.156 03/25/201=
+9
+> > > RIP: 0010:usb_ifnum_to_if+0x29/0x40
+> > > Code: <...>
+> > > RSP: 0018:ffffa46f42a47a80 EFLAGS: 00010246
+> > > RAX: 0000000000000000 RBX: 0000000000000000 RCX: ffff904a396c9000
+> > > RDX: ffff904a39641320 RSI: 0000000000000001 RDI: 0000000000000000
+> > > RBP: ffffa46f42a47a80 R08: 0000000000000002 R09: 0000000000000000
+> > > R10: 0000000000009975 R11: 0000000000000009 R12: 0000000000000000
+> > > R13: ffff904a396b3800 R14: ffff904a39e88000 R15: 0000000000000000
+> > > FS: 00007f396448e700(0000) GS:ffff904a3ba00000(0000) knlGS:0000000000=
+000000
+> > > CS: 0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> > > CR2: 0000000000000000 CR3: 000000016cb46000 CR4: 00000000001006f0
+> > > Call Trace:
+> > >  usb_hcd_alloc_bandwidth+0x1ee/0x30f
+> > >  usb_set_interface+0x1a3/0x2b7
+> > >  uvc_video_start_transfer+0x29b/0x4b8 [uvcvideo]
+> > >  uvc_video_start_streaming+0x91/0xdd [uvcvideo]
+> > >  uvc_start_streaming+0x28/0x5d [uvcvideo]
+> > >  vb2_start_streaming+0x61/0x143 [videobuf2_common]
+> > >  vb2_core_streamon+0xf7/0x10f [videobuf2_common]
+> > >  uvc_queue_streamon+0x2e/0x41 [uvcvideo]
+> > >  uvc_ioctl_streamon+0x42/0x5c [uvcvideo]
+> > >  __video_do_ioctl+0x33d/0x42a
+> > >  video_usercopy+0x34e/0x5ff
+> > >  ? video_ioctl2+0x16/0x16
+> > >  v4l2_ioctl+0x46/0x53
+> > >  do_vfs_ioctl+0x50a/0x76f
+> > >  ksys_ioctl+0x58/0x83
+> > >  __x64_sys_ioctl+0x1a/0x1e
+> > >  do_syscall_64+0x54/0xde
+> > >
+> > > While there are not many references to this problem on mailing lists,=
+ it is
+> > > reported on a regular basis on various Chromebooks (roughly 300 repor=
+ts
+> > > per month). The problem is relatively easy to reproduce by adding msl=
+eep()
+> > > calls into the code.
+> > >
+> > > I tried to reproduce the problem with non-uvcvideo webcams, but was
+> > > unsuccessful. I was unable to get Philips (pwc) webcams to work. gspc=
+a
+> > > based webcams don't experience the problem, or at least I was unable =
+to
+> > > reproduce it (The gspa driver does not trigger sending USB messages i=
+n the
+> > > open function, and otherwise uses the locking mechanism provided by t=
+he
+> > > v4l2/vb2 core).
+> > >
+> > > I don't presume to claim that I found every issue, but this patch ser=
+ies
+> > > should fix at least the major problems.
+> > >
+> > > The patch series was tested exensively on a Chromebook running chrome=
+os-4.19
+> > > and on a Linux system running a v5.8.y based kernel.
+> > >
+> > > v3:
+> > > - In patch 5/5, add missing calls to usb_autopm_put_interface() and k=
+free()
+> > >   to failure code path
+> > >
+> > > v2:
+> > > - Added details about problem frequency and testing with non-uvc webc=
+ams
+> > >   to summary
+> > > - In patch 4/5, return EPOLLERR instead of -ENODEV on poll errors
+> > > - Fix description in patch 5/5
+> > >
+> > > ----------------------------------------------------------------
+> > > Guenter Roeck (5):
+> > >       media: uvcvideo: Cancel async worker earlier
+> > >       media: uvcvideo: Lock video streams and queues while unregister=
+ing
+> > >       media: uvcvideo: Release stream queue when unregistering video =
+device
+> > >       media: uvcvideo: Protect uvc queue file operations against disc=
+onnect
+> > >       media: uvcvideo: Abort uvc_v4l2_open if video device is unregis=
+tered
+> > >
+> > >  drivers/media/usb/uvc/uvc_ctrl.c   | 11 ++++++----
+> > >  drivers/media/usb/uvc/uvc_driver.c | 12 ++++++++++
+> > >  drivers/media/usb/uvc/uvc_queue.c  | 32 +++++++++++++++++++++++++--
+> > >  drivers/media/usb/uvc/uvc_v4l2.c   | 45 ++++++++++++++++++++++++++++=
+++++++++--
+> > >  drivers/media/usb/uvc/uvcvideo.h   |  1 +
+> > >  5 files changed, 93 insertions(+), 8 deletions(-)
+>
+> --
+> Regards,
+>
+> Laurent Pinchart
 
-Fixes: af54b4f4c17f ("media: sunxi: Add support for the A31 MIPI CSI-2 controller")
-Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
----
-Changes in v2:
-  * add some blank line   [Paul Kocialkowski <paul.kocialkowski@bootlin.com>]
-  * rename the new labels   [Paul Kocialkowski <paul.kocialkowski@bootlin.com>]
+Hi Laurent,
 
-v1:
-  https://lore.kernel.org/all/9999a30560d0ab8201734cbab0483c6f840402da.1659295329.git.christophe.jaillet@wanadoo.fr/
----
- .../sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c   | 20 +++++++++++++++----
- 1 file changed, 16 insertions(+), 4 deletions(-)
+Have you had time to take another look at those patches? Can we
+somehow move at least with the uvcvideo patches?
 
-diff --git a/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c b/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c
-index a4e3f9a6b2ff..30d6c0c5161f 100644
---- a/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c
-+++ b/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c
-@@ -661,7 +661,8 @@ sun6i_mipi_csi2_resources_setup(struct sun6i_mipi_csi2_device *csi2_dev,
- 	csi2_dev->reset = devm_reset_control_get_shared(dev, NULL);
- 	if (IS_ERR(csi2_dev->reset)) {
- 		dev_err(dev, "failed to get reset controller\n");
--		return PTR_ERR(csi2_dev->reset);
-+		ret = PTR_ERR(csi2_dev->reset);
-+		goto error_clock_rate_exclusive;
- 	}
- 
- 	/* D-PHY */
-@@ -669,13 +670,14 @@ sun6i_mipi_csi2_resources_setup(struct sun6i_mipi_csi2_device *csi2_dev,
- 	csi2_dev->dphy = devm_phy_get(dev, "dphy");
- 	if (IS_ERR(csi2_dev->dphy)) {
- 		dev_err(dev, "failed to get MIPI D-PHY\n");
--		return PTR_ERR(csi2_dev->dphy);
-+		ret = PTR_ERR(csi2_dev->dphy);
-+		goto error_clock_rate_exclusive;
- 	}
- 
- 	ret = phy_init(csi2_dev->dphy);
- 	if (ret) {
- 		dev_err(dev, "failed to initialize MIPI D-PHY\n");
--		return ret;
-+		goto error_clock_rate_exclusive;
- 	}
- 
- 	/* Runtime PM */
-@@ -683,6 +685,11 @@ sun6i_mipi_csi2_resources_setup(struct sun6i_mipi_csi2_device *csi2_dev,
- 	pm_runtime_enable(dev);
- 
- 	return 0;
-+
-+error_clock_rate_exclusive:
-+	clk_rate_exclusive_put(csi2_dev->clock_mod);
-+
-+	return ret;
- }
- 
- static void
-@@ -712,9 +719,14 @@ static int sun6i_mipi_csi2_probe(struct platform_device *platform_dev)
- 
- 	ret = sun6i_mipi_csi2_bridge_setup(csi2_dev);
- 	if (ret)
--		return ret;
-+		goto error_resources;
- 
- 	return 0;
-+
-+error_resources:
-+	sun6i_mipi_csi2_resources_cleanup(csi2_dev);
-+
-+	return ret;
- }
- 
- static int sun6i_mipi_csi2_remove(struct platform_device *platform_dev)
--- 
-2.34.1
-
+Best regards,
+Lukasz
