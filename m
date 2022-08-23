@@ -2,189 +2,159 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1108759E690
-	for <lists+linux-media@lfdr.de>; Tue, 23 Aug 2022 18:06:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A549E59E8F7
+	for <lists+linux-media@lfdr.de>; Tue, 23 Aug 2022 19:23:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243245AbiHWQEe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 23 Aug 2022 12:04:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54152 "EHLO
+        id S229728AbiHWRWN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 23 Aug 2022 13:22:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48024 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243680AbiHWQEI (ORCPT
+        with ESMTP id S233780AbiHWRU1 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 23 Aug 2022 12:04:08 -0400
-Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::222])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 96F151E0C4A;
-        Tue, 23 Aug 2022 05:16:11 -0700 (PDT)
-Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPSA id DDF0440008;
-        Tue, 23 Aug 2022 12:16:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1661256969;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=etPKwelbA+tTlRYYdrHTtYLe08SrSj0mjH5eb5hJOEo=;
-        b=EcLUICxWmL3GxUpjFUhfExprDuK1skDWZXJGnScRsI6HP5ULN2w9+NZ8YMIS9OFyq/l94X
-        shMqLJqioe+hY3441wZ4QTVwjqRjFdwWr9Vv/Gd9Qc1T4kM9/rLAY2R0RmQg+oeQq+Ter/
-        Y88/CaLJeYMRh5rd5yQPjCr1PaLx2uyHyYvpmwPiAkAXQjIFEbuAktxWMAGIRM23DT4rwG
-        91iZbgFnhaxeKfnRITkx7SMYg+Xs7ASb4+D+jGKUi6J4CQOLpi7nUVb/K04btf4wRUm4wK
-        a2rF4snOc8bHl3/TcUdGIN4MJ5GZ0qoPaon1LQapBpjxtYKMbllBBIr5HGODoQ==
-Date:   Tue, 23 Aug 2022 14:16:02 +0200
-From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To:     Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Samuel Holland <samuel@sholland.org>,
-        Maxime Ripard <mripard@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH v2 2/2] media: sunxi: Fix some error handling path of
- sun6i_mipi_csi2_probe()
-Message-ID: <YwTFApDoY0c/LH45@aptenodytes>
-References: <28d04b260acff7eb4416a410d5678cbafb5e2784.1661240416.git.christophe.jaillet@wanadoo.fr>
- <69f418936bf0060287d237824a677192343b91ab.1661240416.git.christophe.jaillet@wanadoo.fr>
+        Tue, 23 Aug 2022 13:20:27 -0400
+Received: from mail-qt1-x829.google.com (mail-qt1-x829.google.com [IPv6:2607:f8b0:4864:20::829])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CBB1A86B51
+        for <linux-media@vger.kernel.org>; Tue, 23 Aug 2022 06:44:25 -0700 (PDT)
+Received: by mail-qt1-x829.google.com with SMTP id h22so10360418qtu.2
+        for <linux-media@vger.kernel.org>; Tue, 23 Aug 2022 06:44:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc;
+        bh=HYUWsAYXjW2i318BjbGbbKb+gkXQpUmwzmEIHMqDu5I=;
+        b=e4JErC0om1kvlDhOah9NQNcK+mXjibntNm23OS49JJRMoTF5yVIe6jgHxK1+mhwkan
+         CO91j95hoO+ZUqzvsHtB+vnZLWg5cZJTdAZd/KyriCrgfWZdH7J4b2bD2+oxHYpW5Ynh
+         bkfus5PrWDnnJai7yYslwwf0RJuvDjfZaW+T0ptWq1/uK1BfD0hq28qJyA5EosXuFBwl
+         LkroYPa5I6Jo56BQ5J86APmQj3fL+ojhLy+K7MEeJcpl/hMMdk9E+NQb6kTG1BmUr1Im
+         sChiFOU8KqdQH94ddHL7Teh5gp6YtpdjEWwaUUOb6/Dvss/yiCnPdZp8HNkmZgcmZZ5n
+         Xyhw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc;
+        bh=HYUWsAYXjW2i318BjbGbbKb+gkXQpUmwzmEIHMqDu5I=;
+        b=w7AZ936JhRz9ZHekEtaXiRL91NdsNdciq0BFoMOMyLk9RfD9hHqBL4kk8y/81dlyUL
+         KZk/W1BoZINv06CFbGhLnIatGno2OnQLnspJ2bhgew2a19Q+PICwVChdiOefBsyOFzfS
+         5j3yZXZ+Ap0ZeH4sD9G4evOBankxD0RUi3f5O/bpFrmJo/UnD0heuVnqgMjB+MpNeZOz
+         JJdc81oYvUTBLOzCUCe+ZKlA2qK+4pcXniUg9i2KDNx7IGuUMv0mK5jRFIVi/z3Z15aU
+         4T2VyPC+a/tS7kKysGlEVwlngQEdqP3YZEFlmyhr7vEIHNshhy9BwCEGJF6kTSgML2n0
+         73Eg==
+X-Gm-Message-State: ACgBeo216flj/HD3wRgFFU4yq54WPaIxl2Nk8CYocJyWQWS7GuWshUJ9
+        hJ5DCm7rxoJXR5Buggt2Wk8OVA==
+X-Google-Smtp-Source: AA6agR4t4vEazDNxYLh6eNEskT0+EKTIuQlsSu8YV3eXOkr/7tQ7UIDxzDgxf4QyRfzrcYAMvvoZeg==
+X-Received: by 2002:ac8:7e83:0:b0:344:7ee0:1241 with SMTP id w3-20020ac87e83000000b003447ee01241mr19324435qtj.587.1661262264917;
+        Tue, 23 Aug 2022 06:44:24 -0700 (PDT)
+Received: from nicolas-tpx395.localdomain (192-222-136-102.qc.cable.ebox.net. [192.222.136.102])
+        by smtp.gmail.com with ESMTPSA id v16-20020a05620a0f1000b006b97151d2b3sm13198030qkl.67.2022.08.23.06.44.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 23 Aug 2022 06:44:24 -0700 (PDT)
+Message-ID: <ede840d10677041d2c8d0a07b81b3cd55a6c92ba.camel@ndufresne.ca>
+Subject: Re: [PATCH 2/2] [WIP]: media: Add Synaptics compressed tiled format
+From:   Nicolas Dufresne <nicolas@ndufresne.ca>
+To:     Hsia-Jun Li <Randy.Li@synaptics.com>
+Cc:     Tomasz Figa <tfiga@chromium.org>, dri-devel@lists.freedesktop.org,
+        maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+        tzimmermann@suse.de, airlied@linux.ie, daniel@ffwll.ch,
+        mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
+        ezequiel@vanguardiasur.com.ar, sakari.ailus@linux.intel.com,
+        ribalda@chromium.org,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        sebastian.hesselbarth@gmail.com, jszhang@kernel.org,
+        linux-arm-kernel@lists.infradead.org
+Date:   Tue, 23 Aug 2022 09:44:22 -0400
+In-Reply-To: <2f3c8f6d-fc01-353e-fb74-b7f9af1ed2c4@synaptics.com>
+References: <20220808162750.828001-1-randy.li@synaptics.com>
+         <20220808162750.828001-3-randy.li@synaptics.com>
+         <CAAFQd5AKjpJ+fPAeCqdNnJbS4R7SdaHkfyW4qG1xXr-sE801pQ@mail.gmail.com>
+         <13d37c15-79f3-4e16-8cf4-fc37846f4a04@synaptics.com>
+         <Yv7HnHE7bLmgq5D0@pendragon.ideasonboard.com>
+         <6da7faf329128312f0862f555d1a855437ae99f3.camel@ndufresne.ca>
+         <50dd9b7a-8f48-0799-57f6-048d20de8dcc@synaptics.com>
+         <2662ac698898f71f60b9b7e0ad4703854de1d012.camel@ndufresne.ca>
+         <1f926989-eb13-14ee-e30d-ac6d01b86c52@synaptics.com>
+         <e15165f60ce801dd502bfe1992ea430fe37c5a91.camel@ndufresne.ca>
+         <2f3c8f6d-fc01-353e-fb74-b7f9af1ed2c4@synaptics.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.4 (3.44.4-1.fc36) 
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="aPxKs6zDsOLiGtPt"
-Content-Disposition: inline
-In-Reply-To: <69f418936bf0060287d237824a677192343b91ab.1661240416.git.christophe.jaillet@wanadoo.fr>
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-
---aPxKs6zDsOLiGtPt
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Hi Christophe,
-
-On Tue 23 Aug 22, 09:42, Christophe JAILLET wrote:
-> Release some resources in the error handling path of the probe and of
-> sun6i_mipi_csi2_resources_setup(), as already done in the remove
-> function.
-
-Looks good to me, thanks!
-
-Acked-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-
-Cheers,
-
-Paul
+Le mardi 23 ao=C3=BBt 2022 =C3=A0 15:40 +0800, Hsia-Jun Li a =C3=A9crit=C2=
+=A0:
+> > In current state, If your driver can support it, userland does not stri=
+ctly
+> > need
+> > to re-allocate if the resolution is changed to smaller. In most SVC
+> > scenarios,
+> > the largest resolution is known in advance, so pre-allocation can happe=
+n to
+> > the
+> When you play a video from Youtube, you may notice that starting=20
+> resolution is low, then after it received more data knowning the=20
+> bandwidth is enough, it would switch to a higher resolution. I don't=20
+> think it would inform the codecs2 or OMX there is a higher target=20
+> resolution.
+>=20
+> Besides, for the case of SVC in a conference system, the remote(gatway)=
 =20
-> Fixes: af54b4f4c17f ("media: sunxi: Add support for the A31 MIPI CSI-2 co=
-ntroller")
-> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-> ---
-> Changes in v2:
->   * add some blank line   [Paul Kocialkowski <paul.kocialkowski@bootlin.c=
-om>]
->   * rename the new labels   [Paul Kocialkowski <paul.kocialkowski@bootlin=
-=2Ecom>]
+> would not tell you there is a higer resolution or frame rate because you=
+=20
+> can't receive it in negotiate stage, it could be permanently(device=20
+> capability) or just bandwidth problem. Whether we know there is a higher=
+=20
+> requirement video depends on the transport protocols used here.
 >=20
-> v1:
->   https://lore.kernel.org/all/9999a30560d0ab8201734cbab0483c6f840402da.16=
-59295329.git.christophe.jaillet@wanadoo.fr/
-> ---
->  .../sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c   | 20 +++++++++++++++----
->  1 file changed, 16 insertions(+), 4 deletions(-)
->=20
-> diff --git a/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2=
-=2Ec b/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c
-> index a4e3f9a6b2ff..30d6c0c5161f 100644
-> --- a/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c
-> +++ b/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c
-> @@ -661,7 +661,8 @@ sun6i_mipi_csi2_resources_setup(struct sun6i_mipi_csi=
-2_device *csi2_dev,
->  	csi2_dev->reset =3D devm_reset_control_get_shared(dev, NULL);
->  	if (IS_ERR(csi2_dev->reset)) {
->  		dev_err(dev, "failed to get reset controller\n");
-> -		return PTR_ERR(csi2_dev->reset);
-> +		ret =3D PTR_ERR(csi2_dev->reset);
-> +		goto error_clock_rate_exclusive;
->  	}
-> =20
->  	/* D-PHY */
-> @@ -669,13 +670,14 @@ sun6i_mipi_csi2_resources_setup(struct sun6i_mipi_c=
-si2_device *csi2_dev,
->  	csi2_dev->dphy =3D devm_phy_get(dev, "dphy");
->  	if (IS_ERR(csi2_dev->dphy)) {
->  		dev_err(dev, "failed to get MIPI D-PHY\n");
-> -		return PTR_ERR(csi2_dev->dphy);
-> +		ret =3D PTR_ERR(csi2_dev->dphy);
-> +		goto error_clock_rate_exclusive;
->  	}
-> =20
->  	ret =3D phy_init(csi2_dev->dphy);
->  	if (ret) {
->  		dev_err(dev, "failed to initialize MIPI D-PHY\n");
-> -		return ret;
-> +		goto error_clock_rate_exclusive;
->  	}
-> =20
->  	/* Runtime PM */
-> @@ -683,6 +685,11 @@ sun6i_mipi_csi2_resources_setup(struct sun6i_mipi_cs=
-i2_device *csi2_dev,
->  	pm_runtime_enable(dev);
-> =20
->  	return 0;
-> +
-> +error_clock_rate_exclusive:
-> +	clk_rate_exclusive_put(csi2_dev->clock_mod);
-> +
-> +	return ret;
->  }
-> =20
->  static void
-> @@ -712,9 +719,14 @@ static int sun6i_mipi_csi2_probe(struct platform_dev=
-ice *platform_dev)
-> =20
->  	ret =3D sun6i_mipi_csi2_bridge_setup(csi2_dev);
->  	if (ret)
-> -		return ret;
-> +		goto error_resources;
-> =20
->  	return 0;
-> +
-> +error_resources:
-> +	sun6i_mipi_csi2_resources_cleanup(csi2_dev);
-> +
-> +	return ret;
->  }
-> =20
->  static int sun6i_mipi_csi2_remove(struct platform_device *platform_dev)
-> --=20
-> 2.34.1
->=20
+> The basic idea of SVC is that the low layer didn't depends on the upper=
+=20
+> layer, we can't tell how the bitstream usually.
 
---=20
-Paul Kocialkowski, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
+I'm not saying against the fact the for drivers without IOMMU (hitting dire=
+ctly
+into the CMA allocator), allocation latency is massive challenge, and a
+mechanism to smoothly reallocate (rather then mass-reallocation) is needed =
+in
+the long run. This is what I'm referring to when saying that folks have
+considered extending CREATE_BUFS() with a DELETE_BUFS() ioctl.
 
---aPxKs6zDsOLiGtPt
-Content-Type: application/pgp-signature; name="signature.asc"
+Note that there is tones of software trickery you can use to mitigate this.=
+ The
+most simple one is to use CREATE_BUFS() instead of REQBUFS(). Instead of
+reallocating all the buffers you need in one go, you would allocate them on=
+e by
+one. This will distribute allocation latency. For stateful CODEC, most OMX
+focused firmware needs to be modified for that, since they stick with the o=
+ld
+OMX spec which did not allow run-time allocation.
 
------BEGIN PGP SIGNATURE-----
+Another trick is to use a second codec session. Both stateful/stateless COD=
+EC
+have support for concurrent decoding. On the MSE requirement, is that the s=
+tream
+transition happens only on keyframe boundary. Meaning, there is no need to =
+reuse
+the same session, you can create a new decoder in parallel, and that before=
+ the
+drain is complete (after the event, before the last buffer). This will comp=
+ress
+the "setup" latency, to the cost of some extra memory usage. Specially in t=
+he
+MSE case, this is nearly always possible since browsers do require support =
+for
+more then 1 concurrent decode. This method also works with OMX style CODEC
+without any modification.
 
-iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmMExQIACgkQ3cLmz3+f
-v9HgnAf+NpBFcCGKtldzFOK2iXMmRJoDixDIpBBvqdDqGMnyn7JII4kfn+kGbUhI
-ScdBPKYWdj5cJ2QRawxmQsQccXjq7ixywdrroxJqScfsRJosWsVXVGz0XngrFEuB
-JoF4MyLo63l63X0ht9fVgpkxHr2uMDfdUXMyxCY123Fd1JuarllEWmZlMks5gPTW
-B1aKYEu5izRREnLf/PEnf6Y1HNYJyg5tbyDy2MGP/0cp3REfdn8ss4l2T1Z1/A2a
-YE+2XzZwi8ck4yrmSJgYBLPdqDuM0oLrW8R5L+Qm0qArVlRVwB+ryc3bDHPjPoRA
-pIj3Mc/xpvAVXgBZKIh+bBR/neqPHg==
-=Q5/R
------END PGP SIGNATURE-----
+regards,
+Nicolas
 
---aPxKs6zDsOLiGtPt--
+
+
