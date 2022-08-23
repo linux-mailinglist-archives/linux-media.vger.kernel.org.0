@@ -2,46 +2,46 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7435A59E758
-	for <lists+linux-media@lfdr.de>; Tue, 23 Aug 2022 18:34:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1ABFB59E91E
+	for <lists+linux-media@lfdr.de>; Tue, 23 Aug 2022 19:23:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244878AbiHWQeL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 23 Aug 2022 12:34:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51400 "EHLO
+        id S229543AbiHWRWR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 23 Aug 2022 13:22:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56452 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244724AbiHWQdb (ORCPT
+        with ESMTP id S238264AbiHWRVM (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 23 Aug 2022 12:33:31 -0400
-Received: from bg5.exmail.qq.com (bg4.exmail.qq.com [43.155.67.158])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 62C309A9F4;
-        Tue, 23 Aug 2022 07:52:31 -0700 (PDT)
-X-QQ-mid: bizesmtp63t1661266342t2f59wqq
+        Tue, 23 Aug 2022 13:21:12 -0400
+Received: from bg5.exmail.qq.com (bg4.exmail.qq.com [43.154.221.58])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 21B22AD99B;
+        Tue, 23 Aug 2022 07:56:30 -0700 (PDT)
+X-QQ-mid: bizesmtp66t1661266537tlvpe98v
 Received: from localhost.localdomain ( [182.148.14.124])
         by bizesmtp.qq.com (ESMTP) with 
-        id ; Tue, 23 Aug 2022 22:52:20 +0800 (CST)
+        id ; Tue, 23 Aug 2022 22:55:36 +0800 (CST)
 X-QQ-SSF: 0100000000200040B000B00A0000000
-X-QQ-FEAT: R3vftN8GVq8iVDHEowFNDn44iKc9ithiTLDgcDSRx4e896Gtxp4doItLko+3n
-        wffvr2SNTopOWndq8NuUv1jgbGjcy+QSIlGEC5pdKCfBb0XefvDbol9lIZR4UjYo3F8vZlk
-        KbjjWIS5CllFdazq4TsojFvirDviUvgCfajYa4FbYcEcC93LltyRdmzMAivJ9kpMKb8CDdU
-        FezeVNEX7KWUvoc8K9GoqiZwQJk1SfJFpaNcACzHT7sDcE0e2RTZfYx4n5kxeaD+zVYmHWk
-        FG29k5FyXa5i9vNL4pkVRDYji00FmmT9En3PBmn8f9OeSWnFz6KUquSLiOQMa0Jb1pHEl7I
-        nKrvEyIOtp693oR11qbebXRj2Z/imLAg4YYG1uTZ77ekuHGL4uCCUlEPCxFHshz+G06lz6A
+X-QQ-FEAT: LE7C6P2vL8R/Zo2ENKZ0zsVDc2bofEJusFflVmegwTyou4m193p/QettrsKUa
+        3UurGNGX4+DZHSoRm9SpnZMmm6tDlI37qbUdL96ITLVKzkyDoqC9GpHNAso2AKLEwrO+b7Q
+        VOrLFb6mHWQp3l2cmK5qm3jJg4fkFg+rUEeq4ly7eXlkHav8dj7L9mhy3geHqYQMy/K99/5
+        m4AQfGEsbJMDLE++t8BB9S0AL5a5BAzApb1nSdEOl7WG6rJ7ANBBmuoZx4eTAHK6Xd3T7HO
+        7yz3HOe2tzt3r/1SzXKNAAMuDu2q0QInCPvNUYNeBkEc6PusjQoGubM/ftdrXyFfJ9fvZUW
+        QzQOireBRizuqlsh0nFVF1AThnmIWY5NK0zcc5TIhXBeBjL7dqUUXfXmdS87w==
 X-QQ-GoodBg: 0
 From:   wangjianli <wangjianli@cdjrlc.com>
-To:     jacopo@jmondi.org, mchehab@kernel.org
+To:     awalls@md.metrocast.net, mchehab@kernel.org
 Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
         wangjianli <wangjianli@cdjrlc.com>
-Subject: [PATCH] media/i2c: fix repeated words in comments
-Date:   Tue, 23 Aug 2022 22:52:14 +0800
-Message-Id: <20220823145214.43383-1-wangjianli@cdjrlc.com>
+Subject: [PATCH] pci/ivtv: fix repeated words in comments
+Date:   Tue, 23 Aug 2022 22:55:30 +0800
+Message-Id: <20220823145530.45102-1-wangjianli@cdjrlc.com>
 X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-QQ-SENDSIZE: 520
 Feedback-ID: bizesmtp:cdjrlc.com:qybglogicsvr:qybglogicsvr7
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -52,22 +52,22 @@ Delete the redundant word 'the'.
 
 Signed-off-by: wangjianli <wangjianli@cdjrlc.com>
 ---
- drivers/media/i2c/mt9v111.c | 2 +-
+ drivers/media/pci/ivtv/ivtv-yuv.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/media/i2c/mt9v111.c b/drivers/media/i2c/mt9v111.c
-index 2dc4a0f24ce8..7beca0b70b72 100644
---- a/drivers/media/i2c/mt9v111.c
-+++ b/drivers/media/i2c/mt9v111.c
-@@ -633,7 +633,7 @@ static int mt9v111_hw_config(struct mt9v111_dev *mt9v111)
+diff --git a/drivers/media/pci/ivtv/ivtv-yuv.c b/drivers/media/pci/ivtv/ivtv-yuv.c
+index e79e8a5a744a..4ba10c34a16a 100644
+--- a/drivers/media/pci/ivtv/ivtv-yuv.c
++++ b/drivers/media/pci/ivtv/ivtv-yuv.c
+@@ -538,7 +538,7 @@ static void ivtv_yuv_handle_vertical(struct ivtv *itv, struct yuv_frame_info *f)
+ 	reg_2964 = (reg_2964 << 16) + reg_2964 + (reg_2964 * 46 / 94);
  
- 	/*
- 	 * Set pixel integration time to the whole frame time.
--	 * This value controls the the shutter delay when running with AE
-+	 * This value controls the shutter delay when running with AE
- 	 * disabled. If longer than frame time, it affects the output
- 	 * frame rate.
- 	 */
+ 	/* Okay, we've wasted time working out the correct value,
+-	   but if we use it, it fouls the the window alignment.
++	   but if we use it, it fouls the window alignment.
+ 	   Fudge it to what we want... */
+ 	reg_2964 = 0x00010001 + ((reg_2964 & 0x0000FFFF) - (reg_2964 >> 16));
+ 	reg_2968 = 0x00010001 + ((reg_2968 & 0x0000FFFF) - (reg_2968 >> 16));
 -- 
 2.36.1
 
