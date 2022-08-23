@@ -2,45 +2,36 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9E1C159E926
-	for <lists+linux-media@lfdr.de>; Tue, 23 Aug 2022 19:23:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 42C6259E980
+	for <lists+linux-media@lfdr.de>; Tue, 23 Aug 2022 19:33:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229706AbiHWRWB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 23 Aug 2022 13:22:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42768 "EHLO
+        id S231575AbiHWR0Z (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 23 Aug 2022 13:26:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48682 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239664AbiHWRVG (ORCPT
+        with ESMTP id S234804AbiHWRZh (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 23 Aug 2022 13:21:06 -0400
-Received: from bg5.exmail.qq.com (bg4.exmail.qq.com [43.154.221.58])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C51A7BE4CD;
-        Tue, 23 Aug 2022 07:57:20 -0700 (PDT)
-X-QQ-mid: bizesmtp71t1661266636t5qkwjew
-Received: from localhost.localdomain ( [182.148.14.124])
-        by bizesmtp.qq.com (ESMTP) with 
-        id ; Tue, 23 Aug 2022 22:57:15 +0800 (CST)
-X-QQ-SSF: 0100000000200040B000B00A0000000
-X-QQ-FEAT: ILHsT53NKPjSG0RvvxCOryIyJPMeWQzLFoVN31CgGr2K2bM5sfmUKIYf+jm4E
-        059+SGarD/IRmG3SeENZNVHWqWbUEbdHjW6ta03lO+Q6FNHchsyCzqf5xqrIR6Haln/FR6P
-        y1nwUYfzaw3ph+m1bJcLp8mlNlNJ6K8oNlWshmXtMPyKOnaOjZ6EhGu99MaLGR8OpsDRJqv
-        Yfv3XXXHa9f0PuyH4lrVHeC5JL6psL/tP7UoyTGbi05tMrouCCJiOhDvFbXaueAVNzxnJ0N
-        H1GRvDUixLatiLfa6lVDNwz9Q/+RBf0LwTiNR1RtlCJrQtVQSliJs/UwwXeG5svjVGpjxKn
-        1rUZs3jumuC8kOZs84qpQ+kXtbrYqXr5qUoUab4Ya3sa5JIXb7d8t29p1UKKK7//OxBXyQJ
-X-QQ-GoodBg: 0
-From:   wangjianli <wangjianli@cdjrlc.com>
-To:     mchehab@kernel.org
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        wangjianli <wangjianli@cdjrlc.com>
-Subject: [PATCH] pci/saa7164: fix repeated words in comments
-Date:   Tue, 23 Aug 2022 22:57:09 +0800
-Message-Id: <20220823145709.46069-1-wangjianli@cdjrlc.com>
-X-Mailer: git-send-email 2.36.1
+        Tue, 23 Aug 2022 13:25:37 -0400
+Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D8E46AED81;
+        Tue, 23 Aug 2022 08:01:40 -0700 (PDT)
+Received: (Authenticated sender: jacopo@jmondi.org)
+        by mail.gandi.net (Postfix) with ESMTPSA id 783321BF20C;
+        Tue, 23 Aug 2022 15:01:37 +0000 (UTC)
+Date:   Tue, 23 Aug 2022 17:01:35 +0200
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     wangjianli <wangjianli@cdjrlc.com>
+Cc:     mchehab@kernel.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media/i2c: fix repeated words in comments
+Message-ID: <20220823150135.mnl22amx7own46xv@uno.localdomain>
+References: <20220823145214.43383-1-wangjianli@cdjrlc.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: bizesmtp:cdjrlc.com:qybglogicsvr:qybglogicsvr7
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20220823145214.43383-1-wangjianli@cdjrlc.com>
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -48,26 +39,32 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Delete the redundant word 'the'.
+Hi wangjianli
 
-Signed-off-by: wangjianli <wangjianli@cdjrlc.com>
----
- drivers/media/pci/saa7164/saa7164-core.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+thanks but this has already been addressed
+https://patchwork.kernel.org/project/linux-media/patch/20220722015211.63609-1-slark_xiao@163.com/
 
-diff --git a/drivers/media/pci/saa7164/saa7164-core.c b/drivers/media/pci/saa7164/saa7164-core.c
-index 7973ae42873a..d5f32e3ff544 100644
---- a/drivers/media/pci/saa7164/saa7164-core.c
-+++ b/drivers/media/pci/saa7164/saa7164-core.c
-@@ -626,7 +626,7 @@ static irqreturn_t saa7164_irq(int irq, void *dev_id)
- 	portf = &dev->ports[SAA7164_PORT_VBI2];
- 
- 	/* Check that the hardware is accessible. If the status bytes are
--	 * 0xFF then the device is not accessible, the the IRQ belongs
-+	 * 0xFF then the device is not accessible, the IRQ belongs
- 	 * to another driver.
- 	 * 4 x u32 interrupt registers.
- 	 */
--- 
-2.36.1
-
+On Tue, Aug 23, 2022 at 10:52:14PM +0800, wangjianli wrote:
+> Delete the redundant word 'the'.
+>
+> Signed-off-by: wangjianli <wangjianli@cdjrlc.com>
+> ---
+>  drivers/media/i2c/mt9v111.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/media/i2c/mt9v111.c b/drivers/media/i2c/mt9v111.c
+> index 2dc4a0f24ce8..7beca0b70b72 100644
+> --- a/drivers/media/i2c/mt9v111.c
+> +++ b/drivers/media/i2c/mt9v111.c
+> @@ -633,7 +633,7 @@ static int mt9v111_hw_config(struct mt9v111_dev *mt9v111)
+>
+>  	/*
+>  	 * Set pixel integration time to the whole frame time.
+> -	 * This value controls the the shutter delay when running with AE
+> +	 * This value controls the shutter delay when running with AE
+>  	 * disabled. If longer than frame time, it affects the output
+>  	 * frame rate.
+>  	 */
+> --
+> 2.36.1
+>
