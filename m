@@ -2,90 +2,117 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 858DA59F6C9
-	for <lists+linux-media@lfdr.de>; Wed, 24 Aug 2022 11:49:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4388659F709
+	for <lists+linux-media@lfdr.de>; Wed, 24 Aug 2022 12:02:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235768AbiHXJtJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 24 Aug 2022 05:49:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60126 "EHLO
+        id S233729AbiHXKCG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 24 Aug 2022 06:02:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42426 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233796AbiHXJtC (ORCPT
+        with ESMTP id S235520AbiHXKCB (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 24 Aug 2022 05:49:02 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5747267464;
-        Wed, 24 Aug 2022 02:49:00 -0700 (PDT)
+        Wed, 24 Aug 2022 06:02:01 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 013745073A
+        for <linux-media@vger.kernel.org>; Wed, 24 Aug 2022 03:01:58 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id F2981B8238F;
-        Wed, 24 Aug 2022 09:48:58 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9D732C433B5;
-        Wed, 24 Aug 2022 09:48:55 +0000 (UTC)
-Message-ID: <cf992081-eb0c-009d-f283-1602b74a9293@xs4all.nl>
-Date:   Wed, 24 Aug 2022 11:48:54 +0200
+        by ams.source.kernel.org (Postfix) with ESMTPS id 7CEA0B822BB
+        for <linux-media@vger.kernel.org>; Wed, 24 Aug 2022 10:01:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AD2CAC433C1;
+        Wed, 24 Aug 2022 10:01:55 +0000 (UTC)
+Message-ID: <3d9b5a88-c545-6fa1-f0de-b41689703cd8@xs4all.nl>
+Date:   Wed, 24 Aug 2022 12:01:54 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.10.0
-Subject: Re: [PATCH] media: staging: media: zoran: Removed braces for single
- statement block
 Content-Language: en-US
-To:     Abhijeet Srivastava <abhijeet.srivastava2308@gmail.com>
-Cc:     Corentin Labbe <clabbe@baylibre.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        mjpeg-users@lists.sourceforge.net, linux-media@vger.kernel.org,
-        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20220721150055.52096-1-abhijeet.srivastava2308@gmail.com>
+To:     "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
+Cc:     Corentin Labbe <clabbe.montjoie@gmail.com>
 From:   Hans Verkuil <hverkuil@xs4all.nl>
-In-Reply-To: <20220721150055.52096-1-abhijeet.srivastava2308@gmail.com>
+Subject: [GIT PULL FOR v6.1] zoran: move from staging to mainline
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Abhijeet,
-
-Thank you for the zoran patches, unfortunately these are a duplicate of
-
-https://patchwork.linuxtv.org/project/linux-media/patch/20220810115445.2302477-2-hverkuil-cisco@xs4all.nl/
-
-I wish I'd noticed your patches earlier, it would have saved me some work :-(
-
-I'm marking your patches Obsoleted in patchwork.
+After a bit of cleanup the zoran driver is now ready to be moved back to
+mainline.
 
 Regards,
 
 	Hans
 
-On 21/07/2022 17:00, Abhijeet Srivastava wrote:
-> Warning found by checkpatch.pl script.
-> 
-> Signed-off-by: Abhijeet Srivastava <abhijeet.srivastava2308@gmail.com>
-> ---
->  drivers/staging/media/zoran/zoran_card.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/staging/media/zoran/zoran_card.c b/drivers/staging/media/zoran/zoran_card.c
-> index 26f978a1cc72..0c138d47d0c3 100644
-> --- a/drivers/staging/media/zoran/zoran_card.c
-> +++ b/drivers/staging/media/zoran/zoran_card.c
-> @@ -1038,9 +1038,9 @@ static int zr36057_init(struct zoran *zr)
->  	zr->stat_com = dma_alloc_coherent(&zr->pci_dev->dev,
->  					  BUZ_NUM_STAT_COM * sizeof(u32),
->  					  &zr->p_sc, GFP_KERNEL);
-> -	if (!zr->stat_com) {
-> +	if (!zr->stat_com) 
->  		return -ENOMEM;
-> -	}
-> +
->  	for (j = 0; j < BUZ_NUM_STAT_COM; j++)
->  		zr->stat_com[j] = cpu_to_le32(1); /* mark as unavailable to zr36057 */
->  
+The following changes since commit 1ff8334f0a4e0be693066aafba195d25629d77aa:
+
+  media: MAINTAINERS: add entry for i.MX8MP DW100 v4l2 mem2mem driver (2022-08-21 08:42:26 +0200)
+
+are available in the Git repository at:
+
+  git://linuxtv.org/hverkuil/media_tree.git tags/br-v6.1e
+
+for you to fetch changes up to 9bceea66308c99f2a2c532e4411c1bad0d7d44ea:
+
+  zoran: move to mainline (2022-08-24 11:49:27 +0200)
+
+----------------------------------------------------------------
+Tag branch
+
+----------------------------------------------------------------
+Hans Verkuil (4):
+      zoran: fix checkpatch --strict issues
+      zoran: the video device is video capture only, not M2M
+      zoran: from VB2_READ/WRITE: read/write isn't supported
+      zoran: move to mainline
+
+ drivers/media/pci/Kconfig                                 |   1 +
+ drivers/media/pci/Makefile                                |   1 +
+ drivers/{staging/media => media/pci}/zoran/Kconfig        |   0
+ drivers/{staging/media => media/pci}/zoran/Makefile       |   0
+ drivers/{staging/media => media/pci}/zoran/videocodec.c   |   7 +-
+ drivers/{staging/media => media/pci}/zoran/videocodec.h   | 190 ++++++++++++++++++++++++++---------------------------
+ drivers/{staging/media => media/pci}/zoran/zoran.h        |  30 +++++----
+ drivers/{staging/media => media/pci}/zoran/zoran_card.c   |  56 ++++++++--------
+ drivers/{staging/media => media/pci}/zoran/zoran_card.h   |   9 ++-
+ drivers/{staging/media => media/pci}/zoran/zoran_device.c |  37 ++++++-----
+ drivers/media/pci/zoran/zoran_device.h                    |  60 +++++++++++++++++
+ drivers/{staging/media => media/pci}/zoran/zoran_driver.c |  59 ++---------------
+ drivers/{staging/media => media/pci}/zoran/zr36016.c      | 142 +++++++++++++++++----------------------
+ drivers/{staging/media => media/pci}/zoran/zr36016.h      |   0
+ drivers/{staging/media => media/pci}/zoran/zr36050.c      | 182 ++++++++++++++++++++++++--------------------------
+ drivers/{staging/media => media/pci}/zoran/zr36050.h      |   0
+ drivers/{staging/media => media/pci}/zoran/zr36057.h      | 130 ++++++++++++++++++------------------
+ drivers/{staging/media => media/pci}/zoran/zr36060.c      |   7 +-
+ drivers/{staging/media => media/pci}/zoran/zr36060.h      |  86 ++++++++++++------------
+ drivers/staging/media/Kconfig                             |   2 -
+ drivers/staging/media/Makefile                            |   1 -
+ drivers/staging/media/zoran/TODO                          |  19 ------
+ drivers/staging/media/zoran/zoran_device.h                |  60 -----------------
+ 23 files changed, 491 insertions(+), 588 deletions(-)
+ rename drivers/{staging/media => media/pci}/zoran/Kconfig (100%)
+ rename drivers/{staging/media => media/pci}/zoran/Makefile (100%)
+ rename drivers/{staging/media => media/pci}/zoran/videocodec.c (97%)
+ rename drivers/{staging/media => media/pci}/zoran/videocodec.h (65%)
+ rename drivers/{staging/media => media/pci}/zoran/zoran.h (90%)
+ rename drivers/{staging/media => media/pci}/zoran/zoran_card.c (97%)
+ rename drivers/{staging/media => media/pci}/zoran/zoran_card.h (72%)
+ rename drivers/{staging/media => media/pci}/zoran/zoran_device.c (96%)
+ create mode 100644 drivers/media/pci/zoran/zoran_device.h
+ rename drivers/{staging/media => media/pci}/zoran/zoran_driver.c (94%)
+ rename drivers/{staging/media => media/pci}/zoran/zr36016.c (73%)
+ rename drivers/{staging/media => media/pci}/zoran/zr36016.h (100%)
+ rename drivers/{staging/media => media/pci}/zoran/zr36050.c (82%)
+ rename drivers/{staging/media => media/pci}/zoran/zr36050.h (100%)
+ rename drivers/{staging/media => media/pci}/zoran/zr36057.h (50%)
+ rename drivers/{staging/media => media/pci}/zoran/zr36060.c (99%)
+ rename drivers/{staging/media => media/pci}/zoran/zr36060.h (72%)
+ delete mode 100644 drivers/staging/media/zoran/TODO
+ delete mode 100644 drivers/staging/media/zoran/zoran_device.h
