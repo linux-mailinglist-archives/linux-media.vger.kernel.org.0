@@ -2,79 +2,86 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C5D6759FDAA
-	for <lists+linux-media@lfdr.de>; Wed, 24 Aug 2022 16:58:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 01EF759FDB8
+	for <lists+linux-media@lfdr.de>; Wed, 24 Aug 2022 17:01:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239140AbiHXO6Q (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 24 Aug 2022 10:58:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53518 "EHLO
+        id S238578AbiHXPB3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 24 Aug 2022 11:01:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57220 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238759AbiHXO6K (ORCPT
+        with ESMTP id S238274AbiHXPB1 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 24 Aug 2022 10:58:10 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 12CA38B995;
-        Wed, 24 Aug 2022 07:58:04 -0700 (PDT)
+        Wed, 24 Aug 2022 11:01:27 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0BA063CBF0;
+        Wed, 24 Aug 2022 08:01:26 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 7F4A16186D;
-        Wed, 24 Aug 2022 14:58:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1818FC433D7;
-        Wed, 24 Aug 2022 14:58:02 +0000 (UTC)
-Message-ID: <c7d0fcdf-7eb0-f543-d1e4-a8895955d570@xs4all.nl>
-Date:   Wed, 24 Aug 2022 16:58:01 +0200
+        by ams.source.kernel.org (Postfix) with ESMTPS id B6555B8238B;
+        Wed, 24 Aug 2022 15:01:24 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A39D2C433D6;
+        Wed, 24 Aug 2022 15:01:22 +0000 (UTC)
+Message-ID: <42384aba-d519-1a98-80dc-00a997e7243f@xs4all.nl>
+Date:   Wed, 24 Aug 2022 17:01:20 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.10.0
-Subject: Re: [PATCH] media/i2c: fix repeated words in comments
+Subject: Re: [PATCH] i2c/cx25840: fix repeated words in comments
 Content-Language: en-US
 To:     Jilin Yuan <yuanjilin@cdjrlc.com>, mchehab@kernel.org
 Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20220824131803.55374-1-yuanjilin@cdjrlc.com>
+References: <20220824131619.54027-1-yuanjilin@cdjrlc.com>
 From:   Hans Verkuil <hverkuil@xs4all.nl>
-In-Reply-To: <20220824131803.55374-1-yuanjilin@cdjrlc.com>
+In-Reply-To: <20220824131619.54027-1-yuanjilin@cdjrlc.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
         HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-For some of these patches you correctly mention the driver it applies
-to, and for others (like this one) you do not.
+This is a duplicate of:
 
-A media/i2c prefix suggests a media/i2c-wide patch, which this isn't.
+https://patchwork.linuxtv.org/project/linux-media/patch/20220821151552.58514-1-wangjianli@cdjrlc.com/
 
-Please repost with a proper prefix.
+Please check for similar patches first in the future.
+
+Why is seemingly everyone suddenly chasing errors like this?
+
+I don't mind taking such patches since typos like this annoy me, but
+having to figure out which patches are duplicates is getting old quickly...
+
+I'll try to go through your patches and see which are duplicates, but
+next time I'd appreciate it if you would check this first.
 
 Regards,
 
 	Hans
 
-On 24/08/2022 15:18, Jilin Yuan wrote:
->  Delete the redundant word 'in'.
+On 24/08/2022 15:16, Jilin Yuan wrote:
+>  Delete the redundant word 'of'.
 > 
 > Signed-off-by: Jilin Yuan <yuanjilin@cdjrlc.com>
 > ---
->  drivers/media/i2c/adv7175.c | 2 +-
+>  drivers/media/i2c/cx25840/cx25840-ir.c | 2 +-
 >  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/drivers/media/i2c/adv7175.c b/drivers/media/i2c/adv7175.c
-> index 1813f67f0fe1..945068c12763 100644
-> --- a/drivers/media/i2c/adv7175.c
-> +++ b/drivers/media/i2c/adv7175.c
-> @@ -209,7 +209,7 @@ static int adv7175_s_std_output(struct v4l2_subdev *sd, v4l2_std_id std)
->  		/* This is an attempt to convert
->  		 * SECAM->PAL (typically it does not work
->  		 * due to genlock: when decoder is in SECAM
-> -		 * and encoder in in PAL the subcarrier can
-> +		 * and encoder in PAL the subcarrier can
->  		 * not be synchronized with horizontal
->  		 * quency) */
->  		adv7175_write_block(sd, init_pal, sizeof(init_pal));
+> diff --git a/drivers/media/i2c/cx25840/cx25840-ir.c b/drivers/media/i2c/cx25840/cx25840-ir.c
+> index 9d7d1d149f1a..8cef9656c612 100644
+> --- a/drivers/media/i2c/cx25840/cx25840-ir.c
+> +++ b/drivers/media/i2c/cx25840/cx25840-ir.c
+> @@ -196,7 +196,7 @@ static u32 clock_divider_to_resolution(u16 divider)
+>  {
+>  	/*
+>  	 * Resolution is the duration of 1 tick of the readable portion of
+> -	 * of the pulse width counter as read from the FIFO.  The two lsb's are
+> +	 * the pulse width counter as read from the FIFO.  The two lsb's are
+>  	 * not readable, hence the << 2.  This function returns ns.
+>  	 */
+>  	return DIV_ROUND_CLOSEST((1 << 2)  * ((u32) divider + 1) * 1000,
