@@ -2,210 +2,173 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A0D8859F574
-	for <lists+linux-media@lfdr.de>; Wed, 24 Aug 2022 10:41:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 681CE59F5B4
+	for <lists+linux-media@lfdr.de>; Wed, 24 Aug 2022 10:50:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234658AbiHXIlD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 24 Aug 2022 04:41:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42140 "EHLO
+        id S236222AbiHXIuN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 24 Aug 2022 04:50:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35706 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234260AbiHXIlB (ORCPT
+        with ESMTP id S236054AbiHXItr (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 24 Aug 2022 04:41:01 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9790C140CE
-        for <linux-media@vger.kernel.org>; Wed, 24 Aug 2022 01:40:57 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id B0DDB2B3;
-        Wed, 24 Aug 2022 10:40:55 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1661330456;
-        bh=hQzeVL5gGjm0HYD0m9/mJ8pTtpsZPU0JHXA3ihoKcaE=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=S8KxpxQL5aOFbLPVv8CXZ2F8XYLTqXSXaZWA1fb7EyezFRvv3SlLxcZN7hY3hcvXx
-         Z65YSSyRUEkknqYkic6u79wGrBh3s5Ns8Pp9cHtZDNIwlRz/RhkJbO/QAfm1++wZmH
-         6HKV8cIAsDVRzBzCLwGh0t3mjCtCwJ0nj739B80A=
-Date:   Wed, 24 Aug 2022 11:40:49 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Yunke Cao <yunkec@google.com>
-Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Sergey Senozhatsky <senozhatsky@chromium.org>,
-        Ricardo Ribalda <ribalda@chromium.org>,
-        linux-media@vger.kernel.org
-Subject: Re: [PATCH v7 1/7] media: v4l2_ctrl: Add V4L2_CTRL_TYPE_RECT
-Message-ID: <YwXkEWDnXIhkfgzb@pendragon.ideasonboard.com>
-References: <20220628075705.2278044-1-yunkec@google.com>
- <20220628075705.2278044-2-yunkec@google.com>
+        Wed, 24 Aug 2022 04:49:47 -0400
+Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2125.outbound.protection.outlook.com [40.107.113.125])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 437D6786EB;
+        Wed, 24 Aug 2022 01:49:40 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=lQB5+SH92lB98iwPK90N0d0/9amHewXJuTbf45tZS6S/Up91rbdr1lKT/peR69Giiea7zlW/QG4FCm/Oe536GmcNgsBgBM1+BWTCanjzh4X+SZrsSJIkZ3wBqewdOYcQhRBMI9tPB+TIaU/XnsK8kE4837h7TIfilW83LxY+MrQmdT8wi2L+IA7jhnI/7sCK5D9+QfMKJZCi2SFZbg8klYm1JqZCn/Ylc4WvKDyGTjY/EKmDRd2nFvG1uSf7VpsGvuXhwnwI63QgvkFAFsA/puzJ0AJqxMxDW2Wjsmr4ikRUEfeDaRP2gwxk6+9uHFfCZTeqs3lXqGk7iOCJOts4mA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=aURiPN/xgCmLsKl5oLmmvncltZF57UUw5j0fzeergRk=;
+ b=TmsLnRSWA8R29/LYTAUOV2+ET64xbuCcuPF2JJ23qFyp4F3altAZJWsEIQVx+z1obYR4GlUmYQDRnmM1QUoqLHXX8N8QxxfSzdKp3bksQALjwOs858Zd+sEf05RMaUqtO/TIPkkGCQDeL8PUhKDRHubWUMrOqUm4XaWhvzJM/+nDBjMmDUmwbYjw2g9F2KIAyJ4QJkIWmVDDFhMKOUcFQ1yAHkiuA3ZsLndgnnbSi1J6DVXd4lABAVctHMJMg5cJ/94OUASbra1nMajfm6ith+EiHkgyAo32LfXlu2CD4DnQl7p7YjeogWaaUBtSkHl0v2arKCUgpYEj+RVzDy6Ntg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=aURiPN/xgCmLsKl5oLmmvncltZF57UUw5j0fzeergRk=;
+ b=ERktt2/h8GIzD/w1MEPJDtQGcUSePvsHwhP0PUf5ArDr9lYiWCR0A2slrzyRnhkP3Ea0/fDFHLY6GYBm/bTIA3czIXhD3M1aw0kIgOlGiqkb0PwmIiarilXcF3xRZDHZ1ybEImoC8ZoZ3kVYxPv+UXyWLO7JlL1zbotYKmEkB6o=
+Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com (2603:1096:604:bb::5)
+ by OS3PR01MB7527.jpnprd01.prod.outlook.com (2603:1096:604:14d::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5566.14; Wed, 24 Aug
+ 2022 08:49:38 +0000
+Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com
+ ([fe80::14d3:5079:9de1:ceaf]) by OS0PR01MB5922.jpnprd01.prod.outlook.com
+ ([fe80::14d3:5079:9de1:ceaf%3]) with mapi id 15.20.5546.024; Wed, 24 Aug 2022
+ 08:49:38 +0000
+From:   Biju Das <biju.das.jz@bp.renesas.com>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+CC:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: RE: [PATCH v12 2/5] media: renesas: vsp1: Add support to
+ deassert/assert reset line
+Thread-Topic: [PATCH v12 2/5] media: renesas: vsp1: Add support to
+ deassert/assert reset line
+Thread-Index: AQHYner/IaeevbAdTE+5wP1XgI2qHa20gzoAgAltncA=
+Date:   Wed, 24 Aug 2022 08:49:38 +0000
+Message-ID: <OS0PR01MB5922A5AC43B2F67B368840DF86739@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+References: <20220722164907.16587-1-biju.das.jz@bp.renesas.com>
+ <20220722164907.16587-3-biju.das.jz@bp.renesas.com>
+ <CAMuHMdXNNqgc=JU=UdnFRGRTCp484wjOqFc6M6J4Oq=-91Xbxw@mail.gmail.com>
+In-Reply-To: <CAMuHMdXNNqgc=JU=UdnFRGRTCp484wjOqFc6M6J4Oq=-91Xbxw@mail.gmail.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: e7740564-ccd9-4262-0005-08da85ad9416
+x-ms-traffictypediagnostic: OS3PR01MB7527:EE_
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: EY3s8boyem56gJD3erLGYI0SeF4Q8jUSlMIJaDiEyE4BvzSK4jNLTLVqVtWsqJr1Fze9Nd9EomS8TyZIAP7ovzyPbTVYEP00T7kICC0SGu/ouH63rnZgczifqUsAS72f0kkct5n0t8zzCoSaCe807I5qHRTEqIn8olhvSxcfPQ7Q7IPK97EG4XqtddVw56H84ZZnoWk6FI9MV2k+9AaKzPEPWAzBQlJ89lQ7ulMaEVHTOb4xbS4HEivyd4hgILAYQ/4QpXPKCuafd9ydgh+S2z/rubkNv4tjKBVvZYBwBAXL0Dr1sdOlZ9gtYwTu9zujeHm3aDy+ev8YNk4kCbq8tazApiqvcRvKoVOlWpxHonr+9UFxias/Pgcimbse/prz7WwL2emBvYIipTg0WrZ1WDKWB8mkhyIBQo6AOjmjWdtY55x/5Gr6XrQFINPSndLsxqXXhhR8AsZC0DW9l+D6WVjCeUYY/aeiQc6GFK4Y8UfIfr+UQnorTS1kG6G8FJ4skOqs/hFvKuxGAvOsZuTfE0sm1vLQk7vmuJSMAkRwRazKCBRtpFBHhLOnV/1BTqyEoTmipuW7wkbucT+WiZtEbtUYsbK28dE6SQL/wmTHzEzQku6i+7Z9MMaZIZjaiXDmNnzW3mRWXkwx/EDVGvnr6MuY6rPhjYH21hBBjECkyny8vmkuLmHk7L1A1s0QBynFAwZQjyhfv9LVwOmTQRax/SUGh7gUaeeMy9tx7xVcoV9YsqTjq55O6COk4g0clftFdjrr0lmJooDEuWmyBe/mKw==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS0PR01MB5922.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(39860400002)(376002)(396003)(366004)(136003)(346002)(66556008)(316002)(54906003)(55016003)(86362001)(8676002)(4326008)(64756008)(38100700002)(66446008)(66476007)(186003)(66946007)(76116006)(6916009)(41300700001)(6506007)(53546011)(7696005)(26005)(9686003)(38070700005)(107886003)(478600001)(71200400001)(8936002)(122000001)(52536014)(2906002)(33656002)(5660300002)(83380400001);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?WStjOGp1Zjg1K1JUbjhkL3R1aU9sNTBnR2Y4SWR1akdBSmNwUnRvOFFYbEow?=
+ =?utf-8?B?L0liSnlXRWRPMkZMa1NkNnJQdm1ZdGphUW9NbGgyc3daOGl3Mk54eXh3Z1N4?=
+ =?utf-8?B?eWNQeGlDalQzV0IvczgvRCt2MlhqdDlYTGlEMU52UEcrNFBSMEF3b2hobEhB?=
+ =?utf-8?B?NGVpdUw4Qk5Menk0aXJ2NDZWMnUwTDRac3p5Z3B6U2dhVHBEemcvNHBGZ3pM?=
+ =?utf-8?B?T01KSUxVeDZJd3FHalBJMFNreHBCRnZ6Vnhoak9ubHA2L1RIZEJOVTVkWFVn?=
+ =?utf-8?B?V0h1N1IzSjVxUC9lWFlNSmRBME9GS0xGRzlGYXFkNGJ6OWdUYWJ3Qms3N0RT?=
+ =?utf-8?B?ZWdmajdvMEdwOVdUUmVBTUd0MXIrSUtIMzlTOWI1ZUVhSHR4TG9YTjF6UjFX?=
+ =?utf-8?B?aDcxWWdWQkd1bjk4b0NLVEMzQzdvODFoRitRQmM3Y0Yzc0FQREM1eTNua0lM?=
+ =?utf-8?B?aGNFU21hSlU5Z2lUNW1YUFpRNXRFTG16TkZFakE1YWdibzZVZkFibUdzTzMw?=
+ =?utf-8?B?bkJCQk5NQW9vdWNNZVRHbFZYSXUyRDJZWjkyN3piNVc1NHJQaURCellBS1JP?=
+ =?utf-8?B?ZXlxMS9RN3U0U2w1Qnp6R1B6azU3UFl3SEVOWDVncEFQSVlGZHQ0cU5HcWZX?=
+ =?utf-8?B?UUtER3FGMW9sOHNQTUpvSGg1dHN4cnp3Y3RjVXUwd0tFVG5ORXowVHl6NVZ6?=
+ =?utf-8?B?Y0YrbkoyQ2JVdGp0cFNuMmJFUnAzTGJZOWVaVW1OOStjcHVwdzhURW5QenVG?=
+ =?utf-8?B?LzBiU3p3eDRZTko3R3dubERaZVRUeWRLSmN1RWkrRVdySGpvN2FmQU9pcFlR?=
+ =?utf-8?B?M2lPQmpsMGM2bWhseXZSY25HMWVwcWt4cEtkdDRLcExWUjBIMnZEWmtqYW5t?=
+ =?utf-8?B?a1VZUWVCSUJhYm01NEFEZ05JemFyQUdpQzk0d25oY28wV213dC90clhNUUxR?=
+ =?utf-8?B?OEQyNm9VTExwSFRtRUJnRU1ZTjIyRFJLYUxmcWpJUFhWaHR6dEloRXpsSmF3?=
+ =?utf-8?B?ajZPUGg5Ny9JNzZvZ2Rua1ptSHdsRU9obzVOakNNNDJhMC9jUGJTaDBvd2Ux?=
+ =?utf-8?B?UEFKWkh0ak11TFM3VFRHRkYwQWV1Rjc3OUY5Wmo3bkk1cGtsbjJ6NjFyUVdS?=
+ =?utf-8?B?N3poQzFjempHdVhXVkFBMDhDNnExdnBOcHowM1lWV0M5OTMyUHErR3JRdHc2?=
+ =?utf-8?B?QzVPU1Z6Wk9wb3MwSGtwOTdrQWpYMDRZL0FGSVAxZVJsSTBzNUJicTBzQUk0?=
+ =?utf-8?B?QVNBWmc0U0p3WjJ6UDRJRGtvMGVJYks0S3RCM3RMejUvRGpwRER1a0ZnRjU0?=
+ =?utf-8?B?Z2NJb1ZBYUdQWnJETmdzV0NCSENtWFdLZi8xSi9BSWtMOUthc3BaclVLL25r?=
+ =?utf-8?B?ZEhUU0MvcVk3bEh4V3AwVCtTTmpoQ3RzLzFvMVJ0VUpLUDloTkYwbzBydGc1?=
+ =?utf-8?B?L2VZUm15NVgzVnZ5QVlHRXlvUmRHM0FHWUZlUmZRaGUwRDFrSDYralp5MkUz?=
+ =?utf-8?B?N2NVT2haVzNGc3VPem1zeTF5czdpcmowSlhtUm9YMUtlQm02aVE1K3ZyMDVE?=
+ =?utf-8?B?QVllY29ZaGV0MDdwZU9OZEx3WWZlQ0lNRnl4TjQ2d3RqTGhQK1MwTFdKTkhD?=
+ =?utf-8?B?QUdabE1TbmluQVJDUmROc0U5ZWhPallPYitJYXRUTlBlRnFkOGdUVGluTkJ1?=
+ =?utf-8?B?M2dBQk5lODlaOUM1QVRPTjFwZnNFM3NmK2I4QThhQWpJQWFDU1NDTXJlVUxy?=
+ =?utf-8?B?QkxXaVc1RHVrWWdhWnBBZVcyMXBjNmN5L2o2c2dJRkEvSndIb01LS2VmbVdT?=
+ =?utf-8?B?dnlYV0JFcDAvZytnbkJUeG5XN2NwbXMwL1NzV2tQb0l6UlUzUGdwQjNXWVla?=
+ =?utf-8?B?dUxRUmRIQmtLT2hJWklzK28rQVlkRDBwVy9hVzh4cy9aYzdUNXFoOHQ3TG1v?=
+ =?utf-8?B?c1FPRUZxbFVUd3REaldjZlMwUWhrL2tYbGU0cDg2MVJEZDlDNEFLUEtXVFBX?=
+ =?utf-8?B?ajBGR0UrVS9vVExIRVVQdHo4eDZOVWxVK0lsMGVEWE9ZNGROei95bTllaG5J?=
+ =?utf-8?B?OVE4YTh3Um1USVE0dVAyY3V2Nmpaa3NQckRCK0hDU0JLZHU5NFF6cWNabXFa?=
+ =?utf-8?B?dDc4d1UxSFlrbkMydzd0d3hTTk5UN0ZldThxOUcxcHk3MVhLaE85WmNtQ2ZC?=
+ =?utf-8?B?RWc9PQ==?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220628075705.2278044-2-yunkec@google.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: OS0PR01MB5922.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e7740564-ccd9-4262-0005-08da85ad9416
+X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Aug 2022 08:49:38.6340
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: R90igrpsQpjRPNklQjACoDipVcCbXhrhv8JNP2vT1Mm+EhPfMtyQAMmBOiy+VWsSkUbh7cMNMcnhJTe5DbsEGArrMlpj06hXH92J1k6nNp8=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS3PR01MB7527
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Yunke,
-
-Thank you for the patch.
-
-On Tue, Jun 28, 2022 at 04:56:59PM +0900, Yunke Cao wrote:
-> Add p_rect to struct v4l2_ext_control with basic support in
-> v4l2-ctrls.
-
-This looks good to me, so
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-I'm no expert on the V4L2 control framework though, a review from Hans
-would be useful.
-
-> Reviewed-by: Ricardo Ribalda <ribalda@chromium.org>
-> Signed-off-by: Yunke Cao <yunkec@google.com>
-> ---
->  .../media/v4l/vidioc-g-ext-ctrls.rst          |  4 ++++
->  .../media/videodev2.h.rst.exceptions          |  1 +
->  drivers/media/v4l2-core/v4l2-ctrls-core.c     | 20 +++++++++++++++++++
->  include/media/v4l2-ctrls.h                    |  2 ++
->  include/uapi/linux/videodev2.h                |  2 ++
->  5 files changed, 29 insertions(+)
-> 
-> diff --git a/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst b/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst
-> index 29971a45a2d4..7473baa4e977 100644
-> --- a/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst
-> +++ b/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst
-> @@ -189,6 +189,10 @@ still cause this situation.
->        - ``p_area``
->        - A pointer to a struct :c:type:`v4l2_area`. Valid if this control is
->          of type ``V4L2_CTRL_TYPE_AREA``.
-> +    * - struct :c:type:`v4l2_rect` *
-> +      - ``p_rect``
-> +      - A pointer to a struct :c:type:`v4l2_rect`. Valid if this control is
-> +        of type ``V4L2_CTRL_TYPE_RECT``.
->      * - struct :c:type:`v4l2_ctrl_h264_sps` *
->        - ``p_h264_sps``
->        - A pointer to a struct :c:type:`v4l2_ctrl_h264_sps`. Valid if this control is
-> diff --git a/Documentation/userspace-api/media/videodev2.h.rst.exceptions b/Documentation/userspace-api/media/videodev2.h.rst.exceptions
-> index 9cbb7a0c354a..7b423475281d 100644
-> --- a/Documentation/userspace-api/media/videodev2.h.rst.exceptions
-> +++ b/Documentation/userspace-api/media/videodev2.h.rst.exceptions
-> @@ -147,6 +147,7 @@ replace symbol V4L2_CTRL_TYPE_HEVC_SPS :c:type:`v4l2_ctrl_type`
->  replace symbol V4L2_CTRL_TYPE_HEVC_PPS :c:type:`v4l2_ctrl_type`
->  replace symbol V4L2_CTRL_TYPE_HEVC_SLICE_PARAMS :c:type:`v4l2_ctrl_type`
->  replace symbol V4L2_CTRL_TYPE_AREA :c:type:`v4l2_ctrl_type`
-> +replace symbol V4L2_CTRL_TYPE_RECT :c:type:`v4l2_ctrl_type`
->  replace symbol V4L2_CTRL_TYPE_FWHT_PARAMS :c:type:`v4l2_ctrl_type`
->  replace symbol V4L2_CTRL_TYPE_VP8_FRAME :c:type:`v4l2_ctrl_type`
->  replace symbol V4L2_CTRL_TYPE_VP9_COMPRESSED_HDR :c:type:`v4l2_ctrl_type`
-> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-core.c b/drivers/media/v4l2-core/v4l2-ctrls-core.c
-> index 949c1884d9c1..35d43ba650db 100644
-> --- a/drivers/media/v4l2-core/v4l2-ctrls-core.c
-> +++ b/drivers/media/v4l2-core/v4l2-ctrls-core.c
-> @@ -84,6 +84,11 @@ static bool std_equal(const struct v4l2_ctrl *ctrl, u32 idx,
->  		return ptr1.p_u16[idx] == ptr2.p_u16[idx];
->  	case V4L2_CTRL_TYPE_U32:
->  		return ptr1.p_u32[idx] == ptr2.p_u32[idx];
-> +	case V4L2_CTRL_TYPE_RECT:
-> +		return ptr1.p_rect->top == ptr2.p_rect->top &&
-> +		       ptr1.p_rect->left == ptr2.p_rect->left &&
-> +		       ptr1.p_rect->height == ptr2.p_rect->height &&
-> +		       ptr1.p_rect->width == ptr2.p_rect->width;
->  	default:
->  		if (ctrl->is_int)
->  			return ptr1.p_s32[idx] == ptr2.p_s32[idx];
-> @@ -307,6 +312,11 @@ static void std_log(const struct v4l2_ctrl *ctrl)
->  	case V4L2_CTRL_TYPE_VP9_FRAME:
->  		pr_cont("VP9_FRAME");
->  		break;
-> +	case V4L2_CTRL_TYPE_RECT:
-> +		pr_cont("%ux%u@%dx%d",
-> +			ptr.p_rect->width, ptr.p_rect->height,
-> +			ptr.p_rect->left, ptr.p_rect->top);
-> +		break;
->  	default:
->  		pr_cont("unknown type %d", ctrl->type);
->  		break;
-> @@ -525,6 +535,7 @@ static int std_validate_compound(const struct v4l2_ctrl *ctrl, u32 idx,
->  	struct v4l2_ctrl_hdr10_mastering_display *p_hdr10_mastering;
->  	struct v4l2_ctrl_hevc_decode_params *p_hevc_decode_params;
->  	struct v4l2_area *area;
-> +	struct v4l2_rect *rect;
->  	void *p = ptr.p + idx * ctrl->elem_size;
->  	unsigned int i;
->  
-> @@ -888,6 +899,12 @@ static int std_validate_compound(const struct v4l2_ctrl *ctrl, u32 idx,
->  			return -EINVAL;
->  		break;
->  
-> +	case V4L2_CTRL_TYPE_RECT:
-> +		rect = p;
-> +		if (!rect->width || !rect->height)
-> +			return -EINVAL;
-> +		break;
-> +
->  	default:
->  		return -EINVAL;
->  	}
-> @@ -1455,6 +1472,9 @@ static struct v4l2_ctrl *v4l2_ctrl_new(struct v4l2_ctrl_handler *hdl,
->  	case V4L2_CTRL_TYPE_AREA:
->  		elem_size = sizeof(struct v4l2_area);
->  		break;
-> +	case V4L2_CTRL_TYPE_RECT:
-> +		elem_size = sizeof(struct v4l2_rect);
-> +		break;
->  	default:
->  		if (type < V4L2_CTRL_COMPOUND_TYPES)
->  			elem_size = sizeof(s32);
-> diff --git a/include/media/v4l2-ctrls.h b/include/media/v4l2-ctrls.h
-> index b3ce438f1329..919e104de50b 100644
-> --- a/include/media/v4l2-ctrls.h
-> +++ b/include/media/v4l2-ctrls.h
-> @@ -58,6 +58,7 @@ struct video_device;
->   * @p_hdr10_cll:		Pointer to an HDR10 Content Light Level structure.
->   * @p_hdr10_mastering:		Pointer to an HDR10 Mastering Display structure.
->   * @p_area:			Pointer to an area.
-> + * @p_rect:			Pointer to a rectangle.
->   * @p:				Pointer to a compound value.
->   * @p_const:			Pointer to a constant compound value.
->   */
-> @@ -87,6 +88,7 @@ union v4l2_ctrl_ptr {
->  	struct v4l2_ctrl_hdr10_cll_info *p_hdr10_cll;
->  	struct v4l2_ctrl_hdr10_mastering_display *p_hdr10_mastering;
->  	struct v4l2_area *p_area;
-> +	struct v4l2_rect *p_rect;
->  	void *p;
->  	const void *p_const;
->  };
-> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-> index 343b95107fce..2e36bb610ea6 100644
-> --- a/include/uapi/linux/videodev2.h
-> +++ b/include/uapi/linux/videodev2.h
-> @@ -1754,6 +1754,7 @@ struct v4l2_ext_control {
->  		__u16 __user *p_u16;
->  		__u32 __user *p_u32;
->  		struct v4l2_area __user *p_area;
-> +		struct v4l2_rect __user *p_rect;
->  		struct v4l2_ctrl_h264_sps __user *p_h264_sps;
->  		struct v4l2_ctrl_h264_pps *p_h264_pps;
->  		struct v4l2_ctrl_h264_scaling_matrix __user *p_h264_scaling_matrix;
-> @@ -1813,6 +1814,7 @@ enum v4l2_ctrl_type {
->  	V4L2_CTRL_TYPE_U16	     = 0x0101,
->  	V4L2_CTRL_TYPE_U32	     = 0x0102,
->  	V4L2_CTRL_TYPE_AREA          = 0x0106,
-> +	V4L2_CTRL_TYPE_RECT	     = 0x0107,
->  
->  	V4L2_CTRL_TYPE_HDR10_CLL_INFO		= 0x0110,
->  	V4L2_CTRL_TYPE_HDR10_MASTERING_DISPLAY	= 0x0111,
-
--- 
-Regards,
-
-Laurent Pinchart
+SGkgR2VlcnQsDQoNClRoYW5rcyBmb3IgdGhlIGZlZWRiYWNrLg0KDQo+IFN1YmplY3Q6IFJlOiBb
+UEFUQ0ggdjEyIDIvNV0gbWVkaWE6IHJlbmVzYXM6IHZzcDE6IEFkZCBzdXBwb3J0IHRvDQo+IGRl
+YXNzZXJ0L2Fzc2VydCByZXNldCBsaW5lDQo+IA0KPiBIaSBCaWp1LA0KPiANCj4gT24gRnJpLCBK
+dWwgMjIsIDIwMjIgYXQgNjo0OSBQTSBCaWp1IERhcyA8YmlqdS5kYXMuanpAYnAucmVuZXNhcy5j
+b20+DQo+IHdyb3RlOg0KPiA+IEFzIHRoZSByZXNldHMgRFQgcHJvcGVydHkgaXMgbWFuZGF0b3J5
+LCBhbmQgaXMgcHJlc2VudCBpbiBhbGwgLmR0c2kgaW4NCj4gPiBtYWlubGluZSwgYWRkIHN1cHBv
+cnQgdG8gcGVyZm9ybSBkZWFzc2VydC9hc3NlcnQgdXNpbmcgcmVmZXJlbmNlDQo+ID4gY291bnRl
+ZCByZXNldCBoYW5kbGUuDQo+ID4NCj4gPiBTaWduZWQtb2ZmLWJ5OiBCaWp1IERhcyA8YmlqdS5k
+YXMuanpAYnAucmVuZXNhcy5jb20+DQo+ID4gUmV2aWV3ZWQtYnk6IExhZCBQcmFiaGFrYXIgPHBy
+YWJoYWthci5tYWhhZGV2LWxhZC5yakBicC5yZW5lc2FzLmNvbT4NCj4gPiAtLS0NCj4gPiB2MTEt
+PnYxMjoNCj4gPiAgKiBSZXBsYWNlZCByZWFkX3BvbGxfdGltZW91dF9hdG9taWMtPiB1ZGVsYXko
+MSkgYXMgdGVzdGluZyBvbiBSWi9HMU4NCj4gPiAgICBzaG93cyB0aGlzIGRlbGF5IGlzIHN1ZmZp
+Y2llbnQgdG8gYXZvaWQgbG9jay11cC4NCj4gPiAgKiBSZW1vdmVkIFJiIHRhZ3MuDQo+IA0KPiBU
+aGFua3MgZm9yIHRoZSB1cGRhdGUhDQo+IA0KPiA+IC0tLSBhL2RyaXZlcnMvbWVkaWEvcGxhdGZv
+cm0vcmVuZXNhcy92c3AxL3ZzcDFfZHJ2LmMNCj4gPiArKysgYi9kcml2ZXJzL21lZGlhL3BsYXRm
+b3JtL3JlbmVzYXMvdnNwMS92c3AxX2Rydi5jDQo+ID4gQEAgLTExLDExICsxMSwxMyBAQA0KPiA+
+ICAjaW5jbHVkZSA8bGludXgvZGVsYXkuaD4NCj4gPiAgI2luY2x1ZGUgPGxpbnV4L2RldmljZS5o
+Pg0KPiA+ICAjaW5jbHVkZSA8bGludXgvaW50ZXJydXB0Lmg+DQo+ID4gKyNpbmNsdWRlIDxsaW51
+eC9pb3BvbGwuaD4NCj4gDQo+IFRoaXMgaXMgbm8gbG9uZ2VyIG5lZWRlZC4NCg0KT29wcywgZml4
+IGl0IGluIG5leHQgdmVyc2lvbi4NCg0KQ2hlZXJzLA0KQmlqdQ0KDQo+IA0KPiA+ICAjaW5jbHVk
+ZSA8bGludXgvbW9kdWxlLmg+DQo+ID4gICNpbmNsdWRlIDxsaW51eC9vZi5oPg0KPiA+ICAjaW5j
+bHVkZSA8bGludXgvb2ZfZGV2aWNlLmg+DQo+ID4gICNpbmNsdWRlIDxsaW51eC9wbGF0Zm9ybV9k
+ZXZpY2UuaD4NCj4gPiAgI2luY2x1ZGUgPGxpbnV4L3BtX3J1bnRpbWUuaD4NCj4gPiArI2luY2x1
+ZGUgPGxpbnV4L3Jlc2V0Lmg+DQo+ID4gICNpbmNsdWRlIDxsaW51eC92aWRlb2RldjIuaD4NCj4g
+Pg0KPiA+ICAjaW5jbHVkZSA8bWVkaWEvcmNhci1mY3AuaD4NCj4gDQo+IFRoZSByZXN0IExHVE0s
+IHNvIHdpdGggdGhlIGFib3ZlIGZpeGVkOg0KPiANCj4gUmV2aWV3ZWQtYnk6IEdlZXJ0IFV5dHRl
+cmhvZXZlbiA8Z2VlcnQrcmVuZXNhc0BnbGlkZXIuYmU+DQo+IA0KPiBHcntvZXRqZSxlZXRpbmd9
+cywNCj4gDQo+ICAgICAgICAgICAgICAgICAgICAgICAgIEdlZXJ0DQo+IA0KPiAtLQ0KPiBHZWVy
+dCBVeXR0ZXJob2V2ZW4gLS0gVGhlcmUncyBsb3RzIG9mIExpbnV4IGJleW9uZCBpYTMyIC0tIGdl
+ZXJ0QGxpbnV4LQ0KPiBtNjhrLm9yZw0KPiANCj4gSW4gcGVyc29uYWwgY29udmVyc2F0aW9ucyB3
+aXRoIHRlY2huaWNhbCBwZW9wbGUsIEkgY2FsbCBteXNlbGYgYSBoYWNrZXIuDQo+IEJ1dCB3aGVu
+IEknbSB0YWxraW5nIHRvIGpvdXJuYWxpc3RzIEkganVzdCBzYXkgInByb2dyYW1tZXIiIG9yIHNv
+bWV0aGluZw0KPiBsaWtlIHRoYXQuDQo+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+LS0gTGludXMgVG9ydmFsZHMNCg==
