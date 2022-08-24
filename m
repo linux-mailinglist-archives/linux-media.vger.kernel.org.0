@@ -2,72 +2,73 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CD8E059FAE7
-	for <lists+linux-media@lfdr.de>; Wed, 24 Aug 2022 15:10:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DCC4A59FAE9
+	for <lists+linux-media@lfdr.de>; Wed, 24 Aug 2022 15:11:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237731AbiHXNKH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 24 Aug 2022 09:10:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44768 "EHLO
+        id S238029AbiHXNK7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 24 Aug 2022 09:10:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47282 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237977AbiHXNKF (ORCPT
+        with ESMTP id S237948AbiHXNK6 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 24 Aug 2022 09:10:05 -0400
-Received: from bg5.exmail.qq.com (bg4.exmail.qq.com [43.155.67.158])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E06FC1;
-        Wed, 24 Aug 2022 06:09:57 -0700 (PDT)
-X-QQ-mid: bizesmtp91t1661346515tuuahb42
+        Wed, 24 Aug 2022 09:10:58 -0400
+X-Greylist: delayed 123 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 24 Aug 2022 06:10:47 PDT
+Received: from bg5.exmail.qq.com (bg4.exmail.qq.com [43.154.221.58])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 37AC715A13;
+        Wed, 24 Aug 2022 06:10:44 -0700 (PDT)
+X-QQ-mid: bizesmtp65t1661346624tuy039p7
 Received: from localhost.localdomain ( [182.148.14.124])
         by bizesmtp.qq.com (ESMTP) with 
-        id ; Wed, 24 Aug 2022 21:08:34 +0800 (CST)
+        id ; Wed, 24 Aug 2022 21:10:22 +0800 (CST)
 X-QQ-SSF: 01000000002000C0E000B00A0000000
-X-QQ-FEAT: eSZ1CZgv+JAnALq//79HE+1rXkvzKag+NX1mqhD4GAOVcR3esDpeSjzYpZANb
-        MbR2XBYed6J2H6nCQgwaQR559Tvha55b2+Eps4e6O1jcchkM0j17B+t0gH/B/yX58HOx5+0
-        0ZrflBHuKrrHKCZ/HeC3t0g+yf/+iaKrkiWTNkt1/Cf9vrId1Rg/ibRqorf6Bx1doyzusL6
-        J1R2kf23tPezw8mUzUPtOmXmDyFCuqnXCJHw11T3b//1+CFX0dg2Wd4ljr4gj4NvhZl2jl0
-        r0/hDzfQd8WIVGTXAOahvRkHkbbmOy0iJvwbBZsKjE7c0x4GX+nmt8NKb36Xq6SDVm+BJFb
-        wNeOEKQIajdZqIt1OV6kyaLlHWCHtc1+5hdv09xb61/WFiN+EpV/55a3kjSrg==
+X-QQ-FEAT: XBN7tc9DADLtYfvAxzsgzNN+T8mKALAUrxf7Y9I8DZLpTEuXCp9OXsUXbfiQg
+        a+FPBqzgzz72txSEMdESHLmBF57DoEg6XA3NKMTuQ+3TdpCRwZMIwR/jl4+0UB3lIbnH6ip
+        RjmQnDNmtq+Iwg3Qyo4YDpFwe/0IpSi+DlITqoK9kB4PUKPgbcBxpdSPJVYlfiHf61BZ5HZ
+        kp3wMzpJ2ksFlkgJeSszr22Widujt92dLm86rM8PGm5jHUOq0mPDdeuC3xWz+HzWVHyTMAM
+        2otEf6mVDf5pl+9Ayx9nYdkN+UxrDY7wbpUHdujUd5ifUfJjIbUwQT8aZYZClq//3LiU3bn
+        EdtAXS2RZC+7erIl7/kBTC9vCh6+RsSyoOg46lO9Nxd2OfzWm9ky0+8PYdFQw==
 X-QQ-GoodBg: 0
 From:   Jilin Yuan <yuanjilin@cdjrlc.com>
-To:     laurent.pinchart@ideasonboard.com, mchehab@kernel.org
+To:     crope@iki.fi, mchehab@kernel.org
 Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
         Jilin Yuan <yuanjilin@cdjrlc.com>
-Subject: [PATCH] usb/uvc: fix repeated words in comments
-Date:   Wed, 24 Aug 2022 21:08:27 +0800
-Message-Id: <20220824130827.44560-1-yuanjilin@cdjrlc.com>
+Subject: [PATCH] usb/msi2500: fix repeated words in comments
+Date:   Wed, 24 Aug 2022 21:10:16 +0800
+Message-Id: <20220824131016.45828-1-yuanjilin@cdjrlc.com>
 X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-QQ-SENDSIZE: 520
 Feedback-ID: bizesmtp:cdjrlc.com:qybglogicsvr:qybglogicsvr4
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
- Delete the redundant word 'the'.
+ Delete the redundant word 'for'.
 
 Signed-off-by: Jilin Yuan <yuanjilin@cdjrlc.com>
 ---
- drivers/media/usb/uvc/uvc_video.c | 2 +-
+ drivers/media/usb/msi2500/msi2500.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
-index 6d3dfa4e0bb2..5aaee916045d 100644
---- a/drivers/media/usb/uvc/uvc_video.c
-+++ b/drivers/media/usb/uvc/uvc_video.c
-@@ -1077,7 +1077,7 @@ static int uvc_video_decode_start(struct uvc_streaming *stream,
- 	}
- 
- 	/* Synchronize to the input stream by waiting for the FID bit to be
--	 * toggled when the the buffer state is not UVC_BUF_STATE_ACTIVE.
-+	 * toggled when the buffer state is not UVC_BUF_STATE_ACTIVE.
- 	 * stream->last_fid is initialized to -1, so the first isochronous
- 	 * frame will always be in sync.
- 	 *
+diff --git a/drivers/media/usb/msi2500/msi2500.c b/drivers/media/usb/msi2500/msi2500.c
+index 71de6b4c4e4c..83b6e00c2b7d 100644
+--- a/drivers/media/usb/msi2500/msi2500.c
++++ b/drivers/media/usb/msi2500/msi2500.c
+@@ -209,7 +209,7 @@ static struct msi2500_frame_buf *msi2500_get_next_fill_buf(
+  *
+  * Control bits for previous samples is 32-bit field, containing 16 x 2-bit
+  * numbers. This results one 2-bit number for 8 samples. It is likely used for
+- * for bit shifting sample by given bits, increasing actual sampling resolution.
++ * bit shifting sample by given bits, increasing actual sampling resolution.
+  * Number 2 (0b10) was never seen.
+  *
+  * 6 * 16 * 2 * 4 = 768 samples. 768 * 4 = 3072 bytes
 -- 
 2.36.1
 
