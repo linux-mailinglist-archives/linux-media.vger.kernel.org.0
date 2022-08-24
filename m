@@ -2,38 +2,39 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1E11559FB63
-	for <lists+linux-media@lfdr.de>; Wed, 24 Aug 2022 15:30:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 230A359FB70
+	for <lists+linux-media@lfdr.de>; Wed, 24 Aug 2022 15:33:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235620AbiHXNak (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 24 Aug 2022 09:30:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36014 "EHLO
+        id S237087AbiHXNdV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 24 Aug 2022 09:33:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44772 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237450AbiHXNac (ORCPT
+        with ESMTP id S233768AbiHXNdU (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 24 Aug 2022 09:30:32 -0400
+        Wed, 24 Aug 2022 09:33:20 -0400
 Received: from bg5.exmail.qq.com (bg4.exmail.qq.com [43.154.221.58])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 305D653D29;
-        Wed, 24 Aug 2022 06:30:26 -0700 (PDT)
-X-QQ-mid: bizesmtp86t1661347754tyglzwgb
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 329F37756B;
+        Wed, 24 Aug 2022 06:33:17 -0700 (PDT)
+X-QQ-mid: bizesmtp72t1661347918tmdhdsju
 Received: from localhost.localdomain ( [182.148.14.124])
         by bizesmtp.qq.com (ESMTP) with 
-        id ; Wed, 24 Aug 2022 21:29:13 +0800 (CST)
+        id ; Wed, 24 Aug 2022 21:31:57 +0800 (CST)
 X-QQ-SSF: 01000000002000C0E000B00A0000000
-X-QQ-FEAT: szTy5SWxjRks+Bzw59zguH4g/YqgW6pBQAg7ogv2q+sUnQ7QlHf8NBvO1YDe8
-        QE4KxO3LJhmnAvwLo3orVtEoIJ1h3ZL3LzSOVU7SSd8BLZQxinGh25NnwyZOeiUInceCBo8
-        t1OZJKIyV0iUdfiULuOdGW7VDLPW4GJtk8Rs3StLHSGu5mlZgCWB/1t7z/39Ap9ZchViWJA
-        2jlgAAW4NiZjaNUfP0oEtpl3rrMUxA9dELwWS1nCTpjlYzNgcoU107hz+W0M8HSwl6KVs76
-        dpmjwnxEZ6pJQVs+1TkOsmsRQ2Avxc7BoyPoOR0mpC1rXTQ5sBx+PogO3uULOlyjHnsgeHA
-        xvTVpyggHLhkHzgMUv+lZmo3+j524VL0sgPnx/NalUHhBgkvtYlbcse+bHFAeuyKH/uovKj
+X-QQ-FEAT: +ynUkgUhZJmOvOufKMVwiXDqDb7P8BwNTytl16CMy06ktRpG5RZec8mvvzMj0
+        60+bV7I4WApthcSmnffHUxUJELA0GVPDYN+oVdTESTKGOb481Rex7pOa1aEMPXpVjFdjh4o
+        SY5BJFdYwP7E4AQ9QyFYJpntvDedwkHp0vscf3c2lXJXAu36TngCYcFL5zlXeUgknTR9sZm
+        u8DqOJ54Rl1IJKVNidXxdbSGxZQW9BjYHIde9PfjB9Thi76XDYPTIttBrDK4Ow0l40s5L30
+        C6CXBVlRKUvg9UZz8KdJi7RckdmQEpW9hdBkq8I3VwxDlTVIIkKBYUJUt4MOBg81SeEx2PH
+        1lb5wz53F2CSCpIv7Em4FC+fcrQQzGhXsSudOvc6KMf+IwTaj1+9gDSm2WN3s2u9Mk8Qepn
+        HUOaT5f59MQ=
 X-QQ-GoodBg: 0
 From:   Jilin Yuan <yuanjilin@cdjrlc.com>
 To:     awalls@md.metrocast.net, mchehab@kernel.org
 Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
         Jilin Yuan <yuanjilin@cdjrlc.com>
-Subject: [PATCH] pci/cx18: fix repeated words in comments
-Date:   Wed, 24 Aug 2022 21:29:07 +0800
-Message-Id: <20220824132907.63186-1-yuanjilin@cdjrlc.com>
+Subject: [PATCH] pci/cx18: Use 'unsigned int' instead of just 'unsigned'.
+Date:   Wed, 24 Aug 2022 21:31:49 +0800
+Message-Id: <20220824133149.65002-1-yuanjilin@cdjrlc.com>
 X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -48,26 +49,35 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
- Delete the redundant word 'of'.
+Prefer 'unsigned int' to bare use of 'unsigned'.
 
 Signed-off-by: Jilin Yuan <yuanjilin@cdjrlc.com>
 ---
- drivers/media/pci/cx18/cx18-firmware.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/media/pci/cx18/cx18-firmware.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/media/pci/cx18/cx18-firmware.c b/drivers/media/pci/cx18/cx18-firmware.c
-index fdac310d7477..1b038b2802bf 100644
+index 1b038b2802bf..b72bcbc1fed6 100644
 --- a/drivers/media/pci/cx18/cx18-firmware.c
 +++ b/drivers/media/pci/cx18/cx18-firmware.c
-@@ -248,7 +248,7 @@ void cx18_init_power(struct cx18 *cx, int lowpwr)
- 	 *
- 	 * Many thanks to Jeff Campbell and Mike Bradley for their extensive
- 	 * investigation, experimentation, testing, and suggested solutions of
--	 * of audio/video sync problems with SVideo and CVBS captures.
-+	 * audio/video sync problems with SVideo and CVBS captures.
- 	 */
+@@ -88,7 +88,7 @@ static int load_cpu_fw_direct(const char *fn, u8 __iomem *mem, struct cx18 *cx)
+ {
+ 	const struct firmware *fw = NULL;
+ 	int i, j;
+-	unsigned size;
++	unsigned int size;
+ 	u32 __iomem *dst = (u32 __iomem *)mem;
+ 	const u32 *src;
  
- 	/* the fast clock is at 200/245 MHz */
+@@ -128,7 +128,7 @@ static int load_apu_fw_direct(const char *fn, u8 __iomem *dst, struct cx18 *cx,
+ {
+ 	const struct firmware *fw = NULL;
+ 	int i, j;
+-	unsigned size;
++	unsigned int size;
+ 	const u32 *src;
+ 	struct cx18_apu_rom_seghdr seghdr;
+ 	const u8 *vers;
 -- 
 2.36.1
 
