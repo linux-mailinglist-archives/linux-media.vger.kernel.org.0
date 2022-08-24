@@ -2,89 +2,61 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AF40659F3D6
-	for <lists+linux-media@lfdr.de>; Wed, 24 Aug 2022 09:00:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3C8E859F3DE
+	for <lists+linux-media@lfdr.de>; Wed, 24 Aug 2022 09:01:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235330AbiHXG77 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 24 Aug 2022 02:59:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60892 "EHLO
+        id S235217AbiHXHB1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 24 Aug 2022 03:01:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33522 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231146AbiHXG76 (ORCPT
+        with ESMTP id S235367AbiHXHA2 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 24 Aug 2022 02:59:58 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9384C80EB1;
-        Tue, 23 Aug 2022 23:59:57 -0700 (PDT)
+        Wed, 24 Aug 2022 03:00:28 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 60D67883DE
+        for <linux-media@vger.kernel.org>; Wed, 24 Aug 2022 00:00:26 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 2DB07615FE;
-        Wed, 24 Aug 2022 06:59:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3F278C433C1;
-        Wed, 24 Aug 2022 06:59:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1661324396;
-        bh=kUhuHogZRdcbp2ZJRCL/8SIulY/GyA5TeDzl1V6BBgU=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=x+kdHtYBKuP3Eijlysoi+VdnEELMuRIzTVB8DRlYxNVc5K37RIf4ysXNrHoozVk/H
-         FO3GtHpHt3rrHPXd8MBCX4n9iUaHmg+Jzt22CM5XO+e9U5k6Gd9pcTPZUj2bSdrfPr
-         +2xRT81FVds52OQxNVJm3rlxpY3YVxduGL0m9yXA=
-Date:   Wed, 24 Aug 2022 08:59:53 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Hu Xiaoying <huxiaoying2008@gmail.com>
-Cc:     usb-storage@lists.one-eyed-alien.net, linux-usb@vger.kernel.org,
-        stern@rowland.harvard.edu, linux-kernel@vger.kernel.org,
-        devel@driverdev.osuosl.org, linux-media@vger.kernel.org
-Subject: Re: Confirmation for subscribe linux-usb
-Message-ID: <YwXMaUexmgIrnI4W@kroah.com>
-References: <S240916AbiHWHMh/20220823071237Z+20120@vger.kernel.org>
- <CABd4Uja9SoHpiMr2gDFcEP2Cudp7dcWJ_2i+KTEse9CU=KMtzw@mail.gmail.com>
- <CABd4UjYB=nzha=eoogNJU4pFwW9+4PQ65bC5u=R-gCE_ZLSQXw@mail.gmail.com>
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 948E5615E0
+        for <linux-media@vger.kernel.org>; Wed, 24 Aug 2022 07:00:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A3294C433C1
+        for <linux-media@vger.kernel.org>; Wed, 24 Aug 2022 07:00:25 +0000 (UTC)
+Message-ID: <acd71528-7e04-8a7e-0b0c-9748434ffe81@xs4all.nl>
+Date:   Wed, 24 Aug 2022 09:00:24 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CABd4UjYB=nzha=eoogNJU4pFwW9+4PQ65bC5u=R-gCE_ZLSQXw@mail.gmail.com>
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Content-Language: en-US
+To:     "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [PATCH] tc358743: limit msg.len to CEC_MAX_MSG_SIZE
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Aug 24, 2022 at 02:36:55PM +0800, Hu Xiaoying wrote:
-> submit patch
-> 
+I expect that the hardware will have limited this to 16, but just in
+case it hasn't, check for this corner case.
 
-Hi,
-
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
-
-You are receiving this message because of the following common error(s)
-as indicated below:
-
-- Your patch was attached, please place it inline so that it can be
-  applied directly from the email message itself.
-
-- You did not write a descriptive Subject: for the patch, allowing Greg,
-  and everyone else, to know what this patch is all about.  Please read
-  the section entitled "The canonical patch format" in the kernel file,
-  Documentation/SubmittingPatches for what a proper Subject: line should
-  look like.
-
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
-
-thanks,
-
-greg k-h's patch email bot
+Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+---
+diff --git a/drivers/media/i2c/tc358743.c b/drivers/media/i2c/tc358743.c
+index e18b8947ad7e..804b8ee8e4ab 100644
+--- a/drivers/media/i2c/tc358743.c
++++ b/drivers/media/i2c/tc358743.c
+@@ -964,6 +964,8 @@ static void tc358743_cec_handler(struct v4l2_subdev *sd, u16 intstatus,
+ 
+ 		v = i2c_rd32(sd, CECRCTR);
+ 		msg.len = v & 0x1f;
++		if (msg.len > CEC_MAX_MSG_SIZE)
++			msg.len = CEC_MAX_MSG_SIZE;
+ 		for (i = 0; i < msg.len; i++) {
+ 			v = i2c_rd32(sd, CECRBUF1 + i * 4);
+ 			msg.msg[i] = v & 0xff;
