@@ -2,46 +2,39 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C2CA859F5BE
-	for <lists+linux-media@lfdr.de>; Wed, 24 Aug 2022 10:52:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9B33559F60E
+	for <lists+linux-media@lfdr.de>; Wed, 24 Aug 2022 11:16:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236088AbiHXIwG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 24 Aug 2022 04:52:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43452 "EHLO
+        id S234889AbiHXJQu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 24 Aug 2022 05:16:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39388 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236167AbiHXIv7 (ORCPT
+        with ESMTP id S231569AbiHXJQt (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 24 Aug 2022 04:51:59 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A6DE277E9D
-        for <linux-media@vger.kernel.org>; Wed, 24 Aug 2022 01:51:51 -0700 (PDT)
+        Wed, 24 Aug 2022 05:16:49 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 583917647F;
+        Wed, 24 Aug 2022 02:16:42 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 0CAE86174F
-        for <linux-media@vger.kernel.org>; Wed, 24 Aug 2022 08:51:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 58209C433D6;
-        Wed, 24 Aug 2022 08:51:47 +0000 (UTC)
-Message-ID: <a5f92600-a8c9-08f6-5145-03efd7f86ad9@xs4all.nl>
-Date:   Wed, 24 Aug 2022 10:51:46 +0200
+        by dfw.source.kernel.org (Postfix) with ESMTPS id E4A6B617BE;
+        Wed, 24 Aug 2022 09:16:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4AD67C433D7;
+        Wed, 24 Aug 2022 09:16:40 +0000 (UTC)
+Message-ID: <ebb3133b-8252-89a2-306f-7d37591d7c83@xs4all.nl>
+Date:   Wed, 24 Aug 2022 11:16:38 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.10.0
-Subject: Re: [PATCH v7 1/7] media: v4l2_ctrl: Add V4L2_CTRL_TYPE_RECT
+Subject: Re: [PATCH] media: platform: Fix comment typo
 Content-Language: en-US
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-To:     Yunke Cao <yunkec@google.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Tomasz Figa <tfiga@chromium.org>,
-        Sergey Senozhatsky <senozhatsky@chromium.org>,
-        Ricardo Ribalda <ribalda@chromium.org>,
-        linux-media@vger.kernel.org
-References: <20220628075705.2278044-1-yunkec@google.com>
- <20220628075705.2278044-2-yunkec@google.com>
- <7b59fffc-fb69-dc87-c3cf-4e01632154f4@xs4all.nl>
-In-Reply-To: <7b59fffc-fb69-dc87-c3cf-4e01632154f4@xs4all.nl>
+To:     Jason Wang <wangborong@cdjrlc.com>, mchehab@kernel.org
+Cc:     prabhakar.csengg@gmail.com, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20220716043247.41183-1-wangborong@cdjrlc.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+In-Reply-To: <20220716043247.41183-1-wangborong@cdjrlc.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
@@ -54,14 +47,39 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+This is a duplicate of:
 
+https://patchwork.linuxtv.org/project/linux-media/patch/20220722063341.69913-1-slark_xiao@163.com/
 
-On 24/08/2022 10:50, Hans Verkuil wrote:
-> Hi Yunke,
-> 
-> You will need to rebase this since some of the v4l2-ctrl internals
-> have changed.
+Also note that the subject line is too vague: it suggests that it is a
+drivers/media/platform-wide change, instead it is just for the davinci driver.
 
-Rebase to git://linuxtv.org/media_stage.git, master branch, to be precise.
+That should have been part of the subject line.
+
+Anyway, I'll drop this patch in favor of the other one.
+
+Regards,
 
 	Hans
+
+On 16/07/2022 06:32, Jason Wang wrote:
+> The double `the' is duplicated in the comment, remove one.
+> 
+> Signed-off-by: Jason Wang <wangborong@cdjrlc.com>
+> ---
+>  drivers/media/platform/ti/davinci/vpbe.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/media/platform/ti/davinci/vpbe.c b/drivers/media/platform/ti/davinci/vpbe.c
+> index 5f0aeb744e81..509ecc84624e 100644
+> --- a/drivers/media/platform/ti/davinci/vpbe.c
+> +++ b/drivers/media/platform/ti/davinci/vpbe.c
+> @@ -280,7 +280,7 @@ static int vpbe_set_default_output(struct vpbe_device *vpbe_dev)
+>   * vpbe_get_output - Get output
+>   * @vpbe_dev: vpbe device ptr
+>   *
+> - * return current vpbe output to the the index
+> + * return current vpbe output to the index
+>   */
+>  static unsigned int vpbe_get_output(struct vpbe_device *vpbe_dev)
+>  {
