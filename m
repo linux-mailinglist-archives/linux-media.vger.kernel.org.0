@@ -2,162 +2,164 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 29C8059F0B5
-	for <lists+linux-media@lfdr.de>; Wed, 24 Aug 2022 03:15:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EA77E59F0C7
+	for <lists+linux-media@lfdr.de>; Wed, 24 Aug 2022 03:22:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233378AbiHXBP3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 23 Aug 2022 21:15:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35150 "EHLO
+        id S233312AbiHXBWN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 23 Aug 2022 21:22:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38270 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231663AbiHXBPT (ORCPT
+        with ESMTP id S231830AbiHXBWM (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 23 Aug 2022 21:15:19 -0400
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D84E13D30;
-        Tue, 23 Aug 2022 18:15:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1661303718; x=1692839718;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Zyagp7MUjz6nulHFPOeDLK55YHm0lYhUAU3L6WSjbP0=;
-  b=VT1oszFSZrDKzZPX4sbDpHiPfqWKpJWgBq5fpmPklvD+ud+WPbK69ivJ
-   yCC/2380drhD0eNg+KyHGybl52KnkrSiUlK9p3CIcxzomRWlmXjxy1uVb
-   nc50hBtSWAEe8eNndAn1LdBBC2doXGDhdxD2uIdo6gyyXWNjSwxE9+Raq
-   Fu++r/LUi0v/L9qG3RLYRHSQFhOVLNGGIKFTFeqP3ZC0obAe2VnNKBUt9
-   EKBke7gUtoaWvr65sm3+Ig7sUKWkRrBSNDsnSFOed60crZPVdyz1LwI/r
-   cdc0y4t8RI2SpJxBXc7+dss4nahkZkGpZ63UzjYL6yrBvKhg2PTYKVxoX
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10448"; a="295118222"
-X-IronPort-AV: E=Sophos;i="5.93,259,1654585200"; 
-   d="scan'208";a="295118222"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2022 18:15:17 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,259,1654585200"; 
-   d="scan'208";a="677839471"
-Received: from lkp-server02.sh.intel.com (HELO 9bbcefcddf9f) ([10.239.97.151])
-  by fmsmga004.fm.intel.com with ESMTP; 23 Aug 2022 18:15:13 -0700
-Received: from kbuild by 9bbcefcddf9f with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1oQezA-0000nC-1e;
-        Wed, 24 Aug 2022 01:15:12 +0000
-Date:   Wed, 24 Aug 2022 09:15:02 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Serge Semin <Sergey.Semin@baikalelectronics.ru>,
-        Rob Herring <robh@kernel.org>, Michal Simek <monstr@monstr.eu>,
-        Borislav Petkov <bp@alien8.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Tony Luck <tony.luck@intel.com>,
-        James Morse <james.morse@arm.com>,
-        Robert Richter <rric@kernel.org>
-Cc:     kbuild-all@lists.01.org, linux-media@vger.kernel.org,
-        Serge Semin <Sergey.Semin@baikalelectronics.ru>,
-        Alexey Malahov <Alexey.Malahov@baikalelectronics.ru>,
-        Michail Ivanov <Michail.Ivanov@baikalelectronics.ru>,
-        Pavel Parkhomenko <Pavel.Parkhomenko@baikalelectronics.ru>,
-        Punnaiah Choudary Kalluri 
-        <punnaiah.choudary.kalluri@xilinx.com>,
-        Manish Narani <manish.narani@xilinx.com>,
-        Dinh Nguyen <dinguyen@kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 19/20] EDAC/synopsys: Unify the driver entities naming
-Message-ID: <202208240904.liSrmM2A-lkp@intel.com>
-References: <20220822190730.27277-20-Sergey.Semin@baikalelectronics.ru>
+        Tue, 23 Aug 2022 21:22:12 -0400
+Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com [IPv6:2a00:1450:4864:20::429])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EBA04558DA;
+        Tue, 23 Aug 2022 18:22:10 -0700 (PDT)
+Received: by mail-wr1-x429.google.com with SMTP id k9so18969259wri.0;
+        Tue, 23 Aug 2022 18:22:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc;
+        bh=OhLPqZHai+lEZNO/aWIoJdIaImKIb4W7ZXPCAX37T0U=;
+        b=KF010LcSPIWCIFpfDR0DvZsdsFdeGEGkqDXLaLXAt0Unnok8jGtw0Q4tk9n+XysoMX
+         r03afeZ23ebiVSNkurNuFADPlOxXQhFzjduZWLX3Bl/CJxm6zQwiVgaUK9h7Ty/+T0nh
+         vInb3mYztoTvUrmaK8Wq/OIyMxPTmX/RIXZWtcNm31qQ1h/nmUur+eMPnZFqLYD77Pmn
+         8o0AcfuHWr2x6HLbprJOz8iJfmq5e6+iFuWLOtYwL0hJ2St+L09a05yDZv3TUBwBry0b
+         crAoz6xjAaqRs8kpL4U9N+RP0auXPA1k51Qi5V5+cU+paTUZmszTiB3hsNgpuXEO67Mr
+         YFiQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc;
+        bh=OhLPqZHai+lEZNO/aWIoJdIaImKIb4W7ZXPCAX37T0U=;
+        b=1WHmlTl9VPj4RsA8Qtw+/uTEQjttIdeljFzRu2HXDoKypP7p+AZt+HzVYxgTOp6N46
+         T9jOJGNGKd21pjT1HOqCoEMZ9Qfq3ZqvVHgOlYvuOcmqAA3tdKBML3Bx5fFBMdtTSGiM
+         wfB/dp1VRiWoXXLNP5FRxqUuddB6shcZFmms9smKQZUjbBBpTbrWAL+oYA7oAKbA4G7v
+         KC4lPWhWfO6uJu7cv0Il4yxiWkhYA05DoWy3UdF25bDcd45IbUY6Cp2IwsE4XMoY+jOv
+         h43kEvOwb4g+Z0wQNxUxsaO4f6hakOPy+fP6hkyLMTHu8Bacqi+mWvsbaMYWPa5H+5Y2
+         xCcw==
+X-Gm-Message-State: ACgBeo269iKTpwzZVk6dEROZ60FagOXl+LCmdQ+zCc+3+92eqPDZDTJ1
+        T1r7Qu7MHnAdcxzzaXkiFUlzmaVcMOGTTRlR/4k=
+X-Google-Smtp-Source: AA6agR55uyl5UODy8v/O3d3ed7BqsoPln2Xnk12sc+Vvjm8qw4FB4W647Ss7e/TKFClpln4GHkpL4w==
+X-Received: by 2002:a5d:5487:0:b0:225:3fa7:41c2 with SMTP id h7-20020a5d5487000000b002253fa741c2mr11004598wrv.195.1661304129469;
+        Tue, 23 Aug 2022 18:22:09 -0700 (PDT)
+Received: from localhost.localdomain ([84.255.184.228])
+        by smtp.gmail.com with ESMTPSA id p7-20020a5d48c7000000b00223a50b1be8sm15364601wrs.50.2022.08.23.18.22.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 23 Aug 2022 18:22:08 -0700 (PDT)
+From:   Mazin Al Haddad <mazinalhaddad05@gmail.com>
+To:     mchehab@kernel.org
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        skhan@linuxfoundation.org,
+        linux-kernel-mentees@lists.linuxfoundation.org,
+        Mazin Al Haddad <mazinalhaddad05@gmail.com>,
+        syzbot+f66dd31987e6740657be@syzkaller.appspotmail.com
+Subject: [PATCH v3] media: dvb-usb: fix memory leak in dvb_usb_adapter_init()
+Date:   Wed, 24 Aug 2022 04:21:52 +0300
+Message-Id: <20220824012152.539788-1-mazinalhaddad05@gmail.com>
+X-Mailer: git-send-email 2.37.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220822190730.27277-20-Sergey.Semin@baikalelectronics.ru>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Serge,
+Syzbot reports a memory leak in "dvb_usb_adapter_init()".
+The leak is due to not accounting for and freeing current iteration's
+adapter->priv in case of an error. Currently if an error occurs, 
+it will exit before incrementing "num_adapters_initalized", 
+which is used as a reference counter to free all adap->priv 
+in "dvb_usb_adapter_exit()". There are multiple error paths that
+can exit from before incrementing the counter. Including the
+error handling paths for "dvb_usb_adapter_stream_init()", 
+"dvb_usb_adapter_dvb_init()" and "dvb_usb_adapter_frontend_init()"
+within "dvb_usb_adapter_init()".
 
-I love your patch! Yet something to improve:
+This means that in case of an error in any of these functions the 
+current iteration is not accounted for and the current iteration's 
+adap->priv is not freed.
 
-[auto build test ERROR on ras/edac-for-next]
-[also build test ERROR on robh/for-next linus/master v6.0-rc2 next-20220823]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Fix this by freeing the current iteration's adap->priv in the 
+"stream_init_err:" label in the error path. The rest of the 
+(accounted for) adap->priv objects are freed in dvb_usb_adapter_exit()
+as expected using the num_adapters_initalized variable. 
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Serge-Semin/EDAC-mc-synopsys-Various-fixes-and-cleanups/20220823-031020
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/ras/ras.git edac-for-next
-config: arm-buildonly-randconfig-r006-20220823 (https://download.01.org/0day-ci/archive/20220824/202208240904.liSrmM2A-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/9c500fa8dbd08021742d8f5a48403c8f6292741c
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Serge-Semin/EDAC-mc-synopsys-Various-fixes-and-cleanups/20220823-031020
-        git checkout 9c500fa8dbd08021742d8f5a48403c8f6292741c
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash drivers/edac/
+Syzbot report:
 
-If you fix the issue, kindly add following tag where applicable
-Reported-by: kernel test robot <lkp@intel.com>
-
-All errors (new ones prefixed by >>):
-
-   drivers/edac/synopsys_edac.c: In function 'snps_enable_irq':
->> drivers/edac/synopsys_edac.c:398:36: error: 'SYNPS_ZYNQMP_IRQ_REGS' undeclared (first use in this function); did you mean 'SNPS_ZYNQMP_IRQ_REGS'?
-     398 |         if (priv->p_data->quirks & SYNPS_ZYNQMP_IRQ_REGS) {
-         |                                    ^~~~~~~~~~~~~~~~~~~~~
-         |                                    SNPS_ZYNQMP_IRQ_REGS
-   drivers/edac/synopsys_edac.c:398:36: note: each undeclared identifier is reported only once for each function it appears in
-   drivers/edac/synopsys_edac.c: In function 'snps_disable_irq':
-   drivers/edac/synopsys_edac.c:419:36: error: 'SYNPS_ZYNQMP_IRQ_REGS' undeclared (first use in this function); did you mean 'SNPS_ZYNQMP_IRQ_REGS'?
-     419 |         if (priv->p_data->quirks & SYNPS_ZYNQMP_IRQ_REGS) {
-         |                                    ^~~~~~~~~~~~~~~~~~~~~
-         |                                    SNPS_ZYNQMP_IRQ_REGS
-   drivers/edac/synopsys_edac.c: In function 'snps_get_dtype':
-   drivers/edac/synopsys_edac.c:485:18: error: implicit declaration of function 'FIELD_GET'; did you mean 'FOLL_GET'? [-Werror=implicit-function-declaration]
-     485 |         regval = FIELD_GET(DDR_MSTR_DEV_CFG_MASK, regval);
-         |                  ^~~~~~~~~
-         |                  FOLL_GET
-   drivers/edac/synopsys_edac.c: In function 'snps_mc_init':
-   drivers/edac/synopsys_edac.c:600:32: warning: variable 'priv' set but not used [-Wunused-but-set-variable]
-     600 |         struct snps_edac_priv *priv;
-         |                                ^~~~
-   cc1: some warnings being treated as errors
+BUG: memory leak
+unreferenced object 0xffff8881172f1a00 (size 512):
+  comm "kworker/0:2", pid 139, jiffies 4294994873 (age 10.960s)
+  hex dump (first 32 bytes):
+    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+backtrace:
+    [<ffffffff844af012>] dvb_usb_adapter_init drivers/media/usb/dvb-usb/dvb-usb-init.c:75 [inline]
+    [<ffffffff844af012>] dvb_usb_init drivers/media/usb/dvb-usb/dvb-usb-init.c:184 [inline]
+    [<ffffffff844af012>] dvb_usb_device_init.cold+0x4e5/0x79e drivers/media/usb/dvb-usb/dvb-usb-init.c:308
+    [<ffffffff830db21d>] dib0700_probe+0x8d/0x1b0 drivers/media/usb/dvb-usb/dib0700_core.c:883
+    [<ffffffff82d3fdc7>] usb_probe_interface+0x177/0x370 drivers/usb/core/driver.c:396
+    [<ffffffff8274ab37>] call_driver_probe drivers/base/dd.c:542 [inline]
+    [<ffffffff8274ab37>] really_probe.part.0+0xe7/0x310 drivers/base/dd.c:621
+    [<ffffffff8274ae6c>] really_probe drivers/base/dd.c:583 [inline]
+    [<ffffffff8274ae6c>] __driver_probe_device+0x10c/0x1e0 drivers/base/dd.c:752
+    [<ffffffff8274af6a>] driver_probe_device+0x2a/0x120 drivers/base/dd.c:782
+    [<ffffffff8274b786>] __device_attach_driver+0xf6/0x140 drivers/base/dd.c:899
+    [<ffffffff82747c87>] bus_for_each_drv+0xb7/0x100 drivers/base/bus.c:427
+    [<ffffffff8274b352>] __device_attach+0x122/0x260 drivers/base/dd.c:970
+    [<ffffffff827498f6>] bus_probe_device+0xc6/0xe0 drivers/base/bus.c:487
+    [<ffffffff82745cdb>] device_add+0x5fb/0xdf0 drivers/base/core.c:3405
+    [<ffffffff82d3d202>] usb_set_configuration+0x8f2/0xb80 drivers/usb/core/message.c:2170
+    [<ffffffff82d4dbfc>] usb_generic_driver_probe+0x8c/0xc0 drivers/usb/core/generic.c:238
+    [<ffffffff82d3f49c>] usb_probe_device+0x5c/0x140 drivers/usb/core/driver.c:293
+    [<ffffffff8274ab37>] call_driver_probe drivers/base/dd.c:542 [inline]
+    [<ffffffff8274ab37>] really_probe.part.0+0xe7/0x310 drivers/base/dd.c:621
+    [<ffffffff8274ae6c>] really_probe drivers/base/dd.c:583 [inline]
+    [<ffffffff8274ae6c>] __driver_probe_device+0x10c/0x1e0 drivers/base/dd.c:752
 
 
-vim +398 drivers/edac/synopsys_edac.c
+Link: https://syzkaller.appspot.com/bug?extid=f66dd31987e6740657be
+Reported-and-tested-by: syzbot+f66dd31987e6740657be@syzkaller.appspotmail.com
+Signed-off-by: Mazin Al Haddad <mazinalhaddad05@gmail.com>
+---
+v2->v3:
+	- Follow standard kernel pattern by moving error handling 
+	to label instead as suggested by Lukas Bulwhan.
+	- Adjust commit description to include syzbot report, 
+	The "Reported-and-tested-by" tag and clarify the commit message. 
 
-ae9b56e3996dad Punnaiah Choudary Kalluri 2015-01-06  392  
-9c500fa8dbd080 Serge Semin               2022-08-22  393  static void snps_enable_irq(struct snps_edac_priv *priv)
-4bcffe941758ee Sherry Sun                2022-04-27  394  {
-b8ee875dfc73be Serge Semin               2022-08-22  395  	unsigned long flags;
-b8ee875dfc73be Serge Semin               2022-08-22  396  
-4bcffe941758ee Sherry Sun                2022-04-27  397  	/* Enable UE/CE Interrupts */
-b8ee875dfc73be Serge Semin               2022-08-22 @398  	if (priv->p_data->quirks & SYNPS_ZYNQMP_IRQ_REGS) {
-4bcffe941758ee Sherry Sun                2022-04-27  399  		writel(DDR_QOSUE_MASK | DDR_QOSCE_MASK,
-4bcffe941758ee Sherry Sun                2022-04-27  400  		       priv->baseaddr + DDR_QOS_IRQ_EN_OFST);
-4bcffe941758ee Sherry Sun                2022-04-27  401  
-b8ee875dfc73be Serge Semin               2022-08-22  402  		return;
-b8ee875dfc73be Serge Semin               2022-08-22  403  	}
-b8ee875dfc73be Serge Semin               2022-08-22  404  
-b8ee875dfc73be Serge Semin               2022-08-22  405  	/* IRQs Enable/Disable feature has been available since v3.10a */
-b8ee875dfc73be Serge Semin               2022-08-22  406  	spin_lock_irqsave(&priv->lock, flags);
-b8ee875dfc73be Serge Semin               2022-08-22  407  
-b8ee875dfc73be Serge Semin               2022-08-22  408  	writel(ECC_CTRL_EN_CE_IRQ | ECC_CTRL_EN_UE_IRQ,
-b8ee875dfc73be Serge Semin               2022-08-22  409  	       priv->baseaddr + ECC_CLR_OFST);
-b8ee875dfc73be Serge Semin               2022-08-22  410  
-b8ee875dfc73be Serge Semin               2022-08-22  411  	spin_unlock_irqrestore(&priv->lock, flags);
-4bcffe941758ee Sherry Sun                2022-04-27  412  }
-4bcffe941758ee Sherry Sun                2022-04-27  413  
+ drivers/media/usb/dvb-usb/dvb-usb-init.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
+diff --git a/drivers/media/usb/dvb-usb/dvb-usb-init.c b/drivers/media/usb/dvb-usb/dvb-usb-init.c
+index 61439c8f33ca..58eea8ab5477 100644
+--- a/drivers/media/usb/dvb-usb/dvb-usb-init.c
++++ b/drivers/media/usb/dvb-usb/dvb-usb-init.c
+@@ -81,7 +81,7 @@ static int dvb_usb_adapter_init(struct dvb_usb_device *d, short *adapter_nrs)
+ 
+ 		ret = dvb_usb_adapter_stream_init(adap);
+ 		if (ret)
+-			return ret;
++			goto stream_init_err;
+ 
+ 		ret = dvb_usb_adapter_dvb_init(adap, adapter_nrs);
+ 		if (ret)
+@@ -114,6 +114,8 @@ static int dvb_usb_adapter_init(struct dvb_usb_device *d, short *adapter_nrs)
+ 	dvb_usb_adapter_dvb_exit(adap);
+ dvb_init_err:
+ 	dvb_usb_adapter_stream_exit(adap);
++stream_init_err:
++	kfree(adap->priv);
+ 	return ret;
+ }
+ 
 -- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+2.37.2
+
