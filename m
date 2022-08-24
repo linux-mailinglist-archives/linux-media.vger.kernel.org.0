@@ -2,72 +2,72 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B939059FAF9
-	for <lists+linux-media@lfdr.de>; Wed, 24 Aug 2022 15:14:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 48C4A59FB0A
+	for <lists+linux-media@lfdr.de>; Wed, 24 Aug 2022 15:17:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234085AbiHXNOO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 24 Aug 2022 09:14:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52208 "EHLO
+        id S237083AbiHXNRZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 24 Aug 2022 09:17:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55256 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232570AbiHXNOM (ORCPT
+        with ESMTP id S238118AbiHXNP3 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 24 Aug 2022 09:14:12 -0400
-Received: from bg5.exmail.qq.com (bg4.exmail.qq.com [43.155.67.158])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E0AB626AE6;
-        Wed, 24 Aug 2022 06:14:09 -0700 (PDT)
-X-QQ-mid: bizesmtp62t1661346837tzdevp6l
+        Wed, 24 Aug 2022 09:15:29 -0400
+Received: from bg5.exmail.qq.com (bg4.exmail.qq.com [43.154.221.58])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9C29812AA3;
+        Wed, 24 Aug 2022 06:15:25 -0700 (PDT)
+X-QQ-mid: bizesmtp65t1661346917t5e5vbjn
 Received: from localhost.localdomain ( [182.148.14.124])
         by bizesmtp.qq.com (ESMTP) with 
-        id ; Wed, 24 Aug 2022 21:13:56 +0800 (CST)
+        id ; Wed, 24 Aug 2022 21:15:16 +0800 (CST)
 X-QQ-SSF: 01000000002000C0E000B00A0000000
-X-QQ-FEAT: XlKBH1Cks66hVGf5IHF0wX9e+JV7B9E8UsslHLvaTzKLmLVIupy7tsCnA9+hK
-        OEe1S7qT/e/5VdIPXOOg3NMCfi2vsGw7G6x9FaY9n2vsrwQ5VdtZR3zxrZLf5zUqVEJULJM
-        jGGtW7sE0YHrJ5dlbqbwtf4/2SypSsYyl1cRjDQ4k5atiitWMTBxlM+D6oqWFpq+2aSA4eF
-        p0hU+zj67i1BFY2qoA2wuHMioqwbICLuZw1nu6RCykCe84TpPR/e/Dl1GIwcYla7kME1luF
-        wNosf8WJ/Uvquv+o1hf5RottkrZhxjjRYPzW5TlOIbnfwVKkUpOd+iSu+Za3bOPmuj3lCQf
-        A1Crx5tFevDmsqc05kRD3RvO2y2+AKunop2NYNkzgcvAs0e2ptCRSuLAc3haQ==
+X-QQ-FEAT: YHTLUubWl26tp8Z1kHwyK8GiWRigRpaD+E6roL+Jtd8kwrkzL97IzqQ4t+ik2
+        qIciubcTOBwQvzoFSvlazQWCWexZ5+2zXpDJXMQh+CKPpQIv9xtlelH24LMN+N7dS4g7iNU
+        QukydE7dsrE8spMYsB/VHIuvMNCdqbJja0EH3rcjQG1X9/k/by9jgGj798ZRhKXCL2IhGfG
+        SMOzPBgca2kNLwXa2/+3meS+uNQyUrwHlBoCTacJ/JchpX9BwgD3EuAdBR+wsP1CvSaAbbG
+        x7D2lJGdRuxC+eVsrXkXsBVEX5RsyKM7YlnBXs3RZNoGZEOZhUx62VDddZ0IQZ4ecmNWcsm
+        aB/wjo+SHb9rFhUGciCPjLXfnviptdVSWePdxPk0KqYQCqfPqCze5duX3R0ybpcSVMv8fD/
 X-QQ-GoodBg: 0
 From:   Jilin Yuan <yuanjilin@cdjrlc.com>
-To:     crope@iki.fi, mchehab@kernel.org
+To:     jacopo@jmondi.org, mchehab@kernel.org
 Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
         Jilin Yuan <yuanjilin@cdjrlc.com>
-Subject: [PATCH] usb/dvb-usb-v2: fix repeated words in comments
-Date:   Wed, 24 Aug 2022 21:13:50 +0800
-Message-Id: <20220824131350.50984-1-yuanjilin@cdjrlc.com>
+Subject: [PATCH] media/i2c: fix repeated words in comments
+Date:   Wed, 24 Aug 2022 21:14:59 +0800
+Message-Id: <20220824131459.52485-1-yuanjilin@cdjrlc.com>
 X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-QQ-SENDSIZE: 520
 Feedback-ID: bizesmtp:cdjrlc.com:qybglogicsvr:qybglogicsvr4
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
- Delete the redundant word 'my'.
+ Delete the redundant word 'the'.
 
 Signed-off-by: Jilin Yuan <yuanjilin@cdjrlc.com>
 ---
- drivers/media/usb/dvb-usb-v2/af9035.c | 2 +-
+ drivers/media/i2c/mt9v111.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/media/usb/dvb-usb-v2/af9035.c b/drivers/media/usb/dvb-usb-v2/af9035.c
-index 5eef37b00a52..1e9c8d01523b 100644
---- a/drivers/media/usb/dvb-usb-v2/af9035.c
-+++ b/drivers/media/usb/dvb-usb-v2/af9035.c
-@@ -1497,7 +1497,7 @@ static int af9035_tuner_attach(struct dvb_usb_adapter *adap)
- 		/*
- 		 * AF9035 gpiot2 = FC0012 enable
- 		 * XXX: there seems to be something on gpioh8 too, but on my
--		 * my test I didn't find any difference.
-+		 * test I didn't find any difference.
- 		 */
+diff --git a/drivers/media/i2c/mt9v111.c b/drivers/media/i2c/mt9v111.c
+index 2dc4a0f24ce8..7beca0b70b72 100644
+--- a/drivers/media/i2c/mt9v111.c
++++ b/drivers/media/i2c/mt9v111.c
+@@ -633,7 +633,7 @@ static int mt9v111_hw_config(struct mt9v111_dev *mt9v111)
  
- 		if (adap->id == 0) {
+ 	/*
+ 	 * Set pixel integration time to the whole frame time.
+-	 * This value controls the the shutter delay when running with AE
++	 * This value controls the shutter delay when running with AE
+ 	 * disabled. If longer than frame time, it affects the output
+ 	 * frame rate.
+ 	 */
 -- 
 2.36.1
 
