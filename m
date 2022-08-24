@@ -2,86 +2,124 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 01EF759FDB8
-	for <lists+linux-media@lfdr.de>; Wed, 24 Aug 2022 17:01:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6FB7F59FDCC
+	for <lists+linux-media@lfdr.de>; Wed, 24 Aug 2022 17:04:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238578AbiHXPB3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 24 Aug 2022 11:01:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57220 "EHLO
+        id S238036AbiHXPDz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 24 Aug 2022 11:03:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59786 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238274AbiHXPB1 (ORCPT
+        with ESMTP id S237612AbiHXPDy (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 24 Aug 2022 11:01:27 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0BA063CBF0;
-        Wed, 24 Aug 2022 08:01:26 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        Wed, 24 Aug 2022 11:03:54 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C3C3898A5D;
+        Wed, 24 Aug 2022 08:03:48 -0700 (PDT)
+Received: from [192.168.2.145] (109-252-119-13.nat.spd-mgts.ru [109.252.119.13])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id B6555B8238B;
-        Wed, 24 Aug 2022 15:01:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A39D2C433D6;
-        Wed, 24 Aug 2022 15:01:22 +0000 (UTC)
-Message-ID: <42384aba-d519-1a98-80dc-00a997e7243f@xs4all.nl>
-Date:   Wed, 24 Aug 2022 17:01:20 +0200
+        (Authenticated sender: dmitry.osipenko)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 7B8806601E8F;
+        Wed, 24 Aug 2022 16:03:44 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1661353426;
+        bh=ss7Re+WGJ6gPDf+07fuRLgmV2oF07ngUyzhkLngogMo=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=oAR0YvOOYSafNUGMl1oNd0JDpIq3FDAHC3HSFM85TQLAtdUKWV9S7/KMulX1yzdJU
+         ynpYz4YtIeU371JqvKb8/c29/d8CPVp3PGsQrb8kJYYp7JpoSNHveANuXdDGoXqRHL
+         p9edkNfznNFe0vL1B7KsPf3EQ1iqD0q15Jh9BVqB7qaGinbAx23HtsmgAfze7Sezsa
+         5eCHp4KjFs2i46CRc/qn7EZjWd/w/c9qg+8YOKS0kgwlBEA5uFkOiS4rzy8gfpu2eT
+         /NbO6kk31WXQ6hWLjRcZaGob2toZeqNH+aU5AQGrgKbdtAC0glWaondyOLmCNSr5lf
+         VJAAXcJe1ilqw==
+Message-ID: <4af793fd-eccc-ad70-65c3-de78dced71f0@collabora.com>
+Date:   Wed, 24 Aug 2022 18:03:42 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH] i2c/cx25840: fix repeated words in comments
+ Thunderbird/91.12.0
+Subject: Re: [PATCH v3 6/9] dma-buf: Move dma-buf attachment to dynamic
+ locking specification
 Content-Language: en-US
-To:     Jilin Yuan <yuanjilin@cdjrlc.com>, mchehab@kernel.org
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20220824131619.54027-1-yuanjilin@cdjrlc.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-In-Reply-To: <20220824131619.54027-1-yuanjilin@cdjrlc.com>
+To:     =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+        David Airlie <airlied@linux.ie>,
+        Gerd Hoffmann <kraxel@redhat.com>,
+        Gurchetan Singh <gurchetansingh@chromium.org>,
+        Chia-I Wu <olvaffe@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+        Daniel Almeida <daniel.almeida@collabora.com>,
+        Gert Wollny <gert.wollny@collabora.com>,
+        Gustavo Padovan <gustavo.padovan@collabora.com>,
+        Daniel Stone <daniel@fooishbar.org>,
+        Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Rob Clark <robdclark@gmail.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+        =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas_os@shipmail.org>,
+        Qiang Yu <yuq825@gmail.com>
+Cc:     dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+        Dmitry Osipenko <digetx@gmail.com>,
+        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+        amd-gfx@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+        kernel@collabora.com, virtualization@lists.linux-foundation.org,
+        linux-rdma@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        lima@lists.freedesktop.org
+References: <20220824102248.91964-1-dmitry.osipenko@collabora.com>
+ <20220824102248.91964-7-dmitry.osipenko@collabora.com>
+ <17181951-1b40-cd39-48df-58b43cad117d@amd.com>
+From:   Dmitry Osipenko <dmitry.osipenko@collabora.com>
+In-Reply-To: <17181951-1b40-cd39-48df-58b43cad117d@amd.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This is a duplicate of:
-
-https://patchwork.linuxtv.org/project/linux-media/patch/20220821151552.58514-1-wangjianli@cdjrlc.com/
-
-Please check for similar patches first in the future.
-
-Why is seemingly everyone suddenly chasing errors like this?
-
-I don't mind taking such patches since typos like this annoy me, but
-having to figure out which patches are duplicates is getting old quickly...
-
-I'll try to go through your patches and see which are duplicates, but
-next time I'd appreciate it if you would check this first.
-
-Regards,
-
-	Hans
-
-On 24/08/2022 15:16, Jilin Yuan wrote:
->  Delete the redundant word 'of'.
+On 8/24/22 17:08, Christian König wrote:
+> Am 24.08.22 um 12:22 schrieb Dmitry Osipenko:
+>> Move dma-buf attachment API functions to the dynamic locking
+>> specification.
+>> The strict locking convention prevents deadlock situations for dma-buf
+>> importers and exporters.
+>>
+>> Previously, the "unlocked" versions of the attachment API functions
+>> weren't taking the reservation lock and this patch makes them to take
+>> the lock.
 > 
-> Signed-off-by: Jilin Yuan <yuanjilin@cdjrlc.com>
-> ---
->  drivers/media/i2c/cx25840/cx25840-ir.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> Didn't we concluded that we need to keep the attach and detach callbacks
+> without the lock and only move the map/unmap callbacks over?
 > 
-> diff --git a/drivers/media/i2c/cx25840/cx25840-ir.c b/drivers/media/i2c/cx25840/cx25840-ir.c
-> index 9d7d1d149f1a..8cef9656c612 100644
-> --- a/drivers/media/i2c/cx25840/cx25840-ir.c
-> +++ b/drivers/media/i2c/cx25840/cx25840-ir.c
-> @@ -196,7 +196,7 @@ static u32 clock_divider_to_resolution(u16 divider)
->  {
->  	/*
->  	 * Resolution is the duration of 1 tick of the readable portion of
-> -	 * of the pulse width counter as read from the FIFO.  The two lsb's are
-> +	 * the pulse width counter as read from the FIFO.  The two lsb's are
->  	 * not readable, hence the << 2.  This function returns ns.
->  	 */
->  	return DIV_ROUND_CLOSEST((1 << 2)  * ((u32) divider + 1) * 1000,
+> Otherwise it won't be possible for drivers to lock multiple buffers if
+> they have to shuffle things around for a specific attachment.
+
+We did conclude that. The attach/detach dma-buf ops are unlocked, but
+the map_dma_buf/unmap_dma_buf must be invoked under lock and
+dma_buf_dynamic_attach_unlocked() maps dma-buf if either importer or
+exporter can't handle the dynamic mapping [1].
+
+[1]
+https://elixir.bootlin.com/linux/v6.0-rc2/source/drivers/dma-buf/dma-buf.c#L869
+
+Hence I re-arranged the dma_resv_lock() in
+dma_buf_dynamic_attach_unlocked() to move both pinning and mapping under
+the held lock.
+
+-- 
+Best regards,
+Dmitry
