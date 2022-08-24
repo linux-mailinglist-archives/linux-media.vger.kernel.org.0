@@ -2,103 +2,79 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 010DD59FC32
-	for <lists+linux-media@lfdr.de>; Wed, 24 Aug 2022 15:48:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 433E759FC52
+	for <lists+linux-media@lfdr.de>; Wed, 24 Aug 2022 15:56:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238653AbiHXNsG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 24 Aug 2022 09:48:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47066 "EHLO
+        id S237988AbiHXN4N (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 24 Aug 2022 09:56:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54782 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238840AbiHXNrJ (ORCPT
+        with ESMTP id S239140AbiHXNzo (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 24 Aug 2022 09:47:09 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 45BD798A4A
-        for <linux-media@vger.kernel.org>; Wed, 24 Aug 2022 06:42:59 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id C1AD2B824C5
-        for <linux-media@vger.kernel.org>; Wed, 24 Aug 2022 13:42:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6CD29C433D6;
-        Wed, 24 Aug 2022 13:42:45 +0000 (UTC)
-Message-ID: <f1ae8660-9482-cc2b-5b89-06875b72a512@xs4all.nl>
-Date:   Wed, 24 Aug 2022 15:42:43 +0200
+        Wed, 24 Aug 2022 09:55:44 -0400
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EBA6C62A8A;
+        Wed, 24 Aug 2022 06:54:36 -0700 (PDT)
+Received: (Authenticated sender: jacopo@jmondi.org)
+        by mail.gandi.net (Postfix) with ESMTPSA id EA7B61C0003;
+        Wed, 24 Aug 2022 13:54:34 +0000 (UTC)
+Date:   Wed, 24 Aug 2022 15:54:33 +0200
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Jilin Yuan <yuanjilin@cdjrlc.com>
+Cc:     mchehab@kernel.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media/i2c: fix repeated words in comments
+Message-ID: <20220824135433.h2udwtnub7mlmtam@uno.localdomain>
+References: <20220824131459.52485-1-yuanjilin@cdjrlc.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Content-Language: en-US
-To:     "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
-Cc:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-        =?UTF-8?B?WXVuZmVpIERvbmcgKOiRo+S6kemjnik=?= 
-        <Yunfei.Dong@mediatek.com>, Irui Wang <irui.wang@mediatek.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [GIT PULL FOR v6.1] ti/cal fixes and mediatek/vcodec
- fixes/enhancements
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20220824131459.52485-1-yuanjilin@cdjrlc.com>
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Jilin
 
-The following changes since commit 1ff8334f0a4e0be693066aafba195d25629d77aa:
+On Wed, Aug 24, 2022 at 09:14:59PM +0800, Jilin Yuan wrote:
+>  Delete the redundant word 'the'.
+>
+> Signed-off-by: Jilin Yuan <yuanjilin@cdjrlc.com>
 
-  media: MAINTAINERS: add entry for i.MX8MP DW100 v4l2 mem2mem driver (2022-08-21 08:42:26 +0200)
+Already addressed by
+https://patchwork.kernel.org/project/linux-media/patch/20220722015211.63609-1-slark_xiao@163.com/
 
-are available in the Git repository at:
+I wonder what's happening... This is the 3rd if not 4th identical
+patch I receive for this issue.
 
-  git://linuxtv.org/hverkuil/media_tree.git tags/br-v6.1h
+Are you sending this patch as part of a new contributors program like
+outreachy or similar ? If that's the case I would like to ask mentors
+to require contributors to check patchwork/lore before sending a
+patch. I'm reading a lot of "thanks but it's already fixed" replies on
+the media list these days..
 
-for you to fetch changes up to 07719bcac6cf233300f97f237c3531128faf1a9e:
-
-  media: mediatek: vcodec: Skip non CBR bitrate mode (2022-08-24 15:27:45 +0200)
-
-----------------------------------------------------------------
-Tag branch
-
-----------------------------------------------------------------
-Hirokazu Honda (1):
-      media: mediatek: vcodec: Skip non CBR bitrate mode
-
-Irui Wang (6):
-      media: mediatek: vcodec: Add encoder driver support for 34-bit iova
-      dt-bindings: media: mediatek: vcodec: Add encoder dt-bindings for mt8188
-      media: mediatek: vcodec: Add mt8188 encoder driver
-      media: mediatek: vcodec: Remove encoder driver get IRQ resource
-      media: mediatek: vcodec: Fix bitstream crop information error
-      media: mediatek: vcodec: Use ctx vb2_queue mutex instead of device mutex
-
-Tomi Valkeinen (5):
-      media: ti: cal: fix useless variable init
-      media: ti: cal: rename sd_state to state
-      media: ti: cal: use CSI-2 frame number for seq number
-      media: ti: cal: combine wdma irq handling
-      media: ti: cal: fix wdma irq for metadata
-
-Yunfei Dong (3):
-      dt-bindings: media: mediatek: vcodec: add decoder dt-bindings for mt8188
-      media: mediatek: vcodec: add decoder compatible to support mt8188
-      media: mediatek: vcodec: Add mt8188 encoder's chip name
-
- Documentation/devicetree/bindings/media/mediatek,vcodec-encoder.yaml        |   1 +
- Documentation/devicetree/bindings/media/mediatek,vcodec-subdev-decoder.yaml |   1 +
- drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c                     |   2 +
- drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_drv.c                 |   4 +
- drivers/media/platform/mediatek/vcodec/mtk_vcodec_drv.h                     |   6 ++
- drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc.c                     |  19 ++--
- drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc_drv.c                 |  22 ++--
- drivers/media/platform/mediatek/vcodec/venc/venc_h264_if.c                  | 200 +++++++++++++++++++++++++++++------
- drivers/media/platform/mediatek/vcodec/venc_ipi_msg.h                       |  24 +++++
- drivers/media/platform/mediatek/vcodec/venc_vpu_if.c                        |  76 ++++++++++++-
- drivers/media/platform/ti/cal/cal-camerarx.c                                |  31 +++---
- drivers/media/platform/ti/cal/cal-video.c                                   |   5 +-
- drivers/media/platform/ti/cal/cal.c                                         | 139 +++++++++++++++++-------
- drivers/media/platform/ti/cal/cal.h                                         |   7 +-
- 14 files changed, 430 insertions(+), 107 deletions(-)
+> ---
+>  drivers/media/i2c/mt9v111.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/media/i2c/mt9v111.c b/drivers/media/i2c/mt9v111.c
+> index 2dc4a0f24ce8..7beca0b70b72 100644
+> --- a/drivers/media/i2c/mt9v111.c
+> +++ b/drivers/media/i2c/mt9v111.c
+> @@ -633,7 +633,7 @@ static int mt9v111_hw_config(struct mt9v111_dev *mt9v111)
+>
+>  	/*
+>  	 * Set pixel integration time to the whole frame time.
+> -	 * This value controls the the shutter delay when running with AE
+> +	 * This value controls the shutter delay when running with AE
+>  	 * disabled. If longer than frame time, it affects the output
+>  	 * frame rate.
+>  	 */
+> --
+> 2.36.1
+>
