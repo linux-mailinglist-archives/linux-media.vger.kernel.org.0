@@ -2,72 +2,87 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5F03159FB12
-	for <lists+linux-media@lfdr.de>; Wed, 24 Aug 2022 15:18:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DEFDA59FB2E
+	for <lists+linux-media@lfdr.de>; Wed, 24 Aug 2022 15:21:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238078AbiHXNST (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 24 Aug 2022 09:18:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33864 "EHLO
+        id S238153AbiHXNVi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 24 Aug 2022 09:21:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41730 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235001AbiHXNSR (ORCPT
+        with ESMTP id S238149AbiHXNVg (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 24 Aug 2022 09:18:17 -0400
-Received: from bg5.exmail.qq.com (bg4.exmail.qq.com [43.154.221.58])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CDB5D2A40C;
-        Wed, 24 Aug 2022 06:18:14 -0700 (PDT)
-X-QQ-mid: bizesmtp86t1661347090tuvqf2o7
+        Wed, 24 Aug 2022 09:21:36 -0400
+Received: from bg5.exmail.qq.com (bg4.exmail.qq.com [43.155.67.158])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1318A61D4C;
+        Wed, 24 Aug 2022 06:21:32 -0700 (PDT)
+X-QQ-mid: bizesmtp82t1661347288te7o964w
 Received: from localhost.localdomain ( [182.148.14.124])
         by bizesmtp.qq.com (ESMTP) with 
-        id ; Wed, 24 Aug 2022 21:18:09 +0800 (CST)
+        id ; Wed, 24 Aug 2022 21:21:27 +0800 (CST)
 X-QQ-SSF: 01000000002000C0E000B00A0000000
-X-QQ-FEAT: XBN7tc9DADLOJLOkzIjPrJGin0Y6XlQgWlrzwRTI9urtB7gUGTTlehFTLjXWV
-        UWmSZi3u6UkWXTs8HpPtH57FlRQgqwI4F0V2LQMNb7hjyVOmuWEC1Zmce1wJ29/PmP4hBN+
-        ed8Qk00f1pxMEZ7iWBPE/0EesQCVH+iejGCkpGZyePgp/lQBdS/69FJUzPOX0nOb4d9MOXJ
-        PCknhh6PmiGXMuZux4kBsdpaLZroSRLB7Y8k5q7o70VGR+ncqHZs8n41fSEWAHUTyIxYe+v
-        R2DIqbk6mrSgqa4w1vZ77yk60gMIcp4CiIkN0HkL4JdHYidL21t3VUBgYlqStZX8pNQcnAO
-        DjMU7TUaYXW7Ff/KmrDWcuMG2tvyoH8HkhOmPQ94kN6u6FLi/UXlrr8lg7pQw==
+X-QQ-FEAT: zT6n3Y95oi1FhNGEPFle4+77sm1pAnicPB2mzwKc78jDEmifi8bIwYnLA8jxH
+        TwvUOmpYKNfl7A7YbBHy48K4eKEVmdAE+6IB1+ag0mC0r4kJNp4bxJHBJB3kAa+oASLEokV
+        bBvi9McB4TIgHEavO+pMJfHkLHwn1qCeOXewrlPn6LVoRvxo8kEN4Cg9Fb5g0Wb+t0gBehM
+        ZrQU26m702AkKNEljkzkn11IgBXLWpAdquVubaCfxdIEpY08mDoslyckcwRSaIK3BsixVSK
+        Z33PfS1MZY3CI1s0C76URQ/1vHRP6MJIhZc43ZAq01/Ui8eYiGUuYqVhmipXz3h/no0+MvP
+        IgItyBfktuVrcNu9Tvn2TdDAOci6Qa+UQcKTHdZWS8Z2fGsDzs6QWZ+jA4fKQdC+MouLotR
 X-QQ-GoodBg: 0
 From:   Jilin Yuan <yuanjilin@cdjrlc.com>
-To:     mchehab@kernel.org
+To:     matrandg@cisco.com, mchehab@kernel.org
 Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
         Jilin Yuan <yuanjilin@cdjrlc.com>
-Subject: [PATCH] media/i2c: fix repeated words in comments
-Date:   Wed, 24 Aug 2022 21:18:03 +0800
-Message-Id: <20220824131803.55374-1-yuanjilin@cdjrlc.com>
+Subject: [PATCH] media/i2c: Use 'unsigned int' instead of just 'unsigned'
+Date:   Wed, 24 Aug 2022 21:21:21 +0800
+Message-Id: <20220824132121.57334-1-yuanjilin@cdjrlc.com>
 X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-QQ-SENDSIZE: 520
 Feedback-ID: bizesmtp:cdjrlc.com:qybglogicsvr:qybglogicsvr4
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
- Delete the redundant word 'in'.
+Prefer 'unsigned int' to bare use of 'unsigned'.
 
 Signed-off-by: Jilin Yuan <yuanjilin@cdjrlc.com>
 ---
- drivers/media/i2c/adv7175.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/media/i2c/tc358743.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/media/i2c/adv7175.c b/drivers/media/i2c/adv7175.c
-index 1813f67f0fe1..945068c12763 100644
---- a/drivers/media/i2c/adv7175.c
-+++ b/drivers/media/i2c/adv7175.c
-@@ -209,7 +209,7 @@ static int adv7175_s_std_output(struct v4l2_subdev *sd, v4l2_std_id std)
- 		/* This is an attempt to convert
- 		 * SECAM->PAL (typically it does not work
- 		 * due to genlock: when decoder is in SECAM
--		 * and encoder in in PAL the subcarrier can
-+		 * and encoder in PAL the subcarrier can
- 		 * not be synchronized with horizontal
- 		 * quency) */
- 		adv7175_write_block(sd, init_pal, sizeof(init_pal));
+diff --git a/drivers/media/i2c/tc358743.c b/drivers/media/i2c/tc358743.c
+index e18b8947ad7e..fbffa9d6b5c0 100644
+--- a/drivers/media/i2c/tc358743.c
++++ b/drivers/media/i2c/tc358743.c
+@@ -292,12 +292,12 @@ static int get_audio_sampling_rate(struct v4l2_subdev *sd)
+ 
+ /* --------------- TIMINGS --------------- */
+ 
+-static inline unsigned fps(const struct v4l2_bt_timings *t)
++static inline unsigned int fps(const struct v4l2_bt_timings *t)
+ {
+ 	if (!V4L2_DV_BT_FRAME_HEIGHT(t) || !V4L2_DV_BT_FRAME_WIDTH(t))
+ 		return 0;
+ 
+-	return DIV_ROUND_CLOSEST((unsigned)t->pixelclock,
++	return DIV_ROUND_CLOSEST((unsigned int)t->pixelclock,
+ 			V4L2_DV_BT_FRAME_HEIGHT(t) * V4L2_DV_BT_FRAME_WIDTH(t));
+ }
+ 
+@@ -305,7 +305,7 @@ static int tc358743_get_detected_timings(struct v4l2_subdev *sd,
+ 				     struct v4l2_dv_timings *timings)
+ {
+ 	struct v4l2_bt_timings *bt = &timings->bt;
+-	unsigned width, height, frame_width, frame_height, frame_interval, fps;
++	unsigned int width, height, frame_width, frame_height, frame_interval, fps;
+ 
+ 	memset(timings, 0, sizeof(struct v4l2_dv_timings));
+ 
 -- 
 2.36.1
 
