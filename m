@@ -2,35 +2,36 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3C8E859F3DE
-	for <lists+linux-media@lfdr.de>; Wed, 24 Aug 2022 09:01:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A382E59F3E3
+	for <lists+linux-media@lfdr.de>; Wed, 24 Aug 2022 09:03:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235217AbiHXHB1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 24 Aug 2022 03:01:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33522 "EHLO
+        id S229848AbiHXHCt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 24 Aug 2022 03:02:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35224 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235367AbiHXHA2 (ORCPT
+        with ESMTP id S231311AbiHXHCs (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 24 Aug 2022 03:00:28 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 60D67883DE
-        for <linux-media@vger.kernel.org>; Wed, 24 Aug 2022 00:00:26 -0700 (PDT)
+        Wed, 24 Aug 2022 03:02:48 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3E1D291087
+        for <linux-media@vger.kernel.org>; Wed, 24 Aug 2022 00:02:47 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 948E5615E0
-        for <linux-media@vger.kernel.org>; Wed, 24 Aug 2022 07:00:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A3294C433C1
-        for <linux-media@vger.kernel.org>; Wed, 24 Aug 2022 07:00:25 +0000 (UTC)
-Message-ID: <acd71528-7e04-8a7e-0b0c-9748434ffe81@xs4all.nl>
-Date:   Wed, 24 Aug 2022 09:00:24 +0200
+        by ams.source.kernel.org (Postfix) with ESMTPS id D4BF8B82374
+        for <linux-media@vger.kernel.org>; Wed, 24 Aug 2022 07:02:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1554DC433D6;
+        Wed, 24 Aug 2022 07:02:43 +0000 (UTC)
+Message-ID: <584b87c8-2433-bfba-f044-7dadb663c4ef@xs4all.nl>
+Date:   Wed, 24 Aug 2022 09:02:42 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.10.0
 Content-Language: en-US
 To:     "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
+Cc:     Sylwester Nawrocki <s.nawrocki@samsung.com>
 From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [PATCH] tc358743: limit msg.len to CEC_MAX_MSG_SIZE
+Subject: [PATCH] s5p_cec: limit msg.len to CEC_MAX_MSG_SIZE
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
@@ -47,16 +48,16 @@ case it hasn't, check for this corner case.
 
 Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 ---
-diff --git a/drivers/media/i2c/tc358743.c b/drivers/media/i2c/tc358743.c
-index e18b8947ad7e..804b8ee8e4ab 100644
---- a/drivers/media/i2c/tc358743.c
-+++ b/drivers/media/i2c/tc358743.c
-@@ -964,6 +964,8 @@ static void tc358743_cec_handler(struct v4l2_subdev *sd, u16 intstatus,
- 
- 		v = i2c_rd32(sd, CECRCTR);
- 		msg.len = v & 0x1f;
-+		if (msg.len > CEC_MAX_MSG_SIZE)
-+			msg.len = CEC_MAX_MSG_SIZE;
- 		for (i = 0; i < msg.len; i++) {
- 			v = i2c_rd32(sd, CECRBUF1 + i * 4);
- 			msg.msg[i] = v & 0xff;
+diff --git a/drivers/media/cec/platform/s5p/s5p_cec.c b/drivers/media/cec/platform/s5p/s5p_cec.c
+index ce9a9d922f11..0a30e7acdc10 100644
+--- a/drivers/media/cec/platform/s5p/s5p_cec.c
++++ b/drivers/media/cec/platform/s5p/s5p_cec.c
+@@ -115,6 +115,8 @@ static irqreturn_t s5p_cec_irq_handler(int irq, void *priv)
+ 				dev_dbg(cec->dev, "Buffer overrun (worker did not process previous message)\n");
+ 			cec->rx = STATE_BUSY;
+ 			cec->msg.len = status >> 24;
++			if (cec->msg.len > CEC_MAX_MSG_SIZE)
++				cec->msg.len = CEC_MAX_MSG_SIZE;
+ 			cec->msg.rx_status = CEC_RX_STATUS_OK;
+ 			s5p_cec_get_rx_buf(cec, cec->msg.len,
+ 					cec->msg.msg);
