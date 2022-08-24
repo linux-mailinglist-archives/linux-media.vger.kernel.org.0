@@ -2,39 +2,38 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DCC4A59FAE9
-	for <lists+linux-media@lfdr.de>; Wed, 24 Aug 2022 15:11:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8582659FAF2
+	for <lists+linux-media@lfdr.de>; Wed, 24 Aug 2022 15:12:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238029AbiHXNK7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 24 Aug 2022 09:10:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47282 "EHLO
+        id S236684AbiHXNMQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 24 Aug 2022 09:12:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49594 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237948AbiHXNK6 (ORCPT
+        with ESMTP id S235137AbiHXNMN (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 24 Aug 2022 09:10:58 -0400
-X-Greylist: delayed 123 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 24 Aug 2022 06:10:47 PDT
+        Wed, 24 Aug 2022 09:12:13 -0400
 Received: from bg5.exmail.qq.com (bg4.exmail.qq.com [43.154.221.58])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 37AC715A13;
-        Wed, 24 Aug 2022 06:10:44 -0700 (PDT)
-X-QQ-mid: bizesmtp65t1661346624tuy039p7
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 176B420F43;
+        Wed, 24 Aug 2022 06:12:05 -0700 (PDT)
+X-QQ-mid: bizesmtp82t1661346722te70zksx
 Received: from localhost.localdomain ( [182.148.14.124])
         by bizesmtp.qq.com (ESMTP) with 
-        id ; Wed, 24 Aug 2022 21:10:22 +0800 (CST)
+        id ; Wed, 24 Aug 2022 21:12:00 +0800 (CST)
 X-QQ-SSF: 01000000002000C0E000B00A0000000
-X-QQ-FEAT: XBN7tc9DADLtYfvAxzsgzNN+T8mKALAUrxf7Y9I8DZLpTEuXCp9OXsUXbfiQg
-        a+FPBqzgzz72txSEMdESHLmBF57DoEg6XA3NKMTuQ+3TdpCRwZMIwR/jl4+0UB3lIbnH6ip
-        RjmQnDNmtq+Iwg3Qyo4YDpFwe/0IpSi+DlITqoK9kB4PUKPgbcBxpdSPJVYlfiHf61BZ5HZ
-        kp3wMzpJ2ksFlkgJeSszr22Widujt92dLm86rM8PGm5jHUOq0mPDdeuC3xWz+HzWVHyTMAM
-        2otEf6mVDf5pl+9Ayx9nYdkN+UxrDY7wbpUHdujUd5ifUfJjIbUwQT8aZYZClq//3LiU3bn
-        EdtAXS2RZC+7erIl7/kBTC9vCh6+RsSyoOg46lO9Nxd2OfzWm9ky0+8PYdFQw==
+X-QQ-FEAT: znfcQSa1hKY+Y42639KpZS/OxSsqc3p/4S+8kJXDXQM9J/XhUzApL2ICXgAtj
+        aUzBRnvORqgpxHMrFwGGoOJVO1/5OQoW2hbmqrDoMzZRdS0JZiguycsawak3ZVs1gc1SJ3/
+        UOKGcn2g1k5DcrWd802cpYhe2lJWygWpdzHd/M2lgiOJLZ+Bs8wifbEIOnAKHH49fc1GS79
+        j+Kpj79MK88ECnixBd9dP3uMx6hvp9Li9VHLgxHrvoCTvj7lx4Q/eXSABREL3VegxPGs0P6
+        lK69dM6IEsJs3Is/BCIHGEMsVCFQ35SVY7S2D3eWf0hetZuUwTSMPXoObqYJjgiRNZpVnBM
+        aDhRVeaKXdWXkldV9T65UesbHnpv7UBtTtquP+cjWDPNnoCa2xJsiKyq25CQg==
 X-QQ-GoodBg: 0
 From:   Jilin Yuan <yuanjilin@cdjrlc.com>
-To:     crope@iki.fi, mchehab@kernel.org
+To:     mchehab@kernel.org
 Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
         Jilin Yuan <yuanjilin@cdjrlc.com>
-Subject: [PATCH] usb/msi2500: fix repeated words in comments
-Date:   Wed, 24 Aug 2022 21:10:16 +0800
-Message-Id: <20220824131016.45828-1-yuanjilin@cdjrlc.com>
+Subject: [PATCH] usb/dvb-usb: fix repeated words in comments
+Date:   Wed, 24 Aug 2022 21:11:53 +0800
+Message-Id: <20220824131153.48756-1-yuanjilin@cdjrlc.com>
 X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -49,26 +48,26 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
- Delete the redundant word 'for'.
+ Delete the redundant word 'is'.
 
 Signed-off-by: Jilin Yuan <yuanjilin@cdjrlc.com>
 ---
- drivers/media/usb/msi2500/msi2500.c | 2 +-
+ drivers/media/usb/dvb-usb/technisat-usb2.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/media/usb/msi2500/msi2500.c b/drivers/media/usb/msi2500/msi2500.c
-index 71de6b4c4e4c..83b6e00c2b7d 100644
---- a/drivers/media/usb/msi2500/msi2500.c
-+++ b/drivers/media/usb/msi2500/msi2500.c
-@@ -209,7 +209,7 @@ static struct msi2500_frame_buf *msi2500_get_next_fill_buf(
-  *
-  * Control bits for previous samples is 32-bit field, containing 16 x 2-bit
-  * numbers. This results one 2-bit number for 8 samples. It is likely used for
-- * for bit shifting sample by given bits, increasing actual sampling resolution.
-+ * bit shifting sample by given bits, increasing actual sampling resolution.
-  * Number 2 (0b10) was never seen.
-  *
-  * 6 * 16 * 2 * 4 = 768 samples. 768 * 4 = 3072 bytes
+diff --git a/drivers/media/usb/dvb-usb/technisat-usb2.c b/drivers/media/usb/dvb-usb/technisat-usb2.c
+index 9c77911fcad4..df90c6c5f3b9 100644
+--- a/drivers/media/usb/dvb-usb/technisat-usb2.c
++++ b/drivers/media/usb/dvb-usb/technisat-usb2.c
+@@ -786,7 +786,7 @@ static void technisat_usb2_disconnect(struct usb_interface *intf)
+ {
+ 	struct dvb_usb_device *dev = usb_get_intfdata(intf);
+ 
+-	/* work and stuff was only created when the device is is hot-state */
++	/* work and stuff was only created when the device is hot-state */
+ 	if (dev != NULL) {
+ 		struct technisat_usb2_state *state = dev->priv;
+ 		if (state != NULL)
 -- 
 2.36.1
 
