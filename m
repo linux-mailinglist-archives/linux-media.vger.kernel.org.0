@@ -2,96 +2,248 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6441C5A0877
-	for <lists+linux-media@lfdr.de>; Thu, 25 Aug 2022 07:35:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5C7735A08B9
+	for <lists+linux-media@lfdr.de>; Thu, 25 Aug 2022 08:18:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232365AbiHYFfa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 25 Aug 2022 01:35:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56826 "EHLO
+        id S235319AbiHYGQN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 25 Aug 2022 02:16:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55934 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230104AbiHYFf3 (ORCPT
+        with ESMTP id S235060AbiHYGQD (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 25 Aug 2022 01:35:29 -0400
-Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 44B9C17059
-        for <linux-media@vger.kernel.org>; Wed, 24 Aug 2022 22:35:28 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by sin.source.kernel.org (Postfix) with ESMTPS id B109CCE2550
-        for <linux-media@vger.kernel.org>; Thu, 25 Aug 2022 05:35:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AD644C433C1
-        for <linux-media@vger.kernel.org>; Thu, 25 Aug 2022 05:35:24 +0000 (UTC)
-Date:   Thu, 25 Aug 2022 07:35:22 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: ERRORS
-Message-Id: <20220825053524.AD644C433C1@smtp.kernel.org>
-X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+        Thu, 25 Aug 2022 02:16:03 -0400
+Received: from mail-yw1-x112b.google.com (mail-yw1-x112b.google.com [IPv6:2607:f8b0:4864:20::112b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A4869F8D6
+        for <linux-media@vger.kernel.org>; Wed, 24 Aug 2022 23:16:02 -0700 (PDT)
+Received: by mail-yw1-x112b.google.com with SMTP id 00721157ae682-33dc345ad78so3984087b3.3
+        for <linux-media@vger.kernel.org>; Wed, 24 Aug 2022 23:16:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc;
+        bh=dobj17J5IBRu/WvjA2UwLEmuyNudys/JryI1IHgwaUA=;
+        b=WpSkg56l6VO5yS8B6sAW52db2Pf4azpZ0Kwb+J70ZKhWO1r+R50cg4RVLzWFAxqYBC
+         W+9OGDQs4HnEtZOCCPmtzbq7s+A1l40Y92Q4dWhoTB/BJ5joOqLHkiydd3xbxMVQGdfT
+         EAgtpEUpoIA8TFtCS5l5UvgnvmvOhIKQmm3p+Vz3FXmyZOQ8xHLKOUr0kai8kP4YvrVC
+         pvsK93BTZCeMC5usUhFb8Np0N8sAbk+ZjiJIOsFicc29qCfP/9sPUhvargIoymKCnA3S
+         b/zJvTCZhdeYGd7BZk0fXVBF8/aeHavh2ZnLX4Jd2POYV8Uy5SmIOdqTaD4DOn++4Jud
+         Mafw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc;
+        bh=dobj17J5IBRu/WvjA2UwLEmuyNudys/JryI1IHgwaUA=;
+        b=OKnDgonAfrzt/nBZHDbo0e5C/bnyMWefV2UGtoLF5iH8VPF6OTyz7K3Egosdciz9Cv
+         zg7R09rD8VEhbNadMyegVD/IBTIAGGj5AH8HOxaXnAdKzTD4RPYuw0BLw2IRH37Dn6Et
+         CZ92m3/0hgRR0kRELfkyCaC3BUD09XSVGoDJ0wB7iU1QUPCgdf6wB/K3/XkalZwHKAww
+         lFQXeJiLk60/4KJ3WbOvFVJqU6WlntKDqWaY3HCB+RpYnDGrlNtoiovTbHyt7KKME3FA
+         Uir/OzSejmv1if7QKiu+424vfgkq7xr/YkTVnjO1MJfKiUlQ8UN/ZVr3yVHtEmJdqEEt
+         YMRA==
+X-Gm-Message-State: ACgBeo2NCcGbjaRzMQ7P8Z5Sc2mhBLUML01DdAntha5rbrqw6F1YTlWf
+        Rz3K0yTWg6dPMDUQvFF7AJyE9R4l/i1RRKFjr6rDcA==
+X-Google-Smtp-Source: AA6agR58rt3NdG/khOSkwxUjVuRzn1rzD6ZfO0uP1E6tf3pLrI5FkpbeqmkO5mdon5TE34Gn1kJYQLf+ouT4ANTSOQY=
+X-Received: by 2002:a25:e209:0:b0:67c:234a:f08c with SMTP id
+ h9-20020a25e209000000b0067c234af08cmr2167103ybe.19.1661408160900; Wed, 24 Aug
+ 2022 23:16:00 -0700 (PDT)
+MIME-Version: 1.0
+References: <20220628075705.2278044-1-yunkec@google.com> <20220628075705.2278044-2-yunkec@google.com>
+ <7b59fffc-fb69-dc87-c3cf-4e01632154f4@xs4all.nl>
+In-Reply-To: <7b59fffc-fb69-dc87-c3cf-4e01632154f4@xs4all.nl>
+From:   Yunke Cao <yunkec@google.com>
+Date:   Thu, 25 Aug 2022 15:15:49 +0900
+Message-ID: <CANqU6FfGB5Vn1vkuQZ5F4NTzcxrS+=C0qSNL3xfkDPc+kUbWZA@mail.gmail.com>
+Subject: Re: [PATCH v7 1/7] media: v4l2_ctrl: Add V4L2_CTRL_TYPE_RECT
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Sergey Senozhatsky <senozhatsky@chromium.org>,
+        Ricardo Ribalda <ribalda@chromium.org>,
+        linux-media@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+Hi Hans, Hi Laurent,
 
-Results of the daily build of media_tree:
+Thank you for the review!
 
-date:			Thu Aug 25 05:00:05 CEST 2022
-media-tree git hash:	1ff8334f0a4e0be693066aafba195d25629d77aa
-media_build git hash:	0fe857b86addf382f6fd383948bd7736a3201403
-v4l-utils git hash:	eb967cdd5a3d40f8c9a78d6f57c832ce6c20b088
-edid-decode git hash:	6816e6a691f40e6fbb64e6d40f012d7727c6315f
-gcc version:		i686-linux-gcc (GCC) 11.2.0
-sparse repo:            git://git.kernel.org/pub/scm/devel/sparse/sparse.git
-sparse version:		v0.6.4-39-gce1a6720-dirty
-smatch repo:            git://repo.or.cz/smatch.git
-smatch version:		v0.5.0-8139-g377b8dd8-dirty
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 788719112fbb0e9aefa9338293a4ce5e5d3cb602
-host hardware:		x86_64
-host os:		5.18.0-2-amd64
+On Wed, Aug 24, 2022 at 5:50 PM Hans Verkuil <hverkuil-cisco@xs4all.nl> wrote:
+>
+> Hi Yunke,
+>
+> You will need to rebase this since some of the v4l2-ctrl internals
+> have changed.
+>
 
-linux-git-sh: OK
-linux-git-mips: OK
-linux-git-arm-stm32: OK
-linux-git-arm-at91: OK
-linux-git-arm-multi: OK
-linux-git-arm-davinci: OK
-linux-git-arm-pxa: OK
-linux-git-powerpc64: OK
-linux-git-arm64: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-apps: OK
-spec-git: OK
-virtme: ERRORS: Final Summary: 3077, Succeeded: 3073, Failed: 4, Warnings: 0
-virtme-32: ERRORS: Final Summary: 3190, Succeeded: 3181, Failed: 9, Warnings: 0
-sparse: OK
-smatch: OK
-kerneldoc: OK
+Thanks, I will rebase for the next version.
 
-Detailed results are available here:
+> On 28/06/2022 09:56, Yunke Cao wrote:
+> > Add p_rect to struct v4l2_ext_control with basic support in
+> > v4l2-ctrls.
+> >
+> > Reviewed-by: Ricardo Ribalda <ribalda@chromium.org>
+> > Signed-off-by: Yunke Cao <yunkec@google.com>
+> > ---
+> >  .../media/v4l/vidioc-g-ext-ctrls.rst          |  4 ++++
+> >  .../media/videodev2.h.rst.exceptions          |  1 +
+> >  drivers/media/v4l2-core/v4l2-ctrls-core.c     | 20 +++++++++++++++++++
+> >  include/media/v4l2-ctrls.h                    |  2 ++
+> >  include/uapi/linux/videodev2.h                |  2 ++
+> >  5 files changed, 29 insertions(+)
+> >
+> > diff --git a/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst b/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst
+> > index 29971a45a2d4..7473baa4e977 100644
+> > --- a/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst
+> > +++ b/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst
+> > @@ -189,6 +189,10 @@ still cause this situation.
+> >        - ``p_area``
+> >        - A pointer to a struct :c:type:`v4l2_area`. Valid if this control is
+> >          of type ``V4L2_CTRL_TYPE_AREA``.
+> > +    * - struct :c:type:`v4l2_rect` *
+> > +      - ``p_rect``
+> > +      - A pointer to a struct :c:type:`v4l2_rect`. Valid if this control is
+> > +        of type ``V4L2_CTRL_TYPE_RECT``.
+> >      * - struct :c:type:`v4l2_ctrl_h264_sps` *
+> >        - ``p_h264_sps``
+> >        - A pointer to a struct :c:type:`v4l2_ctrl_h264_sps`. Valid if this control is
+>
+> You also need to update Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst.
+>
 
-https://hverkuil.home.xs4all.nl/logs/Thursday.log
+Ah, I missed that. Will add it in v8.
 
-Detailed regression test results are available here:
+> > diff --git a/Documentation/userspace-api/media/videodev2.h.rst.exceptions b/Documentation/userspace-api/media/videodev2.h.rst.exceptions
+> > index 9cbb7a0c354a..7b423475281d 100644
+> > --- a/Documentation/userspace-api/media/videodev2.h.rst.exceptions
+> > +++ b/Documentation/userspace-api/media/videodev2.h.rst.exceptions
+> > @@ -147,6 +147,7 @@ replace symbol V4L2_CTRL_TYPE_HEVC_SPS :c:type:`v4l2_ctrl_type`
+> >  replace symbol V4L2_CTRL_TYPE_HEVC_PPS :c:type:`v4l2_ctrl_type`
+> >  replace symbol V4L2_CTRL_TYPE_HEVC_SLICE_PARAMS :c:type:`v4l2_ctrl_type`
+> >  replace symbol V4L2_CTRL_TYPE_AREA :c:type:`v4l2_ctrl_type`
+> > +replace symbol V4L2_CTRL_TYPE_RECT :c:type:`v4l2_ctrl_type`
+> >  replace symbol V4L2_CTRL_TYPE_FWHT_PARAMS :c:type:`v4l2_ctrl_type`
+> >  replace symbol V4L2_CTRL_TYPE_VP8_FRAME :c:type:`v4l2_ctrl_type`
+> >  replace symbol V4L2_CTRL_TYPE_VP9_COMPRESSED_HDR :c:type:`v4l2_ctrl_type`
+> > diff --git a/drivers/media/v4l2-core/v4l2-ctrls-core.c b/drivers/media/v4l2-core/v4l2-ctrls-core.c
+> > index 949c1884d9c1..35d43ba650db 100644
+> > --- a/drivers/media/v4l2-core/v4l2-ctrls-core.c
+> > +++ b/drivers/media/v4l2-core/v4l2-ctrls-core.c
+> > @@ -84,6 +84,11 @@ static bool std_equal(const struct v4l2_ctrl *ctrl, u32 idx,
+> >               return ptr1.p_u16[idx] == ptr2.p_u16[idx];
+> >       case V4L2_CTRL_TYPE_U32:
+> >               return ptr1.p_u32[idx] == ptr2.p_u32[idx];
+> > +     case V4L2_CTRL_TYPE_RECT:
+> > +             return ptr1.p_rect->top == ptr2.p_rect->top &&
+> > +                    ptr1.p_rect->left == ptr2.p_rect->left &&
+> > +                    ptr1.p_rect->height == ptr2.p_rect->height &&
+> > +                    ptr1.p_rect->width == ptr2.p_rect->width;
+>
+> You don't need to do anything here, it will fallback to a memcmp, and
+> that's fine for struct v4l2_rect.
+>
 
-https://hverkuil.home.xs4all.nl/logs/Thursday-test-media.log
-https://hverkuil.home.xs4all.nl/logs/Thursday-test-media-32.log
-https://hverkuil.home.xs4all.nl/logs/Thursday-test-media-dmesg.log
+Thanks! Will remove it in v8.
 
-Full logs are available here:
+Best,
+Yunke
 
-https://hverkuil.home.xs4all.nl/logs/Thursday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-https://hverkuil.home.xs4all.nl/spec/index.html
+> >       default:
+> >               if (ctrl->is_int)
+> >                       return ptr1.p_s32[idx] == ptr2.p_s32[idx];
+> > @@ -307,6 +312,11 @@ static void std_log(const struct v4l2_ctrl *ctrl)
+> >       case V4L2_CTRL_TYPE_VP9_FRAME:
+> >               pr_cont("VP9_FRAME");
+> >               break;
+> > +     case V4L2_CTRL_TYPE_RECT:
+> > +             pr_cont("%ux%u@%dx%d",
+> > +                     ptr.p_rect->width, ptr.p_rect->height,
+> > +                     ptr.p_rect->left, ptr.p_rect->top);
+> > +             break;
+> >       default:
+> >               pr_cont("unknown type %d", ctrl->type);
+> >               break;
+> > @@ -525,6 +535,7 @@ static int std_validate_compound(const struct v4l2_ctrl *ctrl, u32 idx,
+> >       struct v4l2_ctrl_hdr10_mastering_display *p_hdr10_mastering;
+> >       struct v4l2_ctrl_hevc_decode_params *p_hevc_decode_params;
+> >       struct v4l2_area *area;
+> > +     struct v4l2_rect *rect;
+> >       void *p = ptr.p + idx * ctrl->elem_size;
+> >       unsigned int i;
+> >
+> > @@ -888,6 +899,12 @@ static int std_validate_compound(const struct v4l2_ctrl *ctrl, u32 idx,
+> >                       return -EINVAL;
+> >               break;
+> >
+> > +     case V4L2_CTRL_TYPE_RECT:
+> > +             rect = p;
+> > +             if (!rect->width || !rect->height)
+> > +                     return -EINVAL;
+> > +             break;
+> > +
+> >       default:
+> >               return -EINVAL;
+> >       }
+> > @@ -1455,6 +1472,9 @@ static struct v4l2_ctrl *v4l2_ctrl_new(struct v4l2_ctrl_handler *hdl,
+> >       case V4L2_CTRL_TYPE_AREA:
+> >               elem_size = sizeof(struct v4l2_area);
+> >               break;
+> > +     case V4L2_CTRL_TYPE_RECT:
+> > +             elem_size = sizeof(struct v4l2_rect);
+> > +             break;
+> >       default:
+> >               if (type < V4L2_CTRL_COMPOUND_TYPES)
+> >                       elem_size = sizeof(s32);
+> > diff --git a/include/media/v4l2-ctrls.h b/include/media/v4l2-ctrls.h
+> > index b3ce438f1329..919e104de50b 100644
+> > --- a/include/media/v4l2-ctrls.h
+> > +++ b/include/media/v4l2-ctrls.h
+> > @@ -58,6 +58,7 @@ struct video_device;
+> >   * @p_hdr10_cll:             Pointer to an HDR10 Content Light Level structure.
+> >   * @p_hdr10_mastering:               Pointer to an HDR10 Mastering Display structure.
+> >   * @p_area:                  Pointer to an area.
+> > + * @p_rect:                  Pointer to a rectangle.
+> >   * @p:                               Pointer to a compound value.
+> >   * @p_const:                 Pointer to a constant compound value.
+> >   */
+> > @@ -87,6 +88,7 @@ union v4l2_ctrl_ptr {
+> >       struct v4l2_ctrl_hdr10_cll_info *p_hdr10_cll;
+> >       struct v4l2_ctrl_hdr10_mastering_display *p_hdr10_mastering;
+> >       struct v4l2_area *p_area;
+> > +     struct v4l2_rect *p_rect;
+> >       void *p;
+> >       const void *p_const;
+> >  };
+> > diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+> > index 343b95107fce..2e36bb610ea6 100644
+> > --- a/include/uapi/linux/videodev2.h
+> > +++ b/include/uapi/linux/videodev2.h
+> > @@ -1754,6 +1754,7 @@ struct v4l2_ext_control {
+> >               __u16 __user *p_u16;
+> >               __u32 __user *p_u32;
+> >               struct v4l2_area __user *p_area;
+> > +             struct v4l2_rect __user *p_rect;
+> >               struct v4l2_ctrl_h264_sps __user *p_h264_sps;
+> >               struct v4l2_ctrl_h264_pps *p_h264_pps;
+> >               struct v4l2_ctrl_h264_scaling_matrix __user *p_h264_scaling_matrix;
+> > @@ -1813,6 +1814,7 @@ enum v4l2_ctrl_type {
+> >       V4L2_CTRL_TYPE_U16           = 0x0101,
+> >       V4L2_CTRL_TYPE_U32           = 0x0102,
+> >       V4L2_CTRL_TYPE_AREA          = 0x0106,
+> > +     V4L2_CTRL_TYPE_RECT          = 0x0107,
+> >
+> >       V4L2_CTRL_TYPE_HDR10_CLL_INFO           = 0x0110,
+> >       V4L2_CTRL_TYPE_HDR10_MASTERING_DISPLAY  = 0x0111,
+>
+> Regards,
+>
+>         Hans
