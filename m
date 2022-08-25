@@ -2,86 +2,94 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DC48C5A0DCA
-	for <lists+linux-media@lfdr.de>; Thu, 25 Aug 2022 12:21:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 079215A0E13
+	for <lists+linux-media@lfdr.de>; Thu, 25 Aug 2022 12:42:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240963AbiHYKVY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 25 Aug 2022 06:21:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47670 "EHLO
+        id S241110AbiHYKl6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 25 Aug 2022 06:41:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57954 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240820AbiHYKVD (ORCPT
+        with ESMTP id S236313AbiHYKl5 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 25 Aug 2022 06:21:03 -0400
-Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A5BBB265F;
-        Thu, 25 Aug 2022 03:21:01 -0700 (PDT)
-Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPSA id 9BBF6FF80E;
-        Thu, 25 Aug 2022 10:20:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1661422857;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=V1UOoDEy5ZDDQPj336ZKimMS4BKTdmwc0Nwv/Ux2JaE=;
-        b=UnQ36WN7zkebxVJkAdG/u+5h9xp7dA+ESrKFrM1qOcxKcdMjN+zfVzeHSuYPwtYswrPSQE
-        cW72gyMyg5gX5dCvjcpJvfDyKx7wUGzI2E/HFN5d80Pd8ki7dAqqGW67o8QWwwbiZAKgOr
-        SKS2eysS4oz2LARayqm7x2EXC5KgZLBp+MyVkCCnX0VT2+2Jp/Oi227ErHXihXUgy2fOGk
-        7m4qPayoyRjyRbo4eY/IkKVOwm4n4KskO2VmJrPzra2UMEAl6yU5CPPwalVpYCjenGmmnL
-        R9JdpLhjgQFpu74if56arghxNgCstQetu91xFd1aY0RtMhi3109ht5JrSZtrLA==
-From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To:     linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
-        linux-staging@lists.linux.dev
-Cc:     Maxime Ripard <mripard@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Samuel Holland <samuel@sholland.org>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: [PATCH v2 7/7] media: cedrus: Add a Kconfig dependency on RESET_CONTROLLER
-Date:   Thu, 25 Aug 2022 12:20:35 +0200
-Message-Id: <20220825102035.419087-8-paul.kocialkowski@bootlin.com>
-X-Mailer: git-send-email 2.37.1
-In-Reply-To: <20220825102035.419087-1-paul.kocialkowski@bootlin.com>
-References: <20220825102035.419087-1-paul.kocialkowski@bootlin.com>
+        Thu, 25 Aug 2022 06:41:57 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4EA8880F60
+        for <linux-media@vger.kernel.org>; Thu, 25 Aug 2022 03:41:56 -0700 (PDT)
+Received: from dude02.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::28])
+        by metis.ext.pengutronix.de with esmtp (Exim 4.92)
+        (envelope-from <p.zabel@pengutronix.de>)
+        id 1oRAJ8-0006tN-CA; Thu, 25 Aug 2022 12:41:54 +0200
+From:   Philipp Zabel <p.zabel@pengutronix.de>
+To:     linux-media@vger.kernel.org
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>, kernel@pengutronix.de,
+        Philipp Zabel <p.zabel@pengutronix.de>
+Subject: [PATCH] media: coda: jpeg: drop coda9_jpeg_dec_huff_setup() return value
+Date:   Thu, 25 Aug 2022 12:41:49 +0200
+Message-Id: <20220825104149.2447484-1-p.zabel@pengutronix.de>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:1101:1d::28
+X-SA-Exim-Mail-From: p.zabel@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The driver relies on the reset controller API to work, so add
-RESET_CONTROLLER as one of its Kconfig dependencies.
+coda9_jpeg_dec_huff_setup() never returns anything but 0. Drop
+return value and superfluous error handling at the call site.
 
-Fixes: 50e761516f2b ("media: platform: Add Cedrus VPU decoder driver")
-Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
 ---
- drivers/staging/media/sunxi/cedrus/Kconfig | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/media/platform/chips-media/coda-jpeg.c | 13 +++----------
+ 1 file changed, 3 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/staging/media/sunxi/cedrus/Kconfig b/drivers/staging/media/sunxi/cedrus/Kconfig
-index 21c13f9b6e33..621944f9907a 100644
---- a/drivers/staging/media/sunxi/cedrus/Kconfig
-+++ b/drivers/staging/media/sunxi/cedrus/Kconfig
-@@ -2,6 +2,7 @@
- config VIDEO_SUNXI_CEDRUS
- 	tristate "Allwinner Cedrus VPU driver"
- 	depends on VIDEO_DEV
-+	depends on RESET_CONTROLLER
- 	depends on HAS_DMA
- 	depends on OF
- 	select MEDIA_CONTROLLER
+diff --git a/drivers/media/platform/chips-media/coda-jpeg.c b/drivers/media/platform/chips-media/coda-jpeg.c
+index a0b22b07f69a..435e7030fc2a 100644
+--- a/drivers/media/platform/chips-media/coda-jpeg.c
++++ b/drivers/media/platform/chips-media/coda-jpeg.c
+@@ -421,7 +421,7 @@ static inline void coda9_jpeg_write_huff_values(struct coda_dev *dev, u8 *bits,
+ 		coda_write(dev, (s32)values[i], CODA9_REG_JPEG_HUFF_DATA);
+ }
+ 
+-static int coda9_jpeg_dec_huff_setup(struct coda_ctx *ctx)
++static void coda9_jpeg_dec_huff_setup(struct coda_ctx *ctx)
+ {
+ 	struct coda_huff_tab *huff_tab = ctx->params.jpeg_huff_tab;
+ 	struct coda_dev *dev = ctx->dev;
+@@ -455,7 +455,6 @@ static int coda9_jpeg_dec_huff_setup(struct coda_ctx *ctx)
+ 	coda9_jpeg_write_huff_values(dev, huff_tab->luma_ac, 162);
+ 	coda9_jpeg_write_huff_values(dev, huff_tab->chroma_ac, 162);
+ 	coda_write(dev, 0x000, CODA9_REG_JPEG_HUFF_CTRL);
+-	return 0;
+ }
+ 
+ static inline void coda9_jpeg_write_qmat_tab(struct coda_dev *dev,
+@@ -1394,14 +1393,8 @@ static int coda9_jpeg_prepare_decode(struct coda_ctx *ctx)
+ 	coda_write(dev, ctx->params.jpeg_restart_interval,
+ 			CODA9_REG_JPEG_RST_INTVAL);
+ 
+-	if (ctx->params.jpeg_huff_tab) {
+-		ret = coda9_jpeg_dec_huff_setup(ctx);
+-		if (ret < 0) {
+-			v4l2_err(&dev->v4l2_dev,
+-				 "failed to set up Huffman tables: %d\n", ret);
+-			return ret;
+-		}
+-	}
++	if (ctx->params.jpeg_huff_tab)
++		coda9_jpeg_dec_huff_setup(ctx);
+ 
+ 	coda9_jpeg_qmat_setup(ctx);
+ 
+
+base-commit: 568035b01cfb107af8d2e4bd2fb9aea22cf5b868
 -- 
-2.37.1
+2.30.2
 
