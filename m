@@ -2,26 +2,26 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CAAB85A11E8
-	for <lists+linux-media@lfdr.de>; Thu, 25 Aug 2022 15:22:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CF8B55A11EC
+	for <lists+linux-media@lfdr.de>; Thu, 25 Aug 2022 15:22:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242531AbiHYNWK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 25 Aug 2022 09:22:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46082 "EHLO
+        id S242272AbiHYNWT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 25 Aug 2022 09:22:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46220 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242526AbiHYNWJ (ORCPT
+        with ESMTP id S241806AbiHYNWO (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 25 Aug 2022 09:22:09 -0400
+        Thu, 25 Aug 2022 09:22:14 -0400
 Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 4C42EAA345;
-        Thu, 25 Aug 2022 06:22:08 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id D1FE0AA4DB;
+        Thu, 25 Aug 2022 06:22:12 -0700 (PDT)
 X-IronPort-AV: E=Sophos;i="5.93,263,1654527600"; 
-   d="scan'208";a="130585766"
+   d="scan'208";a="130585774"
 Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie5.idc.renesas.com with ESMTP; 25 Aug 2022 22:22:08 +0900
+  by relmlie5.idc.renesas.com with ESMTP; 25 Aug 2022 22:22:12 +0900
 Received: from localhost.localdomain (unknown [10.226.93.110])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 6B9A0400C0BA;
-        Thu, 25 Aug 2022 22:22:04 +0900 (JST)
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id B249A400C0BA;
+        Thu, 25 Aug 2022 22:22:08 +0900 (JST)
 From:   Biju Das <biju.das.jz@bp.renesas.com>
 To:     Mauro Carvalho Chehab <mchehab@kernel.org>
 Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
@@ -32,9 +32,9 @@ Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
         Chris Paterson <Chris.Paterson2@renesas.com>,
         Biju Das <biju.das@bp.renesas.com>,
         Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v13 3/5] media: renesas: vsp1: Add support for VSP software version
-Date:   Thu, 25 Aug 2022 14:21:42 +0100
-Message-Id: <20220825132144.2619239-4-biju.das.jz@bp.renesas.com>
+Subject: [PATCH v13 4/5] media: renesas: vsp1: Add VSP1_HAS_NON_ZERO_LBA feature bit
+Date:   Thu, 25 Aug 2022 14:21:43 +0100
+Message-Id: <20220825132144.2619239-5-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220825132144.2619239-1-biju.das.jz@bp.renesas.com>
 References: <20220825132144.2619239-1-biju.das.jz@bp.renesas.com>
@@ -49,13 +49,14 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The VSPD block on RZ/G2L SoCs does not have a version register.
+As per HW manual V3M and RZ/G2L SoCs has nonzero LIF buffer
+attributes. So, introduce a feature bit for handling the same.
 
-This patch adds support for adding VSP software version based on
-device match.
+This patch also adds separate device info structure for V3M and V3H
+SoCs, as both these SoCs share the same model ID, but V3H does not
+have VSP1_HAS_NON_ZERO_LBA feature bit.
 
 Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
 v12->v13:
  * No change
@@ -66,109 +67,85 @@ v10->v11:
 v9->v10:
  * No change
 v8->v9:
- * Added Rb tag from Geert
- * Updated commit description RZ/G2L -> RZ/G2L SoCs.
- * Replaced break with return info in case a Model match is found and
-   removed additional check for non-match case.
+ * Used generic check for matching SoCs with LBA feature.
 v8:
  * New patch
 ---
- drivers/media/platform/renesas/vsp1/vsp1.h    |  1 +
- .../media/platform/renesas/vsp1/vsp1_drv.c    | 43 +++++++++++++------
- .../media/platform/renesas/vsp1/vsp1_regs.h   |  2 +
- 3 files changed, 33 insertions(+), 13 deletions(-)
+ drivers/media/platform/renesas/vsp1/vsp1.h     |  1 +
+ drivers/media/platform/renesas/vsp1/vsp1_drv.c | 18 +++++++++++++++++-
+ drivers/media/platform/renesas/vsp1/vsp1_lif.c |  3 +--
+ 3 files changed, 19 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/media/platform/renesas/vsp1/vsp1.h b/drivers/media/platform/renesas/vsp1/vsp1.h
-index baf898d577ec..ff4435705abb 100644
+index ff4435705abb..2f6f0c6ae555 100644
 --- a/drivers/media/platform/renesas/vsp1/vsp1.h
 +++ b/drivers/media/platform/renesas/vsp1/vsp1.h
-@@ -67,6 +67,7 @@ struct vsp1_device_info {
- 	unsigned int uif_count;
- 	unsigned int wpf_count;
- 	unsigned int num_bru_inputs;
-+	u8 soc;
- 	bool uapi;
- };
+@@ -55,6 +55,7 @@ struct vsp1_uif;
+ #define VSP1_HAS_HGT		BIT(8)
+ #define VSP1_HAS_BRS		BIT(9)
+ #define VSP1_HAS_EXT_DL		BIT(10)
++#define VSP1_HAS_NON_ZERO_LBA	BIT(11)
  
+ struct vsp1_device_info {
+ 	u32 version;
 diff --git a/drivers/media/platform/renesas/vsp1/vsp1_drv.c b/drivers/media/platform/renesas/vsp1/vsp1_drv.c
-index 975e6851735e..223dd5f557ba 100644
+index 223dd5f557ba..c0d814d9044e 100644
 --- a/drivers/media/platform/renesas/vsp1/vsp1_drv.c
 +++ b/drivers/media/platform/renesas/vsp1/vsp1_drv.c
-@@ -817,11 +817,39 @@ static const struct vsp1_device_info vsp1_device_infos[] = {
- 	},
- };
+@@ -787,6 +787,7 @@ static const struct vsp1_device_info vsp1_device_infos[] = {
+ 	}, {
+ 		.version = VI6_IP_VERSION_MODEL_VSPD_V3,
+ 		.model = "VSP2-D",
++		.soc = VI6_IP_VERSION_SOC_V3H,
+ 		.gen = 3,
+ 		.features = VSP1_HAS_BRS | VSP1_HAS_BRU,
+ 		.lif_count = 1,
+@@ -794,6 +795,17 @@ static const struct vsp1_device_info vsp1_device_infos[] = {
+ 		.uif_count = 1,
+ 		.wpf_count = 1,
+ 		.num_bru_inputs = 5,
++	}, {
++		.version = VI6_IP_VERSION_MODEL_VSPD_V3,
++		.model = "VSP2-D",
++		.soc = VI6_IP_VERSION_SOC_V3M,
++		.gen = 3,
++		.features = VSP1_HAS_BRS | VSP1_HAS_BRU | VSP1_HAS_NON_ZERO_LBA,
++		.lif_count = 1,
++		.rpf_count = 5,
++		.uif_count = 1,
++		.wpf_count = 1,
++		.num_bru_inputs = 5,
+ 	}, {
+ 		.version = VI6_IP_VERSION_MODEL_VSPDL_GEN3,
+ 		.model = "VSP2-DL",
+@@ -837,8 +849,12 @@ static const struct vsp1_device_info *vsp1_lookup_info(struct vsp1_device *vsp1)
+ 	for (i = 0; i < ARRAY_SIZE(vsp1_device_infos); ++i) {
+ 		info = &vsp1_device_infos[i];
  
-+static const struct vsp1_device_info *vsp1_lookup_info(struct vsp1_device *vsp1)
-+{
-+	const struct vsp1_device_info *info;
-+	unsigned int i;
-+
-+	/*
-+	 * Try the info stored in match data first for devices that don't have
-+	 * a version register.
-+	 */
-+	info = of_device_get_match_data(vsp1->dev);
-+	if (info) {
-+		vsp1->version = VI6_IP_VERSION_VSP_SW | info->version | info->soc;
-+		return info;
-+	}
-+
-+	vsp1->version = vsp1_read(vsp1, VI6_IP_VERSION);
-+
-+	for (i = 0; i < ARRAY_SIZE(vsp1_device_infos); ++i) {
-+		info = &vsp1_device_infos[i];
-+
-+		if ((vsp1->version & VI6_IP_VERSION_MODEL_MASK) == info->version)
-+			return info;
-+	}
-+
-+	dev_err(vsp1->dev, "unsupported IP version 0x%08x\n", vsp1->version);
-+
-+	return NULL;
-+}
-+
- static int vsp1_probe(struct platform_device *pdev)
- {
- 	struct vsp1_device *vsp1;
- 	struct device_node *fcp_node;
--	unsigned int i;
- 	int ret;
- 	int irq;
+-		if ((vsp1->version & VI6_IP_VERSION_MODEL_MASK) == info->version)
++		if ((vsp1->version & VI6_IP_VERSION_MODEL_MASK) == info->version) {
++			if (info->soc &&
++			    ((vsp1->version & VI6_IP_VERSION_SOC_MASK) != info->soc))
++				continue;
+ 			return info;
++		}
+ 	}
  
-@@ -877,19 +905,8 @@ static int vsp1_probe(struct platform_device *pdev)
- 	if (ret < 0)
- 		goto done;
- 
--	vsp1->version = vsp1_read(vsp1, VI6_IP_VERSION);
--
--	for (i = 0; i < ARRAY_SIZE(vsp1_device_infos); ++i) {
--		if ((vsp1->version & VI6_IP_VERSION_MODEL_MASK) ==
--		    vsp1_device_infos[i].version) {
--			vsp1->info = &vsp1_device_infos[i];
--			break;
--		}
--	}
--
-+	vsp1->info = vsp1_lookup_info(vsp1);
- 	if (!vsp1->info) {
--		dev_err(&pdev->dev, "unsupported IP version 0x%08x\n",
--			vsp1->version);
- 		vsp1_device_put(vsp1);
- 		ret = -ENXIO;
- 		goto done;
-diff --git a/drivers/media/platform/renesas/vsp1/vsp1_regs.h b/drivers/media/platform/renesas/vsp1/vsp1_regs.h
-index fae7286eb01e..4286d13eca32 100644
---- a/drivers/media/platform/renesas/vsp1/vsp1_regs.h
-+++ b/drivers/media/platform/renesas/vsp1/vsp1_regs.h
-@@ -781,6 +781,8 @@
- #define VI6_IP_VERSION_SOC_E3		(0x04 << 0)
- #define VI6_IP_VERSION_SOC_V3U		(0x05 << 0)
- 
-+#define VI6_IP_VERSION_VSP_SW		(0xfffe << 16) /* SW VSP version */
-+
- /* -----------------------------------------------------------------------------
-  * RPF CLUT Registers
-  */
+ 	dev_err(vsp1->dev, "unsupported IP version 0x%08x\n", vsp1->version);
+diff --git a/drivers/media/platform/renesas/vsp1/vsp1_lif.c b/drivers/media/platform/renesas/vsp1/vsp1_lif.c
+index 6a6857ac9327..9adb892edcdc 100644
+--- a/drivers/media/platform/renesas/vsp1/vsp1_lif.c
++++ b/drivers/media/platform/renesas/vsp1/vsp1_lif.c
+@@ -135,8 +135,7 @@ static void lif_configure_stream(struct vsp1_entity *entity,
+ 	 * may appear on the output). The value required by the manual is not
+ 	 * explained but is likely a buffer size or threshold.
+ 	 */
+-	if ((entity->vsp1->version & VI6_IP_VERSION_MASK) ==
+-	    (VI6_IP_VERSION_MODEL_VSPD_V3 | VI6_IP_VERSION_SOC_V3M))
++	if (vsp1_feature(entity->vsp1, VSP1_HAS_NON_ZERO_LBA))
+ 		vsp1_lif_write(lif, dlb, VI6_LIF_LBA,
+ 			       VI6_LIF_LBA_LBA0 |
+ 			       (1536 << VI6_LIF_LBA_LBA1_SHIFT));
 -- 
 2.25.1
 
