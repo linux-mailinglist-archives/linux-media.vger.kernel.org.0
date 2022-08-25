@@ -2,135 +2,138 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D9EE05A17F4
-	for <lists+linux-media@lfdr.de>; Thu, 25 Aug 2022 19:27:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0D2B65A194A
+	for <lists+linux-media@lfdr.de>; Thu, 25 Aug 2022 21:03:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235860AbiHYR1g (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 25 Aug 2022 13:27:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35978 "EHLO
+        id S243117AbiHYTDm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 25 Aug 2022 15:03:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41676 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242469AbiHYR1f (ORCPT
+        with ESMTP id S235785AbiHYTDl (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 25 Aug 2022 13:27:35 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8C040A061D
-        for <linux-media@vger.kernel.org>; Thu, 25 Aug 2022 10:27:34 -0700 (PDT)
-Received: from pyrite.rasen.tech (unknown [IPv6:2604:2d80:ad8a:9000:1bf9:855b:22de:3645])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id B513E2B3;
-        Thu, 25 Aug 2022 19:27:31 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1661448453;
-        bh=q3oqY9FkFH3pjAH1NET+4Z2xhWAsZLJm2Vsi0YufGKI=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=fVILlCqR4kCGkWT+DXf888fr6ivTH5CsR2PMr49Gv0oer9eTas9xIfdE+Q30ysYhc
-         rcHXCNRxU52J0Gjc8xTp/vokSovVa19TJG1P0Hyv0QqIYhmzpDNAmxNpT2L3bPLn7Z
-         p4r6ZN2sD0sIR33W8OBay+CXWNrYtm7A+946BwV8=
-Date:   Thu, 25 Aug 2022 12:27:26 -0500
-From:   paul.elder@ideasonboard.com
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, Dafna Hirschfeld <dafna@fastmail.com>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Florian Sylvestre <fsylvestre@baylibre.com>
-Subject: Re: [PATCH v2 9/9] media: rkisp1: Allow setting color space on
- resizer sink pad
-Message-ID: <20220825172726.GL109174@pyrite.rasen.tech>
-References: <20220823171840.8958-1-laurent.pinchart@ideasonboard.com>
- <20220823171840.8958-10-laurent.pinchart@ideasonboard.com>
+        Thu, 25 Aug 2022 15:03:41 -0400
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7CAA7B6D2B
+        for <linux-media@vger.kernel.org>; Thu, 25 Aug 2022 12:03:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1661454220; x=1692990220;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=fsV2i+eEXulZ09JQ3esf8mjw3GN158DYV5oe+QQYf0M=;
+  b=FUZsQWmj0m12ewTMlBypURr/RgHZWWzIJJndQ64D39URg4titjmCTbCm
+   A0621kxGt9pixA9TIZnsi2aFfnFuEU/T5FKeRV/JFf9zIyvKiuRQcn7of
+   uVqktki11JFgjJxA19ToqxWvgyW+AtljonZn67dE71A+nByZ+pC5xjx9/
+   6oVdqiQTscV31yZrxmsaimqJXYPlj0hLj8lA30ljYxcrcwIok2jbBJou5
+   BQwjkaNIKEeAi3YhGnEeSGjXvw+S88juA8T6J6Dw7jNeO/FhUXrgeHOSQ
+   GcPFE2/oGshr5vdOAidowKtFIk/o4+3miDJSiK7+4XzqnoTbMUOCCUfRs
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10450"; a="293076443"
+X-IronPort-AV: E=Sophos;i="5.93,264,1654585200"; 
+   d="scan'208";a="293076443"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2022 12:03:40 -0700
+X-IronPort-AV: E=Sophos;i="5.93,264,1654585200"; 
+   d="scan'208";a="671127765"
+Received: from punajuuri.fi.intel.com (HELO paasikivi.fi.intel.com) ([10.237.72.43])
+  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2022 12:03:39 -0700
+Received: from punajuuri.localdomain (punajuuri.localdomain [192.168.240.130])
+        by paasikivi.fi.intel.com (Postfix) with ESMTP id 0443020106;
+        Thu, 25 Aug 2022 22:03:37 +0300 (EEST)
+Received: from sailus by punajuuri.localdomain with local (Exim 4.94.2)
+        (envelope-from <sakari.ailus@linux.intel.com>)
+        id 1oRI8t-00DbG9-Dg; Thu, 25 Aug 2022 22:03:51 +0300
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     linux-media@vger.kernel.org
+Cc:     Bingbu Cao <bingbu.cao@intel.com>,
+        Tianshu Qiu <tian.shu.qiu@intel.com>,
+        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: [PATCH 1/1] ipu3-imgu: Fix NULL pointer dereference in active selection access
+Date:   Thu, 25 Aug 2022 22:03:51 +0300
+Message-Id: <20220825190351.3241444-1-sakari.ailus@linux.intel.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220823171840.8958-10-laurent.pinchart@ideasonboard.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Aug 23, 2022 at 08:18:40PM +0300, Laurent Pinchart wrote:
-> The resizer doesn't deal with color spaces, so it can accept any color
-> space on its input, and propagates it unchanged to its output. When
-> operating with a Bayer input format (in pass-through mode) further
-> restrict the YCbCr encoding and quantization to Rec 601 and full range
-> respectively, as for raw data the former ought to be ignored and the
-> latter is always full range.
-> 
-> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+What the IMGU driver did was that it first acquired the pointers to active
+and try V4L2 subdev state, and only then figured out which one to use.
 
-Reviewed-by: Paul Elder <paul.elder@ideasonboard.com>
+The problem with that approach and a later patch (see Fixes: tag) is that
+as sd_state argument to v4l2_subdev_get_try_crop() et al is NULL, there is
+now an attempt to dereference that.
 
-> ---
->  .../platform/rockchip/rkisp1/rkisp1-resizer.c | 41 +++++++++++++++++--
->  1 file changed, 38 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-resizer.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-resizer.c
-> index 6f6ec00b63b8..891a622124e2 100644
-> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-resizer.c
-> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-resizer.c
-> @@ -526,6 +526,7 @@ static void rkisp1_rsz_set_sink_fmt(struct rkisp1_resizer *rsz,
->  	const struct rkisp1_mbus_info *mbus_info;
->  	struct v4l2_mbus_framefmt *sink_fmt, *src_fmt;
->  	struct v4l2_rect *sink_crop;
-> +	bool is_yuv;
->  
->  	sink_fmt = rkisp1_rsz_get_pad_fmt(rsz, sd_state, RKISP1_RSZ_PAD_SINK,
->  					  which);
-> @@ -547,9 +548,6 @@ static void rkisp1_rsz_set_sink_fmt(struct rkisp1_resizer *rsz,
->  	if (which == V4L2_SUBDEV_FORMAT_ACTIVE)
->  		rsz->pixel_enc = mbus_info->pixel_enc;
->  
-> -	/* Propagete to source pad */
-> -	src_fmt->code = sink_fmt->code;
-> -
->  	sink_fmt->width = clamp_t(u32, format->width,
->  				  RKISP1_ISP_MIN_WIDTH,
->  				  RKISP1_ISP_MAX_WIDTH);
-> @@ -557,8 +555,45 @@ static void rkisp1_rsz_set_sink_fmt(struct rkisp1_resizer *rsz,
->  				   RKISP1_ISP_MIN_HEIGHT,
->  				   RKISP1_ISP_MAX_HEIGHT);
->  
-> +	/*
-> +	 * Adjust the color space fields. Accept any color primaries and
-> +	 * transfer function for both YUV and Bayer. For YUV any YCbCr encoding
-> +	 * and quantization range is also accepted. For Bayer formats, the YCbCr
-> +	 * encoding isn't applicable, and the quantization range can only be
-> +	 * full.
-> +	 */
-> +	is_yuv = mbus_info->pixel_enc == V4L2_PIXEL_ENC_YUV;
-> +
-> +	sink_fmt->colorspace = format->colorspace ? :
-> +			       (is_yuv ? V4L2_COLORSPACE_SRGB :
-> +				V4L2_COLORSPACE_RAW);
-> +	sink_fmt->xfer_func = format->xfer_func ? :
-> +			      V4L2_MAP_XFER_FUNC_DEFAULT(sink_fmt->colorspace);
-> +	if (is_yuv) {
-> +		sink_fmt->ycbcr_enc = format->ycbcr_enc ? :
-> +			V4L2_MAP_YCBCR_ENC_DEFAULT(sink_fmt->colorspace);
-> +		sink_fmt->quantization = format->quantization ? :
-> +			V4L2_MAP_QUANTIZATION_DEFAULT(false, sink_fmt->colorspace,
-> +						      sink_fmt->ycbcr_enc);
-> +	} else {
-> +		/*
-> +		 * The YCbCr encoding isn't applicable for non-YUV formats, but
-> +		 * V4L2 has no "no encoding" value. Hardcode it to Rec. 601, it
-> +		 * should be ignored by userspace.
-> +		 */
-> +		sink_fmt->ycbcr_enc = V4L2_YCBCR_ENC_601;
-> +		sink_fmt->quantization = V4L2_QUANTIZATION_FULL_RANGE;
-> +	}
-> +
->  	*format = *sink_fmt;
->  
-> +	/* Propagate the media bus code and color space to the source pad. */
-> +	src_fmt->code = sink_fmt->code;
-> +	src_fmt->colorspace = sink_fmt->colorspace;
-> +	src_fmt->xfer_func = sink_fmt->xfer_func;
-> +	src_fmt->ycbcr_enc = sink_fmt->ycbcr_enc;
-> +	src_fmt->quantization = sink_fmt->quantization;
-> +
->  	/* Update sink crop */
->  	rkisp1_rsz_set_sink_crop(rsz, sd_state, sink_crop, which);
->  }
+Fix this.
+
+Also rewrap lines a little.
+
+Fixes: 0d346d2a6f54 ("media: v4l2-subdev: add subdev-wide state struct")
+Cc: stable@vger.kernel.org # for v5.14 and later
+Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+---
+ drivers/staging/media/ipu3/ipu3-v4l2.c | 31 ++++++++++++--------------
+ 1 file changed, 14 insertions(+), 17 deletions(-)
+
+diff --git a/drivers/staging/media/ipu3/ipu3-v4l2.c b/drivers/staging/media/ipu3/ipu3-v4l2.c
+index d1c539cefba87..2234bb8d48b34 100644
+--- a/drivers/staging/media/ipu3/ipu3-v4l2.c
++++ b/drivers/staging/media/ipu3/ipu3-v4l2.c
+@@ -192,33 +192,30 @@ static int imgu_subdev_get_selection(struct v4l2_subdev *sd,
+ 				     struct v4l2_subdev_state *sd_state,
+ 				     struct v4l2_subdev_selection *sel)
+ {
+-	struct v4l2_rect *try_sel, *r;
+-	struct imgu_v4l2_subdev *imgu_sd = container_of(sd,
+-							struct imgu_v4l2_subdev,
+-							subdev);
++	struct imgu_v4l2_subdev *imgu_sd =
++		container_of(sd, struct imgu_v4l2_subdev, subdev);
+ 
+ 	if (sel->pad != IMGU_NODE_IN)
+ 		return -EINVAL;
+ 
+ 	switch (sel->target) {
+ 	case V4L2_SEL_TGT_CROP:
+-		try_sel = v4l2_subdev_get_try_crop(sd, sd_state, sel->pad);
+-		r = &imgu_sd->rect.eff;
+-		break;
++		if (sel->which == V4L2_SUBDEV_FORMAT_TRY)
++			sel->r = *v4l2_subdev_get_try_crop(sd, sd_state,
++							   sel->pad);
++		else
++			sel->r = imgu_sd->rect.eff;
++		return 0;
+ 	case V4L2_SEL_TGT_COMPOSE:
+-		try_sel = v4l2_subdev_get_try_compose(sd, sd_state, sel->pad);
+-		r = &imgu_sd->rect.bds;
+-		break;
++		if (sel->which == V4L2_SUBDEV_FORMAT_TRY)
++			sel->r = *v4l2_subdev_get_try_compose(sd, sd_state,
++							      sel->pad);
++		else
++			sel->r = imgu_sd->rect.bds;
++		return 0;
+ 	default:
+ 		return -EINVAL;
+ 	}
+-
+-	if (sel->which == V4L2_SUBDEV_FORMAT_TRY)
+-		sel->r = *try_sel;
+-	else
+-		sel->r = *r;
+-
+-	return 0;
+ }
+ 
+ static int imgu_subdev_set_selection(struct v4l2_subdev *sd,
+-- 
+2.30.2
+
