@@ -2,94 +2,93 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 079215A0E13
-	for <lists+linux-media@lfdr.de>; Thu, 25 Aug 2022 12:42:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1F6E65A0EB6
+	for <lists+linux-media@lfdr.de>; Thu, 25 Aug 2022 13:08:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241110AbiHYKl6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 25 Aug 2022 06:41:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57954 "EHLO
+        id S241148AbiHYLIz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 25 Aug 2022 07:08:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45474 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236313AbiHYKl5 (ORCPT
+        with ESMTP id S235069AbiHYLIx (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 25 Aug 2022 06:41:57 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4EA8880F60
-        for <linux-media@vger.kernel.org>; Thu, 25 Aug 2022 03:41:56 -0700 (PDT)
-Received: from dude02.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::28])
-        by metis.ext.pengutronix.de with esmtp (Exim 4.92)
-        (envelope-from <p.zabel@pengutronix.de>)
-        id 1oRAJ8-0006tN-CA; Thu, 25 Aug 2022 12:41:54 +0200
-From:   Philipp Zabel <p.zabel@pengutronix.de>
-To:     linux-media@vger.kernel.org
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>, kernel@pengutronix.de,
-        Philipp Zabel <p.zabel@pengutronix.de>
-Subject: [PATCH] media: coda: jpeg: drop coda9_jpeg_dec_huff_setup() return value
-Date:   Thu, 25 Aug 2022 12:41:49 +0200
-Message-Id: <20220825104149.2447484-1-p.zabel@pengutronix.de>
-X-Mailer: git-send-email 2.30.2
+        Thu, 25 Aug 2022 07:08:53 -0400
+Received: from mail-oo1-xc30.google.com (mail-oo1-xc30.google.com [IPv6:2607:f8b0:4864:20::c30])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5ECA1AE842
+        for <linux-media@vger.kernel.org>; Thu, 25 Aug 2022 04:08:53 -0700 (PDT)
+Received: by mail-oo1-xc30.google.com with SMTP id x10-20020a4a410a000000b004456a27110fso3365105ooa.7
+        for <linux-media@vger.kernel.org>; Thu, 25 Aug 2022 04:08:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=to:subject:message-id:date:from:reply-to:mime-version:from:to:cc;
+        bh=NcQgfGWmNtGVcmYOkqhvmNWuEth66CXwSKmPdJfqqgM=;
+        b=ZibFWixVc4BmLonxAH5KotHzuKslYsZMvRh/n5KZ0QOKl+tfA0pPUWIJLlbbOupkeF
+         F8fBqdQPz2ysLoqy3gVLEF41HBBT5ocIac+sX1bg+Dni8sL62BITLvDSIJr3JibPR9NS
+         UIAUISYDMiRlTDfPehv3dGcwkogwkFJ7VrgDdLot/yC5it/TMdmahKKR+u6XmkILb4FF
+         SL3blTJs9L9lFBPlHabe0mRqVb2L+RCZBTTl2nJm1GWtT/zLVAgRk7R0kdvfn680vK25
+         RrUYaOWn+bQ0UsugEiircPCrVy2uyvJGXxGYcU4jyM5P6C10Xt82K5o/BaH7ISKiI39D
+         ynfw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=to:subject:message-id:date:from:reply-to:mime-version
+         :x-gm-message-state:from:to:cc;
+        bh=NcQgfGWmNtGVcmYOkqhvmNWuEth66CXwSKmPdJfqqgM=;
+        b=J3T9cjhw3enW9RZZKr37ZxJSDmR5yePpuhMKKuIDEg9kI/dLPQuumbwhyYdwNnfX95
+         rSiAPU+IkIq7YFzc8+hNfHkZ614zKkHpHO+ickINVQP7VjaAQvJSVWzCIbktOktyHwVk
+         87ScVmsjL87porPHE1JgqpjEd0+0Gn1JJL3XmXp8p5gbIBnlwImbtSh8Cz/02MhMcsZm
+         UV8jLyExCmJZFQJ6lfLWZWs0bh+fUmyXwxBhZUJend/VGPZSkNFNytIITLbgvNsbYH/q
+         3OFc2BBCn/+1ZzBfR8H7KMSSGDNvpU32JRmIHx/sL0XP9RBCaezqLH4AU1jGV7z2q2Xu
+         pKuQ==
+X-Gm-Message-State: ACgBeo23YVeCds0Hbwjk1vlUci5DYPLBrOTaIR2nrBoN5+AdKt0izrMZ
+        u/wmegTTgv75LQfIdEtef63HEkRvWR5wB2gx+xI=
+X-Google-Smtp-Source: AA6agR4J0IZXxFTQdTICmmk9fYIgPzFVuGGZP6ya4ZYQNUru+Z35LZqTDSnL4ojGQdnjKKiDRbGWrlQ95POcyJWOC2I=
+X-Received: by 2002:a4a:3707:0:b0:448:c995:fd9d with SMTP id
+ r7-20020a4a3707000000b00448c995fd9dmr1049129oor.53.1661425732732; Thu, 25 Aug
+ 2022 04:08:52 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:1101:1d::28
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Received: by 2002:ac9:5ec3:0:0:0:0:0 with HTTP; Thu, 25 Aug 2022 04:08:52
+ -0700 (PDT)
+Reply-To: sgtkaylla202@gmail.com
+From:   kayla manthey <tadjokes@gmail.com>
+Date:   Thu, 25 Aug 2022 11:08:52 +0000
+Message-ID: <CAHi6=Kaiz2VPTDGgQFsh_NcD3_PCweeHbNAdsRG8FPjhPOXWwg@mail.gmail.com>
+Subject: 
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: Yes, score=5.0 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FREEMAIL_REPLYTO,
+        FREEMAIL_REPLYTO_END_DIGIT,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,UNDISC_FREEM autolearn=no autolearn_force=no
+        version=3.4.6
+X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+        *      https://www.dnswl.org/, no trust
+        *      [2607:f8b0:4864:20:0:0:0:c30 listed in]
+        [list.dnswl.org]
+        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+        *      [score: 0.4974]
+        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
+        *      provider
+        *      [tadjokes[at]gmail.com]
+        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+        *  0.2 FREEMAIL_REPLYTO_END_DIGIT Reply-To freemail username ends in
+        *      digit
+        *      [sgtkaylla202[at]gmail.com]
+        * -0.0 SPF_PASS SPF: sender matches SPF record
+        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+        *      author's domain
+        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
+        *      envelope-from domain
+        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+        *       valid
+        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
+        *  3.2 UNDISC_FREEM Undisclosed recipients + freemail reply-to
+        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
+        *      different freemails
+X-Spam-Level: *****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-coda9_jpeg_dec_huff_setup() never returns anything but 0. Drop
-return value and superfluous error handling at the call site.
-
-Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
----
- drivers/media/platform/chips-media/coda-jpeg.c | 13 +++----------
- 1 file changed, 3 insertions(+), 10 deletions(-)
-
-diff --git a/drivers/media/platform/chips-media/coda-jpeg.c b/drivers/media/platform/chips-media/coda-jpeg.c
-index a0b22b07f69a..435e7030fc2a 100644
---- a/drivers/media/platform/chips-media/coda-jpeg.c
-+++ b/drivers/media/platform/chips-media/coda-jpeg.c
-@@ -421,7 +421,7 @@ static inline void coda9_jpeg_write_huff_values(struct coda_dev *dev, u8 *bits,
- 		coda_write(dev, (s32)values[i], CODA9_REG_JPEG_HUFF_DATA);
- }
- 
--static int coda9_jpeg_dec_huff_setup(struct coda_ctx *ctx)
-+static void coda9_jpeg_dec_huff_setup(struct coda_ctx *ctx)
- {
- 	struct coda_huff_tab *huff_tab = ctx->params.jpeg_huff_tab;
- 	struct coda_dev *dev = ctx->dev;
-@@ -455,7 +455,6 @@ static int coda9_jpeg_dec_huff_setup(struct coda_ctx *ctx)
- 	coda9_jpeg_write_huff_values(dev, huff_tab->luma_ac, 162);
- 	coda9_jpeg_write_huff_values(dev, huff_tab->chroma_ac, 162);
- 	coda_write(dev, 0x000, CODA9_REG_JPEG_HUFF_CTRL);
--	return 0;
- }
- 
- static inline void coda9_jpeg_write_qmat_tab(struct coda_dev *dev,
-@@ -1394,14 +1393,8 @@ static int coda9_jpeg_prepare_decode(struct coda_ctx *ctx)
- 	coda_write(dev, ctx->params.jpeg_restart_interval,
- 			CODA9_REG_JPEG_RST_INTVAL);
- 
--	if (ctx->params.jpeg_huff_tab) {
--		ret = coda9_jpeg_dec_huff_setup(ctx);
--		if (ret < 0) {
--			v4l2_err(&dev->v4l2_dev,
--				 "failed to set up Huffman tables: %d\n", ret);
--			return ret;
--		}
--	}
-+	if (ctx->params.jpeg_huff_tab)
-+		coda9_jpeg_dec_huff_setup(ctx);
- 
- 	coda9_jpeg_qmat_setup(ctx);
- 
-
-base-commit: 568035b01cfb107af8d2e4bd2fb9aea22cf5b868
--- 
-2.30.2
-
+Bok draga, mogu li razgovarati s tobom, molim te?
