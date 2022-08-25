@@ -2,98 +2,183 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 216B65A0FE1
-	for <lists+linux-media@lfdr.de>; Thu, 25 Aug 2022 14:04:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2E8205A1048
+	for <lists+linux-media@lfdr.de>; Thu, 25 Aug 2022 14:22:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241128AbiHYMED (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 25 Aug 2022 08:04:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42388 "EHLO
+        id S241580AbiHYMWV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 25 Aug 2022 08:22:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47228 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241017AbiHYMD4 (ORCPT
+        with ESMTP id S237678AbiHYMWU (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 25 Aug 2022 08:03:56 -0400
-Received: from mail-lj1-x22c.google.com (mail-lj1-x22c.google.com [IPv6:2a00:1450:4864:20::22c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 457D6A0639
-        for <linux-media@vger.kernel.org>; Thu, 25 Aug 2022 05:03:54 -0700 (PDT)
-Received: by mail-lj1-x22c.google.com with SMTP id by6so19191704ljb.11
-        for <linux-media@vger.kernel.org>; Thu, 25 Aug 2022 05:03:54 -0700 (PDT)
+        Thu, 25 Aug 2022 08:22:20 -0400
+Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com [IPv6:2a00:1450:4864:20::633])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 54EBDB14F1
+        for <linux-media@vger.kernel.org>; Thu, 25 Aug 2022 05:22:19 -0700 (PDT)
+Received: by mail-ej1-x633.google.com with SMTP id h22so28925428ejk.4
+        for <linux-media@vger.kernel.org>; Thu, 25 Aug 2022 05:22:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc;
-        bh=T7CLS5Vm6UieoEBpvZ2dDOgID2Z2KkmFucZYgAfvQ4s=;
-        b=W18m8NbSF4kiPKWZgcKLw1X9/F36W6mfswn4U9BJ+Si28p2bLzKtg21c4JY5nraCIf
-         qV5zFfKLB5PU8im5+gu0JXSjHqfv5EsMWHyq7yzKK1+aDmW4yDpyOt35XTPQwpic9B7S
-         +B5Fa7mg+tzn+2kIJ5fCZlLJVuTiXN1v6ruGOeKHd/I0VGK58ULyovejpQznvwAU1jBb
-         1YbX5pUbN8YSZkp5ZpEHfe4feeXr2330lmR3GP4p69N++P1CjrQU2afjRpei7GyhCSZl
-         iATptIEkbJFOP6mK3yMjFwiAPURvu6GtOUShRi19RUpAs4IfULsMPoNZv/cnbe9sZwtZ
-         eajw==
+        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc;
+        bh=trj0YLDpn1TqD1P1ieko3B94hmrka5UjWeHSInEj3Hc=;
+        b=k4ET56EkH1q++vfvslW8RqtrAcenWl5SBCjde4uWc0zNe1CI1meraEXb7G2Z/X6Tu6
+         UQz1JFbdXOFhPszOt337tAu7h59CSz8fmfK4f8qhowEzBKxGtFIUrbWR7qG0CmYCy/U6
+         EWnYCKWVNN+Xg8/xKFNGMvrIl61Pz4i/jSNWkQsRWgvd9MNzNC4cC7TWUU7XoDXSyaKs
+         4HQlkIiTJoecq3C/wlNCGo/7kzXKxknOPiGKQ//Dmny1vXSObwsAKl/XYq91kL8VanOc
+         51ZRGRRkJc7dAZPjVFW+jYK6hF//56wMRv7XAB6cfmpnZZtQTrQNozqkmMbXIsTBLk7L
+         NaOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc;
-        bh=T7CLS5Vm6UieoEBpvZ2dDOgID2Z2KkmFucZYgAfvQ4s=;
-        b=POKFAqwxuwDsMEg2q/caFVQ3mNxsmEowMjeRj91e+KZuvHzPOVW0bAFvPfTvD7hUaf
-         jq4ZdG252WXNWZSf/oG4lj1Ngx4hMXKOy1qwZctb+DWfyXJZ1Xh6DkQXmIdx7Nn3uU8e
-         AzAcMZWtSeKomkLWFb+KhqeDuQMM5NKz/YsmVQqDhbX/zFZscHtUMZwKu2pxLXwgU2h2
-         1wY/biwt8LAum+OTOLpv5/Ov/5yJHphVhhdDvrD5emlies/PDqyLlBGZjyuyqSUiSKeY
-         BMG+FpKId96RHVcu1MAOiNqjqDMi8lDBtp7tJxG8SdGr88c7bIXq4VdWoJ6mmZw0wB3p
-         s09Q==
-X-Gm-Message-State: ACgBeo1Pvvr05d4UO0rZ0mS87rYOVyhKxgICnJzgWJoTBIF+PbE3/qeB
-        goSlCB/OBuJTdtWgDEDDC0W4qQ==
-X-Google-Smtp-Source: AA6agR7V74+wY+sMZgDjeH1k7ilm1zjdmyJ5kE+aZ5XJmGdPokIk6gVIRMBE50x9PRqo2DGWmLlATg==
-X-Received: by 2002:a2e:9697:0:b0:261:ab95:1059 with SMTP id q23-20020a2e9697000000b00261ab951059mr999146lji.506.1661429032675;
-        Thu, 25 Aug 2022 05:03:52 -0700 (PDT)
-Received: from [192.168.0.71] (82.131.98.15.cable.starman.ee. [82.131.98.15])
-        by smtp.gmail.com with ESMTPSA id f4-20020ac25cc4000000b00492d92e239bsm463480lfq.147.2022.08.25.05.03.51
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 25 Aug 2022 05:03:52 -0700 (PDT)
-Message-ID: <66aefd79-5ddd-0a82-b2df-4403c2d5989a@linaro.org>
-Date:   Thu, 25 Aug 2022 15:03:50 +0300
+        h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc;
+        bh=trj0YLDpn1TqD1P1ieko3B94hmrka5UjWeHSInEj3Hc=;
+        b=ZTzuuMNnu34Yy6G71y4LPTuiiuryPsAIwyLqqkC2becZzdWgCUhUOgHAZhS2HYzmP2
+         5DKJwQu61McR8c0nECxUz7+ktfaRm1s85UyRxQmYJkdx6UPASj3gTZagcT2PfXxWSfiW
+         K7ZuulOi7wqUTHhHaQR3+0/S6q7pxM/9xI0t5QQQsyFcw4Dv0w48pEZbxHYRcf21L0kJ
+         L9rxniYPTsFjvnH+i9A8oEhGuxuBhogvKbreM9fGZ5bvg/ErvPKFeymwvoFJyyLRx/s6
+         HEyia1aYBP+9wovWAq12PlMytoX58pLyj9scJyoRMYDMd36HnR6QiX79IoOugku/MH0y
+         N01g==
+X-Gm-Message-State: ACgBeo2CNbvxs3bWzodo/3AH8APAwpyjmkzHdCHdwaDrOMjSFIls779f
+        BoM8fJIHpba4P47yeBEYjKmDQPcptKZbXj9jhvTs2A==
+X-Google-Smtp-Source: AA6agR66xx3+2JCCWoAZdLZcDaGlWrZmyWu6rMNDgUs0ZWUDmvZ3sAZIINx2veDxtJY6a6BxE8stUvZVbFisyeyGUrc=
+X-Received: by 2002:a17:906:9bd9:b0:73d:da74:120c with SMTP id
+ de25-20020a1709069bd900b0073dda74120cmr628764ejc.412.1661430137649; Thu, 25
+ Aug 2022 05:22:17 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH] media: dt-bindings: Add missing
- (unevaluated|additional)Properties on child nodes
-Content-Language: en-US
-To:     Rob Herring <robh@kernel.org>,
-        Eugen Hristev <eugen.hristev@microchip.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Konrad Dybcio <konrad.dybcio@somainline.org>,
-        Del Regno <angelogioacchino.delregno@collabora.com>
-Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org
-References: <20220823145649.3118479-3-robh@kernel.org>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20220823145649.3118479-3-robh@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+From:   Naresh Kamboju <naresh.kamboju@linaro.org>
+Date:   Thu, 25 Aug 2022 17:52:06 +0530
+Message-ID: <CA+G9fYu549Bb_TwcOMFJQJOB=23=arHdckCSSzds5eT+FgT-tw@mail.gmail.com>
+Subject: WARNING: CPU: 3 PID: 301 at include/media/media-entity.h:465 media_graph_walk_start+0xcc/0xd4
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        =?UTF-8?Q?Niklas_S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+        =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>
+Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        Nicolas Dechesne <nicolas.dechesne@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=unavailable autolearn_force=no version=3.4.6
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 23/08/2022 17:56, Rob Herring wrote:
-> In order to ensure only documented properties are present, node schemas
-> must have unevaluatedProperties or additionalProperties set to false
-> (typically).
-> 
-> Signed-off-by: Rob Herring <robh@kernel.org>
-> ---
+Following kernel crash noticed on db410c while booting mainline 6.0.0-rc2.
+This crash is not always reproducible.
 
+Reported-by: Linux Kernel Functional Testing <lkft@linaro.org>
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+metadata:
+  git_ref: master
+  git_repo: https://gitlab.com/Linaro/lkft/mirrors/torvalds/linux-mainline
+  git_sha: c40e8341e3b3bb27e3a65b06b5b454626234c4f0
+  git_describe: v6.0-rc2-54-gc40e8341e3b3
+  kernel_version: 6.0.0-rc2
+  kernel-config: https://builds.tuxbuild.com/2Dmj8axHFHLJ7YdTYjhOEGppduR/config
+  build-url: https://gitlab.com/Linaro/lkft/mirrors/torvalds/linux-mainline/-/pipelines/621141375
+  artifact-location: https://builds.tuxbuild.com/2Dmj8axHFHLJ7YdTYjhOEGppduR
+  toolchain: gcc-11
 
-Best regards,
-Krzysztof
+Crash log:
+----------
+[    7.203248] qcom-camss 1b0ac00.camss: Adding to iommu group 1
+[    7.213651] qcom-camss 1b0ac00.camss: Failed to configure power domains: -17
+[    7.213786] qcom-camss: probe of 1b0ac00.camss failed with error -17
+[    7.418502] ------------[ cut here ]------------
+[    7.418556] WARNING: CPU: 3 PID: 301 at
+include/media/media-entity.h:465 media_graph_walk_start+0xcc/0xd4
+[    7.422214] Modules linked in: pm8916_wdt(+) msm(+) crct10dif_ce
+qcom_camss adv7511 qcom_wcnss_pil(+) qcom_q6v5_mss(+) venus_core(+)
+cec snd_soc_lpass_apq8016 qcom_pil_info gpu_sched snd_soc_lpass_cpu
+qcom_q6v5 videobuf2_dma_sg drm_dp_aux_bus display_connector
+snd_soc_lpass_platform snd_soc_apq8016_sbc qcom_sysmon
+snd_soc_qcom_common drm_display_helper v4l2_fwnode
+snd_soc_msm8916_digital qcom_common snd_soc_msm8916_analog
+qcom_glink_smem v4l2_mem2mem v4l2_async drm_kms_helper qnoc_msm8916
+qcom_spmi_temp_alarm videobuf2_memops rtc_pm8xxx qcom_spmi_vadc
+videobuf2_v4l2 qmi_helpers qcom_pon qcom_vadc_common videobuf2_common
+i2c_qcom_cci icc_smd_rpm mdt_loader qcom_rng qcom_stats drm socinfo
+rmtfs_mem fuse
+[    7.422761] Unable to handle kernel NULL pointer dereference at
+virtual address 0000000000000000
+[    7.438434] adreno 1c00000.gpu: Adding to iommu group 2
+[    7.450496] platform 1a98000.dsi: Fixing up cyclic dependency with 3-0039
+[    7.450670] platform 1a98000.dsi: Fixing up cyclic dependency with
+1a01000.mdp
+[    7.471401] CPU: 3 PID: 301 Comm: v4l_id Not tainted 6.0.0-rc2 #1
+[    7.471415] Hardware name: Qualcomm Technologies, Inc. APQ 8016 SBC (DT)
+[    7.471421] pstate: 20000005 (nzCv daif -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+[    7.471433] pc : media_graph_walk_start+0xcc/0xd4
+[    7.471450] lr : media_graph_walk_start+0x40/0xd4
+[    7.471462] sp : ffff80000bceb9d0
+[    7.471466] x29: ffff80000bceb9d0
+[    7.482012] ------------[ cut here ]------------
+[    7.482023] WARNING: CPU: 2 PID: 299 at
+include/media/media-entity.h:465 media_graph_walk_start+0xcc/0xd4
+[    7.482049] Modules linked in: pm8916_wdt(+) msm crct10dif_ce
+qcom_camss adv7511 qcom_wcnss_pil(+) qcom_q6v5_mss(+) venus_core(+)
+cec snd_soc_lpass_apq8016 qcom_pil_info gpu_sched snd_soc_lpass_cpu
+qcom_q6v5 videobuf2_dma_sg drm_dp_aux_bus display_connector
+snd_soc_lpass_platform snd_soc_apq8016_sbc qcom_sysmon
+snd_soc_qcom_common drm_display_helper v4l2_fwnode
+snd_soc_msm8916_digital qcom_common snd_soc_msm8916_analog
+qcom_glink_smem v4l2_mem2mem v4l2_async drm_kms_helper qnoc_msm8916
+qcom_spmi_temp_alarm videobuf2_memops rtc_pm8xxx qcom_spmi_vadc
+videobuf2_v4l2 qmi_helpers qcom_pon qcom_vadc_common videobuf2_common
+i2c_qcom_cci icc_smd_rpm mdt_loader qcom_rng qcom_stats drm socinfo
+rmtfs_mem fuse
+[    7.482250] CPU: 2 PID: 299 Comm: v4l_id Not tainted 6.0.0-rc2 #1
+[    7.482262] Hardware name: Qualcomm Technologies, Inc. APQ 8016 SBC (DT)
+[    7.482268] pstate: 20000005 (nzCv daif -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+[    7.482279] pc : media_graph_walk_start+0xcc/0xd4
+[    7.482292] lr : media_graph_walk_start+0x40/0xd4
+[    7.482303] sp : ffff80000bc1b9d0
+[    7.482308] x29: ffff80000bc1b9d0 x28: ffff80000bc1bc70 x27: 0000000000000000
+[    7.482325] x26: 0000000000000000 x25: 0000000000000000 x24: 0000000000000000
+[    7.482342] x23: ffff00000584d368 x22: 0000000000000001 x21: ffff000005303960
+[    7.482360] x20: ffff00000584d368 x19: ffff000005303a98 x18: 0000000000000000
+[    7.482377] x17: 0000000000000000 x16: ffff800008fc3190 x15: 0000000000000000
+[    7.482394] x14: ffffffffffffffff x13: ffff00000456d025 x12: ffff80000bc1bcb4
+[    7.482411] x11: 00000006955fc5f6 x10: 0000000000000002 x9 : ffff800008fc302c
+[    7.482428] x8 : 0000000000000000 x7 : 0000000000000000 x6 : 0000000000000001
+[    7.482444] x5 : ffff80000aa8f000 x4 : 0000000000000000 x3 : ffff000005303a78
+[    7.482460] x2 : 0000000000000000 x1 : 000000000000000a x0 : 0000000000000000
+[    7.482477] Call trace:
+[    7.482481]  media_graph_walk_start+0xcc/0xd4
+[    7.482494]  pipeline_pm_power.part.0+0x38/0xfc
+[    7.482505]  v4l2_pipeline_pm_use+0x5c/0xa0
+[    7.482514]  v4l2_pipeline_pm_get+0x20/0x30
+[    7.482523]  video_open+0x80/0xe4 [qcom_camss]
+[    7.482583]  v4l2_open+0xb4/0x130
+[    7.482593]  chrdev_open+0xcc/0x23c
+[    7.482603]  do_dentry_open+0x134/0x3ec
+[    7.482614]  vfs_open+0x38/0x44
+[    7.482625]  path_openat+0x8c0/0xe64
+[    7.482638]  do_filp_open+0x8c/0x13c
+[    7.482651]  do_sys_openat2+0xbc/0x174
+[    7.482661]  __arm64_sys_openat+0x6c/0xbc
+[    7.482672]  invoke_syscall+0x50/0x120
+[    7.482687]  el0_svc_common.constprop.0+0x68/0x124
+[    7.482700]  do_el0_svc+0x3c/0xd0
+[    7.482712]  el0_svc+0x30/0x94
+[    7.482723]  el0t_64_sync_handler+0xc0/0x13c
+[    7.482734]  el0t_64_sync+0x18c/0x190
+[    7.482744] ---[ end trace 0000000000000000 ]---
+
+ref:
+https://lkft.validation.linaro.org/scheduler/job/5434242#L2360
+
+Test details log:
+https://qa-reports.linaro.org/lkft/linux-mainline-master/build/v6.0-rc2-54-gc40e8341e3b3/testrun/11545376/suite/log-parser-test/tests/
+
+--
+Linaro LKFT
+https://lkft.linaro.org
