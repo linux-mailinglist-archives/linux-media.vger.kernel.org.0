@@ -2,204 +2,1027 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CC65D5A20EC
-	for <lists+linux-media@lfdr.de>; Fri, 26 Aug 2022 08:34:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 56A2F5A21A6
+	for <lists+linux-media@lfdr.de>; Fri, 26 Aug 2022 09:21:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245023AbiHZGeP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 26 Aug 2022 02:34:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59334 "EHLO
+        id S245206AbiHZHU7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 26 Aug 2022 03:20:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55828 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236536AbiHZGeO (ORCPT
+        with ESMTP id S244863AbiHZHU4 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 26 Aug 2022 02:34:14 -0400
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C6D28D11D8;
-        Thu, 25 Aug 2022 23:34:12 -0700 (PDT)
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 27Q6Isma019605;
-        Fri, 26 Aug 2022 06:34:09 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
- subject : date : message-id : references : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=qcppdkim1;
- bh=1uNg39J/f+bByv8dU9gnKovywZcP4G2RNcrQyUyLrr0=;
- b=aCRLdLhGz97QYukfyi4f3b10GHiShSfUFTBt96HcIIT6UVmW3GR0wKl5L67Mdklsjyau
- gS4eHsnFoarAXcYabfWNsMNnxCwu7lU5VCtLe4fyNbs0LesqTylBMGz0KXVRDGxLCy56
- TaqvRRZhIgMXxPamTJBXn7z3t3qPCxJbI41tIVh29yWabk322Z0HPUSuDZulM5M3N7Ep
- 0No0VQuQCocPmYXA3THwYdbSYpNsd0tv22stuTySAWxZbowDM3Gtm2GZJG/V15cwRISN
- cFEqZHZ4r4UWqLxYqWqVyEhE9LXUt1d+q8u/1OVeIgBtpQhNB8y/BuFJcnQWplogTy+F VA== 
-Received: from nam10-dm6-obe.outbound.protection.outlook.com (mail-dm6nam10lp2107.outbound.protection.outlook.com [104.47.58.107])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3j5yten2h2-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 26 Aug 2022 06:34:09 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=JilqKGGjcGLzT6I9PAQJzWHqvtbMd2Y9LVP3LBeoAbQUhuw5OF1+cAp8wfODgs0Vvn+avcslhd0AIu7WqgxK0hBon3mhq8df8/kMUXvm0LV7+sIQ2qfYB8eqPwqJ5/GC90vi6gjwP35tJqgh7x5gMWMyuVuJBJZwOhTotENdm8gwKQdlf2mNOoBYz6RavISQxo8S45d5giPwfpuPnHIXR+xextUp6MP11mn+KK2KCM7Bzy08TXnpGDYtjzpYHCXsTvYqw+EsePMaM9rVw92ctcUx/jd4Teyc7BuJzJ4myV9G4kyfFzk/fq9Pp3ZZKX4QzxdSKco/GHv80bhZ2x5D4w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=1uNg39J/f+bByv8dU9gnKovywZcP4G2RNcrQyUyLrr0=;
- b=FekCt4gAvOaGQ8Cstfiqr1bAzO00RKVfXW6y1IXy5n/PHQoLlRnGdzKkiFaiL2lvpusO2P4CU0BH+5Atismpw9pwKXu/xZQ4aOrO9vkeASnYskUrCynuQjOe31A5rgPwxnR9hSgWRed1agQvf90EdpEVSbQXcG1Q1kgcYc5VqaBQdRaYReBiZTr3ukk/yp3+Z+g6D5v/YIth/f8sasy6+df0RQqxHOCWRhcXO0IEmCo3Y2n0Jbrd/7qcP25E9vyy9Fu62jcdximEZx9cqfQ0z8FqnZXojWmYuHKEYHg1hDTkN3fl4QCFzgoPj6rfB3Xx2ohnDoGZJc1vBHQtqu8Nyg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=quicinc.com; dmarc=pass action=none header.from=quicinc.com;
- dkim=pass header.d=quicinc.com; arc=none
-Received: from DM6PR02MB5148.namprd02.prod.outlook.com (2603:10b6:5:48::21) by
- PH0PR02MB7623.namprd02.prod.outlook.com (2603:10b6:510:5d::6) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5566.15; Fri, 26 Aug 2022 06:34:06 +0000
-Received: from DM6PR02MB5148.namprd02.prod.outlook.com
- ([fe80::1956:4d5d:a7df:f85]) by DM6PR02MB5148.namprd02.prod.outlook.com
- ([fe80::1956:4d5d:a7df:f85%5]) with mapi id 15.20.5546.022; Fri, 26 Aug 2022
- 06:34:06 +0000
-From:   "Dikshita Agarwal (QUIC)" <quic_dikshita@quicinc.com>
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        "Dikshita Agarwal (QUIC)" <quic_dikshita@quicinc.com>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "ezequiel@collabora.com" <ezequiel@collabora.com>
-CC:     "stanimir.varbanov@linaro.org" <stanimir.varbanov@linaro.org>,
-        "linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>,
-        "Vikash Garodia (QUIC)" <quic_vgarodia@quicinc.com>,
-        "Maheshwar Ajja (QUIC)" <quic_majja@quicinc.com>,
-        quic_jdas <quic_jdas@quicinc.com>
-Subject: RE: [PATCH] media: v4l2-ctrl: Add main 10 still picture profile for
- hevc
-Thread-Topic: [PATCH] media: v4l2-ctrl: Add main 10 still picture profile for
- hevc
-Thread-Index: AQHYtsGovo10cv4Nsky88Qqlv88qWa299leAgALH0JA=
-Date:   Fri, 26 Aug 2022 06:34:06 +0000
-Message-ID: <DM6PR02MB514811A30653D54C9010F25AF3759@DM6PR02MB5148.namprd02.prod.outlook.com>
-References: <1661239563-14346-1-git-send-email-quic_dikshita@quicinc.com>
- <7122b146-46c7-7e58-5b26-4b94d3a8c1d8@xs4all.nl>
-In-Reply-To: <7122b146-46c7-7e58-5b26-4b94d3a8c1d8@xs4all.nl>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: d4284cc8-9e9a-4347-b390-08da872cf988
-x-ms-traffictypediagnostic: PH0PR02MB7623:EE_
-x-ld-processed: 98e9ba89-e1a1-4e38-9007-8bdabc25de1d,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: SDpBbcYIcyznnzERO8vitej8gS7mLl4hCluw4TPWRR2/HTqb/xIVjD8n1gewsowDdCo2oUndBsg36igey4mD2tOyhcRs+Hz5oayQsQb59Qw/HzgAmnSB8/ugWRNYR1GHwiKPRx38PTc/0y9Oy8iqz/KGru98F4RjtIJMzKMaAsCaQxaNoWiFM4TPu46M7h5YF6baV/YeC29xdcnUss+Y8n5poqGm+yI/U+7SavIB7GiVWs0Z9zO3Xub5bNQygVx1c539eVJpAxyX8FqBT3VCRu+Q+NSklJdX7tk5VodrdeYluQnkycD5DaFSG5wjn1WrwULgt+iHeRDrTkIFuSrKvoWlwR0b3fgP2Ulo+clYbHYwTti6YSC2j+E7Y3Y1VHTwrdWsWQkHSRy00yusoZvVeifv0j5zBDm4Vayh9Lmdhu2sbKnoPWkKiPqOnrm9KqiwRX3/34V40nRAtwBTTHcEppVM5vvKUQxZ6RDQuCC1TmpTVQkRJa7ObQakgiR5dX5wcT8I6qYj64P+9hNT4KHOFUtxdobcwS/qo96cdvLHw/T3XJwNEPcmIk9hTL/qvTi5KvtRSIT7atwgK8vDwEMeIh0IcKOrWoxYCcSyAQC18PchUj4PYHxwrINYAppx50KX0zZymeGN4o3fnWhTDVlYt12FLRRpZJsyH3qQUV87o75AzPCpIZQSQHn5oLZSwJlhmsbw2JGkrzl5bjqnPV8dSAW9Yw0NDVJsH0LBmdGolYXAYLStHRvfdDEQhQle92/ywgoG2kVdbqf15cJPFzYFtH+3nUB64Vd05S5A5yhQhRg=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR02MB5148.namprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(346002)(376002)(39860400002)(136003)(396003)(366004)(107886003)(966005)(2906002)(41300700001)(53546011)(7696005)(6506007)(33656002)(66556008)(86362001)(8936002)(52536014)(66446008)(64756008)(66476007)(8676002)(76116006)(66946007)(4326008)(478600001)(5660300002)(55016003)(186003)(83380400001)(26005)(9686003)(38070700005)(110136005)(122000001)(316002)(38100700002)(71200400001)(54906003);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?Vi9nWkNDV3plR1EvRmFYNzhRSUJaSFdNdHdUUzQwUFFOcCs1NmZEQkd3Rzlj?=
- =?utf-8?B?YTU5dXRVWUMzR09Ia3ViUFgrRHErYUtGYVB4cUJXRmVUM2VWQlVRNFZVenRH?=
- =?utf-8?B?NFF1amYwaWZLSEFCQXVlcng2ZXdqWkJDN01idnpUQldqWWR0UVZuK0E5NmU1?=
- =?utf-8?B?SjRhSWN4aGo4QTExWEdsS00vUGlnZkdqNklKRUFFWnpoNS8vejdwNmhxRU1r?=
- =?utf-8?B?WEFPWXlnWjhYb25Rd3V3UGYvYjhGVlRxTnhPOW45b2txYVNiRUdlaFVtVHVV?=
- =?utf-8?B?SXE1NmZkMG9VQ1F2M1dGak1lSG1jYzhZenlxd0hKekt4WG9qdC9QNm9MTDBX?=
- =?utf-8?B?dkl6elBOeXhXY0NrbTBxVDVURnB5ZzcxbS85VHc2c2NVVk9yeXBFQWo3ZHB2?=
- =?utf-8?B?NUxOWTl1ZFZOWEVrSm5EVStYeTRQdFErbFBXT21vZFBaWDhTV3NJRG5oN2pk?=
- =?utf-8?B?ZStpRTQrMkRGcU90Vnp2UktlRFVYUnZJczJNc04zcHF4OVJjdjNYSjhGUG1W?=
- =?utf-8?B?NEQ5RU1WMDlmb3Q3QW9xZjZiUXlrbnBsdVEvcmtrb3VHeHpxalROamlUMkl3?=
- =?utf-8?B?VmhnMVJBckRaNzJKaVIyL21JRzRwTDI1VUx4cVRJdkxtVjJZOEpJNHlvdnRS?=
- =?utf-8?B?TE1CZ2puaHpUZ0VrVlZKWktBeEtrWUdrV3hxY3dDUFppMVY3c25xRmlscUFV?=
- =?utf-8?B?K08wamhRbi9aQWtjNkRYNWlrWGxVNmJ3SnZBRDUzZElrR1U0VWpUbHluZkQ5?=
- =?utf-8?B?ZTVYOVpsVnBsZE1INHIva3BLNmpZNzRPMHBwbUVSUUVENlRDQzdTMzkwcEc0?=
- =?utf-8?B?OVBkK25qSDB5Wk52OTJ0WWNUUTF2TjRMd0xrc25tQStLMVZOQ2RJNkg1UWhC?=
- =?utf-8?B?S0pTN1czT2NRc0VGZzNJZ1RhdVg1MUFhTlBwZlBGckV4YUV5RmdvbmZBY2hQ?=
- =?utf-8?B?Y3JyYWphREpWdW45ZGdObW1CWG5kRDhPbSt2L0lxanVOdWlKTzR6aU80SXJL?=
- =?utf-8?B?K21iUEpDSnZSK2hSUTgzc0dWdWJ0Kzc2bG8vVFB5QVFCYmU0d0FoaDBPV0xG?=
- =?utf-8?B?RDlRSGhFbTFHMXljU2JaSGhkRC9tZTJTcVdNemhRRGxNcGZwMHRxV0RzZ05y?=
- =?utf-8?B?Y2lrQjdTQ1NJbXZwRjc5R3l1d1FrSVY5NEI1NDJ3YnV3c3orWk4wdlc5Y0Vt?=
- =?utf-8?B?ZEpQblpaYmlQTmgrSzhyazNSVXlRNHJCK2xWQ2hoSkt0aXVaVHg3RU5vY3dY?=
- =?utf-8?B?dUNjT1RTVXJ6NE5JNWNwYndYK0xrYUlxVzM3Wjdwd3c2cXBlUmlhbkZkTlBY?=
- =?utf-8?B?emVWK0tZRTg1RGV5Rnl0S1FCek5ZNGw4d0p4bmRKQU95ME9RZWJDNzduN2tT?=
- =?utf-8?B?WXVTUVNmZXRRcFJ3YWthSktkZ3duSnlRVDJjTHJTZDM3bFI4cmIwRjg5dWFl?=
- =?utf-8?B?Q1U4d2xmc0VSSmsxUjIvZG1sYW9vTnhIT2pwdWIrczRtakpXM0VhcVQ3ZFc2?=
- =?utf-8?B?Q1hCdDBlMGFPQUs2a1N0WHg4OWFqcmpVL2NyeDFoU3pWRi9CMFIyMi9hZEJ0?=
- =?utf-8?B?ZnFiTDh1TnQrZ1E5ejZVbThobGhNMWFDZkc2eHliL0piN2huM1hnZFpQY0x5?=
- =?utf-8?B?OFVFaEVpamNTTUg5ckJCcmNjZWZ6WFc4eVpCVGxxNWZybDVDSjJrdUtrQVZG?=
- =?utf-8?B?ZkFjWExINlVaaEpId3ZvbFR0SjZaT29wLzk0V0loWnF5MDRKSEpGaERpcjJl?=
- =?utf-8?B?Z3NESTlvVnlvb2tjOHR6QzY3OENxbTBSWG0vMyt1OVVpTm15RkYyMk5DbWZw?=
- =?utf-8?B?S3Yrcm5iakl2a3Uwb2IvUzlGK29DeE5VdGVZbTluWUQ2Z2pBZnIxSzIxOUE2?=
- =?utf-8?B?WmZQYjZtV1ZmNC80Z2Y4blJTZ0VFV3dvQzBTdWhJT0oyVXF0cHBFRTZ2M2dn?=
- =?utf-8?B?djZWVzQrYnkzNkg0aENINWxTcXZFMThzS2t4ay9HTXk2alVZRDhEMjBkdEZo?=
- =?utf-8?B?NUJOT1paNE14TTBaU2xlMkc5WkpIUHlWWHZYditwZ1Z5c2FsK3Z6SGs0ajJR?=
- =?utf-8?B?VDRMWGVXTWNNZHZaZy9vcUExRkorUDBDcTdRTC82M3JUNDBJdDZCaFdlbnp2?=
- =?utf-8?Q?GGI0YEId4BzzVSCI0nxD2UJ8k?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+        Fri, 26 Aug 2022 03:20:56 -0400
+Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com [IPv6:2a00:1450:4864:20::32d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 20C3346D9C
+        for <linux-media@vger.kernel.org>; Fri, 26 Aug 2022 00:20:52 -0700 (PDT)
+Received: by mail-wm1-x32d.google.com with SMTP id c187-20020a1c35c4000000b003a30d88fe8eso3913404wma.2
+        for <linux-media@vger.kernel.org>; Fri, 26 Aug 2022 00:20:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=amarulasolutions.com; s=google;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc;
+        bh=001Lu43PJ2NQ/028f7BE4qpzqISmDbMGIvcAqeaCdk0=;
+        b=Zas2P+Z/mxlDpXtKhTZtd611aQxiAFbJ1fMCvWzPqyv1k+ow0BrqdKxK5ClL5kYGWK
+         ECq92gA/7oqa/a9C7Y00l5kLvy7N208AC/HreiIDqLPjaeKr9y7LnZ0gVhLgH3Zwqg3J
+         ZfVtpOpviHA+Mv27qMczLA9ZfLUuQxFPrGSKc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
+        bh=001Lu43PJ2NQ/028f7BE4qpzqISmDbMGIvcAqeaCdk0=;
+        b=yNUiT3LskabZk+I7YjCfGNAqw/srttlbi2yq/FbCVBFBVVvoFvcsF+Z1usx+x+mhP3
+         5kYlmQJXE1QZFUUpzraZ8+3BemeK3/K5BjwDG2vzY1fGUUEqXpKAIvItKl5MuKUKiYLf
+         BbfdN59fjlEeo9u+RdMpDdC0+otCq/93ksHRMVwC/dqRWQ7zKG3fxcyq0jkwN5CRQ5ir
+         jtQ5kIfxl2RdBV0keoHbvJL63D6E28QIndrpVFiRoagjLBNNK0bKIKbyYBBOkI0A7FS/
+         s91iB5sS+NxqVzBqK6k45clw+VapMnU77Anqef2QoIU/G0gkPWcvp43Y3w5YiwgzxutN
+         YuSA==
+X-Gm-Message-State: ACgBeo024jGd89cXB0dGgMkaB6xH2VkelXnfK3Hp2eOIVqs0q7NMCL4t
+        hNtClJIf8puiTHfmp6Af5EMqfw==
+X-Google-Smtp-Source: AA6agR5daqY0q+i5JIscZVB2FEWIdr9XVKN9uaE5mBFLEiD4rVOty4j2mSPdXoBby5SBEeFeZNBLVg==
+X-Received: by 2002:a05:600c:4047:b0:3a5:452e:9117 with SMTP id j7-20020a05600c404700b003a5452e9117mr4398109wmm.117.1661498450421;
+        Fri, 26 Aug 2022 00:20:50 -0700 (PDT)
+Received: from tom-ThinkPad-T14s-Gen-2i (net-188-217-57-252.cust.vodafonedsl.it. [188.217.57.252])
+        by smtp.gmail.com with ESMTPSA id i14-20020adffdce000000b00225213fd4a9sm1156800wrs.33.2022.08.26.00.20.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 26 Aug 2022 00:20:50 -0700 (PDT)
+Date:   Fri, 26 Aug 2022 09:20:47 +0200
+From:   Tommaso Merciai <tommaso.merciai@amarulasolutions.com>
+To:     Ming Qian <ming.qian@nxp.com>
+Cc:     mchehab@kernel.org, hverkuil-cisco@xs4all.nl, shawnguo@kernel.org,
+        robh+dt@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
+        festevam@gmail.com, linux-imx@nxp.com, xiahong.bao@nxp.com,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v5 2/4] media: amphion: tell and handle contiguous and
+ non contiguous format
+Message-ID: <20220826072047.GA3151@tom-ThinkPad-T14s-Gen-2i>
+References: <cover.1661390673.git.ming.qian@nxp.com>
+ <7e6a945b898254679bd93e7e001e7c24b5aea0ef.1661390673.git.ming.qian@nxp.com>
 MIME-Version: 1.0
-X-OriginatorOrg: quicinc.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR02MB5148.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d4284cc8-9e9a-4347-b390-08da872cf988
-X-MS-Exchange-CrossTenant-originalarrivaltime: 26 Aug 2022 06:34:06.0986
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 98e9ba89-e1a1-4e38-9007-8bdabc25de1d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: iXaYBr2jMbrSkFYSUG/USwT3vYI3vnHao7SDznbIlWUhgl6mOsCElf7lvCqKa23ef8Y0i3pHooDthxzfERBssP31oFc+yu3C7MicEyu6Umw=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR02MB7623
-X-Proofpoint-ORIG-GUID: Ck9uCxvwzQBrVfC2U3ErtPbAg5WjBV_8
-X-Proofpoint-GUID: Ck9uCxvwzQBrVfC2U3ErtPbAg5WjBV_8
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.517,FMLib:17.11.122.1
- definitions=2022-08-26_02,2022-08-25_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 bulkscore=0
- phishscore=0 mlxscore=0 suspectscore=0 lowpriorityscore=0 adultscore=0
- spamscore=0 clxscore=1015 mlxlogscore=999 malwarescore=0
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2207270000 definitions=main-2208260023
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <7e6a945b898254679bd93e7e001e7c24b5aea0ef.1661390673.git.ming.qian@nxp.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-SGkgSGFucywNCg0KLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCkZyb206IEhhbnMgVmVya3Vp
-bCA8aHZlcmt1aWwtY2lzY29AeHM0YWxsLm5sPiANClNlbnQ6IFdlZG5lc2RheSwgQXVndXN0IDI0
-LCAyMDIyIDU6MzYgUE0NClRvOiBEaWtzaGl0YSBBZ2Fyd2FsIChRVUlDKSA8cXVpY19kaWtzaGl0
-YUBxdWljaW5jLmNvbT47IGxpbnV4LW1lZGlhQHZnZXIua2VybmVsLm9yZzsgbGludXgta2VybmVs
-QHZnZXIua2VybmVsLm9yZzsgZXplcXVpZWxAY29sbGFib3JhLmNvbQ0KQ2M6IHN0YW5pbWlyLnZh
-cmJhbm92QGxpbmFyby5vcmc7IGxpbnV4LWFybS1tc21Admdlci5rZXJuZWwub3JnOyBWaWthc2gg
-R2Fyb2RpYSAoUVVJQykgPHF1aWNfdmdhcm9kaWFAcXVpY2luYy5jb20+OyBNYWhlc2h3YXIgQWpq
-YSAoUVVJQykgPHF1aWNfbWFqamFAcXVpY2luYy5jb20+OyBxdWljX2pkYXMgPHF1aWNfamRhc0Bx
-dWljaW5jLmNvbT4NClN1YmplY3Q6IFJlOiBbUEFUQ0hdIG1lZGlhOiB2NGwyLWN0cmw6IEFkZCBt
-YWluIDEwIHN0aWxsIHBpY3R1cmUgcHJvZmlsZSBmb3IgaGV2Yw0KDQpIaSBEaWtzaGl0YSwNCg0K
-T24gMjMvMDgvMjAyMiAwOToyNiwgRGlrc2hpdGEgQWdhcndhbCB3cm90ZToNCj4gQWRkIG1haW4g
-MTAgc3RpbGwgcGljdHVyZSBwcm9maWxlIGZvciBIRVZDIGVuY29kZXIuDQoNCkhtbSwgaXMgdGhp
-cyB0aGUgc2FtZSBhcyB0aGUgIk1haW4gNDo0OjQgU3RpbGwgUGljdHVyZSIgcHJvZmlsZSBtZW50
-aW9uZWQgaGVyZToNCg0KaHR0cHM6Ly9lbi53aWtpcGVkaWEub3JnL3dpa2kvSGlnaF9FZmZpY2ll
-bmN5X1ZpZGVvX0NvZGluZyNWZXJzaW9uXzJfcHJvZmlsZXMNCg0KSWYgbm90LCB3aGVyZSBpdCBp
-cyBkZWZpbmVkPyBJIHdvdWxkIGFsc28gcHJlZmVyIHRvIGhhdmUgdGhpcyBwYXRjaCBtZXJnZWQg
-dG9nZXRoZXIgd2l0aCBhIGRyaXZlciB0aGF0IHVzZXMgaXQuDQoNCkl0IGlzIGRpZmZlcmVudCBh
-bmQgZGVmaW5pdGlvbiBjYW4gYmUgZm91bmQgaW4gTGF0ZXN0IEhFVkMgc3BlYywgQW5uZXggQSwg
-QS4zLjMgTWFpbiAxMCBhbmQgTWFpbiAxMCBTdGlsbCBQaWN0dXJlIHByb2ZpbGVzLg0KaHR0cHM6
-Ly93d3cuaXR1LmludC9yZWMvZG9sb2dpbl9wdWIuYXNwP2xhbmc9cyZpZD1ULVJFQy1ILjI2NS0y
-MDE5MDYtUyEhUERGLUUmdHlwZT1pdGVtcw0KDQpUaGFua3MsDQpEaWtzaGl0YQ0KDQpSZWdhcmRz
-LA0KDQoJSGFucw0KDQo+IA0KPiBTaWduZWQtb2ZmLWJ5OiBEaWtzaGl0YSBBZ2Fyd2FsIDxxdWlj
-X2Rpa3NoaXRhQHF1aWNpbmMuY29tPg0KPiAtLS0NCj4gIERvY3VtZW50YXRpb24vdXNlcnNwYWNl
-LWFwaS9tZWRpYS92NGwvZXh0LWN0cmxzLWNvZGVjLnJzdCB8IDIgKysNCj4gIGluY2x1ZGUvdWFw
-aS9saW51eC92NGwyLWNvbnRyb2xzLmggICAgICAgICAgICAgICAgICAgICAgICB8IDEgKw0KPiAg
-MiBmaWxlcyBjaGFuZ2VkLCAzIGluc2VydGlvbnMoKykNCj4gDQo+IGRpZmYgLS1naXQgYS9Eb2N1
-bWVudGF0aW9uL3VzZXJzcGFjZS1hcGkvbWVkaWEvdjRsL2V4dC1jdHJscy1jb2RlYy5yc3QgDQo+
-IGIvRG9jdW1lbnRhdGlvbi91c2Vyc3BhY2UtYXBpL21lZGlhL3Y0bC9leHQtY3RybHMtY29kZWMu
-cnN0DQo+IGluZGV4IDJhMTY1YWUuLjViMmRhODQgMTAwNjQ0DQo+IC0tLSBhL0RvY3VtZW50YXRp
-b24vdXNlcnNwYWNlLWFwaS9tZWRpYS92NGwvZXh0LWN0cmxzLWNvZGVjLnJzdA0KPiArKysgYi9E
-b2N1bWVudGF0aW9uL3VzZXJzcGFjZS1hcGkvbWVkaWEvdjRsL2V4dC1jdHJscy1jb2RlYy5yc3QN
-Cj4gQEAgLTI0MjQsNiArMjQyNCw4IEBAIGVudW0gdjRsMl9tcGVnX3ZpZGVvX2hldmNfcHJvZmls
-ZSAtDQo+ICAgICAgICAtIE1haW4gc3RpbGwgcGljdHVyZSBwcm9maWxlLg0KPiAgICAgICogLSBg
-YFY0TDJfTVBFR19WSURFT19IRVZDX1BST0ZJTEVfTUFJTl8xMGBgDQo+ICAgICAgICAtIE1haW4g
-MTAgcHJvZmlsZS4NCj4gKyAgICAqIC0gYGBWNEwyX01QRUdfVklERU9fSEVWQ19QUk9GSUxFX01B
-SU5fMTBfU1RJTExfUElDVFVSRWBgDQo+ICsgICAgICAtIE1haW4gMTAgc3RpbGwgcGljdHVyZSBw
-cm9maWxlLg0KPiAgDQo+ICAuLiByYXc6OiBsYXRleA0KPiAgDQo+IGRpZmYgLS1naXQgYS9pbmNs
-dWRlL3VhcGkvbGludXgvdjRsMi1jb250cm9scy5oIA0KPiBiL2luY2x1ZGUvdWFwaS9saW51eC92
-NGwyLWNvbnRyb2xzLmgNCj4gaW5kZXggNWY0NmJmNC4uMTE1OTMzNyAxMDA2NDQNCj4gLS0tIGEv
-aW5jbHVkZS91YXBpL2xpbnV4L3Y0bDItY29udHJvbHMuaA0KPiArKysgYi9pbmNsdWRlL3VhcGkv
-bGludXgvdjRsMi1jb250cm9scy5oDQo+IEBAIC03NDMsNiArNzQzLDcgQEAgZW51bSB2NGwyX21w
-ZWdfdmlkZW9faGV2Y19wcm9maWxlIHsNCj4gIAlWNEwyX01QRUdfVklERU9fSEVWQ19QUk9GSUxF
-X01BSU4gPSAwLA0KPiAgCVY0TDJfTVBFR19WSURFT19IRVZDX1BST0ZJTEVfTUFJTl9TVElMTF9Q
-SUNUVVJFID0gMSwNCj4gIAlWNEwyX01QRUdfVklERU9fSEVWQ19QUk9GSUxFX01BSU5fMTAgPSAy
-LA0KPiArCVY0TDJfTVBFR19WSURFT19IRVZDX1BST0ZJTEVfTUFJTl8xMF9TVElMTF9QSUNUVVJF
-ID0gMywNCj4gIH07DQo+ICAjZGVmaW5lIFY0TDJfQ0lEX01QRUdfVklERU9fSEVWQ19MRVZFTAkJ
-KFY0TDJfQ0lEX0NPREVDX0JBU0UgKyA2MTYpDQo+ICBlbnVtIHY0bDJfbXBlZ192aWRlb19oZXZj
-X2xldmVsIHsNCg==
+Hi Ming,
+
+On Thu, Aug 25, 2022 at 09:38:30AM +0800, Ming Qian wrote:
+> Driver should tell the number of memory planes and component planes.
+> the amphion vpu support non contiguous planes,
+> but for compatibility with other device
+> that only support contiguous planes.
+> driver can add support for contiguous planes in the same time.
+> Then the mem_planes can be different from the comp_planes.
+> driver need to handle buffer according mem_planes and comp_planes.
+> 
+> So driver can support NV12 and NV12M.
+> 
+> Signed-off-by: Ming Qian <ming.qian@nxp.com>
+> ---
+>  drivers/media/platform/amphion/vdec.c        | 187 ++++++++++---------
+>  drivers/media/platform/amphion/venc.c        |  33 ++--
+>  drivers/media/platform/amphion/vpu.h         |   4 +-
+>  drivers/media/platform/amphion/vpu_dbg.c     |   8 +-
+>  drivers/media/platform/amphion/vpu_helpers.c |  45 ++++-
+>  drivers/media/platform/amphion/vpu_helpers.h |   2 +
+>  drivers/media/platform/amphion/vpu_malone.c  |   3 +-
+>  drivers/media/platform/amphion/vpu_v4l2.c    | 169 ++++++++++++-----
+>  drivers/media/platform/amphion/vpu_v4l2.h    |   3 +-
+>  drivers/media/platform/amphion/vpu_windsor.c |   8 +-
+>  10 files changed, 297 insertions(+), 165 deletions(-)
+> 
+> diff --git a/drivers/media/platform/amphion/vdec.c b/drivers/media/platform/amphion/vdec.c
+> index feb75dc204de..48ab664fa7ef 100644
+> --- a/drivers/media/platform/amphion/vdec.c
+> +++ b/drivers/media/platform/amphion/vdec.c
+> @@ -69,72 +69,85 @@ struct vdec_t {
+>  static const struct vpu_format vdec_formats[] = {
+>  	{
+>  		.pixfmt = V4L2_PIX_FMT_NV12M_8L128,
+> -		.num_planes = 2,
+> +		.mem_planes = 2,
+> +		.comp_planes = 2,
+>  		.type = V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE,
+>  	},
+>  	{
+>  		.pixfmt = V4L2_PIX_FMT_NV12M_10BE_8L128,
+> -		.num_planes = 2,
+> +		.mem_planes = 2,
+> +		.comp_planes = 2,
+>  		.type = V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE,
+>  	},
+>  	{
+>  		.pixfmt = V4L2_PIX_FMT_H264,
+> -		.num_planes = 1,
+> +		.mem_planes = 1,
+> +		.comp_planes = 1,
+>  		.type = V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE,
+> -		.flags = V4L2_FMT_FLAG_DYN_RESOLUTION
+> +		.flags = V4L2_FMT_FLAG_DYN_RESOLUTION | V4L2_FMT_FLAG_COMPRESSED
+>  	},
+>  	{
+>  		.pixfmt = V4L2_PIX_FMT_H264_MVC,
+> -		.num_planes = 1,
+> +		.mem_planes = 1,
+> +		.comp_planes = 1,
+>  		.type = V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE,
+> -		.flags = V4L2_FMT_FLAG_DYN_RESOLUTION
+> +		.flags = V4L2_FMT_FLAG_DYN_RESOLUTION | V4L2_FMT_FLAG_COMPRESSED
+>  	},
+>  	{
+>  		.pixfmt = V4L2_PIX_FMT_HEVC,
+> -		.num_planes = 1,
+> +		.mem_planes = 1,
+> +		.comp_planes = 1,
+>  		.type = V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE,
+> -		.flags = V4L2_FMT_FLAG_DYN_RESOLUTION
+> +		.flags = V4L2_FMT_FLAG_DYN_RESOLUTION | V4L2_FMT_FLAG_COMPRESSED
+>  	},
+>  	{
+>  		.pixfmt = V4L2_PIX_FMT_VC1_ANNEX_G,
+> -		.num_planes = 1,
+> +		.mem_planes = 1,
+> +		.comp_planes = 1,
+>  		.type = V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE,
+> -		.flags = V4L2_FMT_FLAG_DYN_RESOLUTION
+> +		.flags = V4L2_FMT_FLAG_DYN_RESOLUTION | V4L2_FMT_FLAG_COMPRESSED
+>  	},
+>  	{
+>  		.pixfmt = V4L2_PIX_FMT_VC1_ANNEX_L,
+> -		.num_planes = 1,
+> +		.mem_planes = 1,
+> +		.comp_planes = 1,
+>  		.type = V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE,
+> +		.flags = V4L2_FMT_FLAG_COMPRESSED
+>  	},
+>  	{
+>  		.pixfmt = V4L2_PIX_FMT_MPEG2,
+> -		.num_planes = 1,
+> +		.mem_planes = 1,
+> +		.comp_planes = 1,
+>  		.type = V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE,
+> -		.flags = V4L2_FMT_FLAG_DYN_RESOLUTION
+> +		.flags = V4L2_FMT_FLAG_DYN_RESOLUTION | V4L2_FMT_FLAG_COMPRESSED
+>  	},
+>  	{
+>  		.pixfmt = V4L2_PIX_FMT_MPEG4,
+> -		.num_planes = 1,
+> +		.mem_planes = 1,
+> +		.comp_planes = 1,
+>  		.type = V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE,
+> -		.flags = V4L2_FMT_FLAG_DYN_RESOLUTION
+> +		.flags = V4L2_FMT_FLAG_DYN_RESOLUTION | V4L2_FMT_FLAG_COMPRESSED
+>  	},
+>  	{
+>  		.pixfmt = V4L2_PIX_FMT_XVID,
+> -		.num_planes = 1,
+> +		.mem_planes = 1,
+> +		.comp_planes = 1,
+>  		.type = V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE,
+> -		.flags = V4L2_FMT_FLAG_DYN_RESOLUTION
+> +		.flags = V4L2_FMT_FLAG_DYN_RESOLUTION | V4L2_FMT_FLAG_COMPRESSED
+>  	},
+>  	{
+>  		.pixfmt = V4L2_PIX_FMT_VP8,
+> -		.num_planes = 1,
+> +		.mem_planes = 1,
+> +		.comp_planes = 1,
+>  		.type = V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE,
+> -		.flags = V4L2_FMT_FLAG_DYN_RESOLUTION
+> +		.flags = V4L2_FMT_FLAG_DYN_RESOLUTION | V4L2_FMT_FLAG_COMPRESSED
+>  	},
+>  	{
+>  		.pixfmt = V4L2_PIX_FMT_H263,
+> -		.num_planes = 1,
+> +		.mem_planes = 1,
+> +		.comp_planes = 1,
+>  		.type = V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE,
+> -		.flags = V4L2_FMT_FLAG_DYN_RESOLUTION
+> +		.flags = V4L2_FMT_FLAG_DYN_RESOLUTION | V4L2_FMT_FLAG_COMPRESSED
+>  	},
+>  	{0, 0, 0, 0},
+>  };
+> @@ -256,23 +269,22 @@ static int vdec_enum_fmt(struct file *file, void *fh, struct v4l2_fmtdesc *f)
+>  	int ret = -EINVAL;
+>  
+>  	vpu_inst_lock(inst);
+> -	if (!V4L2_TYPE_IS_OUTPUT(f->type) && vdec->fixed_fmt) {
+> -		if (f->index == 0) {
+> -			f->pixelformat = inst->cap_format.pixfmt;
+> -			f->flags = inst->cap_format.flags;
+> -			ret = 0;
+> -		}
+> +	if (V4L2_TYPE_IS_CAPTURE(f->type) && vdec->fixed_fmt) {
+> +		fmt = vpu_get_format(inst, f->type);
+> +		if (f->index == 1)
+> +			fmt = vpu_helper_find_sibling(inst, f->type, fmt->pixfmt);
+> +		if (f->index > 1)
+> +			fmt = NULL;
+>  	} else {
+>  		fmt = vpu_helper_enum_format(inst, f->type, f->index);
+> -		memset(f->reserved, 0, sizeof(f->reserved));
+> -		if (!fmt)
+> -			goto exit;
+> -
+> -		f->pixelformat = fmt->pixfmt;
+> -		f->flags = fmt->flags;
+> -		ret = 0;
+>  	}
+> +	if (!fmt)
+> +		goto exit;
+>  
+> +	memset(f->reserved, 0, sizeof(f->reserved));
+> +	f->pixelformat = fmt->pixfmt;
+> +	f->flags = fmt->flags;
+> +	ret = 0;
+>  exit:
+>  	vpu_inst_unlock(inst);
+>  	return ret;
+> @@ -289,14 +301,14 @@ static int vdec_g_fmt(struct file *file, void *fh, struct v4l2_format *f)
+>  	cur_fmt = vpu_get_format(inst, f->type);
+>  
+>  	pixmp->pixelformat = cur_fmt->pixfmt;
+> -	pixmp->num_planes = cur_fmt->num_planes;
+> +	pixmp->num_planes = cur_fmt->mem_planes;
+>  	pixmp->width = cur_fmt->width;
+>  	pixmp->height = cur_fmt->height;
+>  	pixmp->field = cur_fmt->field;
+>  	pixmp->flags = cur_fmt->flags;
+>  	for (i = 0; i < pixmp->num_planes; i++) {
+>  		pixmp->plane_fmt[i].bytesperline = cur_fmt->bytesperline[i];
+> -		pixmp->plane_fmt[i].sizeimage = cur_fmt->sizeimage[i];
+> +		pixmp->plane_fmt[i].sizeimage = vpu_get_fmt_plane_size(cur_fmt, i);
+>  	}
+>  
+>  	f->fmt.pix_mp.colorspace = vdec->codec_info.color_primaries;
+> @@ -311,10 +323,19 @@ static int vdec_try_fmt(struct file *file, void *fh, struct v4l2_format *f)
+>  {
+>  	struct vpu_inst *inst = to_inst(file);
+>  	struct vdec_t *vdec = inst->priv;
+> -
+> -	vpu_try_fmt_common(inst, f);
+> +	struct vpu_format fmt;
+>  
+>  	vpu_inst_lock(inst);
+> +	if (V4L2_TYPE_IS_CAPTURE(f->type) && vdec->fixed_fmt) {
+> +		struct vpu_format *cap_fmt = vpu_get_format(inst, f->type);
+> +
+> +		if (!vpu_helper_match_format(inst, cap_fmt->type, cap_fmt->pixfmt,
+> +					     f->fmt.pix_mp.pixelformat))
+> +			f->fmt.pix_mp.pixelformat = cap_fmt->pixfmt;
+> +	}
+> +
+> +	vpu_try_fmt_common(inst, f, &fmt);
+> +
+>  	if (vdec->fixed_fmt) {
+>  		f->fmt.pix_mp.colorspace = vdec->codec_info.color_primaries;
+>  		f->fmt.pix_mp.xfer_func = vdec->codec_info.transfer_chars;
+> @@ -334,7 +355,7 @@ static int vdec_try_fmt(struct file *file, void *fh, struct v4l2_format *f)
+>  static int vdec_s_fmt_common(struct vpu_inst *inst, struct v4l2_format *f)
+>  {
+>  	struct v4l2_pix_format_mplane *pixmp = &f->fmt.pix_mp;
+> -	const struct vpu_format *fmt;
+> +	struct vpu_format fmt;
+>  	struct vpu_format *cur_fmt;
+>  	struct vb2_queue *q;
+>  	struct vdec_t *vdec = inst->priv;
+> @@ -349,36 +370,30 @@ static int vdec_s_fmt_common(struct vpu_inst *inst, struct v4l2_format *f)
+>  	if (vb2_is_busy(q))
+>  		return -EBUSY;
+>  
+> -	fmt = vpu_try_fmt_common(inst, f);
+> -	if (!fmt)
+> +	if (vpu_try_fmt_common(inst, f, &fmt))
+>  		return -EINVAL;
+>  
+>  	cur_fmt = vpu_get_format(inst, f->type);
+>  	if (V4L2_TYPE_IS_OUTPUT(f->type) && inst->state != VPU_CODEC_STATE_DEINIT) {
+> -		if (cur_fmt->pixfmt != fmt->pixfmt) {
+> +		if (cur_fmt->pixfmt != fmt.pixfmt) {
+>  			vdec->reset_codec = true;
+>  			vdec->fixed_fmt = false;
+>  		}
+>  	}
+> -	cur_fmt->pixfmt = fmt->pixfmt;
+>  	if (V4L2_TYPE_IS_OUTPUT(f->type) || !vdec->fixed_fmt) {
+> -		cur_fmt->num_planes = fmt->num_planes;
+> -		cur_fmt->flags = fmt->flags;
+> -		cur_fmt->width = pixmp->width;
+> -		cur_fmt->height = pixmp->height;
+> -		for (i = 0; i < fmt->num_planes; i++) {
+> -			cur_fmt->sizeimage[i] = pixmp->plane_fmt[i].sizeimage;
+> -			cur_fmt->bytesperline[i] = pixmp->plane_fmt[i].bytesperline;
+> -		}
+> -		if (pixmp->field != V4L2_FIELD_ANY)
+> -			cur_fmt->field = pixmp->field;
+> +		memcpy(cur_fmt, &fmt, sizeof(*cur_fmt));
+>  	} else {
+> -		pixmp->num_planes = cur_fmt->num_planes;
+> +		if (vpu_helper_match_format(inst, f->type, cur_fmt->pixfmt, pixmp->pixelformat)) {
+> +			cur_fmt->pixfmt = fmt.pixfmt;
+> +			cur_fmt->mem_planes = fmt.mem_planes;
+> +		}
+> +		pixmp->pixelformat = cur_fmt->pixfmt;
+> +		pixmp->num_planes = cur_fmt->mem_planes;
+>  		pixmp->width = cur_fmt->width;
+>  		pixmp->height = cur_fmt->height;
+>  		for (i = 0; i < pixmp->num_planes; i++) {
+>  			pixmp->plane_fmt[i].bytesperline = cur_fmt->bytesperline[i];
+> -			pixmp->plane_fmt[i].sizeimage = cur_fmt->sizeimage[i];
+> +			pixmp->plane_fmt[i].sizeimage = vpu_get_fmt_plane_size(cur_fmt, i);
+>  		}
+>  		pixmp->field = cur_fmt->field;
+>  	}
+> @@ -678,9 +693,11 @@ static struct vpu_vb2_buffer *vdec_find_buffer(struct vpu_inst *inst, u32 luma)
+>  static void vdec_buf_done(struct vpu_inst *inst, struct vpu_frame_info *frame)
+>  {
+>  	struct vdec_t *vdec = inst->priv;
+> +	struct vpu_format *cur_fmt;
+>  	struct vpu_vb2_buffer *vpu_buf;
+>  	struct vb2_v4l2_buffer *vbuf;
+>  	u32 sequence;
+> +	int i;
+>  
+>  	if (!frame)
+>  		return;
+> @@ -699,6 +716,7 @@ static void vdec_buf_done(struct vpu_inst *inst, struct vpu_frame_info *frame)
+>  		return;
+>  	}
+>  
+> +	cur_fmt = vpu_get_format(inst, inst->cap_format.type);
+>  	vbuf = &vpu_buf->m2m_buf.vb;
+>  	if (vbuf->vb2_buf.index != frame->id)
+>  		dev_err(inst->dev, "[%d] buffer id(%d, %d) dismatch\n",
+> @@ -707,9 +725,9 @@ static void vdec_buf_done(struct vpu_inst *inst, struct vpu_frame_info *frame)
+>  	if (vpu_get_buffer_state(vbuf) != VPU_BUF_STATE_DECODED)
+>  		dev_err(inst->dev, "[%d] buffer(%d) ready without decoded\n", inst->id, frame->id);
+>  	vpu_set_buffer_state(vbuf, VPU_BUF_STATE_READY);
+> -	vb2_set_plane_payload(&vbuf->vb2_buf, 0, inst->cap_format.sizeimage[0]);
+> -	vb2_set_plane_payload(&vbuf->vb2_buf, 1, inst->cap_format.sizeimage[1]);
+> -	vbuf->field = inst->cap_format.field;
+> +	for (i = 0; i < vbuf->vb2_buf.num_planes; i++)
+> +		vb2_set_plane_payload(&vbuf->vb2_buf, i, vpu_get_fmt_plane_size(cur_fmt, i));
+> +	vbuf->field = cur_fmt->field;
+>  	vbuf->sequence = sequence;
+>  	dev_dbg(inst->dev, "[%d][OUTPUT TS]%32lld\n", inst->id, vbuf->vb2_buf.timestamp);
+>  
+> @@ -747,15 +765,17 @@ static void vdec_stop_done(struct vpu_inst *inst)
+>  static bool vdec_check_source_change(struct vpu_inst *inst)
+>  {
+>  	struct vdec_t *vdec = inst->priv;
+> -	const struct vpu_format *fmt;
+> -	int i;
+> +	const struct vpu_format *sibling;
+>  
+>  	if (!inst->fh.m2m_ctx)
+>  		return false;
+>  
+> +	sibling = vpu_helper_find_sibling(inst, inst->cap_format.type, inst->cap_format.pixfmt);
+> +	if (sibling && vdec->codec_info.pixfmt == sibling->pixfmt)
+> +		vdec->codec_info.pixfmt = inst->cap_format.pixfmt;
+> +
+>  	if (!vb2_is_streaming(v4l2_m2m_get_dst_vq(inst->fh.m2m_ctx)))
+>  		return true;
+> -	fmt = vpu_helper_find_format(inst, inst->cap_format.type, vdec->codec_info.pixfmt);
+>  	if (inst->cap_format.pixfmt != vdec->codec_info.pixfmt)
+>  		return true;
+>  	if (inst->cap_format.width != vdec->codec_info.decoded_width)
+> @@ -772,14 +792,6 @@ static bool vdec_check_source_change(struct vpu_inst *inst)
+>  		return true;
+>  	if (inst->crop.height != vdec->codec_info.height)
+>  		return true;
+> -	if (fmt && inst->cap_format.num_planes != fmt->num_planes)
+> -		return true;
+> -	for (i = 0; i < inst->cap_format.num_planes; i++) {
+> -		if (inst->cap_format.bytesperline[i] != vdec->codec_info.bytesperline[i])
+> -			return true;
+> -		if (inst->cap_format.sizeimage[i] != vdec->codec_info.sizeimage[i])
+> -			return true;
+> -	}
+>  
+>  	return false;
+>  }
+> @@ -787,27 +799,21 @@ static bool vdec_check_source_change(struct vpu_inst *inst)
+>  static void vdec_init_fmt(struct vpu_inst *inst)
+>  {
+>  	struct vdec_t *vdec = inst->priv;
+> -	const struct vpu_format *fmt;
+> -	int i;
+> +	struct v4l2_format f;
+>  
+> -	fmt = vpu_helper_find_format(inst, inst->cap_format.type, vdec->codec_info.pixfmt);
+> -	inst->out_format.width = vdec->codec_info.width;
+> -	inst->out_format.height = vdec->codec_info.height;
+> -	inst->cap_format.width = vdec->codec_info.decoded_width;
+> -	inst->cap_format.height = vdec->codec_info.decoded_height;
+> -	inst->cap_format.pixfmt = vdec->codec_info.pixfmt;
+> -	if (fmt) {
+> -		inst->cap_format.num_planes = fmt->num_planes;
+> -		inst->cap_format.flags = fmt->flags;
+> -	}
+> -	for (i = 0; i < inst->cap_format.num_planes; i++) {
+> -		inst->cap_format.bytesperline[i] = vdec->codec_info.bytesperline[i];
+> -		inst->cap_format.sizeimage[i] = vdec->codec_info.sizeimage[i];
+> -	}
+> +	memset(&f, 0, sizeof(f));
+> +	f.type = inst->cap_format.type;
+> +	f.fmt.pix_mp.pixelformat = vdec->codec_info.pixfmt;
+> +	f.fmt.pix_mp.width = vdec->codec_info.decoded_width;
+> +	f.fmt.pix_mp.height = vdec->codec_info.decoded_height;
+>  	if (vdec->codec_info.progressive)
+> -		inst->cap_format.field = V4L2_FIELD_NONE;
+> +		f.fmt.pix_mp.field = V4L2_FIELD_NONE;
+>  	else
+> -		inst->cap_format.field = V4L2_FIELD_SEQ_TB;
+> +		f.fmt.pix_mp.field = V4L2_FIELD_SEQ_TB;
+> +	vpu_try_fmt_common(inst, &f, &inst->cap_format);
+> +
+> +	inst->out_format.width = vdec->codec_info.width;
+> +	inst->out_format.height = vdec->codec_info.height;
+>  }
+>  
+>  static void vdec_init_crop(struct vpu_inst *inst)
+> @@ -966,7 +972,10 @@ static int vdec_response_frame(struct vpu_inst *inst, struct vb2_v4l2_buffer *vb
+>  	info.tag = vdec->seq_tag;
+>  	info.luma_addr = vpu_get_vb_phy_addr(&vbuf->vb2_buf, 0);
+>  	info.luma_size = inst->cap_format.sizeimage[0];
+> -	info.chroma_addr = vpu_get_vb_phy_addr(&vbuf->vb2_buf, 1);
+> +	if (vbuf->vb2_buf.num_planes > 1)
+> +		info.chroma_addr = vpu_get_vb_phy_addr(&vbuf->vb2_buf, 1);
+> +	else
+> +		info.chroma_addr = info.luma_addr + info.luma_size;
+>  	info.chromau_size = inst->cap_format.sizeimage[1];
+>  	info.bytesperline = inst->cap_format.bytesperline[0];
+>  	ret = vpu_session_alloc_fs(inst, &info);
+> @@ -975,7 +984,7 @@ static int vdec_response_frame(struct vpu_inst *inst, struct vb2_v4l2_buffer *vb
+>  
+>  	vpu_buf->tag = info.tag;
+>  	vpu_buf->luma = info.luma_addr;
+> -	vpu_buf->chroma_u = info.chromau_size;
+> +	vpu_buf->chroma_u = info.chroma_addr;
+>  	vpu_buf->chroma_v = 0;
+>  	vpu_set_buffer_state(vbuf, VPU_BUF_STATE_INUSE);
+>  	vdec->slots[info.id] = vpu_buf;
+> diff --git a/drivers/media/platform/amphion/venc.c b/drivers/media/platform/amphion/venc.c
+> index 37212f087fdd..060a1ee78b17 100644
+> --- a/drivers/media/platform/amphion/venc.c
+> +++ b/drivers/media/platform/amphion/venc.c
+> @@ -69,13 +69,16 @@ struct venc_frame_t {
+>  static const struct vpu_format venc_formats[] = {
+>  	{
+>  		.pixfmt = V4L2_PIX_FMT_NV12M,
+> -		.num_planes = 2,
+> +		.mem_planes = 2,
+> +		.comp_planes = 2,
+>  		.type = V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE,
+>  	},
+>  	{
+>  		.pixfmt = V4L2_PIX_FMT_H264,
+> -		.num_planes = 1,
+> +		.mem_planes = 1,
+> +		.comp_planes = 1,
+>  		.type = V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE,
+> +		.flags = V4L2_FMT_FLAG_COMPRESSED
+>  	},
+>  	{0, 0, 0, 0},
+>  };
+> @@ -173,14 +176,14 @@ static int venc_g_fmt(struct file *file, void *fh, struct v4l2_format *f)
+>  	cur_fmt = vpu_get_format(inst, f->type);
+>  
+>  	pixmp->pixelformat = cur_fmt->pixfmt;
+> -	pixmp->num_planes = cur_fmt->num_planes;
+> +	pixmp->num_planes = cur_fmt->mem_planes;
+>  	pixmp->width = cur_fmt->width;
+>  	pixmp->height = cur_fmt->height;
+>  	pixmp->field = cur_fmt->field;
+>  	pixmp->flags = cur_fmt->flags;
+>  	for (i = 0; i < pixmp->num_planes; i++) {
+>  		pixmp->plane_fmt[i].bytesperline = cur_fmt->bytesperline[i];
+> -		pixmp->plane_fmt[i].sizeimage = cur_fmt->sizeimage[i];
+> +		pixmp->plane_fmt[i].sizeimage = vpu_get_fmt_plane_size(cur_fmt, i);
+>  	}
+>  
+>  	f->fmt.pix_mp.colorspace = venc->params.color.primaries;
+> @@ -194,8 +197,9 @@ static int venc_g_fmt(struct file *file, void *fh, struct v4l2_format *f)
+>  static int venc_try_fmt(struct file *file, void *fh, struct v4l2_format *f)
+>  {
+>  	struct vpu_inst *inst = to_inst(file);
+> +	struct vpu_format fmt;
+>  
+> -	vpu_try_fmt_common(inst, f);
+> +	vpu_try_fmt_common(inst, f, &fmt);
+>  
+>  	return 0;
+>  }
+> @@ -203,12 +207,11 @@ static int venc_try_fmt(struct file *file, void *fh, struct v4l2_format *f)
+>  static int venc_s_fmt(struct file *file, void *fh, struct v4l2_format *f)
+>  {
+>  	struct vpu_inst *inst = to_inst(file);
+> -	const struct vpu_format *fmt;
+> +	struct vpu_format fmt;
+>  	struct vpu_format *cur_fmt;
+>  	struct vb2_queue *q;
+>  	struct venc_t *venc = inst->priv;
+>  	struct v4l2_pix_format_mplane *pix_mp = &f->fmt.pix_mp;
+> -	int i;
+>  
+>  	q = v4l2_m2m_get_vq(inst->fh.m2m_ctx, f->type);
+>  	if (!q)
+> @@ -216,24 +219,12 @@ static int venc_s_fmt(struct file *file, void *fh, struct v4l2_format *f)
+>  	if (vb2_is_busy(q))
+>  		return -EBUSY;
+>  
+> -	fmt = vpu_try_fmt_common(inst, f);
+> -	if (!fmt)
+> +	if (vpu_try_fmt_common(inst, f, &fmt))
+>  		return -EINVAL;
+>  
+>  	cur_fmt = vpu_get_format(inst, f->type);
+>  
+> -	cur_fmt->pixfmt = fmt->pixfmt;
+> -	cur_fmt->num_planes = fmt->num_planes;
+> -	cur_fmt->flags = fmt->flags;
+> -	cur_fmt->width = pix_mp->width;
+> -	cur_fmt->height = pix_mp->height;
+> -	for (i = 0; i < fmt->num_planes; i++) {
+> -		cur_fmt->sizeimage[i] = pix_mp->plane_fmt[i].sizeimage;
+> -		cur_fmt->bytesperline[i] = pix_mp->plane_fmt[i].bytesperline;
+> -	}
+> -
+> -	if (pix_mp->field != V4L2_FIELD_ANY)
+> -		cur_fmt->field = pix_mp->field;
+> +	memcpy(cur_fmt, &fmt, sizeof(*cur_fmt));
+>  
+>  	if (V4L2_TYPE_IS_OUTPUT(f->type)) {
+>  		venc->params.input_format = cur_fmt->pixfmt;
+> diff --git a/drivers/media/platform/amphion/vpu.h b/drivers/media/platform/amphion/vpu.h
+> index f914de6ed81e..998591fa5b85 100644
+> --- a/drivers/media/platform/amphion/vpu.h
+> +++ b/drivers/media/platform/amphion/vpu.h
+> @@ -84,7 +84,8 @@ struct vpu_dev {
+>  
+>  struct vpu_format {
+>  	u32 pixfmt;
+> -	unsigned int num_planes;
+> +	u32 mem_planes;
+> +	u32 comp_planes;
+>  	u32 type;
+>  	u32 flags;
+>  	u32 width;
+> @@ -92,6 +93,7 @@ struct vpu_format {
+>  	u32 sizeimage[VIDEO_MAX_PLANES];
+>  	u32 bytesperline[VIDEO_MAX_PLANES];
+>  	u32 field;
+> +	u32 sibling;
+>  };
+>  
+>  struct vpu_core_resources {
+> diff --git a/drivers/media/platform/amphion/vpu_dbg.c b/drivers/media/platform/amphion/vpu_dbg.c
+> index f72c8a506b22..c41c9896912c 100644
+> --- a/drivers/media/platform/amphion/vpu_dbg.c
+> +++ b/drivers/media/platform/amphion/vpu_dbg.c
+> @@ -89,9 +89,9 @@ static int vpu_dbg_instance(struct seq_file *s, void *data)
+>  			vq->last_buffer_dequeued);
+>  	if (seq_write(s, str, num))
+>  		return 0;
+> -	for (i = 0; i < inst->out_format.num_planes; i++) {
+> +	for (i = 0; i < inst->out_format.mem_planes; i++) {
+>  		num = scnprintf(str, sizeof(str), " %d(%d)",
+> -				inst->out_format.sizeimage[i],
+> +				vpu_get_fmt_plane_size(&inst->out_format, i),
+>  				inst->out_format.bytesperline[i]);
+>  		if (seq_write(s, str, num))
+>  			return 0;
+> @@ -113,9 +113,9 @@ static int vpu_dbg_instance(struct seq_file *s, void *data)
+>  			vq->last_buffer_dequeued);
+>  	if (seq_write(s, str, num))
+>  		return 0;
+> -	for (i = 0; i < inst->cap_format.num_planes; i++) {
+> +	for (i = 0; i < inst->cap_format.mem_planes; i++) {
+>  		num = scnprintf(str, sizeof(str), " %d(%d)",
+> -				inst->cap_format.sizeimage[i],
+> +				vpu_get_fmt_plane_size(&inst->cap_format, i),
+>  				inst->cap_format.bytesperline[i]);
+>  		if (seq_write(s, str, num))
+>  			return 0;
+> diff --git a/drivers/media/platform/amphion/vpu_helpers.c b/drivers/media/platform/amphion/vpu_helpers.c
+> index e9aeb3453dfc..019c77e84514 100644
+> --- a/drivers/media/platform/amphion/vpu_helpers.c
+> +++ b/drivers/media/platform/amphion/vpu_helpers.c
+> @@ -59,6 +59,36 @@ const struct vpu_format *vpu_helper_find_format(struct vpu_inst *inst, u32 type,
+>  	return NULL;
+>  }
+>  
+> +const struct vpu_format *vpu_helper_find_sibling(struct vpu_inst *inst, u32 type, u32 pixelfmt)
+> +{
+> +	const struct vpu_format *fmt;
+> +	const struct vpu_format *sibling;
+> +
+> +	fmt = vpu_helper_find_format(inst, type, pixelfmt);
+> +	if (!fmt || !fmt->sibling)
+> +		return NULL;
+> +
+> +	sibling = vpu_helper_find_format(inst, type, fmt->sibling);
+> +	if (!sibling || sibling->sibling != fmt->pixfmt ||
+> +	    sibling->comp_planes != fmt->comp_planes)
+> +		return NULL;
+
+I think to preserve code style you need the following solutions on this
+if statement:
+
+if (!sibling || (sibling->sibling != fmt->pixfmt) ||
+    (sibling->comp_planes != fmt->comp_planes))
+         return NULL;
+
+I think I have suggested to you this solution on the v4. But never mind
+we need this :)
+
+Thanks
+
+> +
+> +	return sibling;
+> +}
+> +
+> +bool vpu_helper_match_format(struct vpu_inst *inst, u32 type, u32 fmta, u32 fmtb)
+> +{
+> +	const struct vpu_format *sibling;
+> +
+> +	if (fmta == fmtb)
+> +		return true;
+> +
+> +	sibling = vpu_helper_find_sibling(inst, type, fmta);
+> +	if (sibling && sibling->pixfmt == fmtb)
+> +		return true;
+> +	return false;
+> +}
+> +
+>  const struct vpu_format *vpu_helper_enum_format(struct vpu_inst *inst, u32 type, int index)
+>  {
+>  	const struct vpu_format *pfmt;
+> @@ -123,9 +153,10 @@ static u32 get_nv12_plane_size(u32 width, u32 height, int plane_no,
+>  	u32 bytesperline;
+>  	u32 size = 0;
+>  
+> -	bytesperline = ALIGN(width, stride);
+> +	bytesperline = width;
+>  	if (pbl)
+>  		bytesperline = max(bytesperline, *pbl);
+> +	bytesperline = ALIGN(bytesperline, stride);
+>  	height = ALIGN(height, 2);
+>  	if (plane_no == 0)
+>  		size = bytesperline * height;
+> @@ -148,13 +179,13 @@ static u32 get_tiled_8l128_plane_size(u32 fmt, u32 width, u32 height, int plane_
+>  
+>  	if (interlaced)
+>  		hs++;
+> -	if (fmt == V4L2_PIX_FMT_NV12M_10BE_8L128)
+> +	if (fmt == V4L2_PIX_FMT_NV12M_10BE_8L128 || fmt == V4L2_PIX_FMT_NV12_10BE_8L128)
+>  		bitdepth = 10;
+>  	bytesperline = DIV_ROUND_UP(width * bitdepth, BITS_PER_BYTE);
+> -	bytesperline = ALIGN(bytesperline, 1 << ws);
+> -	bytesperline = ALIGN(bytesperline, stride);
+>  	if (pbl)
+>  		bytesperline = max(bytesperline, *pbl);
+> +	bytesperline = ALIGN(bytesperline, 1 << ws);
+> +	bytesperline = ALIGN(bytesperline, stride);
+>  	height = ALIGN(height, 1 << hs);
+>  	if (plane_no == 0)
+>  		size = bytesperline * height;
+> @@ -172,9 +203,10 @@ static u32 get_default_plane_size(u32 width, u32 height, int plane_no,
+>  	u32 bytesperline;
+>  	u32 size = 0;
+>  
+> -	bytesperline = ALIGN(width, stride);
+> +	bytesperline = width;
+>  	if (pbl)
+>  		bytesperline = max(bytesperline, *pbl);
+> +	bytesperline = ALIGN(bytesperline, stride);
+>  	if (plane_no == 0)
+>  		size = bytesperline * height;
+>  	if (pbl)
+> @@ -187,9 +219,12 @@ u32 vpu_helper_get_plane_size(u32 fmt, u32 w, u32 h, int plane_no,
+>  			      u32 stride, u32 interlaced, u32 *pbl)
+>  {
+>  	switch (fmt) {
+> +	case V4L2_PIX_FMT_NV12:
+>  	case V4L2_PIX_FMT_NV12M:
+>  		return get_nv12_plane_size(w, h, plane_no, stride, interlaced, pbl);
+> +	case V4L2_PIX_FMT_NV12_8L128:
+>  	case V4L2_PIX_FMT_NV12M_8L128:
+> +	case V4L2_PIX_FMT_NV12_10BE_8L128:
+>  	case V4L2_PIX_FMT_NV12M_10BE_8L128:
+>  		return get_tiled_8l128_plane_size(fmt, w, h, plane_no, stride, interlaced, pbl);
+>  	default:
+> diff --git a/drivers/media/platform/amphion/vpu_helpers.h b/drivers/media/platform/amphion/vpu_helpers.h
+> index bc28350958be..0eaddb07190d 100644
+> --- a/drivers/media/platform/amphion/vpu_helpers.h
+> +++ b/drivers/media/platform/amphion/vpu_helpers.h
+> @@ -14,6 +14,8 @@ struct vpu_pair {
+>  int vpu_helper_find_in_array_u8(const u8 *array, u32 size, u32 x);
+>  bool vpu_helper_check_type(struct vpu_inst *inst, u32 type);
+>  const struct vpu_format *vpu_helper_find_format(struct vpu_inst *inst, u32 type, u32 pixelfmt);
+> +const struct vpu_format *vpu_helper_find_sibling(struct vpu_inst *inst, u32 type, u32 pixelfmt);
+> +bool vpu_helper_match_format(struct vpu_inst *inst, u32 type, u32 fmta, u32 fmtb);
+>  const struct vpu_format *vpu_helper_enum_format(struct vpu_inst *inst, u32 type, int index);
+>  u32 vpu_helper_valid_frame_width(struct vpu_inst *inst, u32 width);
+>  u32 vpu_helper_valid_frame_height(struct vpu_inst *inst, u32 height);
+> diff --git a/drivers/media/platform/amphion/vpu_malone.c b/drivers/media/platform/amphion/vpu_malone.c
+> index 51e0702f9ae1..69d9a2269fce 100644
+> --- a/drivers/media/platform/amphion/vpu_malone.c
+> +++ b/drivers/media/platform/amphion/vpu_malone.c
+> @@ -583,7 +583,8 @@ bool vpu_malone_check_fmt(enum vpu_core_type type, u32 pixelfmt)
+>  	if (!vpu_imx8q_check_fmt(type, pixelfmt))
+>  		return false;
+>  
+> -	if (pixelfmt == V4L2_PIX_FMT_NV12M_8L128 || pixelfmt == V4L2_PIX_FMT_NV12M_10BE_8L128)
+> +	if (pixelfmt == V4L2_PIX_FMT_NV12_8L128 || pixelfmt == V4L2_PIX_FMT_NV12_10BE_8L128 ||
+> +	    pixelfmt == V4L2_PIX_FMT_NV12M_8L128 || pixelfmt == V4L2_PIX_FMT_NV12M_10BE_8L128)
+>  		return true;
+>  	if (vpu_malone_format_remap(pixelfmt) == MALONE_FMT_NULL)
+>  		return false;
+> diff --git a/drivers/media/platform/amphion/vpu_v4l2.c b/drivers/media/platform/amphion/vpu_v4l2.c
+> index 8a3eed957ae6..1f18289aa47a 100644
+> --- a/drivers/media/platform/amphion/vpu_v4l2.c
+> +++ b/drivers/media/platform/amphion/vpu_v4l2.c
+> @@ -140,51 +140,136 @@ bool vpu_is_source_empty(struct vpu_inst *inst)
+>  	return true;
+>  }
+>  
+> -const struct vpu_format *vpu_try_fmt_common(struct vpu_inst *inst, struct v4l2_format *f)
+> +static int vpu_init_format(struct vpu_inst *inst, struct vpu_format *fmt)
+> +{
+> +	const struct vpu_format *info;
+> +
+> +	info = vpu_helper_find_format(inst, fmt->type, fmt->pixfmt);
+> +	if (!info) {
+> +		info = vpu_helper_enum_format(inst, fmt->type, 0);
+> +		if (!info)
+> +			return -EINVAL;
+> +	}
+> +	memcpy(fmt, info, sizeof(*fmt));
+> +
+> +	return 0;
+> +}
+> +
+> +static int vpu_calc_fmt_bytesperline(struct v4l2_format *f, struct vpu_format *fmt)
+>  {
+>  	struct v4l2_pix_format_mplane *pixmp = &f->fmt.pix_mp;
+> -	u32 type = f->type;
+> +	int i;
+> +
+> +	if (fmt->flags & V4L2_FMT_FLAG_COMPRESSED) {
+> +		for (i = 0; i < fmt->comp_planes; i++)
+> +			fmt->bytesperline[i] = 0;
+> +		return 0;
+> +	}
+> +	if (pixmp->num_planes == fmt->comp_planes) {
+> +		for (i = 0; i < fmt->comp_planes; i++)
+> +			fmt->bytesperline[i] = pixmp->plane_fmt[i].bytesperline;
+> +		return 0;
+> +	}
+> +	if (pixmp->num_planes > 1)
+> +		return -EINVAL;
+> +
+> +	/*amphion vpu only support nv12 and nv12 tiled,
+> +	 * so the bytesperline of luma and chroma should be same
+> +	 */
+> +	for (i = 0; i < fmt->comp_planes; i++)
+> +		fmt->bytesperline[i] = pixmp->plane_fmt[0].bytesperline;
+> +
+> +	return 0;
+> +}
+> +
+> +static int vpu_calc_fmt_sizeimage(struct vpu_inst *inst, struct vpu_format *fmt)
+> +{
+>  	u32 stride = 1;
+> -	u32 bytesperline;
+> -	u32 sizeimage;
+> -	const struct vpu_format *fmt;
+> -	const struct vpu_core_resources *res;
+>  	int i;
+>  
+> -	fmt = vpu_helper_find_format(inst, type, pixmp->pixelformat);
+> -	if (!fmt) {
+> -		fmt = vpu_helper_enum_format(inst, type, 0);
+> -		if (!fmt)
+> -			return NULL;
+> -		pixmp->pixelformat = fmt->pixfmt;
+> +	if (!(fmt->flags & V4L2_FMT_FLAG_COMPRESSED)) {
+> +		const struct vpu_core_resources *res = vpu_get_resource(inst);
+> +
+> +		if (res)
+> +			stride = res->stride;
+>  	}
+>  
+> -	res = vpu_get_resource(inst);
+> -	if (res)
+> -		stride = res->stride;
+> -	if (pixmp->width)
+> -		pixmp->width = vpu_helper_valid_frame_width(inst, pixmp->width);
+> -	if (pixmp->height)
+> -		pixmp->height = vpu_helper_valid_frame_height(inst, pixmp->height);
+> +	for (i = 0; i < fmt->comp_planes; i++) {
+> +		fmt->sizeimage[i] = vpu_helper_get_plane_size(fmt->pixfmt,
+> +							      fmt->width,
+> +							      fmt->height,
+> +							      i,
+> +							      stride,
+> +							      fmt->field != V4L2_FIELD_NONE ? 1 : 0,
+> +							      &fmt->bytesperline[i]);
+> +		fmt->sizeimage[i] = max_t(u32, fmt->sizeimage[i], PAGE_SIZE);
+> +		if (fmt->flags & V4L2_FMT_FLAG_COMPRESSED) {
+> +			fmt->sizeimage[i] = clamp_val(fmt->sizeimage[i], SZ_128K, SZ_8M);
+> +			fmt->bytesperline[i] = 0;
+> +		}
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +u32 vpu_get_fmt_plane_size(struct vpu_format *fmt, u32 plane_no)
+> +{
+> +	u32 size;
+> +	int i;
+> +
+> +	if (plane_no >= fmt->mem_planes)
+> +		return 0;
+> +
+> +	if (fmt->comp_planes == fmt->mem_planes)
+> +		return fmt->sizeimage[plane_no];
+> +	if (plane_no < fmt->mem_planes - 1)
+> +		return fmt->sizeimage[plane_no];
+> +
+> +	size = fmt->sizeimage[plane_no];
+> +	for (i = fmt->mem_planes; i < fmt->comp_planes; i++)
+> +		size += fmt->sizeimage[i];
+> +
+> +	return size;
+> +}
+> +
+> +int vpu_try_fmt_common(struct vpu_inst *inst, struct v4l2_format *f, struct vpu_format *fmt)
+> +{
+> +	struct v4l2_pix_format_mplane *pixmp = &f->fmt.pix_mp;
+> +	int i;
+> +	int ret;
+> +
+> +	fmt->pixfmt = pixmp->pixelformat;
+> +	fmt->type = f->type;
+> +	ret = vpu_init_format(inst, fmt);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	fmt->width = pixmp->width;
+> +	fmt->height = pixmp->height;
+> +	if (fmt->width)
+> +		fmt->width = vpu_helper_valid_frame_width(inst, fmt->width);
+> +	if (fmt->height)
+> +		fmt->height = vpu_helper_valid_frame_height(inst, fmt->height);
+> +	fmt->field = pixmp->field == V4L2_FIELD_ANY ? V4L2_FIELD_NONE : pixmp->field;
+> +	vpu_calc_fmt_bytesperline(f, fmt);
+> +	vpu_calc_fmt_sizeimage(inst, fmt);
+> +	if ((fmt->flags & V4L2_FMT_FLAG_COMPRESSED) && pixmp->plane_fmt[0].sizeimage)
+> +		fmt->sizeimage[0] = clamp_val(pixmp->plane_fmt[0].sizeimage, SZ_128K, SZ_8M);
+> +
+> +	pixmp->pixelformat = fmt->pixfmt;
+> +	pixmp->width = fmt->width;
+> +	pixmp->height = fmt->height;
+>  	pixmp->flags = fmt->flags;
+> -	pixmp->num_planes = fmt->num_planes;
+> -	if (pixmp->field == V4L2_FIELD_ANY)
+> -		pixmp->field = V4L2_FIELD_NONE;
+> +	pixmp->num_planes = fmt->mem_planes;
+> +	pixmp->field = fmt->field;
+> +	memset(pixmp->reserved, 0, sizeof(pixmp->reserved));
+>  	for (i = 0; i < pixmp->num_planes; i++) {
+> -		bytesperline = max_t(s32, pixmp->plane_fmt[i].bytesperline, 0);
+> -		sizeimage = vpu_helper_get_plane_size(pixmp->pixelformat,
+> -						      pixmp->width,
+> -						      pixmp->height,
+> -						      i,
+> -						      stride,
+> -						      pixmp->field > V4L2_FIELD_NONE ? 1 : 0,
+> -						      &bytesperline);
+> -		sizeimage = max_t(s32, pixmp->plane_fmt[i].sizeimage, sizeimage);
+> -		pixmp->plane_fmt[i].bytesperline = bytesperline;
+> -		pixmp->plane_fmt[i].sizeimage = sizeimage;
+> +		pixmp->plane_fmt[i].bytesperline = fmt->bytesperline[i];
+> +		pixmp->plane_fmt[i].sizeimage = vpu_get_fmt_plane_size(fmt, i);
+> +		memset(pixmp->plane_fmt[i].reserved, 0, sizeof(pixmp->plane_fmt[i].reserved));
+>  	}
+>  
+> -	return fmt;
+> +	return 0;
+>  }
+>  
+>  static bool vpu_check_ready(struct vpu_inst *inst, u32 type)
+> @@ -389,10 +474,10 @@ static int vpu_vb2_queue_setup(struct vb2_queue *vq,
+>  	cur_fmt = vpu_get_format(inst, vq->type);
+>  
+>  	if (*plane_count) {
+> -		if (*plane_count != cur_fmt->num_planes)
+> +		if (*plane_count != cur_fmt->mem_planes)
+>  			return -EINVAL;
+> -		for (i = 0; i < cur_fmt->num_planes; i++) {
+> -			if (psize[i] < cur_fmt->sizeimage[i])
+> +		for (i = 0; i < cur_fmt->mem_planes; i++) {
+> +			if (psize[i] < vpu_get_fmt_plane_size(cur_fmt, i))
+>  				return -EINVAL;
+>  		}
+>  		return 0;
+> @@ -402,9 +487,9 @@ static int vpu_vb2_queue_setup(struct vb2_queue *vq,
+>  		*buf_count = max_t(unsigned int, *buf_count, inst->min_buffer_out);
+>  	else
+>  		*buf_count = max_t(unsigned int, *buf_count, inst->min_buffer_cap);
+> -	*plane_count = cur_fmt->num_planes;
+> -	for (i = 0; i < cur_fmt->num_planes; i++)
+> -		psize[i] = cur_fmt->sizeimage[i];
+> +	*plane_count = cur_fmt->mem_planes;
+> +	for (i = 0; i < cur_fmt->mem_planes; i++)
+> +		psize[i] = vpu_get_fmt_plane_size(cur_fmt, i);
+>  
+>  	return 0;
+>  }
+> @@ -434,8 +519,8 @@ static int vpu_vb2_buf_prepare(struct vb2_buffer *vb)
+>  	u32 i;
+>  
+>  	cur_fmt = vpu_get_format(inst, vb->type);
+> -	for (i = 0; i < cur_fmt->num_planes; i++) {
+> -		if (vpu_get_vb_length(vb, i) < cur_fmt->sizeimage[i]) {
+> +	for (i = 0; i < cur_fmt->mem_planes; i++) {
+> +		if (vpu_get_vb_length(vb, i) < vpu_get_fmt_plane_size(cur_fmt, i)) {
+>  			dev_dbg(inst->dev, "[%d] %s buf[%d] is invalid\n",
+>  				inst->id, vpu_type_name(vb->type), vb->index);
+>  			vpu_set_buffer_state(vbuf, VPU_BUF_STATE_ERROR);
+> diff --git a/drivers/media/platform/amphion/vpu_v4l2.h b/drivers/media/platform/amphion/vpu_v4l2.h
+> index 795ca33a6a50..ef5de6b66e47 100644
+> --- a/drivers/media/platform/amphion/vpu_v4l2.h
+> +++ b/drivers/media/platform/amphion/vpu_v4l2.h
+> @@ -16,7 +16,8 @@ unsigned int vpu_get_buffer_state(struct vb2_v4l2_buffer *vbuf);
+>  int vpu_v4l2_open(struct file *file, struct vpu_inst *inst);
+>  int vpu_v4l2_close(struct file *file);
+>  
+> -const struct vpu_format *vpu_try_fmt_common(struct vpu_inst *inst, struct v4l2_format *f);
+> +u32 vpu_get_fmt_plane_size(struct vpu_format *fmt, u32 plane_no);
+> +int vpu_try_fmt_common(struct vpu_inst *inst, struct v4l2_format *f, struct vpu_format *fmt);
+>  int vpu_process_output_buffer(struct vpu_inst *inst);
+>  int vpu_process_capture_buffer(struct vpu_inst *inst);
+>  struct vb2_v4l2_buffer *vpu_next_src_buf(struct vpu_inst *inst);
+> diff --git a/drivers/media/platform/amphion/vpu_windsor.c b/drivers/media/platform/amphion/vpu_windsor.c
+> index 1526af2ef9da..a454f142ae17 100644
+> --- a/drivers/media/platform/amphion/vpu_windsor.c
+> +++ b/drivers/media/platform/amphion/vpu_windsor.c
+> @@ -775,6 +775,8 @@ static int vpu_windsor_fill_yuv_frame(struct vpu_shared_addr *shared,
+>  				      u32 instance,
+>  				      struct vb2_buffer *vb)
+>  {
+> +	struct vpu_inst *inst = vb2_get_drv_priv(vb->vb2_queue);
+> +	struct vpu_format *out_fmt;
+>  	struct vpu_enc_yuv_desc *desc;
+>  	struct vb2_v4l2_buffer *vbuf;
+>  
+> @@ -782,6 +784,7 @@ static int vpu_windsor_fill_yuv_frame(struct vpu_shared_addr *shared,
+>  		return -EINVAL;
+>  
+>  	desc = get_yuv_desc(shared, instance);
+> +	out_fmt = vpu_get_format(inst, vb->type);
+>  
+>  	vbuf = to_vb2_v4l2_buffer(vb);
+>  	desc->frame_id = vbuf->sequence;
+> @@ -790,7 +793,10 @@ static int vpu_windsor_fill_yuv_frame(struct vpu_shared_addr *shared,
+>  	else
+>  		desc->key_frame = 0;
+>  	desc->luma_base = vpu_get_vb_phy_addr(vb, 0);
+> -	desc->chroma_base = vpu_get_vb_phy_addr(vb, 1);
+> +	if (vb->num_planes > 1)
+> +		desc->chroma_base = vpu_get_vb_phy_addr(vb, 1);
+> +	else
+> +		desc->chroma_base = desc->luma_base + out_fmt->sizeimage[0];
+>  
+>  	return 0;
+>  }
+> -- 
+> 2.37.1
+> 
+
+Regards,
+Tommaso
+
+-- 
+Tommaso Merciai
+Embedded Linux Engineer
+tommaso.merciai@amarulasolutions.com
+__________________________________
+
+Amarula Solutions SRL
+Via Le Canevare 30, 31100 Treviso, Veneto, IT
+T. +39 042 243 5310
+info@amarulasolutions.com
+www.amarulasolutions.com
