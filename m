@@ -2,230 +2,170 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BE4315A2E7A
-	for <lists+linux-media@lfdr.de>; Fri, 26 Aug 2022 20:29:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6C0FC5A2E89
+	for <lists+linux-media@lfdr.de>; Fri, 26 Aug 2022 20:33:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344520AbiHZS2j (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 26 Aug 2022 14:28:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43370 "EHLO
+        id S243915AbiHZSdL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 26 Aug 2022 14:33:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53550 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344205AbiHZS2h (ORCPT
+        with ESMTP id S231626AbiHZSdK (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 26 Aug 2022 14:28:37 -0400
-Received: from relay11.mail.gandi.net (relay11.mail.gandi.net [IPv6:2001:4b98:dc4:8::231])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 82C26D573F;
-        Fri, 26 Aug 2022 11:28:35 -0700 (PDT)
+        Fri, 26 Aug 2022 14:33:10 -0400
+Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B89F8E39A3;
+        Fri, 26 Aug 2022 11:33:08 -0700 (PDT)
 Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPSA id A2DCF10000B;
-        Fri, 26 Aug 2022 18:28:32 +0000 (UTC)
+        by mail.gandi.net (Postfix) with ESMTPSA id 7BBD5FF80A;
+        Fri, 26 Aug 2022 18:33:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1661538513;
+        t=1661538787;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=K4G7Rh/Ep9MXrQsIrn3F+3vZLCD1+gVvrwyROro2h0w=;
-        b=HNiSpX8yMYswaKA859NeB8FZIY7UomyoAjRvOBAV3ldU/oHDcFmj91BQLfeJEZIbLIf6iz
-        cOO2oEsXIaw4PORmPQgQ6sHfTpGHJsrj4R6E2ZiQ2zN2nn65bcYkj4uERRJjWzFDDqTS2C
-        mI57QtAbTFlY1Wu3HzJP03A0o/oH9hhzLr/mVUuM6uRV1YxAsLw9fpvFEth0ywcus4Z9MM
-        2VLWzP4gqx/LFuUU2dxrxtytnjcM0ykH8/kXULC0VnaDTsnjZPtWMBR4AnfM8GT/rOb2z7
-        2cTzbRqyNDsbD4B4DG5p1gejAy9Uu0Rn/W5YVv/bz6g4clCmoKNbjQif55e+QA==
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=rgiedVDI26uxmOnUF2UJgB4eZJ7cOZaNiQBMvaYqW4s=;
+        b=gLIsTM5NxKI2dhCCbY6x/kJwmqWh7nX4eiERnxLo0f4e2Fb5AAFJvBHAT6B8S5qVcnKTlm
+        4kGogzau17hKqgQu7A2rvhbDfndrkn7EMb0PiAO4XM+g+U2ZSFHmNrKIX/14O2bMflC7X9
+        ZqpQ67aWYkIXzuJl4GnZfCTljC0iMILA2Ecp7bkbmCM4dMViwM4B17dp0oaNNjodZKHWVf
+        8cuJy+S900u9Zxi3UjaOzOUWjKb5bc7fkbSJPJyNgNZa8UGBLGtm7txb+qn2M0g15BihgO
+        2my+02U0yZ2lMEo4QP7xRnVOLOvdBVtLMCTCXElvCaM/D4MGzmdcgjw3V05q0g==
 From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To:     devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org
-Cc:     Rob Herring <robh+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+To:     linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+Cc:     Yong Deng <yong.deng@magewell.com>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Chen-Yu Tsai <wens@csie.org>,
         Jernej Skrabec <jernej.skrabec@gmail.com>,
         Samuel Holland <samuel@sholland.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Maxime Ripard <mripard@kernel.org>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        =?UTF-8?q?K=C3=A9vin=20L=27h=C3=B4pital?= 
-        <kevin.lhopital@bootlin.com>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Subject: [PATCH NOT FOR MERGE v5 6/6] ARM: dts: sun8i: a83t: bananapi-m3: Enable MIPI CSI-2 with OV8865
-Date:   Fri, 26 Aug 2022 20:28:03 +0200
-Message-Id: <20220826182803.604563-7-paul.kocialkowski@bootlin.com>
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: [PATCH v6 00/43] Allwinner A31/A83T MIPI CSI-2 and A31 ISP / CSI Rework
+Date:   Fri, 26 Aug 2022 20:31:57 +0200
+Message-Id: <20220826183240.604834-1-paul.kocialkowski@bootlin.com>
 X-Mailer: git-send-email 2.37.1
-In-Reply-To: <20220826182803.604563-1-paul.kocialkowski@bootlin.com>
-References: <20220826182803.604563-1-paul.kocialkowski@bootlin.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Kévin L'hôpital <kevin.lhopital@bootlin.com>
+This part only concerns the rework of the CSI driver to support the MIPI CSI-2
+and ISP workflows.
 
-The Bananapi M3 supports a camera module which includes an OV8865 sensor
-connected via the parallel CSI interface and an OV8865 sensor connected
-via MIPI CSI-2.
+Very few patches have not received any review at this point and the whole
+thing looks good to go. Since this multi-part series has been going on for a
+while, it would be great to see it merged soon!
 
-The I2C2 bus is shared by the two sensors as well as the (active-low)
-reset signal, but each sensor has it own shutdown line.
+Changes since v5:
+- Rebased on latest media tree;
+- Switched to using media_pad_remote_pad_first;
+- Switched to using media_pad_remote_pad_unique.
 
-Signed-off-by: Kévin L'hôpital <kevin.lhopital@bootlin.com>
-Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
----
- arch/arm/boot/dts/sun8i-a83t-bananapi-m3.dts | 102 +++++++++++++++++++
- 1 file changed, 102 insertions(+)
+Changes since v4:
+- Removed the v4l2 controls handler from the driver;
+- Removed the info message about video device registration;
+- Fixed "literature" typos;
+- Moved patches dependent on the ISP driver to its dedicated series;
+- Rebased on the latest media tree;
+- Added collected tags;
 
-diff --git a/arch/arm/boot/dts/sun8i-a83t-bananapi-m3.dts b/arch/arm/boot/dts/sun8i-a83t-bananapi-m3.dts
-index 5a7e1bd5f825..80fd99cf24b2 100644
---- a/arch/arm/boot/dts/sun8i-a83t-bananapi-m3.dts
-+++ b/arch/arm/boot/dts/sun8i-a83t-bananapi-m3.dts
-@@ -85,6 +85,30 @@ led-1 {
- 		};
- 	};
- 
-+	reg_ov8865_avdd: ov8865-avdd {
-+		compatible = "regulator-fixed";
-+		regulator-name = "ov8865-avdd";
-+		regulator-min-microvolt = <2800000>;
-+		regulator-max-microvolt = <2800000>;
-+		vin-supply = <&reg_dldo4>;
-+	};
-+
-+	reg_ov8865_dovdd: ov8865-dovdd {
-+		compatible = "regulator-fixed";
-+		regulator-name = "ov8865-dovdd";
-+		regulator-min-microvolt = <2800000>;
-+		regulator-max-microvolt = <2800000>;
-+		vin-supply = <&reg_dldo4>;
-+	};
-+
-+	reg_ov8865_dvdd: ov8865-dvdd {
-+		compatible = "regulator-fixed";
-+		regulator-name = "ov8865-dvdd";
-+		regulator-min-microvolt = <1200000>;
-+		regulator-max-microvolt = <1200000>;
-+		vin-supply = <&reg_eldo1>;
-+	};
-+
- 	reg_usb1_vbus: reg-usb1-vbus {
- 		compatible = "regulator-fixed";
- 		regulator-name = "usb1-vbus";
-@@ -115,6 +139,23 @@ &cpu100 {
- 	cpu-supply = <&reg_dcdc3>;
- };
- 
-+&csi {
-+	status = "okay";
-+
-+	ports {
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+
-+		port@1 {
-+			reg = <1>;
-+
-+			csi_in_mipi_csi2: endpoint {
-+				remote-endpoint = <&mipi_csi2_out_csi>;
-+			};
-+		};
-+	};
-+};
-+
- &de {
- 	status = "okay";
- };
-@@ -147,6 +188,36 @@ hdmi_out_con: endpoint {
- 	};
- };
- 
-+&i2c2 {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&i2c2_pe_pins>;
-+	status = "okay";
-+
-+	ov8865: camera@36 {
-+		compatible = "ovti,ov8865";
-+		reg = <0x36>;
-+		pinctrl-names = "default";
-+		pinctrl-0 = <&csi_mclk_pin>;
-+		clocks = <&ccu CLK_CSI_MCLK>;
-+		assigned-clocks = <&ccu CLK_CSI_MCLK>;
-+		assigned-clock-rates = <24000000>;
-+		avdd-supply = <&reg_ov8865_avdd>;
-+		dovdd-supply = <&reg_ov8865_dovdd>;
-+		dvdd-supply = <&reg_ov8865_dvdd>;
-+		powerdown-gpios = <&pio 4 17 GPIO_ACTIVE_LOW>; /* PE17 */
-+		reset-gpios = <&pio 4 16 GPIO_ACTIVE_LOW>; /* PE16 */
-+
-+		port {
-+			ov8865_out_mipi_csi2: endpoint {
-+				data-lanes = <1 2 3 4>;
-+				link-frequencies = /bits/ 64 <360000000>;
-+
-+				remote-endpoint = <&mipi_csi2_in_ov8865>;
-+			};
-+		};
-+	};
-+};
-+
- &mdio {
- 	rgmii_phy: ethernet-phy@1 {
- 		compatible = "ethernet-phy-ieee802.3-c22";
-@@ -154,6 +225,24 @@ rgmii_phy: ethernet-phy@1 {
- 	};
- };
- 
-+&mipi_csi2 {
-+	status = "okay";
-+};
-+
-+&mipi_csi2_in {
-+	mipi_csi2_in_ov8865: endpoint {
-+		data-lanes = <1 2 3 4>;
-+
-+		remote-endpoint = <&ov8865_out_mipi_csi2>;
-+	};
-+};
-+
-+&mipi_csi2_out {
-+	mipi_csi2_out_csi: endpoint {
-+		remote-endpoint = <&csi_in_mipi_csi2>;
-+	};
-+};
-+
- &mmc0 {
- 	pinctrl-names = "default";
- 	pinctrl-0 = <&mmc0_pins>;
-@@ -327,11 +416,24 @@ &reg_dldo3 {
- 	regulator-name = "vcc-pd";
- };
- 
-+&reg_dldo4 {
-+	regulator-always-on;
-+	regulator-min-microvolt = <2800000>;
-+	regulator-max-microvolt = <2800000>;
-+	regulator-name = "avdd-csi";
-+};
-+
- &reg_drivevbus {
- 	regulator-name = "usb0-vbus";
- 	status = "okay";
- };
- 
-+&reg_eldo1 {
-+	regulator-min-microvolt = <1200000>;
-+	regulator-max-microvolt = <1200000>;
-+	regulator-name = "dvdd-csi-r";
-+};
-+
- &reg_fldo1 {
- 	regulator-min-microvolt = <1080000>;
- 	regulator-max-microvolt = <1320000>;
+Changes since v3:
+- Updated Kconfig to follow the latest media-wide changes;
+- Rebased on latest changes to the driver (JPEG/sRGB colorspaces);
+- Added helper to get a single enabled link for an entity's pad, to replace
+  source selection at link_validate time and select the remote source at
+  stream on time instead;
+- Kept clock-managed regmap mmio;
+- Added collected review tags;
+- Various cosmetic cleanups;
+
+Changes since all-in-one v2:
+- Reworked capture video device registration, which stays in the main path.
+- Reworked async subdev handling with a dedicated structure holding the
+  corresponding source to avoid matching in the driver;
+- Added mutex for mbus format serialization;
+- Remove useless else in link_validate;
+- Reworked commit logs to include missing information;
+- Cleaned up Kconfig, added PM dependency;
+- Moved platform-specific clock rate to of match data;
+- Added collected Reviewed-by tags;
+- Updated copyright years;
+
+Paul Kocialkowski (43):
+  media: sun6i-csi: Define and use driver name and (reworked)
+    description
+  media: sun6i-csi: Refactor main driver data structures
+  media: sun6i-csi: Tidy up platform code
+  media: sun6i-csi: Always set exclusive module clock rate
+  media: sun6i-csi: Define and use variant to get module clock rate
+  media: sun6i-csi: Use runtime pm for clocks and reset
+  media: sun6i-csi: Tidy up Kconfig
+  media: sun6i-csi: Tidy up v4l2 code
+  media: sun6i-csi: Tidy up video code
+  media: sun6i-csi: Pass and store csi device directly in video code
+  media: sun6i-csi: Register the media device after creation
+  media: sun6i-csi: Remove controls handler from the driver
+  media: sun6i-csi: Add media ops with link notify callback
+  media: sun6i-csi: Introduce and use video helper functions
+  media: sun6i-csi: Move csi buffer definition to main header file
+  media: sun6i-csi: Add bridge v4l2 subdev with port management
+  media: sun6i-csi: Rename sun6i_video to sun6i_csi_capture
+  media: sun6i-csi: Add capture state using vsync for page flip
+  media: sun6i-csi: Rework register definitions, invert misleading
+    fields
+  media: sun6i-csi: Add dimensions and format helpers to capture
+  media: sun6i-csi: Implement address configuration without indirection
+  media: sun6i-csi: Split stream sequences and irq code in capture
+  media: sun6i-csi: Move power management to runtime pm in capture
+  media: sun6i-csi: Move register configuration to capture
+  media: sun6i-csi: Rework capture format management with helper
+  media: sun6i-csi: Remove custom format helper and rework configure
+  media: sun6i-csi: Add bridge dimensions and format helpers
+  media: sun6i-csi: Get mbus code from bridge instead of storing it
+  media: sun6i-csi: Tidy capture configure code
+  media: sun6i-csi: Introduce bridge format structure, list and helper
+  media: sun6i-csi: Introduce capture format structure, list and helper
+  media: sun6i-csi: Configure registers from format tables
+  media: sun6i-csi: Introduce format match structure, list and helper
+  media: sun6i-csi: Implement capture link validation with logic
+  media: sun6i-csi: Get bridge subdev directly in capture stream ops
+  media: sun6i-csi: Move hardware control to the bridge
+  media: sun6i-csi: Rename the capture video device to sun6i-csi-capture
+  media: sun6i-csi: Cleanup headers and includes, update copyright lines
+  media: sun6i-csi: Add support for MIPI CSI-2 to the bridge code
+  media: sun6i-csi: Only configure capture when streaming
+  media: sun6i-csi: Add extra checks to the interrupt routine
+  media: sun6i-csi: Request a shared interrupt
+  MAINTAINERS: Add myself as sun6i-csi maintainer and rename/move entry
+
+ MAINTAINERS                                   |   17 +-
+ .../media/platform/sunxi/sun6i-csi/Kconfig    |   12 +-
+ .../media/platform/sunxi/sun6i-csi/Makefile   |    2 +-
+ .../platform/sunxi/sun6i-csi/sun6i_csi.c      | 1027 ++++------------
+ .../platform/sunxi/sun6i-csi/sun6i_csi.h      |  149 +--
+ .../sunxi/sun6i-csi/sun6i_csi_bridge.c        |  844 +++++++++++++
+ .../sunxi/sun6i-csi/sun6i_csi_bridge.h        |   69 ++
+ .../sunxi/sun6i-csi/sun6i_csi_capture.c       | 1089 +++++++++++++++++
+ .../sunxi/sun6i-csi/sun6i_csi_capture.h       |   88 ++
+ .../platform/sunxi/sun6i-csi/sun6i_csi_reg.h  |  362 +++---
+ .../platform/sunxi/sun6i-csi/sun6i_video.c    |  685 -----------
+ .../platform/sunxi/sun6i-csi/sun6i_video.h    |   38 -
+ 12 files changed, 2551 insertions(+), 1831 deletions(-)
+ create mode 100644 drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_bridge.c
+ create mode 100644 drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_bridge.h
+ create mode 100644 drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c
+ create mode 100644 drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.h
+ delete mode 100644 drivers/media/platform/sunxi/sun6i-csi/sun6i_video.c
+ delete mode 100644 drivers/media/platform/sunxi/sun6i-csi/sun6i_video.h
+
 -- 
 2.37.1
 
