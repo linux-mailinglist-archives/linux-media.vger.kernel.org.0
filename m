@@ -2,61 +2,73 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 46ABC5A273F
-	for <lists+linux-media@lfdr.de>; Fri, 26 Aug 2022 13:56:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C12E25A27F1
+	for <lists+linux-media@lfdr.de>; Fri, 26 Aug 2022 14:46:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343578AbiHZL4Z (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 26 Aug 2022 07:56:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41422 "EHLO
+        id S244686AbiHZMqW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 26 Aug 2022 08:46:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40578 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245494AbiHZL4W (ORCPT
+        with ESMTP id S237428AbiHZMqU (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 26 Aug 2022 07:56:22 -0400
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5093977EAB
-        for <linux-media@vger.kernel.org>; Fri, 26 Aug 2022 04:56:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1661514980; x=1693050980;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=59vB5IColw5gmDLCc6Lsy2Zv9ya/sBms883JM3uMFnU=;
-  b=NRI09BJGVEPyHAEJHbHq/gBp21D5zhndRH0eDYcTqDrB1LTxsXnXQpXW
-   edSSwO6GFqYLD6A9eVKqYX4EnrmkYsCxUza2Glg/2FUy4K7vFTHVaaEoi
-   T4k7nB/jizh4WQwujpj4CFuwnr2iZWz6TjhIXQJPSX63wD8/Cl0fpprsZ
-   1cOZAP8AITidk1WKKileiP19hXZtjwZo45LH4Xyyr9UUqYy0dn86g7L+1
-   57x47nZDcymF2o+cC5pgD24nuEITc7P8ranSFz/Rzsmus3t+4zd2NloWY
-   KxMJiNNnTtVV6ymuRBZMfN3yU3Q23MlAG9utHKWaPdwTtJWyGSDXJCh+i
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10450"; a="294493907"
-X-IronPort-AV: E=Sophos;i="5.93,265,1654585200"; 
-   d="scan'208";a="294493907"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2022 04:56:18 -0700
-X-IronPort-AV: E=Sophos;i="5.93,265,1654585200"; 
-   d="scan'208";a="671433858"
-Received: from punajuuri.fi.intel.com (HELO paasikivi.fi.intel.com) ([10.237.72.43])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2022 04:56:17 -0700
-Received: from punajuuri.localdomain (punajuuri.localdomain [192.168.240.130])
-        by paasikivi.fi.intel.com (Postfix) with ESMTP id 4A8A02045C;
-        Fri, 26 Aug 2022 14:56:15 +0300 (EEST)
-Received: from sailus by punajuuri.localdomain with local (Exim 4.94.2)
-        (envelope-from <sakari.ailus@linux.intel.com>)
-        id 1oRXwt-00Dbtb-7W; Fri, 26 Aug 2022 14:56:31 +0300
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     linux-media@vger.kernel.org
-Cc:     Bingbu Cao <bingbu.cao@intel.com>,
-        Tianshu Qiu <tian.shu.qiu@intel.com>,
-        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: [PATCH 1/1] v4l: subdev: Fail graciously when getting try data for NULL state
-Date:   Fri, 26 Aug 2022 14:56:31 +0300
-Message-Id: <20220826115631.3243890-1-sakari.ailus@linux.intel.com>
-X-Mailer: git-send-email 2.30.2
+        Fri, 26 Aug 2022 08:46:20 -0400
+Received: from smtpout140.security-mail.net (smtpout140.security-mail.net [85.31.212.148])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 346F5C0B6B
+        for <linux-media@vger.kernel.org>; Fri, 26 Aug 2022 05:46:17 -0700 (PDT)
+Received: from localhost (localhost [127.0.0.1])
+        by fx408.security-mail.net (Postfix) with ESMTP id 66AE71B7B356
+        for <linux-media@vger.kernel.org>; Fri, 26 Aug 2022 14:46:16 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kalray.eu;
+        s=sec-sig-email; t=1661517976;
+        bh=PCNCr4gLjAzuooND/bjvQI4nTIspFNLeY0C0jqAHZCo=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To;
+        b=Byq7lhYNewtqG2I/Otk8UwNflh0QG0RPCSBNLX4N7Cht8DVLyBXqLaEM1ZAhw6Wjl
+         xoGdx+yqJpb2tmtR4utwof9sn9uzUwv/ImgcAW0jkpXS+2cJbAiy6FScXrHI4mLjYq
+         7cr2+dXL3y9EZWOqDQ9UcdRMvWqcMIFKbBgFl0uM=
+Received: from fx408 (localhost [127.0.0.1]) by fx408.security-mail.net
+ (Postfix) with ESMTP id 09D451B7B343; Fri, 26 Aug 2022 14:46:16 +0200 (CEST)
+Received: from zimbra2.kalray.eu (unknown [217.181.231.53]) by
+ fx408.security-mail.net (Postfix) with ESMTPS id 5C59B1B7B33F; Fri, 26 Aug
+ 2022 14:46:14 +0200 (CEST)
+Received: from zimbra2.kalray.eu (localhost [127.0.0.1]) by
+ zimbra2.kalray.eu (Postfix) with ESMTPS id 3FDAC27E02FA; Fri, 26 Aug 2022
+ 14:46:14 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1]) by zimbra2.kalray.eu
+ (Postfix) with ESMTP id 2888427E0392; Fri, 26 Aug 2022 14:46:14 +0200 (CEST)
+Received: from zimbra2.kalray.eu ([127.0.0.1]) by localhost
+ (zimbra2.kalray.eu [127.0.0.1]) (amavisd-new, port 10026) with ESMTP id
+ IugXXSCcSbbN; Fri, 26 Aug 2022 14:46:14 +0200 (CEST)
+Received: from tellis.lin.mbt.kalray.eu (unknown [192.168.36.206]) by
+ zimbra2.kalray.eu (Postfix) with ESMTPSA id 1782627E02FA; Fri, 26 Aug 2022
+ 14:46:14 +0200 (CEST)
+X-Virus-Scanned: E-securemail, by Secumail
+Secumail-id: <124ec.6308c096.5b61f.0>
+DKIM-Filter: OpenDKIM Filter v2.10.3 zimbra2.kalray.eu 2888427E0392
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kalray.eu;
+ s=32AE1B44-9502-11E5-BA35-3734643DEF29; t=1661517974;
+ bh=UYA33OxQNeupL628vgL2cqS03Bi2JR/rksKhM9GIj+4=;
+ h=Date:From:To:Message-ID:MIME-Version;
+ b=GL309KhJBsMGe5q62qOR9wXax82QRj2ep2rBAHM9rmFRXO2xvBc2fMIpfxWyR6hpV
+ cK4vRmwahv+hH6HFftmfCuXXVaY24zJE7w9LLJCbwh5w90HtOeOUvOiiA3Q9zgRYeT
+ iH2w/e4mvzPTNvc+PPWe0bWpnEBhCgaqLcbT2zYU=
+Date:   Fri, 26 Aug 2022 14:46:13 +0200
+From:   Jules Maselbas <jmaselbas@kalray.eu>
+To:     Jacopo Mondi <jacopo@jmondi.org>
+Cc:     linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+Subject: Re: [PATCH] media: i2c: Fix repeated word in comments
+Message-ID: <20220826124612.GC10294@tellis.lin.mbt.kalray.eu>
+References: <20220826100052.22945-22-jmaselbas@kalray.eu>
+ <20220826102447.kpwpj2n5mta4k3xi@uno.localdomain>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20220826102447.kpwpj2n5mta4k3xi@uno.localdomain>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-7.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+X-ALTERMIMEV2_out: done
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -64,47 +76,57 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The state argument for the functions for obtaining various parts of the
-state is NULL if it is called by drivers for active state. Fail graciously
-in that case instead of dereferencing a NULL pointer.
+Hi Jacopo,
 
-Suggested-by: Bingbu Cao <bingbu.cao@intel.com>
-Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
----
- include/media/v4l2-subdev.h | 6 ++++++
- 1 file changed, 6 insertions(+)
+On Fri, Aug 26, 2022 at 12:24:47PM +0200, Jacopo Mondi wrote:
+> Hi Jules
+> 
+>   thanks, but as reported in patchwork and lore
+> https://patchwork.linuxtv.org/project/linux-media/list/?series=&submitter=&state=*&q=mt9v111&archive=both&delegate=
+> https://lore.kernel.org/all/20220824135433.h2udwtnub7mlmtam@uno.localdomain/
+> 
+> This is the 4th patch to fix the same repeated word in a comment.
+ 
+> As I asked to Jilin, are you submitting this as part of a new
+> contributor program ?
+No, I've search for more repeated word after I've found one (in dma-buf heaps).
+I then saw that there were already some fixed by Jilin Yuan (and
+probably others).
 
-diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
-index 9689f38a0af1f..ec1896886dbd6 100644
---- a/include/media/v4l2-subdev.h
-+++ b/include/media/v4l2-subdev.h
-@@ -1046,6 +1046,8 @@ v4l2_subdev_get_pad_format(struct v4l2_subdev *sd,
- 			   struct v4l2_subdev_state *state,
- 			   unsigned int pad)
- {
-+	if (WARN_ON(!state))
-+		return NULL;
- 	if (WARN_ON(pad >= sd->entity.num_pads))
- 		pad = 0;
- 	return &state->pads[pad].try_fmt;
-@@ -1064,6 +1066,8 @@ v4l2_subdev_get_pad_crop(struct v4l2_subdev *sd,
- 			 struct v4l2_subdev_state *state,
- 			 unsigned int pad)
- {
-+	if (WARN_ON(!state))
-+		return NULL;
- 	if (WARN_ON(pad >= sd->entity.num_pads))
- 		pad = 0;
- 	return &state->pads[pad].try_crop;
-@@ -1082,6 +1086,8 @@ v4l2_subdev_get_pad_compose(struct v4l2_subdev *sd,
- 			    struct v4l2_subdev_state *state,
- 			    unsigned int pad)
- {
-+	if (WARN_ON(!state))
-+		return NULL;
- 	if (WARN_ON(pad >= sd->entity.num_pads))
- 		pad = 0;
- 	return &state->pads[pad].try_compose;
--- 
-2.30.2
+I was expecting that some patches were sent for this, sorry for the noise. 
+
+Cheers
+ 
+> Thanks
+>    j
+> 
+> On Fri, Aug 26, 2022 at 12:00:50PM +0200, Jules Maselbas wrote:
+> > Remove redundant word `the`.
+> >
+> > CC: Jacopo Mondi <jacopo@jmondi.org>
+> > CC: linux-media@vger.kernel.org
+> > Signed-off-by: Jules Maselbas <jmaselbas@kalray.eu>
+> > ---
+> >  drivers/media/i2c/mt9v111.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/media/i2c/mt9v111.c b/drivers/media/i2c/mt9v111.c
+> > index 2dc4a0f24ce8..7beca0b70b72 100644
+> > --- a/drivers/media/i2c/mt9v111.c
+> > +++ b/drivers/media/i2c/mt9v111.c
+> > @@ -633,7 +633,7 @@ static int mt9v111_hw_config(struct mt9v111_dev *mt9v111)
+> >
+> >  	/*
+> >  	 * Set pixel integration time to the whole frame time.
+> > -	 * This value controls the the shutter delay when running with AE
+> > +	 * This value controls the shutter delay when running with AE
+> >  	 * disabled. If longer than frame time, it affects the output
+> >  	 * frame rate.
+> >  	 */
+> > --
+> > 2.17.1
+> >
+
+
+
 
