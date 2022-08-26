@@ -2,125 +2,126 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B67BB5A21DD
-	for <lists+linux-media@lfdr.de>; Fri, 26 Aug 2022 09:30:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 08A485A2237
+	for <lists+linux-media@lfdr.de>; Fri, 26 Aug 2022 09:47:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245310AbiHZHaA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 26 Aug 2022 03:30:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43184 "EHLO
+        id S245506AbiHZHrx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 26 Aug 2022 03:47:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53044 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245306AbiHZH36 (ORCPT
+        with ESMTP id S229822AbiHZHrw (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 26 Aug 2022 03:29:58 -0400
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12on2085.outbound.protection.outlook.com [40.107.244.85])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB0D3C5E;
-        Fri, 26 Aug 2022 00:29:46 -0700 (PDT)
+        Fri, 26 Aug 2022 03:47:52 -0400
+Received: from EUR01-VE1-obe.outbound.protection.outlook.com (mail-eopbgr140087.outbound.protection.outlook.com [40.107.14.87])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B6D995A8A5;
+        Fri, 26 Aug 2022 00:47:50 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Uh9IrLfXhnxiaWn/tVviS8B+o3eKB2S4F/Uf+bsbqhH0byUNLpLhCG9PBB8m9zyIfboWnFNWtJKF85H9w6/KV9iDIsWqSEm0tPn14pXD6r5fFWCZSEvEPq+NoAQlDLZ2vs2eGrDpluwwEZWBfaBr/Bdd4tP/LSTOlcM1o9MVFALQib0CIriIxnaqlFAjvEwMzy9nZ+jcDDWQZT90B0BQdUjZPj1Wsjvwf5QLg2/5w668C2CccfNnWVtvySMbcmRxuRpO6qAgzSx2SR2NbIUV9Clpz/KW9a2wwwbZBNPCfrGaqBxq2udbS7+gqlitVf013ITObafPAlpf0IkweumhRA==
+ b=IyGCGtt4fNJuzZ3UEgefaoWmybuXcY6Bml6sHJ+Ik4scAppcm7qcmcWvZnNlT2PhnnXNB+aH9OktrusrzZKEhJ2qUQE0dfIHT5l2c1l2TpmI2IPwNu9GCMQwiJf8VgoJZ3J7Bp1C6noqFuxvSSuErxdEsSX57YQxIq+K+d1PuZx8JykZZx8vHuyZnb1d1Afz+pJFSPXQf/6GrtwxwR37B2aXfthHgXs5IGY0H9/sGilNz6sdwaVEK34hX/8p2zk2hHMgwU6Ibc/r5kvKh1PTwAKLO6u441/flhDtYwJUPa9fxN5+SnFWfJHi3Tggsk/GpK4lbzeaR6F5FFm4QgbTbQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=4WJOqnblUkybLK5WXkY7NnlWum6MtR69AQ0pPycS1AE=;
- b=WlJjPsJufweWZDpRrvW0CawdyJxrjxo0b1HE+M8I9Rq/2DnVVuAS6+8L3H2xI9G6tSjVe703kQbMV84csTdgvTXCZERqAyQk/j/BJHWXVWXgSrSsmhjjaiBKEZIaJ0CNROEppHrkz8Zox0zhzC7fxtZy81vBmcqXHvZMrwijvN3AezxtdeZCB6OUCPXC765xDjlsMrF3McJt5pHstyhoHqN7DqyfO6uddmQVUVhcnt8kivDXuxeNO/1Xs7TrEr/wLZLOj75F/p9mrxPZkCn6nzhzpTlV6ZfyTk7lNiGua8Ak1pIvV37qvPyBT2AGI/VNirZqcW/MfVnnvd9q6PNnZw==
+ bh=ZYPJi0qAz6V2WN2KsptPV+otTTVcHSM/8pd1wnF6Sac=;
+ b=V877qe/WS3SO3RyvABJGThTLs9Z7oEv1v8EHnXA9BakCiHL8+9Yk2RNwqyaVtYBd1qSF1Wj2/P1Ev4i+0/TjE61vGNeX0+a77ylTmXkC9usCUCusOBuGRiA3vr1U8QN0dfK5+uNZRg/L9kVxD6r6pciJeKE8D+SVglmaWepHV2I6Y+r3S5F1Ssvv87SGOfj+ytIksK/T0NxE79zjLkRtwq4qL+9behYAZABE/nbLq3H9olXjalUWmprMrnYOHH1wI1ppPN9N0f5FLhkp7DdvgAAN2oAyz/33tZoJZBpfgSSxaRek6Ww+AR5G1cY7+eXkfoE5BVEkPux41SWTEo0wrw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4WJOqnblUkybLK5WXkY7NnlWum6MtR69AQ0pPycS1AE=;
- b=h0IB7xj7At3Nlc3EvOfjMaGlBu/ATIwQUSg+OwWxce9ch9vOSkNWNDUISDRmjoVsIHkIXgd0MkpgaAxUJdAQauTaLuh+uX1zrJZvVNg9BipB8bJdvjPf7rd+/iN+W3qHRVr/slHePTEpkS2AHSOedIxOgeXB0plCAtqB6O8y9yY=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by DS7PR12MB6333.namprd12.prod.outlook.com (2603:10b6:8:96::15) with
+ bh=ZYPJi0qAz6V2WN2KsptPV+otTTVcHSM/8pd1wnF6Sac=;
+ b=NdoZR8G66iflAjt1XL21XqmWnJHRs8Pi5xsZ6aV/kZWFQO9QUqc3Woicv9fEzI9gRAhXWe94e8lWUQQtAAvbnO2Lwv8eH8IaeWz+6xrOc2kSWrXwXDtRo//QNOLRQide6TsDTzm0t3Eg1w2PSoVn2vpdeu4lguInv7BAyeEpS0Y=
+Received: from AM6PR04MB6341.eurprd04.prod.outlook.com (2603:10a6:20b:d8::14)
+ by VI1PR04MB4191.eurprd04.prod.outlook.com (2603:10a6:803:45::22) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5566.15; Fri, 26 Aug
- 2022 07:29:43 +0000
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::4524:eda6:873a:8f94]) by BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::4524:eda6:873a:8f94%7]) with mapi id 15.20.5566.015; Fri, 26 Aug 2022
- 07:29:43 +0000
-Message-ID: <76882e3a-6061-e5f3-fe69-7928de91ba17@amd.com>
-Date:   Fri, 26 Aug 2022 09:29:36 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH] drm/ast: add dmabuf/prime buffer sharing support
+ 2022 07:47:48 +0000
+Received: from AM6PR04MB6341.eurprd04.prod.outlook.com
+ ([fe80::cd23:6d52:9925:4f38]) by AM6PR04MB6341.eurprd04.prod.outlook.com
+ ([fe80::cd23:6d52:9925:4f38%4]) with mapi id 15.20.5566.015; Fri, 26 Aug 2022
+ 07:47:47 +0000
+From:   Ming Qian <ming.qian@nxp.com>
+To:     Tommaso Merciai <tommaso.merciai@amarulasolutions.com>
+CC:     "mchehab@kernel.org" <mchehab@kernel.org>,
+        "hverkuil-cisco@xs4all.nl" <hverkuil-cisco@xs4all.nl>,
+        "shawnguo@kernel.org" <shawnguo@kernel.org>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "s.hauer@pengutronix.de" <s.hauer@pengutronix.de>,
+        "kernel@pengutronix.de" <kernel@pengutronix.de>,
+        "festevam@gmail.com" <festevam@gmail.com>,
+        dl-linux-imx <linux-imx@nxp.com>,
+        "X.H. Bao" <xiahong.bao@nxp.com>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>
+Subject: RE: [EXT] Re: [PATCH v5 2/4] media: amphion: tell and handle
+ contiguous and non contiguous format
+Thread-Topic: [EXT] Re: [PATCH v5 2/4] media: amphion: tell and handle
+ contiguous and non contiguous format
+Thread-Index: AQHYuCHju+FVuKkz9ki0/lyYsF8uQK3AyHWAgAAGC2A=
+Date:   Fri, 26 Aug 2022 07:47:47 +0000
+Message-ID: <AM6PR04MB634128ED70894F35B629C69AE7759@AM6PR04MB6341.eurprd04.prod.outlook.com>
+References: <cover.1661390673.git.ming.qian@nxp.com>
+ <7e6a945b898254679bd93e7e001e7c24b5aea0ef.1661390673.git.ming.qian@nxp.com>
+ <20220826072047.GA3151@tom-ThinkPad-T14s-Gen-2i>
+In-Reply-To: <20220826072047.GA3151@tom-ThinkPad-T14s-Gen-2i>
+Accept-Language: zh-CN, en-US
 Content-Language: en-US
-To:     oushixiong <oushixiong@kylinos.cn>,
-        Dave Airlie <airlied@redhat.com>
-Cc:     Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-References: <20220826013103.1519411-1-oushixiong@kylinos.cn>
-From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20220826013103.1519411-1-oushixiong@kylinos.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: AS9PR04CA0143.eurprd04.prod.outlook.com
- (2603:10a6:20b:48a::24) To BN8PR12MB3587.namprd12.prod.outlook.com
- (2603:10b6:408:43::13)
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: cb32daae-4be8-4d8b-76f4-08da8737451c
+x-ms-traffictypediagnostic: VI1PR04MB4191:EE_
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: VGoqKeLeeDs753PnilslXzPyQiwb5ojJXOF+cew2cQjv1VuPjd9lDAVcEkG0HZtoJvshUzWDFDULLrEcXkGk2PnDtgHKur0KDicSmwMkkcbFEAvkLGKZ3urPf7V4hlni00NK3Xb9P3V4+iPCQ6ThxwBXOLjfilnn0TbwK/AmQpKr46mzftdU12v/tRMiUDYsDW/DQpXG6xhWhcVimWqDKA6l0V1XlPwfKl2s5jp1SpuBx+ITXCPbqQ/VKBxfLMlPs1n7JcEklSG9pkIAKMZ80zucSEWGe5DuCgGxpDTMertuZRrphY3DeQecVVXIXlFLpGyt5rMey0p9kDnnmWe1PO5R2gGO4z196GXfl8DztbPphSAGxyCsI9iD9Yf5aOlSaOkPkWZ6dQbryyzan+lyC8YS+DKMaBZ0vjjiDHPKopPYQGaJF+qc44LIt9byGDc0ZDwxN61VSHYkJYn9VSAeHDKRJS/AwAHZ4DOPf0YZMMl/HwgHS3VvUdJ/R6lKr2kzSJnoscZBzFZs2MSYl5u4wMq7OSAwT3z/HnM7myG+8nTYvLBg981aIxiNOM8JyFqv5GIo1tOAFk2BA/0MgtvmZVMIy046cwJhCgmXO/C67n9R4kRyP9pj+9VxXpdWmpTeJTgnGPAEpIxxko//h2Wmn17BZnjuYpVCsDl1aV7Lyu3A22OlCbZ8OEufO+fKCPCHNhtal2NgaE/ovn17xWms6ZiESqaPviKcFmxVhJwouFMGqvvFvGjZO2MOV5/3CvsCpXZd8CYOHS9/wwttcoUTwg==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6PR04MB6341.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(39860400002)(376002)(396003)(346002)(136003)(366004)(86362001)(316002)(83380400001)(4326008)(66946007)(64756008)(8676002)(76116006)(66446008)(8936002)(41300700001)(7416002)(52536014)(44832011)(5660300002)(478600001)(38070700005)(186003)(66556008)(7696005)(6506007)(26005)(33656002)(66476007)(55016003)(38100700002)(6916009)(54906003)(9686003)(122000001)(2906002)(71200400001);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?NK+KO2WhoWAoAtgwKwNXfSYARYO+F23Yl9tAinN/2sCgsaF1FEqsWyUiWQBk?=
+ =?us-ascii?Q?O5QtSBGv5xHi05g5nBV4WkaoktpCy3SXs9ERVQMsU9Y2/TxXGXWqQ7eOTmUM?=
+ =?us-ascii?Q?/6EnJqdi9mwEGOH43LrjJP2yVfEhqW7Xab5b+W+2+ZHankWyC5aZkfCaHZxO?=
+ =?us-ascii?Q?7VbXvYT2C2QpPj1x1cCKxjkIa1c/SkivpsvtCudsh2QcaLsXCwNZzncEq3I7?=
+ =?us-ascii?Q?sVxGaiQYVvW4DWIylZeVVVimYOsuOLnZCDNGmz9l81DDcJ/ShD+Dj3cTmQUH?=
+ =?us-ascii?Q?TJcnSjdkHxC2UayFiLlzP/JvKY9RiQI0NLg454QdvnaelQMfQFgpppQvq8hX?=
+ =?us-ascii?Q?9wWgMNHby/XwCsHGx6povZq+RUaojfn0kEDn3nhkEnUI5psf7YLEkZ57Lswu?=
+ =?us-ascii?Q?txC1s9d0uRfqp7HpJAzusoW4lLqfn/vuMyh07NrzpxiOo2X+TYhZu0McWluW?=
+ =?us-ascii?Q?fa1/LTIddt/wZLufb83RKQGZMdoTgdM8FTM7qrL/Tso0vjPLdRC2m+NA5hJE?=
+ =?us-ascii?Q?6TdwrbvEvADwEwWCKTufYOMjH1zmFmgbXANrMoEUFuGUXgb9DaTAUcl0JpgB?=
+ =?us-ascii?Q?lqRsUuYVbb0/tBUqlkW6hnjZjYVk/N3oSrKpfcP1kj13+ljOzoC3c7AsxxSL?=
+ =?us-ascii?Q?YfPfbYdpcF3UFkw7xcLtn/MxTMxC2S5FTWnm7rjiFFQWSV8rwFA9GNrXDykO?=
+ =?us-ascii?Q?07J+/2F8j9yANFKeWmjN4ca7nRbt0FT98hU6TDkMr4qqZFUNJ119Zs2huIt1?=
+ =?us-ascii?Q?LBt3cVr10LQ3MBeLw0nF396a0iiIAqJiEEgCzLXmLyZpOliTtT1dXR682gxl?=
+ =?us-ascii?Q?ejZds/ulm58RgZ8/we5tl9C+qgPesTn5oVBFoIabbk0wIqqA9bhJy6Ybvu0q?=
+ =?us-ascii?Q?F37q0mGmKF1HFMd0qC06ELno/UJ6ew2NsmH0SZJ1xl1+VMSHylV3HTp2yHW3?=
+ =?us-ascii?Q?LCs4Rh7KoJwm+nD7mIBGWLT55BRqzE7r4WzVG8qT+kXeBSXZZm096m4S1QmJ?=
+ =?us-ascii?Q?fmH3uabmDTjNac0ZIMeyfn/Nb54pHHfZydb2e1ryYOBujngMTujx4vjCBzkz?=
+ =?us-ascii?Q?FsV+KpCFF/G0+YcaQdq0aokJ6XwBPKcEW7MxXdla9XmVsx/Bw71IaZE47Hd0?=
+ =?us-ascii?Q?nVJbeyoaNt8/kBY9hXYQD7qoaHHlXZmq7dVoX/mtCR/3YplzE0rYNWMLOv7i?=
+ =?us-ascii?Q?Nc8t9GXZ8sWMPYaL8+A/O0Y8DOhCX7dyxhaz+Bk2DEg5vF/gM+iwnJeWSPvb?=
+ =?us-ascii?Q?8Fq8xCpKRHF8gmIB7eQtWVWb/9QhMA4Gi4xhe562ZGQ/YDXIBQ8fSX6FmFn7?=
+ =?us-ascii?Q?0TifjM8RxChFuMuXtwOKiDikVIwXMMhYWVNKmIOTikTBV1RtkvXsJZXmZnM0?=
+ =?us-ascii?Q?msX9ACpQ6cBFRcAwFZhk9/oogHCnetRH7R+8tdsBGp6EZDIjvbzvvbNBCPNr?=
+ =?us-ascii?Q?4gla9+KFUvZjtvNkDOAkazQ9QiDbZz9cXrpt2qJywW53POms6/ZQajEHMwrp?=
+ =?us-ascii?Q?FSJzCHbsbQ8LzT+sYNV2138xGEkI1ifewLF3BYngYVNNtQkyzEbRMrZROpIe?=
+ =?us-ascii?Q?jzasg88zWKVaschbTW8=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 65a3a6b1-086e-4f28-0c88-08da8734bed1
-X-MS-TrafficTypeDiagnostic: DS7PR12MB6333:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: wSS22a/3dpWuDx//UDI6/Am1LWqhIkorMd+zhPArd1kDshJebwHcmraP5jcPEJIAclzFsUc9cx97aNrZWXf5omvmNtbc+b/tzItB/V9r+N6Yjip+w847A0NZRLKeev3jAvXJUS03fL710adK1q90eEZIIeOvTWKUVtwCN5F9bdChiQG3pMV8B1iW0SuDfX7FPTjvshxEgzHYcDx0Skr1yaJF1kHiAzXQ+nX829NhGDBUgs/73703bO2x3dl7Id8sVyQBSGoFZ3kZRTSkkTk1ulSAToFXpJaKW+NbcNZl+6NPhQOoz0EbOcS9AlkUVoPZjPVn/n+8AIjF44dQzoY9lYZIhM07AR0gqyeMODPfyId+cOlCY4K2WKS/iq4Xv30SGo6BV8qynbM0kb3ffZnQ3/PvWu2lFoqUdczkjHXqfBWSTjlnJ0+TZP5frz/J17ormv26JDTcAgjCt/91IT9ODI2dmYIzCAkhVYAICa4+Xu9u82swIY/kUohu5PJmEQZ0qBc+LkTxb1/7C8MDKHXJ2NrW/rFTk7vn7r+KD15LUcvVp4jhV9O5n40T0T4iIqiC5B8zFbE/iMKT79nvYApFsj3ZfKHOvonf8SSis3Q7FCmlJYbwjTn2WyLHX6Lyq7wahuPHyRZHemqNNsRYZBjeACMIFkVRxHG2UpXTIgGJsO+ysUiOV1OU8HMv+0ZPf9vbMweBHaCsG0HI1Gb8vVueSXbMgotXZwt5HTVwG1aVXNeAPSkd7ORNxalugOk7YJ30QkaAjoA+i++iZ3kJ9UvOvcHb6FzpIrYoBAIWEY+swUw=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN8PR12MB3587.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(366004)(376002)(396003)(136003)(39860400002)(346002)(110136005)(31686004)(36756003)(54906003)(83380400001)(7416002)(5660300002)(8936002)(4326008)(66476007)(66556008)(66946007)(2906002)(8676002)(316002)(31696002)(6666004)(41300700001)(6512007)(2616005)(186003)(6486002)(86362001)(26005)(6506007)(478600001)(38100700002)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?eGthMXExUUdBbWdrcjJPVll4MGlIUDAxd2QrbHVseERzS0VKeGR3dkNoNmdP?=
- =?utf-8?B?T3BqK1kxLzNPenVXRnV6bWRmbFJpcFhXUGE0VHp3N0Z3alBEVGgwR1BDL21w?=
- =?utf-8?B?cFJJZnpMMndHWXByQ3FkQ1JXaEdRY0FwTmtBOERjenVyRTF1VlJ6ckZ4UC9h?=
- =?utf-8?B?TmJGK21FUmNrVW90bndyYU1jQ2Vtc2tyYlpObEtCSlIrWFlKVVBHaG5QS0Jv?=
- =?utf-8?B?ZHNBNmVsU1BKOWtVdStZbzZLSkhIaVJrK2JNM0t5M0RVYThlRjJkSDdjUFNx?=
- =?utf-8?B?UWFOUkdwbWNVZ2c1dTVMMTRlZVRpbEVwY2xlZVBZNVp6ZjBCL2hOUURIV0VQ?=
- =?utf-8?B?TEs3cnNIWFdaSkhGbFB4anVnME1QNVJnREZZUkZ3S1lxMFRNejNnejdZdWdD?=
- =?utf-8?B?Qm91LzV5VXZaMmtLZURqbnZtYnN2YS9kUDF0cTVwL2U3Q1VzUjRDTnh0bGdX?=
- =?utf-8?B?MFFUZk1hUmhjMS93L3RGRE5RbnNERHgxSEw1SWo3QnJxdTk4aDNuZUtQbGds?=
- =?utf-8?B?bHRxSWRoS2R4TGRHNERtZk5IblpwT2c3QlhzdGVOaUxqNG96S3dObnR0ZWF6?=
- =?utf-8?B?ekhPZjhSM3VqS29xUnpZZlpQd0dlY0YyQVU1SXovN21SZzRsSFJhalB4R2FN?=
- =?utf-8?B?UWlkZ0Q4Q0RpendFZnhCb1dRRXlaU2prWVY0MVNBeGxyeTRPNzFYa3dUQnFW?=
- =?utf-8?B?YjN1bkRGRjFwdDdZcThiaEplay9EUGRib3Mwc3ZNVTZxakxyRUZhRk8vOGJ3?=
- =?utf-8?B?ZTErb2hSRWdIQlBPcVJzd2VWdkRFM0JMNlY2YXRiSW5WWHQyZFJtV3Y2SGIx?=
- =?utf-8?B?Ny85WmtrRUFOcjFlZDl1ZTRQMVBHUHp2UVI4b0Y5UnZtQzlTR0Q5bUZFY0tS?=
- =?utf-8?B?TWNFU2NDcGwyOHVQOXMxR3NDMi9IWEcwbUpEM0hQMFFBMzFyeWVhRkYraXBC?=
- =?utf-8?B?MUFtMXdSUkl1a21ZYUlXN3Y4dTl3ZG40NWVwMklrbnBnMGsrdmYxcFRpUVFI?=
- =?utf-8?B?c3dvSVZudzlyYUF0ZHFaRzZRRWdsTFVwZ0c0aWkwS09KTkV4YWEzcHlvY3Y2?=
- =?utf-8?B?T25RdlRLWG1KQi9LdklxMDdJMXRZbmNWZEVUa1dGMkl3cjFsTFZRc2loa0hD?=
- =?utf-8?B?Z3JHcUxoWGN6cGljUlRVYzhITVpLdzd5TGNTSFhEQlRaRUxpdmxXMHBNSWtm?=
- =?utf-8?B?QS9DVnNlS2NVWFZ0NU5Cd3dMVkZuTFluRnVNM2FtSnRyMlY5Z3ZNelNjakIv?=
- =?utf-8?B?a0NPMzNudkEyOVhGS05uVytUNW1FZlhsRmhTYzdKYWZLdGZIbGVYc09CbWxi?=
- =?utf-8?B?b1pMTGgwZG81c3JGZFc1a0J5eVFFNmVTeFVzcGJrOHhxbTFvYlhVVmtmck0x?=
- =?utf-8?B?WUl1VmpqUmNBak1IZmgzYVNhRjJtR3N4NDVETUtDT2o3Vk1ZSGl6b3lSWHF2?=
- =?utf-8?B?bzBrcGtlU1pOUFkxemNTcmY2SFBiamtweENRWlY5aXBjT1dWcGQ0bEMwREt0?=
- =?utf-8?B?bUxvalFtRmVvZzU5RnhyNXllcFpKMEE5ZlJnQS8zMjR6T3daUnJzcW0yb1NH?=
- =?utf-8?B?cVFIVDB3eXEyTktFTjZjdy8vajc4NGpjOXQvM2VkaDNKZVhYZVB4S2k4Y1Va?=
- =?utf-8?B?YjBYTWtYb3RneWdGRVBiMGtETllqZ09pNjdMQWs0TkVYRnhRY0tjVXArcDl5?=
- =?utf-8?B?SlFDV05GK2RYaDJBWnNZbCttSjRHVUw3dkJlaHhWK3VrblEwOEFVUDlJazVN?=
- =?utf-8?B?YTE4NVVRYVp1dGpPY1ZwU1Mzd3JIMVBMbXA0aE5CZ1B0NjVTTWYzcVAxL3Zm?=
- =?utf-8?B?Qi9PamsxcUtlNGF1UTNPSUdHRCtOVndKQlIzK2dhcEtYZUowYkpGUG05K2w5?=
- =?utf-8?B?bHp4T0ZiQlJ5QXFxZ25ndmgxQ0RJMFEzdk11VUREQWhXQUszOURWMXNUS3Z1?=
- =?utf-8?B?U3VkV1lVRkF3RnNjSTFRS0EyY3ZoVkRhZDgxaUZZUkZmek1WaWxWdEZCb2hS?=
- =?utf-8?B?V2tMRTRoRnNRTUpuOCt4enZaM3FCZHlZRmxVd0thOTllUmFKUkdIVDFHdWVY?=
- =?utf-8?B?cHlNM2ZlVW1pTHBDa1ZCamdsU1dvN0pIcERtcXU5S0hDS0lGdUlZa1hXMzNs?=
- =?utf-8?Q?Uqh7bFLsQ4y8Q7dvg+AWsONDQ?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 65a3a6b1-086e-4f28-0c88-08da8734bed1
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
+X-OriginatorOrg: nxp.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Aug 2022 07:29:43.6860
+X-MS-Exchange-CrossTenant-AuthSource: AM6PR04MB6341.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: cb32daae-4be8-4d8b-76f4-08da8737451c
+X-MS-Exchange-CrossTenant-originalarrivaltime: 26 Aug 2022 07:47:47.8322
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: SkfMWjPJUcjKoRt0Xds8LMJ4jxKHjYsnz8E3puMph1M2JHSRxEcpVctqIUfgXTm3
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB6333
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: W/StMUNNLVnB6mnw4//PpZfPnHRY4I2IP+LUIUi1OuwiLwuHdf8GSFxendqHkxmyb9ixYCII75cTLNVJkbJYag==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR04MB4191
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
         RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -129,277 +130,67 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am 26.08.22 um 03:31 schrieb oushixiong:
-> This patch adds ast specific codes for DRM prime feature, this is to
-> allow for offloading of rending in one direction and outputs in other.
+[snip]
+
+>> diff --git a/drivers/media/platform/amphion/vpu_helpers.c
+>> b/drivers/media/platform/amphion/vpu_helpers.c
+>> index e9aeb3453dfc..019c77e84514 100644
+>> --- a/drivers/media/platform/amphion/vpu_helpers.c
+>> +++ b/drivers/media/platform/amphion/vpu_helpers.c
+>> @@ -59,6 +59,36 @@ const struct vpu_format
+>*vpu_helper_find_format(struct vpu_inst *inst, u32 type,
+>>       return NULL;
+>>  }
+>>
+>> +const struct vpu_format *vpu_helper_find_sibling(struct vpu_inst
+>> +*inst, u32 type, u32 pixelfmt) {
+>> +     const struct vpu_format *fmt;
+>> +     const struct vpu_format *sibling;
+>> +
+>> +     fmt =3D vpu_helper_find_format(inst, type, pixelfmt);
+>> +     if (!fmt || !fmt->sibling)
+>> +             return NULL;
+>> +
+>> +     sibling =3D vpu_helper_find_format(inst, type, fmt->sibling);
+>> +     if (!sibling || sibling->sibling !=3D fmt->pixfmt ||
+>> +         sibling->comp_planes !=3D fmt->comp_planes)
+>> +             return NULL;
 >
-> This patch is designed to solve the problem that the AST is not displayed
-> when the server plug in a discrete graphics graphics card at the same time.
-> We call the dirty callback function to copy the rendering results of the
-> discrete graphics card to the ast side by dma-buf.
+>I think to preserve code style you need the following solutions on this if
+>statement:
 >
-> v1->v2:
->    - Fix the comment.
-> v2->v3:
->    - we remove the attach function, add the drm_gem_pin() before dma_buf_vmap(),
->      and add the drm_gem_unpin() after the dma_buf_vunmap().
+>if (!sibling || (sibling->sibling !=3D fmt->pixfmt) ||
+>    (sibling->comp_planes !=3D fmt->comp_planes))
+>         return NULL;
 >
-> Signed-off-by: oushixiong <oushixiong@kylinos.cn>
-> ---
->   drivers/gpu/drm/ast/ast_drv.c  |  27 +++++++
->   drivers/gpu/drm/ast/ast_mode.c | 134 ++++++++++++++++++++++++++++++++-
->   drivers/gpu/drm/drm_gem.c      |   2 +
->   include/drm/drm_gem.h          |   3 +
->   4 files changed, 165 insertions(+), 1 deletion(-)
+>I think I have suggested to you this solution on the v4. But never mind we
+>need this :)
 >
-> diff --git a/drivers/gpu/drm/ast/ast_drv.c b/drivers/gpu/drm/ast/ast_drv.c
-> index 7465c4f0156a..107383a56ca7 100644
-> --- a/drivers/gpu/drm/ast/ast_drv.c
-> +++ b/drivers/gpu/drm/ast/ast_drv.c
-> @@ -28,6 +28,7 @@
->   
->   #include <linux/module.h>
->   #include <linux/pci.h>
-> +#include <linux/dma-buf.h>
->   
->   #include <drm/drm_aperture.h>
->   #include <drm/drm_atomic_helper.h>
-> @@ -50,6 +51,29 @@ module_param_named(modeset, ast_modeset, int, 0400);
->   
->   DEFINE_DRM_GEM_FOPS(ast_fops);
->   
-> +struct drm_gem_object *ast_gem_prime_import(struct drm_device *dev,
-> +						struct dma_buf *dma_buf)
-> +{
-> +	struct drm_gem_vram_object *gbo;
-> +
-> +	gbo = drm_gem_vram_of_gem(dma_buf->priv);
-> +	if (gbo->bo.base.dev == dev) {
-> +		/*
-> +		* Importing dmabuf exported from out own gem increases
-> +		* refcount on gem itself instead of f_count of dmabuf.
-> +		*/
-> +		drm_gem_object_get(&gbo->bo.base);
-> +		return &gbo->bo.base;
-> +	}
-> +
-> +	gbo = drm_gem_vram_create(dev, dma_buf->size, 0);
-> +	if (IS_ERR(gbo))
-> +		return NULL;
-> +
-> +	get_dma_buf(dma_buf);
-> +	return &gbo->bo.base;
-> +}
-> +
->   static const struct drm_driver ast_driver = {
->   	.driver_features = DRIVER_ATOMIC |
->   			   DRIVER_GEM |
-> @@ -63,6 +87,9 @@ static const struct drm_driver ast_driver = {
->   	.minor = DRIVER_MINOR,
->   	.patchlevel = DRIVER_PATCHLEVEL,
->   
-> +	.prime_fd_to_handle = drm_gem_prime_fd_to_handle,
-> +	.gem_prime_import = ast_gem_prime_import,
-> +
->   	DRM_GEM_VRAM_DRIVER
->   };
->   
-> diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
-> index 45b56b39ad47..c81a6148b6df 100644
-> --- a/drivers/gpu/drm/ast/ast_mode.c
-> +++ b/drivers/gpu/drm/ast/ast_mode.c
-> @@ -48,6 +48,8 @@
->   #include "ast_drv.h"
->   #include "ast_tables.h"
->   
-> +MODULE_IMPORT_NS(DMA_BUF);
-> +
->   static inline void ast_load_palette_index(struct ast_private *ast,
->   				     u8 index, u8 red, u8 green,
->   				     u8 blue)
-> @@ -1535,8 +1537,138 @@ static const struct drm_mode_config_helper_funcs ast_mode_config_helper_funcs =
->   	.atomic_commit_tail = drm_atomic_helper_commit_tail_rpm,
->   };
->   
-> +static int ast_handle_damage(struct drm_framebuffer *fb, int x, int y,
-> +					int width, int height)
-> +{
-> +	struct drm_gem_vram_object *dst_bo = NULL;
-> +	void *dst = NULL;
-> +	int ret = 0, i;
-> +	unsigned long offset = 0;
-> +	bool unmap = false;
-> +	unsigned int bytesPerPixel;
-> +	struct iosys_map map;
-> +	struct iosys_map dmabuf_map;
-> +
-> +	bytesPerPixel = fb->format->cpp[0];
-> +
-> +	if (!fb->obj[0]->dma_buf)
-> +		return -EINVAL;
-> +
-> +	if (!fb->obj[0]->dma_buf->vmap_ptr.vaddr) {
-> +		ret = drm_gem_pin(fb->obj[0]->dma_buf->priv);
-> +		if (ret)
-> +			return ret;
+>Thanks
+>
 
-This is an full blown NAK to this!
+Hi Tommaso,
+    The parentheses are unnecessary, the checkpatch.pl will report the foll=
+owing style problems if I add the parentheses:
 
-By accessing dma_buf->priv you are assuming that this points to a GEM 
-buffer.
+CHECK: Unnecessary parentheses around 'sibling->sibling !=3D fmt->pixfmt'
+#11: FILE: drivers/media/platform/amphion/vpu_helpers.c:72:
++       if (!sibling || (sibling->sibling !=3D fmt->pixfmt) ||
++           (sibling->comp_planes !=3D fmt->comp_planes))
 
-Additional to that pinning the buffer shouldn't be necessary for a call 
-to dma_buf_vmap().
+CHECK: Unnecessary parentheses around 'sibling->comp_planes !=3D fmt->comp_=
+planes'
+#11: FILE: drivers/media/platform/amphion/vpu_helpers.c:72:
++       if (!sibling || (sibling->sibling !=3D fmt->pixfmt) ||
++           (sibling->comp_planes !=3D fmt->comp_planes))
 
-Regards,
-Christian.
+total: 0 errors, 0 warnings, 2 checks, 10 lines checked
 
-> +		ret = dma_buf_vmap(fb->obj[0]->dma_buf, &dmabuf_map);
-> +		if (ret)
-> +			goto err_vmap_dmabuf;
-> +	} else
-> +		dmabuf_map.vaddr = fb->obj[0]->dma_buf->vmap_ptr.vaddr;
-> +
-> +	dst_bo = drm_gem_vram_of_gem(fb->obj[0]);
-> +
-> +	ret = drm_gem_vram_pin(dst_bo, 0);
-> +	if (ret) {
-> +		DRM_ERROR("ast_bo_pin failed\n");
-> +		goto err_ast_pin;
-> +	}
-> +
-> +	if (!dst_bo->map.vaddr) {
-> +		ret = drm_gem_vram_vmap(dst_bo, &map);
-> +		if (ret) {
-> +			DRM_ERROR("failed to vmap fbcon\n");
-> +			goto err_vmap_ast_bo;
-> +		}
-> +		unmap = true;
-> +	}
-> +	dst = dst_bo->map.vaddr;
-> +
-> +	for (i = y; i < y + height; i++) {
-> +		offset = i * fb->pitches[0] + (x * bytesPerPixel);
-> +		memcpy_toio(dst + offset, dmabuf_map.vaddr + offset,
-> +			width * bytesPerPixel);
-> +	}
-> +
-> +	if (unmap)
-> +		drm_gem_vram_vunmap(dst_bo, &map);
-> +
-> +	drm_gem_vram_unpin(dst_bo);
-> +	return 0;
-> +
-> +err_vmap_ast_bo:
-> +	drm_gem_vram_unpin(dst_bo);
-> +err_ast_pin:
-> +err_vmap_dmabuf:
-> +	drm_gem_unpin(fb->obj[0]->dma_buf->priv);
-> +	return ret;
-> +}
-> +
-> +
-> +static int ast_user_framebuffer_dirty(struct drm_framebuffer *fb,
-> +				struct drm_file *file,
-> +				unsigned int flags,
-> +				unsigned int color,
-> +				struct drm_clip_rect *clips,
-> +				unsigned int num_clips)
-> +{
-> +	int i, ret = 0;
-> +
-> +	drm_modeset_lock_all(fb->dev);
-> +	if (fb->obj[0]->dma_buf) {
-> +		ret = dma_buf_begin_cpu_access(fb->obj[0]->dma_buf,
-> +				DMA_FROM_DEVICE);
-> +		if (ret)
-> +			goto unlock;
-> +	}
-> +
-> +	for (i = 0; i < num_clips; i++) {
-> +		ret = ast_handle_damage(fb, clips[i].x1, clips[i].y1,
-> +				clips[i].x2 - clips[i].x1, clips[i].y2 - clips[i].y1);
-> +		if (ret)
-> +			break;
-> +	}
-> +
-> +	if (fb->obj[0]->dma_buf) {
-> +		dma_buf_end_cpu_access(fb->obj[0]->dma_buf,
-> +				DMA_FROM_DEVICE);
-> +	}
-> +
-> +unlock:
-> +	drm_modeset_unlock_all(fb->dev);
-> +
-> +	return ret;
-> +}
-> +
-> +static void ast_user_framebuffer_destroy(struct drm_framebuffer *fb)
-> +{
-> +	struct iosys_map dmabuf_map;
-> +
-> +	if (fb->obj[0]->dma_buf) {
-> +		dmabuf_map.is_iomem = fb->obj[0]->dma_buf->vmap_ptr.is_iomem;
-> +		dmabuf_map.vaddr = fb->obj[0]->dma_buf->vmap_ptr.vaddr;
-> +		if (dmabuf_map.vaddr)
-> +			dma_buf_vunmap(fb->obj[0]->dma_buf, &dmabuf_map);
-> +		drm_gem_unpin(fb->obj[0]->dma_buf->priv);
-> +	}
-> +
-> +	drm_gem_fb_destroy(fb);
-> +}
-> +
-> +static const struct drm_framebuffer_funcs ast_gem_fb_funcs_dirtyfb = {
-> +	.destroy	= ast_user_framebuffer_destroy,
-> +	.create_handle	= drm_gem_fb_create_handle,
-> +	.dirty		= ast_user_framebuffer_dirty,
-> +};
-> +
-> +static struct drm_framebuffer *
-> +ast_gem_fb_create_with_dirty(struct drm_device *dev, struct drm_file *file,
-> +				const struct drm_mode_fb_cmd2 *mode_cmd)
-> +{
-> +	return drm_gem_fb_create_with_funcs(dev, file, mode_cmd,
-> +					&ast_gem_fb_funcs_dirtyfb);
-> +}
-> +
->   static const struct drm_mode_config_funcs ast_mode_config_funcs = {
-> -	.fb_create = drm_gem_fb_create,
-> +	.fb_create = ast_gem_fb_create_with_dirty,
->   	.mode_valid = drm_vram_helper_mode_valid,
->   	.atomic_check = drm_atomic_helper_check,
->   	.atomic_commit = drm_atomic_helper_commit,
-> diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
-> index 56fb87885146..3a4f5137abc5 100644
-> --- a/drivers/gpu/drm/drm_gem.c
-> +++ b/drivers/gpu/drm/drm_gem.c
-> @@ -1159,12 +1159,14 @@ int drm_gem_pin(struct drm_gem_object *obj)
->   	else
->   		return 0;
->   }
-> +EXPORT_SYMBOL(drm_gem_pin);
->   
->   void drm_gem_unpin(struct drm_gem_object *obj)
->   {
->   	if (obj->funcs->unpin)
->   		obj->funcs->unpin(obj);
->   }
-> +EXPORT_SYMBOL(drm_gem_unpin);
->   
->   int drm_gem_vmap(struct drm_gem_object *obj, struct iosys_map *map)
->   {
-> diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
-> index e2941cee14b6..30c4366968bf 100644
-> --- a/include/drm/drm_gem.h
-> +++ b/include/drm/drm_gem.h
-> @@ -352,6 +352,9 @@ int drm_gem_mmap_obj(struct drm_gem_object *obj, unsigned long obj_size,
->   		     struct vm_area_struct *vma);
->   int drm_gem_mmap(struct file *filp, struct vm_area_struct *vma);
->   
-> +int drm_gem_pin(struct drm_gem_object *obj);
-> +void drm_gem_unpin(struct drm_gem_object *obj);
-> +
->   /**
->    * drm_gem_object_get - acquire a GEM buffer object reference
->    * @obj: GEM buffer object
+NOTE: For some of the reported defects, checkpatch may be able to
+      mechanically convert to the typical style using --fix or --fix-inplac=
+e.
 
+1.patch has style problems, please review.
+
+NOTE: If any of the errors are false positives, please report
+      them to the maintainer, see CHECKPATCH in MAINTAINERS.
