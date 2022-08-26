@@ -2,166 +2,191 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BBB945A3002
-	for <lists+linux-media@lfdr.de>; Fri, 26 Aug 2022 21:32:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E819A5A30D7
+	for <lists+linux-media@lfdr.de>; Fri, 26 Aug 2022 23:13:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238272AbiHZTbq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 26 Aug 2022 15:31:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34446 "EHLO
+        id S242214AbiHZVNM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 26 Aug 2022 17:13:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54400 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236442AbiHZTbn (ORCPT
+        with ESMTP id S231388AbiHZVNK (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 26 Aug 2022 15:31:43 -0400
-Received: from netrider.rowland.org (netrider.rowland.org [192.131.102.5])
-        by lindbergh.monkeyblade.net (Postfix) with SMTP id 44BC8E01F3
-        for <linux-media@vger.kernel.org>; Fri, 26 Aug 2022 12:31:41 -0700 (PDT)
-Received: (qmail 48560 invoked by uid 1000); 26 Aug 2022 15:31:40 -0400
-Date:   Fri, 26 Aug 2022 15:31:40 -0400
-From:   Alan Stern <stern@rowland.harvard.edu>
-To:     Greg KH <gregkh@linuxfoundation.org>
-Cc:     Rondreis <linhaoguo86@gmail.com>,
+        Fri, 26 Aug 2022 17:13:10 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4FF74E58A1;
+        Fri, 26 Aug 2022 14:13:09 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 823F12B3;
+        Fri, 26 Aug 2022 23:13:06 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1661548386;
+        bh=5f0gP12QTNlFrSClyCypQH3rw2Mfu1Bl+NgEw0jt7uY=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=W5ZD/HuZPyLfhQlfYVDxqXyy1oqcuOWmG7pEWy4zYFGS7AzmsQQTSRMgLF1/WV2HU
+         Nw+wa29mQ1vpUGhmGm8gxU9sHFPhTM9LMxw12xtnF4eAXNGbQMfqr1NbtmcPYWE5bu
+         4DRN1Pyi8Un37f4VWWALCWvmY8aLBjhN/yYmKMxg=
+Date:   Sat, 27 Aug 2022 00:12:59 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+        linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org,
-        USB mailing list <linux-usb@vger.kernel.org>
-Subject: [PATCH] media: mceusb: Use new usb_control_msg_*() routines
-Message-ID: <YwkfnBFCSEVC6XZu@rowland.harvard.edu>
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Samuel Holland <samuel@sholland.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Hans Verkuil <hans.verkuil@cisco.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Rob Herring <robh@kernel.org>
+Subject: Re: [PATCH v6 1/6] dt-bindings: media: Add Allwinner A31 ISP
+ bindings documentation
+Message-ID: <Ywk3W6pTOOlzLYVn@pendragon.ideasonboard.com>
+References: <20220826184144.605605-1-paul.kocialkowski@bootlin.com>
+ <20220826184144.605605-2-paul.kocialkowski@bootlin.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+In-Reply-To: <20220826184144.605605-2-paul.kocialkowski@bootlin.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Automatic kernel fuzzing led to a WARN about invalid pipe direction in
-the mceusb driver:
+Hi Paul,
 
-------------[ cut here ]------------
-usb 6-1: BOGUS control dir, pipe 80000380 doesn't match bRequestType 40
-WARNING: CPU: 0 PID: 2465 at drivers/usb/core/urb.c:410
-usb_submit_urb+0x1326/0x1820 drivers/usb/core/urb.c:410
-Modules linked in:
-CPU: 0 PID: 2465 Comm: kworker/0:2 Not tainted 5.19.0-rc4-00208-g69cb6c6556ad #1
-Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS
-1.13.0-1ubuntu1.1 04/01/2014
-Workqueue: usb_hub_wq hub_event
-RIP: 0010:usb_submit_urb+0x1326/0x1820 drivers/usb/core/urb.c:410
-Code: 7c 24 40 e8 ac 23 91 fd 48 8b 7c 24 40 e8 b2 70 1b ff 45 89 e8
-44 89 f1 4c 89 e2 48 89 c6 48 c7 c7 a0 30 a9 86 e8 48 07 11 02 <0f> 0b
-e9 1c f0 ff ff e8 7e 23 91 fd 0f b6 1d 63 22 83 05 31 ff 41
-RSP: 0018:ffffc900032becf0 EFLAGS: 00010282
-RAX: 0000000000000000 RBX: ffff8881100f3058 RCX: 0000000000000000
-RDX: ffffc90004961000 RSI: ffff888114c6d580 RDI: fffff52000657d90
-RBP: ffff888105ad90f0 R08: ffffffff812c3638 R09: 0000000000000000
-R10: 0000000000000005 R11: ffffed1023504ef1 R12: ffff888105ad9000
-R13: 0000000000000040 R14: 0000000080000380 R15: ffff88810ba96500
-FS: 0000000000000000(0000) GS:ffff88811a800000(0000) knlGS:0000000000000000
-CS: 0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007ffe810bda58 CR3: 000000010b720000 CR4: 0000000000350ef0
-Call Trace:
-<TASK>
-usb_start_wait_urb+0x101/0x4c0 drivers/usb/core/message.c:58
-usb_internal_control_msg drivers/usb/core/message.c:102 [inline]
-usb_control_msg+0x31c/0x4a0 drivers/usb/core/message.c:153
-mceusb_gen1_init drivers/media/rc/mceusb.c:1431 [inline]
-mceusb_dev_probe+0x258e/0x33f0 drivers/media/rc/mceusb.c:1807
+Thank you for the patch.
 
+On Fri, Aug 26, 2022 at 08:41:39PM +0200, Paul Kocialkowski wrote:
+> This introduces YAML bindings documentation for the Allwinner A31 Image
+> Signal Processor (ISP).
+> 
+> Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> Reviewed-by: Rob Herring <robh@kernel.org>
+> ---
+>  .../media/allwinner,sun6i-a31-isp.yaml        | 97 +++++++++++++++++++
+>  1 file changed, 97 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/allwinner,sun6i-a31-isp.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-isp.yaml b/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-isp.yaml
+> new file mode 100644
+> index 000000000000..2fda6e05e16c
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-isp.yaml
+> @@ -0,0 +1,97 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/allwinner,sun6i-a31-isp.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Allwinner A31 Image Signal Processor Driver (ISP) Device Tree Bindings
+> +
+> +maintainers:
+> +  - Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - allwinner,sun6i-a31-isp
+> +      - allwinner,sun8i-v3s-isp
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    items:
+> +      - description: Bus Clock
+> +      - description: Module Clock
+> +      - description: DRAM Clock
+> +
+> +  clock-names:
+> +    items:
+> +      - const: bus
+> +      - const: mod
+> +      - const: ram
+> +
+> +  resets:
+> +    maxItems: 1
+> +
+> +  ports:
+> +    $ref: /schemas/graph.yaml#/properties/ports
+> +
+> +    properties:
+> +      port@0:
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +        description: CSI0 input port
+> +
+> +      port@1:
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +        description: CSI1 input port
+> +
+> +    anyOf:
+> +      - required:
+> +          - port@0
+> +      - required:
+> +          - port@1
 
-The reason for the warning is clear enough; the driver sends an
-unusual read request on endpoint 0 but does not set the USB_DIR_IN bit
-in the bRequestType field.
+I'd still like to see all ports that exist in the hardware being
+mandatory. I assume at least one of the A31 and V3s has two connected
+ports in the SoC or you wouldn't declare them both here :-)
 
-More importantly, the whole situation can be avoided and the driver
-simplified by converting it over to the relatively new
-usb_control_msg_recv() and usb_control_msg_send() routines.  That's
-what this fix does.
+Apart from that, this looks good.
 
-Reported-and-tested-by: Rondreis <linhaoguo86@gmail.com>
-Signed-off-by: Alan Stern <stern@rowland.harvard.edu>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: stable@vger.kernel.org
-Link: https://lore.kernel.org/all/CAB7eexLLApHJwZfMQ=X-PtRhw0BgO+5KcSMS05FNUYejJXqtSA@mail.gmail.com/
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - interrupts
+> +  - clocks
+> +  - clock-names
+> +  - resets
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +    #include <dt-bindings/clock/sun8i-v3s-ccu.h>
+> +    #include <dt-bindings/reset/sun8i-v3s-ccu.h>
+> +
+> +    isp: isp@1cb8000 {
+> +        compatible = "allwinner,sun8i-v3s-isp";
+> +        reg = <0x01cb8000 0x1000>;
+> +        interrupts = <GIC_SPI 83 IRQ_TYPE_LEVEL_HIGH>;
+> +        clocks = <&ccu CLK_BUS_CSI>,
+> +             <&ccu CLK_CSI1_SCLK>,
+> +             <&ccu CLK_DRAM_CSI>;
+> +        clock-names = "bus", "mod", "ram";
+> +        resets = <&ccu RST_BUS_CSI>;
+> +
+> +        ports {
+> +            #address-cells = <1>;
+> +            #size-cells = <0>;
+> +
+> +            port@0 {
+> +                reg = <0>;
+> +
+> +                isp_in_csi0: endpoint {
+> +                    remote-endpoint = <&csi0_out_isp>;
+> +                };
+> +            };
+> +        };
+> +    };
+> +
+> +...
 
----
+-- 
+Regards,
 
-
-[as1986]
-
-
- drivers/media/rc/mceusb.c |   35 ++++++++++++++---------------------
- 1 file changed, 14 insertions(+), 21 deletions(-)
-
-Index: usb-devel/drivers/media/rc/mceusb.c
-===================================================================
---- usb-devel.orig/drivers/media/rc/mceusb.c
-+++ usb-devel/drivers/media/rc/mceusb.c
-@@ -1416,42 +1416,37 @@ static void mceusb_gen1_init(struct mceu
- {
- 	int ret;
- 	struct device *dev = ir->dev;
--	char *data;
--
--	data = kzalloc(USB_CTRL_MSG_SZ, GFP_KERNEL);
--	if (!data) {
--		dev_err(dev, "%s: memory allocation failed!", __func__);
--		return;
--	}
-+	char data[USB_CTRL_MSG_SZ];
- 
- 	/*
- 	 * This is a strange one. Windows issues a set address to the device
- 	 * on the receive control pipe and expect a certain value pair back
- 	 */
--	ret = usb_control_msg(ir->usbdev, usb_rcvctrlpipe(ir->usbdev, 0),
--			      USB_REQ_SET_ADDRESS, USB_TYPE_VENDOR, 0, 0,
--			      data, USB_CTRL_MSG_SZ, 3000);
-+	ret = usb_control_msg_recv(ir->usbdev, 0, USB_REQ_SET_ADDRESS,
-+				   USB_DIR_IN | USB_TYPE_VENDOR,
-+				   0, 0, data, USB_CTRL_MSG_SZ, 3000,
-+				   GFP_KERNEL);
- 	dev_dbg(dev, "set address - ret = %d", ret);
- 	dev_dbg(dev, "set address - data[0] = %d, data[1] = %d",
- 						data[0], data[1]);
- 
- 	/* set feature: bit rate 38400 bps */
--	ret = usb_control_msg(ir->usbdev, usb_sndctrlpipe(ir->usbdev, 0),
--			      USB_REQ_SET_FEATURE, USB_TYPE_VENDOR,
--			      0xc04e, 0x0000, NULL, 0, 3000);
-+	ret = usb_control_msg_send(ir->usbdev, 0,
-+				   USB_REQ_SET_FEATURE, USB_TYPE_VENDOR,
-+				   0xc04e, 0x0000, NULL, 0, 3000, GFP_KERNEL);
- 
- 	dev_dbg(dev, "set feature - ret = %d", ret);
- 
- 	/* bRequest 4: set char length to 8 bits */
--	ret = usb_control_msg(ir->usbdev, usb_sndctrlpipe(ir->usbdev, 0),
--			      4, USB_TYPE_VENDOR,
--			      0x0808, 0x0000, NULL, 0, 3000);
-+	ret = usb_control_msg_send(ir->usbdev, 0,
-+				   4, USB_TYPE_VENDOR,
-+				   0x0808, 0x0000, NULL, 0, 3000, GFP_KERNEL);
- 	dev_dbg(dev, "set char length - retB = %d", ret);
- 
- 	/* bRequest 2: set handshaking to use DTR/DSR */
--	ret = usb_control_msg(ir->usbdev, usb_sndctrlpipe(ir->usbdev, 0),
--			      2, USB_TYPE_VENDOR,
--			      0x0000, 0x0100, NULL, 0, 3000);
-+	ret = usb_control_msg_send(ir->usbdev, 0,
-+				   2, USB_TYPE_VENDOR,
-+				   0x0000, 0x0100, NULL, 0, 3000, GFP_KERNEL);
- 	dev_dbg(dev, "set handshake  - retC = %d", ret);
- 
- 	/* device resume */
-@@ -1459,8 +1454,6 @@ static void mceusb_gen1_init(struct mceu
- 
- 	/* get hw/sw revision? */
- 	mce_command_out(ir, GET_REVISION, sizeof(GET_REVISION));
--
--	kfree(data);
- }
- 
- static void mceusb_gen2_init(struct mceusb_dev *ir)
+Laurent Pinchart
