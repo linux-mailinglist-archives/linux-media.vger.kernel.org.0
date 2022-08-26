@@ -2,137 +2,95 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E59B25A1FA5
-	for <lists+linux-media@lfdr.de>; Fri, 26 Aug 2022 06:09:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 57AED5A2005
+	for <lists+linux-media@lfdr.de>; Fri, 26 Aug 2022 06:54:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243311AbiHZEJG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 26 Aug 2022 00:09:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46420 "EHLO
+        id S231263AbiHZEv5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 26 Aug 2022 00:51:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37306 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238529AbiHZEJE (ORCPT
+        with ESMTP id S229631AbiHZEv4 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 26 Aug 2022 00:09:04 -0400
-Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com [IPv6:2a00:1450:4864:20::633])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6FD6FC6EB9
-        for <linux-media@vger.kernel.org>; Thu, 25 Aug 2022 21:09:02 -0700 (PDT)
-Received: by mail-ej1-x633.google.com with SMTP id gb36so880608ejc.10
-        for <linux-media@vger.kernel.org>; Thu, 25 Aug 2022 21:09:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc;
-        bh=nfavuWqsga9k882E8+MW27Dc7w6nkSmp6dmrzCaSBa8=;
-        b=auaX9NL078V2jQ22g6geanRo4qZgCfxascPAwZLxdTpxPyzPYywc2dou1ZYhcRULDj
-         SPoXe+ojJ8cZ26IfVZM+1e593dZ30nsOzMbK8OQ3BD+4Ii44ZUIxjQxzbARwlnIbYBZ4
-         eFv5ITB4zd1gSGzc6fvPICF/Xe8xA2tDVwNX8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc;
-        bh=nfavuWqsga9k882E8+MW27Dc7w6nkSmp6dmrzCaSBa8=;
-        b=J1sBfS8OWzr/MQsbrGtWy+ulICeKPIEFoIBTcdMloCPbWAb4eC6I1wgp9kx54SRE89
-         wlJi8MUD7opN1yJ2wjL+7LhZYg6dQVZTSSmhbwDWEq1bGMgKDRaAjL3Z0+9AUMgPn0dU
-         YIu6bWuleD2BceRhi7esVXuz8OvFqwdGSGKZIc+dYJH1RL2ZRF662drT/ISsdIJ+oEHW
-         nG3OSN2czikBwfXaruH2P8o7a/QHZlLlSB6YrfBCESkZn9Dwd61x8Li5bMMzZfxllty8
-         mmFbxdB3TfzP18X+4SvcWVc6q4rT1VzDi//k5I+/H+uWqWLeU3QLJWPneoHnnoB5nYcK
-         1aoQ==
-X-Gm-Message-State: ACgBeo28yEdcJCvBGH1DIgLeElMXg8uiLu5uN5gShpfiSU9RvCBrP4Ea
-        jAuUuuiLxeRPH8V5gXo68Xq0vrKBd3AolInHO+K3sJug54S8iQ==
-X-Google-Smtp-Source: AA6agR4P9lJ2jCOXLxO3fu5pzVr8QQon3biII9pZufVQXE6IfPh3piLXnL5yinNDFW3MHI/dSrraW9UClF4wseNeZfY=
-X-Received: by 2002:a17:907:60c7:b0:739:52ba:cbd0 with SMTP id
- hv7-20020a17090760c700b0073952bacbd0mr4329186ejc.152.1661486940981; Thu, 25
- Aug 2022 21:09:00 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220720085731.11011-1-irui.wang@mediatek.com> <20220720085731.11011-5-irui.wang@mediatek.com>
-In-Reply-To: <20220720085731.11011-5-irui.wang@mediatek.com>
-From:   Chen-Yu Tsai <wenst@chromium.org>
-Date:   Fri, 26 Aug 2022 12:08:49 +0800
-Message-ID: <CAGXv+5Eqcv-K1O-5foTcHYXKh+0yipo-i+EjgYOMemS3_82fAQ@mail.gmail.com>
-Subject: Re: [PATCH v2, 4/6] media: mediatek: vcodec: Remove encoder driver
- get IRQ resource
-To:     Irui Wang <irui.wang@mediatek.com>
-Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Tiffany Lin <tiffany.lin@mediatek.com>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        angelogioacchino.delregno@collabora.com,
-        Maoguang Meng <maoguang.meng@mediatek.com>,
-        Longfei Wang <longfei.wang@mediatek.com>,
-        Yunfei Dong <yunfei.dong@mediatek.com>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        srv_heupstream@mediatek.com, linux-mediatek@lists.infradead.org,
-        Project_Global_Chrome_Upstream_Group@mediatek.com
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+        Fri, 26 Aug 2022 00:51:56 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2805AC2772
+        for <linux-media@vger.kernel.org>; Thu, 25 Aug 2022 21:51:54 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id B200E60FB5
+        for <linux-media@vger.kernel.org>; Fri, 26 Aug 2022 04:51:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BD3C5C433D6
+        for <linux-media@vger.kernel.org>; Fri, 26 Aug 2022 04:51:52 +0000 (UTC)
+Date:   Fri, 26 Aug 2022 06:51:51 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: ERRORS
+Message-Id: <20220826045152.BD3C5C433D6@smtp.kernel.org>
+X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-On Wed, Jul 20, 2022 at 4:58 PM Irui Wang <irui.wang@mediatek.com> wrote:
->
-> The "platform_get_resource(pdev, IORESOURCE_IRQ, 0)" is no longer
-> used after commit a1a2b7125e107("of/platform: Drop static setup of
-> IRQ resource from DT core"), so just remove the function in
-> encoder driver to avoid driver probe failed.
->
-> Signed-off-by: Irui Wang <irui.wang@mediatek.com>
-> ---
->  .../media/platform/mediatek/vcodec/mtk_vcodec_enc_drv.c   | 8 --------
->  1 file changed, 8 deletions(-)
->
-> diff --git a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc_drv.c b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc_drv.c
-> index ea667b867b56..6d8964fb4fa2 100644
-> --- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc_drv.c
-> +++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc_drv.c
-> @@ -228,7 +228,6 @@ static int mtk_vcodec_probe(struct platform_device *pdev)
->  {
->         struct mtk_vcodec_dev *dev;
->         struct video_device *vfd_enc;
-> -       struct resource *res;
->         phandle rproc_phandle;
->         enum mtk_vcodec_fw_type fw_type;
->         int ret;
-> @@ -272,13 +271,6 @@ static int mtk_vcodec_probe(struct platform_device *pdev)
->                 goto err_res;
->         }
->
-> -       res = platform_get_resource(pdev, IORESOURCE_IRQ, 0);
-> -       if (res == NULL) {
-> -               dev_err(&pdev->dev, "failed to get irq resource");
-> -               ret = -ENOENT;
-> -               goto err_res;
-> -       }
-> -
->         dev->enc_irq = platform_get_irq(pdev, 0);
+Results of the daily build of media_tree:
 
-platform_get_irq() returns a negative number on failure. You should
-check for errors here as the previous check was removed.
+date:			Fri Aug 26 05:00:13 CEST 2022
+media-tree git hash:	1ff8334f0a4e0be693066aafba195d25629d77aa
+media_build git hash:	0fe857b86addf382f6fd383948bd7736a3201403
+v4l-utils git hash:	eb967cdd5a3d40f8c9a78d6f57c832ce6c20b088
+edid-decode git hash:	6816e6a691f40e6fbb64e6d40f012d7727c6315f
+gcc version:		i686-linux-gcc (GCC) 11.2.0
+sparse repo:            git://git.kernel.org/pub/scm/devel/sparse/sparse.git
+sparse version:		v0.6.4-39-gce1a6720-dirty
+smatch repo:            git://repo.or.cz/smatch.git
+smatch version:		v0.5.0-8139-g377b8dd8-dirty
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 788719112fbb0e9aefa9338293a4ce5e5d3cb602
+host hardware:		x86_64
+host os:		5.18.0-4-amd64
 
-The description of platform_get_irq() explicitly mentions:
+linux-git-sh: OK
+linux-git-mips: OK
+linux-git-arm-stm32: OK
+linux-git-arm-at91: OK
+linux-git-arm-multi: OK
+linux-git-arm-davinci: OK
+linux-git-powerpc64: OK
+linux-git-arm-pxa: OK
+linux-git-arm64: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+apps: WARNINGS
+spec-git: OK
+virtme: ERRORS: Final Summary: 3077, Succeeded: 3071, Failed: 6, Warnings: 0
+virtme-32: ERRORS: Final Summary: 3190, Succeeded: 3184, Failed: 6, Warnings: 0
+sparse: OK
+smatch: OK
+kerneldoc: OK
 
-    Device drivers should check the return value for errors so as to
-    not pass a negative integer value to the request_irq() APIs.
+Detailed results are available here:
 
-Hans has queued up this patch, so maybe you could provide a follow-up
-patch to fix this?
+https://hverkuil.home.xs4all.nl/logs/Friday.log
 
+Detailed regression test results are available here:
 
-Regards
-ChenYu
+https://hverkuil.home.xs4all.nl/logs/Friday-test-media.log
+https://hverkuil.home.xs4all.nl/logs/Friday-test-media-32.log
+https://hverkuil.home.xs4all.nl/logs/Friday-test-media-dmesg.log
 
+Full logs are available here:
 
->         irq_set_status_flags(dev->enc_irq, IRQ_NOAUTOEN);
->         ret = devm_request_irq(&pdev->dev, dev->enc_irq,
-> --
-> 2.18.0
->
+https://hverkuil.home.xs4all.nl/logs/Friday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+https://hverkuil.home.xs4all.nl/spec/index.html
