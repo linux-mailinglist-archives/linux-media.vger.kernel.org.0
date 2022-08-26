@@ -2,159 +2,113 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 04BB25A24D0
-	for <lists+linux-media@lfdr.de>; Fri, 26 Aug 2022 11:47:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8E80D5A2579
+	for <lists+linux-media@lfdr.de>; Fri, 26 Aug 2022 12:09:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343635AbiHZJrG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 26 Aug 2022 05:47:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46484 "EHLO
+        id S245405AbiHZKHY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 26 Aug 2022 06:07:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49888 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245187AbiHZJrF (ORCPT
+        with ESMTP id S244937AbiHZKGk (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 26 Aug 2022 05:47:05 -0400
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 533CA89822;
-        Fri, 26 Aug 2022 02:47:01 -0700 (PDT)
-X-UUID: 5d42f5d9c5314e29bebdbf706d9b667a-20220826
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-        h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID; bh=2MesSwzmqG+668R8hXG9RG6Emlt91VldPxqdmS8624E=;
-        b=nhcnE4y1tzbJORS7YLn9pcgLv2as36BBmFO9IrUxSvMKkqrL9kDf7S7CobfyuuokcPoXPHzcF0yv0hi1rWecSOo04sntTR/Zam5S6DaI5QIvjS/xVVZ9PUVvqPRYnuF670KW617PBl+InwUJ6aOYncq6dFIRNbOzZ1svzuY2v8o=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.10,REQID:c0191fd6-d9a4-4c41-bad4-280175e6ace0,OB:0,L
-        OB:0,IP:0,URL:0,TC:0,Content:-5,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release
-        _Ham,ACTION:release,TS:-5
-X-CID-META: VersionHash:84eae18,CLOUDID:3c053420-1c20-48a5-82a0-25f9c331906d,C
-        OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,URL:11|1,File:
-        nil,Bulk:nil,QS:nil,BEC:nil,COL:0
-X-UUID: 5d42f5d9c5314e29bebdbf706d9b667a-20220826
-Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by mailgw02.mediatek.com
-        (envelope-from <irui.wang@mediatek.com>)
-        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-        with ESMTP id 1687321687; Fri, 26 Aug 2022 17:46:56 +0800
-Received: from mtkmbs11n1.mediatek.inc (172.21.101.185) by
- mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.792.15; Fri, 26 Aug 2022 17:46:54 +0800
-Received: from mhfsdcap04 (10.17.3.154) by mtkmbs11n1.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.2.792.15 via Frontend
- Transport; Fri, 26 Aug 2022 17:46:53 +0800
-Message-ID: <e7cdece7bbb48a9a24778b96691b06f4eac944e6.camel@mediatek.com>
-Subject: Re: [PATCH v2, 4/6] media: mediatek: vcodec: Remove encoder driver
- get IRQ resource
-From:   Irui Wang <irui.wang@mediatek.com>
-To:     Chen-Yu Tsai <wenst@chromium.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        <angelogioacchino.delregno@collabora.com>
-CC:     Tiffany Lin <tiffany.lin@mediatek.com>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Maoguang Meng <maoguang.meng@mediatek.com>,
-        Longfei Wang <longfei.wang@mediatek.com>,
-        Yunfei Dong <yunfei.dong@mediatek.com>,
-        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-mediatek@lists.infradead.org>,
-        <Project_Global_Chrome_Upstream_Group@mediatek.com>
-Date:   Fri, 26 Aug 2022 17:46:53 +0800
-In-Reply-To: <CAGXv+5Eqcv-K1O-5foTcHYXKh+0yipo-i+EjgYOMemS3_82fAQ@mail.gmail.com>
-References: <20220720085731.11011-1-irui.wang@mediatek.com>
-         <20220720085731.11011-5-irui.wang@mediatek.com>
-         <CAGXv+5Eqcv-K1O-5foTcHYXKh+0yipo-i+EjgYOMemS3_82fAQ@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-MTK:  N
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE,UNPARSEABLE_RELAY,URIBL_CSS
-        autolearn=ham autolearn_force=no version=3.4.6
+        Fri, 26 Aug 2022 06:06:40 -0400
+Received: from smtpout140.security-mail.net (smtpout140.security-mail.net [85.31.212.149])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E94E2DA3C7
+        for <linux-media@vger.kernel.org>; Fri, 26 Aug 2022 03:05:23 -0700 (PDT)
+Received: from localhost (localhost [127.0.0.1])
+        by fx409.security-mail.net (Postfix) with ESMTP id 585B9323722
+        for <linux-media@vger.kernel.org>; Fri, 26 Aug 2022 12:01:25 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kalray.eu;
+        s=sec-sig-email; t=1661508085;
+        bh=vvFfyIzVOt+FBtDJHEyLUs+N/uAy6HQNA/KHZSgA5D8=;
+        h=From:To:Cc:Subject:Date;
+        b=CgwopXANpNqyg6YtzA3SripPIjrvnzTiWBwNLhmQi1z17QQipQAAN0OOnGqotm9vM
+         qZIEfaXtms72/nlexVIA1VfhqJR1TU2onBpUWChj97llbhBVP1xxl/K2sgiy1McZVT
+         vjkTtdRQftjGmZTikoDKP8QAr0j9ewyhWFjBzysQ=
+Received: from fx409 (localhost [127.0.0.1])
+        by fx409.security-mail.net (Postfix) with ESMTP id B3E8032363E;
+        Fri, 26 Aug 2022 12:01:24 +0200 (CEST)
+X-Virus-Scanned: E-securemail
+Secumail-id: <5a32.630899f3.d3b51.0>
+Received: from zimbra2.kalray.eu (unknown [217.181.231.53])
+        by fx409.security-mail.net (Postfix) with ESMTPS id D5B9B3238AC;
+        Fri, 26 Aug 2022 12:01:23 +0200 (CEST)
+Received: from zimbra2.kalray.eu (localhost [127.0.0.1])
+        by zimbra2.kalray.eu (Postfix) with ESMTPS id B5F5827E02FA;
+        Fri, 26 Aug 2022 12:01:23 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+        by zimbra2.kalray.eu (Postfix) with ESMTP id 9E51827E0392;
+        Fri, 26 Aug 2022 12:01:23 +0200 (CEST)
+DKIM-Filter: OpenDKIM Filter v2.10.3 zimbra2.kalray.eu 9E51827E0392
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kalray.eu;
+        s=32AE1B44-9502-11E5-BA35-3734643DEF29; t=1661508083;
+        bh=M/RfIAISD7kAlTMJPp9AUX7+0n4u8J4cxKaRTfK45Jk=;
+        h=From:To:Date:Message-Id;
+        b=gGI6sadZ5EwB55pMsAHuFLe/ZLEWEaWS4jmEeGy0Rmcwx+BoKeK03zXymXKatxl1k
+         fRH59Y5+Lr3wmydZI3NheomjaQMBJ6lnxwbltN2ev4tkacOWA2dbES6H3oi0aN9Aq4
+         6uv9RGDeLEML9faz7OvFYcqcrgPRhvuN+sGXtlnA=
+Received: from zimbra2.kalray.eu ([127.0.0.1])
+        by localhost (zimbra2.kalray.eu [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id wanPIDXbM-ba; Fri, 26 Aug 2022 12:01:23 +0200 (CEST)
+Received: from tellis.lin.mbt.kalray.eu (unknown [192.168.36.206])
+        by zimbra2.kalray.eu (Postfix) with ESMTPSA id 8CED527E02FA;
+        Fri, 26 Aug 2022 12:01:23 +0200 (CEST)
+From:   Jules Maselbas <jmaselbas@kalray.eu>
+To:     linux-kernel@vger.kernel.org
+Cc:     Jules Maselbas <jmaselbas@kalray.eu>,
+        "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
+        linux-media@vger.kernel.org
+Subject: [PATCH] media: platform: ti: Fix repeated word in comments
+Date:   Fri, 26 Aug 2022 12:00:46 +0200
+Message-Id: <20220826100052.22945-18-jmaselbas@kalray.eu>
+X-Mailer: git-send-email 2.17.1
+X-Virus-Scanned: by Secumail
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Dear Chen-Yu,
+Remove redundant word `the`.
 
-many thanks for your comments.
+CC: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+CC: linux-media@vger.kernel.org
+Signed-off-by: Jules Maselbas <jmaselbas@kalray.eu>
+---
+ drivers/media/platform/ti/davinci/vpbe.c | 2 +-
+ drivers/media/platform/ti/omap3isp/isp.c | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-On Fri, 2022-08-26 at 12:08 +0800, Chen-Yu Tsai wrote:
-> Hi,
-> 
-> On Wed, Jul 20, 2022 at 4:58 PM Irui Wang <irui.wang@mediatek.com>
-> wrote:
-> > 
-> > The "platform_get_resource(pdev, IORESOURCE_IRQ, 0)" is no longer
-> > used after commit a1a2b7125e107("of/platform: Drop static setup of
-> > IRQ resource from DT core"), so just remove the function in
-> > encoder driver to avoid driver probe failed.
-> > 
-> > Signed-off-by: Irui Wang <irui.wang@mediatek.com>
-> > ---
-> >  .../media/platform/mediatek/vcodec/mtk_vcodec_enc_drv.c   | 8 ----
-> > ----
-> >  1 file changed, 8 deletions(-)
-> > 
-> > diff --git
-> > a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc_drv.c
-> > b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc_drv.c
-> > index ea667b867b56..6d8964fb4fa2 100644
-> > --- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc_drv.c
-> > +++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc_drv.c
-> > @@ -228,7 +228,6 @@ static int mtk_vcodec_probe(struct
-> > platform_device *pdev)
-> >  {
-> >         struct mtk_vcodec_dev *dev;
-> >         struct video_device *vfd_enc;
-> > -       struct resource *res;
-> >         phandle rproc_phandle;
-> >         enum mtk_vcodec_fw_type fw_type;
-> >         int ret;
-> > @@ -272,13 +271,6 @@ static int mtk_vcodec_probe(struct
-> > platform_device *pdev)
-> >                 goto err_res;
-> >         }
-> > 
-> > -       res = platform_get_resource(pdev, IORESOURCE_IRQ, 0);
-> > -       if (res == NULL) {
-> > -               dev_err(&pdev->dev, "failed to get irq resource");
-> > -               ret = -ENOENT;
-> > -               goto err_res;
-> > -       }
-> > -
-> >         dev->enc_irq = platform_get_irq(pdev, 0);
-> 
-> platform_get_irq() returns a negative number on failure. You should
-> check for errors here as the previous check was removed.
-> 
-> The description of platform_get_irq() explicitly mentions:
-> 
->     Device drivers should check the return value for errors so as to
->     not pass a negative integer value to the request_irq() APIs.
-> 
-> Hans has queued up this patch, so maybe you could provide a follow-up
-> patch to fix this?
-> 
-Another same patch has been already merged into linux-next tree, so
-this current patch can be dropped.
-
-https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc_drv.c?id=750a914adb7ded3669b47daed6d9d749110b4107
- 
-
-Thanks
-Best Regards
-> 
-> Regards
-> ChenYu
-> 
-> 
-> >         irq_set_status_flags(dev->enc_irq, IRQ_NOAUTOEN);
-> >         ret = devm_request_irq(&pdev->dev, dev->enc_irq,
-> > --
-> > 2.18.0
-> > 
+diff --git a/drivers/media/platform/ti/davinci/vpbe.c b/drivers/media/platform/ti/davinci/vpbe.c
+index 5f0aeb744e81..509ecc84624e 100644
+--- a/drivers/media/platform/ti/davinci/vpbe.c
++++ b/drivers/media/platform/ti/davinci/vpbe.c
+@@ -280,7 +280,7 @@ static int vpbe_set_default_output(struct vpbe_device *vpbe_dev)
+  * vpbe_get_output - Get output
+  * @vpbe_dev: vpbe device ptr
+  *
+- * return current vpbe output to the the index
++ * return current vpbe output to the index
+  */
+ static unsigned int vpbe_get_output(struct vpbe_device *vpbe_dev)
+ {
+diff --git a/drivers/media/platform/ti/omap3isp/isp.c b/drivers/media/platform/ti/omap3isp/isp.c
+index d251736eb420..a6052df9bb19 100644
+--- a/drivers/media/platform/ti/omap3isp/isp.c
++++ b/drivers/media/platform/ti/omap3isp/isp.c
+@@ -1528,7 +1528,7 @@ void omap3isp_print_status(struct isp_device *isp)
+  * To solve this problem power management support is split into prepare/complete
+  * and suspend/resume operations. The pipelines are stopped in prepare() and the
+  * ISP clocks get disabled in suspend(). Similarly, the clocks are re-enabled in
+- * resume(), and the the pipelines are restarted in complete().
++ * resume(), and the pipelines are restarted in complete().
+  *
+  * TODO: PM dependencies between the ISP and sensors are not modelled explicitly
+  * yet.
+-- 
+2.17.1
 
