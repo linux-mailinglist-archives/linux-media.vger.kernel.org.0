@@ -2,325 +2,124 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0A25D5A1E96
-	for <lists+linux-media@lfdr.de>; Fri, 26 Aug 2022 04:13:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9315C5A1EEC
+	for <lists+linux-media@lfdr.de>; Fri, 26 Aug 2022 04:42:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241057AbiHZCNK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 25 Aug 2022 22:13:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59158 "EHLO
+        id S243975AbiHZCmA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 25 Aug 2022 22:42:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49644 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236072AbiHZCNJ (ORCPT
+        with ESMTP id S230054AbiHZCl7 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 25 Aug 2022 22:13:09 -0400
-Received: from mailgw.kylinos.cn (unknown [124.126.103.232])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2595CCAC92;
-        Thu, 25 Aug 2022 19:13:04 -0700 (PDT)
-X-UUID: c402bdaddaff492a99060e2f1a7dc99d-20220826
-X-Spam-Fingerprint: 0
-X-GW-Reason: 11109
-X-Policy-Incident: 5pS25Lu25Lq66LaF6L+HMTDkurrpnIDopoHlrqHmoLg=
-X-Content-Feature: ica/max.line-size 103
-        audit/email.address 1
-        dict/adv 1
-        dict/contack 1
-        dict/notice 1
-        dict/operate 1
-        meta/cnt.alert 1
-X-UUID: c402bdaddaff492a99060e2f1a7dc99d-20220826
-X-User: oushixiong@kylinos.cn
-Received: from localhost.localdomain [(116.128.244.169)] by mailgw
-        (envelope-from <oushixiong@kylinos.cn>)
-        (Generic MTA)
-        with ESMTP id 205237631; Fri, 26 Aug 2022 09:31:22 +0800
-From:   oushixiong <oushixiong@kylinos.cn>
-To:     Dave Airlie <airlied@redhat.com>
-Cc:     Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
-        oushixiong <oushixiong@kylinos.cn>
-Subject: [PATCH] drm/ast: add dmabuf/prime buffer sharing support
-Date:   Fri, 26 Aug 2022 09:31:03 +0800
-Message-Id: <20220826013103.1519411-1-oushixiong@kylinos.cn>
-X-Mailer: git-send-email 2.25.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=0.5 required=5.0 tests=BAYES_00,KHOP_HELO_FCRDNS,
-        MAY_BE_FORGED,RDNS_DYNAMIC,SPF_HELO_NONE,T_SCC_BODY_TEXT_LINE,
-        T_SPF_PERMERROR,UNPARSEABLE_RELAY autolearn=no autolearn_force=no
-        version=3.4.6
+        Thu, 25 Aug 2022 22:41:59 -0400
+Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com [IPv6:2607:f8b0:4864:20::1031])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8835533A12;
+        Thu, 25 Aug 2022 19:41:58 -0700 (PDT)
+Received: by mail-pj1-x1031.google.com with SMTP id pm13so356598pjb.5;
+        Thu, 25 Aug 2022 19:41:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:subject:cc:to:from:from:to:cc;
+        bh=7xmFFYm+XcYvKh7z4do1m6bswn3gHfIMo5PCJ65CLMY=;
+        b=djM1cSOi3W4T9puhAdrRPIIF8Du/zeee5X7KEGDTXTnPzNo+VEe0yGiweRfDBhQXSL
+         auLCS+g8KvGJNnakSFss2N6vWJ2wxflfkLylwNpJTctjjHoC0vI1pCzkwH2u3Fl43v6w
+         PHQwUf7glMQ73LFqQlpw+BTASrkurrzQzE0GiLLbQG+xxxVRH0tkyMBym5A43mqPEeAR
+         oLTR4FTIFydN2HUlFtmYg2l/u083PbxK+iYFr9Avib/7/3opBiXSDebSIJWOQ3QfKTcX
+         RBAu01sz05rlkG5OMY4oV+MiM+pu5Iy7B5iI10fXzuwKzRPuL2iRVhZhccRbohjfN/RT
+         vNOw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
+        bh=7xmFFYm+XcYvKh7z4do1m6bswn3gHfIMo5PCJ65CLMY=;
+        b=70C4p6Ktb8BcgDmDc7GbPZsT8Vd6HzDDNd+APuu4fK8ui9PyTvowjynJpFR2q5+zza
+         qMFb3+MyJwWuhkDNMazKRNUBM47NbKwN7a0YPdiEtOYdh0NAvByTI1dLzChwAIlihhZs
+         Mi7XKAGXtqqoYbPeOtw3gCGXRJaFgtZxtbxSB5U7WEKx+eavD5NS3mOtc8GjiJTpGDyq
+         jll1K6Qp4QvOQMj6vbEj0SWKxzg8nDXWo2D8MLy9H4GScb3Pc5nfDG+0ZZ40ugx8I5Kl
+         +GtVBAPJUnqQjkYjkLTL/5nwImOwHYUc5H1eJ3XavPQKvHN4AOVOtuOU66Ptcea/d7wJ
+         xsGQ==
+X-Gm-Message-State: ACgBeo0u7/BAns8UjasieHzAu6I6kReKyX8gp0H7CbuNe9qBu/c3g2Jn
+        tHZLoAnW1kLceBIN5FN2DH4=
+X-Google-Smtp-Source: AA6agR5x0IhdFPivC2pfQKnAkFj8iM7odo3NM+06iBY5Y1IaAVfJti6/b6yByKNrzSmIY9tg4aqH+w==
+X-Received: by 2002:a17:90a:c78f:b0:1fa:e505:18e6 with SMTP id gn15-20020a17090ac78f00b001fae50518e6mr2047814pjb.23.1661481717811;
+        Thu, 25 Aug 2022 19:41:57 -0700 (PDT)
+Received: from localhost.localdomain (60-250-192-107.hinet-ip.hinet.net. [60.250.192.107])
+        by smtp.gmail.com with ESMTPSA id s34-20020a17090a69a500b001f021cdd73dsm444473pjj.10.2022.08.25.19.41.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 25 Aug 2022 19:41:57 -0700 (PDT)
+From:   Marvin Lin <milkfafa@gmail.com>
+To:     mchehab@kernel.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     openbmc@lists.ozlabs.org, avifishman70@gmail.com,
+        tmaimon77@gmail.com, tali.perry1@gmail.com, kwliu@nuvoton.com,
+        kflin@nuvoton.com, Marvin Lin <milkfafa@gmail.com>
+Subject: [PATCH v5 0/5] Support Nuvoton NPCM Video Capture/Encode Engine
+Date:   Fri, 26 Aug 2022 10:41:19 +0800
+Message-Id: <20220826024124.22747-1-milkfafa@gmail.com>
+X-Mailer: git-send-email 2.17.1
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This patch adds ast specific codes for DRM prime feature, this is to
-allow for offloading of rending in one direction and outputs in other.
+This patch series add DTS node, dt-bindings document and drivers for Video
+Capture/Differentiation Engine (VCD) and Encoding Compression Engine (ECE)
+present on Nuvoton NPCM SoCs.
 
-This patch is designed to solve the problem that the AST is not displayed
-when the server plug in a discrete graphics graphics card at the same time.
-We call the dirty callback function to copy the rendering results of the
-discrete graphics card to the ast side by dma-buf.
+VCD can capture/differentiate video data from digital or analog sources,
+then the ECE will compress the data into HEXTILE format.
 
-v1->v2:
-  - Fix the comment.
-v2->v3:
-  - we remove the attach function, add the drm_gem_pin() before dma_buf_vmap(),
-    and add the drm_gem_unpin() after the dma_buf_vunmap().
+HEXTILE compressed format is defined in Remote Framebuffer Protocol (RFC
+6143) and is used by VNC features, so we also add a patch to support it.
 
-Signed-off-by: oushixiong <oushixiong@kylinos.cn>
----
- drivers/gpu/drm/ast/ast_drv.c  |  27 +++++++
- drivers/gpu/drm/ast/ast_mode.c | 134 ++++++++++++++++++++++++++++++++-
- drivers/gpu/drm/drm_gem.c      |   2 +
- include/drm/drm_gem.h          |   3 +
- 4 files changed, 165 insertions(+), 1 deletion(-)
+Changes in v5:
+  - Simplify function prefix "nuvoton_" to "npcm_".
+  - Increase VCD_BUSY_TIMEOUT_US and ECE_POLL_TIMEOUT_US to 300ms to
+    prevent polling timeout when ECC is enabled or system is busy.
 
-diff --git a/drivers/gpu/drm/ast/ast_drv.c b/drivers/gpu/drm/ast/ast_drv.c
-index 7465c4f0156a..107383a56ca7 100644
---- a/drivers/gpu/drm/ast/ast_drv.c
-+++ b/drivers/gpu/drm/ast/ast_drv.c
-@@ -28,6 +28,7 @@
- 
- #include <linux/module.h>
- #include <linux/pci.h>
-+#include <linux/dma-buf.h>
- 
- #include <drm/drm_aperture.h>
- #include <drm/drm_atomic_helper.h>
-@@ -50,6 +51,29 @@ module_param_named(modeset, ast_modeset, int, 0400);
- 
- DEFINE_DRM_GEM_FOPS(ast_fops);
- 
-+struct drm_gem_object *ast_gem_prime_import(struct drm_device *dev,
-+						struct dma_buf *dma_buf)
-+{
-+	struct drm_gem_vram_object *gbo;
-+
-+	gbo = drm_gem_vram_of_gem(dma_buf->priv);
-+	if (gbo->bo.base.dev == dev) {
-+		/*
-+		* Importing dmabuf exported from out own gem increases
-+		* refcount on gem itself instead of f_count of dmabuf.
-+		*/
-+		drm_gem_object_get(&gbo->bo.base);
-+		return &gbo->bo.base;
-+	}
-+
-+	gbo = drm_gem_vram_create(dev, dma_buf->size, 0);
-+	if (IS_ERR(gbo))
-+		return NULL;
-+
-+	get_dma_buf(dma_buf);
-+	return &gbo->bo.base;
-+}
-+
- static const struct drm_driver ast_driver = {
- 	.driver_features = DRIVER_ATOMIC |
- 			   DRIVER_GEM |
-@@ -63,6 +87,9 @@ static const struct drm_driver ast_driver = {
- 	.minor = DRIVER_MINOR,
- 	.patchlevel = DRIVER_PATCHLEVEL,
- 
-+	.prime_fd_to_handle = drm_gem_prime_fd_to_handle,
-+	.gem_prime_import = ast_gem_prime_import,
-+
- 	DRM_GEM_VRAM_DRIVER
- };
- 
-diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
-index 45b56b39ad47..c81a6148b6df 100644
---- a/drivers/gpu/drm/ast/ast_mode.c
-+++ b/drivers/gpu/drm/ast/ast_mode.c
-@@ -48,6 +48,8 @@
- #include "ast_drv.h"
- #include "ast_tables.h"
- 
-+MODULE_IMPORT_NS(DMA_BUF);
-+
- static inline void ast_load_palette_index(struct ast_private *ast,
- 				     u8 index, u8 red, u8 green,
- 				     u8 blue)
-@@ -1535,8 +1537,138 @@ static const struct drm_mode_config_helper_funcs ast_mode_config_helper_funcs =
- 	.atomic_commit_tail = drm_atomic_helper_commit_tail_rpm,
- };
- 
-+static int ast_handle_damage(struct drm_framebuffer *fb, int x, int y,
-+					int width, int height)
-+{
-+	struct drm_gem_vram_object *dst_bo = NULL;
-+	void *dst = NULL;
-+	int ret = 0, i;
-+	unsigned long offset = 0;
-+	bool unmap = false;
-+	unsigned int bytesPerPixel;
-+	struct iosys_map map;
-+	struct iosys_map dmabuf_map;
-+
-+	bytesPerPixel = fb->format->cpp[0];
-+
-+	if (!fb->obj[0]->dma_buf)
-+		return -EINVAL;
-+
-+	if (!fb->obj[0]->dma_buf->vmap_ptr.vaddr) {
-+		ret = drm_gem_pin(fb->obj[0]->dma_buf->priv);
-+		if (ret)
-+			return ret;
-+		ret = dma_buf_vmap(fb->obj[0]->dma_buf, &dmabuf_map);
-+		if (ret)
-+			goto err_vmap_dmabuf;
-+	} else
-+		dmabuf_map.vaddr = fb->obj[0]->dma_buf->vmap_ptr.vaddr;
-+
-+	dst_bo = drm_gem_vram_of_gem(fb->obj[0]);
-+
-+	ret = drm_gem_vram_pin(dst_bo, 0);
-+	if (ret) {
-+		DRM_ERROR("ast_bo_pin failed\n");
-+		goto err_ast_pin;
-+	}
-+
-+	if (!dst_bo->map.vaddr) {
-+		ret = drm_gem_vram_vmap(dst_bo, &map);
-+		if (ret) {
-+			DRM_ERROR("failed to vmap fbcon\n");
-+			goto err_vmap_ast_bo;
-+		}
-+		unmap = true;
-+	}
-+	dst = dst_bo->map.vaddr;
-+
-+	for (i = y; i < y + height; i++) {
-+		offset = i * fb->pitches[0] + (x * bytesPerPixel);
-+		memcpy_toio(dst + offset, dmabuf_map.vaddr + offset,
-+			width * bytesPerPixel);
-+	}
-+
-+	if (unmap)
-+		drm_gem_vram_vunmap(dst_bo, &map);
-+
-+	drm_gem_vram_unpin(dst_bo);
-+	return 0;
-+
-+err_vmap_ast_bo:
-+	drm_gem_vram_unpin(dst_bo);
-+err_ast_pin:
-+err_vmap_dmabuf:
-+	drm_gem_unpin(fb->obj[0]->dma_buf->priv);
-+	return ret;
-+}
-+
-+
-+static int ast_user_framebuffer_dirty(struct drm_framebuffer *fb,
-+				struct drm_file *file,
-+				unsigned int flags,
-+				unsigned int color,
-+				struct drm_clip_rect *clips,
-+				unsigned int num_clips)
-+{
-+	int i, ret = 0;
-+
-+	drm_modeset_lock_all(fb->dev);
-+	if (fb->obj[0]->dma_buf) {
-+		ret = dma_buf_begin_cpu_access(fb->obj[0]->dma_buf,
-+				DMA_FROM_DEVICE);
-+		if (ret)
-+			goto unlock;
-+	}
-+
-+	for (i = 0; i < num_clips; i++) {
-+		ret = ast_handle_damage(fb, clips[i].x1, clips[i].y1,
-+				clips[i].x2 - clips[i].x1, clips[i].y2 - clips[i].y1);
-+		if (ret)
-+			break;
-+	}
-+
-+	if (fb->obj[0]->dma_buf) {
-+		dma_buf_end_cpu_access(fb->obj[0]->dma_buf,
-+				DMA_FROM_DEVICE);
-+	}
-+
-+unlock:
-+	drm_modeset_unlock_all(fb->dev);
-+
-+	return ret;
-+}
-+
-+static void ast_user_framebuffer_destroy(struct drm_framebuffer *fb)
-+{
-+	struct iosys_map dmabuf_map;
-+
-+	if (fb->obj[0]->dma_buf) {
-+		dmabuf_map.is_iomem = fb->obj[0]->dma_buf->vmap_ptr.is_iomem;
-+		dmabuf_map.vaddr = fb->obj[0]->dma_buf->vmap_ptr.vaddr;
-+		if (dmabuf_map.vaddr)
-+			dma_buf_vunmap(fb->obj[0]->dma_buf, &dmabuf_map);
-+		drm_gem_unpin(fb->obj[0]->dma_buf->priv);
-+	}
-+
-+	drm_gem_fb_destroy(fb);
-+}
-+
-+static const struct drm_framebuffer_funcs ast_gem_fb_funcs_dirtyfb = {
-+	.destroy	= ast_user_framebuffer_destroy,
-+	.create_handle	= drm_gem_fb_create_handle,
-+	.dirty		= ast_user_framebuffer_dirty,
-+};
-+
-+static struct drm_framebuffer *
-+ast_gem_fb_create_with_dirty(struct drm_device *dev, struct drm_file *file,
-+				const struct drm_mode_fb_cmd2 *mode_cmd)
-+{
-+	return drm_gem_fb_create_with_funcs(dev, file, mode_cmd,
-+					&ast_gem_fb_funcs_dirtyfb);
-+}
-+
- static const struct drm_mode_config_funcs ast_mode_config_funcs = {
--	.fb_create = drm_gem_fb_create,
-+	.fb_create = ast_gem_fb_create_with_dirty,
- 	.mode_valid = drm_vram_helper_mode_valid,
- 	.atomic_check = drm_atomic_helper_check,
- 	.atomic_commit = drm_atomic_helper_commit,
-diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
-index 56fb87885146..3a4f5137abc5 100644
---- a/drivers/gpu/drm/drm_gem.c
-+++ b/drivers/gpu/drm/drm_gem.c
-@@ -1159,12 +1159,14 @@ int drm_gem_pin(struct drm_gem_object *obj)
- 	else
- 		return 0;
- }
-+EXPORT_SYMBOL(drm_gem_pin);
- 
- void drm_gem_unpin(struct drm_gem_object *obj)
- {
- 	if (obj->funcs->unpin)
- 		obj->funcs->unpin(obj);
- }
-+EXPORT_SYMBOL(drm_gem_unpin);
- 
- int drm_gem_vmap(struct drm_gem_object *obj, struct iosys_map *map)
- {
-diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
-index e2941cee14b6..30c4366968bf 100644
---- a/include/drm/drm_gem.h
-+++ b/include/drm/drm_gem.h
-@@ -352,6 +352,9 @@ int drm_gem_mmap_obj(struct drm_gem_object *obj, unsigned long obj_size,
- 		     struct vm_area_struct *vma);
- int drm_gem_mmap(struct file *filp, struct vm_area_struct *vma);
- 
-+int drm_gem_pin(struct drm_gem_object *obj);
-+void drm_gem_unpin(struct drm_gem_object *obj);
-+
- /**
-  * drm_gem_object_get - acquire a GEM buffer object reference
-  * @obj: GEM buffer object
+Changes in v4:
+  - Fix compile warning reported by kernel test robot.
+
+Changes in v3:
+  - Add video driver entry in MAINTAINERS.
+  - Change config name to CONFIG_VIDEO_NPCM_VCD_ECE.
+  - Reduce the waiting time after resetting the VCD/ECE module.
+  - Correct data types of some variables.
+
+Changes in v2:
+  - Add Hextile document and locate with vendor formats.
+
+Marvin Lin (5):
+  arm: dts: Add node for NPCM Video Capture/Encode Engine
+  dt-bindings: media: Add dt-bindings for NPCM Video Capture/Encode
+    Engine
+  dt-bindings: arm/npcm: Add dt-bindings for Graphics Core Information
+  media: Add HEXTILE compressed format
+  drivers: media: platform: Add NPCM Video Capture/Encode Engine driver
+
+ .../bindings/arm/npcm/nuvoton,gfxi.yaml       |   41 +
+ .../bindings/media/nuvoton,npcm-video.yaml    |   87 +
+ .../media/v4l/pixfmt-reserved.rst             |    7 +
+ MAINTAINERS                                   |    9 +
+ arch/arm/boot/dts/nuvoton-common-npcm7xx.dtsi |   19 +
+ drivers/media/platform/Kconfig                |    1 +
+ drivers/media/platform/Makefile               |    1 +
+ drivers/media/platform/nuvoton/Kconfig        |   12 +
+ drivers/media/platform/nuvoton/Makefile       |    2 +
+ drivers/media/platform/nuvoton/npcm-video.c   | 2056 +++++++++++++++++
+ drivers/media/v4l2-core/v4l2-ioctl.c          |    1 +
+ include/uapi/linux/videodev2.h                |    1 +
+ 12 files changed, 2237 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/arm/npcm/nuvoton,gfxi.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/nuvoton,npcm-video.yaml
+ create mode 100644 drivers/media/platform/nuvoton/Kconfig
+ create mode 100644 drivers/media/platform/nuvoton/Makefile
+ create mode 100644 drivers/media/platform/nuvoton/npcm-video.c
+
 -- 
 2.17.1
 
-
-No virus found
-		Checked by Hillstone Network AntiVirus
