@@ -2,65 +2,65 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1097D5A2581
-	for <lists+linux-media@lfdr.de>; Fri, 26 Aug 2022 12:09:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 423735A2578
+	for <lists+linux-media@lfdr.de>; Fri, 26 Aug 2022 12:09:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245215AbiHZKHS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 26 Aug 2022 06:07:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51162 "EHLO
+        id S244236AbiHZKHX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 26 Aug 2022 06:07:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49860 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241505AbiHZKGj (ORCPT
+        with ESMTP id S1343525AbiHZKGk (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 26 Aug 2022 06:06:39 -0400
-X-Greylist: delayed 235 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 26 Aug 2022 03:05:22 PDT
-Received: from smtpout140.security-mail.net (smtpout140.security-mail.net [85.31.212.146])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B8F0AD9E81
-        for <linux-media@vger.kernel.org>; Fri, 26 Aug 2022 03:05:21 -0700 (PDT)
+        Fri, 26 Aug 2022 06:06:40 -0400
+Received: from smtpout140.security-mail.net (smtpout140.security-mail.net [85.31.212.149])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E9137D9EBE
+        for <linux-media@vger.kernel.org>; Fri, 26 Aug 2022 03:05:23 -0700 (PDT)
 Received: from localhost (localhost [127.0.0.1])
-        by fx601.security-mail.net (Postfix) with ESMTP id 43BBC3ACED9
-        for <linux-media@vger.kernel.org>; Fri, 26 Aug 2022 12:01:28 +0200 (CEST)
+        by fx409.security-mail.net (Postfix) with ESMTP id 25C003238E9
+        for <linux-media@vger.kernel.org>; Fri, 26 Aug 2022 12:01:30 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kalray.eu;
-        s=sec-sig-email; t=1661508088;
-        bh=SCDpeIxVyYrv4kQNpVeu9eSc75msKnazn+ZKlH00Qhs=;
+        s=sec-sig-email; t=1661508090;
+        bh=4bC1M/PS4HWRMG+9tQOUbpWEXqqJeGvjy13WJUKSUJA=;
         h=From:To:Cc:Subject:Date;
-        b=ntkYtSdvKd2e/vfTvdKnWB8GqJvlxkzB/PJvcZmEx+VzRD2TEMeMBMU76UUzCXP3n
-         VxklrdrXEz5RURA8yyZ3qPsMouMtF2BmoX9u1wxT9L8QoMDxZbYe5erQX3xtijmAPY
-         h/K7wMTSb2+53p4CT3UcGdBAjL0B/DHNCQkuOFjQ=
-Received: from fx601 (localhost [127.0.0.1])
-        by fx601.security-mail.net (Postfix) with ESMTP id 950463ACEB9;
-        Fri, 26 Aug 2022 12:01:27 +0200 (CEST)
+        b=tkzgjD6MgeX792FB9Vv9hw3nYqJl6CeXEACrJkoHZtfWBnHeFSVrMkUtL0ervwb2i
+         +H3TfPWCqG+PZUndeEGob1B2eMi71IslQGKt4dy4ZM5bV37lHYwUt/FxagZ4ZIIi4v
+         BZQF0+nFYJerAhwuUPrLZOosCTHBzNV3tHA8f/DQ=
+Received: from fx409 (localhost [127.0.0.1])
+        by fx409.security-mail.net (Postfix) with ESMTP id A351D3238BF;
+        Fri, 26 Aug 2022 12:01:29 +0200 (CEST)
 X-Virus-Scanned: E-securemail
-Secumail-id: <5f8a.630899f6.c2f5d.0>
+Secumail-id: <5f96.630899f7.96ab6.0>
 Received: from zimbra2.kalray.eu (unknown [217.181.231.53])
-        by fx601.security-mail.net (Postfix) with ESMTPS id C46AF3ACEA3;
-        Fri, 26 Aug 2022 12:01:26 +0200 (CEST)
+        by fx409.security-mail.net (Postfix) with ESMTPS id 98D5C3238DC;
+        Fri, 26 Aug 2022 12:01:27 +0200 (CEST)
 Received: from zimbra2.kalray.eu (localhost [127.0.0.1])
-        by zimbra2.kalray.eu (Postfix) with ESMTPS id A718A27E02FA;
-        Fri, 26 Aug 2022 12:01:26 +0200 (CEST)
+        by zimbra2.kalray.eu (Postfix) with ESMTPS id 64A9227E0396;
+        Fri, 26 Aug 2022 12:01:27 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-        by zimbra2.kalray.eu (Postfix) with ESMTP id 90AAD27E0392;
-        Fri, 26 Aug 2022 12:01:26 +0200 (CEST)
-DKIM-Filter: OpenDKIM Filter v2.10.3 zimbra2.kalray.eu 90AAD27E0392
+        by zimbra2.kalray.eu (Postfix) with ESMTP id 4E6D627E0392;
+        Fri, 26 Aug 2022 12:01:27 +0200 (CEST)
+DKIM-Filter: OpenDKIM Filter v2.10.3 zimbra2.kalray.eu 4E6D627E0392
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kalray.eu;
-        s=32AE1B44-9502-11E5-BA35-3734643DEF29; t=1661508086;
-        bh=NaiqwpRbXRdjsNpz1W2XnsBstSv/EPGUYAQ6UVixNRI=;
+        s=32AE1B44-9502-11E5-BA35-3734643DEF29; t=1661508087;
+        bh=dJ9IP1YX/f4PTjh2ZawYjIO6VFebYMNL6zIzAO/NNFo=;
         h=From:To:Date:Message-Id;
-        b=CrvT1Yda4Cy03jf7mLVYm3A34sAUXbvdJdiZ6S9TKuhCxm8vouJ+kpZngmBuUkDOc
-         YhcTcfGlNvBV2p7UJnbwAG5O2JmRwJ2v5L8WUzjUNgGrq1a1Z+1ZyOk950oLICzNiw
-         kSstF6EKR8/gSIkUgMmoWXrQjdQyz1AudI15K4mc=
+        b=MNDZdVBw7jB2yXvolhpZqeY82IuEuWy4FcQsjF3KSo+qdsN9ncfHLQtKgPlFusfkp
+         xWEIWaNDsW24g5Gh/PSXI1G2pwnlrJaQ/H19ZMBcJxRZhjVAuefPdMMO6ZL+KBL2y5
+         t1+wv7sdKVs15LqucDot9Y/hq3f2cKcyENi8BjuQ=
 Received: from zimbra2.kalray.eu ([127.0.0.1])
         by localhost (zimbra2.kalray.eu [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id 9n1S3QpK0Pxj; Fri, 26 Aug 2022 12:01:26 +0200 (CEST)
+        with ESMTP id RqJShZBeD5xR; Fri, 26 Aug 2022 12:01:27 +0200 (CEST)
 Received: from tellis.lin.mbt.kalray.eu (unknown [192.168.36.206])
-        by zimbra2.kalray.eu (Postfix) with ESMTPSA id 7766127E02FA;
-        Fri, 26 Aug 2022 12:01:26 +0200 (CEST)
+        by zimbra2.kalray.eu (Postfix) with ESMTPSA id 3EC4B27E02FA;
+        Fri, 26 Aug 2022 12:01:27 +0200 (CEST)
 From:   Jules Maselbas <jmaselbas@kalray.eu>
 To:     linux-kernel@vger.kernel.org
 Cc:     Jules Maselbas <jmaselbas@kalray.eu>,
-        Jacopo Mondi <jacopo@jmondi.org>, linux-media@vger.kernel.org
-Subject: [PATCH] media: i2c: Fix repeated word in comments
-Date:   Fri, 26 Aug 2022 12:00:50 +0200
-Message-Id: <20220826100052.22945-22-jmaselbas@kalray.eu>
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org
+Subject: [PATCH] media: v4l2: Fix repeated word in comments
+Date:   Fri, 26 Aug 2022 12:00:51 +0200
+Message-Id: <20220826100052.22945-23-jmaselbas@kalray.eu>
 X-Mailer: git-send-email 2.17.1
 X-Virus-Scanned: by Secumail
 X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -75,26 +75,26 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 Remove redundant word `the`.
 
-CC: Jacopo Mondi <jacopo@jmondi.org>
+CC: Mauro Carvalho Chehab <mchehab@kernel.org>
 CC: linux-media@vger.kernel.org
 Signed-off-by: Jules Maselbas <jmaselbas@kalray.eu>
 ---
- drivers/media/i2c/mt9v111.c | 2 +-
+ drivers/media/v4l2-core/v4l2-ioctl.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/media/i2c/mt9v111.c b/drivers/media/i2c/mt9v111.c
-index 2dc4a0f24ce8..7beca0b70b72 100644
---- a/drivers/media/i2c/mt9v111.c
-+++ b/drivers/media/i2c/mt9v111.c
-@@ -633,7 +633,7 @@ static int mt9v111_hw_config(struct mt9v111_dev *mt9v111)
- 
+diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
+index c314025d977e..96793dacb08f 100644
+--- a/drivers/media/v4l2-core/v4l2-ioctl.c
++++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+@@ -1045,7 +1045,7 @@ static void v4l_sanitize_format(struct v4l2_format *fmt)
  	/*
- 	 * Set pixel integration time to the whole frame time.
--	 * This value controls the the shutter delay when running with AE
-+	 * This value controls the shutter delay when running with AE
- 	 * disabled. If longer than frame time, it affects the output
- 	 * frame rate.
- 	 */
+ 	 * The v4l2_pix_format structure has been extended with fields that were
+ 	 * not previously required to be set to zero by applications. The priv
+-	 * field, when set to a magic value, indicates the the extended fields
++	 * field, when set to a magic value, indicates the extended fields
+ 	 * are valid. Otherwise they will contain undefined values. To simplify
+ 	 * the API towards drivers zero the extended fields and set the priv
+ 	 * field to the magic value when the extended pixel format structure
 -- 
 2.17.1
 
