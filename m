@@ -2,157 +2,255 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D3B805A2F9E
-	for <lists+linux-media@lfdr.de>; Fri, 26 Aug 2022 21:07:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5E6CF5A2FA6
+	for <lists+linux-media@lfdr.de>; Fri, 26 Aug 2022 21:08:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243811AbiHZTHG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 26 Aug 2022 15:07:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47486 "EHLO
+        id S234995AbiHZTIP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 26 Aug 2022 15:08:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48178 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235293AbiHZTHF (ORCPT
+        with ESMTP id S231585AbiHZTIN (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 26 Aug 2022 15:07:05 -0400
-Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com [66.111.4.27])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4339F65261
-        for <linux-media@vger.kernel.org>; Fri, 26 Aug 2022 12:07:04 -0700 (PDT)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-        by mailout.nyi.internal (Postfix) with ESMTP id A69EC5C0423;
-        Fri, 26 Aug 2022 15:07:03 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute1.internal (MEProxy); Fri, 26 Aug 2022 15:07:03 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fastmail.com; h=
-        cc:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
-        :message-id:mime-version:references:reply-to:sender:subject
-        :subject:to:to; s=fm1; t=1661540823; x=1661627223; bh=Exk195AyM7
-        P1/5PWxUSceTzP0jfwUbbF1dWiDPom9Fo=; b=i7G7RlYa7fHAZzuN7we0Q5YU8y
-        VckSh4eWKKviwHxjd1xcKijiSiXnbi3MrNyWHf4k0AaS9djWdbU3q3E4dMXnRxse
-        xyl5QFceQnuXQ7UAoZDgXibiouJj6IfMdO0Q5W4K0D4p+Qc1Fa1HvqRqjCGGVb/B
-        nU7pDQyThdFZE7vnqkug8ZLvg0gF45efTYIiOal78azLPctk26WN7DaEzOCT/fP1
-        GkPqZR/4HXAW4J1ji5FmgEFj0NrFhMyA6xmkQZ7FLN8s1WKzOdvlr1/McGxIniTH
-        88QmhNK3vHD4tlDAx9eSMny5bLOUcNeaQXwFuiEkASib7kICDJl2e34/E+dw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
-        :feedback-id:from:from:in-reply-to:in-reply-to:message-id
-        :mime-version:references:reply-to:sender:subject:subject:to:to
-        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-        fm1; t=1661540823; x=1661627223; bh=Exk195AyM7P1/5PWxUSceTzP0jfw
-        UbbF1dWiDPom9Fo=; b=SaRjvS1KQaQIbCjJsRxuBH6Zn2quzo0qwFDFcMemj+kt
-        EvojNGdaEicoY59yJTp8h4AZi0FMGrlGZHhy9fH200hUe4J4bof9r18firpEOcC5
-        0OFodDxHjl+41yAkbZfKWE8aOe2gG9gqspKWNhvB9EF/PX7SykBmxiAZHTGFsLSZ
-        N9lVhW46tPE1GSEQtc2qqaZWIvjHwNhi6mk2fB5kuP6dR3Y0vyyBZDcNRCx9MNgL
-        BdgDxhPNAcM+8aDVGxpELuI9D6e110+SZ5RtSuVMeXUXrQYdjYxLCTcHFrocexUJ
-        lHaSwjQrD1+8zjeKx90MgtOyJzr5jxMNjJa3L8hglA==
-X-ME-Sender: <xms:1xkJY4SlrIl0JxVMdqYXO7DlCkosHUtZh7zctNeFD0qBj4U383fFLw>
-    <xme:1xkJY1wt3RC-ZqxFk6motktVTbih6KpKn9z3vkvEZIL4O8C8r6qeF-EacPGG4jyUn
-    CKNomac34omzCRBIkM>
-X-ME-Received: <xmr:1xkJY11QHXUIVei7g3O693jCBAYexuvH2fJkPTBRiMpwqgK_X7UfPA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdejhedgudefvdcutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-    enucfjughrpeffhffvvefukfhfgggtuggjsehttdertddttdejnecuhfhrohhmpeffrghf
-    nhgrucfjihhrshgthhhfvghlugcuoegurghfnhgrsehfrghsthhmrghilhdrtghomheqne
-    cuggftrfgrthhtvghrnhepheeivdejhedvffelkeffvdejvdeiheehtdethfdvtdeufeeu
-    keelhfetuddugfejnecuffhomhgrihhnpehinhhfrhgruggvrggurdhorhhgnecuvehluh
-    hsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepuggrfhhnrgesfhgr
-    shhtmhgrihhlrdgtohhm
-X-ME-Proxy: <xmx:1xkJY8AxTjQQ2gaHntk3QKgFl9xYsL6LcqAwN8iOWsbQjJFPBpC_pA>
-    <xmx:1xkJYxhzQR_3hLvuWrwxwNEgOykS19p8ZlI-1gfRcsXO8wJ6W7OS_g>
-    <xmx:1xkJY4otTIcYU8TebwlBHRyl8TtfAbn2z_2AQopgZMFh9LSFsbBbyQ>
-    <xmx:1xkJYxdhQgDnEoTwr0yyN983At0pCTtaZj-QZICZORvYQZpCvqAwLg>
-Feedback-ID: i0e894699:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 26 Aug 2022 15:07:01 -0400 (EDT)
-Date:   Fri, 26 Aug 2022 22:06:58 +0300
-From:   Dafna Hirschfeld <dafna@fastmail.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        Heiko Stuebner <heiko@sntech.de>,
-        Florian Sylvestre <fsylvestre@baylibre.com>,
-        Paul Elder <paul.elder@ideasonboard.com>
-Subject: Re: [PATCH v1.1 4/5] media: rkisp1: Use correct macro for gradient
- registers
-Message-ID: <20220826190658.il7m6pws3dgzfweb@guri>
-References: <20220817021850.20460-5-laurent.pinchart@ideasonboard.com>
- <20220823172136.9342-1-laurent.pinchart@ideasonboard.com>
+        Fri, 26 Aug 2022 15:08:13 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC823DC5D3;
+        Fri, 26 Aug 2022 12:08:12 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 16817547;
+        Fri, 26 Aug 2022 21:08:10 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1661540891;
+        bh=3x5c84ET66BZj+Rj//NkR71TpQss27e3h7UwwnNl6YA=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=GkRyHFtwQwQHvovGaGdQVI2oadFmuvach8EPNPJ20on2n6dEdOZNzZja/xZoOibm4
+         C6uC6mAOX/hxsOp8njVgUgO9Yq0L+5oSAYAVBFTz35thZRW9bfoVTZBF3gAv7IYxc7
+         IMpr7/u/ar6ar3IcH6YEgxP9ZUQ833aS3rCG2jd4=
+Date:   Fri, 26 Aug 2022 22:08:04 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Cc:     devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Samuel Holland <samuel@sholland.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        =?utf-8?B?S8OpdmluIEwnaMO0cGl0YWw=?= <kevin.lhopital@bootlin.com>
+Subject: Re: [PATCH NOT FOR MERGE v5 6/6] ARM: dts: sun8i: a83t: bananapi-m3:
+ Enable MIPI CSI-2 with OV8865
+Message-ID: <YwkaFC2tm96X5qon@pendragon.ideasonboard.com>
+References: <20220826182803.604563-1-paul.kocialkowski@bootlin.com>
+ <20220826182803.604563-7-paul.kocialkowski@bootlin.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20220823172136.9342-1-laurent.pinchart@ideasonboard.com>
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220826182803.604563-7-paul.kocialkowski@bootlin.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 23.08.2022 20:21, Laurent Pinchart wrote:
->The rkisp1_lsc_config() function incorrectly uses the
->RKISP1_CIF_ISP_LSC_SECT_SIZE() macro for the gradient registers. Replace
->it with the correct macro, and rename it from
->RKISP1_CIF_ISP_LSC_GRAD_SIZE() to RKISP1_CIF_ISP_LSC_SECT_GRAD() as the
->corresponding registers store the gradients for each sector, not a size.
->This doesn't cause any functional change as the two macros are defined
->identically (the size and gradient registers store fields in the same
->number of bits at the same positions).
->
->Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Hi Paul and Kévin,
 
-Reviewed-by: Dafna Hirschfeld <dafna@fastmail.com>
+Thank you for the patch.
 
->---
->Changes since v1:
->
->- Rename RKISP1_CIF_ISP_LSC_GRAD_SIZE to RKISP1_CIF_ISP_LSC_SECT_GRAD
->---
-> drivers/media/platform/rockchip/rkisp1/rkisp1-params.c | 4 ++--
-> drivers/media/platform/rockchip/rkisp1/rkisp1-regs.h   | 2 +-
-> 2 files changed, 3 insertions(+), 3 deletions(-)
->
->diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c
->index aa6efa4c6e9e..123c26fc1679 100644
->--- a/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c
->+++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c
->@@ -334,7 +334,7 @@ static void rkisp1_lsc_config(struct rkisp1_params *params,
-> 		rkisp1_write(rkisp1, RKISP1_CIF_ISP_LSC_XSIZE(i), data);
->
-> 		/* program x grad tables */
->-		data = RKISP1_CIF_ISP_LSC_SECT_SIZE(arg->x_grad_tbl[i * 2],
->+		data = RKISP1_CIF_ISP_LSC_SECT_GRAD(arg->x_grad_tbl[i * 2],
-> 						    arg->x_grad_tbl[i * 2 + 1]);
-> 		rkisp1_write(rkisp1, RKISP1_CIF_ISP_LSC_XGRAD(i), data);
->
->@@ -344,7 +344,7 @@ static void rkisp1_lsc_config(struct rkisp1_params *params,
-> 		rkisp1_write(rkisp1, RKISP1_CIF_ISP_LSC_YSIZE(i), data);
->
-> 		/* program y grad tables */
->-		data = RKISP1_CIF_ISP_LSC_SECT_SIZE(arg->y_grad_tbl[i * 2],
->+		data = RKISP1_CIF_ISP_LSC_SECT_GRAD(arg->y_grad_tbl[i * 2],
-> 						    arg->y_grad_tbl[i * 2 + 1]);
-> 		rkisp1_write(rkisp1, RKISP1_CIF_ISP_LSC_YGRAD(i), data);
-> 	}
->diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-regs.h b/drivers/media/platform/rockchip/rkisp1/rkisp1-regs.h
->index 2ad24deedec8..39b2ac58196e 100644
->--- a/drivers/media/platform/rockchip/rkisp1/rkisp1-regs.h
->+++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-regs.h
->@@ -619,7 +619,7 @@
-> 	(((v0) & 0x1FFF) | (((v1) & 0x1FFF) << 13))
-> #define RKISP1_CIF_ISP_LSC_SECT_SIZE(v0, v1)      \
-> 	(((v0) & 0xFFF) | (((v1) & 0xFFF) << 16))
->-#define RKISP1_CIF_ISP_LSC_GRAD_SIZE(v0, v1)      \
->+#define RKISP1_CIF_ISP_LSC_SECT_GRAD(v0, v1)      \
-> 	(((v0) & 0xFFF) | (((v1) & 0xFFF) << 16))
->
-> /* LSC: ISP_LSC_TABLE_SEL */
->-- 
->Regards,
->
->Laurent Pinchart
->
->
->_______________________________________________
->Linux-rockchip mailing list
->Linux-rockchip@lists.infradead.org
->http://lists.infradead.org/mailman/listinfo/linux-rockchip
+On Fri, Aug 26, 2022 at 08:28:03PM +0200, Paul Kocialkowski wrote:
+> From: Kévin L'hôpital <kevin.lhopital@bootlin.com>
+> 
+> The Bananapi M3 supports a camera module which includes an OV8865 sensor
+> connected via the parallel CSI interface and an OV8865 sensor connected
+> via MIPI CSI-2.
+> 
+> The I2C2 bus is shared by the two sensors as well as the (active-low)
+> reset signal, but each sensor has it own shutdown line.
+
+I see a single sensor in this file, am I missing something ?
+
+Sounds like a perfect candidate for an overlay, it could then be merged
+upstream.
+
+> Signed-off-by: Kévin L'hôpital <kevin.lhopital@bootlin.com>
+> Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> ---
+>  arch/arm/boot/dts/sun8i-a83t-bananapi-m3.dts | 102 +++++++++++++++++++
+>  1 file changed, 102 insertions(+)
+> 
+> diff --git a/arch/arm/boot/dts/sun8i-a83t-bananapi-m3.dts b/arch/arm/boot/dts/sun8i-a83t-bananapi-m3.dts
+> index 5a7e1bd5f825..80fd99cf24b2 100644
+> --- a/arch/arm/boot/dts/sun8i-a83t-bananapi-m3.dts
+> +++ b/arch/arm/boot/dts/sun8i-a83t-bananapi-m3.dts
+> @@ -85,6 +85,30 @@ led-1 {
+>  		};
+>  	};
+>  
+> +	reg_ov8865_avdd: ov8865-avdd {
+> +		compatible = "regulator-fixed";
+> +		regulator-name = "ov8865-avdd";
+> +		regulator-min-microvolt = <2800000>;
+> +		regulator-max-microvolt = <2800000>;
+> +		vin-supply = <&reg_dldo4>;
+> +	};
+> +
+> +	reg_ov8865_dovdd: ov8865-dovdd {
+> +		compatible = "regulator-fixed";
+> +		regulator-name = "ov8865-dovdd";
+> +		regulator-min-microvolt = <2800000>;
+> +		regulator-max-microvolt = <2800000>;
+> +		vin-supply = <&reg_dldo4>;
+> +	};
+> +
+> +	reg_ov8865_dvdd: ov8865-dvdd {
+> +		compatible = "regulator-fixed";
+> +		regulator-name = "ov8865-dvdd";
+> +		regulator-min-microvolt = <1200000>;
+> +		regulator-max-microvolt = <1200000>;
+> +		vin-supply = <&reg_eldo1>;
+> +	};
+
+Are those three regulators on the Banana Pi, or on the camera module ?
+
+> +
+>  	reg_usb1_vbus: reg-usb1-vbus {
+>  		compatible = "regulator-fixed";
+>  		regulator-name = "usb1-vbus";
+> @@ -115,6 +139,23 @@ &cpu100 {
+>  	cpu-supply = <&reg_dcdc3>;
+>  };
+>  
+> +&csi {
+> +	status = "okay";
+> +
+> +	ports {
+> +		#address-cells = <1>;
+> +		#size-cells = <0>;
+> +
+> +		port@1 {
+> +			reg = <1>;
+
+All of this (except the status = "okay") should go to sun8i-a83t.dtsi.
+
+> +
+> +			csi_in_mipi_csi2: endpoint {
+> +				remote-endpoint = <&mipi_csi2_out_csi>;
+> +			};
+
+This too actually, once the issue mentioned in patch 5/6 gets fixed.
+
+> +		};
+> +	};
+> +};
+> +
+>  &de {
+>  	status = "okay";
+>  };
+> @@ -147,6 +188,36 @@ hdmi_out_con: endpoint {
+>  	};
+>  };
+>  
+> +&i2c2 {
+> +	pinctrl-names = "default";
+> +	pinctrl-0 = <&i2c2_pe_pins>;
+
+This looks like a candidate for upstreaming in
+sun8i-a83t-bananapi-m3.dts, it shouldn't be in the overlay.
+
+> +	status = "okay";
+> +
+> +	ov8865: camera@36 {
+> +		compatible = "ovti,ov8865";
+> +		reg = <0x36>;
+> +		pinctrl-names = "default";
+> +		pinctrl-0 = <&csi_mclk_pin>;
+> +		clocks = <&ccu CLK_CSI_MCLK>;
+> +		assigned-clocks = <&ccu CLK_CSI_MCLK>;
+> +		assigned-clock-rates = <24000000>;
+> +		avdd-supply = <&reg_ov8865_avdd>;
+> +		dovdd-supply = <&reg_ov8865_dovdd>;
+> +		dvdd-supply = <&reg_ov8865_dvdd>;
+> +		powerdown-gpios = <&pio 4 17 GPIO_ACTIVE_LOW>; /* PE17 */
+> +		reset-gpios = <&pio 4 16 GPIO_ACTIVE_LOW>; /* PE16 */
+> +
+> +		port {
+> +			ov8865_out_mipi_csi2: endpoint {
+> +				data-lanes = <1 2 3 4>;
+> +				link-frequencies = /bits/ 64 <360000000>;
+> +
+> +				remote-endpoint = <&mipi_csi2_in_ov8865>;
+> +			};
+> +		};
+> +	};
+> +};
+> +
+>  &mdio {
+>  	rgmii_phy: ethernet-phy@1 {
+>  		compatible = "ethernet-phy-ieee802.3-c22";
+> @@ -154,6 +225,24 @@ rgmii_phy: ethernet-phy@1 {
+>  	};
+>  };
+>  
+> +&mipi_csi2 {
+> +	status = "okay";
+> +};
+> +
+> +&mipi_csi2_in {
+> +	mipi_csi2_in_ov8865: endpoint {
+> +		data-lanes = <1 2 3 4>;
+> +
+> +		remote-endpoint = <&ov8865_out_mipi_csi2>;
+> +	};
+> +};
+> +
+> +&mipi_csi2_out {
+> +	mipi_csi2_out_csi: endpoint {
+> +		remote-endpoint = <&csi_in_mipi_csi2>;
+> +	};
+> +};
+> +
+>  &mmc0 {
+>  	pinctrl-names = "default";
+>  	pinctrl-0 = <&mmc0_pins>;
+> @@ -327,11 +416,24 @@ &reg_dldo3 {
+>  	regulator-name = "vcc-pd";
+>  };
+>  
+> +&reg_dldo4 {
+> +	regulator-always-on;
+
+Does it have to be always on ?
+
+> +	regulator-min-microvolt = <2800000>;
+> +	regulator-max-microvolt = <2800000>;
+> +	regulator-name = "avdd-csi";
+
+Doesn't this belong to the base board .dts ? Same below.
+
+> +};
+> +
+>  &reg_drivevbus {
+>  	regulator-name = "usb0-vbus";
+>  	status = "okay";
+>  };
+>  
+> +&reg_eldo1 {
+> +	regulator-min-microvolt = <1200000>;
+> +	regulator-max-microvolt = <1200000>;
+> +	regulator-name = "dvdd-csi-r";
+> +};
+> +
+>  &reg_fldo1 {
+>  	regulator-min-microvolt = <1080000>;
+>  	regulator-max-microvolt = <1320000>;
+
+-- 
+Regards,
+
+Laurent Pinchart
