@@ -2,158 +2,107 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 56A8D5A2E12
-	for <lists+linux-media@lfdr.de>; Fri, 26 Aug 2022 20:13:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BC5795A2E68
+	for <lists+linux-media@lfdr.de>; Fri, 26 Aug 2022 20:28:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245347AbiHZSMd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 26 Aug 2022 14:12:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47476 "EHLO
+        id S239226AbiHZS2a (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 26 Aug 2022 14:28:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43216 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231666AbiHZSMc (ORCPT
+        with ESMTP id S229676AbiHZS23 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 26 Aug 2022 14:12:32 -0400
-Received: from mail-qk1-x730.google.com (mail-qk1-x730.google.com [IPv6:2607:f8b0:4864:20::730])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 40E45C2E90
-        for <linux-media@vger.kernel.org>; Fri, 26 Aug 2022 11:12:30 -0700 (PDT)
-Received: by mail-qk1-x730.google.com with SMTP id f4so1728182qkl.7
-        for <linux-media@vger.kernel.org>; Fri, 26 Aug 2022 11:12:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc;
-        bh=jqj6CcmKre2a3pdA+WuRdHVwoA5xZ4Au+UEM5d2qlYI=;
-        b=AhKOb0Dh0aWKY6d96FWpxn4yIVV5nL2wo5ox/NLY1mthvh2p2ZnfpN3x8s2PdhXxWV
-         K13qAB+y1f6GyNardw43tCJzdztj0cuBk4WLqXXYzmsdGoM1bCe+teQvMPxLWyHIGr3j
-         D7QQrD2yJSIZxtywAwzlZPDDRuxFCwp4xEdvwuBImD1pRBfKDFbzrojl2F0sIrEb1acE
-         fg7riUIEMJz/ZXg6Kyt/c6LxwnoUMj3DMgu5juB92cScx+XyiLKbZDbdiTOSPeY+74Fl
-         Y3rSDHg33KJ2LdC0to0gchzU6Q3cb5E5uesblVsSxDIqhKtkwQQmkrZ/5BzFS+qwXY7H
-         bAmA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc;
-        bh=jqj6CcmKre2a3pdA+WuRdHVwoA5xZ4Au+UEM5d2qlYI=;
-        b=OCoXlRRfRSgetCBi7nx6ou/b1J7xy2OTG+ks2p4aQQn9loZ1c9XRRD7bcUcchoqd7a
-         9l58mMrs7cS1lJdR+7rdrLx3MDDCNbzFAi1Cg75e69WaQjt7QHxuHQpT0h/ONOXiHg48
-         dVbbjUp1+2ySiJ8Eo/d98+CVXBmmdxi8cf3ZpB6tYITNscN80I1tZwUNHrakSWJ5bCv6
-         9vw0dMQgHBvhSa5CEMmEaWBx1wggnuCrYx/4pGwp43nWWpCVUqWIy05NMVvwnCKY8QOh
-         +dyx6yS/80P1rYV5vNU50JaBPRsY5E+hLFPj51AaPH9AhHDCXqab7zxlgbdomEnw5yaj
-         1nIw==
-X-Gm-Message-State: ACgBeo2AaTh/O2ACi6r+OgIaW52N5X0Oez9obVi5owZV3V20ny0r6Mi+
-        T0yt7NbQ/HTjYul+5I8Kp8NHKw==
-X-Google-Smtp-Source: AA6agR5eU66wk4zOntFXbAXzXuSJU2xPoFvVoH9OyFvpvFAuSW/cAF20aa0FD+LXKNuMSyIzSjUhsg==
-X-Received: by 2002:a05:620a:4546:b0:6bb:d625:1ee1 with SMTP id u6-20020a05620a454600b006bbd6251ee1mr689248qkp.23.1661537549399;
-        Fri, 26 Aug 2022 11:12:29 -0700 (PDT)
-Received: from nicolas-tpx395.localdomain (192-222-136-102.qc.cable.ebox.net. [192.222.136.102])
-        by smtp.gmail.com with ESMTPSA id 14-20020ac84e8e000000b003436103df40sm300699qtp.8.2022.08.26.11.12.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Aug 2022 11:12:29 -0700 (PDT)
-Message-ID: <0099cb36956090f7c5f3058b353d3555870aea32.camel@ndufresne.ca>
-Subject: Re: [PATCH] [media] v4l2: Add AV1, AVS and AVS2 format
-From:   Nicolas Dufresne <nicolas@ndufresne.ca>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Shi Hao <hao.shi@amlogic.com>
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        mchehab@kernel.org, hans.verkuil@cisco.com,
-        hverkuil-cisco@xs4all.nl, ezequiel@vanguardiasur.com.ar,
-        sakari.ailus@linux.intel.com, ribalda@chromium.org,
-        stanimir.varbanov@linaro.org, nanxin.qin@amlogic.com
-Date:   Fri, 26 Aug 2022 14:12:27 -0400
-In-Reply-To: <YwiPMOyfXKM8lxIR@pendragon.ideasonboard.com>
-References: <20220826030003.1066976-1-hao.shi@amlogic.com>
-         <YwiPMOyfXKM8lxIR@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.4 (3.44.4-1.fc36) 
+        Fri, 26 Aug 2022 14:28:29 -0400
+Received: from relay11.mail.gandi.net (relay11.mail.gandi.net [217.70.178.231])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 410FDD2B35;
+        Fri, 26 Aug 2022 11:28:27 -0700 (PDT)
+Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
+        by mail.gandi.net (Postfix) with ESMTPSA id 12111100005;
+        Fri, 26 Aug 2022 18:28:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+        t=1661538505;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=ENV+xWnhw1Xw1tkxFf2nGkYLnzfgvZxgtBLFjjOImfQ=;
+        b=Wh94hAggxAjkuDWbuBmtmu8vTBM2CwWql1HCqwcveJbDkpJZ2xXVT8JlS46zvZyWNoBgzk
+        xLkPpSe3xzyc52aIxtSye8HCOBnMUta1BjQ7UI8pNlu+6kQzCrWZ6M36NwNPVFdOarOr6O
+        DwD49q1H5QOKuQqGsy9jLBdSft17Qf7NkRiRkIE6lYABxC8UF5aNQ9oPOWAGyhv4h0cZlQ
+        Vp4zlD+WIrZkffKfRLCCNrkno1w4LSO6vrvVidG9pGKeNMrbuNXmhekJlnD9gJM/rDxcv7
+        qQg4+im4QY3+R6aMBgT7CrgBWAgp1di0GrW4ghvhQ+es1MzYHRFrXVzthnZW5A==
+From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+To:     devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org
+Cc:     Rob Herring <robh+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Samuel Holland <samuel@sholland.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Subject: [PATCH v5 0/6] Allwinner A31/A83T MIPI CSI-2 and A31 ISP / Platform Support
+Date:   Fri, 26 Aug 2022 20:27:57 +0200
+Message-Id: <20220826182803.604563-1-paul.kocialkowski@bootlin.com>
+X-Mailer: git-send-email 2.37.1
 MIME-Version: 1.0
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Le vendredi 26 ao=C3=BBt 2022 =C3=A0 12:15 +0300, Laurent Pinchart a =C3=A9=
-crit=C2=A0:
-> Hello Shi,
->=20
-> Thank you for the patch.
->=20
-> On Fri, Aug 26, 2022 at 11:00:03AM +0800, Shi Hao wrote:
-> > From: "hao.shi" <hao.shi@amlogic.com>
-> >=20
-> > Add AV1, AVS and AVS2 compressed pixel formats. They are
-> > the more common formats.
-> >=20
-> > Signed-off-by: Shi Hao <hao.shi@amlogic.com>
-> > ---
-> >  drivers/media/v4l2-core/v4l2-ioctl.c | 3 +++
-> >  include/uapi/linux/videodev2.h       | 3 +++
->=20
-> The patch also needs to document the formats, in
-> Documentation/userspace-api/media/v4l/.
->=20
-> >  2 files changed, 6 insertions(+)
-> >=20
-> > diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-=
-core/v4l2-ioctl.c
-> > index c314025d977e..7b102c2f59b1 100644
-> > --- a/drivers/media/v4l2-core/v4l2-ioctl.c
-> > +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-> > @@ -1497,6 +1497,9 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc =
-*fmt)
-> >  		case V4L2_PIX_FMT_MT21C:	descr =3D "Mediatek Compressed Format"; bre=
-ak;
-> >  		case V4L2_PIX_FMT_QC08C:	descr =3D "QCOM Compressed 8-bit Format"; b=
-reak;
-> >  		case V4L2_PIX_FMT_QC10C:	descr =3D "QCOM Compressed 10-bit Format"; =
-break;
-> > +		case V4L2_PIX_FMT_AV1:		descr =3D "AV1"; break;
+This part only concerns Allwinner platform support changes.
 
-A recommendation while adding proper spec/doc. AV1 have multiple representa=
-tion,
-the exact expected representation should be specified in the doc. This will
-avoid similar issues we had with H.264 (Annex B. vs AVCc formats).
+Though some patches still need reviewing, they feel ready to go since the
+MIPI CSI-2 bindings were merged, the updated CSI bindings were reviewed by
+Rob and the new ISP bindings as well. Although they were not merged yet,
+they seem ready to go at this point.
 
-> > +		case V4L2_PIX_FMT_AVS:		descr =3D "AVS"; break;
-> > +		case V4L2_PIX_FMT_AVS2:		descr =3D "AVS2"; break;
+Since this multi-part series has been going on for a while, it would be
+great to see it merged soon!
 
-Same things should be checked for these two, they aren't very common outsid=
-e of
-China, at least I didn't had a chance to play with these so far.
+Changes since v4:
+- Removed mbus bindings patch: an equivalent change was merged;
+- Added collected tags;
+- Rebased on latest media tree.
 
-cheers,
-Nicolas
+Changes since v3:
+- Reordered v3s mbus compatible in binding;
+- Added collected tag;
+- Removed rejected interconnects fix.
 
-> >  		default:
-> >  			if (fmt->description[0])
-> >  				return;
-> > diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videod=
-ev2.h
-> > index 01e630f2ec78..fa8ec0ddde3d 100644
-> > --- a/include/uapi/linux/videodev2.h
-> > +++ b/include/uapi/linux/videodev2.h
-> > @@ -738,6 +738,9 @@ struct v4l2_pix_format {
-> >  #define V4L2_PIX_FMT_FWHT_STATELESS     v4l2_fourcc('S', 'F', 'W', 'H'=
-) /* Stateless FWHT (vicodec) */
-> >  #define V4L2_PIX_FMT_H264_SLICE v4l2_fourcc('S', '2', '6', '4') /* H26=
-4 parsed slices */
-> >  #define V4L2_PIX_FMT_HEVC_SLICE v4l2_fourcc('S', '2', '6', '5') /* HEV=
-C parsed slices */
-> > +#define V4L2_PIX_FMT_AV1      v4l2_fourcc('A', 'V', '1', '0') /* AV1 *=
-/
-> > +#define V4L2_PIX_FMT_AVS      v4l2_fourcc('A', 'V', 'S', '0') /* AVS *=
-/
-> > +#define V4L2_PIX_FMT_AVS2     v4l2_fourcc('A', 'V', 'S', '2') /* AVS2 =
-*/
-> > =20
-> >  /*  Vendor-specific formats   */
-> >  #define V4L2_PIX_FMT_CPIA1    v4l2_fourcc('C', 'P', 'I', 'A') /* cpia1=
- YUV */
-> >=20
-> > base-commit: 568035b01cfb107af8d2e4bd2fb9aea22cf5b868
->=20
+Changes since all-in-one v2:
+- Corrected mbus index used for the interconnects;
+- Used extended mbus binding and exported the DRAM clock for that;
+- Reworked the description of the core openfirmware change to give
+  more insight about the situation.
+
+Kévin L'hôpital (1):
+  ARM: dts: sun8i: a83t: bananapi-m3: Enable MIPI CSI-2 with OV8865
+
+Paul Kocialkowski (5):
+  clk: sunxi-ng: v3s: Export MBUS and DRAM clocks to the public header
+  ARM: dts: sun8i: v3s: Add mbus node to represent the interconnect
+  ARM: dts: sun8i: v3s: Add nodes for MIPI CSI-2 support
+  ARM: dts: sun8i: v3s: Add support for the ISP
+  ARM: dts: sun8i: a83t: Add MIPI CSI-2 controller node
+
+ arch/arm/boot/dts/sun8i-a83t-bananapi-m3.dts | 102 ++++++++++++++++
+ arch/arm/boot/dts/sun8i-a83t.dtsi            |  26 ++++
+ arch/arm/boot/dts/sun8i-v3s.dtsi             | 121 +++++++++++++++++++
+ drivers/clk/sunxi-ng/ccu-sun8i-v3s.h         |   4 -
+ include/dt-bindings/clock/sun8i-v3s-ccu.h    |   4 +-
+ 5 files changed, 251 insertions(+), 6 deletions(-)
+
+-- 
+2.37.1
 
