@@ -2,54 +2,49 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4463C5A3230
-	for <lists+linux-media@lfdr.de>; Sat, 27 Aug 2022 00:44:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2C8DF5A3336
+	for <lists+linux-media@lfdr.de>; Sat, 27 Aug 2022 02:45:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345375AbiHZWoP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 26 Aug 2022 18:44:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57628 "EHLO
+        id S1345171AbiH0Apk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 26 Aug 2022 20:45:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41550 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345374AbiHZWoM (ORCPT
+        with ESMTP id S231769AbiH0Aph (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 26 Aug 2022 18:44:12 -0400
+        Fri, 26 Aug 2022 20:45:37 -0400
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A979E9265;
-        Fri, 26 Aug 2022 15:44:09 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 00CC015FFF;
+        Fri, 26 Aug 2022 17:45:29 -0700 (PDT)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4BFAE30B;
-        Sat, 27 Aug 2022 00:44:07 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id DEB97120A;
+        Sat, 27 Aug 2022 02:45:27 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1661553847;
-        bh=1vQiSAWL0a6pAWjRrt3KXCnDFIy1tI/MaVds3BTWUR8=;
+        s=mail; t=1661561128;
+        bh=Mwqdyk7Y9Y4ZTqFWgJvE6BzbZEtGzKGN99bob/3Y/xA=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=STeLZcsQX6EYK58r5TFu7ptEN5NMVD/H36kRjKx1+3Cs0k11RT7qsZxmTpBP6G23A
-         jqtjS4C6FwVYfmQA5W1mnR1g8NaDow4q1bleTJvOWoYTkR7oY6k5YPIYgPdkIDPwxM
-         uBTfy+v4cjeekWjv9W6jvPZf/HNVnUb1n8L9Uzpc=
-Date:   Sat, 27 Aug 2022 01:44:00 +0300
+        b=BeKVBq9CXHDx87Rv3ze+pfhRkKwcNzMqDCCGGMVEwED+bvXVRWCOta28JQWWDQxs9
+         8QfySX03jmZtj83UPGxrjgwh/mL7/HZvOhfv7pVxA4cPYUKVEMimXrsk8rHOgxAOd9
+         1Ro6T03rI30MF6lnaanK/SIUGKYxr32wv2PGKfeo=
+Date:   Sat, 27 Aug 2022 03:45:19 +0300
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-        linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Samuel Holland <samuel@sholland.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Hans Verkuil <hans.verkuil@cisco.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH v6 6/6] media: sun6i-csi: Add support for hooking to the
- isp devices
-Message-ID: <YwlMsAG/vPUTNd4o@pendragon.ideasonboard.com>
-References: <20220826184144.605605-1-paul.kocialkowski@bootlin.com>
- <20220826184144.605605-7-paul.kocialkowski@bootlin.com>
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH v13 2/5] media: renesas: vsp1: Add support to
+ deassert/assert reset line
+Message-ID: <YwlpH2kHv0aPwTx9@pendragon.ideasonboard.com>
+References: <20220825132144.2619239-1-biju.das.jz@bp.renesas.com>
+ <20220825132144.2619239-3-biju.das.jz@bp.renesas.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20220826184144.605605-7-paul.kocialkowski@bootlin.com>
+In-Reply-To: <20220825132144.2619239-3-biju.das.jz@bp.renesas.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
@@ -59,323 +54,161 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Paul,
+Hi Biju,
 
 Thank you for the patch.
 
-On Fri, Aug 26, 2022 at 08:41:44PM +0200, Paul Kocialkowski wrote:
-> In order to use the isp and csi together, both devices need to be
-> parented to the same v4l2 and media devices. We use the isp as
-> top-level device and let the csi code hook to its v4l2 and media
-> devices when async subdev registration takes place.
-
-Have you considered the option of making the CSI the master device, with
-the ISP registering an async subdev instead ?
-
-I'm also wondering, what will happen if userspace tries to capture from
-both the CSI output and the ISP output at the same time ?
-
-> As a result v4l2/media device setup is only called when the ISP
-> is missing and the capture device is registered after the devices
-> are hooked. The bridge subdev and its notifier are registered
-> without any device when the ISP is available. Top-level pointers
-> for the devices are introduced to either redirect to the hooked ones
-> (isp available) or the registered ones (isp missing).
+On Thu, Aug 25, 2022 at 02:21:41PM +0100, Biju Das wrote:
+> As the resets DT property is mandatory, and is present in all .dtsi
+> in mainline, add support to perform deassert/assert using reference
+> counted reset handle.
 > 
-> Also keep track of whether the capture node was setup or not to
-> avoid cleaning up resources when it wasn't.
-> 
-> Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 > ---
->  .../platform/sunxi/sun6i-csi/sun6i_csi.c      | 45 +++++++++++++++----
->  .../platform/sunxi/sun6i-csi/sun6i_csi.h      |  7 +++
->  .../sunxi/sun6i-csi/sun6i_csi_bridge.c        | 32 +++++++++++--
->  .../sunxi/sun6i-csi/sun6i_csi_capture.c       | 19 ++++++--
->  .../sunxi/sun6i-csi/sun6i_csi_capture.h       |  1 +
->  5 files changed, 89 insertions(+), 15 deletions(-)
+> v12->v13:
+>  * Removed unused iopoll.h header file.
+>  * Added Rb tag from Geert.
+> v11->v12:
+>  * Replaced read_poll_timeout_atomic-> udelay(1) as testing on RZ/G1N
+>    shows this delay is sufficient to avoid lock-up.
+>  * Removed Rb tags.
+> v10->v11:
+>  * To avoid lock-up on R-Car Gen2, added poll for reset status after deassert.
+> v9->v10:
+>  * Moved {deassert,assert} calls to vsp1_pm_runtime_{resume,suspend}
+> v8->v9:
+>  * No change
+> v7->v8:
+>  * No Change
+> v6->v7:
+>  * No change
+> v5->v6:
+>  * Rebased to media_staging and updated commit header
+>  * Added Rb tag from Laurent
+>  * Added forward declaration for struct reset_control
+>  * Updated vsp1_device_get() with changes suggested by Laurent
+>  * Updated error message for reset_control_get form ctrl->control.
+> v4->v5:
+>  * Added Rb tag from Geert
+> v3->v4:
+>  * Restored error check for pm_runtime_resume_and_get and calls
+>    assert() in case of failure.
+> v2->v3:
+>  * Added Rb tag from Philipp
+>  * If reset_control_deassert() failed, return ret directly. 
+> v1->v2:
+>  * Used reference counted reset handle to perform deassert/assert
+> RFC->v1:
+>  * Added reset support as separate patch
+>  * Moved rstc just after the bus_master field in struct vsp1_device
+> RFC:
+>  * https://patchwork.kernel.org/project/linux-renesas-soc/patch/20220112174612.10773-21-biju.das.jz@bp.renesas.com/
+> ---
+>  drivers/media/platform/renesas/vsp1/vsp1.h    |  2 ++
+>  .../media/platform/renesas/vsp1/vsp1_drv.c    | 28 +++++++++++++++++--
+>  2 files changed, 28 insertions(+), 2 deletions(-)
 > 
-> diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
-> index b16166cba2ef..0bac89d8112f 100644
-> --- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
-> +++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
-> @@ -26,6 +26,18 @@
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1.h b/drivers/media/platform/renesas/vsp1/vsp1.h
+> index 37cf33c7e6ca..baf898d577ec 100644
+> --- a/drivers/media/platform/renesas/vsp1/vsp1.h
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1.h
+> @@ -22,6 +22,7 @@
+>  struct clk;
+>  struct device;
+>  struct rcar_fcp_device;
+> +struct reset_control;
 >  
->  /* ISP */
+>  struct vsp1_drm;
+>  struct vsp1_entity;
+> @@ -79,6 +80,7 @@ struct vsp1_device {
+>  	void __iomem *mmio;
+>  	struct rcar_fcp_device *fcp;
+>  	struct device *bus_master;
+> +	struct reset_control *rstc;
 >  
-> +int sun6i_csi_isp_complete(struct sun6i_csi_device *csi_dev,
-> +			   struct v4l2_device *v4l2_dev)
-> +{
-> +	if (csi_dev->v4l2_dev && csi_dev->v4l2_dev != v4l2_dev)
-> +		return -EINVAL;
-> +
-> +	csi_dev->v4l2_dev = v4l2_dev;
-> +	csi_dev->media_dev = v4l2_dev->mdev;
-> +
-> +	return sun6i_csi_capture_setup(csi_dev);
-> +}
-> +
->  static bool sun6i_csi_isp_detect(struct sun6i_csi_device *csi_dev)
->  {
->  	struct device *dev = csi_dev->dev;
-> @@ -95,6 +107,9 @@ static int sun6i_csi_v4l2_setup(struct sun6i_csi_device *csi_dev)
->  		goto error_media;
->  	}
+>  	struct vsp1_brx *brs;
+>  	struct vsp1_brx *bru;
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_drv.c b/drivers/media/platform/renesas/vsp1/vsp1_drv.c
+> index 1f73c48eb738..975e6851735e 100644
+> --- a/drivers/media/platform/renesas/vsp1/vsp1_drv.c
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1_drv.c
+> @@ -16,6 +16,7 @@
+>  #include <linux/of_device.h>
+>  #include <linux/platform_device.h>
+>  #include <linux/pm_runtime.h>
+> +#include <linux/reset.h>
+>  #include <linux/videodev2.h>
 >  
-> +	csi_dev->v4l2_dev = v4l2_dev;
-> +	csi_dev->media_dev = media_dev;
-> +
->  	return 0;
+>  #include <media/rcar-fcp.h>
+> @@ -622,6 +623,7 @@ static int __maybe_unused vsp1_pm_runtime_suspend(struct device *dev)
+>  	struct vsp1_device *vsp1 = dev_get_drvdata(dev);
 >  
->  error_media:
-> @@ -323,17 +338,27 @@ static int sun6i_csi_probe(struct platform_device *platform_dev)
->  	if (ret)
->  		goto error_resources;
->  
-> -	ret = sun6i_csi_v4l2_setup(csi_dev);
-> -	if (ret)
-> -		goto error_resources;
-> +	/*
-> +	 * Register our own v4l2 and media devices when there is no ISP around.
-> +	 * Otherwise the ISP will use async subdev registration with our bridge,
-> +	 * which will provide v4l2 and media devices that are used to register
-> +	 * the video interface.
-> +	 */
-> +	if (!csi_dev->isp_available) {
-> +		ret = sun6i_csi_v4l2_setup(csi_dev);
-> +		if (ret)
-> +			goto error_resources;
-> +	}
->  
->  	ret = sun6i_csi_bridge_setup(csi_dev);
->  	if (ret)
->  		goto error_v4l2;
->  
-> -	ret = sun6i_csi_capture_setup(csi_dev);
-> -	if (ret)
-> -		goto error_bridge;
-> +	if (!csi_dev->isp_available) {
-> +		ret = sun6i_csi_capture_setup(csi_dev);
-> +		if (ret)
-> +			goto error_bridge;
-> +	}
+>  	rcar_fcp_disable(vsp1->fcp);
+> +	reset_control_assert(vsp1->rstc);
 >  
 >  	return 0;
->  
-> @@ -341,7 +366,8 @@ static int sun6i_csi_probe(struct platform_device *platform_dev)
->  	sun6i_csi_bridge_cleanup(csi_dev);
->  
->  error_v4l2:
-> -	sun6i_csi_v4l2_cleanup(csi_dev);
-> +	if (!csi_dev->isp_available)
-> +		sun6i_csi_v4l2_cleanup(csi_dev);
->  
->  error_resources:
->  	sun6i_csi_resources_cleanup(csi_dev);
-> @@ -355,7 +381,10 @@ static int sun6i_csi_remove(struct platform_device *pdev)
->  
->  	sun6i_csi_capture_cleanup(csi_dev);
->  	sun6i_csi_bridge_cleanup(csi_dev);
-> -	sun6i_csi_v4l2_cleanup(csi_dev);
-> +
-> +	if (!csi_dev->isp_available)
-> +		sun6i_csi_v4l2_cleanup(csi_dev);
-> +
->  	sun6i_csi_resources_cleanup(csi_dev);
->  
->  	return 0;
-> diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.h b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.h
-> index 8e232cd91ebe..bc3f0dae35df 100644
-> --- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.h
-> +++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.h
-> @@ -36,6 +36,8 @@ struct sun6i_csi_v4l2 {
->  
->  struct sun6i_csi_device {
->  	struct device			*dev;
-> +	struct v4l2_device		*v4l2_dev;
-> +	struct media_device		*media_dev;
->  
->  	struct sun6i_csi_v4l2		v4l2;
->  	struct sun6i_csi_bridge		bridge;
-> @@ -53,4 +55,9 @@ struct sun6i_csi_variant {
->  	unsigned long	clock_mod_rate;
->  };
->  
-> +/* ISP */
-> +
-> +int sun6i_csi_isp_complete(struct sun6i_csi_device *csi_dev,
-> +			   struct v4l2_device *v4l2_dev);
-> +
->  #endif
-> diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_bridge.c b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_bridge.c
-> index 492f93b0db28..86d20c1c35ed 100644
-> --- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_bridge.c
-> +++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_bridge.c
-> @@ -653,6 +653,7 @@ sun6i_csi_bridge_notifier_bound(struct v4l2_async_notifier *notifier,
->  	struct sun6i_csi_bridge *bridge = &csi_dev->bridge;
->  	struct sun6i_csi_bridge_source *source = bridge_async_subdev->source;
->  	bool enabled;
-> +	int ret;
->  
->  	switch (source->endpoint.base.port) {
->  	case SUN6I_CSI_PORT_PARALLEL:
-> @@ -667,6 +668,16 @@ sun6i_csi_bridge_notifier_bound(struct v4l2_async_notifier *notifier,
->  
->  	source->subdev = remote_subdev;
->  
-> +	if (csi_dev->isp_available) {
-> +		/*
-> +		 * Hook to the first available remote subdev to get v4l2 and
-> +		 * media devices and register the capture device then.
-> +		 */
-> +		ret = sun6i_csi_isp_complete(csi_dev, remote_subdev->v4l2_dev);
-> +		if (ret)
-> +			return ret;
-> +	}
-> +
->  	return sun6i_csi_bridge_link(csi_dev, SUN6I_CSI_BRIDGE_PAD_SINK,
->  				     remote_subdev, enabled);
 >  }
-> @@ -679,6 +690,9 @@ sun6i_csi_bridge_notifier_complete(struct v4l2_async_notifier *notifier)
->  			     bridge.notifier);
->  	struct v4l2_device *v4l2_dev = &csi_dev->v4l2.v4l2_dev;
->  
-> +	if (csi_dev->isp_available)
-> +		return 0;
-> +
->  	return v4l2_device_register_subdev_nodes(v4l2_dev);
->  }
->  
-> @@ -752,7 +766,7 @@ int sun6i_csi_bridge_setup(struct sun6i_csi_device *csi_dev)
->  {
->  	struct device *dev = csi_dev->dev;
->  	struct sun6i_csi_bridge *bridge = &csi_dev->bridge;
-> -	struct v4l2_device *v4l2_dev = &csi_dev->v4l2.v4l2_dev;
-> +	struct v4l2_device *v4l2_dev = csi_dev->v4l2_dev;
->  	struct v4l2_subdev *subdev = &bridge->subdev;
->  	struct v4l2_async_notifier *notifier = &bridge->notifier;
->  	struct media_pad *pads = bridge->pads;
-> @@ -793,7 +807,11 @@ int sun6i_csi_bridge_setup(struct sun6i_csi_device *csi_dev)
->  
->  	/* V4L2 Subdev */
->  
-> -	ret = v4l2_device_register_subdev(v4l2_dev, subdev);
-> +	if (csi_dev->isp_available)
-> +		ret = v4l2_async_register_subdev(subdev);
-> +	else
-> +		ret = v4l2_device_register_subdev(v4l2_dev, subdev);
-> +
->  	if (ret) {
->  		dev_err(dev, "failed to register v4l2 subdev: %d\n", ret);
->  		goto error_media_entity;
-> @@ -810,7 +828,10 @@ int sun6i_csi_bridge_setup(struct sun6i_csi_device *csi_dev)
->  	sun6i_csi_bridge_source_setup(csi_dev, &bridge->source_mipi_csi2,
->  				      SUN6I_CSI_PORT_MIPI_CSI2, NULL);
->  
-> -	ret = v4l2_async_nf_register(v4l2_dev, notifier);
-> +	if (csi_dev->isp_available)
-> +		ret = v4l2_async_subdev_nf_register(subdev, notifier);
-> +	else
-> +		ret = v4l2_async_nf_register(v4l2_dev, notifier);
->  	if (ret) {
->  		dev_err(dev, "failed to register v4l2 async notifier: %d\n",
->  			ret);
-> @@ -822,7 +843,10 @@ int sun6i_csi_bridge_setup(struct sun6i_csi_device *csi_dev)
->  error_v4l2_async_notifier:
->  	v4l2_async_nf_cleanup(notifier);
->  
-> -	v4l2_device_unregister_subdev(subdev);
-> +	if (csi_dev->isp_available)
-> +		v4l2_async_unregister_subdev(subdev);
-> +	else
-> +		v4l2_device_unregister_subdev(subdev);
->  
->  error_media_entity:
->  	media_entity_cleanup(&subdev->entity);
-> diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c
-> index c9e7526b84c4..69ea1cbaea0c 100644
-> --- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c
-> +++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c
-> @@ -570,7 +570,7 @@ static int sun6i_csi_capture_buffer_prepare(struct vb2_buffer *buffer)
->  {
->  	struct sun6i_csi_device *csi_dev = vb2_get_drv_priv(buffer->vb2_queue);
->  	struct sun6i_csi_capture *capture = &csi_dev->capture;
-> -	struct v4l2_device *v4l2_dev = &csi_dev->v4l2.v4l2_dev;
-> +	struct v4l2_device *v4l2_dev = csi_dev->v4l2_dev;
->  	struct vb2_v4l2_buffer *v4l2_buffer = to_vb2_v4l2_buffer(buffer);
->  	unsigned long size = capture->format.fmt.pix.sizeimage;
->  
-> @@ -889,7 +889,7 @@ static int sun6i_csi_capture_link_validate(struct media_link *link)
->  	struct video_device *video_dev =
->  		media_entity_to_video_device(link->sink->entity);
->  	struct sun6i_csi_device *csi_dev = video_get_drvdata(video_dev);
-> -	struct v4l2_device *v4l2_dev = &csi_dev->v4l2.v4l2_dev;
-> +	struct v4l2_device *v4l2_dev = csi_dev->v4l2_dev;
->  	const struct sun6i_csi_capture_format *capture_format;
->  	const struct sun6i_csi_bridge_format *bridge_format;
->  	unsigned int capture_width, capture_height;
-> @@ -971,7 +971,7 @@ int sun6i_csi_capture_setup(struct sun6i_csi_device *csi_dev)
->  {
->  	struct sun6i_csi_capture *capture = &csi_dev->capture;
->  	struct sun6i_csi_capture_state *state = &capture->state;
-> -	struct v4l2_device *v4l2_dev = &csi_dev->v4l2.v4l2_dev;
-> +	struct v4l2_device *v4l2_dev = csi_dev->v4l2_dev;
->  	struct v4l2_subdev *bridge_subdev = &csi_dev->bridge.subdev;
->  	struct video_device *video_dev = &capture->video_dev;
->  	struct vb2_queue *queue = &capture->queue;
-> @@ -980,6 +980,10 @@ int sun6i_csi_capture_setup(struct sun6i_csi_device *csi_dev)
->  	struct v4l2_pix_format *pix_format = &format->fmt.pix;
+> @@ -631,13 +633,30 @@ static int __maybe_unused vsp1_pm_runtime_resume(struct device *dev)
+>  	struct vsp1_device *vsp1 = dev_get_drvdata(dev);
 >  	int ret;
 >  
-> +	/* This may happen with multiple bridge notifier bound calls. */
-> +	if (state->setup)
-> +		return 0;
+> +	ret = reset_control_deassert(vsp1->rstc);
+> +	if (ret < 0)
+> +		return ret;
 > +
->  	/* State */
->  
->  	INIT_LIST_HEAD(&state->queue);
-> @@ -1055,6 +1059,7 @@ int sun6i_csi_capture_setup(struct sun6i_csi_device *csi_dev)
->  	ret = media_create_pad_link(&bridge_subdev->entity,
->  				    SUN6I_CSI_BRIDGE_PAD_SOURCE,
->  				    &video_dev->entity, 0,
-> +				    csi_dev->isp_available ? 0 :
->  				    MEDIA_LNK_FL_ENABLED |
->  				    MEDIA_LNK_FL_IMMUTABLE);
->  	if (ret < 0) {
-> @@ -1065,6 +1070,8 @@ int sun6i_csi_capture_setup(struct sun6i_csi_device *csi_dev)
->  		goto error_video_device;
+> +	/*
+> +	 * On R-Car Gen2, vsp1 register access after deassert can cause
+> +	 * lock-up. It is a special case and needs some delay to avoid
+> +	 * this lock-up.
+
+You can reflow this to 80 columns:
+
+	 * On R-Car Gen2, vsp1 register access after deassert can cause lock-up.
+	 * It is a special case and needs some delay to avoid this lock-up.
+
+> +	 */
+> +	udelay(1);
+
+Is it worth conditioning this on the VSP version to only add the delay
+on Gen2 ?
+
+With these two small issues addressed,
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+> +
+>  	if (vsp1->info) {
+>  		ret = vsp1_device_init(vsp1);
+>  		if (ret < 0)
+> -			return ret;
+> +			goto done;
 >  	}
 >  
-> +	state->setup = true;
+> -	return rcar_fcp_enable(vsp1->fcp);
+> +	ret = rcar_fcp_enable(vsp1->fcp);
 > +
->  	return 0;
->  
->  error_video_device:
-> @@ -1083,7 +1090,13 @@ void sun6i_csi_capture_cleanup(struct sun6i_csi_device *csi_dev)
->  	struct sun6i_csi_capture *capture = &csi_dev->capture;
->  	struct video_device *video_dev = &capture->video_dev;
->  
-> +	/* This may happen if async registration failed to complete. */
-> +	if (!capture->state.setup)
-> +		return;
+> +done:
+> +	if (ret < 0)
+> +		reset_control_assert(vsp1->rstc);
 > +
->  	vb2_video_unregister_device(video_dev);
->  	media_entity_cleanup(&video_dev->entity);
->  	mutex_destroy(&capture->lock);
-> +
-> +	capture->state.setup = false;
+> +	return ret;
 >  }
-> diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.h b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.h
-> index 29893cf96f6b..3ee5ccefbd10 100644
-> --- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.h
-> +++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.h
-> @@ -45,6 +45,7 @@ struct sun6i_csi_capture_state {
 >  
->  	unsigned int			sequence;
->  	bool				streaming;
-> +	bool				setup;
->  };
+>  static const struct dev_pm_ops vsp1_pm_ops = {
+> @@ -825,6 +844,11 @@ static int vsp1_probe(struct platform_device *pdev)
+>  	if (irq < 0)
+>  		return irq;
 >  
->  struct sun6i_csi_capture {
+> +	vsp1->rstc = devm_reset_control_get_shared(&pdev->dev, NULL);
+> +	if (IS_ERR(vsp1->rstc))
+> +		return dev_err_probe(&pdev->dev, PTR_ERR(vsp1->rstc),
+> +				     "failed to get reset control\n");
+> +
+>  	/* FCP (optional). */
+>  	fcp_node = of_parse_phandle(pdev->dev.of_node, "renesas,fcp", 0);
+>  	if (fcp_node) {
 
 -- 
 Regards,
