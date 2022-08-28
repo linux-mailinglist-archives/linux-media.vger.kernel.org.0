@@ -2,202 +2,76 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 71A885A3CA9
-	for <lists+linux-media@lfdr.de>; Sun, 28 Aug 2022 10:17:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5B6755A3CE5
+	for <lists+linux-media@lfdr.de>; Sun, 28 Aug 2022 10:52:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231923AbiH1IRZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 28 Aug 2022 04:17:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52878 "EHLO
+        id S232627AbiH1IwC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 28 Aug 2022 04:52:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36210 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233603AbiH1IQL (ORCPT
+        with ESMTP id S232422AbiH1IwB (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 28 Aug 2022 04:16:11 -0400
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 17FF6222B9;
-        Sun, 28 Aug 2022 01:16:09 -0700 (PDT)
-X-IronPort-AV: E=Sophos;i="5.93,270,1654527600"; 
-   d="scan'208";a="132818723"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 28 Aug 2022 17:16:09 +0900
-Received: from localhost.localdomain (unknown [10.226.92.45])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id F41E441DF0A5;
-        Sun, 28 Aug 2022 17:16:05 +0900 (JST)
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v14 5/5] media: renesas: vsp1: Add support for RZ/G2L VSPD
-Date:   Sun, 28 Aug 2022 09:16:02 +0100
-Message-Id: <20220828081602.30219-1-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.25.1
+        Sun, 28 Aug 2022 04:52:01 -0400
+Received: from mail-ed1-x541.google.com (mail-ed1-x541.google.com [IPv6:2a00:1450:4864:20::541])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E1F330572
+        for <linux-media@vger.kernel.org>; Sun, 28 Aug 2022 01:52:01 -0700 (PDT)
+Received: by mail-ed1-x541.google.com with SMTP id w10so6851197edc.3
+        for <linux-media@vger.kernel.org>; Sun, 28 Aug 2022 01:52:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=to:subject:message-id:date:from:reply-to:mime-version:from:to:cc;
+        bh=js8jdg7UWifkhRoiGZNtqX+ncfiv/MFe1dhMSWZmt4I=;
+        b=o6tFguuz2McUzKIZHUFphsIjY8mfeW3HwgZeMWg+nN9ouBjGTpw182fzW69/0Xg+7+
+         KaiGNoMz0+fbwhx0e6/nLp9RD7ZMsL+tZWWzCHSmHCYV2duzTGnlIHTm5yj0c4Yl/4Lk
+         xMUmGfv+cSTW81JJfJIl3pQ+WlGD6uYQiEp4gotA7YAI8NB+xOt3X2Tr6qp+pX0HyUry
+         W2Kih9YWTU1rWkLhpqRq1ThhyTqvAuWyKEzgtWTEl2a1aMNq3sqtE/+4c03aDbMtyxc7
+         GBzIxMPatLZD0ThiIZM79/2YQiavDOhMcnanffzjkG9uLJaRQAliSbeE5QULW2vTU38y
+         rnmg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=to:subject:message-id:date:from:reply-to:mime-version
+         :x-gm-message-state:from:to:cc;
+        bh=js8jdg7UWifkhRoiGZNtqX+ncfiv/MFe1dhMSWZmt4I=;
+        b=UOfwkz1u89QHpjNbE2GmFQAir4gGPsVJOPmQFTvFDvFOBH/2N3Wnnq2xCP2/rrm+OM
+         +fHabjlRR1ZVD+gQmgQNQxdQJ5XfdN/sPuaH7KC3TNPUxRlcomW+kV87fxAAEPGmsHUx
+         VUd0XYYx3UzoGbQfA3DpmXqyiPUncpF/X6feiELezBP4rVMp7pYy1rayVwkxS+PM+Vfi
+         1vy4FW5spayMlbmYZAXnjhInDuKAN2YmVoqdcCI9QQXJuqH1WvUBryQkHBr7HxZNPoXP
+         ihUPeRhgIJM4FwcHBMeCi4eOo/ZP4DDoooXIVTUKxdhgWI+3GhXlws9hBdg2ILKSkDCf
+         KTXQ==
+X-Gm-Message-State: ACgBeo15EHbP5eNqd+1h6rxLli7ENc5vdadq8KexalBXRRYok+etd/Kn
+        ufGNscjoHRUoJeRueXITZOS3VOhTB8+pLr+ZhZ4=
+X-Google-Smtp-Source: AA6agR4+jY/Pjp/IA1+BAqukui93B+7ZoY2692LvT7VIL6uJwNoHKntPCMpYCDVA6XqKu99RNiBWtJmINijDEN5NcTA=
+X-Received: by 2002:a05:6402:5193:b0:43e:1d52:fd70 with SMTP id
+ q19-20020a056402519300b0043e1d52fd70mr12618479edd.150.1661676719468; Sun, 28
+ Aug 2022 01:51:59 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=1.1 required=5.0 tests=AC_FROM_MANY_DOTS,BAYES_00,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
-        autolearn_force=no version=3.4.6
-X-Spam-Level: *
+Received: by 2002:a05:6402:1941:b0:446:f42b:1974 with HTTP; Sun, 28 Aug 2022
+ 01:51:58 -0700 (PDT)
+Reply-To: sam1965kner@yahoo.com
+From:   Sam <l.biasiolamperauto@gmail.com>
+Date:   Sun, 28 Aug 2022 09:51:58 +0100
+Message-ID: <CAHPnz9G0QLB+Pk8LA1JQpqQjx-Y0V0OPd4ChCnUpziG8kpaowQ@mail.gmail.com>
+Subject: 
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=4.8 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FREEMAIL_REPLYTO,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
+        UNDISC_FREEM autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Level: ****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The RZ/G2L VSPD provides a single VSPD instance. It has the following
-sub modules MAU, CTU, RPF, DPR, LUT, BRS, WPF and LIF.
-
-The VSPD block on RZ/G2L SoCs does not have a version register, so
-added a new compatible string "renesas,r9a07g044-vsp2" with a data
-pointer containing the info structure. Also the reset line is shared
-with the DU module.
-
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
----
-v13->v14:
- * Added Rb tag from Laurent.
-v12->v13:
- * No change
-v11->v12:
- * No change
-v10->v11:
- * No change.
-v9->v10:
- * No change.
-v8->v9:
- * Replaced the code comments RZ/G2L {SoC's,SoC} with RZ/G2L SoCs.
-v7->v8:
- * Split the patch for adding s/w version, feature bit and RZ/G2L support
- * Added feature bit VSP1_HAS_NON_ZERO_LBA to device_info
- * Added .soc for RZ/G2L
- * Replaced the compatible "renesas,rzg2l-vsp2" -> "renesas,r9a07g044-vsp2"
-v6->v7:
- * Added Rb tag from Kieran
- * Added a quirk to handle LIF0 buffer attribute related
-   changes for V3M and G2L.
- * Removed the macro for VSP HW version
-v5->v6:
- * Rebased to media_staging and updated commit header
- * Removed the extra tab from rzg2l_vsp2_device_info
- * Changed the function vsp1_lookup->vsp1_lookup_info and
-   all info match related code moved here.
- * Add VI6_IP_VERSION_VSP and VI6_IP_VERSION_VSP_SW macros to
-   distinguish HW & SW IP_VSP_Version.
- * Used 0x80 for RZG2L VSPD model and SoC identification
- * Updated Switch() for LIF0 buffer attribute handling.
-v4->v5:
- * Fixed typo VI6_IP_VERSION_MODEL_MASK->VI6_IP_VERSION_MASK
- * To be consistent with other SoC's, introduced VI6_IP_VERSION_SOC_G2L
-   for RZ/G2L SoC's.
-v3->v4:
- * Added Rb tag from Geert
- * Add switch() for LIF0 buffer attribute handling for RZ/G2L and V3M
-v2->v3:
- * Fixed version comparison in vsp1_lookup()
-v1->v2:
- * Changed the compatible from vsp2-rzg2l->rzg2l-vsp2
- * Added standalone device info for rzg2l-vsp2.
- * Added vsp1_lookup helper function.
- * Updated comments for LIF0 buffer attribute register
- * Used last ID for rzg2l-vsp2.
-RFC->v1:
- * Used data pointer containing info structure to retrieve version information
-RFC:
- * https://patchwork.kernel.org/project/linux-renesas-soc/patch/20220112174612.10773-21-biju.das.jz@bp.renesas.com/
----
- drivers/media/platform/renesas/vsp1/vsp1_drv.c  | 13 +++++++++++++
- drivers/media/platform/renesas/vsp1/vsp1_lif.c  |  9 +++++----
- drivers/media/platform/renesas/vsp1/vsp1_regs.h |  4 ++++
- 3 files changed, 22 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/media/platform/renesas/vsp1/vsp1_drv.c b/drivers/media/platform/renesas/vsp1/vsp1_drv.c
-index 8ab5b2b37524..c260d318d298 100644
---- a/drivers/media/platform/renesas/vsp1/vsp1_drv.c
-+++ b/drivers/media/platform/renesas/vsp1/vsp1_drv.c
-@@ -830,6 +830,18 @@ static const struct vsp1_device_info vsp1_device_infos[] = {
- 	},
- };
- 
-+static const struct vsp1_device_info rzg2l_vsp2_device_info = {
-+	.version = VI6_IP_VERSION_MODEL_VSPD_RZG2L,
-+	.model = "VSP2-D",
-+	.soc = VI6_IP_VERSION_SOC_RZG2L,
-+	.gen = 3,
-+	.features = VSP1_HAS_BRS | VSP1_HAS_WPF_VFLIP | VSP1_HAS_EXT_DL
-+		  | VSP1_HAS_NON_ZERO_LBA,
-+	.lif_count = 1,
-+	.rpf_count = 2,
-+	.wpf_count = 1,
-+};
-+
- static const struct vsp1_device_info *vsp1_lookup_info(struct vsp1_device *vsp1)
- {
- 	const struct vsp1_device_info *info;
-@@ -980,6 +992,7 @@ static int vsp1_remove(struct platform_device *pdev)
- static const struct of_device_id vsp1_of_match[] = {
- 	{ .compatible = "renesas,vsp1" },
- 	{ .compatible = "renesas,vsp2" },
-+	{ .compatible = "renesas,r9a07g044-vsp2", .data = &rzg2l_vsp2_device_info },
- 	{ },
- };
- MODULE_DEVICE_TABLE(of, vsp1_of_match);
-diff --git a/drivers/media/platform/renesas/vsp1/vsp1_lif.c b/drivers/media/platform/renesas/vsp1/vsp1_lif.c
-index 9adb892edcdc..186a5730e1e3 100644
---- a/drivers/media/platform/renesas/vsp1/vsp1_lif.c
-+++ b/drivers/media/platform/renesas/vsp1/vsp1_lif.c
-@@ -107,6 +107,7 @@ static void lif_configure_stream(struct vsp1_entity *entity,
- 
- 	case VI6_IP_VERSION_MODEL_VSPDL_GEN3:
- 	case VI6_IP_VERSION_MODEL_VSPD_V3:
-+	case VI6_IP_VERSION_MODEL_VSPD_RZG2L:
- 		hbth = 0;
- 		obth = 1500;
- 		lbth = 0;
-@@ -130,10 +131,10 @@ static void lif_configure_stream(struct vsp1_entity *entity,
- 			VI6_LIF_CTRL_REQSEL | VI6_LIF_CTRL_LIF_EN);
- 
- 	/*
--	 * On R-Car V3M the LIF0 buffer attribute register has to be set to a
--	 * non-default value to guarantee proper operation (otherwise artifacts
--	 * may appear on the output). The value required by the manual is not
--	 * explained but is likely a buffer size or threshold.
-+	 * On R-Car V3M and RZ/G2L the LIF0 buffer attribute register has to be
-+	 * set to a non-default value to guarantee proper operation (otherwise
-+	 * artifacts may appear on the output). The value required by the
-+	 * manual is not explained but is likely a buffer size or threshold.
- 	 */
- 	if (vsp1_feature(entity->vsp1, VSP1_HAS_NON_ZERO_LBA))
- 		vsp1_lif_write(lif, dlb, VI6_LIF_LBA,
-diff --git a/drivers/media/platform/renesas/vsp1/vsp1_regs.h b/drivers/media/platform/renesas/vsp1/vsp1_regs.h
-index 4286d13eca32..8928f4c6bb55 100644
---- a/drivers/media/platform/renesas/vsp1/vsp1_regs.h
-+++ b/drivers/media/platform/renesas/vsp1/vsp1_regs.h
-@@ -767,6 +767,8 @@
- #define VI6_IP_VERSION_MODEL_VSPDL_GEN3	(0x19 << 8)
- #define VI6_IP_VERSION_MODEL_VSPBS_GEN3	(0x1a << 8)
- #define VI6_IP_VERSION_MODEL_VSPD_V3U	(0x1c << 8)
-+/* RZ/G2L SoCs have no version register, So use 0x80 as the model version */
-+#define VI6_IP_VERSION_MODEL_VSPD_RZG2L	(0x80 << 8)
- 
- #define VI6_IP_VERSION_SOC_MASK		(0xff << 0)
- #define VI6_IP_VERSION_SOC_H2		(0x01 << 0)
-@@ -780,6 +782,8 @@
- #define VI6_IP_VERSION_SOC_M3N		(0x04 << 0)
- #define VI6_IP_VERSION_SOC_E3		(0x04 << 0)
- #define VI6_IP_VERSION_SOC_V3U		(0x05 << 0)
-+/* RZ/G2L SoCs have no version register, So use 0x80 for SoC Identification */
-+#define VI6_IP_VERSION_SOC_RZG2L	(0x80 << 0)
- 
- #define VI6_IP_VERSION_VSP_SW		(0xfffe << 16) /* SW VSP version */
- 
--- 
-2.25.1
-
+Hello, I am aware that the Internet has become very unsafe, but
+considering the situation I have no option than to seek for foreign
+partnership through this medium.I will not disclose my Identity until
+I am fully convinced you are the right person for this business deal.
+I have access to very vital information that can be used to move a
+huge amount of money to a secured account outside United Kingdom. Full
+details/modalities will be disclosed on your expression of Interest to
+partner with me. I am open for negotiation importantly the funds to be
+transferred have nothing to do with drugs, terrorism or Money
+laundering, regards.
