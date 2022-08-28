@@ -2,55 +2,33 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AD1C25A3979
-	for <lists+linux-media@lfdr.de>; Sat, 27 Aug 2022 20:27:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7810E5A3BDB
+	for <lists+linux-media@lfdr.de>; Sun, 28 Aug 2022 06:52:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229677AbiH0S1J (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 27 Aug 2022 14:27:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46052 "EHLO
+        id S231899AbiH1Ewm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 28 Aug 2022 00:52:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40938 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229445AbiH0S1I (ORCPT
+        with ESMTP id S229445AbiH1Ewj (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 27 Aug 2022 14:27:08 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3DD22D1E0E;
-        Sat, 27 Aug 2022 11:27:07 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3DC424A8;
-        Sat, 27 Aug 2022 20:27:04 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1661624824;
-        bh=wDgPTIqj2xTF5/8Q5yzkJvHroiYOyEvKBKAXFt7Swj8=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=tWF7uUdBws1OoM8Y/CV5M/59UcT4vK6E7d6CwcLSEzaQmBMrxHYG1eb3CLgHQa3X2
-         oBXbr3XPOtv8JiZz9AL/SGNCvAQm8e1ASzWVkUwZ3djE/CKf7cRCt8u7AnmheKyTzB
-         ryZ7zYZBrwt83jJtXKZG7uzG3SQ5g49+tTGqFHCM=
-Date:   Sat, 27 Aug 2022 21:26:56 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH v13 2/5] media: renesas: vsp1: Add support to
- deassert/assert reset line
-Message-ID: <Ywph8PaQS1+LQLHK@pendragon.ideasonboard.com>
-References: <20220825132144.2619239-1-biju.das.jz@bp.renesas.com>
- <20220825132144.2619239-3-biju.das.jz@bp.renesas.com>
- <YwlpH2kHv0aPwTx9@pendragon.ideasonboard.com>
- <OS0PR01MB5922E5A8E32F547787511F7C86749@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <OS0PR01MB5922E5A8E32F547787511F7C86749@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        Sun, 28 Aug 2022 00:52:39 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3797C167ED
+        for <linux-media@vger.kernel.org>; Sat, 27 Aug 2022 21:52:38 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id C131960F35
+        for <linux-media@vger.kernel.org>; Sun, 28 Aug 2022 04:52:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D7A00C433D6
+        for <linux-media@vger.kernel.org>; Sun, 28 Aug 2022 04:52:36 +0000 (UTC)
+Date:   Sun, 28 Aug 2022 06:52:35 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: ERRORS
+Message-Id: <20220828045236.D7A00C433D6@smtp.kernel.org>
+X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -58,210 +36,61 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Biju,
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-On Sat, Aug 27, 2022 at 04:07:56PM +0000, Biju Das wrote:
-> > Subject: Re: [PATCH v13 2/5] media: renesas: vsp1: Add support to deassert/assert reset line
-> > On Thu, Aug 25, 2022 at 02:21:41PM +0100, Biju Das wrote:
-> > > As the resets DT property is mandatory, and is present in all .dtsi in
-> > > mainline, add support to perform deassert/assert using reference
-> > > counted reset handle.
-> > >
-> > > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> > > Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > > Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > > ---
-> > > v12->v13:
-> > >  * Removed unused iopoll.h header file.
-> > >  * Added Rb tag from Geert.
-> > > v11->v12:
-> > >  * Replaced read_poll_timeout_atomic-> udelay(1) as testing on RZ/G1N
-> > >    shows this delay is sufficient to avoid lock-up.
-> > >  * Removed Rb tags.
-> > > v10->v11:
-> > >  * To avoid lock-up on R-Car Gen2, added poll for reset status after deassert.
-> > > v9->v10:
-> > >  * Moved {deassert,assert} calls to vsp1_pm_runtime_{resume,suspend}
-> > > v8->v9:
-> > >  * No change
-> > > v7->v8:
-> > >  * No Change
-> > > v6->v7:
-> > >  * No change
-> > > v5->v6:
-> > >  * Rebased to media_staging and updated commit header
-> > >  * Added Rb tag from Laurent
-> > >  * Added forward declaration for struct reset_control
-> > >  * Updated vsp1_device_get() with changes suggested by Laurent
-> > >  * Updated error message for reset_control_get form ctrl->control.
-> > > v4->v5:
-> > >  * Added Rb tag from Geert
-> > > v3->v4:
-> > >  * Restored error check for pm_runtime_resume_and_get and calls
-> > >    assert() in case of failure.
-> > > v2->v3:
-> > >  * Added Rb tag from Philipp
-> > >  * If reset_control_deassert() failed, return ret directly.
-> > > v1->v2:
-> > >  * Used reference counted reset handle to perform deassert/assert
-> > > RFC->v1:
-> > >  * Added reset support as separate patch
-> > >  * Moved rstc just after the bus_master field in struct vsp1_device
-> > > RFC:
-> > >  *
-> > > ---
-> > >  drivers/media/platform/renesas/vsp1/vsp1.h    |  2 ++
-> > >  .../media/platform/renesas/vsp1/vsp1_drv.c    | 28 +++++++++++++++++-
-> > -
-> > >  2 files changed, 28 insertions(+), 2 deletions(-)
-> > >
-> > > diff --git a/drivers/media/platform/renesas/vsp1/vsp1.h
-> > > b/drivers/media/platform/renesas/vsp1/vsp1.h
-> > > index 37cf33c7e6ca..baf898d577ec 100644
-> > > --- a/drivers/media/platform/renesas/vsp1/vsp1.h
-> > > +++ b/drivers/media/platform/renesas/vsp1/vsp1.h
-> > > @@ -22,6 +22,7 @@
-> > >  struct clk;
-> > >  struct device;
-> > >  struct rcar_fcp_device;
-> > > +struct reset_control;
-> > >
-> > >  struct vsp1_drm;
-> > >  struct vsp1_entity;
-> > > @@ -79,6 +80,7 @@ struct vsp1_device {
-> > >  	void __iomem *mmio;
-> > >  	struct rcar_fcp_device *fcp;
-> > >  	struct device *bus_master;
-> > > +	struct reset_control *rstc;
-> > >
-> > >  	struct vsp1_brx *brs;
-> > >  	struct vsp1_brx *bru;
-> > > diff --git a/drivers/media/platform/renesas/vsp1/vsp1_drv.c
-> > > b/drivers/media/platform/renesas/vsp1/vsp1_drv.c
-> > > index 1f73c48eb738..975e6851735e 100644
-> > > --- a/drivers/media/platform/renesas/vsp1/vsp1_drv.c
-> > > +++ b/drivers/media/platform/renesas/vsp1/vsp1_drv.c
-> > > @@ -16,6 +16,7 @@
-> > >  #include <linux/of_device.h>
-> > >  #include <linux/platform_device.h>
-> > >  #include <linux/pm_runtime.h>
-> > > +#include <linux/reset.h>
-> > >  #include <linux/videodev2.h>
-> > >
-> > >  #include <media/rcar-fcp.h>
-> > > @@ -622,6 +623,7 @@ static int __maybe_unused vsp1_pm_runtime_suspend(struct device *dev)
-> > >  	struct vsp1_device *vsp1 = dev_get_drvdata(dev);
-> > >
-> > >  	rcar_fcp_disable(vsp1->fcp);
-> > > +	reset_control_assert(vsp1->rstc);
-> > >
-> > >  	return 0;
-> > >  }
-> > > @@ -631,13 +633,30 @@ static int __maybe_unused vsp1_pm_runtime_resume(struct device *dev)
-> > >  	struct vsp1_device *vsp1 = dev_get_drvdata(dev);
-> > >  	int ret;
-> > >
-> > > +	ret = reset_control_deassert(vsp1->rstc);
-> > > +	if (ret < 0)
-> > > +		return ret;
-> > > +
-> > > +	/*
-> > > +	 * On R-Car Gen2, vsp1 register access after deassert can cause
-> > > +	 * lock-up. It is a special case and needs some delay to avoid
-> > > +	 * this lock-up.
-> > 
-> > You can reflow this to 80 columns:
-> > 
-> > 	 * On R-Car Gen2, vsp1 register access after deassert can cause lock-up.
-> > 	 * It is a special case and needs some delay to avoid this lock-up.
-> > 
-> > > +	 */
-> 
-> OK, but after adding conditional check for Gen2, it will look like [1]
-> 
-> > > +	udelay(1);
-> > 
-> > Is it worth conditioning this on the VSP version to only add the delay
-> > on Gen2 ?
-> 
-> Will fix this in next version like [1], if it is Ok to everyone.
+Results of the daily build of media_tree:
 
-Works for me.
+date:			Sun Aug 28 05:00:09 CEST 2022
+media-tree git hash:	1ff8334f0a4e0be693066aafba195d25629d77aa
+media_build git hash:	0fe857b86addf382f6fd383948bd7736a3201403
+v4l-utils git hash:	f50720c40409bfd27056011da1350462b41af9d3
+edid-decode git hash:	6816e6a691f40e6fbb64e6d40f012d7727c6315f
+gcc version:		i686-linux-gcc (GCC) 11.2.0
+sparse repo:            git://git.kernel.org/pub/scm/devel/sparse/sparse.git
+sparse version:		v0.6.4-39-gce1a6720-dirty
+smatch repo:            git://repo.or.cz/smatch.git
+smatch version:		v0.5.0-8146-g91e779fd-dirty
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 788719112fbb0e9aefa9338293a4ce5e5d3cb602
+host hardware:		x86_64
+host os:		5.18.0-4-amd64
 
-> > With these two small issues addressed,
-> 
-> [1]
->         if (vsp1->info) {                                                        
->  70 +               /*                                                               
->  71 +                * On R-Car Gen2 and RZ/G1, vsp1 register access after deassert  
->  72 +                * can cause lock-up.                                            
->  73 +                * It is a special case and needs some delay to avoid this       
->  74 +                * lock-up.                                                      
+linux-git-sh: OK
+linux-git-mips: OK
+linux-git-arm-stm32: OK
+linux-git-arm-multi: OK
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-powerpc64: OK
+linux-git-arm-pxa: OK
+linux-git-arm64: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+apps: OK
+spec-git: OK
+virtme: ERRORS: Final Summary: 3077, Succeeded: 3070, Failed: 7, Warnings: 0
+virtme-32: ERRORS: Final Summary: 3190, Succeeded: 3180, Failed: 10, Warnings: 0
+sparse: OK
+smatch: OK
+kerneldoc: OK
 
+Detailed results are available here:
 
-As a general rule, flow the text with sentence following each others
-without line breaks, all the way to 80 columns. You can break a comment
-in paragraphs, and there should then be a blank line between paragraphs.
-You can thus write
+https://hverkuil.home.xs4all.nl/logs/Sunday.log
 
-		 * On R-Car Gen2 and RZ/G1, vsp1 register access after deassert  
-		 * can cause lock-up.                                            
-		 *
-		 * It is a special case and needs some delay to avoid this       
-		 * lock-up.                                                      
+Detailed regression test results are available here:
 
-or
+https://hverkuil.home.xs4all.nl/logs/Sunday-test-media.log
+https://hverkuil.home.xs4all.nl/logs/Sunday-test-media-32.log
+https://hverkuil.home.xs4all.nl/logs/Sunday-test-media-dmesg.log
 
-		 * On R-Car Gen2 and RZ/G1, vsp1 register access after deassert
-		 * can cause lock-up. It is a special case and needs some delay
-		 * to avoid this lock-up.
+Full logs are available here:
 
-but not
+https://hverkuil.home.xs4all.nl/logs/Sunday.tar.bz2
 
-		 * On R-Car Gen2 and RZ/G1, vsp1 register access after deassert
-		 * can cause lock-up.
-		 * It is a special case and needs some delay to avoid this
-		 * lock-up.
+The Media Infrastructure API from this daily build is here:
 
-(I think the second option is better here)
-
->  75 +                */                                                              
->  76 +               if (vsp1->info->gen == 2)                                        
->  77 +                       udelay(1);
-> 
-> > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > 
-> > > +
-> > >  	if (vsp1->info) {
-> > >  		ret = vsp1_device_init(vsp1);
-> > >  		if (ret < 0)
-> > > -			return ret;
-> > > +			goto done;
-> > >  	}
-> > >
-> > > -	return rcar_fcp_enable(vsp1->fcp);
-> > > +	ret = rcar_fcp_enable(vsp1->fcp);
-> > > +
-> > > +done:
-> > > +	if (ret < 0)
-> > > +		reset_control_assert(vsp1->rstc);
-> > > +
-> > > +	return ret;
-> > >  }
-> > >
-> > >  static const struct dev_pm_ops vsp1_pm_ops = { @@ -825,6 +844,11 @@
-> > > static int vsp1_probe(struct platform_device *pdev)
-> > >  	if (irq < 0)
-> > >  		return irq;
-> > >
-> > > +	vsp1->rstc = devm_reset_control_get_shared(&pdev->dev, NULL);
-> > > +	if (IS_ERR(vsp1->rstc))
-> > > +		return dev_err_probe(&pdev->dev, PTR_ERR(vsp1->rstc),
-> > > +				     "failed to get reset control\n");
-> > > +
-> > >  	/* FCP (optional). */
-> > >  	fcp_node = of_parse_phandle(pdev->dev.of_node, "renesas,fcp", 0);
--- 
-Regards,
-
-Laurent Pinchart
+https://hverkuil.home.xs4all.nl/spec/index.html
