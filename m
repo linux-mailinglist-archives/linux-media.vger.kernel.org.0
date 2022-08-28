@@ -2,95 +2,168 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7810E5A3BDB
-	for <lists+linux-media@lfdr.de>; Sun, 28 Aug 2022 06:52:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 978935A3C9C
+	for <lists+linux-media@lfdr.de>; Sun, 28 Aug 2022 10:13:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231899AbiH1Ewm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 28 Aug 2022 00:52:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40938 "EHLO
+        id S231223AbiH1INq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 28 Aug 2022 04:13:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48392 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229445AbiH1Ewj (ORCPT
+        with ESMTP id S229552AbiH1INp (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 28 Aug 2022 00:52:39 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3797C167ED
-        for <linux-media@vger.kernel.org>; Sat, 27 Aug 2022 21:52:38 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id C131960F35
-        for <linux-media@vger.kernel.org>; Sun, 28 Aug 2022 04:52:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D7A00C433D6
-        for <linux-media@vger.kernel.org>; Sun, 28 Aug 2022 04:52:36 +0000 (UTC)
-Date:   Sun, 28 Aug 2022 06:52:35 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: ERRORS
-Message-Id: <20220828045236.D7A00C433D6@smtp.kernel.org>
-X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+        Sun, 28 Aug 2022 04:13:45 -0400
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 1D34327FF0;
+        Sun, 28 Aug 2022 01:13:43 -0700 (PDT)
+X-IronPort-AV: E=Sophos;i="5.93,270,1654527600"; 
+   d="scan'208";a="130835373"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie5.idc.renesas.com with ESMTP; 28 Aug 2022 17:13:43 +0900
+Received: from localhost.localdomain (unknown [10.226.92.45])
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id F22BA41DDB17;
+        Sun, 28 Aug 2022 17:13:38 +0900 (JST)
+From:   Biju Das <biju.das.jz@bp.renesas.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH v14 0/5] Add support for RZ/G2L VSPD
+Date:   Sun, 28 Aug 2022 09:13:29 +0100
+Message-Id: <20220828081334.30078-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=1.1 required=5.0 tests=AC_FROM_MANY_DOTS,BAYES_00,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
+        autolearn_force=no version=3.4.6
+X-Spam-Level: *
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+The RZ/G2L VSPD provides a single VSPD instance. It has the following
+sub modules MAU, CTU, RPF, DPR, LUT, BRS, WPF and LIF.
 
-Results of the daily build of media_tree:
+The VSPD block on RZ/G2L does not have a version register, so added a
+new compatible string "renesas,r9a07g044-vsp2" with a data pointer
+containing the info structure. Also the reset line is shared with
+the DU module.
 
-date:			Sun Aug 28 05:00:09 CEST 2022
-media-tree git hash:	1ff8334f0a4e0be693066aafba195d25629d77aa
-media_build git hash:	0fe857b86addf382f6fd383948bd7736a3201403
-v4l-utils git hash:	f50720c40409bfd27056011da1350462b41af9d3
-edid-decode git hash:	6816e6a691f40e6fbb64e6d40f012d7727c6315f
-gcc version:		i686-linux-gcc (GCC) 11.2.0
-sparse repo:            git://git.kernel.org/pub/scm/devel/sparse/sparse.git
-sparse version:		v0.6.4-39-gce1a6720-dirty
-smatch repo:            git://repo.or.cz/smatch.git
-smatch version:		v0.5.0-8146-g91e779fd-dirty
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 788719112fbb0e9aefa9338293a4ce5e5d3cb602
-host hardware:		x86_64
-host os:		5.18.0-4-amd64
+This patch series is tested on RZ/G1N, RZ/G2M and RZ/G2L boards.
 
-linux-git-sh: OK
-linux-git-mips: OK
-linux-git-arm-stm32: OK
-linux-git-arm-multi: OK
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-powerpc64: OK
-linux-git-arm-pxa: OK
-linux-git-arm64: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-apps: OK
-spec-git: OK
-virtme: ERRORS: Final Summary: 3077, Succeeded: 3070, Failed: 7, Warnings: 0
-virtme-32: ERRORS: Final Summary: 3190, Succeeded: 3180, Failed: 10, Warnings: 0
-sparse: OK
-smatch: OK
-kerneldoc: OK
+v13->v14:
+ * Updated Rb tag from Krzysztof Kozlowski for patch#1.
+ * Added Rb tag from Philipp and Laurent for patch#2.
+ * Updated comment flow.
+ * Changed unconditional delay-> conditional delay for register access
+   after deassert only for Gen2 SoCs.
+ Note:
+   There is no such delay required for accessing VI6_IP_VERSION register
+   (0x3f00). But accessing registers like VI6_STATUS(0x38) needs some delay
+    after deassert. 
+ * Added Rb tag from Laurent for patch#3,#4 and #5.
+ * Improved the code readability for patch#4.
+v12->v13:
+ * Removed unused iopoll.h header file from patch#2.
+ * Added Rb tag from Geert for patch#2.
+v11->v12:
+ * Replaced read_poll_timeout_atomic-> udelay(1) as testing on RZ/G1N
+   shows this delay is sufficient to avoid lock-up.
+ * Removed Rb tags from patch#2.
+v10->v11:
+ * Added poll for reset status in order to avoid lock-up on R-Car Gen2
+ * with vsp register access after deassert.
 
-Detailed results are available here:
+v9->v10
+ * Moved {deassert,assert} calls to vsp1_pm_runtime_{resume,suspend}
 
-https://hverkuil.home.xs4all.nl/logs/Sunday.log
+V8->v9
+ * Added Rb tag from Geert for patch#3
+ * Replaced break with return info in case a Model match is found and
+   removed additional check for non-match case.
+ * Used generic check for matching SoCs with LBA feature.
+ * Replaced the code comments RZ/G2L {SoC's,SoC} with RZ/G2L SoCs.
+v7->v8:
+ * Split the patch for adding s/w version, feature bit and RZ/G2L support
+ * Added feature bit VSP1_HAS_NON_ZERO_LBA to device_info
+ * Added .soc for RZ/G2L
+ * Replaced the compatible "renesas,rzg2l-vsp2" -> "renesas,r9a07g044-vsp2"
+ * Updated Clock-names to false for non RZ/G2L SoC's on binding doc
+ * Added Rb tag from Laurent for bindings
+v6->v7:
+ * Added Rb tag from Kieran for patch#3
+ * Added a quirk to handle LIF0 buffer attribute related
+   changes for V3M and G2L.
+ * Removed the macro for VSP HW version
+v5->v6:
+ * Rebased to media_staging and updated commit header
+ * Removed LCDC reference clock description from bindings
+ * Changed the clock name from du.0->aclk from bindings
+ * Added Rb tag from Laurent for reset patch
+ * Added forward declaration for struct reset_control
+ * Updated vsp1_device_get() with changes suggested by Laurent
+ * Updated error message for reset_control_get form ctrl->control.
+ * Removed the extra tab from rzg2l_vsp2_device_info
+ * Changed the function vsp1_lookup->vsp1_lookup_info and
+   all info match related code moved here.
+ * Add VI6_IP_VERSION_VSP and VI6_IP_VERSION_VSP_SW macros to
+   distinguish HW & SW IP_VSP_Version.
+ * Used 0x80 for RZG2L VSPD model and SoC identification
+ * Updated Switch() for LIF0 buffer attribute handling.
+v4->v5:
+ * Fixed typo VI6_IP_VERSION_MODEL_MASK->VI6_IP_VERSION_MASK
+ * To be consistent with other SoC's, introduced VI6_IP_VERSION_SOC_G2L
+   for SoC identification for RZ/G2L SoC's.
+v3->v4:
+ * Restored error check for pm_runtime_resume_and_get and calls
+   assert() in case of failure.
+ * Added Rb tag from Geert
+ * Add switch() for LIF0 buffer attribute handling for RZ/G2L and V3M SoC's
+v2->v3:
+ * Added Rb tags from Krzysztof and Philipp
+ * If reset_control_deassert() failed, return ret directly.
+ * Fixed version comparison in vsp1_lookup()
+v1->v2:
+ * Used reference counted reset handle to perform deassert/assert
+ * Changed the compatible from vsp2-rzg2l->rzg2l-vsp2
+ * Added standalone device info for rzg2l-vsp2.
+ * Added vsp1_lookup helper function.
+ * Updated comments for LIF0 buffer attribute register
+ * Used last ID for rzg2l-vsp2.
+RFC->v1:
+ * Added reset support as separate patch
+ * Moved rstc just after the bus_master field in struct vsp1_device
+ * Used data pointer containing info structure to retrieve version information
+ * Updated commit description
+ * Changed compatible from vsp2-r9a07g044->vsp2-rzg2l
+ * Defined the clocks
+ * Clock max Items is based on SoC Compatible string
+RFC:
+ * https://patchwork.kernel.org/project/linux-renesas-soc/patch/20220112174612.10773-21-biju.das.jz@bp.renesas.com/
+ * https://patchwork.kernel.org/project/linux-renesas-soc/patch/20220112174612.10773-20-biju.das.jz@bp.renesas.com/
 
-Detailed regression test results are available here:
+Biju Das (5):
+  media: dt-bindings: media: renesas,vsp1: Document RZ/G2L VSPD bindings
+  media: renesas: vsp1: Add support to deassert/assert reset line
+  media: renesas: vsp1: Add support for VSP software version
+  media: renesas: vsp1: Add VSP1_HAS_NON_ZERO_LBA feature bit
+  media: renesas: vsp1: Add support for RZ/G2L VSPD
 
-https://hverkuil.home.xs4all.nl/logs/Sunday-test-media.log
-https://hverkuil.home.xs4all.nl/logs/Sunday-test-media-32.log
-https://hverkuil.home.xs4all.nl/logs/Sunday-test-media-dmesg.log
+ .../bindings/media/renesas,vsp1.yaml          |  53 ++++++---
+ drivers/media/platform/renesas/vsp1/vsp1.h    |   4 +
+ .../media/platform/renesas/vsp1/vsp1_drv.c    | 101 +++++++++++++++---
+ .../media/platform/renesas/vsp1/vsp1_lif.c    |  12 +--
+ .../media/platform/renesas/vsp1/vsp1_regs.h   |   6 ++
+ 5 files changed, 142 insertions(+), 34 deletions(-)
 
-Full logs are available here:
+-- 
+2.25.1
 
-https://hverkuil.home.xs4all.nl/logs/Sunday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-https://hverkuil.home.xs4all.nl/spec/index.html
