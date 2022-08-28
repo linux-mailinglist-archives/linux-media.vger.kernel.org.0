@@ -2,168 +2,188 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 978935A3C9C
-	for <lists+linux-media@lfdr.de>; Sun, 28 Aug 2022 10:13:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 861C95A3C9F
+	for <lists+linux-media@lfdr.de>; Sun, 28 Aug 2022 10:13:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231223AbiH1INq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 28 Aug 2022 04:13:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48392 "EHLO
+        id S232059AbiH1INw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 28 Aug 2022 04:13:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48424 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229552AbiH1INp (ORCPT
+        with ESMTP id S231496AbiH1INv (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 28 Aug 2022 04:13:45 -0400
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 1D34327FF0;
-        Sun, 28 Aug 2022 01:13:43 -0700 (PDT)
+        Sun, 28 Aug 2022 04:13:51 -0400
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 2F6BB27FFD;
+        Sun, 28 Aug 2022 01:13:49 -0700 (PDT)
 X-IronPort-AV: E=Sophos;i="5.93,270,1654527600"; 
-   d="scan'208";a="130835373"
+   d="scan'208";a="132818625"
 Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 28 Aug 2022 17:13:43 +0900
+  by relmlie6.idc.renesas.com with ESMTP; 28 Aug 2022 17:13:49 +0900
 Received: from localhost.localdomain (unknown [10.226.92.45])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id F22BA41DDB17;
-        Sun, 28 Aug 2022 17:13:38 +0900 (JST)
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id CF56141DDB14;
+        Sun, 28 Aug 2022 17:13:43 +0900 (JST)
 From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>
 Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
         Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
         linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        devicetree@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>,
         Chris Paterson <Chris.Paterson2@renesas.com>,
         Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v14 0/5] Add support for RZ/G2L VSPD
-Date:   Sun, 28 Aug 2022 09:13:29 +0100
-Message-Id: <20220828081334.30078-1-biju.das.jz@bp.renesas.com>
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [PATCH v14 1/5] media: dt-bindings: media: renesas,vsp1: Document RZ/G2L VSPD bindings
+Date:   Sun, 28 Aug 2022 09:13:30 +0100
+Message-Id: <20220828081334.30078-2-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220828081334.30078-1-biju.das.jz@bp.renesas.com>
+References: <20220828081334.30078-1-biju.das.jz@bp.renesas.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=1.1 required=5.0 tests=AC_FROM_MANY_DOTS,BAYES_00,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
-        autolearn_force=no version=3.4.6
-X-Spam-Level: *
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The RZ/G2L VSPD provides a single VSPD instance. It has the following
-sub modules MAU, CTU, RPF, DPR, LUT, BRS, WPF and LIF.
+Document VSPD found in RZ/G2L SoC. VSPD block is similar to VSP2-D
+found on R-Car SoC's, but it does not have a version register and
+it has 3 clocks compared to 1 clock on vsp1 and vsp2.
 
-The VSPD block on RZ/G2L does not have a version register, so added a
-new compatible string "renesas,r9a07g044-vsp2" with a data pointer
-containing the info structure. Also the reset line is shared with
-the DU module.
+This patch introduces a new compatible 'renesas,r9a07g044-vsp2' to
+handle these differences.
 
-This patch series is tested on RZ/G1N, RZ/G2M and RZ/G2L boards.
-
+Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+---
 v13->v14:
- * Updated Rb tag from Krzysztof Kozlowski for patch#1.
- * Added Rb tag from Philipp and Laurent for patch#2.
- * Updated comment flow.
- * Changed unconditional delay-> conditional delay for register access
-   after deassert only for Gen2 SoCs.
- Note:
-   There is no such delay required for accessing VI6_IP_VERSION register
-   (0x3f00). But accessing registers like VI6_STATUS(0x38) needs some delay
-    after deassert. 
- * Added Rb tag from Laurent for patch#3,#4 and #5.
- * Improved the code readability for patch#4.
+ * Updated Rb tag from Krzysztof Kozlowski.
 v12->v13:
- * Removed unused iopoll.h header file from patch#2.
- * Added Rb tag from Geert for patch#2.
+ * No change.
 v11->v12:
- * Replaced read_poll_timeout_atomic-> udelay(1) as testing on RZ/G1N
-   shows this delay is sufficient to avoid lock-up.
- * Removed Rb tags from patch#2.
+ * No change.
 v10->v11:
- * Added poll for reset status in order to avoid lock-up on R-Car Gen2
- * with vsp register access after deassert.
-
-v9->v10
- * Moved {deassert,assert} calls to vsp1_pm_runtime_{resume,suspend}
-
-V8->v9
- * Added Rb tag from Geert for patch#3
- * Replaced break with return info in case a Model match is found and
-   removed additional check for non-match case.
- * Used generic check for matching SoCs with LBA feature.
- * Replaced the code comments RZ/G2L {SoC's,SoC} with RZ/G2L SoCs.
+ * No change
+v9->v10:
+ * No change
+v8->v9:
+ * No change
 v7->v8:
- * Split the patch for adding s/w version, feature bit and RZ/G2L support
- * Added feature bit VSP1_HAS_NON_ZERO_LBA to device_info
- * Added .soc for RZ/G2L
- * Replaced the compatible "renesas,rzg2l-vsp2" -> "renesas,r9a07g044-vsp2"
- * Updated Clock-names to false for non RZ/G2L SoC's on binding doc
- * Added Rb tag from Laurent for bindings
+ * Added Clock-names to false for Non RZ/G2L SoC's
+ * Replaced compatble 'renesas,rzg2l-vsp2'->'renesas,r9a07g044-vsp2'
+ * Removed RZ/V2L SoC, will be added later after testing it.
+ * Added Rb tag from Laurent.
 v6->v7:
- * Added Rb tag from Kieran for patch#3
- * Added a quirk to handle LIF0 buffer attribute related
-   changes for V3M and G2L.
- * Removed the macro for VSP HW version
+ * No change
 v5->v6:
- * Rebased to media_staging and updated commit header
- * Removed LCDC reference clock description from bindings
- * Changed the clock name from du.0->aclk from bindings
- * Added Rb tag from Laurent for reset patch
- * Added forward declaration for struct reset_control
- * Updated vsp1_device_get() with changes suggested by Laurent
- * Updated error message for reset_control_get form ctrl->control.
- * Removed the extra tab from rzg2l_vsp2_device_info
- * Changed the function vsp1_lookup->vsp1_lookup_info and
-   all info match related code moved here.
- * Add VI6_IP_VERSION_VSP and VI6_IP_VERSION_VSP_SW macros to
-   distinguish HW & SW IP_VSP_Version.
- * Used 0x80 for RZG2L VSPD model and SoC identification
- * Updated Switch() for LIF0 buffer attribute handling.
+ * Removed LCDC reference clock description
+ * Changed the clock name from du.0->aclk
 v4->v5:
- * Fixed typo VI6_IP_VERSION_MODEL_MASK->VI6_IP_VERSION_MASK
- * To be consistent with other SoC's, introduced VI6_IP_VERSION_SOC_G2L
-   for SoC identification for RZ/G2L SoC's.
+ * No change
 v3->v4:
- * Restored error check for pm_runtime_resume_and_get and calls
-   assert() in case of failure.
- * Added Rb tag from Geert
- * Add switch() for LIF0 buffer attribute handling for RZ/G2L and V3M SoC's
+ * No change
 v2->v3:
- * Added Rb tags from Krzysztof and Philipp
- * If reset_control_deassert() failed, return ret directly.
- * Fixed version comparison in vsp1_lookup()
+ * Added Rb tag from Krzysztof.
 v1->v2:
- * Used reference counted reset handle to perform deassert/assert
- * Changed the compatible from vsp2-rzg2l->rzg2l-vsp2
- * Added standalone device info for rzg2l-vsp2.
- * Added vsp1_lookup helper function.
- * Updated comments for LIF0 buffer attribute register
- * Used last ID for rzg2l-vsp2.
+ * Changed compatible from vsp2-rzg2l->rzg2l-vsp2
 RFC->v1:
- * Added reset support as separate patch
- * Moved rstc just after the bus_master field in struct vsp1_device
- * Used data pointer containing info structure to retrieve version information
  * Updated commit description
  * Changed compatible from vsp2-r9a07g044->vsp2-rzg2l
  * Defined the clocks
  * Clock max Items is based on SoC Compatible string
 RFC:
- * https://patchwork.kernel.org/project/linux-renesas-soc/patch/20220112174612.10773-21-biju.das.jz@bp.renesas.com/
  * https://patchwork.kernel.org/project/linux-renesas-soc/patch/20220112174612.10773-20-biju.das.jz@bp.renesas.com/
+---
+ .../bindings/media/renesas,vsp1.yaml          | 53 ++++++++++++++-----
+ 1 file changed, 40 insertions(+), 13 deletions(-)
 
-Biju Das (5):
-  media: dt-bindings: media: renesas,vsp1: Document RZ/G2L VSPD bindings
-  media: renesas: vsp1: Add support to deassert/assert reset line
-  media: renesas: vsp1: Add support for VSP software version
-  media: renesas: vsp1: Add VSP1_HAS_NON_ZERO_LBA feature bit
-  media: renesas: vsp1: Add support for RZ/G2L VSPD
-
- .../bindings/media/renesas,vsp1.yaml          |  53 ++++++---
- drivers/media/platform/renesas/vsp1/vsp1.h    |   4 +
- .../media/platform/renesas/vsp1/vsp1_drv.c    | 101 +++++++++++++++---
- .../media/platform/renesas/vsp1/vsp1_lif.c    |  12 +--
- .../media/platform/renesas/vsp1/vsp1_regs.h   |   6 ++
- 5 files changed, 142 insertions(+), 34 deletions(-)
-
+diff --git a/Documentation/devicetree/bindings/media/renesas,vsp1.yaml b/Documentation/devicetree/bindings/media/renesas,vsp1.yaml
+index 990e9c1dbc43..7a8f32473852 100644
+--- a/Documentation/devicetree/bindings/media/renesas,vsp1.yaml
++++ b/Documentation/devicetree/bindings/media/renesas,vsp1.yaml
+@@ -17,6 +17,7 @@ description:
+ properties:
+   compatible:
+     enum:
++      - renesas,r9a07g044-vsp2 # RZ/G2L
+       - renesas,vsp1 # R-Car Gen2 and RZ/G1
+       - renesas,vsp2 # R-Car Gen3 and RZ/G2
+ 
+@@ -26,8 +27,8 @@ properties:
+   interrupts:
+     maxItems: 1
+ 
+-  clocks:
+-    maxItems: 1
++  clocks: true
++  clock-names: true
+ 
+   power-domains:
+     maxItems: 1
+@@ -50,17 +51,43 @@ required:
+ 
+ additionalProperties: false
+ 
+-if:
+-  properties:
+-    compatible:
+-      items:
+-        - const: renesas,vsp1
+-then:
+-  properties:
+-    renesas,fcp: false
+-else:
+-  required:
+-    - renesas,fcp
++allOf:
++  - if:
++      properties:
++        compatible:
++          contains:
++            const: renesas,vsp1
++    then:
++      properties:
++        renesas,fcp: false
++    else:
++      required:
++        - renesas,fcp
++
++  - if:
++      properties:
++        compatible:
++          contains:
++            const: renesas,r9a07g044-vsp2
++    then:
++      properties:
++        clocks:
++          items:
++            - description: Main clock
++            - description: Register access clock
++            - description: Video clock
++        clock-names:
++          items:
++            - const: aclk
++            - const: pclk
++            - const: vclk
++      required:
++        - clock-names
++    else:
++      properties:
++        clocks:
++          maxItems: 1
++        clock-names: false
+ 
+ examples:
+   # R8A7790 (R-Car H2) VSP1-S
 -- 
 2.25.1
 
