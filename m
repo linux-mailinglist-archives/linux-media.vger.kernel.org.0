@@ -2,29 +2,28 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 963C05A3CA1
-	for <lists+linux-media@lfdr.de>; Sun, 28 Aug 2022 10:13:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B6AE55A3CA3
+	for <lists+linux-media@lfdr.de>; Sun, 28 Aug 2022 10:14:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232224AbiH1IN6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 28 Aug 2022 04:13:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48484 "EHLO
+        id S232322AbiH1IOD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 28 Aug 2022 04:14:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48556 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232177AbiH1IN4 (ORCPT
+        with ESMTP id S232177AbiH1IOB (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 28 Aug 2022 04:13:56 -0400
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 3E582286EF;
-        Sun, 28 Aug 2022 01:13:54 -0700 (PDT)
+        Sun, 28 Aug 2022 04:14:01 -0400
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 9AFAB28E34;
+        Sun, 28 Aug 2022 01:13:58 -0700 (PDT)
 X-IronPort-AV: E=Sophos;i="5.93,270,1654527600"; 
-   d="scan'208";a="132818631"
+   d="scan'208";a="130835387"
 Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 28 Aug 2022 17:13:54 +0900
+  by relmlie5.idc.renesas.com with ESMTP; 28 Aug 2022 17:13:58 +0900
 Received: from localhost.localdomain (unknown [10.226.92.45])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id DBBD841DDB17;
-        Sun, 28 Aug 2022 17:13:49 +0900 (JST)
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id B576841DDB14;
+        Sun, 28 Aug 2022 17:13:54 +0900 (JST)
 From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
 Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
@@ -33,9 +32,9 @@ Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
         Chris Paterson <Chris.Paterson2@renesas.com>,
         Biju Das <biju.das@bp.renesas.com>,
         Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v14 2/5] media: renesas: vsp1: Add support to deassert/assert reset line
-Date:   Sun, 28 Aug 2022 09:13:31 +0100
-Message-Id: <20220828081334.30078-3-biju.das.jz@bp.renesas.com>
+Subject: [PATCH v14 3/5] media: renesas: vsp1: Add support for VSP software version
+Date:   Sun, 28 Aug 2022 09:13:32 +0100
+Message-Id: <20220828081334.30078-4-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220828081334.30078-1-biju.das.jz@bp.renesas.com>
 References: <20220828081334.30078-1-biju.das.jz@bp.renesas.com>
@@ -50,154 +49,129 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-As the resets DT property is mandatory, and is present in all .dtsi
-in mainline, add support to perform deassert/assert using reference
-counted reset handle.
+The VSPD block on RZ/G2L SoCs does not have a version register.
+
+This patch adds support for adding VSP software version based on
+device match.
 
 Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
 v13->v14:
- * Added Rb tag from Philipp and Laurent.
- * Updated comment flow.
- * Changed unconditional delay-> conditional delay for register access
-   after deassert only for Gen2 SoCs.
- Note:
-   There is no such delay required for accessing VI6_IP_VERSION register
-   (0x3f00). But accessing registers like VI6_STATUS(0x38) needs some delay
-    after deassert. 
+ * Added Rb tag from Laurent.
 v12->v13:
- * Removed unused iopoll.h header file.
- * Added Rb tag from Geert.
+ * No change
 v11->v12:
- * Replaced read_poll_timeout_atomic-> udelay(1) as testing on RZ/G1N
-   shows this delay is sufficient to avoid lock-up.
- * Removed Rb tags.
+ * No change
 v10->v11:
- * To avoid lock-up on R-Car Gen2, added poll for reset status after deassert.
+ * No change
 v9->v10:
- * Moved {deassert,assert} calls to vsp1_pm_runtime_{resume,suspend}
+ * No change
 v8->v9:
- * No change
-v7->v8:
- * No Change
-v6->v7:
- * No change
-v5->v6:
- * Rebased to media_staging and updated commit header
- * Added Rb tag from Laurent
- * Added forward declaration for struct reset_control
- * Updated vsp1_device_get() with changes suggested by Laurent
- * Updated error message for reset_control_get form ctrl->control.
-v4->v5:
  * Added Rb tag from Geert
-v3->v4:
- * Restored error check for pm_runtime_resume_and_get and calls
-   assert() in case of failure.
-v2->v3:
- * Added Rb tag from Philipp
- * If reset_control_deassert() failed, return ret directly. 
-v1->v2:
- * Used reference counted reset handle to perform deassert/assert
-RFC->v1:
- * Added reset support as separate patch
- * Moved rstc just after the bus_master field in struct vsp1_device
-RFC:
- * https://patchwork.kernel.org/project/linux-renesas-soc/patch/20220112174612.10773-21-biju.das.jz@bp.renesas.com/
+ * Updated commit description RZ/G2L -> RZ/G2L SoCs.
+ * Replaced break with return info in case a Model match is found and
+   removed additional check for non-match case.
+v8:
+ * New patch
 ---
- drivers/media/platform/renesas/vsp1/vsp1.h    |  2 ++
- .../media/platform/renesas/vsp1/vsp1_drv.c    | 29 +++++++++++++++++--
- 2 files changed, 29 insertions(+), 2 deletions(-)
+ drivers/media/platform/renesas/vsp1/vsp1.h    |  1 +
+ .../media/platform/renesas/vsp1/vsp1_drv.c    | 43 +++++++++++++------
+ .../media/platform/renesas/vsp1/vsp1_regs.h   |  2 +
+ 3 files changed, 33 insertions(+), 13 deletions(-)
 
 diff --git a/drivers/media/platform/renesas/vsp1/vsp1.h b/drivers/media/platform/renesas/vsp1/vsp1.h
-index 37cf33c7e6ca..baf898d577ec 100644
+index baf898d577ec..ff4435705abb 100644
 --- a/drivers/media/platform/renesas/vsp1/vsp1.h
 +++ b/drivers/media/platform/renesas/vsp1/vsp1.h
-@@ -22,6 +22,7 @@
- struct clk;
- struct device;
- struct rcar_fcp_device;
-+struct reset_control;
+@@ -67,6 +67,7 @@ struct vsp1_device_info {
+ 	unsigned int uif_count;
+ 	unsigned int wpf_count;
+ 	unsigned int num_bru_inputs;
++	u8 soc;
+ 	bool uapi;
+ };
  
- struct vsp1_drm;
- struct vsp1_entity;
-@@ -79,6 +80,7 @@ struct vsp1_device {
- 	void __iomem *mmio;
- 	struct rcar_fcp_device *fcp;
- 	struct device *bus_master;
-+	struct reset_control *rstc;
- 
- 	struct vsp1_brx *brs;
- 	struct vsp1_brx *bru;
 diff --git a/drivers/media/platform/renesas/vsp1/vsp1_drv.c b/drivers/media/platform/renesas/vsp1/vsp1_drv.c
-index 1f73c48eb738..ef4bcf860923 100644
+index ef4bcf860923..fd75788a5a36 100644
 --- a/drivers/media/platform/renesas/vsp1/vsp1_drv.c
 +++ b/drivers/media/platform/renesas/vsp1/vsp1_drv.c
-@@ -16,6 +16,7 @@
- #include <linux/of_device.h>
- #include <linux/platform_device.h>
- #include <linux/pm_runtime.h>
-+#include <linux/reset.h>
- #include <linux/videodev2.h>
+@@ -818,11 +818,39 @@ static const struct vsp1_device_info vsp1_device_infos[] = {
+ 	},
+ };
  
- #include <media/rcar-fcp.h>
-@@ -622,6 +623,7 @@ static int __maybe_unused vsp1_pm_runtime_suspend(struct device *dev)
- 	struct vsp1_device *vsp1 = dev_get_drvdata(dev);
- 
- 	rcar_fcp_disable(vsp1->fcp);
-+	reset_control_assert(vsp1->rstc);
- 
- 	return 0;
- }
-@@ -631,13 +633,31 @@ static int __maybe_unused vsp1_pm_runtime_resume(struct device *dev)
- 	struct vsp1_device *vsp1 = dev_get_drvdata(dev);
++static const struct vsp1_device_info *vsp1_lookup_info(struct vsp1_device *vsp1)
++{
++	const struct vsp1_device_info *info;
++	unsigned int i;
++
++	/*
++	 * Try the info stored in match data first for devices that don't have
++	 * a version register.
++	 */
++	info = of_device_get_match_data(vsp1->dev);
++	if (info) {
++		vsp1->version = VI6_IP_VERSION_VSP_SW | info->version | info->soc;
++		return info;
++	}
++
++	vsp1->version = vsp1_read(vsp1, VI6_IP_VERSION);
++
++	for (i = 0; i < ARRAY_SIZE(vsp1_device_infos); ++i) {
++		info = &vsp1_device_infos[i];
++
++		if ((vsp1->version & VI6_IP_VERSION_MODEL_MASK) == info->version)
++			return info;
++	}
++
++	dev_err(vsp1->dev, "unsupported IP version 0x%08x\n", vsp1->version);
++
++	return NULL;
++}
++
+ static int vsp1_probe(struct platform_device *pdev)
+ {
+ 	struct vsp1_device *vsp1;
+ 	struct device_node *fcp_node;
+-	unsigned int i;
  	int ret;
+ 	int irq;
  
-+	ret = reset_control_deassert(vsp1->rstc);
-+	if (ret < 0)
-+		return ret;
-+
- 	if (vsp1->info) {
-+		/*
-+		 * On R-Car Gen2 and RZ/G1, vsp1 register access after deassert
-+		 * can cause lock-up. It is a special case and needs some delay
-+		 * to avoid this lock-up.
-+		 */
-+		if (vsp1->info->gen == 2)
-+			udelay(1);
-+
- 		ret = vsp1_device_init(vsp1);
- 		if (ret < 0)
--			return ret;
-+			goto done;
- 	}
+@@ -878,19 +906,8 @@ static int vsp1_probe(struct platform_device *pdev)
+ 	if (ret < 0)
+ 		goto done;
  
--	return rcar_fcp_enable(vsp1->fcp);
-+	ret = rcar_fcp_enable(vsp1->fcp);
-+
-+done:
-+	if (ret < 0)
-+		reset_control_assert(vsp1->rstc);
-+
-+	return ret;
- }
+-	vsp1->version = vsp1_read(vsp1, VI6_IP_VERSION);
+-
+-	for (i = 0; i < ARRAY_SIZE(vsp1_device_infos); ++i) {
+-		if ((vsp1->version & VI6_IP_VERSION_MODEL_MASK) ==
+-		    vsp1_device_infos[i].version) {
+-			vsp1->info = &vsp1_device_infos[i];
+-			break;
+-		}
+-	}
+-
++	vsp1->info = vsp1_lookup_info(vsp1);
+ 	if (!vsp1->info) {
+-		dev_err(&pdev->dev, "unsupported IP version 0x%08x\n",
+-			vsp1->version);
+ 		vsp1_device_put(vsp1);
+ 		ret = -ENXIO;
+ 		goto done;
+diff --git a/drivers/media/platform/renesas/vsp1/vsp1_regs.h b/drivers/media/platform/renesas/vsp1/vsp1_regs.h
+index fae7286eb01e..4286d13eca32 100644
+--- a/drivers/media/platform/renesas/vsp1/vsp1_regs.h
++++ b/drivers/media/platform/renesas/vsp1/vsp1_regs.h
+@@ -781,6 +781,8 @@
+ #define VI6_IP_VERSION_SOC_E3		(0x04 << 0)
+ #define VI6_IP_VERSION_SOC_V3U		(0x05 << 0)
  
- static const struct dev_pm_ops vsp1_pm_ops = {
-@@ -825,6 +845,11 @@ static int vsp1_probe(struct platform_device *pdev)
- 	if (irq < 0)
- 		return irq;
- 
-+	vsp1->rstc = devm_reset_control_get_shared(&pdev->dev, NULL);
-+	if (IS_ERR(vsp1->rstc))
-+		return dev_err_probe(&pdev->dev, PTR_ERR(vsp1->rstc),
-+				     "failed to get reset control\n");
++#define VI6_IP_VERSION_VSP_SW		(0xfffe << 16) /* SW VSP version */
 +
- 	/* FCP (optional). */
- 	fcp_node = of_parse_phandle(pdev->dev.of_node, "renesas,fcp", 0);
- 	if (fcp_node) {
+ /* -----------------------------------------------------------------------------
+  * RPF CLUT Registers
+  */
 -- 
 2.25.1
 
