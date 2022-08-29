@@ -2,29 +2,29 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 682915A40A7
+	by mail.lfdr.de (Postfix) with ESMTP id B0D615A40A8
 	for <lists+linux-media@lfdr.de>; Mon, 29 Aug 2022 03:33:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229568AbiH2Bdo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 28 Aug 2022 21:33:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42288 "EHLO
+        id S229627AbiH2Bdq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 28 Aug 2022 21:33:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42300 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229510AbiH2Bdn (ORCPT
+        with ESMTP id S229510AbiH2Bdo (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 28 Aug 2022 21:33:43 -0400
+        Sun, 28 Aug 2022 21:33:44 -0400
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 573182F01E
-        for <linux-media@vger.kernel.org>; Sun, 28 Aug 2022 18:33:42 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A3FC2F01E
+        for <linux-media@vger.kernel.org>; Sun, 28 Aug 2022 18:33:44 -0700 (PDT)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 650E8A1D;
-        Mon, 29 Aug 2022 03:33:40 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id BF703AF4;
+        Mon, 29 Aug 2022 03:33:41 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1661736820;
-        bh=2Gax/OgAJtRuPPhVuWzHNc53hM/P76NaoBjMHjVPHSQ=;
+        s=mail; t=1661736822;
+        bh=Ge/5l5b7nTUYmH6o+Bz6/9CVby345YN7cl0EaXQP+xs=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=n5Xl0cka5Od45vNfCtJ+L7jK25XjwYZ50SscmmUA08ddygG2XMCBQVZXBlOWYbEt+
-         vEH6biSUEYCnyVNhTKkoYrhLADRyA6WRLpCJgA9WQrO83jDl5UH2Y0C0cSeIGxy8Ws
-         WgPhOrUHmpgSaw6UOtBMs4UGVB8K4PGJtd6fFQ/U=
+        b=m2LeeNXSh8PUMjgWxOBjh9YThSm3maCZVoY7HXtMKD7FBA77XP0MbmoGwUHzW0S6T
+         YNmp9OUwH3/sWptNZ+JxbbGmBMKw/5KZTKWZklFWf/R9YcILizyLPU1m8i6QUljUeU
+         PMK7rVzW8NvpFqA4WjAvZ8dMkHJn0gGRW+7DsABo=
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     linux-media@vger.kernel.org
 Cc:     ezequiel@collabora.com, gjasny@googlemail.com, hverkuil@xs4all.nl,
@@ -32,9 +32,9 @@ Cc:     ezequiel@collabora.com, gjasny@googlemail.com, hverkuil@xs4all.nl,
         nicolas@ndufresne.ca, p.zabel@pengutronix.de, rosenp@gmail.com,
         sakari.ailus@iki.fi, sean@mess.org, user.vdr@gmail.com,
         xavier.claessens@collabora.com
-Subject: [PATCH v6 03/13] [FIXUP] meson: Drop unneeded bpf option check
-Date:   Mon, 29 Aug 2022 04:33:17 +0300
-Message-Id: <20220829013327.5791-4-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH v6 04/13] [FIXUP] meson: Avoid double-quoting strings
+Date:   Mon, 29 Aug 2022 04:33:18 +0300
+Message-Id: <20220829013327.5791-5-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220829013327.5791-1-laurent.pinchart@ideasonboard.com>
 References: <20220829013327.5791-1-laurent.pinchart@ideasonboard.com>
@@ -49,28 +49,40 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-There is no need to manually check for the 'bpf' option to decide
-whether or not to compile bpf support in the keytable utils, the
-libbpf_dep dependency already provides that information.
+The GIT_SHA, GIT_COMMIT_CNT and GIT_COMMIT_DATE macros from the
+generated config.h file are wrapped with STRING() in source code. Don't
+use set_quoted() in meson.build in order to avoid double-quoting them.
+
+After switching to meson, set_quoted() would be better, with the
+STRING() macro removed from the sources.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- utils/keytable/meson.build | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meson.build | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/utils/keytable/meson.build b/utils/keytable/meson.build
-index d5aad2628468..0ca84fd1871e 100644
---- a/utils/keytable/meson.build
-+++ b/utils/keytable/meson.build
-@@ -21,7 +21,7 @@ ir_keytable_c_args = [
-     '-DIR_KEYTABLE_USER_DIR="@0@"'.format(ir_keytable_user_dir),
- ]
+diff --git a/meson.build b/meson.build
+index bad3ce0015f9..aec69a9bc3f6 100644
+--- a/meson.build
++++ b/meson.build
+@@ -298,14 +298,14 @@ add_project_link_arguments(cpp_arguments, language : 'cpp')
  
--if not get_option('bpf').disabled() and prog_clang.found() and dep_libbpf.found() and dep_libelf.found()
-+if prog_clang.found() and dep_libbpf.found() and dep_libelf.found()
-     ir_keytable_sources += files(
-         'bpf_load.c',
-         'bpf_load.h',
+ git_sha = run_command(prog_git, '-C', meson.project_source_root(), 'rev-parse', '--short=12', 'HEAD',
+                       check : true).stdout().strip()
+-conf.set_quoted('GIT_SHA', git_sha)
++conf.set('GIT_SHA', git_sha)
+ git_commit_cnt = run_command(prog_git, '-C', meson.project_source_root(), 'rev-list', '--count', 'HEAD',
+                              check : true).stdout().strip()
+-conf.set_quoted('GIT_COMMIT_CNT', '-' + git_commit_cnt)
++conf.set('GIT_COMMIT_CNT', '-' + git_commit_cnt)
+ git_commit_date = run_command(prog_git, '-C', meson.project_source_root(), 'show', '--quiet',
+                               '--date=format-local:%F %T', '--format=%cd',
+                               env : ['TZ=UTC'], check : true).stdout().strip()
+-conf.set_quoted('GIT_COMMIT_DATE', git_commit_date)
++conf.set('GIT_COMMIT_DATE', git_commit_date)
+ 
+ man_pages = []
+ 
 -- 
 Regards,
 
