@@ -2,123 +2,143 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 397A05A40B3
-	for <lists+linux-media@lfdr.de>; Mon, 29 Aug 2022 03:34:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DACE85A417D
+	for <lists+linux-media@lfdr.de>; Mon, 29 Aug 2022 05:32:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229585AbiH2Beu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 28 Aug 2022 21:34:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43104 "EHLO
+        id S229644AbiH2DcW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 28 Aug 2022 23:32:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40332 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229522AbiH2Bet (ORCPT
+        with ESMTP id S229475AbiH2DcU (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 28 Aug 2022 21:34:49 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 18FEA316
-        for <linux-media@vger.kernel.org>; Sun, 28 Aug 2022 18:34:46 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 84E96481;
-        Mon, 29 Aug 2022 03:34:44 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1661736884;
-        bh=E4Q03Zw+CElOwWpkznXKfYhjiFYunnkp266T65bIbIo=;
-        h=Date:From:To:Cc:Subject:From;
-        b=MeMJlkpNXh2vCjx3T8aaIjKp/d4nPD4DRXPo6KpLDS4NP282TGhb9B1ycdeo+WLlq
-         EuQVTMAlI3KA9pZ3wiINGzPhUrBIzB2wKCF+0DPTD9ysfmZAPamv74FZ8vOgPPHQnF
-         s0Nfn3K0VSHTPhup4CeSAG1+SRYO3VUbWC0BN19c=
-Date:   Mon, 29 Aug 2022 04:34:36 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     linux-media@vger.kernel.org
-Cc:     Hans Verkuil <hverkuil@xs4all.nl>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        Hidenori Kobayashi <hidenorik@chromium.org>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Ricardo Ribalda <ribalda@chromium.org>,
-        Maxime Ripard <maxime@cerno.tech>,
-        Daniel Scally <djrscally@gmail.com>,
-        Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Ariel D'Alessandro <ariel.dalessandro@collabora.com>,
-        Gregor Jasny <gjasny@googlemail.com>,
-        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-Subject: [Media Summit] Finalizing the v4l-utils conversion to meson
-Message-ID: <YwwXrJ2ajZvZhUk6@pendragon.ideasonboard.com>
+        Sun, 28 Aug 2022 23:32:20 -0400
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0AAB5193E5;
+        Sun, 28 Aug 2022 20:32:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1661743939; x=1693279939;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ZNxOoPeAHhN/1dtqMR/zUEqKl0gYFGInH11MuO8ZPZw=;
+  b=IMf4nPST4vRVS9x2lN9siwPlUoeI0r431TXhID+vGKeeqSTlLrP4K+cz
+   n3MclI3NhGeW3QOe4tKz2ksgrEK3jhO90vPLChF2R5mKxOZzSGl1BVxYh
+   NbgOr443CFuUZK8A5brf0NHWEkXhPnsju4Gbxql2FASZzfXS7hTqs+gfg
+   3+1QY0nOutXzTlUKqtK2wjPhI+5xHfmgLo9Xaomocy10d7dloHHmH06Ur
+   DsWegjQN3tMKbPdvrMN9wSdKuHSWCRPZMiL8A3fd9rSL9nqwudTJ2LTpj
+   y7z+UbKOwFniGtNyQSymHaMjBqoWd6VqD51adflhKuUhlYQhKs9VRnwEO
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10453"; a="292380499"
+X-IronPort-AV: E=Sophos;i="5.93,271,1654585200"; 
+   d="scan'208";a="292380499"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Aug 2022 20:32:18 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,271,1654585200"; 
+   d="scan'208";a="737196036"
+Received: from lkp-server01.sh.intel.com (HELO b2bbdd52f619) ([10.239.97.150])
+  by orsmga004.jf.intel.com with ESMTP; 28 Aug 2022 20:32:15 -0700
+Received: from kbuild by b2bbdd52f619 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1oSVVW-00008N-1w;
+        Mon, 29 Aug 2022 03:32:14 +0000
+Date:   Mon, 29 Aug 2022 11:31:45 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     oushixiong <oushixiong@kylinos.cn>,
+        Dave Airlie <airlied@redhat.com>
+Cc:     llvm@lists.linux.dev, kbuild-all@lists.01.org,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+        oushixiong <oushixiong@kylinos.cn>
+Subject: Re: [PTACH v3] drm/ast: add dmabuf/prime buffer sharing support
+Message-ID: <202208291132.RQqpjzO1-lkp@intel.com>
+References: <20220827091030.496671-1-oushixiong@kylinos.cn>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <20220827091030.496671-1-oushixiong@kylinos.cn>
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello,
+Hi oushixiong,
 
-This mail (and hopefully mail thread) aims to prepare for the Media
-Summit 2022 discussion about finalizing the conversion of v4l-utils to
-meson.
+Thank you for the patch! Perhaps something to improve:
 
-The original port of v4l-utils to meson was done by Ariel D'Alessandro
-(big thanks for that !) and posted to the linux-media mailing list in
-April 2022 ([1]). Another RFC version followed ([2]), and the series
-then graduated to non-RFC ([3]) with new versions following ([4], [5]
-and [6]) until v5 ([7]) in May 2021. I believe it is time to decide if
-we want to move to a more modern build system or stay for the foreseable
-future in the past (this statement should indicate my opinion on the
-subject :-)).
+[auto build test WARNING on drm-misc/drm-misc-next]
+[also build test WARNING on drm/drm-next drm-intel/for-linux-next drm-tip/drm-tip linus/master v6.0-rc3 next-20220826]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-I maintain a branch with the meson integration that I keep rebasing on
-top of the v4l-utils master branch. You can find it at
+url:    https://github.com/intel-lab-lkp/linux/commits/oushixiong/drm-ast-add-dmabuf-prime-buffer-sharing-support/20220829-084713
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+config: i386-randconfig-a013 (https://download.01.org/0day-ci/archive/20220829/202208291132.RQqpjzO1-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/da31884b8b7e33af5cd8aa750dea30fde59d52aa
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review oushixiong/drm-ast-add-dmabuf-prime-buffer-sharing-support/20220829-084713
+        git checkout da31884b8b7e33af5cd8aa750dea30fde59d52aa
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/gpu/drm/ast/
 
-	git://linuxtv.org/pinchartl/v4l-utils.git meson
+If you fix the issue, kindly add following tag where applicable
+Reported-by: kernel test robot <lkp@intel.com>
 
-I have also just posted the latest version of the integration patches in
-a v6 ([8]).
+All warnings (new ones prefixed by >>):
 
-I have been using the meson integration for about 2 years now, and it
-has provided me with a much smoother experience than autoconf, both for
-native builds and cross builds. Long gone are the day where I had to
-fight autoconf and hack various Makefile.am to comment out pieces of the
-tree that would fail to compile properly and wouldn't want to get
-disabled through autoconf. These issues are most likely due to
-shortcomings in the autoconf usage in v4l-utils than problems with
-autoconf and automake themselves, but I quickly gave up on trying to fix
-that as meson just worked out of the box as intended.
+>> drivers/gpu/drm/ast/ast_drv.c:54:24: warning: no previous prototype for function 'ast_gem_prime_import' [-Wmissing-prototypes]
+   struct drm_gem_object *ast_gem_prime_import(struct drm_device *dev,
+                          ^
+   drivers/gpu/drm/ast/ast_drv.c:54:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   struct drm_gem_object *ast_gem_prime_import(struct drm_device *dev,
+   ^
+   static 
+   1 warning generated.
 
-This being said, I won't pretend that the current implementation would
-work perfectly for everybody. I twould thus like to get feedback on how
-to move forward.
 
-1. Is there a general agreement that replacing autoconf is a good idea,
-provided that any technical issue in the proposed meson implementation
-(if any) can be fixed ? Or would it require fighting ophidiophobia and
-other non-technical issues that would make it a lost battle from the
-start ?
+vim +/ast_gem_prime_import +54 drivers/gpu/drm/ast/ast_drv.c
 
-2. What are the technical issues that still need to be solved (if any)
-to replace autoconf with meson ?
-
-There's no need to wait for the media summit to start answering those
-questions, if we can resolve the issue before meeting face to face,
-we'll have more time to discuss other questions :-)
-
-[1] https://lore.kernel.org/linux-media/20200408195611.55421-1-ariel@vanguardiasur.com.ar
-[2] https://lore.kernel.org/linux-media/20200429151639.5003-1-ariel@vanguardiasur.com.ar
-[3] https://lore.kernel.org/linux-media/20200618133303.28676-1-ariel@vanguardiasur.com.ar
-[4] https://lore.kernel.org/linux-media/20200721151434.115651-1-ariel@vanguardiasur.com.ar
-[5] https://lore.kernel.org/linux-media/20200806155519.79748-1-ariel@vanguardiasur.com.ar
-[6] https://lore.kernel.org/linux-media/20210317172227.620584-1-ariel.dalessandro@collabora.com
-[7] https://lore.kernel.org/linux-media/20210512184946.102863-1-ariel.dalessandro@collabora.com
-[8] https://lore.kernel.org/linux-media/20220829013327.5791-1-laurent.pinchart@ideasonboard.com
+    53	
+  > 54	struct drm_gem_object *ast_gem_prime_import(struct drm_device *dev,
+    55							struct dma_buf *dma_buf)
+    56	{
+    57		struct drm_gem_vram_object *gbo;
+    58	
+    59		gbo = drm_gem_vram_of_gem(dma_buf->priv);
+    60		if (gbo->bo.base.dev == dev) {
+    61			/*
+    62			* Importing dmabuf exported from out own gem increases
+    63			* refcount on gem itself instead of f_count of dmabuf.
+    64			*/
+    65			drm_gem_object_get(&gbo->bo.base);
+    66			return &gbo->bo.base;
+    67		}
+    68	
+    69		gbo = drm_gem_vram_create(dev, dma_buf->size, 0);
+    70		if (IS_ERR(gbo))
+    71			return NULL;
+    72	
+    73		get_dma_buf(dma_buf);
+    74		return &gbo->bo.base;
+    75	}
+    76	
 
 -- 
-Regards,
-
-Laurent Pinchart
+0-DAY CI Kernel Test Service
+https://01.org/lkp
