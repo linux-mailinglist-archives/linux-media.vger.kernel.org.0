@@ -2,30 +2,30 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C6A9B5A57A2
-	for <lists+linux-media@lfdr.de>; Tue, 30 Aug 2022 01:33:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4CBEF5A57BA
+	for <lists+linux-media@lfdr.de>; Tue, 30 Aug 2022 01:42:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229609AbiH2XdN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 29 Aug 2022 19:33:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46056 "EHLO
+        id S229711AbiH2XmU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 29 Aug 2022 19:42:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57670 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229572AbiH2XdG (ORCPT
+        with ESMTP id S229594AbiH2XmT (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 29 Aug 2022 19:33:06 -0400
+        Mon, 29 Aug 2022 19:42:19 -0400
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BF1F39C21F;
-        Mon, 29 Aug 2022 16:32:55 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E249832DE;
+        Mon, 29 Aug 2022 16:42:18 -0700 (PDT)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8B3A9481;
-        Tue, 30 Aug 2022 01:32:52 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7E947481;
+        Tue, 30 Aug 2022 01:42:16 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1661815972;
-        bh=W6sZ99MZm0WJIysDCG+qS83r+KGY/z25whL5L+DCuIQ=;
+        s=mail; t=1661816536;
+        bh=ngFFZ6dOmWMcFpZ3IKwPW1v4ZbMsWtMoV3OBJVEtv+k=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=SxBEPtywKPcBGK9e1hRcGy/5dl5DGK5YUvK3K3cSouY1gf1x1s1fJhWZTzfkEtitK
-         sqQOPrQUPLH081pQJZFcfnNZFJdJotLrWd+lCOhwp3xU6eyJrhVoUKZt3VAQ2MPf5o
-         zsCCZzV8YuxOhyqjBY+uYfVMhDf9/TMX/UGAZ9ZU=
-Date:   Tue, 30 Aug 2022 02:32:43 +0300
+        b=rlno3YaeDukmu2MSL5qYBY5uEvaJGMEG8W580K5sxVOZ7LhvaH7XvzImKh2oPLLq0
+         uP/2NXzr1IKTDAbY1TQlFJOlSUEmJnD1sY6+u2A8sFrlcBThNbE+e0AR8QF7kVvZrw
+         OiJohc4h23aFg/LbadFnqPnNeOT9QVUY/nc/g8bk=
+Date:   Tue, 30 Aug 2022 02:42:07 +0300
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -41,15 +41,14 @@ Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
         Prabhakar <prabhakar.csengg@gmail.com>,
         Biju Das <biju.das.jz@bp.renesas.com>
-Subject: Re: [PATCH 1/4] media: dt-bindings: media: Document RZ/G2L CSI-2
- block
-Message-ID: <Yw1MmyFxnWNpQx8q@pendragon.ideasonboard.com>
+Subject: Re: [PATCH 2/4] media: dt-bindings: media: Document RZ/G2L CRU
+Message-ID: <Yw1Oz5Zcwgig8/Xy@pendragon.ideasonboard.com>
 References: <20220801214718.16943-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20220801214718.16943-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20220801214718.16943-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20220801214718.16943-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20220801214718.16943-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
@@ -63,101 +62,93 @@ Hi Prabhakar,
 
 Thank you for the patch.
 
-On Mon, Aug 01, 2022 at 10:47:15PM +0100, Lad Prabhakar wrote:
-> Document the CSI-2 block which is part of CRU found in Renesas
-> RZ/G2L SoC.
+On Mon, Aug 01, 2022 at 10:47:16PM +0100, Lad Prabhakar wrote:
+> Document the CRU block found on Renesas RZ/G2L SoC's.
 > 
 > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > ---
 > RFC v2 -> v1
-> * Fixed review comments pointed by Rob and Jacopo.
+> * Dropped endpoint stuff from port1 as suggested by Rob
+> * Updated description for endpoint
 > 
 > RFC v1 -> RFC v2
-> * New patch
+> * Dropped CSI
 > ---
->  .../bindings/media/renesas,rzg2l-csi2.yaml    | 149 ++++++++++++++++++
->  1 file changed, 149 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/renesas,rzg2l-csi2.yaml
+>  .../bindings/media/renesas,rzg2l-cru.yaml     | 142 ++++++++++++++++++
+>  1 file changed, 142 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/renesas,rzg2l-cru.yaml
 > 
-> diff --git a/Documentation/devicetree/bindings/media/renesas,rzg2l-csi2.yaml b/Documentation/devicetree/bindings/media/renesas,rzg2l-csi2.yaml
+> diff --git a/Documentation/devicetree/bindings/media/renesas,rzg2l-cru.yaml b/Documentation/devicetree/bindings/media/renesas,rzg2l-cru.yaml
 > new file mode 100644
-> index 000000000000..f82f88c096df
+> index 000000000000..d7389693dae9
 > --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/renesas,rzg2l-csi2.yaml
-> @@ -0,0 +1,149 @@
+> +++ b/Documentation/devicetree/bindings/media/renesas,rzg2l-cru.yaml
+> @@ -0,0 +1,142 @@
 > +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
 > +# Copyright (C) 2022 Renesas Electronics Corp.
 > +%YAML 1.2
 > +---
-> +$id: http://devicetree.org/schemas/media/renesas,rzg2l-csi2.yaml#
+> +$id: http://devicetree.org/schemas/media/renesas,rzg2l-cru.yaml#
 > +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > +
-> +title: Renesas RZ/G2L (and alike SoC's) MIPI CSI-2 receiver
+> +title: Renesas RZ/G2L (and alike SoC's) Camera Data Receiving Unit (CRU) Image processing
 > +
 > +maintainers:
 > +  - Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > +
 > +description:
-> +  The CSI-2 receiver device provides MIPI CSI-2 capabilities for the Renesas RZ/G2L
-> +  (and alike SoCs). MIPI CSI-2 is part of the CRU block which is used in conjunction
-> +  with the Image Processing module, which provides the video capture capabilities.
+> +  The CRU image processing module is a data conversion module equipped with pixel
+> +  color space conversion, LUT, pixel format conversion, etc. An MIPI CSI-2 input and
+> +  parallel (including ITU-R BT.656) input are provided as the image sensor interface.
 > +
 > +properties:
 > +  compatible:
 > +    oneOf:
+
+No oneOf here either.
+
 > +      - items:
-
-You can drop the oneOf and write
-
-    items:
-      - enum:
-          - renesas,r9a07g044-csi2       # RZ/G2{L,LC}
-          - renesas,r9a07g054-csi2       # RZ/V2L
-      - const: renesas,rzg2l-csi2
-
 > +          - enum:
-> +              - renesas,r9a07g044-csi2       # RZ/G2{L,LC}
-> +              - renesas,r9a07g054-csi2       # RZ/V2L
-> +          - const: renesas,rzg2l-csi2
+> +              - renesas,r9a07g044-cru     # RZ/G2{L,LC}
+> +              - renesas,r9a07g054-cru     # RZ/V2L
+> +          - const: renesas,rzg2l-cru
 > +
 > +  reg:
 > +    maxItems: 1
 > +
 > +  interrupts:
-> +    maxItems: 1
+> +    maxItems: 3
 > +
 > +  interrupt-names:
-> +    const: csi2_link
-
-If there's a single interrupt you can drop the name.
-
+> +    items:
+> +      - const: image_conv
+> +      - const: image_conv_err
+> +      - const: axi_mst_err
 > +
 > +  clocks:
 > +    items:
-> +      - description: Internal clock for connecting CRU and MIPI
 > +      - description: CRU Main clock
 > +      - description: CPU Register access clock
+> +      - description: CRU image transfer clock
 > +
 > +  clock-names:
 > +    items:
-> +      - const: sysclk
 > +      - const: vclk
 > +      - const: pclk
+> +      - const: aclk
 > +
 > +  power-domains:
 > +    maxItems: 1
 > +
 > +  resets:
 > +    items:
-> +      - description: CRU_CMN_RSTB reset terminal
+> +      - description: CRU_PRESETN reset terminal
+> +      - description: CRU_ARESETN reset terminal
 > +
 > +  reset-names:
-> +    const: cmn-rstb
-
-Same here.
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-
+> +    items:
+> +      - const: presetn
+> +      - const: aresetn
 > +
 > +  ports:
 > +    $ref: /schemas/graph.yaml#/properties/ports
@@ -167,7 +158,7 @@ Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 > +        $ref: /schemas/graph.yaml#/$defs/port-base
 > +        unevaluatedProperties: false
 > +        description:
-> +          Input port node, single endpoint describing the CSI-2 transmitter.
+> +          Input port node, single endpoint describing a parallel input source.
 > +
 > +        properties:
 > +          endpoint:
@@ -175,68 +166,61 @@ Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 > +            unevaluatedProperties: false
 > +
 > +            properties:
-> +              data-lanes:
-> +                minItems: 1
-> +                maxItems: 4
-> +                items:
-> +                  maximum: 4
-> +
-> +            required:
-> +              - clock-lanes
-> +              - data-lanes
+> +              hsync-active: true
+> +              vsync-active: true
+> +              bus-width: true
+> +              data-shift: true
 > +
 > +      port@1:
 > +        $ref: /schemas/graph.yaml#/properties/port
 > +        description:
-> +          Output port node, Image Processing block connected to the CSI-2 receiver.
-> +
-> +    required:
-> +      - port@0
-> +      - port@1
+> +          Input port node, describing the Image Processing module connected to the
+> +          CSI-2 receiver.
+
+Both ports should be mandatory as they exist at the hardware level.
+Connections (through endpoints) are optional.
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+
 > +
 > +required:
 > +  - compatible
 > +  - reg
 > +  - interrupts
+> +  - interrupt-names
 > +  - clocks
 > +  - clock-names
-> +  - power-domains
 > +  - resets
 > +  - reset-names
-> +  - ports
+> +  - power-domains
 > +
 > +additionalProperties: false
 > +
 > +examples:
+> +  # Device node example with CSI-2
 > +  - |
 > +    #include <dt-bindings/clock/r9a07g044-cpg.h>
 > +    #include <dt-bindings/interrupt-controller/arm-gic.h>
 > +
-> +    csi20: csi2@10830400 {
-> +            compatible = "renesas,r9a07g044-csi2", "renesas,rzg2l-csi2";
-> +            reg = <0x10830400 0xfc00>;
-> +            interrupts = <GIC_SPI 166 IRQ_TYPE_LEVEL_HIGH>;
-> +            clocks = <&cpg CPG_MOD R9A07G044_CRU_SYSCLK>,
-> +                     <&cpg CPG_MOD R9A07G044_CRU_VCLK>,
-> +                     <&cpg CPG_MOD R9A07G044_CRU_PCLK>;
-> +            clock-names = "sysclk", "vclk", "pclk";
+> +    cru: video@10830000 {
+> +            compatible = "renesas,r9a07g044-cru", "renesas,rzg2l-cru";
+> +            reg = <0x10830000 0x400>;
+> +            interrupts = <GIC_SPI 167 IRQ_TYPE_LEVEL_HIGH>,
+> +                         <GIC_SPI 168 IRQ_TYPE_LEVEL_HIGH>,
+> +                         <GIC_SPI 169 IRQ_TYPE_LEVEL_HIGH>;
+> +            interrupt-names = "image_conv", "image_conv_err", "axi_mst_err";
+> +            clocks = <&cpg CPG_MOD R9A07G044_CRU_VCLK>,
+> +                     <&cpg CPG_MOD R9A07G044_CRU_PCLK>,
+> +                     <&cpg CPG_MOD R9A07G044_CRU_ACLK>;
+> +            clock-names = "vclk", "pclk", "aclk";
 > +            power-domains = <&cpg>;
-> +            resets = <&cpg R9A07G044_CRU_CMN_RSTB>;
-> +            reset-names = "cmn-rstb";
+> +            resets = <&cpg R9A07G044_CRU_PRESETN>,
+> +                     <&cpg R9A07G044_CRU_ARESETN>;
+> +            reset-names = "presetn", "aresetn";
 > +
 > +            ports {
 > +                    #address-cells = <1>;
 > +                    #size-cells = <0>;
-> +
-> +                    port@0 {
-> +                            reg = <0>;
-> +
-> +                            csi2_in: endpoint {
-> +                                    clock-lanes = <0>;
-> +                                    data-lanes = <1 2>;
-> +                                    remote-endpoint = <&ov5645_ep>;
-> +                            };
-> +                    };
 > +
 > +                    port@1 {
 > +                            #address-cells = <1>;
@@ -244,9 +228,9 @@ Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 > +
 > +                            reg = <1>;
 > +
-> +                            csi2cru: endpoint@0 {
+> +                            crucsi2: endpoint@0 {
 > +                                    reg = <0>;
-> +                                    remote-endpoint = <&crucsi2>;
+> +                                    remote-endpoint= <&csi2cru>;
 > +                            };
 > +                    };
 > +            };
