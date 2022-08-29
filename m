@@ -2,117 +2,114 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 369225A439F
-	for <lists+linux-media@lfdr.de>; Mon, 29 Aug 2022 09:15:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 356F75A443A
+	for <lists+linux-media@lfdr.de>; Mon, 29 Aug 2022 09:54:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229674AbiH2HPm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 29 Aug 2022 03:15:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34858 "EHLO
+        id S229617AbiH2Hyt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 29 Aug 2022 03:54:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52038 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229627AbiH2HPl (ORCPT
+        with ESMTP id S229536AbiH2Hys (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 29 Aug 2022 03:15:41 -0400
-Received: from relay10.mail.gandi.net (relay10.mail.gandi.net [IPv6:2001:4b98:dc4:8::230])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C3E1727FF0
-        for <linux-media@vger.kernel.org>; Mon, 29 Aug 2022 00:15:38 -0700 (PDT)
-Received: (Authenticated sender: jacopo@jmondi.org)
-        by mail.gandi.net (Postfix) with ESMTPSA id 0EA86240004;
-        Mon, 29 Aug 2022 07:15:30 +0000 (UTC)
-Date:   Mon, 29 Aug 2022 09:15:28 +0200
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     linux-media@vger.kernel.org,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>
-Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        Hidenori Kobayashi <hidenorik@chromium.org>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Michael Olbrich <m.olbrich@pengutronix.de>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Ricardo Ribalda <ribalda@chromium.org>,
-        Maxime Ripard <maxime@cerno.tech>,
-        Daniel Scally <djrscally@gmail.com>,
-        Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>,
-        Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        Michael Tretter <m.tretter@pengutronix.de>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Benjamin MUGNIER <benjamin.mugnier@foss.st.com>
-Subject: [Media Summit] Using the selection API to control image sensor
- subsampling
-Message-ID: <20220829071528.6fxm4kdvpjzkr3yw@uno.localdomain>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+        Mon, 29 Aug 2022 03:54:48 -0400
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E74F015819;
+        Mon, 29 Aug 2022 00:54:41 -0700 (PDT)
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 27T7KUOO008292;
+        Mon, 29 Aug 2022 07:54:40 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
+ subject : date : message-id; s=qcppdkim1;
+ bh=mSNL2H0decErmIQPzyx2yynJ3rX6kVbXcPJeGbUDOfE=;
+ b=nfbcHDEbLA0pihPMA/qtMz8fRi9QAgy46PR9lEDdvdxsJGeQtwhvyxVUZsdvWAPCR8As
+ 4aHOsemKsYZtO4R0wHhRDV3yGjHWMS3X+Hwb36yUOjtiFbda7kq8ZOIwp3Be1mKtD9Kr
+ Jdpm487oxLYM4EeDgxDKvGxETBxh3d5o0HdtXJI4/IkRkGABoYvll14g0/hWtmSq/2YN
+ 8AWEEEp9OnvV/bYV0SljMU5IlX6PJyWVJh3XbsTPfvDMTQYGH/YrQ4ryoGC1FVpg8CX9
+ 1zW39EghCiQ8/fNXuHElw0lZQEbg7IXTh/68U4PHZIUOtUTLtF+cxldtmaus1mIaPJ91 DA== 
+Received: from apblrppmta01.qualcomm.com (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3j7bc1bxu1-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 29 Aug 2022 07:54:40 +0000
+Received: from pps.filterd (APBLRPPMTA01.qualcomm.com [127.0.0.1])
+        by APBLRPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTP id 27T7saqv010194;
+        Mon, 29 Aug 2022 07:54:36 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+        by APBLRPPMTA01.qualcomm.com (PPS) with ESMTP id 3j7cbkg5dn-1;
+        Mon, 29 Aug 2022 07:54:36 +0000
+Received: from APBLRPPMTA01.qualcomm.com (APBLRPPMTA01.qualcomm.com [127.0.0.1])
+        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 27T7saTj010188;
+        Mon, 29 Aug 2022 07:54:36 GMT
+Received: from hu-sgudaval-hyd.qualcomm.com (hu-dikshita-hyd.qualcomm.com [10.213.110.13])
+        by APBLRPPMTA01.qualcomm.com (PPS) with ESMTP id 27T7sZ7W010187;
+        Mon, 29 Aug 2022 07:54:36 +0000
+Received: by hu-sgudaval-hyd.qualcomm.com (Postfix, from userid 347544)
+        id 4811F4857; Mon, 29 Aug 2022 13:24:35 +0530 (+0530)
+From:   Dikshita Agarwal <quic_dikshita@quicinc.com>
+To:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        hverkuil-cisco@xs4all.nl
+Cc:     stanimir.varbanov@linaro.org, quic_vgarodia@quicinc.com,
+        quic_majja@quicinc.com, quic_jdas@quicinc.com,
+        Dikshita Agarwal <quic_dikshita@quicinc.com>
+Subject: [PATCH] Allow S/G_PARM for stateful decoder
+Date:   Mon, 29 Aug 2022 13:24:30 +0530
+Message-Id: <1661759670-19902-1-git-send-email-quic_dikshita@quicinc.com>
+X-Mailer: git-send-email 2.7.4
+X-QCInternal: smtphost
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: jgUeQlTTCWxNfhTq1X3XvFiKMPWcaqNl
+X-Proofpoint-GUID: jgUeQlTTCWxNfhTq1X3XvFiKMPWcaqNl
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.517,FMLib:17.11.122.1
+ definitions=2022-08-29_03,2022-08-25_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
+ suspectscore=0 mlxlogscore=525 mlxscore=0 clxscore=1015 priorityscore=1501
+ spamscore=0 bulkscore=0 adultscore=0 malwarescore=0 phishscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2207270000 definitions=main-2208290038
+X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello
+Some stateful decoder supports S/G_PARM similar to a
+stateful encoder. S_PARM(OUTPUT) reserves hardware decoder
+resources, and G_PARM(CAPTURE) returns the embedded
+frame interval. Allow the same with this change.
 
-   I have prepared a slide deck to brief on the discussion for
-the topic specified in the subject. Slides are available at
-https://nc.nibble.pw/s/oib8jzNjjtgB9c6 as an attachment of ~5MB would
-probably be caught by the mailing list filter
+Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
+---
+ utils/v4l2-compliance/v4l2-test-formats.cpp | 4 ----
+ 1 file changed, 4 deletions(-)
 
-I'll here copy a brief summary as presented in Hans' agenda:
-
--------------------------------------------------------------------------------
-11:45 Jacopo: Representing addition sensor processing stages.
-
-  How to represent additional processing stages that happens
-  on the sensor side, mostly additional subsampling/cropping that happen
-  between the analogue cropping on the full pixel array and the final
-  image sent on the wire.
-
-  https://lore.kernel.org/linux-media/CAPY8ntA06L1Xsph79sv9t7MiDSNeSO2vADevuXZdXQdhWpSmow@mail.gmail.com/
-
-  Dave made a good introduction of the issue his email which got
-  largely unanswered.
-
-  The issue is particularly relevant for RAW sensors, where applying
-  subsampling has an impact on the sensor's sensitivity and requires
-  to adjust the gains and exposure accordingly.
--------------------------------------------------------------------------------
-
-The slide deck:
-
-- Introduces the topic in slides [1-10]
-
-- Presents Dave's proposed use case and how it is currently handled in
-  mainline drivers in slides [11-31] using as example the imx274,
-  mt9p031 and CCS drivers.
-
-- Proposes a best-effort solution for imx219 in slides [32-37]
-
-- The last two slides presents two discussion topics which I will copy
-  here
-
-  ------------------------------------------------------------------------
-  Do we need new abstractions ?
-
-  - An image sensor abstraction built on top of multiple subdevices
-    - Would it really make userspace any simpler ?
-
-  - Image sensor specific SELECTION_TARGETS
-    - Conflicts with format selection are bound to happen with a single
-      source pad
-      - Can a “special” sink pad that represents the raw pixel array help ?
-    - Does not scale to represent complex sensors with multiple scalers
-  ------------------------------------------------------------------------
-
-The imx219 proposal can be discussed by email or in person, while the
-questions in the last two slides might be worth being discussed during
-the meeting.
-
-Thanks
-   j
+diff --git a/utils/v4l2-compliance/v4l2-test-formats.cpp b/utils/v4l2-compliance/v4l2-test-formats.cpp
+index 269a383..e996558 100644
+--- a/utils/v4l2-compliance/v4l2-test-formats.cpp
++++ b/utils/v4l2-compliance/v4l2-test-formats.cpp
+@@ -64,8 +64,6 @@ static int testEnumFrameIntervals(struct node *node, __u32 pixfmt,
+ 		ret = doioctl(node, VIDIOC_ENUM_FRAMEINTERVALS, &frmival);
+ 		if (ret == ENOTTY)
+ 			return ret;
+-		// M2M devices don't support this, except for stateful encoders
+-		fail_on_test(node->is_m2m && !(node->codec_mask & STATEFUL_ENCODER));
+ 		if (f == 0 && ret == EINVAL) {
+ 			if (type == V4L2_FRMSIZE_TYPE_DISCRETE)
+ 				warn("found framesize %dx%d, but no frame intervals\n", w, h);
+@@ -1367,8 +1365,6 @@ static int testParmType(struct node *node, unsigned type)
+ 	}
+ 	if (ret == ENOTTY)
+ 		return ret;
+-	// M2M devices don't support this, except for stateful encoders
+-	fail_on_test(node->is_m2m && !is_stateful_enc);
+ 	if (ret == EINVAL)
+ 		return ENOTTY;
+ 	if (ret)
+-- 
+2.7.4
 
