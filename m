@@ -2,57 +2,57 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 381065A4266
-	for <lists+linux-media@lfdr.de>; Mon, 29 Aug 2022 07:39:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B7A9A5A428C
+	for <lists+linux-media@lfdr.de>; Mon, 29 Aug 2022 07:48:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229556AbiH2Fji (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 29 Aug 2022 01:39:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37004 "EHLO
+        id S229636AbiH2Fsl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 29 Aug 2022 01:48:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45688 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229526AbiH2Fjg (ORCPT
+        with ESMTP id S229662AbiH2Fsa (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 29 Aug 2022 01:39:36 -0400
-Received: from mail-yw1-x112d.google.com (mail-yw1-x112d.google.com [IPv6:2607:f8b0:4864:20::112d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 169C146210
-        for <linux-media@vger.kernel.org>; Sun, 28 Aug 2022 22:39:35 -0700 (PDT)
-Received: by mail-yw1-x112d.google.com with SMTP id 00721157ae682-33dce2d4bc8so169802877b3.4
-        for <linux-media@vger.kernel.org>; Sun, 28 Aug 2022 22:39:35 -0700 (PDT)
+        Mon, 29 Aug 2022 01:48:30 -0400
+Received: from mail-yw1-x1129.google.com (mail-yw1-x1129.google.com [IPv6:2607:f8b0:4864:20::1129])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF30246DB4
+        for <linux-media@vger.kernel.org>; Sun, 28 Aug 2022 22:48:27 -0700 (PDT)
+Received: by mail-yw1-x1129.google.com with SMTP id 00721157ae682-32a09b909f6so170837187b3.0
+        for <linux-media@vger.kernel.org>; Sun, 28 Aug 2022 22:48:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc;
-        bh=5Y1ss6obUMTS05ropKQ1cbM52qGOEMB9d3ZUjv0+cB4=;
-        b=J4pUE+8Zg5+J0/bwyp6TZpQtIZvgDWamfewiJvOYTfQaTr2UIzvSSxx/jgV8jZ4D1t
-         W8plYsFfIhFsc0tgHAsgVhlY4tk3w1x1UVUdgHXXHPm4krKPiViBvXG/XXGMF4begHtx
-         bF0l2JqZh08XXbTNfunJmtLreNcbCQjBuO1F+/gwoEo4G8HCjamVYKPDEacsaBaVzo6O
-         Yg+MwQIptqc5fF7R3etbhm3PNikAL/kvrDUruA4gPGJEnqvkKOjhfXSarxg+fqNLkchT
-         deFxeVrlgON1OyJyqR4X061THrt8NPmSghTx1/g3JZxNkYVs0+ftlud9WFc6n5TwZ8Nu
-         WK4A==
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc;
+        bh=eFYcTSF1mtb3FRbEFeX7FCL5RYHXImCu7b73+Xj9Huw=;
+        b=LMBRWQcRzkpudQiV5VHfvcAW+sSFSko6GXMCpc3vMIWWlZW9GQzTPR/kCxjKtwUX81
+         CmvldBEsKBcJ9+hzXJlc/8UyrNK8tAotSBx7/dbdgOeB88nwaKaBlFS3JE3ErhsmjkZl
+         Xk9z85qPMutIEoQejogbX/Z2n3CmMxjdnysBnoK97Gpg2a74aPinA+l1V0y9uH4vB1fm
+         Y5j7iLHMGSWJGjW+zO1Q7SWYPoEstZ+b0ub8zt6LkkwcqPbpwOf9jFrV2ONXfKp5Y3bQ
+         My9lixCxu5TAuoWidBcSSL6lkGZD8wz0FQMvJ8z6eTsjgqYztBqRxyi7Gktz4n16Sm1X
+         Jbzg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc;
-        bh=5Y1ss6obUMTS05ropKQ1cbM52qGOEMB9d3ZUjv0+cB4=;
-        b=FQDCrDAI86mrMQ7nIJXqqlMI7bJ6P521eQlEMO8OTjR49RGEuY4T6FnYlIWXZe8kxo
-         NsSxrVbhap8l2YTSkXWAKHvlylBZY8YnKfdfxt5yws7HzcRw/VnaP6NAKGAApaeYCxJT
-         sdsIin3tjd+N2ZUI0QNvHHFKAXfB6VIbRCkQ8FgtILMsKp2iRpE8Ua7QHNljEyHNohVQ
-         5GuGeFSp9BiUOv+xaefk0lrhKa83TiedY3ZZazqd5TQOTDwVGJEYfpJGWBZW+cmknuKB
-         2RaO6rP0vMUQ8+C6LHa8ueJoB9cv8zCkDGLayKNSVlA3mbixAHomAMLoOTTiGTRIkOYX
-         IZGQ==
-X-Gm-Message-State: ACgBeo3z5RbmRQzm3f0vany/EMieklbk+JrkwWtuA3Hf4Qb5tw9EKdFT
-        KGdUQaDIam/ksJ0BIX7TY4dVSsq4Fy656t53TdafbyrT56eHzw==
-X-Google-Smtp-Source: AA6agR5qDE72zjF+lBBNU3jNwTblJcKrRlHbTugqEGZKWMcjjF8CMm5YLN9FWzeLdfz6X+hEcsd43MjO/mMQSNovWmo=
-X-Received: by 2002:a25:dd0:0:b0:695:87f3:f2e6 with SMTP id
- 199-20020a250dd0000000b0069587f3f2e6mr6958688ybn.263.1661751573976; Sun, 28
- Aug 2022 22:39:33 -0700 (PDT)
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc;
+        bh=eFYcTSF1mtb3FRbEFeX7FCL5RYHXImCu7b73+Xj9Huw=;
+        b=p6v0058vkEvfy8OfqKStt7kpzimV7PlVrb1oTtR/V+LfBsI8sofBky/aadcQuoE8ng
+         KnhEgtMXs1hfuQiEcemFg15xWAluOHfsTOexkoDp/tL3fJsUxhU4tr/hZUhWVW9e3HTD
+         itzrhYm8YZPfL3Nyo6etOsff+4fkU1ooGdibL81zef9M9akGU8739vrumtuU+joTcj74
+         RWb0YxblmvikgrUbUO8rVu7MX8YTuu5AWREnMV37w11P5WMthewwXuoVGc1TFA6ut5K/
+         Wb5Q2Fjm2sfDtFqMg4Ghm8Sh1Z0Vbr9RKnDrscVf0pH0wZ9gWtyVnu51lRMXuFJZk8sY
+         mgsA==
+X-Gm-Message-State: ACgBeo1VGpBX1HQQ4jhe46PpTfAhFVPFBa3iUA2GsE5U+5LU8ekIz5YW
+        bi4XcUeZzXfbYZIr2vPNKJNZGvIU/lwc1PaJG56Fng==
+X-Google-Smtp-Source: AA6agR7fD00ADf3R3VKIXinRnXZ2tMX3C0E6NpBrEB5AtmGkDPS4C+cjl9WA+jGmCuw27Hfws9AV/p1S8aybsjqUvBo=
+X-Received: by 2002:a81:8a81:0:b0:33d:829f:644d with SMTP id
+ a123-20020a818a81000000b0033d829f644dmr8521356ywg.439.1661752106650; Sun, 28
+ Aug 2022 22:48:26 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220628075705.2278044-1-yunkec@google.com> <20220628075705.2278044-4-yunkec@google.com>
- <YwaCf1mR7SGCfnAR@pendragon.ideasonboard.com>
-In-Reply-To: <YwaCf1mR7SGCfnAR@pendragon.ideasonboard.com>
+References: <20220628075705.2278044-1-yunkec@google.com> <20220628075705.2278044-5-yunkec@google.com>
+ <YwaL6BgwEwif7b16@pendragon.ideasonboard.com>
+In-Reply-To: <YwaL6BgwEwif7b16@pendragon.ideasonboard.com>
 From:   Yunke Cao <yunkec@google.com>
-Date:   Mon, 29 Aug 2022 14:39:22 +0900
-Message-ID: <CANqU6FceDcO4bz+r9qNXhggqECtgDXGaM_eYYH8Gq=NF1iB3Ww@mail.gmail.com>
-Subject: Re: [PATCH v7 3/7] media: uvcvideo: Add support for compound controls
+Date:   Mon, 29 Aug 2022 14:48:15 +0900
+Message-ID: <CANqU6Fc+Lm1dk4CnBpO_EkfSBFyWZ8msveqfD6V8K_kbyrcBew@mail.gmail.com>
+Subject: Re: [PATCH v7 4/7] media: uvcvideo: implement UVC v1.5 ROI
 To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Nicolas Dufresne <nicolas@ndufresne.ca>,
@@ -62,6 +62,7 @@ Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Ricardo Ribalda <ribalda@chromium.org>,
         linux-media@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
         ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
@@ -77,628 +78,447 @@ Hi Laurent,
 
 Thanks for the review!
 
-On Thu, Aug 25, 2022 at 4:56 AM Laurent Pinchart
+On Thu, Aug 25, 2022 at 5:37 AM Laurent Pinchart
 <laurent.pinchart@ideasonboard.com> wrote:
 >
 > Hi Yunke,
 >
 > Thank you for the patch.
 >
-> On Tue, Jun 28, 2022 at 04:57:01PM +0900, Yunke Cao wrote:
-> > Supports getting/setting current value.
-> > Supports getting default value.
-> > Handles V4L2_CTRL_FLAG_NEXT_COMPOUND.
+> On Tue, Jun 28, 2022 at 04:57:02PM +0900, Yunke Cao wrote:
+> > Implement support for ROI as described in UVC 1.5:
+> > 4.2.2.1.20 Digital Region of Interest (ROI) Control
+> >
+> > ROI control is implemented using V4L2 control API as
+> > two uvc-specific controls:
+>
+> s/uvc/UVC/
+>
+> > V4L2_CID_UVC_REGION_OF_INTEREST_RECT and
+> > V4L2_CID_UVC_REGION_OF_INTEREST_AUTO.
 > >
 > > Signed-off-by: Yunke Cao <yunkec@google.com>
 > > ---
-> >  drivers/media/usb/uvc/uvc_ctrl.c | 279 ++++++++++++++++++++++++++-----
-> >  drivers/media/usb/uvc/uvcvideo.h |   4 +
-> >  2 files changed, 238 insertions(+), 45 deletions(-)
+> >  drivers/media/usb/uvc/uvc_ctrl.c   | 146 ++++++++++++++++++++++++++++-
+> >  drivers/media/usb/uvc/uvc_v4l2.c   |   5 +-
+> >  drivers/media/usb/uvc/uvcvideo.h   |   7 ++
+> >  include/uapi/linux/usb/video.h     |   1 +
+> >  include/uapi/linux/uvcvideo.h      |  13 +++
+> >  include/uapi/linux/v4l2-controls.h |   8 ++
+> >  6 files changed, 178 insertions(+), 2 deletions(-)
 > >
-> > diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
-> > index 772d9d28a520..508ee04afbcd 100644
+> > diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/u=
+vc_ctrl.c
+> > index 508ee04afbcd..00482269233a 100644
 > > --- a/drivers/media/usb/uvc/uvc_ctrl.c
 > > +++ b/drivers/media/usb/uvc/uvc_ctrl.c
-> > @@ -815,6 +815,34 @@ static void uvc_set_le_value(struct uvc_control_mapping *mapping,
-> >       }
+> > @@ -355,6 +355,23 @@ static const struct uvc_control_info uvc_ctrls[] =
+=3D {
+> >               .flags          =3D UVC_CTRL_FLAG_GET_CUR
+> >                               | UVC_CTRL_FLAG_AUTO_UPDATE,
+> >       },
+> > +     /* UVC_CTRL_FLAG_AUTO_UPDATE is needed because the RoI may get up=
+dated
+>
+>         /*
+>          * UVC_CTRL_...
+>
+> > +      * by sensors.
+> > +      * "This RoI should be the same as specified in most recent SET_C=
+UR
+> > +      * except in the case where the =E2=80=98Auto Detect and Track=E2=
+=80=99 and/or
+> > +      * =E2=80=98Image Stabilization=E2=80=99 bit have been set."
+> > +      * 4.2.2.1.20 Digital Region of Interest (ROI) Control
+> > +      */
+> > +     {
+> > +             .entity         =3D UVC_GUID_UVC_CAMERA,
+> > +             .selector       =3D UVC_CT_REGION_OF_INTEREST_CONTROL,
+> > +             .index          =3D 21,
+> > +             .size           =3D 10,
+> > +             .flags          =3D UVC_CTRL_FLAG_SET_CUR | UVC_CTRL_FLAG=
+_GET_CUR
+> > +                             | UVC_CTRL_FLAG_GET_MIN | UVC_CTRL_FLAG_G=
+ET_MAX
+> > +                             | UVC_CTRL_FLAG_GET_DEF
+> > +                             | UVC_CTRL_FLAG_AUTO_UPDATE,
+> > +     },
+> >  };
+> >
+> >  static const u32 uvc_control_classes[] =3D {
+> > @@ -429,6 +446,64 @@ static void uvc_ctrl_set_rel_speed(struct uvc_cont=
+rol_mapping *mapping,
+> >       data[first+1] =3D min_t(int, abs(value), 0xff);
 > >  }
 > >
-> > +/* Extract the byte array specified by mapping->offset and mapping->size
-> > + * stored at 'data' to the output array 'data_out'.
-> > + */
->
-> Please use the
->
-> /*
->  * multi
->  * line
->  */
->
-> style instead of
->
-> /* multi
->  * line
->  */
->
-> The uvcvideo driver has recently switched to the former in commit
-> 699b9a86a3f0 ("media: uvcvideo: Fix comment blocks style").
->
-> > +static int uvc_get_array(struct uvc_control_mapping *mapping, const u8 *data,
-> > +                      u8 *data_out)
+> > +static void uvc_to_v4l2_rect(struct v4l2_rect *v4l2_rect,
+> > +                          const struct uvc_rect *uvc_rect)
 > > +{
-> > +     // Only supports byte-aligned data.
+> > +     v4l2_rect->top =3D uvc_rect->top;
+> > +     v4l2_rect->left =3D uvc_rect->left;
+> > +     v4l2_rect->height =3D uvc_rect->bottom - uvc_rect->top + 1;
+> > +     v4l2_rect->width =3D uvc_rect->right - uvc_rect->left + 1;
 >
-> And no C++-style comments either please.
+> What happens if the device sends a bogus value with top > bottom or left
+> > right ?
 >
 
-Will fix the comments style in the next version.
+Hmm. I didn't think of this.  I guess we should check and return -EINVAL.
 
-> > +     if (WARN_ON(mapping->offset % 8 || mapping->size % 8))
-> > +             return -EINVAL;
+> > +}
 > > +
-> > +     memcpy(data_out, data + mapping->offset / 8, mapping->size / 8);
+> > +static int v4l2_to_uvc_rect(struct uvc_rect *uvc_rect,
+> > +                         const struct v4l2_rect *v4l2_rect)
+> > +{
+> > +     // Safely converts s32 and u32 to u16.
+>
+> C-style comments.
+>
+> > +     if (v4l2_rect->top > U16_MAX || v4l2_rect->top < 0 ||
+> > +         v4l2_rect->left > U16_MAX || v4l2_rect->left < 0 ||
+> > +         v4l2_rect->height > U16_MAX || v4l2_rect->height =3D=3D 0 ||
+> > +         v4l2_rect->width > U16_MAX || v4l2_rect->width =3D=3D 0 ||
+> > +         v4l2_rect->height + v4l2_rect->top - 1 > U16_MAX ||
+> > +         v4l2_rect->width + v4l2_rect->left - 1 > U16_MAX)
+> > +             return -ERANGE;
+>
+> Doesn't V4L2 adjust the control value instead ?
+>
+
+videoc-g-ext-ctrls.rst says
+" When the value is out of bounds drivers can choose to take the closest
+valid value or return an ERANGE error code, whatever seems more appropriate=
+."
+
+I chose to return ERANGE because it's a bit easier. Is it acceptable?
+
+> > +
+> > +     uvc_rect->top =3D v4l2_rect->top;
+> > +     uvc_rect->left =3D v4l2_rect->left;
+> > +     uvc_rect->bottom =3D v4l2_rect->height + v4l2_rect->top - 1;
+> > +     uvc_rect->right =3D v4l2_rect->width + v4l2_rect->left - 1;
 > > +     return 0;
 > > +}
 > > +
-> > +/* Copy the byte array 'data_in' to the destination specified by mapping->offset
-> > + * and mapping->size stored at 'data'.
-> > + */
-> > +static int uvc_set_array(struct uvc_control_mapping *mapping, const u8 *data_in,
-> > +                      u8 *data)
+> > +static int uvc_get_array_rect(struct uvc_control_mapping *mapping,
+> > +                           const u8 *data,  u8 *data_out)
 > > +{
-> > +     // Only supports byte-aligned data.
+> > +     struct uvc_rect *uvc_rect;
+> > +
 > > +     if (WARN_ON(mapping->offset % 8 || mapping->size % 8))
 > > +             return -EINVAL;
+> > +     if (WARN_ON(mapping->size / 8 !=3D sizeof(struct uvc_rect)))
+> > +             return -EINVAL;
 > > +
-> > +     memcpy(data + mapping->offset / 8, data_in, mapping->size / 8);
+>
+> These checks should go to mapping creation time.
+>
+> > +     uvc_rect =3D (struct uvc_rect *)(data + mapping->offset / 8);
+>
+> If the offset happens to not be a multiple of 2 bytes this will cause
+> unaligned accesses on some platforms.
+>
+> > +     uvc_to_v4l2_rect((struct v4l2_rect *)data_out, uvc_rect);
+>
+> Same here if not aligned on 4 bytes.
+>
+> > +
 > > +     return 0;
 > > +}
 > > +
->
-> Could you add here a
->
-> static bool
-> uvc_ctrl_mapping_is_compound(const struct uvc_control_mapping *mapping)
-> {
->         return mapping->v4l2_type >= V4L2_CTRL_COMPOUND_TYPES;
-> }
->
-> and use it below ? That would be clearer I think.
->
-> >  /* ------------------------------------------------------------------------
-> >   * Terminal and unit management
-> >   */
-> > @@ -831,7 +859,7 @@ static int uvc_entity_match_guid(const struct uvc_entity *entity,
-> >
-> >  static void __uvc_find_control(struct uvc_entity *entity, u32 v4l2_id,
-> >       struct uvc_control_mapping **mapping, struct uvc_control **control,
-> > -     int next)
-> > +     int next, int next_compound)
-> >  {
-> >       struct uvc_control *ctrl;
-> >       struct uvc_control_mapping *map;
-> > @@ -846,14 +874,18 @@ static void __uvc_find_control(struct uvc_entity *entity, u32 v4l2_id,
-> >                       continue;
-> >
-> >               list_for_each_entry(map, &ctrl->info.mappings, list) {
-> > -                     if ((map->id == v4l2_id) && !next) {
-> > +                     if (map->id == v4l2_id && !next && !next_compound) {
-> >                               *control = ctrl;
-> >                               *mapping = map;
-> >                               return;
-> >                       }
-> >
-> >                       if ((*mapping == NULL || (*mapping)->id > map->id) &&
-> > -                         (map->id > v4l2_id) && next) {
-> > +                         (map->id > v4l2_id) &&
-> > +                         ((map->v4l2_type < V4L2_CTRL_COMPOUND_TYPES &&
-> > +                           next) ||
-> > +                          (map->v4l2_type >= V4L2_CTRL_COMPOUND_TYPES &&
-> > +                           next_compound))) {
-> >                               *control = ctrl;
-> >                               *mapping = map;
-> >                       }
->
-> This could become for instance
->
->                         if ((*mapping == NULL || (*mapping)->id > map->id) &&
->                             (map->id > v4l2_id) &&
->                             ((!uvc_ctrl_mapping_is_compound(map) && next) ||
->                              (uvc_ctrl_mapping_is_compound(map) && next_compound))) {
->                                 *control = ctrl;
->                                 *mapping = map;
->                         }
->
-
-Sure! That does look much better.
-
-> > @@ -867,6 +899,7 @@ static struct uvc_control *uvc_find_control(struct uvc_video_chain *chain,
-> >       struct uvc_control *ctrl = NULL;
-> >       struct uvc_entity *entity;
-> >       int next = v4l2_id & V4L2_CTRL_FLAG_NEXT_CTRL;
-> > +     int next_compound = v4l2_id & V4L2_CTRL_FLAG_NEXT_COMPOUND;
-> >
-> >       *mapping = NULL;
-> >
-> > @@ -875,12 +908,13 @@ static struct uvc_control *uvc_find_control(struct uvc_video_chain *chain,
-> >
-> >       /* Find the control. */
-> >       list_for_each_entry(entity, &chain->entities, chain) {
-> > -             __uvc_find_control(entity, v4l2_id, mapping, &ctrl, next);
-> > -             if (ctrl && !next)
-> > +             __uvc_find_control(entity, v4l2_id, mapping, &ctrl, next,
-> > +                                next_compound);
-> > +             if (ctrl && !next && !next_compound)
-> >                       return ctrl;
-> >       }
-> >
-> > -     if (ctrl == NULL && !next)
-> > +     if (!ctrl && !next && !next_compound)
-> >               uvc_dbg(chain->dev, CONTROL, "Control 0x%08x not found\n",
-> >                       v4l2_id);
-> >
-> > @@ -943,6 +977,39 @@ static int uvc_ctrl_populate_cache(struct uvc_video_chain *chain,
-> >       return 0;
-> >  }
-> >
-> > +static int __uvc_ctrl_load_cur(struct uvc_video_chain *chain,
-> > +                            struct uvc_control *ctrl)
+> > +static int uvc_set_array_rect(struct uvc_control_mapping *mapping,
+> > +                           const u8 *data_in, u8 *data)
 > > +{
->
-> I would declare
->
->         u8 data;
->
-> here, and
->
-> > +     int ret = 0;
+> > +     struct uvc_rect *uvc_rect;
 > > +
-> > +     if ((ctrl->info.flags & UVC_CTRL_FLAG_GET_CUR) == 0)
-> > +             return -EACCES;
-> > +
-> > +     if (ctrl->loaded)
-> > +             return 0;
-> > +
->
-> set
->
->         data = uvc_ctrl_data(ctrl, UVC_CTRL_DATA_CURRENT);
->
-> here, and
->
-> > +     if (ctrl->entity->get_cur) {
-> > +             ret = ctrl->entity->get_cur(chain->dev,
-> > +                     ctrl->entity,
-> > +                     ctrl->info.selector,
-> > +                     uvc_ctrl_data(ctrl, UVC_CTRL_DATA_CURRENT),
-> > +                     ctrl->info.size);
->
-> improve indentation here
->
->                 ret = ctrl->entity->get_cur(chain->dev, ctrl->entity,
->                                             ctrl->info.selector, data,
->                                             ctrl->info.size);
->
->
-> > +     } else {
->
-> and also use data here
->
-> > +             ret = uvc_query_ctrl(chain->dev, UVC_GET_CUR,
-> > +                                  ctrl->entity->id, chain->dev->intfnum,
-> > +                                  ctrl->info.selector,
-> > +                                  uvc_ctrl_data(ctrl, UVC_CTRL_DATA_CURRENT),
-> > +                                  ctrl->info.size);
->
->                 ret = uvc_query_ctrl(chain->dev, UVC_GET_CUR,
->                                      ctrl->entity->id, chain->dev->intfnum,
->                                      ctrl->info.selector, data,
->                                      ctrl->info.size);
->
-> > +     }
-> > +
-> > +     if (ret < 0)
-> > +             return ret;
-> > +
-> > +     ctrl->loaded = 1;
-> > +
-> > +     return ret;
-> > +}
-> > +
-> >  static s32 __uvc_ctrl_get_value(struct uvc_control_mapping *mapping,
-> >                               const u8 *data)
-> >  {
-> > @@ -963,35 +1030,19 @@ static s32 __uvc_ctrl_get_value(struct uvc_control_mapping *mapping,
-> >       return value;
-> >  }
-> >
-> > -static int __uvc_ctrl_get(struct uvc_video_chain *chain,
-> > -     struct uvc_control *ctrl, struct uvc_control_mapping *mapping,
-> > -     s32 *value)
-> > +static int __uvc_ctrl_get_std(struct uvc_video_chain *chain,
-> > +                           struct uvc_control *ctrl,
-> > +                           struct uvc_control_mapping *mapping,
-> > +                           s32 *value)
-> >  {
-> >       int ret;
-> >
-> > -     if ((ctrl->info.flags & UVC_CTRL_FLAG_GET_CUR) == 0)
-> > -             return -EACCES;
-> > -
-> > -     if (!ctrl->loaded) {
-> > -             if (ctrl->entity->get_cur) {
-> > -                     ret = ctrl->entity->get_cur(chain->dev,
-> > -                             ctrl->entity,
-> > -                             ctrl->info.selector,
-> > -                             uvc_ctrl_data(ctrl, UVC_CTRL_DATA_CURRENT),
-> > -                             ctrl->info.size);
-> > -             } else {
-> > -                     ret = uvc_query_ctrl(chain->dev, UVC_GET_CUR,
-> > -                             ctrl->entity->id,
-> > -                             chain->dev->intfnum,
-> > -                             ctrl->info.selector,
-> > -                             uvc_ctrl_data(ctrl, UVC_CTRL_DATA_CURRENT),
-> > -                             ctrl->info.size);
-> > -             }
-> > -             if (ret < 0)
-> > -                     return ret;
-> > +     if (mapping->v4l2_type >= V4L2_CTRL_COMPOUND_TYPES)
+> > +     if (WARN_ON(mapping->offset % 8 || mapping->size % 8))
 > > +             return -EINVAL;
-> >
-> > -             ctrl->loaded = 1;
-> > -     }
-> > +     ret = __uvc_ctrl_load_cur(chain, ctrl);
-> > +     if (ret < 0)
-> > +             return ret;
-> >
-> >       *value = __uvc_ctrl_get_value(mapping,
-> >                               uvc_ctrl_data(ctrl, UVC_CTRL_DATA_CURRENT));
-> > @@ -999,6 +1050,57 @@ static int __uvc_ctrl_get(struct uvc_video_chain *chain,
-> >       return 0;
-> >  }
-> >
-> > +static int __uvc_ctrl_get_compound_to_user(struct uvc_control_mapping *mapping,
->
-> I don't like this name much. One option would be to rename the
-> __uvc_ctrl_get_compound() function below to
-> __uvc_ctrl_get_compound_cur() and call this function
-> __uvc_ctrl_get_compound(). Better options are likely possible.
->
-> > +                                        struct uvc_control *ctrl,
-> > +                                        int id,
-> > +                                        struct v4l2_ext_control *xctrl)
-> > +{
-> > +     int ret, size;
->
-> size is never negative, make it an unsigned int.
->
-> > +     u8 *data;
-> > +
-> > +     if (WARN_ON(!mapping->size % 8))
-> > +             return -EINVAL;
->
-> This duplicates a check in the get_array function. Let's move all those
-> checks to the function that adds mappings.
->
-> > +
-> > +     size = mapping->size / 8;
-> > +     if (xctrl->size < size) {
-> > +             xctrl->size = size;
-> > +             return -ENOSPC;
-> > +     }
-> > +
-> > +     data = kmalloc(size, GFP_KERNEL);
-> > +     if (!data)
-> > +             return -ENOMEM;
-> > +
-> > +     ret = mapping->get_array(mapping, uvc_ctrl_data(ctrl, id), data);
-> > +     if (ret < 0)
-> > +             goto out;
-> > +
-> > +     ret = copy_to_user(xctrl->ptr, data, size) ? -EFAULT : 0;
-> > +
-> > +out:
-> > +     kfree(data);
-> > +     return ret;
-> > +}
-> > +
-> > +static int __uvc_ctrl_get_compound(struct uvc_video_chain *chain,
-> > +                                struct uvc_control *ctrl,
-> > +                                struct uvc_control_mapping *mapping,
-> > +                                struct v4l2_ext_control *xctrl)
-> > +{
-> > +     int ret;
-> > +
-> > +     if (mapping->v4l2_type < V4L2_CTRL_COMPOUND_TYPES)
+> > +     if (WARN_ON(mapping->size / 8 !=3D sizeof(struct uvc_rect)))
 > > +             return -EINVAL;
 > > +
-> > +     ret = __uvc_ctrl_load_cur(chain, ctrl);
-> > +     if (ret < 0)
-> > +             return ret;
-> > +
-> > +     return __uvc_ctrl_get_compound_to_user(mapping, ctrl,
-> > +                                            UVC_CTRL_DATA_CURRENT,
-> > +                                            xctrl);
+>
+> Same here.
+>
+> > +     uvc_rect =3D (struct uvc_rect *)(data + mapping->offset / 8);
+> > +     return v4l2_to_uvc_rect(uvc_rect, (struct v4l2_rect *)data_in);
 > > +}
 > > +
-> >  static int __uvc_query_v4l2_class(struct uvc_video_chain *chain, u32 req_id,
-> >                                 u32 found_id)
-> >  {
-> > @@ -1102,10 +1204,15 @@ static int __uvc_query_v4l2_ctrl(struct uvc_video_chain *chain,
-> >
-> >       if (mapping->master_id)
-> >               __uvc_find_control(ctrl->entity, mapping->master_id,
-> > -                                &master_map, &master_ctrl, 0);
-> > +                                &master_map, &master_ctrl, 0, 0);
-> >       if (master_ctrl && (master_ctrl->info.flags & UVC_CTRL_FLAG_GET_CUR)) {
-> > -             s32 val;
-> > -             int ret = __uvc_ctrl_get(chain, master_ctrl, master_map, &val);
-> > +             int ret;
-> > +             s32 val = 0;
+> >  static const struct uvc_control_mapping uvc_ctrl_mappings[] =3D {
+> >       {
+> >               .id             =3D V4L2_CID_BRIGHTNESS,
+> > @@ -728,6 +803,26 @@ static const struct uvc_control_mapping uvc_ctrl_m=
+appings[] =3D {
+> >               .v4l2_type      =3D V4L2_CTRL_TYPE_BOOLEAN,
+> >               .data_type      =3D UVC_CTRL_DATA_TYPE_BOOLEAN,
+> >       },
+> > +     {
+> > +             .id             =3D V4L2_CID_UVC_REGION_OF_INTEREST_RECT,
+> > +             .entity         =3D UVC_GUID_UVC_CAMERA,
+> > +             .selector       =3D UVC_CT_REGION_OF_INTEREST_CONTROL,
+> > +             .size           =3D 64,
 >
-> Move ret after val.
+> sizeof(struct uvc_rect)
 >
-> > +
-> > +             if (master_map->v4l2_type >= V4L2_CTRL_COMPOUND_TYPES)
-> > +                     return -EINVAL;
-> > +
-> > +             ret = __uvc_ctrl_get_std(chain, master_ctrl, master_map, &val);
-> >               if (ret < 0)
-> >                       return ret;
+> > +             .offset         =3D 0,
+> > +             .v4l2_type      =3D V4L2_CTRL_TYPE_RECT,
+> > +             .data_type      =3D UVC_CTRL_DATA_TYPE_RECT,
+> > +             .get_array      =3D uvc_get_array_rect,
+> > +             .set_array      =3D uvc_set_array_rect,
+> > +     },
+> > +     {
+> > +             .id             =3D V4L2_CID_UVC_REGION_OF_INTEREST_AUTO,
+> > +             .entity         =3D UVC_GUID_UVC_CAMERA,
+> > +             .selector       =3D UVC_CT_REGION_OF_INTEREST_CONTROL,
+> > +             .size           =3D 16,
+> > +             .offset         =3D 64,
+> > +             .v4l2_type      =3D V4L2_CTRL_TYPE_BITMASK,
+> > +             .data_type      =3D UVC_CTRL_DATA_TYPE_BITMASK,
+> > +     },
+> >  };
 > >
-> > @@ -1113,6 +1220,15 @@ static int __uvc_query_v4l2_ctrl(struct uvc_video_chain *chain,
-> >                               v4l2_ctrl->flags |= V4L2_CTRL_FLAG_INACTIVE;
-> >       }
-> >
-> > +     if (v4l2_ctrl->type >= V4L2_CTRL_COMPOUND_TYPES) {
-> > +             v4l2_ctrl->flags |= V4L2_CTRL_FLAG_HAS_PAYLOAD;
-> > +             v4l2_ctrl->default_value = 0;
-> > +             v4l2_ctrl->minimum = 0;
-> > +             v4l2_ctrl->maximum = 0;
-> > +             v4l2_ctrl->step = 0;
-> > +             return 0;
-> > +     }
-> > +
-> >       if (!ctrl->cached) {
-> >               int ret = uvc_ctrl_populate_cache(chain, ctrl);
-> >               if (ret < 0)
-> > @@ -1346,11 +1462,12 @@ static void uvc_ctrl_send_slave_event(struct uvc_video_chain *chain,
-> >       u32 changes = V4L2_EVENT_CTRL_CH_FLAGS;
-> >       s32 val = 0;
-> >
-> > -     __uvc_find_control(master->entity, slave_id, &mapping, &ctrl, 0);
-> > +     __uvc_find_control(master->entity, slave_id, &mapping, &ctrl, 0, 0);
-> >       if (ctrl == NULL)
-> >               return;
-> >
-> > -     if (__uvc_ctrl_get(chain, ctrl, mapping, &val) == 0)
-> > +     if (mapping->v4l2_type >= V4L2_CTRL_COMPOUND_TYPES ||
-> > +         __uvc_ctrl_get_std(chain, ctrl, mapping, &val) == 0)
-> >               changes |= V4L2_EVENT_CTRL_CH_VALUE;
-> >
-> >       uvc_ctrl_send_event(chain, handle, ctrl, mapping, val, changes);
-> > @@ -1517,7 +1634,8 @@ static int uvc_ctrl_add_event(struct v4l2_subscribed_event *sev, unsigned elems)
-> >               u32 changes = V4L2_EVENT_CTRL_CH_FLAGS;
-> >               s32 val = 0;
-> >
-> > -             if (__uvc_ctrl_get(handle->chain, ctrl, mapping, &val) == 0)
-> > +             if (mapping->v4l2_type >= V4L2_CTRL_COMPOUND_TYPES ||
-> > +                 __uvc_ctrl_get_std(handle->chain, ctrl, mapping, &val) == 0)
-> >                       changes |= V4L2_EVENT_CTRL_CH_VALUE;
-> >
-> >               uvc_ctrl_fill_event(handle->chain, &ev, ctrl, mapping, val,
-> > @@ -1647,7 +1765,7 @@ static int uvc_ctrl_find_ctrl_idx(struct uvc_entity *entity,
-> >
-> >       for (i = 0; i < ctrls->count; i++) {
-> >               __uvc_find_control(entity, ctrls->controls[i].id, &mapping,
-> > -                                &ctrl_found, 0);
-> > +                                &ctrl_found, 0, 0);
-> >               if (uvc_control == ctrl_found)
-> >                       return i;
-> >       }
-> > @@ -1694,11 +1812,14 @@ int uvc_ctrl_get(struct uvc_video_chain *chain,
-> >       if (ctrl == NULL)
+> >  /* -------------------------------------------------------------------=
+-----
+> > @@ -1061,7 +1156,16 @@ static int __uvc_ctrl_get_compound_to_user(struc=
+t uvc_control_mapping *mapping,
+> >       if (WARN_ON(!mapping->size % 8))
 > >               return -EINVAL;
 > >
-> > -     return __uvc_ctrl_get(chain, ctrl, mapping, &xctrl->value);
-> > +     if (mapping->v4l2_type < V4L2_CTRL_COMPOUND_TYPES)
-> > +             return __uvc_ctrl_get_std(chain, ctrl, mapping, &xctrl->value);
-> > +     else
-> > +             return __uvc_ctrl_get_compound(chain, ctrl, mapping, xctrl);
-> >  }
-> >
-> > -int uvc_ctrl_get_fixed(struct uvc_video_chain *chain,
-> > -                    struct v4l2_ext_control *xctrl)
-> > +int __uvc_ctrl_get_fixed_std(struct uvc_video_chain *chain,
-> > +                          struct v4l2_ext_control *xctrl)
-> >  {
-> >       struct v4l2_queryctrl qc = { .id = xctrl->id };
-> >       int ret = uvc_query_v4l2_ctrl(chain, &qc);
-> > @@ -1710,6 +1831,56 @@ int uvc_ctrl_get_fixed(struct uvc_video_chain *chain,
-> >       return 0;
-> >  }
-> >
-> > +int uvc_ctrl_get_fixed(struct uvc_video_chain *chain,
-> > +                    struct v4l2_ext_control *xctrl)
-> > +{
-> > +     struct uvc_control *ctrl;
-> > +     struct uvc_control_mapping *mapping;
-> > +     int ret;
-> > +
-> > +     if (__uvc_query_v4l2_class(chain, xctrl->id, 0) >= 0)
-> > +             return -EACCES;
-> > +
+> > -     size =3D mapping->size / 8;
+> > +     switch (mapping->v4l2_type) {
+> > +     case V4L2_CTRL_TYPE_RECT:
+> > +             size =3D sizeof(struct v4l2_rect);
 >
-> This check comes a bit out of the blue, I think it belongs to another
-> patch, with a commit message that clearly explain the rationale.
+> Oohhh that sounds fragile. I'm worried we may be using mapping->size as
+> the V4L2 control size somewhere else.
 >
-> > +     ctrl = uvc_find_control(chain, xctrl->id, &mapping);
-> > +     if (!ctrl)
-> > +             return -EINVAL;
->
-> And here, you're duplicating the uvc_find_control() call from
-> uvc_query_v4l2_ctrl(), called in __uvc_ctrl_get_fixed_std().
-> Furthermore, you're not holding the ctrl_mutex lock here, which I think
-> is wrong.
+> It would be safer to split the size field of uvc_control_mapping into a
+> v4l2_size and a uvc_size (or possibly data_size to match the v4l2_type
+> and data_type names) in a patch before this. This will force reviewing
+> all the users of the size field to check which size they need.
 >
 
-Thanks for catching this!
-I'm thinking of fixing it by calling __uvc_query_v4l2_ctrl()
-in __uvc_ctrl_get_fixed_std(). And acquire the ctrl_mutex lock here
-in uvc_ctrl_get_fixed(). Does that sound right to you?
-
-> I'd like to see a patch before this one that refactors what needs to be
-> refactored first, and then the introduction of compound types support
-> without any extra change like this. Splitting code out to
-> __uvc_ctrl_load_cur() could also be moved to a preparatory patch to
-> simplify this one, it's quite hard to review.
->
-
-I see. For __uvc_ctrl_load_cur(), I guess I can cherry-pick
-"[PATCH v4] media: uvcvideo: Use entity get_cur in uvc_ctrl_set"
-before this.
-
-I am trying to split the refactoring in 2/7. Should I introduce the
-"get/set_std()" functions before this as well?
-
-> > +
-> > +     if (mapping->v4l2_type < V4L2_CTRL_COMPOUND_TYPES)
-> > +             return __uvc_ctrl_get_fixed_std(chain, xctrl);
-> > +
-> > +     if (!ctrl->cached) {
-> > +             ret = uvc_ctrl_populate_cache(chain, ctrl);
-> > +             if (ret < 0)
-> > +                     return ret;
-> > +     }
-> > +
-> > +     return __uvc_ctrl_get_compound_to_user(mapping, ctrl, UVC_CTRL_DATA_DEF,
-> > +                                            xctrl);
-> > +}
-> > +
-> > +int __uvc_ctrl_set_compound(struct uvc_control_mapping *mapping,
-> > +                         struct v4l2_ext_control *xctrl,
-> > +                         struct uvc_control *ctrl)
-> > +{
-> > +     int ret;
-> > +     u8 *data;
->
-> Please move ret after data.
->
-> > +
-> > +     data = kmalloc(xctrl->size, GFP_KERNEL);
->
-> A limit on the size is needed to avoid denial of service attacks.
->
-> > +     if (!data)
-> > +             return -ENOMEM;
-> > +
-> > +     ret = copy_from_user(data, xctrl->ptr, xctrl->size);
-> > +     if (ret < 0)
-> > +             goto out;
-> > +
-> > +     ret = mapping->set_array(mapping, data,
-> > +                     uvc_ctrl_data(ctrl, UVC_CTRL_DATA_CURRENT));
->
->         ret = mapping->set_array(mapping, data,
->                                  uvc_ctrl_data(ctrl, UVC_CTRL_DATA_CURRENT));
->
-> The V4L2 control model is that the kernel can update the value of a
-> control if the requested value is out of range or otherwise not
-> acceptable. You should here copy the data back to the user.
-
-Ah okay. Will call "__uvc_ctrl_get_compound_to_user()" here.
-
->
-> > +
-> > +out:
-> > +     kfree(data);
-> > +     return ret;
-> > +}
-> > +
-> >  int uvc_ctrl_set(struct uvc_fh *handle,
-> >       struct v4l2_ext_control *xctrl)
-> >  {
-> > @@ -1820,8 +1991,14 @@ int uvc_ctrl_set(struct uvc_fh *handle,
-> >                      ctrl->info.size);
-> >       }
-> >
-> > -     mapping->set(mapping, value,
-> > -             uvc_ctrl_data(ctrl, UVC_CTRL_DATA_CURRENT));
-> > +     if (mapping->v4l2_type < V4L2_CTRL_COMPOUND_TYPES) {
-> > +             mapping->set(mapping, value,
-> > +                          uvc_ctrl_data(ctrl, UVC_CTRL_DATA_CURRENT));
-> > +     } else {
-> > +             ret = __uvc_ctrl_set_compound(mapping, xctrl, ctrl);
-> > +             if (ret < 0)
-> > +                     return ret;
-> > +     }
-> >
-> >       if (ctrl->info.flags & UVC_CTRL_FLAG_ASYNCHRONOUS)
-> >               ctrl->handle = handle;
-> > @@ -2220,10 +2397,14 @@ static int __uvc_ctrl_add_mapping(struct uvc_video_chain *chain,
-> >               return -ENOMEM;
-> >       }
-> >
-> > -     if (map->get == NULL)
-> > +     if (!map->get && map->v4l2_type < V4L2_CTRL_COMPOUND_TYPES)
-> >               map->get = uvc_get_le_value;
-> > -     if (map->set == NULL)
-> > +     if (!map->set && map->v4l2_type < V4L2_CTRL_COMPOUND_TYPES)
-> >               map->set = uvc_set_le_value;
-> > +     if (!map->get_array && map->v4l2_type >= V4L2_CTRL_COMPOUND_TYPES)
-> > +             map->get_array = uvc_get_array;
-> > +     if (!map->set_array && map->v4l2_type >= V4L2_CTRL_COMPOUND_TYPES)
-> > +             map->set_array = uvc_set_array;
-> >
-> >       for (i = 0; i < ARRAY_SIZE(uvc_control_classes); i++) {
-> >               if (V4L2_CTRL_ID2WHICH(uvc_control_classes[i]) ==
-> > @@ -2233,6 +2414,14 @@ static int __uvc_ctrl_add_mapping(struct uvc_video_chain *chain,
-> >               }
-> >       }
-> >
-> > +     if (map->v4l2_type < V4L2_CTRL_COMPOUND_TYPES &&
-> > +         WARN_ON(!map->get || !map->set))
-> > +             return -EINVAL;
-> > +
-> > +     if (map->v4l2_type >= V4L2_CTRL_COMPOUND_TYPES &&
-> > +         WARN_ON(!map->get_array || !map->set_array))
-> > +             return -EINVAL;
-> > +
->
-> Can this happen, given that you set them above if they're null ?
->
-
-It cannot happen. Will remove this in v8.
-
-> >       list_add_tail(&map->list, &ctrl->info.mappings);
-> >       uvc_dbg(chain->dev, CONTROL, "Adding mapping '%s' to control %pUl/%u\n",
-> >               uvc_map_get_name(map), ctrl->info.entity,
-> > diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
-> > index ba028ba7c34e..2f9b75faae83 100644
-> > --- a/drivers/media/usb/uvc/uvcvideo.h
-> > +++ b/drivers/media/usb/uvc/uvcvideo.h
-> > @@ -262,8 +262,12 @@ struct uvc_control_mapping {
-> >
-> >       s32 (*get)(struct uvc_control_mapping *mapping, u8 query,
-> >                  const u8 *data);
-> > +     int (*get_array)(struct uvc_control_mapping *mapping, const u8 *data,
-> > +                      u8 *data_out);
-> >       void (*set)(struct uvc_control_mapping *mapping, s32 value,
-> >                   u8 *data);
-> > +     int (*set_array)(struct uvc_control_mapping *mapping, const u8 *data_in,
-> > +                      u8 *data);
->
-> Wouldn't those operations be better names get_compound and set_compound ?
->
-
-Agreed. Will rename to get_compound and set_compound.
+Thanks for the suggestion! That makes a lot of sense. I will try to impleme=
+nt
+this in the next version, and fix other places you pointed out.
 
 Best,
 Yunke
 
+> > +             break;
+> > +
+> > +     default:
+> > +             size =3D mapping->size / 8;
+> > +             break;
+> > +     }
+> > +
+> >       if (xctrl->size < size) {
+> >               xctrl->size =3D size;
+> >               return -ENOSPC;
+> > @@ -2578,6 +2682,40 @@ static void uvc_ctrl_prune_entity(struct uvc_dev=
+ice *dev,
+> >       }
+> >  }
+> >
+> > +static int uvc_ctrl_init_roi(struct uvc_device *dev, struct uvc_contro=
+l *ctrl)
+> > +{
+> > +     int ret;
+> > +
+> > +     ret =3D uvc_query_ctrl(dev, UVC_GET_DEF, ctrl->entity->id, dev->i=
+ntfnum,
+> > +                          UVC_CT_REGION_OF_INTEREST_CONTROL,
+> > +                          uvc_ctrl_data(ctrl, UVC_CTRL_DATA_DEF),
+> > +                          ctrl->info.size);
+> > +     if (ret)
+> > +             goto out;
+> > +
+> > +     /*
+> > +      * Most firmwares have wrong GET_CURRENT configuration. E.g. it's
+>
+> s/GET_CURRENT/GET_CUR/
+>
+> > +      * below GET_MIN, or have rectangle coordinates mixed up. This
+> > +      * causes problems sometimes, because we are unable to set
+> > +      * auto-controls value without first setting ROI rectangle to
+> > +      * valid configuration.
+> > +      *
+> > +      * We expect that default configuration is always correct and
+> > +      * is within the GET_MIN / GET_MAX boundaries.
+>
+> A dangerous expectation to make given the quality of most UVC camera
+> firmwares...
+>
+> > +      *
+> > +      * Set current ROI configuration to GET_DEF, so that we will
+> > +      * always have properly configured ROI.
+> > +      */
+> > +     ret =3D uvc_query_ctrl(dev, UVC_SET_CUR, 1, dev->intfnum,
+> > +                          UVC_CT_REGION_OF_INTEREST_CONTROL,
+> > +                          uvc_ctrl_data(ctrl, UVC_CTRL_DATA_DEF),
+> > +                          ctrl->info.size);
+> > +out:
+> > +     if (ret)
+> > +             dev_err(&dev->udev->dev, "Failed to fixup ROI (%d).\n", r=
+et);
+>
+> s/(%d)./(%d)/
+>
+> > +     return ret;
+> > +}
+> > +
+> >  /*
+> >   * Add control information and hardcoded stock control mappings to the=
+ given
+> >   * device.
+> > @@ -2590,6 +2728,7 @@ static void uvc_ctrl_init_ctrl(struct uvc_video_c=
+hain *chain,
+> >       const struct uvc_control_mapping *mapping =3D uvc_ctrl_mappings;
+> >       const struct uvc_control_mapping *mend =3D
+> >               mapping + ARRAY_SIZE(uvc_ctrl_mappings);
+> > +     const u8 camera_entity[16] =3D UVC_GUID_UVC_CAMERA;
+> >
+> >       /* XU controls initialization requires querying the device for co=
+ntrol
+> >        * information. As some buggy UVC devices will crash when queried
+> > @@ -2610,6 +2749,11 @@ static void uvc_ctrl_init_ctrl(struct uvc_video_=
+chain *chain,
+> >                        * GET_INFO on standard controls.
+> >                        */
+> >                       uvc_ctrl_get_flags(chain->dev, ctrl, &ctrl->info)=
+;
+> > +
+> > +                     if (ctrl->info.selector =3D=3D
+> > +                             UVC_CT_REGION_OF_INTEREST_CONTROL &&
+> > +                         uvc_entity_match_guid(ctrl->entity, camera_en=
+tity))
+> > +                             uvc_ctrl_init_roi(chain->dev, ctrl);
+>
+> Should we instead add an init operation to the uvc_control_info
+> structure ?
+>
+> >                       break;
+> >                }
+> >       }
+> > diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/u=
+vc_v4l2.c
+> > index 0366d05895a9..aad61af36271 100644
+> > --- a/drivers/media/usb/uvc/uvc_v4l2.c
+> > +++ b/drivers/media/usb/uvc/uvc_v4l2.c
+> > @@ -998,7 +998,10 @@ static int uvc_ioctl_query_ext_ctrl(struct file *f=
+ile, void *fh,
+> >       qec->step =3D qc.step;
+> >       qec->default_value =3D qc.default_value;
+> >       qec->flags =3D qc.flags;
+> > -     qec->elem_size =3D 4;
+> > +     if (qc.type =3D=3D V4L2_CTRL_TYPE_RECT)
+> > +             qec->elem_size =3D sizeof(struct v4l2_rect);
+> > +     else
+> > +             qec->elem_size =3D 4;
+> >       qec->elems =3D 1;
+> >       qec->nr_of_dims =3D 0;
+> >       memset(qec->dims, 0, sizeof(qec->dims));
+> > diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/u=
+vcvideo.h
+> > index 2f9b75faae83..9ff95bbad251 100644
+> > --- a/drivers/media/usb/uvc/uvcvideo.h
+> > +++ b/drivers/media/usb/uvc/uvcvideo.h
+> > @@ -431,6 +431,13 @@ struct uvc_streaming_header {
+> >       u8 bTriggerUsage;
 > >  };
 > >
-> >  struct uvc_control {
+> > +struct uvc_rect {
+> > +     u16 top;
+> > +     u16 left;
+> > +     u16 bottom;
+> > +     u16 right;
+> > +} __packed;
+> > +
+> >  enum uvc_buffer_state {
+> >       UVC_BUF_STATE_IDLE      =3D 0,
+> >       UVC_BUF_STATE_QUEUED    =3D 1,
+> > diff --git a/include/uapi/linux/usb/video.h b/include/uapi/linux/usb/vi=
+deo.h
+> > index bfdae12cdacf..9076a444758a 100644
+> > --- a/include/uapi/linux/usb/video.h
+> > +++ b/include/uapi/linux/usb/video.h
+> > @@ -104,6 +104,7 @@
+> >  #define UVC_CT_ROLL_ABSOLUTE_CONTROL                 0x0f
+> >  #define UVC_CT_ROLL_RELATIVE_CONTROL                 0x10
+> >  #define UVC_CT_PRIVACY_CONTROL                               0x11
+> > +#define UVC_CT_REGION_OF_INTEREST_CONTROL            0x14
+> >
+> >  /* A.9.5. Processing Unit Control Selectors */
+> >  #define UVC_PU_CONTROL_UNDEFINED                     0x00
+> > diff --git a/include/uapi/linux/uvcvideo.h b/include/uapi/linux/uvcvide=
+o.h
+> > index 8288137387c0..e2feee15cb1b 100644
+> > --- a/include/uapi/linux/uvcvideo.h
+> > +++ b/include/uapi/linux/uvcvideo.h
+> > @@ -16,6 +16,7 @@
+> >  #define UVC_CTRL_DATA_TYPE_BOOLEAN   3
+> >  #define UVC_CTRL_DATA_TYPE_ENUM              4
+> >  #define UVC_CTRL_DATA_TYPE_BITMASK   5
+> > +#define UVC_CTRL_DATA_TYPE_RECT              6
+> >
+> >  /* Control flags */
+> >  #define UVC_CTRL_FLAG_SET_CUR                (1 << 0)
+> > @@ -36,6 +37,18 @@
+> >        UVC_CTRL_FLAG_GET_MAX | UVC_CTRL_FLAG_GET_RES | \
+> >        UVC_CTRL_FLAG_GET_DEF)
+> >
+> > +/* V4L2 private controls */
+> > +#define V4L2_CID_UVC_REGION_OF_INTEREST_RECT (V4L2_CID_CAMERA_UVC_BASE=
+ + 1)
+> > +#define V4L2_CID_UVC_REGION_OF_INTEREST_AUTO (V4L2_CID_CAMERA_UVC_BASE=
+ + 2)
+> > +#define V4L2_UVC_REGION_OF_INTEREST_AUTO_EXPOSURE            (1 << 0)
+> > +#define V4L2_UVC_REGION_OF_INTEREST_AUTO_IRIS                        (=
+1 << 1)
+> > +#define V4L2_UVC_REGION_OF_INTEREST_AUTO_WHITE_BALANCE               (=
+1 << 2)
+> > +#define V4L2_UVC_REGION_OF_INTEREST_AUTO_FOCUS                       (=
+1 << 3)
+> > +#define V4L2_UVC_REGION_OF_INTEREST_AUTO_FACE_DETECT         (1 << 4)
+> > +#define V4L2_UVC_REGION_OF_INTEREST_AUTO_DETECT_AND_TRACK    (1 << 5)
+> > +#define V4L2_UVC_REGION_OF_INTEREST_AUTO_IMAGE_STABILIZATION (1 << 6)
+> > +#define V4L2_UVC_REGION_OF_INTEREST_AUTO_HIGHER_QUALITY              (=
+1 << 7)
+> > +
+> >  struct uvc_menu_info {
+> >       __u32 value;
+> >       __u8 name[32];
+> > diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4=
+l2-controls.h
+> > index dfff69ed88f7..d85be46e46f2 100644
+> > --- a/include/uapi/linux/v4l2-controls.h
+> > +++ b/include/uapi/linux/v4l2-controls.h
+> > @@ -1013,6 +1013,14 @@ enum v4l2_auto_focus_range {
+> >
+> >  #define V4L2_CID_CAMERA_SENSOR_ROTATION              (V4L2_CID_CAMERA_=
+CLASS_BASE+35)
+> >
+> > +/* CAMERA-class private control IDs */
+> > +
+>
+> Why doesn't this go in the driver-specific controls range ?
+>
+> > +/*
+> > + * The base for the uvc driver controls. See linux/uvcvideo.h for the =
+list
+> > + * of controls. We reserve 16 controls for this driver.
+>
+> I'd reserve more just in case, UVC 1.5 has quite a few controls that may
+> not be exposed through standard V4L2 controls, especially for encoding
+> units.
+>
+> > + */
+> > +#define V4L2_CID_CAMERA_UVC_BASE             (V4L2_CID_CAMERA_CLASS_BA=
+SE + 0x1000)
+> > +
+> >  /* FM Modulator class control IDs */
+> >
+> >  #define V4L2_CID_FM_TX_CLASS_BASE            (V4L2_CTRL_CLASS_FM_TX | =
+0x900)
 >
 > --
 > Regards,
