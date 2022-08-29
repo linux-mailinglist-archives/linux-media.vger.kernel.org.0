@@ -2,29 +2,29 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BD70B5A40AB
-	for <lists+linux-media@lfdr.de>; Mon, 29 Aug 2022 03:33:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3DB605A40AC
+	for <lists+linux-media@lfdr.de>; Mon, 29 Aug 2022 03:33:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229656AbiH2Bdt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 28 Aug 2022 21:33:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42318 "EHLO
+        id S229657AbiH2Bdu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 28 Aug 2022 21:33:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42334 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229583AbiH2Bdr (ORCPT
+        with ESMTP id S229652AbiH2Bds (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 28 Aug 2022 21:33:47 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 051552F01E
-        for <linux-media@vger.kernel.org>; Sun, 28 Aug 2022 18:33:47 -0700 (PDT)
+        Sun, 28 Aug 2022 21:33:48 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 206BB2F02B
+        for <linux-media@vger.kernel.org>; Sun, 28 Aug 2022 18:33:48 -0700 (PDT)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8647EE24;
-        Mon, 29 Aug 2022 03:33:44 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id EB7D6481;
+        Mon, 29 Aug 2022 03:33:45 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1661736824;
-        bh=Ab8eh9VGwH4DIVcHG7H6E1pdd735RfmO6VPT9g69N24=;
+        s=mail; t=1661736826;
+        bh=PReibdQQPAyTUGDZ083Pj6xGVeT1LdFwNNt0A908zM4=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=rxK1BVkEaGl7cjVDy8qEQL9/EJdkBSexf0nMf7NcfVafNNjQnOpqKcP7P8aKCYNIq
-         dhOupuvz47mi6JfqD9H3bnqJb2J9UgloGTN/Fke8S/giUQtB/tKxJykTQTeLKvKDMf
-         FmGr5WIdeT3K+gcxuRlbw/IJWH5GE8nupBhbjtdQ=
+        b=BzscXgm2GfnkXdQ0foIQfTTjCKc65KC0Z8HwJPa5sFEmp8fy4ukSTee47vXLvfLpn
+         gTZZn1Nr62E/Iz6STKCNLgzyudolD3s9LL9qZKuf7ffPWFNDDjxvCogKpsoqwBu2vW
+         98PT7P4zrZQIqlAb2Op4NIR13O8n+PKBr6jFfECE=
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     linux-media@vger.kernel.org
 Cc:     ezequiel@collabora.com, gjasny@googlemail.com, hverkuil@xs4all.nl,
@@ -32,9 +32,9 @@ Cc:     ezequiel@collabora.com, gjasny@googlemail.com, hverkuil@xs4all.nl,
         nicolas@ndufresne.ca, p.zabel@pengutronix.de, rosenp@gmail.com,
         sakari.ailus@iki.fi, sean@mess.org, user.vdr@gmail.com,
         xavier.claessens@collabora.com
-Subject: [PATCH v6 06/13] [FIXUP] meson: Specify check kwarg to run_command()
-Date:   Mon, 29 Aug 2022 04:33:20 +0300
-Message-Id: <20220829013327.5791-7-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH v6 07/13] [FIXUP] meson: Replace deprecated get_cross_property() with get_external_property()
+Date:   Mon, 29 Aug 2022 04:33:21 +0300
+Message-Id: <20220829013327.5791-8-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220829013327.5791-1-laurent.pinchart@ideasonboard.com>
 References: <20220829013327.5791-1-laurent.pinchart@ideasonboard.com>
@@ -49,29 +49,27 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The default value of the check positional argument to run_command() will
-change from false to true in a future meson version. Set it to false
-explicitly.
+The get_cross_property() function is deprecated in favour of
+get_external_property(), replace usage of the former with the latter.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- meson.build | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ meson.build | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/meson.build b/meson.build
-index aec69a9bc3f6..50fad53c6f26 100644
+index 50fad53c6f26..fce8a09b390b 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -240,7 +240,8 @@ endif
- # override will restrict udevd to bpf syscall only and will stop the system
- # from booting. This is also true on current debian versions.
- have_udevdsyscallfilter = run_command(prog_grep, '-s', 'SystemCallFilter',
--                                      systemd_systemdir / 'systemd-udevd.service').returncode() == 0
-+                                      systemd_systemdir / 'systemd-udevd.service',
-+                                      check : false).returncode() == 0
+@@ -13,7 +13,7 @@ cpp = meson.get_compiler('cpp')
+ have_m32 = cc.has_link_argument('-m32')
+ have_visibility = cc.has_argument('-fvisibility=hidden')
  
- dep_libudev = dependency('libudev', required : get_option('libdvbv5').enabled())
- if dep_libudev.found()
+-sys_root = meson.get_cross_property('sys_root', '/')
++sys_root = meson.get_external_property('sys_root', '/')
+ 
+ fs = import('fs')
+ i18n = import('i18n')
 -- 
 Regards,
 
