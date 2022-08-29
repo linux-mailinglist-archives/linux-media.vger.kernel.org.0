@@ -2,30 +2,30 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DC8B05A525C
-	for <lists+linux-media@lfdr.de>; Mon, 29 Aug 2022 18:57:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ACAFF5A5276
+	for <lists+linux-media@lfdr.de>; Mon, 29 Aug 2022 19:00:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231142AbiH2Q5h (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 29 Aug 2022 12:57:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54350 "EHLO
+        id S231202AbiH2RAq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 29 Aug 2022 13:00:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33526 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231150AbiH2Q5a (ORCPT
+        with ESMTP id S231243AbiH2RAm (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 29 Aug 2022 12:57:30 -0400
+        Mon, 29 Aug 2022 13:00:42 -0400
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B0469A992
-        for <linux-media@vger.kernel.org>; Mon, 29 Aug 2022 09:57:29 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3C1FE8C456
+        for <linux-media@vger.kernel.org>; Mon, 29 Aug 2022 10:00:32 -0700 (PDT)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0A912505;
-        Mon, 29 Aug 2022 18:57:26 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3751A505;
+        Mon, 29 Aug 2022 19:00:30 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1661792247;
-        bh=85P26/eQ7K2BKktQekiq9GIPNLy9PEhW96AjhyZsYcU=;
+        s=mail; t=1661792430;
+        bh=phwsh3mqo6l3bs044EIdWOOiUMIxlP0R/PoZnjskYEM=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=UED1bNceuI+D+NtJrHHAwOTTNADO2AwdE00eeldv3eCFnxSi7LJJShxKgEKtnJrb5
-         F2D16pPrSLeevyx92sPZKD2ULPdkKq2uAKjsPwv/kBrft5RgmIzrbzOUTj+KVQfNZm
-         ZiYyQBdYC4SwwC2THVkryBsBcpRYhdcY+TC+KJ1c=
-Date:   Mon, 29 Aug 2022 19:57:18 +0300
+        b=Vl18ofcPXczeVuuQcAHrloXU09q7+5qFuoTmogTZe8hc0rKYFvnDWDbMjJ6kZUUEQ
+         o4wz3Z2TaS65qC/gDLS6Q/D37wCkLhqZDiKisNh0hs5XZfTOViELktF+8T36/8YGe4
+         8Ld8YG5FB0ixszbbdlkmY3hQ7JLxmrcWnzUETliA=
+Date:   Mon, 29 Aug 2022 20:00:21 +0300
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Cc:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
@@ -36,15 +36,15 @@ Cc:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
         Pratyush Yadav <p.yadav@ti.com>,
         Kishon Vijay Abraham <kishon@ti.com>,
         satish.nagireddy@getcruise.com, Tomasz Figa <tfiga@chromium.org>
-Subject: Re: [PATCH v13 12/34] media: mc: entity: add alloc variant of
- pipeline_start
-Message-ID: <Ywzv7oCiubQwqSdK@pendragon.ideasonboard.com>
+Subject: Re: [PATCH v13 13/34] media: drivers: use
+ video_device_pipeline_alloc_start()
+Message-ID: <YwzwpQXgDb0ulwbE@pendragon.ideasonboard.com>
 References: <20220810121122.3149086-1-tomi.valkeinen@ideasonboard.com>
- <20220810121122.3149086-13-tomi.valkeinen@ideasonboard.com>
+ <20220810121122.3149086-14-tomi.valkeinen@ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20220810121122.3149086-13-tomi.valkeinen@ideasonboard.com>
+In-Reply-To: <20220810121122.3149086-14-tomi.valkeinen@ideasonboard.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
@@ -58,187 +58,110 @@ Hi Tomi,
 
 Thank you for the patch.
 
-On Wed, Aug 10, 2022 at 03:11:00PM +0300, Tomi Valkeinen wrote:
-> Add new variant of media_pipeline_start(), media_pipeline_alloc_start().
-> 
-> media_pipeline_alloc_start() can be used by drivers that do not need to
-> extend the media_pipeline. The function will either use the pipeline
-> already associated with the entity, if such exists, or allocate a new
-> pipeline.
-> 
-> When media_pipeline_stop() is called and the pipeline's use count drops
-> to zero, the pipeline is automatically freed.
+On Wed, Aug 10, 2022 at 03:11:01PM +0300, Tomi Valkeinen wrote:
+> Use video_device_pipeline_alloc_start() instead of manually
+> allocating/managing the media pipeline storage.
 > 
 > Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 > ---
->  drivers/media/mc/mc-entity.c       | 41 ++++++++++++++++++++++++++++++
->  drivers/media/v4l2-core/v4l2-dev.c | 11 ++++++++
->  include/media/media-entity.h       | 14 ++++++++++
->  include/media/v4l2-dev.h           | 14 ++++++++++
->  4 files changed, 80 insertions(+)
+>  drivers/media/platform/renesas/rcar-vin/rcar-dma.c | 14 +-------------
+>  drivers/media/platform/sunxi/sun4i-csi/sun4i_dma.c |  2 +-
+>  .../media/platform/sunxi/sun6i-csi/sun6i_video.c   |  2 +-
+>  drivers/media/platform/ti/cal/cal-video.c          |  2 +-
+>  drivers/media/platform/ti/cal/cal.h                |  1 -
+>  5 files changed, 4 insertions(+), 17 deletions(-)
 > 
-> diff --git a/drivers/media/mc/mc-entity.c b/drivers/media/mc/mc-entity.c
-> index b1abaa333d13..d277eed11caf 100644
-> --- a/drivers/media/mc/mc-entity.c
-> +++ b/drivers/media/mc/mc-entity.c
-> @@ -529,6 +529,8 @@ void __media_pipeline_stop(struct media_entity *entity)
+> diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-dma.c b/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
+> index 548067f19576..884875600231 100644
+> --- a/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
+> +++ b/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
+> @@ -1244,8 +1244,6 @@ static int rvin_mc_validate_format(struct rvin_dev *vin, struct v4l2_subdev *sd,
 >  
->  	media_graph_walk_cleanup(graph);
->  
-> +	if (pipe->allocated)
-> +		kfree(pipe);
->  }
->  EXPORT_SYMBOL_GPL(__media_pipeline_stop);
->  
-> @@ -542,6 +544,45 @@ void media_pipeline_stop(struct media_entity *entity)
->  }
->  EXPORT_SYMBOL_GPL(media_pipeline_stop);
->  
-> +__must_check int media_pipeline_alloc_start(struct media_entity *entity)
-> +{
-> +	struct media_device *mdev = entity->graph_obj.mdev;
-> +	struct media_pipeline *pipe;
-> +	int ret;
-> +	bool new_pipe = false;
-> +
-> +	mutex_lock(&mdev->graph_mutex);
-> +
-> +	/*
-> +	 * Is the entity already part of a pipeline? If not, we need to allocate
-> +	 * a pipe.
-> +	 */
-> +	pipe = media_entity_pipeline(entity);
-> +	if (!pipe) {
-> +		pipe = kzalloc(sizeof(*pipe), GFP_KERNEL);
-> +
-
-You can drop the blank line.
-
-> +		if (!pipe) {
-> +			ret = -ENOMEM;
-> +			goto out;
-> +		}
-> +
-> +		new_pipe = true;
-> +		pipe->allocated = true;
-> +	}
-> +
-> +	ret = __media_pipeline_start(entity, pipe);
-> +	if (ret) {
-> +		if (new_pipe)
-> +			kfree(pipe);
-
-If new_pipe was a media_pipeline pointer, initialized to NULL and set to
-pipe when you allocate the pipe, you could write this
-
-	if (ret)
-		kfree(new_pipe);
-
-I don't mind much either way.
-
-I have no objection against this patch, but I don't think it aligns well
-with what I was imagining as further evolutions of the API. I would like
-the pipe to be turned into an object similar to a DRM atomic commit.
-There will thus never be a need for drivers to allocate the pipeline, it
-will be done by the framework. We can rework (and likely drop) this
-function when that happens.
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-> +	}
-> +
-> +out:
-> +	mutex_unlock(&mdev->graph_mutex);
-> +
-> +	return ret;
-> +}
-> +EXPORT_SYMBOL_GPL(media_pipeline_alloc_start);
-> +
->  /* -----------------------------------------------------------------------------
->   * Links management
->   */
-> diff --git a/drivers/media/v4l2-core/v4l2-dev.c b/drivers/media/v4l2-core/v4l2-dev.c
-> index 7f933ff89fd4..945bb867a4c1 100644
-> --- a/drivers/media/v4l2-core/v4l2-dev.c
-> +++ b/drivers/media/v4l2-core/v4l2-dev.c
-> @@ -1143,6 +1143,17 @@ void __video_device_pipeline_stop(struct video_device *vdev)
->  }
->  EXPORT_SYMBOL_GPL(__video_device_pipeline_stop);
->  
-> +__must_check int video_device_pipeline_alloc_start(struct video_device *vdev)
-> +{
-> +	struct media_entity *entity = &vdev->entity;
-> +
-> +	if (entity->num_pads != 1)
-> +		return -ENODEV;
-> +
-> +	return media_pipeline_alloc_start(entity);
-> +}
-> +EXPORT_SYMBOL_GPL(video_device_pipeline_alloc_start);
-> +
->  struct media_pipeline *video_device_pipeline(struct video_device *vdev)
+>  static int rvin_set_stream(struct rvin_dev *vin, int on)
 >  {
->  	struct media_entity *entity = &vdev->entity;
-> diff --git a/include/media/media-entity.h b/include/media/media-entity.h
-> index 3438954892b7..3d0d5e3c3333 100644
-> --- a/include/media/media-entity.h
-> +++ b/include/media/media-entity.h
-> @@ -104,6 +104,7 @@ struct media_graph {
->   * @graph:		Media graph walk during pipeline start / stop
->   */
->  struct media_pipeline {
-> +	bool allocated;
-
-This should be documented.
-
->  	int start_count;
->  	struct media_graph graph;
->  };
-> @@ -1028,6 +1029,19 @@ void media_pipeline_stop(struct media_entity *entity);
->   */
->  void __media_pipeline_stop(struct media_entity *entity);
+> -	struct media_pipeline *pipe;
+> -	struct media_device *mdev;
+>  	struct v4l2_subdev *sd;
+>  	struct media_pad *pad;
+>  	int ret;
+> @@ -1273,17 +1271,7 @@ static int rvin_set_stream(struct rvin_dev *vin, int on)
+>  	if (ret)
+>  		return ret;
 >  
-> +/**
-> + * media_pipeline_alloc_start - Mark a pipeline as streaming
-> + * @entity: Starting entity
-> + *
-> + * media_pipeline_alloc_start() is similar to media_pipeline_start() but instead
-> + * of working on a given pipeline the function will use an existing pipeline if
-> + * the entity is already part of a pipeline, or allocate a new pipeline.
-> + *
-> + * Calls to media_pipeline_alloc_start() must be matched with
-> + * media_pipeline_stop().
-> + */
-> +__must_check int media_pipeline_alloc_start(struct media_entity *entity);
-> +
->  /**
->   * media_devnode_create() - creates and initializes a device node interface
->   *
-> diff --git a/include/media/v4l2-dev.h b/include/media/v4l2-dev.h
-> index 4ccc24f5918a..29eb61244d1f 100644
-> --- a/include/media/v4l2-dev.h
-> +++ b/include/media/v4l2-dev.h
-> @@ -609,6 +609,20 @@ void video_device_pipeline_stop(struct video_device *vdev);
->   */
->  void __video_device_pipeline_stop(struct video_device *vdev);
+> -	/*
+> -	 * The graph lock needs to be taken to protect concurrent
+> -	 * starts of multiple VIN instances as they might share
+> -	 * a common subdevice down the line and then should use
+> -	 * the same pipe.
+> -	 */
+> -	mdev = vin->vdev.entity.graph_obj.mdev;
+> -	mutex_lock(&mdev->graph_mutex);
+> -	pipe = media_entity_pipeline(&sd->entity) ? : &vin->vdev.pipe;
+> -	ret = __video_device_pipeline_start(&vin->vdev, pipe);
+> -	mutex_unlock(&mdev->graph_mutex);
+> +	ret = video_device_pipeline_alloc_start(&vin->vdev);
+
+This doesn't look right, it will use different pipeline instances for
+difference video devices, that's a change in behaviour.
+
+>  	if (ret)
+>  		return ret;
 >  
-> +/**
-> + * video_device_pipeline_alloc_start - Mark a pipeline as streaming
-> + * @vdev: Starting video device
-> + *
-> + * video_device_pipeline_alloc_start() is similar to video_device_pipeline_start()
-> + * but instead of working on a given pipeline the function will use an
-> + * existing pipeline if the video device is already part of a pipeline, or
-> + * allocate a new pipeline.
-> + *
-> + * Calls to video_device_pipeline_alloc_start() must be matched with
-> + * video_device_pipeline_stop().
-> + */
-> +__must_check int video_device_pipeline_alloc_start(struct video_device *vdev);
-> +
->  /**
->   * video_device_pipeline - Get the media pipeline a video device is part of
->   * @vdev: The video device
+> diff --git a/drivers/media/platform/sunxi/sun4i-csi/sun4i_dma.c b/drivers/media/platform/sunxi/sun4i-csi/sun4i_dma.c
+> index 17ad9a3caaa5..a3e826a755fc 100644
+> --- a/drivers/media/platform/sunxi/sun4i-csi/sun4i_dma.c
+> +++ b/drivers/media/platform/sunxi/sun4i-csi/sun4i_dma.c
+> @@ -266,7 +266,7 @@ static int sun4i_csi_start_streaming(struct vb2_queue *vq, unsigned int count)
+>  		goto err_clear_dma_queue;
+>  	}
+>  
+> -	ret = video_device_pipeline_start(&csi->vdev, &csi->vdev.pipe);
+
+What ? There is a pipe embedded in video_device ? Oh my, I didn't
+realize how messed up the V4L2 core had become :-(
+
+> +	ret = video_device_pipeline_alloc_start(&csi->vdev);
+>  	if (ret < 0)
+>  		goto err_free_scratch_buffer;
+>  
+> diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_video.c b/drivers/media/platform/sunxi/sun6i-csi/sun6i_video.c
+> index de4c0d47240f..436922503ece 100644
+> --- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_video.c
+> +++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_video.c
+> @@ -141,7 +141,7 @@ static int sun6i_video_start_streaming(struct vb2_queue *vq, unsigned int count)
+>  
+>  	video->sequence = 0;
+>  
+> -	ret = video_device_pipeline_start(&video->vdev, &video->vdev.pipe);
+> +	ret = video_device_pipeline_alloc_start(&video->vdev);
+>  	if (ret < 0)
+>  		goto clear_dma_queue;
+>  
+> diff --git a/drivers/media/platform/ti/cal/cal-video.c b/drivers/media/platform/ti/cal/cal-video.c
+> index ae29130df819..e8122e7ec944 100644
+> --- a/drivers/media/platform/ti/cal/cal-video.c
+> +++ b/drivers/media/platform/ti/cal/cal-video.c
+> @@ -707,7 +707,7 @@ static int cal_start_streaming(struct vb2_queue *vq, unsigned int count)
+>  	dma_addr_t addr;
+>  	int ret;
+>  
+> -	ret = video_device_pipeline_start(&ctx->vdev, &ctx->phy->pipe);
+> +	ret = video_device_pipeline_alloc_start(&ctx->vdev);
+>  	if (ret < 0) {
+>  		ctx_err(ctx, "Failed to start media pipeline: %d\n", ret);
+>  		goto error_release_buffers;
+> diff --git a/drivers/media/platform/ti/cal/cal.h b/drivers/media/platform/ti/cal/cal.h
+> index 61409ddced98..648cec43c3fc 100644
+> --- a/drivers/media/platform/ti/cal/cal.h
+> +++ b/drivers/media/platform/ti/cal/cal.h
+> @@ -174,7 +174,6 @@ struct cal_camerarx {
+>  	struct device_node	*source_ep_node;
+>  	struct device_node	*source_node;
+>  	struct v4l2_subdev	*source;
+> -	struct media_pipeline	pipe;
+>  
+>  	struct v4l2_subdev	subdev;
+>  	struct media_pad	pads[CAL_CAMERARX_NUM_PADS];
 
 -- 
 Regards,
