@@ -2,30 +2,30 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7E2115A50AE
-	for <lists+linux-media@lfdr.de>; Mon, 29 Aug 2022 17:51:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E3D0A5A50F8
+	for <lists+linux-media@lfdr.de>; Mon, 29 Aug 2022 18:07:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229974AbiH2PvV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 29 Aug 2022 11:51:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57242 "EHLO
+        id S229701AbiH2QHD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 29 Aug 2022 12:07:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51702 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229824AbiH2PvU (ORCPT
+        with ESMTP id S229982AbiH2QHC (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 29 Aug 2022 11:51:20 -0400
+        Mon, 29 Aug 2022 12:07:02 -0400
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 593611FCE7
-        for <linux-media@vger.kernel.org>; Mon, 29 Aug 2022 08:51:19 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 15C5D861CF
+        for <linux-media@vger.kernel.org>; Mon, 29 Aug 2022 09:07:01 -0700 (PDT)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id AFCA2505;
-        Mon, 29 Aug 2022 17:51:16 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0D7AE505;
+        Mon, 29 Aug 2022 18:06:58 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1661788276;
-        bh=48Dc0Ty54bIH1ZWRaqv1feCdXtjTrYZu1qRBGFan2d0=;
+        s=mail; t=1661789219;
+        bh=JdNtPYXOx+LxyUaRCVn5c/dAMMyZpvSezi8ocGcwoFM=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Y6jPMZEGh5dcqdIR5Fd4pEDwXTUWiKEkeHQosk1GfO/VZUDiNmn+pOCa71a2SeY4g
-         3ow+ZuFcYApVx6JvJP/3cKx4vaEzAp1qNEdk27N83smZV+5CoqhY92dbyCWXXKW0bI
-         NteuNhRwtZ+aBep/JMzFFlc5Kxre4Z78hIEbgOH4=
-Date:   Mon, 29 Aug 2022 18:51:07 +0300
+        b=frZiSBwKT6+Cf/gEBwLlFyuLeR2/2bl4jhrC+bAmZOlL69/Ev/RkeQ6VLXnvU1ue4
+         V40Hs21X1QoiY8T5Em2ot/paB/G7V3l+kuShDIYdRcg6DU5iH32v6EiGMerkcDXtyy
+         jS3UIz4elsRPPw1gda+f6UniHyXX32RhPh7A3BJ4=
+Date:   Mon, 29 Aug 2022 19:06:49 +0300
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Cc:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
@@ -36,15 +36,15 @@ Cc:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
         Pratyush Yadav <p.yadav@ti.com>,
         Kishon Vijay Abraham <kishon@ti.com>,
         satish.nagireddy@getcruise.com, Tomasz Figa <tfiga@chromium.org>
-Subject: Re: [PATCH v13 01/34] media: Documentation: mc: add definitions for
- stream and pipeline
-Message-ID: <Ywzga85/LVzeIlq3@pendragon.ideasonboard.com>
+Subject: Re: [PATCH v13 02/34] media: media-entity.h: add include for min()
+Message-ID: <YwzkGdw0nzHVqnjT@pendragon.ideasonboard.com>
 References: <20220810121122.3149086-1-tomi.valkeinen@ideasonboard.com>
- <20220810121122.3149086-2-tomi.valkeinen@ideasonboard.com>
+ <20220810121122.3149086-3-tomi.valkeinen@ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20220810121122.3149086-2-tomi.valkeinen@ideasonboard.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220810121122.3149086-3-tomi.valkeinen@ideasonboard.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
@@ -58,43 +58,33 @@ Hi Tomi,
 
 Thank you for the patch.
 
-On Wed, Aug 10, 2022 at 03:10:49PM +0300, Tomi Valkeinen wrote:
-> The doc talks about streams and pipelines, but doesn't really define
-> them. This is an attempt to define them according to my understanding.
+On Wed, Aug 10, 2022 at 03:10:50PM +0300, Tomi Valkeinen wrote:
+> ./include/media/media-entity.h:595:34: error: implicit declaration of function ‘min’
+> 
+> Include kernel.h to get the definition for min().
 > 
 > Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> ---
+>  include/media/media-entity.h | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/include/media/media-entity.h b/include/media/media-entity.h
+> index a9a1c0ec5d1c..3e3d06c1ec36 100644
+> --- a/include/media/media-entity.h
+> +++ b/include/media/media-entity.h
+> @@ -15,6 +15,7 @@
+>  #include <linux/bug.h>
+>  #include <linux/container_of.h>
+>  #include <linux/fwnode.h>
+> +#include <linux/kernel.h>
 
-This is a good start.
+This should be minmax.h. With this fixed,
 
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-> ---
->  Documentation/driver-api/media/mc-core.rst | 12 ++++++++++++
->  1 file changed, 12 insertions(+)
-> 
-> diff --git a/Documentation/driver-api/media/mc-core.rst b/Documentation/driver-api/media/mc-core.rst
-> index 02481a2513b9..2a0c0aeec5f2 100644
-> --- a/Documentation/driver-api/media/mc-core.rst
-> +++ b/Documentation/driver-api/media/mc-core.rst
-> @@ -213,6 +213,18 @@ Link properties can be modified at runtime by calling
->  Pipelines and media streams
->  ^^^^^^^^^^^^^^^^^^^^^^^^^^^
->  
-> +A media stream is a stream of pixels or metadata originating from one or more
-> +source devices (such as a sensors) and flowing through media entity pads
-> +towards the final sinks. The stream can be modified on the route by the
-> +devices (e.g. scaling or pixel format conversions), or it can be split into
-> +multiple branches, or multiple branches can be merged.
-> +
-> +A media pipeline is a set of media streams which are interdependent. This
-> +interdependency can be caused by the hardware (e.g. configuration of a second
-> +stream cannot be changed if the first stream has been enabled) or by the driver
-> +due to the software design. Most commonly a media pipeline consists of a single
-> +stream which does not branch.
-> +
->  When starting streaming, drivers must notify all entities in the pipeline to
->  prevent link states from being modified during streaming by calling
->  :c:func:`media_pipeline_start()`.
+>  #include <linux/list.h>
+>  #include <linux/media.h>
+>  #include <linux/types.h>
 
 -- 
 Regards,
