@@ -2,145 +2,257 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BFF505A56B9
-	for <lists+linux-media@lfdr.de>; Tue, 30 Aug 2022 00:07:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C6A9B5A57A2
+	for <lists+linux-media@lfdr.de>; Tue, 30 Aug 2022 01:33:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229970AbiH2WG5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 29 Aug 2022 18:06:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37766 "EHLO
+        id S229609AbiH2XdN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 29 Aug 2022 19:33:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46056 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229957AbiH2WGz (ORCPT
+        with ESMTP id S229572AbiH2XdG (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 29 Aug 2022 18:06:55 -0400
-Received: from mail-yw1-x1133.google.com (mail-yw1-x1133.google.com [IPv6:2607:f8b0:4864:20::1133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 850DD9109D;
-        Mon, 29 Aug 2022 15:06:53 -0700 (PDT)
-Received: by mail-yw1-x1133.google.com with SMTP id 00721157ae682-333a4a5d495so229727837b3.10;
-        Mon, 29 Aug 2022 15:06:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc;
-        bh=6Abl5zZCzh0eLx1GmDcxV2L0GXAFo3L1+X9aKPxjNDA=;
-        b=YPsZlLiBWiMP2+zlnDZT4Vxzf0OGSoXdSJdNlanwZYXC8RMDqZ9wpd2t/8aU7evV+o
-         zxWCZhI6q/ie/peuMZLPfoKOA1YI3CsEFfAapphb0z7jt+3yPJDoyj52gb1Yc78Iy07R
-         Gy3wg4XMGO3X7+oFAlOwXIL1XWYtHnPI2NcncEbl3+f0QdWWLSctPs/s2FAruOkKQ8bU
-         P7yG0aGMOfaJsn6DaWcmjP30jBXCwN/Eb5UQ82zTQn2X29hOHy8kFcylDSjMdlCPArow
-         spYGzkPLckm009zSrmPINSkgs6IazycCcsIZtQU8K33/QyR49zswTCE4EkB7cQUVo76G
-         WTfw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc;
-        bh=6Abl5zZCzh0eLx1GmDcxV2L0GXAFo3L1+X9aKPxjNDA=;
-        b=RE8ChDUzEVcQyQ73WAlhmVm+aUCF0/tMqB2LpF7Ot33oraezhIagb11OQNB6lStUYD
-         uTw8GQLA+TPlqKHqoRk5M9+5ZBEAzfq4KQaSVy5vGkcIV88hDqlRS/ScawUsfkMG6DZI
-         Fws78i9GlntXiZ6hd3j+v2PdIYq+VR6xc12vyM7a5XwAkFgXSdlTaHni6sEhfMVhwnzh
-         tthxoVHdnLeaFPyGppRHOyMuQt4pMmxfNqx4hw3DPXWbVEEA9k8Cb4mu0iPCbsAAbhky
-         Os6/fZmjx8t3rNK5pGwlLUpQ51bUycockHoyUI/5ZFmE64cvzGILrziIWLkJUb7KSbcb
-         6Amg==
-X-Gm-Message-State: ACgBeo3RGV1AHqa7V5/ZYLOtyJ07G5nOxmvq61tcUC78lU6Fgkbh1W+h
-        RRNdPmFlH16Vs5wLc8h42DKMYPTKc5sNxM0IUbQ=
-X-Google-Smtp-Source: AA6agR7hbDqk2wWLeoQUy/xHKvZshH921s+9+bo31Aysii3pnqFKRfPeu3cOkHbVrGwSYjXIxTLZ0CCnxrsN8vV0Ybo=
-X-Received: by 2002:a25:403:0:b0:696:4fe0:2dcd with SMTP id
- 3-20020a250403000000b006964fe02dcdmr9853101ybe.279.1661810812665; Mon, 29 Aug
- 2022 15:06:52 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220801214718.16943-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20220801214718.16943-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Mon, 29 Aug 2022 23:06:26 +0100
-Message-ID: <CA+V-a8vQ5De-QKNqGtOFuLduiFf6o8reNk_6SoHLvWaXgjoFcg@mail.gmail.com>
-Subject: Re: [PATCH 0/4] Add driver for CSI2 and CRU modules found on Renesas
- RZ/G2L SoC
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        Jacopo Mondi <jacopo@jmondi.org>
-Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Mon, 29 Aug 2022 19:33:06 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BF1F39C21F;
+        Mon, 29 Aug 2022 16:32:55 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8B3A9481;
+        Tue, 30 Aug 2022 01:32:52 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1661815972;
+        bh=W6sZ99MZm0WJIysDCG+qS83r+KGY/z25whL5L+DCuIQ=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=SxBEPtywKPcBGK9e1hRcGy/5dl5DGK5YUvK3K3cSouY1gf1x1s1fJhWZTzfkEtitK
+         sqQOPrQUPLH081pQJZFcfnNZFJdJotLrWd+lCOhwp3xU6eyJrhVoUKZt3VAQ2MPf5o
+         zsCCZzV8YuxOhyqjBY+uYfVMhDf9/TMX/UGAZ9ZU=
+Date:   Tue, 30 Aug 2022 02:32:43 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Philipp Zabel <p.zabel@pengutronix.de>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        linux-media <linux-media@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Prabhakar <prabhakar.csengg@gmail.com>,
         Biju Das <biju.das.jz@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [PATCH 1/4] media: dt-bindings: media: Document RZ/G2L CSI-2
+ block
+Message-ID: <Yw1MmyFxnWNpQx8q@pendragon.ideasonboard.com>
+References: <20220801214718.16943-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20220801214718.16943-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20220801214718.16943-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Aug 1, 2022 at 10:47 PM Lad Prabhakar
-<prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
->
-> Hi All,
->
-> This patch series aims to add driver support to CRU module found
-> on Renesas RZ/G2L SoC.
->
-> The Camera Data Receiving Unit (CRU) consists of a MIPI CSI-2
-> block and an Image Processing block. The Image Processing block
-> can receive video data received from the external Digital Parallel
-> Interface or MIPI CSI-2 block, and perform appropriate image
-> processing for each.
->
-> More details:
-> * https://renesas.info/wiki/File:CRU.png
-> * https://www.renesas.com/document/mah/rzg2l-group-rzg2lc-group-users-manual-hardware-0?language=en&r=1467981
->
-> Currently the driver has been tested using yavta and Gstreamer
-> on RZ/G2L SMARC EVK using the ov5645 sensor on CSI2 interface
-> only.
->
-> RFC v2: https://patchwork.kernel.org/project/linux-renesas-soc/cover/20220121010543.31385-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
->
-> RFC v1: https://patchwork.kernel.org/project/linux-renesas-soc/cover/20211207012351.15754-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
->
-> Cheers,
-> Prabhakar
->
-> Lad Prabhakar (4):
->   media: dt-bindings: media: Document RZ/G2L CSI-2 block
->   media: dt-bindings: media: Document RZ/G2L CRU
->   media: platform: Add Renesas RZ/G2L MIPI CSI-2 receiver driver
->   media: platform: Add Renesas RZ/G2L CRU driver
->
->  .../bindings/media/renesas,rzg2l-cru.yaml     | 142 ++++
->  .../bindings/media/renesas,rzg2l-csi2.yaml    | 149 ++++
->  drivers/media/platform/renesas/Kconfig        |   1 +
->  drivers/media/platform/renesas/Makefile       |   1 +
->  .../media/platform/renesas/rzg2l-cru/Kconfig  |  34 +
->  .../media/platform/renesas/rzg2l-cru/Makefile |   6 +
->  .../platform/renesas/rzg2l-cru/rzg2l-core.c   | 371 +++++++++
->  .../platform/renesas/rzg2l-cru/rzg2l-cru.h    | 144 ++++
->  .../platform/renesas/rzg2l-cru/rzg2l-csi2.c   | 702 +++++++++++++++++
->  .../platform/renesas/rzg2l-cru/rzg2l-csi2.h   |  49 ++
->  .../platform/renesas/rzg2l-cru/rzg2l-dma.c    | 728 ++++++++++++++++++
->  .../platform/renesas/rzg2l-cru/rzg2l-v4l2.c   | 354 +++++++++
->  12 files changed, 2681 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/renesas,rzg2l-cru.yaml
->  create mode 100644 Documentation/devicetree/bindings/media/renesas,rzg2l-csi2.yaml
->  create mode 100644 drivers/media/platform/renesas/rzg2l-cru/Kconfig
->  create mode 100644 drivers/media/platform/renesas/rzg2l-cru/Makefile
->  create mode 100644 drivers/media/platform/renesas/rzg2l-cru/rzg2l-core.c
->  create mode 100644 drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h
->  create mode 100644 drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c
->  create mode 100644 drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.h
->  create mode 100644 drivers/media/platform/renesas/rzg2l-cru/rzg2l-dma.c
->  create mode 100644 drivers/media/platform/renesas/rzg2l-cru/rzg2l-v4l2.c
->
-Gentle ping, request to review the driver code.
+Hi Prabhakar,
 
-Cheers,
-Prabhakar
+Thank you for the patch.
+
+On Mon, Aug 01, 2022 at 10:47:15PM +0100, Lad Prabhakar wrote:
+> Document the CSI-2 block which is part of CRU found in Renesas
+> RZ/G2L SoC.
+> 
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> ---
+> RFC v2 -> v1
+> * Fixed review comments pointed by Rob and Jacopo.
+> 
+> RFC v1 -> RFC v2
+> * New patch
+> ---
+>  .../bindings/media/renesas,rzg2l-csi2.yaml    | 149 ++++++++++++++++++
+>  1 file changed, 149 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/renesas,rzg2l-csi2.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/media/renesas,rzg2l-csi2.yaml b/Documentation/devicetree/bindings/media/renesas,rzg2l-csi2.yaml
+> new file mode 100644
+> index 000000000000..f82f88c096df
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/renesas,rzg2l-csi2.yaml
+> @@ -0,0 +1,149 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +# Copyright (C) 2022 Renesas Electronics Corp.
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/renesas,rzg2l-csi2.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Renesas RZ/G2L (and alike SoC's) MIPI CSI-2 receiver
+> +
+> +maintainers:
+> +  - Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> +
+> +description:
+> +  The CSI-2 receiver device provides MIPI CSI-2 capabilities for the Renesas RZ/G2L
+> +  (and alike SoCs). MIPI CSI-2 is part of the CRU block which is used in conjunction
+> +  with the Image Processing module, which provides the video capture capabilities.
+> +
+> +properties:
+> +  compatible:
+> +    oneOf:
+> +      - items:
+
+You can drop the oneOf and write
+
+    items:
+      - enum:
+          - renesas,r9a07g044-csi2       # RZ/G2{L,LC}
+          - renesas,r9a07g054-csi2       # RZ/V2L
+      - const: renesas,rzg2l-csi2
+
+> +          - enum:
+> +              - renesas,r9a07g044-csi2       # RZ/G2{L,LC}
+> +              - renesas,r9a07g054-csi2       # RZ/V2L
+> +          - const: renesas,rzg2l-csi2
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  interrupt-names:
+> +    const: csi2_link
+
+If there's a single interrupt you can drop the name.
+
+> +
+> +  clocks:
+> +    items:
+> +      - description: Internal clock for connecting CRU and MIPI
+> +      - description: CRU Main clock
+> +      - description: CPU Register access clock
+> +
+> +  clock-names:
+> +    items:
+> +      - const: sysclk
+> +      - const: vclk
+> +      - const: pclk
+> +
+> +  power-domains:
+> +    maxItems: 1
+> +
+> +  resets:
+> +    items:
+> +      - description: CRU_CMN_RSTB reset terminal
+> +
+> +  reset-names:
+> +    const: cmn-rstb
+
+Same here.
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+
+> +
+> +  ports:
+> +    $ref: /schemas/graph.yaml#/properties/ports
+> +
+> +    properties:
+> +      port@0:
+> +        $ref: /schemas/graph.yaml#/$defs/port-base
+> +        unevaluatedProperties: false
+> +        description:
+> +          Input port node, single endpoint describing the CSI-2 transmitter.
+> +
+> +        properties:
+> +          endpoint:
+> +            $ref: video-interfaces.yaml#
+> +            unevaluatedProperties: false
+> +
+> +            properties:
+> +              data-lanes:
+> +                minItems: 1
+> +                maxItems: 4
+> +                items:
+> +                  maximum: 4
+> +
+> +            required:
+> +              - clock-lanes
+> +              - data-lanes
+> +
+> +      port@1:
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +        description:
+> +          Output port node, Image Processing block connected to the CSI-2 receiver.
+> +
+> +    required:
+> +      - port@0
+> +      - port@1
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - interrupts
+> +  - clocks
+> +  - clock-names
+> +  - power-domains
+> +  - resets
+> +  - reset-names
+> +  - ports
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/clock/r9a07g044-cpg.h>
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +
+> +    csi20: csi2@10830400 {
+> +            compatible = "renesas,r9a07g044-csi2", "renesas,rzg2l-csi2";
+> +            reg = <0x10830400 0xfc00>;
+> +            interrupts = <GIC_SPI 166 IRQ_TYPE_LEVEL_HIGH>;
+> +            clocks = <&cpg CPG_MOD R9A07G044_CRU_SYSCLK>,
+> +                     <&cpg CPG_MOD R9A07G044_CRU_VCLK>,
+> +                     <&cpg CPG_MOD R9A07G044_CRU_PCLK>;
+> +            clock-names = "sysclk", "vclk", "pclk";
+> +            power-domains = <&cpg>;
+> +            resets = <&cpg R9A07G044_CRU_CMN_RSTB>;
+> +            reset-names = "cmn-rstb";
+> +
+> +            ports {
+> +                    #address-cells = <1>;
+> +                    #size-cells = <0>;
+> +
+> +                    port@0 {
+> +                            reg = <0>;
+> +
+> +                            csi2_in: endpoint {
+> +                                    clock-lanes = <0>;
+> +                                    data-lanes = <1 2>;
+> +                                    remote-endpoint = <&ov5645_ep>;
+> +                            };
+> +                    };
+> +
+> +                    port@1 {
+> +                            #address-cells = <1>;
+> +                            #size-cells = <0>;
+> +
+> +                            reg = <1>;
+> +
+> +                            csi2cru: endpoint@0 {
+> +                                    reg = <0>;
+> +                                    remote-endpoint = <&crucsi2>;
+> +                            };
+> +                    };
+> +            };
+> +    };
+
+-- 
+Regards,
+
+Laurent Pinchart
