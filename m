@@ -2,124 +2,132 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 505D85A6BE0
-	for <lists+linux-media@lfdr.de>; Tue, 30 Aug 2022 20:15:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 044955A6BE6
+	for <lists+linux-media@lfdr.de>; Tue, 30 Aug 2022 20:17:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230217AbiH3SPs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 30 Aug 2022 14:15:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55734 "EHLO
+        id S231569AbiH3SR2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 30 Aug 2022 14:17:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59100 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229876AbiH3SPq (ORCPT
+        with ESMTP id S229781AbiH3SR0 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 30 Aug 2022 14:15:46 -0400
-Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com [IPv6:2a00:1450:4864:20::12b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5670B1C122
-        for <linux-media@vger.kernel.org>; Tue, 30 Aug 2022 11:15:42 -0700 (PDT)
-Received: by mail-lf1-x12b.google.com with SMTP id j14so6314092lfu.4
-        for <linux-media@vger.kernel.org>; Tue, 30 Aug 2022 11:15:42 -0700 (PDT)
+        Tue, 30 Aug 2022 14:17:26 -0400
+Received: from mail-oa1-x2f.google.com (mail-oa1-x2f.google.com [IPv6:2001:4860:4864:20::2f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 11EED53036
+        for <linux-media@vger.kernel.org>; Tue, 30 Aug 2022 11:17:24 -0700 (PDT)
+Received: by mail-oa1-x2f.google.com with SMTP id 586e51a60fabf-11f0fa892aeso10431363fac.7
+        for <linux-media@vger.kernel.org>; Tue, 30 Aug 2022 11:17:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc;
-        bh=yCTK3mOs5kt7UV0vR4JE9ejuWymqfsOPx96b3ngX21M=;
-        b=Zx/L/t+dMvs/yYGQ6ucoXPtQISYgGfy18aV1801pZc3YtEvdS1zA9KH+dBkzj4e3w5
-         NQWyEmeZBdeao2urBJxKfR//keXnOvVOIgbIihliGlUQ1kbMtO21bzZKQca+SoeaKW2s
-         zoGRoNKQY8DoqtTxE652QI3efuBrCbQ/7fCvL+63y7taLG4xr9ApSQjKuljhr1rLtot/
-         O8zV/Hq8AXsJ//+7lKams3nfwFQOVC1tY7PaChEITHC7XPNUOMlY2buUNEPmzwwiQXmq
-         vQqa09bYpaJzyWLZnvFDgIFIadhXAKZvb/mJCwtP+Gu4y+BgH9/K5laJM65v0oAEQ47b
-         mzWA==
+        d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc;
+        bh=/oobhOGqi42449FzVMt/oGmisZwCvSy7BW4jgCCfch0=;
+        b=VpcBG8Kr9vdsWOXvnH/lxth7STxi7dPMe1S74WAQ0tsnMozC2LRIB+dqX1liq81G2Y
+         yyPmtCE49iIH9Fhy/cwlPemm2EGu9uniW2KsQuiF7MX+MYVFMBaMOjvwx46TrqqqRbGl
+         8XBzxZUSiHCaXKTvBxmFYuUo6Zwb1pFbLMRXsm4k7H9NogSa0vxs+LhF5EvK3e7gR2//
+         bZeUNISUliBPshw1v7PEqeHOzBzk/dUbVf5KyKBqPjWgrajFewGmNDFNb7w+KbjxQWhZ
+         UeDcBrELMkpX3E1DzJ9aovTWQ9WWdwofMXXyXTNFaT6J86/MkQfqpmI/54EVY9g1Ia6R
+         3SwA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc;
-        bh=yCTK3mOs5kt7UV0vR4JE9ejuWymqfsOPx96b3ngX21M=;
-        b=dWtAJwQoj8fhaa3Q3zxIf/0khw7hRXacnN/0bk4Uzy3jmELAO9b+uSg4Tfd1cqY6M/
-         BrtEpBsHY9NpV4XK35L61kE5wyrxxeBlpJl5WLhHswtqTMF5lqgGHgtIKx3jys4eZ7u8
-         NDCTFeHWqJ13DlfLUjfWeLtFkJca51g+mqA6a2w16x2pdTOIMFAebFyxxhsjBn4Gmr7V
-         rhYBlo7ODL5J45Oxz/z/2O9PY2v4xtC2vslPdsUS+7WK7MMR9DZiL8sAzJoJLZq8jj9q
-         0M+m8+ILqj4hilB8yTn28YtKgmO3bthDSrQTA3C1bi+wSLaYPKb9+nG6anqi83cjZC6z
-         KiDA==
-X-Gm-Message-State: ACgBeo3gwig2kjJkTDPCweNTeca+jNJoBcGOwPaagU1bBxJPTWNsyW/E
-        +mYJbDzqkEXP5lC0MxB1Ztf16IejLMC42pk6
-X-Google-Smtp-Source: AA6agR56keDBwbENAgvE0UZ0rhe66Ucc21kYxUA0/vebsAZbSIBZUFHvPHdZxPhEBm+QM7gK3nr6kw==
-X-Received: by 2002:a05:6512:3991:b0:494:70ce:7b85 with SMTP id j17-20020a056512399100b0049470ce7b85mr2731651lfu.80.1661883340808;
-        Tue, 30 Aug 2022 11:15:40 -0700 (PDT)
-Received: from [192.168.28.124] (balticom-73-99-134.balticom.lv. [109.73.99.134])
-        by smtp.gmail.com with ESMTPSA id y20-20020a05651c107400b00261cd70e41asm1147544ljm.32.2022.08.30.11.15.39
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 30 Aug 2022 11:15:39 -0700 (PDT)
-Message-ID: <096ad2e8-8a54-5ca0-b4a0-0ba652a88cc4@linaro.org>
-Date:   Tue, 30 Aug 2022 21:15:38 +0300
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
+        bh=/oobhOGqi42449FzVMt/oGmisZwCvSy7BW4jgCCfch0=;
+        b=l5oZhGJUyGgSsfTD1gJXBhSfC9gqw7UqdNtCspbaPddU09yp9K4SkXKLASVpXC6e6Z
+         iZ1+s2KDCpx4cRxDViFUY4SFXLxvt1kbIT+pAZRMasctm4kSYCjniqm6F9Cr28PImpKu
+         hF00HsnSXqGbItD/qKc2jlDa8HAsjG4YDqLFhrOsYxvnzKrCu1giQ0+Ftjga7BXNfLgT
+         eZKr2YBmugIIR9V20VfwUie/YfRxztRbpgQnQu6ZvSd+4jwvPYZk33eL5qXQRiqE724u
+         1vT7hnlPB3o2mS6/OBToD1D7C8BKxuB48Kct4WhTYO1yXJ1GPwlYuszRBKwFQn463s4D
+         lpoQ==
+X-Gm-Message-State: ACgBeo2JOCGinAt4JWWzVr3vuumHj73QhXU5ZSpfHdVhNzVFHaadX0Mj
+        ym7TIMwNOIf0EaYV5gA/O5h9gw==
+X-Google-Smtp-Source: AA6agR4PjkWk+Bc8nvP17VYGP14YkKDkOOcw6aw7cjJ213TLpMFs5PvxMnyRL7Ny9EsqHgqfqYsRJg==
+X-Received: by 2002:a05:6870:328d:b0:10d:ce86:ceee with SMTP id q13-20020a056870328d00b0010dce86ceeemr10941976oac.80.1661883443167;
+        Tue, 30 Aug 2022 11:17:23 -0700 (PDT)
+Received: from eze-laptop ([190.190.187.68])
+        by smtp.gmail.com with ESMTPSA id p7-20020a056830130700b006396521c804sm7532039otq.55.2022.08.30.11.17.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 30 Aug 2022 11:17:22 -0700 (PDT)
+Date:   Tue, 30 Aug 2022 15:17:16 -0300
+From:   Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Cc:     mchehab@kernel.org, hverkuil@xs4all.nl, p.zabel@pengutronix.de,
+        gregkh@linuxfoundation.org, mripard@kernel.org,
+        paul.kocialkowski@bootlin.com, wens@csie.org,
+        jernej.skrabec@gmail.com, samuel@sholland.org,
+        nicolas.dufresne@collabora.com, andrzej.p@collabora.com,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+        kernel@collabora.com
+Subject: Re: [PATCH v3 1/7] media: hantro: Store HEVC bit depth in context
+Message-ID: <Yw5ULOEDLWaHQav7@eze-laptop>
+References: <20220829162159.881588-1-benjamin.gaignard@collabora.com>
+ <20220829162159.881588-2-benjamin.gaignard@collabora.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH 1/3] Added platform module alias for the xiic I2C driver
-Content-Language: en-US
-To:     "Tuma, Martin (Digiteq Automotive)" 
-        <Martin.Tuma@digiteqautomotive.com>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
-References: <20220822194721.1238-1-martin.tuma@digiteqautomotive.com>
- <20220822194721.1238-2-martin.tuma@digiteqautomotive.com>
- <51e77545-e029-69f3-f5cd-f2fdf8846582@linaro.org>
- <AM8PR05MB723552BC9CB2FE2FB23EF273FB769@AM8PR05MB7235.eurprd05.prod.outlook.com>
- <812ca17b-5e51-b974-16aa-2180d07b4be9@linaro.org>
- <AM8PR05MB7235232C96D3F847EE5AFC8CFB799@AM8PR05MB7235.eurprd05.prod.outlook.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <AM8PR05MB7235232C96D3F847EE5AFC8CFB799@AM8PR05MB7235.eurprd05.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220829162159.881588-2-benjamin.gaignard@collabora.com>
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 30/08/2022 20:56, Tuma, Martin (Digiteq Automotive) wrote:
-> 
-> 
->>>> Thanks for the patch. Empty commits are not accepted, so instead you
->>>> should explain here why do you need it. In general, your change should
->>>> not be needed, so please explain in detail why do you think otherwise.
->>>
->>> The reason the alias is required is that without the "platform" prefix, loading
->>> the xiic module does not work properly in the mgb4 module. I can not explain
->>> exactly why as my knowledge of the module loading mechanism in linux/modprobe
->>> is quite limited, but that's how it is. The mgb4 v4l2 module requires two modules
->>> that are defined using MODULE_SOFTDEP() to be loaded prior to the mgb4
->>> module - the Xilinx I2C module and the Xilinx SPI module. The SPI module already
->>> has the "platform" prefixed alias and loads fine, while the I2C doesn't and does
->>> not get loaded without it. So I added the alias to make the loading work.
->>>
->>> I will add the info that the alias is required by the mgb4 module to the commit
->>> message the next time I will send the fixed patches, thanks for pointing this out.
-> 
->> Driver matches only by Devicetree, so instead of this patch you rather
->> miss proper DTS.
-> 
-> Can you please explain this in more depth? There is AFAIK no device tree on x86
-> and I have no idea how this should work for a PCIe card on ARM either.
+Hi Benjamin,
 
-Ah, right, you do not use it for DT platform. Then you need proper ID
-table, e.g. for ACPI. platform_device_id table would also do the trick
-but I don't think it is suitable for such matching via ACPI.
-
+On Mon, Aug 29, 2022 at 06:21:53PM +0200, Benjamin Gaignard wrote:
+> Store HEVC bit depth in context.
+> Bit depth is equal to hevc sps bit_depth_luma_minus8 + 8.
 > 
-> The fact really is, that on x86_64 and ARM (Nvidia jetson) without any specific devicetree
-> where I tested the driver, the mgb4 driver loads properly both the I2C and SPI modules
-> defined using MODULE_SOFTDEP (there is no link dependency) if and only if they are
-> defined using the "platform" prefix (and the module has that alias, hence this patch). So
-> there must IMHO be some mechanism in the kernel or in modprobe, that works based
-> on the prefix.
+> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 
-Nvidia Jetson is ARM (and not an ACPI?) so it comes with DT. Let's don't
-mix problems. Depending on the type of your system where this is used,
-you need proper matching. Sprinkling aliases is not the way, usually.
+Reviewed-by: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
 
-Best regards,
-Krzysztof
+Looks good!
+
+I have limited access to the hardware at the moment.
+
+Can you make sure things look good not only for HEVC
+but also for the other codecs?
+
+Thanks!
+Ezequiel
+
+> ---
+> version 3:
+> - Based on top of Ezequiel's patch "media: destage Hantro VPU driver"
+>  drivers/media/platform/verisilicon/hantro_drv.c | 7 +++++++
+>  1 file changed, 7 insertions(+)
+> 
+> diff --git a/drivers/media/platform/verisilicon/hantro_drv.c b/drivers/media/platform/verisilicon/hantro_drv.c
+> index 2036f72eeb4a..1dd8312d824c 100644
+> --- a/drivers/media/platform/verisilicon/hantro_drv.c
+> +++ b/drivers/media/platform/verisilicon/hantro_drv.c
+> @@ -251,6 +251,11 @@ queue_init(void *priv, struct vb2_queue *src_vq, struct vb2_queue *dst_vq)
+>  
+>  static int hantro_try_ctrl(struct v4l2_ctrl *ctrl)
+>  {
+> +	struct hantro_ctx *ctx;
+> +
+> +	ctx = container_of(ctrl->handler,
+> +			   struct hantro_ctx, ctrl_handler);
+> +
+>  	if (ctrl->id == V4L2_CID_STATELESS_H264_SPS) {
+>  		const struct v4l2_ctrl_h264_sps *sps = ctrl->p_new.p_h264_sps;
+>  
+> @@ -272,6 +277,8 @@ static int hantro_try_ctrl(struct v4l2_ctrl *ctrl)
+>  		if (sps->bit_depth_luma_minus8 != 0)
+>  			/* Only 8-bit is supported */
+>  			return -EINVAL;
+> +
+> +		ctx->bit_depth = sps->bit_depth_luma_minus8 + 8;
+>  	} else if (ctrl->id == V4L2_CID_STATELESS_VP9_FRAME) {
+>  		const struct v4l2_ctrl_vp9_frame *dec_params = ctrl->p_new.p_vp9_frame;
+>  
+> -- 
+> 2.32.0
+> 
