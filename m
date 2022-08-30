@@ -2,36 +2,36 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3AF115A69F5
-	for <lists+linux-media@lfdr.de>; Tue, 30 Aug 2022 19:25:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D7D0E5A6B56
+	for <lists+linux-media@lfdr.de>; Tue, 30 Aug 2022 19:54:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231441AbiH3RZI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 30 Aug 2022 13:25:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46154 "EHLO
+        id S230005AbiH3RyH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 30 Aug 2022 13:54:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35756 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231436AbiH3RYc (ORCPT
+        with ESMTP id S232203AbiH3Rxn (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 30 Aug 2022 13:24:32 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F0133F7B0C;
-        Tue, 30 Aug 2022 10:22:10 -0700 (PDT)
+        Tue, 30 Aug 2022 13:53:43 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B90762BB06;
+        Tue, 30 Aug 2022 10:51:27 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 1C12EB81D1A;
-        Tue, 30 Aug 2022 17:21:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5E494C433B5;
-        Tue, 30 Aug 2022 17:21:48 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id B91D1617B0;
+        Tue, 30 Aug 2022 17:23:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8784AC433C1;
+        Tue, 30 Aug 2022 17:23:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1661880109;
-        bh=rWYNn6AX8qGZFR6CUEwmBFpxhkx5iTNWaMTbeQLzUWA=;
+        s=k20201202; t=1661880206;
+        bh=Wt1k6YYO7A7x5sNg2MQY+ULG/lmKJp3pfkgomSxsC9c=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=TmwJY3CEBr0TAdiFuj9FsmLqyyRmgLYX24DLUTLkSgtzNDZhCq/pc95od/VYXSfYk
-         EFlweBeE0LD78dl6va4c9CDpqxtHt1c93tUXHwT3BoMFU6xIm5pkowkcDrSpG7ARDR
-         WrFfXPTX1a4zOYYK38sdWbO8drSYzGjrETuzEWGq3MYL98dlIil4zCjEgJX6R6xmJ7
-         MdsMfZr2ISK0IVIhb6v66Lv4EPU0UeGum6WXOajeQ+kbPzTPN2owB3bpVRBhPi47lG
-         ht1ZilOvGriiP2v0HAkxnexGUCuIoQbM9wT+J37ZunuFhEJccEc+n2Jw2di+AuReN1
-         hn21SPY/G/oYA==
+        b=mhaW15z2XyzvopnDFnrpymaOvXdkOEg1FOWGa9EcTCypm36O3mg80nhoKzBunnKqc
+         hupv0iXXKwYB1ih/Cxrc/22jfJW3G9AzA9rKRDajUx1p8EZjYW7MGlsVffJu5nB5oH
+         6PfwD1qnAGIz70OIMkzcKfIUdKJJ293hrb+tKhtXtLfdqEWuYpXTSqdvY2UvzWy9hM
+         Fellb5Fta0kI8HIJkO21+yUSvGOWMG7LhDJ4Fp+ePbbH9nhkq0MiJRVS2eONVC8gQU
+         FmfHRYsrTSoSazANkw6T0RCs9aQk20d1Bvs4ZKekJ99kHqC7DUECOn9UA1txZNVEm9
+         sfAkHITiO36yg==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Jeffy Chen <jeffy.chen@rock-chips.com>,
@@ -41,12 +41,12 @@ Cc:     Jeffy Chen <jeffy.chen@rock-chips.com>,
         tzimmermann@suse.de, airlied@linux.ie, daniel@ffwll.ch,
         sumit.semwal@linaro.org, dri-devel@lists.freedesktop.org,
         linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-Subject: [PATCH AUTOSEL 5.15 04/23] drm/gem: Fix GEM handle release errors
-Date:   Tue, 30 Aug 2022 13:21:21 -0400
-Message-Id: <20220830172141.581086-4-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.10 04/16] drm/gem: Fix GEM handle release errors
+Date:   Tue, 30 Aug 2022 13:23:05 -0400
+Message-Id: <20220830172317.581397-4-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220830172141.581086-1-sashal@kernel.org>
-References: <20220830172141.581086-1-sashal@kernel.org>
+In-Reply-To: <20220830172317.581397-1-sashal@kernel.org>
+References: <20220830172317.581397-1-sashal@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-stable: review
@@ -93,10 +93,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  3 files changed, 15 insertions(+), 26 deletions(-)
 
 diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
-index 6410563a9cb6f..dbd19a34b517b 100644
+index 5979af230eda0..8b30e8d83fbcf 100644
 --- a/drivers/gpu/drm/drm_gem.c
 +++ b/drivers/gpu/drm/drm_gem.c
-@@ -167,21 +167,6 @@ void drm_gem_private_object_init(struct drm_device *dev,
+@@ -166,21 +166,6 @@ void drm_gem_private_object_init(struct drm_device *dev,
  }
  EXPORT_SYMBOL(drm_gem_private_object_init);
  
@@ -118,9 +118,9 @@ index 6410563a9cb6f..dbd19a34b517b 100644
  /**
   * drm_gem_object_handle_free - release resources bound to userspace handles
   * @obj: GEM object to clean up.
-@@ -252,7 +237,7 @@ drm_gem_object_release_handle(int id, void *ptr, void *data)
- 	if (obj->funcs->close)
- 		obj->funcs->close(obj, file_priv);
+@@ -254,7 +239,7 @@ drm_gem_object_release_handle(int id, void *ptr, void *data)
+ 	else if (dev->driver->gem_close_object)
+ 		dev->driver->gem_close_object(obj, file_priv);
  
 -	drm_gem_remove_prime_handles(obj, file_priv);
 +	drm_prime_remove_buf_handle(&file_priv->prime, id);
@@ -128,10 +128,10 @@ index 6410563a9cb6f..dbd19a34b517b 100644
  
  	drm_gem_object_handle_put_unlocked(obj);
 diff --git a/drivers/gpu/drm/drm_internal.h b/drivers/gpu/drm/drm_internal.h
-index 17f3548c8ed25..d05e6a5b66873 100644
+index b65865c630b0a..f80e0f28087d1 100644
 --- a/drivers/gpu/drm/drm_internal.h
 +++ b/drivers/gpu/drm/drm_internal.h
-@@ -74,8 +74,8 @@ int drm_prime_fd_to_handle_ioctl(struct drm_device *dev, void *data,
+@@ -86,8 +86,8 @@ int drm_prime_fd_to_handle_ioctl(struct drm_device *dev, void *data,
  
  void drm_prime_init_file_private(struct drm_prime_file_private *prime_fpriv);
  void drm_prime_destroy_file_private(struct drm_prime_file_private *prime_fpriv);
@@ -143,7 +143,7 @@ index 17f3548c8ed25..d05e6a5b66873 100644
  /* drm_drv.c */
  struct drm_minor *drm_minor_acquire(unsigned int minor_id);
 diff --git a/drivers/gpu/drm/drm_prime.c b/drivers/gpu/drm/drm_prime.c
-index d6c7f4f9a7a29..a350310b65d89 100644
+index 9f955f2010c25..825499ea3ff59 100644
 --- a/drivers/gpu/drm/drm_prime.c
 +++ b/drivers/gpu/drm/drm_prime.c
 @@ -187,29 +187,33 @@ static int drm_prime_lookup_buf_handle(struct drm_prime_file_private *prime_fpri
