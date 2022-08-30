@@ -2,56 +2,55 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 530205A60E9
-	for <lists+linux-media@lfdr.de>; Tue, 30 Aug 2022 12:37:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 222145A6140
+	for <lists+linux-media@lfdr.de>; Tue, 30 Aug 2022 12:59:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229590AbiH3Khm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 30 Aug 2022 06:37:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33048 "EHLO
+        id S229801AbiH3K7I (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 30 Aug 2022 06:59:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42026 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229916AbiH3Kh3 (ORCPT
+        with ESMTP id S229481AbiH3K7G (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 30 Aug 2022 06:37:29 -0400
-Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.167])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 750A6AD99A
-        for <linux-media@vger.kernel.org>; Tue, 30 Aug 2022 03:37:27 -0700 (PDT)
-X-KPN-MessageId: bbca3a3f-284f-11ed-a5a6-005056abbe64
-Received: from smtp.kpnmail.nl (unknown [10.31.155.38])
-        by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-        id bbca3a3f-284f-11ed-a5a6-005056abbe64;
-        Tue, 30 Aug 2022 12:37:23 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=xs4all.nl; s=xs4all01;
-        h=content-type:subject:from:to:mime-version:date:message-id;
-        bh=gDT6OL2WxT8FzoGgaRRckw3TXInFzT3Nnj/9SUq+Ilc=;
-        b=Lvpkh2Iythl6n3JHG7xt3R+dOxHU0iNDU8wzvS/+KbA1dl4jLV4ApJVE3lLrRQFqZtOb4IW7fHnHj
-         YJzKcXpvHQ8XI64rvuhdAFK74Ad9oSYE0Jn1LqP852SF0DjoOe6M7xYqcTO0H2i+igXoOEnzNqg7OV
-         mZ3+ducOhfLd9BsLOyaYq7MOGK8SIxwbzRE5af0EhxEctDSmTtr7CO2zeZwhkid2IAtk+qOH2du6tM
-         2MouAnP1zhbOnnX1Y2q5Bx/qYCab39wDZnK1FgQdTy2cQiOVVKGot86qrUw4PnZ6wXoFD5DjBAgQIM
-         Ojr4p6bhGM5QsnRnrLbT/XobJ0MhbUw==
-X-KPN-MID: 33|sEQ+0xNKXymiux02BHgIpyLgLG01ghQEtfYyq3jmv/tPBkwPpz11oRfDFUXXiJ6
- nhAvot4Z/0TbCB9Kwnv2PzmpFR/MvvhRISdvK2G4jPKg=
-X-KPN-VerifiedSender: Yes
-X-CMASSUN: 33|XwvO8GnumNXZak3+Rf/CojX5PcFm+zW2/V1dD49PjvezPg7B5ebZVS6b/NB2nPR
- jgCDrYJX6mLRou2zpOxRQkA==
-X-Originating-IP: 173.38.220.57
-Received: from [10.47.77.219] (unknown [173.38.220.57])
-        by smtp.xs4all.nl (Halon) with ESMTPSA
-        id bc30c00c-284f-11ed-b5e7-005056abf0db;
-        Tue, 30 Aug 2022 12:37:25 +0200 (CEST)
-Message-ID: <9c9af92a-588b-e2ca-d72b-4dcc43d38c0e@xs4all.nl>
-Date:   Tue, 30 Aug 2022 12:37:24 +0200
+        Tue, 30 Aug 2022 06:59:06 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A0E1C9DFAA
+        for <linux-media@vger.kernel.org>; Tue, 30 Aug 2022 03:59:05 -0700 (PDT)
+Received: from [192.168.1.111] (91-158-154-79.elisa-laajakaista.fi [91.158.154.79])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id DB2A325B;
+        Tue, 30 Aug 2022 12:59:01 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1661857142;
+        bh=BYYKlEuL7yiijO+7aI8+q9PpYCR42IyR2Jir7quLock=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=ZyFKd9VD08C7J8X8z9rBD9mCdsb1tu0LJQgHvKs9tDpquL8P0plZB5lVyIGxrHaEo
+         3sEXrhzKsXO5i664WMA1RON4/voJk1MuE532cHvfWTbd4QV8nQNDNAHGH0PfUo1qEy
+         /718GMGgcbQfzkUl6i4o/oEHQzDE/uTVvcilqu2w=
+Message-ID: <f7d61c5c-c7ff-e86c-32bb-1da22aa3a5d2@ideasonboard.com>
+Date:   Tue, 30 Aug 2022 13:58:58 +0300
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.1.2
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v13 09/34] media: v4l2-dev: Add videodev wrappers for
+ media pipelines
 Content-Language: en-US
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: [PATCH] media: cec: add support for Absolute Volume Control
-Content-Type: text/plain; charset=UTF-8
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        niklas.soderlund+renesas@ragnatech.se,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Pratyush Yadav <p.yadav@ti.com>,
+        Kishon Vijay Abraham <kishon@ti.com>,
+        satish.nagireddy@getcruise.com, Tomasz Figa <tfiga@chromium.org>
+References: <20220810121122.3149086-1-tomi.valkeinen@ideasonboard.com>
+ <20220810121122.3149086-10-tomi.valkeinen@ideasonboard.com>
+ <YwzqhxmPp9WXvJ2i@pendragon.ideasonboard.com>
+From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+In-Reply-To: <YwzqhxmPp9WXvJ2i@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
         SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -60,92 +59,151 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add support for this new CEC message. This was added in HDMI 2.1a.
+On 29/08/2022 19:34, Laurent Pinchart wrote:
+> Hi Tomi,
+> 
+> Thank you for the patch.
+> 
+> On Wed, Aug 10, 2022 at 03:10:57PM +0300, Tomi Valkeinen wrote:
+>> With the upcoming stream related improvements to the pipelines, the
+>> pipelines are moved from media entities to media pads. As the drivers
+>> currently use the pipelines with the entity based model, moving the
+>> pipelines to pads will cause changes to the drivers.
+>>
+>> However, most of the uses of media pipelines are related to a video
+>> device (a DMA engine) with a single pad, and thus there's never a need
+>> to support multiple pads in these use cases. We can avoid pushing the
+>> complexities of the pad based model to the drivers by adding video
+>> device wrappers for the pipeline related functions.
+>>
+>> This patch adds a number of wrappers to media_pipeline functions, all of
+>> which take a video_device as a parameter (instead of a media_entity),
+>> and verify that there's just one pad.
+>>
+>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+>> ---
+>>   drivers/media/v4l2-core/v4l2-dev.c | 61 ++++++++++++++++++++
+>>   include/media/v4l2-dev.h           | 90 ++++++++++++++++++++++++++++++
+>>   2 files changed, 151 insertions(+)
+>>
+>> diff --git a/drivers/media/v4l2-core/v4l2-dev.c b/drivers/media/v4l2-core/v4l2-dev.c
+>> index d00237ee4cae..7f933ff89fd4 100644
+>> --- a/drivers/media/v4l2-core/v4l2-dev.c
+>> +++ b/drivers/media/v4l2-core/v4l2-dev.c
+>> @@ -1095,6 +1095,67 @@ void video_unregister_device(struct video_device *vdev)
+>>   }
+>>   EXPORT_SYMBOL(video_unregister_device);
+>>   
+>> +#if defined(CONFIG_MEDIA_CONTROLLER)
+>> +
+>> +__must_check int video_device_pipeline_start(struct video_device *vdev,
+>> +					     struct media_pipeline *pipe)
+>> +{
+>> +	struct media_entity *entity = &vdev->entity;
+>> +
+>> +	if (entity->num_pads != 1)
+>> +		return -ENODEV;
+>> +
+>> +	return media_pipeline_start(entity, pipe);
+>> +}
+>> +EXPORT_SYMBOL_GPL(video_device_pipeline_start);
+>> +
+>> +__must_check int __video_device_pipeline_start(struct video_device *vdev,
+>> +					       struct media_pipeline *pipe)
+>> +{
+>> +	struct media_entity *entity = &vdev->entity;
+>> +
+>> +	if (entity->num_pads != 1)
+>> +		return -ENODEV;
+>> +
+>> +	return __media_pipeline_start(entity, pipe);
+>> +}
+>> +EXPORT_SYMBOL_GPL(__video_device_pipeline_start);
+>> +
+>> +void video_device_pipeline_stop(struct video_device *vdev)
+>> +{
+>> +	struct media_entity *entity = &vdev->entity;
+>> +
+>> +	if (WARN_ON(entity->num_pads != 1))
+>> +		return;
+>> +
+>> +	return media_pipeline_stop(entity);
+>> +}
+>> +EXPORT_SYMBOL_GPL(video_device_pipeline_stop);
+>> +
+>> +void __video_device_pipeline_stop(struct video_device *vdev)
+>> +{
+>> +	struct media_entity *entity = &vdev->entity;
+>> +
+>> +	if (WARN_ON(entity->num_pads != 1))
+>> +		return;
+>> +
+>> +	return __media_pipeline_stop(entity);
+>> +}
+>> +EXPORT_SYMBOL_GPL(__video_device_pipeline_stop);
+>> +
+>> +struct media_pipeline *video_device_pipeline(struct video_device *vdev)
+>> +{
+>> +	struct media_entity *entity = &vdev->entity;
+>> +
+>> +	if (WARN_ON(entity->num_pads != 1))
+>> +		return NULL;
+>> +
+>> +	return media_entity_pipeline(entity);
+>> +}
+>> +EXPORT_SYMBOL_GPL(video_device_pipeline);
+>> +
+>> +#endif /* CONFIG_MEDIA_CONTROLLER */
+>> +
+>>   /*
+>>    *	Initialise video for linux
+>>    */
+>> diff --git a/include/media/v4l2-dev.h b/include/media/v4l2-dev.h
+>> index 5cf1edefb822..4ccc24f5918a 100644
+>> --- a/include/media/v4l2-dev.h
+>> +++ b/include/media/v4l2-dev.h
+>> @@ -539,4 +539,94 @@ static inline int video_is_registered(struct video_device *vdev)
+>>   	return test_bit(V4L2_FL_REGISTERED, &vdev->flags);
+>>   }
+>>   
+>> +#if defined(CONFIG_MEDIA_CONTROLLER)
+>> +
+>> +/**
+>> + * video_device_pipeline_start - Mark a pipeline as streaming
+>> + * @vdev: Starting video device
+>> + * @pipe: Media pipeline to be assigned to all entities in the pipeline.
+>> + *
+>> + * Mark all entities connected to a given video device through enabled links,
+>> + * either directly or indirectly, as streaming. The given pipeline object is
+>> + * assigned to every entity in the pipeline and stored in the media_entity pipe
+>> + * field.
+>> + *
+>> + * Calls to this function can be nested, in which case the same number of
+>> + * video_device_pipeline_stop() calls will be required to stop streaming. The
+>> + * pipeline pointer must be identical for all nested calls to
+>> + * video_device_pipeline_start().
+>> + *
+>> + * The video device must contain a single pad.
+>> + *
+>> + * This is a convenience wrapper to media_pipeline_start().
+> 
+> s/wrapper to/wrapper around/ maybe. Same below.
 
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
----
- .../userspace-api/media/cec.h.rst.exceptions       |  2 ++
- drivers/media/cec/core/cec-adap.c                  |  1 +
- include/uapi/linux/cec-funcs.h                     | 14 ++++++++++++++
- include/uapi/linux/cec.h                           |  2 ++
- 4 files changed, 19 insertions(+)
+Sounds good to me.
 
-diff --git a/Documentation/userspace-api/media/cec.h.rst.exceptions b/Documentation/userspace-api/media/cec.h.rst.exceptions
-index 13de01d9555e..15fa1752d4ef 100644
---- a/Documentation/userspace-api/media/cec.h.rst.exceptions
-+++ b/Documentation/userspace-api/media/cec.h.rst.exceptions
-@@ -239,6 +239,7 @@ ignore define CEC_OP_FEAT_DEV_HAS_DECK_CONTROL
- ignore define CEC_OP_FEAT_DEV_HAS_SET_AUDIO_RATE
- ignore define CEC_OP_FEAT_DEV_SINK_HAS_ARC_TX
- ignore define CEC_OP_FEAT_DEV_SOURCE_HAS_ARC_RX
-+ignore define CEC_OP_FEAT_DEV_HAS_SET_AUDIO_VOLUME_LEVEL
+>> + */
+>> +__must_check int video_device_pipeline_start(struct video_device *vdev,
+>> +					     struct media_pipeline *pipe);
+>> +
+>> +/**
+>> + * __video_device_pipeline_start - Mark a pipeline as streaming
+>> + *
+> 
+> I'd drop the blank line as you don't have one for the previous function.
+> Same for stop.
 
- ignore define CEC_MSG_GIVE_FEATURES
+Yep.
 
-@@ -487,6 +488,7 @@ ignore define CEC_OP_SYS_AUD_STATUS_ON
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
- ignore define CEC_MSG_SYSTEM_AUDIO_MODE_REQUEST
- ignore define CEC_MSG_SYSTEM_AUDIO_MODE_STATUS
-+ignore define CEC_MSG_SET_AUDIO_VOLUME_LEVEL
-
- ignore define CEC_OP_AUD_FMT_ID_CEA861
- ignore define CEC_OP_AUD_FMT_ID_CEA861_CXT
-diff --git a/drivers/media/cec/core/cec-adap.c b/drivers/media/cec/core/cec-adap.c
-index 41a79293ee02..4f5ab3cae8a7 100644
---- a/drivers/media/cec/core/cec-adap.c
-+++ b/drivers/media/cec/core/cec-adap.c
-@@ -1027,6 +1027,7 @@ static const u8 cec_msg_size[256] = {
- 	[CEC_MSG_REPORT_SHORT_AUDIO_DESCRIPTOR] = 2 | DIRECTED,
- 	[CEC_MSG_REQUEST_SHORT_AUDIO_DESCRIPTOR] = 2 | DIRECTED,
- 	[CEC_MSG_SET_SYSTEM_AUDIO_MODE] = 3 | BOTH,
-+	[CEC_MSG_SET_AUDIO_VOLUME_LEVEL] = 3 | DIRECTED,
- 	[CEC_MSG_SYSTEM_AUDIO_MODE_REQUEST] = 2 | DIRECTED,
- 	[CEC_MSG_SYSTEM_AUDIO_MODE_STATUS] = 3 | DIRECTED,
- 	[CEC_MSG_SET_AUDIO_RATE] = 3 | DIRECTED,
-diff --git a/include/uapi/linux/cec-funcs.h b/include/uapi/linux/cec-funcs.h
-index c3baaea0b8ef..d58fa1cdcb08 100644
---- a/include/uapi/linux/cec-funcs.h
-+++ b/include/uapi/linux/cec-funcs.h
-@@ -1568,6 +1568,20 @@ static inline void cec_ops_request_short_audio_descriptor(const struct cec_msg *
- 	}
- }
-
-+static inline void cec_msg_set_audio_volume_level(struct cec_msg *msg,
-+						  __u8 audio_volume_level)
-+{
-+	msg->len = 3;
-+	msg->msg[1] = CEC_MSG_SET_AUDIO_VOLUME_LEVEL;
-+	msg->msg[2] = audio_volume_level;
-+}
-+
-+static inline void cec_ops_set_audio_volume_level(const struct cec_msg *msg,
-+						  __u8 *audio_volume_level)
-+{
-+	*audio_volume_level = msg->msg[2];
-+}
-+
-
- /* Audio Rate Control Feature */
- static inline void cec_msg_set_audio_rate(struct cec_msg *msg,
-diff --git a/include/uapi/linux/cec.h b/include/uapi/linux/cec.h
-index 1d48da926216..b8e071abaea5 100644
---- a/include/uapi/linux/cec.h
-+++ b/include/uapi/linux/cec.h
-@@ -768,6 +768,7 @@ struct cec_event {
- #define CEC_OP_FEAT_DEV_HAS_SET_AUDIO_RATE		0x08
- #define CEC_OP_FEAT_DEV_SINK_HAS_ARC_TX			0x04
- #define CEC_OP_FEAT_DEV_SOURCE_HAS_ARC_RX		0x02
-+#define CEC_OP_FEAT_DEV_HAS_SET_AUDIO_VOLUME_LEVEL	0x01
-
- #define CEC_MSG_GIVE_FEATURES				0xa5	/* HDMI 2.0 */
-
-@@ -1059,6 +1060,7 @@ struct cec_event {
- #define CEC_OP_AUD_FMT_ID_CEA861			0
- #define CEC_OP_AUD_FMT_ID_CEA861_CXT			1
-
-+#define CEC_MSG_SET_AUDIO_VOLUME_LEVEL			0x73
-
- /* Audio Rate Control Feature */
- #define CEC_MSG_SET_AUDIO_RATE				0x9a
--- 
-2.35.1
+Thanks!
