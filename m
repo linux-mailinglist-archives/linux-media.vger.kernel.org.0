@@ -2,110 +2,88 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CA2DC5A5E4C
-	for <lists+linux-media@lfdr.de>; Tue, 30 Aug 2022 10:38:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ED61D5A5E65
+	for <lists+linux-media@lfdr.de>; Tue, 30 Aug 2022 10:43:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231503AbiH3IiE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 30 Aug 2022 04:38:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45118 "EHLO
+        id S231657AbiH3Inn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 30 Aug 2022 04:43:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52062 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229550AbiH3IiC (ORCPT
+        with ESMTP id S231673AbiH3Inj (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 30 Aug 2022 04:38:02 -0400
-Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com [IPv6:2607:f8b0:4864:20::636])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 135E3C57A1;
-        Tue, 30 Aug 2022 01:38:02 -0700 (PDT)
-Received: by mail-pl1-x636.google.com with SMTP id y1so8567153plb.2;
-        Tue, 30 Aug 2022 01:38:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc;
-        bh=OKt0SaKYUFDPM64A6Cn07/EmVIDe8Wy7GwAmvsBeu9o=;
-        b=fIvvSYlkOcHjJ41suOSaXMb/7pHUjt+uhtz2UaP1To0OmhrCnIDAWSygWg7+pG3Da1
-         0+AOjaky2e834aVf0fXw4e0UfyNGMq2mHlU6XyR6PCgQ8VxtTYuVcTYiiyMiSxHqenlU
-         dC5cKOhE7Mj/3Dt9axxG3TvhQVhUuhLMPvSvZEVYv86HGlbkx75BBM14hM0qH8UWUJX+
-         UPU63JHPFC0Zd0iLci0J3kib6h7C9bMZmziEPkWJRrH4z1+RAnONSL5I06jM5j2OtR/x
-         c8LTtOfxN49StTslBBxb6DT1OGQJA2KZ6LI2fTUPeKzqddGPLKks7HKJCxQA+XNdW/xG
-         zuTQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc;
-        bh=OKt0SaKYUFDPM64A6Cn07/EmVIDe8Wy7GwAmvsBeu9o=;
-        b=hNkI4m97qiEhO4cHXnXaWstNyHSBczkkvlgS8V+6ISeMus6WYrLeCHlx7iSd454EU4
-         aFmBIjsRlFilDwcL8WEKcwFl40qOsfKjGamVz2B+6WFQJPy09nLUlty7nuux/kqLdmrq
-         AEZjmQJKSD07kBz5mhuU4Bgn/UgoLX1ZBI/RxYUEnS0+zX4scfSMmmHCgpw5PuW8bBwE
-         ZUfGBw09M8fMIvjsn5R4HTbtwefUJJWLjTKh7UqVfoOAl/JEKENJARcvwOBeSiIYSIdi
-         20fcLol7bcYVQaY3yUNGLOop4188Q/3BmPfS1oziJPipr0nGQWDCU4ENTGW/H7yoKrAT
-         PhOA==
-X-Gm-Message-State: ACgBeo32WK9MiT9VmDboGD5KFIi9Geqwhm0UHq2OY9smxP3ntiLycRXt
-        Ij+t0j6j1Gw8w/+kgvM4dREgfLAqLXU=
-X-Google-Smtp-Source: AA6agR6vJqU1pWfRwxp3epkBabnDXJzQtRQDUQRGVlNPFO/iYEB67Ck5rDWQ9BP1GHsPomNF7O12bQ==
-X-Received: by 2002:a17:90a:318f:b0:1fa:a374:f565 with SMTP id j15-20020a17090a318f00b001faa374f565mr22667328pjb.146.1661848681621;
-        Tue, 30 Aug 2022 01:38:01 -0700 (PDT)
-Received: from localhost.localdomain ([193.203.214.57])
-        by smtp.gmail.com with ESMTPSA id d26-20020aa797ba000000b0053668f17a23sm8507946pfq.220.2022.08.30.01.37.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 30 Aug 2022 01:38:01 -0700 (PDT)
-From:   cgel.zte@gmail.com
-X-Google-Original-From: ye.xingchen@zte.com.cn
-To:     mchehab@kernel.org
-Cc:     stanimir.varbanov@linaro.org, agross@kernel.org,
-        bjorn.andersson@linaro.org, konrad.dybcio@somainline.org,
-        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, ye xingchen <ye.xingchen@zte.com.cn>,
-        Zeal Robot <zealci@zte.com.cn>
-Subject: [PATCH linux-next] media: venus: hfi: Remove the unneeded result variable
-Date:   Tue, 30 Aug 2022 08:37:53 +0000
-Message-Id: <20220830083753.276861-1-ye.xingchen@zte.com.cn>
+        Tue, 30 Aug 2022 04:43:39 -0400
+Received: from mailgw.kylinos.cn (unknown [124.126.103.232])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F3D9A5735;
+        Tue, 30 Aug 2022 01:43:34 -0700 (PDT)
+X-UUID: a1eacdbadf364491962084fe0678a21c-20220830
+X-CPASD-INFO: 5c614a9c99bb432ebf4fe4b30a3a12d8@frNwUWGTZ5NlWaSug3Z9n4KXZJaVYIK
+        CcptTkV9ikFiVhH5xTV5uYFV9fWtVYV9dYVR6eGxQYmBgZFJ4i3-XblBgXoZgUZB3hKVwUWSPaQ==
+X-CLOUD-ID: 5c614a9c99bb432ebf4fe4b30a3a12d8
+X-CPASD-SUMMARY: SIP:-1,APTIP:-2.0,KEY:0.0,FROMBLOCK:1,OB:0.0,URL:-5,TVAL:173.
+        0,ESV:0.0,ECOM:-5.0,ML:0.0,FD:0.0,CUTS:102.0,IP:-2.0,MAL:-5.0,PHF:-5.0,PHC:-5
+        .0,SPF:4.0,EDMS:-5,IPLABEL:4480.0,FROMTO:0,AD:0,FFOB:0.0,CFOB:0.0,SPC:0,SIG:-
+        5,AUF:2,DUF:3567,ACD:65,DCD:65,SL:0,EISP:0,AG:0,CFC:0.338,CFSR:0.081,UAT:0,RA
+        F:0,IMG:-5.0,DFA:0,DTA:0,IBL:-2.0,ADI:-5,SBL:0,REDM:0,REIP:0,ESB:0,ATTNUM:0,E
+        AF:0,CID:-5.0,VERSION:2.3.17
+X-CPASD-ID: a1eacdbadf364491962084fe0678a21c-20220830
+X-CPASD-BLOCK: 1000
+X-CPASD-STAGE: 1
+X-UUID: a1eacdbadf364491962084fe0678a21c-20220830
+X-User: huxiaoying@kylinos.cn
+Received: from localhost.localdomain [(112.64.161.44)] by mailgw
+        (envelope-from <huxiaoying@kylinos.cn>)
+        (Generic MTA)
+        with ESMTP id 2131062562; Tue, 30 Aug 2022 16:43:47 +0800
+From:   Hu Xiaoying <huxiaoying@kylinos.cn>
+To:     stern@rowland.harvard.edu, gregkh@linuxfoundation.org,
+        linux-usb@vger.kernel.org, usb-storage@lists.one-eyed-alien.net
+Cc:     linux-media@vger.kernel.org, devel@driverdev.osuosl.org,
+        linux-kernel@vger.kernel.org, Hu Xiaoying <huxiaoying@kylinos.cn>,
+        Hu Xiaoying <huxiaoying@gmail.com>
+Subject: [PATCH] usb: Improves USB2.0 write performance
+Date:   Tue, 30 Aug 2022 16:43:25 +0800
+Message-Id: <20220830084325.752655-1-huxiaoying@kylinos.cn>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=1.5 required=5.0 tests=BAYES_00,HK_RANDOM_ENVFROM,
+        HK_RANDOM_FROM,KHOP_HELO_FCRDNS,RDNS_DYNAMIC,SPF_HELO_NONE,
+        T_SCC_BODY_TEXT_LINE,T_SPF_PERMERROR,UNPARSEABLE_RELAY autolearn=no
+        autolearn_force=no version=3.4.6
+X-Spam-Level: *
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: ye xingchen <ye.xingchen@zte.com.cn>
+USB external storage device(0x0b05:1932), use gnome-disk-utility tools
+to test usb write  < 30MB/s. if does not to load module of uas for this device
+, can increase the write speed from 20MB/s to more than 40MB/s.
 
-Return the value venus_hfi_create() directly instead of storing it in
-another redundant variable.
-
-Reported-by: Zeal Robot <zealci@zte.com.cn>
-Signed-off-by: ye xingchen <ye.xingchen@zte.com.cn>
+Signed-off-by: Hu Xiaoying <huxiaoying@gmail.com>
 ---
- drivers/media/platform/qcom/venus/hfi.c | 5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
+ drivers/usb/storage/unusual_uas.h | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/drivers/media/platform/qcom/venus/hfi.c b/drivers/media/platform/qcom/venus/hfi.c
-index 1968f09ad177..e00aedb41d16 100644
---- a/drivers/media/platform/qcom/venus/hfi.c
-+++ b/drivers/media/platform/qcom/venus/hfi.c
-@@ -569,8 +569,6 @@ irqreturn_t hfi_isr(int irq, void *dev)
+diff --git a/drivers/usb/storage/unusual_uas.h b/drivers/usb/storage/unusual_uas.h
+index 4051c8cd0cd8..3925c7c67915 100644
+--- a/drivers/usb/storage/unusual_uas.h
++++ b/drivers/usb/storage/unusual_uas.h
+@@ -62,6 +62,13 @@ UNUSUAL_DEV(0x0984, 0x0301, 0x0128, 0x0128,
+ 		USB_SC_DEVICE, USB_PR_DEVICE, NULL,
+ 		US_FL_IGNORE_UAS),
  
- int hfi_create(struct venus_core *core, const struct hfi_core_ops *ops)
- {
--	int ret;
--
- 	if (!ops)
- 		return -EINVAL;
- 
-@@ -579,9 +577,8 @@ int hfi_create(struct venus_core *core, const struct hfi_core_ops *ops)
- 	core->state = CORE_UNINIT;
- 	init_completion(&core->done);
- 	pkt_set_version(core->res->hfi_version);
--	ret = venus_hfi_create(core);
- 
--	return ret;
-+	return venus_hfi_create(core);
- }
- 
- void hfi_destroy(struct venus_core *core)
++/* Reported-by: Tom Hu <huxiaoying@gmail.com> */
++UNUSUAL_DEV(0x0b05, 0x1932, 0x0000, 0x9999,
++		"ASUS",
++		"External HDD",
++		USB_SC_DEVICE, USB_PR_DEVICE, NULL,
++		US_FL_IGNORE_UAS),
++
+ /* Reported-by: David Webb <djw@noc.ac.uk> */
+ UNUSUAL_DEV(0x0bc2, 0x331a, 0x0000, 0x9999,
+ 		"Seagate",
 -- 
 2.25.1
+
