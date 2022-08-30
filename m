@@ -2,36 +2,36 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9CCFA5A696F
-	for <lists+linux-media@lfdr.de>; Tue, 30 Aug 2022 19:19:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3AF115A69F5
+	for <lists+linux-media@lfdr.de>; Tue, 30 Aug 2022 19:25:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230047AbiH3RSu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 30 Aug 2022 13:18:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58872 "EHLO
+        id S231441AbiH3RZI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 30 Aug 2022 13:25:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46154 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230233AbiH3RSn (ORCPT
+        with ESMTP id S231436AbiH3RYc (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 30 Aug 2022 13:18:43 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 325FCD5DD2;
-        Tue, 30 Aug 2022 10:18:40 -0700 (PDT)
+        Tue, 30 Aug 2022 13:24:32 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F0133F7B0C;
+        Tue, 30 Aug 2022 10:22:10 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id C3DFA6172E;
-        Tue, 30 Aug 2022 17:18:39 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B65F0C43140;
-        Tue, 30 Aug 2022 17:18:37 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 1C12EB81D1A;
+        Tue, 30 Aug 2022 17:21:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5E494C433B5;
+        Tue, 30 Aug 2022 17:21:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1661879919;
-        bh=8WnNtHa6kyBxKAB9Qe4GYjamla7EnOs3bQQ3ef5zjTY=;
+        s=k20201202; t=1661880109;
+        bh=rWYNn6AX8qGZFR6CUEwmBFpxhkx5iTNWaMTbeQLzUWA=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=lWLD0a92QaOtqbkIfq23I902Bu3wJWbalp66xuPiDoWgFSBSEBvYHtCjewGndcAwR
-         35mk45e8F2KlQRD1luIK7zbWQPG1RBoLLZZZe4PCxnVyF+9Qxz1z4nsa82AKAszeag
-         JG7ksiBkiCPs7WsN/Or79R2KpF01iNwhfSZ0SWJSK3uEEVpMVb7yXPYY1272RIUJy3
-         KQYwb4aiofT0E9CE8n8smXBdgjxzBVP1CaVdHgTbCcj8w8k6o7GcBFQKJjaoVffn8u
-         KsnmeqSoH2vKenlEJS7PBHTi/7dL6Qj4o7VpXzNcqjPgzttgxzV+4qrphsEqRiQBYp
-         K5M4iVHFlkWgQ==
+        b=TmwJY3CEBr0TAdiFuj9FsmLqyyRmgLYX24DLUTLkSgtzNDZhCq/pc95od/VYXSfYk
+         EFlweBeE0LD78dl6va4c9CDpqxtHt1c93tUXHwT3BoMFU6xIm5pkowkcDrSpG7ARDR
+         WrFfXPTX1a4zOYYK38sdWbO8drSYzGjrETuzEWGq3MYL98dlIil4zCjEgJX6R6xmJ7
+         MdsMfZr2ISK0IVIhb6v66Lv4EPU0UeGum6WXOajeQ+kbPzTPN2owB3bpVRBhPi47lG
+         ht1ZilOvGriiP2v0HAkxnexGUCuIoQbM9wT+J37ZunuFhEJccEc+n2Jw2di+AuReN1
+         hn21SPY/G/oYA==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Jeffy Chen <jeffy.chen@rock-chips.com>,
@@ -41,12 +41,12 @@ Cc:     Jeffy Chen <jeffy.chen@rock-chips.com>,
         tzimmermann@suse.de, airlied@linux.ie, daniel@ffwll.ch,
         sumit.semwal@linaro.org, dri-devel@lists.freedesktop.org,
         linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-Subject: [PATCH AUTOSEL 5.19 07/33] drm/gem: Fix GEM handle release errors
-Date:   Tue, 30 Aug 2022 13:17:58 -0400
-Message-Id: <20220830171825.580603-7-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.15 04/23] drm/gem: Fix GEM handle release errors
+Date:   Tue, 30 Aug 2022 13:21:21 -0400
+Message-Id: <20220830172141.581086-4-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220830171825.580603-1-sashal@kernel.org>
-References: <20220830171825.580603-1-sashal@kernel.org>
+In-Reply-To: <20220830172141.581086-1-sashal@kernel.org>
+References: <20220830172141.581086-1-sashal@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-stable: review
@@ -93,10 +93,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  3 files changed, 15 insertions(+), 26 deletions(-)
 
 diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
-index 86d670c712867..ad068865ba206 100644
+index 6410563a9cb6f..dbd19a34b517b 100644
 --- a/drivers/gpu/drm/drm_gem.c
 +++ b/drivers/gpu/drm/drm_gem.c
-@@ -168,21 +168,6 @@ void drm_gem_private_object_init(struct drm_device *dev,
+@@ -167,21 +167,6 @@ void drm_gem_private_object_init(struct drm_device *dev,
  }
  EXPORT_SYMBOL(drm_gem_private_object_init);
  
@@ -118,7 +118,7 @@ index 86d670c712867..ad068865ba206 100644
  /**
   * drm_gem_object_handle_free - release resources bound to userspace handles
   * @obj: GEM object to clean up.
-@@ -253,7 +238,7 @@ drm_gem_object_release_handle(int id, void *ptr, void *data)
+@@ -252,7 +237,7 @@ drm_gem_object_release_handle(int id, void *ptr, void *data)
  	if (obj->funcs->close)
  		obj->funcs->close(obj, file_priv);
  
@@ -128,7 +128,7 @@ index 86d670c712867..ad068865ba206 100644
  
  	drm_gem_object_handle_put_unlocked(obj);
 diff --git a/drivers/gpu/drm/drm_internal.h b/drivers/gpu/drm/drm_internal.h
-index 1fbbc19f1ac09..7bb98e6a446d0 100644
+index 17f3548c8ed25..d05e6a5b66873 100644
 --- a/drivers/gpu/drm/drm_internal.h
 +++ b/drivers/gpu/drm/drm_internal.h
 @@ -74,8 +74,8 @@ int drm_prime_fd_to_handle_ioctl(struct drm_device *dev, void *data,
@@ -143,10 +143,10 @@ index 1fbbc19f1ac09..7bb98e6a446d0 100644
  /* drm_drv.c */
  struct drm_minor *drm_minor_acquire(unsigned int minor_id);
 diff --git a/drivers/gpu/drm/drm_prime.c b/drivers/gpu/drm/drm_prime.c
-index e3f09f18110c7..bd5366b16381b 100644
+index d6c7f4f9a7a29..a350310b65d89 100644
 --- a/drivers/gpu/drm/drm_prime.c
 +++ b/drivers/gpu/drm/drm_prime.c
-@@ -190,29 +190,33 @@ static int drm_prime_lookup_buf_handle(struct drm_prime_file_private *prime_fpri
+@@ -187,29 +187,33 @@ static int drm_prime_lookup_buf_handle(struct drm_prime_file_private *prime_fpri
  	return -ENOENT;
  }
  
