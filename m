@@ -2,88 +2,93 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id ED61D5A5E65
-	for <lists+linux-media@lfdr.de>; Tue, 30 Aug 2022 10:43:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C09055A60DB
+	for <lists+linux-media@lfdr.de>; Tue, 30 Aug 2022 12:34:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231657AbiH3Inn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 30 Aug 2022 04:43:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52062 "EHLO
+        id S229738AbiH3Keg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 30 Aug 2022 06:34:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54654 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231673AbiH3Inj (ORCPT
+        with ESMTP id S229822AbiH3Kef (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 30 Aug 2022 04:43:39 -0400
-Received: from mailgw.kylinos.cn (unknown [124.126.103.232])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F3D9A5735;
-        Tue, 30 Aug 2022 01:43:34 -0700 (PDT)
-X-UUID: a1eacdbadf364491962084fe0678a21c-20220830
-X-CPASD-INFO: 5c614a9c99bb432ebf4fe4b30a3a12d8@frNwUWGTZ5NlWaSug3Z9n4KXZJaVYIK
-        CcptTkV9ikFiVhH5xTV5uYFV9fWtVYV9dYVR6eGxQYmBgZFJ4i3-XblBgXoZgUZB3hKVwUWSPaQ==
-X-CLOUD-ID: 5c614a9c99bb432ebf4fe4b30a3a12d8
-X-CPASD-SUMMARY: SIP:-1,APTIP:-2.0,KEY:0.0,FROMBLOCK:1,OB:0.0,URL:-5,TVAL:173.
-        0,ESV:0.0,ECOM:-5.0,ML:0.0,FD:0.0,CUTS:102.0,IP:-2.0,MAL:-5.0,PHF:-5.0,PHC:-5
-        .0,SPF:4.0,EDMS:-5,IPLABEL:4480.0,FROMTO:0,AD:0,FFOB:0.0,CFOB:0.0,SPC:0,SIG:-
-        5,AUF:2,DUF:3567,ACD:65,DCD:65,SL:0,EISP:0,AG:0,CFC:0.338,CFSR:0.081,UAT:0,RA
-        F:0,IMG:-5.0,DFA:0,DTA:0,IBL:-2.0,ADI:-5,SBL:0,REDM:0,REIP:0,ESB:0,ATTNUM:0,E
-        AF:0,CID:-5.0,VERSION:2.3.17
-X-CPASD-ID: a1eacdbadf364491962084fe0678a21c-20220830
-X-CPASD-BLOCK: 1000
-X-CPASD-STAGE: 1
-X-UUID: a1eacdbadf364491962084fe0678a21c-20220830
-X-User: huxiaoying@kylinos.cn
-Received: from localhost.localdomain [(112.64.161.44)] by mailgw
-        (envelope-from <huxiaoying@kylinos.cn>)
-        (Generic MTA)
-        with ESMTP id 2131062562; Tue, 30 Aug 2022 16:43:47 +0800
-From:   Hu Xiaoying <huxiaoying@kylinos.cn>
-To:     stern@rowland.harvard.edu, gregkh@linuxfoundation.org,
-        linux-usb@vger.kernel.org, usb-storage@lists.one-eyed-alien.net
-Cc:     linux-media@vger.kernel.org, devel@driverdev.osuosl.org,
-        linux-kernel@vger.kernel.org, Hu Xiaoying <huxiaoying@kylinos.cn>,
-        Hu Xiaoying <huxiaoying@gmail.com>
-Subject: [PATCH] usb: Improves USB2.0 write performance
-Date:   Tue, 30 Aug 2022 16:43:25 +0800
-Message-Id: <20220830084325.752655-1-huxiaoying@kylinos.cn>
-X-Mailer: git-send-email 2.25.1
+        Tue, 30 Aug 2022 06:34:35 -0400
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 29602AA4C9
+        for <linux-media@vger.kernel.org>; Tue, 30 Aug 2022 03:34:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1661855675; x=1693391675;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=gHCEbQfpuFj8LuadWo1XstsLiInGv3iwv3fi+JQq5FY=;
+  b=RDjddFSauczDqyXGkF9lD5PiZpUioOS83iCRpJjbYTHXt6u6QPr2HyV/
+   ronEiR8/lFzbmMlc8aDZOZTiN/uBHZwv/UVT6aczOoGUWFGdLt0ovwVF5
+   6wCRueaewkmY7NLOiXOQJHs3ojY5dvt6lBtUbRx2iKP9luptZf99u7zZg
+   aLe1f0/dfq1rh5VJV382A+D0Cpjl5n6iETeLq5uwCjKuTvBvHeHAyhwWk
+   6hn9Vf1gb4tbOtNUrCSkdHUo49M3bsnztHj8JiTTtebwNnw2kEUT5qFmx
+   RjRbv9031xKasn96BFpBv3+xgtzRakAuFE/RpmVIeEGM3MzNOjITayXqU
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10454"; a="274889259"
+X-IronPort-AV: E=Sophos;i="5.93,274,1654585200"; 
+   d="scan'208";a="274889259"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Aug 2022 03:34:34 -0700
+X-IronPort-AV: E=Sophos;i="5.93,274,1654585200"; 
+   d="scan'208";a="611657612"
+Received: from punajuuri.fi.intel.com (HELO paasikivi.fi.intel.com) ([10.237.72.43])
+  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Aug 2022 03:34:33 -0700
+Received: from punajuuri.localdomain (punajuuri.localdomain [192.168.240.130])
+        by paasikivi.fi.intel.com (Postfix) with ESMTP id CD9CC200DA;
+        Tue, 30 Aug 2022 13:34:31 +0300 (EEST)
+Received: from sailus by punajuuri.localdomain with local (Exim 4.94.2)
+        (envelope-from <sakari.ailus@linux.intel.com>)
+        id 1oSya8-00DdGj-B7; Tue, 30 Aug 2022 13:34:56 +0300
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     linux-media@vger.kernel.org
+Cc:     =?UTF-8?q?Krzysztof=20Ha=C5=82asa?= <khalasa@piap.pl>
+Subject: [PATCH 1/1] ar0521: Fix return value check in writing initial registers
+Date:   Tue, 30 Aug 2022 13:34:56 +0300
+Message-Id: <20220830103456.3249168-1-sakari.ailus@linux.intel.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=1.5 required=5.0 tests=BAYES_00,HK_RANDOM_ENVFROM,
-        HK_RANDOM_FROM,KHOP_HELO_FCRDNS,RDNS_DYNAMIC,SPF_HELO_NONE,
-        T_SCC_BODY_TEXT_LINE,T_SPF_PERMERROR,UNPARSEABLE_RELAY autolearn=no
-        autolearn_force=no version=3.4.6
-X-Spam-Level: *
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_PASS,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-USB external storage device(0x0b05:1932), use gnome-disk-utility tools
-to test usb write  < 30MB/s. if does not to load module of uas for this device
-, can increase the write speed from 20MB/s to more than 40MB/s.
+The return value from register writes is ignored apart from the last
+value. Fix this.
 
-Signed-off-by: Hu Xiaoying <huxiaoying@gmail.com>
+Reported-by: kernel test robot <lkp@intel.com>
+Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 ---
- drivers/usb/storage/unusual_uas.h | 7 +++++++
- 1 file changed, 7 insertions(+)
+ drivers/media/i2c/ar0521.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/usb/storage/unusual_uas.h b/drivers/usb/storage/unusual_uas.h
-index 4051c8cd0cd8..3925c7c67915 100644
---- a/drivers/usb/storage/unusual_uas.h
-+++ b/drivers/usb/storage/unusual_uas.h
-@@ -62,6 +62,13 @@ UNUSUAL_DEV(0x0984, 0x0301, 0x0128, 0x0128,
- 		USB_SC_DEVICE, USB_PR_DEVICE, NULL,
- 		US_FL_IGNORE_UAS),
+diff --git a/drivers/media/i2c/ar0521.c b/drivers/media/i2c/ar0521.c
+index 9e90b02b15e36..a586e0fc0ea3f 100644
+--- a/drivers/media/i2c/ar0521.c
++++ b/drivers/media/i2c/ar0521.c
+@@ -755,11 +755,12 @@ static int ar0521_power_on(struct device *dev)
+ 		gpiod_set_value(sensor->reset_gpio, 0);
+ 	usleep_range(4500, 5000); /* min 45000 clocks */
  
-+/* Reported-by: Tom Hu <huxiaoying@gmail.com> */
-+UNUSUAL_DEV(0x0b05, 0x1932, 0x0000, 0x9999,
-+		"ASUS",
-+		"External HDD",
-+		USB_SC_DEVICE, USB_PR_DEVICE, NULL,
-+		US_FL_IGNORE_UAS),
-+
- /* Reported-by: David Webb <djw@noc.ac.uk> */
- UNUSUAL_DEV(0x0bc2, 0x331a, 0x0000, 0x9999,
- 		"Seagate",
+-	for (cnt = 0; cnt < ARRAY_SIZE(initial_regs); cnt++)
++	for (cnt = 0; cnt < ARRAY_SIZE(initial_regs); cnt++) {
+ 		ret = ar0521_write_regs(sensor, initial_regs[cnt].data,
+ 					initial_regs[cnt].count);
+ 		if (ret)
+ 			goto off;
++	}
+ 
+ 	ret = ar0521_write_reg(sensor, AR0521_REG_SERIAL_FORMAT,
+ 			       AR0521_REG_SERIAL_FORMAT_MIPI |
 -- 
-2.25.1
+2.30.2
 
