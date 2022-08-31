@@ -2,197 +2,149 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7DD285A81E6
-	for <lists+linux-media@lfdr.de>; Wed, 31 Aug 2022 17:42:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 35EB05A8165
+	for <lists+linux-media@lfdr.de>; Wed, 31 Aug 2022 17:38:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232206AbiHaPmB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 31 Aug 2022 11:42:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36184 "EHLO
+        id S231721AbiHaPiK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 31 Aug 2022 11:38:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33182 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229807AbiHaPlM (ORCPT
+        with ESMTP id S231819AbiHaPiJ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 31 Aug 2022 11:41:12 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 66D4030F7A;
-        Wed, 31 Aug 2022 08:40:22 -0700 (PDT)
-Received: from dimapc.. (109-252-119-13.nat.spd-mgts.ru [109.252.119.13])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: dmitry.osipenko)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 839826601E58;
-        Wed, 31 Aug 2022 16:40:17 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1661960420;
-        bh=X6+cHdBcYoofQ/ea0HJ3XSrd+3wQc+6k4P4KoLaHXmw=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=CvPSAXgoUaJptHhz6ntZ4HfZFNqNSVu8Uhx5gdFZizZ5wNTkZ2TXBgjmGArOrzTsI
-         EX9IGJoD7YNYICqH7CJHWIxcjxFsSnNnZT5QCOBFfcaSmA0LimW8vw3n3ZyJC/PM1K
-         bkSvcksN8TvjoiXsx4l+vd639Gt/kebvz9P5mKcxDq+5ZgvMnVu+arcqSEfMx4O1Y2
-         j6iSkn4FYOTBtofQYDS0bqMvMZZLmuZhXl3t9SS9owkRGwdUJP3UqeSo4gWyidJtx6
-         MNksLlFbKwY9PCs714XVdEo80iZJRuAetN/bj97toAQ7rh2a87KOpIqcsLtBCHPN0f
-         UJs0gPbPXdJWg==
-From:   Dmitry Osipenko <dmitry.osipenko@collabora.com>
-To:     David Airlie <airlied@linux.ie>, Gerd Hoffmann <kraxel@redhat.com>,
-        Gurchetan Singh <gurchetansingh@chromium.org>,
-        Chia-I Wu <olvaffe@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-        Daniel Almeida <daniel.almeida@collabora.com>,
-        Gert Wollny <gert.wollny@collabora.com>,
-        Gustavo Padovan <gustavo.padovan@collabora.com>,
-        Daniel Stone <daniel@fooishbar.org>,
-        Tomeu Vizoso <tomeu.vizoso@collabora.com>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Rob Clark <robdclark@gmail.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-        "Pan, Xinhui" <Xinhui.Pan@amd.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
-        =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas_os@shipmail.org>,
-        Qiang Yu <yuq825@gmail.com>,
-        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Amol Maheshwari <amahesh@qti.qualcomm.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Leon Romanovsky <leon@kernel.org>,
-        Juergen Gross <jgross@suse.com>,
-        Stefano Stabellini <sstabellini@kernel.org>,
-        Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>,
-        Tomi Valkeinen <tomba@kernel.org>,
-        Russell King <linux@armlinux.org.uk>,
-        Lucas Stach <l.stach@pengutronix.de>,
-        Christian Gmeiner <christian.gmeiner@gmail.com>
-Cc:     dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-        Dmitry Osipenko <digetx@gmail.com>,
-        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
-        amd-gfx@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
-        kernel@collabora.com, virtualization@lists.linux-foundation.org,
-        linux-rdma@vger.kernel.org, linux-arm-msm@vger.kernel.org
-Subject: [PATCH v4 21/21] dma-buf: Remove obsoleted internal lock
-Date:   Wed, 31 Aug 2022 18:37:57 +0300
-Message-Id: <20220831153757.97381-22-dmitry.osipenko@collabora.com>
-X-Mailer: git-send-email 2.37.2
-In-Reply-To: <20220831153757.97381-1-dmitry.osipenko@collabora.com>
-References: <20220831153757.97381-1-dmitry.osipenko@collabora.com>
+        Wed, 31 Aug 2022 11:38:09 -0400
+Received: from mail-lj1-x232.google.com (mail-lj1-x232.google.com [IPv6:2a00:1450:4864:20::232])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C732D8B07
+        for <linux-media@vger.kernel.org>; Wed, 31 Aug 2022 08:38:07 -0700 (PDT)
+Received: by mail-lj1-x232.google.com with SMTP id z23so12177129ljk.1
+        for <linux-media@vger.kernel.org>; Wed, 31 Aug 2022 08:38:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc;
+        bh=Z3ZI4XvX+f6Y7cApAgLVkRdYETFbOath1sGNU9vupZ4=;
+        b=b1POBbSM7lSo25v8dwP/s4rQgN8da2aHfdWJn4/7tA5zV+NX2j6t90LqAqGdIAobhZ
+         KBKs3BA72gEuVdgH2XeXiM/bHSbU9ka3o9ebQYyEeotDSimoNq85eQ1+A/T+ih2bI0+T
+         Btjb7dr/NMENhTYIEKPgorXhk6m9Y94ZMl0iv8tZiA871/uJpK7pkaxUyXsr7OU8e/zQ
+         49jIlJTLFlasPHVQ35sXP6+brdo2LbuFt6rWoruC3UGxcndWYkNeIEKMvXkVAfY33TWe
+         ll9ptzpEyIy70Ton+SaM5XyCKnTjVlvbft9hRQ4SJzC16AY7/3a+xBljrCimMLLBKh8q
+         pRnw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc;
+        bh=Z3ZI4XvX+f6Y7cApAgLVkRdYETFbOath1sGNU9vupZ4=;
+        b=sFzE35fUK+miyoOV/Dr2MvLl3wlVPrKdgfcOaC9xRuetxxy37Vyi5IhOL4TCKMoM6S
+         D+fJ7D5RdgbOwfnSw5ZoynVufBm9E8GVXP6EA43fIlsWjQ0cDLYBdYlOzZH8YZpERYEt
+         UGoS08hNbijgQWVmLrAO1ur45f6FH4Zv3zb3dT0cu1xOPTFw8OVRwz6R1d540jpCjs0w
+         CG/78USC7X8ytF9Ba6QWs+Okw9+rjRJ/nZZNmpq4zoBC8yXcFpr68OOKnaMJAB8ThQHV
+         N9BqmPM07kIA2zfquO0DVCF1E/L38/yQ6Oet1DGgJRjqx6qX3mES6ZD3UZ2aHQw6cMs2
+         PkAA==
+X-Gm-Message-State: ACgBeo1JtagQYbLa+ECTmMyYlDeAyH06o6dQMMUJjBkg8EqaHLyH3cQs
+        /sNG8YV53IFH0DWYyT2HvNA+wA==
+X-Google-Smtp-Source: AA6agR7kqv/zHnly8NtxvS/C0gaan2dRtMD0fcbLdjkGIwJppHTSaRBuicOkowl2LkL1zlTcDp7Ckg==
+X-Received: by 2002:a2e:9e81:0:b0:268:894f:8118 with SMTP id f1-20020a2e9e81000000b00268894f8118mr1233938ljk.371.1661960285601;
+        Wed, 31 Aug 2022 08:38:05 -0700 (PDT)
+Received: from [192.168.28.124] (balticom-73-99-134.balticom.lv. [109.73.99.134])
+        by smtp.gmail.com with ESMTPSA id p15-20020ac24ecf000000b0049484d936ccsm402329lfr.24.2022.08.31.08.38.04
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 31 Aug 2022 08:38:04 -0700 (PDT)
+Message-ID: <22006cfb-d0d6-8364-dc93-23a430ecbb37@linaro.org>
+Date:   Wed, 31 Aug 2022 18:38:03 +0300
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH v2 1/3] media: dt-bindings: media: renesas,fcp: Document
+ RZ/{G2,V2}L FCPVD bindings
+Content-Language: en-US
+To:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20220831143722.2067457-1-biju.das.jz@bp.renesas.com>
+ <20220831143722.2067457-2-biju.das.jz@bp.renesas.com>
+ <ac6ed365-a44c-6e48-899a-3d692c61b70f@linaro.org>
+ <OS0PR01MB5922C8F9B25D2F54716CD73086789@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <OS0PR01MB5922C8F9B25D2F54716CD73086789@OS0PR01MB5922.jpnprd01.prod.outlook.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The internal dma-buf lock isn't needed anymore because the updated
-locking specification claims that dma-buf reservation must be locked
-by importers, and thus, the internal data is already protected by the
-reservation lock. Remove the obsoleted internal lock.
+On 31/08/2022 18:32, Biju Das wrote:
+>>>  properties:
+>>>    compatible:
+>>> -    enum:
+>>> -      - renesas,fcpv # FCP for VSP
+>>> -      - renesas,fcpf # FCP for FDP
+>>> +    oneOf:
+>>> +      - items:
+>>
+>> No items here. You have just one item, so it is not a list.
+> 
+> So you mean, it should be like below.
+> Can you please confirm my understanding is correct?
+> 
+> oneOf:
+>    - enum:
+>        - renesas,fcpv # FCP for VSP
+>        - renesas,fcpf # FCP for FDP
+>     - items:
+>         - enum:
+>             - renesas,r9a07g044-fcpvd # RZ/G2{L,LC}
+>             - renesas,r9a07g054-fcpvd # RZ/V2L
+>             - const: renesas,fcpv   # generic FCP for VSP fallback
 
-Acked-by: Christian König <christian.koenig@amd.com>
-Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
----
- drivers/dma-buf/dma-buf.c | 14 ++++----------
- include/linux/dma-buf.h   |  9 ---------
- 2 files changed, 4 insertions(+), 19 deletions(-)
+Yes
 
-diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-index 97ce884fad76..772fdd9eeed8 100644
---- a/drivers/dma-buf/dma-buf.c
-+++ b/drivers/dma-buf/dma-buf.c
-@@ -656,7 +656,6 @@ struct dma_buf *dma_buf_export(const struct dma_buf_export_info *exp_info)
- 
- 	dmabuf->file = file;
- 
--	mutex_init(&dmabuf->lock);
- 	INIT_LIST_HEAD(&dmabuf->attachments);
- 
- 	mutex_lock(&db_list.lock);
-@@ -1502,7 +1501,7 @@ EXPORT_SYMBOL_NS_GPL(dma_buf_mmap, DMA_BUF);
- int dma_buf_vmap(struct dma_buf *dmabuf, struct iosys_map *map)
- {
- 	struct iosys_map ptr;
--	int ret = 0;
-+	int ret;
- 
- 	iosys_map_clear(map);
- 
-@@ -1514,28 +1513,25 @@ int dma_buf_vmap(struct dma_buf *dmabuf, struct iosys_map *map)
- 	if (!dmabuf->ops->vmap)
- 		return -EINVAL;
- 
--	mutex_lock(&dmabuf->lock);
- 	if (dmabuf->vmapping_counter) {
- 		dmabuf->vmapping_counter++;
- 		BUG_ON(iosys_map_is_null(&dmabuf->vmap_ptr));
- 		*map = dmabuf->vmap_ptr;
--		goto out_unlock;
-+		return 0;
- 	}
- 
- 	BUG_ON(iosys_map_is_set(&dmabuf->vmap_ptr));
- 
- 	ret = dmabuf->ops->vmap(dmabuf, &ptr);
- 	if (WARN_ON_ONCE(ret))
--		goto out_unlock;
-+		return ret;
- 
- 	dmabuf->vmap_ptr = ptr;
- 	dmabuf->vmapping_counter = 1;
- 
- 	*map = dmabuf->vmap_ptr;
- 
--out_unlock:
--	mutex_unlock(&dmabuf->lock);
--	return ret;
-+	return 0;
- }
- EXPORT_SYMBOL_NS_GPL(dma_buf_vmap, DMA_BUF);
- 
-@@ -1577,13 +1573,11 @@ void dma_buf_vunmap(struct dma_buf *dmabuf, struct iosys_map *map)
- 	BUG_ON(dmabuf->vmapping_counter == 0);
- 	BUG_ON(!iosys_map_is_equal(&dmabuf->vmap_ptr, map));
- 
--	mutex_lock(&dmabuf->lock);
- 	if (--dmabuf->vmapping_counter == 0) {
- 		if (dmabuf->ops->vunmap)
- 			dmabuf->ops->vunmap(dmabuf, map);
- 		iosys_map_clear(&dmabuf->vmap_ptr);
- 	}
--	mutex_unlock(&dmabuf->lock);
- }
- EXPORT_SYMBOL_NS_GPL(dma_buf_vunmap, DMA_BUF);
- 
-diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
-index f11b5bbc2f37..6fa8d4e29719 100644
---- a/include/linux/dma-buf.h
-+++ b/include/linux/dma-buf.h
-@@ -326,15 +326,6 @@ struct dma_buf {
- 	/** @ops: dma_buf_ops associated with this buffer object. */
- 	const struct dma_buf_ops *ops;
- 
--	/**
--	 * @lock:
--	 *
--	 * Used internally to serialize list manipulation, attach/detach and
--	 * vmap/unmap. Note that in many cases this is superseeded by
--	 * dma_resv_lock() on @resv.
--	 */
--	struct mutex lock;
--
- 	/**
- 	 * @vmapping_counter:
- 	 *
--- 
-2.37.2
+> 
+> 
+>>> +              - renesas,fcpv # FCP for VSP
+>>> +              - renesas,fcpf # FCP for FDP
+>>
+>>> +          - enum:
+>>> +              - renesas,fcpv # FCP for VSP
+>>> +              - renesas,fcpf # FCP for FDP
+>>> +
+>>> +      - items:
+>>> +          - enum:
+>>> +              - renesas,r9a07g044-fcpvd # RZ/G2{L,LC}
+>>> +              - renesas,r9a07g054-fcpvd # RZ/V2L
+>>> +          - const: renesas,fcpv   # generic FCP for VSP fallback
+>>>
+>>>    reg:
+>>>      maxItems: 1
+>>>
+>>> -  clocks:
+>>> -    maxItems: 1
+>>> +  clocks: true
+>>> +  clock-names: true
+>>
+>> Both should have here the widest constraints: minItems:1 and maxItems:3.
+> 
+> It is taken care in conditional schema right?
+> 
+> It is same as [1], where wider people including you added Rb tag. 
 
+Yeah, it's fine.
+
+Best regards,
+Krzysztof
