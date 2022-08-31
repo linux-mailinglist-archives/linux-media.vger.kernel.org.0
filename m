@@ -2,29 +2,29 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 521405A7FE1
-	for <lists+linux-media@lfdr.de>; Wed, 31 Aug 2022 16:17:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AD0665A7FDD
+	for <lists+linux-media@lfdr.de>; Wed, 31 Aug 2022 16:17:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232253AbiHaOQf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 31 Aug 2022 10:16:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58400 "EHLO
+        id S232161AbiHaOQg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 31 Aug 2022 10:16:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59372 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232152AbiHaOQB (ORCPT
+        with ESMTP id S231658AbiHaOQC (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 31 Aug 2022 10:16:01 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7A3A38B982
+        Wed, 31 Aug 2022 10:16:02 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7A21D8A6EE
         for <linux-media@vger.kernel.org>; Wed, 31 Aug 2022 07:15:29 -0700 (PDT)
 Received: from deskari.lan (91-158-154-79.elisa-laajakaista.fi [91.158.154.79])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id C3C822FFC;
-        Wed, 31 Aug 2022 16:14:33 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9B4CE2FFD;
+        Wed, 31 Aug 2022 16:14:34 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1661955274;
-        bh=Jlknj5Ko7c1GQmp6GQ3PHNL8Fj4nzs3oxPyufc69Keg=;
+        s=mail; t=1661955275;
+        bh=GtDs8h2DG65rejnDhCr/bhEshRzTV7fkt0Xc5acz/5A=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=PCq0q5IcBnfSEmx3Izw1b5xA+rAoOkhcQZdGof+JzN99XW55n9AnWMf+agZneZMqY
-         wV/lnVZEuupg2XhTPi2eUS86JsQ2DZDbLO6xnlD+MwurV6P+0tqXzmijm8xFXrxuyH
-         dnESmHaEgmrzSHxDccRw+ATcydPhaIFy0nMr37ew=
+        b=BdbW5RNJsTw9Z3E/kT76mED+UBVqpO4T/rewo+7qe4fS8A052YBkdiDxB6xTvOH8q
+         lA+oxSItyMBTXaaFpltfqnf53ZS2iC8yWB30pMj0HiA0JvTX7/1LiMK2R1kg0spOHB
+         YPlqMNdI3LkBG6g3HW4mwaCWYOmQegjeOxXo99+4=
 From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 To:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
         Jacopo Mondi <jacopo+renesas@jmondi.org>,
@@ -35,9 +35,9 @@ To:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
         Kishon Vijay Abraham <kishon@ti.com>,
         satish.nagireddy@getcruise.com, Tomasz Figa <tfiga@chromium.org>
 Cc:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: [PATCH v14 22/34] media: subdev: add v4l2_subdev_set_routing helper()
-Date:   Wed, 31 Aug 2022 17:13:45 +0300
-Message-Id: <20220831141357.1396081-23-tomi.valkeinen@ideasonboard.com>
+Subject: [PATCH v14 23/34] media: subdev: Add for_each_active_route() macro
+Date:   Wed, 31 Aug 2022 17:13:46 +0300
+Message-Id: <20220831141357.1396081-24-tomi.valkeinen@ideasonboard.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220831141357.1396081-1-tomi.valkeinen@ideasonboard.com>
 References: <20220831141357.1396081-1-tomi.valkeinen@ideasonboard.com>
@@ -52,78 +52,82 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add a helper function to set the subdev routing. The helper can be used
-from subdev driver's set_routing op to store the routing table.
+From: Jacopo Mondi <jacopo+renesas@jmondi.org>
 
+Add a for_each_active_route() macro to replace the repeated pattern
+of iterating on the active routes of a routing table.
+
+Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
 Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Reviewed-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 ---
- drivers/media/v4l2-core/v4l2-subdev.c | 28 +++++++++++++++++++++++++++
- include/media/v4l2-subdev.h           | 16 +++++++++++++++
- 2 files changed, 44 insertions(+)
+ .clang-format                         |  1 +
+ drivers/media/v4l2-core/v4l2-subdev.c | 20 ++++++++++++++++++++
+ include/media/v4l2-subdev.h           | 13 +++++++++++++
+ 3 files changed, 34 insertions(+)
 
+diff --git a/.clang-format b/.clang-format
+index 1247d54f9e49..31f39ae78f7b 100644
+--- a/.clang-format
++++ b/.clang-format
+@@ -190,6 +190,7 @@ ForEachMacros:
+   - 'for_each_active_dev_scope'
+   - 'for_each_active_drhd_unit'
+   - 'for_each_active_iommu'
++  - 'for_each_active_route'
+   - 'for_each_aggr_pgid'
+   - 'for_each_available_child_of_node'
+   - 'for_each_bench'
 diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
-index 1ce9a7dc0c6e..f3f872c72180 100644
+index f3f872c72180..da8550598673 100644
 --- a/drivers/media/v4l2-core/v4l2-subdev.c
 +++ b/drivers/media/v4l2-core/v4l2-subdev.c
-@@ -1180,6 +1180,34 @@ int v4l2_subdev_get_fmt(struct v4l2_subdev *sd, struct v4l2_subdev_state *state,
+@@ -1208,6 +1208,26 @@ int v4l2_subdev_set_routing(struct v4l2_subdev *sd,
  }
- EXPORT_SYMBOL_GPL(v4l2_subdev_get_fmt);
+ EXPORT_SYMBOL_GPL(v4l2_subdev_set_routing);
  
-+int v4l2_subdev_set_routing(struct v4l2_subdev *sd,
-+			    struct v4l2_subdev_state *state,
-+			    const struct v4l2_subdev_krouting *routing)
++struct v4l2_subdev_route *
++__v4l2_subdev_next_active_route(const struct v4l2_subdev_krouting *routing,
++				struct v4l2_subdev_route *route)
 +{
-+	struct v4l2_subdev_krouting *dst = &state->routing;
-+	const struct v4l2_subdev_krouting *src = routing;
-+	struct v4l2_subdev_krouting new_routing = { 0 };
++	if (route)
++		++route;
++	else
++		route = &routing->routes[0];
 +
-+	lockdep_assert_held(state->lock);
++	for (; route < routing->routes + routing->num_routes; ++route) {
++		if (!(route->flags & V4L2_SUBDEV_ROUTE_FL_ACTIVE))
++			continue;
 +
-+	if (src->num_routes > 0) {
-+		new_routing.routes = kmemdup(src->routes,
-+			src->num_routes * sizeof(*src->routes),
-+			GFP_KERNEL);
-+
-+		if (!new_routing.routes)
-+			return -ENOMEM;
++		return route;
 +	}
 +
-+	new_routing.num_routes = src->num_routes;
-+
-+	kfree(dst->routes);
-+	*dst = new_routing;
-+
-+	return 0;
++	return NULL;
 +}
-+EXPORT_SYMBOL_GPL(v4l2_subdev_set_routing);
++EXPORT_SYMBOL_GPL(__v4l2_subdev_next_active_route);
 +
  #endif /* CONFIG_VIDEO_V4L2_SUBDEV_API */
  
  #endif /* CONFIG_MEDIA_CONTROLLER */
 diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
-index 2d1509556ce0..b29003de8b0a 100644
+index b29003de8b0a..03c836d65713 100644
 --- a/include/media/v4l2-subdev.h
 +++ b/include/media/v4l2-subdev.h
-@@ -1412,6 +1412,22 @@ v4l2_subdev_lock_and_get_active_state(struct v4l2_subdev *sd)
- int v4l2_subdev_get_fmt(struct v4l2_subdev *sd, struct v4l2_subdev_state *state,
- 			struct v4l2_subdev_format *format);
+@@ -1428,6 +1428,19 @@ int v4l2_subdev_set_routing(struct v4l2_subdev *sd,
+ 			    struct v4l2_subdev_state *state,
+ 			    const struct v4l2_subdev_krouting *routing);
  
++struct v4l2_subdev_route *
++__v4l2_subdev_next_active_route(const struct v4l2_subdev_krouting *routing,
++				struct v4l2_subdev_route *route);
++
 +/**
-+ * v4l2_subdev_set_routing() - Set given routing to subdev state
-+ * @sd: The subdevice
-+ * @state: The subdevice state
-+ * @routing: Routing that will be copied to subdev state
-+ *
-+ * This will release old routing table (if any) from the state, allocate
-+ * enough space for the given routing, and copy the routing.
-+ *
-+ * This can be used from the subdev driver's set_routing op, after validating
-+ * the routing.
++ * for_each_active_route - iterate on all active routes of a routing table
++ * @routing: The routing table
++ * @route: The route iterator
 + */
-+int v4l2_subdev_set_routing(struct v4l2_subdev *sd,
-+			    struct v4l2_subdev_state *state,
-+			    const struct v4l2_subdev_krouting *routing);
++#define for_each_active_route(routing, route) \
++	for ((route) = NULL;                  \
++	     ((route) = __v4l2_subdev_next_active_route((routing), (route)));)
 +
  #endif /* CONFIG_VIDEO_V4L2_SUBDEV_API */
  
