@@ -2,238 +2,157 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 18CE75A79EB
-	for <lists+linux-media@lfdr.de>; Wed, 31 Aug 2022 11:17:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C916F5A7A9E
+	for <lists+linux-media@lfdr.de>; Wed, 31 Aug 2022 11:52:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230512AbiHaJRB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 31 Aug 2022 05:17:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58802 "EHLO
+        id S230204AbiHaJwy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 31 Aug 2022 05:52:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38420 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231684AbiHaJQ7 (ORCPT
+        with ESMTP id S229512AbiHaJwx (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 31 Aug 2022 05:16:59 -0400
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 93AABC04C0
-        for <linux-media@vger.kernel.org>; Wed, 31 Aug 2022 02:16:55 -0700 (PDT)
-X-UUID: db897235446f46878af4700e8c52362e-20220831
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-        h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID; bh=bm21fT/sbTdF5dDgtB2rLhTyPokApvLPFI3a0O3dXJU=;
-        b=gqY09qnoz3sS1GX9jJsSR7k618oKGaiSzEqo/jmnlVOUldB/I7Vbu2sXs7CKiZyJSTFeMLUsctYhCCICBaTBUyh1SmshgG2B4d48RVpORgRCV91XYx288rqAaSKyUrHElrMpuF2Fz1Q/Al5bi4NSgFfgvXEl6ZEO6QGUhV3RWhg=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.10,REQID:3afa9f9a-7e0e-443e-a87f-ec087d8ba01c,OB:0,L
-        OB:0,IP:0,URL:0,TC:0,Content:-5,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release
-        _Ham,ACTION:release,TS:-5
-X-CID-META: VersionHash:84eae18,CLOUDID:05eb2356-e800-47dc-8adf-0c936acf4f1b,C
-        OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,URL:1,File:nil
-        ,Bulk:nil,QS:nil,BEC:nil,COL:0
-X-UUID: db897235446f46878af4700e8c52362e-20220831
-Received: from mtkmbs11n1.mediatek.inc [(172.21.101.185)] by mailgw02.mediatek.com
-        (envelope-from <moudy.ho@mediatek.com>)
-        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-        with ESMTP id 1006238728; Wed, 31 Aug 2022 17:16:48 +0800
-Received: from mtkcas11.mediatek.inc (172.21.101.40) by
- mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3;
- Wed, 31 Aug 2022 17:16:46 +0800
-Received: from mtksdccf07 (172.21.84.99) by mtkcas11.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Wed, 31 Aug 2022 17:16:46 +0800
-Message-ID: <e63f208f547ed57448aa591ddfcd8908452bd1d3.camel@mediatek.com>
-Subject: Re: [GIT PULL FOR v6.1] Add MediaTek MDP3 driver
-From:   moudy ho <moudy.ho@mediatek.com>
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-CC:     "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
-Date:   Wed, 31 Aug 2022 17:16:46 +0800
-In-Reply-To: <0fe9a798-4dfe-8f19-96fa-65051c307011@xs4all.nl>
-References: <5e3b154a-5075-62fd-2eea-3ff3d147010c@xs4all.nl>
-         <0fe9a798-4dfe-8f19-96fa-65051c307011@xs4all.nl>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+        Wed, 31 Aug 2022 05:52:53 -0400
+Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com [IPv6:2a00:1450:4864:20::131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1CEB9FA8A
+        for <linux-media@vger.kernel.org>; Wed, 31 Aug 2022 02:52:51 -0700 (PDT)
+Received: by mail-lf1-x131.google.com with SMTP id bq23so19189680lfb.7
+        for <linux-media@vger.kernel.org>; Wed, 31 Aug 2022 02:52:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc;
+        bh=Uyk5oGC1fzPDhWnjscWkczot63x0+zUlXapFW5zcja8=;
+        b=csgYcxIvJ+qr28PXMvoZCwdCVpwnzCPd4XBF4kjsYuwJ49TEt19uoexiIF1NUl7il3
+         CwZqVrCabuy66hsmIRTZ30UdVhFednwAiUPSmEF8dbvXI+lS5zXjeaSZsMcEaPhE3b3Q
+         nX7NeOFVZymVAFugXvF/I0aBUMOUn+DF5sVh+8rA4gAZ/pSVbjfma4Gtzx9499Qd2JIL
+         mlgcjiz+A+GhmlxWSok7AEJZN+WhuLIyExX9R5SEVVjFpY5bOdrXdNQliQMUGnq2XD9Y
+         j2fNcu3tQ7jEgjv+q/C/2fD8IHtxvH91NrRmYWRfpmVAh+pluw8pbFgHEee0tSMNSkeM
+         ehrg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc;
+        bh=Uyk5oGC1fzPDhWnjscWkczot63x0+zUlXapFW5zcja8=;
+        b=IL6Se4DjtbLZnU06BCSgk2xkxFA/7ZEHnXBTerXLBUcnapcuvNeyBOY7LSE5RFbp6M
+         rpeUV0npbM8x+VVaMSnPa4fw1magr1qey5OHTAbsfTClvxnonZ1uWGVU07USD4pHr2ho
+         wdgcy0p9Q9WO2WfFDgddLpfAf3N5hmPw+AlD1Bw1GvckUsB+gAmz68bwqyGHeYGXDJnp
+         lbKNImvV6cANn27HN9ZZxL8pOk6wO0KxQHYzXJOoHRPAgEQotNwdZOBU8qgoG6botClW
+         3mMDy4RA/yGYHKVmJK+Z86evFYESByMIh8R+G+JBEe/sleax9GVLEocCDCA0zAkIK0TJ
+         VbgA==
+X-Gm-Message-State: ACgBeo3YUzIKnfEUCRUevK6QDEhQwwWquFvCNEM1kaLuWUsmTQyxq7Kz
+        vDpqMtfkdCty8XmBsLQKhNW6Zg==
+X-Google-Smtp-Source: AA6agR5gWoEHcabqGDQbMH2C5BomNnBn//+phAmXVAAS32g7LKCBzy1zq9/HWP7WbpVJADKBdkCvEg==
+X-Received: by 2002:a19:d611:0:b0:492:8e15:ba18 with SMTP id n17-20020a19d611000000b004928e15ba18mr8735305lfg.524.1661939570041;
+        Wed, 31 Aug 2022 02:52:50 -0700 (PDT)
+Received: from krzk-bin.. (balticom-73-99-134.balticom.lv. [109.73.99.134])
+        by smtp.gmail.com with ESMTPSA id n2-20020a05651203e200b0048a757d1303sm1247596lfq.217.2022.08.31.02.52.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 31 Aug 2022 02:52:49 -0700 (PDT)
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [PATCH] media: dt-bindings: dongwoon,dw9714: convert to dtschema
+Date:   Wed, 31 Aug 2022 12:51:56 +0300
+Message-Id: <20220831095156.347715-1-krzysztof.kozlowski@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-MTK:  N
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_MSPIKE_H2,RDNS_NONE,
-        SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE,UNPARSEABLE_RELAY,
-        URIBL_CSS autolearn=no autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans,
+Convert Dongwoon Anatech DW9714 camera voice coil lens driver to DT
+schema and extend the bindings with vcc-supply (already used by driver)
+and powerdown-gpios (based on datasheet, not used by the driver).
 
-Thanks for your kind reminder, I've sent a fixed patch to deal with
-these three errors and warning.
-Sorry, due to environmental issues, I can't build the smatch version
-you mentioned (with gcc-12.2) currently.
-I'll work on this issue as soon as possible, and please let me know if
-you find other errors
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+---
+ .../bindings/media/i2c/dongwoon,dw9714.txt    |  9 ----
+ .../bindings/media/i2c/dongwoon,dw9714.yaml   | 47 +++++++++++++++++++
+ 2 files changed, 47 insertions(+), 9 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/media/i2c/dongwoon,dw9714.txt
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/dongwoon,dw9714.yaml
 
-Thanks & Regards,
-Moudy
-
-On Tue, 2022-08-30 at 18:02 +0200, Hans Verkuil wrote:
-> Hi Moudy,
-> 
-> This series has now been merged in our tree, but I am getting new
-> smatch
-> errors, most likely due to the fact that I upgraded the gcc version I
-> use from gcc-11.2 to gcc-12.2. I'm pretty sure that's the reason I
-> didn't
-> see these before.
-> 
-> Can you take a look at this and post a follow-up patch?
-> 
-> smatch: ERRORS
-> drivers/media/platform/mediatek/mdp3/mtk-mdp3-core.c:292 mdp_probe()
-> error: we previously assumed 'mdp' could be null (see line 188)
-> drivers/media/platform/mediatek/mdp3/mtk-mdp3-comp.c:872
-> mdp_comp_create() warn: passing devm_ allocated variable to kfree.
-> 'comp'
-> drivers/media/platform/mediatek/mdp3/mtk-mdp3-cmdq.c:460
-> mdp_cmdq_send() error: we previously assumed 'cmd' could be null (see
-> line 369)
-> 
-> Regards,
-> 
-> 	Hans
-> 
-> On 8/29/22 09:13, Hans Verkuil wrote:
-> > 
-> > 
-> > The following changes since commit
-> > 1ff8334f0a4e0be693066aafba195d25629d77aa:
-> > 
-> >   media: MAINTAINERS: add entry for i.MX8MP DW100 v4l2 mem2mem
-> > driver (2022-08-21 08:42:26 +0200)
-> > 
-> > are available in the Git repository at:
-> > 
-> >   git://linuxtv.org/hverkuil/media_tree.git tags/br-v6.1c
-> > 
-> > for you to fetch changes up to
-> > 56ef9c1c2a40f25e184712fbda5ae5b6900a3de1:
-> > 
-> >   media: platform: mtk-mdp3: add MediaTek MDP3 driver (2022-08-24
-> > 10:36:22 +0200)
-> > 
-> > ----------------------------------------------------------------
-> > Tag branch
-> > 
-> > ----------------------------------------------------------------
-> > Moudy Ho (3):
-> >       dt-binding: mediatek: add bindings for MediaTek MDP3
-> > components
-> >       dt-binding: mediatek: add bindings for MediaTek CCORR and
-> > WDMA
-> >       media: platform: mtk-mdp3: add MediaTek MDP3 driver
-> > 
-> >  Documentation/devicetree/bindings/media/mediatek,mdp3-
-> > rdma.yaml    |   95 ++++++
-> >  Documentation/devicetree/bindings/media/mediatek,mdp3-
-> > rsz.yaml     |   77 +++++
-> >  Documentation/devicetree/bindings/media/mediatek,mdp3-
-> > wrot.yaml    |   80 ++++++
-> >  Documentation/devicetree/bindings/soc/mediatek/mediatek,ccorr.yaml
-> > |   68 +++++
-> >  Documentation/devicetree/bindings/soc/mediatek/mediatek,wdma.yaml 
-> >  |   81 ++++++
-> >  drivers/media/platform/mediatek/Kconfig                           
-> >  |    1 +
-> >  drivers/media/platform/mediatek/Makefile                          
-> >  |    1 +
-> >  drivers/media/platform/mediatek/mdp3/Kconfig                      
-> >  |   21 ++
-> >  drivers/media/platform/mediatek/mdp3/Makefile                     
-> >  |    6 +
-> >  drivers/media/platform/mediatek/mdp3/mdp_reg_ccorr.h              
-> >  |   19 ++
-> >  drivers/media/platform/mediatek/mdp3/mdp_reg_rdma.h               
-> >  |   65 +++++
-> >  drivers/media/platform/mediatek/mdp3/mdp_reg_rsz.h                
-> >  |   39 +++
-> >  drivers/media/platform/mediatek/mdp3/mdp_reg_wdma.h               
-> >  |   47 +++
-> >  drivers/media/platform/mediatek/mdp3/mdp_reg_wrot.h               
-> >  |   55 ++++
-> >  drivers/media/platform/mediatek/mdp3/mtk-img-
-> > ipi.h                 |  290 +++++++++++++++++++
-> >  drivers/media/platform/mediatek/mdp3/mtk-mdp3-
-> > cmdq.c               |  466 ++++++++++++++++++++++++++++++
-> >  drivers/media/platform/mediatek/mdp3/mtk-mdp3-
-> > cmdq.h               |   43 +++
-> >  drivers/media/platform/mediatek/mdp3/mtk-mdp3-
-> > comp.c               | 1033
-> > ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-> >  drivers/media/platform/mediatek/mdp3/mtk-mdp3-
-> > comp.h               |  186 ++++++++++++
-> >  drivers/media/platform/mediatek/mdp3/mtk-mdp3-
-> > core.c               |  357 +++++++++++++++++++++++
-> >  drivers/media/platform/mediatek/mdp3/mtk-mdp3-
-> > core.h               |   94 ++++++
-> >  drivers/media/platform/mediatek/mdp3/mtk-mdp3-
-> > m2m.c                |  724
-> > ++++++++++++++++++++++++++++++++++++++++++++++
-> >  drivers/media/platform/mediatek/mdp3/mtk-mdp3-
-> > m2m.h                |   48 ++++
-> >  drivers/media/platform/mediatek/mdp3/mtk-mdp3-
-> > regs.c               |  735
-> > +++++++++++++++++++++++++++++++++++++++++++++++
-> >  drivers/media/platform/mediatek/mdp3/mtk-mdp3-
-> > regs.h               |  373 ++++++++++++++++++++++++
-> >  drivers/media/platform/mediatek/mdp3/mtk-mdp3-
-> > vpu.c                |  313 ++++++++++++++++++++
-> >  drivers/media/platform/mediatek/mdp3/mtk-mdp3-
-> > vpu.h                |   78 +++++
-> >  27 files changed, 5395 insertions(+)
-> >  create mode 100644
-> > Documentation/devicetree/bindings/media/mediatek,mdp3-rdma.yaml
-> >  create mode 100644
-> > Documentation/devicetree/bindings/media/mediatek,mdp3-rsz.yaml
-> >  create mode 100644
-> > Documentation/devicetree/bindings/media/mediatek,mdp3-wrot.yaml
-> >  create mode 100644
-> > Documentation/devicetree/bindings/soc/mediatek/mediatek,ccorr.yaml
-> >  create mode 100644
-> > Documentation/devicetree/bindings/soc/mediatek/mediatek,wdma.yaml
-> >  create mode 100644 drivers/media/platform/mediatek/mdp3/Kconfig
-> >  create mode 100644 drivers/media/platform/mediatek/mdp3/Makefile
-> >  create mode 100644
-> > drivers/media/platform/mediatek/mdp3/mdp_reg_ccorr.h
-> >  create mode 100644
-> > drivers/media/platform/mediatek/mdp3/mdp_reg_rdma.h
-> >  create mode 100644
-> > drivers/media/platform/mediatek/mdp3/mdp_reg_rsz.h
-> >  create mode 100644
-> > drivers/media/platform/mediatek/mdp3/mdp_reg_wdma.h
-> >  create mode 100644
-> > drivers/media/platform/mediatek/mdp3/mdp_reg_wrot.h
-> >  create mode 100644 drivers/media/platform/mediatek/mdp3/mtk-img-
-> > ipi.h
-> >  create mode 100644 drivers/media/platform/mediatek/mdp3/mtk-mdp3-
-> > cmdq.c
-> >  create mode 100644 drivers/media/platform/mediatek/mdp3/mtk-mdp3-
-> > cmdq.h
-> >  create mode 100644 drivers/media/platform/mediatek/mdp3/mtk-mdp3-
-> > comp.c
-> >  create mode 100644 drivers/media/platform/mediatek/mdp3/mtk-mdp3-
-> > comp.h
-> >  create mode 100644 drivers/media/platform/mediatek/mdp3/mtk-mdp3-
-> > core.c
-> >  create mode 100644 drivers/media/platform/mediatek/mdp3/mtk-mdp3-
-> > core.h
-> >  create mode 100644 drivers/media/platform/mediatek/mdp3/mtk-mdp3-
-> > m2m.c
-> >  create mode 100644 drivers/media/platform/mediatek/mdp3/mtk-mdp3-
-> > m2m.h
-> >  create mode 100644 drivers/media/platform/mediatek/mdp3/mtk-mdp3-
-> > regs.c
-> >  create mode 100644 drivers/media/platform/mediatek/mdp3/mtk-mdp3-
-> > regs.h
-> >  create mode 100644 drivers/media/platform/mediatek/mdp3/mtk-mdp3-
-> > vpu.c
-> >  create mode 100644 drivers/media/platform/mediatek/mdp3/mtk-mdp3-
-> > vpu.h
+diff --git a/Documentation/devicetree/bindings/media/i2c/dongwoon,dw9714.txt b/Documentation/devicetree/bindings/media/i2c/dongwoon,dw9714.txt
+deleted file mode 100644
+index b88dcdd41def..000000000000
+--- a/Documentation/devicetree/bindings/media/i2c/dongwoon,dw9714.txt
++++ /dev/null
+@@ -1,9 +0,0 @@
+-Dongwoon Anatech DW9714 camera voice coil lens driver
+-
+-DW9174 is a 10-bit DAC with current sink capability. It is intended
+-for driving voice coil lenses in camera modules.
+-
+-Mandatory properties:
+-
+-- compatible: "dongwoon,dw9714"
+-- reg: I²C slave address
+diff --git a/Documentation/devicetree/bindings/media/i2c/dongwoon,dw9714.yaml b/Documentation/devicetree/bindings/media/i2c/dongwoon,dw9714.yaml
+new file mode 100644
+index 000000000000..66229a3dc05d
+--- /dev/null
++++ b/Documentation/devicetree/bindings/media/i2c/dongwoon,dw9714.yaml
+@@ -0,0 +1,47 @@
++# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/media/i2c/dongwoon,dw9714.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Dongwoon Anatech DW9714 camera voice coil lens driver
++
++maintainers:
++  - Krzysztof Kozlowski <krzk@kernel.org>
++
++description:
++  DW9174 is a 10-bit DAC with current sink capability. It is intended for
++  driving voice coil lenses in camera modules.
++
++properties:
++  compatible:
++    const: dongwoon,dw9714
++
++  reg:
++    maxItems: 1
++
++  powerdown-gpios:
++    description:
++      XSD pin for shutdown (active low)
++
++  vcc-supply:
++    description: VDD power supply
++
++required:
++  - compatible
++  - reg
++
++additionalProperties: false
++
++examples:
++  - |
++    i2c {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        camera-lens@c {
++            compatible = "dongwoon,dw9714";
++            reg = <0x0c>;
++            vcc-supply = <&reg_csi_1v8>;
++        };
++    };
+-- 
+2.34.1
 
