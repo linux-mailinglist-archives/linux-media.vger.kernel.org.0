@@ -2,38 +2,38 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DE54D5A8A7E
-	for <lists+linux-media@lfdr.de>; Thu,  1 Sep 2022 03:18:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 948B25A8A82
+	for <lists+linux-media@lfdr.de>; Thu,  1 Sep 2022 03:20:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232490AbiIABSn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 31 Aug 2022 21:18:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55822 "EHLO
+        id S232406AbiIABUR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 31 Aug 2022 21:20:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59130 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232445AbiIABSd (ORCPT
+        with ESMTP id S232178AbiIABUQ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 31 Aug 2022 21:18:33 -0400
+        Wed, 31 Aug 2022 21:20:16 -0400
 Received: from smtpbg.qq.com (bg4.exmail.qq.com [43.155.67.158])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8034213287E;
-        Wed, 31 Aug 2022 18:18:28 -0700 (PDT)
-X-QQ-mid: bizesmtp76t1661995101tl183vom
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6EC8F2DAA4;
+        Wed, 31 Aug 2022 18:20:10 -0700 (PDT)
+X-QQ-mid: bizesmtp71t1661995206t3v7x6o2
 Received: from localhost.localdomain ( [182.148.14.80])
         by bizesmtp.qq.com (ESMTP) with 
-        id ; Thu, 01 Sep 2022 09:18:20 +0800 (CST)
+        id ; Thu, 01 Sep 2022 09:20:05 +0800 (CST)
 X-QQ-SSF: 01000000000000D0F000000A0000000
-X-QQ-FEAT: yFTBESVR13bmP1vhbBOWsDdLIdg88W7VljOWgedLS0fRkTBf9+TRqITWriyq/
-        XYier5i2fFUG1A+HmzBjkNLze9OoG/3OjSMqwXx3LPOAyCVqmRgWzdVtZfp2uPsAtuUZ63n
-        V+66SSmE/dkF09/h8XTnydJjA1BYg6eW3jC3fLmdmDOq25lHCHxI7TqavPS0h636v15E6B2
-        +5wEwbbt4u5BTbz7Zy3oNe/c5V8aPkFzD5KwieG5Vp2cbG4I9/b2IMpIygb8k36qW/87l/V
-        Pxa+a1eRfrRGHKS1XrAVz1OdJ/+9WM4X8yMKhtr44sVwcL01A0gaMYt51HBHXAm6C/s+ZC2
-        MLEY4BMvok1xqaFLp0fD0SyVsnqpRKfUadtoW7LQpId9RFnl0iSyJOoNj5EBw==
+X-QQ-FEAT: 4rCmCcmdMHfaY1WQWesDmjP4jvXA66jlw2+1CTnfx5ssoXmG6o5kmyrWaDmto
+        Ny6qgLaw2s0aaRdK0m3f5m0LWgRsZVZ5+4YhyfgtANlk+ES9p0ksz54jPtL0vvTbu6JJ8Zk
+        zJDYB1VlP0edJLEXlOwl4nxfS/DGAdZC4ArbkEW9oKcA1mkPSErvBuYpURv0NyfdPDg96G7
+        JtrIluaoYqtYGUdVZR0XfCcAIw/Gx5GsFA8F4laZ8VGG5Jc4YUSvAcsAQe2t94DqATD61tw
+        T70QBMs+nHmWQLwiI5MGQIF27DKnRnaJHfX/SIKUz8T77ujtWCowbHBqw+j8z4du4f4kvqY
+        pbezeCOQRDW4xbf6nLNmCRghNjcY1sPe96HJbfWo8Qnb7LMYlGqSS+/vhHPIg==
 X-QQ-GoodBg: 0
 From:   Jilin Yuan <yuanjilin@cdjrlc.com>
-To:     hverkuil@xs4all.nl, mchehab@kernel.org
+To:     tfiga@chromium.org, m.szyprowski@samsung.com, mchehab@kernel.org
 Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
         Jilin Yuan <yuanjilin@cdjrlc.com>
-Subject: [PATCH] media: cx2341x: Use 'unsigned int' instead of just 'unsigned'.
-Date:   Thu,  1 Sep 2022 09:18:14 +0800
-Message-Id: <20220901011814.24875-1-yuanjilin@cdjrlc.com>
+Subject: [PATCH] media: videobuf2: Use 'unsigned int' instead of just 'unsigned'.
+Date:   Thu,  1 Sep 2022 09:19:58 +0800
+Message-Id: <20220901011958.26027-1-yuanjilin@cdjrlc.com>
 X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -44,8 +44,8 @@ X-Spam-Status: Yes, score=5.1 required=5.0 tests=BAYES_00,RCVD_IN_PBL,
         T_SPF_HELO_TEMPERROR autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Report: *  3.3 RCVD_IN_SBL_CSS RBL: Received via a relay in Spamhaus SBL-CSS
         *      [43.155.67.158 listed in zen.spamhaus.org]
-        *  3.3 RCVD_IN_PBL RBL: Received via a relay in Spamhaus PBL
         *  0.4 RCVD_IN_XBL RBL: Received via a relay in Spamhaus XBL
+        *  3.3 RCVD_IN_PBL RBL: Received via a relay in Spamhaus PBL
         * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
         *      [score: 0.0000]
         * -0.0 SPF_PASS SPF: sender matches SPF record
@@ -63,22 +63,28 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 Signed-off-by: Jilin Yuan <yuanjilin@cdjrlc.com>
 ---
- drivers/media/common/cx2341x.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/media/common/videobuf2/videobuf2-v4l2.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/media/common/cx2341x.c b/drivers/media/common/cx2341x.c
-index 1392bd6b0026..45bbe013a70d 100644
---- a/drivers/media/common/cx2341x.c
-+++ b/drivers/media/common/cx2341x.c
-@@ -1572,7 +1572,7 @@ static struct v4l2_ctrl *cx2341x_ctrl_new_menu(struct v4l2_ctrl_handler *hdl,
- }
+diff --git a/drivers/media/common/videobuf2/videobuf2-v4l2.c b/drivers/media/common/videobuf2/videobuf2-v4l2.c
+index f26cb8586bd4..2e1adf88aa55 100644
+--- a/drivers/media/common/videobuf2/videobuf2-v4l2.c
++++ b/drivers/media/common/videobuf2/videobuf2-v4l2.c
+@@ -754,11 +754,11 @@ EXPORT_SYMBOL_GPL(vb2_prepare_buf);
  
- int cx2341x_handler_init(struct cx2341x_handler *cxhdl,
--			 unsigned nr_of_controls_hint)
-+			 unsigned int nr_of_controls_hint)
+ int vb2_create_bufs(struct vb2_queue *q, struct v4l2_create_buffers *create)
  {
- 	struct v4l2_ctrl_handler *hdl = &cxhdl->hdl;
- 	u32 caps = cxhdl->capabilities;
+-	unsigned requested_planes = 1;
+-	unsigned requested_sizes[VIDEO_MAX_PLANES];
++	unsigned int requested_planes = 1;
++	unsigned int requested_sizes[VIDEO_MAX_PLANES];
+ 	struct v4l2_format *f = &create->format;
+ 	int ret = vb2_verify_memory_type(q, create->memory, f->type);
+-	unsigned i;
++	unsigned int i;
+ 
+ 	fill_buf_caps(q, &create->capabilities);
+ 	validate_memory_flags(q, create->memory, &create->flags);
 -- 
 2.36.1
 
