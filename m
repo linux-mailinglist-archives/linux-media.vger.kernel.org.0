@@ -2,41 +2,41 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4AF305A9385
-	for <lists+linux-media@lfdr.de>; Thu,  1 Sep 2022 11:47:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DBF025A938A
+	for <lists+linux-media@lfdr.de>; Thu,  1 Sep 2022 11:47:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233915AbiIAJrP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 1 Sep 2022 05:47:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44922 "EHLO
+        id S233593AbiIAJrU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 1 Sep 2022 05:47:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44946 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233873AbiIAJrN (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 1 Sep 2022 05:47:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 07DB1135D0A
-        for <linux-media@vger.kernel.org>; Thu,  1 Sep 2022 02:47:12 -0700 (PDT)
+        with ESMTP id S233726AbiIAJrO (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 1 Sep 2022 05:47:14 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E951A112ECF
+        for <linux-media@vger.kernel.org>; Thu,  1 Sep 2022 02:47:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1662025632;
+        s=mimecast20190719; t=1662025633;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=qBTFeFUsgyheBteIxjPta3sYomgjNp8DPEbLv13/mio=;
-        b=KbIFWW8ptivZxcvCTW5Vqs0hF4fcJVKVB6jrHql5TzzvT5Atp6DLTfFjnk7PrIJxgCrvdD
-        l5ifiyojQqhPdRdV3DtQgx+fFoYQVr6xtZwp+leGBeuEnEy3PTvzZipaQSNSTjLWqNoq9F
-        Y8KobyZwvEoJWk6YOP9szC11kbz4zi4=
+        bh=pXi08giSoWlWvDPUUPtw4t47TjlkrUmOB28boTaT1iw=;
+        b=FMqEzABPiRHMNN+8cq+GVuXUbB/sulAqEZrAMhFSY3ms+x9cbfmR81p/mIi8RIvuPJ9VOU
+        EqLydRJ3xQ38V5Vf2sb6rO8oqzNyyDDbCAsU9Osd2qteKo9rzpNVysHcPT0CxWQOZlbpy8
+        EjgRboOrAsxb0uiYPmQ+URKz+T1oNXo=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-370-UDpz6HEyPOumwgscDIENrw-1; Thu, 01 Sep 2022 05:47:08 -0400
-X-MC-Unique: UDpz6HEyPOumwgscDIENrw-1
+ us-mta-381-E5BrQeZ5OSuPwSAJGyGQgQ-1; Thu, 01 Sep 2022 05:47:05 -0400
+X-MC-Unique: E5BrQeZ5OSuPwSAJGyGQgQ-1
 Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com [10.11.54.10])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 161C5964F79;
-        Thu,  1 Sep 2022 09:46:50 +0000 (UTC)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BAB7783DEB8;
+        Thu,  1 Sep 2022 09:46:51 +0000 (UTC)
 Received: from localhost.localdomain (unknown [10.39.195.90])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 939C9403352;
-        Thu,  1 Sep 2022 09:46:48 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 47AED40334F;
+        Thu,  1 Sep 2022 09:46:50 +0000 (UTC)
 From:   Hans de Goede <hdegoede@redhat.com>
 To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Sakari Ailus <sakari.ailus@linux.intel.com>
@@ -47,136 +47,94 @@ Cc:     Hans de Goede <hdegoede@redhat.com>,
         Nable <nable.maininbox@googlemail.com>,
         andrey.i.trufanov@gmail.com, Fabio Aiuto <fabioaiuto83@gmail.com>,
         linux-media@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: [PATCH 07/14] media: atomisp: Remove some further ATOMISP_ACC_* related dead code
-Date:   Thu,  1 Sep 2022 11:46:19 +0200
-Message-Id: <20220901094626.11513-8-hdegoede@redhat.com>
+Subject: [PATCH 08/14] media: atomisp: Remove empty atomisp_css_set_cont_prev_start_time() function
+Date:   Thu,  1 Sep 2022 11:46:20 +0200
+Message-Id: <20220901094626.11513-9-hdegoede@redhat.com>
 In-Reply-To: <20220901094626.11513-1-hdegoede@redhat.com>
 References: <20220901094626.11513-1-hdegoede@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
+        SPF_HELO_NONE,SPF_NONE,TVD_SPACE_RATIO,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Remove some more code which is no longer referenced after the removal
-of the ATOMISP_ACC_* custom ioctls.
+atomisp_css_set_cont_prev_start_time() is a no-op, remove it.
 
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- .../media/atomisp/include/linux/atomisp.h     | 14 ------------
- .../media/atomisp/pci/atomisp_compat.h        |  3 ---
- .../media/atomisp/pci/atomisp_compat_css20.c  | 18 ---------------
- .../media/atomisp/pci/atomisp_subdev.h        | 22 -------------------
- 4 files changed, 57 deletions(-)
+ drivers/staging/media/atomisp/pci/atomisp_compat.h       | 3 ---
+ drivers/staging/media/atomisp/pci/atomisp_compat_css20.c | 8 --------
+ drivers/staging/media/atomisp/pci/atomisp_internal.h     | 3 ---
+ drivers/staging/media/atomisp/pci/atomisp_ioctl.c        | 2 --
+ 4 files changed, 16 deletions(-)
 
-diff --git a/drivers/staging/media/atomisp/include/linux/atomisp.h b/drivers/staging/media/atomisp/include/linux/atomisp.h
-index f96f5adbd9de..3f602b5aaff9 100644
---- a/drivers/staging/media/atomisp/include/linux/atomisp.h
-+++ b/drivers/staging/media/atomisp/include/linux/atomisp.h
-@@ -740,20 +740,6 @@ enum atomisp_frame_status {
- 	ATOMISP_FRAME_STATUS_FLASH_FAILED,
- };
- 
--/* ISP memories, isp2400 */
--enum atomisp_acc_memory {
--	ATOMISP_ACC_MEMORY_PMEM0 = 0,
--	ATOMISP_ACC_MEMORY_DMEM0,
--	/* for backward compatibility */
--	ATOMISP_ACC_MEMORY_DMEM = ATOMISP_ACC_MEMORY_DMEM0,
--	ATOMISP_ACC_MEMORY_VMEM0,
--	ATOMISP_ACC_MEMORY_VAMEM0,
--	ATOMISP_ACC_MEMORY_VAMEM1,
--	ATOMISP_ACC_MEMORY_VAMEM2,
--	ATOMISP_ACC_MEMORY_HMEM0,
--	ATOMISP_ACC_NR_MEMORY
--};
--
- enum atomisp_ext_isp_id {
- 	EXT_ISP_CID_ISO = 0,
- 	EXT_ISP_CID_CAPTURE_HDR,
 diff --git a/drivers/staging/media/atomisp/pci/atomisp_compat.h b/drivers/staging/media/atomisp/pci/atomisp_compat.h
-index 3393ae6824f0..54c57bbf4c4d 100644
+index 54c57bbf4c4d..af6ab8434b5e 100644
 --- a/drivers/staging/media/atomisp/pci/atomisp_compat.h
 +++ b/drivers/staging/media/atomisp/pci/atomisp_compat.h
-@@ -442,9 +442,6 @@ int atomisp_css_get_dis_stat(struct atomisp_sub_device *asd,
+@@ -434,9 +434,6 @@ void atomisp_css_get_morph_table(struct atomisp_sub_device *asd,
  
- int atomisp_css_update_stream(struct atomisp_sub_device *asd);
+ void atomisp_css_morph_table_free(struct ia_css_morph_table *table);
  
--struct atomisp_acc_fw;
--int atomisp_css_set_acc_parameters(struct atomisp_acc_fw *acc_fw);
+-void atomisp_css_set_cont_prev_start_time(struct atomisp_device *isp,
+-	unsigned int overlap);
 -
- int atomisp_css_isr_thread(struct atomisp_device *isp,
- 			   bool *frame_done_found,
- 			   bool *css_pipe_done);
+ int atomisp_css_get_dis_stat(struct atomisp_sub_device *asd,
+ 			     struct atomisp_dis_statistics *stats);
+ 
 diff --git a/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c b/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
-index 5aa108a1724c..ec47d84698ba 100644
+index ec47d84698ba..cda0b5eba16d 100644
 --- a/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
 +++ b/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
-@@ -3771,24 +3771,6 @@ void atomisp_css_set_cont_prev_start_time(struct atomisp_device *isp,
- 	return;
+@@ -3763,14 +3763,6 @@ void atomisp_css_morph_table_free(struct ia_css_morph_table *table)
+ 	ia_css_morph_table_free(table);
  }
  
--/* Set the ACC binary arguments */
--int atomisp_css_set_acc_parameters(struct atomisp_acc_fw *acc_fw)
+-void atomisp_css_set_cont_prev_start_time(struct atomisp_device *isp,
+-	unsigned int overlap)
 -{
--	unsigned int mem;
--
--	for (mem = 0; mem < ATOMISP_ACC_NR_MEMORY; mem++) {
--		if (acc_fw->args[mem].length == 0)
--			continue;
--
--		ia_css_isp_param_set_css_mem_init(&acc_fw->fw->mem_initializers,
--						  IA_CSS_PARAM_CLASS_PARAM, mem,
--						  acc_fw->args[mem].css_ptr,
--						  acc_fw->args[mem].length);
--	}
--
--	return 0;
+-	/* CSS 2.0 doesn't support this API. */
+-	dev_dbg(isp->dev, "set cont prev start time is not supported.\n");
+-	return;
 -}
 -
  static struct atomisp_sub_device *__get_atomisp_subdev(
      struct ia_css_pipe *css_pipe,
      struct atomisp_device *isp,
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_subdev.h b/drivers/staging/media/atomisp/pci/atomisp_subdev.h
-index e36e112c3b29..d1a9857e5d68 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_subdev.h
-+++ b/drivers/staging/media/atomisp/pci/atomisp_subdev.h
-@@ -258,28 +258,6 @@ struct atomisp_css_params_with_list {
- 	struct list_head list;
- };
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_internal.h b/drivers/staging/media/atomisp/pci/atomisp_internal.h
+index 1d2326a40227..e299304c356b 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_internal.h
++++ b/drivers/staging/media/atomisp/pci/atomisp_internal.h
+@@ -105,9 +105,6 @@
+ #define ATOMISP_DELAYED_INIT_QUEUED	1
+ #define ATOMISP_DELAYED_INIT_DONE	2
  
--struct atomisp_acc_fw {
--	struct ia_css_fw_info *fw;
--	unsigned int handle;
--	unsigned int flags;
--	unsigned int type;
--	struct {
--		size_t length;
--		unsigned long css_ptr;
--	} args[ATOMISP_ACC_NR_MEMORY];
--	struct list_head list;
--};
+-#define ATOMISP_CALC_CSS_PREV_OVERLAP(lines) \
+-	((lines) * 38 / 100 & 0xfffffe)
 -
--struct atomisp_map {
--	ia_css_ptr ptr;
--	size_t length;
--	struct list_head list;
--	/* FIXME: should keep book which maps are currently used
--	 * by binaries and not allow releasing those
--	 * which are in use. Implement by reference counting.
--	 */
--};
--
- struct atomisp_sub_device {
- 	struct v4l2_subdev subdev;
- 	struct media_pad pads[ATOMISP_SUBDEV_PADS_NUM];
+ /*
+  * Define how fast CPU should be able to serve ISP interrupts.
+  * The bigger the value, the higher risk that the ISP is not
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
+index bdbb9dbbceec..caeb38eadc48 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
+@@ -1934,8 +1934,6 @@ static int atomisp_streamon(struct file *file, void *fh,
+ 		reinit_completion(&asd->init_done);
+ 		asd->delayed_init = ATOMISP_DELAYED_INIT_QUEUED;
+ 		queue_work(asd->delayed_init_workq, &asd->delayed_init_work);
+-		atomisp_css_set_cont_prev_start_time(isp,
+-						     ATOMISP_CALC_CSS_PREV_OVERLAP(sink->height));
+ 	} else {
+ 		asd->delayed_init = ATOMISP_DELAYED_INIT_NOT_QUEUED;
+ 	}
 -- 
 2.37.2
 
