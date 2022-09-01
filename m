@@ -2,59 +2,201 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4C19F5A996B
-	for <lists+linux-media@lfdr.de>; Thu,  1 Sep 2022 15:52:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 37A6D5A99AE
+	for <lists+linux-media@lfdr.de>; Thu,  1 Sep 2022 16:04:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233887AbiIANw1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 1 Sep 2022 09:52:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45410 "EHLO
+        id S234445AbiIAODj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 1 Sep 2022 10:03:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38206 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231351AbiIANw0 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 1 Sep 2022 09:52:26 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C17B2B1;
-        Thu,  1 Sep 2022 06:52:24 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5841B6CD;
-        Thu,  1 Sep 2022 15:52:21 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1662040341;
-        bh=QVzoAzaz3GTAjNVTOX5jOaSXOuRfzLUAuyiuEq31tlo=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Hlo9wOT8LVJydnzj0RbPsLTWbas4Hoc6uW/T1QVIPkGmmH0D7kfVl1Ta7BmvmBl8j
-         /ajGLnUeEBFE3VL7Yt1CCjunUcj8pci79NsuS5IBHIxMknzpTMyfX75lFsHkucSuP3
-         7i/yEEReI+l8A7rIYg6h28qc2QTA8tJHjRfw5+uM=
-Date:   Thu, 1 Sep 2022 16:52:09 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Cc:     devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Samuel Holland <samuel@sholland.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
+        with ESMTP id S234292AbiIAODf (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 1 Sep 2022 10:03:35 -0400
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A25CE2BD;
+        Thu,  1 Sep 2022 07:03:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1662041013; x=1693577013;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=H7oNPMaMGRMvpqrmWoiI7VVYWC1hv+BhSiD5ZVZNMhs=;
+  b=AfvCsdXQ0nXjdpHsfmCTnvFnjQ7wnuZeOfnxcuyrcmsBWFGg/tfbndiy
+   vWcQfM37PkWFU/KwrzgFlwZD6zMOzxSQFRyz5xLJcd0o3RKLnGOJtDAQP
+   +I8D6Quona21UvqrirkGDbMi+BMNCBZ4sE9oKVoN4Zkd85DoooL2pEiRG
+   EOOenXV27K116zglMyepUMDdVsMqJFsX76n6mp8yG2X8LJp31iG31AhjZ
+   zay/SuL3tFk2UJSoIR1UyENxOjeHzeLeddjKLITooDhFz2ntXcILPekPU
+   0r9whDXkzi9eB4z8yBP/6C75a8khVNFQWC3aTENVm2OaSTDVoXZXstfzj
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10457"; a="321870392"
+X-IronPort-AV: E=Sophos;i="5.93,281,1654585200"; 
+   d="scan'208";a="321870392"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Sep 2022 07:03:27 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,281,1654585200"; 
+   d="scan'208";a="940859749"
+Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
+  by fmsmga005.fm.intel.com with ESMTP; 01 Sep 2022 07:03:26 -0700
+Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Thu, 1 Sep 2022 07:03:26 -0700
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Thu, 1 Sep 2022 07:03:25 -0700
+Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31 via Frontend Transport; Thu, 1 Sep 2022 07:03:25 -0700
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (104.47.58.168)
+ by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2375.31; Thu, 1 Sep 2022 07:03:25 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=AXYRwln+kGLwEahVtKb+mgYSHUWAtGOmA9oLOzsI8aq1bKkY5l3w5iGEtWJzsNDd/6LvM+4WVo8izghZx+rvqtFrXXPHtzcp3GttrvaVXDGCG+Z+0KfokXByjHyAM0RwsLoX0lcb23fR1f4PvR+nm8rexHtCRfsx231dOArvvSI0VSiSd7Kj8n45AalLVnYoyAqOIUs3Fl9Ndryi+oAZxZuBCtwh2HqzBa/oicTPOwYIpBjujC5YZo/xsF0dvmnhUMiEewgruE6O7y/E/2ubp7V+dXd96+T1EAIRYdU8aiMww+XEwXcQ30IrBM2MiTQHp2IUkrnUCW5S8DBsCKOaVg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=oogV8wEgaxlGmFuNC1AWMk6XFu0TpR3Q+a0Y1F5tmEg=;
+ b=RpWr91LUoU6x18JsnJehmCzQdLRz6eLCgVO1TQFVuE0lleIxUu3ylsZeWjcpKg2YrvU9hmTI1a8SRMZbBrpzpkZxpaUDhLtnJnmFUPNXawxJqw+FofeTChzORcA3VtQU5WMNRDo6EOsC/w7QQdH3LUkMG1qsrcT1i1JDr6r2fTNgJAK9xb3xKs/OHSOT4vvRItmXB1aaDMaBFxMvMTuMzC+yLDDlR40IxZW/cy7emy+Yo+kF+39Dv9uqkT3AKRc8bzvpk8QQRbZZCUXAOg/qN+ofGNuCmvapeABi+sm4YXm4lMlWuN1wkiaVfHGe3BKUgKyBtEEdTwgOgSZJBai+lQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from DM5PR11MB1324.namprd11.prod.outlook.com (2603:10b6:3:15::14) by
+ BN8PR11MB3634.namprd11.prod.outlook.com (2603:10b6:408:88::31) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.5566.19; Thu, 1 Sep 2022 14:03:00 +0000
+Received: from DM5PR11MB1324.namprd11.prod.outlook.com
+ ([fe80::64f9:b9bd:85bb:c756]) by DM5PR11MB1324.namprd11.prod.outlook.com
+ ([fe80::64f9:b9bd:85bb:c756%3]) with mapi id 15.20.5588.010; Thu, 1 Sep 2022
+ 14:03:00 +0000
+From:   "Ruhl, Michael J" <michael.j.ruhl@intel.com>
+To:     Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+        David Airlie <airlied@linux.ie>,
+        Gerd Hoffmann <kraxel@redhat.com>,
+        Gurchetan Singh <gurchetansingh@chromium.org>,
+        Chia-I Wu <olvaffe@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+        Daniel Almeida <daniel.almeida@collabora.com>,
+        Gert Wollny <gert.wollny@collabora.com>,
+        Gustavo Padovan <gustavo.padovan@collabora.com>,
+        Daniel Stone <daniel@fooishbar.org>,
+        Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
         Maxime Ripard <mripard@kernel.org>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        =?utf-8?B?S8OpdmluIEwnaMO0cGl0YWw=?= <kevin.lhopital@bootlin.com>
-Subject: Re: [PATCH NOT FOR MERGE v5 6/6] ARM: dts: sun8i: a83t: bananapi-m3:
- Enable MIPI CSI-2 with OV8865
-Message-ID: <YxC5CWCdGFHTgKbD@pendragon.ideasonboard.com>
-References: <20220826182803.604563-1-paul.kocialkowski@bootlin.com>
- <20220826182803.604563-7-paul.kocialkowski@bootlin.com>
- <YwkaFC2tm96X5qon@pendragon.ideasonboard.com>
- <YxCqZ8GhiTJlZ8MC@aptenodytes>
- <YxCs4fhx+Qx7uCAF@pendragon.ideasonboard.com>
- <YxCyGgfNVHGIJlMz@aptenodytes>
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Rob Clark <robdclark@gmail.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?iso-8859-1?Q?Christian_K=F6nig?= <christian.koenig@amd.com>,
+        "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+        "Thierry Reding" <thierry.reding@gmail.com>,
+        Tomasz Figa <tfiga@chromium.org>,
+        "Marek Szyprowski" <m.szyprowski@samsung.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+        "Vivi, Rodrigo" <rodrigo.vivi@intel.com>,
+        Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+        =?iso-8859-1?Q?Thomas_Hellstr=F6m?= <thomas_os@shipmail.org>,
+        Qiang Yu <yuq825@gmail.com>,
+        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        Amol Maheshwari <amahesh@qti.qualcomm.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Leon Romanovsky <leon@kernel.org>,
+        "Gross, Jurgen" <jgross@suse.com>,
+        "Stefano Stabellini" <sstabellini@kernel.org>,
+        Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>,
+        Tomi Valkeinen <tomba@kernel.org>,
+        "Russell King" <linux@armlinux.org.uk>,
+        Lucas Stach <l.stach@pengutronix.de>,
+        Christian Gmeiner <christian.gmeiner@gmail.com>
+CC:     "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "Dmitry Osipenko" <digetx@gmail.com>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
+        "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
+        "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+        "kernel@collabora.com" <kernel@collabora.com>,
+        "virtualization@lists.linux-foundation.org" 
+        <virtualization@lists.linux-foundation.org>,
+        "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
+        "linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>
+Subject: RE: [PATCH v4 06/21] drm/i915: Prepare to dynamic dma-buf locking
+ specification
+Thread-Topic: [PATCH v4 06/21] drm/i915: Prepare to dynamic dma-buf locking
+ specification
+Thread-Index: AQHYvVAKt26jWPyWVUOQMFIjO4nTPq3Km+VA
+Date:   Thu, 1 Sep 2022 14:02:59 +0000
+Message-ID: <DM5PR11MB1324088635FDE00B0D957816C17B9@DM5PR11MB1324.namprd11.prod.outlook.com>
+References: <20220831153757.97381-1-dmitry.osipenko@collabora.com>
+ <20220831153757.97381-7-dmitry.osipenko@collabora.com>
+In-Reply-To: <20220831153757.97381-7-dmitry.osipenko@collabora.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-reaction: no-action
+dlp-version: 11.6.500.17
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: dfed438e-2f29-44bb-b802-08da8c22add9
+x-ms-traffictypediagnostic: BN8PR11MB3634:EE_
+x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: mMq9NvvlP9ajuIOC+hjVMXkGSs9f2xATLCHpzwcW4K4uToAIfBItl5anbvP8D/tQkrT742txZ6/mHbjfpGASPB8x9p1ncMrB0QFSlHxRxlOQVWknKM3MoLvkLON8VozxWRFvN1syZWQqgQJA/p4CjZPA5UiTVocZuABTpmbkAGiMklGi5RNQQwaPuXDrWYdj/gWUdWQTGnlR/A/mddFikY8agDGlTEsdwHne2hwREGmzZw/5AlnKcp1wfIzXf4CTqRnBju5VUVVi/xadfb9bdfSuEySg06roQZkBmPRBgOGbRcKa8+6JthIwfkys6ct4f84bzD+yljkDAOsuFfflPz8aiboRrzyaadxWeRMkILum86jOPwoh+KeA22P24Dk1W4XlI48XxRrQoi68MG62CY11/oU3j9ceXm4OsaLyvsBh+R7eOzhfszvGdC7QwXJVv74kz2QiPJum3Jpnt3nWhIRybmJzXtp763eUPN0+NFzP5CEhThNSOvr0e3Sz4ArzsDhNegaHnyGHHoD/JRIUslAnyj+PwIV6Afp4hmAT3QHa9b6eSEaheRKa2bYORMG4MUDn5Re8cBWy4kk/xAVNife9tDF7FyYPm7mHS90Hy3UdWE3cry1jjGEMTowtmuzQtuSJcqSnNasuZjZPTFvdMdfEkXIkI2VMnLoBBVe/awD7kVsTq5XZvCw59IYht95KIj83kBl2oDzgjfHs7xfcw71TJ3dxNuLN1pyZaEskaF/4mECTzGyTIA38xyVzS3x/sCHzmlBR8L0C3MaNGcmgEU1UCzawHIOHatEDsMHlLvw=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM5PR11MB1324.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(39860400002)(396003)(376002)(136003)(346002)(366004)(66446008)(66556008)(38070700005)(82960400001)(4326008)(76116006)(64756008)(921005)(8676002)(66946007)(33656002)(122000001)(38100700002)(86362001)(66574015)(41300700001)(83380400001)(7416002)(9686003)(71200400001)(6506007)(186003)(7696005)(7366002)(478600001)(2906002)(26005)(54906003)(316002)(5660300002)(110136005)(52536014)(7406005)(55016003)(66476007)(8936002);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?eTE9ZUc5shAZ4zJTDbsqtqeqDWyXoP1oKxD87GwpnAsCuETLBlz+u51mBd?=
+ =?iso-8859-1?Q?knTY2+M0+J1kXabO31GvuNv5a9D+ZJ4Ynw9IWa7aKUmeMzumDAqObeLlrA?=
+ =?iso-8859-1?Q?z3Q58azARmZfMlxV7G00pcey1FtYjqFH92Hbf0P6fHoqTgA1EI7ycr02wJ?=
+ =?iso-8859-1?Q?Kq9Fyp5aOMEXy+v4f0/vFl2Ndh0FyJhKNdpZ3Z//ZBeLi+WrBL96ouOeqc?=
+ =?iso-8859-1?Q?Tu7HCI8rV8jkVP1/pYV1OEPfJWIp3CROGKhNAip/6X/644CT4NF4FMn2ve?=
+ =?iso-8859-1?Q?3urYPNNBOdPLloNug9hfrvyeZNDNTAjBFRWkdzfX+1KVO7YQK8qwn2hbqa?=
+ =?iso-8859-1?Q?lJPQY85ld4q7eJ3zbaY5VrBW02tNDPGKYsMCOd6tYT8FlPVgs+0P+qwL3w?=
+ =?iso-8859-1?Q?PWLYWmOkvkhai+o0aJKSrcCu1wrlhfbaEwU0hPPyTbvdRZx5g+X7Is7COZ?=
+ =?iso-8859-1?Q?LgTO3CPAsL9ZdVNzmzdAgp+4Azis8B5TCFbwMT6g88hHkfuHSJfTvrEJJt?=
+ =?iso-8859-1?Q?BME5gI+0Kgb4ORJhN78XwD8Z2H2IezeXmSNsq+d790fB608CGBEzneNnzG?=
+ =?iso-8859-1?Q?udrGnWUosS5dcODPNQqyHl/pyViEQUk7OqUu+Mh1iO1CtieQSJDe87/O1R?=
+ =?iso-8859-1?Q?aSswHbAtre/6ueRmxi20a5b4n5RX0Df2KZAoG2f8mqD0+eoxZBZFTXGu6d?=
+ =?iso-8859-1?Q?F+i0kb5J507GDB9YKL6QYu1VLEQTux01VyIpSmd9d+0oySgs00dFG3nyYl?=
+ =?iso-8859-1?Q?PFTD/R50P+z7teGeS2XLcY50/JaRRPG24LWHWuGbhw+SrY3/DyLZWZ/KXd?=
+ =?iso-8859-1?Q?eC2BYNePDP6JtMWFwr3nyIjHFA3kElGtHpMeiP/LpRzRr1cPJMy2yvGkD/?=
+ =?iso-8859-1?Q?s+POeWW5yQ3h0W4jsXw4r+tKjzfXJp5eokNeQ1ILGwYsN7Q6VSuEKfH0y1?=
+ =?iso-8859-1?Q?MFrkn8OTdnV9bsuoNo0CQYNVDpYFcr8QcZkbxxDyBEfYt7DShSN/sHLqdX?=
+ =?iso-8859-1?Q?6hIYav44JP9lr3fPSLAQNnN7DIQy7rXF/Ih5hSj2S/IurSixf7a/I4xrxn?=
+ =?iso-8859-1?Q?/p+Z4sjcZPiIQuVjy816arXYEd4eVsEM5SBJFmhqSrTgKqJOUDt+VQHgiz?=
+ =?iso-8859-1?Q?ZA5Oum2QZoiTlhDJ+ZkDOgNiwJxAK0dQ6qlVBNYjsnmUtZtrez+Ga6N6RC?=
+ =?iso-8859-1?Q?1jbCv4JYo5M9rBxewQhslZyLBfvSHMP59pRbQ5JEvnwbncpLe6tt0BMlSp?=
+ =?iso-8859-1?Q?IE4FjZyHkOR+8zWJ72yGJzn1icb3P/dd2K8lkutOowgmyBtc1JTvh0XT4v?=
+ =?iso-8859-1?Q?KB4/EX0rx+EuKInpRJ8A3eptyTStszd40DBtPSeQhO2vR+DY2q8T3pIRTO?=
+ =?iso-8859-1?Q?AjAmmLwUUTPxWVsrDXwMtHWT5ITwemVogrHKUhk2REko+hK0+U8J3keUYw?=
+ =?iso-8859-1?Q?b/YMDmxvbHTAf+b4WKN7nQz2YVgq1cFnVcGeXQzomczzHwzw8BQe2cbLQy?=
+ =?iso-8859-1?Q?sJxACFam/yO2EoDzb33S12SZ5oA8N5tL9qtA7Fx3TlxFaF173q5AmEH8P4?=
+ =?iso-8859-1?Q?1bso8HoKU5rdnQHknlGPfOG5XDhVOJQYuRlpUTt+kBqWhV0Kvi6aUXUw6o?=
+ =?iso-8859-1?Q?xDJvotJoE5Hufyev5Z4n83S2NvhD3fk6H2?=
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <YxCyGgfNVHGIJlMz@aptenodytes>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM5PR11MB1324.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: dfed438e-2f29-44bb-b802-08da8c22add9
+X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Sep 2022 14:02:59.9225
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: g4ycS2vn1nGCJetZEgi48T+II34HkcCyIwVoRqc8cCeDu0JsHdf6zxPEc6wzDGuRYDM1mGqbVX1T5j3KqAM+NmwjRh1luBMpOlzNGEZf7UE=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN8PR11MB3634
+X-OriginatorOrg: intel.com
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -62,290 +204,190 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Paul,
+>-----Original Message-----
+>From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+>Sent: Wednesday, August 31, 2022 11:38 AM
+>To: David Airlie <airlied@linux.ie>; Gerd Hoffmann <kraxel@redhat.com>;
+>Gurchetan Singh <gurchetansingh@chromium.org>; Chia-I Wu
+><olvaffe@gmail.com>; Daniel Vetter <daniel@ffwll.ch>; Daniel Almeida
+><daniel.almeida@collabora.com>; Gert Wollny <gert.wollny@collabora.com>;
+>Gustavo Padovan <gustavo.padovan@collabora.com>; Daniel Stone
+><daniel@fooishbar.org>; Tomeu Vizoso <tomeu.vizoso@collabora.com>;
+>Maarten Lankhorst <maarten.lankhorst@linux.intel.com>; Maxime Ripard
+><mripard@kernel.org>; Thomas Zimmermann <tzimmermann@suse.de>;
+>Rob Clark <robdclark@gmail.com>; Sumit Semwal
+><sumit.semwal@linaro.org>; Christian K=F6nig <christian.koenig@amd.com>;
+>Pan, Xinhui <Xinhui.Pan@amd.com>; Thierry Reding
+><thierry.reding@gmail.com>; Tomasz Figa <tfiga@chromium.org>; Marek
+>Szyprowski <m.szyprowski@samsung.com>; Mauro Carvalho Chehab
+><mchehab@kernel.org>; Alex Deucher <alexander.deucher@amd.com>; Jani
+>Nikula <jani.nikula@linux.intel.com>; Joonas Lahtinen
+><joonas.lahtinen@linux.intel.com>; Vivi, Rodrigo <rodrigo.vivi@intel.com>;
+>Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>; Thomas Hellstr=F6m
+><thomas_os@shipmail.org>; Qiang Yu <yuq825@gmail.com>; Srinivas
+>Kandagatla <srinivas.kandagatla@linaro.org>; Amol Maheshwari
+><amahesh@qti.qualcomm.com>; Jason Gunthorpe <jgg@ziepe.ca>; Leon
+>Romanovsky <leon@kernel.org>; Gross, Jurgen <jgross@suse.com>; Stefano
+>Stabellini <sstabellini@kernel.org>; Oleksandr Tyshchenko
+><oleksandr_tyshchenko@epam.com>; Tomi Valkeinen <tomba@kernel.org>;
+>Russell King <linux@armlinux.org.uk>; Lucas Stach <l.stach@pengutronix.de>=
+;
+>Christian Gmeiner <christian.gmeiner@gmail.com>
+>Cc: dri-devel@lists.freedesktop.org; linux-kernel@vger.kernel.org; Dmitry
+>Osipenko <digetx@gmail.com>; linux-media@vger.kernel.org; linaro-mm-
+>sig@lists.linaro.org; amd-gfx@lists.freedesktop.org; intel-
+>gfx@lists.freedesktop.org; kernel@collabora.com; virtualization@lists.linu=
+x-
+>foundation.org; linux-rdma@vger.kernel.org; linux-arm-
+>msm@vger.kernel.org
+>Subject: [PATCH v4 06/21] drm/i915: Prepare to dynamic dma-buf locking
+>specification
+>
+>Prepare i915 driver to the common dynamic dma-buf locking convention
+>by starting to use the unlocked versions of dma-buf API functions
+>and handling cases where importer now holds the reservation lock.
+>
+>Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+>---
+> drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c       |  2 +-
+> drivers/gpu/drm/i915/gem/i915_gem_object.c       | 12 ++++++++++++
+> .../gpu/drm/i915/gem/selftests/i915_gem_dmabuf.c | 16 ++++++++--------
+> 3 files changed, 21 insertions(+), 9 deletions(-)
+>
+>diff --git a/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
+>b/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
+>index f5062d0c6333..07eee1c09aaf 100644
+>--- a/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
+>+++ b/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
+>@@ -72,7 +72,7 @@ static int i915_gem_dmabuf_vmap(struct dma_buf
+>*dma_buf,
+> 	struct drm_i915_gem_object *obj =3D dma_buf_to_obj(dma_buf);
+> 	void *vaddr;
+>
+>-	vaddr =3D i915_gem_object_pin_map_unlocked(obj, I915_MAP_WB);
+>+	vaddr =3D i915_gem_object_pin_map(obj, I915_MAP_WB);
+> 	if (IS_ERR(vaddr))
+> 		return PTR_ERR(vaddr);
+>
+>diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.c
+>b/drivers/gpu/drm/i915/gem/i915_gem_object.c
+>index 389e9f157ca5..7e2a9b02526c 100644
+>--- a/drivers/gpu/drm/i915/gem/i915_gem_object.c
+>+++ b/drivers/gpu/drm/i915/gem/i915_gem_object.c
+>@@ -331,7 +331,19 @@ static void __i915_gem_free_objects(struct
+>drm_i915_private *i915,
+> 			continue;
+> 		}
+>
+>+		/*
+>+		 * dma_buf_unmap_attachment() requires reservation to be
+>+		 * locked. The imported GEM shouldn't share reservation lock,
+>+		 * so it's safe to take the lock.
+>+		 */
+>+		if (obj->base.import_attach)
+>+			i915_gem_object_lock(obj, NULL);
 
-On Thu, Sep 01, 2022 at 03:22:34PM +0200, Paul Kocialkowski wrote:
-> On Thu 01 Sep 22, 16:00, Laurent Pinchart wrote:
-> > On Thu, Sep 01, 2022 at 02:49:43PM +0200, Paul Kocialkowski wrote:
-> > > On Fri 26 Aug 22, 22:08, Laurent Pinchart wrote:
-> > > > On Fri, Aug 26, 2022 at 08:28:03PM +0200, Paul Kocialkowski wrote:
-> > > > > From: Kévin L'hôpital <kevin.lhopital@bootlin.com>
-> > > > > 
-> > > > > The Bananapi M3 supports a camera module which includes an OV8865 sensor
-> > > > > connected via the parallel CSI interface and an OV8865 sensor connected
-> > > > > via MIPI CSI-2.
-> > > > > 
-> > > > > The I2C2 bus is shared by the two sensors as well as the (active-low)
-> > > > > reset signal, but each sensor has it own shutdown line.
-> > > > 
-> > > > I see a single sensor in this file, am I missing something ?
-> > > 
-> > > Indeed this patch only adds the OV8865, not the OV5640 which is also present
-> > > on the same camera board extension.
-> > > 
-> > > A patch was submitted some time ago adding support for (only) the OV5640:
-> > > https://lore.kernel.org/lkml/20190408165744.11672-7-wens@kernel.org/
-> > 
-> > OK. That's fine, let's just reword the commit message.
-> 
-> Sure.
-> 
-> > > > Sounds like a perfect candidate for an overlay, it could then be merged
-> > > > upstream.
-> > > 
-> > > Do we have an upstream place to merge device-tree overlays now?
-> > 
-> > They're accepted in the upstream kernel as far as I know, a git grep for
-> > /plugin/ in .dts files produces 18 matches.
-> 
-> Oh okay, definitely good to know thanks!
-> 
-> > > I'll check if it's possible to describe both sensors together and actually
-> > > be able to select one or the other properly from userspace. Last time I tried
-> > > this wasn't possible: there's at least the shared reset GPIO used by both
-> > > sensors, which cannot be requested by the two drivers in parallel.
-> > > 
-> > > To be honest this is very poor hardware design and it was almost certainly
-> > > designed with the idea that only one sensor will be configured per boot.
-> > > See https://wiki.banana-pi.org/Camera and
-> > > https://drive.google.com/file/d/0B4PAo2nW2KfnOEFTMjZ2aEVGUVU/view?usp=sharing
-> > > for the schematics pdf
-> > 
-> > It's not great indeed, but not that uncommon either (unfortunately). I
-> > wonder if we need some kind of reset GPIO API, but that would be a hack
-> > at most I think.
-> 
-> Yeah I don't see any obvious clean solution here.
-> But that could still be two separate dt overlays for now.
-> 
-> > > > > Signed-off-by: Kévin L'hôpital <kevin.lhopital@bootlin.com>
-> > > > > Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> > > > > ---
-> > > > >  arch/arm/boot/dts/sun8i-a83t-bananapi-m3.dts | 102 +++++++++++++++++++
-> > > > >  1 file changed, 102 insertions(+)
-> > > > > 
-> > > > > diff --git a/arch/arm/boot/dts/sun8i-a83t-bananapi-m3.dts b/arch/arm/boot/dts/sun8i-a83t-bananapi-m3.dts
-> > > > > index 5a7e1bd5f825..80fd99cf24b2 100644
-> > > > > --- a/arch/arm/boot/dts/sun8i-a83t-bananapi-m3.dts
-> > > > > +++ b/arch/arm/boot/dts/sun8i-a83t-bananapi-m3.dts
-> > > > > @@ -85,6 +85,30 @@ led-1 {
-> > > > >  		};
-> > > > >  	};
-> > > > >  
-> > > > > +	reg_ov8865_avdd: ov8865-avdd {
-> > > > > +		compatible = "regulator-fixed";
-> > > > > +		regulator-name = "ov8865-avdd";
-> > > > > +		regulator-min-microvolt = <2800000>;
-> > > > > +		regulator-max-microvolt = <2800000>;
-> > > > > +		vin-supply = <&reg_dldo4>;
-> > > > > +	};
-> > > > > +
-> > > > > +	reg_ov8865_dovdd: ov8865-dovdd {
-> > > > > +		compatible = "regulator-fixed";
-> > > > > +		regulator-name = "ov8865-dovdd";
-> > > > > +		regulator-min-microvolt = <2800000>;
-> > > > > +		regulator-max-microvolt = <2800000>;
-> > > > > +		vin-supply = <&reg_dldo4>;
-> > > > > +	};
-> > > > > +
-> > > > > +	reg_ov8865_dvdd: ov8865-dvdd {
-> > > > > +		compatible = "regulator-fixed";
-> > > > > +		regulator-name = "ov8865-dvdd";
-> > > > > +		regulator-min-microvolt = <1200000>;
-> > > > > +		regulator-max-microvolt = <1200000>;
-> > > > > +		vin-supply = <&reg_eldo1>;
-> > > > > +	};
-> > > > 
-> > > > Are those three regulators on the Banana Pi, or on the camera module ?
-> > > 
-> > > That's on the camera module.
-> > > 
-> > > > > +
-> > > > >  	reg_usb1_vbus: reg-usb1-vbus {
-> > > > >  		compatible = "regulator-fixed";
-> > > > >  		regulator-name = "usb1-vbus";
-> > > > > @@ -115,6 +139,23 @@ &cpu100 {
-> > > > >  	cpu-supply = <&reg_dcdc3>;
-> > > > >  };
-> > > > >  
-> > > > > +&csi {
-> > > > > +	status = "okay";
-> > > > > +
-> > > > > +	ports {
-> > > > > +		#address-cells = <1>;
-> > > > > +		#size-cells = <0>;
-> > > > > +
-> > > > > +		port@1 {
-> > > > > +			reg = <1>;
-> > > > 
-> > > > All of this (except the status = "okay") should go to sun8i-a83t.dtsi.
-> > > > 
-> > > > > +
-> > > > > +			csi_in_mipi_csi2: endpoint {
-> > > > > +				remote-endpoint = <&mipi_csi2_out_csi>;
-> > > > > +			};
-> > > > 
-> > > > This too actually, once the issue mentioned in patch 5/6 gets fixed.
-> > > > 
-> > > > > +		};
-> > > > > +	};
-> > > > > +};
-> > > > > +
-> > > > >  &de {
-> > > > >  	status = "okay";
-> > > > >  };
-> > > > > @@ -147,6 +188,36 @@ hdmi_out_con: endpoint {
-> > > > >  	};
-> > > > >  };
-> > > > >  
-> > > > > +&i2c2 {
-> > > > > +	pinctrl-names = "default";
-> > > > > +	pinctrl-0 = <&i2c2_pe_pins>;
-> > > > 
-> > > > This looks like a candidate for upstreaming in
-> > > > sun8i-a83t-bananapi-m3.dts, it shouldn't be in the overlay.
-> > > 
-> > > I2C2 is actually also exported in the PH pins, which is available on the board
-> > > header, so it's not obvious that using the PE pins should be the default.
-> > > 
-> > > The context is that Allwinner SoCs usually have a dedicated I2C controller for
-> > > cameras, but also route a "generic" I2C controller on the same pins.
-> > 
-> > Out of curiosity, what features do those dedicated camera I2C
-> > controllers provide, compared to "normal" I2C controllers ?
-> 
-> IIRC there's some feature to send i2c messages synced with the camera interface
-> vsync signal, to have some kind of hardware atomic mechanism for reconfiguring
-> a sensor.
-> 
-> Not sure that's very relevant for us and an implementation for it would probably
-> just support regular I2C. We can probably achieve simialr results with the
-> request API.
+There is a lot of stuff going here.  Taking the lock may be premature...
 
-This hardware feature would be very useful to improve compliance with
-the real-time requirements of the camera sensor. It's something that I
-would really like to be supported in Linux, but we'll need to design a
-new API for it.
+> 		__i915_gem_object_pages_fini(obj);
 
-> > > Here that's on the PE14/15 pins. Since we don't have mainline support for this
-> > > camera-dedicated I2C controller, we end up routing the generic one to the PE
-> > > pins, which are routed to the camera connector.
-> > 
-> > OK.
-> > 
-> > > In the future we could add support for this camera-dedicated controller, which
-> > > would then allow routing i2c2 to the PH pins independently. This is what the
-> > > downstream Allwinner BSP kernel does.
-> > > 
-> > > > > +	status = "okay";
-> > > > > +
-> > > > > +	ov8865: camera@36 {
-> > > > > +		compatible = "ovti,ov8865";
-> > > > > +		reg = <0x36>;
-> > > > > +		pinctrl-names = "default";
-> > > > > +		pinctrl-0 = <&csi_mclk_pin>;
-> > > > > +		clocks = <&ccu CLK_CSI_MCLK>;
-> > > > > +		assigned-clocks = <&ccu CLK_CSI_MCLK>;
-> > > > > +		assigned-clock-rates = <24000000>;
-> > > > > +		avdd-supply = <&reg_ov8865_avdd>;
-> > > > > +		dovdd-supply = <&reg_ov8865_dovdd>;
-> > > > > +		dvdd-supply = <&reg_ov8865_dvdd>;
-> > > > > +		powerdown-gpios = <&pio 4 17 GPIO_ACTIVE_LOW>; /* PE17 */
-> > > > > +		reset-gpios = <&pio 4 16 GPIO_ACTIVE_LOW>; /* PE16 */
-> > > > > +
-> > > > > +		port {
-> > > > > +			ov8865_out_mipi_csi2: endpoint {
-> > > > > +				data-lanes = <1 2 3 4>;
-> > > > > +				link-frequencies = /bits/ 64 <360000000>;
-> > > > > +
-> > > > > +				remote-endpoint = <&mipi_csi2_in_ov8865>;
-> > > > > +			};
-> > > > > +		};
-> > > > > +	};
-> > > > > +};
-> > > > > +
-> > > > >  &mdio {
-> > > > >  	rgmii_phy: ethernet-phy@1 {
-> > > > >  		compatible = "ethernet-phy-ieee802.3-c22";
-> > > > > @@ -154,6 +225,24 @@ rgmii_phy: ethernet-phy@1 {
-> > > > >  	};
-> > > > >  };
-> > > > >  
-> > > > > +&mipi_csi2 {
-> > > > > +	status = "okay";
-> > > > > +};
-> > > > > +
-> > > > > +&mipi_csi2_in {
-> > > > > +	mipi_csi2_in_ov8865: endpoint {
-> > > > > +		data-lanes = <1 2 3 4>;
-> > > > > +
-> > > > > +		remote-endpoint = <&ov8865_out_mipi_csi2>;
-> > > > > +	};
-> > > > > +};
-> > > > > +
-> > > > > +&mipi_csi2_out {
-> > > > > +	mipi_csi2_out_csi: endpoint {
-> > > > > +		remote-endpoint = <&csi_in_mipi_csi2>;
-> > > > > +	};
-> > > > > +};
-> > > > > +
-> > > > >  &mmc0 {
-> > > > >  	pinctrl-names = "default";
-> > > > >  	pinctrl-0 = <&mmc0_pins>;
-> > > > > @@ -327,11 +416,24 @@ &reg_dldo3 {
-> > > > >  	regulator-name = "vcc-pd";
-> > > > >  };
-> > > > >  
-> > > > > +&reg_dldo4 {
-> > > > > +	regulator-always-on;
-> > > > 
-> > > > Does it have to be always on ?
-> > > 
-> > > Mhh so I realize the regulators handling here is quite messy.
-> > > I guess I didn't do such a good review of this patch internally.
-> > > 
-> > > The situation is that the regulators on the camera board all have their
-> > > enable pin tied to the DLDO4 output, but that would be best described as
-> > > a vin-supply of the ov8865 regulators above. Their real vin supply is an
-> > > always-on board-wide power source but I don't think we can represent another
-> > > regulator acting as enable signal in a better way.
-> > 
-> > That's right. I've modeled that as a parent regulator in the past, even
-> > if it doesn't reflect the exact hardware topology, it's functionally
-> > equivalent.
-> 
-> Sounds good, I'll change it that way.
-> 
-> > > Now beware that the camera board schematics are confusing as they show resistors
-> > > (R17, R18, R19, R20, R23) connecting some power lines together, but they are not
-> > > populated on the board (I guess the point is to make a variant of the design
-> > > without regulators on the camera board and to use ones from the PMU instead).
-> > > This probably confused Kevin and I back when this patch was made.
-> > > 
-> > > > > +	regulator-min-microvolt = <2800000>;
-> > > > > +	regulator-max-microvolt = <2800000>;
-> > > > > +	regulator-name = "avdd-csi";
-> > > > 
-> > > > Doesn't this belong to the base board .dts ? Same below.
-> > > > 
-> > > > > +};
-> > > > > +
-> > > > >  &reg_drivevbus {
-> > > > >  	regulator-name = "usb0-vbus";AVDD-CSI
-> > > > >  	status = "okay";
-> > > > >  };
-> > > > >  
-> > > > > +&reg_eldo1 {
-> > > > > +	regulator-min-microvolt = <1200000>;
-> > > > > +	regulator-max-microvolt = <1200000>;
-> > > > > +	regulator-name = "dvdd-csi-r";
-> > > > > +};
-> > > > > +
-> > > > >  &reg_fldo1 {
-> > > > >  	regulator-min-microvolt = <1080000>;
-> > > > >  	regulator-max-microvolt = <1320000>;
+The i915_gem_dmabuf.c:i915_gem_object_put_pages_dmabuf is where
+unmap_attachment is actually called, would it make more sense to make
+do the locking there?
 
--- 
-Regards,
+Mike
 
-Laurent Pinchart
+
+>+
+>+		if (obj->base.import_attach)
+>+			i915_gem_object_unlock(obj);
+>+
+> 		__i915_gem_free_object(obj);
+>
+> 		/* But keep the pointer alive for RCU-protected lookups */
+>diff --git a/drivers/gpu/drm/i915/gem/selftests/i915_gem_dmabuf.c
+>b/drivers/gpu/drm/i915/gem/selftests/i915_gem_dmabuf.c
+>index 62c61af77a42..9e3ed634aa0e 100644
+>--- a/drivers/gpu/drm/i915/gem/selftests/i915_gem_dmabuf.c
+>+++ b/drivers/gpu/drm/i915/gem/selftests/i915_gem_dmabuf.c
+>@@ -213,7 +213,7 @@ static int igt_dmabuf_import_same_driver(struct
+>drm_i915_private *i915,
+> 		goto out_import;
+> 	}
+>
+>-	st =3D dma_buf_map_attachment(import_attach,
+>DMA_BIDIRECTIONAL);
+>+	st =3D dma_buf_map_attachment_unlocked(import_attach,
+>DMA_BIDIRECTIONAL);
+> 	if (IS_ERR(st)) {
+> 		err =3D PTR_ERR(st);
+> 		goto out_detach;
+>@@ -226,7 +226,7 @@ static int igt_dmabuf_import_same_driver(struct
+>drm_i915_private *i915,
+> 		timeout =3D -ETIME;
+> 	}
+> 	err =3D timeout > 0 ? 0 : timeout;
+>-	dma_buf_unmap_attachment(import_attach, st,
+>DMA_BIDIRECTIONAL);
+>+	dma_buf_unmap_attachment_unlocked(import_attach, st,
+>DMA_BIDIRECTIONAL);
+> out_detach:
+> 	dma_buf_detach(dmabuf, import_attach);
+> out_import:
+>@@ -296,7 +296,7 @@ static int igt_dmabuf_import(void *arg)
+> 		goto out_obj;
+> 	}
+>
+>-	err =3D dma_buf_vmap(dmabuf, &map);
+>+	err =3D dma_buf_vmap_unlocked(dmabuf, &map);
+> 	dma_map =3D err ? NULL : map.vaddr;
+> 	if (!dma_map) {
+> 		pr_err("dma_buf_vmap failed\n");
+>@@ -337,7 +337,7 @@ static int igt_dmabuf_import(void *arg)
+>
+> 	err =3D 0;
+> out_dma_map:
+>-	dma_buf_vunmap(dmabuf, &map);
+>+	dma_buf_vunmap_unlocked(dmabuf, &map);
+> out_obj:
+> 	i915_gem_object_put(obj);
+> out_dmabuf:
+>@@ -358,7 +358,7 @@ static int igt_dmabuf_import_ownership(void *arg)
+> 	if (IS_ERR(dmabuf))
+> 		return PTR_ERR(dmabuf);
+>
+>-	err =3D dma_buf_vmap(dmabuf, &map);
+>+	err =3D dma_buf_vmap_unlocked(dmabuf, &map);
+> 	ptr =3D err ? NULL : map.vaddr;
+> 	if (!ptr) {
+> 		pr_err("dma_buf_vmap failed\n");
+>@@ -367,7 +367,7 @@ static int igt_dmabuf_import_ownership(void *arg)
+> 	}
+>
+> 	memset(ptr, 0xc5, PAGE_SIZE);
+>-	dma_buf_vunmap(dmabuf, &map);
+>+	dma_buf_vunmap_unlocked(dmabuf, &map);
+>
+> 	obj =3D to_intel_bo(i915_gem_prime_import(&i915->drm, dmabuf));
+> 	if (IS_ERR(obj)) {
+>@@ -418,7 +418,7 @@ static int igt_dmabuf_export_vmap(void *arg)
+> 	}
+> 	i915_gem_object_put(obj);
+>
+>-	err =3D dma_buf_vmap(dmabuf, &map);
+>+	err =3D dma_buf_vmap_unlocked(dmabuf, &map);
+> 	ptr =3D err ? NULL : map.vaddr;
+> 	if (!ptr) {
+> 		pr_err("dma_buf_vmap failed\n");
+>@@ -435,7 +435,7 @@ static int igt_dmabuf_export_vmap(void *arg)
+> 	memset(ptr, 0xc5, dmabuf->size);
+>
+> 	err =3D 0;
+>-	dma_buf_vunmap(dmabuf, &map);
+>+	dma_buf_vunmap_unlocked(dmabuf, &map);
+> out:
+> 	dma_buf_put(dmabuf);
+> 	return err;
+>--
+>2.37.2
+
