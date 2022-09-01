@@ -2,41 +2,41 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 829B25A937F
-	for <lists+linux-media@lfdr.de>; Thu,  1 Sep 2022 11:47:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 61B105A9382
+	for <lists+linux-media@lfdr.de>; Thu,  1 Sep 2022 11:47:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233786AbiIAJrH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 1 Sep 2022 05:47:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44736 "EHLO
+        id S233544AbiIAJrL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 1 Sep 2022 05:47:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44772 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232884AbiIAJrF (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 1 Sep 2022 05:47:05 -0400
+        with ESMTP id S233828AbiIAJrI (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 1 Sep 2022 05:47:08 -0400
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 24A57124854
-        for <linux-media@vger.kernel.org>; Thu,  1 Sep 2022 02:47:04 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A5F12112ECF
+        for <linux-media@vger.kernel.org>; Thu,  1 Sep 2022 02:47:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1662025623;
+        s=mimecast20190719; t=1662025626;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=uyYieMx/izLamNgNYSTPTqBZv9qZWaCYD8ZyROzswHg=;
-        b=XGUsEX9UgJQZtdbeIlTgoxF/wE9madmEgpJVS6HIYf7VZ8M6rhXfKFVsSGsofJdN5UdvP9
-        f5k8VT7FEXUXl9C32D3lCTBH4vtFfy3FAe0bbLEbtryPEP6mwFz7bb9ZS7Pri6bLqP0fbf
-        shGukfV1xSIBOwAvHu7d/MLAMuMXggY=
+        bh=edqM0z2KQD7apCD8laUnbpMHoX2a9EzdcJiawYQYAbE=;
+        b=LhuNWbc+IRVeVVfnMC/oP7jEcSS1dOal2raaTEbPqVe1+oLgxBqHHF1zVYl1E8Is7Die2S
+        H8aYQMR/JfxukppGw5jD4TCLtiAP/4awYzMCJF9TQoWmOLIShZbUR0owznhnSibvzo2Ysn
+        Rg7DSDLvNqfOnOojnRleaEgN6B5c5pw=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-549-SQLlG4PpP8e_3-1WD34PDg-1; Thu, 01 Sep 2022 05:46:59 -0400
-X-MC-Unique: SQLlG4PpP8e_3-1WD34PDg-1
+ us-mta-223-qhDua9sTP5uaKW7WsNq6yQ-1; Thu, 01 Sep 2022 05:47:02 -0400
+X-MC-Unique: qhDua9sTP5uaKW7WsNq6yQ-1
 Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com [10.11.54.10])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 005541818362;
-        Thu,  1 Sep 2022 09:46:44 +0000 (UTC)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A63FA9652DA;
+        Thu,  1 Sep 2022 09:46:45 +0000 (UTC)
 Received: from localhost.localdomain (unknown [10.39.195.90])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 7EC7D40334C;
-        Thu,  1 Sep 2022 09:46:42 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 312E840334C;
+        Thu,  1 Sep 2022 09:46:44 +0000 (UTC)
 From:   Hans de Goede <hdegoede@redhat.com>
 To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Sakari Ailus <sakari.ailus@linux.intel.com>
@@ -47,9 +47,9 @@ Cc:     Hans de Goede <hdegoede@redhat.com>,
         Nable <nable.maininbox@googlemail.com>,
         andrey.i.trufanov@gmail.com, Fabio Aiuto <fabioaiuto83@gmail.com>,
         linux-media@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: [PATCH 04/14] media: atomisp: Remove the outq videobuf queue
-Date:   Thu,  1 Sep 2022 11:46:16 +0200
-Message-Id: <20220901094626.11513-5-hdegoede@redhat.com>
+Subject: [PATCH 05/14] media: atomisp: Remove never set file_input flag
+Date:   Thu,  1 Sep 2022 11:46:17 +0200
+Message-Id: <20220901094626.11513-6-hdegoede@redhat.com>
 In-Reply-To: <20220901094626.11513-1-hdegoede@redhat.com>
 References: <20220901094626.11513-1-hdegoede@redhat.com>
 MIME-Version: 1.0
@@ -65,151 +65,270 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-After the file-injection support removal the outq videobuf queue is
-no longer used, remove it.
+After the file-injection support removal the file_input flag is
+always false.
+
+Remove the flag and replace any code checking it with the code-path
+for when it is false.
 
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- .../staging/media/atomisp/pci/atomisp_fops.c  | 62 -------------------
- .../media/atomisp/pci/atomisp_subdev.c        |  1 -
- .../media/atomisp/pci/atomisp_subdev.h        |  9 ++-
- 3 files changed, 4 insertions(+), 68 deletions(-)
+ .../staging/media/atomisp/pci/atomisp_cmd.c   | 41 +++-----------
+ .../staging/media/atomisp/pci/atomisp_fops.c  | 12 +---
+ .../media/atomisp/pci/atomisp_internal.h      |  2 -
+ .../staging/media/atomisp/pci/atomisp_ioctl.c | 56 ++++++-------------
+ 4 files changed, 28 insertions(+), 83 deletions(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_fops.c b/drivers/staging/media/atomisp/pci/atomisp_fops.c
-index 08b62fc65c76..d6a7198a957c 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_fops.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_fops.c
-@@ -593,47 +593,6 @@ static void atomisp_buf_release(struct videobuf_queue *vq,
- 	atomisp_videobuf_free_buf(vb);
- }
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.c b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
+index 8313724f06b3..8e6c10f25318 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_cmd.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
+@@ -1308,9 +1308,7 @@ static void __atomisp_css_recover(struct atomisp_device *isp, bool isp_timeout)
+ 	bool depth_mode = false;
+ 	int i, ret, depth_cnt = 0;
  
--static int atomisp_buf_setup_output(struct videobuf_queue *vq,
--				    unsigned int *count, unsigned int *size)
--{
--	struct atomisp_video_pipe *pipe = vq->priv_data;
--
--	*size = pipe->pix.sizeimage;
--
--	return 0;
--}
--
--static int atomisp_buf_prepare_output(struct videobuf_queue *vq,
--				      struct videobuf_buffer *vb,
--				      enum v4l2_field field)
--{
--	struct atomisp_video_pipe *pipe = vq->priv_data;
--
--	vb->size = pipe->pix.sizeimage;
--	vb->width = pipe->pix.width;
--	vb->height = pipe->pix.height;
--	vb->field = field;
--	vb->state = VIDEOBUF_PREPARED;
--
--	return 0;
--}
--
--static void atomisp_buf_queue_output(struct videobuf_queue *vq,
--				     struct videobuf_buffer *vb)
--{
--	struct atomisp_video_pipe *pipe = vq->priv_data;
--
--	list_add_tail(&vb->queue, &pipe->activeq_out);
--	vb->state = VIDEOBUF_QUEUED;
--}
--
--static void atomisp_buf_release_output(struct videobuf_queue *vq,
--				       struct videobuf_buffer *vb)
--{
--	videobuf_vmalloc_free(vb);
--	vb->state = VIDEOBUF_NEEDS_INIT;
--}
--
- static const struct videobuf_queue_ops videobuf_qops = {
- 	.buf_setup	= atomisp_buf_setup,
- 	.buf_prepare	= atomisp_buf_prepare,
-@@ -641,13 +600,6 @@ static const struct videobuf_queue_ops videobuf_qops = {
- 	.buf_release	= atomisp_buf_release,
- };
+-	if (!isp->sw_contex.file_input)
+-		atomisp_css_irq_enable(isp,
+-				       IA_CSS_IRQ_INFO_CSS_RECEIVER_SOF, false);
++	atomisp_css_irq_enable(isp, IA_CSS_IRQ_INFO_CSS_RECEIVER_SOF, false);
  
--static const struct videobuf_queue_ops videobuf_qops_output = {
--	.buf_setup	= atomisp_buf_setup_output,
--	.buf_prepare	= atomisp_buf_prepare_output,
--	.buf_queue	= atomisp_buf_queue_output,
--	.buf_release	= atomisp_buf_release_output,
--};
--
- static int atomisp_init_pipe(struct atomisp_video_pipe *pipe)
- {
- 	/* init locks */
-@@ -660,15 +612,7 @@ static int atomisp_init_pipe(struct atomisp_video_pipe *pipe)
- 				    sizeof(struct atomisp_buffer), pipe,
- 				    NULL);	/* ext_lock: NULL */
+ 	BUG_ON(isp->num_of_streams > MAX_STREAM_NUM);
  
--	videobuf_queue_vmalloc_init(&pipe->outq, &videobuf_qops_output, NULL,
--				    &pipe->irq_lock,
--				    V4L2_BUF_TYPE_VIDEO_OUTPUT,
--				    V4L2_FIELD_NONE,
--				    sizeof(struct atomisp_buffer), pipe,
--				    NULL);	/* ext_lock: NULL */
--
- 	INIT_LIST_HEAD(&pipe->activeq);
--	INIT_LIST_HEAD(&pipe->activeq_out);
- 	INIT_LIST_HEAD(&pipe->buffers_waiting_for_param);
- 	INIT_LIST_HEAD(&pipe->per_frame_params);
- 	memset(pipe->frame_request_config_id, 0,
-@@ -964,12 +908,6 @@ static int atomisp_release(struct file *file)
- 		goto done;
+@@ -1396,16 +1394,11 @@ static void __atomisp_css_recover(struct atomisp_device *isp, bool isp_timeout)
+ 		atomisp_csi2_configure(asd);
  	}
  
--	if (pipe->outq.bufs[0]) {
--		mutex_lock(&pipe->outq.vb_lock);
--		videobuf_queue_cancel(&pipe->outq);
--		mutex_unlock(&pipe->outq.vb_lock);
+-	if (!isp->sw_contex.file_input) {
+-		atomisp_css_irq_enable(isp, IA_CSS_IRQ_INFO_CSS_RECEIVER_SOF,
+-				       atomisp_css_valid_sof(isp));
++	atomisp_css_irq_enable(isp, IA_CSS_IRQ_INFO_CSS_RECEIVER_SOF,
++			       atomisp_css_valid_sof(isp));
+ 
+-		if (atomisp_freq_scaling(isp, ATOMISP_DFS_MODE_AUTO, true) < 0)
+-			dev_dbg(isp->dev, "DFS auto failed while recovering!\n");
+-	} else {
+-		if (atomisp_freq_scaling(isp, ATOMISP_DFS_MODE_MAX, true) < 0)
+-			dev_dbg(isp->dev, "DFS max failed while recovering!\n");
+-	}
++	if (atomisp_freq_scaling(isp, ATOMISP_DFS_MODE_AUTO, true) < 0)
++		dev_dbg(isp->dev, "DFS auto failed while recovering!\n");
+ 
+ 	for (i = 0; i < isp->num_of_streams; i++) {
+ 		struct atomisp_sub_device *asd;
+@@ -1610,10 +1603,7 @@ void atomisp_wdt_work(struct work_struct *work)
+ 			if (asd->streaming != ATOMISP_DEVICE_STREAMING_ENABLED)
+ 				continue;
+ 
+-			atomisp_wdt_refresh(asd,
+-					    isp->sw_contex.file_input ?
+-					    ATOMISP_ISP_FILE_TIMEOUT_DURATION :
+-					    ATOMISP_ISP_TIMEOUT_DURATION);
++			atomisp_wdt_refresh(asd, ATOMISP_ISP_TIMEOUT_DURATION);
+ 		}
+ 	}
+ 
+@@ -1643,14 +1633,10 @@ void atomisp_css_flush(struct atomisp_device *isp)
+ 	for (i = 0; i < isp->num_of_streams; i++) {
+ 		struct atomisp_sub_device *asd = &isp->asd[i];
+ 
+-		if (asd->streaming !=
+-		    ATOMISP_DEVICE_STREAMING_ENABLED)
++		if (asd->streaming != ATOMISP_DEVICE_STREAMING_ENABLED)
+ 			continue;
+ 
+-		atomisp_wdt_refresh(asd,
+-				    isp->sw_contex.file_input ?
+-				    ATOMISP_ISP_FILE_TIMEOUT_DURATION :
+-				    ATOMISP_ISP_TIMEOUT_DURATION);
++		atomisp_wdt_refresh(asd, ATOMISP_ISP_TIMEOUT_DURATION);
+ 	}
+ 	dev_dbg(isp->dev, "atomisp css flush done\n");
+ }
+@@ -1896,14 +1882,6 @@ irqreturn_t atomisp_isr_thread(int irq, void *isp_ptr)
+ 	}
+ out:
+ 	rt_mutex_unlock(&isp->mutex);
+-	for (i = 0; i < isp->num_of_streams; i++) {
+-		asd = &isp->asd[i];
+-		if (asd->streaming == ATOMISP_DEVICE_STREAMING_ENABLED
+-		    && css_pipe_done[asd->index]
+-		    && isp->sw_contex.file_input)
+-			v4l2_subdev_call(isp->inputs[asd->input_curr].camera,
+-					 video, s_stream, 1);
+-	}
+ 	dev_dbg(isp->dev, "<%s\n", __func__);
+ 
+ 	return IRQ_HANDLED;
+@@ -5377,8 +5355,7 @@ static int atomisp_set_fmt_to_isp(struct video_device *vdev,
+ 	ia_css_frame_free(asd->raw_output_frame);
+ 	asd->raw_output_frame = NULL;
+ 
+-	if (!asd->continuous_mode->val &&
+-	    !asd->params.online_process && !isp->sw_contex.file_input &&
++	if (!asd->continuous_mode->val && !asd->params.online_process &&
+ 	    ia_css_frame_allocate_from_info(&asd->raw_output_frame,
+ 		    raw_output_info))
+ 		return -ENOMEM;
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_fops.c b/drivers/staging/media/atomisp/pci/atomisp_fops.c
+index d6a7198a957c..ab767b585011 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_fops.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_fops.c
+@@ -628,7 +628,6 @@ static void atomisp_dev_init_struct(struct atomisp_device *isp)
+ {
+ 	unsigned int i;
+ 
+-	isp->sw_contex.file_input = false;
+ 	isp->need_gfx_throttle = true;
+ 	isp->isp_fatal_error = false;
+ 	isp->mipi_frame_size = 0;
+@@ -915,7 +914,7 @@ static int atomisp_release(struct file *file)
+ 	 * The sink pad setting can only be cleared when all device nodes
+ 	 * get released.
+ 	 */
+-	if (!isp->sw_contex.file_input && asd->fmt_auto->val) {
++	if (asd->fmt_auto->val) {
+ 		struct v4l2_mbus_framefmt isp_sink_fmt = { 0 };
+ 
+ 		atomisp_subdev_set_ffmt(&asd->subdev, fh.state,
+@@ -926,15 +925,6 @@ static int atomisp_release(struct file *file)
+ 	if (atomisp_subdev_users(asd))
+ 		goto done;
+ 
+-	/* clear the sink pad for file input */
+-	if (isp->sw_contex.file_input && asd->fmt_auto->val) {
+-		struct v4l2_mbus_framefmt isp_sink_fmt = { 0 };
+-
+-		atomisp_subdev_set_ffmt(&asd->subdev, fh.state,
+-					V4L2_SUBDEV_FORMAT_ACTIVE,
+-					ATOMISP_SUBDEV_PAD_SINK, &isp_sink_fmt);
 -	}
 -
- 	/*
- 	 * A little trick here:
- 	 * file injection input resolution is recorded in the sink pad,
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_subdev.c b/drivers/staging/media/atomisp/pci/atomisp_subdev.c
-index 1509543924d2..e05aeb0ca86b 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_subdev.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_subdev.c
-@@ -1066,7 +1066,6 @@ static void atomisp_init_subdev_pipe(struct atomisp_sub_device *asd,
- 	pipe->isp = asd->isp;
- 	spin_lock_init(&pipe->irq_lock);
- 	INIT_LIST_HEAD(&pipe->activeq);
--	INIT_LIST_HEAD(&pipe->activeq_out);
- 	INIT_LIST_HEAD(&pipe->buffers_waiting_for_param);
- 	INIT_LIST_HEAD(&pipe->per_frame_params);
- 	memset(pipe->frame_request_config_id,
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_subdev.h b/drivers/staging/media/atomisp/pci/atomisp_subdev.h
-index 938d427bede8..d89ae3274180 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_subdev.h
-+++ b/drivers/staging/media/atomisp/pci/atomisp_subdev.h
-@@ -70,9 +70,7 @@ struct atomisp_video_pipe {
- 	enum v4l2_buf_type type;
- 	struct media_pad pad;
- 	struct videobuf_queue capq;
--	struct videobuf_queue outq;
- 	struct list_head activeq;
--	struct list_head activeq_out;
- 	/*
- 	 * the buffers waiting for per-frame parameters, this is only valid
- 	 * in per-frame setting mode.
-@@ -86,9 +84,10 @@ struct atomisp_video_pipe {
+ 	atomisp_css_free_stat_buffers(asd);
+ 	atomisp_free_internal_buffers(asd);
+ 	ret = v4l2_subdev_call(isp->inputs[asd->input_curr].camera,
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_internal.h b/drivers/staging/media/atomisp/pci/atomisp_internal.h
+index ce1746e7ab9f..1d2326a40227 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_internal.h
++++ b/drivers/staging/media/atomisp/pci/atomisp_internal.h
+@@ -91,7 +91,6 @@
  
- 	unsigned int buffers_in_css;
+ #define ATOMISP_ISP_TIMEOUT_DURATION		(2 * HZ)
+ #define ATOMISP_EXT_ISP_TIMEOUT_DURATION        (6 * HZ)
+-#define ATOMISP_ISP_FILE_TIMEOUT_DURATION	(60 * HZ)
+ #define ATOMISP_WDT_KEEP_CURRENT_DELAY          0
+ #define ATOMISP_ISP_MAX_TIMEOUT_COUNT	2
+ #define ATOMISP_CSS_STOP_TIMEOUT_US	200000
+@@ -202,7 +201,6 @@ struct atomisp_regs {
+ };
  
--	/* irq_lock is used to protect video buffer state change operations and
--	 * also to make activeq, activeq_out, capq and outq list
--	 * operations atomic. */
+ struct atomisp_sw_contex {
+-	bool file_input;
+ 	int power_state;
+ 	int running_freq;
+ };
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
+index 345970ca4fcb..7f89226c858a 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
+@@ -737,7 +737,7 @@ static int atomisp_s_input(struct file *file, void *fh, unsigned int input)
+ 			ret = v4l2_subdev_call(motor, core, s_power, 1);
+ 	}
+ 
+-	if (!isp->sw_contex.file_input && motor)
++	if (motor)
+ 		ret = v4l2_subdev_call(motor, core, init, 1);
+ 
+ 	asd->input_curr = input;
+@@ -1841,8 +1841,6 @@ static int atomisp_streamon(struct file *file, void *fh,
+ 	atomic_set(&asd->sof_count, -1);
+ 	atomic_set(&asd->sequence, -1);
+ 	atomic_set(&asd->sequence_temp, -1);
+-	if (isp->sw_contex.file_input)
+-		wdt_duration = ATOMISP_ISP_FILE_TIMEOUT_DURATION;
+ 
+ 	asd->params.dis_proj_data_valid = false;
+ 	asd->latest_preview_exp_id = 0;
+@@ -1865,26 +1863,21 @@ static int atomisp_streamon(struct file *file, void *fh,
+ 		atomisp_setup_flash(asd);
+ 	}
+ 
+-	if (!isp->sw_contex.file_input) {
+-		atomisp_css_irq_enable(isp, IA_CSS_IRQ_INFO_CSS_RECEIVER_SOF,
+-				       atomisp_css_valid_sof(isp));
+-		atomisp_csi2_configure(asd);
+-		/*
+-		 * set freq to max when streaming count > 1 which indicate
+-		 * dual camera would run
+-		 */
+-		if (atomisp_streaming_count(isp) > 1) {
+-			if (atomisp_freq_scaling(isp,
+-						 ATOMISP_DFS_MODE_MAX, false) < 0)
+-				dev_dbg(isp->dev, "DFS max mode failed!\n");
+-		} else {
+-			if (atomisp_freq_scaling(isp,
+-						 ATOMISP_DFS_MODE_AUTO, false) < 0)
+-				dev_dbg(isp->dev, "DFS auto mode failed!\n");
+-		}
+-	} else {
+-		if (atomisp_freq_scaling(isp, ATOMISP_DFS_MODE_MAX, false) < 0)
++	atomisp_css_irq_enable(isp, IA_CSS_IRQ_INFO_CSS_RECEIVER_SOF,
++			       atomisp_css_valid_sof(isp));
++	atomisp_csi2_configure(asd);
 +	/*
-+	 * irq_lock is used to protect video buffer state change operations and
-+	 * also to make activeq and capq operations atomic.
++	 * set freq to max when streaming count > 1 which indicate
++	 * dual camera would run
 +	 */
- 	spinlock_t irq_lock;
- 	unsigned int users;
++	if (atomisp_streaming_count(isp) > 1) {
++		if (atomisp_freq_scaling(isp,
++					 ATOMISP_DFS_MODE_MAX, false) < 0)
+ 			dev_dbg(isp->dev, "DFS max mode failed!\n");
++	} else {
++		if (atomisp_freq_scaling(isp,
++					 ATOMISP_DFS_MODE_AUTO, false) < 0)
++			dev_dbg(isp->dev, "DFS auto mode failed!\n");
+ 	}
  
+ 	if (asd->depth_mode->val && atomisp_streaming_count(isp) ==
+@@ -2047,15 +2040,6 @@ int __atomisp_streamoff(struct file *file, void *fh, enum v4l2_buf_type type)
+ 		/* if other streams are running, should not disable watch dog */
+ 		rt_mutex_unlock(&isp->mutex);
+ 		atomisp_wdt_stop(asd, true);
+-
+-		/*
+-		 * must stop sending pixels into GP_FIFO before stop
+-		 * the pipeline.
+-		 */
+-		if (isp->sw_contex.file_input)
+-			v4l2_subdev_call(isp->inputs[asd->input_curr].camera,
+-					 video, s_stream, 0);
+-
+ 		rt_mutex_lock(&isp->mutex);
+ 	}
+ 
+@@ -2072,10 +2056,7 @@ int __atomisp_streamoff(struct file *file, void *fh, enum v4l2_buf_type type)
+ 	}
+ 
+ 	atomisp_clear_css_buffer_counters(asd);
+-
+-	if (!isp->sw_contex.file_input)
+-		atomisp_css_irq_enable(isp, IA_CSS_IRQ_INFO_CSS_RECEIVER_SOF,
+-				       false);
++	atomisp_css_irq_enable(isp, IA_CSS_IRQ_INFO_CSS_RECEIVER_SOF, false);
+ 
+ 	if (asd->delayed_init == ATOMISP_DELAYED_INIT_QUEUED) {
+ 		cancel_work_sync(&asd->delayed_init_work);
+@@ -2128,9 +2109,8 @@ int __atomisp_streamoff(struct file *file, void *fh, enum v4l2_buf_type type)
+ 	    != atomisp_sensor_start_stream(asd))
+ 		return 0;
+ 
+-	if (!isp->sw_contex.file_input)
+-		ret = v4l2_subdev_call(isp->inputs[asd->input_curr].camera,
+-				       video, s_stream, 0);
++	ret = v4l2_subdev_call(isp->inputs[asd->input_curr].camera,
++			       video, s_stream, 0);
+ 
+ 	if (isp->flash) {
+ 		asd->params.num_flash_frames = 0;
 -- 
 2.37.2
 
