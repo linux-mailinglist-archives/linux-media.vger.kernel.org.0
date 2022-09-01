@@ -2,219 +2,175 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5EC5B5A8F66
-	for <lists+linux-media@lfdr.de>; Thu,  1 Sep 2022 09:10:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AEA055A8F89
+	for <lists+linux-media@lfdr.de>; Thu,  1 Sep 2022 09:15:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233659AbiIAHJv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 1 Sep 2022 03:09:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56818 "EHLO
+        id S233557AbiIAHPP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 1 Sep 2022 03:15:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48520 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233672AbiIAHJR (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 1 Sep 2022 03:09:17 -0400
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2079.outbound.protection.outlook.com [40.107.243.79])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 12C76123C23;
-        Thu,  1 Sep 2022 00:08:52 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Ql/KZU/ARogmc3djY7zEHYdjTsEqbz8aJy++asQ6RR17I1KklOYnATOIM5RRI229ggZke5AmEOmzxnOmrUvDPvrlEWSXY6V2M1OcCv7HznMvPQClrPJtQk2wX9H5kqdw03gU+sIZ/aYosmwQBxdBrBXn2Gx84y0/jyu3bWFbCcJpq05tUElppOScz8xUMrivpGNlUcioumEGS8DVLp42g5M28TIoBBMtFjuvhtfzMAmm/+u4PXzwl1Ifyu7OlmVAYCWXbL8Bxfks/JEW0FjxF7vacozpYgzosWAxeLsnYcgHvrI8vaDeyc77IwE41Qg4lpXJ3BoJRdMi1VS8ie4MJg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=dYrS77+HQPJHoGzaw8g5OgzEBMpUsCYp7gFxAxTLWuk=;
- b=hWeM6gBbr/S1fwMI1sIomm/5U8ws/75v5ILUZeDLK661R2cf1PELBZDbaqU07vxJNEXnTV6f0G+uYbmEaWj8NBgKimQ2dGFmzuNV7UrzhKR52WenktWrcFQlugPWOBon5eq/+fcXefXvbZccrmRB61Mzlt+Wqny7TE4omew6LRyPLmmglASr1Xuj3A7d9idS9T+zLUX70NR2LY1HAljhG7StjGeLwJXWsalLGg3PuaKph7580888K9DX6Lwo352IM9Rhw+0S/uuHq+ZKlkmt8aTzGLnGWwL1MNG+SGeyyIIARdJIS/V9J3zFpqwLTPVwC/SEFY2orCNgsWmMhIXpiQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=dYrS77+HQPJHoGzaw8g5OgzEBMpUsCYp7gFxAxTLWuk=;
- b=m9ukBm8VR0C+D8Ryqo4p+ZlcAg9mBaDAczVNLu54bCUZCPRMEt8A05MsXLVr5uC4nW/adh+pR6ODmFCL4Iy/A3aUhjyO44q7rkM3Kk9a6HEjTr5rp/K2Gdh+/LaZ+AbR2tr3eRSzXNPINcz8jOadJ+s7O8Umgqc8r78bwHIzlFw=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BYAPR12MB3589.namprd12.prod.outlook.com (2603:10b6:a03:df::29)
- by CH0PR12MB5388.namprd12.prod.outlook.com (2603:10b6:610:d7::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5588.11; Thu, 1 Sep
- 2022 07:08:50 +0000
-Received: from BYAPR12MB3589.namprd12.prod.outlook.com
- ([fe80::a997:c7f:aea0:764a]) by BYAPR12MB3589.namprd12.prod.outlook.com
- ([fe80::a997:c7f:aea0:764a%4]) with mapi id 15.20.5566.021; Thu, 1 Sep 2022
- 07:08:50 +0000
-Message-ID: <12ad2b83-212b-8a7d-e10f-32543024974b@amd.com>
-Date:   Thu, 1 Sep 2022 09:08:34 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v4 17/21] dma-buf: Move dma_buf_map_attachment() to
- dynamic locking specification
-Content-Language: en-US
-To:     Dmitry Osipenko <dmitry.osipenko@collabora.com>,
-        David Airlie <airlied@linux.ie>,
-        Gerd Hoffmann <kraxel@redhat.com>,
-        Gurchetan Singh <gurchetansingh@chromium.org>,
-        Chia-I Wu <olvaffe@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-        Daniel Almeida <daniel.almeida@collabora.com>,
-        Gert Wollny <gert.wollny@collabora.com>,
-        Gustavo Padovan <gustavo.padovan@collabora.com>,
-        Daniel Stone <daniel@fooishbar.org>,
-        Tomeu Vizoso <tomeu.vizoso@collabora.com>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Rob Clark <robdclark@gmail.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        "Pan, Xinhui" <Xinhui.Pan@amd.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
-        =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas_os@shipmail.org>,
-        Qiang Yu <yuq825@gmail.com>,
-        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Amol Maheshwari <amahesh@qti.qualcomm.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Leon Romanovsky <leon@kernel.org>,
-        Juergen Gross <jgross@suse.com>,
-        Stefano Stabellini <sstabellini@kernel.org>,
-        Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>,
-        Tomi Valkeinen <tomba@kernel.org>,
-        Russell King <linux@armlinux.org.uk>,
-        Lucas Stach <l.stach@pengutronix.de>,
-        Christian Gmeiner <christian.gmeiner@gmail.com>
-Cc:     dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-        Dmitry Osipenko <digetx@gmail.com>,
-        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
-        amd-gfx@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
-        kernel@collabora.com, virtualization@lists.linux-foundation.org,
-        linux-rdma@vger.kernel.org, linux-arm-msm@vger.kernel.org
-References: <20220831153757.97381-1-dmitry.osipenko@collabora.com>
- <20220831153757.97381-18-dmitry.osipenko@collabora.com>
-From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20220831153757.97381-18-dmitry.osipenko@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: AM6P195CA0014.EURP195.PROD.OUTLOOK.COM
- (2603:10a6:209:81::27) To BYAPR12MB3589.namprd12.prod.outlook.com
- (2603:10b6:a03:df::29)
+        with ESMTP id S233445AbiIAHOx (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 1 Sep 2022 03:14:53 -0400
+Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com [IPv6:2a00:1450:4864:20::236])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 81E8B125EB4
+        for <linux-media@vger.kernel.org>; Thu,  1 Sep 2022 00:14:43 -0700 (PDT)
+Received: by mail-lj1-x236.google.com with SMTP id z20so16953474ljq.3
+        for <linux-media@vger.kernel.org>; Thu, 01 Sep 2022 00:14:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc;
+        bh=km6NXmC+Flc6gi2HFcUWUmGr8CF+d6lMjhuuuaPJIfU=;
+        b=fDN9jO8cTU7aN1SfkFkwyyPttQDO5E+4SyCP3K2eQ1GgBT1DpRR0syK5hKNVB2/BK+
+         nvA+iaAmpn5yUBsFbTCyOgOjsi1CVRHo0QPMfJdKgC6dJIlK7Xa6McnIQcPl4N54a5eF
+         YUw2/iMb0sZ6QcLLhXL7bjR7Sj3WWlgyNosoc+L0+9po6MSV88ntL8eLUHe9Y9KPZCLh
+         yfbLCNGnSZKsJiFFMuCacZRz+yKkxAXeWt31v6H8CKhsyy7ZVqqmGeUjudQsIxbKq0ch
+         u5q83gwlXotABbaP9tW2zYlbcSQbZsYVmvBZuZREWHxmOAf9ry/XRD1PhW79nhy1h2i1
+         Wx+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc;
+        bh=km6NXmC+Flc6gi2HFcUWUmGr8CF+d6lMjhuuuaPJIfU=;
+        b=F9boRcW7xSc1u1Vii+Akp0nttR3VEiAf9WcawUHNQaMlUPv6bYM9YTs0N2wtrqHFZW
+         JL4NoQldkrgpz2kI9grQ7OcwIA3RPMOutwBb2qZqEFCO0yAYgXeu1tKz6jzGY6LBtKku
+         1BXsJiZO+g8uZ+kCkZqoAPpTlYQ267C6Hvpyzvfafcia1XQcuHDAh7/zcENf/wlePQrR
+         WToDOzIPow2B1Tq2c6RWroCzm/Orl7vmV2ngOw8WSvN/MLRS5fbOtuu8VHBCeJQE/aoJ
+         Y+UthjaJuQKxM9TMrpo+YMVs7DRRpNZFprMD72RqTOjrh5+wc5ZePgXHIipoyLKVJMoq
+         3oig==
+X-Gm-Message-State: ACgBeo2d69Krg4nEcAf5DQwhCBRSSJI4b8i2458WL0q3Au634U2J4Drz
+        TYgb7DNoTw//iq2stPQZyNY3SQ==
+X-Google-Smtp-Source: AA6agR7nfUvJaMyZAykfOJ1hwec2TsfAl7ZRolDYILrbpPNf7QefeokqkbM+QKYcZ2eZmBCiUwjwzQ==
+X-Received: by 2002:a2e:9e11:0:b0:268:c7d0:9662 with SMTP id e17-20020a2e9e11000000b00268c7d09662mr137209ljk.309.1662016481664;
+        Thu, 01 Sep 2022 00:14:41 -0700 (PDT)
+Received: from krzk-bin.. (balticom-73-99-134.balticom.lv. [109.73.99.134])
+        by smtp.gmail.com with ESMTPSA id 11-20020ac2482b000000b00492e2918a5asm1229403lft.269.2022.09.01.00.14.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 01 Sep 2022 00:14:40 -0700 (PDT)
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [PATCH v2] media: dt-bindings: dongwoon,dw9714: convert to dtschema
+Date:   Thu,  1 Sep 2022 10:14:37 +0300
+Message-Id: <20220901071437.17637-1-krzysztof.kozlowski@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: fa757217-b21b-42f1-4e0f-08da8be8d1e3
-X-MS-TrafficTypeDiagnostic: CH0PR12MB5388:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: kQPZTLmke1dWgktwLEcxUjzQPs+7LTz66Nq2Vdt7Q+AS35p1lIzXr+s7DI5jd9ctfAul+KTseKPYw8t4DyhAlCbxopHZxjtfKCAgW9cfH/E6kZLoSIyWteJAT1ol2lrRKL3bRRxIzING/d9vqSffRIdexxPi/XAZ4BJgYnv1RvXiUBkSJ6jtJdTBRUfVX9Oj6ced5kBMbL4oOS5n3JYMw3LJgIa3t0VAEL7yVnWid+7Cioru2GBPXPhYvTjVuebdZ2xsUaDcRdLwIIrnzwPweEn3Q08uNNW31mX6QskY62BWmPGwAuSztm5HOGHrBzZk8TWqZnDk7geNgLH4TfYZ/6rYOIWdkAFcKINYtNxlH0srUvkvwVA6C8T9c2jRHX66QrCI1iyYA2sDZgzpp2GhXvIpuZ3TeVF67a/vpZlihGvIBHdBtwFQJvkugeBXvYopYMsfcQp9kvN3D0TEVruit+MezAIpWoq1Zg1OD7ql+34xcd+ZpuJ12/faExGzUB/2jDT1k+TFxD9zyb0vUtLaJURfptm+/9W3jJFMNJI0Ev6W3zxhIU3l/htI36breAsch7k8nYErFTk/ql+C+w7k9UoiHhHvMGygGA2uE5wHWOwPbpRD5S+PIoeETdjg9IvwVdYAMnPNoh4QLEEbYDK1kUnEsMf4ZXrXoffsZV5zfu0akFxIyixI9oEnMGj0GMLi4htG6e8WF5vkLXkc+gQMz8Ez6dxyQHaJ7K/v20oauOodSJs3MoDDuzTKnRnE1MZnCP3Eixq0RAno1z4Xb5sd8ia9Ndk2+bvjlNUMp328bxvAZaQ4F79WuFA3s9zQho5/
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR12MB3589.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(396003)(346002)(376002)(136003)(39860400002)(366004)(83380400001)(38100700002)(66556008)(110136005)(316002)(66476007)(4326008)(8676002)(66946007)(478600001)(36756003)(6486002)(31686004)(6666004)(5660300002)(8936002)(41300700001)(921005)(31696002)(86362001)(2616005)(66574015)(186003)(7416002)(7406005)(26005)(6506007)(2906002)(6512007)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?TkFhcTc0Q05IN0lFTjRFZDFPcHZyZTdBR0l2OWoxTEJWMHgxdHZEMTZYdzFh?=
- =?utf-8?B?N1d6SGRTeHZiV1pqd3l1dlJsK2pCM3FqcGNEM1NOOExPSVlJbENmMVVkOEZ3?=
- =?utf-8?B?Zm1DUitDMVVQNXVkUWIxU2NWajNwNjArUXlscFlWT2FIVFdTK1p6R0RwSkh0?=
- =?utf-8?B?OWo1cFY2Z3ovWXdBZ2NTSHd0TkFYaGNZTVl6dCtYcEx6LzArWGtBQmlPQlJh?=
- =?utf-8?B?dVN1QjJOb2w0WDNGN2ZUSzRrUjR3YjYzbTY5SDNzWHhaRFlsa2Fqd3MyMmZU?=
- =?utf-8?B?K21qWG5iMDBEQ2pUVkFNcnhod0c0QWtXMytFRUVab0h2ZURMcTIvNElDYkRi?=
- =?utf-8?B?NXpGclB2M2hmZlVGajY2Z2lKdW5xajVKQ2p0K2VZdFFXVVc0UjNYUm1ZNldq?=
- =?utf-8?B?eEhoNG0yMnlZK0E5dys1cENjS0l2S0xVdGtONnBEL09VKzNLM2p5WEtWRVpX?=
- =?utf-8?B?Qi9aL1V6aVh2ODVpYkNQS2ZJSXR5L1F5NU1LMDBhbzVNMFRsM2E1Y1N0MjVV?=
- =?utf-8?B?WTF2clE1TU9KaVFJcGJxZVJsMTM0NU1Fb0N5KytaeUxQN2ZWSmw0RTZacmZw?=
- =?utf-8?B?bklCZm1xWVdQbEpVSW1rYnYveW9DUDl2VTdrdHVKMXlQR3FmSjVjYnBYdkh3?=
- =?utf-8?B?ZU9helMzQldPQnpVTnJUSEU5aWpMZjBDaThZdjI0K3htb2RacVY1eitTS24w?=
- =?utf-8?B?NjdIMzNZZGJOUTJRZ2pIUkl4MVRLM1RSdWtUTkwxL04rUFgzbEowNW1zVEtT?=
- =?utf-8?B?ajJhTS80dkhuUDdoQ0tFWGF6RFd3V0VaWGJSUzBQMVA2QXI1MlIvZlJMVkgw?=
- =?utf-8?B?S1huSk1Xcit0Y01XRmZmOHc0bTVwQXJ4RmZkZFgzSFc2Zk9WTU44QVM2Z1k5?=
- =?utf-8?B?U2xHWU1lVTc4T2tPN3pGaGdBeWlyLyt1SjFEckdZVGlTMmsxd08yam0wV1pB?=
- =?utf-8?B?THE3UzRKYmEzWmw1OG1JWjA3NnUvSGgvSWIwNGlIZ2F5ZGVjUVZrK1ZkdzhG?=
- =?utf-8?B?OEFYL0ZSL05sYjF0NVRiNFhYVjR3c3Frcm9SYmdhOGV4a05oUEVQdVdiQVFF?=
- =?utf-8?B?RXhGQXd1OUdTTWd3Y2hrTHlxRVVkY0h5dG5tcUdLUFlINkNWZ3Zpd1pqWWFt?=
- =?utf-8?B?dnk2QWx3dG9naVVIK2k1K3VxdHc1UjhMTUxsY0RJTElhVUhuekE4dGxzaE5h?=
- =?utf-8?B?RjZ4VHFQeHBoVDRTS1MwbXJnZGVLZTlhb0p4L3JqanJlQ2tSUmttSmo0MGNU?=
- =?utf-8?B?cFJDdGpHSHRHcFRFQmRpYlRxdmFBajNBZHo0aVRYeEtwYkpQWmlsblNsTkJG?=
- =?utf-8?B?bTh3djlwWUZWS3pHTzBlUkJLdjV3cENvK21yZmtQZmQ1OG50K0M2TXBzMWNh?=
- =?utf-8?B?NmtBY001S0NYNG0yM2t3SlYwNTJTWHhDQ0lVVm5sRnlIVDBEMEJEZkJuZElN?=
- =?utf-8?B?SmpJSG9uZi81Z25oeEJVSWZNeWh5d3RtWFBXdWUwUnNZY0JxNTc1WmNwdG5w?=
- =?utf-8?B?YmdQRkkxbWR2TXZueXlhQWt0QWNlZGpEQ1BpU21wMThnSzB0ckhiTUhUaHhM?=
- =?utf-8?B?REtnZjFBRmhXRVBheFlNUlMwem9qTXk4RlpWbER6aVdZSnNEVmp4cUlrc0dt?=
- =?utf-8?B?QzlQQjVpUmFONThLQ3ZYaEIyUHMyQnkzcWQ5RW9oL0IzNHhXOW4xU2hZcW1E?=
- =?utf-8?B?V1BERXlWZ2NwbmlUWDQ1MmhaRDZWeVRNTkRPdXJvWlJ1SUc2QTcwakEzNFhu?=
- =?utf-8?B?OTYwaWw2ZGRNdTNUOGlTaXVmR2xiaVA3QjU1allidzMzUG91WjdEREFZYzlx?=
- =?utf-8?B?WjhVNWVyN2lSaE1LWnlYbFp0OEZBWmY4VjJacUs0QU9EckdHSkRIcnA0TXdv?=
- =?utf-8?B?THpTME5SMFpXb1hnR3ZQRXdCOERlYUVnenh5ZU9rMk5WYjNPaWN2YS8rM201?=
- =?utf-8?B?bisvK2dFclArcHpqd3BvbW9obkwrcEpRL2J2TEVqb2FmNDlrRGZuZDhjbVgv?=
- =?utf-8?B?Yk93bzFyZTllc3NPMmhNQVVkTUhaaTFWTnVEOEhOUVlocDhFd3owMmlFUkJV?=
- =?utf-8?B?YThqd0RIV1lQVStPZjVGMElZWStIdUxFREpDd21kb2ZEekdWSEpwS1JiMU9L?=
- =?utf-8?Q?bFgm42R3SB4hj52xAJ+fG8iDp?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: fa757217-b21b-42f1-4e0f-08da8be8d1e3
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR12MB3589.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Sep 2022 07:08:50.1823
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: SNv2bKLzz9y15OH+m10oUa0Ivt+7taTfssAvY+DRz11UqI0BCHqudTOPjtNZOHPx
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR12MB5388
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am 31.08.22 um 17:37 schrieb Dmitry Osipenko:
-> Move dma-buf attachment mapping functions to the dynamic locking
-> specification by asserting that the reservation lock is held.
->
-> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+Convert Dongwoon Anatech DW9714 camera voice coil lens driver to DT
+schema and extend the bindings with vcc-supply (already used by driver)
+and powerdown-gpios (based on datasheet, not used by the driver).
 
-Reviewed-by: Christian König <christian.koenig@amd.com>
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-> ---
->   drivers/dma-buf/dma-buf.c | 10 ++--------
->   1 file changed, 2 insertions(+), 8 deletions(-)
->
-> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-> index 073942bf5ae9..8e928fe6e8df 100644
-> --- a/drivers/dma-buf/dma-buf.c
-> +++ b/drivers/dma-buf/dma-buf.c
-> @@ -1037,8 +1037,7 @@ struct sg_table *dma_buf_map_attachment(struct dma_buf_attachment *attach,
->   	if (WARN_ON(!attach || !attach->dmabuf))
->   		return ERR_PTR(-EINVAL);
->   
-> -	if (dma_buf_attachment_is_dynamic(attach))
-> -		dma_resv_assert_held(attach->dmabuf->resv);
-> +	dma_resv_assert_held(attach->dmabuf->resv);
->   
->   	if (attach->sgt) {
->   		/*
-> @@ -1053,7 +1052,6 @@ struct sg_table *dma_buf_map_attachment(struct dma_buf_attachment *attach,
->   	}
->   
->   	if (dma_buf_is_dynamic(attach->dmabuf)) {
-> -		dma_resv_assert_held(attach->dmabuf->resv);
->   		if (!IS_ENABLED(CONFIG_DMABUF_MOVE_NOTIFY)) {
->   			r = attach->dmabuf->ops->pin(attach);
->   			if (r)
-> @@ -1142,15 +1140,11 @@ void dma_buf_unmap_attachment(struct dma_buf_attachment *attach,
->   	if (WARN_ON(!attach || !attach->dmabuf || !sg_table))
->   		return;
->   
-> -	if (dma_buf_attachment_is_dynamic(attach))
-> -		dma_resv_assert_held(attach->dmabuf->resv);
-> +	dma_resv_assert_held(attach->dmabuf->resv);
->   
->   	if (attach->sgt == sg_table)
->   		return;
->   
-> -	if (dma_buf_is_dynamic(attach->dmabuf))
-> -		dma_resv_assert_held(attach->dmabuf->resv);
-> -
->   	__unmap_dma_buf(attach, sg_table, direction);
->   
->   	if (dma_buf_is_dynamic(attach->dmabuf) &&
+---
+
+Changes since v1:
+1. Update path in Maintainers
+---
+ .../bindings/media/i2c/dongwoon,dw9714.txt    |  9 ----
+ .../bindings/media/i2c/dongwoon,dw9714.yaml   | 47 +++++++++++++++++++
+ MAINTAINERS                                   |  2 +-
+ 3 files changed, 48 insertions(+), 10 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/media/i2c/dongwoon,dw9714.txt
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/dongwoon,dw9714.yaml
+
+diff --git a/Documentation/devicetree/bindings/media/i2c/dongwoon,dw9714.txt b/Documentation/devicetree/bindings/media/i2c/dongwoon,dw9714.txt
+deleted file mode 100644
+index b88dcdd41def..000000000000
+--- a/Documentation/devicetree/bindings/media/i2c/dongwoon,dw9714.txt
++++ /dev/null
+@@ -1,9 +0,0 @@
+-Dongwoon Anatech DW9714 camera voice coil lens driver
+-
+-DW9174 is a 10-bit DAC with current sink capability. It is intended
+-for driving voice coil lenses in camera modules.
+-
+-Mandatory properties:
+-
+-- compatible: "dongwoon,dw9714"
+-- reg: I²C slave address
+diff --git a/Documentation/devicetree/bindings/media/i2c/dongwoon,dw9714.yaml b/Documentation/devicetree/bindings/media/i2c/dongwoon,dw9714.yaml
+new file mode 100644
+index 000000000000..66229a3dc05d
+--- /dev/null
++++ b/Documentation/devicetree/bindings/media/i2c/dongwoon,dw9714.yaml
+@@ -0,0 +1,47 @@
++# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/media/i2c/dongwoon,dw9714.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Dongwoon Anatech DW9714 camera voice coil lens driver
++
++maintainers:
++  - Krzysztof Kozlowski <krzk@kernel.org>
++
++description:
++  DW9174 is a 10-bit DAC with current sink capability. It is intended for
++  driving voice coil lenses in camera modules.
++
++properties:
++  compatible:
++    const: dongwoon,dw9714
++
++  reg:
++    maxItems: 1
++
++  powerdown-gpios:
++    description:
++      XSD pin for shutdown (active low)
++
++  vcc-supply:
++    description: VDD power supply
++
++required:
++  - compatible
++  - reg
++
++additionalProperties: false
++
++examples:
++  - |
++    i2c {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        camera-lens@c {
++            compatible = "dongwoon,dw9714";
++            reg = <0x0c>;
++            vcc-supply = <&reg_csi_1v8>;
++        };
++    };
+diff --git a/MAINTAINERS b/MAINTAINERS
+index ebc140e71b49..8573e3810688 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -6233,7 +6233,7 @@ M:	Sakari Ailus <sakari.ailus@linux.intel.com>
+ L:	linux-media@vger.kernel.org
+ S:	Maintained
+ T:	git git://linuxtv.org/media_tree.git
+-F:	Documentation/devicetree/bindings/media/i2c/dongwoon,dw9714.txt
++F:	Documentation/devicetree/bindings/media/i2c/dongwoon,dw9714.yaml
+ F:	drivers/media/i2c/dw9714.c
+ 
+ DONGWOON DW9768 LENS VOICE COIL DRIVER
+-- 
+2.34.1
 
