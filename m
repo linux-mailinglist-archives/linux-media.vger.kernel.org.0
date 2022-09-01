@@ -2,133 +2,133 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2BAA65A92A8
-	for <lists+linux-media@lfdr.de>; Thu,  1 Sep 2022 11:04:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 624755A933E
+	for <lists+linux-media@lfdr.de>; Thu,  1 Sep 2022 11:34:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234321AbiIAJD4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 1 Sep 2022 05:03:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42114 "EHLO
+        id S233867AbiIAJeW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 1 Sep 2022 05:34:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43074 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234331AbiIAJDV (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 1 Sep 2022 05:03:21 -0400
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3FAB712D51F
-        for <linux-media@vger.kernel.org>; Thu,  1 Sep 2022 02:02:33 -0700 (PDT)
-Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
-        by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 2816e8hx024955;
-        Thu, 1 Sep 2022 09:02:23 GMT
+        with ESMTP id S234071AbiIAJeJ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 1 Sep 2022 05:34:09 -0400
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2FE171321FE
+        for <linux-media@vger.kernel.org>; Thu,  1 Sep 2022 02:34:01 -0700 (PDT)
+Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
+        by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 2819GGEj017281;
+        Thu, 1 Sep 2022 09:33:48 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
  : subject : message-id : content-type : mime-version; s=corp-2022-7-12;
- bh=Ge59dbz9rulCQMQlb4iAZ48VtIXZvSfivpPz5p6O9g8=;
- b=Y0VAoU2L/WdODIEJ9gAlZy3juFdHjSDjx2De8z4Zh82MVvJo/r3fu1JAn88EsVSMT4g5
- /0+vkhkqNgZMgaVR1gvC/k9vcTh/m1TRxYHGnfFpJH7MCZNBfZnofHmDjDUkatkm90gZ
- gW/pxvYVamJDmBd7aJcGI+4BdAsDIihbabIBkhHSUlTF/ogd011850wmFOhyZC8c79up
- OmxuLAaDbrUwRAGxbQp6CHV6zZSbblkW6X3axCfZ+WcyP8yr4BOsiEtaAtxK02sBlHNU
- EiXwLgwLxsyaGYP7x8qr60+Y+A8k8DE2vUhleVMkPOYS3og0E7nIQACnAv4LA/r2tYwT rw== 
-Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
-        by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3j79pc39vd-1
+ bh=pgo2luCv9OCHmd/a6cF+LoZrRCjiUeJT/yOdAlYheNY=;
+ b=rnNTWa0fns+LWxbfnNHpr6AlYuRFuzRTWLF4/GizfagjqgRLcYxxj7O+5p1mmBoTjTUM
+ dZ0DMAFe2oAwsIVvBsAxqC7+KSNwPlFjjZ4XroU4xjJ7mwOlo5/smXlcqk0ZBlC0fznS
+ Dc3bBsqKlYPmzRg1hmrdG0uP/HXv6mN4/NQ7huAzGydPLUdVx+kNzspLNVGU4mH1V7T6
+ 30dA83GmQbEWKsIQmIi58v2mR5EtcUyGAHi2jV6A87UdwO4g2nwo0x/Bm8dghYILTHhj
+ kGjtZPvVbwjPy+hUfYL/nQwCxcpFPd1tv5s+fnjJCLkfsd83wiDAPfdL/3xza4lZu68O Og== 
+Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
+        by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3j79v0unhs-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 01 Sep 2022 09:02:22 +0000
-Received: from pps.filterd (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-        by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.5/8.17.1.5) with ESMTP id 2817THef022114;
-        Thu, 1 Sep 2022 09:02:22 GMT
-Received: from nam02-dm3-obe.outbound.protection.outlook.com (mail-dm3nam02lp2040.outbound.protection.outlook.com [104.47.56.40])
-        by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 3j79q5yu53-1
+        Thu, 01 Sep 2022 09:33:48 +0000
+Received: from pps.filterd (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+        by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.5/8.17.1.5) with ESMTP id 2817nK4w036322;
+        Thu, 1 Sep 2022 09:33:47 GMT
+Received: from nam10-mw2-obe.outbound.protection.outlook.com (mail-mw2nam10lp2100.outbound.protection.outlook.com [104.47.55.100])
+        by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 3jarpau89s-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 01 Sep 2022 09:02:21 +0000
+        Thu, 01 Sep 2022 09:33:47 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=kHUlXjeiz69WJGyokAH5Ms3/Z8g+peHRto8xWYo6LRp7xcqRAbin3O9KvJ/PQEH4DBuxY1WRLzi+cLcAEZ7c33KWzDAnQqgOR2BvSgCTE/75qVDewykxA/OUJWmHqhMa9WJHLgHCHpSHCT8t6P1UA7mQjyXg9ECTPRZ1TreqLk0umuOMry0tnXSxr2mIXqRssya/0Q2bSvzAiPmWkZqk6QBL7C+UtoH8RXQd5KLHNh2+sr9oL8srjyEZUjIphUgcGyIM96KO4tkuHK8Kh/8QAYN2TIUBuvDKG1kuaB4FbgWrSJjdoIGaIeWoFYT1ySFGFTUYn/CRKplomBP9LLcGEw==
+ b=Lwuo5Dvm1ih0yJzgq4RxW5my9GmoMxs/vM5AYHUR5qL1BbV60ywt7d5gRC+fQHqQIMptXBpevKeJbpnt8Yd7uqNVHLez9+b0AhAjV+LBLtD761blBwQcCyn5ERbSudwN+t2Bp3KH92KjU3mMW1bvHOYPEbHG2IOpPuEq/q3jHnpxgu64165NhYLOSwT3zB4lKefGA32rCdIExqZEIh/G1orXdxYFkTZXrViNKlvGuzRfs3NU1+P+9qV5IPIuji7Afn4nTcv3X+qi6hfZSd7h1mTUJVJgDrv0puKHH5BLMJcSLIfagcuAwKm6KsNZzVIXZBLY4Mhe8/IMAstuM9awiw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Ge59dbz9rulCQMQlb4iAZ48VtIXZvSfivpPz5p6O9g8=;
- b=dCl3JCho5dr3DbzDat8sGna810Cg6RVkAGV2PiVk0Yc2o06+KAKZtSxo+EZw3ax3NZv8TraZRKwm7FatOSr3xm4rCPfDDb1AE6vTk+Ai2NsKi9/2betAm71hzZBrKlb6Eu1nXqpHHRd6dXn68UhlgrwhYSHf7U6c99j4QE3/2tITw+5Efy3yqGLltG2bt7wl2Q6oeQyFPuVOssZYa09nPPgWYn76dQ9+PbeMS/ev7G1jaHJzEmQHiC6hMgbZw8mYaMm2fTxk2WkzhWIzKJc6CDRteJ0rZFPBr2ddyCv1FQlBgL/opVkiZhzOKybjtHrBsKXVD0AGvNLPW5khG5S+gA==
+ bh=pgo2luCv9OCHmd/a6cF+LoZrRCjiUeJT/yOdAlYheNY=;
+ b=i8TNuQRyGHFk/u1gx8PRvUsTBonaeOHkXn0i/j08IxEzh/V5kyFePXYmMp8sseUSex2xr/pQaEy3E5LNne58r53l/VqNsqnAyrrQjmyXQ54J1t4MoUTz1Zohwyf/yju2NdK3y8T95MLQETzdAP4B1nuUqm+QPhECOT2btqhqKDWwP6sixsbPNgYP5oWAA/6ysZlvJTLjZvrCLzrqoZ/yZ86d6JKSIcUoIH+cPSckRV8kqdzOnQSanZo2P/Fv27bBeCzxSzm+rJnXoC+g99hRzBUpugGx3WSu0ogSuQwaDF8doG6S6y1btFGc94K7VHdDYfJQP3qsKmLQcuk5GR39hg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Ge59dbz9rulCQMQlb4iAZ48VtIXZvSfivpPz5p6O9g8=;
- b=aKOgGTWgmzj1FlTxMMVIiQ7ejJL9m9+ee9Pkql8CkXPzpVlHp3BafEeWiI1t2a8AgiNRDyrTLKw7QAX3MOsKYc0LfOn9wpZs03/vAnfvFtlJvuDGIx0WtWd31d4HmTt30apYi3e4B1qzQsylFwTMH+h0sucD9lyYUdPejhMhHKI=
+ bh=pgo2luCv9OCHmd/a6cF+LoZrRCjiUeJT/yOdAlYheNY=;
+ b=feXxXfNTH4f9E3CT84UiVyJj0EsMR9JMQcZfWidUHnj4EMemKFFoOPPsX9UbQNbpPBFlRMRgt4bZ0Qm8DBCa0sc16fcNJZS9SWfKhB8FePmB/MUX48tqgb6hxQhtZB43tNHkOU1YXLrVIqsHfPvJqmj7YndafgnMDY+yHdAohvE=
 Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- (2603:10b6:301:2d::28) by SJ0PR10MB5860.namprd10.prod.outlook.com
- (2603:10b6:a03:3ee::19) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5588.11; Thu, 1 Sep
- 2022 09:02:19 +0000
+ (2603:10b6:301:2d::28) by SJ0PR10MB5663.namprd10.prod.outlook.com
+ (2603:10b6:a03:3db::21) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5588.10; Thu, 1 Sep
+ 2022 09:33:45 +0000
 Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
  ([fe80::209e:de4d:68ea:c026]) by MWHPR1001MB2365.namprd10.prod.outlook.com
  ([fe80::209e:de4d:68ea:c026%3]) with mapi id 15.20.5566.021; Thu, 1 Sep 2022
- 09:02:19 +0000
-Date:   Thu, 1 Sep 2022 12:02:11 +0300
+ 09:33:44 +0000
+Date:   Thu, 1 Sep 2022 12:33:35 +0300
 From:   Dan Carpenter <dan.carpenter@oracle.com>
 To:     moudy.ho@mediatek.com
 Cc:     linux-media@vger.kernel.org, linux-mediatek@lists.infradead.org
 Subject: [bug report] media: platform: mtk-mdp3: add MediaTek MDP3 driver
-Message-ID: <YxB1E00e8D6P4W2e@kili>
+Message-ID: <YxB8b8lkU62yJzDM@kili>
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-X-ClientProxiedBy: LO4P123CA0518.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:272::11) To MWHPR1001MB2365.namprd10.prod.outlook.com
+X-ClientProxiedBy: ZR0P278CA0124.CHEP278.PROD.OUTLOOK.COM
+ (2603:10a6:910:20::21) To MWHPR1001MB2365.namprd10.prod.outlook.com
  (2603:10b6:301:2d::28)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: c15b8484-41af-420e-658f-08da8bf8acda
-X-MS-TrafficTypeDiagnostic: SJ0PR10MB5860:EE_
+X-MS-Office365-Filtering-Correlation-Id: d37fa142-4d23-4eac-b58b-08da8bfd107f
+X-MS-TrafficTypeDiagnostic: SJ0PR10MB5663:EE_
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: f0LNAVweqm4QwNkLNY4oh1m9jNL+Ez5UnapVcQN9jxqClUOpzZS5hD6m4j4HephbzCcWokTbhMRKUjiXaQQ7sQRf9th2VNB8w/T39QFxbFflzjZPLtReT3gZ2OH0GHNyYYCq26sVymGAuxvAN+oZf009OcMRntmG6tn7IgtA9xSgNjfTYr6jbQgI0c0x0pd1uL7AjMH/lHCBsdZv4KV/ajSYK2WIReVUpJY4znbsLqqAHFiuRNtEeXiG7rWLCXk6/O0aUl5o+8AwKXsXmbBNYeJxDPLtVN7IbdaCihFeHFUANS7QyXkk1vT4+AiDzEss301ki9SRTygQjxgEAlGc6NMqy6oFJDFPEpZRhKqred43TVKzOf2aO5ldRervj7GjrVJIyPRbXtX8Nrpm4ELc/lNAUiQeF72NmvmuSsSSgGu8e/4+N6iabWlbF/kmGO1VW3I5yw9jVF3Itn1mJvd0QBmf/HfyBI/5QO6JGEeHa7icSvoj6xt++D0rZckd+yIxpCUP84LFTWs+C8/1bEiJBKwM7wUJ6BobXZ8v9uiDW7GdkrP34wY7MncodoVsou/2Z9vPGdu0BKs4+TAo3i66Jc2m/PrtoxzhCYfcRvuia+xiYKLYbPo25T2nrQXYzjeihJ+OACOqhb+JnCVGloe880jNL0GviC2CcrRipnLSiY+le+Z0koxawrYPiPL5iytFZPXw06t6h27fzjALdjNQ6PorW6iTTHigQBAJoySs8hyami7C7DRiYw2WGvymlpWALoHwwF0FBAkJMdsQuzqopaCAuRvmdFhTRpJF9R2tNSo=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(7916004)(376002)(396003)(366004)(136003)(346002)(39860400002)(83380400001)(38350700002)(38100700002)(66946007)(66556008)(966005)(316002)(66476007)(4326008)(8676002)(478600001)(6486002)(6916009)(8936002)(6666004)(41300700001)(5660300002)(44832011)(86362001)(186003)(33716001)(26005)(6506007)(6512007)(2906002)(9686003)(52116002);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam-Message-Info: gfleCzoVvIOEvjt6uTbAyCKV8IluPFUo9k2J08zAttOBnfHA+kKGKsqaoLNMen2gRRxzD1QP8jpz0v26BalUIvvPNkVW2Z7rONlz/CXc+j+PPwb0Uu1KNLCli4FsJfYyIOIycwC7PJxpgyQN1/1qPuj7tpboS5NZjYzpwLvGyEFyJt5NvQMpEMqPq4r1db6NhyTdYnNX8j3RXOozAv3Skxy9h3qLhFzzjJwFl/aRikvukZ+fBmlfg90iNatM8vfU4vnmkXQXLr5eMcNH+IVTd2ob1TK/Fq6tpmOvkJxCvDujncYWsint9XZHS9OWjbzcJMIMIyh5cv5L7ve+sdc4rMMoAFFGC65qI6MC7qy3fI24qz6XbZwuXAw/TGZ7YtN4WE2l8WiRGBTw+qC4y3eRTk2xDFH/un3zJSXtDtPpfXe5hsGt1ejXO6GpSvi8woYmpVIzQIAocsqXW7khe02VIav4l2gjMiuACnydlQnVW5QeVOnt0qr+/f6iCXycVPgz17sQSDp6HUffkCXkVROKuUajQBfcSXadZHhHsJrGaSW3fCJhDkUdWJ7o0PZV7ee+QElg8q5geZAAOCfNApCD2k5ceY3WFZ+d6e2wgqTK//Ky99Az4JcGWMO+3Szp9fuDNzA+6rBy4IM6cNq+D1DzxMF+AZkLjGjOdC/SSHj3nkwG9UeFdh3ajo1dW3QNUqyHjFAI/wkLfPA3PivOagfHBTlVRWOi6JHlgyQL//OBlPFQpY7vhpvGBfF21EL7UHk+sTV5UzRbpN/UmZAe7ZPyQg==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(7916004)(366004)(396003)(136003)(39860400002)(376002)(346002)(6506007)(9686003)(86362001)(66476007)(38350700002)(38100700002)(52116002)(316002)(6916009)(66556008)(6512007)(6666004)(66946007)(33716001)(8676002)(26005)(6486002)(478600001)(41300700001)(8936002)(4326008)(83380400001)(44832011)(5660300002)(186003)(2906002);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?gUpV9F+8RDtcZxdD6yj+pZaS5dcKAb0ufV5qzO8GWYwKHZotoiQLipV5kvdf?=
- =?us-ascii?Q?WLjJykJb3TpLB+gtlaoRkvjDVrVfjUSX78suRVJVMCSse54xAmDNVa400fCE?=
- =?us-ascii?Q?T8/rNglOJL0ME2/PztvJQEHbyBL6xosYSQYcuPrsDz49U2kBSb0FWsTgWTi+?=
- =?us-ascii?Q?7rL2zrUnzCHPgfOFH1Hk1lKBGHxgCMk0Tl2x7y6LwvTElqgQ+vuOJvlaiKCG?=
- =?us-ascii?Q?BhobHz4gMhDBGBUtSmlEqqay58xu7dSpXr/4ZPb1/ODSD0PGActD8+MbfrgQ?=
- =?us-ascii?Q?dIBXX8j/vtgJs5AVVMf4Ybe2tH7nMkqd2nd7eKOOA7jOJ95vrbU5PXOdLhUh?=
- =?us-ascii?Q?I8blHer6S63FsKXPzIYqSCOMkNdbdkEf5NnyzRsHKWpIVnX3vp16gaTSz0xL?=
- =?us-ascii?Q?hEVRtvSjjgG1NmG6WvzXGNnJTF4zbPUTbdCR4MGcExz86NPKsjjWPSrZ2M8s?=
- =?us-ascii?Q?P8uTtqnf3wf+8N/WwcC4hTXDWPUIO43Y+aILOekLvn0klUYQSL6x1eKTox2a?=
- =?us-ascii?Q?VivkGcN38KNu2s0+G2pEpGFa3IQwNn/oQPoo6Oyi/qyOmSkG4wyYru/jn3nV?=
- =?us-ascii?Q?ZtV4u4qZoMvvHuwQ0i+25/4/81vsIHKsbbADQTceUpCtbF57mKZlgqmAsDhE?=
- =?us-ascii?Q?ERpgbtHKND1ZhTj+ePqunt6t0QyF/ckoEOZ1hiTrCj4Za69ielu0zOqDy1/V?=
- =?us-ascii?Q?tTTrZi565X9Ffb9ghnM+AaEuO3tQvfqCxTcNzeehHM7aQlwfm5uHLeo6mElL?=
- =?us-ascii?Q?IQM7gqxxfiCIgroWiEatSeeYCtDyiRuKQPspu+36Npj0oOKvK/ZoEQRjX75b?=
- =?us-ascii?Q?/tH4kPw+jAficdF+9X+kQSV7yUBk3fu/FK3AKug94Ag+m/9MNf8NTyRutTXE?=
- =?us-ascii?Q?nYjEtNgBRUqlvwgl6ZZMeqx8XaIbrTS1sM4QKb07CHAkXTeT4fR3FOCSSNez?=
- =?us-ascii?Q?T93KYJqdaDING+bVXWl2UBZAEiz3/icWB7V1BorRzfQNtiWe830wbyb2OKrg?=
- =?us-ascii?Q?Jlv7RJUqZr2g8ZIgiB2KP/Pt6fs9wx+i4qzIpSK9KkRkGzWNiU5tBs7GXDH6?=
- =?us-ascii?Q?VFgmIRilazZdnPd1mHNQdCi0cKyekZeABt3DVgbfVBOHBMCClbGoaW7TJEbC?=
- =?us-ascii?Q?ypts3ywVE+Mx6NJiGW7BxUbq1I5mPmUiuP0fbSCJU/4haMoF79XwfGw+aQK/?=
- =?us-ascii?Q?ihIPToBOMTrTmT81mImoMckZjafI7Gy5keXlxNqKlYHtpKx4CFu9d+jVyxdi?=
- =?us-ascii?Q?5dg3z0KXwx6n+ct7dWo2rEnBJHTG1Xi94X9PFRmsfUIYqSs0jSJCXOVSO5e3?=
- =?us-ascii?Q?s2qsT42smG3V5kD3wCVF7Crw1WQoIlkewvTlk+q+HI/JSfG93HfF0vedjRyS?=
- =?us-ascii?Q?K1KoUFa7QI2zc4rRmvX49eRqEm1GWNhkHw4EkOmS6Ug8smj13I8rjcoXmWf+?=
- =?us-ascii?Q?VKNhYmx+zGSYiYZnaq0i5xRfpIemrJVNRBszqooN9JweAwmPsb/FFmsHsTq/?=
- =?us-ascii?Q?zXqPLGB9epFl6HVovuxPnT7S0T10XoyQECSygbE1J5srdwNw0ccsjNv3wejK?=
- =?us-ascii?Q?B+O55QNNfvcKxpNfZYiPQJ9qFL1uAupZQ2x928HRV8is1MzZHZ+7ZBY+hgTm?=
- =?us-ascii?Q?ig=3D=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?QZ+jxKkbuxYZXL1HCfzDWN1/hiGgswk2JM9MilyUxYYNQ2BZU/8i/4mbLmKF?=
+ =?us-ascii?Q?1eiMr002Rn860GSOwnEelNTdrWUPEIeLFdGsDwVk0BDcCM6UX6Uq/gIMskAe?=
+ =?us-ascii?Q?yIb/Eu/wCqDWM1jOuXl+Oj19wrdowgLgajCKrbChJgO77Wv8EkRK5zlMOnPB?=
+ =?us-ascii?Q?suhEs3mZ31HgiGfsyQaEqY1opOvBBJCzeuDRpexsqECEsTsBbjTUyfEQHWs6?=
+ =?us-ascii?Q?flgp9ySRsGH3bUy3B9ZCGXc7TXBJIKG06fnJCcNxb6ahVouHnN/9wVLOscqi?=
+ =?us-ascii?Q?21TICflscYHR/h0o0wzkslbZpweZbVuDXtRN0xIpKJsni1KKpvfeJsRU7U3U?=
+ =?us-ascii?Q?m/jJYpxsnN6Xpxw2kEKGq3UpbCVzZNgIyCf7KTot1Dunm95tt3Yu9ZdgP1e/?=
+ =?us-ascii?Q?VWmf1QSebHh6QSiHSaYtns58BQ25ebgqLeEOJff+h4tMgMM0sudRuxK68b0I?=
+ =?us-ascii?Q?wUWTFcD9JSuISHAzk5WxKTqepnxWhXbygvKAejPXSOLIhZtiNpB3tV7E0OVV?=
+ =?us-ascii?Q?HRZHU0Itz3IgBP29WKu+w8IdYKNcHwvHxA13cv9DUWRWHmRejn1n5h75Zt2g?=
+ =?us-ascii?Q?TW8RsRdlSVHtHXhbbC50mjqWVpHN6qBjVlQcO9dk60n6nc4OpJxEpyL305LD?=
+ =?us-ascii?Q?smkTPEKuB3SWgGy0PBQgipd57ufaGepIhGQG7zzcoRnv3zjYXVJ6cXYIyoK0?=
+ =?us-ascii?Q?Ua2vE27+T5Egmj8zXzB0VWxvRscRYClG4M69zaQh9AxYYCh8gqVg6mdxBaSM?=
+ =?us-ascii?Q?inLFgrxVnvGn/eprKtDNRW1bbR3GUXDuvYsIgkAjuLeEvwOmYAyCUaS+Pwag?=
+ =?us-ascii?Q?hlPencjA2bn8+aLI2R5JHSlIBidp0PcfoivholJ69zCuONLq+qn9UY+VwBw/?=
+ =?us-ascii?Q?N9rCbwRxVHvbs0KleveQm7LwDlSwTRqr7Ncgs6eLM9YDefLcAbSAn/tFFpX9?=
+ =?us-ascii?Q?MfN/BHX8Jo0702FC+HQeB8raq5mgKHX8wmqVMipJXMDDgKyYTPH8O17RZZMl?=
+ =?us-ascii?Q?SoBDHORc/2PzYc0UMZemN6rVNkfY5dNOu8OnQlBLsBRtNDhI4fUBaXlxtYmW?=
+ =?us-ascii?Q?OrQF/cowpOfEyK0pe8KNJyE7/DNhaD6iOFc/ywHstKGCZA7FEz1dtkUU4hjI?=
+ =?us-ascii?Q?xmApPCbC5Lf/KRS74GRBDyPj0dHc8zomsv0qMkj8HaK4iTcxF3WpL9Tw5Xi9?=
+ =?us-ascii?Q?yAPcKYCeJiAu2DPLS7rMYaEhw3UXX1TEiQf9ZvFc0l+zc4uXBBNSU4oC/eEz?=
+ =?us-ascii?Q?XeoRE3MO4nYFiwtnBQSl+NrLe8wE8rw9G2p4qdN8jAJy1YKQkoQK0SlduB7f?=
+ =?us-ascii?Q?B0u8rWbdCk8t0w5X1blCC94dIKLT0hhO44XQrUALDd1WybKe4Ul87LDNblNi?=
+ =?us-ascii?Q?jAPEe22akdGV6OUDEegV18oKSvrLyJw706HJr7SDRGkOjKGNAbXWTHr0V7w7?=
+ =?us-ascii?Q?Gt6OSfgZG/r0IBvJxFjIKLwxbRSr8EPNDH8ftyzr9/mWCoO1R8KN8HgsNXqS?=
+ =?us-ascii?Q?1xaJXPBAaz1K+AzReRC2eSuqQF3oNqtE4yLaHVp4CSJnQ53stJEwy5FiKUxx?=
+ =?us-ascii?Q?cKvBdJQzXJmzdzxLqGV1j/wyOR5nN5QRqdLoSiEeH6HdP8p6VX1fJxPBKH8y?=
+ =?us-ascii?Q?aA=3D=3D?=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c15b8484-41af-420e-658f-08da8bf8acda
+X-MS-Exchange-CrossTenant-Network-Message-Id: d37fa142-4d23-4eac-b58b-08da8bfd107f
 X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Sep 2022 09:02:19.7303
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Sep 2022 09:33:44.7856
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Xfung1AYh0DPzqavULaZkGBlCE0WA5uF9ZsymKPU7+v2/gNfk6eogs9BIAFahtf5xWyTvUYq2SiWIBKzYAGixmNYTCCyP3Xi0gfwQRTnFS4=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR10MB5860
+X-MS-Exchange-CrossTenant-UserPrincipalName: WVYetJtFEx3+Fwa9CEI0HD5Is2utO+H5A79Jeojf8JasuqsUI3YvcmbCgkqHNmhc9TzPwlhRwe28SP5Un2KJ8eqF8PbuKRZNVIOJYA4QCSo=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR10MB5663
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.517,FMLib:17.11.122.1
  definitions=2022-09-01_06,2022-08-31_03,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0 suspectscore=0
- mlxlogscore=999 adultscore=0 phishscore=0 spamscore=0 bulkscore=0
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2207270000 definitions=main-2209010040
-X-Proofpoint-ORIG-GUID: 6VO1hEx5jb9teaVIoqfgNfboxupHP93s
-X-Proofpoint-GUID: 6VO1hEx5jb9teaVIoqfgNfboxupHP93s
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 mlxscore=0 phishscore=0
+ spamscore=0 adultscore=0 suspectscore=0 mlxlogscore=999 malwarescore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2207270000
+ definitions=main-2209010043
+X-Proofpoint-GUID: ROgYTcl-A3ULnvm97Whx_sqqxeviCxFQ
+X-Proofpoint-ORIG-GUID: ROgYTcl-A3ULnvm97Whx_sqqxeviCxFQ
 X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
         RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
@@ -145,187 +145,187 @@ The patch 61890ccaefaf: "media: platform: mtk-mdp3: add MediaTek MDP3
 driver" from Aug 23, 2022, leads to the following Smatch static
 checker warning:
 
-	drivers/media/platform/mediatek/mdp3/mtk-mdp3-cmdq.c:460 mdp_cmdq_send()
-	error: we previously assumed 'cmd' could be null (see line 369)
+	drivers/media/platform/mediatek/mdp3/mtk-mdp3-core.c:292 mdp_probe()
+	error: we previously assumed 'mdp' could be null (see line 188)
 
-The error handling in mdp_cmdq_send() has a number of bugs.
-Dereferencing uninitialized pointers, a double free, stack traces, and
-not propagating the negative error code, and returning a positive
-number instead of a negative error codes.  See below for details and
-potential fixes  (not complete).
+My blog entry gives a good overview of how to write Free the Last Thing
+Style error handling.  Let's take a look at it as it applies to
+mdp_probe().
 
-Read my blog for more Error Handling Tips!
-https://staticthinking.wordpress.com/2022/04/28/free-the-last-thing-style/
+drivers/media/platform/mediatek/mdp3/mtk-mdp3-core.c
+    180 static int mdp_probe(struct platform_device *pdev)
+    181 {
+    182         struct device *dev = &pdev->dev;
+    183         struct mdp_dev *mdp;
+    184         struct platform_device *mm_pdev;
+    185         int ret, i;
+    186 
+    187         mdp = kzalloc(sizeof(*mdp), GFP_KERNEL);
+    188         if (!mdp) {
+    189                 ret = -ENOMEM;
+    190                 goto err_return;
 
-diff --git a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-cmdq.c b/drivers/media/platform/mediatek/mdp3/mtk-mdp3-cmdq.c
-index 29f6c1cd3de7..0cdb62c27b58 100644
---- a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-cmdq.c
-+++ b/drivers/media/platform/mediatek/mdp3/mtk-mdp3-cmdq.c
-@@ -252,10 +252,9 @@ static int mdp_cmdq_pkt_create(struct cmdq_client *client, struct cmdq_pkt *pkt,
- 	dma_addr_t dma_addr;
- 
- 	pkt->va_base = kzalloc(size, GFP_KERNEL);
--	if (!pkt->va_base) {
--		kfree(pkt);
+There is no Last Thing to free.  This should be "return -ENOMEM;".
+This goto will crash.  The Last thing is now "mdp".
 
-NOTE1: Freeing here lead to a double free
+    191         }
+    192 
+    193         mdp->pdev = pdev;
+    194         mdp->mdp_data = of_device_get_match_data(&pdev->dev);
+    195 
+    196         mm_pdev = __get_pdev_by_id(pdev, MDP_INFRA_MMSYS);
+    197         if (!mm_pdev) {
+    198                 ret = -ENODEV;
+    199                 goto err_return;
 
-+	if (!pkt->va_base)
- 		return -ENOMEM;
--	}
-+
- 	pkt->buf_size = size;
- 	pkt->cl = (void *)client;
- 
-@@ -368,25 +367,24 @@ int mdp_cmdq_send(struct mdp_dev *mdp, struct mdp_cmdq_param *param)
- 	cmd = kzalloc(sizeof(*cmd), GFP_KERNEL);
- 	if (!cmd) {
- 		ret = -ENOMEM;
--		goto err_cmdq_data;
-+		goto err_decrement;
- 	}
- 
--	if (mdp_cmdq_pkt_create(mdp->cmdq_clt, &cmd->pkt, SZ_16K)) {
--		ret = -ENOMEM;
-+	ret = mdp_cmdq_pkt_create(mdp->cmdq_clt, &cmd->pkt, SZ_16K);
-+	if (ret)
- 		goto err_cmdq_data;
--	}
- 
- 	comps = kcalloc(param->config->num_components, sizeof(*comps),
- 			GFP_KERNEL);
- 	if (!comps) {
- 		ret = -ENOMEM;
--		goto err_cmdq_data;
-+		goto err_destroy_pkt;
- 	}
- 
- 	path = kzalloc(sizeof(*path), GFP_KERNEL);
- 	if (!path) {
- 		ret = -ENOMEM;
--		goto err_cmdq_data;
-+		goto err_free_comps;
- 	}
- 
- 	path->mdp_dev = mdp;
-@@ -406,7 +404,7 @@ int mdp_cmdq_send(struct mdp_dev *mdp, struct mdp_cmdq_param *param)
- 	ret = mdp_path_ctx_init(mdp, path);
- 	if (ret) {
- 		dev_err(dev, "mdp_path_ctx_init error\n");
--		goto err_cmdq_data;
-+		goto err_free_path;
- 	}
- 
- 	mtk_mutex_prepare(mdp->mdp_mutex[MDP_PIPE_RDMA0]);
-@@ -414,7 +412,7 @@ int mdp_cmdq_send(struct mdp_dev *mdp, struct mdp_cmdq_param *param)
- 	ret = mdp_path_config(mdp, cmd, path);
- 	if (ret) {
- 		dev_err(dev, "mdp_path_config error\n");
--		goto err_cmdq_data;
-+		goto err_free_path;
- 	}
- 	cmdq_pkt_finalize(&cmd->pkt);
- 
-@@ -433,7 +431,7 @@ int mdp_cmdq_send(struct mdp_dev *mdp, struct mdp_cmdq_param *param)
- 	ret = mdp_comp_clocks_on(&mdp->pdev->dev, cmd->comps, cmd->num_comps);
- 	if (ret) {
- 		dev_err(dev, "comp %d failed to enable clock!\n", ret);
--		goto err_clock_off;
-+		goto err_free_path;
- 	}
- 
- 	dma_sync_single_for_device(mdp->cmdq_clt->chan->mbox->dev,
-@@ -453,14 +451,20 @@ int mdp_cmdq_send(struct mdp_dev *mdp, struct mdp_cmdq_param *param)
- 	mtk_mutex_unprepare(mdp->mdp_mutex[MDP_PIPE_RDMA0]);
- 	mdp_comp_clocks_off(&mdp->pdev->dev, cmd->comps,
- 			    cmd->num_comps);
--err_cmdq_data:
-+// FIXME: what to do here?
-+// err_cmdq_data:
-+//	wake_up(&mdp->callback_wq);
+This should be "goto err_free_mdp;".  This goto will trigger a series
+of WARN_ON() stack traces.  The Last Thing is now mdp->mdp_mmsys.
 
-NOTE2: not sure how why we call wake_up(&mdp->callback_wq);
+    200         }
+    201         mdp->mdp_mmsys = &mm_pdev->dev;
+    202 
+    203         mm_pdev = __get_pdev_by_id(pdev, MDP_INFRA_MUTEX);
+    204         if (WARN_ON(!mm_pdev)) {
+    205                 ret = -ENODEV;
+    206                 goto err_return;
 
-+err_free_path:
- 	kfree(path);
--	atomic_dec(&mdp->job_count);
--	wake_up(&mdp->callback_wq);
--	if (cmd->pkt.buf_size > 0)
--		mdp_cmdq_pkt_destroy(&cmd->pkt);
-+err_free_comps:
- 	kfree(comps);
-+err_destroy_pkt:
-+	mdp_cmdq_pkt_destroy(&cmd->pkt);
-+err_free_cmd:
- 	kfree(cmd);
-+err_decrement:
-+	atomic_dec(&mdp->job_count);
-+
- 	return ret;
- }
- EXPORT_SYMBOL_GPL(mdp_cmdq_send);
-diff --git a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-comp.c b/drivers/media/platform/mediatek/mdp3/mtk-mdp3-comp.c
-index e62abf3587bf..a18ac10269a6 100644
---- a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-comp.c
-+++ b/drivers/media/platform/mediatek/mdp3/mtk-mdp3-comp.c
-@@ -699,11 +699,22 @@ int mdp_comp_clock_on(struct device *dev, struct mdp_comp *comp)
- 			dev_err(dev,
- 				"Failed to enable clk %d. type:%d id:%d\n",
- 				i, comp->type, comp->id);
--			return ret;
-+			goto err_unwind;
- 		}
- 	}
- 
- 	return 0;
+This goto should call put on mdp->mdp_mmsys dev_something.  It instead
+leaks that.  But it does call mtk_mutex_put() and each call will leads
+to a series of stack traces.  The Last Thing is now mm_pdev.  That
+doesn't seem to be stored anywhere so it's going to be complicated to
+free it...  :/
 
-NOTE3: This function *must* clean up after itself.  Calling
-clk_disable_unprepare() on an uninitialized clk will trigger a stack
-trace.
+    207         }
+    208         for (i = 0; i < MDP_PIPE_MAX; i++) {
+    209                 mdp->mdp_mutex[i] = mtk_mutex_get(&mm_pdev->dev);
+    210                 if (!mdp->mdp_mutex[i]) {
+    211                         ret = -ENODEV;
+    212                         goto err_return;
 
-+
-+err_unwind:
-+	while (--i >= 0) {
-+		if (IS_ERR_OR_NULL(comp->clks[i]))
-+			continue;
-+		clk_disable_unprepare(comp->clks[i]);
-+	}
-+	if (comp->comp_dev)
-+		pm_runtime_put_sync(comp->comp_dev);
-+
-+	return ret;
- }
- 
- void mdp_comp_clock_off(struct device *dev, struct mdp_comp *comp)
-@@ -722,13 +733,21 @@ void mdp_comp_clock_off(struct device *dev, struct mdp_comp *comp)
- 
- int mdp_comp_clocks_on(struct device *dev, struct mdp_comp *comps, int num)
- {
--	int i;
-+	int ret, i;
- 
--	for (i = 0; i < num; i++)
--		if (mdp_comp_clock_on(dev, &comps[i]) != 0)
--			return ++i;
+If this fails it should unwind the successful allocations:
 
-NOTE4: This function is supposed to return a negative error code.
+	while (--i >= 0) {
 
-+	for (i = 0; i < num; i++) {
-+		ret = mdp_comp_clock_on(dev, &comps[i]);
-+		if (ret)
-+			goto err_unwind;
-+	}
- 
- 	return 0;
-+
+But instead it does unwinds everything.  Stack traces.
 
-NOTE5: Same bug here.
+    213                 }
+    214         }
+    215 
+    216         ret = mdp_comp_config(mdp);
+    217         if (ret) {
+    218                 dev_err(dev, "Failed to config mdp components\n");
+    219                 goto err_return;
 
-+err_unwind:
-+	while (--i >= 0)
-+		mdp_comp_clock_off(dev, &comps[i]);
-+
-+	return ret;
- }
- 
- void mdp_comp_clocks_off(struct device *dev, struct mdp_comp *comps, int num)
+Alright.  Good.  This will leak the "mm_pdev" references but it will not
+print any stack traces.  The mdp_comp_config() function uses One Magic
+Free Function style error handling so it is buggy.  The Last thing is
+now comp_config.
+
+    220         }
+    221 
+    222         mdp->job_wq = alloc_workqueue(MDP_MODULE_NAME, WQ_FREEZABLE, 0);
+    223         if (!mdp->job_wq) {
+    224                 dev_err(dev, "Unable to create job workqueue\n");
+    225                 ret = -ENOMEM;
+    226                 goto err_deinit_comp;
+
+Hooray!  This label has a good name and frees the Last Thing.  The new
+last thing is the ->job_wq.
+
+    227         }
+    228 
+    229         mdp->clock_wq = alloc_workqueue(MDP_MODULE_NAME "-clock", WQ_FREEZABLE,
+    230                                         0);
+    231         if (!mdp->clock_wq) {
+    232                 dev_err(dev, "Unable to create clock workqueue\n");
+    233                 ret = -ENOMEM;
+    234                 goto err_destroy_job_wq;
+
+Hooray!
+
+    235         }
+    236 
+    237         mm_pdev = __get_pdev_by_id(pdev, MDP_INFRA_SCP);
+    238         if (WARN_ON(!mm_pdev)) {
+    239                 dev_err(&pdev->dev, "Could not get scp device\n");
+    240                 ret = -ENODEV;
+    241                 goto err_destroy_clock_wq;
+
+Hooray!
+
+    242         }
+    243         mdp->scp = platform_get_drvdata(mm_pdev);
+    244         mdp->rproc_handle = scp_get_rproc(mdp->scp);
+    245         dev_dbg(&pdev->dev, "MDP rproc_handle: %pK", mdp->rproc_handle);
+    246 
+    247         mutex_init(&mdp->vpu_lock);
+    248         mutex_init(&mdp->m2m_lock);
+    249 
+    250         mdp->cmdq_clt = cmdq_mbox_create(dev, 0);
+    251         if (IS_ERR(mdp->cmdq_clt)) {
+    252                 ret = PTR_ERR(mdp->cmdq_clt);
+    253                 goto err_put_scp;
+
+Ugh...  The mm_pdev name changed to scp.  It took a while to figure that
+out.  This unwinds the __get_pdev_by_id().  Fair enough.  The Last thing
+is now cmdq_clt.
+
+    254         }
+    255 
+    256         init_waitqueue_head(&mdp->callback_wq);
+    257         ida_init(&mdp->mdp_ida);
+    258         platform_set_drvdata(pdev, mdp);
+    259 
+    260         vb2_dma_contig_set_max_seg_size(&pdev->dev, DMA_BIT_MASK(32));
+    261 
+    262         ret = v4l2_device_register(dev, &mdp->v4l2_dev);
+    263         if (ret) {
+    264                 dev_err(dev, "Failed to register v4l2 device\n");
+    265                 ret = -EINVAL;
+    266                 goto err_mbox_destroy;
+
+The cmdq_clt is an mbox.  Fair enough.  Good name, label does what we
+expected.
+
+    267         }
+    268 
+    269         ret = mdp_m2m_device_register(mdp);
+    270         if (ret) {
+    271                 v4l2_err(&mdp->v4l2_dev, "Failed to register m2m device\n");
+    272                 goto err_unregister_device;
+
+Good.
+
+    273         }
+    274 
+    275         dev_dbg(dev, "mdp-%d registered successfully\n", pdev->id);
+    276         return 0;
+
+Summary:
+BUG1: NULL dereference
+BUG2: Stack traces calling mtk_mutex_put().
+BUG3&4: Two __get_pdev_by_id() which need a matching put (reference leaks).
+
+    277 
+    278 err_unregister_device:
+    279         v4l2_device_unregister(&mdp->v4l2_dev);
+    280 err_mbox_destroy:
+    281         cmdq_mbox_destroy(mdp->cmdq_clt);
+    282 err_put_scp:
+    283         scp_put(mdp->scp);
+    284 err_destroy_clock_wq:
+    285         destroy_workqueue(mdp->clock_wq);
+    286 err_destroy_job_wq:
+    287         destroy_workqueue(mdp->job_wq);
+    288 err_deinit_comp:
+    289         mdp_comp_destroy(mdp);
+    290 err_return:
+    291         for (i = 0; i < MDP_PIPE_MAX; i++)
+--> 292                 mtk_mutex_put(mdp->mdp_mutex[i]);
+    293         kfree(mdp);
+    294         dev_dbg(dev, "Errno %d\n", ret);
+    295         return ret;
+    296 }
+
+regards,
+dan carpenter
