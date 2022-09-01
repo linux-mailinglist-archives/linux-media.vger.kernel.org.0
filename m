@@ -2,149 +2,169 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 001395A9B5D
-	for <lists+linux-media@lfdr.de>; Thu,  1 Sep 2022 17:16:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 696695A9BB6
+	for <lists+linux-media@lfdr.de>; Thu,  1 Sep 2022 17:30:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232790AbiIAPQh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 1 Sep 2022 11:16:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48204 "EHLO
+        id S234549AbiIAPaf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 1 Sep 2022 11:30:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42126 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229514AbiIAPQg (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 1 Sep 2022 11:16:36 -0400
-Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com [IPv6:2a00:1450:4864:20::529])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AE8455A838
-        for <linux-media@vger.kernel.org>; Thu,  1 Sep 2022 08:16:35 -0700 (PDT)
-Received: by mail-ed1-x529.google.com with SMTP id b16so23028307edd.4
-        for <linux-media@vger.kernel.org>; Thu, 01 Sep 2022 08:16:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=konsulko.com; s=google;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date;
-        bh=XaMYROyIbD4O6J7fSXWG/OuXYtrufXvUW1y96Bpknvc=;
-        b=GjRKJj4osfzZ27ihe7J+kVcKw0dKzHhMyr/z/rHUzszRD8ickcAeY/MJeHQpdarXlF
-         Jhvc7VgjTxjB8nWpixxwn08GO1mMfT7rim2hf/JKq679eEMfYaKexiz0isB8IzkVZ2vC
-         QbYo6rQQeSpde4GrDlz34dESn7buMIJZLHGSI=
+        with ESMTP id S234539AbiIAPaM (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 1 Sep 2022 11:30:12 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D4BD11FCD1
+        for <linux-media@vger.kernel.org>; Thu,  1 Sep 2022 08:30:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1662046203;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=cOt8ZISc3Gs9HW+RgYkEi+HF65y8hpbp/ZjyhOTB5WI=;
+        b=VOorzRM2INNQKv680v6joRuwcXN2ipjbGZ9dklvqMtv5hwtIfDe2GmhDKTSpFqo7+FqNvS
+        SZrl6ErsEB9ZwLPG7tHbi6TpuM98G0otO8ZdmyvEyXSoYdG4uJ8jt5OfDU3eJngUOC8Mhj
+        UVobyUEGWMatuAy+cA8+BIoaWdOnfUY=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-638-jACDVEhkMXa0NGwhYSwABA-1; Thu, 01 Sep 2022 11:30:02 -0400
+X-MC-Unique: jACDVEhkMXa0NGwhYSwABA-1
+Received: by mail-ej1-f72.google.com with SMTP id gb33-20020a170907962100b00741496e2da1so6032088ejc.1
+        for <linux-media@vger.kernel.org>; Thu, 01 Sep 2022 08:30:02 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
-        bh=XaMYROyIbD4O6J7fSXWG/OuXYtrufXvUW1y96Bpknvc=;
-        b=p2sKUXTFVfjDff0XChUgR476EF3sTodX7yB8385HF1m4VmRU0Cy8lJnSrtSUWsdz3m
-         cBRqJM0MyIKdcNsnlES25woC1pnUiWyvKHQN1cEaiMzu68R8TN0uH1qPboxXo9Y/+BXQ
-         joYVm5ijxsV4aAqGlU0Qn0s2xIk0+Ybdq6MahoAi8A1zrz600OVMsdhCIzONdbEpz8we
-         bEej+74R1NHhjn7BjJbFn3DBAiONNUiij04MxnoMIrHQfz9+KxdxIJhl1ysLJqCTYDPO
-         j9AL32gNb3wL8/L9TzE70AeJGjC0iF3V420PWuNzWJ0Nh682gS1290LEnWHkGCFuFmSc
-         diTQ==
-X-Gm-Message-State: ACgBeo31KKvRF2Imc1YtlM60N9Eoh3x6d6PNgrXYG7/gt4nSD/0s7bLG
-        zhh9FCWd6eBn5iiFyqhJKRO1jv5E4uWAZQ==
-X-Google-Smtp-Source: AA6agR61Hv6nnmOCkTn3OzBmhqGpDnyNWKuJcJQOotEKgWBYO+vAVo8lI6+7dTFc02GP3rkv8CFP8w==
-X-Received: by 2002:a05:6402:42c5:b0:448:913e:f16 with SMTP id i5-20020a05640242c500b00448913e0f16mr14895094edc.22.1662045394130;
-        Thu, 01 Sep 2022 08:16:34 -0700 (PDT)
-Received: from p310.k.g (lan.nucleusys.com. [92.247.61.126])
-        by smtp.gmail.com with ESMTPSA id b5-20020a17090630c500b0073dde7c1767sm8641552ejb.175.2022.09.01.08.16.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 01 Sep 2022 08:16:33 -0700 (PDT)
-Date:   Thu, 1 Sep 2022 18:20:59 +0300
-From:   Petko Manolov <petko.manolov@konsulko.com>
-To:     Jacopo Mondi <jacopo@jmondi.org>
-Cc:     linux-media@vger.kernel.org,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Xavier Roumegue <xavier.roumegue@oss.nxp.com>
-Subject: Re: imx8m-mini csi-2 limitations
-Message-ID: <YxDN2+1chUENUeq6@p310.k.g>
-References: <YvpPusE1rOzmgPYN@carbon.k.g>
- <Yv4GEUTj4rMiagAX@p310.k.g>
- <20220818105131.gurtn74av2ilr7bi@uno.localdomain>
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date;
+        bh=cOt8ZISc3Gs9HW+RgYkEi+HF65y8hpbp/ZjyhOTB5WI=;
+        b=H+L+e9VNwnMp7X/73HiWAUG87jBT53wKhg6K/Yhm9sQtTuJz9nrQjHBL0yiXH+KHXk
+         LkiOFwPIBBl/3o9BimLGo/7OtPyzwvP0lyd5bFomnZFFD/roQnJrzRs3aDzYI+TYG4l1
+         IykXwGQA2KYDgnEDVf4iDV90R6JSX16Cru6LnwMgSONWUdT6H1EoV2G2jHzLAvOgC3Fs
+         lHrHFM/sclTW1Q+wfrGUQCCvwCkYmFnYSBK8Y5nAK84bjAHyDfIqQRbvktSxy8/YSTd7
+         ZSRfrpccpHDi+PoY67J2i3VbDXs50WdULc8ak597ehANgg+I8CVxJ4pS+Gp/AwU0+4WL
+         Z28w==
+X-Gm-Message-State: ACgBeo3L2SHBQpli+v9/5ShhnmK37k6gZ9bHOS/6LqU3DGaGiDSn0BHC
+        G06sPspOmYlDPGg2t7xH0P+ahKBGB4qepecm/y6i+t2rxf2ht3/JXYj1znbUnogQahoxz7CH3KZ
+        lkaiJUBvN2oiD70D6avqTy8M=
+X-Received: by 2002:a05:6402:190d:b0:447:ed22:84eb with SMTP id e13-20020a056402190d00b00447ed2284ebmr25451504edz.379.1662046201509;
+        Thu, 01 Sep 2022 08:30:01 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR4ABFfXK/4RGMSNglfynARdsm+sCDeDBUdZoWaJRYdaxUfUjYhhME+tPKTCPO01URL8AnwW2A==
+X-Received: by 2002:a05:6402:190d:b0:447:ed22:84eb with SMTP id e13-20020a056402190d00b00447ed2284ebmr25451484edz.379.1662046201324;
+        Thu, 01 Sep 2022 08:30:01 -0700 (PDT)
+Received: from ?IPV6:2001:1c00:c1e:bf00:d69d:5353:dba5:ee81? (2001-1c00-0c1e-bf00-d69d-5353-dba5-ee81.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:d69d:5353:dba5:ee81])
+        by smtp.gmail.com with ESMTPSA id q20-20020a170906b29400b0074b4e77ccc6sm398976ejz.151.2022.09.01.08.30.00
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 01 Sep 2022 08:30:00 -0700 (PDT)
+Message-ID: <d3f4b578-961c-fa46-a60c-8c8baadd4d95@redhat.com>
+Date:   Thu, 1 Sep 2022 17:30:00 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220818105131.gurtn74av2ilr7bi@uno.localdomain>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.12.0
+Subject: Re: [PATCH 00/14] media: atomisp: More cleanups / code removal
+Content-Language: en-US
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Tsuchiya Yuto <kitakar@gmail.com>,
+        Andy Shevchenko <andy@kernel.org>,
+        Yury Luneff <yury.lunev@gmail.com>,
+        Nable <nable.maininbox@googlemail.com>,
+        andrey.i.trufanov@gmail.com, Fabio Aiuto <fabioaiuto83@gmail.com>,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev
+References: <20220901094626.11513-1-hdegoede@redhat.com>
+ <20220901170846.0fe20bf4@coco.lan>
+From:   Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <20220901170846.0fe20bf4@coco.lan>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 22-08-18 12:51:31, Jacopo Mondi wrote:
->
+Hi,
 
-<snip>
-
-> If I recall correctly there are at least three configurations at play:
+On 9/1/22 17:08, Mauro Carvalho Chehab wrote:
+> Em Thu,  1 Sep 2022 11:46:12 +0200
+> Hans de Goede <hdegoede@redhat.com> escreveu:
 > 
-> - The CSIS pixel mode selection
+>> Hi Mauro,
+>>
+>> Here is a second set of atomisp cleanups / code removal.
+>> This applies on top of my previous v2 series from here:
+>> https://lore.kernel.org/linux-media/20220822150610.45186-1-hdegoede@redhat.com/
+>>
+>> I plan to do more atomisp work the coming few weeks. So I'm thinking
+>> it might be better / easier for you if I just send you a pull-req based
+>> on 6.0-rc1 with all atomisp patches bundled around rc5/rc6 time.
+>>
+>> Would that work for you ?
 > 
->   MIPI_CSI_ISP_CONFIG[13:12]
+> Yes, that works for me. I'm actually proritizing PRs over normal patches
+> from media maintainers. As you're doing most of work on it, I can
+> start picking PRs from you related to atomisp.
 
-Funny enough adding MIPI_CSIS_ISPCFG_PIXEL_MODE_QUAD and 
-MIPI_CSIS_ISPCFG_ALIGN_32BIT to the config(0) register actually produced an 
-image.  Highly distorted image, but did not break the image acquisition.
+Sounds good.
 
-MIPI_CSIS_ISPCFG_ALIGN_32BIT seems to be the wrong flag here, but it without it 
-the streaming got blocked.
+Note I have also been picking up various small fixes from others both
+for testing and to make sure they don't get lost. So I plan to include
+those into the pull-req around rc5/6 time too.
 
->   The driver currently forces dual pixel sampling mode for YUV422
->   and report a TODO:
+Regards,
+
+Hans
+
+
+
+>> Dan Carpenter (1):
+>>   media: atomisp: prevent integer overflow in sh_css_set_black_frame()
+>>
+>> Hans de Goede (13):
+>>   media: atomisp: Fix device_caps reporting of the registered video-devs
+>>   media: atomisp: Remove file-injection support
+>>   media: atomisp: Remove atomisp_file_fops and atomisp_file_ioctl_ops
+>>   media: atomisp: Remove the outq videobuf queue
+>>   media: atomisp: Remove never set file_input flag
+>>   media: atomisp: Remove the ACC device node
+>>   media: atomisp: Remove some further ATOMISP_ACC_* related dead code
+>>   media: atomisp: Remove empty atomisp_css_set_cont_prev_start_time()
+>>     function
+>>   media: atomisp: Split subdev and video-node registration into 2 steps
+>>   media: atomisp: Register /dev/* nodes at the end of
+>>     atomisp_pci_probe()
+>>   media: atomisp: Remove loading mutex
+>>   media: atomisp: Fix v4l2_fh resource leak on open errors
+>>   media: atomisp: Simplify v4l2_fh_open() error handling
+>>
+>>  drivers/staging/media/atomisp/Makefile        |   1 -
+>>  .../media/atomisp/include/linux/atomisp.h     |  14 --
+>>  .../staging/media/atomisp/pci/atomisp_cmd.c   | 134 +---------
+>>  .../staging/media/atomisp/pci/atomisp_cmd.h   |   2 -
+>>  .../media/atomisp/pci/atomisp_compat.h        |   6 -
+>>  .../media/atomisp/pci/atomisp_compat_css20.c  |  26 --
+>>  .../staging/media/atomisp/pci/atomisp_file.c  | 229 ------------------
+>>  .../staging/media/atomisp/pci/atomisp_file.h  |  44 ----
+>>  .../staging/media/atomisp/pci/atomisp_fops.c  | 187 ++------------
+>>  .../media/atomisp/pci/atomisp_internal.h      |  16 +-
+>>  .../staging/media/atomisp/pci/atomisp_ioctl.c | 192 ++-------------
+>>  .../staging/media/atomisp/pci/atomisp_ioctl.h |   4 -
+>>  .../media/atomisp/pci/atomisp_subdev.c        |  95 ++------
+>>  .../media/atomisp/pci/atomisp_subdev.h        |  47 +---
+>>  .../staging/media/atomisp/pci/atomisp_v4l2.c  |  99 +++-----
+>>  .../staging/media/atomisp/pci/atomisp_v4l2.h  |   3 -
+>>  .../staging/media/atomisp/pci/sh_css_params.c |   4 +-
+>>  17 files changed, 104 insertions(+), 999 deletions(-)
+>>  delete mode 100644 drivers/staging/media/atomisp/pci/atomisp_file.c
+>>  delete mode 100644 drivers/staging/media/atomisp/pci/atomisp_file.h
+>>
 > 
->   * TODO: Verify which other formats require DUAL (or QUAD) modes.
 > 
->   Here you're trying to transfer RAW12 data, which is indicated in the
->   register documentation as one of the formats suitable for DUAL/QUAD
->   mode transfer
 > 
->   - I'm actually not sure how and if RAW12 gets expanded to 16 bit
->     samples by filling the 16-bit word with 0s or it either gets
->     packed in 6 bytes with no paddings. Figure "13-33. Pixel
->     alignment" seems to suggest that, but I'm not sure I really got
->     that diagram
+> Thanks,
+> Mauro
 > 
-> - The CSI-bridge
-> 
->   - CSI_CR3[3] SENSOR_16BITS
 
-Actually the driver is always setting this one for raw10/12 formats.
-
->   - CSI_CR18[20] MIPI_DOUBLE_CMP
-
-Enabling this bit for raw10/12 formats kills the transmission.  According to the 
-documentation this flag transfers full pixel per clock cycle as opposed to just 
-half a pixel.
-
->   The comment in imx7_csi_configure() explains how different versions of YUYV 
->   (2X8 and 1X16) are handled, and why SENSOR_16BITS and MIPI_DOUBLE_CMP have 
->   to be enabled when the csi-bridge has to be instructed to sample 16 bits 
->   samples from the RX queue.
-
-Seems like i have to find a way to make the mipi-csi stream full pixel (iow 
-16bit), if any such thing exists.  And hope this configuration is supported 
-between both parts, mipi & bridge.
-
-> I guess the key would be here to find out what combination of SINGLE/DUAL/QUAD 
-> sampling is opportune for RAW12 (I would try with DUAL first and then QUAD) 
-> and then configure the csi-bridge bus sampling mode accordingly (likely in the 
-> same was as it is done for YUYV_1X16)
-
-In fact i was mimicking MEDIA_BUS_FMT_YUYV8_1X16 case, but as mentioned, this 
-didn't work.  Seems like raw10/12 formats are not so well (if at all) handled by 
-the bridge.
-
-> When it comes to bandwidth limitation, can you try to reduce the sensor output 
-> size to make sure you chase one issue at the time ?
-
-I used insanely big vblank and hblank values.  Obtaining single frame took about 
-90 seconds.  This indeed reduced "FIFO Overflow Error" and "Frame Size Error" to 
-four digit number (the lowest rate i've seen so far), but there was no visible 
-improvement in the captured test pattern image.
-
-I doubt i can make the sensor stream slower and i also think it doesn't make 
-sense to go down this path - there are still errors.
-
-Any advice on how to debug the CSI bridge?  NXP support is as useless as ever.
-
-
-cheers,
-Petko
