@@ -2,33 +2,33 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EC5F55A9AFE
-	for <lists+linux-media@lfdr.de>; Thu,  1 Sep 2022 16:57:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BD4DB5A9B1D
+	for <lists+linux-media@lfdr.de>; Thu,  1 Sep 2022 17:03:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234436AbiIAO5h (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 1 Sep 2022 10:57:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43020 "EHLO
+        id S233846AbiIAPD2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 1 Sep 2022 11:03:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52562 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232449AbiIAO5e (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 1 Sep 2022 10:57:34 -0400
-Received: from relay11.mail.gandi.net (relay11.mail.gandi.net [IPv6:2001:4b98:dc4:8::231])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 251285E557;
-        Thu,  1 Sep 2022 07:57:31 -0700 (PDT)
+        with ESMTP id S229781AbiIAPD0 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 1 Sep 2022 11:03:26 -0400
+Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::227])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 36579832E8;
+        Thu,  1 Sep 2022 08:03:23 -0700 (PDT)
 Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPSA id 7C4BE10000D;
-        Thu,  1 Sep 2022 14:57:26 +0000 (UTC)
+        by mail.gandi.net (Postfix) with ESMTPSA id 569522000F;
+        Thu,  1 Sep 2022 15:03:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1662044250;
+        t=1662044601;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=fTIPUvR6Kg1MdIRVJEFetX2DVyRFLn/K5hDyVlwXeq0=;
-        b=JRf/f31Zr+iQG1WfwUbx+DyE+WxW+UtZdcYuxz9I7irSd6OrLR54AgteN8Wkj6q8jcmVNq
-        V1pblHtO0yrZWthBdBFM47U6/NkQN9RBq3+nAmDm8XuB76orr7SrmDQ1PYgccdk5sWvYgT
-        MrU92RDReh2z7nApwCvoL8DIG/Now8sTH7K3DDQIJlcYxOWcDu86PLniQoML84J1nY/ghW
-        l/auGwgzvdiWGIVi1TVSMYvkwv7vq7WSP8cJsTKL5Eo9CPTftIlutaGgdp8ZbARyC+ZbWr
-        2R8lP3eVcnEjAZadjPnzqXlf4bWNNymNvxxuP3sUBHeO32KMiJcIqTlm6M3LPA==
-Date:   Thu, 1 Sep 2022 16:57:25 +0200
+        bh=scHOxPLJc2mIdZy+ocLkyQPw2mekrtVBOig7nZ4p7Tc=;
+        b=V/VzarijTnZgS3sRdroUnUGr05FAQdZ45PShfkrfxGnnT9zI61ZvoQ6MDf2grtEZ8I0lUn
+        g/YBV3l7UflQx+aSKhe19v+mTSzBAr5pFhd/ogFbao/EutQaCBMPLDKMqyqOwv2j3zD7Nd
+        APgAzjI/ecDbYmEs31PEo31BCFH2ZNiMmtfOHL0lj9ge0b4vg20t/T+xBo8LtPwVft0FN/
+        FY+ImlQJDrxbVaLvYt+DGYjEiMJ7kHYnpYCSIfFEa9E/VhetuZrEUbeGYZ0+ECPE4ftU/e
+        PRjOmeBsDKNQ6vNHy3ngLxly8n509kLTvOhHWeq6kxvoFZW5Z8ayfyN4sjxp4Q==
+Date:   Thu, 1 Sep 2022 17:03:17 +0200
 From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
@@ -45,17 +45,17 @@ Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
         Maxime Ripard <mripard@kernel.org>,
         Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
         Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH v6 2/6] dt-bindings: media: sun6i-a31-csi: Add ISP output
- port
-Message-ID: <YxDIVZALmaIo/Y6X@aptenodytes>
+Subject: Re: [PATCH v6 1/6] dt-bindings: media: Add Allwinner A31 ISP
+ bindings documentation
+Message-ID: <YxDJtYgW/NYLw77u@aptenodytes>
 References: <20220826184144.605605-1-paul.kocialkowski@bootlin.com>
- <20220826184144.605605-3-paul.kocialkowski@bootlin.com>
- <YwlJL3umZrVC4FLc@pendragon.ideasonboard.com>
+ <20220826184144.605605-2-paul.kocialkowski@bootlin.com>
+ <Ywk3W6pTOOlzLYVn@pendragon.ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="zak6f8vSQKBH2kPD"
+        protocol="application/pgp-signature"; boundary="G/X/1fL20N7fVp/v"
 Content-Disposition: inline
-In-Reply-To: <YwlJL3umZrVC4FLc@pendragon.ideasonboard.com>
+In-Reply-To: <Ywk3W6pTOOlzLYVn@pendragon.ideasonboard.com>
 X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
         SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
@@ -67,65 +67,157 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 
---zak6f8vSQKBH2kPD
+--G/X/1fL20N7fVp/v
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
 Hi Laurent,
 
-On Sat 27 Aug 22, 01:29, Laurent Pinchart wrote:
+On Sat 27 Aug 22, 00:12, Laurent Pinchart wrote:
 > Hi Paul,
 >=20
 > Thank you for the patch.
 
 Thanks for the review!
 
-> On Fri, Aug 26, 2022 at 08:41:40PM +0200, Paul Kocialkowski wrote:
-> > Some Allwinner devices come with an Image Signal Processor (ISP) that
-> > allows processing camera data to produce good-looking images,
-> > especially from raw bayer representations.
-> >=20
-> > The ISP does not have a dedicated capture path: it is fed directly by
-> > one of the CSI controllers, which can be selected at run-time.
-> >=20
-> > Represent this possibility as a graph connection between the CSI
-> > controller and the ISP in the device-tree bindings.
+> On Fri, Aug 26, 2022 at 08:41:39PM +0200, Paul Kocialkowski wrote:
+> > This introduces YAML bindings documentation for the Allwinner A31 Image
+> > Signal Processor (ISP).
 > >=20
 > > Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> > Acked-by: Rob Herring <robh@kernel.org>
+> > Reviewed-by: Rob Herring <robh@kernel.org>
 > > ---
-> >  .../devicetree/bindings/media/allwinner,sun6i-a31-csi.yaml    | 4 ++++
-> >  1 file changed, 4 insertions(+)
+> >  .../media/allwinner,sun6i-a31-isp.yaml        | 97 +++++++++++++++++++
+> >  1 file changed, 97 insertions(+)
+> >  create mode 100644 Documentation/devicetree/bindings/media/allwinner,s=
+un6i-a31-isp.yaml
 > >=20
 > > diff --git a/Documentation/devicetree/bindings/media/allwinner,sun6i-a3=
-1-csi.yaml b/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-cs=
-i.yaml
-> > index 8551c4a711dc..54eb80e517e3 100644
-> > --- a/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-csi.y=
+1-isp.yaml b/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-is=
+p.yaml
+> > new file mode 100644
+> > index 000000000000..2fda6e05e16c
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-isp.y=
 aml
-> > +++ b/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-csi.y=
-aml
-> > @@ -73,6 +73,10 @@ properties:
-> >          $ref: /schemas/graph.yaml#/properties/port
-> >          description: MIPI CSI-2 bridge input port
-> > =20
-> > +      port@2:
-> > +        $ref: /schemas/graph.yaml#/properties/port
-> > +        description: ISP output port
+> > @@ -0,0 +1,97 @@
+> > +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/media/allwinner,sun6i-a31-isp.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > > +
+> > +title: Allwinner A31 Image Signal Processor Driver (ISP) Device Tree B=
+indings
+> > +
+> > +maintainers:
+> > +  - Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> > +
+> > +properties:
+> > +  compatible:
+> > +    enum:
+> > +      - allwinner,sun6i-a31-isp
+> > +      - allwinner,sun8i-v3s-isp
+> > +
+> > +  reg:
+> > +    maxItems: 1
+> > +
+> > +  interrupts:
+> > +    maxItems: 1
+> > +
+> > +  clocks:
+> > +    items:
+> > +      - description: Bus Clock
+> > +      - description: Module Clock
+> > +      - description: DRAM Clock
+> > +
+> > +  clock-names:
+> > +    items:
+> > +      - const: bus
+> > +      - const: mod
+> > +      - const: ram
+> > +
+> > +  resets:
+> > +    maxItems: 1
+> > +
+> > +  ports:
+> > +    $ref: /schemas/graph.yaml#/properties/ports
+> > +
+> > +    properties:
+> > +      port@0:
+> > +        $ref: /schemas/graph.yaml#/properties/port
+> > +        description: CSI0 input port
+> > +
+> > +      port@1:
+> > +        $ref: /schemas/graph.yaml#/properties/port
+> > +        description: CSI1 input port
+> > +
+> > +    anyOf:
+> > +      - required:
+> > +          - port@0
+> > +      - required:
+> > +          - port@1
 >=20
-> I'd write "Output port to the ISP" to make it clearer.
->=20
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> I'd still like to see all ports that exist in the hardware being
+> mandatory. I assume at least one of the A31 and V3s has two connected
+> ports in the SoC or you wouldn't declare them both here :-)
 
-Agreed, thanks!
+Some SoCs (e.g. A83T) only have one CSI controller so we can't require both.
+This could be a decision based on the compatible but my personal opinion is
+that it's not really worth making this binding so complex.
+
+We can always informally enforce that all possible links should be present
+when merging changes to the soc dts.
+
+What do you think?
 
 Paul
 
-> >      anyOf:
-> >        - required:
-> >            - port@0
+> Apart from that, this looks good.
+>=20
+> > +
+> > +required:
+> > +  - compatible
+> > +  - reg
+> > +  - interrupts
+> > +  - clocks
+> > +  - clock-names
+> > +  - resets
+> > +
+> > +additionalProperties: false
+> > +
+> > +examples:
+> > +  - |
+> > +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> > +    #include <dt-bindings/clock/sun8i-v3s-ccu.h>
+> > +    #include <dt-bindings/reset/sun8i-v3s-ccu.h>
+> > +
+> > +    isp: isp@1cb8000 {
+> > +        compatible =3D "allwinner,sun8i-v3s-isp";
+> > +        reg =3D <0x01cb8000 0x1000>;
+> > +        interrupts =3D <GIC_SPI 83 IRQ_TYPE_LEVEL_HIGH>;
+> > +        clocks =3D <&ccu CLK_BUS_CSI>,
+> > +             <&ccu CLK_CSI1_SCLK>,
+> > +             <&ccu CLK_DRAM_CSI>;
+> > +        clock-names =3D "bus", "mod", "ram";
+> > +        resets =3D <&ccu RST_BUS_CSI>;
+> > +
+> > +        ports {
+> > +            #address-cells =3D <1>;
+> > +            #size-cells =3D <0>;
+> > +
+> > +            port@0 {
+> > +                reg =3D <0>;
+> > +
+> > +                isp_in_csi0: endpoint {
+> > +                    remote-endpoint =3D <&csi0_out_isp>;
+> > +                };
+> > +            };
+> > +        };
+> > +    };
+> > +
+> > +...
 >=20
 > --=20
 > Regards,
@@ -137,19 +229,19 @@ Paul Kocialkowski, Bootlin
 Embedded Linux and kernel engineering
 https://bootlin.com
 
---zak6f8vSQKBH2kPD
+--G/X/1fL20N7fVp/v
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmMQyFUACgkQ3cLmz3+f
-v9E72Qf+JUqBNPJxnYRP3CDIdAusEIcEorc/b1N0Hzcfi8xOLVzZL0/cIuaCVt/A
-xXngf5KFBW8h8cJJ/wflHMP7PN8e5UPpHTlVMx+EfNzkNeL7gAfHYUh6EmpmS0t1
-a+sEDPevYcn36Jnnoi30Pn6rCd0n5ibFC9vKYoDkOaYrfSlGtvUw8ZljQWQwVLWq
-jv4mhzj8qCRJQpf7gP8DYckAA2unewY1dsqI5xgEhhgCAjCvrtwsjrYfWYieCfMH
-YR1ahUJbG63JgD9SKw6pwkAwGIklv2+ZQ0J40ZtzXby0vAoWUDPawchJWvvXIim8
-bsOnx4MaPlqhohaAjEIaxFZ+PSBROw==
-=J+Ve
+iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmMQybUACgkQ3cLmz3+f
+v9FY1Qf+MjlIt9ACVEy5fR7m2aNXvgztFaDP7rND1ypJ61HVqYq5bNCR35e0/rKW
+AgN9KbDyvtNRjocFEb9kB/ueg/GF1trZ5hPPoE26sRl/ZeSveWYWAFw1JKONZPxa
+j/+CMQbp1JKd6VTvY+T42hp/4TIQ55q9Km4xGsH3uFeQFXWVDTBRJ/KIpmq1bumJ
+3CohtIp1XziiuKvW+GwF//VTvbqLP4OnPi2/AOpsKTtgmZu3heW5ykMRPsxkQf2D
+Vf3TA/wnv9ehWz98Uxl/d5Sv1YZCJEXWMUeqjOV1ao7vKVcfQ+zJnF4CnJL+3cdy
+rk4gNANwhYFpIY8Aip6d8rwnEwkVuQ==
+=YcBa
 -----END PGP SIGNATURE-----
 
---zak6f8vSQKBH2kPD--
+--G/X/1fL20N7fVp/v--
