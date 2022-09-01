@@ -2,68 +2,104 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BD1B25A90B6
-	for <lists+linux-media@lfdr.de>; Thu,  1 Sep 2022 09:43:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2BE345A910A
+	for <lists+linux-media@lfdr.de>; Thu,  1 Sep 2022 09:47:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233027AbiIAHmi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 1 Sep 2022 03:42:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34048 "EHLO
+        id S233189AbiIAHr0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 1 Sep 2022 03:47:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35724 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233890AbiIAHmc (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 1 Sep 2022 03:42:32 -0400
-Received: from mail.fadrush.pl (mail.fadrush.pl [54.37.225.211])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 99503108538
-        for <linux-media@vger.kernel.org>; Thu,  1 Sep 2022 00:42:30 -0700 (PDT)
-Received: by mail.fadrush.pl (Postfix, from userid 1002)
-        id 6FA1922902; Thu,  1 Sep 2022 07:41:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=fadrush.pl; s=mail;
-        t=1662018149; bh=bD6j9gIFU6CLTaCGl0Ow9oeIxtirvTfMeNZSfLEZQ+I=;
-        h=Date:From:To:Subject:From;
-        b=QvXkof/riJjyXPem3DSb1jSijLwL7mrav4XBRsjDfE071nINch/GR/CAFGJ+/+no7
-         pT86srNR4wtilWaHr1A6kOZtMYqB+TwCIqtubjVf10qP9It6KDMX0GktNNZbBMl+b0
-         gVAt7u0810KeCqidDWH6iD78ruJn6GoCVdBPmhDIhQIMCSzRJKFc9l62b2wmwuyqKU
-         VRXimMOnez+tjcA4dtwHtdHhCx7tdifkGZ47jb+noxGYZFb7O/b3jL32ozYtSdbVGN
-         u6FNwF/zTD7e/TMGC1PZJELx7ANhy0R0jV/l/2nv/tZJzybV1k80KnSg5VKqGbXRpK
-         aKuP0b7odc0fw==
-Received: by mail.fadrush.pl for <linux-media@vger.kernel.org>; Thu,  1 Sep 2022 07:41:15 GMT
-Message-ID: <20220901064500-0.1.1d.bpdr.0.0npoe6057a@fadrush.pl>
-Date:   Thu,  1 Sep 2022 07:41:15 GMT
-From:   "Jakub Olejniczak" <jakub.olejniczak@fadrush.pl>
-To:     <linux-media@vger.kernel.org>
-Subject: =?UTF-8?Q?Zwi=C4=99kszenie_p=C5=82ynno=C5=9Bci_finansowej?=
-X-Mailer: mail.fadrush.pl
+        with ESMTP id S233401AbiIAHq4 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 1 Sep 2022 03:46:56 -0400
+Received: from mail-pf1-x432.google.com (mail-pf1-x432.google.com [IPv6:2607:f8b0:4864:20::432])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1E21B255AA;
+        Thu,  1 Sep 2022 00:45:13 -0700 (PDT)
+Received: by mail-pf1-x432.google.com with SMTP id x19so14885994pfr.1;
+        Thu, 01 Sep 2022 00:45:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date;
+        bh=ljVHK94lOLMXeyDYK8rETR5FdziQ3+pJDqhAkr3kihM=;
+        b=QzG/aQmaMyWSgnRR/emLiWScS9fOw2EtnaXzFcwYg0RzPzbKHZfbvcbDHQ/ggvF3y/
+         /BcjLfAofVEerU8jaurKxj1do1dHnna04rDlprmyNmrdz8Ku6FEJjQj2GwgRbemusQCO
+         6ccEddvmacFilvFwc3t0eotYxjdPIvdCPWJY//MrvPKip/Ax6aH+wWvovb7nBaueuG8S
+         yjz82jafZHIFby2oXZ6LZt5NxQMmnSYxe0VZMhvBaHIIa56eQ39Tt5kj7iQBOq1SOzX3
+         /zNSUwBTu7KoNxuv3E59ue9Bc3BaQcN8Ol1j2Ev51WH6GLelaJ8v0p7NOnHpkJXZLmmH
+         uutQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date;
+        bh=ljVHK94lOLMXeyDYK8rETR5FdziQ3+pJDqhAkr3kihM=;
+        b=zJmGcx2KxHhVdyht0e/9bFBuaGYNqtZX0AxP3RTX2nZSXeYVUK01hZi8tHv2KPYx5h
+         QjM4HE6GwHmHXlMJtsBcZuYrvhOtoE5/KRKbbtFjL3/GROTAT6k5wYQrEPw/ybiA0sBa
+         53YpogyjqIiLP+q5ljb4zL24sxb4kdTkw0ASWtM02Um1JefDESJvyY4aYPttCNgmY0Wo
+         Fo6in/oIp8CsKVpst0duvEZ8l1sCO3OJzzI0qpNXscT6dnu44V6k/J/NiEa1vsptzzlw
+         TtFxXWqB2mu+XwtDN8M0gxmLT04OyZJToE0mnyNGFWO5bTfNitvh3x3xuGbQSNiVuYYT
+         vOTg==
+X-Gm-Message-State: ACgBeo2s4M0lEmNSFe9HgYluavKQDO1yHu0C+zNHARUvOTfaIAopMgNR
+        9SJ6tK/YzelQnWSZZC8OpSYgAwTs5qg=
+X-Google-Smtp-Source: AA6agR6i0PW4jcHSbC8f9tljwfT3UA9m7s8uR3aE2lTIXWxk6WvG/iqx/uwP1+R4ziXRRtal6laexA==
+X-Received: by 2002:a05:6a00:4393:b0:52f:3603:e62f with SMTP id bt19-20020a056a00439300b0052f3603e62fmr29848577pfb.23.1662018310920;
+        Thu, 01 Sep 2022 00:45:10 -0700 (PDT)
+Received: from localhost.localdomain ([193.203.214.57])
+        by smtp.gmail.com with ESMTPSA id b8-20020a62a108000000b0053ab9c18d3csm2977210pff.14.2022.09.01.00.45.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 01 Sep 2022 00:45:10 -0700 (PDT)
+From:   cgel.zte@gmail.com
+X-Google-Original-From: ye.xingchen@zte.com.cn
+To:     mchehab@kernel.org
+Cc:     nathan@kernel.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, ye xingchen <ye.xingchen@zte.com.cn>
+Subject: [PATCH linux-next] media: radio-si476x: Remove the unneeded result variable
+Date:   Thu,  1 Sep 2022 07:45:07 +0000
+Message-Id: <20220901074507.313203-1-ye.xingchen@zte.com.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
-        version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Dzie=C5=84 dobry,
+From: ye xingchen <ye.xingchen@zte.com.cn>
 
-kontaktuj=C4=99 si=C4=99 z Pa=C5=84stwem, poniewa=C5=BC chcia=C5=82bym za=
-proponowa=C4=87 wygodne rozwi=C4=85zanie, kt=C3=B3re umo=C5=BCliwi Pa=C5=84=
-stwa firmie stabilny rozw=C3=B3j.=20
+Return the value v4l2_fh_release() directly instead of storing it in
+another redundant variable.
 
-Konkurencyjne otoczenie wymaga ci=C4=85g=C5=82ego ulepszania i poszerzeni=
-a oferty, co z kolei wi=C4=85=C5=BCe si=C4=99 z konieczno=C5=9Bci=C4=85 i=
-nwestowania. Brak odpowiedniego kapita=C5=82u powa=C5=BCnie ogranicza tem=
-po rozwoju firmy.
+Signed-off-by: ye xingchen <ye.xingchen@zte.com.cn>
+---
+ drivers/media/radio/radio-si476x.c | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
 
-Od wielu lat z powodzeniem pomagam firmom w uzyskaniu najlepszej formy fi=
-nansowania z banku oraz UE. Mam sta=C5=82ych Klient=C3=B3w, kt=C3=B3rzy n=
-adal ch=C4=99tnie korzystaj=C4=85 z moich us=C5=82ug, a tak=C5=BCe poleca=
-j=C4=85 je innym.
-
-Czy chcieliby Pa=C5=84stwo skorzysta=C4=87 z pomocy wykwalifikowanego i d=
-o=C5=9Bwiadczonego doradcy finansowego?
-
-
-Pozdrawiam
-Jakub Olejniczak
+diff --git a/drivers/media/radio/radio-si476x.c b/drivers/media/radio/radio-si476x.c
+index 0bf99e1cd1d8..171f9cc9ee5e 100644
+--- a/drivers/media/radio/radio-si476x.c
++++ b/drivers/media/radio/radio-si476x.c
+@@ -1072,7 +1072,6 @@ static int si476x_radio_fops_open(struct file *file)
+ 
+ static int si476x_radio_fops_release(struct file *file)
+ {
+-	int err;
+ 	struct si476x_radio *radio = video_drvdata(file);
+ 
+ 	if (v4l2_fh_is_singular_file(file) &&
+@@ -1080,9 +1079,7 @@ static int si476x_radio_fops_release(struct file *file)
+ 		si476x_core_set_power_state(radio->core,
+ 					    SI476X_POWER_DOWN);
+ 
+-	err = v4l2_fh_release(file);
+-
+-	return err;
++	return v4l2_fh_release(file);
+ }
+ 
+ static ssize_t si476x_radio_fops_read(struct file *file, char __user *buf,
+-- 
+2.25.1
