@@ -2,246 +2,139 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BD4DB5A9B1D
-	for <lists+linux-media@lfdr.de>; Thu,  1 Sep 2022 17:03:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 281115A9B48
+	for <lists+linux-media@lfdr.de>; Thu,  1 Sep 2022 17:10:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233846AbiIAPD2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 1 Sep 2022 11:03:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52562 "EHLO
+        id S234069AbiIAPJA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 1 Sep 2022 11:09:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34726 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229781AbiIAPD0 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 1 Sep 2022 11:03:26 -0400
-Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::227])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 36579832E8;
-        Thu,  1 Sep 2022 08:03:23 -0700 (PDT)
-Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPSA id 569522000F;
-        Thu,  1 Sep 2022 15:03:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1662044601;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=scHOxPLJc2mIdZy+ocLkyQPw2mekrtVBOig7nZ4p7Tc=;
-        b=V/VzarijTnZgS3sRdroUnUGr05FAQdZ45PShfkrfxGnnT9zI61ZvoQ6MDf2grtEZ8I0lUn
-        g/YBV3l7UflQx+aSKhe19v+mTSzBAr5pFhd/ogFbao/EutQaCBMPLDKMqyqOwv2j3zD7Nd
-        APgAzjI/ecDbYmEs31PEo31BCFH2ZNiMmtfOHL0lj9ge0b4vg20t/T+xBo8LtPwVft0FN/
-        FY+ImlQJDrxbVaLvYt+DGYjEiMJ7kHYnpYCSIfFEa9E/VhetuZrEUbeGYZ0+ECPE4ftU/e
-        PRjOmeBsDKNQ6vNHy3ngLxly8n509kLTvOhHWeq6kxvoFZW5Z8ayfyN4sjxp4Q==
-Date:   Thu, 1 Sep 2022 17:03:17 +0200
-From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-        linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Samuel Holland <samuel@sholland.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Hans Verkuil <hans.verkuil@cisco.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH v6 1/6] dt-bindings: media: Add Allwinner A31 ISP
- bindings documentation
-Message-ID: <YxDJtYgW/NYLw77u@aptenodytes>
-References: <20220826184144.605605-1-paul.kocialkowski@bootlin.com>
- <20220826184144.605605-2-paul.kocialkowski@bootlin.com>
- <Ywk3W6pTOOlzLYVn@pendragon.ideasonboard.com>
+        with ESMTP id S233923AbiIAPI4 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 1 Sep 2022 11:08:56 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5683884ED8
+        for <linux-media@vger.kernel.org>; Thu,  1 Sep 2022 08:08:54 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id DBEEFB82793
+        for <linux-media@vger.kernel.org>; Thu,  1 Sep 2022 15:08:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 43171C433D6;
+        Thu,  1 Sep 2022 15:08:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1662044931;
+        bh=TWmyedFoOiNPeCFn4RiR91e2o+XyPv30sdPDdn7MWFE=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=NOYiGJ55NQJ+8cvqR93q5Mo6Wly8uvtGl+7GQQBjqWDHj1E24AsvoK7PlLZyJkwJ9
+         1Sgbq8jk4rN92Kh//E2GW+TUZP86L9m+Cnb3SdHs0NGypGCRMG8t4bFqTqvSjnZl1X
+         Kc78LRxEdsX8MLgBS9oa1MShNUDF46X0F7DTtdXz5kOmQ+K4vfv1HX4B4LJ7S5sMX/
+         VZZSbUX3CThHdFawqvYVlpftfZjmJU5HXLANOhfUcw7u2hYCf3XUfIqOZYMJSsX+Sz
+         I7vIpklK8gHRqIfvvkMNVD4m+b++2RI9t4p9rbG9OwHXgFDwuTLqFoVZE2hEDdUKRe
+         lUfafOtzWfcEA==
+Date:   Thu, 1 Sep 2022 17:08:46 +0200
+From:   Mauro Carvalho Chehab <mchehab@kernel.org>
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Tsuchiya Yuto <kitakar@gmail.com>,
+        Andy Shevchenko <andy@kernel.org>,
+        Yury Luneff <yury.lunev@gmail.com>,
+        Nable <nable.maininbox@googlemail.com>,
+        andrey.i.trufanov@gmail.com, Fabio Aiuto <fabioaiuto83@gmail.com>,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH 00/14] media: atomisp: More cleanups / code removal
+Message-ID: <20220901170846.0fe20bf4@coco.lan>
+In-Reply-To: <20220901094626.11513-1-hdegoede@redhat.com>
+References: <20220901094626.11513-1-hdegoede@redhat.com>
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="G/X/1fL20N7fVp/v"
-Content-Disposition: inline
-In-Reply-To: <Ywk3W6pTOOlzLYVn@pendragon.ideasonboard.com>
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Em Thu,  1 Sep 2022 11:46:12 +0200
+Hans de Goede <hdegoede@redhat.com> escreveu:
 
---G/X/1fL20N7fVp/v
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> Hi Mauro,
+> 
+> Here is a second set of atomisp cleanups / code removal.
+> This applies on top of my previous v2 series from here:
+> https://lore.kernel.org/linux-media/20220822150610.45186-1-hdegoede@redhat.com/
+> 
+> I plan to do more atomisp work the coming few weeks. So I'm thinking
+> it might be better / easier for you if I just send you a pull-req based
+> on 6.0-rc1 with all atomisp patches bundled around rc5/rc6 time.
+> 
+> Would that work for you ?
 
-Hi Laurent,
+Yes, that works for me. I'm actually proritizing PRs over normal patches
+from media maintainers. As you're doing most of work on it, I can
+start picking PRs from you related to atomisp.
 
-On Sat 27 Aug 22, 00:12, Laurent Pinchart wrote:
-> Hi Paul,
->=20
-> Thank you for the patch.
+This will help to speedup merging atomisp patches, as I usually pick
+PRs once per week.
 
-Thanks for the review!
+> 
+> I do plan to keep sending out (incremental) patch-sets with my work
+> (like this one) for review / comments.
 
-> On Fri, Aug 26, 2022 at 08:41:39PM +0200, Paul Kocialkowski wrote:
-> > This introduces YAML bindings documentation for the Allwinner A31 Image
-> > Signal Processor (ISP).
-> >=20
-> > Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> > Reviewed-by: Rob Herring <robh@kernel.org>
-> > ---
-> >  .../media/allwinner,sun6i-a31-isp.yaml        | 97 +++++++++++++++++++
-> >  1 file changed, 97 insertions(+)
-> >  create mode 100644 Documentation/devicetree/bindings/media/allwinner,s=
-un6i-a31-isp.yaml
-> >=20
-> > diff --git a/Documentation/devicetree/bindings/media/allwinner,sun6i-a3=
-1-isp.yaml b/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-is=
-p.yaml
-> > new file mode 100644
-> > index 000000000000..2fda6e05e16c
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-isp.y=
-aml
-> > @@ -0,0 +1,97 @@
-> > +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/media/allwinner,sun6i-a31-isp.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: Allwinner A31 Image Signal Processor Driver (ISP) Device Tree B=
-indings
-> > +
-> > +maintainers:
-> > +  - Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> > +
-> > +properties:
-> > +  compatible:
-> > +    enum:
-> > +      - allwinner,sun6i-a31-isp
-> > +      - allwinner,sun8i-v3s-isp
-> > +
-> > +  reg:
-> > +    maxItems: 1
-> > +
-> > +  interrupts:
-> > +    maxItems: 1
-> > +
-> > +  clocks:
-> > +    items:
-> > +      - description: Bus Clock
-> > +      - description: Module Clock
-> > +      - description: DRAM Clock
-> > +
-> > +  clock-names:
-> > +    items:
-> > +      - const: bus
-> > +      - const: mod
-> > +      - const: ram
-> > +
-> > +  resets:
-> > +    maxItems: 1
-> > +
-> > +  ports:
-> > +    $ref: /schemas/graph.yaml#/properties/ports
-> > +
-> > +    properties:
-> > +      port@0:
-> > +        $ref: /schemas/graph.yaml#/properties/port
-> > +        description: CSI0 input port
-> > +
-> > +      port@1:
-> > +        $ref: /schemas/graph.yaml#/properties/port
-> > +        description: CSI1 input port
-> > +
-> > +    anyOf:
-> > +      - required:
-> > +          - port@0
-> > +      - required:
-> > +          - port@1
->=20
-> I'd still like to see all ports that exist in the hardware being
-> mandatory. I assume at least one of the A31 and V3s has two connected
-> ports in the SoC or you wouldn't declare them both here :-)
-
-Some SoCs (e.g. A83T) only have one CSI controller so we can't require both.
-This could be a decision based on the compatible but my personal opinion is
-that it's not really worth making this binding so complex.
-
-We can always informally enforce that all possible links should be present
-when merging changes to the soc dts.
-
-What do you think?
-
-Paul
-
-> Apart from that, this looks good.
->=20
-> > +
-> > +required:
-> > +  - compatible
-> > +  - reg
-> > +  - interrupts
-> > +  - clocks
-> > +  - clock-names
-> > +  - resets
-> > +
-> > +additionalProperties: false
-> > +
-> > +examples:
-> > +  - |
-> > +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> > +    #include <dt-bindings/clock/sun8i-v3s-ccu.h>
-> > +    #include <dt-bindings/reset/sun8i-v3s-ccu.h>
-> > +
-> > +    isp: isp@1cb8000 {
-> > +        compatible =3D "allwinner,sun8i-v3s-isp";
-> > +        reg =3D <0x01cb8000 0x1000>;
-> > +        interrupts =3D <GIC_SPI 83 IRQ_TYPE_LEVEL_HIGH>;
-> > +        clocks =3D <&ccu CLK_BUS_CSI>,
-> > +             <&ccu CLK_CSI1_SCLK>,
-> > +             <&ccu CLK_DRAM_CSI>;
-> > +        clock-names =3D "bus", "mod", "ram";
-> > +        resets =3D <&ccu RST_BUS_CSI>;
-> > +
-> > +        ports {
-> > +            #address-cells =3D <1>;
-> > +            #size-cells =3D <0>;
-> > +
-> > +            port@0 {
-> > +                reg =3D <0>;
-> > +
-> > +                isp_in_csi0: endpoint {
-> > +                    remote-endpoint =3D <&csi0_out_isp>;
-> > +                };
-> > +            };
-> > +        };
-> > +    };
-> > +
-> > +...
->=20
-> --=20
+Perfect.
+> 
 > Regards,
->=20
-> Laurent Pinchart
+> 
+> Hans
+> 
+> 
+> Dan Carpenter (1):
+>   media: atomisp: prevent integer overflow in sh_css_set_black_frame()
+> 
+> Hans de Goede (13):
+>   media: atomisp: Fix device_caps reporting of the registered video-devs
+>   media: atomisp: Remove file-injection support
+>   media: atomisp: Remove atomisp_file_fops and atomisp_file_ioctl_ops
+>   media: atomisp: Remove the outq videobuf queue
+>   media: atomisp: Remove never set file_input flag
+>   media: atomisp: Remove the ACC device node
+>   media: atomisp: Remove some further ATOMISP_ACC_* related dead code
+>   media: atomisp: Remove empty atomisp_css_set_cont_prev_start_time()
+>     function
+>   media: atomisp: Split subdev and video-node registration into 2 steps
+>   media: atomisp: Register /dev/* nodes at the end of
+>     atomisp_pci_probe()
+>   media: atomisp: Remove loading mutex
+>   media: atomisp: Fix v4l2_fh resource leak on open errors
+>   media: atomisp: Simplify v4l2_fh_open() error handling
+> 
+>  drivers/staging/media/atomisp/Makefile        |   1 -
+>  .../media/atomisp/include/linux/atomisp.h     |  14 --
+>  .../staging/media/atomisp/pci/atomisp_cmd.c   | 134 +---------
+>  .../staging/media/atomisp/pci/atomisp_cmd.h   |   2 -
+>  .../media/atomisp/pci/atomisp_compat.h        |   6 -
+>  .../media/atomisp/pci/atomisp_compat_css20.c  |  26 --
+>  .../staging/media/atomisp/pci/atomisp_file.c  | 229 ------------------
+>  .../staging/media/atomisp/pci/atomisp_file.h  |  44 ----
+>  .../staging/media/atomisp/pci/atomisp_fops.c  | 187 ++------------
+>  .../media/atomisp/pci/atomisp_internal.h      |  16 +-
+>  .../staging/media/atomisp/pci/atomisp_ioctl.c | 192 ++-------------
+>  .../staging/media/atomisp/pci/atomisp_ioctl.h |   4 -
+>  .../media/atomisp/pci/atomisp_subdev.c        |  95 ++------
+>  .../media/atomisp/pci/atomisp_subdev.h        |  47 +---
+>  .../staging/media/atomisp/pci/atomisp_v4l2.c  |  99 +++-----
+>  .../staging/media/atomisp/pci/atomisp_v4l2.h  |   3 -
+>  .../staging/media/atomisp/pci/sh_css_params.c |   4 +-
+>  17 files changed, 104 insertions(+), 999 deletions(-)
+>  delete mode 100644 drivers/staging/media/atomisp/pci/atomisp_file.c
+>  delete mode 100644 drivers/staging/media/atomisp/pci/atomisp_file.h
+> 
 
---=20
-Paul Kocialkowski, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
 
---G/X/1fL20N7fVp/v
-Content-Type: application/pgp-signature; name="signature.asc"
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmMQybUACgkQ3cLmz3+f
-v9FY1Qf+MjlIt9ACVEy5fR7m2aNXvgztFaDP7rND1ypJ61HVqYq5bNCR35e0/rKW
-AgN9KbDyvtNRjocFEb9kB/ueg/GF1trZ5hPPoE26sRl/ZeSveWYWAFw1JKONZPxa
-j/+CMQbp1JKd6VTvY+T42hp/4TIQ55q9Km4xGsH3uFeQFXWVDTBRJ/KIpmq1bumJ
-3CohtIp1XziiuKvW+GwF//VTvbqLP4OnPi2/AOpsKTtgmZu3heW5ykMRPsxkQf2D
-Vf3TA/wnv9ehWz98Uxl/d5Sv1YZCJEXWMUeqjOV1ao7vKVcfQ+zJnF4CnJL+3cdy
-rk4gNANwhYFpIY8Aip6d8rwnEwkVuQ==
-=YcBa
------END PGP SIGNATURE-----
-
---G/X/1fL20N7fVp/v--
+Thanks,
+Mauro
