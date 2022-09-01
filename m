@@ -2,41 +2,41 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0158E5A9384
+	by mail.lfdr.de (Postfix) with ESMTP id 9427A5A9386
 	for <lists+linux-media@lfdr.de>; Thu,  1 Sep 2022 11:47:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233654AbiIAJrO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 1 Sep 2022 05:47:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44896 "EHLO
+        id S233921AbiIAJrQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 1 Sep 2022 05:47:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44918 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233841AbiIAJrN (ORCPT
+        with ESMTP id S233864AbiIAJrN (ORCPT
         <rfc822;linux-media@vger.kernel.org>); Thu, 1 Sep 2022 05:47:13 -0400
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C41D610DE54
-        for <linux-media@vger.kernel.org>; Thu,  1 Sep 2022 02:47:11 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 889181321C0
+        for <linux-media@vger.kernel.org>; Thu,  1 Sep 2022 02:47:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1662025630;
+        s=mimecast20190719; t=1662025631;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=rdtZVxlT3hp9bRp1Lwp3vDkwIqYzZmT+LwA5w26YxXA=;
-        b=ajW8ERTict+fEOQBRKMbaJ++9Yg3L39OAkGpoDmo7JBWA8rRSlKM3Z+IIM2g4EKrN7YWdE
-        R5gaYQ2TaSKvWapmjkiapgaPsAqxf1bPdtmQLcudv3C3uhtihsdwgKHPRliQ7EeSp8aNmd
-        LvQQwnFkNqBGvYzpCsNPyw1q/hNs180=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+        bh=I0rfbkSmizgr6psOrdFPtmaKUUBAt+oDMxTM54MoYWs=;
+        b=PdT8CNXbF3nsPk/N/M3ps4c8/p97c5kx1PdY7PRqb8UqjMP3UoUCcXw5va59mZXS6DvS9f
+        DL3Div+rWRYnztWO0u9q8fVyMywwvW+1fiSUNAmncowqabOnHWLhM7naJ9oSd3Jv0sj7wP
+        Kvr6BaEFIP4ntixIuONFISzYHTSKA4g=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-451-3jYyVia8ONOV6vnAZLRqKA-1; Thu, 01 Sep 2022 05:47:06 -0400
-X-MC-Unique: 3jYyVia8ONOV6vnAZLRqKA-1
+ us-mta-339-2g3p_K4bMNKLuSXFVpTgJQ-1; Thu, 01 Sep 2022 05:47:07 -0400
+X-MC-Unique: 2g3p_K4bMNKLuSXFVpTgJQ-1
 Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com [10.11.54.10])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 69F1298D3A4;
-        Thu,  1 Sep 2022 09:46:53 +0000 (UTC)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 32A24280CF31;
+        Thu,  1 Sep 2022 09:46:55 +0000 (UTC)
 Received: from localhost.localdomain (unknown [10.39.195.90])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id F01294A927E;
-        Thu,  1 Sep 2022 09:46:51 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 9C911403350;
+        Thu,  1 Sep 2022 09:46:53 +0000 (UTC)
 From:   Hans de Goede <hdegoede@redhat.com>
 To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Sakari Ailus <sakari.ailus@linux.intel.com>
@@ -47,9 +47,9 @@ Cc:     Hans de Goede <hdegoede@redhat.com>,
         Nable <nable.maininbox@googlemail.com>,
         andrey.i.trufanov@gmail.com, Fabio Aiuto <fabioaiuto83@gmail.com>,
         linux-media@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: [PATCH 09/14] media: atomisp: Split subdev and video-node registration into 2 steps
-Date:   Thu,  1 Sep 2022 11:46:21 +0200
-Message-Id: <20220901094626.11513-10-hdegoede@redhat.com>
+Subject: [PATCH 10/14] media: atomisp: Register /dev/* nodes at the end of atomisp_pci_probe()
+Date:   Thu,  1 Sep 2022 11:46:22 +0200
+Message-Id: <20220901094626.11513-11-hdegoede@redhat.com>
 In-Reply-To: <20220901094626.11513-1-hdegoede@redhat.com>
 References: <20220901094626.11513-1-hdegoede@redhat.com>
 MIME-Version: 1.0
@@ -65,83 +65,97 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Split subdev and video-node registration into 2 steps, this is
-a preparation step for moving video-node registration to the
-end of probe() so that the loading() mutex can be removed.
+Register /dev/* nodes at the end of atomisp_pci_probe(), this is
+a prerequisite for dropping the loading mutex + ready flag kludge
+for delaying open() calls on the /dev/* nodes .
 
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- .../staging/media/atomisp/pci/atomisp_subdev.c   | 16 ++++++++--------
- .../staging/media/atomisp/pci/atomisp_subdev.h   |  6 ++++--
- drivers/staging/media/atomisp/pci/atomisp_v4l2.c |  4 +++-
- 3 files changed, 15 insertions(+), 11 deletions(-)
+ .../staging/media/atomisp/pci/atomisp_v4l2.c  | 40 +++++++++++++------
+ 1 file changed, 28 insertions(+), 12 deletions(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_subdev.c b/drivers/staging/media/atomisp/pci/atomisp_subdev.c
-index 5e66d6a69556..047e2e9d63d7 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_subdev.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_subdev.c
-@@ -1281,8 +1281,14 @@ void atomisp_subdev_unregister_entities(struct atomisp_sub_device *asd)
- 	atomisp_video_unregister(&asd->video_out_video_capture);
- }
- 
--int atomisp_subdev_register_entities(struct atomisp_sub_device *asd,
--				     struct v4l2_device *vdev)
-+int atomisp_subdev_register_subdev(struct atomisp_sub_device *asd,
-+				   struct v4l2_device *vdev)
-+{
-+	return v4l2_device_register_subdev(vdev, &asd->subdev);
-+}
-+
-+int atomisp_subdev_register_video_nodes(struct atomisp_sub_device *asd,
-+					struct v4l2_device *vdev)
- {
- 	int ret;
- 
-@@ -1291,12 +1297,6 @@ int atomisp_subdev_register_entities(struct atomisp_sub_device *asd,
- 	 * Should any of those use V4L2_CAP_META_CAPTURE? Probably yes.
- 	 */
- 
--	/* Register the subdev and video node. */
--
--	ret = v4l2_device_register_subdev(vdev, &asd->subdev);
--	if (ret < 0)
--		goto error;
--
- 	asd->video_out_preview.vdev.v4l2_dev = vdev;
- 	asd->video_out_preview.vdev.device_caps = V4L2_CAP_VIDEO_CAPTURE | V4L2_CAP_STREAMING;
- 	ret = video_register_device(&asd->video_out_preview.vdev,
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_subdev.h b/drivers/staging/media/atomisp/pci/atomisp_subdev.h
-index d1a9857e5d68..d8b2dd00a792 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_subdev.h
-+++ b/drivers/staging/media/atomisp/pci/atomisp_subdev.h
-@@ -417,8 +417,10 @@ int atomisp_update_run_mode(struct atomisp_sub_device *asd);
- void atomisp_subdev_cleanup_pending_events(struct atomisp_sub_device *asd);
- 
- void atomisp_subdev_unregister_entities(struct atomisp_sub_device *asd);
--int atomisp_subdev_register_entities(struct atomisp_sub_device *asd,
--				     struct v4l2_device *vdev);
-+int atomisp_subdev_register_subdev(struct atomisp_sub_device *asd,
-+				   struct v4l2_device *vdev);
-+int atomisp_subdev_register_video_nodes(struct atomisp_sub_device *asd,
-+					struct v4l2_device *vdev);
- int atomisp_subdev_init(struct atomisp_device *isp);
- void atomisp_subdev_cleanup(struct atomisp_device *isp);
- int atomisp_create_pads_links(struct atomisp_device *isp);
 diff --git a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
-index bb48c74c0c07..9a1eae1ba8c0 100644
+index 9a1eae1ba8c0..f819a6993e45 100644
 --- a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
 +++ b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
-@@ -1193,7 +1193,9 @@ static int atomisp_register_entities(struct atomisp_device *isp)
- 	for (i = 0; i < isp->num_of_streams; i++) {
+@@ -1194,11 +1194,8 @@ static int atomisp_register_entities(struct atomisp_device *isp)
  		struct atomisp_sub_device *asd = &isp->asd[i];
  
--		ret = atomisp_subdev_register_entities(asd, &isp->v4l2_dev);
-+		ret = atomisp_subdev_register_subdev(asd, &isp->v4l2_dev);
-+		if (ret == 0)
-+			ret = atomisp_subdev_register_video_nodes(asd, &isp->v4l2_dev);
+ 		ret = atomisp_subdev_register_subdev(asd, &isp->v4l2_dev);
+-		if (ret == 0)
+-			ret = atomisp_subdev_register_video_nodes(asd, &isp->v4l2_dev);
  		if (ret < 0) {
- 			dev_err(isp->dev,
- 				"atomisp_subdev_register_entities fail\n");
+-			dev_err(isp->dev,
+-				"atomisp_subdev_register_entities fail\n");
++			dev_err(isp->dev, "atomisp_subdev_register_subdev fail\n");
+ 			for (; i > 0; i--)
+ 				atomisp_subdev_unregister_entities(
+ 				    &isp->asd[i - 1]);
+@@ -1248,11 +1245,7 @@ static int atomisp_register_entities(struct atomisp_device *isp)
+ 		dev_warn(isp->dev, "too many atomisp inputs, TPG ignored.\n");
+ 	}
+ 
+-	ret = v4l2_device_register_subdev_nodes(&isp->v4l2_dev);
+-	if (ret < 0)
+-		goto link_failed;
+-
+-	return media_device_register(&isp->media_dev);
++	return 0;
+ 
+ link_failed:
+ 	for (i = 0; i < isp->num_of_streams; i++)
+@@ -1275,6 +1268,27 @@ static int atomisp_register_entities(struct atomisp_device *isp)
+ 	return ret;
+ }
+ 
++static int atomisp_register_device_nodes(struct atomisp_device *isp)
++{
++	int i, err;
++
++	for (i = 0; i < isp->num_of_streams; i++) {
++		err = atomisp_subdev_register_video_nodes(&isp->asd[i], &isp->v4l2_dev);
++		if (err)
++			return err;
++	}
++
++	err = atomisp_create_pads_links(isp);
++	if (err)
++		return err;
++
++	err = v4l2_device_register_subdev_nodes(&isp->v4l2_dev);
++	if (err)
++		return err;
++
++	return media_device_register(&isp->media_dev);
++}
++
+ static int atomisp_initialize_modules(struct atomisp_device *isp)
+ {
+ 	int ret;
+@@ -1687,9 +1701,6 @@ static int atomisp_pci_probe(struct pci_dev *pdev, const struct pci_device_id *i
+ 		dev_err(&pdev->dev, "atomisp_register_entities failed (%d)\n", err);
+ 		goto register_entities_fail;
+ 	}
+-	err = atomisp_create_pads_links(isp);
+-	if (err < 0)
+-		goto register_entities_fail;
+ 	/* init atomisp wdts */
+ 	err = init_atomisp_wdts(isp);
+ 	if (err != 0)
+@@ -1727,8 +1738,13 @@ static int atomisp_pci_probe(struct pci_dev *pdev, const struct pci_device_id *i
+ 	isp->firmware = NULL;
+ 	isp->css_env.isp_css_fw.data = NULL;
+ 	isp->ready = true;
++
+ 	rt_mutex_unlock(&isp->loading);
+ 
++	err = atomisp_register_device_nodes(isp);
++	if (err)
++		goto css_init_fail;
++
+ 	atomisp_drvfs_init(isp);
+ 
+ 	return 0;
 -- 
 2.37.2
 
