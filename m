@@ -2,57 +2,46 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 948B25A8A82
-	for <lists+linux-media@lfdr.de>; Thu,  1 Sep 2022 03:20:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DB4665A8A8F
+	for <lists+linux-media@lfdr.de>; Thu,  1 Sep 2022 03:23:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232406AbiIABUR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 31 Aug 2022 21:20:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59130 "EHLO
+        id S232493AbiIABXP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 31 Aug 2022 21:23:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36648 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232178AbiIABUQ (ORCPT
+        with ESMTP id S232483AbiIABXO (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 31 Aug 2022 21:20:16 -0400
-Received: from smtpbg.qq.com (bg4.exmail.qq.com [43.155.67.158])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6EC8F2DAA4;
-        Wed, 31 Aug 2022 18:20:10 -0700 (PDT)
-X-QQ-mid: bizesmtp71t1661995206t3v7x6o2
+        Wed, 31 Aug 2022 21:23:14 -0400
+Received: from smtpbg.qq.com (bg4.exmail.qq.com [43.154.221.58])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED58214FC82;
+        Wed, 31 Aug 2022 18:23:08 -0700 (PDT)
+X-QQ-mid: bizesmtp86t1661995383tf6b7xma
 Received: from localhost.localdomain ( [182.148.14.80])
         by bizesmtp.qq.com (ESMTP) with 
-        id ; Thu, 01 Sep 2022 09:20:05 +0800 (CST)
+        id ; Thu, 01 Sep 2022 09:23:01 +0800 (CST)
 X-QQ-SSF: 01000000000000D0F000000A0000000
-X-QQ-FEAT: 4rCmCcmdMHfaY1WQWesDmjP4jvXA66jlw2+1CTnfx5ssoXmG6o5kmyrWaDmto
-        Ny6qgLaw2s0aaRdK0m3f5m0LWgRsZVZ5+4YhyfgtANlk+ES9p0ksz54jPtL0vvTbu6JJ8Zk
-        zJDYB1VlP0edJLEXlOwl4nxfS/DGAdZC4ArbkEW9oKcA1mkPSErvBuYpURv0NyfdPDg96G7
-        JtrIluaoYqtYGUdVZR0XfCcAIw/Gx5GsFA8F4laZ8VGG5Jc4YUSvAcsAQe2t94DqATD61tw
-        T70QBMs+nHmWQLwiI5MGQIF27DKnRnaJHfX/SIKUz8T77ujtWCowbHBqw+j8z4du4f4kvqY
-        pbezeCOQRDW4xbf6nLNmCRghNjcY1sPe96HJbfWo8Qnb7LMYlGqSS+/vhHPIg==
+X-QQ-FEAT: 9E3Ddn8eo0LQgNSXZVdgud8z0yQ0Cn35g1PJs2XVEc34sQusOu8mptrcaab57
+        r2TgtwvWyDLddhRh7bsRDIAyCRME8N0tkXEVREDX0053GLdLw5mszFVjj5knZkFY/PmppyA
+        u10RMrXxaXaOY9NdUUEmliGdY/Md1X07ZxGAoRO/8DNNw6Sza5x9Ywj/K7X+9PZTMjBM2fa
+        6F6kvP72AgJpVQHd/irmSzPSc36K8KUN9nYJ5vVRc6CPMRQkcg7e65plJw6aRivdAl/gd82
+        jY6uepBGCYmZXK5usF6nwCudXwZRk4C/cOqLara48DJvOrd9fCp6jjQXynehq/BEmsbxcJB
+        qfidrLyi6qDkiuU+uTQWifLB7Noqlt+WofNyRFoViQtbvwB90uiLTax4EcK/w==
 X-QQ-GoodBg: 0
 From:   Jilin Yuan <yuanjilin@cdjrlc.com>
 To:     tfiga@chromium.org, m.szyprowski@samsung.com, mchehab@kernel.org
 Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
         Jilin Yuan <yuanjilin@cdjrlc.com>
 Subject: [PATCH] media: videobuf2: Use 'unsigned int' instead of just 'unsigned'.
-Date:   Thu,  1 Sep 2022 09:19:58 +0800
-Message-Id: <20220901011958.26027-1-yuanjilin@cdjrlc.com>
+Date:   Thu,  1 Sep 2022 09:22:55 +0800
+Message-Id: <20220901012255.26586-1-yuanjilin@cdjrlc.com>
 X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-QQ-SENDSIZE: 520
 Feedback-ID: bizesmtp:cdjrlc.com:qybglogicsvr:qybglogicsvr4
-X-Spam-Status: Yes, score=5.1 required=5.0 tests=BAYES_00,RCVD_IN_PBL,
-        RCVD_IN_SBL_CSS,RCVD_IN_XBL,SPF_PASS,T_SCC_BODY_TEXT_LINE,
-        T_SPF_HELO_TEMPERROR autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Report: *  3.3 RCVD_IN_SBL_CSS RBL: Received via a relay in Spamhaus SBL-CSS
-        *      [43.155.67.158 listed in zen.spamhaus.org]
-        *  0.4 RCVD_IN_XBL RBL: Received via a relay in Spamhaus XBL
-        *  3.3 RCVD_IN_PBL RBL: Received via a relay in Spamhaus PBL
-        * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
-        *      [score: 0.0000]
-        * -0.0 SPF_PASS SPF: sender matches SPF record
-        *  0.0 T_SPF_HELO_TEMPERROR SPF: test of HELO record failed
-        *      (temperror)
-        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
-X-Spam-Level: *****
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_MSPIKE_H2,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,T_SPF_HELO_TEMPERROR autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -63,28 +52,42 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 Signed-off-by: Jilin Yuan <yuanjilin@cdjrlc.com>
 ---
- drivers/media/common/videobuf2/videobuf2-v4l2.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/media/common/videobuf2/videobuf2-core.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/media/common/videobuf2/videobuf2-v4l2.c b/drivers/media/common/videobuf2/videobuf2-v4l2.c
-index f26cb8586bd4..2e1adf88aa55 100644
---- a/drivers/media/common/videobuf2/videobuf2-v4l2.c
-+++ b/drivers/media/common/videobuf2/videobuf2-v4l2.c
-@@ -754,11 +754,11 @@ EXPORT_SYMBOL_GPL(vb2_prepare_buf);
+diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
+index b203c1e26353..abfd84173df6 100644
+--- a/drivers/media/common/videobuf2/videobuf2-core.c
++++ b/drivers/media/common/videobuf2/videobuf2-core.c
+@@ -1590,7 +1590,7 @@ static int vb2_start_streaming(struct vb2_queue *q)
+ 	 * should be returned to vb2 in start_streaming().
+ 	 */
+ 	if (WARN_ON(atomic_read(&q->owned_by_drv_count))) {
+-		unsigned i;
++		unsigned int i;
  
- int vb2_create_bufs(struct vb2_queue *q, struct v4l2_create_buffers *create)
- {
--	unsigned requested_planes = 1;
--	unsigned requested_sizes[VIDEO_MAX_PLANES];
-+	unsigned int requested_planes = 1;
-+	unsigned int requested_sizes[VIDEO_MAX_PLANES];
- 	struct v4l2_format *f = &create->format;
- 	int ret = vb2_verify_memory_type(q, create->memory, f->type);
--	unsigned i;
-+	unsigned int i;
+ 		/*
+ 		 * Forcefully reclaim buffers if the driver did not
+@@ -2738,7 +2738,7 @@ static size_t __vb2_perform_fileio(struct vb2_queue *q, char __user *data, size_
+ 	 * else is able to provide this information with the write() operation.
+ 	 */
+ 	bool copy_timestamp = !read && q->copy_timestamp;
+-	unsigned index;
++	unsigned int index;
+ 	int ret;
  
- 	fill_buf_caps(q, &create->capabilities);
- 	validate_memory_flags(q, create->memory, &create->flags);
+ 	dprintk(q, 3, "mode %s, offset %ld, count %zd, %sblocking\n",
+@@ -2914,8 +2914,8 @@ static int vb2_thread(void *data)
+ 	struct vb2_queue *q = data;
+ 	struct vb2_threadio_data *threadio = q->threadio;
+ 	bool copy_timestamp = false;
+-	unsigned prequeue = 0;
+-	unsigned index = 0;
++	unsigned int prequeue = 0;
++	unsigned int index = 0;
+ 	int ret = 0;
+ 
+ 	if (q->is_output) {
 -- 
 2.36.1
 
