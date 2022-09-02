@@ -2,111 +2,162 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7D6DF5AAB39
-	for <lists+linux-media@lfdr.de>; Fri,  2 Sep 2022 11:17:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3698F5AAB71
+	for <lists+linux-media@lfdr.de>; Fri,  2 Sep 2022 11:31:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235909AbiIBJRu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 2 Sep 2022 05:17:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45160 "EHLO
+        id S234788AbiIBJbn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 2 Sep 2022 05:31:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46746 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236155AbiIBJRh (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 2 Sep 2022 05:17:37 -0400
-Received: from mail-qv1-xf30.google.com (mail-qv1-xf30.google.com [IPv6:2607:f8b0:4864:20::f30])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8AC87CB5E9
-        for <linux-media@vger.kernel.org>; Fri,  2 Sep 2022 02:17:24 -0700 (PDT)
-Received: by mail-qv1-xf30.google.com with SMTP id kh8so993863qvb.1
-        for <linux-media@vger.kernel.org>; Fri, 02 Sep 2022 02:17:23 -0700 (PDT)
+        with ESMTP id S235376AbiIBJba (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 2 Sep 2022 05:31:30 -0400
+Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com [IPv6:2a00:1450:4864:20::434])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A4C97C04EE
+        for <linux-media@vger.kernel.org>; Fri,  2 Sep 2022 02:31:29 -0700 (PDT)
+Received: by mail-wr1-x434.google.com with SMTP id b5so1534048wrr.5
+        for <linux-media@vger.kernel.org>; Fri, 02 Sep 2022 02:31:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date;
-        bh=/CLXWmHJ6o9GzTXfwc4vxGDnhRk54atQzmIaN3qEtc0=;
-        b=aiIg2vwbq2lYIKYezPqVtu82cVFAflPM/AJvaecG7SjIjW47CEmtN0mKeB5FJVc8U+
-         0uoMOLVQPgdajPi3JXK8V1rfYJtEYN2lDMRPcHlczMX/9J92/CqVnDKG3Lc3GWe2W+SP
-         5sXhtTOVNCl0ol2KLiJtRCWSV3R+4/gZlYJNgLTrxPtHAB/33U2Toaq7X/bOaB0bdurA
-         cIu6aeOqDCX9j+ufN+tw6aWRdnmslF1YaRqCU+CF/wzBrN6Nm0it0R+EdvHx9Mcr9YkY
-         Y9/cu23Gc0oXEkGdnvSiskLRf03TUJS5kZuGc2amvVh6BWp0AwzvYADGZLhAVWaLfraN
-         UcPg==
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date;
+        bh=1gh2cH8+/vu9+O44Ntzb/QjlvRTOJYihF+Y3Qm1SXrI=;
+        b=EVe1TJlwgwENLq9wjko+3+iqmTNZUI3JPuYAT7OKSM+R/epnoMEDtd8xg6TmEMxWx3
+         w3tho74vxXAPjBSsm4lYFUcgCWErhh5+d3jcpk70E6Cl1y+e5y1R2FlOY66Rl8+JeCwL
+         W3nltWTUG/K5D5uJwaOIEe1GS28g32m2+6rHL+rUQ9SE6SLcEMA41Q+pdYi3o3e/Gse3
+         vkzFGeV6Fodjv9QezhLGwOjQYvAKxf+B1t8jpSLVlaAcYGHcSmHNtUS1CA4d+v2e/F68
+         XWkTUJ18yNVic8+Sr4F0TOACzpTFk8RLS58xwLJ8vLbq0MIzXXHOSVbDexp4Q4m4S3zf
+         Pupw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=/CLXWmHJ6o9GzTXfwc4vxGDnhRk54atQzmIaN3qEtc0=;
-        b=qfKKjyKGhdzqQrBRAAarR8tiRU2y9sDMvBIruCN+RVa8DnEuvvNc3XIMZfWcKb5c4V
-         n1ouQ3NFSwzFO8zfqTOo0/v5GWRP0a4jdfVBj4f+mNszfsBjWDUL48zhppxvlRF4Ycbu
-         BpCEZ4yGbMFfWPW0ot7caOOnYmsSmXv4yPLtc/bJKSJ+BRk4v4Glr2VfDsGkymtJ1Sp3
-         kikfzW9OD3ra8D92cYU1JsjZ9Pmft3QX3/XpA0p+CbHC3h9LeYRgysmeOSBOjjl9DVEX
-         At6BTMHn/N+LdYyN9lsfHQgNcbwD8gZ6iVTBFsbc6L29pl1f1Wr9QlSQZN9jyhA0xV/G
-         WdjA==
-X-Gm-Message-State: ACgBeo0pTzntDp9PFQxUIURjIBsM8OTU9a0Io98hfunckYDCjDlly2aL
-        lwVAbaNLMe7NWSC2lalH3klazSWWPYX/Q6MYTrU=
-X-Google-Smtp-Source: AA6agR6n+ip7Pg5zxgzqYVXK1CtYlEVqQcso0bP3IxjZNKJDKSmoWhcJyeToQ4D2ZC0zNjgaWXYWS5A2BMx4I4gcuEU=
-X-Received: by 2002:a05:6214:27ca:b0:499:95f:6379 with SMTP id
- ge10-20020a05621427ca00b00499095f6379mr18910465qvb.82.1662110240626; Fri, 02
- Sep 2022 02:17:20 -0700 (PDT)
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date;
+        bh=1gh2cH8+/vu9+O44Ntzb/QjlvRTOJYihF+Y3Qm1SXrI=;
+        b=QOEX5LmUtsoxwKP73cJ8FQpI3WVY8Sd/D/amjQmtBlCjPEbP2YofSGw1NMqPufL3G5
+         BRxSccC0kYuqcL9ZYTxDmnyerO3G5hsCoHLlxEjf5A2BF/vydXY4xTNUDJP5ZWU3xoC1
+         lNBqi6VKSPzTBVOtUbeWidU6H5lG9IVQUMXF5i+8LjIhru3yXl5CcJy4+kxYnIrfHU8V
+         56b4iGhLXfUr/DFTmscPHG1VbQzPLdGFYtDzT8fR/PKFHG8kuIwCOfBs8u2ppf1SKAAP
+         cseFObXXQN6ub6SRSuphmnnd051N/jGGGjPYQVwgGYILIuOCx5RsnqZQJgn+8NgzYkiI
+         HhQg==
+X-Gm-Message-State: ACgBeo08X5kMDKejUg6rAZd2iYDuSdWtN0xUn+L6uRHtKzg8RvQMScjX
+        X1RiQ7uCTQMoGywIVknVF//U2w==
+X-Google-Smtp-Source: AA6agR6YtQhQs9M+XpNrEr5ZjCr4K1ke8LjplN8/PGIGXMDtTqKLhIXAP+/GSYEqOabmcCpXMoNTwQ==
+X-Received: by 2002:a05:6000:184e:b0:226:e227:35e4 with SMTP id c14-20020a056000184e00b00226e22735e4mr10140437wri.624.1662111088131;
+        Fri, 02 Sep 2022 02:31:28 -0700 (PDT)
+Received: from [192.168.86.238] (cpc90716-aztw32-2-0-cust825.18-1.cable.virginm.net. [86.26.103.58])
+        by smtp.googlemail.com with ESMTPSA id d17-20020adffbd1000000b002253d865715sm1042629wrs.87.2022.09.02.02.31.25
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 02 Sep 2022 02:31:27 -0700 (PDT)
+Message-ID: <c2cd764e-ef70-4a7a-fe7d-aade5adb8057@linaro.org>
+Date:   Fri, 2 Sep 2022 10:31:24 +0100
 MIME-Version: 1.0
-References: <20220901094626.11513-1-hdegoede@redhat.com> <20220901094626.11513-11-hdegoede@redhat.com>
- <YxEOhy0YPnBuZiQs@smile.fi.intel.com> <ce0d2ec6-3ec7-9f9f-59f9-0bf2a6078c9c@redhat.com>
- <CAHp75Vf=_2yJdPvpkx2iYoYOPzxf6sNMBD4EizYc1WAnFMWYtg@mail.gmail.com>
-In-Reply-To: <CAHp75Vf=_2yJdPvpkx2iYoYOPzxf6sNMBD4EizYc1WAnFMWYtg@mail.gmail.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Fri, 2 Sep 2022 12:16:44 +0300
-Message-ID: <CAHp75Ve4hUKd4me8tgG+tc4sO4f5wyoLOFMrxH9iC1p2x=RS8Q@mail.gmail.com>
-Subject: Re: [PATCH 10/14] media: atomisp: Register /dev/* nodes at the end of atomisp_pci_probe()
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Andy Shevchenko <andriy.shevchenko@intel.com>,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v4 11/21] misc: fastrpc: Prepare to dynamic dma-buf
+ locking specification
+Content-Language: en-US
+To:     Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+        David Airlie <airlied@linux.ie>,
+        Gerd Hoffmann <kraxel@redhat.com>,
+        Gurchetan Singh <gurchetansingh@chromium.org>,
+        Chia-I Wu <olvaffe@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+        Daniel Almeida <daniel.almeida@collabora.com>,
+        Gert Wollny <gert.wollny@collabora.com>,
+        Gustavo Padovan <gustavo.padovan@collabora.com>,
+        Daniel Stone <daniel@fooishbar.org>,
+        Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Rob Clark <robdclark@gmail.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+        "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Tsuchiya Yuto <kitakar@gmail.com>,
-        Andy Shevchenko <andy@kernel.org>,
-        Yury Luneff <yury.lunev@gmail.com>,
-        Nable <nable.maininbox@googlemail.com>,
-        "andrey.i.trufanov" <andrey.i.trufanov@gmail.com>,
-        Fabio Aiuto <fabioaiuto83@gmail.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        linux-staging@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+        Alex Deucher <alexander.deucher@amd.com>,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+        =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas_os@shipmail.org>,
+        Qiang Yu <yuq825@gmail.com>,
+        Amol Maheshwari <amahesh@qti.qualcomm.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Leon Romanovsky <leon@kernel.org>,
+        Juergen Gross <jgross@suse.com>,
+        Stefano Stabellini <sstabellini@kernel.org>,
+        Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>,
+        Tomi Valkeinen <tomba@kernel.org>,
+        Russell King <linux@armlinux.org.uk>,
+        Lucas Stach <l.stach@pengutronix.de>,
+        Christian Gmeiner <christian.gmeiner@gmail.com>
+Cc:     dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+        Dmitry Osipenko <digetx@gmail.com>,
+        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+        amd-gfx@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+        kernel@collabora.com, virtualization@lists.linux-foundation.org,
+        linux-rdma@vger.kernel.org, linux-arm-msm@vger.kernel.org
+References: <20220831153757.97381-1-dmitry.osipenko@collabora.com>
+ <20220831153757.97381-12-dmitry.osipenko@collabora.com>
+From:   Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+In-Reply-To: <20220831153757.97381-12-dmitry.osipenko@collabora.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Sep 2, 2022 at 12:10 PM Andy Shevchenko
-<andy.shevchenko@gmail.com> wrote:
-> On Fri, Sep 2, 2022 at 12:04 PM Hans de Goede <hdegoede@redhat.com> wrote:
-> > On 9/1/22 21:56, Andy Shevchenko wrote:
-> > > On Thu, Sep 01, 2022 at 11:46:22AM +0200, Hans de Goede wrote:
->
-> ...
->
-> > >>                      for (; i > 0; i--)
-> > >>                              atomisp_subdev_unregister_entities(
-> > >>                                  &isp->asd[i - 1]);
-> > >
-> > > This...
-> >
-> > I presume you mean the few lines above that actually:
->
-> No, I cited a not modified code in the upper part. That said, it's a
-> remark for further improvements, but a helper can be introduced in
-> this patch due to the below part.
->
-> > >> +    for (i = 0; i < isp->num_of_streams; i++) {
-> > >> +            err = atomisp_subdev_register_video_nodes(&isp->asd[i], &isp->v4l2_dev);
-> > >> +            if (err)
-> > >> +                    return err;
-> > >> +    }
-> > >
-> > > ...and this looks like a dup.
 
-Pushed "enter" too early to send.
-But with your explanation I see the difference now.
 
--- 
-With Best Regards,
-Andy Shevchenko
+On 31/08/2022 16:37, Dmitry Osipenko wrote:
+> Prepare fastrpc to the common dynamic dma-buf locking convention by
+> starting to use the unlocked versions of dma-buf API functions.
+> 
+> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+> ---
+
+LGTM,
+
+Incase you plan to take it via another tree.
+
+Acked-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+
+
+--srini
+>   drivers/misc/fastrpc.c | 6 +++---
+>   1 file changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/misc/fastrpc.c b/drivers/misc/fastrpc.c
+> index 93ebd174d848..6fcfb2e9f7a7 100644
+> --- a/drivers/misc/fastrpc.c
+> +++ b/drivers/misc/fastrpc.c
+> @@ -310,8 +310,8 @@ static void fastrpc_free_map(struct kref *ref)
+>   				return;
+>   			}
+>   		}
+> -		dma_buf_unmap_attachment(map->attach, map->table,
+> -					 DMA_BIDIRECTIONAL);
+> +		dma_buf_unmap_attachment_unlocked(map->attach, map->table,
+> +						  DMA_BIDIRECTIONAL);
+>   		dma_buf_detach(map->buf, map->attach);
+>   		dma_buf_put(map->buf);
+>   	}
+> @@ -726,7 +726,7 @@ static int fastrpc_map_create(struct fastrpc_user *fl, int fd,
+>   		goto attach_err;
+>   	}
+>   
+> -	map->table = dma_buf_map_attachment(map->attach, DMA_BIDIRECTIONAL);
+> +	map->table = dma_buf_map_attachment_unlocked(map->attach, DMA_BIDIRECTIONAL);
+>   	if (IS_ERR(map->table)) {
+>   		err = PTR_ERR(map->table);
+>   		goto map_err;
