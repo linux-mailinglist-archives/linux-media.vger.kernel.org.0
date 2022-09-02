@@ -2,54 +2,56 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 85E375AAAF3
-	for <lists+linux-media@lfdr.de>; Fri,  2 Sep 2022 11:10:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E5A445AAAF8
+	for <lists+linux-media@lfdr.de>; Fri,  2 Sep 2022 11:11:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235282AbiIBJKw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 2 Sep 2022 05:10:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57382 "EHLO
+        id S235491AbiIBJLa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 2 Sep 2022 05:11:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58256 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234776AbiIBJKu (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 2 Sep 2022 05:10:50 -0400
+        with ESMTP id S234836AbiIBJL3 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 2 Sep 2022 05:11:29 -0400
 Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7AFA65F132;
-        Fri,  2 Sep 2022 02:10:49 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7AFDE2ED72;
+        Fri,  2 Sep 2022 02:11:28 -0700 (PDT)
 Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
         (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
          key-exchange X25519 server-signature RSA-PSS (4096 bits))
         (No client certificate requested)
         (Authenticated sender: kholk11)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 6D44A6601F04;
-        Fri,  2 Sep 2022 10:10:47 +0100 (BST)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id D900C6601F04;
+        Fri,  2 Sep 2022 10:11:26 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1662109848;
-        bh=lDJ9dZRK9MgMljtZl2+U/+k0zbMoLNgyT3MdX+UUElE=;
+        s=mail; t=1662109887;
+        bh=EbLnAfL1q9nzyDgYiKgpj5/yjDssEj9usoV+zglURE8=;
         h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=RYKJ4rmIkBKJ2y0peq0CDqlputlhNbpNUSAKuCxM7tyuMEXWz+AGEpEBpoM5phane
-         QFy/faz1o2AOPz1NFQUJ5SoEniZizj5rdVd4mKszXzBVyfTp8Ii66PaGz+PLitkYbq
-         qepVJTYeMLNzmt9du+amJeji8HPfRRbqxzmBUyCCAmIXlMKn2Xu5Rshk5jWrL0u/UM
-         KL7gmOO3ZBvBWW6BAdDXffcWb2QYrftkEsVFwUBlw1t6vNzgm1o8OeJCHIG0dg6Yjn
-         GMlZP7KHhyQwUuggnacXvBLtUqtv5j2Gqsv1sMhPMqQQHazBF9+HqrNfplYNLr1hUS
-         qtbyY6gdjJCNA==
-Message-ID: <ee6221e1-8ce6-9fe0-6094-1cd156fdaae3@collabora.com>
-Date:   Fri, 2 Sep 2022 11:10:45 +0200
+        b=BjtAHi8p+pCwYDqqOIb1c2oBBuYVhEhBeMbpVvslsKBeMnrMrgQfL9R2+tCX8eYbw
+         CEfOkM+JrfKdmKY+jekkXLfZAQC1YCeEDE7cKxMkqmbGVr6DWJA96QUr12S9t0NMbZ
+         W43NyW0VUw94dcYIxNR4dJdq2EuIPLcqlc2QAFhuZ/VVpAJmY7Xh6j8Yafdcx0UZ70
+         noDkRwm6F4Lrz2WIsz7FjFFbvOfCTkPAzuVW+vFTRBeM7tdYM5IK9L53zRcsAVzT6s
+         a5fKV85IBBOZCTIIiEyR473aYVfvKkr3ors/J6YlElP/+muP9F+F8qBIaruyTMjpt4
+         VDtqaIdcDnsbQ==
+Message-ID: <bd4a91ec-33fa-aa95-1845-8fd5ce70c176@collabora.com>
+Date:   Fri, 2 Sep 2022 11:11:24 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.2.0
-Subject: Re: [PATCH 3/3] media: platform: mtk-mdp3: fix error return code in
+Subject: Re: [PATCH] media: platform: mtk-mdp3: fix error code in
  mdp_vpu_dev_init()
 Content-Language: en-US
-To:     Sun Ke <sunke32@huawei.com>, mchehab@kernel.org,
-        matthias.bgg@gmail.com, hverkuil-cisco@xs4all.nl,
-        ping-hsun.wu@mediatek.com, daoyuan.huang@mediatek.com,
-        moudy.ho@mediatek.com
-Cc:     linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, kernel-janitors@vger.kernel.org
-References: <20220902085820.3777360-1-sunke32@huawei.com>
- <20220902085820.3777360-4-sunke32@huawei.com>
+To:     Dan Carpenter <dan.carpenter@oracle.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Moudy Ho <moudy.ho@mediatek.com>
+Cc:     Matthias Brugger <matthias.bgg@gmail.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        daoyuan huang <daoyuan.huang@mediatek.com>,
+        Ping-Hsun Wu <ping-hsun.wu@mediatek.com>,
+        linux-media@vger.kernel.org, linux-mediatek@lists.infradead.org,
+        kernel-janitors@vger.kernel.org
+References: <YxDGFMwyeNXFPaig@kili>
 From:   AngeloGioacchino Del Regno 
         <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20220902085820.3777360-4-sunke32@huawei.com>
+In-Reply-To: <YxDGFMwyeNXFPaig@kili>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -62,37 +64,12 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Il 02/09/22 10:58, Sun Ke ha scritto:
-> If mdp_vpu_shared_mem_alloc failed, mdp_vpu_dev_init should return -ENOMEM.
+Il 01/09/22 16:47, Dan Carpenter ha scritto:
+> Return a negative error code if mdp_vpu_shared_mem_alloc() fails.
 > 
 > Fixes: 61890ccaefaf ("media: platform: mtk-mdp3: add MediaTek MDP3 driver")
-> Signed-off-by: Sun Ke <sunke32@huawei.com>
+> Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-Hello Sun,
-thanks for the patch! However, someone else already sent the same fix and it's
-in a better shape. Please look at [1].
-
-Thanks,
-Angelo
-
-[1]: https://patchwork.kernel.org/project/linux-mediatek/patch/YxDGFMwyeNXFPaig@kili/
-
-> ---
->   drivers/media/platform/mediatek/mdp3/mtk-mdp3-vpu.c | 1 +
->   1 file changed, 1 insertion(+)
-> 
-> diff --git a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-vpu.c b/drivers/media/platform/mediatek/mdp3/mtk-mdp3-vpu.c
-> index 9f5844385c8f..078040b7f65e 100644
-> --- a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-vpu.c
-> +++ b/drivers/media/platform/mediatek/mdp3/mtk-mdp3-vpu.c
-> @@ -175,6 +175,7 @@ int mdp_vpu_dev_init(struct mdp_vpu_dev *vpu, struct mtk_scp *scp,
->   	mem_size = vpu_alloc_size;
->   	if (mdp_vpu_shared_mem_alloc(vpu)) {
->   		dev_err(&mdp->pdev->dev, "VPU memory alloc fail!");
-> +		err = -ENOMEM;
->   		goto err_mem_alloc;
->   	}
->   
-> 
+Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 
 
