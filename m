@@ -2,105 +2,97 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B9C715AAAF6
-	for <lists+linux-media@lfdr.de>; Fri,  2 Sep 2022 11:11:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 85E375AAAF3
+	for <lists+linux-media@lfdr.de>; Fri,  2 Sep 2022 11:10:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235504AbiIBJLR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 2 Sep 2022 05:11:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58068 "EHLO
+        id S235282AbiIBJKw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 2 Sep 2022 05:10:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57382 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235491AbiIBJLP (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 2 Sep 2022 05:11:15 -0400
-Received: from mail-qk1-x734.google.com (mail-qk1-x734.google.com [IPv6:2607:f8b0:4864:20::734])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8F6309752C
-        for <linux-media@vger.kernel.org>; Fri,  2 Sep 2022 02:11:14 -0700 (PDT)
-Received: by mail-qk1-x734.google.com with SMTP id a15so1242648qko.4
-        for <linux-media@vger.kernel.org>; Fri, 02 Sep 2022 02:11:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date;
-        bh=lEZBf5387b/IcGftjc6Ta+buddrM2qanjqr8oAzK+a4=;
-        b=NWjr6NGK1ZsB9Arf+R0br2abbPtWKmE9iEhd2LqJzb1wIvaD0TaMofWMFOKKZG/52G
-         TMEaH0/Rim8/8dnd6KlaffH9BXbFwqZl/lSKTogz5g7NdUO7khN8fbHRTxbGwUwcveDR
-         r3gUzjRVaJy8dawNeHOOu3fTYPYEmcWIGS1qXEE7A8kQOuMmlEe6jI+ypG0TokcIvd8I
-         5IX83jA6WoVZH86nbhmAOxSCUdZVl/Fx7VuJMD1w5osJwHwnRUk6BH9MC4rNmNMoOrBV
-         zHFF/5KKz4uZnUxWsl4+yM5KtIorpJMGGcFuFqpS3HZi+t5hSCYGf8EiVTwWLk1IQ903
-         d4tg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=lEZBf5387b/IcGftjc6Ta+buddrM2qanjqr8oAzK+a4=;
-        b=fcpGfcb8ltd1mz4TauEpqxt4gHmf0Blys6w+2dWRCizHQwWkIhRtATwwD0O3DcPQqO
-         AZVIRW93c4+RtYa9gKsbIBS4/ZwRcvsmtNSS5s1G/xCy1oOrkvVJR/zVGbkgX6/fwTXy
-         NqJHbi2EHFLmN8xl0b19/APUA1MlrofO7DzU2ten6EcVTMfXtKM7BOeoiF4ll3TkRslk
-         WVbgBHgtJrZVKQv2UZty2DW4lrWBX9vPGAqoW4fy5YvUknheZUqxmoOpyEpeQWDh0y8+
-         kp91PwCLpphufk8h0DxLyrmh1HQAwfgPiljaBjZBOxA1Wp6HdDkFDefldagoaNFt+U0i
-         nBpA==
-X-Gm-Message-State: ACgBeo023lij0jmQTR9cx6EWo5pfOhUWY/AjGlPenO8Gi61VvvTriXzE
-        jjdjjzzmBpQudTIlEn8WTy7qoBQ7JWrKfpwEjXM=
-X-Google-Smtp-Source: AA6agR43+S/HlMPFCV3gOAajzuirEQx6jnsl2ia36BsxPKvZ3S952xNdqUAyVtvKJpk3iyXp7vwC2kupf8CMOUvgiYo=
-X-Received: by 2002:ae9:e311:0:b0:6ba:e711:fb27 with SMTP id
- v17-20020ae9e311000000b006bae711fb27mr22636792qkf.320.1662109873634; Fri, 02
- Sep 2022 02:11:13 -0700 (PDT)
+        with ESMTP id S234776AbiIBJKu (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 2 Sep 2022 05:10:50 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7AFA65F132;
+        Fri,  2 Sep 2022 02:10:49 -0700 (PDT)
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits))
+        (No client certificate requested)
+        (Authenticated sender: kholk11)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 6D44A6601F04;
+        Fri,  2 Sep 2022 10:10:47 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1662109848;
+        bh=lDJ9dZRK9MgMljtZl2+U/+k0zbMoLNgyT3MdX+UUElE=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=RYKJ4rmIkBKJ2y0peq0CDqlputlhNbpNUSAKuCxM7tyuMEXWz+AGEpEBpoM5phane
+         QFy/faz1o2AOPz1NFQUJ5SoEniZizj5rdVd4mKszXzBVyfTp8Ii66PaGz+PLitkYbq
+         qepVJTYeMLNzmt9du+amJeji8HPfRRbqxzmBUyCCAmIXlMKn2Xu5Rshk5jWrL0u/UM
+         KL7gmOO3ZBvBWW6BAdDXffcWb2QYrftkEsVFwUBlw1t6vNzgm1o8OeJCHIG0dg6Yjn
+         GMlZP7KHhyQwUuggnacXvBLtUqtv5j2Gqsv1sMhPMqQQHazBF9+HqrNfplYNLr1hUS
+         qtbyY6gdjJCNA==
+Message-ID: <ee6221e1-8ce6-9fe0-6094-1cd156fdaae3@collabora.com>
+Date:   Fri, 2 Sep 2022 11:10:45 +0200
 MIME-Version: 1.0
-References: <20220901094626.11513-1-hdegoede@redhat.com> <20220901094626.11513-11-hdegoede@redhat.com>
- <YxEOhy0YPnBuZiQs@smile.fi.intel.com> <ce0d2ec6-3ec7-9f9f-59f9-0bf2a6078c9c@redhat.com>
-In-Reply-To: <ce0d2ec6-3ec7-9f9f-59f9-0bf2a6078c9c@redhat.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Fri, 2 Sep 2022 12:10:37 +0300
-Message-ID: <CAHp75Vf=_2yJdPvpkx2iYoYOPzxf6sNMBD4EizYc1WAnFMWYtg@mail.gmail.com>
-Subject: Re: [PATCH 10/14] media: atomisp: Register /dev/* nodes at the end of atomisp_pci_probe()
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Andy Shevchenko <andriy.shevchenko@intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Tsuchiya Yuto <kitakar@gmail.com>,
-        Andy Shevchenko <andy@kernel.org>,
-        Yury Luneff <yury.lunev@gmail.com>,
-        Nable <nable.maininbox@googlemail.com>,
-        "andrey.i.trufanov" <andrey.i.trufanov@gmail.com>,
-        Fabio Aiuto <fabioaiuto83@gmail.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        linux-staging@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.0
+Subject: Re: [PATCH 3/3] media: platform: mtk-mdp3: fix error return code in
+ mdp_vpu_dev_init()
+Content-Language: en-US
+To:     Sun Ke <sunke32@huawei.com>, mchehab@kernel.org,
+        matthias.bgg@gmail.com, hverkuil-cisco@xs4all.nl,
+        ping-hsun.wu@mediatek.com, daoyuan.huang@mediatek.com,
+        moudy.ho@mediatek.com
+Cc:     linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, kernel-janitors@vger.kernel.org
+References: <20220902085820.3777360-1-sunke32@huawei.com>
+ <20220902085820.3777360-4-sunke32@huawei.com>
+From:   AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20220902085820.3777360-4-sunke32@huawei.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Sep 2, 2022 at 12:04 PM Hans de Goede <hdegoede@redhat.com> wrote:
-> On 9/1/22 21:56, Andy Shevchenko wrote:
-> > On Thu, Sep 01, 2022 at 11:46:22AM +0200, Hans de Goede wrote:
+Il 02/09/22 10:58, Sun Ke ha scritto:
+> If mdp_vpu_shared_mem_alloc failed, mdp_vpu_dev_init should return -ENOMEM.
+> 
+> Fixes: 61890ccaefaf ("media: platform: mtk-mdp3: add MediaTek MDP3 driver")
+> Signed-off-by: Sun Ke <sunke32@huawei.com>
 
-...
+Hello Sun,
+thanks for the patch! However, someone else already sent the same fix and it's
+in a better shape. Please look at [1].
 
-> >>                      for (; i > 0; i--)
-> >>                              atomisp_subdev_unregister_entities(
-> >>                                  &isp->asd[i - 1]);
-> >
-> > This...
->
-> I presume you mean the few lines above that actually:
+Thanks,
+Angelo
 
-No, I cited a not modified code in the upper part. That said, it's a
-remark for further improvements, but a helper can be introduced in
-this patch due to the below part.
+[1]: https://patchwork.kernel.org/project/linux-mediatek/patch/YxDGFMwyeNXFPaig@kili/
 
-> >> +    for (i = 0; i < isp->num_of_streams; i++) {
-> >> +            err = atomisp_subdev_register_video_nodes(&isp->asd[i], &isp->v4l2_dev);
-> >> +            if (err)
-> >> +                    return err;
-> >> +    }
-> >
-> > ...and this looks like a dup.
+> ---
+>   drivers/media/platform/mediatek/mdp3/mtk-mdp3-vpu.c | 1 +
+>   1 file changed, 1 insertion(+)
+> 
+> diff --git a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-vpu.c b/drivers/media/platform/mediatek/mdp3/mtk-mdp3-vpu.c
+> index 9f5844385c8f..078040b7f65e 100644
+> --- a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-vpu.c
+> +++ b/drivers/media/platform/mediatek/mdp3/mtk-mdp3-vpu.c
+> @@ -175,6 +175,7 @@ int mdp_vpu_dev_init(struct mdp_vpu_dev *vpu, struct mtk_scp *scp,
+>   	mem_size = vpu_alloc_size;
+>   	if (mdp_vpu_shared_mem_alloc(vpu)) {
+>   		dev_err(&mdp->pdev->dev, "VPU memory alloc fail!");
+> +		err = -ENOMEM;
+>   		goto err_mem_alloc;
+>   	}
+>   
+> 
 
--- 
-With Best Regards,
-Andy Shevchenko
+
