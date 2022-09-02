@@ -2,72 +2,105 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DC5A45AAAE7
-	for <lists+linux-media@lfdr.de>; Fri,  2 Sep 2022 11:09:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B9C715AAAF6
+	for <lists+linux-media@lfdr.de>; Fri,  2 Sep 2022 11:11:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235358AbiIBJJE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 2 Sep 2022 05:09:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52830 "EHLO
+        id S235504AbiIBJLR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 2 Sep 2022 05:11:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58068 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230317AbiIBJJC (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 2 Sep 2022 05:09:02 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 22BCEAA4CD;
-        Fri,  2 Sep 2022 02:09:02 -0700 (PDT)
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits))
-        (No client certificate requested)
-        (Authenticated sender: kholk11)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 4DA086601F04;
-        Fri,  2 Sep 2022 10:09:00 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1662109740;
-        bh=me5bwAelKcyFGZPLRPYw5VKaBsEgHRaZdTst+izZfuU=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=EOaGpB91B1iotFwQ5oFBUUoPinLhioyJNTo9eCwD4GGwoQkfLXxtCGdtlxO7tC6pl
-         tJPxMohoawjrnc0ql2wvZGuCD+KdtMKoJL+stVNdW2s3dxbw5IBLpUVERXEADT0PtQ
-         VJ5/2t31KpDHe9igYh23GC5lNRogOyC5f0a7b/eiWOaq9MHv2xxQNmC80KF5Fj0F2H
-         Dp3157s1LqH1uQVxfT9Vz7ppyFI15qh2EaP32cYLZ2RXdt8VgLpipz9vmcmb/rzNBI
-         25AxEzSADd2+QENa9KFUqGqB96fhB0uZclbCyMvDugMwtyJJ4/AfhUpkcVr53h9GK/
-         tLjLaS8P0jzYA==
-Message-ID: <9c10dac6-bb24-976a-f207-fc70603d4586@collabora.com>
-Date:   Fri, 2 Sep 2022 11:08:58 +0200
+        with ESMTP id S235491AbiIBJLP (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 2 Sep 2022 05:11:15 -0400
+Received: from mail-qk1-x734.google.com (mail-qk1-x734.google.com [IPv6:2607:f8b0:4864:20::734])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8F6309752C
+        for <linux-media@vger.kernel.org>; Fri,  2 Sep 2022 02:11:14 -0700 (PDT)
+Received: by mail-qk1-x734.google.com with SMTP id a15so1242648qko.4
+        for <linux-media@vger.kernel.org>; Fri, 02 Sep 2022 02:11:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date;
+        bh=lEZBf5387b/IcGftjc6Ta+buddrM2qanjqr8oAzK+a4=;
+        b=NWjr6NGK1ZsB9Arf+R0br2abbPtWKmE9iEhd2LqJzb1wIvaD0TaMofWMFOKKZG/52G
+         TMEaH0/Rim8/8dnd6KlaffH9BXbFwqZl/lSKTogz5g7NdUO7khN8fbHRTxbGwUwcveDR
+         r3gUzjRVaJy8dawNeHOOu3fTYPYEmcWIGS1qXEE7A8kQOuMmlEe6jI+ypG0TokcIvd8I
+         5IX83jA6WoVZH86nbhmAOxSCUdZVl/Fx7VuJMD1w5osJwHwnRUk6BH9MC4rNmNMoOrBV
+         zHFF/5KKz4uZnUxWsl4+yM5KtIorpJMGGcFuFqpS3HZi+t5hSCYGf8EiVTwWLk1IQ903
+         d4tg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date;
+        bh=lEZBf5387b/IcGftjc6Ta+buddrM2qanjqr8oAzK+a4=;
+        b=fcpGfcb8ltd1mz4TauEpqxt4gHmf0Blys6w+2dWRCizHQwWkIhRtATwwD0O3DcPQqO
+         AZVIRW93c4+RtYa9gKsbIBS4/ZwRcvsmtNSS5s1G/xCy1oOrkvVJR/zVGbkgX6/fwTXy
+         NqJHbi2EHFLmN8xl0b19/APUA1MlrofO7DzU2ten6EcVTMfXtKM7BOeoiF4ll3TkRslk
+         WVbgBHgtJrZVKQv2UZty2DW4lrWBX9vPGAqoW4fy5YvUknheZUqxmoOpyEpeQWDh0y8+
+         kp91PwCLpphufk8h0DxLyrmh1HQAwfgPiljaBjZBOxA1Wp6HdDkFDefldagoaNFt+U0i
+         nBpA==
+X-Gm-Message-State: ACgBeo023lij0jmQTR9cx6EWo5pfOhUWY/AjGlPenO8Gi61VvvTriXzE
+        jjdjjzzmBpQudTIlEn8WTy7qoBQ7JWrKfpwEjXM=
+X-Google-Smtp-Source: AA6agR43+S/HlMPFCV3gOAajzuirEQx6jnsl2ia36BsxPKvZ3S952xNdqUAyVtvKJpk3iyXp7vwC2kupf8CMOUvgiYo=
+X-Received: by 2002:ae9:e311:0:b0:6ba:e711:fb27 with SMTP id
+ v17-20020ae9e311000000b006bae711fb27mr22636792qkf.320.1662109873634; Fri, 02
+ Sep 2022 02:11:13 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.0
-Subject: Re: [PATCH 1/3] media: platform: mtk-mdp3: use devm_kfree to free
- memory allocated with devm_kmalloc()
-Content-Language: en-US
-To:     Sun Ke <sunke32@huawei.com>, mchehab@kernel.org,
-        matthias.bgg@gmail.com, hverkuil-cisco@xs4all.nl,
-        ping-hsun.wu@mediatek.com, daoyuan.huang@mediatek.com,
-        moudy.ho@mediatek.com
-Cc:     linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, kernel-janitors@vger.kernel.org
-References: <20220902085820.3777360-1-sunke32@huawei.com>
- <20220902085820.3777360-2-sunke32@huawei.com>
-From:   AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20220902085820.3777360-2-sunke32@huawei.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20220901094626.11513-1-hdegoede@redhat.com> <20220901094626.11513-11-hdegoede@redhat.com>
+ <YxEOhy0YPnBuZiQs@smile.fi.intel.com> <ce0d2ec6-3ec7-9f9f-59f9-0bf2a6078c9c@redhat.com>
+In-Reply-To: <ce0d2ec6-3ec7-9f9f-59f9-0bf2a6078c9c@redhat.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Fri, 2 Sep 2022 12:10:37 +0300
+Message-ID: <CAHp75Vf=_2yJdPvpkx2iYoYOPzxf6sNMBD4EizYc1WAnFMWYtg@mail.gmail.com>
+Subject: Re: [PATCH 10/14] media: atomisp: Register /dev/* nodes at the end of atomisp_pci_probe()
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Andy Shevchenko <andriy.shevchenko@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Tsuchiya Yuto <kitakar@gmail.com>,
+        Andy Shevchenko <andy@kernel.org>,
+        Yury Luneff <yury.lunev@gmail.com>,
+        Nable <nable.maininbox@googlemail.com>,
+        "andrey.i.trufanov" <andrey.i.trufanov@gmail.com>,
+        Fabio Aiuto <fabioaiuto83@gmail.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        linux-staging@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Il 02/09/22 10:58, Sun Ke ha scritto:
-> comp is allocated with devm_kmalloc(), use devm_kfree to free it.
-> 
-> Fixes: 61890ccaefaf ("media: platform: mtk-mdp3: add MediaTek MDP3 driver")
-> Signed-off-by: Sun Ke <sunke32@huawei.com>
+On Fri, Sep 2, 2022 at 12:04 PM Hans de Goede <hdegoede@redhat.com> wrote:
+> On 9/1/22 21:56, Andy Shevchenko wrote:
+> > On Thu, Sep 01, 2022 at 11:46:22AM +0200, Hans de Goede wrote:
 
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+...
 
+> >>                      for (; i > 0; i--)
+> >>                              atomisp_subdev_unregister_entities(
+> >>                                  &isp->asd[i - 1]);
+> >
+> > This...
+>
+> I presume you mean the few lines above that actually:
 
+No, I cited a not modified code in the upper part. That said, it's a
+remark for further improvements, but a helper can be introduced in
+this patch due to the below part.
+
+> >> +    for (i = 0; i < isp->num_of_streams; i++) {
+> >> +            err = atomisp_subdev_register_video_nodes(&isp->asd[i], &isp->v4l2_dev);
+> >> +            if (err)
+> >> +                    return err;
+> >> +    }
+> >
+> > ...and this looks like a dup.
+
+-- 
+With Best Regards,
+Andy Shevchenko
