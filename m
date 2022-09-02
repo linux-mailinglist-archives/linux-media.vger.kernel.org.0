@@ -2,41 +2,41 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2ACA15AADEE
-	for <lists+linux-media@lfdr.de>; Fri,  2 Sep 2022 13:59:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 39F205AB327
+	for <lists+linux-media@lfdr.de>; Fri,  2 Sep 2022 16:14:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235552AbiIBL6y (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 2 Sep 2022 07:58:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35500 "EHLO
+        id S237298AbiIBOOJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 2 Sep 2022 10:14:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54794 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235485AbiIBL6x (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 2 Sep 2022 07:58:53 -0400
-X-Greylist: delayed 488 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 02 Sep 2022 04:58:52 PDT
-Received: from gofer.mess.org (gofer.mess.org [88.97.38.141])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 14252B5320;
-        Fri,  2 Sep 2022 04:58:51 -0700 (PDT)
-Received: by gofer.mess.org (Postfix, from userid 1000)
-        id 4E0F1100073; Fri,  2 Sep 2022 12:50:38 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mess.org; s=2020;
-        t=1662119438; bh=2zCl1lkjL0BCxyj5maeC6T9+7irhOLKH7/LLQN8b9Rs=;
-        h=From:To:Cc:Subject:Date:From;
-        b=pcSqeGYHoHmhH8APJdMwLm/MDNRXOsh+RkZVmyZ3JBFEyQ6B3j0xCBvvnjBlpynU+
-         ERYYvo4vit0VIhMmHedxntQATQteyVhC3nGcTxm9yqJuFQMEhl9JbSynWT47JGGAt6
-         9At41A7f0rElvTLgao3EBbSjq6aQ2XPIGZj9JTxvnSQjf8+me5UI7jDFYW4f/fKitW
-         HE9ejjlD71aVzJS7hkea2vuHPUbkTVJy/3umnOUjp6WBrSb5BKultnsfdodGTF2yX+
-         A6R/pNNdWp6/SKqriLLUK9KAzQs9gBBR7IZc53aGFgZpuiGMUn4rUwH9AUiwjFF8/u
-         rxldq+FbkO4yg==
-From:   Sean Young <sean@mess.org>
-To:     linux-media@vger.kernel.org
-Cc:     stable@vger.kernel.org
-Subject: [PATCH] media: mceusb: set timeout to at least timeout provided
-Date:   Fri,  2 Sep 2022 12:50:38 +0100
-Message-Id: <20220902115038.1061394-1-sean@mess.org>
-X-Mailer: git-send-email 2.30.2
+        with ESMTP id S239027AbiIBONw (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 2 Sep 2022 10:13:52 -0400
+Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 004B1EB854
+        for <linux-media@vger.kernel.org>; Fri,  2 Sep 2022 06:41:36 -0700 (PDT)
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+        id 9C61A1C000B; Fri,  2 Sep 2022 15:40:40 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
+        t=1662126040;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:mime-version:mime-version:content-type:content-type;
+        bh=0NcbvYXLclUCK1lNUt5M9EgQVyJYJNCE+rmi9X/Gizk=;
+        b=G004DTPzRh9P2u0eqniZQGTfCvw2V+4Gfq78mHSw2SJdOu4c7GOXLa0Oi4TOkYP874B6A8
+        9fpqY0VvvMBlqyWe+YtEAbltfVH5ttPj7atdJA3NJLP3Xft3v7THMw6aC0QmJjwNSKt31B
+        uNT623HlC7hegVe+BqMPz7TsLZgMJ24=
+Date:   Fri, 2 Sep 2022 15:40:39 +0200
+From:   Pavel Machek <pavel@ucw.cz>
+To:     mripard@kernel.org, paul.kocialkowski@bootlin.com,
+        linux-media@vger.kernel.org
+Subject: Cedrus -- video encoding on PinePhone?
+Message-ID: <20220902134039.GA27386@duo.ucw.cz>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="BOKacYhQ+x31HxR3"
+Content-Disposition: inline
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -44,29 +44,37 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-By rounding down, we can set a timeout value which reports spaces less
-than the timeout as a timeout rather than a space.
 
-Fixes: 877f1a7cee3f ("media: rc: mceusb: allow the timeout to be configurable")
-Cc: stable@vger.kernel.org
-Signed-off-by: Sean Young <sean@mess.org>
----
- drivers/media/rc/mceusb.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+--BOKacYhQ+x31HxR3
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/drivers/media/rc/mceusb.c b/drivers/media/rc/mceusb.c
-index 39d2b03e2631..c76ba24c1f55 100644
---- a/drivers/media/rc/mceusb.c
-+++ b/drivers/media/rc/mceusb.c
-@@ -1077,7 +1077,7 @@ static int mceusb_set_timeout(struct rc_dev *dev, unsigned int timeout)
- 	struct mceusb_dev *ir = dev->priv;
- 	unsigned int units;
- 
--	units = DIV_ROUND_CLOSEST(timeout, MCE_TIME_UNIT);
-+	units = DIV_ROUND_UP(timeout, MCE_TIME_UNIT);
- 
- 	cmdbuf[2] = units >> 8;
- 	cmdbuf[3] = units;
--- 
-2.37.2
+Hi!
 
+AFAICT... PinePhone should support hw-accelerated encoding of JPEGs
+and h.264...? But driver is in staging, support for encoding is not
+there, and userland support is partly available for decoding but not
+encoding?
+
+I guess that adding the encoding support and the userland stuff is not
+a stuff for weekend? Main camera sensor does have JPEG support, so
+MJPEG video is possible without cedrus, but h.264 should provide
+better compression and there's no JPEG support on selfie camera.
+
+Best regards,
+								Pavel
+--=20
+People of Russia, stop Putin before his war on Ukraine escalates.
+
+--BOKacYhQ+x31HxR3
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCYxIH1wAKCRAw5/Bqldv6
+8gNHAJ4vJVkQ/+eckPZU9GiKBzG6Etx6FgCfZSZ7gOktw8jQ/s0wyJKKUNqNWLU=
+=BBCl
+-----END PGP SIGNATURE-----
+
+--BOKacYhQ+x31HxR3--
