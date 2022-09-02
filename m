@@ -2,107 +2,112 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D5A535AAC0A
-	for <lists+linux-media@lfdr.de>; Fri,  2 Sep 2022 12:07:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E986F5AAC28
+	for <lists+linux-media@lfdr.de>; Fri,  2 Sep 2022 12:15:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232878AbiIBKH2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 2 Sep 2022 06:07:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33800 "EHLO
+        id S235177AbiIBKPn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 2 Sep 2022 06:15:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47444 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235844AbiIBKHZ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 2 Sep 2022 06:07:25 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 452EA9F1B4
-        for <linux-media@vger.kernel.org>; Fri,  2 Sep 2022 03:07:24 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 618934A8;
-        Fri,  2 Sep 2022 12:07:21 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1662113241;
-        bh=0s6hXaaMR3nFS1KsG9idWtYzbofRcsnb0Rh6EL3VXDw=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=lEjLTShXJ9nIhjbWXMt6DYUAT7qTK7V7nR4YNe97Dbsl7ZVLH6x2Fu/D9aL3nhFaa
-         qPNDgj3WaQs6DgGj/5j+HFDumRJ/GGjMM+xd02LWbx+pEWlaWn0Ix75SpC7BALeHMH
-         VxbyHgwrFgXXZWXYGebGBDxTivVmEOx3COutbA1A=
-Date:   Fri, 2 Sep 2022 13:07:09 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Dafna Hirschfeld <dafna@fastmail.com>
-Cc:     linux-media@vger.kernel.org, Heiko Stuebner <heiko@sntech.de>,
-        linux-rockchip@lists.infradead.org,
-        Paul Elder <paul.elder@ideasonboard.com>,
-        Florian Sylvestre <fsylvestre@baylibre.com>
-Subject: Re: [PATCH 0/5] media: rkisp1: Fix LSC initial configuration on
- i.MX8MP
-Message-ID: <YxHVzTIIiTZ80/xl@pendragon.ideasonboard.com>
-References: <20220817021850.20460-1-laurent.pinchart@ideasonboard.com>
- <20220902090704.crddbkvmguvezyiy@guri>
+        with ESMTP id S231344AbiIBKPi (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 2 Sep 2022 06:15:38 -0400
+Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BDAF660D6;
+        Fri,  2 Sep 2022 03:15:36 -0700 (PDT)
+Received: from dggemv703-chm.china.huawei.com (unknown [172.30.72.56])
+        by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4MJtzY44CrzHnYm;
+        Fri,  2 Sep 2022 18:13:45 +0800 (CST)
+Received: from kwepemm600010.china.huawei.com (7.193.23.86) by
+ dggemv703-chm.china.huawei.com (10.3.19.46) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Fri, 2 Sep 2022 18:15:34 +0800
+Received: from [10.174.178.31] (10.174.178.31) by
+ kwepemm600010.china.huawei.com (7.193.23.86) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Fri, 2 Sep 2022 18:15:33 +0800
+Subject: Re: [PATCH 3/3] media: platform: mtk-mdp3: fix error return code in
+ mdp_vpu_dev_init()
+To:     AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>, <mchehab@kernel.org>,
+        <matthias.bgg@gmail.com>, <hverkuil-cisco@xs4all.nl>,
+        <ping-hsun.wu@mediatek.com>, <daoyuan.huang@mediatek.com>,
+        <moudy.ho@mediatek.com>
+CC:     <linux-media@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-mediatek@lists.infradead.org>,
+        <kernel-janitors@vger.kernel.org>
+References: <20220902085820.3777360-1-sunke32@huawei.com>
+ <20220902085820.3777360-4-sunke32@huawei.com>
+ <ee6221e1-8ce6-9fe0-6094-1cd156fdaae3@collabora.com>
+From:   Sun Ke <sunke32@huawei.com>
+Message-ID: <957c9e9a-d729-0109-92e9-4fafe9ef7622@huawei.com>
+Date:   Fri, 2 Sep 2022 18:15:33 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220902090704.crddbkvmguvezyiy@guri>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <ee6221e1-8ce6-9fe0-6094-1cd156fdaae3@collabora.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.174.178.31]
+X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
+ kwepemm600010.china.huawei.com (7.193.23.86)
+X-CFilter-Loop: Reflected
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Dafna,
 
-On Fri, Sep 02, 2022 at 12:07:04PM +0300, Dafna Hirschfeld wrote:
-> On 17.08.2022 05:18, Laurent Pinchart wrote:
-> > Hello,
-> > 
-> > This patch series fixes the Lens Shading Correction initial
-> > configuration on the i.MX8MP.
-> > 
-> > The i.MX8MP integrates an ISP8000Nano v18.02, which unlike other
-> > versions currently supported by the driver, gates access to the LSC RAM
-> > with the ISP_CTRL.ISP_ENABLE bit. The initial LSC configuration being
-> > performed before the ISP gets enabled, the writes to the RAM are
-> > ignored, leading to incorrect results.
-> > 
-> > The series starts with four small drive-by cleanups of the LSC code, and
-> > patch 5/5 then fixes the issue. I'm not totally thrilled by the code
-> > architecture, but I'm not sure why, and I have a feeling doing better
-> > would require a large refactoring of the ISP parameters handling. If
-> > anyone sees an option for a better implementation, please say so.
-> > 
-> > The series is based on top of "[PATCH 0/7] media: rkisp1: Fix and
-> > improve color space support" ([1]). Reviews for that base series would
-> > thus be appreciated too.
-> > 
-> > [1] https://lore.kernel.org/linux-media/20220815065235.23797-1-laurent.pinchart@ideasonboard.com
+
+在 2022/9/2 17:10, AngeloGioacchino Del Regno 写道:
+> Il 02/09/22 10:58, Sun Ke ha scritto:
+>> If mdp_vpu_shared_mem_alloc failed, mdp_vpu_dev_init should return 
+>> -ENOMEM.
+>>
+>> Fixes: 61890ccaefaf ("media: platform: mtk-mdp3: add MediaTek MDP3 
+>> driver")
+>> Signed-off-by: Sun Ke <sunke32@huawei.com>
 > 
-> Hi, I see that the series is also based on "[PATCH v2 00/55] media: rkisp1: Cleanups and add support"
-> right? I could not apply patch 5/5 because it seems to sit on top of
-> '[PATCH v2 49/55] media: rkisp1: Configure gasket on i.MX8MP'
-> Do you have a branch you can share with all the sets?
+> Hello Sun,
+> thanks for the patch! However, someone else already sent the same fix 
+> and it's
+> in a better shape. Please look at [1].
+> 
+> Thanks,
+> Angelo
+> 
+> [1]: 
+> https://patchwork.kernel.org/project/linux-mediatek/patch/YxDGFMwyeNXFPaig@kili/ 
 
-Sure. You can find all pending patches for the rkisp1 at
-https://gitlab.com/ideasonboard/nxp/linux/-/tree/pinchartl/v6.0/isp.
-Commits up to and including "media: rkisp1: Zero v4l2_subdev_format
-fields in when validating links" are candidates for v6.1, commits
-starting at "dt-bindings: media: rkisp1: Add i.MX8MP ISP to compatible"
-need some more work.
+Oh. I am late.
 
-> > Laurent Pinchart (5):
-> >   media: rkisp1: Clean up LSC configuration code
-> >   media: rkisp1: Store LSC register values in u32 variables
-> >   media: rkisp1: Simplify LSC x/y size and grad register macros
-> >   media: rkisp1: Use RKISP1_CIF_ISP_LSC_GRAD_SIZE() for gradient
-> >     registers
-> >   media: rkisp1: Configure LSC after enabling the ISP
-> > 
-> >  .../platform/rockchip/rkisp1/rkisp1-common.h  |  29 +-
-> >  .../platform/rockchip/rkisp1/rkisp1-isp.c     |   9 +-
-> >  .../platform/rockchip/rkisp1/rkisp1-params.c  | 378 ++++++++++--------
-> >  .../platform/rockchip/rkisp1/rkisp1-regs.h    |  20 +-
-> >  4 files changed, 239 insertions(+), 197 deletions(-)
+Thanks,
+Sun Ke
 
--- 
-Regards,
-
-Laurent Pinchart
+> 
+> 
+>> ---
+>>   drivers/media/platform/mediatek/mdp3/mtk-mdp3-vpu.c | 1 +
+>>   1 file changed, 1 insertion(+)
+>>
+>> diff --git a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-vpu.c 
+>> b/drivers/media/platform/mediatek/mdp3/mtk-mdp3-vpu.c
+>> index 9f5844385c8f..078040b7f65e 100644
+>> --- a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-vpu.c
+>> +++ b/drivers/media/platform/mediatek/mdp3/mtk-mdp3-vpu.c
+>> @@ -175,6 +175,7 @@ int mdp_vpu_dev_init(struct mdp_vpu_dev *vpu, 
+>> struct mtk_scp *scp,
+>>       mem_size = vpu_alloc_size;
+>>       if (mdp_vpu_shared_mem_alloc(vpu)) {
+>>           dev_err(&mdp->pdev->dev, "VPU memory alloc fail!");
+>> +        err = -ENOMEM;
+>>           goto err_mem_alloc;
+>>       }
+>>
+> 
+> 
+> .
