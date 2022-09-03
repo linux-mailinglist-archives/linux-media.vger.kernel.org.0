@@ -2,84 +2,102 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 250545ABD71
-	for <lists+linux-media@lfdr.de>; Sat,  3 Sep 2022 08:30:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B46395ABDB8
+	for <lists+linux-media@lfdr.de>; Sat,  3 Sep 2022 09:50:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232300AbiICGaA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 3 Sep 2022 02:30:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58470 "EHLO
+        id S231865AbiICHuL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 3 Sep 2022 03:50:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33868 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231748AbiICG36 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sat, 3 Sep 2022 02:29:58 -0400
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D20692CCA1;
-        Fri,  2 Sep 2022 23:29:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1662186596; x=1693722596;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=n5uDU9eTIPVXLJGf/uaHEOKAI/9grpTLNatMEbtbiLc=;
-  b=PFZq2akMNvFY9zv0pFj+8iPg9dZZpWHQrWphY/a83+8Tq1VR5WP90uyu
-   U1JuoH63nMBakcZVIDMl33C/b/wm9eUQTxoQE/fuZOEgvhE2WhqzAOQfF
-   myMJWCQvlfppFARbmUAom8Gg9+4IKRW5GD19AlIP6FbbQ+4mahikt1rWf
-   xS8SykDp1o1peV2TST726MQze8YEy4tgJ8+wKQhh8cJSsNNA891g6l5Zg
-   +0I1WyrYFau+rLaJ6RgudeT7vg+1LV4DX3LtsSCI42X9QKq51Gtz4Czdy
-   K+TtD7rq4sgEIDCfJXBP0iiarinWSKKfqu5c6Q2W6i3cyssUoi2x026AO
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10458"; a="357850440"
-X-IronPort-AV: E=Sophos;i="5.93,286,1654585200"; 
-   d="scan'208";a="357850440"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2022 23:29:55 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,286,1654585200"; 
-   d="scan'208";a="755489507"
-Received: from lkp-server02.sh.intel.com (HELO 95dfd251caa2) ([10.239.97.151])
-  by fmsmga001.fm.intel.com with ESMTP; 02 Sep 2022 23:29:54 -0700
-Received: from kbuild by 95dfd251caa2 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1oUMfB-0001B5-2D;
-        Sat, 03 Sep 2022 06:29:53 +0000
-Date:   Sat, 3 Sep 2022 14:29:11 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     kbuild-all@lists.01.org, linux-kernel@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org,
-        Sakari Ailus <sakari.ailus@linux.intel.com>
-Subject: drivers/media/i2c/ar0521.c:409:5-8: Unneeded variable: "ret". Return
- "0" on line 426
-Message-ID: <202209031459.IAynxt5W-lkp@intel.com>
+        with ESMTP id S229580AbiICHuI (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 3 Sep 2022 03:50:08 -0400
+Received: from gofer.mess.org (gofer.mess.org [88.97.38.141])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 13B7A2E6A6
+        for <linux-media@vger.kernel.org>; Sat,  3 Sep 2022 00:49:58 -0700 (PDT)
+Received: by gofer.mess.org (Postfix, from userid 1000)
+        id 9E6EF100072; Sat,  3 Sep 2022 08:49:56 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mess.org; s=2020;
+        t=1662191396; bh=G4MT1MV4esuAr0v8xfY1oNqEbcDxmnusDDYk2WFLurE=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=lPjBKz4YJU0zBRkohIzEImV5T8Vdxs3wm3YIKJvuSG6n3TB5kkoRxK7v2E4acMO2d
+         wRNpdZ7ncFfzgIgDoTZ0FPXvOJYNkd1qBW3JGyLXG+hwHoLR+dtAK2mB/V+xbG8BOj
+         kr+24owdZBA84+AdXiaC3KBw8zpIJlwIw06m7r01O4VbhvPt3hWdfaAPdNHigCVaDT
+         cq2ekM0T3kjS54NikN5pyi+teKRf6CeO/9Fs7iMj7rrHpP0PIGSjr92PwUXDMF1ZxM
+         JT4G088rtwYzRwPVxDTHTZ39ZEaLduSAbFMESumMoT3B+cgDOI7Df06ATHNCqloLPN
+         48CCuyN81XiXA==
+Date:   Sat, 3 Sep 2022 08:49:56 +0100
+From:   Sean Young <sean@mess.org>
+To:     Gautam Menghani <gautammenghani201@gmail.com>
+Cc:     mchehab@kernel.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        linux-kernel-mentees@lists.linuxfoundation.org,
+        syzbot+0c3cb6dc05fbbdc3ad66@syzkaller.appspotmail.com,
+        hdanton@sina.com
+Subject: Re: [PATCH] drivers/media/rc: Ensure usb_submit_urb() is not called
+ if write is in progress
+Message-ID: <YxMHJNNq2e3kLxdQ@gofer.mess.org>
+References: <20220814142543.24910-1-gautammenghani201@gmail.com>
+ <YxJHmYDMtmzaHWQG@biggie>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+In-Reply-To: <YxJHmYDMtmzaHWQG@biggie>
+X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,DKIM_INVALID,
+        DKIM_SIGNED,SPF_PASS,T_SCC_BODY_TEXT_LINE,T_SPF_HELO_TEMPERROR
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans,
+On Fri, Sep 02, 2022 at 11:42:41PM +0530, Gautam Menghani wrote:
+> On Sun, Aug 14, 2022 at 07:55:42PM +0530, Gautam Menghani wrote:
+> > The warning "URB submitted while active" is reported if the function
+> > send_packet() in imon.c is called if a write is already is in progress.
+> > Add a check to return -EBUSY in case a write is already is in progress.
+> > Also, mark tx.busy as false after transmission is completed.
+> > 
+> > Fixes: 21677cfc562a ("V4L/DVB: ir-core: add imon driver")
+> > Cc: hdanton@sina.com
+> > Suggested-by: hdanton@sina.com
+> > Link: https://syzkaller.appspot.com/bug?id=e378e6a51fbe6c5cc43e34f131cc9a315ef0337e
+> > Reported-by: syzbot+0c3cb6dc05fbbdc3ad66@syzkaller.appspotmail.com
+> > Signed-off-by: Gautam Menghani <gautammenghani201@gmail.com>
+> > ---
+> >  drivers/media/rc/imon.c | 3 +++
+> >  1 file changed, 3 insertions(+)
+> > 
+> > diff --git a/drivers/media/rc/imon.c b/drivers/media/rc/imon.c
+> > index 735b925da998..a5b997c2c7e2 100644
+> > --- a/drivers/media/rc/imon.c
+> > +++ b/drivers/media/rc/imon.c
+> > @@ -598,6 +598,8 @@ static int send_packet(struct imon_context *ictx)
+> >  	int retval = 0;
+> >  	struct usb_ctrlrequest *control_req = NULL;
+> >  
+> > +	if (ictx->tx.busy)
+> > +		return -EBUSY;
+> >  	/* Check if we need to use control or interrupt urb */
+> >  	if (!ictx->tx_control) {
+> >  		pipe = usb_sndintpipe(ictx->usbdev_intf0,
+> > @@ -654,6 +656,7 @@ static int send_packet(struct imon_context *ictx)
+> >  			pr_err_ratelimited("task interrupted\n");
+> >  		}
+> >  		mutex_lock(&ictx->lock);
+> > +		ictx->tx.busy = false;
+> >  
+> >  		retval = ictx->tx.status;
+> >  		if (retval)
+> > -- 
+> > 2.34.1
+> > 
+> Hi,
+> 
+> Please review the above fix and let me know if any changes are needed.
 
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+Greg has pointed out issues with this patch: there is no locking.
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   d895ec7938c431fe61a731939da76a6461bc6133
-commit: dbae22e2008ee6a3acf2b7d989800eff80f0aa1f media: ar0521: fix Kconfig: VIDEO_V4L2 -> VIDEO_DEV
-date:   7 weeks ago
-config: s390-randconfig-c024-20220901 (https://download.01.org/0day-ci/archive/20220903/202209031459.IAynxt5W-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 12.1.0
+Thanks,
 
-If you fix the issue, kindly add following tag where applicable
-Reported-by: kernel test robot <lkp@intel.com>
-
-cocci warnings: (new ones prefixed by >>)
->> drivers/media/i2c/ar0521.c:409:5-8: Unneeded variable: "ret". Return "0" on line 426
-
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+Sean
