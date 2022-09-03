@@ -2,82 +2,60 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 381DB5ABD15
-	for <lists+linux-media@lfdr.de>; Sat,  3 Sep 2022 06:46:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 250545ABD71
+	for <lists+linux-media@lfdr.de>; Sat,  3 Sep 2022 08:30:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231434AbiICEp7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 3 Sep 2022 00:45:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52938 "EHLO
+        id S232300AbiICGaA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 3 Sep 2022 02:30:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58470 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229508AbiICEp6 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sat, 3 Sep 2022 00:45:58 -0400
-Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com [64.147.123.21])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 17925D2929
-        for <linux-media@vger.kernel.org>; Fri,  2 Sep 2022 21:45:57 -0700 (PDT)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-        by mailout.west.internal (Postfix) with ESMTP id 684A5320027A;
-        Sat,  3 Sep 2022 00:45:53 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute1.internal (MEProxy); Sat, 03 Sep 2022 00:45:53 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fastmail.com; h=
-        cc:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
-        :message-id:mime-version:references:reply-to:sender:subject
-        :subject:to:to; s=fm1; t=1662180352; x=1662266752; bh=n5K/X15uCA
-        IusP+ofYYh04A/n3YRLWCXHGZN4DQ92Vg=; b=NlNLUzHbIikB1pk9hNMW13/EcT
-        f59AbiQvOjUkny//NErlyo7luRc29Gm3hpDJN7i+9tEKovmMuDoBzeOJQyac0aiB
-        ToHrVDfUv6dhr3/C6dV/XnoTDEkMtoWRRSeC6OUvUoF8deMc5GJNRIpodbNUgSnQ
-        fxj3HiHT01TuVW3S2PrrC/C+hNChy6V31HMW8hjKR/ja1p7PZ+U2IOp4TLm3gPw8
-        hv7Sim2vDooOV1vaNit5b2FtAlq6j/0wuKiNvpojKLV2ODUT98XDtf0e2ndJz2so
-        a21oWhH29iV08Je59bKAGiFpfr1DB+5/nFmHk6jnJbv+wJFc1rSh9GaTZe8Q==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
-        :feedback-id:from:from:in-reply-to:in-reply-to:message-id
-        :mime-version:references:reply-to:sender:subject:subject:to:to
-        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-        fm1; t=1662180352; x=1662266752; bh=n5K/X15uCAIusP+ofYYh04A/n3YR
-        LWCXHGZN4DQ92Vg=; b=nuFbQ/IsnbeenTvRc70WZjEIeQWyx+8FKGcJ7kesrxrw
-        umH/3JWG2pMvBXrvkeUcVwORkQPmGcxUdkYOezKuohU8QXGErsVPI7lKvN9fDdCE
-        CDJFGCmQQ0CX4/qsI39lRhkGZFDhSHxulqy2qb1ICvLW5+L1YkAWkpR7OLWRa1dy
-        LmlHD9rzbDxLRYAVjzFkEt/W9Bu4MX0lZq4d14t5IIMxVp+NTeukEInWMwT9Pm1U
-        aDFKx4dgo4lyLka0C8a1cSiAPAkOGlj7YNmsoMDva+lE+G0+YyN0G14DNoVDZH97
-        D2kOl6Clabp+2lleb3UihhOUsSDmyrYMJJQMxL0qGw==
-X-ME-Sender: <xms:ANwSYwUMK-vu_Cv4e6XxFGLA9kEywNPtNC43g195q_HImsPiwm9mfQ>
-    <xme:ANwSY0m4soCTh1hLZ0D29PuLVpNSfpaA86brqgsYEn4mLxms46mTMY4iRZC0iRDl6
-    ytEA1G28Vg4qwhXRvU>
-X-ME-Received: <xmr:ANwSY0ZlVoar6FKjRsBHemW1FFFVp4BnXSap2kF2es_bhjuzAO0FGQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdeluddgledtucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvfevuffkfhggtggujgesthdtredttddtjeenucfhrhhomhepffgrfhhn
-    rgcujfhirhhstghhfhgvlhguuceouggrfhhnrgesfhgrshhtmhgrihhlrdgtohhmqeenuc
-    ggtffrrghtthgvrhhnpedvhedtledukeegveelfeeuvddujeeiteehkedvhfetkeffudej
-    hfeftdduhedvkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfh
-    hrohhmpegurghfnhgrsehfrghsthhmrghilhdrtghomh
-X-ME-Proxy: <xmx:ANwSY_VuMSfqBSoGuoFVlmo9wHtF52gfE1hgxH4FtIn0CqwviGmJwA>
-    <xmx:ANwSY6kg3BX9pKgWOV257mVVGXUoSzS1IhnMU7vW58h0O3i2eA3Y8g>
-    <xmx:ANwSY0daxD5yyEAWGefL4DBmLjsfTSBf6NSAazKtO92XP8DG4gFaUQ>
-    <xmx:ANwSY8ghTRbCTM0wIdF4i0hjJ0zngyuSu3xvg2FMYWDmR49_6lNM9g>
-Feedback-ID: i0e894699:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
- 3 Sep 2022 00:45:50 -0400 (EDT)
-Date:   Sat, 3 Sep 2022 07:45:47 +0300
-From:   Dafna Hirschfeld <dafna@fastmail.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, Heiko Stuebner <heiko@sntech.de>,
-        Florian Sylvestre <fsylvestre@baylibre.com>,
-        Paul Elder <paul.elder@ideasonboard.com>
-Subject: Re: [PATCH v2 9/9] media: rkisp1: Allow setting color space on
- resizer sink pad
-Message-ID: <20220903044547.6eetyeyr4bhzrvxd@guri>
-References: <20220823171840.8958-1-laurent.pinchart@ideasonboard.com>
- <20220823171840.8958-10-laurent.pinchart@ideasonboard.com>
+        with ESMTP id S231748AbiICG36 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 3 Sep 2022 02:29:58 -0400
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D20692CCA1;
+        Fri,  2 Sep 2022 23:29:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1662186596; x=1693722596;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=n5uDU9eTIPVXLJGf/uaHEOKAI/9grpTLNatMEbtbiLc=;
+  b=PFZq2akMNvFY9zv0pFj+8iPg9dZZpWHQrWphY/a83+8Tq1VR5WP90uyu
+   U1JuoH63nMBakcZVIDMl33C/b/wm9eUQTxoQE/fuZOEgvhE2WhqzAOQfF
+   myMJWCQvlfppFARbmUAom8Gg9+4IKRW5GD19AlIP6FbbQ+4mahikt1rWf
+   xS8SykDp1o1peV2TST726MQze8YEy4tgJ8+wKQhh8cJSsNNA891g6l5Zg
+   +0I1WyrYFau+rLaJ6RgudeT7vg+1LV4DX3LtsSCI42X9QKq51Gtz4Czdy
+   K+TtD7rq4sgEIDCfJXBP0iiarinWSKKfqu5c6Q2W6i3cyssUoi2x026AO
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10458"; a="357850440"
+X-IronPort-AV: E=Sophos;i="5.93,286,1654585200"; 
+   d="scan'208";a="357850440"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2022 23:29:55 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,286,1654585200"; 
+   d="scan'208";a="755489507"
+Received: from lkp-server02.sh.intel.com (HELO 95dfd251caa2) ([10.239.97.151])
+  by fmsmga001.fm.intel.com with ESMTP; 02 Sep 2022 23:29:54 -0700
+Received: from kbuild by 95dfd251caa2 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1oUMfB-0001B5-2D;
+        Sat, 03 Sep 2022 06:29:53 +0000
+Date:   Sat, 3 Sep 2022 14:29:11 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     kbuild-all@lists.01.org, linux-kernel@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org,
+        Sakari Ailus <sakari.ailus@linux.intel.com>
+Subject: drivers/media/i2c/ar0521.c:409:5-8: Unneeded variable: "ret". Return
+ "0" on line 426
+Message-ID: <202209031459.IAynxt5W-lkp@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220823171840.8958-10-laurent.pinchart@ideasonboard.com>
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -85,93 +63,23 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 23.08.2022 20:18, Laurent Pinchart wrote:
->The resizer doesn't deal with color spaces, so it can accept any color
->space on its input, and propagates it unchanged to its output. When
->operating with a Bayer input format (in pass-through mode) further
->restrict the YCbCr encoding and quantization to Rec 601 and full range
->respectively, as for raw data the former ought to be ignored and the
->latter is always full range.
->
->Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Hi Hans,
 
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
 
-Reviewed-by: Dafna Hirschfeld <dafna@fastmail.com>
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   d895ec7938c431fe61a731939da76a6461bc6133
+commit: dbae22e2008ee6a3acf2b7d989800eff80f0aa1f media: ar0521: fix Kconfig: VIDEO_V4L2 -> VIDEO_DEV
+date:   7 weeks ago
+config: s390-randconfig-c024-20220901 (https://download.01.org/0day-ci/archive/20220903/202209031459.IAynxt5W-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 12.1.0
 
->---
-> .../platform/rockchip/rkisp1/rkisp1-resizer.c | 41 +++++++++++++++++--
-> 1 file changed, 38 insertions(+), 3 deletions(-)
->
->diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-resizer.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-resizer.c
->index 6f6ec00b63b8..891a622124e2 100644
->--- a/drivers/media/platform/rockchip/rkisp1/rkisp1-resizer.c
->+++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-resizer.c
->@@ -526,6 +526,7 @@ static void rkisp1_rsz_set_sink_fmt(struct rkisp1_resizer *rsz,
-> 	const struct rkisp1_mbus_info *mbus_info;
-> 	struct v4l2_mbus_framefmt *sink_fmt, *src_fmt;
-> 	struct v4l2_rect *sink_crop;
->+	bool is_yuv;
->
-> 	sink_fmt = rkisp1_rsz_get_pad_fmt(rsz, sd_state, RKISP1_RSZ_PAD_SINK,
-> 					  which);
->@@ -547,9 +548,6 @@ static void rkisp1_rsz_set_sink_fmt(struct rkisp1_resizer *rsz,
-> 	if (which == V4L2_SUBDEV_FORMAT_ACTIVE)
-> 		rsz->pixel_enc = mbus_info->pixel_enc;
->
->-	/* Propagete to source pad */
->-	src_fmt->code = sink_fmt->code;
->-
-> 	sink_fmt->width = clamp_t(u32, format->width,
-> 				  RKISP1_ISP_MIN_WIDTH,
-> 				  RKISP1_ISP_MAX_WIDTH);
->@@ -557,8 +555,45 @@ static void rkisp1_rsz_set_sink_fmt(struct rkisp1_resizer *rsz,
-> 				   RKISP1_ISP_MIN_HEIGHT,
-> 				   RKISP1_ISP_MAX_HEIGHT);
->
->+	/*
->+	 * Adjust the color space fields. Accept any color primaries and
->+	 * transfer function for both YUV and Bayer. For YUV any YCbCr encoding
->+	 * and quantization range is also accepted. For Bayer formats, the YCbCr
->+	 * encoding isn't applicable, and the quantization range can only be
->+	 * full.
->+	 */
->+	is_yuv = mbus_info->pixel_enc == V4L2_PIXEL_ENC_YUV;
->+
->+	sink_fmt->colorspace = format->colorspace ? :
->+			       (is_yuv ? V4L2_COLORSPACE_SRGB :
->+				V4L2_COLORSPACE_RAW);
->+	sink_fmt->xfer_func = format->xfer_func ? :
->+			      V4L2_MAP_XFER_FUNC_DEFAULT(sink_fmt->colorspace);
->+	if (is_yuv) {
->+		sink_fmt->ycbcr_enc = format->ycbcr_enc ? :
->+			V4L2_MAP_YCBCR_ENC_DEFAULT(sink_fmt->colorspace);
->+		sink_fmt->quantization = format->quantization ? :
->+			V4L2_MAP_QUANTIZATION_DEFAULT(false, sink_fmt->colorspace,
->+						      sink_fmt->ycbcr_enc);
->+	} else {
->+		/*
->+		 * The YCbCr encoding isn't applicable for non-YUV formats, but
->+		 * V4L2 has no "no encoding" value. Hardcode it to Rec. 601, it
->+		 * should be ignored by userspace.
->+		 */
->+		sink_fmt->ycbcr_enc = V4L2_YCBCR_ENC_601;
->+		sink_fmt->quantization = V4L2_QUANTIZATION_FULL_RANGE;
->+	}
->+
-> 	*format = *sink_fmt;
->
->+	/* Propagate the media bus code and color space to the source pad. */
->+	src_fmt->code = sink_fmt->code;
->+	src_fmt->colorspace = sink_fmt->colorspace;
->+	src_fmt->xfer_func = sink_fmt->xfer_func;
->+	src_fmt->ycbcr_enc = sink_fmt->ycbcr_enc;
->+	src_fmt->quantization = sink_fmt->quantization;
->+
-> 	/* Update sink crop */
-> 	rkisp1_rsz_set_sink_crop(rsz, sd_state, sink_crop, which);
-> }
->-- 
->Regards,
->
->Laurent Pinchart
->
+If you fix the issue, kindly add following tag where applicable
+Reported-by: kernel test robot <lkp@intel.com>
+
+cocci warnings: (new ones prefixed by >>)
+>> drivers/media/i2c/ar0521.c:409:5-8: Unneeded variable: "ret". Return "0" on line 426
+
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
