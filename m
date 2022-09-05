@@ -2,158 +2,144 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D59DD5ACECA
-	for <lists+linux-media@lfdr.de>; Mon,  5 Sep 2022 11:29:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F295D5ACF0D
+	for <lists+linux-media@lfdr.de>; Mon,  5 Sep 2022 11:43:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235585AbiIEJ0J (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 5 Sep 2022 05:26:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39698 "EHLO
+        id S234585AbiIEJml (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 5 Sep 2022 05:42:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58176 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236631AbiIEJZ7 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 5 Sep 2022 05:25:59 -0400
-Received: from EUR05-AM6-obe.outbound.protection.outlook.com (mail-am6eur05on2086.outbound.protection.outlook.com [40.107.22.86])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A1D5D2C115
-        for <linux-media@vger.kernel.org>; Mon,  5 Sep 2022 02:25:56 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=bgAwltF+0yv8JSF/vCFkKfUncbH6YIc+QQ0J7OrXqUJUFJ/Lw4HfFFjXFDLJbwhm4ktK6oY2gksnrsHMWR4+5DtLGqg8N5ytjGWDqUi3a2Hy9L+bhPC0S1/HkR02TcMsJ6OziqcRjb/FMSfkSRtEGPzmGr8dhCAh+iGVnIdL3EKrvr+JcI7GpGk27A+LjUaX/uiuw5sFli/bVJjnzWFycHggzOn+wG+smS4r9hWVrxyZZgXRLfenxwmK9x8NkwaZaCgX2Fy98UVUgux31/n+xT0ERawKFjWVuY2wGAdPGyF8qHZ7IXA5mG/MGy4Fbg+HjH2KTo59mZFcbyNv9pWDtQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=shXN+21UUk7ar6VnnbK8fvZ39+TtoeZbK3vfiF0KppU=;
- b=Emr7Ir3teuvRQTg/UAZXJwjjoKAL+Jd8BgIT2PUZEjQDkThdKt1ttehuTO3cMdbWuROcGBw1rXIUTHQ44h9BGxZERQeihLC53nq7wK+kJNQJAziKjdS7JJ+qbUUeJhKWsBJeo5gQB7jBnPgNpm0rMGdN3i5KVfIRWQss8MJ77Az2ZA8Nq4jM3QsX9DSHETnXeAEBAtjNkaD/mD6ikvOQ7D5IOqZPYmWN8gQ0nfU2Y+IELX+yA23rdbU+WhvhPHn0mkSN2MA+NIc5tp9XUQ5HsXyaC4FPOHf1pwiOE6KGVs9HhyVW82vwlVP6ujhZD+f92p2CoUuWxxv+O1U9O3qHrQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=piap.lukasiewicz.gov.pl; dmarc=pass action=none
- header.from=piap.pl; dkim=pass header.d=piap.pl; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=lukasiewiczgov.onmicrosoft.com; s=selector1-lukasiewiczgov-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=shXN+21UUk7ar6VnnbK8fvZ39+TtoeZbK3vfiF0KppU=;
- b=EURA0BUgsnTKqSRghoPuQvqGKXdCDnEu4tdB85c5JfTAAHIlb2kUXELT2+fFCGyUhn10PHoDbYPvVE0AOQdSIm9NN1d0qkhiumSAjYGsWZ3r0SBpgjQ42rcPGFQgwk5mdaPr4J9JmG3OoCeVDnRQLrmzdSKYNh+kAtWC5lQssog=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=piap.pl;
-Received: from VI1P193MB0685.EURP193.PROD.OUTLOOK.COM (2603:10a6:800:155::18)
- by AM8P193MB0801.EURP193.PROD.OUTLOOK.COM (2603:10a6:20b:1ea::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5588.10; Mon, 5 Sep
- 2022 09:25:53 +0000
-Received: from VI1P193MB0685.EURP193.PROD.OUTLOOK.COM
- ([fe80::8d12:1c00:ed1:2f0c]) by VI1P193MB0685.EURP193.PROD.OUTLOOK.COM
- ([fe80::8d12:1c00:ed1:2f0c%2]) with mapi id 15.20.5588.018; Mon, 5 Sep 2022
- 09:25:53 +0000
-From:   =?utf-8?Q?Krzysztof_Ha=C5=82asa?= <khalasa@piap.pl>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     linux-media@vger.kernel.org
-Subject: Re: [PATCH 1/1] ar0521: Fix return value check in writing initial
- registers
-References: <20220830103456.3249168-1-sakari.ailus@linux.intel.com>
-Date:   Mon, 05 Sep 2022 11:25:51 +0200
-In-Reply-To: <20220830103456.3249168-1-sakari.ailus@linux.intel.com> (Sakari
-        Ailus's message of "Tue, 30 Aug 2022 13:34:56 +0300")
-Message-ID: <m37d2i9nq8.fsf@t19.piap.pl>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-ClientProxiedBy: BE0P281CA0033.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:b10:14::20) To VI1P193MB0685.EURP193.PROD.OUTLOOK.COM
- (2603:10a6:800:155::18)
+        with ESMTP id S236413AbiIEJmk (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 5 Sep 2022 05:42:40 -0400
+Received: from mail-io1-f71.google.com (mail-io1-f71.google.com [209.85.166.71])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8F5D24E872
+        for <linux-media@vger.kernel.org>; Mon,  5 Sep 2022 02:42:38 -0700 (PDT)
+Received: by mail-io1-f71.google.com with SMTP id a21-20020a5d9815000000b006882e9be20aso4679879iol.17
+        for <linux-media@vger.kernel.org>; Mon, 05 Sep 2022 02:42:38 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date;
+        bh=X3yk1eG/DV5Le3kCaxu0Ha0WlwBmmsjzDesiw7cpZEM=;
+        b=oRTul+QKjv7K9OsDdLSHTsJpeZc+qpajKvcpvXnYLh7GATE0YkC2uxMU0JiF69C0Ei
+         CQ/vHGjnHYH/fMyamolPL00/ny1scyz23r1+Y51nZLpSLtB1pEINv5yAjVsV/IrgJqg6
+         AFltaCFz+RZTboqFr9MjREJujaLMnUAcQ8ZgCel7rHXiYsqXtJ/7E8+I1Ex6uP6Kh/yd
+         B1rsrEmKZtWMvl2upH5hkI5o08hV029+lyA5yemfiAQQJQKMuC0C66TcjlKpvHfqskBX
+         zZGTz1UgojQ/czpqlg3Il6YXpH/AFNF/3dvaOIuUHMfBz2OWdbICn986ACOemxaDV31q
+         wIQA==
+X-Gm-Message-State: ACgBeo30x5Wl4UIvrV55yvYXKEIl+6C6+2hM7FOD01EObAgP1TUoxCQj
+        R8+hinFSx9Us/REeC6UyJ16PrQMf2k5W5nFjv4nA5iTZIPge
+X-Google-Smtp-Source: AA6agR681pLVYWY+KeBgzKX9+rikNjuvJjzOHnLjjwGbsfRlpFuTOZTpFMkAnpkeOJPO2pxVhl1tiE5zgmk1B1bKRzs0I0FHvOSO
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 8e22c0ef-c604-4eee-f9a4-08da8f20a117
-X-MS-TrafficTypeDiagnostic: AM8P193MB0801:EE_
-X-MS-Exchange-AtpMessageProperties: SA|SL
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: nxwwd7tCNBe+T6YlQNP3Zo1POvT6dLqNTgSODjr6F3BiKatqthPOTl4iJdH3O8Tr1Y2qj228wLe6Pm4e1yRlJJZ0HjPsG8D4xSvCypbJiPFeIQuYMVZcvl4SHxlEW8nG3ts1bcMH0bVjqxlVekxFSji2EZegrGN9mB1PiWOxYNyPdA2yamx0lSQGCRQSyxVd4TrtlmJMnYUk0vp7Y+TodBPviPQDMkUe96soD90z3g5ka5CodEGu3Pyl0Ojsq1NwR5Ni8HPNlVxOtxb2aW69cYis94E5wh+iaU8mqtwZzxXgi9nvUoQvkB+eGBOpsjYuM0IAPK/J+rlHEe+gxioUh0p/IJk02t+MkqJS1gckfCL5ftShGousjo8aX/Eoxd6gsQaoEAGxwUW68VTE8ufMOMkLg4EIpsVlnA+CcF0E7UbuC5kcnmPFNjmGR69rK+SrLfm0a4nEV8V3lZ6C/5rcVd3Bv+07+WWUOj288N5sHIw+dtpUAMZe9oNOeouA4rZy0lV7o8qbcS3BRq7k1i3fSW2qwyEOep7pTmyM9IfoyRnt0lkZNOvwH4OdtjXz6wkpuX9CisYZdNrAjznSh6K+zNgrDXJUVjeTCA+TgL5LIISs8rmPZhOCRT9lxDjmTMbT7Rg8Zg4gZfH8KCf5cYXFCQ80Y5Inac+45vFiUI8YlcVqu+iTYXTM1rVmhkb85Ln0LxKVQjYHJkK/8+syQX9JYYyN8v+slV7N/u3GykM3iztCbsSPFavuSoNjsAX9cCkQ
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VI1P193MB0685.EURP193.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230016)(4636009)(136003)(39850400004)(346002)(366004)(376002)(396003)(38350700002)(38100700002)(42882007)(186003)(6916009)(786003)(316002)(8936002)(6486002)(83170400001)(6506007)(478600001)(5660300002)(66476007)(4326008)(8676002)(66946007)(52116002)(4744005)(83380400001)(66556008)(26005)(2906002)(41300700001)(6512007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?cXRKUFIySjZTLzFYaUFMRGRVTnFsdEpEdE0rbUpiMVI1N3E3alllRFNIZUhv?=
- =?utf-8?B?aE4yWmZVQXNEVWM0Mlp0SW1PUHM0QmNKMWtaN3RySFM4SEh6NkZzaUJUaHZJ?=
- =?utf-8?B?ZW10SHh0dWhvWktrdzkvSDB5MEJrOUw5ZUs0TlFIMWIzREdIR2MwK2p5eVZ3?=
- =?utf-8?B?Q0E0VEZMRjFEelZwWThJaWVGS3JVUk5oa2N2SnVWOG0yUlNhd2UvMUtTZ0cz?=
- =?utf-8?B?Qjhya1JFTjNGSERKRysramVURWFsaHp0VVdXOHlTdDRPcnhQc3ZzbEQyT0th?=
- =?utf-8?B?VW9qQUsvNzUwUU1jQ245VHROT08yMzJVMXEvSmFlc2xjZjY5d1hCUHF2bmw5?=
- =?utf-8?B?dWMvSWFXWTRFNDdWQlJGZ0FaYjJmRnZRVFdNbXYvZ3o4UUZtKzR2bVhqd0s5?=
- =?utf-8?B?eHgyS3ZlV1h4a1krcjN0a0V3bWl1QmJOTzZrK3V4WUpzemtFWjdyT3IvWlVF?=
- =?utf-8?B?bjVHbzNwWkk5UjNFMEVXaGNNYUtoenlML0c0MFFpSXdkSVVnSFlwNDkzalZE?=
- =?utf-8?B?eStBVUJMN1RQRFdLdVJWSUFMY3VGOHBBVUZCdUtxK3JjT3p1N2RRMG1mZkdV?=
- =?utf-8?B?UWQ5VDVmS0NwNkZ2V3VSWVI3K2dRWUlTcFZIa3BxZSsxK3F6UHdLK3dkaEJw?=
- =?utf-8?B?U2RXcHZUNncvemVvenBVUVBsNWlJNG8rQmlMd3BDaGJ2ZkFWOTVISjZMUXYx?=
- =?utf-8?B?U201NDFTMFB5U21Tc2Q2ODcrTURPVjhqMnRLQ1JuZmlMV2l3R3pKcFdrQ1Rt?=
- =?utf-8?B?M0hzcEptQmpheTFzbkZ4cEZpZ0ZXMGhCMFlZZGNnMmp0L1psU2tCOGM3SXI2?=
- =?utf-8?B?WXZoWkY4NzBoZS9iRkxuY0tCYklCckhpZ2ZNbGtScWlnN1VuTTVSS21iQUdk?=
- =?utf-8?B?eTNoK1hvV09qajZjN3BTcWZFa3poanZrWjBnZm1BcUdUd0pyN21GdUhnaDJN?=
- =?utf-8?B?VVhqZUh2U2xuaUlkWk9PdmNRQXpJOTRabEJLZmc3aGF3NDhMWHl1YmhKMjYy?=
- =?utf-8?B?dlhKT3YybWY3NXhmVGRQYVhLdVdiSjBiU2lYc1RVcUo1M3lQak5kUUVKeFla?=
- =?utf-8?B?RlBISnlOZmxJUldteFBadVhRYTZnOHBRNXpXdXJOd2NTM2lTY2xnNHovSkZD?=
- =?utf-8?B?MDYxdStjeFpwd1RzVmNGVWhSc0pMOFNUNkhOZG9mYUtOU0NKMndONDRDeURG?=
- =?utf-8?B?YUVNdGlBNkd5K3FQZlN1WlFpY0dyTnV0NG8vUHBoQ216ZUE0RjBUOXMrNmll?=
- =?utf-8?B?WkVHVkxuT0xYNUdTMzFjdzZwVldOTmhWZDNMalFQSVgvam1WMVdJTXFZeE5R?=
- =?utf-8?B?K3I0TzZrQVovRlBnOU5iRHZlVHlBdEJZbUxWTEVyMHQxQ1UzOEdNbnZET2I3?=
- =?utf-8?B?ZzV6clNmbExqSjNCSTh2NGlONzVaWU0yQXMrZFNzVFVyTHBQVzYrNDBva3do?=
- =?utf-8?B?UXJzcTFjUjVoOEg1VERSSnlkM3RESzJzRy9uSlZGcUFJRDRHNDdvMVNRK0FC?=
- =?utf-8?B?ZHBnU3pteXpIMDhWN1lWSVBLK2h5bWtOQjFxcElSQlZ5RlFMc3l4UjM4UjZy?=
- =?utf-8?B?eUxVaThWcGsyTFpFajJkM3hVRmJjWHVZaStUR29nWG0weWxqYk5WUHY5QnVx?=
- =?utf-8?B?OUhCZXNOT2JlYkh6N21BNGxTbkl0VGxFVmtNTWwyM2lZNmFmcUg4WmNCV1l4?=
- =?utf-8?B?V2xyVWVKTk5Od2g3WnVlblZKUGtzdWhBOXA4enFQMit3T25xMDJXVkhGWjRy?=
- =?utf-8?B?NHhaczBXNEI3cnZhQTRhc0Y3b0hwY0ZCQkFpNU52aGRoanNXMEFSd08rbFFD?=
- =?utf-8?B?WXlPZHEyWEtHZnIzRDYvVWpkb0FzTXRDajQ4aHFYeFRQRFpGdGNjNmFhU2tj?=
- =?utf-8?B?MnN0SHIzc05WT1lrdFJ5cGc0blJ5L1JHS1BWZ2JhcTRGRTM1TUcwdW5ueXJr?=
- =?utf-8?B?OHA4eVRCZFhrQmRKSjlPakx2OTFmd2NLSG9RaHN6dUpXNXM2K1U4ZTZoVGw5?=
- =?utf-8?B?UkpYVVdxa0sxbzJ3Yll2ZHNyTDY1dklINlhnVFpnbzFBOStmVHd4OVU5alV0?=
- =?utf-8?B?VFNQNU01RUdrN0lZNXNXYU1RRzB1UGVVYTE2d1NadU1nZnJIWlQwaGpjRzdZ?=
- =?utf-8?B?aFZydWtyZ2hXVmZlTnQ0ejJjWldTUjJ6QlZQbExnSm9ocmdtbUVpempidUMv?=
- =?utf-8?Q?08CPMbf1FsplorAWD8R2+wLOStyBUpZ9WoqOSibqj/jp?=
-X-OriginatorOrg: piap.pl
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8e22c0ef-c604-4eee-f9a4-08da8f20a117
-X-MS-Exchange-CrossTenant-AuthSource: VI1P193MB0685.EURP193.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Sep 2022 09:25:53.2180
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3e05b101-c6fe-47e5-82e1-c6a410bb95c0
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: jFfWIZT8BUghAn/yTcyOH0aTbLLGqmT3yJsv+Z20bVFM76a78q1UBqBRYrnmQCqMtnxX/RDDXHT3wl0NlGXFECdqVq+nknb0bKazZlyl1Y7BPz8ZwpCXL2oekQED6wH7Wdh7NMWXWOITG974lWwlgw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM8P193MB0801
-X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=no autolearn_force=no version=3.4.6
+X-Received: by 2002:a05:6e02:1c2c:b0:2ee:5b19:fbf4 with SMTP id
+ m12-20020a056e021c2c00b002ee5b19fbf4mr8438540ilh.131.1662370957895; Mon, 05
+ Sep 2022 02:42:37 -0700 (PDT)
+Date:   Mon, 05 Sep 2022 02:42:37 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <0000000000006e2d4305e7eae644@google.com>
+Subject: [syzbot] WARNING: refcount bug in drm_gem_object_handle_put_unlocked
+From:   syzbot <syzbot+c512687fff9d22327436@syzkaller.appspotmail.com>
+To:     airlied@linux.ie, christian.koenig@amd.com, daniel@ffwll.ch,
+        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+        sumit.semwal@linaro.org, syzkaller-bugs@googlegroups.com,
+        tzimmermann@suse.de
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=0.8 required=5.0 tests=BAYES_00,FROM_LOCAL_HEX,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SORTED_RECIPS,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sakari,
+Hello,
 
-Sakari Ailus <sakari.ailus@linux.intel.com> writes:
+syzbot found the following issue on:
 
-> The return value from register writes is ignored apart from the last
-> value. Fix this.
+HEAD commit:    a41a877bc12d Merge branch 'for-next/fixes' into for-kernelci
+git tree:       git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-kernelci
+console output: https://syzkaller.appspot.com/x/log.txt?x=17ae17bd080000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=5cea15779c42821c
+dashboard link: https://syzkaller.appspot.com/bug?extid=c512687fff9d22327436
+compiler:       Debian clang version 13.0.1-++20220126092033+75e33f71c2da-1~exp1~20220126212112.63, GNU ld (GNU Binutils for Debian) 2.35.2
+userspace arch: arm64
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=10e8fee5080000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=16b6bf13080000
 
-Must be Emacs' fault :-)
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+c512687fff9d22327436@syzkaller.appspotmail.com
 
-> Reported-by: kernel test robot <lkp@intel.com>
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+------------[ cut here ]------------
+refcount_t: underflow; use-after-free.
+WARNING: CPU: 0 PID: 3029 at lib/refcount.c:28 refcount_warn_saturate+0x1a0/0x1c8 lib/refcount.c:28
+Modules linked in:
+CPU: 0 PID: 3029 Comm: syz-executor717 Not tainted 6.0.0-rc2-syzkaller-16455-ga41a877bc12d #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/22/2022
+pstate: 60400005 (nZCv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+pc : refcount_warn_saturate+0x1a0/0x1c8 lib/refcount.c:28
+lr : refcount_warn_saturate+0x1a0/0x1c8 lib/refcount.c:28
+sp : ffff80001200baa0
+x29: ffff80001200baa0 x28: 00000000000a201d x27: 0000000000002000
+x26: dead000000000100 x25: 0000000000000000 x24: 0000000000000001
+x23: 0000000000000001 x22: 0000000000000000 x21: 0000000000000000
+x20: 0000000000000003 x19: ffff80000d937000 x18: 00000000000000c0
+x17: ffff80000dd7a698 x16: ffff80000dbb8658 x15: ffff0000c10a4f80
+x14: 0000000000000000 x13: 00000000ffffffff x12: ffff0000c10a4f80
+x11: ff808000081c39dc x10: 0000000000000000 x9 : 9016e5cf66052a00
+x8 : 9016e5cf66052a00 x7 : ffff800008197c8c x6 : 0000000000000000
+x5 : 0000000000000080 x4 : 0000000000000001 x3 : 0000000000000000
+x2 : 0000000000000000 x1 : 0000000100000000 x0 : 0000000000000026
+Call trace:
+ refcount_warn_saturate+0x1a0/0x1c8 lib/refcount.c:28
+ __refcount_sub_and_test include/linux/refcount.h:283 [inline]
+ __refcount_dec_and_test include/linux/refcount.h:315 [inline]
+ refcount_dec_and_test include/linux/refcount.h:333 [inline]
+ kref_put include/linux/kref.h:64 [inline]
+ __drm_gem_object_put include/drm/drm_gem.h:381 [inline]
+ drm_gem_object_put include/drm/drm_gem.h:394 [inline]
+ drm_gem_object_handle_put_unlocked+0x178/0x190 drivers/gpu/drm/drm_gem.c:240
+ drm_gem_object_release_handle+0x90/0xa8 drivers/gpu/drm/drm_gem.c:259
+ idr_for_each+0xf0/0x174 lib/idr.c:208
+ drm_gem_release+0x30/0x48 drivers/gpu/drm/drm_gem.c:932
+ drm_file_free+0x220/0x2cc drivers/gpu/drm/drm_file.c:281
+ drm_close_helper drivers/gpu/drm/drm_file.c:308 [inline]
+ drm_release+0x108/0x22c drivers/gpu/drm/drm_file.c:495
+ __fput+0x198/0x3bc fs/file_table.c:320
+ ____fput+0x20/0x30 fs/file_table.c:353
+ task_work_run+0xc4/0x208 kernel/task_work.c:177
+ exit_task_work include/linux/task_work.h:38 [inline]
+ do_exit+0x26c/0xbb8 kernel/exit.c:795
+ do_group_exit+0x60/0xe8 kernel/exit.c:925
+ __do_sys_exit_group kernel/exit.c:936 [inline]
+ __se_sys_exit_group kernel/exit.c:934 [inline]
+ __wake_up_parent+0x0/0x40 kernel/exit.c:934
+ __invoke_syscall arch/arm64/kernel/syscall.c:38 [inline]
+ invoke_syscall arch/arm64/kernel/syscall.c:52 [inline]
+ el0_svc_common+0x138/0x220 arch/arm64/kernel/syscall.c:142
+ do_el0_svc+0x48/0x154 arch/arm64/kernel/syscall.c:206
+ el0_svc+0x58/0x150 arch/arm64/kernel/entry-common.c:624
+ el0t_64_sync_handler+0x84/0xf0 arch/arm64/kernel/entry-common.c:642
+ el0t_64_sync+0x18c/0x190
+irq event stamp: 12698
+hardirqs last  enabled at (12697): [<ffff8000081c1c48>] __up_console_sem+0xb0/0xfc kernel/printk/printk.c:264
+hardirqs last disabled at (12698): [<ffff80000bffe9cc>] el1_dbg+0x24/0x5c arch/arm64/kernel/entry-common.c:395
+softirqs last  enabled at (12442): [<ffff8000080102e4>] _stext+0x2e4/0x37c
+softirqs last disabled at (12417): [<ffff800008104658>] do_softirq_own_stack include/asm-generic/softirq_stack.h:10 [inline]
+softirqs last disabled at (12417): [<ffff800008104658>] invoke_softirq+0x70/0xbc kernel/softirq.c:452
+---[ end trace 0000000000000000 ]---
 
-Acked-by: Krzysztof Ha=C5=82asa <khalasa@piap.pl>
 
-> +++ b/drivers/media/i2c/ar0521.c
-> @@ -755,11 +755,12 @@ static int ar0521_power_on(struct device *dev)
->  		gpiod_set_value(sensor->reset_gpio, 0);
->  	usleep_range(4500, 5000); /* min 45000 clocks */
-> =20
-> -	for (cnt =3D 0; cnt < ARRAY_SIZE(initial_regs); cnt++)
-> +	for (cnt =3D 0; cnt < ARRAY_SIZE(initial_regs); cnt++) {
->  		ret =3D ar0521_write_regs(sensor, initial_regs[cnt].data,
->  					initial_regs[cnt].count);
->  		if (ret)
->  			goto off;
-> +	}
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
---=20
-Krzysztof "Chris" Ha=C5=82asa
-
-Sie=C4=87 Badawcza =C5=81ukasiewicz
-Przemys=C5=82owy Instytut Automatyki i Pomiar=C3=B3w PIAP
-Al. Jerozolimskie 202, 02-486 Warszawa
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+syzbot can test patches for this issue, for details see:
+https://goo.gl/tpsmEJ#testing-patches
