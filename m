@@ -2,94 +2,102 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B73565AC83D
-	for <lists+linux-media@lfdr.de>; Mon,  5 Sep 2022 02:09:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 01C965ACE1B
+	for <lists+linux-media@lfdr.de>; Mon,  5 Sep 2022 10:55:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234798AbiIEAHf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 4 Sep 2022 20:07:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49806 "EHLO
+        id S237419AbiIEInB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 5 Sep 2022 04:43:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59946 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229596AbiIEAHe (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sun, 4 Sep 2022 20:07:34 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5FEE728E2D
-        for <linux-media@vger.kernel.org>; Sun,  4 Sep 2022 17:07:33 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 422016BC;
-        Mon,  5 Sep 2022 02:07:31 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1662336451;
-        bh=R+54rkiyCavryxYJx2FmBE5iXEf8NSpP74eC5SBm/Bs=;
-        h=Date:From:To:Cc:Subject:From;
-        b=avL4wxd+lFrqo5og2GDepATJdDmfxKiyCoVjK6b7nU8p16Tgaeu47iBGCw+lA/LfT
-         YSlpaSlGJfT6zRz8caCSiUSt1S8g4yqxg0HlynNxzaN9tKLA9lk46IOsP/21Q9WXSt
-         r5x5/0Ik6NPkwaMUrBfJ38Z5wrwZms3aUgM/IHOI=
-Date:   Mon, 5 Sep 2022 03:07:16 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     linux-media@vger.kernel.org
-Cc:     Dafna Hirschfeld <dafna@fastmail.com>
-Subject: [GIT PULL FOR v6.1] rkisp1 fixes and improvements
-Message-ID: <YxU9tFzaGxnwMGMU@pendragon.ideasonboard.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+        with ESMTP id S235191AbiIEIm6 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 5 Sep 2022 04:42:58 -0400
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D19192BB;
+        Mon,  5 Sep 2022 01:42:56 -0700 (PDT)
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 285798qD026381;
+        Mon, 5 Sep 2022 08:42:53 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
+ subject : date : message-id; s=qcppdkim1;
+ bh=eLaQrz6sT3ta9nYcNtkFQOVwO8nrElyImBIyHL7uR0E=;
+ b=cEw+8xTyMgzWaPvdfItWeBdYLQc+Ub8TfxLwlu5T12FVeiR+XIEVJnFV+IMPm0WLqUEM
+ R4A3+zxiPSv4GGpzdf0fCmx9UK2dUCLwHqOlc7EAJzQVOEjVjwZXMFPrZTdkFnhuvHgt
+ n8zitDL0QXJVt1q3GZMZIKdEPQnLa/78PC9h/Iv4qkikLcmf1huyoWxbXSCNpG2UIkA7
+ 9yLPiRhl8x3VQK0z/VKbnGDrWF0LspmtKufj09IZAUDb+MrkX466W8NPeW5Oecn8W061
+ GwtQIBho4GhFWbEs7XxjcWdmLNVEMSSXWooJ7aDIwQGuqcaJTeW7DQUuZ4Or2G0aOlrA Dw== 
+Received: from apblrppmta01.qualcomm.com (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3jbvmnby1r-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 05 Sep 2022 08:42:52 +0000
+Received: from pps.filterd (APBLRPPMTA01.qualcomm.com [127.0.0.1])
+        by APBLRPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTP id 2858gmJS011981;
+        Mon, 5 Sep 2022 08:42:48 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+        by APBLRPPMTA01.qualcomm.com (PPS) with ESMTP id 3jc00k48ng-1;
+        Mon, 05 Sep 2022 08:42:48 +0000
+Received: from APBLRPPMTA01.qualcomm.com (APBLRPPMTA01.qualcomm.com [127.0.0.1])
+        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2858gm4P011975;
+        Mon, 5 Sep 2022 08:42:48 GMT
+Received: from vboma-linux.qualcomm.com (vboma-linux.qualcomm.com [10.204.65.94])
+        by APBLRPPMTA01.qualcomm.com (PPS) with ESMTP id 2858gmoj011974;
+        Mon, 05 Sep 2022 08:42:48 +0000
+Received: by vboma-linux.qualcomm.com (Postfix, from userid 72083)
+        id CC6AD900883; Mon,  5 Sep 2022 14:12:47 +0530 (IST)
+From:   quic_vboma@quicinc.com
+To:     Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     Viswanath Boma <quic_vboma@quicinc.com>
+Subject: [PATCH 0/1] Enabling sufficient sequence change support for VP9
+Date:   Mon,  5 Sep 2022 14:12:26 +0530
+Message-Id: <20220905084227.24028-1-quic_vboma@quicinc.com>
+X-Mailer: git-send-email 2.17.1
+X-QCInternal: smtphost
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: F5TionFF6DLGXGrQtir8SVkpxOrDH9kX
+X-Proofpoint-ORIG-GUID: F5TionFF6DLGXGrQtir8SVkpxOrDH9kX
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.517,FMLib:17.11.122.1
+ definitions=2022-09-05_05,2022-09-05_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 spamscore=0
+ priorityscore=1501 bulkscore=0 adultscore=0 malwarescore=0 mlxscore=0
+ mlxlogscore=973 lowpriorityscore=0 phishscore=0 clxscore=1011
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2207270000 definitions=main-2209050041
+X-Spam-Status: No, score=-2.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mauro,
+From: Viswanath Boma <quic_vboma@quicinc.com>
 
-The following changes since commit 61890ccaefaff89f5babd2c8412fd222c3f5fe38:
+The fix was tested on v5.4 kernel with supporting firmware 
+release VIDEO.VE.5.4-00051-PROD-1 .
 
-  media: platform: mtk-mdp3: add MediaTek MDP3 driver (2022-08-30 16:25:51 +0200)
+Ensured verification of the fix on chrome CRD device.
 
-are available in the Git repository at:
 
-  git://linuxtv.org/pinchartl/media.git tags/v4l2-next-20220905
+Viswanath Boma (1):
+  venus : Enabling sufficient sequence change support for VP9 on
+    sc7180-venus
 
-for you to fetch changes up to 81d9f8aa44b7484223a8157500b1de0cb0acb7ce:
-
-  media: rkisp1: Zero v4l2_subdev_format fields in when validating links (2022-09-05 01:08:28 +0300)
-
-----------------------------------------------------------------
-Miscellaneous fixes and improvements to the rkisp1 driver
-
-----------------------------------------------------------------
-Laurent Pinchart (18):
-      media: rockchip: rkisp1: Set DPCC methods enable bits inside loop
-      media: rockchip: rkisp1: Mask invalid bits in DPCC parameters
-      media: rockchip: rkisp1: Define macros for DPCC configurations in UAPI
-      media: rkisp1: Initialize color space on ISP sink and source pads
-      media: rkisp1: Allow setting color space on ISP sink pad
-      media: rkisp1: Fix source pad format configuration
-      media: rkisp1: Allow setting all color space fields on ISP source pad
-      media: rkisp1: Configure quantization using ISP source pad
-      media: rkisp1: Don't pass the quantization to rkisp1_csm_config()
-      media: rkisp1: Configure CSM based on YCbCr encoding
-      media: rkisp1: Initialize color space on resizer sink and source pads
-      media: rkisp1: Allow setting color space on resizer sink pad
-      media: rkisp1: Clean up LSC configuration code
-      media: rkisp1: Store LSC register values in u32 variables
-      media: rkisp1: Simplify LSC x/y size and grad register macros
-      media: rkisp1: Use correct macro for gradient registers
-      media: rkisp1: Configure LSC after enabling the ISP
-      media: rkisp1: Zero v4l2_subdev_format fields in when validating links
-
- .../platform/rockchip/rkisp1/rkisp1-capture.c      |   7 +-
- .../media/platform/rockchip/rkisp1/rkisp1-common.h |  30 +-
- .../media/platform/rockchip/rkisp1/rkisp1-isp.c    | 144 +++++-
- .../media/platform/rockchip/rkisp1/rkisp1-params.c | 529 ++++++++++++---------
- .../media/platform/rockchip/rkisp1/rkisp1-regs.h   |  47 +-
- .../platform/rockchip/rkisp1/rkisp1-resizer.c      |  45 +-
- include/uapi/linux/rkisp1-config.h                 |  77 ++-
- 7 files changed, 590 insertions(+), 289 deletions(-)
+ drivers/media/platform/qcom/venus/core.h       |  2 ++
+ drivers/media/platform/qcom/venus/hfi_cmds.c   |  1 +
+ drivers/media/platform/qcom/venus/hfi_helper.h |  2 ++
+ drivers/media/platform/qcom/venus/hfi_msgs.c   | 13 ++++++-------
+ drivers/media/platform/qcom/venus/vdec.c       | 16 +++++++++++++++-
+ 5 files changed, 26 insertions(+), 8 deletions(-)
 
 -- 
-Regards,
+2.17.1
 
-Laurent Pinchart
