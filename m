@@ -2,198 +2,88 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 302ED5AD449
-	for <lists+linux-media@lfdr.de>; Mon,  5 Sep 2022 15:52:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4071A5AD579
+	for <lists+linux-media@lfdr.de>; Mon,  5 Sep 2022 16:48:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236695AbiIENu1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 5 Sep 2022 09:50:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59326 "EHLO
+        id S238522AbiIEOqG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 5 Sep 2022 10:46:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53680 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237940AbiIENuY (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 5 Sep 2022 09:50:24 -0400
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2043.outbound.protection.outlook.com [40.107.93.43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 02E0F286FF;
-        Mon,  5 Sep 2022 06:50:17 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=G3x/vg9Vd2IA9gV/HbEho1RWJkMlNpsNX27m1NkmjD3LF/IJ09qmeZDJJesQLFFKvRyayTrKFIucto5d5dgxNNmeSD76AAFUBwEGtnAy7CUuU786u7X9bPAGCUjStgC8WoXkJ4rBlEpNX1YJJwoAsI9S7X5vYUGQUnOGmScAC4ikH6VXCkxdjYpVXTZiRH63LHrAyBgN5a09hOFHs10djuIOewmQyRtOm0Z+ESjq53wUpUPf/sdcUmYSQhgNKzDTMwjXEpmFFEO4M0610D6KiZmKxmXU83NdkHJAhRHNpB+nAGWJeedXFpliJeNsMNiTa0diOW6er+/p7cDJBde2ug==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=iDVr77z/lBvaY5ggSYdWov7wrnngYiW92g2jspttE0Q=;
- b=JxAGN5dsbyD/aOyhAU4F7ZAfb31RciXfPLgUS6VQCAFo0O2i5jD/SgUzA7pDEZ8t5hFcXapBeOtUXZa5aNOX3tCPQDTPi74NgOANMf1ptYIlnrsHXzAraUt+sODsM9YrPVezHM5SxbuLm8Fbg8fljiXpRLBdIJRFl9oyInEEuV64noOOjuuEIhGZPxQblmGZ8lLoWFzkOGmP290kaBGISzrH1VM7Jlq2oNk16bnqo85GtwnVSc9qRO6IoUR9xPNTNGQGWw5f4t76wUxVoxgSaz8qC3jQh2GUgASlMjQ/QgmmJQr6j3E3AMn802qV12kz5Zddml2GDA17aLu44dCLfA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=iDVr77z/lBvaY5ggSYdWov7wrnngYiW92g2jspttE0Q=;
- b=rJ0hZoLumd+4tNJArqS/WBQjvnV+6x0MdV8SewzKHnRsZSqhGwCrNoI8ziKHFO0DQIMM56fc8t/4zQeKiS4o+9EeHv1jqJNXLOhvW3tzvZhUVufCppLMzSgiJ51NW10Dlvr6qFnzHKPCsJqIrxXVlpIO4/gIz6BSEov++l0w7eo=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB6000.namprd12.prod.outlook.com (2603:10b6:510:1dc::15)
- by BL3PR12MB6474.namprd12.prod.outlook.com (2603:10b6:208:3ba::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5566.21; Mon, 5 Sep
- 2022 13:50:15 +0000
-Received: from PH7PR12MB6000.namprd12.prod.outlook.com
- ([fe80::2e8f:6161:3959:aa0c]) by PH7PR12MB6000.namprd12.prod.outlook.com
- ([fe80::2e8f:6161:3959:aa0c%5]) with mapi id 15.20.5588.015; Mon, 5 Sep 2022
- 13:50:15 +0000
-Message-ID: <0ce528c5-dbeb-4bad-9bfb-68decb46a1a8@amd.com>
-Date:   Mon, 5 Sep 2022 19:20:03 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.1
-Subject: Re: [PATCH 3/4] dma-buf: Add callback and enable signaling on debug
-Content-Language: en-US
-To:     =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
-        Arvind Yadav <Arvind.Yadav@amd.com>, andrey.grodzovsky@amd.com,
-        shashank.sharma@amd.com, amaranath.somalapuram@amd.com,
-        Arunpravin.PaneerSelvam@amd.com, sumit.semwal@linaro.org,
-        gustavo@padovan.org, airlied@linux.ie, daniel@ffwll.ch,
-        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
-References: <20220905105653.13670-1-Arvind.Yadav@amd.com>
- <20220905105653.13670-4-Arvind.Yadav@amd.com>
- <47d30adc-00ac-75ad-106b-18010d8083c5@amd.com>
-From:   "Yadav, Arvind" <arvyadav@amd.com>
-In-Reply-To: <47d30adc-00ac-75ad-106b-18010d8083c5@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: PN2PR01CA0237.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:c01:eb::19) To PH7PR12MB6000.namprd12.prod.outlook.com
- (2603:10b6:510:1dc::15)
+        with ESMTP id S238523AbiIEOpq (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 5 Sep 2022 10:45:46 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EDEB020BC7
+        for <linux-media@vger.kernel.org>; Mon,  5 Sep 2022 07:44:46 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id F25264A8;
+        Mon,  5 Sep 2022 16:44:40 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1662389081;
+        bh=Y/TrQN+cIDWByq/upeaTQulvmbXQotLSfzEghgqX9LM=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=H/HKyQFC6u9MXGWB9bPCf3sU8wgFVOxi1+namQcx8slUTz6BaGKb4Xy1LMltj8uKe
+         EMgYu+bIEVE1zVW8kBbwsre9kEyOlDiq6FJ3/DdVzqCW+uleqwNGSHoeLG9o9dEykK
+         mYoVWoKPw1z2cKT3grq+KFjY210yQemHlIzsjyBc=
+Date:   Mon, 5 Sep 2022 17:44:26 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Hidenori Kobayashi <hidenorik@chromium.org>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Ricardo Ribalda <ribalda@chromium.org>,
+        Maxime Ripard <maxime@cerno.tech>,
+        Daniel Scally <djrscally@gmail.com>,
+        Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>,
+        Dave Stevenson <dave.stevenson@raspberrypi.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>
+Subject: Re: [ANN] Media Summit at ELCE Dublin, September 12: Draft Agenda V2
+Message-ID: <YxYLSk2pKdGnNDP3@pendragon.ideasonboard.com>
+References: <3840c3cc-00fb-45dd-cb89-39b36fb6d733@xs4all.nl>
+ <YxX8dzSsquJmO5hP@paasikivi.fi.intel.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: a50b0c58-149c-4541-a4d5-08da8f458fba
-X-MS-TrafficTypeDiagnostic: BL3PR12MB6474:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: wxWVehsDFkDTpAPsSPkDdHkhJ48wDlUL2zycCo1nm0KNJ5MUFW34I097Jg1trccu/XaPW4imrLZj1QaPNBGHciwhybzxYbMJVFvT7DhE1sr1+5PF1DdHr2/bkSeeWDpE6HhaERYa20c3iln/UczmdCp9ieDcleb2Kd+5b65NwFeY9KDaodSKuP4j/N8Nzfw8F5l+MObkCJTeOU4izPKdhYNV8RwvMakTc7PVWhEGzc05mDdIInE2Eo+oAuaXrBKVPsgHSagVv+7pzscvxMrKUTNmHXQ1MG4pROyz04yDv5X6edoXrj2pQIG26oqqWpHKNOK44nboHZEj1GUdEqrDSfE1IeT8PiuW2PByzKRZzy54Kx617y/sA1NYe+qRSYK+ribfbD4+jbjGH6wAcMyMzvEA9SLj4UFNR74uDE1p6AxkhgxA2I4C4wnfzx3iBTE0kWwgL62GT3lA659s8i+XmsPisP6QNnhJTrPFWO/8uPrZzwZVt1AlTHj/Fp/ii+zbfhnFMXCw1jGcip0bdm4Vc488Pv1SmEESg3+o0E7k8QrtGUtge7niWsPmFa1txmClnDC7NmZVbKYSKJf3s8vmjzflb4SiPuIMR34X59D7uvrMLXZ9GrLKJKd2eeGrEgT3HeZCHSty0IVgo8Rl2Q3rHwLN+XOG6oUKtcCtmCfNGFbkx6UZHqmCWJOC3tWfF5XH32CYyiILq325HYyNRuEdo81IOR4WbA7cEPpLJdfX5eIB47arDdHcYXCkQ0F1FEPncPIs0rtJHmXIiGs9Kxxpu+SPyIWv1r33kqynGJKJ4hynVPc5RdX3w1eGNv3hvFYT
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB6000.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(396003)(136003)(346002)(376002)(39860400002)(366004)(316002)(31686004)(36756003)(478600001)(110136005)(66946007)(66476007)(66556008)(38100700002)(6486002)(8676002)(921005)(41300700001)(8936002)(2616005)(5660300002)(31696002)(53546011)(6506007)(26005)(83380400001)(6512007)(2906002)(66574015)(6666004)(186003)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Tmp3RUIrK1Y3a1dodU4rVzFWMGJrTnEzamxwK2JlMDgxYnNXMEE5ZnNTdytq?=
- =?utf-8?B?czNMbnUvVlBPeHdLdjNIdER6aytjMW9LK3laZmR3bnVFVkx3cm5jU2dsaURp?=
- =?utf-8?B?Qzg3alBFNVlnYnBtM0c4b2R4ak50U3E0bDhFQ0Fwd3FqRW9iREsyZytZdnhJ?=
- =?utf-8?B?NzJhdzBkbEhYZFhvSDN0THNEMXFQTHFiOFBjS3NzNHJJbFlCanVRbVB2RzZk?=
- =?utf-8?B?b0JIcFRRcWJXSDQ2Vyt1VFNmTUhEL3MyQ2pibkRKMkttMlBPZHlmNm90QUNo?=
- =?utf-8?B?RWlUbEUzYXVlaGxiNjVDMndxNUlqcms3M1RLOUlRVW9BMVUrQmhpb2VMTG1I?=
- =?utf-8?B?b1E1WSt1b0twTEV4MGFCa3B4Y05yc25lOXE3amNHYUdJaDdPeWFZOVB0cmNz?=
- =?utf-8?B?c3ZYRzkxRnFwdTVmaW42MzJlRlZ4L29RYm5zWjc2Zlh5Vi9mT0c1dTlibVlR?=
- =?utf-8?B?L2V1QndiMzFkM2hkN0toT2toK1NxMkFqRWxuRGZQSXdNcGtuemxRVSt1VDl1?=
- =?utf-8?B?bDVjbFkzRk1mRUJoaUdicDU5OWluVllVWjN6dnFVVFUxUERJSk1zZ1ZyN3Fp?=
- =?utf-8?B?TkJOUkVLc3hxVzhTUHFYVC8rMmhibjhaWFVSelFGaG1XaFpzTXdDbk9MZmw2?=
- =?utf-8?B?VkYyK1A0SklHOVdLN0FjRm10alJzRytIbW84WHZVakdIMDNUT3IxSk5ndkQ5?=
- =?utf-8?B?N1J2K0lkeDRLRElDQUZPejV0WmNjZmk1SENKSUNNVXVqQ2dhSGZ5ZXBmamRQ?=
- =?utf-8?B?WE1UUFE5MU9seXJlUU9uSFliQUdiQkhmU2lkZHAvRVlCWEl3bU02ZGhFaUQz?=
- =?utf-8?B?cHZWZnRucU5oZEhVYk1BS1o0NnRUclcwcVBkc2UxZ05wMld5MXdLSi9zTENG?=
- =?utf-8?B?aHA2cnNLd0xzRmtkMjdaTUpncG93TElST3Y0Y1R4UnhqN0lhbkphb283Tllt?=
- =?utf-8?B?V28rU0V5ZUNxWkdPb1RKc0xXcHFhR3NoeEFtS2hJZGxFTHYrcDFoRkZTdlhS?=
- =?utf-8?B?anNpSTV6N0M4dC85WTR5NzZSSFRmK3p2WUk5VExBL0x1czRnbnVHZTU0R3NH?=
- =?utf-8?B?UERQa3VBNFpKWkpTa2Q4cjlSb2x1VEhTODA0Wk1kc2hTUEJVeENqZGlXZ1ZB?=
- =?utf-8?B?bFgvUTA2Nkp1QjYrYVV1ei81b1RTdFJwczVEUG1oR0RQYWhTMTFGYmMwRFM3?=
- =?utf-8?B?VlRYaVhrdGlXVFhiQVJya0VlYStyeE1zUU5tbk5IUjJYSkhkUDkyT3B5VHE1?=
- =?utf-8?B?MHhSVm1HcDluelRtWDB3TnVpUHhiazAyUFZuTmRLemtZQWVmMVl0cDNvSDBR?=
- =?utf-8?B?a1R1OGFxZ1JOWUQyemVlVkFUOEhmZGdpUmlmTTYzQ0pINmRnNVZFL3RHVmdr?=
- =?utf-8?B?M2kwUWhEbkJSTGZqOEphdmJYcWo5UUhnZDNCMTBjZ21DeTZ1UW9NRnFxS21s?=
- =?utf-8?B?ZGR2SGRmaDgzWGlCOUFGM0Ric3JmVzh1aEtGaG5NS01ZS1llemx2eW9nU1dz?=
- =?utf-8?B?UVA2RWtFeWdvRmZ5ektNaE11UUw3NXQ4eVd1QlJKWnJIODYyR1F5UlAyTThJ?=
- =?utf-8?B?TGw1NDB1U0t1SVo1K25VY3lDbTdFMVI3Q2lYWEd1dytUOHpBcUNoUUQ1dHlZ?=
- =?utf-8?B?S2RNcTB1L01mc0Zyc2lNKzc4dWsxT2V0d09wK0J1MjVWYkJZM0xuYlRyMC9K?=
- =?utf-8?B?WFlZYjlBMEZwMFR1SGhSTUlQNTR3TU5DYlJuMWdzeUZBd0NKcWJCVFVxOUw2?=
- =?utf-8?B?b2lEYjVnWnFXQ215Sk80Sm1xOUxQQVFFUzZZeWtpVFRFZWNDS1JoTnRQdjdV?=
- =?utf-8?B?TjZCTklYVUozcEtRSTdTdWJFdnBwMTArVlBPSytBL0VPUmRiN2didlZDaDUy?=
- =?utf-8?B?S2RWOUhUanpWTEFVdmZ6Q09WMXoxQUNiTVhCOTd4bVRQOVZYbWppV2ZzdjNy?=
- =?utf-8?B?Q0FTUGFlcW5VN1ZiOFdWTWFXQlY2QkFEM1NySUhmVXFFQUJJditQUEZuY3dB?=
- =?utf-8?B?N3E5elE3eDFLTUlmeTgxcnYybVdVMkxBdmR1QkpMRUxhU1A3UU01T3Y5Rzc1?=
- =?utf-8?B?QmhUdzJqanlNcjY5QW1FTWJYQmRGdm1iVFJMa1dicHBzakdBS0tVVEd2NlBi?=
- =?utf-8?Q?lOETh3Xb5PNuQmPYHAZ6BTibr?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a50b0c58-149c-4541-a4d5-08da8f458fba
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB6000.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Sep 2022 13:50:15.6360
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: dwMHNPo3Iy9CKGTi21aP9ZYdFdfwSdh83i/pSWl4ORifGpXLjR35ymKTIKhKifkDHYepU+8w3sFVdtv37hVLzg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL3PR12MB6474
-X-Spam-Status: No, score=-3.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <YxX8dzSsquJmO5hP@paasikivi.fi.intel.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+On Mon, Sep 05, 2022 at 01:41:11PM +0000, Sakari Ailus wrote:
+> On Tue, Aug 23, 2022 at 12:53:44PM +0200, Hans Verkuil wrote:
+> > 16:45-18:00 Anything else?
+> 
+> I think it'd be great to have a GPG key signing party at the end of the
+> meeting.
 
-On 9/5/2022 4:56 PM, Christian König wrote:
->
->
-> Am 05.09.22 um 12:56 schrieb Arvind Yadav:
->> Here's on debug adding an enable_signaling callback for the stub
->> fences and enabling software signaling for the stub fence which
->> is always signaled. This fence should enable software signaling
->> otherwise the AMD GPU scheduler will cause a GPU reset due to a
->> GPU scheduler cleanup activity timeout.
->>
->> Signed-off-by: Arvind Yadav <Arvind.Yadav@amd.com>
->> ---
->>   drivers/dma-buf/dma-fence.c | 17 +++++++++++++++++
->>   1 file changed, 17 insertions(+)
->>
->> diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
->> index 066400ed8841..0a67af945ef8 100644
->> --- a/drivers/dma-buf/dma-fence.c
->> +++ b/drivers/dma-buf/dma-fence.c
->> @@ -27,6 +27,10 @@ EXPORT_TRACEPOINT_SYMBOL(dma_fence_signaled);
->>   static DEFINE_SPINLOCK(dma_fence_stub_lock);
->>   static struct dma_fence dma_fence_stub;
->>   +#ifdef CONFIG_DEBUG_FS
->> +static bool __dma_fence_enable_signaling(struct dma_fence *fence);
->> +#endif
->> +
->>   /*
->>    * fence context counter: each execution context should have its own
->>    * fence context, this allows checking if fences belong to the same
->> @@ -116,9 +120,19 @@ static const char 
->> *dma_fence_stub_get_name(struct dma_fence *fence)
->>           return "stub";
->>   }
->>   +#ifdef CONFIG_DEBUG_FS
->> +static bool dma_fence_stub_enable_signaling(struct dma_fence *f)
->> +{
->> +    return true;
->> +}
->> +#endif
->
-> Again, adding the callback is unnecessary.
+It's a good idea. Could everybody please send their GPG key fingerprint
+in an e-mail reply to prepare for that ? It can easily be retrieved with
+'gpg -K' (make sure to pick the right key if you have multiple of them).
+I'll start:
 
-sure, I will remove callback from here and other patch also.
+sec   rsa4096/0xF045C2B96991256E 2014-10-09 [C]
+      94231B980100EC619AC10E10F045C2B96991256E
+uid                   [ultimate] Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-~arvind
+If you're generating a key for the occasion, create a primary key with
+the Certify (C) capability only, and create separate sub-keys for
+Signature (S) and Encryption (E). There's little reason these days to
+use less than 4096 bits for the primary key if you opt for RSA. The
+subkeys should have an expiration date.
 
->
->> +
->>   static const struct dma_fence_ops dma_fence_stub_ops = {
->>       .get_driver_name = dma_fence_stub_get_name,
->>       .get_timeline_name = dma_fence_stub_get_name,
->> +#ifdef CONFIG_DEBUG_FS
->> +    .enable_signaling =  dma_fence_stub_enable_signaling,
->> +#endif
->>   };
->>     /**
->> @@ -136,6 +150,9 @@ struct dma_fence *dma_fence_get_stub(void)
->>                      &dma_fence_stub_ops,
->>                      &dma_fence_stub_lock,
->>                      0, 0);
->> +#ifdef CONFIG_DEBUG_FS
->> +        __dma_fence_enable_signaling(&dma_fence_stub);
->> +#endif
->>           dma_fence_signal_locked(&dma_fence_stub);
->>       }
->>       spin_unlock(&dma_fence_stub_lock);
->
+The primary key can then be moved to safe storage, you will only need
+the subkeys for daily usage.  The primary key will be used only to
+create new subkeys and to sign other people's keys.
+
+-- 
+Regards,
+
+Laurent Pinchart
