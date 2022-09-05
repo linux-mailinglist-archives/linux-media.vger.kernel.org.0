@@ -2,127 +2,96 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DCCE35AD6A5
-	for <lists+linux-media@lfdr.de>; Mon,  5 Sep 2022 17:37:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9D5DD5AD7A1
+	for <lists+linux-media@lfdr.de>; Mon,  5 Sep 2022 18:37:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238467AbiIEPd4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 5 Sep 2022 11:33:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47048 "EHLO
+        id S231320AbiIEQfm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 5 Sep 2022 12:35:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45086 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239007AbiIEPdU (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 5 Sep 2022 11:33:20 -0400
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2043.outbound.protection.outlook.com [40.107.243.43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 237FD642CD;
-        Mon,  5 Sep 2022 08:32:26 -0700 (PDT)
+        with ESMTP id S229875AbiIEQfk (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 5 Sep 2022 12:35:40 -0400
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (mail-bn8nam12on2058.outbound.protection.outlook.com [40.107.237.58])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D3E3827CC2;
+        Mon,  5 Sep 2022 09:35:38 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=N7bKt4QQC33KY8/t2BES5avqCxN8RDX8LIP4oE9P9fCaJ+Q0D3Ow9piN0oNdJXhkznYzDZjba5yV5nzJo8vkiQuSlu2MLwEusUr0xnQ+ccfWSR5tmcqIxjVU/yqMe1w054S1qFHf6VCccFE6Uo/Asfw6aoKthgy4DS7PRSoZlE5mlNYbqCUDP4J6LX2LyOttoeHZl82Jag96uVE/ka3mcDap+7rPp7vQk5Q8cO+nkmPdTA/SrItnZyaEgJ1b2EH3t9fL+0xd9MIH3oM7TqrQJLtWOoVuOOPKjQNqGxt4rGSMOvhzqEhV2IQ6W4wo6fIsECalv+RW2TVRS2OPc+R9Rg==
+ b=LEpLeTfoNX2AJLidXGOJxlEymCFhtWnWIbZ4gUWBwcV/+YTwqKOofhDW2mlKfPpvqlb9sowNszdcb7uhKtqAZTvB9HPi0xckMbzuQg88LnQZhBWClN2r7YbUv5KWdK8xF2CmmCgVkp/s2bp3xjSSFmq8mRDsk5qK4WkSR4ZqYcFO1akO4GoS2UGy+J2CCkdtC5lt5sT9hUO6BgkmGKBRDmyWwELkCNths5kI0bMPdCJuGCKLYiJ005si2f+b0kdvDgl6a2pLrzG2DOvNdBqua3/De5AdbhejDfQUP71/UG+sR8k54qH7SoreMbPoiC1XAHaSVNZtMkQJGaalAeeMaQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=yPcAxiR3eQg5ZV43nywZlrZzLuwPPSKfyhjh1V+9NBI=;
- b=FxCk2y3kJshucWT1TQhK7gx+r1MeKEZQseHtIS9raljWwf8oc361kHIJW4ZKXbnjz6hgFmysPfaiaibIZXTesbZtkWhZgE67v/TGNP2O96oaFJeSjGApVWBukNuCbuFYBSRVhHhP5n7zkqZSteu4vrdzJ5KqTBFiPhIxUF8qwF8+QynziJz8kViwE7ESXHF/KKbPYSD2Ig5VRnuMMjP/RK5sbukn8+dLitRh7IQDScsPSmZXzphoyvzC3RqLYlXIDGpXdy5MJZELGyGBCluS9CS+qKqGtTFq+CtGOoZ0fkS0dOVbrALsUUaIjQ8ZpELFCTvokSpSEqLzCjQao7No+A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
+ bh=Je78deXMKT2fn6zFo/xx4UZymz9aqFvRovpe8pddmZ0=;
+ b=DUcj0ENn4AHKyeuzBRsFfZbMzNw5LL9W1R8ed198p0wF2l0Y0zbu31XIEbtkoK21bQM203bx7QyOsgM/pgvUOUWq9WxFkbDDOt1a0Dq9+N0wBsLrFHsZd752juuMGCaK4/d76xK9x99JpWrKIs8RjBZweSwT14t0NDDAyAdMjc9RfBeSZ3X8qxbxp4Z/hH1WUZD1nn/I6NtFEKOlLIVn/uC/En44X8zXPOwawrqeBpKESj/hOL+CaanGO7W+X6mMl6893Yy1u0dhia2qlnNu1b2WE3Pewde9ncL/qhdbmwxmXM/R81xq8oPLmANb9L1xy/qMMDIGfrLhn+Q3ppp15w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=linaro.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=yPcAxiR3eQg5ZV43nywZlrZzLuwPPSKfyhjh1V+9NBI=;
- b=NzCfcFvnJJ+kB+eFkasmGmP0zRMmHVde6ppoGYJH81NK5zaAyIKagh71od2tSj1HApESrQZxDLu+y/PVam8cseipLdsfglVdeO1m9V5QmqEBWIuWxTWs/q2Q/DpY5ZB0+s9L1IePbyI59Gt3d7xpBkitOT+ZCJGQVL04PTmpHwg=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by MW4PR12MB7384.namprd12.prod.outlook.com (2603:10b6:303:22b::15) with
+ bh=Je78deXMKT2fn6zFo/xx4UZymz9aqFvRovpe8pddmZ0=;
+ b=kVgAANCihInNUZ7JR9Yf8kfBgngLhY4SgEoOv4BhrEMRLfgRd4f2Gs0dOR15upvv2Ub8xCuxehOePAPcTqgovvvGkugQPtNgvsYHnVhiEvOVCKSsxINSpdDWG698YtTEf2nXMeVkMhPFZ0X/oNk3xk03AtExAAumk6qfbkAlWCc=
+Received: from BN0PR03CA0044.namprd03.prod.outlook.com (2603:10b6:408:e7::19)
+ by MN2PR12MB4456.namprd12.prod.outlook.com (2603:10b6:208:266::15) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5588.15; Mon, 5 Sep
- 2022 15:32:24 +0000
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::4524:eda6:873a:8f94]) by BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::4524:eda6:873a:8f94%7]) with mapi id 15.20.5588.018; Mon, 5 Sep 2022
- 15:32:24 +0000
-Message-ID: <46ae09bb-2514-94b9-4497-e275bcc5f1ee@amd.com>
-Date:   Mon, 5 Sep 2022 17:32:17 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH 2/4] drm/sched: Add callback and enable signaling on debug
-Content-Language: en-US
-To:     "Yadav, Arvind" <arvyadav@amd.com>,
-        Arvind Yadav <Arvind.Yadav@amd.com>, andrey.grodzovsky@amd.com,
-        shashank.sharma@amd.com, amaranath.somalapuram@amd.com,
-        Arunpravin.PaneerSelvam@amd.com, sumit.semwal@linaro.org,
-        gustavo@padovan.org, airlied@linux.ie, daniel@ffwll.ch,
-        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
-References: <20220905105653.13670-1-Arvind.Yadav@amd.com>
- <20220905105653.13670-3-Arvind.Yadav@amd.com>
- <96d14c8a-e3de-fcea-b3b1-434bc6a78ae4@amd.com>
- <5b84f7c1-99a6-02c8-2606-8986891a95b0@amd.com>
-From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-In-Reply-To: <5b84f7c1-99a6-02c8-2606-8986891a95b0@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: AS9PR06CA0574.eurprd06.prod.outlook.com
- (2603:10a6:20b:486::12) To BN8PR12MB3587.namprd12.prod.outlook.com
- (2603:10b6:408:43::13)
+ 2022 16:35:36 +0000
+Received: from BL02EPF0000C402.namprd05.prod.outlook.com
+ (2603:10b6:408:e7:cafe::83) by BN0PR03CA0044.outlook.office365.com
+ (2603:10b6:408:e7::19) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5588.10 via Frontend
+ Transport; Mon, 5 Sep 2022 16:35:36 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ BL02EPF0000C402.mail.protection.outlook.com (10.167.241.4) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.5612.10 via Frontend Transport; Mon, 5 Sep 2022 16:35:36 +0000
+Received: from amd.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.28; Mon, 5 Sep
+ 2022 11:35:31 -0500
+From:   Arvind Yadav <Arvind.Yadav@amd.com>
+To:     <Christian.Koenig@amd.com>, <andrey.grodzovsky@amd.com>,
+        <shashank.sharma@amd.com>, <amaranath.somalapuram@amd.com>,
+        <Arunpravin.PaneerSelvam@amd.com>, <sumit.semwal@linaro.org>,
+        <gustavo@padovan.org>, <airlied@linux.ie>, <daniel@ffwll.ch>,
+        <linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+        <linaro-mm-sig@lists.linaro.org>, <linux-kernel@vger.kernel.org>
+CC:     Arvind Yadav <Arvind.Yadav@amd.com>
+Subject: [PATCH v2 0/4] dma-buf: To check enable signaling before signaled
+Date:   Mon, 5 Sep 2022 22:04:58 +0530
+Message-ID: <20220905163502.4032-1-Arvind.Yadav@amd.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 36f422ba-b6e1-4977-2c0e-08da8f53d4c6
-X-MS-TrafficTypeDiagnostic: MW4PR12MB7384:EE_
+X-MS-TrafficTypeDiagnostic: BL02EPF0000C402:EE_|MN2PR12MB4456:EE_
+X-MS-Office365-Filtering-Correlation-Id: a1c7b0ec-6356-4afb-f38a-08da8f5ca946
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: MD8Emrq1nqzhABNuHr5qIIcw3Z16fojCbJmHAgAVOKIPXQqVE2F5YeXzu0cgbU7DeURk417kG5ltweJLv+D9qgSg1vHG4utdVjDYRdeQsyjLKnj+v6GdvXS/TlcJbF11EwJRKKWE8qkkskvCZksb70Wny5LpmU12SMhEqrcg6aeG3L8utqBMnYWswZlB0apfySMQ71nHMULP35ba7T75UUOJr8DDc6yQL0eobV6KRzLlc0L2DutHtLded3AgLCPTVGkluvsNZ8BYDSMiULMls3kGACvJ7VgkZyfB6FybT6SJZBnv4/tPsCvOTsCqgryKIuMF2vXAoe8Vyb9ablVofq96lqh0UyBP3ziAyRuPcbAKBdTFWiLp+tdV740x/VTGP6fa1BpFbEkKumBDsHg5XbIwaFfevKZ+/g6UZYlirdmFWZQMoCCfN3PGG9/y8KPaiIt6CpsfODHjw1sPC02hwdovMPiERipe0++GLf+Cl33qSRWlFWJdjlZKA6SW0uCPPdoa1Y2oMoxo1o9hlV4yB1CEwxJK1sKg8+l2H/CprRrhwMqNZWZA21axyRchD9nIaImXPwhW6eVzjz8blB/N/UjCqEiZqI4rvsu/B17PN5xij8gKWxckTsVsZiPRe5AD72fEfn8maJjI7l5jfT46mR/h6DS2YFb1ocr142N9KY6CmKA/i5g9NpGZPN3i9wO/MGI/GrEdI71YIUZyAgGvNNanYzT1ebRb/URmfe1OslFsLF4fJeylrRlIuIRUQjXcMy//roWogqJ3uabAEvFApOoCqi+hRGu2aq3NTaxJCOBKXaiuHm3qTDVruueaXkMv
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN8PR12MB3587.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(366004)(39860400002)(136003)(346002)(376002)(396003)(921005)(110136005)(316002)(2906002)(31686004)(66476007)(66556008)(66946007)(8676002)(478600001)(6506007)(53546011)(6486002)(41300700001)(8936002)(36756003)(6666004)(5660300002)(38100700002)(186003)(66574015)(6512007)(86362001)(2616005)(31696002)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Uy8zR2FQMHZPcS9YZkZaV1lCcE11N2hXWk4zQ3hCSjlPTmJmU1dQVEVocjlI?=
- =?utf-8?B?eGUyT0tES1hXZkhFVTJoQ21yRHZpbTFtVW9SMmw5dWdVRERiZ3AxS3pLUWx0?=
- =?utf-8?B?MHhZVmVGelhzMDQwN1cvVDdzdzBIMFpMWFFmQzFWZ3J2WGVtanRQelE1U0dI?=
- =?utf-8?B?azI3bEUwSnRJdHREUm9jOVAyemk1am9yVVBqdzJMcGorSFRYWjNTK2hrNlQw?=
- =?utf-8?B?OE8xSkNWQ1U4cXVHdVE1RHJrUnEyOFdCc3Zid0pla3hlNTAyM0Nxb1E1T1RY?=
- =?utf-8?B?amRQTXRhKzVESGRsNVRiS3BJMlhsZkl3OGVXWktWNzE4Ti9ISlFGNXNuY0ov?=
- =?utf-8?B?YXgxUGthOVg5TDFYNngxamQwcmgvSG5ZbkpLNldSQ0hWVGd4RnBadFNkZktO?=
- =?utf-8?B?V1o0VWs3NUhDb0Y2TnFrTkVWY2JJV3VKdDNHRUhVdlJTYVhreFZJU3MwY0U4?=
- =?utf-8?B?U2pYZjN4Q2pvck1iZkd3bEFyNDNweHpFQ3pwczFjNlFBNE5DQ3BraHlXREhp?=
- =?utf-8?B?QWttVGdlZTIvVU5mOS9wN0Roa1d6MkgwbWR1NUNEc0MzRThDdVdpcXFJaG1n?=
- =?utf-8?B?OWo1Mks2QWVIdFNwUmUyTE9CZmZUa2l2dWtrTnoyTmJKRXhMWUpySk9ZSVJj?=
- =?utf-8?B?eDR6VDhuT1IzNVRBeEhaMzZHNzNMcjNGaWRjbzlPK01QdnFDVHA4TG1EbU1U?=
- =?utf-8?B?bjJaVm1HU3l5OXNMQlE2blcrSnp0TkZZZUsvWXNUdHN0K0lWa3R0dGplSG9Y?=
- =?utf-8?B?SHFIRUx4K3hiNG9tRmZJbTArc2RKWG90eU11UUVNNytRNCtaZm4vdjBkc3k1?=
- =?utf-8?B?bEU4U3hRL2txb3J1TEl5cFoxaGRVK3JsMjZwcytHVEN5YXJLN0pJM0QwWXpi?=
- =?utf-8?B?a0xzaVdjNUpnNkpUaktONUdiaVhJV2I1eERERlFXaG9VMGhjTTZESXlvUDA0?=
- =?utf-8?B?aWE1ekI3emdLOTIyU0RUT1hQODEzaUorZ25LNTFPK283V1JweHhTclcyUDlC?=
- =?utf-8?B?d1c2d29QcHJ5NnRRUVFrTjlxYStVaDFwTEorRTAzQkVMdzM4OHZzT2hoejNC?=
- =?utf-8?B?K3gwTSszOCs3d051UjlSYldOWXpKa0ErWHdPamxpVFpvcTNWK2RabmdZTTEv?=
- =?utf-8?B?V0tjN2VQVE8wNlp2TVNXaFFPaTc2UVhRNFRlalI5Zk83cFNrdUVDcjg3Qnpw?=
- =?utf-8?B?eFhvSDUwMDR0Y3k3RURzZTZRSkxYSVlSTzhFL2Y0SVhsOG9EUExXdldwZHl5?=
- =?utf-8?B?eWVXQVdISmI4ejVIeFdBOFFOeCs4c2tjV0RJQ25BM1o4ZFhGSnVWYVdoeXIv?=
- =?utf-8?B?VS9XTW5qR0dUcHBRUUhBbGtZVXVaYWpHSTlVaFBHMFlFQVhFQnZ0clRSdW1W?=
- =?utf-8?B?dFdkN29ENThVQjU4Zy9PZUh3SE5EWVU1UDlMc2pVOGNGVEJwLzNFZ2Z0RkFi?=
- =?utf-8?B?dnZNUHFkL1ZhblVBNHBjM1oxK1EwZGIrWGpkSlcyUE5pQi9VQ3BGeVBRMlpm?=
- =?utf-8?B?ckpBSktsa3Nub0ljRSs4WjZRNXZpM0tPY3VSYWlRd1hzYTVEbzhWU09UdjQy?=
- =?utf-8?B?eU5Oa0dQZnd6UytrZDByTGdvUzJZN2ZSMlhvUG01RzZ3c3AzTnVsQjkyRTFp?=
- =?utf-8?B?OGw3WEp4MWVVN1BHdnBiT3B3SzB4U2ZSOVhBUEtySmlMSHIyc0dDVHJ4VXRy?=
- =?utf-8?B?ZUp2cDhWYVF1MDVWQTgzRDd6TmEzNndteUoxYjFDQ005MG5lQnFzdGJiU2NO?=
- =?utf-8?B?TzhKcUtubStYdXNIWU5xSjlodG9lRksySGlGRW9FY1JxTmpUQmFpNER0QUU2?=
- =?utf-8?B?L2pIMSt1aTZqVzFqUGtuc1NWai9PTkN2dUN4QjRVTWhabXF2OVh1ZzNaVVN1?=
- =?utf-8?B?a20rYlNiVlI3NEQ2K2ZHQlc2Uk9HN09udUhRL2VicFRLWkp5Ymk4MXNXaE5W?=
- =?utf-8?B?SWU2Umg2Ui9UTndLUEZyQThiT2I2ZitIWXdiYzJXS21RUnBIWjR1NEpHejNl?=
- =?utf-8?B?WUZtdlY2NURGZEk0ZkhYZ1lmajlidmpxY0VXQnRnMWhhT0wxZ2tYYTFiTEVt?=
- =?utf-8?B?S0xSaVl6UlZXUnEwblRWUzA3VXhTcnIwQmZFSHdwNUFxMTVpNlZHbG5qOHNy?=
- =?utf-8?B?RCtHVGhTd3h2bDdRZ3JZOXh4LzBBUVZhNjZXd0tqKzZDaFBKZGFuRUhBWThJ?=
- =?utf-8?Q?JLjXknh0uaZ9/0Y8RtUu3KNMc4pPrnbTw9zMMFtHwcvb?=
+X-Microsoft-Antispam-Message-Info: hae0J8TA5AlhxAwbhUOClcoTqX0Hik6VcWBF8FWVsobT0vjd/pQbs9jDBOnaTvSi6fFUxa2lrGsNvvkqcu/lZkImHZO0F0b+HvqzZTzyXj3cN9Wd8zlHZVr4+4erQnzVyeArU2aEweB1FFjRUVJQb7i4q06/7Z2y//1/gWM1Hlhi35s2UCtbM5Lul8Q+4AZAOd+6DCT//QT7FJRDuyR5tc0X9lcL+lmNSGpPodCaGL1CfsgKu6oFzPg9OsE6Frqkth7B7kU8gHMpas6rVJLJQuBQO+IGcgn8faGuaU4RfTa8g9lC/48xjq+4WZNPfNHmDB1ROihxwTuaG505NE4olFMrfsuQiAeRNqsdNhm10YvIYIPJCI+AuGaQ/Pa89Njk1hOdaZQryCdMtXM7ml0E3q8gnhOXWSuyBWDIowM1Ku6aTuToNuvpoIY59XPIrctnHJZwWBOgpXElHyWdB8EhfZc4ZE9jf30tciByoJen1kL2PyNVYpkRhNOe4muQY8yd5lIQYhAsv7FR5ohXCJzm9ZpTqc5jAoCIXG25ncGrW7Ps/Qiw42qYHAYTjcdC+TcNyIGnGupES7KECNBt/RiOaZRYqGvuPBxb8MmPAqLALSPo5F5JierJlacEQ8mYGf6xUtgFoSvxCQzxTX7zUp4pPkSFtVVd1teBxqgaEYVNvRDqEQwXIhJrCv5syhU4ORCEWnrNiLLUIOJd9TLz94P/xEtbvl6z9zVB7uQfnpCrNNgTsHOSY53ku4r000RYKmTv1xbmQQ2iCZ67Fa8sWLaZtP7Ky0KKda2RbKy/Dr3XXi7tDTwI675O0Kw0bzeHIAJjUZd4sV8qjMnn3Q7oq7QzQ+B4Pe5mgN3BVL7KWSTe948okvnnBWmHu3qiUV8KHOT2
+X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230016)(4636009)(39860400002)(396003)(376002)(136003)(346002)(40470700004)(46966006)(36840700001)(186003)(1076003)(26005)(426003)(83380400001)(82310400005)(2616005)(336012)(16526019)(40480700001)(41300700001)(478600001)(7696005)(47076005)(6666004)(86362001)(921005)(356005)(82740400003)(40460700003)(81166007)(36756003)(8936002)(2906002)(110136005)(70206006)(316002)(36860700001)(70586007)(8676002)(5660300002)(4326008)(2101003)(83996005)(36900700001);DIR:OUT;SFP:1101;
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 36f422ba-b6e1-4977-2c0e-08da8f53d4c6
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Sep 2022 15:32:24.4598
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Sep 2022 16:35:36.5327
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Network-Message-Id: a1c7b0ec-6356-4afb-f38a-08da8f5ca946
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: z7DYDqeZRIYPI7txKobZe4iUGold0IRO01BCu6Jy+m7h7Q3GaFVL4LzH+5GrMvyC
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB7384
-X-Spam-Status: No, score=-3.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: BL02EPF0000C402.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4456
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
         RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -131,53 +100,32 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am 05.09.22 um 15:46 schrieb Yadav, Arvind:
-> On 9/5/2022 4:55 PM, Christian König wrote:
->> [SNIP]
->>
->> Am 05.09.22 um 12:56 schrieb Arvind Yadav:
->>>       .release = drm_sched_fence_release_finished,
->>>   };
->>>   diff --git a/drivers/gpu/drm/scheduler/sched_main.c 
->>> b/drivers/gpu/drm/scheduler/sched_main.c
->>> index e0ab14e0fb6b..140e3d8646e2 100644
->>> --- a/drivers/gpu/drm/scheduler/sched_main.c
->>> +++ b/drivers/gpu/drm/scheduler/sched_main.c
->>> @@ -961,7 +961,9 @@ static int drm_sched_main(void *param)
->>>               s_fence->parent = dma_fence_get(fence);
->>>               /* Drop for original kref_init of the fence */
->>>               dma_fence_put(fence);
->>
->> Uff, not related to your patch but that looks wrong to me. The 
->> reference can only be dropped after the call to 
->> dma_fence_add_callback().
->>
-> Shall I take care with this patch or I will submit separate one ?
+TTM, GEM, DRM or the core DMA-buf framework are needs
+to enable software signaling before the fence is signaled.
+The core DMA-buf framework software can forget to call
+enable_signaling before the fence is signaled. It means
+framework code can forget to call dma_fence_enable_sw_signaling()
+before calling dma_fence_is_signaled(). To avoid this scenario
+on debug kernel, check the DMA_FENCE_FLAG_ENABLE_SIGNAL_BIT bit
+status before checking the MA_FENCE_FLAG_SIGNALED_BIT bit status
+to confirm that software signaling is enabled.
 
 
-Separate one. It's probably no big deal since we grab another reference 
-right before, but still quite some broken coding.
+Arvind Yadav (4):
+  [PATCH v2 1/4] drm/sched: Enable signaling for finished fence
+  [PATCH v2 2/4] dma-buf: enable signaling for the stub fence on debug
+  [PATCH v2 3/4] dma-buf: enable signaling for selftest fence on debug
+  [PATCH v2 4/4] dma-buf: Check status of enable-signaling bit on debug
 
-Thanks,
-Christian.
+ drivers/dma-buf/dma-fence.c            |  7 ++++
+ drivers/dma-buf/st-dma-fence-chain.c   |  8 +++++
+ drivers/dma-buf/st-dma-fence-unwrap.c  | 44 ++++++++++++++++++++++++++
+ drivers/dma-buf/st-dma-fence.c         | 25 ++++++++++++++-
+ drivers/dma-buf/st-dma-resv.c          | 20 ++++++++++++
+ drivers/gpu/drm/scheduler/sched_main.c |  2 ++
+ include/linux/dma-fence.h              |  5 +++
+ 7 files changed, 110 insertions(+), 1 deletion(-)
 
->
->>> -
->>> +#ifdef CONFIG_DEBUG_FS
->>> + dma_fence_enable_sw_signaling(&s_fence->finished);
->>> +#endif
->>
->> This should always be called, independent of the config options set.
->>
->> Christian.
->
-> sure, I will remove the Config check.
->
-> ~arvind
->
->>
->>>               r = dma_fence_add_callback(fence, &sched_job->cb,
->>>                              drm_sched_job_done_cb);
->>>               if (r == -ENOENT)
->>
+-- 
+2.25.1
 
