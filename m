@@ -2,91 +2,97 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D97C45ACF6E
-	for <lists+linux-media@lfdr.de>; Mon,  5 Sep 2022 12:04:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6505A5ACFCE
+	for <lists+linux-media@lfdr.de>; Mon,  5 Sep 2022 12:23:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237191AbiIEKAb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 5 Sep 2022 06:00:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57008 "EHLO
+        id S237790AbiIEKSI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 5 Sep 2022 06:18:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48768 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237090AbiIEKA0 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 5 Sep 2022 06:00:26 -0400
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 369C740E12
-        for <linux-media@vger.kernel.org>; Mon,  5 Sep 2022 03:00:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1662372023; x=1693908023;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=L9J/4sjFK7hEHQcooQAP4m9upW9xWShMJzoNhfJzIgw=;
-  b=EEBldMfAMzAyZJlZCHVY4iTepb1RYaHrJ8aFHMLmxdh8hQtjU2h4s77A
-   XN9UI+iSgbqsJ49nWBsBJQdyyod6q/lCPhnbSHYhq51enafxMlBx13tKN
-   vREFnHIg2ibK4MhKQ5PlyWUFTK/4gX7vry4Ni46WcG2VrcUF6E9BpBvFb
-   JMqAY8iQb4SL7TZMtnKn7ZFQWtXSbzfS5KBAobDAWauSZ1SlZ+43vUnCv
-   X5XOJweRLwhPPcJqwZ27lfs+OM9lhq/qkiOawKALe0mopOpERzEzsmlg4
-   6p6SpYLJl73286JsmBi+HsfHepHHDDyeY/5CBN0KmFnRJFbE+YcKtDYsY
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10460"; a="296357875"
-X-IronPort-AV: E=Sophos;i="5.93,290,1654585200"; 
-   d="scan'208";a="296357875"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Sep 2022 03:00:20 -0700
-X-IronPort-AV: E=Sophos;i="5.93,290,1654585200"; 
-   d="scan'208";a="643747365"
-Received: from punajuuri.fi.intel.com (HELO paasikivi.fi.intel.com) ([10.237.72.43])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Sep 2022 03:00:19 -0700
-Received: from punajuuri.localdomain (punajuuri.localdomain [192.168.240.130])
-        by paasikivi.fi.intel.com (Postfix) with ESMTP id 4989E202BE;
-        Mon,  5 Sep 2022 13:00:17 +0300 (EEST)
-Received: from sailus by punajuuri.localdomain with local (Exim 4.94.2)
-        (envelope-from <sakari.ailus@linux.intel.com>)
-        id 1oV8uV-00Dfv4-0Z; Mon, 05 Sep 2022 13:00:55 +0300
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     linux-media@vger.kernel.org
-Cc:     laurent.pinchart@ideasonboard.com,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Subject: [PATCH 1/1] sun6i-mipi-csi2: Depend on PHY_SUN6I_MIPI_DPHY
-Date:   Mon,  5 Sep 2022 13:00:54 +0300
-Message-Id: <20220905100054.3259357-1-sakari.ailus@linux.intel.com>
-X-Mailer: git-send-email 2.30.2
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-7.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+        with ESMTP id S237825AbiIEKR3 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 5 Sep 2022 06:17:29 -0400
+Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com [IPv6:2a00:1450:4864:20::533])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 85430578A1;
+        Mon,  5 Sep 2022 03:16:24 -0700 (PDT)
+Received: by mail-ed1-x533.google.com with SMTP id x73so3727438ede.10;
+        Mon, 05 Sep 2022 03:16:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:subject:cc:to:from:from:to:cc:subject:date;
+        bh=oZcqLkJ6f0EdVnoUZ/Kk+EN7566m04ZTx5pIlmEDnVc=;
+        b=MGTcB3RAgv7JapB0U8k5xcLAUh7S9QRNoqaJdojzUz5Xh+tTHhUSY3VxnPf1vfZb/7
+         yrfqVdJzM+a+Hi31jxUVydb4u4cJCU3mFK7Nllu5r6tIwtwQzA0CP5H+nrl1jcIqTJ2u
+         suBLDlLITAXDKi9JJzcdPkiDHxXZIv+c2bvX9uJ0xytZgig+vgRs4uSkPBjr1R6MKXTx
+         Rls8y4vMxWKZqEYtuAZKNycIT85DXPwa+/5qm148KuWLT81yg07ou8ckLKd+X5oKE1nS
+         g091Yzfe+khCWyR/1XJ2DsBz/m9CiQOhSLGZ+bm7XxDcGbKKU2HFeR5bKXYH1dQz/eGb
+         ItXA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date;
+        bh=oZcqLkJ6f0EdVnoUZ/Kk+EN7566m04ZTx5pIlmEDnVc=;
+        b=cVCLL4eo737EUkgjWwHYbtGGxbrWubDUKdKUKt6l8ywmYWeO/D2RuB3A9EVRItttJB
+         dNbIvnM+d3R7ixMt5nUEXFXEkwR7JGnTeKoK5kdDHj1vpNbOZQO5Fr01go4nAoAMmp+S
+         63LNfLFh0avOar1ILS5wLUaSxxx+7zjHIpJIL6q50gOxm7TN44E8krH2AhK/NfoxvTX6
+         1phaoA1qMrW2nd8bPlgAE01AXg55R8k+yPQ7yMEjARWMyrbcLvd07xzaxY67rmuLE3nW
+         TqIOT7hBPLukk0RR5d8wqPR5nOt56pAuwVqGO2W0ygVGQXAl7e3BTcjZiuEcoPQxQvsg
+         pSMA==
+X-Gm-Message-State: ACgBeo3KimSaH4I5BmR6XzedlPmFxllZheDGDw1HY5pAzCEr+Z5C7Yrr
+        t6UseqgFDFVDA69jgYQD2JA=
+X-Google-Smtp-Source: AA6agR6wvbt9Cj6cEsO99WDV0sDdoEPAezh0P63BSPvGuyM8e9cmb6ahY9HcGlJBTq2tYpFyV0J6Cg==
+X-Received: by 2002:a05:6402:e01:b0:442:dd7e:f49d with SMTP id h1-20020a0564020e0100b00442dd7ef49dmr42219633edh.355.1662372981774;
+        Mon, 05 Sep 2022 03:16:21 -0700 (PDT)
+Received: from felia.fritz.box (200116b8268cc400942297814b5b37b6.dip.versatel-1u1.de. [2001:16b8:268c:c400:9422:9781:4b5b:37b6])
+        by smtp.gmail.com with ESMTPSA id q13-20020aa7d44d000000b0044eb5b922bdsm130230edr.24.2022.09.05.03.16.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 05 Sep 2022 03:16:21 -0700 (PDT)
+From:   Lukas Bulwahn <lukas.bulwahn@gmail.com>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org
+Cc:     kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Subject: [PATCH] media: MAINTAINERS: adjust entry to zoran driver movement
+Date:   Mon,  5 Sep 2022 12:14:16 +0200
+Message-Id: <20220905101416.11114-1-lukas.bulwahn@gmail.com>
+X-Mailer: git-send-email 2.17.1
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-PHY_SUN6I_MIPI_DPHY is not a freely selectable option and so may not
-always be available. Depend on it instead.
+Commit 2a0c28063de2 ("media: zoran: move to mainline") moves the zoran
+driver from the staging to the media subsystem, but does not adjust the
+entry in MAINTAINERS.
 
-Fixes: 94d7fd9692b5 ("media: sunxi: Depend on GENERIC_PHY_MIPI_DPHY")
-Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+Hence, ./scripts/get_maintainer.pl --self-test=patterns complains about a
+broken reference.
+
+Repair this file reference in ZR36067 VIDEO FOR LINUX DRIVER.
+
+Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 ---
- drivers/media/platform/sunxi/sun6i-mipi-csi2/Kconfig | 2 +-
+ MAINTAINERS | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/media/platform/sunxi/sun6i-mipi-csi2/Kconfig b/drivers/media/platform/sunxi/sun6i-mipi-csi2/Kconfig
-index eb982466abd30..4d072abdfb705 100644
---- a/drivers/media/platform/sunxi/sun6i-mipi-csi2/Kconfig
-+++ b/drivers/media/platform/sunxi/sun6i-mipi-csi2/Kconfig
-@@ -4,10 +4,10 @@ config VIDEO_SUN6I_MIPI_CSI2
- 	depends on V4L_PLATFORM_DRIVERS && VIDEO_DEV
- 	depends on ARCH_SUNXI || COMPILE_TEST
- 	depends on PM && COMMON_CLK
-+	depends on PHY_SUN6I_MIPI_DPHY
- 	select MEDIA_CONTROLLER
- 	select VIDEO_V4L2_SUBDEV_API
- 	select V4L2_FWNODE
--	select PHY_SUN6I_MIPI_DPHY
- 	select GENERIC_PHY_MIPI_DPHY
- 	select REGMAP_MMIO
- 	help
+diff --git a/MAINTAINERS b/MAINTAINERS
+index c239d7e69158..228d3a9ddc34 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -22578,7 +22578,7 @@ S:	Maintained
+ W:	http://mjpeg.sourceforge.net/driver-zoran/
+ Q:	https://patchwork.linuxtv.org/project/linux-media/list/
+ F:	Documentation/driver-api/media/drivers/zoran.rst
+-F:	drivers/staging/media/zoran/
++F:	drivers/media/pci/zoran/
+ 
+ ZRAM COMPRESSED RAM BLOCK DEVICE DRVIER
+ M:	Minchan Kim <minchan@kernel.org>
 -- 
-2.30.2
+2.17.1
 
