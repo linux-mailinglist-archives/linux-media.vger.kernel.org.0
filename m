@@ -2,199 +2,156 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 513455AE975
-	for <lists+linux-media@lfdr.de>; Tue,  6 Sep 2022 15:26:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D4C375AED9A
+	for <lists+linux-media@lfdr.de>; Tue,  6 Sep 2022 16:50:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233867AbiIFN0J (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 6 Sep 2022 09:26:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42704 "EHLO
+        id S241969AbiIFOiJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 6 Sep 2022 10:38:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36280 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233384AbiIFN0H (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 6 Sep 2022 09:26:07 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 41C4474344;
-        Tue,  6 Sep 2022 06:26:04 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id F0CDAB818B4;
-        Tue,  6 Sep 2022 13:26:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9ADB8C433D6;
-        Tue,  6 Sep 2022 13:26:00 +0000 (UTC)
-Message-ID: <082ba39a-aa00-ac49-ac2a-eceac0bca5ff@xs4all.nl>
-Date:   Tue, 6 Sep 2022 15:25:58 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [RFT PATCH] media: em28xx: Enable v4l2 file ops at the end of
- em28xx_v4l2_init()
-Content-Language: en-US
-To:     Soumya Negi <soumya.negi97@gmail.com>,
+        with ESMTP id S237975AbiIFOhm (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 6 Sep 2022 10:37:42 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A4102EF37
+        for <linux-media@vger.kernel.org>; Tue,  6 Sep 2022 07:00:28 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 872F087F;
+        Tue,  6 Sep 2022 15:51:19 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1662472279;
+        bh=E1bCjNmASZqOWaiVlb4W1W8lkGy/bbrLHBxvX9n0re8=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=QBIyPLN0YWu5XFRJwv++lSyvF93eO72zhOb+YXf6lnDV+i9Al+60mdgvCV4srvwmc
+         vtXkf+dy+7qZP+ECrS2CBRa59XKKcwh1PKM24Q0wC55Wm0Fr9toP3Ka1XgvTzQY065
+         bZ3/3ZRQO0l9G+6wUg3wgDYHQw1w4debNXkdt8dI=
+Date:   Tue, 6 Sep 2022 16:51:04 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+        linux-media@vger.kernel.org,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        niklas.soderlund+renesas@ragnatech.se,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Shuah Khan <skhan@linuxfoundation.org>
-Cc:     linux-kernel-mentees@lists.linuxfoundation.org,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20220829132548.23520-1-soumya.negi97@gmail.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-In-Reply-To: <20220829132548.23520-1-soumya.negi97@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-8.4 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Pratyush Yadav <p.yadav@ti.com>,
+        Kishon Vijay Abraham <kishon@ti.com>,
+        satish.nagireddy@getcruise.com, Tomasz Figa <tfiga@chromium.org>
+Subject: Re: [PATCH v13 14/34] media: mc: entity: Rewrite
+ media_pipeline_start()
+Message-ID: <YxdQSMyWqxBsxo4r@pendragon.ideasonboard.com>
+References: <20220810121122.3149086-1-tomi.valkeinen@ideasonboard.com>
+ <20220810121122.3149086-15-tomi.valkeinen@ideasonboard.com>
+ <Ywz06tZvurFVosly@pendragon.ideasonboard.com>
+ <9ec0844a-494d-304a-97df-c26313f95628@ideasonboard.com>
+ <YxcIcvGdnJDgtIL6@pendragon.ideasonboard.com>
+ <5126238e-4104-11df-24b3-3266f441b6b4@ideasonboard.com>
+ <YxdEBW5Y+jxJKXBS@paasikivi.fi.intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <YxdEBW5Y+jxJKXBS@paasikivi.fi.intel.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Soumya,
-
-On 29/08/2022 15:25, Soumya Negi wrote:
-> Fix syzbot bug KASAN: use-after-free Read in v4l2_fh_open
-> Syzbot link:
-> https://syzkaller.appspot.com/bug?id=0e3c97f1c4112e102c9988afd5eff079350eab7f
-> Repro: https://syzkaller.appspot.com/text?tag=ReproC&x=12663ebdd00000
+On Tue, Sep 06, 2022 at 12:58:45PM +0000, Sakari Ailus wrote:
+> On Tue, Sep 06, 2022 at 12:19:19PM +0300, Tomi Valkeinen wrote:
+> > On 06/09/2022 11:44, Laurent Pinchart wrote:
+> > > On Wed, Aug 31, 2022 at 05:21:58PM +0300, Tomi Valkeinen wrote:
+> > > > On 29/08/2022 20:18, Laurent Pinchart wrote:
+> > > > > On Wed, Aug 10, 2022 at 03:11:02PM +0300, Tomi Valkeinen wrote:
+> > > > > > From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > > > > > 
+> > > > > > [Note: the code is mostly from Laurent but the patch description is from Tomi]
+> > > > > 
+> > > > > I'll review the description then :-)
+> > > > > 
+> > > > > > The media_pipeline_start() and media_pipeline_stop() functions use the
+> > > > > > media graph walk API to traverse the graph and validate the pipeline.
+> > > > > > The graph walk traverses the media graph following links between the
+> > > > > > entities.
+> > > > > > 
+> > > > > > Also, while the pipeline can't change between the start and stop calls,
+> > > > > > the graph is walked again from scratch at stop time, or any time a
+> > > > > > driver needs to inspect the pipeline.
+> > > > > > 
+> > > > > > With the upcoming multiplexed streams support we will need a bit more
+> > > > > > intelligent pipeline construction, as e.g. an entity may be passing
+> > > > > > through two independent streams via separate pads, in which case those
+> > > > > 
+> > > > > Did you mean "as e.g. two independent streams may be passing through a
+> > > > > single entity via separate pads" ?
+> > > > > 
+> > > > > > pads should not be part of the same pipeline.
+> > > > > > 
+> > > > > > This patch essentially rewrites the media_pipeline_start/stop so that
+> > > > > > a pipeline is defined as a set of pads instead of entities and the media
+> > > > > > graph traversal considers the pad interdependencies when choosing which
+> > > > > > links to follow.
+> > > > > > 
+> > > > > > Currently all the entity's pads are considered as interdependent. This
+> > > > > > means that the behavior with all the current drivers stays the same, but
+> > > > > > in the future we can define a more fine-grained pipeline construction.
+> > > > > > 
+> > > > > > Additionally the media pipeline's pads are cached at
+> > > > > > media_pipeline_start() time, and re-used at media_pipeline_stop() which
+> > > > > > avoid the need to re-walk the whole graph as the previous implementation
+> > > > > > did.
+> > > > > > 
+> > > > > > Also, caching pads in the pipeline can serve in the future as the
+> > > > > > foundation to provide a better API than the media graph walk to drivers
+> > > > > > to iterate over pads and entities in the pipeline.
+> > > > > > 
+> > > > > > Note that the old media_pipeline_start/stop used the media graph walk
+> > > > > > API. The new version does not use the media graph walk API, but instead
+> > > > > > a new implementation.
+> > > > > > 
+> > > > > > There are two reason for not changing the graph walk: it proved to be
+> > > > > > rather difficult to change the graph walk to have the features
+> > > > > > implemented in this patch, and second, this keeps the backward
+> > > > > > compatibility of the graph walk as there are users of the graph walk API
+> > > > > > 
+> > > > > > The long term plan is that all the existing code would be converted to
+> > > > > > use the new cached pipeline, thus allowing us to remove the graph walk.
+> > > > > 
+> > > > > Could you mark the graph walk API as deprecated in this patch, or in a
+> > > > > subsequent patch in the series ? I think I did in a previous version,
+> > > > > but I may recall incorrectly.
+> > > > 
+> > > > I didn't mark the graph walk API as deprecated in v14 series. We can do
+> > > > it on top, but I'm not sure if it's a valid thing to say yet. Have we
+> > > > tried converting any graph walk uses to the new pipeline code? We could
+> > > > well have code missing that prevents the conversion.
+> > > 
+> > > I'd like to avoid new users of the graph walk API. This requires two
+> > > patches that you haven't included or squashed in v14 though, namely
+> > > 
+> > > 20a31d49bd75 media: mc: entity: Add entity iterator for media_pipeline
+> > > 50659eb74afc media: mc: entity: Add pad iterator for media_pipeline
+> > > 
+> > > that you can find at
+> > > 
+> > > git://linuxtv.org/pinchartl/media.git streams/v6.0/v11
+> > > 
+> > > Should I submit that on top of v14 for inclusion in v6.1 too ?
+> > 
+> > Both look fine to me with a quick glance, and I'm ok with adding these on
+> > top of v14 (or I can pick them for v15 if there's one).
+> > 
+> > I don't think we have any code that uses them, have you tested them?
 > 
-> The bug arises because the em28xx driver registers a v4l2 video
-> device(struct video_device) with the V4L2 interface in
-> em28xx_v4l2_init() but the v4l2 extension initialization eventually
-> fails and the video device is unregistered. v4l2_open() in the V4L2
-> interface views the device as registered and allows calls to
-> em28xx_v4l2_open(). Due to race between video_unregister_device() and
-> v4l2_open(), em28xx_v4l2_open() is accessing video device after it has
-> been freed(by the release callback) and is passing it on to
-> v4l2_fh_open().
-> 
-> In em28xx_v4l2_init(), temporarily disable v4l2 file operations on
-> struct video_device devices(video, vbi, radio) before registering them
-> and enable the file ops at the end when v4l2 extension initialization
-> succeeds.
+> They're from Laurent, why would you test them? :-)
 
-That's not the right approach. The problem is the roll-your-own v4l2->ref
-refcount. Instead this should use the refcount that is built into struct
-v4l2_device.
+http://events17.linuxfoundation.org/sites/events/files/slides/20170601-ossj.pdf
 
-Specifically v4l2_dev->release should be set to the release function, and
-v4l2_device_put(&v4l2->v4l2_dev); should be called in remove() or in the
-error path of em28xx_v4l2_init().
+> I've taken the 16 first patches (v14) to my tree, will send a PR shortly.
 
-Using this the release callback of v4l2_device will be called when the last
-open file handle is closed, i.e. it keeps track of the open()s.
-
-The roll-your-own approach in the em28xx driver (written before this v4l2_device
-refcounting existed), is not taking that into account, so that causes these
-problems.
-
-What is also bad is that em28xx_vb2_setup() is called after the video devices
-are registered. That should happen before.
-
+-- 
 Regards,
 
-	Hans
-
-> 
-> Reported-by: syzbot+b2391895514ed9ef4a8e@syzkaller.appspotmail.com
-> Signed-off-by: Soumya Negi <soumya.negi97@gmail.com>
-> ---
->  drivers/media/usb/em28xx/em28xx-video.c | 45 +++++++++++++++++++++----
->  1 file changed, 39 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/media/usb/em28xx/em28xx-video.c b/drivers/media/usb/em28xx/em28xx-video.c
-> index 8181c0e6a25b..900a1eacb1c7 100644
-> --- a/drivers/media/usb/em28xx/em28xx-video.c
-> +++ b/drivers/media/usb/em28xx/em28xx-video.c
-> @@ -2320,6 +2320,19 @@ static int em28xx_v4l2_close(struct file *filp)
->  	return 0;
->  }
->  
-> +/* Used to temporarily disable file operations on video_device until successful
-> + * initialization in em28xx_v4l2_init().
-> + */
-> +static const struct v4l2_file_operations em28xx_v4l_fops_empty = {
-> +	.owner         = THIS_MODULE,
-> +	.open          = NULL,
-> +	.release       = NULL,
-> +	.read          = NULL,
-> +	.poll          = NULL,
-> +	.mmap          = NULL,
-> +	.unlocked_ioctl = NULL,
-> +};
-> +
->  static const struct v4l2_file_operations em28xx_v4l_fops = {
->  	.owner         = THIS_MODULE,
->  	.open          = em28xx_v4l2_open,
-> @@ -2375,12 +2388,22 @@ static const struct v4l2_ioctl_ops video_ioctl_ops = {
->  };
->  
->  static const struct video_device em28xx_video_template = {
-> -	.fops		= &em28xx_v4l_fops,
-> +	.fops		= &em28xx_v4l_fops_empty,
->  	.ioctl_ops	= &video_ioctl_ops,
->  	.release	= video_device_release_empty,
->  	.tvnorms	= V4L2_STD_ALL,
->  };
->  
-> +/* Used to temporarily disable file operations on video_device until successful
-> + * initialization in em28xx_v4l2_init().
-> + */
-> +static const struct v4l2_file_operations radio_fops_empty = {
-> +	.owner         = THIS_MODULE,
-> +	.open          = NULL,
-> +	.release       = NULL,
-> +	.unlocked_ioctl = NULL,
-> +};
-> +
->  static const struct v4l2_file_operations radio_fops = {
->  	.owner         = THIS_MODULE,
->  	.open          = em28xx_v4l2_open,
-> @@ -2404,7 +2427,7 @@ static const struct v4l2_ioctl_ops radio_ioctl_ops = {
->  };
->  
->  static struct video_device em28xx_radio_template = {
-> -	.fops		= &radio_fops,
-> +	.fops		= &radio_fops_empty,
->  	.ioctl_ops	= &radio_ioctl_ops,
->  	.release	= video_device_release_empty,
->  };
-> @@ -2833,9 +2856,6 @@ static int em28xx_v4l2_init(struct em28xx *dev)
->  				"can't register radio device\n");
->  			goto unregister_dev;
->  		}
-> -		dev_info(&dev->intf->dev,
-> -			 "Registered radio device as %s\n",
-> -			 video_device_node_name(&v4l2->radio_dev));
->  	}
->  
->  	/* Init entities at the Media Controller */
-> @@ -2851,14 +2871,27 @@ static int em28xx_v4l2_init(struct em28xx *dev)
->  	}
->  #endif
->  
-> +	/* Enable v4l2 file operations for v4l2 video video_device */
-> +	v4l2->vdev.fops = &em28xx_v4l_fops;
->  	dev_info(&dev->intf->dev,
->  		 "V4L2 video device registered as %s\n",
->  		 video_device_node_name(&v4l2->vdev));
->  
-> -	if (video_is_registered(&v4l2->vbi_dev))
-> +	if (video_is_registered(&v4l2->vbi_dev)) {
-> +		/* Enable v4l2 file operations for v4l2 vbi video_device */
-> +		v4l2->vbi_dev.fops = &em28xx_v4l_fops;
->  		dev_info(&dev->intf->dev,
->  			 "V4L2 VBI device registered as %s\n",
->  			 video_device_node_name(&v4l2->vbi_dev));
-> +	}
-> +
-> +	if (video_is_registered(&v4l2->radio_dev)) {
-> +		/* Enable v4l2 file operations for v4l2 radio video_device */
-> +		v4l2->radio_dev.fops = &radio_fops;
-> +		dev_info(&dev->intf->dev,
-> +			 "Registered radio device as %s\n",
-> +			 video_device_node_name(&v4l2->radio_dev));
-> +	}
->  
->  	/* Save some power by putting tuner to sleep */
->  	v4l2_device_call_all(&v4l2->v4l2_dev, 0, tuner, standby);
-
+Laurent Pinchart
