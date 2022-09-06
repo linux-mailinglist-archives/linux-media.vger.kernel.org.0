@@ -2,102 +2,167 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D29C35AF0A7
-	for <lists+linux-media@lfdr.de>; Tue,  6 Sep 2022 18:39:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9DEA25AF152
+	for <lists+linux-media@lfdr.de>; Tue,  6 Sep 2022 18:58:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234287AbiIFQiW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 6 Sep 2022 12:38:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41108 "EHLO
+        id S237547AbiIFQ5l (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 6 Sep 2022 12:57:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57782 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238882AbiIFQhy (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 6 Sep 2022 12:37:54 -0400
-Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com [IPv6:2a00:1450:4864:20::632])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1CBE02315F
-        for <linux-media@vger.kernel.org>; Tue,  6 Sep 2022 09:14:49 -0700 (PDT)
-Received: by mail-ej1-x632.google.com with SMTP id l14so958684eja.7
-        for <linux-media@vger.kernel.org>; Tue, 06 Sep 2022 09:14:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=raspberrypi.com; s=google;
-        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date;
-        bh=NCbgUH2khTUjestUgIAmSBhwzqQG6a1jCt5i9woSwA0=;
-        b=tC8mqXqqp3tpU6ucxSxIIKmODCIa1Q02EEdBJNsZE4KRMlN0IVDfFeOgEi3+8C2WYn
-         42JM5s8u3FQmuU05OaWMXhr/4lgMnAP6jWF5RcNA/uDHAHpPvFB63JTh9TBznBfsNuvM
-         oSX02NdcJYhaeOf89yghL5Y7BRaf/KaA2WgYKLlrwTnPXpJK6sILKwR/HM7uHpAqPoZn
-         /HF+k8q/xJzHlp7DCCWpRLapwQFRGryeQ+aNmVTN6r+kcRcSmAF4qTslbiKfjKaPIJ0/
-         tUboW9ASimS+XBoHSxn3RJYQFIZSwX64WoQbnETiLii3B4+OxeHkQLM0TERYjei73Kvg
-         6mug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
-         :from:to:cc:subject:date;
-        bh=NCbgUH2khTUjestUgIAmSBhwzqQG6a1jCt5i9woSwA0=;
-        b=tJyrvw+5nIgvYYozIEUF3+ymi78bxSVqXmIFMwM+FOoQ+Q+2jJXRE7ofqO91QR8dUX
-         ZO53R3BGygL1V6en0sKGlZLe+MXJ7ZL7DdMAyBOpUpWFYqa5B4CMqaWTLVn9hzdaExys
-         n78vVPlXd7Lw6+5viHhR4B17HxNQwVRT8cRCXChDD6V5Fl5EIlrTskHCAQORxYqtcSmT
-         YHC4wKUnR3/C9wi8HQvH+D1uzI3VfLHpbaqmZ2xoilr1UM/mwYhNLKPUs8dN/eEGjRl3
-         BOEqy6YGEh5fDvisC4B+VXmc+laZSNTrBp79XwRnHBkPK0rwn3MpqJ2oKImxeQ5akgMb
-         3SMw==
-X-Gm-Message-State: ACgBeo3IPIfSHAVHb7qmgDYagfmUtkX3R0MJqRBlLXYfZPTwqg1+ri9C
-        a5VjrnU9hLSJFEWsPGiOvAs3Afc2BPlnmWeTr/TJYyizn0vyNQ==
-X-Google-Smtp-Source: AA6agR5s8FXEoG2tKWpMn7WK0SG7Gr8S4TNvQBemVW9WqRX7LtxNyLo4NxOOkYtHczJqTzXDocYHJ1/umofES5H1H5U=
-X-Received: by 2002:a17:906:fd8d:b0:73a:7424:6c0d with SMTP id
- xa13-20020a170906fd8d00b0073a74246c0dmr40258164ejb.425.1662480886644; Tue, 06
- Sep 2022 09:14:46 -0700 (PDT)
+        with ESMTP id S234633AbiIFQ5U (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 6 Sep 2022 12:57:20 -0400
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (mail-bn8nam12on2087.outbound.protection.outlook.com [40.107.237.87])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 400EE52DDF;
+        Tue,  6 Sep 2022 09:44:12 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=MaA9bEDX5z2MF5AcsstFdfCQqISJq27KJ0sm4UdQ63GPUxnEts7up/JC+nOvmPHT+0Hf1vsUQH7kRC/BdAeuCFMOk8JD3TPeIjA88Qf7cvHZy08PdBiv/hXamvKi9PLErCcwhDJtAU+HSMqieDdlgWaM9pp0Jh4eCJDaFwFPOIdRzrk3NwOv4yqH9Srhs/6v3An6Esrz9IrCVRv4jlst6374qPE05ExTZgZIesCB1ZToBtYTDrSNe2xFdKQ9b37usaS/JPL34ZCkaDbEQFXKxe0PkEH3NV/sWGLatalXpCIYvb962bZFdu/gBJqq3UU+e083u/y9fcylI7G3clittQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=0a5KMK04bEnYSJbmXKpvsVC0KtUSLYXlzknatukfmpk=;
+ b=hcXhhYvI2Nk4B998Yr6hBDOmT9hfPaPSCl2+lhRlQ+sEHVM7INnp7ISo/DHd0njMSn74uGVP8oqSDkuUuPGnUwC9zty3PyPMPyZAHDmMqQP4l3w3HTMRCu76G4QPT/JIKKwxJvingRhfakaGlQVaAZrQkzg0t0dI+AVkmxLF14MRUubv285xZh84rKgHzRpJfI8msbN52naJSWglaNX6tTRSLCOOFRXEOcbfMuM9oRnQWtA9HXQV7y7dUzz+riOlErp1ydxVlO2GhZX9HNpgOWlrl0r5/ZuNNQsCS8Pr8H3Uly23nPtJrR5CSplDcxgJog+VzzeVx5WOwlKi2JSugA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=0a5KMK04bEnYSJbmXKpvsVC0KtUSLYXlzknatukfmpk=;
+ b=RYvoUnmqN7kcX3rDJGH+ABxoZw8KC06Qfyef/rmS6cEh7xg1cF4KW3h96t1OffAOevwOoLovbk6FKXK6UiE/j4f1RnOj27wj5kht9Z9Cbuewr/RTY9ATKeGjmMU4LMz1o1EKM2U+yUmnYj9mPp4ihxOSK1AY+YS3Fmm0S3oRJ4hJqNtJnYV/Xppi5AI5HnrAHyUMdZgcRLEQUHKfMd5sQQRA7wBHZ25EvPQsIZsvCoiy42VauhwuH0G7ULeCe8jllFcBBmXEK59FDSSJCQEULprnCwJcqwO5gQ9G28nQyiwT8vuMSiMnagD22CrBIVAYVHJSb1cFsNF0W2x42yMTJg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from MN2PR12MB4192.namprd12.prod.outlook.com (2603:10b6:208:1d5::15)
+ by SJ0PR12MB5453.namprd12.prod.outlook.com (2603:10b6:a03:37f::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5588.10; Tue, 6 Sep
+ 2022 16:44:10 +0000
+Received: from MN2PR12MB4192.namprd12.prod.outlook.com
+ ([fe80::462:7fe:f04f:d0d5]) by MN2PR12MB4192.namprd12.prod.outlook.com
+ ([fe80::462:7fe:f04f:d0d5%7]) with mapi id 15.20.5588.018; Tue, 6 Sep 2022
+ 16:44:10 +0000
+Date:   Tue, 6 Sep 2022 13:44:09 -0300
+From:   Jason Gunthorpe <jgg@nvidia.com>
+To:     Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
+Cc:     Alex Williamson <alex.williamson@redhat.com>,
+        Cornelia Huck <cohuck@redhat.com>,
+        dri-devel@lists.freedesktop.org, kvm@vger.kernel.org,
+        linaro-mm-sig@lists.linaro.org, linux-media@vger.kernel.org,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Daniel Vetter <daniel.vetter@ffwll.ch>,
+        Leon Romanovsky <leon@kernel.org>, linux-rdma@vger.kernel.org,
+        Maor Gottlieb <maorg@nvidia.com>,
+        Oded Gabbay <ogabbay@kernel.org>
+Subject: Re: [PATCH v2 1/4] dma-buf: Add dma_buf_try_get()
+Message-ID: <Yxd42anepRnmFJwe@nvidia.com>
+References: <1-v2-472615b3877e+28f7-vfio_dma_buf_jgg@nvidia.com>
+ <18b3dd75-7995-a2a8-372b-1fd5838dfe1d@amd.com>
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <18b3dd75-7995-a2a8-372b-1fd5838dfe1d@amd.com>
+X-ClientProxiedBy: BLAPR03CA0001.namprd03.prod.outlook.com
+ (2603:10b6:208:32b::6) To MN2PR12MB4192.namprd12.prod.outlook.com
+ (2603:10b6:208:1d5::15)
 MIME-Version: 1.0
-From:   Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date:   Tue, 6 Sep 2022 17:14:30 +0100
-Message-ID: <CAPY8ntBGKkg=KOXaP9bBv6Y8c7Mgut0=w-LTsvKHZac=zzdJDQ@mail.gmail.com>
-Subject: [Media Summit] Imaging Sensor functionality
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        Hidenori Kobayashi <hidenorik@chromium.org>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Michael Olbrich <m.olbrich@pengutronix.de>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Ricardo Ribalda <ribalda@chromium.org>,
-        Maxime Ripard <maxime@cerno.tech>,
-        Daniel Scally <djrscally@gmail.com>,
-        =?UTF-8?Q?Jernej_=C5=A0krabec?= <jernej.skrabec@gmail.com>,
-        =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        Michael Tretter <m.tretter@pengutronix.de>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Benjamin MUGNIER <benjamin.mugnier@foss.st.com>,
-        Jacopo Mondi <jacopo@jmondi.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 9290245b-7afb-4ef6-1e09-08da90270598
+X-MS-TrafficTypeDiagnostic: SJ0PR12MB5453:EE_
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: sv6FLW3Ar1+tcc3j1O/+3BYTHQ3ngYZlk4vQUqBZ0wWolZb1SovdYYe2QcuWe2EXCohEGK+o/tspaOyzzA5YstkJFYQc1UCg60DJmfvyR4dmsGNtyhGb0Z9VczE2TmdtJa+PjHvY3tZVpyAYpm2JfzIbg2vDx+mezXnCDeu+xASNrjCoSkzotl2YVGVnEnxH0KKUExi9vyyBHv0BVJcQ96LBNiLAtSS4fE1jpjEsXOQbLvfEIgRab4zXh3IdkKkcu/PODaOgYtXC6Mqu8ggLNiVSAsuTCnHBvQxCPxBu3hOIVqBAc5clOoCYAjPcKDb5U8MHvoYyWhg5U6KkwRp2Z0i2eHDgTtaUdJEkva/IQ1tCqw1bgmP5wyJQ0bq1f9fUEcd586LX/7iYj041grHxS75uXGDNW7Ju6gOJq8cykIZ/SrvDbiZ9uXKUNT2TR3af+k5E0vjcygIn898aBzd7NrWr0ocw0EESrj6S4yIjcULPJkrKtbV09erSS+bjif6gAY2zFEw7CmZnqIMcWmybHfOOKLkg2E0hoSb1m3xgxdcxPQXDnm6aqCt0Ap5EgtC0GgIu4c7de0CWV+05NwMmZNhlZ/YVmcjU2UqIs3iOCrqKhvgvjltKnzaeD9znxro1PtBOadPjRZpvexMQ278z5Ng0xhc2C6YVSaWM2UWa0n5Oev+AjroY0bIvV47//R8VS9AjgzkK6lNjDpJDKzWv9w==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR12MB4192.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(136003)(376002)(396003)(366004)(39860400002)(346002)(36756003)(5660300002)(41300700001)(6486002)(26005)(2906002)(38100700002)(7416002)(478600001)(66476007)(66946007)(86362001)(66556008)(8676002)(4326008)(8936002)(6506007)(186003)(6916009)(6512007)(54906003)(66574015)(2616005)(316002)(83380400001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?bzJtcy9NamlDTHdJKzh1LytqV0NONFBuME5EYzNXYllXd3FsK3IyVzBpRkI2?=
+ =?utf-8?B?UzkxNGUyQnJwOWtXRmhXcFpLMW0zbmxyZTVQVkJ0UjhkRGpCekRoNjdRdW04?=
+ =?utf-8?B?RG1vd0pzVkFpQmJSMHMvMVA0K2pPdXdNMVI5SUZvSjN6ZUJkcjcxQW5nM1I2?=
+ =?utf-8?B?d3hZS0tjTHBLaWJLOXgrWVhNSXRWOU5jejJGL0NLU1Y5by83bXFXQ1VBNVYw?=
+ =?utf-8?B?c2dNQTRrVDduV25tcXlUeXJDSG5qaUtZSTg0cUVHRU1GTEVrWGw4c1ZveEdj?=
+ =?utf-8?B?MlhBUUtBL25kQnRsNXgzMDNRQVcwMUZkOWhuaStDUnZ4c2NRUHVDS1NWQWN6?=
+ =?utf-8?B?VjdwblBmVkdqNkZBcys5c2syNklhNStBRk5mTThKVWo4OWtIV1pLa0dpWi9L?=
+ =?utf-8?B?Smk3c1NyVmhOSnR0UVozZFNXMVlCUUNEdTFXMzVaZ1dGWkhjMUs3aHM0T1Rs?=
+ =?utf-8?B?ckpBeUJ4aHphSXlTSnQrTE50QjkwY2xBS2wyRFZmbVdOUER1eTU0RUJjdkd6?=
+ =?utf-8?B?cVJuaHA3TDdadkQ4YXdicklYNGNKUTEvbzBwYUwrUWVocHduMGNUbk9NRUFK?=
+ =?utf-8?B?VUVydGFMckhnY0RqWjBlL0o0SVVHOW1jR0FjTGJKODBIaytzTTc3RXR1SzdZ?=
+ =?utf-8?B?SnJIMDVLeWZSR1NFV2RSajlXYi96WHBRdlRZT2M3akd5QnFzOWduZWNkelhE?=
+ =?utf-8?B?bkd4dzdEUDY0aVh2M1poVXpMc2d5ZWU4dFBUVHVrTXU0bjY4cHlQTVY1ajBa?=
+ =?utf-8?B?Q3c5TEZTaHhyTkNVWFNncTBEVkhuWVJkSk5QUituOG0rdUhyZEcwcUo5N3Nm?=
+ =?utf-8?B?d0FuWGgvM0hZZ2xmWVIxTU50Qi9Ba2hVQ0tqOWljQVNsdFd5UFhaazkydXhW?=
+ =?utf-8?B?dFE0QWMzM0dlbTNqa3B3UndRWjY1ZzFTTUg0bmhSYk1HdUdUbzJhcEJTbnRk?=
+ =?utf-8?B?K0xGZ3RrcW4rdnJjVURiY0hjZkJxMDNlU0FJaksrMU5IY2tHeGxhL0hNWkZH?=
+ =?utf-8?B?UXBmVG9KQ1FONU9vQ1FtTE1rNXJwUjFWTmpwRnFxSkJSM0ZnNUIwMklUVExR?=
+ =?utf-8?B?K0FYNHNYSStPUnJrZmtmMjF4bjlsRTV5c2VDRTZua0NOTXBUUEZwamoyV1pm?=
+ =?utf-8?B?dlRHODhpYmpGSnpLZzVWRVdoc2Y2Y29XVW5kMkVQZ1M5RVNyeEJJSHNCYzQr?=
+ =?utf-8?B?cG5GTW9JbllvSHB6Y2ZzRk84QXA5REFLY3JLR3dXRVJDVElUQnhBQ3dyRTM3?=
+ =?utf-8?B?SlFkUkNNZWFoVzMrTmNvSHo1MjdsNVNsOFBKWHpCL1J0YmdHOXM0YlM3VXVh?=
+ =?utf-8?B?bjhHalcwd0hUSTRIVm13YWdDaGx2bDljQVRjakNNbmlxV0VuSEg2d0pySmJJ?=
+ =?utf-8?B?N2g1VEZRUXJ5TTJpdVBlbTV4aUpaQVFoRitnM092TWp0YWFUT3FuMW0ybFB3?=
+ =?utf-8?B?VzlZaXBSZGVUS3RENFNJUzU4UXdsMUY3TVA4dmpmZm5tMkNZZ1dKcktvZ1VC?=
+ =?utf-8?B?ODlRRFdaelprcTJTbDBTQzE4OVJLZU9ZZXVxcEQ3MGIrS2NRL2lFMW1OUGNy?=
+ =?utf-8?B?MTQ2U3pqajA0Ry9XN1JoRldjcnIxNy9LSGlGUUVPMDQ2ZER6Q09ZbzcvdEx3?=
+ =?utf-8?B?V3dneDZGdmtCR1kxOXNsblE3RDYrVlM0cmVXVHcweFdKTEx5VThaWEo5Ynoy?=
+ =?utf-8?B?WVZQajZDdmVzWnVPOE1BYVNaY1A0Tk4vTVpHQW95ekt1cldlekk0ajVyc2dR?=
+ =?utf-8?B?Vzg5aWJ5QWdBdG1uczkzSjQ0M2duRnE1cURPdE9rcnN6RVIwVk1EdVU3dWRl?=
+ =?utf-8?B?WENzS0pQSHQ0UW5Udm12SU5neEN6VXVsOGQrd0hra0xhTUtKUVpscmd3L2R2?=
+ =?utf-8?B?RXQzbDAwS3pIZDVwMGtaOEY0RE5PZDhRT3VjTlJvZ0p2ODRPZmtRVFlndEtq?=
+ =?utf-8?B?Zm00ank4QmY4dmdIM2dzOGYrT3RnNHMwUGg1ektHTDVtc3BydGNEQlNQQndn?=
+ =?utf-8?B?T3dkeTJwbnE0Mi9kU2E1ZTdtVlJ4L1BoOThxdTVCSlVRZ1Y5VEZQWlIrQTAy?=
+ =?utf-8?B?Mk55R1pseCtmRnhyVEJUdkc3VW13OHFkd3h1bW9LTnBJandlNDVRV3p0NlJ2?=
+ =?utf-8?Q?BQcnzdrmJD/tF8kygQCUbZoAP?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9290245b-7afb-4ef6-1e09-08da90270598
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB4192.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Sep 2022 16:44:10.0044
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: qL7Wh4xgJQrMir3DOCnBED3FxX3vWXnXUIRRWuUsrJDmSAB643rFzYZY2ygkMPM+
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR12MB5453
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi All.
+On Thu, Sep 01, 2022 at 09:55:08AM +0200, Christian König wrote:
+> Am 01.09.22 um 01:12 schrieb Jason Gunthorpe:
+> > Used to increment the refcount of the dma buf's struct file, only if the
+> > refcount is not zero. Useful to allow the struct file's lifetime to
+> > control the lifetime of the dmabuf while still letting the driver to keep
+> > track of created dmabufs.
+> > 
+> > Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
+> > ---
+> >   include/linux/dma-buf.h | 13 +++++++++++++
+> >   1 file changed, 13 insertions(+)
+> > 
+> > diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
+> > index 71731796c8c3a8..a35f1554f2fb36 100644
+> > --- a/include/linux/dma-buf.h
+> > +++ b/include/linux/dma-buf.h
+> > @@ -618,6 +618,19 @@ int dma_buf_fd(struct dma_buf *dmabuf, int flags);
+> >   struct dma_buf *dma_buf_get(int fd);
+> >   void dma_buf_put(struct dma_buf *dmabuf);
+> > +/**
+> > + * dma_buf_try_get - try to get a reference on a dmabuf
+> > + * @dmabuf - the dmabuf to get
+> > + *
+> > + * Returns true if a reference was successfully obtained. The caller must
+> > + * interlock with the dmabuf's release function in some way, such as RCU, to
+> > + * ensure that this is not called on freed memory.
+> 
+> I still have a bad feeling about this, but I also see that we can only
+> choose between evils here.
+> 
+> Could you just call get_file_rcu() from the exporter with a comment
+> explaining why this works instead?
 
-I realise that I'm in a slightly different position from many mainline
-Linux-media developers in that I see multiple use cases for the same
-sensor, rather than a driver predominantly being for one
-product/platform. I'm therefore wanting to look at generic solutions
-and fully featured drivers. Users get to decide the use cases, not the
-hardware designers.
+I guess, are you sure? It seems very hacky.
 
-The issues I've raised are things that I've encountered and would
-benefit from a discussion to get views as to the direction that is
-perceived to be workable. I appreciate that some can not be solved
-immediately, but want to avoid too much bikeshedding in the first
-round of patches.
-What's realistic, and what pitfalls/limitations immediately jump out at people.
-
-Slides are at https://drive.google.com/file/d/1vjYJjTNRL1P3j6G4Nx2ZpjFtTBTNdeFG/view?usp=sharing
-
-See you on Monday.
-
-  Dave
+Jason
