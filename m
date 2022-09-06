@@ -2,149 +2,168 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4125C5AE859
-	for <lists+linux-media@lfdr.de>; Tue,  6 Sep 2022 14:34:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A49735AE8E9
+	for <lists+linux-media@lfdr.de>; Tue,  6 Sep 2022 14:58:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239128AbiIFMeh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 6 Sep 2022 08:34:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41184 "EHLO
+        id S239635AbiIFM6z (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 6 Sep 2022 08:58:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54160 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239784AbiIFMec (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 6 Sep 2022 08:34:32 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 72D0495AC;
-        Tue,  6 Sep 2022 05:34:31 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id EE16C6150E;
-        Tue,  6 Sep 2022 12:34:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5CCE6C433D6;
-        Tue,  6 Sep 2022 12:34:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1662467670;
-        bh=8rswhesIf7F5l4+vbHZDuYiPqhm8GcAPme7YzWlPZHo=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=PiNv1XmT/gpk9znR9JgMI4/e7BI81aa2qWYK/59dSmcexqrMxxpeHHNYXOVgORVT+
-         aNtMJHQF/LYb4TJ6/fr8ZBihYhKffPcMD8aD7d13wtmrjdCf+DnuOBkzByBaCaFknF
-         Ic16wmoX4NEG7XlyXqWG8ihyxJjA4XvwKBbUlyboZfuE7fZ0ukqZ36Ce90YO0bxj3Y
-         SOw2c3ksDzdeopDl2TOjx2ac2k0vxwqXeVzVqq0yLGG6BIY+eMyLwQ7jHnoM/jgpBy
-         y5DXqGO1Ciz/Mi2MxwFG9+1TVvjBtwXLIsXssWCGMTAmjfcvozXT4duoRTuhtXRc9K
-         NeUL0L7nLF39w==
-Received: by mail-il1-f176.google.com with SMTP id k9so2708231ils.12;
-        Tue, 06 Sep 2022 05:34:30 -0700 (PDT)
-X-Gm-Message-State: ACgBeo3B7DwB2Xwx5LbuQzw2Y5I6Zej8xGc6drcW0YVL0c5DO9ywVZh0
-        E111Tw0A7iPTWJ73uFPqFpbb2sv5iED8bhahOyg=
-X-Google-Smtp-Source: AA6agR5t2EEfOfqFt/KzpOaxtGy9C1ikdONdFt3Yo84P649uJqUH/4H9gMVQanRhVGUj+eh8dpntM2no5PF+qGxQBb0=
-X-Received: by 2002:a92:c561:0:b0:2ed:a26a:8c65 with SMTP id
- b1-20020a92c561000000b002eda26a8c65mr12449599ilj.23.1662467669406; Tue, 06
- Sep 2022 05:34:29 -0700 (PDT)
+        with ESMTP id S240298AbiIFM6x (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 6 Sep 2022 08:58:53 -0400
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF0672638
+        for <linux-media@vger.kernel.org>; Tue,  6 Sep 2022 05:58:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1662469131; x=1694005131;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=hzjNLpd97wdAkluHOpGHMTYo/uXSlcUe24qPQEhBfGA=;
+  b=bDS4gve4Ca4UajnDF4pMnrXCcEMODWPaJnbywqFTgieIe855V4KJCq2p
+   i2JwgYi5xBiehWMsGtfvEawgAkVCALk+9RNx9OJ455QLIU5Z2OfV9Fc3V
+   uZF67ZMGKvwVTlOuBouxhMZg6PtbG2HYCwcau7w+BFgK0zM5oRxA+Oh93
+   ijjHM7LdUcOk0azHXS618Y2qyG2RJmxDjBEoBfXo8iBIKy1Hzh5Kb++6B
+   53L1koThzbTNsAORHqsSAJMg/i3601U41UbS58kEXCw4Kq3x2r6AoVUPk
+   yfqs1Z87ynPAs6DW0pez5Hd4K4kj+9KfJglpDlxj0RRyAaAkUj8eyK94W
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10462"; a="382879181"
+X-IronPort-AV: E=Sophos;i="5.93,294,1654585200"; 
+   d="scan'208";a="382879181"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Sep 2022 05:58:51 -0700
+X-IronPort-AV: E=Sophos;i="5.93,294,1654585200"; 
+   d="scan'208";a="647219634"
+Received: from punajuuri.fi.intel.com (HELO paasikivi.fi.intel.com) ([10.237.72.43])
+  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Sep 2022 05:58:48 -0700
+Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
+        by paasikivi.fi.intel.com (Postfix) with SMTP id 0237920188;
+        Tue,  6 Sep 2022 15:58:46 +0300 (EEST)
+Date:   Tue, 6 Sep 2022 12:58:45 +0000
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-media@vger.kernel.org,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        niklas.soderlund+renesas@ragnatech.se,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Pratyush Yadav <p.yadav@ti.com>,
+        Kishon Vijay Abraham <kishon@ti.com>,
+        satish.nagireddy@getcruise.com, Tomasz Figa <tfiga@chromium.org>
+Subject: Re: [PATCH v13 14/34] media: mc: entity: Rewrite
+ media_pipeline_start()
+Message-ID: <YxdEBW5Y+jxJKXBS@paasikivi.fi.intel.com>
+References: <20220810121122.3149086-1-tomi.valkeinen@ideasonboard.com>
+ <20220810121122.3149086-15-tomi.valkeinen@ideasonboard.com>
+ <Ywz06tZvurFVosly@pendragon.ideasonboard.com>
+ <9ec0844a-494d-304a-97df-c26313f95628@ideasonboard.com>
+ <YxcIcvGdnJDgtIL6@pendragon.ideasonboard.com>
+ <5126238e-4104-11df-24b3-3266f441b6b4@ideasonboard.com>
 MIME-Version: 1.0
-References: <0-v2-472615b3877e+28f7-vfio_dma_buf_jgg@nvidia.com>
- <4-v2-472615b3877e+28f7-vfio_dma_buf_jgg@nvidia.com> <YxcYGzPv022G2vLm@infradead.org>
- <b6b5d236-c089-7428-4cc9-a08fe4f6b4a3@amd.com> <YxczjNIloP7TWcf2@nvidia.com>
-In-Reply-To: <YxczjNIloP7TWcf2@nvidia.com>
-From:   Oded Gabbay <ogabbay@kernel.org>
-Date:   Tue, 6 Sep 2022 15:34:02 +0300
-X-Gmail-Original-Message-ID: <CAFCwf115rwTWzgPXcpog4u5NAvH4JO+Qis_fcx0mRrNR5AQcaQ@mail.gmail.com>
-Message-ID: <CAFCwf115rwTWzgPXcpog4u5NAvH4JO+Qis_fcx0mRrNR5AQcaQ@mail.gmail.com>
-Subject: Re: [PATCH v2 4/4] vfio/pci: Allow MMIO regions to be exported
- through dma-buf
-To:     Jason Gunthorpe <jgg@nvidia.com>
-Cc:     =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        Christoph Hellwig <hch@infradead.org>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Cornelia Huck <cohuck@redhat.com>,
-        Maling list - DRI developers 
-        <dri-devel@lists.freedesktop.org>, KVM list <kvm@vger.kernel.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Daniel Vetter <daniel.vetter@ffwll.ch>,
-        Leon Romanovsky <leon@kernel.org>,
-        linux-rdma <linux-rdma@vger.kernel.org>,
-        Maor Gottlieb <maorg@nvidia.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <5126238e-4104-11df-24b3-3266f441b6b4@ideasonboard.com>
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Sep 6, 2022 at 2:48 PM Jason Gunthorpe <jgg@nvidia.com> wrote:
->
-> On Tue, Sep 06, 2022 at 12:38:44PM +0200, Christian K=C3=B6nig wrote:
-> > Am 06.09.22 um 11:51 schrieb Christoph Hellwig:
-> > > > +{
-> > > > + struct vfio_pci_dma_buf *priv =3D dmabuf->priv;
-> > > > + int rc;
-> > > > +
-> > > > + rc =3D pci_p2pdma_distance_many(priv->vdev->pdev, &attachment->de=
-v, 1,
-> > > > +                               true);
-> > > This should just use pci_p2pdma_distance.
->
-> OK
->
-> > > > + /*
-> > > > +  * Since the memory being mapped is a device memory it could neve=
-r be in
-> > > > +  * CPU caches.
-> > > > +  */
-> > > DMA_ATTR_SKIP_CPU_SYNC doesn't even apply to dma_map_resource, not su=
-re
-> > > where this wisdom comes from.
->
-> Habana driver
-I hate to throw the ball at someone else, but I actually copied the
-code from the amdgpu driver, from amdgpu_vram_mgr_alloc_sgt() iirc.
-And if you remember Jason, you asked why we use this specific define
-in the original review you did and I replied the following (to which
-you agreed and that's why we added the comment):
+On Tue, Sep 06, 2022 at 12:19:19PM +0300, Tomi Valkeinen wrote:
+> On 06/09/2022 11:44, Laurent Pinchart wrote:
+> > Hi Tomi,
+> > 
+> > On Wed, Aug 31, 2022 at 05:21:58PM +0300, Tomi Valkeinen wrote:
+> > > On 29/08/2022 20:18, Laurent Pinchart wrote:
+> > > > On Wed, Aug 10, 2022 at 03:11:02PM +0300, Tomi Valkeinen wrote:
+> > > > > From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > > > > 
+> > > > > [Note: the code is mostly from Laurent but the patch description is from Tomi]
+> > > > 
+> > > > I'll review the description then :-)
+> > > > 
+> > > > > The media_pipeline_start() and media_pipeline_stop() functions use the
+> > > > > media graph walk API to traverse the graph and validate the pipeline.
+> > > > > The graph walk traverses the media graph following links between the
+> > > > > entities.
+> > > > > 
+> > > > > Also, while the pipeline can't change between the start and stop calls,
+> > > > > the graph is walked again from scratch at stop time, or any time a
+> > > > > driver needs to inspect the pipeline.
+> > > > > 
+> > > > > With the upcoming multiplexed streams support we will need a bit more
+> > > > > intelligent pipeline construction, as e.g. an entity may be passing
+> > > > > through two independent streams via separate pads, in which case those
+> > > > 
+> > > > Did you mean "as e.g. two independent streams may be passing through a
+> > > > single entity via separate pads" ?
+> > > > 
+> > > > > pads should not be part of the same pipeline.
+> > > > > 
+> > > > > This patch essentially rewrites the media_pipeline_start/stop so that
+> > > > > a pipeline is defined as a set of pads instead of entities and the media
+> > > > > graph traversal considers the pad interdependencies when choosing which
+> > > > > links to follow.
+> > > > > 
+> > > > > Currently all the entity's pads are considered as interdependent. This
+> > > > > means that the behavior with all the current drivers stays the same, but
+> > > > > in the future we can define a more fine-grained pipeline construction.
+> > > > > 
+> > > > > Additionally the media pipeline's pads are cached at
+> > > > > media_pipeline_start() time, and re-used at media_pipeline_stop() which
+> > > > > avoid the need to re-walk the whole graph as the previous implementation
+> > > > > did.
+> > > > > 
+> > > > > Also, caching pads in the pipeline can serve in the future as the
+> > > > > foundation to provide a better API than the media graph walk to drivers
+> > > > > to iterate over pads and entities in the pipeline.
+> > > > > 
+> > > > > Note that the old media_pipeline_start/stop used the media graph walk
+> > > > > API. The new version does not use the media graph walk API, but instead
+> > > > > a new implementation.
+> > > > > 
+> > > > > There are two reason for not changing the graph walk: it proved to be
+> > > > > rather difficult to change the graph walk to have the features
+> > > > > implemented in this patch, and second, this keeps the backward
+> > > > > compatibility of the graph walk as there are users of the graph walk API
+> > > > > 
+> > > > > The long term plan is that all the existing code would be converted to
+> > > > > use the new cached pipeline, thus allowing us to remove the graph walk.
+> > > > 
+> > > > Could you mark the graph walk API as deprecated in this patch, or in a
+> > > > subsequent patch in the series ? I think I did in a previous version,
+> > > > but I may recall incorrectly.
+> > > 
+> > > I didn't mark the graph walk API as deprecated in v14 series. We can do
+> > > it on top, but I'm not sure if it's a valid thing to say yet. Have we
+> > > tried converting any graph walk uses to the new pipeline code? We could
+> > > well have code missing that prevents the conversion.
+> > 
+> > I'd like to avoid new users of the graph walk API. This requires two
+> > patches that you haven't included or squashed in v14 though, namely
+> > 
+> > 20a31d49bd75 media: mc: entity: Add entity iterator for media_pipeline
+> > 50659eb74afc media: mc: entity: Add pad iterator for media_pipeline
+> > 
+> > that you can find at
+> > 
+> > git://linuxtv.org/pinchartl/media.git streams/v6.0/v11
+> > 
+> > Should I submit that on top of v14 for inclusion in v6.1 too ?
+> 
+> Both look fine to me with a quick glance, and I'm ok with adding these on
+> top of v14 (or I can pick them for v15 if there's one).
+> 
+> I don't think we have any code that uses them, have you tested them?
 
-"The memory behind this specific dma-buf has *always* resided on the
-device itself, i.e. it lives only in the 'device' domain (after all,
-it maps a PCI bar address which points to the device memory).
-Therefore, it was never in the 'CPU' domain and hence, there is no
-need to perform a sync of the memory to the CPU's cache, as it was
-never inside that cache to begin with.
+They're from Laurent, why would you test them? :-)
 
-This is not the same case as with regular memory which is dma-mapped
-and then copied into the device using a dma engine. In that case,
-the memory started in the 'CPU' domain and moved to the 'device'
-domain. When it is unmapped it will indeed be recycled to be used
-for another purpose and therefore we need to sync the CPU cache."
+I've taken the 16 first patches (v14) to my tree, will send a PR shortly.
 
-Oded
->
-> > > > + dma_addr =3D dma_map_resource(
-> > > > +         attachment->dev,
-> > > > +         pci_resource_start(priv->vdev->pdev, priv->index) +
-> > > > +                 priv->offset,
-> > > > +         priv->dmabuf->size, dir, DMA_ATTR_SKIP_CPU_SYNC);
-> > > This is not how P2P addresses are mapped.  You need to use
-> > > dma_map_sgtable and have the proper pgmap for it.
-> >
-> > The problem is once more that this is MMIO space, in other words regist=
-er
-> > BARs which needs to be exported/imported.
-> >
-> > Adding struct pages for it generally sounds like the wrong approach her=
-e.
-> > You can't even access this with the CPU or would trigger potentially
-> > unwanted hardware actions.
->
-> Right, this whole thing is the "standard" that dmabuf has adopted
-> instead of the struct pages. Once the AMD GPU driver started doing
-> this some time ago other drivers followed.
->
-> Now we have struct pages, almost, but I'm not sure if their limits are
-> compatible with VFIO? This has to work for small bars as well.
->
-> Jason
+-- 
+Sakari Ailus
