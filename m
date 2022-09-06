@@ -2,93 +2,190 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5AF4E5AE068
-	for <lists+linux-media@lfdr.de>; Tue,  6 Sep 2022 08:58:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 454515AE09F
+	for <lists+linux-media@lfdr.de>; Tue,  6 Sep 2022 09:10:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237988AbiIFG6v (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 6 Sep 2022 02:58:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33494 "EHLO
+        id S233519AbiIFHK0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 6 Sep 2022 03:10:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48356 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233371AbiIFG6u (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 6 Sep 2022 02:58:50 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1090772FE1
-        for <linux-media@vger.kernel.org>; Mon,  5 Sep 2022 23:58:49 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id A0F9661242
-        for <linux-media@vger.kernel.org>; Tue,  6 Sep 2022 06:58:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 82DC5C433C1;
-        Tue,  6 Sep 2022 06:58:45 +0000 (UTC)
-Message-ID: <2691c888-0a70-87ae-889e-f44842a279e8@xs4all.nl>
-Date:   Tue, 6 Sep 2022 08:58:42 +0200
-MIME-Version: 1.0
+        with ESMTP id S238834AbiIFHKH (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 6 Sep 2022 03:10:07 -0400
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2072.outbound.protection.outlook.com [40.107.223.72])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 462E62CDFF;
+        Tue,  6 Sep 2022 00:09:56 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=JOfmIi2KszgVDn+DgrIsIPlFVuwVqKvVO8mkF9zZdjWeyfpPPctqKqAyZk3OvdbVFd3M06e4TuZDiH0BLau9mE0Kqs3u/eIb7XB/0AXJRbZynNWlfm0ZtkNkktokKc278C8LDtQ8dCoriVNvfobVu1/vmoZZWLEAtyTD2EVt+aid43ELltd3NwAytL7CM2STBfbIU1V+BC8UbmdtPAkFYBDJxJ1QB5B02u5Myp90kg/3Vp+2cEs54XhLzumeORVhaWqiBF+iMIY2yW0KN5FCtR0jJqmzJnQ8UatdVRrh9pCR1zpIjxdBdPWyBWi3J4rOD7P9SLhK1YWAcN7hyHMNJw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=CsCTEVmG4yfXkfwpLxWIVMPRpWHtUNkNg0ocfZQvBtk=;
+ b=ZVCdZlW/kua80wQVGi+UoxF1gttbr/MRaqUZw1Pi59k0Cd+Ni1n9dSFNp9w/SZ05415vcdTaF0CMCmx4oINOR5u1eDYAjF613SfULj1gXfInImZlZI4qLL7UMof29jDhCHF60AzQFqIQxmsUKjcHCDeyNno8gOhODGDr1Iw2HGfy4NqaNb+xgDvOUocE6/Y7oF/eO95twre1bBwFbIddSNl5Mg4fBL12m/W4wN5yhkN2ZR13L7Ohj+C9dXsGj4lE1DAqEUkB9SQBaW+W16toejcxuRl8lWDwzw7KqTlAzg+PVzoitm4EKPlgujWeRkVoLCLhhcUvqvinoRbJz1dHfw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=CsCTEVmG4yfXkfwpLxWIVMPRpWHtUNkNg0ocfZQvBtk=;
+ b=jyMuRWitF5XEvpY8H3jCTYjxk4ESY3S0nIUvMP7jbVm89L+7nf67JW+FiG6A6o5IaMB+eExlbla1opuo5amwzwJyYz79UG4xARUFE/ryReRbWbYmCU9u3RIpMAgPuoMYNPxM1z2DeUOpTedx0KMRW2AZr0FRM1aOk13RdeahUdM=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BYAPR12MB3589.namprd12.prod.outlook.com (2603:10b6:a03:df::29)
+ by PH8PR12MB6697.namprd12.prod.outlook.com (2603:10b6:510:1cc::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5588.10; Tue, 6 Sep
+ 2022 07:09:53 +0000
+Received: from BYAPR12MB3589.namprd12.prod.outlook.com
+ ([fe80::a997:c7f:aea0:764a]) by BYAPR12MB3589.namprd12.prod.outlook.com
+ ([fe80::a997:c7f:aea0:764a%4]) with mapi id 15.20.5588.018; Tue, 6 Sep 2022
+ 07:09:53 +0000
+Message-ID: <37ec6f1d-a3f4-6fa3-6d5c-fe89bb958d87@amd.com>
+Date:   Tue, 6 Sep 2022 09:09:46 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [ANN] Media Summit at ELCE Dublin, September 12: Draft Agenda V2
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v2 2/4] dma-buf: enable signaling for the stub fence on
+ debug
 Content-Language: en-US
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     linux-media@vger.kernel.org,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        Hidenori Kobayashi <hidenorik@chromium.org>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Ricardo Ribalda <ribalda@chromium.org>,
-        Maxime Ripard <maxime@cerno.tech>,
-        Daniel Scally <djrscally@gmail.com>,
-        =?UTF-8?Q?Jernej_=c5=a0krabec?= <jernej.skrabec@gmail.com>,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>
-References: <3840c3cc-00fb-45dd-cb89-39b36fb6d733@xs4all.nl>
- <YxX8dzSsquJmO5hP@paasikivi.fi.intel.com>
- <YxYLSk2pKdGnNDP3@pendragon.ideasonboard.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-In-Reply-To: <YxYLSk2pKdGnNDP3@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8
+To:     Arvind Yadav <Arvind.Yadav@amd.com>, andrey.grodzovsky@amd.com,
+        shashank.sharma@amd.com, amaranath.somalapuram@amd.com,
+        Arunpravin.PaneerSelvam@amd.com, sumit.semwal@linaro.org,
+        gustavo@padovan.org, airlied@linux.ie, daniel@ffwll.ch,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
+References: <20220905163502.4032-1-Arvind.Yadav@amd.com>
+ <20220905163502.4032-3-Arvind.Yadav@amd.com>
+From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20220905163502.4032-3-Arvind.Yadav@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-8.4 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+X-ClientProxiedBy: FR0P281CA0061.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:49::16) To BYAPR12MB3589.namprd12.prod.outlook.com
+ (2603:10b6:a03:df::29)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 47bf859e-c764-47f4-7dfb-08da8fd6cb91
+X-MS-TrafficTypeDiagnostic: PH8PR12MB6697:EE_
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: TvP1j7ZleFRP/SBs763sF7ThQeLhYaDeleCT/2E/KtDJqrG26n3kkw7/+VdOO0+ZGnddnHZpYt8E1HTEO2eU/t/Tu/NgYR1JuVZIpjc4Qc9uV3Wxztcx+fg3rJ78uuPJPUz+mN3bTpS+/09juqkAJRNrjSUQz95dmxy0a1FoXhtzlQ7sYOJQqNq8za/pz9rK0O0ICfe+Ijfi3bZlnL25jl8CbCrRplpxBTZPJXTeI9x9Ckq5WUTkQ6nB99uaJJvuaGJmJ9ZOUSNvXZJXmKKzACcZbBDgT2zUgpwGPjNyuc7hJKc+7WXJVIzQCImTYC+Re265hUVrlunF+Y3evvcgnNK5LCKcJTn6pBHHUs9imFNukKV47AbEWB20qv8kKwB53rM44a1hJGSO+KavKLwNPjz9QFPeLZ+9vd5hUibZp+/8hSbxyRiEIoFKanNR49JtIXZzn1UxGIFLiLMEgrngKSTAtzULv6HpbSs6L+ZAEhY5LlCk1rdt0JV/Dku5FoWcr/1Q2LAwmUHydJSvelyk7lpLXEXDU0hoLPWJ+Li9FEI+AKDZbXnae8UbVdzfQFXCMbgYg0x/ioTMT4Z41yAS6j4jiPVU3mknv8cF7NGOTkv0wsCilcIQ645GXUfP0iC3byjwKiI6/wsnnXqDNIx9H0PXBTyrLmV06SexaCJCO+78gSfbaOM4/DX5V3ppmeDcWB45vY5bnyQeAHh4BoUzp//XLjmUpzW9IG9cPXi1fSg8adcZE9KfKIHdd0llLL61afh+bGh5njHve8HoRj6jpcH09Byvm7jBxy27hZzI0CredJN4oUCyZ5MptVeLFvIM
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR12MB3589.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(346002)(39860400002)(136003)(396003)(366004)(376002)(66556008)(31686004)(38100700002)(8676002)(316002)(66946007)(66476007)(921005)(2906002)(31696002)(86362001)(36756003)(83380400001)(6666004)(6512007)(6486002)(41300700001)(6506007)(8936002)(5660300002)(2616005)(478600001)(186003)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?U2dYaVhWWE83TVpvU3lCaURhdkp1WHplc0hXVy84L1MwZjhkdzhFMXB5cDJC?=
+ =?utf-8?B?R3RON241ajU2Ri91aHBjbzAxUk04RVlHeTA2TmRhOGtIUHhnVUxJeUluKzEz?=
+ =?utf-8?B?TUtVMzYvY2k4Qk5oMVQ5SVM4VlhSV2xXWE5LdlJPK1pvQUlNM2xjOGN6QmpP?=
+ =?utf-8?B?SXV6RTczV3RiTkZFU0tTTyt5UjNFYVZPNG43YkpSR0MzTmFSb3RTUXJUK2tW?=
+ =?utf-8?B?cWFuUVpWcTQ2ZmZBRTlqbGhpdVA0OGNEMlRCcWEvaSs5UXVrTkNlcURqcVRj?=
+ =?utf-8?B?MEZGUmdFTUpqRjBldy9Tb0dUOVBaOTV0aXpKS2NpRWM1U1VzdWFTUDN6TGtL?=
+ =?utf-8?B?M1lySFhDQ1hjWGM4eHUvS1N5cWlsN0FjRC9uZGZmTU1pZVJoTlhIdVU4TWw3?=
+ =?utf-8?B?NlFBS2Z0ZGxwRTViOFdPRytsZEJrWU5MeXBuVGFlVFo2ZDZjc3pHQ24vZWU4?=
+ =?utf-8?B?SVFUM0liYitXaUtwblpwYnlWekxhdEF3SVhoNGRNU3k1QlZHUm55S2I0YVpj?=
+ =?utf-8?B?WEcvM1V5cHJQZDZXVkF6QWp5TEVVWGlOYU8wZHhkNzg5SWdzRjBkM09mSnl0?=
+ =?utf-8?B?M2RzOHFzSkZ0UHMrMWI2OXRkWU9lMmdFUWZIVjBqVTMxRmh4cndBcmo4b3VW?=
+ =?utf-8?B?bkYvR25Ld2dDSlBxd0pTY2Q2ck9id3dQck9nbC9PWEpGbUZxSEhCNmp6dzdw?=
+ =?utf-8?B?NFFxU08vaFJXL1BFYUl4Mm1uem9welV6cEhJY2M5cklkM1QvOUIxSXhIT0ow?=
+ =?utf-8?B?Qlp0TjdXVzdwTDA3aEliYVc5aXJhR2JWMG8xL3U4OXFONFM4ZW9DQUxWMGVi?=
+ =?utf-8?B?SWVJc3pSU0lXL3IxWlE2QnB1OGYrKzB0QVlJV0J5VFJ0cGhsUVoyQVRzV2JB?=
+ =?utf-8?B?VzlTMUJ2aVRCTnFSZDFUZEhSNW9JNSswTDJ5SjVkSldRM2NZN0RyL0lpUXVh?=
+ =?utf-8?B?V0R4MHZDZHZYa2RXYjNSTE9NR0RBUFZhMTdFOHlQRmlFMHluN09ROElYY2pv?=
+ =?utf-8?B?R1ZScC9yOERqbXIzUkgwcEE4dG90UzMxZUlSQjlhSVN5akhHaTlUVnJlZi9X?=
+ =?utf-8?B?Ni92WjB5Z2w2L3RDRUdUUm51aDU0czJyZVh4ZEtydzYxR1BQemtMYmoxRUc0?=
+ =?utf-8?B?MWlFZ1F3RVgrN2p6T0xPVS9hdVhTV1VjUjN2bGVrdyszcS94QzgxVjJEem5J?=
+ =?utf-8?B?SnVzMGFVSWZVc3llU3QvVGppWExFdDlrRVhtMHR4YmFVVUZmVnRxSHRLbzZh?=
+ =?utf-8?B?V0U4bDJtMGRPRXp2Q3pXNHB6SHNmelRiSldjaEtSclpFNDE5RCthYnN2M2tI?=
+ =?utf-8?B?K2tsQzkxdWx2VDlsNUNMQW0vRnNZQ0h1VXJlVGNpL0NrV0VCemFYSytVZjND?=
+ =?utf-8?B?R0xRa1pPMzVVZlZWQVF5bzVwbDdnbFBEOE4yWkU4MCtiQ1RUQVFmekRvTmI1?=
+ =?utf-8?B?OWQvZDRIMFJDVDNXTld5NzV2QkpzSEx0ZXRCT0puWTBZWkpxSHJ4eUd5S3Zv?=
+ =?utf-8?B?NUQvaC9TTmxyMG9kSXBGeHQ4QjJCVGcraEVkS0Z4UXJiemxqSlUyOUFXaC9h?=
+ =?utf-8?B?SUtzWWY2ZE5PNy9xUTRvZ29pbXRWcG8wbzgvMWljdFhEcHRqVFhueWhaczJR?=
+ =?utf-8?B?L1hJT0dEOXpZZ2dWeWY0K24yalVYMnhmUkpzQ3NXY3h2WnVKZ2REa2d1OVpX?=
+ =?utf-8?B?TUdNSk1SS3Vod1BuL3I1L1Rqa0RycmI1THFFMHI0Y1RKNWI0R3d5QVh5UGx3?=
+ =?utf-8?B?dGE5aHp6QmFHeU41UHdwVUlFSmRzcGhxOUEva0ZnZkJOWCs3bEtIMGFFcDkx?=
+ =?utf-8?B?RHhQck94Um9weXAxZ25nZElLU3h2V1I0UkJHd0JaUXUzNzQ0RjlCSkh5eFhC?=
+ =?utf-8?B?dlh6SE5kdUM4aFJCaWF5Y3RXVXA5ZkpHSmo2Nm1SRDg2bDVkdzI5UDcxbUZ6?=
+ =?utf-8?B?S2xyQmpYbmlYZEtqc2thRmJJbXZyZVZRS0pUYjNpMmhmakxNOFlSY3J4ZGdT?=
+ =?utf-8?B?MktJSFR3dGROdzFNbnpCb0N6d3RYVTRacWhwZjkxVzhQZFJTeWI0d3VYQ3Q5?=
+ =?utf-8?B?cW1rL0o2anNwWjAxaW4xRzBWMkQyYUsvWFd0MWMxaEVSMHpndnpRVXZNWnAv?=
+ =?utf-8?B?SnZQUStYdTIyVEtZWVkyQVk5VHFOaTNpNHpXODQ1TGRlYkQzcStJa0FtNlp2?=
+ =?utf-8?Q?IhMQ7IUHg7dJuKUsByKZg6y4w5rf0ZUUMG9UOwBqY5bq?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 47bf859e-c764-47f4-7dfb-08da8fd6cb91
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR12MB3589.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Sep 2022 07:09:52.9460
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: g15bfOBMq9zJMCC96zc/bdy9ppdBAEftqzPL78p6ERSj/9qY6AO9C0MlE/2voWOr
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB6697
+X-Spam-Status: No, score=-3.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 05/09/2022 16:44, Laurent Pinchart wrote:
-> On Mon, Sep 05, 2022 at 01:41:11PM +0000, Sakari Ailus wrote:
->> On Tue, Aug 23, 2022 at 12:53:44PM +0200, Hans Verkuil wrote:
->>> 16:45-18:00 Anything else?
->>
->> I think it'd be great to have a GPG key signing party at the end of the
->> meeting.
-> 
-> It's a good idea. Could everybody please send their GPG key fingerprint
-> in an e-mail reply to prepare for that ? It can easily be retrieved with
-> 'gpg -K' (make sure to pick the right key if you have multiple of them).
-> I'll start:
-> 
-> sec   rsa4096/0xF045C2B96991256E 2014-10-09 [C]
->       94231B980100EC619AC10E10F045C2B96991256E
-> uid                   [ultimate] Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> 
-> If you're generating a key for the occasion, create a primary key with
-> the Certify (C) capability only, and create separate sub-keys for
-> Signature (S) and Encryption (E). There's little reason these days to
-> use less than 4096 bits for the primary key if you opt for RSA. The
-> subkeys should have an expiration date.
-> 
-> The primary key can then be moved to safe storage, you will only need
-> the subkeys for daily usage.  The primary key will be used only to
-> create new subkeys and to sign other people's keys.
-> 
 
-sec#  rsa4096 2014-10-14 [SC] [expires: 2024-10-11]
-      052CDE7BC215053B689F1BCABD2D614866143B4C
-uid           [ultimate] Hans Verkuil <hverkuil-cisco@xs4all.nl>
-uid           [ultimate] Hans Verkuil <hverkuil@xs4all.nl>
+
+Am 05.09.22 um 18:35 schrieb Arvind Yadav:
+> Here's on debug enabling software signaling for the stub fence
+> which is always signaled. This fence should enable software
+> signaling otherwise the AMD GPU scheduler will cause a GPU reset
+> due to a GPU scheduler cleanup activity timeout.
+>
+> Signed-off-by: Arvind Yadav <Arvind.Yadav@amd.com>
+> ---
+>
+> Changes in v1 :
+> 1- Addressing Christian's comment to remove unnecessary callback.
+> 2- Replacing CONFIG_DEBUG_WW_MUTEX_SLOWPATH instead of CONFIG_DEBUG_FS.
+> 3- The version of this patch is also changed and previously
+> it was [PATCH 3/4]
+>
+> ---
+>   drivers/dma-buf/dma-fence.c | 7 +++++++
+>   1 file changed, 7 insertions(+)
+>
+> diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
+> index 066400ed8841..2378b12538c4 100644
+> --- a/drivers/dma-buf/dma-fence.c
+> +++ b/drivers/dma-buf/dma-fence.c
+> @@ -27,6 +27,10 @@ EXPORT_TRACEPOINT_SYMBOL(dma_fence_signaled);
+>   static DEFINE_SPINLOCK(dma_fence_stub_lock);
+>   static struct dma_fence dma_fence_stub;
+>   
+> +#ifdef CONFIG_DEBUG_WW_MUTEX_SLOWPATH
+> +static bool __dma_fence_enable_signaling(struct dma_fence *fence);
+> +#endif
+> +
+
+I would rename the function to something like 
+dma_fence_enable_signaling_locked().
+
+And please don't add any #ifdef if it isn't absolutely necessary. This 
+makes the code pretty fragile.
+
+>   /*
+>    * fence context counter: each execution context should have its own
+>    * fence context, this allows checking if fences belong to the same
+> @@ -136,6 +140,9 @@ struct dma_fence *dma_fence_get_stub(void)
+>   			       &dma_fence_stub_ops,
+>   			       &dma_fence_stub_lock,
+>   			       0, 0);
+> +#ifdef CONFIG_DEBUG_WW_MUTEX_SLOWPATH
+> +		__dma_fence_enable_signaling(&dma_fence_stub);
+> +#endif
+
+Alternatively in this particular case you could just set the bit 
+manually here since this is part of the dma_fence code anyway.
+
+Christian.
+
+>   		dma_fence_signal_locked(&dma_fence_stub);
+>   	}
+>   	spin_unlock(&dma_fence_stub_lock);
+
