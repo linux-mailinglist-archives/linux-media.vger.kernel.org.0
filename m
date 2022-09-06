@@ -2,52 +2,38 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3C5365AE5C7
-	for <lists+linux-media@lfdr.de>; Tue,  6 Sep 2022 12:49:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 72AAE5AE620
+	for <lists+linux-media@lfdr.de>; Tue,  6 Sep 2022 13:02:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233802AbiIFKrU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 6 Sep 2022 06:47:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57384 "EHLO
+        id S239148AbiIFLCz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 6 Sep 2022 07:02:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43002 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239827AbiIFKqc (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 6 Sep 2022 06:46:32 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E8E8B7B7A7;
-        Tue,  6 Sep 2022 03:45:23 -0700 (PDT)
-Received: from pyrite.rasen.tech (h175-177-042-159.catv02.itscom.jp [175.177.42.159])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1839425B;
-        Tue,  6 Sep 2022 12:44:56 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1662461102;
-        bh=BsC/oYZMlsU0AfsdsrR9QSz2oK4VIzDllo5FeG24Gr4=;
-        h=From:To:Cc:Subject:Date:From;
-        b=YSpBUFbsYKtRJgJCOHldFTmoGOA3QaSUl28vxA1uT3F7eTXuuVoBYAh/jWVuImJux
-         F5Ko9VPNesLXMs7UAowUvglpjWyJZ/Z7a4OOMsxd7Oxp5zU0Fu7c9FYiN8IEVgmGFG
-         m5rvbmP69kqcwAuCOZmQt0XaIz18IwVmqR22swsk=
-From:   Paul Elder <paul.elder@ideasonboard.com>
-To:     Rui Miguel Silva <rmfrfs@gmail.com>,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        linux-media@vger.kernel.org
-Cc:     Paul Elder <paul.elder@ideasonboard.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        linux-staging@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] media: imx7-media-csi: Add support for fast-tracking queued buffers
-Date:   Tue,  6 Sep 2022 19:44:37 +0900
-Message-Id: <20220906104437.4095745-1-paul.elder@ideasonboard.com>
-X-Mailer: git-send-email 2.30.2
+        with ESMTP id S233587AbiIFLCy (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 6 Sep 2022 07:02:54 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A1F412ADF
+        for <linux-media@vger.kernel.org>; Tue,  6 Sep 2022 04:02:52 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id E27A9614AD
+        for <linux-media@vger.kernel.org>; Tue,  6 Sep 2022 11:02:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0BE5EC433D7
+        for <linux-media@vger.kernel.org>; Tue,  6 Sep 2022 11:02:50 +0000 (UTC)
+Message-ID: <ec5af138-c27a-f58c-5efa-98742a001949@xs4all.nl>
+Date:   Tue, 6 Sep 2022 13:02:49 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Content-Language: en-US
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [GIT PULL FOR v6.1] Various fixes
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -55,95 +41,95 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The CSI hardware compatible with this driver handles buffers using a
-ping-pong mechanism with two sets of destination addresses. Normally,
-when an interrupt comes in to signal the completion of one buffer, say
-FB0, it assigns the next buffer in the queue to the next FB0, and the
-hardware starts to capture into FB1 in the meantime.
+The following changes since commit fbb6c848dd89786fe24856ee6b5e773910ded29c:
 
-In a buffer underrun situation, in the above example without loss of
-generality, if a new buffer is queued before the interrupt for FB0 comes
-in, we can program the buffer into FB1 (which is programmed with a dummy
-buffer, as there is a buffer underrun).
+  media: destage Hantro VPU driver (2022-08-31 10:23:50 +0200)
 
-This of course races with the interrupt that signals FB0 completion, as
-once that interrupt comes in, we are no longer guaranteed that the
-programming of FB1 was in time and must assume it was too late. This
-race is resolved by locking the programming of FB1. If it came after the
-interrupt for FB0, then the variable that is used to determine which FB
-to program would have been swapped by the interrupt handler, thus
-resolving the race.
+are available in the Git repository at:
 
-Signed-off-by: Paul Elder <paul.elder@ideasonboard.com>
----
- drivers/staging/media/imx/imx7-media-csi.c | 49 ++++++++++++++++++++++
- 1 file changed, 49 insertions(+)
+  git://linuxtv.org/hverkuil/media_tree.git tags/br-v6.1l
 
-diff --git a/drivers/staging/media/imx/imx7-media-csi.c b/drivers/staging/media/imx/imx7-media-csi.c
-index a0553c24cce4..06e50080ed31 100644
---- a/drivers/staging/media/imx/imx7-media-csi.c
-+++ b/drivers/staging/media/imx/imx7-media-csi.c
-@@ -1296,11 +1296,60 @@ static int imx7_csi_video_buf_prepare(struct vb2_buffer *vb)
- 	return 0;
- }
- 
-+static int imx7_csi_fast_track_buffer(struct imx7_csi *csi,
-+				      struct imx7_csi_vb2_buffer *buf)
-+{
-+	unsigned long flags;
-+	dma_addr_t phys;
-+	int buf_num;
-+	int ret = -EBUSY;
-+
-+	if (!csi->is_streaming)
-+		return ret;
-+
-+	phys = vb2_dma_contig_plane_dma_addr(&buf->vbuf.vb2_buf, 0);
-+
-+	/*
-+	 * buf_num holds the fb id of the most recently (*not* the next
-+	 * anticipated) triggered interrupt. Without loss of generality, if
-+	 * buf_num is 0 and we get to this section before the irq for fb1, the
-+	 * buffer that we are fast-tracking into fb0 should be programmed in
-+	 * time to be captured into. If the irq for fb1 already happened, then
-+	 * buf_num would be 1, and we would fast-track the buffer into fb1
-+	 * instead. This guarantees that we won't try to fast-track into fb0
-+	 * and race against the start-of-capture into fb0.
-+	 *
-+	 * We only fast-track the buffer if the currently programmed buffer is
-+	 * a dummy buffer. We can check the active_vb2_buf instead as it is
-+	 * always modified along with programming the fb[0,1] registers via the
-+	 * lock (besides setup and cleanup). If it is not a dummy buffer then
-+	 * we queue it normally, as fast-tracking is not an option.
-+	 */
-+
-+	spin_lock_irqsave(&csi->irqlock, flags);
-+
-+	buf_num = csi->buf_num;
-+	if (csi->active_vb2_buf[buf_num] == NULL) {
-+		csi->active_vb2_buf[buf_num] = buf;
-+		imx7_csi_update_buf(csi, phys, buf_num);
-+		ret = 0;
-+	}
-+
-+	spin_unlock_irqrestore(&csi->irqlock, flags);
-+
-+	return ret;
-+}
-+
- static void imx7_csi_video_buf_queue(struct vb2_buffer *vb)
- {
- 	struct imx7_csi *csi = vb2_get_drv_priv(vb->vb2_queue);
- 	struct imx7_csi_vb2_buffer *buf = to_imx7_csi_vb2_buffer(vb);
- 	unsigned long flags;
-+	int ret;
-+
-+	ret = imx7_csi_fast_track_buffer(csi, buf);
-+	if (!ret)
-+		return;
- 
- 	spin_lock_irqsave(&csi->q_lock, flags);
- 
--- 
-2.30.2
+for you to fetch changes up to 63f23fdcdf69bb920bd69cd00a9563d780ae382e:
 
+  meson: vdec: fix possible refcount leak in vdec_probe() (2022-09-06 13:00:09 +0200)
+
+----------------------------------------------------------------
+Tag branch
+
+----------------------------------------------------------------
+Dan Carpenter (1):
+      media: platform: mtk-mdp3: fix error code in mdp_vpu_dev_init()
+
+Daniel Lundberg Pedersen (1):
+      media: docs: libv4l-introduction.rst: Fix function signature and link
+
+Hangyu Hua (1):
+      meson: vdec: fix possible refcount leak in vdec_probe()
+
+Hans Verkuil (5):
+      s5p_cec: limit msg.len to CEC_MAX_MSG_SIZE
+      cros-ec-cec: limit msg.len to CEC_MAX_MSG_SIZE
+      v4l2-ctrls: drop 'elems' argument from control type ops.
+      dvb-frontends/drxk: initialize err to 0
+      media: cec: add support for Absolute Volume Control
+
+Jilin Yuan (3):
+      usb/msi2500: fix repeated words in comments
+      usb/dvb-usb-v2: fix repeated words in comments
+      pci/cx18: fix repeated words in comments
+
+Linus Walleij (2):
+      media: i2c: isl7998x: Use right include
+      media: si4713: Use the right include
+
+Lukas Bulwahn (2):
+      media: MAINTAINERS: adjust entry to zoran driver movement
+      media: MAINTAINERS: rectify entry in SAA7146 VIDEO4LINUX-2 DRIVER
+
+Ming Qian (1):
+      media: amphion: release m2m ctx when releasing vpu instance
+
+Moudy Ho (1):
+      media: platform: mtk-mdp3: add pointer checks and use devm_kfree
+
+Philipp Zabel (1):
+      media: coda: jpeg: drop coda9_jpeg_dec_huff_setup() return value
+
+Rory Liu (1):
+      media: platform: cros-ec: Add Kuldax to the match table
+
+Sun Ke (1):
+      media: platform: mtk-mdp3: fix PM reference leak in mdp_comp_clock_on()
+
+ye xingchen (2):
+      media: radio-si476x: Remove the unneeded result variable
+      media: tuners: Remove the unneeded result variable
+
+ Documentation/userspace-api/media/cec.h.rst.exceptions        |  2 ++
+ Documentation/userspace-api/media/v4l/libv4l-introduction.rst |  4 ++--
+ MAINTAINERS                                                   |  3 +--
+ drivers/media/cec/core/cec-adap.c                             |  1 +
+ drivers/media/cec/platform/cros-ec/cros-ec-cec.c              |  4 ++++
+ drivers/media/cec/platform/s5p/s5p_cec.c                      |  2 ++
+ drivers/media/dvb-frontends/drxk_hard.c                       |  2 +-
+ drivers/media/i2c/isl7998x.c                                  |  2 +-
+ drivers/media/pci/cx18/cx18-av-core.c                         |  4 ++--
+ drivers/media/platform/amphion/vpu_v4l2.c                     | 11 ++++-------
+ drivers/media/platform/chips-media/coda-jpeg.c                | 13 +++----------
+ drivers/media/platform/mediatek/mdp3/mtk-mdp3-cmdq.c          |  2 +-
+ drivers/media/platform/mediatek/mdp3/mtk-mdp3-comp.c          |  7 ++++---
+ drivers/media/platform/mediatek/mdp3/mtk-mdp3-core.c          |  3 ++-
+ drivers/media/platform/mediatek/mdp3/mtk-mdp3-vpu.c           |  3 ++-
+ drivers/media/platform/nxp/dw100/dw100.c                      |  4 ++--
+ drivers/media/radio/radio-si476x.c                            |  5 +----
+ drivers/media/radio/si4713/si4713.c                           |  2 +-
+ drivers/media/tuners/xc4000.c                                 |  4 +---
+ drivers/media/usb/dvb-usb-v2/af9035.c                         |  2 +-
+ drivers/media/usb/msi2500/msi2500.c                           |  2 +-
+ drivers/media/v4l2-core/v4l2-ctrls-api.c                      |  8 ++++----
+ drivers/media/v4l2-core/v4l2-ctrls-core.c                     | 19 ++++++++++---------
+ drivers/staging/media/meson/vdec/vdec.c                       |  2 ++
+ include/media/v4l2-ctrls.h                                    | 28 +++++++++++-----------------
+ include/uapi/linux/cec-funcs.h                                | 14 ++++++++++++++
+ include/uapi/linux/cec.h                                      |  2 ++
+ 27 files changed, 82 insertions(+), 73 deletions(-)
