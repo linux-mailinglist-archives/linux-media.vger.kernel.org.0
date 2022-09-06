@@ -2,188 +2,178 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 37AF55AF289
-	for <lists+linux-media@lfdr.de>; Tue,  6 Sep 2022 19:31:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 00AF05AF325
+	for <lists+linux-media@lfdr.de>; Tue,  6 Sep 2022 19:52:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239655AbiIFRaX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 6 Sep 2022 13:30:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41516 "EHLO
+        id S229658AbiIFRwY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 6 Sep 2022 13:52:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54788 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232973AbiIFR34 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 6 Sep 2022 13:29:56 -0400
-Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com [IPv6:2a00:1450:4864:20::429])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 58B74220F0;
-        Tue,  6 Sep 2022 10:24:05 -0700 (PDT)
-Received: by mail-wr1-x429.google.com with SMTP id t14so9213038wrx.8;
-        Tue, 06 Sep 2022 10:24:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date;
-        bh=4MKG+RwmqiMdozxqJtzrhz7rSI72kj6Ks/XRJ6On4Vs=;
-        b=PMoTJmA/IX7ee3qm18YMEm3NgZT5PKJxyXALkXrbg2kzlhTxrDSK68ao8nMpI8UJ3o
-         8kgHFrJHbaPb2I1CqFYLeeqZYIfpEaelWf5HX0amDkhtQGaNeI4uA214YB3OQjrMx0Kz
-         cw2yN8xd2VpgfZhHuE/jM9Izm4+xTM4gIbhdra/MyJ8PKPozgU2t9oJ2dAzv6KQyYnFp
-         PLZtlLTTcmg7C5Uq8NWMOHIyJj1ZciWH4tAUWV7xrfE8CCtCJCg/6/IZyQYJZ44BDKXU
-         2JCTSLixyRcJPDTjn3KJAf/R04piDl3SzJD6biEKgAA66y9b7Ce/wIDE/621ucIamjJZ
-         /NCg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
-        bh=4MKG+RwmqiMdozxqJtzrhz7rSI72kj6Ks/XRJ6On4Vs=;
-        b=XDIh49Z3G/pL8+FGySAGu2vR0oyl/PU/9Xgs8D7cICwE7PpAcWNh1G0Ca02KxKZv4C
-         VTHmJSgm5bTYyqDZbqluM9OvkUN3XtC5kYrg7iWy/TuxfimbJURoKJODRnItivdyLP6i
-         j6mOo/Z5Zjijm09ymrEKy+gm49jKH7ykQ1kHeIfur+BV0ZxkecWLu5BnOKE+CtuapfY3
-         7x1eKTb/eOsBbs1qwzn6oaink4/4jeg3RnWnST6yOjlR8KwLbzbRCgt1Sei2n9y/lZnU
-         BQA0H8M/hB7R87MMrSKbaMj4jVcGryT5lV2HexaQzSU3mK+KLuV71+CO4NWl564VRkzb
-         06Rw==
-X-Gm-Message-State: ACgBeo16/1TZS/NHEbFnVd1ykxtbZ7b2XlGoxZOdSa5IZM/WJmyCir7d
-        Gq8uJvD3nCcoCbF9zpR2aro=
-X-Google-Smtp-Source: AA6agR5Thw4hKGO3gxsQInlXJHRXciJ41hwlr/Ih+db6GLVPwekfXpt9W90whIp1OkzdXv7aR0NJwA==
-X-Received: by 2002:adf:fe06:0:b0:228:db6f:41ae with SMTP id n6-20020adffe06000000b00228db6f41aemr2222245wrr.577.1662485043648;
-        Tue, 06 Sep 2022 10:24:03 -0700 (PDT)
-Received: from arch-thunder (a109-49-33-111.cpe.netcabo.pt. [109.49.33.111])
-        by smtp.gmail.com with ESMTPSA id t15-20020adff60f000000b00228d7078c4esm3931715wrp.4.2022.09.06.10.24.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 Sep 2022 10:24:02 -0700 (PDT)
-Date:   Tue, 6 Sep 2022 18:24:00 +0100
-From:   Rui Miguel Silva <rmfrfs@gmail.com>
-To:     Paul Elder <paul.elder@ideasonboard.com>
-Cc:     Steve Longerbeam <slongerbeam@gmail.com>,
-        linux-media@vger.kernel.org,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        linux-staging@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: imx7-media-csi: Add support for fast-tracking
- queued buffers
-Message-ID: <20220906172400.4oxeefxhmesl2spi@arch-thunder>
-References: <20220906104437.4095745-1-paul.elder@ideasonboard.com>
+        with ESMTP id S229481AbiIFRwX (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 6 Sep 2022 13:52:23 -0400
+Received: from NAM04-BN8-obe.outbound.protection.outlook.com (mail-bn8nam04on2082.outbound.protection.outlook.com [40.107.100.82])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 796A697D4A;
+        Tue,  6 Sep 2022 10:52:16 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=B3JR84OI0nyKYJSMQEmQjKGxJowwXsOpE6OdQkTP45uoxUJdaKHF0DKqxfJvDKrZ92rlrmAYU9eRA3MekB6OfVvZxNi4/U7pzWBjvh+BTzsCrDz/hPzaMJHzlRrYLO08JEx7K1rvphA9kGP1kt9/cBIKqIG2+/hwHyqQVZhzZimHDBqgKESyTVBU9sQl77VgNO8F6SNr4ALueh2HiPfKDbc7+haFcQdF0GPr5XMNtmt9SvlvpsiPbPvEsKqb6Pbt2BIxUTVENpZYW6RK61eckHNZPjouJwh7elpXUgLts8FvMOUN/rczVUWman4Zzujyn2SKV6IsspfGv7xJZi+W6A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Dw/ZtvChJNfBcOxE8GjM/WXySKf5NjRI8gX73oWCScE=;
+ b=j2Su9MWHKGLZ0w5vBhEudRFhJiq2We4iTfUT9nXtssvXzum5DmyN3AfesYOFwi4aNUTt73Ww3VAi+p9gtFDsYm5yZivF5BxrKOqBeKgEwgVECqzsBXw8XoWOm5x+RByMTbxMvOpEWqNtefzvduGnctyvnvc8c7jGB1XfHi1YLI0/jDn+wovCv1hKvxk/hi5VGPccAXgN1IzqvnwudunuKizdIR+XCUrW06y2JWyYUgsUo9ngapRl/cFY+43QZuLoiqJ1b2wcKxRWJY4ALdFqyH88F5xRhaZwmT0sfbkDT8plsgp8DCmuSzr/FxlF1mOutSFqXRJxoOMCCXXbxdKk6A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Dw/ZtvChJNfBcOxE8GjM/WXySKf5NjRI8gX73oWCScE=;
+ b=xm+6URIMlgOyLlj/PEwUCyPN9lV6cbKojc8PLBL+bVK/pT6zXgOBGbB6Yf2mv493Ak8XtiDWD6fv4kLmKnTo180lf8wzwo6U1wuAbp1mKY1L7svWId1afzYc/hDdPljVY/2zdXy+zTJdzlAhwY3GEJt1SjPPda2ContEdCUExhs=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BYAPR12MB3589.namprd12.prod.outlook.com (2603:10b6:a03:df::29)
+ by BY5PR12MB4081.namprd12.prod.outlook.com (2603:10b6:a03:20e::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5588.10; Tue, 6 Sep
+ 2022 17:52:12 +0000
+Received: from BYAPR12MB3589.namprd12.prod.outlook.com
+ ([fe80::a997:c7f:aea0:764a]) by BYAPR12MB3589.namprd12.prod.outlook.com
+ ([fe80::a997:c7f:aea0:764a%4]) with mapi id 15.20.5588.018; Tue, 6 Sep 2022
+ 17:52:12 +0000
+Message-ID: <cfbea503-10a3-5cf2-1657-e0c849d194a0@amd.com>
+Date:   Tue, 6 Sep 2022 19:52:04 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v2 1/4] dma-buf: Add dma_buf_try_get()
+Content-Language: en-US
+To:     Jason Gunthorpe <jgg@nvidia.com>
+Cc:     Alex Williamson <alex.williamson@redhat.com>,
+        Cornelia Huck <cohuck@redhat.com>,
+        dri-devel@lists.freedesktop.org, kvm@vger.kernel.org,
+        linaro-mm-sig@lists.linaro.org, linux-media@vger.kernel.org,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Daniel Vetter <daniel.vetter@ffwll.ch>,
+        Leon Romanovsky <leon@kernel.org>, linux-rdma@vger.kernel.org,
+        Maor Gottlieb <maorg@nvidia.com>,
+        Oded Gabbay <ogabbay@kernel.org>
+References: <1-v2-472615b3877e+28f7-vfio_dma_buf_jgg@nvidia.com>
+ <18b3dd75-7995-a2a8-372b-1fd5838dfe1d@amd.com> <Yxd42anepRnmFJwe@nvidia.com>
+From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+In-Reply-To: <Yxd42anepRnmFJwe@nvidia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR3P281CA0045.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:4a::16) To BYAPR12MB3589.namprd12.prod.outlook.com
+ (2603:10b6:a03:df::29)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220906104437.4095745-1-paul.elder@ideasonboard.com>
-X-Spam-Status: No, score=-0.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,HK_RANDOM_ENVFROM,
-        HK_RANDOM_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 348a38bd-beb7-47ba-dbb4-08da903086dc
+X-MS-TrafficTypeDiagnostic: BY5PR12MB4081:EE_
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 7Smbmm05fINUdZzYr01IVIwaAaoSwbXsMEITm5uV8LS2KgEeyMrrBup7DGM5Q2sBVxnLbr8uhqKBs5ZNq75P77kgJp2TPHt6DwBQ4PgdEvPzY2Jz3h1YUZ6wdi9jJ7vaECgm63p6LGTB6++Sh/0ia9UNvpwuZXPxiBTtjYKvGxNu4YMzAU33LJ/NF9th3bxCRaD0d+VRkN5spMyO7EbS4TJrYR+YR4bzIBAn3sadUzsvmIYBCoONvB5hX2o3dVaYKipu3UiDBYV0NxUlyE/FSUP1KejUsPErQwQU381xPpYfwjACkT2uOGTU+CerssFFzfBnGVp3/uS2V7WjiPsuvg+7/CetQoAT1sINTkwxh2kB1pIYTvJBNrMtxKzthCkBrIEW/+B5Gl2DtPtUDexGq5KRvzRcYP7RoCK44XYnCf0WWJeE8zu0qm8UqN896qdssQMKVNnJtLKcoEYhphZVivyH3kc1w1o3P3nd1hTXLk1NDqb3RP0WjCBoBLR1mGlqTgJkP1pmcpAx9Tab5sZK+FMC20XzzdU8t7axxy3JxolMC45SI0e5WeKCpxPXLtG06BV3XV1zefBkXtB0cAA8qzPFR6z+6eZyIusla+HLQ6R655cvAWMe7X4nxQQDSGnO1WfaUk7AM4TDtaNbOlqSywK9Et1tJRqAHtcJU/LXOglMDldrPAEJmVM779ZPAszo3204RFogaudQKnGufoKbQP/AXfjF9z5PcoXmAjgEIDfbH8zTIbC18FgmvZDDHrurFfXJhYlXBwXyKKJlFvx8G7W5fsD3h3IJw0ufufs3XP8=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR12MB3589.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(136003)(366004)(376002)(396003)(39860400002)(346002)(83380400001)(6512007)(6506007)(66574015)(2906002)(31696002)(86362001)(186003)(2616005)(38100700002)(66556008)(5660300002)(66476007)(8676002)(66946007)(4326008)(31686004)(6486002)(36756003)(41300700001)(316002)(478600001)(6916009)(54906003)(8936002)(7416002)(6666004)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Y2RTTEpsVmNhSmdLK2RMVlRqcDlUVGF2THFxaEp2dnY5TUYyZFFJY2E5T1p4?=
+ =?utf-8?B?UWNYUnRYZXdiRnVHR2RNSGJCT0hFeVBZcTZHd3h6cHp5RnFiNUlxUlJJWFV1?=
+ =?utf-8?B?ZWNmNnJodGVUdzhwMTNkUFNvMml5WjhXbEZCQ0h1YVVmeHpjZXdwbFdSbDUy?=
+ =?utf-8?B?cHBlc083WVVlQW1yaDFNREx5cGRLZDBsdFRxSUl0aXlvWUc4eHNraFVlVlhh?=
+ =?utf-8?B?NnRpM3U1WnZzeit6cUt5V2h6U3J2cVVnRkIvK29jS0d2bTNCbTVhU29Hb3V4?=
+ =?utf-8?B?WkFHVlhaSE1JS0dJRGthSVVvUzdQVTdRU2RMWURGd1htV3RwUzNTcWsrNU5X?=
+ =?utf-8?B?SlNzc1U1WlVoMkdyQklyVDhWVVlwNklZMDNWQW5PdTVlNjFKVXBheG9KTUJ4?=
+ =?utf-8?B?OXQ4T3NBVTdSNWpvbXYxVnhqYjUwYlFmWG8zbUEveXBUeUxjdFRodGIvNDBQ?=
+ =?utf-8?B?bmx3bStpR1JFSkNHY1M2K3FoL2xEdUp1eFhhaHJiWVpPRW4yZm92ci9jemgw?=
+ =?utf-8?B?TFJZT0NJVnNSTGQvZHlwSFRwZ1d1aFR5UGR3NDFQZTJ0MzJIRXNVZjY2bXk1?=
+ =?utf-8?B?L3FPMDd3RklKaFEwT01xenlWRUFKMFQvOVQ5bmVVZWxQN2xSSWhuYWhrdVFm?=
+ =?utf-8?B?cWx0UzlGY1I0K2YwTHdsZnRJRGtXSzkvREJUcnhFanhxb2k0RHJSamhWRVpC?=
+ =?utf-8?B?T2Iwbk04andaQ1IvQUFJd0Y0UWNIbDRSYVUzRDZMM1BEZ3Jtc1k2QUFSTDc0?=
+ =?utf-8?B?LzRUdEVSK2F2SWNEV0pHVC83VmFKTDZsMWk1dkxpaGg5QmdoOFZxNlB4dm9r?=
+ =?utf-8?B?Qll2VVd5ZXNSdzdFU2llVzRJTmFLVmhkWVdqMms2QnFiVDVsNUsyUk5zSHBZ?=
+ =?utf-8?B?ZTN5aUNTd0QyNEFzaGpUd0NBeUxwYXJ4TGxxY2NuYnk5QzZiRUNpbTRlSm04?=
+ =?utf-8?B?VXp5OVA3SnNoVFlkU2lsZ1VLaDkxaEQrUUJFelFFMXFydGNQK29ialorM3JY?=
+ =?utf-8?B?SUM0M3Q4RWhpUGpMcWdZSWNoRXVDSDhGY0tSSDdDb1ZITkhpZVVvWmZaT1Fv?=
+ =?utf-8?B?S3lleFZhNE5uOFNSMHVKZkRiV3Zoei9xZkJRQkpGV0c1VXVDMDFkS1A3SVp5?=
+ =?utf-8?B?ek9sa3g2cnNMb1dEdEJ2NUlJcG4wWk50ZUdIbkFiZGFEYWJSVWhPRXI2QWRL?=
+ =?utf-8?B?ejRaQTF3Z2h3dU9pNVJGRElPaG9lNmVpai9sUks2bndjMDgySURnS1kxdkhj?=
+ =?utf-8?B?b3h2cUYvTUZPbnZHbFJkaVh6dGJGOEdOK0N0S0c3MmFOY2l3V3c0Y0IzZnJs?=
+ =?utf-8?B?ck9pbERwVThTM3NqL0lOb1M5VjhSMkYyVkQ5UnBwNk9QS0NiKzVGTE4wcEMw?=
+ =?utf-8?B?bHdLc3BaWkRwZUc5Uk8rcUNuaDBPdlQ1YTZVdlZVZjBFY1JkMVpWR0ttUlJj?=
+ =?utf-8?B?MlFDUTlqdDVCbVI0MlJ0d0ZEYXZ0cGhGNy94U3hjd2tRSitiQjVZc2t3bnBr?=
+ =?utf-8?B?dEF2cVFVUXVlMjNHanlsejNrUFQ5UytJVkEvY2Zsa2dZMU51VTlGM0pkTy95?=
+ =?utf-8?B?aHllKzhsaXk1OGdFZUJFNTNLckZKNm9DZkxyYSttRFN6eVRhb0dVemp1cEQy?=
+ =?utf-8?B?ZG9ib3R3TFJ2dTUzRFVaQllNcmxLZ3h4MXF3UlVLQUpubjdxNnNEUVVCY2Vo?=
+ =?utf-8?B?VFlnazYzSG53N0M0Z2M5RUttY3B5dXdCSzAvSWFMM3NLL1R4TXhDdlIxNVQx?=
+ =?utf-8?B?QWJZc1M5VStJbVVxcEFJZVUzQnpTbjVDZVk1OC9PWkxSU1Z1Q3JYVENuMUUy?=
+ =?utf-8?B?MmpveFFVZksyUFo2T05GY3B1eGxJTnVldFUvMUh1bVhuQTFFOTZuQ2dtUm1Q?=
+ =?utf-8?B?SnUxcWNFM1NncXFzL2NGTzdjQTh1c21hK0R0VTRJZ3d3THhqamVseDhSM0pH?=
+ =?utf-8?B?N2t0MWhmNkdWVDl3NCtKdlR0UWhDM2dQVTRYTkQ4RWhzVXJrM2NSRFNQV3pq?=
+ =?utf-8?B?YURkQW12UVFRdzZuL2kwc09JQkwxa0Q2M1hSQ0V0cVZYWHVxYk9WNlhMbDJ2?=
+ =?utf-8?B?aHV6SHFHZldnTGRSR0pDMGM3c25RQklyVUNyNk82NzN6YkE4T0xZeTI0T0cy?=
+ =?utf-8?B?WFNTMDBkT3IvaUhwREg1V0dhcmQzOTNaNDRyOEdRcng3ZDZXVWlxSTVzNHNq?=
+ =?utf-8?Q?qwmAcdRZEiihD6HfN6xLFPPUDlTF485JDQvbiB074682?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 348a38bd-beb7-47ba-dbb4-08da903086dc
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR12MB3589.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Sep 2022 17:52:12.3516
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: kWjaQMdeiXC7jj2FhGgAHfraWi5CxZBBrfRRx3C8RmEHwObONlkI/4gk+hzxAXz/
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB4081
+X-Spam-Status: No, score=-3.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Paul,
+Am 06.09.22 um 18:44 schrieb Jason Gunthorpe:
+> On Thu, Sep 01, 2022 at 09:55:08AM +0200, Christian König wrote:
+>> Am 01.09.22 um 01:12 schrieb Jason Gunthorpe:
+>>> Used to increment the refcount of the dma buf's struct file, only if the
+>>> refcount is not zero. Useful to allow the struct file's lifetime to
+>>> control the lifetime of the dmabuf while still letting the driver to keep
+>>> track of created dmabufs.
+>>>
+>>> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
+>>> ---
+>>>    include/linux/dma-buf.h | 13 +++++++++++++
+>>>    1 file changed, 13 insertions(+)
+>>>
+>>> diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
+>>> index 71731796c8c3a8..a35f1554f2fb36 100644
+>>> --- a/include/linux/dma-buf.h
+>>> +++ b/include/linux/dma-buf.h
+>>> @@ -618,6 +618,19 @@ int dma_buf_fd(struct dma_buf *dmabuf, int flags);
+>>>    struct dma_buf *dma_buf_get(int fd);
+>>>    void dma_buf_put(struct dma_buf *dmabuf);
+>>> +/**
+>>> + * dma_buf_try_get - try to get a reference on a dmabuf
+>>> + * @dmabuf - the dmabuf to get
+>>> + *
+>>> + * Returns true if a reference was successfully obtained. The caller must
+>>> + * interlock with the dmabuf's release function in some way, such as RCU, to
+>>> + * ensure that this is not called on freed memory.
+>> I still have a bad feeling about this, but I also see that we can only
+>> choose between evils here.
+>>
+>> Could you just call get_file_rcu() from the exporter with a comment
+>> explaining why this works instead?
+> I guess, are you sure? It seems very hacky.
 
-On Tue, Sep 06, 2022 at 07:44:37PM +0900, Paul Elder wrote:
-> The CSI hardware compatible with this driver handles buffers using a
-> ping-pong mechanism with two sets of destination addresses. Normally,
-> when an interrupt comes in to signal the completion of one buffer, say
-> FB0, it assigns the next buffer in the queue to the next FB0, and the
-> hardware starts to capture into FB1 in the meantime.
-> 
-> In a buffer underrun situation, in the above example without loss of
-> generality, if a new buffer is queued before the interrupt for FB0 comes
-> in, we can program the buffer into FB1 (which is programmed with a dummy
-> buffer, as there is a buffer underrun).
-> 
-> This of course races with the interrupt that signals FB0 completion, as
-> once that interrupt comes in, we are no longer guaranteed that the
-> programming of FB1 was in time and must assume it was too late. This
-> race is resolved by locking the programming of FB1. If it came after the
-> interrupt for FB0, then the variable that is used to determine which FB
-> to program would have been swapped by the interrupt handler, thus
-> resolving the race.
-> 
-> Signed-off-by: Paul Elder <paul.elder@ideasonboard.com>
+Yes, it's still better than exposing a dma_buf_try_get() interface to 
+everyone.
 
-Thanks a lot for this patch, and spending time commenting the issue in
-the code, and the good changelog.
+Keep in mind that those functions here are mostly supposed to be used by 
+the importer and not the exporter.
 
-LGTM.
+Christian.
 
-Acked-by: Rui Miguel Silva <rmfrfs@gmail.com>
+>
+> Jason
 
-Cheers,
-  Rui
-
-> ---
->  drivers/staging/media/imx/imx7-media-csi.c | 49 ++++++++++++++++++++++
->  1 file changed, 49 insertions(+)
-> 
-> diff --git a/drivers/staging/media/imx/imx7-media-csi.c b/drivers/staging/media/imx/imx7-media-csi.c
-> index a0553c24cce4..06e50080ed31 100644
-> --- a/drivers/staging/media/imx/imx7-media-csi.c
-> +++ b/drivers/staging/media/imx/imx7-media-csi.c
-> @@ -1296,11 +1296,60 @@ static int imx7_csi_video_buf_prepare(struct vb2_buffer *vb)
->  	return 0;
->  }
->  
-> +static int imx7_csi_fast_track_buffer(struct imx7_csi *csi,
-> +				      struct imx7_csi_vb2_buffer *buf)
-> +{
-> +	unsigned long flags;
-> +	dma_addr_t phys;
-> +	int buf_num;
-> +	int ret = -EBUSY;
-> +
-> +	if (!csi->is_streaming)
-> +		return ret;
-> +
-> +	phys = vb2_dma_contig_plane_dma_addr(&buf->vbuf.vb2_buf, 0);
-> +
-> +	/*
-> +	 * buf_num holds the fb id of the most recently (*not* the next
-> +	 * anticipated) triggered interrupt. Without loss of generality, if
-> +	 * buf_num is 0 and we get to this section before the irq for fb1, the
-> +	 * buffer that we are fast-tracking into fb0 should be programmed in
-> +	 * time to be captured into. If the irq for fb1 already happened, then
-> +	 * buf_num would be 1, and we would fast-track the buffer into fb1
-> +	 * instead. This guarantees that we won't try to fast-track into fb0
-> +	 * and race against the start-of-capture into fb0.
-> +	 *
-> +	 * We only fast-track the buffer if the currently programmed buffer is
-> +	 * a dummy buffer. We can check the active_vb2_buf instead as it is
-> +	 * always modified along with programming the fb[0,1] registers via the
-> +	 * lock (besides setup and cleanup). If it is not a dummy buffer then
-> +	 * we queue it normally, as fast-tracking is not an option.
-> +	 */
-> +
-> +	spin_lock_irqsave(&csi->irqlock, flags);
-> +
-> +	buf_num = csi->buf_num;
-> +	if (csi->active_vb2_buf[buf_num] == NULL) {
-> +		csi->active_vb2_buf[buf_num] = buf;
-> +		imx7_csi_update_buf(csi, phys, buf_num);
-> +		ret = 0;
-> +	}
-> +
-> +	spin_unlock_irqrestore(&csi->irqlock, flags);
-> +
-> +	return ret;
-> +}
-> +
->  static void imx7_csi_video_buf_queue(struct vb2_buffer *vb)
->  {
->  	struct imx7_csi *csi = vb2_get_drv_priv(vb->vb2_queue);
->  	struct imx7_csi_vb2_buffer *buf = to_imx7_csi_vb2_buffer(vb);
->  	unsigned long flags;
-> +	int ret;
-> +
-> +	ret = imx7_csi_fast_track_buffer(csi, buf);
-> +	if (!ret)
-> +		return;
->  
->  	spin_lock_irqsave(&csi->q_lock, flags);
->  
-> -- 
-> 2.30.2
-> 
