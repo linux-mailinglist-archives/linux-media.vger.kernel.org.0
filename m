@@ -2,126 +2,69 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 56B875AE0AE
-	for <lists+linux-media@lfdr.de>; Tue,  6 Sep 2022 09:12:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4A21A5AE179
+	for <lists+linux-media@lfdr.de>; Tue,  6 Sep 2022 09:45:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232770AbiIFHMD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 6 Sep 2022 03:12:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51172 "EHLO
+        id S238562AbiIFHpF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 6 Sep 2022 03:45:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43116 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232508AbiIFHMC (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 6 Sep 2022 03:12:02 -0400
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (mail-bn8nam12on2046.outbound.protection.outlook.com [40.107.237.46])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DFE5D7332E;
-        Tue,  6 Sep 2022 00:11:57 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=WFHGXtr3Rc6jtLlVl7jJQv8+w1ed6qOiO/a3lc0FNdGG34u29H714AD4/X1+zJnNBIX8MhsZ3PmYYy40Qr+23PSKh1D1VJI3Ddsle50LTQuJJsZkBtb0Y9B06/bYLDVpWEAAC6O2pobpAE+j8l4KxKAoLZNzo27fsxFjQo33ceeCDBS/hLquvasVw4j44T2QhOdyVeoqGsgoopmkAyGj9F8LepmMrs5oWPTlBhHLz2bjZBE02Qd2Ty6NTp0XedrKamXYU7SS62kQCyC9AVhJNE29iByimGtMZx0AOryexyG6bsXgzmVqq5y3/LtuyrNMriwlmVdTXiANegcakX2zKw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=QeTJhSLW9Jqcf1qj+5ix3ul9RyFVQzF+ODHImDZcc7c=;
- b=WBkkwPISzBxPZ9vWKJahKj+hzatqoIddEnHCMzIAD4uuQ5ba3wTvRghMQL1vl/U2cFGdKTJ0PV1d59k0c9/qOE4VgTZ6R9EpD5ugvLcjmepJbqK/rPUS0JbVKNbE3GFu//hc4wHVs39TcjzFDdb8dLWagXrzjo7jXrDDmzvACdUhHjeFeYowYUiwKRzc1WXj096mc28rjm1elpPwLQeHdmp3s4UMdt+NCuvceCoeyrOoQRbvP6o19Dv175YlUl76f0A+HH0qFIl/3qLGS0n+j6WoSFIpsirXDHZyRU6j6HCDbZKXWXuSPULB6/w93+cwkbxw26ekf2oV0w1NpQKAaw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=QeTJhSLW9Jqcf1qj+5ix3ul9RyFVQzF+ODHImDZcc7c=;
- b=EMBqihw5wB9aKOQL7zVss1S4LQhG+tPY9NMG+dPs47mrpzjLPbtEuwlWlMhgsiOh33bDg0O7uSsvgsLUVzxPUYJDJHxqzJ40t53Gj9UrzSPeOo0CKuUBpr7katoce9SKO6/gclP7tjB44DnCOvdhMC/9PKG09h+xhpDNyPosdZQ=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BYAPR12MB3589.namprd12.prod.outlook.com (2603:10b6:a03:df::29)
- by PH8PR12MB6697.namprd12.prod.outlook.com (2603:10b6:510:1cc::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5588.10; Tue, 6 Sep
- 2022 07:11:55 +0000
-Received: from BYAPR12MB3589.namprd12.prod.outlook.com
- ([fe80::a997:c7f:aea0:764a]) by BYAPR12MB3589.namprd12.prod.outlook.com
- ([fe80::a997:c7f:aea0:764a%4]) with mapi id 15.20.5588.018; Tue, 6 Sep 2022
- 07:11:55 +0000
-Message-ID: <5f193427-0e12-e45a-0d7f-038078f2dde9@amd.com>
-Date:   Tue, 6 Sep 2022 09:11:48 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v2 3/4] dma-buf: enable signaling for selftest fence on
- debug
-Content-Language: en-US
-To:     Arvind Yadav <Arvind.Yadav@amd.com>, andrey.grodzovsky@amd.com,
-        shashank.sharma@amd.com, amaranath.somalapuram@amd.com,
-        Arunpravin.PaneerSelvam@amd.com, sumit.semwal@linaro.org,
-        gustavo@padovan.org, airlied@linux.ie, daniel@ffwll.ch,
-        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
-References: <20220905163502.4032-1-Arvind.Yadav@amd.com>
- <20220905163502.4032-4-Arvind.Yadav@amd.com>
-From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20220905163502.4032-4-Arvind.Yadav@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR3P281CA0055.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:4b::18) To BYAPR12MB3589.namprd12.prod.outlook.com
- (2603:10b6:a03:df::29)
+        with ESMTP id S233932AbiIFHpA (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 6 Sep 2022 03:45:00 -0400
+Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com [IPv6:2a00:1450:4864:20::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A4FB8BC3C
+        for <linux-media@vger.kernel.org>; Tue,  6 Sep 2022 00:44:57 -0700 (PDT)
+Received: by mail-lf1-x133.google.com with SMTP id k10so1476663lfm.4
+        for <linux-media@vger.kernel.org>; Tue, 06 Sep 2022 00:44:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date;
+        bh=zwx3jUyHyoTVAwcDukId8hXy3HW+VA9rf/zlu9PzbFU=;
+        b=ObzXQ7J3OvkIQ6gZ70kM5FGwzKodiZ3+3Q/0mYnov470kXz+MYzUkmbNhIcyVZiiYQ
+         NUTfAzy8l8umt5nzS/5QuH55EuiqZwFKAWMG6ZZJ2XaTVpmQsKlaj533ig5sdA6lddqU
+         RbUkPxNf1aEGRa1dvWoJCw9V0GmUjmXGUdPNRoB8xn9uJMPP5NeLrYjao0OuyhWKmhOa
+         GWY4mrZcbPg5sUgzp5k+BHtdPilG0hhtXiccDYkQXAjo2YYA0uWN/Kg6S0U63umzF7Eq
+         buxkY/d8LT4WpcgWub4VDeLAlTpia5aSdxIq1rVEkpblsZxJsrMbNYYshbtGySbIHLIS
+         ZmFQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date;
+        bh=zwx3jUyHyoTVAwcDukId8hXy3HW+VA9rf/zlu9PzbFU=;
+        b=IgSl9lR5XRLvFAufpTu6NP6SArmD78a7oQm2uFCpijuSZ0fFN0uIMoUag15KrrYaAx
+         v+WTvYU8InWUSxcVmeoubF3xs7Wur1Vm7oLPuOAIbW1SMr+lqjxjDrg40Vqtlm7KCnBo
+         RKapUx8aoWW/VjeOtOTFhO5Q0QSoRAQtSaxVFlyjweMJS2NOS+Iy+F38fXJhPFImZneB
+         hOMKGzPF2eu9gcOgYT8HAtkQNprM50q/+39YcSu210zarU94vNfG/Yzq9u2AfrCpfFk6
+         BbL3N2p+wOU+S03QCHQOh+F18vrIBrMAZZ8KGc/ZgppqlY4CNikDL4OP30IKBTx5M1vQ
+         KD9Q==
+X-Gm-Message-State: ACgBeo1yQlATsttqZkmzHqd/qp8Mt7pxPos8RCeAbjsH6jbcRGM6zzm8
+        PygFz/sNAgeH1a1UL/lSci7se2m7xcDMVS05zv/ZSg==
+X-Google-Smtp-Source: AA6agR4drPQPNZ8n/PVJ8ef1q2TTiog3iOJLgAgjDM1oM06im3bc/dVZQPJCeSqyLN1FNltjUdl1NXSEDodR7ziNvu0=
+X-Received: by 2002:a05:6512:118b:b0:492:e3c4:a164 with SMTP id
+ g11-20020a056512118b00b00492e3c4a164mr19055200lfr.598.1662450295446; Tue, 06
+ Sep 2022 00:44:55 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 1241de91-2126-4f7c-aba3-08da8fd71483
-X-MS-TrafficTypeDiagnostic: PH8PR12MB6697:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: DIpg3sKsDL4acd7wBWcW7sN49KCA7mbxXbbEbHpuSU8zK+REvp9Epp9nt/miVHLnbk3D+cW3Rq8MfShPZM3MpfbQcvNiud0AJvJcaxqwn0mcqM40G6ObRemJD6h8bB/wxfnfYZUHRgCw3BzeLUGSBeurAjBNJlneJFC+rTiXpDAjoSdpEBeJ6ajREZoKn513Pf8oWuni7KfAQCbFw7r9iX3Heyi6FIuSLBx0vXZPlJPGH05H2G/wIk0i2/HGMu7BmCon7PLQVERJhjY52d8TFwL7GKnAKwkdHoM2dQbm/4IqONswtPgbNcAZktw3t3p44D3Tw4BOyp7LfJv5713UZ2PaNK5AKbBUA3FSL59HPANyEJJW1lCUUg9P3WzDcRuDh7fFg/P11yzUcRKrqjyCuT9fo3BjY2aRlB3hfo9W8NBaotW9Hk3yUey6owbQMsjnenDRL2Jk/GAKl37nDdcvydf3NdzwpO2pDAFo+TARSNRmqmwzOlVhABBcQ206PTcXMrLEtfaip9dznOpiWMKBKJKJKPSFhhvXUC5/q19wmIVQ0c2NWWzR6gjKGyPNdkLZL5EK2aoBJRYXFx04+RUxknyeL0zi//EDy4l/EP/vdImzBOokCqiCV7xHYZ3XP5tmRd7eJguYcazkr4bX9LZe/loFFdAkgKpOIJgPUXnqH3F9I/4wa1MOMbvxNFtvZnCmEppWV/Z4Ye1W2bFgN+ODLoS6BRH93aJ9GrlyfvvjkgCEJ7IbToCxse6rAGVifIFijcTE8xpW3TTQPupxn3ieb2NdbvNv6cuq/byx+Mn4f95buPSoA47B+OmqEJzvl2QV
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR12MB3589.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(346002)(39860400002)(136003)(396003)(366004)(376002)(66556008)(31686004)(38100700002)(8676002)(316002)(66946007)(66476007)(921005)(2906002)(31696002)(86362001)(36756003)(83380400001)(6666004)(6512007)(6486002)(41300700001)(6506007)(8936002)(5660300002)(2616005)(478600001)(186003)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ekVzMTNoSlhBbDVULzBhT3VBdXB1U0syWjBvckZTUWhPNGJ6YnF5d0NzWWZQ?=
- =?utf-8?B?VEtUNXRlVEVPbFJ0VXpOT0hTbXVjYnIxWUFYTmZuUW9HeE1XN0lGSGNGdVN3?=
- =?utf-8?B?UXYrYWZjR3VmMlBveFIxcks3bzVnVUR2MFVpbENOZ1VwNVVaYUcvRk85ZVpN?=
- =?utf-8?B?cks1OFUxbWVRRDVHRSsyRUF0Snh4cjdxbVdwS0NETFJYMnVwM2xVd0xXbWtQ?=
- =?utf-8?B?NWRLRGkwOFppTitvSWhzdFdOQ2NuYTNPQWsvVFk1VndOR2NuWStFa1kraElm?=
- =?utf-8?B?TTh5MkxkUU5KMWJyc1lRN2lTYkFTQlZ2RVdVcXdsWXNtK0tyT2YwaERrUVJI?=
- =?utf-8?B?L1l3RnBTYmpBQ09uZHdmRTNMRTVDYVkvbFpHcHpqZFllTXlhL1VSY00rT2d5?=
- =?utf-8?B?Y04yc0ZhZUd6Sk81STF3THFVSVJ0UmR2dWxnbVQwZUpuckg3OXM4YmN5VG5w?=
- =?utf-8?B?MzAzS3ZnVUwwQWtUbVpIK1NTd3NGRCtnaG1Ud2lpQVRmSmlKdlhldlVzMDNO?=
- =?utf-8?B?czdtZEN4RVhGaWFUMDd0ckJvTlpNOGZONVo3Y0hhRHdRbVJQSGY1cU5keGR1?=
- =?utf-8?B?QmpoTjQ3WGxsbE5vR0czbW5qb09ZZ3ZMSUM4bStib29zVXBvWkJpRGx4Zmdx?=
- =?utf-8?B?SEdTdFhDTzNTTHJGYWUraUp2OVRVOXdBMGdDWS95SzhCaitDQSs4Vkk5WTZN?=
- =?utf-8?B?U2RLaVJHU3JtNDV6cVo1MDRXZnhIWnZGU3M0em9IUVZGd1pUOENrdURhcVVV?=
- =?utf-8?B?TnJ5OThQNzNsTW0wRDdjbE4rRW92VDFJc1d1bGFkSWN6U0xKVEl1enZsQnNh?=
- =?utf-8?B?WENKMExERlorcGRpSWcvaWlKU3dJeFhLL0lRUVRpVzI0SlFnOHVnd2N0M3ZT?=
- =?utf-8?B?L2xxQXowamV1SnVjUFNZejJaZE1YeHdjVkczOGNOTkR2cDUzU2xYelJhT1Zz?=
- =?utf-8?B?M3htOHBNSFBXOC85cEFyUWNmOWJFcENkTHpXdWszeWF2VjdERmlPMVlGNVRm?=
- =?utf-8?B?SDBXN3JkckJMMEJpejJjWmE5SmNCcVZVanRXNGR5d0FNWGMvcW1lbld2SWs0?=
- =?utf-8?B?aDl1eHFHK1ZYVTBvMkJjbzlOUUZheS95bURZbm5yN0RiQUt4Z0x0bitrTlNV?=
- =?utf-8?B?dGpFb21jYkg2UUNVYkVSdHJLMkhyZVRNWWZsWEszUjZSSzA3b0ZPak0zNm1I?=
- =?utf-8?B?TDNWb2p4T2dsYm01cVIxdVJ5TkxvVU5TYlBCZWovaDExNjlKcVFHdnFudVU4?=
- =?utf-8?B?bDFwQ2YwSHorbEZ0b1ZJUG5RSzh0c2d4TmZFWEw2NWg4Q1dzZ3ZnK24rMyts?=
- =?utf-8?B?STVUNWswWkZ0aUhOaDlIVndBL2FXT00vemhBWFE4aTgwWG5Ra0Q1Mi9rNmZp?=
- =?utf-8?B?RW5UcmJLUnBvYWFwcmFPQWFiTkdjSnNtSzNPWE0vOGNMNmhaNC9CekJzanFv?=
- =?utf-8?B?ZU9BVXEyZHJ1WEQ1cEJITFNRdzlaMlp5S1k4bmNwdHdOaHlnZzQwSkIvcm9k?=
- =?utf-8?B?aUR4c3R4VUxjVEZmV2lweEpiWkxRakphUU5ycVA1d0JISlhibzNSU2xWK2p4?=
- =?utf-8?B?M1NkbDg4VHBsSVhlMUhORG9VSHJzdWVyREJadjF2eEo2Slp6K082TjdwSjdW?=
- =?utf-8?B?eE5kY3Q0NzBPMGxKcGU5UW5JUmlwSm9sNUtKdENIMHNHdVNZa0xrZmJkVHJw?=
- =?utf-8?B?VkhQRlJHTDFjNmZ1TlhVYjJWSUpaN2dkcGk0SkN0R2ozYmxqWEpWVGtrOGlw?=
- =?utf-8?B?Y0JQVVRBR3EvN21Md3ZKbWRaaFgzd2VxNDdSa3RPTHhwUW4reGRIbkFybjQ0?=
- =?utf-8?B?ajNVMTN6QW9tcURKUzZUZmxwTjA2VkR6dHlpVCsyMkxzcVlHcmpBaDVqQitv?=
- =?utf-8?B?NEtVLy9EWnJ1b01NWWJHNUIxenYramdRTms0Mlk3QklmOU9KVjBvU1dVTnRh?=
- =?utf-8?B?MDJBL2FsallHejM3VCtZN1MrM0U4M3grNXcwUFBEQU1uak1wOHdLN0hTZHFP?=
- =?utf-8?B?bG9wcVZhTE1PTUh3cGZxUnJNUFBnRENjMWI4QXR3V3NPdTROemlzT1pTMjdU?=
- =?utf-8?B?YWkwMVVtOHh1L1ZaRVNlZ1VqWFU2L1hoeXFQRUlKeGZSb3MxUVR5aWQ3b0lL?=
- =?utf-8?B?SXgxR1N2dUpDY2E3aW11NDQ2ZXYxMndzaTdSZE1uTHY2eElIN0tKdmJUaXpY?=
- =?utf-8?Q?QHyNH0MGgHu47Qpbq+Xq5BbecAUF+7f1j0GJQsMxHXUG?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1241de91-2126-4f7c-aba3-08da8fd71483
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR12MB3589.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Sep 2022 07:11:55.2666
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Zv2/YWuVRZTpRXAV8lVcdahOrR156cXSfkSyCSG5ix8JuiZkouEArbbdUbyNlRO9
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB6697
-X-Spam-Status: No, score=-3.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE
+References: <000000000000fad77705e7fd40fb@google.com>
+In-Reply-To: <000000000000fad77705e7fd40fb@google.com>
+From:   Dmitry Vyukov <dvyukov@google.com>
+Date:   Tue, 6 Sep 2022 09:44:43 +0200
+Message-ID: <CACT4Y+YN_osf55_PVs1jQQiAMmqnzUp1Sv2CvUnMg888ZPKM1A@mail.gmail.com>
+Subject: Re: [syzbot] KASAN: use-after-free Read in task_work_run (2)
+To:     syzbot <syzbot+9228d6098455bb209ec8@syzkaller.appspotmail.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        christian.koenig@amd.com,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        DRI <dri-devel@lists.freedesktop.org>,
+        linaro-mm-sig@lists.linaro.org
+Cc:     asml.silence@gmail.com, axboe@kernel.dk, ebiederm@xmission.com,
+        keescook@chromium.org, linux-kernel@vger.kernel.org,
+        syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -129,316 +72,218 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am 05.09.22 um 18:35 schrieb Arvind Yadav:
-> Here's on debug enabling software signaling for selftest.
-
-Please drop all the #ifdefs, apart from that looks pretty good to me.
-
-Christian.
-
+On Tue, 6 Sept 2022 at 09:36, syzbot
+<syzbot+9228d6098455bb209ec8@syzkaller.appspotmail.com> wrote:
 >
-> Signed-off-by: Arvind Yadav <Arvind.Yadav@amd.com>
+> Hello,
+>
+> syzbot found the following issue on:
+>
+> HEAD commit:    c5e4d5e99162 Merge tag 'fscache-fixes-20220831' of git://g..
+> git tree:       upstream
+> console output: https://syzkaller.appspot.com/x/log.txt?x=142e0e1b080000
+> kernel config:  https://syzkaller.appspot.com/x/.config?x=9c5c41fc03fda66f
+> dashboard link: https://syzkaller.appspot.com/bug?extid=9228d6098455bb209ec8
+> compiler:       Debian clang version 13.0.1-++20220126092033+75e33f71c2da-1~exp1~20220126212112.63, GNU ld (GNU Binutils for Debian) 2.35.2
+>
+> Unfortunately, I don't have any reproducer for this issue yet.
+>
+> IMPORTANT: if you fix the issue, please add the following tag to the commit:
+> Reported-by: syzbot+9228d6098455bb209ec8@syzkaller.appspotmail.com
+
+Looks like the issue is in dma-buf.c
++dma-buf.c maintainers
+
+
+> ==================================================================
+> BUG: KASAN: use-after-free in task_work_run+0x126/0x1c0 kernel/task_work.c:176
+> Read of size 8 at addr ffff88801d1fe500 by task syz-executor.2/18582
+>
+> CPU: 0 PID: 18582 Comm: syz-executor.2 Not tainted 6.0.0-rc3-syzkaller-00031-gc5e4d5e99162 #0
+> Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/22/2022
+> Call Trace:
+>  <TASK>
+>  __dump_stack lib/dump_stack.c:88 [inline]
+>  dump_stack_lvl+0x1e3/0x2cb lib/dump_stack.c:106
+>  print_address_description+0x65/0x4b0 mm/kasan/report.c:317
+>  print_report+0x108/0x220 mm/kasan/report.c:433
+>  kasan_report+0xfb/0x130 mm/kasan/report.c:495
+>  task_work_run+0x126/0x1c0 kernel/task_work.c:176
+>  resume_user_mode_work include/linux/resume_user_mode.h:49 [inline]
+>  exit_to_user_mode_loop+0x134/0x160 kernel/entry/common.c:169
+>  exit_to_user_mode_prepare+0xad/0x110 kernel/entry/common.c:201
+>  __syscall_exit_to_user_mode_work kernel/entry/common.c:283 [inline]
+>  syscall_exit_to_user_mode+0x2e/0x60 kernel/entry/common.c:294
+>  entry_SYSCALL_64_after_hwframe+0x63/0xcd
+> RIP: 0033:0x7f287f289279
+> Code: ff ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 40 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b8 ff ff ff f7 d8 64 89 01 48
+> RSP: 002b:00007f28804cd168 EFLAGS: 00000246 ORIG_RAX: 0000000000000119
+> RAX: 0000000000000001 RBX: 00007f287f39bf80 RCX: 00007f287f289279
+> RDX: 0000000000000001 RSI: 0000000020000000 RDI: 0000000000000003
+> RBP: 00007f287f2e32e9 R08: 0000000000000000 R09: 0000000000000000
+> R10: 00000000000006ff R11: 0000000000000246 R12: 0000000000000000
+> R13: 00007ffd34f4ba0f R14: 00007f28804cd300 R15: 0000000000022000
+>  </TASK>
+>
+> Allocated by task 18586:
+>  kasan_save_stack mm/kasan/common.c:38 [inline]
+>  kasan_set_track mm/kasan/common.c:45 [inline]
+>  set_alloc_info mm/kasan/common.c:437 [inline]
+>  __kasan_slab_alloc+0xb2/0xe0 mm/kasan/common.c:470
+>  kasan_slab_alloc include/linux/kasan.h:224 [inline]
+>  slab_post_alloc_hook mm/slab.h:727 [inline]
+>  slab_alloc_node mm/slub.c:3243 [inline]
+>  slab_alloc mm/slub.c:3251 [inline]
+>  __kmem_cache_alloc_lru mm/slub.c:3258 [inline]
+>  kmem_cache_alloc+0x1a6/0x310 mm/slub.c:3268
+>  kmem_cache_zalloc include/linux/slab.h:723 [inline]
+>  __alloc_file+0x26/0x230 fs/file_table.c:138
+>  alloc_empty_file+0xa9/0x1b0 fs/file_table.c:187
+>  alloc_file+0x58/0x5e0 fs/file_table.c:229
+>  alloc_file_pseudo+0x260/0x300 fs/file_table.c:272
+>  dma_buf_getfile drivers/dma-buf/dma-buf.c:534 [inline]
+>  dma_buf_export+0x634/0x920 drivers/dma-buf/dma-buf.c:652
+>  drm_gem_dmabuf_export drivers/gpu/drm/drm_prime.c:253 [inline]
+>  drm_gem_prime_export+0x255/0x400 drivers/gpu/drm/drm_prime.c:895
+>  export_and_register_object drivers/gpu/drm/drm_prime.c:397 [inline]
+>  drm_gem_prime_handle_to_fd+0x3e6/0x530 drivers/gpu/drm/drm_prime.c:465
+>  drm_ioctl_kernel+0x33e/0x4f0 drivers/gpu/drm/drm_ioctl.c:782
+>  drm_ioctl+0x626/0xa10 drivers/gpu/drm/drm_ioctl.c:885
+>  vfs_ioctl fs/ioctl.c:51 [inline]
+>  __do_sys_ioctl fs/ioctl.c:870 [inline]
+>  __se_sys_ioctl+0xfb/0x170 fs/ioctl.c:856
+>  do_syscall_x64 arch/x86/entry/common.c:50 [inline]
+>  do_syscall_64+0x2b/0x70 arch/x86/entry/common.c:80
+>  entry_SYSCALL_64_after_hwframe+0x63/0xcd
+>
+> Freed by task 18595:
+>  kasan_save_stack mm/kasan/common.c:38 [inline]
+>  kasan_set_track+0x4c/0x70 mm/kasan/common.c:45
+>  kasan_set_free_info+0x1f/0x40 mm/kasan/generic.c:370
+>  ____kasan_slab_free+0xd8/0x120 mm/kasan/common.c:367
+>  kasan_slab_free include/linux/kasan.h:200 [inline]
+>  slab_free_hook mm/slub.c:1754 [inline]
+>  slab_free_freelist_hook+0x12e/0x1a0 mm/slub.c:1780
+>  slab_free mm/slub.c:3534 [inline]
+>  kmem_cache_free+0x95/0x1d0 mm/slub.c:3551
+>  rcu_do_batch kernel/rcu/tree.c:2245 [inline]
+>  rcu_core+0xa61/0x1710 kernel/rcu/tree.c:2505
+>  __do_softirq+0x382/0x793 kernel/softirq.c:571
+>
+> Last potentially related work creation:
+>  kasan_save_stack+0x3b/0x60 mm/kasan/common.c:38
+>  __kasan_record_aux_stack+0xaf/0xc0 mm/kasan/generic.c:348
+>  call_rcu+0x163/0x9c0 kernel/rcu/tree.c:2793
+>  task_work_run+0x146/0x1c0 kernel/task_work.c:177
+>  resume_user_mode_work include/linux/resume_user_mode.h:49 [inline]
+>  exit_to_user_mode_loop+0x134/0x160 kernel/entry/common.c:169
+>  exit_to_user_mode_prepare+0xad/0x110 kernel/entry/common.c:201
+>  __syscall_exit_to_user_mode_work kernel/entry/common.c:283 [inline]
+>  syscall_exit_to_user_mode+0x2e/0x60 kernel/entry/common.c:294
+>  entry_SYSCALL_64_after_hwframe+0x63/0xcd
+>
+> Second to last potentially related work creation:
+>  kasan_save_stack+0x3b/0x60 mm/kasan/common.c:38
+>  __kasan_record_aux_stack+0xaf/0xc0 mm/kasan/generic.c:348
+>  task_work_add+0x2f/0x200 kernel/task_work.c:48
+>  fput+0xdc/0x1a0 fs/file_table.c:381
+>  dma_buf_poll_cb drivers/dma-buf/dma-buf.c:213 [inline]
+>  dma_buf_poll+0x53a/0x680 drivers/dma-buf/dma-buf.c:295
+>  vfs_poll include/linux/poll.h:88 [inline]
+>  ep_item_poll fs/eventpoll.c:853 [inline]
+>  ep_send_events fs/eventpoll.c:1692 [inline]
+>  ep_poll+0xb27/0x1e60 fs/eventpoll.c:1821
+>  do_epoll_wait+0x1a2/0x210 fs/eventpoll.c:2256
+>  do_epoll_pwait fs/eventpoll.c:2290 [inline]
+>  __do_sys_epoll_pwait fs/eventpoll.c:2303 [inline]
+>  __se_sys_epoll_pwait+0x28e/0x480 fs/eventpoll.c:2297
+>  do_syscall_x64 arch/x86/entry/common.c:50 [inline]
+>  do_syscall_64+0x2b/0x70 arch/x86/entry/common.c:80
+>  entry_SYSCALL_64_after_hwframe+0x63/0xcd
+>
+> The buggy address belongs to the object at ffff88801d1fe500
+>  which belongs to the cache filp of size 456
+> The buggy address is located 0 bytes inside of
+>  456-byte region [ffff88801d1fe500, ffff88801d1fe6c8)
+>
+> The buggy address belongs to the physical page:
+> page:ffffea0000747f80 refcount:1 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x1d1fe
+> head:ffffea0000747f80 order:1 compound_mapcount:0 compound_pincount:0
+> memcg:ffff888072449c01
+> flags: 0xfff00000010200(slab|head|node=0|zone=1|lastcpupid=0x7ff)
+> raw: 00fff00000010200 ffffea00005ddf80 dead000000000002 ffff888140007a00
+> raw: 0000000000000000 00000000000c000c 00000001ffffffff ffff888072449c01
+> page dumped because: kasan: bad access detected
+> page_owner tracks the page as allocated
+> page last allocated via order 1, migratetype Unmovable, gfp_mask 0xd20c0(__GFP_IO|__GFP_FS|__GFP_NOWARN|__GFP_NORETRY|__GFP_COMP|__GFP_NOMEMALLOC), pid 3111, tgid 3111 (v4l_id), ts 20130623440, free_ts 19733718234
+>  prep_new_page mm/page_alloc.c:2532 [inline]
+>  get_page_from_freelist+0x72b/0x7a0 mm/page_alloc.c:4283
+>  __alloc_pages+0x259/0x560 mm/page_alloc.c:5515
+>  alloc_slab_page+0x70/0xf0 mm/slub.c:1824
+>  allocate_slab+0x5e/0x520 mm/slub.c:1969
+>  new_slab mm/slub.c:2029 [inline]
+>  ___slab_alloc+0x42e/0xce0 mm/slub.c:3031
+>  __slab_alloc mm/slub.c:3118 [inline]
+>  slab_alloc_node mm/slub.c:3209 [inline]
+>  slab_alloc mm/slub.c:3251 [inline]
+>  __kmem_cache_alloc_lru mm/slub.c:3258 [inline]
+>  kmem_cache_alloc+0x25d/0x310 mm/slub.c:3268
+>  kmem_cache_zalloc include/linux/slab.h:723 [inline]
+>  __alloc_file+0x26/0x230 fs/file_table.c:138
+>  alloc_empty_file+0xa9/0x1b0 fs/file_table.c:187
+>  path_openat+0xf1/0x2e00 fs/namei.c:3677
+>  do_filp_open+0x275/0x500 fs/namei.c:3718
+>  do_sys_openat2+0x13b/0x500 fs/open.c:1311
+>  do_sys_open fs/open.c:1327 [inline]
+>  __do_sys_openat fs/open.c:1343 [inline]
+>  __se_sys_openat fs/open.c:1338 [inline]
+>  __x64_sys_openat+0x243/0x290 fs/open.c:1338
+>  do_syscall_x64 arch/x86/entry/common.c:50 [inline]
+>  do_syscall_64+0x2b/0x70 arch/x86/entry/common.c:80
+>  entry_SYSCALL_64_after_hwframe+0x63/0xcd
+> page last free stack trace:
+>  reset_page_owner include/linux/page_owner.h:24 [inline]
+>  free_pages_prepare mm/page_alloc.c:1449 [inline]
+>  free_pcp_prepare+0x812/0x900 mm/page_alloc.c:1499
+>  free_unref_page_prepare mm/page_alloc.c:3380 [inline]
+>  free_unref_page+0x7d/0x630 mm/page_alloc.c:3476
+>  qlist_free_all+0x2b/0x70 mm/kasan/quarantine.c:187
+>  kasan_quarantine_reduce+0x169/0x180 mm/kasan/quarantine.c:294
+>  __kasan_slab_alloc+0x2f/0xe0 mm/kasan/common.c:447
+>  kasan_slab_alloc include/linux/kasan.h:224 [inline]
+>  slab_post_alloc_hook mm/slab.h:727 [inline]
+>  slab_alloc_node mm/slub.c:3243 [inline]
+>  slab_alloc mm/slub.c:3251 [inline]
+>  __kmem_cache_alloc_lru mm/slub.c:3258 [inline]
+>  kmem_cache_alloc+0x1a6/0x310 mm/slub.c:3268
+>  vm_area_alloc+0x20/0xe0 kernel/fork.c:459
+>  mmap_region+0xb4a/0x16f0 mm/mmap.c:1732
+>  do_mmap+0x7a7/0xdf0 mm/mmap.c:1540
+>  vm_mmap_pgoff+0x1e5/0x2f0 mm/util.c:552
+>  ksys_mmap_pgoff+0x48c/0x6d0 mm/mmap.c:1586
+>  do_syscall_x64 arch/x86/entry/common.c:50 [inline]
+>  do_syscall_64+0x2b/0x70 arch/x86/entry/common.c:80
+>  entry_SYSCALL_64_after_hwframe+0x63/0xcd
+>
+> Memory state around the buggy address:
+>  ffff88801d1fe400: fb fb fb fb fb fb fb fb fb fc fc fc fc fc fc fc
+>  ffff88801d1fe480: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+> >ffff88801d1fe500: fa fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+>                    ^
+>  ffff88801d1fe580: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+>  ffff88801d1fe600: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+> ==================================================================
+>
+>
 > ---
+> This report is generated by a bot. It may contain errors.
+> See https://goo.gl/tpsmEJ for more information about syzbot.
+> syzbot engineers can be reached at syzkaller@googlegroups.com.
 >
-> Changes in v1 :
-> 1- Addressing Christian's comment to remove unnecessary callback.
-> 2- Replacing CONFIG_DEBUG_WW_MUTEX_SLOWPATH instead of CONFIG_DEBUG_FS.
-> 3- The version of this patch is also changed and previously
-> it was [PATCH 4/4]
+> syzbot will keep track of this issue. See:
+> https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
 >
-> ---
->   drivers/dma-buf/st-dma-fence-chain.c  |  8 +++++
->   drivers/dma-buf/st-dma-fence-unwrap.c | 44 +++++++++++++++++++++++++++
->   drivers/dma-buf/st-dma-fence.c        | 25 ++++++++++++++-
->   drivers/dma-buf/st-dma-resv.c         | 20 ++++++++++++
->   4 files changed, 96 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/dma-buf/st-dma-fence-chain.c b/drivers/dma-buf/st-dma-fence-chain.c
-> index 8ce1ea59d31b..d3070f8a393c 100644
-> --- a/drivers/dma-buf/st-dma-fence-chain.c
-> +++ b/drivers/dma-buf/st-dma-fence-chain.c
-> @@ -87,6 +87,10 @@ static int sanitycheck(void *arg)
->   	if (!chain)
->   		err = -ENOMEM;
->   
-> +#ifdef CONFIG_DEBUG_WW_MUTEX_SLOWPATH
-> +	dma_fence_enable_sw_signaling(chain);
-> +#endif
-> +
->   	dma_fence_signal(f);
->   	dma_fence_put(f);
->   
-> @@ -143,6 +147,10 @@ static int fence_chains_init(struct fence_chains *fc, unsigned int count,
->   		}
->   
->   		fc->tail = fc->chains[i];
-> +
-> +#ifdef CONFIG_DEBUG_WW_MUTEX_SLOWPATH
-> +		dma_fence_enable_sw_signaling(fc->chains[i]);
-> +#endif
->   	}
->   
->   	fc->chain_length = i;
-> diff --git a/drivers/dma-buf/st-dma-fence-unwrap.c b/drivers/dma-buf/st-dma-fence-unwrap.c
-> index 4105d5ea8dde..b76cdd9ee0c7 100644
-> --- a/drivers/dma-buf/st-dma-fence-unwrap.c
-> +++ b/drivers/dma-buf/st-dma-fence-unwrap.c
-> @@ -102,6 +102,10 @@ static int sanitycheck(void *arg)
->   	if (!f)
->   		return -ENOMEM;
->   
-> +#ifdef CONFIG_DEBUG_WW_MUTEX_SLOWPATH
-> +	dma_fence_enable_sw_signaling(f);
-> +#endif
-> +
->   	array = mock_array(1, f);
->   	if (!array)
->   		return -ENOMEM;
-> @@ -124,12 +128,20 @@ static int unwrap_array(void *arg)
->   	if (!f1)
->   		return -ENOMEM;
->   
-> +#ifdef CONFIG_DEBUG_WW_MUTEX_SLOWPATH
-> +	dma_fence_enable_sw_signaling(f1);
-> +#endif
-> +
->   	f2 = mock_fence();
->   	if (!f2) {
->   		dma_fence_put(f1);
->   		return -ENOMEM;
->   	}
->   
-> +#ifdef CONFIG_DEBUG_WW_MUTEX_SLOWPATH
-> +	dma_fence_enable_sw_signaling(f2);
-> +#endif
-> +
->   	array = mock_array(2, f1, f2);
->   	if (!array)
->   		return -ENOMEM;
-> @@ -164,12 +176,20 @@ static int unwrap_chain(void *arg)
->   	if (!f1)
->   		return -ENOMEM;
->   
-> +#ifdef CONFIG_DEBUG_WW_MUTEX_SLOWPATH
-> +	dma_fence_enable_sw_signaling(f1);
-> +#endif
-> +
->   	f2 = mock_fence();
->   	if (!f2) {
->   		dma_fence_put(f1);
->   		return -ENOMEM;
->   	}
->   
-> +#ifdef CONFIG_DEBUG_WW_MUTEX_SLOWPATH
-> +	dma_fence_enable_sw_signaling(f2);
-> +#endif
-> +
->   	chain = mock_chain(f1, f2);
->   	if (!chain)
->   		return -ENOMEM;
-> @@ -204,12 +224,20 @@ static int unwrap_chain_array(void *arg)
->   	if (!f1)
->   		return -ENOMEM;
->   
-> +#ifdef CONFIG_DEBUG_WW_MUTEX_SLOWPATH
-> +	dma_fence_enable_sw_signaling(f1);
-> +#endif
-> +
->   	f2 = mock_fence();
->   	if (!f2) {
->   		dma_fence_put(f1);
->   		return -ENOMEM;
->   	}
->   
-> +#ifdef CONFIG_DEBUG_WW_MUTEX_SLOWPATH
-> +	dma_fence_enable_sw_signaling(f2);
-> +#endif
-> +
->   	array = mock_array(2, f1, f2);
->   	if (!array)
->   		return -ENOMEM;
-> @@ -248,12 +276,20 @@ static int unwrap_merge(void *arg)
->   	if (!f1)
->   		return -ENOMEM;
->   
-> +#ifdef CONFIG_DEBUG_WW_MUTEX_SLOWPATH
-> +	dma_fence_enable_sw_signaling(f1);
-> +#endif
-> +
->   	f2 = mock_fence();
->   	if (!f2) {
->   		err = -ENOMEM;
->   		goto error_put_f1;
->   	}
->   
-> +#ifdef CONFIG_DEBUG_WW_MUTEX_SLOWPATH
-> +	dma_fence_enable_sw_signaling(f2);
-> +#endif
-> +
->   	f3 = dma_fence_unwrap_merge(f1, f2);
->   	if (!f3) {
->   		err = -ENOMEM;
-> @@ -296,10 +332,18 @@ static int unwrap_merge_complex(void *arg)
->   	if (!f1)
->   		return -ENOMEM;
->   
-> +#ifdef CONFIG_DEBUG_WW_MUTEX_SLOWPATH
-> +	dma_fence_enable_sw_signaling(f1);
-> +#endif
-> +
->   	f2 = mock_fence();
->   	if (!f2)
->   		goto error_put_f1;
->   
-> +#ifdef CONFIG_DEBUG_WW_MUTEX_SLOWPATH
-> +	dma_fence_enable_sw_signaling(f2);
-> +#endif
-> +
->   	f3 = dma_fence_unwrap_merge(f1, f2);
->   	if (!f3)
->   		goto error_put_f2;
-> diff --git a/drivers/dma-buf/st-dma-fence.c b/drivers/dma-buf/st-dma-fence.c
-> index c8a12d7ad71a..b7880d8374db 100644
-> --- a/drivers/dma-buf/st-dma-fence.c
-> +++ b/drivers/dma-buf/st-dma-fence.c
-> @@ -101,7 +101,9 @@ static int sanitycheck(void *arg)
->   	f = mock_fence();
->   	if (!f)
->   		return -ENOMEM;
-> -
-> +#ifdef CONFIG_DEBUG_WW_MUTEX_SLOWPATH
-> +	dma_fence_enable_sw_signaling(f);
-> +#endif
->   	dma_fence_signal(f);
->   	dma_fence_put(f);
->   
-> @@ -117,6 +119,9 @@ static int test_signaling(void *arg)
->   	if (!f)
->   		return -ENOMEM;
->   
-> +#ifdef CONFIG_DEBUG_WW_MUTEX_SLOWPATH
-> +	dma_fence_enable_sw_signaling(f);
-> +#endif
->   	if (dma_fence_is_signaled(f)) {
->   		pr_err("Fence unexpectedly signaled on creation\n");
->   		goto err_free;
-> @@ -190,6 +195,9 @@ static int test_late_add_callback(void *arg)
->   	if (!f)
->   		return -ENOMEM;
->   
-> +#ifdef CONFIG_DEBUG_WW_MUTEX_SLOWPATH
-> +	dma_fence_enable_sw_signaling(f);
-> +#endif
->   	dma_fence_signal(f);
->   
->   	if (!dma_fence_add_callback(f, &cb.cb, simple_callback)) {
-> @@ -282,6 +290,9 @@ static int test_status(void *arg)
->   	if (!f)
->   		return -ENOMEM;
->   
-> +#ifdef CONFIG_DEBUG_WW_MUTEX_SLOWPATH
-> +	dma_fence_enable_sw_signaling(f);
-> +#endif
->   	if (dma_fence_get_status(f)) {
->   		pr_err("Fence unexpectedly has signaled status on creation\n");
->   		goto err_free;
-> @@ -308,6 +319,9 @@ static int test_error(void *arg)
->   	if (!f)
->   		return -ENOMEM;
->   
-> +#ifdef CONFIG_DEBUG_WW_MUTEX_SLOWPATH
-> +	dma_fence_enable_sw_signaling(f);
-> +#endif
->   	dma_fence_set_error(f, -EIO);
->   
->   	if (dma_fence_get_status(f)) {
-> @@ -337,6 +351,9 @@ static int test_wait(void *arg)
->   	if (!f)
->   		return -ENOMEM;
->   
-> +#ifdef CONFIG_DEBUG_WW_MUTEX_SLOWPATH
-> +	dma_fence_enable_sw_signaling(f);
-> +#endif
->   	if (dma_fence_wait_timeout(f, false, 0) != -ETIME) {
->   		pr_err("Wait reported complete before being signaled\n");
->   		goto err_free;
-> @@ -379,6 +396,9 @@ static int test_wait_timeout(void *arg)
->   	if (!wt.f)
->   		return -ENOMEM;
->   
-> +#ifdef CONFIG_DEBUG_WW_MUTEX_SLOWPATH
-> +	dma_fence_enable_sw_signaling(wt.f);
-> +#endif
->   	if (dma_fence_wait_timeout(wt.f, false, 1) != -ETIME) {
->   		pr_err("Wait reported complete before being signaled\n");
->   		goto err_free;
-> @@ -458,6 +478,9 @@ static int thread_signal_callback(void *arg)
->   			break;
->   		}
->   
-> +#ifdef CONFIG_DEBUG_WW_MUTEX_SLOWPATH
-> +		dma_fence_enable_sw_signaling(f1);
-> +#endif
->   		rcu_assign_pointer(t->fences[t->id], f1);
->   		smp_wmb();
->   
-> diff --git a/drivers/dma-buf/st-dma-resv.c b/drivers/dma-buf/st-dma-resv.c
-> index 813779e3c9be..bd7ef58f8b24 100644
-> --- a/drivers/dma-buf/st-dma-resv.c
-> +++ b/drivers/dma-buf/st-dma-resv.c
-> @@ -45,6 +45,10 @@ static int sanitycheck(void *arg)
->   	if (!f)
->   		return -ENOMEM;
->   
-> +#ifdef CONFIG_DEBUG_WW_MUTEX_SLOWPATH
-> +	dma_fence_enable_sw_signaling(f);
-> +#endif
-> +
->   	dma_fence_signal(f);
->   	dma_fence_put(f);
->   
-> @@ -69,6 +73,10 @@ static int test_signaling(void *arg)
->   	if (!f)
->   		return -ENOMEM;
->   
-> +#ifdef CONFIG_DEBUG_WW_MUTEX_SLOWPATH
-> +	dma_fence_enable_sw_signaling(f);
-> +#endif
-> +
->   	dma_resv_init(&resv);
->   	r = dma_resv_lock(&resv, NULL);
->   	if (r) {
-> @@ -114,6 +122,10 @@ static int test_for_each(void *arg)
->   	if (!f)
->   		return -ENOMEM;
->   
-> +#ifdef CONFIG_DEBUG_WW_MUTEX_SLOWPATH
-> +	dma_fence_enable_sw_signaling(f);
-> +#endif
-> +
->   	dma_resv_init(&resv);
->   	r = dma_resv_lock(&resv, NULL);
->   	if (r) {
-> @@ -173,6 +185,10 @@ static int test_for_each_unlocked(void *arg)
->   	if (!f)
->   		return -ENOMEM;
->   
-> +#ifdef CONFIG_DEBUG_WW_MUTEX_SLOWPATH
-> +	dma_fence_enable_sw_signaling(f);
-> +#endif
-> +
->   	dma_resv_init(&resv);
->   	r = dma_resv_lock(&resv, NULL);
->   	if (r) {
-> @@ -244,6 +260,10 @@ static int test_get_fences(void *arg)
->   	if (!f)
->   		return -ENOMEM;
->   
-> +#ifdef CONFIG_DEBUG_WW_MUTEX_SLOWPATH
-> +	dma_fence_enable_sw_signaling(f);
-> +#endif
-> +
->   	dma_resv_init(&resv);
->   	r = dma_resv_lock(&resv, NULL);
->   	if (r) {
-
+> --
+> You received this message because you are subscribed to the Google Groups "syzkaller-bugs" group.
+> To unsubscribe from this group and stop receiving emails from it, send an email to syzkaller-bugs+unsubscribe@googlegroups.com.
+> To view this discussion on the web visit https://groups.google.com/d/msgid/syzkaller-bugs/000000000000fad77705e7fd40fb%40google.com.
