@@ -2,144 +2,113 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C90A35B069D
-	for <lists+linux-media@lfdr.de>; Wed,  7 Sep 2022 16:30:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E0E285B06A6
+	for <lists+linux-media@lfdr.de>; Wed,  7 Sep 2022 16:31:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229708AbiIGOap (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 7 Sep 2022 10:30:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43198 "EHLO
+        id S229873AbiIGObw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 7 Sep 2022 10:31:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44128 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230328AbiIGOaW (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 7 Sep 2022 10:30:22 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE8284B0CE
-        for <linux-media@vger.kernel.org>; Wed,  7 Sep 2022 07:30:08 -0700 (PDT)
-Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <mgr@pengutronix.de>)
-        id 1oVw45-0000pW-JR; Wed, 07 Sep 2022 16:30:05 +0200
-Received: from mgr by ptx.hi.pengutronix.de with local (Exim 4.92)
-        (envelope-from <mgr@pengutronix.de>)
-        id 1oVw45-0004X9-8U; Wed, 07 Sep 2022 16:30:05 +0200
-Date:   Wed, 7 Sep 2022 16:30:05 +0200
-From:   Michael Grzeschik <mgr@pengutronix.de>
-To:     Greg KH <gregkh@linuxfoundation.org>
-Cc:     linux-usb@vger.kernel.org, linux-media@vger.kernel.org,
-        balbi@kernel.org, laurent.pinchart@ideasonboard.com,
-        paul.elder@ideasonboard.com, kernel@pengutronix.de,
-        nicolas@ndufresne.ca, kieran.bingham@ideasonboard.com
-Subject: Re: [RESEND v7 0/4] usb: gadget: uvc: use configfs entries for
- negotiation and v4l2 VIDIOCS
-Message-ID: <20220907143005.GD18739@pengutronix.de>
-References: <20220608105748.139922-1-m.grzeschik@pengutronix.de>
- <YxiclqKkPDQR8qMM@kroah.com>
- <20220907140341.GC18739@pengutronix.de>
- <YximMNDbVJMVK/iY@kroah.com>
+        with ESMTP id S230296AbiIGOb3 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 7 Sep 2022 10:31:29 -0400
+Received: from mail-ej1-x644.google.com (mail-ej1-x644.google.com [IPv6:2a00:1450:4864:20::644])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5E7565A3CC
+        for <linux-media@vger.kernel.org>; Wed,  7 Sep 2022 07:31:16 -0700 (PDT)
+Received: by mail-ej1-x644.google.com with SMTP id gb36so30754818ejc.10
+        for <linux-media@vger.kernel.org>; Wed, 07 Sep 2022 07:31:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=to:subject:message-id:date:from:reply-to:mime-version:from:to:cc
+         :subject:date;
+        bh=UTPjlhWN0j/3cl0uibj9IdU3K9tIHCNTd74bAPWV+BQ=;
+        b=boA3graP4wtJe8cwRxkMJy5rso3t9xyj4fxUFsG0Fez1aWDY0C6gZpYPvm/Hxa5tX5
+         Zk+XDE4h4sSr3Kc7gAmKt5OJ7AP3AEEipJ5m7D7tQ5BTHkXWMmIdiC/g3MqGg04yG8Wz
+         mFTYUlKwIYoLI0bvi9Q3MSV1athb174l2Ms/7z+L0TzD2CQLBWt0bOa5Jg9CBAeygplA
+         zqROn488xUY/B608ffA8/XOsolF390gA0UeCbMrgWX87LxLuf34XOCHn+1VgcYnMY7Sr
+         klavsMj/u/K0iLTegE+9syCXTdcAl7jimLLfNxQJoiGWtjh15Idxzz9bfpV/1Jhy4Wly
+         oLRA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=to:subject:message-id:date:from:reply-to:mime-version
+         :x-gm-message-state:from:to:cc:subject:date;
+        bh=UTPjlhWN0j/3cl0uibj9IdU3K9tIHCNTd74bAPWV+BQ=;
+        b=n3vEnDNfB6kFJhY9HQYSIutATQDO4nfK2vpv2toKEJVjLzg404LnZTkGnhltWEEQ9j
+         TFbxv5Ce9Z0lGZHNBST+uZHXaSSzbjSzWS5Lyg1a91Kms77kmGdXcKPaO5fxMifdflLC
+         CnfxNG4S3Cp+tPuHm0fZMtgubSYLSYg5AB6z2WGGDiTRKUt8yPCGiOoUu5c00Yqfxb6T
+         mIoQuCFfGRnnwYUQxdNPZrUQS6oeDDSyFyw3YA6+A3IOVJfUPw62YxrztIZZ+Mrits72
+         9hD3xcNi6DzqqsY4HCRgxp+WmK89sBu9XqS/BmffOgbOBpFAyWhT6LqPoB43i4bVXZGL
+         dj4w==
+X-Gm-Message-State: ACgBeo0AmwrUJufrGEmzg9SYy+eo0805qHvDnow14DCCtwSPYIbakCCm
+        U6OUifoOe+9vWx+tkv+yOgTwZJ1knnu0jn7EaUQ=
+X-Google-Smtp-Source: AA6agR7OKiKkSx+MbdKnn4tKaQhdmVzFj2krU0Vhk4MjDetoGwDDBbw+8TT3Fj+g2bgbPAiBcK/73KQpnrd5Cpv4s3c=
+X-Received: by 2002:a17:907:75ec:b0:741:484b:3ca4 with SMTP id
+ jz12-20020a17090775ec00b00741484b3ca4mr2508106ejc.316.1662561074796; Wed, 07
+ Sep 2022 07:31:14 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="OaZoDhBhXzo6bW1J"
-Content-Disposition: inline
-In-Reply-To: <YximMNDbVJMVK/iY@kroah.com>
-X-Sent-From: Pengutronix Hildesheim
-X-URL:  http://www.pengutronix.de/
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
-X-SA-Exim-Mail-From: mgr@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+Received: by 2002:a54:3fc4:0:0:0:0:0 with HTTP; Wed, 7 Sep 2022 07:31:14 -0700 (PDT)
+Reply-To: lumar.casey@outlook.com
+From:   LUMAR CASEY <miriankushrat@gmail.com>
+Date:   Wed, 7 Sep 2022 16:31:14 +0200
+Message-ID: <CAO4StN0fh9iLpvL71MAvphxmFm4ur7+Op=qm5oJuhdRZZPJ3cA@mail.gmail.com>
+Subject: ATTENTION/PROPOSAL
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: Yes, score=6.8 required=5.0 tests=ADVANCE_FEE_4_NEW_MONEY,
+        BAYES_50,DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        FREEMAIL_FROM,FREEMAIL_REPLYTO,LOTS_OF_MONEY,MONEY_FREEMAIL_REPTO,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
+        UNDISC_FREEM,UNDISC_MONEY,UPPERCASE_75_100 autolearn=no
         autolearn_force=no version=3.4.6
+X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+        *      https://www.dnswl.org/, no trust
+        *      [2a00:1450:4864:20:0:0:0:644 listed in]
+        [list.dnswl.org]
+        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+        *      [score: 0.5065]
+        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+        * -0.0 SPF_PASS SPF: sender matches SPF record
+        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
+        *      provider
+        *      [miriankushrat[at]gmail.com]
+        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+        *       valid
+        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
+        *      envelope-from domain
+        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+        *      author's domain
+        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
+        *  0.0 UPPERCASE_75_100 message body is 75-100% uppercase
+        *  0.0 LOTS_OF_MONEY Huge... sums of money
+        *  3.1 UNDISC_FREEM Undisclosed recipients + freemail reply-to
+        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
+        *      different freemails
+        *  2.0 MONEY_FREEMAIL_REPTO Lots of money from someone using free
+        *      email?
+        *  0.2 UNDISC_MONEY Undisclosed recipients + money/fraud signs
+        *  0.0 ADVANCE_FEE_4_NEW_MONEY Advance Fee fraud and lots of money
+X-Spam-Level: ******
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+ATTENTION
 
---OaZoDhBhXzo6bW1J
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+BUSINESS PARTNER,
 
-On Wed, Sep 07, 2022 at 04:09:52PM +0200, Greg KH wrote:
->On Wed, Sep 07, 2022 at 04:03:41PM +0200, Michael Grzeschik wrote:
->> On Wed, Sep 07, 2022 at 03:28:54PM +0200, Greg KH wrote:
->> > On Wed, Jun 08, 2022 at 12:57:44PM +0200, Michael Grzeschik wrote:
->> > > This series improves the uvc video gadget by parsing the configfs
->> > > entries. With the configfs data, the driver now is able to negotiate=
- the
->> > > format with the usb host in the kernel and also exports the supported
->> > > frames/formats/intervals via the v4l2 VIDIOC interface.
->> > >
->> > > The uvc userspace stack is also under development. One example is an=
- generic
->> > > v4l2uvcsink gstreamer elemnt, which is currently under discussion. [=
-1]
->> > >
->> > > [1] https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_reque=
-sts/1304
->> > >
->> > > With the libusbgx library [1] used by the gadget-tool [2] it is now =
-also
->> > > possible to fully describe the configfs layout of the uvc gadget wit=
-h scheme
->> > > files.
->> > >
->> > > [2] https://github.com/linux-usb-gadgets/libusbgx/pull/61/commits/53=
-231c76f9d512f59fdc23b65cd5c46b7fb09eb4
->> > >
->> > > [3] https://github.com/linux-usb-gadgets/gt/tree/master/examples/sys=
-temd
->> > >
->> > > The bigger picture of these patches is to provide a more versatile i=
-nterface to
->> > > the uvc gadget. The goal is to simply start a uvc-gadget with the fo=
-llowing
->> > > commands:
->> > >
->> > > $ gt load uvc.scheme
->> > > $ gst-launch v4l2src ! v4l2uvcsink
->> >
->> > v4l developers, given a lack of review response to this series, I'm
->> > assuming that you all have no objection to this series and I can take =
-it
->> > through my usb-next tree.
->>
->> Since this will not apply anymore, I just send v8 with some minor
->> changes.
->
->Thanks, I'll take that series now.
+I AM LUMAR CASEY WORKING WITH AN INSURANCE FINANCIAL INSTITUTE, WITH
+MY POSITION AND PRIVILEGES I WAS ABLE TO SOURCE OUT AN OVER DUE
+PAYMENT OF 12.8 MILLION POUNDS THAT IS NOW SECURED WITH A SHIPPING
+DIPLOMATIC OUTLET.
 
-Skip this v8 please. I will have to fix first.
+I AM SEEKING YOUR PARTNERSHIP TO RECEIVE THIS CONSIGNMENT AS AS MY
+PARTNER TO INVEST THIS FUND INTO A PROSPEROUS INVESTMENT VENTURE IN
+YOUR COUNTRY.
 
---=20
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+I AWAIT YOUR REPLY TO ENABLE US PROCEED WITH THIS BUSINESS PARTNERSHIP TOGETHER.
 
---OaZoDhBhXzo6bW1J
-Content-Type: application/pgp-signature; name="signature.asc"
+REGARDS,
 
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEElXvEUs6VPX6mDPT8C+njFXoeLGQFAmMYquoACgkQC+njFXoe
-LGQpGg//QwZPgV7OzGAjNEcLC3SNArmZfwtSNTJzYHdbtAv/CkbI1iKsyvjV4LVy
-lBul6nRm56qHwAEZmgDt3s9PL9oogEHtU7tK7sPmN84bh8585aQvmSnbA01z/bj4
-DcIsWc4H0r7JT+I6zUn9zrnqQfFtOCaxmeQ1fsKvV/D8Ljf2/qZI2GoW9yzKIi9g
-e8Jb9CcM5or8YI21u40pnqTyZs/4fzm3DWgUcaIx+BOlgrgajlJ0tm/Z7wNxZDj0
-0a8AXKKgBpxa0ocHdEE2h0C4L3XykKonO2jt76rK5uonJCH90DYX7L0wsZOos4X8
-cu0GjSsJyCtM2SeEALymNLj+MR3HGP8RyprNjNLQ1NEFIybZhTYStI+Wj6WvCHh4
-2D5ENFgEpDKH8l04LdtXHK2gPOUnQJA7mTAzTzPvBJRESHyeVo8CROP2hWcU5ZJw
-6ouSZfOWWzPwGWl3VyQwwieK4Ox6q5femR9HyhijmayS4/2pd9k7jlRUTmedNojP
-nOgIgeBmaZxREYXaiwncFwyFv6pApr/uw8BxW7FdHGGDvrVeUzkyct4pnl3sDTaX
-7XGjRv4MW7uWMfp6fjdIny0XL17adjFedOhjs5QCfEdsdvS3FjNm1RLVsOkf04cI
-q7RAxtRnNRwXTkeXwDpjAiOt9fjQvN+MP1XxkD01wj39t+exHgo=
-=laOe
------END PGP SIGNATURE-----
-
---OaZoDhBhXzo6bW1J--
+LUMAR CASEY
