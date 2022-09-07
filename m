@@ -2,35 +2,47 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 319E35AFCDD
-	for <lists+linux-media@lfdr.de>; Wed,  7 Sep 2022 08:52:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A53845AFDA8
+	for <lists+linux-media@lfdr.de>; Wed,  7 Sep 2022 09:36:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229661AbiIGGwA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 7 Sep 2022 02:52:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54952 "EHLO
+        id S229865AbiIGHgx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 7 Sep 2022 03:36:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51038 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229526AbiIGGv7 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 7 Sep 2022 02:51:59 -0400
-Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B13F41145D
-        for <linux-media@vger.kernel.org>; Tue,  6 Sep 2022 23:51:57 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by sin.source.kernel.org (Postfix) with ESMTPS id A54BFCE1A91
-        for <linux-media@vger.kernel.org>; Wed,  7 Sep 2022 06:51:54 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 55238C433D6;
-        Wed,  7 Sep 2022 06:51:50 +0000 (UTC)
-Message-ID: <b76bd2fb-d0bc-2e71-26ec-b98b9949700d@xs4all.nl>
-Date:   Wed, 7 Sep 2022 08:51:48 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [ANN] Media Summit at ELCE Dublin, September 12: Draft Agenda V2
-Content-Language: en-US
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     linux-media@vger.kernel.org,
+        with ESMTP id S229488AbiIGHgt (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 7 Sep 2022 03:36:49 -0400
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB33C65560
+        for <linux-media@vger.kernel.org>; Wed,  7 Sep 2022 00:36:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1662536207; x=1694072207;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Tl8IbMn3u4oTN22YJ6vP+JCC15mvtA5Y9snpvdP7VZI=;
+  b=bkJgbbwnCzUYre5przPNvMkhdBCSAQPPJGzbas41UB4cWQnSJPmWuUAi
+   ktv9S6efx5BtZJFMeHyQzmuqk5S8FSmL/3370Gkvjs1PB8JzH/377IHK6
+   7cuCnT36/yE/5gN1btQrj6hGK3PGBPh3BX0CqdDFhJ91rzwSpTURa/xCB
+   5QohGBvvsYwEAxSMsuAJGGKACBvENFUqoYRGllMLFAewZPCsz+9fkbVLy
+   n+fhiM2Rbh2UkmNxoA8MWCQkvoyIyhL1yJLLx/PgZkzP+g0Qlr4D3d70E
+   bwRvg3NcHHwl9wtc7C+5Y4kDq57FSQnvQKk5J5uQusCecqx4J629IUWpd
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10462"; a="294389602"
+X-IronPort-AV: E=Sophos;i="5.93,296,1654585200"; 
+   d="scan'208";a="294389602"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Sep 2022 00:36:47 -0700
+X-IronPort-AV: E=Sophos;i="5.93,296,1654585200"; 
+   d="scan'208";a="703503677"
+Received: from punajuuri.fi.intel.com (HELO paasikivi.fi.intel.com) ([10.237.72.43])
+  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Sep 2022 00:36:44 -0700
+Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
+        by paasikivi.fi.intel.com (Postfix) with SMTP id 428BB2017A;
+        Wed,  7 Sep 2022 10:36:42 +0300 (EEST)
+Date:   Wed, 7 Sep 2022 07:36:42 +0000
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
         Kieran Bingham <kieran.bingham@ideasonboard.com>,
         Nicolas Dufresne <nicolas@ndufresne.ca>,
         Benjamin Gaignard <benjamin.gaignard@collabora.com>,
@@ -40,35 +52,35 @@ Cc:     linux-media@vger.kernel.org,
         Ricardo Ribalda <ribalda@chromium.org>,
         Maxime Ripard <maxime@cerno.tech>,
         Daniel Scally <djrscally@gmail.com>,
-        =?UTF-8?Q?Jernej_=c5=a0krabec?= <jernej.skrabec@gmail.com>,
+        Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>,
         Dave Stevenson <dave.stevenson@raspberrypi.com>,
         Philipp Zabel <p.zabel@pengutronix.de>
+Subject: Re: [ANN] Media Summit at ELCE Dublin, September 12: Draft Agenda V2
+Message-ID: <YxhKCtYC3vq5vTro@paasikivi.fi.intel.com>
 References: <3840c3cc-00fb-45dd-cb89-39b36fb6d733@xs4all.nl>
  <YxX8dzSsquJmO5hP@paasikivi.fi.intel.com>
  <YxYLSk2pKdGnNDP3@pendragon.ideasonboard.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 In-Reply-To: <YxYLSk2pKdGnNDP3@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-8.4 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-7.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
-
-On 05/09/2022 16:44, Laurent Pinchart wrote:
+On Mon, Sep 05, 2022 at 05:44:26PM +0300, Laurent Pinchart wrote:
 > On Mon, Sep 05, 2022 at 01:41:11PM +0000, Sakari Ailus wrote:
->> On Tue, Aug 23, 2022 at 12:53:44PM +0200, Hans Verkuil wrote:
->>> 16:45-18:00 Anything else?
->>
->> I think it'd be great to have a GPG key signing party at the end of the
->> meeting.
+> > On Tue, Aug 23, 2022 at 12:53:44PM +0200, Hans Verkuil wrote:
+> > > 16:45-18:00 Anything else?
+> > 
+> > I think it'd be great to have a GPG key signing party at the end of the
+> > meeting.
 > 
 > It's a good idea. Could everybody please send their GPG key fingerprint
 > in an e-mail reply to prepare for that ? It can easily be retrieved with
@@ -78,27 +90,10 @@ On 05/09/2022 16:44, Laurent Pinchart wrote:
 > sec   rsa4096/0xF045C2B96991256E 2014-10-09 [C]
 >       94231B980100EC619AC10E10F045C2B96991256E
 > uid                   [ultimate] Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> 
-> If you're generating a key for the occasion, create a primary key with
-> the Certify (C) capability only, and create separate sub-keys for
-> Signature (S) and Encryption (E). There's little reason these days to
-> use less than 4096 bits for the primary key if you opt for RSA. The
-> subkeys should have an expiration date.
-> 
-> The primary key can then be moved to safe storage, you will only need
-> the subkeys for daily usage.  The primary key will be used only to
-> create new subkeys and to sign other people's keys.
-> 
 
-Can you also give instructions on what to do at the key signing party?
+Maybe we could put the keys here for easier access?
 
-I do this so rarely that I always forget what magic gpg commands I need
-to make to sign keys.
+<URL:https://pilvi.retiisi.eu/s/CYZp6Bz4yj4Ak2e>
 
-If everyone has this information at hand, then we can quickly proceed with
-this on Monday.
-
-Regards,
-
-	Hans
-
+-- 
+Sakari Ailus
