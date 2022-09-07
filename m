@@ -2,75 +2,54 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 039395B0770
-	for <lists+linux-media@lfdr.de>; Wed,  7 Sep 2022 16:47:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 46B285B0785
+	for <lists+linux-media@lfdr.de>; Wed,  7 Sep 2022 16:52:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229867AbiIGOrd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 7 Sep 2022 10:47:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50658 "EHLO
+        id S229865AbiIGOwR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 7 Sep 2022 10:52:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60482 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229725AbiIGOr3 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 7 Sep 2022 10:47:29 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C762857E2;
-        Wed,  7 Sep 2022 07:47:27 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 5F98D6191C;
-        Wed,  7 Sep 2022 14:47:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C0B8EC4347C;
-        Wed,  7 Sep 2022 14:47:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1662562045;
-        bh=f2o1y7KshjpkY9lv8qUib+ioQ3G6ppr6671x+zJpSF4=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=aLkBQKdLoh3iU88fbas6ii+45gySIpTjxbicxQs534bhWawTDK6a9h/Y8dROIVnYt
-         5HqJs+58zWLLHVpz5+ed2hF8NhGRkKPP555vl4nHw7q6ixSz+tPA9ilmxHx0MsAeYA
-         xWIGsSs3YxTov4kyaEdIuTVVIp3A86248pvsxeb8mu4RQEkz87sLGuopFfcqzb3OSo
-         9nSz3RS6bEKslJ8Or1KY5iNA0oRzTd3cyDOpW2ErfhwGE8LqhxGD/ir/2bSpFqoWo7
-         9gRsrF/aiEtWxktJXYK2t9ntg0TqF/FFM6jTa3ma2wtLbw0K9iJvLqKzLvZVA3QA8R
-         ph0+BOJIq6vwQ==
-Received: by mail-il1-f176.google.com with SMTP id v15so7670138iln.6;
-        Wed, 07 Sep 2022 07:47:25 -0700 (PDT)
-X-Gm-Message-State: ACgBeo3txZrlFCEsr/+wbRopZTxZOWRA0Yo89lHC/gpU+LKnr0qXYTgh
-        4ir55iNJ2bDMpQAsrEEt4H8IT9+J9FE8ZuODRk8=
-X-Google-Smtp-Source: AA6agR4o6lWldMLAmLaGf8/79sK+50kODsD1YRVgj4S5LMXqrOSaAz5a6xplMki6HW5XZ9A7aIrChvyctdcUSFL6CzA=
-X-Received: by 2002:a05:6e02:1548:b0:2ea:836d:ac6c with SMTP id
- j8-20020a056e02154800b002ea836dac6cmr2206779ilu.6.1662562044874; Wed, 07 Sep
- 2022 07:47:24 -0700 (PDT)
+        with ESMTP id S229768AbiIGOwQ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 7 Sep 2022 10:52:16 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 58455A99D9
+        for <linux-media@vger.kernel.org>; Wed,  7 Sep 2022 07:52:13 -0700 (PDT)
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <mgr@pengutronix.de>)
+        id 1oVwPN-0004J4-Ao; Wed, 07 Sep 2022 16:52:05 +0200
+Received: from mgr by ptx.hi.pengutronix.de with local (Exim 4.92)
+        (envelope-from <mgr@pengutronix.de>)
+        id 1oVwPM-0005PX-Ou; Wed, 07 Sep 2022 16:52:04 +0200
+Date:   Wed, 7 Sep 2022 16:52:04 +0200
+From:   Michael Grzeschik <mgr@pengutronix.de>
+To:     Greg KH <gregkh@linuxfoundation.org>
+Cc:     balbi@kernel.org, linux-usb@vger.kernel.org,
+        paul.elder@ideasonboard.com, kieran.bingham@ideasonboard.com,
+        nicolas@ndufresne.ca, laurent.pinchart@ideasonboard.com,
+        kernel@pengutronix.de, linux-media@vger.kernel.org
+Subject: Re: [PATCH v8 0/4] usb: gadget: uvc: use configfs entries for
+ negotiation and v4l2 VIDIOCS
+Message-ID: <20220907145204.GE18739@pengutronix.de>
+References: <20220907140254.2378109-1-m.grzeschik@pengutronix.de>
+ <YxiqkhQl60E+tnAB@kroah.com>
 MIME-Version: 1.0
-References: <0-v2-472615b3877e+28f7-vfio_dma_buf_jgg@nvidia.com>
- <4-v2-472615b3877e+28f7-vfio_dma_buf_jgg@nvidia.com> <YxcYGzPv022G2vLm@infradead.org>
- <b6b5d236-c089-7428-4cc9-a08fe4f6b4a3@amd.com> <YxczjNIloP7TWcf2@nvidia.com>
- <YxiJJYtWgh1l0wxg@infradead.org> <YxiPh4u/92chN02C@nvidia.com> <Yxiq5sjf/qA7xS8A@infradead.org>
-In-Reply-To: <Yxiq5sjf/qA7xS8A@infradead.org>
-From:   Oded Gabbay <ogabbay@kernel.org>
-Date:   Wed, 7 Sep 2022 17:46:58 +0300
-X-Gmail-Original-Message-ID: <CAFCwf13sz_KAKJm60A_yyqDRo_4MQXWKHaasdMH=-PTGPnOZtg@mail.gmail.com>
-Message-ID: <CAFCwf13sz_KAKJm60A_yyqDRo_4MQXWKHaasdMH=-PTGPnOZtg@mail.gmail.com>
-Subject: Re: [PATCH v2 4/4] vfio/pci: Allow MMIO regions to be exported
- through dma-buf
-To:     Christoph Hellwig <hch@infradead.org>
-Cc:     Jason Gunthorpe <jgg@nvidia.com>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Cornelia Huck <cohuck@redhat.com>,
-        Maling list - DRI developers 
-        <dri-devel@lists.freedesktop.org>, KVM list <kvm@vger.kernel.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Daniel Vetter <daniel.vetter@ffwll.ch>,
-        Leon Romanovsky <leon@kernel.org>,
-        linux-rdma <linux-rdma@vger.kernel.org>,
-        Maor Gottlieb <maorg@nvidia.com>,
-        Dan Williams <dan.j.williams@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="9l24NVCWtSuIVIod"
+Content-Disposition: inline
+In-Reply-To: <YxiqkhQl60E+tnAB@kroah.com>
+X-Sent-From: Pengutronix Hildesheim
+X-URL:  http://www.pengutronix.de/
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: mgr@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -78,43 +57,132 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Sep 7, 2022 at 5:30 PM Christoph Hellwig <hch@infradead.org> wrote:
->
-> On Wed, Sep 07, 2022 at 09:33:11AM -0300, Jason Gunthorpe wrote:
-> > Yes, you said that, and I said that when the AMD driver first merged
-> > it - but it went in anyhow and now people are using it in a bunch of
-> > places.
->
-> drm folks made up their own weird rules, if they internally stick
-> to it they have to listen to it given that they ignore review comments,
-> but it violates the scatterlist API and has not business anywhere
-> else in the kernel.  And yes, there probably is a reason or two why
-> the drm code is unusually error prone.
->
-> > > Why would small BARs be problematic for the pages?  The pages are more
-> > > a problem for gigantic BARs do the memory overhead.
-> >
-> > How do I get a struct page * for a 4k BAR in vfio?
->
-> I guess we have different definitions of small then :)
->
-> But unless my understanding of the code is out out of data,
-> memremap_pages just requires the (virtual) start address to be 2MB
-> aligned, not the size.  Adding Dan for comments.
->
-> That being said, what is the point of mapping say a 4k BAR for p2p?
-> You're not going to save a measurable amount of CPU overhead if that
-> is the only place you transfer to.
-I don't know what Jason had in mind, but I can see a use for that for
-writing to doorbells of a device.
-Today, usually what happens is that peer A reads/writes to peer B's
-memory through the large bar and then signals the host the operation
-was completed.
-Then the host s/w writes to the doorbell of the peer B to let him know
-he can continue with the execution as the data is now ready (or can be
-recycled).
-I can imagine peer A writing directly to the doorbell of peer B, and
-usually for that we would like to expose a very small area, probably a
-single 4K page.
 
-Oded
+--9l24NVCWtSuIVIod
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Wed, Sep 07, 2022 at 04:28:34PM +0200, Greg KH wrote:
+>On Wed, Sep 07, 2022 at 04:02:50PM +0200, Michael Grzeschik wrote:
+>> This series improves the uvc video gadget by parsing the configfs
+>> entries. With the configfs data, the driver now is able to negotiate the
+>> format with the usb host in the kernel and also exports the supported
+>> frames/formats/intervals via the v4l2 VIDIOC interface.
+>>
+>> The uvc userspace stack is also under development. One example is an gen=
+eric
+>> v4l2uvcsink gstreamer elemnt, which is currently under discussion. [1]
+>>
+>> [1] https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/=
+1304
+>>
+>> With the libusbgx library [1] used by the gadget-tool [2] it is now also
+>> possible to fully describe the configfs layout of the uvc gadget with sc=
+heme
+>> files.
+>>
+>> [2] https://github.com/linux-usb-gadgets/libusbgx/pull/61/commits/53231c=
+76f9d512f59fdc23b65cd5c46b7fb09eb4
+>>
+>> [3] https://github.com/linux-usb-gadgets/gt/tree/master/examples/systemd
+>>
+>> The bigger picture of these patches is to provide a more versatile inter=
+face to
+>> the uvc gadget. The goal is to simply start a uvc-gadget with the follow=
+ing
+>> commands:
+>>
+>> $ gt load uvc.scheme
+>> $ gst-launch v4l2src ! v4l2uvcsink
+>>
+>> --
+>>
+>> v1: https://lore.kernel.org/linux-usb/20210530222239.8793-1-m.grzeschik@=
+pengutronix.de/
+>> v2: https://lore.kernel.org/linux-usb/20211117004432.3763306-1-m.grzesch=
+ik@pengutronix.de/
+>> v3: https://lore.kernel.org/linux-usb/20211117122435.2409362-1-m.grzesch=
+ik@pengutronix.de/
+>> v4: https://lore.kernel.org/linux-usb/20211205225803.268492-1-m.grzeschi=
+k@pengutronix.de/
+>> v5: https://lore.kernel.org/linux-usb/20211209084322.2662616-1-m.grzesch=
+ik@pengutronix.de/
+>> v6: https://lore.kernel.org/linux-usb/20220105115527.3592860-1-m.grzesch=
+ik@pengutronix.de/
+>> v7: https://lore.kernel.org/linux-usb/20220608105748.139922-1-m.grzeschi=
+k@pengutronix.de/
+>
+>Please say what changed somewhere :(
+
+I addressed each patch individually.
+
+>Anyway, this patch series does not even build properly:
+>
+>drivers/usb/gadget/function/uvc_v4l2.c: In function =E2=80=98uvc_v4l2_get_=
+format=E2=80=99:
+>drivers/usb/gadget/function/uvc_v4l2.c:258:42: error: =E2=80=98struct uvc_=
+video=E2=80=99 has no member named =E2=80=98bpp=E2=80=99
+>  258 |         fmt->fmt.pix.bytesperline =3D video->bpp * video->width / =
+8;
+>      |                                          ^~
+>drivers/usb/gadget/function/uvc_v4l2.c:258:55: error: =E2=80=98struct uvc_=
+video=E2=80=99 has no member named =E2=80=98width=E2=80=99
+>  258 |         fmt->fmt.pix.bytesperline =3D video->bpp * video->width / =
+8;
+>      |                                                       ^~
+>drivers/usb/gadget/function/uvc_v4l2.c:259:39: error: =E2=80=98struct uvc_=
+video=E2=80=99 has no member named =E2=80=98imagesize=E2=80=99
+>  259 |         fmt->fmt.pix.sizeimage =3D video->imagesize;
+>      |                                       ^~
+>drivers/usb/gadget/function/uvc_v4l2.c: In function =E2=80=98uvc_v4l2_try_=
+format=E2=80=99:
+>drivers/usb/gadget/function/uvc_v4l2.c:316:37: error: =E2=80=98bpl=E2=80=
+=99 undeclared (first use in this function)
+>  316 |         fmt->fmt.pix.bytesperline =3D bpl;
+>      |                                     ^~~
+>drivers/usb/gadget/function/uvc_v4l2.c:316:37: note: each undeclared ident=
+ifier is reported only once for each function it appears in
+>drivers/usb/gadget/function/uvc_v4l2.c:317:34: error: =E2=80=98imagesize=
+=E2=80=99 undeclared (first use in this function); did you mean =E2=80=98pa=
+ge_size=E2=80=99?
+>  317 |         fmt->fmt.pix.sizeimage =3D imagesize;
+>      |                                  ^~~~~~~~~
+>      |                                  page_size
+>
+>
+>What did you test this with?
+
+I rebased and tested another series than I send.
+Sorry for that. I will RESEND the v8 with the proper content.
+
+Thanks,
+Michael
+
+--=20
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+
+--9l24NVCWtSuIVIod
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEElXvEUs6VPX6mDPT8C+njFXoeLGQFAmMYsA4ACgkQC+njFXoe
+LGTUmRAA0aCq3O/LYBr8pjRQ4TjjR1Jbzyr40Ubte5XwXcQwo4xa8uz/hx8Cc2m7
+hxnDIc3gm9UKm+5Cz58wMQi3yEja7lvZ5o0zgTK49KY76IdExBy7obB7ckWc7PnM
+HtWDMg6GGL26BXjIqBHLCEZYyaokzbea0xncMLTzWMojazGALNOfVBMVS7GK3p+9
+i1NvgWGlzZylRNgp1yKioNYfT35pS2uPyw+czZQuwABgEQ33PbgbmOyoWzc6PA6q
+OjFmZg8xQiY6UIlZiieeHRBsFvErfRVmpIIs7/xndWAFhRZPTozRzXhgtzV6UM3j
+MwSMoTzURcaKlnpmmEMh3/fi6OOwdabyX/n45zw/iBc6TvdvVivh45fDvec2lgEE
+KiG9N7WxXCWtYRm2KXALb1TqS4V0PDu7yU0ZbhwmjVgLZlaKKQhPpsSjzMGrtX/8
+hgKJ0f9O/fWrDKxBfaWqslC2+keGNTNcY6LUmEFvsD3Od6gwKIAQK4AT8HKO9hTn
+aHfhBgehXWzUfG1VNqnyi1jeAMuDEiFxV9yIl9b7kfTn1S+N8C8VrwSW/23eAN6N
+l072Ee6bMGfMy8CTi45REyrm1qX8Nv8FmdgApP1VIpqlMViY8vcOsMSKhAD5BtvX
+yarQ4hsXxebq5dDQt2qbY36yy5qG/aoPvWryq/oLDfbzHDSBG2U=
+=n08K
+-----END PGP SIGNATURE-----
+
+--9l24NVCWtSuIVIod--
