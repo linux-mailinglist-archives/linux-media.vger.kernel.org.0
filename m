@@ -2,39 +2,39 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 16C455B085D
-	for <lists+linux-media@lfdr.de>; Wed,  7 Sep 2022 17:21:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 87D815B0857
+	for <lists+linux-media@lfdr.de>; Wed,  7 Sep 2022 17:21:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230388AbiIGPVO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 7 Sep 2022 11:21:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33556 "EHLO
+        id S230405AbiIGPVM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 7 Sep 2022 11:21:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33546 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229700AbiIGPVL (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 7 Sep 2022 11:21:11 -0400
+        with ESMTP id S230349AbiIGPVJ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 7 Sep 2022 11:21:09 -0400
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 72C406FA2C
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 77AEF86FFC
         for <linux-media@vger.kernel.org>; Wed,  7 Sep 2022 08:21:06 -0700 (PDT)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
         by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.92)
         (envelope-from <mgr@pengutronix.de>)
-        id 1oVwrQ-0000XC-K5; Wed, 07 Sep 2022 17:21:04 +0200
+        id 1oVwrQ-0000XW-K2; Wed, 07 Sep 2022 17:21:04 +0200
 Received: from [2a0a:edc0:0:1101:1d::ac] (helo=dude04.red.stw.pengutronix.de)
         by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
         (envelope-from <mgr@pengutronix.de>)
-        id 1oVwrN-004SuZ-LK; Wed, 07 Sep 2022 17:21:03 +0200
+        id 1oVwrN-004Sud-UW; Wed, 07 Sep 2022 17:21:03 +0200
 Received: from mgr by dude04.red.stw.pengutronix.de with local (Exim 4.94.2)
         (envelope-from <mgr@pengutronix.de>)
-        id 1oVwrO-00Apnl-Mx; Wed, 07 Sep 2022 17:21:02 +0200
+        id 1oVwrO-00Apno-Nr; Wed, 07 Sep 2022 17:21:02 +0200
 From:   Michael Grzeschik <m.grzeschik@pengutronix.de>
 To:     linux-usb@vger.kernel.org
 Cc:     linux-media@vger.kernel.org, balbi@kernel.org,
         laurent.pinchart@ideasonboard.com, paul.elder@ideasonboard.com,
         kernel@pengutronix.de, nicolas@ndufresne.ca,
         kieran.bingham@ideasonboard.com
-Subject: [fixed+RESEND v10 3/4] usb: gadget: uvc: add VIDIOC function
-Date:   Wed,  7 Sep 2022 17:21:00 +0200
-Message-Id: <20220907152101.2582112-4-m.grzeschik@pengutronix.de>
+Subject: [fixed+RESEND v10 4/4] usb: gadget: uvc: add format/frame handling code
+Date:   Wed,  7 Sep 2022 17:21:01 +0200
+Message-Id: <20220907152101.2582112-5-m.grzeschik@pengutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220907152101.2582112-1-m.grzeschik@pengutronix.de>
 References: <20220907152101.2582112-1-m.grzeschik@pengutronix.de>
@@ -45,7 +45,7 @@ X-SA-Exim-Mail-From: mgr@pengutronix.de
 X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
 X-PTX-Original-Recipient: linux-media@vger.kernel.org
 X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -53,706 +53,579 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This patch adds support to the v4l2 VIDIOC for enum_format,
-enum_framesizes, enum_frameintervals and try_fmt. The linked/active
-configfs userspace setup is used in the v4l2 interface functions.
-
-With the v4l2 vidiocontrols the userspace can use the v4l2 api to
-negotiate and allocate the data. It doesn't have to bring its own
-configfs parser.
-
-Also it only needs to be extended with subscription for streamon,
-streamoff, connect and disconnect for stream handling and become able to
-serve the uvc device.
+The Hostside format selection is currently only done in userspace, as
+the events for SET_CUR and GET_CUR are always moved to the application
+layer. Since the v4l2 device parses the configfs data, the format
+negotiation can be done in the kernel. This patch adds the functions to
+set the current configuration while continuing to forward all unknown
+events to the userspace level.
 
 Signed-off-by: Michael Grzeschik <m.grzeschik@pengutronix.de>
 
 ---
 v1 -> v2:
-   - fixed indentation of find_frame/format_by_index
-   - fixed function name find_frm_by_size to find_frame_by_size
-   - fixed indentation of _uvc_v4l2_try_fmt
-   - fixed indentation in uvc_v4l2_enum_frameintervals
-   - removed unneeded declaration of uvc_v4l2_get_bytesperline in uvc_v4l2.h
-   - checked return values on config_group_find_item, handling refcount
-   - fixed sizeof using variables instead of types
-   - removed unsused def_format variable
-   - wrting grp, hdr, fmt and frm in full
-   - added proper ival handling
-   - removed analyze_configfs function
-   - added linked list of frames to uvcg_format
-   - added functon find_frame_by_index
+   - fixed the commit message
+   - changed pr_debug to pr_err in events_process_data
+   - aligned many indentations
+   - simplified uvc_events_process_data
+   - fixed uvc_fill_streaming_control calls in uvcg_video_init
+   - added setup_subscribed to decide if userspace takes over on EOPNOTSUPP
+   - added data_subscribed to decide if userspace takes over on EOPNOTSUPP
+   - removed duplicate send_response
+   - wrting fmt and frm in full
 v2 -> v3:
-   - fixed usage of u_uvc.h
-   - removed unused variable i in _try_fmt
-   - made uvc_v4l2_get_bytesperline static
+   - added find_format_index to set the right probe
 v3 -> v4:
-   - conditionally return current or all frames/formats/frameintervals on enum
-   - dropped setting format and frame with set_format
-   - combined try and set format function to one call
+   - add function find_ival_index and use for cur_ival
+   - fix swapped frame and format in uvc_events_process_data on uvc_fill_streaming_control
+   - set proper resp.length on ep0 complete
+   - dropped setting cur_probe on set_format since function was removed
+   - added locking around getting correspondent cur_{frame,format,ival}
 v4 -> v5:
-   - fixed uninitialized return values reported by kernel test robot
-   - added local video variable to uvc_v4l2_enum_frameintervals
+   - fixed sparse errors reported by kernel test robot
 v5 -> v6:
-   -
+   - fixed the handling in uvc_function_ep0_complete after events_process_data
 v6 -> v7:
-   - fixed unlocking in f_uvc uvc_alloc function
-   - add uvc_get_frame_size function for sizeimage calculation
-   - add fallback to frame.dw_max_video_frame_buffer_size
+   - set dwMaxPayloadTransferSize unconditionally from streaming_maxpacket
+   - fixed check for interface with masking for 0xff
 v7 -> v8:
    -
 v8 -> v10:
    -
 
- drivers/usb/gadget/function/f_uvc.c     |  33 +++
- drivers/usb/gadget/function/uvc.h       |  20 +-
- drivers/usb/gadget/function/uvc_queue.c |   3 +-
- drivers/usb/gadget/function/uvc_v4l2.c  | 346 +++++++++++++++++++++---
- drivers/usb/gadget/function/uvc_video.c |  61 ++++-
- 5 files changed, 412 insertions(+), 51 deletions(-)
+ drivers/usb/gadget/function/f_uvc.c     | 237 +++++++++++++++++++++++-
+ drivers/usb/gadget/function/uvc.h       |  19 ++
+ drivers/usb/gadget/function/uvc_v4l2.c  |  66 ++++++-
+ drivers/usb/gadget/function/uvc_video.c |  12 +-
+ 4 files changed, 322 insertions(+), 12 deletions(-)
 
 diff --git a/drivers/usb/gadget/function/f_uvc.c b/drivers/usb/gadget/function/f_uvc.c
-index f4f6cf75930beb..a8dcf5f01f16de 100644
+index a8dcf5f01f16de..fc3fabc47018cd 100644
 --- a/drivers/usb/gadget/function/f_uvc.c
 +++ b/drivers/usb/gadget/function/f_uvc.c
-@@ -327,6 +327,8 @@ uvc_function_set_alt(struct usb_function *f, unsigned interface, unsigned alt)
- 		if (uvc->video.ep)
- 			usb_ep_disable(uvc->video.ep);
+@@ -16,7 +16,6 @@
+ #include <linux/string.h>
+ #include <linux/usb/ch9.h>
+ #include <linux/usb/gadget.h>
+-#include <linux/usb/g_uvc.h>
+ #include <linux/usb/video.h>
+ #include <linux/vmalloc.h>
+ #include <linux/wait.h>
+@@ -204,21 +203,228 @@ static const struct usb_descriptor_header * const uvc_ss_streaming[] = {
+  * Control requests
+  */
  
-+		uvc->streamon = 0;
-+
- 		memset(&v4l2_event, 0, sizeof(v4l2_event));
- 		v4l2_event.type = UVC_EVENT_STREAMOFF;
- 		v4l2_event_queue(&uvc->vdev, &v4l2_event);
-@@ -350,6 +352,8 @@ uvc_function_set_alt(struct usb_function *f, unsigned interface, unsigned alt)
- 			return ret;
- 		usb_ep_enable(uvc->video.ep);
- 
-+		uvc->streamon = 1;
-+
- 		memset(&v4l2_event, 0, sizeof(v4l2_event));
- 		v4l2_event.type = UVC_EVENT_STREAMON;
- 		v4l2_event_queue(&uvc->vdev, &v4l2_event);
-@@ -888,6 +892,7 @@ static void uvc_free(struct usb_function *f)
- 	struct uvc_device *uvc = to_uvc(f);
- 	struct f_uvc_opts *opts = container_of(f->fi, struct f_uvc_opts,
- 					       func_inst);
-+	config_item_put(&uvc->header->item);
- 	--opts->refcnt;
- 	kfree(uvc);
- }
-@@ -941,6 +946,7 @@ static struct usb_function *uvc_alloc(struct usb_function_instance *fi)
- 	struct uvc_device *uvc;
- 	struct f_uvc_opts *opts;
- 	struct uvc_descriptor_header **strm_cls;
-+	struct config_item *streaming, *header, *h;
- 
- 	uvc = kzalloc(sizeof(*uvc), GFP_KERNEL);
- 	if (uvc == NULL)
-@@ -973,6 +979,33 @@ static struct usb_function *uvc_alloc(struct usb_function_instance *fi)
- 	uvc->desc.fs_streaming = opts->fs_streaming;
- 	uvc->desc.hs_streaming = opts->hs_streaming;
- 	uvc->desc.ss_streaming = opts->ss_streaming;
-+
-+	streaming = config_group_find_item(&opts->func_inst.group, "streaming");
-+	if (!streaming) {
-+		config_item_put(streaming);
-+		mutex_unlock(&opts->lock);
-+		return ERR_PTR(-ENOMEM);
-+	}
-+	header = config_group_find_item(to_config_group(streaming), "header");
-+	config_item_put(streaming);
-+	if (!header) {
-+		config_item_put(header);
-+		mutex_unlock(&opts->lock);
-+		return ERR_PTR(-ENOMEM);
-+	}
-+	h = config_group_find_item(to_config_group(header), "h");
-+	config_item_put(header);
-+	if (!h) {
-+		config_item_put(h);
-+		mutex_unlock(&opts->lock);
-+		return ERR_PTR(-ENOMEM);
-+	}
-+	uvc->header = to_uvcg_streaming_header(h);
-+	if (!uvc->header->linked) {
-+		mutex_unlock(&opts->lock);
-+		return ERR_PTR(-EBUSY);
-+	}
-+
- 	++opts->refcnt;
- 	mutex_unlock(&opts->lock);
- 
-diff --git a/drivers/usb/gadget/function/uvc.h b/drivers/usb/gadget/function/uvc.h
-index 58e383afdd4406..8a71d0c4abbcd5 100644
---- a/drivers/usb/gadget/function/uvc.h
-+++ b/drivers/usb/gadget/function/uvc.h
-@@ -90,11 +90,10 @@ struct uvc_video {
- 	struct work_struct pump;
- 
- 	/* Frame parameters */
--	u8 bpp;
--	u32 fcc;
--	unsigned int width;
--	unsigned int height;
--	unsigned int imagesize;
-+	struct uvcg_format *cur_format;
-+	struct uvcg_frame *cur_frame;
-+	unsigned int cur_ival;
-+
- 	struct mutex mutex;	/* protects frame parameters */
- 
- 	unsigned int uvc_num_requests;
-@@ -133,6 +132,8 @@ struct uvc_device {
- 	bool func_connected;
- 	wait_queue_head_t func_connected_queue;
- 
-+	struct uvcg_streaming_header *header;
-+
- 	/* Descriptors */
- 	struct {
- 		const struct uvc_descriptor_header * const *fs_control;
-@@ -142,6 +143,8 @@ struct uvc_device {
- 		const struct uvc_descriptor_header * const *ss_streaming;
- 	} desc;
- 
-+	bool streamon;
-+
- 	unsigned int control_intf;
- 	struct usb_ep *control_ep;
- 	struct usb_request *control_req;
-@@ -178,4 +181,11 @@ extern void uvc_endpoint_stream(struct uvc_device *dev);
- extern void uvc_function_connect(struct uvc_device *uvc);
- extern void uvc_function_disconnect(struct uvc_device *uvc);
- 
-+extern int uvc_get_frame_size(struct uvc_video *video);
-+extern struct uvcg_format *find_format_by_index(struct uvc_device *uvc,
-+						int index);
-+extern struct uvcg_frame *find_frame_by_index(struct uvc_device *uvc,
-+					      struct uvcg_format *uformat,
-+					      int index);
-+
- #endif /* _UVC_GADGET_H_ */
-diff --git a/drivers/usb/gadget/function/uvc_queue.c b/drivers/usb/gadget/function/uvc_queue.c
-index ec500ee499eed1..7ac6b54ee14e94 100644
---- a/drivers/usb/gadget/function/uvc_queue.c
-+++ b/drivers/usb/gadget/function/uvc_queue.c
-@@ -21,6 +21,7 @@
- #include <media/videobuf2-vmalloc.h>
- 
- #include "uvc.h"
-+#include "uvc_configfs.h"
- 
- /* ------------------------------------------------------------------------
-  * Video buffers queue management.
-@@ -52,7 +53,7 @@ static int uvc_queue_setup(struct vb2_queue *vq,
- 
- 	*nplanes = 1;
- 
--	sizes[0] = video->imagesize;
-+	sizes[0] = uvc_get_frame_size(video);
- 
- 	req_size = video->ep->maxpacket
- 		 * max_t(unsigned int, video->ep->maxburst, 1)
-diff --git a/drivers/usb/gadget/function/uvc_v4l2.c b/drivers/usb/gadget/function/uvc_v4l2.c
-index 511f106f984375..1ae72ba72f38cd 100644
---- a/drivers/usb/gadget/function/uvc_v4l2.c
-+++ b/drivers/usb/gadget/function/uvc_v4l2.c
-@@ -18,12 +18,161 @@
- #include <media/v4l2-dev.h>
- #include <media/v4l2-event.h>
- #include <media/v4l2-ioctl.h>
-+#include <media/v4l2-uvc.h>
- 
- #include "f_uvc.h"
- #include "uvc.h"
- #include "uvc_queue.h"
- #include "uvc_video.h"
- #include "uvc_v4l2.h"
-+#include "uvc_configfs.h"
-+
-+static struct uvc_format_desc *to_uvc_format(struct uvcg_format *uformat)
++void uvc_fill_streaming_control(struct uvc_device *uvc,
++			   struct uvc_streaming_control *ctrl,
++			   int iframe, int iformat, unsigned int ival)
 +{
-+	char guid[16] = UVC_GUID_FORMAT_MJPEG;
-+	struct uvc_format_desc *format;
-+	struct uvcg_uncompressed *unc;
++	struct f_uvc_opts *opts;
++	struct uvcg_format *uformat;
++	struct uvcg_frame *uframe;
 +
-+	if (uformat->type == UVCG_UNCOMPRESSED) {
-+		unc = to_uvcg_uncompressed(&uformat->group.cg_item);
-+		if (!unc)
-+			return ERR_PTR(-EINVAL);
++	/* Restrict the iformat, iframe and ival to valid values. Negative
++	 * values for ifrmat and iframe will result in the maximum valid value
++	 * being selected
++	 */
++	iformat = clamp((unsigned int)iformat, 1U,
++			(unsigned int)uvc->header->num_fmt);
++	uformat = find_format_by_index(uvc, iformat);
++	if (!uformat)
++		return;
 +
-+		memcpy(guid, unc->desc.guidFormat, sizeof(guid));
-+	}
++	iframe = clamp((unsigned int)iframe, 1U,
++		       (unsigned int)uformat->num_frames);
++	uframe = find_frame_by_index(uvc, uformat, iframe);
++	if (!uframe)
++		return;
 +
-+	format = uvc_format_by_guid(guid);
-+	if (!format)
-+		return ERR_PTR(-EINVAL);
++	ival = clamp((unsigned int)ival, 1U,
++		     (unsigned int)uframe->frame.b_frame_interval_type);
++	if (!uframe->dw_frame_interval[ival - 1])
++		return;
 +
-+	return format;
++	opts = fi_to_f_uvc_opts(uvc->func.fi);
++
++	memset(ctrl, 0, sizeof(*ctrl));
++
++	ctrl->bmHint = 1;
++	ctrl->bFormatIndex = iformat;
++	ctrl->bFrameIndex = iframe;
++	ctrl->dwFrameInterval = uframe->dw_frame_interval[ival - 1];
++	ctrl->dwMaxVideoFrameSize =
++		uframe->frame.dw_max_video_frame_buffer_size;
++
++	ctrl->dwMaxPayloadTransferSize = opts->streaming_maxpacket;
++	ctrl->bmFramingInfo = 3;
++	ctrl->bPreferedVersion = 1;
++	ctrl->bMaxVersion = 1;
 +}
 +
-+static int uvc_v4l2_get_bytesperline(struct uvcg_format *uformat,
-+			      struct uvcg_frame *uframe)
++static int uvc_events_process_data(struct uvc_device *uvc,
++				   struct usb_request *req)
 +{
-+	struct uvcg_uncompressed *u;
++	struct uvc_video *video = &uvc->video;
++	struct uvc_streaming_control *target;
++	struct uvc_streaming_control *ctrl;
++	struct uvcg_frame *uframe;
++	struct uvcg_format *uformat;
 +
-+	if (uformat->type == UVCG_UNCOMPRESSED) {
-+		u = to_uvcg_uncompressed(&uformat->group.cg_item);
-+		if (!u)
-+			return 0;
++	switch (video->control) {
++	case UVC_VS_PROBE_CONTROL:
++		pr_debug("setting probe control, length = %d\n", req->actual);
++		target = &video->probe;
++		break;
 +
-+		return u->desc.bBitsPerPixel * uframe->frame.w_width / 8;
++	case UVC_VS_COMMIT_CONTROL:
++		pr_debug("setting commit control, length = %d\n", req->actual);
++		target = &video->commit;
++		break;
++
++	default:
++		pr_err("setting unknown control, length = %d\n", req->actual);
++		return -EOPNOTSUPP;
++	}
++
++	ctrl = (struct uvc_streaming_control *)req->buf;
++
++	uvc_fill_streaming_control(uvc, target, ctrl->bFrameIndex,
++			   ctrl->bFormatIndex, ctrl->dwFrameInterval);
++
++	if (video->control == UVC_VS_COMMIT_CONTROL) {
++		uformat = find_format_by_index(uvc, target->bFormatIndex);
++		if (!uformat)
++			return -EINVAL;
++
++		uframe = find_frame_by_index(uvc, uformat, ctrl->bFrameIndex);
++		if (!uframe)
++			return -EINVAL;
++
++		spin_lock(&video->frame_lock);
++
++		video->cur_frame = uframe;
++		video->cur_format = uformat;
++		video->cur_ival = find_ival_index(uframe, ctrl->dwFrameInterval);
++
++		spin_unlock(&video->frame_lock);
 +	}
 +
 +	return 0;
 +}
 +
-+int uvc_get_frame_size(struct uvc_video *video)
++static void
++uvc_events_process_streaming(struct uvc_device *uvc, uint8_t req, uint8_t cs,
++			     struct uvc_request_data *resp)
 +{
-+	unsigned int bpl = uvc_v4l2_get_bytesperline(video->cur_format,
-+			                    video->cur_frame);
++	struct uvc_streaming_control *ctrl;
 +
-+	return bpl ? bpl * video->cur_frame->frame.w_height :
-+		video->cur_frame->frame.dw_max_video_frame_buffer_size;
++	pr_debug("streaming request (req %02x cs %02x)\n", req, cs);
++
++	if (cs != UVC_VS_PROBE_CONTROL && cs != UVC_VS_COMMIT_CONTROL)
++		return;
++
++	ctrl = (struct uvc_streaming_control *)&resp->data;
++	resp->length = sizeof(*ctrl);
++
++	switch (req) {
++	case UVC_SET_CUR:
++		uvc->video.control = cs;
++		resp->length = 34;
++		break;
++
++	case UVC_GET_CUR:
++		if (cs == UVC_VS_PROBE_CONTROL)
++			memcpy(ctrl, &uvc->video.probe, sizeof(*ctrl));
++		else
++			memcpy(ctrl, &uvc->video.commit, sizeof(*ctrl));
++		break;
++
++	case UVC_GET_MIN:
++	case UVC_GET_MAX:
++	case UVC_GET_DEF:
++		if (req == UVC_GET_MAX)
++			uvc_fill_streaming_control(uvc, ctrl, -1, -1, UINT_MAX);
++		else
++			uvc_fill_streaming_control(uvc, ctrl, 1, 1, 0);
++		break;
++
++	case UVC_GET_RES:
++		memset(ctrl, 0, sizeof(*ctrl));
++		break;
++
++	case UVC_GET_LEN:
++		resp->data[0] = 0x00;
++		resp->data[1] = 0x22;
++		resp->length = 2;
++		break;
++
++	case UVC_GET_INFO:
++		resp->data[0] = 0x03;
++		resp->length = 1;
++		break;
++	}
 +}
 +
-+struct uvcg_format *find_format_by_index(struct uvc_device *uvc, int index)
++static int
++uvc_events_process_class(struct uvc_device *uvc,
++			 const struct usb_ctrlrequest *ctrl,
++			 struct uvc_request_data *resp)
++{
++	unsigned int interface = le16_to_cpu(ctrl->wIndex) & 0xff;
++
++	if ((ctrl->bRequestType & USB_RECIP_MASK) != USB_RECIP_INTERFACE)
++		return -EINVAL;
++
++	if (interface == uvc->control_intf)
++		return -EOPNOTSUPP;
++	else if (interface == uvc->streaming_intf)
++		uvc_events_process_streaming(uvc, ctrl->bRequest,
++					     le16_to_cpu(ctrl->wValue) >> 8,
++					     resp);
++
++	return 0;
++}
++
++static int
++uvc_events_process_setup(struct uvc_device *uvc,
++			 const struct usb_ctrlrequest *ctrl,
++			 struct uvc_request_data *resp)
++{
++	uvc->video.control = 0;
++
++	pr_debug("bRequestType %02x bRequest %02x wValue %04x wIndex %04x wLength %04x\n",
++		ctrl->bRequestType, ctrl->bRequest, ctrl->wValue,
++		ctrl->wIndex, ctrl->wLength);
++
++	switch (ctrl->bRequestType & USB_TYPE_MASK) {
++	case USB_TYPE_STANDARD:
++		return -EOPNOTSUPP;
++
++	case USB_TYPE_CLASS:
++		return uvc_events_process_class(uvc, ctrl, resp);
++
++	default:
++		break;
++	}
++
++	return 0;
++}
++
+ static void
+ uvc_function_ep0_complete(struct usb_ep *ep, struct usb_request *req)
+ {
+ 	struct uvc_device *uvc = req->context;
+ 	struct v4l2_event v4l2_event;
+ 	struct uvc_event *uvc_event = (void *)&v4l2_event.u.data;
++	int ret;
+ 
+ 	if (uvc->event_setup_out) {
+ 		uvc->event_setup_out = 0;
+ 
+-		memset(&v4l2_event, 0, sizeof(v4l2_event));
+-		v4l2_event.type = UVC_EVENT_DATA;
+-		uvc_event->data.length = req->actual;
+-		memcpy(&uvc_event->data.data, req->buf, req->actual);
+-		v4l2_event_queue(&uvc->vdev, &v4l2_event);
++		ret = uvc_events_process_data(uvc, req);
++		/* If we have a real error on process */
++		if (ret == -EINVAL) {
++			struct uvc_request_data resp;
++
++			memset(&resp, 0, sizeof(resp));
++			resp.length = -EL2HLT;
++
++			uvc_send_response(uvc, &resp);
++		} else if (ret == -EOPNOTSUPP && uvc->data_subscribed) {
++			memset(&v4l2_event, 0, sizeof(v4l2_event));
++			v4l2_event.type = UVC_EVENT_DATA;
++			uvc_event->data.length = req->actual;
++			memcpy(&uvc_event->data.data, req->buf, req->actual);
++			v4l2_event_queue(&uvc->vdev, &v4l2_event);
++		}
+ 	}
+ }
+ 
+@@ -228,6 +434,8 @@ uvc_function_setup(struct usb_function *f, const struct usb_ctrlrequest *ctrl)
+ 	struct uvc_device *uvc = to_uvc(f);
+ 	struct v4l2_event v4l2_event;
+ 	struct uvc_event *uvc_event = (void *)&v4l2_event.u.data;
++	struct uvc_request_data resp;
++	int ret = 0;
+ 
+ 	if ((ctrl->bRequestType & USB_TYPE_MASK) != USB_TYPE_CLASS) {
+ 		uvcg_info(f, "invalid request type\n");
+@@ -245,6 +453,23 @@ uvc_function_setup(struct usb_function *f, const struct usb_ctrlrequest *ctrl)
+ 	uvc->event_setup_out = !(ctrl->bRequestType & USB_DIR_IN);
+ 	uvc->event_length = le16_to_cpu(ctrl->wLength);
+ 
++	memset(&resp, 0, sizeof(resp));
++	resp.length = -EL2HLT;
++
++	ret = uvc_events_process_setup(uvc, ctrl, &resp);
++	/* If we have no error on process */
++	if (!ret)
++		return uvc_send_response(uvc, &resp);
++
++	/* If we have a real error on process */
++	if (ret != -EOPNOTSUPP)
++		return ret;
++
++	/* If we have -EOPNOTSUPP */
++	if (!uvc->setup_subscribed)
++		return uvc_send_response(uvc, &resp);
++
++	/* If we have setup subscribed */
+ 	memset(&v4l2_event, 0, sizeof(v4l2_event));
+ 	v4l2_event.type = UVC_EVENT_SETUP;
+ 	memcpy(&uvc_event->req, ctrl, sizeof(uvc_event->req));
+diff --git a/drivers/usb/gadget/function/uvc.h b/drivers/usb/gadget/function/uvc.h
+index 8a71d0c4abbcd5..cdfd46f3a2861c 100644
+--- a/drivers/usb/gadget/function/uvc.h
++++ b/drivers/usb/gadget/function/uvc.h
+@@ -13,6 +13,8 @@
+ #include <linux/mutex.h>
+ #include <linux/spinlock.h>
+ #include <linux/usb/composite.h>
++#include <linux/usb/g_uvc.h>
++#include <linux/usb/video.h>
+ #include <linux/videodev2.h>
+ #include <linux/wait.h>
+ 
+@@ -95,6 +97,12 @@ struct uvc_video {
+ 	unsigned int cur_ival;
+ 
+ 	struct mutex mutex;	/* protects frame parameters */
++	spinlock_t frame_lock;
++
++	struct uvc_streaming_control probe;
++	struct uvc_streaming_control commit;
++
++	int control;
+ 
+ 	unsigned int uvc_num_requests;
+ 
+@@ -131,6 +139,8 @@ struct uvc_device {
+ 	struct uvc_video video;
+ 	bool func_connected;
+ 	wait_queue_head_t func_connected_queue;
++	bool setup_subscribed;
++	bool data_subscribed;
+ 
+ 	struct uvcg_streaming_header *header;
+ 
+@@ -187,5 +197,14 @@ extern struct uvcg_format *find_format_by_index(struct uvc_device *uvc,
+ extern struct uvcg_frame *find_frame_by_index(struct uvc_device *uvc,
+ 					      struct uvcg_format *uformat,
+ 					      int index);
++extern int find_format_index(struct uvc_device *uvc,
++			       struct uvcg_format *uformat);
++extern int find_ival_index(struct uvcg_frame *uframe, int dwFrameInterval);
++extern void uvc_fill_streaming_control(struct uvc_device *uvc,
++				       struct uvc_streaming_control *ctrl,
++				       int iframe, int iformat,
++				       unsigned int ival);
++extern int uvc_send_response(struct uvc_device *uvc,
++			     struct uvc_request_data *data);
+ 
+ #endif /* _UVC_GADGET_H_ */
+diff --git a/drivers/usb/gadget/function/uvc_v4l2.c b/drivers/usb/gadget/function/uvc_v4l2.c
+index 1ae72ba72f38cd..3bbda3c0f81c52 100644
+--- a/drivers/usb/gadget/function/uvc_v4l2.c
++++ b/drivers/usb/gadget/function/uvc_v4l2.c
+@@ -90,6 +90,33 @@ struct uvcg_format *find_format_by_index(struct uvc_device *uvc, int index)
+ 	return uformat;
+ }
+ 
++int find_format_index(struct uvc_device *uvc, struct uvcg_format *uformat)
 +{
 +	struct uvcg_format_ptr *format;
-+	struct uvcg_format *uformat = NULL;
 +	int i = 1;
 +
 +	list_for_each_entry(format, &uvc->header->formats, entry) {
-+		if (index == i) {
-+			uformat = format->fmt;
-+			break;
-+		}
++		if (uformat == format->fmt)
++			return i;
 +		i++;
 +	}
 +
-+	return uformat;
-+}
-+
-+struct uvcg_frame *find_frame_by_index(struct uvc_device *uvc,
-+				       struct uvcg_format *uformat,
-+				       int index)
-+{
-+	struct uvcg_format_ptr *format;
-+	struct uvcg_frame_ptr *frame;
-+	struct uvcg_frame *uframe = NULL;
-+
-+	list_for_each_entry(format, &uvc->header->formats, entry) {
-+		if (format->fmt->type != uformat->type)
-+			continue;
-+		list_for_each_entry(frame, &format->fmt->frames, entry) {
-+			if (index == frame->frm->frame.b_frame_index) {
-+				uframe = frame->frm;
-+				break;
-+			}
-+		}
-+	}
-+
-+	return uframe;
-+}
-+
-+static struct uvcg_format *find_format_by_pix(struct uvc_device *uvc,
-+					      u32 pixelformat)
-+{
-+	struct uvcg_format_ptr *format;
-+	struct uvcg_format *uformat = NULL;
-+
-+	list_for_each_entry(format, &uvc->header->formats, entry) {
-+		struct uvc_format_desc *fmtdesc = to_uvc_format(format->fmt);
-+
-+		if (fmtdesc->fcc == pixelformat) {
-+			uformat = format->fmt;
-+			break;
-+		}
-+	}
-+
-+	return uformat;
-+}
-+
-+static struct uvcg_frame *find_closest_frame_by_size(struct uvc_device *uvc,
-+					   struct uvcg_format *uformat,
-+					   u16 rw, u16 rh)
-+{
-+	struct uvc_video *video = &uvc->video;
-+	struct uvcg_format_ptr *format;
-+	struct uvcg_frame_ptr *frame;
-+	struct uvcg_frame *uframe = NULL;
-+	unsigned int d, maxd;
-+
-+	/* Find the closest image size. The distance between image sizes is
-+	 * the size in pixels of the non-overlapping regions between the
-+	 * requested size and the frame-specified size.
-+	 */
-+	maxd = (unsigned int)-1;
-+
-+	list_for_each_entry(format, &uvc->header->formats, entry) {
-+		if (format->fmt->type != uformat->type)
-+			continue;
-+
-+		list_for_each_entry(frame, &format->fmt->frames, entry) {
-+			u16 w, h;
-+
-+			w = frame->frm->frame.w_width;
-+			h = frame->frm->frame.w_height;
-+
-+			d = min(w, rw) * min(h, rh);
-+			d = w*h + rw*rh - 2*d;
-+			if (d < maxd) {
-+				maxd = d;
-+				uframe = frame->frm;
-+			}
-+
-+			if (maxd == 0)
-+				break;
-+		}
-+	}
-+
-+	if (!uframe)
-+		uvcg_dbg(&video->uvc->func, "Unsupported size %ux%u\n", rw, rh);
-+
-+	return uframe;
-+}
- 
- /* --------------------------------------------------------------------------
-  * Requests handling
-@@ -50,16 +199,6 @@ uvc_send_response(struct uvc_device *uvc, struct uvc_request_data *data)
-  * V4L2 ioctls
-  */
- 
--struct uvc_format {
--	u8 bpp;
--	u32 fcc;
--};
--
--static struct uvc_format uvc_formats[] = {
--	{ 16, V4L2_PIX_FMT_YUYV  },
--	{ 0,  V4L2_PIX_FMT_MJPEG },
--};
--
- static int
- uvc_v4l2_querycap(struct file *file, void *fh, struct v4l2_capability *cap)
- {
-@@ -80,13 +219,17 @@ uvc_v4l2_get_format(struct file *file, void *fh, struct v4l2_format *fmt)
- 	struct video_device *vdev = video_devdata(file);
- 	struct uvc_device *uvc = video_get_drvdata(vdev);
- 	struct uvc_video *video = &uvc->video;
-+	struct uvc_format_desc *fmtdesc;
-+
-+	fmtdesc = to_uvc_format(video->cur_format);
- 
--	fmt->fmt.pix.pixelformat = video->fcc;
--	fmt->fmt.pix.width = video->width;
--	fmt->fmt.pix.height = video->height;
-+	fmt->fmt.pix.pixelformat = fmtdesc->fcc;
-+	fmt->fmt.pix.width = video->cur_frame->frame.w_width;
-+	fmt->fmt.pix.height = video->cur_frame->frame.w_height;
- 	fmt->fmt.pix.field = V4L2_FIELD_NONE;
--	fmt->fmt.pix.bytesperline = video->bpp * video->width / 8;
--	fmt->fmt.pix.sizeimage = video->imagesize;
-+	fmt->fmt.pix.bytesperline = uvc_v4l2_get_bytesperline(video->cur_format,
-+							      video->cur_frame);
-+	fmt->fmt.pix.sizeimage = uvc_get_frame_size(video);
- 	fmt->fmt.pix.colorspace = V4L2_COLORSPACE_SRGB;
- 	fmt->fmt.pix.priv = 0;
- 
-@@ -94,46 +237,165 @@ uvc_v4l2_get_format(struct file *file, void *fh, struct v4l2_format *fmt)
- }
- 
- static int
--uvc_v4l2_set_format(struct file *file, void *fh, struct v4l2_format *fmt)
-+uvc_v4l2_try_set_fmt(struct file *file, void *fh, struct v4l2_format *fmt)
- {
- 	struct video_device *vdev = video_devdata(file);
- 	struct uvc_device *uvc = video_get_drvdata(vdev);
- 	struct uvc_video *video = &uvc->video;
--	struct uvc_format *format;
--	unsigned int imagesize;
--	unsigned int bpl;
--	unsigned int i;
--
--	for (i = 0; i < ARRAY_SIZE(uvc_formats); ++i) {
--		format = &uvc_formats[i];
--		if (format->fcc == fmt->fmt.pix.pixelformat)
--			break;
--	}
-+	struct uvcg_format *uformat;
-+	struct uvcg_frame *uframe;
-+	u8 *fcc;
- 
--	if (i == ARRAY_SIZE(uvc_formats)) {
--		uvcg_info(&uvc->func, "Unsupported format 0x%08x.\n",
--			  fmt->fmt.pix.pixelformat);
-+	if (fmt->type != video->queue.queue.type)
- 		return -EINVAL;
--	}
- 
--	bpl = format->bpp * fmt->fmt.pix.width / 8;
--	imagesize = bpl ? bpl * fmt->fmt.pix.height : fmt->fmt.pix.sizeimage;
-+	fcc = (u8 *)&fmt->fmt.pix.pixelformat;
-+	uvcg_dbg(&uvc->func, "Trying format 0x%08x (%c%c%c%c): %ux%u\n",
-+		fmt->fmt.pix.pixelformat,
-+		fcc[0], fcc[1], fcc[2], fcc[3],
-+		fmt->fmt.pix.width, fmt->fmt.pix.height);
-+
-+	uformat = find_format_by_pix(uvc, fmt->fmt.pix.pixelformat);
-+	if (!uformat)
-+		return -EINVAL;
- 
--	video->fcc = format->fcc;
--	video->bpp = format->bpp;
--	video->width = fmt->fmt.pix.width;
--	video->height = fmt->fmt.pix.height;
--	video->imagesize = imagesize;
-+	uframe = find_closest_frame_by_size(uvc, uformat,
-+				fmt->fmt.pix.width, fmt->fmt.pix.height);
-+	if (!uframe)
-+		return -EINVAL;
- 
-+	fmt->fmt.pix.width = uframe->frame.w_width;
-+	fmt->fmt.pix.height = uframe->frame.w_height;
- 	fmt->fmt.pix.field = V4L2_FIELD_NONE;
--	fmt->fmt.pix.bytesperline = bpl;
--	fmt->fmt.pix.sizeimage = imagesize;
-+	fmt->fmt.pix.bytesperline = uvc_v4l2_get_bytesperline(uformat, uframe);
-+	fmt->fmt.pix.sizeimage = uvc_get_frame_size(video);
-+	fmt->fmt.pix.pixelformat = to_uvc_format(uformat)->fcc;
- 	fmt->fmt.pix.colorspace = V4L2_COLORSPACE_SRGB;
- 	fmt->fmt.pix.priv = 0;
- 
- 	return 0;
- }
- 
-+static int
-+uvc_v4l2_enum_frameintervals(struct file *file, void *fh,
-+		struct v4l2_frmivalenum *fival)
-+{
-+	struct video_device *vdev = video_devdata(file);
-+	struct uvc_device *uvc = video_get_drvdata(vdev);
-+	struct uvc_video *video = &uvc->video;
-+	struct uvcg_format *uformat = NULL;
-+	struct uvcg_frame *uframe = NULL;
-+	struct uvcg_frame_ptr *frame;
-+
-+	uformat = find_format_by_pix(uvc, fival->pixel_format);
-+	if (!uformat)
-+		return -EINVAL;
-+
-+	list_for_each_entry(frame, &uformat->frames, entry) {
-+		if (frame->frm->frame.w_width == fival->width &&
-+		    frame->frm->frame.w_height == fival->height) {
-+			uframe = frame->frm;
-+			break;
-+		}
-+	}
-+	if (!uframe)
-+		return -EINVAL;
-+
-+	if (uvc->streamon) {
-+		if (fival->index >= 1)
-+			return -EINVAL;
-+
-+		fival->discrete.numerator =
-+			uframe->dw_frame_interval[video->cur_ival - 1];
-+	} else {
-+		if (fival->index >= uframe->frame.b_frame_interval_type)
-+			return -EINVAL;
-+
-+		fival->discrete.numerator =
-+			uframe->dw_frame_interval[fival->index];
-+	}
-+
-+	/* TODO: handle V4L2_FRMIVAL_TYPE_STEPWISE */
-+	fival->type = V4L2_FRMIVAL_TYPE_DISCRETE;
-+	fival->discrete.denominator = 10000000;
-+	v4l2_simplify_fraction(&fival->discrete.numerator,
-+		&fival->discrete.denominator, 8, 333);
-+
 +	return 0;
 +}
 +
-+static int
-+uvc_v4l2_enum_framesizes(struct file *file, void *fh,
-+		struct v4l2_frmsizeenum *fsize)
-+{
-+	struct video_device *vdev = video_devdata(file);
-+	struct uvc_device *uvc = video_get_drvdata(vdev);
-+	struct uvc_video *video = &uvc->video;
-+	struct uvcg_format *uformat = NULL;
-+	struct uvcg_frame *uframe = NULL;
-+
-+	if (uvc->streamon) {
-+		if (fsize->index >= 1)
-+			return -EINVAL;
-+
-+		uformat = video->cur_format;
-+		uframe = video->cur_frame;
-+	} else {
-+		uformat = find_format_by_pix(uvc, fsize->pixel_format);
-+		if (!uformat)
-+			return -EINVAL;
-+
-+		if (fsize->index >= uformat->num_frames)
-+			return -EINVAL;
-+
-+		uframe = find_frame_by_index(uvc, uformat, fsize->index + 1);
-+		if (!uframe)
-+			return -EINVAL;
-+	}
-+
-+	fsize->type = V4L2_FRMSIZE_TYPE_DISCRETE;
-+	fsize->discrete.width = uframe->frame.w_width;
-+	fsize->discrete.height = uframe->frame.w_height;
-+
-+	return 0;
-+}
-+
-+static int
-+uvc_v4l2_enum_fmt(struct file *file, void *fh, struct v4l2_fmtdesc *f)
-+{
-+	struct video_device *vdev = video_devdata(file);
-+	struct uvc_device *uvc = video_get_drvdata(vdev);
-+	struct uvc_video *video = &uvc->video;
-+	struct uvc_format_desc *fmtdesc;
-+	struct uvcg_format *uformat;
-+
-+	if (uvc->streamon) {
-+		if (f->index >= 1)
-+			return -EINVAL;
-+
-+		uformat = video->cur_format;
-+	} else {
-+		if (f->index >= uvc->header->num_fmt)
-+			return -EINVAL;
-+
-+		uformat = find_format_by_index(uvc, f->index + 1);
-+		if (!uformat)
-+			return -EINVAL;
-+
-+	}
-+
-+	if (uformat->type != UVCG_UNCOMPRESSED)
-+		f->flags |= V4L2_FMT_FLAG_COMPRESSED;
-+
-+	fmtdesc = to_uvc_format(uformat);
-+	f->pixelformat = fmtdesc->fcc;
-+
-+	strscpy(f->description, fmtdesc->name, sizeof(f->description));
-+	f->description[strlen(fmtdesc->name) - 1] = 0;
-+
-+	return 0;
-+}
-+
- static int
- uvc_v4l2_reqbufs(struct file *file, void *fh, struct v4l2_requestbuffers *b)
- {
-@@ -298,8 +560,12 @@ uvc_v4l2_ioctl_default(struct file *file, void *fh, bool valid_prio,
- 
- const struct v4l2_ioctl_ops uvc_v4l2_ioctl_ops = {
- 	.vidioc_querycap = uvc_v4l2_querycap,
-+	.vidioc_try_fmt_vid_out = uvc_v4l2_try_set_fmt,
- 	.vidioc_g_fmt_vid_out = uvc_v4l2_get_format,
--	.vidioc_s_fmt_vid_out = uvc_v4l2_set_format,
-+	.vidioc_s_fmt_vid_out = uvc_v4l2_try_set_fmt,
-+	.vidioc_enum_frameintervals = uvc_v4l2_enum_frameintervals,
-+	.vidioc_enum_framesizes = uvc_v4l2_enum_framesizes,
-+	.vidioc_enum_fmt_vid_out = uvc_v4l2_enum_fmt,
- 	.vidioc_reqbufs = uvc_v4l2_reqbufs,
- 	.vidioc_querybuf = uvc_v4l2_querybuf,
- 	.vidioc_qbuf = uvc_v4l2_qbuf,
-diff --git a/drivers/usb/gadget/function/uvc_video.c b/drivers/usb/gadget/function/uvc_video.c
-index c00ce0e91f5d5c..37867c93073418 100644
---- a/drivers/usb/gadget/function/uvc_video.c
-+++ b/drivers/usb/gadget/function/uvc_video.c
-@@ -19,6 +19,7 @@
- #include "uvc.h"
- #include "uvc_queue.h"
- #include "uvc_video.h"
-+#include "uvc_configfs.h"
- 
- /* --------------------------------------------------------------------------
-  * Video codecs
-@@ -490,21 +491,71 @@ int uvcg_video_enable(struct uvc_video *video, int enable)
- 	return ret;
- }
- 
-+static int uvc_frame_default(struct uvcg_format *uformat)
-+{
-+	struct uvcg_uncompressed *u;
-+	struct uvcg_mjpeg *m;
-+
-+	switch (uformat->type) {
-+	case UVCG_UNCOMPRESSED:
-+		u = to_uvcg_uncompressed(&uformat->group.cg_item);
-+		if (u)
-+			return u->desc.bDefaultFrameIndex;
-+		break;
-+	case UVCG_MJPEG:
-+		m = to_uvcg_mjpeg(&uformat->group.cg_item);
-+		if (m)
-+			return m->desc.bDefaultFrameIndex;
-+		break;
-+	}
-+
-+	return 0;
-+}
-+
-+static int uvc_default_frame_interval(struct uvc_video *video)
++int find_ival_index(struct uvcg_frame *uframe, int dwFrameInterval)
 +{
 +	int i;
 +
-+	for (i = 0; i < video->cur_frame->frame.b_frame_interval_type; i++) {
-+		if (video->cur_frame->frame.dw_default_frame_interval ==
-+			video->cur_frame->dw_frame_interval[i]) {
-+			video->cur_ival = i + 1;
++	for (i = 0; i < uframe->frame.b_frame_interval_type; i++) {
++		if (dwFrameInterval == uframe->dw_frame_interval[i])
 +			return i + 1;
-+		}
 +	}
 +
 +	/* fallback */
 +	return 1;
 +}
 +
- /*
-  * Initialize the UVC video stream.
+ struct uvcg_frame *find_frame_by_index(struct uvc_device *uvc,
+ 				       struct uvcg_format *uformat,
+ 				       int index)
+@@ -178,8 +205,7 @@ static struct uvcg_frame *find_closest_frame_by_size(struct uvc_device *uvc,
+  * Requests handling
+  */
+ 
+-static int
+-uvc_send_response(struct uvc_device *uvc, struct uvc_request_data *data)
++int uvc_send_response(struct uvc_device *uvc, struct uvc_request_data *data)
+ {
+ 	struct usb_composite_dev *cdev = uvc->func.config->cdev;
+ 	struct usb_request *req = uvc->control_req;
+@@ -221,6 +247,8 @@ uvc_v4l2_get_format(struct file *file, void *fh, struct v4l2_format *fmt)
+ 	struct uvc_video *video = &uvc->video;
+ 	struct uvc_format_desc *fmtdesc;
+ 
++	spin_lock(&video->frame_lock);
++
+ 	fmtdesc = to_uvc_format(video->cur_format);
+ 
+ 	fmt->fmt.pix.pixelformat = fmtdesc->fcc;
+@@ -233,6 +261,8 @@ uvc_v4l2_get_format(struct file *file, void *fh, struct v4l2_format *fmt)
+ 	fmt->fmt.pix.colorspace = V4L2_COLORSPACE_SRGB;
+ 	fmt->fmt.pix.priv = 0;
+ 
++	spin_unlock(&video->frame_lock);
++
+ 	return 0;
+ }
+ 
+@@ -244,6 +274,7 @@ uvc_v4l2_try_set_fmt(struct file *file, void *fh, struct v4l2_format *fmt)
+ 	struct uvc_video *video = &uvc->video;
+ 	struct uvcg_format *uformat;
+ 	struct uvcg_frame *uframe;
++	int iformat;
+ 	u8 *fcc;
+ 
+ 	if (fmt->type != video->queue.queue.type)
+@@ -259,6 +290,10 @@ uvc_v4l2_try_set_fmt(struct file *file, void *fh, struct v4l2_format *fmt)
+ 	if (!uformat)
+ 		return -EINVAL;
+ 
++	iformat = find_format_index(uvc, uformat);
++	if (!iformat)
++		return -EINVAL;
++
+ 	uframe = find_closest_frame_by_size(uvc, uformat,
+ 				fmt->fmt.pix.width, fmt->fmt.pix.height);
+ 	if (!uframe)
+@@ -305,8 +340,12 @@ uvc_v4l2_enum_frameintervals(struct file *file, void *fh,
+ 		if (fival->index >= 1)
+ 			return -EINVAL;
+ 
++		spin_lock(&video->frame_lock);
++
+ 		fival->discrete.numerator =
+ 			uframe->dw_frame_interval[video->cur_ival - 1];
++
++		spin_unlock(&video->frame_lock);
+ 	} else {
+ 		if (fival->index >= uframe->frame.b_frame_interval_type)
+ 			return -EINVAL;
+@@ -338,8 +377,12 @@ uvc_v4l2_enum_framesizes(struct file *file, void *fh,
+ 		if (fsize->index >= 1)
+ 			return -EINVAL;
+ 
++		spin_lock(&video->frame_lock);
++
+ 		uformat = video->cur_format;
+ 		uframe = video->cur_frame;
++
++		spin_unlock(&video->frame_lock);
+ 	} else {
+ 		uformat = find_format_by_pix(uvc, fsize->pixel_format);
+ 		if (!uformat)
+@@ -373,7 +416,11 @@ uvc_v4l2_enum_fmt(struct file *file, void *fh, struct v4l2_fmtdesc *f)
+ 		if (f->index >= 1)
+ 			return -EINVAL;
+ 
++		spin_lock(&video->frame_lock);
++
+ 		uformat = video->cur_format;
++
++		spin_unlock(&video->frame_lock);
+ 	} else {
+ 		if (f->index >= uvc->header->num_fmt)
+ 			return -EINVAL;
+@@ -497,14 +544,20 @@ uvc_v4l2_subscribe_event(struct v4l2_fh *fh,
+ 	if (sub->type < UVC_EVENT_FIRST || sub->type > UVC_EVENT_LAST)
+ 		return -EINVAL;
+ 
+-	if (sub->type == UVC_EVENT_SETUP && uvc->func_connected)
++	if (sub->type == UVC_EVENT_STREAMON && uvc->func_connected)
+ 		return -EBUSY;
+ 
+ 	ret = v4l2_event_subscribe(fh, sub, 2, NULL);
+ 	if (ret < 0)
+ 		return ret;
+ 
+-	if (sub->type == UVC_EVENT_SETUP) {
++	if (sub->type == UVC_EVENT_SETUP)
++		uvc->setup_subscribed = true;
++
++	if (sub->type == UVC_EVENT_DATA)
++		uvc->data_subscribed = true;
++
++	if (sub->type == UVC_EVENT_STREAMON) {
+ 		uvc->func_connected = true;
+ 		handle->is_uvc_app_handle = true;
+ 		uvc_function_connect(uvc);
+@@ -534,7 +587,10 @@ uvc_v4l2_unsubscribe_event(struct v4l2_fh *fh,
+ 	if (ret < 0)
+ 		return ret;
+ 
+-	if (sub->type == UVC_EVENT_SETUP && handle->is_uvc_app_handle) {
++	if (sub->type == UVC_EVENT_SETUP)
++		uvc->setup_subscribed = false;
++
++	if (sub->type == UVC_EVENT_STREAMON && handle->is_uvc_app_handle) {
+ 		uvc_v4l2_disable(uvc);
+ 		handle->is_uvc_app_handle = false;
+ 	}
+diff --git a/drivers/usb/gadget/function/uvc_video.c b/drivers/usb/gadget/function/uvc_video.c
+index 37867c93073418..c20d832c4a0b8a 100644
+--- a/drivers/usb/gadget/function/uvc_video.c
++++ b/drivers/usb/gadget/function/uvc_video.c
+@@ -533,10 +533,11 @@ static int uvc_default_frame_interval(struct uvc_video *video)
   */
  int uvcg_video_init(struct uvc_video *video, struct uvc_device *uvc)
  {
-+	int iframe;
-+
+-	int iframe;
++	int iframe, iformat;
+ 
  	INIT_LIST_HEAD(&video->req_free);
  	spin_lock_init(&video->req_lock);
++	spin_lock_init(&video->frame_lock);
  	INIT_WORK(&video->pump, uvcg_video_pump);
  
-+	if (list_empty(&uvc->header->formats))
-+		return -EINVAL;
-+
- 	video->uvc = uvc;
--	video->fcc = V4L2_PIX_FMT_YUYV;
--	video->bpp = 16;
--	video->width = 320;
--	video->height = 240;
--	video->imagesize = 320 * 240 * 2;
-+	video->cur_format = find_format_by_index(uvc, 1);
-+	if (!video->cur_format)
-+		return -EINVAL;
-+
-+	iframe = uvc_frame_default(video->cur_format);
-+	if (!iframe)
-+		return -EINVAL;
-+
-+	video->cur_frame = find_frame_by_index(uvc, video->cur_format, iframe);
-+	if (!video->cur_frame)
-+		return -EINVAL;
-+
-+	video->cur_ival = uvc_default_frame_interval(video);
+ 	if (list_empty(&uvc->header->formats))
+@@ -547,6 +548,10 @@ int uvcg_video_init(struct uvc_video *video, struct uvc_device *uvc)
+ 	if (!video->cur_format)
+ 		return -EINVAL;
  
++	iformat = find_format_index(uvc, video->cur_format);
++	if (!iformat)
++		return -EINVAL;
++
+ 	iframe = uvc_frame_default(video->cur_format);
+ 	if (!iframe)
+ 		return -EINVAL;
+@@ -557,6 +562,11 @@ int uvcg_video_init(struct uvc_video *video, struct uvc_device *uvc)
+ 
+ 	video->cur_ival = uvc_default_frame_interval(video);
+ 
++	uvc_fill_streaming_control(uvc, &video->probe, iframe, iformat,
++				   video->cur_ival);
++	uvc_fill_streaming_control(uvc, &video->commit, iframe, iformat,
++				   video->cur_ival);
++
  	/* Initialize the video buffers queue. */
  	uvcg_queue_init(&video->queue, uvc->v4l2_dev.dev->parent,
+ 			V4L2_BUF_TYPE_VIDEO_OUTPUT, &video->mutex);
 -- 
 2.30.2
 
