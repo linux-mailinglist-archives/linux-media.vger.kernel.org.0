@@ -2,109 +2,114 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B2C965B07DB
-	for <lists+linux-media@lfdr.de>; Wed,  7 Sep 2022 17:02:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C13DF5B07ED
+	for <lists+linux-media@lfdr.de>; Wed,  7 Sep 2022 17:05:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230155AbiIGPCU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 7 Sep 2022 11:02:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56312 "EHLO
+        id S230373AbiIGPFP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 7 Sep 2022 11:05:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35432 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230290AbiIGPCB (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 7 Sep 2022 11:02:01 -0400
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id C853CB5A60;
-        Wed,  7 Sep 2022 08:01:59 -0700 (PDT)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6961313D5;
-        Wed,  7 Sep 2022 08:02:05 -0700 (PDT)
-Received: from [10.57.15.197] (unknown [10.57.15.197])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id BF12C3F71A;
-        Wed,  7 Sep 2022 08:01:56 -0700 (PDT)
-Message-ID: <de00b89e-c676-1e71-c21b-dd3d13917b48@arm.com>
-Date:   Wed, 7 Sep 2022 16:01:54 +0100
+        with ESMTP id S230315AbiIGPFG (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 7 Sep 2022 11:05:06 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DBA432CDFC
+        for <linux-media@vger.kernel.org>; Wed,  7 Sep 2022 08:05:04 -0700 (PDT)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <mgr@pengutronix.de>)
+        id 1oVwbu-0006PV-BU; Wed, 07 Sep 2022 17:05:02 +0200
+Received: from [2a0a:edc0:0:1101:1d::ac] (helo=dude04.red.stw.pengutronix.de)
+        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+        (envelope-from <mgr@pengutronix.de>)
+        id 1oVwbr-004SUx-M4; Wed, 07 Sep 2022 17:05:01 +0200
+Received: from mgr by dude04.red.stw.pengutronix.de with local (Exim 4.94.2)
+        (envelope-from <mgr@pengutronix.de>)
+        id 1oVwbs-00AnIb-IF; Wed, 07 Sep 2022 17:05:00 +0200
+From:   Michael Grzeschik <m.grzeschik@pengutronix.de>
+To:     linux-usb@vger.kernel.org
+Cc:     linux-media@vger.kernel.org, balbi@kernel.org,
+        laurent.pinchart@ideasonboard.com, paul.elder@ideasonboard.com,
+        kernel@pengutronix.de, nicolas@ndufresne.ca,
+        kieran.bingham@ideasonboard.com
+Subject: [fixed+RESEND v8 0/4] usb: gadget: uvc: use configfs entries for negotiation and v4l2 VIDIOCS
+Date:   Wed,  7 Sep 2022 17:04:53 +0200
+Message-Id: <20220907150457.2572474-1-m.grzeschik@pengutronix.de>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:102.0) Gecko/20100101
- Thunderbird/102.2.1
-Subject: Re: [PATCH v2 4/4] vfio/pci: Allow MMIO regions to be exported
- through dma-buf
-Content-Language: en-GB
-To:     Jason Gunthorpe <jgg@nvidia.com>,
-        Christoph Hellwig <hch@infradead.org>
-Cc:     Leon Romanovsky <leon@kernel.org>, kvm@vger.kernel.org,
-        linux-rdma@vger.kernel.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
-        Oded Gabbay <ogabbay@kernel.org>,
-        Cornelia Huck <cohuck@redhat.com>,
-        dri-devel@lists.freedesktop.org,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        linaro-mm-sig@lists.linaro.org,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Maor Gottlieb <maorg@nvidia.com>,
-        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
-        linux-media@vger.kernel.org
-References: <0-v2-472615b3877e+28f7-vfio_dma_buf_jgg@nvidia.com>
- <4-v2-472615b3877e+28f7-vfio_dma_buf_jgg@nvidia.com>
- <YxcYGzPv022G2vLm@infradead.org>
- <b6b5d236-c089-7428-4cc9-a08fe4f6b4a3@amd.com> <YxczjNIloP7TWcf2@nvidia.com>
- <YxiJJYtWgh1l0wxg@infradead.org> <YxiPh4u/92chN02C@nvidia.com>
-From:   Robin Murphy <robin.murphy@arm.com>
-In-Reply-To: <YxiPh4u/92chN02C@nvidia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-11.1 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: mgr@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 2022-09-07 13:33, Jason Gunthorpe wrote:
-> On Wed, Sep 07, 2022 at 05:05:57AM -0700, Christoph Hellwig wrote:
->> On Tue, Sep 06, 2022 at 08:48:28AM -0300, Jason Gunthorpe wrote:
->>> Right, this whole thing is the "standard" that dmabuf has adopted
->>> instead of the struct pages. Once the AMD GPU driver started doing
->>> this some time ago other drivers followed.
->>
->> But it is simple wrong.  The scatterlist requires struct page backing.
->> In theory a physical address would be enough, but when Dan Williams
->> sent patches for that Linus shot them down.
-> 
-> Yes, you said that, and I said that when the AMD driver first merged
-> it - but it went in anyhow and now people are using it in a bunch of
-> places.
-> 
-> I'm happy that Christian wants to start trying to fix it, and will
-> help him, but it doesn't really impact this. Whatever fix is cooked up
-> will apply equally to vfio and habana.
+This series improves the uvc video gadget by parsing the configfs
+entries. With the configfs data, the driver now is able to negotiate the
+format with the usb host in the kernel and also exports the supported
+frames/formats/intervals via the v4l2 VIDIOC interface.
 
-We've just added support for P2P segments in scatterlists, can that not 
-be used here?
+The uvc userspace stack is also under development. One example is an generic
+v4l2uvcsink gstreamer elemnt, which is currently under discussion. [1]
 
-Robin.
+[1] https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/1304
 
->> That being said the scatterlist is the wrong interface here (and
->> probably for most of it's uses).  We really want a lot-level struct
->> with just the dma_address and length for the DMA side, and leave it
->> separate from that what is used to generate it (in most cases that
->> would be a bio_vec).
-> 
-> Oh definitely
-> 
->>> Now we have struct pages, almost, but I'm not sure if their limits are
->>> compatible with VFIO? This has to work for small bars as well.
->>
->> Why would small BARs be problematic for the pages?  The pages are more
->> a problem for gigantic BARs do the memory overhead.
-> 
-> How do I get a struct page * for a 4k BAR in vfio?
-> 
-> The docs say:
-> 
->   ..hotplug api on memory block boundaries. The implementation relies on
->   this lack of user-api constraint to allow sub-section sized memory
->   ranges to be specified to :c:func:`arch_add_memory`, the top-half of
->   memory hotplug. Sub-section support allows for 2MB as the cross-arch
->   common alignment granularity for :c:func:`devm_memremap_pages`.
-> 
-> Jason
+With the libusbgx library [1] used by the gadget-tool [2] it is now also
+possible to fully describe the configfs layout of the uvc gadget with scheme
+files.
+
+[2] https://github.com/linux-usb-gadgets/libusbgx/pull/61/commits/53231c76f9d512f59fdc23b65cd5c46b7fb09eb4
+
+[3] https://github.com/linux-usb-gadgets/gt/tree/master/examples/systemd
+
+The bigger picture of these patches is to provide a more versatile interface to
+the uvc gadget. The goal is to simply start a uvc-gadget with the following
+commands:
+
+$ gt load uvc.scheme
+$ gst-launch v4l2src ! v4l2uvcsink
+
+--
+
+v1: https://lore.kernel.org/linux-usb/20210530222239.8793-1-m.grzeschik@pengutronix.de/
+v2: https://lore.kernel.org/linux-usb/20211117004432.3763306-1-m.grzeschik@pengutronix.de/
+v3: https://lore.kernel.org/linux-usb/20211117122435.2409362-1-m.grzeschik@pengutronix.de/
+v4: https://lore.kernel.org/linux-usb/20211205225803.268492-1-m.grzeschik@pengutronix.de/
+v5: https://lore.kernel.org/linux-usb/20211209084322.2662616-1-m.grzeschik@pengutronix.de/
+v6: https://lore.kernel.org/linux-usb/20220105115527.3592860-1-m.grzeschik@pengutronix.de/
+v7: https://lore.kernel.org/linux-usb/20220608105748.139922-1-m.grzeschik@pengutronix.de/
+
+Regards,
+Michael
+
+Michael Grzeschik (4):
+  media: v4l: move helper functions for fractions from uvc to v4l2-common
+  media: uvcvideo: move uvc_format_desc to common header
+  usb: gadget: uvc: add VIDIOC function
+  usb: gadget: uvc: add format/frame handling code
+
+ drivers/media/usb/uvc/uvc_ctrl.c        |   1 +
+ drivers/media/usb/uvc/uvc_driver.c      | 290 +----------------
+ drivers/media/usb/uvc/uvc_v4l2.c        |  14 +-
+ drivers/media/usb/uvc/uvcvideo.h        | 147 ---------
+ drivers/media/v4l2-core/v4l2-common.c   |  86 +++++
+ drivers/usb/gadget/function/f_uvc.c     | 270 +++++++++++++++-
+ drivers/usb/gadget/function/uvc.h       |  39 ++-
+ drivers/usb/gadget/function/uvc_queue.c |   3 +-
+ drivers/usb/gadget/function/uvc_v4l2.c  | 412 +++++++++++++++++++++---
+ drivers/usb/gadget/function/uvc_video.c |  71 +++-
+ include/media/v4l2-common.h             |   4 +
+ include/media/v4l2-uvc.h                | 359 +++++++++++++++++++++
+ 12 files changed, 1191 insertions(+), 505 deletions(-)
+ create mode 100644 include/media/v4l2-uvc.h
+
+-- 
+2.30.2
+
