@@ -2,95 +2,144 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1E5215B0CBD
-	for <lists+linux-media@lfdr.de>; Wed,  7 Sep 2022 20:55:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1A38F5B0CE5
+	for <lists+linux-media@lfdr.de>; Wed,  7 Sep 2022 21:09:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229793AbiIGSzy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 7 Sep 2022 14:55:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53384 "EHLO
+        id S229670AbiIGTJg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 7 Sep 2022 15:09:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42070 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229526AbiIGSzx (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 7 Sep 2022 14:55:53 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 75F5780371;
-        Wed,  7 Sep 2022 11:55:51 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 1A3BC619A2;
-        Wed,  7 Sep 2022 18:55:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8819BC433C1;
-        Wed,  7 Sep 2022 18:55:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1662576950;
-        bh=dpJMvDdBTLp5BymS0AQR0+IWGQyDaRp/R/kXNsuQsfY=;
-        h=Date:From:To:Cc:Subject:From;
-        b=Evgabar0ezseNAy0a/spJe6h3v5c5D8n2L5/t0KrF4Y+5GUAaR+cCcBwbjtkKGFsi
-         n12JjIQjkMcpLWaoYDs3xkbzLWsD9zZFgf1Xz08lWEo0/2U9TMvKZZs7FhkpJXLvi8
-         NoEHuhpd+5bDAAmZARsf6DOYFq56wwIokoJo7cgmwRM8HRaV20VpZeU8c6evnZpfEM
-         2BUMZeSIpzXCyCn/GPrCHOopWogbPSfKmfvZ53ZJZU3AxYuv+V/pw/GWUDIQrxY/xx
-         imTpJPXmX1Khkuxi8Xkg0ZdRCutA0mrRt1gfbE6Sd8N+qunjYohIE1Jzp9awk5EDoM
-         HWG/G8FOxK9gA==
-Date:   Wed, 7 Sep 2022 19:55:44 +0100
-From:   "Gustavo A. R. Silva" <gustavoars@kernel.org>
-To:     Hans Verkuil <hverkuil@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
-        linux-hardening@vger.kernel.org
-Subject: [PATCH][next] media: usb: pwc-uncompress: Use flex array destination
- for memcpy()
-Message-ID: <YxjpMMUb3WP5Rbu7@work>
+        with ESMTP id S229699AbiIGTJ0 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 7 Sep 2022 15:09:26 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7BF11F23
+        for <linux-media@vger.kernel.org>; Wed,  7 Sep 2022 12:09:24 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1C07B478;
+        Wed,  7 Sep 2022 21:09:22 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1662577762;
+        bh=uhTxXWiasDstU8bzNOnJQEc/9xqJS1+3B9u4d61pqNE=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=tlrEGkPgTSuZ/nxRgXLQmPKhKzaMHQJ8VzEQpUm2PdOkgD5faKPXuPvzAjwupVUuC
+         8egME6PRyDWP3Yk5j/aPPnC7yuqBtAeiyHe/0zJ7AOFFXKfxESUHC9KBeGhKyT5hup
+         xGrdMbjGKsdTLGVXZn6o5dWlgyY+z3QdPj07WL4g=
+Date:   Wed, 7 Sep 2022 22:09:06 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Maximilian Luz <luzmaximilian@gmail.com>
+Cc:     sakari.ailus@linux.intel.com, bingbu.cao@intel.com,
+        linux-media@vger.kernel.org, tian.shu.qiu@intel.com,
+        tomi.valkeinen@ideasonboard.com
+Subject: Re: [PATCH 1/1] ipu3-imgu: Fix NULL pointer dereference in active
+ selection access
+Message-ID: <YxjsUhnZIyvmwGyR@pendragon.ideasonboard.com>
+References: <20220825190351.3241444-1-sakari.ailus@linux.intel.com>
+ <db44a24b-2a9a-6682-4825-eedc4ecb1340@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+In-Reply-To: <db44a24b-2a9a-6682-4825-eedc4ecb1340@gmail.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-In preparation for FORTIFY_SOURCE performing run-time destination buffer
-bounds checking for memcpy(), specify the destination output buffer
-explicitly, instead of asking memcpy() to write past the end of what looked
-like a fixed-size object.
+Hi Max,
 
-Notice that raw_frame is a pointer to a structure that contains
-flexible-array member rawframe[]:
+On Wed, Sep 07, 2022 at 03:44:44PM +0200, Maximilian Luz wrote:
+> On Thu, 25 Aug 2022 22:03:51 +0300, Sakari Ailus  wrote:
+> > What the IMGU driver did was that it first acquired the pointers to active
+> > and try V4L2 subdev state, and only then figured out which one to use.
+> > 
+> > The problem with that approach and a later patch (see Fixes: tag) is that
+> > as sd_state argument to v4l2_subdev_get_try_crop() et al is NULL, there is
+> > now an attempt to dereference that.
+> > 
+> > Fix this.
+> 
+> Thank you for this fix, this however only addresses
+> imgu_subdev_get_selection(), but the issue is also present in
+> imgu_subdev_set_selection(). I assume that a similar fix is needed for that.
+> I've added a diff for that below. Feel free to squash that into your patch or
+> let me know if I should submit this separately.
 
-drivers/media/usb/pwc/pwc.h:
-190 struct pwc_raw_frame {
-191         __le16 type;            /* type of the webcam */
-192         __le16 vbandlength;     /* Size of 4 lines compressed (used by the
-193                                    decompressor) */
-194         __u8   cmd[4];          /* the four byte of the command (in case of
-195                                    nala, only the first 3 bytes is filled) */
-196         __u8   rawframe[];      /* frame_size = H / 4 * vbandlength */
-197 } __packed;
+This looks like a problem indeed. I'll let Sakari decide what he wants
+to do. Adding wrappers along the lines of
 
-Link: https://github.com/KSPP/linux/issues/200
-Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
----
- drivers/media/usb/pwc/pwc-uncompress.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+static struct v4l2_rect *
+imgu_subdev_get_crop(struct imgu_v4l2_subdev *sd,
+		     struct v4l2_subdev_state *sd_state, unsigned int pad,
+		     enum v4l2_subdev_format_whence which)
+{
+	if (which == V4L2_SUBDEV_FORMAT_TRY)
+		return v4l2_subdev_get_try_crop(&imgu_sd->subdev, sd_state, pad);
+	else
+		return &imgu_sd->rect.eff;
+}
 
-diff --git a/drivers/media/usb/pwc/pwc-uncompress.c b/drivers/media/usb/pwc/pwc-uncompress.c
-index faf44cdeb268..cf2591a9675c 100644
---- a/drivers/media/usb/pwc/pwc-uncompress.c
-+++ b/drivers/media/usb/pwc/pwc-uncompress.c
-@@ -39,7 +39,7 @@ int pwc_decompress(struct pwc_device *pdev, struct pwc_frame_buf *fbuf)
- 			 * first 3 bytes is filled (Nala case). We can
- 			 * determine this using the type of the webcam */
- 		memcpy(raw_frame->cmd, pdev->cmd_buf, 4);
--		memcpy(raw_frame+1, yuv, pdev->frame_size);
-+		memcpy(raw_frame->rawframe, yuv, pdev->frame_size);
- 		vb2_set_plane_payload(&fbuf->vb.vb2_buf, 0,
- 			struct_size(raw_frame, rawframe, pdev->frame_size));
- 		return 0;
+(same for the selection rectangle) and using them through the code may
+help.
+
+> ---
+>   drivers/staging/media/ipu3/ipu3-v4l2.c | 25 ++++++++++++-------------
+>   1 file changed, 12 insertions(+), 13 deletions(-)
+> 
+> diff --git a/drivers/staging/media/ipu3/ipu3-v4l2.c b/drivers/staging/media/ipu3/ipu3-v4l2.c
+> index 2234bb8d48b3..079f2635c70d 100644
+> --- a/drivers/staging/media/ipu3/ipu3-v4l2.c
+> +++ b/drivers/staging/media/ipu3/ipu3-v4l2.c
+> @@ -223,10 +223,9 @@ static int imgu_subdev_set_selection(struct v4l2_subdev *sd,
+>                                       struct v4l2_subdev_selection *sel)
+>   {
+>          struct imgu_device *imgu = v4l2_get_subdevdata(sd);
+> -       struct imgu_v4l2_subdev *imgu_sd = container_of(sd,
+> -                                                       struct imgu_v4l2_subdev,
+> -                                                       subdev);
+> -       struct v4l2_rect *rect, *try_sel;
+> +       struct imgu_v4l2_subdev *imgu_sd =
+> +               container_of(sd, struct imgu_v4l2_subdev, subdev);
+> +       struct v4l2_rect *rect;
+> 
+>          dev_dbg(&imgu->pci_dev->dev,
+>                   "set subdev %u sel which %u target 0x%4x rect [%ux%u]",
+> @@ -238,22 +237,22 @@ static int imgu_subdev_set_selection(struct v4l2_subdev *sd,
+> 
+>          switch (sel->target) {
+>          case V4L2_SEL_TGT_CROP:
+> -               try_sel = v4l2_subdev_get_try_crop(sd, sd_state, sel->pad);
+> -               rect = &imgu_sd->rect.eff;
+> +               if (sel->which == V4L2_SUBDEV_FORMAT_TRY)
+> +                       rect = v4l2_subdev_get_try_crop(sd, sd_state, sel->pad);
+> +               else
+> +                       rect = &imgu_sd->rect.eff;
+>                  break;
+>          case V4L2_SEL_TGT_COMPOSE:
+> -               try_sel = v4l2_subdev_get_try_compose(sd, sd_state, sel->pad);
+> -               rect = &imgu_sd->rect.bds;
+> +               if (sel->which == V4L2_SUBDEV_FORMAT_TRY)
+> +                       rect = v4l2_subdev_get_try_compose(sd, sd_state, sel->pad);
+> +               else
+> +                       rect = &imgu_sd->rect.bds;
+>                  break;
+>          default:
+>                  return -EINVAL;
+>          }
+> 
+> -       if (sel->which == V4L2_SUBDEV_FORMAT_TRY)
+> -               *try_sel = sel->r;
+> -       else
+> -               *rect = sel->r;
+> -
+> +       *rect = sel->r;
+>          return 0;
+>   }
+> 
+
 -- 
-2.34.1
+Regards,
 
+Laurent Pinchart
