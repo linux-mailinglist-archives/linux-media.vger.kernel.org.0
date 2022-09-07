@@ -2,161 +2,177 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 004BF5B02D7
-	for <lists+linux-media@lfdr.de>; Wed,  7 Sep 2022 13:25:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D1A0A5B035B
+	for <lists+linux-media@lfdr.de>; Wed,  7 Sep 2022 13:48:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229727AbiIGLZz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 7 Sep 2022 07:25:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55310 "EHLO
+        id S229627AbiIGLsE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 7 Sep 2022 07:48:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38148 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229628AbiIGLZy (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 7 Sep 2022 07:25:54 -0400
-Received: from mail-lj1-x22b.google.com (mail-lj1-x22b.google.com [IPv6:2a00:1450:4864:20::22b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 14DF7B08BB
-        for <linux-media@vger.kernel.org>; Wed,  7 Sep 2022 04:25:53 -0700 (PDT)
-Received: by mail-lj1-x22b.google.com with SMTP id y18so826714ljh.12
-        for <linux-media@vger.kernel.org>; Wed, 07 Sep 2022 04:25:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date;
-        bh=4OmTqg6On89kloMhcJgn+sZNlvyGPEamfza8yetGeeg=;
-        b=MzVUvvfYQ1Sbi5uIeyJaz5aBQIeXkPxUwemtZnH51H/Y2ASy/GGBtYWCgKP8GIrdHk
-         lv3RWBnycm9XaPWaXTxBv/llxoPR4lQ+awcmRBOoJN+oKSq3dhViXkSCfUU8iGE/x3Rd
-         i/N1UoWuBQCW1gAnuR4evMlLkDOt89KJ62xEUnWmApu9kYebcd3mEwo2Z0jRIeq4gogf
-         LQQ9FbUb6sx7CLC+Ie7Hmhy77xZNoIcpi46SIJTO6UYeEG4RfRUQmcChuwSzmDGqKFUg
-         lBO/lt/hDCL161W327YK/WgeDiAAmPsAfKjYNrqqmbJg81lzSrruJi9074fgVGXEEdEo
-         en8Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=4OmTqg6On89kloMhcJgn+sZNlvyGPEamfza8yetGeeg=;
-        b=iz0RRbxWK5ELJ5FFSBwCz6aLR6NP89Yf3Yj6XheMXfx/xh+GDcytW+c/5vxJAWmdVL
-         diWjL72irbgaXsFcam0mjj5X/qU5IvJ+ibksDtfwuo36ao5ItoJv+M0Zz1g+wm8hvKkM
-         ew0Lgza/VV3TiFM+K/OPcRZXXxpyaU8Gd6dG1zYwxL6kLpPI6BycL9QvD38mgmTLcfH5
-         kjl3FFC8mVfE0WWw9ejCpZ7CBuhqt9SseMakGjvDZh/+34QwQQeroOgnr1DGYgGJ3/ku
-         QmyHcakgCm0SYhPL3ZX0RfHtte2yocrNz1yzTNWoOUYYvjASdiUHFO372hOg/Z/wAGd9
-         LrgQ==
-X-Gm-Message-State: ACgBeo3xX8yRNdtvMsVsTxalSswglSUG+G4R0OfEE9gNfgmAba9fV3h+
-        WX8AL8JNQofw4gym0DQi/gHacw==
-X-Google-Smtp-Source: AA6agR7VLuw5g7GtGPZdFh8wzcqVqr0jMeu9LBMCFM3k2HFnQb6wcZFU9tGmtrHX1sTPInDXxtD0mQ==
-X-Received: by 2002:a2e:9e48:0:b0:261:c713:37dd with SMTP id g8-20020a2e9e48000000b00261c71337ddmr803889ljk.385.1662549951433;
-        Wed, 07 Sep 2022 04:25:51 -0700 (PDT)
-Received: from [192.168.0.21] (78-11-189-27.static.ip.netia.com.pl. [78.11.189.27])
-        by smtp.gmail.com with ESMTPSA id z10-20020a056512370a00b004979989028bsm999385lfr.147.2022.09.07.04.25.49
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 07 Sep 2022 04:25:50 -0700 (PDT)
-Message-ID: <783df4f0-0b7e-8604-d61f-f78e0375c321@linaro.org>
-Date:   Wed, 7 Sep 2022 13:25:48 +0200
+        with ESMTP id S229518AbiIGLsD (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 7 Sep 2022 07:48:03 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E349754A0;
+        Wed,  7 Sep 2022 04:48:02 -0700 (PDT)
+Received: from pyrite.rasen.tech (h175-177-042-159.catv02.itscom.jp [175.177.42.159])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id EC9D4DD;
+        Wed,  7 Sep 2022 13:47:53 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1662551279;
+        bh=5Gr6bH8FY/a+xkGxzxUB9O3UJ8qXYspamAEUzoCXd/I=;
+        h=From:To:Cc:Subject:Date:From;
+        b=Cqb942fZYtP8wy6ZAcvycqM00+nUuMy+HxHOW6mxV21wa9PLGYdrAXoG4giNnEtop
+         LRxrSSO8ay+JEtmxkbgRMrFoIEjlFNRAVTi2iCdG3Elm8heH8djspN6cbmlAWMIzAa
+         6n4wGjexhsk/cfh1aVamZzhx9NAKK1CkhFP6gz2s=
+From:   Paul Elder <paul.elder@ideasonboard.com>
+To:     Rui Miguel Silva <rmfrfs@gmail.com>,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        linux-media@vger.kernel.org
+Cc:     Paul Elder <paul.elder@ideasonboard.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        linux-staging@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v2] media: imx7-media-csi: Add support for fast-tracking queued buffers
+Date:   Wed,  7 Sep 2022 20:47:37 +0900
+Message-Id: <20220907114737.1127612-1-paul.elder@ideasonboard.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [Patch v2 15/15] arm64: dts: fsd: Add MFC related DT enteries
-Content-Language: en-US
-To:     Smitha T Murthy <smitha.t@samsung.com>,
-        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
-Cc:     m.szyprowski@samsung.com, andrzej.hajda@intel.com,
-        mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
-        ezequiel@vanguardiasur.com.ar, jernej.skrabec@gmail.com,
-        benjamin.gaignard@collabora.com, stanimir.varbanov@linaro.org,
-        dillon.minfei@gmail.com, david.plowman@raspberrypi.com,
-        mark.rutland@arm.com, robh+dt@kernel.org, krzk+dt@kernel.org,
-        andi@etezian.org, alim.akhtar@samsung.com,
-        aswani.reddy@samsung.com, pankaj.dubey@samsung.com,
-        linux-fsd@tesla.com, aakarsh.jain@samsung.com
-References: <20220907064715.55778-1-smitha.t@samsung.com>
- <CGME20220907063413epcas5p3df6d22933ba2884730c52b6a3af2cb09@epcas5p3.samsung.com>
- <20220907064715.55778-16-smitha.t@samsung.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20220907064715.55778-16-smitha.t@samsung.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-6.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 07/09/2022 08:47, Smitha T Murthy wrote:
-> Add MFC DT node and reserve memory node for MFC usage.
-> 
-> Cc: linux-fsd@tesla.com
-> Signed-off-by: Smitha T Murthy <smitha.t@samsung.com>
-> ---
->  arch/arm64/boot/dts/tesla/fsd-evb.dts |  4 ++++
->  arch/arm64/boot/dts/tesla/fsd.dtsi    | 22 ++++++++++++++++++++++
->  2 files changed, 26 insertions(+)
-> 
-> diff --git a/arch/arm64/boot/dts/tesla/fsd-evb.dts b/arch/arm64/boot/dts/tesla/fsd-evb.dts
-> index 1db6ddf03f01..17bb048f9d47 100644
-> --- a/arch/arm64/boot/dts/tesla/fsd-evb.dts
-> +++ b/arch/arm64/boot/dts/tesla/fsd-evb.dts
-> @@ -30,6 +30,10 @@
->  	};
->  };
->  
-> +&clock_mfc {
-> +	status = "okay";
+The CSI hardware compatible with this driver handles buffers using a
+ping-pong mechanism with two sets of destination addresses. Normally,
+when an interrupt comes in to signal the completion of one buffer, say
+FB0, it assigns the next buffer in the queue to the next FB0, and the
+hardware starts to capture into FB1 in the meantime.
 
-clock node was never disabled, so there is no need to enable it.
+In a buffer underrun situation, in the above example without loss of
+generality, if a new buffer is queued before the interrupt for FB0 comes
+in, we can program the buffer into FB1 (which is programmed with a dummy
+buffer, as there is a buffer underrun).
 
-> +};
-> +
->  &fin_pll {
->  	clock-frequency = <24000000>;
->  };
-> diff --git a/arch/arm64/boot/dts/tesla/fsd.dtsi b/arch/arm64/boot/dts/tesla/fsd.dtsi
-> index f35bc5a288c2..bca0ba030ee7 100644
-> --- a/arch/arm64/boot/dts/tesla/fsd.dtsi
-> +++ b/arch/arm64/boot/dts/tesla/fsd.dtsi
-> @@ -340,6 +340,18 @@
->  		#clock-cells = <0>;
->  	};
->  
-> +	reserved-memory {
-> +		#address-cells = <2>;
-> +		#size-cells = <2>;
-> +		ranges;
-> +
-> +		mfc_left: region@84000000 {
-> +			compatible = "shared-dma-pool";
-> +			no-map;
-> +			reg = <0 0x84000000 0 0x8000000>;
-> +		};
-> +	};
-> +
->  	soc: soc@0 {
->  		compatible = "simple-bus";
->  		#address-cells = <2>;
-> @@ -832,6 +844,16 @@
->  			clock-names = "fin_pll", "mct";
->  		};
->  
-> +		mfc: mfc@12880000 {
-> +			compatible = "samsung,fsd-mfc";
-> +			reg = <0x0 0x12880000 0x0 0x10000>;
-> +			interrupts = <GIC_SPI 137 IRQ_TYPE_LEVEL_HIGH>;
-> +			clock-names = "mfc";
-> +			clocks = <&clock_mfc MFC_MFC_IPCLKPORT_ACLK>;
-> +			memory-region = <&mfc_left>;
-> +			status = "okay";
+This of course races with the interrupt that signals FB0 completion, as
+once that interrupt comes in, we are no longer guaranteed that the
+programming of FB1 was in time and must assume it was too late. This
+race is resolved partly by locking the programming of FB1. If it came
+after the interrupt for FB0, then the variable that is used to determine
+which FB to program would have been swapped by the interrupt handler.
 
-Okay is by default, don't add it.
+This alone isn't sufficient, however, because the interrupt could still
+be generated (thus the hardware starts capturing into the other fb)
+while the fast-tracking routine has the irq lock. Thus, after
+programming the fb register to fast-track the buffer, the isr also must
+be checked to confirm that an interrupt didn't come in the meantime. If
+it has, we must assume that programming the register for the
+fast-tracked buffer was not in time, and queue the buffer normally.
 
-> +		};
-> +
->  		ufs: ufs@15120000 {
->  			compatible = "tesla,fsd-ufs";
->  			reg = <0x0 0x15120000 0x0 0x200>,  /* 0: HCI standard */
+Signed-off-by: Paul Elder <paul.elder@ideasonboard.com>
+Acked-by: Rui Miguel Silva <rmfrfs@gmail.com>
 
+---
+Changes in v2:
+- fix the potential race condition where the interrupt comes in while
+  the fast tracking routine has the irqlock
+- change return value from int to bool
+---
+ drivers/staging/media/imx/imx7-media-csi.c | 63 ++++++++++++++++++++++
+ 1 file changed, 63 insertions(+)
 
-Best regards,
-Krzysztof
+diff --git a/drivers/staging/media/imx/imx7-media-csi.c b/drivers/staging/media/imx/imx7-media-csi.c
+index a0553c24cce4..0ebef44a7627 100644
+--- a/drivers/staging/media/imx/imx7-media-csi.c
++++ b/drivers/staging/media/imx/imx7-media-csi.c
+@@ -1296,12 +1296,75 @@ static int imx7_csi_video_buf_prepare(struct vb2_buffer *vb)
+ 	return 0;
+ }
+ 
++static bool imx7_csi_fast_track_buffer(struct imx7_csi *csi,
++				       struct imx7_csi_vb2_buffer *buf)
++{
++	unsigned long flags;
++	dma_addr_t phys;
++	int buf_num;
++	u32 isr;
++
++	if (!csi->is_streaming)
++		return false;
++
++	phys = vb2_dma_contig_plane_dma_addr(&buf->vbuf.vb2_buf, 0);
++
++	/*
++	 * buf_num holds the fb id of the most recently (*not* the next
++	 * anticipated) triggered interrupt. Without loss of generality, if
++	 * buf_num is 0 and we get to this section before the irq for fb2, the
++	 * buffer that we are fast-tracking into fb1 should be programmed in
++	 * time to be captured into. If the irq for fb2 already happened, then
++	 * buf_num would be 1, and we would fast-track the buffer into fb2
++	 * instead. This guarantees that we won't try to fast-track into fb1
++	 * and race against the start-of-capture into fb1.
++	 *
++	 * We only fast-track the buffer if the currently programmed buffer is
++	 * a dummy buffer. We can check the active_vb2_buf instead as it is
++	 * always modified along with programming the fb[1,2] registers via the
++	 * lock (besides setup and cleanup).
++	 */
++
++	spin_lock_irqsave(&csi->irqlock, flags);
++
++	buf_num = csi->buf_num;
++	if (csi->active_vb2_buf[buf_num]) {
++		spin_unlock_irqrestore(&csi->irqlock, flags);
++		return false;
++	}
++
++	imx7_csi_update_buf(csi, phys, buf_num);
++
++	isr = imx7_csi_reg_read(csi, CSI_CSISR);
++	/*
++	 * The interrupt for the /other/ fb just came (the isr hasn't run yet
++	 * though, because we have the lock here); we can't be sure we've
++	 * programmed buf_num fb in time, so queue the buffer to the buffer
++	 * queue normally. No need to undo writing the fb register, since we
++	 * won't return it as active_vb2_buf is NULL, so it's okay to
++	 * potentially write it to both fb1 and fb2; only the one where it was
++	 * queued normally will be returned.
++	 */
++	if (isr & (buf_num ? BIT_DMA_TSF_DONE_FB1 : BIT_DMA_TSF_DONE_FB2)) {
++		spin_unlock_irqrestore(&csi->irqlock, flags);
++		return false;
++	}
++
++	csi->active_vb2_buf[buf_num] = buf;
++
++	spin_unlock_irqrestore(&csi->irqlock, flags);
++	return true;
++}
++
+ static void imx7_csi_video_buf_queue(struct vb2_buffer *vb)
+ {
+ 	struct imx7_csi *csi = vb2_get_drv_priv(vb->vb2_queue);
+ 	struct imx7_csi_vb2_buffer *buf = to_imx7_csi_vb2_buffer(vb);
+ 	unsigned long flags;
+ 
++	if (imx7_csi_fast_track_buffer(csi, buf))
++		return;
++
+ 	spin_lock_irqsave(&csi->q_lock, flags);
+ 
+ 	list_add_tail(&buf->list, &csi->ready_q);
+-- 
+2.30.2
+
