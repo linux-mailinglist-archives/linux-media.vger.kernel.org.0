@@ -2,232 +2,95 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5B8355B0C6F
-	for <lists+linux-media@lfdr.de>; Wed,  7 Sep 2022 20:23:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1E5215B0CBD
+	for <lists+linux-media@lfdr.de>; Wed,  7 Sep 2022 20:55:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230075AbiIGSXo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 7 Sep 2022 14:23:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36012 "EHLO
+        id S229793AbiIGSzy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 7 Sep 2022 14:55:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53384 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230346AbiIGSXY (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 7 Sep 2022 14:23:24 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B6533C04E7;
-        Wed,  7 Sep 2022 11:23:21 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8D061478;
-        Wed,  7 Sep 2022 20:23:19 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1662574999;
-        bh=/ZC46D6q/4IGsVDCdn956cKcKGh4AL69/eqqSzbZofQ=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=GFsJSJ1MHEzUGnQ1s26JqPAU+p8zHCwUzr4ZiQpj8XrmvrJRZmzoKmihHR79cKNi2
-         BPZGvtD4jRrzjqiucxoF2oZlP3wSLMoNrYmzV1Cfuovvr7YhhM8+n1N+Ij2syB4hzJ
-         PmJfpZ6qmAachO/i6ZLe065kLj/FeYOzvuT9QxKY=
-Date:   Wed, 7 Sep 2022 21:23:03 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Paul Elder <paul.elder@ideasonboard.com>
-Cc:     Rui Miguel Silva <rmfrfs@gmail.com>,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        linux-media@vger.kernel.org,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        linux-staging@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] media: imx7-media-csi: Add support for fast-tracking
- queued buffers
-Message-ID: <YxjhhzTylUUwjCVm@pendragon.ideasonboard.com>
-References: <20220907114737.1127612-1-paul.elder@ideasonboard.com>
- <YxjgkAjvsaZkS2cY@pendragon.ideasonboard.com>
+        with ESMTP id S229526AbiIGSzx (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 7 Sep 2022 14:55:53 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 75F5780371;
+        Wed,  7 Sep 2022 11:55:51 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 1A3BC619A2;
+        Wed,  7 Sep 2022 18:55:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8819BC433C1;
+        Wed,  7 Sep 2022 18:55:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1662576950;
+        bh=dpJMvDdBTLp5BymS0AQR0+IWGQyDaRp/R/kXNsuQsfY=;
+        h=Date:From:To:Cc:Subject:From;
+        b=Evgabar0ezseNAy0a/spJe6h3v5c5D8n2L5/t0KrF4Y+5GUAaR+cCcBwbjtkKGFsi
+         n12JjIQjkMcpLWaoYDs3xkbzLWsD9zZFgf1Xz08lWEo0/2U9TMvKZZs7FhkpJXLvi8
+         NoEHuhpd+5bDAAmZARsf6DOYFq56wwIokoJo7cgmwRM8HRaV20VpZeU8c6evnZpfEM
+         2BUMZeSIpzXCyCn/GPrCHOopWogbPSfKmfvZ53ZJZU3AxYuv+V/pw/GWUDIQrxY/xx
+         imTpJPXmX1Khkuxi8Xkg0ZdRCutA0mrRt1gfbE6Sd8N+qunjYohIE1Jzp9awk5EDoM
+         HWG/G8FOxK9gA==
+Date:   Wed, 7 Sep 2022 19:55:44 +0100
+From:   "Gustavo A. R. Silva" <gustavoars@kernel.org>
+To:     Hans Verkuil <hverkuil@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+        linux-hardening@vger.kernel.org
+Subject: [PATCH][next] media: usb: pwc-uncompress: Use flex array destination
+ for memcpy()
+Message-ID: <YxjpMMUb3WP5Rbu7@work>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YxjgkAjvsaZkS2cY@pendragon.ideasonboard.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Paul,
+In preparation for FORTIFY_SOURCE performing run-time destination buffer
+bounds checking for memcpy(), specify the destination output buffer
+explicitly, instead of asking memcpy() to write past the end of what looked
+like a fixed-size object.
 
-On Wed, Sep 07, 2022 at 09:18:58PM +0300, Laurent Pinchart wrote:
-> On Wed, Sep 07, 2022 at 08:47:37PM +0900, Paul Elder wrote:
-> > The CSI hardware compatible with this driver handles buffers using a
-> > ping-pong mechanism with two sets of destination addresses. Normally,
-> > when an interrupt comes in to signal the completion of one buffer, say
-> > FB0, it assigns the next buffer in the queue to the next FB0, and the
-> > hardware starts to capture into FB1 in the meantime.
-> 
-> Could you replace FB0 and FB1 with FB1 and FB2 respectively, to match
-> the naming of the registers ?
-> 
-> > In a buffer underrun situation, in the above example without loss of
-> > generality, if a new buffer is queued before the interrupt for FB0 comes
-> > in, we can program the buffer into FB1 (which is programmed with a dummy
-> > buffer, as there is a buffer underrun).
-> > 
-> > This of course races with the interrupt that signals FB0 completion, as
-> > once that interrupt comes in, we are no longer guaranteed that the
-> > programming of FB1 was in time and must assume it was too late. This
-> > race is resolved partly by locking the programming of FB1. If it came
-> > after the interrupt for FB0, then the variable that is used to determine
-> > which FB to program would have been swapped by the interrupt handler.
-> > 
-> > This alone isn't sufficient, however, because the interrupt could still
-> > be generated (thus the hardware starts capturing into the other fb)
-> > while the fast-tracking routine has the irq lock. Thus, after
-> > programming the fb register to fast-track the buffer, the isr also must
-> > be checked to confirm that an interrupt didn't come in the meantime. If
-> > it has, we must assume that programming the register for the
-> > fast-tracked buffer was not in time, and queue the buffer normally.
-> > 
-> > Signed-off-by: Paul Elder <paul.elder@ideasonboard.com>
-> > Acked-by: Rui Miguel Silva <rmfrfs@gmail.com>
-> > 
-> > ---
-> > Changes in v2:
-> > - fix the potential race condition where the interrupt comes in while
-> >   the fast tracking routine has the irqlock
-> > - change return value from int to bool
-> > ---
-> >  drivers/staging/media/imx/imx7-media-csi.c | 63 ++++++++++++++++++++++
-> >  1 file changed, 63 insertions(+)
-> > 
-> > diff --git a/drivers/staging/media/imx/imx7-media-csi.c b/drivers/staging/media/imx/imx7-media-csi.c
-> > index a0553c24cce4..0ebef44a7627 100644
-> > --- a/drivers/staging/media/imx/imx7-media-csi.c
-> > +++ b/drivers/staging/media/imx/imx7-media-csi.c
-> > @@ -1296,12 +1296,75 @@ static int imx7_csi_video_buf_prepare(struct vb2_buffer *vb)
-> >  	return 0;
-> >  }
-> >  
-> > +static bool imx7_csi_fast_track_buffer(struct imx7_csi *csi,
-> > +				       struct imx7_csi_vb2_buffer *buf)
-> > +{
-> > +	unsigned long flags;
-> > +	dma_addr_t phys;
-> > +	int buf_num;
-> > +	u32 isr;
-> > +
-> > +	if (!csi->is_streaming)
-> > +		return false;
-> > +
-> > +	phys = vb2_dma_contig_plane_dma_addr(&buf->vbuf.vb2_buf, 0);
-> > +
-> > +	/*
-> > +	 * buf_num holds the fb id of the most recently (*not* the next
-> > +	 * anticipated) triggered interrupt. Without loss of generality, if
-> > +	 * buf_num is 0 and we get to this section before the irq for fb2, the
-> 
-> s/fb2/FB2/ to match hardware registers and the commit message ?
-> 
-> > +	 * buffer that we are fast-tracking into fb1 should be programmed in
-> > +	 * time to be captured into. If the irq for fb2 already happened, then
-> > +	 * buf_num would be 1, and we would fast-track the buffer into fb2
-> > +	 * instead. This guarantees that we won't try to fast-track into fb1
-> > +	 * and race against the start-of-capture into fb1.
-> > +	 *
-> > +	 * We only fast-track the buffer if the currently programmed buffer is
-> > +	 * a dummy buffer. We can check the active_vb2_buf instead as it is
-> > +	 * always modified along with programming the fb[1,2] registers via the
-> > +	 * lock (besides setup and cleanup).
-> > +	 */
-> 
-> I think this needs to be updated, it still indicates we handle the race
-> just by checking buf_num. How about the following ?
-> 
-> 	/*
-> 	 * buf_num holds the framebuffer ID of the most recently (*not* the next
-> 	 * anticipated) triggered interrupt. Without loss of generality, if
-> 	 * buf_num is 0, the hardware is capturing to FB2. If FB1 has been
-> 	 * programmed with a dummy buffer (as indicated by active_vb2_buf[0]
-> 	 * being NULL), then we can fast-track the new buffer by programming its
-> 	 * address in FB1 before the hardware completes FB2, instead of adding
-> 	 * it to the buffer queue and incurring a delay of one additional frame.
-> 	 *
-> 	 * The irqlock prevents races with the interrupt handler that queues the
-> 	 * next buffer and updates buf_num, but we can still race with the
-> 	 * hardware if we program the buffer in FB1 just after the hardware
-> 	 * completes FB2 and switches to FB1 and before we notice the buf_num
-> 	 * change. The fast-tracked buffer would then be ignored by the hardware
-> 	 * while the driver would think it has successfully been processed.
-> 	 *
-> 	 * To avoid this problem, if we can't avoid the race, we can detect that
-> 	 * we have lost it by checking, after programming the buffer in FB1, if
-> 	 * the interrupt flag indicated completion of FB2 has been raised. If
-> 	 * that is not the case, fast-tracking succeeded, and we can update
-> 	 * active_vb2_buf[0]. Otherwise, we may or may not have lost the race
-> 	 * (as the interrupt flag may have been raised just after programming
-> 	 * FB1 and before we read the interrupt status register), and we need to
-> 	 * assume the worst case of a race loss and queue the buffer through the
-> 	 * slow path.
-> 	 */
-> 
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> 
-> If you're fine with these changes there's no need to submit a v3, I'll
-> update the comment and the commit message locally.
-> 
-> > +
-> > +	spin_lock_irqsave(&csi->irqlock, flags);
-> > +
-> > +	buf_num = csi->buf_num;
-> > +	if (csi->active_vb2_buf[buf_num]) {
-> > +		spin_unlock_irqrestore(&csi->irqlock, flags);
-> > +		return false;
-> > +	}
-> > +
-> > +	imx7_csi_update_buf(csi, phys, buf_num);
-> > +
-> > +	isr = imx7_csi_reg_read(csi, CSI_CSISR);
-> > +	/*
-> > +	 * The interrupt for the /other/ fb just came (the isr hasn't run yet
-> > +	 * though, because we have the lock here); we can't be sure we've
-> > +	 * programmed buf_num fb in time, so queue the buffer to the buffer
-> > +	 * queue normally. No need to undo writing the fb register, since we
-> > +	 * won't return it as active_vb2_buf is NULL, so it's okay to
-> > +	 * potentially write it to both fb1 and fb2; only the one where it was
-> > +	 * queued normally will be returned.
-> > +	 */
+Notice that raw_frame is a pointer to a structure that contains
+flexible-array member rawframe[]:
 
-Also, if you state that the interrupt just came, I'd move the comment to
-within the if () { ... }.
+drivers/media/usb/pwc/pwc.h:
+190 struct pwc_raw_frame {
+191         __le16 type;            /* type of the webcam */
+192         __le16 vbandlength;     /* Size of 4 lines compressed (used by the
+193                                    decompressor) */
+194         __u8   cmd[4];          /* the four byte of the command (in case of
+195                                    nala, only the first 3 bytes is filled) */
+196         __u8   rawframe[];      /* frame_size = H / 4 * vbandlength */
+197 } __packed;
 
-> > +	if (isr & (buf_num ? BIT_DMA_TSF_DONE_FB1 : BIT_DMA_TSF_DONE_FB2)) {
-> > +		spin_unlock_irqrestore(&csi->irqlock, flags);
-> > +		return false;
-> > +	}
-> > +
-> > +	csi->active_vb2_buf[buf_num] = buf;
-> > +
-> > +	spin_unlock_irqrestore(&csi->irqlock, flags);
-> > +	return true;
-> > +}
-> > +
-> >  static void imx7_csi_video_buf_queue(struct vb2_buffer *vb)
-> >  {
-> >  	struct imx7_csi *csi = vb2_get_drv_priv(vb->vb2_queue);
-> >  	struct imx7_csi_vb2_buffer *buf = to_imx7_csi_vb2_buffer(vb);
-> >  	unsigned long flags;
-> >  
-> > +	if (imx7_csi_fast_track_buffer(csi, buf))
-> > +		return;
-> > +
-> >  	spin_lock_irqsave(&csi->q_lock, flags);
-> >  
-> >  	list_add_tail(&buf->list, &csi->ready_q);
+Link: https://github.com/KSPP/linux/issues/200
+Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
+---
+ drivers/media/usb/pwc/pwc-uncompress.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/drivers/media/usb/pwc/pwc-uncompress.c b/drivers/media/usb/pwc/pwc-uncompress.c
+index faf44cdeb268..cf2591a9675c 100644
+--- a/drivers/media/usb/pwc/pwc-uncompress.c
++++ b/drivers/media/usb/pwc/pwc-uncompress.c
+@@ -39,7 +39,7 @@ int pwc_decompress(struct pwc_device *pdev, struct pwc_frame_buf *fbuf)
+ 			 * first 3 bytes is filled (Nala case). We can
+ 			 * determine this using the type of the webcam */
+ 		memcpy(raw_frame->cmd, pdev->cmd_buf, 4);
+-		memcpy(raw_frame+1, yuv, pdev->frame_size);
++		memcpy(raw_frame->rawframe, yuv, pdev->frame_size);
+ 		vb2_set_plane_payload(&fbuf->vb.vb2_buf, 0,
+ 			struct_size(raw_frame, rawframe, pdev->frame_size));
+ 		return 0;
 -- 
-Regards,
+2.34.1
 
-Laurent Pinchart
