@@ -2,244 +2,170 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A7FB45B0517
-	for <lists+linux-media@lfdr.de>; Wed,  7 Sep 2022 15:27:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DCF475B03FA
+	for <lists+linux-media@lfdr.de>; Wed,  7 Sep 2022 14:33:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229705AbiIGN1H (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 7 Sep 2022 09:27:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41442 "EHLO
+        id S229832AbiIGMda (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 7 Sep 2022 08:33:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52870 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229767AbiIGN1E (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 7 Sep 2022 09:27:04 -0400
-Received: from mailout3.samsung.com (mailout3.samsung.com [203.254.224.33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D087B7962F
-        for <linux-media@vger.kernel.org>; Wed,  7 Sep 2022 06:26:58 -0700 (PDT)
-Received: from epcas5p2.samsung.com (unknown [182.195.41.40])
-        by mailout3.samsung.com (KnoxPortal) with ESMTP id 20220907132652epoutp0369435f3dc424a8f00767cac1373994c0~SlvnuShUG2341623416epoutp03X
-        for <linux-media@vger.kernel.org>; Wed,  7 Sep 2022 13:26:52 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com 20220907132652epoutp0369435f3dc424a8f00767cac1373994c0~SlvnuShUG2341623416epoutp03X
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-        s=mail20170921; t=1662557212;
-        bh=+RiMUm1DRh8uWdpGnfbNgmdw1fBy5kFiKoPWMaL8sfY=;
-        h=From:To:Cc:In-Reply-To:Subject:Date:References:From;
-        b=JGbBDMX0QWLdGE+Z0II+0uZYbk6VLyX2zD2YN9ILFPxoj2jSDrIhHBTeMnqvFOtZN
-         G6ZttUqT+Sbcje3Fs+di1qqHZbSw7xSR4h4DcIqBUPDkFotRGiONwVI6ImOoDlT6N/
-         8/ECyycT/xxCbzZpnOgZfTSylwGxH6DwfxmHIVII=
-Received: from epsnrtp1.localdomain (unknown [182.195.42.162]) by
-        epcas5p4.samsung.com (KnoxPortal) with ESMTP id
-        20220907132651epcas5p420447b118a4782c5b0fc506db6c59d7d~SlvnFMEWi2320623206epcas5p4V;
-        Wed,  7 Sep 2022 13:26:51 +0000 (GMT)
-Received: from epsmges5p2new.samsung.com (unknown [182.195.38.182]) by
-        epsnrtp1.localdomain (Postfix) with ESMTP id 4MN3211nhlz4x9Pr; Wed,  7 Sep
-        2022 13:26:49 +0000 (GMT)
-Received: from epcas5p3.samsung.com ( [182.195.41.41]) by
-        epsmges5p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
-        EB.D7.53458.91C98136; Wed,  7 Sep 2022 22:26:49 +0900 (KST)
-Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
-        epcas5p2.samsung.com (KnoxPortal) with ESMTPA id
-        20220907121647epcas5p2d35c37079e03f8bc248cee3bbb61b929~SkybQ5vnT0100601006epcas5p2B;
-        Wed,  7 Sep 2022 12:16:47 +0000 (GMT)
-Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
-        epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
-        20220907121647epsmtrp15f2c973ab7b35844b3a046bd57d43ad9~SkybN6evt1492014920epsmtrp1L;
-        Wed,  7 Sep 2022 12:16:47 +0000 (GMT)
-X-AuditID: b6c32a4a-caffb7000000d0d2-76-63189c1943d3
-Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
-        epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
-        FD.EC.14392.FAB88136; Wed,  7 Sep 2022 21:16:47 +0900 (KST)
-Received: from smithat07 (unknown [107.122.12.13]) by epsmtip2.samsung.com
-        (KnoxPortal) with ESMTPA id
-        20220907121643epsmtip2b4276c0c7453b84d50ab4f86943cbb09~SkyYFeXyj2686126861epsmtip24;
-        Wed,  7 Sep 2022 12:16:43 +0000 (GMT)
-From:   "Smitha T Murthy" <smitha.t@samsung.com>
-To:     "'Krzysztof Kozlowski'" <krzysztof.kozlowski@linaro.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <devicetree@vger.kernel.org>
-Cc:     <m.szyprowski@samsung.com>, <andrzej.hajda@intel.com>,
-        <mchehab@kernel.org>, <hverkuil-cisco@xs4all.nl>,
-        <ezequiel@vanguardiasur.com.ar>, <jernej.skrabec@gmail.com>,
-        <benjamin.gaignard@collabora.com>, <stanimir.varbanov@linaro.org>,
-        <dillon.minfei@gmail.com>, <david.plowman@raspberrypi.com>,
-        <mark.rutland@arm.com>, <robh+dt@kernel.org>, <krzk+dt@kernel.org>,
-        <andi@etezian.org>, <alim.akhtar@samsung.com>,
-        <aswani.reddy@samsung.com>, <pankaj.dubey@samsung.com>,
-        <linux-fsd@tesla.com>, <aakarsh.jain@samsung.com>
-In-Reply-To: <783df4f0-0b7e-8604-d61f-f78e0375c321@linaro.org>
-Subject: RE: [Patch v2 15/15] arm64: dts: fsd: Add MFC related DT enteries
-Date:   Wed, 7 Sep 2022 17:46:42 +0530
-Message-ID: <001601d8c2b3$b33e2ac0$19ba8040$@samsung.com>
+        with ESMTP id S229746AbiIGMdS (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 7 Sep 2022 08:33:18 -0400
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12on2089.outbound.protection.outlook.com [40.107.244.89])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D7DF8AE236;
+        Wed,  7 Sep 2022 05:33:13 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=IjHB3m4m0HuDO+AbpU5JM7BeOr9CyemzQBouunUFlLCYoXL0YE+mF/EUs/dfIctXFhb2/gZaJVvbvbyBZjsM+ms4Y9XB9MrhvkrWC0G8v6MoG/fnRK6qWmE8m+z3nWlz8dL8GM0v9NSDP3GkI84LeEeMBcqvGrRGAJCLPEowTpb2IL5V8Fs7qFw2nrHfJrOitfN8x2dFLCwZrQv82lvE84GsOkqtm/MHu2JLmt747i7NvlhAAgl3dixERMM4Daq5JP0ZsZZxODT1aNgMbOc4z+UtH33UixpEZQPKPe3BmWT5gMLqukhAvgILjhu5X4pHEG1L2jEH+C7sjG/HthOu6A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=UG/AwbAyhpVmmimR5vw3AmxTLnsINoVPBUNcOLCuOtQ=;
+ b=PDAZt6UOb9Qt8ar+qFLhyiHM5CsyhHlf+TJkSPHDgNQJ74M9XVX7Kn3xKvwNfX3nmDOJauOzuXHX8zujhVEnjwGTFuA25l2I/4UdT8TvASinLpTyQyfYc7dGFK6mPDxlQywUj9XWeeu+lLUuvL2SDiKmGSi3h1de/L+z4zMb0T7V1z6kpf/U5RBoSGE4rWc1ylMHHwNS5mDz/naS4QmMVgYy2LQpsbTckc1wN0ZELF91cu2fv1owQyLrzdfwFTQNo6O6kYxvDtktwxDuimhGbqyn5ZfO02CyWTkRU9muLW7q2OVh9Fvwz+yDf4Q1X6YOzm5LjHnXQP3kx7FsZCj53g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=UG/AwbAyhpVmmimR5vw3AmxTLnsINoVPBUNcOLCuOtQ=;
+ b=NNJjC2ecbQPjH21OwDAjj9ESNmxJsShjBCn1hVjdvaPsyWApnrOfPZ7lWL0/7PtDCdVHYBfH96ceojIRyCVP5+QnkaFYvJsY1jkJrakWSDDtQZ+rDRJ/gkFv56R65nGgyz+nQGPeYaXzlU/W8IxNXIAfB98yoJV41uZmsoWFRnjd3Vkv077BpRxGKHnaXPvDJZMCLBtGc1iq0wTtGzyODVrj4H27PT2z4oyxs+96Au5+bAlry5p0NNcwFP/EkwbjnEDAoVeaXwxacYx2axosB7da92z3qQkXbwP28aKM0sgdY64RKyQ7phN0jxw9mjTaunNKwjAsSa4Bx0yjeOoEsw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from MN2PR12MB4192.namprd12.prod.outlook.com (2603:10b6:208:1d5::15)
+ by CY5PR12MB6034.namprd12.prod.outlook.com (2603:10b6:930:2e::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5588.17; Wed, 7 Sep
+ 2022 12:33:12 +0000
+Received: from MN2PR12MB4192.namprd12.prod.outlook.com
+ ([fe80::462:7fe:f04f:d0d5]) by MN2PR12MB4192.namprd12.prod.outlook.com
+ ([fe80::462:7fe:f04f:d0d5%7]) with mapi id 15.20.5588.018; Wed, 7 Sep 2022
+ 12:33:12 +0000
+Date:   Wed, 7 Sep 2022 09:33:11 -0300
+From:   Jason Gunthorpe <jgg@nvidia.com>
+To:     Christoph Hellwig <hch@infradead.org>
+Cc:     Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Cornelia Huck <cohuck@redhat.com>,
+        dri-devel@lists.freedesktop.org, kvm@vger.kernel.org,
+        linaro-mm-sig@lists.linaro.org, linux-media@vger.kernel.org,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Daniel Vetter <daniel.vetter@ffwll.ch>,
+        Leon Romanovsky <leon@kernel.org>, linux-rdma@vger.kernel.org,
+        Maor Gottlieb <maorg@nvidia.com>,
+        Oded Gabbay <ogabbay@kernel.org>
+Subject: Re: [PATCH v2 4/4] vfio/pci: Allow MMIO regions to be exported
+ through dma-buf
+Message-ID: <YxiPh4u/92chN02C@nvidia.com>
+References: <0-v2-472615b3877e+28f7-vfio_dma_buf_jgg@nvidia.com>
+ <4-v2-472615b3877e+28f7-vfio_dma_buf_jgg@nvidia.com>
+ <YxcYGzPv022G2vLm@infradead.org>
+ <b6b5d236-c089-7428-4cc9-a08fe4f6b4a3@amd.com>
+ <YxczjNIloP7TWcf2@nvidia.com>
+ <YxiJJYtWgh1l0wxg@infradead.org>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YxiJJYtWgh1l0wxg@infradead.org>
+X-ClientProxiedBy: BLAPR05CA0048.namprd05.prod.outlook.com
+ (2603:10b6:208:335::29) To MN2PR12MB4192.namprd12.prod.outlook.com
+ (2603:10b6:208:1d5::15)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-Mailer: Microsoft Outlook 16.0
-Thread-Index: AQIwYET59QqMDNmfP0SYfUTdtmHMHgExQ0QVAaYMvCgBZ+7aQq0CrI9A
-Content-Language: en-us
-X-Brightmail-Tracker: H4sIAAAAAAAAA01TeUyTZxzO2369dLiPw/GWZNh8M1nAAK1CeUs5dhj2hW2BqDgjW1htvxRG
-        r7Rlou5gOnAQD5gio+NQQWYYx2jLsQIbYBmTbAtmBdRxDhhrAeMsXoiylpaN/57f+zzP73rz
-        Y9P9KlhB7EyVntKqJAqCuQlrvRYSEsYth1L+7ZMcNNtexkCTla1MVP1ojoYmqp0Y6jW1sJDZ
-        9jUdfdPfzUBV1t8YqK3nTww1/+1ib5SNYWiuqhEgu2GcibrmXWLj9DADTTneQb9bypno1Hct
-        DNRgHWOhKyM3aKjWuEJDl1uWWCivy8pCn+dbaa9Asr6yHpDtYzWAHKm5Rye/N4yxyOpOO400
-        1hUwydHhTiZpqvmUzOtbxsgz5jpAPjtewSILrSNM0mkMJgfuO1kpWw5mxWZQEhml5VEqqVqW
-        qZLHEW/uTX89PUrIF4QJRCia4KkkSiqO2P1WSlhipsK1BoL3oUSR7XpKkeh0RER8rFadrad4
-        GWqdPo6gNDKFJlITrpModdkqebiK0scI+PydUS7h+1kZHXW1NE0RN2fhioWZC576FwIOG+KR
-        cKn7B6wQbGL74R0ALn7xpTe4B+CPo4PAEzwAsODpIG3dsjr6l5foAtDx2UOvZQ7A1oUKplvF
-        xMOhw1rNcBMBeB+Ak+Ypupug4yUY7BnmujEHj4fdIzbMjf3xJHhhaHVNg+Hb4U+tc2vYBxdB
-        x8Q08GBfeL1sBvPk2QbbFsvpnpZ48PFsLcONA/BE2FxkZnk0gdDeZ2W5m4D4MAc6Lc8wj2E3
-        vGAuAh7sDx39HgPEg6D9bL4Xy+GE84RXo4EVuWbv/Amw21buysN2FQiBTZYIz/OLsGSgkeap
-        uwWefjLjlfvA9sp1TMDLv/zsTQ/h0GILowgQhg2jGTaMZtgwguH/ahcBVge4lEanlFO6KM1O
-        FXX4vy+XqpVGsHYnoUntYGrybngvoLFBL4BsOhHgI2sPkPr5yCRHjlJadbo2W0HpekGUa9/F
-        9KCtUrXr0FT6dEGkiB8pFAojRbuEAiLQ5/wOIPXD5RI9lUVRGkq77qOxOUG5tKv7DtT4RZ9K
-        O5bxgM/fZTqYkGD/IDQieH6HfLjHF+L1hhMN0nF26pA470xyov3b3uSzOUuch7qZd53K1Y9X
-        TEN9aW8f6Ij5JO35beJAVXCQomHvP9GlN48O3rI4q1TjH9kOyZbVJTG21CedHQPvnQq5mj+/
-        rOx+LuCYOAe9fD31SEWPjC07nT9Yu2oQL7ex0yx6IY/EublNd223fVNXRvf00w7fqYl4NfbS
-        dBMymvefO9e4L3dr4h+M5jCxOnvhZnFLsaS0/LzJ9NWd0hd+3UNtPh6c+NKjN7aL7idbZh8X
-        VhpPqi8WOLgr4ZdeM21m6Kry9osP5dwSSeJFBbK0jMKkawSmy5AIQulaneRfWEv0UbAEAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFmphleLIzCtJLcpLzFFi42LZdlhJXnd9t0SywdRuLounO2ayWjyYt43N
-        YvGP50wW9xd/ZrE4tHkru8WWK7OZLZYfP8BqMf/IOVaL7QcfsVhsfAGUvTjzLovF8/nrGC1e
-        zrrHZrH3NVDxpsfXWC0evgq3uLxrDptFz4atrBZrj9xlt1h6/SKTxbJNf5gsFm39wm7RuvcI
-        u0VL2xEmBwmPNfPWMHrsuLuE0eP6kk/MHjtn3WX3WLznJZPHplWdbB53ru1h89i8pN6j9egv
-        Fo++LasYPf41zWX36Dpync3j8yY5j1NfP7MH8EVx2aSk5mSWpRbp2yVwZexetYypYIJkxZul
-        u9gaGP8KdzFyckgImEj8v/OMEcQWEtjNKLHsCx9EXEJi5e9JjBC2sMTKf8/ZIWqeMkrcPRkB
-        YrMJ6Em8OrKYtYuRi0NE4CSjRP+ZFjCHWWAli8TdW10sII6QwBtGiatdB8DaOQXsJA5cv8IC
-        YgsLeElMu/qfGcRmEVCROLbtOZjNK2Ap8er+Y0YIW1Di5MwnYPXMAtoSvQ9bGSFseYntb+cw
-        Q5ynIPHz6TJWEFtEwE1i44Qt7BA14hIvjx5hn8AoPAvJqFlIRs1CMmoWkpYFjCyrGCVTC4pz
-        03OLDQsM81LL9YoTc4tL89L1kvNzNzGCE4qW5g7G7as+6B1iZOJgPMQowcGsJMKbskMkWYg3
-        JbGyKrUoP76oNCe1+BCjNAeLkjjvha6T8UIC6YklqdmpqQWpRTBZJg5OqQYmA5Y9xg+KyovV
-        vRe/+dPMt99aa3d9e+G01aflQhkn2zI/S+CZJP22Yf/VjvtzSvv0b/1IM+8UMO9MOp/wpFxZ
-        YlML3+W3C2ZFWftXBIcd0GJrkLMuv7qO94xJ2XuF05tO+71buiy/q+z2If+AFdLG3b/bP9/8
-        8ab4OutxHW+l4w93HDOafrvWf5ap1YuZlWcLXXcvudC9TeKr0CWxnSuLd/Uuy58bdq7vwOVu
-        8bMTGXLTf8lp+b/49E3vwinHbNNTcyVf8pYKvuNjzeLZO3P+G9mOKW9UzydcSL3D77bQSqZv
-        3akGi2u1z5lea1ctvTLNwfDPugjVWefeK81nPxHX6mqm0x9Qfjnt5v233yOklViKMxINtZiL
-        ihMBnCgR75cDAAA=
-X-CMS-MailID: 20220907121647epcas5p2d35c37079e03f8bc248cee3bbb61b929
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-Sendblock-Type: REQ_APPROVE
-CMS-TYPE: 105P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20220907063413epcas5p3df6d22933ba2884730c52b6a3af2cb09
-References: <20220907064715.55778-1-smitha.t@samsung.com>
-        <CGME20220907063413epcas5p3df6d22933ba2884730c52b6a3af2cb09@epcas5p3.samsung.com>
-        <20220907064715.55778-16-smitha.t@samsung.com>
-        <783df4f0-0b7e-8604-d61f-f78e0375c321@linaro.org>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
-        version=3.4.6
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 5cf01ec0-6b77-451d-570d-08da90cd20ec
+X-MS-TrafficTypeDiagnostic: CY5PR12MB6034:EE_
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: eO+Mqd+eiBAHMLRpx5MznnRyUephqZomkMmGZcUlPOY/v1SVqa8mCWR99iL4eQQaYUpRAxUArvlRNBkhgiC1m+2qhuOea0MXPIdFE/vi0SpKP4yaU9rVLR0PHFklOEqnhruVRajG6+ctoMm7uxd7cpxREbzpw/je20UZdi27QcuL1/PGkY/qfaoLZAvVmFqw0UlPq1VAvYYHBHYZ0ExM9d6tt/Skv7aCw0wU2gpmalpw6Seox+9vOho3ypSAqpuh0JQLN4ucDqD/ao19ha+/92RL/fzdYDUfNthR1I/0HXZheLOuBGA9EoTcShlvs7kuDWrtyxADTSKc06nqE3+Xie9T003mqN3llytGdySd4zDrwVfsJHQZ7V9oom9fnG199ygAJTkhaWv3TbEXZUVHCm0mvI3Q5LXDRDLxDqAgWeqjdB0nIGplVCxQssbW8F/XM6SlXItzTyyABd9CsUvKwKATs9WxDM/n5JLgQfF+GkGcFiMtDY8mNB61ynUvEz0KcjeeAPEcqzFfVN7ca0f87xbcl0qJ/05rizC6y9ubTKYFI0S9KO4Qe5/B2Hyr4lAlXsdPDAhSgVoi9M+1RZiA/OT83psL8g6HgJRWhhFYfSnopea1+hnsoBehP0yMpAX6wkW72FNLC5/7WRrDrhQASn9HJgx8J0+sZ98tiNiVNX9e3MYFw1aqT7Irbxw9GYXL+/UndgtlBsY+VSlrMYp3+w==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR12MB4192.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(396003)(366004)(39860400002)(136003)(376002)(346002)(6916009)(2616005)(41300700001)(5660300002)(8936002)(54906003)(316002)(186003)(83380400001)(86362001)(6506007)(6512007)(26005)(66946007)(2906002)(4326008)(478600001)(6486002)(8676002)(66556008)(7416002)(38100700002)(36756003)(66476007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?HHS0XDKpskv5SYtewcMklJJVx8ZSws+mJhhD655Tvsvmo7KNUNr2cN170bB4?=
+ =?us-ascii?Q?GbJIb4hqQg1wTL29dx498Jqw88iN2EtuqSjZBpWXMlOg6I6tLU9pw2lQg/Oj?=
+ =?us-ascii?Q?8kWGjxIZT0mYNJ2IAf5Sbw9zCnGwqOTfv8t09DBGw4Q0Yqfbkj4xaJGQge0z?=
+ =?us-ascii?Q?W+Rdw6hY29+XvimwVVuyhV7O8a4MgwB1KAdch4BvN57ohzuLh8vDwMJBKYw9?=
+ =?us-ascii?Q?kDEb2+aJSZG1+WEk7LoHc22DKqnzdS5BeFJYjbwL49H8baHa9ZHVFoRjK75S?=
+ =?us-ascii?Q?poYXECsFG5xYSJ5vW/tGd8H/uhnYTlYIY+pds9KPVpADfxbBC73flzDzk78z?=
+ =?us-ascii?Q?FtX/OoblQzuOUSxhT507VWXL3npmU0XIMpZhDdh5AGps7iGkI9lpJBCXM80N?=
+ =?us-ascii?Q?1pSDZDb0kTPShPHHu4xqw6G5exXoOutbVFN9RsyDaY0r4uz8jGYgjwmkLVr3?=
+ =?us-ascii?Q?4iSi18BieocyMh+ip6JZGWXtKits1Czpv5hg1YU9k91M8E1CuggF9BSWV5WR?=
+ =?us-ascii?Q?E+jFmD9zOHvsjXUi5MgsQZbJ8bBTpWftSYcz3v9fXt8j1RDZqdOCpNdvSB2G?=
+ =?us-ascii?Q?IzwdpudSmCryvzp05af7w7PbWM5rm/ErU0/hhFrI5QeG+wn4yZol511NwzYY?=
+ =?us-ascii?Q?TIgpbxOztRu3q/Rz55hBWKgKD7GgfDegTJ+eCDT9DI4CZOIAxEiLlvVFASA0?=
+ =?us-ascii?Q?p82FEUi+kyQirQ0QIcWbxEZQOZ1kfvjvsrH23eAtq0pbUs0A1Q8J3Fkyb4tJ?=
+ =?us-ascii?Q?TTbbHbfa+/OXosUk4n3pIBzFWI2AksvjzxxeMLCg/fT6hG0OmiFB0Pxueou2?=
+ =?us-ascii?Q?SyVDw1QJvs3tCSC0ODdt0MK8b9zW/PMUUhtuG/GD63pxBX38r7k5t0hZ117B?=
+ =?us-ascii?Q?0UuQ7BYo5SbJ9iiiCkZ4jZ/Y02jlpZ/QOeoYeWTqsGosvSN221SFFVwNiVfP?=
+ =?us-ascii?Q?ezfJdq3pBClSl4+uaozzCu3gpSH4r4Tqt16HCgNcAZF50sQ5NexS1gDoMG++?=
+ =?us-ascii?Q?X+EfMK5CemF1YWTI/z/ZUbMCaZv18E2Qny75KdWMUBuE+UsUWT5L1riDHsAY?=
+ =?us-ascii?Q?FShyh8wNC2MJBR/HL0AIY5zFggJrI2QKVfiSxzznRG6xgIN2hK868QLiyMTX?=
+ =?us-ascii?Q?gcNpV1qaq0zD4SoRwxgbiafNHym2ab8xS7e3URsG22f5Tos9yyeDoBRFeOSL?=
+ =?us-ascii?Q?ZIsXCXRJOAAzLncKttP473jtxoXQVNPYy4AFVg4bUKAO21FmCm2wPRibWw3g?=
+ =?us-ascii?Q?6K84e9CXd4QQr+pYq1i2lY/oY2KP7NWv/W8cwIfegD/YcWErm1/MouyRjMS6?=
+ =?us-ascii?Q?sqw9yMuwt/vw799Ymo46SoGwmBJJInOVvPVwzVsjuYSFRVjXpWGOoK4yRF5e?=
+ =?us-ascii?Q?bJS5sdn+0oG61n1z792j1yd+oL2meB2iQOzprlZmlcBeyDnO0pE6zoVsAPkC?=
+ =?us-ascii?Q?LJpHYj/eftbpH44vx9EvMLjtiqFKPC7BuyatKxU02DlVSmJOmjur+HLYJoDz?=
+ =?us-ascii?Q?35qYig8TWAP9xkILemBCX3AXdTJtloGByUOD9yOvm43mLLLm3e5iqhsy3ECa?=
+ =?us-ascii?Q?7OuhJc0sWPEL6mt+T7leLlHs9TxHEsZpNoDVQOBO?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5cf01ec0-6b77-451d-570d-08da90cd20ec
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB4192.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Sep 2022 12:33:12.3276
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: uHTudeP3QczpsbOaKHt2QTU0EwVl+2RQf/FuJ3N++QVyOEY31zPIBJA2x5wYH6tK
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR12MB6034
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-
-
-> -----Original Message-----
-> From: Krzysztof Kozlowski [mailto:krzysztof.kozlowski@linaro.org]
-> Sent: Wednesday, September 7, 2022 4:56 PM
-> To: Smitha T Murthy <smitha.t@samsung.com>; linux-arm-
-> kernel@lists.infradead.org; linux-media@vger.kernel.org; linux-
-> kernel@vger.kernel.org; devicetree@vger.kernel.org
-> Cc: m.szyprowski@samsung.com; andrzej.hajda@intel.com;
-> mchehab@kernel.org; hverkuil-cisco@xs4all.nl;
-> ezequiel@vanguardiasur.com.ar; jernej.skrabec@gmail.com;
-> benjamin.gaignard@collabora.com; stanimir.varbanov@linaro.org;
-> dillon.minfei@gmail.com; david.plowman@raspberrypi.com;
-> mark.rutland@arm.com; robh+dt@kernel.org; krzk+dt@kernel.org;
-> andi@etezian.org; alim.akhtar@samsung.com; aswani.reddy@samsung.com;
-> pankaj.dubey@samsung.com; linux-fsd@tesla.com;
-> aakarsh.jain@samsung.com
-> Subject: Re: [Patch v2 15/15] arm64: dts: fsd: Add MFC related DT enteries
+On Wed, Sep 07, 2022 at 05:05:57AM -0700, Christoph Hellwig wrote:
+> On Tue, Sep 06, 2022 at 08:48:28AM -0300, Jason Gunthorpe wrote:
+> > Right, this whole thing is the "standard" that dmabuf has adopted
+> > instead of the struct pages. Once the AMD GPU driver started doing
+> > this some time ago other drivers followed.
 > 
-> On 07/09/2022 08:47, Smitha T Murthy wrote:
-> > Add MFC DT node and reserve memory node for MFC usage.
-> >
-> > Cc: linux-fsd@tesla.com
-> > Signed-off-by: Smitha T Murthy <smitha.t@samsung.com>
-> > ---
-> >  arch/arm64/boot/dts/tesla/fsd-evb.dts |  4 ++++
-> >  arch/arm64/boot/dts/tesla/fsd.dtsi    | 22 ++++++++++++++++++++++
-> >  2 files changed, 26 insertions(+)
-> >
-> > diff --git a/arch/arm64/boot/dts/tesla/fsd-evb.dts
-> b/arch/arm64/boot/dts/tesla/fsd-evb.dts
-> > index 1db6ddf03f01..17bb048f9d47 100644
-> > --- a/arch/arm64/boot/dts/tesla/fsd-evb.dts
-> > +++ b/arch/arm64/boot/dts/tesla/fsd-evb.dts
-> > @@ -30,6 +30,10 @@
-> >  	};
-> >  };
-> >
-> > +&clock_mfc {
-> > +	status = "okay";
-> 
-> clock node was never disabled, so there is no need to enable it.
-> 
+> But it is simple wrong.  The scatterlist requires struct page backing.
+> In theory a physical address would be enough, but when Dan Williams
+> sent patches for that Linus shot them down.
 
-Ok I will remove it in the next series.
- 
-> > +};
-> > +
-> >  &fin_pll {
-> >  	clock-frequency = <24000000>;
-> >  };
-> > diff --git a/arch/arm64/boot/dts/tesla/fsd.dtsi
-> b/arch/arm64/boot/dts/tesla/fsd.dtsi
-> > index f35bc5a288c2..bca0ba030ee7 100644
-> > --- a/arch/arm64/boot/dts/tesla/fsd.dtsi
-> > +++ b/arch/arm64/boot/dts/tesla/fsd.dtsi
-> > @@ -340,6 +340,18 @@
-> >  		#clock-cells = <0>;
-> >  	};
-> >
-> > +	reserved-memory {
-> > +		#address-cells = <2>;
-> > +		#size-cells = <2>;
-> > +		ranges;
-> > +
-> > +		mfc_left: region@84000000 {
-> > +			compatible = "shared-dma-pool";
-> > +			no-map;
-> > +			reg = <0 0x84000000 0 0x8000000>;
-> > +		};
-> > +	};
-> > +
-> >  	soc: soc@0 {
-> >  		compatible = "simple-bus";
-> >  		#address-cells = <2>;
-> > @@ -832,6 +844,16 @@
-> >  			clock-names = "fin_pll", "mct";
-> >  		};
-> >
-> > +		mfc: mfc@12880000 {
-> > +			compatible = "samsung,fsd-mfc";
-> > +			reg = <0x0 0x12880000 0x0 0x10000>;
-> > +			interrupts = <GIC_SPI 137 IRQ_TYPE_LEVEL_HIGH>;
-> > +			clock-names = "mfc";
-> > +			clocks = <&clock_mfc MFC_MFC_IPCLKPORT_ACLK>;
-> > +			memory-region = <&mfc_left>;
-> > +			status = "okay";
+Yes, you said that, and I said that when the AMD driver first merged
+it - but it went in anyhow and now people are using it in a bunch of
+places.
+
+I'm happy that Christian wants to start trying to fix it, and will
+help him, but it doesn't really impact this. Whatever fix is cooked up
+will apply equally to vfio and habana.
+
+> That being said the scatterlist is the wrong interface here (and
+> probably for most of it's uses).  We really want a lot-level struct
+> with just the dma_address and length for the DMA side, and leave it
+> separate from that what is used to generate it (in most cases that
+> would be a bio_vec).
+
+Oh definitely
+
+> > Now we have struct pages, almost, but I'm not sure if their limits are
+> > compatible with VFIO? This has to work for small bars as well.
 > 
-> Okay is by default, don't add it.
-> 
+> Why would small BARs be problematic for the pages?  The pages are more
+> a problem for gigantic BARs do the memory overhead.
 
-I will remove this in the next series.
+How do I get a struct page * for a 4k BAR in vfio?
 
-> > +		};
-> > +
-> >  		ufs: ufs@15120000 {
-> >  			compatible = "tesla,fsd-ufs";
-> >  			reg = <0x0 0x15120000 0x0 0x200>,  /* 0: HCI standard
-> */
-> 
-> 
-> Best regards,
-> Krzysztof
+The docs say:
 
-Thank you for the review.
+ ..hotplug api on memory block boundaries. The implementation relies on
+ this lack of user-api constraint to allow sub-section sized memory
+ ranges to be specified to :c:func:`arch_add_memory`, the top-half of
+ memory hotplug. Sub-section support allows for 2MB as the cross-arch
+ common alignment granularity for :c:func:`devm_memremap_pages`.
 
-Regards,
-Smitha
-
+Jason
