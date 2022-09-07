@@ -2,145 +2,159 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4FF205B03FE
-	for <lists+linux-media@lfdr.de>; Wed,  7 Sep 2022 14:34:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 851C55B0420
+	for <lists+linux-media@lfdr.de>; Wed,  7 Sep 2022 14:42:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229515AbiIGMeV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 7 Sep 2022 08:34:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54264 "EHLO
+        id S229633AbiIGMmg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 7 Sep 2022 08:42:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42822 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229461AbiIGMeU (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 7 Sep 2022 08:34:20 -0400
-Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com [IPv6:2a00:1450:4864:20::42e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 163988A7D2;
-        Wed,  7 Sep 2022 05:34:19 -0700 (PDT)
-Received: by mail-wr1-x42e.google.com with SMTP id t7so15147676wrm.10;
-        Wed, 07 Sep 2022 05:34:19 -0700 (PDT)
+        with ESMTP id S229498AbiIGMmf (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 7 Sep 2022 08:42:35 -0400
+Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com [IPv6:2a00:1450:4864:20::52c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D45CFA99CB
+        for <linux-media@vger.kernel.org>; Wed,  7 Sep 2022 05:42:33 -0700 (PDT)
+Received: by mail-ed1-x52c.google.com with SMTP id 29so14426398edv.2
+        for <linux-media@vger.kernel.org>; Wed, 07 Sep 2022 05:42:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date;
-        bh=TuNv9xAerp4VecthQpyVMQXzg2+N+yWDS5sH4eqvaoo=;
-        b=AVukzR+7UJbFJypi0cWfXymNJ+/8kpO4hV5GEy795M7k26aGDq8Y8JVHT+J0X9bwZq
-         zvx0MsWRyk4KVnlutAvZ5ouflgglZV6njRfRkNPsIgdduNk4w7hAMV/d9Ks5xSmpblFm
-         Zu9JXSdyGo2Lvso034ly381imia14iBWPhjlegk6wWFvMaA95Vy/Nsvaao0Ea2K4P6Ka
-         a8FisMVE7bK7wrMNbVMAv8ChC3+2XsdgpdNVTJuA3WWOiOQ7aTsV8N0yuBaD6ImoeyZx
-         iYWJImgO5EL7HUbGTr3mXQrTARnJXw7fo8nkOB8mDcHFA4Hore3JwXzRsyaM+kj8idp0
-         nbEw==
+        d=raspberrypi.com; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date;
+        bh=gHZvkupGf2IMzQjAYAas5X/BDbEAgms69z4Z4zdPvE8=;
+        b=th8JvEz8zt+XKRxLua/qTi0X+Q+tBf0uZ79SoyI6mzhdmybUQiQgFGiOodZ4Fq9JP8
+         EX20in76oTMuzydhLnOAvHDhuhunxzSHp8CgP9HX4vqEYIPd9lVUUoohNypvesGUF0XT
+         njg0W4/4HRpDURFKGvL4PWm39wCWjEsAHYMnC0YqBJRzjWKtw6oNY2oogY87wrd5FnN9
+         FoILVkyo2s9/ibtyf3u+x7lwxauDxGByKpfryfXCMQXtqfOn295tmG6X/r+kbUe0h2Rt
+         Jl+IRzmCA7O10zCcXGz5OZWUI1Oz92F7lf0UZo8cGXvyVHwMbWhzoz6oa5P2p1RPCClj
+         hzbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date;
-        bh=TuNv9xAerp4VecthQpyVMQXzg2+N+yWDS5sH4eqvaoo=;
-        b=Wnuvfd4QRpadbgsttVNT755WRcmsh2vxmP4WWb15z1j7B8urfl4LWKtibwYzqmBCTm
-         cDkJjMDbMXV83vk0njBzXbc1ReITuDEdGxF6+RiLP5Kh1GYmepv6VoR2idXADTLHE8Pc
-         QoVbfNDYQQ8ED7fwB12D59m+HZ0mu/p+3p4lZ3HoZQ/7bxytweFA3RLeCY9zP4h9VAdo
-         XmTZ1cUy031hQoERPXGS8aeDb8EDRAUdJNfZpkk9K08+MpnKIcYZDgJtGRAkqTKCfD7I
-         TdZxj+714nSkymlKks8/b26kgy6ypjBJS36niRnr4JteWJ1mu68qLgjHQZGsk8l10wBR
-         6Dxg==
-X-Gm-Message-State: ACgBeo0THbxq1uvETY5K/sF0bzciKBvtbqqxK2pgFOwoOI66f3dXGJ48
-        C9U7coxsjNDMw+vhFbXsAWw=
-X-Google-Smtp-Source: AA6agR7c5izzV6X7pGkGLnH3MXE/eTx3yRCKV3BNvb3+CCtnLtdWY4f2w7lrDH8EOpOWIGoECtGFuQ==
-X-Received: by 2002:a5d:453a:0:b0:228:7873:1101 with SMTP id j26-20020a5d453a000000b0022878731101mr1941404wra.241.1662554057507;
-        Wed, 07 Sep 2022 05:34:17 -0700 (PDT)
-Received: from xws.localdomain (pd9ea37fb.dip0.t-ipconnect.de. [217.234.55.251])
-        by smtp.gmail.com with ESMTPSA id g40-20020a05600c4ca800b003a4f1385f0asm18015696wmp.24.2022.09.07.05.34.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Sep 2022 05:34:17 -0700 (PDT)
-From:   Maximilian Luz <luzmaximilian@gmail.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     Bingbu Cao <bingbu.cao@intel.com>,
-        Tianshu Qiu <tian.shu.qiu@intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-kernel@vger.kernel.org,
-        Maximilian Luz <luzmaximilian@gmail.com>
-Subject: [PATCH] media: staging/intel-ipu3: Finalize subdev initialization to allcoate active state
-Date:   Wed,  7 Sep 2022 14:33:59 +0200
-Message-Id: <20220907123359.1275322-1-luzmaximilian@gmail.com>
-X-Mailer: git-send-email 2.37.3
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date;
+        bh=gHZvkupGf2IMzQjAYAas5X/BDbEAgms69z4Z4zdPvE8=;
+        b=g2xeYRws12LronNgrNW0akNxwnPWneeBnri9r0TppHwhHYGQqi5K8/INSczPIYZQj7
+         Jtu9ztv5iWSgOI8aCy/KSvVImOnaKH7uxOb4S2+LA2Dwmu/mw+o6sHWj9xRVVrnrDq/Z
+         F/UW82zGzxp6RVXRn+gexhvo3t4bp3ODrAoWbsLSVXP0o6i9T7ZLcg/afUVExDbgUrdl
+         X2FOcs+ocYhcxRlxHWLIpJMI878oDMl9pOndYk5lUmoLRYfFN9kyGjqk5i/qz6cx+HPO
+         pmRcei/JrqNTQgeo4WLgC+6SR71A8gUN5LOwmFQxs8k1ba0YASSNhP3vDUw2pstxDi6N
+         oN5g==
+X-Gm-Message-State: ACgBeo2NjNKajGs1ePWHvycBvaZYk4uaaFycQy6c4E7jgVRw5V1rGNnk
+        Q92FsUyDkTK6lHwgfi8IYfyDpJ1GgpsskQja/Z9G7qJoI5AiMA==
+X-Google-Smtp-Source: AA6agR7CN65TXwRvdoImgw2hU7a5hw5YV6Vf+AqUs+ogUqfwE5JchU2hvMEZDI8aQF/tbYMCYiP8xWVWjCy2G+AORWA=
+X-Received: by 2002:a05:6402:42d3:b0:435:2c49:313d with SMTP id
+ i19-20020a05640242d300b004352c49313dmr2926518edc.86.1662554552326; Wed, 07
+ Sep 2022 05:42:32 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <CAPY8ntBGKkg=KOXaP9bBv6Y8c7Mgut0=w-LTsvKHZac=zzdJDQ@mail.gmail.com>
+ <YxeJI8Fwf0ExkMTI@pendragon.ideasonboard.com>
+In-Reply-To: <YxeJI8Fwf0ExkMTI@pendragon.ideasonboard.com>
+From:   Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date:   Wed, 7 Sep 2022 13:42:16 +0100
+Message-ID: <CAPY8ntDdgWaFt3DkMHq_V3Uh3XT=smMH3Esgnj9eoiaE4Q+S-Q@mail.gmail.com>
+Subject: Re: [Media Summit] Imaging Sensor functionality
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Hidenori Kobayashi <hidenorik@chromium.org>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Michael Olbrich <m.olbrich@pengutronix.de>,
+        Ricardo Ribalda <ribalda@chromium.org>,
+        Maxime Ripard <maxime@cerno.tech>,
+        Daniel Scally <djrscally@gmail.com>,
+        =?UTF-8?Q?Jernej_=C5=A0krabec?= <jernej.skrabec@gmail.com>,
+        =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        Michael Tretter <m.tretter@pengutronix.de>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Benjamin MUGNIER <benjamin.mugnier@foss.st.com>,
+        Jacopo Mondi <jacopo@jmondi.org>
+Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Commit f69952a4dc1e ("media: subdev: add active state to struct
-v4l2_subdev") introduced the active_state member to struct v4l2_subdev.
-This state needs to be allocated via v4l2_subdev_init_finalize(). The
-intel-ipu3 driver unfortunately does not do that, due to which,
-active_state is NULL and we run into an oops (NULL pointer dereference)
-when that state is accessed.
+Hi Laurent
 
-In particular, this happens subdev in IOCTLs as commit 3cc7a4bbc381
-("media: subdev: pass also the active state to subdevs from ioctls")
-passes that state on to the subdev IOCTLs. An example scenario where
-this happens is running libcamera's qcam or cam on a device with IPU3,
-for example the Microsoft Surface Book 2. In this case, the oops is
-reproducibly in v4l2_subdev_get_try_crop(), called via
-imgu_subdev_set_selection().
+On Tue, 6 Sept 2022 at 18:53, Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+>
+> Hi Dave,
+>
+> On Tue, Sep 06, 2022 at 05:14:30PM +0100, Dave Stevenson wrote:
+> > Hi All.
+> >
+> > I realise that I'm in a slightly different position from many mainline
+> > Linux-media developers in that I see multiple use cases for the same
+> > sensor, rather than a driver predominantly being for one
+> > product/platform. I'm therefore wanting to look at generic solutions
+> > and fully featured drivers. Users get to decide the use cases, not the
+> > hardware designers.
+>
+> Could you clarify here what you mean by users and hardware designers ?
+> Users can be understood as
+>
+> - Users of the camera sensor, i.e. OEMs designing a product
+> - Users of the hardware platform , i.e. software developers writing
+>   applications
+> - Users of the software, i.e. end-users
 
-To fix this, allocate the active_state member via
-v4l2_subdev_init_finalize().
+Users of the software.
 
-Link: https://github.com/linux-surface/linux-surface/issues/907
-Fixes: 3cc7a4bbc381 ("media: subdev: pass also the active state to subdevs from ioctls")
-Signed-off-by: Maximilian Luz <luzmaximilian@gmail.com>
----
- drivers/staging/media/ipu3/ipu3-v4l2.c | 12 +++++++++++-
- 1 file changed, 11 insertions(+), 1 deletion(-)
+Particularly on the Pi you have people using libcamera apps or Python
+bindings that want to be able to choose modes of operation without
+having to make kernel driver modifications.
+I generally don't mind if that is through userspace or DT, but the
+functionality should be exposed.
 
-diff --git a/drivers/staging/media/ipu3/ipu3-v4l2.c b/drivers/staging/media/ipu3/ipu3-v4l2.c
-index d1c539cefba8..84ab98ba9a2e 100644
---- a/drivers/staging/media/ipu3/ipu3-v4l2.c
-+++ b/drivers/staging/media/ipu3/ipu3-v4l2.c
-@@ -1093,10 +1093,18 @@ static int imgu_v4l2_subdev_register(struct imgu_device *imgu,
- 			"failed to create subdev v4l2 ctrl with err %d", r);
- 		goto fail_subdev;
- 	}
-+
-+	r = v4l2_subdev_init_finalize(&imgu_sd->subdev);
-+	if (r) {
-+		dev_err(&imgu->pci_dev->dev,
-+			"failed to initialize subdev (%d)\n", r);
-+		goto fail_subdev;
-+	}
-+
- 	r = v4l2_device_register_subdev(&imgu->v4l2_dev, &imgu_sd->subdev);
- 	if (r) {
- 		dev_err(&imgu->pci_dev->dev,
--			"failed initialize subdev (%d)\n", r);
-+			"failed to register subdev (%d)\n", r);
- 		goto fail_subdev;
- 	}
- 
-@@ -1104,6 +1112,7 @@ static int imgu_v4l2_subdev_register(struct imgu_device *imgu,
- 	return 0;
- 
- fail_subdev:
-+	v4l2_subdev_cleanup(&imgu_sd->subdev);
- 	v4l2_ctrl_handler_free(imgu_sd->subdev.ctrl_handler);
- 	media_entity_cleanup(&imgu_sd->subdev.entity);
- 
-@@ -1275,6 +1284,7 @@ static void imgu_v4l2_subdev_cleanup(struct imgu_device *imgu, unsigned int i)
- 	struct imgu_media_pipe *imgu_pipe = &imgu->imgu_pipe[i];
- 
- 	v4l2_device_unregister_subdev(&imgu_pipe->imgu_sd.subdev);
-+	v4l2_subdev_cleanup(&imgu_pipe->imgu_sd.subdev);
- 	v4l2_ctrl_handler_free(imgu_pipe->imgu_sd.subdev.ctrl_handler);
- 	media_entity_cleanup(&imgu_pipe->imgu_sd.subdev.entity);
- }
--- 
-2.37.3
+As an example, when the strobe signals were exposed for IMX477 we had
+people hooking up various high intensity strobe devices and other
+weird contraptions for synchronised events [1]. Can we replicate that
+sort of open-ended functionality in a standardised way within sensor
+kernel drivers so that the drivers are not constraining the use cases?
 
+> Hardware designers could then equally mean
+>
+> - Sensor vendors
+> - SoC vendors
+> - Board vendors
+> - Product vendors
+
+All of the above.
+
+For those Product Vendors designing specific products based on an SoC
+and imaging sensor, if there is a defined mechanism that end users can
+get to, then they can also use it to configure their specific use
+case. Both cases therefore win. Hard coding their product's use case
+in a mainline driver limits other use cases.
+
+  Dave
+
+[1] https://forums.raspberrypi.com/viewtopic.php?t=281913
+
+> > The issues I've raised are things that I've encountered and would
+> > benefit from a discussion to get views as to the direction that is
+> > perceived to be workable. I appreciate that some can not be solved
+> > immediately, but want to avoid too much bikeshedding in the first
+> > round of patches.
+> > What's realistic, and what pitfalls/limitations immediately jump out at people.
+> >
+> > Slides are at https://drive.google.com/file/d/1vjYJjTNRL1P3j6G4Nx2ZpjFtTBTNdeFG/view?usp=sharing
+>
+> Thank you, I will review that ASAP.
+>
+> > See you on Monday.
+>
+> --
+> Regards,
+>
+> Laurent Pinchart
