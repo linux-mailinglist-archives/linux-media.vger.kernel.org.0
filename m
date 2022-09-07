@@ -2,164 +2,150 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3E2545B01EF
-	for <lists+linux-media@lfdr.de>; Wed,  7 Sep 2022 12:30:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 759955B021A
+	for <lists+linux-media@lfdr.de>; Wed,  7 Sep 2022 12:51:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229961AbiIGKas (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 7 Sep 2022 06:30:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45364 "EHLO
+        id S229478AbiIGKvc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 7 Sep 2022 06:51:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45272 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229716AbiIGKaq (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 7 Sep 2022 06:30:46 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6ED7B48E93
-        for <linux-media@vger.kernel.org>; Wed,  7 Sep 2022 03:30:42 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id A59F561865
-        for <linux-media@vger.kernel.org>; Wed,  7 Sep 2022 10:30:41 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8B580C433D7;
-        Wed,  7 Sep 2022 10:30:38 +0000 (UTC)
-Message-ID: <fcbe42bf-5a9a-69ed-6930-f20d70f2e168@xs4all.nl>
-Date:   Wed, 7 Sep 2022 12:30:36 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [ANN] Media Summit at ELCE Dublin, September 12: Draft Agenda V2
-Content-Language: en-US
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-media@vger.kernel.org,
+        with ESMTP id S229773AbiIGKvV (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 7 Sep 2022 06:51:21 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 71A7574CFA
+        for <linux-media@vger.kernel.org>; Wed,  7 Sep 2022 03:51:18 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id CC1D8DD;
+        Wed,  7 Sep 2022 12:51:13 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1662547874;
+        bh=A+gi7T9wTfS2akEBWAAOk/61J5iDCKBJpkY0/Jb2unY=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=mx7e3XlkPh3/hdMOHOpkjxdBK0ZVN8FlzUZraiQfrMh2tgAjRRWaiTUoHvBtHCEHO
+         faH7w3qCuxPGCbAycAPBSkD3ACIXTpwnhujRP3IJYVtTexn9sKhyVr3qR+SrXKN4iq
+         fLYNnr+Q9G5hXQ3Mq/aPZk0rzFwAVhjH5YYgBGJY=
+Date:   Wed, 7 Sep 2022 13:50:58 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Ricardo Ribalda <ribalda@chromium.org>
+Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
         Kieran Bingham <kieran.bingham@ideasonboard.com>,
         Nicolas Dufresne <nicolas@ndufresne.ca>,
         Benjamin Gaignard <benjamin.gaignard@collabora.com>,
         Hidenori Kobayashi <hidenorik@chromium.org>,
         Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Ricardo Ribalda <ribalda@chromium.org>,
+        Michael Olbrich <m.olbrich@pengutronix.de>,
         Maxime Ripard <maxime@cerno.tech>,
         Daniel Scally <djrscally@gmail.com>,
-        =?UTF-8?Q?Jernej_=c5=a0krabec?= <jernej.skrabec@gmail.com>,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>
-References: <3840c3cc-00fb-45dd-cb89-39b36fb6d733@xs4all.nl>
- <YxX8dzSsquJmO5hP@paasikivi.fi.intel.com>
- <YxYLSk2pKdGnNDP3@pendragon.ideasonboard.com>
- <b76bd2fb-d0bc-2e71-26ec-b98b9949700d@xs4all.nl>
- <YxhplLKtRAQzlSK/@pendragon.ideasonboard.com>
- <34f930db-db94-b134-4a1d-b9586e5b54be@xs4all.nl>
- <YxhtOfpRhrxQCeGZ@pendragon.ideasonboard.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-In-Reply-To: <YxhtOfpRhrxQCeGZ@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-10.9 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+        Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>,
+        Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        Michael Tretter <m.tretter@pengutronix.de>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Benjamin MUGNIER <benjamin.mugnier@foss.st.com>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Dave Stevenson <dave.stevenson@raspberrypi.com>
+Subject: Re: [Media Summit] ChromeOS Kernel CAM
+Message-ID: <Yxh3ksdjuTVIRJWk@pendragon.ideasonboard.com>
+References: <CANiDSCvqJegYDqsSL5PKvyAM-+HY3ve-Vs2=3cFS4kSRKzd3_Q@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CANiDSCvqJegYDqsSL5PKvyAM-+HY3ve-Vs2=3cFS4kSRKzd3_Q@mail.gmail.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 07/09/2022 12:06, Laurent Pinchart wrote:
-> On Wed, Sep 07, 2022 at 11:58:29AM +0200, Hans Verkuil wrote:
->> On 07/09/2022 11:51, Laurent Pinchart wrote:
->>> On Wed, Sep 07, 2022 at 08:51:48AM +0200, Hans Verkuil wrote:
->>>> On 05/09/2022 16:44, Laurent Pinchart wrote:
->>>>> On Mon, Sep 05, 2022 at 01:41:11PM +0000, Sakari Ailus wrote:
->>>>>> On Tue, Aug 23, 2022 at 12:53:44PM +0200, Hans Verkuil wrote:
->>>>>>> 16:45-18:00 Anything else?
->>>>>>
->>>>>> I think it'd be great to have a GPG key signing party at the end of the
->>>>>> meeting.
->>>>>
->>>>> It's a good idea. Could everybody please send their GPG key fingerprint
->>>>> in an e-mail reply to prepare for that ? It can easily be retrieved with
->>>>> 'gpg -K' (make sure to pick the right key if you have multiple of them).
->>>>> I'll start:
->>>>>
->>>>> sec   rsa4096/0xF045C2B96991256E 2014-10-09 [C]
->>>>>       94231B980100EC619AC10E10F045C2B96991256E
->>>>> uid                   [ultimate] Laurent Pinchart <laurent.pinchart@ideasonboard.com>
->>>>>
->>>>> If you're generating a key for the occasion, create a primary key with
->>>>> the Certify (C) capability only, and create separate sub-keys for
->>>>> Signature (S) and Encryption (E). There's little reason these days to
->>>>> use less than 4096 bits for the primary key if you opt for RSA. The
->>>>> subkeys should have an expiration date.
->>>>>
->>>>> The primary key can then be moved to safe storage, you will only need
->>>>> the subkeys for daily usage.  The primary key will be used only to
->>>>> create new subkeys and to sign other people's keys.
->>>>>
->>>>
->>>> Can you also give instructions on what to do at the key signing party?
->>>>
->>>> I do this so rarely that I always forget what magic gpg commands I need
->>>> to make to sign keys.
->>>>
->>>> If everyone has this information at hand, then we can quickly proceed with
->>>> this on Monday.
->>>
->>> Good point.
->>>
->>> First of all, everybody should make sure that their key is published on
->>> key servers.
->>
->> Which key servers? That's never been clear to me: which key server(s) are
->> you supposed to use?
+Hi Ricardo,
+
+On Wed, Sep 07, 2022 at 09:55:12AM +0200, Ricardo Ribalda wrote:
+> Hi
 > 
-> They are supposed to mirror each other, so any of the main ones should
-> do. hkp://keys.gnupg.net, hkp://pgp.mit.edu, hkps://keys.openpgp.org,
-> hkp://keyserver.ubuntu.com, ...
+> On ChromeOS we have opted to have a camera stack based on the upstream kernel.
+> 
+> The camera ecosystem has become extremely heterogeneous thanks to the
+> proliferation of complex cameras. Meaning that, if ChromeOS wants to
+> keep with our upstream commitments, we have to look into how to get
+> more involvement from vendors and standardise our stack.
+> 
+> Kcam is an initiative to support complex cameras in a way that can be
+> scalable, is acceptable by the vendors and respect the users rights.
+> 
+> Slides at: https://drive.google.com/file/d/1Tew21xeKmFlQ7dQxMcIYqybVuQL7La1a/view
 
-Well, hkp://keys.gnupg.net for one is dead, it no longer exists. The other
-three are still alive.
+Thank you. A few questions and comments for clarification:
 
-keys.openpgp.org and keyserver.ubuntu.com do find my keys, but pgp.mit.edu
-doesn't appear to have it. In fact, I can't find your key there either. That
-suggests that that one doesn't mirror from others.
+- Slide 4 mentions proprietary drivers and UIO drivers. Do you mean UIO
+  as in the upstream UIO API, or as in UIO-like drivers with a vendor
+  API ?
 
-So the only two that appear to be reliable are hkps://keys.openpgp.org
-and hkp://keyserver.ubuntu.com.
+- Slide 5 mentions "Code developed exclusively by vendor" for Android.
+  There's the CameraX initiative (and possibly other I'm not aware of)
+  that mixes the high-level HAL implementation from Google with
+  low-level vendor code, to simplify (in theory at least) the life of
+  vendors. Generally speaking you're right though, the vendor is in
+  charge of providing the HAL, regardless of how it's structured
+  internally.
 
+- Slide 8 is focussed on notebooks (Chrome OS, but I suppose also
+  regular Linux machines) vs. Android when it comes to leveraging the
+  camera stack, but let's not forget there are also other markets (IoT
+  in particular) that may be structured differently. Not all vendors of
+  SoCs that integrate ISPs consider Android as their main target, and
+  they may ignore the notebook and mobile markets completely.
+
+- Slide 11 (and previous slides too) mention "Secret Sauce". I really
+  dislike that term, as it's very vague. I would like discussions to
+  clearly define the scope of that closed-source component, and we
+  should come up with a more descriptive name that reflects that
+  well-defined scope.
+
+- Slide 16 mentions 122 ioctls to emphasize that V4L2 is a complicated
+  API. Most of those are not relevant to cameras. It is thus a bit
+  misleading technically, but it can be still perceived as complicated
+  by vendors for that reason.
+
+- Still on slide 16, V4L2 as an API is usable without disclosing vendor
+  IP. What is not possible is upstreaming a driver. I don't see this as
+  significantly different between V4L2 and the new API proposal. I
+  expect this to be discussed on Monday.
+
+- On slide 17 the color scheme seems to imply that the daemon is
+  open-source, while it's in most cases (maybe in all of them) closed.
+
+- Do you have a real life example of the type of outcome described on
+  slide 19 (black box hardware) ?
+
+- Slide 24 mentions parameter buffers, it would be useful to describe
+  what those typically contain, and who consumes them once they're
+  provided by userspace to the driver.
+
+- Slide 27 mentions that upstreaming a driver will require a camera
+  stack with the same open source requirements as V4L2. Doesn't that
+  contradict slide 16 that mentions that V4L2 cannot product vendor IP,
+  or at least infer that the new API wouldn't protect the vendor IP more
+  than V4L2 does ?
+
+- Slide 31 mentions that entities can send operations internally and
+  listen to each other events. I'd like to better understand how that
+  will work without any abstraction in the API (as that is one of the
+  main design decision behind this new API) when those entities are from
+  different vendors, and handled by different drivers that are developed
+  independently (for instance, the camera sensor and the CSI-2 receiver,
+  or even the CSI-2 receiver and the ISP).
+
+- Does the bike on slide 32 illustrate the difficult discussions we've
+  had in the past and how progress was hindered ? :-)
+
+> Looking forward to see all of you again on Monday :)
+
+-- 
 Regards,
 
-	Hans
-
-> 
->>> I will gather al the keys and print a list that I will hand out to
->>> everybody on Monday. This will be the authoritative source of
->>> information, as anything stored in digital form could theoritically be
->>> tampered with.
->>>
->>> We will go around the table, and everybody will check that their key ID
->>> matches the printed documented (to make sure I haven't tampered with the
->>> printed version they have received), and read it out loud for everybody
->>> to compare with their own printed version (to make sure I've distributed
->>> the same version to everybody). If any mismatch is noticed, people are
->>> expected to shout out loud.
->>>
->>> Then we will verify identities. If we have a laptop with a webcam that
->>> can be hooked up to a projector, we can simply take turns and show a
->>> government-issues ID that clearly displays our name, for people in the
->>> room to compare that with the keys. Once the fingerprints and the
->>> identities are checked, the corresponding keys should be marked as
->>> verified on the paper version.
->>>
->>> The next step is to sign keys. This is something that will happen after
->>> the media summit, and if you have your master key on offline storage,
->>> will happen after you get back home. You will need to download keys from
->>> key servers, verify that the fingerprints match the paper version and
->>> sign the keys.
->>>
->>> The final step is to publish signatures. I'll try to check what the
->>> latest best practices are. One option is to simply publish the
->>> signatures to key servers, but we can also mail them to the key owner,
->>> in an encrypted e-mail to make sure the recipient is the intended
->>> person.
-> 
-
+Laurent Pinchart
