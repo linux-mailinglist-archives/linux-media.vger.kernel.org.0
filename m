@@ -2,100 +2,99 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 42AF95B0DBB
-	for <lists+linux-media@lfdr.de>; Wed,  7 Sep 2022 22:04:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D7E205B0EC0
+	for <lists+linux-media@lfdr.de>; Wed,  7 Sep 2022 23:00:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230006AbiIGUE4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 7 Sep 2022 16:04:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38568 "EHLO
+        id S229896AbiIGVAW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 7 Sep 2022 17:00:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49210 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230003AbiIGUEz (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 7 Sep 2022 16:04:55 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 949E520F75
-        for <linux-media@vger.kernel.org>; Wed,  7 Sep 2022 13:04:53 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id BB57AE81;
-        Wed,  7 Sep 2022 22:04:48 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1662581089;
-        bh=6Yde0QeO7axbIOr0yg8qR2SESdJqpYa6mDnpGbDyfD8=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=DzmCMB14Y5Sptxs84ysNTwzvmWdlgr6b4I7dZceitWEgKs+vLu5qk9lQ9qYg0bJTF
-         b9LXGyA2HkugA2nDFu+TtBjlh0qZpI1EfyVL7GP4pzt4dWrVZzHxWztSC52FuXX6/W
-         Kh8V91oAmgpT0pTPzH/N3lmK2kpDVrbZXxBBQBtk=
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     linux-media@vger.kernel.org
-Cc:     Rui Miguel Silva <rmfrfs@gmail.com>,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Paul Elder <paul.elder@ideasonboard.com>,
-        Jacopo Mondi <jacopo@jmondi.org>, kernel@pengutronix.de,
-        linux-imx@nxp.com
-Subject: [PATCH 6/6] staging: media: imx: Make imx_media_of_add_csi() static
-Date:   Wed,  7 Sep 2022 23:04:24 +0300
-Message-Id: <20220907200424.32136-7-laurent.pinchart@ideasonboard.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220907200424.32136-1-laurent.pinchart@ideasonboard.com>
-References: <20220907200424.32136-1-laurent.pinchart@ideasonboard.com>
+        with ESMTP id S229657AbiIGVAV (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 7 Sep 2022 17:00:21 -0400
+Received: from mail-oa1-f49.google.com (mail-oa1-f49.google.com [209.85.160.49])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D9D57B7B9;
+        Wed,  7 Sep 2022 14:00:20 -0700 (PDT)
+Received: by mail-oa1-f49.google.com with SMTP id 586e51a60fabf-127ba06d03fso15537770fac.3;
+        Wed, 07 Sep 2022 14:00:20 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
+        bh=M8GODblblJ7lgQjEptGgaamLLNOUHZVWWN4JggoaBsc=;
+        b=vgflpSXdQ7ULcABk3+m+j3VDri5+itIEGQ1E0qXe/6RCKtMZtlRnjU5YtNu5oGtjET
+         4vj6GcoiybqqSOOEoSVfDT+m4JPAsr3V7733FXr60zVAFW2ydORtsmYViOBWEhyODmZ9
+         cYB3zw4fyWQKQvP9uXhIAaM5Sx/LxMvZa2b2QIk9/dicJbhLaK6BUOzcAk7pGMZtyhFR
+         DhyDGcfOPP+g/KUSgptmTOkxgVqrNoQj+/zDyKESEYUqG1Wb77ssf8KFV5slymAHfyd/
+         p1klmKLzgIqkhamxcI++3E0hCh+6YUwRlyi6dKArhyW8D7b70qZRGozMbH7QPslM54Nv
+         Xvvg==
+X-Gm-Message-State: ACgBeo3AA712qn+RgEMGbRmZ3arSTB0egieqjRIrYl9gCP6LQGPMLk6I
+        l7QKNu2UR5zoKsNupnJofQqp3yVxzg==
+X-Google-Smtp-Source: AA6agR5LcayUP4PBQusbKEeF/pnPOazQkEVeLrrb4JKL1wQbwL2sI1XBeIHi0Ur69fGhu53oWU7QPA==
+X-Received: by 2002:a05:6870:218e:b0:126:9dc3:9666 with SMTP id l14-20020a056870218e00b001269dc39666mr158267oae.73.1662584419332;
+        Wed, 07 Sep 2022 14:00:19 -0700 (PDT)
+Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id t8-20020a4ad0a8000000b004357ccfc8bfsm5408629oor.7.2022.09.07.14.00.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 07 Sep 2022 14:00:18 -0700 (PDT)
+Received: (nullmailer pid 336368 invoked by uid 1000);
+        Wed, 07 Sep 2022 21:00:18 -0000
+Date:   Wed, 7 Sep 2022 16:00:18 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        linux-renesas-soc@vger.kernel.org,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        linux-media@vger.kernel.org,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Biju Das <biju.das@bp.renesas.com>
+Subject: Re: [PATCH v3 1/3] media: dt-bindings: media: renesas,fcp: Document
+ RZ/{G2,V2}L FCPVD bindings
+Message-ID: <20220907210018.GA336305-robh@kernel.org>
+References: <20220902064628.59001-1-biju.das.jz@bp.renesas.com>
+ <20220902064628.59001-2-biju.das.jz@bp.renesas.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220902064628.59001-2-biju.das.jz@bp.renesas.com>
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
+        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The imx_media_of_add_csi() function is only called in its compilation
-unit. Make it static and don't export it.
+On Fri, 02 Sep 2022 07:46:26 +0100, Biju Das wrote:
+> Document FCPVD found in RZ/G2L alike SoCs. FCPVD block is similar to
+> FCP for VSP found on R-Car SoC's . It has 3 clocks compared to 1
+> clock on fcpv. Introduce new compatibles renesas,r9a07g044-fcpvd
+> for RZ/G2{L,LC} and renesas,r9a07g054-fcpvd for RZ/V2L to handle this
+> difference.
+> 
+> The 3 clocks are shared between du, vspd and fcpvd. No driver changes
+> are required as generic compatible string "renesas,fcpv" will be used
+> as a fallback.
+> 
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> ---
+> v2->v3:
+>  * Updated the compatibles by replacing items->enum as
+>    it is just one item.
+> v1->v2:
+>  * Documented RZ/{G2,V2}L FCPVD bindings
+>  * Introduces new compatibles renesas,r9a07g0{44,54}-fcpvd
+>  * Added clock-names property
+>  * described clocks.
+> ---
+>  .../bindings/media/renesas,fcp.yaml           | 45 ++++++++++++++++---
+>  1 file changed, 40 insertions(+), 5 deletions(-)
+> 
 
-Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
----
- drivers/staging/media/imx/imx-media-of.c | 5 ++---
- drivers/staging/media/imx/imx-media.h    | 2 --
- 2 files changed, 2 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/staging/media/imx/imx-media-of.c b/drivers/staging/media/imx/imx-media-of.c
-index 59f1eb7b62bc..92a99010c150 100644
---- a/drivers/staging/media/imx/imx-media-of.c
-+++ b/drivers/staging/media/imx/imx-media-of.c
-@@ -16,8 +16,8 @@
- #include <video/imx-ipu-v3.h>
- #include "imx-media.h"
- 
--int imx_media_of_add_csi(struct imx_media_dev *imxmd,
--			 struct device_node *csi_np)
-+static int imx_media_of_add_csi(struct imx_media_dev *imxmd,
-+				struct device_node *csi_np)
- {
- 	struct v4l2_async_subdev *asd;
- 	int ret = 0;
-@@ -41,7 +41,6 @@ int imx_media_of_add_csi(struct imx_media_dev *imxmd,
- 
- 	return ret;
- }
--EXPORT_SYMBOL_GPL(imx_media_of_add_csi);
- 
- int imx_media_add_of_subdevs(struct imx_media_dev *imxmd,
- 			     struct device_node *np)
-diff --git a/drivers/staging/media/imx/imx-media.h b/drivers/staging/media/imx/imx-media.h
-index 5a1436dbb12d..c12ecaf378fe 100644
---- a/drivers/staging/media/imx/imx-media.h
-+++ b/drivers/staging/media/imx/imx-media.h
-@@ -252,8 +252,6 @@ void imx_media_unregister_ipu_internal_subdevs(struct imx_media_dev *imxmd);
- /* imx-media-of.c */
- int imx_media_add_of_subdevs(struct imx_media_dev *dev,
- 			     struct device_node *np);
--int imx_media_of_add_csi(struct imx_media_dev *imxmd,
--			 struct device_node *csi_np);
- 
- /* imx-media-vdic.c */
- struct v4l2_subdev *imx_media_vdic_register(struct v4l2_device *v4l2_dev,
--- 
-Regards,
-
-Laurent Pinchart
-
+Reviewed-by: Rob Herring <robh@kernel.org>
