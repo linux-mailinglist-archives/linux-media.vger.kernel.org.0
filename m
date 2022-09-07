@@ -2,630 +2,213 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 87D815B0857
-	for <lists+linux-media@lfdr.de>; Wed,  7 Sep 2022 17:21:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7F7FC5B0869
+	for <lists+linux-media@lfdr.de>; Wed,  7 Sep 2022 17:23:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230405AbiIGPVM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 7 Sep 2022 11:21:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33546 "EHLO
+        id S230339AbiIGPXk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 7 Sep 2022 11:23:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36490 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230349AbiIGPVJ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 7 Sep 2022 11:21:09 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 77AEF86FFC
-        for <linux-media@vger.kernel.org>; Wed,  7 Sep 2022 08:21:06 -0700 (PDT)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <mgr@pengutronix.de>)
-        id 1oVwrQ-0000XW-K2; Wed, 07 Sep 2022 17:21:04 +0200
-Received: from [2a0a:edc0:0:1101:1d::ac] (helo=dude04.red.stw.pengutronix.de)
-        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-        (envelope-from <mgr@pengutronix.de>)
-        id 1oVwrN-004Sud-UW; Wed, 07 Sep 2022 17:21:03 +0200
-Received: from mgr by dude04.red.stw.pengutronix.de with local (Exim 4.94.2)
-        (envelope-from <mgr@pengutronix.de>)
-        id 1oVwrO-00Apno-Nr; Wed, 07 Sep 2022 17:21:02 +0200
-From:   Michael Grzeschik <m.grzeschik@pengutronix.de>
-To:     linux-usb@vger.kernel.org
-Cc:     linux-media@vger.kernel.org, balbi@kernel.org,
-        laurent.pinchart@ideasonboard.com, paul.elder@ideasonboard.com,
-        kernel@pengutronix.de, nicolas@ndufresne.ca,
-        kieran.bingham@ideasonboard.com
-Subject: [fixed+RESEND v10 4/4] usb: gadget: uvc: add format/frame handling code
-Date:   Wed,  7 Sep 2022 17:21:01 +0200
-Message-Id: <20220907152101.2582112-5-m.grzeschik@pengutronix.de>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20220907152101.2582112-1-m.grzeschik@pengutronix.de>
-References: <20220907152101.2582112-1-m.grzeschik@pengutronix.de>
+        with ESMTP id S230320AbiIGPXg (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 7 Sep 2022 11:23:36 -0400
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2041.outbound.protection.outlook.com [40.107.236.41])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F3FBAA2A92;
+        Wed,  7 Sep 2022 08:23:30 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Ag5vWjCUC/DPITMZLoJbf4o1HkMcTvNEE/g7bWjUNiACW0FpY18I87n9FKTPDKPHnmvY9iW9sE1GO0jVHUDX5GI7RYjhKDQ/kzByoPl0VRAxPyOf7aoraST6ebB/BL9gnn1Z4ceplyZlSyfDQsNjUhLo4yRaU66/qSQAFPiYXqyK9MGv0dh1h8whnueKW0KDWuPR3zEWuhF0tT/A985fg2v1gqWWQakF9o1hMWU8YvWd1OQTma3bTeFeqih4hCfT74mKb9QcVpX/0QiUr2Tzicdjd6KA88wCf4y3R2+4L/D4cj5MQ6s4nf9Dx4IaytnVjp77ZSc3F8wW84ViHu4+9w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=V8DERML3z9h5+o593IGCxyePK0C6b23wM6dzB+xUHV4=;
+ b=n52QnFn3aUtCZqjQfmKoncXLQ2d8dxHpntWK0FLeF8ikx8QLblByGjbG51biZgbeqHa4xI1Yi6iF5daUa5WjQXLib6WPE/oAbLuBgcZ6ufetbf2bZ6u8Q7qCYrJlQ2HDsPgy1fqaoBd3VdLPjHtS9Y1vkB0nr2kvWlxDXRpjft6Rri/a9CtBaYXjOYIhWzHl/Jb4HxvGdQl0Ge1irn23KwgN3pyfffx2qE1wvI5fshyoLIdthPqplkvFuuH6ccUIa09duq6jLL/ToOIlyp9TS+7JY62TC0fXEljcb8s6k0gu5W48+FZjED809cWaSwxjXo0gUwpbvwSKidNeOjJlGQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=V8DERML3z9h5+o593IGCxyePK0C6b23wM6dzB+xUHV4=;
+ b=EPGW2j+0mraZ+2JpIx/Ta1IE9tsEfxB6BKMl8HuCHDlllUs1lSv2IPSUcyYlWtLVo7XnUJfFjdh4Z+f/w9p4xLvXkqd7vXWnEqabOswHJzOphAxhz/HJrA7DF4iTExPQSLwEhh575O5HeTdXMmx4IyWF6JZbd8HzkRUxUXg0Tjxzhny3xu2z3fkDfUYruE6CKGuuI2Mlhck5QjXGDStPiHqFTCV+MvBQg4WhhJgXU5CZw1Pb+4sQb4p1fXgZ7JaMGIThKrbcWS0aLKiknvN3hY35kB6GYAifMSn+cTFDxVE9MUIzTR6smEQkaFMKEAF37G/Xxm/eUUJx3jw8AgFI0Q==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from MN2PR12MB4192.namprd12.prod.outlook.com (2603:10b6:208:1d5::15)
+ by DM6PR12MB4435.namprd12.prod.outlook.com (2603:10b6:5:2a6::23) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5588.10; Wed, 7 Sep
+ 2022 15:23:29 +0000
+Received: from MN2PR12MB4192.namprd12.prod.outlook.com
+ ([fe80::462:7fe:f04f:d0d5]) by MN2PR12MB4192.namprd12.prod.outlook.com
+ ([fe80::462:7fe:f04f:d0d5%7]) with mapi id 15.20.5588.018; Wed, 7 Sep 2022
+ 15:23:29 +0000
+Date:   Wed, 7 Sep 2022 12:23:28 -0300
+From:   Jason Gunthorpe <jgg@nvidia.com>
+To:     Christoph Hellwig <hch@infradead.org>
+Cc:     Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Cornelia Huck <cohuck@redhat.com>,
+        dri-devel@lists.freedesktop.org, kvm@vger.kernel.org,
+        linaro-mm-sig@lists.linaro.org, linux-media@vger.kernel.org,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Daniel Vetter <daniel.vetter@ffwll.ch>,
+        Leon Romanovsky <leon@kernel.org>, linux-rdma@vger.kernel.org,
+        Maor Gottlieb <maorg@nvidia.com>,
+        Oded Gabbay <ogabbay@kernel.org>,
+        Dan Williams <dan.j.williams@intel.com>
+Subject: Re: [PATCH v2 4/4] vfio/pci: Allow MMIO regions to be exported
+ through dma-buf
+Message-ID: <Yxi3cFfs0SA4XWJw@nvidia.com>
+References: <0-v2-472615b3877e+28f7-vfio_dma_buf_jgg@nvidia.com>
+ <4-v2-472615b3877e+28f7-vfio_dma_buf_jgg@nvidia.com>
+ <YxcYGzPv022G2vLm@infradead.org>
+ <b6b5d236-c089-7428-4cc9-a08fe4f6b4a3@amd.com>
+ <YxczjNIloP7TWcf2@nvidia.com>
+ <YxiJJYtWgh1l0wxg@infradead.org>
+ <YxiPh4u/92chN02C@nvidia.com>
+ <Yxiq5sjf/qA7xS8A@infradead.org>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Yxiq5sjf/qA7xS8A@infradead.org>
+X-ClientProxiedBy: BL1PR13CA0073.namprd13.prod.outlook.com
+ (2603:10b6:208:2b8::18) To MN2PR12MB4192.namprd12.prod.outlook.com
+ (2603:10b6:208:1d5::15)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: mgr@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 81736f63-3924-4cc6-e846-08da90e4eab1
+X-MS-TrafficTypeDiagnostic: DM6PR12MB4435:EE_
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: AMYRRE07QFKgedKfToavYzQoSUV0zNps62Qc+kuhYRBf6ops/Jr7xZjbFjMHPwKSY44/J3+2VZNIYXSrJvOoK+o83Hw7+x81lXpRdf7vK9mFGVHchT+aee18Ajwdpc9i1p87qL8dQNyhuHbNtMqzzuKlWzFW4bgvchDo8thwYdHRFnIFtX7a/YecF38LTFvIsR2Lf5GZaBw/Upa1fFYeKZewpsKEUVsUFjztuLAyxaqoNkp94wH2tZxhwRKeh56NudLXzDN7IdriV8XKZR9XYyK993Mo1pgWl6sknTthWnjCHKIPNLkwmom5Uz9qkyQmDpCA4ycB0GVlfzwI8wrDBy2cDVobxUc7bUlUQ7pnRSvuOhAiz3RQxWHIY8u6rGlY+RaCEBEXzeMR6K5p4uE+fFHOUCB+efsuxGwma2YEr6Rhih+AmvvWmfWQynnbdxqD2Ds89OcZ00dDgXaYEDHNUS6ONj+1pEzc5BO7MeKScNVpyaCu9SaEAJfduIKXaApNK9iyCgmR4Ln0QL4mg5Gz2L+cvj5R9qskzhxdigd4J4rfAfXYXMZFiwWUR+Whh8V/dgnYckDhL7sd0CBMpTUK2gIUeNmQWs8Lmu6GBU4EFI32LcyOIX8QjV1FRCDA5dSPzPiihck3r4SIrqRx73x5Y1akvpv9qUt0nhrI4I0h2q11hJs2bkBVycN7Joz5sa0Ae6hmSaKGl7R7R1ztgh/5Bw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR12MB4192.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(136003)(396003)(39860400002)(366004)(346002)(376002)(38100700002)(86362001)(36756003)(2616005)(6916009)(54906003)(186003)(316002)(6486002)(8936002)(478600001)(66946007)(5660300002)(8676002)(4326008)(66476007)(6506007)(66556008)(7416002)(6512007)(83380400001)(2906002)(26005)(41300700001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?+irHNfu/PVudF6B/oUtlxYFfmlLZ1QzdDJ9OQhQXSjWE6Xlhx8x8bDwumLI+?=
+ =?us-ascii?Q?AyRf0tL8n8CLd/iOysWXmDvTAWwXlZIKvzAxeZycQr7mJZ81ksXnmGvII442?=
+ =?us-ascii?Q?Eu35F1Et4jhdIe3nj/f0QSJr9zE+mtfVD1ldm6ampHkAfryxGayARokks57/?=
+ =?us-ascii?Q?Lu2wkWcHl4cZ+9MKHJY2NmM9n2Zs36j1tWmXCaFafnw91ve8Dy1c/3LugmVE?=
+ =?us-ascii?Q?opDmtPdbn03zd6EBfBAqk//trCwiIAyIgnNztwZtXogz5ZfyR2KDHBz7V0oP?=
+ =?us-ascii?Q?/KOovAIpjIR8PfZYW3upfsK0ijNfN47l8T8MjnlyoTMS8biY3ru2CoH8EtuX?=
+ =?us-ascii?Q?1cM+c0HnLzHef6aqo2TxyoiaIJazDPZSlIzaNE04+d7OM2OjPR3XLzndTobj?=
+ =?us-ascii?Q?oT+KD9Iua4jYfvWF2wWM68nvZKskdjFzhs27JXmNn/cH/JVj01lxgrSZV7P4?=
+ =?us-ascii?Q?vYHuWUlRmCCby6gV98Y/lbFmhYmFem4W6Unpy23OMPUySdlvRAsaEEFWQTDr?=
+ =?us-ascii?Q?ohf5HSnlgaN6flqEatpDVdSl9nnCZ1KoyaZ61OxhKQMMGPq4vHwL+nJx4LuH?=
+ =?us-ascii?Q?Pe2jNL+S0Ay2KOHUKbhqDkBlayOIlhgDW5nvAKVcpSLaf1XigGkBEc9vtUDc?=
+ =?us-ascii?Q?QnKyiGq7YYrTYUiWZcf1B/ZtchF+o1WWSvnLN7gvaVKVBzKjjWWnsp89yUYr?=
+ =?us-ascii?Q?ifboxkDao5RoyFYVZ4CX8/BnTUxAcj+hNgQvQClSPS52f/VI/Jgx8bDmzAEJ?=
+ =?us-ascii?Q?A4ImpfxSpUD1WvUpc0FJMSPEhIKSo2mKf4AoJEgpBoGpFv1zd62J+ti68zJj?=
+ =?us-ascii?Q?Z6zrrC2wFU9yVeFbrKmi0hfdfZtbT6qc0p47gYX2Q9xj5gnEMYTKuvroLxlO?=
+ =?us-ascii?Q?DHPV1hFPY4x04RXwoiUF+qpeQ2GfOlmbKe+9cqw5aIHUR1uCQmcROSVpAyx5?=
+ =?us-ascii?Q?GGajXTgGssqjw18mw6A0q1jJMN21wIwSKHX0vTktpFaHSD8g57X3qfCRplVt?=
+ =?us-ascii?Q?4S/lQuYgqvUDwKrPOVHoSJv9F+iYitvtctIQJlkKq/AO8H89aNanuiiNgLW1?=
+ =?us-ascii?Q?Sg8NGtZgGJmOE7+Z9Ad9OKmaT7QhNT1xXYyGY00PhqSmmVBvDKWwGgHVkoTo?=
+ =?us-ascii?Q?Efvxrq2PLEJsZ8Yhoju+gKnW1LMVTWAkRwPJGhPfChqiglI7XszxioPdyY7I?=
+ =?us-ascii?Q?h7dTdOD8+vTxxivbdciha68IsaP1r+RKjypXddHe0B6CB6xDMWWVUNCGCge7?=
+ =?us-ascii?Q?VeckVqWglemhLjAIHGBtb3ioD3Qdc1FIGTgl79Jhhe9WayUd2cwQ7+YbS53B?=
+ =?us-ascii?Q?hZJEQIO3eDLZMDOcKqmobnnrOsNrd2pNBitF3ZOdO6t/6zkAdCwmHl4CtFeV?=
+ =?us-ascii?Q?//S0NVGxOuvJQtto1aIA3nJ4ahXniHFyZqyoYdoMGOy7c5zJadT57OTCUX+f?=
+ =?us-ascii?Q?W14wbOYVMz4A4FmxHIgLHogSgcN9TL5h+mJw4DQBawA/qU5GlMlBrmEhyB9U?=
+ =?us-ascii?Q?K44HYa8vDPXKd48uHHOaEz2ltVmDfUkKT45x9gZj/K2A+aqsGjtpVk/HZ6ie?=
+ =?us-ascii?Q?mPN0QiCqM+kun0M6L37p3k0dGwMjJT0j+8FbyVTb?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 81736f63-3924-4cc6-e846-08da90e4eab1
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB4192.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Sep 2022 15:23:29.2848
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: HQnHK8gkKnY1fjHPqKFKYdvR0SDLrQkjs/8yS5OmfLIgf2lqbUiCfAnJtykGDHKI
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4435
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The Hostside format selection is currently only done in userspace, as
-the events for SET_CUR and GET_CUR are always moved to the application
-layer. Since the v4l2 device parses the configfs data, the format
-negotiation can be done in the kernel. This patch adds the functions to
-set the current configuration while continuing to forward all unknown
-events to the userspace level.
+On Wed, Sep 07, 2022 at 07:29:58AM -0700, Christoph Hellwig wrote:
+> On Wed, Sep 07, 2022 at 09:33:11AM -0300, Jason Gunthorpe wrote:
+> > Yes, you said that, and I said that when the AMD driver first merged
+> > it - but it went in anyhow and now people are using it in a bunch of
+> > places.
+> 
+> drm folks made up their own weird rules, if they internally stick
+> to it they have to listen to it given that they ignore review comments,
+> but it violates the scatterlist API and has not business anywhere
+> else in the kernel.  And yes, there probably is a reason or two why
+> the drm code is unusually error prone.
 
-Signed-off-by: Michael Grzeschik <m.grzeschik@pengutronix.de>
+That may be, but it is creating problems if DRM gets to do X crazy
+thing and nobody else can..
 
----
-v1 -> v2:
-   - fixed the commit message
-   - changed pr_debug to pr_err in events_process_data
-   - aligned many indentations
-   - simplified uvc_events_process_data
-   - fixed uvc_fill_streaming_control calls in uvcg_video_init
-   - added setup_subscribed to decide if userspace takes over on EOPNOTSUPP
-   - added data_subscribed to decide if userspace takes over on EOPNOTSUPP
-   - removed duplicate send_response
-   - wrting fmt and frm in full
-v2 -> v3:
-   - added find_format_index to set the right probe
-v3 -> v4:
-   - add function find_ival_index and use for cur_ival
-   - fix swapped frame and format in uvc_events_process_data on uvc_fill_streaming_control
-   - set proper resp.length on ep0 complete
-   - dropped setting cur_probe on set_format since function was removed
-   - added locking around getting correspondent cur_{frame,format,ival}
-v4 -> v5:
-   - fixed sparse errors reported by kernel test robot
-v5 -> v6:
-   - fixed the handling in uvc_function_ep0_complete after events_process_data
-v6 -> v7:
-   - set dwMaxPayloadTransferSize unconditionally from streaming_maxpacket
-   - fixed check for interface with masking for 0xff
-v7 -> v8:
-   -
-v8 -> v10:
-   -
+So, we have two issues here
 
- drivers/usb/gadget/function/f_uvc.c     | 237 +++++++++++++++++++++++-
- drivers/usb/gadget/function/uvc.h       |  19 ++
- drivers/usb/gadget/function/uvc_v4l2.c  |  66 ++++++-
- drivers/usb/gadget/function/uvc_video.c |  12 +-
- 4 files changed, 322 insertions(+), 12 deletions(-)
+ 1) DMABUF abuses the scatter list, but this is very constrainted we have
+    this weird special "DMABUF scatterlist" that is only touched by DMABUF
+    importers. The imports signal that they understand the format with
+    a flag. This is ugly and would be nice to clean to a dma mapped
+    address list of some sort.
 
-diff --git a/drivers/usb/gadget/function/f_uvc.c b/drivers/usb/gadget/function/f_uvc.c
-index a8dcf5f01f16de..fc3fabc47018cd 100644
---- a/drivers/usb/gadget/function/f_uvc.c
-+++ b/drivers/usb/gadget/function/f_uvc.c
-@@ -16,7 +16,6 @@
- #include <linux/string.h>
- #include <linux/usb/ch9.h>
- #include <linux/usb/gadget.h>
--#include <linux/usb/g_uvc.h>
- #include <linux/usb/video.h>
- #include <linux/vmalloc.h>
- #include <linux/wait.h>
-@@ -204,21 +203,228 @@ static const struct usb_descriptor_header * const uvc_ss_streaming[] = {
-  * Control requests
-  */
- 
-+void uvc_fill_streaming_control(struct uvc_device *uvc,
-+			   struct uvc_streaming_control *ctrl,
-+			   int iframe, int iformat, unsigned int ival)
-+{
-+	struct f_uvc_opts *opts;
-+	struct uvcg_format *uformat;
-+	struct uvcg_frame *uframe;
-+
-+	/* Restrict the iformat, iframe and ival to valid values. Negative
-+	 * values for ifrmat and iframe will result in the maximum valid value
-+	 * being selected
-+	 */
-+	iformat = clamp((unsigned int)iformat, 1U,
-+			(unsigned int)uvc->header->num_fmt);
-+	uformat = find_format_by_index(uvc, iformat);
-+	if (!uformat)
-+		return;
-+
-+	iframe = clamp((unsigned int)iframe, 1U,
-+		       (unsigned int)uformat->num_frames);
-+	uframe = find_frame_by_index(uvc, uformat, iframe);
-+	if (!uframe)
-+		return;
-+
-+	ival = clamp((unsigned int)ival, 1U,
-+		     (unsigned int)uframe->frame.b_frame_interval_type);
-+	if (!uframe->dw_frame_interval[ival - 1])
-+		return;
-+
-+	opts = fi_to_f_uvc_opts(uvc->func.fi);
-+
-+	memset(ctrl, 0, sizeof(*ctrl));
-+
-+	ctrl->bmHint = 1;
-+	ctrl->bFormatIndex = iformat;
-+	ctrl->bFrameIndex = iframe;
-+	ctrl->dwFrameInterval = uframe->dw_frame_interval[ival - 1];
-+	ctrl->dwMaxVideoFrameSize =
-+		uframe->frame.dw_max_video_frame_buffer_size;
-+
-+	ctrl->dwMaxPayloadTransferSize = opts->streaming_maxpacket;
-+	ctrl->bmFramingInfo = 3;
-+	ctrl->bPreferedVersion = 1;
-+	ctrl->bMaxVersion = 1;
-+}
-+
-+static int uvc_events_process_data(struct uvc_device *uvc,
-+				   struct usb_request *req)
-+{
-+	struct uvc_video *video = &uvc->video;
-+	struct uvc_streaming_control *target;
-+	struct uvc_streaming_control *ctrl;
-+	struct uvcg_frame *uframe;
-+	struct uvcg_format *uformat;
-+
-+	switch (video->control) {
-+	case UVC_VS_PROBE_CONTROL:
-+		pr_debug("setting probe control, length = %d\n", req->actual);
-+		target = &video->probe;
-+		break;
-+
-+	case UVC_VS_COMMIT_CONTROL:
-+		pr_debug("setting commit control, length = %d\n", req->actual);
-+		target = &video->commit;
-+		break;
-+
-+	default:
-+		pr_err("setting unknown control, length = %d\n", req->actual);
-+		return -EOPNOTSUPP;
-+	}
-+
-+	ctrl = (struct uvc_streaming_control *)req->buf;
-+
-+	uvc_fill_streaming_control(uvc, target, ctrl->bFrameIndex,
-+			   ctrl->bFormatIndex, ctrl->dwFrameInterval);
-+
-+	if (video->control == UVC_VS_COMMIT_CONTROL) {
-+		uformat = find_format_by_index(uvc, target->bFormatIndex);
-+		if (!uformat)
-+			return -EINVAL;
-+
-+		uframe = find_frame_by_index(uvc, uformat, ctrl->bFrameIndex);
-+		if (!uframe)
-+			return -EINVAL;
-+
-+		spin_lock(&video->frame_lock);
-+
-+		video->cur_frame = uframe;
-+		video->cur_format = uformat;
-+		video->cur_ival = find_ival_index(uframe, ctrl->dwFrameInterval);
-+
-+		spin_unlock(&video->frame_lock);
-+	}
-+
-+	return 0;
-+}
-+
-+static void
-+uvc_events_process_streaming(struct uvc_device *uvc, uint8_t req, uint8_t cs,
-+			     struct uvc_request_data *resp)
-+{
-+	struct uvc_streaming_control *ctrl;
-+
-+	pr_debug("streaming request (req %02x cs %02x)\n", req, cs);
-+
-+	if (cs != UVC_VS_PROBE_CONTROL && cs != UVC_VS_COMMIT_CONTROL)
-+		return;
-+
-+	ctrl = (struct uvc_streaming_control *)&resp->data;
-+	resp->length = sizeof(*ctrl);
-+
-+	switch (req) {
-+	case UVC_SET_CUR:
-+		uvc->video.control = cs;
-+		resp->length = 34;
-+		break;
-+
-+	case UVC_GET_CUR:
-+		if (cs == UVC_VS_PROBE_CONTROL)
-+			memcpy(ctrl, &uvc->video.probe, sizeof(*ctrl));
-+		else
-+			memcpy(ctrl, &uvc->video.commit, sizeof(*ctrl));
-+		break;
-+
-+	case UVC_GET_MIN:
-+	case UVC_GET_MAX:
-+	case UVC_GET_DEF:
-+		if (req == UVC_GET_MAX)
-+			uvc_fill_streaming_control(uvc, ctrl, -1, -1, UINT_MAX);
-+		else
-+			uvc_fill_streaming_control(uvc, ctrl, 1, 1, 0);
-+		break;
-+
-+	case UVC_GET_RES:
-+		memset(ctrl, 0, sizeof(*ctrl));
-+		break;
-+
-+	case UVC_GET_LEN:
-+		resp->data[0] = 0x00;
-+		resp->data[1] = 0x22;
-+		resp->length = 2;
-+		break;
-+
-+	case UVC_GET_INFO:
-+		resp->data[0] = 0x03;
-+		resp->length = 1;
-+		break;
-+	}
-+}
-+
-+static int
-+uvc_events_process_class(struct uvc_device *uvc,
-+			 const struct usb_ctrlrequest *ctrl,
-+			 struct uvc_request_data *resp)
-+{
-+	unsigned int interface = le16_to_cpu(ctrl->wIndex) & 0xff;
-+
-+	if ((ctrl->bRequestType & USB_RECIP_MASK) != USB_RECIP_INTERFACE)
-+		return -EINVAL;
-+
-+	if (interface == uvc->control_intf)
-+		return -EOPNOTSUPP;
-+	else if (interface == uvc->streaming_intf)
-+		uvc_events_process_streaming(uvc, ctrl->bRequest,
-+					     le16_to_cpu(ctrl->wValue) >> 8,
-+					     resp);
-+
-+	return 0;
-+}
-+
-+static int
-+uvc_events_process_setup(struct uvc_device *uvc,
-+			 const struct usb_ctrlrequest *ctrl,
-+			 struct uvc_request_data *resp)
-+{
-+	uvc->video.control = 0;
-+
-+	pr_debug("bRequestType %02x bRequest %02x wValue %04x wIndex %04x wLength %04x\n",
-+		ctrl->bRequestType, ctrl->bRequest, ctrl->wValue,
-+		ctrl->wIndex, ctrl->wLength);
-+
-+	switch (ctrl->bRequestType & USB_TYPE_MASK) {
-+	case USB_TYPE_STANDARD:
-+		return -EOPNOTSUPP;
-+
-+	case USB_TYPE_CLASS:
-+		return uvc_events_process_class(uvc, ctrl, resp);
-+
-+	default:
-+		break;
-+	}
-+
-+	return 0;
-+}
-+
- static void
- uvc_function_ep0_complete(struct usb_ep *ep, struct usb_request *req)
- {
- 	struct uvc_device *uvc = req->context;
- 	struct v4l2_event v4l2_event;
- 	struct uvc_event *uvc_event = (void *)&v4l2_event.u.data;
-+	int ret;
- 
- 	if (uvc->event_setup_out) {
- 		uvc->event_setup_out = 0;
- 
--		memset(&v4l2_event, 0, sizeof(v4l2_event));
--		v4l2_event.type = UVC_EVENT_DATA;
--		uvc_event->data.length = req->actual;
--		memcpy(&uvc_event->data.data, req->buf, req->actual);
--		v4l2_event_queue(&uvc->vdev, &v4l2_event);
-+		ret = uvc_events_process_data(uvc, req);
-+		/* If we have a real error on process */
-+		if (ret == -EINVAL) {
-+			struct uvc_request_data resp;
-+
-+			memset(&resp, 0, sizeof(resp));
-+			resp.length = -EL2HLT;
-+
-+			uvc_send_response(uvc, &resp);
-+		} else if (ret == -EOPNOTSUPP && uvc->data_subscribed) {
-+			memset(&v4l2_event, 0, sizeof(v4l2_event));
-+			v4l2_event.type = UVC_EVENT_DATA;
-+			uvc_event->data.length = req->actual;
-+			memcpy(&uvc_event->data.data, req->buf, req->actual);
-+			v4l2_event_queue(&uvc->vdev, &v4l2_event);
-+		}
- 	}
- }
- 
-@@ -228,6 +434,8 @@ uvc_function_setup(struct usb_function *f, const struct usb_ctrlrequest *ctrl)
- 	struct uvc_device *uvc = to_uvc(f);
- 	struct v4l2_event v4l2_event;
- 	struct uvc_event *uvc_event = (void *)&v4l2_event.u.data;
-+	struct uvc_request_data resp;
-+	int ret = 0;
- 
- 	if ((ctrl->bRequestType & USB_TYPE_MASK) != USB_TYPE_CLASS) {
- 		uvcg_info(f, "invalid request type\n");
-@@ -245,6 +453,23 @@ uvc_function_setup(struct usb_function *f, const struct usb_ctrlrequest *ctrl)
- 	uvc->event_setup_out = !(ctrl->bRequestType & USB_DIR_IN);
- 	uvc->event_length = le16_to_cpu(ctrl->wLength);
- 
-+	memset(&resp, 0, sizeof(resp));
-+	resp.length = -EL2HLT;
-+
-+	ret = uvc_events_process_setup(uvc, ctrl, &resp);
-+	/* If we have no error on process */
-+	if (!ret)
-+		return uvc_send_response(uvc, &resp);
-+
-+	/* If we have a real error on process */
-+	if (ret != -EOPNOTSUPP)
-+		return ret;
-+
-+	/* If we have -EOPNOTSUPP */
-+	if (!uvc->setup_subscribed)
-+		return uvc_send_response(uvc, &resp);
-+
-+	/* If we have setup subscribed */
- 	memset(&v4l2_event, 0, sizeof(v4l2_event));
- 	v4l2_event.type = UVC_EVENT_SETUP;
- 	memcpy(&uvc_event->req, ctrl, sizeof(uvc_event->req));
-diff --git a/drivers/usb/gadget/function/uvc.h b/drivers/usb/gadget/function/uvc.h
-index 8a71d0c4abbcd5..cdfd46f3a2861c 100644
---- a/drivers/usb/gadget/function/uvc.h
-+++ b/drivers/usb/gadget/function/uvc.h
-@@ -13,6 +13,8 @@
- #include <linux/mutex.h>
- #include <linux/spinlock.h>
- #include <linux/usb/composite.h>
-+#include <linux/usb/g_uvc.h>
-+#include <linux/usb/video.h>
- #include <linux/videodev2.h>
- #include <linux/wait.h>
- 
-@@ -95,6 +97,12 @@ struct uvc_video {
- 	unsigned int cur_ival;
- 
- 	struct mutex mutex;	/* protects frame parameters */
-+	spinlock_t frame_lock;
-+
-+	struct uvc_streaming_control probe;
-+	struct uvc_streaming_control commit;
-+
-+	int control;
- 
- 	unsigned int uvc_num_requests;
- 
-@@ -131,6 +139,8 @@ struct uvc_device {
- 	struct uvc_video video;
- 	bool func_connected;
- 	wait_queue_head_t func_connected_queue;
-+	bool setup_subscribed;
-+	bool data_subscribed;
- 
- 	struct uvcg_streaming_header *header;
- 
-@@ -187,5 +197,14 @@ extern struct uvcg_format *find_format_by_index(struct uvc_device *uvc,
- extern struct uvcg_frame *find_frame_by_index(struct uvc_device *uvc,
- 					      struct uvcg_format *uformat,
- 					      int index);
-+extern int find_format_index(struct uvc_device *uvc,
-+			       struct uvcg_format *uformat);
-+extern int find_ival_index(struct uvcg_frame *uframe, int dwFrameInterval);
-+extern void uvc_fill_streaming_control(struct uvc_device *uvc,
-+				       struct uvc_streaming_control *ctrl,
-+				       int iframe, int iformat,
-+				       unsigned int ival);
-+extern int uvc_send_response(struct uvc_device *uvc,
-+			     struct uvc_request_data *data);
- 
- #endif /* _UVC_GADGET_H_ */
-diff --git a/drivers/usb/gadget/function/uvc_v4l2.c b/drivers/usb/gadget/function/uvc_v4l2.c
-index 1ae72ba72f38cd..3bbda3c0f81c52 100644
---- a/drivers/usb/gadget/function/uvc_v4l2.c
-+++ b/drivers/usb/gadget/function/uvc_v4l2.c
-@@ -90,6 +90,33 @@ struct uvcg_format *find_format_by_index(struct uvc_device *uvc, int index)
- 	return uformat;
- }
- 
-+int find_format_index(struct uvc_device *uvc, struct uvcg_format *uformat)
-+{
-+	struct uvcg_format_ptr *format;
-+	int i = 1;
-+
-+	list_for_each_entry(format, &uvc->header->formats, entry) {
-+		if (uformat == format->fmt)
-+			return i;
-+		i++;
-+	}
-+
-+	return 0;
-+}
-+
-+int find_ival_index(struct uvcg_frame *uframe, int dwFrameInterval)
-+{
-+	int i;
-+
-+	for (i = 0; i < uframe->frame.b_frame_interval_type; i++) {
-+		if (dwFrameInterval == uframe->dw_frame_interval[i])
-+			return i + 1;
-+	}
-+
-+	/* fallback */
-+	return 1;
-+}
-+
- struct uvcg_frame *find_frame_by_index(struct uvc_device *uvc,
- 				       struct uvcg_format *uformat,
- 				       int index)
-@@ -178,8 +205,7 @@ static struct uvcg_frame *find_closest_frame_by_size(struct uvc_device *uvc,
-  * Requests handling
-  */
- 
--static int
--uvc_send_response(struct uvc_device *uvc, struct uvc_request_data *data)
-+int uvc_send_response(struct uvc_device *uvc, struct uvc_request_data *data)
- {
- 	struct usb_composite_dev *cdev = uvc->func.config->cdev;
- 	struct usb_request *req = uvc->control_req;
-@@ -221,6 +247,8 @@ uvc_v4l2_get_format(struct file *file, void *fh, struct v4l2_format *fmt)
- 	struct uvc_video *video = &uvc->video;
- 	struct uvc_format_desc *fmtdesc;
- 
-+	spin_lock(&video->frame_lock);
-+
- 	fmtdesc = to_uvc_format(video->cur_format);
- 
- 	fmt->fmt.pix.pixelformat = fmtdesc->fcc;
-@@ -233,6 +261,8 @@ uvc_v4l2_get_format(struct file *file, void *fh, struct v4l2_format *fmt)
- 	fmt->fmt.pix.colorspace = V4L2_COLORSPACE_SRGB;
- 	fmt->fmt.pix.priv = 0;
- 
-+	spin_unlock(&video->frame_lock);
-+
- 	return 0;
- }
- 
-@@ -244,6 +274,7 @@ uvc_v4l2_try_set_fmt(struct file *file, void *fh, struct v4l2_format *fmt)
- 	struct uvc_video *video = &uvc->video;
- 	struct uvcg_format *uformat;
- 	struct uvcg_frame *uframe;
-+	int iformat;
- 	u8 *fcc;
- 
- 	if (fmt->type != video->queue.queue.type)
-@@ -259,6 +290,10 @@ uvc_v4l2_try_set_fmt(struct file *file, void *fh, struct v4l2_format *fmt)
- 	if (!uformat)
- 		return -EINVAL;
- 
-+	iformat = find_format_index(uvc, uformat);
-+	if (!iformat)
-+		return -EINVAL;
-+
- 	uframe = find_closest_frame_by_size(uvc, uformat,
- 				fmt->fmt.pix.width, fmt->fmt.pix.height);
- 	if (!uframe)
-@@ -305,8 +340,12 @@ uvc_v4l2_enum_frameintervals(struct file *file, void *fh,
- 		if (fival->index >= 1)
- 			return -EINVAL;
- 
-+		spin_lock(&video->frame_lock);
-+
- 		fival->discrete.numerator =
- 			uframe->dw_frame_interval[video->cur_ival - 1];
-+
-+		spin_unlock(&video->frame_lock);
- 	} else {
- 		if (fival->index >= uframe->frame.b_frame_interval_type)
- 			return -EINVAL;
-@@ -338,8 +377,12 @@ uvc_v4l2_enum_framesizes(struct file *file, void *fh,
- 		if (fsize->index >= 1)
- 			return -EINVAL;
- 
-+		spin_lock(&video->frame_lock);
-+
- 		uformat = video->cur_format;
- 		uframe = video->cur_frame;
-+
-+		spin_unlock(&video->frame_lock);
- 	} else {
- 		uformat = find_format_by_pix(uvc, fsize->pixel_format);
- 		if (!uformat)
-@@ -373,7 +416,11 @@ uvc_v4l2_enum_fmt(struct file *file, void *fh, struct v4l2_fmtdesc *f)
- 		if (f->index >= 1)
- 			return -EINVAL;
- 
-+		spin_lock(&video->frame_lock);
-+
- 		uformat = video->cur_format;
-+
-+		spin_unlock(&video->frame_lock);
- 	} else {
- 		if (f->index >= uvc->header->num_fmt)
- 			return -EINVAL;
-@@ -497,14 +544,20 @@ uvc_v4l2_subscribe_event(struct v4l2_fh *fh,
- 	if (sub->type < UVC_EVENT_FIRST || sub->type > UVC_EVENT_LAST)
- 		return -EINVAL;
- 
--	if (sub->type == UVC_EVENT_SETUP && uvc->func_connected)
-+	if (sub->type == UVC_EVENT_STREAMON && uvc->func_connected)
- 		return -EBUSY;
- 
- 	ret = v4l2_event_subscribe(fh, sub, 2, NULL);
- 	if (ret < 0)
- 		return ret;
- 
--	if (sub->type == UVC_EVENT_SETUP) {
-+	if (sub->type == UVC_EVENT_SETUP)
-+		uvc->setup_subscribed = true;
-+
-+	if (sub->type == UVC_EVENT_DATA)
-+		uvc->data_subscribed = true;
-+
-+	if (sub->type == UVC_EVENT_STREAMON) {
- 		uvc->func_connected = true;
- 		handle->is_uvc_app_handle = true;
- 		uvc_function_connect(uvc);
-@@ -534,7 +587,10 @@ uvc_v4l2_unsubscribe_event(struct v4l2_fh *fh,
- 	if (ret < 0)
- 		return ret;
- 
--	if (sub->type == UVC_EVENT_SETUP && handle->is_uvc_app_handle) {
-+	if (sub->type == UVC_EVENT_SETUP)
-+		uvc->setup_subscribed = false;
-+
-+	if (sub->type == UVC_EVENT_STREAMON && handle->is_uvc_app_handle) {
- 		uvc_v4l2_disable(uvc);
- 		handle->is_uvc_app_handle = false;
- 	}
-diff --git a/drivers/usb/gadget/function/uvc_video.c b/drivers/usb/gadget/function/uvc_video.c
-index 37867c93073418..c20d832c4a0b8a 100644
---- a/drivers/usb/gadget/function/uvc_video.c
-+++ b/drivers/usb/gadget/function/uvc_video.c
-@@ -533,10 +533,11 @@ static int uvc_default_frame_interval(struct uvc_video *video)
-  */
- int uvcg_video_init(struct uvc_video *video, struct uvc_device *uvc)
- {
--	int iframe;
-+	int iframe, iformat;
- 
- 	INIT_LIST_HEAD(&video->req_free);
- 	spin_lock_init(&video->req_lock);
-+	spin_lock_init(&video->frame_lock);
- 	INIT_WORK(&video->pump, uvcg_video_pump);
- 
- 	if (list_empty(&uvc->header->formats))
-@@ -547,6 +548,10 @@ int uvcg_video_init(struct uvc_video *video, struct uvc_device *uvc)
- 	if (!video->cur_format)
- 		return -EINVAL;
- 
-+	iformat = find_format_index(uvc, video->cur_format);
-+	if (!iformat)
-+		return -EINVAL;
-+
- 	iframe = uvc_frame_default(video->cur_format);
- 	if (!iframe)
- 		return -EINVAL;
-@@ -557,6 +562,11 @@ int uvcg_video_init(struct uvc_video *video, struct uvc_device *uvc)
- 
- 	video->cur_ival = uvc_default_frame_interval(video);
- 
-+	uvc_fill_streaming_control(uvc, &video->probe, iframe, iformat,
-+				   video->cur_ival);
-+	uvc_fill_streaming_control(uvc, &video->commit, iframe, iformat,
-+				   video->cur_ival);
-+
- 	/* Initialize the video buffers queue. */
- 	uvcg_queue_init(&video->queue, uvc->v4l2_dev.dev->parent,
- 			V4L2_BUF_TYPE_VIDEO_OUTPUT, &video->mutex);
--- 
-2.30.2
+    I spent alot of time a few years ago removing driver touches of
+    the SGL and preparing the RDMA stack to do this kind of change, at
+    least.
 
+ 2) DMABUF abuses dma_map_resource() for P2P and thus doesn't work in
+    certain special cases.
+
+    Rather than jump to ZONE_DEVICE and map_sgl I would like to
+    continue to support non-struct page mapping. So, I would suggest
+    adding a dma_map_p2p() that can cover off the special cases,
+    include the two struct devices as arguments with a physical PFN/size. Do
+    the same logic we do under the ZONE_DEVICE stuff.
+
+    Drivers can choose if they want to pay the memory cost of
+    ZONE_DEVICE and get faster dma_map or get slower dma_map and save
+    memory.
+
+I still think we can address them incrementally - but the
+dma_map_p2p() might be small enough to sort out right away, if you are
+OK with it.
+
+> > > Why would small BARs be problematic for the pages?  The pages are more
+> > > a problem for gigantic BARs do the memory overhead.
+> > 
+> > How do I get a struct page * for a 4k BAR in vfio?
+> 
+> I guess we have different definitions of small then :)
+> 
+> But unless my understanding of the code is out out of data,
+> memremap_pages just requires the (virtual) start address to be 2MB
+> aligned, not the size.  Adding Dan for comments.
+
+Don't we need the virtual start address to equal the physical pfn for
+everything to work properly? eg pfn_to_page?
+
+And we can't over-allocate because another driver might want to also
+use ZONE_DEVICE pages for its BAR that is now creating a collision.
+
+So, at least as is, the memmap stuff seems unable to support the case
+we have with VFIO.
+
+> That being said, what is the point of mapping say a 4k BAR for p2p?
+> You're not going to save a measurable amount of CPU overhead if that
+> is the only place you transfer to.
+
+For the purpose this series is chasing, it is for doorbell rings. The
+actual data transfer may still bounce through CPU memory (if a CMB is
+not available), but the latency reduction of directly signaling the
+peer device that the transfer is ready is the key objective. 
+
+Bouncing an interrupt through the CPU to cause it to do a writel() is
+very tiem consuming, especially on slow ARM devices, while we have
+adequate memory bandwidth for data transfer.
+
+When I look at iommufd, it is for generality and compat. We don't have
+knowledge of what the guest will do, so regardless of BAR size we have
+to create P2P iommu mappings for every kind of PCI BAR. It is what
+vfio is currently doing.
+
+Jason
