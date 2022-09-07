@@ -2,170 +2,145 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DCF475B03FA
-	for <lists+linux-media@lfdr.de>; Wed,  7 Sep 2022 14:33:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4FF205B03FE
+	for <lists+linux-media@lfdr.de>; Wed,  7 Sep 2022 14:34:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229832AbiIGMda (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 7 Sep 2022 08:33:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52870 "EHLO
+        id S229515AbiIGMeV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 7 Sep 2022 08:34:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54264 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229746AbiIGMdS (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 7 Sep 2022 08:33:18 -0400
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12on2089.outbound.protection.outlook.com [40.107.244.89])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D7DF8AE236;
-        Wed,  7 Sep 2022 05:33:13 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=IjHB3m4m0HuDO+AbpU5JM7BeOr9CyemzQBouunUFlLCYoXL0YE+mF/EUs/dfIctXFhb2/gZaJVvbvbyBZjsM+ms4Y9XB9MrhvkrWC0G8v6MoG/fnRK6qWmE8m+z3nWlz8dL8GM0v9NSDP3GkI84LeEeMBcqvGrRGAJCLPEowTpb2IL5V8Fs7qFw2nrHfJrOitfN8x2dFLCwZrQv82lvE84GsOkqtm/MHu2JLmt747i7NvlhAAgl3dixERMM4Daq5JP0ZsZZxODT1aNgMbOc4z+UtH33UixpEZQPKPe3BmWT5gMLqukhAvgILjhu5X4pHEG1L2jEH+C7sjG/HthOu6A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=UG/AwbAyhpVmmimR5vw3AmxTLnsINoVPBUNcOLCuOtQ=;
- b=PDAZt6UOb9Qt8ar+qFLhyiHM5CsyhHlf+TJkSPHDgNQJ74M9XVX7Kn3xKvwNfX3nmDOJauOzuXHX8zujhVEnjwGTFuA25l2I/4UdT8TvASinLpTyQyfYc7dGFK6mPDxlQywUj9XWeeu+lLUuvL2SDiKmGSi3h1de/L+z4zMb0T7V1z6kpf/U5RBoSGE4rWc1ylMHHwNS5mDz/naS4QmMVgYy2LQpsbTckc1wN0ZELF91cu2fv1owQyLrzdfwFTQNo6O6kYxvDtktwxDuimhGbqyn5ZfO02CyWTkRU9muLW7q2OVh9Fvwz+yDf4Q1X6YOzm5LjHnXQP3kx7FsZCj53g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=UG/AwbAyhpVmmimR5vw3AmxTLnsINoVPBUNcOLCuOtQ=;
- b=NNJjC2ecbQPjH21OwDAjj9ESNmxJsShjBCn1hVjdvaPsyWApnrOfPZ7lWL0/7PtDCdVHYBfH96ceojIRyCVP5+QnkaFYvJsY1jkJrakWSDDtQZ+rDRJ/gkFv56R65nGgyz+nQGPeYaXzlU/W8IxNXIAfB98yoJV41uZmsoWFRnjd3Vkv077BpRxGKHnaXPvDJZMCLBtGc1iq0wTtGzyODVrj4H27PT2z4oyxs+96Au5+bAlry5p0NNcwFP/EkwbjnEDAoVeaXwxacYx2axosB7da92z3qQkXbwP28aKM0sgdY64RKyQ7phN0jxw9mjTaunNKwjAsSa4Bx0yjeOoEsw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from MN2PR12MB4192.namprd12.prod.outlook.com (2603:10b6:208:1d5::15)
- by CY5PR12MB6034.namprd12.prod.outlook.com (2603:10b6:930:2e::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5588.17; Wed, 7 Sep
- 2022 12:33:12 +0000
-Received: from MN2PR12MB4192.namprd12.prod.outlook.com
- ([fe80::462:7fe:f04f:d0d5]) by MN2PR12MB4192.namprd12.prod.outlook.com
- ([fe80::462:7fe:f04f:d0d5%7]) with mapi id 15.20.5588.018; Wed, 7 Sep 2022
- 12:33:12 +0000
-Date:   Wed, 7 Sep 2022 09:33:11 -0300
-From:   Jason Gunthorpe <jgg@nvidia.com>
-To:     Christoph Hellwig <hch@infradead.org>
-Cc:     Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Cornelia Huck <cohuck@redhat.com>,
-        dri-devel@lists.freedesktop.org, kvm@vger.kernel.org,
-        linaro-mm-sig@lists.linaro.org, linux-media@vger.kernel.org,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Daniel Vetter <daniel.vetter@ffwll.ch>,
-        Leon Romanovsky <leon@kernel.org>, linux-rdma@vger.kernel.org,
-        Maor Gottlieb <maorg@nvidia.com>,
-        Oded Gabbay <ogabbay@kernel.org>
-Subject: Re: [PATCH v2 4/4] vfio/pci: Allow MMIO regions to be exported
- through dma-buf
-Message-ID: <YxiPh4u/92chN02C@nvidia.com>
-References: <0-v2-472615b3877e+28f7-vfio_dma_buf_jgg@nvidia.com>
- <4-v2-472615b3877e+28f7-vfio_dma_buf_jgg@nvidia.com>
- <YxcYGzPv022G2vLm@infradead.org>
- <b6b5d236-c089-7428-4cc9-a08fe4f6b4a3@amd.com>
- <YxczjNIloP7TWcf2@nvidia.com>
- <YxiJJYtWgh1l0wxg@infradead.org>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YxiJJYtWgh1l0wxg@infradead.org>
-X-ClientProxiedBy: BLAPR05CA0048.namprd05.prod.outlook.com
- (2603:10b6:208:335::29) To MN2PR12MB4192.namprd12.prod.outlook.com
- (2603:10b6:208:1d5::15)
+        with ESMTP id S229461AbiIGMeU (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 7 Sep 2022 08:34:20 -0400
+Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com [IPv6:2a00:1450:4864:20::42e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 163988A7D2;
+        Wed,  7 Sep 2022 05:34:19 -0700 (PDT)
+Received: by mail-wr1-x42e.google.com with SMTP id t7so15147676wrm.10;
+        Wed, 07 Sep 2022 05:34:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date;
+        bh=TuNv9xAerp4VecthQpyVMQXzg2+N+yWDS5sH4eqvaoo=;
+        b=AVukzR+7UJbFJypi0cWfXymNJ+/8kpO4hV5GEy795M7k26aGDq8Y8JVHT+J0X9bwZq
+         zvx0MsWRyk4KVnlutAvZ5ouflgglZV6njRfRkNPsIgdduNk4w7hAMV/d9Ks5xSmpblFm
+         Zu9JXSdyGo2Lvso034ly381imia14iBWPhjlegk6wWFvMaA95Vy/Nsvaao0Ea2K4P6Ka
+         a8FisMVE7bK7wrMNbVMAv8ChC3+2XsdgpdNVTJuA3WWOiOQ7aTsV8N0yuBaD6ImoeyZx
+         iYWJImgO5EL7HUbGTr3mXQrTARnJXw7fo8nkOB8mDcHFA4Hore3JwXzRsyaM+kj8idp0
+         nbEw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date;
+        bh=TuNv9xAerp4VecthQpyVMQXzg2+N+yWDS5sH4eqvaoo=;
+        b=Wnuvfd4QRpadbgsttVNT755WRcmsh2vxmP4WWb15z1j7B8urfl4LWKtibwYzqmBCTm
+         cDkJjMDbMXV83vk0njBzXbc1ReITuDEdGxF6+RiLP5Kh1GYmepv6VoR2idXADTLHE8Pc
+         QoVbfNDYQQ8ED7fwB12D59m+HZ0mu/p+3p4lZ3HoZQ/7bxytweFA3RLeCY9zP4h9VAdo
+         XmTZ1cUy031hQoERPXGS8aeDb8EDRAUdJNfZpkk9K08+MpnKIcYZDgJtGRAkqTKCfD7I
+         TdZxj+714nSkymlKks8/b26kgy6ypjBJS36niRnr4JteWJ1mu68qLgjHQZGsk8l10wBR
+         6Dxg==
+X-Gm-Message-State: ACgBeo0THbxq1uvETY5K/sF0bzciKBvtbqqxK2pgFOwoOI66f3dXGJ48
+        C9U7coxsjNDMw+vhFbXsAWw=
+X-Google-Smtp-Source: AA6agR7c5izzV6X7pGkGLnH3MXE/eTx3yRCKV3BNvb3+CCtnLtdWY4f2w7lrDH8EOpOWIGoECtGFuQ==
+X-Received: by 2002:a5d:453a:0:b0:228:7873:1101 with SMTP id j26-20020a5d453a000000b0022878731101mr1941404wra.241.1662554057507;
+        Wed, 07 Sep 2022 05:34:17 -0700 (PDT)
+Received: from xws.localdomain (pd9ea37fb.dip0.t-ipconnect.de. [217.234.55.251])
+        by smtp.gmail.com with ESMTPSA id g40-20020a05600c4ca800b003a4f1385f0asm18015696wmp.24.2022.09.07.05.34.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 07 Sep 2022 05:34:17 -0700 (PDT)
+From:   Maximilian Luz <luzmaximilian@gmail.com>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     Bingbu Cao <bingbu.cao@intel.com>,
+        Tianshu Qiu <tian.shu.qiu@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-kernel@vger.kernel.org,
+        Maximilian Luz <luzmaximilian@gmail.com>
+Subject: [PATCH] media: staging/intel-ipu3: Finalize subdev initialization to allcoate active state
+Date:   Wed,  7 Sep 2022 14:33:59 +0200
+Message-Id: <20220907123359.1275322-1-luzmaximilian@gmail.com>
+X-Mailer: git-send-email 2.37.3
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 5cf01ec0-6b77-451d-570d-08da90cd20ec
-X-MS-TrafficTypeDiagnostic: CY5PR12MB6034:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: eO+Mqd+eiBAHMLRpx5MznnRyUephqZomkMmGZcUlPOY/v1SVqa8mCWR99iL4eQQaYUpRAxUArvlRNBkhgiC1m+2qhuOea0MXPIdFE/vi0SpKP4yaU9rVLR0PHFklOEqnhruVRajG6+ctoMm7uxd7cpxREbzpw/je20UZdi27QcuL1/PGkY/qfaoLZAvVmFqw0UlPq1VAvYYHBHYZ0ExM9d6tt/Skv7aCw0wU2gpmalpw6Seox+9vOho3ypSAqpuh0JQLN4ucDqD/ao19ha+/92RL/fzdYDUfNthR1I/0HXZheLOuBGA9EoTcShlvs7kuDWrtyxADTSKc06nqE3+Xie9T003mqN3llytGdySd4zDrwVfsJHQZ7V9oom9fnG199ygAJTkhaWv3TbEXZUVHCm0mvI3Q5LXDRDLxDqAgWeqjdB0nIGplVCxQssbW8F/XM6SlXItzTyyABd9CsUvKwKATs9WxDM/n5JLgQfF+GkGcFiMtDY8mNB61ynUvEz0KcjeeAPEcqzFfVN7ca0f87xbcl0qJ/05rizC6y9ubTKYFI0S9KO4Qe5/B2Hyr4lAlXsdPDAhSgVoi9M+1RZiA/OT83psL8g6HgJRWhhFYfSnopea1+hnsoBehP0yMpAX6wkW72FNLC5/7WRrDrhQASn9HJgx8J0+sZ98tiNiVNX9e3MYFw1aqT7Irbxw9GYXL+/UndgtlBsY+VSlrMYp3+w==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR12MB4192.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(396003)(366004)(39860400002)(136003)(376002)(346002)(6916009)(2616005)(41300700001)(5660300002)(8936002)(54906003)(316002)(186003)(83380400001)(86362001)(6506007)(6512007)(26005)(66946007)(2906002)(4326008)(478600001)(6486002)(8676002)(66556008)(7416002)(38100700002)(36756003)(66476007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?HHS0XDKpskv5SYtewcMklJJVx8ZSws+mJhhD655Tvsvmo7KNUNr2cN170bB4?=
- =?us-ascii?Q?GbJIb4hqQg1wTL29dx498Jqw88iN2EtuqSjZBpWXMlOg6I6tLU9pw2lQg/Oj?=
- =?us-ascii?Q?8kWGjxIZT0mYNJ2IAf5Sbw9zCnGwqOTfv8t09DBGw4Q0Yqfbkj4xaJGQge0z?=
- =?us-ascii?Q?W+Rdw6hY29+XvimwVVuyhV7O8a4MgwB1KAdch4BvN57ohzuLh8vDwMJBKYw9?=
- =?us-ascii?Q?kDEb2+aJSZG1+WEk7LoHc22DKqnzdS5BeFJYjbwL49H8baHa9ZHVFoRjK75S?=
- =?us-ascii?Q?poYXECsFG5xYSJ5vW/tGd8H/uhnYTlYIY+pds9KPVpADfxbBC73flzDzk78z?=
- =?us-ascii?Q?FtX/OoblQzuOUSxhT507VWXL3npmU0XIMpZhDdh5AGps7iGkI9lpJBCXM80N?=
- =?us-ascii?Q?1pSDZDb0kTPShPHHu4xqw6G5exXoOutbVFN9RsyDaY0r4uz8jGYgjwmkLVr3?=
- =?us-ascii?Q?4iSi18BieocyMh+ip6JZGWXtKits1Czpv5hg1YU9k91M8E1CuggF9BSWV5WR?=
- =?us-ascii?Q?E+jFmD9zOHvsjXUi5MgsQZbJ8bBTpWftSYcz3v9fXt8j1RDZqdOCpNdvSB2G?=
- =?us-ascii?Q?IzwdpudSmCryvzp05af7w7PbWM5rm/ErU0/hhFrI5QeG+wn4yZol511NwzYY?=
- =?us-ascii?Q?TIgpbxOztRu3q/Rz55hBWKgKD7GgfDegTJ+eCDT9DI4CZOIAxEiLlvVFASA0?=
- =?us-ascii?Q?p82FEUi+kyQirQ0QIcWbxEZQOZ1kfvjvsrH23eAtq0pbUs0A1Q8J3Fkyb4tJ?=
- =?us-ascii?Q?TTbbHbfa+/OXosUk4n3pIBzFWI2AksvjzxxeMLCg/fT6hG0OmiFB0Pxueou2?=
- =?us-ascii?Q?SyVDw1QJvs3tCSC0ODdt0MK8b9zW/PMUUhtuG/GD63pxBX38r7k5t0hZ117B?=
- =?us-ascii?Q?0UuQ7BYo5SbJ9iiiCkZ4jZ/Y02jlpZ/QOeoYeWTqsGosvSN221SFFVwNiVfP?=
- =?us-ascii?Q?ezfJdq3pBClSl4+uaozzCu3gpSH4r4Tqt16HCgNcAZF50sQ5NexS1gDoMG++?=
- =?us-ascii?Q?X+EfMK5CemF1YWTI/z/ZUbMCaZv18E2Qny75KdWMUBuE+UsUWT5L1riDHsAY?=
- =?us-ascii?Q?FShyh8wNC2MJBR/HL0AIY5zFggJrI2QKVfiSxzznRG6xgIN2hK868QLiyMTX?=
- =?us-ascii?Q?gcNpV1qaq0zD4SoRwxgbiafNHym2ab8xS7e3URsG22f5Tos9yyeDoBRFeOSL?=
- =?us-ascii?Q?ZIsXCXRJOAAzLncKttP473jtxoXQVNPYy4AFVg4bUKAO21FmCm2wPRibWw3g?=
- =?us-ascii?Q?6K84e9CXd4QQr+pYq1i2lY/oY2KP7NWv/W8cwIfegD/YcWErm1/MouyRjMS6?=
- =?us-ascii?Q?sqw9yMuwt/vw799Ymo46SoGwmBJJInOVvPVwzVsjuYSFRVjXpWGOoK4yRF5e?=
- =?us-ascii?Q?bJS5sdn+0oG61n1z792j1yd+oL2meB2iQOzprlZmlcBeyDnO0pE6zoVsAPkC?=
- =?us-ascii?Q?LJpHYj/eftbpH44vx9EvMLjtiqFKPC7BuyatKxU02DlVSmJOmjur+HLYJoDz?=
- =?us-ascii?Q?35qYig8TWAP9xkILemBCX3AXdTJtloGByUOD9yOvm43mLLLm3e5iqhsy3ECa?=
- =?us-ascii?Q?7OuhJc0sWPEL6mt+T7leLlHs9TxHEsZpNoDVQOBO?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5cf01ec0-6b77-451d-570d-08da90cd20ec
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB4192.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Sep 2022 12:33:12.3276
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: uHTudeP3QczpsbOaKHt2QTU0EwVl+2RQf/FuJ3N++QVyOEY31zPIBJA2x5wYH6tK
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR12MB6034
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Sep 07, 2022 at 05:05:57AM -0700, Christoph Hellwig wrote:
-> On Tue, Sep 06, 2022 at 08:48:28AM -0300, Jason Gunthorpe wrote:
-> > Right, this whole thing is the "standard" that dmabuf has adopted
-> > instead of the struct pages. Once the AMD GPU driver started doing
-> > this some time ago other drivers followed.
-> 
-> But it is simple wrong.  The scatterlist requires struct page backing.
-> In theory a physical address would be enough, but when Dan Williams
-> sent patches for that Linus shot them down.
+Commit f69952a4dc1e ("media: subdev: add active state to struct
+v4l2_subdev") introduced the active_state member to struct v4l2_subdev.
+This state needs to be allocated via v4l2_subdev_init_finalize(). The
+intel-ipu3 driver unfortunately does not do that, due to which,
+active_state is NULL and we run into an oops (NULL pointer dereference)
+when that state is accessed.
 
-Yes, you said that, and I said that when the AMD driver first merged
-it - but it went in anyhow and now people are using it in a bunch of
-places.
+In particular, this happens subdev in IOCTLs as commit 3cc7a4bbc381
+("media: subdev: pass also the active state to subdevs from ioctls")
+passes that state on to the subdev IOCTLs. An example scenario where
+this happens is running libcamera's qcam or cam on a device with IPU3,
+for example the Microsoft Surface Book 2. In this case, the oops is
+reproducibly in v4l2_subdev_get_try_crop(), called via
+imgu_subdev_set_selection().
 
-I'm happy that Christian wants to start trying to fix it, and will
-help him, but it doesn't really impact this. Whatever fix is cooked up
-will apply equally to vfio and habana.
+To fix this, allocate the active_state member via
+v4l2_subdev_init_finalize().
 
-> That being said the scatterlist is the wrong interface here (and
-> probably for most of it's uses).  We really want a lot-level struct
-> with just the dma_address and length for the DMA side, and leave it
-> separate from that what is used to generate it (in most cases that
-> would be a bio_vec).
+Link: https://github.com/linux-surface/linux-surface/issues/907
+Fixes: 3cc7a4bbc381 ("media: subdev: pass also the active state to subdevs from ioctls")
+Signed-off-by: Maximilian Luz <luzmaximilian@gmail.com>
+---
+ drivers/staging/media/ipu3/ipu3-v4l2.c | 12 +++++++++++-
+ 1 file changed, 11 insertions(+), 1 deletion(-)
 
-Oh definitely
+diff --git a/drivers/staging/media/ipu3/ipu3-v4l2.c b/drivers/staging/media/ipu3/ipu3-v4l2.c
+index d1c539cefba8..84ab98ba9a2e 100644
+--- a/drivers/staging/media/ipu3/ipu3-v4l2.c
++++ b/drivers/staging/media/ipu3/ipu3-v4l2.c
+@@ -1093,10 +1093,18 @@ static int imgu_v4l2_subdev_register(struct imgu_device *imgu,
+ 			"failed to create subdev v4l2 ctrl with err %d", r);
+ 		goto fail_subdev;
+ 	}
++
++	r = v4l2_subdev_init_finalize(&imgu_sd->subdev);
++	if (r) {
++		dev_err(&imgu->pci_dev->dev,
++			"failed to initialize subdev (%d)\n", r);
++		goto fail_subdev;
++	}
++
+ 	r = v4l2_device_register_subdev(&imgu->v4l2_dev, &imgu_sd->subdev);
+ 	if (r) {
+ 		dev_err(&imgu->pci_dev->dev,
+-			"failed initialize subdev (%d)\n", r);
++			"failed to register subdev (%d)\n", r);
+ 		goto fail_subdev;
+ 	}
+ 
+@@ -1104,6 +1112,7 @@ static int imgu_v4l2_subdev_register(struct imgu_device *imgu,
+ 	return 0;
+ 
+ fail_subdev:
++	v4l2_subdev_cleanup(&imgu_sd->subdev);
+ 	v4l2_ctrl_handler_free(imgu_sd->subdev.ctrl_handler);
+ 	media_entity_cleanup(&imgu_sd->subdev.entity);
+ 
+@@ -1275,6 +1284,7 @@ static void imgu_v4l2_subdev_cleanup(struct imgu_device *imgu, unsigned int i)
+ 	struct imgu_media_pipe *imgu_pipe = &imgu->imgu_pipe[i];
+ 
+ 	v4l2_device_unregister_subdev(&imgu_pipe->imgu_sd.subdev);
++	v4l2_subdev_cleanup(&imgu_pipe->imgu_sd.subdev);
+ 	v4l2_ctrl_handler_free(imgu_pipe->imgu_sd.subdev.ctrl_handler);
+ 	media_entity_cleanup(&imgu_pipe->imgu_sd.subdev.entity);
+ }
+-- 
+2.37.3
 
-> > Now we have struct pages, almost, but I'm not sure if their limits are
-> > compatible with VFIO? This has to work for small bars as well.
-> 
-> Why would small BARs be problematic for the pages?  The pages are more
-> a problem for gigantic BARs do the memory overhead.
-
-How do I get a struct page * for a 4k BAR in vfio?
-
-The docs say:
-
- ..hotplug api on memory block boundaries. The implementation relies on
- this lack of user-api constraint to allow sub-section sized memory
- ranges to be specified to :c:func:`arch_add_memory`, the top-half of
- memory hotplug. Sub-section support allows for 2MB as the cross-arch
- common alignment granularity for :c:func:`devm_memremap_pages`.
-
-Jason
