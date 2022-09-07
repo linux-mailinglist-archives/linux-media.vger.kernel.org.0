@@ -2,88 +2,91 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C358C5B0CFD
-	for <lists+linux-media@lfdr.de>; Wed,  7 Sep 2022 21:16:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3E9B85B0DA7
+	for <lists+linux-media@lfdr.de>; Wed,  7 Sep 2022 22:01:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229926AbiIGTQM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 7 Sep 2022 15:16:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54640 "EHLO
+        id S229982AbiIGUBZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 7 Sep 2022 16:01:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34702 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229842AbiIGTQK (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 7 Sep 2022 15:16:10 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1092BFE93
-        for <linux-media@vger.kernel.org>; Wed,  7 Sep 2022 12:16:09 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 247D781E;
-        Wed,  7 Sep 2022 21:16:08 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1662578168;
-        bh=DMEyij57pBiJGUTLs2s8+MqbDmXotXG9eTnDXge7iP0=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=XQGqc5NtCsdVzisKCX9ZCamOxeVIT6ESQodTrEImhpZlvE45gWYWS3qiCOMIoaiMv
-         yIxwN8bHJolWuiLm3OWji1HUgoS2SVQnC6uJWN/D5L6fk4OUiU9+gK4rMxIRXvU/wl
-         8E7SX0yXc351lxZUw5xvvCTIq15rzJJD2ozCLb4I=
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     linux-media@vger.kernel.org
-Cc:     Rui Miguel Silva <rmfrfs@gmail.com>,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Paul Elder <paul.elder@ideasonboard.com>,
-        Jacopo Mondi <jacopo@jmondi.org>, kernel@pengutronix.de,
-        linux-imx@nxp.com
-Subject: [PATCH 3/3] media: imx: imx7-media-csi: Clear BIT_MIPI_DOUBLE_CMPNT for <16b formats
-Date:   Wed,  7 Sep 2022 22:15:47 +0300
-Message-Id: <20220907191547.19255-4-laurent.pinchart@ideasonboard.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220907191547.19255-1-laurent.pinchart@ideasonboard.com>
-References: <20220907191547.19255-1-laurent.pinchart@ideasonboard.com>
+        with ESMTP id S229990AbiIGUBX (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 7 Sep 2022 16:01:23 -0400
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 26F028B9A2
+        for <linux-media@vger.kernel.org>; Wed,  7 Sep 2022 13:01:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1662580883; x=1694116883;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=eXyOgHwc2KXCxHe0mPDRdaZJVaX9FgFFJLZdpPtP+dk=;
+  b=nU3+NWnVaV1qlpDkfAe2tiYdjih06V+Oi4LaNW6HcvUTFW1Wq14kibO2
+   aqCR3emAXvKDkl+ugwQWnRTzejALHgBnR8fEwgdbGUumheYl8FAbj1E9c
+   841z7vTfZ+IABvS8GOv48IFeY+BG5MyhW7cJkNTGHpnIRKsWWe8IgdyYM
+   dPg2+OTJhbk0WL/TKm1FVNTG+IWRRIgLAf9uq300HJeRck1DlVBSU8a2D
+   fSjz+bwCgIsHKZ4DlzDKfrhzrDb6KcoDhisuxF56gWZXtLmyCJAtzQR4X
+   rPxdTIOC48xkl/iPz8pi23QK2FNUNlxYmGLrRi7Yf0jmK8iO1xdaNdKtY
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10463"; a="360947223"
+X-IronPort-AV: E=Sophos;i="5.93,297,1654585200"; 
+   d="scan'208";a="360947223"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Sep 2022 13:01:22 -0700
+X-IronPort-AV: E=Sophos;i="5.93,297,1654585200"; 
+   d="scan'208";a="644767225"
+Received: from punajuuri.fi.intel.com (HELO paasikivi.fi.intel.com) ([10.237.72.43])
+  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Sep 2022 13:01:20 -0700
+Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
+        by paasikivi.fi.intel.com (Postfix) with SMTP id C4FFE20127;
+        Wed,  7 Sep 2022 23:01:18 +0300 (EEST)
+Date:   Wed, 7 Sep 2022 20:01:18 +0000
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Maximilian Luz <luzmaximilian@gmail.com>
+Cc:     bingbu.cao@intel.com, linux-media@vger.kernel.org,
+        tian.shu.qiu@intel.com, tomi.valkeinen@ideasonboard.com,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: Re: [PATCH 1/1] ipu3-imgu: Fix NULL pointer dereference in active
+ selection access
+Message-ID: <Yxj4jmCQ4zvKN3sp@paasikivi.fi.intel.com>
+References: <20220825190351.3241444-1-sakari.ailus@linux.intel.com>
+ <db44a24b-2a9a-6682-4825-eedc4ecb1340@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <db44a24b-2a9a-6682-4825-eedc4ecb1340@gmail.com>
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Commit 9babbbaaeb87 ("media: imx: imx7-media-csi: Use dual sampling for
-YUV 1X16") set BIT_MIPI_DOUBLE_CMPNT in the CR18 register for 16-bit YUV
-formats in imx7_csi_configure(). The CR18 register is always updated
-with read-modify-write cycles, so if a 16-bit YUV format is selected,
-the bit will stay set forever, even if the format is changed. Fix it by
-clearing the bit at the beginning of the imx7_csi_configure() function.
+Hi Maximilian,
 
-While at it, swap two of the bits being cleared to match the MSB to LSB
-order. This doesn't cause any functional change.
+On Wed, Sep 07, 2022 at 03:44:44PM +0200, Maximilian Luz wrote:
+> Hi,
+> 
+> On Thu, 25 Aug 2022 22:03:51 +0300, Sakari Ailus  wrote:
+> > What the IMGU driver did was that it first acquired the pointers to active
+> > and try V4L2 subdev state, and only then figured out which one to use.
+> > 
+> > The problem with that approach and a later patch (see Fixes: tag) is that
+> > as sd_state argument to v4l2_subdev_get_try_crop() et al is NULL, there is
+> > now an attempt to dereference that.
+> > 
+> > Fix this.
+> 
+> Thank you for this fix, this however only addresses
+> imgu_subdev_get_selection(), but the issue is also present in
+> imgu_subdev_set_selection(). I assume that a similar fix is needed for that.
+> I've added a diff for that below. Feel free to squash that into your patch or
+> let me know if I should submit this separately.
 
-Fixes: 9babbbaaeb87 ("media: imx: imx7-media-csi: Use dual sampling for YUV 1X16")
-Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
----
- drivers/staging/media/imx/imx7-media-csi.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+I've already sent a PR that includes it. Could you send this one as a
+patch, please?
 
-diff --git a/drivers/staging/media/imx/imx7-media-csi.c b/drivers/staging/media/imx/imx7-media-csi.c
-index 03986445c0da..21d6e56ffcd4 100644
---- a/drivers/staging/media/imx/imx7-media-csi.c
-+++ b/drivers/staging/media/imx/imx7-media-csi.c
-@@ -522,9 +522,9 @@ static void imx7_csi_configure(struct imx7_csi *csi)
- 	cr18 = imx7_csi_reg_read(csi, CSI_CSICR18);
- 
- 	cr18 &= ~(BIT_CSI_HW_ENABLE | BIT_MIPI_DATA_FORMAT_MASK |
--		  BIT_DATA_FROM_MIPI | BIT_BASEADDR_CHG_ERR_EN |
--		  BIT_BASEADDR_SWITCH_EN | BIT_BASEADDR_SWITCH_SEL |
--		  BIT_DEINTERLACE_EN);
-+		  BIT_DATA_FROM_MIPI | BIT_MIPI_DOUBLE_CMPNT |
-+		  BIT_BASEADDR_CHG_ERR_EN | BIT_BASEADDR_SWITCH_SEL |
-+		  BIT_BASEADDR_SWITCH_EN | BIT_DEINTERLACE_EN);
- 
- 	if (out_pix->field == V4L2_FIELD_INTERLACED) {
- 		cr18 |= BIT_DEINTERLACE_EN;
 -- 
-Regards,
-
-Laurent Pinchart
-
+Sakari Ailus
