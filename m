@@ -2,53 +2,65 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 781655B0F51
-	for <lists+linux-media@lfdr.de>; Wed,  7 Sep 2022 23:42:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4E9705B0F5C
+	for <lists+linux-media@lfdr.de>; Wed,  7 Sep 2022 23:44:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230216AbiIGVm2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 7 Sep 2022 17:42:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55284 "EHLO
+        id S229536AbiIGVod (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 7 Sep 2022 17:44:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57280 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229620AbiIGVm1 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 7 Sep 2022 17:42:27 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 60FADC12F8
-        for <linux-media@vger.kernel.org>; Wed,  7 Sep 2022 14:42:26 -0700 (PDT)
-Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <mgr@pengutronix.de>)
-        id 1oW2oR-0003mr-9X; Wed, 07 Sep 2022 23:42:23 +0200
-Received: from mgr by ptx.hi.pengutronix.de with local (Exim 4.92)
-        (envelope-from <mgr@pengutronix.de>)
-        id 1oW2oQ-0002c7-MO; Wed, 07 Sep 2022 23:42:22 +0200
-Date:   Wed, 7 Sep 2022 23:42:22 +0200
-From:   Michael Grzeschik <mgr@pengutronix.de>
-To:     Greg KH <gregkh@linuxfoundation.org>
-Cc:     linux-usb@vger.kernel.org, linux-media@vger.kernel.org,
-        balbi@kernel.org, paul.elder@ideasonboard.com,
-        kieran.bingham@ideasonboard.com, nicolas@ndufresne.ca,
-        laurent.pinchart@ideasonboard.com, kernel@pengutronix.de
-Subject: Re: [PATCH v3] usb: gadget: uvc: increase worker prio to WQ_HIGHPRI
-Message-ID: <20220907214222.GA20956@pengutronix.de>
-References: <20220720144641.3480432-1-m.grzeschik@pengutronix.de>
- <Yv9K3GPsyw6ZAEMm@kroah.com>
+        with ESMTP id S230251AbiIGVob (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 7 Sep 2022 17:44:31 -0400
+Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com [IPv6:2a00:1450:4864:20::634])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 846532717
+        for <linux-media@vger.kernel.org>; Wed,  7 Sep 2022 14:44:30 -0700 (PDT)
+Received: by mail-ej1-x634.google.com with SMTP id l14so9942146eja.7
+        for <linux-media@vger.kernel.org>; Wed, 07 Sep 2022 14:44:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date;
+        bh=3pnUp/O3nCFTGVRKMfL8coYqAMVPLL9TVgrg8/J7HSQ=;
+        b=k85w1q5phtAxY2JdDKBchTuTrp7f8cuBZHnB0GNLY4vTTmoIWb8h1xMLTShffXHqHE
+         C7XA/cIZAPUKNwq7yalamijKSt1h3a0JIn3no5MuSU5pk2G45aQMQILVw90o60Ai7cbu
+         EK/wb0eDvWx5J3pA0oktiNEJxMI8Owe8FTm9T9rFU4jrG/GiPLa9fuSWLdnKIbbRMbcs
+         YrZfePuShMINH1nOoCvUunS7afwXQ/54giWIWPlfAgxvCPCWCF4n2z3zNDkPfoc5S/La
+         1+driF7u4YBUzpOO4DFBCW0rbxna5TW4mk+6ZfwIUTtbph57Hr7PrKChd9N5DDsI8IJj
+         SsbA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date;
+        bh=3pnUp/O3nCFTGVRKMfL8coYqAMVPLL9TVgrg8/J7HSQ=;
+        b=lwNPRmsEMa48YHJd851sEBsNfJRYzQ4FXtLs7q20k8NHPhrXJMOIJD0L8ly865cMr6
+         MiUMDjPHFpnd0PphyxGnjR7neRZk4Nyw4/8GMa/SK3+saLQZ4E4f6PtIKf/asJjK8Duh
+         JXEbZMSzUzX2p3qhCOX7q1tu14xk85hsY8BsUiPGRwt2WVWRc/Cvc5FS4cXWHV+9rRFj
+         zSbyo4zQbEnFbJ34jBkGVk6rOSqFZSxLCiVEu9FUvtS6G3JnM14pIE+/VqyaPARK7gen
+         MwLP2YbuxOKHKBY1xFXL2yrqJ+roR24v4e9E6Dp5h+lZ4CPb++mc/MUrR27NCPA5gPzR
+         2PeA==
+X-Gm-Message-State: ACgBeo0+rQ0MaF5X8MOqx5FcqY7XV2luOtNFSE9rx2srxOZmaktykYAe
+        UGleDC8EHtM3axXLwbZ0AL+YWVwRo4Rk1rsBMFNKIw==
+X-Google-Smtp-Source: AA6agR7AS8guzfQWCaB5iUTGxlD02rExzxmOMdaHtY7277E5gWoghjzg+64zoE48PMAx7P/AzSOgkPao4qsA9zpFyKQ=
+X-Received: by 2002:a17:906:9b86:b0:73d:72cf:72af with SMTP id
+ dd6-20020a1709069b8600b0073d72cf72afmr3777313ejc.440.1662587069099; Wed, 07
+ Sep 2022 14:44:29 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="vkogqOf2sHV7VnPd"
-Content-Disposition: inline
-In-Reply-To: <Yv9K3GPsyw6ZAEMm@kroah.com>
-X-Sent-From: Pengutronix Hildesheim
-X-URL:  http://www.pengutronix.de/
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
-X-SA-Exim-Mail-From: mgr@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+References: <20220906204603.3762756-1-dmitry.torokhov@gmail.com> <20220906204603.3762756-3-dmitry.torokhov@gmail.com>
+In-Reply-To: <20220906204603.3762756-3-dmitry.torokhov@gmail.com>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Wed, 7 Sep 2022 23:44:18 +0200
+Message-ID: <CACRpkdYrrN-nfCFsivK6sNFEVhXvXy_aZ71pX0Axa+D41NMYJA@mail.gmail.com>
+Subject: Re: [PATCH 3/3] media: i2c: s5c73m3: switch to using gpiod API
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     Sylwester Nawrocki <s.nawrocki@samsung.com>,
+        Andrzej Hajda <andrzej.hajda@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -56,73 +68,20 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+On Tue, Sep 6, 2022 at 10:46 PM Dmitry Torokhov
+<dmitry.torokhov@gmail.com> wrote:
 
---vkogqOf2sHV7VnPd
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Fri, Aug 19, 2022 at 10:33:32AM +0200, Greg KH wrote:
->On Wed, Jul 20, 2022 at 04:46:41PM +0200, Michael Grzeschik wrote:
->> Likewise to the uvcvideo hostside driver, this patch is changing the
+> This patch switches the driver away from legacy gpio/of_gpio API to
+> gpiod API, and removes use of of_get_named_gpio_flags() which I want to
+> make private to gpiolib.
 >
->"Likewise" implies a previous patch being mentioned, which I do not see
->here :(
+> Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 
-I am not referring another patch but the uvcvideo driver.
+I already converted this driver to gpiod:
+https://lore.kernel.org/linux-media/20220830211927.398242-1-linus.walleij@linaro.org/
 
-drivers/media/usb/uvc/uvc_driver.c:
+Already sent the patch twice too, I don't know what's up with media
+patches not getting applied.
 
-206         /* Allocate a stream specific work queue for asynchronous tasks=
-=2E */
-207         stream->async_wq =3D alloc_workqueue("uvcvideo", WQ_UNBOUND | W=
-Q_HIGHPRI,
-208                                            0);
-
-I will add a clear reference in the commit message.
-
->> simple workqueue to an async_wq with higher priority. This ensures that
->> the worker will not be scheduled away while the video stream is handled.
->
->How will this ensure that?  What happens if yet-another higher priority
->task comes in?  This feels like a race that will just never be won
->without fixing this properly.
-
-There is no race between two functions calls. There is a race between users=
-pace
-filling the gadget isoc driver with data while the hardware is moving it
-towards the kernel. To ensure no underrun, we increase the priority of the
-buffer filling thread.
-
-Okay. I will probably have to rephrase it to be clear.
-
-Thanks,
-Michael
-
---=20
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
-
---vkogqOf2sHV7VnPd
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEElXvEUs6VPX6mDPT8C+njFXoeLGQFAmMZEDsACgkQC+njFXoe
-LGRchg//S581u9Q7Rjx53g0YhNOpVFEWbF5b54l8ZGyVjEbMR3wkNOWQwf7JJO96
-UR45v1KqtABiakI4erSX3EJ0Rcll2emx3afp3uzsIr+rkyP2ZLmMBD2rh4mhElfJ
-4PEhGXaZWxD+yXxXdyZwF94stiDu4mrvxAy73ybFIjNFe1hADRXVK0+4a0sX27Zf
-LzwOCvWbBTGZ5/11qiLtHCMwNsZrdElx6BQfKx0m3qFuipXiTSQZU7dpfi2kdYtN
-qs8rrYqVNc5RXkyUe45yboE6MqmBa0UtyyQbYDv8wXvw9lo6aFHbXfp47oSRFEvC
-d0hz7UvdyfsgYwAb/t1q6SGFCqPbYk+l57dO5zY1Si7lyc2hteLI/1w/Sh2uQulJ
-4PFVdNUV78QXwb9rzGvNnDNeYbdCgZ1m2yBHh4dDt9p1UrL7kVVn4qtXtMiT7YyY
-lq5btTSzBk5Kz6OOaXXecTDG/88OE78c6PQibfXMKXwuU1BVL9vZGl4gttRxtNu3
-4hySkHAUknN8DOi2NmWERN5eeGSGN5YCErxeaxvXl6gQBx0JI6BRIhysmHCrRH9g
-rxnzZmVUprzmDpEgwsfRKplS3AjygdW1A8RCFej341d7Ufh4zt1GKqpYaa6MhdQg
-B7OWavuihEoEik/GISO3pCjte8KdYUjQByygOUtFBgN6u/fZ7Y8=
-=JpcU
------END PGP SIGNATURE-----
-
---vkogqOf2sHV7VnPd--
+Yours,
+Linus Walleij
