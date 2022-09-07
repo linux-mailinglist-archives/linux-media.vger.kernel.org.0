@@ -2,150 +2,329 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 759955B021A
-	for <lists+linux-media@lfdr.de>; Wed,  7 Sep 2022 12:51:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 63D285B02C9
+	for <lists+linux-media@lfdr.de>; Wed,  7 Sep 2022 13:22:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229478AbiIGKvc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 7 Sep 2022 06:51:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45272 "EHLO
+        id S229727AbiIGLWM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 7 Sep 2022 07:22:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48272 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229773AbiIGKvV (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 7 Sep 2022 06:51:21 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 71A7574CFA
-        for <linux-media@vger.kernel.org>; Wed,  7 Sep 2022 03:51:18 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id CC1D8DD;
-        Wed,  7 Sep 2022 12:51:13 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1662547874;
-        bh=A+gi7T9wTfS2akEBWAAOk/61J5iDCKBJpkY0/Jb2unY=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=mx7e3XlkPh3/hdMOHOpkjxdBK0ZVN8FlzUZraiQfrMh2tgAjRRWaiTUoHvBtHCEHO
-         faH7w3qCuxPGCbAycAPBSkD3ACIXTpwnhujRP3IJYVtTexn9sKhyVr3qR+SrXKN4iq
-         fLYNnr+Q9G5hXQ3Mq/aPZk0rzFwAVhjH5YYgBGJY=
-Date:   Wed, 7 Sep 2022 13:50:58 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Ricardo Ribalda <ribalda@chromium.org>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        Hidenori Kobayashi <hidenorik@chromium.org>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Michael Olbrich <m.olbrich@pengutronix.de>,
-        Maxime Ripard <maxime@cerno.tech>,
-        Daniel Scally <djrscally@gmail.com>,
-        Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>,
-        Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        Michael Tretter <m.tretter@pengutronix.de>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Benjamin MUGNIER <benjamin.mugnier@foss.st.com>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>
-Subject: Re: [Media Summit] ChromeOS Kernel CAM
-Message-ID: <Yxh3ksdjuTVIRJWk@pendragon.ideasonboard.com>
-References: <CANiDSCvqJegYDqsSL5PKvyAM-+HY3ve-Vs2=3cFS4kSRKzd3_Q@mail.gmail.com>
+        with ESMTP id S229531AbiIGLWK (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 7 Sep 2022 07:22:10 -0400
+Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com [IPv6:2a00:1450:4864:20::12d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 25C639F8C1
+        for <linux-media@vger.kernel.org>; Wed,  7 Sep 2022 04:22:07 -0700 (PDT)
+Received: by mail-lf1-x12d.google.com with SMTP id k10so7300358lfm.4
+        for <linux-media@vger.kernel.org>; Wed, 07 Sep 2022 04:22:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date;
+        bh=yRRtL38N5+qXoPQJV1tceH/F3ymH5RFQOvhRaXKU9Q4=;
+        b=fBxz5+FsmoEc+e3Wrxc0gozQf5x8PNS0LCxC9SNAOJjZL6UKUYUlxXzoIsCp7AAdoP
+         Bh/a5nQxeKi83JSZidxMYC4Koi1BeHKJbm78Fry4QIWsSX43I/NZMEeKlRH5CtK1o56a
+         Rq6XBAvbEjV/ItaotW/4qgPugyY6T8XFa5PNna3MuM/+LU+XeoqdEPwNNErkf1EcQgYy
+         9obQSqc99VJxl5BSqjBmU3UKrCb9yHLcs3Hflj/nfn4v5Infg9X5FJzZpNY8ABNVTP/T
+         K21C8fVVJBIsi30esVAQJvoseZQVUGTtjq82GTkxY8Kcqcgil3nibH7cyK6Dyv36WQZQ
+         r+Og==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date;
+        bh=yRRtL38N5+qXoPQJV1tceH/F3ymH5RFQOvhRaXKU9Q4=;
+        b=nBDlOC1Y1fnX0mS5hJ1QiuFeVXxuFPXclvvNhXZeJRdsrAbt576L3B2FnT0Vcn0RF2
+         Jxi0E6/AxhH6DWNl4a/6V6lcbcZQ1nUReBejZH7TngJcb74NJlp67eoDI9xoK0Bm9/3p
+         xqaI6GaELOfTPZYAX9Np7R7JJMWFYpcRoRZzGW9QmJqU/dcyyaJq7lNKEYxt+3tegwPg
+         U5tk7wWKHINJrBZTGH+d7G5NCdUjRNTduGn+22c64DzslRqLSULm11bz6EZLOehlvwnx
+         UeQYIs7++gLDXvGNiWA40oTGli96C9JTmWf3LHJL+odPi9M/IDQohXnvvc6y0ded+NKC
+         ihBQ==
+X-Gm-Message-State: ACgBeo2iN/COnYwOCBUyRC25XxmSnsorMF4lVeuNMD58UZ3RxTYpGYgp
+        2Vxr+29X/KdjMgLs38cquQJYbw==
+X-Google-Smtp-Source: AA6agR7kleToy+ElPZYDp7n8AM+3DYvAIzbgBSDg+WJxW/jDUgqoajBREIA4VZs6svpaU9a74lvqKw==
+X-Received: by 2002:a05:6512:3fa2:b0:48a:16df:266f with SMTP id x34-20020a0565123fa200b0048a16df266fmr937065lfa.414.1662549726109;
+        Wed, 07 Sep 2022 04:22:06 -0700 (PDT)
+Received: from [192.168.0.21] (78-11-189-27.static.ip.netia.com.pl. [78.11.189.27])
+        by smtp.gmail.com with ESMTPSA id k22-20020a05651210d600b00497ac35ae1esm74618lfg.85.2022.09.07.04.22.04
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 07 Sep 2022 04:22:05 -0700 (PDT)
+Message-ID: <08168057-853c-5b17-7d88-dc6c30e82f14@linaro.org>
+Date:   Wed, 7 Sep 2022 13:22:03 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CANiDSCvqJegYDqsSL5PKvyAM-+HY3ve-Vs2=3cFS4kSRKzd3_Q@mail.gmail.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [Patch v2 01/15] dt-bindings: media: s5p-mfc: Add new DT schema
+ for MFC
+Content-Language: en-US
+To:     Smitha T Murthy <smitha.t@samsung.com>,
+        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
+Cc:     m.szyprowski@samsung.com, andrzej.hajda@intel.com,
+        mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
+        ezequiel@vanguardiasur.com.ar, jernej.skrabec@gmail.com,
+        benjamin.gaignard@collabora.com, stanimir.varbanov@linaro.org,
+        dillon.minfei@gmail.com, david.plowman@raspberrypi.com,
+        mark.rutland@arm.com, robh+dt@kernel.org, krzk+dt@kernel.org,
+        andi@etezian.org, alim.akhtar@samsung.com,
+        aswani.reddy@samsung.com, pankaj.dubey@samsung.com,
+        linux-fsd@tesla.com, aakarsh.jain@samsung.com
+References: <20220907064715.55778-1-smitha.t@samsung.com>
+ <CGME20220907063313epcas5p114f793010fd0f2797e93bd83ed18a1d7@epcas5p1.samsung.com>
+ <20220907064715.55778-2-smitha.t@samsung.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20220907064715.55778-2-smitha.t@samsung.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-6.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Ricardo,
+On 07/09/2022 08:47, Smitha T Murthy wrote:
+> Adds DT schema for s5p-mfc in yaml format
 
-On Wed, Sep 07, 2022 at 09:55:12AM +0200, Ricardo Ribalda wrote:
-> Hi
+s/Adds/Convert/
+(as convert to DT schema)
+
+Please mention here changes to original binding (I see at least adding
+iommus and dropping some properties).
+
 > 
-> On ChromeOS we have opted to have a camera stack based on the upstream kernel.
+> Signed-off-by: Aakarsh Jain <aakarsh.jain@samsung.com>
+> Signed-off-by: Smitha T Murthy <smitha.t@samsung.com>
+> ---
+>  .../devicetree/bindings/media/s5p-mfc.txt     |  77 +------------
+>  .../bindings/media/samsung,s5p-mfc.yaml       | 109 ++++++++++++++++++
+>  2 files changed, 110 insertions(+), 76 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/media/samsung,s5p-mfc.yaml
 > 
-> The camera ecosystem has become extremely heterogeneous thanks to the
-> proliferation of complex cameras. Meaning that, if ChromeOS wants to
-> keep with our upstream commitments, we have to look into how to get
-> more involvement from vendors and standardise our stack.
-> 
-> Kcam is an initiative to support complex cameras in a way that can be
-> scalable, is acceptable by the vendors and respect the users rights.
-> 
-> Slides at: https://drive.google.com/file/d/1Tew21xeKmFlQ7dQxMcIYqybVuQL7La1a/view
+> diff --git a/Documentation/devicetree/bindings/media/s5p-mfc.txt b/Documentation/devicetree/bindings/media/s5p-mfc.txt
+> index aa54c8159d9f..0b7c4dd40095 100644
+> --- a/Documentation/devicetree/bindings/media/s5p-mfc.txt
+> +++ b/Documentation/devicetree/bindings/media/s5p-mfc.txt
+> @@ -1,76 +1 @@
+> -* Samsung Multi Format Codec (MFC)
+> -
+> -Multi Format Codec (MFC) is the IP present in Samsung SoCs which
+> -supports high resolution decoding and encoding functionalities.
+> -The MFC device driver is a v4l2 driver which can encode/decode
+> -video raw/elementary streams and has support for all popular
+> -video codecs.
+> -
+> -Required properties:
+> -  - compatible : value should be either one among the following
+> -	(a) "samsung,mfc-v5" for MFC v5 present in Exynos4 SoCs
+> -	(b) "samsung,mfc-v6" for MFC v6 present in Exynos5 SoCs
+> -	(c) "samsung,mfc-v7" for MFC v7 present in Exynos5420 SoC
+> -	(d) "samsung,mfc-v8" for MFC v8 present in Exynos5800 SoC
+> -	(e) "samsung,exynos5433-mfc" for MFC v8 present in Exynos5433 SoC
+> -	(f) "samsung,mfc-v10" for MFC v10 present in Exynos7880 SoC
+> -
+> -  - reg : Physical base address of the IP registers and length of memory
+> -	  mapped region.
+> -
+> -  - interrupts : MFC interrupt number to the CPU.
+> -  - clocks : from common clock binding: handle to mfc clock.
+> -  - clock-names : from common clock binding: must contain "mfc",
+> -		  corresponding to entry in the clocks property.
+> -
+> -Optional properties:
+> -  - power-domains : power-domain property defined with a phandle
+> -			   to respective power domain.
+> -  - memory-region : from reserved memory binding: phandles to two reserved
+> -	memory regions, first is for "left" mfc memory bus interfaces,
+> -	second if for the "right" mfc memory bus, used when no SYSMMU
+> -	support is available; used only by MFC v5 present in Exynos4 SoCs
+> -
+> -Obsolete properties:
+> -  - samsung,mfc-r, samsung,mfc-l : support removed, please use memory-region
+> -	property instead
 
-Thank you. A few questions and comments for clarification:
+When did they become obsolete? Is it enough of time to remove them?
+> -
+> -
+> -Example:
+> -SoC specific DT entry:
+> -
+> -mfc: codec@13400000 {
+> -	compatible = "samsung,mfc-v5";
+> -	reg = <0x13400000 0x10000>;
+> -	interrupts = <0 94 0>;
+> -	power-domains = <&pd_mfc>;
+> -	clocks = <&clock 273>;
+> -	clock-names = "mfc";
+> -};
+> -
+> -Reserved memory specific DT entry for given board (see reserved memory binding
+> -for more information):
+> -
+> -reserved-memory {
+> -	#address-cells = <1>;
+> -	#size-cells = <1>;
+> -	ranges;
+> -
+> -	mfc_left: region@51000000 {
+> -		compatible = "shared-dma-pool";
+> -		no-map;
+> -		reg = <0x51000000 0x800000>;
+> -	};
+> -
+> -	mfc_right: region@43000000 {
+> -		compatible = "shared-dma-pool";
+> -		no-map;
+> -		reg = <0x43000000 0x800000>;
+> -	};
+> -};
+> -
+> -Board specific DT entry:
+> -
+> -codec@13400000 {
+> -	memory-region = <&mfc_left>, <&mfc_right>;
+> -};
+> +This file has moved to samsung,s5p-mfc.yaml
 
-- Slide 4 mentions proprietary drivers and UIO drivers. Do you mean UIO
-  as in the upstream UIO API, or as in UIO-like drivers with a vendor
-  API ?
+Just drop the TXT completely. Nothing references it.
 
-- Slide 5 mentions "Code developed exclusively by vendor" for Android.
-  There's the CameraX initiative (and possibly other I'm not aware of)
-  that mixes the high-level HAL implementation from Google with
-  low-level vendor code, to simplify (in theory at least) the life of
-  vendors. Generally speaking you're right though, the vendor is in
-  charge of providing the HAL, regardless of how it's structured
-  internally.
+> diff --git a/Documentation/devicetree/bindings/media/samsung,s5p-mfc.yaml b/Documentation/devicetree/bindings/media/samsung,s5p-mfc.yaml
+> new file mode 100644
+> index 000000000000..7cd26d4acbe4
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/samsung,s5p-mfc.yaml
+> @@ -0,0 +1,109 @@
+> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/samsung,s5p-mfc.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Samsung Exynos Multi Format Codec (MFC)
+> +
+> +maintainers:
+> +  - Marek Szyprowski <m.szyprowski@samsung.com>
+> +  - Aakarsh Jain <aakarsh.jain@samsung.com>
 
-- Slide 8 is focussed on notebooks (Chrome OS, but I suppose also
-  regular Linux machines) vs. Android when it comes to leveraging the
-  camera stack, but let's not forget there are also other markets (IoT
-  in particular) that may be structured differently. Not all vendors of
-  SoCs that integrate ISPs consider Android as their main target, and
-  they may ignore the notebook and mobile markets completely.
+and maybe you as well?
 
-- Slide 11 (and previous slides too) mention "Secret Sauce". I really
-  dislike that term, as it's very vague. I would like discussions to
-  clearly define the scope of that closed-source component, and we
-  should come up with a more descriptive name that reflects that
-  well-defined scope.
+> +
+> +description:
+> +  Multi Format Codec (MFC) is the IP present in Samsung SoCs which
+> +  supports high resolution decoding and encoding functionalities.
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - samsung,mfc-v5                  # Exynos4
+> +      - samsung,mfc-v6                  # Exynos5
+> +      - samsung,mfc-v7                  # Exynos5420
+> +      - samsung,mfc-v8                  # Exynos5800
+> +      - samsung,exynos5433-mfc          # Exynos5433
+> +      - samsung,mfc-v10                 # Exynos7880
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    minItems: 1
+> +    maxItems: 3
 
-- Slide 16 mentions 122 ioctls to emphasize that V4L2 is a complicated
-  API. Most of those are not relevant to cameras. It is thus a bit
-  misleading technically, but it can be still perceived as complicated
-  by vendors for that reason.
+You need to list the items. If this varies per compatible, do it in AllOf.
 
-- Still on slide 16, V4L2 as an API is usable without disclosing vendor
-  IP. What is not possible is upstreaming a driver. I don't see this as
-  significantly different between V4L2 and the new API proposal. I
-  expect this to be discussed on Monday.
+> +
+> +  clock-names:
+> +    minItems: 1
+> +    maxItems: 3
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  iommus:
+> +    maxItems: 2
+> +
+> +  iommu-names:
+> +    maxItems: 2
 
-- On slide 17 the color scheme seems to imply that the daemon is
-  open-source, while it's in most cases (maybe in all of them) closed.
+You need to list the items.
 
-- Do you have a real life example of the type of outcome described on
-  slide 19 (black box hardware) ?
+> +
+> +  power-domains:
+> +    maxItems: 1
+> +
+> +  memory-region:
+> +    maxItems: 1
 
-- Slide 24 mentions parameter buffers, it would be useful to describe
-  what those typically contain, and who consumes them once they're
-  provided by userspace to the driver.
+This misses the description and old binding allowed it only for MFCv5,
+not for others, right?
 
-- Slide 27 mentions that upstreaming a driver will require a camera
-  stack with the same open source requirements as V4L2. Doesn't that
-  contradict slide 16 that mentions that V4L2 cannot product vendor IP,
-  or at least infer that the new API wouldn't protect the vendor IP more
-  than V4L2 does ?
+> +
+> +allOf:
+> +  - if:
 
-- Slide 31 mentions that entities can send operations internally and
-  listen to each other events. I'd like to better understand how that
-  will work without any abstraction in the API (as that is one of the
-  main design decision behind this new API) when those entities are from
-  different vendors, and handled by different drivers that are developed
-  independently (for instance, the camera sensor and the CSI-2 receiver,
-  or even the CSI-2 receiver and the ISP).
+allOf goes after required section.
 
-- Does the bike on slide 32 illustrate the difficult discussions we've
-  had in the past and how progress was hindered ? :-)
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            enum:
+> +              - samsung,mfc-v5
+> +    then:
+> +      properties:
+> +        memory-region:
+> +          maxItems: 2
 
-> Looking forward to see all of you again on Monday :)
+Does not look like you tested the bindings. Please run `make
+dt_binding_check` (see
+Documentation/devicetree/bindings/writing-schema.rst for instructions).
 
--- 
-Regards,
+This won't work. Test it and you will see it.
 
-Laurent Pinchart
+
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - clocks
+> +  - clock-names
+> +  - interrupts
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    # SoC specific DT entry
+> +    mfc: mfc@12880000 {
+> +        compatible = "samsung,fsd-mfc";
+
+Does not look like you tested the bindings. Please run `make
+dt_binding_check` (see
+Documentation/devicetree/bindings/writing-schema.rst for instructions).
+
+> +        reg = <0x0 0x12880000 0x0 0x10000>;
+> +        interrupts = <GIC_SPI 137 IRQ_TYPE_LEVEL_HIGH>;
+> +        clock-names = "mfc";
+> +        clocks = <&clock_mfc MFC_MFC_IPCLKPORT_ACLK>;
+> +        iommus = <&smmu_isp 0x1000 0x0>, <&smmu_isp 0x1400 0x0>;
+> +        iommu-names = "left", "right";
+> +        power-domains = <&pd_mfc>;
+> +        memory-region = <&mfc_left>, <&mfc_right>;
+> +    };
+> +
+> +  - |
+> +    # Reserved memory specific DT entry for given board
+> +    # (see reserved memory binding for more information)
+> +    reserved-memory {
+> +        #address-cells = <1>;
+> +        #size-cells = <1>;
+
+Drop this example, not really related to MFC.
+
+> +        ranges;
+
+
+Best regards,
+Krzysztof
