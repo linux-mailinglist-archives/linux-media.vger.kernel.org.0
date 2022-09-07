@@ -2,212 +2,206 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1B3575AFC44
-	for <lists+linux-media@lfdr.de>; Wed,  7 Sep 2022 08:17:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D07FD5AFCA5
+	for <lists+linux-media@lfdr.de>; Wed,  7 Sep 2022 08:39:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229557AbiIGGRC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 7 Sep 2022 02:17:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42200 "EHLO
+        id S230026AbiIGGjB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 7 Sep 2022 02:39:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53450 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229510AbiIGGRA (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 7 Sep 2022 02:17:00 -0400
-Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [IPv6:2a0b:5c81:1c1::37])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8557F94ECE
-        for <linux-media@vger.kernel.org>; Tue,  6 Sep 2022 23:16:59 -0700 (PDT)
-Received: from hillosipuli.retiisi.eu (dkwl20tj04snw15cjtflt-3.rev.dnainternet.fi [IPv6:2001:14ba:4493:6f40:fec3:d72a:e447:8113])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: sailus)
-        by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 620F11B00330
-        for <linux-media@vger.kernel.org>; Wed,  7 Sep 2022 09:16:56 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
-        t=1662531416;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:mime-version:mime-version:content-type:content-type;
-        bh=jMpdaSxiT55iVf9594CsH86JhIm3DDu98Q+xD9w6Suw=;
-        b=BsKzB3RaJC/5UTKvEaCcsayD5KwuijiISS/DHw1sFIwg0iHE5bQxs0DfjNiZDFE2FHj0rN
-        ABHVGQO7bKeTPBZ4OTgLnrAgb7bepmdT7gY3U29Ca4qzd2uW4VUIbSR+r7OGkSklq265Ce
-        lmBEiLo/H38ITNrnrqTKATB4uV7W2lijPdFnT9yefupfPui9ZYcpCg24rv5rEIgPE7bbZ7
-        hfyomAK+Q1jtuDGDXF35aNF4Xky3/TlGoHhcQJ49B2PpZDWnB0+pWaZr3IHIYsXJU3VipQ
-        /QUyWlus+lTUP5RPXBBV/c8Nr6sU0g+PHV6W7ngUFI6wJbrJLbdIjP8vw8KSAw==
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 553B7634C91
-        for <linux-media@vger.kernel.org>; Wed,  7 Sep 2022 09:16:53 +0300 (EEST)
-Date:   Wed, 7 Sep 2022 09:16:53 +0300
-From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     linux-media@vger.kernel.org
-Subject: [GIT PULL FOR 6.1] V4L2 camera patches
-Message-ID: <Yxg3VXLv49tgYqsD@valkosipuli.retiisi.eu>
+        with ESMTP id S230059AbiIGGiy (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 7 Sep 2022 02:38:54 -0400
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (mail-bn8nam12on2049.outbound.protection.outlook.com [40.107.237.49])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 741E383BEA;
+        Tue,  6 Sep 2022 23:38:43 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=CRml5kptsSdfspDvgjHvqQttbeOBewQM3IaYrAgtYgwiqOkzJHPbpfjzQ8aJkrCAZl69IGdLAFxIldI7sPUBI1BbZbgXqUyYrGj8vwU1Moz2WdaLKAsG3eTnD6LmsUZRqnTXDWfV/uVI0x9IOXZpU98m+yyh4ulbrd+9RYqxJjss8vXlIeHU3EPwLWnbNUlleJug5deZUSWxwXypp0ziCxREsvLAMWpzQ86Yee56vIpO1Uw7wEHUJ1Y7poYdIdqo2TA1FPBmInTSHL6FT989DZ2n+YK4mqONb6Hp2Be62/S+hmBpK9EB4uDceDIDLh7kEHn7MDy9V+ec82m7mETH/Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=2Do9sQBtPj0vzAqccJAjkUSR799gq4PfpGgx8uRRxKc=;
+ b=nemImdd+IZRIKwK3TqPBSboOejfQ/Uyw9yQFAikHUkq0oaKmpCrY7QqP+gaF/u0HVnBQL0bJCOPejUiAuh4oSfFkoabj3VGIOUX8+ljYtacB7HJgthJZGwCsaZSX7nWpNHMFFfZTA1e+byBP6OcHRVd7nboVjiSkL8oGahMnu5OVTKCuoW7icDUsA8DtyIxJMnpkuC+7Bm8SD/7J2FNhZ6a84ZopJWW2rV0EyjKTl4IsrMkiS1C/jdFtKJHGe9kvtHZiuUt2B5gxwNLvt3ovnLGLOWxGZpQicxGe7Vab+koiXxMLnPmeoJigGX3HxImq8nHBwzgaQK2UQzgaNqV53g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=2Do9sQBtPj0vzAqccJAjkUSR799gq4PfpGgx8uRRxKc=;
+ b=SZKE4PN5rmXKzXXjPC7BvV78WEouzHoD5vXJOObz8QNR4mFZ4AD1SYOhZWxjxw14Mnqnwi1sd260BZWTb7HcWa/bzhxs8D26KdWPvQhBpD8abTbFoHjMpuLA9Z8yiP20CFAey/tD6fjEfwEnp4Le74wlmVGMByfC7BGP7LZiO3g=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
+ by LV2PR12MB5943.namprd12.prod.outlook.com (2603:10b6:408:170::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5588.12; Wed, 7 Sep
+ 2022 06:37:53 +0000
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::653f:e59b:3f40:8fed]) by BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::653f:e59b:3f40:8fed%6]) with mapi id 15.20.5612.012; Wed, 7 Sep 2022
+ 06:37:53 +0000
+Message-ID: <9b57b254-8d67-9937-5cec-783e7a4d8f56@amd.com>
+Date:   Wed, 7 Sep 2022 08:37:46 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v2 1/4] drm/sched: Enable signaling for finished fence
+Content-Language: en-US
+To:     Andrey Grodzovsky <andrey.grodzovsky@amd.com>,
+        Arvind Yadav <Arvind.Yadav@amd.com>, shashank.sharma@amd.com,
+        amaranath.somalapuram@amd.com, Arunpravin.PaneerSelvam@amd.com,
+        sumit.semwal@linaro.org, gustavo@padovan.org, airlied@linux.ie,
+        daniel@ffwll.ch, linux-media@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+        linux-kernel@vger.kernel.org
+References: <20220905163502.4032-1-Arvind.Yadav@amd.com>
+ <20220905163502.4032-2-Arvind.Yadav@amd.com>
+ <5568fad0-1503-a0f3-222e-c238fd4eefdd@amd.com>
+ <ffb5acca-7c20-4497-d7d0-25508a6566d2@amd.com>
+From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+In-Reply-To: <ffb5acca-7c20-4497-d7d0-25508a6566d2@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: AS9PR06CA0750.eurprd06.prod.outlook.com
+ (2603:10a6:20b:487::29) To BN8PR12MB3587.namprd12.prod.outlook.com
+ (2603:10b6:408:43::13)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-ARC-Authentication-Results: i=1;
-        ORIGINATING;
-        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1662531416; a=rsa-sha256;
-        cv=none;
-        b=T6Vzwyrw2PKRvezBEvWuKEsJW69iLcmF/YUmUdDLXyNgTl61cHBFoCZVFwpRZo93zqAJI3
-        8x5qiHhTrZ3QOBv8wGyhxB8wg2Z5+OPZ2tpED48V+cWBJUbY6DkYMfHst+/LLnG+W83Vml
-        2kLpNYRiuSNdwUN/cqjrbKIo6YStauLDLHstgVM9gukjQ2zpBnSEKEDLfUbB7I+FiyB1/Q
-        DLrRy4spLhW31QO/x1cM7oTEFv1gkxlHdK6aQvc4TGscXaG+qfVbFK5mZtKwQKw0JodY6L
-        poLvP0Y7hVDQZBWqIK8E/q7kOOiOlwQBKeauwCdc1GtPu5HBf7i0SIKcnq2IPQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-        s=lahtoruutu; t=1662531416;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:mime-version:mime-version:content-type:content-type;
-        bh=jMpdaSxiT55iVf9594CsH86JhIm3DDu98Q+xD9w6Suw=;
-        b=e6RMuqh5BEowCn0SLkHlXWlWllhzT5rxFnJa++hAhgZbScUOXt5xC1/BGIVq4Ik9nOV0e3
-        IKri7hF+tSrnke+sjAwTJ8bvvmeMQ87Yv/YSDE2N2J+YIGMLS72gU+moSeed7XSuyXe/5c
-        wsmA0ktARNBCjNOUcIU4z2iG5OxmWUTIpOtwfvNlTvxLD8v2iNPouMe+LyEQUKJ+WbLeA8
-        sVcGDZVH6oStrxBCZ/U2KFza00eKJ8/ZEwFNFxIWHdcGb2ery1V+ooNNRdEXjkN3QWyTmc
-        KQsx4aoqHEuJPN3zfNModvpE6f2wwGt6Jlb0hAKmypI9O79Y1Mbupn0Ru739Qg==
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|LV2PR12MB5943:EE_
+X-MS-Office365-Filtering-Correlation-Id: bae217ee-bd27-4c0f-5997-08da909b7d85
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: hXaakCuK4dfOJfXQZzbdiYy0CMD9idCTBvPOUCclfoOE0q/ScApJpGSKf6Ytyoi9yXHSkCmXQx4E1tkYlvz16QG+bPFldrhglsDt6IMG0ADdqRZtDHEgAWrRM8K/nL44eI1rzXT5OSi3sBzy9xl7/4lOoaU32mVYImXvLw/1jg+tM3jQ/Su4M+sbTZTFhYyWJyE1Kxp0nct2kDk9oJ7rBPhre8WkFWhWCA4LHWtkDZy02MugxZomvq4OCtJ6a4jRWDOvJkpztABR+GWRXNVhr0mB7ekKX5ejk9QN+e4r5dr9xcW/VhPf/XpJIBki0hRfKt5BE3xaBfeimO4cYo0etAMnjbYpqr3diUXMo28B8jSi2GXz27EI1GcNmfNI60YJAal2bm6Pjju80uUW0Z7SJFpl+/JPBfOZWwtEMGq+E49TvEb6E39tO1YdgSjXHACeWaWfjEPsCoee0ExKG3I2M92Dtwl6dq6g4KMLmDLwmH2jXqZ0Db5uPOGWjzYBPooEQev1rGU6DO+iHQdtS+7n/G5b1NPK0jhMXgBbHp+vyQSyDlBAhz8+KdrClbGq2Dy7YXSFKr4NeJKX/QLxIbOZMCCmRq5VN2Ov391yYr6afnt7uf1lc0TYJEXI3Ew5zZVC/U0fBWZeil8Im29+XgIC3n43LpbPHARS1wjCrphbjeK/jwfe3rfeNSgV4cIt+UNf6JIlwd6W3TrW5RJmRi8qi6feUP77oXaqsMlSVC2IeuBUwZ/uCivODJBedGHjRMw365OKCpP3DZMwyAgkSTJ+tXpgX3QlyGtzYLSijNA0IDyz3xKUAt3+VpNaWYEN/nuw
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN8PR12MB3587.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(396003)(39860400002)(346002)(366004)(376002)(136003)(6666004)(36756003)(26005)(2616005)(6506007)(53546011)(86362001)(41300700001)(6512007)(921005)(66574015)(38100700002)(31696002)(186003)(5660300002)(8936002)(66556008)(66946007)(478600001)(66476007)(6486002)(2906002)(110136005)(8676002)(31686004)(316002)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?bE5XYTFJY3hMM1RFUG9oSUJ3VVZOWHl2MlRtOFhaR3NwU0xqMFlQVG1PU04r?=
+ =?utf-8?B?YlhRUlQzYUhOZGJNUWV0VUpCdzB2Z083RWpIV1oxT09ldFB2VzBxaXdtTlFF?=
+ =?utf-8?B?Mm8zTnJiaUhFcGd2SStERTJrSlhrcEJnakJtQ2gvRU5ERkhWNWdLZURkSE1x?=
+ =?utf-8?B?VEh2M0VIbUJZMmsvVzNjcXJURnFXMTVMdkxrWTRVc29PMGhzdUF1VlFoWEo2?=
+ =?utf-8?B?dUIyL2VuTm9ENXdHUVd0MHVLNnRwN1Y3Nitaa08xOWVKaTFTTGJ6QzI5RUht?=
+ =?utf-8?B?RnAzRnl1TFRBUjBuaVJFcy9zbVVpd1Z6b2hvekNReFFLSUJXSGJZaXZoeXYy?=
+ =?utf-8?B?QWZwTkNJQVVYbHQ4eTcvM3RpOXFPMWZTek5EYXk3dXd6RUJKQUlrWE82bS8x?=
+ =?utf-8?B?ZG9lczFBdEVCWTIzeU9POERHdCtPNG4rWFYvclJlY01qQXg0N21VUmFJd2Fa?=
+ =?utf-8?B?S1hpa1puLy9RdTFOQlgvYWVKNEg5R0wvaGZFUTJSYXpUcHZqcHA4eDExdlc3?=
+ =?utf-8?B?NzBmU0lUcDgvcER3YnJhVWQrY0FXU1hxOFlua2EvcENzMHV2M2ZoL0tBRlJp?=
+ =?utf-8?B?cEZhS1FDZjlrWUhZU3NXbTc3NE0zQkNXVHp2OEtUK1FhQjc5ekloNE80ZlFY?=
+ =?utf-8?B?Qnozc0V2Znd3citDQko0dEpBNWdXMjJWU3phVHlCbExPTHlPUzlPeklUekNi?=
+ =?utf-8?B?U3hxWW9KMjVRZWZOYkg4amMveTZTdjRNK1hPSm04UVg5MVdyalR0czNHYzZX?=
+ =?utf-8?B?YldIL3JUcllzaWIrWjNSSCtSM0RDdzZkK0ZXdE1jU2dmVlJnSktCNzdUcVZR?=
+ =?utf-8?B?RXZscFV6UEk2WXRmNUlqNHNQandqdnEwVVJEb3RDd3JydWt1WkNIck9QUm95?=
+ =?utf-8?B?bTg3WHZ4b2JuNDZZU1c4K0U4ZTVEMVZuTFFKUkJQRlNOUDlaTTN2dFI4UElB?=
+ =?utf-8?B?clYxenM5OXJtUzRLRVJncmd0ajNEZGo1MlFwemQxQnMxTCtxZ0ZtaXErcHFK?=
+ =?utf-8?B?bDFPdGlwZzJWNWJqYWN5VjVJVUpLMkltZnJoMW1wem4zcTVkMmsyT2pFaWtu?=
+ =?utf-8?B?MHhOUVoyZ1UxWXkwQkNZbDJnTU5FT2crOFo1UVNjQ002QnROYVFVZTU0U1RK?=
+ =?utf-8?B?WkUxZCtubGZ1TWZFZmpZaDFnREJxaDJHT0o0bFNWMjV4NmRDVkNRYWt6OUNQ?=
+ =?utf-8?B?NTd3NlgyU2l5QjIrVFpwT29GQWM1d1J6bHNzOE5xSHptL2RnVitlK2tvTVlS?=
+ =?utf-8?B?ZGRtUWkwci8xUUcwN3NEOG9BcnJJMERNOTNuVDRTdUNzS05WM2FaQUZIbThx?=
+ =?utf-8?B?dG0waFdxcHU2YWR3NVlmb0RwYkg5TkZpQ0JUdlpyS3MxamdIb1NVTFVGNEhM?=
+ =?utf-8?B?c09QRlgrdldIMmlPaEY5SkUwL0x2bVlGTFpyOGsyb0JoZmFQR082Z3oxSEpC?=
+ =?utf-8?B?NTlpQnZMbG9EVTl3djlIQWtlRm90RjlDUmNzSnBEYzltL1drd0hSdDZ5SjVD?=
+ =?utf-8?B?bS9oeThNSUI2OGFiTlFQaTFnYldHNVFUeHd2MElBLzFNZXpYTjluam5nZXRo?=
+ =?utf-8?B?eHRrOHM4ZDA3dWZhZER0aGRLS3Mzb2Zjenhqd2pXRm9SVVFsUnA3a3FvQU1D?=
+ =?utf-8?B?dkJPMmM1empubGhoS0lFUE5lMWtnWVc0ZE8zTVJCM1k1WnVoUlRFYWo5N3hW?=
+ =?utf-8?B?TWltWmNzUGh6L0YvcmhRL3RKeDl3ZXRtbkYwVHRtVnc1U0Q4Y0U5dXlCSUdT?=
+ =?utf-8?B?TENSWTNRU3hGMlc4cU00MGc1NTdUYVg4cGRkQjdtVXg4eE1RNUtCQm1TcTZJ?=
+ =?utf-8?B?QVpJNjhRZzNBaXh4ZDdFWlIvRVZBVit2d3N4WVFzZ1ZVajN6K2JpaXdUUTFM?=
+ =?utf-8?B?ak1BTUxlZU82N2RtelJkbHZtT0dWU2I0SmkrZTlIYWNLRVZMSkh0N3RLUzNa?=
+ =?utf-8?B?NTgzb2lTc09LakpybGFsK1ZyQ0NRYWFCSDFZNW1CZE0zNkpnTWlLQmMwSVlw?=
+ =?utf-8?B?YkZkdVpYdldJQmpUem5FRHRsOVZOY2VlOVM4R254R0ZxUlJYWEZWOWNNTWw2?=
+ =?utf-8?B?em5rbHhFS0FhaGhVTzQvOHBOOWhIclkrYTMzRUJ5YVpuQjA0MC96YmhJVlBx?=
+ =?utf-8?Q?A4Of4lqrVzZdLgn6t39Wl+MFm?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: bae217ee-bd27-4c0f-5997-08da909b7d85
+X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Sep 2022 06:37:52.9224
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 5F5Ib0uJS7ftRxbVPEK2m99Pwq4UsrJPs/9+0pEhtWIYZqC/jlOYuuiFUz4n6O7e
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV2PR12MB5943
+X-Spam-Status: No, score=-3.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mauro,
+Am 06.09.22 um 21:55 schrieb Andrey Grodzovsky:
+>
+> On 2022-09-06 02:34, Christian König wrote:
+>> Am 05.09.22 um 18:34 schrieb Arvind Yadav:
+>>> Here's enabling software signaling for finished fence.
+>>>
+>>> Signed-off-by: Arvind Yadav <Arvind.Yadav@amd.com>
+>>> ---
+>>>
+>>> Changes in v1 :
+>>> 1- Addressing Christian's comment to remove CONFIG_DEBUG_FS check from
+>>> this patch.
+>>> 2- The version of this patch is also changed and previously
+>>> it was [PATCH 2/4]
+>>>
+>>> ---
+>>>   drivers/gpu/drm/scheduler/sched_main.c | 2 ++
+>>>   1 file changed, 2 insertions(+)
+>>>
+>>> diff --git a/drivers/gpu/drm/scheduler/sched_main.c 
+>>> b/drivers/gpu/drm/scheduler/sched_main.c
+>>> index e0ab14e0fb6b..fe72de0e2911 100644
+>>> --- a/drivers/gpu/drm/scheduler/sched_main.c
+>>> +++ b/drivers/gpu/drm/scheduler/sched_main.c
+>>> @@ -962,6 +962,8 @@ static int drm_sched_main(void *param)
+>>>               /* Drop for original kref_init of the fence */
+>>>               dma_fence_put(fence);
+>>>   + dma_fence_enable_sw_signaling(&s_fence->finished);
+>>
+>> Ok, this makes it a lot clearer. Previously I though that we have 
+>> some bug in dma_fence_add_callback().
+>>
+>> This is essentially the wrong place to call this, the finished fence 
+>> should be enabled by the caller and not here.
+>>
+>> There is also another problem in dma_fence_enable_sw_signaling(), it 
+>> returns early when the fence is already signaled:
+>>
+>>         if (test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags))
+>>                 return;
+>>
+>> Please remove that one first.
+>
+>
+> Why we even need this explicit call if dma_fence_add_callback calls 
+> __dma_fence_enable_signaling anyway ?
 
-Here's a big bunch of patches for Linux 6.1. It includes a number of fixes
-and improvements here and there. It also begins merging the streams
-patchset by Tomi (16 first patches) of which the rest needs more review
-(but not necessarily too many changes).
+Two different fence objects.
 
-Please pull.
+The dma_fence_add_callback() is done on the hw fence we get in return of 
+submitting the job.
 
+The dma_fence_enable_sw_signaling() here is done on the finished fence 
+we use to signal the completion externally.
 
-The following changes since commit 61890ccaefaff89f5babd2c8412fd222c3f5fe38:
+Key point is the finished fence should be used by the frontend drivers 
+which uses the scheduler and not by the scheduler itself.
 
-  media: platform: mtk-mdp3: add MediaTek MDP3 driver (2022-08-30 16:25:51 +0200)
+Christian.
 
-are available in the Git repository at:
+>
+> Andrey
+>
+>
+>>
+>> Thanks,
+>> Christian.
+>>
+>>
+>>> +
+>>>               r = dma_fence_add_callback(fence, &sched_job->cb,
+>>>                              drm_sched_job_done_cb);
+>>>               if (r == -ENOENT)
+>>
 
-  git://linuxtv.org/sailus/media_tree.git tags/for-6.1-1-signed
-
-for you to fetch changes up to ceec7a7d80918aad1fcbd4a4744baf74c70526e8:
-
-  dt-bindings: media: samsung,exynos5250-gsc: convert to dtschema (2022-09-06 10:11:38 +0300)
-
-----------------------------------------------------------------
-V4L2 patches for 6.1
-
-----------------------------------------------------------------
-Alexander Stein (1):
-      media: v4l2: Fix v4l2_i2c_subdev_set_name function documentation
-
-Christophe JAILLET (1):
-      media: ov8865: Fix an error handling path in ov8865_probe()
-
-Jacopo Mondi (1):
-      media: mc: entity: Add iterator helper for entity pads
-
-Jean-Michel Hautbois (1):
-      media: staging: ipu3-imgu: Fix BNR wb gain documentation
-
-Krzysztof Kozlowski (2):
-      media: dt-bindings: dongwoon,dw9714: convert to dtschema
-      dt-bindings: media: samsung,exynos5250-gsc: convert to dtschema
-
-Laurent Pinchart (4):
-      media: mc: entity: Merge media_entity_enum_init and __media_entity_enum_init
-      media: mc: entity: Move media_entity_get_fwnode_pad() out of graph walk section
-      media: mc: entity: Add media_entity_pipeline() to access the media pipeline
-      media: mc: entity: Rewrite media_pipeline_start()
-
-Paul Elder (1):
-      media: ov5640: Use runtime PM
-
-Sakari Ailus (6):
-      ar0521: Remove redundant variable ret
-      ipu3-imgu: Fix NULL pointer dereference in active selection access
-      v4l: subdev: Fail graciously when getting try data for NULL state
-      ar0521: Fix return value check in writing initial registers
-      sun6i-mipi-csi2: Depend on PHY_SUN6I_MIPI_DPHY
-      media: Remove incorrect comment from struct v4l2_fwnode_endpoint
-
-Slark Xiao (1):
-      media: i2c: mt9v111: Fix typo 'the the' in comment
-
-Tomi Valkeinen (11):
-      media: Documentation: mc: add definitions for stream and pipeline
-      media: media-entity.h: add include for min()
-      media: subdev: increase V4L2_FRAME_DESC_ENTRY_MAX to 8
-      media: mc: entity: Rename streaming_count -> start_count
-      media: v4l2-dev: Add videodev wrappers for media pipelines
-      media: drivers: use video device pipeline start/stop
-      media: drivers: use video_device_pipeline()
-      media: mc: entity: add alloc variant of pipeline_start
-      media: drivers: use video_device_pipeline_alloc_start()
-      media: mc: entity: Add has_pad_interdep entity operation
-      media: mc: convert pipeline funcs to take media_pad
-
-Yang Yingliang (1):
-      media: ar0521: fix error return code in ar0521_power_on()
-
- .../devicetree/bindings/media/exynos5-gsc.txt      |  38 --
- .../bindings/media/i2c/dongwoon,dw9714.txt         |   9 -
- .../bindings/media/i2c/dongwoon,dw9714.yaml        |  47 ++
- .../bindings/media/samsung,exynos5250-gsc.yaml     | 109 ++++
- Documentation/driver-api/media/mc-core.rst         |  19 +-
- MAINTAINERS                                        |   2 +-
- drivers/media/i2c/ar0521.c                         |  11 +-
- drivers/media/i2c/mt9v111.c                        |   2 +-
- drivers/media/i2c/ov5640.c                         | 123 ++--
- drivers/media/i2c/ov8865.c                         |  10 +-
- drivers/media/mc/mc-device.c                       |  13 +-
- drivers/media/mc/mc-entity.c                       | 648 +++++++++++++++++----
- drivers/media/pci/intel/ipu3/ipu3-cio2-main.c      |   6 +-
- drivers/media/platform/qcom/camss/camss-video.c    |   6 +-
- .../media/platform/renesas/rcar-vin/rcar-core.c    |   5 +-
- drivers/media/platform/renesas/rcar-vin/rcar-dma.c |  18 +-
- drivers/media/platform/renesas/vsp1/vsp1_video.c   |   6 +-
- .../platform/rockchip/rkisp1/rkisp1-capture.c      |  14 +-
- .../platform/samsung/exynos4-is/fimc-capture.c     |   9 +-
- .../platform/samsung/exynos4-is/fimc-isp-video.c   |   9 +-
- .../media/platform/samsung/exynos4-is/fimc-lite.c  |   9 +-
- .../platform/samsung/s3c-camif/camif-capture.c     |   6 +-
- drivers/media/platform/st/stm32/stm32-dcmi.c       |   6 +-
- drivers/media/platform/sunxi/sun4i-csi/sun4i_dma.c |   6 +-
- .../media/platform/sunxi/sun6i-csi/sun6i_video.c   |   6 +-
- .../media/platform/sunxi/sun6i-mipi-csi2/Kconfig   |   2 +-
- drivers/media/platform/ti/cal/cal-video.c          |   6 +-
- drivers/media/platform/ti/cal/cal.h                |   1 -
- drivers/media/platform/ti/omap3isp/isp.c           |   4 +-
- drivers/media/platform/ti/omap3isp/ispvideo.c      |   9 +-
- drivers/media/platform/ti/omap3isp/ispvideo.h      |  11 +-
- drivers/media/platform/xilinx/xilinx-dma.c         |  11 +-
- drivers/media/platform/xilinx/xilinx-dma.h         |   9 +-
- drivers/media/test-drivers/vimc/vimc-capture.c     |   7 +-
- drivers/media/usb/au0828/au0828-core.c             |   8 +-
- drivers/media/v4l2-core/v4l2-dev.c                 |  72 +++
- drivers/staging/media/imx/imx-media-utils.c        |   8 +-
- drivers/staging/media/imx/imx7-media-csi.c         |   6 +-
- .../staging/media/ipu3/include/uapi/intel-ipu3.h   |   7 +-
- drivers/staging/media/ipu3/ipu3-v4l2.c             |  37 +-
- drivers/staging/media/omap4iss/iss.c               |   4 +-
- drivers/staging/media/omap4iss/iss_video.c         |   9 +-
- drivers/staging/media/omap4iss/iss_video.h         |  11 +-
- drivers/staging/media/tegra-video/tegra210.c       |   6 +-
- include/media/media-device.h                       |  15 -
- include/media/media-entity.h                       | 169 +++++-
- include/media/v4l2-common.h                        |   3 +-
- include/media/v4l2-dev.h                           | 102 ++++
- include/media/v4l2-fwnode.h                        |   4 -
- include/media/v4l2-subdev.h                        |  12 +-
- 50 files changed, 1253 insertions(+), 417 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/media/exynos5-gsc.txt
- delete mode 100644 Documentation/devicetree/bindings/media/i2c/dongwoon,dw9714.txt
- create mode 100644 Documentation/devicetree/bindings/media/i2c/dongwoon,dw9714.yaml
- create mode 100644 Documentation/devicetree/bindings/media/samsung,exynos5250-gsc.yaml
-
--- 
-Sakari Ailus
