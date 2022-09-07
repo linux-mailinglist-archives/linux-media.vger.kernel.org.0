@@ -2,149 +2,346 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 554195B014A
-	for <lists+linux-media@lfdr.de>; Wed,  7 Sep 2022 12:07:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 68E9B5B0166
+	for <lists+linux-media@lfdr.de>; Wed,  7 Sep 2022 12:14:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229590AbiIGKHJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 7 Sep 2022 06:07:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50608 "EHLO
+        id S229600AbiIGKOV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 7 Sep 2022 06:14:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35970 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229513AbiIGKHH (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 7 Sep 2022 06:07:07 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D651086700
-        for <linux-media@vger.kernel.org>; Wed,  7 Sep 2022 03:07:06 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id AAE5CDD;
-        Wed,  7 Sep 2022 12:07:04 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1662545224;
-        bh=WW/enIPeTjuNMmSIXITBFS79NWiiPsCUPZr8Ulyw8hc=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=BvIRjx2JtfsENrvTYAbe8k0sVBX/EHaxHHHsSxB+ZgU+hMutc6KV/zmFgNf+3/9F6
-         dE6PiZ+Vaqy8OC5tz61N4v8Ibww1q+gEknzdvASdZN6F7NKzSWRf1TKxgXsQ8hJeIa
-         N3wqmIFZ2xjn+WoxUffMxUP/2ABFvyw1/dHQ9Qvg=
-Date:   Wed, 7 Sep 2022 13:06:49 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-media@vger.kernel.org,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        Hidenori Kobayashi <hidenorik@chromium.org>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Ricardo Ribalda <ribalda@chromium.org>,
-        Maxime Ripard <maxime@cerno.tech>,
-        Daniel Scally <djrscally@gmail.com>,
-        Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>
-Subject: Re: [ANN] Media Summit at ELCE Dublin, September 12: Draft Agenda V2
-Message-ID: <YxhtOfpRhrxQCeGZ@pendragon.ideasonboard.com>
-References: <3840c3cc-00fb-45dd-cb89-39b36fb6d733@xs4all.nl>
- <YxX8dzSsquJmO5hP@paasikivi.fi.intel.com>
- <YxYLSk2pKdGnNDP3@pendragon.ideasonboard.com>
- <b76bd2fb-d0bc-2e71-26ec-b98b9949700d@xs4all.nl>
- <YxhplLKtRAQzlSK/@pendragon.ideasonboard.com>
- <34f930db-db94-b134-4a1d-b9586e5b54be@xs4all.nl>
+        with ESMTP id S229495AbiIGKOT (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 7 Sep 2022 06:14:19 -0400
+Received: from mailgw.kylinos.cn (unknown [124.126.103.232])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 52558A3D30;
+        Wed,  7 Sep 2022 03:14:12 -0700 (PDT)
+X-UUID: ee3f0bf849424bac817c286aeb55a4f2-20220907
+X-UUID: ee3f0bf849424bac817c286aeb55a4f2-20220907
+X-User: oushixiong@kylinos.cn
+Received: from [172.20.20.1] [(116.128.244.169)] by mailgw
+        (envelope-from <oushixiong@kylinos.cn>)
+        (Generic MTA with TLSv1.2 ECDHE-RSA-AES128-GCM-SHA256 128/128)
+        with ESMTP id 971097487; Wed, 07 Sep 2022 18:14:35 +0800
+Subject: Re: [PATCH v3] drm/ast: add dmabuf/prime buffer sharing support
+To:     Thomas Zimmermann <tzimmermann@suse.de>,
+        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+        Dave Airlie <airlied@redhat.com>
+Cc:     David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        linux-media@vger.kernel.org
+References: <20220901124451.2523077-1-oushixiong@kylinos.cn>
+ <5bc77d8f-928c-1d41-9b3c-eaad1bf3cfff@suse.de>
+ <ee27c832-a1fd-bc93-9f1b-33f828195e83@amd.com>
+ <f078d10f-9613-d6b1-0ee8-50feaf7d5299@suse.de>
+From:   oushixiong <oushixiong@kylinos.cn>
+Message-ID: <d4efb102-2f09-3f95-7175-7177f57fcd25@kylinos.cn>
+Date:   Wed, 7 Sep 2022 18:14:06 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <34f930db-db94-b134-4a1d-b9586e5b54be@xs4all.nl>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <f078d10f-9613-d6b1-0ee8-50feaf7d5299@suse.de>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-Spam-Status: No, score=-5.1 required=5.0 tests=BAYES_00,KHOP_HELO_FCRDNS,
+        NICE_REPLY_A,RDNS_DYNAMIC,SPF_HELO_NONE,T_SCC_BODY_TEXT_LINE,
+        T_SPF_PERMERROR autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Sep 07, 2022 at 11:58:29AM +0200, Hans Verkuil wrote:
-> On 07/09/2022 11:51, Laurent Pinchart wrote:
-> > On Wed, Sep 07, 2022 at 08:51:48AM +0200, Hans Verkuil wrote:
-> >> On 05/09/2022 16:44, Laurent Pinchart wrote:
-> >>> On Mon, Sep 05, 2022 at 01:41:11PM +0000, Sakari Ailus wrote:
-> >>>> On Tue, Aug 23, 2022 at 12:53:44PM +0200, Hans Verkuil wrote:
-> >>>>> 16:45-18:00 Anything else?
-> >>>>
-> >>>> I think it'd be great to have a GPG key signing party at the end of the
-> >>>> meeting.
-> >>>
-> >>> It's a good idea. Could everybody please send their GPG key fingerprint
-> >>> in an e-mail reply to prepare for that ? It can easily be retrieved with
-> >>> 'gpg -K' (make sure to pick the right key if you have multiple of them).
-> >>> I'll start:
-> >>>
-> >>> sec   rsa4096/0xF045C2B96991256E 2014-10-09 [C]
-> >>>       94231B980100EC619AC10E10F045C2B96991256E
-> >>> uid                   [ultimate] Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> >>>
-> >>> If you're generating a key for the occasion, create a primary key with
-> >>> the Certify (C) capability only, and create separate sub-keys for
-> >>> Signature (S) and Encryption (E). There's little reason these days to
-> >>> use less than 4096 bits for the primary key if you opt for RSA. The
-> >>> subkeys should have an expiration date.
-> >>>
-> >>> The primary key can then be moved to safe storage, you will only need
-> >>> the subkeys for daily usage.  The primary key will be used only to
-> >>> create new subkeys and to sign other people's keys.
-> >>>
-> >>
-> >> Can you also give instructions on what to do at the key signing party?
-> >>
-> >> I do this so rarely that I always forget what magic gpg commands I need
-> >> to make to sign keys.
-> >>
-> >> If everyone has this information at hand, then we can quickly proceed with
-> >> this on Monday.
-> > 
-> > Good point.
-> > 
-> > First of all, everybody should make sure that their key is published on
-> > key servers.
-> 
-> Which key servers? That's never been clear to me: which key server(s) are
-> you supposed to use?
+Hi,
 
-They are supposed to mirror each other, so any of the main ones should
-do. hkp://keys.gnupg.net, hkp://pgp.mit.edu, hkps://keys.openpgp.org,
-hkp://keyserver.ubuntu.com, ...
+Firstly, the dirty() call back function is called by 
+drm_mode_dirtyfb_ioctl.
 
-> > I will gather al the keys and print a list that I will hand out to
-> > everybody on Monday. This will be the authoritative source of
-> > information, as anything stored in digital form could theoritically be
-> > tampered with.
-> > 
-> > We will go around the table, and everybody will check that their key ID
-> > matches the printed documented (to make sure I haven't tampered with the
-> > printed version they have received), and read it out loud for everybody
-> > to compare with their own printed version (to make sure I've distributed
-> > the same version to everybody). If any mismatch is noticed, people are
-> > expected to shout out loud.
-> > 
-> > Then we will verify identities. If we have a laptop with a webcam that
-> > can be hooked up to a projector, we can simply take turns and show a
-> > government-issues ID that clearly displays our name, for people in the
-> > room to compare that with the keys. Once the fingerprints and the
-> > identities are checked, the corresponding keys should be marked as
-> > verified on the paper version.
-> > 
-> > The next step is to sign keys. This is something that will happen after
-> > the media summit, and if you have your master key on offline storage,
-> > will happen after you get back home. You will need to download keys from
-> > key servers, verify that the fingerprints match the paper version and
-> > sign the keys.
-> > 
-> > The final step is to publish signatures. I'll try to check what the
-> > latest best practices are. One option is to simply publish the
-> > signatures to key servers, but we can also mail them to the key owner,
-> > in an encrypted e-mail to make sure the recipient is the intended
-> > person.
+     drm_mode_dirtyfb_ioctl
+         |__   fb->funcs->dirty(fb, file_priv, flags, r->color,clips, 
+num_clips);
+                         |__ ast_user_framebuffer_dirty
+                                     |__ ast_handle_damage
 
--- 
-Regards,
+Secondly, due to hardware limitations, the AST  display control modules 
+can not access the dmabuf that in GTT, so it had to copy the data to AST 
+VRAM, if we do not use the dmabuf , it need to copy data from discrete 
+card's VRAM to memory,and copy the data from memory to AST VRAM.
 
-Laurent Pinchart
+Best regards
+oushixiong
+
+
+On 2022/9/7 下午5:40, Thomas Zimmermann wrote:
+> Hi ,
+>
+> Am 07.09.22 um 10:10 schrieb Christian König:
+>> Hi Thomas,
+>>
+>> I was wondering pretty much the same thing, but then thought that 
+>> this might be the first step to direct scanout from DMA-bufs.
+>>
+>> If this isn't the case then I to see this rather critically since 
+>> that functionality belongs into userspace.
+>
+> With GEM VRAM helpers, ast currently doesn't support dma-buf sharing. 
+> I do have patches that convert it to GEM SHMEM (for other reasons), 
+> which would also add this functionality.
+>
+> I intent to post these patches in the coming days. My suggestion is to 
+> merge them first and then see how to go from there.
+>
+> Best regards
+> Thomas
+>
+>>
+>> Regards,
+>> Christian.
+>>
+>> Am 07.09.22 um 09:50 schrieb Thomas Zimmermann:
+>>> Hi,
+>>>
+>>> on a more general note, let me say that your patch doesn't seem to 
+>>> fit the ideas of how buffer sharing is supposed to work. Your patch 
+>>> does the BMC screen update 'behind the scenes.'
+>>>
+>>> Shouldn't userspace set up the DRM state for mirroring the output of 
+>>> the discrete card to the BMC?
+>>>
+>>> Best regards
+>>> Thomas
+>>>
+>>> Am 01.09.22 um 14:44 schrieb oushixiong:
+>>>>
+>>>> This patch adds ast specific codes for DRM prime feature, this is to
+>>>> allow for offloading of rending in one direction and outputs in other.
+>>>>
+>>>> This patch is designed to solve the problem that the AST is not 
+>>>> displayed
+>>>> when the server plug in a discrete graphics card at the same time.
+>>>> We call the dirty callback function to copy the rendering results 
+>>>> of the
+>>>> discrete graphics card to the ast side by dma-buf.
+>>>>
+>>>> v1->v2:
+>>>>    - Fix the comment.
+>>>> v2->v3:
+>>>>    - we remove the gem_prime_import_sg_table callback and use the
+>>>>      gem_prime_import callback, because it just map and access the 
+>>>> buffer
+>>>>      with the CPU. and do not to pin the buffer.
+>>>>
+>>>> Signed-off-by: oushixiong <oushixiong@kylinos.cn>
+>>>> Acked-by: Christian König <christian.koenig@amd.com>
+>>>> ---
+>>>>   drivers/gpu/drm/ast/ast_drv.c  |  27 +++++++
+>>>>   drivers/gpu/drm/ast/ast_mode.c | 125 
+>>>> ++++++++++++++++++++++++++++++++-
+>>>>   2 files changed, 151 insertions(+), 1 deletion(-)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/ast/ast_drv.c 
+>>>> b/drivers/gpu/drm/ast/ast_drv.c
+>>>> index 7465c4f0156a..fd3c4bad2eb4 100644
+>>>> --- a/drivers/gpu/drm/ast/ast_drv.c
+>>>> +++ b/drivers/gpu/drm/ast/ast_drv.c
+>>>> @@ -28,6 +28,7 @@
+>>>>     #include <linux/module.h>
+>>>>   #include <linux/pci.h>
+>>>> +#include <linux/dma-buf.h>
+>>>>     #include <drm/drm_aperture.h>
+>>>>   #include <drm/drm_atomic_helper.h>
+>>>> @@ -50,6 +51,29 @@ module_param_named(modeset, ast_modeset, int, 
+>>>> 0400);
+>>>>     DEFINE_DRM_GEM_FOPS(ast_fops);
+>>>>   +static struct drm_gem_object *ast_gem_prime_import(struct 
+>>>> drm_device *dev,
+>>>> +                        struct dma_buf *dma_buf)
+>>>> +{
+>>>> +    struct drm_gem_vram_object *gbo;
+>>>> +
+>>>> +    gbo = drm_gem_vram_of_gem(dma_buf->priv);
+>>>> +    if (gbo->bo.base.dev == dev) {
+>>>> +        /*
+>>>> +         * Importing dmabuf exported from out own gem increases
+>>>> +         * refcount on gem itself instead of f_count of dmabuf.
+>>>> +         */
+>>>> +        drm_gem_object_get(&gbo->bo.base);
+>>>> +        return &gbo->bo.base;
+>>>> +    }
+>>>> +
+>>>> +    gbo = drm_gem_vram_create(dev, dma_buf->size, 0);
+>>>> +    if (IS_ERR(gbo))
+>>>> +        return NULL;
+>>>> +
+>>>> +    get_dma_buf(dma_buf);
+>>>> +    return &gbo->bo.base;
+>>>> +}
+>>>> +
+>>>>   static const struct drm_driver ast_driver = {
+>>>>       .driver_features = DRIVER_ATOMIC |
+>>>>                  DRIVER_GEM |
+>>>> @@ -63,6 +87,9 @@ static const struct drm_driver ast_driver = {
+>>>>       .minor = DRIVER_MINOR,
+>>>>       .patchlevel = DRIVER_PATCHLEVEL,
+>>>>   +    .prime_fd_to_handle = drm_gem_prime_fd_to_handle,
+>>>> +    .gem_prime_import = ast_gem_prime_import,
+>>>> +
+>>>>       DRM_GEM_VRAM_DRIVER
+>>>>   };
+>>>>   diff --git a/drivers/gpu/drm/ast/ast_mode.c 
+>>>> b/drivers/gpu/drm/ast/ast_mode.c
+>>>> index 45b56b39ad47..65a4342c5622 100644
+>>>> --- a/drivers/gpu/drm/ast/ast_mode.c
+>>>> +++ b/drivers/gpu/drm/ast/ast_mode.c
+>>>> @@ -48,6 +48,8 @@
+>>>>   #include "ast_drv.h"
+>>>>   #include "ast_tables.h"
+>>>>   +MODULE_IMPORT_NS(DMA_BUF);
+>>>> +
+>>>>   static inline void ast_load_palette_index(struct ast_private *ast,
+>>>>                        u8 index, u8 red, u8 green,
+>>>>                        u8 blue)
+>>>> @@ -1535,8 +1537,129 @@ static const struct 
+>>>> drm_mode_config_helper_funcs ast_mode_config_helper_funcs =
+>>>>       .atomic_commit_tail = drm_atomic_helper_commit_tail_rpm,
+>>>>   };
+>>>>   +static int ast_handle_damage(struct drm_framebuffer *fb, int x, 
+>>>> int y,
+>>>> +                    int width, int height)
+>>>> +{
+>>>> +    struct drm_gem_vram_object *dst_bo = NULL;
+>>>> +    void *dst = NULL;
+>>>> +    int ret = 0, i;
+>>>> +    unsigned long offset = 0;
+>>>> +    bool unmap = false;
+>>>> +    unsigned int bytesPerPixel;
+>>>> +    struct iosys_map map;
+>>>> +    struct iosys_map dmabuf_map;
+>>>> +
+>>>> +    bytesPerPixel = fb->format->cpp[0];
+>>>> +
+>>>> +    if (!fb->obj[0]->dma_buf)
+>>>> +        return -EINVAL;
+>>>> +
+>>>> +    if (!fb->obj[0]->dma_buf->vmap_ptr.vaddr) {
+>>>> +        ret = dma_buf_vmap(fb->obj[0]->dma_buf, &dmabuf_map);
+>>>> +        if (ret)
+>>>> +            return ret;
+>>>> +    } else
+>>>> +        dmabuf_map.vaddr = fb->obj[0]->dma_buf->vmap_ptr.vaddr;
+>>>> +
+>>>> +    dst_bo = drm_gem_vram_of_gem(fb->obj[0]);
+>>>> +
+>>>> +    ret = drm_gem_vram_pin(dst_bo, 0);
+>>>> +    if (ret) {
+>>>> +        DRM_ERROR("ast_bo_pin failed\n");
+>>>> +        return ret;
+>>>> +    }
+>>>> +
+>>>> +    if (!dst_bo->map.vaddr) {
+>>>> +        ret = drm_gem_vram_vmap(dst_bo, &map);
+>>>> +        if (ret) {
+>>>> +            drm_gem_vram_unpin(dst_bo);
+>>>> +            DRM_ERROR("failed to vmap fbcon\n");
+>>>> +            return ret;
+>>>> +        }
+>>>> +        unmap = true;
+>>>> +    }
+>>>> +    dst = dst_bo->map.vaddr;
+>>>> +
+>>>> +    for (i = y; i < y + height; i++) {
+>>>> +        offset = i * fb->pitches[0] + (x * bytesPerPixel);
+>>>> +        memcpy_toio(dst + offset, dmabuf_map.vaddr + offset,
+>>>> +            width * bytesPerPixel);
+>>>> +    }
+>>>> +
+>>>> +    if (unmap)
+>>>> +        drm_gem_vram_vunmap(dst_bo, &map);
+>>>> +
+>>>> +    drm_gem_vram_unpin(dst_bo);
+>>>> +
+>>>> +    return 0;
+>>>> +}
+>>>> +
+>>>> +
+>>>> +static int ast_user_framebuffer_dirty(struct drm_framebuffer *fb,
+>>>> +                struct drm_file *file,
+>>>> +                unsigned int flags,
+>>>> +                unsigned int color,
+>>>> +                struct drm_clip_rect *clips,
+>>>> +                unsigned int num_clips)
+>>>> +{
+>>>> +    int i, ret = 0;
+>>>> +
+>>>> +    drm_modeset_lock_all(fb->dev);
+>>>> +    if (fb->obj[0]->dma_buf) {
+>>>> +        ret = dma_buf_begin_cpu_access(fb->obj[0]->dma_buf,
+>>>> +                DMA_FROM_DEVICE);
+>>>> +        if (ret)
+>>>> +            goto unlock;
+>>>> +    }
+>>>> +
+>>>> +    for (i = 0; i < num_clips; i++) {
+>>>> +        ret = ast_handle_damage(fb, clips[i].x1, clips[i].y1,
+>>>> +                clips[i].x2 - clips[i].x1, clips[i].y2 - 
+>>>> clips[i].y1);
+>>>> +        if (ret)
+>>>> +            break;
+>>>> +    }
+>>>> +
+>>>> +    if (fb->obj[0]->dma_buf) {
+>>>> +        dma_buf_end_cpu_access(fb->obj[0]->dma_buf,
+>>>> +                DMA_FROM_DEVICE);
+>>>> +    }
+>>>> +
+>>>> +unlock:
+>>>> +    drm_modeset_unlock_all(fb->dev);
+>>>> +
+>>>> +    return ret;
+>>>> +}
+>>>> +
+>>>> +static void ast_user_framebuffer_destroy(struct drm_framebuffer *fb)
+>>>> +{
+>>>> +    struct iosys_map dmabuf_map;
+>>>> +
+>>>> +    if (fb->obj[0]->dma_buf) {
+>>>> +        dmabuf_map.is_iomem = fb->obj[0]->dma_buf->vmap_ptr.is_iomem;
+>>>> +        dmabuf_map.vaddr = fb->obj[0]->dma_buf->vmap_ptr.vaddr;
+>>>> +        if (dmabuf_map.vaddr)
+>>>> +            dma_buf_vunmap(fb->obj[0]->dma_buf, &dmabuf_map);
+>>>> +    }
+>>>> +
+>>>> +    drm_gem_fb_destroy(fb);
+>>>> +}
+>>>> +
+>>>> +static const struct drm_framebuffer_funcs ast_gem_fb_funcs_dirtyfb 
+>>>> = {
+>>>> +    .destroy    = ast_user_framebuffer_destroy,
+>>>> +    .create_handle    = drm_gem_fb_create_handle,
+>>>> +    .dirty        = ast_user_framebuffer_dirty,
+>>>> +};
+>>>> +
+>>>> +static struct drm_framebuffer *
+>>>> +ast_gem_fb_create_with_dirty(struct drm_device *dev, struct 
+>>>> drm_file *file,
+>>>> +                const struct drm_mode_fb_cmd2 *mode_cmd)
+>>>> +{
+>>>> +    return drm_gem_fb_create_with_funcs(dev, file, mode_cmd,
+>>>> +                    &ast_gem_fb_funcs_dirtyfb);
+>>>> +}
+>>>> +
+>>>>   static const struct drm_mode_config_funcs ast_mode_config_funcs = {
+>>>> -    .fb_create = drm_gem_fb_create,
+>>>> +    .fb_create = ast_gem_fb_create_with_dirty,
+>>>>       .mode_valid = drm_vram_helper_mode_valid,
+>>>>       .atomic_check = drm_atomic_helper_check,
+>>>>       .atomic_commit = drm_atomic_helper_commit,
+>>>>
+>>>>
+>>>> Content-type: Text/plain
+>>>>
+>>>> No virus found
+>>>>         Checked by Hillstone Network AntiVirus
+>>>
+>>
+>
