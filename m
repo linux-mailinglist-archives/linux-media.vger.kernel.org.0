@@ -2,164 +2,209 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 082EC5B091F
-	for <lists+linux-media@lfdr.de>; Wed,  7 Sep 2022 17:47:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7DA715B09CF
+	for <lists+linux-media@lfdr.de>; Wed,  7 Sep 2022 18:13:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229849AbiIGPrq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 7 Sep 2022 11:47:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50452 "EHLO
+        id S230147AbiIGQNB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 7 Sep 2022 12:13:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55014 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229836AbiIGPrb (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 7 Sep 2022 11:47:31 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD4DFBB02E
-        for <linux-media@vger.kernel.org>; Wed,  7 Sep 2022 08:47:15 -0700 (PDT)
-Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <mgr@pengutronix.de>)
-        id 1oVxGj-0004au-CU; Wed, 07 Sep 2022 17:47:13 +0200
-Received: from mgr by ptx.hi.pengutronix.de with local (Exim 4.92)
-        (envelope-from <mgr@pengutronix.de>)
-        id 1oVxGi-000093-V4; Wed, 07 Sep 2022 17:47:12 +0200
-Date:   Wed, 7 Sep 2022 17:47:12 +0200
-From:   Michael Grzeschik <mgr@pengutronix.de>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-usb@vger.kernel.org, linux-media@vger.kernel.org,
-        balbi@kernel.org, paul.elder@ideasonboard.com,
-        kernel@pengutronix.de, nicolas@ndufresne.ca,
-        kieran.bingham@ideasonboard.com
-Subject: Re: [PATCH v8 4/4] usb: gadget: uvc: add format/frame handling code
-Message-ID: <20220907154712.GI18739@pengutronix.de>
-References: <20220907140254.2378109-1-m.grzeschik@pengutronix.de>
- <20220907140254.2378109-5-m.grzeschik@pengutronix.de>
- <YxiztqqkMbWzMiVl@pendragon.ideasonboard.com>
- <20220907151516.GF18739@pengutronix.de>
- <Yxi5ed6u7hnFCKl6@pendragon.ideasonboard.com>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="tctmm6wHVGT/P6vA"
+        with ESMTP id S230118AbiIGQM4 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 7 Sep 2022 12:12:56 -0400
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12on2060.outbound.protection.outlook.com [40.107.244.60])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E6F629D8E4;
+        Wed,  7 Sep 2022 09:12:54 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=VelKTOqCHwGVafFprLytye3rsi0l54h0UuY1YLteJbx/T9nhFz3Eiuc+f+/cfz7JnS5e7wLCE6nAXukmEv6l3kBp2VNT6+xIUF0dHwepw30V72Nob9ovwiJONWZbT6Qrkem9C3ruExb7mnjeVhm8+9Qt7TyCdJZDs9SGEK+GAFsEZLDYNfqs3RL4tCqMrSBZUhOq2EReIgmdBT69ksm5qGGd6I+vsccPxuemIco+XPH4n5PJ0E2MTecM4Rfcc/RTjBJ0+mZdiTwxtYLn3uOtvRFHGPpO3T5awRKcfLyzDgnlQ68TYfugbiFue3T6fT0FotIrBahp7GcNGtfrr+FkNA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=1fpS2HEUH+gXTcE+CITh6CoMck63zatmBpJbw9hWhkU=;
+ b=BraTIv7KL8y8PD/ROPw42mZSD8xdy+iLwV0a00oXsFMIRtKTlvFxXHZ/Jl978QAIcLMyl1Rg14yE8HBW5GmdeqYPXDNwlVPVvzykzcYoHPiCuWieiV3+mVoVZH6IqERiGX6KuuhK9q9zmZEvxaNu9Avx6bu8KMEjRwc7LfusWTDdLbeGr5i+e5g/cLoal4gBH2FGqAsWe7JqezAIYGLbq5GSJqh6+Pwzo6KEN8MzmZ9ixudrnYwmE2feGp5tJ1FxImNzUTCcTLHWBf/ld8CggSlYAcsdaH6Yrx3TVD9i0D81jpX4VuFbb+EHaXUQ9tx8Y8jo0QIe1Q2NnoKUsMLE9w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=1fpS2HEUH+gXTcE+CITh6CoMck63zatmBpJbw9hWhkU=;
+ b=CQyDI7y4kHXsrjIkRljO9IeE5ZbV6l2VG4CB69k01cNDdDqCEVNBytCCyIBN/cJiDAAMhN/utILssqZNjHAm5Clm2k2PhCziCLbfpBVApS4R13ZLjBUJhw1pkPrLNGX8X+/15Mv8DWpWdoPz9+ocgABYcfAVlpoSri+Gxttb96nFY7gKxtajoYn0bME8NX3/fO7M/xZPhjxJhfHD01uvA9v+1tk/tYuAD4J0q7GHL2IfuvzcZgRF1mbmPkudSBholkGauWR4dGywq/Z9pAT8rwdzJj8rScZ6XFQxycS89UmGP0c+wzxGLJsLbT+CPKVyagUmulsmTDd2aF7ZrBP2rA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from MN2PR12MB4192.namprd12.prod.outlook.com (2603:10b6:208:1d5::15)
+ by DS0PR12MB6560.namprd12.prod.outlook.com (2603:10b6:8:d0::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5588.10; Wed, 7 Sep
+ 2022 16:12:53 +0000
+Received: from MN2PR12MB4192.namprd12.prod.outlook.com
+ ([fe80::462:7fe:f04f:d0d5]) by MN2PR12MB4192.namprd12.prod.outlook.com
+ ([fe80::462:7fe:f04f:d0d5%7]) with mapi id 15.20.5588.018; Wed, 7 Sep 2022
+ 16:12:53 +0000
+Date:   Wed, 7 Sep 2022 13:12:52 -0300
+From:   Jason Gunthorpe <jgg@nvidia.com>
+To:     Christoph Hellwig <hch@infradead.org>
+Cc:     Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Cornelia Huck <cohuck@redhat.com>,
+        dri-devel@lists.freedesktop.org, kvm@vger.kernel.org,
+        linaro-mm-sig@lists.linaro.org, linux-media@vger.kernel.org,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Daniel Vetter <daniel.vetter@ffwll.ch>,
+        Leon Romanovsky <leon@kernel.org>, linux-rdma@vger.kernel.org,
+        Maor Gottlieb <maorg@nvidia.com>,
+        Oded Gabbay <ogabbay@kernel.org>,
+        Dan Williams <dan.j.williams@intel.com>
+Subject: Re: [PATCH v2 4/4] vfio/pci: Allow MMIO regions to be exported
+ through dma-buf
+Message-ID: <YxjDBOIavc79ZByZ@nvidia.com>
+References: <0-v2-472615b3877e+28f7-vfio_dma_buf_jgg@nvidia.com>
+ <4-v2-472615b3877e+28f7-vfio_dma_buf_jgg@nvidia.com>
+ <YxcYGzPv022G2vLm@infradead.org>
+ <b6b5d236-c089-7428-4cc9-a08fe4f6b4a3@amd.com>
+ <YxczjNIloP7TWcf2@nvidia.com>
+ <YxiJJYtWgh1l0wxg@infradead.org>
+ <YxiPh4u/92chN02C@nvidia.com>
+ <Yxiq5sjf/qA7xS8A@infradead.org>
+ <Yxi3cFfs0SA4XWJw@nvidia.com>
+ <Yxi5h09JAzIo4Kh8@infradead.org>
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Yxi5ed6u7hnFCKl6@pendragon.ideasonboard.com>
-X-Sent-From: Pengutronix Hildesheim
-X-URL:  http://www.pengutronix.de/
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
-X-SA-Exim-Mail-From: mgr@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+In-Reply-To: <Yxi5h09JAzIo4Kh8@infradead.org>
+X-ClientProxiedBy: BLAPR03CA0046.namprd03.prod.outlook.com
+ (2603:10b6:208:32d::21) To MN2PR12MB4192.namprd12.prod.outlook.com
+ (2603:10b6:208:1d5::15)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 78ddd780-423e-48e4-8130-08da90ebd146
+X-MS-TrafficTypeDiagnostic: DS0PR12MB6560:EE_
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 99AhXdd7jVerneL8CvPAJr3+GjBFhOgblgVOdGF2/kNVKQzlv52wmTTOq5cYxtD+dJ5p2+SwV4pvvvjNAeXyks6Ur3/i0a4cMUxXmi9OgjFcQnvLWHwK4sBO7ahuFVmPtPHGGfOtSXRSClRwrC842EHW07Wd3amhso0WOOyIDa2Ip+bxOIe1jpPGTVXgPy0Gx/72VY2B8l5MYBZyxeiYjrNadLJsDpiM4ZD4rIBFkhwp6S8d5sKi/d3/ZB2MaQYdBakju8LIYvVZhkMbCYjJTGqPVvHHXWx/9B7RRTySn1MW2cwKMEEyW3Tx3hrUojMy9CzYUeZ9EH4tW6ty3dRRT4ki/1VoK+zHaFjB+DvNqJGy7Ovo0Wl/Un/SrP/hvCaZc4+5e872VmYxSX/riLKbWytENvkSdGSM8vDZDGizbnLnFw0461uNpihCqElPehEmNpgkhjuo8N9PcZGVwnXBMPLOQ58JuNqTYMPfvctZdVQd7chVlETW2PGrkaMJLGgub2kcuHIfuAsD0Q/H4n64C5t08fA20AefsLvbIiLVUKW+b1CYm24uXBGDQPRx6XTPYdZMSCjKXnkKQBicFJagjiRqv4KDjv5dayT+7Mvl3gZs+dgujlN0BXR37BImi/qUfbjnEuP93/wvK9++N7bg5lABba21jyTtmzMjvCxJMB3v9exWcKtpK8BVxY0EqgHhyxTZvh/xeJ7kUcv/p7uVMA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR12MB4192.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(136003)(39860400002)(396003)(376002)(346002)(366004)(66946007)(6916009)(4326008)(2906002)(66556008)(8676002)(66476007)(478600001)(6512007)(6486002)(316002)(54906003)(2616005)(41300700001)(6506007)(36756003)(26005)(86362001)(83380400001)(186003)(8936002)(7416002)(5660300002)(38100700002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?xL5RmghK/mTOmp1/PT5JfyJtBBKD6imbV641PZ8qqY+taGhg+qk9hPC0PJBl?=
+ =?us-ascii?Q?QGjCfCqtI8LzwEoLf5U8ddlqKDVak6QFEQa/Rj0zXy6vJvrtem7of++Cm7hz?=
+ =?us-ascii?Q?57vCpzoXS7SODWeFq2pf61GHQggNWucLjyJvfBTyCAAa0no2mjE5zyPvfBCd?=
+ =?us-ascii?Q?FwQLdP/m6MsWWXEwSgXPANIdxbJg29PxzPAEotT76gmsY308kHi/juCiudkD?=
+ =?us-ascii?Q?deDDVQI/uij6IzUBP1oBd6FF6iDYL1h4sGjkpYclXgb27wvHM5LtZoC7Ssux?=
+ =?us-ascii?Q?Vacx54/pOliK2gHenNIXjiSpW4fmAPiS400tJhY0NZIx/8XgT5J/H4q/pGRJ?=
+ =?us-ascii?Q?V9rqPuXhIbvrfI8Ozgm26jopKvZwveE7jgWEp0qdqjHGT8x2AazKszh4ru3Z?=
+ =?us-ascii?Q?lP8zeLmcdzLUsgnEg4EW/wnjd0E8Ad1EAuO+gQYZMFuXlOGylzjEHSJiSp+G?=
+ =?us-ascii?Q?Or2znQC0u2dEou24NGq6qobPumvwCZ21/+lv1y8f3EZV8fQ2CsbsTCefEBNE?=
+ =?us-ascii?Q?ZNmmO3bFsFnqLaOwX/vYNupIB8ozsaJEL54CSypXFlKTzOy5D/r+atNlmhfE?=
+ =?us-ascii?Q?6OTDJxnQZXlSzdxWwtwECQGpfobgAjFae/j9tQV4w7Vg6denjxwIB6ohl/8V?=
+ =?us-ascii?Q?T9CYnERdowtRElklitoz/ZEm+rd0+EhIZzoCaY7nWE6V6zG2CTeq+C4FcTer?=
+ =?us-ascii?Q?WwGN2+nGA+Lle3dW7QYptgZfDX8iUduk7OWLOntlQ5A7jNQD4pUzq3hHSZgv?=
+ =?us-ascii?Q?otnJrFQw+2gQLpS+9FNKN+WudCBUVblSMA+ibsFXWn6JUCdEB+S4ZCfU/UVJ?=
+ =?us-ascii?Q?LGqiPWGp7KuCIkwqUSpV35Ob0MVpVV6/wB/jiNiPTdajjsHic2/2ekKy1XXj?=
+ =?us-ascii?Q?4TXg8G0SYLqHZJe9eoGnLNShanSz/wazPxMrpRguCHn7KFxThYNPn7AxOids?=
+ =?us-ascii?Q?tvHO22Eyk6LV0eOXEyXSeVPBKkmbNcHi1Y+kxfqXP59f9TQWVyq7CvqHVMTS?=
+ =?us-ascii?Q?oyBfECkAGUNBNsbhyaY7OdXH6xceqew2GNQ64FBuOW1ke8gQy0Hg1bseOm0Q?=
+ =?us-ascii?Q?5Na0BfW6nipJsTlXtMlGS82He8elfKAIHJW2d+t8vdGIEHzzHVfNcK4tIwZK?=
+ =?us-ascii?Q?3AaWoIL97iLDGRpsLoe2t0hIb03ykJl+KvBJ/fbQDGBIRCcFHzoJyRPApcvS?=
+ =?us-ascii?Q?9cgZvpZd/J8lJePV6WUEskBDsYGuuJFSdb2nxpQlwdGrqNOjtyuC5XM+3AmJ?=
+ =?us-ascii?Q?PACNYbU2JkiLRf9wdILTDH+BekFLQKzGw5GK0E68lMyC5yoHKnRBk2oCd0vg?=
+ =?us-ascii?Q?8AmbqhZ/n57BLEAEWKYwIBWxelfnMrEAsqJEyLck0VLKbL53YSGWMqgx8FT/?=
+ =?us-ascii?Q?NbuiDamh39X6z0AfPuVch5dZaWlCo9Et3pU7tSg1/mjNVStxzFMtv+xNvNZC?=
+ =?us-ascii?Q?F6Cp1k8IJVKe7miTgU0H8qBnS1Ksoqo92TPKtFEV5LG/ZW6crcDtodYkWBM7?=
+ =?us-ascii?Q?QTyYGhepfCOy8l7v/OlrsAhC3Zmbc7fymcnmWzogemp29dIYwV/5UkuhcRZn?=
+ =?us-ascii?Q?cmA1Y0EDnPAtpObMzLet2ANuPZCKZZVdVNtRLDEy?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 78ddd780-423e-48e4-8130-08da90ebd146
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB4192.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Sep 2022 16:12:53.1787
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: BzmR4LdLUOYxtb8SJfwlGOba/FEncrWG8HZ5C/F4J1uPyux0MTPlpLm/OLBHKfWR
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB6560
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-
---tctmm6wHVGT/P6vA
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Wed, Sep 07, 2022 at 06:32:09PM +0300, Laurent Pinchart wrote:
->Hi Michael,
+On Wed, Sep 07, 2022 at 08:32:23AM -0700, Christoph Hellwig wrote:
+> On Wed, Sep 07, 2022 at 12:23:28PM -0300, Jason Gunthorpe wrote:
+> >  2) DMABUF abuses dma_map_resource() for P2P and thus doesn't work in
+> >     certain special cases.
+> 
+> Not just certain special cases, but one of the main use cases.
+> Basically P2P can happen in two ways:
 >
->On Wed, Sep 07, 2022 at 05:15:16PM +0200, Michael Grzeschik wrote:
->> On Wed, Sep 07, 2022 at 06:07:34PM +0300, Laurent Pinchart wrote:
->> > On Wed, Sep 07, 2022 at 04:02:54PM +0200, Michael Grzeschik wrote:
->> >> The Hostside format selection is currently only done in userspace, as
->> >> the events for SET_CUR and GET_CUR are always moved to the application
->> >> layer. Since the v4l2 device parses the configfs data, the format
->> >> negotiation can be done in the kernel. This patch adds the functions =
-to
->> >> set the current configuration while continuing to forward all unknown
->> >> events to the userspace level.
->> >
->> > Why do you think this is better done in kernel space, given that
->> > userspace has to process the event anyway ? It's more complexity in the
->> > kernel side, for little added value as far as I can see. It will also
->> > make it more difficult to handle different UVC versions (in particular
->> > UVC 1.5). I'd rather not go in this direction if there's no clear
->> > benefit.
->>
->> The current case is to set configfs from userspace to ensure
->> the host sees only what we configured. Then the userspace has to parse
->> this configfs again, to be sure not to allow something on
->> SET_CUR/GET_CUR that is not valid from configfs configuration. Since the
->> configfs-Setup could be done from another application comming from
->> somewhere in the userspace this limit will always stay.
->
->That really depends on the architecture of the userspace stack, when the
->same userspace application configures the gadget and handles the runtime
->operations, it won't have to parse configfs. I'd also argue that in
->practical use cases, the application will likely need to know the list
->of formats and resolutions that are exposed by the gadget in order to
->prepare for supporting them properly (for instance, allocating buffers
->large enough to store the largest resolution is common when you want to
->lower stream start delays if your system is not memory-constrained).
+>  a) through a PCIe switch, or
+>  b) through connected root ports
 
-The userspace can for sure can do resolution and format parsing that
-is exposed by the gadget. Even more standardized, now with the simple
-v4l2 API, without having to parse the whole configfs again.
+Yes, we tested both, both work.
 
->> Since the kernel knows the configfs-setup it was given in the beginning
->> it can ensure that SET_CUR/GET_CUR will only handle valid setups.
->>
->> When done in Kernel, we can also use simple v4l2 API calls like try_form=
-at to
->> ask the driver what the host side did configure. So we can use simple
->> abstracion-libs like gstreamer for this.
->
->This will cause trouble when extending support to UVC 1.5 as the
->complexity will grow on the kernel side. Furthermore, by handling the
->video probe and commit control in kernel space, you'd removing the
->possibility for userspace to decide on how to handle the bHint flags, or
->how to negociate dwFrameInterval key frame rate, compression quality, or
->the additional fields specific to UVC 1.5. This effectively hardcodes
->one particular policy in the driver, and that shouldn't be the role of
->the kernel.
+> The open code version here only supports a), only supports it when there
+> is no offset between the 'phyiscal' address of the BAR seen PCIe
+> endpoint and the Linux way.  x86 usually (always?) doesn't have an
+> offset there, but other architectures often do.
 
-When you look closely, you will see that for later user cases, I decided
-the userspace appliaction will still be able to subscribe for DATA and
-SETUP.
+The PCI offset is some embedded thing - I've never seen it in a server
+platform.
 
-It will only fall back to the kernel side of operation if there is
-nobody that is able to operate. In those cases, it will take over. I
-tested this with your uvc-gadget appliaction. Since it subscribes more
-than STREAMON and STREAMOFF, it is still working like before with this
-patchstack applied.
+Frankly, it is just bad SOC design and there is good reason why
+non-zero needs to be avoided. As soon as you create aliases between
+the address spaces you invite trouble. IIRC a SOC I used once put the
+memory at 0 -> 4G then put the only PCI aperture at 4g ->
+4g+N. However this design requires 64 bit PCI support, which at the
+time, the platform didn't have. So they used PCI offset to hackily
+alias the aperture over the DDR. I don't remember if they threw out a
+bit of DDR to resolve the alias, or if they just didn't support PCI
+switches.
 
-Regards,
-Michael
+In any case, it is a complete mess. You either drastically limit your
+BAR size, don't support PCI switches or loose a lot of DDR.
 
---=20
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+I also seem to remember that iommu and PCI offset don't play nice
+together - so for the VFIO use case where the iommu is present I'm
+pretty sure we can very safely assume 0 offset. That seems confirmed
+by the fact that VFIO has never handled PCI offset in its own P2P path
+and P2P works fine in VMs across a wide range of platforms.
 
---tctmm6wHVGT/P6vA
-Content-Type: application/pgp-signature; name="signature.asc"
+That said, I agree we should really have APIs that support this
+properly, and dma_map_resource is certainly technically wrong.
 
------BEGIN PGP SIGNATURE-----
+So, would you be OK with this series if I try to make a dma_map_p2p()
+that resolves the offset issue?
 
-iQIzBAABCgAdFiEElXvEUs6VPX6mDPT8C+njFXoeLGQFAmMYvP4ACgkQC+njFXoe
-LGR3xhAAjQtAZ1K407DsGsKj+aeqDPSkiW0wcWj806BTuxO5zZw348+0a98sEfak
-jQcopSWW8CicCo2JIC1o+WwpUqcoFul2g0QOUasnDHFl+g15wFGztmgpzEea2vTF
-v8HI4YYeaEtd2xaQtO0A8tfEgPeknvNg/pIurdl+9KLLLVL7riDctksqohv+ZUSR
-TiGRRG3Ub5NZlOiIbIlNp8nmmTqXweju7xG4xmI3/7Fbc8xERaxzcypmjloqR5d9
-ZYu/f2+cLfLjUstiSJFFwp9VVCSnB0hSzM5uzooJ+Vc6eD48HgUvRX9zk+1FDIDO
-21F+oQnekCK6IIL6jKbGk60SOWA5TubkUCf9/QV4/OJ8ge5L43tAYcc+lbtmyd1x
-nmkq+dNkmDzdMZW9guPoTtRiFyEobJ5dCYMGxlKs9vOog5sVAaI1rKHegeB5dvYH
-f1SdNaveRqom7cU844fObWMBil2nWHvW/ktqZdLgVmsrftW6nQLDJr/Kuyej2U2c
-d+Iq9aizndy4QwgxDmuj3UIRwDP7Yfe29do3lwijWVN3aHwmUCDaKtqJOCMw3GlJ
-EruPfoQWTRWwSJTsQ7lKrxIlaOjAMb1rHo2laKOSyFnOvMPSXl2D09w7aGOX3kgw
-6qD963c3+FB8AxfyEWepQr7zoQ5OrEo5Bmks3FrDDxRc8hnIQWc=
-=7R8Z
------END PGP SIGNATURE-----
+> Last but not least I don't really see how the code would even work
+> when an IOMMU is used, as dma_map_resource will return an IOVA that
+> is only understood by the IOMMU itself, and not the other endpoint.
 
---tctmm6wHVGT/P6vA--
+I don't understand this.
+
+__iommu_dma_map() will put the given phys into the iommu_domain
+associated with 'dev' and return the IOVA it picked.
+
+Here 'dev' is the importing device, it is the device that will issue
+the DMA:
+
++       dma_addr = dma_map_resource(
++               attachment->dev,
++               pci_resource_start(priv->vdev->pdev, priv->index) +
++                       priv->offset,
++               priv->dmabuf->size, dir, DMA_ATTR_SKIP_CPU_SYNC);
+
+eg attachment->dev is the PCI device of the RDMA device, not the VFIO
+device.
+
+'phys' is the CPU physical of the PCI BAR page, which with 0 PCI
+offset is the right thing to program into the IO page table.
+
+> How was this code even tested?
+
+It was tested on a few platforms, like I said above, the cases where
+it doesn't work are special, largely embedded, and not anything we
+have in our labs - AFAIK.
+
+Jason
