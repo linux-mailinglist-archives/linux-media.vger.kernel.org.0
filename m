@@ -2,59 +2,55 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4F3595B1128
-	for <lists+linux-media@lfdr.de>; Thu,  8 Sep 2022 02:30:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7CF405B12BF
+	for <lists+linux-media@lfdr.de>; Thu,  8 Sep 2022 05:03:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229731AbiIHAar (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 7 Sep 2022 20:30:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45036 "EHLO
+        id S229638AbiIHDDn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 7 Sep 2022 23:03:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41154 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230203AbiIHAaq (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 7 Sep 2022 20:30:46 -0400
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 49486D0231
-        for <linux-media@vger.kernel.org>; Wed,  7 Sep 2022 17:30:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1662597045; x=1694133045;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=l28QU1OI5mxmuhZxvIeFJCS6O6hrvLbBj9qVIE01py0=;
-  b=PfDUyFOe097R/sY4hOFthjm/ZlPUmdQOUF0s+l8h9Nb6NYI82M+/FjSD
-   m1SJlj4Qp991iGYNZ8aMt1Yq3yNodVmlEIpX9z1UF/p+D+2o0N/uXDDZt
-   p+dfeVgVN+hnFKCz9OKvMVJ1aQhdLhHNnHtqcxmTk2WhKKp46Oi5EjJOO
-   O3MNJEl3ViAOwWp3e/O8UsHZaIDlLZQZj4bRht95DCgJAq5DjW7xuU8MN
-   sOazoynm6vrh97fmOaUgiKe3HvOqQgvh7Pbg88mpsjqwHVJ/AmM7BOFqo
-   SHZZ+tFxnkjoLhH6+FVk0oNpcFkSmoUJzqJDVS4BnBvE+rVihAui6KpYt
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10463"; a="297836649"
-X-IronPort-AV: E=Sophos;i="5.93,298,1654585200"; 
-   d="scan'208";a="297836649"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Sep 2022 17:30:41 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,298,1654585200"; 
-   d="scan'208";a="591935835"
-Received: from lkp-server02.sh.intel.com (HELO 95dfd251caa2) ([10.239.97.151])
-  by orsmga006.jf.intel.com with ESMTP; 07 Sep 2022 17:30:40 -0700
-Received: from kbuild by 95dfd251caa2 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1oW5RH-00079T-2C;
-        Thu, 08 Sep 2022 00:30:39 +0000
-Date:   Thu, 8 Sep 2022 08:30:13 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc:     kbuild-all@lists.01.org, linux-media@vger.kernel.org,
-        Sakari Ailus <sakari.ailus@linux.intel.com>
-Subject: [sailus-media-tree:streams 20/26]
- drivers/media/test-drivers/vimc/vimc-capture.c:249:44: error: 'vcap'
- undeclared
-Message-ID: <202209080814.8csZ9uMJ-lkp@intel.com>
+        with ESMTP id S229472AbiIHDDl (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 7 Sep 2022 23:03:41 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D8ED494ED0;
+        Wed,  7 Sep 2022 20:03:39 -0700 (PDT)
+Received: from pyrite.rasen.tech (h175-177-042-159.catv02.itscom.jp [175.177.42.159])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id CF9616CC;
+        Thu,  8 Sep 2022 05:03:32 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1662606217;
+        bh=kWgC4kyl7hRCmKDIAfZCkdxQxR8KWFoZ2PmRnE3X/qc=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=SJdRxRG0W1jZqSi74SoQJpmbrQ3vWTdNKtpEZRaEIYdAUBiTmM2VsMJ4rnZi2FNJe
+         MhkFP9fhUm/tq88WvNYbe8HYddNQdCQYLcRKdRGFh55Zc39QJbLD95uBU/ZgGo/pMp
+         9Q38C0Tq1TdW69aFlaVsspx49sN0AuggSSncvF/g=
+Date:   Thu, 8 Sep 2022 12:03:21 +0900
+From:   paul.elder@ideasonboard.com
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Rui Miguel Silva <rmfrfs@gmail.com>,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        linux-media@vger.kernel.org,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        linux-staging@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] media: imx7-media-csi: Add support for fast-tracking
+ queued buffers
+Message-ID: <20220908030321.GA1140330@pyrite.rasen.tech>
+References: <20220907114737.1127612-1-paul.elder@ideasonboard.com>
+ <YxjgkAjvsaZkS2cY@pendragon.ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+In-Reply-To: <YxjgkAjvsaZkS2cY@pendragon.ideasonboard.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -62,61 +58,218 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-tree:   git://linuxtv.org/sailus/media_tree.git streams
-head:   4a1af70e7350faee9c9c0a34e529f9e417eea467
-commit: f612352ecd419db911f9441257a49da946041304 [20/26] media: drivers: use video device pipeline start/stop
-config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20220908/202209080814.8csZ9uMJ-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        git remote add sailus-media-tree git://linuxtv.org/sailus/media_tree.git
-        git fetch --no-tags sailus-media-tree streams
-        git checkout f612352ecd419db911f9441257a49da946041304
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sh SHELL=/bin/bash drivers/media/test-drivers/vimc/
+Hi Laurent,
 
-If you fix the issue, kindly add following tag where applicable
-Reported-by: kernel test robot <lkp@intel.com>
+On Wed, Sep 07, 2022 at 09:18:56PM +0300, Laurent Pinchart wrote:
+> Hi Paul,
+> 
+> Thank you for the patch.
+> 
+> On Wed, Sep 07, 2022 at 08:47:37PM +0900, Paul Elder wrote:
+> > The CSI hardware compatible with this driver handles buffers using a
+> > ping-pong mechanism with two sets of destination addresses. Normally,
+> > when an interrupt comes in to signal the completion of one buffer, say
+> > FB0, it assigns the next buffer in the queue to the next FB0, and the
+> > hardware starts to capture into FB1 in the meantime.
+> 
+> Could you replace FB0 and FB1 with FB1 and FB2 respectively, to match
+> the naming of the registers ?
 
-All errors (new ones prefixed by >>):
+Oops, I forgot to do it in the commit message.
 
-   drivers/media/test-drivers/vimc/vimc-capture.c: In function 'vimc_capture_start_streaming':
->> drivers/media/test-drivers/vimc/vimc-capture.c:249:44: error: 'vcap' undeclared (first use in this function)
-     249 |         ret = video_device_pipeline_start(&vcap->vdev, &vcap->stream.pipe);
-         |                                            ^~~~
-   drivers/media/test-drivers/vimc/vimc-capture.c:249:44: note: each undeclared identifier is reported only once for each function it appears in
+> 
+> > In a buffer underrun situation, in the above example without loss of
+> > generality, if a new buffer is queued before the interrupt for FB0 comes
+> > in, we can program the buffer into FB1 (which is programmed with a dummy
+> > buffer, as there is a buffer underrun).
+> > 
+> > This of course races with the interrupt that signals FB0 completion, as
+> > once that interrupt comes in, we are no longer guaranteed that the
+> > programming of FB1 was in time and must assume it was too late. This
+> > race is resolved partly by locking the programming of FB1. If it came
+> > after the interrupt for FB0, then the variable that is used to determine
+> > which FB to program would have been swapped by the interrupt handler.
+> > 
+> > This alone isn't sufficient, however, because the interrupt could still
+> > be generated (thus the hardware starts capturing into the other fb)
+> > while the fast-tracking routine has the irq lock. Thus, after
+> > programming the fb register to fast-track the buffer, the isr also must
+> > be checked to confirm that an interrupt didn't come in the meantime. If
+> > it has, we must assume that programming the register for the
+> > fast-tracked buffer was not in time, and queue the buffer normally.
+> > 
+> > Signed-off-by: Paul Elder <paul.elder@ideasonboard.com>
+> > Acked-by: Rui Miguel Silva <rmfrfs@gmail.com>
+> > 
+> > ---
+> > Changes in v2:
+> > - fix the potential race condition where the interrupt comes in while
+> >   the fast tracking routine has the irqlock
+> > - change return value from int to bool
+> > ---
+> >  drivers/staging/media/imx/imx7-media-csi.c | 63 ++++++++++++++++++++++
+> >  1 file changed, 63 insertions(+)
+> > 
+> > diff --git a/drivers/staging/media/imx/imx7-media-csi.c b/drivers/staging/media/imx/imx7-media-csi.c
+> > index a0553c24cce4..0ebef44a7627 100644
+> > --- a/drivers/staging/media/imx/imx7-media-csi.c
+> > +++ b/drivers/staging/media/imx/imx7-media-csi.c
+> > @@ -1296,12 +1296,75 @@ static int imx7_csi_video_buf_prepare(struct vb2_buffer *vb)
+> >  	return 0;
+> >  }
+> >  
+> > +static bool imx7_csi_fast_track_buffer(struct imx7_csi *csi,
+> > +				       struct imx7_csi_vb2_buffer *buf)
+> > +{
+> > +	unsigned long flags;
+> > +	dma_addr_t phys;
+> > +	int buf_num;
+> > +	u32 isr;
+> > +
+> > +	if (!csi->is_streaming)
+> > +		return false;
+> > +
+> > +	phys = vb2_dma_contig_plane_dma_addr(&buf->vbuf.vb2_buf, 0);
+> > +
+> > +	/*
+> > +	 * buf_num holds the fb id of the most recently (*not* the next
+> > +	 * anticipated) triggered interrupt. Without loss of generality, if
+> > +	 * buf_num is 0 and we get to this section before the irq for fb2, the
+> 
+> s/fb2/FB2/ to match hardware registers and the commit message ?
+
+ack
+
+> 
+> > +	 * buffer that we are fast-tracking into fb1 should be programmed in
+> > +	 * time to be captured into. If the irq for fb2 already happened, then
+> > +	 * buf_num would be 1, and we would fast-track the buffer into fb2
+> > +	 * instead. This guarantees that we won't try to fast-track into fb1
+> > +	 * and race against the start-of-capture into fb1.
+> > +	 *
+> > +	 * We only fast-track the buffer if the currently programmed buffer is
+> > +	 * a dummy buffer. We can check the active_vb2_buf instead as it is
+> > +	 * always modified along with programming the fb[1,2] registers via the
+> > +	 * lock (besides setup and cleanup).
+> > +	 */
+> 
+> I think this needs to be updated, it still indicates we handle the race
+> just by checking buf_num. How about the following ?
+> 
+> 	/*
+> 	 * buf_num holds the framebuffer ID of the most recently (*not* the next
+> 	 * anticipated) triggered interrupt. Without loss of generality, if
+> 	 * buf_num is 0, the hardware is capturing to FB2. If FB1 has been
+> 	 * programmed with a dummy buffer (as indicated by active_vb2_buf[0]
+> 	 * being NULL), then we can fast-track the new buffer by programming its
+> 	 * address in FB1 before the hardware completes FB2, instead of adding
+> 	 * it to the buffer queue and incurring a delay of one additional frame.
+
+Okay that's a lot easier to follow than the one that I wrote.
+
+> 	 *
+> 	 * The irqlock prevents races with the interrupt handler that queues the
+
+The interrupt handler doesn't /queue/ the buffer, it programs the FB
+register with the buffer at the front of the buffer queue. That's why I
+said "programs the next buffer" in my original text.
+
+Although I don't think racing with the interrupt handler for
+programming the next buffer is important in this context, since the
+interrupt handler is going to program FB2, while we're trying to program FB1
+before that that interrupt comes in.
+
+It's mainly buf_num that's relevant to locking the irqlock.
+
+> 	 * next buffer and updates buf_num, but we can still race with the
+> 	 * hardware if we program the buffer in FB1 just after the hardware
+> 	 * completes FB2 and switches to FB1 and before we notice the buf_num
+> 	 * change.
+
+buf_num won't actually be changed because we have the lock. Maybe
+"before buf_num can be updated by the interrupt handler for FB2"?
+
+> The fast-tracked buffer would then be ignored by the hardware
+> 	 * while the driver would think it has successfully been processed.
+> 	 *
+> 	 * To avoid this problem, if we can't avoid the race, we can detect that
+> 	 * we have lost it by checking, after programming the buffer in FB1, if
+> 	 * the interrupt flag indicated completion of FB2 has been raised. If
+
+s/indicated/indicating/
+
+> 	 * that is not the case, fast-tracking succeeded, and we can update
+> 	 * active_vb2_buf[0]. Otherwise, we may or may not have lost the race
+> 	 * (as the interrupt flag may have been raised just after programming
+> 	 * FB1 and before we read the interrupt status register), and we need to
+> 	 * assume the worst case of a race loss and queue the buffer through the
+> 	 * slow path.
+> 	 */
+> 
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> 
+> If you're fine with these changes there's no need to submit a v3, I'll
+> update the comment and the commit message locally.
+
+Yeah I'm fine with these.
+
+> 
+> > +
+> > +	spin_lock_irqsave(&csi->irqlock, flags);
+> > +
+> > +	buf_num = csi->buf_num;
+> > +	if (csi->active_vb2_buf[buf_num]) {
+> > +		spin_unlock_irqrestore(&csi->irqlock, flags);
+> > +		return false;
+> > +	}
+> > +
+> > +	imx7_csi_update_buf(csi, phys, buf_num);
+> > +
+> > +	isr = imx7_csi_reg_read(csi, CSI_CSISR);
+> > +	/*
+> > +	 * The interrupt for the /other/ fb just came (the isr hasn't run yet
+> > +	 * though, because we have the lock here); we can't be sure we've
+> > +	 * programmed buf_num fb in time, so queue the buffer to the buffer
+> > +	 * queue normally. No need to undo writing the fb register, since we
+> > +	 * won't return it as active_vb2_buf is NULL, so it's okay to
+> > +	 * potentially write it to both fb1 and fb2; only the one where it was
+
+I guess there should be s/fb/FB/ throughout this block too.
+
+> > +	 * queued normally will be returned.
+> > +	 */
+
+(You mention this in your other reply)
+
+Yeah I guess this block should go inside the if. I didn't really
+aesthetically like a huge block of text inside a tiny if block but maybe
+that's more correct.
 
 
-vim +/vcap +249 drivers/media/test-drivers/vimc/vimc-capture.c
+Thanks,
 
-   240	
-   241	static int vimc_capture_start_streaming(struct vb2_queue *vq, unsigned int count)
-   242	{
-   243		struct vimc_capture_device *vcapture = vb2_get_drv_priv(vq);
-   244		int ret;
-   245	
-   246		vcapture->sequence = 0;
-   247	
-   248		/* Start the media pipeline */
- > 249		ret = video_device_pipeline_start(&vcap->vdev, &vcap->stream.pipe);
-   250		if (ret) {
-   251			vimc_capture_return_all_buffers(vcapture, VB2_BUF_STATE_QUEUED);
-   252			return ret;
-   253		}
-   254	
-   255		ret = vimc_streamer_s_stream(&vcapture->stream, &vcapture->ved, 1);
-   256		if (ret) {
-   257			video_device_pipeline_stop(&vcap->vdev);
-   258			vimc_capture_return_all_buffers(vcapture, VB2_BUF_STATE_QUEUED);
-   259			return ret;
-   260		}
-   261	
-   262		return 0;
-   263	}
-   264	
+Paul
 
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+> > +	if (isr & (buf_num ? BIT_DMA_TSF_DONE_FB1 : BIT_DMA_TSF_DONE_FB2)) {
+> > +		spin_unlock_irqrestore(&csi->irqlock, flags);
+> > +		return false;
+> > +	}
+> > +
+> > +	csi->active_vb2_buf[buf_num] = buf;
+> > +
+> > +	spin_unlock_irqrestore(&csi->irqlock, flags);
+> > +	return true;
+> > +}
+> > +
+> >  static void imx7_csi_video_buf_queue(struct vb2_buffer *vb)
+> >  {
+> >  	struct imx7_csi *csi = vb2_get_drv_priv(vb->vb2_queue);
+> >  	struct imx7_csi_vb2_buffer *buf = to_imx7_csi_vb2_buffer(vb);
+> >  	unsigned long flags;
+> >  
+> > +	if (imx7_csi_fast_track_buffer(csi, buf))
+> > +		return;
+> > +
+> >  	spin_lock_irqsave(&csi->q_lock, flags);
+> >  
+> >  	list_add_tail(&buf->list, &csi->ready_q);
