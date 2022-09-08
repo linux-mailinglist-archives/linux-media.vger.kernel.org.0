@@ -2,197 +2,246 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5BEBF5B153F
-	for <lists+linux-media@lfdr.de>; Thu,  8 Sep 2022 09:01:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 691245B1569
+	for <lists+linux-media@lfdr.de>; Thu,  8 Sep 2022 09:11:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231201AbiIHHBB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 8 Sep 2022 03:01:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55418 "EHLO
+        id S229777AbiIHHLa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 8 Sep 2022 03:11:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47046 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231189AbiIHHA7 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 8 Sep 2022 03:00:59 -0400
-Received: from mailout4.samsung.com (mailout4.samsung.com [203.254.224.34])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 26EC0923D1
-        for <linux-media@vger.kernel.org>; Thu,  8 Sep 2022 00:00:55 -0700 (PDT)
-Received: from epcas5p1.samsung.com (unknown [182.195.41.39])
-        by mailout4.samsung.com (KnoxPortal) with ESMTP id 20220908070049epoutp046283c6fc309c760e7cfc576f8f452685~S0H1lWr0u0193901939epoutp04X
-        for <linux-media@vger.kernel.org>; Thu,  8 Sep 2022 07:00:49 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com 20220908070049epoutp046283c6fc309c760e7cfc576f8f452685~S0H1lWr0u0193901939epoutp04X
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-        s=mail20170921; t=1662620449;
-        bh=6T96RYj6pf3YxtVNFV5qD19gAOJsQuOdZzaaKqHrUGs=;
-        h=From:To:Cc:In-Reply-To:Subject:Date:References:From;
-        b=CGyVr6bX8Kdm5PzBZSi6aAqL15HLBgF2Kms9HYnsm9CmTk5WmMoM3yfn/wD4QguDL
-         1XQosP9AVD91ydTR6F+A2VFcxmnn6nSupiSkxL+D6Ftx8wxC90eXm4207n0tk3Mi65
-         7NeIHY9dA3xjPUlASxj5Y+pSSy0DIDL/o9yKao+s=
-Received: from epsnrtp1.localdomain (unknown [182.195.42.162]) by
-        epcas5p4.samsung.com (KnoxPortal) with ESMTP id
-        20220908070048epcas5p43268dd50b3dec49ab9c2056db4aff12f~S0H08D1tp0221102211epcas5p4H;
-        Thu,  8 Sep 2022 07:00:48 +0000 (GMT)
-Received: from epsmges5p3new.samsung.com (unknown [182.195.38.177]) by
-        epsnrtp1.localdomain (Postfix) with ESMTP id 4MNVQ24jcpz4x9Q5; Thu,  8 Sep
-        2022 07:00:42 +0000 (GMT)
-Received: from epcas5p1.samsung.com ( [182.195.41.39]) by
-        epsmges5p3new.samsung.com (Symantec Messaging Gateway) with SMTP id
-        87.24.54060.A1399136; Thu,  8 Sep 2022 16:00:42 +0900 (KST)
-Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
-        epcas5p1.samsung.com (KnoxPortal) with ESMTPA id
-        20220908065342epcas5p1866a46de3dd5672f4d3e934441b1ea5f~S0BoGY9sD2488724887epcas5p1M;
-        Thu,  8 Sep 2022 06:53:42 +0000 (GMT)
-Received: from epsmgms1p2.samsung.com (unknown [182.195.42.42]) by
-        epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
-        20220908065342epsmtrp1f1cb601ed65540f44e1a5c0c9c08c6c7~S0BoEBouo3100531005epsmtrp1X;
-        Thu,  8 Sep 2022 06:53:42 +0000 (GMT)
-X-AuditID: b6c32a4b-be1ff7000000d32c-58-6319931a652d
-Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
-        epsmgms1p2.samsung.com (Symantec Messaging Gateway) with SMTP id
-        4B.50.18644.67199136; Thu,  8 Sep 2022 15:53:42 +0900 (KST)
-Received: from smithat07 (unknown [107.122.12.13]) by epsmtip2.samsung.com
-        (KnoxPortal) with ESMTPA id
-        20220908065339epsmtip29780e0251167befb790cdf459e64a351~S0Bk2tCE12003820038epsmtip2t;
-        Thu,  8 Sep 2022 06:53:39 +0000 (GMT)
-From:   "Smitha T Murthy" <smitha.t@samsung.com>
-To:     "'Krzysztof Kozlowski'" <krzk@kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <devicetree@vger.kernel.org>
-Cc:     <m.szyprowski@samsung.com>, <andrzej.hajda@intel.com>,
-        <mchehab@kernel.org>, <hverkuil-cisco@xs4all.nl>,
-        <ezequiel@vanguardiasur.com.ar>, <jernej.skrabec@gmail.com>,
-        <benjamin.gaignard@collabora.com>, <stanimir.varbanov@linaro.org>,
-        <dillon.minfei@gmail.com>, <david.plowman@raspberrypi.com>,
-        <mark.rutland@arm.com>, <robh+dt@kernel.org>, <krzk+dt@kernel.org>,
-        <andi@etezian.org>, <alim.akhtar@samsung.com>,
-        <aswani.reddy@samsung.com>, <pankaj.dubey@samsung.com>,
-        <linux-fsd@tesla.com>, <aakarsh.jain@samsung.com>
-In-Reply-To: <7a42d3bc-060d-5a5a-c885-38bdb8465fe2@kernel.org>
-Subject: RE: [Patch v2 02/15] dt-bindings: media: s5p-mfc: Add mfcv12
- variant
-Date:   Thu, 8 Sep 2022 12:23:37 +0530
-Message-ID: <004c01d8c34f$bb730660$32591320$@samsung.com>
+        with ESMTP id S229508AbiIHHL3 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 8 Sep 2022 03:11:29 -0400
+Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com [IPv6:2a00:1450:4864:20::62f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EEB2D9CCFB
+        for <linux-media@vger.kernel.org>; Thu,  8 Sep 2022 00:11:27 -0700 (PDT)
+Received: by mail-ej1-x62f.google.com with SMTP id gb36so35855231ejc.10
+        for <linux-media@vger.kernel.org>; Thu, 08 Sep 2022 00:11:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date;
+        bh=u7chpfvYjQoJSfpcM79EYoRQuTB5MAVZOIsjo6FQD9g=;
+        b=QsEaCIxqzbvLmUrdlmwL1NkZPwrG++jMO86l9c9k7FBYgv6HXVNWEKDTFiXQnFSGQA
+         3QCIkbVnAKXmzCE7qGO4h0pIBU23PCBukbfw/s76i3tCFUQdkK232EDEB68jikwlpr9C
+         ieg1zrFxOhT2ztu8+krg3/eIS/53LqQbZfqGw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date;
+        bh=u7chpfvYjQoJSfpcM79EYoRQuTB5MAVZOIsjo6FQD9g=;
+        b=Ljq/fsvQIjvZzsLRzg/s22AYqWNMK7d5sn0XdCLndMQkgadQWxle1i4dXKgpGGezeQ
+         Jo4/V5HsXkDvM/rsCIF6PULmOCVLS+yf5SEfo7txJNXrRXYTcTheVSGm6P0iJaYWRjNu
+         JhXB4Fxz7ujTU1ZXTKZ+/B/15McvCe8FRw3VS07iyWIrOh/me3c+xz2xpZEWsHkB8V0P
+         wsChDwx9hjfnEv032scrHgW/JGYvx6qmirJfpIUyO2W9LVDo0DQDlIr10GE/I43JHazw
+         FnC9i9X+KgMBmwFixTnasUZG2qZbBzkJVrSJlGKwyY54jT5Gm6en4cV+7O6IDbFcD9pI
+         gGUQ==
+X-Gm-Message-State: ACgBeo3OZ7+0gl/f8wCP715rh2Zf6hJbYfSvtvhHJcZb/n5yFKJrrRiJ
+        zclLLkbVyL9HaarMJUHidtGb2dghUEbxbZx80yY=
+X-Google-Smtp-Source: AA6agR4qZbZoN31Rpu48HboNHTtGLN5wYE/K1q041/4IFpFJ6GZUyguD50Pp9KKdAZbA1FOMkNqmYA==
+X-Received: by 2002:a17:906:7311:b0:772:a5c0:1f05 with SMTP id di17-20020a170906731100b00772a5c01f05mr2399396ejc.77.1662621086419;
+        Thu, 08 Sep 2022 00:11:26 -0700 (PDT)
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com. [209.85.208.52])
+        by smtp.gmail.com with ESMTPSA id gt23-20020a170906f21700b007708851c6f0sm856649ejb.146.2022.09.08.00.11.23
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 08 Sep 2022 00:11:23 -0700 (PDT)
+Received: by mail-ed1-f52.google.com with SMTP id b35so4943409edf.0
+        for <linux-media@vger.kernel.org>; Thu, 08 Sep 2022 00:11:23 -0700 (PDT)
+X-Received: by 2002:a05:6402:428c:b0:440:8259:7a2b with SMTP id
+ g12-20020a056402428c00b0044082597a2bmr5814978edc.329.1662621082858; Thu, 08
+ Sep 2022 00:11:22 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-Mailer: Microsoft Outlook 16.0
-Thread-Index: AQIwYET59QqMDNmfP0SYfUTdtmHMHgLgq2oeAafvi/wBdC0Poaz1+HDA
-Content-Language: en-us
-X-Brightmail-Tracker: H4sIAAAAAAAAA01Ta0xbZRjmnF5OWVI8sOI+cGo9OJUp0HLpPraBUxBPRCbJEli8gF05K4TS
-        Nj1FLt4ql6E4N3DgRgeMrAy0KYx1XMpFB6wIwzHCYEU3oBtuQokkSN0ymCO2tCj/nvd9nvfy
-        vF8+DsOnGvPnZMjVlEoulhHsLcz2y4EvBvmf8JMIbj14Dt4zVbHg7dp2NtQ9nEOhVWdnwv6L
-        bRhsnTjNgI2DvSx4xnyNBTv6ZpnwwryDHauaZsK5M80ItGln2HB0tAWDxt8tLHhnIRmOd1Wz
-        4dGWNhZsMk9j8NzkGAobjP+g8Gzb3xgs/tGMwaIjZnQfIA21BoQ0Tdcj5GT9MoPs1E5jpK7H
-        hpJG/VdscsrSwyYv1n9OFg+sMsljrXqEXCuowchS8ySbtBufIYfv27FEr3cz96ZT4jRKxafk
-        EkVahlwaRcQfSI1JjRAJhEHCSLiL4MvFWVQUEft2YlBchsxxBoL/kViW7UglimmaCIneq1Jk
-        qyl+uoJWRxGUMk2mDFcG0+IsOlsuDZZT6t1CgSA0wiH8MDO9t+hbtrLOO9dgWWJokAqvUsST
-        A/BwsLzcwi5FtnB88G4EFIwvoq5gGQEny7vdjB0BP9dqWBslo3OdbqILAWVfd2OuYA4BY80W
-        zKli48FgwaxjOQke3o4A+9oc20kw8Eom6LP4ObEnHg2sR2+ut92KvwOGLz1mOjETfx6sjdx3
-        YA6Hi0eCslsxzjQX9wZXqu4yXW2eBR2L1QzXRnywcq9hvQ0PjwMDk1dYLs02YBswry8H8BlP
-        cPNxk9tCLOgx6t3FW8HCYCvmwv7AdvyIG0uB1V6IuLAS1GhaURd+FfROVK/vxsADwfmuEFf6
-        aVA53Iy65nqBbx7ddcu5wFS7gQlw9uqQuz0ANxbbWGUIod1kTbvJmnaTBe3/0+oQph7xo5R0
-        lpSiI5RhcirnvxeXKLKMyPo32RlvQmZvLwX3IygH6UcAh0HwuL5NQOLDTRPn5VMqRaoqW0bR
-        /UiE49zlDH9ficLxz+TqVGF4pCBcJBKFR4aJhMQ2bsXLiMQHl4rVVCZFKSnVRh3K8fTXoL36
-        p07UfBb7cS6Z0KLfbuVdz8tLotV0SYxhwqOO4L0REfYnemGwv+9cKW9+pWRqciaId+OAQQ5j
-        Lv0Rf3J/4JMB0mWPfA/V4S+2j7fzPWRSv1bNfHVF7ooh/4MFS33OzFuDnauhn7xi03m8dupU
-        c6GuLLnb+oRkj/f+hkfHRzlTsTxW8cj3Y2+aUwqmZIJDcZUizQPTLDz0Q0Jj6XdDvqm7I6MK
-        3xe93vDLe43Rv5b/ZQlRZfIeJpjic/dc5XtldSSPBCQd27V0+XTfDqnk/PLoePBvnwpDeSDl
-        J85hLGUo29d65+CXomg/9kviJHDNdlAXUNJoLdqnyNzxAkPW3Xs9Z5Vg0uli4U6Gihb/C5L8
-        ZaOvBAAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFmpmleLIzCtJLcpLzFFi42LZdlhJXrdsomSywbo2KYunO2ayWjyYt43N
-        YvGP50wW9xd/ZrE4tHkru8WWK7OZLZYfP8BqMf/IOVaL7QcfsVhsfAGUvTjzLovF8/nrGC1e
-        zrrHZnH+/AZ2i02Pr7FaPHwVbnF51xw2i54NW1kt1h65y26x9PpFJotlm/4wWSza+oXdonXv
-        EXaLlrYjTA4SHmvmrWH02HF3CaPH9SWfmD12zrrL7rF4z0smj02rOtk87lzbw+axeUm9R+vR
-        XywefVtWMXr8a5rL7tF15Dqbx+dNch6nvn5mD+CL4rJJSc3JLEst0rdL4Mo40DKJrWCBYMWa
-        ax+YGxin8HUxcnJICJhInH++k62LkYtDSGAHo8SWjqXsEAkJiZW/JzFC2MISK/89B4sLCTxl
-        lDh9yRbEZhPQk3h1ZDEriC0isItRYslLc5BBzAIrWSTu3upigZj6mlHi8s1zTCBVnAJ2Evd7
-        boF1CAv4Six+swBsKouAisS/s1+BGjg4eAUsJSbcdgYJ8woISpyc+YQFxGYW0JbofdjKCGHL
-        S2x/O4cZ4jgFiZ9Pl0Ed4SZx9PpJVogacYmXR4+wT2AUnoVk1Cwko2YhGTULScsCRpZVjJKp
-        BcW56bnFhgVGeanlesWJucWleel6yfm5mxjB6URLawfjnlUf9A4xMnEwHmKU4GBWEuEVXSuR
-        LMSbklhZlVqUH19UmpNafIhRmoNFSZz3QtfJeCGB9MSS1OzU1ILUIpgsEwenVAPTqtbNwau+
-        GNUZ3XZOuvh4aspXzxvrTnLN6F22d8IzjhNVxw4/kpkXqP7c2qLcjpU3cDmLTrDNibc/1x/X
-        8zs2cVfbqqDcdzuZPJ+7L5SZIr6goX+eS0XTtw2yM85snri29kFH/wV7ruBNLMdKDUJrnL3/
-        Xt+3Y2Np426nL+WH7oWoOWyJuMR97tfGP2dfnDd7pXVtrcViPo2Vc7KP7r6S6vLmiqOPy99p
-        dXeXrbhbZbH2rrTlLrZPVYmXQyzvCd/l6uHetrbYyTBD7HLsti++u7Y1dd93XLJFc9kn5VcT
-        +aM4sz6837eo7OX1nY3l5m6FYV5+k+ea3m05ou3yZ1HSlI0bJn5cE5QavurqN0vOT9lKLMUZ
-        iYZazEXFiQC1j7ILlgMAAA==
-X-CMS-MailID: 20220908065342epcas5p1866a46de3dd5672f4d3e934441b1ea5f
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-Sendblock-Type: REQ_APPROVE
-CMS-TYPE: 105P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20220907063318epcas5p2a395fc5da7576c3a53b6a55e3cc87911
-References: <20220907064715.55778-1-smitha.t@samsung.com>
-        <CGME20220907063318epcas5p2a395fc5da7576c3a53b6a55e3cc87911@epcas5p2.samsung.com>
-        <20220907064715.55778-3-smitha.t@samsung.com>
-        <7a42d3bc-060d-5a5a-c885-38bdb8465fe2@kernel.org>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+References: <CANiDSCvqJegYDqsSL5PKvyAM-+HY3ve-Vs2=3cFS4kSRKzd3_Q@mail.gmail.com>
+ <Yxh3ksdjuTVIRJWk@pendragon.ideasonboard.com>
+In-Reply-To: <Yxh3ksdjuTVIRJWk@pendragon.ideasonboard.com>
+From:   Ricardo Ribalda <ribalda@chromium.org>
+Date:   Thu, 8 Sep 2022 09:11:11 +0200
+X-Gmail-Original-Message-ID: <CANiDSCt_KXX0Cn+WH7johLrgiZLd6ZzWmC9D-u=O3L6879cWVA@mail.gmail.com>
+Message-ID: <CANiDSCt_KXX0Cn+WH7johLrgiZLd6ZzWmC9D-u=O3L6879cWVA@mail.gmail.com>
+Subject: Re: [Media Summit] ChromeOS Kernel CAM
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Hidenori Kobayashi <hidenorik@chromium.org>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Michael Olbrich <m.olbrich@pengutronix.de>,
+        Maxime Ripard <maxime@cerno.tech>,
+        Daniel Scally <djrscally@gmail.com>,
+        =?UTF-8?Q?Jernej_=C5=A0krabec?= <jernej.skrabec@gmail.com>,
+        =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        Michael Tretter <m.tretter@pengutronix.de>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Benjamin MUGNIER <benjamin.mugnier@foss.st.com>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Dave Stevenson <dave.stevenson@raspberrypi.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Laurent
 
-
-> -----Original Message-----
-> From: Krzysztof Kozlowski [mailto:krzk@kernel.org]
-> Sent: Wednesday, September 7, 2022 4:54 PM
-> To: Smitha T Murthy <smitha.t@samsung.com>; linux-arm-
-> kernel@lists.infradead.org; linux-media@vger.kernel.org; linux-
-> kernel@vger.kernel.org; devicetree@vger.kernel.org
-> Cc: m.szyprowski@samsung.com; andrzej.hajda@intel.com;
-> mchehab@kernel.org; hverkuil-cisco@xs4all.nl;
-> ezequiel@vanguardiasur.com.ar; jernej.skrabec@gmail.com;
-> benjamin.gaignard@collabora.com; stanimir.varbanov@linaro.org;
-> dillon.minfei@gmail.com; david.plowman@raspberrypi.com;
-> mark.rutland@arm.com; robh+dt@kernel.org; krzk+dt@kernel.org;
-> andi@etezian.org; alim.akhtar@samsung.com; aswani.reddy@samsung.com;
-> pankaj.dubey@samsung.com; linux-fsd@tesla.com;
-> aakarsh.jain@samsung.com
-> Subject: Re: [Patch v2 02/15] dt-bindings: media: s5p-mfc: Add mfcv12
-> variant
-> 
-> On 07/09/2022 08:47, Smitha T Murthy wrote:
-> > Adds DT schema for s5p-mfc with a new compatible string for mfcv12
-> > variant.
-> 
-> This msg is over-complicated. Just: "Add Tesla FSD MFC (MFC v12)
-> compatible".
-> 
-
-I will change it in the next series.
-
+On Wed, 7 Sept 2022 at 12:51, Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+>
+> Hi Ricardo,
+>
+> On Wed, Sep 07, 2022 at 09:55:12AM +0200, Ricardo Ribalda wrote:
+> > Hi
 > >
-> > Signed-off-by: Aakarsh Jain <aakarsh.jain@samsung.com>
-> > Signed-off-by: Smitha T Murthy <smitha.t@samsung.com>
-> > ---
-> >  Documentation/devicetree/bindings/media/samsung,s5p-mfc.yaml | 1 +
-> >  1 file changed, 1 insertion(+)
+> > On ChromeOS we have opted to have a camera stack based on the upstream kernel.
 > >
-> > diff --git
-> > a/Documentation/devicetree/bindings/media/samsung,s5p-mfc.yaml
-> > b/Documentation/devicetree/bindings/media/samsung,s5p-mfc.yaml
-> > index 7cd26d4acbe4..a806489a9edd 100644
-> > --- a/Documentation/devicetree/bindings/media/samsung,s5p-mfc.yaml
-> > +++ b/Documentation/devicetree/bindings/media/samsung,s5p-mfc.yaml
-> > @@ -23,6 +23,7 @@ properties:
-> >        - samsung,mfc-v8                  # Exynos5800
-> >        - samsung,exynos5433-mfc          # Exynos5433
-> >        - samsung,mfc-v10                 # Exynos7880
-> > +      - samsung,fsd-mfc                 # Tesla FSD
-> 
-> tesla,fsd-mfc
-> 
-> (because FSD is attributed everywhere to Tesla)
-> 
-> Best regards,
-> Krzysztof
+> > The camera ecosystem has become extremely heterogeneous thanks to the
+> > proliferation of complex cameras. Meaning that, if ChromeOS wants to
+> > keep with our upstream commitments, we have to look into how to get
+> > more involvement from vendors and standardise our stack.
+> >
+> > Kcam is an initiative to support complex cameras in a way that can be
+> > scalable, is acceptable by the vendors and respect the users rights.
+> >
+> > Slides at: https://drive.google.com/file/d/1Tew21xeKmFlQ7dQxMcIYqybVuQL7La1a/view
+>
+> Thank you. A few questions and comments for clarification:
+>
+> - Slide 4 mentions proprietary drivers and UIO drivers. Do you mean UIO
+>   as in the upstream UIO API, or as in UIO-like drivers with a vendor
+>   API ?
 
-I will make the change in the next series.
+It is really a jungle. You get UIO-like, real UIO (less common), franken V4L2...
 
-Regards,
-Smitha
+>
+> - Slide 5 mentions "Code developed exclusively by vendor" for Android.
+>   There's the CameraX initiative (and possibly other I'm not aware of)
+>   that mixes the high-level HAL implementation from Google with
+>   low-level vendor code, to simplify (in theory at least) the life of
+>   vendors. Generally speaking you're right though, the vendor is in
+>   charge of providing the HAL, regardless of how it's structured
+>   internally.
+>
+> - Slide 8 is focussed on notebooks (Chrome OS, but I suppose also
+>   regular Linux machines) vs. Android when it comes to leveraging the
+>   camera stack, but let's not forget there are also other markets (IoT
+>   in particular) that may be structured differently. Not all vendors of
+>   SoCs that integrate ISPs consider Android as their main target, and
+>   they may ignore the notebook and mobile markets completely.
 
+
+And also not forget about Industry 3.0.
+There is a lot of diversity there.
+
+>
+> - Slide 11 (and previous slides too) mention "Secret Sauce". I really
+>   dislike that term, as it's very vague. I would like discussions to
+>   clearly define the scope of that closed-source component, and we
+>   should come up with a more descriptive name that reflects that
+>   well-defined scope.
+
+I came up with: Closed-loop IQ algorithms. But it is less catchy than
+Secret Sauce.
+
+>
+> - Slide 16 mentions 122 ioctls to emphasize that V4L2 is a complicated
+>   API. Most of those are not relevant to cameras. It is thus a bit
+>   misleading technically, but it can be still perceived as complicated
+>   by vendors for that reason.
+
+Vivid uses 100... But I agree, it is not the number of ioctls that
+makes it complicated.
+
+>
+> - Still on slide 16, V4L2 as an API is usable without disclosing vendor
+>   IP. What is not possible is upstreaming a driver. I don't see this as
+>   significantly different between V4L2 and the new API proposal. I
+>   expect this to be discussed on Monday.
+
+I am only considering upstream drivers. There is not much to discuss
+for downstream or closed drivers :)
+
+>
+> - On slide 17 the color scheme seems to imply that the daemon is
+>   open-source, while it's in most cases (maybe in all of them) closed.
+>
+
+We get a bit of everything, not only v4l2. So this is why it is
+purple: blue + red ;)
+
+
+> - Do you have a real life example of the type of outcome described on
+>   slide 19 (black box hardware) ?
+
+Yes, I am working with the vendor to know how much I can disclose about it.
+
+>
+> - Slide 24 mentions parameter buffers, it would be useful to describe
+>   what those typically contain, and who consumes them once they're
+>   provided by userspace to the driver.
+
+>
+> - Slide 27 mentions that upstreaming a driver will require a camera
+>   stack with the same open source requirements as V4L2. Doesn't that
+>   contradict slide 16 that mentions that V4L2 cannot product vendor IP,
+>   or at least infer that the new API wouldn't protect the vendor IP more
+>   than V4L2 does ?
+
+Let's discuss that on Monday,
+
+>
+> - Slide 31 mentions that entities can send operations internally and
+>   listen to each other events. I'd like to better understand how that
+>   will work without any abstraction in the API (as that is one of the
+>   main design decision behind this new API) when those entities are from
+>   different vendors, and handled by different drivers that are developed
+>   independently (for instance, the camera sensor and the CSI-2 receiver,
+>   or even the CSI-2 receiver and the ISP).
+
+It is still under work.
+
+Hardware, specially for standard buses,  should be resilient (not
+crash) to format mismatches. Otherwise a mal-functionling sensor or
+too much noise could crash the system (with or without kcam).
+
+Drivers developed together should know about the rest of the system,
+so that is not the issue here.
+
+For drivers developed by different vendors for a standard bus, on
+hardware that is not resilient (that was a mouthful), then we need to
+prepare a set of read-only standard registers.
+
+
+>
+> - Does the bike on slide 32 illustrate the difficult discussions we've
+>   had in the past and how progress was hindered ? :-)
+
+This is how we do code review at Google when two developers do not
+want to work together. We take the bike to the rooftop and the two
+developers that disagree tries to push the other developer to the edge
+of the building.
+
+The first second, when you see your colleague falling you think that
+you have won.... then you realise that you are falling with them.
+
+(you asked for a metaphor :P )
+
+>
+> > Looking forward to see all of you again on Monday :)
+>
+> --
+> Regards,
+>
+> Laurent Pinchart
+
+
+
+-- 
+Ricardo Ribalda
