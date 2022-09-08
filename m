@@ -2,60 +2,51 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4114D5B1EEA
-	for <lists+linux-media@lfdr.de>; Thu,  8 Sep 2022 15:28:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 675595B1F91
+	for <lists+linux-media@lfdr.de>; Thu,  8 Sep 2022 15:48:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231497AbiIHN2m (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 8 Sep 2022 09:28:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50500 "EHLO
+        id S231894AbiIHNsT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 8 Sep 2022 09:48:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41682 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232254AbiIHN2E (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 8 Sep 2022 09:28:04 -0400
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC3DF5F7D2;
-        Thu,  8 Sep 2022 06:28:03 -0700 (PDT)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out1.suse.de (Postfix) with ESMTPS id 6298D336C8;
-        Thu,  8 Sep 2022 13:28:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-        t=1662643682; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-        bh=RT1Gz4wymCZ1ojdUPXrz4U4ocZ5NWI6wjKo7CZqGIrs=;
-        b=QKUuRXljHkhnThKconKWnu3w89IVetA1k2oIs8aEZNSkSrE47Qt+G40lJI/ROZGIuztw0G
-        BsuiQaOKwP46XCQq7HZzidmXeKu6UNHJGRzxGxnQN0Wn2nAO6e5FV92+hr3aByTxbNs/f3
-        58gB4cpqaDHx6G7Cdjp6kE+IPoOEsf0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-        s=susede2_ed25519; t=1662643682;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-        bh=RT1Gz4wymCZ1ojdUPXrz4U4ocZ5NWI6wjKo7CZqGIrs=;
-        b=HWfoRL2qVTqZOlpai0zE2nEuChRMg5C97vQGZBO585Vk4z7n92dXDj6tNHDmkO7YL5jskU
-        qbNBYfEZMx7+gXAg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 3E36A1322C;
-        Thu,  8 Sep 2022 13:28:02 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id OkmNDuLtGWMxPQAAMHmgww
-        (envelope-from <tiwai@suse.de>); Thu, 08 Sep 2022 13:28:02 +0000
-From:   Takashi Iwai <tiwai@suse.de>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Hyunwoo Kim <imv4bel@gmail.com>, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] media: dvb-core: Fix UAF due to refcount races at releasing
-Date:   Thu,  8 Sep 2022 15:27:54 +0200
-Message-Id: <20220908132754.30532-1-tiwai@suse.de>
-X-Mailer: git-send-email 2.35.3
+        with ESMTP id S231675AbiIHNsS (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 8 Sep 2022 09:48:18 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B028BED98D;
+        Thu,  8 Sep 2022 06:48:16 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5D454888;
+        Thu,  8 Sep 2022 15:48:14 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1662644894;
+        bh=Ejrs9pC4Yim8AclRRPShaxgw3JEmIX4zulBk9QWxGSE=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=t1lawQJPpI4WBB+Sqir954aN2Q2w83lk21aH1scwqFisXpjT1wB7pmrI8lx6tR/aM
+         hFYdSV3+KJhQEckbhp3OXLp8Uu4264V4LbiIqePrQrhp2d8QADg4I9pJmQaCTT3pzf
+         7QmiWAQhy3N9v1HwcjHKTy7/lSQw9JYmt0O7ENDU=
+Date:   Thu, 8 Sep 2022 16:47:57 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc:     Maximilian Luz <luzmaximilian@gmail.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Bingbu Cao <bingbu.cao@intel.com>,
+        Tianshu Qiu <tian.shu.qiu@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH] ipu3-imgu: Fix NULL pointer dereference in
+ imgu_subdev_set_selection()
+Message-ID: <YxnyjYldJ5oAhkBp@pendragon.ideasonboard.com>
+References: <20220907224409.3187482-1-luzmaximilian@gmail.com>
+ <c0ad65c5-818d-da5c-178a-dfaf685f8d24@ideasonboard.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <c0ad65c5-818d-da5c-178a-dfaf685f8d24@ideasonboard.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -63,63 +54,77 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The dvb-core tries to sync the releases of opened files at
-dvb_dmxdev_release() with two refcounts: dvbdev->users and
-dvr_dvbdev->users.  A problem is present in those two syncs: when yet
-another dvb_demux_open() is called during those sync waits,
-dvb_demux_open() continues to process even if the device is being
-closed.  This includes the increment of the former refcount, resulting
-in the leftover refcount after the sync of the latter refcount at
-dvb_dmxdev_release().  It ends up with use-after-free, since the
-function believes that all usages were gone and releases the
-resources.
+On Thu, Sep 08, 2022 at 03:08:27PM +0300, Tomi Valkeinen wrote:
+> On 08/09/2022 01:44, Maximilian Luz wrote:
+> > Calling v4l2_subdev_get_try_crop() and v4l2_subdev_get_try_compose()
+> > with a subdev state of NULL leads to a NULL pointer dereference. This
+> > can currently happen in imgu_subdev_set_selection() when the state
+> > passed in is NULL, as this method first gets pointers to both the "try"
+> > and "active" states and only then decides which to use.
+> > 
+> > The same issue has been addressed for imgu_subdev_get_selection() with
+> > commit 30d03a0de650 ("ipu3-imgu: Fix NULL pointer dereference in active
+> > selection access"). However the issue still persists in
+> > imgu_subdev_set_selection().
+> > 
+> > Therefore, apply a similar fix as done in the aforementioned commit to
+> > imgu_subdev_set_selection(). To keep things a bit cleaner, introduce
+> > helper functions for "crop" and "compose" access and use them in both
+> > imgu_subdev_set_selection() and imgu_subdev_get_selection().
+> > 
+> > Fixes: 0d346d2a6f54 ("media: v4l2-subdev: add subdev-wide state struct")
+> > Cc: stable@vger.kernel.org # for v5.14 and later
+> > Signed-off-by: Maximilian Luz <luzmaximilian@gmail.com>
+> > ---
+> >   drivers/staging/media/ipu3/ipu3-v4l2.c | 57 +++++++++++++++-----------
+> >   1 file changed, 34 insertions(+), 23 deletions(-)
+> > 
+> > diff --git a/drivers/staging/media/ipu3/ipu3-v4l2.c b/drivers/staging/media/ipu3/ipu3-v4l2.c
+> > index ce13e746c15f..e530767e80a5 100644
+> > --- a/drivers/staging/media/ipu3/ipu3-v4l2.c
+> > +++ b/drivers/staging/media/ipu3/ipu3-v4l2.c
+> > @@ -188,6 +188,28 @@ static int imgu_subdev_set_fmt(struct v4l2_subdev *sd,
+> >   	return 0;
+> >   }
+> >   
+> > +static struct v4l2_rect *
+> > +imgu_subdev_get_crop(struct imgu_v4l2_subdev *sd,
+> > +		     struct v4l2_subdev_state *sd_state, unsigned int pad,
+> > +		     enum v4l2_subdev_format_whence which)
+> > +{
+> > +	if (which == V4L2_SUBDEV_FORMAT_TRY)
+> > +		return v4l2_subdev_get_try_crop(&sd->subdev, sd_state, pad);
+> > +	else
+> > +		return &sd->rect.eff;
+> > +}
+> > +
+> > +static struct v4l2_rect *
+> > +imgu_subdev_get_compose(struct imgu_v4l2_subdev *sd,
+> > +			struct v4l2_subdev_state *sd_state, unsigned int pad,
+> > +			enum v4l2_subdev_format_whence which)
+> > +{
+> > +	if (which == V4L2_SUBDEV_FORMAT_TRY)
+> > +		return v4l2_subdev_get_try_compose(&sd->subdev, sd_state, pad);
+> > +	else
+> > +		return &sd->rect.bds;
+> > +}
+> 
+> If I understand right, these functions are only called with pad 0 
+> (IMGU_NODE_IN). I would drop the pad argument here and use IMGU_NODE_IN. 
+> Otherwise it gives a false idea that other pads could be used with these 
+> functions, and that would fail for the V4L2_SUBDEV_FORMAT_ACTIVE case.
 
-This patch addresses the problem by adding the check of dmxdev->exit
-flag at dvb_demux_open(), just like dvb_dvr_open() already does.  With
-the exit flag check, the second call of dvb_demux_open() fails, hence
-the further corruption can be avoided.
+It thought the same when proposing this. I kept the pad argument as the
+driver should ideally be ported to the active state API, which will
+provide storage for rectangles on all pads separately. Preparing for
+that may not be worth it though, given that the code will probably to be
+changed significantly anyway. I'm fine either way.
 
-Also for avoiding the races of the dmxdev->exit flag reference, this
-patch serializes the dmxdev->exit set up and the sync waits with the
-dmxdev->mutex lock at dvb_dmxdev_release().  Without the mutex lock,
-dvb_demux_open() (or dvb_dvr_open()) may run concurrently with
-dvb_dmxdev_release(), which allows to skip the exit flag check and
-continue the open process that is being closed.
+> However, that's not a big issue. With or without the change:
+> 
+> Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 
-Reported-by: Hyunwoo Kim <imv4bel@gmail.com>
-Cc: <stable@vger.kernel.org>
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
----
- drivers/media/dvb-core/dmxdev.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
-
-diff --git a/drivers/media/dvb-core/dmxdev.c b/drivers/media/dvb-core/dmxdev.c
-index f6ee678107d3..9ce5f010de3f 100644
---- a/drivers/media/dvb-core/dmxdev.c
-+++ b/drivers/media/dvb-core/dmxdev.c
-@@ -790,6 +790,11 @@ static int dvb_demux_open(struct inode *inode, struct file *file)
- 	if (mutex_lock_interruptible(&dmxdev->mutex))
- 		return -ERESTARTSYS;
- 
-+	if (dmxdev->exit) {
-+		mutex_unlock(&dmxdev->mutex);
-+		return -ENODEV;
-+	}
-+
- 	for (i = 0; i < dmxdev->filternum; i++)
- 		if (dmxdev->filter[i].state == DMXDEV_STATE_FREE)
- 			break;
-@@ -1448,7 +1453,10 @@ EXPORT_SYMBOL(dvb_dmxdev_init);
- 
- void dvb_dmxdev_release(struct dmxdev *dmxdev)
- {
-+	mutex_lock(&dmxdev->mutex);
- 	dmxdev->exit = 1;
-+	mutex_unlock(&dmxdev->mutex);
-+
- 	if (dmxdev->dvbdev->users > 1) {
- 		wait_event(dmxdev->dvbdev->wait_queue,
- 				dmxdev->dvbdev->users == 1);
 -- 
-2.35.3
+Regards,
 
+Laurent Pinchart
