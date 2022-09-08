@@ -2,186 +2,280 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 146E35B1662
-	for <lists+linux-media@lfdr.de>; Thu,  8 Sep 2022 10:09:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 39FEB5B1732
+	for <lists+linux-media@lfdr.de>; Thu,  8 Sep 2022 10:35:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229789AbiIHIJu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 8 Sep 2022 04:09:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56384 "EHLO
+        id S230266AbiIHIfd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 8 Sep 2022 04:35:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35014 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230236AbiIHIJO (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 8 Sep 2022 04:09:14 -0400
-Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com [64.147.123.20])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E26B9D6B8E
-        for <linux-media@vger.kernel.org>; Thu,  8 Sep 2022 01:08:53 -0700 (PDT)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-        by mailout.west.internal (Postfix) with ESMTP id 7C4B33200990;
-        Thu,  8 Sep 2022 04:08:51 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute4.internal (MEProxy); Thu, 08 Sep 2022 04:08:53 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
-        :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
-        :message-id:mime-version:references:reply-to:sender:subject
-        :subject:to:to; s=fm2; t=1662624531; x=1662710931; bh=0FicB1lWf/
-        uXmDHB8fUqbEmFaBZaGQ1QIJxx0ouGSyM=; b=Ls53Z23VqCrX3rx7CA5Ogj+F5+
-        TguVTOSG4ZiR0LnTKrCpiWWm0kx5C6c2m9ertp4g4qxdeBFWzE+ovEzt94XQ6GxO
-        RNyPfVs4Rys7h51sUxtBd5H+LtMlMQHOK1SIjrAw3rs1WLgqIo/eNOsOjgD2Wzut
-        Y/h1/2vFb2tvi7mfffMhGNfFVSS78qWxGwrU81gwPYZw47wBs7iaCFwgHK9ZROZ2
-        aj4JNUfX6TT/BBEC3GyJe+WIL4T1zrOW7FoC3U6l9YddyYJdCHQ2tp0nGfyIAbYm
-        AO0t2w/xYqqFbZe+pjH65rqBE5Z2B/orMa8uJQfig/aa58MaLebeb6EicZVw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
-        :feedback-id:from:from:in-reply-to:in-reply-to:message-id
-        :mime-version:references:reply-to:sender:subject:subject:to:to
-        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-        fm2; t=1662624531; x=1662710931; bh=0FicB1lWf/uXmDHB8fUqbEmFaBZa
-        GQ1QIJxx0ouGSyM=; b=ZNf00sQ/a0RiHPYtUUp2mOoxfDsCle/IgbgW/y3iYrRJ
-        hg5WSiKCdy3Vg1CppUkSsSGLXWRVuqiwDqipTESUX+HBQCTrr7QLk+K4/0Ykt83u
-        RFpLM2ol2ke0jLv7uEJpzlOvD3XRXjtr48u22OUwe7Wv20ufpYX7ZjEpZf5aORLW
-        FhN+xRcKtKfkaTRmOfIgle02lD9bRK3QeMwMwwLLHCOUK/+VqVEX7DAfa1a7L2Jq
-        yfDvgAl0C/FRyg29BlVUm4HvYHGNNgY6wrZewu9sHFP/e1oeaZHco6OW05xnyECt
-        i/0bffDBPS/XQM7547Htl3KdIAU8zsj/mFO8+HD6Hg==
-X-ME-Sender: <xms:EaMZYytRCZklenP5RvjMcBDDltL78v2gC8WhZjZVtKEMKhbPZKJcMg>
-    <xme:EaMZY3dNfu1Ww_AxsAy-HM9mjWou9KE8rX1GQOrAaKrReLTKWztR7ZqARIw-ra4wR
-    zhCURCAQZs2n51aJUQ>
-X-ME-Received: <xmr:EaMZY9w9dCtrDnspi0ESfgTMto0jCjuywzaUqS7Io8cEFkqxVZLAoyUaDA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfedtvddgtdduucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihi
-    mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
-    htthgvrhhnpeetfefffefgkedtfefgledugfdtjeefjedvtddtkeetieffjedvgfehheff
-    hfevudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
-    hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:EaMZY9NqxQNmfwYev3dIAWkBQ4jsR6cwFwXZn1x81vduK6OXHsu5Zg>
-    <xmx:EaMZYy_Sz6khu9G66RNoN6vs1u3e3cSrA-FkRX2lHl32oeVObQQgvg>
-    <xmx:EaMZY1VUjQp5eh1lyI3yNwqWdVf9GhiMHbkyJNAs4RheTi0McpYLVQ>
-    <xmx:E6MZY13qshbHITKKwkmQU-AxFdXph4FP82IGJ1bwpLz5eulwq1xk9g>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 8 Sep 2022 04:08:49 -0400 (EDT)
-Date:   Thu, 8 Sep 2022 10:08:46 +0200
-From:   Maxime Ripard <maxime@cerno.tech>
-To:     Ricardo Ribalda <ribalda@chromium.org>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        Hidenori Kobayashi <hidenorik@chromium.org>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Michael Olbrich <m.olbrich@pengutronix.de>,
-        Daniel Scally <djrscally@gmail.com>,
-        Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>,
-        Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        Michael Tretter <m.tretter@pengutronix.de>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
+        with ESMTP id S229674AbiIHIfa (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 8 Sep 2022 04:35:30 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 28986D9E9E;
+        Thu,  8 Sep 2022 01:35:28 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id B67CB6CC;
+        Thu,  8 Sep 2022 10:35:25 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1662626125;
+        bh=QoGYsop3XTUWSWH0anYcR8e1ZrmtesUmNm5OIgh3pSQ=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=ZobUdLIywfIIf8EoqV9rixKjb+YB0ckrQLLH9cq4dfRQJ6ur0F8UTfzVCjtu1XC9R
+         HDITv7aCTULlBqYxbEGCvsZ/0jLnyhNU0+HNFSjXlUNHve4Xkl4eDUOJI7pTwpgCcL
+         q6iO7KrAzH4gGi7lA3VeaADbfawYCJAw7VPUFHjo=
+Date:   Thu, 8 Sep 2022 11:35:09 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     paul.elder@ideasonboard.com
+Cc:     Rui Miguel Silva <rmfrfs@gmail.com>,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        linux-media@vger.kernel.org,
         Philipp Zabel <p.zabel@pengutronix.de>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Benjamin MUGNIER <benjamin.mugnier@foss.st.com>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>
-Subject: Re: [Media Summit] ChromeOS Kernel CAM
-Message-ID: <20220908080846.wursajjtc3mbja4u@houat>
-References: <CANiDSCvqJegYDqsSL5PKvyAM-+HY3ve-Vs2=3cFS4kSRKzd3_Q@mail.gmail.com>
- <Yxh3ksdjuTVIRJWk@pendragon.ideasonboard.com>
- <CANiDSCt_KXX0Cn+WH7johLrgiZLd6ZzWmC9D-u=O3L6879cWVA@mail.gmail.com>
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        linux-staging@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] media: imx7-media-csi: Add support for fast-tracking
+ queued buffers
+Message-ID: <YxmpPUJeF/0XRbUf@pendragon.ideasonboard.com>
+References: <20220907114737.1127612-1-paul.elder@ideasonboard.com>
+ <YxjgkAjvsaZkS2cY@pendragon.ideasonboard.com>
+ <20220908030321.GA1140330@pyrite.rasen.tech>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="2q2w5ewnfdga5cph"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <CANiDSCt_KXX0Cn+WH7johLrgiZLd6ZzWmC9D-u=O3L6879cWVA@mail.gmail.com>
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_LOW,SPF_HELO_PASS,T_SCC_BODY_TEXT_LINE,
-        T_SPF_TEMPERROR autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <20220908030321.GA1140330@pyrite.rasen.tech>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Paul,
 
---2q2w5ewnfdga5cph
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Thu, Sep 08, 2022 at 12:03:21PM +0900, paul.elder@ideasonboard.com wrote:
+> On Wed, Sep 07, 2022 at 09:18:56PM +0300, Laurent Pinchart wrote:
+> > On Wed, Sep 07, 2022 at 08:47:37PM +0900, Paul Elder wrote:
+> > > The CSI hardware compatible with this driver handles buffers using a
+> > > ping-pong mechanism with two sets of destination addresses. Normally,
+> > > when an interrupt comes in to signal the completion of one buffer, say
+> > > FB0, it assigns the next buffer in the queue to the next FB0, and the
+> > > hardware starts to capture into FB1 in the meantime.
+> > 
+> > Could you replace FB0 and FB1 with FB1 and FB2 respectively, to match
+> > the naming of the registers ?
+> 
+> Oops, I forgot to do it in the commit message.
+> 
+> > > In a buffer underrun situation, in the above example without loss of
+> > > generality, if a new buffer is queued before the interrupt for FB0 comes
+> > > in, we can program the buffer into FB1 (which is programmed with a dummy
+> > > buffer, as there is a buffer underrun).
+> > > 
+> > > This of course races with the interrupt that signals FB0 completion, as
+> > > once that interrupt comes in, we are no longer guaranteed that the
+> > > programming of FB1 was in time and must assume it was too late. This
+> > > race is resolved partly by locking the programming of FB1. If it came
+> > > after the interrupt for FB0, then the variable that is used to determine
+> > > which FB to program would have been swapped by the interrupt handler.
+> > > 
+> > > This alone isn't sufficient, however, because the interrupt could still
+> > > be generated (thus the hardware starts capturing into the other fb)
+> > > while the fast-tracking routine has the irq lock. Thus, after
+> > > programming the fb register to fast-track the buffer, the isr also must
+> > > be checked to confirm that an interrupt didn't come in the meantime. If
+> > > it has, we must assume that programming the register for the
+> > > fast-tracked buffer was not in time, and queue the buffer normally.
+> > > 
+> > > Signed-off-by: Paul Elder <paul.elder@ideasonboard.com>
+> > > Acked-by: Rui Miguel Silva <rmfrfs@gmail.com>
+> > > 
+> > > ---
+> > > Changes in v2:
+> > > - fix the potential race condition where the interrupt comes in while
+> > >   the fast tracking routine has the irqlock
+> > > - change return value from int to bool
+> > > ---
+> > >  drivers/staging/media/imx/imx7-media-csi.c | 63 ++++++++++++++++++++++
+> > >  1 file changed, 63 insertions(+)
+> > > 
+> > > diff --git a/drivers/staging/media/imx/imx7-media-csi.c b/drivers/staging/media/imx/imx7-media-csi.c
+> > > index a0553c24cce4..0ebef44a7627 100644
+> > > --- a/drivers/staging/media/imx/imx7-media-csi.c
+> > > +++ b/drivers/staging/media/imx/imx7-media-csi.c
+> > > @@ -1296,12 +1296,75 @@ static int imx7_csi_video_buf_prepare(struct vb2_buffer *vb)
+> > >  	return 0;
+> > >  }
+> > >  
+> > > +static bool imx7_csi_fast_track_buffer(struct imx7_csi *csi,
+> > > +				       struct imx7_csi_vb2_buffer *buf)
+> > > +{
+> > > +	unsigned long flags;
+> > > +	dma_addr_t phys;
+> > > +	int buf_num;
+> > > +	u32 isr;
+> > > +
+> > > +	if (!csi->is_streaming)
+> > > +		return false;
+> > > +
+> > > +	phys = vb2_dma_contig_plane_dma_addr(&buf->vbuf.vb2_buf, 0);
+> > > +
+> > > +	/*
+> > > +	 * buf_num holds the fb id of the most recently (*not* the next
+> > > +	 * anticipated) triggered interrupt. Without loss of generality, if
+> > > +	 * buf_num is 0 and we get to this section before the irq for fb2, the
+> > 
+> > s/fb2/FB2/ to match hardware registers and the commit message ?
+> 
+> ack
+> 
+> > 
+> > > +	 * buffer that we are fast-tracking into fb1 should be programmed in
+> > > +	 * time to be captured into. If the irq for fb2 already happened, then
+> > > +	 * buf_num would be 1, and we would fast-track the buffer into fb2
+> > > +	 * instead. This guarantees that we won't try to fast-track into fb1
+> > > +	 * and race against the start-of-capture into fb1.
+> > > +	 *
+> > > +	 * We only fast-track the buffer if the currently programmed buffer is
+> > > +	 * a dummy buffer. We can check the active_vb2_buf instead as it is
+> > > +	 * always modified along with programming the fb[1,2] registers via the
+> > > +	 * lock (besides setup and cleanup).
+> > > +	 */
+> > 
+> > I think this needs to be updated, it still indicates we handle the race
+> > just by checking buf_num. How about the following ?
+> > 
+> > 	/*
+> > 	 * buf_num holds the framebuffer ID of the most recently (*not* the next
+> > 	 * anticipated) triggered interrupt. Without loss of generality, if
+> > 	 * buf_num is 0, the hardware is capturing to FB2. If FB1 has been
+> > 	 * programmed with a dummy buffer (as indicated by active_vb2_buf[0]
+> > 	 * being NULL), then we can fast-track the new buffer by programming its
+> > 	 * address in FB1 before the hardware completes FB2, instead of adding
+> > 	 * it to the buffer queue and incurring a delay of one additional frame.
+> 
+> Okay that's a lot easier to follow than the one that I wrote.
+> 
+> > 	 *
+> > 	 * The irqlock prevents races with the interrupt handler that queues the
+> 
+> The interrupt handler doesn't /queue/ the buffer, it programs the FB
+> register with the buffer at the front of the buffer queue. That's why I
+> said "programs the next buffer" in my original text.
 
-Hi Ricardo,
+I meant queuing it to the hardware, in the sense that programming the
+register doesn't make the hardware process the buffer immediately, but
+you're right, that's not a good term here. I'll use "programs the next
+buffer".
 
-On Thu, Sep 08, 2022 at 09:11:11AM +0200, Ricardo Ribalda wrote:
-> > - Still on slide 16, V4L2 as an API is usable without disclosing vendor
-> >   IP. What is not possible is upstreaming a driver. I don't see this as
-> >   significantly different between V4L2 and the new API proposal. I
-> >   expect this to be discussed on Monday.
->=20
-> I am only considering upstream drivers. There is not much to discuss
-> for downstream or closed drivers :)
+> Although I don't think racing with the interrupt handler for
+> programming the next buffer is important in this context, since the
+> interrupt handler is going to program FB2, while we're trying to program FB1
+> before that that interrupt comes in.
+> 
+> It's mainly buf_num that's relevant to locking the irqlock.
 
-Are we really discussing upstream *drivers*? If anything, it looks like
-the Kcam proposal moves most of the drivers out of upstream.
+You're right. I'll write "that udpates buf_num when it programs the next
+buffer".
 
-> > - Slide 31 mentions that entities can send operations internally and
-> >   listen to each other events. I'd like to better understand how that
-> >   will work without any abstraction in the API (as that is one of the
-> >   main design decision behind this new API) when those entities are from
-> >   different vendors, and handled by different drivers that are developed
-> >   independently (for instance, the camera sensor and the CSI-2 receiver,
-> >   or even the CSI-2 receiver and the ISP).
->=20
-> It is still under work.
->=20
-> Hardware, specially for standard buses,  should be resilient (not
-> crash) to format mismatches. Otherwise a mal-functionling sensor or
-> too much noise could crash the system (with or without kcam).
->=20
-> Drivers developed together should know about the rest of the system,
-> so that is not the issue here.
->=20
-> For drivers developed by different vendors for a standard bus, on
-> hardware that is not resilient (that was a mouthful), then we need to
-> prepare a set of read-only standard registers.
+> > 	 * next buffer and updates buf_num, but we can still race with the
+> > 	 * hardware if we program the buffer in FB1 just after the hardware
+> > 	 * completes FB2 and switches to FB1 and before we notice the buf_num
+> > 	 * change.
+> 
+> buf_num won't actually be changed because we have the lock. Maybe
+> "before buf_num can be updated by the interrupt handler for FB2"?
 
-I'm not even sure that read-only registers would be enough. I've
-experienced first-hand DMA controllers that, when the camera has its
-timings completely off, end up completely confused and write way outside
-of its assigned buffer creating big chunks of corrupted memory in the
-system.
+Sounds good.
 
-And that was by writing fairly legit values to registers that were meant
-for that, so we wouldn't be able to defend against it even with the
-smartest whitelist.
+> > The fast-tracked buffer would then be ignored by the hardware
+> > 	 * while the driver would think it has successfully been processed.
+> > 	 *
+> > 	 * To avoid this problem, if we can't avoid the race, we can detect that
+> > 	 * we have lost it by checking, after programming the buffer in FB1, if
+> > 	 * the interrupt flag indicated completion of FB2 has been raised. If
+> 
+> s/indicated/indicating/
+> 
+> > 	 * that is not the case, fast-tracking succeeded, and we can update
+> > 	 * active_vb2_buf[0]. Otherwise, we may or may not have lost the race
+> > 	 * (as the interrupt flag may have been raised just after programming
+> > 	 * FB1 and before we read the interrupt status register), and we need to
+> > 	 * assume the worst case of a race loss and queue the buffer through the
+> > 	 * slow path.
+> > 	 */
+> > 
+> > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > 
+> > If you're fine with these changes there's no need to submit a v3, I'll
+> > update the comment and the commit message locally.
+> 
+> Yeah I'm fine with these.
+> 
+> > > +
+> > > +	spin_lock_irqsave(&csi->irqlock, flags);
+> > > +
+> > > +	buf_num = csi->buf_num;
+> > > +	if (csi->active_vb2_buf[buf_num]) {
+> > > +		spin_unlock_irqrestore(&csi->irqlock, flags);
+> > > +		return false;
+> > > +	}
+> > > +
+> > > +	imx7_csi_update_buf(csi, phys, buf_num);
+> > > +
+> > > +	isr = imx7_csi_reg_read(csi, CSI_CSISR);
+> > > +	/*
+> > > +	 * The interrupt for the /other/ fb just came (the isr hasn't run yet
+> > > +	 * though, because we have the lock here); we can't be sure we've
+> > > +	 * programmed buf_num fb in time, so queue the buffer to the buffer
+> > > +	 * queue normally. No need to undo writing the fb register, since we
+> > > +	 * won't return it as active_vb2_buf is NULL, so it's okay to
+> > > +	 * potentially write it to both fb1 and fb2; only the one where it was
+> 
+> I guess there should be s/fb/FB/ throughout this block too.
+> 
+> > > +	 * queued normally will be returned.
+> > > +	 */
+> 
+> (You mention this in your other reply)
+> 
+> Yeah I guess this block should go inside the if. I didn't really
+> aesthetically like a huge block of text inside a tiny if block but maybe
+> that's more correct.
+> 
+> > > +	if (isr & (buf_num ? BIT_DMA_TSF_DONE_FB1 : BIT_DMA_TSF_DONE_FB2)) {
+> > > +		spin_unlock_irqrestore(&csi->irqlock, flags);
+> > > +		return false;
+> > > +	}
+> > > +
+> > > +	csi->active_vb2_buf[buf_num] = buf;
+> > > +
+> > > +	spin_unlock_irqrestore(&csi->irqlock, flags);
+> > > +	return true;
+> > > +}
+> > > +
+> > >  static void imx7_csi_video_buf_queue(struct vb2_buffer *vb)
+> > >  {
+> > >  	struct imx7_csi *csi = vb2_get_drv_priv(vb->vb2_queue);
+> > >  	struct imx7_csi_vb2_buffer *buf = to_imx7_csi_vb2_buffer(vb);
+> > >  	unsigned long flags;
+> > >  
+> > > +	if (imx7_csi_fast_track_buffer(csi, buf))
+> > > +		return;
+> > > +
+> > >  	spin_lock_irqsave(&csi->q_lock, flags);
+> > >  
+> > >  	list_add_tail(&buf->list, &csi->ready_q);
 
-And we were in a "good faith" situation. Giving an attacker basically
-programmable access to DMA engines that might not be sitting behind an
-IOMMU seems like a very dangerous idea to me.
+-- 
+Regards,
 
-> > - Does the bike on slide 32 illustrate the difficult discussions we've
-> >   had in the past and how progress was hindered ? :-)
->=20
-> This is how we do code review at Google when two developers do not
-> want to work together. We take the bike to the rooftop and the two
-> developers that disagree tries to push the other developer to the edge
-> of the building.
->=20
-> The first second, when you see your colleague falling you think that
-> you have won.... then you realise that you are falling with them.
-
-So the optimal solution would be that both stop pushing, or push the
-other just as hard without bulging? That doesn't seem like a good way to
-end up with a compromise ;)
-
-Maxime
-
---2q2w5ewnfdga5cph
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYxmjDgAKCRDj7w1vZxhR
-xY2ZAQD4qxIiu8JTf0a/jgyHl3hM23cyt3Bp5FgvmorvlK1hQgD/RWgmEqPjrG8N
-shWh6en4HOws0asIeQkrHSsD8pgGuQ8=
-=wZVa
------END PGP SIGNATURE-----
-
---2q2w5ewnfdga5cph--
+Laurent Pinchart
