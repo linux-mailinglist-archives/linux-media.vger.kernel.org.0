@@ -2,89 +2,68 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B5E085B176E
-	for <lists+linux-media@lfdr.de>; Thu,  8 Sep 2022 10:45:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CF2025B179A
+	for <lists+linux-media@lfdr.de>; Thu,  8 Sep 2022 10:49:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231532AbiIHIpQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 8 Sep 2022 04:45:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54088 "EHLO
+        id S231184AbiIHIt0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 8 Sep 2022 04:49:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57774 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230092AbiIHIpN (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 8 Sep 2022 04:45:13 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A46D9C1C3
-        for <linux-media@vger.kernel.org>; Thu,  8 Sep 2022 01:45:12 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 8FB0361BB3
-        for <linux-media@vger.kernel.org>; Thu,  8 Sep 2022 08:45:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 97000C433D6;
-        Thu,  8 Sep 2022 08:45:10 +0000 (UTC)
-Message-ID: <82c3e16c-55c6-edfa-516f-f06c8a022699@xs4all.nl>
-Date:   Thu, 8 Sep 2022 10:45:09 +0200
+        with ESMTP id S231830AbiIHIss (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 8 Sep 2022 04:48:48 -0400
+Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 24075FCA15
+        for <linux-media@vger.kernel.org>; Thu,  8 Sep 2022 01:48:00 -0700 (PDT)
+Received: (Authenticated sender: jacopo@jmondi.org)
+        by mail.gandi.net (Postfix) with ESMTPSA id 13D3EFF80A;
+        Thu,  8 Sep 2022 08:47:43 +0000 (UTC)
+Date:   Thu, 8 Sep 2022 10:47:42 +0200
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Kieran Bingham <kieran.bingham@ideasonboard.com>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
+        Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Hidenori Kobayashi <hidenorik@chromium.org>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Ricardo Ribalda <ribalda@chromium.org>,
+        Maxime Ripard <maxime@cerno.tech>,
+        Daniel Scally <djrscally@gmail.com>,
+        Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>,
+        Dave Stevenson <dave.stevenson@raspberrypi.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>
+Subject: Re: [ANN] Media Summit at ELCE Dublin, September 12: Draft Agenda V2
+Message-ID: <20220908084742.5summdtjxv4twmei@uno.localdomain>
+References: <3840c3cc-00fb-45dd-cb89-39b36fb6d733@xs4all.nl>
+ <YxX8dzSsquJmO5hP@paasikivi.fi.intel.com>
+ <YxYLSk2pKdGnNDP3@pendragon.ideasonboard.com>
+ <166255477952.2677993.18296326616035616015@Monstersaurus>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [ANN] Media Summit at ELCE Dublin: Request for Topics
-Content-Language: en-US
-To:     Nicolas Dufresne <nicolas@ndufresne.ca>,
-        linux-media@vger.kernel.org
-References: <325cc388-6f65-0727-92ab-d9b87e7ade1c@xs4all.nl>
- <a7007268a65846674b82a108215992d39b430b38.camel@ndufresne.ca>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-In-Reply-To: <a7007268a65846674b82a108215992d39b430b38.camel@ndufresne.ca>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-9.8 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <166255477952.2677993.18296326616035616015@Monstersaurus>
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Nicolas,
+On Wed, Sep 07, 2022 at 01:46:19PM +0100, Kieran Bingham wrote:
+> Quoting Laurent Pinchart (2022-09-05 15:44:26)
+> > On Mon, Sep 05, 2022 at 01:41:11PM +0000, Sakari Ailus wrote:
+> > > I think it'd be great to have a GPG key signing party at the end of the
+> > > meeting.
+> >
+> > It's a good idea. Could everybody please send their GPG key fingerprint
+> > in an e-mail reply to prepare for that ? It can easily be retrieved with
+> > 'gpg -K' (make sure to pick the right key if you have multiple of them).
 
-On 18/05/2022 20:01, Nicolas Dufresne wrote:
-> Hi Hans,
-> 
-> Le vendredi 06 mai 2022 à 15:20 +0200, Hans Verkuil a écrit :
->> Hi all,
->>
->> Since countries are opening up again and travel is (at least for now!) a lot easier,
->> I am considering a media summit during the ELCE in Dublin (Sep 13-16).
->>
->> See here for more details about the conference:
->>
->> https://events.linuxfoundation.org/open-source-summit-europe/
->>
->> Of course, this only makes sense if there is something to talk about. So please reply
->> with any suggestions for topics!
->>
->> Also please let me know if you would expect to be at such a media summit in person.
->> If only a few people would be there, then there isn't much point to this.
->>
->>
->> I have two topics:
->>
->> 1) Discussion of the media subsystem development process: any bottlenecks, any ideas
->>    for improvements?
->>
->> 2) I can give a presentation on the work I've done in the CTA-861 standard (used by
->>    HDMI) and the edid-decode utility.
->>
->> I'd like to make a decision on whether or not it is worthwhile to do this in a week
->> or two. If we wait too long it might be difficult to get a room for the summit.
-> 
-> Andrzej, Benjamin and I works on on stateless encoder, I'd be happy to introduce
-> the real-life challenges and the share around the direction we have in mind. We
-> want to collect various ideas and adjust our direction accordingly.
-
-Can you give a quick update on the status of stateful/stateless AV1 support?
-
-Regards,
-
-	Hans
+sec#  rsa4096 2016-10-19 [SC]
+      72392EDC88144A65C701EA9BA5826A2587AD026B
+uid           [ultimate] Jacopo Mondi <jacopo@jmondi.org>
+ssb   rsa4096 2016-10-19 [E]
+ssb   rsa4096 2016-10-20 [S]
