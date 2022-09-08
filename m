@@ -2,29 +2,29 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D40AF5B131F
-	for <lists+linux-media@lfdr.de>; Thu,  8 Sep 2022 06:04:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F09F05B1325
+	for <lists+linux-media@lfdr.de>; Thu,  8 Sep 2022 06:08:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229838AbiIHEEe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 8 Sep 2022 00:04:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60350 "EHLO
+        id S229620AbiIHEIw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 8 Sep 2022 00:08:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36876 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229822AbiIHEEd (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 8 Sep 2022 00:04:33 -0400
+        with ESMTP id S229476AbiIHEIv (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 8 Sep 2022 00:08:51 -0400
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6976EFD17
-        for <linux-media@vger.kernel.org>; Wed,  7 Sep 2022 21:04:30 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 19AEDC2F93
+        for <linux-media@vger.kernel.org>; Wed,  7 Sep 2022 21:08:50 -0700 (PDT)
 Received: from pyrite.rasen.tech (h175-177-042-159.catv02.itscom.jp [175.177.42.159])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 195096CC;
-        Thu,  8 Sep 2022 06:04:25 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id BBABF6CC;
+        Thu,  8 Sep 2022 06:08:45 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1662609868;
-        bh=8EHALkwCLkZOmvSBuwUPCnoDm2RLMk6kYyR5udh5u80=;
+        s=mail; t=1662610128;
+        bh=xytu6v2Xi81ivPxyDBrYOkiIuyBsSHAye/WinoGMrmU=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=SZX+oWPgClFEyOECbvqYt9eB3ibM9Fu2jzzQ+L24rI4znxoLIuiHgNb8EU9ZQvk+G
-         NL7leOyLDpTitbeknnGXac9EUDvOPaXkRkZpmQJFDQjQ/fshqhyU0hjd4A0298lWTR
-         oTXrrwoOc+FpBhR5aJ0dXeETtqQ+FRboCMBDJ+yQ=
-Date:   Thu, 8 Sep 2022 13:04:20 +0900
+        b=ev7s+mnmb4iUTmJeRs9wOx56QYt5pGTkJKJdWcNYJvaPqtzjcELb6PMVctiNTGiia
+         n0YxocGFU3JvIilIiklxRQ0TumwNcQsNwbM61E8Ts4pIqvfH2wAwXLHoWIKjhbHFxf
+         HXYzTsoKO/ZkexYrpv2k62FZI51kDiQUfO/KRzbw=
+Date:   Thu, 8 Sep 2022 13:08:40 +0900
 From:   paul.elder@ideasonboard.com
 To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Cc:     linux-media@vger.kernel.org, Rui Miguel Silva <rmfrfs@gmail.com>,
@@ -32,14 +32,14 @@ Cc:     linux-media@vger.kernel.org, Rui Miguel Silva <rmfrfs@gmail.com>,
         Philipp Zabel <p.zabel@pengutronix.de>,
         Jacopo Mondi <jacopo@jmondi.org>, kernel@pengutronix.de,
         linux-imx@nxp.com
-Subject: Re: [PATCH 2/6] media: imx: Unstage the imx7-media-csi driver
-Message-ID: <20220908040420.GF1140330@pyrite.rasen.tech>
+Subject: Re: [PATCH 3/6] staging: media: imx: Drop imx_media_subdev_bound()
+Message-ID: <20220908040840.GG1140330@pyrite.rasen.tech>
 References: <20220907200424.32136-1-laurent.pinchart@ideasonboard.com>
- <20220907200424.32136-3-laurent.pinchart@ideasonboard.com>
+ <20220907200424.32136-4-laurent.pinchart@ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220907200424.32136-3-laurent.pinchart@ideasonboard.com>
+In-Reply-To: <20220907200424.32136-4-laurent.pinchart@ideasonboard.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
@@ -49,189 +49,46 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Sep 07, 2022 at 11:04:20PM +0300, Laurent Pinchart wrote:
-> The imx7-media-csi driver, currently in staging, is ready for
-> prime-time. The staging TODO file lists a few items specific to that
-> driver, that are already addressed (the "all of the above" part) or can
-> be addressed later:
-> 
-> - The frame interval monitoring support is a software mechanism to
->   monitor the device for unexpected stalls, and should be part of the
->   V4L2 core if desired.
-> 
-> - Restricting the support media bus formats based on the SoC integration
->   only aims at reducing userspace confusion by not enumerating options
->   that are known not to be possible, it won't cause regressions if
->   handled later.
-> 
-> Move the description of the media bus format restriction TODO item to
-> the driver, drop the other TODO items, and move the driver out of
-> staging.
+On Wed, Sep 07, 2022 at 11:04:21PM +0300, Laurent Pinchart wrote:
+> The imx_media_subdev_bound() function is a no-op, and the async notifier
+> .bound() operation is optional. Drop it.
 > 
 > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
 Reviewed-by: Paul Elder <paul.elder@ideasonboard.com>
 
 > ---
->  MAINTAINERS                                   |  2 +-
->  drivers/media/platform/nxp/Kconfig            | 13 +++++++++
->  drivers/media/platform/nxp/Makefile           |  1 +
->  .../platform/nxp}/imx7-media-csi.c            | 24 +++++++++++++++
->  drivers/staging/media/imx/Kconfig             |  7 -----
->  drivers/staging/media/imx/Makefile            |  1 -
->  drivers/staging/media/imx/TODO                | 29 -------------------
->  7 files changed, 39 insertions(+), 38 deletions(-)
->  rename drivers/{staging/media/imx => media/platform/nxp}/imx7-media-csi.c (97%)
+>  drivers/staging/media/imx/imx-media-dev-common.c | 13 -------------
+>  1 file changed, 13 deletions(-)
 > 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 338c155f60ef..1dfa1d51955c 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -12595,7 +12595,7 @@ F:	Documentation/admin-guide/media/imx7.rst
->  F:	Documentation/devicetree/bindings/media/nxp,imx-mipi-csi2.yaml
->  F:	Documentation/devicetree/bindings/media/nxp,imx7-csi.yaml
->  F:	drivers/media/platform/nxp/imx-mipi-csis.c
-> -F:	drivers/staging/media/imx/imx7-media-csi.c
-> +F:	drivers/media/platform/nxp/imx7-media-csi.c
+> diff --git a/drivers/staging/media/imx/imx-media-dev-common.c b/drivers/staging/media/imx/imx-media-dev-common.c
+> index e6d6ed3b1161..8f7ced3a9cca 100644
+> --- a/drivers/staging/media/imx/imx-media-dev-common.c
+> +++ b/drivers/staging/media/imx/imx-media-dev-common.c
+> @@ -19,18 +19,6 @@ static inline struct imx_media_dev *notifier2dev(struct v4l2_async_notifier *n)
+>  	return container_of(n, struct imx_media_dev, notifier);
+>  }
 >  
->  MEDIA DRIVERS FOR HELENE
->  M:	Abylay Ospan <aospan@netup.ru>
-> diff --git a/drivers/media/platform/nxp/Kconfig b/drivers/media/platform/nxp/Kconfig
-> index 1ac0a6e91111..3aa4207bcd41 100644
-> --- a/drivers/media/platform/nxp/Kconfig
-> +++ b/drivers/media/platform/nxp/Kconfig
-> @@ -4,6 +4,19 @@
+> -/* async subdev bound notifier */
+> -static int imx_media_subdev_bound(struct v4l2_async_notifier *notifier,
+> -				  struct v4l2_subdev *sd,
+> -				  struct v4l2_async_subdev *asd)
+> -{
+> -	struct imx_media_dev *imxmd = notifier2dev(notifier);
+> -
+> -	dev_dbg(imxmd->md.dev, "subdev %s bound\n", sd->name);
+> -
+> -	return 0;
+> -}
+> -
+>  /*
+>   * Create the missing media links from the CSI-2 receiver.
+>   * Called after all async subdevs have bound.
+> @@ -337,7 +325,6 @@ static void imx_media_notify(struct v4l2_subdev *sd, unsigned int notification,
+>  }
 >  
->  comment "NXP media platform drivers"
+>  static const struct v4l2_async_notifier_operations imx_media_notifier_ops = {
+> -	.bound = imx_media_subdev_bound,
+>  	.complete = imx_media_probe_complete,
+>  };
 >  
-> +config VIDEO_IMX7_CSI
-> +	tristate "NXP CSI Bridge driver"
-> +	depends on ARCH_MXC || COMPILE_TEST
-> +	depends on HAS_DMA
-> +	depends on VIDEO_DEV
-> +	select MEDIA_CONTROLLER
-> +	select V4L2_FWNODE
-> +	select VIDEOBUF2_DMA_CONTIG
-> +	select VIDEO_V4L2_SUBDEV_API
-> +	help
-> +	  Driver for the NXP Camera Sensor Interface (CSI) Bridge. This device
-> +	  is found in the i.MX6UL/L, i.MX7 and i.MX8M[MQ] SoCs.
-> +
->  config VIDEO_IMX_MIPI_CSIS
->  	tristate "NXP MIPI CSI-2 CSIS receiver found on i.MX7 and i.MX8 models"
->  	depends on ARCH_MXC || COMPILE_TEST
-> diff --git a/drivers/media/platform/nxp/Makefile b/drivers/media/platform/nxp/Makefile
-> index efc38c6578ce..92cb8f4c215e 100644
-> --- a/drivers/media/platform/nxp/Makefile
-> +++ b/drivers/media/platform/nxp/Makefile
-> @@ -2,6 +2,7 @@
->  
->  obj-y += imx-jpeg/
->  
-> +obj-$(CONFIG_VIDEO_IMX7_CSI) += imx7-media-csi.o
->  obj-$(CONFIG_VIDEO_IMX_MIPI_CSIS) += imx-mipi-csis.o
->  obj-$(CONFIG_VIDEO_IMX_PXP) += imx-pxp.o
->  obj-$(CONFIG_VIDEO_MX2_EMMAPRP) += mx2_emmaprp.o
-> diff --git a/drivers/staging/media/imx/imx7-media-csi.c b/drivers/media/platform/nxp/imx7-media-csi.c
-> similarity index 97%
-> rename from drivers/staging/media/imx/imx7-media-csi.c
-> rename to drivers/media/platform/nxp/imx7-media-csi.c
-> index 21d6e56ffcd4..72de9fc9862a 100644
-> --- a/drivers/staging/media/imx/imx7-media-csi.c
-> +++ b/drivers/media/platform/nxp/imx7-media-csi.c
-> @@ -807,6 +807,30 @@ static irqreturn_t imx7_csi_irq_handler(int irq, void *data)
->   * List of supported pixel formats for the subdevs. Keep V4L2_PIX_FMT_UYVY and
->   * MEDIA_BUS_FMT_UYVY8_2X8 first to match IMX7_CSI_DEF_PIX_FORMAT and
->   * IMX7_CSI_DEF_MBUS_CODE.
-> + *
-> + * TODO: Restrict the supported formats list based on the SoC integration.
-> + *
-> + * The CSI bridge can be configured to sample pixel components from the Rx queue
-> + * in single (8bpp) or double (16bpp) component modes. Image format variants
-> + * with different sample sizes (ie YUYV_2X8 vs YUYV_1X16) determine the pixel
-> + * components sampling size per each clock cycle and their packing mode (see
-> + * imx7_csi_configure() for details).
-> + *
-> + * As the CSI bridge can be interfaced with different IP blocks depending on the
-> + * SoC model it is integrated on, the Rx queue sampling size should match the
-> + * size of the samples transferred by the transmitting IP block. To avoid
-> + * misconfigurations of the capture pipeline, the enumeration of the supported
-> + * formats should be restricted to match the pixel source transmitting mode.
-> + *
-> + * Example: i.MX8MM SoC integrates the CSI bridge with the Samsung CSIS CSI-2
-> + * receiver which operates in dual pixel sampling mode. The CSI bridge should
-> + * only expose the 1X16 formats variant which instructs it to operate in dual
-> + * pixel sampling mode. When the CSI bridge is instead integrated on an i.MX7,
-> + * which supports both serial and parallel input, it should expose both
-> + * variants.
-> + *
-> + * This currently only applies to YUYV formats, but other formats might need to
-> + * be handled in the same way.
->   */
->  static const struct imx7_csi_pixfmt pixel_formats[] = {
->  	/*** YUV formats start here ***/
-> diff --git a/drivers/staging/media/imx/Kconfig b/drivers/staging/media/imx/Kconfig
-> index bfb849701489..21fd79515042 100644
-> --- a/drivers/staging/media/imx/Kconfig
-> +++ b/drivers/staging/media/imx/Kconfig
-> @@ -23,13 +23,6 @@ config VIDEO_IMX_CSI
->  	default y
->  	help
->  	  A video4linux camera sensor interface driver for i.MX5/6.
-> -
-> -config VIDEO_IMX7_CSI
-> -	tristate "i.MX6UL/L / i.MX7 / i.MX8M Camera Sensor Interface driver"
-> -	default y
-> -	help
-> -	  Enable support for video4linux camera sensor interface driver for
-> -	  i.MX6UL/L, i.MX7 or i.MX8M.
->  endmenu
->  endif
->  
-> diff --git a/drivers/staging/media/imx/Makefile b/drivers/staging/media/imx/Makefile
-> index cef9f30eb401..906a422aa656 100644
-> --- a/drivers/staging/media/imx/Makefile
-> +++ b/drivers/staging/media/imx/Makefile
-> @@ -14,5 +14,4 @@ obj-$(CONFIG_VIDEO_IMX_CSI) += imx6-media.o
->  obj-$(CONFIG_VIDEO_IMX_CSI) += imx6-media-csi.o
->  obj-$(CONFIG_VIDEO_IMX_CSI) += imx6-mipi-csi2.o
->  
-> -obj-$(CONFIG_VIDEO_IMX7_CSI) += imx7-media-csi.o
->  obj-$(CONFIG_VIDEO_IMX8MQ_MIPI_CSI2) += imx8mq-mipi-csi2.o
-> diff --git a/drivers/staging/media/imx/TODO b/drivers/staging/media/imx/TODO
-> index 5d3a337c8702..afee26870af7 100644
-> --- a/drivers/staging/media/imx/TODO
-> +++ b/drivers/staging/media/imx/TODO
-> @@ -23,32 +23,3 @@
->  - Similarly to the legacy control handling, legacy format handling where
->    formats on the video nodes are influenced by the active format of the
->    connected subdev should be removed.
-> -
-> -- i.MX7: all of the above, since it uses the imx media core
-> -
-> -- i.MX7: use Frame Interval Monitor
-> -
-> -- imx7-media-csi: Restrict the supported formats list to the SoC version.
-> -
-> -  The imx7 CSI bridge can be configured to sample pixel components from the Rx
-> -  queue in single (8bpp) or double (16bpp) component modes. Image format
-> -  variants with different sample sizes (ie YUYV_2X8 vs YUYV_1X16) determine the
-> -  pixel components sampling size per each clock cycle and their packing mode
-> -  (see imx7_csi_configure() for details).
-> -
-> -  As the imx7 CSI bridge can be interfaced with different IP blocks depending on
-> -  the SoC model it is integrated on, the Rx queue sampling size should match
-> -  the size of the samples transferred by the transmitting IP block.
-> -
-> -  To avoid mis-configurations of the capture pipeline, the enumeration of the
-> -  supported formats should be restricted to match the pixel source transmitting
-> -  mode.
-> -
-> -  Example: i.MX8MM SoC integrates the CSI bridge with the Samsung CSIS CSI-2
-> -  receiver which operates in dual pixel sampling mode. The CSI bridge should
-> -  only expose the 1X16 formats variant which instructs it to operate in dual
-> -  pixel sampling mode. When the CSI bridge is instead integrated on an i.MX7,
-> -  which supports both serial and parallel input, it should expose both variants.
-> -
-> -  This currently only applies to YUYV formats, but other formats might need
-> -  to be handled in the same way.
