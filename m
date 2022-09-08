@@ -2,129 +2,81 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 675595B1F91
-	for <lists+linux-media@lfdr.de>; Thu,  8 Sep 2022 15:48:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7FC7D5B1FBC
+	for <lists+linux-media@lfdr.de>; Thu,  8 Sep 2022 15:56:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231894AbiIHNsT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 8 Sep 2022 09:48:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41682 "EHLO
+        id S231775AbiIHN4A (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 8 Sep 2022 09:56:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57316 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231675AbiIHNsS (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 8 Sep 2022 09:48:18 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B028BED98D;
-        Thu,  8 Sep 2022 06:48:16 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5D454888;
-        Thu,  8 Sep 2022 15:48:14 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1662644894;
-        bh=Ejrs9pC4Yim8AclRRPShaxgw3JEmIX4zulBk9QWxGSE=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=t1lawQJPpI4WBB+Sqir954aN2Q2w83lk21aH1scwqFisXpjT1wB7pmrI8lx6tR/aM
-         hFYdSV3+KJhQEckbhp3OXLp8Uu4264V4LbiIqePrQrhp2d8QADg4I9pJmQaCTT3pzf
-         7QmiWAQhy3N9v1HwcjHKTy7/lSQw9JYmt0O7ENDU=
-Date:   Thu, 8 Sep 2022 16:47:57 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc:     Maximilian Luz <luzmaximilian@gmail.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Bingbu Cao <bingbu.cao@intel.com>,
-        Tianshu Qiu <tian.shu.qiu@intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH] ipu3-imgu: Fix NULL pointer dereference in
- imgu_subdev_set_selection()
-Message-ID: <YxnyjYldJ5oAhkBp@pendragon.ideasonboard.com>
-References: <20220907224409.3187482-1-luzmaximilian@gmail.com>
- <c0ad65c5-818d-da5c-178a-dfaf685f8d24@ideasonboard.com>
+        with ESMTP id S229620AbiIHNz6 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 8 Sep 2022 09:55:58 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 57462A3D61;
+        Thu,  8 Sep 2022 06:55:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+        bh=Lr/PQpeByMLLN+ILQwpeyfV6Da7XXJFl68gYJENbuhA=; b=WaIQZNhzo4T0/dmF2oe0ILT0HB
+        CMkPKTAxWhcnd+P/yjg6F/XIDQOm3O0bDRDNkZMgX8RfD7lqJqsHfceFPCWmQhtBABiQvLndRpJhb
+        JTSIV/pudRsBHWkWiD+TNDcxPAId5Ncnuqd/l0tyv4l3uqp5V/2O/0xaVbeslLx2eXx4tYKvSUQ1e
+        igqXW4oRiY3Upcx3iBJCHG7uj9WAUQw7s1qbip9HcpKuj/1CRq5B3azRsvJpAEKPHSGe1BOGqAxKu
+        wXNHgvYoeo/R8G3xOb83I46mByV8wQ4vWzWRituBIhHhkV3C9ZAX1x3JoNtLq0QXZxBfc6mtAru7D
+        hCJtBsJA==;
+Received: from [2601:1c0:6280:3f0::a6b3]
+        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1oWI0U-004E9Q-Pp; Thu, 08 Sep 2022 13:55:50 +0000
+Message-ID: <530783de-fc1b-bfc3-1027-bcec919ac3ab@infradead.org>
+Date:   Thu, 8 Sep 2022 06:55:50 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <c0ad65c5-818d-da5c-178a-dfaf685f8d24@ideasonboard.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.1
+Subject: Re: [PATCH] media/i2c: fix repeated words in comments
+Content-Language: en-US
+To:     wangjianli <wangjianli@cdjrlc.com>, mchehab@kernel.org
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20220908123000.15066-1-wangjianli@cdjrlc.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20220908123000.15066-1-wangjianli@cdjrlc.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-7.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Sep 08, 2022 at 03:08:27PM +0300, Tomi Valkeinen wrote:
-> On 08/09/2022 01:44, Maximilian Luz wrote:
-> > Calling v4l2_subdev_get_try_crop() and v4l2_subdev_get_try_compose()
-> > with a subdev state of NULL leads to a NULL pointer dereference. This
-> > can currently happen in imgu_subdev_set_selection() when the state
-> > passed in is NULL, as this method first gets pointers to both the "try"
-> > and "active" states and only then decides which to use.
-> > 
-> > The same issue has been addressed for imgu_subdev_get_selection() with
-> > commit 30d03a0de650 ("ipu3-imgu: Fix NULL pointer dereference in active
-> > selection access"). However the issue still persists in
-> > imgu_subdev_set_selection().
-> > 
-> > Therefore, apply a similar fix as done in the aforementioned commit to
-> > imgu_subdev_set_selection(). To keep things a bit cleaner, introduce
-> > helper functions for "crop" and "compose" access and use them in both
-> > imgu_subdev_set_selection() and imgu_subdev_get_selection().
-> > 
-> > Fixes: 0d346d2a6f54 ("media: v4l2-subdev: add subdev-wide state struct")
-> > Cc: stable@vger.kernel.org # for v5.14 and later
-> > Signed-off-by: Maximilian Luz <luzmaximilian@gmail.com>
-> > ---
-> >   drivers/staging/media/ipu3/ipu3-v4l2.c | 57 +++++++++++++++-----------
-> >   1 file changed, 34 insertions(+), 23 deletions(-)
-> > 
-> > diff --git a/drivers/staging/media/ipu3/ipu3-v4l2.c b/drivers/staging/media/ipu3/ipu3-v4l2.c
-> > index ce13e746c15f..e530767e80a5 100644
-> > --- a/drivers/staging/media/ipu3/ipu3-v4l2.c
-> > +++ b/drivers/staging/media/ipu3/ipu3-v4l2.c
-> > @@ -188,6 +188,28 @@ static int imgu_subdev_set_fmt(struct v4l2_subdev *sd,
-> >   	return 0;
-> >   }
-> >   
-> > +static struct v4l2_rect *
-> > +imgu_subdev_get_crop(struct imgu_v4l2_subdev *sd,
-> > +		     struct v4l2_subdev_state *sd_state, unsigned int pad,
-> > +		     enum v4l2_subdev_format_whence which)
-> > +{
-> > +	if (which == V4L2_SUBDEV_FORMAT_TRY)
-> > +		return v4l2_subdev_get_try_crop(&sd->subdev, sd_state, pad);
-> > +	else
-> > +		return &sd->rect.eff;
-> > +}
-> > +
-> > +static struct v4l2_rect *
-> > +imgu_subdev_get_compose(struct imgu_v4l2_subdev *sd,
-> > +			struct v4l2_subdev_state *sd_state, unsigned int pad,
-> > +			enum v4l2_subdev_format_whence which)
-> > +{
-> > +	if (which == V4L2_SUBDEV_FORMAT_TRY)
-> > +		return v4l2_subdev_get_try_compose(&sd->subdev, sd_state, pad);
-> > +	else
-> > +		return &sd->rect.bds;
-> > +}
-> 
-> If I understand right, these functions are only called with pad 0 
-> (IMGU_NODE_IN). I would drop the pad argument here and use IMGU_NODE_IN. 
-> Otherwise it gives a false idea that other pads could be used with these 
-> functions, and that would fail for the V4L2_SUBDEV_FORMAT_ACTIVE case.
 
-It thought the same when proposing this. I kept the pad argument as the
-driver should ideally be ported to the active state API, which will
-provide storage for rectangles on all pads separately. Preparing for
-that may not be worth it though, given that the code will probably to be
-changed significantly anyway. I'm fine either way.
 
-> However, that's not a big issue. With or without the change:
+On 9/8/22 05:30, wangjianli wrote:
+> Delete the redundant word 'in'.
 > 
-> Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> Signed-off-by: wangjianli <wangjianli@cdjrlc.com>
+> ---
+>  drivers/media/i2c/adv7175.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/media/i2c/adv7175.c b/drivers/media/i2c/adv7175.c
+> index b58689728243..bc8f8bbedb45 100644
+> --- a/drivers/media/i2c/adv7175.c
+> +++ b/drivers/media/i2c/adv7175.c
+> @@ -209,7 +209,7 @@ static int adv7175_s_std_output(struct v4l2_subdev *sd, v4l2_std_id std)
+>  		/* This is an attempt to convert
+>  		 * SECAM->PAL (typically it does not work
+>  		 * due to genlock: when decoder is in SECAM
+> -		 * and encoder in in PAL the subcarrier can
+
+		               is in
+
+> +		 * and encoder in PAL the subcarrier can
+>  		 * not be synchronized with horizontal
+>  		 * quency) */
+>  		adv7175_write_block(sd, init_pal, sizeof(init_pal));
 
 -- 
-Regards,
-
-Laurent Pinchart
+~Randy
