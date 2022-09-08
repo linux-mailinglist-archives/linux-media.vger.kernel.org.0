@@ -2,48 +2,64 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5DA695B1AA9
-	for <lists+linux-media@lfdr.de>; Thu,  8 Sep 2022 12:54:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EBEBA5B1B04
+	for <lists+linux-media@lfdr.de>; Thu,  8 Sep 2022 13:13:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231201AbiIHKyn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 8 Sep 2022 06:54:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46670 "EHLO
+        id S229990AbiIHLN3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 8 Sep 2022 07:13:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48734 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229904AbiIHKyl (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 8 Sep 2022 06:54:41 -0400
-Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A0C514019
-        for <linux-media@vger.kernel.org>; Thu,  8 Sep 2022 03:54:38 -0700 (PDT)
-Received: (Authenticated sender: jacopo@jmondi.org)
-        by mail.gandi.net (Postfix) with ESMTPSA id 7041AC000C;
-        Thu,  8 Sep 2022 10:54:32 +0000 (UTC)
-Date:   Thu, 8 Sep 2022 12:54:30 +0200
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     linux-media@vger.kernel.org
-Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Ricardo Ribalda <ribalda@chromium.org>,
-        Maxime Ripard <maxime@cerno.tech>,
-        Daniel Scally <djrscally@gmail.com>,
-        Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Hugues Fruchet <hugues.fruchet@st.com>,
-        Michael Olbrich <m.olbrich@pengutronix.de>,
-        Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        Michael Tretter <m.tretter@pengutronix.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Benjamin MUGNIER <benjamin.mugnier@foss.st.com>
-Subject: [Media Summit] Reconcile ACPI/DT image sensor probe sequences
-Message-ID: <20220908105430.cujmgixybikn7im4@uno.localdomain>
+        with ESMTP id S229630AbiIHLNW (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 8 Sep 2022 07:13:22 -0400
+Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 37FBAD99E9;
+        Thu,  8 Sep 2022 04:13:16 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by sin.source.kernel.org (Postfix) with ESMTPS id 88232CE1F07;
+        Thu,  8 Sep 2022 11:13:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C14B1C433D6;
+        Thu,  8 Sep 2022 11:13:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1662635590;
+        bh=iJAltEe80iBgnEcTrGpToVAW8pvN4/7NYz8vdUhpFAs=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=Q86NaGdXLc8cdu7XwxAzrwSH9WjGvlaAPr6xEVBgQ3CQSOqxk2Qz3Y6McraLUAxi+
+         BK5cTAl72DtjcF9dEmM+dvXs0F8xQrsEv9mr+//QNoMKfX8LEgzNTj/RwyEjWdVYBp
+         vEfYZ0JY2orfoKTZxaSp48W2D3D9VDkO5rDxEQ1cyJXiJBCABfZfNmloz2qSRfDZxe
+         FPjVLsQ3wfRSYbQHmDJQUVL5dlyiIO2Rw+j9kwyRS9nMKxCVA+mFGTeNLhLoONM+F2
+         i6XDpxbJePNuDNxveXOopz2fCr56iNg6KH3k5wWwCQYxITLeKhLHU5sG7vrfAu4TNi
+         npKBqh2BnhmUQ==
+Date:   Thu, 8 Sep 2022 13:13:03 +0200
+From:   Mauro Carvalho Chehab <mchehab@kernel.org>
+To:     Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Cc:     Russell King <linux@armlinux.org.uk>,
+        linux-arm-kernel@lists.infradead.org,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+        linux-media@vger.kernel.org, Peter Chen <peter.chen@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-usb@vger.kernel.org,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Mike Rapoport <rppt@linux.ibm.com>, linux-mm@kvack.org,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        linux-kbuild@vger.kernel.org, kernel-janitors@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 3/6] media: remove reference to CONFIG_EMBEDDED in
+ MEDIA_SUPPORT_FILTER
+Message-ID: <20220908131303.1fe813cd@coco.lan>
+In-Reply-To: <20220908104337.11940-4-lukas.bulwahn@gmail.com>
+References: <20220908104337.11940-1-lukas.bulwahn@gmail.com>
+        <20220908104337.11940-4-lukas.bulwahn@gmail.com>
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -51,98 +67,38 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This will be a recap of the discussions that already happened.
+Em Thu,  8 Sep 2022 12:43:34 +0200
+Lukas Bulwahn <lukas.bulwahn@gmail.com> escreveu:
 
-The discussion spurred from the ov5640 conversion to runtime-pm and
-the final email from Laurent reports a few questions I hope can be
-answered during the meeting [1]
+> The config EMBEDDED selects EXPERT, i.e., when EMBEDDED is enabled, EXPERT
+> is usually also enabled. Hence, it sufficient to have the option
+> MEDIA_SUPPORT_FILTER set to y if !EXPERT.
+> 
+> This way, MEDIA_SUPPORT_FILTER does not refer to CONFIG_EMBEDDED anymore
+> and allows us to remove CONFIG_EMBEDDED in the close future.
+> 
+> Remove the reference to CONFIG_EMBEDDED in MEDIA_SUPPORT_FILTER.
+> 
+> Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+> ---
+>  drivers/media/Kconfig | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/media/Kconfig b/drivers/media/Kconfig
+> index ba6592b3dab2..283b78b5766e 100644
+> --- a/drivers/media/Kconfig
+> +++ b/drivers/media/Kconfig
+> @@ -24,7 +24,7 @@ if MEDIA_SUPPORT
+>  
+>  config MEDIA_SUPPORT_FILTER
+>  	bool "Filter media drivers"
+> -	default y if !EMBEDDED && !EXPERT
+> +	default y if !EXPERT
+>  	help
+>  	   Configuring the media subsystem can be complex, as there are
+>  	   hundreds of drivers and other config options.
 
-I'm not going too much into details for the background here as Tomasz
-in the same discussion provided a rather complete overview [2] and
-there is large consensus that the current situation is not desirable
-as it leaves most of the work to sensor drivers.
+Reviewed-by: Mauro Carvalho Chehab <mchehab@kernel.org>
 
-[1] https://lore.kernel.org/linux-media/YufZXoUSWzOqoVfZ@pendragon.ideasonboard.com/
-[2] https://lore.kernel.org/linux-media/CAAFQd5C7-OuNpnduwKpZXFUPQKDeqkz2xkvP+JBBs+aNjB87FQ@mail.gmail.com/
-
-The first issue is what the I2C core does on ACPI systems
-
-        i2c_device_probe()
-                dev_pm_domain_attach() *
-
-ACPI: acpi_dev_pm_attach() -> actual power-up
-OF: genpd_dev_pm_attach() -> only parses "power-domains"
-
-* Supports ACPI D0 waiveing, but requires fw modifications
-
-Question 1:
- Is the desired behaviour to have the device powered up when probed ?
-
- Should we aim to have OF behave like ACPI or the other way around ?
- Not even sure that's possible or desirable to move to
- genpd_dev_pm_attach() the acquisition/enabling of resources
- considering how mildly enforced is the standardization of OF names for
- clock/regulators.
-
- Sakari suggested to extend the D0 waiving mechanism to work not only
- with an ACPI property but also with a device flag. This would work
- for new drivers, but porting the existing ones might be complicated
- if not impossible.
-
- Also, if we change ACPI systems not to power up the device, would the
- regulator/clock/gpio APIs work the same on OF/ACPI or we will end up
- duplicating the power-up routines ?
-
-
-Question 2: The runtime_pm dance.
-
- The problem is also complicated by the fact drivers have to handle
- cases where !CONFIG_PM and cannot rely on runtime_pm "doing the right
- thing" (once we know what the right thing would be), and hence device
- power-up during probe to support HW access have to be performed
- manually.
-
- It is my understanding that we can't assume CONFIG_PM. Why ? What
- does it take to change this ?
-
- Also what would it take to have pattern like this one:
-
- ------------------------------------------------------------------------------
-  int sensor_resume(dev)
-  {
-  }
-
-  int sensor_suspend(dev)
-  {
-  }
-
-  int probe()
-  {
-        RESOURCES ACQUISITION (clock/regulators/gpio)
-
-        if (!is_acpi_node(dev))
-                sensor_resume(dev)
-
-        pm_runtime_set_active();
-        pm_runtime_enable();
-
-         -- HW ACCESS --
-
-        pm_runtime_set_autosuspend_delay(dev, 1000);
-        pm_runtime_use_autosuspend()
-        pm_runtime_autosuspend();
-  }
-
-  SET_PM_RUNTIME_OPS(sensor_suspend, sensor_resume, NULL);
- ------------------------------------------------------------------------------
-
-  Which in my understanding should work on both OF/ACPI and with
-  CONFIG_PM/!CONFIG_PM to be moved to a core helper (assuming it works
-  ofc) ?
-
-  Would standardize on such a pattern be a good first move or
-  converting existing drivers would be a burden we can't take ?
-
-See you all on Monday!
-Thanks
-  j
+Thanks,
+Mauro
