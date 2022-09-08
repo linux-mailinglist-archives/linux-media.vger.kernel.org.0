@@ -2,312 +2,184 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9A8235B17DC
-	for <lists+linux-media@lfdr.de>; Thu,  8 Sep 2022 10:58:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 560F15B183C
+	for <lists+linux-media@lfdr.de>; Thu,  8 Sep 2022 11:18:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230517AbiIHI6m (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 8 Sep 2022 04:58:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54090 "EHLO
+        id S231428AbiIHJS4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 8 Sep 2022 05:18:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59748 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231315AbiIHI63 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 8 Sep 2022 04:58:29 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A4B43F7761
-        for <linux-media@vger.kernel.org>; Thu,  8 Sep 2022 01:58:27 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 3E0C661BEF
-        for <linux-media@vger.kernel.org>; Thu,  8 Sep 2022 08:58:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 646D5C433D6;
-        Thu,  8 Sep 2022 08:58:23 +0000 (UTC)
-Message-ID: <3ff46b2d-eb01-1ce9-8647-19447c82283b@xs4all.nl>
-Date:   Thu, 8 Sep 2022 10:58:21 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [ANN] Media Summit at ELCE Dublin, September 12: Final (?) Agenda V3
-To:     linux-media@vger.kernel.org
-Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Ricardo Ribalda <ribalda@chromium.org>,
-        Maxime Ripard <maxime@cerno.tech>,
-        Daniel Scally <djrscally@gmail.com>,
-        =?UTF-8?Q?Jernej_=c5=a0krabec?= <jernej.skrabec@gmail.com>,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Hugues Fruchet <hugues.fruchet@st.com>,
-        Michael Olbrich <m.olbrich@pengutronix.de>,
-        =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>,
-        Michael Tretter <m.tretter@pengutronix.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Benjamin MUGNIER <benjamin.mugnier@foss.st.com>
+        with ESMTP id S230167AbiIHJSs (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 8 Sep 2022 05:18:48 -0400
+Received: from EUR04-HE1-obe.outbound.protection.outlook.com (mail-eopbgr70080.outbound.protection.outlook.com [40.107.7.80])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 096EBD2B15;
+        Thu,  8 Sep 2022 02:18:47 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=U1lX+wGROyBZDNHGjLHBRwz+82Q1+G2NoX7MTjZI59XOVZE08zifNbEnkx48dHy9XrEI0twhdeos4rwi/qJ82nbCHRo/Hxuh+cY3kraxdS0VdSIRhNu8RmIAYohmpHuRx++VXURAg4m09rPY6V/kaU5dV0JJhunC6v4IQCvJGZ3PAaY7MFUY6nRxeD+oUqRSIkYvj1Sr1dZPtKz41DsrFBbH+9vuF0Fa5u7bbDgk4Lh/BSjsSr9lKh4YHh2Dv01wNctfsF29QEif/RYarXKf46J8FrCGh5KCzcgVkJdK9CVAV2TDYloK8X2pcVEvmlA/Jw8syuY9mR0Sb4adEzEl4Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=T0Q4l9NYUMtGI+b+8J8STh3PNfj8d3b9jY2R3QOciqY=;
+ b=j8JtihjxD4P2A9Fyfdrrbz9w4hLONcuQL49yCC4N+5B+QiiL1Ed8ZOBy57MEo7etizDgf/OTX/EA7i//LBeKb4cLSmYWM5RUGCx2e+N7br3o+PolqNfEb4ss9f7HN6OxPAhqPJJj7ulBnPyeP8lJbY6YpAOz9yXmEUIkf01cuYztZMkYWoiH8LQ04mu0NJx04aU/U4R8UGHCelWinY/kwLCchZ9I1kafyU9Nqgta13jH8P3eELUWnLX1KfCeVIRAJ3YS/s6P9khmWv3PHtSfIi9tIrX2I2jAxRsNuCk0imwA+CaU5OLUhSrasTWt/EMoqgLv56WHKYFnD/dbelN+ug==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=T0Q4l9NYUMtGI+b+8J8STh3PNfj8d3b9jY2R3QOciqY=;
+ b=E8CHbil+wbA0kf2APx8IeccrqS6ZahdpveDXGkIYud8cEmcWVW6n2zpOXun9UVcOHxE1hNlWrsWx5CwjSHfHj1TmmefBN/U6zktDtfduOMmBYGwCOtgWin0sUmvf8IE0snhJnUgvDxqI2u4G/z2D0QbHRaypEAMunDCcjp/5KXs=
+Received: from AM0PR04MB6737.eurprd04.prod.outlook.com (2603:10a6:208:176::18)
+ by VI1PR0402MB2797.eurprd04.prod.outlook.com (2603:10a6:800:ad::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5612.14; Thu, 8 Sep
+ 2022 09:18:44 +0000
+Received: from AM0PR04MB6737.eurprd04.prod.outlook.com
+ ([fe80::a0a9:d108:b1e7:7cc9]) by AM0PR04MB6737.eurprd04.prod.outlook.com
+ ([fe80::a0a9:d108:b1e7:7cc9%4]) with mapi id 15.20.5588.018; Thu, 8 Sep 2022
+ 09:18:43 +0000
+From:   Olivier Masse <olivier.masse@nxp.com>
+To:     "sumit.garg@linaro.org" <sumit.garg@linaro.org>
+CC:     "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
+        "christian.koenig@amd.com" <christian.koenig@amd.com>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        =?iso-8859-15?Q?Cl=E9ment_Faure?= <clement.faure@nxp.com>,
+        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+        "jens.wiklander@linaro.org" <jens.wiklander@linaro.org>,
+        "op-tee@lists.trustedfirmware.org" <op-tee@lists.trustedfirmware.org>,
+        "etienne.carriere@linaro.org" <etienne.carriere@linaro.org>
+Subject: Re: [EXT] Re: [PATCH v2 0/1] tee: Add tee_shm_register_fd
+Thread-Topic: [EXT] Re: [PATCH v2 0/1] tee: Add tee_shm_register_fd
+Thread-Index: AQHYrlglkVt62yOLKU2bEUe77YcK2K217YWAgB99bAA=
+Date:   Thu, 8 Sep 2022 09:18:43 +0000
+Message-ID: <fb641c168a6b9fc041785a0baa8ee4b2d3ff8ed4.camel@nxp.com>
+References: <20220812143055.12938-1-olivier.masse@nxp.com>
+         <CAFA6WYM89+SrW2Br-fnFke4djt4GgGHXn7JS3=rxvAa7dAAY7w@mail.gmail.com>
+In-Reply-To: <CAFA6WYM89+SrW2Br-fnFke4djt4GgGHXn7JS3=rxvAa7dAAY7w@mail.gmail.com>
+Accept-Language: fr-FR, en-US
 Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 9294ae72-ccf1-43a2-f88a-08da917b206d
+x-ms-traffictypediagnostic: VI1PR0402MB2797:EE_
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: KHhc+TiiI8cSDvlVboBioS8ZKBkOuyOTNY5Rns4/zS2FE/vvRbJhzhTGCW1VyrRzLvYw0R0JaV8rBJ2ml33G8AY5lnojR58AYhBCbhk9qItn72+llg3ZAe9pMZgpAgOr+QsmXqjsgEhqdWyCXSIMHmHzPMV5Jjca8mwii+go8WqiCjztSRpeQfce8jSrPSiWlM1MSQ4uNbpRXuaod6Jduy5MzLJPMQHwaomha4pKcDeM4xCWHKaEqIrdVWoKlnT1bQJpYFq4tyJU4Hfs8jKxOAtAHQ96xe04bwSMuV5F1dnOP/ALge2sICNzR75enk19MjxhAsx1AjQVGsKbqxBg7FpBuOKmP5XliWA/MEYEsqhuATVWiakrAJtvqkdO3LHRrApRIfSyFwBJCZLECqzec+2xm6ihH5F7V0dpCm/DkQSmurlmWOPQHsVTL7IGTVdMgcaAlfWGxti3/31edlKdijCwZ4xpvW58wd7HZItFXLLNRN5mTtL1tCxoHI3L1DpTLiDhsGUiHII3j9mSpNkOFm3L72IOA1p1oSBuZCufVwypjfADRqVj+MJAcDh8Y4Yz6a3xF7yzS9RWjtTop66lDyukPlqv4fWf5zqfPpthxBpEtnmrZ9VbIrX2CK8NzgRTl4ZnhU20weIoSnhA9gAFluWKB/OUbHYywWRaaWfAS6zHqZe7JFjUR9p6FORvlo5omNMDI07Bwy0QSg6JwEfAHYo175lhkyFRzXpbEyLb7brrsaRfFSDssdOey/0TnF6rN3DGLDYkhK9vhHOy7V6kzV4F4sfqSWHNGRDYc2DUT0hF54KDU7GcfS96f/E8b5XG
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM0PR04MB6737.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(346002)(136003)(376002)(39860400002)(396003)(366004)(64756008)(8936002)(5660300002)(7416002)(44832011)(2906002)(38070700005)(6486002)(38100700002)(122000001)(71200400001)(41300700001)(966005)(6506007)(478600001)(55236004)(26005)(6512007)(316002)(54906003)(45080400002)(83380400001)(76116006)(6916009)(66446008)(66476007)(4326008)(66556008)(8676002)(66946007)(2616005)(186003)(86362001)(36756003)(99106002);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?iso-8859-15?Q?dvxdqz0bVmplNoRPSy3CMDCT8ILcpOqJApwKnGrC5UrXa4d46AaM84zqh?=
+ =?iso-8859-15?Q?o3wrdho7WBrafUCvlJiwqX0BqN7lZL0D4ctkGc8pY5F7wh0zcWGD3sf2n?=
+ =?iso-8859-15?Q?DXckPq+M+wZpgNHeZFcherBAYHadlt426jCK+c5VSMQbaoYtqFNYXeHRs?=
+ =?iso-8859-15?Q?jFuV//BnzJyxPeMR819bL3/YCCORxpCt11yPAVmzQ2CvToYkhbYxmMGL7?=
+ =?iso-8859-15?Q?cuGhl/Xdx8XjbS0eSnslC/JoBwwqwJJTbdg6EVnoYSdWtAlVUB7QngPUO?=
+ =?iso-8859-15?Q?yTlJPqObpdKJx6/PaxCH5TtI99gseJHn+BjUqrVD3stQbHE+GepiRNKA1?=
+ =?iso-8859-15?Q?kJbdkz0ghKNmMotMwUOJXjADMDYeSWzt0Wc/BDhCrfJB1GaB1mlmsYSRA?=
+ =?iso-8859-15?Q?mPvnOQu2MPVTxBvnxv9dKnN3XhP6OV0Y3caYBoLamvzwAYWutApBBd+/N?=
+ =?iso-8859-15?Q?uZUOtE7z4ahKdvwhK+XFH13rzGQc/arSzQ9ThPLKNlEecwdf29nTTcoM5?=
+ =?iso-8859-15?Q?LgRmDVBr6U+TvzfdhAP9i2NWQqNAb1t9Q3WBbhz9qUf+aB2ULRPe4lh8N?=
+ =?iso-8859-15?Q?fp72rkwASPs1srZATemRM9w37yi92BaDcEkXdhCF6ZlVqUS8ou7kkF3Ff?=
+ =?iso-8859-15?Q?wAG9z4tBztXxyDWPGDTSoiF4lh7NM8v8eVwdin6rzg8BiAIV5F5+TeyPg?=
+ =?iso-8859-15?Q?zEpzrDPUFI6AWLHE/fwA/S2zQd0tcZhD/1Hota1RqB7aHNzhFD83zafuR?=
+ =?iso-8859-15?Q?v0Z6Iic4SJ4m1B9ESy/JgJL9LUU8MhnwlVzSOTXTWjMNlbcdcAXyuh56Y?=
+ =?iso-8859-15?Q?6QiTiATUG4NN8kOYYOJMTYgXSZA1GV0tEEJJMmBC/UzgL6sFg+XtSjb3X?=
+ =?iso-8859-15?Q?VL0euF8uNznA1Pkqh02LlHnr+aiOxGENE+1iFgYidwx+ZZ/lHiNv5A3IT?=
+ =?iso-8859-15?Q?34izfh4D/vxjynQQ/HlQv/mT9tObYnZ7H1YlNDu+fdjAaVhQr2Z6bby6A?=
+ =?iso-8859-15?Q?ittdk+Fl9c6KioSeRWO0zeCvnN/qtxrl7jp5yvsCpEfd3CaH25IsjwrZ9?=
+ =?iso-8859-15?Q?BYtixKLKTwqo9iPPOflldhGK8hIRhYweIIqE+ZrJGSvrYRAAq6LGVOl8L?=
+ =?iso-8859-15?Q?ZuNFkiVmOuRR7z+6JosOgZAwAultf635IOz11ewPp6vBSUt0l7QJ+hqRT?=
+ =?iso-8859-15?Q?UweysUhIujy5XNxNKqMQtzmHQt9HJ41CfmAEi6XHW71sLofZXObk8Ph22?=
+ =?iso-8859-15?Q?T0xe27b0ZWhHbDeC5XI4LmY8ducp7QDLhBchxWwlHwNeVgG8a1XdQqJS9?=
+ =?iso-8859-15?Q?4n1iAfulCNPkb5qA+k29Hs8mmJvnQDr5lOicpNEBEMJXTfOhxNcmeagGY?=
+ =?iso-8859-15?Q?StMfHAjHxYJErNZ/BpgQjME70tNisanf2Z/Qgqx32c0mTzbownFM45kj+?=
+ =?iso-8859-15?Q?QylfyHTIFzeydAbqqqKolv5QAzOOo2PRNF9837744+Tq6YsAlUo5ctcHg?=
+ =?iso-8859-15?Q?mp+6ZOD+cMrEd0a2n9mXyypnLKKId7r+kCH7P3FGuvckG1wsYvBayR5db?=
+ =?iso-8859-15?Q?rL1EQHaeMPesEUWfnGI/D0nqW3L0t+c9ARNFwkr3S6NRKoNbZjMtwqYmN?=
+ =?iso-8859-15?Q?rrxPwj2p7kbRSfhgS/RDTarth33THhYJX1DTgth4B8u0xoLiEtQBSKJFk?=
+ =?iso-8859-15?Q?SblJv3oeraqyLpi1JwfOV04t7w=3D=3D?=
+Content-Type: text/plain; charset="iso-8859-15"
+Content-ID: <0A3212FE247CC248A5244C6E9B995876@eurprd04.prod.outlook.com>
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: AM0PR04MB6737.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9294ae72-ccf1-43a2-f88a-08da917b206d
+X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Sep 2022 09:18:43.6804
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: X9cJjUkbetImf7cUVaecakHgmmMvPu3RAbpRe4EqVbwH19z142xj3MZ3VGAbAAZz5oaJWfACLzmVnaYFqZuktg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR0402MB2797
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi all,
-
-Here is some more information about the Media Summit:
-
-Date: Monday September 12
-Time: 8:45-18:00
-Location: Convention Centre Dublin
-Room: The Liffey B - Part 1
-Sponsored by: Cisco Systems Norway, Collabora and the Kodi Foundation
-
-We will have a projector or display to show presentations, power strips,
-a whiteboard and beverages. Lunch is sponsored by the Kodi Foundation.
-
-It's co-located with the OSS Europe conference:
-
-https://events.linuxfoundation.org/open-source-summit-europe/
-
-Attendees:
-
-Sakari Ailus <sakari.ailus@linux.intel.com>
-Kieran Bingham <kieran.bingham@ideasonboard.com>
-Nicolas Dufresne <nicolas@ndufresne.ca>
-Hugues FRUCHET <hugues.fruchet@st.com>
-Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Jacopo Mondi <jacopo@jmondi.org>
-Michael Olbrich <m.olbrich@pengutronix.de>
-Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Ricardo Ribalda <ribalda@chromium.org>
-Maxime Ripard <maxime@cerno.tech>
-Daniel Scally <djrscally@gmail.com>
-Jernej Škrabec <jernej.skrabec@gmail.com>
-Niklas Söderlund <niklas.soderlund@ragnatech.se> (afternoon only)
-Dave Stevenson <dave.stevenson@raspberrypi.com> (from 11 am approx.)
-Michael Tretter <m.tretter@pengutronix.de>
-Hans Verkuil <hverkuil@xs4all.nl>
-Philipp Zabel <p.zabel@pengutronix.de>
-
-Remote attendees:
-
-Mauro Carvalho Chehab <mchehab@kernel.org>
-Benjamin MUGNIER <benjamin.mugnier@foss.st.com>
-
-Regarding remote attendance: I will a second laptop with me and a good webcam.
-But whether this will work is not at all certain, esp. audio is often very poor. It very
-much depends on the room. I mailed Mauro and Benjamin instructions on how to join.
-We'll see if it works or not.
-
-We'll be using etherpad to keep notes. I created one here:
-
-https://pad.systemli.org/p/media-summit-2022
-
-
-The health and safety regulations will be those of the OSSE LF (updated on August 22):
-
-https://events.linuxfoundation.org/open-source-summit-europe/attend/health-and-safety/
-
-As you can read above masks are needed for this event, so make sure you bring them!
-You also need to be fully vaccinated (Duh!), or show a negative test. See the details
-in the link.
-
-We also strongly recommend that you do a self-test before going to the Conference Centre
-for this meeting.
-
-
-Code of conduct:
-
-https://events.linuxfoundation.org/open-source-summit-europe/attend/code-of-conduct/
-
-
-Agenda:
-
-Below is the final (?) version of the agenda. I have tried to keep the sensor-related
-topics to after 11:00 since Dave comes in later in the day.
-
-Changes since V2:
-- Updated attendees list.
-- Dropped my presentation since I'll be presenting the same thing at the ELCE on Friday
-  9:50.
-- Added keysigning party at the end of the day.
-- Added links to slides.
-
-I am also making the (reasonable) assumption that most attendees will be attending
-the ELCE/OSSE conference Tue-Fri as well. While it is nice if we can come to a
-conclusion in the time allotted for each topic, it's also OK if we can set up
-a small group that can discuss it further in the following days.
-
-I added a guesstimate of the time needed for each topic. Please note that it is
-fine if we decide to discuss it further in the following days in a smaller group,
-or continue discussions on the mailing list.
-
-If you present a topic, then please make a presentation. And if you have material you
-can share beforehand, then that would be great.
-
-We have the room from 8:30-18:00, so I moved a few things around since V1, in particular
-please come in a bit earlier so you can set everything up (power, internet, etc.) so
-we can begin at 9 AM sharp.
-
-Don't expect that the times below are precise (esp. after 11:00): past experience tells
-us that it can vary wildly.
-
-Links to slides:
-
-Ricardo: https://drive.google.com/file/d/1Tew21xeKmFlQ7dQxMcIYqybVuQL7La1a/view
-Dave: https://drive.google.com/file/d/1vjYJjTNRL1P3j6G4Nx2ZpjFtTBTNdeFG/view?usp=sharing
-Jacopo: https://nc.nibble.pw/s/oib8jzNjjtgB9c6
-
-Agenda V3:
-
- 8:40 Getting settled
- 9:00 Introduction
- 9:10 Nicolas: Stateless encoder progress
- 9:45 Ricardo: Introduce ChromeOS camera project: slides posted!
-
-11:00 Break
-
-11:15 Kieran: Fault tolerance
-
-  I raised this in the past when we first started hitting the issue on
-  Renesas platforms with multiple cameras in a single media graph, but now
-  I think it's become more critical with desktop / laptop devices that are
-  hitting the issue (i.e. the IPU3).
-
-  Summary of issue:
-
-  - Multiple cameras that can function independently successfully, are
-    prevented from functioning or fully probing by V4L2 if one component
-    of another camera fails to load or probe.
-
-    If Camera A has a VCM, and Camera B does not, Camera B will not be
-    available at all if Camera A's VCM is not fully probed, even though
-    Camera B can be fully functional and complete.
-
-    Even if Camera A does not have the VCM probed, it may still function
-    successfully (with a fixed focal position) - but our current
-    implementation will mean that it will not even be available to
-    capture images.
-
-  We talked about this quite a long time ago, and I believe the general
-  consensus was that we can have events on the media graph. But
-  unfortunately at the time, there was no development scheduled on that,
-  and it wasn't something I was able to continue at the time.
-
-  I'd like to bring it up to refresh the topic, and see if we can make
-  some progress as it's now affecting more general devices.
-
-11:45 Jacopo: Representing addition sensor processing stages.
-
-  How to represent additional processing stages that happens
-  on the sensor side, mostly additional subsampling/cropping that happen
-  between the analogue cropping on the full pixel array and the final
-  image sent on the wire.
-
-  https://lore.kernel.org/linux-media/CAPY8ntA06L1Xsph79sv9t7MiDSNeSO2vADevuXZdXQdhWpSmow@mail.gmail.com/
-
-  Dave made a good introduction of the issue his email which got
-  largely unanswered.
-
-  The issue is particularly relevant for RAW sensors, where applying
-  subsampling has an impact on the sensor's sensitivity and requires
-  to adjust the gains and exposure accordingly.
-
-  The V4L2 selection API falls short on this and the only other
-  solution I am aware of is registering additional subdevices as the
-  CCS driver does.
-
-12:30 Lunch
-
-13:30 Dave: On-sensor temperature reporting.
-
-  Thread started by Benjamin at
-  https://lore.kernel.org/linux-media/20220415111845.27130-3-benjamin.mugnier@foss.st.com/
-  but no resolution over using hwmon API or V4L2 control. If hwmon
-  then we need Media Controller framework to tie the sensor and thermal
-  device together.
-
-  It's recently been queried for IMX477 with the Pi
-  (https://github.com/raspberrypi/libcamera/issues/19), but it will
-  apply to many sensors.
-
-13:50 Dave: Synchronising sensors for stereoscopic operation.
-
-  How should that be configured? Allowing configuration from userspace
-  would allow sensors to be operated independently which can be useful for
-  test purposes, or should it be enforced from DT/ACPI? Do we set a default
-  configuration for each sensor from DT/ACPI and then allow userspace to
-  override should it wish?
-
-14:10 Dave: Lens drivers.
-
-  Each driver will have a "useful" range which is effectively dictated by
-  the overall module. Should that be defined via DT as it is a feature of
-  the platform, or leave the driver totally generic and expect userspace
-  to do something sensible?
-
-  In the case of simple systems without libcamera, do we set default for
-  V4L2_CID_FOCUS_ABSOLUTE to a sensible hyperfocal distance, and can
-  that again be defined in DT as it is defining the hardware?
-
-14:30 Dave: Controlling sensor GPIO outputs.
-
-  Controlling sensor GPIO outputs for things such as flash triggers,
-  vsync, frame start/end, exposure start/end, etc.
-
-  There is a huge range of features available so do we have any hope of
-  standardising some of it, or do we end up hiding these away in the
-  drivers with custom DT bindings to configure them? If we accept that
-  there will be variation, can we vaguely standardise what those
-  bindings look like? Or should these be V4L2 controls as things like
-  pulse widths may want to be adjusted by userspace?
-
-15:00 Break
-
-15:30 Jacopo: Reconcile handling of regulator, gpios and clock on OF and ACPI platforms.
-
-  We recently got a few series trying to reconcile handling of regulators,
-  gpios and clocks on OF and ACPI platforms all of them doing the usual
-  "similar but slightly different" thing:
-
-  https://lore.kernel.org/linux-media/20220425061022.1569480-1-paul.elder@ideasonboard.com/
-  https://lore.kernel.org/linux-media/20220329090133.338073-1-jacopo@jmondi.org/
-  https://lore.kernel.org/linux-media/20220509143226.531117-1-foss+kernel@0leil.net/
-  https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=0c2c7a1e0d69221b9d489bfd8cf53262d6f82446
-
-  ACPI and OF handles clocks slightly differently, and it is not clear
-  to me if ACPI based platform need explicit handling of
-  clocks/regulator or ACPI does "the right thing" by itself (I'm
-  afraid the answer is actually "it depends"). I'm ACPI illiterate
-  so I cannot propose anything meaningful but if anyone is interested
-  in discussing this further this might be a good time to do so ?
-
-
-16:00 Laurent: V4L2 streams series.
-
-  I'd like to discuss the V4L2 streams series, in particular how to
-  upstream the parts that won't be upstream yet by mid-September.
-  Discussing the next steps would also be useful, as there's lots we could
-  build on top.
-
-16:30 Laurent: How can we finalize conversion of v4l-utils to meson?
-
-16:45 Key signing party
-
-      See: https://lore.kernel.org/linux-media/YxhplLKtRAQzlSK%2F@pendragon.ideasonboard.com/
-
-      I'm really not sure where the 'party' aspect comes in, since while necessary,
-      it is all terribly boring :-)
-
-17:15-18:00 Anything else?
-
-Regards,
-
-	Hans
+Hi Sumit
+
+On ven., 2022-08-19 at 13:54 +0530, Sumit Garg wrote:
+> Caution: EXT Email
+>=20
+> Hi Olivier,
+>=20
+> On Fri, 12 Aug 2022 at 20:01, Olivier Masse <olivier.masse@nxp.com>
+> wrote:
+> >=20
+> > Add a new ioctl called TEE_IOC_SHM_REGISTER_FD to register a
+> > shared memory from a dmabuf file descriptor.
+> > This new ioctl will allow the Linux Kernel to register a buffer
+> > to be used by the Secure Data Path OPTEE OS feature.
+> >=20
+> > Please find more information here:
+> >=20
+https://eur01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fstatic.=
+linaro.org%2Fconnect%2Fsan19%2Fpresentations%2Fsan19-107.pdf&amp;data=3D05%=
+7C01%7Colivier.masse%40nxp.com%7C05071ff1c28044ab740908da81bc44e2%7C686ea1d=
+3bc2b4c6fa92cd99c5c301635%7C0%7C1%7C637964942860947359%7CUnknown%7CTWFpbGZs=
+b3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C30=
+00%7C%7C%7C&amp;sdata=3DnYLb2iMoJExdKEg4CL4eW5%2FQ%2Bqqj4Iw1TxFsd1UqWW0%3D&=
+amp;reserved=3D0
+> >=20
+> > Patch tested on Hikey 6220.
+> >=20
+>=20
+> AFAIU, for the OP-TEE SDP feature to work you need to have a DMA-BUF
+> heap driver for allocating secure buffers through exposed chardev:
+> "/dev/dma_heap/sdp". Have you tested it with some out-of-tree driver
+> as I can't find it upstream? Also, do you plan to push that upstream
+> as well?
+
+It has been tested with linaro,secure-heap reserved dma heap memory
+which is also in review for upstream.
+
+>=20
+> BTW, please add a changelog while sending newer patch-set versions.
+>=20
+> -Sumit
+>=20
+> > Etienne Carriere (1):
+> >   tee: new ioctl to a register tee_shm from a dmabuf file
+> > descriptor
+> >=20
+> >  drivers/tee/tee_core.c   | 38 +++++++++++++++
+> >  drivers/tee/tee_shm.c    | 99
+> > +++++++++++++++++++++++++++++++++++++++-
+> >  include/linux/tee_drv.h  | 11 +++++
+> >  include/uapi/linux/tee.h | 29 ++++++++++++
+> >  4 files changed, 175 insertions(+), 2 deletions(-)
+> >=20
+> > --
+> > 2.25.0
+> >=20
