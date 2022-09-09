@@ -2,118 +2,188 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 241F65B3A60
-	for <lists+linux-media@lfdr.de>; Fri,  9 Sep 2022 16:09:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C16E65B3A6D
+	for <lists+linux-media@lfdr.de>; Fri,  9 Sep 2022 16:10:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232263AbiIIOCw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 9 Sep 2022 10:02:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33062 "EHLO
+        id S230251AbiIIOJP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 9 Sep 2022 10:09:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52650 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232268AbiIIOCI (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 9 Sep 2022 10:02:08 -0400
-Received: from relay11.mail.gandi.net (relay11.mail.gandi.net [IPv6:2001:4b98:dc4:8::231])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3EEE7A221B
-        for <linux-media@vger.kernel.org>; Fri,  9 Sep 2022 07:00:44 -0700 (PDT)
-Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPSA id 217A7100015;
-        Fri,  9 Sep 2022 14:00:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1662732042;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=8pJmLrfDLV1g+Jr97lQ/nwBVyxrNiVAD4ve4HsLR6+0=;
-        b=gzO0UAPeMh9HSwcel+EFjqZoh55BpOFCutC65kq+hZbRy9gjJxtuMKaA23T753IBp8WXsH
-        ndZMSgKw8LWVl4ttkG18xLOXocje+LtKO9hr9aw8WR1S5MAlgQzieCQPfEyrNEdtavbf2d
-        1bD2qI0hNqaCcZnaJkYfR2QnoBr2jvHlUQA9RxNUbgRlav6frZRWTcts6/AxLlbQOUg/3L
-        6fi+eW8kVwm/h9vxXHE/d3H3xQqIGEKOZ6mZ2lIH7J7eMABmeNjn3g6RBxV5T0SaOGskNB
-        R5QmVlJVYrStTmEJ/JT4TeQPMqMzP1s6ekV8W6MqH+eqlnWbNjRIkkTV1JoGtQ==
-Date:   Fri, 9 Sep 2022 16:00:37 +0200
-From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com
-Subject: Re: [PATCH 1/1] sun6i-mipi-csi2: Depend on PHY_SUN6I_MIPI_DPHY
-Message-ID: <YxtHBbvZ2sq6KIyp@aptenodytes>
-References: <20220905100054.3259357-1-sakari.ailus@linux.intel.com>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="rdk50ZX1LxOfHMDq"
+        with ESMTP id S230270AbiIIOJM (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 9 Sep 2022 10:09:12 -0400
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2040.outbound.protection.outlook.com [40.107.236.40])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E8A2B858;
+        Fri,  9 Sep 2022 07:09:10 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=AwqV17AQmgaxRuXlIDsykTD4n+bY4nKXB0/q6yPoXuJ/G3gCW1viM+9LWaWDy0hBN+b9hEraZ/5ko5nbNEYx3Up7nGue4TXHYgS+qSOdANcbhQ5qrY+Kl/w/PwbYWp5FtXcipUlPBx0yQDoUK/ySe+9y10d8kBa7GnMZcNAixPmFdBBRzNVJS3gCz4GhMVzU/Dkukou8eftQaZb67z2mbYRpoOEBiGcJ2/CfHIyIBtedptJBSr1hjzc2Jt6XzEWgnM7vGTzFrcpQ8nDrYRlUihvBWKzBAex8wGQ5cWRKgmsWimZPOzqKLbPnrUkPwARpgRLQJNgyC8LE5cLmR1Fsrg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=VDDx3Gzl0z/3q1o5OT+nLG/+juHQj0ulWrpoO/hsV0Y=;
+ b=UtRfvSP9qVrvI1E1Tuxrnzg35nz5DSpbAZ2GD1BlnCqKbGnRuA2aulULbpbsDtoR01frMGetGQ3lfM16KnmvR6pRVSsEHkImbLq2aPIwlfU7EJaGpM17JTjXtp/I6LuOMN2QXpOXeE+iFQOHC9iqd5eKsDNuRZqXE1niRTopWJtFofdQD1bxQ2RUZpqAwnkr2Rtn9dN68ZE2IlM5pHhFdmi9WkiU8J56skWK14dtB32EauiJ1DyaeI5ijRLiY23SRvGcty6JlxSx8teh0E0enY+AOn28VZA3Zp8okc4AhEppavBmw43e7frp6rT0KKcLc97VEPNsc98bOODSxNUN9Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=VDDx3Gzl0z/3q1o5OT+nLG/+juHQj0ulWrpoO/hsV0Y=;
+ b=Zt0HNVYhpZG4nNgdZNbNUeKyqFgoiUUyrCPuXqflrhR3dZiPBtQw9HA1qW0v0PzHjjEOuZzvVAUbG4LhK1mx1ztc70bsF0YUbwM1zHCna+VceXKxjVReZT3Or+hqEgeBgwoUyrDzeBS1JiTz4XqIcJMobGZIWU/rLnejSvIPrueK/tOC4UBVRHkU0qoPkhUxxG8gH1Nk9+B2cCo+YQ93JC8nIb2DSZMVpJndMjiKSYIJbt+b7YuzgG+gPobZydzlOaGyLRI06RBySVa9PARGP3JXcnNhuvpQyplvBAF9Sj3rvQdBNsF7kHwYBfVxghBO1W+Q352aDlDmXk966kYpkA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from MN2PR12MB4192.namprd12.prod.outlook.com (2603:10b6:208:1d5::15)
+ by DM4PR12MB7551.namprd12.prod.outlook.com (2603:10b6:8:10d::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5612.19; Fri, 9 Sep
+ 2022 14:09:08 +0000
+Received: from MN2PR12MB4192.namprd12.prod.outlook.com
+ ([fe80::462:7fe:f04f:d0d5]) by MN2PR12MB4192.namprd12.prod.outlook.com
+ ([fe80::462:7fe:f04f:d0d5%7]) with mapi id 15.20.5612.019; Fri, 9 Sep 2022
+ 14:09:08 +0000
+Date:   Fri, 9 Sep 2022 11:09:07 -0300
+From:   Jason Gunthorpe <jgg@nvidia.com>
+To:     Christoph Hellwig <hch@infradead.org>
+Cc:     Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Cornelia Huck <cohuck@redhat.com>,
+        dri-devel@lists.freedesktop.org, kvm@vger.kernel.org,
+        linaro-mm-sig@lists.linaro.org, linux-media@vger.kernel.org,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Daniel Vetter <daniel.vetter@ffwll.ch>,
+        Leon Romanovsky <leon@kernel.org>, linux-rdma@vger.kernel.org,
+        Maor Gottlieb <maorg@nvidia.com>,
+        Oded Gabbay <ogabbay@kernel.org>,
+        Dan Williams <dan.j.williams@intel.com>
+Subject: Re: [PATCH v2 4/4] vfio/pci: Allow MMIO regions to be exported
+ through dma-buf
+Message-ID: <YxtJA34l5pYhZaCQ@nvidia.com>
+References: <YxcYGzPv022G2vLm@infradead.org>
+ <b6b5d236-c089-7428-4cc9-a08fe4f6b4a3@amd.com>
+ <YxczjNIloP7TWcf2@nvidia.com>
+ <YxiJJYtWgh1l0wxg@infradead.org>
+ <YxiPh4u/92chN02C@nvidia.com>
+ <Yxiq5sjf/qA7xS8A@infradead.org>
+ <Yxi3cFfs0SA4XWJw@nvidia.com>
+ <Yxi5h09JAzIo4Kh8@infradead.org>
+ <YxjDBOIavc79ZByZ@nvidia.com>
+ <Yxs+k6psNfBLDqdv@infradead.org>
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220905100054.3259357-1-sakari.ailus@linux.intel.com>
-X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,DKIM_INVALID,
-        DKIM_SIGNED,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <Yxs+k6psNfBLDqdv@infradead.org>
+X-ClientProxiedBy: MN2PR01CA0019.prod.exchangelabs.com (2603:10b6:208:10c::32)
+ To MN2PR12MB4192.namprd12.prod.outlook.com (2603:10b6:208:1d5::15)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MN2PR12MB4192:EE_|DM4PR12MB7551:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3e33b889-8257-4473-b5a2-08da926cdcd7
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: lvGBu2QoSoqQMITYZEFsZzW9aAbXhGVaPQ9pVFAqNXJmuJai/GiT76EbK8VGtshmiIQzy+XDMJnZ4W5V2ZB5pmxMUOxK4PWe59sq7pYlBDjU+S8XW7IEtZXdWYiwFVKINi5ERs5f+aHyKzL3nbkDZYcjvkqxOZsw5fVqMohJB5qhnpTVKPSwvcvgajiJP9Q1rMOTt0JL3rzbLw2nwoom1rfgOmG9YRJyt2QP5gBy21LKZRbpzU6wqTj/oUi83c1Ob2eryulRqJC+sXmNGSgaymTVKFxqAsC64tV0+2+IEcaVhwBV00bMZSHGX70Jx1BRTNDkR4DOYpUJuIhmRiPxNb3tGJbKHMcQR7bpBfSVwjpkQCxB7jqe30HuraT2IEbeqcs0gOgoP2vrLNnso9RhscVZNfvT20zOaqz/YZBU+2sP9U5UkqdOMcY7tj5ih8zirlXST1E3pCzCRuKqTDJXbO5aMTL0qZcShuqIHzpvFdw6NXXfZvVEvp3olAN5BX2nuR8179FhyQwVSu7tt3n7xt7QOlT2xQInyw9OcHtWAZmllfRbwvCRniEyJ3BUyQ26OgFxwxSqyVdhWcIVYPhWNqQWehTXhEVfwM/6MkLgK1edFNA3MCmAppgzGuse4jNPDPGHnuSV402Ul/6BfQOivH61cz4kiTEgp2KFGyaar3r06u8K8vDXnACilvzupJpU3wYjH0qczwuLMF1PCfNMbA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR12MB4192.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(346002)(376002)(366004)(39860400002)(396003)(136003)(6916009)(6486002)(316002)(54906003)(86362001)(2616005)(186003)(478600001)(7416002)(6506007)(38100700002)(26005)(6512007)(2906002)(66556008)(8936002)(5660300002)(41300700001)(8676002)(4326008)(66476007)(66946007)(36756003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?o2t8RfIp3LClSwtaZmn/53MaLtcfx53Y/bcuxTmaQ0Y4E4FzaQ6I8QwOoqli?=
+ =?us-ascii?Q?cRu33CLP3QzwXiy+Hrk+9OI71hCc8rNd+06j+vIvIrIa+o08V4PEZQMDUHcU?=
+ =?us-ascii?Q?DlUAo9vaOgWYLK1eyjvQ9VyyUNbJ4+eXdkfteJtHkfvqSPyiZmQwlsf1xAMa?=
+ =?us-ascii?Q?uxyHf0Yi6Z3L0c6kV8HX/Ov0KYTx54Mqbv6h/zJg/pbWyhS8RKiJb0SfbUvp?=
+ =?us-ascii?Q?Hwve1rQux53Et89z7M3ZGe79tSdTghaab5xdMnRJzSf7d4/mM8LZ1LIcjrjh?=
+ =?us-ascii?Q?hAjMGqjyEno3sfNBi6nevZQpwsDgbJuyLmotfbCyNjA4Jd3Mj6N9dmLbEXTB?=
+ =?us-ascii?Q?lmEfbjWcXDQQB1ynOapvxMOPsFQVsBScy/gXX2RrpnMURTCVrria/2kLGGxK?=
+ =?us-ascii?Q?Smkf8DJsY/fAx+MonNX7XdSzlGX0nu8RHLUEkG9EUu4oJCPKz1lQX6Af6mCs?=
+ =?us-ascii?Q?ZRH7hOHOfjFs439iMop3TPZwKjQUv2uJWphSMF/Cfa4qH66MIaWzCarJ+XBk?=
+ =?us-ascii?Q?aSlubpNNl3esIa6bMIhmLRItMXtvrBbVnPEdjOPpR0L7OwHswCu+MoWwx7/L?=
+ =?us-ascii?Q?jtX6rCjvsdW9Djj63qzuhlE38IcPlCOaxhGGB3uIbpLExnMvID8M2X2kZEHw?=
+ =?us-ascii?Q?Fq5PMw1NFvnfrUK8rMxAvVmxu3kSD/We/AZjRCbsgu2sMuW3+PVUyZCqu9so?=
+ =?us-ascii?Q?nP0jTwowqrfOnn09AWcsh7WkTSwQA/SZAeQjZthv0/e6tIosp/sHuGTLYzSB?=
+ =?us-ascii?Q?79YB7GDudmj7VN9rVBQwTh4NM5z4qTpjtFFUs/Q7D1h+IY8qiFYlXvcjR6PW?=
+ =?us-ascii?Q?SRKKtkQ37fUxjUKgFc+VPoaJHYDGMuwDFOQ/9gcXjT/DuGOZDDe39a0wv5TT?=
+ =?us-ascii?Q?d36btNADQ2SI6/Hif5yspm+Whv8omRT2WbFEq4cbLyyntllg4exea59LghD2?=
+ =?us-ascii?Q?wUkV6rgLT5kuwsVH9ZdFTo9uTX2Ph2TPZ5Ux1hKUzDjJZZ2I/vn4vt5SsxW9?=
+ =?us-ascii?Q?hVH7+WqGJskwsDQlRflUiGyWTJKHd6Ay5I2WR5LsbHs6UYQyLF3OwLNYcaDU?=
+ =?us-ascii?Q?ZgEjTsKBwY2qO/HMxbHfdey3G31WinJ1P6n1OGlgdsNydFLlQ8xFTs1nEk5B?=
+ =?us-ascii?Q?CW0/K04pGZjGEKOavUXNESxdSwoOldKGlT3KwuvYF7PAAghTk8/QSgop67nn?=
+ =?us-ascii?Q?o8hi6a1Gdu3nJCfgSXgv2Yl8ibSTQwmRRcYnqDqcT0PM5LuGWvA5UdXJ41yD?=
+ =?us-ascii?Q?F7CGDNGsCP0qi+vAliQFNGgzelOkGcEIFiSP6tmiQiGKOEIc0Q4xyHEm8NRP?=
+ =?us-ascii?Q?m65t3JMT98rbCnYpkmUoujq9+ppNtbUpHoMhatbpNSM29LJWngKvXJtS3AAQ?=
+ =?us-ascii?Q?8UdiYpnAVPrk4IZCOBBe3ZFhvEE2e7cpQv5GCDMFINb8mXNhEEO9w6LwHXoc?=
+ =?us-ascii?Q?HS7iWmODW9wCpcFl3QzOtt67VP/EGpkhE5QS/+M9tibV07rtN5i8Q4KJYOYB?=
+ =?us-ascii?Q?4nVGxLxAmJZt7u9Gezb3B9sduKnTSYSyy803H0qiuPsfRU6h2LTTblIOoQUJ?=
+ =?us-ascii?Q?fsiAcpl+yaS/RIzXfryoFgUTX1tWK68g6t2nIiuX?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3e33b889-8257-4473-b5a2-08da926cdcd7
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB4192.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Sep 2022 14:09:08.7000
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: vwuAk4RxKxbKYgMkqNUcQLWVy1c1om0V2U4vi15nid1b/xX8usyodY15nvilTI7W
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB7551
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+On Fri, Sep 09, 2022 at 06:24:35AM -0700, Christoph Hellwig wrote:
+> On Wed, Sep 07, 2022 at 01:12:52PM -0300, Jason Gunthorpe wrote:
+> > The PCI offset is some embedded thing - I've never seen it in a server
+> > platform.
+> 
+> That's not actually true, e.g. some power system definitively had it,
+> althiugh I don't know if the current ones do.
 
---rdk50ZX1LxOfHMDq
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I thought those were all power embedded systems.
 
-Hi Sakari,
+> There is a reason why we have these proper APIs and no one has any
+> business bypassing them.
 
-On Mon 05 Sep 22, 13:00, Sakari Ailus wrote:
-> PHY_SUN6I_MIPI_DPHY is not a freely selectable option and so may not
-> always be available. Depend on it instead.
+Yes, we should try to support these things, but you said this patch
+didn't work and wasn't tested - that is not true at all.
 
-I don't get what you mean by "not a freely selectable option".
-It's definitely a tristate. Also no build issue will occur if it's
-unselected (but I guess that's not the point here).
+And it isn't like we have APIs just sitting here to solve this
+specific problem. So lets make something.
 
-Cheers,
+> > So, would you be OK with this series if I try to make a dma_map_p2p()
+> > that resolves the offset issue?
+> 
+> Well, if it also solves the other issue of invalid scatterlists leaking
+> outside of drm we can think about it.
 
-Paul
-=20
-> Fixes: 94d7fd9692b5 ("media: sunxi: Depend on GENERIC_PHY_MIPI_DPHY")
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> ---
->  drivers/media/platform/sunxi/sun6i-mipi-csi2/Kconfig | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/drivers/media/platform/sunxi/sun6i-mipi-csi2/Kconfig b/drive=
-rs/media/platform/sunxi/sun6i-mipi-csi2/Kconfig
-> index eb982466abd30..4d072abdfb705 100644
-> --- a/drivers/media/platform/sunxi/sun6i-mipi-csi2/Kconfig
-> +++ b/drivers/media/platform/sunxi/sun6i-mipi-csi2/Kconfig
-> @@ -4,10 +4,10 @@ config VIDEO_SUN6I_MIPI_CSI2
->  	depends on V4L_PLATFORM_DRIVERS && VIDEO_DEV
->  	depends on ARCH_SUNXI || COMPILE_TEST
->  	depends on PM && COMMON_CLK
-> +	depends on PHY_SUN6I_MIPI_DPHY
->  	select MEDIA_CONTROLLER
->  	select VIDEO_V4L2_SUBDEV_API
->  	select V4L2_FWNODE
-> -	select PHY_SUN6I_MIPI_DPHY
->  	select GENERIC_PHY_MIPI_DPHY
->  	select REGMAP_MMIO
->  	help
-> --=20
-> 2.30.2
->=20
+The scatterlist stuff has already leaked outside of DRM anyhow.
 
---=20
-Paul Kocialkowski, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
+Again, I think it is very problematic to let DRM get away with things
+and then insist all the poor non-DRM people be responsible to clean up
+their mess.
 
---rdk50ZX1LxOfHMDq
-Content-Type: application/pgp-signature; name="signature.asc"
+I'm skeptical I can fix AMD GPU, but I can try to create a DMABUF op
+that returns something that is not a scatterlist and teach RDMA to use
+it. So at least the VFIO/RDMA part can avoid the scatter list abuse. I
+expected to need non-scatterlist for iommufd anyhow.
 
------BEGIN PGP SIGNATURE-----
+Coupled with a series to add some dma_map_resource_pci() that handles
+the PCI_P2PDMA_MAP_BUS_ADDR and the PCI offset, would it be an
+agreeable direction?
 
-iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmMbRwUACgkQ3cLmz3+f
-v9Fx0Af+ODIdFejFhc7oglOCGoG3Kv52QyaXJQKqaV/Q3MNZ96CN3tZjBkpGzpcK
-PT7t0LxvuDgcTNur7BwBJ3AfWP0IWxLKtwTfZldc8pNYGrKCvwmCN1B6Dqn3Uy3A
-XN3XQiGkuWdliooNTGQhJ876mg8Vqxu7kArerEp4k808pqjqff/DJp82Z6N9/p35
-AJPXx1vna31uLMQ5AL0NOkdMsT+UHnP1F94N2uEH9u/ExX04M1nRWXic+6qtJ879
-Zyjy8e6cM3dfuGhyv9G9nyGz24U3m++nC68sQ/E9pluL8P6415t1kOH56kmnGOuu
-ruqyHhB/6uXbF3iT5CN3+aYUZbDxog==
-=3rqI
------END PGP SIGNATURE-----
+> Take a look at iommu_dma_map_sg and pci_p2pdma_map_segment to see how
+> this is handled.
 
---rdk50ZX1LxOfHMDq--
+So there is a bug in all these DMABUF implementations, they do ignore
+the PCI_P2PDMA_MAP_BUS_ADDR "distance type".
+
+This isn't a real-world problem for VFIO because VFIO is largely
+incompatible with the non-ACS configuration that would trigger
+PCI_P2PDMA_MAP_BUS_ADDR, and explains why we never saw any
+problem. All our systems have ACS turned on so we can use VFIO.
+
+I'm unclear how Habana or AMD have avoided a problem here..
+
+This is much more serious than the pci offset in my mind.
+
+Thanks,
+Jason
