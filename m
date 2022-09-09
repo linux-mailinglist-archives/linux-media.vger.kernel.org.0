@@ -2,528 +2,391 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 996335B3803
-	for <lists+linux-media@lfdr.de>; Fri,  9 Sep 2022 14:41:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CBC5F5B3853
+	for <lists+linux-media@lfdr.de>; Fri,  9 Sep 2022 14:57:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229761AbiIIMlE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 9 Sep 2022 08:41:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49510 "EHLO
+        id S230286AbiIIM46 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 9 Sep 2022 08:56:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53396 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229789AbiIIMlC (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 9 Sep 2022 08:41:02 -0400
-Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com [IPv6:2a00:1450:4864:20::333])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 57A62D344F
-        for <linux-media@vger.kernel.org>; Fri,  9 Sep 2022 05:40:59 -0700 (PDT)
-Received: by mail-wm1-x333.google.com with SMTP id n23-20020a7bc5d7000000b003a62f19b453so4356810wmk.3
-        for <linux-media@vger.kernel.org>; Fri, 09 Sep 2022 05:40:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date;
-        bh=HVzL5kIlV68Dm7FMMOe2QmJOxHfnwlO71R0LcIRYdPc=;
-        b=iBvxNOZT0mgubHvvWCpqyIjCO1d7GW0qO1VO85GleRsvGrJYBNMrwcWXJQJB/aKNJA
-         nVJ0IrbO5ikMFMyLJRiUryiXdoX98d+ZjGT1ydw/Ep9vJt3sunkksmEAZv9ZmIa0BMT7
-         ttesmLcM8AKfYGlh7h1QHbVQQXWHegL4HZn5U=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date;
-        bh=HVzL5kIlV68Dm7FMMOe2QmJOxHfnwlO71R0LcIRYdPc=;
-        b=2A87NZwgDmgIWxULBPDo2oHl/QEgPztFcHocY1BWo34H3JP9r3kdfwJs2Jnf8eEvkg
-         r0ZEsupk55R80OqzkmlXqEkYnjCLRozDit4yx0uq0TH+n+JeJK8WaPMqpgaUxWbkT/rS
-         iF0goMS96xlFdnBPjGO6GV7MpJlAmeo0eC4I/daSW2nO4dmAHVqTp+BYLxsrCSK8IGM3
-         KovnYxXo5TQ25TSNVYV76Q90C9OLwjYzmKjafdh5wCP8ojChQNV758L4Pe28l8rI6Ibl
-         u0qlP1PLPcDuPElbU3VYFRmQH/7R/59YzvbqsN49S7NiWS3JwsY2ouUlIa3a3UVPEQyQ
-         YYaA==
-X-Gm-Message-State: ACgBeo3DTuO3jI1E9NwOrZ5i09fG+o5OuJHPtXnE2VemgbUiQVxLcuXF
-        CHMO0FVnMyYq1a4ZGE3lV9xmRv7lyEidvuTuiGQ+pWQqFpvpPCR8
-X-Google-Smtp-Source: AA6agR5WgLqu4x9R6joe890stu+Cz8Uza/8iKLPnLvNLWXuK72gvIjRlX2An1ZJylMdx7DOas78JZKCxPGdES252+zA=
-X-Received: by 2002:a05:600c:4152:b0:3a6:48c0:509c with SMTP id
- h18-20020a05600c415200b003a648c0509cmr5408168wmm.24.1662727257751; Fri, 09
- Sep 2022 05:40:57 -0700 (PDT)
+        with ESMTP id S229486AbiIIM45 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 9 Sep 2022 08:56:57 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1AE5D12B2B5;
+        Fri,  9 Sep 2022 05:56:56 -0700 (PDT)
+Received: from [192.168.0.43] (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net [86.13.91.161])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3B0D9DD;
+        Fri,  9 Sep 2022 14:56:53 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1662728213;
+        bh=DTVmrXfu+QKYQ+vdYeai2ROzz1pA238RxBAQ8aOvdPo=;
+        h=Date:To:Cc:References:From:Subject:In-Reply-To:From;
+        b=FGFFqQBqqDsFQAmSTpq+HWLlnyzwFK0+URZTfaW4s2NQsw/DnxtNBANeeRLMdw4qz
+         fflkUYH1N8YScyQ8Ap5+V8H/1baH5sdRrJuv67R1XCzVXzDenid8m4S8TK/pxcIkbn
+         Kxd+WVi3dafy5OBT1FWVrXazBMlc1zytRj8TCBSs=
+Message-ID: <93eb0860-2242-4ae4-d042-b7be88cb2ca0@ideasonboard.com>
+Date:   Fri, 9 Sep 2022 13:56:50 +0100
 MIME-Version: 1.0
-References: <20220908080846.wursajjtc3mbja4u@houat> <Yxn40Y5HDzXHITwP@pendragon.ideasonboard.com>
- <20220908145905.avq73a3hmt266o4a@houat> <YxoHWNusFEuVdOha@pendragon.ideasonboard.com>
- <20220908153430.fctitaofbj6hqot3@houat> <CANiDSCs=Jga0NgnhPPiJ_EZA5=3cNFfztmrVxzPO32TO_pKnXg@mail.gmail.com>
- <20220909080028.vchiddgtt2kl2ha3@houat> <CANiDSCva_RZpSHMaaHXyzuQD_zTYFOG2CsNYA15_C39a_nSHnQ@mail.gmail.com>
- <20220909090637.pexjm56fdzrjwpfy@houat> <CANiDSCvMJVLMzoMQrRF3a3z-_6FFKK3+gdqFkFqemOw-0CNR9g@mail.gmail.com>
- <20220909115813.lbcrdla576xhw5ut@houat>
-In-Reply-To: <20220909115813.lbcrdla576xhw5ut@houat>
-From:   Ricardo Ribalda <ribalda@chromium.org>
-Date:   Fri, 9 Sep 2022 14:40:46 +0200
-Message-ID: <CAMrC3HsueJNnG97JUyaoBFo-nNBX5weYdY-y1yDvOMWVrtXszg@mail.gmail.com>
-Subject: Re: [Media Summit] ChromeOS Kernel CAM
-To:     Maxime Ripard <maxime@cerno.tech>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        Hidenori Kobayashi <hidenorik@chromium.org>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Michael Olbrich <m.olbrich@pengutronix.de>,
-        Daniel Scally <djrscally@gmail.com>,
-        =?UTF-8?Q?Jernej_=C5=A0krabec?= <jernej.skrabec@gmail.com>,
-        =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        Michael Tretter <m.tretter@pengutronix.de>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Benjamin MUGNIER <benjamin.mugnier@foss.st.com>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Content-Language: en-US
+To:     Michael Grzeschik <m.grzeschik@pengutronix.de>,
+        linux-usb@vger.kernel.org
+Cc:     linux-media@vger.kernel.org, balbi@kernel.org,
+        laurent.pinchart@ideasonboard.com, paul.elder@ideasonboard.com,
+        kernel@pengutronix.de, nicolas@ndufresne.ca,
+        kieran.bingham@ideasonboard.com
+References: <20220908194750.3750310-1-m.grzeschik@pengutronix.de>
+ <20220908194750.3750310-4-m.grzeschik@pengutronix.de>
+From:   Dan Scally <dan.scally@ideasonboard.com>
+Subject: Re: [PATCH v13 3/6] usb: gadget: uvc: add v4l2 enumeration api calls
+In-Reply-To: <20220908194750.3750310-4-m.grzeschik@pengutronix.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi
+Hi Michael - thanks for the patch
 
-On Fri, Sep 9, 2022 at 1:58 PM Maxime Ripard <maxime@cerno.tech> wrote:
+On 08/09/2022 20:47, Michael Grzeschik wrote:
+> This patch adds support to the v4l2 VIDIOCs for enum_format,
+> enum_framesizes and enum_frameintervals. This way, the userspace
+> application can use these VIDIOCS to query the via configfs exported
+> frame capabilities. With thes callbacks the userspace doesn't have to
+> bring its own configfs parser.
 >
-> On Fri, Sep 09, 2022 at 12:00:34PM +0200, Ricardo Ribalda wrote:
-> > On Fri, 9 Sept 2022 at 11:06, Maxime Ripard <maxime@cerno.tech> wrote:
-> > > On Fri, Sep 09, 2022 at 10:39:36AM +0200, Ricardo Ribalda wrote:
-> > > > On Fri, 9 Sept 2022 at 10:00, Maxime Ripard <maxime@cerno.tech> wro=
-te:
-> > > > >
-> > > > > On Thu, Sep 08, 2022 at 08:13:17PM +0200, Ricardo Ribalda wrote:
-> > > > > > On Thu, 8 Sept 2022 at 17:34, Maxime Ripard <maxime@cerno.tech>=
- wrote:
-> > > > > > >
-> > > > > > > On Thu, Sep 08, 2022 at 06:16:40PM +0300, Laurent Pinchart wr=
-ote:
-> > > > > > > > On Thu, Sep 08, 2022 at 04:59:05PM +0200, Maxime Ripard wro=
-te:
-> > > > > > > > > On Thu, Sep 08, 2022 at 05:14:41PM +0300, Laurent Pinchar=
-t wrote:
-> > > > > > > > > > On Thu, Sep 08, 2022 at 10:08:46AM +0200, Maxime Ripard=
- wrote:
-> > > > > > > > > > > Hi Ricardo,
-> > > > > > > > > > >
-> > > > > > > > > > > On Thu, Sep 08, 2022 at 09:11:11AM +0200, Ricardo Rib=
-alda wrote:
-> > > > > > > > > > > > > - Still on slide 16, V4L2 as an API is usable wit=
-hout disclosing vendor
-> > > > > > > > > > > > >   IP. What is not possible is upstreaming a drive=
-r. I don't see this as
-> > > > > > > > > > > > >   significantly different between V4L2 and the ne=
-w API proposal. I
-> > > > > > > > > > > > >   expect this to be discussed on Monday.
-> > > > > > > > > > > >
-> > > > > > > > > > > > I am only considering upstream drivers. There is no=
-t much to discuss
-> > > > > > > > > > > > for downstream or closed drivers :)
-> > > > > > > > > > >
-> > > > > > > > > > > Are we really discussing upstream *drivers*? If anyth=
-ing, it looks like
-> > > > > > > > > > > the Kcam proposal moves most of the drivers out of up=
-stream.
-> > > > > > > > > >
-> > > > > > > > > > Given that the API proposal sets at a significant lower=
- level than V4L2
-> > > > > > > > > > in the stack, the concept of "userspace driver" (I mean=
-t it in the sense
-> > > > > > > > > > of GPU support in mesa) plays a bigger role. It would b=
-e good to clarify
-> > > > > > > > > > what is meant by "driver" and maybe use the term "kerne=
-l driver" when
-> > > > > > > > > > only the kernel part is covered, to avoid misunderstand=
-ings.
-> > > > > > > > >
-> > > > > > > > > I think there's a bit of a misunderstanding about what ex=
-actly is in a
-> > > > > > > > > DRM driver, and what is in Mesa.
-> > > > > > > > >
-> > > > > > > > > Mesa doesn't program the hardware at all, it's merely a g=
-lorified
-> > > > > > > > > compiler. It's not more of a driver than GCC is an OS. Mo=
-st importantly
-> > > > > > > > > for our discussion, Mesa doesn't perform any kind of regi=
-ster access (or
-> > > > > > > > > register access request), only the (kernel) driver does t=
-hat.
-> > > > > > > >
-> > > > > > > > Mesa compiles shaders, but also more generally produces com=
-mand streams
-> > > > > > > > that are passed as blobs to the DRM driver, which then forw=
-ards them to
-> > > > > > > > the device with as little processing and validation as poss=
-ible (when
-> > > > > > > > the device is designed with multi-clients in mind, that pro=
-cessing and
-> > > > > > > > validation can be reduced a lot).
-> > > > > > >
-> > > > > > > That's true, but at no point in time is the CPU ever touches =
-that
-> > > > > > > command stream blob in the case of DRM...
-> > > > > >
-> > > > > > As Laurent says, the latest hardware is very similar to GPUs, y=
-ou pass
-> > > > > > a set of commands to a firmware that does the actual R/W to the
-> > > > > > hardware.
-> > > > >
-> > > > > For the latest, most powerful, hardware, maybe. I can show you pl=
-enty of
-> > > > > other ISP we'll need to support that aren't programmed that way, =
-and in
-> > > > > that case we would end up interpreting whatever is being passed t=
-o KCam
-> > > > > on the CPU.
-> > > >
-> > > > Kcam is not meant to replace V4L2, if a hardware is better modeled =
-in
-> > > > V4L2, they can use it.
-> > >
-> > > I'm not sure that alone is going to fly. Having to support the same
-> > > device in multiple frameworks based on who is using it exactly is ver=
-y
-> > > frowned upon: it's a waste of development, review and maintenance tim=
-e.
-> > >
-> > > If we aim for something, it's to supersede v4l2, or to extend v4l2.
-> >
-> > You do not support the same device in multiple frameworks. You pick
-> > the driver that fits your purpose better.
-> >
-> > Like Industrial IO vs other subsystems.
+> Signed-off-by: Michael Grzeschik <m.grzeschik@pengutronix.de>
 >
-> Again, it's not clear to me where do we draw the line then. Let's say we
-> have three different systems, one with a DMA and an ov5640, one with a
-> DMA, an ISP and an ov5640, and let's be a bit exotic and re-use the
-> first setup, with an external ISP in the mix.
+> ---
+> v1 -> v13:
+>     - refactored the enum_ callbacks to this separate new patch
+>     - renamed +uvc_v4l2_enum_fmt to uvc_v4l2_enum_format
+>     - improved coding style
+>     - removed unused leftover variable uvc_video in enum functions
 >
-> Which setup is going to use which framework, and where the drivers are
-> going to be?
+>   drivers/usb/gadget/function/f_uvc.c    |  32 +++++
+>   drivers/usb/gadget/function/uvc.h      |   2 +
+>   drivers/usb/gadget/function/uvc_v4l2.c | 176 +++++++++++++++++++++++++
+>   3 files changed, 210 insertions(+)
 >
->
-> > > > > > The most critical part is the DMA, and that will always be abst=
-racted.
-> > > > >
-> > > > > Where do you draw the line then? What will have a driver in the k=
-ernel,
-> > > > > and what won't?
-> > > >
-> > > > If there is memory access: abstraction
-> > > > If the hardware is not trusted/documented:abstraction
-> > > > If a specific configuration is know to be invalid and leaves the
-> > > > system in an invalid state:filtering
-> > > > everything else: raw access (+validation)
-> > >
-> > > I mean, the ISP you mentioned at least has to access the command buff=
-er
-> > > somehow, and surely that counts as a memory access?
-> > >
-> > > And so, what happens if the ISP is not entirely documented? You start
-> > > with a kernel driver, and then once it is documented you move it to K=
-cam
-> > > breaking all users in the process?
-> >
-> > I think there is a misunderstanding here, All the hardware needs a
-> > kernel driver.
-> > The functionality of that driver depends on the trust/documentation on
-> > the platform:
-> >
-> > - simple validation
-> > - filtering
-> > - "modes"
->
-> I think you really need to show us with a proof of concept what Kcam
-> exactly is then. Because in your slide 22, you state:
->
->
-> """
-> Kcam follows a DRM-like model where the
-> kernel provides basic functionality:
-> - Scheduling
-> - Discovery
->
-> Everything else is provided by an userspace library (hopefully libcamera)
-> """
->
-> What is "everything else" in that case ?
-
-One thing is the kcam framework and the other is the kcam drivers
-
-kcam framework:
-  - Scheduling and discovery
-
-Kcam drivers:
-  - Access to hardware via whatever abstraction level, power management,
+> diff --git a/drivers/usb/gadget/function/f_uvc.c b/drivers/usb/gadget/function/f_uvc.c
+> index f4f6cf75930beb..7c416170b499e0 100644
+> --- a/drivers/usb/gadget/function/f_uvc.c
+> +++ b/drivers/usb/gadget/function/f_uvc.c
+> @@ -888,6 +888,7 @@ static void uvc_free(struct usb_function *f)
+>   	struct uvc_device *uvc = to_uvc(f);
+>   	struct f_uvc_opts *opts = container_of(f->fi, struct f_uvc_opts,
+>   					       func_inst);
+> +	config_item_put(&uvc->header->item);
+>   	--opts->refcnt;
+>   	kfree(uvc);
+>   }
+> @@ -941,6 +942,7 @@ static struct usb_function *uvc_alloc(struct usb_function_instance *fi)
+>   	struct uvc_device *uvc;
+>   	struct f_uvc_opts *opts;
+>   	struct uvc_descriptor_header **strm_cls;
+> +	struct config_item *streaming, *header, *h;
+>   
+>   	uvc = kzalloc(sizeof(*uvc), GFP_KERNEL);
+>   	if (uvc == NULL)
+> @@ -973,6 +975,36 @@ static struct usb_function *uvc_alloc(struct usb_function_instance *fi)
+>   	uvc->desc.fs_streaming = opts->fs_streaming;
+>   	uvc->desc.hs_streaming = opts->hs_streaming;
+>   	uvc->desc.ss_streaming = opts->ss_streaming;
+> +
+> +	streaming = config_group_find_item(&opts->func_inst.group, "streaming");
+> +	if (!streaming) {
+> +		config_item_put(streaming);
 
 
+This shouldn't be necessary as it's a no-op if streaming is null
 
->
-> >
-> > >
-> > > > > And again, the issue I was telling you about was about a configur=
-ation
-> > > > > mismatch (following a bogus documentation) between the DMA and th=
-e
-> > > > > sensor. If the sensor is part of the userspace and the DMA in the
-> > > > > kernel, we very much can still have that issue.
-> > > >
-> > > > With internal operations you can achieve cooperation between the en=
-tities.
-> > >
-> > > Again, looks like what we currenty have with v4l2 to me.
-> >
-> > In v4l2, the API is inside the kernel.  Kcam  is API agnostic, there
-> > is no concept of streams, formats, controls...
->
-> With the "modes abstraction" you mentioned before, we're getting really
-> close to a concept of controls and formats.
->
-> > > > > > Also I doubt that we will have new hardware without an IOMMU, s=
-o we
-> > > > > > have the same layers of security as today.
-> > > > >
-> > > > > Maybe not for the kind of devices that end up on chromebooks, but
-> > > > > there's definitely hardware being designed today that have an ISP=
- but no
-> > > > > IOMMU.
-> > > >
-> > > > For the non-iommu hardware, you will have the same security as toda=
-y:
-> > > > driver validation.
-> > >
-> > > I mean, I'm all for it. But the stated goal of Kcam is to reduce the
-> > > driver logic so that most of it is in userspace, but most of your
-> > > answers to challenges so far has been "but we'll have a driver for th=
-at"
-> > >
-> > > If a driver is the solution, why do we need the Kcam architecture in =
-the
-> > > first place?
-> >
-> > To create a platform where you can build any API.
->
-> This answers what you want to achieve at the user-space level, but not
-> really why v4l2 doesn't fit the bill. Libcamera already provides support
-> for multiple API on top of v4l2
-
-Of course you can try to build an API on top of another API, but that
-comes at a cost, and requires retrofitting extra functionality.
-Two examples; Look at the request API and how many drivers out of
-staging are using it. Look at the number of android devices that are
-using v4l2 to implement HAL3.
+> +		mutex_unlock(&opts->lock);
+> +		return ERR_PTR(-ENOMEM);
 
 
->
-> > > > > > > > Recent ISPs have a similar architecture, with a set of regi=
-sters used
-> > > > > > > > to communicate with the ISP firmware, and then most of the =
-hardware
-> > > > > > > > registers for the actual image processing blocks being prog=
-rammed
-> > > > > > > > based from the command stream. "Command stream" may not be =
-a very good
-> > > > > > > > term for ISPs as it's not really a stream of commands, but
-> > > > > > > > conceptually, we're dealing with a blob that is computed by=
- userspace.
-> > > > > > >
-> > > > > > > ... while in Kcam, the CPU knows and will interpret that comm=
-and stream.
-> > > > > > > Maybe not in all cases, but it's still a significant differen=
-ce.
-> > > > > > >
-> > > > > > > If we had to draw a parallel with something else in the kerne=
-l, it looks
-> > > > > > > way more like eBPF or the discussion we had on where to parse=
- the
-> > > > > > > bitstreams for stateless codecs.
-> > > > > > >
-> > > > > > > The first one has been severely constrained to avoid the issu=
-es we've
-> > > > > > > raised, and we all know how the second one went.
-> > > > > >
-> > > > > > In eBPF, you are moving some user code to the kernel, with an u=
-nstable API.
-> > > > > >
-> > > > > > In KCAM, (and in DRM), you let the user build a set of operatio=
-ns,
-> > > > > > that you pass to the kernel via a stable API, then it is valida=
-ted and
-> > > > > > scheduled by the kernel.
-> > > > >
-> > > > > You won't be able to have a stable API with that design either. I=
-f only
-> > > > > because of that whitelist you were mentioning. Let's say we have =
-a
-> > > > > register that turns out, after the facts, to not be available. If=
- the
-> > > > > userspace ever used to set it at some point, you're screwed. Inde=
-ed,
-> > > > > either you move it out of the whitelist, and then you break users=
-pace,
-> > > > > or you don't add it to the whitelist and end up allowing an insec=
-ure or
-> > > > > dangerous situation.
-> > > >
-> > > > See above for our description of allowlist.
-> > > >
-> > > > Also, using the drm model as reference. kernel version, libdrm and
-> > > > mesa (and even llvm) are very coupled. Using a wrong version can le=
-ad
-> > > > to unexpected results or even GPU hangs.
-> > >
-> > > Right.
-> > >
-> > > And those are considered regressions:
-> > > https://dri.freedesktop.org/docs/drm/gpu/drm-uapi.html#open-source-us=
-erspace-requirements
-> > >
-> > > """
-> > > The Linux kernel=E2=80=99s =E2=80=9Cno regression=E2=80=9D policy hol=
-ds in practice only for
-> > > open-source userspace of the DRM subsystem. DRM developers are perfec=
-tly
-> > > fine if closed-source blob drivers in userspace use the same uAPI as =
-the
-> > > open drivers, but they must do so in the exact same way as the open
-> > > drivers. Creative (ab)use of the interfaces will, and in the past
-> > > routinely has, lead to breakage.
-> > > """
-> >
-> > There are a lot of hypothetical scenarios: erratas, big documentation
-> > drop from a vendor, drivers obtained via reverse engineering....
->
-> Those wouldn't be regressions.
->
-> > There is no one-size-fits-all solution, and every case needs to be
-> > considered individually when they come.
-> >
-> > As any other kernel subsystems we need to live under the
-> > never-break-the-userspace. Obey gravity, it is the law ;)
-> >
-> >
-> > >
-> > > > What to do when we fix bugs that affect functionality is something
-> > > > that we need to decide on case to case cases. The same way we do to=
-day
-> > > > when hardware does not support a control value and we discover it 1=
-0
-> > > > versions later.
-> > >
-> > > Indeed, but we need to have some idea on what that process is going t=
-o
-> > > look like in practice. If we put ourselves is a corner and don't allo=
-w
-> > > for some bug resolutions in the first place, then we won't be able to
-> > > fix them when we'll encounter them.
-> >
-> > We can definately look into establishing some guidelines once we have
-> > a more clear vision of kcam and its extent.
-> >
-> >
-> > >
-> > > > > And you can't say you would just ignore a register that isn't par=
-t of
-> > > > > the whitelist, because then you would enforce a configuration tha=
-t isn't
-> > > > > the one the user-space asked for, which is even worse.
-> > > > >
-> > > > > > X11 was much more bizarre, the GPIO iomem was remapped into use=
-rspace.
-> > > > >
-> > > > > Yes, but that wasn't the only thing bad with it. I mean, it doesn=
-'t
-> > > > > really matter who exactly does the register access eventually. In=
- UMS,
-> > > > > X11 was doing it itself through a mapping of its own, in KCam the=
- kernel
-> > > > > will do it on behalf of the userspace. But we still end up in bot=
-h cases
-> > > > > with:
-> > > > >
-> > > > >   * The entire logic is in userspace
-> > > >
-> > > > We can argue if this is an issue or not. I think it is not
-> > > >
-> > > > >   * Realistically speaking, that logic can only run as root
-> > > >
-> > > > Do not agree.
-> > >
-> > > How so? Are you going to allow any javascript enabled website to poke
-> > > into Kcam?
-> >
-> > Can you access the GPU ISA directly as an external app on the browser?
->
-> I guess?
+Why ENOMEM? I wouldn't expect that error here...I think I'd expect 
+ENOENT. You also aren't freeing uvc here so that memory would be lost.
 
-Please change browser if yours has a javascript engine with access to
-/dev/dri :)
 
->
-> > Same answer here.
->
-> Not really, and I'm sorry but you keep eluding this, and this comes back
-> in pretty much every mail: the CPU will never interpret the GPU ISA in
-> kernel space. Kcam might. This is a very big difference.
->
-> > The browser will typically speak with a system service to access the
-> > camera: pipewire, gstreamer....
-> >
-> > >
-> > > > >   * With a poor configuration, the userspace can completely crash=
- the
-> > > > >     system
-> > > > >   * If the userspace crashes, you can end up with a configuration=
- you
-> > > > >     can't really recover from
-> > > >
-> > > > A Kcam driver can give you broken images, but never crash the syste=
-m
-> > > > or leave it in an unrecoverable state. That is the main guarantee t=
-hat
-> > > > we expect from the drivers.
-> > >
-> > > That's wishful thinking. If your application crashes halfway through =
-the
-> > > configuration, you're left in a weird state you know nothing about no=
-w.
-> > > That's impossible to recover from.
-> >
-> > Today (almost) any kernel driver makes no assumption of the initial
-> > state of the hardware. You might have been interrupted at any state
-> > and rebooting the hardware does not reinit the internal state of the
-> > peripherals.
-> >
-> > This is the same, a kcam app needs to init the hardware before it can
-> > make use of it.
->
-> I guess it's getting obvious by now that Kcam doesn't seem to be a
-> solution that is getting a consensus, possibly because it's so early
-> that we don't really have an idea of how it would look like with a real
-> device.
+> +	}
+> +
+> +	header = config_group_find_item(to_config_group(streaming), "header");
+> +	config_item_put(streaming);
+> +	if (!header) {
+> +		config_item_put(header);
+> +		mutex_unlock(&opts->lock);
+> +		return ERR_PTR(-ENOMEM);
+> +	}
+> +
+> +	h = config_group_find_item(to_config_group(header), "h");
+> +	config_item_put(header);
+> +	if (!h) {
+> +		config_item_put(h);
+> +		mutex_unlock(&opts->lock);
+> +		return ERR_PTR(-ENOMEM);
+> +	}
 
-Difficult to get a consensus before the summit has even taken place :),
 
->
-> I'm not sure this can be easily solved in the time slot we have on
-> Monday, so maybe we can turn this around in order to have some progress:
-> could we maybe use that time slot to discuss the problem, and outline
-> the attributes an ideal solution would have to make sure everyone is
-> roughly on the same page.
+Similar comments for these two error paths. Given the similarity of 
+those sections you could have something like;
 
-This is why the presentation only has 5 slides around the kcam
-"internals" and the rest is explaining the problem that ChromeOS (and
-the rest of the industry) is facing. :)
 
-We can always fix the code and send 10000 revisions, what we have to
-agree on are the principals, openness etc. And that is what we expect
-to get out of Monday.
+     streaming = config_group_find_item(&opts->func_inst.group, 
+"streaming");
+     if (!streaming)
+         goto err_config;
 
->
-> And then, if Kcam can be adapted to change those attributes, awesome :)
->
-> Maxime
+     ... rest of the function ...
+
+     return &uvc->func;
+
+err_config:
+     mutex_unlock(&opts->lock);
+     kfree(uvc);
+     return -ENOENT; // or whatever is appropriate
+}
+
+> +
+> +	uvc->header = to_uvcg_streaming_header(h);
+> +	if (!uvc->header->linked) {
+> +		mutex_unlock(&opts->lock);
+> +		return ERR_PTR(-EBUSY);
+
+
+This path on the other hand should have config_item_put(h) I think, and 
+would also need to kfree(uvc).
+
+
+> +	}
+> +
+>   	++opts->refcnt;
+>   	mutex_unlock(&opts->lock);
+>   
+> diff --git a/drivers/usb/gadget/function/uvc.h b/drivers/usb/gadget/function/uvc.h
+> index 58e383afdd4406..641cf2e7afaf6e 100644
+> --- a/drivers/usb/gadget/function/uvc.h
+> +++ b/drivers/usb/gadget/function/uvc.h
+> @@ -133,6 +133,8 @@ struct uvc_device {
+>   	bool func_connected;
+>   	wait_queue_head_t func_connected_queue;
+>   
+> +	struct uvcg_streaming_header *header;
+> +
+>   	/* Descriptors */
+>   	struct {
+>   		const struct uvc_descriptor_header * const *fs_control;
+> diff --git a/drivers/usb/gadget/function/uvc_v4l2.c b/drivers/usb/gadget/function/uvc_v4l2.c
+> index 511f106f984375..63cb5a40306c75 100644
+> --- a/drivers/usb/gadget/function/uvc_v4l2.c
+> +++ b/drivers/usb/gadget/function/uvc_v4l2.c
+> @@ -18,12 +18,92 @@
+>   #include <media/v4l2-dev.h>
+>   #include <media/v4l2-event.h>
+>   #include <media/v4l2-ioctl.h>
+> +#include <media/v4l2-uvc.h>
+>   
+>   #include "f_uvc.h"
+>   #include "uvc.h"
+>   #include "uvc_queue.h"
+>   #include "uvc_video.h"
+>   #include "uvc_v4l2.h"
+> +#include "uvc_configfs.h"
+> +
+> +static struct uvc_format_desc *to_uvc_format(struct uvcg_format *uformat)
+> +{
+> +	char guid[16] = UVC_GUID_FORMAT_MJPEG;
+> +	struct uvc_format_desc *format;
+> +	struct uvcg_uncompressed *unc;
+> +
+> +	if (uformat->type == UVCG_UNCOMPRESSED) {
+> +		unc = to_uvcg_uncompressed(&uformat->group.cg_item);
+> +		if (!unc)
+> +			return ERR_PTR(-EINVAL);
+> +
+> +		memcpy(guid, unc->desc.guidFormat, sizeof(guid));
+> +	}
+> +
+> +	format = uvc_format_by_guid(guid);
+> +	if (!format)
+> +		return ERR_PTR(-EINVAL);
+> +
+> +	return format;
+> +}
+> +
+> +struct uvcg_format *find_format_by_index(struct uvc_device *uvc, int index)
+> +{
+> +	struct uvcg_format_ptr *format;
+> +	struct uvcg_format *uformat = NULL;
+> +	int i = 1;
+> +
+> +	list_for_each_entry(format, &uvc->header->formats, entry) {
+> +		if (index == i) {
+> +			uformat = format->fmt;
+> +			break;
+> +		}
+> +		i++;
+> +	}
+> +
+> +	return uformat;
+> +}
+> +
+> +struct uvcg_frame *find_frame_by_index(struct uvc_device *uvc,
+> +				       struct uvcg_format *uformat,
+> +				       int index)
+> +{
+> +	struct uvcg_format_ptr *format;
+> +	struct uvcg_frame_ptr *frame;
+> +	struct uvcg_frame *uframe = NULL;
+> +
+> +	list_for_each_entry(format, &uvc->header->formats, entry) {
+> +		if (format->fmt->type != uformat->type)
+> +			continue;
+> +		list_for_each_entry(frame, &format->fmt->frames, entry) {
+> +			if (index == frame->frm->frame.b_frame_index) {
+> +				uframe = frame->frm;
+> +				break;
+> +			}
+> +		}
+> +	}
+> +
+> +	return uframe;
+> +}
+> +
+> +static struct uvcg_format *find_format_by_pix(struct uvc_device *uvc,
+> +					      u32 pixelformat)
+> +{
+> +	struct uvcg_format_ptr *format;
+> +	struct uvcg_format *uformat = NULL;
+> +
+> +	list_for_each_entry(format, &uvc->header->formats, entry) {
+> +		struct uvc_format_desc *fmtdesc = to_uvc_format(format->fmt);
+> +
+> +		if (fmtdesc->fcc == pixelformat) {
+> +			uformat = format->fmt;
+> +			break;
+> +		}
+> +	}
+> +
+> +	return uformat;
+> +}
+>   
+>   /* --------------------------------------------------------------------------
+>    * Requests handling
+> @@ -134,6 +214,99 @@ uvc_v4l2_set_format(struct file *file, void *fh, struct v4l2_format *fmt)
+>   	return 0;
+>   }
+>   
+> +static int
+> +uvc_v4l2_enum_frameintervals(struct file *file, void *fh,
+> +		struct v4l2_frmivalenum *fival)
+> +{
+> +	struct video_device *vdev = video_devdata(file);
+> +	struct uvc_device *uvc = video_get_drvdata(vdev);
+> +	struct uvcg_format *uformat = NULL;
+> +	struct uvcg_frame *uframe = NULL;
+> +	struct uvcg_frame_ptr *frame;
+> +
+> +	uformat = find_format_by_pix(uvc, fival->pixel_format);
+> +	if (!uformat)
+> +		return -EINVAL;
+> +
+> +	list_for_each_entry(frame, &uformat->frames, entry) {
+> +		if (frame->frm->frame.w_width == fival->width &&
+> +		    frame->frm->frame.w_height == fival->height) {
+> +			uframe = frame->frm;
+> +			break;
+> +		}
+> +	}
+> +	if (!uframe)
+> +		return -EINVAL;
+> +
+> +	if (fival->index >= uframe->frame.b_frame_interval_type)
+> +		return -EINVAL;
+> +
+> +	fival->discrete.numerator =
+> +		uframe->dw_frame_interval[fival->index];
+> +
+> +	/* TODO: handle V4L2_FRMIVAL_TYPE_STEPWISE */
+> +	fival->type = V4L2_FRMIVAL_TYPE_DISCRETE;
+> +	fival->discrete.denominator = 10000000;
+> +	v4l2_simplify_fraction(&fival->discrete.numerator,
+> +		&fival->discrete.denominator, 8, 333);
+> +
+> +	return 0;
+> +}
+> +
+> +static int
+> +uvc_v4l2_enum_framesizes(struct file *file, void *fh,
+> +		struct v4l2_frmsizeenum *fsize)
+> +{
+> +	struct video_device *vdev = video_devdata(file);
+> +	struct uvc_device *uvc = video_get_drvdata(vdev);
+> +	struct uvcg_format *uformat = NULL;
+> +	struct uvcg_frame *uframe = NULL;
+> +
+> +	uformat = find_format_by_pix(uvc, fsize->pixel_format);
+> +	if (!uformat)
+> +		return -EINVAL;
+> +
+> +	if (fsize->index >= uformat->num_frames)
+> +		return -EINVAL;
+> +
+> +	uframe = find_frame_by_index(uvc, uformat, fsize->index + 1);
+> +	if (!uframe)
+> +		return -EINVAL;
+> +
+> +	fsize->type = V4L2_FRMSIZE_TYPE_DISCRETE;
+> +	fsize->discrete.width = uframe->frame.w_width;
+> +	fsize->discrete.height = uframe->frame.w_height;
+> +
+> +	return 0;
+> +}
+> +
+> +static int
+> +uvc_v4l2_enum_format(struct file *file, void *fh, struct v4l2_fmtdesc *f)
+> +{
+> +	struct video_device *vdev = video_devdata(file);
+> +	struct uvc_device *uvc = video_get_drvdata(vdev);
+> +	struct uvc_format_desc *fmtdesc;
+> +	struct uvcg_format *uformat;
+> +
+> +	if (f->index >= uvc->header->num_fmt)
+> +		return -EINVAL;
+> +
+> +	uformat = find_format_by_index(uvc, f->index + 1);
+> +	if (!uformat)
+> +		return -EINVAL;
+> +
+> +	if (uformat->type != UVCG_UNCOMPRESSED)
+> +		f->flags |= V4L2_FMT_FLAG_COMPRESSED;
+> +
+> +	fmtdesc = to_uvc_format(uformat);
+> +	f->pixelformat = fmtdesc->fcc;
+> +
+> +	strscpy(f->description, fmtdesc->name, sizeof(f->description));
+> +	f->description[strlen(fmtdesc->name) - 1] = 0;
+> +
+> +	return 0;
+> +}
+> +
+>   static int
+>   uvc_v4l2_reqbufs(struct file *file, void *fh, struct v4l2_requestbuffers *b)
+>   {
+> @@ -300,6 +473,9 @@ const struct v4l2_ioctl_ops uvc_v4l2_ioctl_ops = {
+>   	.vidioc_querycap = uvc_v4l2_querycap,
+>   	.vidioc_g_fmt_vid_out = uvc_v4l2_get_format,
+>   	.vidioc_s_fmt_vid_out = uvc_v4l2_set_format,
+> +	.vidioc_enum_frameintervals = uvc_v4l2_enum_frameintervals,
+> +	.vidioc_enum_framesizes = uvc_v4l2_enum_framesizes,
+> +	.vidioc_enum_fmt_vid_out = uvc_v4l2_enum_format,
+>   	.vidioc_reqbufs = uvc_v4l2_reqbufs,
+>   	.vidioc_querybuf = uvc_v4l2_querybuf,
+>   	.vidioc_qbuf = uvc_v4l2_qbuf,
