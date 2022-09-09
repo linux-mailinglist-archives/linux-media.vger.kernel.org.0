@@ -2,102 +2,80 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 080AF5B3EC0
-	for <lists+linux-media@lfdr.de>; Fri,  9 Sep 2022 20:22:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CD46D5B3F4B
+	for <lists+linux-media@lfdr.de>; Fri,  9 Sep 2022 21:16:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229740AbiIISW0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 9 Sep 2022 14:22:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35892 "EHLO
+        id S229651AbiIITQg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 9 Sep 2022 15:16:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49352 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229546AbiIISWZ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 9 Sep 2022 14:22:25 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A43F4F7767
-        for <linux-media@vger.kernel.org>; Fri,  9 Sep 2022 11:22:24 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 10200A31;
-        Fri,  9 Sep 2022 20:22:21 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1662747742;
-        bh=a6hkQTGK6Hg6ZbeXDaC5DTQQufNHAw+1kMWs9JBPvpE=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=sk6XHZRk6t6wTYmSuImKazoWFUpGiofmwNAKuTHDjlEvlUBOTBUNjsFRqbBmP19kz
-         wwnYqXmYUPvSWazqiVDzZGKDIPMPOkWxN8eKjes+S3cH+AS9x3NAZpC92HZ4Y/aQjc
-         9+k93w7OmE2eAzVNU0idFh6H3qBEdUoAVRrb24Pk=
-Date:   Fri, 9 Sep 2022 21:22:04 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Martin Kepplinger <martin.kepplinger@puri.sm>
-Cc:     linux-media@vger.kernel.org, Rui Miguel Silva <rmfrfs@gmail.com>,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Paul Elder <paul.elder@ideasonboard.com>,
-        Jacopo Mondi <jacopo@jmondi.org>, kernel@pengutronix.de,
-        linux-imx@nxp.com
-Subject: Re: [PATCH 1/6] media: imx: Decouple imx8mq-mipi-csi2 from
- imx7-media-csi
-Message-ID: <YxuETLufyEzXWiRu@pendragon.ideasonboard.com>
-References: <20220907200424.32136-1-laurent.pinchart@ideasonboard.com>
- <20220907200424.32136-2-laurent.pinchart@ideasonboard.com>
+        with ESMTP id S229478AbiIITQf (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 9 Sep 2022 15:16:35 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 23B6413B134
+        for <linux-media@vger.kernel.org>; Fri,  9 Sep 2022 12:16:33 -0700 (PDT)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <mgr@pengutronix.de>)
+        id 1oWjUM-0005ix-SJ; Fri, 09 Sep 2022 21:16:30 +0200
+Received: from [2a0a:edc0:0:1101:1d::ac] (helo=dude04.red.stw.pengutronix.de)
+        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+        (envelope-from <mgr@pengutronix.de>)
+        id 1oWjUK-004sQJ-1A; Fri, 09 Sep 2022 21:16:29 +0200
+Received: from mgr by dude04.red.stw.pengutronix.de with local (Exim 4.94.2)
+        (envelope-from <mgr@pengutronix.de>)
+        id 1oWjUK-00HZkD-TC; Fri, 09 Sep 2022 21:16:28 +0200
+From:   Michael Grzeschik <m.grzeschik@pengutronix.de>
+To:     linux-usb@vger.kernel.org
+Cc:     linux-media@vger.kernel.org, balbi@kernel.org,
+        laurent.pinchart@ideasonboard.com, paul.elder@ideasonboard.com,
+        kernel@pengutronix.de, nicolas@ndufresne.ca,
+        kieran.bingham@ideasonboard.com
+Subject: [PATCH v1 0/4] usb: gadget: uvc: parse configfs entries and implement v4l2 enum api calls
+Date:   Fri,  9 Sep 2022 21:16:23 +0200
+Message-Id: <20220909191627.4188908-1-m.grzeschik@pengutronix.de>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220907200424.32136-2-laurent.pinchart@ideasonboard.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: mgr@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Martin,
+This series improves the uvc video gadget by parsing the configfs
+entries. With the configfs data, the userspace now is able to use simple
+v4l2 api calls like enum and try_format to check for valid configurations
+initially set by configfs.
 
-It seems I forgot to CC you on this patch, sorry about that. Could you
-give it a look ? I'd like to send a pull request for the series next
-week.
+Michael Grzeschik (4):
+  media: v4l: move helper functions for fractions from uvc to
+    v4l2-common
+  media: uvcvideo: move uvc_format_desc to common header
+  usb: gadget: uvc: add v4l2 enumeration api calls
+  usb: gadget: uvc: add v4l2 try_format api call
 
-On Wed, Sep 07, 2022 at 11:04:19PM +0300, Laurent Pinchart wrote:
-> The imx8mq-mipi-csi2 driver targets SoCs that also run the
-> imx7-media-csi driver, but they are distinct. Decouple them in Kconfig
-> to prepare for destaging of the imx7-media-csi driver.
-> 
-> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> ---
->  drivers/staging/media/imx/Kconfig  | 10 ++++++++++
->  drivers/staging/media/imx/Makefile |  2 +-
->  2 files changed, 11 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/staging/media/imx/Kconfig b/drivers/staging/media/imx/Kconfig
-> index 0bacac302d7e..bfb849701489 100644
-> --- a/drivers/staging/media/imx/Kconfig
-> +++ b/drivers/staging/media/imx/Kconfig
-> @@ -32,3 +32,13 @@ config VIDEO_IMX7_CSI
->  	  i.MX6UL/L, i.MX7 or i.MX8M.
->  endmenu
->  endif
-> +
-> +config VIDEO_IMX8MQ_MIPI_CSI2
-> +	tristate "NXP i.MX8MQ MIPI CSI-2 receiver"
-> +	depends on ARCH_MXC || COMPILE_TEST
-> +	depends on VIDEO_DEV
-> +	select MEDIA_CONTROLLER
-> +	select V4L2_FWNODE
-> +	select VIDEO_V4L2_SUBDEV_API
-> +	help
-> +	  V4L2 driver for the MIPI CSI-2 receiver found in the i.MX8MQ SoC.
-> diff --git a/drivers/staging/media/imx/Makefile b/drivers/staging/media/imx/Makefile
-> index d82be898145b..cef9f30eb401 100644
-> --- a/drivers/staging/media/imx/Makefile
-> +++ b/drivers/staging/media/imx/Makefile
-> @@ -15,4 +15,4 @@ obj-$(CONFIG_VIDEO_IMX_CSI) += imx6-media-csi.o
->  obj-$(CONFIG_VIDEO_IMX_CSI) += imx6-mipi-csi2.o
->  
->  obj-$(CONFIG_VIDEO_IMX7_CSI) += imx7-media-csi.o
-> -obj-$(CONFIG_VIDEO_IMX7_CSI) += imx8mq-mipi-csi2.o
-> +obj-$(CONFIG_VIDEO_IMX8MQ_MIPI_CSI2) += imx8mq-mipi-csi2.o
+ drivers/media/usb/uvc/uvc_ctrl.c       |   1 +
+ drivers/media/usb/uvc/uvc_driver.c     | 290 +-------------------
+ drivers/media/usb/uvc/uvc_v4l2.c       |  14 +-
+ drivers/media/usb/uvc/uvcvideo.h       | 147 ----------
+ drivers/media/v4l2-core/v4l2-common.c  |  86 ++++++
+ drivers/usb/gadget/function/f_uvc.c    |  30 +++
+ drivers/usb/gadget/function/uvc.h      |   2 +
+ drivers/usb/gadget/function/uvc_v4l2.c | 286 ++++++++++++++++++++
+ include/media/v4l2-common.h            |   4 +
+ include/media/v4l2-uvc.h               | 359 +++++++++++++++++++++++++
+ 10 files changed, 776 insertions(+), 443 deletions(-)
+ create mode 100644 include/media/v4l2-uvc.h
 
 -- 
-Regards,
+2.30.2
 
-Laurent Pinchart
