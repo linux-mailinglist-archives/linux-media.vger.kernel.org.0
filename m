@@ -2,278 +2,260 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 594ED5B3322
-	for <lists+linux-media@lfdr.de>; Fri,  9 Sep 2022 11:13:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A3DB45B33B1
+	for <lists+linux-media@lfdr.de>; Fri,  9 Sep 2022 11:26:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229949AbiIIJLx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 9 Sep 2022 05:11:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52432 "EHLO
+        id S231712AbiIIJZz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 9 Sep 2022 05:25:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44952 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231181AbiIIJLw (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 9 Sep 2022 05:11:52 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF0FE134607
-        for <linux-media@vger.kernel.org>; Fri,  9 Sep 2022 02:11:50 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 41DC8415;
-        Fri,  9 Sep 2022 11:11:47 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1662714707;
-        bh=FUjmMOYtrH3y6QxTeH6hxB3U53+VT8gnsnmqDVXyXFI=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=FjV1k3E5ug2YsbSgAJVWQtIEgwswq9ulElKi05MYJ+Ev6QClqfjfMZ3pmqOGpBxA8
-         rCfROj1Uf/LHalcbwuz1SBT872aZxCOCBf9272eulhZ3SUrcPdAW3Q+psjkLrQLsTw
-         6gAmagzTBJOM+atYW1YEgg+85qQagh8UFdwwk2aQ=
-Date:   Fri, 9 Sep 2022 12:11:30 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Ricardo Ribalda <ribalda@chromium.org>
-Cc:     Maxime Ripard <maxime@cerno.tech>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        Hidenori Kobayashi <hidenorik@chromium.org>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Michael Olbrich <m.olbrich@pengutronix.de>,
-        Daniel Scally <djrscally@gmail.com>,
-        Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>,
-        Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        Michael Tretter <m.tretter@pengutronix.de>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
+        with ESMTP id S231277AbiIIJZT (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 9 Sep 2022 05:25:19 -0400
+Received: from FRA01-MR2-obe.outbound.protection.outlook.com (mail-eopbgr90081.outbound.protection.outlook.com [40.107.9.81])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 56DE313CB32;
+        Fri,  9 Sep 2022 02:24:01 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=aNB+OL3a39EOB+RgNw8KO232yYgmOYk4bJUuIp6I/SDhx4KPpQyZA5iADOvgin6OiucpANFpxTOKQpUzaWVRjsH3i8WClJVvZFMVYFMeWNBnP4wr0b0DaDD74eZL1fKrb1F9CtclibsMCQR5V2Rh5L2yXxDe+fGDw93G2x/sQuy+cEapLOXcogDbZRNjF/i6n4gLj2bORm9n6Rn3W3aukFwQ4NpiRMoC6C86w7Dh1XdtHcsgxXFFRH9M4F+OrAcBFgmFFn7MFo+OIcxMDebudPDkL2BUDWrCWdZMUl5o85J28uxUtSAgr9bfRCC+26dVUmU7r26WKPN4jOjxQG2mNg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=2d9eh1hei4FAB9kymIlNnHV3ttCYleKmecSrFcLj+y8=;
+ b=GkbONAw34buzVonGPBQop2hReg79zGQwkyMbm0N70H6vKQfsUHZfJG1KF40cU9MIjh79C2O2OIbsr22AJQupLi6Uv/8tIgs+WCUI21cpj+fhs0Jhr2+UAR8NN8NyGfqepcI8F1c+NVS1CNmAhhOEj++B01EsdEsSz0aowMcaus3D7WNwNllvTEkgJkatxurYneT/y9lNIokJX7P+P2Na20N6hacRgVCac8sSDCTv9Z5kpLWAZqvvpsruMxcr5nPlh+aO7kUTjMVs/Ur49mLwxDQ+22ejVxfgJplHwd+DTXJyEjLDJe6cSx4Ec5LFFHFqewSfhNCUHiVOsL+9v3jkIA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=csgroup.eu; dmarc=pass action=none header.from=csgroup.eu;
+ dkim=pass header.d=csgroup.eu; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=csgroup.eu;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=2d9eh1hei4FAB9kymIlNnHV3ttCYleKmecSrFcLj+y8=;
+ b=Sv9y5MWKAwTKi01wuVEV72atN8YqVGvKW65SWWLqaHoagstRztNN7Db/jzvDlAImE98nP0oyYjTlcy4s4U4KPJWjEEUJdPWDgM4yTi5vHgTfEF/4mWa+VupTE2ukcY8GTCr5kjDBS0jK7tI6kGDHiiGsgprqvTUUSfyFH8MQu/9LW+2bidK7Wsh+bkUIZ/6oa0l6SS6+uhDhV8x/swFM/m41buB7JZOyq1uUArXhfHDVZig6OtVTeJoegsMB8z26egBkGf+68Eqt82n6GRxeYUwF9fcD9oQse6ubG/SUUXi/2pYggx0o3WgPPJXjzJnwjwAdI4BGUtgD2WDBUaAdRA==
+Received: from MRZP264MB2988.FRAP264.PROD.OUTLOOK.COM (2603:10a6:501:31::15)
+ by MRZP264MB3145.FRAP264.PROD.OUTLOOK.COM (2603:10a6:501:1a::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5612.15; Fri, 9 Sep
+ 2022 09:23:48 +0000
+Received: from MRZP264MB2988.FRAP264.PROD.OUTLOOK.COM
+ ([fe80::382a:ed3b:83d6:e5d8]) by MRZP264MB2988.FRAP264.PROD.OUTLOOK.COM
+ ([fe80::382a:ed3b:83d6:e5d8%5]) with mapi id 15.20.5612.020; Fri, 9 Sep 2022
+ 09:23:48 +0000
+From:   Christophe Leroy <christophe.leroy@csgroup.eu>
+To:     Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        Russell King <linux@armlinux.org.uk>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "x86@kernel.org" <x86@kernel.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Benjamin MUGNIER <benjamin.mugnier@foss.st.com>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>
-Subject: Re: [Media Summit] ChromeOS Kernel CAM
-Message-ID: <YxsDQiEZzLtzVhdW@pendragon.ideasonboard.com>
-References: <Yxh3ksdjuTVIRJWk@pendragon.ideasonboard.com>
- <CANiDSCt_KXX0Cn+WH7johLrgiZLd6ZzWmC9D-u=O3L6879cWVA@mail.gmail.com>
- <20220908080846.wursajjtc3mbja4u@houat>
- <Yxn40Y5HDzXHITwP@pendragon.ideasonboard.com>
- <20220908145905.avq73a3hmt266o4a@houat>
- <YxoHWNusFEuVdOha@pendragon.ideasonboard.com>
- <20220908153430.fctitaofbj6hqot3@houat>
- <CANiDSCs=Jga0NgnhPPiJ_EZA5=3cNFfztmrVxzPO32TO_pKnXg@mail.gmail.com>
- <20220909080028.vchiddgtt2kl2ha3@houat>
- <CANiDSCva_RZpSHMaaHXyzuQD_zTYFOG2CsNYA15_C39a_nSHnQ@mail.gmail.com>
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        Peter Chen <peter.chen@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Mike Rapoport <rppt@linux.ibm.com>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        "linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>,
+        linuxppc-dev <linuxppc-dev@ozlabs.org>
+CC:     "kernel-janitors@vger.kernel.org" <kernel-janitors@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 6/6] init/Kconfig: remove confusing config EMBEDDED
+Thread-Topic: [PATCH 6/6] init/Kconfig: remove confusing config EMBEDDED
+Thread-Index: AQHYw2/pGxYbgfPSk0+djbz0q5RXjq3W1NsA
+Date:   Fri, 9 Sep 2022 09:23:48 +0000
+Message-ID: <ca25a32d-aadb-f0d0-9e24-70fbabc4d377@csgroup.eu>
+References: <20220908104337.11940-1-lukas.bulwahn@gmail.com>
+ <20220908104337.11940-7-lukas.bulwahn@gmail.com>
+In-Reply-To: <20220908104337.11940-7-lukas.bulwahn@gmail.com>
+Accept-Language: fr-FR, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.0
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=csgroup.eu;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: MRZP264MB2988:EE_|MRZP264MB3145:EE_
+x-ms-office365-filtering-correlation-id: f76df87a-5515-4fec-4cee-08da924500aa
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: c+Fx23TCLWg03k7bOXDjlr02RKL4ithZ+/cZSo6JJFZPHy8My2AjNEJ+Gi4oVv8UEOjvZTVRZdmwvxZ4gJV4k/viKCPeG6DA1ZTRiv47+1B70xSnWluWC3RYw2KoYGfDEmpcexdaCrpsCA64y75/Z3dLBi5FTNGHuKIVDfeAGIwSfNgjNNA9uSaSokMN9cZ97dDV3sQffrCftwOLgk+ZbIvqeZZzMJLVj82DHqxi9vsfrOKQTyBTNoJDogiNj1i3mDTuV8wVJcQ7sKrDU8X4wQufJf0GwBQIfLr7EiXqL/kCQY0D444SVVsxo9DLE2yYjddDyN2SJw3ZUB5MU/dMHeJB/3mqrkyVWLy2oGLg3P3Ai0iW1Wvgv2JLdX+lRqLlOqVC6XBrZOfezIPIpsD7sHAE6NwSKZ2cwz/9YVNPTkXJlk7f3poyEgmba2m/7mRrdP/P4I9R61OVx+DDQCHhSTnbKL7160RYhc8hCoL+sMJofckEBi4H/6Cp6fFLCfDGPXryCU4g8IHePMikh6FI/VpKw7h8qrOHJQP3xyMyOjKXLYn6twWu4rw2SntpyHdpE+1zsN3j6+ld/l4GnTQQ+EkqOyn5pVMIxGlzbLyzsHFl1Vzrk9xUnhpZomCprExbwKWaBbwqTX8k9KyDB9y5T/O0wYdNBL4dgvqKl1UV7HAaoEwbE2+UpAokWCZkPWH96FdonTC+l47JQd4Hg9jngq80gmhV50EYewmVKzTPPiKGjR/zoYa7vTQRP542q21kv7dwd87gjIQN9XmOcQc9x8R2dHVT1ovEJSAJIjSGypTHYi3asDTFKDijqhVdXzcq8VgpahlzBUXLb9LKHjIKZYXSNPtn+U2QQZ3hlku5P+Y=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MRZP264MB2988.FRAP264.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230016)(4636009)(39850400004)(396003)(136003)(346002)(376002)(366004)(31686004)(921005)(38070700005)(2906002)(6512007)(44832011)(7416002)(5660300002)(6506007)(26005)(36756003)(71200400001)(8676002)(41300700001)(2616005)(66476007)(6486002)(8936002)(86362001)(122000001)(54906003)(186003)(110136005)(76116006)(66946007)(38100700002)(478600001)(91956017)(4326008)(316002)(66574015)(66556008)(64756008)(66446008)(83380400001)(31696002)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?QnYyaC9nUDk4ZEhYR1crczRnREpQRmRGWHRqTlF3dWkyT3A3RW54QzJaQkV6?=
+ =?utf-8?B?eXJ4M1NnZGRzUkdYL1lpRHRaYzcvYVc3VFVTSmhzNE9icEwzU09EWk5hdXZU?=
+ =?utf-8?B?RXpOWDlWaUR3QnRaVHVGVkp0QW1pQUU1OFN0WiszeHRhUS96aXFzSllwNmZ4?=
+ =?utf-8?B?a2RZUDNudC9GM2F1VTZaR21kMldjdlRFOWVjMUdIODc5UlhUUXpvVGVYcWhC?=
+ =?utf-8?B?MU0ySHQ5Y0ZHZS81NEJlZXlzU0Rxb1dtM1FlMkFjNjFQNzRSYkVjNllXRUFz?=
+ =?utf-8?B?aWp5dENBUGYvdStqelNkOXU1UHN1b0M4RkdIWVJRQW9PNGVtNklJTlcyUUYx?=
+ =?utf-8?B?N2tGV2loYVNVd1BlZXQ1ejZLa0tsSTZwaFY5T2dqd2VTZDVyWVg5dlNMcFRl?=
+ =?utf-8?B?U3ZPTkFqUGRHN24xL3hVNjdYNzRaTWwwaG5pUys2Sko3bUU5eWxEOTNUSDJi?=
+ =?utf-8?B?ZXRpaDh2cGU1bEtDZ2pXZDhwZFgvR3BLTWMwZ0lYd1VmQ0FZOWNWRC9vU1BK?=
+ =?utf-8?B?RzVUMUpHM0lsV1FWNndLd3RRRTRLZVc1cnZpUWpRUWtucVJVdE1zdXRsS1Bz?=
+ =?utf-8?B?cGdEakhVZXRNMjQzRC94MG51TnVGTkZoVkxmcTRrR1BjWXp6c1ZwdzJqMGJ3?=
+ =?utf-8?B?WWJrQUJCK3MyMmNXaGRKdW0vVkhucUZzWUQxWUxwRzZhWnBEQ1hjeTRqQ2Zn?=
+ =?utf-8?B?M3hNdW4rdjY5UWpncWROMktwWFkyeTNCWDFVdi9xZkN0cVB3MzY5djFGTEFT?=
+ =?utf-8?B?MGsxTGdwMHVqS0FBZXJHTWllREZxMng0Tnp0UTlTSlR4SDlqWjU3V3M3WWhj?=
+ =?utf-8?B?Vmlna0RBMFcwNTFua25zSjEvdTN0d2x2a1pUUUF5T0RTSFErUmd4bTVLOWx0?=
+ =?utf-8?B?L0Y2ZDJnUjh3SS95SHBzUGFxRXpOdVRyUGk5SUhHdzU3QThpRWJETlhxUnhK?=
+ =?utf-8?B?bGtrR1hUN2dBazd5SlgzUjV1by9FOGtMTGJoR3JLTDU4VGIxa1RDRVRKQk9R?=
+ =?utf-8?B?RkxTWmJUQ0hDNFZ1YS9hVURERkRLTnU4dmJBVHBpOS9MUmlUd1lYQmFhVnJK?=
+ =?utf-8?B?L2xZOUdIYjgxMXRmQXBhVkRYOXFzN2RCUUVZRG9UVmtNd25tbERNUld6NnUy?=
+ =?utf-8?B?QnZrR0RUVWJhY3NZcGxvQnROK3E3VTZ6Z3dmYlR5TmNDa1J2M2hDU2dWd2JY?=
+ =?utf-8?B?MXZBRDkyOTVsbEQ5UGtIYWxYbW9oeFo4aFNtQlJkT0dwMTBTd0M1RzlJM045?=
+ =?utf-8?B?NW9qaE8wT3YyZkQyY3BLMGNqaDFzWUE1MnBCQXFCUlJhbEJNMElTc29nSFJv?=
+ =?utf-8?B?Q0NFZUs0b1hLNlNWVzVzZ3htTzJYUURQclhKLzdQVkVzSEthSWJmeUFvOEpU?=
+ =?utf-8?B?SnBpMVJGZEwycE5QbHAyb0FJcitzWkxKbHEwbFRKd05ETlJ0MHBYallCeEVI?=
+ =?utf-8?B?aGRzMkNJMEhwakFtUlhqYjFkNHZvaWUyM2Jpemd5Z3dCUGpweHc3N2liNCtX?=
+ =?utf-8?B?cHdGaTVCdWc1TTBLUmhDcTVjSHZDcFl4bG4xS0VobGRyaXJkNTc3V3Zibllh?=
+ =?utf-8?B?TWM0blBkUHZmSElFMUFuWjRnZys2djF0WEI1UGRhL2VNOVE4QW5XV2JuWi9x?=
+ =?utf-8?B?N056TmE5N2pkdFB2UFhHTHlVejI2YVQwNkVIdUxrZTNxcjZKWWFIS0dOVkxV?=
+ =?utf-8?B?RWZ2d0trdkFPNzVqeWswWHk2WVNMNFR3MWsvTHVzaG1XalE1bG5uNjJqSFQv?=
+ =?utf-8?B?TXNJdDAwRXo0QWxpd0ZJZGsxeFJSYUFPcGE3SjJ2KzU4Zm4rTndndjhuZVpV?=
+ =?utf-8?B?KzhOeHlVQUZPK1pGSWtyMFBYZkhxMUVYb2xpallpYWlmdnRRdlZLQ1p6aWR1?=
+ =?utf-8?B?S3pZRE9EMkVoNCtIaFZJeWhHUmV0djNLTzgrdWtySXJpTlM5TUpBVGJEUVZx?=
+ =?utf-8?B?TEVueHhwb3FFc3B6bkV1NUNHVjRZSE9EK09kWHFldHhBc0xRb3NEcWx2Tmdk?=
+ =?utf-8?B?VHZGOG9hYXpJS2NsQlRUbUNKKzZ1ZzJjZ2lTK1A1Sks4eVdJazJnT1V4NFVH?=
+ =?utf-8?B?K1ZWWW5uODhaMm1oUk9UQ1MxQVJaRW5MVnZ2SmwxR3hyYUxCZFJ4NDhpWThy?=
+ =?utf-8?B?TXNLempBZ0xod2s2RWlwcFAweGNrc1ZIZFN6K3RRZ254VFZoSmJST0NoOCtV?=
+ =?utf-8?Q?yDiFgAfvExXUfR44FLS6PAs=3D?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <F339ED2C96FECF42BAC28C46A6C34E4A@FRAP264.PROD.OUTLOOK.COM>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CANiDSCva_RZpSHMaaHXyzuQD_zTYFOG2CsNYA15_C39a_nSHnQ@mail.gmail.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+X-OriginatorOrg: csgroup.eu
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: MRZP264MB2988.FRAP264.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: f76df87a-5515-4fec-4cee-08da924500aa
+X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Sep 2022 09:23:48.7437
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 9914def7-b676-4fda-8815-5d49fb3b45c8
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: s0rmBYBeHdtkLYh8Q9bqqbJvd21NVwFiSuYErSsSxG8Y1IUksAfIMo4KcKpGP+vEFi9WOIe3cm1LL/gzMc+IKdAlCfv2LUfFxGn0ZTYguIY=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MRZP264MB3145
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Ricardo,
-
-On Fri, Sep 09, 2022 at 10:39:36AM +0200, Ricardo Ribalda wrote:
-> On Fri, 9 Sept 2022 at 10:00, Maxime Ripard wrote:
-> > On Thu, Sep 08, 2022 at 08:13:17PM +0200, Ricardo Ribalda wrote:
-> > > On Thu, 8 Sept 2022 at 17:34, Maxime Ripard wrote:
-> > > > On Thu, Sep 08, 2022 at 06:16:40PM +0300, Laurent Pinchart wrote:
-> > > > > On Thu, Sep 08, 2022 at 04:59:05PM +0200, Maxime Ripard wrote:
-> > > > > > On Thu, Sep 08, 2022 at 05:14:41PM +0300, Laurent Pinchart wrote:
-> > > > > > > On Thu, Sep 08, 2022 at 10:08:46AM +0200, Maxime Ripard wrote:
-> > > > > > > > Hi Ricardo,
-> > > > > > > >
-> > > > > > > > On Thu, Sep 08, 2022 at 09:11:11AM +0200, Ricardo Ribalda wrote:
-> > > > > > > > > > - Still on slide 16, V4L2 as an API is usable without disclosing vendor
-> > > > > > > > > >   IP. What is not possible is upstreaming a driver. I don't see this as
-> > > > > > > > > >   significantly different between V4L2 and the new API proposal. I
-> > > > > > > > > >   expect this to be discussed on Monday.
-> > > > > > > > >
-> > > > > > > > > I am only considering upstream drivers. There is not much to discuss
-> > > > > > > > > for downstream or closed drivers :)
-> > > > > > > >
-> > > > > > > > Are we really discussing upstream *drivers*? If anything, it looks like
-> > > > > > > > the Kcam proposal moves most of the drivers out of upstream.
-> > > > > > >
-> > > > > > > Given that the API proposal sets at a significant lower level than V4L2
-> > > > > > > in the stack, the concept of "userspace driver" (I meant it in the sense
-> > > > > > > of GPU support in mesa) plays a bigger role. It would be good to clarify
-> > > > > > > what is meant by "driver" and maybe use the term "kernel driver" when
-> > > > > > > only the kernel part is covered, to avoid misunderstandings.
-> > > > > >
-> > > > > > I think there's a bit of a misunderstanding about what exactly is in a
-> > > > > > DRM driver, and what is in Mesa.
-> > > > > >
-> > > > > > Mesa doesn't program the hardware at all, it's merely a glorified
-> > > > > > compiler. It's not more of a driver than GCC is an OS. Most importantly
-> > > > > > for our discussion, Mesa doesn't perform any kind of register access (or
-> > > > > > register access request), only the (kernel) driver does that.
-> > > > >
-> > > > > Mesa compiles shaders, but also more generally produces command streams
-> > > > > that are passed as blobs to the DRM driver, which then forwards them to
-> > > > > the device with as little processing and validation as possible (when
-> > > > > the device is designed with multi-clients in mind, that processing and
-> > > > > validation can be reduced a lot).
-> > > >
-> > > > That's true, but at no point in time is the CPU ever touches that
-> > > > command stream blob in the case of DRM...
-> > >
-> > > As Laurent says, the latest hardware is very similar to GPUs, you pass
-> > > a set of commands to a firmware that does the actual R/W to the
-> > > hardware.
-> >
-> > For the latest, most powerful, hardware, maybe. I can show you plenty of
-> > other ISP we'll need to support that aren't programmed that way, and in
-> > that case we would end up interpreting whatever is being passed to KCam
-> > on the CPU.
-> 
-> Kcam is not meant to replace V4L2, if a hardware is better modeled in
-> V4L2, they can use it.
-> 
-> > Which is totally different to what DRM/Mesa is doing on *any* hardware.
-> >
-> > Another constraint that Mesa has is that there is standards user-space
-> > API that all the applications target when it comes to graphics (OpenGL,
-> > Vulkan, Direct3D, etc.) and you need to support pretty much all of them.
-> > So in that sense, Mesa is a transpiler between that API and the GPU ISA.
-> > We're not in this case either with Kcam.
-> 
-> We also have APIs for cameras: V4L2, Android HAL, libcamera,
-> one-of-the-many-industrial-APIs
-> 
-> The userspace stack will transpile between that API and the ISP command buffers.
-> 
-> > > For hardware that is a register set, the vendor should have a good
-> > > idea about what kind of validation should be needed: raw access (deny
-> > > list) or more abstracted (allow list).
-> >
-> > This would be similar to what is going on with regmap caches. And they
-> > are a pain to deal with because that information is far from being
-> > available for all the devices, and then most drivers don't implement it
-> > either.
-> >
-> > Also, if we have to have a whitelist in the kernel, then we need to
-> > introduce and upstream some kind of driver for hardware enablement.
-> > Doesn't that completely defeat the purpose of Kcam?
-> 
-> The allowlist model that I mention is not about filtering what
-> registers can be written and what not. It is about abstracting them
-> completely if you do not trust the hardware:
-> 
-> Lets say that you only have 4 verified modes (like we have on many
-> sensors), then you expose a single register with 4 valid values:
-> 0,1,2,3. The driver will convert that single register write into N
-> writes to registers.
-
-Continuing my quest to try to get everybody to understand the proposal
-the same way: "register" is a very bad term for this. It's widely
-understood to mean hardware registers by the target audience of the API,
-so we should use a different term for the abstract/synthetic parameters
-that the API exposes to userspace.
-
-> > > The most critical part is the DMA, and that will always be abstracted.
-> >
-> > Where do you draw the line then? What will have a driver in the kernel,
-> > and what won't?
-> 
-> If there is memory access: abstraction
-> If the hardware is not trusted/documented:abstraction
-> If a specific configuration is know to be invalid and leaves the
-> system in an invalid state:filtering
-> everything else: raw access (+validation)
-> 
-> > And again, the issue I was telling you about was about a configuration
-> > mismatch (following a bogus documentation) between the DMA and the
-> > sensor. If the sensor is part of the userspace and the DMA in the
-> > kernel, we very much can still have that issue.
-> 
-> With internal operations you can achieve cooperation between the entities.
-> 
-> > > Also I doubt that we will have new hardware without an IOMMU, so we
-> > > have the same layers of security as today.
-> >
-> > Maybe not for the kind of devices that end up on chromebooks, but
-> > there's definitely hardware being designed today that have an ISP but no
-> > IOMMU.
-> 
-> For the non-iommu hardware, you will have the same security as today:
-> driver validation.
-> 
-> > > > > Recent ISPs have a similar architecture, with a set of registers used
-> > > > > to communicate with the ISP firmware, and then most of the hardware
-> > > > > registers for the actual image processing blocks being programmed
-> > > > > based from the command stream. "Command stream" may not be a very good
-> > > > > term for ISPs as it's not really a stream of commands, but
-> > > > > conceptually, we're dealing with a blob that is computed by userspace.
-> > > >
-> > > > ... while in Kcam, the CPU knows and will interpret that command stream.
-> > > > Maybe not in all cases, but it's still a significant difference.
-> > > >
-> > > > If we had to draw a parallel with something else in the kernel, it looks
-> > > > way more like eBPF or the discussion we had on where to parse the
-> > > > bitstreams for stateless codecs.
-> > > >
-> > > > The first one has been severely constrained to avoid the issues we've
-> > > > raised, and we all know how the second one went.
-> > >
-> > > In eBPF, you are moving some user code to the kernel, with an unstable API.
-> > >
-> > > In KCAM, (and in DRM), you let the user build a set of operations,
-> > > that you pass to the kernel via a stable API, then it is validated and
-> > > scheduled by the kernel.
-> >
-> > You won't be able to have a stable API with that design either. If only
-> > because of that whitelist you were mentioning. Let's say we have a
-> > register that turns out, after the facts, to not be available. If the
-> > userspace ever used to set it at some point, you're screwed. Indeed,
-> > either you move it out of the whitelist, and then you break userspace,
-> > or you don't add it to the whitelist and end up allowing an insecure or
-> > dangerous situation.
-> 
-> See above for our description of allowlist.
-> 
-> Also, using the drm model as reference. kernel version, libdrm and
-> mesa (and even llvm) are very coupled. Using a wrong version can lead
-> to unexpected results or even GPU hangs.
-> 
-> What to do when we fix bugs that affect functionality is something
-> that we need to decide on case to case cases. The same way we do today
-> when hardware does not support a control value and we discover it 10
-> versions later.
-> 
-> > And you can't say you would just ignore a register that isn't part of
-> > the whitelist, because then you would enforce a configuration that isn't
-> > the one the user-space asked for, which is even worse.
-> >
-> > > X11 was much more bizarre, the GPIO iomem was remapped into userspace.
-> >
-> > Yes, but that wasn't the only thing bad with it. I mean, it doesn't
-> > really matter who exactly does the register access eventually. In UMS,
-> > X11 was doing it itself through a mapping of its own, in KCam the kernel
-> > will do it on behalf of the userspace. But we still end up in both cases
-> > with:
-> >
-> >   * The entire logic is in userspace
-> 
-> We can argue if this is an issue or not. I think it is not
-> 
-> >   * Realistically speaking, that logic can only run as root
-> 
-> Do not agree.
-> 
-> >   * With a poor configuration, the userspace can completely crash the
-> >     system
-> >   * If the userspace crashes, you can end up with a configuration you
-> >     can't really recover from
-> 
-> A Kcam driver can give you broken images, but never crash the system
-> or leave it in an unrecoverable state. That is the main guarantee that
-> we expect from the drivers.
-> 
-> > *All* of those issues are still there with Kcam, even though the actual
-> >  memory mapping isn't in userspace
-
--- 
-Regards,
-
-Laurent Pinchart
+KyBsaW51eHBwYy1kZXYNCg0KTGUgMDgvMDkvMjAyMiDDoCAxMjo0MywgTHVrYXMgQnVsd2FobiBh
+IMOpY3JpdMKgOg0KPiBDb21taXQgNmExMDhhMTRmYTM1ICgia2NvbmZpZzogcmVuYW1lIENPTkZJ
+R19FTUJFRERFRCB0byBDT05GSUdfRVhQRVJUIikNCj4gaW50cm9kdWNlcyBDT05GSUdfRVhQRVJU
+IHRvIGNhcnJ5IHRoZSBwcmV2aW91cyBpbnRlbnQgb2YgQ09ORklHX0VNQkVEREVEDQo+IGFuZCBq
+dXN0IGdpdmVzIHRoYXQgaW50ZW50IGEgbXVjaCBiZXR0ZXIgbmFtZS4gVGhhdCBoYXMgYmVlbiBj
+bGVhcmx5IGEgZ29vZA0KPiBhbmQgbG9uZyBvdmVyZHVlIHJlbmFtaW5nLCBhbmQgaXQgaXMgY2xl
+YXJseSBhbiBpbXByb3ZlbWVudCB0byB0aGUga2VybmVsDQo+IGJ1aWxkIGNvbmZpZ3VyYXRpb24g
+dGhhdCBoYXMgc2hvd24gdG8gaGVscCBtYW5hZ2luZyB0aGUga2VybmVsIGJ1aWxkDQo+IGNvbmZp
+Z3VyYXRpb24gaW4gdGhlIGxhc3QgZGVjYWRlLg0KPiANCj4gSG93ZXZlciwgcmF0aGVyIHRoYW4g
+YnJhdmVseSBhbmQgcmFkaWNhbGx5IGp1c3QgZGVsZXRpbmcgQ09ORklHX0VNQkVEREVELA0KPiB0
+aGlzIGNvbW1pdCBnaXZlcyBDT05GSUdfRU1CRURERUQgYSBuZXcgaW50ZW5kZWQgc2VtYW50aWNz
+LCBidXQga2VlcHMgaXQNCj4gb3BlbiBmb3IgZnV0dXJlIGNvbnRyaWJ1dG9ycyB0byBpbXBsZW1l
+bnQgdGhhdCBpbnRlbmRlZCBzZW1hbnRpY3M6DQo+IA0KPiAgICAgIEEgbmV3IENPTkZJR19FTUJF
+RERFRCBvcHRpb24gaXMgYWRkZWQgdGhhdCBhdXRvbWF0aWNhbGx5IHNlbGVjdHMNCj4gICAgICBD
+T05GSUdfRVhQRVJUIHdoZW4gZW5hYmxlZCBhbmQgY2FuIGJlIHVzZWQgaW4gdGhlIGZ1dHVyZSB0
+byBpc29sYXRlDQo+ICAgICAgb3B0aW9ucyB0aGF0IHNob3VsZCBvbmx5IGJlIGNvbnNpZGVyZWQg
+Zm9yIGVtYmVkZGVkIHN5c3RlbXMgKFJJU0MNCj4gICAgICBhcmNoaXRlY3R1cmVzLCBTTE9CLCBl
+dGMpLg0KPiANCj4gU2luY2UgdGhlbiwgdGhpcyBDT05GSUdfRU1CRURERUQgaW1wbGljaXRseSBo
+YWQgdHdvIHB1cnBvc2VzOg0KPiANCj4gICAgLSBJdCBjYW4gbWFrZSBldmVuIG1vcmUgb3B0aW9u
+cyB2aXNpYmxlIGJleW9uZCB3aGF0IENPTkZJR19FWFBFUlQgbWFrZXMNCj4gICAgICB2aXNpYmxl
+LiBJbiBvdGhlciB3b3JkcywgaXQgbWF5IGludHJvZHVjZSBhbm90aGVyIGxldmVsIG9mIGVuYWJs
+aW5nIHRoZQ0KPiAgICAgIHZpc2liaWxpdHkgb2YgY29uZmlndXJhdGlvbiBvcHRpb25zOiBhbHdh
+eXMgdmlzaWJsZSwgdmlzaWJsZSB3aXRoDQo+ICAgICAgQ09ORklHX0VYUEVSVCBhbmQgdmlzaWJs
+ZSB3aXRoIENPTkZJR19FTUJFRERFRC4NCj4gDQo+ICAgIC0gU2V0IGNlcnRhaW4gZGVmYXVsdCB2
+YWx1ZXMgb2Ygc29tZSBjb25maWd1cmF0aW9ucyBkaWZmZXJlbnRseSwNCj4gICAgICBmb2xsb3dp
+bmcgdGhlIGFzc3VtcHRpb24gdGhhdCBjb25maWd1cmluZyBhIGtlcm5lbCBidWlsZCBmb3IgYW4N
+Cj4gICAgICBlbWJlZGRlZCBzeXN0ZW0gZ2VuZXJhbGx5IHN0YXJ0cyB3aXRoIGEgZGlmZmVyZW50
+IHNldCBvZiBkZWZhdWx0IHZhbHVlcw0KPiAgICAgIGNvbXBhcmVkIHRvIGtlcm5lbCBidWlsZHMg
+Zm9yIGFsbCBvdGhlciBraW5kIG9mIHN5c3RlbXMuDQo+IA0KPiBDb25zaWRlcmluZyB0aGUgZmly
+c3QgcHVycG9zZSwgYXQgdGhlIHBvaW50IGluIHRpbWUgd2hlcmUgQ09ORklHX0VNQkVEREVEDQo+
+IHdhcyByZW5hbWVkIHRvIENPTkZJR19FWFBFUlQsIENPTkZJR19FWFBFUlQgYWxyZWFkeSBtYWRl
+IDEzMCBtb3JlIG9wdGlvbnMNCj4gYmVjb21lIHZpc2libGUgdGhyb3VnaG91dCBhbGwgZGlmZmVy
+ZW50IG1lbnVzIGZvciB0aGUga2VybmVsIGNvbmZpZ3VyYXRpb24uDQo+IE92ZXIgdGhlIGxhc3Qg
+ZGVjYWRlLCB0aGlzIGhhcyBncmFkdWFsbHkgaW5jcmVhc2VkLCBzbyB0aGF0IGN1cnJlbnRseSwg
+d2l0aA0KPiBDT05GSUdfRVhQRVJULCByb3VnaGx5IDE3MCBtb3JlIG9wdGlvbnMgYmVjb21lIHZp
+c2libGUgdGhyb3VnaG91dCBhbGwNCj4gZGlmZmVyZW50IG1lbnVzIGZvciB0aGUga2VybmVsIGNv
+bmZpZ3VyYXRpb24uIEluIGNvbXBhcmlzb24sIGN1cnJlbnRseSB3aXRoDQo+IENPTkZJR19FTUJF
+RERFRCBlbmFibGVkLCBqdXN0IHNldmVuIG1vcmUgb3B0aW9ucyBhcmUgdmlzaWJsZSwgb25lIGlu
+IHg4NiwNCj4gb25lIGluIGFybSwgYW5kIGZpdmUgZm9yIHRoZSBDaGlwSWRlYSBIaWdoc3BlZWQg
+RHVhbCBSb2xlIENvbnRyb2xsZXIuDQo+IA0KPiBBcyB0aGUgbnVtYmVycyBzdWdnZXN0LCB0aGVz
+ZSB0d28gbGV2ZWxzIG9mIGVuYWJsaW5nIHRoZSB2aXNpYmlsaXR5IG9mIGV2ZW4NCj4gbW9yZSBj
+b25maWd1cmF0aW9uIG9wdGlvbnMtLS1iZXlvbmQgd2hhdCBDT05GSUdfRVhQRVJUIGVuYWJsZXMt
+LS1uZXZlcg0KPiBldm9sdmVkIHRvIGEgZ29vZCBzb2x1dGlvbiBpbiB0aGUgbGFzdCBkZWNhZGUu
+IEluIG90aGVyIHdvcmRzLCB0aGlzDQo+IGFkZGl0aW9uYWwgbGV2ZWwgb2YgdmlzaWJpbGl0eSBv
+ZiBjb25maWd1cmF0aW9uIG9wdGlvbiB3aXRoIENPTkZJR19FTUJFRERFRA0KPiBjb21wYXJlZCB0
+byBDT05GSUdfRVhQRVJUIGhhcyBzaW5jZSBpdHMgaW50cm9kdWN0aW9uIG5ldmVyIGJlY29tZSBy
+ZWFsbHkNCj4gdmFsdWFibGUuIEl0IHJlcXVpcmVzIHF1aXRlIHNvbWUgaW52ZXN0aWdhdGlvbiB0
+byBhY3R1YWxseSB1bmRlcnN0YW5kIHdoYXQNCj4gaXMgYWRkaXRpb25hbGx5IHZpc2libGUgYW5k
+IGl0IGRvZXMgbm90IGRpZmZlciBzaWduaWZpY2FudGx5IGluIGNvbXBsZXhpdHkNCj4gY29tcGFy
+ZWQgdG8ganVzdCBlbmFibGluZyBDT05GSUdfRVhQRVJULiBUaGlzIENPTkZJR19FTUJFRERFRC0t
+LW9yIGFueQ0KPiBvdGhlciBjb25maWcgdG8gc2hvdyBtb3JlIGRldGFpbGVkIG9wdGlvbnMgYmV5
+b25kIENPTkZJR19FWFBFUlQtLS1pcw0KPiB1bmxpa2VseSB0byBiZSB2YWx1YWJsZSB1bmxlc3Mg
+c29tZWJvZHkgcHV0cyBzaWduaWZpY2FudCBlZmZvcnQgaW4NCj4gaWRlbnRpZnlpbmcgaG93IHN1
+Y2ggdmlzaWJpbGl0eSBvcHRpb25zIGNhbiBiZSBwcm9wZXJseSBzcGxpdCBhbmQgY3JlYXRpbmcN
+Cj4gY2xlYXIgY3JpdGVyaWEsIHdoZW4gc29tZSBjb25maWcgb3B0aW9uIGlzIHZpc2libGUgd2l0
+aCBDT05GSUdfRVhQRVJUIGFuZA0KPiB3aGVuIHNvbWUgY29uZmlnIG9wdGlvbiBpcyB2aXNpYmxl
+IG9ubHkgd2l0aCBzb21lIGZ1cnRoZXIgb3B0aW9uIGVuYWJsZWQNCj4gYmV5b25kIENPTkZJR19F
+WFBFUlQsIHN1Y2ggYXMgQ09ORklHX0VNQkVEREVEIGF0dGVtcHRlZCB0byBkby4gRm9yIG5vdywg
+aXQNCj4gaXMgbXVjaCBtb3JlIHJlYXNvbmFibGUgdG8gc2ltcGx5IG1ha2UgdGhvc2UgYWRkaXRp
+b25hbCBzZXZlbiBvcHRpb25zIHRoYXQNCj4gdmlzaWJsZSB3aXRoIENPTkZJR19FTUJFRERFRCwg
+dmlzaWJsZSB3aXRoIENPTkZJR19FWFBFUlQsIGFuZCB0aGVuIHJlbW92ZQ0KPiBDT05GSUdfRU1C
+RURERUQuIElmIGFueW9uZSBzcGVuZHMgc2lnbmlmaWNhbnQgZWZmb3J0IGluIHN0cnVjdHVyaW5n
+IHRoZQ0KPiB2aXNpYmlsaXR5IG9mIGNvbmZpZyBvcHRpb25zLCB0aGV5IG1heSByZS1pbnRyb2R1
+Y2Ugc3VpdGFibGUgbmV3IGNvbmZpZw0KPiBvcHRpb25zIHNpbXBseSBhcyB0aGV5IHNlZSBmaXQu
+DQo+IA0KPiBIZW5jZSwgYWxsIHVzZXMgb2YgQ09ORklHX0VNQkVEREVEIGhhdmUgYmVlbiByZXBs
+YWNlZCB3aXRoIENPTkZJR19FWFBFUlQuDQo+IA0KPiBDb25zaWRlcmluZyB0aGUgc2Vjb25kIHB1
+cnBvc2UsIG5vdGUgdGhhdCBhbHJlYWR5IHByb2JhYmx5IGFyZ3VpbmcgdGhhdCBhDQo+IGtlcm5l
+bCBidWlsZCBmb3IgYW4gZW1iZWRkZWQgc3lzdGVtIHdvdWxkIGNob29zZSBzb21lIHZhbHVlcyBk
+aWZmZXJlbnRseSBpcw0KPiBhbHJlYWR5IHRyaWNreTogdGhlIHNldCBvZiBlbWJlZGRlZCBzeXN0
+ZW1zIHdpdGggTGludXgga2VybmVscyBpcyBhbHJlYWR5DQo+IHF1aXRlIGRpdmVyc2UuIE1hbnkg
+ZW1iZWRkZWQgc3lzdGVtIGhhdmUgcG93ZXJmdWwgQ1BVcyBhbmQgaXQgd291bGQgbm90IGJlDQo+
+IGNsZWFyIHRoYXQgYWxsIGVtYmVkZGVkIHN5c3RlbXMganVzdCBvcHRpbWl6ZSB0b3dhcmRzIG9u
+ZSBzcGVjaWZpYyBhc3BlY3QsDQo+IGUuZy4sIGEgc21hbGxlciBrZXJuZWwgaW1hZ2Ugc2l6ZS4g
+U28sIGl0IGlzIHVuY2xlYXIgaWYgc3RhcnRpbmcgd2l0aCAib25lDQo+IHNldCBvZiBkZWZhdWx0
+IGNvbmZpZ3VyYXRpb24iIHRoYXQgaXMgaW5kdWNlZCBieSBDT05GSUdfRU1CRURERUQgaXMgYSBn
+b29kDQo+IG9mZmVyIGZvciBkZXZlbG9wZXJzIGNvbmZpZ3VyaW5nIHRoZWlyIGtlcm5lbHMuDQo+
+IA0KPiBBbHNvLCB0aGUgZGlmZmVyZW5jZXMgb2YgbmVlZGVkIHVzZXItc3BhY2UgZmVhdHVyZXMg
+aW4gYW4gZW1iZWRkZWQgc3lzdGVtDQo+IGNvbXBhcmVkIHRvIGEgbm9uLWVtYmVkZGVkIHN5c3Rl
+bSBhcmUgcHJvYmFibHkgZGlmZmljdWx0IG9yIGV2ZW4gaW1wb3NzaWJsZQ0KPiB0byBuYW1lIGlu
+IHNvbWUgZ2VuZXJpYyB3YXkuDQo+IA0KPiBTbyBpdCBpcyBub3Qgc3VycHJpc2luZyB0aGF0IGlu
+IHRoZSBsYXN0IGRlY2FkZSBoYXJkbHkgYW55b25lIGhhcw0KPiBjb250cmlidXRlZCBjaGFuZ2Vz
+IHRvIG1ha2Ugc29tZXRoaW5nIGRlZmF1bHQgZGlmZmVyZW50bHkgaW4gY2FzZSBvZg0KPiBDT05G
+SUdfRU1CRURERUQ9eS4NCj4gDQo+IEluIHY2LjAtcmM0LCBTRUNSRVRNRU0gaXMgdGhlIG9ubHkg
+Y29uZmlnIHN3aXRjaGVkIG9mZiBpZg0KPiBDT05GSUdfRU1CRURERUQ9eS4gVGhhdCBvbmUgdXNl
+IHdhcyByZW1vdmVkIGFzIHdlbGwsIFNFQ1JFVE1FTSB3YXMgbWFkZQ0KPiBjb25maWd1cmFibGUg
+YXQgYnVpbGQgdGltZSBieSBleHBlcnRzIHVzaW5nIG1lbnVjb25maWcgaW5zdGVhZC4NCj4gDQo+
+IEFzIHRoZXJlIGFyZSBubyBmdXJ0aGVyIHVzZXMgb2YgQ09ORklHX0VNQkVEREVEIGFuZCBDT05G
+SUdfRU1CRURERUQgbmV2ZXINCj4gbGl2ZWQgdXAgdG8gaXRzIGludGVuZGVkIHB1cnBvc2UgZGVm
+aW5lZCBhYm92ZSwgc2ltcGx5IGRlbGV0ZSB0aGlzDQo+IGNvbmZ1c2luZyBDT05GSUdfRU1CRURE
+RUQuDQo+IA0KPiBTaWduZWQtb2ZmLWJ5OiBMdWthcyBCdWx3YWhuIDxsdWthcy5idWx3YWhuQGdt
+YWlsLmNvbT4NCj4gLS0tDQo+ICAgaW5pdC9LY29uZmlnIHwgOCAtLS0tLS0tLQ0KPiAgIDEgZmls
+ZSBjaGFuZ2VkLCA4IGRlbGV0aW9ucygtKQ0KPiANCj4gZGlmZiAtLWdpdCBhL2luaXQvS2NvbmZp
+ZyBiL2luaXQvS2NvbmZpZw0KPiBpbmRleCA5ZTNmZDc5YjA4OWMuLmQ3NDI5ZTBiOGNhZSAxMDA2
+NDQNCj4gLS0tIGEvaW5pdC9LY29uZmlnDQo+ICsrKyBiL2luaXQvS2NvbmZpZw0KPiBAQCAtMTgx
+OCwxNCArMTgxOCw2IEBAIGNvbmZpZyBERUJVR19SU0VRDQo+ICAgDQo+ICAgCSAgSWYgdW5zdXJl
+LCBzYXkgTi4NCj4gICANCj4gLWNvbmZpZyBFTUJFRERFRA0KPiAtCWJvb2wgIkVtYmVkZGVkIHN5
+c3RlbSINCj4gLQlzZWxlY3QgRVhQRVJUDQo+IC0JaGVscA0KPiAtCSAgVGhpcyBvcHRpb24gc2hv
+dWxkIGJlIGVuYWJsZWQgaWYgY29tcGlsaW5nIHRoZSBrZXJuZWwgZm9yDQo+IC0JICBhbiBlbWJl
+ZGRlZCBzeXN0ZW0gc28gY2VydGFpbiBleHBlcnQgb3B0aW9ucyBhcmUgYXZhaWxhYmxlDQo+IC0J
+ICBmb3IgY29uZmlndXJhdGlvbi4NCj4gLQ0KPiAgIGNvbmZpZyBIQVZFX1BFUkZfRVZFTlRTDQo+
+ICAgCWJvb2wNCj4gICAJaGVscA0KDQpUaGF0J3MgZmluZSwgYnV0IHdoYXQgaGFwcGVucyB0byBl
+eGlzdGluZyBkZWZjb25maWdzIHRoZW4gPw0KDQokIGdpdCBncmVwIC13IENPTkZJR19FTUJFRERF
+RCBhcmNoL3Bvd2VycGMvDQphcmNoL3Bvd2VycGMvY29uZmlncy80MHgva2xvbmRpa2VfZGVmY29u
+ZmlnOkNPTkZJR19FTUJFRERFRD15DQphcmNoL3Bvd2VycGMvY29uZmlncy80NHgvZnNwMl9kZWZj
+b25maWc6Q09ORklHX0VNQkVEREVEPXkNCmFyY2gvcG93ZXJwYy9jb25maWdzLzUyeHgvdHFtNTIw
+MF9kZWZjb25maWc6Q09ORklHX0VNQkVEREVEPXkNCmFyY2gvcG93ZXJwYy9jb25maWdzL21nY29n
+ZV9kZWZjb25maWc6Q09ORklHX0VNQkVEREVEPXkNCmFyY2gvcG93ZXJwYy9jb25maWdzL21pY3Jv
+d2F0dF9kZWZjb25maWc6Q09ORklHX0VNQkVEREVEPXkNCmFyY2gvcG93ZXJwYy9jb25maWdzL3Bz
+M19kZWZjb25maWc6Q09ORklHX0VNQkVEREVEPXkNCg0KVGhleSBuZWVkIHRvIGdldCBjb252ZXJ0
+ZWQgdG8gc2VsZWN0aW5nIENPTkZJR19FWFBFUlQgaW5zdGVhZC4NCg0KQW5kIHRoYXQgbmVlZHMg
+dG8gYmUgZG9uZSBiZWZvcmUgeW91IHJlbW92ZSBDT05GSUdfRU1CRURERUQuDQoNCkNocmlzdG9w
+aGU=
