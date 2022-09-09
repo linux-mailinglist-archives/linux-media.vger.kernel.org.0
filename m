@@ -2,116 +2,85 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A51C15B38E1
-	for <lists+linux-media@lfdr.de>; Fri,  9 Sep 2022 15:24:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EE8305B3951
+	for <lists+linux-media@lfdr.de>; Fri,  9 Sep 2022 15:41:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230359AbiIINYn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 9 Sep 2022 09:24:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54806 "EHLO
+        id S230368AbiIINkk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 9 Sep 2022 09:40:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33568 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229631AbiIINYl (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 9 Sep 2022 09:24:41 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 352D118375;
-        Fri,  9 Sep 2022 06:24:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
-        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=iY0w1kh/xK+MCzo1rcnqvZqdmGxlHyuGkIUEG2fe/n0=; b=3wAl0TxsoTvU4WSk/aqxa6e9u/
-        30XUqAlq7pk+SKpG5MSQFbT0MoWDiD1aYo7F1FJ3DrSUU/9qFFxdzWUyN2J66hZuW72TG3hUIDZdP
-        P42VoYLJin+mebeMH4p6hwbaQ6n3DWx4lhsetBocd6lS+lVM+d40I3KLyzVAXt3CokaWpej/0paac
-        cqzPcUqf/5srbDXkPIK36whHP4DZUpnSRlHspglNS5p77kTiy4b9zZUMLF3IIgBjcz6Br2jRoxYX+
-        vWGuxJBluz3V6oi4VjQPpmc7mmu3iWRQ00Aie4He+c8ZFXrNNAodqvzzBHDQ6SOErfZj+lNQgw+to
-        rptERk0w==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1oWdzn-00GJ4H-M7; Fri, 09 Sep 2022 13:24:35 +0000
-Date:   Fri, 9 Sep 2022 06:24:35 -0700
-From:   Christoph Hellwig <hch@infradead.org>
-To:     Jason Gunthorpe <jgg@nvidia.com>
-Cc:     Christoph Hellwig <hch@infradead.org>,
-        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Cornelia Huck <cohuck@redhat.com>,
-        dri-devel@lists.freedesktop.org, kvm@vger.kernel.org,
-        linaro-mm-sig@lists.linaro.org, linux-media@vger.kernel.org,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Daniel Vetter <daniel.vetter@ffwll.ch>,
-        Leon Romanovsky <leon@kernel.org>, linux-rdma@vger.kernel.org,
-        Maor Gottlieb <maorg@nvidia.com>,
-        Oded Gabbay <ogabbay@kernel.org>,
-        Dan Williams <dan.j.williams@intel.com>
-Subject: Re: [PATCH v2 4/4] vfio/pci: Allow MMIO regions to be exported
- through dma-buf
-Message-ID: <Yxs+k6psNfBLDqdv@infradead.org>
-References: <4-v2-472615b3877e+28f7-vfio_dma_buf_jgg@nvidia.com>
- <YxcYGzPv022G2vLm@infradead.org>
- <b6b5d236-c089-7428-4cc9-a08fe4f6b4a3@amd.com>
- <YxczjNIloP7TWcf2@nvidia.com>
- <YxiJJYtWgh1l0wxg@infradead.org>
- <YxiPh4u/92chN02C@nvidia.com>
- <Yxiq5sjf/qA7xS8A@infradead.org>
- <Yxi3cFfs0SA4XWJw@nvidia.com>
- <Yxi5h09JAzIo4Kh8@infradead.org>
- <YxjDBOIavc79ZByZ@nvidia.com>
+        with ESMTP id S229930AbiIINkg (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 9 Sep 2022 09:40:36 -0400
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::225])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5389989820;
+        Fri,  9 Sep 2022 06:40:28 -0700 (PDT)
+Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
+        by mail.gandi.net (Postfix) with ESMTPSA id F1FF31C0007;
+        Fri,  9 Sep 2022 13:40:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+        t=1662730826;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=ymJxpyXPHP7SnAhvIF7gZ8BpVklD5DeS9VKlbiuGSqo=;
+        b=aMUOBNCAEpF9nr+LoVLA74Tm2wRdWubL7OjHHSiyxjNF7A5DyJnc+Tw8Ry0qoodVDZTRGD
+        Bn4rtApb/9sE30UV7S24NOsKqrDHZuLNvhqrNsbfIxeQt1y7REkrP02NNSADgM+DoGSYWu
+        shA/LsPKsCqimA/DlAcdto195BwSyJB0Qb0e25G71nXurK+HWiCAiKeVNza3UX1HYxf93u
+        PQ2wAu2+XsbTK2s361PNJ23W0dNbAknKuFwV7iY3a5I3jgLrmH7b9MOmBOj+2ejPM9aGJs
+        L8C0UkQFZS5QPIHJrL4uPSQBNmtHWj/Nr0CgDq8vI/TuwaWPr/PKKECRYDynNw==
+From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+To:     linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Cc:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Samuel Holland <samuel@sholland.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: [PATCH 0/4] media: sunxi: MIPI CSI-2 controllers link fixups
+Date:   Fri,  9 Sep 2022 15:39:50 +0200
+Message-Id: <20220909133954.97010-1-paul.kocialkowski@bootlin.com>
+X-Mailer: git-send-email 2.37.3
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YxjDBOIavc79ZByZ@nvidia.com>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,DKIM_INVALID,
+        DKIM_SIGNED,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Sep 07, 2022 at 01:12:52PM -0300, Jason Gunthorpe wrote:
-> The PCI offset is some embedded thing - I've never seen it in a server
-> platform.
+Fix the MIPI CSI-2 drivers to correctly check enabled links and to
+register their subdev even without a sensor attached. This allows
+their parent driver to register in that situation and makes it
+possible to use a parallel sensor when both parallel and MIPI CSI-2
+are fed to the same controller but no sensor is connected to the
+MIPI CSI-2 bridge.
 
-That's not actually true, e.g. some power system definitively had it,
-althiugh I don't know if the current ones do.
+With this change, it becomes possible to always describe the links
+between the CSI and MIPI CSI-2 blocks in device-tree.
 
-But that's not that point.  The offset is a configuration fully
-supported by Linux, and someone that just works by using the proper
-APIs.  Doing some handwaiving about embedded only or bad design doesn't
-matter.  There is a reason why we have these proper APIs and no one
-has any business bypassing them.
+This series is based atop Christophe JAILLET's fixes at:
+https://patchwork.kernel.org/project/linux-media/list/?series=670059
 
-> I also seem to remember that iommu and PCI offset don't play nice
-> together - so for the VFIO use case where the iommu is present I'm
-> pretty sure we can very safely assume 0 offset. That seems confirmed
-> by the fact that VFIO has never handled PCI offset in its own P2P path
-> and P2P works fine in VMs across a wide range of platforms.
+Paul Kocialkowski (4):
+  media: sun6i-mipi-csi2: Require both pads to be connected for
+    streaming
+  media: sun8i-a83t-mipi-csi2: Require both pads to be connected for
+    streaming
+  media: sun6i-mipi-csi2: Register async subdev with no sensor attached
+  media: sun8i-a83t-mipi-csi2: Register async subdev with no sensor
+    attached
 
-I think the offset is one of the reasons why IOVA windows can be
-reserved (and maybe also why ppc is so weird).
+ .../sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c   | 23 +++++++++++++------
+ .../sun8i_a83t_mipi_csi2.c                    | 23 +++++++++++++------
+ 2 files changed, 32 insertions(+), 14 deletions(-)
 
-> So, would you be OK with this series if I try to make a dma_map_p2p()
-> that resolves the offset issue?
+-- 
+2.37.3
 
-Well, if it also solves the other issue of invalid scatterlists leaking
-outside of drm we can think about it.
-
-> 
-> > Last but not least I don't really see how the code would even work
-> > when an IOMMU is used, as dma_map_resource will return an IOVA that
-> > is only understood by the IOMMU itself, and not the other endpoint.
-> 
-> I don't understand this.
-> 
-> __iommu_dma_map() will put the given phys into the iommu_domain
-> associated with 'dev' and return the IOVA it picked.
-
-Yes, __iommu_dma_map creates an IOVA for the mapped remote BAR.  That
-is the right thing if the I/O goes through the host bridge, but it is
-the wrong thing if the I/O goes through the switch - in that case the
-IOVA generated is not something that the endpoint that owns the BAR
-can even understand.
-
-Take a look at iommu_dma_map_sg and pci_p2pdma_map_segment to see how
-this is handled.
