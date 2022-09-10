@@ -2,106 +2,144 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DF00D5B4609
-	for <lists+linux-media@lfdr.de>; Sat, 10 Sep 2022 13:19:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 491A15B4630
+	for <lists+linux-media@lfdr.de>; Sat, 10 Sep 2022 14:21:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229589AbiIJLTD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 10 Sep 2022 07:19:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58514 "EHLO
+        id S229491AbiIJMVU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 10 Sep 2022 08:21:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60692 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229488AbiIJLTC (ORCPT
+        with ESMTP id S229446AbiIJMVT (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 10 Sep 2022 07:19:02 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 955AE5018A
-        for <linux-media@vger.kernel.org>; Sat, 10 Sep 2022 04:19:01 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 33247440;
-        Sat, 10 Sep 2022 13:18:58 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1662808738;
-        bh=2/S80fOZdH19xvofwQYhXjNOG2TvF/WopcTyriBPjac=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=jRhZe89TTt+Nk/N2yRgQMDx9/cnA+Qk7P6K4QxTV0ni5eEs8cotjxfCQ6DDuo74c+
-         AsxgbikQYtiqnTVTB6SxJD1I61iie1ZRrMi8YcAH5AboFGtiUEPLcD9JGC7bzT1c22
-         UVE6P5K7zyvNmGve0ZR9/iNHregNc4j1OW+3xnEM=
-Date:   Sat, 10 Sep 2022 14:18:41 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
+        Sat, 10 Sep 2022 08:21:19 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 529114A103
+        for <linux-media@vger.kernel.org>; Sat, 10 Sep 2022 05:21:17 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 89C3C60C33
+        for <linux-media@vger.kernel.org>; Sat, 10 Sep 2022 12:21:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 807B2C433C1;
+        Sat, 10 Sep 2022 12:21:12 +0000 (UTC)
+Message-ID: <8a745b89-e63d-ac8f-d4fa-c985d830cb41@xs4all.nl>
+Date:   Sat, 10 Sep 2022 14:21:10 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [Media Summit] Using the selection API to control image sensor
+ subsampling
+Content-Language: en-US
+To:     Jacopo Mondi <jacopo@jmondi.org>, linux-media@vger.kernel.org,
+        Dave Stevenson <dave.stevenson@raspberrypi.com>
+Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
         Kieran Bingham <kieran.bingham@ideasonboard.com>,
         Nicolas Dufresne <nicolas@ndufresne.ca>,
         Benjamin Gaignard <benjamin.gaignard@collabora.com>,
         Hidenori Kobayashi <hidenorik@chromium.org>,
         Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Jacopo Mondi <jacopo@jmondi.org>,
+        Michael Olbrich <m.olbrich@pengutronix.de>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Ricardo Ribalda <ribalda@chromium.org>,
         Maxime Ripard <maxime@cerno.tech>,
         Daniel Scally <djrscally@gmail.com>,
-        Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>
-Subject: Re: [ANN] Media Summit at ELCE Dublin, September 12: Draft Agenda V2
-Message-ID: <YxxykQwzXouGj6B6@pendragon.ideasonboard.com>
-References: <3840c3cc-00fb-45dd-cb89-39b36fb6d733@xs4all.nl>
- <YxX8dzSsquJmO5hP@paasikivi.fi.intel.com>
- <YxYLSk2pKdGnNDP3@pendragon.ideasonboard.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+        =?UTF-8?Q?Jernej_=c5=a0krabec?= <jernej.skrabec@gmail.com>,
+        =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>,
+        Michael Tretter <m.tretter@pengutronix.de>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Benjamin MUGNIER <benjamin.mugnier@foss.st.com>
+References: <20220829071528.6fxm4kdvpjzkr3yw@uno.localdomain>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+In-Reply-To: <20220829071528.6fxm4kdvpjzkr3yw@uno.localdomain>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <YxYLSk2pKdGnNDP3@pendragon.ideasonboard.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-6.9 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Sep 05, 2022 at 05:44:27PM +0300, Laurent Pinchart wrote:
-> On Mon, Sep 05, 2022 at 01:41:11PM +0000, Sakari Ailus wrote:
-> > On Tue, Aug 23, 2022 at 12:53:44PM +0200, Hans Verkuil wrote:
-> > > 16:45-18:00 Anything else?
-> > 
-> > I think it'd be great to have a GPG key signing party at the end of the
-> > meeting.
-> 
-> It's a good idea. Could everybody please send their GPG key fingerprint
-> in an e-mail reply to prepare for that ? It can easily be retrieved with
-> 'gpg -K' (make sure to pick the right key if you have multiple of them).
-> I'll start:
-> 
-> sec   rsa4096/0xF045C2B96991256E 2014-10-09 [C]
->       94231B980100EC619AC10E10F045C2B96991256E
-> uid                   [ultimate] Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> 
-> If you're generating a key for the occasion, create a primary key with
-> the Certify (C) capability only, and create separate sub-keys for
-> Signature (S) and Encryption (E). There's little reason these days to
-> use less than 4096 bits for the primary key if you opt for RSA. The
-> subkeys should have an expiration date.
-> 
-> The primary key can then be moved to safe storage, you will only need
-> the subkeys for daily usage.  The primary key will be used only to
-> create new subkeys and to sign other people's keys.
+Hi Jacopo,
 
-I have received keys for half of the attendees. If you are in the list
-below, have a GPG key, and would like to participate in the key signing,
-please send your public key by e-mail today.
+On 29/08/2022 09:15, Jacopo Mondi wrote:
+> Hello
+> 
+>    I have prepared a slide deck to brief on the discussion for
+> the topic specified in the subject. Slides are available at
+> https://nc.nibble.pw/s/oib8jzNjjtgB9c6 as an attachment of ~5MB would
+> probably be caught by the mailing list filter
+> 
+> I'll here copy a brief summary as presented in Hans' agenda:
+> 
+> -------------------------------------------------------------------------------
+> 11:45 Jacopo: Representing addition sensor processing stages.
+> 
+>   How to represent additional processing stages that happens
+>   on the sensor side, mostly additional subsampling/cropping that happen
+>   between the analogue cropping on the full pixel array and the final
+>   image sent on the wire.
+> 
+>   https://lore.kernel.org/linux-media/CAPY8ntA06L1Xsph79sv9t7MiDSNeSO2vADevuXZdXQdhWpSmow@mail.gmail.com/
+> 
+>   Dave made a good introduction of the issue his email which got
+>   largely unanswered.
+> 
+>   The issue is particularly relevant for RAW sensors, where applying
+>   subsampling has an impact on the sensor's sensitivity and requires
+>   to adjust the gains and exposure accordingly.
+> -------------------------------------------------------------------------------
+> 
+> The slide deck:
+> 
+> - Introduces the topic in slides [1-10]
+> 
+> - Presents Dave's proposed use case and how it is currently handled in
+>   mainline drivers in slides [11-31] using as example the imx274,
+>   mt9p031 and CCS drivers.
+> 
+> - Proposes a best-effort solution for imx219 in slides [32-37]
+> 
+> - The last two slides presents two discussion topics which I will copy
+>   here
+> 
+>   ------------------------------------------------------------------------
+>   Do we need new abstractions ?
+> 
+>   - An image sensor abstraction built on top of multiple subdevices
+>     - Would it really make userspace any simpler ?
+> 
+>   - Image sensor specific SELECTION_TARGETS
+>     - Conflicts with format selection are bound to happen with a single
+>       source pad
+>       - Can a “special” sink pad that represents the raw pixel array help ?
+>     - Does not scale to represent complex sensors with multiple scalers
+>   ------------------------------------------------------------------------
+> 
+> The imx219 proposal can be discussed by email or in person, while the
+> questions in the last two slides might be worth being discussed during
+> the meeting.
 
-Benjamin Gaignard
-Daniel Scally
-Dave Stevenson
-Hugues Fruchet
-Michael Olbrich
-Michael Tretter
-Nicolas Dufresne
-Niklas Söderlund
-Philipp Zabel
+I've always wondered why binning and skipping wasn't implemented as controls.
+You set them in userspace based on your needs, and they change the formats
+and selection rectangles accordingly.
 
--- 
+Trying to model it with selection rectangles is basically impossible.
+
+For the discussion it would be good to know what kind of binning and skipping
+schemes there are. Would it be fairly straightforward to translate it to a
+control? Or are there many variations between vendors?
+
 Regards,
 
-Laurent Pinchart
+	Hans
+
+> 
+> Thanks
+>    j
+> 
+
