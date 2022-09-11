@@ -2,347 +2,385 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6410D5B4B10
-	for <lists+linux-media@lfdr.de>; Sun, 11 Sep 2022 03:04:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9449C5B4B49
+	for <lists+linux-media@lfdr.de>; Sun, 11 Sep 2022 04:18:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229766AbiIKBEj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 10 Sep 2022 21:04:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51128 "EHLO
+        id S229589AbiIKCSM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 10 Sep 2022 22:18:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54416 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229727AbiIKBEi (ORCPT
+        with ESMTP id S229459AbiIKCSL (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 10 Sep 2022 21:04:38 -0400
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A37C4D96;
-        Sat, 10 Sep 2022 18:04:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1662858274; x=1694394274;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=aDrUg+q5YY+Kzho+NMezXaQwhTH0jspHY29Ckm2Wuoc=;
-  b=Cf1v5io2NlPyhmeyTyG779bGiwLsOLJR6eG+ngAYM6Dh2AvQXNAWBorG
-   MPBrzgVoZaoHs7ygtZXld2ifrsC4k2u8mjXYMCJLkxAF8/tEKVVDpFeow
-   tR7QnKTplvmtL1zfvze1O2B1TC3Kd3chmfsoaC3N9qozfwdTV35ctB8pt
-   AKJ1pBk0FwwGMFWT9/3xW5b/fQ0aHmPINoCJ/evl1GDSHCqevzm6/KuyA
-   zbjnEgiUd9GrgZ6Zf3ierUXVgne+leCKLb7l0bv1ZlstrzvQGeedX0DMc
-   MvvYR/N27CERkY6buSfF3LcsmZGScUyjOSwc6Z4YJp94hgTYwGWrDLCN3
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10466"; a="280702741"
-X-IronPort-AV: E=Sophos;i="5.93,307,1654585200"; 
-   d="scan'208";a="280702741"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2022 18:04:34 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,307,1654585200"; 
-   d="scan'208";a="615667547"
-Received: from lkp-server02.sh.intel.com (HELO 4011df4f4fd3) ([10.239.97.151])
-  by orsmga002.jf.intel.com with ESMTP; 10 Sep 2022 18:04:29 -0700
-Received: from kbuild by 4011df4f4fd3 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1oXBOe-0000kx-2l;
-        Sun, 11 Sep 2022 01:04:28 +0000
-Date:   Sun, 11 Sep 2022 09:03:30 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Serge Semin <Sergey.Semin@baikalelectronics.ru>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Michal Simek <monstr@monstr.eu>,
-        Borislav Petkov <bp@alien8.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Tony Luck <tony.luck@intel.com>,
-        James Morse <james.morse@arm.com>,
-        Robert Richter <rric@kernel.org>
-Cc:     kbuild-all@lists.01.org, linux-media@vger.kernel.org,
-        Serge Semin <Sergey.Semin@baikalelectronics.ru>,
-        Alexey Malahov <Alexey.Malahov@baikalelectronics.ru>,
-        Michail Ivanov <Michail.Ivanov@baikalelectronics.ru>,
-        Pavel Parkhomenko <Pavel.Parkhomenko@baikalelectronics.ru>,
-        Punnaiah Choudary Kalluri 
-        <punnaiah.choudary.kalluri@xilinx.com>,
-        Manish Narani <manish.narani@xilinx.com>,
-        Dinh Nguyen <dinguyen@kernel.org>, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-edac@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 16/19] EDAC/synopsys: Detach Zynq DDRC controller
- support
-Message-ID: <202209110838.nMRJWlc2-lkp@intel.com>
-References: <20220910194237.10142-17-Sergey.Semin@baikalelectronics.ru>
+        Sat, 10 Sep 2022 22:18:11 -0400
+Received: from mail-pf1-x431.google.com (mail-pf1-x431.google.com [IPv6:2607:f8b0:4864:20::431])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1EBD4DF73
+        for <linux-media@vger.kernel.org>; Sat, 10 Sep 2022 19:18:06 -0700 (PDT)
+Received: by mail-pf1-x431.google.com with SMTP id 65so5369916pfx.0
+        for <linux-media@vger.kernel.org>; Sat, 10 Sep 2022 19:18:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date;
+        bh=Q44SyBorbSDPpu6hK/RUmpMKiNrfWy6VTyqGTnlJnak=;
+        b=TyXTYJPDsB8k4DUn/dSNAV2U9cnyPhb27hEjk3uw8mXj7fIsHk0W8WAioDHsoYFYWT
+         mwzygbcr7nkKhEPBwAPrcuBbihU5uy29IqEWsCxE21ZjlWwiZAnGoKXvRsokHXPovPAI
+         XQqIfLQRkJj3CHAhMKmfP0vzigl/Jlx2u5u3HTLUjRv5rz40X2CCX1s3lF8PRBD6z52F
+         hDUgM0u8wv5D3Izoud7bDGIDnNi/T1iSBgV54/g8XV4RefaQ2AB7UrJeJcr8yTAPecFY
+         yUTEyBeGTEncq8WIZdKlj5yzzC9XdFHT0Afo3g2WNIaXmAP0QDS4Hgrjt+pGa1zmI2gQ
+         FS7A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date;
+        bh=Q44SyBorbSDPpu6hK/RUmpMKiNrfWy6VTyqGTnlJnak=;
+        b=k07XB8H7wgCCq3gBpiMgPG4cRYqSyy7NxlbQZdrShqU5z6n5/lKrJKPwrVMpulaiCO
+         GFHGmyTUa9kCpP3BDCdN/Opet2Kt5lp4eUZG+vVOpSzsoDGMEFq2ZqfgJtVjAbVfNTqN
+         q3ra45Yi4A6xCc3AKXGVNC40yM5QCIigacsSqZM54KXUxCYqRUP9f46sy06kMYESkYzH
+         p3KrLnacqwDG7mp7mPKZyenHV9QfUYdL3MdVoyzcBHllLIabVrgCS9G7pdJsqxR61rHb
+         VjFAF9wJ0u7v1BEjgsrrfTUDctP9uxIJbKvSiJdmnzXGA+DKVhUu6EjGlIkyYDQhYJDK
+         226g==
+X-Gm-Message-State: ACgBeo1oI4X61NSSrMo6XAP7VbpLBym+CB9cE8qweJ4L7UU1zWuInxxs
+        n5PcrsYRlFoySOBlIUY/HgTSy0OsNmaWY8fcRFk=
+X-Google-Smtp-Source: AA6agR6PPB6aY2/NblM6YUNoFnsx2UWAQ8nk+50jfPWKDaIcjzUxFmICgqZSC/+qTwxNtksWuumfcnN3FtUILrsRM/I=
+X-Received: by 2002:a65:6491:0:b0:42a:c39a:e58e with SMTP id
+ e17-20020a656491000000b0042ac39ae58emr17849972pgv.68.1662862685421; Sat, 10
+ Sep 2022 19:18:05 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220910194237.10142-17-Sergey.Semin@baikalelectronics.ru>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+References: <20220909134412.21934-1-laurent.pinchart@ideasonboard.com>
+In-Reply-To: <20220909134412.21934-1-laurent.pinchart@ideasonboard.com>
+From:   Rosen Penev <rosenp@gmail.com>
+Date:   Sat, 10 Sep 2022 19:17:53 -0700
+Message-ID: <CAKxU2N-vRQqwTNaCQiodj9NLGEuF8CijbwNcLHkCRSCSxi652g@mail.gmail.com>
+Subject: Re: [PATCH v7 0/5] Switch build system to meson
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, ezequiel@collabora.com,
+        gjasny@googlemail.com, hverkuil@xs4all.nl,
+        kieran.bingham@ideasonboard.com, mchehab@kernel.org,
+        nicolas@ndufresne.ca, p.zabel@pengutronix.de, sakari.ailus@iki.fi,
+        sean@mess.org, user.vdr@gmail.com, xavier.claessens@collabora.com
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Serge,
+On Fri, Sep 9, 2022 at 6:44 AM Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+>
+> Hello everybody,
+>
+> This series is the latest (and greatest) attempt to switch v4l-utils
+> from autotools to meson.
+I looked at the base meson.build file. Those enabled() usages look
+weird to me. The libudev one seems like a refactoring oversight.
 
-I love your patch! Perhaps something to improve:
+dep_gl = dependency('gl', required : get_option('qvidcap').enabled()
+or get_option('qv4l2').enabled())
 
-[auto build test WARNING on ras/edac-for-next]
-[also build test WARNING on krzk-mem-ctrl/for-next linus/master]
-[cannot apply to xilinx-xlnx/master]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+can be rewritten as
+dep gl = dependency('gl, required: get_option('qvidcap'))
+if not dep_gl.found()
+  dep gl = dependency('gl, required: get_option('qv4l2'))
+endif
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Serge-Semin/EDAC-mc-synopsys-Various-fixes-and-cleanups/20220911-034806
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/ras/ras.git edac-for-next
-config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20220911/202209110838.nMRJWlc2-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/f9c107260e46195172faf58ccea98f7de56eae08
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Serge-Semin/EDAC-mc-synopsys-Various-fixes-and-cleanups/20220911-034806
-        git checkout f9c107260e46195172faf58ccea98f7de56eae08
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash drivers/edac/
+That'll enable the actual feature option to work properly.
 
-If you fix the issue, kindly add following tag where applicable
-Reported-by: kernel test robot <lkp@intel.com>
+have_visibility should use cc.has_function_attribute(' visibility:hidden')
 
-All warnings (new ones prefixed by >>):
+The libiconv check should also be a feature check:
 
-   drivers/edac/zynq_edac.c: In function 'zynq_mc_init':
->> drivers/edac/zynq_edac.c:378:32: warning: variable 'priv' set but not used [-Wunused-but-set-variable]
-     378 |         struct zynq_edac_priv *priv;
-         |                                ^~~~
---
->> drivers/edac/zynq_edac.c:194: warning: expecting prototype for handle_error(). Prototype was for zynq_handle_error() instead
->> drivers/edac/zynq_edac.c:233: warning: expecting prototype for check_errors(). Prototype was for zynq_check_errors() instead
-
-
-vim +/priv +378 drivers/edac/zynq_edac.c
-
-   185	
-   186	/**
-   187	 * handle_error - Handle Correctable and Uncorrectable errors.
-   188	 * @mci:	EDAC memory controller instance.
-   189	 * @p:		Zynq ECC status structure.
-   190	 *
-   191	 * Handles ECC correctable and uncorrectable errors.
-   192	 */
-   193	static void zynq_handle_error(struct mem_ctl_info *mci, struct zynq_ecc_status *p)
- > 194	{
-   195		struct zynq_edac_priv *priv = mci->pvt_info;
-   196		struct zynq_ecc_error_info *pinf;
-   197	
-   198		if (p->ce_cnt) {
-   199			pinf = &p->ceinfo;
-   200	
-   201			snprintf(priv->message, ZYNQ_EDAC_MSG_SIZE,
-   202				 "Row %d Bank %d Col %d Bit %d Data 0x%08x",
-   203				 pinf->row, pinf->bank, pinf->col,
-   204				 pinf->bitpos, pinf->data);
-   205	
-   206			edac_mc_handle_error(HW_EVENT_ERR_CORRECTED, mci,
-   207					     p->ce_cnt, 0, 0, 0, 0, 0, -1,
-   208					     priv->message, "");
-   209		}
-   210	
-   211		if (p->ue_cnt) {
-   212			pinf = &p->ueinfo;
-   213	
-   214			snprintf(priv->message, ZYNQ_EDAC_MSG_SIZE,
-   215				 "Row %d Bank %d Col %d",
-   216				 pinf->row, pinf->bank, pinf->col);
-   217	
-   218			edac_mc_handle_error(HW_EVENT_ERR_UNCORRECTED, mci,
-   219					     p->ue_cnt, 0, 0, 0, 0, 0, -1,
-   220					     priv->message, "");
-   221		}
-   222	
-   223		memset(p, 0, sizeof(*p));
-   224	}
-   225	
-   226	/**
-   227	 * check_errors - Check controller for ECC errors.
-   228	 * @mci:	EDAC memory controller instance.
-   229	 *
-   230	 * Check and post ECC errors. Called by the polling thread.
-   231	 */
-   232	static void zynq_check_errors(struct mem_ctl_info *mci)
- > 233	{
-   234		struct zynq_edac_priv *priv = mci->pvt_info;
-   235		int status;
-   236	
-   237		status = zynq_get_error_info(priv);
-   238		if (status)
-   239			return;
-   240	
-   241		zynq_handle_error(mci, &priv->stat);
-   242	}
-   243	
-   244	/**
-   245	 * zynq_get_dtype - Return the controller memory width.
-   246	 * @base:	DDR memory controller base address.
-   247	 *
-   248	 * Get the EDAC device type width appropriate for the current controller
-   249	 * configuration.
-   250	 *
-   251	 * Return: a device type width enumeration.
-   252	 */
-   253	static enum dev_type zynq_get_dtype(const void __iomem *base)
-   254	{
-   255		enum dev_type dt;
-   256		u32 width;
-   257	
-   258		width = readl(base + ZYNQ_CTRL_OFST);
-   259		width = (width & ZYNQ_CTRL_BW_MASK) >> ZYNQ_CTRL_BW_SHIFT;
-   260	
-   261		switch (width) {
-   262		case ZYNQ_DDRCTL_WDTH_16:
-   263			dt = DEV_X2;
-   264			break;
-   265		case ZYNQ_DDRCTL_WDTH_32:
-   266			dt = DEV_X4;
-   267			break;
-   268		default:
-   269			dt = DEV_UNKNOWN;
-   270		}
-   271	
-   272		return dt;
-   273	}
-   274	
-   275	/**
-   276	 * zynq_get_ecc_state - Return the controller ECC enable/disable status.
-   277	 * @base:	DDR memory controller base address.
-   278	 *
-   279	 * Get the ECC enable/disable status of the controller.
-   280	 *
-   281	 * Return: true if enabled, otherwise false.
-   282	 */
-   283	static bool zynq_get_ecc_state(void __iomem *base)
-   284	{
-   285		enum dev_type dt;
-   286		u32 ecctype;
-   287	
-   288		dt = zynq_get_dtype(base);
-   289		if (dt == DEV_UNKNOWN)
-   290			return false;
-   291	
-   292		ecctype = readl(base + ZYNQ_SCRUB_OFST) & ZYNQ_SCRUB_MODE_MASK;
-   293		if ((ecctype == ZYNQ_SCRUB_MODE_SECDED) && (dt == DEV_X2))
-   294			return true;
-   295	
-   296		return false;
-   297	}
-   298	
-   299	/**
-   300	 * zynq_get_memsize - Read the size of the attached memory device.
-   301	 *
-   302	 * Return: the memory size in bytes.
-   303	 */
-   304	static u32 zynq_get_memsize(void)
-   305	{
-   306		struct sysinfo inf;
-   307	
-   308		si_meminfo(&inf);
-   309	
-   310		return inf.totalram * inf.mem_unit;
-   311	}
-   312	
-   313	/**
-   314	 * zynq_get_mtype - Return the controller memory type.
-   315	 * @base:	Zynq ECC status structure.
-   316	 *
-   317	 * Get the EDAC memory type appropriate for the current controller
-   318	 * configuration.
-   319	 *
-   320	 * Return: a memory type enumeration.
-   321	 */
-   322	static enum mem_type zynq_get_mtype(const void __iomem *base)
-   323	{
-   324		enum mem_type mt;
-   325		u32 memtype;
-   326	
-   327		memtype = readl(base + ZYNQ_T_ZQ_OFST);
-   328	
-   329		if (memtype & ZYNQ_T_ZQ_DDRMODE_MASK)
-   330			mt = MEM_DDR3;
-   331		else
-   332			mt = MEM_DDR2;
-   333	
-   334		return mt;
-   335	}
-   336	
-   337	/**
-   338	 * zynq_init_csrows - Initialize the csrow data.
-   339	 * @mci:	EDAC memory controller instance.
-   340	 *
-   341	 * Initialize the chip select rows associated with the EDAC memory
-   342	 * controller instance.
-   343	 */
-   344	static void zynq_init_csrows(struct mem_ctl_info *mci)
-   345	{
-   346		struct zynq_edac_priv *priv = mci->pvt_info;
-   347		struct csrow_info *csi;
-   348		struct dimm_info *dimm;
-   349		u32 size, row;
-   350		int j;
-   351	
-   352		for (row = 0; row < mci->nr_csrows; row++) {
-   353			csi = mci->csrows[row];
-   354			size = zynq_get_memsize();
-   355	
-   356			for (j = 0; j < csi->nr_channels; j++) {
-   357				dimm		= csi->channels[j]->dimm;
-   358				dimm->edac_mode	= EDAC_SECDED;
-   359				dimm->mtype	= zynq_get_mtype(priv->baseaddr);
-   360				dimm->nr_pages	= (size >> PAGE_SHIFT) / csi->nr_channels;
-   361				dimm->grain	= ZYNQ_EDAC_ERR_GRAIN;
-   362				dimm->dtype	= zynq_get_dtype(priv->baseaddr);
-   363			}
-   364		}
-   365	}
-   366	
-   367	/**
-   368	 * zynq_mc_init - Initialize one driver instance.
-   369	 * @mci:	EDAC memory controller instance.
-   370	 * @pdev:	platform device.
-   371	 *
-   372	 * Perform initialization of the EDAC memory controller instance and
-   373	 * related driver-private data associated with the memory controller the
-   374	 * instance is bound to.
-   375	 */
-   376	static void zynq_mc_init(struct mem_ctl_info *mci, struct platform_device *pdev)
-   377	{
- > 378		struct zynq_edac_priv *priv;
-   379	
-   380		mci->pdev = &pdev->dev;
-   381		priv = mci->pvt_info;
-   382		platform_set_drvdata(pdev, mci);
-   383	
-   384		/* Initialize controller capabilities and configuration */
-   385		mci->mtype_cap = MEM_FLAG_DDR3 | MEM_FLAG_DDR2;
-   386		mci->edac_ctl_cap = EDAC_FLAG_NONE | EDAC_FLAG_SECDED;
-   387		mci->scrub_cap = SCRUB_FLAG_HW_SRC;
-   388		mci->scrub_mode = SCRUB_NONE;
-   389	
-   390		mci->edac_cap = EDAC_FLAG_SECDED;
-   391		mci->ctl_name = "zynq_ddr_controller";
-   392		mci->dev_name = ZYNQ_EDAC_MOD_STRING;
-   393		mci->mod_name = ZYNQ_EDAC_MOD_VER;
-   394	
-   395		edac_op_state = EDAC_OPSTATE_POLL;
-   396		mci->edac_check = zynq_check_errors;
-   397	
-   398		mci->ctl_page_to_phys = NULL;
-   399	
-   400		zynq_init_csrows(mci);
-   401	}
-   402	
-
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+if meson.version().version_compare('>= 0.60')
+  iconv_dep = dependency('iconv', required: get_option('iconv'))
+else
+  ...
+endif
+>
+> Compared to v6, the first noticeable change is that fixups have been
+> squashed into their corresponding commit. Detailed changelogs are now
+> included in individual patches.
+>
+> The second big change is that the last patch from v6 ("Makefile.am:
+> Distribute meson related files") got replaced by 5/5 which drops
+> autotools support, completing the switch from autotools to meson.
+>
+> A branch that includes this series can be found at
+>
+>         git://linuxtv.org/pinchartl/v4l-utils.git meson
+>
+> Ariel D'Alessandro (4):
+>   Move README to markdown syntax
+>   Add support for meson building
+>   Copy Doxygen configuration file to doc/
+>   meson: Add support for doxygen documentation
+>
+> Laurent Pinchart (1):
+>   Drop autoconf/automake support
+>
+>  .gitignore                                    |  62 +-
+>  INSTALL                                       | 105 ---
+>  INSTALL.md                                    | 142 ++++
+>  Makefile.am                                   |  16 -
+>  README                                        | 274 -------
+>  README.md                                     | 275 +++++++
+>  aminclude.am                                  | 186 -----
+>  bootstrap.sh                                  |  28 -
+>  configure.ac                                  | 668 ------------------
+>  contrib/Makefile.am                           |  25 -
+>  contrib/cobalt-ctl/.gitignore                 |   1 -
+>  contrib/cobalt-ctl/Makefile.am                |   3 -
+>  contrib/cobalt-ctl/meson.build                |   8 +
+>  contrib/decode_tm6000/.gitignore              |   1 -
+>  contrib/decode_tm6000/Makefile.am             |   4 -
+>  contrib/decode_tm6000/meson.build             |  14 +
+>  contrib/freebsd/Makefile.am                   |   3 -
+>  contrib/gconv/Makefile.am                     |  17 -
+>  contrib/gconv/meson.build                     |  44 ++
+>  contrib/meson.build                           |  13 +
+>  contrib/rds-saa6588/.gitignore                |   1 -
+>  contrib/rds-saa6588/Makefile.am               |   3 -
+>  contrib/rds-saa6588/meson.build               |   7 +
+>  contrib/test/.gitignore                       |  11 -
+>  contrib/test/Makefile.am                      |  65 --
+>  contrib/test/meson.build                      | 143 ++++
+>  contrib/xc3028-firmware/.gitignore            |   1 -
+>  contrib/xc3028-firmware/Makefile.am           |   5 -
+>  contrib/xc3028-firmware/meson.build           |  11 +
+>  doxygen_libdvbv5.cfg => doc/Doxyfile.in       | 128 ++--
+>  doc/meson.build                               |  34 +
+>  lib/Makefile.am                               |  13 -
+>  lib/libdvbv5/Makefile.am                      | 126 ----
+>  lib/libdvbv5/libdvbv5.pc.in                   |  11 -
+>  lib/libdvbv5/meson.build                      | 159 +++++
+>  lib/libv4l-mplane/Makefile.am                 |   7 -
+>  lib/libv4l-mplane/meson.build                 |  23 +
+>  lib/libv4l1/Makefile.am                       |  29 -
+>  lib/libv4l1/libv4l1.pc.in                     |  12 -
+>  lib/libv4l1/meson.build                       |  62 ++
+>  lib/libv4l2/Makefile.am                       |  32 -
+>  lib/libv4l2/libv4l2.pc.in                     |  12 -
+>  lib/libv4l2/meson.build                       |  71 ++
+>  lib/libv4l2rds/Makefile.am                    |  12 -
+>  lib/libv4l2rds/libv4l2rds.pc.in               |  11 -
+>  lib/libv4l2rds/meson.build                    |  37 +
+>  lib/libv4lconvert/.gitignore                  |   3 -
+>  lib/libv4lconvert/Makefile.am                 |  36 -
+>  lib/libv4lconvert/libv4lconvert.pc.in         |  11 -
+>  lib/libv4lconvert/meson.build                 | 117 +++
+>  lib/meson.build                               |  11 +
+>  libdvbv5-po/Makevars                          |  72 --
+>  libdvbv5-po/meson.build                       |   3 +
+>  m4/ac_define_dir.m4                           |  34 -
+>  m4/ax_prog_doxygen.m4                         | 532 --------------
+>  m4/ax_pthread.m4                              | 522 --------------
+>  m4/mode_t.m4                                  |  26 -
+>  m4/visibility.m4                              |  82 ---
+>  meson.build                                   | 339 +++++++++
+>  meson_options.txt                             |  50 ++
+>  utils/Makefile.am                             |  36 -
+>  utils/cec-compliance/.gitignore               |   2 -
+>  utils/cec-compliance/Makefile.am              |   8 -
+>  utils/cec-compliance/meson.build              |  23 +
+>  utils/cec-ctl/.gitignore                      |   2 -
+>  utils/cec-ctl/Makefile.am                     |   8 -
+>  utils/cec-ctl/meson.build                     |  18 +
+>  utils/cec-follower/.gitignore                 |   2 -
+>  utils/cec-follower/Makefile.am                |   8 -
+>  utils/cec-follower/meson.build                |  19 +
+>  utils/cx18-ctl/.gitignore                     |   1 -
+>  utils/cx18-ctl/Makefile.am                    |   3 -
+>  utils/cx18-ctl/meson.build                    |   8 +
+>  utils/dvb/.gitignore                          |   9 -
+>  utils/dvb/Makefile.am                         |  35 -
+>  utils/dvb/meson.build                         |  70 ++
+>  utils/gen_media_bus_format_codes.sh           |   7 +
+>  utils/gen_media_bus_format_names.sh           |   7 +
+>  utils/ir-ctl/.gitignore                       |   2 -
+>  utils/ir-ctl/Makefile.am                      |   6 -
+>  utils/ir-ctl/meson.build                      |  23 +
+>  utils/ivtv-ctl/.gitignore                     |   1 -
+>  utils/ivtv-ctl/Makefile.am                    |   4 -
+>  utils/ivtv-ctl/meson.build                    |  13 +
+>  utils/keytable/.gitignore                     |   3 -
+>  utils/keytable/Makefile.am                    |  36 -
+>  utils/keytable/bpf_protocols/Makefile.am      |  24 -
+>  .../bpf_protocols/clang_sys_includes.sh       |   9 +
+>  utils/keytable/bpf_protocols/meson.build      |  31 +
+>  utils/keytable/meson.build                    |  81 +++
+>  utils/keytable/rc_keymaps/meson.build         | 150 ++++
+>  utils/libcecutil/.gitignore                   |   4 -
+>  utils/libcecutil/Makefile.am                  |  24 -
+>  utils/libcecutil/meson.build                  |  45 ++
+>  utils/libmedia_dev/Makefile.am                |   7 -
+>  utils/libmedia_dev/meson.build                |  14 +
+>  utils/libv4l2util/Makefile.am                 |   7 -
+>  utils/libv4l2util/meson.build                 |  16 +
+>  utils/media-ctl/.gitignore                    |   3 -
+>  utils/media-ctl/Makefile.am                   |  30 -
+>  utils/media-ctl/libmediactl.pc.in             |  10 -
+>  utils/media-ctl/libv4l2subdev.pc.in           |  11 -
+>  utils/media-ctl/meson.build                   |  43 ++
+>  utils/meson.build                             |  46 ++
+>  utils/qv4l2/.gitignore                        |   9 -
+>  utils/qv4l2/Makefile.am                       |  54 --
+>  utils/qv4l2/meson.build                       |  80 +++
+>  utils/qvidcap/.gitignore                      |   6 -
+>  utils/qvidcap/Makefile.am                     |  42 --
+>  utils/qvidcap/meson.build                     |  82 +++
+>  utils/rds-ctl/.gitignore                      |   2 -
+>  utils/rds-ctl/Makefile.am                     |   6 -
+>  utils/rds-ctl/meson.build                     |  17 +
+>  utils/v4l2-compliance/.gitignore              |   3 -
+>  utils/v4l2-compliance/Makefile.am             |  31 -
+>  utils/v4l2-compliance/meson.build             |  59 ++
+>  utils/v4l2-ctl/.gitignore                     |   4 -
+>  utils/v4l2-ctl/Makefile.am                    |  44 --
+>  utils/v4l2-ctl/meson.build                    |  75 ++
+>  utils/v4l2-dbg/.gitignore                     |   1 -
+>  utils/v4l2-dbg/Makefile.am                    |   6 -
+>  utils/v4l2-dbg/meson.build                    |  20 +
+>  utils/v4l2-sysfs-path/.gitignore              |   1 -
+>  utils/v4l2-sysfs-path/Makefile.am             |   4 -
+>  utils/v4l2-sysfs-path/meson.build             |  14 +
+>  v4l-utils-po/Makevars                         |  72 --
+>  v4l-utils-po/meson.build                      |   3 +
+>  v4l-utils.spec.in                             |   6 +-
+>  128 files changed, 2604 insertions(+), 3699 deletions(-)
+>  delete mode 100644 INSTALL
+>  create mode 100644 INSTALL.md
+>  delete mode 100644 Makefile.am
+>  delete mode 100644 README
+>  create mode 100644 README.md
+>  delete mode 100644 aminclude.am
+>  delete mode 100755 bootstrap.sh
+>  delete mode 100644 configure.ac
+>  delete mode 100644 contrib/Makefile.am
+>  delete mode 100644 contrib/cobalt-ctl/.gitignore
+>  delete mode 100644 contrib/cobalt-ctl/Makefile.am
+>  create mode 100644 contrib/cobalt-ctl/meson.build
+>  delete mode 100644 contrib/decode_tm6000/.gitignore
+>  delete mode 100644 contrib/decode_tm6000/Makefile.am
+>  create mode 100644 contrib/decode_tm6000/meson.build
+>  delete mode 100644 contrib/freebsd/Makefile.am
+>  delete mode 100644 contrib/gconv/Makefile.am
+>  create mode 100644 contrib/gconv/meson.build
+>  create mode 100644 contrib/meson.build
+>  delete mode 100644 contrib/rds-saa6588/.gitignore
+>  delete mode 100644 contrib/rds-saa6588/Makefile.am
+>  create mode 100644 contrib/rds-saa6588/meson.build
+>  delete mode 100644 contrib/test/.gitignore
+>  delete mode 100644 contrib/test/Makefile.am
+>  create mode 100644 contrib/test/meson.build
+>  delete mode 100644 contrib/xc3028-firmware/.gitignore
+>  delete mode 100644 contrib/xc3028-firmware/Makefile.am
+>  create mode 100644 contrib/xc3028-firmware/meson.build
+>  rename doxygen_libdvbv5.cfg => doc/Doxyfile.in (96%)
+>  create mode 100644 doc/meson.build
+>  delete mode 100644 lib/Makefile.am
+>  delete mode 100644 lib/libdvbv5/Makefile.am
+>  delete mode 100644 lib/libdvbv5/libdvbv5.pc.in
+>  create mode 100644 lib/libdvbv5/meson.build
+>  delete mode 100644 lib/libv4l-mplane/Makefile.am
+>  create mode 100644 lib/libv4l-mplane/meson.build
+>  delete mode 100644 lib/libv4l1/Makefile.am
+>  delete mode 100644 lib/libv4l1/libv4l1.pc.in
+>  create mode 100644 lib/libv4l1/meson.build
+>  delete mode 100644 lib/libv4l2/Makefile.am
+>  delete mode 100644 lib/libv4l2/libv4l2.pc.in
+>  create mode 100644 lib/libv4l2/meson.build
+>  delete mode 100644 lib/libv4l2rds/Makefile.am
+>  delete mode 100644 lib/libv4l2rds/libv4l2rds.pc.in
+>  create mode 100644 lib/libv4l2rds/meson.build
+>  delete mode 100644 lib/libv4lconvert/.gitignore
+>  delete mode 100644 lib/libv4lconvert/Makefile.am
+>  delete mode 100644 lib/libv4lconvert/libv4lconvert.pc.in
+>  create mode 100644 lib/libv4lconvert/meson.build
+>  create mode 100644 lib/meson.build
+>  delete mode 100644 libdvbv5-po/Makevars
+>  create mode 100644 libdvbv5-po/meson.build
+>  delete mode 100644 m4/ac_define_dir.m4
+>  delete mode 100644 m4/ax_prog_doxygen.m4
+>  delete mode 100644 m4/ax_pthread.m4
+>  delete mode 100644 m4/mode_t.m4
+>  delete mode 100644 m4/visibility.m4
+>  create mode 100644 meson.build
+>  create mode 100644 meson_options.txt
+>  delete mode 100644 utils/Makefile.am
+>  delete mode 100644 utils/cec-compliance/.gitignore
+>  delete mode 100644 utils/cec-compliance/Makefile.am
+>  create mode 100644 utils/cec-compliance/meson.build
+>  delete mode 100644 utils/cec-ctl/.gitignore
+>  delete mode 100644 utils/cec-ctl/Makefile.am
+>  create mode 100644 utils/cec-ctl/meson.build
+>  delete mode 100644 utils/cec-follower/.gitignore
+>  delete mode 100644 utils/cec-follower/Makefile.am
+>  create mode 100644 utils/cec-follower/meson.build
+>  delete mode 100644 utils/cx18-ctl/.gitignore
+>  delete mode 100644 utils/cx18-ctl/Makefile.am
+>  create mode 100644 utils/cx18-ctl/meson.build
+>  delete mode 100644 utils/dvb/.gitignore
+>  delete mode 100644 utils/dvb/Makefile.am
+>  create mode 100644 utils/dvb/meson.build
+>  create mode 100755 utils/gen_media_bus_format_codes.sh
+>  create mode 100755 utils/gen_media_bus_format_names.sh
+>  delete mode 100644 utils/ir-ctl/.gitignore
+>  delete mode 100644 utils/ir-ctl/Makefile.am
+>  create mode 100644 utils/ir-ctl/meson.build
+>  delete mode 100644 utils/ivtv-ctl/.gitignore
+>  delete mode 100644 utils/ivtv-ctl/Makefile.am
+>  create mode 100644 utils/ivtv-ctl/meson.build
+>  delete mode 100644 utils/keytable/.gitignore
+>  delete mode 100644 utils/keytable/Makefile.am
+>  delete mode 100644 utils/keytable/bpf_protocols/Makefile.am
+>  create mode 100755 utils/keytable/bpf_protocols/clang_sys_includes.sh
+>  create mode 100644 utils/keytable/bpf_protocols/meson.build
+>  create mode 100644 utils/keytable/meson.build
+>  create mode 100644 utils/keytable/rc_keymaps/meson.build
+>  delete mode 100644 utils/libcecutil/.gitignore
+>  delete mode 100644 utils/libcecutil/Makefile.am
+>  create mode 100644 utils/libcecutil/meson.build
+>  delete mode 100644 utils/libmedia_dev/Makefile.am
+>  create mode 100644 utils/libmedia_dev/meson.build
+>  delete mode 100644 utils/libv4l2util/Makefile.am
+>  create mode 100644 utils/libv4l2util/meson.build
+>  delete mode 100644 utils/media-ctl/.gitignore
+>  delete mode 100644 utils/media-ctl/Makefile.am
+>  delete mode 100644 utils/media-ctl/libmediactl.pc.in
+>  delete mode 100644 utils/media-ctl/libv4l2subdev.pc.in
+>  create mode 100644 utils/media-ctl/meson.build
+>  create mode 100644 utils/meson.build
+>  delete mode 100644 utils/qv4l2/.gitignore
+>  delete mode 100644 utils/qv4l2/Makefile.am
+>  create mode 100644 utils/qv4l2/meson.build
+>  delete mode 100644 utils/qvidcap/.gitignore
+>  delete mode 100644 utils/qvidcap/Makefile.am
+>  create mode 100644 utils/qvidcap/meson.build
+>  delete mode 100644 utils/rds-ctl/.gitignore
+>  delete mode 100644 utils/rds-ctl/Makefile.am
+>  create mode 100644 utils/rds-ctl/meson.build
+>  delete mode 100644 utils/v4l2-compliance/.gitignore
+>  delete mode 100644 utils/v4l2-compliance/Makefile.am
+>  create mode 100644 utils/v4l2-compliance/meson.build
+>  delete mode 100644 utils/v4l2-ctl/.gitignore
+>  delete mode 100644 utils/v4l2-ctl/Makefile.am
+>  create mode 100644 utils/v4l2-ctl/meson.build
+>  delete mode 100644 utils/v4l2-dbg/.gitignore
+>  delete mode 100644 utils/v4l2-dbg/Makefile.am
+>  create mode 100644 utils/v4l2-dbg/meson.build
+>  delete mode 100644 utils/v4l2-sysfs-path/.gitignore
+>  delete mode 100644 utils/v4l2-sysfs-path/Makefile.am
+>  create mode 100644 utils/v4l2-sysfs-path/meson.build
+>  delete mode 100644 v4l-utils-po/Makevars
+>  create mode 100644 v4l-utils-po/meson.build
+>
+>
+> base-commit: a7611b2407982d823d1561c23f4531b8cc5c9dee
+> --
+> Regards,
+>
+> Laurent Pinchart
+>
