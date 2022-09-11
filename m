@@ -2,111 +2,122 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3CF885B4FCB
-	for <lists+linux-media@lfdr.de>; Sun, 11 Sep 2022 17:55:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 35A955B5025
+	for <lists+linux-media@lfdr.de>; Sun, 11 Sep 2022 19:17:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229689AbiIKPyz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 11 Sep 2022 11:54:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37544 "EHLO
+        id S229488AbiIKRRH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 11 Sep 2022 13:17:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35020 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229522AbiIKPyx (ORCPT
+        with ESMTP id S229492AbiIKRRF (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 11 Sep 2022 11:54:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 19B022317E
-        for <linux-media@vger.kernel.org>; Sun, 11 Sep 2022 08:54:51 -0700 (PDT)
+        Sun, 11 Sep 2022 13:17:05 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5ADF32610F
+        for <linux-media@vger.kernel.org>; Sun, 11 Sep 2022 10:17:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1662911690;
+        s=mimecast20190719; t=1662916623;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=2XTgMaSHBU/lmRwABmwxshdNhhl1P9NPVCYW5gm0oZg=;
-        b=R+O4EjWDkxja2QWfROlxq6bB/LYH9xa0BVczHQJYE37QX9vwUid6OB3hTWDCcOASwY6FRh
-        pzMVSYG3g0rpomRBfYl3zB8tWmuX6an6zXt17hIJMqDuCMEkunMUC6KWksktjSA4kzAVzA
-        xkSDuQkBU1zxuDk+askB0AQ/9X44lUM=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-604-26jefyKGMLeklZ4I0KVptg-1; Sun, 11 Sep 2022 11:54:49 -0400
-X-MC-Unique: 26jefyKGMLeklZ4I0KVptg-1
-Received: by mail-ed1-f69.google.com with SMTP id y9-20020a056402270900b00451dfbbc9b2so68946edd.12
-        for <linux-media@vger.kernel.org>; Sun, 11 Sep 2022 08:54:49 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=2XTgMaSHBU/lmRwABmwxshdNhhl1P9NPVCYW5gm0oZg=;
-        b=J2WLloxct4Y4SZXlqJjXMMLcaqz/rMYXBQo3AOehw0uKssrcL2eD7GJLzm2J3tkm7t
-         QmBTYfmRZci6ARdy8u6HMqsXS8pijqXDRnMl4pkT35p7Q64J8qLm4+ctinnRV7tzKphD
-         xXRRMMsS/yAbmxobhPpIC4waAwuKdMWtvskJVWExbzxMbkAkTL7gJAYVb6kVupVuR7Ft
-         hIQZYw3G6oBKEEpmSejFz2ogqkCn7ZxzGZOEQnyMrjj6ycqpwB54GrHGoFpg8OI0A6Zj
-         YPRP1h0PoCQz2Om9LmA5Rd6eaqhEQ+aIaJTHZyYXG8LNlfw0n/RoAr5Nx/d2xwHDl3fd
-         S4TQ==
-X-Gm-Message-State: ACgBeo10NWqkh+i3jE0OOBKOVFF1WaqopBrlq6Aae20cZrn7vS8ltUVG
-        yeIaId9rlEGigEGkyhu8dBWZCOBA19zo+yYGAwWK0iOcii9x11JCZSmYht0WfPvsAah7cp7flpZ
-        lh7Xvgm8GKzuQFMrxT+Dwu/A=
-X-Received: by 2002:aa7:c052:0:b0:44f:147:521b with SMTP id k18-20020aa7c052000000b0044f0147521bmr19166498edo.53.1662911688262;
-        Sun, 11 Sep 2022 08:54:48 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR4RkXwfrlMn01ttEdUdKeNdDXoLBf1pLBjFJ/Wkt4v5Cg5PYqYfkL8NqnX98hhv1aLB5ZOkxg==
-X-Received: by 2002:aa7:c052:0:b0:44f:147:521b with SMTP id k18-20020aa7c052000000b0044f0147521bmr19166488edo.53.1662911688068;
-        Sun, 11 Sep 2022 08:54:48 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c1e:bf00:d69d:5353:dba5:ee81? (2001-1c00-0c1e-bf00-d69d-5353-dba5-ee81.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:d69d:5353:dba5:ee81])
-        by smtp.gmail.com with ESMTPSA id ly9-20020a170906af4900b0073dde62713asm3154724ejb.89.2022.09.11.08.54.47
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 11 Sep 2022 08:54:47 -0700 (PDT)
-Message-ID: <85bb630f-2163-9e99-1089-8050fac57a3f@redhat.com>
-Date:   Sun, 11 Sep 2022 17:54:46 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.1
-Subject: Re: [PATCH v1 1/1] media: atomisp_gmin_platform: Unexport and split
- camera_sensor_csi()
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-kernel@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-References: <20220730162027.1011-1-andriy.shevchenko@linux.intel.com>
- <Yud2cwiCCnq4x50L@paasikivi.fi.intel.com>
- <YxYWBSo+fceHCAOd@smile.fi.intel.com>
-Content-Language: en-US
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=VVwyhfHpPOJ9wjYK3HtXvIRDA3wFzIZ7xyvjh/lTqOc=;
+        b=jVXBz519Mp83pBZUmZD3PmKflIt0BRzV3VaN6pHCXh7WN3yKP4rBQbfzIN60tqGvgukrfQ
+        iFILXwHuWG+LiMyIi4R5bLbi7SW1rHqgID3zialXdonz2Ccynskp3EBbNa/C+eHPymQoEt
+        hWPX86/Vsjk1kZV+dg5VTb/0aD+QV80=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-639-f-xo41jKN4GoVzjlSGkuAw-1; Sun, 11 Sep 2022 13:16:58 -0400
+X-MC-Unique: f-xo41jKN4GoVzjlSGkuAw-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com [10.11.54.10])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 907A81C05156;
+        Sun, 11 Sep 2022 17:16:57 +0000 (UTC)
+Received: from shalem.redhat.com (unknown [10.39.192.10])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id C713C492C3B;
+        Sun, 11 Sep 2022 17:16:55 +0000 (UTC)
 From:   Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <YxYWBSo+fceHCAOd@smile.fi.intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-6.9 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     Hans de Goede <hdegoede@redhat.com>,
+        Tsuchiya Yuto <kitakar@gmail.com>,
+        Andy Shevchenko <andy@kernel.org>,
+        Yury Luneff <yury.lunev@gmail.com>,
+        Nable <nable.maininbox@googlemail.com>,
+        andrey.i.trufanov@gmail.com, Fabio Aiuto <fabioaiuto83@gmail.com>,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: [PATCH 00/17] media: atomisp: further cleanups / unwanted code removal
+Date:   Sun, 11 Sep 2022 19:16:36 +0200
+Message-Id: <20220911171653.568932-1-hdegoede@redhat.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+Hi All,
 
-On 9/5/22 17:30, Andy Shevchenko wrote:
-> +Cc: Hans
-> 
-> On Mon, Aug 01, 2022 at 06:45:07AM +0000, Sakari Ailus wrote:
->> On Sat, Jul 30, 2022 at 07:20:27PM +0300, Andy Shevchenko wrote:
-> 
-> ...
-> 
->> Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> 
-> Thanks!
-> 
-> Hans, maybe you want to include this one into your bunch?
+Here is another atomisp patch-series with further cleanups / unwanted code
+removal. Note this mostly cleaning up things which I hit while I'm still
+working towards converting the driver to videobuf2.
 
-Ack, I've added this to my next batch of atomisp cleanup
-patches which I'm sending out right after this email.
+The main goal of this series was to make the atomisp locking more like
+that of other v4l2 drivers, which is acomplished in the
+"media: atomisp: Use video_dev.lock for ioctl locking" patch.
 
 Regards,
 
 Hans
+
+
+Andy Shevchenko (1):
+  media: atomisp_gmin_platform: Unexport and split camera_sensor_csi()
+
+Hans de Goede (16):
+  media: atomisp: Use a normal mutex for the main lock
+  media: atomisp: Remove unused lock member from struct
+    atomisp_sub_device
+  media: atomisp: Fix locking around asd->streaming read/write
+  media: atomisp: Remove asd == NULL checks from ioctl handling
+  media: atomisp: Add atomisp_pipe_check() helper
+  media: atomisp: Remove watchdog timer
+  media: atomisp: Move atomisp_streaming_count() check into
+    __atomisp_css_recover()
+  media: atomisp: Rework asd->streaming state update in
+    __atomisp_streamoff()
+  media: atomisp: Drop streamoff_mutex
+  media: atomisp: Use video_dev.lock for ioctl locking
+  media: atomisp: Remove a couple of not useful function wrappers
+  media: atomisp: Drop unnecessary first_streamoff check
+  media: atomisp: Make atomisp_set_raw_buffer_bitmap() static
+  media: atomisp: Remove unused atomisp_css_get_dis_statistics()
+  media: atomisp: Remove const/fixed camera_caps
+  media: atomisp: Remove atomisp_source_pad_to_stream_id()
+
+ .../include/linux/atomisp_gmin_platform.h     |   2 -
+ .../atomisp/include/linux/atomisp_platform.h  |  18 -
+ .../staging/media/atomisp/pci/atomisp_cmd.c   | 581 ++----------------
+ .../staging/media/atomisp/pci/atomisp_cmd.h   |   9 +-
+ .../media/atomisp/pci/atomisp_compat.h        |   4 -
+ .../media/atomisp/pci/atomisp_compat_css20.c  |  74 +--
+ .../staging/media/atomisp/pci/atomisp_fops.c  |  87 +--
+ .../media/atomisp/pci/atomisp_gmin_platform.c |  86 ++-
+ .../media/atomisp/pci/atomisp_internal.h      |  39 +-
+ .../staging/media/atomisp/pci/atomisp_ioctl.c | 567 ++++-------------
+ .../staging/media/atomisp/pci/atomisp_ioctl.h |  10 +-
+ .../media/atomisp/pci/atomisp_subdev.c        |  34 +-
+ .../media/atomisp/pci/atomisp_subdev.h        |  24 +-
+ .../staging/media/atomisp/pci/atomisp_v4l2.c  |  65 +-
+ 14 files changed, 267 insertions(+), 1333 deletions(-)
+
+-- 
+2.37.3
 
