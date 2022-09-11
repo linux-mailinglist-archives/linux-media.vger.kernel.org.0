@@ -2,153 +2,79 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A10945B4CE2
-	for <lists+linux-media@lfdr.de>; Sun, 11 Sep 2022 11:14:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AFF345B4CE3
+	for <lists+linux-media@lfdr.de>; Sun, 11 Sep 2022 11:15:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229920AbiIKJOC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 11 Sep 2022 05:14:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35822 "EHLO
+        id S230086AbiIKJP0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 11 Sep 2022 05:15:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39368 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229566AbiIKJOB (ORCPT
+        with ESMTP id S229566AbiIKJPY (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 11 Sep 2022 05:14:01 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 948A63C156
-        for <linux-media@vger.kernel.org>; Sun, 11 Sep 2022 02:13:58 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 93CC0415;
-        Sun, 11 Sep 2022 11:13:55 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1662887635;
-        bh=lKaj3eVvOL2TM1AGESx/h1C60OAYo2sgV4xyxPzw+ng=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=OtoLKQ0SpdX/29qhCQzXz3BddOk3cBYP301GJXYEY1IulCJ9Kj6G6vfqcr5jMKc6e
-         HYSAThwmo0ZronJw4czjWpfIzvCdHh5moHmqAXBh6DyfTHi3dGKyGs8Vtoqo22PDHs
-         RDq6GTnLBw15rvcXhmkxgBOtOGUwvydt3YXmtlmc=
-Date:   Sun, 11 Sep 2022 12:13:39 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        Hidenori Kobayashi <hidenorik@chromium.org>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Michael Olbrich <m.olbrich@pengutronix.de>,
-        Ricardo Ribalda <ribalda@chromium.org>,
-        Maxime Ripard <maxime@cerno.tech>,
-        Daniel Scally <djrscally@gmail.com>,
-        Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>,
-        Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        Michael Tretter <m.tretter@pengutronix.de>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Benjamin MUGNIER <benjamin.mugnier@foss.st.com>,
-        Jacopo Mondi <jacopo@jmondi.org>
-Subject: Re: [Media Summit] Imaging Sensor functionality
-Message-ID: <Yx2mw88LsixbURzd@pendragon.ideasonboard.com>
-References: <CAPY8ntBGKkg=KOXaP9bBv6Y8c7Mgut0=w-LTsvKHZac=zzdJDQ@mail.gmail.com>
- <29b69b01-15c9-28dc-4e21-7e54be171059@xs4all.nl>
- <Yxy4ixiuevMf/fZW@pendragon.ideasonboard.com>
- <fdc0d9dd-b5d9-d054-2791-08a245d47d5e@xs4all.nl>
+        Sun, 11 Sep 2022 05:15:24 -0400
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C225125297
+        for <linux-media@vger.kernel.org>; Sun, 11 Sep 2022 02:15:22 -0700 (PDT)
+Received: from kwepemi500012.china.huawei.com (unknown [172.30.72.55])
+        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4MQP8l48LGzNm9k;
+        Sun, 11 Sep 2022 17:10:47 +0800 (CST)
+Received: from cgs.huawei.com (10.244.148.83) by
+ kwepemi500012.china.huawei.com (7.221.188.12) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Sun, 11 Sep 2022 17:15:20 +0800
+From:   Gaosheng Cui <cuigaosheng1@huawei.com>
+To:     <crope@iki.fi>, <mchehab@kernel.org>,
+        <laurent.pinchart@ideasonboard.com>,
+        <kieran.bingham+renesas@ideasonboard.com>, <logans@cottsay.net>,
+        <hverkuil-cisco@xs4all.nl>, <clabbe@baylibre.com>,
+        <m.chehab@samsung.com>,
+        <laurent.pinchart+renesas@ideasonboard.com>, <bunk@kernel.org>,
+        <elezegarcia@gmail.com>, <hans.verkuil@cisco.com>,
+        <linux@rainbow-software.org>, <cuigaosheng1@huawei.com>
+CC:     <linux-media@vger.kernel.org>
+Subject: [PATCH 0/8] Remove unused declarations for media
+Date:   Sun, 11 Sep 2022 17:15:11 +0800
+Message-ID: <20220911091519.3212868-1-cuigaosheng1@huawei.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <fdc0d9dd-b5d9-d054-2791-08a245d47d5e@xs4all.nl>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [10.244.148.83]
+X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
+ kwepemi500012.china.huawei.com (7.221.188.12)
+X-CFilter-Loop: Reflected
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sun, Sep 11, 2022 at 09:12:15AM +0200, Hans Verkuil wrote:
-> On 10/09/2022 18:17, Laurent Pinchart wrote:
-> > On Sat, Sep 10, 2022 at 02:50:10PM +0200, Hans Verkuil wrote:
-> >> On 06/09/2022 18:14, Dave Stevenson wrote:
-> >>> Hi All.
-> >>>
-> >>> I realise that I'm in a slightly different position from many mainline
-> >>> Linux-media developers in that I see multiple use cases for the same
-> >>> sensor, rather than a driver predominantly being for one
-> >>> product/platform. I'm therefore wanting to look at generic solutions
-> >>> and fully featured drivers. Users get to decide the use cases, not the
-> >>> hardware designers.
-> >>>
-> >>> The issues I've raised are things that I've encountered and would
-> >>> benefit from a discussion to get views as to the direction that is
-> >>> perceived to be workable. I appreciate that some can not be solved
-> >>> immediately, but want to avoid too much bikeshedding in the first
-> >>> round of patches.
-> >>> What's realistic, and what pitfalls/limitations immediately jump out at people.
-> >>>
-> >>> Slides are at https://drive.google.com/file/d/1vjYJjTNRL1P3j6G4Nx2ZpjFtTBTNdeFG/view?usp=sharing
-> >>>
-> >>> See you on Monday.
-> >>>
-> >>>   Dave
-> >>
-> >> Some comments for the meeting on Monday:
-> >>
-> >> - On-sensor temperature sensing:
-> >>
-> >> If a control is used to read this, but the value is
-> >> not available yet, then -EACCES can be returned. That's already defined as a valid return
-> >> code in the API, it would just need to be extended for this use-case.
-> >>
-> >> - Sync sensors:
-> >>
-> >> Should it be part of the DT? That depends, I think, on whether this is a pure sw mechanism,
-> >> or whether the wiring dictates which sensor can be master and which can be slaves. I assume
-> >> that at the very least there has to be a way to group sensors that are/can be connected to
-> >> the same master sync signal.
-> >>
-> >> - Lens assemblies:
-> >>
-> >> For what it is worth, Cisco uses motor controlled lenses and irises. We extended the camera
-> >> controls with these new controls:
-> >>
-> >> #define V4L2_CID_FOCUS_CURRENT                  (V4L2_CID_CAMERA_CLASS_BASE+36)
-> >> #define V4L2_CID_IRIS_CURRENT                   (V4L2_CID_CAMERA_CLASS_BASE+38)
-> >> #define V4L2_CID_FOCUS_MOTOR_STATUS             (V4L2_CID_CAMERA_CLASS_BASE+41)
-> >> #define V4L2_CID_IRIS_MOTOR_STATUS              (V4L2_CID_CAMERA_CLASS_BASE+43)
-> >> enum v4l2_motor_status {
-> >>         V4L2_MOTOR_STATUS_IDLE                  = (0),
-> >>         V4L2_MOTOR_STATUS_MOVING                = (1 << 0),
-> >>         V4L2_MOTOR_STATUS_FAILED                = (1 << 1),
-> >>         V4L2_MOTOR_STATUS_NOTCALIBRATED         = (1 << 2),
-> >> };
-> >> #define V4L2_CID_FOCUS_MOTOR_SPEED              (V4L2_CID_CAMERA_CLASS_BASE+46)
-> >> #define V4L2_CID_IRIS_MOTOR_SPEED               (V4L2_CID_CAMERA_CLASS_BASE+48)
-> >>
-> >> This worked well for our use-case, but for us userspace has complete knowledge about
-> >> the camera assembly properties.
-> > 
-> > Where does userspace get that information from ?
-> > 
-> 
-> From the software engineers :-) We designed the cameras, so we know how to operate them.
-> 
-> I'm not entirely sure if that's what you meant, though.
+This series contains a few cleanup patches, to remove unused
+declarations which have been removed. Thanks!
 
-:-)
+Gaosheng Cui (8):
+  media: dvb-frontends: remove unused drx_dap_fasi_funct_g declaration
+  media: platform: remove unused vsp1_subdev_internal_ops declaration
+  media: cxd2820r: remove unused cxd2820r_debug declaration
+  media: saa7134: remove unused declarations in saa7134.h
+  [media] saa7164: remove unused saa7164_call_i2c_clients declaration
+  [media] cx25821: remove unused cx25821_video_wakeup() declaration
+  [media] bttv: remove unused tea5757_set_freq declaration
+  media: zoran: remove unused declarations in zoran_device.h
 
-I meant to ask if you have userspace software that can work with
-different camera modules, in which case it would need to identify the
-module and retrieve corresponding parameters. That leads to the question
-of camera module identification (i.e. if we have modules with the same
-sensor but with different lenses, how do we identify that, as typically
-in DT all we have is the sensor model), parameters format (can we
-standardize that, in order to have interoperability of different
-userspace software with different platforms) and storage (some systems
-have an NVM in the camera sensor or in the camera sensor module, can we
-meaningfully use that ?).
+ drivers/media/dvb-frontends/cxd2820r_priv.h         | 2 --
+ drivers/media/dvb-frontends/drx39xyj/drx_dap_fasi.h | 2 --
+ drivers/media/pci/bt8xx/bttv.h                      | 1 -
+ drivers/media/pci/cx25821/cx25821-video.h           | 3 ---
+ drivers/media/pci/saa7134/saa7134.h                 | 4 ----
+ drivers/media/pci/saa7164/saa7164.h                 | 2 --
+ drivers/media/pci/zoran/zoran_device.h              | 2 --
+ drivers/media/platform/renesas/vsp1/vsp1_entity.h   | 2 --
+ 8 files changed, 18 deletions(-)
 
 -- 
-Regards,
+2.25.1
 
-Laurent Pinchart
