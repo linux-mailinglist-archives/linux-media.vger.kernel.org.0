@@ -2,85 +2,221 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0B6F75B4F25
-	for <lists+linux-media@lfdr.de>; Sun, 11 Sep 2022 15:38:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A3DB85B4F95
+	for <lists+linux-media@lfdr.de>; Sun, 11 Sep 2022 17:14:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230272AbiIKNi0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 11 Sep 2022 09:38:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54494 "EHLO
+        id S229712AbiIKPNg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 11 Sep 2022 11:13:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51526 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230184AbiIKNiZ (ORCPT
+        with ESMTP id S229700AbiIKPNe (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 11 Sep 2022 09:38:25 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 583822ED74
-        for <linux-media@vger.kernel.org>; Sun, 11 Sep 2022 06:38:24 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id A42D6415;
-        Sun, 11 Sep 2022 15:38:21 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1662903501;
-        bh=iyPzB2jiury+7hRCgo1XGgROGSnx3ibmr2+PZKxN5h4=;
-        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-        b=Tb6swskK66XNx0ga8ctpD+g+UwxAm3u6CDDHKLY2t1K517f9MlKTF/wsdsQpYUZ6U
-         nEVNWTDDX5Mb5tGvpYBDPsQW64LAE9y4PjCSE4dM72pHZ40O4HjRFimqc14+q9fxtR
-         8oCX+9sWTZkly+sLMyAV+2reQFwTMttcPpd4LY54=
-Content-Type: text/plain; charset="utf-8"
+        Sun, 11 Sep 2022 11:13:34 -0400
+Received: from smtp.smtpout.orange.fr (smtp-11.smtpout.orange.fr [80.12.242.11])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0416C2F00D
+        for <linux-media@vger.kernel.org>; Sun, 11 Sep 2022 08:13:30 -0700 (PDT)
+Received: from pop-os.home ([90.11.190.129])
+        by smtp.orange.fr with ESMTPA
+        id XOeGollkiLFqbXOeGofXYY; Sun, 11 Sep 2022 17:13:28 +0200
+X-ME-Helo: pop-os.home
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Sun, 11 Sep 2022 17:13:28 +0200
+X-ME-IP: 90.11.190.129
+From:   Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
+        Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+        linux-media@vger.kernel.org
+Subject: [PATCH] headers: Remove some left-over license text in include/uapi/linux/v4l2-*
+Date:   Sun, 11 Sep 2022 17:13:14 +0200
+Message-Id: <5cd6b31b4db9d2348f99181b204856672c6ae942.1662909187.git.christophe.jaillet@wanadoo.fr>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20220911091519.3212868-3-cuigaosheng1@huawei.com>
-References: <20220911091519.3212868-1-cuigaosheng1@huawei.com> <20220911091519.3212868-3-cuigaosheng1@huawei.com>
-Subject: Re: [PATCH 2/8] media: platform: remove unused vsp1_subdev_internal_ops declaration
-From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org
-To:     bunk@kernel.org, clabbe@baylibre.com, crope@iki.fi,
-        cuigaosheng1@huawei.com, elezegarcia@gmail.com,
-        hans.verkuil@cisco.com, hverkuil-cisco@xs4all.nl,
-        laurent.pinchart+renesas@ideasonboard.com,
-        laurent.pinchart@ideasonboard.com, linux@rainbow-software.org,
-        logans@cottsay.net, m.chehab@samsung.com, mchehab@kernel.org
-Date:   Sun, 11 Sep 2022 14:38:19 +0100
-Message-ID: <166290349932.1189409.12318656202607870912@Monstersaurus>
-User-Agent: alot/0.10
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Quoting Gaosheng Cui (2022-09-11 10:15:13)
-> vsp1_subdev_internal_ops has been removed since
-> commit 0efdf0f5eaaf ("[media] v4l: vsp1: Implement and use the
-> subdev pad::init_cfg configuration"), so remove it.
->=20
-> Signed-off-by: Gaosheng Cui <cuigaosheng1@huawei.com>
+Remove some left-over from commit e2be04c7f995 ("License cleanup: add SPDX
+license identifier to uapi header files with a license")
 
-It does look lonely indeed.
+When the SPDX-License-Identifier tag has been added, the corresponding
+license text has not been removed.
 
-Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Remove it now.
 
-> ---
->  drivers/media/platform/renesas/vsp1/vsp1_entity.h | 2 --
->  1 file changed, 2 deletions(-)
->=20
-> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_entity.h b/drivers/=
-media/platform/renesas/vsp1/vsp1_entity.h
-> index f22724439cdc..17f98a6a972e 100644
-> --- a/drivers/media/platform/renesas/vsp1/vsp1_entity.h
-> +++ b/drivers/media/platform/renesas/vsp1/vsp1_entity.h
-> @@ -130,8 +130,6 @@ int vsp1_entity_init(struct vsp1_device *vsp1, struct=
- vsp1_entity *entity,
->                      const struct v4l2_subdev_ops *ops, u32 function);
->  void vsp1_entity_destroy(struct vsp1_entity *entity);
-> =20
-> -extern const struct v4l2_subdev_internal_ops vsp1_subdev_internal_ops;
-> -
->  int vsp1_entity_link_setup(struct media_entity *entity,
->                            const struct media_pad *local,
->                            const struct media_pad *remote, u32 flags);
-> --=20
-> 2.25.1
->
+Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+---
+ include/uapi/linux/v4l2-common.h     | 39 ----------------------------
+ include/uapi/linux/v4l2-controls.h   | 38 ---------------------------
+ include/uapi/linux/v4l2-dv-timings.h |  9 -------
+ include/uapi/linux/v4l2-mediabus.h   |  4 ---
+ include/uapi/linux/v4l2-subdev.h     | 13 ----------
+ 5 files changed, 103 deletions(-)
+
+diff --git a/include/uapi/linux/v4l2-common.h b/include/uapi/linux/v4l2-common.h
+index 7d21c1634b4d..5a23a15d78ac 100644
+--- a/include/uapi/linux/v4l2-common.h
++++ b/include/uapi/linux/v4l2-common.h
+@@ -10,45 +10,6 @@
+  *
+  * Copyright (C) 2012 Nokia Corporation
+  * Contact: Sakari Ailus <sakari.ailus@iki.fi>
+- *
+- *  This program is free software; you can redistribute it and/or modify
+- *  it under the terms of the GNU General Public License as published by
+- *  the Free Software Foundation; either version 2 of the License, or
+- *  (at your option) any later version.
+- *
+- *  This program is distributed in the hope that it will be useful,
+- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+- *  GNU General Public License for more details.
+- *
+- *  Alternatively you can redistribute this file under the terms of the
+- *  BSD license as stated below:
+- *
+- *  Redistribution and use in source and binary forms, with or without
+- *  modification, are permitted provided that the following conditions
+- *  are met:
+- *  1. Redistributions of source code must retain the above copyright
+- *     notice, this list of conditions and the following disclaimer.
+- *  2. Redistributions in binary form must reproduce the above copyright
+- *     notice, this list of conditions and the following disclaimer in
+- *     the documentation and/or other materials provided with the
+- *     distribution.
+- *  3. The names of its contributors may not be used to endorse or promote
+- *     products derived from this software without specific prior written
+- *     permission.
+- *
+- *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+- *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+- *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+- *  A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+- *  OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+- *  SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED
+- *  TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+- *  PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+- *  LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+- *  NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+- *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+- *
+  */
+ 
+ #ifndef __V4L2_COMMON__
+diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
+index b5e7d082b8ad..dabfb9f86bcd 100644
+--- a/include/uapi/linux/v4l2-controls.h
++++ b/include/uapi/linux/v4l2-controls.h
+@@ -4,44 +4,6 @@
+  *
+  *  Copyright (C) 1999-2012 the contributors
+  *
+- *  This program is free software; you can redistribute it and/or modify
+- *  it under the terms of the GNU General Public License as published by
+- *  the Free Software Foundation; either version 2 of the License, or
+- *  (at your option) any later version.
+- *
+- *  This program is distributed in the hope that it will be useful,
+- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+- *  GNU General Public License for more details.
+- *
+- *  Alternatively you can redistribute this file under the terms of the
+- *  BSD license as stated below:
+- *
+- *  Redistribution and use in source and binary forms, with or without
+- *  modification, are permitted provided that the following conditions
+- *  are met:
+- *  1. Redistributions of source code must retain the above copyright
+- *     notice, this list of conditions and the following disclaimer.
+- *  2. Redistributions in binary form must reproduce the above copyright
+- *     notice, this list of conditions and the following disclaimer in
+- *     the documentation and/or other materials provided with the
+- *     distribution.
+- *  3. The names of its contributors may not be used to endorse or promote
+- *     products derived from this software without specific prior written
+- *     permission.
+- *
+- *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+- *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+- *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+- *  A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+- *  OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+- *  SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED
+- *  TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+- *  PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+- *  LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+- *  NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+- *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+- *
+  *  The contents of this header was split off from videodev2.h. All control
+  *  definitions should be added to this header, which is included by
+  *  videodev2.h.
+diff --git a/include/uapi/linux/v4l2-dv-timings.h b/include/uapi/linux/v4l2-dv-timings.h
+index b52b67c62562..ef0128c7369c 100644
+--- a/include/uapi/linux/v4l2-dv-timings.h
++++ b/include/uapi/linux/v4l2-dv-timings.h
+@@ -3,15 +3,6 @@
+  * V4L2 DV timings header.
+  *
+  * Copyright (C) 2012-2016  Hans Verkuil <hans.verkuil@cisco.com>
+- *
+- * This program is free software; you can redistribute it and/or
+- * modify it under the terms of the GNU General Public License
+- * version 2 as published by the Free Software Foundation.
+- *
+- * This program is distributed in the hope that it will be useful, but
+- * WITHOUT ANY WARRANTY; without even the implied warranty of
+- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+- * General Public License for more details.
+  */
+ 
+ #ifndef _V4L2_DV_TIMINGS_H
+diff --git a/include/uapi/linux/v4l2-mediabus.h b/include/uapi/linux/v4l2-mediabus.h
+index 903e67b16711..6b07b73473b5 100644
+--- a/include/uapi/linux/v4l2-mediabus.h
++++ b/include/uapi/linux/v4l2-mediabus.h
+@@ -3,10 +3,6 @@
+  * Media Bus API header
+  *
+  * Copyright (C) 2009, Guennadi Liakhovetski <g.liakhovetski@gmx.de>
+- *
+- * This program is free software; you can redistribute it and/or modify
+- * it under the terms of the GNU General Public License version 2 as
+- * published by the Free Software Foundation.
+  */
+ 
+ #ifndef __LINUX_V4L2_MEDIABUS_H
+diff --git a/include/uapi/linux/v4l2-subdev.h b/include/uapi/linux/v4l2-subdev.h
+index 658106f5b5dc..ecce4c79f5c5 100644
+--- a/include/uapi/linux/v4l2-subdev.h
++++ b/include/uapi/linux/v4l2-subdev.h
+@@ -6,19 +6,6 @@
+  *
+  * Contacts: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+  *	     Sakari Ailus <sakari.ailus@iki.fi>
+- *
+- * This program is free software; you can redistribute it and/or modify
+- * it under the terms of the GNU General Public License version 2 as
+- * published by the Free Software Foundation.
+- *
+- * This program is distributed in the hope that it will be useful,
+- * but WITHOUT ANY WARRANTY; without even the implied warranty of
+- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+- * GNU General Public License for more details.
+- *
+- * You should have received a copy of the GNU General Public License
+- * along with this program; if not, write to the Free Software
+- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+  */
+ 
+ #ifndef __LINUX_V4L2_SUBDEV_H
+-- 
+2.34.1
+
