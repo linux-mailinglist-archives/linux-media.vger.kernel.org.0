@@ -2,22 +2,22 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3AC9B5B4CE8
-	for <lists+linux-media@lfdr.de>; Sun, 11 Sep 2022 11:15:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2705B5B4CEA
+	for <lists+linux-media@lfdr.de>; Sun, 11 Sep 2022 11:15:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230115AbiIKJPd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 11 Sep 2022 05:15:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39540 "EHLO
+        id S230013AbiIKJPf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 11 Sep 2022 05:15:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39546 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230012AbiIKJP2 (ORCPT
+        with ESMTP id S230011AbiIKJP3 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 11 Sep 2022 05:15:28 -0400
-Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E3A3D26553
-        for <linux-media@vger.kernel.org>; Sun, 11 Sep 2022 02:15:25 -0700 (PDT)
+        Sun, 11 Sep 2022 05:15:29 -0400
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 734CB25EA7
+        for <linux-media@vger.kernel.org>; Sun, 11 Sep 2022 02:15:26 -0700 (PDT)
 Received: from kwepemi500012.china.huawei.com (unknown [172.30.72.55])
-        by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4MQP9Z2FTWz14QMv;
-        Sun, 11 Sep 2022 17:11:30 +0800 (CST)
+        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4MQP8q26dLzNm9n;
+        Sun, 11 Sep 2022 17:10:51 +0800 (CST)
 Received: from cgs.huawei.com (10.244.148.83) by
  kwepemi500012.china.huawei.com (7.221.188.12) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
@@ -32,9 +32,9 @@ To:     <crope@iki.fi>, <mchehab@kernel.org>,
         <elezegarcia@gmail.com>, <hans.verkuil@cisco.com>,
         <linux@rainbow-software.org>, <cuigaosheng1@huawei.com>
 CC:     <linux-media@vger.kernel.org>
-Subject: [PATCH 5/8] [media] saa7164: remove unused saa7164_call_i2c_clients declaration
-Date:   Sun, 11 Sep 2022 17:15:16 +0800
-Message-ID: <20220911091519.3212868-6-cuigaosheng1@huawei.com>
+Subject: [PATCH 6/8] [media] cx25821: remove unused cx25821_video_wakeup() declaration
+Date:   Sun, 11 Sep 2022 17:15:17 +0800
+Message-ID: <20220911091519.3212868-7-cuigaosheng1@huawei.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220911091519.3212868-1-cuigaosheng1@huawei.com>
 References: <20220911091519.3212868-1-cuigaosheng1@huawei.com>
@@ -54,34 +54,30 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-saa7164_call_i2c_clients has been removed in media/video since
-commit 5a6fa3fe9a46 ("[media] saa7164: Remove unused
-saa7164_call_i2c_clients()").
+cx25821_video_wakeup() has been removed since
+commit b671ae6bdc1a ("[media] cx25821: convert to vb2").
 
-Then media/video has beed renamed media/pci since
-commit b285192a43f0 ("[media] rename most media/video pci
-drivers to media/pci").
-
-So saa7164_call_i2c_clients is a unused declaration, remove it.
+So cx25821_video_wakeup is a unused declaration, remove it.
 
 Signed-off-by: Gaosheng Cui <cuigaosheng1@huawei.com>
 ---
- drivers/media/pci/saa7164/saa7164.h | 2 --
- 1 file changed, 2 deletions(-)
+ drivers/media/pci/cx25821/cx25821-video.h | 3 ---
+ 1 file changed, 3 deletions(-)
 
-diff --git a/drivers/media/pci/saa7164/saa7164.h b/drivers/media/pci/saa7164/saa7164.h
-index 4b4eb156e214..eede47b686a3 100644
---- a/drivers/media/pci/saa7164/saa7164.h
-+++ b/drivers/media/pci/saa7164/saa7164.h
-@@ -493,8 +493,6 @@ int saa7164_downloadfirmware(struct saa7164_dev *dev);
- /* saa7164-i2c.c                                               */
- extern int saa7164_i2c_register(struct saa7164_i2c *bus);
- extern int saa7164_i2c_unregister(struct saa7164_i2c *bus);
--extern void saa7164_call_i2c_clients(struct saa7164_i2c *bus,
--	unsigned int cmd, void *arg);
+diff --git a/drivers/media/pci/cx25821/cx25821-video.h b/drivers/media/pci/cx25821/cx25821-video.h
+index cf0d3f5509e7..080c8490a250 100644
+--- a/drivers/media/pci/cx25821/cx25821-video.h
++++ b/drivers/media/pci/cx25821/cx25821-video.h
+@@ -36,9 +36,6 @@ do {									\
+ } while (0)
  
- /* ----------------------------------------------------------- */
- /* saa7164-bus.c                                               */
+ #define FORMAT_FLAGS_PACKED       0x01
+-extern void cx25821_video_wakeup(struct cx25821_dev *dev,
+-				 struct cx25821_dmaqueue *q, u32 count);
+-
+ extern int cx25821_start_video_dma(struct cx25821_dev *dev,
+ 				   struct cx25821_dmaqueue *q,
+ 				   struct cx25821_buffer *buf,
 -- 
 2.25.1
 
