@@ -2,21 +2,21 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 54C155B4CE6
-	for <lists+linux-media@lfdr.de>; Sun, 11 Sep 2022 11:15:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 339BA5B4CE7
+	for <lists+linux-media@lfdr.de>; Sun, 11 Sep 2022 11:15:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230102AbiIKJPa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 11 Sep 2022 05:15:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39422 "EHLO
+        id S230112AbiIKJPc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 11 Sep 2022 05:15:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39468 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230048AbiIKJPZ (ORCPT
+        with ESMTP id S229760AbiIKJP0 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 11 Sep 2022 05:15:25 -0400
-Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 93CAC25EA7
-        for <linux-media@vger.kernel.org>; Sun, 11 Sep 2022 02:15:24 -0700 (PDT)
+        Sun, 11 Sep 2022 05:15:26 -0400
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7AA2726540
+        for <linux-media@vger.kernel.org>; Sun, 11 Sep 2022 02:15:25 -0700 (PDT)
 Received: from kwepemi500012.china.huawei.com (unknown [172.30.72.57])
-        by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4MQP9Y0Z3fz14QMK;
+        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4MQP9Y25KSzlVpF;
         Sun, 11 Sep 2022 17:11:29 +0800 (CST)
 Received: from cgs.huawei.com (10.244.148.83) by
  kwepemi500012.china.huawei.com (7.221.188.12) with Microsoft SMTP Server
@@ -32,9 +32,9 @@ To:     <crope@iki.fi>, <mchehab@kernel.org>,
         <elezegarcia@gmail.com>, <hans.verkuil@cisco.com>,
         <linux@rainbow-software.org>, <cuigaosheng1@huawei.com>
 CC:     <linux-media@vger.kernel.org>
-Subject: [PATCH 3/8] media: cxd2820r: remove unused cxd2820r_debug declaration
-Date:   Sun, 11 Sep 2022 17:15:14 +0800
-Message-ID: <20220911091519.3212868-4-cuigaosheng1@huawei.com>
+Subject: [PATCH 4/8] media: saa7134: remove unused declarations in saa7134.h
+Date:   Sun, 11 Sep 2022 17:15:15 +0800
+Message-ID: <20220911091519.3212868-5-cuigaosheng1@huawei.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220911091519.3212868-1-cuigaosheng1@huawei.com>
 References: <20220911091519.3212868-1-cuigaosheng1@huawei.com>
@@ -54,28 +54,47 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-cxd2820r_debug has been removed since
-commit 75aeafc9d0e2 ("[media] cxd2820r: switch to Kernel
-dev_* logging"), so remove it.
+saa7134_mixer_fops and saa7134_dsp_fops have been removed
+in media/video since commit 166fb6b4721f ("V4L/DVB (6623):
+remove saa7134-oss").
+
+Then the media/video has beed renamed to media/pci since
+commit b285192a43f0 ("[media] rename most media/video pci
+drivers to media/pci").
+
+saa7134_vbi_template has been removed since
+commit a9622391acbc ("V4L/DVB (6792): Fix VBI support").
+
+so saa7134_mixer_fops, saa7134_dsp_fops and saa7134_vbi_template
+are unused declarations, remove them.
 
 Signed-off-by: Gaosheng Cui <cuigaosheng1@huawei.com>
 ---
- drivers/media/dvb-frontends/cxd2820r_priv.h | 2 --
- 1 file changed, 2 deletions(-)
+ drivers/media/pci/saa7134/saa7134.h | 4 ----
+ 1 file changed, 4 deletions(-)
 
-diff --git a/drivers/media/dvb-frontends/cxd2820r_priv.h b/drivers/media/dvb-frontends/cxd2820r_priv.h
-index 09c42bcef971..9b4d9cf8563d 100644
---- a/drivers/media/dvb-frontends/cxd2820r_priv.h
-+++ b/drivers/media/dvb-frontends/cxd2820r_priv.h
-@@ -52,8 +52,6 @@ struct cxd2820r_priv {
+diff --git a/drivers/media/pci/saa7134/saa7134.h b/drivers/media/pci/saa7134/saa7134.h
+index 49fe0f6bacba..5c9b2912a9d1 100644
+--- a/drivers/media/pci/saa7134/saa7134.h
++++ b/drivers/media/pci/saa7134/saa7134.h
+@@ -866,7 +866,6 @@ int saa7134_ts_stop(struct saa7134_dev *dev);
+ /* saa7134-vbi.c                                               */
  
- /* cxd2820r_core.c */
+ extern const struct vb2_ops saa7134_vbi_qops;
+-extern struct video_device saa7134_vbi_template;
  
--extern int cxd2820r_debug;
+ int saa7134_vbi_init1(struct saa7134_dev *dev);
+ int saa7134_vbi_fini(struct saa7134_dev *dev);
+@@ -897,9 +896,6 @@ void saa7134_enable_i2s(struct saa7134_dev *dev);
+ /* ----------------------------------------------------------- */
+ /* saa7134-oss.c                                               */
+ 
+-extern const struct file_operations saa7134_dsp_fops;
+-extern const struct file_operations saa7134_mixer_fops;
 -
- int cxd2820r_gpio(struct dvb_frontend *fe, u8 *gpio);
- 
- int cxd2820r_wr_reg_val_mask_tab(struct cxd2820r_priv *priv,
+ int saa7134_oss_init1(struct saa7134_dev *dev);
+ int saa7134_oss_fini(struct saa7134_dev *dev);
+ void saa7134_irq_oss_done(struct saa7134_dev *dev, unsigned long status);
 -- 
 2.25.1
 
