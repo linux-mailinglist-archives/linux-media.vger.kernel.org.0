@@ -2,42 +2,42 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D3E815B5027
-	for <lists+linux-media@lfdr.de>; Sun, 11 Sep 2022 19:17:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D0CAB5B502A
+	for <lists+linux-media@lfdr.de>; Sun, 11 Sep 2022 19:17:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229536AbiIKRRL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 11 Sep 2022 13:17:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35054 "EHLO
+        id S229567AbiIKRRP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 11 Sep 2022 13:17:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35078 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229517AbiIKRRK (ORCPT
+        with ESMTP id S229540AbiIKRRN (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 11 Sep 2022 13:17:10 -0400
+        Sun, 11 Sep 2022 13:17:13 -0400
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 04C8C275E9
-        for <linux-media@vger.kernel.org>; Sun, 11 Sep 2022 10:17:08 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 102122610F
+        for <linux-media@vger.kernel.org>; Sun, 11 Sep 2022 10:17:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1662916628;
+        s=mimecast20190719; t=1662916631;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=t3pm6/OEzs2xvyysMx3pwby5xows9r86rq1q7TpBO7w=;
-        b=izhjZrWhvV+SNZBYUGZ471+mFoFWsLHGJn31GKqt1CswhgGJkEciggBd74wf4qQMcdIgd9
-        QU1+NlZ2vNxwTeCfAJIGPHLMV2jSZWyszNGTobni7sSaJEgT/VMMWsjkEKKZIijCRtuEdR
-        /JDChMtiGr5i1ESRHPMfzVzMsHpQdT4=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+        bh=MpfpnngY8xJA21vivoYJfkHMf7xjyv0hCejhKICi13I=;
+        b=VjlB9GQ4RzYyG1gnGPH0dXyMKLbvUa0OSDdIVjFc7ya2+nC3ZpdjGUhvDDA4zVVr3e8rJg
+        qIbc7EEBpj4ay/+j5FInJSPvwjn0wb3fr5d2RGJCs3mrQa60aDfyOUG2pACrYSdl7yr8jT
+        spMakigzuaBtbZUIWfhnX99l3HcJDwc=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-67-DDoW3sBZN2a-RFZB1H6LQA-1; Sun, 11 Sep 2022 13:17:05 -0400
-X-MC-Unique: DDoW3sBZN2a-RFZB1H6LQA-1
+ us-mta-191-5zjlwUB5Ps6bw3bwIqZmlw-1; Sun, 11 Sep 2022 13:17:06 -0400
+X-MC-Unique: 5zjlwUB5Ps6bw3bwIqZmlw-1
 Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com [10.11.54.10])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 877CF101A56C;
-        Sun, 11 Sep 2022 17:17:04 +0000 (UTC)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 433F41C05156;
+        Sun, 11 Sep 2022 17:17:06 +0000 (UTC)
 Received: from shalem.redhat.com (unknown [10.39.192.10])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 0B3ED492C3B;
-        Sun, 11 Sep 2022 17:17:02 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id BEB3B492C3B;
+        Sun, 11 Sep 2022 17:17:04 +0000 (UTC)
 From:   Hans de Goede <hdegoede@redhat.com>
 To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Sakari Ailus <sakari.ailus@linux.intel.com>
@@ -48,9 +48,9 @@ Cc:     Hans de Goede <hdegoede@redhat.com>,
         Nable <nable.maininbox@googlemail.com>,
         andrey.i.trufanov@gmail.com, Fabio Aiuto <fabioaiuto83@gmail.com>,
         linux-media@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: [PATCH 04/17] media: atomisp: Remove asd == NULL checks from ioctl handling
-Date:   Sun, 11 Sep 2022 19:16:40 +0200
-Message-Id: <20220911171653.568932-5-hdegoede@redhat.com>
+Subject: [PATCH 05/17] media: atomisp: Add atomisp_pipe_check() helper
+Date:   Sun, 11 Sep 2022 19:16:41 +0200
+Message-Id: <20220911171653.568932-6-hdegoede@redhat.com>
 In-Reply-To: <20220911171653.568932-1-hdegoede@redhat.com>
 References: <20220911171653.568932-1-hdegoede@redhat.com>
 MIME-Version: 1.0
@@ -66,259 +66,223 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-At probe time isp_subdev_init_entities() sets pipe->asd to a non NULL
-value for all four (preview/vf/capture/capture_video) pipes by calling
-atomisp_init_subdev_pipe() for all 4 pipes.
+Several of the ioctl handlers all do the same checks
+(isp->fatal_error and asd->streaming errors) add
+an atomisp_pipe_check() helper for this.
 
-So it can never be NULL. Remove the redundant NULL checks.
+Note this changes the vidioc_s_fmt_vid_cap and vidioc_s_input handlers
+to now reject calls made while asd->streaming==STOPPING. This fixes
+a possible race where one thread can make this ioctls while
+vidioc_streamoff is running from another thread and it has
+temporarily released isp->mutex to kill the watchdog timers / work.
 
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- .../staging/media/atomisp/pci/atomisp_cmd.c   | 18 ----
- .../staging/media/atomisp/pci/atomisp_ioctl.c | 89 -------------------
- 2 files changed, 107 deletions(-)
+ .../staging/media/atomisp/pci/atomisp_cmd.c   |  9 +-
+ .../staging/media/atomisp/pci/atomisp_ioctl.c | 89 +++++++++----------
+ .../staging/media/atomisp/pci/atomisp_ioctl.h |  2 +
+ 3 files changed, 48 insertions(+), 52 deletions(-)
 
 diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.c b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-index c7f825e38921..087078900415 100644
+index 087078900415..7945852ecd13 100644
 --- a/drivers/staging/media/atomisp/pci/atomisp_cmd.c
 +++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-@@ -1755,12 +1755,6 @@ void atomisp_wdt_refresh(struct atomisp_sub_device *asd, unsigned int delay)
- /* ISP2401 */
- void atomisp_wdt_stop_pipe(struct atomisp_video_pipe *pipe, bool sync)
- {
--	if (!pipe->asd) {
--		dev_err(pipe->isp->dev, "%s(): asd is NULL, device is %s\n",
--			__func__, pipe->vdev.name);
--		return;
--	}
--
- 	if (!atomisp_is_wdt_running(pipe))
- 		return;
+@@ -5549,16 +5549,13 @@ int atomisp_set_fmt(struct video_device *vdev, struct v4l2_format *f)
+ 	struct v4l2_subdev_fh fh;
+ 	int ret;
  
-@@ -5557,12 +5551,6 @@ int atomisp_set_fmt(struct video_device *vdev, struct v4l2_format *f)
+-	lockdep_assert_held(&isp->mutex);
++	ret = atomisp_pipe_check(pipe, true);
++	if (ret)
++		return ret;
  
- 	lockdep_assert_held(&isp->mutex);
- 
--	if (!asd) {
--		dev_err(isp->dev, "%s(): asd is NULL, device is %s\n",
--			__func__, vdev->name);
--		return -EINVAL;
--	}
--
  	if (source_pad >= ATOMISP_SUBDEV_PADS_NUM)
  		return -EINVAL;
  
-@@ -6587,12 +6575,6 @@ int atomisp_get_invalid_frame_num(struct video_device *vdev,
- 	struct ia_css_pipe_info p_info;
- 	int ret;
- 
--	if (!asd) {
--		dev_err(pipe->isp->dev, "%s(): asd is NULL, device is %s\n",
--			__func__, vdev->name);
--		return -EINVAL;
+-	if (asd->streaming == ATOMISP_DEVICE_STREAMING_ENABLED) {
+-		dev_warn(isp->dev, "ISP does not support set format while at streaming!\n");
+-		return -EBUSY;
 -	}
 -
- 	if (asd->isp->inputs[asd->input_curr].camera_caps->
- 	    sensor[asd->sensor_curr].stream_num > 1) {
- 		/* External ISP */
+ 	dev_dbg(isp->dev,
+ 		"setting resolution %ux%u on pad %u for asd%d, bytesperline %u\n",
+ 		f->fmt.pix.width, f->fmt.pix.height, source_pad,
 diff --git a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-index 21af5feca386..9c7022be3a06 100644
+index 9c7022be3a06..9b50f637c46a 100644
 --- a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
 +++ b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-@@ -632,12 +632,6 @@ static int atomisp_g_input(struct file *file, void *fh, unsigned int *input)
- 	struct atomisp_device *isp = video_get_drvdata(vdev);
- 	struct atomisp_sub_device *asd = atomisp_to_video_pipe(vdev)->asd;
+@@ -535,6 +535,32 @@ atomisp_get_format_bridge_from_mbus(u32 mbus_code)
+ 	return NULL;
+ }
  
--	if (!asd) {
--		dev_err(isp->dev, "%s(): asd is NULL, device is %s\n",
--			__func__, vdev->name);
--		return -EINVAL;
--	}
--
- 	mutex_lock(&isp->mutex);
- 	*input = asd->input_curr;
- 	mutex_unlock(&isp->mutex);
-@@ -657,12 +651,6 @@ static int atomisp_s_input(struct file *file, void *fh, unsigned int input)
++int atomisp_pipe_check(struct atomisp_video_pipe *pipe, bool settings_change)
++{
++	lockdep_assert_held(&pipe->isp->mutex);
++
++	if (pipe->isp->isp_fatal_error)
++		return -EIO;
++
++	switch (pipe->asd->streaming) {
++	case ATOMISP_DEVICE_STREAMING_DISABLED:
++		break;
++	case ATOMISP_DEVICE_STREAMING_ENABLED:
++		if (settings_change) {
++			dev_err(pipe->isp->dev, "Set fmt/input IOCTL while streaming\n");
++			return -EBUSY;
++		}
++		break;
++	case ATOMISP_DEVICE_STREAMING_STOPPING:
++		dev_err(pipe->isp->dev, "IOCTL issued while stopping\n");
++		return -EBUSY;
++	default:
++		return -EINVAL;
++	}
++
++	return 0;
++}
++
+ /*
+  * v4l2 ioctls
+  * return ISP capabilities
+@@ -646,12 +672,18 @@ static int atomisp_s_input(struct file *file, void *fh, unsigned int input)
+ {
+ 	struct video_device *vdev = video_devdata(file);
+ 	struct atomisp_device *isp = video_get_drvdata(vdev);
+-	struct atomisp_sub_device *asd = atomisp_to_video_pipe(vdev)->asd;
++	struct atomisp_video_pipe *pipe = atomisp_to_video_pipe(vdev);
++	struct atomisp_sub_device *asd = pipe->asd;
+ 	struct v4l2_subdev *camera = NULL;
  	struct v4l2_subdev *motor;
  	int ret;
  
--	if (!asd) {
--		dev_err(isp->dev, "%s(): asd is NULL, device is %s\n",
--			__func__, vdev->name);
--		return -EINVAL;
--	}
--
  	mutex_lock(&isp->mutex);
++
++	ret = atomisp_pipe_check(pipe, true);
++	if (ret)
++		goto error;
++
  	if (input >= ATOM_ISP_MAX_INPUTS || input >= isp->input_cnt) {
  		dev_dbg(isp->dev, "input_cnt: %d\n", isp->input_cnt);
-@@ -818,12 +806,6 @@ static int atomisp_enum_fmt_cap(struct file *file, void *fh,
- 	unsigned int i, fi = 0;
- 	int rval;
+ 		ret = -EINVAL;
+@@ -678,13 +710,6 @@ static int atomisp_s_input(struct file *file, void *fh, unsigned int input)
+ 		goto error;
+ 	}
  
--	if (!asd) {
--		dev_err(isp->dev, "%s(): asd is NULL, device is %s\n",
--			__func__, vdev->name);
--		return -EINVAL;
+-	if (atomisp_subdev_streaming_count(asd)) {
+-		dev_err(isp->dev,
+-			"ISP is still streaming, stop first\n");
+-		ret = -EINVAL;
+-		goto error;
 -	}
 -
- 	camera = isp->inputs[asd->input_curr].camera;
- 	if(!camera) {
- 		dev_err(isp->dev, "%s(): camera is NULL, device is %s\n",
-@@ -1152,11 +1134,6 @@ int __atomisp_reqbufs(struct file *file, void *fh,
- 	u16 stream_id;
- 	int ret = 0, i = 0;
+ 	/* power off the current owned sensor, as it is not used this time */
+ 	if (isp->inputs[asd->input_curr].asd == asd &&
+ 	    asd->input_curr != input) {
+@@ -976,11 +1001,6 @@ static int atomisp_s_fmt_cap(struct file *file, void *fh,
+ 	int ret;
  
--	if (!asd) {
--		dev_err(pipe->isp->dev, "%s(): asd is NULL, device is %s\n",
--			__func__, vdev->name);
--		return -EINVAL;
+ 	mutex_lock(&isp->mutex);
+-	if (isp->isp_fatal_error) {
+-		ret = -EIO;
+-		mutex_unlock(&isp->mutex);
+-		return ret;
 -	}
- 	stream_id = atomisp_source_pad_to_stream_id(asd, source_pad);
- 
- 	if (req->count == 0) {
-@@ -1261,12 +1238,6 @@ static int atomisp_qbuf(struct file *file, void *fh, struct v4l2_buffer *buf)
+ 	ret = atomisp_set_fmt(vdev, f);
+ 	mutex_unlock(&isp->mutex);
+ 	return ret;
+@@ -1236,20 +1256,13 @@ static int atomisp_qbuf(struct file *file, void *fh, struct v4l2_buffer *buf)
+ 	struct ia_css_frame *handle = NULL;
+ 	u32 length;
  	u32 pgnr;
- 	int ret = 0;
+-	int ret = 0;
++	int ret;
  
--	if (!asd) {
--		dev_err(isp->dev, "%s(): asd is NULL, device is %s\n",
--			__func__, vdev->name);
--		return -EINVAL;
--	}
--
  	mutex_lock(&isp->mutex);
- 	if (isp->isp_fatal_error) {
- 		ret = -EIO;
-@@ -1449,12 +1420,6 @@ static int atomisp_dqbuf(struct file *file, void *fh, struct v4l2_buffer *buf)
+-	if (isp->isp_fatal_error) {
+-		ret = -EIO;
+-		goto error;
+-	}
+ 
+-	if (asd->streaming == ATOMISP_DEVICE_STREAMING_STOPPING) {
+-		dev_err(isp->dev, "%s: reject, as ISP at stopping.\n",
+-			__func__);
+-		ret = -EIO;
++	ret = atomisp_pipe_check(pipe, false);
++	if (ret)
+ 		goto error;
+-	}
+ 
+ 	if (!buf || buf->index >= VIDEO_MAX_FRAME ||
+ 	    !pipe->capq.bufs[buf->index]) {
+@@ -1418,23 +1431,13 @@ static int atomisp_dqbuf(struct file *file, void *fh, struct v4l2_buffer *buf)
+ 	struct atomisp_video_pipe *pipe = atomisp_to_video_pipe(vdev);
+ 	struct atomisp_sub_device *asd = pipe->asd;
  	struct atomisp_device *isp = video_get_drvdata(vdev);
- 	int ret = 0;
+-	int ret = 0;
++	int ret;
  
--	if (!asd) {
--		dev_err(isp->dev, "%s(): asd is NULL, device is %s\n",
--			__func__, vdev->name);
--		return -EINVAL;
--	}
--
  	mutex_lock(&isp->mutex);
- 
- 	if (isp->isp_fatal_error) {
-@@ -1706,12 +1671,6 @@ static int atomisp_streamon(struct file *file, void *fh,
- 	int ret = 0;
- 	unsigned long irqflags;
- 
--	if (!asd) {
--		dev_err(isp->dev, "%s(): asd is NULL, device is %s\n",
--			__func__, vdev->name);
--		return -EINVAL;
+-
+-	if (isp->isp_fatal_error) {
+-		mutex_unlock(&isp->mutex);
+-		return -EIO;
 -	}
 -
+-	if (asd->streaming == ATOMISP_DEVICE_STREAMING_STOPPING) {
+-		mutex_unlock(&isp->mutex);
+-		dev_err(isp->dev, "%s: reject, as ISP at stopping.\n",
+-			__func__);
+-		return -EIO;
+-	}
+-
++	ret = atomisp_pipe_check(pipe, false);
+ 	mutex_unlock(&isp->mutex);
++	if (ret)
++		return ret;
+ 
+ 	ret = videobuf_dqbuf(&pipe->capq, buf, file->f_flags & O_NONBLOCK);
+ 	if (ret) {
+@@ -1668,8 +1671,8 @@ static int atomisp_streamon(struct file *file, void *fh,
+ 	enum ia_css_pipe_id css_pipe_id;
+ 	unsigned int sensor_start_stream;
+ 	unsigned int wdt_duration = ATOMISP_ISP_TIMEOUT_DURATION;
+-	int ret = 0;
+ 	unsigned long irqflags;
++	int ret;
+ 
  	dev_dbg(isp->dev, "Start stream on pad %d for asd%d\n",
  		atomisp_subdev_source_pad(vdev), asd->index);
+@@ -1680,15 +1683,9 @@ static int atomisp_streamon(struct file *file, void *fh,
+ 	}
  
-@@ -1963,12 +1922,6 @@ int __atomisp_streamoff(struct file *file, void *fh, enum v4l2_buf_type type)
- 	unsigned long flags;
- 	bool first_streamoff = false;
- 
--	if (!asd) {
--		dev_err(isp->dev, "%s(): asd is NULL, device is %s\n",
--			__func__, vdev->name);
--		return -EINVAL;
+ 	mutex_lock(&isp->mutex);
+-	if (isp->isp_fatal_error) {
+-		ret = -EIO;
+-		goto out;
 -	}
 -
- 	dev_dbg(isp->dev, "Stop stream on pad %d for asd%d\n",
- 		atomisp_subdev_source_pad(vdev), asd->index);
- 
-@@ -2213,12 +2166,6 @@ static int atomisp_g_ctrl(struct file *file, void *fh,
- 	struct atomisp_device *isp = video_get_drvdata(vdev);
- 	int i, ret = -EINVAL;
- 
--	if (!asd) {
--		dev_err(isp->dev, "%s(): asd is NULL, device is %s\n",
--			__func__, vdev->name);
--		return -EINVAL;
+-	if (asd->streaming == ATOMISP_DEVICE_STREAMING_STOPPING) {
+-		ret = -EBUSY;
++	ret = atomisp_pipe_check(pipe, false);
++	if (ret)
+ 		goto out;
 -	}
--
- 	for (i = 0; i < ctrls_num; i++) {
- 		if (ci_v4l2_controls[i].id == control->id) {
- 			ret = 0;
-@@ -2298,12 +2245,6 @@ static int atomisp_s_ctrl(struct file *file, void *fh,
- 	struct atomisp_device *isp = video_get_drvdata(vdev);
- 	int i, ret = -EINVAL;
  
--	if (!asd) {
--		dev_err(isp->dev, "%s(): asd is NULL, device is %s\n",
--			__func__, vdev->name);
--		return -EINVAL;
--	}
--
- 	for (i = 0; i < ctrls_num; i++) {
- 		if (ci_v4l2_controls[i].id == control->id) {
- 			ret = 0;
-@@ -2385,12 +2326,6 @@ static int atomisp_queryctl(struct file *file, void *fh,
- 	struct atomisp_sub_device *asd = atomisp_to_video_pipe(vdev)->asd;
- 	struct atomisp_device *isp = video_get_drvdata(vdev);
+ 	if (pipe->capq.streaming)
+ 		goto out;
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_ioctl.h b/drivers/staging/media/atomisp/pci/atomisp_ioctl.h
+index 382b78275240..61a6148a6ad5 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_ioctl.h
++++ b/drivers/staging/media/atomisp/pci/atomisp_ioctl.h
+@@ -34,6 +34,8 @@ atomisp_format_bridge *atomisp_get_format_bridge(unsigned int pixelformat);
+ const struct
+ atomisp_format_bridge *atomisp_get_format_bridge_from_mbus(u32 mbus_code);
  
--	if (!asd) {
--		dev_err(isp->dev, "%s(): asd is NULL, device is %s\n",
--			__func__, vdev->name);
--		return -EINVAL;
--	}
--
- 	switch (qc->id) {
- 	case V4L2_CID_FOCUS_ABSOLUTE:
- 	case V4L2_CID_FOCUS_RELATIVE:
-@@ -2436,12 +2371,6 @@ static int atomisp_camera_g_ext_ctrls(struct file *file, void *fh,
- 	int i;
- 	int ret = 0;
++int atomisp_pipe_check(struct atomisp_video_pipe *pipe, bool streaming_ok);
++
+ int atomisp_alloc_css_stat_bufs(struct atomisp_sub_device *asd,
+ 				uint16_t stream_id);
  
--	if (!asd) {
--		dev_err(isp->dev, "%s(): asd is NULL, device is %s\n",
--			__func__, vdev->name);
--		return -EINVAL;
--	}
--
- 	if (!IS_ISP2401)
- 		motor = isp->inputs[asd->input_curr].motor;
- 	else
-@@ -2553,12 +2482,6 @@ static int atomisp_camera_s_ext_ctrls(struct file *file, void *fh,
- 	int i;
- 	int ret = 0;
- 
--	if (!asd) {
--		dev_err(isp->dev, "%s(): asd is NULL, device is %s\n",
--			__func__, vdev->name);
--		return -EINVAL;
--	}
--
- 	if (!IS_ISP2401)
- 		motor = isp->inputs[asd->input_curr].motor;
- 	else
-@@ -2684,12 +2607,6 @@ static int atomisp_g_parm(struct file *file, void *fh,
- 	struct atomisp_sub_device *asd = atomisp_to_video_pipe(vdev)->asd;
- 	struct atomisp_device *isp = video_get_drvdata(vdev);
- 
--	if (!asd) {
--		dev_err(isp->dev, "%s(): asd is NULL, device is %s\n",
--			__func__, vdev->name);
--		return -EINVAL;
--	}
--
- 	if (parm->type != V4L2_BUF_TYPE_VIDEO_CAPTURE) {
- 		dev_err(isp->dev, "unsupported v4l2 buf type\n");
- 		return -EINVAL;
-@@ -2712,12 +2629,6 @@ static int atomisp_s_parm(struct file *file, void *fh,
- 	int rval;
- 	int fps;
- 
--	if (!asd) {
--		dev_err(isp->dev, "%s(): asd is NULL, device is %s\n",
--			__func__, vdev->name);
--		return -EINVAL;
--	}
--
- 	if (parm->type != V4L2_BUF_TYPE_VIDEO_CAPTURE) {
- 		dev_err(isp->dev, "unsupported v4l2 buf type\n");
- 		return -EINVAL;
 -- 
 2.37.3
 
