@@ -2,42 +2,42 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7FC115B5026
-	for <lists+linux-media@lfdr.de>; Sun, 11 Sep 2022 19:17:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 355255B5029
+	for <lists+linux-media@lfdr.de>; Sun, 11 Sep 2022 19:17:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229531AbiIKRRI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 11 Sep 2022 13:17:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35026 "EHLO
+        id S229565AbiIKRRO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 11 Sep 2022 13:17:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35076 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229492AbiIKRRH (ORCPT
+        with ESMTP id S229517AbiIKRRN (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 11 Sep 2022 13:17:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1D29738A2
-        for <linux-media@vger.kernel.org>; Sun, 11 Sep 2022 10:17:07 -0700 (PDT)
+        Sun, 11 Sep 2022 13:17:13 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D850838A2
+        for <linux-media@vger.kernel.org>; Sun, 11 Sep 2022 10:17:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1662916626;
+        s=mimecast20190719; t=1662916631;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=VkVzUPZeLYVbRuHXy+FUce2DnuAZCG9GJqs3yy61WU0=;
-        b=NKKSFxJ0Myy0/AEjBli6R5h/JRdbF8uxpI1E9t7OdVi4qXWJPA8RI0DtgNUXUAHCe2ieeP
-        f/bBIPKn7S4L2eK4i9YtOHhQYsO5dZuOOKZUPuKCCeMUIhJN77PRhuXBBMco3p3wcX3zg2
-        MoHARpYO22AvzlFc9xKKbzekIidU4dA=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+        bh=Uo2rdA8cDj7mgqOCsFGTbjKhnc25MAADyZrn0UBSO6U=;
+        b=VXn1Ft2/qujmis/fbxPOVkofrMz6yO/By1zxB4Oe4PXRspNHyjRB9Ler5yMTzJuG2DAaiE
+        iEv1FMT80Kwix4LLHP+ttoCJydmmadwDM+osGCcT0297ZqqOJ8VN9QL/KkdMRIq5CpkLz7
+        y4HC96AVmwhpPkR6EgKoQlx4FX9ret8=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-15-xptvEMAcMSSk1TK88Z4ydA-1; Sun, 11 Sep 2022 13:17:01 -0400
-X-MC-Unique: xptvEMAcMSSk1TK88Z4ydA-1
+ us-mta-108-ERBOL2R7MHi1q4CwD3K_fA-1; Sun, 11 Sep 2022 13:17:03 -0400
+X-MC-Unique: ERBOL2R7MHi1q4CwD3K_fA-1
 Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com [10.11.54.10])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1EF7A3C025B6;
-        Sun, 11 Sep 2022 17:17:01 +0000 (UTC)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C9A7385A58A;
+        Sun, 11 Sep 2022 17:17:02 +0000 (UTC)
 Received: from shalem.redhat.com (unknown [10.39.192.10])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 9C298492C3B;
-        Sun, 11 Sep 2022 17:16:59 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 54BDA492C3B;
+        Sun, 11 Sep 2022 17:17:01 +0000 (UTC)
 From:   Hans de Goede <hdegoede@redhat.com>
 To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Sakari Ailus <sakari.ailus@linux.intel.com>
@@ -48,9 +48,9 @@ Cc:     Hans de Goede <hdegoede@redhat.com>,
         Nable <nable.maininbox@googlemail.com>,
         andrey.i.trufanov@gmail.com, Fabio Aiuto <fabioaiuto83@gmail.com>,
         linux-media@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: [PATCH 02/17] media: atomisp: Remove unused lock member from struct atomisp_sub_device
-Date:   Sun, 11 Sep 2022 19:16:38 +0200
-Message-Id: <20220911171653.568932-3-hdegoede@redhat.com>
+Subject: [PATCH 03/17] media: atomisp: Fix locking around asd->streaming read/write
+Date:   Sun, 11 Sep 2022 19:16:39 +0200
+Message-Id: <20220911171653.568932-4-hdegoede@redhat.com>
 In-Reply-To: <20220911171653.568932-1-hdegoede@redhat.com>
 References: <20220911171653.568932-1-hdegoede@redhat.com>
 MIME-Version: 1.0
@@ -66,39 +66,300 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The spin-lock embedded in struct atomisp_sub_device is not used anywhere,
-remove it.
+For reading / writing the asd->streaming enum the following rules
+should be followed:
+
+1. Writers of streaming must hold both isp->mutex and isp->lock.
+2. Readers of streaming need to hold only one of the two locks.
+
+Not all writers where properly taking both locks this fixes this.
+
+In the case of the readers, many readers depend on their caller
+to hold isp->mutex, add asserts for this
+
+And in the case of atomisp_css_get_dis_stat() it is called with
+isp->mutex held, so there is no need to take the spinlock just
+for reading the streaming value.
 
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- drivers/staging/media/atomisp/pci/atomisp_subdev.c | 1 -
- drivers/staging/media/atomisp/pci/atomisp_subdev.h | 1 -
- 2 files changed, 2 deletions(-)
+ .../staging/media/atomisp/pci/atomisp_cmd.c   | 32 +++++++++++++++++--
+ .../media/atomisp/pci/atomisp_compat_css20.c  | 10 +++---
+ .../staging/media/atomisp/pci/atomisp_fops.c  |  3 ++
+ .../media/atomisp/pci/atomisp_internal.h      |  2 +-
+ .../staging/media/atomisp/pci/atomisp_ioctl.c |  4 +++
+ .../media/atomisp/pci/atomisp_subdev.c        |  8 ++++-
+ .../media/atomisp/pci/atomisp_subdev.h        |  6 +++-
+ 7 files changed, 55 insertions(+), 10 deletions(-)
 
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.c b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
+index 97ef02e4e7a6..c7f825e38921 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_cmd.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
+@@ -899,6 +899,8 @@ void atomisp_buf_done(struct atomisp_sub_device *asd, int error,
+ 	struct v4l2_control ctrl;
+ 	bool reset_wdt_timer = false;
+ 
++	lockdep_assert_held(&isp->mutex);
++
+ 	if (
+ 	    buf_type != IA_CSS_BUFFER_TYPE_METADATA &&
+ 	    buf_type != IA_CSS_BUFFER_TYPE_3A_STATISTICS &&
+@@ -1298,6 +1300,9 @@ static void __atomisp_css_recover(struct atomisp_device *isp, bool isp_timeout)
+ 	bool stream_restart[MAX_STREAM_NUM] = {0};
+ 	bool depth_mode = false;
+ 	int i, ret, depth_cnt = 0;
++	unsigned long flags;
++
++	lockdep_assert_held(&isp->mutex);
+ 
+ 	atomisp_css_irq_enable(isp, IA_CSS_IRQ_INFO_CSS_RECEIVER_SOF, false);
+ 
+@@ -1320,7 +1325,9 @@ static void __atomisp_css_recover(struct atomisp_device *isp, bool isp_timeout)
+ 
+ 		stream_restart[asd->index] = true;
+ 
++		spin_lock_irqsave(&isp->lock, flags);
+ 		asd->streaming = ATOMISP_DEVICE_STREAMING_STOPPING;
++		spin_unlock_irqrestore(&isp->lock, flags);
+ 
+ 		/* stream off sensor */
+ 		ret = v4l2_subdev_call(
+@@ -1335,7 +1342,9 @@ static void __atomisp_css_recover(struct atomisp_device *isp, bool isp_timeout)
+ 		css_pipe_id = atomisp_get_css_pipe_id(asd);
+ 		atomisp_css_stop(asd, css_pipe_id, true);
+ 
++		spin_lock_irqsave(&isp->lock, flags);
+ 		asd->streaming = ATOMISP_DEVICE_STREAMING_DISABLED;
++		spin_unlock_irqrestore(&isp->lock, flags);
+ 
+ 		asd->preview_exp_id = 1;
+ 		asd->postview_exp_id = 1;
+@@ -1376,11 +1385,14 @@ static void __atomisp_css_recover(struct atomisp_device *isp, bool isp_timeout)
+ 						   IA_CSS_INPUT_MODE_BUFFERED_SENSOR);
+ 
+ 		css_pipe_id = atomisp_get_css_pipe_id(asd);
+-		if (atomisp_css_start(asd, css_pipe_id, true))
++		if (atomisp_css_start(asd, css_pipe_id, true)) {
+ 			dev_warn(isp->dev,
+ 				 "start SP failed, so do not set streaming to be enable!\n");
+-		else
++		} else {
++			spin_lock_irqsave(&isp->lock, flags);
+ 			asd->streaming = ATOMISP_DEVICE_STREAMING_ENABLED;
++			spin_unlock_irqrestore(&isp->lock, flags);
++		}
+ 
+ 		atomisp_csi2_configure(asd);
+ 	}
+@@ -1608,6 +1620,8 @@ void atomisp_css_flush(struct atomisp_device *isp)
+ {
+ 	int i;
+ 
++	lockdep_assert_held(&isp->mutex);
++
+ 	if (!atomisp_streaming_count(isp))
+ 		return;
+ 
+@@ -4046,6 +4060,8 @@ void atomisp_handle_parameter_and_buffer(struct atomisp_video_pipe *pipe)
+ 	unsigned long irqflags;
+ 	bool need_to_enqueue_buffer = false;
+ 
++	lockdep_assert_held(&asd->isp->mutex);
++
+ 	if (!asd) {
+ 		dev_err(pipe->isp->dev, "%s(): asd is NULL, device is %s\n",
+ 			__func__, pipe->vdev.name);
+@@ -4139,6 +4155,8 @@ int atomisp_set_parameters(struct video_device *vdev,
+ 	struct atomisp_css_params *css_param = &asd->params.css_param;
+ 	int ret;
+ 
++	lockdep_assert_held(&asd->isp->mutex);
++
+ 	if (!asd) {
+ 		dev_err(pipe->isp->dev, "%s(): asd is NULL, device is %s\n",
+ 			__func__, vdev->name);
+@@ -5537,6 +5555,8 @@ int atomisp_set_fmt(struct video_device *vdev, struct v4l2_format *f)
+ 	struct v4l2_subdev_fh fh;
+ 	int ret;
+ 
++	lockdep_assert_held(&isp->mutex);
++
+ 	if (!asd) {
+ 		dev_err(isp->dev, "%s(): asd is NULL, device is %s\n",
+ 			__func__, vdev->name);
+@@ -6159,6 +6179,8 @@ int atomisp_offline_capture_configure(struct atomisp_sub_device *asd,
+ {
+ 	struct v4l2_ctrl *c;
+ 
++	lockdep_assert_held(&asd->isp->mutex);
++
+ 	/*
+ 	* In case of M10MO ZSL capture case, we need to issue a separate
+ 	* capture request to M10MO which will output captured jpeg image
+@@ -6433,6 +6455,8 @@ int atomisp_exp_id_capture(struct atomisp_sub_device *asd, int *exp_id)
+ 	int value = *exp_id;
+ 	int ret;
+ 
++	lockdep_assert_held(&isp->mutex);
++
+ 	ret = __is_raw_buffer_locked(asd, value);
+ 	if (ret) {
+ 		dev_err(isp->dev, "%s exp_id %d invalid %d.\n", __func__, value, ret);
+@@ -6454,6 +6478,8 @@ int atomisp_exp_id_unlock(struct atomisp_sub_device *asd, int *exp_id)
+ 	int value = *exp_id;
+ 	int ret;
+ 
++	lockdep_assert_held(&isp->mutex);
++
+ 	ret = __clear_raw_buffer_bitmap(asd, value);
+ 	if (ret) {
+ 		dev_err(isp->dev, "%s exp_id %d invalid %d.\n", __func__, value, ret);
+@@ -6489,6 +6515,8 @@ int atomisp_inject_a_fake_event(struct atomisp_sub_device *asd, int *event)
+ 	if (!event || asd->streaming != ATOMISP_DEVICE_STREAMING_ENABLED)
+ 		return -EINVAL;
+ 
++	lockdep_assert_held(&asd->isp->mutex);
++
+ 	dev_dbg(asd->isp->dev, "%s: trying to inject a fake event 0x%x\n",
+ 		__func__, *event);
+ 
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c b/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
+index cda0b5eba16d..15ef31b0c601 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
+@@ -3626,6 +3626,8 @@ int atomisp_css_get_dis_stat(struct atomisp_sub_device *asd,
+ 	struct atomisp_dis_buf *dis_buf;
+ 	unsigned long flags;
+ 
++	lockdep_assert_held(&isp->mutex);
++
+ 	if (!asd->params.dvs_stat->hor_prod.odd_real ||
+ 	    !asd->params.dvs_stat->hor_prod.odd_imag ||
+ 	    !asd->params.dvs_stat->hor_prod.even_real ||
+@@ -3637,12 +3639,8 @@ int atomisp_css_get_dis_stat(struct atomisp_sub_device *asd,
+ 		return -EINVAL;
+ 
+ 	/* isp needs to be streaming to get DIS statistics */
+-	spin_lock_irqsave(&isp->lock, flags);
+-	if (asd->streaming != ATOMISP_DEVICE_STREAMING_ENABLED) {
+-		spin_unlock_irqrestore(&isp->lock, flags);
++	if (asd->streaming != ATOMISP_DEVICE_STREAMING_ENABLED)
+ 		return -EINVAL;
+-	}
+-	spin_unlock_irqrestore(&isp->lock, flags);
+ 
+ 	if (atomisp_compare_dvs_grid(asd, &stats->dvs2_stat.grid_info) != 0)
+ 		/* If the grid info in the argument differs from the current
+@@ -3801,6 +3799,8 @@ int atomisp_css_isr_thread(struct atomisp_device *isp,
+ 	bool reset_wdt_timer[MAX_STREAM_NUM] = {false};
+ 	int i;
+ 
++	lockdep_assert_held(&isp->mutex);
++
+ 	while (!ia_css_dequeue_psys_event(&current_event.event)) {
+ 		if (current_event.event.type ==
+ 		    IA_CSS_EVENT_TYPE_FW_ASSERT) {
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_fops.c b/drivers/staging/media/atomisp/pci/atomisp_fops.c
+index 57587d739c4b..e1b213ba4686 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_fops.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_fops.c
+@@ -813,6 +813,7 @@ static int atomisp_release(struct file *file)
+ 	struct v4l2_requestbuffers req;
+ 	struct v4l2_subdev_fh fh;
+ 	struct v4l2_rect clear_compose = {0};
++	unsigned long flags;
+ 	int ret = 0;
+ 
+ 	v4l2_fh_init(&fh.vfh, vdev);
+@@ -878,7 +879,9 @@ static int atomisp_release(struct file *file)
+ 
+ 	/* clear the asd field to show this camera is not used */
+ 	isp->inputs[asd->input_curr].asd = NULL;
++	spin_lock_irqsave(&isp->lock, flags);
+ 	asd->streaming = ATOMISP_DEVICE_STREAMING_DISABLED;
++	spin_unlock_irqrestore(&isp->lock, flags);
+ 
+ 	if (atomisp_dev_users(isp))
+ 		goto done;
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_internal.h b/drivers/staging/media/atomisp/pci/atomisp_internal.h
+index 759575cbd356..b2c362ef7199 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_internal.h
++++ b/drivers/staging/media/atomisp/pci/atomisp_internal.h
+@@ -266,7 +266,7 @@ struct atomisp_device {
+ 
+ 	atomic_t wdt_work_queued;
+ 
+-	spinlock_t lock; /* Just for streaming below */
++	spinlock_t lock; /* Protects asd[i].streaming */
+ 
+ 	bool need_gfx_throttle;
+ 
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
+index 4016ac4fffe0..21af5feca386 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
+@@ -1837,7 +1837,9 @@ static int atomisp_streamon(struct file *file, void *fh,
+ 	if (ret)
+ 		goto out;
+ 
++	spin_lock_irqsave(&isp->lock, irqflags);
+ 	asd->streaming = ATOMISP_DEVICE_STREAMING_ENABLED;
++	spin_unlock_irqrestore(&isp->lock, irqflags);
+ 	atomic_set(&asd->sof_count, -1);
+ 	atomic_set(&asd->sequence, -1);
+ 	atomic_set(&asd->sequence_temp, -1);
+@@ -1910,7 +1912,9 @@ static int atomisp_streamon(struct file *file, void *fh,
+ 	ret = v4l2_subdev_call(isp->inputs[asd->input_curr].camera,
+ 			       video, s_stream, 1);
+ 	if (ret) {
++		spin_lock_irqsave(&isp->lock, irqflags);
+ 		asd->streaming = ATOMISP_DEVICE_STREAMING_DISABLED;
++		spin_unlock_irqrestore(&isp->lock, irqflags);
+ 		ret = -EINVAL;
+ 		goto out;
+ 	}
 diff --git a/drivers/staging/media/atomisp/pci/atomisp_subdev.c b/drivers/staging/media/atomisp/pci/atomisp_subdev.c
-index 047e2e9d63d7..4a4367701509 100644
+index 4a4367701509..88bf693f4c50 100644
 --- a/drivers/staging/media/atomisp/pci/atomisp_subdev.c
 +++ b/drivers/staging/media/atomisp/pci/atomisp_subdev.c
-@@ -1356,7 +1356,6 @@ int atomisp_subdev_init(struct atomisp_device *isp)
- 		return -ENOMEM;
- 	for (i = 0; i < isp->num_of_streams; i++) {
- 		asd = &isp->asd[i];
--		spin_lock_init(&asd->lock);
- 		asd->isp = isp;
- 		isp_subdev_init_params(asd);
- 		asd->index = i;
+@@ -874,12 +874,18 @@ static int s_ctrl(struct v4l2_ctrl *ctrl)
+ {
+ 	struct atomisp_sub_device *asd = container_of(
+ 					     ctrl->handler, struct atomisp_sub_device, ctrl_handler);
++	unsigned int streaming;
++	unsigned long flags;
+ 
+ 	switch (ctrl->id) {
+ 	case V4L2_CID_RUN_MODE:
+ 		return __atomisp_update_run_mode(asd);
+ 	case V4L2_CID_DEPTH_MODE:
+-		if (asd->streaming != ATOMISP_DEVICE_STREAMING_DISABLED) {
++		/* Use spinlock instead of mutex to avoid possible locking issues */
++		spin_lock_irqsave(&asd->isp->lock, flags);
++		streaming = asd->streaming;
++		spin_unlock_irqrestore(&asd->isp->lock, flags);
++		if (streaming != ATOMISP_DEVICE_STREAMING_DISABLED) {
+ 			dev_err(asd->isp->dev,
+ 				"ISP is streaming, it is not supported to change the depth mode\n");
+ 			return -EINVAL;
 diff --git a/drivers/staging/media/atomisp/pci/atomisp_subdev.h b/drivers/staging/media/atomisp/pci/atomisp_subdev.h
-index d8b2dd00a792..eaf767880407 100644
+index eaf767880407..b44f060b0bb5 100644
 --- a/drivers/staging/media/atomisp/pci/atomisp_subdev.h
 +++ b/drivers/staging/media/atomisp/pci/atomisp_subdev.h
-@@ -272,7 +272,6 @@ struct atomisp_sub_device {
- 	/* video pipe main output */
- 	struct atomisp_video_pipe video_out_video_capture;
- 	/* struct isp_subdev_params params; */
--	spinlock_t lock;
- 	struct atomisp_device *isp;
- 	struct v4l2_ctrl_handler ctrl_handler;
- 	struct v4l2_ctrl *fmt_auto;
+@@ -330,7 +330,11 @@ struct atomisp_sub_device {
+ 	atomic_t sequence;      /* Sequence value that is assigned to buffer. */
+ 	atomic_t sequence_temp;
+ 
+-	unsigned int streaming; /* Hold both mutex and lock to change this */
++	/*
++	 * Writers of streaming must hold both isp->mutex and isp->lock.
++	 * Readers of streaming need to hold only one of the two locks.
++	 */
++	unsigned int streaming;
+ 	bool stream_prepared; /* whether css stream is created */
+ 
+ 	/* subdev index: will be used to show which subdev is holding the
 -- 
 2.37.3
 
