@@ -2,22 +2,22 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AFF345B4CE3
-	for <lists+linux-media@lfdr.de>; Sun, 11 Sep 2022 11:15:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DB9575B4CE4
+	for <lists+linux-media@lfdr.de>; Sun, 11 Sep 2022 11:15:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230086AbiIKJP0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 11 Sep 2022 05:15:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39368 "EHLO
+        id S230091AbiIKJP1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 11 Sep 2022 05:15:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39394 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229566AbiIKJPY (ORCPT
+        with ESMTP id S229981AbiIKJPY (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
         Sun, 11 Sep 2022 05:15:24 -0400
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C225125297
-        for <linux-media@vger.kernel.org>; Sun, 11 Sep 2022 02:15:22 -0700 (PDT)
-Received: from kwepemi500012.china.huawei.com (unknown [172.30.72.55])
-        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4MQP8l48LGzNm9k;
-        Sun, 11 Sep 2022 17:10:47 +0800 (CST)
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 909FA255B7
+        for <linux-media@vger.kernel.org>; Sun, 11 Sep 2022 02:15:23 -0700 (PDT)
+Received: from kwepemi500012.china.huawei.com (unknown [172.30.72.54])
+        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4MQPBz1ScwznV5j;
+        Sun, 11 Sep 2022 17:12:43 +0800 (CST)
 Received: from cgs.huawei.com (10.244.148.83) by
  kwepemi500012.china.huawei.com (7.221.188.12) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
@@ -32,10 +32,12 @@ To:     <crope@iki.fi>, <mchehab@kernel.org>,
         <elezegarcia@gmail.com>, <hans.verkuil@cisco.com>,
         <linux@rainbow-software.org>, <cuigaosheng1@huawei.com>
 CC:     <linux-media@vger.kernel.org>
-Subject: [PATCH 0/8] Remove unused declarations for media
-Date:   Sun, 11 Sep 2022 17:15:11 +0800
-Message-ID: <20220911091519.3212868-1-cuigaosheng1@huawei.com>
+Subject: [PATCH 1/8] media: dvb-frontends: remove unused drx_dap_fasi_funct_g declaration
+Date:   Sun, 11 Sep 2022 17:15:12 +0800
+Message-ID: <20220911091519.3212868-2-cuigaosheng1@huawei.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220911091519.3212868-1-cuigaosheng1@huawei.com>
+References: <20220911091519.3212868-1-cuigaosheng1@huawei.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7BIT
 Content-Type:   text/plain; charset=US-ASCII
@@ -52,29 +54,28 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This series contains a few cleanup patches, to remove unused
-declarations which have been removed. Thanks!
+drx_dap_fasi_funct_g has been removed since
+commit 80bff4b07595 ("[media] drx-j: get rid of struct
+drx_dap_fasi_funct_g"), so remove it.
 
-Gaosheng Cui (8):
-  media: dvb-frontends: remove unused drx_dap_fasi_funct_g declaration
-  media: platform: remove unused vsp1_subdev_internal_ops declaration
-  media: cxd2820r: remove unused cxd2820r_debug declaration
-  media: saa7134: remove unused declarations in saa7134.h
-  [media] saa7164: remove unused saa7164_call_i2c_clients declaration
-  [media] cx25821: remove unused cx25821_video_wakeup() declaration
-  [media] bttv: remove unused tea5757_set_freq declaration
-  media: zoran: remove unused declarations in zoran_device.h
-
- drivers/media/dvb-frontends/cxd2820r_priv.h         | 2 --
+Signed-off-by: Gaosheng Cui <cuigaosheng1@huawei.com>
+---
  drivers/media/dvb-frontends/drx39xyj/drx_dap_fasi.h | 2 --
- drivers/media/pci/bt8xx/bttv.h                      | 1 -
- drivers/media/pci/cx25821/cx25821-video.h           | 3 ---
- drivers/media/pci/saa7134/saa7134.h                 | 4 ----
- drivers/media/pci/saa7164/saa7164.h                 | 2 --
- drivers/media/pci/zoran/zoran_device.h              | 2 --
- drivers/media/platform/renesas/vsp1/vsp1_entity.h   | 2 --
- 8 files changed, 18 deletions(-)
+ 1 file changed, 2 deletions(-)
 
+diff --git a/drivers/media/dvb-frontends/drx39xyj/drx_dap_fasi.h b/drivers/media/dvb-frontends/drx39xyj/drx_dap_fasi.h
+index 739dc5590fa4..9df34c10d22b 100644
+--- a/drivers/media/dvb-frontends/drx39xyj/drx_dap_fasi.h
++++ b/drivers/media/dvb-frontends/drx39xyj/drx_dap_fasi.h
+@@ -234,8 +234,6 @@
+ 
+ /*-------- Public API functions ----------------------------------------------*/
+ 
+-extern struct drx_access_func drx_dap_fasi_funct_g;
+-
+ #define DRXDAP_FASI_RMW           0x10000000
+ #define DRXDAP_FASI_BROADCAST     0x20000000
+ #define DRXDAP_FASI_CLEARCRC      0x80000000
 -- 
 2.25.1
 
