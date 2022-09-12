@@ -2,158 +2,139 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D37595B5DB0
-	for <lists+linux-media@lfdr.de>; Mon, 12 Sep 2022 17:51:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4DB4F5B5DE2
+	for <lists+linux-media@lfdr.de>; Mon, 12 Sep 2022 18:05:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229553AbiILPvt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 12 Sep 2022 11:51:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58976 "EHLO
+        id S229629AbiILQFE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 12 Sep 2022 12:05:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48298 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229978AbiILPvr (ORCPT
+        with ESMTP id S229767AbiILQFD (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 12 Sep 2022 11:51:47 -0400
-Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com [IPv6:2a00:1450:4864:20::335])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 868523AE48
-        for <linux-media@vger.kernel.org>; Mon, 12 Sep 2022 08:51:45 -0700 (PDT)
-Received: by mail-wm1-x335.google.com with SMTP id d5so7447675wms.5
-        for <linux-media@vger.kernel.org>; Mon, 12 Sep 2022 08:51:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date;
-        bh=Jjn/1zVd12FVb/LCdNWe0Wf4ruutE5LvweefnNNf7tA=;
-        b=FgTvhIkGinjfGqyh9asR8Qfyqp8Kv5+LGHJ/MjaV1DJ1kyJYCjMVQLE4LAQMJVwOdg
-         HeHDX6mnSzOe2kLfsUkd1f6JCfsmilLeXRF7Om8FefEoEVsMqmk3HpN2eRSp77AvvrlK
-         w6D9fAbcrB1qc8BHpHfbhzvLvlEeapApqF2Oqd475NGXQPnxP/+AXKjnZvv1NZ4jwdX8
-         xX7GRDdmyNdmjaPJ5v7wyc46P5TuW5SjXfFhVsGm+br5HjgETmtsOrosrAMswYhN7ZqW
-         oayVNXydA06ZGa1zrgGrMQ4mpmjBk9X2jp53t+8axY+Iq/ObDqlCWh64ywasynKYnMbR
-         K6Lg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date;
-        bh=Jjn/1zVd12FVb/LCdNWe0Wf4ruutE5LvweefnNNf7tA=;
-        b=pppcG58Uazwfmw1vxN3NZlMkJ4olZZDxep/z3mybGeHFMYvHR2BSq0TSE3i6JwZaur
-         OERq0TPSQCQWTZ9byjoJFSD4xk3PO9KZm1uiHW7nD2Bf3p/1o3e1csL+9hY8xA+asWi4
-         nqAyqhTIl+e0JCFMV2JoNiFAI1UvgSv5zIz0olECTbiHcqKyUt1mcx06Pmpd/XzmqtCm
-         xx9KbLyGreHnIAfHwVtso2LC/5rBzUeobjlkGX8QWRbPVjLFE34IxapdLfcD1Kbg2FhD
-         motf5mCR3bNhld/ypvTboqvOiv0PolCyA/0BehJUusZC2MSznEJZKWCmhV5+ooEGMzu1
-         XnXQ==
-X-Gm-Message-State: ACgBeo3C/soZZIDFUcPnSHv7waR+m9FL8OuR/IvZgWtBzAG3yBNwgjqy
-        /lJy3tFavFoPodnhY8MLED/Tgg==
-X-Google-Smtp-Source: AA6agR5eyZ2h7w5RjLLSG7d5FjPPg1lIVlIgHyhE2xP7rmlWEP9A/rNyYsvXeoQ7pSdi0cy0hCLiNw==
-X-Received: by 2002:a05:600c:a02:b0:3ad:455c:b710 with SMTP id z2-20020a05600c0a0200b003ad455cb710mr14610241wmp.56.1662997903969;
-        Mon, 12 Sep 2022 08:51:43 -0700 (PDT)
-Received: from nicolas-tpx395.localdomain ([89.101.193.70])
-        by smtp.gmail.com with ESMTPSA id n186-20020a1ca4c3000000b003b47b80cec3sm6144829wme.42.2022.09.12.08.51.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 Sep 2022 08:51:43 -0700 (PDT)
-Message-ID: <9f7e07991c509b3179ea3c4c8def5e6e19f508e2.camel@ndufresne.ca>
-Subject: Re: [PATCH v5 2/4] media: v4l: ctrls: Add a control for HDR mode
-From:   Nicolas Dufresne <nicolas@ndufresne.ca>
-To:     Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
-        linux-media@vger.kernel.org
-Cc:     alain.volmat@foss.st.com, hugues.fruchet@foss.st.com,
-        sylvain.petinot@foss.st.com, dave.stevenson@raspberrypi.com,
-        sakari.ailus@linux.intel.com, laurent.pinchart@ideasonboard.com,
-        kieran.bingham@ideasonboard.com
-Date:   Mon, 12 Sep 2022 16:51:42 +0100
-In-Reply-To: <20220831090118.104057-3-benjamin.mugnier@foss.st.com>
-References: <20220831090118.104057-1-benjamin.mugnier@foss.st.com>
-         <20220831090118.104057-3-benjamin.mugnier@foss.st.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.4 (3.44.4-1.fc36) 
+        Mon, 12 Sep 2022 12:05:03 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 44512140BE
+        for <linux-media@vger.kernel.org>; Mon, 12 Sep 2022 09:05:02 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id A814061253
+        for <linux-media@vger.kernel.org>; Mon, 12 Sep 2022 16:05:01 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7414AC433D6;
+        Mon, 12 Sep 2022 16:04:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1662998701;
+        bh=Gp12jAitQnls/i4w1dCgEj9va5i0wDajJKFwOegiJP8=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=mS5jIPOtsw7xsMG2e4fsaJtwacCo1apvYMZ9s06Ky9TfrP+TiyRGc+WwKZodx4MEa
+         rbiICar4uUqQ9NaYH61araKoC0sWUOSAqoiLn1UB4TvX1+FtzSyFXtst/mFPdRbQty
+         kwhH33e+u58N3/3lvxNP5MzP+CtIcHYGQymv70XOgCIwPWg/X5kvgfiXkLTvTEyLd7
+         J8rkNRIpzxe1VcxiVviT3w8x8nf8lSo5K7en0CfSQchN627SyH387Vx1uMdQPrT5Yu
+         HTPtqSg3Az5OJrOkpt4h77jANp/n6linLAX4kOEuhGQ62O7FMIEY0P8N/dVVs8a6nV
+         wiDTdK9Zwp+Ww==
+Date:   Mon, 12 Sep 2022 18:04:54 +0200
+From:   Mauro Carvalho Chehab <mchehab@kernel.org>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, ezequiel@collabora.com,
+        gjasny@googlemail.com, hverkuil@xs4all.nl,
+        kieran.bingham@ideasonboard.com, nicolas@ndufresne.ca,
+        p.zabel@pengutronix.de, rosenp@gmail.com, sakari.ailus@iki.fi,
+        sean@mess.org, user.vdr@gmail.com, xavier.claessens@collabora.com
+Subject: Re: [PATCH v7 0/5] Switch build system to meson
+Message-ID: <20220912180454.1b956a3d@coco.lan>
+In-Reply-To: <20220909134412.21934-1-laurent.pinchart@ideasonboard.com>
+References: <20220909134412.21934-1-laurent.pinchart@ideasonboard.com>
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Benjamin,
+Em Fri,  9 Sep 2022 16:44:07 +0300
+Laurent Pinchart <laurent.pinchart@ideasonboard.com> escreveu:
 
-Le mercredi 31 ao=C3=BBt 2022 =C3=A0 11:01 +0200, Benjamin Mugnier a =C3=A9=
-crit=C2=A0:
-> Add V4L2_CID_HDR_MODE as a menu item control to set the HDR mode of the
-> sensor, and its documentation.
-> Menu items are not standardized as they differ for each sensors.
->=20
-> Signed-off-by: Benjamin Mugnier <benjamin.mugnier@foss.st.com>
-> ---
->  .../userspace-api/media/v4l/ext-ctrls-camera.rst          | 8 ++++++++
->  drivers/media/v4l2-core/v4l2-ctrls-defs.c                 | 2 ++
->  include/uapi/linux/v4l2-controls.h                        | 2 ++
->  3 files changed, 12 insertions(+)
->=20
-> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst b=
-/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst
-> index 4c5061aa9cd4..0ee09ff250e7 100644
-> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst
-> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst
-> @@ -661,3 +661,11 @@ enum v4l2_scene_mode -
->  .. [#f1]
->     This control may be changed to a menu control in the future, if more
->     options are required.
-> +
-> +``V4L2_CID_HDR_MODE (menu)``
+> Hello everybody,
+> 
+> This series is the latest (and greatest) attempt to switch v4l-utils
+> from autotools to meson.
+> 
+> Compared to v6, the first noticeable change is that fixups have been
+> squashed into their corresponding commit. Detailed changelogs are now
+> included in individual patches.
+> 
+> The second big change is that the last patch from v6 ("Makefile.am:
+> Distribute meson related files") got replaced by 5/5 which drops
+> autotools support, completing the switch from autotools to meson.
+> 
+> A branch that includes this series can be found at
+> 
+>         git://linuxtv.org/pinchartl/v4l-utils.git meson
+> 
+> Ariel D'Alessandro (4):
+>   Move README to markdown syntax
+>   Add support for meson building
+>   Copy Doxygen configuration file to doc/
+>   meson: Add support for doxygen documentation
+> 
+> Laurent Pinchart (1):
+>   Drop autoconf/automake support
 
-Perhaps try to make this more sensor specific in it name ?
-V4L2_CID_HDR_SENSOR_MODE ?
+With the risk or repeating myself a couple of times, I have no
+idea what was built with meson, when using the version from
+your repository:
 
-> +    Change the sensor HDR mode. A HDR picture is obtained by merging two
-> +    captures of the same scene using two different exposure periods. HDR=
- mode
-> +    describes the way these two captures are merged in the sensor.
-> +
-> +    As modes differ for each sensor, menu items are not standardized by =
-this
-> +    control and are left to the programmer.
+	git://linuxtv.org/pinchartl/v4l-utils.git meson
 
-I do have concern about this approach. Can you clarify ?
+(which btw seems to have some patches that are different
+from the 5 ones you submitted) 
 
-regards,
-Nicolas
+as it doesn't provide anything similar to what current 
+autotools-based support provides:
 
-> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-defs.c b/drivers/media/v4=
-l2-core/v4l2-ctrls-defs.c
-> index e22921e7ea61..0854de1ef1a5 100644
-> --- a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-> +++ b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-> @@ -1043,6 +1043,7 @@ const char *v4l2_ctrl_get_name(u32 id)
->  	case V4L2_CID_UNIT_CELL_SIZE:		return "Unit Cell Size";
->  	case V4L2_CID_CAMERA_ORIENTATION:	return "Camera Orientation";
->  	case V4L2_CID_CAMERA_SENSOR_ROTATION:	return "Camera Sensor Rotation";
-> +	case V4L2_CID_HDR_MODE:			return "HDR mode";
-> =20
->  	/* FM Radio Modulator controls */
->  	/* Keep the order of the 'case's the same as in v4l2-controls.h! */
-> @@ -1370,6 +1371,7 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum=
- v4l2_ctrl_type *type,
->  	case V4L2_CID_STATELESS_H264_START_CODE:
->  	case V4L2_CID_CAMERA_ORIENTATION:
->  	case V4L2_CID_MPEG_VIDEO_INTRA_REFRESH_PERIOD_TYPE:
-> +	case V4L2_CID_HDR_MODE:
->  		*type =3D V4L2_CTRL_TYPE_MENU;
->  		break;
->  	case V4L2_CID_LINK_FREQ:
-> diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2=
--controls.h
-> index 5f46bf4a570c..5dfd38b09768 100644
-> --- a/include/uapi/linux/v4l2-controls.h
-> +++ b/include/uapi/linux/v4l2-controls.h
-> @@ -1013,6 +1013,8 @@ enum v4l2_auto_focus_range {
-> =20
->  #define V4L2_CID_CAMERA_SENSOR_ROTATION		(V4L2_CID_CAMERA_CLASS_BASE+35)
-> =20
-> +#define V4L2_CID_HDR_MODE			(V4L2_CID_CAMERA_CLASS_BASE+36)
-> +
->  /* FM Modulator class control IDs */
-> =20
->  #define V4L2_CID_FM_TX_CLASS_BASE		(V4L2_CTRL_CLASS_FM_TX | 0x900)
+$ ./configure
+...
+compile time options summary
+============================
 
+    Host OS                    : linux-gnu
+    X11                        : yes
+    GL                         : yes
+    glu                        : yes
+    libelf		       : yes
+    libjpeg                    : yes
+    libudev                    : yes
+    pthread                    : yes
+    QT version                 : v5.4 with QtGL
+    ALSA support               : yes
+    SDL support		       : yes
+
+    build dynamic libs         : yes
+    build static libs          : yes
+
+    gconv                      : no
+
+    dynamic libv4l             : yes
+    v4l_plugins                : yes
+    v4l_wrappers               : yes
+    libdvbv5                   : yes
+    dvbv5-daemon               : yes
+    v4lutils                   : yes
+    qv4l2                      : yes
+    qvidcap                    : yes
+    v4l2-ctl uses libv4l       : yes
+    v4l2-ctl-32                : no
+    v4l2-compliance            : yes
+    v4l2-compliance uses libv4l: yes
+    v4l2-compliance-32         : no
+    BPF IR Decoders:           : no
+
+Regards,
+Mauro
