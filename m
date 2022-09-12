@@ -2,125 +2,105 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B957A5B519E
-	for <lists+linux-media@lfdr.de>; Mon, 12 Sep 2022 00:52:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8C3E95B5247
+	for <lists+linux-media@lfdr.de>; Mon, 12 Sep 2022 02:44:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229788AbiIKWwV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 11 Sep 2022 18:52:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35806 "EHLO
+        id S229626AbiILAoU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 11 Sep 2022 20:44:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53640 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229787AbiIKWwR (ORCPT
+        with ESMTP id S229570AbiILAoT (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 11 Sep 2022 18:52:17 -0400
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 031C01F634;
-        Sun, 11 Sep 2022 15:52:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1662936737; x=1694472737;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Kj7mYbX4yVVcAAOExUh5U30pQ5CvHnAmOFRbujPkmJA=;
-  b=BmHnTcl6zIWOy9zk8+ksXpFjmQzlUrSius2yz3wHYy35MmSjG5w0y+14
-   HUuMkC5aYvquEVVeU6WU1Whu1t16qxU4P8CQU3j1XbJ7ZBfRyyw6eQQ+T
-   7UOSXAmV2NHeS02Boa64x8H0OuxVGjlItT/JfrHteJl2dEvwWA2ASPaWu
-   yovp0+hLP1AC4sd35uT712ZyDGDblrBZmCapWbsHluO/8kGvQV5fAfW8g
-   1QtXjur2mF3ebPLgUq6Une99mCA8/1+xct3gJPebqHsiFoNC4jLlyj1H+
-   y4qli7UXml6UauqQ2oj5GcJgUFg+dnrNGeZ1Mtlujtu5xuCZQPcbIxhAV
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10467"; a="323984531"
-X-IronPort-AV: E=Sophos;i="5.93,308,1654585200"; 
-   d="scan'208";a="323984531"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2022 15:52:16 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,308,1654585200"; 
-   d="scan'208";a="791367928"
-Received: from lkp-server02.sh.intel.com (HELO 4011df4f4fd3) ([10.239.97.151])
-  by orsmga005.jf.intel.com with ESMTP; 11 Sep 2022 15:52:12 -0700
-Received: from kbuild by 4011df4f4fd3 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1oXVoC-0001vb-0U;
-        Sun, 11 Sep 2022 22:52:12 +0000
-Date:   Mon, 12 Sep 2022 06:52:06 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Mikhail Rudenko <mike.rudenko@gmail.com>,
+        Sun, 11 Sep 2022 20:44:19 -0400
+Received: from mail-oa1-f54.google.com (mail-oa1-f54.google.com [209.85.160.54])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5188927CF9;
+        Sun, 11 Sep 2022 17:44:18 -0700 (PDT)
+Received: by mail-oa1-f54.google.com with SMTP id 586e51a60fabf-12803ac8113so19440371fac.8;
+        Sun, 11 Sep 2022 17:44:18 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=message-id:date:subject:references:in-reply-to:cc:to:from
+         :x-gm-message-state:from:to:cc:subject:date;
+        bh=V+fdkvdPWRhvXn+afJKKR9vxZ+OhqSngIUjZosWiaGM=;
+        b=CwzMWhbmooMFXwzX8zqVWMtuNLpJ2KLVVKDkWjZRgq1tZhPztZ8TFzvNrf1KllNTkb
+         qiBTFL3egj+1Kw47Cdd44kuFJPaHDjUbgjp2FW/6Ldk0b2xOydMNLZK4GIyFvjoJUo5Z
+         xOf+97STy4agG3M4HYPu7YqqPD9qR2s9gwPQci4T3vxJOOxT03mfNPyF/ZUeVm6G7621
+         VGI8LgTOA4Sbzh+VPnIEZAMmwYHgIW5fwICMknXY65SfHf90M8BFZNrsUtARHBiUgDKG
+         QF1vJsiHJUPBly1ny9Mgsy1QKs29o5zLGGmRDJNaL/FBoT7+0WBpmqZyUSKtOHfVguK7
+         QSow==
+X-Gm-Message-State: ACgBeo20VfV5ksuHJCp30GiqIhCrv6xo1wdeRdgpVkeuvl8lrjsl8bF+
+        2EvjRhJ1ceMw7r/BR6/szFVRouvbdw==
+X-Google-Smtp-Source: AA6agR6EjSggqXBE7a+I9hL6SZCJ+S5mIWBC+TVZZAoQKWYb+xJHzJHktuQdS8OxzNaK4ZaxTze78Q==
+X-Received: by 2002:a05:6808:d4c:b0:345:32dc:7a69 with SMTP id w12-20020a0568080d4c00b0034532dc7a69mr8061256oik.118.1662943457205;
+        Sun, 11 Sep 2022 17:44:17 -0700 (PDT)
+Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id y5-20020a4ade05000000b00475790c9a08sm470912oot.16.2022.09.11.17.44.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 11 Sep 2022 17:44:16 -0700 (PDT)
+Received: (nullmailer pid 3629323 invoked by uid 1000);
+        Mon, 12 Sep 2022 00:44:15 -0000
+From:   Rob Herring <robh@kernel.org>
+To:     Hugues Fruchet <hugues.fruchet@foss.st.com>
+Cc:     linux-kernel@vger.kernel.org,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Shawn Tu <shawnx.tu@intel.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Daniel Scally <djrscally@gmail.com>,
-        Christian Hemp <c.hemp@phytec.de>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Marek Vasut <marex@denx.de>
-Cc:     kbuild-all@lists.01.org, linux-media@vger.kernel.org,
-        Mikhail Rudenko <mike.rudenko@gmail.com>,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] media: i2c: add support for ov4689
-Message-ID: <202209120637.Ypw3tniN-lkp@intel.com>
-References: <20220911200147.375198-3-mike.rudenko@gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220911200147.375198-3-mike.rudenko@gmail.com>
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+        linux-arm-kernel@lists.infradead.org,
+        Alain Volmat <alain.volmat@foss.st.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-media@vger.kernel.org,
+        Philippe CORNU <philippe.cornu@foss.st.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>, devicetree@vger.kernel.org
+In-Reply-To: <20220910144010.34272-2-hugues.fruchet@foss.st.com>
+References: <20220910144010.34272-1-hugues.fruchet@foss.st.com> <20220910144010.34272-2-hugues.fruchet@foss.st.com>
+Subject: Re: [PATCH v1 1/5] dt-bindings: media: add bindings for dcmipp driver
+Date:   Sun, 11 Sep 2022 19:44:15 -0500
+Message-Id: <1662943455.958018.3629322.nullmailer@robh.at.kernel.org>
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
+        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mikhail,
+On Sat, 10 Sep 2022 16:40:06 +0200, Hugues Fruchet wrote:
+> From: Alain Volmat <alain.volmat@foss.st.com>
+> 
+> Add the yaml binding for the DCMIPP driver.
+> 
+> Signed-off-by: Alain Volmat <alain.volmat@foss.st.com>
+> ---
+>  .../bindings/media/st,stm32-dcmipp.yaml       | 96 +++++++++++++++++++
+>  1 file changed, 96 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/st,stm32-dcmipp.yaml
+> 
 
-I love your patch! Perhaps something to improve:
+My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+on your patch (DT_CHECKER_FLAGS is new in v5.13):
 
-[auto build test WARNING on media-tree/master]
-[also build test WARNING on robh/for-next krzk-dt/for-next linus/master v6.0-rc5 next-20220909]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+yamllint warnings/errors:
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Mikhail-Rudenko/Add-Omnivision-OV4689-image-sensor-driver/20220912-040337
-base:   git://linuxtv.org/media_tree.git master
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20220912/202209120637.Ypw3tniN-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-5) 11.3.0
-reproduce (this is a W=1 build):
-        # https://github.com/intel-lab-lkp/linux/commit/7c4d2965802d2be20badfef953b1d6f0d13d718f
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Mikhail-Rudenko/Add-Omnivision-OV4689-image-sensor-driver/20220912-040337
-        git checkout 7c4d2965802d2be20badfef953b1d6f0d13d718f
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/media/i2c/
+dtschema/dtc warnings/errors:
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/media/st,stm32-dcmipp.example.dtb: dcmipp@5a000000: port:endpoint: Unevaluated properties are not allowed ('pclk-max-frequency' was unexpected)
+	From schema: /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/media/st,stm32-dcmipp.yaml
 
-If you fix the issue, kindly add following tag where applicable
-Reported-by: kernel test robot <lkp@intel.com>
+doc reference errors (make refcheckdocs):
 
-All warnings (new ones prefixed by >>):
+See https://patchwork.ozlabs.org/patch/
 
->> drivers/media/i2c/ov4689.c:112:28: warning: 'ov4689_global_regs' defined but not used [-Wunused-const-variable=]
-     112 | static const struct regval ov4689_global_regs[] = {
-         |                            ^~~~~~~~~~~~~~~~~~
+This check can fail if there are any dependencies. The base for a patch
+series is generally the most recent rc1.
 
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
 
-vim +/ov4689_global_regs +112 drivers/media/i2c/ov4689.c
+pip3 install dtschema --upgrade
 
-   108	
-   109	/*
-   110	 * Xclk 24Mhz
-   111	 */
- > 112	static const struct regval ov4689_global_regs[] = {
-   113		{ REG_NULL, 0x00 },
-   114	};
-   115	
+Please check and re-submit.
 
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
