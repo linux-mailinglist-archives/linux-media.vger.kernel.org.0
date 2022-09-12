@@ -2,105 +2,101 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8C3E95B5247
-	for <lists+linux-media@lfdr.de>; Mon, 12 Sep 2022 02:44:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3DDE75B52DD
+	for <lists+linux-media@lfdr.de>; Mon, 12 Sep 2022 05:35:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229626AbiILAoU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 11 Sep 2022 20:44:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53640 "EHLO
+        id S229809AbiILDfo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 11 Sep 2022 23:35:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56868 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229570AbiILAoT (ORCPT
+        with ESMTP id S229544AbiILDdn (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 11 Sep 2022 20:44:19 -0400
-Received: from mail-oa1-f54.google.com (mail-oa1-f54.google.com [209.85.160.54])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5188927CF9;
-        Sun, 11 Sep 2022 17:44:18 -0700 (PDT)
-Received: by mail-oa1-f54.google.com with SMTP id 586e51a60fabf-12803ac8113so19440371fac.8;
-        Sun, 11 Sep 2022 17:44:18 -0700 (PDT)
+        Sun, 11 Sep 2022 23:33:43 -0400
+Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com [IPv6:2607:f8b0:4864:20::62c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9622A29CAC;
+        Sun, 11 Sep 2022 20:30:38 -0700 (PDT)
+Received: by mail-pl1-x62c.google.com with SMTP id l10so7326368plb.10;
+        Sun, 11 Sep 2022 20:30:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date;
+        bh=sKbomRMGom70krm78pjOhP3vYpEjxELi8i1q/e0SlpY=;
+        b=ZYw3ZzYbu5vDHbMg9BQC0jtdwdYGnkNYBLtlJ433hzRXIIhH7mP5TErdP64efnHF02
+         +MVuI8NG9NmvMrzZPt58tjXrW1ZO/xSUQDLk5lpTzyWE/Rw3s1BnCjVe7yJi3AcjY5CI
+         8NF7FlGxmVeR4+9zKxpwxM04PdAdf2JqyF24eJMKpn1tqVCH8rlP8uyLNcaZbOkwERu0
+         NqaqP2/GzaDsLWg0n9X9GfCyaOH/tX8KeB2+5rKrIr0yClzPXv6AbpUTVoXN/y9yWf4G
+         55DQV9QmwfkDwxyMHJDoIpbJobjM9LEt8NTAPPuPVxuPMuhZAmwbEkxDtB2vn4riXTxo
+         leOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=message-id:date:subject:references:in-reply-to:cc:to:from
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=V+fdkvdPWRhvXn+afJKKR9vxZ+OhqSngIUjZosWiaGM=;
-        b=CwzMWhbmooMFXwzX8zqVWMtuNLpJ2KLVVKDkWjZRgq1tZhPztZ8TFzvNrf1KllNTkb
-         qiBTFL3egj+1Kw47Cdd44kuFJPaHDjUbgjp2FW/6Ldk0b2xOydMNLZK4GIyFvjoJUo5Z
-         xOf+97STy4agG3M4HYPu7YqqPD9qR2s9gwPQci4T3vxJOOxT03mfNPyF/ZUeVm6G7621
-         VGI8LgTOA4Sbzh+VPnIEZAMmwYHgIW5fwICMknXY65SfHf90M8BFZNrsUtARHBiUgDKG
-         QF1vJsiHJUPBly1ny9Mgsy1QKs29o5zLGGmRDJNaL/FBoT7+0WBpmqZyUSKtOHfVguK7
-         QSow==
-X-Gm-Message-State: ACgBeo20VfV5ksuHJCp30GiqIhCrv6xo1wdeRdgpVkeuvl8lrjsl8bF+
-        2EvjRhJ1ceMw7r/BR6/szFVRouvbdw==
-X-Google-Smtp-Source: AA6agR6EjSggqXBE7a+I9hL6SZCJ+S5mIWBC+TVZZAoQKWYb+xJHzJHktuQdS8OxzNaK4ZaxTze78Q==
-X-Received: by 2002:a05:6808:d4c:b0:345:32dc:7a69 with SMTP id w12-20020a0568080d4c00b0034532dc7a69mr8061256oik.118.1662943457205;
-        Sun, 11 Sep 2022 17:44:17 -0700 (PDT)
-Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id y5-20020a4ade05000000b00475790c9a08sm470912oot.16.2022.09.11.17.44.16
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date;
+        bh=sKbomRMGom70krm78pjOhP3vYpEjxELi8i1q/e0SlpY=;
+        b=Q1d+0Cdb1HmFFOOgbPr7B4PSPaagc7rKMq0TfWYR/QAkMkcuWpG+lRZZ1bMetXytXL
+         4H8E31Zkc9smfv1/FplKbZtTid1Y8o3tMhcPSxwE9xHa8ZRqN8qm8euTDimS2+ZN5IEZ
+         fcWTg36XPKLjAwxZdo9KjMjR51PQGpYTrllrQcmlaVb/Pb+qVbwJTblQl9VW159WGPCi
+         gNiMP1FSRi8YmvkfhX0dwmERQ51Q1huCBoJCDBYV20nUWVgGfhu6gNCnCDI2Sk0bHDei
+         3it7+E980+YGYSf4ATRnOA+FUtw7PK70BcFzjtGrkYdIJM32dzeYS/o7auwAtGx/RAAd
+         i27w==
+X-Gm-Message-State: ACgBeo3discVrs6+dgugq13+fJO1abVey/q8qJqEWSuqDl0050qvisAJ
+        G/1TaxWxb3bTzyYagOGIP7s=
+X-Google-Smtp-Source: AA6agR5mMcNSUN0ubuaXtcptrlA41MCJ15Q5xLlOytiB6BZptyu+5PtC2H1EOaddT+BL13/1OuOgrA==
+X-Received: by 2002:a17:90b:2704:b0:1fd:aaa9:6d0b with SMTP id px4-20020a17090b270400b001fdaaa96d0bmr21605086pjb.128.1662953437873;
+        Sun, 11 Sep 2022 20:30:37 -0700 (PDT)
+Received: from localhost.localdomain ([193.203.214.57])
+        by smtp.gmail.com with ESMTPSA id s15-20020a17090a13cf00b00200de8ebc2bsm4062811pjf.13.2022.09.11.20.30.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 11 Sep 2022 17:44:16 -0700 (PDT)
-Received: (nullmailer pid 3629323 invoked by uid 1000);
-        Mon, 12 Sep 2022 00:44:15 -0000
-From:   Rob Herring <robh@kernel.org>
-To:     Hugues Fruchet <hugues.fruchet@foss.st.com>
-Cc:     linux-kernel@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-arm-kernel@lists.infradead.org,
-        Alain Volmat <alain.volmat@foss.st.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-media@vger.kernel.org,
-        Philippe CORNU <philippe.cornu@foss.st.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>, devicetree@vger.kernel.org
-In-Reply-To: <20220910144010.34272-2-hugues.fruchet@foss.st.com>
-References: <20220910144010.34272-1-hugues.fruchet@foss.st.com> <20220910144010.34272-2-hugues.fruchet@foss.st.com>
-Subject: Re: [PATCH v1 1/5] dt-bindings: media: add bindings for dcmipp driver
-Date:   Sun, 11 Sep 2022 19:44:15 -0500
-Message-Id: <1662943455.958018.3629322.nullmailer@robh.at.kernel.org>
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
-        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=no autolearn_force=no version=3.4.6
+        Sun, 11 Sep 2022 20:30:37 -0700 (PDT)
+From:   cgel.zte@gmail.com
+X-Google-Original-From: xu.panda@zte.com,cn
+To:     alexander.deucher@amd.com
+Cc:     christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@linux.ie,
+        daniel@ffwll.ch, sumit.semwal@linaro.org, Felix.Kuehling@amd.com,
+        jonathan.kim@amd.com, Philip.Yang@amd.com, nirmoy.das@amd.com,
+        rajneesh.bhardwaj@amd.com, zackr@vmware.com,
+        Arunpravin.PaneerSelvam@amd.com, amd-gfx@lists.freedesktop.org,
+        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+        Xu Panda <xu.panda@zte.com.cn>, Zeal Robot <zealci@zte.com.cn>
+Subject: [PATCH linux-next] drm/ttm: remove duplicate included header files
+Date:   Mon, 12 Sep 2022 03:30:22 +0000
+Message-Id: <20220912033021.16320-1-xu.panda@zte.com.cn>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sat, 10 Sep 2022 16:40:06 +0200, Hugues Fruchet wrote:
-> From: Alain Volmat <alain.volmat@foss.st.com>
-> 
-> Add the yaml binding for the DCMIPP driver.
-> 
-> Signed-off-by: Alain Volmat <alain.volmat@foss.st.com>
-> ---
->  .../bindings/media/st,stm32-dcmipp.yaml       | 96 +++++++++++++++++++
->  1 file changed, 96 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/st,stm32-dcmipp.yaml
-> 
+From: Xu Panda <xu.panda@zte.com.cn>
 
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
+drm/drm_drv.h is included more than once.
 
-yamllint warnings/errors:
+Reported-by: Zeal Robot <zealci@zte.com.cn>
+Signed-off-by: Xu Panda <xu.panda@zte.com.cn>
+---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-dtschema/dtc warnings/errors:
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/media/st,stm32-dcmipp.example.dtb: dcmipp@5a000000: port:endpoint: Unevaluated properties are not allowed ('pclk-max-frequency' was unexpected)
-	From schema: /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/media/st,stm32-dcmipp.yaml
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+index b1c455329023..c659d4535ee0 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+@@ -43,7 +43,6 @@
+ #include <linux/sizes.h>
+ #include <linux/module.h>
 
-doc reference errors (make refcheckdocs):
-
-See https://patchwork.ozlabs.org/patch/
-
-This check can fail if there are any dependencies. The base for a patch
-series is generally the most recent rc1.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit.
+-#include <drm/drm_drv.h>
+ #include <drm/ttm/ttm_bo_api.h>
+ #include <drm/ttm/ttm_bo_driver.h>
+ #include <drm/ttm/ttm_placement.h>
+-- 
+2.15.2
 
