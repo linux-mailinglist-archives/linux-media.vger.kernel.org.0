@@ -2,68 +2,67 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 974585B5D92
-	for <lists+linux-media@lfdr.de>; Mon, 12 Sep 2022 17:45:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D37595B5DB0
+	for <lists+linux-media@lfdr.de>; Mon, 12 Sep 2022 17:51:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229631AbiILPpa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 12 Sep 2022 11:45:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51798 "EHLO
+        id S229553AbiILPvt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 12 Sep 2022 11:51:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58976 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229826AbiILPp3 (ORCPT
+        with ESMTP id S229978AbiILPvr (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 12 Sep 2022 11:45:29 -0400
-Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com [IPv6:2a00:1450:4864:20::42a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DF7A02E9C3
-        for <linux-media@vger.kernel.org>; Mon, 12 Sep 2022 08:45:25 -0700 (PDT)
-Received: by mail-wr1-x42a.google.com with SMTP id bq9so16059024wrb.4
-        for <linux-media@vger.kernel.org>; Mon, 12 Sep 2022 08:45:25 -0700 (PDT)
+        Mon, 12 Sep 2022 11:51:47 -0400
+Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com [IPv6:2a00:1450:4864:20::335])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 868523AE48
+        for <linux-media@vger.kernel.org>; Mon, 12 Sep 2022 08:51:45 -0700 (PDT)
+Received: by mail-wm1-x335.google.com with SMTP id d5so7447675wms.5
+        for <linux-media@vger.kernel.org>; Mon, 12 Sep 2022 08:51:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
         h=mime-version:user-agent:content-transfer-encoding:references
          :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
          :date;
-        bh=AwjmfBqQK+8fOTNrupWWLWrq7H4lwl+sJc5XKH+WJS4=;
-        b=kQtSlpCHsRAkcG4lYBeBAEcKakhgia3M9s0bKWIFCDL5h9+JjY/8ujExEPjN+b8keZ
-         mGjl3X6PC5AnzcbfnTNJ328ycJbp5P2JedUXnSabdkehinHnZqbMJ1Rkmk+/Qo7dweE2
-         jCLdgn49raNe5bhWAjmWltYwM2boF3oUyNm8stVf6m7l9iu5H/5f6yPhRsMSLMqd22xS
-         J5ga9Hr2qf4CaVOXkvBU2ZjWm3xSkOb+Mg+1+cEA9gKUTP7uqRv7OAK+te4raoJyinxa
-         sgi0a5+yv45M2YWvPMw7EwkQmlwaglAXHmqIm9D2EeLEvij5W3S4JMplI0oHSIC3Nkkk
-         Mc6A==
+        bh=Jjn/1zVd12FVb/LCdNWe0Wf4ruutE5LvweefnNNf7tA=;
+        b=FgTvhIkGinjfGqyh9asR8Qfyqp8Kv5+LGHJ/MjaV1DJ1kyJYCjMVQLE4LAQMJVwOdg
+         HeHDX6mnSzOe2kLfsUkd1f6JCfsmilLeXRF7Om8FefEoEVsMqmk3HpN2eRSp77AvvrlK
+         w6D9fAbcrB1qc8BHpHfbhzvLvlEeapApqF2Oqd475NGXQPnxP/+AXKjnZvv1NZ4jwdX8
+         xX7GRDdmyNdmjaPJ5v7wyc46P5TuW5SjXfFhVsGm+br5HjgETmtsOrosrAMswYhN7ZqW
+         oayVNXydA06ZGa1zrgGrMQ4mpmjBk9X2jp53t+8axY+Iq/ObDqlCWh64ywasynKYnMbR
+         K6Lg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=mime-version:user-agent:content-transfer-encoding:references
          :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
          :from:to:cc:subject:date;
-        bh=AwjmfBqQK+8fOTNrupWWLWrq7H4lwl+sJc5XKH+WJS4=;
-        b=00vEk1/t0Mjj7D5ceT57cmxLajLw+gjOehjcy6FmkuBIA7TeubfYeswZMEZkfYZAim
-         jHhHWc1g/8eVj8IOa/rlZ0ZPnAx4czJo5TTY2YqtZUN/Sz1U0pY4jA9X9cn+oRrh4OhQ
-         oXVGZbsBSaRZk3WZZJA061PgnRBm02XPrl/MtmDs1UvQBC4SZppQkZUUmGAHyhdVqJv6
-         5KQcHJhnvqxnNB68yprokq07ARrwKoyq/7u9rKd0TRssPPaviDoAz3Rkumcm7g3Y38MS
-         7YFaSUrO24Z8PXngMZDGYJJkpXnWbgh21C2uAAQ80pJXIhCZLXBewoIkxB6BNRcydVLH
-         2ENw==
-X-Gm-Message-State: ACgBeo0RiuhfXco1Rek6vorXml4Z9aoIeVDp7XXUr9B1N+zfdWLPnqZG
-        wIw/VN5+O111qc+QCeqeLKwTRg==
-X-Google-Smtp-Source: AA6agR4M5GXma4pcjaqpUOwYcxT6xeDiFg8Mp7VcsvW08P/chbsqnwETAcapyzgBMQFEsZclvzL3wg==
-X-Received: by 2002:a5d:68c6:0:b0:228:74b6:2b07 with SMTP id p6-20020a5d68c6000000b0022874b62b07mr15214144wrw.60.1662997524395;
-        Mon, 12 Sep 2022 08:45:24 -0700 (PDT)
+        bh=Jjn/1zVd12FVb/LCdNWe0Wf4ruutE5LvweefnNNf7tA=;
+        b=pppcG58Uazwfmw1vxN3NZlMkJ4olZZDxep/z3mybGeHFMYvHR2BSq0TSE3i6JwZaur
+         OERq0TPSQCQWTZ9byjoJFSD4xk3PO9KZm1uiHW7nD2Bf3p/1o3e1csL+9hY8xA+asWi4
+         nqAyqhTIl+e0JCFMV2JoNiFAI1UvgSv5zIz0olECTbiHcqKyUt1mcx06Pmpd/XzmqtCm
+         xx9KbLyGreHnIAfHwVtso2LC/5rBzUeobjlkGX8QWRbPVjLFE34IxapdLfcD1Kbg2FhD
+         motf5mCR3bNhld/ypvTboqvOiv0PolCyA/0BehJUusZC2MSznEJZKWCmhV5+ooEGMzu1
+         XnXQ==
+X-Gm-Message-State: ACgBeo3C/soZZIDFUcPnSHv7waR+m9FL8OuR/IvZgWtBzAG3yBNwgjqy
+        /lJy3tFavFoPodnhY8MLED/Tgg==
+X-Google-Smtp-Source: AA6agR5eyZ2h7w5RjLLSG7d5FjPPg1lIVlIgHyhE2xP7rmlWEP9A/rNyYsvXeoQ7pSdi0cy0hCLiNw==
+X-Received: by 2002:a05:600c:a02:b0:3ad:455c:b710 with SMTP id z2-20020a05600c0a0200b003ad455cb710mr14610241wmp.56.1662997903969;
+        Mon, 12 Sep 2022 08:51:43 -0700 (PDT)
 Received: from nicolas-tpx395.localdomain ([89.101.193.70])
-        by smtp.gmail.com with ESMTPSA id 11-20020a05600c020b00b003b4868eb6bbsm5213664wmi.23.2022.09.12.08.45.23
+        by smtp.gmail.com with ESMTPSA id n186-20020a1ca4c3000000b003b47b80cec3sm6144829wme.42.2022.09.12.08.51.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 Sep 2022 08:45:23 -0700 (PDT)
-Message-ID: <b5f4e1cc04ba35d92839932d431726fd42f24320.camel@ndufresne.ca>
-Subject: Re: [PATCH V2] [media] v4l2: Add AV1 pixel format
+        Mon, 12 Sep 2022 08:51:43 -0700 (PDT)
+Message-ID: <9f7e07991c509b3179ea3c4c8def5e6e19f508e2.camel@ndufresne.ca>
+Subject: Re: [PATCH v5 2/4] media: v4l: ctrls: Add a control for HDR mode
 From:   Nicolas Dufresne <nicolas@ndufresne.ca>
-To:     Shi Hao <hao.shi@amlogic.com>, laurent.pinchart@ideasonboard.com,
-        nanxin.qin@amlogic.com
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        mchehab@kernel.org, hans.verkuil@cisco.com,
-        hverkuil-cisco@xs4all.nl, ezequiel@vanguardiasur.com.ar,
-        sakari.ailus@linux.intel.com, ribalda@chromium.org,
-        stanimir.varbanov@linaro.org, hui.zhang@amlogic.com,
-        lele.xiang@amlogic.com
-Date:   Mon, 12 Sep 2022 16:45:22 +0100
-In-Reply-To: <20220830014032.1245359-1-hao.shi@amlogic.com>
-References: <20220830014032.1245359-1-hao.shi@amlogic.com>
+To:     Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+        linux-media@vger.kernel.org
+Cc:     alain.volmat@foss.st.com, hugues.fruchet@foss.st.com,
+        sylvain.petinot@foss.st.com, dave.stevenson@raspberrypi.com,
+        sakari.ailus@linux.intel.com, laurent.pinchart@ideasonboard.com,
+        kieran.bingham@ideasonboard.com
+Date:   Mon, 12 Sep 2022 16:51:42 +0100
+In-Reply-To: <20220831090118.104057-3-benjamin.mugnier@foss.st.com>
+References: <20220831090118.104057-1-benjamin.mugnier@foss.st.com>
+         <20220831090118.104057-3-benjamin.mugnier@foss.st.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.44.4 (3.44.4-1.fc36) 
@@ -77,91 +76,84 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Shi,
+Hi Benjamin,
 
-thanks for the patches, check inline for some comments. Generally speaking,=
- we
-don't usually add formats ahead of time unless we have a good rationale to =
-do
-so. Should be expect a companion series against the amlogic decoder driver =
-that
-enables this ?
-
-Le mardi 30 ao=C3=BBt 2022 =C3=A0 09:40 +0800, Shi Hao a =C3=A9crit=C2=A0:
-> From: "hao.shi" <hao.shi@amlogic.com>
+Le mercredi 31 ao=C3=BBt 2022 =C3=A0 11:01 +0200, Benjamin Mugnier a =C3=A9=
+crit=C2=A0:
+> Add V4L2_CID_HDR_MODE as a menu item control to set the HDR mode of the
+> sensor, and its documentation.
+> Menu items are not standardized as they differ for each sensors.
 >=20
-> Add AV1 compressed pixel format. It is the more common format.
->=20
-> Signed-off-by: Hao Shi <hao.shi@amlogic.com>
+> Signed-off-by: Benjamin Mugnier <benjamin.mugnier@foss.st.com>
 > ---
->  .../userspace-api/media/v4l/pixfmt-compressed.rst        | 9 +++++++++
->  drivers/media/v4l2-core/v4l2-ioctl.c                     | 1 +
->  include/uapi/linux/videodev2.h                           | 1 +
->  3 files changed, 11 insertions(+)
+>  .../userspace-api/media/v4l/ext-ctrls-camera.rst          | 8 ++++++++
+>  drivers/media/v4l2-core/v4l2-ctrls-defs.c                 | 2 ++
+>  include/uapi/linux/v4l2-controls.h                        | 2 ++
+>  3 files changed, 12 insertions(+)
 >=20
-> diff --git a/Documentation/userspace-api/media/v4l/pixfmt-compressed.rst =
-b/Documentation/userspace-api/media/v4l/pixfmt-compressed.rst
-> index 506dd3c98884..5bdeeebdf9f5 100644
-> --- a/Documentation/userspace-api/media/v4l/pixfmt-compressed.rst
-> +++ b/Documentation/userspace-api/media/v4l/pixfmt-compressed.rst
-> @@ -232,6 +232,15 @@ Compressed Formats
->          Metadata associated with the frame to decode is required to be p=
-assed
->          through the ``V4L2_CID_STATELESS_FWHT_PARAMS`` control.
->  	See the :ref:`associated Codec Control ID <codec-stateless-fwht>`.
-> +    * .. _V4L2-PIX-FMT-AV1:
+> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst b=
+/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst
+> index 4c5061aa9cd4..0ee09ff250e7 100644
+> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst
+> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst
+> @@ -661,3 +661,11 @@ enum v4l2_scene_mode -
+>  .. [#f1]
+>     This control may be changed to a menu control in the future, if more
+>     options are required.
 > +
-> +      - ``V4L2_PIX_FMT_AV1``
-> +      - 'AV1'
-> +      - AV1 Access Unit. The decoder expects one Access Unit per buffer.
+> +``V4L2_CID_HDR_MODE (menu)``
 
-I believe this is using a MPEG LA terminology. Did you mean a Temporal Unit=
- (TU)
-? In AV1 a TU represent 1 displayable picture, just like AU in H.264 (if yo=
-u
-ignore interlaced video).
+Perhaps try to make this more sensor specific in it name ?
+V4L2_CID_HDR_SENSOR_MODE ?
 
-> +        The encoder generates one Access Unit per buffer. This format is
-> +        adapted for stateful video decoders. AV1 (AOMedia Video 1) is an
-> +        open video coding format. It was developed as a successor to VP9
-> +        by the Alliance for Open Media (AOMedia).
+> +    Change the sensor HDR mode. A HDR picture is obtained by merging two
+> +    captures of the same scene using two different exposure periods. HDR=
+ mode
+> +    describes the way these two captures are merged in the sensor.
+> +
+> +    As modes differ for each sensor, menu items are not standardized by =
+this
+> +    control and are left to the programmer.
+
+I do have concern about this approach. Can you clarify ?
+
+regards,
+Nicolas
+
+> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-defs.c b/drivers/media/v4=
+l2-core/v4l2-ctrls-defs.c
+> index e22921e7ea61..0854de1ef1a5 100644
+> --- a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+> +++ b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+> @@ -1043,6 +1043,7 @@ const char *v4l2_ctrl_get_name(u32 id)
+>  	case V4L2_CID_UNIT_CELL_SIZE:		return "Unit Cell Size";
+>  	case V4L2_CID_CAMERA_ORIENTATION:	return "Camera Orientation";
+>  	case V4L2_CID_CAMERA_SENSOR_ROTATION:	return "Camera Sensor Rotation";
+> +	case V4L2_CID_HDR_MODE:			return "HDR mode";
 > =20
->  .. raw:: latex
+>  	/* FM Radio Modulator controls */
+>  	/* Keep the order of the 'case's the same as in v4l2-controls.h! */
+> @@ -1370,6 +1371,7 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum=
+ v4l2_ctrl_type *type,
+>  	case V4L2_CID_STATELESS_H264_START_CODE:
+>  	case V4L2_CID_CAMERA_ORIENTATION:
+>  	case V4L2_CID_MPEG_VIDEO_INTRA_REFRESH_PERIOD_TYPE:
+> +	case V4L2_CID_HDR_MODE:
+>  		*type =3D V4L2_CTRL_TYPE_MENU;
+>  		break;
+>  	case V4L2_CID_LINK_FREQ:
+> diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2=
+-controls.h
+> index 5f46bf4a570c..5dfd38b09768 100644
+> --- a/include/uapi/linux/v4l2-controls.h
+> +++ b/include/uapi/linux/v4l2-controls.h
+> @@ -1013,6 +1013,8 @@ enum v4l2_auto_focus_range {
 > =20
-> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-co=
-re/v4l2-ioctl.c
-> index c314025d977e..fc0f43228546 100644
-> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
-> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-> @@ -1497,6 +1497,7 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *f=
-mt)
->  		case V4L2_PIX_FMT_MT21C:	descr =3D "Mediatek Compressed Format"; break=
-;
->  		case V4L2_PIX_FMT_QC08C:	descr =3D "QCOM Compressed 8-bit Format"; bre=
-ak;
->  		case V4L2_PIX_FMT_QC10C:	descr =3D "QCOM Compressed 10-bit Format"; br=
-eak;
-> +		case V4L2_PIX_FMT_AV1:		descr =3D "AV1"; break;
->  		default:
->  			if (fmt->description[0])
->  				return;
-> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev=
-2.h
-> index 01e630f2ec78..c5ea9f38d807 100644
-> --- a/include/uapi/linux/videodev2.h
-> +++ b/include/uapi/linux/videodev2.h
-> @@ -738,6 +738,7 @@ struct v4l2_pix_format {
->  #define V4L2_PIX_FMT_FWHT_STATELESS     v4l2_fourcc('S', 'F', 'W', 'H') =
-/* Stateless FWHT (vicodec) */
->  #define V4L2_PIX_FMT_H264_SLICE v4l2_fourcc('S', '2', '6', '4') /* H264 =
-parsed slices */
->  #define V4L2_PIX_FMT_HEVC_SLICE v4l2_fourcc('S', '2', '6', '5') /* HEVC =
-parsed slices */
-> +#define V4L2_PIX_FMT_AV1      v4l2_fourcc('A', 'V', '1', '0') /* AV1 */
+>  #define V4L2_CID_CAMERA_SENSOR_ROTATION		(V4L2_CID_CAMERA_CLASS_BASE+35)
 > =20
->  /*  Vendor-specific formats   */
->  #define V4L2_PIX_FMT_CPIA1    v4l2_fourcc('C', 'P', 'I', 'A') /* cpia1 Y=
-UV */
->=20
-> base-commit: 568035b01cfb107af8d2e4bd2fb9aea22cf5b868
+> +#define V4L2_CID_HDR_MODE			(V4L2_CID_CAMERA_CLASS_BASE+36)
+> +
+>  /* FM Modulator class control IDs */
+> =20
+>  #define V4L2_CID_FM_TX_CLASS_BASE		(V4L2_CTRL_CLASS_FM_TX | 0x900)
 
