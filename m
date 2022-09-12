@@ -2,99 +2,166 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 165815B5C7A
-	for <lists+linux-media@lfdr.de>; Mon, 12 Sep 2022 16:42:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 974585B5D92
+	for <lists+linux-media@lfdr.de>; Mon, 12 Sep 2022 17:45:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230086AbiILOm0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 12 Sep 2022 10:42:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51572 "EHLO
+        id S229631AbiILPpa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 12 Sep 2022 11:45:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51798 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230293AbiILOmE (ORCPT
+        with ESMTP id S229826AbiILPp3 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 12 Sep 2022 10:42:04 -0400
-Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com [IPv6:2607:f8b0:4864:20::62a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 26786356EE
-        for <linux-media@vger.kernel.org>; Mon, 12 Sep 2022 07:41:46 -0700 (PDT)
-Received: by mail-pl1-x62a.google.com with SMTP id x1so8807604plv.5
-        for <linux-media@vger.kernel.org>; Mon, 12 Sep 2022 07:41:46 -0700 (PDT)
+        Mon, 12 Sep 2022 11:45:29 -0400
+Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com [IPv6:2a00:1450:4864:20::42a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DF7A02E9C3
+        for <linux-media@vger.kernel.org>; Mon, 12 Sep 2022 08:45:25 -0700 (PDT)
+Received: by mail-wr1-x42a.google.com with SMTP id bq9so16059024wrb.4
+        for <linux-media@vger.kernel.org>; Mon, 12 Sep 2022 08:45:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlemail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date;
-        bh=Ff+zeYOGhl0GRcmIWHpr6gXpp5v27YUFrc/3zntPxqw=;
-        b=BqBQ6sixgy5R0Ho4spFu1DbPM0/T8xLPxRaAK3PhTD5NbvqD9mEFsgCzkwaaxJk8TF
-         pscG2OZyBt/HXl7PMoEtEv3FBf2jo6LAV9Ecrw8I/W2ZBhNg2Hcdi++4grXBpyt2pCBf
-         0vKg+DBAaQ40ghZtNluAh1sWmZgalUQ4A61OAfRByjpVYEkgSFDoc0cOoCLOCTnodaO4
-         5oplPxuKjFDc2kzfGYYbIKsEBX2236Xi64O1roJPmnnPOp/Zb2LCj7BysWm13uZKkS4g
-         P3/ziBDsFJPFg76eefLkkth+pyf+zlOjv54dUCWOTWz4hwrk8+wo6Q9EIVa4J/EnENhj
-         /X9g==
+        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date;
+        bh=AwjmfBqQK+8fOTNrupWWLWrq7H4lwl+sJc5XKH+WJS4=;
+        b=kQtSlpCHsRAkcG4lYBeBAEcKakhgia3M9s0bKWIFCDL5h9+JjY/8ujExEPjN+b8keZ
+         mGjl3X6PC5AnzcbfnTNJ328ycJbp5P2JedUXnSabdkehinHnZqbMJ1Rkmk+/Qo7dweE2
+         jCLdgn49raNe5bhWAjmWltYwM2boF3oUyNm8stVf6m7l9iu5H/5f6yPhRsMSLMqd22xS
+         J5ga9Hr2qf4CaVOXkvBU2ZjWm3xSkOb+Mg+1+cEA9gKUTP7uqRv7OAK+te4raoJyinxa
+         sgi0a5+yv45M2YWvPMw7EwkQmlwaglAXHmqIm9D2EeLEvij5W3S4JMplI0oHSIC3Nkkk
+         Mc6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=Ff+zeYOGhl0GRcmIWHpr6gXpp5v27YUFrc/3zntPxqw=;
-        b=7qXDiWgNpQAj1QENE5bTBbwZNGlm6fAgc/YOfyFUTSprDFSzQy9xxryzdCdxpUp9iz
-         cLr8EQpo4FXEJAvfdi3ccOBQguQ4JgmEomN/999QJRQncUQzhbfiaqmk2RLFbqq6Dax9
-         WNsSstRmpXpuBo/qUda/ocuSzSu5m35hMEuh+fP0XjdTHvv1AvRaTR+YwQa4nE8ZsagG
-         9BQEgbpNikZK8o2fdbsKBR2ohtBg8teR0h5IBZkQ1NHeqRRZguuTILAjhbrAxv8TYTM1
-         YGt09q8QWkG6FTLJC7FXMdwdRW9DuyGtjLDRJDX8SnplUF6JqEq9Butj4D7s5Ht5NC+C
-         Pbjg==
-X-Gm-Message-State: ACgBeo39wzLOlOTr3tu/3tym1iRqxZaTTqzqAsPDlivESHQMoYuWN5Qz
-        za8CNzMq79yiDzcDD9r4xgk=
-X-Google-Smtp-Source: AA6agR5+uRufxScOzJFFg0OJhrHWVGhGHdxM7QRifgV6YOSqCHOrG1MwUBBS6ql+VsrMX3LAILpGpw==
-X-Received: by 2002:a17:90b:1b12:b0:200:5dbd:adff with SMTP id nu18-20020a17090b1b1200b002005dbdadffmr24606605pjb.43.1662993705437;
-        Mon, 12 Sep 2022 07:41:45 -0700 (PDT)
-Received: from [192.168.0.51] (ip5f5a621e.dynamic.kabel-deutschland.de. [95.90.98.30])
-        by smtp.gmail.com with ESMTPSA id 1-20020a17090a0f8100b002004a2eab5bsm5287760pjz.14.2022.09.12.07.41.37
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 12 Sep 2022 07:41:45 -0700 (PDT)
-Message-ID: <c96f4806-13ec-335f-68ab-10194411da43@googlemail.com>
-Date:   Mon, 12 Sep 2022 16:41:33 +0200
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date;
+        bh=AwjmfBqQK+8fOTNrupWWLWrq7H4lwl+sJc5XKH+WJS4=;
+        b=00vEk1/t0Mjj7D5ceT57cmxLajLw+gjOehjcy6FmkuBIA7TeubfYeswZMEZkfYZAim
+         jHhHWc1g/8eVj8IOa/rlZ0ZPnAx4czJo5TTY2YqtZUN/Sz1U0pY4jA9X9cn+oRrh4OhQ
+         oXVGZbsBSaRZk3WZZJA061PgnRBm02XPrl/MtmDs1UvQBC4SZppQkZUUmGAHyhdVqJv6
+         5KQcHJhnvqxnNB68yprokq07ARrwKoyq/7u9rKd0TRssPPaviDoAz3Rkumcm7g3Y38MS
+         7YFaSUrO24Z8PXngMZDGYJJkpXnWbgh21C2uAAQ80pJXIhCZLXBewoIkxB6BNRcydVLH
+         2ENw==
+X-Gm-Message-State: ACgBeo0RiuhfXco1Rek6vorXml4Z9aoIeVDp7XXUr9B1N+zfdWLPnqZG
+        wIw/VN5+O111qc+QCeqeLKwTRg==
+X-Google-Smtp-Source: AA6agR4M5GXma4pcjaqpUOwYcxT6xeDiFg8Mp7VcsvW08P/chbsqnwETAcapyzgBMQFEsZclvzL3wg==
+X-Received: by 2002:a5d:68c6:0:b0:228:74b6:2b07 with SMTP id p6-20020a5d68c6000000b0022874b62b07mr15214144wrw.60.1662997524395;
+        Mon, 12 Sep 2022 08:45:24 -0700 (PDT)
+Received: from nicolas-tpx395.localdomain ([89.101.193.70])
+        by smtp.gmail.com with ESMTPSA id 11-20020a05600c020b00b003b4868eb6bbsm5213664wmi.23.2022.09.12.08.45.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 12 Sep 2022 08:45:23 -0700 (PDT)
+Message-ID: <b5f4e1cc04ba35d92839932d431726fd42f24320.camel@ndufresne.ca>
+Subject: Re: [PATCH V2] [media] v4l2: Add AV1 pixel format
+From:   Nicolas Dufresne <nicolas@ndufresne.ca>
+To:     Shi Hao <hao.shi@amlogic.com>, laurent.pinchart@ideasonboard.com,
+        nanxin.qin@amlogic.com
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        mchehab@kernel.org, hans.verkuil@cisco.com,
+        hverkuil-cisco@xs4all.nl, ezequiel@vanguardiasur.com.ar,
+        sakari.ailus@linux.intel.com, ribalda@chromium.org,
+        stanimir.varbanov@linaro.org, hui.zhang@amlogic.com,
+        lele.xiang@amlogic.com
+Date:   Mon, 12 Sep 2022 16:45:22 +0100
+In-Reply-To: <20220830014032.1245359-1-hao.shi@amlogic.com>
+References: <20220830014032.1245359-1-hao.shi@amlogic.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.4 (3.44.4-1.fc36) 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.2.2
-Subject: Re: [PATCH v7 0/5] Switch build system to meson
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-media@vger.kernel.org
-Cc:     ezequiel@collabora.com, hverkuil@xs4all.nl,
-        kieran.bingham@ideasonboard.com, mchehab@kernel.org,
-        nicolas@ndufresne.ca, p.zabel@pengutronix.de, rosenp@gmail.com,
-        sakari.ailus@iki.fi, sean@mess.org, user.vdr@gmail.com,
-        xavier.claessens@collabora.com
-References: <20220909134412.21934-1-laurent.pinchart@ideasonboard.com>
-Content-Language: en-US
-From:   Gregor Jasny <gjasny@googlemail.com>
-In-Reply-To: <20220909134412.21934-1-laurent.pinchart@ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello Laurent and all the other helping hands,
+Hi Shi,
 
-On 9/9/22 3:44 PM, Laurent Pinchart wrote:
-> This series is the latest (and greatest) attempt to switch v4l-utils
-> from autotools to meson.
-> 
-> Compared to v6, the first noticeable change is that fixups have been
-> squashed into their corresponding commit. Detailed changelogs are now
-> included in individual patches.
+thanks for the patches, check inline for some comments. Generally speaking,=
+ we
+don't usually add formats ahead of time unless we have a good rationale to =
+do
+so. Should be expect a companion series against the amlogic decoder driver =
+that
+enables this ?
 
-Tested-by: Gregor Jasny <gjasny@googlemail.com>
+Le mardi 30 ao=C3=BBt 2022 =C3=A0 09:40 +0800, Shi Hao a =C3=A9crit=C2=A0:
+> From: "hao.shi" <hao.shi@amlogic.com>
+>=20
+> Add AV1 compressed pixel format. It is the more common format.
+>=20
+> Signed-off-by: Hao Shi <hao.shi@amlogic.com>
+> ---
+>  .../userspace-api/media/v4l/pixfmt-compressed.rst        | 9 +++++++++
+>  drivers/media/v4l2-core/v4l2-ioctl.c                     | 1 +
+>  include/uapi/linux/videodev2.h                           | 1 +
+>  3 files changed, 11 insertions(+)
+>=20
+> diff --git a/Documentation/userspace-api/media/v4l/pixfmt-compressed.rst =
+b/Documentation/userspace-api/media/v4l/pixfmt-compressed.rst
+> index 506dd3c98884..5bdeeebdf9f5 100644
+> --- a/Documentation/userspace-api/media/v4l/pixfmt-compressed.rst
+> +++ b/Documentation/userspace-api/media/v4l/pixfmt-compressed.rst
+> @@ -232,6 +232,15 @@ Compressed Formats
+>          Metadata associated with the frame to decode is required to be p=
+assed
+>          through the ``V4L2_CID_STATELESS_FWHT_PARAMS`` control.
+>  	See the :ref:`associated Codec Control ID <codec-stateless-fwht>`.
+> +    * .. _V4L2-PIX-FMT-AV1:
+> +
+> +      - ``V4L2_PIX_FMT_AV1``
+> +      - 'AV1'
+> +      - AV1 Access Unit. The decoder expects one Access Unit per buffer.
 
-v7 is still working as expected with my Debian and Ubuntu packaging scripts.
+I believe this is using a MPEG LA terminology. Did you mean a Temporal Unit=
+ (TU)
+? In AV1 a TU represent 1 displayable picture, just like AU in H.264 (if yo=
+u
+ignore interlaced video).
 
-What would you think would be a good time to release these changes? 
-Should I do a release shortly after the this change has landed?
+> +        The encoder generates one Access Unit per buffer. This format is
+> +        adapted for stateful video decoders. AV1 (AOMedia Video 1) is an
+> +        open video coding format. It was developed as a successor to VP9
+> +        by the Alliance for Open Media (AOMedia).
+> =20
+>  .. raw:: latex
+> =20
+> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-co=
+re/v4l2-ioctl.c
+> index c314025d977e..fc0f43228546 100644
+> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
+> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+> @@ -1497,6 +1497,7 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *f=
+mt)
+>  		case V4L2_PIX_FMT_MT21C:	descr =3D "Mediatek Compressed Format"; break=
+;
+>  		case V4L2_PIX_FMT_QC08C:	descr =3D "QCOM Compressed 8-bit Format"; bre=
+ak;
+>  		case V4L2_PIX_FMT_QC10C:	descr =3D "QCOM Compressed 10-bit Format"; br=
+eak;
+> +		case V4L2_PIX_FMT_AV1:		descr =3D "AV1"; break;
+>  		default:
+>  			if (fmt->description[0])
+>  				return;
+> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev=
+2.h
+> index 01e630f2ec78..c5ea9f38d807 100644
+> --- a/include/uapi/linux/videodev2.h
+> +++ b/include/uapi/linux/videodev2.h
+> @@ -738,6 +738,7 @@ struct v4l2_pix_format {
+>  #define V4L2_PIX_FMT_FWHT_STATELESS     v4l2_fourcc('S', 'F', 'W', 'H') =
+/* Stateless FWHT (vicodec) */
+>  #define V4L2_PIX_FMT_H264_SLICE v4l2_fourcc('S', '2', '6', '4') /* H264 =
+parsed slices */
+>  #define V4L2_PIX_FMT_HEVC_SLICE v4l2_fourcc('S', '2', '6', '5') /* HEVC =
+parsed slices */
+> +#define V4L2_PIX_FMT_AV1      v4l2_fourcc('A', 'V', '1', '0') /* AV1 */
+> =20
+>  /*  Vendor-specific formats   */
+>  #define V4L2_PIX_FMT_CPIA1    v4l2_fourcc('C', 'P', 'I', 'A') /* cpia1 Y=
+UV */
+>=20
+> base-commit: 568035b01cfb107af8d2e4bd2fb9aea22cf5b868
 
-Thanks,
-Gregor
