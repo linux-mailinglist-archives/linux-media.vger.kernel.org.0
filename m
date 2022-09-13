@@ -2,110 +2,138 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8EBC95B69E5
-	for <lists+linux-media@lfdr.de>; Tue, 13 Sep 2022 10:52:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5ABC05B6B26
+	for <lists+linux-media@lfdr.de>; Tue, 13 Sep 2022 11:48:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231142AbiIMIwU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 13 Sep 2022 04:52:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58444 "EHLO
+        id S230108AbiIMJsS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 13 Sep 2022 05:48:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34854 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230176AbiIMIwS (ORCPT
+        with ESMTP id S229749AbiIMJsQ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 13 Sep 2022 04:52:18 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5045E578B4
-        for <linux-media@vger.kernel.org>; Tue, 13 Sep 2022 01:52:16 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        Tue, 13 Sep 2022 05:48:16 -0400
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B40B1D0D9
+        for <linux-media@vger.kernel.org>; Tue, 13 Sep 2022 02:48:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1663062494; x=1694598494;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=I9sUeB9m/lQWEW35aDTql8wUzNkpzyJLnhfsnQZILyw=;
+  b=VxCh8k8UlqPfcojmPeZJBzPaU3u9stip65w4qoE1oWWRXXylv65Klga9
+   i9NAPpCNB/aDuIUtoEtjAlJOZHyqJg4uae4rQZtaO4b5ZLQ0PHMo2ttwa
+   dDT8sTuGsrd0oMBJiJ85FNecQEc1kJIxGhaxXjGUS2RTQGOZqdsv3L5Hb
+   xR43Y4rbnFAu1J0LZmMMnjwgKB+Xi33vK1slV6CBFiYqsL66LENvbI4Iy
+   ey6oUgSo3V7ZxEdZVCvI4+XVGv7XUOy4XD0kutFH144oBgouur8r5Oe36
+   eiX9k7Et5lZ3IQx3kxAfiV1qBFSYgRyiBNYcm7PJ4R2o7hV8jCwoLQUpH
+   Q==;
+X-IronPort-AV: E=Sophos;i="5.93,312,1654552800"; 
+   d="scan'208";a="26145423"
+Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
+  by mx1-pgp.tq-group.com with ESMTP; 13 Sep 2022 11:48:12 +0200
+Received: from mx1.tq-group.com ([192.168.6.7])
+  by tq-pgp-pr1.tq-net.de (PGP Universal service);
+  Tue, 13 Sep 2022 11:48:12 +0200
+X-PGP-Universal: processed;
+        by tq-pgp-pr1.tq-net.de on Tue, 13 Sep 2022 11:48:12 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1663062492; x=1694598492;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=I9sUeB9m/lQWEW35aDTql8wUzNkpzyJLnhfsnQZILyw=;
+  b=ij8fLwsNz0xy6t4qycDjUCQ+9c2qIEJF4uV1Jyd6R81dFDrFXYttRDIk
+   H7sEbAGTvBAAft5ugEBeAwXZUWhBp4YrFX/k5fUNXkaxNfOJjO6G4vlxE
+   fCzDdLnMDKF6M3yXsc0lX78TKwcWSuUwjy3Td8o2wGlFDZXTCCf3f+jIo
+   K1A6QyN9RpHW0QxB7kRxk+wdNf0H+HJ0LGJJo4TCFSMyaf/jVGe3E/yoT
+   Xvt+oMJwR2aAJHY/mnJyw5AarDjGQYVE+KaNx1asbV9LgaglQYbJblteK
+   7W4WLgS+XbsfGENGX4Ak/8/QPfZQaa/X3LkEKZPq9QCoquosd7yK2n1fk
+   w==;
+X-IronPort-AV: E=Sophos;i="5.93,312,1654552800"; 
+   d="scan'208";a="26145422"
+Received: from vtuxmail01.tq-net.de ([10.115.0.20])
+  by mx1.tq-group.com with ESMTP; 13 Sep 2022 11:48:12 +0200
+Received: from steina-w.localnet (unknown [10.123.49.11])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id C91B16134E
-        for <linux-media@vger.kernel.org>; Tue, 13 Sep 2022 08:52:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2F7ACC433D6;
-        Tue, 13 Sep 2022 08:52:11 +0000 (UTC)
-Message-ID: <0be0c48f-8621-f365-3b0f-728d08e42eee@xs4all.nl>
-Date:   Tue, 13 Sep 2022 09:52:09 +0100
+        by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id D78C3280056;
+        Tue, 13 Sep 2022 11:48:11 +0200 (CEST)
+From:   Alexander Stein <alexander.stein@ew.tq-group.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, Rui Miguel Silva <rmfrfs@gmail.com>,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Paul Elder <paul.elder@ideasonboard.com>,
+        Jacopo Mondi <jacopo@jmondi.org>, kernel@pengutronix.de,
+        linux-imx@nxp.com
+Subject: Re: [PATCH 0/6] media: imx: imx7-media-csi: Destage driver
+Date:   Tue, 13 Sep 2022 11:48:09 +0200
+Message-ID: <4740951.GXAFRqVoOG@steina-w>
+Organization: TQ-Systems GmbH
+In-Reply-To: <20220907200424.32136-1-laurent.pinchart@ideasonboard.com>
+References: <20220907200424.32136-1-laurent.pinchart@ideasonboard.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.1
-Subject: Re: [PATCH v7 0/5] Switch build system to meson
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Gregor Jasny <gjasny@googlemail.com>
-Cc:     linux-media@vger.kernel.org, ezequiel@collabora.com,
-        kieran.bingham@ideasonboard.com, mchehab@kernel.org,
-        nicolas@ndufresne.ca, p.zabel@pengutronix.de, rosenp@gmail.com,
-        sakari.ailus@iki.fi, sean@mess.org, user.vdr@gmail.com,
-        xavier.claessens@collabora.com
-References: <20220909134412.21934-1-laurent.pinchart@ideasonboard.com>
- <c96f4806-13ec-335f-68ab-10194411da43@googlemail.com>
- <Yx+yv8l7EFbIniup@pendragon.ideasonboard.com>
- <67fa379a-07f9-e19c-22da-6fda931ad8ca@xs4all.nl>
-Content-Language: en-US
-In-Reply-To: <67fa379a-07f9-e19c-22da-6fda931ad8ca@xs4all.nl>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-8.8 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
+Hello Laurent,
 
-On 9/13/22 08:15, Hans Verkuil wrote:
-> Hi Laurent,
-> 
-> On 9/12/22 23:29, Laurent Pinchart wrote:
->> Hi Gregor,
->>
->> On Mon, Sep 12, 2022 at 04:41:33PM +0200, Gregor Jasny wrote:
->>> Hello Laurent and all the other helping hands,
->>>
->>> On 9/9/22 3:44 PM, Laurent Pinchart wrote:
->>>> This series is the latest (and greatest) attempt to switch v4l-utils
->>>> from autotools to meson.
->>>>
->>>> Compared to v6, the first noticeable change is that fixups have been
->>>> squashed into their corresponding commit. Detailed changelogs are now
->>>> included in individual patches.
->>>
->>> Tested-by: Gregor Jasny <gjasny@googlemail.com>
->>>
->>> v7 is still working as expected with my Debian and Ubuntu packaging 
->>> scripts.
->>
->> Thanks for testing. I'll post a v8 with the improvements suggested in
->> the review comments. I will also include updates to the
->> v4l-utils.spec.in file, and would appreciate help testing it.
->>
->>> What would you think would be a good time to release these changes?
->>> Should I do a release shortly after the this change has landed?
->>
->> I think that would be a good idea. Once v8 is out, if there are no more
->> issues, I think it could be merged.
->>
-> 
-> Two questions: for meson, what is the equivalent to 'make distclean'? 
-> Just rm -rf build?
-> 
-> And another: if I enable building for v4l2-ctl-32 and 
-> v4l2-compliance-32, then those targets aren't build AFAICS.
-> 
-> It's needed for testing 32-bit compat code.
+thanks for the patch and putting in some progress.
 
-I've tested a bunch of other config options that relate to the utils I 
-maintain, and those work fine. So it appears to be just these 32 bit 
-config options that fail.
-
-Regards,
-
-	Hans
-
+Am Mittwoch, 7. September 2022, 22:04:18 CEST schrieb Laurent Pinchart:
+> Hello,
 > 
-> Regards,
+> This patch series is the last step of the imx7-media-csi driver
+> destaging journey. Patch 1/6 starts by decoupling the imx7-media-csi and
+> imx8mq-mipi-csi2 drivers in Kconfig, and patch 2/6 performs the
+> destaging. Patches 3/6 to 6/6 then handle the low-hanging fruits of the
+> staging imx cleanup by dropping features that were only used by the
+> imx7-media-csi driver.
 > 
->      Hans
+> The patches apply on top of [1].
+> 
+> https://lore.kernel.org/linux-media/20220907191547.19255-1-laurent.pinchart@
+> ideasonboard.com
+> 
+> Laurent Pinchart (6):
+>   media: imx: Decouple imx8mq-mipi-csi2 from imx7-media-csi
+>   media: imx: Unstage the imx7-media-csi driver
+>   staging: media: imx: Drop imx_media_subdev_bound()
+>   staging: media: imx: Drop IMX_MEDIA_GRP_ID_CSI
+>   staging: media: imx: Drop unused helper functions
+>   staging: media: imx: Make imx_media_of_add_csi() static
+> 
+>  MAINTAINERS                                   |  2 +-
+>  drivers/media/platform/nxp/Kconfig            | 13 ++++
+>  drivers/media/platform/nxp/Makefile           |  1 +
+>  .../platform/nxp}/imx7-media-csi.c            | 24 +++++++
+>  drivers/staging/media/imx/Kconfig             | 17 +++--
+>  drivers/staging/media/imx/Makefile            |  3 +-
+>  drivers/staging/media/imx/TODO                | 29 --------
+>  .../staging/media/imx/imx-media-dev-common.c  | 14 ----
+>  drivers/staging/media/imx/imx-media-of.c      |  5 +-
+>  drivers/staging/media/imx/imx-media-utils.c   | 68 -------------------
+>  drivers/staging/media/imx/imx-media.h         | 13 ----
+>  11 files changed, 52 insertions(+), 137 deletions(-)
+>  rename drivers/{staging/media/imx => media/platform/nxp}/imx7-media-csi.c
+> (97%)
+
+I could test this on TQMa8MQ (imx8mq) based platform with an OV9281 gray 
+camera. I had a lot of frame drops when showing on wayland, but a 
+fpsdisplaysink combined with testsink showed ~36 FPS. This is the same as 
+before this series.
+
+So I guess, you can add
+Tested-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+
+
+
