@@ -2,53 +2,76 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5D3A05B6DDF
-	for <lists+linux-media@lfdr.de>; Tue, 13 Sep 2022 15:02:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 38B205B6EE3
+	for <lists+linux-media@lfdr.de>; Tue, 13 Sep 2022 16:06:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231838AbiIMNCC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 13 Sep 2022 09:02:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53236 "EHLO
+        id S232424AbiIMOGF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 13 Sep 2022 10:06:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50152 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231546AbiIMNCA (ORCPT
+        with ESMTP id S232392AbiIMOGA (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 13 Sep 2022 09:02:00 -0400
-Received: from mail.turbocat.net (turbocat.net [IPv6:2a01:4f8:c17:6c4b::2])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 82AE04BA60
-        for <linux-media@vger.kernel.org>; Tue, 13 Sep 2022 06:01:56 -0700 (PDT)
-Received: from [10.36.2.165] (unknown [178.232.223.95])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by mail.turbocat.net (Postfix) with ESMTPSA id 65FB12600FB;
-        Tue, 13 Sep 2022 15:01:54 +0200 (CEST)
-Message-ID: <f4bf16fa-cae4-4d3b-5086-08d478979819@selasky.org>
-Date:   Tue, 13 Sep 2022 15:01:52 +0200
+        Tue, 13 Sep 2022 10:06:00 -0400
+Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com [IPv6:2a00:1450:4864:20::432])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D205820189
+        for <linux-media@vger.kernel.org>; Tue, 13 Sep 2022 07:05:58 -0700 (PDT)
+Received: by mail-wr1-x432.google.com with SMTP id bz13so20999768wrb.2
+        for <linux-media@vger.kernel.org>; Tue, 13 Sep 2022 07:05:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=amarulasolutions.com; s=google;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date;
+        bh=4SdJBGlm222aqQvtJCvRg2+cXmbZxd7oyHDsXIQ02sM=;
+        b=NZJeJCT1hb/oiIbAXKZCL1AiKpB/+q/+p+1XIgGflOL4SKE5j/CmZB95I4Cv9qqtjX
+         S5HHF8xfpHWDu2RLGG4KXGfJaFrl7Jchc+iTqI1TR2hMo7Sk64UQkdwR2sIa0uyQKPfE
+         Lvtgb4JW1RmPE0jZ/A1TwspplaQwlxf5YSofk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
+        bh=4SdJBGlm222aqQvtJCvRg2+cXmbZxd7oyHDsXIQ02sM=;
+        b=l3jyvCJYKlis6bsXvAwoNN2rxWGcQJbMkRxHeftnkF/fmR65a3bzBV49SkWaZvdnz2
+         k0wXCGzS+j0jKJfboUsB0K1HmbV8UjiKwklqT+0mvdRGRjYfRDLxV54ylA63e7ft2G7B
+         BsFZgEJmiwzDIKLs0HumVihr9RedEmluzQt4fBQAkTrXtvJYWZQxGj82/HSa+nsoc7z+
+         2TGq44xy5NsH/O8zNtDhcGj2YoFKTiWB9+SPQUKeU+U/KTF9+CBbZTH924kiZbTxHpEU
+         FmJe12wNA5L83G3nsso/rnPXmiV+JANYESau4XGL6XC5tEgU8z6+jVGgx1xwlUkUPbpN
+         s7cQ==
+X-Gm-Message-State: ACgBeo2BA732eKCsvmJmGcIc7DVAxZUP48dXvZLcQ0WvBkp1KuYyoXWs
+        ymaHnW387CD8yA8EAl2Sp3hFkA==
+X-Google-Smtp-Source: AA6agR7Kjy8+Nbx3zyBtj4O5f52dZKYCqslXZH4SLJbvDrwtWGweMsiXZwsg8R6AsSQAPaXZsur9+g==
+X-Received: by 2002:a5d:6d8e:0:b0:22a:4831:e0e with SMTP id l14-20020a5d6d8e000000b0022a48310e0emr8994346wrs.442.1663077957051;
+        Tue, 13 Sep 2022 07:05:57 -0700 (PDT)
+Received: from tom-ThinkPad-T14s-Gen-2i ([89.101.193.68])
+        by smtp.gmail.com with ESMTPSA id ay3-20020a05600c1e0300b003b339438733sm13521965wmb.19.2022.09.13.07.05.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 13 Sep 2022 07:05:55 -0700 (PDT)
+Date:   Tue, 13 Sep 2022 16:05:53 +0200
+From:   Tommaso Merciai <tommaso.merciai@amarulasolutions.com>
+To:     Mikhail Rudenko <mike.rudenko@gmail.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Shawn Tu <shawnx.tu@intel.com>,
+        Christian Hemp <c.hemp@phytec.de>,
+        Arec Kao <arec.kao@intel.com>, Arnd Bergmann <arnd@arndb.de>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Daniel Scally <djrscally@gmail.com>,
+        Jimmy Su <jimmy.su@intel.com>, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 1/2] media: dt-bindings: media: i2c: document OV4689
+ DT bindings
+Message-ID: <20220913140553.GA2735@tom-ThinkPad-T14s-Gen-2i>
+References: <20220911200147.375198-1-mike.rudenko@gmail.com>
+ <20220911200147.375198-2-mike.rudenko@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; FreeBSD amd64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH] media: dvb_ringbuffer : Fix a bug in dvb_ringbuffer.c
-Content-Language: en-US
-To:     =?UTF-8?B?7Jyg7Jqp7IiY?= <yongsuyoo0215@gmail.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        linux-media@vger.kernel.org, 0215yys@hanmail.net,
-        mchehab@kernel.org
-References: <CANXPkT6mYusYe8O0dbq3vW+24SsUZ19PqhOL+wLFRnbFXwu0Zg@mail.gmail.com>
- <CANXPkT7nOhH+5bD0ycyRBT9FKQBBszCVuWkqp4tFtVRf2+8DFg@mail.gmail.com>
- <CANXPkT5k9Pw4ka6CihyCg0oTd-32Te-ox=f3=9rtCphVgrdctA@mail.gmail.com>
- <165590120140.1149771.2257818527859865760@Monstersaurus>
- <4883f0a7-6a1b-31bd-33fe-db8f6dcf73fa@selasky.org>
- <CANXPkT73ssg6RRyfDtp7c_8sO60a-UT0-Y4S1_=D=M_mcLNN9g@mail.gmail.com>
- <CANXPkT4qYOYPL+F=-Pi_NbQErq9WwrR-M-BHe=gP9Ay4bSs+=w@mail.gmail.com>
- <CANXPkT5=ryAFvb1cO+Wb0CQYmytwedS2dqVTYqt2Km1fkK4w9Q@mail.gmail.com>
- <CANXPkT7vt8gq5UO4OXK2pTUyyB102ANJ5i9s92AW+a3rAioMog@mail.gmail.com>
- <085b9025-bc23-37d4-d430-afc432b4d783@selasky.org>
- <baf121ae-a5a4-47a3-bc3a-9255708009b9@selasky.org>
- <CANXPkT44_qCcddg9Ayvk=cRLsUDq8G06toMTBGCsJ3kf+g+h-g@mail.gmail.com>
-From:   Hans Petter Selasky <hps@selasky.org>
-In-Reply-To: <CANXPkT44_qCcddg9Ayvk=cRLsUDq8G06toMTBGCsJ3kf+g+h-g@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.5 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220911200147.375198-2-mike.rudenko@gmail.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -57,87 +80,208 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi YongSu,
+Hi Mikhail,
 
-I'm stripping "linux-kernel@vger.kernel.org". Hopefully that will help. 
-Developers may receive hundreds of e-mails every day, and CC'ing too 
-many lists may cause the e-mail to get ignored.
-
-Mauro, CC'ed: Can we have a comment on this issue from some Linux Media 
-developers having commit access?
-
---HPS
-
-On 9/13/22 10:36, 유용수 wrote:
-> Dear Hans Petter Selasky
+On Sun, Sep 11, 2022 at 11:01:34PM +0300, Mikhail Rudenko wrote:
+> Add device-tree binding documentation for OV4689 image sensor driver,
+> and the relevant MAINTAINERS entries.
 > 
-> I understood your points.
-> Thank you for your kind explanation
-> I found that the buffer size is 65535 like below source code.
-> The 65535 is not the power of two.
-> So it can still be a problem.
-> ...
-> #define RX_BUFFER_SIZE 65535
-> ...
-> rxbuf = vmalloc(RX_BUFFER_SIZE);
-> ...
-> dvb_ringbuffer_init(&ca->slot_info[slot].rx_buffer, rxbuf, RX_BUFFER_SIZE);
-> }
-> ...
+> Signed-off-by: Mikhail Rudenko <mike.rudenko@gmail.com>
+> ---
+>  .../bindings/media/i2c/ovti,ov4689.yaml       | 141 ++++++++++++++++++
+>  MAINTAINERS                                   |   7 +
+>  2 files changed, 148 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/i2c/ovti,ov4689.yaml
 > 
-> 2022년 9월 12일 (월) 오후 9:36, Hans Petter Selasky <hps@selasky.org>님이 작성:
-> 
->>
->> Hi Mauro and YongSu,
->>
->> Answering my own question: The reason nobody has triggered this yet, is
->> because the buffer size used is power of two. Because unsigned modulus
->> is used, the result becomes correct. See below. But if non-power of two
->> ring-buffer is used, then the result becomes incorrect. There is no
->> block for non-power of two sized buffers. See:
->>
->> https://github.com/search?q=dvb_set_pesfilter&type=code
->>
->> cat << EOF > testX.c
->> #include <stdio.h>
->>
->> int
->> main()
->> {
->> int consumed_old;
->> int consumed_fix;
->> size_t idx = 3;
->> ssize_t pread = 15;
->> ssize_t size = 256;
->>
->> consumed_old = (idx - pread) % size;
->>
->> consumed_fix = (idx - pread);
->> if (consumed_fix < 0)
->> consumed_fix += size;
->>
->> printf("old=%d new=%d size=%zd\n", consumed_old, consumed_fix, size);
->>
->> size = 254;
->>
->> consumed_old = (idx - pread) % size;
->>
->> consumed_fix = (idx - pread);
->> if (consumed_fix < 0)
->> consumed_fix += size;
->>
->> printf("old=%d new=%d size=%zd\n", consumed_old, consumed_fix, size);
->>
->> return (0);
->> }
->> EOF
->>
->> cc testX.c && ./a.out
->> old=244 new=244 size=256
->> old=244 new=242 size=254
->>
->> So either push the suggested fix, or block non-power of two buffer sizes!
->>
->> Best regards,
->> --HPS
+> diff --git a/Documentation/devicetree/bindings/media/i2c/ovti,ov4689.yaml b/Documentation/devicetree/bindings/media/i2c/ovti,ov4689.yaml
+> new file mode 100644
+> index 000000000000..376330b5572a
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/i2c/ovti,ov4689.yaml
+> @@ -0,0 +1,141 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/i2c/ovti,ov4689.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Omnivision OV4689 CMOS
+> +
+> +maintainers:
+> +  - Mikhail Rudenko <mike.rudenko@gmail.com>
+> +
+> +description: |
+> +  The Omnivision OV4689 is a high performance, 1/3-inch, 4 megapixel
+> +  image sensor. Ihis chip supports high frame rate speeds up to 90 fps
+> +  at 2688x1520 resolution. It is programmable through an I2C
+> +  interface, and sensor output is sent via 1/2/4 lane MIPI CSI-2
+> +  connection.
+> +
+> +allOf:
+> +  - $ref: /schemas/media/video-interface-devices.yaml#
+> +
+> +properties:
+> +  compatible:
+> +    const: ovti,ov4689
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    description:
+> +      External clock (XVCLK) for the sensor, 6-64 MHz
+> +    maxItems: 1
+> +
+> +  clock-names: true
+> +
+> +  dovdd-supply:
+> +    description:
+> +      Digital I/O voltage supply, 1.7-3.0 V
+> +
+> +  avdd-supply:
+> +    description:
+> +      Analog voltage supply, 2.6-3.0 V
+> +
+> +  dvdd-supply:
+> +    description:
+> +      Digital core voltage supply, 1.1-1.3 V
+> +
+> +  powerdown-gpios:
+> +    maxItems: 1
+> +    description:
+> +      GPIO connected to the powerdown pin (active low)
+> +
+> +  reset-gpios:
+> +    maxItems: 1
+> +    description:
+> +      GPIO connected to the reset pin (active low)
+> +
+> +  orientation: true
+> +
+> +  rotation: true
+> +
+> +  port:
+> +    $ref: /schemas/graph.yaml#/$defs/port-base
+> +    additionalProperties: false
+> +    description:
+> +      Output port node, single endpoint describing the CSI-2 transmitter
+> +
+> +    properties:
+> +      endpoint:
+> +        $ref: /schemas/media/video-interfaces.yaml#
+> +        unevaluatedProperties: false
+> +
+> +        properties:
+> +          data-lanes:
+> +            oneOf:
+> +              - items:
+> +                  - const: 1
+> +                  - const: 2
+> +                  - const: 3
+> +                  - const: 4
+> +              - items:
+> +                  - const: 1
+> +                  - const: 2
+> +              - items:
+> +                  - const: 1
+> +          link-frequencies: true
+> +
+> +        required:
+> +          - data-lanes
+> +          - link-frequencies
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - clocks
+> +  - clock-names
+> +  - dovdd-supply
+> +  - avdd-supply
+> +  - dvdd-supply
+> +  - powerdown-gpios
+> +  - reset-gpios
+> +  - port
 
+I think we don't need all of these entries as required.
+The only let me say "really" required are:
+
+- compatible
+- reg
+- clocks
+- port
+
+Regards,
+Tommaso
+
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/gpio/gpio.h>
+> +
+> +    i2c {
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
+> +
+> +        ov4689: camera@36 {
+> +            compatible = "ovti,ov4689";
+> +            reg = <0x36>;
+> +
+> +            clocks = <&ov4689_clk>;
+> +            clock-names = "xvclk";
+> +
+> +            avdd-supply = <&ov4689_avdd>;
+> +            dovdd-supply = <&ov4689_dovdd>;
+> +            dvdd-supply = <&ov4689_dvdd>;
+> +
+> +            powerdown-gpios = <&pio 107 GPIO_ACTIVE_LOW>;
+> +            reset-gpios = <&pio 109 GPIO_ACTIVE_LOW>;
+> +
+> +            orientation = <2>;
+> +            rotation = <0>;
+> +
+> +            port {
+> +                wcam_out: endpoint {
+> +                    remote-endpoint = <&mipi_in_wcam>;
+> +                    data-lanes = <1 2 3 4>;
+> +                    link-frequencies = /bits/ 64 <500000000>;
+> +                };
+> +            };
+> +        };
+> +    };
+> +
+> +...
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index f468864fd268..63c4844f26e6 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -14523,6 +14523,13 @@ S:	Maintained
+>  T:	git git://linuxtv.org/media_tree.git
+>  F:	drivers/media/i2c/ov2740.c
+>  
+> +OMNIVISION OV4689 SENSOR DRIVER
+> +M:	Mikhail Rudenko <mike.rudenko@gmail.com>
+> +L:	linux-media@vger.kernel.org
+> +S:	Maintained
+> +T:	git git://linuxtv.org/media_tree.git
+> +F:	Documentation/devicetree/bindings/media/i2c/ovti,ov4689.yaml
+> +
+>  OMNIVISION OV5640 SENSOR DRIVER
+>  M:	Steve Longerbeam <slongerbeam@gmail.com>
+>  L:	linux-media@vger.kernel.org
+> -- 
+> 2.37.3
+> 
+
+-- 
+Tommaso Merciai
+Embedded Linux Engineer
+tommaso.merciai@amarulasolutions.com
+__________________________________
+
+Amarula Solutions SRL
+Via Le Canevare 30, 31100 Treviso, Veneto, IT
+T. +39 042 243 5310
+info@amarulasolutions.com
+www.amarulasolutions.com
