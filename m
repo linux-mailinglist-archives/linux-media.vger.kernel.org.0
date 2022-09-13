@@ -2,138 +2,99 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5ABC05B6B26
-	for <lists+linux-media@lfdr.de>; Tue, 13 Sep 2022 11:48:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8C4B85B6CC9
+	for <lists+linux-media@lfdr.de>; Tue, 13 Sep 2022 14:09:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230108AbiIMJsS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 13 Sep 2022 05:48:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34854 "EHLO
+        id S232018AbiIMMJd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 13 Sep 2022 08:09:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36386 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229749AbiIMJsQ (ORCPT
+        with ESMTP id S232001AbiIMMJb (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 13 Sep 2022 05:48:16 -0400
-Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B40B1D0D9
-        for <linux-media@vger.kernel.org>; Tue, 13 Sep 2022 02:48:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1663062494; x=1694598494;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=I9sUeB9m/lQWEW35aDTql8wUzNkpzyJLnhfsnQZILyw=;
-  b=VxCh8k8UlqPfcojmPeZJBzPaU3u9stip65w4qoE1oWWRXXylv65Klga9
-   i9NAPpCNB/aDuIUtoEtjAlJOZHyqJg4uae4rQZtaO4b5ZLQ0PHMo2ttwa
-   dDT8sTuGsrd0oMBJiJ85FNecQEc1kJIxGhaxXjGUS2RTQGOZqdsv3L5Hb
-   xR43Y4rbnFAu1J0LZmMMnjwgKB+Xi33vK1slV6CBFiYqsL66LENvbI4Iy
-   ey6oUgSo3V7ZxEdZVCvI4+XVGv7XUOy4XD0kutFH144oBgouur8r5Oe36
-   eiX9k7Et5lZ3IQx3kxAfiV1qBFSYgRyiBNYcm7PJ4R2o7hV8jCwoLQUpH
-   Q==;
-X-IronPort-AV: E=Sophos;i="5.93,312,1654552800"; 
-   d="scan'208";a="26145423"
-Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
-  by mx1-pgp.tq-group.com with ESMTP; 13 Sep 2022 11:48:12 +0200
-Received: from mx1.tq-group.com ([192.168.6.7])
-  by tq-pgp-pr1.tq-net.de (PGP Universal service);
-  Tue, 13 Sep 2022 11:48:12 +0200
-X-PGP-Universal: processed;
-        by tq-pgp-pr1.tq-net.de on Tue, 13 Sep 2022 11:48:12 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1663062492; x=1694598492;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=I9sUeB9m/lQWEW35aDTql8wUzNkpzyJLnhfsnQZILyw=;
-  b=ij8fLwsNz0xy6t4qycDjUCQ+9c2qIEJF4uV1Jyd6R81dFDrFXYttRDIk
-   H7sEbAGTvBAAft5ugEBeAwXZUWhBp4YrFX/k5fUNXkaxNfOJjO6G4vlxE
-   fCzDdLnMDKF6M3yXsc0lX78TKwcWSuUwjy3Td8o2wGlFDZXTCCf3f+jIo
-   K1A6QyN9RpHW0QxB7kRxk+wdNf0H+HJ0LGJJo4TCFSMyaf/jVGe3E/yoT
-   Xvt+oMJwR2aAJHY/mnJyw5AarDjGQYVE+KaNx1asbV9LgaglQYbJblteK
-   7W4WLgS+XbsfGENGX4Ak/8/QPfZQaa/X3LkEKZPq9QCoquosd7yK2n1fk
-   w==;
-X-IronPort-AV: E=Sophos;i="5.93,312,1654552800"; 
-   d="scan'208";a="26145422"
-Received: from vtuxmail01.tq-net.de ([10.115.0.20])
-  by mx1.tq-group.com with ESMTP; 13 Sep 2022 11:48:12 +0200
-Received: from steina-w.localnet (unknown [10.123.49.11])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-        (No client certificate requested)
-        by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id D78C3280056;
-        Tue, 13 Sep 2022 11:48:11 +0200 (CEST)
-From:   Alexander Stein <alexander.stein@ew.tq-group.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, Rui Miguel Silva <rmfrfs@gmail.com>,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Paul Elder <paul.elder@ideasonboard.com>,
-        Jacopo Mondi <jacopo@jmondi.org>, kernel@pengutronix.de,
-        linux-imx@nxp.com
-Subject: Re: [PATCH 0/6] media: imx: imx7-media-csi: Destage driver
-Date:   Tue, 13 Sep 2022 11:48:09 +0200
-Message-ID: <4740951.GXAFRqVoOG@steina-w>
-Organization: TQ-Systems GmbH
-In-Reply-To: <20220907200424.32136-1-laurent.pinchart@ideasonboard.com>
-References: <20220907200424.32136-1-laurent.pinchart@ideasonboard.com>
+        Tue, 13 Sep 2022 08:09:31 -0400
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4DBE113A;
+        Tue, 13 Sep 2022 05:09:27 -0700 (PDT)
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 28DBpEki029303;
+        Tue, 13 Sep 2022 12:09:17 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
+ subject : date : message-id : mime-version : content-type; s=qcppdkim1;
+ bh=JCxc1Ojv95W6xf87b7UX1sIpoTQQTskpUVwH+4Fl1pA=;
+ b=TJ6YsmGQkkQkLh8jT5eswx6/jFROP80jin8ty0k8KDha6YPt51OlSi00OJ/O1ZDfr8bF
+ PAuilnCFiW6lXlnlCNE4+1Mn7bGfUqeI2lIacmeimW8sN/AjcONZjhJXTdtn3i/hmkXH
+ B+XUHxtyH/gORWReTBYR7qO0u5oOcFLkRsCQXj2dP+DSRIIaB3xlaSxmAwJAt4/bpt5h
+ qJ7V9oV1LIeC7XxtO3xm4zzXvnn37QcBHQG27XH8jQRvP0T8bBZBQHBxzzNENG6p4ern
+ Po/TR/2ewfwl5gdxcmqxkDMTOVE++/3ZBkBeuhlIVcUqIzaL87+EFWOX4uDwzYUrl3Y1 HQ== 
+Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3jjrk0g6rt-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 13 Sep 2022 12:09:16 +0000
+Received: from nasanex01a.na.qualcomm.com (corens_vlan604_snip.qualcomm.com [10.53.140.1])
+        by NASANPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 28DC9GJk000536
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 13 Sep 2022 12:09:16 GMT
+Received: from hu-vgarodia-hyd.qualcomm.com (10.80.80.8) by
+ nasanex01a.na.qualcomm.com (10.52.223.231) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.29; Tue, 13 Sep 2022 05:09:14 -0700
+From:   Vikash Garodia <quic_vgarodia@quicinc.com>
+To:     <linux-media@vger.kernel.org>, <stanimir.varbanov@linaro.org>
+CC:     <linux-kernel@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        "Vikash Garodia" <quic_vgarodia@quicinc.com>
+Subject: [PATCH] MAINTAINERS: Add Vikash as VENUS video driver co-maintainer
+Date:   Tue, 13 Sep 2022 17:39:00 +0530
+Message-ID: <1663070940-8165-1-git-send-email-quic_vgarodia@quicinc.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01a.na.qualcomm.com (10.52.223.231)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: zM61q-G5cUAxWV7X9EHm-7cfD0m85nxO
+X-Proofpoint-GUID: zM61q-G5cUAxWV7X9EHm-7cfD0m85nxO
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
+ definitions=2022-09-13_05,2022-09-13_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 adultscore=0
+ mlxlogscore=835 spamscore=0 impostorscore=0 lowpriorityscore=0
+ malwarescore=0 mlxscore=0 priorityscore=1501 phishscore=0 clxscore=1011
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2207270000 definitions=main-2209130055
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello Laurent,
+For the past several amendments in video driver, I have been working
+with Stanimir in multiple design discussions or handling a given
+issue. With this, adding myself as a co-maintainer.
 
-thanks for the patch and putting in some progress.
+Signed-off-by: Vikash Garodia <quic_vgarodia@quicinc.com>
+---
+ MAINTAINERS | 1 +
+ 1 file changed, 1 insertion(+)
 
-Am Mittwoch, 7. September 2022, 22:04:18 CEST schrieb Laurent Pinchart:
-> Hello,
-> 
-> This patch series is the last step of the imx7-media-csi driver
-> destaging journey. Patch 1/6 starts by decoupling the imx7-media-csi and
-> imx8mq-mipi-csi2 drivers in Kconfig, and patch 2/6 performs the
-> destaging. Patches 3/6 to 6/6 then handle the low-hanging fruits of the
-> staging imx cleanup by dropping features that were only used by the
-> imx7-media-csi driver.
-> 
-> The patches apply on top of [1].
-> 
-> https://lore.kernel.org/linux-media/20220907191547.19255-1-laurent.pinchart@
-> ideasonboard.com
-> 
-> Laurent Pinchart (6):
->   media: imx: Decouple imx8mq-mipi-csi2 from imx7-media-csi
->   media: imx: Unstage the imx7-media-csi driver
->   staging: media: imx: Drop imx_media_subdev_bound()
->   staging: media: imx: Drop IMX_MEDIA_GRP_ID_CSI
->   staging: media: imx: Drop unused helper functions
->   staging: media: imx: Make imx_media_of_add_csi() static
-> 
->  MAINTAINERS                                   |  2 +-
->  drivers/media/platform/nxp/Kconfig            | 13 ++++
->  drivers/media/platform/nxp/Makefile           |  1 +
->  .../platform/nxp}/imx7-media-csi.c            | 24 +++++++
->  drivers/staging/media/imx/Kconfig             | 17 +++--
->  drivers/staging/media/imx/Makefile            |  3 +-
->  drivers/staging/media/imx/TODO                | 29 --------
->  .../staging/media/imx/imx-media-dev-common.c  | 14 ----
->  drivers/staging/media/imx/imx-media-of.c      |  5 +-
->  drivers/staging/media/imx/imx-media-utils.c   | 68 -------------------
->  drivers/staging/media/imx/imx-media.h         | 13 ----
->  11 files changed, 52 insertions(+), 137 deletions(-)
->  rename drivers/{staging/media/imx => media/platform/nxp}/imx7-media-csi.c
-> (97%)
-
-I could test this on TQMa8MQ (imx8mq) based platform with an OV9281 gray 
-camera. I had a lot of frame drops when showing on wayland, but a 
-fpsdisplaysink combined with testsink showed ~36 FPS. This is the same as 
-before this series.
-
-So I guess, you can add
-Tested-by: Alexander Stein <alexander.stein@ew.tq-group.com>
-
-
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 936490d..d3ef64f 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -16969,6 +16969,7 @@ F:	drivers/thermal/qcom/
+ 
+ QUALCOMM VENUS VIDEO ACCELERATOR DRIVER
+ M:	Stanimir Varbanov <stanimir.varbanov@linaro.org>
++M:	Vikash Garodia <quic_vgarodia@quicinc.com>
+ L:	linux-media@vger.kernel.org
+ L:	linux-arm-msm@vger.kernel.org
+ S:	Maintained
+-- 
+The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+a Linux Foundation Collaborative Project
 
