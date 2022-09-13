@@ -2,75 +2,49 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8DB4D5B69A8
-	for <lists+linux-media@lfdr.de>; Tue, 13 Sep 2022 10:36:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AB1A85B69E4
+	for <lists+linux-media@lfdr.de>; Tue, 13 Sep 2022 10:51:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231476AbiIMIgc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 13 Sep 2022 04:36:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36492 "EHLO
+        id S231255AbiIMIv3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 13 Sep 2022 04:51:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57402 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230149AbiIMIg2 (ORCPT
+        with ESMTP id S231473AbiIMIvY (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 13 Sep 2022 04:36:28 -0400
-Received: from mail-vk1-xa29.google.com (mail-vk1-xa29.google.com [IPv6:2607:f8b0:4864:20::a29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B965C57E2C;
-        Tue, 13 Sep 2022 01:36:23 -0700 (PDT)
-Received: by mail-vk1-xa29.google.com with SMTP id b81so5461858vkf.1;
-        Tue, 13 Sep 2022 01:36:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date;
-        bh=ivmnXTLvhTwmbAEp7t6pe69Pq/r2wv5rtccxOKjcfIg=;
-        b=bmS0Ji8sRmRAjbdRpP6CyIH9JBqW82fXDxz638KWlN1c/c+XjhS67p6q24DOjYO985
-         Gt4bgOGZrLgfRj3ExGF5aNhmPosmuypV2qQTYcarOmSD/Z/l9e87ZSTsi8Wo7Lbs7FdG
-         w2+rLtem3qhcwTNq3USzP9nMiWmkUOtnDCs35sjltJNRlnKKLabKxHXggt5ozZVBdXWp
-         job1RxSaL2PomDUUal7JY0IyYVh79Kygdam3cFB5UB8EXs2XGEVC1KIAgzOVFK1bLMqp
-         7gDt+Ypn/1aEPUGBP/udYVGjvApddz62bce4y/3/MSFH0phSHTJLwmqFqWiyCRulv0vf
-         J4/Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date;
-        bh=ivmnXTLvhTwmbAEp7t6pe69Pq/r2wv5rtccxOKjcfIg=;
-        b=OWQeLyAScPmiUOpINgCLxj8u0m9/bO6qnGpX11J+ALEYm765oM0Th9uVOZNUuwXlpw
-         8XNZHXgBVss4jipVFLB6HGEH0nkuFpxrjTOJWmLgRqBkW7UxbX3EwZnFrLv6ZaBRSIsH
-         biBoAFQNr8kNcE3gVAbBql55JAR+fEIrtXR5KAPDMpxnGSar9jHMoEKJHmC2tp69iQdp
-         8HT3eRswTIrWQ9Ey9G/z6lwDiYYevek/LZmebvmDSqPnGxs2oSaH51gUMnGA6JbmrkYK
-         Sv7yRc170fle/jwn+yZ/FjyAbxK3cq+uJ6JTyGEruWwh2haK4qI2BEYwtMQaoY992RTH
-         KXYw==
-X-Gm-Message-State: ACgBeo19MbsxVukMstXimBgdUfk3gkcr84lfhPf25kmbZsxB7PWzD+FT
-        wdhzGQXXu5nCv2/mgR8lq8x8FeEbJgh6H1lyTkQ=
-X-Google-Smtp-Source: AA6agR76SqNzeF8iz54UmQh54NUQMtQIk1eQ1p+Zfax4WkA33daqGpypXu1O1HRPZoPBO/mTU4kuU8sKbFFytvVtoQY=
-X-Received: by 2002:a1f:b254:0:b0:345:87e4:17fb with SMTP id
- b81-20020a1fb254000000b0034587e417fbmr9714431vkf.25.1663058182771; Tue, 13
- Sep 2022 01:36:22 -0700 (PDT)
+        Tue, 13 Sep 2022 04:51:24 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 719905B7B8
+        for <linux-media@vger.kernel.org>; Tue, 13 Sep 2022 01:51:18 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (unknown [89.101.193.71])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5D957517;
+        Tue, 13 Sep 2022 10:51:14 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1663059074;
+        bh=FctNPx5/FJR2ynKUgrNHNP9aXdcyYsFXVdkeV0dInMk=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=l8OGNp2ubTrp80+k55T0ZK9t3fpRog8gIDk/a/H3zbhtSI84ZUxG29hYPQFFqAiwn
+         KeFwx2kjvi5StsH9Lxz0n0WluiQDS6/kdWcf2sfwAg0XVMa4uBD6A6BzRRk9Dbjx6m
+         DJRAHbLLIgLtLT71VAPxlAogfXI06/nnr06Ge2BU=
+Date:   Tue, 13 Sep 2022 11:51:00 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     Gregor Jasny <gjasny@googlemail.com>, linux-media@vger.kernel.org,
+        ezequiel@collabora.com, kieran.bingham@ideasonboard.com,
+        mchehab@kernel.org, nicolas@ndufresne.ca, p.zabel@pengutronix.de,
+        rosenp@gmail.com, sakari.ailus@iki.fi, sean@mess.org,
+        user.vdr@gmail.com, xavier.claessens@collabora.com
+Subject: Re: [PATCH v7 0/5] Switch build system to meson
+Message-ID: <YyBEdPGpsVMIP9dq@pendragon.ideasonboard.com>
+References: <20220909134412.21934-1-laurent.pinchart@ideasonboard.com>
+ <c96f4806-13ec-335f-68ab-10194411da43@googlemail.com>
+ <Yx+yv8l7EFbIniup@pendragon.ideasonboard.com>
+ <67fa379a-07f9-e19c-22da-6fda931ad8ca@xs4all.nl>
 MIME-Version: 1.0
-References: <CANXPkT6mYusYe8O0dbq3vW+24SsUZ19PqhOL+wLFRnbFXwu0Zg@mail.gmail.com>
- <CANXPkT7nOhH+5bD0ycyRBT9FKQBBszCVuWkqp4tFtVRf2+8DFg@mail.gmail.com>
- <CANXPkT5k9Pw4ka6CihyCg0oTd-32Te-ox=f3=9rtCphVgrdctA@mail.gmail.com>
- <165590120140.1149771.2257818527859865760@Monstersaurus> <4883f0a7-6a1b-31bd-33fe-db8f6dcf73fa@selasky.org>
- <CANXPkT73ssg6RRyfDtp7c_8sO60a-UT0-Y4S1_=D=M_mcLNN9g@mail.gmail.com>
- <CANXPkT4qYOYPL+F=-Pi_NbQErq9WwrR-M-BHe=gP9Ay4bSs+=w@mail.gmail.com>
- <CANXPkT5=ryAFvb1cO+Wb0CQYmytwedS2dqVTYqt2Km1fkK4w9Q@mail.gmail.com>
- <CANXPkT7vt8gq5UO4OXK2pTUyyB102ANJ5i9s92AW+a3rAioMog@mail.gmail.com>
- <085b9025-bc23-37d4-d430-afc432b4d783@selasky.org> <baf121ae-a5a4-47a3-bc3a-9255708009b9@selasky.org>
-In-Reply-To: <baf121ae-a5a4-47a3-bc3a-9255708009b9@selasky.org>
-From:   =?UTF-8?B?7Jyg7Jqp7IiY?= <yongsuyoo0215@gmail.com>
-Date:   Tue, 13 Sep 2022 17:36:13 +0900
-Message-ID: <CANXPkT44_qCcddg9Ayvk=cRLsUDq8G06toMTBGCsJ3kf+g+h-g@mail.gmail.com>
-Subject: Re: [PATCH] media: dvb_ringbuffer : Fix a bug in dvb_ringbuffer.c
-To:     Hans Petter Selasky <hps@selasky.org>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        mchehab@kernel.org, 0215yys@hanmail.net,
-        =?UTF-8?B?7Jyg7Jqp7IiY?= <yongsuyoo0215@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <67fa379a-07f9-e19c-22da-6fda931ad8ca@xs4all.nl>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -78,77 +52,48 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Dear Hans Petter Selasky
+Hi Mauro,
 
-I understood your points.
-Thank you for your kind explanation
-I found that the buffer size is 65535 like below source code.
-The 65535 is not the power of two.
-So it can still be a problem.
-...
-#define RX_BUFFER_SIZE 65535
-...
-rxbuf =3D vmalloc(RX_BUFFER_SIZE);
-...
-dvb_ringbuffer_init(&ca->slot_info[slot].rx_buffer, rxbuf, RX_BUFFER_SIZE);
-}
-...
+On Tue, Sep 13, 2022 at 08:15:43AM +0100, Hans Verkuil wrote:
+> On 9/12/22 23:29, Laurent Pinchart wrote:
+> > On Mon, Sep 12, 2022 at 04:41:33PM +0200, Gregor Jasny wrote:
+> >> Hello Laurent and all the other helping hands,
+> >>
+> >> On 9/9/22 3:44 PM, Laurent Pinchart wrote:
+> >>> This series is the latest (and greatest) attempt to switch v4l-utils
+> >>> from autotools to meson.
+> >>>
+> >>> Compared to v6, the first noticeable change is that fixups have been
+> >>> squashed into their corresponding commit. Detailed changelogs are now
+> >>> included in individual patches.
+> >>
+> >> Tested-by: Gregor Jasny <gjasny@googlemail.com>
+> >>
+> >> v7 is still working as expected with my Debian and Ubuntu packaging scripts.
+> > 
+> > Thanks for testing. I'll post a v8 with the improvements suggested in
+> > the review comments. I will also include updates to the
+> > v4l-utils.spec.in file, and would appreciate help testing it.
+> > 
+> >> What would you think would be a good time to release these changes?
+> >> Should I do a release shortly after the this change has landed?
+> > 
+> > I think that would be a good idea. Once v8 is out, if there are no more
+> > issues, I think it could be merged.
+> 
+> Two questions: for meson, what is the equivalent to 'make distclean'? 
+> Just rm -rf build?
 
-2022=EB=85=84 9=EC=9B=94 12=EC=9D=BC (=EC=9B=94) =EC=98=A4=ED=9B=84 9:36, H=
-ans Petter Selasky <hps@selasky.org>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1:
+That's correct. Meson doesn't make *any* change to the source directory.
 
->
-> Hi Mauro and YongSu,
->
-> Answering my own question: The reason nobody has triggered this yet, is
-> because the buffer size used is power of two. Because unsigned modulus
-> is used, the result becomes correct. See below. But if non-power of two
-> ring-buffer is used, then the result becomes incorrect. There is no
-> block for non-power of two sized buffers. See:
->
-> https://github.com/search?q=3Ddvb_set_pesfilter&type=3Dcode
->
-> cat << EOF > testX.c
-> #include <stdio.h>
->
-> int
-> main()
-> {
-> int consumed_old;
-> int consumed_fix;
-> size_t idx =3D 3;
-> ssize_t pread =3D 15;
-> ssize_t size =3D 256;
->
-> consumed_old =3D (idx - pread) % size;
->
-> consumed_fix =3D (idx - pread);
-> if (consumed_fix < 0)
-> consumed_fix +=3D size;
->
-> printf("old=3D%d new=3D%d size=3D%zd\n", consumed_old, consumed_fix, size=
-);
->
-> size =3D 254;
->
-> consumed_old =3D (idx - pread) % size;
->
-> consumed_fix =3D (idx - pread);
-> if (consumed_fix < 0)
-> consumed_fix +=3D size;
->
-> printf("old=3D%d new=3D%d size=3D%zd\n", consumed_old, consumed_fix, size=
-);
->
-> return (0);
-> }
-> EOF
->
-> cc testX.c && ./a.out
-> old=3D244 new=3D244 size=3D256
-> old=3D244 new=3D242 size=3D254
->
-> So either push the suggested fix, or block non-power of two buffer sizes!
->
-> Best regards,
-> --HPS
+> And another: if I enable building for v4l2-ctl-32 and 
+> v4l2-compliance-32, then those targets aren't build AFAICS.
+
+I'll check that (a bit busy this week with ELC and LPC).
+
+> It's needed for testing 32-bit compat code.
+
+-- 
+Regards,
+
+Laurent Pinchart
