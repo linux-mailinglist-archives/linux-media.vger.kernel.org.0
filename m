@@ -2,57 +2,56 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BE2895B88B9
-	for <lists+linux-media@lfdr.de>; Wed, 14 Sep 2022 14:58:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 354F85B88BE
+	for <lists+linux-media@lfdr.de>; Wed, 14 Sep 2022 14:58:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229577AbiINM6K (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 14 Sep 2022 08:58:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57502 "EHLO
+        id S229833AbiINM6z (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 14 Sep 2022 08:58:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57994 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229621AbiINM6H (ORCPT
+        with ESMTP id S229785AbiINM6w (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 14 Sep 2022 08:58:07 -0400
-Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com [IPv6:2a00:1450:4864:20::62e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 47DC317E25
-        for <linux-media@vger.kernel.org>; Wed, 14 Sep 2022 05:58:01 -0700 (PDT)
-Received: by mail-ej1-x62e.google.com with SMTP id sb3so4860362ejb.9
-        for <linux-media@vger.kernel.org>; Wed, 14 Sep 2022 05:58:01 -0700 (PDT)
+        Wed, 14 Sep 2022 08:58:52 -0400
+Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com [IPv6:2a00:1450:4864:20::630])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 73220760CB
+        for <linux-media@vger.kernel.org>; Wed, 14 Sep 2022 05:58:49 -0700 (PDT)
+Received: by mail-ej1-x630.google.com with SMTP id a26so5791488ejc.4
+        for <linux-media@vger.kernel.org>; Wed, 14 Sep 2022 05:58:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date;
-        bh=I2ClKCNA8nGw26qPRTutewiZz4gnHlgIxTVYr8EB/C0=;
-        b=toGFeiHDO8nOmyDJ1wpO0V7ZxZRs6uSdjlH//F9V9YMX7UxpvoX96BgI0QLrU0uz7u
-         DSGgi3SwyD68LMh+N8EoWlMgJE/2xe0ravvzCfVuhRcA56J/4GnbV6Qo/pfQF5N0QWEq
-         xNXq6LPxKznKPR93qvZ4ygosriyMbUEPq/N8Qukd7DZVJWFrCEJoueK6KFkAkNu05my0
-         Z2kziPW3dVHZwEU+FusOHHL6ueoqSdi1sf0A2nU3fIO9fdpoiX0Wnk1ntMDbeTARS1jT
-         Oz6mZMJmoFT6WhG2o0IzclRVbmSXCb3QRuwk+MIQtx6Sx9h3CEuHvUqNcHQ4NQCqJtoR
-         6SCQ==
+        bh=RbeM9DZniF3+BT0n/bil36L/UN9NE1w4V5SmRGWQ15E=;
+        b=Sk9Sv6K0LAVqg5NkER8hGVtz1lY8vgR5kQkURSb0bBWvQdp6b5TRWDYlnqe1IPls//
+         kwYrnHjMmJVEYrRZs992Y4+oIR6cu7Qz4y/BT2qhZv5wJjNt3hQkl/GFFN6rWqinAd4D
+         mYQFwi/D5TQ06aKzoZBomC1Cz/MeoGKvz67RuyTDlopCePzGXtBPWTDz70yGbfnE7AUD
+         zujS0IGqwmqxJxbbKR6yknxyrpr4qGcgScMh2KBGF1sBDl8D5Sx503EMGJB/BLkSdCeU
+         7zQeDy1lQdFRmNJqb7d6wdaF9Miwbq1OYkadFT3vKa64e8cEsZrRezgTwhrpOC1nuHX2
+         iPBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=I2ClKCNA8nGw26qPRTutewiZz4gnHlgIxTVYr8EB/C0=;
-        b=uMCChokRFhWeASCKthFKPjFdfk/P0R4Cf2Mvh6/tl0yaFA+FCGgsDhC82BgxQGknzK
-         iGzLb+J6MngHGRnwjnWK6U2KyFrtNGlPWiLi2usSvLXKqodMwRFvUFcnnWkgcoM/I2UJ
-         xPxnxxLaXI1MxrKYoNZDvrgCGtsCGxjVtAUNZ0R9rJutmoGHfzQK+Gh5azXA3xeHcuhD
-         VSHEvOYMJ84DqJB7KUbnyCALwBbclBvVfORjBff7R3lyUdXOLfcrOPdx6wzFlDg6dncQ
-         H1AG0VGpIGl5e9RBmXewu5Rqa7j7N9JuVi/v9nXEw83PGwkFKhPpwu8ECPbsO58yn12Z
-         /18w==
-X-Gm-Message-State: ACgBeo3DhO4922Q6ngbdchGyWcmDdBfJgIjg5A1J5iEScXqlLIzUPuq8
-        LOTXr8Yq9oDaWedqoKGh7WFmEzZGz0t9Iw9vdPUhfg==
-X-Google-Smtp-Source: AA6agR4YH/5boV9AGgO4NnyoVhAFZR0/ol+MHAeJc+Q4I3I9dqqwYbVPCQRWIK+Y1MtGnJw4qmEqHqHoa+kp1CDq9DY=
-X-Received: by 2002:a17:906:9b86:b0:73d:72cf:72af with SMTP id
- dd6-20020a1709069b8600b0073d72cf72afmr25658550ejc.440.1663160279893; Wed, 14
- Sep 2022 05:57:59 -0700 (PDT)
+        bh=RbeM9DZniF3+BT0n/bil36L/UN9NE1w4V5SmRGWQ15E=;
+        b=hctpAbS0I0zbY4XF/ekx5RSspMQywYdytqYTpnKZxFIvk0Qqma/t+9tuYNcIeImPJ9
+         bOqk69TLwGBq/i6SkCpIHnu6DlsQlKvtdu43HcPZI8DeIFSIkIAYbdeq5byDAkIq4YfL
+         Uw0Wi8WKJwATzdta6jHfWrGD8lIUV0EznP81Rxy7EtZmss4HvzehbhV7/p/Zwj7+3fSo
+         hhF4opJfjoQi8lAmIoz5JMwFNB/27gHQAaxzJbX+8v4iP+arVILtW//MRBjNPIao9cVt
+         z7P+7p8ubB4K/jfDqo/lOetCdfaZVRFjS/IFR5JB9R4H20c3SvbGeoCc8MhmQ5c4H9YB
+         l7uQ==
+X-Gm-Message-State: ACgBeo2VQjDpIaUWylgg6N/OTkF74xBmFnQXmf9wPSyqBnpf1DopbaQa
+        q54jwAphWu6SP28XKws1VVdYjawhRWWJZFmtwb9otw==
+X-Google-Smtp-Source: AA6agR4JR88clS0aetO6jT0vyk4MuwBqg1K1qnwtnMfXx3GWwDQs4vpwTRHZrGOnQQePAzb8qtteFI0vsOD0JzLVzAU=
+X-Received: by 2002:a17:907:e9e:b0:77f:9688:2714 with SMTP id
+ ho30-20020a1709070e9e00b0077f96882714mr7738909ejc.208.1663160327903; Wed, 14
+ Sep 2022 05:58:47 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220913164104.203957-1-dmitry.torokhov@gmail.com>
-In-Reply-To: <20220913164104.203957-1-dmitry.torokhov@gmail.com>
+References: <20220913164104.203957-1-dmitry.torokhov@gmail.com> <20220913164104.203957-2-dmitry.torokhov@gmail.com>
+In-Reply-To: <20220913164104.203957-2-dmitry.torokhov@gmail.com>
 From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Wed, 14 Sep 2022 14:57:48 +0200
-Message-ID: <CACRpkdaY7NuCY7_847uKFP3_L1ny-PsOeWrh4J==enc8ecpzyA@mail.gmail.com>
-Subject: Re: [PATCH 1/2] ARM: dts: exynos: correct s5k6a3 reset polarity on
- Midas family
+Date:   Wed, 14 Sep 2022 14:58:36 +0200
+Message-ID: <CACRpkdZaVrF43K8hSyamd99b+tCs-nEsKH=1oqo=5ww4v6EKfg@mail.gmail.com>
+Subject: Re: [PATCH 2/2] media: i2c: s5k6a3: switch to using gpiod API
 To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
 Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Alim Akhtar <alim.akhtar@samsung.com>,
@@ -74,15 +73,11 @@ X-Mailing-List: linux-media@vger.kernel.org
 On Tue, Sep 13, 2022 at 6:41 PM Dmitry Torokhov
 <dmitry.torokhov@gmail.com> wrote:
 
-> According to s5k6a3 driver code, the reset line for the chip appears to
-> be active low. This also matches the typical polarity of reset lines in
-> general. Let's fix it up as having correct polarity in DTS is important
-> when the driver will be switched over to gpiod API.
+> This patch switches the driver away from legacy gpio/of_gpio API to
+> gpiod API, and removes one of the last uses of of_get_gpio_flags().
 >
-> Fixes: b4fec64758ab ("ARM: dts: Add camera device nodes for Exynos4412 TRATS2 board")
 > Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 
-Excellent catch!
 Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 
 Yours,
