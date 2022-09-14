@@ -2,54 +2,59 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E54F95B8B30
-	for <lists+linux-media@lfdr.de>; Wed, 14 Sep 2022 17:03:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8F6EE5B8BBC
+	for <lists+linux-media@lfdr.de>; Wed, 14 Sep 2022 17:26:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229991AbiINPDS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 14 Sep 2022 11:03:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49804 "EHLO
+        id S229901AbiINP0q (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 14 Sep 2022 11:26:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36008 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229906AbiINPDP (ORCPT
+        with ESMTP id S229671AbiINP0o (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 14 Sep 2022 11:03:15 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1D22274361;
-        Wed, 14 Sep 2022 08:03:14 -0700 (PDT)
-Received: from dimapc.. (109-252-122-187.nat.spd-mgts.ru [109.252.122.187])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: dmitry.osipenko)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 087C56601BDF;
-        Wed, 14 Sep 2022 16:03:11 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1663167792;
-        bh=MKe6/s3tvLmdyJXZjKooDqWZzASfXtNe2FVvnbAhZLM=;
-        h=From:To:Cc:Subject:Date:From;
-        b=RKoQTFo8BXGuXtV1ZJtrlPH1iX7chZWETLyGqWYcAfSu+PT2P3sRjrQrbdeOok/tg
-         di91k1Bjtixc6gaBuvHWc72tPj4IVVdM3D/blyyTynKXBIZ57KjRJJINHL3JFQigOo
-         0ykVUxISaO6Ty3jVxSez7Ct6HYQSroGAGsLsvZdi8vgg7nxfqwadw764uzmfvWPEAj
-         JiVPqJ0BCWhQgyXgYByRaYocmJrubd33yH0rKD/jqRKQ598XLaRhUTkMPHpUV+xnwc
-         q0FODgTcS4USQB/2UrGMCd00pMKW8OyGShTcQR6DPYwWs55tl7HcDNhvoZylJNQoXP
-         43ONzAShPnKlw==
-From:   Dmitry Osipenko <dmitry.osipenko@collabora.com>
-To:     Maxime Ripard <mripard@kernel.org>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Wed, 14 Sep 2022 11:26:44 -0400
+Received: from comms.puri.sm (comms.puri.sm [159.203.221.185])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D03297E823;
+        Wed, 14 Sep 2022 08:26:42 -0700 (PDT)
+Received: from localhost (localhost [127.0.0.1])
+        by comms.puri.sm (Postfix) with ESMTP id 46870E04A4;
+        Wed, 14 Sep 2022 08:26:12 -0700 (PDT)
+Received: from comms.puri.sm ([127.0.0.1])
+        by localhost (comms.puri.sm [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id ToQhBhfMY8wI; Wed, 14 Sep 2022 08:26:11 -0700 (PDT)
+Date:   Wed, 14 Sep 2022 17:26:00 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=puri.sm; s=comms;
+        t=1663169171; bh=GRd0Er8cQRzg8b9o6N6209YQvGuoI3bMVzGgJgqeQA0=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=Vbsktjz81ajC+5URgeBDFHzm9asyXTsk/lvVl5hh4Ug11pxkXCjvoyQtp9AJMBwVL
+         whUfKjM+oRL4NC7qxBlXwl0gnfsiV/TK4XcdYMCWfvxniOn3o6YaPCICI83oHoJFaE
+         dihOYCJON3j/TWtds+c2BhuONlpycZRFDxXSWSCfZ0Ki886HwdQLjIAlklqtNsLpgm
+         DwePa7+CO2LW8g0pv2yA+rM4FX1XEus/SGXPhGJydnklF3a3nPZu2JfA5uWOG/u8/o
+         fhYMOGtbn7+AaIySt6cIlFsBQsIiXB1/UpeswuLeXBSj7HWKQMqFSi7i11G6jhJTRJ
+         XX5dGQ3I0MiYw==
+From:   Dorota Czaplejewicz <dorota.czaplejewicz@puri.sm>
+To:     Dan Carpenter <dan.carpenter@oracle.com>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Samuel Holland <samuel@sholland.org>,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Cc:     linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
-        kernel@collabora.com
-Subject: [PATCH v1] media: cedrus: Propagate error code from cedrus_h265_skip_bits()
-Date:   Wed, 14 Sep 2022 18:01:05 +0300
-Message-Id: <20220914150105.209484-1-dmitry.osipenko@collabora.com>
-X-Mailer: git-send-email 2.37.3
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        kernel@puri.sm, phone-devel@vger.kernel.org
+Subject: Re: [PATCH 1/2] media: imx: Round line size to 4 bytes
+Message-ID: <20220914172600.0666326b.dorota.czaplejewicz@puri.sm>
+In-Reply-To: <YyHlXMHuUHBqipd0@kadam>
+References: <20220914113436.1503790-1-dorota.czaplejewicz@puri.sm>
+        <YyHlXMHuUHBqipd0@kadam>
+Organization: Purism
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; boundary="Sig_/j8w0hyz.ZiK=Yh=0nN_TgSS";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
@@ -59,122 +64,91 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The cedrus_h265_skip_bits() may get into infinite loop if decoding
-parameters are incorrect. In this case we detect the loop and print
-a error message, continuing the decoding that is fated to fail.
+--Sig_/j8w0hyz.ZiK=Yh=0nN_TgSS
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-Will be cleaner to abort the decoding early. Propagate the error code
-to cedrus_device_run() and reset hardware on the cedrus_h265_skip_bits()
-failure.
+Hi,
 
-Suggested-by: Jernej Škrabec <jernej.skrabec@gmail.com>
-Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
----
- drivers/staging/media/sunxi/cedrus/cedrus_dec.c  |  2 ++
- drivers/staging/media/sunxi/cedrus/cedrus_h265.c | 15 ++++++++++++---
- drivers/staging/media/sunxi/cedrus/cedrus_hw.c   |  7 ++++++-
- drivers/staging/media/sunxi/cedrus/cedrus_hw.h   |  2 ++
- 4 files changed, 22 insertions(+), 4 deletions(-)
+On Wed, 14 Sep 2022 17:29:48 +0300
+Dan Carpenter <dan.carpenter@oracle.com> wrote:
 
-diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_dec.c b/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
-index e7f7602a5ab4..ae5df3dc01c0 100644
---- a/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
-+++ b/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
-@@ -112,6 +112,8 @@ void cedrus_device_run(void *priv)
- 
- 		dev->dec_ops[ctx->current_codec]->trigger(ctx);
- 	} else {
-+		cedrus_hw_reset(dev);
-+
- 		v4l2_m2m_buf_done_and_job_finish(ctx->dev->m2m_dev,
- 						 ctx->fh.m2m_ctx,
- 						 VB2_BUF_STATE_ERROR);
-diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
-index 4952fc17f3e6..f409f59452d8 100644
---- a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
-+++ b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
-@@ -224,9 +224,10 @@ static void cedrus_h265_pred_weight_write(struct cedrus_dev *dev,
- 	}
- }
- 
--static void cedrus_h265_skip_bits(struct cedrus_dev *dev, int num)
-+static int cedrus_h265_skip_bits(struct cedrus_dev *dev, int num)
- {
- 	int count = 0;
-+	int err;
- 
- 	while (count < num) {
- 		int tmp = min(num - count, 32);
-@@ -235,11 +236,16 @@ static void cedrus_h265_skip_bits(struct cedrus_dev *dev, int num)
- 			     VE_DEC_H265_TRIGGER_FLUSH_BITS |
- 			     VE_DEC_H265_TRIGGER_TYPE_N_BITS(tmp));
- 
--		if (cedrus_wait_for(dev, VE_DEC_H265_STATUS, VE_DEC_H265_STATUS_VLD_BUSY))
-+		err = cedrus_wait_for(dev, VE_DEC_H265_STATUS, VE_DEC_H265_STATUS_VLD_BUSY);
-+		if (err) {
- 			dev_err_ratelimited(dev->dev, "timed out waiting to skip bits\n");
-+			return err;
-+		}
- 
- 		count += tmp;
- 	}
-+
-+	return 0;
- }
- 
- static void cedrus_h265_write_scaling_list(struct cedrus_ctx *ctx,
-@@ -408,6 +414,7 @@ static int cedrus_h265_setup(struct cedrus_ctx *ctx, struct cedrus_run *run)
- 	u32 pic_order_cnt[2];
- 	u8 *padding;
- 	int count;
-+	int err;
- 	u32 reg;
- 
- 	sps = run->h265.sps;
-@@ -534,7 +541,9 @@ static int cedrus_h265_setup(struct cedrus_ctx *ctx, struct cedrus_run *run)
- 	/* Include the one bit. */
- 	count++;
- 
--	cedrus_h265_skip_bits(dev, slice_params->data_byte_offset * 8 - count);
-+	err = cedrus_h265_skip_bits(dev, slice_params->data_byte_offset * 8 - count);
-+	if (err)
-+		return err;
- 
- 	/* Bitstream parameters. */
- 
-diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_hw.c b/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
-index a6470a89851e..e9ceca332062 100644
---- a/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
-+++ b/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
-@@ -168,11 +168,16 @@ void cedrus_watchdog(struct work_struct *work)
- 					 VB2_BUF_STATE_ERROR);
- }
- 
-+void cedrus_hw_reset(struct cedrus_dev *dev)
-+{
-+	reset_control_reset(dev->rstc);
-+}
-+
- int cedrus_hw_suspend(struct device *device)
- {
- 	struct cedrus_dev *dev = dev_get_drvdata(device);
- 
--	reset_control_assert(dev->rstc);
-+	cedrus_hw_reset(dev);
- 
- 	clk_disable_unprepare(dev->ram_clk);
- 	clk_disable_unprepare(dev->mod_clk);
-diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_hw.h b/drivers/staging/media/sunxi/cedrus/cedrus_hw.h
-index 7c92f00e36da..919c4475f0d7 100644
---- a/drivers/staging/media/sunxi/cedrus/cedrus_hw.h
-+++ b/drivers/staging/media/sunxi/cedrus/cedrus_hw.h
-@@ -30,4 +30,6 @@ void cedrus_hw_remove(struct cedrus_dev *dev);
- 
- void cedrus_watchdog(struct work_struct *work);
- 
-+void cedrus_hw_reset(struct cedrus_dev *dev);
-+
- #endif
--- 
-2.37.3
+> On Wed, Sep 14, 2022 at 01:58:08PM +0200, Dorota Czaplejewicz wrote:
+> > This has been broken in e352833d, which does not actually copy the logic
+> > from 056f9af9.
+> >  =20
+>=20
+> There is no commit 056f9af9.  Always the human readable subject for the
+> patch.  Also use 12 characters and not 8 so we don't get two commits
+> with the same hash.
 
+Thanks. Unbeknownst to me, no one ever applied or rejected the patch series=
+ I sent and saw under 056f9af9.
+
+I'll send a fresh series in a moment.
+
+Cheers
+--Dorota
+>=20
+> Please add a Fixes tag.
+> Fixes: e352833d32e6 ("media: staging: media: imx: imx7-media-csi: Import =
+format helpers")
+>=20
+> A Fixes tag can be used to automatically determine if a patch needs a
+> backport or not.  It's just useful information as well.
+>=20
+> > Section 13.7.6.13 "CSI Image Parameter Register" of the
+> > i.MX 8M Quad Applications Processors Reference Manual
+> > states that the line size should be divisible by 8 bytes.
+> > However, the hardware also accepts sizes divisible by 4 bytes.
+> >=20
+> > This patch accepts line sizes divisible 4-bytes in non-planar mode.
+> >=20
+> > Signed-off-by: Dorota Czaplejewicz <dorota.czaplejewicz@puri.sm>
+> > ---
+> > Hi,
+> >=20
+> > in recent kernels, I've noticed that the Librem 5 camera driver no long=
+er works. The s5k3l6xx out of tree sensor driver uses sizes divisible by 4 =
+and not by 8, for which I submitted the patch 056f9af9 . The new kernels no=
+ longer accept sizes divisible by 4.
+> >  =20
+>=20
+> This information needs to be in the commit message.  Otherwise the
+> commit message just sounds like theory and abstraction which we do not
+> care about.  We do care about real hardware which is not working and
+> especially if it used to work.
+>=20
+> I'm not really qualified to review the details of this patch.
+> Laurent is best qualified to review this.  He'll get this message
+> because he's subscribed to the lists but it's also good to CC him as
+> well because he's probably drowning in email like the rest of us.  I've
+> added him.
+>=20
+> regards,
+> dan carpenter
+>=20
+
+
+--Sig_/j8w0hyz.ZiK=Yh=0nN_TgSS
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEExKRqtqfFqmh+lu1oADBpX4S8ZncFAmMh8ogACgkQADBpX4S8
+Znfllw/+LcG/SOyQ3hwUs7MwKwIDVZJe14dBhMUAqEyfl2dq+UapNpAQC9kl7+Nz
+XJn4ix4mhtK9X6W180uCMwQmARWpp/SqLENvyY+3WFDSubQ+prOVhSZ0F2SPeig0
+H0/CdwbXJcSNzpUhm1k3Zyp0UaOzGKxAUVTr87jJYr3GchqM3m5ZVREtf8vEE48G
+q5SucKQ1Rc1B6cwqCAHJMF0Jj8do8Fs0NousILkaUCaPt/sH07nN0S43LiiFrH7z
+xPvGc2lQP2e82TfflARa42nXYap2LUOf4fEdSe2+VSQmpunpT/uMX0VkT4QpTSsf
+GwlaK6obeh/4CvI57t4hNRkJD9A8gr3L2zkEN4sQuFkesnE3sROiSXzKZLvBEoWx
+i4aTPLvkC95HgoycjK9D9A+Nbf6g/laIa5C4CVRQuKkfnuY05jdIQ+uXjI/0IwQC
+CJY3XPfMkd60PfiE7dZK6iAD92u7WbNCH8jrzQhE1+h3YVhXsIudRRQ7VGecLWZK
+wnPn0nMg3fjs5Vh7QI4WZG2bzH3kXVrZx/vQigsOBOdDakchAPl1mZNGuv1L6Gww
+rp+HMiPudloJG1d+eurZhLFzQRKUtB+WRFZ/7LmxnuXRIkpe6XqStvGr6KXE0471
++EQd6VVf+WSOYiRHkYtgQSh/mCbyefJkHZlfjXYIhZR2kztY7DY=
+=JWjV
+-----END PGP SIGNATURE-----
+
+--Sig_/j8w0hyz.ZiK=Yh=0nN_TgSS--
