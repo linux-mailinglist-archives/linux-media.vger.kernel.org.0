@@ -2,148 +2,174 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C6C645B7B6F
-	for <lists+linux-media@lfdr.de>; Tue, 13 Sep 2022 21:36:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 447245B85C1
+	for <lists+linux-media@lfdr.de>; Wed, 14 Sep 2022 11:59:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229989AbiIMTci (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 13 Sep 2022 15:32:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55026 "EHLO
+        id S231133AbiINJ7P (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 14 Sep 2022 05:59:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39814 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229965AbiIMTcA (ORCPT
+        with ESMTP id S229521AbiINJ7N (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 13 Sep 2022 15:32:00 -0400
-Received: from mail-pf1-x435.google.com (mail-pf1-x435.google.com [IPv6:2607:f8b0:4864:20::435])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF1C57A744;
-        Tue, 13 Sep 2022 12:30:25 -0700 (PDT)
-Received: by mail-pf1-x435.google.com with SMTP id j12so12685448pfi.11;
-        Tue, 13 Sep 2022 12:30:25 -0700 (PDT)
+        Wed, 14 Sep 2022 05:59:13 -0400
+Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com [IPv6:2a00:1450:4864:20::52f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E74303134D
+        for <linux-media@vger.kernel.org>; Wed, 14 Sep 2022 02:59:10 -0700 (PDT)
+Received: by mail-ed1-x52f.google.com with SMTP id z13so7452940edb.13
+        for <linux-media@vger.kernel.org>; Wed, 14 Sep 2022 02:59:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date;
-        bh=D2vwqOzav4CEoHkfQCGRtdC0GM50sPPilT94bMdUvjM=;
-        b=nJFfUaF6joYDViuPYmXJaqGEJlU0aKCjzkr3/uyMC9FR9ZUCeiU6lS3mrMfSS4Go1o
-         SiSkoNKE5R5ET4HWPIxeSzfuZgImw9+hHPVK9fBD5/+vDZuxA6jiHw3bo5kTF1+dBQlZ
-         TS5umc5ag+/UI6pTHh1WG/To4VnRbxq/HQMSmSibFcAd18PhSLFnoVDh3J1KshAha1a+
-         wnA3bj6xcYuGGGl5RmHg4N+U8HDwZBujWXcw9F9BcT6w/pyKeXoraOqfxIPp0UBloZfH
-         uhlRMsg/kK6lgUpYpf02ev2ooi2sdcIqQuTMVpnWhp4CA3G3H2zEQNKuP88vZcHWhggU
-         bTeQ==
+        d=raspberrypi.com; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date;
+        bh=V4RrDQnfr6xSnGZ3KzxlQ6mHzQiczZDyhIA9gD9qjUI=;
+        b=nQZMRHPg2UTgOxDP7JSRo8akFJA5IkWIkvKU/1DUSeRzAJwMhp+z8o9Y8Di6Ye0CzC
+         0gDfbJhHCN+MCF2W5gB0gH3NFXe+V/QJtSzi7Nb1pvvUQ0tHDBPVfO99kDYUKnJK+hTF
+         dOI4eUohJ2YyQeCL6z9m0hRCLbUVfgHFnq0u1/+jSxKebBLrsrzSxkLng3Qn3gV7kh0k
+         zdfM0BgYLbh3NbMh5OKtLut2ZMpUYztGpTzd/RciYzGPSIb+yL/F2Kh7qJ1TOORs0WPG
+         Dg1/CW2NLDCjLdpIsEBoIsfrjOOnrgoSJ+0Z3hMo9K9xsQipdaXZXfX5hTJbCQsGOj4t
+         WaIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date;
-        bh=D2vwqOzav4CEoHkfQCGRtdC0GM50sPPilT94bMdUvjM=;
-        b=cjHFAWIo6yh2HlgZHwt25edT0QduAWXcDxsb7x0TJHHjU9hf0A1nVy/HzXx2x25hai
-         sfEnzU+/htRgf/IAB4vvrhDfrTNuDBhVsDujNieWMcq8Tg7bM8m03ntwbDiN9TqzvZn0
-         d4/VklwrMRi4Xnz/jO+OL2+4sw3gqceEXfvqqkeDTrLbGSP3YTPvyOINSxCVhRE8t+ZN
-         uvAc5Nqd/jikFs/ygBveoJcrJK7ZfBCYU5z2yXn/NVy3IauYS7BQg8XDcz7QKr12hEvt
-         AUsyJrOkf8clJGGTQQaRK8wHDMVTFr8Ec2jxi6wFyO7kE2FiMVj/nM2PL6Whm5l7IX1V
-         SEVg==
-X-Gm-Message-State: ACgBeo3Knd1daRFQ3gF3JmZFYWhkDfRJj16LfMAsJyBS0JfIOrph4/vN
-        0Cz+OoylR73ltQKkEYbHbwk=
-X-Google-Smtp-Source: AA6agR4QP3iZF1NpQyf3yZ97OjjUp3qIeT9bmLCVv/nJPirFI2hu6uRzc7OSRX8F7zr9GTrDGaNmKw==
-X-Received: by 2002:a63:80c6:0:b0:438:d512:e87c with SMTP id j189-20020a6380c6000000b00438d512e87cmr13605581pgd.619.1663097425170;
-        Tue, 13 Sep 2022 12:30:25 -0700 (PDT)
-Received: from ritvixpc.. ([2405:201:5c0b:6821:308b:e0f8:702c:13e6])
-        by smtp.gmail.com with ESMTPSA id r18-20020a170902c7d200b001745662d568sm8641452pla.278.2022.09.13.12.30.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Sep 2022 12:30:24 -0700 (PDT)
-From:   Ritwik Sahani <ritwik.shn.dev@gmail.com>
-Cc:     Ritwik Sahani <ritwik.shn.dev@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Arnd Bergmann <arnd@arndb.de>, linux-media@vger.kernel.org,
-        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH] media: atomisp: move trailing statements to next line
-Date:   Wed, 14 Sep 2022 00:59:32 +0530
-Message-Id: <20220913192933.31694-1-ritwik.shn.dev@gmail.com>
-X-Mailer: git-send-email 2.34.1
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date;
+        bh=V4RrDQnfr6xSnGZ3KzxlQ6mHzQiczZDyhIA9gD9qjUI=;
+        b=yITPnGFV8QXW7Bzi2XvPVLZNYmmLUOJe1bVrUkHMT87TaNvFPO8OKFUysqL1v3HZ8P
+         xKZY3J4NlPUHdeNVMYdWZFR/S9c8Np1s65Tw8kowc/EnBkK2WkMmTnGmjD9Y7DEkmp2l
+         r+mcVN7HOcpJFcYfxhsb9RDfIJJuy9usPJv3cBKdnO5EUiZr6Vxp4ao6dKPa/nmXztyY
+         O1GB0nBHe0Q56+IUWHZJZk4Z4xu37OjkoBNUF51w6uoHzv5ijlfg1PVe6a7YsbtqqJ1r
+         uWeVxXZt4BlBdOGyKCO5Lo8TaOIym3WziVTUSmEv6bLoDT56MND9qhcuoUj5+LW1i2IT
+         RQMA==
+X-Gm-Message-State: ACgBeo0r8LEfojeGS6+A2CQZdEQnHEjf+fbVzmDBRqfmeanIFF/5oE2E
+        s7MKjL7CXbn/x0cVddz1aktTmNlNRQ3ixCq2XvC4Wg==
+X-Google-Smtp-Source: AA6agR5k1IWUTu/5qFMdsnP1uc+73La/xSsDFRk24vZ/WeRm4VC6W66Q8nrVvaW0tIVvF+1KB77wGcU5FxxBabIHWMk=
+X-Received: by 2002:a05:6402:43cc:b0:451:129e:1b1e with SMTP id
+ p12-20020a05640243cc00b00451129e1b1emr20773700edc.258.1663149548597; Wed, 14
+ Sep 2022 02:59:08 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20220911200147.375198-1-mike.rudenko@gmail.com>
+In-Reply-To: <20220911200147.375198-1-mike.rudenko@gmail.com>
+From:   Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date:   Wed, 14 Sep 2022 10:58:52 +0100
+Message-ID: <CAPY8ntCA3jbpBOiNfoft58sHPeTFSLoLop0VUmkOCWP3cX_rdw@mail.gmail.com>
+Subject: Re: [PATCH v2 0/2] Add Omnivision OV4689 image sensor driver
+To:     Mikhail Rudenko <mike.rudenko@gmail.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Shawn Tu <shawnx.tu@intel.com>, Jimmy Su <jimmy.su@intel.com>,
+        Arnd Bergmann <arnd@arndb.de>, Arec Kao <arec.kao@intel.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Marek Vasut <marex@denx.de>, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
-To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Adhere to Linux kernel coding style.
+Hi Mikhail
 
-Reported by checkpatch:
-ERROR: trailing statements should be on next line
+On Sun, 11 Sept 2022 at 21:02, Mikhail Rudenko <mike.rudenko@gmail.com> wrote:
+>
+> Hello,
+>
+> this series implements support for Omnivision OV4689 image
+> sensor. The Omnivision OV4689 is a high performance, 1/3-inch, 4
+> megapixel image sensor. Ihis chip supports high frame rate speeds up
+> to 90 fps at 2688x1520 resolution. It is programmable through an I2C
+> interface, and sensor output is sent via 1/2/4 lane MIPI CSI-2
+> connection.
+>
+> The driver is based on Rockchip BSP kernel [1]. It implements 4-lane CSI-2
+> and single 2688x1520 @ 30 fps mode. The driver was tested on Rockchip
+> 3399-based FriendlyElec NanoPi M4 board with MCAM400 camera module.
+>
+> While porting the driver, I stumbled upon two issues:
+>
+> (1) In the original driver, horizontal total size (HTS) was set to a
+> value (2584) lower then the frame width (2688), resulting in negative
+> hblank. In this driver, I increased HTS to 2688, but fps dropped from
+> 29.88 to 28.73. What is the preferred way to handle this?
 
-Signed-off-by: Ritwik Sahani <ritwik.shn.dev@gmail.com>
----
- .../hive_isp_css_common/host/input_system.c    | 18 ++++++++++++------
- 1 file changed, 12 insertions(+), 6 deletions(-)
+This is one of the joys of sensors - they don't all work in the same way.
 
-diff --git a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c
-index 712e01c37870..4b426d938586 100644
---- a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c
-+++ b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c
-@@ -878,7 +878,8 @@ static input_system_err_t input_system_configure_channel(
- 			return INPUT_SYSTEM_ERR_PARAMETER_NOT_SUPPORTED;
- 		}
- 
--		if (error != INPUT_SYSTEM_ERR_NO_ERROR) return error;
-+		if (error != INPUT_SYSTEM_ERR_NO_ERROR)
-+			return error;
- 		// Input switch channel configurations must be combined in united config.
- 		config.input_switch_cfg.hsync_data_reg[channel.source_cfg.csi_cfg.csi_port * 2]
- 		    =
-@@ -1586,13 +1587,15 @@ static input_system_err_t input_system_configure_channel_sensor(
- 
- 	status = set_source_type(&config.source_type, channel.source_type,
- 				 &config.source_type_flags);
--	if (status != INPUT_SYSTEM_ERR_NO_ERROR) return status;
-+	if (status != INPUT_SYSTEM_ERR_NO_ERROR)
-+		return status;
- 
- 	// Check for conflicts on source (implicitly on multicast, capture unit and input buffer).
- 
- 	status = set_csi_cfg(&config.csi_value[port], &channel.source_cfg.csi_cfg,
- 			     &config.csi_flags[port]);
--	if (status != INPUT_SYSTEM_ERR_NO_ERROR) return status;
-+	if (status != INPUT_SYSTEM_ERR_NO_ERROR)
-+		return status;
- 
- 	switch (channel.source_cfg.csi_cfg.buffering_mode) {
- 	case INPUT_SYSTEM_FIFO_CAPTURE:
-@@ -1601,7 +1604,8 @@ static input_system_err_t input_system_configure_channel_sensor(
- 		mux = INPUT_SYSTEM_MIPI_PORT0 + port;
- 		status = input_system_multiplexer_cfg(&config.multiplexer, mux,
- 						      &config.multiplexer_flags);
--		if (status != INPUT_SYSTEM_ERR_NO_ERROR) return status;
-+		if (status != INPUT_SYSTEM_ERR_NO_ERROR)
-+			return status;
- 		config.multicast[port] = INPUT_SYSTEM_CSI_BACKEND;
- 
- 		// Shared resource, so it should be blocked.
-@@ -1616,7 +1620,8 @@ static input_system_err_t input_system_configure_channel_sensor(
- 		mux = INPUT_SYSTEM_ACQUISITION_UNIT;
- 		status = input_system_multiplexer_cfg(&config.multiplexer, mux,
- 						      &config.multiplexer_flags);
--		if (status != INPUT_SYSTEM_ERR_NO_ERROR) return status;
-+		if (status != INPUT_SYSTEM_ERR_NO_ERROR)
-+			return status;
- 		config.multicast[port] = INPUT_SYSTEM_INPUT_BUFFER;
- 
- 		// Shared resource, so it should be blocked.
-@@ -1631,7 +1636,8 @@ static input_system_err_t input_system_configure_channel_sensor(
- 		mux = INPUT_SYSTEM_ACQUISITION_UNIT;
- 		status = input_system_multiplexer_cfg(&config.multiplexer, mux,
- 						      &config.multiplexer_flags);
--		if (status != INPUT_SYSTEM_ERR_NO_ERROR) return status;
-+		if (status != INPUT_SYSTEM_ERR_NO_ERROR)
-+			return status;
- 		config.multicast[port] = INPUT_SYSTEM_INPUT_BUFFER;
- 
- 		// Shared resource, so it should be blocked.
--- 
-2.34.1
+I don't have an official datasheet for OV4689 from Omnivision, but
+found one on the internet [1]. That should allow you to reverse the
+PLL configuration to confirm that the pixel rate is the value you've
+computed based on link frequency (they aren't necessarily related). Do
+the frame rate calculations work using width + HBLANK, height +
+VBLANK, and pixel rate?
+The datasheet claims the sensor supports 2688x1520 @ 90 fps, so
+something doesn't hold true between 4 data lanes at 500MHz/1Gbit/s per
+lane when your default hts/vts is 2688x1554 and it only gives
+28.73fps.
 
+I have seen modes in sensors where the HTS register is in units of 2
+pixels, so what range of HTS (and VTS) values actually works on this
+sensor? (I don't see it documented, but I'm not surprised).
+
+[1] https://cdn.hackaday.io/files/19354828041536/OV4689-OmniVision.pdf
+
+> (2) The original driver exposes analog gain range 0x0 - 0x7ff, but the
+> gain is not linear across that range. Instead, it is piecewise linear
+> (and discontinuous). 0x0-0xff register values result in 0x-2x gain,
+> 0x100-0x1ff to 0x-4x, 0x300-0x3ff to 0x-8x, and 0x700-0x7ff to 0x-16x,
+> with more linear segments in between. Rockchip's camera engine code
+> chooses one of the above segments depenging on the desired gain
+> value. The question is, how should we proceed keeping in mind
+> libcamera use case? Should the whole 0x0-0x7ff be exposed as-is and
+> libcamera will do the mapping, or the driver will do the mapping
+> itself and expose some logical gain units not tied to the actual gain
+> register value? Meanwhile, this driver conservatively exposes only
+> 0x0-0xf8 gain register range.
+
+The datasheet linked above says "for the gain formula, please contact
+your local OmniVision FAE" :-(
+I would assume that the range is from 1x rather than 0x - people
+rarely want a totally black image that 0x would give. Or is it ranges
+of 1x - 2x, 2x - 4x, 4x - 8x, and 8x - 16x?
+
+Other sensors expose the full range of the register via
+V4L2_CID_ANALOGUE_GAIN, and require userspace (mainly libcamera now)
+to know how to convert a gain into the register value. If the gain
+range goes up to x16, then exposing that would be useful. I'd advocate
+just exposing the full range of 0x000 - 0x7ff, as then you can have
+the accuracy of 256 values between x1 to x2, but also the full range.
+
+I might see if I can pick up one of these sensors and see if I can get
+it running on a Raspberry Pi. Thanks for trying to upstream this -
+it's nice to have such a range of sensor drivers to choose from.
+
+  Dave
+
+> [1] https://github.com/rockchip-linux/kernel/blob/develop-4.19/drivers/media/i2c/ov4689.c
+>
+> changes in v2:
+> - bindings: reword descriptions
+> - bindings: move clock description to clocks property
+> - bindings: add data-lanes and link-frequencies properties to port
+> - driver: validate media bus configuration when probing
+>
+> Mikhail Rudenko (2):
+>   media: dt-bindings: media: i2c: document OV4689 DT bindings
+>   media: i2c: add support for ov4689
+>
+>  .../bindings/media/i2c/ovti,ov4689.yaml       | 141 +++
+>  MAINTAINERS                                   |   8 +
+>  drivers/media/i2c/Kconfig                     |  14 +
+>  drivers/media/i2c/Makefile                    |   1 +
+>  drivers/media/i2c/ov4689.c                    | 951 ++++++++++++++++++
+>  5 files changed, 1115 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/i2c/ovti,ov4689.yaml
+>  create mode 100644 drivers/media/i2c/ov4689.c
+>
+> --
+> 2.37.3
