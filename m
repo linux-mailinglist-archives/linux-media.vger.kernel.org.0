@@ -2,111 +2,73 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DFF0F5B9066
-	for <lists+linux-media@lfdr.de>; Thu, 15 Sep 2022 00:05:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A84045B90FF
+	for <lists+linux-media@lfdr.de>; Thu, 15 Sep 2022 01:37:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229568AbiINWFd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 14 Sep 2022 18:05:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41752 "EHLO
+        id S229901AbiINXhs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 14 Sep 2022 19:37:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51992 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229557AbiINWFc (ORCPT
+        with ESMTP id S229906AbiINXhq (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 14 Sep 2022 18:05:32 -0400
-Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com [IPv6:2a00:1450:4864:20::531])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6266F4E868
-        for <linux-media@vger.kernel.org>; Wed, 14 Sep 2022 15:05:30 -0700 (PDT)
-Received: by mail-ed1-x531.google.com with SMTP id z97so24267046ede.8
-        for <linux-media@vger.kernel.org>; Wed, 14 Sep 2022 15:05:30 -0700 (PDT)
+        Wed, 14 Sep 2022 19:37:46 -0400
+Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com [IPv6:2a00:1450:4864:20::131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0480A3B95A
+        for <linux-media@vger.kernel.org>; Wed, 14 Sep 2022 16:37:45 -0700 (PDT)
+Received: by mail-lf1-x131.google.com with SMTP id f9so26940463lfr.3
+        for <linux-media@vger.kernel.org>; Wed, 14 Sep 2022 16:37:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date;
-        bh=Holejv5x4Ja/Ig/81V4R1f7COb2CYNqjVPz0cAvGiCM=;
-        b=ayCgX547FpPpZErSYJpswnBRNBxPeCchdn1sDtuf7WpoN6yxA6wfPKh/7XzmSdtryk
-         SDd3hv6hg6FZEgVnjWHg+z3GMhGjUQLVYMe0mx7GEn3K7Sk0nOfK1sL0m92yr1L8p+iv
-         YxSvHYNlDlZJe/MVbYHBpiWPMSS4ISSG1m/mAyaHJczvfFmqgSaehrwbqIJ3GPLlFExf
-         I9yeHzlEnPkd0RvqCa1vMIJFE4yy64YhBP314+l7jaSPoUbeoc2LtN0UFSaNtWAi0Y1n
-         gKoHu+iUukFsQsFDwNB+wJzFqdcQWgdjlmM7YsK7kOQtRxQVzGYf6lVMpQyWLliIKiWg
-         zQnw==
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:to:subject:message-id:date:from:sender
+         :mime-version:from:to:cc:subject:date;
+        bh=ShE51VUQ4axb0Bz/NABdTBjNwA+Qofa4jx9r0eRkBes=;
+        b=iwoV1reAgTrYjyidwwZRBvXFawUTJny2hO/DIx2G9WeQeBl3da6F0CPBNhLBFO62DI
+         KX96yD/vcgkEDW1NLt6zV8Hj2QmOVmu4WWfYhFqDARoaeboT9nh/QKQ71mNolsDWpvSr
+         JRfupmtb+O3VkalsGm92vxO2f8+iSNQzHqFdfJVTQuRrsbsi3eDFInNlGeMWJjtcH9aA
+         +0MhF/qy/XiR+FekdPAV5wCbcvwvTpoHvsLL7ZBtcDZ6GhhK2C63VvD4UCr7r4m6YuWO
+         UdGfzCRwM/VIvi6apTSajskTdxGNh4zGFWH3ccDfWmJ7NFgNqxUeu1+2FZBTl575G0Fp
+         /JIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=Holejv5x4Ja/Ig/81V4R1f7COb2CYNqjVPz0cAvGiCM=;
-        b=Ve8s0bWpy1TjMN5Cx86B9vxQKGgJ+C/XcdVUtvi3jXNpxN9XwoTDCpEgjIouYzsH5D
-         9P0vrdqqK0RavBRkVvjCXec7uVyWEuOPKfx8Lhdvg0geIcOKl2ruS4I4Hj7ncWzpnvYs
-         NKznST5GWXSqhC6s0aBjWovBWgpvmDKi/bFardnRiTpKKKG+sElUQdFSu4XsHdnVkUSF
-         xFUQwI7cp6CjyvwdzhVeXI5C3fwO2pGYtWzMNTZfe4ilNu+xJThl1KrXt9xDGaCnbXEk
-         Duf/GlCaaueMTlH8BEatDCEXFlcaFSdOsxajrgDftmybXaB2db+E4UxIAhb3ayIB3h/f
-         4EsQ==
-X-Gm-Message-State: ACgBeo12scgng9hjar7M/poKOyXTr585+vD6CXKNn1x6bmR77F8Ct80r
-        JEQsC31bLm4oyfDtRgIhxSTTdw==
-X-Google-Smtp-Source: AA6agR6Um7EfAcKc/t5rmUVVmOpNYFWZ91NjX/7J8A4VMMJRacru6lx+Hj7znbWDiHemUG5SbN4LcA==
-X-Received: by 2002:a05:6402:90a:b0:443:8b10:bcad with SMTP id g10-20020a056402090a00b004438b10bcadmr32096151edz.416.1663193129021;
-        Wed, 14 Sep 2022 15:05:29 -0700 (PDT)
-Received: from [192.168.1.9] (hst-221-107.medicom.bg. [84.238.221.107])
-        by smtp.googlemail.com with ESMTPSA id gu2-20020a170906f28200b00718e4e64b7bsm8021631ejb.79.2022.09.14.15.05.28
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 14 Sep 2022 15:05:28 -0700 (PDT)
-Message-ID: <5beecec3-b2f0-861e-d8bc-4f81ed355b6a@linaro.org>
-Date:   Thu, 15 Sep 2022 01:05:27 +0300
+        h=content-transfer-encoding:to:subject:message-id:date:from:sender
+         :mime-version:x-gm-message-state:from:to:cc:subject:date;
+        bh=ShE51VUQ4axb0Bz/NABdTBjNwA+Qofa4jx9r0eRkBes=;
+        b=CdMVDB1Cb4ESzPTRIWS/bMUvbakdq++EDbgwVwuca++hGt2pvTKlegbmMA46WtO3M3
+         7QnAXKcfI/4rnZD+Svygt3eIac/4pzoiHi3YF7r4SMK++CxksERdiLqF7xjKBB5X8NGJ
+         6hmkfkhayizrbNz6f0sTc9ynqkyAww8CJ9CTUBRsLK4vNNztBu3NkaU0P9m+MGa5OGSP
+         SsGqwsuITS1MrCh+4hgD/pDe4WCkZwEUbkPVQg8kavIu1kpVgo2DSVV7Zz5CKlfRyKOC
+         0K0OTDkwlDOu1GDcQdpqNSBUjfvQr1qQ0QREjfLTCH8ANKSCaFyoYdHxzUBm1kIabnlD
+         71ig==
+X-Gm-Message-State: ACgBeo0XlVwm2DTJDH27s7I940iPZQXWNf25sRj1YrTzdulpvcV75ysr
+        NXm3Zb8JSrQsT+LTyz3jDtFBHiIqdRcxbfr6VzI=
+X-Google-Smtp-Source: AA6agR4yNwl9pPy9erJfZOOcjbcJJzcmEzKSJrONnYrHsDvl+/v0gzLdgE47jlK2m0qg3ENdmwFl0jkVuRepNZxa33w=
+X-Received: by 2002:a05:6512:3281:b0:496:f9b5:eb55 with SMTP id
+ p1-20020a056512328100b00496f9b5eb55mr12938617lfe.279.1663198663305; Wed, 14
+ Sep 2022 16:37:43 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH] MAINTAINERS: Add Vikash as VENUS video driver
- co-maintainer
-Content-Language: en-US
-To:     Vikash Garodia <quic_vgarodia@quicinc.com>,
-        linux-media@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org
-References: <1663070940-8165-1-git-send-email-quic_vgarodia@quicinc.com>
-From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
-In-Reply-To: <1663070940-8165-1-git-send-email-quic_vgarodia@quicinc.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-3.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Sender: anselmenicki@gmail.com
+Received: by 2002:a2e:a0c3:0:0:0:0:0 with HTTP; Wed, 14 Sep 2022 16:37:42
+ -0700 (PDT)
+From:   John Kumor <omaralaji51@gmail.com>
+Date:   Wed, 14 Sep 2022 23:37:42 +0000
+X-Google-Sender-Auth: uLfjCKS0_5CLsm-vIbfl2FTnJOw
+Message-ID: <CANbcXbHWmHkZD76L7Huv6taX2qgFN0hd7KF7dz4niv7QF6Y5mw@mail.gmail.com>
+Subject: It's urgent.
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=0.6 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Vikash,
-
-On 9/13/22 15:09, Vikash Garodia wrote:
-> For the past several amendments in video driver, I have been working
-> with Stanimir in multiple design discussions or handling a given
-> issue. With this, adding myself as a co-maintainer.
-
-I'd like to thank you for all your work on the Venus driver.
-
-> 
-> Signed-off-by: Vikash Garodia <quic_vgarodia@quicinc.com>
-> ---
->  MAINTAINERS | 1 +
->  1 file changed, 1 insertion(+)
-
-Acked-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
-
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 936490d..d3ef64f 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -16969,6 +16969,7 @@ F:	drivers/thermal/qcom/
->  
->  QUALCOMM VENUS VIDEO ACCELERATOR DRIVER
->  M:	Stanimir Varbanov <stanimir.varbanov@linaro.org>
-> +M:	Vikash Garodia <quic_vgarodia@quicinc.com>
->  L:	linux-media@vger.kernel.org
->  L:	linux-arm-msm@vger.kernel.org
->  S:	Maintained
-
--- 
-regards,
-Stan
+Greetings!!
+Did you receive my previous email?
+Please reply back it=E2=80=99s urgent.
+Regards,
+Attorney John.
