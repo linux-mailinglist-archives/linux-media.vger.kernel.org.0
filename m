@@ -2,93 +2,170 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2E9585B9A26
-	for <lists+linux-media@lfdr.de>; Thu, 15 Sep 2022 13:55:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B86355B9A53
+	for <lists+linux-media@lfdr.de>; Thu, 15 Sep 2022 14:06:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230336AbiIOLzw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 15 Sep 2022 07:55:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44528 "EHLO
+        id S230082AbiIOMGc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 15 Sep 2022 08:06:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38858 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230327AbiIOLzb (ORCPT
+        with ESMTP id S229952AbiIOMGa (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 15 Sep 2022 07:55:31 -0400
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C66056AA32;
-        Thu, 15 Sep 2022 04:51:44 -0700 (PDT)
-X-UUID: a393d04e339944e291a7c2b06be6d449-20220915
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-        h=Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=XojuKpZCUNxY4C6Madj4ukhRH/8ix5f31tF8a8eQ3Js=;
-        b=Z+09M7b9nMVgON3lUU9Ty8w49WszrIE9Hl8V2vlur+9FyWxrpbtTPZAPzXMpvCW8V3kfAHOXGgMZwRQkFGZWEeoOT25zepObPhBsSy8vszPJCbGQEkUuAzKYIx8g/NVJPi16XJUFccQR58j4VEGjHrV9m/8h1lPba2Af6akc4IU=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.11,REQID:cdc27629-086a-42e6-83f5-44f08ad779f2,IP:0,U
-        RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
-        release,TS:0
-X-CID-META: VersionHash:39a5ff1,CLOUDID:5710c17b-ea28-4199-b57e-003c7d60873a,B
-        ulkID:nil,BulkQuantity:0,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,U
-        RL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0
-X-UUID: a393d04e339944e291a7c2b06be6d449-20220915
-Received: from mtkexhb02.mediatek.inc [(172.21.101.103)] by mailgw01.mediatek.com
-        (envelope-from <allen-kh.cheng@mediatek.com>)
-        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-        with ESMTP id 1673206933; Thu, 15 Sep 2022 19:51:39 +0800
-Received: from mtkmbs11n1.mediatek.inc (172.21.101.185) by
- mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.792.15; Thu, 15 Sep 2022 19:51:38 +0800
-Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
- mtkmbs11n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.792.15 via Frontend Transport; Thu, 15 Sep 2022 19:51:38 +0800
-From:   Allen-KH Cheng <allen-kh.cheng@mediatek.com>
-To:     Matthias Brugger <matthias.bgg@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>
-CC:     <Project_Global_Chrome_Upstream_Group@mediatek.com>,
-        <devicetree@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-mediatek@lists.infradead.org>, <hsinyi@chromium.org>,
-        Allen-KH Cheng <allen-kh.cheng@mediatek.com>,
-        kyrie wu <kyrie.wu@mediatek.com>
-Subject: [PATCH] media: mediatek: venc: Add h264 extended profile support
-Date:   Thu, 15 Sep 2022 19:51:35 +0800
-Message-ID: <20220915115135.7271-1-allen-kh.cheng@mediatek.com>
-X-Mailer: git-send-email 2.18.0
+        Thu, 15 Sep 2022 08:06:30 -0400
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12on2054.outbound.protection.outlook.com [40.107.244.54])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB7C6753A2;
+        Thu, 15 Sep 2022 05:06:28 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=fHMhP8D3GD2GnfexFvM6RsWHcKLf96Vs81q34uBr0rVyod52xOybePlUf299/mvQiSHMsUaXgRa6EPtCTO75rdA1SjbavuorTnAaNG110gvnE8ncIoazGYuhi76aw687469BIMAps9TnMPAaGjbLJKTfoNWYYy1RJHidR7ANsWEUYDHjOlEHPj+pxIZE6zO3OSHfpvX+qIvQYiAdWPH3U+lNXFQQr6xEIlrWLnAmfQ3XIbkfdyklAUHWuMrGpZS4KY5arjE5/i+rS8lwyflfWtWfz2xmhr9EjIukf51YvYah8dxrEBkx5lG0pfJssAY2vyZgaUyOf0VaXVw2WE3jXQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=4vE8/XcSrydPbucf+xA9JBtKf378VKo7CItST9/3eQo=;
+ b=IgjfktuNmeP/YTL40LyVZSQHv4ZCF5Ndqhj3jcZTduFn+oIex1VN3J/WeRtBu19jxkcbVdv/4c2GRsJJihwQ659jEPF2XlFiWu9QOWq+wPz7xWvV5VIO1NuRCf3EajBCx+wSug8nA9GKNYDiT1jFEjrrjDKzUwdI5EWZ6EC4awCnsKv/3zt+L2ywmfLb6kE8BOJV3XZisX5lQseu88R7OUzow2wODd4xlSPDlIMzuzwdki/wMP6U23PuacKVrZDjlRQHCRKmMrYxOPytCedaMAnH735SXRjnr0ZYK4xz0hB0thUGhOxhrrK8jA4TpEihOPTOYkMnT7UupoeOwLZmkQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=4vE8/XcSrydPbucf+xA9JBtKf378VKo7CItST9/3eQo=;
+ b=5Phj+Uy0B83aip4nF4Tkz7dxtGcDEd1OHerstvDEfxIXptF48rKte4jNldKZzO3CrQP5BZXS32rHGVq/gQhrTC2sdOMjT3wLTiopg39vweqbhoj/E9xqOBrJFbuiU79FESPtNO8mN0/aJapYrlvUXj2up3pAwK8n8nxCnfG0+LE=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
+ by MN2PR12MB4287.namprd12.prod.outlook.com (2603:10b6:208:1dd::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5632.15; Thu, 15 Sep
+ 2022 12:06:26 +0000
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::653f:e59b:3f40:8fed]) by BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::653f:e59b:3f40:8fed%6]) with mapi id 15.20.5632.015; Thu, 15 Sep 2022
+ 12:06:26 +0000
+Message-ID: <cbfbe832-db39-8681-239a-75d612111394@amd.com>
+Date:   Thu, 15 Sep 2022 14:06:16 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v4 4/6] dma-buf: dma_fence_wait must enable signaling
+Content-Language: en-US
+To:     Arvind Yadav <Arvind.Yadav@amd.com>, andrey.grodzovsky@amd.com,
+        shashank.sharma@amd.com, amaranath.somalapuram@amd.com,
+        Arunpravin.PaneerSelvam@amd.com, sumit.semwal@linaro.org,
+        gustavo@padovan.org, airlied@linux.ie, daniel@ffwll.ch,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
+References: <20220914164321.2156-1-Arvind.Yadav@amd.com>
+ <20220914164321.2156-5-Arvind.Yadav@amd.com>
+From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20220914164321.2156-5-Arvind.Yadav@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR0P281CA0123.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:97::9) To BN8PR12MB3587.namprd12.prod.outlook.com
+ (2603:10b6:408:43::13)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-MTK:  N
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,
-        SPF_PASS,UNPARSEABLE_RELAY,URIBL_CSS autolearn=ham autolearn_force=no
-        version=3.4.6
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|MN2PR12MB4287:EE_
+X-MS-Office365-Filtering-Correlation-Id: 44e5e829-5ff3-4627-f759-08da9712b6e7
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: UZWn2bQ4g153ano4ZsKRcwYrO5clqtX4FMmdb6dLKXGXbZHQU5OVovQh2L1avGC48suYn7W+FjG7fdz+1ReEQdNaYVjzlsD+tj6IdOf6oymanE8QsDesKOYbyx1ig1WSBkxXquiyWhuWzsPOLfnjqpTchh477sfeexQJIZ00uuQ2BG45B6YE7pc+wRGrsZYc4rWEfvk+1K5NcY6q0z98K8RLcJtrYJsT7G3B/TPws2faeOL8PX0jIzTEG0TwoVPf4iCIi6Tn245gjUdL++8/Dapwaegtr4wfynYczycEl/g7ddzN/DB0xueJy6U12X83KpQ9Z/qjlZiv8LUQgdPyJLfCEI94xpwzLfczy/lw2PtQBOhniIToK624U/0prS/bkPDhmetdqKV0Rj86cwgGozDmQZzeHg6RuwAkjt4Lt7H4bRK5skZhi9e+BJeT10eOH8hhEIqylpRyrvFJg2j5jCTL++XL+GL5HFOOIy/oo953hwXoA9DKvAgs7hBuHaAogTmWOO/rFQydyYxlBSyhao8NOUM++G37VBM8A75owPaOCJaB+Geb/pFbtbxj8SndlXe3m7x+YPKZapI3gdlu6/6vpWQxTjkQPU+XrnGlmouCcnPAFwoRpk6pwDGwSHsgQJGiI19GYQmcSrUMzKrW+RK2mbzJYsKob6nG1JwSqApSsOIQF5lRSmGRCyJIeiQqiLHPDlUpJnP/fdWrruD946S9Lbg52cxl9ZsLPN3lZ78ahe2aVyiME4LntEJ8OE10xwACNkwIGRGUS1pRPQVX8fQ+BmpgZLQVzl8ZXo55wH2CHs3xDxt5N64DkF/N/J8k
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN8PR12MB3587.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(39860400002)(346002)(396003)(366004)(376002)(136003)(451199015)(186003)(86362001)(31696002)(6512007)(478600001)(41300700001)(26005)(36756003)(5660300002)(2616005)(6486002)(8936002)(83380400001)(316002)(6506007)(6666004)(921005)(66476007)(66556008)(8676002)(38100700002)(31686004)(66946007)(2906002)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NU9IRGsrNGtZZ2NVMXhic0N6STVlTTU2N0xMM2k2OEp5em1iREtoVk1KcnBz?=
+ =?utf-8?B?YnZNZFJsWHZNSVBvZmJSd2daZTRmZFp2dTBtZ1Q1QzFNMWtxbmczRnNWZ0RE?=
+ =?utf-8?B?ajUwQnYxUzhEaDAwWVNHSmRDekdzRWxBYnVScHVLRFV3L0lSczU3S1RpdUUz?=
+ =?utf-8?B?Z3hBY1VKc1JWbGtBR3hlYlJVNlFMWEh4MVQxNjlWZzRxN3BxR1U2YmhLQ3Fm?=
+ =?utf-8?B?R0k5ODFDMEh1R2kydEZBOFdIM3dMREkzQUlPVFRtb3JiODFKd2RxKzl2YVFr?=
+ =?utf-8?B?UEJGNm5JakNhSXhEMW81cGJpc0ZrbHcwZWg3eUl0MDd3UzM3dUJBcE1GMndj?=
+ =?utf-8?B?bFZtTVdFbTlFRWV0ZnFEUnRLcGVubys0TVE0NTROTkt2dGZKbnZ4YlRWK3R3?=
+ =?utf-8?B?OUlWQmNpQ0pVMG9mRjRpM3I3c1YySGs4MUNHZGp4RCs1emNaRERVUTMzNElo?=
+ =?utf-8?B?M0d0Uit0bitrdjdjcWJEMy9CNnQwaG11RXROZ2FMMkg3cWJwc1NtSFlnWE9x?=
+ =?utf-8?B?bnJwS1d4UUFIdVpuU3BSK29mVUlIdmo4UmlkRFM1eVJzT0IwclpjTmVLdG9i?=
+ =?utf-8?B?N0QwY21kQ1NQdzhvSmlHVkpRMDJEcHZuZnM2RTRrU2I3SFY2cDFycmV6YVpM?=
+ =?utf-8?B?TjdhVzQ4WHVra2dUMXFWSWx6NEhwQ2ZhbFhZODFySmM2Z2szb1c4OG9QVEd2?=
+ =?utf-8?B?bFk3Z3dYMXdNclVranI0My80enNmQ2JYbzZyUXZUWXZsUkJNMGtYdldZRmxq?=
+ =?utf-8?B?cmZEbmVOUDMyY0I5WlhyMk1VSTljNDVTL0NNVW5WU2t4QWEyeXBkWDRDWUJJ?=
+ =?utf-8?B?Q3BXNjBiMEVDd1JzSm5TNjNtMEw5M3o2RjBydk5TbUpzQ3NkM2V3YmM4TlQ4?=
+ =?utf-8?B?eXAzN0phTkZ3ZkcvZ3d1T0p5L3NTTEdCbHhOeWpZbmlvbnBzTW9BMFZyS2E0?=
+ =?utf-8?B?Q1VTZFZDZkN4bjNITDRQOUl3ajVHN0tud2lGUE4wb0NZNnJVTDhBMzJTYWxF?=
+ =?utf-8?B?WFZWYkE3VTZuNVByRmJNc0RxaTBnM25KMFBSVUZDMTdER0JMeUhEQlB0ZVRW?=
+ =?utf-8?B?YzZKRmdSM25HWm5iOEpXd1QvcVBtWnMrRXpDSUhtSTczVGR1LzRrZWVkRmFP?=
+ =?utf-8?B?OGRtNmlyNStWSTV1dG1ZTmtBRU1DMjF6dWJhMjIyRmZYL08rbFRoeU84Z0dz?=
+ =?utf-8?B?ODlQbmJOVmRDYUxaRlFQNU52eWo2SEF3OXc4NUNMaEI0MklzZStjVXhVbTdW?=
+ =?utf-8?B?RWY2SVhSbmc4MmVRTVE5dkt0TktoUUZmY2dxZUwwTzFya3RZWklHYzRMVHZJ?=
+ =?utf-8?B?M1ZDdEFHcSt3M3ZOTE9zdUtyV2ZhSnFsWUwrMWFrU0VwS2lLaXZTb0Rad1gx?=
+ =?utf-8?B?bktoUWVGZ2FZQzlTc1lvZDBFZU1GMmtTMTlBR2Y4czY1cDFMOXpsVHZYZ2s3?=
+ =?utf-8?B?ZHQ3Tkk3cklZSkpTbEg2UDNtczdtT0VuWUdwZUJLZEVYa3NSNHorUWs4TzdD?=
+ =?utf-8?B?eVZkUmdTMkhUSVhkYTgwOFkvOVltTlc2K2lmM3kzWW5Uc0t4NE5DdXgxNDFE?=
+ =?utf-8?B?MWdRdUpGalFaOCtSNGNRQkg1OFZJS1A1Mktkem1mVVBmY2xETmt0MCtBbHU2?=
+ =?utf-8?B?Ni9YUmhCM2VNZXVYS1VWZDdYREh0QzZMNmZick5lcTJJdldLeXh5b3d1bTZB?=
+ =?utf-8?B?RnhZbFNOc204ZWx0NE1PRmdMdTRuME44TjZ1WjRIV2JYdGNxKzFseW1hOUxq?=
+ =?utf-8?B?TzdVak5TajI3WFRqaTNjanJhU093b1hyYkwvb3RmaFZoYnZSSGRyS3RDdnpF?=
+ =?utf-8?B?Q2JSSEJFRm8yTm92Z2NOVDd5OUVsSGc3eUFvZ3llQWlCNXZ2eTBGUnVwSzJX?=
+ =?utf-8?B?ZEFGZUdMN29zUms2TThQTWJnZVkwTjQ1b21WelRCdmVFeHgzblBzcEVudnhM?=
+ =?utf-8?B?Szg3cDVzZlhaZ1l2QWNXbDVMWjlzMXdiWis5RU1TSEgzdmVsbWdtMzJXM3BZ?=
+ =?utf-8?B?b2sxRW92ZmtDN2ZiQ2RDYlJKT1Y5RGZlOEZvZ0ZoeXNoWldScEw1YWxLa2dt?=
+ =?utf-8?B?N2FWMkV1UTRTM01Oa01wUTlRKy9abGlOS0ZzSVdLMUtCMXlodDk1cTJWRTJI?=
+ =?utf-8?Q?GQrLVJQ8QLcl6K+PsNurYZWwb?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 44e5e829-5ff3-4627-f759-08da9712b6e7
+X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Sep 2022 12:06:26.3644
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: cgaUx13/v/UAqcxfAbJV/Tg4wrPzP4nfYxyOj5K32K5brl9s0VsoImz+gSnIIPwi
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4287
+X-Spam-Status: No, score=-3.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add h264 extended profile support
+Am 14.09.22 um 18:43 schrieb Arvind Yadav:
+> dma_fence_wait() should always enable signaling even
+> when the fence is already signaled.
+>
+> Signed-off-by: Arvind Yadav <Arvind.Yadav@amd.com>
 
-Signed-off-by: Allen-KH Cheng <allen-kh.cheng@mediatek.com>
-Co-developed-by: kyrie wu <kyrie.wu@mediatek.com>
-Signed-off-by: kyrie wu <kyrie.wu@mediatek.com>
----
- drivers/media/platform/mediatek/vcodec/venc/venc_h264_if.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+Reviewed-by: Christian König <christian.koenig@amd.com>
 
-diff --git a/drivers/media/platform/mediatek/vcodec/venc/venc_h264_if.c b/drivers/media/platform/mediatek/vcodec/venc/venc_h264_if.c
-index 13c4f860fa69..ac2ef6275d78 100644
---- a/drivers/media/platform/mediatek/vcodec/venc/venc_h264_if.c
-+++ b/drivers/media/platform/mediatek/vcodec/venc/venc_h264_if.c
-@@ -243,8 +243,7 @@ static unsigned int h264_get_profile(struct venc_h264_inst *inst,
- 		mtk_vcodec_err(inst, "unsupported CONSTRAINED_BASELINE");
- 		return 0;
- 	case V4L2_MPEG_VIDEO_H264_PROFILE_EXTENDED:
--		mtk_vcodec_err(inst, "unsupported EXTENDED");
--		return 0;
-+		return 88;
- 	default:
- 		mtk_vcodec_debug(inst, "unsupported profile %d", profile);
- 		return 100;
--- 
-2.18.0
+> ---
+>
+> Changes in v1..v3: This new patch was not part of previous series.
+>
+> ---
+>
+>   drivers/dma-buf/dma-fence.c | 5 ++---
+>   1 file changed, 2 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
+> index 645c158b7e01..a5fbf1c1e0ea 100644
+> --- a/drivers/dma-buf/dma-fence.c
+> +++ b/drivers/dma-buf/dma-fence.c
+> @@ -508,6 +508,8 @@ dma_fence_wait_timeout(struct dma_fence *fence, bool intr, signed long timeout)
+>   
+>   	__dma_fence_might_wait();
+>   
+> +	dma_fence_enable_sw_signaling(fence);
+> +
+>   	trace_dma_fence_wait_start(fence);
+>   	if (fence->ops->wait)
+>   		ret = fence->ops->wait(fence, intr, timeout);
+> @@ -771,9 +773,6 @@ dma_fence_default_wait(struct dma_fence *fence, bool intr, signed long timeout)
+>   		goto out;
+>   	}
+>   
+> -	if (!__dma_fence_enable_signaling(fence))
+> -		goto out;
+> -
+>   	if (!timeout) {
+>   		ret = 0;
+>   		goto out;
 
