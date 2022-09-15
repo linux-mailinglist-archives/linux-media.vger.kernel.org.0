@@ -2,26 +2,26 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 74FA25B9DD5
-	for <lists+linux-media@lfdr.de>; Thu, 15 Sep 2022 16:56:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9C0765B9DE0
+	for <lists+linux-media@lfdr.de>; Thu, 15 Sep 2022 16:56:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229933AbiIOO4S (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 15 Sep 2022 10:56:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34386 "EHLO
+        id S229864AbiIOO4Y (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 15 Sep 2022 10:56:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34482 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229542AbiIOO4Q (ORCPT
+        with ESMTP id S229458AbiIOO4R (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 15 Sep 2022 10:56:16 -0400
+        Thu, 15 Sep 2022 10:56:17 -0400
 Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 05E7B8672A
-        for <linux-media@vger.kernel.org>; Thu, 15 Sep 2022 07:56:13 -0700 (PDT)
-Received: from dggpemm500024.china.huawei.com (unknown [172.30.72.53])
-        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4MT0Y462M9zmVDF;
-        Thu, 15 Sep 2022 22:52:24 +0800 (CST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF55785F80
+        for <linux-media@vger.kernel.org>; Thu, 15 Sep 2022 07:56:15 -0700 (PDT)
+Received: from dggpemm500021.china.huawei.com (unknown [172.30.72.55])
+        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4MT0Y5242TzmVFn;
+        Thu, 15 Sep 2022 22:52:25 +0800 (CST)
 Received: from dggpemm500007.china.huawei.com (7.185.36.183) by
- dggpemm500024.china.huawei.com (7.185.36.203) with Microsoft SMTP Server
+ dggpemm500021.china.huawei.com (7.185.36.109) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Thu, 15 Sep 2022 22:56:11 +0800
+ 15.1.2375.24; Thu, 15 Sep 2022 22:56:12 +0800
 Received: from huawei.com (10.175.103.91) by dggpemm500007.china.huawei.com
  (7.185.36.183) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Thu, 15 Sep
@@ -31,9 +31,9 @@ To:     <linux-media@vger.kernel.org>
 CC:     <mchehab@kernel.org>, <hverkuil-cisco@xs4all.nl>, <pavel@ucw.cz>,
         <sakari.ailus@linux.intel.com>, <sean@mess.org>,
         <laurent.pinchart@ideasonboard.com>
-Subject: [PATCH -next 01/13] media: platform: stm32-cec: Switch to use dev_err_probe() helper
-Date:   Thu, 15 Sep 2022 23:03:12 +0800
-Message-ID: <20220915150324.688062-2-yangyingliang@huawei.com>
+Subject: [PATCH -next 02/13] media: i2c: ad5820: Switch to use dev_err_probe() helper
+Date:   Thu, 15 Sep 2022 23:03:13 +0800
+Message-ID: <20220915150324.688062-3-yangyingliang@huawei.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220915150324.688062-1-yangyingliang@huawei.com>
 References: <20220915150324.688062-1-yangyingliang@huawei.com>
@@ -57,29 +57,41 @@ which will check if error code is -EPROBE_DEFER.
 
 Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
 ---
- drivers/media/cec/platform/stm32/stm32-cec.c | 9 +++------
- 1 file changed, 3 insertions(+), 6 deletions(-)
+ drivers/media/i2c/ad5820.c | 18 ++++++------------
+ 1 file changed, 6 insertions(+), 12 deletions(-)
 
-diff --git a/drivers/media/cec/platform/stm32/stm32-cec.c b/drivers/media/cec/platform/stm32/stm32-cec.c
-index 40db7911b437..7b2db46a5722 100644
---- a/drivers/media/cec/platform/stm32/stm32-cec.c
-+++ b/drivers/media/cec/platform/stm32/stm32-cec.c
-@@ -288,12 +288,9 @@ static int stm32_cec_probe(struct platform_device *pdev)
- 		return ret;
+diff --git a/drivers/media/i2c/ad5820.c b/drivers/media/i2c/ad5820.c
+index 516de278cc49..6a7f8ef9db05 100644
+--- a/drivers/media/i2c/ad5820.c
++++ b/drivers/media/i2c/ad5820.c
+@@ -301,21 +301,15 @@ static int ad5820_probe(struct i2c_client *client,
+ 		return -ENOMEM;
  
- 	cec->clk_cec = devm_clk_get(&pdev->dev, "cec");
--	if (IS_ERR(cec->clk_cec)) {
--		if (PTR_ERR(cec->clk_cec) != -EPROBE_DEFER)
--			dev_err(&pdev->dev, "Cannot get cec clock\n");
--
--		return PTR_ERR(cec->clk_cec);
+ 	coil->vana = devm_regulator_get(&client->dev, "VANA");
+-	if (IS_ERR(coil->vana)) {
+-		ret = PTR_ERR(coil->vana);
+-		if (ret != -EPROBE_DEFER)
+-			dev_err(&client->dev, "could not get regulator for vana\n");
+-		return ret;
 -	}
-+	if (IS_ERR(cec->clk_cec))
-+		return dev_err_probe(&pdev->dev, PTR_ERR(cec->clk_cec),
-+				     "Cannot get cec clock\n");
++	if (IS_ERR(coil->vana))
++		return dev_err_probe(&client->dev, PTR_ERR(coil->vana),
++				     "could not get regulator for vana\n");
  
- 	ret = clk_prepare(cec->clk_cec);
- 	if (ret) {
+ 	coil->enable_gpio = devm_gpiod_get_optional(&client->dev, "enable",
+ 						    GPIOD_OUT_LOW);
+-	if (IS_ERR(coil->enable_gpio)) {
+-		ret = PTR_ERR(coil->enable_gpio);
+-		if (ret != -EPROBE_DEFER)
+-			dev_err(&client->dev, "could not get enable gpio\n");
+-		return ret;
+-	}
++	if (IS_ERR(coil->enable_gpio))
++		return dev_err_probe(&client->dev, PTR_ERR(coil->enable_gpio),
++				     "could not get enable gpio\n");
+ 
+ 	mutex_init(&coil->power_lock);
+ 
 -- 
 2.25.1
 
