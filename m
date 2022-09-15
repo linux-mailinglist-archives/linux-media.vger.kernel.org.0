@@ -2,128 +2,89 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3CABB5B9F66
-	for <lists+linux-media@lfdr.de>; Thu, 15 Sep 2022 18:11:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EBD0A5B9FBB
+	for <lists+linux-media@lfdr.de>; Thu, 15 Sep 2022 18:38:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229702AbiIOQLh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 15 Sep 2022 12:11:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34286 "EHLO
+        id S229979AbiIOQi6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 15 Sep 2022 12:38:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37006 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229744AbiIOQLf (ORCPT
+        with ESMTP id S229624AbiIOQi5 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 15 Sep 2022 12:11:35 -0400
-Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com [IPv6:2607:f8b0:4864:20::544])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9D2AF98763
-        for <linux-media@vger.kernel.org>; Thu, 15 Sep 2022 09:11:34 -0700 (PDT)
-Received: by mail-pg1-x544.google.com with SMTP id t65so17757096pgt.2
-        for <linux-media@vger.kernel.org>; Thu, 15 Sep 2022 09:11:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date;
-        bh=qabPFsKsVzBs/IAmyQMB7q/BmTmNWLyFuHa1qxS6Sh0=;
-        b=qKZ4uhroibyA/kbyJWXPnExJXjgtUGAwIBN9HJmGnAYuFHc9pHofi0mFV6R7LAQa6+
-         69Fc5SVxfAgQRJNI8H9DU3S+4ByKwkBcDuTArTdgUrk7xdy0t5tJ0D369UnyNPCRbcmR
-         cgCEyq0OfpckdJ5wt1Axz6umAj0yfGG7d6F92tzKjWXNpk2v6AHTX5jP8n9XBS59uc8P
-         sa/3823e0flLKONJIPvHIPpJnwv6nk0gnVc3z/GbsXwX/egPY70fjaYF88o3Qo40l1a9
-         RZq1hQdKI0+Z5qxMlE51mLHBl4uQUPs21hfCXkmLARaLY1SD3UWKFd8moNekhop6Tng0
-         /ekw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
-         :from:to:cc:subject:date;
-        bh=qabPFsKsVzBs/IAmyQMB7q/BmTmNWLyFuHa1qxS6Sh0=;
-        b=VJWWgvJ8FRqCRavIIbtHVHZ8J6U5/n7fokSKw0ts7DH2ttzTg/Ak3sYv+7Ox/cn2gH
-         F4aIvG5R9sIJKd8m8xUmdBclLeuz3XYk5X4gnl8M+NMnGD50Q40IPuZw3Z703rSF4O8x
-         dZLbMoPIbLGyQ+Mc8J13P3XqEBso/II+o1Z9bo9pgzXgXTjQR4WUO2n01BcJURmUwzYv
-         UyBQ9HdB0f4uVscYZJcOSMn5rXYfCGAGntNCaA/+pm5CzgSt6DJxAFiFgLOH2esii0Bk
-         fR3CqeilwPo8Hg43hmZIbv/76e8Oa9UfpRlFw76SOtGH3kkhTXBoRcRo8kMmWyDfS4nb
-         mtNw==
-X-Gm-Message-State: ACrzQf0OBGHkrstbqtZ+7LXmM4k0FIzeNk1b+sB6pmOgA9Vfyf7HsZM4
-        8xzdi6M9MJ1M7bwcekjYu0zxHpprVH3AGnYh9Y4=
-X-Google-Smtp-Source: AMsMyM6+ZRoMxZaiuT/EK7sOt4bZSW5rcp+f670tgtTFsKu8gQ6/Ns2qfdTeJv4CSbOPUPfIXHZ1DTzV2E14qlpbII4=
-X-Received: by 2002:a65:63c3:0:b0:42b:5b03:ce57 with SMTP id
- n3-20020a6563c3000000b0042b5b03ce57mr522542pgv.436.1663258293835; Thu, 15 Sep
- 2022 09:11:33 -0700 (PDT)
+        Thu, 15 Sep 2022 12:38:57 -0400
+Received: from gofer.mess.org (gofer.mess.org [88.97.38.141])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 878255757A
+        for <linux-media@vger.kernel.org>; Thu, 15 Sep 2022 09:38:56 -0700 (PDT)
+Received: by gofer.mess.org (Postfix, from userid 1000)
+        id DF38B100056; Thu, 15 Sep 2022 17:38:51 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mess.org; s=2020;
+        t=1663259931; bh=nDubwgpPjOmvP9OVYTIJs9KSvnZl1Rhuo1bYU+y4Uwk=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=PfSoLuJsNzL2kE71UtgGvcHTfaHq3TZQJuwkfBO8eW68wG4yGbKX4TC5xKKOUUAGa
+         rmnGvoiR/j/E49l2UgnrZybbu07UnqN1uqNduXmkuGr4/Acp1JPUbBJfVv2d/Zvbeq
+         InzRE7xgYR8bhWo7T8BicxOUUTgeoLscLiPIum+/SaYvaNK1W1d92pIUmrX8uGBMQp
+         41FRL99FbnLcfQyU+IRk9LozeqSlbSjja5Uaw72rMGiup+pvp1Xt5WpC/S8o7RHq9L
+         B15UtXugorCTK1iibq7A/anu4pSqvHZlxgEvx91MJKlacrw7zmetssDt7kkWv1cIUC
+         /aIc/syCKHZTw==
+Date:   Thu, 15 Sep 2022 17:38:51 +0100
+From:   Sean Young <sean@mess.org>
+To:     Yang Yingliang <yangyingliang@huawei.com>
+Cc:     linux-media@vger.kernel.org, mchehab@kernel.org,
+        hverkuil-cisco@xs4all.nl, pavel@ucw.cz,
+        sakari.ailus@linux.intel.com, laurent.pinchart@ideasonboard.com
+Subject: Re: [PATCH -next 10/13] media: rc: gpio-ir-recv: Switch to use
+ dev_err_probe() helper
+Message-ID: <YyNVG1EZ0anbDf0R@gofer.mess.org>
+References: <20220915150324.688062-1-yangyingliang@huawei.com>
+ <20220915150324.688062-11-yangyingliang@huawei.com>
 MIME-Version: 1.0
-Received: by 2002:a17:902:ce8b:b0:177:eb6c:b271 with HTTP; Thu, 15 Sep 2022
- 09:11:33 -0700 (PDT)
-From:   moonlee park <moonleepark4@gmail.com>
-Date:   Thu, 15 Sep 2022 09:11:33 -0700
-Message-ID: <CAK1kscZ7rpXdXSVafoHYVO3H8PH3mSgE=73BL-eB5JpzT7Pf5g@mail.gmail.com>
-Subject: LOOKING FOWARD TO YOUR RESPOND
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: Yes, score=5.8 required=5.0 tests=ADVANCE_FEE_4_NEW_MONEY,
-        BAYES_80,DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        FORM_FRAUD_5,FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FROM,FREEMAIL_REPLY,
-        LOTS_OF_MONEY,MILLION_HUNDRED,MILLION_USD,MONEY_FORM_SHORT,
-        MONEY_FRAUD_5,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,SUBJ_ALL_CAPS,
-        T_FILL_THIS_FORM_SHORT,UNDISC_MONEY,URG_BIZ autolearn=no
-        autolearn_force=no version=3.4.6
-X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
-        *      https://www.dnswl.org/, no trust
-        *      [2607:f8b0:4864:20:0:0:0:544 listed in]
-        [list.dnswl.org]
-        *  2.0 BAYES_80 BODY: Bayes spam probability is 80 to 95%
-        *      [score: 0.8563]
-        * -0.0 SPF_PASS SPF: sender matches SPF record
-        *  0.5 SUBJ_ALL_CAPS Subject is all capitals
-        *  0.2 FREEMAIL_ENVFROM_END_DIGIT Envelope-from freemail username ends
-        *       in digit
-        *      [moonleepark4[at]gmail.com]
-        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
-        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
-        *      provider
-        *      [moonleepark4[at]gmail.com]
-        *  0.0 MILLION_HUNDRED BODY: Million "One to Nine" Hundred
-        *  0.0 MILLION_USD BODY: Talks about millions of dollars
-        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
-        *      envelope-from domain
-        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-        *       valid
-        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-        *      author's domain
-        *  0.6 URG_BIZ Contains urgent matter
-        *  0.0 LOTS_OF_MONEY Huge... sums of money
-        *  1.0 FREEMAIL_REPLY From and body contain different freemails
-        *  0.0 T_FILL_THIS_FORM_SHORT Fill in a short form with personal
-        *      information
-        *  1.4 MONEY_FORM_SHORT Lots of money if you fill out a short form
-        *  0.0 UNDISC_MONEY Undisclosed recipients + money/fraud signs
-        *  0.0 ADVANCE_FEE_4_NEW_MONEY Advance Fee fraud and lots of money
-        *  0.0 MONEY_FRAUD_5 Lots of money and many fraud phrases
-        *  0.2 FORM_FRAUD_5 Fill a form and many fraud phrases
-X-Spam-Level: *****
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220915150324.688062-11-yangyingliang@huawei.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Please let me use this medium to create a mutual conversation with you
-seeking for your acceptance on investing in your country under your
-management as my  business partner, My name is Aisha  Gaddafi and
-presently living in Oman, i am a Widow and single Mother with three
-Children, the only biological Daughter of late Libyan President (Late
-Colonel Muammar Gaddafi) and presently i am under political asylum
-protection by the Omani Government.
+On Thu, Sep 15, 2022 at 11:03:21PM +0800, Yang Yingliang wrote:
+> In the probe path, dev_err() can be replace with dev_err_probe()
+> which will check if error code is -EPROBE_DEFER.
+> 
+> Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
+> ---
+>  drivers/media/rc/gpio-ir-recv.c | 10 +++-------
+>  1 file changed, 3 insertions(+), 7 deletions(-)
+> 
+> diff --git a/drivers/media/rc/gpio-ir-recv.c b/drivers/media/rc/gpio-ir-recv.c
+> index 22e524b69806..8f1fff7af6c9 100644
+> --- a/drivers/media/rc/gpio-ir-recv.c
+> +++ b/drivers/media/rc/gpio-ir-recv.c
+> @@ -74,13 +74,9 @@ static int gpio_ir_recv_probe(struct platform_device *pdev)
+>  		return -ENOMEM;
+>  
+>  	gpio_dev->gpiod = devm_gpiod_get(dev, NULL, GPIOD_IN);
+> -	if (IS_ERR(gpio_dev->gpiod)) {
+> -		rc = PTR_ERR(gpio_dev->gpiod);
+> -		/* Just try again if this happens */
+> -		if (rc != -EPROBE_DEFER)
+> -			dev_err(dev, "error getting gpio (%d)\n", rc);
+> -		return rc;
+> -	}
+> +	if (IS_ERR(gpio_dev->gpiod))
+> +		return dev_err_probe(dev, PTR_ERR(gpio_dev->gpiod),
+> +				     "error getting gpio\n");
 
-I have funds worth " Seven Million Five Hundred Thousand United State
-Dollars" [$7.500.000.00 US Dollars] which I want to entrust to you for
-investment projects in your country. If you are willing to handle this
-project on my behalf, kindly reply urgent to enable me provide you
-more details to start the transfer process, I will appreciate your
-urgent response through my private email address below:
-
-aishagaddafiaisha20@gmail.com
-
-You can know more through the BBC news links below:
-
-http://www.bbc.com/news/world-africa-19966059
+Now the error number is no longer logged. That can't be good?
 
 
-Thanks
-Yours Truly Aisha
-aishagaddafiaisha20@gmail.com
+Sean
+
+>  	gpio_dev->irq = gpiod_to_irq(gpio_dev->gpiod);
+>  	if (gpio_dev->irq < 0)
+>  		return gpio_dev->irq;
+> -- 
+> 2.25.1
