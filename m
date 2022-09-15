@@ -2,110 +2,194 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 095575BA20D
-	for <lists+linux-media@lfdr.de>; Thu, 15 Sep 2022 22:55:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3F7B45BA287
+	for <lists+linux-media@lfdr.de>; Fri, 16 Sep 2022 00:03:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229471AbiIOUzr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 15 Sep 2022 16:55:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49678 "EHLO
+        id S229498AbiIOWDF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 15 Sep 2022 18:03:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59626 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229473AbiIOUzp (ORCPT
+        with ESMTP id S229483AbiIOWDD (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 15 Sep 2022 16:55:45 -0400
-Received: from meesny.iki.fi (meesny.iki.fi [IPv6:2001:67c:2b0:1c1::201])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 11C4A564ED
-        for <linux-media@vger.kernel.org>; Thu, 15 Sep 2022 13:55:44 -0700 (PDT)
-Received: from hillosipuli.retiisi.eu (dkwl20tj04snw15cjtflt-3.rev.dnainternet.fi [IPv6:2001:14ba:4493:6f40:fec3:d72a:e447:8113])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: sailus)
-        by meesny.iki.fi (Postfix) with ESMTPSA id 298D020167;
-        Thu, 15 Sep 2022 23:55:40 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
-        t=1663275340;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=7Zjv0NRzx/kQorjsaQ6DQnJzto3ssRyb7aVSqxQwwZM=;
-        b=Qv8GeTFHSCp9NZoUnjsmKVs7m3/vAnzxgIYvV478M0zke94AIb6x1/+cVm+OJyPIRZopWB
-        iQ2GbHBVEtvcb0A3UHr8H/mDHosjus0afuPjss78cJcSuPQ6qIIeFZCJY/835/4tAKzm5t
-        uYSwGJi3QVr/XKIpeFT78psn/2tcmQk=
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 42305634C91;
-        Thu, 15 Sep 2022 23:55:39 +0300 (EEST)
-Date:   Thu, 15 Sep 2022 23:55:39 +0300
-From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Cc:     jacopo@jmondi.org, paul.j.murphy@intel.com,
-        daniele.alessandrelli@intel.com, mchehab@kernel.org,
-        linux-media@vger.kernel.org
-Subject: Re: [PATCH v3 5/5] media: i2c: imx412: Add imx577 compatible string
-Message-ID: <YyORS+qWivhAM62K@valkosipuli.retiisi.eu>
-References: <20220915003522.1227073-1-bryan.odonoghue@linaro.org>
- <20220915003522.1227073-6-bryan.odonoghue@linaro.org>
+        Thu, 15 Sep 2022 18:03:03 -0400
+Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com [IPv6:2a00:1450:4864:20::12b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 51288459A6;
+        Thu, 15 Sep 2022 15:03:02 -0700 (PDT)
+Received: by mail-lf1-x12b.google.com with SMTP id i26so32546222lfp.11;
+        Thu, 15 Sep 2022 15:03:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:message-id:in-reply-to:date:subject:cc:to:from
+         :user-agent:references:from:to:cc:subject:date;
+        bh=H5ThD9BKTz5vBT4VzVyJZJQec8PcnYIVup07wh2iD1Q=;
+        b=LHyTLGYjynWOWEWcvC/ImquPZ8TIZBoOGaA5Y0VE2YuX7vvpc4Jlqm7lMxuzWpwI3M
+         qHFLaaQoCtwgQSPz5igkwfLgUdTk5ndmSr7i7jLwV4Xy+DzUI+rJqeXzCttTDUj2xecl
+         WB6mtZVGfSUqDxB/grzZwd85PWXn0G9xO5OL8/I0l/2cGeyWT0iY9WkBZ3EtN397HmFg
+         1ar50iHFiRUTn4ZJ024Uw/w730c0XfVrHu4rwI2EbU1cYyNy0KUKWsVgu+tmcwgkUAdR
+         sE14OyxamgMPuBatCZPcaVmyCZRs+8jHAI2GOrklTB5H1RoWZlEfJQjqeFtymQUIZlJV
+         2mIA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=mime-version:message-id:in-reply-to:date:subject:cc:to:from
+         :user-agent:references:x-gm-message-state:from:to:cc:subject:date;
+        bh=H5ThD9BKTz5vBT4VzVyJZJQec8PcnYIVup07wh2iD1Q=;
+        b=ubgdzMnybnbgz4aRNLhGTllMHO+g/VY+efCLsWEyyc6fKkc7njrdnUrYj7huylvbg3
+         yEpfan5UHTUr7AGaaUBhEGB+BHj3MNUbvnkr09B/osegRJ1LN9CjS5ncCaD0ec1Z/5VZ
+         yijHwhkUlQ8jI2mEaBqIkvdhXA2g0isuBkEAKnLM+4qx3MlYonxfrDJte/oTdEPtu1zQ
+         4/7EjJAdtVrbll1OXrAa5r4iFMd2scG1qDi9SW88kSuEI0b4M7LSARoO5dRTFQR0svt8
+         ssd/HhT+YC9Fl3VW+4bKfbt36QUz2IDVN5pi3ReJNLGJq9R5LNtFYiAS3KBzJDVfSALw
+         1E/Q==
+X-Gm-Message-State: ACrzQf0KWEkwvjpHNpnE4dCdfec2l42sFn8/LXKiK4drsEKvtkRcvb62
+        +t5W5tvKstlu9q4l/up7fpYOLmkg/F84oQ==
+X-Google-Smtp-Source: AMsMyM5FeCIP4QXA/+Xr53/EMAn27RC2IYVpcm+aNtsvvkzH4cniuXWBrYCyHdAKtCRi8ODG/zXp0g==
+X-Received: by 2002:a05:6512:1107:b0:49a:d211:bb3c with SMTP id l7-20020a056512110700b0049ad211bb3cmr582980lfg.423.1663279380090;
+        Thu, 15 Sep 2022 15:03:00 -0700 (PDT)
+Received: from razdolb (95-31-185-216.broadband.corbina.ru. [95.31.185.216])
+        by smtp.gmail.com with ESMTPSA id m7-20020a056512358700b0049476667228sm3156957lfr.65.2022.09.15.15.02.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 15 Sep 2022 15:02:59 -0700 (PDT)
+References: <20220911200147.375198-1-mike.rudenko@gmail.com>
+ <20220911200147.375198-2-mike.rudenko@gmail.com>
+ <cd363d98-74be-b42f-b1e1-c0f7e79f6011@linaro.org>
+User-agent: mu4e 1.9.0; emacs 28.1
+From:   Mikhail Rudenko <mike.rudenko@gmail.com>
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Shawn Tu <shawnx.tu@intel.com>,
+        Christian Hemp <c.hemp@phytec.de>,
+        Arec Kao <arec.kao@intel.com>, Arnd Bergmann <arnd@arndb.de>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Daniel Scally <djrscally@gmail.com>,
+        Jimmy Su <jimmy.su@intel.com>, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 1/2] media: dt-bindings: media: i2c: document OV4689
+ DT bindings
+Date:   Thu, 15 Sep 2022 15:16:24 +0300
+In-reply-to: <cd363d98-74be-b42f-b1e1-c0f7e79f6011@linaro.org>
+Message-ID: <87zgf0pa7i.fsf@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220915003522.1227073-6-bryan.odonoghue@linaro.org>
-ARC-Authentication-Results: i=1;
-        ORIGINATING;
-        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Seal: i=1; s=meesny; d=iki.fi; t=1663275340; a=rsa-sha256; cv=none;
-        b=ItPIXoclq/6+lCJOQfZ2MQa/tQSgEvA5VeojONhJsFaDj0jOFghJuUA7hUAO2f/b8pGztV
-        gW9dZKA0KbzIHacLERE6LCjsZtjxE17zNQCNb8J0gj3FoQtTOZYDriy2G8rAETiAeB3amC
-        JEBQchERmXXedj/W1ZWa0mIkCQqJXgw=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-        s=meesny; t=1663275340;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=7Zjv0NRzx/kQorjsaQ6DQnJzto3ssRyb7aVSqxQwwZM=;
-        b=cPAnKoO3hzY3clpyt6YfSAvLSVM8es/M7P98g97LPlPqGCHiBwl8R9uWx2Kq1AEJh9Hc/x
-        wTkGkagL17iAiIAAeI1V4y5ZM3D9SKgY93rxs7/4Rp2enZeLYTQx4ykScG3USCyRzSI954
-        z6ApVz1CF6PTFcz5D5VWpBoubGqFLGw=
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain
+X-Spam-Status: No, score=-0.6 required=5.0 tests=BAYES_00,DATE_IN_PAST_06_12,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Sep 15, 2022 at 01:35:22AM +0100, Bryan O'Donoghue wrote:
-> The Sony imx577 uses the same silicon enabling reference code from Sony in
-> the available examples provided.
-> 
-> Add an imx577 compatible string and re-use the existing imx412 code.
-> 
-> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-> ---
->  drivers/media/i2c/imx412.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/drivers/media/i2c/imx412.c b/drivers/media/i2c/imx412.c
-> index 1013a5afc85f..776cc058edf2 100644
-> --- a/drivers/media/i2c/imx412.c
-> +++ b/drivers/media/i2c/imx412.c
-> @@ -1290,6 +1290,7 @@ static const struct dev_pm_ops imx412_pm_ops = {
->  static const struct of_device_id imx412_of_match[] = {
->  	{ .compatible = "sony,imx412", .data = "imx412" },
->  	{ .compatible = "sony,imx477", .data = "imx477" },
-> +	{ .compatible = "sony,imx577", .data = "imx577" },
+Hi Krzysztof,
 
-Please squash patche 1 with 2 and patch 4 with 5.
+On 2022-09-12 at 12:55 +02, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> wrote:
+> On 11/09/2022 22:01, Mikhail Rudenko wrote:
+>> Add device-tree binding documentation for OV4689 image sensor driver,
+>> and the relevant MAINTAINERS entries.
+>>
+>> Signed-off-by: Mikhail Rudenko <mike.rudenko@gmail.com>
+>
+> Too many "media" prefixes in the subject.
 
-Then I think these should be ready for merging.
+I see, will drop the first "media:" in v3.
 
->  	{ }
->  };
->  
+> Also you duplicated dt
+> bindings as prefix and commit msg (skip the latter).
 
--- 
-Kind regards,
+Just to be clear, do you mean dropping "device-tree binding" phrase from
+the commit message?
 
-Sakari Ailus
+>> ---
+>>  .../bindings/media/i2c/ovti,ov4689.yaml       | 141 ++++++++++++++++++
+>>  MAINTAINERS                                   |   7 +
+>>  2 files changed, 148 insertions(+)
+>>  create mode 100644 Documentation/devicetree/bindings/media/i2c/ovti,ov4689.yaml
+>>
+>> diff --git a/Documentation/devicetree/bindings/media/i2c/ovti,ov4689.yaml b/Documentation/devicetree/bindings/media/i2c/ovti,ov4689.yaml
+>> new file mode 100644
+>> index 000000000000..376330b5572a
+>> --- /dev/null
+>> +++ b/Documentation/devicetree/bindings/media/i2c/ovti,ov4689.yaml
+>> @@ -0,0 +1,141 @@
+>> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+>> +%YAML 1.2
+>> +---
+>> +$id: http://devicetree.org/schemas/media/i2c/ovti,ov4689.yaml#
+>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>> +
+>> +title: Omnivision OV4689 CMOS
+>> +
+>> +maintainers:
+>> +  - Mikhail Rudenko <mike.rudenko@gmail.com>
+>> +
+>> +description: |
+>> +  The Omnivision OV4689 is a high performance, 1/3-inch, 4 megapixel
+>> +  image sensor. Ihis chip supports high frame rate speeds up to 90 fps
+>> +  at 2688x1520 resolution. It is programmable through an I2C
+>> +  interface, and sensor output is sent via 1/2/4 lane MIPI CSI-2
+>> +  connection.
+>> +
+>> +allOf:
+>> +  - $ref: /schemas/media/video-interface-devices.yaml#
+>> +
+>> +properties:
+>> +  compatible:
+>> +    const: ovti,ov4689
+>> +
+>> +  reg:
+>> +    maxItems: 1
+>> +
+>> +  clocks:
+>> +    description:
+>> +      External clock (XVCLK) for the sensor, 6-64 MHz
+>> +    maxItems: 1
+>> +
+>> +  clock-names: true
+>
+> This has to be strictly defined - which name you expect.
+
+Will fix in v3. Or maybe we should drop clock-names altogether and use
+devm_clk_get(&client->dev, NULL) in the driver instead (I've seen this
+approach in some existing drivers)?
+
+>> +
+>> +  dovdd-supply:
+>> +    description:
+>> +      Digital I/O voltage supply, 1.7-3.0 V
+>> +
+>> +  avdd-supply:
+>> +    description:
+>> +      Analog voltage supply, 2.6-3.0 V
+>> +
+>> +  dvdd-supply:
+>> +    description:
+>> +      Digital core voltage supply, 1.1-1.3 V
+>> +
+>> +  powerdown-gpios:
+>> +    maxItems: 1
+>
+> You can skip here maxItems - it is defined by gpio-consumer-common.
+
+Ack, will fix in v3. Does this also apply to reset-gpios?
+
+>> +    description:
+>> +      GPIO connected to the powerdown pin (active low)
+>> +
+>> +  reset-gpios:
+>> +    maxItems: 1
+>> +    description:
+>> +      GPIO connected to the reset pin (active low)
+>> +
+>
+> Best regards,
+> Krzysztof
+
+Thanks for review,
+
+--
+Best regards,
+Mikhail Rudenko
