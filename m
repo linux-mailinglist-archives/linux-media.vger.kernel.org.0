@@ -2,60 +2,129 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2A97F5B9F55
-	for <lists+linux-media@lfdr.de>; Thu, 15 Sep 2022 18:01:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7C6015B9F5D
+	for <lists+linux-media@lfdr.de>; Thu, 15 Sep 2022 18:05:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229929AbiIOQBC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 15 Sep 2022 12:01:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48660 "EHLO
+        id S229585AbiIOQFm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 15 Sep 2022 12:05:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54974 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230030AbiIOQAw (ORCPT
+        with ESMTP id S229562AbiIOQFk (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 15 Sep 2022 12:00:52 -0400
-Received: from mail-vs1-xe29.google.com (mail-vs1-xe29.google.com [IPv6:2607:f8b0:4864:20::e29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D36D552DD8;
-        Thu, 15 Sep 2022 09:00:37 -0700 (PDT)
-Received: by mail-vs1-xe29.google.com with SMTP id j7so14385760vsr.13;
-        Thu, 15 Sep 2022 09:00:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date;
-        bh=0Pdt+1Ige2oFRjEUxV93B3LnEG6UbwsKtuCYARwaodA=;
-        b=QjsYS7gmdcXRIJ7wBYPzZeLPqoFhj2n4S9FRy44DYMQmD4e/Ehhrt+55PTsiD5Yr9A
-         wmyVIuBQNco4/7dVB7luzRKBFQVNckuSgMxTb5kqHQ1A2/11T6lOjQZ5cAu2fQePr0kw
-         jyhoX1oVH4zi3wW8igDSNxndc7n/VAAIMQz+PWOHqZ1m+oeZXWDqcOPcmu/eLFRvKnxU
-         1LNmxIxGamfNe34vZ7V5AYIikFAqeMPa6l0usWiC/OJikSrERIk8q0zX8WsxbGys8nFH
-         jK+tFd6quNv7IeEQUmfJlccriXiwb64/6HkuVrMhP4qj6ubcTeKtvE5AiI7xILvUsw7h
-         qNvw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
-         :from:to:cc:subject:date;
-        bh=0Pdt+1Ige2oFRjEUxV93B3LnEG6UbwsKtuCYARwaodA=;
-        b=epWGDbbb6j82GvKy9ce56zESPUCJRFwLSYyXO8Y9CyWxaKqZsb/2cSfoP6e4vGpojE
-         PLa9cE1v0O5CBbznmvWwDyQQOvJFTbtH7X6LS8ykUBFIwQ6BNbnqK4FyW0pK58AVexQj
-         F4w0HfxXLBv7pPYqSKrG94HQMCjKg7FqqPfczMg632LnCa/N+CVm+49hBniTQ9Fa8fG7
-         ausAXCGRFmc+Nm4ozjKZag25TjREj8BiSF/HomMgr+AVR1/yY55SrE6GhmEViBklonRN
-         +rtfeyUdvJiN+F7gh8YOoJSK2cDdj6UXl+5MqQvKjySUo4tUJW5p15e0aynVykggkhd9
-         05mQ==
-X-Gm-Message-State: ACrzQf01lplypqRFShOrOn57VYP6Kodu2+9OKA+849qbMuM/Ael6F4f9
-        6k9lKQczbUFQKUJnOGv/vmS7Uuymk6o+X+zpxPwQC4eipXgbQVt2
-X-Google-Smtp-Source: AMsMyM4uTXrmLG2mbxjs7JEThgiHIekXm5KWLIP8CqXpDdfnw31Lapitkg6IklNjkzAVJmW8Zt/GduTGldGEmDKBXr4=
-X-Received: by 2002:a67:be16:0:b0:398:c2e4:e01f with SMTP id
- x22-20020a67be16000000b00398c2e4e01fmr251772vsq.33.1663257636504; Thu, 15 Sep
- 2022 09:00:36 -0700 (PDT)
+        Thu, 15 Sep 2022 12:05:40 -0400
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2070.outbound.protection.outlook.com [40.107.94.70])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B3897B29C;
+        Thu, 15 Sep 2022 09:05:39 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Eqz+fx9CFl7y7Zml2bSu+s8OoSVz3wA8E86GBMxKJHDUZFBCcAKm440/lHwK6AqZtqJiZJPMX+TlLH+eU8YVKwSFrLrRe5NvQMyusu2HubBVlQLjh/a/9z6IOA/AoAXYBDnRxNxUTCctdigKw55KVN5Vi0sXaSHC0HU4aFLmkkqqCTerCXVI8/fybOopyh0T92L+ERBUKCWYzflkpjOBTy2iJk+FVKQpjcAGdrqf/fJPNgJdti6iTN2DFjGjt4/dfvDwI70N6Co2Vzyjap726A1OWINL4ZguesF7xw6+hstmXkYb3693NE38lOl+7SafaRwkhbCHo0+saDJFl7mwTQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=PMsY2g+18QXgWA3FU7kN1s+ERpqc6Nr+xGv7XeQEsEE=;
+ b=edx+apMgy7s6OpMnr2A6Dj/2ruwE5CIJRswDIx4cSrAmral+WNrv75qR6dxFx/vF9++DB4njrWcrG6A5QL5RupoLbrzkWcF3WkLZIgwBTiVsLlkf9fYDhfnRfhDcbWGdy5HJrnjHKp+g+RVfobpgtmfJWLEEbUF3PRT3N4fBDsYdEqbvHV2ju+2ej5uluJ/+Fqw5Gy5l4NtkqOrAUZIMLonCY4RWwda7NDtNhkDh845eZ0OU1JIcHuxEXloTty6lbotlaXZ0EGz1+IHsLNiouf9pdXn9diVOAAv+YyODAHyOC9ybPX/375MNSaIzatFY++5T60YoI/8ljeqDp98jlw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=PMsY2g+18QXgWA3FU7kN1s+ERpqc6Nr+xGv7XeQEsEE=;
+ b=FiSNkQ5Yg+NAXqfNvjvBlQVR6RFWIPy617zPpX3JiJ7WLXIR73e9JFiKri0+Ts8mm4TY0g5T0QC8KlSVDXj0R5RBS3Nsd5GXGtPpy3duDjO3pTMoSgQxa9Nv5I1K48UbERUEeom22wvRQHDyNEpG7/GNUGU0fgk1Ct/bOtzw+M8=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
+ by MN0PR12MB6077.namprd12.prod.outlook.com (2603:10b6:208:3cb::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5612.12; Thu, 15 Sep
+ 2022 16:05:37 +0000
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::653f:e59b:3f40:8fed]) by BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::653f:e59b:3f40:8fed%6]) with mapi id 15.20.5632.015; Thu, 15 Sep 2022
+ 16:05:36 +0000
+Message-ID: <691c421f-1297-cd08-ea70-6750099275b1@amd.com>
+Date:   Thu, 15 Sep 2022 18:05:30 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v4 0/6] dma-buf: Check status of enable-signaling bit on
+ debug
+Content-Language: en-US
+To:     "Yadav, Arvind" <arvyadav@amd.com>,
+        Arvind Yadav <Arvind.Yadav@amd.com>, andrey.grodzovsky@amd.com,
+        shashank.sharma@amd.com, amaranath.somalapuram@amd.com,
+        Arunpravin.PaneerSelvam@amd.com, sumit.semwal@linaro.org,
+        gustavo@padovan.org, airlied@linux.ie, daniel@ffwll.ch,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
+References: <20220914164321.2156-1-Arvind.Yadav@amd.com>
+ <d2d81ffd-2269-bdc6-0daa-8f3a99306e46@amd.com>
+ <33a16b15-3d3c-7485-d021-ee2a727e5391@amd.com>
+From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+In-Reply-To: <33a16b15-3d3c-7485-d021-ee2a727e5391@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR3P281CA0137.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:95::11) To BN8PR12MB3587.namprd12.prod.outlook.com
+ (2603:10b6:408:43::13)
 MIME-Version: 1.0
-From:   Rondreis <linhaoguo86@gmail.com>
-Date:   Fri, 16 Sep 2022 00:00:25 +0800
-Message-ID: <CAB7eex+2SMb8ccwudSJz+2se9E_DQ-t0jKBzqgw+5kJ7tzj5JQ@mail.gmail.com>
-Subject: KASAN: slab-out-of-bounds Read in gspca_init_transfer
-To:     mchehab@kernel.org, chadf@triularity.org,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|MN0PR12MB6077:EE_
+X-MS-Office365-Filtering-Correlation-Id: f31a1fcb-fcb5-49f4-1002-08da97342081
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: m+fLJUREzETq5aTB6bJrdInBzamQk/G4MNkyCHzjhPvAW0LwQEVFvkAqW/QXAAxwxc7qKuxJwjnrzq8N+dnI3jAsAK1bmhb8T2LBN4dh1hhrPYLMw1I5x8STRI6nXFHkZAFCcL7G2XrdSxkiazbXHyulNGS19wG8UXDXMrdOlK/MIrbVkAb1+0nqOf7gTzsP0Mghq7DQKsTSrnWG4lY3gN4oMxQdkEY3+TFWTqc0PuXqy/KZnWl1v14iOxvszYM2BtVsHXvcvhmUdj+D55ICpnU/FpbbvSExdJzgHwXbtWDqJetqIxDTtR5btWw6XvuQoiLOv14E2axiZxAIafs8dl3sh3w7K3iFbyrzfUniU9+sjkZve88h+a7rIKMSJtYdy3Xgi19qziSRkCsawoZ1ZvwobFERD/VZm0XQIKC2Mdd1LNYgr81pZiRc6kBygBTTEvtp023IoeKApJN5OguwtF4vQqFZsGoRSOMv2v8smzWGsXgPP42A/1PReGmLlnilg2TRNP/k7Dlxc7tyM+ye+HkyiHHEhArykJuX/NmdBh9J9tAFRaHU5iJcAY2wKHfc17q46+DQCOswg5YR1m2ayRxQzaITuaGcpFUo+SQxfNvH+8/ETZAScs4nw2U9I7lSxmixvTvy9KUMGCzfFaGn8vjKRq6+BvPo+Z3hyDJkM+kF44a7VBMItrnyU7SfYWkpM3b0aJ3xdStXBFM0xtZSFRERZwuR0xQEB0+UGAZzlxnm0cc8YJVgXGPTrgsKByr9VWPZGpoa+nNHPw26gewSPSA0ATCTjIInqQvKd5FWWXJzH+eTG0+xAdW1tx9HsgOD
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN8PR12MB3587.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(346002)(376002)(136003)(396003)(366004)(39860400002)(451199015)(6506007)(83380400001)(53546011)(31686004)(41300700001)(66946007)(6666004)(478600001)(86362001)(921005)(186003)(31696002)(8936002)(110136005)(8676002)(6486002)(66556008)(5660300002)(2616005)(38100700002)(6512007)(66574015)(316002)(66476007)(2906002)(36756003)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?b0NBWnhpNXBhNEJjL1crYmRSMFZpdExVeW5SSTI3VHFqZ292SlRHUXM4eDd3?=
+ =?utf-8?B?VVRFRUtzRzdTSzJIRElqS2RYNDNmT25YY2twMDBUdnkxdWo0ZkdWek9DZDlI?=
+ =?utf-8?B?a05SNmZaa2tTcUJVeGVtZGczaGlnRjJ6Skdza21uZWtRQjJHWkJvai8rMDNh?=
+ =?utf-8?B?bG16Ryt4SUhuck0xSnJlYko4RDZUZ0Y1UHp4Q3REZWdSN0tUS2J2SEh6RzU5?=
+ =?utf-8?B?TzdiYVdwbnFnTzhsazl1anBxSlBDaEZwYnVJQko4UmZTbWIyYnBlR2E1UWRH?=
+ =?utf-8?B?SnoyOVJMT0dSVmg2eVJBUWdHZ2dTOVVxWEZHYmxoVU0rRGp0VGlZWmd4cTlW?=
+ =?utf-8?B?VDkxeFFVSmFPTCtuQTFDbVJiUzY1dy81Mk5Sc1lRclNSTEUyWFlxNWNnRDZh?=
+ =?utf-8?B?RnlhZFVtUG4ra1hCVWpMbUtRdk13RVpNRGI4ZFl0cVAzT3JrQi8zVjl0dnp6?=
+ =?utf-8?B?dXRDaUVDSTFVWFo3Y1JBN3hZM3lPS1dLSkNEVTdIUE44YWdGL2VET3E4WjZF?=
+ =?utf-8?B?MmRRVEUxSit0a1hFSWo0ZGRhdVczSjZyWGQ4dC9pRTExRkVlbnpJTENjdXJ0?=
+ =?utf-8?B?WXNXMlRLZFh5bFJydU5sMjZnSE8zS0R4U2Q1dWttdlNrR3ozdFNrQW40T2NS?=
+ =?utf-8?B?TnFJY3dBUmg1dmpNeWh1YzNqdEhBQ1FCN2JwaU1PV0ZRNlVDUStpek5jR3F2?=
+ =?utf-8?B?Y3ZHS2ZObUo1L0RCdDBBbjIybjdGdmVYanpPSWhqOHNNV2ZjdldxRWFYTVRO?=
+ =?utf-8?B?dHZEMm01ZUUxdFVEY3RYMy9GUHNTZmhMS3dqUG40ZjNYQzl5cGlXM2V5c3dj?=
+ =?utf-8?B?enZ5ZmtiY3JNVUR4U3lFQ2loSURVWEJQS3M4YjFYRklGeUxsVXdHeGw4UnRH?=
+ =?utf-8?B?WHNNY01hMUErZlYxczB3VmF0UnBrTzJUYk8xRHdZVGpVOHlPdVg4bzd1SnN2?=
+ =?utf-8?B?RExybkZ4dk5La0pLTzhMbUdOS0R4bmJib0dkcVNhZnBOUCt3TnhQc1lEdUIy?=
+ =?utf-8?B?ZnZra2M5T1ROY0dlcXZOZThDUTFaekRZa0ZNSUloZWlJMDRlU0tzVGhxRmho?=
+ =?utf-8?B?SGJXZXdON3UxSHAwTjR0WG5DR2NKYU1BTnlBK0xDR2c2M09nQmlubi9OMCsr?=
+ =?utf-8?B?QkN5SUdsSVRXOXdzTkpuTG8wV25CalB6RWJZTzQzWExqVU1Wd1FQT2xEN1lU?=
+ =?utf-8?B?TjNOUE0xdDIvV3lTVGhlRzc3UytxbnAvck9aTFdVbWJCNTd2VVI1K25Oamo5?=
+ =?utf-8?B?RENkWFpRcmU2ZlJ0YytSZHRsNjBuaTBEVWp5SHBkY1ZGMVhqWDJKV0krbmpO?=
+ =?utf-8?B?UXU5T3doeDBKdGYzSEEzUDNpWncrUEsyVWdGUlJQbVE2NmpnSU1OclUxbnls?=
+ =?utf-8?B?Nk5xL0tCMURZOTE5UFdzTUY2ekV1dmhTZlFDa1htY0psWGpZTVpSYUcyekVX?=
+ =?utf-8?B?R2Q5aWh3QnY2MEttTjhhK2VaL1FySVE4Q1lZS2tNK3E4NU1qV3lvY0l5dHJr?=
+ =?utf-8?B?d3VsRjBnZmhLRWhaU015SnBPc0R4ekNNUk9uR3Y1bHFWRzlINUY2a0h6bXJ1?=
+ =?utf-8?B?VHhlNFZJWmZxc3M4Z1JlSWJiakNsU3ZjY2pRT0Y3Q2xucjZVbU1vRVNjc3dv?=
+ =?utf-8?B?V0QxTjcvQ09FRDV6SkRscHlBbjFhaEtOdU1hUFovdzNoUXlIOS9CYXVvMW5I?=
+ =?utf-8?B?eWV3RHBlcDQ0WlhkbDREV0owbUllSlhvV1VLQ21aZGJlVVBTTjVCakFmSjNV?=
+ =?utf-8?B?QWdSaUl1d1AwcFlXeHBTUTBRNFJvUFFLRC9Gbk0weTRVVE5qelR1OVRkelor?=
+ =?utf-8?B?TXg2ZXV0Mno3ZHdkRnFRaFRZVXVRTGN4QncyUjYzM0tEL2hhSUVwaCsvTUtu?=
+ =?utf-8?B?ZkdCQWJLL2lRVUp3SVU4alllOGhhbzc5U296bDh5NXpZVE9acWh1NWVrelR5?=
+ =?utf-8?B?ZTg4c00rRG94YnJDTWs1Y2kvcHNaMnY4ZkZyVno5ZlBPSWpZaDA3Z3RaZHVt?=
+ =?utf-8?B?SzQ3SmlOQ1hQWm1uU2c0VllNRWwzcEhENkE2RXVpaWJQaDEvd0dsSGVPSDlF?=
+ =?utf-8?B?eHNuVENnaVhFODBVb2F2OURvQzNUbWp0cTQ4ZXcxNUwxYk5xQTI2OUxxQ3U1?=
+ =?utf-8?B?dldYSWtEVExEYklDWWxuZmkyTGFZck93ZFhrRFZjNWZiNVlCdWVGTW5JeFl6?=
+ =?utf-8?Q?4IPoyTjx6FL57Ccrr2FRBNIflaOuUEPWerZZR7WgfT0+?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f31a1fcb-fcb5-49f4-1002-08da97342081
+X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Sep 2022 16:05:36.7019
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: LELJgVmY31/0oFNqAIv9MdPgennMmHtjYHDZxakKp5JbiUNYVKGXt3M1/aSw0PkA
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB6077
+X-Spam-Status: No, score=-3.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -63,159 +132,65 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello,
+Am 15.09.22 um 15:02 schrieb Yadav, Arvind:
+>
+> On 9/15/2022 5:37 PM, Christian König wrote:
+>> Is that sufficient to allow running a desktop on amdgpu with the 
+>> extra check enabled? If yes that would be quite a milestone.
+>>
+> Yes, It is running on amdgpu with extra config enabled.
 
-When fuzzing the Linux kernel driver v6.0-rc4, the following crash was
-triggered.
+In this case I will start pushing the patches to drm-misc-next. I'm just 
+going to leave out the last one until the IGT tests are working as well.
 
-HEAD commit: 7e18e42e4b280c85b76967a9106a13ca61c16179
-git tree: upstream
+>> What's left is checking the userspace IGT tests. Especially the 
+>> sync_file and drm_syncobj tests I would expect to have problems with 
+>> this extra check.
+>>
+> Yes, IGT test cases are failing
 
-kernel config: https://pastebin.com/raw/xtrgsXP3
-C reproducer: https://pastebin.com/raw/0z4kf0YY
-console output: https://pastebin.com/raw/w9egruEc
+Yeah, as noted on the call please investigate.
 
-Basically, in the c reproducer, we use the gadget module to emulate
-attaching a USB device(vendor id: 0x5e3, product id: 0xf191, with the
-midi function) and executing some simple sequence of system calls.
-To reproduce this crash, we utilize a third-party library to emulate
-the attaching process: https://github.com/linux-usb-gadgets/libusbgx.
-Just clone this repository, install it, and compile the c
-reproducer with ``` gcc crash.c -lusbgx -lconfig -o crash ``` will do
-the trick.
+This one is the real reason why I wanted somebody to look at this. My 
+suspicion is that we have missing calls to 
+dma_fence_enable_sw_signaling() in the drm_syncobj code.
 
-I would appreciate it if you have any idea how to solve this bug.
+Thanks,
+Christian.
 
-The crash report is as follows:
-==================================================================
-BUG: KASAN: slab-out-of-bounds in gspca_init_transfer+0x2107/0x2260
-drivers/media/usb/gspca/gspca.c:785
-Read of size 1 at addr ffff888062754734 by task syz-fuzzer/12015
+>
+> ~Arvind
+>
+>> Thanks,
+>> Christian.
+>>
+>> Am 14.09.22 um 18:43 schrieb Arvind Yadav:
+>>> Fence signaling must be enabled to make sure that
+>>> the dma_fence_is_signaled() function ever returns true.
+>>> Since drivers and implementations sometimes mess this up,
+>>> this ensures correct behaviour when DEBUG_WW_MUTEX_SLOWPATH
+>>> is used during debugging.
+>>> This should make any implementation bugs resulting in not
+>>> signaled fences much more obvious.
+>>>
+>>> Arvind Yadav (6):
+>>>    [PATCH v4 1/6] dma-buf: Remove the signaled bit status check
+>>>    [PATCH v4 2/6] dma-buf: set signaling bit for the stub fence
+>>>    [PATCH v4 3/6] dma-buf: Enable signaling on fence for selftests
+>>>    [PATCH v4 4/6] dma-buf: dma_fence_wait must enable signaling
+>>>    [PATCH v4 5/6] drm/sched: Use parent fence instead of finished
+>>>    [PATCH v4 6/6] dma-buf: Check status of enable-signaling bit on 
+>>> debug
+>>>
+>>>   drivers/dma-buf/Kconfig                |  7 +++++++
+>>>   drivers/dma-buf/dma-fence.c            | 16 ++++++++++------
+>>>   drivers/dma-buf/st-dma-fence-chain.c   |  4 ++++
+>>>   drivers/dma-buf/st-dma-fence-unwrap.c  | 22 ++++++++++++++++++++++
+>>>   drivers/dma-buf/st-dma-fence.c         | 16 ++++++++++++++++
+>>>   drivers/dma-buf/st-dma-resv.c          | 10 ++++++++++
+>>>   drivers/gpu/drm/scheduler/sched_main.c |  4 ++--
+>>>   include/linux/dma-fence.h              |  5 +++++
+>>>   8 files changed, 76 insertions(+), 8 deletions(-)
+>>>
+>>
 
-CPU: 1 PID: 12015 Comm: syz-fuzzer Not tainted 6.0.0-rc4+ #20
-Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS
-1.13.0-1ubuntu1.1 04/01/2014
-Call Trace:
-<TASK>
-__dump_stack lib/dump_stack.c:88 [inline]
-dump_stack_lvl+0xcd/0x134 lib/dump_stack.c:106
-print_address_description mm/kasan/report.c:317 [inline]
-print_report.cold+0xe5/0x66d mm/kasan/report.c:433
-kasan_report+0x8a/0x1b0 mm/kasan/report.c:495
-gspca_init_transfer+0x2107/0x2260 drivers/media/usb/gspca/gspca.c:785
-gspca_start_streaming+0x62/0xb0 drivers/media/usb/gspca/gspca.c:1360
-vb2_start_streaming+0x160/0x4c0
-drivers/media/common/videobuf2/videobuf2-core.c:1578
-vb2_core_streamon drivers/media/common/videobuf2/videobuf2-core.c:2113 [inline]
-vb2_core_streamon+0x1da/0x2c0
-drivers/media/common/videobuf2/videobuf2-core.c:2080
-__vb2_init_fileio+0xa18/0xcf0
-drivers/media/common/videobuf2/videobuf2-core.c:2685
-vb2_core_poll+0x4d2/0x7c0 drivers/media/common/videobuf2/videobuf2-core.c:2465
-vb2_poll+0x31/0x150 drivers/media/common/videobuf2/videobuf2-v4l2.c:970
-vb2_fop_poll+0x10e/0x360 drivers/media/common/videobuf2/videobuf2-v4l2.c:1217
-v4l2_poll+0x158/0x220 drivers/media/v4l2-core/v4l2-dev.c:348
-vfs_poll include/linux/poll.h:88 [inline]
-ep_item_poll.isra.0+0xd8/0x170 fs/eventpoll.c:853
-ep_insert fs/eventpoll.c:1522 [inline]
-do_epoll_ctl+0x1bc4/0x3080 fs/eventpoll.c:2163
-__do_sys_epoll_ctl fs/eventpoll.c:2214 [inline]
-__se_sys_epoll_ctl fs/eventpoll.c:2205 [inline]
-__x64_sys_epoll_ctl+0x13f/0x1c0 fs/eventpoll.c:2205
-do_syscall_x64 arch/x86/entry/common.c:50 [inline]
-do_syscall_64+0x35/0x80 arch/x86/entry/common.c:80
-entry_SYSCALL_64_after_hwframe+0x63/0xcd
-RIP: 0033:0x466938
-Code: 10 c3 cc cc cc cc cc cc cc cc cc cc cc cc cc cc cc cc 8b 7c 24
-08 8b 74 24 0c 8b 54 24 10 4c 8b 54 24 18 b8 e9 00 00 00 0f 05 <89> 44
-24 20 c3 cc cc cc 8b 7c 24 08 48 8b 74 24 10 8b 54 24 18 44
-RSP: 002b:000000c003f6fa88 EFLAGS: 00000206 ORIG_RAX: 00000000000000e9
-RAX: ffffffffffffffda RBX: 0000000000000001 RCX: 0000000000466938
-RDX: 000000000000002d RSI: 0000000000000001 RDI: 0000000000000003
-RBP: 000000c003f6fad8 R08: 0000000000000000 R09: 0000000000000060
-R10: 000000c003f6fac4 R11: 0000000000000206 R12: 0000000000203000
-R13: 0000000000000050 R14: 000000c000285a00 R15: 00007fb683bd01f9
-</TASK>
-
-Allocated by task 2955:
-kasan_save_stack+0x1e/0x40 mm/kasan/common.c:38
-kasan_set_track mm/kasan/common.c:45 [inline]
-set_alloc_info mm/kasan/common.c:437 [inline]
-____kasan_kmalloc mm/kasan/common.c:516 [inline]
-____kasan_kmalloc mm/kasan/common.c:475 [inline]
-__kasan_kmalloc+0xa9/0xd0 mm/kasan/common.c:525
-kasan_kmalloc include/linux/kasan.h:234 [inline]
-__kmalloc+0x1da/0x3f0 mm/slub.c:4424
-kmalloc include/linux/slab.h:605 [inline]
-kzalloc include/linux/slab.h:733 [inline]
-usb_parse_configuration drivers/usb/core/config.c:772 [inline]
-usb_get_configuration+0xcc5/0x3ab0 drivers/usb/core/config.c:944
-usb_enumerate_device drivers/usb/core/hub.c:2405 [inline]
-usb_new_device+0x566/0x750 drivers/usb/core/hub.c:2543
-hub_port_connect drivers/usb/core/hub.c:5353 [inline]
-hub_port_connect_change drivers/usb/core/hub.c:5497 [inline]
-port_event drivers/usb/core/hub.c:5653 [inline]
-hub_event+0x23bd/0x4260 drivers/usb/core/hub.c:5735
-process_one_work+0x9c7/0x1650 kernel/workqueue.c:2289
-worker_thread+0x623/0x1070 kernel/workqueue.c:2436
-kthread+0x2e9/0x3a0 kernel/kthread.c:376
-ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:306
-
-The buggy address belongs to the object at ffff888062754700
-which belongs to the cache kmalloc-64 of size 64
-The buggy address is located 52 bytes inside of
-64-byte region [ffff888062754700, ffff888062754740)
-
-The buggy address belongs to the physical page:
-page:ffffea000189d500 refcount:1 mapcount:0 mapping:0000000000000000
-index:0x0 pfn:0x62754
-flags: 0x4fff00000000200(slab|node=1|zone=1|lastcpupid=0x7ff)
-raw: 04fff00000000200 ffffea0001a09b40 dead000000000004 ffff888011c41640
-raw: 0000000000000000 0000000000200020 00000001ffffffff 0000000000000000
-page dumped because: kasan: bad access detected
-page_owner tracks the page as allocated
-page last allocated via order 0, migratetype Unmovable, gfp_mask
-0x112c40(GFP_NOFS|__GFP_NOWARN|__GFP_NORETRY|__GFP_HARDWALL), pid
-9616, tgid 9616 (modprobe), ts 237373775975, free_ts 237320038612
-set_page_owner include/linux/page_owner.h:31 [inline]
-post_alloc_hook mm/page_alloc.c:2525 [inline]
-prep_new_page+0x2c6/0x350 mm/page_alloc.c:2532
-get_page_from_freelist+0xae9/0x3a80 mm/page_alloc.c:4283
-__alloc_pages+0x321/0x710 mm/page_alloc.c:5515
-alloc_pages+0x117/0x2f0 mm/mempolicy.c:2270
-alloc_slab_page mm/slub.c:1824 [inline]
-allocate_slab mm/slub.c:1969 [inline]
-new_slab+0x246/0x3a0 mm/slub.c:2029
-___slab_alloc+0xa50/0x1060 mm/slub.c:3031
-__slab_alloc.isra.0+0x4d/0xa0 mm/slub.c:3118
-slab_alloc_node mm/slub.c:3209 [inline]
-slab_alloc mm/slub.c:3251 [inline]
-__kmalloc+0x388/0x3f0 mm/slub.c:4420
-kmalloc include/linux/slab.h:605 [inline]
-kzalloc include/linux/slab.h:733 [inline]
-tomoyo_encode2.part.0+0xec/0x3b0 security/tomoyo/realpath.c:45
-tomoyo_encode2 security/tomoyo/realpath.c:31 [inline]
-tomoyo_encode+0x28/0x50 security/tomoyo/realpath.c:80
-tomoyo_realpath_from_path+0x186/0x620 security/tomoyo/realpath.c:288
-tomoyo_get_realpath security/tomoyo/file.c:151 [inline]
-tomoyo_path_perm+0x219/0x420 security/tomoyo/file.c:822
-security_inode_getattr+0xcf/0x140 security/security.c:1345
-vfs_getattr+0x22/0x60 fs/stat.c:157
-vfs_statx+0x170/0x360 fs/stat.c:232
-vfs_fstatat+0x8c/0xb0 fs/stat.c:255
-page last free stack trace:
-create_dummy_stack mm/page_owner.c:67 [inline]
-register_dummy_stack+0x65/0xa4 mm/page_owner.c:73
-init_page_owner+0x43/0x943 mm/page_owner.c:91
-invoke_init_callbacks mm/page_ext.c:112 [inline]
-page_ext_init+0x53d/0x550 mm/page_ext.c:419
-kernel_init_freeable+0x49d/0x74c init/main.c:1621
-
-Memory state around the buggy address:
-ffff888062754600: 00 00 00 00 00 00 00 00 fc fc fc fc fc fc fc fc
-ffff888062754680: 00 00 00 00 00 00 fc fc fc fc fc fc fc fc fc fc
->ffff888062754700: 00 00 00 00 00 00 fc fc fc fc fc fc fc fc fc fc
-^
-ffff888062754780: 00 00 00 00 00 00 00 00 fc fc fc fc fc fc fc fc
-ffff888062754800: 00 00 00 00 00 00 00 00 fc fc fc fc fc fc fc fc
-==================================================================
