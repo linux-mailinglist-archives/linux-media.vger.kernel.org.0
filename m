@@ -2,122 +2,112 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CE14F5BAC15
-	for <lists+linux-media@lfdr.de>; Fri, 16 Sep 2022 13:11:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 78EB15BAC1D
+	for <lists+linux-media@lfdr.de>; Fri, 16 Sep 2022 13:14:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230227AbiIPLLj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 16 Sep 2022 07:11:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54456 "EHLO
+        id S230164AbiIPLOv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 16 Sep 2022 07:14:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37166 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231187AbiIPLLS (ORCPT
+        with ESMTP id S229510AbiIPLOs (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 16 Sep 2022 07:11:18 -0400
-Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com [IPv6:2a00:1450:4864:20::433])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C3973E80;
-        Fri, 16 Sep 2022 04:10:20 -0700 (PDT)
-Received: by mail-wr1-x433.google.com with SMTP id t14so35479714wrx.8;
-        Fri, 16 Sep 2022 04:10:20 -0700 (PDT)
+        Fri, 16 Sep 2022 07:14:48 -0400
+Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com [IPv6:2a00:1450:4864:20::332])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A2EA12620
+        for <linux-media@vger.kernel.org>; Fri, 16 Sep 2022 04:14:47 -0700 (PDT)
+Received: by mail-wm1-x332.google.com with SMTP id v185-20020a1cacc2000000b003b42e4f278cso16620287wme.5
+        for <linux-media@vger.kernel.org>; Fri, 16 Sep 2022 04:14:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date;
-        bh=7Jiy9Z4SJ5cNBRsxm2AaeKN84NRRpfl9TETV1EliQY0=;
-        b=cVmemc1dWQooaSXE42w3lLujnnYWM4LnNs1xICO9X2/TuKkAJcv3oJuHS6YWM1sjfv
-         Sir3OOXMW4CzzdEd7nGi1zSML9SyJhN9VhFVLsg4sIAqU50vxXvgj0N9VM/okB2JMMqb
-         F5UVIwazQ9N5/MUP+4cPemPaWhe2AIGOui0JRDfy2WPYG42N894d2Q3OfbVRzs3tCYQU
-         cTVAnfxE5nuALegum6xXN2gjJnq4bfCKdHIhWYmPhWwWcN1atXYcL/eE9mLD3f/nTful
-         0ymZYnWdEhq0ZI9mtT/mF+3xQLyC5pC3ENR0vQyA4ac38hVl8FRJ8rcM2PNV+2+LPgaa
-         MH0g==
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date;
+        bh=dV3jBO4U+IXFWsEV+8W82DF8z8B+6CO8USpzzOMmZ2k=;
+        b=WiXZdHC5R7vjy/KOtfNoNgQwDvH1kHDn5SrpcAxBydYbF5njRrTGTcMjCgED0Rp8aL
+         2F5pBdeP63TS/VBzvvwDDGjd/2JEz4BTLAbw8/3XE1M+slT2TAsMSgtx9q4YgM61khUm
+         7C96zZeFwA34rItl3DkEQ88gzSozbQjoimB29B65PEUrgki0Qem0cEaOm78m9u+X+6Fg
+         liqIL7T2d1ZxaK5YtpGrO2csVPDI8cPPox5sGk68FfYF90g60v2KuK+/K6eONJiqBaSy
+         uR1NZKodrCLc8g4LPdaacphsL6Sa6m5KgmXW+St5OmsnhG2p3pRMJbwpnI8zCmUdjD69
+         8v1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date;
-        bh=7Jiy9Z4SJ5cNBRsxm2AaeKN84NRRpfl9TETV1EliQY0=;
-        b=TqCWdZmBt2yDf+RmsywAe8RsANYHr/5HE1h+4jwvVGXlC4qAayA2PvsRPCR8XLvjDY
-         TPSDoRe2Z+1XImlY4+dVj31cV0e4PPbsEgjZISaNx+SPGiR+pKPuSCAFhXkQJbz4gYBJ
-         cY+pZzrykeuF15VYmos/aJEDe+m4Em/lz7GZnQHq24cahjFHbc/kfljywIrfhmnt9Lns
-         RE+pzivhqO3sNuFktI5op7W2CLRKjgVBvZLSH9O8YG8g1WfwOs3HiXJ1Vaf6Q2zLuFWj
-         xCkwfq/zp8ExY3k+WPo2op90N+vbFMgvTzZTXrCuGOe3qBccAp0Jiuj0Leq3YSxBWwtd
-         x/BA==
-X-Gm-Message-State: ACrzQf3GQtIc4oGWlqakYCGFh8dE0dlcK78G3RF/V82DSHrOQCPSYWDZ
-        9pYgGnqtGsUrsePX5az0nE0=
-X-Google-Smtp-Source: AMsMyM5uYYboPdipnTAjvzRjZ63f8BKibpPBYysbOFcFHpjdCslmV3qxSI+WUHChDv6QqbC9cZKT8w==
-X-Received: by 2002:a5d:64a8:0:b0:226:f3f3:9914 with SMTP id m8-20020a5d64a8000000b00226f3f39914mr2401583wrp.343.1663326619194;
-        Fri, 16 Sep 2022 04:10:19 -0700 (PDT)
-Received: from prasmi.home ([2a00:23c8:2501:c701:453:ec29:bd55:6b15])
-        by smtp.gmail.com with ESMTPSA id v13-20020adfebcd000000b0022a403954c3sm4910975wrn.42.2022.09.16.04.10.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 Sep 2022 04:10:18 -0700 (PDT)
-From:   Prabhakar <prabhakar.csengg@gmail.com>
-X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Dongchun Zhu <dongchun.zhu@mediatek.com>
-Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH] media: dt-bindings: media: i2c: Rename ov8856.yaml
-Date:   Fri, 16 Sep 2022 12:09:55 +0100
-Message-Id: <20220916110955.23757-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.25.1
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date;
+        bh=dV3jBO4U+IXFWsEV+8W82DF8z8B+6CO8USpzzOMmZ2k=;
+        b=dZ8pP5d20A/y9ZTCaa0CyraJNCIn6r6ULp1bx+R+gopk9n9L8/UOhFQQehbC8WCfCm
+         reI1Oyj7kxN6ShLS5yyZMyGAtA/b9Id+QBw3crDvJIUq8qiSd2uJYg5G4L3aN2YkFl/w
+         H9YJidr/iBeE+Vhbm3KbFDIFoZRTEkYConS6sYuEDLhcQIrc3K8tUYaJXJeQak4jSUAj
+         QihJ2wdj2QoO6/azEdaa5vRCjIXUlcK2wX75R8tNwOjr9vDnyPh37iEMVZd4YUgd3CC3
+         p7yTZZs2X/tFdRmlflDzbdNyUo/UajDE9lUDav8bRebh00Z6B4rfJic4rwDGKhdMtbr9
+         K9PA==
+X-Gm-Message-State: ACrzQf0RlKy6x0JBmuy5knM4jLB5QkJ5PYKqY0do7g6YKQBlSd0/ecz9
+        TxNA5OR4FDtFpGuoVIL8ZSP22JfoNdrU2w==
+X-Google-Smtp-Source: AMsMyM6CatGdeyhxnRIjvMZ5938KmG4knCjhRrtvVXMr2UfSjjnXVvdpyORfuF5Wb8I++/pTl1FXRQ==
+X-Received: by 2002:a05:600c:3591:b0:3b4:bf48:9f10 with SMTP id p17-20020a05600c359100b003b4bf489f10mr1077888wmq.76.1663326885863;
+        Fri, 16 Sep 2022 04:14:45 -0700 (PDT)
+Received: from [192.168.0.162] (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
+        by smtp.gmail.com with ESMTPSA id p5-20020a05600c358500b003a6125562e1sm1962946wmq.46.2022.09.16.04.14.45
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 16 Sep 2022 04:14:45 -0700 (PDT)
+Message-ID: <450af6ff-7b72-401c-c0a4-239d16a07cf5@linaro.org>
+Date:   Fri, 16 Sep 2022 12:14:44 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v3 4/5] media: i2c: imx412: Add imx477 compatible string
+Content-Language: en-US
+To:     Sakari Ailus <sakari.ailus@iki.fi>
+Cc:     Dave Stevenson <dave.stevenson@raspberrypi.com>, jacopo@jmondi.org,
+        paul.j.murphy@intel.com, daniele.alessandrelli@intel.com,
+        mchehab@kernel.org, linux-media@vger.kernel.org
+References: <20220915003522.1227073-1-bryan.odonoghue@linaro.org>
+ <20220915003522.1227073-5-bryan.odonoghue@linaro.org>
+ <CAPY8ntCmRy_BSQW6QajrRMLpQBzMimcQPvZw1ocazxhr2dOd0A@mail.gmail.com>
+ <e29e5573-13b6-0a29-20c7-ba780d825a37@linaro.org>
+ <YyRX78PH/3zSCdCU@valkosipuli.retiisi.eu>
+From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+In-Reply-To: <YyRX78PH/3zSCdCU@valkosipuli.retiisi.eu>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-3.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+On 16/09/2022 12:03, Sakari Ailus wrote:
+> And even if you have small differences in the registers you'll need to
+> write there, you can still differentiate between the sensors based on the
+> compatible string.
+> 
+> I don't have strong opinion on the grey areas though. Still if the register
+> set is exactly the same, then the driver should also be the same.
 
-Rename 'ov8856.yaml' as 'ovti,ov8856.yaml' and update the MAINTAINERS
-file entry accordingly.
+Right now we have
 
-All the Omnivision sensor DT bindings have vendor prefix "ovti," to
-their file name hence this renaming.
+- An imx412 driver that works on imx577 unmodified on Qcom hardware
+- A Nvidia driver modified by Leopard imaging that ignores the chip id
+   and uses the same init sequence.
+   This driver is called "imx477" and I can verify it works with
+   imx412 and imx577.
+   The code for this driver modifies the original out of tree driver they
+   had and stops validating the CHIP_ID
+   So I think we can take it as read it works with imx412, imx477 and
+   imx577 - I've verified the first and last is the case.
 
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+We know the upstream driver works with the Intel platform and I've 
+tested/used it on Qcom with minimal change, so I'm happy to stand over 
+listing both imx412 and imx577.
+
+Its pretty clear the init sequence works for imx412, imx477 and imx577 
+so, it feels to me like the right thing to do is to add in the 
+compatible strings and if/when we get better chip specific data say for 
+higher resolutions, add that resolution init sequence in when the compat 
+matches.
+
 ---
- .../bindings/media/i2c/{ov8856.yaml => ovti,ov8856.yaml}        | 2 +-
- MAINTAINERS                                                     | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
- rename Documentation/devicetree/bindings/media/i2c/{ov8856.yaml => ovti,ov8856.yaml} (98%)
-
-diff --git a/Documentation/devicetree/bindings/media/i2c/ov8856.yaml b/Documentation/devicetree/bindings/media/i2c/ovti,ov8856.yaml
-similarity index 98%
-rename from Documentation/devicetree/bindings/media/i2c/ov8856.yaml
-rename to Documentation/devicetree/bindings/media/i2c/ovti,ov8856.yaml
-index baf92aaaf049..342b3158bd28 100644
---- a/Documentation/devicetree/bindings/media/i2c/ov8856.yaml
-+++ b/Documentation/devicetree/bindings/media/i2c/ovti,ov8856.yaml
-@@ -2,7 +2,7 @@
- # Copyright (c) 2019 MediaTek Inc.
- %YAML 1.2
- ---
--$id: http://devicetree.org/schemas/media/i2c/ov8856.yaml#
-+$id: http://devicetree.org/schemas/media/i2c/ovti,ov8856.yaml#
- $schema: http://devicetree.org/meta-schemas/core.yaml#
- 
- title: Omnivision OV8856 CMOS Sensor Device Tree Bindings
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 99483c13b91c..22381a43aa26 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -15191,7 +15191,7 @@ M:	Dongchun Zhu <dongchun.zhu@mediatek.com>
- L:	linux-media@vger.kernel.org
- S:	Maintained
- T:	git git://linuxtv.org/media_tree.git
--F:	Documentation/devicetree/bindings/media/i2c/ov8856.yaml
-+F:	Documentation/devicetree/bindings/media/i2c/ovti,ov8856.yaml
- F:	drivers/media/i2c/ov8856.c
- 
- OMNIVISION OV9282 SENSOR DRIVER
--- 
-2.25.1
-
+bod
