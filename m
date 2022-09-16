@@ -2,98 +2,189 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8DA015BA9A8
-	for <lists+linux-media@lfdr.de>; Fri, 16 Sep 2022 11:46:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8BDC75BAAB4
+	for <lists+linux-media@lfdr.de>; Fri, 16 Sep 2022 12:33:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229639AbiIPJqV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 16 Sep 2022 05:46:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59756 "EHLO
+        id S232178AbiIPKbm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 16 Sep 2022 06:31:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40908 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229567AbiIPJqU (ORCPT
+        with ESMTP id S231876AbiIPKaw (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 16 Sep 2022 05:46:20 -0400
-X-Greylist: delayed 61644 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 16 Sep 2022 02:46:18 PDT
-Received: from gofer.mess.org (gofer.mess.org [IPv6:2a02:8011:d000:212::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E4A8323BC0
-        for <linux-media@vger.kernel.org>; Fri, 16 Sep 2022 02:46:18 -0700 (PDT)
-Received: by gofer.mess.org (Postfix, from userid 1000)
-        id B89D3100055; Fri, 16 Sep 2022 10:46:16 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mess.org; s=2020;
-        t=1663321576; bh=GcIECGUV4u/iVImiQYSlXR1l2ChPuaXgwsSt5uquPlk=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=UJS5OgW7wSlRWPrnF4OLguS+r/RJm4bVLNJSFXWxk2iOLhK2sErsdH2lJrpLLX7s9
-         eTCZLuyDO12ENYKON3dr+ta3P9T0hjB4aBveJ5y5S9N/zAJzyMRfhhJB08dliPZhJX
-         crWSJCgkqrt8F1yqVJqkZKZjm9LtS8ITzQHvPNwI5eVV8MrfB+rPPRbv/jiIPWDlhc
-         pVg3eOTpnx8d6kuh+njuSqn+cfFcdwv2VrodFiAxslbDRR/dS26aBSI83KpnzX51hH
-         aikFDHfyg0IYQGX5inde2ntp9CTF8JckPpdpHCoKxcymSH8z2ZEfEIDQtXGFlM/QRu
-         o/+IYBYmbsb0g==
-Date:   Fri, 16 Sep 2022 10:46:16 +0100
-From:   Sean Young <sean@mess.org>
-To:     Yang Yingliang <yangyingliang@huawei.com>
-Cc:     linux-media@vger.kernel.org, mchehab@kernel.org,
-        hverkuil-cisco@xs4all.nl, pavel@ucw.cz,
-        sakari.ailus@linux.intel.com, laurent.pinchart@ideasonboard.com
-Subject: Re: [PATCH -next 10/13] media: rc: gpio-ir-recv: Switch to use
- dev_err_probe() helper
-Message-ID: <YyRF6ETUrJRUsVC7@gofer.mess.org>
-References: <20220915150324.688062-1-yangyingliang@huawei.com>
- <20220915150324.688062-11-yangyingliang@huawei.com>
- <YyNVG1EZ0anbDf0R@gofer.mess.org>
- <a56a9638-5a1f-4cbe-cf30-baae03b104c3@huawei.com>
+        Fri, 16 Sep 2022 06:30:52 -0400
+Received: from mail-yb1-xb33.google.com (mail-yb1-xb33.google.com [IPv6:2607:f8b0:4864:20::b33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 44C26B5A43;
+        Fri, 16 Sep 2022 03:18:21 -0700 (PDT)
+Received: by mail-yb1-xb33.google.com with SMTP id 130so31798235ybw.8;
+        Fri, 16 Sep 2022 03:18:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date;
+        bh=JeqBUIL5Q3gilj1ggDIfyx5qaL/olub3pv2t1oiDKOU=;
+        b=ln3rWLSKaB6VusyovUiKD6ahSQrzeiB3ECQYdGt88pI/k9YFVYM7kaH02KhwQF/Era
+         MlJFiVQ7/M8fu1zTPe7xioVTujWQ4Jmod9rHnfrwMTWgVtU3sBXSQMdk9vFOaQYnYpnk
+         6VJgEtbFYyklTPUTpX0XQJLkQcw/VAu+24iIFmW4sOJylYlbi/zGlUAdBfg0Y+R+xlNB
+         b4gTNTSEaY9KUsmeOXPboVAhz0J8RLwPCnRprPKmIzpgThWuhho2Q/4QkoKQXMtDa7RY
+         B5AT3GFmE9bNrRb0pod02OjJezpYseMW4XN4xUGANtrF04M/oLr18eJpWvKa7Al/Ke4e
+         puig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date;
+        bh=JeqBUIL5Q3gilj1ggDIfyx5qaL/olub3pv2t1oiDKOU=;
+        b=2+Wob/dODrsL6ojebK8a4XaWemOxkUejyyTRsw2hZkLhmlMjYBjxEWxyOcntIVqORz
+         7QjgAovzZEV+VvwPTGL4zV//aAfjhTXm+EdSuteLrMxDzM9FXWGlo3HQuxraXXABvc60
+         ri3sURthEG8k0BRHBS78XfSmD1iq7EtKFUNzNBfl259DEe6k2L6WX3Fu5coLFtolKfDk
+         vGkqbeMc+N+/TjRWvOXj/o2IRv5ezKjLeLiU0BT7HKEHgDkPskXtHOFdeup4ogfGniZZ
+         daF5k2BknqmJgfy3mHsUn7gjjkqrc7Zo9i9xKhHVTK0mGx2cHC2Uoj75e05SWgSQEari
+         xjug==
+X-Gm-Message-State: ACrzQf1fcjvFhRX6juhBRPIpk6k3QCLQXAAcHo4ZycQ6UUhL5cb9drsY
+        8eBeM2AgH6F4Gz6/aDjDJV9XU3iP0yxlcElOLuU=
+X-Google-Smtp-Source: AMsMyM6KKWpmTT+3967gp0w0iTjppjIVs4dzGIiballbtWjO+1p+Rxm+vdYhdtBOPbvM6HN3pqfV7lj6943osxtks7A=
+X-Received: by 2002:a05:6902:1007:b0:6ae:6cd5:4b0b with SMTP id
+ w7-20020a056902100700b006ae6cd54b0bmr3827198ybt.354.1663323446656; Fri, 16
+ Sep 2022 03:17:26 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <a56a9638-5a1f-4cbe-cf30-baae03b104c3@huawei.com>
+References: <20220913160224.14951-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20220914141655.GA2131586-robh@kernel.org>
+In-Reply-To: <20220914141655.GA2131586-robh@kernel.org>
+From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date:   Fri, 16 Sep 2022 11:16:59 +0100
+Message-ID: <CA+V-a8vDu_JJ4x+R-a+cLthjWRtdYD=aqnRfCYQYYR4QOUO_kQ@mail.gmail.com>
+Subject: Re: [PATCH] media: dt-bindings: ov5645: Convert OV5645 binding to a schema
+To:     Rob Herring <robh@kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+Hi Rob,
 
-On Fri, Sep 16, 2022 at 09:13:14AM +0800, Yang Yingliang wrote:
-> On 2022/9/16 0:38, Sean Young wrote:
-> > On Thu, Sep 15, 2022 at 11:03:21PM +0800, Yang Yingliang wrote:
-> > > In the probe path, dev_err() can be replace with dev_err_probe()
-> > > which will check if error code is -EPROBE_DEFER.
-> > > 
-> > > Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
-> > > ---
-> > >   drivers/media/rc/gpio-ir-recv.c | 10 +++-------
-> > >   1 file changed, 3 insertions(+), 7 deletions(-)
-> > > 
-> > > diff --git a/drivers/media/rc/gpio-ir-recv.c b/drivers/media/rc/gpio-ir-recv.c
-> > > index 22e524b69806..8f1fff7af6c9 100644
-> > > --- a/drivers/media/rc/gpio-ir-recv.c
-> > > +++ b/drivers/media/rc/gpio-ir-recv.c
-> > > @@ -74,13 +74,9 @@ static int gpio_ir_recv_probe(struct platform_device *pdev)
-> > >   		return -ENOMEM;
-> > >   	gpio_dev->gpiod = devm_gpiod_get(dev, NULL, GPIOD_IN);
-> > > -	if (IS_ERR(gpio_dev->gpiod)) {
-> > > -		rc = PTR_ERR(gpio_dev->gpiod);
-> > > -		/* Just try again if this happens */
-> > > -		if (rc != -EPROBE_DEFER)
-> > > -			dev_err(dev, "error getting gpio (%d)\n", rc);
-> > > -		return rc;
-> > > -	}
-> > > +	if (IS_ERR(gpio_dev->gpiod))
-> > > +		return dev_err_probe(dev, PTR_ERR(gpio_dev->gpiod),
-> > > +				     "error getting gpio\n");
-> > Now the error number is no longer logged. That can't be good?
-> Instead of error number, the error name is printed in dev_err_probe(), and 
-> it's better for read.
+Thank you for the review.
 
-Yes, I should have checked this. This is much nicer, with the error printed with
-%pe. Thanks!
+On Wed, Sep 14, 2022 at 3:16 PM Rob Herring <robh@kernel.org> wrote:
+>
+> On Tue, Sep 13, 2022 at 05:02:24PM +0100, Prabhakar wrote:
+> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> >
+> > Convert the simple OV5645 Device Tree binding to json-schema.
+> >
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > ---
+> >  .../devicetree/bindings/media/i2c/ov5645.txt  |  54 --------
+> >  .../bindings/media/i2c/ovti,ov5645.yaml       | 119 ++++++++++++++++++
+> >  2 files changed, 119 insertions(+), 54 deletions(-)
+> >  delete mode 100644 Documentation/devicetree/bindings/media/i2c/ov5645.txt
+> >  create mode 100644 Documentation/devicetree/bindings/media/i2c/ovti,ov5645.yaml
+> >
+> > diff --git a/Documentation/devicetree/bindings/media/i2c/ov5645.txt b/Documentation/devicetree/bindings/media/i2c/ov5645.txt
+> > deleted file mode 100644
+> > index 72ad992f77be..000000000000
+> > --- a/Documentation/devicetree/bindings/media/i2c/ov5645.txt
+> > +++ /dev/null
+> > @@ -1,54 +0,0 @@
+> > -* Omnivision 1/4-Inch 5Mp CMOS Digital Image Sensor
+> > -
+> > -The Omnivision OV5645 is a 1/4-Inch CMOS active pixel digital image sensor with
+> > -an active array size of 2592H x 1944V. It is programmable through a serial I2C
+> > -interface.
+> > -
+> > -Required Properties:
+> > -- compatible: Value should be "ovti,ov5645".
+> > -- clocks: Reference to the xclk clock.
+> > -- clock-names: Should be "xclk".
+> > -- clock-frequency: Frequency of the xclk clock.
+> > -- enable-gpios: Chip enable GPIO. Polarity is GPIO_ACTIVE_HIGH. This corresponds
+> > -  to the hardware pin PWDNB which is physically active low.
+> > -- reset-gpios: Chip reset GPIO. Polarity is GPIO_ACTIVE_LOW. This corresponds to
+> > -  the hardware pin RESETB.
+> > -- vdddo-supply: Chip digital IO regulator.
+> > -- vdda-supply: Chip analog regulator.
+> > -- vddd-supply: Chip digital core regulator.
+> > -
+> > -The device node must contain one 'port' child node for its digital output
+> > -video port, in accordance with the video interface bindings defined in
+> > -Documentation/devicetree/bindings/media/video-interfaces.txt.
+> > -
+> > -Example:
+> > -
+> > -     &i2c1 {
+> > -             ...
+> > -
+> > -             ov5645: ov5645@3c {
+> > -                     compatible = "ovti,ov5645";
+> > -                     reg = <0x3c>;
+> > -
+> > -                     enable-gpios = <&gpio1 6 GPIO_ACTIVE_HIGH>;
+> > -                     reset-gpios = <&gpio5 20 GPIO_ACTIVE_LOW>;
+> > -                     pinctrl-names = "default";
+> > -                     pinctrl-0 = <&camera_rear_default>;
+> > -
+> > -                     clocks = <&clks 200>;
+> > -                     clock-names = "xclk";
+> > -                     clock-frequency = <24000000>;
+> > -
+> > -                     vdddo-supply = <&camera_dovdd_1v8>;
+> > -                     vdda-supply = <&camera_avdd_2v8>;
+> > -                     vddd-supply = <&camera_dvdd_1v2>;
+> > -
+> > -                     port {
+> > -                             ov5645_ep: endpoint {
+> > -                                     clock-lanes = <1>;
+> > -                                     data-lanes = <0 2>;
+> > -                                     remote-endpoint = <&csi0_ep>;
+> > -                             };
+> > -                     };
+> > -             };
+> > -     };
+> > diff --git a/Documentation/devicetree/bindings/media/i2c/ovti,ov5645.yaml b/Documentation/devicetree/bindings/media/i2c/ovti,ov5645.yaml
+> > new file mode 100644
+> > index 000000000000..7f407c988f87
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/media/i2c/ovti,ov5645.yaml
+> > @@ -0,0 +1,119 @@
+> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/media/i2c/ovti,ov5645.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: OmniVision OV5645 Image Sensor Device Tree Bindings
+> > +
+> > +maintainers:
+> > +  - Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > +
+> > +allOf:
+> > +  - $ref: /schemas/media/video-interface-devices.yaml#
+>
+> What are you using from here?
+>
+> (Answer below)
+>
+> > +
+> > +properties:
+<snip>
+> > +  - port
+> > +
+> > +additionalProperties: false
+>
+> You are not because this prevents it. Either remove the ref or use
+> unevaluatedProperties.
+>
+I'll drop the ref while sending the v2.
 
-For the three drivers in drivers/media/rc/ :
-
-Reviewed-by: Sean Young <sean@mess.org>
-
-Thanks
-Sean
+Cheers,
+Prabhakar
