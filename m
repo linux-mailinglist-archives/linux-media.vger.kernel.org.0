@@ -2,281 +2,254 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 472E45BAD66
-	for <lists+linux-media@lfdr.de>; Fri, 16 Sep 2022 14:27:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5183B5BADED
+	for <lists+linux-media@lfdr.de>; Fri, 16 Sep 2022 15:16:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231164AbiIPM1O (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 16 Sep 2022 08:27:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36318 "EHLO
+        id S231488AbiIPNPx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 16 Sep 2022 09:15:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43322 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229849AbiIPM1L (ORCPT
+        with ESMTP id S231485AbiIPNPv (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 16 Sep 2022 08:27:11 -0400
-Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9AB34B1B8A;
-        Fri, 16 Sep 2022 05:27:08 -0700 (PDT)
-Received: by mail-wr1-x436.google.com with SMTP id z12so17462321wrp.9;
-        Fri, 16 Sep 2022 05:27:08 -0700 (PDT)
+        Fri, 16 Sep 2022 09:15:51 -0400
+Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com [IPv6:2a00:1450:4864:20::432])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CFF09A404D
+        for <linux-media@vger.kernel.org>; Fri, 16 Sep 2022 06:15:48 -0700 (PDT)
+Received: by mail-wr1-x432.google.com with SMTP id c11so35979565wrp.11
+        for <linux-media@vger.kernel.org>; Fri, 16 Sep 2022 06:15:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date;
-        bh=cOLkxoeEOWsmKRIP09yUrkjvL+lO7P1sPAoxG0Opak0=;
-        b=F/33OAmXVFY6GdizxmzDMSvne95cc6qnIZcaAkfLFupBOFbXPD5A2AjjjsPy7w6T28
-         5GkxOzFcKnc5RTOmpVgnjRB5Mwx23PaScOmafpIE52OBmlTPnfYPmwwuwx9F99wJTMZX
-         q0TIokMpL9pS7b8ekKFGi9b/ybUHLkbjcngOCm6v+QwrcIZx6ykVRuyMcSoibxyUKqOE
-         g3uKfQShRBcBjqbVFnBQATVshjzPUXum8PMKZTX0g8WAOhAbgCNZZvJqGL3qQwFmK51H
-         aduJ4i8eAFl5z0AymZMcI2d8KvYFwkoMR0tGyyCv9LeZyEcTaiY//56amgnyZCRjRwUL
-         N/OA==
+        d=amarulasolutions.com; s=google;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date;
+        bh=i4mPbdPGjHv0um90MutjKinuU1Lx+BVJ0wJv3GWLz84=;
+        b=C++7rBhy/Dx+3AP2+vmvjlVXg+zma5e3vfULL2ktwdZCFhIHFUGHTnjuL9vVgLaEvp
+         yE0AMK2SVLXMSG80lVSBxNOluZWNVPjCpFnPQfxOnzKkXq0UDHNyhIK69dWwakWdSYrs
+         S1zZ9PCbqpPPVY6tXT7B7Mz4fOW1mcu9c2R4o=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date;
-        bh=cOLkxoeEOWsmKRIP09yUrkjvL+lO7P1sPAoxG0Opak0=;
-        b=w8GDWyo866uDpkjf6C9Jd2WlOwecUGIalphh6j3U8PPxdoYJInKcU0cqkg0M0V0CMy
-         vM7lZx6j93J4FXmpB26Y5odZaxGVm+2CpzMjcA3rfBiVAr8w8qzs5tpZgrSAAczpmSB8
-         iG6G8RCqcnauXsv9aLG/XrWIcjpipj9rQdVMx9MH4SpxgHc49jM+/lFxxbbjRxEMTxxW
-         GChP45lUVTN6q4sWEOSx/uPSSLuaXFtZEF1D1KMyvrlJQdnhvNPJUX6JIJ30H4KU9UbL
-         kk9aBkPehfoxzyJiEoRlfovXlvNrILYijjbGfBQlvoUBBlgbJf3i+ESfvd/hlLuEbnml
-         WTEw==
-X-Gm-Message-State: ACrzQf0t3vX+lo5CCGRdfT6l0zOcPQ9nFccCM7kKjTSt4ciNt5eJAS2p
-        RbEZ1bymRQ+7KszOrLX7eug=
-X-Google-Smtp-Source: AMsMyM5XezU9M4L8+g8Uc93Xn3ozTgnRpyFbM7mpK8F51Pqg0neivoLbr+p0V1rkBkop0LNt0xPPkw==
-X-Received: by 2002:adf:eb89:0:b0:22a:c7fc:27c8 with SMTP id t9-20020adfeb89000000b0022ac7fc27c8mr2790605wrn.397.1663331226810;
-        Fri, 16 Sep 2022 05:27:06 -0700 (PDT)
-Received: from prasmi.home ([2a00:23c8:2501:c701:453:ec29:bd55:6b15])
-        by smtp.gmail.com with ESMTPSA id g3-20020a5d46c3000000b0022acb7195aesm4788510wrs.33.2022.09.16.05.27.02
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
+        bh=i4mPbdPGjHv0um90MutjKinuU1Lx+BVJ0wJv3GWLz84=;
+        b=VN92kppNWj0Gjif9eNRPLfbGWq111XVKXWfoBn98vcpJ94RRlaBfZJ1r9zW1N888dx
+         JSbQi4ETB0I4U9ga2mEW9P0gq8WwSgHjc+aKk8TnJI3SZ4Dj7oF8EMLIdH4NR228UBOX
+         eYTNr7GBU5Jsk5jx/kIpuZCw0iXte02w2KtvTly6COai0jMwXSdTj/BOxIErRGjIDO+G
+         aAS1uQtxeM4sLdDh9Ogx4IjC6gxc7ozZlaLVqA/mOLIAxnCmO1D1GiKva9C2QBCh1nmW
+         IPkLxsReUqvrsYE996WGlEOt/rpJdHO5jyba/f9iyc+odLA4JUtz2AYacLo4gXPurgvz
+         spbA==
+X-Gm-Message-State: ACrzQf2jSBp3KsuNVboWpO80CKilGFxlq8pFPO++wCqmdKR8/skfVq1X
+        KSiJ6H+zmlBJNz8exQVAU9qy0w==
+X-Google-Smtp-Source: AMsMyM5IvmfdOa/MgpEJ8io6Vb6oRbSe9R4KKpn2BCjc/bvFyBBZEN6kUYYkmGlP7fEneUa8vF+LuA==
+X-Received: by 2002:a5d:6488:0:b0:225:f99:338b with SMTP id o8-20020a5d6488000000b002250f99338bmr2911254wri.638.1663334147257;
+        Fri, 16 Sep 2022 06:15:47 -0700 (PDT)
+Received: from tom-ThinkPad-T14s-Gen-2i ([89.101.193.68])
+        by smtp.gmail.com with ESMTPSA id m6-20020a05600c4f4600b003b47581979bsm2344450wmq.33.2022.09.16.06.15.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 Sep 2022 05:27:05 -0700 (PDT)
-From:   Prabhakar <prabhakar.csengg@gmail.com>
-X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Fri, 16 Sep 2022 06:15:46 -0700 (PDT)
+Date:   Fri, 16 Sep 2022 15:15:44 +0200
+From:   Tommaso Merciai <tommaso.merciai@amarulasolutions.com>
+To:     Mikhail Rudenko <mike.rudenko@gmail.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
-        Tommaso Merciai <tommaso.merciai@amarulasolutions.com>,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v2] media: dt-bindings: ov5645: Convert OV5645 binding to a schema
-Date:   Fri, 16 Sep 2022 13:26:27 +0100
-Message-Id: <20220916122627.28461-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.25.1
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Shawn Tu <shawnx.tu@intel.com>,
+        Christian Hemp <c.hemp@phytec.de>,
+        Arec Kao <arec.kao@intel.com>, Arnd Bergmann <arnd@arndb.de>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Daniel Scally <djrscally@gmail.com>,
+        Jimmy Su <jimmy.su@intel.com>, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 1/2] media: dt-bindings: media: i2c: document OV4689
+ DT bindings
+Message-ID: <20220916131544.GA2701@tom-ThinkPad-T14s-Gen-2i>
+References: <20220911200147.375198-1-mike.rudenko@gmail.com>
+ <20220911200147.375198-2-mike.rudenko@gmail.com>
+ <20220913140553.GA2735@tom-ThinkPad-T14s-Gen-2i>
+ <87sfkspa6b.fsf@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87sfkspa6b.fsf@gmail.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Hi Mikhail,
 
-Convert the simple OV5645 Device Tree binding to json-schema.
+On Thu, Sep 15, 2022 at 11:11:57PM +0300, Mikhail Rudenko wrote:
+> 
+> Hi Tommaso,
+> 
+> On 2022-09-13 at 16:05 +02, Tommaso Merciai <tommaso.merciai@amarulasolutions.com> wrote:
+> > Hi Mikhail,
+> >
+> > On Sun, Sep 11, 2022 at 11:01:34PM +0300, Mikhail Rudenko wrote:
+> >> Add device-tree binding documentation for OV4689 image sensor driver,
+> >> and the relevant MAINTAINERS entries.
+> >>
+> >> Signed-off-by: Mikhail Rudenko <mike.rudenko@gmail.com>
+> >> ---
+> >>  .../bindings/media/i2c/ovti,ov4689.yaml       | 141 ++++++++++++++++++
+> >>  MAINTAINERS                                   |   7 +
+> >>  2 files changed, 148 insertions(+)
+> >>  create mode 100644 Documentation/devicetree/bindings/media/i2c/ovti,ov4689.yaml
+> >>
+> >> diff --git a/Documentation/devicetree/bindings/media/i2c/ovti,ov4689.yaml b/Documentation/devicetree/bindings/media/i2c/ovti,ov4689.yaml
+> >> new file mode 100644
+> >> index 000000000000..376330b5572a
+> >> --- /dev/null
+> >> +++ b/Documentation/devicetree/bindings/media/i2c/ovti,ov4689.yaml
+> >> @@ -0,0 +1,141 @@
+> >> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> >> +%YAML 1.2
+> >> +---
+> >> +$id: http://devicetree.org/schemas/media/i2c/ovti,ov4689.yaml#
+> >> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> >> +
+> >> +title: Omnivision OV4689 CMOS
+> >> +
+> >> +maintainers:
+> >> +  - Mikhail Rudenko <mike.rudenko@gmail.com>
+> >> +
+> >> +description: |
+> >> +  The Omnivision OV4689 is a high performance, 1/3-inch, 4 megapixel
+> >> +  image sensor. Ihis chip supports high frame rate speeds up to 90 fps
+> >> +  at 2688x1520 resolution. It is programmable through an I2C
+> >> +  interface, and sensor output is sent via 1/2/4 lane MIPI CSI-2
+> >> +  connection.
+> >> +
+> >> +allOf:
+> >> +  - $ref: /schemas/media/video-interface-devices.yaml#
+> >> +
+> >> +properties:
+> >> +  compatible:
+> >> +    const: ovti,ov4689
+> >> +
+> >> +  reg:
+> >> +    maxItems: 1
+> >> +
+> >> +  clocks:
+> >> +    description:
+> >> +      External clock (XVCLK) for the sensor, 6-64 MHz
+> >> +    maxItems: 1
+> >> +
+> >> +  clock-names: true
+> >> +
+> >> +  dovdd-supply:
+> >> +    description:
+> >> +      Digital I/O voltage supply, 1.7-3.0 V
+> >> +
+> >> +  avdd-supply:
+> >> +    description:
+> >> +      Analog voltage supply, 2.6-3.0 V
+> >> +
+> >> +  dvdd-supply:
+> >> +    description:
+> >> +      Digital core voltage supply, 1.1-1.3 V
+> >> +
+> >> +  powerdown-gpios:
+> >> +    maxItems: 1
+> >> +    description:
+> >> +      GPIO connected to the powerdown pin (active low)
+> >> +
+> >> +  reset-gpios:
+> >> +    maxItems: 1
+> >> +    description:
+> >> +      GPIO connected to the reset pin (active low)
+> >> +
+> >> +  orientation: true
+> >> +
+> >> +  rotation: true
+> >> +
+> >> +  port:
+> >> +    $ref: /schemas/graph.yaml#/$defs/port-base
+> >> +    additionalProperties: false
+> >> +    description:
+> >> +      Output port node, single endpoint describing the CSI-2 transmitter
+> >> +
+> >> +    properties:
+> >> +      endpoint:
+> >> +        $ref: /schemas/media/video-interfaces.yaml#
+> >> +        unevaluatedProperties: false
+> >> +
+> >> +        properties:
+> >> +          data-lanes:
+> >> +            oneOf:
+> >> +              - items:
+> >> +                  - const: 1
+> >> +                  - const: 2
+> >> +                  - const: 3
+> >> +                  - const: 4
+> >> +              - items:
+> >> +                  - const: 1
+> >> +                  - const: 2
+> >> +              - items:
+> >> +                  - const: 1
+> >> +          link-frequencies: true
+> >> +
+> >> +        required:
+> >> +          - data-lanes
+> >> +          - link-frequencies
+> >> +
+> >> +required:
+> >> +  - compatible
+> >> +  - reg
+> >> +  - clocks
+> >> +  - clock-names
+> >> +  - dovdd-supply
+> >> +  - avdd-supply
+> >> +  - dvdd-supply
+> >> +  - powerdown-gpios
+> >> +  - reset-gpios
+> >> +  - port
+> >
+> > I think we don't need all of these entries as required.
+> > The only let me say "really" required are:
+> >
+> > - compatible
+> > - reg
+> > - clocks
+> > - port
+> 
+> Thanks for the review! I agree that the driver may be modified to work
+> without powerdown and reset gpios and they are not required for sensor
+> operation. On contrary, supplies are obviously required. Of course, linux
+> provides dummy regulators if supplies are missing from device tree, but
+> I though the intention was to document hardware, not implementation
+> details. What do think of this?
 
-The previous binding marked the below properties as required which was a
-driver requirement and not the device requirement so just drop them from
-the required list during the conversion.
-- clock-names
-- clock-frequency
-- vdda-supply
-- vddd-supply
-- vdddo-supply
-- enable-gpios
-- reset-gpios
+We have already discuss on this on the following thread sometimes ago :)
 
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
----
-v1->v2
-* Dropped ref to video-interface-devices.yaml#
-* Dropped driver specific required items from the list
-* Updated commit message
-* Dropped clock-lanes and bus-type from the port and example node
-* Marked data-lanes as required in port node
----
- .../devicetree/bindings/media/i2c/ov5645.txt  |  54 ---------
- .../bindings/media/i2c/ovti,ov5645.yaml       | 105 ++++++++++++++++++
- 2 files changed, 105 insertions(+), 54 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/media/i2c/ov5645.txt
- create mode 100644 Documentation/devicetree/bindings/media/i2c/ovti,ov5645.yaml
+https://www.patchwork.linux-fancy.com/project/linux-fancy/patch/20220630134835.592521-6-tommaso.merciai@amarulasolutions.com/
 
-diff --git a/Documentation/devicetree/bindings/media/i2c/ov5645.txt b/Documentation/devicetree/bindings/media/i2c/ov5645.txt
-deleted file mode 100644
-index 72ad992f77be..000000000000
---- a/Documentation/devicetree/bindings/media/i2c/ov5645.txt
-+++ /dev/null
-@@ -1,54 +0,0 @@
--* Omnivision 1/4-Inch 5Mp CMOS Digital Image Sensor
--
--The Omnivision OV5645 is a 1/4-Inch CMOS active pixel digital image sensor with
--an active array size of 2592H x 1944V. It is programmable through a serial I2C
--interface.
--
--Required Properties:
--- compatible: Value should be "ovti,ov5645".
--- clocks: Reference to the xclk clock.
--- clock-names: Should be "xclk".
--- clock-frequency: Frequency of the xclk clock.
--- enable-gpios: Chip enable GPIO. Polarity is GPIO_ACTIVE_HIGH. This corresponds
--  to the hardware pin PWDNB which is physically active low.
--- reset-gpios: Chip reset GPIO. Polarity is GPIO_ACTIVE_LOW. This corresponds to
--  the hardware pin RESETB.
--- vdddo-supply: Chip digital IO regulator.
--- vdda-supply: Chip analog regulator.
--- vddd-supply: Chip digital core regulator.
--
--The device node must contain one 'port' child node for its digital output
--video port, in accordance with the video interface bindings defined in
--Documentation/devicetree/bindings/media/video-interfaces.txt.
--
--Example:
--
--	&i2c1 {
--		...
--
--		ov5645: ov5645@3c {
--			compatible = "ovti,ov5645";
--			reg = <0x3c>;
--
--			enable-gpios = <&gpio1 6 GPIO_ACTIVE_HIGH>;
--			reset-gpios = <&gpio5 20 GPIO_ACTIVE_LOW>;
--			pinctrl-names = "default";
--			pinctrl-0 = <&camera_rear_default>;
--
--			clocks = <&clks 200>;
--			clock-names = "xclk";
--			clock-frequency = <24000000>;
--
--			vdddo-supply = <&camera_dovdd_1v8>;
--			vdda-supply = <&camera_avdd_2v8>;
--			vddd-supply = <&camera_dvdd_1v2>;
--
--			port {
--				ov5645_ep: endpoint {
--					clock-lanes = <1>;
--					data-lanes = <0 2>;
--					remote-endpoint = <&csi0_ep>;
--				};
--			};
--		};
--	};
-diff --git a/Documentation/devicetree/bindings/media/i2c/ovti,ov5645.yaml b/Documentation/devicetree/bindings/media/i2c/ovti,ov5645.yaml
-new file mode 100644
-index 000000000000..22e685729bcf
---- /dev/null
-+++ b/Documentation/devicetree/bindings/media/i2c/ovti,ov5645.yaml
-@@ -0,0 +1,105 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/media/i2c/ovti,ov5645.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: OmniVision OV5645 Image Sensor Device Tree Bindings
-+
-+maintainers:
-+  - Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-+
-+properties:
-+  compatible:
-+    const: ovti,ov5645
-+
-+  reg:
-+    maxItems: 1
-+
-+  clocks:
-+    description: XCLK Input Clock
-+
-+  clock-names:
-+    const: xclk
-+
-+  clock-frequency:
-+    description: Frequency of the xclk clock in Hz.
-+
-+  vdda-supply:
-+    description: Analog voltage supply, 2.8 volts
-+
-+  vddd-supply:
-+    description: Digital core voltage supply, 1.5 volts
-+
-+  vdddo-supply:
-+    description: Digital I/O voltage supply, 1.8 volts
-+
-+  enable-gpios:
-+    maxItems: 1
-+    description:
-+      Reference to the GPIO connected to the PWDNB pin, if any.
-+
-+  reset-gpios:
-+    maxItems: 1
-+    description:
-+      Reference to the GPIO connected to the RESETB pin, if any.
-+
-+  port:
-+    description: Digital Output Port
-+    $ref: /schemas/graph.yaml#/$defs/port-base
-+    additionalProperties: false
-+
-+    properties:
-+      endpoint:
-+        $ref: /schemas/media/video-interfaces.yaml#
-+        unevaluatedProperties: false
-+
-+        properties:
-+          data-lanes:
-+            minItems: 1
-+            maxItems: 2
-+            items:
-+              enum: [1, 2]
-+
-+        required:
-+          - data-lanes
-+
-+required:
-+  - compatible
-+  - reg
-+  - clocks
-+  - port
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+      #include <dt-bindings/gpio/gpio.h>
-+
-+      i2c {
-+          #address-cells = <1>;
-+          #size-cells = <0>;
-+
-+          camera@3c {
-+              compatible = "ovti,ov5645";
-+              pinctrl-names = "default";
-+              pinctrl-0 = <&pinctrl_ov5645>;
-+              reg = <0x3c>;
-+              clocks = <&clks 1>;
-+              clock-names = "xclk";
-+              clock-frequency = <24000000>;
-+              vdddo-supply = <&ov5645_vdddo_1v8>; /* 1.8v */
-+              vdda-supply = <&ov5645_vdda_2v8>;  /* 2.8v */
-+              vddd-supply = <&ov5645_vddd_1v5>;  /* 1.5v */
-+              enable-gpios = <&gpio1 19 GPIO_ACTIVE_HIGH>;
-+              reset-gpios = <&gpio1 20 GPIO_ACTIVE_LOW>;
-+
-+              port {
-+                  ov5645_ep: endpoint {
-+                      remote-endpoint = <&csi0_ep>;
-+                      data-lanes = <1 2>;
-+                  };
-+              };
-+          };
-+      };
-+...
+Take a look and let me know.
+
+Thanks,
+Tommaso
+> 
+> > Regards,
+> > Tommaso
+> 
+> --
+> Best regards,
+> Mikhail Rudenko
+
 -- 
-2.25.1
+Tommaso Merciai
+Embedded Linux Engineer
+tommaso.merciai@amarulasolutions.com
+__________________________________
 
+Amarula Solutions SRL
+Via Le Canevare 30, 31100 Treviso, Veneto, IT
+T. +39 042 243 5310
+info@amarulasolutions.com
+www.amarulasolutions.com
