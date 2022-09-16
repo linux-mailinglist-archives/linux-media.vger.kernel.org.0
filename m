@@ -2,299 +2,162 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 536E45BAEB1
-	for <lists+linux-media@lfdr.de>; Fri, 16 Sep 2022 15:58:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 33E715BAEEF
+	for <lists+linux-media@lfdr.de>; Fri, 16 Sep 2022 16:07:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231415AbiIPN6J (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 16 Sep 2022 09:58:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55032 "EHLO
+        id S231277AbiIPOH2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 16 Sep 2022 10:07:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45870 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231794AbiIPN5z (ORCPT
+        with ESMTP id S231723AbiIPOH0 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 16 Sep 2022 09:57:55 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03A7EAF0F5;
-        Fri, 16 Sep 2022 06:57:50 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (unknown [104.132.8.103])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id DC35D440;
-        Fri, 16 Sep 2022 15:57:47 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1663336668;
-        bh=xHIvIS8YqC6ueY7VdiX5kXkLJ5nlj/ISTZP9yAw8ijY=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=S95U6kPRzWCzcSSdmO2fhkYc1+ZgRXN8AQdM+PoXHPpnOpZs1x4RLJ4ez5qIjCo89
-         eOK3oRJtNYPa9z49uDQPcR4sS5RH2SD6GfZmVUzSxYgpiM7W1JxjAQ7A244/v+pY7w
-         xuRlbdcBxwjtDdxLGlwewUBtHqha6yyOKjNd0kIo=
-Date:   Fri, 16 Sep 2022 16:57:33 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Marco Felsch <m.felsch@pengutronix.de>
-Cc:     mchehab@kernel.org, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, vkoul@kernel.org, kishon@ti.com,
-        sakari.ailus@linux.intel.com, hverkuil@xs4all.nl,
-        jacopo@jmondi.org, linux-kernel@vger.kernel.org,
-        linux-phy@lists.infradead.org, devicetree@vger.kernel.org,
-        linux-media@vger.kernel.org, kernel@pengutronix.de
-Subject: Re: [PATCH 3/4] media: dt-bindings: add bindings for Toshiba TC358746
-Message-ID: <YySAzUBPXkaxsKIY@pendragon.ideasonboard.com>
-References: <20220818143307.967150-1-m.felsch@pengutronix.de>
- <20220818143307.967150-4-m.felsch@pengutronix.de>
- <YxUoSfbrPPPT5nz6@pendragon.ideasonboard.com>
- <20220915131933.wclmhtliji5wz35t@pengutronix.de>
+        Fri, 16 Sep 2022 10:07:26 -0400
+Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com [IPv6:2a00:1450:4864:20::136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A20C5AF0FC;
+        Fri, 16 Sep 2022 07:07:25 -0700 (PDT)
+Received: by mail-lf1-x136.google.com with SMTP id a8so35693491lff.13;
+        Fri, 16 Sep 2022 07:07:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:message-id:in-reply-to:date:subject:cc:to:from
+         :user-agent:references:from:to:cc:subject:date;
+        bh=iLu0VuA8ebe7pmbktT8jzi5ca8f+ukCGrOYtjSJn1ig=;
+        b=kCVVOahsbGvFKnGNjkLKeuPqjOfwWfrJu4cPdzi5fiE1fXznySCPBifuFsji63TPiC
+         9NRfPZhqqlbgzsssoz6mqfLsJTQrOFEaEFV5xDMNVBv3/ZCY8XcXSgZWer/9FPH+Nal1
+         wGy1LyQHRHo8lAPJGR7pYTERnOMRj77XZXaxp5yozfx39q65EJkbsU3e0p0ggKwMbKVW
+         LPrN/zbC1i4F1Ya0EAPKQB3f4vhy+Eg7nTh8ZTn/uA8J7vVidCNJpgawAUEGmjp1fWaN
+         S0kAFuIOB6MCnroTfADCES+UcOIjj2gTQ6HAgm4IKtJjh45AcWNVWRu5z10sywveD3oz
+         0z5w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=mime-version:message-id:in-reply-to:date:subject:cc:to:from
+         :user-agent:references:x-gm-message-state:from:to:cc:subject:date;
+        bh=iLu0VuA8ebe7pmbktT8jzi5ca8f+ukCGrOYtjSJn1ig=;
+        b=DASgczW7+I7TcD+CW6CZJhBe6bKovFb1E7c1D9slpSGHFbfhl6pP/GP28GbpLDXFxO
+         FFLllYE1YfRnmyGnoB8y1uTqLGW4toN5RLz5NMwlYo7/Gqf03RqBm+RhXVeQazQ8ePFU
+         lCmqbdPiC+PRCXvPCtlJqWQvGEhtHX+EWjEb50Mcq62bl68J6gxOepcgAFyCpIwg/jNC
+         qS1aILu6KkvaBLGIcxR7+XGkdub2D/U7tP5zLi++dGu06Zc4XIwdPOX72XflHNVu2h/G
+         5vqXB4yZs1anlx+FkU4Wsr7qs9a2FXNFzziKKPgm7EOAfTv/c6Ijz1UwCXMrAU7jxnD3
+         1kOQ==
+X-Gm-Message-State: ACrzQf2SnZwLP0T2/uA/YdHkzW/tX9K+XDJiaRcsGp4FLsQiwhnObL5b
+        niHxvUxFf3eCqYyvSPEnlgYpr3dUPBIg5w==
+X-Google-Smtp-Source: AMsMyM6vV77YRUFXuXhsIdJCqGXePBDlYMvgp7+fNLQuTnjx+oENs8hLkArKp5CHJhOVcVr/JLgBWw==
+X-Received: by 2002:a05:6512:3503:b0:496:517:5802 with SMTP id h3-20020a056512350300b0049605175802mr1713258lfs.83.1663337243713;
+        Fri, 16 Sep 2022 07:07:23 -0700 (PDT)
+Received: from razdolb (95-31-185-216.broadband.corbina.ru. [95.31.185.216])
+        by smtp.gmail.com with ESMTPSA id v6-20020a197406000000b004979df1c1fasm3513091lfe.61.2022.09.16.07.07.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 16 Sep 2022 07:07:23 -0700 (PDT)
+References: <20220911200147.375198-1-mike.rudenko@gmail.com>
+ <20220911200147.375198-3-mike.rudenko@gmail.com>
+ <20220914155122.GA9874@tom-ThinkPad-T14s-Gen-2i>
+ <87k064pa2v.fsf@gmail.com>
+ <20220916133401.GB2701@tom-ThinkPad-T14s-Gen-2i>
+User-agent: mu4e 1.9.0; emacs 28.1
+From:   Mikhail Rudenko <mike.rudenko@gmail.com>
+To:     Tommaso Merciai <tommaso.merciai@amarulasolutions.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Shawn Tu <shawnx.tu@intel.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Daniel Scally <djrscally@gmail.com>,
+        Christian Hemp <c.hemp@phytec.de>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Marek Vasut <marex@denx.de>, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 2/2] media: i2c: add support for ov4689
+Date:   Fri, 16 Sep 2022 16:44:31 +0300
+In-reply-to: <20220916133401.GB2701@tom-ThinkPad-T14s-Gen-2i>
+Message-ID: <87r10bo1k5.fsf@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220915131933.wclmhtliji5wz35t@pengutronix.de>
+Content-Type: text/plain
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Marco,
 
-On Thu, Sep 15, 2022 at 03:19:33PM +0200, Marco Felsch wrote:
-> On 22-09-05, Laurent Pinchart wrote:
-> > On Thu, Aug 18, 2022 at 04:33:06PM +0200, Marco Felsch wrote:
-> > > Add the bindings for the Toshiba TC358746 Parallel <-> MIPI-CSI bridge
-> > > driver.
-> > > 
-> > > Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
-> > > ---
-> > >  .../bindings/media/i2c/toshiba,tc358746.yaml  | 157 ++++++++++++++++++
-> > >  1 file changed, 157 insertions(+)
-> > >  create mode 100644 Documentation/devicetree/bindings/media/i2c/toshiba,tc358746.yaml
-> > > 
-> > > diff --git a/Documentation/devicetree/bindings/media/i2c/toshiba,tc358746.yaml b/Documentation/devicetree/bindings/media/i2c/toshiba,tc358746.yaml
-> > > new file mode 100644
-> > > index 000000000000..9783cca363c6
-> > > --- /dev/null
-> > > +++ b/Documentation/devicetree/bindings/media/i2c/toshiba,tc358746.yaml
-> > > @@ -0,0 +1,157 @@
-> > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > > +%YAML 1.2
-> > > +---
-> > > +$id: http://devicetree.org/schemas/media/i2c/toshiba,tc358746.yaml#
-> > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > > +
-> > > +title: Toshiba TC358746 Parallel to MIPI CSI2 Bridge
-> > > +
-> > > +maintainers:
-> > > +  - Marco Felsch <kernel@pengutronix.de>
-> > > +
-> > > +description: |-
-> > > +  The Toshiba TC358746 converts a parallel video stream into a MIPI CSI-2
-> > > +  stream. The direction can be either parallel-in -> csi-out or csi-in ->
-> > > +  parallel-out The chip is programmable trough I2C and SPI but the SPI
-> > > +  interface is only supported in parallel-in -> csi-out mode.
-> > > +
-> > > +  Note that the current device tree bindings only support the
-> > > +  parallel-in -> csi-out path.
-> > > +
-> > > +properties:
-> > > +  compatible:
-> > > +    const: toshiba,tc358746
-> > > +
-> > > +  reg:
-> > > +    maxItems: 1
-> > > +
-> > > +  clocks:
-> > > +    description:
-> > > +      The phandle to the reference clock source. This corresponds to the
-> > > +      hardware pin REFCLK.
-> > > +    maxItems: 1
-> > > +
-> > > +  clock-names:
-> > > +    const: refclk
-> > 
-> > As there's a single clock, should we omit the clock name ?
-> 
-> Don't know, I would rather keep it to make it explicite. Many other go
-> that way too.
+On 2022-09-16 at 15:34 +02, Tommaso Merciai <tommaso.merciai@amarulasolutions.com> wrote:
+> Hi Mikhail,
+>
+> On Thu, Sep 15, 2022 at 11:50:23PM +0300, Mikhail Rudenko wrote:
+>>
+>> Hi Tommaso,
+>>
+>> On 2022-09-14 at 17:51 +02, Tommaso Merciai <tommaso.merciai@amarulasolutions.com> wrote:
+>> > Hi Mikhail,
+>> > I do a first round on reviewing your driver :)
+>> >
+>> > On Sun, Sep 11, 2022 at 11:01:35PM +0300, Mikhail Rudenko wrote:
 
-I don't mind either way.
+<snip>
 
-> > > +# The bridge can act as clock provider for the sensor. To enable this support
-> > > +# #clock-cells must be specified. Attention if this feature is used than the
-> > 
-> > s/than/then/
-> 
-> Sure, thanks.
-> 
-> > > +# mclk rate must be at least: (2 * link-frequency) / 8
-> > > +#                             `------------------´   ^
-> > > +#                             internal PLL rate   smallest possible mclk-div
-> > 
-> > Could this be captured in the description of the property instead of a
-> > comment ?
-> 
-> Hm.. a few (1,2) bindings using comments like this but I'm not against
-> it. If it belongs to the description, which property should I use? Since
-> there is no: clock-controller property like gpio-controller or
-> interrupt-controller. The clock provider will be activated based on the
-> #clock-cells property. But this property has nothing to with the
-> description since this property specifies the cell size.
+>> >> +
+>> >> +	ov4689->xvclk = devm_clk_get(dev, "xvclk");
+>> >> +	if (IS_ERR(ov4689->xvclk)) {
+>> >> +		dev_err(dev, "Failed to get xvclk\n");
+>> >> +		return -EINVAL;
+>> >> +	}
+>> >
+>> > ^ I think is better to use devm_clk_get_optional instead of clck_get.
+>> > clck_get can fail in CPU's that use ACPI
+>> >
+>> >> +
+>> >> +	ret = clk_set_rate(ov4689->xvclk, OV4689_XVCLK_FREQ);
+>> >> +	if (ret < 0) {
+>> >> +		dev_err(dev, "Failed to set xvclk rate (24MHz)\n");
+>> >> +		return ret;
+>> >> +	}
+>> >> +	if (clk_get_rate(ov4689->xvclk) != OV4689_XVCLK_FREQ)
+>> >> +		dev_warn(dev, "xvclk mismatched, modes are based on 24MHz\n");
+>> >
+>> >
+>> > What do you think about?
+>> > Thanks.
+>>
+>> Unfortunately, I have no experience with ACPI-based devices. :(
+>>
+>> Do you mean that in the case of an ACPI device and devm_clk_get_optional
+>> returning NULL we should assume that the clock is already enabled and
+>> will stay enabled during sensor operation? How should we distinguish it
+>> from the case of an OF-based system and clock just missing from device
+>> tree?
+>
+> Not exaclty :)
+>
+> I copy comment from [1]
+>
+> if you use ov5693->xvclk to identify the ACPI vs OF use case shouldn't
+> you use the get_optionl() version ? Otherwise in the ACPI case you will have
+> -ENOENT if there's not 'xvclk' property and bail out.
+>
+> Unless my understanding is wrong on ACPI we have "clock-frequency" and
+> on OF "xvclk" with an "assigned-clock-rates",
+>
+> [1] https://patchwork.linuxtv.org/project/linux-media/patch/20220627150453.220292-5-tommaso.merciai@amarulasolutions.com/
+>
+> Let me know if you need more details.
 
-I would have put it in the description of the #clock-cells property:
+Thanks for the pointer! I'll try to implement something along the lines
+of your ov5693 series.
 
-  "#clock-cells":
-    description: |
-      The bridge can act as clock provider for the sensor. To enable
-      this support #clock-cells must be specified. Attention ...
-    const: 0
+But I'm not sure that will be enough to support ACPI systems
+correctly. What about lanes number and link frequency checks? Should
+they be made conditional on CONFIG_OF? Anything else I don't know?
 
-but if it becomes an issue, I'm OK with the comment too.
-
-> > > +  "#clock-cells":
-> > > +    const: 0
-> > > +
-> > > +  clock-output-names:
-> > > +    description:
-> > > +      The clock name of the MCLK output, the default name is tc358746-mclk.
-> > > +    maxItems: 1
-> > > +
-> > > +  vddc-supply:
-> > > +    description: Digital core voltage supply, 1.2 volts
-> > > +
-> > > +  vddio-supply:
-> > > +    description: Digital I/O voltage supply, 1.8 volts
-> > > +
-> > > +  vddmipi-supply:
-> > > +    description: MIPI CSI phy voltage supply, 1.2 volts
-> > > +
-> > > +  reset-gpios:
-> > > +    description:
-> > > +      The phandle and specifier for the GPIO that controls the chip reset.
-> > > +      This corresponds to the hardware pin RESX which is physically active low.
-> > > +    maxItems: 1
-> > > +
-> > > +  ports:
-> > > +    $ref: /schemas/graph.yaml#/properties/ports
-> > > +    properties:
-> > > +      port@0:
-> > > +        $ref: /schemas/graph.yaml#/properties/port
-> > > +        description: Input port
-> > 
-> > Are the H/V sync signal polarities fixed, or should they be specified
-> > here ?
-> 
-> At the moment they are fixed.
-
-If the hardware supports different polarities, let's add them to the
-device tree binding, even if the driver only supports a single option at
-the moment.
-
-> I can describe it if you want.
-
-Thanks.
-
-> > Does the chip support external sync only, or also BT.656 ? In the
-> > latter case this needs a bus-type.
-> 
-> Yes, the chip also supports BT.656 but the driver doesn't support it
-> yet. You're right, that we should make it explicite albeit it would a
-> bit overhead yet since the only mode is: parallel-in with externa syncs.
-
-Let's prepare for BT.656 support in the DT bindings, or we may regret it
-later :-)
-
-> > > +
-> > > +      port@1:
-> > > +        $ref: /schemas/graph.yaml#/$defs/port-base
-> > > +        description: Output port
-> > > +
-> > > +        properties:
-> > > +          endpoint:
-> > > +            $ref: /schemas/media/video-interfaces.yaml#
-> > > +            unevaluatedProperties: false
-> > > +
-> > > +            properties:
-> > > +              data-lanes:
-> > > +                minItems: 1
-> > > +                maxItems: 4
-> > > +
-> > > +              clock-noncontinuous: true
-> > > +              link-frequencies: true
-> > > +
-> > > +            required:
-> > > +              - data-lanes
-> > > +              - link-frequencies
-> > > +
-> > > +    required:
-> > > +      - port@0
-> > > +      - port@1
-> > > +
-> > > +required:
-> > > +  - compatible
-> > > +  - reg
-> > > +  - clocks
-> > > +  - clock-names
-> > > +  - vddc-supply
-> > > +  - vddio-supply
-> > > +  - vddmipi-supply
-> > > +  - ports
-> > > +
-> > > +additionalProperties: false
-> > > +
-> > > +examples:
-> > > +  - |
-> > > +    #include <dt-bindings/gpio/gpio.h>
-> > > +
-> > > +    i2c {
-> > > +      #address-cells = <1>;
-> > > +      #size-cells = <0>;
-> > > +
-> > > +      csi-bridge@e {
-> > > +        compatible = "toshiba,tc358746";
-> > > +        reg = <0xe>;
-> > > +
-> > > +        clocks = <&refclk>;
-> > > +        clock-names = "refclk";
-> > > +
-> > > +        reset-gpios = <&gpio 2 GPIO_ACTIVE_LOW>;
-> > > +
-> > > +        vddc-supply = <&v1_2d>;
-> > > +        vddio-supply = <&v1_8d>;
-> > > +        vddmipi-supply = <&v1_2d>;
-> > > +
-> > > +        /* sensor mclk provider */
-> > > +        #clock-cells = <0>;
-> > > +
-> > > +        ports {
-> > > +          #address-cells = <1>;
-> > > +          #size-cells = <0>;
-> > > +
-> > > +          /* Input */
-> > > +          port@0 {
-> > > +            reg = <0>;
-> > > +            tc358746_in: endpoint {
-> > > +              remote-endpoint = <&sensor_out>;
-> > > +              };
-> > 
-> > Wrong indentation here.
-> 
-> Yes, thanks.
-> 
-> > > +          };
-> > > +
-> > > +          /* Output */
-> > > +          port@1 {
-> > > +            reg = <1>;
-> > > +            tc358746_out: endpoint {
-> > > +              remote-endpoint = <&mipi_csi2_in>;
-> > > +              data-lanes = <1 2>;
-> > > +              clock-noncontinuous;
-> > > +              link-frequencies = /bits/ 64 <216000000>;
-> > > +            };
-> > > +          };
-> > > +        };
-> > > +      };
-> > > +    };
-
--- 
-Regards,
-
-Laurent Pinchart
+>
+> Regards,
+> Tommaso
+>
+--
+Best regards,
+Mikhail Rudenko
