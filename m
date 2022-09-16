@@ -2,125 +2,98 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0775E5BA9A5
-	for <lists+linux-media@lfdr.de>; Fri, 16 Sep 2022 11:45:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8DA015BA9A8
+	for <lists+linux-media@lfdr.de>; Fri, 16 Sep 2022 11:46:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230233AbiIPJoG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 16 Sep 2022 05:44:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52582 "EHLO
+        id S229639AbiIPJqV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 16 Sep 2022 05:46:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59756 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230280AbiIPJno (ORCPT
+        with ESMTP id S229567AbiIPJqU (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 16 Sep 2022 05:43:44 -0400
-Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com [IPv6:2a00:1450:4864:20::42b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D50A2AA367
-        for <linux-media@vger.kernel.org>; Fri, 16 Sep 2022 02:43:13 -0700 (PDT)
-Received: by mail-wr1-x42b.google.com with SMTP id k9so35159698wri.0
-        for <linux-media@vger.kernel.org>; Fri, 16 Sep 2022 02:43:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date;
-        bh=NzvsBv6Vy0LayQRu2srUUWCYs5DHNCpJ/APAQxxwdIQ=;
-        b=Vsk0YFgWXXN9oDQ0nv4Fbq8khNFKpoFKDiz32x8/+RlDM898xvgKkiI/s2uTFd72tL
-         Rc1fYGbNQ8s62o3LfYTb8ZAg4Eq7SONzTs3WcQxwWAjgSDWxq5xGzk++3ap/aN93zkbC
-         bR7eE44twUV83Xatg35B5jfLjhODPmBlAwUkh8q1cOYUBJTDkGr+Y1n+S3QeSjjKXpXV
-         EYePLWJtPTUmDw0MSnMMR2by90MLyzTUkqSTQWm3PrX4Jy7lH2ufEbiHcrsMYKcLyhE7
-         fEbrtUUBmvMaIkpr6s8QkRXffpXGkCv/IpETvo6lE/k3r2nKrQz3b6VDFCys292qSxFA
-         uJBQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=NzvsBv6Vy0LayQRu2srUUWCYs5DHNCpJ/APAQxxwdIQ=;
-        b=nuiJzPmKVQlG8F7MrZyN3rpea1x6FRqBRzQo3xFGexYPqKEWK2Swglv4YfwQRhF0RP
-         qHv6xoUjuh4Rv6S6QFZn7r+ICKjNbCanjLPsXdqsguFx+vMwQlK/Dvnk13JUdRZtbt9x
-         lRzuUAXSxYSRM3lg9WK3wJ/Btg4IkbZvu1eGPxnk283BehtZSsJhDdayIpnqNtXKzfgt
-         AtmcKGa3v8037CixC3VfpxxxeOytvgcwohsDbAJHTVnZ7qw+YIg1eRA7zT87UhICRmGP
-         gJUTgJAoc6D+cFSC3tOOGV28aQeXH0jaOhCpgNhLQzXX+ch10db+LptTE0Vg6h2WNMxt
-         vKGQ==
-X-Gm-Message-State: ACrzQf2qrOZWZedmJa8KiEz45zhLeemPXEib28TG6TuhHZgB4qYRmYZO
-        1t1N6OSjcgtEl8BkSzxZqxHVhw==
-X-Google-Smtp-Source: AMsMyM5wpu8dPAX8EIVJvLfSD8+RRDUjgzhvuoZPt5EHXVS69Hb97dz2+i+1d97ys60v/tFaUP07fg==
-X-Received: by 2002:a05:6000:2c9:b0:22a:c481:20b with SMTP id o9-20020a05600002c900b0022ac481020bmr2349981wry.7.1663321392356;
-        Fri, 16 Sep 2022 02:43:12 -0700 (PDT)
-Received: from [10.119.22.201] ([89.101.193.73])
-        by smtp.gmail.com with ESMTPSA id j16-20020a05600c1c1000b003b492338f45sm1779049wms.39.2022.09.16.02.43.11
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 16 Sep 2022 02:43:11 -0700 (PDT)
-Message-ID: <c92f67a0-52f5-b5d1-8f65-d28b761d2620@linaro.org>
-Date:   Fri, 16 Sep 2022 10:43:11 +0100
+        Fri, 16 Sep 2022 05:46:20 -0400
+X-Greylist: delayed 61644 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 16 Sep 2022 02:46:18 PDT
+Received: from gofer.mess.org (gofer.mess.org [IPv6:2a02:8011:d000:212::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E4A8323BC0
+        for <linux-media@vger.kernel.org>; Fri, 16 Sep 2022 02:46:18 -0700 (PDT)
+Received: by gofer.mess.org (Postfix, from userid 1000)
+        id B89D3100055; Fri, 16 Sep 2022 10:46:16 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mess.org; s=2020;
+        t=1663321576; bh=GcIECGUV4u/iVImiQYSlXR1l2ChPuaXgwsSt5uquPlk=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=UJS5OgW7wSlRWPrnF4OLguS+r/RJm4bVLNJSFXWxk2iOLhK2sErsdH2lJrpLLX7s9
+         eTCZLuyDO12ENYKON3dr+ta3P9T0hjB4aBveJ5y5S9N/zAJzyMRfhhJB08dliPZhJX
+         crWSJCgkqrt8F1yqVJqkZKZjm9LtS8ITzQHvPNwI5eVV8MrfB+rPPRbv/jiIPWDlhc
+         pVg3eOTpnx8d6kuh+njuSqn+cfFcdwv2VrodFiAxslbDRR/dS26aBSI83KpnzX51hH
+         aikFDHfyg0IYQGX5inde2ntp9CTF8JckPpdpHCoKxcymSH8z2ZEfEIDQtXGFlM/QRu
+         o/+IYBYmbsb0g==
+Date:   Fri, 16 Sep 2022 10:46:16 +0100
+From:   Sean Young <sean@mess.org>
+To:     Yang Yingliang <yangyingliang@huawei.com>
+Cc:     linux-media@vger.kernel.org, mchehab@kernel.org,
+        hverkuil-cisco@xs4all.nl, pavel@ucw.cz,
+        sakari.ailus@linux.intel.com, laurent.pinchart@ideasonboard.com
+Subject: Re: [PATCH -next 10/13] media: rc: gpio-ir-recv: Switch to use
+ dev_err_probe() helper
+Message-ID: <YyRF6ETUrJRUsVC7@gofer.mess.org>
+References: <20220915150324.688062-1-yangyingliang@huawei.com>
+ <20220915150324.688062-11-yangyingliang@huawei.com>
+ <YyNVG1EZ0anbDf0R@gofer.mess.org>
+ <a56a9638-5a1f-4cbe-cf30-baae03b104c3@huawei.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH v2 2/2] media: i2c: add support for ov4689
-Content-Language: en-US
-To:     Mikhail Rudenko <mike.rudenko@gmail.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Shawn Tu <shawnx.tu@intel.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Daniel Scally <djrscally@gmail.com>,
-        Christian Hemp <c.hemp@phytec.de>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Marek Vasut <marex@denx.de>, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20220911200147.375198-1-mike.rudenko@gmail.com>
- <20220911200147.375198-3-mike.rudenko@gmail.com>
- <e3c0bafe-394c-e8cc-aba0-6eb480dc5b43@linaro.org> <87o7vgpa50.fsf@gmail.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <87o7vgpa50.fsf@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-3.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <a56a9638-5a1f-4cbe-cf30-baae03b104c3@huawei.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 15/09/2022 21:40, Mikhail Rudenko wrote:
-> 
-> Hi Krzysztof,
-> 
-> On 2022-09-12 at 12:56 +02, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> wrote:
->> On 11/09/2022 22:01, Mikhail Rudenko wrote:
->>> +static const struct i2c_device_id ov4689_id[] = {
->>> +	{ "ov4689", 0 },
->>> +	{},
->>> +};
->>> +MODULE_DEVICE_TABLE(i2c, ov4689_id);
->>> +
->>> +static const struct of_device_id ov4689_of_match[] = {
->>> +	{ .compatible = "ovti,ov4689" },
->>> +	{},
->>> +};
->>> +MODULE_DEVICE_TABLE(of, ov4689_of_match);
->>> +
->>> +static struct i2c_driver ov4689_i2c_driver = {
->>> +	.driver = {
->>> +		.name = "ov4689",
->>> +		.pm = &ov4689_pm_ops,
->>> +		.of_match_table = of_match_ptr(ov4689_of_match),
->>
->> of_match_ptr is usually paired with maybe_unused, otherwise you will
->> have compile test warnings.
-> 
-> I see. I think we could also use `#if IS_ENABLED(CONFIG_OF)` around
-> `ov4689_of_match` and the corresponding `MODULE_DEVICE_TABLE`. Is it
-> appropriate here?
+Hi,
 
-Would work, but ifdefs are not nice. Just use maybe_unused. Warnings
-should disappear.
+On Fri, Sep 16, 2022 at 09:13:14AM +0800, Yang Yingliang wrote:
+> On 2022/9/16 0:38, Sean Young wrote:
+> > On Thu, Sep 15, 2022 at 11:03:21PM +0800, Yang Yingliang wrote:
+> > > In the probe path, dev_err() can be replace with dev_err_probe()
+> > > which will check if error code is -EPROBE_DEFER.
+> > > 
+> > > Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
+> > > ---
+> > >   drivers/media/rc/gpio-ir-recv.c | 10 +++-------
+> > >   1 file changed, 3 insertions(+), 7 deletions(-)
+> > > 
+> > > diff --git a/drivers/media/rc/gpio-ir-recv.c b/drivers/media/rc/gpio-ir-recv.c
+> > > index 22e524b69806..8f1fff7af6c9 100644
+> > > --- a/drivers/media/rc/gpio-ir-recv.c
+> > > +++ b/drivers/media/rc/gpio-ir-recv.c
+> > > @@ -74,13 +74,9 @@ static int gpio_ir_recv_probe(struct platform_device *pdev)
+> > >   		return -ENOMEM;
+> > >   	gpio_dev->gpiod = devm_gpiod_get(dev, NULL, GPIOD_IN);
+> > > -	if (IS_ERR(gpio_dev->gpiod)) {
+> > > -		rc = PTR_ERR(gpio_dev->gpiod);
+> > > -		/* Just try again if this happens */
+> > > -		if (rc != -EPROBE_DEFER)
+> > > -			dev_err(dev, "error getting gpio (%d)\n", rc);
+> > > -		return rc;
+> > > -	}
+> > > +	if (IS_ERR(gpio_dev->gpiod))
+> > > +		return dev_err_probe(dev, PTR_ERR(gpio_dev->gpiod),
+> > > +				     "error getting gpio\n");
+> > Now the error number is no longer logged. That can't be good?
+> Instead of error number, the error name is printed in dev_err_probe(), and 
+> it's better for read.
 
-Best regards,
-Krzysztof
+Yes, I should have checked this. This is much nicer, with the error printed with
+%pe. Thanks!
+
+For the three drivers in drivers/media/rc/ :
+
+Reviewed-by: Sean Young <sean@mess.org>
+
+Thanks
+Sean
