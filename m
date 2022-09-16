@@ -2,633 +2,360 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6D3F75BAF6F
-	for <lists+linux-media@lfdr.de>; Fri, 16 Sep 2022 16:33:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9CA875BAFA1
+	for <lists+linux-media@lfdr.de>; Fri, 16 Sep 2022 16:53:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230171AbiIPOdb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 16 Sep 2022 10:33:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59350 "EHLO
+        id S231494AbiIPOxN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 16 Sep 2022 10:53:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55886 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229581AbiIPOd3 (ORCPT
+        with ESMTP id S229804AbiIPOxM (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 16 Sep 2022 10:33:29 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 175D941D12;
-        Fri, 16 Sep 2022 07:33:28 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (unknown [104.132.8.103])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4B372440;
-        Fri, 16 Sep 2022 16:33:26 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1663338806;
-        bh=0mq6iLjBRXE5LO1vAZY1gNiVywyq6U+Bz30w2WEJ6W0=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=FFOXZCjlrBQLXWQVyj4ZYr+ig3ENlC0wfxUIL2C3aKei8hr+pAgbpWkDF8+4BdlCl
-         +yeOJcWbv60wj4es3VfrER/TBurm/yyeKBuZDwpAvEpFIHDMJquJEvOXgHLbRECoUQ
-         RGBlyg0gbDBV0jRAIpxOs0l+95zluKk/tPnRbRvs=
-Date:   Fri, 16 Sep 2022 17:33:12 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Marco Felsch <m.felsch@pengutronix.de>
-Cc:     mchehab@kernel.org, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, vkoul@kernel.org, kishon@ti.com,
-        sakari.ailus@linux.intel.com, hverkuil@xs4all.nl,
-        jacopo@jmondi.org, linux-kernel@vger.kernel.org,
-        linux-phy@lists.infradead.org, devicetree@vger.kernel.org,
-        linux-media@vger.kernel.org, kernel@pengutronix.de
-Subject: Re: [PATCH 4/4] media: tc358746: add Toshiba TC358746 Parallel to
- CSI-2 bridge driver
-Message-ID: <YySJKFdB+a8zxRLS@pendragon.ideasonboard.com>
-References: <20220818143307.967150-1-m.felsch@pengutronix.de>
- <20220818143307.967150-5-m.felsch@pengutronix.de>
- <YxZWB3mE1Mk4JV/c@pendragon.ideasonboard.com>
- <20220915165404.ghcjntxom7kzqyuy@pengutronix.de>
+        Fri, 16 Sep 2022 10:53:12 -0400
+Received: from netrider.rowland.org (netrider.rowland.org [192.131.102.5])
+        by lindbergh.monkeyblade.net (Postfix) with SMTP id E3D32A8976
+        for <linux-media@vger.kernel.org>; Fri, 16 Sep 2022 07:53:09 -0700 (PDT)
+Received: (qmail 46953 invoked by uid 1000); 16 Sep 2022 10:53:09 -0400
+Date:   Fri, 16 Sep 2022 10:53:09 -0400
+From:   Alan Stern <stern@rowland.harvard.edu>
+To:     Rondreis <linhaoguo86@gmail.com>
+Cc:     rdunlap@infradead.org, ira.weiny@intel.com,
+        linux-usb@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: KASAN: use-after-free Read in dummy_timer
+Message-ID: <YySN1XermGCzIH32@rowland.harvard.edu>
+References: <CAB7eex+cTEmaUMrShcSk9_Ve3yAsmMN3a77NuO37TUEL3pVgOQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220915165404.ghcjntxom7kzqyuy@pengutronix.de>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <CAB7eex+cTEmaUMrShcSk9_Ve3yAsmMN3a77NuO37TUEL3pVgOQ@mail.gmail.com>
+X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,SPF_HELO_PASS,SPF_PASS autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Marco,
+Forwarding this message to the linux-media mailing list, because it 
+seems clear that the bug in question lies in the siano driver 
+(drivers/media/usb/siano/smsusb.c).
 
-On Thu, Sep 15, 2022 at 06:54:04PM +0200, Marco Felsch wrote:
-> On 22-09-05, Laurent Pinchart wrote:
-> > On Thu, Aug 18, 2022 at 04:33:07PM +0200, Marco Felsch wrote:
-> > > Adding support for the TC358746 parallel <-> MIPI CSI bridge. This chip
-> > > supports two operating modes:
-> > >   1st) parallel-in -> mipi-csi out
-> > >   2nd) mipi-csi in -> parallel out
-> > > 
-> > > This patch only adds the support for the 1st mode.
-> > > 
-> > > Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
-> > > ---
-> > >  drivers/media/i2c/Kconfig    |   17 +
-> > >  drivers/media/i2c/Makefile   |    1 +
-> > >  drivers/media/i2c/tc358746.c | 1645 ++++++++++++++++++++++++++++++++++
-> > >  3 files changed, 1663 insertions(+)
-> > >  create mode 100644 drivers/media/i2c/tc358746.c
+Alan Stern
 
-[snip]
-
-> > > diff --git a/drivers/media/i2c/tc358746.c b/drivers/media/i2c/tc358746.c
-> > > new file mode 100644
-> > > index 000000000000..7b71d0cf72a9
-> > > --- /dev/null
-> > > +++ b/drivers/media/i2c/tc358746.c
-
-[snip]
-
-> > > +struct tc358746 {
-> > > +	struct v4l2_subdev		sd;
-> > > +	struct media_pad		pads[TC358746_NR_PADS];
-> > > +	struct v4l2_async_notifier	notifier;
-> > > +	struct v4l2_mbus_framefmt	mbusfmt;
-> > 
-> > Could you use the active state API instead of manually storing mbusfmt
-> > here ? It involves
+On Fri, Sep 16, 2022 at 07:53:15PM +0800, Rondreis wrote:
+> Hello,
 > 
-> I will do that, thanks for the hint and it also elimates a few basic
-> checks like the pad-num check.
-
-Even nicer :-)
-
-> > - Implementing the .init_cfg() operation
-> > - Calling v4l2_subdev_init_finalize() in probe
-> > - Replacing calls to __tc358746_get_pad_format() with
-> >   v4l2_subdev_get_pad_format()
-> > - Propagating the format from sink to source in tc358746_set_fmt()
-> > - Dropping tc358746_src_mbus_code() from tc358746_get_fmt() and simply
-> >   retrieving the format using v4l2_subdev_get_pad_format() there
-> > - Dropping this field
-> > 
-> > The formats for both the ACTIVE and TRY states will then be stored in
-> > the subdev state, unconditionally. You can retrieve the active state
-> > with v4l2_subdev_get_locked_active_state() in tc358746_s_stream().
-> > 
-> > > +	struct v4l2_fwnode_endpoint	csi_vep;
-> > > +
-> > > +	struct v4l2_ctrl_handler	ctrl_hdl;
-> > > +
-> > > +	struct regmap			*regmap;
-> > > +	struct clk			*refclk;
-> > > +	struct gpio_desc		*reset_gpio;
-> > > +	struct regulator_bulk_data	supplies[ARRAY_SIZE(tc358746_supplies)];
-> > > +
-> > > +	struct clk_hw			mclk_hw;
-> > > +	unsigned long			mclk_rate;
-> > > +	u8				mclk_prediv;
-> > > +	u16				mclk_postdiv;
-> > > +
-> > > +	unsigned long			pll_rate;
-> > > +	u8				pll_post_div;
-> > > +	u16				pll_pre_div;
-> > > +	u16				pll_mul;
-> > > +
-> > > +	struct v4l2_ctrl		*sensor_pclk_ctrl;
-> > > +
-> > > +#define TC358746_VB_MAX_SIZE		(511 * 32)
-> > > +#define TC358746_VB_DEFAULT_SIZE	  (1 * 32)
-> > > +	unsigned int			vb_size; /* Video buffer size in bits */
-> > > +
-> > > +	struct phy_configure_opts_mipi_dphy dphy_cfg;
-> > > +};
-
-[snip]
-
-> > > +#ifndef MHZ
-> > 
-> > Where would it be previously defined ? This sounds like asking for
-> > trouble later.
+> When fuzzing the Linux kernel driver v6.0-rc4, the following crash was
+> triggered.
 > 
-> Sorry I don't get that, do you mean that I should define it at the very
-> beginning?
-
-I mean that either MHZ is defined somewhere in the kernel already, in
-case we should include the corresponding header, or it's not, and I
-wouldn't add an #ifndev here. Otherwise, if someone adds a MHZ macro
-later that gets pulled in through one of the kernel headers used by the
-driver, it may cause subtle bugs if the definition is different. Of
-course nobody will
-
-#define MHZ		42
-
-but we could get
-
-#define MHZ		1000 * 1000
-
-and something could break here. I'd drop the #ifndef to get the compiler
-to complain if there's a redefinition.
-
-> > > +#define MHZ		(1000 * 1000)
-> > > +#endif
-
-[snip]
-
-> > > +static int
-> > > +tc358746_link_validate(struct v4l2_subdev *sd, struct media_link *link,
-> > > +		       struct v4l2_subdev_format *source_fmt,
-> > > +		       struct v4l2_subdev_format *sink_fmt)
-> > > +{
-> > > +	struct tc358746 *tc358746 = to_tc358746(sd);
-> > > +	unsigned long csi_bitrate, sensor_bitrate;
-> > > +	const struct tc358746_format *fmt;
-> > > +	unsigned int fifo_sz, tmp, n;
-> > > +	s64 sensor_pclk_rate;
-> > > +
-> > > +	/* Check the FIFO settings */
-> > > +	fmt = tc358746_get_format_by_code(TC358746_SINK, tc358746->mbusfmt.code);
-> > > +	if (IS_ERR(fmt))
-> > > +		return PTR_ERR(fmt);
-> > > +
-> > > +	sensor_pclk_rate = v4l2_ctrl_g_ctrl_int64(tc358746->sensor_pclk_ctrl);
-> > > +	sensor_bitrate = sensor_pclk_rate * fmt->bus_width;
-> > > +
-> > > +	csi_bitrate = tc358746->dphy_cfg.lanes * tc358746->pll_rate;
-> > > +
-> > > +	dev_dbg(tc358746->sd.dev,
-> > > +		"Fifo settings params: sensor-bitrate:%lu csi-bitrate:%lu",
-> > > +		sensor_bitrate, csi_bitrate);
-> > > +
-> > > +	/* Avoid possible FIFO overflows */
-> > > +	if (csi_bitrate < sensor_bitrate) {
-> > > +		dev_err(sd->dev,
-> > > +			"Link validation failed csi-bitrate:%lu < sensor-bitrate:%lu\n",
-> > > +			csi_bitrate, sensor_bitrate);
-> > > +		return -EINVAL;
-> > > +	}
-> > > +
-> > > +	/* Best case */
-> > > +	if (csi_bitrate == sensor_bitrate) {
-> > > +		tc358746->vb_size = TC358746_VB_DEFAULT_SIZE;
-> > > +		goto out;
-> > > +	}
-> > > +
-> > > +	/*
-> > > +	 * Avoid possible FIFO underflow in case of
-> > > +	 * csi_bitrate > sensor_bitrate. For such case the chip has a internal
-> > > +	 * fifo which can be used to delay the line output.
-> > > +	 *
-> > > +	 * Fifo size calculation:
-> > > +	 *
-> > > +	 * fifo-sz, image-width - in bits
-> > > +	 * sbr                  - sensor_bitrate in bits/s
-> > > +	 * csir                 - csi_bitrate in bits/s
-> > > +	 *
-> > > +	 *                1             1      1
-> > > +	 * image-width * --- + fifo-sz --- >= ---- * image-width
-> > > +	 *               sbr           sbr    csir
-> > > +	 *
-> > > +	 * fifo-sz >= abs(sbr/csir * image-width - image-width)
-> > > +	 *                `-----´
-> > > +	 *                   n
-> > > +	 *
-> > > +	 */
-> > > +
-> > > +	sensor_bitrate /= TC358746_PRECISION;
-> > > +	n = csi_bitrate / sensor_bitrate;
-> > > +	tmp = (tc358746->mbusfmt.width * TC358746_PRECISION) / n;
-> > > +	fifo_sz = tc358746->mbusfmt.width - tmp;
-> > > +	fifo_sz *= fmt->bpp;
-> > > +	tc358746->vb_size = round_up(fifo_sz, 32);
-> > > +
-> > 
-> > Please also call v4l2_subdev_link_validate_default() here.
+> HEAD commit: 7e18e42e4b280c85b76967a9106a13ca61c16179
+> git tree: upstream
 > 
-> Did it in my internal prepared v2 ^^ I call it now at the very
-> beginning of this function.
+> kernel config: https://pastebin.com/raw/xtrgsXP3
+> C reproducer: https://pastebin.com/raw/72y5dCXx
+> console output: https://pastebin.com/raw/MDQWXdya
 > 
-> > I wonder if the above calculation wouldn't be better performed in
-> > .s_stream() (or rather in a function being called by .s_stream()) when
-> > enabling streaming.
+> Basically, in the c reproducer, we use the gadget module to emulate
+> attaching a USB device(vendor id: 0x2040, product id: 0xc000, with the
+> net function) and executing some simple sequence of system calls.
+> To reproduce this crash, we utilize a third-party library to emulate
+> the attaching process: https://github.com/linux-usb-gadgets/libusbgx.
+> Just clone this repository, install it, and compile the c
+> reproducer with ``` gcc crash.c -lusbgx -lconfig -o crash ``` will do
+> the trick.
 > 
-> No I wouldn't shift that, since the link validation is in IMHO the
-> correct place to inform the user that the pipeline can't negotiate if
-> the fifo can't be configured correctly. Therefore I placed it here.
-
-The issue is that the user could enable the link first, and then change
-the V4L2_CID_LINK_FREQ of the sensor and push the pixel rate above what
-the TC358746 can support. Given the model that configures subdevs
-independently, you can only validate the pipeline at stream on time.
-
-> > > +out:
-> > > +	dev_dbg(tc358746->sd.dev,
-> > > +		"Found FIFO size[bits]:%u -> aligned to size[bits]:%u\n",
-> > > +		fifo_sz, tc358746->vb_size);
-> > > +
-> > > +	return tc358746->vb_size > TC358746_VB_MAX_SIZE ? -EINVAL : 0;
-> > > +}
-
-[snip]
-
-> > > +static int tc358746_probe(struct i2c_client *client)
-> > > +{
-> > > +	struct clk_init_data mclk_initdata = { };
-> > > +	struct device *dev = &client->dev;
-> > > +	struct v4l2_fwnode_endpoint *vep;
-> > > +	unsigned long csi_link_rate;
-> > > +	struct tc358746 *tc358746;
-> > > +	struct fwnode_handle *ep;
-> > > +	unsigned char csi_lanes;
-> > > +	struct v4l2_subdev *sd;
-> > > +	struct v4l2_ctrl *ctrl;
-> > > +	unsigned long refclk;
-> > > +	unsigned int i;
-> > > +	int err;
-> > > +	u32 val;
-> > > +
-> > > +	tc358746 = devm_kzalloc(&client->dev, sizeof(*tc358746), GFP_KERNEL);
-> > > +	if (!tc358746)
-> > > +		return -ENOMEM;
-> > > +
-> > > +	tc358746->regmap = devm_regmap_init_i2c(client, &tc358746_regmap_config);
-> > > +	if (IS_ERR(tc358746->regmap))
-> > > +		return dev_err_probe(dev, PTR_ERR(tc358746->regmap),
-> > > +				     "Failed to init regmap\n");
-> > > +
-> > > +	tc358746->refclk = devm_clk_get(dev, "refclk");
-> > > +	if (IS_ERR(tc358746->refclk))
-> > > +		return dev_err_probe(dev, PTR_ERR(tc358746->refclk),
-> > > +				     "Failed to get refclk\n");
-> > > +
-> > > +	err = clk_prepare_enable(tc358746->refclk);
-> > > +	if (err)
-> > > +		return dev_err_probe(dev, err,
-> > > +				     "Failed to enable refclk\n");
-> > > +
-> > > +	refclk = clk_get_rate(tc358746->refclk);
-> > > +	clk_disable_unprepare(tc358746->refclk);
-> > > +
-> > > +	if (refclk < 6 * MHZ || refclk > 40 * MHZ)
-> > > +		return dev_err_probe(dev, -EINVAL, "Invalid refclk range\n");
-> > > +
-> > > +	for (i = 0; i < ARRAY_SIZE(tc358746_supplies); i++)
-> > > +		tc358746->supplies[i].supply = tc358746_supplies[i];
-> > > +
-> > > +	err = devm_regulator_bulk_get(dev, ARRAY_SIZE(tc358746_supplies),
-> > > +				      tc358746->supplies);
-> > > +	if (err)
-> > > +		return dev_err_probe(dev, err, "Failed to get supplies\n");
-> > > +
-> > > +	tc358746->reset_gpio = devm_gpiod_get_optional(dev, "reset",
-> > > +						       GPIOD_OUT_HIGH);
-> > > +	if (IS_ERR(tc358746->reset_gpio))
-> > > +		return dev_err_probe(dev, PTR_ERR(tc358746->reset_gpio),
-> > > +				     "Failed to get reset-gpios\n");
-> > > +
-> > > +	sd = &tc358746->sd;
-> > > +	v4l2_i2c_subdev_init(sd, client, &tc358746_ops);
-> > > +	sd->flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
-> > > +	sd->entity.function = MEDIA_ENT_F_VID_IF_BRIDGE;
-> > > +	sd->entity.ops = &tc358746_entity_ops;
-> > > +
-> > > +	tc358746->pads[TC358746_SINK].flags = MEDIA_PAD_FL_SINK;
-> > > +	tc358746->pads[TC358746_SOURCE].flags = MEDIA_PAD_FL_SOURCE;
-> > > +	err = media_entity_pads_init(&sd->entity, TC358746_NR_PADS,
-> > > +				     tc358746->pads);
-> > > +	if (err)
-> > > +		return dev_err_probe(dev, err,
-> > > +				     "Failed to setup media-entity pads\n");
-> > > +
-> > > +	ep = fwnode_graph_get_endpoint_by_id(dev_fwnode(dev), TC358746_SOURCE,
-> > > +					     0, 0);
-> > > +	if (!ep) {
-> > > +		dev_err(dev, "Missing endpoint node\n");
-> > > +		err = -EINVAL;
-> > > +		goto err_mc;
-> > > +	}
-> > > +
-> > > +	/* Currently we only support 'parallel in' -> 'csi out' */
-> > > +	vep = &tc358746->csi_vep;
-> > > +	vep->bus_type = V4L2_MBUS_CSI2_DPHY;
-> > > +	err = v4l2_fwnode_endpoint_alloc_parse(ep, vep);
-> > > +	fwnode_handle_put(ep);
-> > > +	if (err) {
-> > > +		dev_err(dev, "Failed to parse source endpoint\n");
-> > > +		goto err_mc;
-> > > +	}
-> > > +
-> > > +	csi_lanes = vep->bus.mipi_csi2.num_data_lanes;
-> > > +	if (csi_lanes == 0 || csi_lanes > 4 ||
-> > > +	    vep->nr_of_link_frequencies == 0) {
-> > > +		dev_err(dev, "error: Invalid CSI-2 settings\n");
-> > > +		err = -EINVAL;
-> > > +		goto err_vep;
-> > > +	}
-> > > +
-> > > +	/* TODO: Add support to handle multiple link frequencies */
-> > > +	csi_link_rate = (unsigned long)vep->link_frequencies[0];
-> > > +	tc358746->pll_rate = tc358746_find_pll_settings(tc358746, refclk,
-> > > +							csi_link_rate * 2);
-> > > +	if (!tc358746->pll_rate) {
-> > > +		err = -EINVAL;
-> > > +		goto err_vep;
-> > > +	}
-> > > +
-> > > +	err = phy_mipi_dphy_get_default_config_for_hsclk(tc358746->pll_rate,
-> > > +							 csi_lanes,
-> > > +							 &tc358746->dphy_cfg);
-> > > +	if (err)
-> > > +		goto err_vep;
-> > > +
-> > > +	tc358746->mbusfmt = tc358746_def_fmt;
-> > > +	tc358746->vb_size = TC358746_VB_DEFAULT_SIZE;
-> > > +
-> > > +	dev_set_drvdata(dev, tc358746);
-> > > +	pm_runtime_set_autosuspend_delay(dev, 200);
-> > > +	pm_runtime_use_autosuspend(dev);
-> > > +	pm_runtime_enable(dev);
-> > > +
-> > > +	err = pm_runtime_resume_and_get(dev);
-> > > +	if (err < 0) {
-> > > +		dev_err(dev, "Failed to resume the device\n");
-> > > +		goto err_vep;
-> > > +	}
-> > > +
-> > > +	 /* Ensure that CSI interface is put into LP-11 state */
-> > > +	err = tc358746_sw_reset(tc358746);
-> > > +	if (err) {
-> > > +		pm_runtime_put_noidle(dev);
-> > > +		dev_err(dev, "Failed to reset the device\n");
-> > > +		goto err_pm;
-> > > +	}
-> > > +
-> > > +	err = tc358746_read(tc358746, CHIPID_REG, &val);
-> > > +	pm_runtime_mark_last_busy(dev);
-> > > +	pm_runtime_put_sync_autosuspend(dev);
-> > > +	if (err) {
-> > > +		dev_err(dev, "Failed to read chipid\n");
-> > > +		err = -ENODEV;
-> > > +		goto err_pm;
-> > > +	}
-> > > +
-> > > +	if (FIELD_GET(CHIPID, val) != 0x44) {
-> > > +		dev_err(dev, "Invalid chipid 0x%02x\n",
-> > > +			(u32)FIELD_GET(CHIPID, val));
-> > > +		err = -ENODEV;
-> > > +		goto err_pm;
-> > > +	}
-> > > +
-> > > +	/* Optional MCLK provider support */
-> > > +	if (device_property_present(dev, "#clock-cells")) {
-> > > +		const char *mclk_name;
-> > > +
-> > > +		/* Init to highest possibel MCLK */
-> > > +		tc358746->mclk_postdiv = 512;
-> > > +		tc358746->mclk_prediv = 8;
-> > > +
-> > > +		mclk_name = "tc358746-mclk";
-> > > +		device_property_read_string(dev, "clock-output-names",
-> > > +					    &mclk_name);
-> > > +
-> > > +		mclk_initdata.name = mclk_name;
-> > > +		mclk_initdata.ops = &tc358746_mclk_ops;
-> > > +		tc358746->mclk_hw.init = &mclk_initdata;
-> > > +
-> > > +		err = devm_clk_hw_register(dev, &tc358746->mclk_hw);
-> > > +		if (err) {
-> > > +			dev_err(dev, "Failed to register mclk provider\n");
-> > > +			goto err_pm;
-> > > +		}
-> > > +
-> > > +		err = devm_of_clk_add_hw_provider(dev, of_clk_hw_simple_get,
-> > > +						  &tc358746->mclk_hw);
-> > > +		if (err) {
-> > > +			dev_err(dev, "Failed to add mclk provider\n");
-> > > +			goto err_pm;
-> > > +		}
-> > > +	}
-> > > +
-> > > +	v4l2_ctrl_handler_init(&tc358746->ctrl_hdl, 1);
-> > > +
-> > > +	ctrl = v4l2_ctrl_new_int_menu(&tc358746->ctrl_hdl, NULL,
-> > > +				      V4L2_CID_LINK_FREQ, 0, 0,
-> > > +				      vep->link_frequencies);
-> > > +	if (ctrl)
-> > > +		ctrl->flags |= V4L2_CTRL_FLAG_READ_ONLY;
-> > > +
-> > > +	tc358746->sd.ctrl_handler = &tc358746->ctrl_hdl;
-> > > +	if (tc358746->ctrl_hdl.error) {
-> > > +		err = tc358746->ctrl_hdl.error;
-> > > +		goto err_pm;
-> > > +	}
-> > > +
-> > > +	v4l2_ctrl_handler_setup(&tc358746->ctrl_hdl);
-> > > +
-> > > +	err = tc358746_async_register(tc358746);
-> > > +	if (err < 0)
-> > > +		goto err_ctrl;
-> > > +
-> > > +	dev_info(dev, "%s found @ 0x%x (%s)\n", client->name,
-> > > +		  client->addr, client->adapter->name);
-> > 
-> > I'd skip this to avoid adding noise to the kernel log at boot time. I
-> > would also probably split some of the code out of the probe function as
-> > it's fairly large. Up to you.
+> I would appreciate it if you have any idea how to solve this bug.
 > 
-> Yes it is large but most of it is just requesting stuff and so..
-> Therefore I kept it here since I don't need it elsewhere. What about
-> setting it to dev_dbg()? Sometimes it can be useful e.g. to find the
-> problem why /dev/media is not comming up..
-
-I find that enabling dev_dbg() messages from drivers/base/dd.c are
-helpful for that, but a dev_dbg() message here is fine too.
-
-> > > +
-> > > +	return 0;
-> > > +
-> > > +err_ctrl:
-> > > +	v4l2_ctrl_handler_free(&tc358746->ctrl_hdl);
-> > > +err_pm:
-> > > +	pm_runtime_disable(dev);
-> > > +	pm_runtime_set_suspended(dev);
-> > > +	pm_runtime_dont_use_autosuspend(dev);
-> > > +err_vep:
-> > > +	v4l2_fwnode_endpoint_free(vep);
-> > > +err_mc:
-> > > +	media_entity_cleanup(&sd->entity);
-> > > +
-> > > +	return err;
-> > > +}
-> > > +
-> > > +static int tc358746_remove(struct i2c_client *client)
-> > > +{
-> > > +	struct v4l2_subdev *sd = i2c_get_clientdata(client);
-> > > +	struct tc358746 *tc358746 = to_tc358746(sd);
-> > > +
-> > > +	v4l2_ctrl_handler_free(&tc358746->ctrl_hdl);
-> > > +	v4l2_fwnode_endpoint_free(&tc358746->csi_vep);
-> > > +	v4l2_async_nf_unregister(&tc358746->notifier);
-> > > +	v4l2_async_nf_cleanup(&tc358746->notifier);
-> > > +	v4l2_async_unregister_subdev(sd);
-> > > +	v4l2_device_unregister_subdev(sd);
-> > 
-> > This shouldn't be needed v4l2_async_unregister_subdev() should be
-> > enough.
+> The crash report is as follows:
+> BUG: KASAN: use-after-free in dummy_timer+0x2aa4/0x33d0
+> drivers/usb/gadget/udc/dummy_hcd.c:1844
+> Read of size 4 at addr ffff88802a558274 by task syz-fuzzer/6413
 > 
-> Okay, thanks. There are a lot of unregister helpers in the v4l2 space..
-
-Too many of them indeed. I'd like to simplify all that.
-
-> > > +	media_entity_cleanup(&sd->entity);
-> > > +
-> > > +	pm_runtime_disable(sd->dev);
-> > > +	pm_runtime_set_suspended(sd->dev);
-> > > +	pm_runtime_dont_use_autosuspend(sd->dev);
-> > > +
-> > > +	return 0;
-> > > +}
-> > > +
-> > > +static int tc358746_suspend(struct device *dev)
-> > > +{
-> > > +	struct tc358746 *tc358746 = dev_get_drvdata(dev);
-> > > +
-> > > +	clk_disable_unprepare(tc358746->refclk);
-> > > +
-> > > +	return regulator_bulk_disable(ARRAY_SIZE(tc358746_supplies),
-> > > +				      tc358746->supplies);
-> > 
-> > Shouldn't you reenable the clock if this fails ?
+> CPU: 0 PID: 6413 Comm: syz-fuzzer Not tainted 6.0.0-rc4+ #20
+> Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS
+> 1.13.0-1ubuntu1.1 04/01/2014
+> Call Trace:
+> <IRQ>
+> __dump_stack lib/dump_stack.c:88 [inline]
+> dump_stack_lvl+0xcd/0x134 lib/dump_stack.c:106
+> print_address_description mm/kasan/report.c:317 [inline]
+> print_report.cold+0xe5/0x66d mm/kasan/report.c:433
+> kasan_report+0x8a/0x1b0 mm/kasan/report.c:495
+> dummy_timer+0x2aa4/0x33d0 drivers/usb/gadget/udc/dummy_hcd.c:1844
+> call_timer_fn+0x1a0/0x6b0 kernel/time/timer.c:1474
+> expire_timers kernel/time/timer.c:1519 [inline]
+> __run_timers.part.0+0x69c/0xad0 kernel/time/timer.c:1790
+> __run_timers kernel/time/timer.c:1768 [inline]
+> run_timer_softirq+0xb6/0x1d0 kernel/time/timer.c:1803
+> __do_softirq+0x1d0/0x908 kernel/softirq.c:571
+> invoke_softirq kernel/softirq.c:445 [inline]
+> __irq_exit_rcu kernel/softirq.c:650 [inline]
+> irq_exit_rcu+0xf2/0x130 kernel/softirq.c:662
+> sysvec_apic_timer_interrupt+0x93/0xc0 arch/x86/kernel/apic/apic.c:1106
+> </IRQ>
+> <TASK>
+> asm_sysvec_apic_timer_interrupt+0x16/0x20 arch/x86/include/asm/idtentry.h:649
+> RIP: 0010:tomoyo_check_path_acl security/tomoyo/file.c:260 [inline]
+> RIP: 0010:tomoyo_check_path_acl+0xbe/0x150 security/tomoyo/file.c:252
+> Code: 31 ed d3 fb 83 e3 01 89 de e8 fe 85 c1 fd 85 db 75 13 e8 95 84
+> c1 fd 44 89 e8 48 83 c4 08 5b 5d 41 5c 41 5d c3 e8 82 84 c1 fd <48> 8d
+> 7d 18 48 b8 00 00 00 00 00 fc ff df 49 8d 74 24 20 48 89 fa
+> RSP: 0018:ffffc9000226f978 EFLAGS: 00000246
+> RAX: 0000000000000000 RBX: 0000000000000001 RCX: ffff888041f9ba80
+> RDX: 0000000000000000 RSI: ffff888041f9ba80 RDI: 0000000000000002
+> RBP: ffffc9000226fad0 R08: ffffffff83b963ae R09: 0000000000000000
+> R10: 0000000000000005 R11: fffffbfff1d34742 R12: ffff8880484ab900
+> R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000000
+> tomoyo_check_acl+0x13c/0x440 security/tomoyo/domain.c:175
+> tomoyo_path_permission security/tomoyo/file.c:586 [inline]
+> tomoyo_path_permission+0x1ff/0x3a0 security/tomoyo/file.c:573
+> tomoyo_path_perm+0x2fc/0x420 security/tomoyo/file.c:838
+> security_inode_getattr+0xcf/0x140 security/security.c:1345
+> vfs_getattr+0x22/0x60 fs/stat.c:157
+> vfs_statx+0x170/0x360 fs/stat.c:232
+> vfs_fstatat+0x8c/0xb0 fs/stat.c:255
+> __do_sys_newfstatat+0x91/0x110 fs/stat.c:425
+> do_syscall_x64 arch/x86/entry/common.c:50 [inline]
+> do_syscall_64+0x35/0x80 arch/x86/entry/common.c:80
+> entry_SYSCALL_64_after_hwframe+0x63/0xcd
+> RIP: 0033:0x49d60a
+> Code: e8 1b 98 fc ff 48 8b 7c 24 10 48 8b 74 24 18 48 8b 54 24 20 4c
+> 8b 54 24 28 4c 8b 44 24 30 4c 8b 4c 24 38 48 8b 44 24 08 0f 05 <48> 3d
+> 01 f0 ff ff 76 20 48 c7 44 24 40 ff ff ff ff 48 c7 44 24 48
+> RSP: 002b:000000c002c25d20 EFLAGS: 00000206 ORIG_RAX: 0000000000000106
+> RAX: ffffffffffffffda RBX: 000000c000022500 RCX: 000000000049d60a
+> RDX: 000000c001a98928 RSI: 000000c0019e92b0 RDI: ffffffffffffff9c
+> RBP: 000000c002c25db0 R08: 0000000000000000 R09: 0000000000000000
+> R10: 0000000000000100 R11: 0000000000000206 R12: 0000000000000000
+> R13: 0000000000000000 R14: 000000c002f6b860 R15: 000000000000012b
+> </TASK>
 > 
-> Hm.. if this fails I could end in a undefined chip state. But I got the
-> point that the framework would be in a bad state if it tries again to
-> suspend the device.
-
-It would be, and without a way to recover, so that could be an issue.
-
-> > > +}
-> > > +
-> > > +static int tc358746_resume(struct device *dev)
-> > > +{
-> > > +	struct tc358746 *tc358746 = dev_get_drvdata(dev);
-> > > +	int err;
-> > > +
-> > > +	gpiod_set_value(tc358746->reset_gpio, 1);
-> > > +
-> > > +	err = regulator_bulk_enable(ARRAY_SIZE(tc358746_supplies),
-> > > +				    tc358746->supplies);
-> > > +	if (err)
-> > > +		return err;
-> > > +
-> > > +	/* min. 200ns */
-> > > +	usleep_range(10, 20);
-> > > +
-> > > +	gpiod_set_value(tc358746->reset_gpio, 0);
-> > > +
-> > > +	err = clk_prepare_enable(tc358746->refclk);
-> > > +	if (err)
-> > > +		return err;
-> > 
-> > The regulators need to be disabled in case of failure here and below
-> > (and so does the clock below).
+> Allocated by task 2959:
+> kasan_save_stack+0x1e/0x40 mm/kasan/common.c:38
+> kasan_set_track mm/kasan/common.c:45 [inline]
+> set_alloc_info mm/kasan/common.c:437 [inline]
+> ____kasan_kmalloc mm/kasan/common.c:516 [inline]
+> ____kasan_kmalloc mm/kasan/common.c:475 [inline]
+> __kasan_kmalloc+0xa9/0xd0 mm/kasan/common.c:525
+> kasan_kmalloc include/linux/kasan.h:234 [inline]
+> kmem_cache_alloc_trace+0x19b/0x380 mm/slub.c:3284
+> kmalloc include/linux/slab.h:600 [inline]
+> kzalloc include/linux/slab.h:733 [inline]
+> smsusb_init_device+0xb2/0xaf8 drivers/media/usb/siano/smsusb.c:395
+> smsusb_probe+0xd42/0xddf drivers/media/usb/siano/smsusb.c:566
+> usb_probe_interface+0x361/0x800 drivers/usb/core/driver.c:396
+> call_driver_probe drivers/base/dd.c:560 [inline]
+> really_probe+0x249/0xa90 drivers/base/dd.c:639
+> __driver_probe_device+0x1df/0x4d0 drivers/base/dd.c:778
+> driver_probe_device+0x4c/0x1a0 drivers/base/dd.c:808
+> __device_attach_driver+0x1da/0x2d0 drivers/base/dd.c:936
+> bus_for_each_drv+0x15f/0x1e0 drivers/base/bus.c:427
+> __device_attach+0x283/0x480 drivers/base/dd.c:1008
+> bus_probe_device+0x1e4/0x290 drivers/base/bus.c:487
+> device_add+0xc96/0x1da0 drivers/base/core.c:3517
+> usb_set_configuration+0x1014/0x1900 drivers/usb/core/message.c:2170
+> usb_generic_driver_probe+0x9d/0xe0 drivers/usb/core/generic.c:238
+> usb_probe_device+0xd4/0x2a0 drivers/usb/core/driver.c:293
+> call_driver_probe drivers/base/dd.c:560 [inline]
+> really_probe+0x249/0xa90 drivers/base/dd.c:639
+> __driver_probe_device+0x1df/0x4d0 drivers/base/dd.c:778
+> driver_probe_device+0x4c/0x1a0 drivers/base/dd.c:808
+> __device_attach_driver+0x1da/0x2d0 drivers/base/dd.c:936
+> bus_for_each_drv+0x15f/0x1e0 drivers/base/bus.c:427
+> __device_attach+0x283/0x480 drivers/base/dd.c:1008
+> bus_probe_device+0x1e4/0x290 drivers/base/bus.c:487
+> device_add+0xc96/0x1da0 drivers/base/core.c:3517
+> usb_new_device.cold+0x69d/0x10ef drivers/usb/core/hub.c:2573
+> hub_port_connect drivers/usb/core/hub.c:5353 [inline]
+> hub_port_connect_change drivers/usb/core/hub.c:5497 [inline]
+> port_event drivers/usb/core/hub.c:5653 [inline]
+> hub_event+0x23bd/0x4260 drivers/usb/core/hub.c:5735
+> process_one_work+0x9c7/0x1650 kernel/workqueue.c:2289
+> worker_thread+0x623/0x1070 kernel/workqueue.c:2436
+> kthread+0x2e9/0x3a0 kernel/kthread.c:376
+> ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:306
 > 
-> Yes, you're right.
+> Freed by task 2959:
+> kasan_save_stack+0x1e/0x40 mm/kasan/common.c:38
+> kasan_set_track+0x21/0x30 mm/kasan/common.c:45
+> kasan_set_free_info+0x20/0x30 mm/kasan/generic.c:370
+> ____kasan_slab_free mm/kasan/common.c:367 [inline]
+> ____kasan_slab_free mm/kasan/common.c:329 [inline]
+> __kasan_slab_free+0x11d/0x1b0 mm/kasan/common.c:375
+> kasan_slab_free include/linux/kasan.h:200 [inline]
+> slab_free_hook mm/slub.c:1754 [inline]
+> slab_free_freelist_hook mm/slub.c:1780 [inline]
+> slab_free mm/slub.c:3534 [inline]
+> kfree+0xe9/0x650 mm/slub.c:4562
+> smsusb_term_device+0xd1/0x160 drivers/media/usb/siano/smsusb.c:350
+> smsusb_init_device+0xa76/0xaf8 drivers/media/usb/siano/smsusb.c:487
+> smsusb_probe+0xd42/0xddf drivers/media/usb/siano/smsusb.c:566
+> usb_probe_interface+0x361/0x800 drivers/usb/core/driver.c:396
+> call_driver_probe drivers/base/dd.c:560 [inline]
+> really_probe+0x249/0xa90 drivers/base/dd.c:639
+> __driver_probe_device+0x1df/0x4d0 drivers/base/dd.c:778
+> driver_probe_device+0x4c/0x1a0 drivers/base/dd.c:808
+> __device_attach_driver+0x1da/0x2d0 drivers/base/dd.c:936
+> bus_for_each_drv+0x15f/0x1e0 drivers/base/bus.c:427
+> __device_attach+0x283/0x480 drivers/base/dd.c:1008
+> bus_probe_device+0x1e4/0x290 drivers/base/bus.c:487
+> device_add+0xc96/0x1da0 drivers/base/core.c:3517
+> usb_set_configuration+0x1014/0x1900 drivers/usb/core/message.c:2170
+> usb_generic_driver_probe+0x9d/0xe0 drivers/usb/core/generic.c:238
+> usb_probe_device+0xd4/0x2a0 drivers/usb/core/driver.c:293
+> call_driver_probe drivers/base/dd.c:560 [inline]
+> really_probe+0x249/0xa90 drivers/base/dd.c:639
+> __driver_probe_device+0x1df/0x4d0 drivers/base/dd.c:778
+> driver_probe_device+0x4c/0x1a0 drivers/base/dd.c:808
+> __device_attach_driver+0x1da/0x2d0 drivers/base/dd.c:936
+> bus_for_each_drv+0x15f/0x1e0 drivers/base/bus.c:427
+> __device_attach+0x283/0x480 drivers/base/dd.c:1008
+> bus_probe_device+0x1e4/0x290 drivers/base/bus.c:487
+> device_add+0xc96/0x1da0 drivers/base/core.c:3517
+> usb_new_device.cold+0x69d/0x10ef drivers/usb/core/hub.c:2573
+> hub_port_connect drivers/usb/core/hub.c:5353 [inline]
+> hub_port_connect_change drivers/usb/core/hub.c:5497 [inline]
+> port_event drivers/usb/core/hub.c:5653 [inline]
+> hub_event+0x23bd/0x4260 drivers/usb/core/hub.c:5735
+> process_one_work+0x9c7/0x1650 kernel/workqueue.c:2289
+> worker_thread+0x623/0x1070 kernel/workqueue.c:2436
+> kthread+0x2e9/0x3a0 kernel/kthread.c:376
+> ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:306
 > 
-> > > +
-> > > +	/* min. 700us ... 1ms */
-> > > +	usleep_range(1000, 1500);
-> > > +
-> > > +	/* Sync state */
-> > > +	err = tc358746_apply_pll_config(tc358746);
-> > > +	if (err)
-> > > +		return err;
-> > > +
-> > > +	err = tc358746_apply_dphy_config(tc358746);
-> > > +	if (err)
-> > > +		return err;
-> > > +
-> > > +	return tc358746_apply_misc_config(tc358746);
-> > 
-> > Does all this belong to the PM resume handler ? It seems configuration
-> > could be handled in .s_stream() instead.
+> Last potentially related work creation:
+> kasan_save_stack+0x1e/0x40 mm/kasan/common.c:38
+> __kasan_record_aux_stack+0xbe/0xd0 mm/kasan/generic.c:348
+> insert_work+0x4a/0x390 kernel/workqueue.c:1358
+> __queue_work+0x4d4/0x1200 kernel/workqueue.c:1517
+> queue_work_on+0xee/0x110 kernel/workqueue.c:1545
+> queue_work include/linux/workqueue.h:503 [inline]
+> schedule_work include/linux/workqueue.h:564 [inline]
+> smsusb_onresponse+0x58f/0x780 drivers/media/usb/siano/smsusb.c:147
+> __usb_hcd_giveback_urb+0x2c2/0x5a0 drivers/usb/core/hcd.c:1671
+> usb_hcd_giveback_urb+0x380/0x430 drivers/usb/core/hcd.c:1754
+> dummy_timer+0x1263/0x33d0 drivers/usb/gadget/udc/dummy_hcd.c:1988
+> call_timer_fn+0x1a0/0x6b0 kernel/time/timer.c:1474
+> expire_timers kernel/time/timer.c:1519 [inline]
+> __run_timers.part.0+0x69c/0xad0 kernel/time/timer.c:1790
+> __run_timers kernel/time/timer.c:1768 [inline]
+> run_timer_softirq+0xb6/0x1d0 kernel/time/timer.c:1803
+> __do_softirq+0x1d0/0x908 kernel/softirq.c:571
 > 
-> This gets called by the s_stream() during getting the power state but I
-> can move the dphy/misc_config to the .s_stream() of course.
-
-That would be nice, thanks.
-
-> The pll
-> needs to be there since the device can be a clock provider e.g. for the
-> sensor.
-
-OK.
-
-> Thanks for the review :)
+> Second to last potentially related work creation:
+> kasan_save_stack+0x1e/0x40 mm/kasan/common.c:38
+> __kasan_record_aux_stack+0xbe/0xd0 mm/kasan/generic.c:348
+> insert_work+0x4a/0x390 kernel/workqueue.c:1358
+> __queue_work+0x4d4/0x1200 kernel/workqueue.c:1517
+> queue_work_on+0xee/0x110 kernel/workqueue.c:1545
+> queue_work include/linux/workqueue.h:503 [inline]
+> schedule_work include/linux/workqueue.h:564 [inline]
+> smsusb_onresponse+0x58f/0x780 drivers/media/usb/siano/smsusb.c:147
+> __usb_hcd_giveback_urb+0x2c2/0x5a0 drivers/usb/core/hcd.c:1671
+> usb_hcd_giveback_urb+0x380/0x430 drivers/usb/core/hcd.c:1754
+> dummy_timer+0x1263/0x33d0 drivers/usb/gadget/udc/dummy_hcd.c:1988
+> call_timer_fn+0x1a0/0x6b0 kernel/time/timer.c:1474
+> expire_timers kernel/time/timer.c:1519 [inline]
+> __run_timers.part.0+0x69c/0xad0 kernel/time/timer.c:1790
+> __run_timers kernel/time/timer.c:1768 [inline]
+> run_timer_softirq+0xb6/0x1d0 kernel/time/timer.c:1803
+> __do_softirq+0x1d0/0x908 kernel/softirq.c:571
 > 
-> > > +}
-> > > +
-> > > +DEFINE_RUNTIME_DEV_PM_OPS(tc358746_pm_ops, tc358746_suspend,
-> > > +			  tc358746_resume, NULL);
-> > > +
-> > > +static const struct of_device_id __maybe_unused tc358746_of_match[] = {
-> > > +	{ .compatible = "toshiba,tc358746" },
-> > > +	{ },
-> > > +};
-> > > +MODULE_DEVICE_TABLE(of, tc358746_of_match);
-> > > +
-> > > +static struct i2c_driver tc358746_driver = {
-> > > +	.driver = {
-> > > +		.name = "tc358746",
-> > > +		.pm = pm_ptr(&tc358746_pm_ops),
-> > > +		.of_match_table = tc358746_of_match,
-> > > +	},
-> > > +	.probe_new = tc358746_probe,
-> > > +	.remove = tc358746_remove,
-> > > +};
-> > > +
-> > > +module_i2c_driver(tc358746_driver);
-> > > +
-> > > +MODULE_DESCRIPTION("Toshiba TC358746 Parallel to CSI-2 bridge driver");
-> > > +MODULE_AUTHOR("Marco Felsch <kernel@pengutronix.de>");
-> > > +MODULE_LICENSE("GPL");
-
--- 
-Regards,
-
-Laurent Pinchart
+> The buggy address belongs to the object at ffff88802a558000
+> which belongs to the cache kmalloc-4k of size 4096
+> The buggy address is located 628 bytes inside of
+> 4096-byte region [ffff88802a558000, ffff88802a559000)
+> 
+> The buggy address belongs to the physical page:
+> page:ffffea0000a95600 refcount:1 mapcount:0 mapping:0000000000000000
+> index:0x0 pfn:0x2a558
+> head:ffffea0000a95600 order:3 compound_mapcount:0 compound_pincount:0
+> flags: 0xfff00000010200(slab|head|node=0|zone=1|lastcpupid=0x7ff)
+> raw: 00fff00000010200 0000000000000000 dead000000000001 ffff888011c42140
+> raw: 0000000000000000 0000000000040004 00000001ffffffff 0000000000000000
+> page dumped because: kasan: bad access detected
+> page_owner tracks the page as allocated
+> page last allocated via order 3, migratetype Unmovable, gfp_mask
+> 0x1d2a20(GFP_ATOMIC|__GFP_NOWARN|__GFP_NORETRY|__GFP_COMP|__GFP_NOMEMALLOC|__GFP_HARDWALL),
+> pid 150, tgid 150 (kworker/0:2), ts 346929849238, free_ts 346865690650
+> set_page_owner include/linux/page_owner.h:31 [inline]
+> post_alloc_hook mm/page_alloc.c:2525 [inline]
+> prep_new_page+0x2c6/0x350 mm/page_alloc.c:2532
+> get_page_from_freelist+0xae9/0x3a80 mm/page_alloc.c:4283
+> __alloc_pages+0x321/0x710 mm/page_alloc.c:5515
+> alloc_pages+0x117/0x2f0 mm/mempolicy.c:2270
+> alloc_slab_page mm/slub.c:1824 [inline]
+> allocate_slab mm/slub.c:1969 [inline]
+> new_slab+0x246/0x3a0 mm/slub.c:2029
+> ___slab_alloc+0xa50/0x1060 mm/slub.c:3031
+> __slab_alloc.isra.0+0x4d/0xa0 mm/slub.c:3118
+> slab_alloc_node mm/slub.c:3209 [inline]
+> __kmalloc_node_track_caller+0x2ec/0x370 mm/slub.c:4955
+> kmalloc_reserve+0x32/0xd0 net/core/skbuff.c:358
+> __alloc_skb+0x11a/0x320 net/core/skbuff.c:430
+> alloc_skb include/linux/skbuff.h:1257 [inline]
+> nsim_dev_trap_skb_build drivers/net/netdevsim/dev.c:742 [inline]
+> nsim_dev_trap_report drivers/net/netdevsim/dev.c:799 [inline]
+> nsim_dev_trap_report_work+0x2ba/0xc40 drivers/net/netdevsim/dev.c:844
+> process_one_work+0x9c7/0x1650 kernel/workqueue.c:2289
+> worker_thread+0x623/0x1070 kernel/workqueue.c:2436
+> kthread+0x2e9/0x3a0 kernel/kthread.c:376
+> ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:306
+> page last free stack trace:
+> reset_page_owner include/linux/page_owner.h:24 [inline]
+> free_pages_prepare mm/page_alloc.c:1449 [inline]
+> free_pcp_prepare+0x5ab/0xd00 mm/page_alloc.c:1499
+> free_unref_page_prepare mm/page_alloc.c:3380 [inline]
+> free_unref_page+0x19/0x410 mm/page_alloc.c:3476
+> __unfreeze_partials+0x3f3/0x410 mm/slub.c:2548
+> qlink_free mm/kasan/quarantine.c:168 [inline]
+> qlist_free_all+0x6a/0x170 mm/kasan/quarantine.c:187
+> kasan_quarantine_reduce+0x13d/0x180 mm/kasan/quarantine.c:294
+> __kasan_slab_alloc+0xa2/0xc0 mm/kasan/common.c:447
+> kasan_slab_alloc include/linux/kasan.h:224 [inline]
+> slab_post_alloc_hook+0x4d/0x4f0 mm/slab.h:727
+> slab_alloc_node mm/slub.c:3243 [inline]
+> slab_alloc mm/slub.c:3251 [inline]
+> __kmem_cache_alloc_lru mm/slub.c:3258 [inline]
+> kmem_cache_alloc+0x151/0x360 mm/slub.c:3268
+> getname_flags fs/namei.c:139 [inline]
+> getname_flags+0xd2/0x5b0 fs/namei.c:129
+> vfs_fstatat+0x73/0xb0 fs/stat.c:254
+> vfs_stat include/linux/fs.h:3278 [inline]
+> __do_sys_newstat+0x88/0x110 fs/stat.c:398
+> do_syscall_x64 arch/x86/entry/common.c:50 [inline]
+> do_syscall_64+0x35/0x80 arch/x86/entry/common.c:80
+> entry_SYSCALL_64_after_hwframe+0x63/0xcd
+> 
+> Memory state around the buggy address:
+> ffff88802a558100: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+> ffff88802a558180: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+> >ffff88802a558200: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+> ^
+> ffff88802a558280: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+> ffff88802a558300: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+> ==================================================================
+> ----------------
+> Code disassembly (best guess):
+> 0: 31 ed xor %ebp,%ebp
+> 2: d3 fb sar %cl,%ebx
+> 4: 83 e3 01 and $0x1,%ebx
+> 7: 89 de mov %ebx,%esi
+> 9: e8 fe 85 c1 fd callq 0xfdc1860c
+> e: 85 db test %ebx,%ebx
+> 10: 75 13 jne 0x25
+> 12: e8 95 84 c1 fd callq 0xfdc184ac
+> 17: 44 89 e8 mov %r13d,%eax
+> 1a: 48 83 c4 08 add $0x8,%rsp
+> 1e: 5b pop %rbx
+> 1f: 5d pop %rbp
+> 20: 41 5c pop %r12
+> 22: 41 5d pop %r13
+> 24: c3 retq
+> 25: e8 82 84 c1 fd callq 0xfdc184ac
+> * 2a: 48 8d 7d 18 lea 0x18(%rbp),%rdi <-- trapping instruction
+> 2e: 48 b8 00 00 00 00 00 movabs $0xdffffc0000000000,%rax
+> 35: fc ff df
+> 38: 49 8d 74 24 20 lea 0x20(%r12),%rsi
+> 3d: 48 89 fa mov %rdi,%rdx
