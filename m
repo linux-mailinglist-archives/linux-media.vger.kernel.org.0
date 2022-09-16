@@ -2,97 +2,189 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 24F6E5BA6DC
-	for <lists+linux-media@lfdr.de>; Fri, 16 Sep 2022 08:32:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4666E5BA9A1
+	for <lists+linux-media@lfdr.de>; Fri, 16 Sep 2022 11:43:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229916AbiIPGb7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 16 Sep 2022 02:31:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41442 "EHLO
+        id S230403AbiIPJml (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 16 Sep 2022 05:42:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52022 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229528AbiIPGb6 (ORCPT
+        with ESMTP id S230233AbiIPJmU (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 16 Sep 2022 02:31:58 -0400
-Received: from mail-pg1-x52d.google.com (mail-pg1-x52d.google.com [IPv6:2607:f8b0:4864:20::52d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69CB7726B0;
-        Thu, 15 Sep 2022 23:31:57 -0700 (PDT)
-Received: by mail-pg1-x52d.google.com with SMTP id 78so19427927pgb.13;
-        Thu, 15 Sep 2022 23:31:57 -0700 (PDT)
+        Fri, 16 Sep 2022 05:42:20 -0400
+Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com [IPv6:2a00:1450:4864:20::32a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E684BA74D7
+        for <linux-media@vger.kernel.org>; Fri, 16 Sep 2022 02:42:07 -0700 (PDT)
+Received: by mail-wm1-x32a.google.com with SMTP id r3-20020a05600c35c300b003b4b5f6c6bdso2053452wmq.2
+        for <linux-media@vger.kernel.org>; Fri, 16 Sep 2022 02:42:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date;
-        bh=ZmowVWWRmWocJjPgWDw2ZalH/Av3o/R31s38SjsWoiI=;
-        b=K8iwJPV0dZif8U+5GjpaEh333xmUojgSqrpCXhk94yfRb5731bgocIRuX/EDCI9SvW
-         rR/zBCM/ZijUHjs3V+//iPjM1dU2wd5Enf/hTOLs32ho/K8A755MsW99g8tQCwhLzwqo
-         jt/N8/RlaQW7xAkQwVGWDehT2NpdJtcLTzMbMuVJFsdS7nAp/ikElttEU8BVJpfGbQpO
-         m+cjovW/oroujWx+2TCw2PaFVIIE02AOHAeB0tnCMvFzQA1vqE7PiPXvC23M/FR2XFKr
-         oQsRj9S45QPZ2bGm7vm2uS31u2elXivEH/itahepzQ7U0CXSVKKLGGPCdNeV2WUroSwW
-         VNZA==
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date;
+        bh=CekMEk048jVDpV2M7TvNGk4zmn7Sz4+tJE6IULI0IEw=;
+        b=FpYpkK+HtqqTUOxa6wiG/EMtdCNxIvUQlKpCdQsy6UbpLc8mHfrwOcXMMgVgjJBUcF
+         ievwgElcXZacirzeYw2YSgCtNqWdzu8hw26bZliq0Yx8ONPc4bMFKWETPZ7PRjuegIKl
+         JlfHvb2niTzD4gd7Mg+GTYJHBDDy8AH2zLPvwZE/wTbfBPqzk1x2hpAXpuTmc1ZKgisc
+         pFb+pS5sIoYTSLlO5R7ntzXjBH0ENdmPuG2XneNo2ks3ygwFw060pQxPr9GcUsWY96lq
+         ZGNZYSYzF1ydiqCDoss/EaiKmCMGTG5skOAh37RUgUF3Pdj2m2x3iTyrSTF26AH47CuG
+         EUyQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date;
-        bh=ZmowVWWRmWocJjPgWDw2ZalH/Av3o/R31s38SjsWoiI=;
-        b=YNpMIx1ZzJnu/vuXvFdh1xJbINBBkj0wp/LrMEzEiNH6pneodQbgy6YalwOEuhpPCT
-         dbjy7xqBqE7gIXuFoc6tPtXvWZcruETCxamyET2igh+GSB7vhaVNUuz1jg6NmyybwKUi
-         iQ83xGES8+mhb36ulGZYvhrPF72QRlSH++LgPu/yNWea5N6qWh3tcjnXF1Thpw1nM8Yy
-         Fn/3fOBRuWMlveYVBbGs3nisEFQMwCBt9wjRtMr7k2ba92bMLw0+Q3bYsmH3sCG/H4Rt
-         IvRxxoFz0v4MmZ/3RhqgDgdyv59Hr+Woj9zYiTZUKxwbPjA8ja6wHoCeBCyv0ys+QsXr
-         nEQg==
-X-Gm-Message-State: ACrzQf2ohDNcgWj96iauXMDVtwUXBJUSzeefyKqrD0JWAMdIIkNeeWs2
-        4Tg7YWqARoImJYxp9+QVMrqfnKG9mTM=
-X-Google-Smtp-Source: AMsMyM6uCFnr0zMkH2Fblyo61mCd4o4GMS/d2jGZqVplmezgaEe+fdsJwx1cUQVqtDOJQYy8wyq4+Q==
-X-Received: by 2002:a05:6a00:b8d:b0:545:e7de:78e5 with SMTP id g13-20020a056a000b8d00b00545e7de78e5mr3266569pfj.72.1663309916926;
-        Thu, 15 Sep 2022 23:31:56 -0700 (PDT)
-Received: from localhost.localdomain ([193.203.214.57])
-        by smtp.gmail.com with ESMTPSA id rm10-20020a17090b3eca00b001fbb6d73da5sm735561pjb.21.2022.09.15.23.31.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 Sep 2022 23:31:56 -0700 (PDT)
-From:   cgel.zte@gmail.com
-X-Google-Original-From: chi.minghao@zte.com.cn
-To:     sumit.semwal@linaro.org
-Cc:     christian.koenig@amd.com, linux-media@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-        linux-kernel@vger.kernel.org, Minghao Chi <chi.minghao@zte.com.cn>
-Subject: [PATCH] dma-buf: use strscpy() is more robust and safer
-Date:   Fri, 16 Sep 2022 06:31:52 +0000
-Message-Id: <20220916063152.155257-1-chi.minghao@zte.com.cn>
-X-Mailer: git-send-email 2.25.1
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date;
+        bh=CekMEk048jVDpV2M7TvNGk4zmn7Sz4+tJE6IULI0IEw=;
+        b=jeNcp2ltIOYzZxyVduUOM6RZh5ez7mWFFXOmbS153z7ldhOqaUsZxRqaMTqMMTFFAi
+         EyTJXPrz6MT8PrgHVXRM2rsRyeuR/+XMszrRPkXxErvdp6zBFJeojAtI/paw7JEtqJoY
+         DHeAGb7xDEhBvctxbsFg+gLbUnpynPGQxcNycZpmE8lQ51oIX17XLWzWKK30xRwHZ3H8
+         yJjsD+F+Ktr2d6bqi1SwwtizWnf0yUVNTCd8LPyAlP4Xpd693lGbSl5m0DRQ4k4I5zSO
+         FBguM/QytDBgJKtP2GryK5wxUQAHmQS5tGcoty71ZO240r3gewPyyZc9ZCYUHPQGZ8uI
+         +rFQ==
+X-Gm-Message-State: ACgBeo1N3Ot9yvj8zZxroS0js9XE6eY0NW4soj9yPVsFWLeqdl/bqF9x
+        LRq10QwP/e+SQIB38oSkuRhvng==
+X-Google-Smtp-Source: AA6agR7vw12ymYnFdtt8myqkdPJgA58PgmcvD40LODng33eNF01LbrXG6rMy5wzG3Izn7C9RAUs5oQ==
+X-Received: by 2002:a05:600c:1da2:b0:3b4:856a:162c with SMTP id p34-20020a05600c1da200b003b4856a162cmr9386047wms.28.1663321325748;
+        Fri, 16 Sep 2022 02:42:05 -0700 (PDT)
+Received: from [10.119.22.201] ([89.101.193.73])
+        by smtp.gmail.com with ESMTPSA id h7-20020a056000000700b0022a2dbc80fdsm4693383wrx.10.2022.09.16.02.42.04
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 16 Sep 2022 02:42:05 -0700 (PDT)
+Message-ID: <fced86d4-7a54-b270-ed4f-9c3095ea97fe@linaro.org>
+Date:   Fri, 16 Sep 2022 10:42:04 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH v2 1/2] media: dt-bindings: media: i2c: document OV4689 DT
+ bindings
+Content-Language: en-US
+To:     Mikhail Rudenko <mike.rudenko@gmail.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Shawn Tu <shawnx.tu@intel.com>,
+        Christian Hemp <c.hemp@phytec.de>,
+        Arec Kao <arec.kao@intel.com>, Arnd Bergmann <arnd@arndb.de>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Daniel Scally <djrscally@gmail.com>,
+        Jimmy Su <jimmy.su@intel.com>, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20220911200147.375198-1-mike.rudenko@gmail.com>
+ <20220911200147.375198-2-mike.rudenko@gmail.com>
+ <cd363d98-74be-b42f-b1e1-c0f7e79f6011@linaro.org> <87zgf0pa7i.fsf@gmail.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <87zgf0pa7i.fsf@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-3.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Minghao Chi <chi.minghao@zte.com.cn>
+On 15/09/2022 13:16, Mikhail Rudenko wrote:
 
-The implementation of strscpy() is more robust and safer.
+> 
+> I see, will drop the first "media:" in v3.
+> 
+>> Also you duplicated dt
+>> bindings as prefix and commit msg (skip the latter).
+> 
+> Just to be clear, do you mean dropping "device-tree binding" phrase from
+> the commit message?
 
-That's now the recommended way to copy NUL terminated strings.
+Ah, sorry, I meant in the subject. You already have dt-bindings as
+prefix, so no "DT bindings" at the end. Just:
+media: dt-bindings: i2c: document OV4689
 
-Signed-off-by: Minghao Chi <chi.minghao@zte.com.cn>
----
- drivers/dma-buf/dma-buf.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+>>> ---
+>>>  .../bindings/media/i2c/ovti,ov4689.yaml       | 141 ++++++++++++++++++
+>>>  MAINTAINERS                                   |   7 +
+>>>  2 files changed, 148 insertions(+)
+>>>  create mode 100644 Documentation/devicetree/bindings/media/i2c/ovti,ov4689.yaml
+>>>
+>>> diff --git a/Documentation/devicetree/bindings/media/i2c/ovti,ov4689.yaml b/Documentation/devicetree/bindings/media/i2c/ovti,ov4689.yaml
+>>> new file mode 100644
+>>> index 000000000000..376330b5572a
+>>> --- /dev/null
+>>> +++ b/Documentation/devicetree/bindings/media/i2c/ovti,ov4689.yaml
+>>> @@ -0,0 +1,141 @@
+>>> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+>>> +%YAML 1.2
+>>> +---
+>>> +$id: http://devicetree.org/schemas/media/i2c/ovti,ov4689.yaml#
+>>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>>> +
+>>> +title: Omnivision OV4689 CMOS
+>>> +
+>>> +maintainers:
+>>> +  - Mikhail Rudenko <mike.rudenko@gmail.com>
+>>> +
+>>> +description: |
+>>> +  The Omnivision OV4689 is a high performance, 1/3-inch, 4 megapixel
+>>> +  image sensor. Ihis chip supports high frame rate speeds up to 90 fps
+>>> +  at 2688x1520 resolution. It is programmable through an I2C
+>>> +  interface, and sensor output is sent via 1/2/4 lane MIPI CSI-2
+>>> +  connection.
+>>> +
+>>> +allOf:
+>>> +  - $ref: /schemas/media/video-interface-devices.yaml#
+>>> +
+>>> +properties:
+>>> +  compatible:
+>>> +    const: ovti,ov4689
+>>> +
+>>> +  reg:
+>>> +    maxItems: 1
+>>> +
+>>> +  clocks:
+>>> +    description:
+>>> +      External clock (XVCLK) for the sensor, 6-64 MHz
+>>> +    maxItems: 1
+>>> +
+>>> +  clock-names: true
+>>
+>> This has to be strictly defined - which name you expect.
+> 
+> Will fix in v3. Or maybe we should drop clock-names altogether and use
+> devm_clk_get(&client->dev, NULL) in the driver instead (I've seen this
+> approach in some existing drivers)?
 
-diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-index dd0f83ee505b..51cdd4060539 100644
---- a/drivers/dma-buf/dma-buf.c
-+++ b/drivers/dma-buf/dma-buf.c
-@@ -50,7 +50,7 @@ static char *dmabuffs_dname(struct dentry *dentry, char *buffer, int buflen)
- 	dmabuf = dentry->d_fsdata;
- 	spin_lock(&dmabuf->name_lock);
- 	if (dmabuf->name)
--		ret = strlcpy(name, dmabuf->name, DMA_BUF_NAME_LEN);
-+		ret = strscpy(name, dmabuf->name, DMA_BUF_NAME_LEN);
- 	spin_unlock(&dmabuf->name_lock);
- 
- 	return dynamic_dname(buffer, buflen, "/%s:%s",
--- 
-2.25.1
+Yes, usually clock-names for one entry does not make sense.
+
+> 
+>>> +
+>>> +  dovdd-supply:
+>>> +    description:
+>>> +      Digital I/O voltage supply, 1.7-3.0 V
+>>> +
+>>> +  avdd-supply:
+>>> +    description:
+>>> +      Analog voltage supply, 2.6-3.0 V
+>>> +
+>>> +  dvdd-supply:
+>>> +    description:
+>>> +      Digital core voltage supply, 1.1-1.3 V
+>>> +
+>>> +  powerdown-gpios:
+>>> +    maxItems: 1
+>>
+>> You can skip here maxItems - it is defined by gpio-consumer-common.
+> 
+> Ack, will fix in v3. Does this also apply to reset-gpios?
+
+No.
+
+https://elixir.bootlin.com/linux/v6.0-rc1/source/Documentation/devicetree/bindings/gpio/gpio-consumer-common.yaml
+
+
+Best regards,
+Krzysztof
