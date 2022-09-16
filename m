@@ -2,111 +2,132 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4EEA35BABCB
-	for <lists+linux-media@lfdr.de>; Fri, 16 Sep 2022 12:55:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 054CC5BAC09
+	for <lists+linux-media@lfdr.de>; Fri, 16 Sep 2022 13:09:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230348AbiIPKzZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 16 Sep 2022 06:55:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55350 "EHLO
+        id S231666AbiIPLJq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 16 Sep 2022 07:09:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54778 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230518AbiIPKyV (ORCPT
+        with ESMTP id S231638AbiIPLJ0 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 16 Sep 2022 06:54:21 -0400
-Received: from mail-yb1-xb35.google.com (mail-yb1-xb35.google.com [IPv6:2607:f8b0:4864:20::b35])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DB56E8E463;
-        Fri, 16 Sep 2022 03:40:32 -0700 (PDT)
-Received: by mail-yb1-xb35.google.com with SMTP id 125so10636347ybt.12;
-        Fri, 16 Sep 2022 03:40:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date;
-        bh=pijsLZci+Y5WxQfjpHIxAUQemzUmYfv8LSTQWbva0zA=;
-        b=iRhVvoSb/PL5tbgbcOVD028DNQWlkc7AngVaPB9y0nCiOFoAzhUKc7Vv8pOOVO0H4/
-         hTVcoSYRzyyG2REHD3NxhZ9ysB9vMiJNmbODJYf8gWMV3hX0D/+VrszN+PBqV8P8JJ8e
-         6XKcir1qffASClG38txCPGS4sdpA0FHLab5YhOmtiwTei5KWge/O2oodzowTmDeeBANt
-         kXanPXgJ2AUf8C7LGzhPmXMooa88hrXQ7CI7ZQQtIFPRd1z73o1GYZO2xRWZMSbXXTF9
-         mKDFFVimYY6LfVmBnJH9rRJ/f0y6X+9SxbqT5J18ROvmWu9VPnNhYsJ2DfR6HkAlyB/+
-         kxig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=pijsLZci+Y5WxQfjpHIxAUQemzUmYfv8LSTQWbva0zA=;
-        b=lsSTp1q8RSFl37m15bRfwcvZsFW0a7hpWQnDR/Vg5pmtrV2lXs9nLL3o8BesoTNQD7
-         MAPDbJj/6n/1sX2zn+0ETd/870fxooSFuZHjeJfgg83YTxxi/Teg7XLAmoWaSImPvR+S
-         RxL3WcAsJ3CHndOkHGCaJGVl0ETmDCegoTPIGOMZuaWuSNc/hTrU2O15Bwc+jB2qnmiD
-         OwfDmF7hzZ7yBjd8nKKQVyzRvFoa6GM7LSz5kqKyavxhd0lgkTqS6sEHNgMTp0dWl3TJ
-         1drOy5fseLU8RAuzrO0X4mQ+iGsQZin8z4xOta3yTAfshzgkiZJhFROCXIYcCrjgch7J
-         bDgQ==
-X-Gm-Message-State: ACrzQf2T6Egcs3YMP3ptCGAaiYgH5IxMeDjbVNsPQK/kAxZYatknPFUW
-        iQQ+ZOmIIeH8xlUnaqnlOa4Jy6JGRbtuwG4M5ldz2y657W0=
-X-Google-Smtp-Source: AMsMyM4jEic7On6aTRCZStCEJ9sNe0VQWJDOpxSXOa35o8SlndxF7GbY17yaVv9LdKH1AchZTVtkIiu09m3Mg3JTrI4=
-X-Received: by 2002:a25:808d:0:b0:6a8:f9e8:eba0 with SMTP id
- n13-20020a25808d000000b006a8f9e8eba0mr3859047ybk.279.1663324832111; Fri, 16
- Sep 2022 03:40:32 -0700 (PDT)
+        Fri, 16 Sep 2022 07:09:26 -0400
+Received: from meesny.iki.fi (meesny.iki.fi [IPv6:2001:67c:2b0:1c1::201])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1D425219F
+        for <linux-media@vger.kernel.org>; Fri, 16 Sep 2022 04:03:14 -0700 (PDT)
+Received: from hillosipuli.retiisi.eu (89-27-103-169.bb.dnainternet.fi [89.27.103.169])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: sailus)
+        by meesny.iki.fi (Postfix) with ESMTPSA id DA09720351;
+        Fri, 16 Sep 2022 14:03:11 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
+        t=1663326191;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=IbF20xIoZc6/dfNLUJGudlugA6F7FbEGuLXVl2wIYTI=;
+        b=YKbj4rDdMlWyzx1dV577oJ4/7QK+9EUAfiqnMXEANywyLr1RD3RQJo6kO3lWxzghMNjG8X
+        YC8MJMtOtM7E1dbCyK0qBLxyHdezIrxXxtI4C47p4B3I7Bc7+3EbFxXcxKPHMEi8lbnLt6
+        2Z0rJbKFMSG9UEfO7EC12NDruGUBxag=
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 6BC63634C91;
+        Fri, 16 Sep 2022 14:03:11 +0300 (EEST)
+Date:   Fri, 16 Sep 2022 14:03:11 +0300
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Cc:     Dave Stevenson <dave.stevenson@raspberrypi.com>, jacopo@jmondi.org,
+        paul.j.murphy@intel.com, daniele.alessandrelli@intel.com,
+        mchehab@kernel.org, linux-media@vger.kernel.org
+Subject: Re: [PATCH v3 4/5] media: i2c: imx412: Add imx477 compatible string
+Message-ID: <YyRX78PH/3zSCdCU@valkosipuli.retiisi.eu>
+References: <20220915003522.1227073-1-bryan.odonoghue@linaro.org>
+ <20220915003522.1227073-5-bryan.odonoghue@linaro.org>
+ <CAPY8ntCmRy_BSQW6QajrRMLpQBzMimcQPvZw1ocazxhr2dOd0A@mail.gmail.com>
+ <e29e5573-13b6-0a29-20c7-ba780d825a37@linaro.org>
 MIME-Version: 1.0
-References: <20220913160224.14951-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20220914214132.GA2173@tom-ThinkPad-T14s-Gen-2i> <CA+V-a8ufbsiz3p2n3LmYxES2aJYN9y8byF9bSyckNFz=fB-5LQ@mail.gmail.com>
- <7a01b1cc-6d00-715c-1e21-b8836a64a9a0@linaro.org>
-In-Reply-To: <7a01b1cc-6d00-715c-1e21-b8836a64a9a0@linaro.org>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Fri, 16 Sep 2022 11:40:05 +0100
-Message-ID: <CA+V-a8uL=cwYXJD9j61LcM0xXweeVp-Q3fgd5n8C3BM+D9vLXg@mail.gmail.com>
-Subject: Re: [PATCH] media: dt-bindings: ov5645: Convert OV5645 binding to a schema
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc:     Tommaso Merciai <tommaso.merciai@amarulasolutions.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <e29e5573-13b6-0a29-20c7-ba780d825a37@linaro.org>
+ARC-Authentication-Results: i=1;
+        ORIGINATING;
+        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Seal: i=1; s=meesny; d=iki.fi; t=1663326191; a=rsa-sha256; cv=none;
+        b=jpgBJZKOZWcEIJXBv08L4MgmWu4xJefGQ3ohzstx4fC9MnUN51DBEzHHTeVBA4GwO08hUO
+        zPh0XjWeytc6W+KGRDPVS6b0de/6bfdAct5DdA7UM8TuxyXcT5GMu05/jSAPZ8JzslkNgS
+        o+suDvwVq6xcMWrjsideDbhxZ0Ppcrs=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+        s=meesny; t=1663326191;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=IbF20xIoZc6/dfNLUJGudlugA6F7FbEGuLXVl2wIYTI=;
+        b=MaJahyOsen3im3aP2xzSFQiZXaOMJTwwKOEbz/vxr8T4ivyc3ceYumlwYqPrTFFrHYGRoK
+        oQxCmCMeXS3jZcRbKOzf4re6hLECmpcC/138IZoB5LDwweYdYSyboAbe7sMcMr5jU/UjR+
+        s2vo/30ABntSNRZCq1bmshn80LAGHUQ=
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Sep 16, 2022 at 11:28 AM Krzysztof Kozlowski
-<krzysztof.kozlowski@linaro.org> wrote:
->
-> On 16/09/2022 11:24, Lad, Prabhakar wrote:
-> >>> +required:
-> >>> +  - compatible
-> >>> +  - reg
-> >>> +  - clocks
-> >>> +  - clock-names
-> >>> +  - clock-frequency
-> >>> +  - vdda-supply
-> >>> +  - vddd-supply
-> >>> +  - vdddo-supply
-> >>> +  - enable-gpios
-> >>> +  - reset-gpios
-> >>> +  - port
-> >>
-> >> I think we don't need all of these properties as required.
-> >> The only "really" required are:
-> >>
-> >>   - compatible
-> >>   - reg
-> >>   - clocks
-> >>   - port
-> >>
-> > Agreed, it's just the driver requirement hence the previous bindings
-> > had marked them as required.
->
-> Please mention the change from pure conversion (with reason) in the
-> commit msg.
->
-Sure will do.
+Hi Bryan,
 
-Cheers,
-Prabhakar
+On Fri, Sep 16, 2022 at 01:32:06AM +0100, Bryan O'Donoghue wrote:
+> On 15/09/2022 23:03, Dave Stevenson wrote:
+> > Hi Bryan
+> > 
+> > On Thu, 15 Sept 2022 at 01:36, Bryan O'Donoghue
+> > <bryan.odonoghue@linaro.org> wrote:
+> > > 
+> > > The Sony imx477 uses the same silicon enabling reference code from Sony in
+> > > the available examples provided.
+> > 
+> > Have you had any conversations with Sony on whether the same register
+> > settings are genuinely valid for all of these sensors?
+> 
+> There's alot to unpack here but... this shows me the main thing
+> 
+> https://github.com/raspberrypi/linux/blob/rpi-5.15.y/drivers/media/i2c/imx477.c#L37
+> 
+> The vendor driver reference code I have expects 0x0577. I've discussed with
+> Daniele previously - that imx412 and imx577 both return 0x0577 in the chip
+> id field and this imx412.c driver won't work with any chip reporting
+> anything else.
+> 
+> Your chip though is returning 0x0477 so it will need to have its own
+> upstream driver anyway.
+
+That doesn't matter. What does however matter is what that sensor does and
+how it's controlled. It is entirely possible that earlier versions of such
+a sensor simply report a wrong ID.
+
+> 
+> So the conclusion I drew from the Nvidia/Leopard stack is wrong they call
+> the driver imx477 but pointedly and suspiciously comment out the check for
+> chip id.
+> 
+> And its pretty clear why, its so the "imx477" driver they have with work
+> with chips identifying as 0x0577 and 0x0477.
+
+I wouldn't be so worried about the model ID *if* the registers (and their
+values) programmed to the sensor are otherwise the same.
+
+And even if you have small differences in the registers you'll need to
+write there, you can still differentiate between the sensors based on the
+compatible string.
+
+I don't have strong opinion on the grey areas though. Still if the register
+set is exactly the same, then the driver should also be the same.
+
+-- 
+Kind regards,
+
+Sakari Ailus
