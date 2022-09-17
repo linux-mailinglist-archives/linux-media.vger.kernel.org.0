@@ -2,95 +2,80 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CECBC5BB69D
-	for <lists+linux-media@lfdr.de>; Sat, 17 Sep 2022 08:17:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1C8FC5BB6DE
+	for <lists+linux-media@lfdr.de>; Sat, 17 Sep 2022 09:07:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229484AbiIQGRP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 17 Sep 2022 02:17:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39226 "EHLO
+        id S229558AbiIQHHa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 17 Sep 2022 03:07:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37338 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229457AbiIQGRN (ORCPT
+        with ESMTP id S229457AbiIQHH3 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 17 Sep 2022 02:17:13 -0400
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B4709E0DD;
-        Fri, 16 Sep 2022 23:17:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1663395432; x=1694931432;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=upEne6jANUUW2HNKG46U6wKVg+lb5Ctnz/1MJFQVakw=;
-  b=l0vC1hQDxv7HDNXpM0QKrOaddQYFj3JZKcIczu5YGUe26Om0iumgl0gL
-   nXSrjaYMWFVO+LZWmtSPHi2qkkSinZRv6YeMbjWc6kbey52iS4eF1DFeF
-   GbxKY3PDMJIFxFNF5ythDkjFrkI0ekpUsQMeLVQdlsyVKEjYu2ogShbEY
-   eavMqQHd639HUyOLNrJeFxLqTCQvZp2ZRaGIoSG4+sFILSUEv/t2oiyjr
-   49Bza8tXdbZzK/mP/O/QREqWO7Z0oHvm6QL/HADK8yZEzE9dKQ8Geqs4T
-   m6gXihlXgmqikvf3+cM05Dajt7ibk9dNMaED3S1yMMZ78ENg8ie9a25O3
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10472"; a="296716449"
-X-IronPort-AV: E=Sophos;i="5.93,322,1654585200"; 
-   d="scan'208";a="296716449"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Sep 2022 23:17:11 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,322,1654585200"; 
-   d="scan'208";a="617926963"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.191])
-  by orsmga002.jf.intel.com with SMTP; 16 Sep 2022 23:17:06 -0700
-Received: by stinkbox (sSMTP sendmail emulation); Sat, 17 Sep 2022 09:17:05 +0300
-Date:   Sat, 17 Sep 2022 09:17:05 +0300
-From:   Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To:     Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Cc:     "Yadav, Arvind" <arvyadav@amd.com>,
-        Arvind Yadav <Arvind.Yadav@amd.com>, andrey.grodzovsky@amd.com,
-        shashank.sharma@amd.com, amaranath.somalapuram@amd.com,
-        Arunpravin.PaneerSelvam@amd.com, sumit.semwal@linaro.org,
-        gustavo@padovan.org, airlied@linux.ie, daniel@ffwll.ch,
-        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 0/6] dma-buf: Check status of enable-signaling bit on
- debug
-Message-ID: <YyVmYXGCfTuYUsNb@intel.com>
-References: <20220914164321.2156-1-Arvind.Yadav@amd.com>
- <d2d81ffd-2269-bdc6-0daa-8f3a99306e46@amd.com>
- <33a16b15-3d3c-7485-d021-ee2a727e5391@amd.com>
- <691c421f-1297-cd08-ea70-6750099275b1@amd.com>
+        Sat, 17 Sep 2022 03:07:29 -0400
+Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9BC5A4F692
+        for <linux-media@vger.kernel.org>; Sat, 17 Sep 2022 00:07:27 -0700 (PDT)
+Received: from dggpemm500023.china.huawei.com (unknown [172.30.72.54])
+        by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4MV25D0761zBsLg;
+        Sat, 17 Sep 2022 15:05:20 +0800 (CST)
+Received: from dggpemm500007.china.huawei.com (7.185.36.183) by
+ dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Sat, 17 Sep 2022 15:07:25 +0800
+Received: from huawei.com (10.175.103.91) by dggpemm500007.china.huawei.com
+ (7.185.36.183) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Sat, 17 Sep
+ 2022 15:07:24 +0800
+From:   Yang Yingliang <yangyingliang@huawei.com>
+To:     <linux-media@vger.kernel.org>
+CC:     <khalasa@piap.pl>, <mchehab@kernel.org>,
+        <sakari.ailus@linux.intel.com>
+Subject: [PATCH -next resend] media: ar0521: fix error return code in ar0521_power_on()
+Date:   Sat, 17 Sep 2022 15:14:32 +0800
+Message-ID: <20220917071432.1544323-1-yangyingliang@huawei.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <691c421f-1297-cd08-ea70-6750099275b1@amd.com>
-X-Patchwork-Hint: comment
-X-Spam-Status: No, score=-7.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+X-Originating-IP: [10.175.103.91]
+X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
+ dggpemm500007.china.huawei.com (7.185.36.183)
+X-CFilter-Loop: Reflected
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Sep 15, 2022 at 06:05:30PM +0200, Christian Kˆnig wrote:
-> Am 15.09.22 um 15:02 schrieb Yadav, Arvind:
-> >
-> > On 9/15/2022 5:37 PM, Christian Kˆnig wrote:
-> >> Is that sufficient to allow running a desktop on amdgpu with the 
-> >> extra check enabled? If yes that would be quite a milestone.
-> >>
-> > Yes, It is running on amdgpu with extra config enabled.
-> 
-> In this case I will start pushing the patches to drm-misc-next. I'm just 
-> going to leave out the last one until the IGT tests are working as well.
+Return error code if ar0521_write_regs() fails in ar0521_power_on().
 
-ffs Christian. intel CI blew up yet again:
-https://intel-gfx-ci.01.org/tree/drm-tip/CI_DRM_12146/shard-glk7/igt@kms_plane_lowres@tiling-y@pipe-c-hdmi-a-2.html
+Fixes: 852b50aeed15 ("media: On Semi AR0521 sensor driver")
+Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
+Acked-by: Krzysztof Ha≈Çasa <khalasa@piap.pl>
+---
+  +cc: Sakari Ailus <sakari.ailus@linux.intel.com>
+---
+ drivers/media/i2c/ar0521.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-The last time (some ttm thing) was just a week or two ago,
-so it's really getting tiresome watching you push entirely
-untested stuff all the time. Would be really helpful if you
-finally started to do/require premerge testing.
-
+diff --git a/drivers/media/i2c/ar0521.c b/drivers/media/i2c/ar0521.c
+index c7bdfc69b9be..e850c92d847e 100644
+--- a/drivers/media/i2c/ar0521.c
++++ b/drivers/media/i2c/ar0521.c
+@@ -757,8 +757,9 @@ static int ar0521_power_on(struct device *dev)
+ 	usleep_range(4500, 5000); /* min 45000 clocks */
+ 
+ 	for (cnt = 0; cnt < ARRAY_SIZE(initial_regs); cnt++)
+-		if (ar0521_write_regs(sensor, initial_regs[cnt].data,
+-				      initial_regs[cnt].count))
++		ret = ar0521_write_regs(sensor, initial_regs[cnt].data,
++					initial_regs[cnt].count);
++		if (ret)
+ 			goto off;
+ 
+ 	ret = ar0521_write_reg(sensor, AR0521_REG_SERIAL_FORMAT,
 -- 
-Ville Syrj‰l‰
-Intel
+2.25.1
+
