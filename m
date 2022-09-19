@@ -2,116 +2,104 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 00E5A5BCEF0
-	for <lists+linux-media@lfdr.de>; Mon, 19 Sep 2022 16:33:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2C61B5BCEF6
+	for <lists+linux-media@lfdr.de>; Mon, 19 Sep 2022 16:34:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230078AbiISOc7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 19 Sep 2022 10:32:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32994 "EHLO
+        id S230002AbiISOeL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 19 Sep 2022 10:34:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35218 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230114AbiISOcg (ORCPT
+        with ESMTP id S230041AbiISOeJ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 19 Sep 2022 10:32:36 -0400
-Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com [IPv6:2a00:1450:4864:20::32a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AECDF958D
-        for <linux-media@vger.kernel.org>; Mon, 19 Sep 2022 07:32:31 -0700 (PDT)
-Received: by mail-wm1-x32a.google.com with SMTP id r3-20020a05600c35c300b003b4b5f6c6bdso4695937wmq.2
-        for <linux-media@vger.kernel.org>; Mon, 19 Sep 2022 07:32:31 -0700 (PDT)
+        Mon, 19 Sep 2022 10:34:09 -0400
+Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com [IPv6:2a00:1450:4864:20::331])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB8BC326D6;
+        Mon, 19 Sep 2022 07:34:08 -0700 (PDT)
+Received: by mail-wm1-x331.google.com with SMTP id az6so21021538wmb.4;
+        Mon, 19 Sep 2022 07:34:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amarulasolutions.com; s=google;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date;
-        bh=A9ZVitjkAEGpnZEnzG/yYMW8bMjYpZFzQstbESMk85k=;
-        b=Hsc0/7dJ93g3C+RM6B0gh6s2C0QY2FmJ2P8mPyz5ZiV6KdI21qpn/nqwB3o55E9v/3
-         yr2IWNh6rundlOl3H7tKrAkLDuqs2TVP+MXlbsOcZTqBWlUK9tbf+2d94EKJXjA9AWPk
-         4R6zaAk8+PXOqmGdDUMp0HcFpeX8P8wI9Omm4=
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date;
+        bh=dZiIiAfOPGu7FQskh2sYiHuLa/x/uoKuqCxc5Z4sn5Q=;
+        b=MDEfSKyu6WlEJztaja/r/2/ny3jg3TnbXff7RUVI/Z0dLJuLwzuTqZfNTJOU3BX196
+         UsJlPGBPFZ+QSIhqM8KNCCT4OOCFio21E6w7gvoobnFtCp+6hWgaAPnEcWq7nfdPyWNb
+         tAES2ElFKX4U0m+4UMkBAJ99WvAU2zxfU8all6SglXrpS8GWUn9m88HQZDhZijsv9stK
+         86ECyNqKjB7b1FKrA0AErydIwW6xkg/SayAfXkxi74vr34rAFWZ11/8Q+n2RYMxMtfg5
+         VTfH8rgDrQ3D+RXdwviPm6SOFm+2QdfoalkOOJZTCmFhkuChoLI9jgXZ63kIsg7NZS6W
+         IDew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
-        bh=A9ZVitjkAEGpnZEnzG/yYMW8bMjYpZFzQstbESMk85k=;
-        b=kVIjM0+mJWHwtb02Q52/pWRVMwbiOSybafRq3/nwIjPK89hKKrcGQ71JFSAx/XPk8F
-         l5XCsWfZ9ihky/oQ8t1xj//TQDX63mDeC7JKz6pgZvOU7a2YKLqgYgBlZjqRY9F0z8zd
-         9/qdEBPdMkpOzN0n2sPNrYGxRh75cjxmm4cFJJeBgXTjUkDWIF72dxa2fzoyHVoRXEaO
-         AtCBHTDaTeHOFtzISFGo2cd8WCxvX2zJQpiYGZB2ICLImPTxNCfZCGfoGH5LWf1l2PtN
-         Ni9i/I+7pMyNYkqznGHyLVugVWlV0P/z7BpuNpH/MajBV9RSsOanty0rvqt8PYoSE+k/
-         2ipg==
-X-Gm-Message-State: ACrzQf2NR9FevxoYCFc2apKRIaNxN7adalWzyn2uo60BCG1qecbjVf7a
-        9GN/oOMi0ErtiCtGjskqRul+k5ZYZZruNA==
-X-Google-Smtp-Source: AMsMyM68+bWGmJaxNe7ptaLx1otoAMgV7X/EAQqBGtn/31ky1deDBYUNZ9a/l1yfeCEUFlWL/PfDQw==
-X-Received: by 2002:a05:600c:434c:b0:3b4:82fb:5f78 with SMTP id r12-20020a05600c434c00b003b482fb5f78mr12493510wme.157.1663597950298;
-        Mon, 19 Sep 2022 07:32:30 -0700 (PDT)
-Received: from tom-ThinkPad-T14s-Gen-2i (net-188-217-56-12.cust.vodafonedsl.it. [188.217.56.12])
-        by smtp.gmail.com with ESMTPSA id p5-20020a5d4585000000b002206203ed3dsm13909632wrq.29.2022.09.19.07.32.29
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date;
+        bh=dZiIiAfOPGu7FQskh2sYiHuLa/x/uoKuqCxc5Z4sn5Q=;
+        b=cMok6qyERos7UpP0vwE2N9ZGS4qBRYgTcuvxOGN43wCXmrAONSFYeYHuQfRA8RYcxq
+         rW6DrSmr6Pz+aIdYfNvMEBm8wgBOdvldU/s7/KahS9mNelZGox1Ctowr4KHFItupx6OF
+         61Dsu7NPn3sqRBbpW438Rz9h5KOOECPTCczibiT72bdyLLJr+Be2hoyLg+iNEdIJ31Al
+         S41tjfRbCxh6LgJkLmj7/yGAbQaZh9U0+xG01mdfFdoeDdrpVWsZQpUHZ4X1UYiU2OJc
+         k9uQS0B8i5JvGs6yN8D+DkW/cWqWZZnoc9ZroiuHwaJdGMwAoxfb+m+qy0jeydcWd56l
+         wgmg==
+X-Gm-Message-State: ACgBeo043DUDPqoZ0f6qrQByXB6PFGbb0vhEbiXrqXd1odVxW5UwtLhn
+        hm1AZovgDlxZ0Ik0bY/oRzo=
+X-Google-Smtp-Source: AA6agR4+WfJL3p4keXjm1GwjYRkV5EoiOgKxQl+SXX+8+ky8X3jMrmHoAlyXpCzh+r6P0hbHVEllog==
+X-Received: by 2002:a7b:cb41:0:b0:3b3:34d6:189f with SMTP id v1-20020a7bcb41000000b003b334d6189fmr19380948wmj.6.1663598047271;
+        Mon, 19 Sep 2022 07:34:07 -0700 (PDT)
+Received: from prasmi.home ([2a00:23c8:2501:c701:453:ec29:bd55:6b15])
+        by smtp.gmail.com with ESMTPSA id n13-20020a05600c4f8d00b003b47e75b401sm15030934wmq.37.2022.09.19.07.34.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Sep 2022 07:32:29 -0700 (PDT)
-Date:   Mon, 19 Sep 2022 16:32:27 +0200
-From:   Tommaso Merciai <tommaso.merciai@amarulasolutions.com>
-To:     Rafael Mendonca <rafaelmendsr@gmail.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Mon, 19 Sep 2022 07:34:06 -0700 (PDT)
+From:   Prabhakar <prabhakar.csengg@gmail.com>
+X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: i2c: ov5648: Free V4L2 fwnode data on unbind
-Message-ID: <20220919143227.GC3958@tom-ThinkPad-T14s-Gen-2i>
-References: <20220919023247.731106-1-rafaelmendsr@gmail.com>
+        Jacopo Mondi <jacopo@jmondi.org>
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Prabhakar <prabhakar.csengg@gmail.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH] media: i2c: ov5645: Drop fetching the clk reference by name
+Date:   Mon, 19 Sep 2022 15:33:50 +0100
+Message-Id: <20220919143350.176746-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220919023247.731106-1-rafaelmendsr@gmail.com>
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Rafael,
+From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-On Sun, Sep 18, 2022 at 11:32:46PM -0300, Rafael Mendonca wrote:
-> The V4L2 fwnode data structure doesn't get freed on unbind, which leads to
-> a memleak.
-> 
-> Fixes: e43ccb0a045f ("media: i2c: Add support for the OV5648 image sensor")
-> Signed-off-by: Rafael Mendonca <rafaelmendsr@gmail.com>
-> ---
->  drivers/media/i2c/ov5648.c | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/drivers/media/i2c/ov5648.c b/drivers/media/i2c/ov5648.c
-> index dfcd33e9ee13..95850f06112b 100644
-> --- a/drivers/media/i2c/ov5648.c
-> +++ b/drivers/media/i2c/ov5648.c
-> @@ -2598,6 +2598,8 @@ static int ov5648_remove(struct i2c_client *client)
->  	mutex_destroy(&sensor->mutex);
->  	media_entity_cleanup(&subdev->entity);
->  
-> +	v4l2_fwnode_endpoint_free(&sensor->endpoint);
-> +
->  	return 0;
->  }
->  
-> -- 
-> 2.34.1
-> 
+The OV5645 sensor has a single clock source, so just drop fetching the
+clk reference by name.
 
-Looks good to me.
-Reviewed-by: Tommaso Merciai <tommaso.merciai@amarulasolutions.com>
+This is in preparation to drop the "clock-names" property from the DT
+binding.
 
-Regards,
-Tommaso
+Suggested-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+---
+ drivers/media/i2c/ov5645.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/drivers/media/i2c/ov5645.c b/drivers/media/i2c/ov5645.c
+index 81e4e87e1821..47451238ca05 100644
+--- a/drivers/media/i2c/ov5645.c
++++ b/drivers/media/i2c/ov5645.c
+@@ -1090,7 +1090,7 @@ static int ov5645_probe(struct i2c_client *client)
+ 	}
+ 
+ 	/* get system clock (xclk) */
+-	ov5645->xclk = devm_clk_get(dev, "xclk");
++	ov5645->xclk = devm_clk_get(dev, NULL);
+ 	if (IS_ERR(ov5645->xclk)) {
+ 		dev_err(dev, "could not get xclk");
+ 		return PTR_ERR(ov5645->xclk);
 -- 
-Tommaso Merciai
-Embedded Linux Engineer
-tommaso.merciai@amarulasolutions.com
-__________________________________
+2.25.1
 
-Amarula Solutions SRL
-Via Le Canevare 30, 31100 Treviso, Veneto, IT
-T. +39 042 243 5310
-info@amarulasolutions.com
-www.amarulasolutions.com
