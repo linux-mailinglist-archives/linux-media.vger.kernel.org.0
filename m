@@ -2,132 +2,75 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C612A5BCAE3
-	for <lists+linux-media@lfdr.de>; Mon, 19 Sep 2022 13:38:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 118675BCBB1
+	for <lists+linux-media@lfdr.de>; Mon, 19 Sep 2022 14:22:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229614AbiISLi3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 19 Sep 2022 07:38:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57860 "EHLO
+        id S229577AbiISMWU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 19 Sep 2022 08:22:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53670 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229453AbiISLi2 (ORCPT
+        with ESMTP id S230006AbiISMWI (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 19 Sep 2022 07:38:28 -0400
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2074.outbound.protection.outlook.com [40.107.93.74])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 31B13275CB;
-        Mon, 19 Sep 2022 04:38:27 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ogSB8xAFNDwpQ0jsmReVlhEpv0sYFMBQ4e8RJwe17FV7sSK8RPMuOMGvfcrlFLopUhk6Y3NChPJka/+gbKEjyuMmy6kbMaxInbIvbTfNExKPjejTlCxKEyMwmKCLjPSoO1rEwzxAjZgp30Mnjq7BWoePdooaT71AoqW1/3CxYcp9TiySA25NCSIPrSMPwgI67auzjBxZSSvF395G3D9CXV7ida1BFFTtLhR27YiH3VqfCemiqcmOYSBjP65+58JhELrgq6R5pwURA0sorF7rLvIo2blJyluaR4LtJAeRS+QCelkKBAtK9V5EQe+2oJcgLN255OQoq9/YdfuqSTxBKg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=6PQ0fpdEo3TbDm3eiH2vl6Dp3W9+I1FS2MadZHkVyTY=;
- b=BwIgC4UaG+Oet6f8/LV1wdQSuDn3qn4aH6uDRifdaq7E6rtnsn48/XcOdNSuvZHq9zuKUqQDLHva1ByABFeFWgIU3A/9YbteDoYuYVxYZjzRPrGeIOUtg0770p16l8CRpNhR1ZUdR7Hm89Isq000XwboMGxXgE2nQndWraYEFokPURL2gnYRHWwRnVGLBJoNicRJ2Yd89PzWn7O7OC+HXifh1DZS0uEr4698sXV301T0Q6pezFSoGkFnHes9rym4LnpFpJ+y37hHPBlQvN4krqpKJ7fqCCnqzUeL06w3NOwM4ni34fpeHsLYKYMVbbwsCnRnSFlASSGWDo7JV1i19w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6PQ0fpdEo3TbDm3eiH2vl6Dp3W9+I1FS2MadZHkVyTY=;
- b=jqTQ2uQ6DDTzVKWW8kPG1yXv4OD3AWEuSj6MiZGGRdpnUTmmwKRCcMApDZwG1kNUWE+HfvKJHKkoQJWxUp5ZR1qUR8CaSLSBf6al6Vf3PChzQI9uy0+uWNBwGpGrgghYUkRf4SahH++8O/vcKa0HDUd+3Xef3cRRxzlHyG2HT3s=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by BY5PR12MB4227.namprd12.prod.outlook.com (2603:10b6:a03:206::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5632.21; Mon, 19 Sep
- 2022 11:38:25 +0000
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::653f:e59b:3f40:8fed]) by BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::653f:e59b:3f40:8fed%6]) with mapi id 15.20.5632.021; Mon, 19 Sep 2022
- 11:38:24 +0000
-Message-ID: <063eb521-3296-e604-5a5e-1382aabbefba@amd.com>
-Date:   Mon, 19 Sep 2022 13:38:18 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [Linaro-mm-sig] Re: [PATCH v4 0/6] dma-buf: Check status of
- enable-signaling bit on debug
-Content-Language: en-US
-To:     =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
-        =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Cc:     "Yadav, Arvind" <arvyadav@amd.com>,
-        Arvind Yadav <Arvind.Yadav@amd.com>, andrey.grodzovsky@amd.com,
-        shashank.sharma@amd.com, amaranath.somalapuram@amd.com,
-        Arunpravin.PaneerSelvam@amd.com, sumit.semwal@linaro.org,
-        gustavo@padovan.org, airlied@linux.ie, daniel@ffwll.ch,
-        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
-References: <20220914164321.2156-1-Arvind.Yadav@amd.com>
- <d2d81ffd-2269-bdc6-0daa-8f3a99306e46@amd.com>
- <33a16b15-3d3c-7485-d021-ee2a727e5391@amd.com>
- <691c421f-1297-cd08-ea70-6750099275b1@amd.com> <YyVmYXGCfTuYUsNb@intel.com>
- <c958d871-9a89-3490-f5e3-3a2441926074@gmail.com> <YyhR9OGjWVwm31Rp@intel.com>
-From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-In-Reply-To: <YyhR9OGjWVwm31Rp@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR3P281CA0152.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:a2::6) To BN8PR12MB3587.namprd12.prod.outlook.com
- (2603:10b6:408:43::13)
+        Mon, 19 Sep 2022 08:22:08 -0400
+Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com [IPv6:2a00:1450:4864:20::62f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B615215FDF;
+        Mon, 19 Sep 2022 05:22:06 -0700 (PDT)
+Received: by mail-ej1-x62f.google.com with SMTP id y3so64085790ejc.1;
+        Mon, 19 Sep 2022 05:22:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date;
+        bh=XHg1b4jYGyRgGOGhc5Ca4cWCln/y5BtEHIxdQuC4VkI=;
+        b=SpXV+0+ZsoCfYEygRYo6lrjlzFLZ+EGv1YcKuQYGSp8+EfBUUyAhIX13Q4eVZ+pxe0
+         tXg0TRmw+CKA46u8IwJhx+y+QDPe4EhH7HqkUG2fZBu8rRQGNcjJEol+euTInChADf8Q
+         SJspxpUdhi6zx+H2iyx3ZeLDMwlBzFj+rs93/9B3pIrpks9HegSEiehL6Iqpl65v9m0o
+         m3UvtMxYFOmzyMlpL9pqwL/j6dhtO3vL8LfCyqwY4D9d20BziicUMSiCKRdL05mawSGa
+         9RjWF8qiZqE0LDRKO0MxZs6Dkp+SNFsegyoo/9Yx+88Lu6KTPXFH2rYe3l2XlYD+V61B
+         GVBw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date;
+        bh=XHg1b4jYGyRgGOGhc5Ca4cWCln/y5BtEHIxdQuC4VkI=;
+        b=CGQ+Z7A2DkKfZ/UwxOdmQsv9NHU80aHCt+dkQyCrCMTJ6ppKIhLwSxRqgXYjp0S+2d
+         Ir/ULK0idEETzh2DUrRSWgkZbzLIIhIeEXE3Y2bR33wNkidN3DTCHo7kVxzNsaB1I/Wj
+         9yyMERSxZsaMY5HjQCn31E7Hif3j2T1Jdg/YlyGJNe/DSolLlRyz/+3P9xeUI0/y3VmF
+         QI92o3CxktscfBc/RnbPLGqAuBdmpdUv31TSkmq3KCHihMX7W1UFXupPit4/S5m4Vyfw
+         64EORJzL/oWqgCfXNz23qOoGy/4yLRgqTP4yVtYD8d3cRaXqPP/UCxLtNN1Sl4BmBXdl
+         8keQ==
+X-Gm-Message-State: ACrzQf2rG6aGWnFVzOPpK+vj+EuBS9C5DV+CjqXqneaJSeIN7cxC/rnu
+        UpKoa4H0aL/ndi9HLwNFmlarFUn4dYhyZf9nrPHvG4Xb110=
+X-Google-Smtp-Source: AMsMyM5RJLCquga1uZCWauvocv2gK9gLR+jYLl1hCZS/bcjVhGKKIaEWumq2NZHQ4eURwph1gVipm1fBtRsiWK+VgWQ=
+X-Received: by 2002:a17:907:2c41:b0:77d:8aed:cf7c with SMTP id
+ hf1-20020a1709072c4100b0077d8aedcf7cmr12562813ejc.447.1663590125137; Mon, 19
+ Sep 2022 05:22:05 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|BY5PR12MB4227:EE_
-X-MS-Office365-Filtering-Correlation-Id: cde44827-b2de-43fe-b4f6-08da9a337647
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: s0xP6kBMQDdw6En58P6W4J+9Ln4UcYm5bY1Vn+DXUFCRAXV/CEXwZWn07nS3SODs+vYmN89EbvIQHcJr3mB+V1gyFLOQ5cuJ6a9ClB1H2JLRUHU74dAkeTyeBXiV4fwz0LQSKjIoLjz+B/CsB/otBcUghDQ3Q75dfHxkzXYr9LNOVt4V6Hx294hyObQDD1zSFnakEjHUs5jj21xfNF0p/6AbhTTx9DHCWHM9V5ZO0u/aA506qoOp66YBpd4wWRnthOzXhG6jiSwBCbwPWFZRhUHbhQp6NRdsS7YkbJd6XeZtRag/HbVUXVzymx+48O4FArLLi1lBPCz7qZNhae14MqXulybjju8J4B4TnOB7pldGYCmKt5DtvPWIIWYN4IIBb4bfNSBOhU1l0mV3s6JMPNT/Md3xX03a3ywXrMMeMOHaBZ7LZoGeHXwXspyl8PuCPF4DgfVEPF+EZtK5zApq/jDSbDO/jSIR03IZtIl0mSEAl1+FuuD/QpSIYV4gvrPOc/jI27LXHgFNEoQ+mCBw14yofwlmo9kYNDFHPqM0e769hFcMRtItZC2GokvrAHarWH9BTyrG02HFxH9rkj33jj42YlKNHlvb2iNUFeKL6lVTegOCkiEQQZb8AlJ9LLOuQMLfa16lmGZOJPMF0jXjb/XIPE3m9e2SvNY8dE4pV5go4AdmHZWhRKZ7GOB4iuyhiU/sSVWAkkh9IyxcrAI4OD4U7YxlSEuKMX4g9FNjj4sYLmXvY5ol/R4MZ7abcKeiylMI++cd1oTMrH4cL68PtOyufUUn1Wd/nS7/sZmrZgkYTJF2sKwhEhc2KRuB2Nn3
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN8PR12MB3587.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(366004)(136003)(396003)(376002)(39860400002)(346002)(451199015)(66946007)(4326008)(5660300002)(8676002)(66556008)(66476007)(7416002)(54906003)(31696002)(110136005)(86362001)(8936002)(45080400002)(316002)(66574015)(38100700002)(83380400001)(6666004)(53546011)(41300700001)(6486002)(966005)(6506007)(478600001)(2616005)(186003)(26005)(6512007)(2906002)(31686004)(36756003)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UFNzVUxmdTFtRzRnalIzVWljdXdjbWhvcDM4aG5WRUc1Mm9rRENtZklQV1NF?=
- =?utf-8?B?TmdnZXhZRlVmV0Rxamovcncrd0l6dkNwdmxFMFgzdmpPR0g0Q2NWdmdKTVFv?=
- =?utf-8?B?UTFCVGdzYStsQzNTTnIvT1ZpclFmblZhbldiSksxUDkxUDNORmg4RWUvdm5l?=
- =?utf-8?B?YnJhNFhxeUp1WFlIT1BRbzdGbVV4cHEwSzNjbWRvMWprWG9EUGhtRnpGYi95?=
- =?utf-8?B?NmZWL0Fwci8rMVp3cDBSSzJNUGtyYW85MFJlSWJMdjU3VFk0NU10V2NhcW1E?=
- =?utf-8?B?clcvQzkrZWdqSWV3S1VuMzBtbEpHQ0FSWHVMSjVZUExXZmNwSjJTZ3NzVjdI?=
- =?utf-8?B?T1ozZ0FZd2dpS1FPUDNiTFJXdytLck9FdUJERTdjY0didGZhL0FVQWlHc21N?=
- =?utf-8?B?WVpzT3R1bk1UWWhnYWFFYjNmMkt5ampDWmYrNThWWG4zYzI2THdRdTcyOHJk?=
- =?utf-8?B?dFpybWlmWWxwWDNxYUM4Tm5aWXVYSklyMk45RXZvT2hiNHNmMkJEN2dKM2Iv?=
- =?utf-8?B?VUtKYnRsRnhhMmt0WXIrZzhZSENQZnRSNHVsUDE0YzZMZGgvMzYwUkQxUGt4?=
- =?utf-8?B?OC9iREE3VHYvWTNZejVjV3Q5L014V2dhNjdyeTN3U2lGR3ZOWWIzWm5UMHVY?=
- =?utf-8?B?TXoxT3NMa1NsUmVTVElMZTVDTHpudStXcTlRdlNZVUlEQ0RrVUh0b2xXUVli?=
- =?utf-8?B?akFZNEZEYk5IYUZVTi9sUVhvQ3BkN1piRlFhQ0JPV3ZuSVQ1ejczNXI2MEQ2?=
- =?utf-8?B?L3FPMUpPNTdGZTV5bDdMcnNwTmFOWjQ2WkdMNEZIUjJlUjNlNTBIaUE2YnM4?=
- =?utf-8?B?OE4yeTJFY2lKSmZWWFVjM0tzbG8vYXhMQmxtTk1NZkVlU0NjYk5Db1Rnck1D?=
- =?utf-8?B?YTluTGY3TDMweW5rMVQ0QTRyQXErR05aZHY3eHFVVFpjR1RKQU54Q2xWa0FT?=
- =?utf-8?B?WUFlakNuKzJwZ21mcWV2cE9ubm1hazd4aWI1ZFpoVTNnWFo0aENDOXJ2VHUy?=
- =?utf-8?B?d3MxejgvNnpqQkc4Ti9LR1dOOHgyeExxSEVWdzk5MGVtbjNpa0V1cGJaYTVj?=
- =?utf-8?B?RlZUSXVPWFpVbGV0ZDlRR1hoUkFtdkUzdndWNTlCUXVNOFc5WjNoZmROQmxH?=
- =?utf-8?B?dXFaOXpmNUhmbTlFNlp1alJBbFV4RGk0VUYvNXo0WmJhSFB6R3kvczhOaU95?=
- =?utf-8?B?RzRFS210Sy9yMy9mdnpYc1NDdE5nVUlnOGxhL1ZDQjd1N2FHRkYzNUlpbVpi?=
- =?utf-8?B?K0pmVFJ4YnJlT0R3cGgvTysvSFluZm92YUExQUVlVThsSlBsenFhY28xdjFh?=
- =?utf-8?B?aDNhQUhoRzJQQnozUCtOY00zQlQ2dW9pNGNkUjZINW9jeHhDbFJ4QWtxcFlv?=
- =?utf-8?B?OTJVQ1pIVmlYQVphOTZlK2NMMTVDTll1eVlmSytVT1dsQW9zc1pNRDNxeldV?=
- =?utf-8?B?Rit2RUR5WHZpSTJ2WW9FSnk4cW02YXYxMmNQeFdYN1g0RVdLMmxQTzdhRDVy?=
- =?utf-8?B?ZU4rSXFMWEhURjEvL29Ea3MxOHVMRDNXUHhpaDFMd3M5UzZUcnBXUmVmNVd4?=
- =?utf-8?B?dWJBUzZvQWYvS1VrcGlOZ1M4dThpY0VnVElEYi9kOFk5MjBLekVzUHBqbnVu?=
- =?utf-8?B?Yis1b2hZUTQveCtnNlZRRFNaWk1PSm0wQ0pkT2RRVWhXRzU3aTRUb1NWREZC?=
- =?utf-8?B?UENkTHVOajN1TnUvQ0tEVThaZmNwR09JUnBmODlVQTQ0VGdWTjBGcEcwNXEx?=
- =?utf-8?B?RWF0RlhZQ2o2TFZYZmliV3FVZXNjREZ6RmZqL3F6WDVNQXc5anZ1OWx5Zmtm?=
- =?utf-8?B?SHY5ZG85TjFOZmdxWkZQWE9iYk5FSjd6OWk0eDJZT0hDQTNjL0x4Y1NmZEY0?=
- =?utf-8?B?QWdkdnF6TjQxcEgwckZtS1k3WldvdjJTQ2NmOVJZWWI3REs0eUlRVDFQbEpR?=
- =?utf-8?B?Wlo2RVRHcGw1S2swS2ROQXNPTXEwY0hnWlBibi9RTXRYN0tsS1VxeXllc3dK?=
- =?utf-8?B?d3NSdXdBd21qTnI5bWZ2eEJxZWpKVmZqWEM2ZjAyblcrSUl0aEFiZVd1NWN5?=
- =?utf-8?B?allZK0Y1K0tBTzJ2U1NzYW8xOC9GVFlTTUVHdU5WN0lTQkIzZE5OaDl3cjNU?=
- =?utf-8?Q?bHgIvnw8lAucHUWfUFa0SRTK+?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: cde44827-b2de-43fe-b4f6-08da9a337647
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Sep 2022 11:38:24.7579
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: H6H/TaDwGnMZOPjUugIg//IFT7GetfxHvK6Yyt+aqPwYG925/fbPq61iDRrbs/fP
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB4227
-X-Spam-Status: No, score=-3.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS autolearn=ham
+References: <20220916133521.73183-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <YyZS38Wo7rDsNRm2@pendragon.ideasonboard.com> <CA+V-a8vvNHFt818wryyuhWxPtay4czjWXiH=AWEKiJ1AzB46mA@mail.gmail.com>
+ <fc1c075d-e20d-9395-d168-8cfe530f77ad@linaro.org> <CA+V-a8uMyU89rufmqWiGFqpVjFPvHBeVeSd1Wt07eWZo1X+Bgw@mail.gmail.com>
+ <Yyg4SU7D5mClOvP/@pendragon.ideasonboard.com> <CA+V-a8uM=33jw_BE7S1G3DsvbUdvxUhkBty6VCWdAprQ288haw@mail.gmail.com>
+ <YyhFe+FW2C+R7nQg@pendragon.ideasonboard.com>
+In-Reply-To: <YyhFe+FW2C+R7nQg@pendragon.ideasonboard.com>
+From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date:   Mon, 19 Sep 2022 13:21:37 +0100
+Message-ID: <CA+V-a8thDeuCYuWd5=HOVNGF6hu6=oJad19fbgacoUzjv873Ng@mail.gmail.com>
+Subject: Re: [PATCH] media: dt-bindings: i2c: ovti,ov5640: Drop ref to video-interface-devices.yaml
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Maxime Ripard <maxime@cerno.tech>,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -135,43 +78,148 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am 19.09.22 um 13:26 schrieb Ville Syrjälä:
-> On Sat, Sep 17, 2022 at 05:18:40PM +0200, Christian König wrote:
->> Am 17.09.22 um 08:17 schrieb Ville Syrjälä:
->>> On Thu, Sep 15, 2022 at 06:05:30PM +0200, Christian König wrote:
->>>> Am 15.09.22 um 15:02 schrieb Yadav, Arvind:
->>>>> On 9/15/2022 5:37 PM, Christian König wrote:
->>>>>> Is that sufficient to allow running a desktop on amdgpu with the
->>>>>> extra check enabled? If yes that would be quite a milestone.
->>>>>>
->>>>> Yes, It is running on amdgpu with extra config enabled.
->>>> In this case I will start pushing the patches to drm-misc-next. I'm just
->>>> going to leave out the last one until the IGT tests are working as well.
->>> ffs Christian. intel CI blew up yet again:
->>> https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Fintel-gfx-ci.01.org%2Ftree%2Fdrm-tip%2FCI_DRM_12146%2Fshard-glk7%2Figt%40kms_plane_lowres%40tiling-y%40pipe-c-hdmi-a-2.html&amp;data=05%7C01%7Cchristian.koenig%40amd.com%7C31a4fd82204b4eada97708da9a31d922%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637991836142423547%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;sdata=TqPiX483fF%2FUdZHTjle8k5XplcF3DVaZBs0IzQlNYck%3D&amp;reserved=0
->>>
->>> The last time (some ttm thing) was just a week or two ago,
->>> so it's really getting tiresome watching you push entirely
->>> untested stuff all the time. Would be really helpful if you
->>> finally started to do/require premerge testing.
->> Well first of all sorry for causing trouble, but as I wrote above I
->> intentionally left out the last one to *not* break the IGT tests.
->>
->> The patches pushed so far where just updating a bunch of corner cases
->> and fixing the selftests.
->>
->> Do you have any more insight why that should affect the IGT tests?
-> I have no idea. You have the oopses from pstore right there.
-> Did you even look at them?
+Hi Laurent,
 
-Ah! Sorry, I didn't see that there were additional links to the oopses. 
-Yeah, the problem is obvious with them.
+On Mon, Sep 19, 2022 at 11:33 AM Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+>
+> On Mon, Sep 19, 2022 at 10:41:00AM +0100, Lad, Prabhakar wrote:
+> > On Mon, Sep 19, 2022 at 10:37 AM Laurent Pinchart wrote:
+> > > On Mon, Sep 19, 2022 at 10:35:21AM +0100, Lad, Prabhakar wrote:
+> > > > On Mon, Sep 19, 2022 at 9:19 AM Krzysztof Kozlowski wrote:
+> > > > > On 19/09/2022 10:08, Lad, Prabhakar wrote:
+> > > > > > On Sun, Sep 18, 2022 at 12:06 AM Laurent Pinchart wrote:
+> > > > > >> On Fri, Sep 16, 2022 at 02:35:21PM +0100, Prabhakar wrote:
+> > > > > >>> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > > > > >>>
+> > > > > >>> video-interface-devices.yaml isn't used so just drop it from the
+> > > > > >>> DT binding doc.
+> > > > > >>>
+> > > > > >>> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > > > > >>> ---
+> > > > > >>>  Documentation/devicetree/bindings/media/i2c/ovti,ov5640.yaml | 3 ---
+> > > > > >>>  1 file changed, 3 deletions(-)
+> > > > > >>>
+> > > > > >>> diff --git a/Documentation/devicetree/bindings/media/i2c/ovti,ov5640.yaml b/Documentation/devicetree/bindings/media/i2c/ovti,ov5640.yaml
+> > > > > >>> index 540fd69ac39f..ce99aada75ad 100644
+> > > > > >>> --- a/Documentation/devicetree/bindings/media/i2c/ovti,ov5640.yaml
+> > > > > >>> +++ b/Documentation/devicetree/bindings/media/i2c/ovti,ov5640.yaml
+> > > > > >>> @@ -9,9 +9,6 @@ title: OmniVision OV5640 Image Sensor Device Tree Bindings
+> > > > > >>>  maintainers:
+> > > > > >>>    - Steve Longerbeam <slongerbeam@gmail.com>
+> > > > > >>>
+> > > > > >>> -allOf:
+> > > > > >>> -  - $ref: /schemas/media/video-interface-devices.yaml#
+> > > > > >>> -
+> > > > > >>
+> > > > > >> The rotation property listed in this binding uses the definition from
+> > > > > >> video-interface-devices.yaml. I don't think just dropping this is the
+> > > > > >> right solution. Changing additionaProperties to unevaluatedProperties
+> > > > > >> seems a better option.
+> > > > > >
+> > > > > > Agreed, I missed rotation was used from video-interface-devices.yaml.
+> > > > > > Agreed the changing additionaProperties to unevaluatedProperties seems
+> > > > > > a better option.
+> > > > >
+> > > > > The meaning of unevaluatedProperties:false would be here - accept other
+> > > > > properties (not mentioned here explicitly) from referenced schema. If
+> > > > > this is your actual intention for this binding, it makes sense. But if
+> > > > > the intention in this binding was to disallow these other properties,
+> > > > > then it would be wrong to change to unevaluatedProperties.
+> > > > >
+> > > > Thank you for the clarification. The intention is to disallow the property.
+> > >
+> > > Why should they be disallowed ?
+> >
+> > my bad! "rotation" property is supposed to be allowed so the earlier
+> > comment to change to unevaluatedProperties holds good.
+>
+> It's not just the rotation. The other properties are allowed too. For
+> the rotation property you need to list it explicitly in ovti,ov5640.yaml
+> if you want to restrict the values it can take, but other properties
+> from video-interface-devices.yaml for which no additional constraints
+> are needed don't need to be listed in ovti,ov5640.yaml.
+>
+> additionalProperties and unevaluatedProperties are often misunderstood.
+> DT bindings are a set of rules, and validation will pass *only* if *all*
+> rules are valid. Let's consider the following:
+>
+> allOf:
+>   - $ref: /schemas/media/video-interface-devices.yaml#
+>
+> The allOf is valid if all of the elements in the list are valid. The
+> $ref will essentially work as if the contents of
+> video-interface-devices.yaml were copied in ovti,ov5640.yaml, under the
+> corresponding allOf list entry (with a small but important difference,
+> noted below). The file contains
+>
+>   rotation:
+>     $ref: /schemas/types.yaml#/definitions/uint32
+>     enum: [ 0, 90, 180, 270 ]
+>
+> so any "rotation" property in the device tree will be validated against
+> this. ovti,ov5640.yaml also has
+>
+> properties:
+>   rotation:
+>     enum:
+>       - 0
+>       - 180
+>
+> which is a separate rule from the previous one. Both must be valid for
+> validation to succeed, so this second rule essentially restricts the
+> possible rotation values.
+>
+> The additionalProperties and unevaluatedProperties affect how properties
+> that have no validation rule will be treated.
+>
+> With additionalProperties set to false, a property that has no
+> validation rule in *this* schema will be considered invalid, even if it
+> has a validation rule in another schema (either selected automatically
+> through a "select" property in the other schema, or imported through an
+> explicit $ref). So, in this particular example, even though
+> video-interface-devices.yaml has, for instance, a rule for the
+> lens-focus property, a DT that contains lens-focus will be considered as
+> invalid as lens-focus is not validated by this schema. One way to allow
+> the property would be to add
+>
+> properties:
+>   lens-focus: true
+>
+> in this schema. The contents of lens-focus would be validated by the
+> rule in video-interface-devices.yaml, and the rule in this schema would
+> always be valid ("true" is always valid).
+>
+> Another way to allow the property would be to replace
+> additionalProperties with unevaluatedProperties. When set to false,
+> unevaluatedProperties makes validation fail if any property has not been
+> evaluated by *any* rule in this schema or any other schema. As
+> lens-focus would be evaluated by video-interface-devices.yaml, that
+> would be enough to consider it valid. This also means that *all*
+> properties listed in video-interface-devices.yaml would then be valid.
+> If you wanted that behaviour, but also wanted to reject specific
+> properties, you could add
+>
+> properties:
+>   lens-focus: false
+>
+> in this schema. A lens-focus property in a DT would be valid when
+> evaluated with the corresponding rule in video-interface-devices.yaml,
+> but would be invalidated by the rule in this schema as "false" is always
+> invalid.
+>
+> To conclude, setting additionalProperties to false creates a white
+> listing mechanism that requires you to explicitly list in this schema
+> all the properties you consider as valid with "foo: true", while setting
+> unevaluatedProperties to false creates a black listing mechanism that
+> requires you to explicitly list in this schema all the properties you
+> consider as invalid with "foo: false". If multiple schemas that apply to
+> the same device tree include rules for the same property, all those
+> rules need to be valid for validation to pass, regardless of the value
+> of additionalProperties and unevaluatedProperties.
+>
+Thank you for the detailed explanation! I'll make it a point to go
+through this thread before doing a change in the binding file :)
 
-The check for the signaled bit comes before grabbing the lock. This only 
-worked before because of the __dma_fence_enable_sw_signaling() shortcut.
-
-Going to send a fix for this in a minute.
-
-Thanks,
-Christian.
-
+Cheers,
+Prabhakar
