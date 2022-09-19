@@ -2,63 +2,62 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F205E5BC143
-	for <lists+linux-media@lfdr.de>; Mon, 19 Sep 2022 04:13:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E89BB5BC166
+	for <lists+linux-media@lfdr.de>; Mon, 19 Sep 2022 04:33:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229602AbiISCNP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 18 Sep 2022 22:13:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37622 "EHLO
+        id S229689AbiISCdB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 18 Sep 2022 22:33:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53088 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229479AbiISCNO (ORCPT
+        with ESMTP id S229604AbiISCc7 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 18 Sep 2022 22:13:14 -0400
-Received: from mail-oi1-x233.google.com (mail-oi1-x233.google.com [IPv6:2607:f8b0:4864:20::233])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 54BAE13D52;
-        Sun, 18 Sep 2022 19:13:12 -0700 (PDT)
-Received: by mail-oi1-x233.google.com with SMTP id o204so12998861oia.12;
-        Sun, 18 Sep 2022 19:13:12 -0700 (PDT)
+        Sun, 18 Sep 2022 22:32:59 -0400
+Received: from mail-ot1-x334.google.com (mail-ot1-x334.google.com [IPv6:2607:f8b0:4864:20::334])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 02FBE140BA;
+        Sun, 18 Sep 2022 19:32:59 -0700 (PDT)
+Received: by mail-ot1-x334.google.com with SMTP id 102-20020a9d0bef000000b0065a08449ab3so1298198oth.2;
+        Sun, 18 Sep 2022 19:32:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date;
-        bh=30wgaWcVLtlgOybwbcxXo+I/U3RzFoPIO5/LyOQBHYU=;
-        b=kefEho1oRdioctlzHHj519m7ou3Q6GLu9YyuJQkiBHvWAzTbTtAfOddM/+HoeCX/BN
-         rnxl/LeIOyCr7hnbPKI9W14lXsHOB9mBR/j9LJ/D/ejiYBWJlIDtF21FnA/Ox7s2QsEy
-         szBB8eTYkgdGZsHuCv2ZWG4RQXT9NIlYOHy8F+9LbBkQ1MzX0TGGk/uvRM7/OQ1yIHDP
-         PGQQqHQXRVqVlnnGNPMXAaxm/hX1efFY0gd65emurOz5WcjyixZs6R866vGVAmeXA70y
-         XE40MaclqRlxgYUs4uO9vHD9qvTKXHoOtfJc3vtcli24euqY+3+DtdWd/4YPpygTaTcU
-         M4ZA==
+        bh=OdBoUNqr+djzRo7sEuTlKaZ7X9EytKms13f4/L4fwss=;
+        b=cCLUAsyLq4cR8fDNb7mRnLb8oipuwc2mijaZmy8153/TTA3+vchdeM5j5nbcRZPUD8
+         CbLRWXjnpz57J/EwnFfy3LvS2607kSlEAMgv377cZQzcYBcSh3vYfz3XRgiJf24j8jnI
+         tEJ73nNYLcFX6PzFpovUaXBUqilVdmk38Rfwl+wqnran2QRjUS81tA6eBu88iqWTvhcZ
+         Pms34PS+GhuiznhAeb22qv+orzVCgSZNCgGuuEc9fspKM1n3t7hdPwY/6ZSGsNvUG7MH
+         d+VwDG/Y+hJcHPpEOPj2z6wkzjfrghik6a9zKRYjXhqtMc5gMV2p8Zo0zRwZKRL5gUBR
+         ZN1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date;
-        bh=30wgaWcVLtlgOybwbcxXo+I/U3RzFoPIO5/LyOQBHYU=;
-        b=79N0q9IqubtPiN9CPWbN2iYsYc4G70fWH/s2wWfw3+zH4yE7EHl/+pQAHuiEpr90da
-         fzHj4WxEFAvHfr1WuURbWss9dong072Jd79XWsgNFmoeNjh2UWAFZ2OL27kdVM6qjbdh
-         xNAq/5o2IK6zi6ZRwDejOue7GG78ioqfAwRurNkH62AstMr9IoOw0Vd68Mv3fVo1TvS0
-         si4dJW8kwe9LbvCAdpkigHUzZLLOJ3oW40al8lO8ML2jgScwcyZCQahoWQLnzFrPsDPt
-         jP7vfPvjVKZfHCZYzW0DyMFf6x2fB4q3OnR4fWB3A6gLsLZUEXAzOSHsyIcJkw0k51Hb
-         +//w==
-X-Gm-Message-State: ACrzQf2n/z63ILfc0tPtR7EkINeCEH9BeYaHStvhonNVpHKZKDt4Ovgo
-        7/29lECiasZWx+2QPzlq19Q=
-X-Google-Smtp-Source: AMsMyM7iBUcCWzG2Q63UTNBmfU+y8e3Ywur+iXK5HiFuPHTNinCUrVYiqL4KrJKBstxCKuII1ke3UQ==
-X-Received: by 2002:a05:6808:118e:b0:345:9c3e:121d with SMTP id j14-20020a056808118e00b003459c3e121dmr7100116oil.211.1663553591547;
-        Sun, 18 Sep 2022 19:13:11 -0700 (PDT)
+        bh=OdBoUNqr+djzRo7sEuTlKaZ7X9EytKms13f4/L4fwss=;
+        b=y/oN0R0+nupq1EMQytoXPJFTY8LwyjiYrl9zC3KrJMGrwpiBlMIyf+sHBpy2lqbvkz
+         Hbcx4+irfPEChcHyV+MAduH4YQCTqK3WYKqxIbLu5Z96FCIYmsiNGbt4TghdWJ4KGGZg
+         TGWjoN1ZyMYn+hrOIlpRjArWEtrTOWumez6CMS4139Pf6kjtj6HEOqiVGMi2IQekATjI
+         dCOYZ4cueYnx5rbxGk8aF4P6D1eqSmoi8DrhJ9w9UstUbNuHk1UILBKnZQNO2SSEhACk
+         TgEX6GcHfhpSEPd82YCgUpe5fCvWQ8EYPtF2/t49uHi0BVur+Xwmq7Dm463wb7cPrdn0
+         ooGA==
+X-Gm-Message-State: ACrzQf0gc6+W34Fe4fQMUpTosHXwKB30gUvC+szURLXob3w8IFOvxIWT
+        nR9ziPxDpj8zSPPzFcgnUuDf8JomjBKQGA==
+X-Google-Smtp-Source: AMsMyM6zY3yA1MDWO6rxorFDTCwCTmGXyhNQR4pILw08VIwBomh2IzA/vGrAEQT+E2TDBOkIA3Oxng==
+X-Received: by 2002:a05:6830:610d:b0:655:dccd:5c2f with SMTP id ca13-20020a056830610d00b00655dccd5c2fmr6780281otb.265.1663554778282;
+        Sun, 18 Sep 2022 19:32:58 -0700 (PDT)
 Received: from macondo.. ([2804:431:e7cd:8cb3:e183:945:dc30:a2a8])
-        by smtp.gmail.com with ESMTPSA id z26-20020a9d7a5a000000b006370abdc976sm13591066otm.58.2022.09.18.19.13.09
+        by smtp.gmail.com with ESMTPSA id l66-20020acabb45000000b00344afa2b08bsm4459572oif.26.2022.09.18.19.32.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 18 Sep 2022 19:13:11 -0700 (PDT)
+        Sun, 18 Sep 2022 19:32:57 -0700 (PDT)
 From:   Rafael Mendonca <rafaelmendsr@gmail.com>
-To:     Martin Kepplinger <martink@posteo.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Pavel Machek <pavel@ucw.cz>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>
 Cc:     Rafael Mendonca <rafaelmendsr@gmail.com>,
         Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] media: i2c: hi846: Fix memory leak in hi846_parse_dt()
-Date:   Sun, 18 Sep 2022 23:12:51 -0300
-Message-Id: <20220919021252.730729-1-rafaelmendsr@gmail.com>
+Subject: [PATCH] media: i2c: ov5648: Free V4L2 fwnode data on unbind
+Date:   Sun, 18 Sep 2022 23:32:46 -0300
+Message-Id: <20220919023247.731106-1-rafaelmendsr@gmail.com>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -72,61 +71,28 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-If any of the checks related to the supported link frequencies fail, then
-the V4L2 fwnode resources don't get released before returning, which leads
-to a memleak. Fix this by properly freeing the V4L2 fwnode data in a
-designated label.
+The V4L2 fwnode data structure doesn't get freed on unbind, which leads to
+a memleak.
 
-Fixes: e8c0882685f9 ("media: i2c: add driver for the SK Hynix Hi-846 8M pixel camera")
+Fixes: e43ccb0a045f ("media: i2c: Add support for the OV5648 image sensor")
 Signed-off-by: Rafael Mendonca <rafaelmendsr@gmail.com>
 ---
- drivers/media/i2c/hi846.c | 14 ++++++++++----
- 1 file changed, 10 insertions(+), 4 deletions(-)
+ drivers/media/i2c/ov5648.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/media/i2c/hi846.c b/drivers/media/i2c/hi846.c
-index ad35c3ff3611..254031503c72 100644
---- a/drivers/media/i2c/hi846.c
-+++ b/drivers/media/i2c/hi846.c
-@@ -2008,22 +2008,24 @@ static int hi846_parse_dt(struct hi846 *hi846, struct device *dev)
- 	    bus_cfg.bus.mipi_csi2.num_data_lanes != 4) {
- 		dev_err(dev, "number of CSI2 data lanes %d is not supported",
- 			bus_cfg.bus.mipi_csi2.num_data_lanes);
--		v4l2_fwnode_endpoint_free(&bus_cfg);
--		return -EINVAL;
-+		ret = -EINVAL;
-+		goto check_hwcfg_error;
- 	}
+diff --git a/drivers/media/i2c/ov5648.c b/drivers/media/i2c/ov5648.c
+index dfcd33e9ee13..95850f06112b 100644
+--- a/drivers/media/i2c/ov5648.c
++++ b/drivers/media/i2c/ov5648.c
+@@ -2598,6 +2598,8 @@ static int ov5648_remove(struct i2c_client *client)
+ 	mutex_destroy(&sensor->mutex);
+ 	media_entity_cleanup(&subdev->entity);
  
- 	hi846->nr_lanes = bus_cfg.bus.mipi_csi2.num_data_lanes;
- 
- 	if (!bus_cfg.nr_of_link_frequencies) {
- 		dev_err(dev, "link-frequency property not found in DT\n");
--		return -EINVAL;
-+		ret = -EINVAL;
-+		goto check_hwcfg_error;
- 	}
- 
- 	/* Check that link frequences for all the modes are in device tree */
- 	fq = hi846_check_link_freqs(hi846, &bus_cfg);
- 	if (fq) {
- 		dev_err(dev, "Link frequency of %lld is not supported\n", fq);
--		return -EINVAL;
-+		ret = -EINVAL;
-+		goto check_hwcfg_error;
- 	}
- 
- 	v4l2_fwnode_endpoint_free(&bus_cfg);
-@@ -2044,6 +2046,10 @@ static int hi846_parse_dt(struct hi846 *hi846, struct device *dev)
- 	}
- 
- 	return 0;
++	v4l2_fwnode_endpoint_free(&sensor->endpoint);
 +
-+check_hwcfg_error:
-+	v4l2_fwnode_endpoint_free(&bus_cfg);
-+	return ret;
+ 	return 0;
  }
  
- static int hi846_probe(struct i2c_client *client)
 -- 
 2.34.1
 
