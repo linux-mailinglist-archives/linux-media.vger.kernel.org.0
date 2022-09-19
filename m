@@ -2,64 +2,62 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 68BF95BCCB2
-	for <lists+linux-media@lfdr.de>; Mon, 19 Sep 2022 15:14:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4458F5BCCBD
+	for <lists+linux-media@lfdr.de>; Mon, 19 Sep 2022 15:17:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230225AbiISNNq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 19 Sep 2022 09:13:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35296 "EHLO
+        id S230200AbiISNRD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 19 Sep 2022 09:17:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40878 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229737AbiISNNo (ORCPT
+        with ESMTP id S229741AbiISNRC (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 19 Sep 2022 09:13:44 -0400
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 590591E3CF;
-        Mon, 19 Sep 2022 06:13:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1663593223; x=1695129223;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Kl8u/QncRP4RluJNzmTTBp2YYqFYhohf9QZvMNgIXnM=;
-  b=BQ1/mcNigvlEG02MpwM5hh/h3paezewO+F82FEIuK2CUTEu4X+N0Amt4
-   NRbfeZgQedy9fZqHSemsv6/pfiY3wcGNPOE6J5ek+Yu1D8voo37FBblHx
-   CFw5r30TowZd65p5xKv/HN+NsLo9c69yfZBquNacKIPlcgTPzzNj0wBBM
-   r+s6U9CN9TcQX9cmBcxs6Ox7uFUQ90bf9SYwRVAShth4cjPXRwoZjwhvI
-   539kBecYfGlWA7vg6hqCIfJHsGadVdxEgLVZHgH9gEZQnyTgqTmf+4hVC
-   v+O2jAPEe80Ai/woXG9KG1AN4EjqDSzYD8F7s9dmWgeBlCSpR0PXqN/dw
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10475"; a="282421122"
-X-IronPort-AV: E=Sophos;i="5.93,327,1654585200"; 
-   d="scan'208";a="282421122"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2022 06:13:43 -0700
-X-IronPort-AV: E=Sophos;i="5.93,327,1654585200"; 
-   d="scan'208";a="744110405"
-Received: from punajuuri.fi.intel.com (HELO paasikivi.fi.intel.com) ([10.237.72.43])
-  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2022 06:13:41 -0700
-Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
-        by paasikivi.fi.intel.com (Postfix) with SMTP id D223B202D2;
-        Mon, 19 Sep 2022 16:13:38 +0300 (EEST)
-Date:   Mon, 19 Sep 2022 13:13:38 +0000
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Marco Felsch <m.felsch@pengutronix.de>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        mchehab@kernel.org, akinobu.mita@gmail.com,
-        jacopo+renesas@jmondi.org, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 2/3] media: mt9m111: fix device power usage
-Message-ID: <YyhrAg1GJ+arWdMt@paasikivi.fi.intel.com>
-References: <20220916135713.143890-1-m.felsch@pengutronix.de>
- <20220916135713.143890-2-m.felsch@pengutronix.de>
- <YyhkdtFzXn36AytN@paasikivi.fi.intel.com>
- <Yyhm1o44NHWe018B@pendragon.ideasonboard.com>
- <20220919131009.m2vdtsmftqntc2e6@pengutronix.de>
+        Mon, 19 Sep 2022 09:17:02 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8424322296;
+        Mon, 19 Sep 2022 06:17:00 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8C31C9BA;
+        Mon, 19 Sep 2022 15:16:58 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1663593418;
+        bh=71F5KpgKduHF4LiWxCxD2paonkF4Ns+cMuHk7M7pdVU=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=AgfeBRhHiNP0CXcuzerKIcvFEOvNaiDSVPpnziwJb1mqSYrxqx7HHdviMdXFY4oqn
+         kXWtItrJ6JjCYGoTGQWWm2vu8WrVqLl77eF45qenwK8WRye8rpRVRl/CQVgLq8XRzV
+         /iP3lDgofg1yKTyPQZsxRGPSLpajpKlyRPjKuNTc=
+Date:   Mon, 19 Sep 2022 16:16:45 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Mikhail Rudenko <mike.rudenko@gmail.com>
+Cc:     Tommaso Merciai <tommaso.merciai@amarulasolutions.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Shawn Tu <shawnx.tu@intel.com>,
+        Christian Hemp <c.hemp@phytec.de>,
+        Arec Kao <arec.kao@intel.com>, Arnd Bergmann <arnd@arndb.de>,
+        Daniel Scally <djrscally@gmail.com>,
+        Jimmy Su <jimmy.su@intel.com>, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>
+Subject: Re: [PATCH v2 1/2] media: dt-bindings: media: i2c: document OV4689
+ DT bindings
+Message-ID: <Yyhrva5VH3ERgI8L@pendragon.ideasonboard.com>
+References: <20220911200147.375198-1-mike.rudenko@gmail.com>
+ <20220911200147.375198-2-mike.rudenko@gmail.com>
+ <20220913140553.GA2735@tom-ThinkPad-T14s-Gen-2i>
+ <87sfkspa6b.fsf@gmail.com>
+ <20220916131544.GA2701@tom-ThinkPad-T14s-Gen-2i>
+ <871qsbph75.fsf@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20220919131009.m2vdtsmftqntc2e6@pengutronix.de>
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE
+In-Reply-To: <871qsbph75.fsf@gmail.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -67,26 +65,162 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Sep 19, 2022 at 03:10:09PM +0200, Marco Felsch wrote:
-> On 22-09-19, Laurent Pinchart wrote:
-> > On Mon, Sep 19, 2022 at 12:45:42PM +0000, Sakari Ailus wrote:
-> > > Hi Marco,
-> > > 
-> > > On Fri, Sep 16, 2022 at 03:57:12PM +0200, Marco Felsch wrote:
-> > > > @@ -758,10 +751,14 @@ static int mt9m111_g_register(struct v4l2_subdev *sd,
-> > > >  	if (reg->reg > 0x2ff)
-> > > >  		return -EINVAL;
-> > > >  
-> > > > +	mt9m111_s_power(sd, 1);
-> > > 
-> > > It would be nice to have this driver converted to runtime PM. Up to you.
-> > 
-> > I second that :-)
-> 
-> I would rather keep it this way and add 2nd patch to change. So it would
-> be easier to backport the patch.
+CC'ing Liam and Mark.
 
-Works for me.
+On Fri, Sep 16, 2022 at 04:42:25PM +0300, Mikhail Rudenko wrote:
+> On 2022-09-16 at 15:15 +02, Tommaso Merciai <tommaso.merciai@amarulasolutions.com> wrote:
+> > On Thu, Sep 15, 2022 at 11:11:57PM +0300, Mikhail Rudenko wrote:
+> >> On 2022-09-13 at 16:05 +02, Tommaso Merciai <tommaso.merciai@amarulasolutions.com> wrote:
+> >> > On Sun, Sep 11, 2022 at 11:01:34PM +0300, Mikhail Rudenko wrote:
+> >> >> Add device-tree binding documentation for OV4689 image sensor driver,
+> >> >> and the relevant MAINTAINERS entries.
+> >> >>
+> >> >> Signed-off-by: Mikhail Rudenko <mike.rudenko@gmail.com>
+> >> >> ---
+> >> >>  .../bindings/media/i2c/ovti,ov4689.yaml       | 141 ++++++++++++++++++
+> >> >>  MAINTAINERS                                   |   7 +
+> >> >>  2 files changed, 148 insertions(+)
+> >> >>  create mode 100644 Documentation/devicetree/bindings/media/i2c/ovti,ov4689.yaml
+> >> >>
+> >> >> diff --git a/Documentation/devicetree/bindings/media/i2c/ovti,ov4689.yaml b/Documentation/devicetree/bindings/media/i2c/ovti,ov4689.yaml
+> >> >> new file mode 100644
+> >> >> index 000000000000..376330b5572a
+> >> >> --- /dev/null
+> >> >> +++ b/Documentation/devicetree/bindings/media/i2c/ovti,ov4689.yaml
+> >> >> @@ -0,0 +1,141 @@
+> >> >> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> >> >> +%YAML 1.2
+> >> >> +---
+> >> >> +$id: http://devicetree.org/schemas/media/i2c/ovti,ov4689.yaml#
+> >> >> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> >> >> +
+> >> >> +title: Omnivision OV4689 CMOS
+> >> >> +
+> >> >> +maintainers:
+> >> >> +  - Mikhail Rudenko <mike.rudenko@gmail.com>
+> >> >> +
+> >> >> +description: |
+> >> >> +  The Omnivision OV4689 is a high performance, 1/3-inch, 4 megapixel
+> >> >> +  image sensor. Ihis chip supports high frame rate speeds up to 90 fps
+> >> >> +  at 2688x1520 resolution. It is programmable through an I2C
+> >> >> +  interface, and sensor output is sent via 1/2/4 lane MIPI CSI-2
+> >> >> +  connection.
+> >> >> +
+> >> >> +allOf:
+> >> >> +  - $ref: /schemas/media/video-interface-devices.yaml#
+> >> >> +
+> >> >> +properties:
+> >> >> +  compatible:
+> >> >> +    const: ovti,ov4689
+> >> >> +
+> >> >> +  reg:
+> >> >> +    maxItems: 1
+> >> >> +
+> >> >> +  clocks:
+> >> >> +    description:
+> >> >> +      External clock (XVCLK) for the sensor, 6-64 MHz
+> >> >> +    maxItems: 1
+> >> >> +
+> >> >> +  clock-names: true
+> >> >> +
+> >> >> +  dovdd-supply:
+> >> >> +    description:
+> >> >> +      Digital I/O voltage supply, 1.7-3.0 V
+> >> >> +
+> >> >> +  avdd-supply:
+> >> >> +    description:
+> >> >> +      Analog voltage supply, 2.6-3.0 V
+> >> >> +
+> >> >> +  dvdd-supply:
+> >> >> +    description:
+> >> >> +      Digital core voltage supply, 1.1-1.3 V
+> >> >> +
+> >> >> +  powerdown-gpios:
+> >> >> +    maxItems: 1
+> >> >> +    description:
+> >> >> +      GPIO connected to the powerdown pin (active low)
+> >> >> +
+> >> >> +  reset-gpios:
+> >> >> +    maxItems: 1
+> >> >> +    description:
+> >> >> +      GPIO connected to the reset pin (active low)
+> >> >> +
+> >> >> +  orientation: true
+> >> >> +
+> >> >> +  rotation: true
+> >> >> +
+> >> >> +  port:
+> >> >> +    $ref: /schemas/graph.yaml#/$defs/port-base
+> >> >> +    additionalProperties: false
+> >> >> +    description:
+> >> >> +      Output port node, single endpoint describing the CSI-2 transmitter
+> >> >> +
+> >> >> +    properties:
+> >> >> +      endpoint:
+> >> >> +        $ref: /schemas/media/video-interfaces.yaml#
+> >> >> +        unevaluatedProperties: false
+> >> >> +
+> >> >> +        properties:
+> >> >> +          data-lanes:
+> >> >> +            oneOf:
+> >> >> +              - items:
+> >> >> +                  - const: 1
+> >> >> +                  - const: 2
+> >> >> +                  - const: 3
+> >> >> +                  - const: 4
+> >> >> +              - items:
+> >> >> +                  - const: 1
+> >> >> +                  - const: 2
+> >> >> +              - items:
+> >> >> +                  - const: 1
+> >> >> +          link-frequencies: true
+> >> >> +
+> >> >> +        required:
+> >> >> +          - data-lanes
+> >> >> +          - link-frequencies
+> >> >> +
+> >> >> +required:
+> >> >> +  - compatible
+> >> >> +  - reg
+> >> >> +  - clocks
+> >> >> +  - clock-names
+> >> >> +  - dovdd-supply
+> >> >> +  - avdd-supply
+> >> >> +  - dvdd-supply
+> >> >> +  - powerdown-gpios
+> >> >> +  - reset-gpios
+> >> >> +  - port
+> >> >
+> >> > I think we don't need all of these entries as required.
+> >> > The only let me say "really" required are:
+> >> >
+> >> > - compatible
+> >> > - reg
+> >> > - clocks
+> >> > - port
+> >>
+> >> Thanks for the review! I agree that the driver may be modified to work
+> >> without powerdown and reset gpios and they are not required for sensor
+> >> operation. On contrary, supplies are obviously required. Of course, linux
+> >> provides dummy regulators if supplies are missing from device tree, but
+> >> I though the intention was to document hardware, not implementation
+> >> details. What do think of this?
+> >
+> > We have already discuss on this on the following thread sometimes ago :)
+> >
+> > https://www.patchwork.linux-fancy.com/project/linux-fancy/patch/20220630134835.592521-6-tommaso.merciai@amarulasolutions.com/
+> >
+> > Take a look and let me know.
+> 
+> Okay, if there already is a consensus regarding this matter, I'll make
+> the regulators optional in v3.
+
+I always request the opposite during reviews :-)
+
+Could we get an authoritative answer from the maintainers of the
+regulator framework on this question, and document it somewhere ?
 
 -- 
-Sakari Ailus
+Regards,
+
+Laurent Pinchart
