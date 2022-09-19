@@ -2,97 +2,117 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E89BB5BC166
-	for <lists+linux-media@lfdr.de>; Mon, 19 Sep 2022 04:33:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D88A15BC2D8
+	for <lists+linux-media@lfdr.de>; Mon, 19 Sep 2022 08:33:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229689AbiISCdB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 18 Sep 2022 22:33:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53088 "EHLO
+        id S229614AbiISGdW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 19 Sep 2022 02:33:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37242 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229604AbiISCc7 (ORCPT
+        with ESMTP id S229482AbiISGdU (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 18 Sep 2022 22:32:59 -0400
-Received: from mail-ot1-x334.google.com (mail-ot1-x334.google.com [IPv6:2607:f8b0:4864:20::334])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 02FBE140BA;
-        Sun, 18 Sep 2022 19:32:59 -0700 (PDT)
-Received: by mail-ot1-x334.google.com with SMTP id 102-20020a9d0bef000000b0065a08449ab3so1298198oth.2;
-        Sun, 18 Sep 2022 19:32:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date;
-        bh=OdBoUNqr+djzRo7sEuTlKaZ7X9EytKms13f4/L4fwss=;
-        b=cCLUAsyLq4cR8fDNb7mRnLb8oipuwc2mijaZmy8153/TTA3+vchdeM5j5nbcRZPUD8
-         CbLRWXjnpz57J/EwnFfy3LvS2607kSlEAMgv377cZQzcYBcSh3vYfz3XRgiJf24j8jnI
-         tEJ73nNYLcFX6PzFpovUaXBUqilVdmk38Rfwl+wqnran2QRjUS81tA6eBu88iqWTvhcZ
-         Pms34PS+GhuiznhAeb22qv+orzVCgSZNCgGuuEc9fspKM1n3t7hdPwY/6ZSGsNvUG7MH
-         d+VwDG/Y+hJcHPpEOPj2z6wkzjfrghik6a9zKRYjXhqtMc5gMV2p8Zo0zRwZKRL5gUBR
-         ZN1Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date;
-        bh=OdBoUNqr+djzRo7sEuTlKaZ7X9EytKms13f4/L4fwss=;
-        b=y/oN0R0+nupq1EMQytoXPJFTY8LwyjiYrl9zC3KrJMGrwpiBlMIyf+sHBpy2lqbvkz
-         Hbcx4+irfPEChcHyV+MAduH4YQCTqK3WYKqxIbLu5Z96FCIYmsiNGbt4TghdWJ4KGGZg
-         TGWjoN1ZyMYn+hrOIlpRjArWEtrTOWumez6CMS4139Pf6kjtj6HEOqiVGMi2IQekATjI
-         dCOYZ4cueYnx5rbxGk8aF4P6D1eqSmoi8DrhJ9w9UstUbNuHk1UILBKnZQNO2SSEhACk
-         TgEX6GcHfhpSEPd82YCgUpe5fCvWQ8EYPtF2/t49uHi0BVur+Xwmq7Dm463wb7cPrdn0
-         ooGA==
-X-Gm-Message-State: ACrzQf0gc6+W34Fe4fQMUpTosHXwKB30gUvC+szURLXob3w8IFOvxIWT
-        nR9ziPxDpj8zSPPzFcgnUuDf8JomjBKQGA==
-X-Google-Smtp-Source: AMsMyM6zY3yA1MDWO6rxorFDTCwCTmGXyhNQR4pILw08VIwBomh2IzA/vGrAEQT+E2TDBOkIA3Oxng==
-X-Received: by 2002:a05:6830:610d:b0:655:dccd:5c2f with SMTP id ca13-20020a056830610d00b00655dccd5c2fmr6780281otb.265.1663554778282;
-        Sun, 18 Sep 2022 19:32:58 -0700 (PDT)
-Received: from macondo.. ([2804:431:e7cd:8cb3:e183:945:dc30:a2a8])
-        by smtp.gmail.com with ESMTPSA id l66-20020acabb45000000b00344afa2b08bsm4459572oif.26.2022.09.18.19.32.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 18 Sep 2022 19:32:57 -0700 (PDT)
-From:   Rafael Mendonca <rafaelmendsr@gmail.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     Rafael Mendonca <rafaelmendsr@gmail.com>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] media: i2c: ov5648: Free V4L2 fwnode data on unbind
-Date:   Sun, 18 Sep 2022 23:32:46 -0300
-Message-Id: <20220919023247.731106-1-rafaelmendsr@gmail.com>
-X-Mailer: git-send-email 2.34.1
+        Mon, 19 Sep 2022 02:33:20 -0400
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8244317A88;
+        Sun, 18 Sep 2022 23:33:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1663569199; x=1695105199;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=r0/uBQA5005Rs7fYs3jAa6s1cVz0tORDno4ZJmynCXc=;
+  b=HfWiTD30ya3KzIEB5BzjcJzveFdfn3v6SzYSsLVyWN+WJJ5dN26yuCBt
+   rD2Y+nR1XPoqOIinwkiWxIEf4Cqr/dljimBFkhVSIOOAd4vgjpn2MKEm5
+   gCxlYo1Y+Iix0yTx5/PTZFCeDt+LVZJPg4gRiH09HZFXgvJeFaBmFOb76
+   IRLN8cI4vGhZ7PfM7sBPzzGqEm9lGJ3BpizkJrcEEOlRralNUBFIF3oWe
+   y7rq23XZ065biZfggxpTvcknQhLfuSJsMyTgnf+ceVeWyYMTZGXojftsz
+   70v3JOFGZ7DpGYFl2awewKsL/+EBeVvWlrx+Hw1zL4vm/kv1mjyC4ln5p
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10474"; a="282344198"
+X-IronPort-AV: E=Sophos;i="5.93,327,1654585200"; 
+   d="scan'208";a="282344198"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Sep 2022 23:33:19 -0700
+X-IronPort-AV: E=Sophos;i="5.93,327,1654585200"; 
+   d="scan'208";a="760738803"
+Received: from punajuuri.fi.intel.com (HELO paasikivi.fi.intel.com) ([10.237.72.43])
+  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Sep 2022 23:33:15 -0700
+Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
+        by paasikivi.fi.intel.com (Postfix) with SMTP id BB04220078;
+        Mon, 19 Sep 2022 09:33:12 +0300 (EEST)
+Date:   Mon, 19 Sep 2022 06:33:12 +0000
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Tommaso Merciai <tommaso.merciai@amarulasolutions.com>
+Cc:     Mikhail Rudenko <mike.rudenko@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Shawn Tu <shawnx.tu@intel.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Daniel Scally <djrscally@gmail.com>,
+        Christian Hemp <c.hemp@phytec.de>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Marek Vasut <marex@denx.de>, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 2/2] media: i2c: add support for ov4689
+Message-ID: <YygNKE7LLtpwfnz+@paasikivi.fi.intel.com>
+References: <20220911200147.375198-1-mike.rudenko@gmail.com>
+ <20220911200147.375198-3-mike.rudenko@gmail.com>
+ <20220914155122.GA9874@tom-ThinkPad-T14s-Gen-2i>
+ <87k064pa2v.fsf@gmail.com>
+ <20220916133401.GB2701@tom-ThinkPad-T14s-Gen-2i>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220916133401.GB2701@tom-ThinkPad-T14s-Gen-2i>
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The V4L2 fwnode data structure doesn't get freed on unbind, which leads to
-a memleak.
+Hi Tommaso,
 
-Fixes: e43ccb0a045f ("media: i2c: Add support for the OV5648 image sensor")
-Signed-off-by: Rafael Mendonca <rafaelmendsr@gmail.com>
----
- drivers/media/i2c/ov5648.c | 2 ++
- 1 file changed, 2 insertions(+)
+On Fri, Sep 16, 2022 at 03:34:01PM +0200, Tommaso Merciai wrote:
+> > >> +	ret = clk_set_rate(ov4689->xvclk, OV4689_XVCLK_FREQ);
+> > >> +	if (ret < 0) {
+> > >> +		dev_err(dev, "Failed to set xvclk rate (24MHz)\n");
+> > >> +		return ret;
+> > >> +	}
+> > >> +	if (clk_get_rate(ov4689->xvclk) != OV4689_XVCLK_FREQ)
+> > >> +		dev_warn(dev, "xvclk mismatched, modes are based on 24MHz\n");
+> > >
+> > >
+> > > What do you think about?
+> > > Thanks.
+> > 
+> > Unfortunately, I have no experience with ACPI-based devices. :(
+> > 
+> > Do you mean that in the case of an ACPI device and devm_clk_get_optional
+> > returning NULL we should assume that the clock is already enabled and
+> > will stay enabled during sensor operation? How should we distinguish it
+> > from the case of an OF-based system and clock just missing from device
+> > tree?
+> 
+> Not exaclty :)
+> 
+> I copy comment from [1]
+> 
+> if you use ov5693->xvclk to identify the ACPI vs OF use case shouldn't
+> you use the get_optionl() version ? Otherwise in the ACPI case you will have
+> -ENOENT if there's not 'xvclk' property and bail out.
+> 
+> Unless my understanding is wrong on ACPI we have "clock-frequency" and
+> on OF "xvclk" with an "assigned-clock-rates",
 
-diff --git a/drivers/media/i2c/ov5648.c b/drivers/media/i2c/ov5648.c
-index dfcd33e9ee13..95850f06112b 100644
---- a/drivers/media/i2c/ov5648.c
-+++ b/drivers/media/i2c/ov5648.c
-@@ -2598,6 +2598,8 @@ static int ov5648_remove(struct i2c_client *client)
- 	mutex_destroy(&sensor->mutex);
- 	media_entity_cleanup(&subdev->entity);
- 
-+	v4l2_fwnode_endpoint_free(&sensor->endpoint);
-+
- 	return 0;
- }
- 
+Generally yes. It's also possible to have a clock in ACPI based system
+although those clocks do not come from ACPI. See e.g.
+drivers/platform/x86/intel/int3472/clk_and_regulator.c .
+
 -- 
-2.34.1
-
+Sakari Ailus
