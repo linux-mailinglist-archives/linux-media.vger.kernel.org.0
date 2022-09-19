@@ -2,56 +2,56 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B481A5BC35B
-	for <lists+linux-media@lfdr.de>; Mon, 19 Sep 2022 09:08:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 90AC75BC362
+	for <lists+linux-media@lfdr.de>; Mon, 19 Sep 2022 09:11:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229719AbiISHIV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 19 Sep 2022 03:08:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48094 "EHLO
+        id S229827AbiISHLW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 19 Sep 2022 03:11:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51722 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229679AbiISHIT (ORCPT
+        with ESMTP id S229932AbiISHLQ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 19 Sep 2022 03:08:19 -0400
-Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com [IPv6:2a00:1450:4864:20::42d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1E45E14D0D
-        for <linux-media@vger.kernel.org>; Mon, 19 Sep 2022 00:08:18 -0700 (PDT)
-Received: by mail-wr1-x42d.google.com with SMTP id z6so13514636wrq.1
-        for <linux-media@vger.kernel.org>; Mon, 19 Sep 2022 00:08:18 -0700 (PDT)
+        Mon, 19 Sep 2022 03:11:16 -0400
+Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com [IPv6:2a00:1450:4864:20::32d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D5CB11E3CF
+        for <linux-media@vger.kernel.org>; Mon, 19 Sep 2022 00:11:14 -0700 (PDT)
+Received: by mail-wm1-x32d.google.com with SMTP id v185-20020a1cacc2000000b003b42e4f278cso4036691wme.5
+        for <linux-media@vger.kernel.org>; Mon, 19 Sep 2022 00:11:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=amarulasolutions.com; s=google;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date;
-        bh=wEdLDJgFEyr3Rx0kdQrhspWlZowoghD3V/H8ktxN3TY=;
-        b=OgBqv3IZzdUFqvuLhn6EFV4R9bDvxhESon8U4vW40j+TSLmigg9qsdpoGxMi5BPLLg
-         0unGK3NEoyGanilR3J1V/VKvExTq6SrFYMDXmYaiIPnSEozEMMSwmhzdYDM+gIrOaaMg
-         Ji3IDXFgdCSA73EiM4w021yuoCXfNAJVAHRUc=
+        bh=ZiQM3+Sh2bFW5DQ3ITDJpGDiOAUw0yEVtVDVMfdc7Ak=;
+        b=U3q6wnHhpb2vhDShtHy1OTIbsHMWCetx0yAfP8y0MXxvZM0k+kdU7ydWOm1r7fPoJx
+         HhZVvQLJd270MpJ4sBiZ4QJR64nqlETC3k6v66MFhjeae0Oxmvoq+M4KHTlUhN3p+dUS
+         8VnGha3dKQFx0xsnxzsI3d321x8OjCouIg3QE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
-        bh=wEdLDJgFEyr3Rx0kdQrhspWlZowoghD3V/H8ktxN3TY=;
-        b=bEZ3Ug+xHwJEwO/Y6K+Nq/mPgeS9cXfeO499REBfB4OJC0Bnl3uGZOhcac6hT3oPXA
-         7irsLKxJ83NhSNmpdbHhyItaau7+c+ZdWvIk8hm2hRB9lRf0mJfaNEvP19MyzjwX7OAO
-         FNFfIdswM5/NLt+s6Dz3TG/JRaR7ReN5M+RiSsdjV1odJoGhQ4JXmuKjl/fUfhAbmAPs
-         viZbvh/PAbg+g/SXyDw82bRORf8NfRsnE416Adaw2gVS8Hi/2WW/2Ztv204wLgJM9nSm
-         XbQPPPx4P3j62/gPIg+cltA0chpXX6JS84W1fGjkIiImNNN+vnjNT3DCjeN48reQR48w
-         UteA==
-X-Gm-Message-State: ACrzQf28tje17uvZRibOcrLdQMtoQzMVhq+ptPqf1qIU4cSOhwyJ76FL
-        Jul07wBar5HGObOxG44UrXCYMl3fm0xdsg==
-X-Google-Smtp-Source: AMsMyM5WuE0u/PpMDPiqFT5hqYfJFSqTAYnpfKtBn+3NHLlEFItVukIyZebdE5bJbyYXtyGz31yIfg==
-X-Received: by 2002:adf:f3d2:0:b0:22a:e5d2:5c with SMTP id g18-20020adff3d2000000b0022ae5d2005cmr6872977wrp.131.1663571296615;
-        Mon, 19 Sep 2022 00:08:16 -0700 (PDT)
+        bh=ZiQM3+Sh2bFW5DQ3ITDJpGDiOAUw0yEVtVDVMfdc7Ak=;
+        b=yULOqfnRBvPUMh42Lxtrx4Yxpmc8ZuEWrGBSw4GmWY7IURDRgqUqRPb9CwJoDO6smR
+         t4xWCh8qoWwcNO8+mm+AcyYvgZgxWINKQxHCPERkZIEZJvtmz57IQnr1MUmL9Swpkk2K
+         FyEtvPYB9Hsg16dSr28WSZp/GCAL3axw0jY7PVCdezDyOyLRQsfsAFaqg3+T7wYKRdqc
+         DUvdpaEVfO9Bu7t/mKIKOS9VDak0NoNtw1CnU5HWNKKLefBGjmbuOtnvPxDqfPv7R1W8
+         /UWXYdL3JSl45/IluwlV9gWSiUJuNik+DnYMQ1UK5qHaHTkJdLo9qLo1D89Beze4w2Ga
+         Z0/g==
+X-Gm-Message-State: ACgBeo17iJZUIvLZelywzcx9c+799vQpfp1KRNH8lbb6X8RUjIJsljBz
+        QnmRIMHsqC2icZ77ZxzHMde8ww==
+X-Google-Smtp-Source: AA6agR4GK6jrqGd0b3TRGifakx9josXJ/skrsAb+lA5rd0gWdYb6bEJnkCUQS9FUMML+zBTeF+zlyQ==
+X-Received: by 2002:a05:600c:6015:b0:3b4:a4cb:72f7 with SMTP id az21-20020a05600c601500b003b4a4cb72f7mr16406247wmb.14.1663571473349;
+        Mon, 19 Sep 2022 00:11:13 -0700 (PDT)
 Received: from tom-ThinkPad-T14s-Gen-2i (net-188-217-56-12.cust.vodafonedsl.it. [188.217.56.12])
-        by smtp.gmail.com with ESMTPSA id bk23-20020a0560001d9700b0022b014fb0b7sm2088897wrb.110.2022.09.19.00.08.15
+        by smtp.gmail.com with ESMTPSA id i67-20020a1c3b46000000b003b492753826sm12485057wma.43.2022.09.19.00.11.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Sep 2022 00:08:16 -0700 (PDT)
-Date:   Mon, 19 Sep 2022 09:08:13 +0200
+        Mon, 19 Sep 2022 00:11:12 -0700 (PDT)
+Date:   Mon, 19 Sep 2022 09:11:10 +0200
 From:   Tommaso Merciai <tommaso.merciai@amarulasolutions.com>
-To:     Mikhail Rudenko <mike.rudenko@gmail.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     Mikhail Rudenko <mike.rudenko@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Jacopo Mondi <jacopo@jmondi.org>,
         Shawn Tu <shawnx.tu@intel.com>,
@@ -62,114 +62,77 @@ Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Marek Vasut <marex@denx.de>, linux-media@vger.kernel.org,
         devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
 Subject: Re: [PATCH v2 2/2] media: i2c: add support for ov4689
-Message-ID: <20220919070813.GA3958@tom-ThinkPad-T14s-Gen-2i>
+Message-ID: <20220919071110.GB3958@tom-ThinkPad-T14s-Gen-2i>
 References: <20220911200147.375198-1-mike.rudenko@gmail.com>
  <20220911200147.375198-3-mike.rudenko@gmail.com>
  <20220914155122.GA9874@tom-ThinkPad-T14s-Gen-2i>
  <87k064pa2v.fsf@gmail.com>
  <20220916133401.GB2701@tom-ThinkPad-T14s-Gen-2i>
- <87r10bo1k5.fsf@gmail.com>
+ <YygNKE7LLtpwfnz+@paasikivi.fi.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <87r10bo1k5.fsf@gmail.com>
+In-Reply-To: <YygNKE7LLtpwfnz+@paasikivi.fi.intel.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mikhail,
+Hi Sakari,
 
-On Fri, Sep 16, 2022 at 04:44:31PM +0300, Mikhail Rudenko wrote:
+On Mon, Sep 19, 2022 at 06:33:12AM +0000, Sakari Ailus wrote:
+> Hi Tommaso,
 > 
-> On 2022-09-16 at 15:34 +02, Tommaso Merciai <tommaso.merciai@amarulasolutions.com> wrote:
-> > Hi Mikhail,
-> >
-> > On Thu, Sep 15, 2022 at 11:50:23PM +0300, Mikhail Rudenko wrote:
-> >>
-> >> Hi Tommaso,
-> >>
-> >> On 2022-09-14 at 17:51 +02, Tommaso Merciai <tommaso.merciai@amarulasolutions.com> wrote:
-> >> > Hi Mikhail,
-> >> > I do a first round on reviewing your driver :)
-> >> >
-> >> > On Sun, Sep 11, 2022 at 11:01:35PM +0300, Mikhail Rudenko wrote:
-> 
-> <snip>
-> 
-> >> >> +
-> >> >> +	ov4689->xvclk = devm_clk_get(dev, "xvclk");
-> >> >> +	if (IS_ERR(ov4689->xvclk)) {
-> >> >> +		dev_err(dev, "Failed to get xvclk\n");
-> >> >> +		return -EINVAL;
-> >> >> +	}
-> >> >
-> >> > ^ I think is better to use devm_clk_get_optional instead of clck_get.
-> >> > clck_get can fail in CPU's that use ACPI
-> >> >
-> >> >> +
-> >> >> +	ret = clk_set_rate(ov4689->xvclk, OV4689_XVCLK_FREQ);
-> >> >> +	if (ret < 0) {
-> >> >> +		dev_err(dev, "Failed to set xvclk rate (24MHz)\n");
-> >> >> +		return ret;
-> >> >> +	}
-> >> >> +	if (clk_get_rate(ov4689->xvclk) != OV4689_XVCLK_FREQ)
-> >> >> +		dev_warn(dev, "xvclk mismatched, modes are based on 24MHz\n");
-> >> >
-> >> >
-> >> > What do you think about?
-> >> > Thanks.
-> >>
-> >> Unfortunately, I have no experience with ACPI-based devices. :(
-> >>
-> >> Do you mean that in the case of an ACPI device and devm_clk_get_optional
-> >> returning NULL we should assume that the clock is already enabled and
-> >> will stay enabled during sensor operation? How should we distinguish it
-> >> from the case of an OF-based system and clock just missing from device
-> >> tree?
-> >
+> On Fri, Sep 16, 2022 at 03:34:01PM +0200, Tommaso Merciai wrote:
+> > > >> +	ret = clk_set_rate(ov4689->xvclk, OV4689_XVCLK_FREQ);
+> > > >> +	if (ret < 0) {
+> > > >> +		dev_err(dev, "Failed to set xvclk rate (24MHz)\n");
+> > > >> +		return ret;
+> > > >> +	}
+> > > >> +	if (clk_get_rate(ov4689->xvclk) != OV4689_XVCLK_FREQ)
+> > > >> +		dev_warn(dev, "xvclk mismatched, modes are based on 24MHz\n");
+> > > >
+> > > >
+> > > > What do you think about?
+> > > > Thanks.
+> > > 
+> > > Unfortunately, I have no experience with ACPI-based devices. :(
+> > > 
+> > > Do you mean that in the case of an ACPI device and devm_clk_get_optional
+> > > returning NULL we should assume that the clock is already enabled and
+> > > will stay enabled during sensor operation? How should we distinguish it
+> > > from the case of an OF-based system and clock just missing from device
+> > > tree?
+> > 
 > > Not exaclty :)
-> >
+> > 
 > > I copy comment from [1]
-> >
+> > 
 > > if you use ov5693->xvclk to identify the ACPI vs OF use case shouldn't
 > > you use the get_optionl() version ? Otherwise in the ACPI case you will have
 > > -ENOENT if there's not 'xvclk' property and bail out.
-> >
+> > 
 > > Unless my understanding is wrong on ACPI we have "clock-frequency" and
 > > on OF "xvclk" with an "assigned-clock-rates",
-> >
-> > [1] https://patchwork.linuxtv.org/project/linux-media/patch/20220627150453.220292-5-tommaso.merciai@amarulasolutions.com/
-> >
-> > Let me know if you need more details.
 > 
-> Thanks for the pointer! I'll try to implement something along the lines
-> of your ov5693 series.
-> 
-> But I'm not sure that will be enough to support ACPI systems
-> correctly. What about lanes number and link frequency checks? Should
-> they be made conditional on CONFIG_OF? Anything else I don't know?
+> Generally yes. It's also possible to have a clock in ACPI based system
+> although those clocks do not come from ACPI. See e.g.
+> drivers/platform/x86/intel/int3472/clk_and_regulator.c .
 
-In my opinion, lanes number and link frequency checks are ok :)
-We don't need conditional CONFIG_OF.
+I save this :)
+Thanks for sharing.
 
-fwnode* function support both ACPI and dts.
-
-Thanks,
+Regards,
 Tommaso
 
 > 
-> >
-> > Regards,
-> > Tommaso
-> >
-> --
-> Best regards,
-> Mikhail Rudenko
+> -- 
+> Sakari Ailus
 
 -- 
 Tommaso Merciai
