@@ -2,192 +2,129 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 390F15BCCBE
-	for <lists+linux-media@lfdr.de>; Mon, 19 Sep 2022 15:17:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F2B435BCCCD
+	for <lists+linux-media@lfdr.de>; Mon, 19 Sep 2022 15:19:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229689AbiISNRQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 19 Sep 2022 09:17:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41112 "EHLO
+        id S230391AbiISNTI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 19 Sep 2022 09:19:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42944 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230236AbiISNRN (ORCPT
+        with ESMTP id S230380AbiISNTG (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 19 Sep 2022 09:17:13 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D847A27FEC
-        for <linux-media@vger.kernel.org>; Mon, 19 Sep 2022 06:17:09 -0700 (PDT)
-Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <mfe@pengutronix.de>)
-        id 1oaGdz-0006LF-LB; Mon, 19 Sep 2022 15:17:03 +0200
-Received: from mfe by ptx.hi.pengutronix.de with local (Exim 4.92)
-        (envelope-from <mfe@pengutronix.de>)
-        id 1oaGdz-0005hX-4U; Mon, 19 Sep 2022 15:17:03 +0200
-Date:   Mon, 19 Sep 2022 15:17:03 +0200
-From:   Marco Felsch <m.felsch@pengutronix.de>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     mchehab@kernel.org, sakari.ailus@linux.intel.com,
+        Mon, 19 Sep 2022 09:19:06 -0400
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D0CA827FF4;
+        Mon, 19 Sep 2022 06:19:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1663593544; x=1695129544;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=DZvHfGOxcYz6x4E6FinWKgAgs6KZfo4V8zT+OOteJ0Y=;
+  b=EGICckaeGgPU4S+kQ0uaVP+iFM+PtCJMvCw3LakJ34ZISidrZwjVXTkO
+   IixoMhSfvqmSwcjS8uHA+G2dbfTP4M92lnmw3R3DWJ96e+hzQ6861Molh
+   CEN2jREK2v517O9BtJAIQKCrgVsKbg3sDJaOVATmiAwJjJR28fWwVlROu
+   FPHKJKiR+iVv5UJEqSVuCz7uZMElEnx/BgXvI4EMOmF+CRyd2TShjVyd7
+   8PCJY09m0mpvYuVSjdSrkQV0zcP1OQBRzY0U3wB5ezibAc3fU71DGBaty
+   3oql/6ugVehj5+fniLJIYFy4WtDVvErVEWH0bLF3HcHnSLn3Q8Hb4kUOs
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10475"; a="282422317"
+X-IronPort-AV: E=Sophos;i="5.93,327,1654585200"; 
+   d="scan'208";a="282422317"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2022 06:19:04 -0700
+X-IronPort-AV: E=Sophos;i="5.93,327,1654585200"; 
+   d="scan'208";a="744112139"
+Received: from punajuuri.fi.intel.com (HELO paasikivi.fi.intel.com) ([10.237.72.43])
+  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2022 06:19:02 -0700
+Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
+        by paasikivi.fi.intel.com (Postfix) with SMTP id E19C3202D2;
+        Mon, 19 Sep 2022 16:18:59 +0300 (EEST)
+Date:   Mon, 19 Sep 2022 13:18:59 +0000
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Marco Felsch <m.felsch@pengutronix.de>
+Cc:     mchehab@kernel.org, laurent.pinchart+renesas@ideasonboard.com,
         akinobu.mita@gmail.com, jacopo+renesas@jmondi.org,
         linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 3/3] media: mt9m111: don't turn on the output while
- powering it
-Message-ID: <20220919131703.iuooxq4flk7d7353@pengutronix.de>
+Subject: Re: [PATCH v2 1/3] media: mt9m111: add V4L2_CID_LINK_FREQ support
+Message-ID: <YyhsQ+l1Sls00F0M@paasikivi.fi.intel.com>
 References: <20220916135713.143890-1-m.felsch@pengutronix.de>
- <20220916135713.143890-3-m.felsch@pengutronix.de>
- <Yyhn68RabEvVXu+S@pendragon.ideasonboard.com>
+ <YyhjpxHHFR4u+k+X@paasikivi.fi.intel.com>
+ <20220919130829.ddoe2ajnrarkywgy@pengutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Yyhn68RabEvVXu+S@pendragon.ideasonboard.com>
-User-Agent: NeoMutt/20180716
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
-X-SA-Exim-Mail-From: mfe@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <20220919130829.ddoe2ajnrarkywgy@pengutronix.de>
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
+Hi Marco,
 
-On 22-09-19, Laurent Pinchart wrote:
-> Hi Marco,
+On Mon, Sep 19, 2022 at 03:08:29PM +0200, Marco Felsch wrote:
+> Hi Sakari,
 > 
-> Thank you for the patch.
-> 
-> On Fri, Sep 16, 2022 at 03:57:13PM +0200, Marco Felsch wrote:
-> > Currently the .s_power() turn on/off the device and enables/disables the
-> > sensor output. This is wrong since it should only handle the power not
-> > not the sensor output behaviour. Enabling the sensor output should be
-> > part of the .s_stream() callback.
+> On 22-09-19, Sakari Ailus wrote:
+> > Hi Marco,
 > > 
-> > Fix this by adding mt9m111_set_output() which gets called by the
-> > .s_stream() callback and remove the output register bits from
-> > mt9m111_resume/suspend.
+> > On Fri, Sep 16, 2022 at 03:57:11PM +0200, Marco Felsch wrote:
+> > > Add support to report the link frequency.
+> > > 
+> > > Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
+> > > ---
+> > > The v1 of this small series can be found here:
+> > > https://lore.kernel.org/all/20220818144712.997477-1-m.felsch@pengutronix.de/
+> > > 
+> > > Thanks a lot to Jacopo for the review feedback on my v1.
+> > > 
+> > > Changelog:
+> > > 
+> > > v2:
+> > > - use V4L2_CID_LINK_FREQ instead of V4L2_CID_PIXEL_RATE
+> > > ---
+> > >  drivers/media/i2c/mt9m111.c | 21 ++++++++++++++++++++-
+> > >  1 file changed, 20 insertions(+), 1 deletion(-)
+> > > 
+> > > diff --git a/drivers/media/i2c/mt9m111.c b/drivers/media/i2c/mt9m111.c
+> > > index afc86efa9e3e..52be1c310455 100644
+> > > --- a/drivers/media/i2c/mt9m111.c
+> > > +++ b/drivers/media/i2c/mt9m111.c
+> > > @@ -1249,6 +1249,8 @@ static int mt9m111_probe(struct i2c_client *client)
+> > >  {
+> > >  	struct mt9m111 *mt9m111;
+> > >  	struct i2c_adapter *adapter = client->adapter;
+> > > +	static s64 extclk_rate;
+> > > +	struct v4l2_ctrl *ctrl;
+> > >  	int ret;
+> > >  
+> > >  	if (!i2c_check_functionality(adapter, I2C_FUNC_SMBUS_WORD_DATA)) {
+> > > @@ -1271,6 +1273,13 @@ static int mt9m111_probe(struct i2c_client *client)
+> > >  	if (IS_ERR(mt9m111->clk))
+> > >  		return PTR_ERR(mt9m111->clk);
+> > >  
+> > > +	ret = clk_prepare_enable(mt9m111->clk);
+> > > +	if (ret < 0)
+> > > +		return ret;
+> > > +
+> > > +	extclk_rate = clk_get_rate(mt9m111->clk);
+> > > +	clk_disable_unprepare(mt9m111->clk);
 > > 
-> > Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
-> > ---
-> > Changelog:
-> > 
-> > v2:
-> > - new patch, replaces: "media: mt9m111: remove .s_power callback"
-> > ---
-> >  drivers/media/i2c/mt9m111.c | 38 ++++++++++++++++++++++++++-----------
-> >  1 file changed, 27 insertions(+), 11 deletions(-)
-> > 
-> > diff --git a/drivers/media/i2c/mt9m111.c b/drivers/media/i2c/mt9m111.c
-> > index 8de93ab99cbc..2cc0b0da7636 100644
-> > --- a/drivers/media/i2c/mt9m111.c
-> > +++ b/drivers/media/i2c/mt9m111.c
-> > @@ -426,10 +426,25 @@ static int mt9m111_setup_geometry(struct mt9m111 *mt9m111, struct v4l2_rect *rec
-> >  	return ret;
-> >  }
-> >  
-> > -static int mt9m111_enable(struct mt9m111 *mt9m111)
-> > +static int mt9m111_set_output(struct mt9m111 *mt9m111, int on)
-> >  {
-> >  	struct i2c_client *client = v4l2_get_subdevdata(&mt9m111->subdev);
-> > -	return reg_write(RESET, MT9M111_RESET_CHIP_ENABLE);
-> > +	int ret;
-> > +
-> > +	if (on) {
-> > +		ret = reg_clear(RESET, MT9M111_RESET_OUTPUT_DISABLE);
-> > +		if (ret)
-> > +			return ret;
-> > +
-> > +		return reg_set(RESET, MT9M111_RESET_CHIP_ENABLE);
-> > +	}
-> > +
-> > +	/* disable */
-> > +	ret = reg_set(RESET, MT9M111_RESET_OUTPUT_DISABLE);
-> > +	if (ret)
-> > +		return ret;
-> > +
-> > +	return reg_clear(RESET, MT9M111_RESET_CHIP_ENABLE);
+> > I don't think you'll need to enable a clock to just get its frequency.
 > 
-> Unless the hardware specifically requires this sequence, I'd use the
-> inverse of the enable sequence here.
+> The official API states that you need to turn on the clk before
+> requesting it and it makes sense. Also there is a new helper
+> devm_clk_get_enabled() which addresses simple clk usage since most of
+> drivers don't enable it before requesting the rate.
 
-Output-disable: -> put output pins into tri-state.
-chip-enable:  -> reset sensor readout path.
+I guess the rate could change in the meantime, unless exclusive access is
+requested. The clock framework currently doesn't offer a way to set the
+assigned rate and prevent changing it. But above, couldn't the clock
+frequency be changed again once the clock has been disabled?
 
-Enable:
-  -> set output pins accordingly
-     -> put sensor out of reset --> start sensor readout
-
-Disable:
-  -> set output pins to tri-state
-     -> put sensor into reset --> stop sensor readout
-
-To avoid possible artifacts I disabled the pins first before resetting
-the sensor core (stopping the readout).
-
-Regards,
-  Marco
-
-> 
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> 
-> >  }
-> >  
-> >  static int mt9m111_reset(struct mt9m111 *mt9m111)
-> > @@ -927,10 +942,7 @@ static int mt9m111_suspend(struct mt9m111 *mt9m111)
-> >  	ret = reg_set(RESET, MT9M111_RESET_RESET_MODE);
-> >  	if (!ret)
-> >  		ret = reg_set(RESET, MT9M111_RESET_RESET_SOC |
-> > -			      MT9M111_RESET_OUTPUT_DISABLE |
-> >  			      MT9M111_RESET_ANALOG_STANDBY);
-> > -	if (!ret)
-> > -		ret = reg_clear(RESET, MT9M111_RESET_CHIP_ENABLE);
-> >  
-> >  	return ret;
-> >  }
-> > @@ -951,9 +963,9 @@ static void mt9m111_restore_state(struct mt9m111 *mt9m111)
-> >  
-> >  static int mt9m111_resume(struct mt9m111 *mt9m111)
-> >  {
-> > -	int ret = mt9m111_enable(mt9m111);
-> > -	if (!ret)
-> > -		ret = mt9m111_reset(mt9m111);
-> > +	int ret;
-> > +
-> > +	ret = mt9m111_reset(mt9m111);
-> >  	if (!ret)
-> >  		mt9m111_restore_state(mt9m111);
-> >  
-> > @@ -965,9 +977,7 @@ static int mt9m111_init(struct mt9m111 *mt9m111)
-> >  	struct i2c_client *client = v4l2_get_subdevdata(&mt9m111->subdev);
-> >  	int ret;
-> >  
-> > -	ret = mt9m111_enable(mt9m111);
-> > -	if (!ret)
-> > -		ret = mt9m111_reset(mt9m111);
-> > +	ret = mt9m111_reset(mt9m111);
-> >  	if (!ret)
-> >  		ret = mt9m111_set_context(mt9m111, mt9m111->ctx);
-> >  	if (ret)
-> > @@ -1116,8 +1126,14 @@ static int mt9m111_enum_mbus_code(struct v4l2_subdev *sd,
-> >  static int mt9m111_s_stream(struct v4l2_subdev *sd, int enable)
-> >  {
-> >  	struct mt9m111 *mt9m111 = container_of(sd, struct mt9m111, subdev);
-> > +	int ret;
-> > +
-> > +	ret = mt9m111_set_output(mt9m111, enable);
-> > +	if (ret)
-> > +		return ret;
-> >  
-> >  	mt9m111->is_streaming = !!enable;
-> > +
-> >  	return 0;
-> >  }
-> >  
-> 
-> -- 
-> Regards,
-> 
-> Laurent Pinchart
-> 
+-- 
+Sakari Ailus
