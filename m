@@ -2,206 +2,109 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 07C9B5BCA97
-	for <lists+linux-media@lfdr.de>; Mon, 19 Sep 2022 13:21:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BC5785BCAB8
+	for <lists+linux-media@lfdr.de>; Mon, 19 Sep 2022 13:27:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230084AbiISLVk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 19 Sep 2022 07:21:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36942 "EHLO
+        id S230083AbiISL1N (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 19 Sep 2022 07:27:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41926 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230094AbiISLVf (ORCPT
+        with ESMTP id S230288AbiISL1B (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 19 Sep 2022 07:21:35 -0400
-Received: from gofer.mess.org (gofer.mess.org [IPv6:2a02:8011:d000:212::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 793241ADA9
-        for <linux-media@vger.kernel.org>; Mon, 19 Sep 2022 04:21:33 -0700 (PDT)
-Received: by gofer.mess.org (Postfix, from userid 1000)
-        id 7B2F210005D; Mon, 19 Sep 2022 12:21:31 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mess.org; s=2020;
-        t=1663586491; bh=O254l/72pOsjogOMXZXZUxkhxDl5U4UO80ZUKtPBawU=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=n0XM3Waw76low13z0SKo9PJGDHww5huFjsz7KH40TK7rwBvZZ5ciNdevh4PLAyhQf
-         FaD/BwFqW82p5jjQCndC2cOKz9uZ5GSsFa45oKrBrnrkJgKOBl6XU3Xmx7kOnsX7z+
-         tOyaP5xlluJ+T5VpbnOapcQB3c4We986uI3VFcr4TDgD2MGkTtpIGkECGmtKXRibgB
-         7U//dqnNSx90eXX5mBQamRbSfGj/Jnc341sjBvy3ZhyXwfOEuapayEmEwMAc/pRwYn
-         nM0CGDsHZp7TYatwL67yseMT2HGhBUAcXzbOx6fIMiLc+VA1rGAZTG+b9yF5cUxq3G
-         IWNXct0ZMp7iA==
-Date:   Mon, 19 Sep 2022 12:21:31 +0100
-From:   Sean Young <sean@mess.org>
-To:     Daniel =?iso-8859-1?Q?Gonz=E1lez?= Cabanelas <dgcbueu@gmail.com>
-Cc:     linux-media@vger.kernel.org, mchehab@kernel.org,
-        hverkuil-cisco@xs4all.nl
-Subject: Re: [PATCH v2] media: cx88: add IR remote support for NotOnlyTV LV3H
-Message-ID: <YyhQu5UMoF/BDJCv@gofer.mess.org>
-References: <4386345.LvFx2qVVIh@tool>
+        Mon, 19 Sep 2022 07:27:01 -0400
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0B4CD2251B;
+        Mon, 19 Sep 2022 04:26:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1663586811; x=1695122811;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=JyPCRYvgmMfnN2Lq0Uq6Vyynty0vkNRyYp7K7s+7F30=;
+  b=GOIMPALDGT6s0u7S5nonPmM0Aql6FCVhxBhos7bvNf4UnLljkPBUseJ+
+   JY5U8lv1resotqodg85UAfsRbAKZU1OFHJBKhTj10EVvi/Ie0CSxiqgqJ
+   NhrteaJY8zei0HuMjriAGEcZRcQ/9xAFNQW0ttbO6ZY51tb+UWyu2K6Ti
+   agMDiXOYgWm8iYQvUDW/SEoPHD/uhtmFr3wU7O29Nac9395YV9J5CB5hL
+   zamp6TnKw1eGSO/4D2Pd596VdNcQ9Fbuf9y+jgCmEOd2LCgdNFnxk+Z9H
+   pj1z6icSH+wPxVqWyBth34kE5hR3K4e3p/bn9EATBc+0svDRFEmEUXHy9
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10474"; a="300748424"
+X-IronPort-AV: E=Sophos;i="5.93,327,1654585200"; 
+   d="scan'208";a="300748424"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2022 04:26:50 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,327,1654585200"; 
+   d="scan'208";a="618454967"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.191])
+  by orsmga002.jf.intel.com with SMTP; 19 Sep 2022 04:26:45 -0700
+Received: by stinkbox (sSMTP sendmail emulation); Mon, 19 Sep 2022 14:26:44 +0300
+Date:   Mon, 19 Sep 2022 14:26:44 +0300
+From:   Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To:     Christian =?iso-8859-1?Q?K=F6nig?= 
+        <ckoenig.leichtzumerken@gmail.com>
+Cc:     Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+        "Yadav, Arvind" <arvyadav@amd.com>,
+        Arvind Yadav <Arvind.Yadav@amd.com>, andrey.grodzovsky@amd.com,
+        shashank.sharma@amd.com, amaranath.somalapuram@amd.com,
+        Arunpravin.PaneerSelvam@amd.com, sumit.semwal@linaro.org,
+        gustavo@padovan.org, airlied@linux.ie, daniel@ffwll.ch,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
+Subject: Re: [Linaro-mm-sig] Re: [PATCH v4 0/6] dma-buf: Check status of
+ enable-signaling bit on debug
+Message-ID: <YyhR9OGjWVwm31Rp@intel.com>
+References: <20220914164321.2156-1-Arvind.Yadav@amd.com>
+ <d2d81ffd-2269-bdc6-0daa-8f3a99306e46@amd.com>
+ <33a16b15-3d3c-7485-d021-ee2a727e5391@amd.com>
+ <691c421f-1297-cd08-ea70-6750099275b1@amd.com>
+ <YyVmYXGCfTuYUsNb@intel.com>
+ <c958d871-9a89-3490-f5e3-3a2441926074@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <4386345.LvFx2qVVIh@tool>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <c958d871-9a89-3490-f5e3-3a2441926074@gmail.com>
+X-Patchwork-Hint: comment
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Daniel,
-
-Sorry about the long delay for reviewing this. I missed this patch, sorry.
-
-On Mon, Feb 07, 2022 at 03:51:41PM +0100, Daniel González Cabanelas wrote:
-> The PCI hybrid card NotOnlyTV LV3H has a built-in IR receiver connected
-> via I2C bus, currently not supported. This receiver is probably present
-> in more Geniatech cards. It has no capability for repeating when a key is
-> held down.
+On Sat, Sep 17, 2022 at 05:18:40PM +0200, Christian König wrote:
+> Am 17.09.22 um 08:17 schrieb Ville Syrjälä:
+> > On Thu, Sep 15, 2022 at 06:05:30PM +0200, Christian König wrote:
+> >> Am 15.09.22 um 15:02 schrieb Yadav, Arvind:
+> >>> On 9/15/2022 5:37 PM, Christian König wrote:
+> >>>> Is that sufficient to allow running a desktop on amdgpu with the
+> >>>> extra check enabled? If yes that would be quite a milestone.
+> >>>>
+> >>> Yes, It is running on amdgpu with extra config enabled.
+> >> In this case I will start pushing the patches to drm-misc-next. I'm just
+> >> going to leave out the last one until the IGT tests are working as well.
+> > ffs Christian. intel CI blew up yet again:
+> > https://intel-gfx-ci.01.org/tree/drm-tip/CI_DRM_12146/shard-glk7/igt@kms_plane_lowres@tiling-y@pipe-c-hdmi-a-2.html
+> >
+> > The last time (some ttm thing) was just a week or two ago,
+> > so it's really getting tiresome watching you push entirely
+> > untested stuff all the time. Would be really helpful if you
+> > finally started to do/require premerge testing.
 > 
-> Add support for this built-in IR receiver. Use the existing Total Media
-> In Hand_02 remote keytable (Geniatech Mygica X8507) which matches exactly
-> the LV3H remote.
+> Well first of all sorry for causing trouble, but as I wrote above I 
+> intentionally left out the last one to *not* break the IGT tests.
 > 
-> Signed-off-by: Daniel González Cabanelas <dgcbueu@gmail.com>
-> Signed-off-by: Marek Kidawski <mark_kiddy@wp.pl>
-> ---
-> changes in v2:
->  - Save a bitwise operation when no key is pressed
->  - Simplify the code
+> The patches pushed so far where just updating a bunch of corner cases 
+> and fixing the selftests.
 > 
->  drivers/media/i2c/ir-kbd-i2c.c      | 47 +++++++++++++++++++++++++++++
->  drivers/media/pci/cx88/cx88-input.c |  2 +-
->  drivers/media/pci/cx88/cx88-video.c |  1 +
->  include/media/i2c/ir-kbd-i2c.h      |  1 +
->  4 files changed, 50 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/media/i2c/ir-kbd-i2c.c b/drivers/media/i2c/ir-kbd-i2c.c
-> index 566741735..145abfd13 100644
-> --- a/drivers/media/i2c/ir-kbd-i2c.c
-> +++ b/drivers/media/i2c/ir-kbd-i2c.c
-> @@ -238,6 +238,43 @@ static int get_key_knc1(struct IR_i2c *ir, enum rc_proto *protocol,
->  	return 1;
->  }
->  
-> +static int get_key_geniatech(struct IR_i2c *ir, enum rc_proto *protocol,
-> +			     u32 *scancode, u8 *toggle)
-> +{
-> +	int i, rc;
-> +	unsigned char b;
-> +
-> +	/* poll IR chip */
-> +	for (i = 0; i < 4; i++) {
-> +		rc = i2c_master_recv(ir->c, &b, 1);
-> +		if (rc == 1)
-> +			break;
-> +		msleep(1);
+> Do you have any more insight why that should affect the IGT tests?
 
-checkpatch.pl rightfully points out the following:
+I have no idea. You have the oopses from pstore right there.
+Did you even look at them?
 
-WARNING: msleep < 20ms can sleep for up to 20ms; see Documentation/timers/timers-howto.rst
-
-msleep(1) will sleep for at least 20ms. I think this is what you want here;
-mdelay(1) might introduce busy-cycles every second, surely we do not what to
-that.
-
-Is the sleep needed at all?
-
-Thanks
-
-Sean
-
-
-> +	}
-> +	if (rc != 1) {
-> +		dev_dbg(&ir->rc->dev, "read error\n");
-> +		if (rc < 0)
-> +			return rc;
-> +		return -EIO;
-> +	}
-> +
-> +	/* don't repeat the key */
-> +	if (ir->old == b)
-> +		return 0;
-> +	ir->old = b;
-> +
-> +	/* decode to RC5 */
-> +	b &= 0x7f;
-> +	b = (b - 1) / 2;
-> +
-> +	dev_dbg(&ir->rc->dev, "key %02x\n", b);
-> +
-> +	*protocol = RC_PROTO_RC5;
-> +	*scancode = b;
-> +	*toggle = ir->old >> 7;
-> +	return 1;
-> +}
-> +
->  static int get_key_avermedia_cardbus(struct IR_i2c *ir, enum rc_proto *protocol,
->  				     u32 *scancode, u8 *toggle)
->  {
-> @@ -766,6 +803,13 @@ static int ir_probe(struct i2c_client *client, const struct i2c_device_id *id)
->  		rc_proto    = RC_PROTO_BIT_OTHER;
->  		ir_codes    = RC_MAP_EMPTY;
->  		break;
-> +	case 0x33:
-> +		name        = "Geniatech";
-> +		ir->get_key = get_key_geniatech;
-> +		rc_proto    = RC_PROTO_BIT_RC5;
-> +		ir_codes    = RC_MAP_TOTAL_MEDIA_IN_HAND_02;
-> +		ir->old     = 0xfc;
-> +		break;
->  	case 0x6b:
->  		name        = "FusionHDTV";
->  		ir->get_key = get_key_fusionhdtv;
-> @@ -825,6 +869,9 @@ static int ir_probe(struct i2c_client *client, const struct i2c_device_id *id)
->  		case IR_KBD_GET_KEY_KNC1:
->  			ir->get_key = get_key_knc1;
->  			break;
-> +		case IR_KBD_GET_KEY_GENIATECH:
-> +			ir->get_key = get_key_geniatech;
-> +			break;
->  		case IR_KBD_GET_KEY_FUSIONHDTV:
->  			ir->get_key = get_key_fusionhdtv;
->  			break;
-> diff --git a/drivers/media/pci/cx88/cx88-input.c b/drivers/media/pci/cx88/cx88-input.c
-> index ce0ef0b81..a04a1d33f 100644
-> --- a/drivers/media/pci/cx88/cx88-input.c
-> +++ b/drivers/media/pci/cx88/cx88-input.c
-> @@ -586,7 +586,7 @@ void cx88_i2c_init_ir(struct cx88_core *core)
->  {
->  	struct i2c_board_info info;
->  	static const unsigned short default_addr_list[] = {
-> -		0x18, 0x6b, 0x71,
-> +		0x18, 0x33, 0x6b, 0x71,
->  		I2C_CLIENT_END
->  	};
->  	static const unsigned short pvr2000_addr_list[] = {
-> diff --git a/drivers/media/pci/cx88/cx88-video.c b/drivers/media/pci/cx88/cx88-video.c
-> index c17ad9f7d..4d78acf66 100644
-> --- a/drivers/media/pci/cx88/cx88-video.c
-> +++ b/drivers/media/pci/cx88/cx88-video.c
-> @@ -1388,6 +1388,7 @@ static int cx8800_initdev(struct pci_dev *pci_dev,
->  	}
->  		fallthrough;
->  	case CX88_BOARD_DVICO_FUSIONHDTV_5_PCI_NANO:
-> +	case CX88_BOARD_NOTONLYTV_LV3H:
->  		request_module("ir-kbd-i2c");
->  	}
->  
-> diff --git a/include/media/i2c/ir-kbd-i2c.h b/include/media/i2c/ir-kbd-i2c.h
-> index 9f47d6a48..0b58f8b9e 100644
-> --- a/include/media/i2c/ir-kbd-i2c.h
-> +++ b/include/media/i2c/ir-kbd-i2c.h
-> @@ -35,6 +35,7 @@ enum ir_kbd_get_key_fn {
->  	IR_KBD_GET_KEY_PIXELVIEW,
->  	IR_KBD_GET_KEY_HAUP,
->  	IR_KBD_GET_KEY_KNC1,
-> +	IR_KBD_GET_KEY_GENIATECH,
->  	IR_KBD_GET_KEY_FUSIONHDTV,
->  	IR_KBD_GET_KEY_HAUP_XVR,
->  	IR_KBD_GET_KEY_AVERMEDIA_CARDBUS,
-> -- 
-> 2.35.1
-> 
-> 
-> 
+-- 
+Ville Syrjälä
+Intel
