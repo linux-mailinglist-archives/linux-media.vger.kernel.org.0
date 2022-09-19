@@ -2,165 +2,201 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C70325BC9D3
-	for <lists+linux-media@lfdr.de>; Mon, 19 Sep 2022 12:49:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 188A95BC9C0
+	for <lists+linux-media@lfdr.de>; Mon, 19 Sep 2022 12:47:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230231AbiISKss (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 19 Sep 2022 06:48:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37516 "EHLO
+        id S230097AbiISKrO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 19 Sep 2022 06:47:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39298 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229923AbiISKsS (ORCPT
+        with ESMTP id S229885AbiISKqu (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 19 Sep 2022 06:48:18 -0400
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5AFA82BB22;
-        Mon, 19 Sep 2022 03:38:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1663583893; x=1695119893;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=QUXNODpHWWXFuaNAMOBGNqeZoPBldKbO43TQb66rI7E=;
-  b=QJf+AzsXVK0+Bz2DViPkEClklvc5AVCQjgyi6QGDu//lF+wxb//Cfvcg
-   pzC2FGS+LwitX7L/EQrT+zBe/gEWWqMYNLFHR7RxDhZFJYyeUHP77q/qT
-   p3tSfNaY8LeLTAtHKKdg4YfNBqrsXR//uUEaBpvSBcEKsqwrcLCa9AUdB
-   MGOXOyGsan9SJPoiBFIOnHJye1E/2A3E1qFvk7LNcOPWm3gZr1rBreReq
-   lo6au7BqGBQyK2IGniKowwXTYCvUAXpocBDTErqIfQWoTfne/3/O06JsM
-   gDqpO24eQtVynKy6vWY0kJ492exfm6h9nW3vQXrzkokdQogt4xcVlnyvL
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10474"; a="300736655"
-X-IronPort-AV: E=Sophos;i="5.93,327,1654585200"; 
-   d="scan'208";a="300736655"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2022 03:38:12 -0700
-X-IronPort-AV: E=Sophos;i="5.93,327,1654585200"; 
-   d="scan'208";a="649093245"
-Received: from punajuuri.fi.intel.com (HELO paasikivi.fi.intel.com) ([10.237.72.43])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2022 03:38:09 -0700
-Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
-        by paasikivi.fi.intel.com (Postfix) with SMTP id 2AFB920238;
-        Mon, 19 Sep 2022 13:31:02 +0300 (EEST)
-Date:   Mon, 19 Sep 2022 10:31:02 +0000
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Mikhail Rudenko <mike.rudenko@gmail.com>
-Cc:     Dave Stevenson <dave.stevenson@raspberrypi.com>,
+        Mon, 19 Sep 2022 06:46:50 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5DF82DF1;
+        Mon, 19 Sep 2022 03:33:47 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id EF22D9BA;
+        Mon, 19 Sep 2022 12:33:44 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1663583625;
+        bh=SuwW1EyzgQFtHXnkLYtahgvyBMXNK3cFjQnbN2kJ/jA=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=N4/O/wcAZ+qraUEiBbOU/rymCJTkkfQ4cAj+iNBfH/hk0vtd/vp3c0CHepb84lLYv
+         MkQGfJEqwQvg0rPtCLTmmq56WhZwXqnJoe4rNZ/DZ/bc5YScDJo+ghsBW4XGBAasPk
+         +IiPU0AgyHrjBGQXvCYb3GgRgMFnj7Bz3zO36TmA=
+Date:   Mon, 19 Sep 2022 13:33:31 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Shawn Tu <shawnx.tu@intel.com>, Jimmy Su <jimmy.su@intel.com>,
-        Arnd Bergmann <arnd@arndb.de>, Arec Kao <arec.kao@intel.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Marek Vasut <marex@denx.de>, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 0/2] Add Omnivision OV4689 image sensor driver
-Message-ID: <YyhE5voxRz7gEYHY@paasikivi.fi.intel.com>
-References: <20220911200147.375198-1-mike.rudenko@gmail.com>
- <CAPY8ntCA3jbpBOiNfoft58sHPeTFSLoLop0VUmkOCWP3cX_rdw@mail.gmail.com>
- <87czbwp9xx.fsf@gmail.com>
- <YygOzWAHyoP+KwTv@paasikivi.fi.intel.com>
- <87wn9zreic.fsf@gmail.com>
+        Maxime Ripard <maxime@cerno.tech>,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH] media: dt-bindings: i2c: ovti,ov5640: Drop ref to
+ video-interface-devices.yaml
+Message-ID: <YyhFe+FW2C+R7nQg@pendragon.ideasonboard.com>
+References: <20220916133521.73183-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <YyZS38Wo7rDsNRm2@pendragon.ideasonboard.com>
+ <CA+V-a8vvNHFt818wryyuhWxPtay4czjWXiH=AWEKiJ1AzB46mA@mail.gmail.com>
+ <fc1c075d-e20d-9395-d168-8cfe530f77ad@linaro.org>
+ <CA+V-a8uMyU89rufmqWiGFqpVjFPvHBeVeSd1Wt07eWZo1X+Bgw@mail.gmail.com>
+ <Yyg4SU7D5mClOvP/@pendragon.ideasonboard.com>
+ <CA+V-a8uM=33jw_BE7S1G3DsvbUdvxUhkBty6VCWdAprQ288haw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <87wn9zreic.fsf@gmail.com>
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <CA+V-a8uM=33jw_BE7S1G3DsvbUdvxUhkBty6VCWdAprQ288haw@mail.gmail.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mikhail,
+On Mon, Sep 19, 2022 at 10:41:00AM +0100, Lad, Prabhakar wrote:
+> On Mon, Sep 19, 2022 at 10:37 AM Laurent Pinchart wrote:
+> > On Mon, Sep 19, 2022 at 10:35:21AM +0100, Lad, Prabhakar wrote:
+> > > On Mon, Sep 19, 2022 at 9:19 AM Krzysztof Kozlowski wrote:
+> > > > On 19/09/2022 10:08, Lad, Prabhakar wrote:
+> > > > > On Sun, Sep 18, 2022 at 12:06 AM Laurent Pinchart wrote:
+> > > > >> On Fri, Sep 16, 2022 at 02:35:21PM +0100, Prabhakar wrote:
+> > > > >>> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > > > >>>
+> > > > >>> video-interface-devices.yaml isn't used so just drop it from the
+> > > > >>> DT binding doc.
+> > > > >>>
+> > > > >>> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > > > >>> ---
+> > > > >>>  Documentation/devicetree/bindings/media/i2c/ovti,ov5640.yaml | 3 ---
+> > > > >>>  1 file changed, 3 deletions(-)
+> > > > >>>
+> > > > >>> diff --git a/Documentation/devicetree/bindings/media/i2c/ovti,ov5640.yaml b/Documentation/devicetree/bindings/media/i2c/ovti,ov5640.yaml
+> > > > >>> index 540fd69ac39f..ce99aada75ad 100644
+> > > > >>> --- a/Documentation/devicetree/bindings/media/i2c/ovti,ov5640.yaml
+> > > > >>> +++ b/Documentation/devicetree/bindings/media/i2c/ovti,ov5640.yaml
+> > > > >>> @@ -9,9 +9,6 @@ title: OmniVision OV5640 Image Sensor Device Tree Bindings
+> > > > >>>  maintainers:
+> > > > >>>    - Steve Longerbeam <slongerbeam@gmail.com>
+> > > > >>>
+> > > > >>> -allOf:
+> > > > >>> -  - $ref: /schemas/media/video-interface-devices.yaml#
+> > > > >>> -
+> > > > >>
+> > > > >> The rotation property listed in this binding uses the definition from
+> > > > >> video-interface-devices.yaml. I don't think just dropping this is the
+> > > > >> right solution. Changing additionaProperties to unevaluatedProperties
+> > > > >> seems a better option.
+> > > > >
+> > > > > Agreed, I missed rotation was used from video-interface-devices.yaml.
+> > > > > Agreed the changing additionaProperties to unevaluatedProperties seems
+> > > > > a better option.
+> > > >
+> > > > The meaning of unevaluatedProperties:false would be here - accept other
+> > > > properties (not mentioned here explicitly) from referenced schema. If
+> > > > this is your actual intention for this binding, it makes sense. But if
+> > > > the intention in this binding was to disallow these other properties,
+> > > > then it would be wrong to change to unevaluatedProperties.
+> > > >
+> > > Thank you for the clarification. The intention is to disallow the property.
+> >
+> > Why should they be disallowed ?
+> 
+> my bad! "rotation" property is supposed to be allowed so the earlier
+> comment to change to unevaluatedProperties holds good.
 
-On Mon, Sep 19, 2022 at 10:01:06AM +0300, Mikhail Rudenko wrote:
-> 
-> Hi Sakari,
-> 
-> On 2022-09-19 at 06:40 GMT, Sakari Ailus <sakari.ailus@linux.intel.com> wrote:
-> 
-> > Hi Mikhail,
-> >
-> > On Fri, Sep 16, 2022 at 12:27:42AM +0300, Mikhail Rudenko wrote:
-> >>
-> >> Hi Dave,
-> >>
-> >> On 2022-09-14 at 10:58 +01, Dave Stevenson <dave.stevenson@raspberrypi.com> wrote:
-> >> > Hi Mikhail
-> >> >
-> >> > On Sun, 11 Sept 2022 at 21:02, Mikhail Rudenko <mike.rudenko@gmail.com> wrote:
-> >> >>
-> >> >> Hello,
-> >> >>
-> >> >> this series implements support for Omnivision OV4689 image
-> >> >> sensor. The Omnivision OV4689 is a high performance, 1/3-inch, 4
-> >> >> megapixel image sensor. Ihis chip supports high frame rate speeds up
-> >> >> to 90 fps at 2688x1520 resolution. It is programmable through an I2C
-> >> >> interface, and sensor output is sent via 1/2/4 lane MIPI CSI-2
-> >> >> connection.
-> >> >>
-> >> >> The driver is based on Rockchip BSP kernel [1]. It implements 4-lane CSI-2
-> >> >> and single 2688x1520 @ 30 fps mode. The driver was tested on Rockchip
-> >> >> 3399-based FriendlyElec NanoPi M4 board with MCAM400 camera
-> >> >> module.
-> >> >> While porting the driver, I stumbled upon two issues:
-> [snip]
-> >> >> (2) The original driver exposes analog gain range 0x0 - 0x7ff, but the
-> >> >> gain is not linear across that range. Instead, it is piecewise linear
-> >> >> (and discontinuous). 0x0-0xff register values result in 0x-2x gain,
-> >> >> 0x100-0x1ff to 0x-4x, 0x300-0x3ff to 0x-8x, and 0x700-0x7ff to 0x-16x,
-> >> >> with more linear segments in between. Rockchip's camera engine code
-> >> >> chooses one of the above segments depenging on the desired gain
-> >> >> value. The question is, how should we proceed keeping in mind
-> >> >> libcamera use case? Should the whole 0x0-0x7ff be exposed as-is and
-> >> >> libcamera will do the mapping, or the driver will do the mapping
-> >> >> itself and expose some logical gain units not tied to the actual gain
-> >> >> register value? Meanwhile, this driver conservatively exposes only
-> >> >> 0x0-0xf8 gain register range.
-> >> >
-> >> > The datasheet linked above says "for the gain formula, please contact
-> >> > your local OmniVision FAE" :-(
-> >> > I would assume that the range is from 1x rather than 0x - people
-> >> > rarely want a totally black image that 0x would give. Or is it ranges
-> >> > of 1x - 2x, 2x - 4x, 4x - 8x, and 8x - 16x?
-> >>
-> >> A picture is worth a thousand words, so I've attached the results of my
-> >> experimentation with the gain register. They were obtained with Rockchip
-> >> 3399, with AEC, AGC and black level subtraction disabled. The image was
-> >> converted from 10-bit RGGB to 8-bit YUV 4:2:0 by the Rockchip ISP.
-> >
-> > Based on that it looks like their medication may have been a little too
-> > strong.
-> >
-> > Could this be implemented so that the control value would be linear linear
-> > but its range would correspond 1x--16x values?
-> >
-> > libcamera will be able to cope with that.
-> >
-> 
-> According to the following fragment of the Rockchip camera engine sensor
-> configuration file for ov4689 [1]
-> 
->     <Linear index="1" type="double" size="[4 7]">
->        [1 2 128 0 1 128 255
->         2 4 64 -248 1 376 504
->         4 8 32 -756 1 884 1012
->         8 16 16 -1784 1 1912 2040]
->     </Linear>,
-> 
-> it uses gain register value range 128-255 for gain 1x-2x, 376-504 for
-> gain 2x-4x, 884-1024 for 4x-8x, and 1912-2040 for 8x-16x. Do you suggest
-> to implement this calculation in the sensor driver and expose some
-> linear "logical" gain to userspace (ranging, e.g., 128-2048 for gains
-> 1x-16x)?
+It's not just the rotation. The other properties are allowed too. For
+the rotation property you need to list it explicitly in ovti,ov5640.yaml
+if you want to restrict the values it can take, but other properties
+from video-interface-devices.yaml for which no additional constraints
+are needed don't need to be listed in ovti,ov5640.yaml.
 
-Yes. This way the user space can somehow work without knowing this special
-implementation, even though the granularity changes over the range. I guess
-the granularity would need to be known in libcamera but that's a separate
-issue.
+additionalProperties and unevaluatedProperties are often misunderstood.
+DT bindings are a set of rules, and validation will pass *only* if *all*
+rules are valid. Let's consider the following:
+
+allOf:
+  - $ref: /schemas/media/video-interface-devices.yaml#
+
+The allOf is valid if all of the elements in the list are valid. The
+$ref will essentially work as if the contents of
+video-interface-devices.yaml were copied in ovti,ov5640.yaml, under the
+corresponding allOf list entry (with a small but important difference,
+noted below). The file contains
+
+  rotation:
+    $ref: /schemas/types.yaml#/definitions/uint32
+    enum: [ 0, 90, 180, 270 ]
+
+so any "rotation" property in the device tree will be validated against
+this. ovti,ov5640.yaml also has
+
+properties:
+  rotation:
+    enum:
+      - 0
+      - 180
+
+which is a separate rule from the previous one. Both must be valid for
+validation to succeed, so this second rule essentially restricts the
+possible rotation values.
+
+The additionalProperties and unevaluatedProperties affect how properties
+that have no validation rule will be treated.
+
+With additionalProperties set to false, a property that has no
+validation rule in *this* schema will be considered invalid, even if it
+has a validation rule in another schema (either selected automatically
+through a "select" property in the other schema, or imported through an
+explicit $ref). So, in this particular example, even though
+video-interface-devices.yaml has, for instance, a rule for the
+lens-focus property, a DT that contains lens-focus will be considered as
+invalid as lens-focus is not validated by this schema. One way to allow
+the property would be to add
+
+properties:
+  lens-focus: true
+
+in this schema. The contents of lens-focus would be validated by the
+rule in video-interface-devices.yaml, and the rule in this schema would
+always be valid ("true" is always valid).
+
+Another way to allow the property would be to replace
+additionalProperties with unevaluatedProperties. When set to false,
+unevaluatedProperties makes validation fail if any property has not been
+evaluated by *any* rule in this schema or any other schema. As
+lens-focus would be evaluated by video-interface-devices.yaml, that
+would be enough to consider it valid. This also means that *all*
+properties listed in video-interface-devices.yaml would then be valid.
+If you wanted that behaviour, but also wanted to reject specific
+properties, you could add
+
+properties:
+  lens-focus: false
+
+in this schema. A lens-focus property in a DT would be valid when
+evaluated with the corresponding rule in video-interface-devices.yaml,
+but would be invalidated by the rule in this schema as "false" is always
+invalid.
+
+To conclude, setting additionalProperties to false creates a white
+listing mechanism that requires you to explicitly list in this schema
+all the properties you consider as valid with "foo: true", while setting
+unevaluatedProperties to false creates a black listing mechanism that
+requires you to explicitly list in this schema all the properties you
+consider as invalid with "foo: false". If multiple schemas that apply to
+the same device tree include rules for the same property, all those
+rules need to be valid for validation to pass, regardless of the value
+of additionalProperties and unevaluatedProperties.
 
 -- 
-Sakari Ailus
+Regards,
+
+Laurent Pinchart
