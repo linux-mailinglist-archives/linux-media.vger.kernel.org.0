@@ -2,289 +2,363 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 44E235BD128
-	for <lists+linux-media@lfdr.de>; Mon, 19 Sep 2022 17:37:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 422A85BD176
+	for <lists+linux-media@lfdr.de>; Mon, 19 Sep 2022 17:51:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230049AbiISPhC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 19 Sep 2022 11:37:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48924 "EHLO
+        id S230312AbiISPvr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 19 Sep 2022 11:51:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40348 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229691AbiISPhA (ORCPT
+        with ESMTP id S230025AbiISPvq (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 19 Sep 2022 11:37:00 -0400
-Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com [IPv6:2a00:1450:4864:20::435])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 22EFD33A0D;
-        Mon, 19 Sep 2022 08:36:59 -0700 (PDT)
-Received: by mail-wr1-x435.google.com with SMTP id e16so48123951wrx.7;
-        Mon, 19 Sep 2022 08:36:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date;
-        bh=fQvDdk16+7CMsq9bF0SPcIgObUezc5YF7D3cICppKSs=;
-        b=ORFwrH6fu+jPGysKe+VqcIqVMDL0+EVxPlgEpjTqOWSVCkshxGYiyQrDo4XliZ7eCN
-         BrujP9du9Evj0hx/CbVnK7BjtVZLKaT7yWRGdyKI3LPv3YDlKF5fBujLTG4Ap8iPkPlp
-         kp5Xg2p5HGozlaYzKTPmqQj2wlwUtc3/utaE5o9Bloo/IvdFN34e8pTlVRYCS4GFadlH
-         XnBOeIcmEaXQ08j+ajgFc4YtwWVEw7LrMRyvLd0tNk//wr+vFw4bx1oF3EO+p3KFtD0f
-         aQQIAiUJ7mxVbCg2quN0qCngKZHUPfsik/GNgOsMAoFjWKcs884E8/aeX6J3kC9qUSdr
-         9FZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date;
-        bh=fQvDdk16+7CMsq9bF0SPcIgObUezc5YF7D3cICppKSs=;
-        b=aCQzxTC1CRMHKBOa7G4wubSZq1WxUcZvnJhJp6oBbMuTckaoBh4wo5NHbFnFYQRBTi
-         HUhfq1CGcuKLRHRPIRZ8NwspU+xk9p13jHrrwFZOahN0wIuT3H5RCDFZMrHeq5HYrNvw
-         FI66l2M0YpTwrIv5tmsu4ea68ZQe0VFrknnWmDu45vhF5c27ReiNzKJJm9TNJB42FmvD
-         T83ZMDTMoFOiDlJkakce/MERkhBkQhkuR6kpcn/Te7Qc+PtRv/CPlfyDxo/PO6iLSELB
-         m8PEKpBHxFvo6I2LeDT5h510/F90LXfMNGHJ5aQkAobyRbpnhbObCA8rGKhEWA4lv0yb
-         cGpQ==
-X-Gm-Message-State: ACrzQf13Vy284xtgqHg3fN/msbKxWywVnWuhPylnnTiV0LsL+N0QEZn7
-        BcFxu9DGubFkNw4hwt1r4JtqGNKTNR9uGA==
-X-Google-Smtp-Source: AMsMyM4v5BHvAlBBQvS6GGEKnvAPdPCKosJbE2IXq71y9BBR49P9+8rOrSk1ImGkmZbBg7dmxPLCng==
-X-Received: by 2002:a5d:4688:0:b0:22a:f718:7f36 with SMTP id u8-20020a5d4688000000b0022af7187f36mr5184355wrq.315.1663601817451;
-        Mon, 19 Sep 2022 08:36:57 -0700 (PDT)
-Received: from prasmi.home ([2a00:23c8:2501:c701:453:ec29:bd55:6b15])
-        by smtp.gmail.com with ESMTPSA id m6-20020a05600c4f4600b003b47581979bsm15369257wmq.33.2022.09.19.08.36.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Sep 2022 08:36:56 -0700 (PDT)
-From:   Prabhakar <prabhakar.csengg@gmail.com>
-X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Tommaso Merciai <tommaso.merciai@amarulasolutions.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v3] media: dt-bindings: ov5645: Convert OV5645 binding to a schema
-Date:   Mon, 19 Sep 2022 16:35:40 +0100
-Message-Id: <20220919153540.178732-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+        Mon, 19 Sep 2022 11:51:46 -0400
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EBDCC3A17B
+        for <linux-media@vger.kernel.org>; Mon, 19 Sep 2022 08:51:43 -0700 (PDT)
+Received: from dggpemm500024.china.huawei.com (unknown [172.30.72.53])
+        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4MWTcP6khxzpSy3;
+        Mon, 19 Sep 2022 23:48:53 +0800 (CST)
+Received: from dggpemm500007.china.huawei.com (7.185.36.183) by
+ dggpemm500024.china.huawei.com (7.185.36.203) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Mon, 19 Sep 2022 23:51:40 +0800
+Received: from huawei.com (10.175.103.91) by dggpemm500007.china.huawei.com
+ (7.185.36.183) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.31; Mon, 19 Sep
+ 2022 23:51:40 +0800
+From:   Yang Yingliang <yangyingliang@huawei.com>
+To:     <linux-media@vger.kernel.org>
+CC:     <mchehab@kernel.org>, <hverkuil-cisco@xs4all.nl>, <pavel@ucw.cz>,
+        <sakari.ailus@linux.intel.com>, <sean@mess.org>,
+        <laurent.pinchart@ideasonboard.com>
+Subject: [PATCH -next v2] media: Switch to use dev_err_probe() helper
+Date:   Mon, 19 Sep 2022 23:58:43 +0800
+Message-ID: <20220919155843.1097473-1-yangyingliang@huawei.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [10.175.103.91]
+X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
+ dggpemm500007.china.huawei.com (7.185.36.183)
+X-CFilter-Loop: Reflected
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+In the probe path, dev_err() can be replaced with dev_err_probe()
+which will check if error code is -EPROBE_DEFER.
 
-Convert the simple OV5645 Device Tree binding to json-schema.
-
-The previous binding marked the below properties as required which was a
-driver requirement and not the device requirement so just drop them from
-the required list during the conversion.
-- clock-frequency
-- enable-gpios
-- reset-gpios
-
-Also drop the "clock-names" property as we have a single clock source for
-the sensor and the driver has been updated to drop the clk referencing by
-name.
-
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Reviewed-by: Sean Young <sean@mess.org>
+Reviewed-by: Ricardo Ribalda <ribalda@chromium.org>
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
 ---
-v2 -> v3
-* Dropped clock-names property
-* Marked power supplies as mandatory
-* Dropped the comment for voltage power supplies
-* Included RB tag from Laurent
-* Driver change to drop clock-names [0]
-
-[0] https://lore.kernel.org/linux-media/Yyh%2F3uzOJOu3drEB@pendragon.ideasonboard.com/T/#t
-
-v1 -> v2
-* Dropped ref to video-interface-devices.yaml#
-* Dropped driver specific required items from the list
-* Updated commit message
-* Dropped clock-lanes and bus-type from the port and example node
-* Marked data-lanes as required in port node
+v2:
+  - Merge the patches in one patch.
+  - s/replace/replaced in commit message.
+  - Add '\n' in xilinx-csi2rxss.c and imx274.c
+  - Add missing return value in media-dev.c
 ---
- .../devicetree/bindings/media/i2c/ov5645.txt  |  54 ---------
- .../bindings/media/i2c/ovti,ov5645.yaml       | 104 ++++++++++++++++++
- 2 files changed, 104 insertions(+), 54 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/media/i2c/ov5645.txt
- create mode 100644 Documentation/devicetree/bindings/media/i2c/ovti,ov5645.yaml
+ drivers/media/cec/platform/stm32/stm32-cec.c  |  9 +++----
+ drivers/media/i2c/ad5820.c                    | 18 +++++--------
+ drivers/media/i2c/imx274.c                    |  5 ++--
+ drivers/media/i2c/tc358743.c                  |  9 +++----
+ .../platform/mediatek/mdp/mtk_mdp_comp.c      |  5 ++--
+ .../platform/samsung/exynos4-is/media-dev.c   |  4 +--
+ drivers/media/platform/st/stm32/stm32-dcmi.c  | 27 +++++++------------
+ drivers/media/platform/ti/omap3isp/isp.c      |  3 +--
+ .../media/platform/xilinx/xilinx-csi2rxss.c   |  8 +++---
+ drivers/media/rc/gpio-ir-recv.c               | 10 +++----
+ drivers/media/rc/gpio-ir-tx.c                 |  9 +++----
+ drivers/media/rc/ir-rx51.c                    |  9 ++-----
+ drivers/media/usb/uvc/uvc_driver.c            |  9 +++----
+ 13 files changed, 41 insertions(+), 84 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/media/i2c/ov5645.txt b/Documentation/devicetree/bindings/media/i2c/ov5645.txt
-deleted file mode 100644
-index 72ad992f77be..000000000000
---- a/Documentation/devicetree/bindings/media/i2c/ov5645.txt
-+++ /dev/null
-@@ -1,54 +0,0 @@
--* Omnivision 1/4-Inch 5Mp CMOS Digital Image Sensor
+diff --git a/drivers/media/cec/platform/stm32/stm32-cec.c b/drivers/media/cec/platform/stm32/stm32-cec.c
+index 40db7911b437..7b2db46a5722 100644
+--- a/drivers/media/cec/platform/stm32/stm32-cec.c
++++ b/drivers/media/cec/platform/stm32/stm32-cec.c
+@@ -288,12 +288,9 @@ static int stm32_cec_probe(struct platform_device *pdev)
+ 		return ret;
+ 
+ 	cec->clk_cec = devm_clk_get(&pdev->dev, "cec");
+-	if (IS_ERR(cec->clk_cec)) {
+-		if (PTR_ERR(cec->clk_cec) != -EPROBE_DEFER)
+-			dev_err(&pdev->dev, "Cannot get cec clock\n");
 -
--The Omnivision OV5645 is a 1/4-Inch CMOS active pixel digital image sensor with
--an active array size of 2592H x 1944V. It is programmable through a serial I2C
--interface.
+-		return PTR_ERR(cec->clk_cec);
+-	}
++	if (IS_ERR(cec->clk_cec))
++		return dev_err_probe(&pdev->dev, PTR_ERR(cec->clk_cec),
++				     "Cannot get cec clock\n");
+ 
+ 	ret = clk_prepare(cec->clk_cec);
+ 	if (ret) {
+diff --git a/drivers/media/i2c/ad5820.c b/drivers/media/i2c/ad5820.c
+index 516de278cc49..6a7f8ef9db05 100644
+--- a/drivers/media/i2c/ad5820.c
++++ b/drivers/media/i2c/ad5820.c
+@@ -301,21 +301,15 @@ static int ad5820_probe(struct i2c_client *client,
+ 		return -ENOMEM;
+ 
+ 	coil->vana = devm_regulator_get(&client->dev, "VANA");
+-	if (IS_ERR(coil->vana)) {
+-		ret = PTR_ERR(coil->vana);
+-		if (ret != -EPROBE_DEFER)
+-			dev_err(&client->dev, "could not get regulator for vana\n");
+-		return ret;
+-	}
++	if (IS_ERR(coil->vana))
++		return dev_err_probe(&client->dev, PTR_ERR(coil->vana),
++				     "could not get regulator for vana\n");
+ 
+ 	coil->enable_gpio = devm_gpiod_get_optional(&client->dev, "enable",
+ 						    GPIOD_OUT_LOW);
+-	if (IS_ERR(coil->enable_gpio)) {
+-		ret = PTR_ERR(coil->enable_gpio);
+-		if (ret != -EPROBE_DEFER)
+-			dev_err(&client->dev, "could not get enable gpio\n");
+-		return ret;
+-	}
++	if (IS_ERR(coil->enable_gpio))
++		return dev_err_probe(&client->dev, PTR_ERR(coil->enable_gpio),
++				     "could not get enable gpio\n");
+ 
+ 	mutex_init(&coil->power_lock);
+ 
+diff --git a/drivers/media/i2c/imx274.c b/drivers/media/i2c/imx274.c
+index a00761b1e18c..9219f3c9594b 100644
+--- a/drivers/media/i2c/imx274.c
++++ b/drivers/media/i2c/imx274.c
+@@ -2060,9 +2060,8 @@ static int imx274_probe(struct i2c_client *client)
+ 	imx274->reset_gpio = devm_gpiod_get_optional(dev, "reset",
+ 						     GPIOD_OUT_HIGH);
+ 	if (IS_ERR(imx274->reset_gpio)) {
+-		if (PTR_ERR(imx274->reset_gpio) != -EPROBE_DEFER)
+-			dev_err(dev, "Reset GPIO not setup in DT");
+-		ret = PTR_ERR(imx274->reset_gpio);
++		ret = dev_err_probe(dev, PTR_ERR(imx274->reset_gpio),
++				    "Reset GPIO not setup in DT\n");
+ 		goto err_me;
+ 	}
+ 
+diff --git a/drivers/media/i2c/tc358743.c b/drivers/media/i2c/tc358743.c
+index 200841c1f5cf..9197fa0b1bc2 100644
+--- a/drivers/media/i2c/tc358743.c
++++ b/drivers/media/i2c/tc358743.c
+@@ -1891,12 +1891,9 @@ static int tc358743_probe_of(struct tc358743_state *state)
+ 	int ret;
+ 
+ 	refclk = devm_clk_get(dev, "refclk");
+-	if (IS_ERR(refclk)) {
+-		if (PTR_ERR(refclk) != -EPROBE_DEFER)
+-			dev_err(dev, "failed to get refclk: %ld\n",
+-				PTR_ERR(refclk));
+-		return PTR_ERR(refclk);
+-	}
++	if (IS_ERR(refclk))
++		return dev_err_probe(dev, PTR_ERR(refclk),
++				     "failed to get refclk\n");
+ 
+ 	ep = of_graph_get_next_endpoint(dev->of_node, NULL);
+ 	if (!ep) {
+diff --git a/drivers/media/platform/mediatek/mdp/mtk_mdp_comp.c b/drivers/media/platform/mediatek/mdp/mtk_mdp_comp.c
+index 1e3833f1c9ae..ad5fab2d8bfa 100644
+--- a/drivers/media/platform/mediatek/mdp/mtk_mdp_comp.c
++++ b/drivers/media/platform/mediatek/mdp/mtk_mdp_comp.c
+@@ -52,9 +52,8 @@ int mtk_mdp_comp_init(struct device *dev, struct device_node *node,
+ 	for (i = 0; i < ARRAY_SIZE(comp->clk); i++) {
+ 		comp->clk[i] = of_clk_get(node, i);
+ 		if (IS_ERR(comp->clk[i])) {
+-			if (PTR_ERR(comp->clk[i]) != -EPROBE_DEFER)
+-				dev_err(dev, "Failed to get clock\n");
+-			ret = PTR_ERR(comp->clk[i]);
++			ret = dev_err_probe(dev, PTR_ERR(comp->clk[i]),
++					    "Failed to get clock\n");
+ 			goto put_dev;
+ 		}
+ 
+diff --git a/drivers/media/platform/samsung/exynos4-is/media-dev.c b/drivers/media/platform/samsung/exynos4-is/media-dev.c
+index 52b43ea04030..7a9d51b8bb4c 100644
+--- a/drivers/media/platform/samsung/exynos4-is/media-dev.c
++++ b/drivers/media/platform/samsung/exynos4-is/media-dev.c
+@@ -1473,9 +1473,7 @@ static int fimc_md_probe(struct platform_device *pdev)
+ 
+ 	pinctrl = devm_pinctrl_get(dev);
+ 	if (IS_ERR(pinctrl)) {
+-		ret = PTR_ERR(pinctrl);
+-		if (ret != EPROBE_DEFER)
+-			dev_err(dev, "Failed to get pinctrl: %d\n", ret);
++		ret = dev_err_probe(dev, PTR_ERR(pinctrl), "Failed to get pinctrl\n");
+ 		goto err_clk;
+ 	}
+ 
+diff --git a/drivers/media/platform/st/stm32/stm32-dcmi.c b/drivers/media/platform/st/stm32/stm32-dcmi.c
+index 2ca95ab2b0fe..ec138843d090 100644
+--- a/drivers/media/platform/st/stm32/stm32-dcmi.c
++++ b/drivers/media/platform/st/stm32/stm32-dcmi.c
+@@ -1946,12 +1946,9 @@ static int dcmi_probe(struct platform_device *pdev)
+ 		return -ENOMEM;
+ 
+ 	dcmi->rstc = devm_reset_control_get_exclusive(&pdev->dev, NULL);
+-	if (IS_ERR(dcmi->rstc)) {
+-		if (PTR_ERR(dcmi->rstc) != -EPROBE_DEFER)
+-			dev_err(&pdev->dev, "Could not get reset control\n");
 -
--Required Properties:
--- compatible: Value should be "ovti,ov5645".
--- clocks: Reference to the xclk clock.
--- clock-names: Should be "xclk".
--- clock-frequency: Frequency of the xclk clock.
--- enable-gpios: Chip enable GPIO. Polarity is GPIO_ACTIVE_HIGH. This corresponds
--  to the hardware pin PWDNB which is physically active low.
--- reset-gpios: Chip reset GPIO. Polarity is GPIO_ACTIVE_LOW. This corresponds to
--  the hardware pin RESETB.
--- vdddo-supply: Chip digital IO regulator.
--- vdda-supply: Chip analog regulator.
--- vddd-supply: Chip digital core regulator.
+-		return PTR_ERR(dcmi->rstc);
+-	}
++	if (IS_ERR(dcmi->rstc))
++		return dev_err_probe(&pdev->dev, PTR_ERR(dcmi->rstc),
++				     "Could not get reset control\n");
+ 
+ 	/* Get bus characteristics from devicetree */
+ 	np = of_graph_get_next_endpoint(np, NULL);
+@@ -2003,20 +2000,14 @@ static int dcmi_probe(struct platform_device *pdev)
+ 	}
+ 
+ 	mclk = devm_clk_get(&pdev->dev, "mclk");
+-	if (IS_ERR(mclk)) {
+-		if (PTR_ERR(mclk) != -EPROBE_DEFER)
+-			dev_err(&pdev->dev, "Unable to get mclk\n");
+-		return PTR_ERR(mclk);
+-	}
++	if (IS_ERR(mclk))
++		return dev_err_probe(&pdev->dev, PTR_ERR(mclk),
++				     "Unable to get mclk\n");
+ 
+ 	chan = dma_request_chan(&pdev->dev, "tx");
+-	if (IS_ERR(chan)) {
+-		ret = PTR_ERR(chan);
+-		if (ret != -EPROBE_DEFER)
+-			dev_err(&pdev->dev,
+-				"Failed to request DMA channel: %d\n", ret);
+-		return ret;
+-	}
++	if (IS_ERR(chan))
++		return dev_err_probe(&pdev->dev, PTR_ERR(chan),
++				     "Failed to request DMA channel\n");
+ 
+ 	dcmi->dma_max_burst = UINT_MAX;
+ 	ret = dma_get_slave_caps(chan, &caps);
+diff --git a/drivers/media/platform/ti/omap3isp/isp.c b/drivers/media/platform/ti/omap3isp/isp.c
+index a6052df9bb19..5d6867b8f197 100644
+--- a/drivers/media/platform/ti/omap3isp/isp.c
++++ b/drivers/media/platform/ti/omap3isp/isp.c
+@@ -1886,8 +1886,7 @@ static int isp_initialize_modules(struct isp_device *isp)
+ 
+ 	ret = omap3isp_ccp2_init(isp);
+ 	if (ret < 0) {
+-		if (ret != -EPROBE_DEFER)
+-			dev_err(isp->dev, "CCP2 initialization failed\n");
++		dev_err_probe(isp->dev, ret, "CCP2 initialization failed\n");
+ 		goto error_ccp2;
+ 	}
+ 
+diff --git a/drivers/media/platform/xilinx/xilinx-csi2rxss.c b/drivers/media/platform/xilinx/xilinx-csi2rxss.c
+index 29b53febc2e7..d8a23f18cfbc 100644
+--- a/drivers/media/platform/xilinx/xilinx-csi2rxss.c
++++ b/drivers/media/platform/xilinx/xilinx-csi2rxss.c
+@@ -976,11 +976,9 @@ static int xcsi2rxss_probe(struct platform_device *pdev)
+ 	/* Reset GPIO */
+ 	xcsi2rxss->rst_gpio = devm_gpiod_get_optional(dev, "video-reset",
+ 						      GPIOD_OUT_HIGH);
+-	if (IS_ERR(xcsi2rxss->rst_gpio)) {
+-		if (PTR_ERR(xcsi2rxss->rst_gpio) != -EPROBE_DEFER)
+-			dev_err(dev, "Video Reset GPIO not setup in DT");
+-		return PTR_ERR(xcsi2rxss->rst_gpio);
+-	}
++	if (IS_ERR(xcsi2rxss->rst_gpio))
++		return dev_err_probe(dev, PTR_ERR(xcsi2rxss->rst_gpio),
++				     "Video Reset GPIO not setup in DT\n");
+ 
+ 	ret = xcsi2rxss_parse_of(xcsi2rxss);
+ 	if (ret < 0)
+diff --git a/drivers/media/rc/gpio-ir-recv.c b/drivers/media/rc/gpio-ir-recv.c
+index 22e524b69806..8f1fff7af6c9 100644
+--- a/drivers/media/rc/gpio-ir-recv.c
++++ b/drivers/media/rc/gpio-ir-recv.c
+@@ -74,13 +74,9 @@ static int gpio_ir_recv_probe(struct platform_device *pdev)
+ 		return -ENOMEM;
+ 
+ 	gpio_dev->gpiod = devm_gpiod_get(dev, NULL, GPIOD_IN);
+-	if (IS_ERR(gpio_dev->gpiod)) {
+-		rc = PTR_ERR(gpio_dev->gpiod);
+-		/* Just try again if this happens */
+-		if (rc != -EPROBE_DEFER)
+-			dev_err(dev, "error getting gpio (%d)\n", rc);
+-		return rc;
+-	}
++	if (IS_ERR(gpio_dev->gpiod))
++		return dev_err_probe(dev, PTR_ERR(gpio_dev->gpiod),
++				     "error getting gpio\n");
+ 	gpio_dev->irq = gpiod_to_irq(gpio_dev->gpiod);
+ 	if (gpio_dev->irq < 0)
+ 		return gpio_dev->irq;
+diff --git a/drivers/media/rc/gpio-ir-tx.c b/drivers/media/rc/gpio-ir-tx.c
+index d3063ddb472e..2b829c146db1 100644
+--- a/drivers/media/rc/gpio-ir-tx.c
++++ b/drivers/media/rc/gpio-ir-tx.c
+@@ -174,12 +174,9 @@ static int gpio_ir_tx_probe(struct platform_device *pdev)
+ 		return -ENOMEM;
+ 
+ 	gpio_ir->gpio = devm_gpiod_get(&pdev->dev, NULL, GPIOD_OUT_LOW);
+-	if (IS_ERR(gpio_ir->gpio)) {
+-		if (PTR_ERR(gpio_ir->gpio) != -EPROBE_DEFER)
+-			dev_err(&pdev->dev, "Failed to get gpio (%ld)\n",
+-				PTR_ERR(gpio_ir->gpio));
+-		return PTR_ERR(gpio_ir->gpio);
+-	}
++	if (IS_ERR(gpio_ir->gpio))
++		return dev_err_probe(&pdev->dev, PTR_ERR(gpio_ir->gpio),
++				     "Failed to get gpio\n");
+ 
+ 	rcdev->priv = gpio_ir;
+ 	rcdev->driver_name = DRIVER_NAME;
+diff --git a/drivers/media/rc/ir-rx51.c b/drivers/media/rc/ir-rx51.c
+index a3b145183260..85080c3d2053 100644
+--- a/drivers/media/rc/ir-rx51.c
++++ b/drivers/media/rc/ir-rx51.c
+@@ -231,13 +231,8 @@ static int ir_rx51_probe(struct platform_device *dev)
+ 	struct rc_dev *rcdev;
+ 
+ 	pwm = pwm_get(&dev->dev, NULL);
+-	if (IS_ERR(pwm)) {
+-		int err = PTR_ERR(pwm);
 -
--The device node must contain one 'port' child node for its digital output
--video port, in accordance with the video interface bindings defined in
--Documentation/devicetree/bindings/media/video-interfaces.txt.
--
--Example:
--
--	&i2c1 {
--		...
--
--		ov5645: ov5645@3c {
--			compatible = "ovti,ov5645";
--			reg = <0x3c>;
--
--			enable-gpios = <&gpio1 6 GPIO_ACTIVE_HIGH>;
--			reset-gpios = <&gpio5 20 GPIO_ACTIVE_LOW>;
--			pinctrl-names = "default";
--			pinctrl-0 = <&camera_rear_default>;
--
--			clocks = <&clks 200>;
--			clock-names = "xclk";
--			clock-frequency = <24000000>;
--
--			vdddo-supply = <&camera_dovdd_1v8>;
--			vdda-supply = <&camera_avdd_2v8>;
--			vddd-supply = <&camera_dvdd_1v2>;
--
--			port {
--				ov5645_ep: endpoint {
--					clock-lanes = <1>;
--					data-lanes = <0 2>;
--					remote-endpoint = <&csi0_ep>;
--				};
--			};
--		};
--	};
-diff --git a/Documentation/devicetree/bindings/media/i2c/ovti,ov5645.yaml b/Documentation/devicetree/bindings/media/i2c/ovti,ov5645.yaml
-new file mode 100644
-index 000000000000..0b10483cd267
---- /dev/null
-+++ b/Documentation/devicetree/bindings/media/i2c/ovti,ov5645.yaml
-@@ -0,0 +1,104 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/media/i2c/ovti,ov5645.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: OmniVision OV5645 Image Sensor Device Tree Bindings
-+
-+maintainers:
-+  - Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-+
-+properties:
-+  compatible:
-+    const: ovti,ov5645
-+
-+  reg:
-+    maxItems: 1
-+
-+  clocks:
-+    description: XCLK Input Clock
-+
-+  clock-frequency:
-+    description: Frequency of the xclk clock in Hz.
-+
-+  vdda-supply:
-+    description: Analog voltage supply, 2.8 volts
-+
-+  vddd-supply:
-+    description: Digital core voltage supply, 1.5 volts
-+
-+  vdddo-supply:
-+    description: Digital I/O voltage supply, 1.8 volts
-+
-+  enable-gpios:
-+    maxItems: 1
-+    description:
-+      Reference to the GPIO connected to the PWDNB pin, if any.
-+
-+  reset-gpios:
-+    maxItems: 1
-+    description:
-+      Reference to the GPIO connected to the RESETB pin, if any.
-+
-+  port:
-+    description: Digital Output Port
-+    $ref: /schemas/graph.yaml#/$defs/port-base
-+    additionalProperties: false
-+
-+    properties:
-+      endpoint:
-+        $ref: /schemas/media/video-interfaces.yaml#
-+        unevaluatedProperties: false
-+
-+        properties:
-+          data-lanes:
-+            minItems: 1
-+            maxItems: 2
-+            items:
-+              enum: [1, 2]
-+
-+        required:
-+          - data-lanes
-+
-+required:
-+  - compatible
-+  - reg
-+  - clocks
-+  - vdddo-supply
-+  - vdda-supply
-+  - vddd-supply
-+  - port
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+      #include <dt-bindings/gpio/gpio.h>
-+
-+      i2c {
-+          #address-cells = <1>;
-+          #size-cells = <0>;
-+
-+          camera@3c {
-+              compatible = "ovti,ov5645";
-+              pinctrl-names = "default";
-+              pinctrl-0 = <&pinctrl_ov5645>;
-+              reg = <0x3c>;
-+              clocks = <&clks 1>;
-+              clock-frequency = <24000000>;
-+              vdddo-supply = <&ov5645_vdddo_1v8>;
-+              vdda-supply = <&ov5645_vdda_2v8>;
-+              vddd-supply = <&ov5645_vddd_1v5>;
-+              enable-gpios = <&gpio1 19 GPIO_ACTIVE_HIGH>;
-+              reset-gpios = <&gpio1 20 GPIO_ACTIVE_LOW>;
-+
-+              port {
-+                  ov5645_ep: endpoint {
-+                      remote-endpoint = <&csi0_ep>;
-+                      data-lanes = <1 2>;
-+                  };
-+              };
-+          };
-+      };
-+...
+-		if (err != -EPROBE_DEFER)
+-			dev_err(&dev->dev, "pwm_get failed: %d\n", err);
+-		return err;
+-	}
++	if (IS_ERR(pwm))
++		return dev_err_probe(&dev->dev, PTR_ERR(pwm), "pwm_get failed\n");
+ 
+ 	/* Use default, in case userspace does not set the carrier */
+ 	ir_rx51.freq = DIV_ROUND_CLOSEST_ULL(pwm_get_period(pwm), NSEC_PER_SEC);
+diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
+index 744051b52e12..94f84c3c4712 100644
+--- a/drivers/media/usb/uvc/uvc_driver.c
++++ b/drivers/media/usb/uvc/uvc_driver.c
+@@ -1554,12 +1554,9 @@ static int uvc_gpio_parse(struct uvc_device *dev)
+ 		return PTR_ERR_OR_ZERO(gpio_privacy);
+ 
+ 	irq = gpiod_to_irq(gpio_privacy);
+-	if (irq < 0) {
+-		if (irq != EPROBE_DEFER)
+-			dev_err(&dev->udev->dev,
+-				"No IRQ for privacy GPIO (%d)\n", irq);
+-		return irq;
+-	}
++	if (irq < 0)
++		return dev_err_probe(&dev->udev->dev, irq,
++				     "No IRQ for privacy GPIO\n");
+ 
+ 	unit = uvc_alloc_entity(UVC_EXT_GPIO_UNIT, UVC_EXT_GPIO_UNIT_ID, 0, 1);
+ 	if (!unit)
 -- 
 2.25.1
 
