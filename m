@@ -2,84 +2,54 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 137545BC5EF
-	for <lists+linux-media@lfdr.de>; Mon, 19 Sep 2022 12:01:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 07BCA5BC610
+	for <lists+linux-media@lfdr.de>; Mon, 19 Sep 2022 12:09:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229819AbiISKBN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 19 Sep 2022 06:01:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60106 "EHLO
+        id S230002AbiISKJD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 19 Sep 2022 06:09:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40326 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229786AbiISKBH (ORCPT
+        with ESMTP id S229697AbiISKJC (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 19 Sep 2022 06:01:07 -0400
-Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com [IPv6:2a00:1450:4864:20::135])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8674222BDF
-        for <linux-media@vger.kernel.org>; Mon, 19 Sep 2022 03:01:01 -0700 (PDT)
-Received: by mail-lf1-x135.google.com with SMTP id a3so34057799lfk.9
-        for <linux-media@vger.kernel.org>; Mon, 19 Sep 2022 03:01:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date;
-        bh=WdUkk7yGHQTnyhcNnJU1k388XLuhNOGvfweCAo6fMwc=;
-        b=vO5LqzsAPrNDUjoRs+Misssc19PKq07vxhSzWwiWX2rQBxBfHnl5cK5doEQlcGwsNo
-         tpuIe+soZwbo9WrOfPLjHBRQLqxBai1/tefMKYyMMoUIm3aPUQ/LDmqq5bK9VNANZd+s
-         5Bv/LNRTDaSVhS6cTrW/YVyyMABkP4IqzfJraJzxUzQgYREEPdhMOLV7VsjaG4xm6flK
-         O1LbBk4DGuFEMFzlqru7LzCIfvfCJw5Sf7IxxUOuA2A1ukhkQNtODC7GK4FJ3Ei0qNG2
-         fewGakFqr1vkSi2B7jIGEenqrICWcDmYozv+G3xm9HyfgjX4dRUu901g0ZFT2BUfQukr
-         TPag==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=WdUkk7yGHQTnyhcNnJU1k388XLuhNOGvfweCAo6fMwc=;
-        b=sp7anT6nA7MYCEVaeSSFABmcC6TZ2X5S8iTPH15rHU+DtN5MqlJryrrn7akxALzaM+
-         k5jsu0PUEBNIeZ1eHKFF+vwsCfMFAqN6svGZN3qYF+TGlcCOk0ef+P39soJN3coLa5Wd
-         ksN5NtEc3HZmgybwiKTgTzLOtgM86WxBlPDR5c6EamMRtse8dDvGYQOG0u4Zlnx+YeTG
-         rJtJA1vL5DWunceiCfck8JIav6g5TDWC3x3C56L4B1+T3koAlXhookiE553kMhJ218rp
-         rrVPDwe/lkyBFptiAWB85FJoLTMMyDca+tglIGXtJ6gnJBKkimLo4dgBO3AdBdl279Zi
-         UtiA==
-X-Gm-Message-State: ACrzQf3Uao+UCAVaZsnSBDReimTLz3Bl6bcs61VqD6+OxTG3TmECj3JA
-        TeOtU+TKxMC4vibVnyow2v/Jtw==
-X-Google-Smtp-Source: AMsMyM6eTy9aLeRLLZfdd4mdrF4tOggHU+zSg3FhAvy4BMGppFAdGafMSo4oN8UwzI1bejZNfSFlOQ==
-X-Received: by 2002:a05:6512:3da9:b0:49f:1742:c692 with SMTP id k41-20020a0565123da900b0049f1742c692mr6498107lfv.313.1663581659821;
-        Mon, 19 Sep 2022 03:00:59 -0700 (PDT)
-Received: from [192.168.0.21] (78-11-189-27.static.ip.netia.com.pl. [78.11.189.27])
-        by smtp.gmail.com with ESMTPSA id be19-20020a056512251300b0049f53d53235sm1952699lfb.50.2022.09.19.03.00.58
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 19 Sep 2022 03:00:59 -0700 (PDT)
-Message-ID: <7a24c242-0fc8-ded1-37c9-ec279996a4c8@linaro.org>
-Date:   Mon, 19 Sep 2022 12:00:58 +0200
+        Mon, 19 Sep 2022 06:09:02 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BA9CD626C
+        for <linux-media@vger.kernel.org>; Mon, 19 Sep 2022 03:09:00 -0700 (PDT)
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <mfe@pengutronix.de>)
+        id 1oaDhm-0002Dm-00; Mon, 19 Sep 2022 12:08:46 +0200
+Received: from mfe by ptx.hi.pengutronix.de with local (Exim 4.92)
+        (envelope-from <mfe@pengutronix.de>)
+        id 1oaDhk-0003Vb-VP; Mon, 19 Sep 2022 12:08:44 +0200
+Date:   Mon, 19 Sep 2022 12:08:44 +0200
+From:   Marco Felsch <m.felsch@pengutronix.de>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     mchehab@kernel.org, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, kishon@ti.com, vkoul@kernel.org,
+        sakari.ailus@linux.intel.com, hverkuil@xs4all.nl,
+        jacopo@jmondi.org, kieran.bingham+renesas@ideasonboard.com,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
+        kernel@pengutronix.de
+Subject: Re: [PATCH v2 3/4] media: dt-bindings: add bindings for Toshiba
+ TC358746
+Message-ID: <20220919100844.bb7tzbql2vpk76xz@pengutronix.de>
+References: <20220916134535.128131-1-m.felsch@pengutronix.de>
+ <20220916134535.128131-4-m.felsch@pengutronix.de>
+ <YyZTCsflWtUbo2ld@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH] media: dt-bindings: i2c: ovti,ov5640: Drop ref to
- video-interface-devices.yaml
-Content-Language: en-US
-To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Maxime Ripard <maxime@cerno.tech>,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20220916133521.73183-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <YyZS38Wo7rDsNRm2@pendragon.ideasonboard.com>
- <CA+V-a8vvNHFt818wryyuhWxPtay4czjWXiH=AWEKiJ1AzB46mA@mail.gmail.com>
- <fc1c075d-e20d-9395-d168-8cfe530f77ad@linaro.org>
- <CA+V-a8uMyU89rufmqWiGFqpVjFPvHBeVeSd1Wt07eWZo1X+Bgw@mail.gmail.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <CA+V-a8uMyU89rufmqWiGFqpVjFPvHBeVeSd1Wt07eWZo1X+Bgw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-3.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <YyZTCsflWtUbo2ld@pendragon.ideasonboard.com>
+User-Agent: NeoMutt/20180716
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: mfe@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -87,26 +57,237 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 19/09/2022 11:35, Lad, Prabhakar wrote:
->>>> The rotation property listed in this binding uses the definition from
->>>> video-interface-devices.yaml. I don't think just dropping this is the
->>>> right solution. Changing additionaProperties to unevaluatedProperties
->>>> seems a better option.
->>>>
->>> Agreed, I missed rotation was used from video-interface-devices.yaml.
->>> Agreed the changing additionaProperties to unevaluatedProperties seems
->>> a better option.
->>
->> The meaning of unevaluatedProperties:false would be here - accept other
->> properties (not mentioned here explicitly) from referenced schema. If
->> this is your actual intention for this binding, it makes sense. But if
->> the intention in this binding was to disallow these other properties,
->> then it would be wrong to change to unevaluatedProperties.
->>
-> Thank you for the clarification. The intention is to disallow the property.
+Hi Laurent,
 
-Which property? Can you be specific?
+On 22-09-18, Laurent Pinchart wrote:
+> Hi Marco,
+> 
+> Thank you for the patch.
+> 
+> On Fri, Sep 16, 2022 at 03:45:34PM +0200, Marco Felsch wrote:
+> > Add the bindings for the Toshiba TC358746 Parallel <-> MIPI-CSI bridge
+> > driver.
+> > 
+> > Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
+> > Reviewed-by: Rob Herring <robh@kernel.org>
+> > ---
+> > Changelog:
+> > 
+> > v2:
+> > - addded Robs r-b
+> > - s/than/then/
+> > - added hsync/vsync/bus-type, make hsync/vsync required
+> > - fix example indent
+> > 
+> >  .../bindings/media/i2c/toshiba,tc358746.yaml  | 179 ++++++++++++++++++
+> >  1 file changed, 179 insertions(+)
+> >  create mode 100644 Documentation/devicetree/bindings/media/i2c/toshiba,tc358746.yaml
+> > 
+> > diff --git a/Documentation/devicetree/bindings/media/i2c/toshiba,tc358746.yaml b/Documentation/devicetree/bindings/media/i2c/toshiba,tc358746.yaml
+> > new file mode 100644
+> > index 000000000000..1fa574400bc2
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/media/i2c/toshiba,tc358746.yaml
+> > @@ -0,0 +1,179 @@
+> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/media/i2c/toshiba,tc358746.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: Toshiba TC358746 Parallel to MIPI CSI2 Bridge
+> > +
+> > +maintainers:
+> > +  - Marco Felsch <kernel@pengutronix.de>
+> > +
+> > +description: |-
+> > +  The Toshiba TC358746 converts a parallel video stream into a MIPI CSI-2
+> > +  stream. The direction can be either parallel-in -> csi-out or csi-in ->
+> > +  parallel-out The chip is programmable trough I2C and SPI but the SPI
+> > +  interface is only supported in parallel-in -> csi-out mode.
+> > +
+> > +  Note that the current device tree bindings only support the
+> > +  parallel-in -> csi-out path.
+> > +
+> > +properties:
+> > +  compatible:
+> > +    const: toshiba,tc358746
+> > +
+> > +  reg:
+> > +    maxItems: 1
+> > +
+> > +  clocks:
+> > +    description:
+> > +      The phandle to the reference clock source. This corresponds to the
+> > +      hardware pin REFCLK.
+> > +    maxItems: 1
+> > +
+> > +  clock-names:
+> > +    const: refclk
+> > +
+> > +# The bridge can act as clock provider for the sensor. To enable this support
+> > +# #clock-cells must be specified. Attention if this feature is used then the
+> > +# mclk rate must be at least: (2 * link-frequency) / 8
+> > +#                             `------------------´   ^
+> > +#                             internal PLL rate   smallest possible mclk-div
+> > +  "#clock-cells":
+> > +    const: 0
+> > +
+> > +  clock-output-names:
+> > +    description:
+> > +      The clock name of the MCLK output, the default name is tc358746-mclk.
+> > +    maxItems: 1
+> > +
+> > +  vddc-supply:
+> > +    description: Digital core voltage supply, 1.2 volts
+> > +
+> > +  vddio-supply:
+> > +    description: Digital I/O voltage supply, 1.8 volts
+> > +
+> > +  vddmipi-supply:
+> > +    description: MIPI CSI phy voltage supply, 1.2 volts
+> > +
+> > +  reset-gpios:
+> > +    description:
+> > +      The phandle and specifier for the GPIO that controls the chip reset.
+> > +      This corresponds to the hardware pin RESX which is physically active low.
+> > +    maxItems: 1
+> > +
+> > +  ports:
+> > +    $ref: /schemas/graph.yaml#/properties/ports
+> > +    properties:
+> > +      port@0:
+> > +        $ref: /schemas/graph.yaml#/$defs/port-base
+> > +        description: Input port
+> > +
+> > +        properties:
+> > +          endpoint:
+> > +            $ref: /schemas/media/video-interfaces.yaml#
+> > +            unevaluatedProperties: false
+> > +
+> > +            properties:
+> > +              hsync-active:
+> > +                enum:
+> > +                  - 0 # Hvalid active high
+> > +              vsync-active:
+> > +                enum:
+> > +                  - 0 # Vvalid active high
+> > +              bus-type:
+> > +                enum:
+> > +                  - 5 # Parallel
+> > +
+> > +            required:
+> > +              - hsync-active
+> > +              - vsync-active
+> 
+> Let's make bus-type required too, to prepare for BT.656 support.
 
+I would have done it when the BT.656 support is added. Since the BT.656
+don't require the sync signals I would have made a descision:
+ - either: hsync/vsync present -> parallel with external syncs, or
+ - bus-type present -> parallel bus with embedded syncs.
 
-Best regards,
-Krzysztof
+So we don't bother the system-integrator with specifying unnecessary
+properties. Also having v/hsync required in place with the bus-type (set
+to bt.656) can cause confusion about the final used mode.
+
+Regards,
+  Marco
+
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> 
+> > +
+> > +      port@1:
+> > +        $ref: /schemas/graph.yaml#/$defs/port-base
+> > +        description: Output port
+> > +
+> > +        properties:
+> > +          endpoint:
+> > +            $ref: /schemas/media/video-interfaces.yaml#
+> > +            unevaluatedProperties: false
+> > +
+> > +            properties:
+> > +              data-lanes:
+> > +                minItems: 1
+> > +                maxItems: 4
+> > +
+> > +              clock-noncontinuous: true
+> > +              link-frequencies: true
+> > +
+> > +            required:
+> > +              - data-lanes
+> > +              - link-frequencies
+> > +
+> > +    required:
+> > +      - port@0
+> > +      - port@1
+> > +
+> > +required:
+> > +  - compatible
+> > +  - reg
+> > +  - clocks
+> > +  - clock-names
+> > +  - vddc-supply
+> > +  - vddio-supply
+> > +  - vddmipi-supply
+> > +  - ports
+> > +
+> > +additionalProperties: false
+> > +
+> > +examples:
+> > +  - |
+> > +    #include <dt-bindings/gpio/gpio.h>
+> > +
+> > +    i2c {
+> > +      #address-cells = <1>;
+> > +      #size-cells = <0>;
+> > +
+> > +      csi-bridge@e {
+> > +        compatible = "toshiba,tc358746";
+> > +        reg = <0xe>;
+> > +
+> > +        clocks = <&refclk>;
+> > +        clock-names = "refclk";
+> > +
+> > +        reset-gpios = <&gpio 2 GPIO_ACTIVE_LOW>;
+> > +
+> > +        vddc-supply = <&v1_2d>;
+> > +        vddio-supply = <&v1_8d>;
+> > +        vddmipi-supply = <&v1_2d>;
+> > +
+> > +        /* sensor mclk provider */
+> > +        #clock-cells = <0>;
+> > +
+> > +        ports {
+> > +          #address-cells = <1>;
+> > +          #size-cells = <0>;
+> > +
+> > +          /* Input */
+> > +          port@0 {
+> > +            reg = <0>;
+> > +            tc358746_in: endpoint {
+> > +              remote-endpoint = <&sensor_out>;
+> > +              hsync-active = <0>;
+> > +              vsync-active = <0>;
+> > +            };
+> > +          };
+> > +
+> > +          /* Output */
+> > +          port@1 {
+> > +            reg = <1>;
+> > +            tc358746_out: endpoint {
+> > +              remote-endpoint = <&mipi_csi2_in>;
+> > +              data-lanes = <1 2>;
+> > +              clock-noncontinuous;
+> > +              link-frequencies = /bits/ 64 <216000000>;
+> > +            };
+> > +          };
+> > +        };
+> > +      };
+> > +    };
+> 
+> -- 
+> Regards,
+> 
+> Laurent Pinchart
+> 
