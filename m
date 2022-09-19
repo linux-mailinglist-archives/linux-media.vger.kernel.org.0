@@ -2,72 +2,62 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 118675BCBB1
-	for <lists+linux-media@lfdr.de>; Mon, 19 Sep 2022 14:22:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EF2D35BCBDE
+	for <lists+linux-media@lfdr.de>; Mon, 19 Sep 2022 14:34:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229577AbiISMWU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 19 Sep 2022 08:22:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53670 "EHLO
+        id S229819AbiISMeM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 19 Sep 2022 08:34:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37404 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230006AbiISMWI (ORCPT
+        with ESMTP id S229942AbiISMeA (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 19 Sep 2022 08:22:08 -0400
-Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com [IPv6:2a00:1450:4864:20::62f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B615215FDF;
-        Mon, 19 Sep 2022 05:22:06 -0700 (PDT)
-Received: by mail-ej1-x62f.google.com with SMTP id y3so64085790ejc.1;
-        Mon, 19 Sep 2022 05:22:06 -0700 (PDT)
+        Mon, 19 Sep 2022 08:34:00 -0400
+Received: from mail-lj1-x231.google.com (mail-lj1-x231.google.com [IPv6:2a00:1450:4864:20::231])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 46CA72DA89
+        for <linux-media@vger.kernel.org>; Mon, 19 Sep 2022 05:33:59 -0700 (PDT)
+Received: by mail-lj1-x231.google.com with SMTP id a10so820397ljq.0
+        for <linux-media@vger.kernel.org>; Mon, 19 Sep 2022 05:33:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date;
-        bh=XHg1b4jYGyRgGOGhc5Ca4cWCln/y5BtEHIxdQuC4VkI=;
-        b=SpXV+0+ZsoCfYEygRYo6lrjlzFLZ+EGv1YcKuQYGSp8+EfBUUyAhIX13Q4eVZ+pxe0
-         tXg0TRmw+CKA46u8IwJhx+y+QDPe4EhH7HqkUG2fZBu8rRQGNcjJEol+euTInChADf8Q
-         SJspxpUdhi6zx+H2iyx3ZeLDMwlBzFj+rs93/9B3pIrpks9HegSEiehL6Iqpl65v9m0o
-         m3UvtMxYFOmzyMlpL9pqwL/j6dhtO3vL8LfCyqwY4D9d20BziicUMSiCKRdL05mawSGa
-         9RjWF8qiZqE0LDRKO0MxZs6Dkp+SNFsegyoo/9Yx+88Lu6KTPXFH2rYe3l2XlYD+V61B
-         GVBw==
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date;
+        bh=XSpy2ORjSiTrqPXgwtf+2GKThTWQze4O+VRyLruhFjc=;
+        b=aEq9+mE/beaz0aiXLm0As+/t/wGNhfg+Km4PNLgTJs6l4m7zRhct6lWDog6HQc0Dpt
+         SSVI0c7uF0cu3jht3MWbU/2eo/qx3d0LpM99n1tt/1LWLNSPj+6FBYplryI4tYvQ1DZx
+         H3C0KaGU+EI3QMNZ2LhXO/f5uluCK5AC2+IG2SXLzK/xM9QoPbqZfRJ4pXJLEGnazVLR
+         LkajGYCC/At0XKWbYsnK4cC0G9wrIY+hUAGNyIzthFwbbql4hGTwj0+NmD1+Jc86fmqe
+         BjEo7pl1EzIsp2C953J6e4WenPKCM6wOBvUCrLsrFJcCoYWzN7AMRTFPiygJsNnmwJbx
+         fviw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=XHg1b4jYGyRgGOGhc5Ca4cWCln/y5BtEHIxdQuC4VkI=;
-        b=CGQ+Z7A2DkKfZ/UwxOdmQsv9NHU80aHCt+dkQyCrCMTJ6ppKIhLwSxRqgXYjp0S+2d
-         Ir/ULK0idEETzh2DUrRSWgkZbzLIIhIeEXE3Y2bR33wNkidN3DTCHo7kVxzNsaB1I/Wj
-         9yyMERSxZsaMY5HjQCn31E7Hif3j2T1Jdg/YlyGJNe/DSolLlRyz/+3P9xeUI0/y3VmF
-         QI92o3CxktscfBc/RnbPLGqAuBdmpdUv31TSkmq3KCHihMX7W1UFXupPit4/S5m4Vyfw
-         64EORJzL/oWqgCfXNz23qOoGy/4yLRgqTP4yVtYD8d3cRaXqPP/UCxLtNN1Sl4BmBXdl
-         8keQ==
-X-Gm-Message-State: ACrzQf2rG6aGWnFVzOPpK+vj+EuBS9C5DV+CjqXqneaJSeIN7cxC/rnu
-        UpKoa4H0aL/ndi9HLwNFmlarFUn4dYhyZf9nrPHvG4Xb110=
-X-Google-Smtp-Source: AMsMyM5RJLCquga1uZCWauvocv2gK9gLR+jYLl1hCZS/bcjVhGKKIaEWumq2NZHQ4eURwph1gVipm1fBtRsiWK+VgWQ=
-X-Received: by 2002:a17:907:2c41:b0:77d:8aed:cf7c with SMTP id
- hf1-20020a1709072c4100b0077d8aedcf7cmr12562813ejc.447.1663590125137; Mon, 19
- Sep 2022 05:22:05 -0700 (PDT)
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date;
+        bh=XSpy2ORjSiTrqPXgwtf+2GKThTWQze4O+VRyLruhFjc=;
+        b=WoctZ9R8SulDADkGnth29XJYPBBeiecXH+MfNjDe6HuL7R0NT3yUj1qnnE1pAx60Dx
+         06vtS8gbWbzlaTVKd4FIHUzTuD12rv6pay85dluBjY1CW2zWC/BL5CglqKUeAMCUF0HA
+         4C1EjqUKtbIJb+GXEyFk5ExnVIz0/CTD/odCcYIA98egkdRRputxQPDUcg32sDe6G9+O
+         0DsHqhFwI21SiMvTiYcIMhjgNUU84+iAoMHIMM4Ihay5+vsxy+lavGmoP7cmMI82Rgj5
+         8OoniGyd8aEswTRLsVlrH5T7wVbCvR4OkKBf4dxFkm5wzvWhFcHpHmbpeqVp4hlnqnpm
+         3IJw==
+X-Gm-Message-State: ACrzQf0UCGAcuezrxp6AJP4p9tk03CoPFozHqU15yd2bXWRQAS5/g7lI
+        s9QIw/6TAn4Y+lweG69kIGUrg0Z7WArBAAo9YPQ=
+X-Google-Smtp-Source: AMsMyM6wWbWtS1df4sjbx6TdkvrpAB99a0t4pRhUdmMPC0vGI2qklF152H2CXbv8KCCHxcpZqFnNkpsiSJ+GRSTHQKY=
+X-Received: by 2002:a2e:391b:0:b0:26a:c75c:ff6e with SMTP id
+ g27-20020a2e391b000000b0026ac75cff6emr4860012lja.99.1663590837486; Mon, 19
+ Sep 2022 05:33:57 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220916133521.73183-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <YyZS38Wo7rDsNRm2@pendragon.ideasonboard.com> <CA+V-a8vvNHFt818wryyuhWxPtay4czjWXiH=AWEKiJ1AzB46mA@mail.gmail.com>
- <fc1c075d-e20d-9395-d168-8cfe530f77ad@linaro.org> <CA+V-a8uMyU89rufmqWiGFqpVjFPvHBeVeSd1Wt07eWZo1X+Bgw@mail.gmail.com>
- <Yyg4SU7D5mClOvP/@pendragon.ideasonboard.com> <CA+V-a8uM=33jw_BE7S1G3DsvbUdvxUhkBty6VCWdAprQ288haw@mail.gmail.com>
- <YyhFe+FW2C+R7nQg@pendragon.ideasonboard.com>
-In-Reply-To: <YyhFe+FW2C+R7nQg@pendragon.ideasonboard.com>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Mon, 19 Sep 2022 13:21:37 +0100
-Message-ID: <CA+V-a8thDeuCYuWd5=HOVNGF6hu6=oJad19fbgacoUzjv873Ng@mail.gmail.com>
-Subject: Re: [PATCH] media: dt-bindings: i2c: ovti,ov5640: Drop ref to video-interface-devices.yaml
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Maxime Ripard <maxime@cerno.tech>,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <4386345.LvFx2qVVIh@tool> <YyhQu5UMoF/BDJCv@gofer.mess.org>
+In-Reply-To: <YyhQu5UMoF/BDJCv@gofer.mess.org>
+From:   =?UTF-8?Q?Daniel_Gonz=C3=A1lez_Cabanelas?= <dgcbueu@gmail.com>
+Date:   Mon, 19 Sep 2022 14:33:45 +0200
+Message-ID: <CABwr4_tQrE0xmCAM4A7W7K4Dpdr-TXZ_zMM-a6-5DWzhsfcMjw@mail.gmail.com>
+Subject: Re: [PATCH v2] media: cx88: add IR remote support for NotOnlyTV LV3H
+To:     Sean Young <sean@mess.org>
+Cc:     linux-media@vger.kernel.org, mchehab@kernel.org,
+        hverkuil-cisco@xs4all.nl
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
         RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
@@ -78,148 +68,190 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
+Hi Sean,
 
-On Mon, Sep 19, 2022 at 11:33 AM Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
+some amount of delay is required or the loop won't be effective
+enough. I made tests with delays up to 8 ms and they worked ok. The
+precision isn't important, so msleep will work ok here.
+
+Regards
+
+Daniel
+
+El lun, 19 sept 2022 a las 13:21, Sean Young (<sean@mess.org>) escribi=C3=
+=B3:
 >
-> On Mon, Sep 19, 2022 at 10:41:00AM +0100, Lad, Prabhakar wrote:
-> > On Mon, Sep 19, 2022 at 10:37 AM Laurent Pinchart wrote:
-> > > On Mon, Sep 19, 2022 at 10:35:21AM +0100, Lad, Prabhakar wrote:
-> > > > On Mon, Sep 19, 2022 at 9:19 AM Krzysztof Kozlowski wrote:
-> > > > > On 19/09/2022 10:08, Lad, Prabhakar wrote:
-> > > > > > On Sun, Sep 18, 2022 at 12:06 AM Laurent Pinchart wrote:
-> > > > > >> On Fri, Sep 16, 2022 at 02:35:21PM +0100, Prabhakar wrote:
-> > > > > >>> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > > > > >>>
-> > > > > >>> video-interface-devices.yaml isn't used so just drop it from the
-> > > > > >>> DT binding doc.
-> > > > > >>>
-> > > > > >>> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > > > > >>> ---
-> > > > > >>>  Documentation/devicetree/bindings/media/i2c/ovti,ov5640.yaml | 3 ---
-> > > > > >>>  1 file changed, 3 deletions(-)
-> > > > > >>>
-> > > > > >>> diff --git a/Documentation/devicetree/bindings/media/i2c/ovti,ov5640.yaml b/Documentation/devicetree/bindings/media/i2c/ovti,ov5640.yaml
-> > > > > >>> index 540fd69ac39f..ce99aada75ad 100644
-> > > > > >>> --- a/Documentation/devicetree/bindings/media/i2c/ovti,ov5640.yaml
-> > > > > >>> +++ b/Documentation/devicetree/bindings/media/i2c/ovti,ov5640.yaml
-> > > > > >>> @@ -9,9 +9,6 @@ title: OmniVision OV5640 Image Sensor Device Tree Bindings
-> > > > > >>>  maintainers:
-> > > > > >>>    - Steve Longerbeam <slongerbeam@gmail.com>
-> > > > > >>>
-> > > > > >>> -allOf:
-> > > > > >>> -  - $ref: /schemas/media/video-interface-devices.yaml#
-> > > > > >>> -
-> > > > > >>
-> > > > > >> The rotation property listed in this binding uses the definition from
-> > > > > >> video-interface-devices.yaml. I don't think just dropping this is the
-> > > > > >> right solution. Changing additionaProperties to unevaluatedProperties
-> > > > > >> seems a better option.
-> > > > > >
-> > > > > > Agreed, I missed rotation was used from video-interface-devices.yaml.
-> > > > > > Agreed the changing additionaProperties to unevaluatedProperties seems
-> > > > > > a better option.
-> > > > >
-> > > > > The meaning of unevaluatedProperties:false would be here - accept other
-> > > > > properties (not mentioned here explicitly) from referenced schema. If
-> > > > > this is your actual intention for this binding, it makes sense. But if
-> > > > > the intention in this binding was to disallow these other properties,
-> > > > > then it would be wrong to change to unevaluatedProperties.
-> > > > >
-> > > > Thank you for the clarification. The intention is to disallow the property.
-> > >
-> > > Why should they be disallowed ?
+> Hi Daniel,
+>
+> Sorry about the long delay for reviewing this. I missed this patch, sorry=
+.
+>
+> On Mon, Feb 07, 2022 at 03:51:41PM +0100, Daniel Gonz=C3=A1lez Cabanelas =
+wrote:
+> > The PCI hybrid card NotOnlyTV LV3H has a built-in IR receiver connected
+> > via I2C bus, currently not supported. This receiver is probably present
+> > in more Geniatech cards. It has no capability for repeating when a key =
+is
+> > held down.
 > >
-> > my bad! "rotation" property is supposed to be allowed so the earlier
-> > comment to change to unevaluatedProperties holds good.
+> > Add support for this built-in IR receiver. Use the existing Total Media
+> > In Hand_02 remote keytable (Geniatech Mygica X8507) which matches exact=
+ly
+> > the LV3H remote.
+> >
+> > Signed-off-by: Daniel Gonz=C3=A1lez Cabanelas <dgcbueu@gmail.com>
+> > Signed-off-by: Marek Kidawski <mark_kiddy@wp.pl>
+> > ---
+> > changes in v2:
+> >  - Save a bitwise operation when no key is pressed
+> >  - Simplify the code
+> >
+> >  drivers/media/i2c/ir-kbd-i2c.c      | 47 +++++++++++++++++++++++++++++
+> >  drivers/media/pci/cx88/cx88-input.c |  2 +-
+> >  drivers/media/pci/cx88/cx88-video.c |  1 +
+> >  include/media/i2c/ir-kbd-i2c.h      |  1 +
+> >  4 files changed, 50 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/media/i2c/ir-kbd-i2c.c b/drivers/media/i2c/ir-kbd-=
+i2c.c
+> > index 566741735..145abfd13 100644
+> > --- a/drivers/media/i2c/ir-kbd-i2c.c
+> > +++ b/drivers/media/i2c/ir-kbd-i2c.c
+> > @@ -238,6 +238,43 @@ static int get_key_knc1(struct IR_i2c *ir, enum rc=
+_proto *protocol,
+> >       return 1;
+> >  }
+> >
+> > +static int get_key_geniatech(struct IR_i2c *ir, enum rc_proto *protoco=
+l,
+> > +                          u32 *scancode, u8 *toggle)
+> > +{
+> > +     int i, rc;
+> > +     unsigned char b;
+> > +
+> > +     /* poll IR chip */
+> > +     for (i =3D 0; i < 4; i++) {
+> > +             rc =3D i2c_master_recv(ir->c, &b, 1);
+> > +             if (rc =3D=3D 1)
+> > +                     break;
+> > +             msleep(1);
 >
-> It's not just the rotation. The other properties are allowed too. For
-> the rotation property you need to list it explicitly in ovti,ov5640.yaml
-> if you want to restrict the values it can take, but other properties
-> from video-interface-devices.yaml for which no additional constraints
-> are needed don't need to be listed in ovti,ov5640.yaml.
+> checkpatch.pl rightfully points out the following:
 >
-> additionalProperties and unevaluatedProperties are often misunderstood.
-> DT bindings are a set of rules, and validation will pass *only* if *all*
-> rules are valid. Let's consider the following:
+> WARNING: msleep < 20ms can sleep for up to 20ms; see Documentation/timers=
+/timers-howto.rst
 >
-> allOf:
->   - $ref: /schemas/media/video-interface-devices.yaml#
+> msleep(1) will sleep for at least 20ms. I think this is what you want her=
+e;
+> mdelay(1) might introduce busy-cycles every second, surely we do not what=
+ to
+> that.
 >
-> The allOf is valid if all of the elements in the list are valid. The
-> $ref will essentially work as if the contents of
-> video-interface-devices.yaml were copied in ovti,ov5640.yaml, under the
-> corresponding allOf list entry (with a small but important difference,
-> noted below). The file contains
+> Is the sleep needed at all?
 >
->   rotation:
->     $ref: /schemas/types.yaml#/definitions/uint32
->     enum: [ 0, 90, 180, 270 ]
+> Thanks
 >
-> so any "rotation" property in the device tree will be validated against
-> this. ovti,ov5640.yaml also has
+> Sean
 >
-> properties:
->   rotation:
->     enum:
->       - 0
->       - 180
 >
-> which is a separate rule from the previous one. Both must be valid for
-> validation to succeed, so this second rule essentially restricts the
-> possible rotation values.
->
-> The additionalProperties and unevaluatedProperties affect how properties
-> that have no validation rule will be treated.
->
-> With additionalProperties set to false, a property that has no
-> validation rule in *this* schema will be considered invalid, even if it
-> has a validation rule in another schema (either selected automatically
-> through a "select" property in the other schema, or imported through an
-> explicit $ref). So, in this particular example, even though
-> video-interface-devices.yaml has, for instance, a rule for the
-> lens-focus property, a DT that contains lens-focus will be considered as
-> invalid as lens-focus is not validated by this schema. One way to allow
-> the property would be to add
->
-> properties:
->   lens-focus: true
->
-> in this schema. The contents of lens-focus would be validated by the
-> rule in video-interface-devices.yaml, and the rule in this schema would
-> always be valid ("true" is always valid).
->
-> Another way to allow the property would be to replace
-> additionalProperties with unevaluatedProperties. When set to false,
-> unevaluatedProperties makes validation fail if any property has not been
-> evaluated by *any* rule in this schema or any other schema. As
-> lens-focus would be evaluated by video-interface-devices.yaml, that
-> would be enough to consider it valid. This also means that *all*
-> properties listed in video-interface-devices.yaml would then be valid.
-> If you wanted that behaviour, but also wanted to reject specific
-> properties, you could add
->
-> properties:
->   lens-focus: false
->
-> in this schema. A lens-focus property in a DT would be valid when
-> evaluated with the corresponding rule in video-interface-devices.yaml,
-> but would be invalidated by the rule in this schema as "false" is always
-> invalid.
->
-> To conclude, setting additionalProperties to false creates a white
-> listing mechanism that requires you to explicitly list in this schema
-> all the properties you consider as valid with "foo: true", while setting
-> unevaluatedProperties to false creates a black listing mechanism that
-> requires you to explicitly list in this schema all the properties you
-> consider as invalid with "foo: false". If multiple schemas that apply to
-> the same device tree include rules for the same property, all those
-> rules need to be valid for validation to pass, regardless of the value
-> of additionalProperties and unevaluatedProperties.
->
-Thank you for the detailed explanation! I'll make it a point to go
-through this thread before doing a change in the binding file :)
-
-Cheers,
-Prabhakar
+> > +     }
+> > +     if (rc !=3D 1) {
+> > +             dev_dbg(&ir->rc->dev, "read error\n");
+> > +             if (rc < 0)
+> > +                     return rc;
+> > +             return -EIO;
+> > +     }
+> > +
+> > +     /* don't repeat the key */
+> > +     if (ir->old =3D=3D b)
+> > +             return 0;
+> > +     ir->old =3D b;
+> > +
+> > +     /* decode to RC5 */
+> > +     b &=3D 0x7f;
+> > +     b =3D (b - 1) / 2;
+> > +
+> > +     dev_dbg(&ir->rc->dev, "key %02x\n", b);
+> > +
+> > +     *protocol =3D RC_PROTO_RC5;
+> > +     *scancode =3D b;
+> > +     *toggle =3D ir->old >> 7;
+> > +     return 1;
+> > +}
+> > +
+> >  static int get_key_avermedia_cardbus(struct IR_i2c *ir, enum rc_proto =
+*protocol,
+> >                                    u32 *scancode, u8 *toggle)
+> >  {
+> > @@ -766,6 +803,13 @@ static int ir_probe(struct i2c_client *client, con=
+st struct i2c_device_id *id)
+> >               rc_proto    =3D RC_PROTO_BIT_OTHER;
+> >               ir_codes    =3D RC_MAP_EMPTY;
+> >               break;
+> > +     case 0x33:
+> > +             name        =3D "Geniatech";
+> > +             ir->get_key =3D get_key_geniatech;
+> > +             rc_proto    =3D RC_PROTO_BIT_RC5;
+> > +             ir_codes    =3D RC_MAP_TOTAL_MEDIA_IN_HAND_02;
+> > +             ir->old     =3D 0xfc;
+> > +             break;
+> >       case 0x6b:
+> >               name        =3D "FusionHDTV";
+> >               ir->get_key =3D get_key_fusionhdtv;
+> > @@ -825,6 +869,9 @@ static int ir_probe(struct i2c_client *client, cons=
+t struct i2c_device_id *id)
+> >               case IR_KBD_GET_KEY_KNC1:
+> >                       ir->get_key =3D get_key_knc1;
+> >                       break;
+> > +             case IR_KBD_GET_KEY_GENIATECH:
+> > +                     ir->get_key =3D get_key_geniatech;
+> > +                     break;
+> >               case IR_KBD_GET_KEY_FUSIONHDTV:
+> >                       ir->get_key =3D get_key_fusionhdtv;
+> >                       break;
+> > diff --git a/drivers/media/pci/cx88/cx88-input.c b/drivers/media/pci/cx=
+88/cx88-input.c
+> > index ce0ef0b81..a04a1d33f 100644
+> > --- a/drivers/media/pci/cx88/cx88-input.c
+> > +++ b/drivers/media/pci/cx88/cx88-input.c
+> > @@ -586,7 +586,7 @@ void cx88_i2c_init_ir(struct cx88_core *core)
+> >  {
+> >       struct i2c_board_info info;
+> >       static const unsigned short default_addr_list[] =3D {
+> > -             0x18, 0x6b, 0x71,
+> > +             0x18, 0x33, 0x6b, 0x71,
+> >               I2C_CLIENT_END
+> >       };
+> >       static const unsigned short pvr2000_addr_list[] =3D {
+> > diff --git a/drivers/media/pci/cx88/cx88-video.c b/drivers/media/pci/cx=
+88/cx88-video.c
+> > index c17ad9f7d..4d78acf66 100644
+> > --- a/drivers/media/pci/cx88/cx88-video.c
+> > +++ b/drivers/media/pci/cx88/cx88-video.c
+> > @@ -1388,6 +1388,7 @@ static int cx8800_initdev(struct pci_dev *pci_dev=
+,
+> >       }
+> >               fallthrough;
+> >       case CX88_BOARD_DVICO_FUSIONHDTV_5_PCI_NANO:
+> > +     case CX88_BOARD_NOTONLYTV_LV3H:
+> >               request_module("ir-kbd-i2c");
+> >       }
+> >
+> > diff --git a/include/media/i2c/ir-kbd-i2c.h b/include/media/i2c/ir-kbd-=
+i2c.h
+> > index 9f47d6a48..0b58f8b9e 100644
+> > --- a/include/media/i2c/ir-kbd-i2c.h
+> > +++ b/include/media/i2c/ir-kbd-i2c.h
+> > @@ -35,6 +35,7 @@ enum ir_kbd_get_key_fn {
+> >       IR_KBD_GET_KEY_PIXELVIEW,
+> >       IR_KBD_GET_KEY_HAUP,
+> >       IR_KBD_GET_KEY_KNC1,
+> > +     IR_KBD_GET_KEY_GENIATECH,
+> >       IR_KBD_GET_KEY_FUSIONHDTV,
+> >       IR_KBD_GET_KEY_HAUP_XVR,
+> >       IR_KBD_GET_KEY_AVERMEDIA_CARDBUS,
+> > --
+> > 2.35.1
+> >
+> >
+> >
