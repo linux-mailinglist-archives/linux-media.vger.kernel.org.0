@@ -2,88 +2,218 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 534F65BC611
-	for <lists+linux-media@lfdr.de>; Mon, 19 Sep 2022 12:09:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 23D385BC9A9
+	for <lists+linux-media@lfdr.de>; Mon, 19 Sep 2022 12:43:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229769AbiISKJE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 19 Sep 2022 06:09:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40334 "EHLO
+        id S229778AbiISKnj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 19 Sep 2022 06:43:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34356 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229970AbiISKJD (ORCPT
+        with ESMTP id S229936AbiISKnO (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 19 Sep 2022 06:09:03 -0400
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 865CF626C
-        for <linux-media@vger.kernel.org>; Mon, 19 Sep 2022 03:09:02 -0700 (PDT)
+        Mon, 19 Sep 2022 06:43:14 -0400
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4454D33E00;
+        Mon, 19 Sep 2022 03:25:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1663582142; x=1695118142;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=BePy/oT/R4Y9L2fTfuSUNp8grIxmPwZy19c5B5JXi/I=;
-  b=Xg0gE6+3XVLUn04mG2J4U9W4WWuLIr8Re+ngxvo6AZHzZ/kjY0w1kWR1
-   l9BRsGs2u2GpVbxa31orYEKUkahdyJnRRtQKS5owdzPRbVq4n0O8GCm54
-   pulOF18Hfvs7IOzU+8z2Hd3bgGGvtNLptAsgI/oy8QDnr7QDqPoeOALoP
-   5vw1KPGpYO1JiJhsMT+XIpvQ8Fn/QHrGO6uEYOFsCCjmse9s+VIt4UdqY
-   1Jgq8/dY1gsNtPR7anvReqEtl4zNvo3ZtbSRMlIDHSULn+a/f8febyuEm
-   cvCN4Tt5/IqHE803biJ9vI2zr1bVjWgdulzURXfSuqNSCWWZ7Lcpgujsx
+  t=1663583131; x=1695119131;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=Q3k5NxbdpA9DLEGbySGsywAVLtIr0421Jxutctvx2NE=;
+  b=AwkIXiU/4V0FClIQ7SFK42LAli8Du1LNfCfUXAFDO5MoS7Z8ZVkjrH0r
+   X6x5ebJVg1FLw2zNtsmwhG0NttSATaRs2B8N5MRxrm71bGdSrRS0gGIHD
+   tEkpVE6+6We0MO6mxI5VR1UwH0tW5+Rpfvu1tB+XTIwmL5QirCDA8RY0t
+   6pNrLzp/VOhTnFTXXkVIbIYBe9Bptn8LYMmxPH3hh45Exy8UhPTXjWcZ7
+   hoJq21OQvUx2q25B+vcOPVdaWjjPrb53JPBQ/QJj7i/z03sCbBmrgZ+qH
+   7d7V3Cp/n7VqX5IpAA4uPgmihxhIdhbT56R9hI5Ua/Yg428iZo0VTJVaN
    w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10474"; a="300731838"
+X-IronPort-AV: E=McAfee;i="6500,9779,10474"; a="282388556"
 X-IronPort-AV: E=Sophos;i="5.93,327,1654585200"; 
-   d="scan'208";a="300731838"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2022 03:08:59 -0700
+   d="scan'208";a="282388556"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2022 03:24:01 -0700
 X-IronPort-AV: E=Sophos;i="5.93,327,1654585200"; 
-   d="scan'208";a="620799352"
+   d="scan'208";a="618436710"
 Received: from punajuuri.fi.intel.com (HELO paasikivi.fi.intel.com) ([10.237.72.43])
-  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2022 03:08:58 -0700
-Received: from punajuuri.localdomain (punajuuri.localdomain [192.168.240.130])
-        by paasikivi.fi.intel.com (Postfix) with ESMTP id 0980A202D2;
-        Mon, 19 Sep 2022 13:08:56 +0300 (EEST)
-Received: from sailus by punajuuri.localdomain with local (Exim 4.94.2)
-        (envelope-from <sakari.ailus@linux.intel.com>)
-        id 1oaDj2-00FwXZ-RA; Mon, 19 Sep 2022 13:10:04 +0300
+  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2022 03:23:57 -0700
+Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
+        by paasikivi.fi.intel.com (Postfix) with ESMTP id 94F3B202D2;
+        Mon, 19 Sep 2022 13:23:55 +0300 (EEST)
+Date:   Mon, 19 Sep 2022 10:23:55 +0000
 From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     linux-media@vger.kernel.org
-Cc:     laurent.pinchart@ideasonboard.com
-Subject: [PATCH 1/1] media: v4l: subdev: Document s_power() callback is deprecated
-Date:   Mon, 19 Sep 2022 13:10:04 +0300
-Message-Id: <20220919101004.3799904-1-sakari.ailus@linux.intel.com>
-X-Mailer: git-send-email 2.30.2
+To:     Marco Felsch <m.felsch@pengutronix.de>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        mchehab@kernel.org, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, kishon@ti.com, vkoul@kernel.org,
+        hverkuil@xs4all.nl, jacopo@jmondi.org,
+        kieran.bingham+renesas@ideasonboard.com,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
+        kernel@pengutronix.de
+Subject: Re: [PATCH v2 3/4] media: dt-bindings: add bindings for Toshiba
+ TC358746
+Message-ID: <YyhDO4ohv47uIij2@paasikivi.fi.intel.com>
+References: <20220916134535.128131-1-m.felsch@pengutronix.de>
+ <20220916134535.128131-4-m.felsch@pengutronix.de>
+ <YyZTCsflWtUbo2ld@pendragon.ideasonboard.com>
+ <20220919100844.bb7tzbql2vpk76xz@pengutronix.de>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <20220919100844.bb7tzbql2vpk76xz@pengutronix.de>
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Runtime PM has been around for a decade or more, there's hardly a need to
-use the V4L2 specific s_power() callback in drivers anymore. Document this
-in s_power() callback documentation as well.
+Hi Marco,
 
-Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
----
- include/media/v4l2-subdev.h | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+On Mon, Sep 19, 2022 at 12:08:44PM +0200, Marco Felsch wrote:
+> Hi Laurent,
+> 
+> On 22-09-18, Laurent Pinchart wrote:
+> > Hi Marco,
+> > 
+> > Thank you for the patch.
+> > 
+> > On Fri, Sep 16, 2022 at 03:45:34PM +0200, Marco Felsch wrote:
+> > > Add the bindings for the Toshiba TC358746 Parallel <-> MIPI-CSI bridge
+> > > driver.
+> > > 
+> > > Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
+> > > Reviewed-by: Rob Herring <robh@kernel.org>
+> > > ---
+> > > Changelog:
+> > > 
+> > > v2:
+> > > - addded Robs r-b
+> > > - s/than/then/
+> > > - added hsync/vsync/bus-type, make hsync/vsync required
+> > > - fix example indent
+> > > 
+> > >  .../bindings/media/i2c/toshiba,tc358746.yaml  | 179 ++++++++++++++++++
+> > >  1 file changed, 179 insertions(+)
+> > >  create mode 100644 Documentation/devicetree/bindings/media/i2c/toshiba,tc358746.yaml
+> > > 
+> > > diff --git a/Documentation/devicetree/bindings/media/i2c/toshiba,tc358746.yaml b/Documentation/devicetree/bindings/media/i2c/toshiba,tc358746.yaml
+> > > new file mode 100644
+> > > index 000000000000..1fa574400bc2
+> > > --- /dev/null
+> > > +++ b/Documentation/devicetree/bindings/media/i2c/toshiba,tc358746.yaml
+> > > @@ -0,0 +1,179 @@
+> > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > > +%YAML 1.2
+> > > +---
+> > > +$id: http://devicetree.org/schemas/media/i2c/toshiba,tc358746.yaml#
+> > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > > +
+> > > +title: Toshiba TC358746 Parallel to MIPI CSI2 Bridge
+> > > +
+> > > +maintainers:
+> > > +  - Marco Felsch <kernel@pengutronix.de>
+> > > +
+> > > +description: |-
+> > > +  The Toshiba TC358746 converts a parallel video stream into a MIPI CSI-2
+> > > +  stream. The direction can be either parallel-in -> csi-out or csi-in ->
+> > > +  parallel-out The chip is programmable trough I2C and SPI but the SPI
+> > > +  interface is only supported in parallel-in -> csi-out mode.
+> > > +
+> > > +  Note that the current device tree bindings only support the
+> > > +  parallel-in -> csi-out path.
+> > > +
+> > > +properties:
+> > > +  compatible:
+> > > +    const: toshiba,tc358746
+> > > +
+> > > +  reg:
+> > > +    maxItems: 1
+> > > +
+> > > +  clocks:
+> > > +    description:
+> > > +      The phandle to the reference clock source. This corresponds to the
+> > > +      hardware pin REFCLK.
+> > > +    maxItems: 1
+> > > +
+> > > +  clock-names:
+> > > +    const: refclk
+> > > +
+> > > +# The bridge can act as clock provider for the sensor. To enable this support
+> > > +# #clock-cells must be specified. Attention if this feature is used then the
+> > > +# mclk rate must be at least: (2 * link-frequency) / 8
+> > > +#                             `------------------´   ^
+> > > +#                             internal PLL rate   smallest possible mclk-div
+> > > +  "#clock-cells":
+> > > +    const: 0
+> > > +
+> > > +  clock-output-names:
+> > > +    description:
+> > > +      The clock name of the MCLK output, the default name is tc358746-mclk.
+> > > +    maxItems: 1
+> > > +
+> > > +  vddc-supply:
+> > > +    description: Digital core voltage supply, 1.2 volts
+> > > +
+> > > +  vddio-supply:
+> > > +    description: Digital I/O voltage supply, 1.8 volts
+> > > +
+> > > +  vddmipi-supply:
+> > > +    description: MIPI CSI phy voltage supply, 1.2 volts
+> > > +
+> > > +  reset-gpios:
+> > > +    description:
+> > > +      The phandle and specifier for the GPIO that controls the chip reset.
+> > > +      This corresponds to the hardware pin RESX which is physically active low.
+> > > +    maxItems: 1
+> > > +
+> > > +  ports:
+> > > +    $ref: /schemas/graph.yaml#/properties/ports
+> > > +    properties:
+> > > +      port@0:
+> > > +        $ref: /schemas/graph.yaml#/$defs/port-base
+> > > +        description: Input port
+> > > +
+> > > +        properties:
+> > > +          endpoint:
+> > > +            $ref: /schemas/media/video-interfaces.yaml#
+> > > +            unevaluatedProperties: false
+> > > +
+> > > +            properties:
+> > > +              hsync-active:
+> > > +                enum:
+> > > +                  - 0 # Hvalid active high
+> > > +              vsync-active:
+> > > +                enum:
+> > > +                  - 0 # Vvalid active high
+> > > +              bus-type:
+> > > +                enum:
+> > > +                  - 5 # Parallel
+> > > +
+> > > +            required:
+> > > +              - hsync-active
+> > > +              - vsync-active
+> > 
+> > Let's make bus-type required too, to prepare for BT.656 support.
+> 
+> I would have done it when the BT.656 support is added. Since the BT.656
+> don't require the sync signals I would have made a descision:
+>  - either: hsync/vsync present -> parallel with external syncs, or
+>  - bus-type present -> parallel bus with embedded syncs.
+> 
+> So we don't bother the system-integrator with specifying unnecessary
+> properties. Also having v/hsync required in place with the bus-type (set
+> to bt.656) can cause confusion about the final used mode.
 
-diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
-index 2f80c9c818ed0..ed14ce5864cac 100644
---- a/include/media/v4l2-subdev.h
-+++ b/include/media/v4l2-subdev.h
-@@ -176,7 +176,8 @@ struct v4l2_subdev_io_pin_config {
-  * @s_register: callback for VIDIOC_DBG_S_REGISTER() ioctl handler code.
-  *
-  * @s_power: puts subdevice in power saving mode (on == 0) or normal operation
-- *	mode (on == 1).
-+ *	mode (on == 1). DEPRECATED. See
-+ *	Documentation/driver-api/media/camera-sensor.rst .
-  *
-  * @interrupt_service_routine: Called by the bridge chip's interrupt service
-  *	handler, when an interrupt status has be raised due to this subdev,
+The V4L2 fwnode framework can guess the type of the bus but it's not
+recommended to use the feature.
+
+Why do you have hsync-active and vsync-active if both are always zero? Can
+the hardware not support other configuration?
+
 -- 
-2.30.2
-
+Sakari Ailus
