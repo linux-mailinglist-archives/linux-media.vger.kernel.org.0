@@ -2,127 +2,107 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EF4F95BE7CE
-	for <lists+linux-media@lfdr.de>; Tue, 20 Sep 2022 15:58:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CB65A5BE7ED
+	for <lists+linux-media@lfdr.de>; Tue, 20 Sep 2022 16:05:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229921AbiITN6r (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 20 Sep 2022 09:58:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55016 "EHLO
+        id S231411AbiITOF2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 20 Sep 2022 10:05:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34394 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230414AbiITN6g (ORCPT
+        with ESMTP id S231537AbiITOFI (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 20 Sep 2022 09:58:36 -0400
-Received: from mail-oa1-x31.google.com (mail-oa1-x31.google.com [IPv6:2001:4860:4864:20::31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 945F610B9;
-        Tue, 20 Sep 2022 06:58:35 -0700 (PDT)
-Received: by mail-oa1-x31.google.com with SMTP id 586e51a60fabf-1278a61bd57so4290368fac.7;
-        Tue, 20 Sep 2022 06:58:35 -0700 (PDT)
+        Tue, 20 Sep 2022 10:05:08 -0400
+Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com [IPv6:2a00:1450:4864:20::52e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 071C7222B2
+        for <linux-media@vger.kernel.org>; Tue, 20 Sep 2022 07:05:04 -0700 (PDT)
+Received: by mail-ed1-x52e.google.com with SMTP id e17so4004733edc.5
+        for <linux-media@vger.kernel.org>; Tue, 20 Sep 2022 07:05:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date;
-        bh=MMxpBTkSlUl1RA0jT5K/9AdRypOJK9Ht+4jVkjeqBbk=;
-        b=Vi8G3iJOeOsqJlPNZPzd3jDDo08I1P1VPY868WrCaUf401yJ/EL6xDJnP2YaoIo+X1
-         AsYEjUFJ0rYoTyHZt2pklclhO+/hGD5RoEpogffQ7wJRNndzzb2yNRu+S2jQNuTEZaF/
-         7zsZI8hPGcApRR3YA4WaQrGldEEjhJ2Bsvuy+Iu/WB8awkdmkV6gD9C1CDiEGN8QC4Ui
-         ygpxg5c/0ciO6Mcm/qA75+Ww8c9EniZ48Fenu4umBULUfGDUUG13yq66M3BQt5R9nPH4
-         rNftqgu1G0Y8bk9HdIzIi16bKzgOndRh/H3RWpFfnJSrOmXIFuFcKZFg04Dpvb5LXl6F
-         Vapg==
+        d=chromium.org; s=google;
+        h=cc:to:message-id:date:from:content-transfer-encoding:mime-version
+         :subject:from:to:cc:subject:date;
+        bh=ViQAFjYavfl7sYfI4nYDUqmuzL48/HIdmX5mmDq/CsI=;
+        b=l5Tmse/PJbwQBpcjrS5lRadlKEZWVyGjRUS4xyM3bLiJ5oAk3UVMcrZa/8DBVOP05J
+         SXqYpMOQqWcVpFVAvDrhRqOBxkeb6XhQWFJoQRot1Ep1eEuGlBV+y3TYoasjxLdzUCYQ
+         c583JoOD4BtVDwJgmS2Mv4ixHV3J1XjKMMiHE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
-        bh=MMxpBTkSlUl1RA0jT5K/9AdRypOJK9Ht+4jVkjeqBbk=;
-        b=qddsHHbO6Y90l31I9wjfB+k/x/wqRHNx/ckx0HsSLCxOPb+vZX6GtOYxQbnx5kj/E4
-         SG/6QD7XCeuCsU2ra3kK3VCQRI52Jt76AruVyKHWfQw0z/xX2coYFHa6sgQMGiM+ptvx
-         XdItwAgryUbI8W2PmMF/5bNQgEjufb7j+eOMgSDm9ofR5Cwarmmo8dB8No8QK2TDfaDq
-         46SCPGxVZCR1GXi0BFnA42oNEH5q37MPU7RawhEiMZMbt7HiuEWeBWI5i84PhMlNOR2W
-         8oqtxMUDZAiX+dyzpJOXyP6mVKmEcAzbg/5TM06bbfGuiWnYACNtUFt7Tkwb8GGQ5GJL
-         ol1w==
-X-Gm-Message-State: ACrzQf3UYzAWuITkevTkXeTv7xelp2zOIWPCc9YeY54qN46jaz0Hbqkk
-        T/E4Nn6OwO6yL7JQgEiP96xbWHqSndFq9w==
-X-Google-Smtp-Source: AMsMyM7yzg82yFPVwblMHXlYp/Kg/jUBQH6qxFg09k3rCcm9y3KY9ADGvQLh8vslYjfChgR0to7jag==
-X-Received: by 2002:a05:6870:9618:b0:12d:70f7:bb6f with SMTP id d24-20020a056870961800b0012d70f7bb6fmr372799oaq.239.1663682314688;
-        Tue, 20 Sep 2022 06:58:34 -0700 (PDT)
-Received: from macondo ([2804:431:e7cc:3499:63b7:66da:c087:3355])
-        by smtp.gmail.com with ESMTPSA id u4-20020a4aae84000000b004762a830156sm113713oon.32.2022.09.20.06.58.32
+        h=cc:to:message-id:date:from:content-transfer-encoding:mime-version
+         :subject:x-gm-message-state:from:to:cc:subject:date;
+        bh=ViQAFjYavfl7sYfI4nYDUqmuzL48/HIdmX5mmDq/CsI=;
+        b=BjpzyRZOh58yoCGHLrVg3hQLrz+biMW03TI7i9rIXhnO/sA52Uj3rXavuqGBow/SMB
+         9tyThsFW5t7TyrmRZweSsLoEe5Q6C+gt7mfrj5LEi146t7maxHgK44unrRNQZdPDFfqU
+         eG0bxdoqbEEZGe/rHGWI45lepw56zi7TuXcJ52/wqbK7tkxj3pAclsIiBALMeystLUpv
+         ZuXLYue1+mvLfr0yJ9sM90bDZjz0/iMmjmYeVUQoVtJ9qGu9WbNHApqfPVgBo7gZyvjX
+         he3klsYRs8uwb/J0MLQ5/XJqjNCwbM1yV9iRzXxaSNQFaea2+oMI94DZGXo41YQQP6kR
+         GZtA==
+X-Gm-Message-State: ACrzQf3DzLaAp1Fwp1QJh+GeXpIjEGHoH/AS4hvBjx2ICPo3wMrhFqcB
+        L5gip+NzjVLpI5ZQW8XEGrbxYFdBXxn4O9vBIEg=
+X-Google-Smtp-Source: AMsMyM5K2+OUqO1GtuevwVj6Jxhb1HWsLVGAoicfcjfC7OzbSOi5cMcOQtAlJ+/YmOsr490jncCeTw==
+X-Received: by 2002:a05:6402:354b:b0:454:5162:42a6 with SMTP id f11-20020a056402354b00b00454516242a6mr5282902edd.281.1663682702486;
+        Tue, 20 Sep 2022 07:05:02 -0700 (PDT)
+Received: from alco.roam.corp.google.com ([2620:0:1059:10:935d:52b0:7461:88e1])
+        by smtp.gmail.com with ESMTPSA id k12-20020a05640212cc00b0044eb4227bf6sm69903edx.63.2022.09.20.07.05.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 Sep 2022 06:58:34 -0700 (PDT)
-Date:   Tue, 20 Sep 2022 10:58:30 -0300
-From:   Rafael Mendonca <rafaelmendsr@gmail.com>
-To:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: i2c: ov5648: Free V4L2 fwnode data on unbind
-Message-ID: <YynHBkbTw6bTgYNq@macondo>
-References: <20220919023247.731106-1-rafaelmendsr@gmail.com>
- <Yym/QDURAtn1LX8i@aptenodytes>
+        Tue, 20 Sep 2022 07:05:01 -0700 (PDT)
+Subject: [PATCH v1 0/1] [RESEND] uvc: Handle cames with invalid descriptors
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Yym/QDURAtn1LX8i@aptenodytes>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-b4-tracking: H4sIAIbIKWMC/w3LMQqAMAwAwK9IZgMxLtXftGnQQInQoIv4dzvecC+EdtOAfXqh62Nhlw8s8wRyZj
+ 8UrQ4DEzNtTGj+5GYVq4ZgoiKSKLHoCqOUHIqlZ5dzJL9b+74fovSVS2MAAAA=
+From:   Ricardo Ribalda <ribalda@chromium.org>
+Date:   Tue, 20 Sep 2022 16:04:54 +0200
+Message-Id: <20220920-invalid-desc-v1-0-76a93174f3bc@chromium.org>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        syzbot <syzkaller@googlegroups.com>,
+        Ricardo Ribalda <ribalda@chromium.org>
+X-Mailer: b4 0.11.0-dev-d93f8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=610; i=ribalda@chromium.org;
+ h=from:subject:message-id; bh=8/uAdMlZQN8qJD3wocql4ynBOk1YAuAW0n8qFV9OLDE=;
+ b=owEBbQKS/ZANAwAKAdE30T7POsSIAcsmYgBjKciII/MH9Ne6acM3i/mHBf4w7JN6SK0VEMVdeNXk
+ QY/q3GOJAjMEAAEKAB0WIQREDzjr+/4oCDLSsx7RN9E+zzrEiAUCYynIiAAKCRDRN9E+zzrEiCEEEA
+ CTE2vaEwzMZRRQTelz/mj9GQ37Qqehu5buz6SDJ4DjnKxF5+gj9UExt/zGhO9HTtID2vPhum2XpFo8
+ cy59IDX0QGjHO3r/MJat0a7dKkOkrVcRB+t3cxWZedtilJdwL+FdMpUWDAtEeXy3iesE3lLm4lF4b3
+ y0MMF9aX5uuyKHVPVvOr2ne+DkhNGot7ZfYosk1bsc3CZcOJXAAKVrGUeJWMJFbzd+axqq7+s+6dIq
+ 8wOAXWJUUZs+rjqEZW9Et7ucETCuqMb9XSx83h5XbGwjY5NnkM1B+2q8MpWuiIDldrBPtkFaClnVvl
+ DmnBQQNcbiI5O+FJhRJ3KQTAjW5ej4zD5RWPT6QPf4lsDqn8twIDgyQy44j4YXD2AWnBv7b8P42ihu
+ wAsQtzVMAD6uJa+9kp8cuSe5kTyf67Tb7HGzumIF9RC4KLsI4oDgRBtILk5r9bjwjAJtLb8gygjA6k
+ kNhlmyNboB3OkzTQg+OH7hixPJSi8bPpI63E6nWuJGyoAxPaRwfBsljy8k9aKRiMA2Fpg4ZbWNn79a
+ Uh6JjUFpDruSnc3gQdB4Em1fKG7GX1NOkvaLJrOEpMWwOKg0GZvqJucjfWUoGyX11YCHfvkKEqrOaQ
+ w0U5BkU3AF2pqzf10ooKqV/HrdRid6TavURAK3I5NMwIr/k3xAotVDry6F+w==
+X-Developer-Key: i=ribalda@chromium.org; a=openpgp;
+ fpr=9EC3BB66E2FC129A6F90B39556A0D81F9F782DA9
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Sep 20, 2022 at 03:25:20PM +0200, Paul Kocialkowski wrote:
-> Hi Rafael,
-> 
-> On Sun 18 Sep 22, 23:32, Rafael Mendonca wrote:
-> > The V4L2 fwnode data structure doesn't get freed on unbind, which leads to
-> > a memleak.
-> 
-> Thanks for this patch, good catch!
-> 
-> I agree with Jacopo, you shouldn't add a newline before the call.
+Just a resend of the patch.
 
-Thanks for the review, I'll send a v2. As the code for the ov5648 is
-similar to the ov8865, and in the 8865 there is this blank line before
-the v4l2_fwnode_endpoint_free() call, I thought it might be good to keep
-the same style here, that's why this empty line ended up appearing here.
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-media@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 
-> Feel free to send a v2 with that fixed and include my:
-> 
-> Reviewed-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> 
-> Cheers,
-> 
-> Paul
-> 
-> > Fixes: e43ccb0a045f ("media: i2c: Add support for the OV5648 image sensor")
-> > Signed-off-by: Rafael Mendonca <rafaelmendsr@gmail.com>
-> > ---
-> >  drivers/media/i2c/ov5648.c | 2 ++
-> >  1 file changed, 2 insertions(+)
-> > 
-> > diff --git a/drivers/media/i2c/ov5648.c b/drivers/media/i2c/ov5648.c
-> > index dfcd33e9ee13..95850f06112b 100644
-> > --- a/drivers/media/i2c/ov5648.c
-> > +++ b/drivers/media/i2c/ov5648.c
-> > @@ -2598,6 +2598,8 @@ static int ov5648_remove(struct i2c_client *client)
-> >  	mutex_destroy(&sensor->mutex);
-> >  	media_entity_cleanup(&subdev->entity);
-> >  
-> > +	v4l2_fwnode_endpoint_free(&sensor->endpoint);
-> > +
-> >  	return 0;
-> >  }
-> >  
-> > -- 
-> > 2.34.1
-> > 
-> 
-> -- 
-> Paul Kocialkowski, Bootlin
-> Embedded Linux and kernel engineering
-> https://bootlin.com
+---
+Ricardo Ribalda (1):
+      media: uvc: Handle cameras with invalid descriptors
 
+ drivers/media/usb/uvc/uvc_entity.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+---
+base-commit: 521a547ced6477c54b4b0cc206000406c221b4d6
+change-id: 20220920-invalid-desc-80bcc8082ce3
 
+Best regards,
+-- 
+Ricardo Ribalda <ribalda@chromium.org>
