@@ -2,517 +2,176 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 136B75BDC23
-	for <lists+linux-media@lfdr.de>; Tue, 20 Sep 2022 07:10:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3532D5BDDDA
+	for <lists+linux-media@lfdr.de>; Tue, 20 Sep 2022 09:13:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229732AbiITFKk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 20 Sep 2022 01:10:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56738 "EHLO
+        id S230204AbiITHNj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 20 Sep 2022 03:13:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39318 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229676AbiITFKj (ORCPT
+        with ESMTP id S229995AbiITHNf (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 20 Sep 2022 01:10:39 -0400
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE3005A3D8;
-        Mon, 19 Sep 2022 22:10:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1663650636; x=1695186636;
-  h=from:to:cc:subject:date:message-id:mime-version;
-  bh=P90dtDR0W1SZthwlRmF5iTyMySQqiMVFUx8SMdgbcIw=;
-  b=Z4mwNszWf76kail1Z3e/PlGlB93Ag6kEADTTXptDQ8sPC6OUujTJlzCM
-   QyFlxOoDRAg5r8fPgcapaFuMLqWG94QCGnNV9lO6vRHFl6jIZOAPCrOZy
-   L8nPCGjtONdDl47Bv1VmEMc3X7mGal0RK/fgawE6YzMfNy3QvXeVRHAIl
-   Q3fZ6f3CTlEerHujvoOCIKfitpiT34iJwlIaF4gFjXMlio3BlsuZE/uv/
-   T95bH7YDE44BGC6J37UUaLd+M7K0sre05GarcQQmOmNiJGZXGh0t8t0PP
-   /tDpLF0RMmEcm6zP6sSs4mDzRgpj93VsuH4KoERT9m6IBx8krDCv4V2cX
-   w==;
-X-IronPort-AV: E=Sophos;i="5.93,329,1654585200"; 
-   d="scan'208";a="177971705"
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa2.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 19 Sep 2022 22:10:35 -0700
-Received: from chn-vm-ex01.mchp-main.com (10.10.85.143) by
- chn-vm-ex02.mchp-main.com (10.10.85.144) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.12; Mon, 19 Sep 2022 22:10:29 -0700
-Received: from microchip-OptiPlex-9020.microchip.com (10.10.115.15) by
- chn-vm-ex01.mchp-main.com (10.10.85.143) with Microsoft SMTP Server id
- 15.1.2507.12 via Frontend Transport; Mon, 19 Sep 2022 22:10:26 -0700
-From:   shravan kumar <shravan.chippa@microchip.com>
-To:     <paul.j.murphy@intel.com>, <daniele.alessandrelli@intel.com>,
-        <mchehab@kernel.org>
-CC:     <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        "Shravan Chippa" <shravan.chippa@microchip.com>,
-        Conor Dooley <conor.dooley@microchip.com>,
-        Prakash Battu <Prakash.Battu@microchip.com>
-Subject: [PATCH v4] media: i2c: imx334: support lower bandwidth mode
-Date:   Tue, 20 Sep 2022 10:40:23 +0530
-Message-ID: <20220920051023.12330-1-shravan.chippa@microchip.com>
-X-Mailer: git-send-email 2.17.1
+        Tue, 20 Sep 2022 03:13:35 -0400
+Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com [185.132.182.106])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A4D835C373
+        for <linux-media@vger.kernel.org>; Tue, 20 Sep 2022 00:13:31 -0700 (PDT)
+Received: from pps.filterd (m0288072.ppops.net [127.0.0.1])
+        by mx07-00178001.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 28K6xPEp003420;
+        Tue, 20 Sep 2022 09:13:24 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=selector1;
+ bh=GQqkpMqOM4dC3nRuBpH14COvFEYeoNTGuqJ+0KfXTOs=;
+ b=W5T/Dyer+DWNq8I6GbN5ShONlGyWgaV3fOIdryximP1E1QCEWEvx72ie2DLMjHhdfTB0
+ svjDo/lw/52EBJYRy0bpVn2miK1Wt9lPKjoX3vk7y5mUbt/0sytIbYNCHNBVyyUSIEgz
+ IpYGk6UHNQ8F1KDgA190DV3UzzgNDeOqjFTK9Evl9lIgngebsUO1MmTOHXODSX4Un918
+ aSKbHuRUw5iYwznARkE/PXiZT8WygoJY0i+RcG4u5tmNuRjEQtT4xzVg84b/NwXsMc+o
+ BhCsyNE0ar1nposcMfts4oBMb3kGWVNNxkEHkeQAX11WxZ2eIPwRz9NQ0FgQvgJ42EgA tA== 
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+        by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3jn6atqkmf-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 20 Sep 2022 09:13:24 +0200
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 1D0AD10002A;
+        Tue, 20 Sep 2022 09:13:24 +0200 (CEST)
+Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
+        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 09D3F21512E;
+        Tue, 20 Sep 2022 09:13:24 +0200 (CEST)
+Received: from [10.129.167.120] (10.75.127.51) by SHFDAG1NODE1.st.com
+ (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.1.2375.31; Tue, 20 Sep
+ 2022 09:13:23 +0200
+Message-ID: <71362e3c-2c11-4e38-7c5f-3af19e773b4d@foss.st.com>
+Date:   Tue, 20 Sep 2022 09:13:23 +0200
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v5 0/4] media: Add ST VGXY61 camera sensor driver
+Content-Language: en-US
+To:     <linux-media@vger.kernel.org>
+CC:     <alain.volmat@foss.st.com>, <hugues.fruchet@foss.st.com>,
+        <sylvain.petinot@foss.st.com>, <dave.stevenson@raspberrypi.com>,
+        <sakari.ailus@linux.intel.com>,
+        <laurent.pinchart@ideasonboard.com>,
+        <kieran.bingham@ideasonboard.com>
+References: <20220831090118.104057-1-benjamin.mugnier@foss.st.com>
+From:   Benjamin MUGNIER <benjamin.mugnier@foss.st.com>
+In-Reply-To: <20220831090118.104057-1-benjamin.mugnier@foss.st.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.75.127.51]
+X-ClientProxiedBy: SFHDAG2NODE3.st.com (10.75.127.6) To SHFDAG1NODE1.st.com
+ (10.75.129.69)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
+ definitions=2022-09-20_02,2022-09-16_01,2022-06-22_01
+X-Spam-Status: No, score=-3.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,NICE_REPLY_A,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Shravan Chippa <shravan.chippa@microchip.com>
+Hi everyone,
 
-Some platforms may not be capable of supporting the bandwidth
-required for 12 bit or 3840x2160 resolutions.
 
-Add support for dynamically selecting 10 bit and 1920x1080
-resolutions while leaving the existing configuration as default
+This is a gentle ping :)
+Thanks.
 
-CC: Conor Dooley <conor.dooley@microchip.com>
-Signed-off-by: Prakash Battu <Prakash.Battu@microchip.com>
-Signed-off-by: Shravan Chippa <shravan.chippa@microchip.com>
----
 
-V3 -> V4
-- Make the 12 bit and 3840x2160 as default
-- Set bus code SRGGB12 if set format fails
+Regards,
 
-V2 -> V3
-- Fixed the warning reported by kernel test robot
+Benjamin
 
-V1 -> V2
-- Addressed the review comment given by Jacopo Mondi,
-  Which has bug in imx334_enum_frame_size() loop function,
-- Renamed array codes[] to imx334_mbus_codes[]
-- Modified supported_modes[] to get higher resolution first
-
----
- drivers/media/i2c/imx334.c | 302 +++++++++++++++++++++++++++++++++----
- 1 file changed, 276 insertions(+), 26 deletions(-)
-
-diff --git a/drivers/media/i2c/imx334.c b/drivers/media/i2c/imx334.c
-index 062125501788..df2f1821569e 100644
---- a/drivers/media/i2c/imx334.c
-+++ b/drivers/media/i2c/imx334.c
-@@ -79,7 +79,6 @@ struct imx334_reg_list {
-  * struct imx334_mode - imx334 sensor mode structure
-  * @width: Frame width
-  * @height: Frame height
-- * @code: Format code
-  * @hblank: Horizontal blanking in lines
-  * @vblank: Vertical blanking in lines
-  * @vblank_min: Minimal vertical blanking in lines
-@@ -91,7 +90,6 @@ struct imx334_reg_list {
- struct imx334_mode {
- 	u32 width;
- 	u32 height;
--	u32 code;
- 	u32 hblank;
- 	u32 vblank;
- 	u32 vblank_min;
-@@ -119,6 +117,7 @@ struct imx334_mode {
-  * @vblank: Vertical blanking in lines
-  * @cur_mode: Pointer to current selected sensor mode
-  * @mutex: Mutex for serializing sensor controls
-+ * @cur_code: current selected format code
-  * @streaming: Flag indicating streaming state
-  */
- struct imx334 {
-@@ -140,6 +139,7 @@ struct imx334 {
- 	u32 vblank;
- 	const struct imx334_mode *cur_mode;
- 	struct mutex mutex;
-+	u32 cur_code;
- 	bool streaming;
- };
- 
-@@ -147,6 +147,169 @@ static const s64 link_freq[] = {
- 	IMX334_LINK_FREQ,
- };
- 
-+/* Sensor mode registers */
-+static const struct imx334_reg mode_1920x1080_regs[] = {
-+	{0x3000, 0x01},
-+	{0x3018, 0x04},
-+	{0x3030, 0xCA},
-+	{0x3031, 0x08},
-+	{0x3032, 0x00},
-+	{0x3034, 0x4C},
-+	{0x3035, 0x04},
-+	{0x302C, 0xF0},
-+	{0x302D, 0x03},
-+	{0x302E, 0x80},
-+	{0x302F, 0x07},
-+	{0x3074, 0xCC},
-+	{0x3075, 0x02},
-+	{0x308E, 0xCD},
-+	{0x308F, 0x02},
-+	{0x3076, 0x38},
-+	{0x3077, 0x04},
-+	{0x3090, 0x38},
-+	{0x3091, 0x04},
-+	{0x3308, 0x38},
-+	{0x3309, 0x04},
-+	{0x30C6, 0x00},
-+	{0x30C7, 0x00},
-+	{0x30CE, 0x00},
-+	{0x30CF, 0x00},
-+	{0x30D8, 0x18},
-+	{0x30D9, 0x0A},
-+	{0x304C, 0x00},
-+	{0x304E, 0x00},
-+	{0x304F, 0x00},
-+	{0x3050, 0x00},
-+	{0x30B6, 0x00},
-+	{0x30B7, 0x00},
-+	{0x3116, 0x08},
-+	{0x3117, 0x00},
-+	{0x31A0, 0x20},
-+	{0x31A1, 0x0F},
-+	{0x300C, 0x3B},
-+	{0x300D, 0x29},
-+	{0x314C, 0x29},
-+	{0x314D, 0x01},
-+	{0x315A, 0x0A},
-+	{0x3168, 0xA0},
-+	{0x316A, 0x7E},
-+	{0x319E, 0x02},
-+	{0x3199, 0x00},
-+	{0x319D, 0x00},
-+	{0x31DD, 0x03},
-+	{0x3300, 0x00},
-+	{0x341C, 0xFF},
-+	{0x341D, 0x01},
-+	{0x3A01, 0x03},
-+	{0x3A18, 0x7F},
-+	{0x3A19, 0x00},
-+	{0x3A1A, 0x37},
-+	{0x3A1B, 0x00},
-+	{0x3A1C, 0x37},
-+	{0x3A1D, 0x00},
-+	{0x3A1E, 0xF7},
-+	{0x3A1F, 0x00},
-+	{0x3A20, 0x3F},
-+	{0x3A21, 0x00},
-+	{0x3A20, 0x6F},
-+	{0x3A21, 0x00},
-+	{0x3A20, 0x3F},
-+	{0x3A21, 0x00},
-+	{0x3A20, 0x5F},
-+	{0x3A21, 0x00},
-+	{0x3A20, 0x2F},
-+	{0x3A21, 0x00},
-+	{0x3078, 0x02},
-+	{0x3079, 0x00},
-+	{0x307A, 0x00},
-+	{0x307B, 0x00},
-+	{0x3080, 0x02},
-+	{0x3081, 0x00},
-+	{0x3082, 0x00},
-+	{0x3083, 0x00},
-+	{0x3088, 0x02},
-+	{0x3094, 0x00},
-+	{0x3095, 0x00},
-+	{0x3096, 0x00},
-+	{0x309B, 0x02},
-+	{0x309C, 0x00},
-+	{0x309D, 0x00},
-+	{0x309E, 0x00},
-+	{0x30A4, 0x00},
-+	{0x30A5, 0x00},
-+	{0x3288, 0x21},
-+	{0x328A, 0x02},
-+	{0x3414, 0x05},
-+	{0x3416, 0x18},
-+	{0x35AC, 0x0E},
-+	{0x3648, 0x01},
-+	{0x364A, 0x04},
-+	{0x364C, 0x04},
-+	{0x3678, 0x01},
-+	{0x367C, 0x31},
-+	{0x367E, 0x31},
-+	{0x3708, 0x02},
-+	{0x3714, 0x01},
-+	{0x3715, 0x02},
-+	{0x3716, 0x02},
-+	{0x3717, 0x02},
-+	{0x371C, 0x3D},
-+	{0x371D, 0x3F},
-+	{0x372C, 0x00},
-+	{0x372D, 0x00},
-+	{0x372E, 0x46},
-+	{0x372F, 0x00},
-+	{0x3730, 0x89},
-+	{0x3731, 0x00},
-+	{0x3732, 0x08},
-+	{0x3733, 0x01},
-+	{0x3734, 0xFE},
-+	{0x3735, 0x05},
-+	{0x375D, 0x00},
-+	{0x375E, 0x00},
-+	{0x375F, 0x61},
-+	{0x3760, 0x06},
-+	{0x3768, 0x1B},
-+	{0x3769, 0x1B},
-+	{0x376A, 0x1A},
-+	{0x376B, 0x19},
-+	{0x376C, 0x18},
-+	{0x376D, 0x14},
-+	{0x376E, 0x0F},
-+	{0x3776, 0x00},
-+	{0x3777, 0x00},
-+	{0x3778, 0x46},
-+	{0x3779, 0x00},
-+	{0x377A, 0x08},
-+	{0x377B, 0x01},
-+	{0x377C, 0x45},
-+	{0x377D, 0x01},
-+	{0x377E, 0x23},
-+	{0x377F, 0x02},
-+	{0x3780, 0xD9},
-+	{0x3781, 0x03},
-+	{0x3782, 0xF5},
-+	{0x3783, 0x06},
-+	{0x3784, 0xA5},
-+	{0x3788, 0x0F},
-+	{0x378A, 0xD9},
-+	{0x378B, 0x03},
-+	{0x378C, 0xEB},
-+	{0x378D, 0x05},
-+	{0x378E, 0x87},
-+	{0x378F, 0x06},
-+	{0x3790, 0xF5},
-+	{0x3792, 0x43},
-+	{0x3794, 0x7A},
-+	{0x3796, 0xA1},
-+	{0x37B0, 0x37},
-+	{0x3E04, 0x0E},
-+	{0x30E8, 0x50},
-+	{0x30E9, 0x00},
-+	{0x3E04, 0x0E},
-+	{0x3002, 0x00},
-+};
-+
- /* Sensor mode registers */
- static const struct imx334_reg mode_3840x2160_regs[] = {
- 	{0x3000, 0x01},
-@@ -243,20 +406,56 @@ static const struct imx334_reg mode_3840x2160_regs[] = {
- 	{0x3a00, 0x01},
- };
- 
-+static const struct imx334_reg raw10_framefmt_regs[] = {
-+	{0x3050, 0x00},
-+	{0x319D, 0x00},
-+	{0x341C, 0xFF},
-+	{0x341D, 0x01},
-+};
-+
-+static const struct imx334_reg raw12_framefmt_regs[] = {
-+	{0x3050, 0x01},
-+	{0x319D, 0x01},
-+	{0x341C, 0x47},
-+	{0x341D, 0x00},
-+};
-+
-+/*
-+ * The supported BUS formats.
-+ */
-+static const u32 imx334_mbus_codes[] = {
-+	MEDIA_BUS_FMT_SRGGB12_1X12,
-+	MEDIA_BUS_FMT_SRGGB10_1X10,
-+};
-+
- /* Supported sensor mode configurations */
--static const struct imx334_mode supported_mode = {
--	.width = 3840,
--	.height = 2160,
--	.hblank = 560,
--	.vblank = 2340,
--	.vblank_min = 90,
--	.vblank_max = 132840,
--	.pclk = 594000000,
--	.link_freq_idx = 0,
--	.code = MEDIA_BUS_FMT_SRGGB12_1X12,
--	.reg_list = {
--		.num_of_regs = ARRAY_SIZE(mode_3840x2160_regs),
--		.regs = mode_3840x2160_regs,
-+static const struct imx334_mode supported_modes[] = {
-+	{
-+		.width = 3840,
-+		.height = 2160,
-+		.hblank = 560,
-+		.vblank = 2340,
-+		.vblank_min = 90,
-+		.vblank_max = 132840,
-+		.pclk = 594000000,
-+		.link_freq_idx = 0,
-+		.reg_list = {
-+			.num_of_regs = ARRAY_SIZE(mode_3840x2160_regs),
-+			.regs = mode_3840x2160_regs,
-+		},
-+	}, {
-+		.width = 1920,
-+		.height = 1080,
-+		.hblank = 560,
-+		.vblank = 1170,
-+		.vblank_min = 90,
-+		.vblank_max = 132840,
-+		.pclk = 594000000,
-+		.link_freq_idx = 0,
-+		.reg_list = {
-+			.num_of_regs = ARRAY_SIZE(mode_1920x1080_regs),
-+			.regs = mode_1920x1080_regs,
-+		},
- 	},
- };
- 
-@@ -506,10 +705,10 @@ static int imx334_enum_mbus_code(struct v4l2_subdev *sd,
- 				 struct v4l2_subdev_state *sd_state,
- 				 struct v4l2_subdev_mbus_code_enum *code)
- {
--	if (code->index > 0)
-+	if (code->index >= ARRAY_SIZE(imx334_mbus_codes))
- 		return -EINVAL;
- 
--	code->code = supported_mode.code;
-+	code->code = imx334_mbus_codes[code->index];
- 
- 	return 0;
- }
-@@ -526,15 +725,22 @@ static int imx334_enum_frame_size(struct v4l2_subdev *sd,
- 				  struct v4l2_subdev_state *sd_state,
- 				  struct v4l2_subdev_frame_size_enum *fsize)
- {
--	if (fsize->index > 0)
-+	unsigned int i;
-+
-+	if (fsize->index >= ARRAY_SIZE(supported_modes))
- 		return -EINVAL;
- 
--	if (fsize->code != supported_mode.code)
-+	for (i = 0; i < ARRAY_SIZE(imx334_mbus_codes); ++i) {
-+		if (imx334_mbus_codes[i] == fsize->code)
-+			break;
-+	}
-+
-+	if (i == ARRAY_SIZE(imx334_mbus_codes))
- 		return -EINVAL;
- 
--	fsize->min_width = supported_mode.width;
-+	fsize->min_width = supported_modes[fsize->index].width;
- 	fsize->max_width = fsize->min_width;
--	fsize->min_height = supported_mode.height;
-+	fsize->min_height = supported_modes[fsize->index].height;
- 	fsize->max_height = fsize->min_height;
- 
- 	return 0;
-@@ -553,7 +759,7 @@ static void imx334_fill_pad_format(struct imx334 *imx334,
- {
- 	fmt->format.width = mode->width;
- 	fmt->format.height = mode->height;
--	fmt->format.code = mode->code;
-+	fmt->format.code = imx334->cur_code;
- 	fmt->format.field = V4L2_FIELD_NONE;
- 	fmt->format.colorspace = V4L2_COLORSPACE_RAW;
- 	fmt->format.ycbcr_enc = V4L2_YCBCR_ENC_DEFAULT;
-@@ -591,6 +797,21 @@ static int imx334_get_pad_format(struct v4l2_subdev *sd,
- 	return 0;
- }
- 
-+static int imx334_get_format_code(struct imx334 *imx334, struct v4l2_subdev_format *fmt)
-+{
-+	unsigned int i;
-+
-+	for (i = 0; i < ARRAY_SIZE(imx334_mbus_codes); i++) {
-+		if (imx334_mbus_codes[i] == fmt->format.code)
-+			break;
-+	}
-+
-+	if (i >= ARRAY_SIZE(imx334_mbus_codes))
-+		i = 0;
-+
-+	return imx334_mbus_codes[i];
-+}
-+
- /**
-  * imx334_set_pad_format() - Set subdevice pad format
-  * @sd: pointer to imx334 V4L2 sub-device structure
-@@ -609,7 +830,13 @@ static int imx334_set_pad_format(struct v4l2_subdev *sd,
- 
- 	mutex_lock(&imx334->mutex);
- 
--	mode = &supported_mode;
-+	imx334->cur_code = imx334_get_format_code(imx334, fmt);
-+
-+	mode = v4l2_find_nearest_size(supported_modes,
-+				      ARRAY_SIZE(supported_modes),
-+				      width, height,
-+				      fmt->format.width, fmt->format.height);
-+
- 	imx334_fill_pad_format(imx334, mode, fmt);
- 
- 	if (fmt->which == V4L2_SUBDEV_FORMAT_TRY) {
-@@ -617,7 +844,7 @@ static int imx334_set_pad_format(struct v4l2_subdev *sd,
- 
- 		framefmt = v4l2_subdev_get_try_format(sd, sd_state, fmt->pad);
- 		*framefmt = fmt->format;
--	} else {
-+	} else if (imx334->cur_mode != mode) {
- 		ret = imx334_update_controls(imx334, mode);
- 		if (!ret)
- 			imx334->cur_mode = mode;
-@@ -642,11 +869,26 @@ static int imx334_init_pad_cfg(struct v4l2_subdev *sd,
- 	struct v4l2_subdev_format fmt = { 0 };
- 
- 	fmt.which = sd_state ? V4L2_SUBDEV_FORMAT_TRY : V4L2_SUBDEV_FORMAT_ACTIVE;
--	imx334_fill_pad_format(imx334, &supported_mode, &fmt);
-+	imx334_fill_pad_format(imx334, &supported_modes[0], &fmt);
- 
- 	return imx334_set_pad_format(sd, sd_state, &fmt);
- }
- 
-+static int imx334_set_framefmt(struct imx334 *imx334)
-+{
-+	switch (imx334->cur_code) {
-+	case MEDIA_BUS_FMT_SRGGB10_1X10:
-+		return imx334_write_regs(imx334, raw10_framefmt_regs,
-+					ARRAY_SIZE(raw10_framefmt_regs));
-+
-+	case MEDIA_BUS_FMT_SRGGB12_1X12:
-+		return imx334_write_regs(imx334, raw12_framefmt_regs,
-+					ARRAY_SIZE(raw12_framefmt_regs));
-+	}
-+
-+	return -EINVAL;
-+}
-+
- /**
-  * imx334_start_streaming() - Start sensor stream
-  * @imx334: pointer to imx334 device
-@@ -667,6 +909,13 @@ static int imx334_start_streaming(struct imx334 *imx334)
- 		return ret;
- 	}
- 
-+	ret = imx334_set_framefmt(imx334);
-+	if (ret) {
-+		dev_err(imx334->dev, "%s failed to set frame format: %d\n",
-+			__func__, ret);
-+		return ret;
-+	}
-+
- 	/* Setup handler will write actual exposure and gain */
- 	ret =  __v4l2_ctrl_handler_setup(imx334->sd.ctrl_handler);
- 	if (ret) {
-@@ -1037,7 +1286,8 @@ static int imx334_probe(struct i2c_client *client)
- 	}
- 
- 	/* Set default mode to max resolution */
--	imx334->cur_mode = &supported_mode;
-+	imx334->cur_mode = &supported_modes[0];
-+	imx334->cur_code = imx334_mbus_codes[0];
- 	imx334->vblank = imx334->cur_mode->vblank;
- 
- 	ret = imx334_init_controls(imx334);
--- 
-2.17.1
-
+On 8/31/22 11:01, Benjamin Mugnier wrote:
+> Hey,
+> 
+> This series adds a driver for the ST VGXY61 camera sensor. This camera sensor is
+> using the i2c bus for control and the csi-2 bus for data.
+> These commits introduce the MEDIA_BUS_FMT_Y16_1X16 as a media bus format (1/5),
+> a standard control in V4L2 for the hdr mode (2/4), dt bindings (3/4), and the
+> driver (4/4).
+> Tested on DragonBoard 410c, Raspberry Pi 4, and Qualcomm Robotics RB5.
+> 
+> Thanks,
+> 
+> Benjamin
+> 
+> v4->v5:
+> - Fix kernel test robot errors
+> 
+> v3->v4:
+> - Standardize V4L2_CID_HDR_MODE
+> - Refactor to 80 characters limit
+> - Better types handling
+> - Various others
+> - Rebase on master
+> 
+> v2->v3:
+> - Fix errors in dt bindings
+> - Use alphabetical order where applicable
+> - Remove US_PER_MS macro
+> - Rename device specific macros
+> - Fix some control grabs not releasing
+> - Move user controls to public header and add documentation
+> - Rename set_framerate to set_framelength
+> - Rework i2c access
+> - Remove branchings that should never happen
+> - Rework pattern generator setting
+> - Update information on sensor rules of thumb
+> - Remove temperature control
+> - Remove suspend and resume
+> - Move mutex init to probe
+> - Move detect to probe
+> - Fix async_subdev_register order
+> - Support autosuspend
+> - Add init_cfg
+> - Fix controls not updating when sensor was off
+> - Various cleaning
+> - Rebase on master
+> 
+> v1->v2:
+> - Move temperature control to v4l2-controls.h as a standard control
+> - Reserve controls in v4l2-controls.h for HDR control
+> - Remove GPIO strobbing controls
+> - Remove references to unused controls in sensor struct
+> - Use v4l2_find_nearest_size
+> - Use V4L2_COLORSPACE_RAW instead of V4L2_COLORSPACE_SRGB
+> - Fill ycbcr_enc, quantization, and xfer_func in v4l2_mbus_framefmt
+> - Change gain from formula to a register RAW write
+> - Change temperature control value directly
+> - Remove clock-name and clock-lanes from device tree bindings
+> - Declare crop zones in mode_info structure
+> - Remove frame_interval functions and add hblank and vblank instead
+> - Update controls dependencies on change
+> - Fix first exposure rule of thumb being too restrictive
+> - Disable hflip and vflip controls while streaming
+> - Change RGB media bus code to Y as the sensor is monochrome
+> - Add Y16 format to v4l2 media bus formats
+> - Add get_selection API
+> - Fix timeout errors while disabling streaming on high framerates
+> - Support pm_runtime
+> - Rebase on master
+> 
+> Benjamin Mugnier (4):
+>   media: v4l: Add 1X16 16-bit greyscale media bus code definition
+>   media: v4l: ctrls: Add a control for HDR mode
+>   media: dt-bindings: media: i2c: Add ST VGXY61 camera sensor binding
+>   media: i2c: Add driver for ST VGXY61 camera sensor
+> 
+>  .../bindings/media/i2c/st,st-vgxy61.yaml      |  117 +
+>  .../media/v4l/ext-ctrls-camera.rst            |    8 +
+>  .../media/v4l/subdev-formats.rst              |   37 +
+>  MAINTAINERS                                   |    9 +
+>  drivers/media/i2c/Kconfig                     |   10 +
+>  drivers/media/i2c/Makefile                    |    1 +
+>  drivers/media/i2c/st-vgxy61.c                 | 1968 +++++++++++++++++
+>  drivers/media/v4l2-core/v4l2-ctrls-defs.c     |    2 +
+>  include/uapi/linux/media-bus-format.h         |    3 +-
+>  include/uapi/linux/v4l2-controls.h            |    2 +
+>  10 files changed, 2156 insertions(+), 1 deletion(-)
+>  create mode 100644 Documentation/devicetree/bindings/media/i2c/st,st-vgxy61.yaml
+>  create mode 100644 drivers/media/i2c/st-vgxy61.c
+> 
