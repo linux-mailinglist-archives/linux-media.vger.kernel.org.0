@@ -2,150 +2,121 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A6D4D5BE812
-	for <lists+linux-media@lfdr.de>; Tue, 20 Sep 2022 16:07:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4CE945BE818
+	for <lists+linux-media@lfdr.de>; Tue, 20 Sep 2022 16:08:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231231AbiITOHx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 20 Sep 2022 10:07:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40620 "EHLO
+        id S231296AbiITOIa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 20 Sep 2022 10:08:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41600 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229985AbiITOHu (ORCPT
+        with ESMTP id S230520AbiITOI2 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 20 Sep 2022 10:07:50 -0400
-Received: from relay11.mail.gandi.net (relay11.mail.gandi.net [IPv6:2001:4b98:dc4:8::231])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE3985A15F;
-        Tue, 20 Sep 2022 07:07:47 -0700 (PDT)
-Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPSA id E9E7D100017;
-        Tue, 20 Sep 2022 14:07:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1663682865;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=GF6cPJVtOJVbesTQZDktFClOlGzeyriaAidJCIdaM/M=;
-        b=IFfCR6B4r/Krfaqb3kk+lbwGk74VHj2gL6Kwed5+b1fCnmg0uZI5FMDZPRpzvk2s3Evpd7
-        gedyWriqEBppAhbih6GFGNFHL5GbSXF1SwKEYDG0i0MyEA4rYAf0q7t9EXi/yAJGW4TX8s
-        2/6oRLDYieJen4O8dkJy+WHCJe+D7u5kJEtrSLTzYn/fU1obPZdjN+//hhxIKnu0YKKSY3
-        +Qll5cxtQvGxoVI4YsQFQYTlu22WqF7XZC2FzFiksGrgPtPEmqw45ggMYxBAU0bo8Eows8
-        D2s10PhkdCabDQt70cDFxcfS2G4QVOX+E1BvtCGo2rG3LP6v5jz1TJOGEl2S7A==
-Date:   Tue, 20 Sep 2022 16:07:43 +0200
-From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To:     Rafael Mendonca <rafaelmendsr@gmail.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: i2c: ov5648: Free V4L2 fwnode data on unbind
-Message-ID: <YynJL5834XNvshyT@aptenodytes>
-References: <20220919023247.731106-1-rafaelmendsr@gmail.com>
- <Yym/QDURAtn1LX8i@aptenodytes>
- <YynHBkbTw6bTgYNq@macondo>
+        Tue, 20 Sep 2022 10:08:28 -0400
+Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com [IPv6:2a00:1450:4864:20::631])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C066B56BB9
+        for <linux-media@vger.kernel.org>; Tue, 20 Sep 2022 07:08:27 -0700 (PDT)
+Received: by mail-ej1-x631.google.com with SMTP id l14so6440496eja.7
+        for <linux-media@vger.kernel.org>; Tue, 20 Sep 2022 07:08:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=cc:to:message-id:date:from:content-transfer-encoding:mime-version
+         :subject:from:to:cc:subject:date;
+        bh=Ez73OqelWaiqQZHywKfWdNpRrtBd+18CkyxFZ5hGr0Y=;
+        b=UlBDZ1GQ58SNE6hpCueSS50fM0PqqoWSYmfrotNUGHrgwVpvle5qTcCifVp/apMx2M
+         BTprcfs4ef7jcG+TscNzvAwqntJPHTWG+2p70zhywo5CppVXOEGupC7Jco1mtQurCxk7
+         Fm3ZJrGzVnVu/m8xG68WniPAyAcK/NvKCEydY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:message-id:date:from:content-transfer-encoding:mime-version
+         :subject:x-gm-message-state:from:to:cc:subject:date;
+        bh=Ez73OqelWaiqQZHywKfWdNpRrtBd+18CkyxFZ5hGr0Y=;
+        b=jAT6A8kpis3FZ3+9FJNfODUvPpgE9lg/DKiykP83BUGuqfO32rNqm8Pg6dx8W+LTSG
+         yfeo8CUbEC2uQjxoaCE6FNWhlJx3KTKENdkOxo0uXrVpPVCaGCC8DzaFSfMZc0urWyFo
+         jV0jVJxa8A3oMcjB+1m3QfBQvS2bTTk30wfuAGdVuYe49ENINGPihHSuNEfL7vLM8nF7
+         fawSfL9RH/5ua+iuirTq3VAxyw8azsUy6Gq6cfrchQu50cU1DYXjBOkKchp9Y7T4nVbo
+         hyJm0QoQhHlMR9VwGEJj0q8S/Ng5eeN4jAOP6XGkC/7j4JjdrsPXjhSSJGDUIS0oerUT
+         7Ppg==
+X-Gm-Message-State: ACrzQf112uaO8qXJNP7ghCWAFmHSe0osqAFtuKCulRYNjj+I+2wyqfLf
+        iz90cA1UQvHJUzpX8dzthIVvAg==
+X-Google-Smtp-Source: AMsMyM4eZUBk6faCshpGpemqa5t2IkhLQULsUqhPZnk5xpBw5YLvmCWlAltE9twH+zpkRf/GHw3FNQ==
+X-Received: by 2002:a17:906:eecb:b0:73c:5bcb:8eb3 with SMTP id wu11-20020a170906eecb00b0073c5bcb8eb3mr17045139ejb.284.1663682906247;
+        Tue, 20 Sep 2022 07:08:26 -0700 (PDT)
+Received: from alco.roam.corp.google.com ([2620:0:1059:10:935d:52b0:7461:88e1])
+        by smtp.gmail.com with ESMTPSA id j17-20020a17090623f100b0077016f4c6d4sm936564ejg.55.2022.09.20.07.08.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 20 Sep 2022 07:08:25 -0700 (PDT)
+Subject: [PATCH v1 0/8] [RESEND] [PATCH 0/8] uvcvideo: Fixes for hw timestamping
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="zaB1nv5BiLMNa+jQ"
-Content-Disposition: inline
-In-Reply-To: <YynHBkbTw6bTgYNq@macondo>
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-b4-tracking: H4sIAEbJKWMC/w3LMQ6DMAwF0Ksgz1gKLhKlt0nIV2MJ3CoGOiDu3oxveBc5qsLp1V1UcarrxxqGvq
+ OlRHuDNTeTBJEwS+AKh2Uuv103+B63L6cHRCaZ5TlmajFFB6cabSmt2rGu9/0HOhEd5GkAAAA=
+From:   Ricardo Ribalda <ribalda@chromium.org>
+Date:   Tue, 20 Sep 2022 16:08:06 +0200
+Message-Id: <20220920-resend-hwtimestamp-v1-0-e9c14b258404@chromium.org>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     "hn.chen" <hn.chen@sunplusit.com>,
+        Ricardo Ribalda <ribalda@chromium.org>,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+X-Mailer: b4 0.11.0-dev-d93f8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1458; i=ribalda@chromium.org;
+ h=from:subject:message-id; bh=5kkRIOhBcFJuwoPAXjOCfdki8Mn/TxMLn0AJ9wHdAog=;
+ b=owEBbQKS/ZANAwAKAdE30T7POsSIAcsmYgBjKclIJvMQfMSSPDIBD4bvuSvmb7trva0SsHL+vrQr
+ XokHjv2JAjMEAAEKAB0WIQREDzjr+/4oCDLSsx7RN9E+zzrEiAUCYynJSAAKCRDRN9E+zzrEiMroD/
+ wNM0O/O4VM7t/deoikeZsDTcn6KQbgh2huS7YpM4avdUQOirkv5v8YpV1Vbx5LOcj9aIDpZKrwm78A
+ 09Fty56532kyF4PLoicBnTgy42BMBVU/N47eHGAeaDEx2T3mtOhHq4xpemf0fID+MwFBDQKUZAgsMl
+ HfmLrfr7/yjoH+mSJ2nYvovOIGdekOIZPJu0WsCugI1k+4u4gE3x28EgSkzB45tEqxoZCSKm3SQ0y5
+ rJZ4mnaqKvcBrVVby3/tWaBDn8FffMF5VNFsHmt5QjwIlEal2afGKWkhZhc20pAWB4uX3TrgI+15gs
+ MGZjwD9uAUfPgKqXW0fcshT76zTcyVBMhYpPGo7ZRgRMr+WbhafmX7XeAZt79zqXcsyEJKts3L2Cr2
+ BSXiyXEs80uH1CR/Og2rTd6pvIQx6lygeEE6DMFbMfl0Cy12FpJjtHQ8o2GMW68obo2rRBXC42DBUk
+ pNsj0dhre3RdbPIPXFWDpJb9iQBj17WwuevRjZvKtRmtSwL0UtjYdYeN8e98QQrbZRcQiHKzn9vcWi
+ GeGxoz3H2UdfW5J+xpHVci11o2C5ZvHjrs3JbSV7g+j1+AClIxoGqPrwOlb2qiP8HzMzuiFmkWSztr
+ hBHCeh31BOsJKVMVc/fJ2nJTVd0WQAMIXVOUj+tpWYWqDNAWB4Yxhtugc2Mw==
+X-Developer-Key: i=ribalda@chromium.org; a=openpgp;
+ fpr=9EC3BB66E2FC129A6F90B39556A0D81F9F782DA9
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Add some fixes for fixing hw timestamp on some Logitech and Sunplus
+cameras. The issues have been previously reported to the manufacturers.
 
---zaB1nv5BiLMNa+jQ
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Also include a patch to fix the current hw timestamping logic for ANY
+uvc 1.5 model running at under 16 fps.
 
-Hi Rafael,
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-media@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: hn.chen <hn.chen@sunplusit.com>
+Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 
-On Tue 20 Sep 22, 10:58, Rafael Mendonca wrote:
-> On Tue, Sep 20, 2022 at 03:25:20PM +0200, Paul Kocialkowski wrote:
-> > Hi Rafael,
-> >=20
-> > On Sun 18 Sep 22, 23:32, Rafael Mendonca wrote:
-> > > The V4L2 fwnode data structure doesn't get freed on unbind, which lea=
-ds to
-> > > a memleak.
-> >=20
-> > Thanks for this patch, good catch!
-> >=20
-> > I agree with Jacopo, you shouldn't add a newline before the call.
->=20
-> Thanks for the review, I'll send a v2. As the code for the ov5648 is
-> similar to the ov8865, and in the 8865 there is this blank line before
-> the v4l2_fwnode_endpoint_free() call, I thought it might be good to keep
-> the same style here, that's why this empty line ended up appearing here.
+---
+Ricardo Ribalda (8):
+      media: uvc: Extend documentation of uvc_video_clock_decode()
+      media: uvc: Allow quirking by entity guid
+      media: uvc: Create UVC_QUIRK_IGNORE_EMPTY_TS quirk
+      media: uvcvideo: Quirk for invalid dev_sof in Logi C922
+      media: uvcvideo: Quirk for autosuspend in Logi C910
+      media: uvcvideo: Allow hw clock updates with buffers not full
+      media: uvcvideo: Refactor clock circular buffer
+      media: uvcvideo: Fix hw timestampt handling for slow FPS
 
-Understood! I'd be tempted to make a cosmetic fix for 8865 but will probably
-wait to group it with functional changes.
+ drivers/media/usb/uvc/uvc_driver.c |  63 ++++++++++++++++++++
+ drivers/media/usb/uvc/uvc_video.c  | 119 +++++++++++++++++++++++--------------
+ drivers/media/usb/uvc/uvcvideo.h   |   4 ++
+ 3 files changed, 142 insertions(+), 44 deletions(-)
+---
+base-commit: 521a547ced6477c54b4b0cc206000406c221b4d6
+change-id: 20220920-resend-hwtimestamp-b3e22729284d
 
-Cheers,
-
-Paul
-
-> > Feel free to send a v2 with that fixed and include my:
-> >=20
-> > Reviewed-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> >=20
-> > Cheers,
-> >=20
-> > Paul
-> >=20
-> > > Fixes: e43ccb0a045f ("media: i2c: Add support for the OV5648 image se=
-nsor")
-> > > Signed-off-by: Rafael Mendonca <rafaelmendsr@gmail.com>
-> > > ---
-> > >  drivers/media/i2c/ov5648.c | 2 ++
-> > >  1 file changed, 2 insertions(+)
-> > >=20
-> > > diff --git a/drivers/media/i2c/ov5648.c b/drivers/media/i2c/ov5648.c
-> > > index dfcd33e9ee13..95850f06112b 100644
-> > > --- a/drivers/media/i2c/ov5648.c
-> > > +++ b/drivers/media/i2c/ov5648.c
-> > > @@ -2598,6 +2598,8 @@ static int ov5648_remove(struct i2c_client *cli=
-ent)
-> > >  	mutex_destroy(&sensor->mutex);
-> > >  	media_entity_cleanup(&subdev->entity);
-> > > =20
-> > > +	v4l2_fwnode_endpoint_free(&sensor->endpoint);
-> > > +
-> > >  	return 0;
-> > >  }
-> > > =20
-> > > --=20
-> > > 2.34.1
-> > >=20
-> >=20
-> > --=20
-> > Paul Kocialkowski, Bootlin
-> > Embedded Linux and kernel engineering
-> > https://bootlin.com
->=20
->=20
-
---=20
-Paul Kocialkowski, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
-
---zaB1nv5BiLMNa+jQ
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmMpyS8ACgkQ3cLmz3+f
-v9F2rgf9GWJRbsfTRwscJGXsW2i6pIThfLIysGiwYV+1lqVNbTCzLA4z1XckxHrw
-06zL/v+ZIq0KROZXE5Z3DTOBhnfXd0xVnfrVlY145dgRxFsg44icsjHtf/NFcS/b
-F5vj+kGhuddzFi7Vdg9HtuZFexzZBQCZ3of2+1E3bjsuzqt000DEeoVHLnuqg4vP
-UWsp/LrqgM1197fw+ylhJpE4RJWQSAreMywhvaabfJQO28KkqDMTJQI/AvOeU/6h
-eAzIIG43OiNtIjedkJWb3dS6ZYWgUeAclKQcx5JG24msZub0UZyKKoZa+ycTMb5/
-jvFgrKg6TT0oH4W2ftvPLQ5xSxCFUQ==
-=jW0C
------END PGP SIGNATURE-----
-
---zaB1nv5BiLMNa+jQ--
+Best regards,
+-- 
+Ricardo Ribalda <ribalda@chromium.org>
