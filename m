@@ -2,101 +2,90 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E42BF5BE4E5
-	for <lists+linux-media@lfdr.de>; Tue, 20 Sep 2022 13:47:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2CDF75BE4F1
+	for <lists+linux-media@lfdr.de>; Tue, 20 Sep 2022 13:50:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229896AbiITLr4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 20 Sep 2022 07:47:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44094 "EHLO
+        id S229767AbiITLt1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 20 Sep 2022 07:49:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44772 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229609AbiITLrz (ORCPT
+        with ESMTP id S229596AbiITLt0 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 20 Sep 2022 07:47:55 -0400
-Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com [IPv6:2a00:1450:4864:20::32d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD93A167E3;
-        Tue, 20 Sep 2022 04:47:53 -0700 (PDT)
-Received: by mail-wm1-x32d.google.com with SMTP id n35-20020a05600c502300b003b4924c6868so739236wmr.1;
-        Tue, 20 Sep 2022 04:47:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date;
-        bh=Uzqu4x3ReJl2swGfEJj67Pd2unDJ3Dv2X7PfUeAMFlU=;
-        b=CmXkA8qIbaFNouX5UDIP2EtzvEpNmgRhb/8rznaJhGMNUuwBOFHghs3gJQS4uomnZr
-         YDcqkjuEvJ4vCka5cONnCHVRV6iQInH+8o7Zq6VeC/3C8HUmiQ31Tc1D7RqHoZMY0+gl
-         DpJVgqTY9VSsYXVMFHySjCx4npqW7qGsRD7k6vyHOfIxIklfFsHo9utUqClMbHOH7nzv
-         xKq4OLNK7WWtv23lHrNAz+KZYWDVjodkcEtoVo4NkPp0a/0giowcL+JsMfRSnh9PfBq2
-         GPBjK8DY/TfnAMRV+kChdRhMBeamsBENpwI9RfDCDpHENBnE3x1TJgyEn6gEeFu9Vrxg
-         wbYw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=Uzqu4x3ReJl2swGfEJj67Pd2unDJ3Dv2X7PfUeAMFlU=;
-        b=b0t0o0tnomuG0WVnkPaW8/gsv2uImBvvGHdop01M56YS+66H9VL0DidCooeadI5CL3
-         54gFqZQaCfylODjIJ3RfWfHN2eoLgs34+yvLSwRm+rns1d/Rxfh4tHut51cotIOT+VmP
-         6xf9u4HVOkcY85M8X806RY/IW/Dq7C3UgG+cjV91lNabinKrn7fMJY1KJBIiP3Nw7gIP
-         yL//6okjn/joSNTNCycG1YhkeulPHtQ1q1zjDVdrJf1miGtM8oElfd40YuvLor/PKaIt
-         VI1I7GnUb+2IgaOxSI/8UZfjCi1RDSKIvm83BPLRUnFnxgmBh8S8mKjJZGsxX8I0H8wR
-         VAQg==
-X-Gm-Message-State: ACrzQf3e8Igm5QFbppmKNEZeH3vPrTkeLogQ1lrwh80cOrMEkIaqFf/u
-        JNlqI/AjE9num05p5fAwl756H/IvOz7wqg==
-X-Google-Smtp-Source: AMsMyM4aBYcaHzJkBzdvhpxsTIJL1CmLJ4dHjh82nS5T2kmR/xQCQfB8ki9IGbZoXjIWTpnN0yGzMA==
-X-Received: by 2002:a1c:f009:0:b0:3b4:9398:49c9 with SMTP id a9-20020a1cf009000000b003b4939849c9mr2085385wmb.174.1663674472131;
-        Tue, 20 Sep 2022 04:47:52 -0700 (PDT)
-Received: from debian (host-78-150-37-98.as13285.net. [78.150.37.98])
-        by smtp.gmail.com with ESMTPSA id b20-20020a05600c4e1400b003b33de17577sm2254667wmq.13.2022.09.20.04.47.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 Sep 2022 04:47:51 -0700 (PDT)
-Date:   Tue, 20 Sep 2022 12:47:49 +0100
-From:   Sudip Mukherjee <sudipm.mukherjee@gmail.com>
-To:     Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-        Alex Deucher <alexander.deucher@amd.com>
-Cc:     "Pan, Xinhui" <Xinhui.Pan@amd.com>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Philip Yang <Philip.Yang@amd.com>,
-        amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linaro-mm-sig@lists.linaro.org, linux-next@vger.kernel.org,
-        Nathan Chancellor <nathan@kernel.org>, llvm@lists.linux.dev
-Subject: build failure of next-20220920 due to c2b08e7a6d27 ("drm/amdgpu:
- move entity selection and job init earlier during CS")
-Message-ID: <YymoZR0jHR7seGyU@debian>
+        Tue, 20 Sep 2022 07:49:26 -0400
+Received: from meesny.iki.fi (meesny.iki.fi [IPv6:2001:67c:2b0:1c1::201])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 33A82167E3
+        for <linux-media@vger.kernel.org>; Tue, 20 Sep 2022 04:49:25 -0700 (PDT)
+Received: from hillosipuli.retiisi.eu (dkwl20tj04snw15cjtflt-3.rev.dnainternet.fi [IPv6:2001:14ba:4493:6f40:fec3:d72a:e447:8113])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: sailus)
+        by meesny.iki.fi (Postfix) with ESMTPSA id 07FAD20149;
+        Tue, 20 Sep 2022 14:49:22 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
+        t=1663674562;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=rfln/fz8NpPv2fZM3C/e4yFc/DS0W/eu4pXEV/GlBtg=;
+        b=Kq8+blXbtV8hfYmTlyXyj74r6EcNswaGQ+xWp3nwyQkMyOkoxBw2rf6sedTYiy2F6t8qG0
+        sTTM8znl9pUrxfogpJsCb8/CKguiemjKNXB0udBMmy51sI2hUu5ezM+DAI9qyITaI7bwIw
+        zwEZFWQGITyH6nirABuN0K/FL7FEXm0=
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 88838634C91;
+        Tue, 20 Sep 2022 14:49:21 +0300 (EEST)
+Date:   Tue, 20 Sep 2022 14:49:21 +0300
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     Yang Yingliang <yangyingliang@huawei.com>
+Cc:     linux-media@vger.kernel.org, khalasa@piap.pl, mchehab@kernel.org,
+        sakari.ailus@linux.intel.com
+Subject: Re: [PATCH -next resend] media: ar0521: fix error return code in
+ ar0521_power_on()
+Message-ID: <YymowcJLbEntasyE@valkosipuli.retiisi.eu>
+References: <20220917071432.1544323-1-yangyingliang@huawei.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220917071432.1544323-1-yangyingliang@huawei.com>
+ARC-Authentication-Results: i=1;
+        ORIGINATING;
+        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Seal: i=1; s=meesny; d=iki.fi; t=1663674562; a=rsa-sha256; cv=none;
+        b=cN4IWqGRbTc+mjkezdzvzT/P3+fnZFslPj0tG1TU5rR3FO963isCOWyf/Ji48Oi84KjAub
+        nFsEsmU0/MzzeQ6F0cp6dTCJfxpa34hkGzWAiWiXZLFLhXnys0MpfrPUktc0jR9JWbGdvq
+        240/czB0mkHSumtxRsjWbWTh/4yNO4o=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+        s=meesny; t=1663674562;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=rfln/fz8NpPv2fZM3C/e4yFc/DS0W/eu4pXEV/GlBtg=;
+        b=aQjHgS/L7s+Ob//A1F2t/NUpxoMW4oxZ7rarcRLXvTajyWxv7xYGiXOY2QYfQQ0o5sUYfw
+        +lGugyVX6KHOlh1gOfPT5jlo1CZDnSNCC+Oxid0hyg8AgvV7Z/1ylJv5G+b2j9F1eudyn1
+        eI1lvyotu2Mz2Cd5ZSoeMYxqnF0zbX0=
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi All,
+On Sat, Sep 17, 2022 at 03:14:32PM +0800, Yang Yingliang wrote:
+> Return error code if ar0521_write_regs() fails in ar0521_power_on().
+> 
+> Fixes: 852b50aeed15 ("media: On Semi AR0521 sensor driver")
+> Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
+> Acked-by: Krzysztof Hałasa <khalasa@piap.pl>
 
-The builds of arm64 allmodconfig with clang failed to build next-20220920
-with the error:
-
-drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c:1190:3: error: variable 'r' is uninitialized when used here [-Werror,-Wuninitialized]
-                r |= !amdgpu_ttm_tt_get_user_pages_done(bo->tbo.ttm);
-                ^
-drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c:1171:7: note: initialize the variable 'r' to silence this warning
-        int r;
-             ^
-              = 0
-1 error generated.
-
-
-git bisect pointed to c2b08e7a6d27 ("drm/amdgpu: move entity selection and job init earlier during CS")
-
-I will be happy to test any patch or provide any extra log if needed.
-
+This is already in my pull request to Mauro.
 
 -- 
-Regards
-Sudip
+Sakari Ailus
