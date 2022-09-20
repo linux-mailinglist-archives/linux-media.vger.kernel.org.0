@@ -2,83 +2,100 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6523C5BE1AF
-	for <lists+linux-media@lfdr.de>; Tue, 20 Sep 2022 11:15:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 49D7F5BE1C1
+	for <lists+linux-media@lfdr.de>; Tue, 20 Sep 2022 11:20:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231730AbiITJPo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 20 Sep 2022 05:15:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59498 "EHLO
+        id S231573AbiITJT6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 20 Sep 2022 05:19:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41946 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231616AbiITJPR (ORCPT
+        with ESMTP id S231613AbiITJTr (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 20 Sep 2022 05:15:17 -0400
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E84226BD43
-        for <linux-media@vger.kernel.org>; Tue, 20 Sep 2022 02:13:58 -0700 (PDT)
-Received: from dggpemm500023.china.huawei.com (unknown [172.30.72.55])
-        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4MWwhf3VYNzlW9h;
-        Tue, 20 Sep 2022 17:09:06 +0800 (CST)
-Received: from dggpemm500007.china.huawei.com (7.185.36.183) by
- dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Tue, 20 Sep 2022 17:13:12 +0800
-Received: from [10.174.178.174] (10.174.178.174) by
- dggpemm500007.china.huawei.com (7.185.36.183) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Tue, 20 Sep 2022 17:13:11 +0800
-Subject: Re: [PATCH -next v2] media: Switch to use dev_err_probe() helper
-To:     Sakari Ailus <sakari.ailus@iki.fi>
-CC:     <linux-media@vger.kernel.org>, <mchehab@kernel.org>,
-        <hverkuil-cisco@xs4all.nl>, <pavel@ucw.cz>,
-        <sakari.ailus@linux.intel.com>, <sean@mess.org>,
-        <laurent.pinchart@ideasonboard.com>
-References: <20220919155843.1097473-1-yangyingliang@huawei.com>
- <Yyl67oamQ/i8PZpZ@valkosipuli.retiisi.eu>
-From:   Yang Yingliang <yangyingliang@huawei.com>
-Message-ID: <6d8f1bde-f56b-3373-6a77-a69a08b23503@huawei.com>
-Date:   Tue, 20 Sep 2022 17:13:11 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+        Tue, 20 Sep 2022 05:19:47 -0400
+Received: from relay12.mail.gandi.net (relay12.mail.gandi.net [IPv6:2001:4b98:dc4:8::232])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A6B492668;
+        Tue, 20 Sep 2022 02:19:39 -0700 (PDT)
+Received: (Authenticated sender: jacopo@jmondi.org)
+        by mail.gandi.net (Postfix) with ESMTPSA id 59911200014;
+        Tue, 20 Sep 2022 09:19:35 +0000 (UTC)
+Date:   Tue, 20 Sep 2022 11:19:33 +0200
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Marco Felsch <m.felsch@pengutronix.de>,
+        Stephen Boyd <sboyd@kernel.org>, linux-clk@vger.kernel.org
+Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>, mchehab@kernel.org,
+        laurent.pinchart+renesas@ideasonboard.com, akinobu.mita@gmail.com,
+        jacopo+renesas@jmondi.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 1/3] media: mt9m111: add V4L2_CID_LINK_FREQ support
+Message-ID: <20220920091933.kokk4le3cxpw4hvp@lati>
+References: <20220916135713.143890-1-m.felsch@pengutronix.de>
+ <YyhjpxHHFR4u+k+X@paasikivi.fi.intel.com>
+ <20220919130829.ddoe2ajnrarkywgy@pengutronix.de>
+ <YyhsQ+l1Sls00F0M@paasikivi.fi.intel.com>
+ <20220920085617.7cfflloegh7en4mj@pengutronix.de>
 MIME-Version: 1.0
-In-Reply-To: <Yyl67oamQ/i8PZpZ@valkosipuli.retiisi.eu>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-Originating-IP: [10.174.178.174]
-X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
- dggpemm500007.china.huawei.com (7.185.36.183)
-X-CFilter-Loop: Reflected
-X-Spam-Status: No, score=-6.4 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20220920085617.7cfflloegh7en4mj@pengutronix.de>
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+Hello
 
-On 2022/9/20 16:33, Sakari Ailus wrote:
-> Hi Yang,
+On Tue, Sep 20, 2022 at 10:56:17AM +0200, Marco Felsch wrote:
+> Hi Sakari,
 >
-> On Mon, Sep 19, 2022 at 11:58:43PM +0800, Yang Yingliang wrote:
->> In the probe path, dev_err() can be replaced with dev_err_probe()
->> which will check if error code is -EPROBE_DEFER.
-> I don't really disagree with changing to dev_err_probe(). But I would like
-> to ask how have you selected the drivers and calls calls in them that you
-> do change.
-The drivers that check if error code is EPROBE_DEFER when handling error 
-case in probe
-path.
+> On 22-09-19, Sakari Ailus wrote:
 >
-> E.g. the imx274 driver has a number of such calls and the patch appears to
-> change one of them. Other drivers similar to imx274 (e.g. other sensor
-> drivers) do use dev_err() as well.
-dev_err_probe() will check if error code is EPROBE_DEFER, the rest of 
-such calls
-in imx274 driver don't check EPROBE_DEFER, so I don't replace them.
+> ...
 >
-> I wonder how difficult it would be to do this more systematically with
-> Coccinelle.
+> > > > > +	ret = clk_prepare_enable(mt9m111->clk);
+> > > > > +	if (ret < 0)
+> > > > > +		return ret;
+> > > > > +
+> > > > > +	extclk_rate = clk_get_rate(mt9m111->clk);
+> > > > > +	clk_disable_unprepare(mt9m111->clk);
+> > > >
+> > > > I don't think you'll need to enable a clock to just get its frequency.
+> > >
+> > > The official API states that you need to turn on the clk before
+> > > requesting it and it makes sense. Also there is a new helper
+> > > devm_clk_get_enabled() which addresses simple clk usage since most of
+> > > drivers don't enable it before requesting the rate.
+
+Had the same question on v1 and Marco pointed me to the clk_get_rate()
+documentation
+https://elixir.bootlin.com/linux/v6.0-rc1/source/include/linux/clk.h#L682
+
+which indeed specifies
+"This is only valid once the clock source has been enabled."
+
+However none (or very few) of the linux-media i2c drivers actually do
+that.
+
+I have added in cc the clk framework maintainer to see if he can help
+shed some light on this
+
+
+> >
+> > I guess the rate could change in the meantime, unless exclusive access is
+> > requested.
 >
+> Not only that, there are a bunch of clk provider hw around which may
+> need to turned on first. Anyway, I really don't care on this topic. As
+> I said I wanted to fullfil the API and if drop clk_prepare_enable() I
+> don't. So if this okay for you I will go that way.
+>
+> > The clock framework currently doesn't offer a way to set the assigned
+> > rate and prevent changing it. But above, couldn't the clock frequency
+> > be changed again once the clock has been disabled?
+>
+> Yes it could.
+>
+> Regards,
+>   Marco
