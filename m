@@ -2,49 +2,57 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C58FE5BE0DB
-	for <lists+linux-media@lfdr.de>; Tue, 20 Sep 2022 10:57:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 276C65BE119
+	for <lists+linux-media@lfdr.de>; Tue, 20 Sep 2022 11:01:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231197AbiITI42 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 20 Sep 2022 04:56:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52168 "EHLO
+        id S230217AbiITJBT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 20 Sep 2022 05:01:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55716 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230114AbiITI41 (ORCPT
+        with ESMTP id S230270AbiITJAl (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 20 Sep 2022 04:56:27 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6229369F56
-        for <linux-media@vger.kernel.org>; Tue, 20 Sep 2022 01:56:26 -0700 (PDT)
-Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <mfe@pengutronix.de>)
-        id 1oaZ3C-0008RQ-Ba; Tue, 20 Sep 2022 10:56:18 +0200
-Received: from mfe by ptx.hi.pengutronix.de with local (Exim 4.92)
-        (envelope-from <mfe@pengutronix.de>)
-        id 1oaZ3B-0002kh-He; Tue, 20 Sep 2022 10:56:17 +0200
-Date:   Tue, 20 Sep 2022 10:56:17 +0200
-From:   Marco Felsch <m.felsch@pengutronix.de>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     mchehab@kernel.org, laurent.pinchart+renesas@ideasonboard.com,
-        akinobu.mita@gmail.com, jacopo+renesas@jmondi.org,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/3] media: mt9m111: add V4L2_CID_LINK_FREQ support
-Message-ID: <20220920085617.7cfflloegh7en4mj@pengutronix.de>
-References: <20220916135713.143890-1-m.felsch@pengutronix.de>
- <YyhjpxHHFR4u+k+X@paasikivi.fi.intel.com>
- <20220919130829.ddoe2ajnrarkywgy@pengutronix.de>
- <YyhsQ+l1Sls00F0M@paasikivi.fi.intel.com>
+        Tue, 20 Sep 2022 05:00:41 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5FD6F6C10A;
+        Tue, 20 Sep 2022 02:00:36 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id D149EB8264D;
+        Tue, 20 Sep 2022 09:00:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7B1F8C433D7;
+        Tue, 20 Sep 2022 09:00:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1663664433;
+        bh=Lt+A+WTpxhk3dZD3hAMkDrayEMrJWIiZOAr0Aio6a0Y=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=DpwsQxZqbgO4GYvR+BqSYobYpKO3aFmd005W1jSW7IBmZM9ckiW4lVRCoNAB/SaK6
+         WAHSA8bQYYeHYBkKo9op18iDFDnfqJ6cJYy8ZJdr8/qtN4puWF0Q1dGxIwVTib7FzS
+         XFSNvLkqjUCSyhhYHzFJMKBzqH/35cdskFD3t9+QNsLvt0tsEegB42bCQgAUuo/+AF
+         yT3MtflV8gON3XEK19FZbWRKYv/+WU57McAxG5Ofz0fgdJdTmnP5J1OBIQ0f0WJJDz
+         XXHY5AfqWbAtrMS8D9qSCdapFmiLVuuyUSabeQwg6bUqNAOq28WBvuaO79XvdqCJOk
+         +iesX/kSVgkGg==
+Received: from johan by xi.lan with local (Exim 4.94.2)
+        (envelope-from <johan@kernel.org>)
+        id 1oaZ7L-0002J7-7i; Tue, 20 Sep 2022 11:00:35 +0200
+Date:   Tue, 20 Sep 2022 11:00:35 +0200
+From:   Johan Hovold <johan@kernel.org>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     Sean Young <sean@mess.org>, linux-media@vger.kernel.org,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Oliver Neukum <oneukum@suse.com>, stable@vger.kernel.org,
+        Dongliang Mu <mudongliangabcd@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: Re: [PATCH RESEND] media: flexcop-usb: fix endpoint type check
+Message-ID: <YymBM1wJLAsBDU4E@hovoldconsulting.com>
+References: <20220822151027.27026-1-johan@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YyhsQ+l1Sls00F0M@paasikivi.fi.intel.com>
-User-Agent: NeoMutt/20180716
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
-X-SA-Exim-Mail-From: mfe@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+In-Reply-To: <20220822151027.27026-1-johan@kernel.org>
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -52,39 +60,49 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sakari,
+Mauro and Hans,
 
-On 22-09-19, Sakari Ailus wrote:
-
-...
-
-> > > > +	ret = clk_prepare_enable(mt9m111->clk);
-> > > > +	if (ret < 0)
-> > > > +		return ret;
-> > > > +
-> > > > +	extclk_rate = clk_get_rate(mt9m111->clk);
-> > > > +	clk_disable_unprepare(mt9m111->clk);
-> > > 
-> > > I don't think you'll need to enable a clock to just get its frequency.
-> > 
-> > The official API states that you need to turn on the clk before
-> > requesting it and it makes sense. Also there is a new helper
-> > devm_clk_get_enabled() which addresses simple clk usage since most of
-> > drivers don't enable it before requesting the rate.
+On Mon, Aug 22, 2022 at 05:10:27PM +0200, Johan Hovold wrote:
+> Commit d725d20e81c2 ("media: flexcop-usb: sanity checking of endpoint
+> type") tried to add an endpoint type sanity check for the single
+> isochronous endpoint but instead broke the driver by checking the wrong
+> descriptor or random data beyond the last endpoint descriptor.
 > 
-> I guess the rate could change in the meantime, unless exclusive access is
-> requested. 
+> Make sure to check the right endpoint descriptor.
+> 
+> Fixes: d725d20e81c2 ("media: flexcop-usb: sanity checking of endpoint type")
+> Cc: Oliver Neukum <oneukum@suse.com>
+> Cc: stable@vger.kernel.org	# 5.9
+> Reported-by: Dongliang Mu <mudongliangabcd@gmail.com>
+> Signed-off-by: Johan Hovold <johan@kernel.org>
+> ---
+> 
+> It's been two months and two completely ignored reminders so resending.
+> 
+> Can someone please pick this fix up and let me know when that has been
+> done?
 
-Not only that, there are a bunch of clk provider hw around which may
-need to turned on first. Anyway, I really don't care on this topic. As
-I said I wanted to fullfil the API and if drop clk_prepare_enable() I
-don't. So if this okay for you I will go that way.
+It's been another month so sending yet another reminder. This driver as
+been broken since 5.9 and I posted this fix almost four months ago and
+have sent multiple reminders since.
 
-> The clock framework currently doesn't offer a way to set the assigned
-> rate and prevent changing it. But above, couldn't the clock frequency
-> be changed again once the clock has been disabled?
+Can someone please pick this one and the follow-up cleanups up?
 
-Yes it could.
-
-Regards,
-  Marco
+Johan
+ 
+>  drivers/media/usb/b2c2/flexcop-usb.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/media/usb/b2c2/flexcop-usb.c b/drivers/media/usb/b2c2/flexcop-usb.c
+> index 7835bb0f32fc..e012b21c4fd7 100644
+> --- a/drivers/media/usb/b2c2/flexcop-usb.c
+> +++ b/drivers/media/usb/b2c2/flexcop-usb.c
+> @@ -511,7 +511,7 @@ static int flexcop_usb_init(struct flexcop_usb *fc_usb)
+>  
+>  	if (fc_usb->uintf->cur_altsetting->desc.bNumEndpoints < 1)
+>  		return -ENODEV;
+> -	if (!usb_endpoint_is_isoc_in(&fc_usb->uintf->cur_altsetting->endpoint[1].desc))
+> +	if (!usb_endpoint_is_isoc_in(&fc_usb->uintf->cur_altsetting->endpoint[0].desc))
+>  		return -ENODEV;
+>  
+>  	switch (fc_usb->udev->speed) {
