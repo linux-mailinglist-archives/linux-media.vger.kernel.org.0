@@ -2,100 +2,129 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 49D7F5BE1C1
-	for <lists+linux-media@lfdr.de>; Tue, 20 Sep 2022 11:20:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 67CEE5BE1E5
+	for <lists+linux-media@lfdr.de>; Tue, 20 Sep 2022 11:28:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231573AbiITJT6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 20 Sep 2022 05:19:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41946 "EHLO
+        id S230225AbiITJ2f (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 20 Sep 2022 05:28:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57750 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231613AbiITJTr (ORCPT
+        with ESMTP id S229812AbiITJ2d (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 20 Sep 2022 05:19:47 -0400
-Received: from relay12.mail.gandi.net (relay12.mail.gandi.net [IPv6:2001:4b98:dc4:8::232])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A6B492668;
-        Tue, 20 Sep 2022 02:19:39 -0700 (PDT)
-Received: (Authenticated sender: jacopo@jmondi.org)
-        by mail.gandi.net (Postfix) with ESMTPSA id 59911200014;
-        Tue, 20 Sep 2022 09:19:35 +0000 (UTC)
-Date:   Tue, 20 Sep 2022 11:19:33 +0200
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Marco Felsch <m.felsch@pengutronix.de>,
-        Stephen Boyd <sboyd@kernel.org>, linux-clk@vger.kernel.org
-Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>, mchehab@kernel.org,
-        laurent.pinchart+renesas@ideasonboard.com, akinobu.mita@gmail.com,
-        jacopo+renesas@jmondi.org, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/3] media: mt9m111: add V4L2_CID_LINK_FREQ support
-Message-ID: <20220920091933.kokk4le3cxpw4hvp@lati>
-References: <20220916135713.143890-1-m.felsch@pengutronix.de>
- <YyhjpxHHFR4u+k+X@paasikivi.fi.intel.com>
- <20220919130829.ddoe2ajnrarkywgy@pengutronix.de>
- <YyhsQ+l1Sls00F0M@paasikivi.fi.intel.com>
- <20220920085617.7cfflloegh7en4mj@pengutronix.de>
+        Tue, 20 Sep 2022 05:28:33 -0400
+Received: from mout02.posteo.de (mout02.posteo.de [185.67.36.66])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DDB306B157
+        for <linux-media@vger.kernel.org>; Tue, 20 Sep 2022 02:28:31 -0700 (PDT)
+Received: from submission (posteo.de [185.67.36.169]) 
+        by mout02.posteo.de (Postfix) with ESMTPS id 605AF240104
+        for <linux-media@vger.kernel.org>; Tue, 20 Sep 2022 11:28:30 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.de; s=2017;
+        t=1663666110; bh=vHEP6vaM4hy2huTBhOW3ls1s8DRZuvLteUrEaol9UKs=;
+        h=Subject:From:To:Cc:Date:From;
+        b=SFW1NWbrvd0NIX9gO5dnfvdVVSQfYgnL05sqKzlHSWA0Ej99wDpZNBrzlfc06uzo1
+         iLzzr4rYmTk9b7MKxT0R9RTRhFnPp1dcvRmON/86VxFx/Zug62L57n+a0JwWw6kXCf
+         vorM0DTJnAvqM+uhY9pQwEuzTQBi5AR0byihMUqhe5Cfu4KPAya+/RNyZT4AGFcM1o
+         Cm44C9TQkBnxkq38fWw2X/rNvfhkiDAGvrk9YoQLKkT6bzuB8nDgaFzqXoQIFphJQr
+         HeV5nYdZ4HahwDa3pQZYHkxCzZ523A8DX3WaGfH8kC6943skEcuCAbzDZDFlXrP9OC
+         rQ8fHDwOw8jPA==
+Received: from customer (localhost [127.0.0.1])
+        by submission (posteo.de) with ESMTPSA id 4MWx7053TKz6tmV;
+        Tue, 20 Sep 2022 11:28:28 +0200 (CEST)
+Message-ID: <823a21b40a6ba6ccd022594c6bf1efaeb7a5a65d.camel@posteo.de>
+Subject: Re: [PATCH] media: i2c: hi846: Fix memory leak in hi846_parse_dt()
+From:   Martin Kepplinger <martink@posteo.de>
+To:     Rafael Mendonca <rafaelmendsr@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Pavel Machek <pavel@ucw.cz>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Date:   Tue, 20 Sep 2022 09:28:28 +0000
+In-Reply-To: <20220919021252.730729-1-rafaelmendsr@gmail.com>
+References: <20220919021252.730729-1-rafaelmendsr@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220920085617.7cfflloegh7en4mj@pengutronix.de>
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello
+Am Sonntag, dem 18.09.2022 um 23:12 -0300 schrieb Rafael Mendonca:
+> If any of the checks related to the supported link frequencies fail,
+> then
+> the V4L2 fwnode resources don't get released before returning, which
+> leads
+> to a memleak. Fix this by properly freeing the V4L2 fwnode data in a
+> designated label.
+> 
+> Fixes: e8c0882685f9 ("media: i2c: add driver for the SK Hynix Hi-846
+> 8M pixel camera")
+> Signed-off-by: Rafael Mendonca <rafaelmendsr@gmail.com>
+> ---
+>  drivers/media/i2c/hi846.c | 14 ++++++++++----
+>  1 file changed, 10 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/media/i2c/hi846.c b/drivers/media/i2c/hi846.c
+> index ad35c3ff3611..254031503c72 100644
+> --- a/drivers/media/i2c/hi846.c
+> +++ b/drivers/media/i2c/hi846.c
+> @@ -2008,22 +2008,24 @@ static int hi846_parse_dt(struct hi846
+> *hi846, struct device *dev)
+>             bus_cfg.bus.mipi_csi2.num_data_lanes != 4) {
+>                 dev_err(dev, "number of CSI2 data lanes %d is not
+> supported",
+>                         bus_cfg.bus.mipi_csi2.num_data_lanes);
+> -               v4l2_fwnode_endpoint_free(&bus_cfg);
+> -               return -EINVAL;
+> +               ret = -EINVAL;
+> +               goto check_hwcfg_error;
+>         }
+>  
+>         hi846->nr_lanes = bus_cfg.bus.mipi_csi2.num_data_lanes;
+>  
+>         if (!bus_cfg.nr_of_link_frequencies) {
+>                 dev_err(dev, "link-frequency property not found in
+> DT\n");
+> -               return -EINVAL;
+> +               ret = -EINVAL;
+> +               goto check_hwcfg_error;
+>         }
+>  
+>         /* Check that link frequences for all the modes are in device
+> tree */
+>         fq = hi846_check_link_freqs(hi846, &bus_cfg);
+>         if (fq) {
+>                 dev_err(dev, "Link frequency of %lld is not
+> supported\n", fq);
+> -               return -EINVAL;
+> +               ret = -EINVAL;
+> +               goto check_hwcfg_error;
+>         }
+>  
+>         v4l2_fwnode_endpoint_free(&bus_cfg);
+> @@ -2044,6 +2046,10 @@ static int hi846_parse_dt(struct hi846 *hi846,
+> struct device *dev)
+>         }
+>  
+>         return 0;
+> +
+> +check_hwcfg_error:
+> +       v4l2_fwnode_endpoint_free(&bus_cfg);
+> +       return ret;
+>  }
+>  
+>  static int hi846_probe(struct i2c_client *client)
 
-On Tue, Sep 20, 2022 at 10:56:17AM +0200, Marco Felsch wrote:
-> Hi Sakari,
->
-> On 22-09-19, Sakari Ailus wrote:
->
-> ...
->
-> > > > > +	ret = clk_prepare_enable(mt9m111->clk);
-> > > > > +	if (ret < 0)
-> > > > > +		return ret;
-> > > > > +
-> > > > > +	extclk_rate = clk_get_rate(mt9m111->clk);
-> > > > > +	clk_disable_unprepare(mt9m111->clk);
-> > > >
-> > > > I don't think you'll need to enable a clock to just get its frequency.
-> > >
-> > > The official API states that you need to turn on the clk before
-> > > requesting it and it makes sense. Also there is a new helper
-> > > devm_clk_get_enabled() which addresses simple clk usage since most of
-> > > drivers don't enable it before requesting the rate.
+thank you very much for the patch. lgtm,
 
-Had the same question on v1 and Marco pointed me to the clk_get_rate()
-documentation
-https://elixir.bootlin.com/linux/v6.0-rc1/source/include/linux/clk.h#L682
+Reviewed-by: Martin Kepplinger <martink@posteo.de>
 
-which indeed specifies
-"This is only valid once the clock source has been enabled."
-
-However none (or very few) of the linux-media i2c drivers actually do
-that.
-
-I have added in cc the clk framework maintainer to see if he can help
-shed some light on this
+                  martin
 
 
-> >
-> > I guess the rate could change in the meantime, unless exclusive access is
-> > requested.
->
-> Not only that, there are a bunch of clk provider hw around which may
-> need to turned on first. Anyway, I really don't care on this topic. As
-> I said I wanted to fullfil the API and if drop clk_prepare_enable() I
-> don't. So if this okay for you I will go that way.
->
-> > The clock framework currently doesn't offer a way to set the assigned
-> > rate and prevent changing it. But above, couldn't the clock frequency
-> > be changed again once the clock has been disabled?
->
-> Yes it could.
->
-> Regards,
->   Marco
