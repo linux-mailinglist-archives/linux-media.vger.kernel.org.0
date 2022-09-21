@@ -2,108 +2,132 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 034855E5391
-	for <lists+linux-media@lfdr.de>; Wed, 21 Sep 2022 21:07:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AEB1B5E550F
+	for <lists+linux-media@lfdr.de>; Wed, 21 Sep 2022 23:16:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229544AbiIUTHC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 21 Sep 2022 15:07:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47564 "EHLO
+        id S230176AbiIUVQy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 21 Sep 2022 17:16:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46240 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229546AbiIUTHB (ORCPT
+        with ESMTP id S230160AbiIUVQt (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 21 Sep 2022 15:07:01 -0400
-Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [IPv6:2a0b:5c81:1c1::37])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 005EB99B74
-        for <linux-media@vger.kernel.org>; Wed, 21 Sep 2022 12:07:00 -0700 (PDT)
-Received: from hillosipuli.retiisi.eu (89-27-103-169.bb.dnainternet.fi [89.27.103.169])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: sailus)
-        by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 42D851B000EF;
-        Wed, 21 Sep 2022 22:06:58 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
-        t=1663787218;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=TmcDUy9NsRP2NcA+NlFBpgyys2b/YyBAFu2MmfHqLiU=;
-        b=ezgXEiZdS/VxT5wuFj9vCC0dJw0jitDUZE8RVovX2qq0FazpLxGkn+cmc8lvv/Fg5bfb7h
-        1ho0XFZgIZ7etVBtUclfmsy7y9izoH/zHZ3UOZK16JAgkqx4PeqTPbawDfZzQmQvg5+p7+
-        Dqb0/Ebvs8NTmEhMLJgauM4RIrEBc0dCDZ8xKyx5JoKZ4gH5Ci2UiBafsd2Xm58d6iGJAX
-        ZwM4HI7ywyH9s5zdmZgKH9Dj27aZ0/ZEz+rbLrb3C5Zp80aOhoLyCCAQFxACKBFE/GpFRK
-        cpoAEYG2UfciVZVWJmxdovQ1awgnxd7jblKna1MGBqsoi/zpQXmAtaK6722PNA==
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id E7089634CA9;
-        Wed, 21 Sep 2022 22:06:57 +0300 (EEST)
-Date:   Wed, 21 Sep 2022 22:06:57 +0300
-From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Cc:     dave.stevenson@raspberrypi.com, jacopo@jmondi.org,
-        paul.j.murphy@intel.com, daniele.alessandrelli@intel.com,
-        mchehab@kernel.org, linux-media@vger.kernel.org
-Subject: Re: [PATCH v4 1/3] media: dt-bindings: imx412: Extend compatible
- strings
-Message-ID: <Yytg0VB/oMrk88Cr@valkosipuli.retiisi.eu>
-References: <20220916140213.1310304-1-bryan.odonoghue@linaro.org>
- <20220916140213.1310304-2-bryan.odonoghue@linaro.org>
- <YytgG+uVdk7Lzupd@valkosipuli.retiisi.eu>
- <5eb11a02-d9b4-da47-6cad-eeda9a4b10e3@linaro.org>
+        Wed, 21 Sep 2022 17:16:49 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D3D3BA2853;
+        Wed, 21 Sep 2022 14:16:47 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1D9336BE;
+        Wed, 21 Sep 2022 23:16:45 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1663795005;
+        bh=uYeJJ+u55Mqbk9ZLBFbpfCcBTgKXtawh0fzIcnY06CM=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=XPVeEN2tnQAHITiOODoEPTby2941qgid10y/F9iUpJcnR7ptwMPy9/Q77R5L+h0AS
+         WRvZMYe2HLaYRfR6xN+5Yrs4CbXQheDXbHefl2CEyFzKaj564v27EmIxtF19wqDGtL
+         o9Ms5l76nnnhSkxWUT5Ys8Yc26BQEwd35Cybpj8g=
+Date:   Thu, 22 Sep 2022 00:16:30 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Ricardo Ribalda <ribalda@chromium.org>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        syzbot <syzkaller@googlegroups.com>
+Subject: Re: [PATCH v1 1/1] media: uvc: Handle cameras with invalid
+ descriptors
+Message-ID: <Yyt/LhNoEEfjly54@pendragon.ideasonboard.com>
+References: <20220920-invalid-desc-v1-0-76a93174f3bc@chromium.org>
+ <20220920-invalid-desc-v1-1-76a93174f3bc@chromium.org>
+ <Yypgi6Jc9/tZLtIw@pendragon.ideasonboard.com>
+ <CANiDSCsbwYfnqcWOjAJw2qvZnB-qE66LqGMhpD8youDj=f+U-g@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <5eb11a02-d9b4-da47-6cad-eeda9a4b10e3@linaro.org>
-ARC-Authentication-Results: i=1;
-        ORIGINATING;
-        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-        s=lahtoruutu; t=1663787218;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=TmcDUy9NsRP2NcA+NlFBpgyys2b/YyBAFu2MmfHqLiU=;
-        b=Hl5710EW4ErnMcqQ6Hn1NWXlENOWHFQnGUAaZ4Bh6cSCZMUzIUKaW7U13/K049SC9dYJlw
-        LYuC/iBc9PkbUVXNjUDL04K1/mB7x42Ug5JZUHJqJm0NHFc7mYTURkDCm4GMn7eS47fFh0
-        boJs2A+BDPoBynueyZp8PQpmz6FLWhl1RlgoBwOKXb9cJGX3pXSnUlZPeVXc1nDrN5VFin
-        hbsmSx5426WRcsY0LkfdGOm6CVsfrpkL6TtYqPHl9/OEASZSsi3AjO6Eswx2w/MpTx8zE5
-        AiJlnczILxwlCYLSDACdMeNVC/Fcu1kZaSgvtAYnNoCHe7G8FrEhCw0s2fQEYw==
-ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1663787218; a=rsa-sha256;
-        cv=none;
-        b=GC1+5VBsdAmCiszDzL9Sezj4TWe3Sj7sMnAKyIYfirf2QqeFNG4WAu0rrajhji6qV7TBnX
-        4aIdoEaOhAYZPjaHSyhL6fvQX+qTaCYPLTCvqttrGmP1+SNV3Ypp3nvPXkr4Y8fO+JKjQY
-        eW0aBR49bMAVv6Hw3ChpOCDwez6glJBaDr4Vc45X3SnzUKjBEoot0DavlDJiY5I+DYLQYM
-        U0Awubgy4F0VMOdGPUBmO74AnvgQImHNyVZ3hmsqZwqJm1cVcCdF9aWZ+0U8u5oxUw2FgM
-        HLbgzpJCcW1GhZRz5xsQrcn8Egg/iDZ9godCnl0d+swBI8+20cPPbkXX6lKPgQ==
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <CANiDSCsbwYfnqcWOjAJw2qvZnB-qE66LqGMhpD8youDj=f+U-g@mail.gmail.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Sep 21, 2022 at 08:04:42PM +0100, Bryan O'Donoghue wrote:
-> On 21/09/2022 20:03, Sakari Ailus wrote:
-> > Hi Brian,
-> > 
-> > On Fri, Sep 16, 2022 at 03:02:11PM +0100, Bryan O'Donoghue wrote:
-> > > Add compatible bindings for imx477 and imx577 both of which use the
-> > > same silicon enabling reference code from Sony in the available examples
-> > > provided.
-> > > 
-> > > Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-> > 
-> > The patch looks good to me and I was waiting for an ack from the DT folks.
-> > They aren't cc'd. Could you resend the patch, cc'ing the devicetree list
-> > and Krzysztof Kozlowski, please?
-> > 
-> np
+Hi Ricardo,
 
-I actually think it's better to resend the entire set.
+On Wed, Sep 21, 2022 at 09:51:44AM +0200, Ricardo Ribalda wrote:
+> Do you mean something like this?
+> 
+> diff --git a/drivers/media/usb/uvc/uvc_entity.c
+> b/drivers/media/usb/uvc/uvc_entity.c
+> index 7c4d2f93d351..66d1f5da4ec7 100644
+> --- a/drivers/media/usb/uvc/uvc_entity.c
+> +++ b/drivers/media/usb/uvc/uvc_entity.c
+> @@ -37,7 +37,7 @@ static int uvc_mc_create_links(struct uvc_video_chain *chain,
+>                         continue;
+> 
+>                 remote = uvc_entity_by_id(chain->dev, entity->baSourceID[i]);
+> -               if (remote == NULL)
+> +               if (remote == NULL || remote->num_pads == 0)
+>                         return -EINVAL;
+
+Yes.
+
+> 
+>                 source = (UVC_ENTITY_TYPE(remote) == UVC_TT_STREAMING)
+> @@ -46,6 +46,9 @@ static int uvc_mc_create_links(struct uvc_video_chain *chain,
+>                 if (source == NULL)
+>                         continue;
+> 
+> +               if (source->num_pads != remote->num_pads)
+> +                       return -EINVAL;
+> +
+
+But this I would have dropped, as the media_entity num_pads is
+initialized from uvc_entity num_pads and neither are changed after.
+
+>                 remote_pad = remote->num_pads - 1;
+>                 ret = media_create_pad_link(source, remote_pad,
+>                                                sink, i, flags);
+> 
+> regarding making a new patch, whatever is easier for you ;)
+> 
+> 
+> On Wed, 21 Sept 2022 at 02:53, Laurent Pinchart wrote:
+> >
+> > Hi Ricardo,
+> >
+> > Thank you for the patch.
+> >
+> > On Tue, Sep 20, 2022 at 04:04:55PM +0200, Ricardo Ribalda wrote:
+> > > If the source entity does not contain any pads, do not create a link.
+> > >
+> > > Reported-by: syzbot <syzkaller@googlegroups.com>
+> > > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> > >
+> > > diff --git a/drivers/media/usb/uvc/uvc_entity.c b/drivers/media/usb/uvc/uvc_entity.c
+> > > index 7c4d2f93d351..1f730cb72e58 100644
+> > > --- a/drivers/media/usb/uvc/uvc_entity.c
+> > > +++ b/drivers/media/usb/uvc/uvc_entity.c
+> > > @@ -43,7 +43,7 @@ static int uvc_mc_create_links(struct uvc_video_chain *chain,
+> > >               source = (UVC_ENTITY_TYPE(remote) == UVC_TT_STREAMING)
+> > >                      ? (remote->vdev ? &remote->vdev->entity : NULL)
+> > >                      : &remote->subdev.entity;
+> > > -             if (source == NULL)
+> > > +             if (source == NULL || source->num_pads == 0)
+> >
+> > source->num_pads and remote->num_pads should always be identical, but as
+> > the next line uses remote->num_pads, wouldn't it be better to test that
+> > variable ? If so, I'd move the test a file lines earlier, with the
+> > remote == NULL test.
+> >
+> > What do you think ? If you agree I can make that change when applying,
+> > there's no need for a new version. Otherwise I'll keep the patch as-is.
+> >
+> > >                       continue;
+> > >
+> > >               remote_pad = remote->num_pads - 1;
+> > >
 
 -- 
-Sakari Ailus
+Regards,
+
+Laurent Pinchart
