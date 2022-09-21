@@ -2,59 +2,59 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 287105BFD59
-	for <lists+linux-media@lfdr.de>; Wed, 21 Sep 2022 13:52:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CDF515BFD5E
+	for <lists+linux-media@lfdr.de>; Wed, 21 Sep 2022 13:56:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229827AbiIULwz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 21 Sep 2022 07:52:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42448 "EHLO
+        id S229715AbiIUL42 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 21 Sep 2022 07:56:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46642 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229820AbiIULww (ORCPT
+        with ESMTP id S229718AbiIUL4X (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 21 Sep 2022 07:52:52 -0400
-Received: from mail-qk1-x72f.google.com (mail-qk1-x72f.google.com [IPv6:2607:f8b0:4864:20::72f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 419181E3CA
-        for <linux-media@vger.kernel.org>; Wed, 21 Sep 2022 04:52:51 -0700 (PDT)
-Received: by mail-qk1-x72f.google.com with SMTP id x18so3725252qkn.6
-        for <linux-media@vger.kernel.org>; Wed, 21 Sep 2022 04:52:51 -0700 (PDT)
+        Wed, 21 Sep 2022 07:56:23 -0400
+Received: from mail-qt1-x835.google.com (mail-qt1-x835.google.com [IPv6:2607:f8b0:4864:20::835])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CEB53895F8
+        for <linux-media@vger.kernel.org>; Wed, 21 Sep 2022 04:56:20 -0700 (PDT)
+Received: by mail-qt1-x835.google.com with SMTP id w2so3835731qtv.9
+        for <linux-media@vger.kernel.org>; Wed, 21 Sep 2022 04:56:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date;
-        bh=ztkPTO/3zU/fJZBp6GXCzLEpY4apMVewC69u7Jq+BZk=;
-        b=Lj9+97UtsVnIpvWkTLMUo5DyhqQmqyfjAgbB0D6Okckthx/OCCu6+bhu62wkTSS80W
-         uhBhUlBTMod54/ufWbRPPP0XEor38J0Izelzj3lb8qWrIN/6fcAP/ZuucifA0rZS2+Nf
-         WzZ2Uk+2xr9lZn3J3CDqAcYoCOdjQrRb1Z6Z5Nq2VTDCtDDaFBnD2ktbJC6awD9WQCFt
-         /VRul031IOoGceMGLtarlR6edIgUJFW1HNH0Knz7Rc1UWWPwaYATn7m/FI0LfnhXCTE7
-         UbZ/Ti1JrsaxT+bF+mNhR8UREMnYUMhw23nywg4Q+S0Xu2W0qWP7h8ZsuRwYRKYhAesT
-         eqRg==
+        bh=vDQAo0FftNWAg5dSgRf/ecqLD71uxoc/p0XeSOEV4IM=;
+        b=AcVnvpyfFEAhqR1PQRriSSMZhCKzP58O/fTUE0empqiQMLeMu/oDMq9D8EhaNIFt2U
+         Xj+KC1xgritpaStDk7y77AecLEE1FGJePjTII1uooSTvzu59JqX574biMaQE75Mke4u8
+         RVZXl5a9qvKg++U+IdkoI8rikjKM+5c0dWPxf3+QY/4YsdhjeIvX7q9gsrg6N6Ef7Wi0
+         UQzvU4xkDgy+rt1P0+Qh7DTFTyRMy+8LaIO+AupXzjY/QDDlVg5gqipVymCSa+M+mRph
+         9EXQ7hDp6HcHoUVzcQeRi1daHscFyblSDV58PAxj/y2v+wF87EO+3YACTYdhhUMww45H
+         zLxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=ztkPTO/3zU/fJZBp6GXCzLEpY4apMVewC69u7Jq+BZk=;
-        b=tHutStU7s8QH5yL8eQc3uUgfJPZSMMMFkbfOcCWOLWIjN91FBnY/fDkFtTgal2ttsW
-         HvfIDufrpD78Mq2vjUW5WCivpLpUMEW6g3fncG/j150EOTk+QHi/20+pShlMlQLUANPM
-         czHCoT1iZMk+OBFllJ7xPqId4atnufIPLTKDNvarPMKhFyxjJWh8a0JeJogmaRKiC8cv
-         jZ8L8B0ToaS+DppbuARibR5k2R4EABXbdZjA16yurDAxQXA/Wa5MEaF92BcR/YhgsGRL
-         Z8JTzTYNcMKNRnNCmkpCqw2hfaAyv7bgXqj52YX7+jVqzLxeP2/ggi4IcBrVUy8EDlxb
-         VPiw==
-X-Gm-Message-State: ACrzQf06lrsh24MuYg+LD393ef2RzyCSuOAdcGS5ioAXGlYxXPB2NE/o
-        XG9Q7VhyQPtOhzbD08HIqFTK4+RXZW4H6kDd1yY=
-X-Google-Smtp-Source: AMsMyM4Y4moSUGLwnzoqwyA5tgcCeV4jlTGsC8LbF/rWVJ8jxHFZxUwnvolthuiSFRE2M59BDF5+C2VPd82iMb3R5Lw=
-X-Received: by 2002:a05:620a:4454:b0:6ce:bfbf:7e3f with SMTP id
- w20-20020a05620a445400b006cebfbf7e3fmr18022702qkp.748.1663761170354; Wed, 21
- Sep 2022 04:52:50 -0700 (PDT)
+        bh=vDQAo0FftNWAg5dSgRf/ecqLD71uxoc/p0XeSOEV4IM=;
+        b=c3qKGZT2Mn5LQr/5Dmr7RKLwLccblFRNOX74uMiovMTReT3Xh6b0Pbffo8E5IFuk5N
+         yPF8Qy/ox8/LMQ85ZsIi0uMyaj9BY3PNlRZtG/G5LQd7aI16UMgid6rTQuWi0SKB+k2c
+         4M2GVmYyWpIcQDpZlUGC0iQBCVDL0QHW3YMyU4/9Z724vY0lLr5LdK+ivg+w1GhYBj6A
+         Go/xMx4LAao2/fIKpkxD9MCxCC/S/k/rPSgIsfXwdLVo14aYCLACbmeBQ2usxY5wjPBB
+         1d6T0rjKWQOcO/qf4K29A7/RlyaTloD684kk2LAm9tYywW9pZ2HmQHWW+LTtsSuWRErx
+         G9zw==
+X-Gm-Message-State: ACrzQf3dO3iuAlGxYdlQcpe2zUoL0PLU0LIurPmoap1Yd0v3hUkUASd/
+        oEDDchX0gsd0bJkjvD5w358snGZKru/1sNXINQc=
+X-Google-Smtp-Source: AMsMyM611GmjQ8AO/aTa+FjSCPYE2HhB5Q3S+E2mP3gYPVMfZndXdEJ4Zm7k2GAu4/T0BTnOoLPHRcaNh7XxjjSJkdw=
+X-Received: by 2002:a05:622a:1701:b0:35b:b3bb:7c4e with SMTP id
+ h1-20020a05622a170100b0035bb3bb7c4emr22595897qtk.195.1663761379921; Wed, 21
+ Sep 2022 04:56:19 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220911171653.568932-1-hdegoede@redhat.com> <20220911171653.568932-2-hdegoede@redhat.com>
- <Yx8T/uEKvVDoCvsT@smile.fi.intel.com> <c52e1abb-0796-b88a-4a94-fa14c09ffcfe@redhat.com>
-In-Reply-To: <c52e1abb-0796-b88a-4a94-fa14c09ffcfe@redhat.com>
+References: <20220911171653.568932-1-hdegoede@redhat.com> <20220911171653.568932-6-hdegoede@redhat.com>
+ <Yx8YOj7L9V32qC7D@smile.fi.intel.com> <bc6c2ccc-98ee-c26c-a130-ba868e307eb4@redhat.com>
+In-Reply-To: <bc6c2ccc-98ee-c26c-a130-ba868e307eb4@redhat.com>
 From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Wed, 21 Sep 2022 14:52:14 +0300
-Message-ID: <CAHp75VdvAWQ3OyP3eXFot7VB8a_pf5SmjbceZREDxz4fDWcT2Q@mail.gmail.com>
-Subject: Re: [PATCH 01/17] media: atomisp: Use a normal mutex for the main lock
+Date:   Wed, 21 Sep 2022 14:55:43 +0300
+Message-ID: <CAHp75VfX1oJ-_aapjTtpWCoir8iSeDWH9ARkRZdJ1mzoqBCKFA@mail.gmail.com>
+Subject: Re: [PATCH 05/17] media: atomisp: Add atomisp_pipe_check() helper
 To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Andy Shevchenko <andriy.shevchenko@intel.com>,
+Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
         Tsuchiya Yuto <kitakar@gmail.com>,
@@ -74,39 +74,41 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Sep 21, 2022 at 11:52 AM Hans de Goede <hdegoede@redhat.com> wrote:
-> On 9/12/22 13:11, Andy Shevchenko wrote:
-> > On Sun, Sep 11, 2022 at 07:16:37PM +0200, Hans de Goede wrote:
-> >> There is no reason for atomisp to use a rt_mutex instead of a normal
-> >> mutex, so switch over to a normal mutex.
-> >>
-> >> All the changes in this patch are just s/rt_mutex/mutex/.
-> >>
-> >> This is a preparation patch for switching the ioctl locking over
-> >> to using the video_dev.lock member so that the v4l2-core takes
-> >> care of the locking.
+On Wed, Sep 21, 2022 at 12:05 PM Hans de Goede <hdegoede@redhat.com> wrote:
+> On 9/12/22 13:30, Andy Shevchenko wrote:
+> > On Sun, Sep 11, 2022 at 07:16:41PM +0200, Hans de Goede wrote:
+
+...
+
+> >> +    case ATOMISP_DEVICE_STREAMING_STOPPING:
+> >> +            dev_err(pipe->isp->dev, "IOCTL issued while stopping\n");
+> >> +            return -EBUSY;
 > >
-> > So the idea behind rt_mutex here is to inherit the priority on the task.
+> > Wouldn't -EAGAIN match better in this case?
 >
-> Right.
+> The original checks this replaces used -EIO (which seems like a poor
+> choice) resp. -EBUSY (in the streamon callback) so I decided to
+> keep the -EBUSY here.
 >
-> > I'm wondering what could be possible the bottle neck this is trying to
-> > solve.
+> Also AFAIK -EAGAIN will make the C-library retry the syscal itself
+> in some cases ? (not sure if this applies to ioctls though).
 >
-> I don't think there is any specific reasoning behind the code using
-> this. The atomisp code is quite questionable in lots of cases and
-> I have a feeling this was just a case of "oh this sounds like
-> it is faster, lets use this" .
+> This is not what we want, this scenario can only be hit when an app:
+> 1. Uses both the preview and the actual capture /dev/video# nodes
+>    at the same time (this is allows)
+> 2. Then stops the stream at 1 of them, this transitions the state
+>    to STOPPING
+> 3. Then does some ioctl other then streamoff on the other /dev/video#
+>
+> Basically when using more then 1 /dev/video# node then the app must
+> stop all of them when stopping things. The driver enforces this
+> by rejecting all calls other the streamoff until all /dev/video#
+> node streans are off.
+>
+> This means that simply trying again will result in the same error,
+> so -EBUSY seems like the best error for this.
 
-Honestly, this is exactly what is my attitude towards the AtomISP2
-codebase. But I asked to be sure that you probably investigated that
-more.
-
-> > If there is no other V4L2 driver that does the same, any specific
-> > run flow of AtomISP v2 code that may suffer of this?
->
-> See above.
-
+Thanks for the explanation, now it's clear to me.
 
 -- 
 With Best Regards,
