@@ -2,120 +2,112 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 963245BFC55
-	for <lists+linux-media@lfdr.de>; Wed, 21 Sep 2022 12:29:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 287105BFD59
+	for <lists+linux-media@lfdr.de>; Wed, 21 Sep 2022 13:52:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229852AbiIUK3T (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 21 Sep 2022 06:29:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33088 "EHLO
+        id S229827AbiIULwz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 21 Sep 2022 07:52:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42448 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229667AbiIUK3R (ORCPT
+        with ESMTP id S229820AbiIULww (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 21 Sep 2022 06:29:17 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64E7C46DB3;
-        Wed, 21 Sep 2022 03:29:15 -0700 (PDT)
-Received: from [192.168.2.145] (109-252-122-187.nat.spd-mgts.ru [109.252.122.187])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: dmitry.osipenko)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 849396600375;
-        Wed, 21 Sep 2022 11:29:10 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1663756153;
-        bh=ZT5srTQo2GbRKK2KbdtuOuJEzC+8ncCgGSp7dm2y2mQ=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=KPQr5wDCdzoryN7A6LVprDyAfEKWUzqJjfZG9/T3ie9+Id2SgBPSkiw1tnPiVbIkh
-         9xYi4rhroxm8IY+KtWBG7kcFoghtlJSjGRxD9Zytp+LrsqLoMKkz+F3fPmzq0K/KE0
-         gZln48XpBZ4rppZf5Uw3l7jqj2le3d8o8fSbRO24fxqQGReVs+RXf9MhL2OIUJdl67
-         09j126W1FOcPf5LF6iA61F+lB9ytLMh2Vp6FqSwuiEZ5AfOcfOzCTypft4YiMBWss4
-         DYt+8EbmT0phFuB3P1uiR8i27jtygGVenFxHjBkYiz420ZoeLTqqU6QIxugByMigaa
-         T2NKIJ/zl9B5w==
-Message-ID: <333ce447-05e0-a127-6f8e-2ffd75e0c992@collabora.com>
-Date:   Wed, 21 Sep 2022 13:29:07 +0300
+        Wed, 21 Sep 2022 07:52:52 -0400
+Received: from mail-qk1-x72f.google.com (mail-qk1-x72f.google.com [IPv6:2607:f8b0:4864:20::72f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 419181E3CA
+        for <linux-media@vger.kernel.org>; Wed, 21 Sep 2022 04:52:51 -0700 (PDT)
+Received: by mail-qk1-x72f.google.com with SMTP id x18so3725252qkn.6
+        for <linux-media@vger.kernel.org>; Wed, 21 Sep 2022 04:52:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date;
+        bh=ztkPTO/3zU/fJZBp6GXCzLEpY4apMVewC69u7Jq+BZk=;
+        b=Lj9+97UtsVnIpvWkTLMUo5DyhqQmqyfjAgbB0D6Okckthx/OCCu6+bhu62wkTSS80W
+         uhBhUlBTMod54/ufWbRPPP0XEor38J0Izelzj3lb8qWrIN/6fcAP/ZuucifA0rZS2+Nf
+         WzZ2Uk+2xr9lZn3J3CDqAcYoCOdjQrRb1Z6Z5Nq2VTDCtDDaFBnD2ktbJC6awD9WQCFt
+         /VRul031IOoGceMGLtarlR6edIgUJFW1HNH0Knz7Rc1UWWPwaYATn7m/FI0LfnhXCTE7
+         UbZ/Ti1JrsaxT+bF+mNhR8UREMnYUMhw23nywg4Q+S0Xu2W0qWP7h8ZsuRwYRKYhAesT
+         eqRg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date;
+        bh=ztkPTO/3zU/fJZBp6GXCzLEpY4apMVewC69u7Jq+BZk=;
+        b=tHutStU7s8QH5yL8eQc3uUgfJPZSMMMFkbfOcCWOLWIjN91FBnY/fDkFtTgal2ttsW
+         HvfIDufrpD78Mq2vjUW5WCivpLpUMEW6g3fncG/j150EOTk+QHi/20+pShlMlQLUANPM
+         czHCoT1iZMk+OBFllJ7xPqId4atnufIPLTKDNvarPMKhFyxjJWh8a0JeJogmaRKiC8cv
+         jZ8L8B0ToaS+DppbuARibR5k2R4EABXbdZjA16yurDAxQXA/Wa5MEaF92BcR/YhgsGRL
+         Z8JTzTYNcMKNRnNCmkpCqw2hfaAyv7bgXqj52YX7+jVqzLxeP2/ggi4IcBrVUy8EDlxb
+         VPiw==
+X-Gm-Message-State: ACrzQf06lrsh24MuYg+LD393ef2RzyCSuOAdcGS5ioAXGlYxXPB2NE/o
+        XG9Q7VhyQPtOhzbD08HIqFTK4+RXZW4H6kDd1yY=
+X-Google-Smtp-Source: AMsMyM4Y4moSUGLwnzoqwyA5tgcCeV4jlTGsC8LbF/rWVJ8jxHFZxUwnvolthuiSFRE2M59BDF5+C2VPd82iMb3R5Lw=
+X-Received: by 2002:a05:620a:4454:b0:6ce:bfbf:7e3f with SMTP id
+ w20-20020a05620a445400b006cebfbf7e3fmr18022702qkp.748.1663761170354; Wed, 21
+ Sep 2022 04:52:50 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.1
-Subject: Re: [PATCH v5 15/21] dma-buf: Move dma_buf_vmap() to dynamic locking
- specification
-To:     Sumit Semwal <sumit.semwal@linaro.org>
-Cc:     David Airlie <airlied@linux.ie>, Gerd Hoffmann <kraxel@redhat.com>,
-        Gurchetan Singh <gurchetansingh@chromium.org>,
-        Chia-I Wu <olvaffe@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-        Daniel Almeida <daniel.almeida@collabora.com>,
-        Gert Wollny <gert.wollny@collabora.com>,
-        Gustavo Padovan <gustavo.padovan@collabora.com>,
-        Daniel Stone <daniel@fooishbar.org>,
-        Tomeu Vizoso <tomeu.vizoso@collabora.com>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Rob Clark <robdclark@gmail.com>,
-        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
-        "Pan, Xinhui" <Xinhui.Pan@amd.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
+References: <20220911171653.568932-1-hdegoede@redhat.com> <20220911171653.568932-2-hdegoede@redhat.com>
+ <Yx8T/uEKvVDoCvsT@smile.fi.intel.com> <c52e1abb-0796-b88a-4a94-fa14c09ffcfe@redhat.com>
+In-Reply-To: <c52e1abb-0796-b88a-4a94-fa14c09ffcfe@redhat.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Wed, 21 Sep 2022 14:52:14 +0300
+Message-ID: <CAHp75VdvAWQ3OyP3eXFot7VB8a_pf5SmjbceZREDxz4fDWcT2Q@mail.gmail.com>
+Subject: Re: [PATCH 01/17] media: atomisp: Use a normal mutex for the main lock
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Andy Shevchenko <andriy.shevchenko@intel.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-        Rodrigo Vivi <"rodrigo. vivi"@intel.com>,
-        Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
-        =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas_os@shipmail.org>,
-        Qiang Yu <yuq825@gmail.com>,
-        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Amol Maheshwari <amahesh@qti.qualcomm.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Leon Romanovsky <leon@kernel.org>,
-        Juergen Gross <jgross@suse.com>,
-        Stefano Stabellini <sstabellini@kernel.org>,
-        Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>,
-        Tomi Valkeinen <tomba@kernel.org>,
-        Russell King <linux@armlinux.org.uk>,
-        Lucas Stach <l.stach@pengutronix.de>,
-        Christian Gmeiner <christian.gmeiner@gmail.com>,
-        Ruhl Michael J <michael.j.ruhl@intel.com>,
-        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-        Dmitry Osipenko <digetx@gmail.com>,
-        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
-        amd-gfx@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
-        kernel@collabora.com, virtualization@lists.linux-foundation.org,
-        linux-rdma@vger.kernel.org, "linux-arm- msm"@vger.kernel.org
-References: <20220913192757.37727-1-dmitry.osipenko@collabora.com>
- <20220913192757.37727-16-dmitry.osipenko@collabora.com>
- <CAO_48GFtLjR657nO+yh9KwsrWbNmGVsf7srHj19biO+NauYt4w@mail.gmail.com>
-Content-Language: en-US
-From:   Dmitry Osipenko <dmitry.osipenko@collabora.com>
-In-Reply-To: <CAO_48GFtLjR657nO+yh9KwsrWbNmGVsf7srHj19biO+NauYt4w@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-5.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Tsuchiya Yuto <kitakar@gmail.com>,
+        Andy Shevchenko <andy@kernel.org>,
+        Yury Luneff <yury.lunev@gmail.com>,
+        Nable <nable.maininbox@googlemail.com>,
+        andrey.i.trufanov@gmail.com, Fabio Aiuto <fabioaiuto83@gmail.com>,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 9/20/22 17:13, Sumit Semwal wrote:
-> Hi Dmitry,
-> 
-> Thanks very much for the series.
-> 
-> On Wed, 14 Sept 2022 at 00:59, Dmitry Osipenko
-> <dmitry.osipenko@collabora.com> wrote:
->>
->> Move dma_buf_vmap/vunmap_unlocked() functions to the dynamic locking
->> specification by asserting that the reservation lock is held.
-> Thanks for the patch; just a minor nit - I think you mean dma_buf_vmap
-> / vunmap() here, and not _unlocked?
+On Wed, Sep 21, 2022 at 11:52 AM Hans de Goede <hdegoede@redhat.com> wrote:
+> On 9/12/22 13:11, Andy Shevchenko wrote:
+> > On Sun, Sep 11, 2022 at 07:16:37PM +0200, Hans de Goede wrote:
+> >> There is no reason for atomisp to use a rt_mutex instead of a normal
+> >> mutex, so switch over to a normal mutex.
+> >>
+> >> All the changes in this patch are just s/rt_mutex/mutex/.
+> >>
+> >> This is a preparation patch for switching the ioctl locking over
+> >> to using the video_dev.lock member so that the v4l2-core takes
+> >> care of the locking.
+> >
+> > So the idea behind rt_mutex here is to inherit the priority on the task.
+>
+> Right.
+>
+> > I'm wondering what could be possible the bottle neck this is trying to
+> > solve.
+>
+> I don't think there is any specific reasoning behind the code using
+> this. The atomisp code is quite questionable in lots of cases and
+> I have a feeling this was just a case of "oh this sounds like
+> it is faster, lets use this" .
 
-Yes, the _unlocked should be dropped here. Thank you for the review!
+Honestly, this is exactly what is my attitude towards the AtomISP2
+codebase. But I asked to be sure that you probably investigated that
+more.
+
+> > If there is no other V4L2 driver that does the same, any specific
+> > run flow of AtomISP v2 code that may suffer of this?
+>
+> See above.
+
 
 -- 
-Best regards,
-Dmitry
-
+With Best Regards,
+Andy Shevchenko
