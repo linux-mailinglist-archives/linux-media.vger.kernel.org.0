@@ -2,195 +2,57 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5541A5BFACC
-	for <lists+linux-media@lfdr.de>; Wed, 21 Sep 2022 11:24:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3FCEA5BFADD
+	for <lists+linux-media@lfdr.de>; Wed, 21 Sep 2022 11:26:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229733AbiIUJYj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 21 Sep 2022 05:24:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39432 "EHLO
+        id S231562AbiIUJ0K (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 21 Sep 2022 05:26:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44346 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231442AbiIUJYe (ORCPT
+        with ESMTP id S231599AbiIUJ0D (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 21 Sep 2022 05:24:34 -0400
-Received: from mail-pg1-x52f.google.com (mail-pg1-x52f.google.com [IPv6:2607:f8b0:4864:20::52f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB554E40
-        for <linux-media@vger.kernel.org>; Wed, 21 Sep 2022 02:24:30 -0700 (PDT)
-Received: by mail-pg1-x52f.google.com with SMTP id s206so5340664pgs.3
-        for <linux-media@vger.kernel.org>; Wed, 21 Sep 2022 02:24:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date;
-        bh=PTnOVQtMpzZbOk3PtwZjc/TmlJJF/c2LBJSqD167zbg=;
-        b=Ho9/5hmMwoeuCRVOtD6iZKcCHuYZ0xOxY+cDQg4Qhiaq4eZ9VollwszCuo+D5IBgp2
-         1VFLgfV0tXoNWReqmzdIGLwRYKcoSxJFM2i++shXBBLX1X4p/8aJ48g/xm7JkdCkoda6
-         kxZJtPqdBUWHHFPKmB9mkrC1woJa01DZ6RP3o=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date;
-        bh=PTnOVQtMpzZbOk3PtwZjc/TmlJJF/c2LBJSqD167zbg=;
-        b=3HV993H6UUyhrctf6b3Au8WQ+PsR525nNL/uHRYsUqev1KxUEHeqnSzxPA7OrbZEPT
-         3ad7veGcNEQENteo/MLVNpahEizDXedgvqVjyocu34dmhrZAwEeeP9a/ynqwljG29esR
-         VqTsV0NqXUYvSHPEy+nmzBgjCULNCalIl+N7fXF4oR9H2ukUgOcy+wK3oqtcuAQ8G2u1
-         hxXT00I1Iw3JzXSIWs3BLBqyJ4nJlgodd4+zpOQtajPdNwEaCy6CK8gM1E0fNt3Rbe4w
-         uVwO18ZEOhHlA//pmtgfgOeAn+Fg6LWqaF98ucVtYr1uo3Q49PAdt79BfoiRGzQxocyg
-         JFeQ==
-X-Gm-Message-State: ACrzQf1Ozffcps1dZdpKAl/Tt54xqSD2prDJy0Wwe7IPyzXb5iuXItzj
-        BmlFVWYaa+71RAtE0evd+tYBZA==
-X-Google-Smtp-Source: AMsMyM7QGAVwzyPxUv6nHj796BKEdItM6huIRquf9ICHuDS2yL35ZL7wHBhVGGyvQ64LFVUIuo6A2Q==
-X-Received: by 2002:aa7:97b4:0:b0:547:f861:1fc3 with SMTP id d20-20020aa797b4000000b00547f8611fc3mr27785033pfq.42.1663752270346;
-        Wed, 21 Sep 2022 02:24:30 -0700 (PDT)
-Received: from localhost ([2401:fa00:8f:203:cc93:90d7:674f:156a])
-        by smtp.gmail.com with ESMTPSA id ij27-20020a170902ab5b00b001785dddc703sm1487582plb.120.2022.09.21.02.24.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 Sep 2022 02:24:29 -0700 (PDT)
-From:   Hidenori Kobayashi <hidenorik@chromium.org>
-To:     Dongchun Zhu <dongchun.zhu@mediatek.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Sakari Ailus <sakari.ailus@iki.fi>,
-        Hidenori Kobayashi <hidenorik@chromium.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v3] media: ov8856: Add runtime PM callbacks
-Date:   Wed, 21 Sep 2022 18:24:17 +0900
-Message-Id: <20220921092417.2579126-1-hidenorik@chromium.org>
-X-Mailer: git-send-email 2.37.3.968.ga6b4b080e4-goog
+        Wed, 21 Sep 2022 05:26:03 -0400
+Received: from mx.gpxsee.org (mx.gpxsee.org [37.205.14.76])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 940948F94C;
+        Wed, 21 Sep 2022 02:25:53 -0700 (PDT)
+Received: from [192.168.4.25] (unknown [62.77.71.229])
+        by mx.gpxsee.org (Postfix) with ESMTPSA id 6BF41468C3;
+        Wed, 21 Sep 2022 11:25:51 +0200 (CEST)
+Message-ID: <e084352e-a784-accd-f267-9e0c30c7a92b@gpxsee.org>
+Date:   Wed, 21 Sep 2022 11:25:50 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.1.2
+To:     lizhi.hou@amd.com
+Cc:     dmaengine@vger.kernel.org, linux-i2c@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        martin.tuma@digiteqautomotive.com, mchehab@kernel.org,
+        michal.simek@xilinx.com, tumic@gpxsee.org, vkoul@kernel.org
+References: <19bd8ce4-2dde-e985-00f4-09b48decd3dc@amd.com>
+Subject: Re: [PATCH v2 2/3] Added Xilinx XDMA IP core driver
+Content-Language: en-US
+From:   =?UTF-8?Q?Martin_T=c5=afma?= <tumic@gpxsee.org>
+In-Reply-To: <19bd8ce4-2dde-e985-00f4-09b48decd3dc@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-5.6 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-There were no runtime PM callbacks registered, leaving regulators being
-enabled while the device is suspended on DT systems. Adjust and register
-existing power controlling functions to turn them off/on.
+ > Currently, the V3 patch series does not support register user logic
+ > interrupt yet.
 
-Signed-off-by: Hidenori Kobayashi <hidenorik@chromium.org>
----
-V2 -> V3: Remove redundant wrappers (were added in V1)
-V1 -> V2: Change argument of power controlling functions
----
- drivers/media/i2c/ov8856.c | 33 +++++++++++++++++++--------------
- 1 file changed, 19 insertions(+), 14 deletions(-)
+This is a showstopper for almost every XDMA based PCIe card. As the 
+driver "consumes" the whole register space (including the user IRQs 
+enable/disable registers), there is AFAIK no way how to enable the user 
+IRQs when this driver is loaded.
 
-diff --git a/drivers/media/i2c/ov8856.c b/drivers/media/i2c/ov8856.c
-index a9728afc81d4..760611ee5485 100644
---- a/drivers/media/i2c/ov8856.c
-+++ b/drivers/media/i2c/ov8856.c
-@@ -2110,17 +2110,18 @@ static int ov8856_set_stream(struct v4l2_subdev *sd, int enable)
- 	return ret;
- }
- 
--static int __ov8856_power_on(struct ov8856 *ov8856)
-+static int ov8856_power_on(struct device *dev)
- {
--	struct i2c_client *client = v4l2_get_subdevdata(&ov8856->sd);
-+	struct v4l2_subdev *sd = dev_get_drvdata(dev);
-+	struct ov8856 *ov8856 = to_ov8856(sd);
- 	int ret;
- 
--	if (is_acpi_node(dev_fwnode(&client->dev)))
-+	if (is_acpi_node(dev_fwnode(dev)))
- 		return 0;
- 
- 	ret = clk_prepare_enable(ov8856->xvclk);
- 	if (ret < 0) {
--		dev_err(&client->dev, "failed to enable xvclk\n");
-+		dev_err(dev, "failed to enable xvclk\n");
- 		return ret;
- 	}
- 
-@@ -2132,7 +2133,7 @@ static int __ov8856_power_on(struct ov8856 *ov8856)
- 	ret = regulator_bulk_enable(ARRAY_SIZE(ov8856_supply_names),
- 				    ov8856->supplies);
- 	if (ret < 0) {
--		dev_err(&client->dev, "failed to enable regulators\n");
-+		dev_err(dev, "failed to enable regulators\n");
- 		goto disable_clk;
- 	}
- 
-@@ -2148,17 +2149,20 @@ static int __ov8856_power_on(struct ov8856 *ov8856)
- 	return ret;
- }
- 
--static void __ov8856_power_off(struct ov8856 *ov8856)
-+static int ov8856_power_off(struct device *dev)
- {
--	struct i2c_client *client = v4l2_get_subdevdata(&ov8856->sd);
-+	struct v4l2_subdev *sd = dev_get_drvdata(dev);
-+	struct ov8856 *ov8856 = to_ov8856(sd);
- 
--	if (is_acpi_node(dev_fwnode(&client->dev)))
--		return;
-+	if (is_acpi_node(dev_fwnode(dev)))
-+		return 0;
- 
- 	gpiod_set_value_cansleep(ov8856->reset_gpio, 1);
- 	regulator_bulk_disable(ARRAY_SIZE(ov8856_supply_names),
- 			       ov8856->supplies);
- 	clk_disable_unprepare(ov8856->xvclk);
-+
-+	return 0;
- }
- 
- static int __maybe_unused ov8856_suspend(struct device *dev)
-@@ -2170,7 +2174,7 @@ static int __maybe_unused ov8856_suspend(struct device *dev)
- 	if (ov8856->streaming)
- 		ov8856_stop_streaming(ov8856);
- 
--	__ov8856_power_off(ov8856);
-+	ov8856_power_off(dev);
- 	mutex_unlock(&ov8856->mutex);
- 
- 	return 0;
-@@ -2184,7 +2188,7 @@ static int __maybe_unused ov8856_resume(struct device *dev)
- 
- 	mutex_lock(&ov8856->mutex);
- 
--	__ov8856_power_on(ov8856);
-+	ov8856_power_on(dev);
- 	if (ov8856->streaming) {
- 		ret = ov8856_start_streaming(ov8856);
- 		if (ret) {
-@@ -2451,7 +2455,7 @@ static int ov8856_remove(struct i2c_client *client)
- 	pm_runtime_disable(&client->dev);
- 	mutex_destroy(&ov8856->mutex);
- 
--	__ov8856_power_off(ov8856);
-+	ov8856_power_off(&client->dev);
- 
- 	return 0;
- }
-@@ -2477,7 +2481,7 @@ static int ov8856_probe(struct i2c_client *client)
- 
- 	full_power = acpi_dev_state_d0(&client->dev);
- 	if (full_power) {
--		ret = __ov8856_power_on(ov8856);
-+		ret = ov8856_power_on(&client->dev);
- 		if (ret) {
- 			dev_err(&client->dev, "failed to power on\n");
- 			return ret;
-@@ -2533,13 +2537,14 @@ static int ov8856_probe(struct i2c_client *client)
- 	mutex_destroy(&ov8856->mutex);
- 
- probe_power_off:
--	__ov8856_power_off(ov8856);
-+	ov8856_power_off(&client->dev);
- 
- 	return ret;
- }
- 
- static const struct dev_pm_ops ov8856_pm_ops = {
- 	SET_SYSTEM_SLEEP_PM_OPS(ov8856_suspend, ov8856_resume)
-+	SET_RUNTIME_PM_OPS(ov8856_power_off, ov8856_power_on, NULL)
- };
- 
- #ifdef CONFIG_ACPI
--- 
-2.37.3.968.ga6b4b080e4-goog
+ > Could you convert your driver to use this?
 
+Not without the user IRQs.
+
+M.
