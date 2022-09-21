@@ -2,68 +2,207 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4A6585BF896
-	for <lists+linux-media@lfdr.de>; Wed, 21 Sep 2022 10:06:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 861D15BF8D5
+	for <lists+linux-media@lfdr.de>; Wed, 21 Sep 2022 10:17:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229862AbiIUIGG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 21 Sep 2022 04:06:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46748 "EHLO
+        id S230158AbiIUIRU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 21 Sep 2022 04:17:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55764 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229666AbiIUIGF (ORCPT
+        with ESMTP id S231361AbiIUIQv (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 21 Sep 2022 04:06:05 -0400
-Received: from mail.fadrush.pl (mail.fadrush.pl [54.37.225.211])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B690760C3
-        for <linux-media@vger.kernel.org>; Wed, 21 Sep 2022 01:06:04 -0700 (PDT)
-Received: by mail.fadrush.pl (Postfix, from userid 1002)
-        id 4A7B322F89; Wed, 21 Sep 2022 08:05:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=fadrush.pl; s=mail;
-        t=1663747563; bh=bD6j9gIFU6CLTaCGl0Ow9oeIxtirvTfMeNZSfLEZQ+I=;
-        h=Date:From:To:Subject:From;
-        b=JrzVWLIXNcyltX0GX3y4rNwTpBgL/oOQIkdclJI070V/izS6/9C8YTTUwD7T9KYeD
-         2qVUxY7HWhAwIHWpiK0IB195tewUtbxg7nSsCo/86NkgONx5VjekaUvpZmkPNZA21P
-         hlzUpoy8ZgqgiHUgfVwRrI14cMqS7ifbzb+ORKbUmnRWwvlFI42k8W6609DvGUHWpn
-         ktJTwyE9Rngv0eoq2ejBNvo93npJd5VxTSdGwDyMkUZnavILV8ynFilZXexDPCjo7A
-         JGrJX+9IDQMSLxmKlGZ9nG/ftx/lpAwRY9BQrTbkEFmZPK+wOJICgrIpkgtP3WpZN5
-         gaD7E2rl959GA==
-Received: by mail.fadrush.pl for <linux-media@vger.kernel.org>; Wed, 21 Sep 2022 08:05:44 GMT
-Message-ID: <20220921064500-0.1.1r.gt2m.0.o5ckg5i315@fadrush.pl>
-Date:   Wed, 21 Sep 2022 08:05:44 GMT
-From:   "Jakub Olejniczak" <jakub.olejniczak@fadrush.pl>
-To:     <linux-media@vger.kernel.org>
-Subject: =?UTF-8?Q?Zwi=C4=99kszenie_p=C5=82ynno=C5=9Bci_finansowej?=
-X-Mailer: mail.fadrush.pl
+        Wed, 21 Sep 2022 04:16:51 -0400
+Received: from mail-pg1-x529.google.com (mail-pg1-x529.google.com [IPv6:2607:f8b0:4864:20::529])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7084E89804
+        for <linux-media@vger.kernel.org>; Wed, 21 Sep 2022 01:16:06 -0700 (PDT)
+Received: by mail-pg1-x529.google.com with SMTP id t70so5186198pgc.5
+        for <linux-media@vger.kernel.org>; Wed, 21 Sep 2022 01:16:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date;
+        bh=6u+cAdAmPBAAF5tI7aiYbbN3pu0OppiPxIKSVaZJ6S8=;
+        b=JqYH7+lblF122JxcdV3qjDN9ByBOysgHJpmsDYsXNfh3Tzqjyx/MEYS+UsE0a6ck/j
+         9oRoNEw2umq8JD/9Q99Jzc6ZSv3Q9w6PGv6GY7VQ7ujXDLzkw8x89xTEvfP49CTVLnnQ
+         oAWJPwKd7xXpsb62SKi3EStgpE67vEFUR4Jl0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date;
+        bh=6u+cAdAmPBAAF5tI7aiYbbN3pu0OppiPxIKSVaZJ6S8=;
+        b=cX+zRJEK/pgR6jqlggon9rsM/6kBIOeqPk0brVebhq6IIq2wwcWgB3Io8ihRXYtxdt
+         bDvWnX1Ltpf797kV3WSNOjha7CNp4aclF4ql8K4NC5F/e8XfKw08AQNE+MQrU6n+NJwH
+         t4YOJZbaMhfCcRtxrJew00rV2H8+B0cvY7+uX0YXZj+j3CcZBheluO9Bdm+fyZFscGus
+         /msKVIrPRLqD565si6kB5crn9ltXwRvXzGec0Kz/ctAQh+gHiumyTKKBKKcRxyMFdZxm
+         DlbSLppLe+km7U/LGFflsBr698BETmv52yygI9W6jTvzelHnr38UOftKTXGV6f03/c+J
+         SloA==
+X-Gm-Message-State: ACrzQf3Ia4ssSke8F5LWvmNDYYYMuRhiGVzowj+j6h3IFLnZ9GUHF7CG
+        yOUIEjwNcSDJ6LQzPtLAAsy5Lg==
+X-Google-Smtp-Source: AMsMyM62PWSeVI9Kiu2yThPrMA0ISbBCb1FjSmZDPuYnW72WVKmQZzzFhmrfFDcsSWfQ4+CdZ/pGlg==
+X-Received: by 2002:a63:d915:0:b0:43a:20d5:9112 with SMTP id r21-20020a63d915000000b0043a20d59112mr12037014pgg.460.1663748165672;
+        Wed, 21 Sep 2022 01:16:05 -0700 (PDT)
+Received: from localhost ([2401:fa00:8f:203:cc93:90d7:674f:156a])
+        by smtp.gmail.com with ESMTPSA id c79-20020a624e52000000b00553b37c7736sm450763pfb.25.2022.09.21.01.16.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 21 Sep 2022 01:16:05 -0700 (PDT)
+From:   Hidenori Kobayashi <hidenorik@chromium.org>
+To:     Dongchun Zhu <dongchun.zhu@mediatek.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Sakari Ailus <sakari.ailus@iki.fi>,
+        Hidenori Kobayashi <hidenorik@chromium.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v2] media: ov8856: Add runtime PM callbacks
+Date:   Wed, 21 Sep 2022 17:15:35 +0900
+Message-Id: <20220921081536.2551789-1-hidenorik@chromium.org>
+X-Mailer: git-send-email 2.37.3.968.ga6b4b080e4-goog
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
-        autolearn=unavailable autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Dzie=C5=84 dobry,
+There were no runtime PM callbacks registered, leaving regulators being
+enabled while the device is suspended on DT systems. Add callbacks that
+call existing power controlling functions to turn them off/on.
 
-kontaktuj=C4=99 si=C4=99 z Pa=C5=84stwem, poniewa=C5=BC chcia=C5=82bym za=
-proponowa=C4=87 wygodne rozwi=C4=85zanie, kt=C3=B3re umo=C5=BCliwi Pa=C5=84=
-stwa firmie stabilny rozw=C3=B3j.=20
+To simplify the code with this addition, change the argument of the
+power controlling functions.
 
-Konkurencyjne otoczenie wymaga ci=C4=85g=C5=82ego ulepszania i poszerzeni=
-a oferty, co z kolei wi=C4=85=C5=BCe si=C4=99 z konieczno=C5=9Bci=C4=85 i=
-nwestowania. Brak odpowiedniego kapita=C5=82u powa=C5=BCnie ogranicza tem=
-po rozwoju firmy.
+Signed-off-by: Hidenori Kobayashi <hidenorik@chromium.org>
+---
+V1 -> V2: Change argument of power controlling functions
+---
+ drivers/media/i2c/ov8856.c | 41 ++++++++++++++++++++++++++------------
+ 1 file changed, 28 insertions(+), 13 deletions(-)
 
-Od wielu lat z powodzeniem pomagam firmom w uzyskaniu najlepszej formy fi=
-nansowania z banku oraz UE. Mam sta=C5=82ych Klient=C3=B3w, kt=C3=B3rzy n=
-adal ch=C4=99tnie korzystaj=C4=85 z moich us=C5=82ug, a tak=C5=BCe poleca=
-j=C4=85 je innym.
+diff --git a/drivers/media/i2c/ov8856.c b/drivers/media/i2c/ov8856.c
+index a9728afc81d4..188699455fdf 100644
+--- a/drivers/media/i2c/ov8856.c
++++ b/drivers/media/i2c/ov8856.c
+@@ -2110,17 +2110,18 @@ static int ov8856_set_stream(struct v4l2_subdev *sd, int enable)
+ 	return ret;
+ }
+ 
+-static int __ov8856_power_on(struct ov8856 *ov8856)
++static int __ov8856_power_on(struct device *dev)
+ {
+-	struct i2c_client *client = v4l2_get_subdevdata(&ov8856->sd);
++	struct v4l2_subdev *sd = dev_get_drvdata(dev);
++	struct ov8856 *ov8856 = to_ov8856(sd);
+ 	int ret;
+ 
+-	if (is_acpi_node(dev_fwnode(&client->dev)))
++	if (is_acpi_node(dev_fwnode(dev)))
+ 		return 0;
+ 
+ 	ret = clk_prepare_enable(ov8856->xvclk);
+ 	if (ret < 0) {
+-		dev_err(&client->dev, "failed to enable xvclk\n");
++		dev_err(dev, "failed to enable xvclk\n");
+ 		return ret;
+ 	}
+ 
+@@ -2132,7 +2133,7 @@ static int __ov8856_power_on(struct ov8856 *ov8856)
+ 	ret = regulator_bulk_enable(ARRAY_SIZE(ov8856_supply_names),
+ 				    ov8856->supplies);
+ 	if (ret < 0) {
+-		dev_err(&client->dev, "failed to enable regulators\n");
++		dev_err(dev, "failed to enable regulators\n");
+ 		goto disable_clk;
+ 	}
+ 
+@@ -2148,11 +2149,12 @@ static int __ov8856_power_on(struct ov8856 *ov8856)
+ 	return ret;
+ }
+ 
+-static void __ov8856_power_off(struct ov8856 *ov8856)
++static void __ov8856_power_off(struct device *dev)
+ {
+-	struct i2c_client *client = v4l2_get_subdevdata(&ov8856->sd);
++	struct v4l2_subdev *sd = dev_get_drvdata(dev);
++	struct ov8856 *ov8856 = to_ov8856(sd);
+ 
+-	if (is_acpi_node(dev_fwnode(&client->dev)))
++	if (is_acpi_node(dev_fwnode(dev)))
+ 		return;
+ 
+ 	gpiod_set_value_cansleep(ov8856->reset_gpio, 1);
+@@ -2170,7 +2172,7 @@ static int __maybe_unused ov8856_suspend(struct device *dev)
+ 	if (ov8856->streaming)
+ 		ov8856_stop_streaming(ov8856);
+ 
+-	__ov8856_power_off(ov8856);
++	__ov8856_power_off(dev);
+ 	mutex_unlock(&ov8856->mutex);
+ 
+ 	return 0;
+@@ -2184,7 +2186,7 @@ static int __maybe_unused ov8856_resume(struct device *dev)
+ 
+ 	mutex_lock(&ov8856->mutex);
+ 
+-	__ov8856_power_on(ov8856);
++	__ov8856_power_on(dev);
+ 	if (ov8856->streaming) {
+ 		ret = ov8856_start_streaming(ov8856);
+ 		if (ret) {
+@@ -2200,6 +2202,18 @@ static int __maybe_unused ov8856_resume(struct device *dev)
+ 	return 0;
+ }
+ 
++static int __maybe_unused ov8856_runtime_suspend(struct device *dev)
++{
++	__ov8856_power_off(dev);
++
++	return 0;
++}
++
++static int __maybe_unused ov8856_runtime_resume(struct device *dev)
++{
++	return __ov8856_power_on(dev);
++}
++
+ static int ov8856_set_format(struct v4l2_subdev *sd,
+ 			     struct v4l2_subdev_state *sd_state,
+ 			     struct v4l2_subdev_format *fmt)
+@@ -2451,7 +2465,7 @@ static int ov8856_remove(struct i2c_client *client)
+ 	pm_runtime_disable(&client->dev);
+ 	mutex_destroy(&ov8856->mutex);
+ 
+-	__ov8856_power_off(ov8856);
++	__ov8856_power_off(&client->dev);
+ 
+ 	return 0;
+ }
+@@ -2477,7 +2491,7 @@ static int ov8856_probe(struct i2c_client *client)
+ 
+ 	full_power = acpi_dev_state_d0(&client->dev);
+ 	if (full_power) {
+-		ret = __ov8856_power_on(ov8856);
++		ret = __ov8856_power_on(&client->dev);
+ 		if (ret) {
+ 			dev_err(&client->dev, "failed to power on\n");
+ 			return ret;
+@@ -2533,13 +2547,14 @@ static int ov8856_probe(struct i2c_client *client)
+ 	mutex_destroy(&ov8856->mutex);
+ 
+ probe_power_off:
+-	__ov8856_power_off(ov8856);
++	__ov8856_power_off(&client->dev);
+ 
+ 	return ret;
+ }
+ 
+ static const struct dev_pm_ops ov8856_pm_ops = {
+ 	SET_SYSTEM_SLEEP_PM_OPS(ov8856_suspend, ov8856_resume)
++	SET_RUNTIME_PM_OPS(ov8856_runtime_suspend, ov8856_runtime_resume, NULL)
+ };
+ 
+ #ifdef CONFIG_ACPI
+-- 
+2.37.3.968.ga6b4b080e4-goog
 
-Czy chcieliby Pa=C5=84stwo skorzysta=C4=87 z pomocy wykwalifikowanego i d=
-o=C5=9Bwiadczonego doradcy finansowego?
-
-
-Pozdrawiam
-Jakub Olejniczak
