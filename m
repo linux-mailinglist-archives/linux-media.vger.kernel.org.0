@@ -2,65 +2,81 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E174D5BF7CA
-	for <lists+linux-media@lfdr.de>; Wed, 21 Sep 2022 09:34:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5D2DA5BF805
+	for <lists+linux-media@lfdr.de>; Wed, 21 Sep 2022 09:45:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229521AbiIUHeg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 21 Sep 2022 03:34:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53602 "EHLO
+        id S230392AbiIUHpB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 21 Sep 2022 03:45:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41572 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229776AbiIUHef (ORCPT
+        with ESMTP id S229788AbiIUHo6 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 21 Sep 2022 03:34:35 -0400
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 16BE72DC5;
-        Wed, 21 Sep 2022 00:34:32 -0700 (PDT)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        Wed, 21 Sep 2022 03:44:58 -0400
+Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [IPv6:2a0b:5c81:1c1::37])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC5B74DB65;
+        Wed, 21 Sep 2022 00:44:51 -0700 (PDT)
+Received: from hillosipuli.retiisi.eu (dkwl20tj04snw15cjtflt-3.rev.dnainternet.fi [IPv6:2001:14ba:4493:6f40:fec3:d72a:e447:8113])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
         (No client certificate requested)
-        by smtp-out2.suse.de (Postfix) with ESMTPS id C6B951F855;
-        Wed, 21 Sep 2022 07:34:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-        t=1663745670; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
+        (Authenticated sender: sailus)
+        by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 49FD91B00215;
+        Wed, 21 Sep 2022 10:44:45 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
+        t=1663746285;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=Ngk+vqgXw4fEPdzeT+fxWlhQ7jSVECUeUmMrxCjYSYg=;
-        b=H+2uRRD9PfFSbHIvu3xVORDGuyyfHOSQ4ooYlfBTl7Ifoo70Y5nVnvD37s7bXV4Fx+Ce1g
-        lR0gx/1ccqT5XPX1kbDqjbPzK0r/aA2V64DUYEARXEZAqpoI13U/1AXmN5hbYGkQcAD0Sy
-        Vy4d4MRihaUCl5xpM8cJ/nLy75oply8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-        s=susede2_ed25519; t=1663745670;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=Ngk+vqgXw4fEPdzeT+fxWlhQ7jSVECUeUmMrxCjYSYg=;
-        b=q7H9NVjUFOKwfJwOGVoJeWqX3QMJbOPswQErGyf2TRtW5Yjl1dU7plWHnDdaqn8e7vadpe
-        GThZn016MvjcE7Ag==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        bh=vnGbC6DaaST+f3TKNbuJYJjswXZQ3tjchI+CtHy59hc=;
+        b=foXLrmtENA4hr4Ca1Oax+awTlkh46H2D9gkqxkXS0FkDdLDS7tgjSV7dRkbmsDla960FQl
+        XdRl1ON4Mrj5J7wBsEcHsQAiRLETC0PaV4UZeydpY1ieuS493R9//LlNVbcJJBdv5MiGGK
+        XXOiC8PPbhSbFyyxvhheovI1Cm/Rcpc+mUcvsugjpjdGddNkCtVUOnzlMvL7Pe7ScRGxxj
+        OlM9O4+cJKoxT2yBs+kFRjQhDHTgw9Faf6Gq+LfLYkwtIfjiNWg7XdnwyA7aoriJkyHyBp
+        CL33EbhK7Bmmi7y6coh5TDqUhZjoMRWbdaF5HPbPXcc/R5nhbB895XudAzhNZw==
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
         (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id A99E513A00;
-        Wed, 21 Sep 2022 07:34:30 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id 60e9KIa+KmMkDwAAMHmgww
-        (envelope-from <tiwai@suse.de>); Wed, 21 Sep 2022 07:34:30 +0000
-Date:   Wed, 21 Sep 2022 09:34:30 +0200
-Message-ID: <87sfklgozd.wl-tiwai@suse.de>
-From:   Takashi Iwai <tiwai@suse.de>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Hyunwoo Kim <imv4bel@gmail.com>, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: dvb-core: Fix UAF due to refcount races at releasing
-In-Reply-To: <20220908132754.30532-1-tiwai@suse.de>
-References: <20220908132754.30532-1-tiwai@suse.de>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id E22E9634CAA;
+        Wed, 21 Sep 2022 10:44:44 +0300 (EEST)
+Date:   Wed, 21 Sep 2022 10:44:44 +0300
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     Hidenori Kobayashi <hidenorik@chromium.org>
+Cc:     Dongchun Zhu <dongchun.zhu@mediatek.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media: ov8856: Add runtime PM callbacks
+Message-ID: <YyrA7PQP3yrQM0XW@valkosipuli.retiisi.eu>
+References: <20220920020002.710533-1-hidenorik@chromium.org>
+ <Yyl7spRDgJ+R39Pj@valkosipuli.retiisi.eu>
+ <20220921013212.m7sqb4v7hk5rddfa@google.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220921013212.m7sqb4v7hk5rddfa@google.com>
+ARC-Authentication-Results: i=1;
+        ORIGINATING;
+        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+        s=lahtoruutu; t=1663746285;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=vnGbC6DaaST+f3TKNbuJYJjswXZQ3tjchI+CtHy59hc=;
+        b=fnERBLw1zhKIvk3NKKFQMs5LEZ/mclKIvT75C49LwOkRTETDjX+ZSxR2S4JNDtYPgRhKkT
+        eHwi6RKkl1Bo/fzr+3ZB8H9brRC5J+PjpT6PJbII4iMPLbpsnUzkTJ46aTOde2WflWihUw
+        tvGlZWqj+a50DVlXDWFXN/dNS6Bc4vefg5Temv3YPh5olfbUZjpkIHkSuilAq5rv0/7Tab
+        05Vl3aQhozfIYvHFjePq3EHQSD4R1X/4lNTKKv0MLtkEwRdBSoosfOn6CKDHlqW9lroOvp
+        30eQ5snpTbKOIsq3pBDQcy20uTLHHxoIqmPKW+ZzLpxicJuZ+c80LAgdozE1Kg==
+ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1663746285; a=rsa-sha256;
+        cv=none;
+        b=UDL5S5Nu7tyIg2N6Y1gxL4DHYf9VoOeGJIq5T0HGvMYvz6RWDiI4tLsfu3hQzyl9P+6/Er
+        oJss2HaHjkoIGI12RDCOB7eAPMtIX7Ki4vhIlEzO6JfO4CB5eNuwhe1EJ012X5vb/f2vN9
+        SHnx8rBTL/faYpdisIYJWUy66zXaFGSYQQpsk9ypkTChMXgFRdoqcfPCTM2P45gA9wGqzL
+        0T9WaejVWG8kuPb/yxedsXsPc0NcDoLJo6+pqxl6qrpeF8lhoyb3V+xtS6okCDpgt+8KRq
+        BeBZoDGpM3iqmAVapmjwxfEtM9yy6fdjKO1bMyTv+RuoKKZMFKAaVmRugoV51Q==
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
         SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -68,77 +84,19 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, 08 Sep 2022 15:27:54 +0200,
-Takashi Iwai wrote:
-> 
-> The dvb-core tries to sync the releases of opened files at
-> dvb_dmxdev_release() with two refcounts: dvbdev->users and
-> dvr_dvbdev->users.  A problem is present in those two syncs: when yet
-> another dvb_demux_open() is called during those sync waits,
-> dvb_demux_open() continues to process even if the device is being
-> closed.  This includes the increment of the former refcount, resulting
-> in the leftover refcount after the sync of the latter refcount at
-> dvb_dmxdev_release().  It ends up with use-after-free, since the
-> function believes that all usages were gone and releases the
-> resources.
-> 
-> This patch addresses the problem by adding the check of dmxdev->exit
-> flag at dvb_demux_open(), just like dvb_dvr_open() already does.  With
-> the exit flag check, the second call of dvb_demux_open() fails, hence
-> the further corruption can be avoided.
-> 
-> Also for avoiding the races of the dmxdev->exit flag reference, this
-> patch serializes the dmxdev->exit set up and the sync waits with the
-> dmxdev->mutex lock at dvb_dmxdev_release().  Without the mutex lock,
-> dvb_demux_open() (or dvb_dvr_open()) may run concurrently with
-> dvb_dmxdev_release(), which allows to skip the exit flag check and
-> continue the open process that is being closed.
-> 
-> Reported-by: Hyunwoo Kim <imv4bel@gmail.com>
-> Cc: <stable@vger.kernel.org>
-> Signed-off-by: Takashi Iwai <tiwai@suse.de>
+Hi Hidenori,
 
-Any review on this?
-
-FWIW, now CVE-2022-41218 is assigned for those bugs as a security
-issue.
-
-
-thanks,
-
-Takashi
-
-> ---
->  drivers/media/dvb-core/dmxdev.c | 8 ++++++++
->  1 file changed, 8 insertions(+)
+On Wed, Sep 21, 2022 at 10:32:12AM +0900, Hidenori Kobayashi wrote:
+> Hi Sakari,
 > 
-> diff --git a/drivers/media/dvb-core/dmxdev.c b/drivers/media/dvb-core/dmxdev.c
-> index f6ee678107d3..9ce5f010de3f 100644
-> --- a/drivers/media/dvb-core/dmxdev.c
-> +++ b/drivers/media/dvb-core/dmxdev.c
-> @@ -790,6 +790,11 @@ static int dvb_demux_open(struct inode *inode, struct file *file)
->  	if (mutex_lock_interruptible(&dmxdev->mutex))
->  		return -ERESTARTSYS;
->  
-> +	if (dmxdev->exit) {
-> +		mutex_unlock(&dmxdev->mutex);
-> +		return -ENODEV;
-> +	}
-> +
->  	for (i = 0; i < dmxdev->filternum; i++)
->  		if (dmxdev->filter[i].state == DMXDEV_STATE_FREE)
->  			break;
-> @@ -1448,7 +1453,10 @@ EXPORT_SYMBOL(dvb_dmxdev_init);
->  
->  void dvb_dmxdev_release(struct dmxdev *dmxdev)
->  {
-> +	mutex_lock(&dmxdev->mutex);
->  	dmxdev->exit = 1;
-> +	mutex_unlock(&dmxdev->mutex);
-> +
->  	if (dmxdev->dvbdev->users > 1) {
->  		wait_event(dmxdev->dvbdev->wait_queue,
->  				dmxdev->dvbdev->users == 1);
-> -- 
-> 2.35.3
-> 
+> Thanks for your review!
+
+You're welcome!
+
+> I'm guessing that we want the
+> same for __ov8856_power_on().
+
+Yes, please!
+
+-- 
+Sakari Ailus
