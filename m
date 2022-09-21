@@ -2,322 +2,126 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A9BF55BF98D
-	for <lists+linux-media@lfdr.de>; Wed, 21 Sep 2022 10:44:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3B1615BF9D8
+	for <lists+linux-media@lfdr.de>; Wed, 21 Sep 2022 10:52:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229818AbiIUIoK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 21 Sep 2022 04:44:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53124 "EHLO
+        id S229562AbiIUIwn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 21 Sep 2022 04:52:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39798 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229779AbiIUIoJ (ORCPT
+        with ESMTP id S229449AbiIUIwm (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 21 Sep 2022 04:44:09 -0400
-Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::226])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D1B1286FE8
-        for <linux-media@vger.kernel.org>; Wed, 21 Sep 2022 01:44:06 -0700 (PDT)
-Received: (Authenticated sender: jacopo@jmondi.org)
-        by mail.gandi.net (Postfix) with ESMTPSA id 462A9C0012;
-        Wed, 21 Sep 2022 08:43:58 +0000 (UTC)
-Date:   Wed, 21 Sep 2022 10:43:57 +0200
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     linux-media@vger.kernel.org,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Ricardo Ribalda <ribalda@chromium.org>,
-        Maxime Ripard <maxime@cerno.tech>,
-        Daniel Scally <djrscally@gmail.com>,
-        Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Hugues Fruchet <hugues.fruchet@st.com>,
-        Michael Olbrich <m.olbrich@pengutronix.de>,
-        Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        Michael Tretter <m.tretter@pengutronix.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Benjamin MUGNIER <benjamin.mugnier@foss.st.com>
-Subject: Re: [ANN] Media Summit at ELCE Dublin, September 12: Final (?)
- Agenda V3
-Message-ID: <20220921084357.mtj6ptckcxrxghwe@lati>
-References: <3ff46b2d-eb01-1ce9-8647-19447c82283b@xs4all.nl>
+        Wed, 21 Sep 2022 04:52:42 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1E5D2328
+        for <linux-media@vger.kernel.org>; Wed, 21 Sep 2022 01:52:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1663750360;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=lG8SDjdnZak/MUXsRfgXClx575p+L/35YYB5sP6fkEQ=;
+        b=VkGSWZn6vm636jZM22vquSxI0th25iDcj6kHieCncJj7cZbgO4rUade6k9fn3xZ5QzvLiV
+        0wq/TlrizTTLOMMEUuz6URpALsM4iQWqs+GvqFa9mz0eMQn0sUEBPKIoT66mMRjdhVqPTg
+        8pAULZ1qsMNlLdaZWHWwGe+BQM0Jdg8=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-505-_KUy0qjvPXa8hX4X1t4Axg-1; Wed, 21 Sep 2022 04:52:39 -0400
+X-MC-Unique: _KUy0qjvPXa8hX4X1t4Axg-1
+Received: by mail-ed1-f69.google.com with SMTP id v11-20020a056402348b00b004516e0b7eedso3866247edc.8
+        for <linux-media@vger.kernel.org>; Wed, 21 Sep 2022 01:52:39 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date;
+        bh=lG8SDjdnZak/MUXsRfgXClx575p+L/35YYB5sP6fkEQ=;
+        b=MbHc701diinkl3Jy4oomHqvobAdh3STIxoNPi20oqVCpNWHJVDCFeh/0eaR2IeCSQa
+         xb4StdCvFfJ9fPn4yYa5IBrfzH8O2TWHEpiQOqA4pHSYg200Kdct5fjh6rWTUgW7Uf8j
+         R9oUaH0Fq+9MPwXGwCkBZA6ejG2M3nvnOiusnHY4e5RSL6I+tHWFq6Q+aeP3SdyS9IE7
+         B614P1yP3ftHFqhPuWZRaBAYC8echxRM7ObP7usVUjp2P/CsGr2oQda5Dvk/pifYaVfh
+         /jN2in0zEhr9H7SRiqY7Aa602piQUcQb5FdGB8r9u56jqUlaBrNiSP0nJ967ZwWhwcrF
+         3bkQ==
+X-Gm-Message-State: ACrzQf1qW+Mw/OAA85+KVTqDYjHXKUAB/OVK2J17huwejdSvq1/JpG3S
+        d0DqhbHrPpBuileQbGgbOsgCZihVPLB+yMFlmpiHzN/AgAgk88rFztuL15zBVS7/3xvQ+8KgwHe
+        Lw94Aws+7aOLnL8VPufd1IDU=
+X-Received: by 2002:aa7:c04d:0:b0:454:2f81:b966 with SMTP id k13-20020aa7c04d000000b004542f81b966mr11447511edo.269.1663750358324;
+        Wed, 21 Sep 2022 01:52:38 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM5aNy+Putz9fNOLuY2DP/Z5N8/Z2a5BH/Irm20XJPoXRL1gzT4S7udkWhKdVRtlcBL6FCc2RA==
+X-Received: by 2002:aa7:c04d:0:b0:454:2f81:b966 with SMTP id k13-20020aa7c04d000000b004542f81b966mr11447502edo.269.1663750358155;
+        Wed, 21 Sep 2022 01:52:38 -0700 (PDT)
+Received: from ?IPV6:2001:1c00:c1e:bf00:d69d:5353:dba5:ee81? (2001-1c00-0c1e-bf00-d69d-5353-dba5-ee81.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:d69d:5353:dba5:ee81])
+        by smtp.gmail.com with ESMTPSA id n26-20020aa7c45a000000b00452ff2c203asm1383600edr.92.2022.09.21.01.52.37
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 21 Sep 2022 01:52:37 -0700 (PDT)
+Message-ID: <c52e1abb-0796-b88a-4a94-fa14c09ffcfe@redhat.com>
+Date:   Wed, 21 Sep 2022 10:52:32 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <3ff46b2d-eb01-1ce9-8647-19447c82283b@xs4all.nl>
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.1
+Subject: Re: [PATCH 01/17] media: atomisp: Use a normal mutex for the main
+ lock
+To:     Andy Shevchenko <andriy.shevchenko@intel.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Tsuchiya Yuto <kitakar@gmail.com>,
+        Andy Shevchenko <andy@kernel.org>,
+        Yury Luneff <yury.lunev@gmail.com>,
+        Nable <nable.maininbox@googlemail.com>,
+        andrey.i.trufanov@gmail.com, Fabio Aiuto <fabioaiuto83@gmail.com>,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev
+References: <20220911171653.568932-1-hdegoede@redhat.com>
+ <20220911171653.568932-2-hdegoede@redhat.com>
+ <Yx8T/uEKvVDoCvsT@smile.fi.intel.com>
+Content-Language: en-US
+From:   Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <Yx8T/uEKvVDoCvsT@smile.fi.intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-6.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello and thanks everyone for attending the media summit. The meeting
-and the discussion were good, let's now try to move forward on the many
-points that has been discussed.
+Hi,
 
-Can I ask participants to go over the etherpad notes to check if
-there's anything to change or add there, and once done have the notes
-circulate on the list (or be stored on linuxtv.org where the notes
-from previous meetings are ?)
+On 9/12/22 13:11, Andy Shevchenko wrote:
+> On Sun, Sep 11, 2022 at 07:16:37PM +0200, Hans de Goede wrote:
+>> There is no reason for atomisp to use a rt_mutex instead of a normal
+>> mutex, so switch over to a normal mutex.
+>>
+>> All the changes in this patch are just s/rt_mutex/mutex/.
+>>
+>> This is a preparation patch for switching the ioctl locking over
+>> to using the video_dev.lock member so that the v4l2-core takes
+>> care of the locking.
+> 
+> So the idea behind rt_mutex here is to inherit the priority on the task.
 
-Thanks
-   j
+Right.
 
-On Thu, Sep 08, 2022 at 10:58:21AM +0200, Hans Verkuil wrote:
-> Hi all,
->
-> Here is some more information about the Media Summit:
->
-> Date: Monday September 12
-> Time: 8:45-18:00
-> Location: Convention Centre Dublin
-> Room: The Liffey B - Part 1
-> Sponsored by: Cisco Systems Norway, Collabora and the Kodi Foundation
->
-> We will have a projector or display to show presentations, power strips,
-> a whiteboard and beverages. Lunch is sponsored by the Kodi Foundation.
->
-> It's co-located with the OSS Europe conference:
->
-> https://events.linuxfoundation.org/open-source-summit-europe/
->
-> Attendees:
->
-> Sakari Ailus <sakari.ailus@linux.intel.com>
-> Kieran Bingham <kieran.bingham@ideasonboard.com>
-> Nicolas Dufresne <nicolas@ndufresne.ca>
-> Hugues FRUCHET <hugues.fruchet@st.com>
-> Benjamin Gaignard <benjamin.gaignard@collabora.com>
-> Jacopo Mondi <jacopo@jmondi.org>
-> Michael Olbrich <m.olbrich@pengutronix.de>
-> Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Ricardo Ribalda <ribalda@chromium.org>
-> Maxime Ripard <maxime@cerno.tech>
-> Daniel Scally <djrscally@gmail.com>
-> Jernej Škrabec <jernej.skrabec@gmail.com>
-> Niklas Söderlund <niklas.soderlund@ragnatech.se> (afternoon only)
-> Dave Stevenson <dave.stevenson@raspberrypi.com> (from 11 am approx.)
-> Michael Tretter <m.tretter@pengutronix.de>
-> Hans Verkuil <hverkuil@xs4all.nl>
-> Philipp Zabel <p.zabel@pengutronix.de>
->
-> Remote attendees:
->
-> Mauro Carvalho Chehab <mchehab@kernel.org>
-> Benjamin MUGNIER <benjamin.mugnier@foss.st.com>
->
-> Regarding remote attendance: I will a second laptop with me and a good webcam.
-> But whether this will work is not at all certain, esp. audio is often very poor. It very
-> much depends on the room. I mailed Mauro and Benjamin instructions on how to join.
-> We'll see if it works or not.
->
-> We'll be using etherpad to keep notes. I created one here:
->
-> https://pad.systemli.org/p/media-summit-2022
->
->
-> The health and safety regulations will be those of the OSSE LF (updated on August 22):
->
-> https://events.linuxfoundation.org/open-source-summit-europe/attend/health-and-safety/
->
-> As you can read above masks are needed for this event, so make sure you bring them!
-> You also need to be fully vaccinated (Duh!), or show a negative test. See the details
-> in the link.
->
-> We also strongly recommend that you do a self-test before going to the Conference Centre
-> for this meeting.
->
->
-> Code of conduct:
->
-> https://events.linuxfoundation.org/open-source-summit-europe/attend/code-of-conduct/
->
->
-> Agenda:
->
-> Below is the final (?) version of the agenda. I have tried to keep the sensor-related
-> topics to after 11:00 since Dave comes in later in the day.
->
-> Changes since V2:
-> - Updated attendees list.
-> - Dropped my presentation since I'll be presenting the same thing at the ELCE on Friday
->   9:50.
-> - Added keysigning party at the end of the day.
-> - Added links to slides.
->
-> I am also making the (reasonable) assumption that most attendees will be attending
-> the ELCE/OSSE conference Tue-Fri as well. While it is nice if we can come to a
-> conclusion in the time allotted for each topic, it's also OK if we can set up
-> a small group that can discuss it further in the following days.
->
-> I added a guesstimate of the time needed for each topic. Please note that it is
-> fine if we decide to discuss it further in the following days in a smaller group,
-> or continue discussions on the mailing list.
->
-> If you present a topic, then please make a presentation. And if you have material you
-> can share beforehand, then that would be great.
->
-> We have the room from 8:30-18:00, so I moved a few things around since V1, in particular
-> please come in a bit earlier so you can set everything up (power, internet, etc.) so
-> we can begin at 9 AM sharp.
->
-> Don't expect that the times below are precise (esp. after 11:00): past experience tells
-> us that it can vary wildly.
->
-> Links to slides:
->
-> Ricardo: https://drive.google.com/file/d/1Tew21xeKmFlQ7dQxMcIYqybVuQL7La1a/view
-> Dave: https://drive.google.com/file/d/1vjYJjTNRL1P3j6G4Nx2ZpjFtTBTNdeFG/view?usp=sharing
-> Jacopo: https://nc.nibble.pw/s/oib8jzNjjtgB9c6
->
-> Agenda V3:
->
->  8:40 Getting settled
->  9:00 Introduction
->  9:10 Nicolas: Stateless encoder progress
->  9:45 Ricardo: Introduce ChromeOS camera project: slides posted!
->
-> 11:00 Break
->
-> 11:15 Kieran: Fault tolerance
->
->   I raised this in the past when we first started hitting the issue on
->   Renesas platforms with multiple cameras in a single media graph, but now
->   I think it's become more critical with desktop / laptop devices that are
->   hitting the issue (i.e. the IPU3).
->
->   Summary of issue:
->
->   - Multiple cameras that can function independently successfully, are
->     prevented from functioning or fully probing by V4L2 if one component
->     of another camera fails to load or probe.
->
->     If Camera A has a VCM, and Camera B does not, Camera B will not be
->     available at all if Camera A's VCM is not fully probed, even though
->     Camera B can be fully functional and complete.
->
->     Even if Camera A does not have the VCM probed, it may still function
->     successfully (with a fixed focal position) - but our current
->     implementation will mean that it will not even be available to
->     capture images.
->
->   We talked about this quite a long time ago, and I believe the general
->   consensus was that we can have events on the media graph. But
->   unfortunately at the time, there was no development scheduled on that,
->   and it wasn't something I was able to continue at the time.
->
->   I'd like to bring it up to refresh the topic, and see if we can make
->   some progress as it's now affecting more general devices.
->
-> 11:45 Jacopo: Representing addition sensor processing stages.
->
->   How to represent additional processing stages that happens
->   on the sensor side, mostly additional subsampling/cropping that happen
->   between the analogue cropping on the full pixel array and the final
->   image sent on the wire.
->
->   https://lore.kernel.org/linux-media/CAPY8ntA06L1Xsph79sv9t7MiDSNeSO2vADevuXZdXQdhWpSmow@mail.gmail.com/
->
->   Dave made a good introduction of the issue his email which got
->   largely unanswered.
->
->   The issue is particularly relevant for RAW sensors, where applying
->   subsampling has an impact on the sensor's sensitivity and requires
->   to adjust the gains and exposure accordingly.
->
->   The V4L2 selection API falls short on this and the only other
->   solution I am aware of is registering additional subdevices as the
->   CCS driver does.
->
-> 12:30 Lunch
->
-> 13:30 Dave: On-sensor temperature reporting.
->
->   Thread started by Benjamin at
->   https://lore.kernel.org/linux-media/20220415111845.27130-3-benjamin.mugnier@foss.st.com/
->   but no resolution over using hwmon API or V4L2 control. If hwmon
->   then we need Media Controller framework to tie the sensor and thermal
->   device together.
->
->   It's recently been queried for IMX477 with the Pi
->   (https://github.com/raspberrypi/libcamera/issues/19), but it will
->   apply to many sensors.
->
-> 13:50 Dave: Synchronising sensors for stereoscopic operation.
->
->   How should that be configured? Allowing configuration from userspace
->   would allow sensors to be operated independently which can be useful for
->   test purposes, or should it be enforced from DT/ACPI? Do we set a default
->   configuration for each sensor from DT/ACPI and then allow userspace to
->   override should it wish?
->
-> 14:10 Dave: Lens drivers.
->
->   Each driver will have a "useful" range which is effectively dictated by
->   the overall module. Should that be defined via DT as it is a feature of
->   the platform, or leave the driver totally generic and expect userspace
->   to do something sensible?
->
->   In the case of simple systems without libcamera, do we set default for
->   V4L2_CID_FOCUS_ABSOLUTE to a sensible hyperfocal distance, and can
->   that again be defined in DT as it is defining the hardware?
->
-> 14:30 Dave: Controlling sensor GPIO outputs.
->
->   Controlling sensor GPIO outputs for things such as flash triggers,
->   vsync, frame start/end, exposure start/end, etc.
->
->   There is a huge range of features available so do we have any hope of
->   standardising some of it, or do we end up hiding these away in the
->   drivers with custom DT bindings to configure them? If we accept that
->   there will be variation, can we vaguely standardise what those
->   bindings look like? Or should these be V4L2 controls as things like
->   pulse widths may want to be adjusted by userspace?
->
-> 15:00 Break
->
-> 15:30 Jacopo: Reconcile handling of regulator, gpios and clock on OF and ACPI platforms.
->
->   We recently got a few series trying to reconcile handling of regulators,
->   gpios and clocks on OF and ACPI platforms all of them doing the usual
->   "similar but slightly different" thing:
->
->   https://lore.kernel.org/linux-media/20220425061022.1569480-1-paul.elder@ideasonboard.com/
->   https://lore.kernel.org/linux-media/20220329090133.338073-1-jacopo@jmondi.org/
->   https://lore.kernel.org/linux-media/20220509143226.531117-1-foss+kernel@0leil.net/
->   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=0c2c7a1e0d69221b9d489bfd8cf53262d6f82446
->
->   ACPI and OF handles clocks slightly differently, and it is not clear
->   to me if ACPI based platform need explicit handling of
->   clocks/regulator or ACPI does "the right thing" by itself (I'm
->   afraid the answer is actually "it depends"). I'm ACPI illiterate
->   so I cannot propose anything meaningful but if anyone is interested
->   in discussing this further this might be a good time to do so ?
->
->
-> 16:00 Laurent: V4L2 streams series.
->
->   I'd like to discuss the V4L2 streams series, in particular how to
->   upstream the parts that won't be upstream yet by mid-September.
->   Discussing the next steps would also be useful, as there's lots we could
->   build on top.
->
-> 16:30 Laurent: How can we finalize conversion of v4l-utils to meson?
->
-> 16:45 Key signing party
->
->       See: https://lore.kernel.org/linux-media/YxhplLKtRAQzlSK%2F@pendragon.ideasonboard.com/
->
->       I'm really not sure where the 'party' aspect comes in, since while necessary,
->       it is all terribly boring :-)
->
-> 17:15-18:00 Anything else?
->
-> Regards,
->
-> 	Hans
+> I'm wondering what could be possible the bottle neck this is trying to
+> solve.
+
+I don't think there is any specific reasoning behind the code using
+this. The atomisp code is quite questionable in lots of cases and
+I have a feeling this was just a case of "oh this sounds like
+it is faster, lets use this" .
+
+> If there is no other V4L2 driver that does the same, any specific
+> run flow of AtomISP v2 code that may suffer of this?
+
+See above.
+
+Regards,
+
+Hans
+
+
