@@ -2,131 +2,103 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 070CD5E5377
-	for <lists+linux-media@lfdr.de>; Wed, 21 Sep 2022 20:58:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B0BCF5E5381
+	for <lists+linux-media@lfdr.de>; Wed, 21 Sep 2022 21:04:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229604AbiIUS6e (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 21 Sep 2022 14:58:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38856 "EHLO
+        id S229972AbiIUTEC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 21 Sep 2022 15:04:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43460 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229819AbiIUS6a (ORCPT
+        with ESMTP id S229968AbiIUTEA (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 21 Sep 2022 14:58:30 -0400
-Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com [IPv6:2a00:1450:4864:20::135])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4948AA1D2A
-        for <linux-media@vger.kernel.org>; Wed, 21 Sep 2022 11:58:29 -0700 (PDT)
-Received: by mail-lf1-x135.google.com with SMTP id w8so10722116lft.12
-        for <linux-media@vger.kernel.org>; Wed, 21 Sep 2022 11:58:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date;
-        bh=i0GvNHAA6HriUK1iwHQhuKbfhvmDlYsJZtxUwtDszrU=;
-        b=tyQxrwTx7FC0WMK4iNa0xMT5ZTkUNUXRjuYJ6ngr8504lz1m287MotseKwIv4+vIkw
-         t7ydFQuNkDAN8HycVQ460BqRkotr6Dtu2XLxAznWv5gwKqQRTi9apNCAKpX2xeaeagN8
-         C0J2zzWG1pdBm7brCVJs+eEAC4hXKE7+J1xJa1y4JrNtdo6H54TdR+ps2n7gQPbCG754
-         Qle8zKu4I113dnuI17fY6ZicPB0FC3+nDac3X9PV1A3Of81mKNa+rT2ooMnLvM262f7c
-         oCzVykwGdjm/VXCbZxmN4rtgQfZWLfQjLGBkGTeSsz4dBrX6dayd+H+6ptW3DZyWtkw6
-         m4dQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=i0GvNHAA6HriUK1iwHQhuKbfhvmDlYsJZtxUwtDszrU=;
-        b=tvzPzCQNmi129HUGzWO4F+bj/3lGL8pf9Y6roTaU9//iP50JTrB+LYrDO/P8bmg/MP
-         O+MjIcHC5ClZAwt5sloxeRZA+9FusonbwQQ2BgCCKtOaqP/QKdpmIuOoxvwMgcZDp/79
-         WU9z0n1lktBvnJXaMY/vHlhHSxHwrDg2KZj3HjQWgVc0njcZWp3iL3imAN6ngUd1ho8f
-         /mBv5PG1LsZNNFcn3QlA8rsilObvU9vx2tOjvIHCQPlZmpoJmfye+dRnObwK4mTL6c2t
-         XX9AqSur1q/drNzuJIm5pHF7HOnq+BoTsaOut1rEmdpiXVw8lHT+eQnWt16yx6cT78dt
-         mWYQ==
-X-Gm-Message-State: ACrzQf3fAcPTLUsnPhaCnIrLceZC99XONUlzpGqTLyKD+zEtN30mP+2n
-        SSS+26n9eyrm0maGnCLQn0070w==
-X-Google-Smtp-Source: AMsMyM7BFiYVamvKMGfRkSVY1bQDxJm0JXW9wMgz8WbyWhMSAHmN5EjwbxsFX4D044b8XvGAD77rwg==
-X-Received: by 2002:ac2:5b0f:0:b0:49c:949e:d8f7 with SMTP id v15-20020ac25b0f000000b0049c949ed8f7mr10203910lfn.336.1663786707635;
-        Wed, 21 Sep 2022 11:58:27 -0700 (PDT)
-Received: from [192.168.0.21] (78-11-189-27.static.ip.netia.com.pl. [78.11.189.27])
-        by smtp.gmail.com with ESMTPSA id l6-20020ac25546000000b00492ce573726sm559891lfk.47.2022.09.21.11.58.26
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 21 Sep 2022 11:58:27 -0700 (PDT)
-Message-ID: <bba1ed72-d691-b51c-dce8-ab9a2e45fe86@linaro.org>
-Date:   Wed, 21 Sep 2022 20:58:26 +0200
+        Wed, 21 Sep 2022 15:04:00 -0400
+X-Greylist: delayed 40750 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 21 Sep 2022 12:03:59 PDT
+Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C3359E0D3
+        for <linux-media@vger.kernel.org>; Wed, 21 Sep 2022 12:03:58 -0700 (PDT)
+Received: from hillosipuli.retiisi.eu (dkwl20tj04snw15cjtflt-3.rev.dnainternet.fi [IPv6:2001:14ba:4493:6f40:fec3:d72a:e447:8113])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: sailus)
+        by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 68EAC1B00215;
+        Wed, 21 Sep 2022 22:03:56 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
+        t=1663787036;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=Kzm5Clzp/QiKyfDw+4ulLOOqoDro0Yuq4qY2gsOoafM=;
+        b=qVLio5CRvOY+PXgFniHcYtzG0laRpuKfjUrGcJrbcMXz4S5qA0RhcuZk1pil/ZJYuOw+Z6
+        UirHe+cRiKhGDsMNfJzhcqHUU8dMWmZ0p+N8AW2KyZqnr1ecMuqIoIEmOmFFT7UmG4U/YJ
+        5jCYxaFp5HzpXYU+oCx72HI1xKfSpKkUZlJxH3bJhk3G9p8ovEaKbuFNu4lShsm5K/9OLr
+        Sqn7Dc3Q6wak3h+BiS0UlojK7iY++ZpEZ3/ufC/V/WpLlJCG2ivRirLEPuDFb/o30IwzQT
+        el524FbC1MtTh8uzl6s0809piNwgXd9oBBlDeTpM14TzJ3j825xyXrnlZgmXrQ==
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 0C131634CAA;
+        Wed, 21 Sep 2022 22:03:55 +0300 (EEST)
+Date:   Wed, 21 Sep 2022 22:03:55 +0300
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Cc:     dave.stevenson@raspberrypi.com, jacopo@jmondi.org,
+        paul.j.murphy@intel.com, daniele.alessandrelli@intel.com,
+        mchehab@kernel.org, linux-media@vger.kernel.org
+Subject: Re: [PATCH v4 1/3] media: dt-bindings: imx412: Extend compatible
+ strings
+Message-ID: <YytgG+uVdk7Lzupd@valkosipuli.retiisi.eu>
+References: <20220916140213.1310304-1-bryan.odonoghue@linaro.org>
+ <20220916140213.1310304-2-bryan.odonoghue@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH v2 2/4] media: dt-bindings: Document Renesas RZ/G2L CRU
- block
-Content-Language: en-US
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>
-References: <20220905230406.30801-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20220905230406.30801-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <29d456ed-620c-8dc9-01f0-54f96b670b94@linaro.org>
- <YysHAkWBfTTAJF3E@pendragon.ideasonboard.com>
- <ba436dd5-2ea2-b2e0-7056-5bae6b4c7bb4@linaro.org>
- <YytJ/oJK9s2mfqPL@pendragon.ideasonboard.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <YytJ/oJK9s2mfqPL@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-5.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220916140213.1310304-2-bryan.odonoghue@linaro.org>
+ARC-Authentication-Results: i=1;
+        ORIGINATING;
+        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+        s=lahtoruutu; t=1663787036;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=Kzm5Clzp/QiKyfDw+4ulLOOqoDro0Yuq4qY2gsOoafM=;
+        b=wOX1qWfNLRttQeemRrikjsYVE5R3JOYExu66g9U89v0iWncMhV5ZG7SnkpE+tDUTTAMn39
+        T/842McVBvu7fCuwN268tS8S56qc20GH2YhndQPQtRmtj7qHR0z6lxXsC7uFSdZH8xzxpm
+        o9uPyaFv0kKiCE8cvZ1GnQjzTs4AQxVpqddOzpJuWfwjmpHeDqOBDK8dU9iz8Q8QMtFxU4
+        T+bPvfvivfoe9lxfMNxlG7we04sQwGV5eeMJ/9BvubPFLZLsWXnxV/ANM/4TRcABzJmGcj
+        0XvCs8ixm4tQqGIyyV7aWO+ofOS/7fQ0/U6cuN5Rab3f+5bLXc15PxzqfZFrrw==
+ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1663787036; a=rsa-sha256;
+        cv=none;
+        b=kNLgqyPky6jFFN/M4OjvK5LNRXpo3omGDt/VFe7ZMjU7niN2cUSTbxxItXugy+UMzWYDaW
+        884dvaRXkywrS7IPyD1/LRtmPIJPxTBPbEBxxu5Zprno9eb6bUEsHoh7NmvHKMc7H0gihp
+        Z98dwh7xjya07Bm4W+Se2xqcRBGR0l1sQoJCXZ2AOI9da7myefIxFFFV/2qwqyNMnJ+hPz
+        UmSe5Rfob2kFZA0DQUxsADi6B5SL9VbxtMVEe6lHe1eZNiIOJnJopu9TX/0lM5fptXX6uP
+        6EQoJoaprVlev4oE7SNIUrjIKRy/Qlbp8YtM+zZMLleiZTX8v3DjO08RKNHSMg==
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 21/09/2022 19:29, Laurent Pinchart wrote:
->>>>> +  clock-names:
->>>>> +    items:
->>>>> +      - const: vclk
->>>>> +      - const: pclk
->>>>> +      - const: aclk
->>>>
->>>> Drop the "clk" suffixes. Remaining names could be made a bit more readable.
->>>
->>> These names come from the documentation, isn't it better to match the
->>> datasheet ?
->>
->> If datasheet calls it "vclk_really_clk_it_is_clk_clk", it's not the
->> reason to use it. :)
->>
->> The "clk" is redundant even if the hardware engineer thought different.
->>
->> The same for IRQs ("tx" not "txirq"), for dmas ("tx" not "txdma").
+Hi Brian,
+
+On Fri, Sep 16, 2022 at 03:02:11PM +0100, Bryan O'Donoghue wrote:
+> Add compatible bindings for imx477 and imx577 both of which use the
+> same silicon enabling reference code from Sony in the available examples
+> provided.
 > 
-> I'd argue that naming clocks "v", "p" and "a" would be less readable and
-> more confusing. Is this a new rule ?
+> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 
-Not really, but also it's only a style issue.
+The patch looks good to me and I was waiting for an ack from the DT folks.
+They aren't cc'd. Could you resend the patch, cc'ing the devicetree list
+and Krzysztof Kozlowski, please?
 
-Indeed "v" and "p" are not much better... but still "vclk" does not
-bring any additional information over "v". It's redundant.
+-- 
+Kind regards,
 
-You can also drop entire entry - unless it helps in particular
-implementation.
-
-https://lore.kernel.org/all/20220517175958.GA1321687-robh@kernel.org/
-https://lore.kernel.org/all/20210815133926.22860-1-biju.das.jz@bp.renesas.com/
-https://lore.kernel.org/all/YYFCaHI%2FDASUz+Vu@robh.at.kernel.org/
-https://lore.kernel.org/all/20220830182540.GA1797396-robh@kernel.org/
-
-Best regards,
-Krzysztof
-
+Sakari Ailus
