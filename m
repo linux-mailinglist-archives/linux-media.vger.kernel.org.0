@@ -2,493 +2,173 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C078D5BFA65
-	for <lists+linux-media@lfdr.de>; Wed, 21 Sep 2022 11:13:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 201465BFAB9
+	for <lists+linux-media@lfdr.de>; Wed, 21 Sep 2022 11:22:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231317AbiIUJMz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 21 Sep 2022 05:12:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41428 "EHLO
+        id S231618AbiIUJWC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 21 Sep 2022 05:22:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33970 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231179AbiIUJMr (ORCPT
+        with ESMTP id S231479AbiIUJVj (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 21 Sep 2022 05:12:47 -0400
-Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com [IPv6:2a00:1450:4864:20::634])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5018F8E0C4
-        for <linux-media@vger.kernel.org>; Wed, 21 Sep 2022 02:12:40 -0700 (PDT)
-Received: by mail-ej1-x634.google.com with SMTP id bj12so12042245ejb.13
-        for <linux-media@vger.kernel.org>; Wed, 21 Sep 2022 02:12:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date;
-        bh=IPOvEFbsB3f+Xwz9TxbpevOhlT2MGP0OcSyaH0auNNw=;
-        b=Tj200QQJw9+NtFY0Ev0n6R0/HlzFwYxa8T0LVPganI/F4XjAqLOVwq6wihuKBbB4ng
-         sn5nxFv6BpgRP4TavkMZTQ8HBoYQ8XSkTnxYF4BQh6eh3L+XFkqgFpbx4ocscPNS5/hO
-         s5gJyeZocz+9kDlzrCsy6TMENdhZ1mzli/dBo=
+        Wed, 21 Sep 2022 05:21:39 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D0576659A
+        for <linux-media@vger.kernel.org>; Wed, 21 Sep 2022 02:20:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1663752042;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=2aMfWfue1UCHey0VLGgoawQPLIUpGRvAMI5FdpJY29A=;
+        b=hTR1yEkUrcnBJRVdgm+zcXaVO7p440M0pLSfWUc0jyq12DQW35+M/Q9O9spNB0ZwKSKHxj
+        7HcwfHms2ZUiDcDpeJMVSA55mwsz8NlSJ+XHsrBo9zANbm652M18FmZX2Gkk6WExRdTKIr
+        8hYikRjdjUI72bwg8WyClZZq1dvvpbM=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-587-NK14_WyzM1-QFOCeIDDgOw-1; Wed, 21 Sep 2022 05:20:40 -0400
+X-MC-Unique: NK14_WyzM1-QFOCeIDDgOw-1
+Received: by mail-ed1-f69.google.com with SMTP id w17-20020a056402269100b0045249bc17a9so3904260edd.9
+        for <linux-media@vger.kernel.org>; Wed, 21 Sep 2022 02:20:40 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date;
-        bh=IPOvEFbsB3f+Xwz9TxbpevOhlT2MGP0OcSyaH0auNNw=;
-        b=58b6zsreQXH/xeLGTxqNgGBf82dHtL4s3K6TGDAWDdQm66ebb8p8acoXaaCVovXWrK
-         4x6lIwfP+JGuapRyDEJc4m+H868fWeonFkr3x6GNQccHnnBNGxdGd0br0WlqhZVMKiAu
-         XU3VsJ7yRl5SFqpEn8p3M8Ed0iV/04pu7M6sSrZWFSrKvXSxSw6VsjNDCpR30dPXwo1/
-         KZXk2ux4SN7BLScryZs+TJivgTRV0e3DroqMwp/DzC70+OVvejqXos0t2xMnHnCSvO5l
-         a3SpM1w8HvyBaDr60sClNdooUQ3bI8RXv+jE1NnlDnTEma/QeCOAHaSJCAuCmodASvIL
-         FTiw==
-X-Gm-Message-State: ACrzQf3H2YVo7JYUAMMnQ9/IqMD/AwsXuFboxanF8AH6vaPQxQSUMQel
-        Ux1ShtyMrFcig7w3Sdf+OnR7XQ==
-X-Google-Smtp-Source: AMsMyM4ecOHpR34kdUcnOeywfC/HPo1+hgxqPlHtytpalNmPFiKPof6Pex+OKub0LsgW/CnrjTiUAQ==
-X-Received: by 2002:a17:907:9803:b0:782:2d55:f98b with SMTP id ji3-20020a170907980300b007822d55f98bmr193753ejc.338.1663751558634;
-        Wed, 21 Sep 2022 02:12:38 -0700 (PDT)
-Received: from alco.roam.corp.google.com ([2620:0:1059:10:160b:cee7:2e8b:f72c])
-        by smtp.gmail.com with ESMTPSA id v4-20020a17090690c400b00771cb506149sm1031913ejw.59.2022.09.21.02.12.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 Sep 2022 02:12:38 -0700 (PDT)
-From:   Ricardo Ribalda <ribalda@chromium.org>
-Date:   Wed, 21 Sep 2022 11:12:16 +0200
-Subject: [PATCH v2 7/7] media: uvcvideo: Use standard names for menus
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date;
+        bh=2aMfWfue1UCHey0VLGgoawQPLIUpGRvAMI5FdpJY29A=;
+        b=owgdLmxAGO67TcXL1sJl2Zy18778VK+75E0h4dYKJ7C322Ne3Tt0C6reNdjQ0RGKFs
+         3K2qVGF+iOZhkYNldaogBWXpKpN3SqOxlYbEpG3dX99N7v9/eSmFzOXluyIieailrFG6
+         LK0KOgXIjpZZQwkEv5Hlwm9VFw58JrJ42Ws4xnyS1TrqJfw/cQShdMRP8rwBlSc9g0jT
+         UsheDv+16AIjddKpKTxNvXqAyagfHYhVpH8OowoE0TIjbscO80eFQORUflWuMwZ46i0W
+         AI9KOU0oZxE8ZK6Ks6w8KTeQ5DpFmLRKAjwvbHtkVuMTzx0YaWew0ZsFUH/1dfyTS4Rh
+         m+og==
+X-Gm-Message-State: ACrzQf3G/aqvlk6Ahi3ClUIwDthUW1n0M2mruyvjiDNPKo5awZtugi9M
+        3HIStKGCAOsBatbocuRiV+wCQAKcSVYr8Nx0H2x1rZRJvwazqfMYgvFVbr0osCgKOTEaPIeODY7
+        OXV/DdTRU9fgYx0VSLmIUuQQ=
+X-Received: by 2002:a17:906:5d0b:b0:77f:bc8d:361d with SMTP id g11-20020a1709065d0b00b0077fbc8d361dmr20023909ejt.379.1663752039569;
+        Wed, 21 Sep 2022 02:20:39 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM7YAWUNmfq0t9x+fKIUrtlSsnVXqg3OvnY0wHQh08Ls3JfwtZT/fv56bO7I/8VL5S8apIcPZA==
+X-Received: by 2002:a17:906:5d0b:b0:77f:bc8d:361d with SMTP id g11-20020a1709065d0b00b0077fbc8d361dmr20023816ejt.379.1663752039293;
+        Wed, 21 Sep 2022 02:20:39 -0700 (PDT)
+Received: from ?IPV6:2001:1c00:c1e:bf00:d69d:5353:dba5:ee81? (2001-1c00-0c1e-bf00-d69d-5353-dba5-ee81.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:d69d:5353:dba5:ee81])
+        by smtp.gmail.com with ESMTPSA id l24-20020aa7c318000000b0044ee18e5f79sm1455946edq.28.2022.09.21.02.20.38
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 21 Sep 2022 02:20:38 -0700 (PDT)
+Message-ID: <7efd58ab-9486-a547-d69f-acb6300c6146@redhat.com>
+Date:   Wed, 21 Sep 2022 11:20:38 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20220920-resend-v4l2-compliance-v2-7-7c0942040004@chromium.org>
-References: <20220920-resend-v4l2-compliance-v2-0-7c0942040004@chromium.org>
-In-Reply-To: <20220920-resend-v4l2-compliance-v2-0-7c0942040004@chromium.org>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-media@vger.kernel.org, Hans Verkuil <hans.verkuil@cisco.com>,
-        Ricardo Ribalda <ribalda@chromium.org>,
-        linux-kernel@vger.kernel.org
-X-Mailer: b4 0.11.0-dev-d93f8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=12523; i=ribalda@chromium.org;
- h=from:subject:message-id; bh=GW6t7Dmti9DcWTCthX+5ZUlKrr4OzM2PZwBAycFJFmo=;
- b=owEBbQKS/ZANAwAKAdE30T7POsSIAcsmYgBjKtV+sIe0xcdE1X8D36H6gQ/ml3TkZInpODZhzCSy
- S0ChjSKJAjMEAAEKAB0WIQREDzjr+/4oCDLSsx7RN9E+zzrEiAUCYyrVfgAKCRDRN9E+zzrEiCTpEA
- CYO9HPOgxMHW09z2qfIwn3ZzeFqN1qPcqRYeFxYhpU+r82dTLZfjIVyWIm5wRHdYQeDi4QCAWnHRlt
- /vl41Pkwj1QER9LXpg75PKV6kSlPAodzKomdMu9HtdyAaczBUX+pg5y7QMEIpIJ6hg4DWmHMK0lYGd
- Pz8kFJ9hYSU+8lwpkRwIjVPjlXWqRJ+xBXm4x+LCvPunYoYrNVl9H1boVPERUD0ZS/rwlBNtj00hgb
- Jhsjs5u5kTMkAyCAa8AzlUBWAVteOsnQNM7sscfxnY0WBeru9JbuPy+ZmlSKHx0O+dyfwEQ2M4Ltqa
- 630tvHjtQfVE1wFZwZDPlgJOHFotdvibbrJ4eXVXto1oOgxifj1cdE5nDkDZLekYEisg/wg3lPm+e7
- Ig/hOJQegRfRMXMKjDZ5OqCH+Hq9uWBwBhWhbTpzrQt8ALODwDvfyFXAhBpNe4AvaS5kmfEi3t5TWA
- h5K/VoSU/JaTiSHSuToDbkJNWvQFNvZaNZqRgeheZ2CmXgDT2wjAfbneLCdNdlvNbG3YDJ7Ijs/SYS
- 7CiX7Rh1gDJ7qRFCU5j4NOIjC2KimIV7OPw3SWN6H8VMxrxoTLT175MpXa7m1OR22z64Okn63I3ATW
- ltc79N/Lo/lnxHeenumJnzgO4/mUUibJZTiOiFNjLvi9whO5lU7CTdE8YrYw==
-X-Developer-Key: i=ribalda@chromium.org; a=openpgp;
- fpr=9EC3BB66E2FC129A6F90B39556A0D81F9F782DA9
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.1
+Subject: Re: [PATCH 00/17] media: atomisp: further cleanups / unwanted code
+ removal
+Content-Language: en-US
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Tsuchiya Yuto <kitakar@gmail.com>,
+        Andy Shevchenko <andy@kernel.org>,
+        Yury Luneff <yury.lunev@gmail.com>,
+        Nable <nable.maininbox@googlemail.com>,
+        andrey.i.trufanov@gmail.com, Fabio Aiuto <fabioaiuto83@gmail.com>,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev
+References: <20220911171653.568932-1-hdegoede@redhat.com>
+ <Yx8bkW/ntNefoM18@smile.fi.intel.com>
+From:   Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <Yx8bkW/ntNefoM18@smile.fi.intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-6.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Instead of duplicating the menu info, use the one from the core.
-Also, do not use extra memory for 1:1 mappings.
+Hi,
 
-Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-Suggested-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+On 9/12/22 13:44, Andy Shevchenko wrote:
+> On Sun, Sep 11, 2022 at 07:16:36PM +0200, Hans de Goede wrote:
+>> Hi All,
+>>
+>> Here is another atomisp patch-series with further cleanups / unwanted code
+>> removal. Note this mostly cleaning up things which I hit while I'm still
+>> working towards converting the driver to videobuf2.
+>>
+>> The main goal of this series was to make the atomisp locking more like
+>> that of other v4l2 drivers, which is acomplished in the
+>> "media: atomisp: Use video_dev.lock for ioctl locking" patch.
+> 
+> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> for non-commented/non-authored-by-me patches.
 
-diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
-index df273b829961..5c28d8aace37 100644
---- a/drivers/media/usb/uvc/uvc_ctrl.c
-+++ b/drivers/media/usb/uvc/uvc_ctrl.c
-@@ -363,19 +363,31 @@ static const u32 uvc_control_classes[] = {
- 	V4L2_CID_USER_CLASS,
- };
- 
--static const struct uvc_menu_info power_line_frequency_controls[] = {
--	{ 0, "Disabled" },
--	{ 1, "50 Hz" },
--	{ 2, "60 Hz" },
--	{ 3, "Auto" },
--};
-+static const int exposure_auto_mapping[] = { 2, 1, 4, 8 };
- 
--static const struct uvc_menu_info exposure_auto_controls[] = {
--	{ 2, "Auto Mode" },
--	{ 1, "Manual Mode" },
--	{ 4, "Shutter Priority Mode" },
--	{ 8, "Aperture Priority Mode" },
--};
-+static u32 uvc_mapping_get_menu_value(struct uvc_control_mapping *mapping,
-+				      u32 idx)
-+{
-+	if (!test_bit(idx, &mapping->menu_mask))
-+		return 0;
-+
-+	if (mapping->menu_mapping)
-+		return mapping->menu_mapping[idx];
-+
-+	return idx;
-+}
-+
-+static const char
-+*uvc_mapping_get_menu_name(struct uvc_control_mapping *mapping, u32 idx)
-+{
-+	if (!test_bit(idx, &mapping->menu_mask))
-+		return NULL;
-+
-+	if (mapping->menu_names)
-+		return mapping->menu_names[idx];
-+
-+	return v4l2_ctrl_get_menu(mapping->id)[idx];
-+}
- 
- static s32 uvc_ctrl_get_zoom(struct uvc_control_mapping *mapping,
- 	u8 query, const u8 *data)
-@@ -524,8 +536,8 @@ static const struct uvc_control_mapping uvc_ctrl_mappings[] = {
- 		.offset		= 0,
- 		.v4l2_type	= V4L2_CTRL_TYPE_MENU,
- 		.data_type	= UVC_CTRL_DATA_TYPE_BITMASK,
--		.menu_info	= exposure_auto_controls,
--		.menu_mask	= BIT_MASK(ARRAY_SIZE(exposure_auto_controls)),
-+		.menu_mapping	= exposure_auto_mapping,
-+		.menu_mask	= GENMASK(ARRAY_SIZE(exposure_auto_mapping) - 1, 0),
- 		.slave_ids	= { V4L2_CID_EXPOSURE_ABSOLUTE, },
- 	},
- 	{
-@@ -730,8 +742,7 @@ static const struct uvc_control_mapping uvc_ctrl_mappings_uvc11[] = {
- 		.offset		= 0,
- 		.v4l2_type	= V4L2_CTRL_TYPE_MENU,
- 		.data_type	= UVC_CTRL_DATA_TYPE_ENUM,
--		.menu_info	= power_line_frequency_controls,
--		.menu_mask	= BIT_MASK(ARRAY_SIZE(power_line_frequency_controls) - 1),
-+		.menu_mask	= GENMASK(V4L2_CID_POWER_LINE_FREQUENCY_60HZ, 0),
- 	},
- };
- 
-@@ -744,8 +755,7 @@ static const struct uvc_control_mapping uvc_ctrl_mappings_uvc15[] = {
- 		.offset		= 0,
- 		.v4l2_type	= V4L2_CTRL_TYPE_MENU,
- 		.data_type	= UVC_CTRL_DATA_TYPE_ENUM,
--		.menu_info	= power_line_frequency_controls,
--		.menu_mask	= BIT_MASK(ARRAY_SIZE(power_line_frequency_controls)),
-+		.menu_mask	= GENMASK(V4L2_CID_POWER_LINE_FREQUENCY_AUTO, 0),
- 	},
- };
- 
-@@ -972,13 +982,17 @@ static s32 __uvc_ctrl_get_value(struct uvc_control_mapping *mapping,
- 	s32 value = mapping->get(mapping, UVC_GET_CUR, data);
- 
- 	if (mapping->v4l2_type == V4L2_CTRL_TYPE_MENU) {
--		const struct uvc_menu_info *menu = mapping->menu_info;
- 		unsigned int i;
- 
--		for (i = 0; BIT(i) <= mapping->menu_mask; ++i, ++menu) {
-+		for (i = 0; BIT(i) <= mapping->menu_mask; ++i) {
-+			u32 menu_value;
-+
- 			if (!test_bit(i, &mapping->menu_mask))
- 				continue;
--			if (menu->value == value) {
-+
-+			menu_value = uvc_mapping_get_menu_value(mapping, i);
-+
-+			if (menu_value == value) {
- 				value = i;
- 				break;
- 			}
-@@ -1174,7 +1188,6 @@ static int __uvc_query_v4l2_ctrl(struct uvc_video_chain *chain,
- {
- 	struct uvc_control_mapping *master_map = NULL;
- 	struct uvc_control *master_ctrl = NULL;
--	const struct uvc_menu_info *menu;
- 	unsigned int i;
- 
- 	memset(v4l2_ctrl, 0, sizeof(*v4l2_ctrl));
-@@ -1219,11 +1232,15 @@ static int __uvc_query_v4l2_ctrl(struct uvc_video_chain *chain,
- 		v4l2_ctrl->maximum = fls(mapping->menu_mask) - 1;
- 		v4l2_ctrl->step = 1;
- 
--		menu = mapping->menu_info;
--		for (i = 0; BIT(i) <= mapping->menu_mask; ++i, ++menu) {
-+		for (i = 0; BIT(i) <= mapping->menu_mask; ++i) {
-+			u32 menu_value;
-+
- 			if (!test_bit(i, &mapping->menu_mask))
- 				continue;
--			if (menu->value == v4l2_ctrl->default_value) {
-+
-+			menu_value = uvc_mapping_get_menu_value(mapping, i);
-+
-+			if (menu_value == v4l2_ctrl->default_value) {
- 				v4l2_ctrl->default_value = i;
- 				break;
- 			}
-@@ -1322,11 +1339,11 @@ int uvc_query_v4l2_ctrl(struct uvc_video_chain *chain,
- int uvc_query_v4l2_menu(struct uvc_video_chain *chain,
- 	struct v4l2_querymenu *query_menu)
- {
--	const struct uvc_menu_info *menu_info;
- 	struct uvc_control_mapping *mapping;
- 	struct uvc_control *ctrl;
- 	u32 index = query_menu->index;
- 	u32 id = query_menu->id;
-+	const char *name;
- 	int ret;
- 
- 	memset(query_menu, 0, sizeof(*query_menu));
-@@ -1348,22 +1365,28 @@ int uvc_query_v4l2_menu(struct uvc_video_chain *chain,
- 		goto done;
- 	}
- 
--	menu_info = &mapping->menu_info[query_menu->index];
--
- 	if (mapping->data_type == UVC_CTRL_DATA_TYPE_BITMASK) {
-+		u32 menu_value;
-+
- 		if (!ctrl->cached) {
- 			ret = uvc_ctrl_populate_cache(chain, ctrl);
- 			if (ret < 0)
- 				goto done;
- 		}
- 
--		if (!(uvc_get_ctrl_bitmap(ctrl, mapping) & menu_info->value)) {
-+		menu_value = uvc_mapping_get_menu_value(mapping,
-+							query_menu->index);
-+		if (!(uvc_get_ctrl_bitmap(ctrl, mapping) & menu_value)) {
- 			ret = -EINVAL;
- 			goto done;
- 		}
- 	}
- 
--	strscpy(query_menu->name, menu_info->name, sizeof(query_menu->name));
-+	name = uvc_mapping_get_menu_name(mapping, query_menu->index);
-+	if (name)
-+		strscpy(query_menu->name, name, sizeof(query_menu->name));
-+	else
-+		ret = -EINVAL;
- 
- done:
- 	mutex_unlock(&chain->ctrl_mutex);
-@@ -1865,7 +1888,7 @@ int uvc_ctrl_set(struct uvc_fh *handle,
- 		if (!test_bit(xctrl->value, &mapping->menu_mask))
- 			return -EINVAL;
- 
--		value = mapping->menu_info[xctrl->value].value;
-+		value = uvc_mapping_get_menu_value(mapping, xctrl->value);
- 
- 		/*
- 		 * Valid menu indices are reported by the GET_RES request for
-@@ -2311,12 +2334,28 @@ static int __uvc_ctrl_add_mapping(struct uvc_video_chain *chain,
- 
- 	INIT_LIST_HEAD(&map->ev_subs);
- 
--	size = sizeof(*mapping->menu_info) * fls(mapping->menu_mask);
--	map->menu_info = kmemdup(mapping->menu_info, size, GFP_KERNEL);
--	if (map->menu_info == NULL) {
--		kfree(map->name);
--		kfree(map);
--		return -ENOMEM;
-+	if (mapping->menu_mapping && mapping->menu_mask) {
-+		size = sizeof(mapping->menu_mapping[0]) *
-+			      fls(mapping->menu_mask);
-+		map->menu_mapping = kmemdup(mapping->menu_mapping, size,
-+					    GFP_KERNEL);
-+		if (!map->menu_mapping) {
-+			kfree(map->name);
-+			kfree(map);
-+			return -ENOMEM;
-+		}
-+	}
-+	if (mapping->menu_names && mapping->menu_mask) {
-+		size = sizeof(mapping->menu_names[0]) *
-+			      fls(mapping->menu_mask);
-+		map->menu_names = kmemdup(mapping->menu_names, size,
-+					  GFP_KERNEL);
-+		if (!map->menu_names) {
-+			kfree(map->menu_mapping);
-+			kfree(map->name);
-+			kfree(map);
-+			return -ENOMEM;
-+		}
- 	}
- 
- 	if (map->get == NULL)
-@@ -2661,7 +2700,8 @@ static void uvc_ctrl_cleanup_mappings(struct uvc_device *dev,
- 
- 	list_for_each_entry_safe(mapping, nm, &ctrl->info.mappings, list) {
- 		list_del(&mapping->list);
--		kfree(mapping->menu_info);
-+		kfree(mapping->menu_names);
-+		kfree(mapping->menu_mapping);
- 		kfree(mapping->name);
- 		kfree(mapping);
- 	}
-diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
-index abdb9ca7eed6..97c267e75fa4 100644
---- a/drivers/media/usb/uvc/uvc_driver.c
-+++ b/drivers/media/usb/uvc/uvc_driver.c
-@@ -2661,11 +2661,6 @@ MODULE_PARM_DESC(timeout, "Streaming control requests timeout");
-  * Driver initialization and cleanup
-  */
- 
--static const struct uvc_menu_info power_line_frequency_controls_limited[] = {
--	{ 1, "50 Hz" },
--	{ 2, "60 Hz" },
--};
--
- static const struct uvc_control_mapping uvc_ctrl_power_line_mapping_limited = {
- 	.id		= V4L2_CID_POWER_LINE_FREQUENCY,
- 	.entity		= UVC_GUID_UVC_PROCESSING,
-@@ -2674,8 +2669,8 @@ static const struct uvc_control_mapping uvc_ctrl_power_line_mapping_limited = {
- 	.offset		= 0,
- 	.v4l2_type	= V4L2_CTRL_TYPE_MENU,
- 	.data_type	= UVC_CTRL_DATA_TYPE_ENUM,
--	.menu_info	= power_line_frequency_controls_limited,
--	.menu_mask	= BIT_MASK(ARRAY_SIZE(power_line_frequency_controls_limited)),
-+	.menu_mask	= GENMASK(V4L2_CID_POWER_LINE_FREQUENCY_60HZ,
-+				  V4L2_CID_POWER_LINE_FREQUENCY_50HZ),
- };
- 
- static const struct uvc_device_info uvc_ctrl_power_line_limited = {
-diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/uvc_v4l2.c
-index e6792fd46bf5..89581c1559df 100644
---- a/drivers/media/usb/uvc/uvc_v4l2.c
-+++ b/drivers/media/usb/uvc/uvc_v4l2.c
-@@ -25,6 +25,64 @@
- 
- #include "uvcvideo.h"
- 
-+static int uvc_control_xu_2_mapping(struct uvc_control_mapping *map,
-+				    struct uvc_xu_control_mapping *xmap)
-+{
-+	char (*names)[UVC_MENU_NAME_LEN];
-+	unsigned int i;
-+	u32 *mapping;
-+	size_t size;
-+
-+	/* Prevent excessive memory consumption, as well as integer
-+	 * overflows.
-+	 */
-+	if (xmap->menu_count == 0 ||
-+	    xmap->menu_count > UVC_MAX_CONTROL_MENU_ENTRIES)
-+		return -EINVAL;
-+
-+	map->menu_mask = BIT_MASK(xmap->menu_count);
-+
-+	size = xmap->menu_count * sizeof(*map->menu_mapping);
-+	mapping = kzalloc(size, GFP_KERNEL);
-+	if (!mapping)
-+		return -ENOMEM;
-+
-+	for (i = 0; i < xmap->menu_count ; i++)
-+		if (copy_from_user(&mapping[i], &xmap->menu_info[i].value,
-+				   sizeof(mapping[i]))) {
-+			kfree(mapping);
-+			return -ENOMEM;
-+		}
-+
-+	map->menu_mapping = mapping;
-+
-+	/*
-+	 * Always use the standard naming if available.
-+	 */
-+	if (v4l2_ctrl_get_menu(map->id))
-+		return 0;
-+
-+	size = xmap->menu_count * sizeof(map->menu_names[0]);
-+	names = kzalloc(size, GFP_KERNEL);
-+	if (!names) {
-+		kfree(mapping);
-+		return -ENOMEM;
-+	}
-+
-+	for (i = 0; i < xmap->menu_count ; i++) {
-+		/* sizeof(names[i]) - 1: to take care of \0 */
-+		if (copy_from_user(&names[i], &xmap->menu_info[i].name,
-+				   sizeof(names[i]) - 1)) {
-+			kfree(names);
-+			kfree(mapping);
-+			return -ENOMEM;
-+		}
-+	}
-+	map->menu_names = names;
-+
-+	return 0;
-+}
-+
- /* ------------------------------------------------------------------------
-  * UVC ioctls
-  */
-@@ -32,7 +90,6 @@ static int uvc_ioctl_ctrl_map(struct uvc_video_chain *chain,
- 	struct uvc_xu_control_mapping *xmap)
- {
- 	struct uvc_control_mapping *map;
--	unsigned int size;
- 	int ret;
- 
- 	map = kzalloc(sizeof(*map), GFP_KERNEL);
-@@ -63,24 +120,9 @@ static int uvc_ioctl_ctrl_map(struct uvc_video_chain *chain,
- 		break;
- 
- 	case V4L2_CTRL_TYPE_MENU:
--		/*
--		 * Prevent excessive memory consumption, as well as integer
--		 * overflows.
--		 */
--		if (xmap->menu_count == 0 ||
--		    xmap->menu_count > UVC_MAX_CONTROL_MENU_ENTRIES) {
--			ret = -EINVAL;
--			goto free_map;
--		}
--
--		size = xmap->menu_count * sizeof(*map->menu_info);
--		map->menu_info = memdup_user(xmap->menu_info, size);
--		if (IS_ERR(map->menu_info)) {
--			ret = PTR_ERR(map->menu_info);
-+		ret = uvc_control_xu_2_mapping(map, xmap);
-+		if (ret)
- 			goto free_map;
--		}
--
--		map->menu_mask = BIT_MASK(xmap->menu_count);
- 		break;
- 
- 	default:
-@@ -92,7 +134,8 @@ static int uvc_ioctl_ctrl_map(struct uvc_video_chain *chain,
- 
- 	ret = uvc_ctrl_add_mapping(chain, map);
- 
--	kfree(map->menu_info);
-+	kfree(map->menu_names);
-+	kfree(map->menu_mapping);
- free_map:
- 	kfree(map);
- 
-diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
-index 7e2339fc256e..8ebd7ee2934d 100644
---- a/drivers/media/usb/uvc/uvcvideo.h
-+++ b/drivers/media/usb/uvc/uvcvideo.h
-@@ -254,7 +254,8 @@ struct uvc_control_mapping {
- 	enum v4l2_ctrl_type v4l2_type;
- 	u32 data_type;
- 
--	const struct uvc_menu_info *menu_info;
-+	const u32 *menu_mapping;
-+	const char (*menu_names)[UVC_MENU_NAME_LEN];
- 	unsigned long menu_mask;
- 
- 	u32 master_id;
-diff --git a/include/uapi/linux/uvcvideo.h b/include/uapi/linux/uvcvideo.h
-index 8288137387c0..1b64b6aa40b5 100644
---- a/include/uapi/linux/uvcvideo.h
-+++ b/include/uapi/linux/uvcvideo.h
-@@ -36,9 +36,10 @@
- 	 UVC_CTRL_FLAG_GET_MAX | UVC_CTRL_FLAG_GET_RES | \
- 	 UVC_CTRL_FLAG_GET_DEF)
- 
-+#define UVC_MENU_NAME_LEN 32
- struct uvc_menu_info {
- 	__u32 value;
--	__u8 name[32];
-+	__u8 name[UVC_MENU_NAME_LEN];
- };
- 
- struct uvc_xu_control_mapping {
+Thank you for all the reviews.
 
--- 
-b4 0.11.0-dev-d93f8
+I'm currently preparing a pull-req for atomisp for Mauro. You can find
+this series here now:
+https://git.kernel.org/pub/scm/linux/kernel/git/hansg/linux.git/log/?h=media-atomisp
+
+For the indentation fixes you asked about for 16/17, see:
+https://git.kernel.org/pub/scm/linux/kernel/git/hansg/linux.git/commit/?h=media-atomisp&id=f9c9e7db01caaa1c1fa5a18d1505676c1bdcaeb0
+
+Note I'm going to do a test-build + some quick local tests for this
+and then I'll put a signed-tag on it and send out a pull-req.
+
+So if you are still going to give your Reviewed-by for patch 1 + 16
+it will likely be too late for me to process the tags, sorry.
+
+Regards,
+
+Hans
+
+
+> 
+>> Andy Shevchenko (1):
+>>   media: atomisp_gmin_platform: Unexport and split camera_sensor_csi()
+>>
+>> Hans de Goede (16):
+>>   media: atomisp: Use a normal mutex for the main lock
+>>   media: atomisp: Remove unused lock member from struct
+>>     atomisp_sub_device
+>>   media: atomisp: Fix locking around asd->streaming read/write
+>>   media: atomisp: Remove asd == NULL checks from ioctl handling
+>>   media: atomisp: Add atomisp_pipe_check() helper
+>>   media: atomisp: Remove watchdog timer
+>>   media: atomisp: Move atomisp_streaming_count() check into
+>>     __atomisp_css_recover()
+>>   media: atomisp: Rework asd->streaming state update in
+>>     __atomisp_streamoff()
+>>   media: atomisp: Drop streamoff_mutex
+>>   media: atomisp: Use video_dev.lock for ioctl locking
+>>   media: atomisp: Remove a couple of not useful function wrappers
+>>   media: atomisp: Drop unnecessary first_streamoff check
+>>   media: atomisp: Make atomisp_set_raw_buffer_bitmap() static
+>>   media: atomisp: Remove unused atomisp_css_get_dis_statistics()
+>>   media: atomisp: Remove const/fixed camera_caps
+>>   media: atomisp: Remove atomisp_source_pad_to_stream_id()
+>>
+>>  .../include/linux/atomisp_gmin_platform.h     |   2 -
+>>  .../atomisp/include/linux/atomisp_platform.h  |  18 -
+>>  .../staging/media/atomisp/pci/atomisp_cmd.c   | 581 ++----------------
+>>  .../staging/media/atomisp/pci/atomisp_cmd.h   |   9 +-
+>>  .../media/atomisp/pci/atomisp_compat.h        |   4 -
+>>  .../media/atomisp/pci/atomisp_compat_css20.c  |  74 +--
+>>  .../staging/media/atomisp/pci/atomisp_fops.c  |  87 +--
+>>  .../media/atomisp/pci/atomisp_gmin_platform.c |  86 ++-
+>>  .../media/atomisp/pci/atomisp_internal.h      |  39 +-
+>>  .../staging/media/atomisp/pci/atomisp_ioctl.c | 567 ++++-------------
+>>  .../staging/media/atomisp/pci/atomisp_ioctl.h |  10 +-
+>>  .../media/atomisp/pci/atomisp_subdev.c        |  34 +-
+>>  .../media/atomisp/pci/atomisp_subdev.h        |  24 +-
+>>  .../staging/media/atomisp/pci/atomisp_v4l2.c  |  65 +-
+>>  14 files changed, 267 insertions(+), 1333 deletions(-)
+>>
+>> -- 
+>> 2.37.3
+>>
+> 
+
