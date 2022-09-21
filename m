@@ -2,39 +2,70 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8DEE35C0546
-	for <lists+linux-media@lfdr.de>; Wed, 21 Sep 2022 19:30:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 070CD5E5377
+	for <lists+linux-media@lfdr.de>; Wed, 21 Sep 2022 20:58:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230478AbiIUR36 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 21 Sep 2022 13:29:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54530 "EHLO
+        id S229604AbiIUS6e (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 21 Sep 2022 14:58:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38856 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229691AbiIUR34 (ORCPT
+        with ESMTP id S229819AbiIUS6a (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 21 Sep 2022 13:29:56 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE1567EFEE;
-        Wed, 21 Sep 2022 10:29:51 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3BF562B3;
-        Wed, 21 Sep 2022 19:29:49 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1663781389;
-        bh=xPqHUNUFG+tIvsP/BcL8a2dVocDkJmX1/1xwEyvJHwU=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=U8y/mjr2jud/ZjWrTt73gyYEqC8uMIQDNaWQFlbo/D/XfFcTfhzFwbzaHzWc+m7lG
-         mEXQqzHxzLc/HR00fLFyeJHlcLEE4i1sBQOya2wc9fK5uIqB9sLYyZ4j1ZmV1L2rpA
-         SrLQopUnBYvQDo91oTG8k1g7w4nPtSDMApvmv9D0=
-Date:   Wed, 21 Sep 2022 20:29:34 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+        Wed, 21 Sep 2022 14:58:30 -0400
+Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com [IPv6:2a00:1450:4864:20::135])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4948AA1D2A
+        for <linux-media@vger.kernel.org>; Wed, 21 Sep 2022 11:58:29 -0700 (PDT)
+Received: by mail-lf1-x135.google.com with SMTP id w8so10722116lft.12
+        for <linux-media@vger.kernel.org>; Wed, 21 Sep 2022 11:58:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date;
+        bh=i0GvNHAA6HriUK1iwHQhuKbfhvmDlYsJZtxUwtDszrU=;
+        b=tyQxrwTx7FC0WMK4iNa0xMT5ZTkUNUXRjuYJ6ngr8504lz1m287MotseKwIv4+vIkw
+         t7ydFQuNkDAN8HycVQ460BqRkotr6Dtu2XLxAznWv5gwKqQRTi9apNCAKpX2xeaeagN8
+         C0J2zzWG1pdBm7brCVJs+eEAC4hXKE7+J1xJa1y4JrNtdo6H54TdR+ps2n7gQPbCG754
+         Qle8zKu4I113dnuI17fY6ZicPB0FC3+nDac3X9PV1A3Of81mKNa+rT2ooMnLvM262f7c
+         oCzVykwGdjm/VXCbZxmN4rtgQfZWLfQjLGBkGTeSsz4dBrX6dayd+H+6ptW3DZyWtkw6
+         m4dQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date;
+        bh=i0GvNHAA6HriUK1iwHQhuKbfhvmDlYsJZtxUwtDszrU=;
+        b=tvzPzCQNmi129HUGzWO4F+bj/3lGL8pf9Y6roTaU9//iP50JTrB+LYrDO/P8bmg/MP
+         O+MjIcHC5ClZAwt5sloxeRZA+9FusonbwQQ2BgCCKtOaqP/QKdpmIuOoxvwMgcZDp/79
+         WU9z0n1lktBvnJXaMY/vHlhHSxHwrDg2KZj3HjQWgVc0njcZWp3iL3imAN6ngUd1ho8f
+         /mBv5PG1LsZNNFcn3QlA8rsilObvU9vx2tOjvIHCQPlZmpoJmfye+dRnObwK4mTL6c2t
+         XX9AqSur1q/drNzuJIm5pHF7HOnq+BoTsaOut1rEmdpiXVw8lHT+eQnWt16yx6cT78dt
+         mWYQ==
+X-Gm-Message-State: ACrzQf3fAcPTLUsnPhaCnIrLceZC99XONUlzpGqTLyKD+zEtN30mP+2n
+        SSS+26n9eyrm0maGnCLQn0070w==
+X-Google-Smtp-Source: AMsMyM7BFiYVamvKMGfRkSVY1bQDxJm0JXW9wMgz8WbyWhMSAHmN5EjwbxsFX4D044b8XvGAD77rwg==
+X-Received: by 2002:ac2:5b0f:0:b0:49c:949e:d8f7 with SMTP id v15-20020ac25b0f000000b0049c949ed8f7mr10203910lfn.336.1663786707635;
+        Wed, 21 Sep 2022 11:58:27 -0700 (PDT)
+Received: from [192.168.0.21] (78-11-189-27.static.ip.netia.com.pl. [78.11.189.27])
+        by smtp.gmail.com with ESMTPSA id l6-20020ac25546000000b00492ce573726sm559891lfk.47.2022.09.21.11.58.26
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 21 Sep 2022 11:58:27 -0700 (PDT)
+Message-ID: <bba1ed72-d691-b51c-dce8-ab9a2e45fe86@linaro.org>
+Date:   Wed, 21 Sep 2022 20:58:26 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Subject: Re: [PATCH v2 2/4] media: dt-bindings: Document Renesas RZ/G2L CRU
+ block
+Content-Language: en-US
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Philipp Zabel <p.zabel@pengutronix.de>,
         Jacopo Mondi <jacopo@jmondi.org>,
-        Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
@@ -42,86 +73,60 @@ Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
         linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
         Prabhakar <prabhakar.csengg@gmail.com>,
         Biju Das <biju.das.jz@bp.renesas.com>
-Subject: Re: [PATCH v2 2/4] media: dt-bindings: Document Renesas RZ/G2L CRU
- block
-Message-ID: <YytJ/oJK9s2mfqPL@pendragon.ideasonboard.com>
 References: <20220905230406.30801-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
  <20220905230406.30801-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
  <29d456ed-620c-8dc9-01f0-54f96b670b94@linaro.org>
  <YysHAkWBfTTAJF3E@pendragon.ideasonboard.com>
  <ba436dd5-2ea2-b2e0-7056-5bae6b4c7bb4@linaro.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <ba436dd5-2ea2-b2e0-7056-5bae6b4c7bb4@linaro.org>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+ <YytJ/oJK9s2mfqPL@pendragon.ideasonboard.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <YytJ/oJK9s2mfqPL@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-5.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Sep 21, 2022 at 05:51:29PM +0200, Krzysztof Kozlowski wrote:
-> On 21/09/2022 14:43, Laurent Pinchart wrote:
-> > On Thu, Sep 08, 2022 at 01:40:39PM +0200, Krzysztof Kozlowski wrote:
-> >> On 06/09/2022 01:04, Lad Prabhakar wrote:
-> >>> Document the CRU block found on Renesas RZ/G2L (and alike) SoCs.
-> >>>
-> >>> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> >>> Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> >>
-> >> Thank you for your patch. There is something to discuss/improve.
-> >>
-> >>> +properties:
-> >>> +  compatible:
-> >>> +    items:
-> >>> +      - enum:
-> >>> +          - renesas,r9a07g044-cru       # RZ/G2{L,LC}
-> >>> +          - renesas,r9a07g054-cru       # RZ/V2L
-> >>> +      - const: renesas,rzg2l-cru
-> >>> +
-> >>> +  reg:
-> >>> +    maxItems: 1
-> >>> +
-> >>> +  interrupts:
-> >>> +    maxItems: 3
-> >>> +
-> >>> +  interrupt-names:
-> >>> +    items:
-> >>> +      - const: image_conv
-> >>> +      - const: image_conv_err
-> >>> +      - const: axi_mst_err
-> >>> +
-> >>> +  clocks:
-> >>> +    items:
-> >>> +      - description: CRU Main clock
-> >>> +      - description: CPU Register access clock
-> >>> +      - description: CRU image transfer clock
-> >>> +
-> >>> +  clock-names:
-> >>> +    items:
-> >>> +      - const: vclk
-> >>> +      - const: pclk
-> >>> +      - const: aclk
-> >>
-> >> Drop the "clk" suffixes. Remaining names could be made a bit more readable.
-> > 
-> > These names come from the documentation, isn't it better to match the
-> > datasheet ?
+On 21/09/2022 19:29, Laurent Pinchart wrote:
+>>>>> +  clock-names:
+>>>>> +    items:
+>>>>> +      - const: vclk
+>>>>> +      - const: pclk
+>>>>> +      - const: aclk
+>>>>
+>>>> Drop the "clk" suffixes. Remaining names could be made a bit more readable.
+>>>
+>>> These names come from the documentation, isn't it better to match the
+>>> datasheet ?
+>>
+>> If datasheet calls it "vclk_really_clk_it_is_clk_clk", it's not the
+>> reason to use it. :)
+>>
+>> The "clk" is redundant even if the hardware engineer thought different.
+>>
+>> The same for IRQs ("tx" not "txirq"), for dmas ("tx" not "txdma").
 > 
-> If datasheet calls it "vclk_really_clk_it_is_clk_clk", it's not the
-> reason to use it. :)
-> 
-> The "clk" is redundant even if the hardware engineer thought different.
-> 
-> The same for IRQs ("tx" not "txirq"), for dmas ("tx" not "txdma").
+> I'd argue that naming clocks "v", "p" and "a" would be less readable and
+> more confusing. Is this a new rule ?
 
-I'd argue that naming clocks "v", "p" and "a" would be less readable and
-more confusing. Is this a new rule ?
+Not really, but also it's only a style issue.
 
--- 
-Regards,
+Indeed "v" and "p" are not much better... but still "vclk" does not
+bring any additional information over "v". It's redundant.
 
-Laurent Pinchart
+You can also drop entire entry - unless it helps in particular
+implementation.
+
+https://lore.kernel.org/all/20220517175958.GA1321687-robh@kernel.org/
+https://lore.kernel.org/all/20210815133926.22860-1-biju.das.jz@bp.renesas.com/
+https://lore.kernel.org/all/YYFCaHI%2FDASUz+Vu@robh.at.kernel.org/
+https://lore.kernel.org/all/20220830182540.GA1797396-robh@kernel.org/
+
+Best regards,
+Krzysztof
+
