@@ -2,149 +2,139 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B5FED5C031C
-	for <lists+linux-media@lfdr.de>; Wed, 21 Sep 2022 18:00:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7608D5C03E3
+	for <lists+linux-media@lfdr.de>; Wed, 21 Sep 2022 18:16:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231992AbiIUQAi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 21 Sep 2022 12:00:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56036 "EHLO
+        id S232172AbiIUQQr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 21 Sep 2022 12:16:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52306 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232273AbiIUP6y (ORCPT
+        with ESMTP id S232176AbiIUQQ2 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 21 Sep 2022 11:58:54 -0400
-Received: from mail-lj1-x22b.google.com (mail-lj1-x22b.google.com [IPv6:2a00:1450:4864:20::22b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F175FA1D19
-        for <linux-media@vger.kernel.org>; Wed, 21 Sep 2022 08:52:32 -0700 (PDT)
-Received: by mail-lj1-x22b.google.com with SMTP id a14so7537002ljj.8
-        for <linux-media@vger.kernel.org>; Wed, 21 Sep 2022 08:52:32 -0700 (PDT)
+        Wed, 21 Sep 2022 12:16:28 -0400
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 56485A98E5
+        for <linux-media@vger.kernel.org>; Wed, 21 Sep 2022 09:01:26 -0700 (PDT)
+Received: by mail-wr1-f50.google.com with SMTP id y5so10655069wrh.3
+        for <linux-media@vger.kernel.org>; Wed, 21 Sep 2022 09:01:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date;
-        bh=5OG5SisV8+7i2AMwo/Sd4BMGPY2tVr/jGlwWZADlTZw=;
-        b=WxcWk76UCtI4moz+JlBbxvyDthZlRKJfHZICdSLfKoRbEnWODyIrJmNReWY/ekETj5
-         9Y5sxyo4j7/FuchDzZQ+JSgCTleMmfip2kury4TROdHIbQ4tF6kdJ3g9QYOYv7I+XoBU
-         W3LnjqR58xXJtXng2rQXzYX99EoFskQKaqC4vGmXjTreX9wFhY9J3ZYnuOLUQH7klHm7
-         jNSFDJpDpS4OQDSjYlwhBWtuqn1k0Y8LE6lbE1ywlJtushBY2Y6v2/KNSdpoT5UEMWjL
-         VqsBkm+bupHhHMlHdZkQifb3B2iMi3xTTQQd6k276xQap8PzSQl8IJjoPP7ToOqQqOYr
-         bHsw==
+        bh=Zf6orjlsf/V2mH9HL0+BjQ0JuIZJlfhjkfJLThDjoTw=;
+        b=fo5kxf4JTtRSewAvH8DkBZdrlRELHl/lGsfpSTKDOk1zyk6Ioid08oh4Fsyv31Hp6b
+         esMoMIJpyF4PmcLA8g8aqKYuxQmpMzFz+j2Ywwx4qq4iP5/Cjxjr67CSD2l7Hg3TH+bB
+         uggqwbY6l8UPn7VMYb1peDtKAkX7DhppHBKqAbaQ/ucx/OEGHcmMy4sS57S1iepzUYcL
+         Ooi0P6gzmL7t45sVwJ/ozfgvAP1wORRKQDWzQ0Nkr6TL3rShnMEinv/xK5QMOemQg56A
+         XWV9n0UB5bWsYPcy3+SCMd/c1NDJEcg6jQXcSEQU5OctqUTjZO7/QaM3YTytirOcSggU
+         mVUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date;
-        bh=5OG5SisV8+7i2AMwo/Sd4BMGPY2tVr/jGlwWZADlTZw=;
-        b=D4a3gEuOo+yD6cn83Bypy1v6JyMP+OVyyDgCAAH1tX0aYc6d3Gs5047x1SZvMTAMlS
-         rLwjPwWbOXoBBKI7n8qC9lRYH7uzBt5CuXrm0SgfMk3DKOg5geEWbPcqlHLjFE4KfDdp
-         IcPRbaM/dbF5FNpcGiGumTrklPzYrzKbV3X3ssh7U/RFvYuIYJ6UDhis78aUQnmo8Vl6
-         DkBQZc+Pu9S/7f89VaVcEWwC22L0gw4eqJhT8f0ANn/pi5TjnxcFK6D9msIbqguGJYwo
-         pnanbgRD50fuA3JIEt//1E/HLURklUgPz9+IUNbEHXF4OeIiUmcoN2TZRYWLt+IeQXTd
-         y0CA==
-X-Gm-Message-State: ACrzQf3fFvpE0MZ6PentmlWmdAtuYUs8F3hdIGZtqMLjkWDq6OTt1+XW
-        bf+Ui0g6JDr9OKNEA414QCu7VQ==
-X-Google-Smtp-Source: AMsMyM7DOE0+aiBvnN7Btb1HXRYL1PZdW1uo8lmQH74Kpe8qQiE0hinGQyDTL65vVZvYXcN09FeVPg==
-X-Received: by 2002:a2e:2f03:0:b0:261:cb0e:c329 with SMTP id v3-20020a2e2f03000000b00261cb0ec329mr8602752ljv.106.1663775490874;
-        Wed, 21 Sep 2022 08:51:30 -0700 (PDT)
-Received: from [192.168.0.21] (78-11-189-27.static.ip.netia.com.pl. [78.11.189.27])
-        by smtp.gmail.com with ESMTPSA id o4-20020a198c04000000b0049f54a976efsm492085lfd.29.2022.09.21.08.51.29
+        bh=Zf6orjlsf/V2mH9HL0+BjQ0JuIZJlfhjkfJLThDjoTw=;
+        b=1ir1Pmbk3aplwd76e2wnz4KqAPm46IbfhiMxfECxfD4Eo1bni/QHVAjPSe2GooNB7u
+         Y/Zdt8vYOqxI/vogvMkd3EsYYAhP+qgO27lY0pGFBFtnnpDsfMYdvvDAzzhacZa6uWjj
+         bXSKlB9F36rTaUFg1qKQe9ZfjhhQkwpxvR/UjjJ3IYOBy1X1bF5+HUT0R55lBY4RIwBn
+         /NEteq4HZLXOcLa/6HGEAukw3MD5fyEcOmda42CIKOsx2QRYYE5y3vfm2pkoSe6ssGuy
+         HMeJXLKEIb3d0npoky3H9NFjEoLhscKw0xvOXiYduATq4CKfz6bl5JWGDQ+YfF/aPIAI
+         ySGA==
+X-Gm-Message-State: ACrzQf1FQpRPWCjpB3e+F31o5wdUaHu3M+LqzmbfBJ4WLkGA0RJ2io7V
+        QVCVufSK3eFU4Xs6UIy2Cb9LqA==
+X-Google-Smtp-Source: AMsMyM5eAErvFTDpQ2lb0e8xWVApArWW3Mm2yukAN3ouS79PDwCxrOvKZv+atHcIKabjrVF7bImVAQ==
+X-Received: by 2002:a5d:59a7:0:b0:22a:47e3:a1b with SMTP id p7-20020a5d59a7000000b0022a47e30a1bmr17412464wrr.319.1663775718664;
+        Wed, 21 Sep 2022 08:55:18 -0700 (PDT)
+Received: from [192.168.0.162] (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
+        by smtp.gmail.com with ESMTPSA id o8-20020a5d58c8000000b0022b1d74dc56sm2839107wrf.79.2022.09.21.08.55.17
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 21 Sep 2022 08:51:30 -0700 (PDT)
-Message-ID: <ba436dd5-2ea2-b2e0-7056-5bae6b4c7bb4@linaro.org>
-Date:   Wed, 21 Sep 2022 17:51:29 +0200
+        Wed, 21 Sep 2022 08:55:18 -0700 (PDT)
+Message-ID: <889049dd-2cd9-ee25-c5f5-a8a7e503a3e9@linaro.org>
+Date:   Wed, 21 Sep 2022 16:55:17 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH v2 2/4] media: dt-bindings: Document Renesas RZ/G2L CRU
- block
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH 3/4] media: camss: vfe-480: Multiple outputs support for
+ SM8250
 Content-Language: en-US
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>
-References: <20220905230406.30801-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20220905230406.30801-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <29d456ed-620c-8dc9-01f0-54f96b670b94@linaro.org>
- <YysHAkWBfTTAJF3E@pendragon.ideasonboard.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <YysHAkWBfTTAJF3E@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8
+To:     quic_mmitkov@quicinc.com, linux-media@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, robert.foss@linaro.org,
+        akapatra@quicinc.com, jzala@quicinc.com, todor.too@gmail.com
+Cc:     agross@kernel.org, bjorn.andersson@linaro.org,
+        konrad.dybcio@somainline.org, mchehab@kernel.org
+References: <20220921141012.1709-1-quic_mmitkov@quicinc.com>
+ <20220921141012.1709-4-quic_mmitkov@quicinc.com>
+From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+In-Reply-To: <20220921141012.1709-4-quic_mmitkov@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-5.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 21/09/2022 14:43, Laurent Pinchart wrote:
-> On Thu, Sep 08, 2022 at 01:40:39PM +0200, Krzysztof Kozlowski wrote:
->> On 06/09/2022 01:04, Lad Prabhakar wrote:
->>> Document the CRU block found on Renesas RZ/G2L (and alike) SoCs.
->>>
->>> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->>> Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
->>
->> Thank you for your patch. There is something to discuss/improve.
->>
->>> +properties:
->>> +  compatible:
->>> +    items:
->>> +      - enum:
->>> +          - renesas,r9a07g044-cru       # RZ/G2{L,LC}
->>> +          - renesas,r9a07g054-cru       # RZ/V2L
->>> +      - const: renesas,rzg2l-cru
->>> +
->>> +  reg:
->>> +    maxItems: 1
->>> +
->>> +  interrupts:
->>> +    maxItems: 3
->>> +
->>> +  interrupt-names:
->>> +    items:
->>> +      - const: image_conv
->>> +      - const: image_conv_err
->>> +      - const: axi_mst_err
->>> +
->>> +  clocks:
->>> +    items:
->>> +      - description: CRU Main clock
->>> +      - description: CPU Register access clock
->>> +      - description: CRU image transfer clock
->>> +
->>> +  clock-names:
->>> +    items:
->>> +      - const: vclk
->>> +      - const: pclk
->>> +      - const: aclk
->>
->> Drop the "clk" suffixes. Remaining names could be made a bit more readable.
+On 21/09/2022 15:10, quic_mmitkov@quicinc.com wrote:
+> From: Milen Mitkov <quic_mmitkov@quicinc.com>
 > 
-> These names come from the documentation, isn't it better to match the
-> datasheet ?
+> On SM8250 each VFE supports at least 3 RDI channels, or 4
+> in case of VFE-Lite, so add appropriate IRQ setup and handling.
+> 
+> Signed-off-by: Milen Mitkov <quic_mmitkov@quicinc.com>
+> ---
+>   .../media/platform/qcom/camss/camss-vfe-480.c | 60 ++++++++++++-------
+>   1 file changed, 39 insertions(+), 21 deletions(-)
+> 
+> diff --git a/drivers/media/platform/qcom/camss/camss-vfe-480.c b/drivers/media/platform/qcom/camss/camss-vfe-480.c
+> index 129585110393..04272d085e5b 100644
+> --- a/drivers/media/platform/qcom/camss/camss-vfe-480.c
+> +++ b/drivers/media/platform/qcom/camss/camss-vfe-480.c
+> @@ -94,6 +94,8 @@ static inline int bus_irq_mask_0_comp_done(struct vfe_device *vfe, int n)
+>   #define RDI_WM(n)			((IS_LITE ? 0 : 23) + (n))
+>   #define RDI_COMP_GROUP(n)		((IS_LITE ? 0 : 11) + (n))
+>   
+> +#define MAX_VFE_OUTPUT_LINES	4
+> +
+>   static u32 vfe_hw_version(struct vfe_device *vfe)
+>   {
+>   	u32 hw_version = readl_relaxed(vfe->base + VFE_HW_VERSION);
+> @@ -171,12 +173,25 @@ static inline void vfe_reg_update_clear(struct vfe_device *vfe,
+>   
+>   static void vfe_enable_irq_common(struct vfe_device *vfe)
+>   {
+> -	/* enable only the IRQs used: rup and comp_done irqs for RDI0 */
+> +	/* enable reset ack IRQ and top BUS status IRQ */
+>   	writel_relaxed(IRQ_MASK_0_RESET_ACK | IRQ_MASK_0_BUS_TOP_IRQ,
+>   		       vfe->base + VFE_IRQ_MASK(0));
+> -	writel_relaxed(BUS_IRQ_MASK_0_RDI_RUP(vfe, 0) |
+> -		       BUS_IRQ_MASK_0_COMP_DONE(vfe, RDI_COMP_GROUP(0)),
+> -		       vfe->base + VFE_BUS_IRQ_MASK(0));
+> +}
+> +
+> +static void vfe_enable_lines_irq(struct vfe_device *vfe)
+> +{
+> +	u32 bus_irq_mask;
+> +	int i;
+> +
+> +	for (i = 0; i < MAX_VFE_OUTPUT_LINES; i++) {
+> +		/* Enable IRQ for newly added lines, but also keep already running lines's IRQ */
+> +		if (vfe->line[i].output.state == VFE_OUTPUT_RESERVED ||
+> +		    vfe->line[i].output.state == VFE_OUTPUT_ON)
+> +			bus_irq_mask |= BUS_IRQ_MASK_0_RDI_RUP(vfe, i)
+> +					| BUS_IRQ_MASK_0_COMP_DONE(vfe, RDI_COMP_GROUP(i));
 
-If datasheet calls it "vclk_really_clk_it_is_clk_clk", it's not the
-reason to use it. :)
+A multi-line should be enclosed with {}
 
-The "clk" is redundant even if the hardware engineer thought different.
+if (vfe->line[i].output.state == VFE_OUTPUT_RESERVED ||
+     vfe->line[i].output.state == VFE_OUTPUT_ON) {
+	bus_irq_mask |= BUS_IRQ_MASK_0_RDI_RUP(vfe, i)
+			| BUS_IRQ_MASK_0_COMP_DONE(vfe, RDI_COMP_GROUP(i));
+}
 
-The same for IRQs ("tx" not "txirq"), for dmas ("tx" not "txdma").
-
-Best regards,
-Krzysztof
-
+---
+bod
