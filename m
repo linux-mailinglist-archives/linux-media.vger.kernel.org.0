@@ -2,185 +2,104 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9616C5E61FA
-	for <lists+linux-media@lfdr.de>; Thu, 22 Sep 2022 14:09:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6B3655E6276
+	for <lists+linux-media@lfdr.de>; Thu, 22 Sep 2022 14:34:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231319AbiIVMJo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 22 Sep 2022 08:09:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52720 "EHLO
+        id S231573AbiIVMeN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 22 Sep 2022 08:34:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56714 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231391AbiIVMJl (ORCPT
+        with ESMTP id S231499AbiIVMeK (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 22 Sep 2022 08:09:41 -0400
-Received: from mail-lj1-x22f.google.com (mail-lj1-x22f.google.com [IPv6:2a00:1450:4864:20::22f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 29329AE62
-        for <linux-media@vger.kernel.org>; Thu, 22 Sep 2022 05:09:36 -0700 (PDT)
-Received: by mail-lj1-x22f.google.com with SMTP id b6so10695290ljr.10
-        for <linux-media@vger.kernel.org>; Thu, 22 Sep 2022 05:09:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date;
-        bh=CVENwWVGXac1UFUJqQbFq5yXNrjbR21/6YF9T4kc5Wc=;
-        b=vPq+7BDrfqEBq8z8P89npQ4zMs5pP4bDn5VJTLabSIN4rKGFfdArIOwcugCxNPgEW7
-         634140eokdLaJsJ9MSgoLNtcYnSQJ5wN6lSzr22PtpF28T6GNTokKDwATj3xaXrwI7DT
-         Ex9AAaIE2TQIpPBHEjknXd6aZU7V+ElIlno5mm1WgwzHqC+65YLH+y9D1XlpLv5UhEkB
-         2LmRTqRr2ZF80XkW4HdcYqDem/l6eS1SvrRHWg1MSuol1hUYvbSPh2bmxHrhRkvC7hV5
-         cADbRjH7vIWUIJAeS6tDBq/8Sj29MWYm9vjZDVwmj21ZyQNRTxKFBK5kfp9anJeKRaxU
-         bO/w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=CVENwWVGXac1UFUJqQbFq5yXNrjbR21/6YF9T4kc5Wc=;
-        b=gPDt87a4soxX1qpz3NxO4I3zQYjDhqXTD20gIRIuJrGORQOTyDZWn4tPtYS5vLwkgi
-         Kt7t/fT+kt0hlULQL4eMgjD4bHQ0RejNpfaAuRAKwChvii3NpvPJixNGmQsF4wZpBx2s
-         vEzr8bBcXOQu48PSkVA3GNCNfRrIB5IAeBev/eYGDRJF3sx7HxUGk7pev0l9Bpgh6iBx
-         O0+IElm1RTxkclIblooaShWRvSH2JYWsQ0eVFELMFuB0ttuICu/cMjM/q4k58Gb8Rtbq
-         ExZ/9ml9ieCLEMR0p9UedlUrRoobADFiiB/0XIZp71Cv8Yx5v/5AttLjvhlj6VS5Ew+D
-         YzGw==
-X-Gm-Message-State: ACrzQf2ue5OA9zGoNGlJJ2Jgmp+xIaKoUYdUTqedAUlQY2UL7+IZGp8y
-        F6fo6wuGm7LcnOwA/DepONIJQQ==
-X-Google-Smtp-Source: AMsMyM57MJocOschZ+RfLFJ7K5wcdH1+W5eO/p/+h7FJNXUmunysPu2cqAPrfAlbHq+cLi/zhZhpGw==
-X-Received: by 2002:a2e:3809:0:b0:26b:e124:4d43 with SMTP id f9-20020a2e3809000000b0026be1244d43mr980317lja.398.1663848574194;
-        Thu, 22 Sep 2022 05:09:34 -0700 (PDT)
-Received: from [192.168.0.21] (78-11-189-27.static.ip.netia.com.pl. [78.11.189.27])
-        by smtp.gmail.com with ESMTPSA id b14-20020a056512070e00b004949f7cbb6esm914128lfs.79.2022.09.22.05.09.32
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 22 Sep 2022 05:09:33 -0700 (PDT)
-Message-ID: <54cb8024-b600-9c1d-a8b6-d56b534de5cf@linaro.org>
-Date:   Thu, 22 Sep 2022 14:09:32 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH v2 3/4] media: dt-bindings: add bindings for Toshiba
- TC358746
-Content-Language: en-US
-To:     Marco Felsch <m.felsch@pengutronix.de>
+        Thu, 22 Sep 2022 08:34:10 -0400
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 301D1E720F;
+        Thu, 22 Sep 2022 05:34:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1663850049; x=1695386049;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=X+QFuCDurRscvZ+T+naQ/Ko/Utvu3qN+BEERVqLzVg8=;
+  b=ND99VllimLoUoviMcBH+XqBn0Of2xcFN+5WpifSOzJzh/LbYsmzfz/Jg
+   A3IJJSZzMKuMYGaTa3vQmL6V+mYX++rCmDMzi/sMwCmvctjC93Bg+TiwM
+   CSjSB4Bnh/mt2PY3mKnYO0lXqNzqnT4eEM/4oImrHPISJk5o2yDybz3Bg
+   6h8jIbPjxe0khiheRE2DBED4FSGj2WqCU52M/sPOKpt2luqX8Nt9O72pA
+   SIh+gqqOIURTQzXz/cVa4BnOVg8XIU64p8MKF80Yde0PgasS+nKVd9v8y
+   o89/s/u0dRj5TxpRfb8Qsg+6PhrOngxhKVwv4DGIyhe291bSoJ2Powk1E
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10478"; a="362050305"
+X-IronPort-AV: E=Sophos;i="5.93,335,1654585200"; 
+   d="scan'208";a="362050305"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2022 05:34:08 -0700
+X-IronPort-AV: E=Sophos;i="5.93,335,1654585200"; 
+   d="scan'208";a="864836418"
+Received: from punajuuri.fi.intel.com (HELO paasikivi.fi.intel.com) ([10.237.72.43])
+  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2022 05:34:04 -0700
+Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
+        by paasikivi.fi.intel.com (Postfix) with SMTP id 23EEF20075;
+        Thu, 22 Sep 2022 15:34:02 +0300 (EEST)
+Date:   Thu, 22 Sep 2022 12:34:02 +0000
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
 Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        devicetree@vger.kernel.org, jacopo@jmondi.org,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        kieran.bingham+renesas@ideasonboard.com,
-        linux-kernel@vger.kernel.org, kishon@ti.com, hverkuil@xs4all.nl,
-        vkoul@kernel.org, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, linux-phy@lists.infradead.org,
-        mchehab@kernel.org, kernel@pengutronix.de,
-        linux-media@vger.kernel.org
-References: <20220916134535.128131-4-m.felsch@pengutronix.de>
- <YyZTCsflWtUbo2ld@pendragon.ideasonboard.com>
- <20220919100844.bb7tzbql2vpk76xz@pengutronix.de>
- <YyhDO4ohv47uIij2@paasikivi.fi.intel.com>
- <YyhKoDxFoobY9vBd@pendragon.ideasonboard.com>
- <20220920152632.mjpgpmelvx4ya4k7@pengutronix.de>
- <Yyn5MqqKYH7VpFhw@pendragon.ideasonboard.com>
- <74b6b670-747a-f326-44ea-7588c3989b0e@linaro.org>
- <20220921083513.drt4rggqj7tpaygr@pengutronix.de>
- <8e54e03e-105a-cf3e-242f-796bef77bfe1@linaro.org>
- <20220922110142.qnx6w3qbb6h6grvh@pengutronix.de>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20220922110142.qnx6w3qbb6h6grvh@pengutronix.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund@ragnatech.se>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Biju Das <biju.das.jz@bp.renesas.com>
+Subject: Re: [PATCH v2 3/4] media: platform: Add Renesas RZ/G2L MIPI CSI-2
+ receiver driver
+Message-ID: <YyxWOuWOrYmMexNj@paasikivi.fi.intel.com>
+References: <20220905230406.30801-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20220905230406.30801-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <Yys4CRNnKP3LXyAO@pendragon.ideasonboard.com>
+ <CA+V-a8uiT9rV=T6LmFovRwULf3SO=JKdqr1yacAqN8gJmv9VPw@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CA+V-a8uiT9rV=T6LmFovRwULf3SO=JKdqr1yacAqN8gJmv9VPw@mail.gmail.com>
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 22/09/2022 13:01, Marco Felsch wrote:
-> On 22-09-21, Krzysztof Kozlowski wrote:
->> On 21/09/2022 10:35, Marco Felsch wrote:
->>> On 22-09-21, Krzysztof Kozlowski wrote:
->>>> On 20/09/2022 19:32, Laurent Pinchart wrote:
->>>>>>>
->>>>>>> Explicit bus types in DT indeed makes it easier for drivers, so if a
->>>>>>> device can support multiple bus types (even if not implemented yet in
->>>>>>> the corresponding drivers), the property should be there.
->>>>>>
->>>>>> Okay, I will make it required.
->>>>>>
->>>>>>>> Why do you have hsync-active and vsync-active if both are always zero? Can
->>>>>>>> the hardware not support other configuration?
->>>>>>
->>>>>> Sure the device supports toggling the logic but it is not implemented.
->>>>>> So the bindings needs to enforce it to 0 right now. As soon as it is
->>>>>> implemented & tested, we can say that both is supported :)
->>>>>
->>>>> Bindings are not supposed to be limited by the existing driver
->>>>> implementation, so you can already allow both polarities, and just
->>>>> reject the unsupported options in the driver at probe time. Future
->>>>> updates to the driver won't require a binding change.
->>>>>
->>>>
->>>> +1
->>>
->>> I don't wanna do that because this let the binding user assume that
->>> this mode is already supported. 
->>
->> What do you mean by "not supported"? By which system? By which firmware
->> element? Bindings are used by several operating systems and several
->> projects.
-> 
-> And they can use it and of course extend it, since the propery is
-> available.
-> 
->> That's not the argument.
->>
->> Bindings should be complete. Lack of knowledge and datasheets is a good
->> exception from this rule. Looking at Linux driver is not good exception.
-> 
-> So if I get you right, you are saying that the bindings should always be
-> complete and describe all ever possible combinations?
+Hi Prabhakar,
 
-Not necessarily all combinations, but in general be complete as in
-describe entire device. Pretty often we skip describing full device
-because our job does not include it and we need to move on. Fine. But
-the argument is not really one Linux implementation.
+On Thu, Sep 22, 2022 at 01:08:33PM +0100, Lad, Prabhakar wrote:
+> > > * Switched to manually turn ON/OFF the clocks instead of pm_runtime so that
+> > >   the mipi/dhpy initialization happens as per the HW manual
+> >
+> > That doesn't look right. The driver doesn't use runtime PM anymore, so
+> > power domains may not be handled properly. What was the problem with
+> > clock handling using runtime PM ?
+> >
+> If we use the runtime PM all the clocks will be turned ON when we call
+> pm_runtime_resume_and_get() which I dont want to. As per the "Starting
+> reception for MIPI CSI-2 Input" section 35.3.1 for example we first
+> need to turn ON all the clocks and later further down the line we need
+> to just turn OFF VCLK -> Enable Link -> turn ON VCLK. Due to such
+> cases I have switched to individual clock handling.
 
-Especially that limiting binding to some subset might make it later
-non-extendable. Not possible to grow, because author did not think about
-these other features.
+If that is the case, then you should control just that clock directly,
+outside runtime PM callbacks.
 
-> I am on your side
-> that the properties should be there from day one. But listing all
-> possible values regardless of the support.. I don't know and yes, I know
-> that other projects using these bindings as well. But if those other
-> projects support more than now, they can extend it and send patches.
-> Since this is a new binding, the only user is Linux and listing all
-> possible values can lead into erroneous assumption. 
+Runtime PM may be needed e.g. for resuming a parent device.
 
-So let me rephrase the case - there is no such assumption that one,
-particular driver supports entire set of bindings. If anyone makes it,
-without actually checking, then it is his/hers mistake.
+-- 
+Regards,
 
-> No system-integrator
-> wants to check the driver why a listed property is not supported instead
-> most the time it is the other way. If it is listed, than it should be
-> supported.
-
-Bindings are also not the tool for system integrator to figure out these
-things.
-
-> 
-> Anyway I don't wanna make a big deal out of it. I will add all possible
-> values to the binding if that is what you want :)
-> 
-> Regards,
->   Marco
-> 
->>> Adapting a binding is just 1 commit and
->>> since the property is already existing, there is no breaking change.
->> Best regards,
->> Krzysztof
->>
->>
-
-Best regards,
-Krzysztof
-
+Sakari Ailus
