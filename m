@@ -2,177 +2,98 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BF5985E5D53
-	for <lists+linux-media@lfdr.de>; Thu, 22 Sep 2022 10:20:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1BEBD5E5D4B
+	for <lists+linux-media@lfdr.de>; Thu, 22 Sep 2022 10:20:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230034AbiIVIUk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 22 Sep 2022 04:20:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38012 "EHLO
+        id S229619AbiIVIUB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 22 Sep 2022 04:20:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35976 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229726AbiIVIUe (ORCPT
+        with ESMTP id S229499AbiIVIT7 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 22 Sep 2022 04:20:34 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E37A897B2C
-        for <linux-media@vger.kernel.org>; Thu, 22 Sep 2022 01:20:28 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 7448463468
-        for <linux-media@vger.kernel.org>; Thu, 22 Sep 2022 08:20:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CE49BC433C1;
-        Thu, 22 Sep 2022 08:20:26 +0000 (UTC)
-Message-ID: <6a0b8be9-7486-3f22-1181-af61f6559f30@xs4all.nl>
-Date:   Thu, 22 Sep 2022 10:20:25 +0200
+        Thu, 22 Sep 2022 04:19:59 -0400
+Received: from dggsgout11.his.huawei.com (dggsgout11.his.huawei.com [45.249.212.51])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9AA4832DB5
+        for <linux-media@vger.kernel.org>; Thu, 22 Sep 2022 01:19:52 -0700 (PDT)
+Received: from mail02.huawei.com (unknown [172.30.67.143])
+        by dggsgout11.his.huawei.com (SkyGuard) with ESMTP id 4MY7Sb29WKzKN7s
+        for <linux-media@vger.kernel.org>; Thu, 22 Sep 2022 16:17:51 +0800 (CST)
+Received: from huaweicloud.com (unknown [10.175.102.38])
+        by APP2 (Coremail) with SMTP id Syh0CgAnenOlGixj44fdBA--.59445S4;
+        Thu, 22 Sep 2022 16:19:51 +0800 (CST)
+From:   Wei Yongjun <weiyongjun@huaweicloud.com>
+To:     Sean Young <sean@mess.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Wei Yongjun <weiyongjun1@huawei.com>, linux-media@vger.kernel.org
+Subject: [PATCH] media: rc: ir-spi: Silence no spi_device_id warnings
+Date:   Thu, 22 Sep 2022 08:37:03 +0000
+Message-Id: <20220922083703.1761143-1-weiyongjun@huaweicloud.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH] utils: add v4l2-tracer utility
-Content-Language: en-US
-To:     Deborah Brouwer <deborah.brouwer@collabora.com>,
-        linux-media@vger.kernel.org
-Cc:     daniel.almeida@collabora.com, nfraprado@collabora.com,
-        nicolas.dufresne@collabora.com, deborahbrouwer3563@gmail.com
-References: <20220917022947.141330-1-deborah.brouwer@collabora.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <20220917022947.141330-1-deborah.brouwer@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-8.5 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: Syh0CgAnenOlGixj44fdBA--.59445S4
+X-Coremail-Antispam: 1UD129KBjvJXoW7Gw4DXw1rXr45Xr4fZF4Dtwb_yoW8Jr1kpF
+        W5Xa45AFykWw45Gw4Sg3yxWF90ganagayFgry3Gw1Y9as7Zry3JFWxtFy7Xr1DGFWUJ3W3
+        tFy0qryxJF4rArJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDU0xBIdaVrnRJUUUgEb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k2
+        6cxKx2IYs7xG6r1S6rWUM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
+        vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7Cj
+        xVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x
+        0267AKxVW0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG
+        6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFV
+        Cjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCj
+        c4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4
+        CE17CEb7AF67AKxVWUAVWUtwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1x
+        MIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_WFyUJV
+        Cq3wCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIY
+        CTnIWIevJa73UjIFyTuYvjxUzsqWUUUUU
+X-CM-SenderInfo: 5zhl50pqjm3046kxt4xhlfz01xgou0bp/
+X-CFilter-Loop: Reflected
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
+        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Deb,
+From: Wei Yongjun <weiyongjun1@huawei.com>
 
-On 17/09/2022 04:29, Deborah Brouwer wrote:
-> The v4l2-tracer utility traces, records and replays userspace applications
-> that implement the v4l2 memory-to-memory stateless video decoder
-> interface. The trace function intercepts and copies all system calls,
-> stateless codec controls and encoded data to a json-formatted trace file.
-> The retrace function independently reads and replays the json trace file.
-> The json trace file can be retraced independently from its original
-> userspace environment and can be edited to inject errors to test a
-> driver's error handling abilities.
-> 
-> The v4l2-tracer currently supports VP8, H264 and FWHT formats.
+SPI devices use the spi_device_id for module autoloading even on
+systems using device tree, after commit 5fa6863ba692 ("spi: Check
+we have a spi_device_id for each DT compatible"), kernel warns as
+follows since the spi_device_id is missing:
 
-Thank you for working on this, very nice!
+SPI driver ir-spi has no spi_device_id for ir-spi-led
 
-A more in-depth review will follow (hopefully next week), but I
-did have one high-level naming question:
+Add spi_device_id entries to silence the warning, and ensure driver
+module autoloading works.
 
-> 
-> Signed-off-by: Deborah Brouwer <deborah.brouwer@collabora.com>
-> ---
-> This patch supercedes:
-> [RFC,1/2] utils: add stateless tracer utility
-> [RFC,2/2] utils: add stateless retracer utility
-> 
-> Changes since RFC:
-> - combined tracer/retracer into one utility
-> - added h264 and fwht formats
-> - removed hard-coded link to shared library
-> - added help options and man page
-> - reduced json-c version requirements to 0.15
-> 
-> Examples:
-> 
-> Trace VP8 decoding:
-> 
->   v4l2-tracer trace -- gst-launch-1.0 -- filesrc
->   location=test-25fps.vp8 ! parsebin ! v4l2slvp8dec !
->   videocodectestsink
-> 
-> Trace H264 decoding:
-> 
->   v4l2-tracer trace -y -- gst-launch-1.0 -- filesrc
->   location=test-25fps.h264 ! parsebin ! v4l2slh264dec !
->   videocodectestsink
-> 
-> Trace FWHT decoding:
-> 
->   v4l2-tracer trace -- v4l2-ctl -d9 --stream-mmap
->   --stream-out-mmap --stream-from-hdr test-25fps.fwht
->   --stream-to out.yuv
-> 
-> Retrace:
->   v4l2-tracer retrace 79568_trace.json
-> 
->  configure.ac                         |   12 +
->  utils/Makefile.am                    |    5 +
->  utils/common/v4l2-info.cpp           |    7 +-
->  utils/common/v4l2-info.h             |    8 +
->  utils/v4l2-tracer/.gitignore         |   12 +
->  utils/v4l2-tracer/Makefile.am        |   23 +
->  utils/v4l2-tracer/libtracer.cpp      |  209 +++++
->  utils/v4l2-tracer/libtracer.h        |   35 +
+Signed-off-by: Wei Yongjun <weiyongjun1@huawei.com>
+---
+ drivers/media/rc/ir-spi.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-If I understood it right, this will install a libtracer library?
-
-In that case, the library name is much too generic, it should be renamed
-to libv4l2tracer.
-
-Regards,
-
-	Hans
-
->  utils/v4l2-tracer/retrace-fwht.cpp   |   54 ++
->  utils/v4l2-tracer/retrace-fwht.h     |   11 +
->  utils/v4l2-tracer/retrace-h264.cpp   |  446 +++++++++
->  utils/v4l2-tracer/retrace-h264.h     |   16 +
->  utils/v4l2-tracer/retrace-helper.cpp |  157 ++++
->  utils/v4l2-tracer/retrace-helper.h   |   44 +
->  utils/v4l2-tracer/retrace-vp8.cpp    |  288 ++++++
->  utils/v4l2-tracer/retrace-vp8.h      |   11 +
->  utils/v4l2-tracer/retracer.cpp       | 1281 ++++++++++++++++++++++++++
->  utils/v4l2-tracer/trace-fwht.cpp     |   24 +
->  utils/v4l2-tracer/trace-fwht.h       |   11 +
->  utils/v4l2-tracer/trace-h264.cpp     |  281 ++++++
->  utils/v4l2-tracer/trace-h264.h       |   18 +
->  utils/v4l2-tracer/trace-helper.cpp   |  667 ++++++++++++++
->  utils/v4l2-tracer/trace-helper.h     |   81 ++
->  utils/v4l2-tracer/trace-info.cpp     |  460 +++++++++
->  utils/v4l2-tracer/trace-info.h       |   93 ++
->  utils/v4l2-tracer/trace-vp8.cpp      |  183 ++++
->  utils/v4l2-tracer/trace-vp8.h        |   11 +
->  utils/v4l2-tracer/trace.cpp          |  582 ++++++++++++
->  utils/v4l2-tracer/trace.h            |   17 +
->  utils/v4l2-tracer/v4l2-tracer.1.in   |  109 +++
->  utils/v4l2-tracer/v4l2-tracer.cpp    |  181 ++++
->  utils/v4l2-tracer/v4l2-tracer.h      |   39 +
->  32 files changed, 5370 insertions(+), 6 deletions(-)
->  create mode 100644 utils/v4l2-tracer/.gitignore
->  create mode 100644 utils/v4l2-tracer/Makefile.am
->  create mode 100644 utils/v4l2-tracer/libtracer.cpp
->  create mode 100644 utils/v4l2-tracer/libtracer.h
->  create mode 100644 utils/v4l2-tracer/retrace-fwht.cpp
->  create mode 100644 utils/v4l2-tracer/retrace-fwht.h
->  create mode 100644 utils/v4l2-tracer/retrace-h264.cpp
->  create mode 100644 utils/v4l2-tracer/retrace-h264.h
->  create mode 100644 utils/v4l2-tracer/retrace-helper.cpp
->  create mode 100644 utils/v4l2-tracer/retrace-helper.h
->  create mode 100644 utils/v4l2-tracer/retrace-vp8.cpp
->  create mode 100644 utils/v4l2-tracer/retrace-vp8.h
->  create mode 100644 utils/v4l2-tracer/retracer.cpp
->  create mode 100644 utils/v4l2-tracer/trace-fwht.cpp
->  create mode 100644 utils/v4l2-tracer/trace-fwht.h
->  create mode 100644 utils/v4l2-tracer/trace-h264.cpp
->  create mode 100644 utils/v4l2-tracer/trace-h264.h
->  create mode 100644 utils/v4l2-tracer/trace-helper.cpp
->  create mode 100644 utils/v4l2-tracer/trace-helper.h
->  create mode 100644 utils/v4l2-tracer/trace-info.cpp
->  create mode 100644 utils/v4l2-tracer/trace-info.h
->  create mode 100644 utils/v4l2-tracer/trace-vp8.cpp
->  create mode 100644 utils/v4l2-tracer/trace-vp8.h
->  create mode 100644 utils/v4l2-tracer/trace.cpp
->  create mode 100644 utils/v4l2-tracer/trace.h
->  create mode 100644 utils/v4l2-tracer/v4l2-tracer.1.in
->  create mode 100644 utils/v4l2-tracer/v4l2-tracer.cpp
->  create mode 100644 utils/v4l2-tracer/v4l2-tracer.h
-> 
+diff --git a/drivers/media/rc/ir-spi.c b/drivers/media/rc/ir-spi.c
+index 51aa55a84bb5..bbc81bed4f90 100644
+--- a/drivers/media/rc/ir-spi.c
++++ b/drivers/media/rc/ir-spi.c
+@@ -158,8 +158,15 @@ static const struct of_device_id ir_spi_of_match[] = {
+ };
+ MODULE_DEVICE_TABLE(of, ir_spi_of_match);
+ 
++static const struct spi_device_id ir_spi_ids[] = {
++	{ "ir-spi-led" },
++	{},
++};
++MODULE_DEVICE_TABLE(spi, ir_spi_ids);
++
+ static struct spi_driver ir_spi_driver = {
+ 	.probe = ir_spi_probe,
++	.id_table = ir_spi_ids,
+ 	.driver = {
+ 		.name = IR_SPI_DRIVER_NAME,
+ 		.of_match_table = ir_spi_of_match,
+-- 
+2.34.1
 
