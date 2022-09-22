@@ -2,63 +2,64 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C02AA5E6364
-	for <lists+linux-media@lfdr.de>; Thu, 22 Sep 2022 15:17:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2B42D5E6392
+	for <lists+linux-media@lfdr.de>; Thu, 22 Sep 2022 15:27:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229826AbiIVNQr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 22 Sep 2022 09:16:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39000 "EHLO
+        id S231401AbiIVN1q (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 22 Sep 2022 09:27:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52154 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230454AbiIVNQo (ORCPT
+        with ESMTP id S231228AbiIVN1p (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 22 Sep 2022 09:16:44 -0400
-Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com [IPv6:2a00:1450:4864:20::52d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F2E16ECCC5;
-        Thu, 22 Sep 2022 06:16:43 -0700 (PDT)
-Received: by mail-ed1-x52d.google.com with SMTP id e18so13580490edj.3;
-        Thu, 22 Sep 2022 06:16:43 -0700 (PDT)
+        Thu, 22 Sep 2022 09:27:45 -0400
+Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com [IPv6:2a00:1450:4864:20::52f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 639B1E3EC2;
+        Thu, 22 Sep 2022 06:27:43 -0700 (PDT)
+Received: by mail-ed1-x52f.google.com with SMTP id x21so6524390edd.11;
+        Thu, 22 Sep 2022 06:27:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date;
-        bh=1tCfC9m4QH6+svhoWCBlzPrI1dXMxInAC29KGFvnwaE=;
-        b=UVhWHt7woG/lbkeJsRqO6Va2XTivmTiPxQDOlJWr6pjRcRUe7gjDSW9ANpMlPFIeYn
-         zc4C0FXYlaxgirQofxv9lC3cTaMjD664dIjA0/19AiErOjMlrwcg7QTWuP9LO2cvP43Z
-         DeVtD2fJnzR8wXTnIc8FyKSJPtVnh1TIs5ISVSBY3PY+DPPGqkJ/xKzST5g1fCryVnkw
-         8fCAQugL4DYjI2kYi71k5R/OgZN/KEBmbx4KEymMXjekKb4a0suKJUr2MRisQpGL0NPP
-         v3EIYZ8HK9Qp/N4uPYGoZDk4IubPD0H338lXI1wUFKisy2BDPOtEfBTfn8W5TEL9f2eF
-         Pt6g==
+        bh=GfDOH3Jon3LZczj1G1VLJYGGbFNCEA02UiZeXWZy9+k=;
+        b=hif0g0HseARCaUTv7LneolSToCeCpqwcD8FGLV/jJbP3gxyplN7LmjqI80BuO9Os9Q
+         sswktMIzxvl/AVbE4k6P4qdrDa+/MdIYr2V5b5a5X3BZEuj7dONlbzOEeWORcNqAKqih
+         0iF1cRLKrthqqimysu9x8U05GYDaKiM4VKrUng7rC7R17nS4lucImmCQf7y17RbhDVnB
+         vGjbQ6FbdYExu+be5WuTjg2CCxNwbXaAFzAyd60saH1doqta7PtD5CZjGjb04iACUL9q
+         uPyAatDxEDIiwso2g+ubYr4ubEpG7N0wK1Bli2F9JrTIN/7B1OfRefvMvrTK8dJDvXt1
+         nNBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=1tCfC9m4QH6+svhoWCBlzPrI1dXMxInAC29KGFvnwaE=;
-        b=O0P8dcG/VmDelFa3XRMvhWlXlAQGja5UOPrUNXtVzfGEJZsOsPX5qQEoO89kdeB3Gj
-         8X/VsTvf2AvS/OuniKQLrjfkqIydOrD60P0JTMlOOUY3v/mFBhjenc+WXvUz9dCeGp46
-         IVJrh/pmSSieH/5k0CzjYbyVz3d4ex8X8FjWuzKGcgz3/rZf+L9d0DibJv39pf5Gk846
-         JL0oDQGq0ATDNJXvvGjZRqZANtgTnxF60Um0TZZzzL5TdNQzjzlVsBDeheKlHjlm+nf3
-         tZd2WMDeE8Je02kwq9M/WR+yywb7XAZ8zBxhurUfGCXBkZGG5YBtDPH+M+fTy97UVtQ2
-         wwEw==
-X-Gm-Message-State: ACrzQf1dEbm5I/s7oTxeI6bZokAaURYHUu4HSUFvbZvOJi/MCJiGLIq+
-        eFo+zrmGKXk5wbZ9KOO1072jeJPyLESfPosave4=
-X-Google-Smtp-Source: AMsMyM6PwI+XDb8FHnWsV5Jg87oihIis/34mBej0cDXL8E8il1hHVobmCPbm4FGrkYWdqrywN1xkffmN4CJwt071IaA=
-X-Received: by 2002:a05:6402:f11:b0:44f:e1ff:801a with SMTP id
- i17-20020a0564020f1100b0044fe1ff801amr3307570eda.109.1663852602418; Thu, 22
- Sep 2022 06:16:42 -0700 (PDT)
+        bh=GfDOH3Jon3LZczj1G1VLJYGGbFNCEA02UiZeXWZy9+k=;
+        b=ymHaerePL76EDpTb3aJXXfPG44GTzHYHD3VQiO/x8Y7vpXB5JV5DyQ6ZvwHZ1T1L7o
+         qA5jwWy7Jp7mI/G2XCvg3p4A5eWgGYOVbirIZ57z/l7uPWBP0CVnbjfwSepIjjhRt5W7
+         LLntUe0t+73aGOG83lBfMMu1xEowsVDIjGkgiANCSuPNOS676cjrKZa4gb3swW93bM+o
+         B99D0iMfmngLhbGKM02OXBwktogeF9cpge8oil8qUwWFFjAulgAWKRLr6R6t8rJyOZKW
+         5Mbh6ruZQlqL0ysxB7NK4aKgH2hGcmo9eVxF5Bw2FFE/zsvs/35CfUxzhCQIOPNtmLm9
+         ZKAw==
+X-Gm-Message-State: ACrzQf1En7jC1FdczfJaqNfy4yj5YyQHKFUeRFpyfcxr+FnZ+n71FtyV
+        YurwaH5Aoisi9aGEGkHYwk+luNiN4sMU/6kqL+E=
+X-Google-Smtp-Source: AMsMyM7ba5r7bm3C3G5a4yke+Lid3XcbkkD0mY3+g3iS/ETXCxmQqk09XieYxa+H5d0Rx3S6C1KgmoXrhfHfiW8b4y0=
+X-Received: by 2002:a05:6402:50d1:b0:452:899e:77c with SMTP id
+ h17-20020a05640250d100b00452899e077cmr3385432edb.0.1663853261902; Thu, 22 Sep
+ 2022 06:27:41 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220905230406.30801-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
  <20220905230406.30801-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <YyuDoaewe4AQBdsF@paasikivi.fi.intel.com> <CA+V-a8sa+gEwyGRNqbz04BZ3ZtGkokJn9YrZ+U5q0VcY1BDKSA@mail.gmail.com>
- <YyxczbcHWF47FL8/@paasikivi.fi.intel.com>
-In-Reply-To: <YyxczbcHWF47FL8/@paasikivi.fi.intel.com>
+ <Yys4CRNnKP3LXyAO@pendragon.ideasonboard.com> <CA+V-a8uiT9rV=T6LmFovRwULf3SO=JKdqr1yacAqN8gJmv9VPw@mail.gmail.com>
+ <YyxWOuWOrYmMexNj@paasikivi.fi.intel.com> <CAMuHMdXKz56jxw56fXa7CMh_y4MVYiUT25dqRntJw6481s1FWw@mail.gmail.com>
+In-Reply-To: <CAMuHMdXKz56jxw56fXa7CMh_y4MVYiUT25dqRntJw6481s1FWw@mail.gmail.com>
 From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Thu, 22 Sep 2022 14:16:15 +0100
-Message-ID: <CA+V-a8v3JfU+_Ut9oxmKfK5iQ-LwZhEYPr5HQ0-M+_iQ_42xmA@mail.gmail.com>
+Date:   Thu, 22 Sep 2022 14:27:15 +0100
+Message-ID: <CA+V-a8sW=a6auFH-1WqwK+o2MZGCQk+MAO4+cWKm1M+YrQE+CA@mail.gmail.com>
 Subject: Re: [PATCH v2 3/4] media: platform: Add Renesas RZ/G2L MIPI CSI-2
  receiver driver
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
@@ -66,7 +67,6 @@ Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
         Jacopo Mondi <jacopo@jmondi.org>,
         =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
         linux-media@vger.kernel.org, devicetree@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
         Biju Das <biju.das.jz@bp.renesas.com>
@@ -81,35 +81,44 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sakari,
+Hi Geert,
 
-On Thu, Sep 22, 2022 at 2:02 PM Sakari Ailus
-<sakari.ailus@linux.intel.com> wrote:
+On Thu, Sep 22, 2022 at 1:51 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
 >
-> Hi Prabhakar,
+> On Thu, Sep 22, 2022 at 2:34 PM Sakari Ailus
+> <sakari.ailus@linux.intel.com> wrote:
+> > On Thu, Sep 22, 2022 at 01:08:33PM +0100, Lad, Prabhakar wrote:
+> > > > > * Switched to manually turn ON/OFF the clocks instead of pm_runtime so that
+> > > > >   the mipi/dhpy initialization happens as per the HW manual
+> > > >
+> > > > That doesn't look right. The driver doesn't use runtime PM anymore, so
+> > > > power domains may not be handled properly. What was the problem with
+> > > > clock handling using runtime PM ?
+> > > >
+> > > If we use the runtime PM all the clocks will be turned ON when we call
+> > > pm_runtime_resume_and_get() which I dont want to. As per the "Starting
+> > > reception for MIPI CSI-2 Input" section 35.3.1 for example we first
+> > > need to turn ON all the clocks and later further down the line we need
+> > > to just turn OFF VCLK -> Enable Link -> turn ON VCLK. Due to such
+> > > cases I have switched to individual clock handling.
+> >
+> > If that is the case, then you should control just that clock directly,
+> > outside runtime PM callbacks.
+> >
+> > Runtime PM may be needed e.g. for resuming a parent device.
 >
-> On Thu, Sep 22, 2022 at 01:53:49PM +0100, Lad, Prabhakar wrote:
-> > > > +int rzg2l_csi2_cmn_rstb_deassert(struct rzg2l_csi2 *csi2);
-> > > > +int rzg2l_csi2_dphy_setting(struct rzg2l_csi2 *csi2, bool on);
-> > > > +void rzg2l_csi2_mipi_link_setting(struct rzg2l_csi2 *csi2, bool on);
-> > >
-> > > Are these something that could be achieved using the standard interfaces,
-> > > as I believe the other drivers are doing? The pre_streamon and
-> > > post_streamon callbacks could be relevant for this.
-> > >
-> > Thanks for the pointer. I have now moved some code to pre_streamon ()
-> > and rest to s_stream(). Is there any mandatory rule to have both
-> > implemented? (as I wont be needing post_streamoff(), nothing complains
-> > so for)
+> Exactly.
+> So probably you should not consider R9A07G044_CRU_VCLK a PM clock,
+> i.e. you need changes to rzg2l_cpg_is_pm_clk() to exclude it.
 >
-> In principle no.
->
-OK.
+Thanks for the pointer. In that case we will have to consider
+R9A07G044_CRU_VCLK and R9A07G044_CRU_SYSCLK as not PM clocks.
 
-> But if you e.g. resume the device in pre_streamon, you'll need to suspend
-> it in post_streamon.
->
-Agreed!
+Does the below sound good?
+- DEF_NO_PM() macro
+- bool is_pm_clk in struct rzg2l_mod_clk.
+
+I still have to implement it, just wanted your opinion beforehand.
 
 Cheers,
 Prabhakar
