@@ -2,111 +2,149 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B88425E6D2C
-	for <lists+linux-media@lfdr.de>; Thu, 22 Sep 2022 22:40:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 140A65E6DA1
+	for <lists+linux-media@lfdr.de>; Thu, 22 Sep 2022 23:06:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229449AbiIVUj7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 22 Sep 2022 16:39:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41058 "EHLO
+        id S230337AbiIVVFx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 22 Sep 2022 17:05:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51082 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229687AbiIVUj6 (ORCPT
+        with ESMTP id S229537AbiIVVFu (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 22 Sep 2022 16:39:58 -0400
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB62A4F64E;
-        Thu, 22 Sep 2022 13:39:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1663879197; x=1695415197;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=nKjt8i5hI5NVF3hw3pzSK85gr4EvQwA7dsp365aeqTE=;
-  b=DMOl9FDWNv69Q0o8bOdHPqZGZPLe/JGiGfFbUyTHpb2SaeLhsn65t2jf
-   9pEr9zGQoVd0uOVjmAAH54ZokazwlQ+D2tG0z4DW0VEnNteCU0KABVtAS
-   MngLNcQ3ciBSPqSKh+XimK6/JUOaPdW7bOpGkTqB7YCcI4dn7Z5hY3lTS
-   3H5DhUc5mJT3ZI50veOrFXBskx14xntgSuxv+vHLqDCbYH0iHtrTscpeq
-   dBGrLDg61KJZHULFtE21Ta6r1c6I7zRCFvKp9A9TH3yWVs3AUg3XUaJXu
-   eDFUxcIv6CUYmHBPL0JIlEOcQHp8blgIr9bdQPh96X7Nfc3yH4kVAc0Ty
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10478"; a="300411398"
-X-IronPort-AV: E=Sophos;i="5.93,337,1654585200"; 
-   d="scan'208";a="300411398"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2022 13:39:56 -0700
-X-IronPort-AV: E=Sophos;i="5.93,337,1654585200"; 
-   d="scan'208";a="762354903"
-Received: from punajuuri.fi.intel.com (HELO paasikivi.fi.intel.com) ([10.237.72.43])
-  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2022 13:39:50 -0700
-Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
-        by paasikivi.fi.intel.com (Postfix) with SMTP id 60DAB2007A;
-        Thu, 22 Sep 2022 23:39:48 +0300 (EEST)
-Date:   Thu, 22 Sep 2022 20:39:48 +0000
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Mikhail Rudenko <mike.rudenko@gmail.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Shawn Tu <shawnx.tu@intel.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Daniel Scally <djrscally@gmail.com>,
-        Christian Hemp <c.hemp@phytec.de>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Marek Vasut <marex@denx.de>, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] media: i2c: add support for ov4689
-Message-ID: <YyzIFGo6SYhVP6sj@paasikivi.fi.intel.com>
-References: <20220911200147.375198-1-mike.rudenko@gmail.com>
- <20220911200147.375198-3-mike.rudenko@gmail.com>
- <YywwjmN9qqwFoEc5@paasikivi.fi.intel.com>
- <87czbnif04.fsf@gmail.com>
+        Thu, 22 Sep 2022 17:05:50 -0400
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC2A310CA5F;
+        Thu, 22 Sep 2022 14:05:49 -0700 (PDT)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out2.suse.de (Postfix) with ESMTPS id 4788F1F8BD;
+        Thu, 22 Sep 2022 21:05:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+        t=1663880748; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=XKo+i59z16xYCKZljHHhrwZOK4kULyS2cn+2CLRfUM0=;
+        b=yYZqXMGxzMVH0hLKeYU8DtcEW5z+72E8D8wluVkMB38JNQ6mVtvWYW44sf9Qr+ZQm+We5X
+        ZxoqRMYTP+O1T/rNawICmYwKgqmViLi4WF8AuUeX1BOp9TwGPEwvLg1O9HhwZMa65TkR9W
+        yGHcw9EwWtJmQERB8NRzG2kYdmwST+U=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+        s=susede2_ed25519; t=1663880748;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=XKo+i59z16xYCKZljHHhrwZOK4kULyS2cn+2CLRfUM0=;
+        b=kaD9JOgsDV+IpQlfyoPslHKu+574Yw//haDJvp79fZBtXqIgPNRCscY2PniCUaAEZMnwWD
+        sPWSH1zmuGYRGABQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id B86DF1346B;
+        Thu, 22 Sep 2022 21:05:47 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id QI4BLCvOLGP2JwAAMHmgww
+        (envelope-from <vbabka@suse.cz>); Thu, 22 Sep 2022 21:05:47 +0000
+Message-ID: <cb38655c-2107-bda6-2fa8-f5e1e97eab14@suse.cz>
+Date:   Thu, 22 Sep 2022 23:05:47 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87czbnif04.fsf@gmail.com>
-X-Spam-Status: No, score=-7.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Subject: Re: [PATCH 00/12] slab: Introduce kmalloc_size_roundup()
+Content-Language: en-US
+To:     Kees Cook <keescook@chromium.org>,
+        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Cc:     Pekka Enberg <penberg@kernel.org>, Feng Tang <feng.tang@intel.com>,
+        David Rientjes <rientjes@google.com>,
+        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Alex Elder <elder@kernel.org>,
+        Josef Bacik <josef@toxicpanda.com>,
+        David Sterba <dsterba@suse.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Jesse Brandeburg <jesse.brandeburg@intel.com>,
+        Daniel Micay <danielmicay@gmail.com>,
+        Yonghong Song <yhs@fb.com>, Marco Elver <elver@google.com>,
+        Miguel Ojeda <ojeda@kernel.org>, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, netdev@vger.kernel.org,
+        linux-btrfs@vger.kernel.org, linux-media@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+        linux-fsdevel@vger.kernel.org, intel-wired-lan@lists.osuosl.org,
+        dev@openvswitch.org, x86@kernel.org,
+        linux-wireless@vger.kernel.org, llvm@lists.linux.dev,
+        linux-hardening@vger.kernel.org,
+        Hyeonggon Yoo <42.hyeyoo@gmail.com>,
+        Feng Tang <feng.tang@intel.com>
+References: <20220922031013.2150682-1-keescook@chromium.org>
+ <673e425d-1692-ef47-052b-0ff2de0d9c1d@amd.com>
+ <202209220845.2F7A050@keescook>
+From:   Vlastimil Babka <vbabka@suse.cz>
+In-Reply-To: <202209220845.2F7A050@keescook>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-6.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mikhail,
-
-On Thu, Sep 22, 2022 at 06:23:05PM +0300, Mikhail Rudenko wrote:
+On 9/22/22 17:55, Kees Cook wrote:
+> On Thu, Sep 22, 2022 at 09:10:56AM +0200, Christian König wrote:
+>> Am 22.09.22 um 05:10 schrieb Kees Cook:
+>> > Hi,
+>> > 
+>> > This series fixes up the cases where callers of ksize() use it to
+>> > opportunistically grow their buffer sizes, which can run afoul of the
+>> > __alloc_size hinting that CONFIG_UBSAN_BOUNDS and CONFIG_FORTIFY_SOURCE
+>> > use to perform dynamic buffer bounds checking.
+>> 
+>> Good cleanup, but one question: What other use cases we have for ksize()
+>> except the opportunistically growth of buffers?
 > 
-> Hi Sakari,
+> The remaining cases all seem to be using it as a "do we need to resize
+> yet?" check, where they don't actually track the allocation size
+> themselves and want to just depend on the slab cache to answer it. This
+> is most clearly seen in the igp code:
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/net/ethernet/intel/igb/igb_main.c?h=v6.0-rc6#n1204
 > 
-> and thanks for reviewing this!
-
-You're welcome!
-
+> My "solution" there kind of side-steps it, and leaves ksize() as-is:
+> https://lore.kernel.org/linux-hardening/20220922031013.2150682-8-keescook@chromium.org/
 > 
-> Please see my comments below:
+> The more correct solution would be to add per-v_idx size tracking,
+> similar to the other changes I sent:
+> https://lore.kernel.org/linux-hardening/20220922031013.2150682-11-keescook@chromium.org/
 > 
-> On 2022-09-22 at 09:53 GMT, Sakari Ailus <sakari.ailus@linux.intel.com> wrote:
-...
-> >> +static inline u32 ov4689_cal_delay(u32 cycles)
-> >> +{
-> >> +	return DIV_ROUND_UP(cycles, OV4689_XVCLK_FREQ / 1000 / 1000);
-> >
-> > Please use the actual rate instead.
-> >
+> I wonder if perhaps I should just migrate some of this code to using
+> something like struct membuf.
 > 
-> Do you mean clk_get_rate(ov4689->xvclk), right? What if we have an ACPI
+>> Off hand I can't see any.
+>> 
+>> So when this patch set is about to clean up this use case it should probably
+>> also take care to remove ksize() or at least limit it so that it won't be
+>> used for this use case in the future.
+> 
+> Yeah, my goal would be to eliminate ksize(), and it seems possible if
+> other cases are satisfied with tracking their allocation sizes directly.
 
-Yes.
+I think we could leave ksize() to determine the size without a need for
+external tracking, but from now on forbid callers from using that hint to
+overflow the allocation size they actually requested? Once we remove the
+kasan/kfence hooks in ksize() that make the current kinds of usage possible,
+we should be able to catch any offenders of the new semantics that would appear?
 
-> system and xvclk is NULL here? Please explain.
+> -Kees
+> 
 
-There are a few ways this could work on ACPI based systems but generally
-you'd have "clock-frequency" property to indicate the frequency even if
-clocks themselves wouldn't be available (when controlled via ACPI)).
-
--- 
-Kind regards,
-
-Sakari Ailus
