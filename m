@@ -2,70 +2,88 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BE1455E5596
-	for <lists+linux-media@lfdr.de>; Wed, 21 Sep 2022 23:53:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 01BD65E5900
+	for <lists+linux-media@lfdr.de>; Thu, 22 Sep 2022 05:10:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231164AbiIUVxF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 21 Sep 2022 17:53:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59320 "EHLO
+        id S231145AbiIVDKc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 21 Sep 2022 23:10:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44702 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229686AbiIUVwp (ORCPT
+        with ESMTP id S229913AbiIVDK1 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 21 Sep 2022 17:52:45 -0400
-Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com [IPv6:2a00:1450:4864:20::633])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A4DFA6C5D
-        for <linux-media@vger.kernel.org>; Wed, 21 Sep 2022 14:52:44 -0700 (PDT)
-Received: by mail-ej1-x633.google.com with SMTP id y17so16767602ejo.6
-        for <linux-media@vger.kernel.org>; Wed, 21 Sep 2022 14:52:44 -0700 (PDT)
+        Wed, 21 Sep 2022 23:10:27 -0400
+Received: from mail-pg1-x535.google.com (mail-pg1-x535.google.com [IPv6:2607:f8b0:4864:20::535])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EEF956DAC2
+        for <linux-media@vger.kernel.org>; Wed, 21 Sep 2022 20:10:23 -0700 (PDT)
+Received: by mail-pg1-x535.google.com with SMTP id v4so7825233pgi.10
+        for <linux-media@vger.kernel.org>; Wed, 21 Sep 2022 20:10:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date;
-        bh=lRVqvxjsImICcLNKUVbFrgWAVXSPuGFIVQqIM5gPKIE=;
-        b=BUzD055h0ufytcC9dWBKCLUhoW4ASESdfaphkVEQZnZJaGF9ESzis/omVqNIyqzq6/
-         h0HVaA5F9Z3CpOUIuj3VUGesCabJm+ufUlaDlC8oPTJh4EiH1o1o1y+8IHNYrBLTbGw4
-         pAlCcmlv1meJ1eodkNghM4xK/amx9BoxiwjdY=
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date;
+        bh=Vn16rLGrbDDjaKey8W5tBl33Bv/zSWk+J99kOTcbUQE=;
+        b=AE85R2lewHV6WpJoVOU7vYZV1LEmLLSYclgKQnUnY2xKVDNii5Fo/BkTgD3yH2NCT3
+         SVad2gPnMgif6X0cTuEEQWajnZUigllF8Swz/AIt7V/3KOVHG8p4eV2QEjA7+Ig8Tbzm
+         hCWNqHwmKS+0LzUeaR2ah/lhPJclhFqcjfbic=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=lRVqvxjsImICcLNKUVbFrgWAVXSPuGFIVQqIM5gPKIE=;
-        b=DqYLkXGUFaJRBWWh+UuxHduekIh29lW2mqiexmLy5WJsYh6rfkJUP5fwTgBZYPd9W6
-         weZygidrkDfIshfl3J14tVpRR5FgNFsMlh2SX7a7vDiS3YzB9REts/JsbxUbPzTd29e3
-         pRx2Ttj/jlq3mICxxps0VCAAQT5+Zsmevm1MubMeIfPSA+YTrlC3svZ6vlalMgMdt+95
-         Jd49DR7orZcRMvY4wxHqCbDY9sZTtpStB00pt3oZ6QzLAHG/RDm6EOg2NQC7l7gb2kBe
-         cYgYZvg4e40qS85UUcJdG7bxkNAogcMQF5EXteq32T3WlzQWUaHn0Ts3e6ne5zAXgVhB
-         3Q/A==
-X-Gm-Message-State: ACrzQf2ptv4eYmPjYdeKjEauXmtR2ENfkxAnR8o3E/Ks4uydP+5OrZbG
-        xcEp1ViCgPhX2YvUjoMLEghQWKfUWFdxesQOIqE=
-X-Google-Smtp-Source: AMsMyM7jNzPG3VMReJW7Sz60UBGyzd4DMDx4OrW5nNroA6AwKgtzlkYJ5KrnZfo8FqTePH0u+AETmQ==
-X-Received: by 2002:a17:907:72c8:b0:77f:e3f1:db2a with SMTP id du8-20020a17090772c800b0077fe3f1db2amr292649ejc.198.1663797163023;
-        Wed, 21 Sep 2022 14:52:43 -0700 (PDT)
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com. [209.85.208.49])
-        by smtp.gmail.com with ESMTPSA id u17-20020a056402065100b0045081dc93dfsm2456523edx.78.2022.09.21.14.52.41
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 21 Sep 2022 14:52:42 -0700 (PDT)
-Received: by mail-ed1-f49.google.com with SMTP id q21so10772569edc.9
-        for <linux-media@vger.kernel.org>; Wed, 21 Sep 2022 14:52:41 -0700 (PDT)
-X-Received: by 2002:a05:6402:298b:b0:44f:20a:2db2 with SMTP id
- eq11-20020a056402298b00b0044f020a2db2mr197728edb.138.1663797161592; Wed, 21
- Sep 2022 14:52:41 -0700 (PDT)
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date;
+        bh=Vn16rLGrbDDjaKey8W5tBl33Bv/zSWk+J99kOTcbUQE=;
+        b=I26WcIDgPlVQ8dd9vUXtovUB3wj/U9KbFWsOl3Rf9p/HvWsG3Ha0JGxY87sNT1i/+K
+         mgSqcyFYUIvdwLIWyNwbiRHmFPyvsBjrYpAuPtrXqmwrm1B8OBJdGK9Rwbjh6KSECqOO
+         GLJUbjFmQWo5EE8W3WeOtI+QLnphxgNaQ2/fUtYKz4qzpTNCi0C6UrELnLIHL21XLBJs
+         EKjTNGj86dCXjj7IbCRHjJI7IFwG7ymNF5uQlcynwEGbQsayUFg1S8IyNo06xN/sSl42
+         xPPtIGSLLgeGwzceO0yPGVIOsNmkcgdoQNZp05g+DJ68ta83WjjJrBV8H81dOP2Zrnhz
+         jevw==
+X-Gm-Message-State: ACrzQf0k5ICw41GNNRWhlY81CvAXECjGs0JYCXmrk6ND03c9vOPMe+/2
+        e6P2eUiy7nVGcaBmJFrsWPBHeQ==
+X-Google-Smtp-Source: AMsMyM5kbtfQXBGy+UgqYmJ89cy++RVO/0JPV5R9E0qA9P5D2h03X/wzrRsUp18SKmZq4kCTVEHctQ==
+X-Received: by 2002:a05:6a00:2314:b0:546:ce91:89a3 with SMTP id h20-20020a056a00231400b00546ce9189a3mr1393996pfh.77.1663816223317;
+        Wed, 21 Sep 2022 20:10:23 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id q21-20020a170902bd9500b001785fa792f4sm2713016pls.243.2022.09.21.20.10.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 21 Sep 2022 20:10:22 -0700 (PDT)
+From:   Kees Cook <keescook@chromium.org>
+To:     Vlastimil Babka <vbabka@suse.cz>
+Cc:     Kees Cook <keescook@chromium.org>,
+        Pekka Enberg <penberg@kernel.org>,
+        David Rientjes <rientjes@google.com>,
+        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Alex Elder <elder@kernel.org>,
+        Josef Bacik <josef@toxicpanda.com>,
+        David Sterba <dsterba@suse.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+        Jesse Brandeburg <jesse.brandeburg@intel.com>,
+        Daniel Micay <danielmicay@gmail.com>,
+        Yonghong Song <yhs@fb.com>, Marco Elver <elver@google.com>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Jacob Shin <jacob.shin@amd.com>, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, netdev@vger.kernel.org,
+        linux-btrfs@vger.kernel.org, linux-media@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+        linux-fsdevel@vger.kernel.org, intel-wired-lan@lists.osuosl.org,
+        dev@openvswitch.org, x86@kernel.org,
+        linux-wireless@vger.kernel.org, llvm@lists.linux.dev,
+        linux-hardening@vger.kernel.org
+Subject: [PATCH 00/12] slab: Introduce kmalloc_size_roundup()
+Date:   Wed, 21 Sep 2022 20:10:01 -0700
+Message-Id: <20220922031013.2150682-1-keescook@chromium.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20220920-invalid-desc-v1-0-76a93174f3bc@chromium.org>
- <20220920-invalid-desc-v1-1-76a93174f3bc@chromium.org> <Yypgi6Jc9/tZLtIw@pendragon.ideasonboard.com>
- <CANiDSCsbwYfnqcWOjAJw2qvZnB-qE66LqGMhpD8youDj=f+U-g@mail.gmail.com> <Yyt/LhNoEEfjly54@pendragon.ideasonboard.com>
-In-Reply-To: <Yyt/LhNoEEfjly54@pendragon.ideasonboard.com>
-From:   Ricardo Ribalda <ribalda@chromium.org>
-Date:   Wed, 21 Sep 2022 23:52:29 +0200
-X-Gmail-Original-Message-ID: <CANiDSCsSsKk37JtBZjQiuw6MoH+f-iCf47MqU9BH18gbd4EKAg@mail.gmail.com>
-Message-ID: <CANiDSCsSsKk37JtBZjQiuw6MoH+f-iCf47MqU9BH18gbd4EKAg@mail.gmail.com>
-Subject: Re: [PATCH v1 1/1] media: uvc: Handle cameras with invalid descriptors
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        syzbot <syzkaller@googlegroups.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4981; h=from:subject; bh=s4SaVhOuX1ncHIDJErOKK4BV4PgBIHpDN/h97+EEvV8=; b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBjK9ISNp90ZWOfSod9OsDV3Pgtvy1E13pzv3DCmYbF tf0g8d2JAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYyvSEgAKCRCJcvTf3G3AJkzwD/ wIy7miKIK9lOw6XzF5heENIATw2uhYlNzjs0acveP+ZCyoyc5I/WgCfqRAXAmHiXedbujzGw2FDqqT syY2emsesoSNP3gS/GOKo8RJDSOQC9cSQtEjb+mjbPF7Fkzqn/ZGRwMTbs9UaBsTj9Tj2fL7NNiO9p dwoQsa5XdmYV2vD0OlPuGJimN4Jz3oRQSNVQkawd+40awqnlGD9yQqU64uaLr5mwdGgPkIuw3aLLFd 5YiPwZw6bM1vgbnqBIuIHr/Z7XwM9EEapPwfqVdg/9dcOavsB633n1itcgsIqIDBioJGxOM0Ts7T86 4Jlikvby9AVebqTHq4+YuA+QwXaCQlzI8PxvKGF5ANAjeoheIYOhRCZTs4Dpe3aQtWFnO3FqVYLrzT cc2coPLbTlqbCxnMzWO5XK6k+LQJYAS5r5kCiddkkzITSqNSDkHLgAWrVT+WoO8GDM5wBJEy4K4BDX /s7uUaLCb4fXbubShHzmjelGTOPkp/YtKLrJhFLmk8oztScmMVc7cus/HhSCEpn2aXj3zHgtLJzUfw SN01q4wcwhmS6xqLuWl/PHEsTyaH69+g+rznvzhR64VGsg0V8g68wKeLcHDL9rQRALeFd3MBdV5n9s KFNBVsIrnbnnS1eImonqd1xuYH0pPRl+0Ng4aVcGGvP/yynpBokeriuTdCqA==
+X-Developer-Key: i=keescook@chromium.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
@@ -75,97 +93,112 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent
+Hi,
 
-On Wed, 21 Sept 2022 at 23:16, Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
->
-> Hi Ricardo,
->
-> On Wed, Sep 21, 2022 at 09:51:44AM +0200, Ricardo Ribalda wrote:
-> > Do you mean something like this?
-> >
-> > diff --git a/drivers/media/usb/uvc/uvc_entity.c
-> > b/drivers/media/usb/uvc/uvc_entity.c
-> > index 7c4d2f93d351..66d1f5da4ec7 100644
-> > --- a/drivers/media/usb/uvc/uvc_entity.c
-> > +++ b/drivers/media/usb/uvc/uvc_entity.c
-> > @@ -37,7 +37,7 @@ static int uvc_mc_create_links(struct uvc_video_chain *chain,
-> >                         continue;
-> >
-> >                 remote = uvc_entity_by_id(chain->dev, entity->baSourceID[i]);
-> > -               if (remote == NULL)
-> > +               if (remote == NULL || remote->num_pads == 0)
-> >                         return -EINVAL;
->
-> Yes.
->
-> >
-> >                 source = (UVC_ENTITY_TYPE(remote) == UVC_TT_STREAMING)
-> > @@ -46,6 +46,9 @@ static int uvc_mc_create_links(struct uvc_video_chain *chain,
-> >                 if (source == NULL)
-> >                         continue;
-> >
-> > +               if (source->num_pads != remote->num_pads)
-> > +                       return -EINVAL;
-> > +
->
-> But this I would have dropped, as the media_entity num_pads is
-> initialized from uvc_entity num_pads and neither are changed after.
+This series fixes up the cases where callers of ksize() use it to
+opportunistically grow their buffer sizes, which can run afoul of the
+__alloc_size hinting that CONFIG_UBSAN_BOUNDS and CONFIG_FORTIFY_SOURCE
+use to perform dynamic buffer bounds checking. Quoting the first patch:
 
-Works for me. Shall I send a v2 or you can take it?
+
+In the effort to help the compiler reason about buffer sizes, the
+__alloc_size attribute was added to allocators. This improves the scope
+of the compiler's ability to apply CONFIG_UBSAN_BOUNDS and (in the near
+future) CONFIG_FORTIFY_SOURCE. For most allocations, this works well,
+as the vast majority of callers are not expecting to use more memory
+than what they asked for.
+
+There is, however, one common exception to this: anticipatory resizing
+of kmalloc allocations. These cases all use ksize() to determine the
+actual bucket size of a given allocation (e.g. 128 when 126 was asked
+for). This comes in two styles in the kernel:
+
+1) An allocation has been determined to be too small, and needs to be
+   resized. Instead of the caller choosing its own next best size, it
+   wants to minimize the number of calls to krealloc(), so it just uses
+   ksize() plus some additional bytes, forcing the realloc into the next
+   bucket size, from which it can learn how large it is now. For example:
+
+	data = krealloc(data, ksize(data) + 1, gfp);
+	data_len = ksize(data);
+
+2) The minimum size of an allocation is calculated, but since it may
+   grow in the future, just use all the space available in the chosen
+   bucket immediately, to avoid needing to reallocate later. A good
+   example of this is skbuff's allocators:
+
+	data = kmalloc_reserve(size, gfp_mask, node, &pfmemalloc);
+	...
+	/* kmalloc(size) might give us more room than requested.
+	 * Put skb_shared_info exactly at the end of allocated zone,
+	 * to allow max possible filling before reallocation.
+	 */
+	osize = ksize(data);
+        size = SKB_WITH_OVERHEAD(osize);
+
+In both cases, the "how large is the allocation?" question is answered
+_after_ the allocation, where the compiler hinting is not in an easy place
+to make the association any more. This mismatch between the compiler's
+view of the buffer length and the code's intention about how much it is
+going to actually use has already caused problems[1]. It is possible to
+fix this by reordering the use of the "actual size" information.
+
+We can serve the needs of users of ksize() and still have accurate buffer
+length hinting for the compiler by doing the bucket size calculation
+_before_ the allocation. Code can instead ask "how large an allocation
+would I get for a given size?".
+
+Introduce kmalloc_size_roundup(), to serve this function so we can start
+replacing the "anticipatory resizing" uses of ksize().
+
+[1] https://github.com/ClangBuiltLinux/linux/issues/1599
+    https://github.com/KSPP/linux/issues/183
+-------
+
+And after adding kmalloc_size_roundup(), put it to use with the various
+ksize() callers, restore the previously removed __alloc_size hint,
+and fix the use of __malloc annotations.
+
+I tried to trim the CC list on this series since it got rather long. I
+kept all the suggested mailing lists, though. :)
 
 Thanks!
->
-> >                 remote_pad = remote->num_pads - 1;
-> >                 ret = media_create_pad_link(source, remote_pad,
-> >                                                sink, i, flags);
-> >
-> > regarding making a new patch, whatever is easier for you ;)
-> >
-> >
-> > On Wed, 21 Sept 2022 at 02:53, Laurent Pinchart wrote:
-> > >
-> > > Hi Ricardo,
-> > >
-> > > Thank you for the patch.
-> > >
-> > > On Tue, Sep 20, 2022 at 04:04:55PM +0200, Ricardo Ribalda wrote:
-> > > > If the source entity does not contain any pads, do not create a link.
-> > > >
-> > > > Reported-by: syzbot <syzkaller@googlegroups.com>
-> > > > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> > > >
-> > > > diff --git a/drivers/media/usb/uvc/uvc_entity.c b/drivers/media/usb/uvc/uvc_entity.c
-> > > > index 7c4d2f93d351..1f730cb72e58 100644
-> > > > --- a/drivers/media/usb/uvc/uvc_entity.c
-> > > > +++ b/drivers/media/usb/uvc/uvc_entity.c
-> > > > @@ -43,7 +43,7 @@ static int uvc_mc_create_links(struct uvc_video_chain *chain,
-> > > >               source = (UVC_ENTITY_TYPE(remote) == UVC_TT_STREAMING)
-> > > >                      ? (remote->vdev ? &remote->vdev->entity : NULL)
-> > > >                      : &remote->subdev.entity;
-> > > > -             if (source == NULL)
-> > > > +             if (source == NULL || source->num_pads == 0)
-> > >
-> > > source->num_pads and remote->num_pads should always be identical, but as
-> > > the next line uses remote->num_pads, wouldn't it be better to test that
-> > > variable ? If so, I'd move the test a file lines earlier, with the
-> > > remote == NULL test.
-> > >
-> > > What do you think ? If you agree I can make that change when applying,
-> > > there's no need for a new version. Otherwise I'll keep the patch as-is.
-> > >
-> > > >                       continue;
-> > > >
-> > > >               remote_pad = remote->num_pads - 1;
-> > > >
->
-> --
-> Regards,
->
-> Laurent Pinchart
 
+-Kees
 
+Kees Cook (12):
+  slab: Introduce kmalloc_size_roundup()
+  skbuff: Proactively round up to kmalloc bucket size
+  net: ipa: Proactively round up to kmalloc bucket size
+  btrfs: send: Proactively round up to kmalloc bucket size
+  dma-buf: Proactively round up to kmalloc bucket size
+  coredump: Proactively round up to kmalloc bucket size
+  igb: Proactively round up to kmalloc bucket size
+  openvswitch: Proactively round up to kmalloc bucket size
+  x86/microcode/AMD: Track patch allocation size explicitly
+  iwlwifi: Track scan_cmd allocation size explicitly
+  slab: Remove __malloc attribute from realloc functions
+  slab: Restore __alloc_size attribute to __kmalloc_track_caller
+
+ arch/x86/include/asm/microcode.h              |  1 +
+ arch/x86/kernel/cpu/microcode/amd.c           |  3 +-
+ drivers/dma-buf/dma-resv.c                    |  9 +++-
+ drivers/net/ethernet/intel/igb/igb_main.c     |  1 +
+ drivers/net/ipa/gsi_trans.c                   |  7 ++-
+ drivers/net/wireless/intel/iwlwifi/dvm/dev.h  |  1 +
+ drivers/net/wireless/intel/iwlwifi/dvm/scan.c | 10 +++-
+ drivers/net/wireless/intel/iwlwifi/mvm/mvm.h  |  3 +-
+ drivers/net/wireless/intel/iwlwifi/mvm/ops.c  |  3 +-
+ drivers/net/wireless/intel/iwlwifi/mvm/scan.c |  6 +--
+ fs/btrfs/send.c                               | 11 +++--
+ fs/coredump.c                                 |  7 ++-
+ include/linux/compiler_types.h                | 13 ++----
+ include/linux/slab.h                          | 46 ++++++++++++++++---
+ mm/slab_common.c                              | 17 +++++++
+ net/core/skbuff.c                             | 34 +++++++-------
+ net/openvswitch/flow_netlink.c                |  4 +-
+ 17 files changed, 125 insertions(+), 51 deletions(-)
 
 -- 
-Ricardo Ribalda
+2.34.1
+
