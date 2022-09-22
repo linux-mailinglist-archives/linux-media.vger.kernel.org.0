@@ -2,123 +2,109 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2B42D5E6392
-	for <lists+linux-media@lfdr.de>; Thu, 22 Sep 2022 15:27:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 326945E63C5
+	for <lists+linux-media@lfdr.de>; Thu, 22 Sep 2022 15:36:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231401AbiIVN1q (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 22 Sep 2022 09:27:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52154 "EHLO
+        id S231736AbiIVNgo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 22 Sep 2022 09:36:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35752 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231228AbiIVN1p (ORCPT
+        with ESMTP id S231551AbiIVNgV (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 22 Sep 2022 09:27:45 -0400
-Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com [IPv6:2a00:1450:4864:20::52f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 639B1E3EC2;
-        Thu, 22 Sep 2022 06:27:43 -0700 (PDT)
-Received: by mail-ed1-x52f.google.com with SMTP id x21so6524390edd.11;
-        Thu, 22 Sep 2022 06:27:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date;
-        bh=GfDOH3Jon3LZczj1G1VLJYGGbFNCEA02UiZeXWZy9+k=;
-        b=hif0g0HseARCaUTv7LneolSToCeCpqwcD8FGLV/jJbP3gxyplN7LmjqI80BuO9Os9Q
-         sswktMIzxvl/AVbE4k6P4qdrDa+/MdIYr2V5b5a5X3BZEuj7dONlbzOEeWORcNqAKqih
-         0iF1cRLKrthqqimysu9x8U05GYDaKiM4VKrUng7rC7R17nS4lucImmCQf7y17RbhDVnB
-         vGjbQ6FbdYExu+be5WuTjg2CCxNwbXaAFzAyd60saH1doqta7PtD5CZjGjb04iACUL9q
-         uPyAatDxEDIiwso2g+ubYr4ubEpG7N0wK1Bli2F9JrTIN/7B1OfRefvMvrTK8dJDvXt1
-         nNBA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=GfDOH3Jon3LZczj1G1VLJYGGbFNCEA02UiZeXWZy9+k=;
-        b=ymHaerePL76EDpTb3aJXXfPG44GTzHYHD3VQiO/x8Y7vpXB5JV5DyQ6ZvwHZ1T1L7o
-         qA5jwWy7Jp7mI/G2XCvg3p4A5eWgGYOVbirIZ57z/l7uPWBP0CVnbjfwSepIjjhRt5W7
-         LLntUe0t+73aGOG83lBfMMu1xEowsVDIjGkgiANCSuPNOS676cjrKZa4gb3swW93bM+o
-         B99D0iMfmngLhbGKM02OXBwktogeF9cpge8oil8qUwWFFjAulgAWKRLr6R6t8rJyOZKW
-         5Mbh6ruZQlqL0ysxB7NK4aKgH2hGcmo9eVxF5Bw2FFE/zsvs/35CfUxzhCQIOPNtmLm9
-         ZKAw==
-X-Gm-Message-State: ACrzQf1En7jC1FdczfJaqNfy4yj5YyQHKFUeRFpyfcxr+FnZ+n71FtyV
-        YurwaH5Aoisi9aGEGkHYwk+luNiN4sMU/6kqL+E=
-X-Google-Smtp-Source: AMsMyM7ba5r7bm3C3G5a4yke+Lid3XcbkkD0mY3+g3iS/ETXCxmQqk09XieYxa+H5d0Rx3S6C1KgmoXrhfHfiW8b4y0=
-X-Received: by 2002:a05:6402:50d1:b0:452:899e:77c with SMTP id
- h17-20020a05640250d100b00452899e077cmr3385432edb.0.1663853261902; Thu, 22 Sep
- 2022 06:27:41 -0700 (PDT)
+        Thu, 22 Sep 2022 09:36:21 -0400
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B2173E62CC;
+        Thu, 22 Sep 2022 06:35:49 -0700 (PDT)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out2.suse.de (Postfix) with ESMTPS id 312D81F8F8;
+        Thu, 22 Sep 2022 13:35:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+        t=1663853747;
+        h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+         cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=IwL9ZLjfbaspCU82c8med1UAPhmCPx1OWhj8R1+9qNM=;
+        b=XihVZkR0NFlKaTEY2REooJ4nnysnnfLcvjy51KzgHbSW+oLtMuf9IonwLm/KkASRNsstRo
+        s4Dx+Q4cpaICoaXsH0DUfapvCIci0Ubcv9A9s0vR8XX8+NUFKAnyoOuIT9zDwNjs4dr4X/
+        qezh4tAzHSN1OltdzTUMbRixdeL8EVg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+        s=susede2_ed25519; t=1663853747;
+        h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+         cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=IwL9ZLjfbaspCU82c8med1UAPhmCPx1OWhj8R1+9qNM=;
+        b=D4SrbPeIUjJXDbzN3l/v7S9Ic5eD5VW9j9nh63nD86Qj+hCZa1n0PAF8TSLqyf+7TdxxOs
+        g6cysoCnwD04I3Cw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 5C8F513AA5;
+        Thu, 22 Sep 2022 13:35:46 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id RvYRFbJkLGM6egAAMHmgww
+        (envelope-from <dsterba@suse.cz>); Thu, 22 Sep 2022 13:35:46 +0000
+Date:   Thu, 22 Sep 2022 15:30:14 +0200
+From:   David Sterba <dsterba@suse.cz>
+To:     Kees Cook <keescook@chromium.org>
+Cc:     Vlastimil Babka <vbabka@suse.cz>, linux-btrfs@vger.kernel.org,
+        Pekka Enberg <penberg@kernel.org>,
+        David Rientjes <rientjes@google.com>,
+        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Alex Elder <elder@kernel.org>,
+        Josef Bacik <josef@toxicpanda.com>,
+        David Sterba <dsterba@suse.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+        Jesse Brandeburg <jesse.brandeburg@intel.com>,
+        Daniel Micay <danielmicay@gmail.com>,
+        Yonghong Song <yhs@fb.com>, Marco Elver <elver@google.com>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Jacob Shin <jacob.shin@amd.com>, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, netdev@vger.kernel.org,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org, linux-fsdevel@vger.kernel.org,
+        intel-wired-lan@lists.osuosl.org, dev@openvswitch.org,
+        x86@kernel.org, linux-wireless@vger.kernel.org,
+        llvm@lists.linux.dev, linux-hardening@vger.kernel.org
+Subject: Re: [PATCH 04/12] btrfs: send: Proactively round up to kmalloc
+ bucket size
+Message-ID: <20220922133014.GI32411@suse.cz>
+Reply-To: dsterba@suse.cz
+References: <20220922031013.2150682-1-keescook@chromium.org>
+ <20220922031013.2150682-5-keescook@chromium.org>
 MIME-Version: 1.0
-References: <20220905230406.30801-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20220905230406.30801-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <Yys4CRNnKP3LXyAO@pendragon.ideasonboard.com> <CA+V-a8uiT9rV=T6LmFovRwULf3SO=JKdqr1yacAqN8gJmv9VPw@mail.gmail.com>
- <YyxWOuWOrYmMexNj@paasikivi.fi.intel.com> <CAMuHMdXKz56jxw56fXa7CMh_y4MVYiUT25dqRntJw6481s1FWw@mail.gmail.com>
-In-Reply-To: <CAMuHMdXKz56jxw56fXa7CMh_y4MVYiUT25dqRntJw6481s1FWw@mail.gmail.com>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Thu, 22 Sep 2022 14:27:15 +0100
-Message-ID: <CA+V-a8sW=a6auFH-1WqwK+o2MZGCQk+MAO4+cWKm1M+YrQE+CA@mail.gmail.com>
-Subject: Re: [PATCH v2 3/4] media: platform: Add Renesas RZ/G2L MIPI CSI-2
- receiver driver
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Biju Das <biju.das.jz@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220922031013.2150682-5-keescook@chromium.org>
+User-Agent: Mutt/1.5.23.1-rc1 (2014-03-12)
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Geert,
+On Wed, Sep 21, 2022 at 08:10:05PM -0700, Kees Cook wrote:
+> Instead of discovering the kmalloc bucket size _after_ allocation, round
+> up proactively so the allocation is explicitly made for the full size,
+> allowing the compiler to correctly reason about the resulting size of
+> the buffer through the existing __alloc_size() hint.
+> 
+> Cc: linux-btrfs@vger.kernel.org
+> Signed-off-by: Kees Cook <keescook@chromium.org>
 
-On Thu, Sep 22, 2022 at 1:51 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
->
-> On Thu, Sep 22, 2022 at 2:34 PM Sakari Ailus
-> <sakari.ailus@linux.intel.com> wrote:
-> > On Thu, Sep 22, 2022 at 01:08:33PM +0100, Lad, Prabhakar wrote:
-> > > > > * Switched to manually turn ON/OFF the clocks instead of pm_runtime so that
-> > > > >   the mipi/dhpy initialization happens as per the HW manual
-> > > >
-> > > > That doesn't look right. The driver doesn't use runtime PM anymore, so
-> > > > power domains may not be handled properly. What was the problem with
-> > > > clock handling using runtime PM ?
-> > > >
-> > > If we use the runtime PM all the clocks will be turned ON when we call
-> > > pm_runtime_resume_and_get() which I dont want to. As per the "Starting
-> > > reception for MIPI CSI-2 Input" section 35.3.1 for example we first
-> > > need to turn ON all the clocks and later further down the line we need
-> > > to just turn OFF VCLK -> Enable Link -> turn ON VCLK. Due to such
-> > > cases I have switched to individual clock handling.
-> >
-> > If that is the case, then you should control just that clock directly,
-> > outside runtime PM callbacks.
-> >
-> > Runtime PM may be needed e.g. for resuming a parent device.
->
-> Exactly.
-> So probably you should not consider R9A07G044_CRU_VCLK a PM clock,
-> i.e. you need changes to rzg2l_cpg_is_pm_clk() to exclude it.
->
-Thanks for the pointer. In that case we will have to consider
-R9A07G044_CRU_VCLK and R9A07G044_CRU_SYSCLK as not PM clocks.
-
-Does the below sound good?
-- DEF_NO_PM() macro
-- bool is_pm_clk in struct rzg2l_mod_clk.
-
-I still have to implement it, just wanted your opinion beforehand.
-
-Cheers,
-Prabhakar
+Acked-by: David Sterba <dsterba@suse.com>
