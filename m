@@ -2,107 +2,105 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 299665E5E73
-	for <lists+linux-media@lfdr.de>; Thu, 22 Sep 2022 11:24:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 33EEB5E5EB7
+	for <lists+linux-media@lfdr.de>; Thu, 22 Sep 2022 11:37:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230155AbiIVJYA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 22 Sep 2022 05:24:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37440 "EHLO
+        id S230398AbiIVJhg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 22 Sep 2022 05:37:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57158 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229649AbiIVJX6 (ORCPT
+        with ESMTP id S229791AbiIVJhf (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 22 Sep 2022 05:23:58 -0400
-Received: from mail-io1-xd30.google.com (mail-io1-xd30.google.com [IPv6:2607:f8b0:4864:20::d30])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 248554623D;
-        Thu, 22 Sep 2022 02:23:58 -0700 (PDT)
-Received: by mail-io1-xd30.google.com with SMTP id v128so7156059ioe.12;
-        Thu, 22 Sep 2022 02:23:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date;
-        bh=eq1ulTtXYhBmIV3Hec+MzaFRLDXw1vSRF6+bOMmPhJ4=;
-        b=bE2W6qfxPeZ5hG8th9HBte8uWTQjYuCcr36yI1hhiheOM64/zofTi1amyoUC/YRb+J
-         NgesQGAjTL00GMSehk4Np33KVgoKvpm/Mh3RSzMdF+EkL5Y4k9K6GB3q17DXyKsUm/6E
-         tSUleWEaIUryrEiqLEE56d9SYCS/YFMrs6gU37f7Pqu7tr26K2zmBNy6tAGoGVxQ5f+n
-         DlMD1/oSQBrQp/QHyG7CgFktY+50H+Wm33tTFaH8FxMf0iDQdWTe9OU6Ok7FDH/xYrVm
-         +Y17qm2jbLBl43Ckz4h9g/NlAB7oNcZMDPJUHArvKPR8Jrr0Y7Jjk4kBCdA2lo60DN3B
-         Aphg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=eq1ulTtXYhBmIV3Hec+MzaFRLDXw1vSRF6+bOMmPhJ4=;
-        b=XAbmbADnMx1d4MDhg9mZ+JCOlI8v/mXVbJmgFFJ4Aha0fj2C83T1uAOyMi0keOy7K4
-         KC+ensOGk3/jP4BgR2XdHhNAn93UyKOSIEgMf83cKIZKiE2MNlRG5qPZFsUArLGslWsJ
-         jF9y/EydOKtZLPkyUu3S3t8e9NfvRnbFuKeMjUE9K0SmjdtHhvMtaEmQ64qmYRHfSENC
-         JxESA9v7yr4OtqcwnuPULcp59C6JPo/IoCzGIQerj5Ou60Hvqr8Z9xeZwe9xHPYhI2W6
-         DUHUuEJ5Y8NOmpVQYVd0W7p2/s2dveW4DIEGZEKoIC0PSA05aTSG6RSya1vn2/kU+69Z
-         L75A==
-X-Gm-Message-State: ACrzQf356hDtiQ4/84mEVGMqKbAvLC7HqVZ0tzelr+KA+/rC59b3RnhR
-        cty9X7VDst/qGKH/RjuahRI6dGocnqKY98FaYxs=
-X-Google-Smtp-Source: AMsMyM4VmAwcaT5Lc+Ww++2Y7GpjHXOf8JO1cC9hLR1vHps4lN+vAXggqFNSedolxw1DncuzKFlDGIHvcmXTBzRY/kM=
-X-Received: by 2002:a05:6638:dcc:b0:35a:7ba6:ad51 with SMTP id
- m12-20020a0566380dcc00b0035a7ba6ad51mr1404409jaj.256.1663838637536; Thu, 22
- Sep 2022 02:23:57 -0700 (PDT)
+        Thu, 22 Sep 2022 05:37:35 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A1F0D432B;
+        Thu, 22 Sep 2022 02:37:34 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 3C0DDB801BD;
+        Thu, 22 Sep 2022 09:37:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CC277C433D6;
+        Thu, 22 Sep 2022 09:37:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1663839451;
+        bh=68ySCIxRmNzmM3z0fmeMnKAIKzjyC2S4WAIN1dwhsLE=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=d1jHtW3mtP+b15+EV6oWLDdp5rpoT/hgiDRlnSDv0fF1VtacDZ4PilkCUW1KTO43j
+         aVPL8tAGNCQXcHHleoTCzclUdLpCzTgiVMoI2EsV39JkEJlXCJfGNM1Zc2ZkCpVrw3
+         nFnG4iY2VI0Cu0v845RF8tk3AzNbZuTDDMiMX6hMODHQRt4baJ2o9GN6DD7nS7fe6Q
+         +Q56lC3mycM55r2xrWb9H5lCRabIYuBAhsBUzX6x2d0Fcm3wSQXeWYQlAYFPPu/WoO
+         xG7KjmNFTGkpOjNR8RuzIjH421Rm8XZfK3L34GQjpf3OJC7n2prRzjwmcR8hm8ydm/
+         VYhfiiytl2KIg==
+Received: from johan by xi.lan with local (Exim 4.94.2)
+        (envelope-from <johan@kernel.org>)
+        id 1obIeG-0001V7-6V; Thu, 22 Sep 2022 11:37:36 +0200
+Date:   Thu, 22 Sep 2022 11:37:36 +0200
+From:   Johan Hovold <johan@kernel.org>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Sean Young <sean@mess.org>, linux-media@vger.kernel.org,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Oliver Neukum <oneukum@suse.com>, stable@vger.kernel.org,
+        Dongliang Mu <mudongliangabcd@gmail.com>
+Subject: Re: [PATCH RESEND] media: flexcop-usb: fix endpoint type check
+Message-ID: <Yyws4Pd4bAl3iq2e@hovoldconsulting.com>
+References: <20220822151027.27026-1-johan@kernel.org>
+ <YymBM1wJLAsBDU4E@hovoldconsulting.com>
+ <YywfxwBmdmvQ0i21@kroah.com>
 MIME-Version: 1.0
-References: <20220922031013.2150682-1-keescook@chromium.org> <20220922031013.2150682-12-keescook@chromium.org>
-In-Reply-To: <20220922031013.2150682-12-keescook@chromium.org>
-From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Thu, 22 Sep 2022 11:23:46 +0200
-Message-ID: <CANiq72=m9VngFH9jE3s0RV7MpjX0a=ekJN4pZwcDksBkSRR_1w@mail.gmail.com>
-Subject: Re: [PATCH 11/12] slab: Remove __malloc attribute from realloc functions
-To:     Kees Cook <keescook@chromium.org>
-Cc:     Vlastimil Babka <vbabka@suse.cz>,
-        Pekka Enberg <penberg@kernel.org>,
-        David Rientjes <rientjes@google.com>,
-        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Hao Luo <haoluo@google.com>, Marco Elver <elver@google.com>,
-        linux-mm@kvack.org, "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Alex Elder <elder@kernel.org>,
-        Josef Bacik <josef@toxicpanda.com>,
-        David Sterba <dsterba@suse.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        Jesse Brandeburg <jesse.brandeburg@intel.com>,
-        Daniel Micay <danielmicay@gmail.com>,
-        Yonghong Song <yhs@fb.com>, Miguel Ojeda <ojeda@kernel.org>,
-        Jacob Shin <jacob.shin@amd.com>, linux-kernel@vger.kernel.org,
-        netdev@vger.kernel.org, linux-btrfs@vger.kernel.org,
-        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org, linux-fsdevel@vger.kernel.org,
-        intel-wired-lan@lists.osuosl.org, dev@openvswitch.org,
-        x86@kernel.org, linux-wireless@vger.kernel.org,
-        llvm@lists.linux.dev, linux-hardening@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YywfxwBmdmvQ0i21@kroah.com>
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Sep 22, 2022 at 5:10 AM Kees Cook <keescook@chromium.org> wrote:
->
-> -#ifdef __alloc_size__
-> -# define __alloc_size(x, ...)  __alloc_size__(x, ## __VA_ARGS__) __malloc
-> -#else
-> -# define __alloc_size(x, ...)  __malloc
-> -#endif
-> +#define __alloc_size(x, ...)   __alloc_size__(x, ## __VA_ARGS__) __malloc
-> +#define __realloc_size(x, ...) __alloc_size__(x, ## __VA_ARGS__)
+On Thu, Sep 22, 2022 at 10:41:43AM +0200, Greg Kroah-Hartman wrote:
+> On Tue, Sep 20, 2022 at 11:00:35AM +0200, Johan Hovold wrote:
+> > Mauro and Hans,
+> > 
+> > On Mon, Aug 22, 2022 at 05:10:27PM +0200, Johan Hovold wrote:
+> > > Commit d725d20e81c2 ("media: flexcop-usb: sanity checking of endpoint
+> > > type") tried to add an endpoint type sanity check for the single
+> > > isochronous endpoint but instead broke the driver by checking the wrong
+> > > descriptor or random data beyond the last endpoint descriptor.
+> > > 
+> > > Make sure to check the right endpoint descriptor.
+> > > 
+> > > Fixes: d725d20e81c2 ("media: flexcop-usb: sanity checking of endpoint type")
+> > > Cc: Oliver Neukum <oneukum@suse.com>
+> > > Cc: stable@vger.kernel.org	# 5.9
+> > > Reported-by: Dongliang Mu <mudongliangabcd@gmail.com>
+> > > Signed-off-by: Johan Hovold <johan@kernel.org>
+> > > ---
+> > > 
+> > > It's been two months and two completely ignored reminders so resending.
+> > > 
+> > > Can someone please pick this fix up and let me know when that has been
+> > > done?
+> > 
+> > It's been another month so sending yet another reminder. This driver as
+> > been broken since 5.9 and I posted this fix almost four months ago and
+> > have sent multiple reminders since.
+> > 
+> > Can someone please pick this one and the follow-up cleanups up?
+> 
+> I've taken this one in my tree now.  Which one were the "follow-up"
+> cleanups?
 
-These look unconditional now, so we could move it to
-`compiler_attributes.h` in a later patch (or an independent series).
+Thanks. These are the follow-up cleanups:
 
-Cheers,
-Miguel
+	https://lore.kernel.org/lkml/20220822151456.27178-1-johan@kernel.org/
+
+Perhaps we should start taking USB related changes like this through the
+USB tree by default. Posting patches to the media subsystem feels like
+shooting patches at a black hole.
+
+Johan
