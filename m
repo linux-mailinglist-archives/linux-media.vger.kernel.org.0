@@ -2,128 +2,234 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 332D45E67E8
-	for <lists+linux-media@lfdr.de>; Thu, 22 Sep 2022 18:00:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 53FD35E688E
+	for <lists+linux-media@lfdr.de>; Thu, 22 Sep 2022 18:37:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230338AbiIVQAb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 22 Sep 2022 12:00:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55278 "EHLO
+        id S231298AbiIVQhB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 22 Sep 2022 12:37:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44978 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229723AbiIVQAb (ORCPT
+        with ESMTP id S229659AbiIVQhA (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 22 Sep 2022 12:00:31 -0400
-Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com [IPv6:2607:f8b0:4864:20::633])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 753E9AA4E9
-        for <linux-media@vger.kernel.org>; Thu, 22 Sep 2022 09:00:29 -0700 (PDT)
-Received: by mail-pl1-x633.google.com with SMTP id w20so9165804ply.12
-        for <linux-media@vger.kernel.org>; Thu, 22 Sep 2022 09:00:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date;
-        bh=e+3VYhs+DuwH7bu+QHtV1rjWq3mJNnHisCvMMFS3bAw=;
-        b=XxhEWZKeaIg8g+YPuHc57mvNIPPhpigg738nM9wsLJjiUYpKwjJNzBKKGjefZOhAzi
-         0KqHQ1P/cHiMmQgsO3z2jt2+D0oCcG8Ck+pj5sopXZOTE33QKhSQ8Lb6DWDYvG77ZJIc
-         GQLx6jVnYAJuMY3HV3uGUN51p3PNgpWkx9A1M=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
-        bh=e+3VYhs+DuwH7bu+QHtV1rjWq3mJNnHisCvMMFS3bAw=;
-        b=veokjoC+BbcoZUf21+Pp5IOFdct8dhhOzhJdlU2Uw0+DuksLFLE7B51LX1CRD6EO1b
-         GzJvixa6A0NC9A+g3TcqqbTxCJETTbXonyGnQ+BmHATMFppVI3ldRPsG+qL3Cjc7DvsL
-         K/Rx6v9DmRQNeNZl1EkHCkJPR9RjyTZA1TkORdK6L1Mgw/A+6EaJ3aCCDyEvgF5kkPHl
-         KE6n++gbuYiGGlFQvcAQQd35abuNLGzeoawQ0PrZAhJOBI69YDPuQZzvbhlFeBXBybBb
-         SkNwnvkyAkvB+AlZJp7X35IwOD/GqwDkmrJ/VGjgbHaypfxOQch+ajC0a59hUNCaaEB9
-         x1qQ==
-X-Gm-Message-State: ACrzQf10PYA9qwaakmzdbs9YWFsbR9OzfpvrPoIYIcwaagZHFBHMNM5N
-        Oewx8JG2noJcVFnnmJ3b8O4w7g==
-X-Google-Smtp-Source: AMsMyM6q4mhFYq39gGoVyx6Hnh47y8QFV1PKitfWXVTUQGpGwPy/JbIncPBlq3WqciXD78b9y3HP3A==
-X-Received: by 2002:a17:90b:164d:b0:202:69b3:1002 with SMTP id il13-20020a17090b164d00b0020269b31002mr4362502pjb.86.1663862428935;
-        Thu, 22 Sep 2022 09:00:28 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id ms3-20020a17090b234300b002005c3d4d4fsm4007085pjb.19.2022.09.22.09.00.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Sep 2022 09:00:28 -0700 (PDT)
-Date:   Thu, 22 Sep 2022 09:00:26 -0700
-From:   Kees Cook <keescook@chromium.org>
-To:     "Ruhl, Michael J" <michael.j.ruhl@intel.com>
-Cc:     Vlastimil Babka <vbabka@suse.cz>,
-        "linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>,
-        Feng Tang <feng.tang@intel.com>,
-        "llvm@lists.linux.dev" <llvm@lists.linux.dev>,
-        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        Eric Dumazet <edumazet@google.com>,
-        "Nguyen, Anthony L" <anthony.l.nguyen@intel.com>,
-        "linux-hardening@vger.kernel.org" <linux-hardening@vger.kernel.org>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        "dev@openvswitch.org" <dev@openvswitch.org>,
-        "x86@kernel.org" <x86@kernel.org>,
-        "Brandeburg, Jesse" <jesse.brandeburg@intel.com>,
-        "intel-wired-lan@lists.osuosl.org" <intel-wired-lan@lists.osuosl.org>,
-        David Rientjes <rientjes@google.com>,
-        Miguel Ojeda <ojeda@kernel.org>, Yonghong Song <yhs@fb.com>,
-        Paolo Abeni <pabeni@redhat.com>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        Marco Elver <elver@google.com>,
-        Josef Bacik <josef@toxicpanda.com>,
-        "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
-        Jakub Kicinski <kuba@kernel.org>,
-        David Sterba <dsterba@suse.com>,
-        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
-        Alex Elder <elder@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Pekka Enberg <penberg@kernel.org>,
-        Daniel Micay <danielmicay@gmail.com>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-        "linux-btrfs@vger.kernel.org" <linux-btrfs@vger.kernel.org>
-Subject: Re: [PATCH 07/12] igb: Proactively round up to kmalloc bucket size
-Message-ID: <202209220859.DA21F91EAE@keescook>
-References: <20220922031013.2150682-1-keescook@chromium.org>
- <20220922031013.2150682-8-keescook@chromium.org>
- <DM5PR11MB13241226F3AACC81398F7E8EC14E9@DM5PR11MB1324.namprd11.prod.outlook.com>
+        Thu, 22 Sep 2022 12:37:00 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CDBB3D1EA4;
+        Thu, 22 Sep 2022 09:36:58 -0700 (PDT)
+Received: from [IPV6:2804:431:c7c2:b4b6:f87:da96:9bc3:d98b] (unknown [IPv6:2804:431:c7c2:b4b6:f87:da96:9bc3:d98b])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: dwlsalmeida)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 228D66601E58;
+        Thu, 22 Sep 2022 17:36:50 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1663864617;
+        bh=9qk4Re4yFBcAUV8l7PYU2Z7VB5bihult7d9If/n3XpE=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=DfzqEV4qZ/ihOi/bd9W6MOgz4zvoLmC7kGSNwCX1KvPfmSkkovxu67SQpOJYBv3PS
+         n+r5b5G4OjVl2VQ9BhyCXgbEaR35UrFP7STucYhqy1oDzuviVRK9HAaJPipiX41bH/
+         z+OfcHq4Uf+tWALIixErvkUe9LbAMst6LYM8eNUi4Fk8C2WrT0O8+BmXB2yc6BY3YQ
+         Sk7myOK1VudgA2a4XluK09TyqYJILdYPx4N1GZzpcTbFiiYRO66g5z3Fb7VTgO3INz
+         DYQ+QDjA0VjR7aXAHHbGGFsVk2EuclSm7+60exYREi1IGp9BW4nkQ/vpT+2rI3J96I
+         etPD1OTqk0yZQ==
+Message-ID: <927f95dd-283a-a3c0-6c2f-41a36bcc42ef@collabora.com>
+Date:   Thu, 22 Sep 2022 13:36:46 -0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <DM5PR11MB13241226F3AACC81398F7E8EC14E9@DM5PR11MB1324.namprd11.prod.outlook.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Subject: Re: [RFC PATCH v3] media: mediatek: vcodec: support stateless AV1
+ decoder
+To:     Xiaoyong Lu <xiaoyong.lu@mediatek.com>,
+        Yunfei Dong <yunfei.dong@mediatek.com>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Tiffany Lin <tiffany.lin@mediatek.com>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Tomasz Figa <tfiga@google.com>
+Cc:     Irui Wang <irui.wang@mediatek.com>,
+        George Sun <george.sun@mediatek.com>,
+        Steve Cho <stevecho@chromium.org>, srv_heupstream@mediatek.com,
+        devicetree@vger.kernel.org,
+        Project_Global_Chrome_Upstream_Group@mediatek.com,
+        linux-kernel@vger.kernel.org,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        linux-mediatek@lists.infradead.org,
+        Hsin-Yi Wang <hsinyi@chromium.org>,
+        Fritz Koenig <frkoenig@chromium.org>,
+        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+References: <20220901110416.21191-1-xiaoyong.lu@mediatek.com>
+Content-Language: en-US
+From:   Daniel Almeida <daniel.almeida@collabora.com>
+In-Reply-To: <20220901110416.21191-1-xiaoyong.lu@mediatek.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Sep 22, 2022 at 03:56:54PM +0000, Ruhl, Michael J wrote:
-> >From: dri-devel <dri-devel-bounces@lists.freedesktop.org> On Behalf Of Kees Cook
-> [...]
-> >diff --git a/drivers/net/ethernet/intel/igb/igb_main.c
-> >b/drivers/net/ethernet/intel/igb/igb_main.c
-> >index 2796e81d2726..4d70ee5b0f79 100644
-> >--- a/drivers/net/ethernet/intel/igb/igb_main.c
-> >+++ b/drivers/net/ethernet/intel/igb/igb_main.c
-> >@@ -1196,6 +1196,7 @@ static int igb_alloc_q_vector(struct igb_adapter
-> >*adapter,
-> >
-> > 	ring_count = txr_count + rxr_count;
-> > 	size = struct_size(q_vector, ring, ring_count);
-> >+	size = kmalloc_size_roundup(size);
-> 
-> why not:
-> 
-> 	size = kmalloc_size_roundup(struct_size(q_vector, ring, ring_count));
-> 
-> ?
+Hi Xiaoyong.
 
-Sure! I though it might be more readable split up. I will change it. :)
+Comments below (other code removed for brevity)
 
--- 
-Kees Cook
++/**
++ * struct vdec_av1_slice_slot - slot info need save in global instance
++ * @frame_info: frame info for each slot
++ * @timestamp:  time stamp info
++ */
++struct vdec_av1_slice_slot {
++	struct vdec_av1_slice_frame_info frame_info[AV1_MAX_FRAME_BUF_COUNT];
++	u64 timestamp[AV1_MAX_FRAME_BUF_COUNT];
++};
+
+nit: slot info that needs to be saved in the global instance
+
++static int vdec_av1_slice_get_qindex(struct 
+vdec_av1_slice_uncompressed_header *uh,
++				     int segmentation_id)
++{
++	struct vdec_av1_slice_seg *seg = &uh->seg;
++	struct vdec_av1_slice_quantization *quant = &uh->quant;
++	int data = 0, qindex = 0;
++
++	if (seg->segmentation_enabled &&
++	    (seg->feature_enabled_mask[segmentation_id] & BIT(0))) {
++		data = seg->feature_data[segmentation_id][0];
+
+
+Maybe you should replace the 0 above by SEG_LVL_ALT_Q to be more 
+explicit. Same goes for BIT(0).
+
++static void vdec_av1_slice_setup_lr(struct vdec_av1_slice_lr *lr,
++				    struct v4l2_av1_loop_restoration  *ctrl_lr)
++{
++	int i;
++
++	for (i = 0; i < V4L2_AV1_NUM_PLANES_MAX; i++) {
++		lr->frame_restoration_type[i] = ctrl_lr->frame_restoration_type[i];
++		lr->loop_restoration_size[i] = ctrl_lr->loop_restoration_size[i];
++	}
++	lr->use_lr = !!lr->frame_restoration_type[0];
++	lr->use_chroma_lr = !!lr->frame_restoration_type[1];
++}
+
+ From a first glance, this looks a bit divergent from the spec?
+
+for ( i = 0; i < NumPlanes; i++ ) {
+     lr_type
+     FrameRestorationType[i] = Remap_Lr_Type[lr_type]
+     if ( FrameRestorationType[i] != RESTORE_NONE ) {
+         UsesLr = 1
+         if ( i > 0 ) {
+             usesChromaLr = 1
+         }
+     }
+}
+
+I will include these two variables in the next iteration of the uapi if 
+computing them in the driver is problematic.
+
++static void vdec_av1_slice_setup_lf(struct vdec_av1_slice_loop_filter *lf,
++				    struct v4l2_av1_loop_filter *ctrl_lf)
++{
++	int i;
++
++	for (i = 0; i < 4; i++)
++		lf->loop_filter_level[i] = ctrl_lf->level[i];
++
++	for (i = 0; i < V4L2_AV1_TOTAL_REFS_PER_FRAME; i++)
++		lf->loop_filter_ref_deltas[i] = ctrl_lf->ref_deltas[i];
++
++	for (i = 0; i < 2; i++)
++		lf->loop_filter_mode_deltas[i] = ctrl_lf->mode_deltas[i];
++
++	lf->loop_filter_sharpness = ctrl_lf->sharpness;
++	lf->loop_filter_delta_enabled =
++		   BIT_FLAG(ctrl_lf, V4L2_AV1_LOOP_FILTER_FLAG_DELTA_ENABLED);
++}
+
+Maybe ARRAY_SIZE can be of use in the loop indices here?
+
++static void vdec_av1_slice_setup_cdef(struct vdec_av1_slice_cdef *cdef,
++				      struct v4l2_av1_cdef *ctrl_cdef)
++{
++	int i;
++
++	cdef->cdef_damping = ctrl_cdef->damping_minus_3 + 3;
++	cdef->cdef_bits = ctrl_cdef->bits;
++
++	for (i = 0; i < V4L2_AV1_CDEF_MAX; i++) {
++		if (ctrl_cdef->y_sec_strength[i] == 4)
++			ctrl_cdef->y_sec_strength[i] -= 1;
++
++		if (ctrl_cdef->uv_sec_strength[i] == 4)
++			ctrl_cdef->uv_sec_strength[i] -= 1;
++
++		cdef->cdef_y_strength[i] = ctrl_cdef->y_pri_strength[i] << 2 |
++					   ctrl_cdef->y_sec_strength[i];
++		cdef->cdef_uv_strength[i] = ctrl_cdef->uv_pri_strength[i] << 2 |
++					    ctrl_cdef->uv_sec_strength[i];
++	}
++}
+
+Maybe:
+
+#define SECONDARY_FILTER_STRENGTH_NUM_BITS 2
+
++		cdef->cdef_y_strength[i] = ctrl_cdef->y_pri_strength[i] << 
+SECONDARY_FILTER_STRENGTH_NUM_BITS |
++					   ctrl_cdef->y_sec_strength[i];
++		cdef->cdef_uv_strength[i] = ctrl_cdef->uv_pri_strength[i] << 
+SECONDARY_FILTER_STRENGTH_NUM_BITS |
++					    ctrl_cdef->uv_sec_strength[i];
+
+This should make it clearer.
+
++		sb_boundary_x_m1 =
++			(tile->mi_col_starts[tile_col + 1] - tile->mi_col_starts[tile_col] - 
+1) &
++			0x3F;
++		sb_boundary_y_m1 =
++			(tile->mi_row_starts[tile_row + 1] - tile->mi_row_starts[tile_row] - 
+1) &
++			0x1FF;
++
+
+IIRC there's a preference for lower case hex values in the media subsystem.
+
++static void vdec_av1_slice_get_dpb_size(struct vdec_av1_slice_instance 
+*instance, u32 *dpb_sz)
++{
++	/* refer av1 specification */
++	*dpb_sz = 9;
++}
+
+That's actually defined as 8 in the spec, i.e.:
+
+NUM_REF_FRAMES 8 Number of frames that can be stored for future
+reference.
+
+It's helpful to indicate the section if you reference the specification, 
+as it makes it easier for the reviewer to cross check.
+
++	/* get buffer address from vb2buf */
++	for (i = 0; i < V4L2_AV1_REFS_PER_FRAME; i++) {
++		struct vdec_av1_slice_fb *vref = &vsi->ref[i];
++		int idx = vb2_find_timestamp(vq, pfc->ref_idx[i], 0);
+
+Needs to be converted to vb2_find_buffer in light of 
+https://lore.kernel.org/lkml/20220706182657.210650-3-ezequiel@vanguardiasur.com.ar/T/
+
+-- Daniel
+
