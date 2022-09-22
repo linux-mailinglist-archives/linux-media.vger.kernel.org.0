@@ -2,64 +2,76 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0DEE95E60BB
-	for <lists+linux-media@lfdr.de>; Thu, 22 Sep 2022 13:16:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 69C235E60C5
+	for <lists+linux-media@lfdr.de>; Thu, 22 Sep 2022 13:19:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231328AbiIVLQ3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 22 Sep 2022 07:16:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34986 "EHLO
+        id S231310AbiIVLTa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 22 Sep 2022 07:19:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36578 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229893AbiIVLQ2 (ORCPT
+        with ESMTP id S231349AbiIVLT1 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 22 Sep 2022 07:16:28 -0400
-Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com [IPv6:2a00:1450:4864:20::529])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A1F0CDED45
-        for <linux-media@vger.kernel.org>; Thu, 22 Sep 2022 04:16:26 -0700 (PDT)
-Received: by mail-ed1-x529.google.com with SMTP id m3so13026484eda.12
-        for <linux-media@vger.kernel.org>; Thu, 22 Sep 2022 04:16:26 -0700 (PDT)
+        Thu, 22 Sep 2022 07:19:27 -0400
+Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com [IPv6:2a00:1450:4864:20::336])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6B491E05D8
+        for <linux-media@vger.kernel.org>; Thu, 22 Sep 2022 04:19:25 -0700 (PDT)
+Received: by mail-wm1-x336.google.com with SMTP id e18so6535654wmq.3
+        for <linux-media@vger.kernel.org>; Thu, 22 Sep 2022 04:19:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=raspberrypi.com; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date;
-        bh=Itm+uIf9T56vqPADmvToqfrF8YgqElcu89VEypMgdI4=;
-        b=a3e1j6+QOUxZxiO53sdcUB269zmPRKhYqftnCbksCXon0a8Cvy/xeWiptAQ53Mn7tU
-         NuTqlBmusQD6F6PfUC3jITupPzLwjN8TQj2SkUUrWN8XJ42t2DYN9feDtxhpsYB1Aot9
-         5/eDWPGv8j++jxfYSmp40K3m8dG8dtGUL2H2lGV5LV6A4yHoRgbNUVWkYBOpFlSME6sU
-         qDV+dO9O/uEyUwmLcVglMdydJHD4e8YRIU4H+mC4/Ps4RZMR8ZD2LMmW18Voi06FP1sA
-         a2S6UAIqupdL7gET+jpUNtIDsWjJUrkjhDYvfKzM0Q2aWp0wRFSxcVprDht5pe/pbD6s
-         H+pA==
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date;
+        bh=t8fnzrIP5Rd96wxtwCpBmqjcHWRrpM1rOLVNZO5vmNI=;
+        b=dJk5Y94pITj6pxLdNyGO7ZhSsFYiSCkGIvGmbedXGBmdKEvlSGZcq86LxSMRHXjj3E
+         JPd5heKCkQy+Af/mMGA4snYiwtKeH4qweugKd0AfAkyaEnwJX3aI6Jrm0J/+x0SDycjG
+         YVehNs71VpYm9ngo+53T1OebmrV/FHr4XIAcqpPGEs36FSX8rVk1cRdEXXdWfmAs6A4U
+         NBpR4OPQhTJJtcVzwNjXbp9OBg5vg57DczxTdLLlgSPOizzS3KsTtlQ80P4iHQ13GgEt
+         9u6o9AQFV/gWWoaxTE0qT1rSWFqylvJgMO53RRBxf3EMLgJ2wUBVw5Nr+FV/D5vypH6r
+         pE/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=Itm+uIf9T56vqPADmvToqfrF8YgqElcu89VEypMgdI4=;
-        b=OqcAT1WnK86GVotFuDr7T8C0T/gGe6f5vSRiXzFQvJos7BqgvXQDPR8/OGk3G4gTEm
-         166R+N/VWfAdWYwDlM27jBBvT6Z9H+YQjqcMtQelPoDV+RkMnla5+O4Lladl8VkoAqQj
-         Xzkr/rTsgjUH4C9zQIAXCiOu6bXtf/NFOHR22VoSyW1t8m5UKk8bTbOs92powtsP+k46
-         fArKJ9GsEqtDynot/oMcH4+fOosQviEMag3Ux1O49r60PnPrVD/Jb697w9AMnGvNwHDA
-         ZhSFd961brrV31LFrQxAq/+Wisun9003VfaNsnn6+Fy8DWl4lzpBdOmQPjGWYIl4waRf
-         U/6w==
-X-Gm-Message-State: ACrzQf3bdmtTKRA1gw4bXbVpZJ/qZEZkM3Hp0Xl8BQgj61dC3qbLDvdd
-        S6iU4T/v8C0o+87Wfsprp/+mFMLRkvyVjN3GLSxv+w==
-X-Google-Smtp-Source: AMsMyM6Ak0c8ZalGghxnd73V8iCWUl6A+NJ9NaYLdYWa3aFbRzFzfOunBFqkXzqFDCl09WwrYkyX4lNhhShiPWLcTLo=
-X-Received: by 2002:a05:6402:1909:b0:451:ace7:ccbd with SMTP id
- e9-20020a056402190900b00451ace7ccbdmr2698529edz.276.1663845385188; Thu, 22
- Sep 2022 04:16:25 -0700 (PDT)
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date;
+        bh=t8fnzrIP5Rd96wxtwCpBmqjcHWRrpM1rOLVNZO5vmNI=;
+        b=UoALH5Q+U99Zd/8zPjHvKNjcLa5Ma7QMg7JzJOhcZX53EljmImr0vBA7niFLnmYgXm
+         Ydo/x4oJATprIwbBRBlR9WZK6pok/AcOnBpF/LmahxWgS7UzxoKYfX8BwuktQoETCvhc
+         jRpy8pBD/S5ppZH5eLX6ehjB7BnaBE9ij90/W8/d8m8ij37TQxqR20r22rpGEXsnCzO3
+         zqeT3wNa5Ke/TnzbUGMPy2juicDlegP47ZL0qNXE7jBRjqjR1rlWReyHxC816ZrRcqZz
+         DHl9Kk6kMuY+1tpMvB4y0Elg9voDbB7owxeNBuYWByx0Nbx0XPEHOMJ7FdP+NItxUXzO
+         NEVw==
+X-Gm-Message-State: ACrzQf000kr/UjWsvjrTu/B28OjfK22o532R0HtOq56sSs9Sq2R6fGmv
+        jIjaxxMhC/B74mpPyynXAZUxCjgyJo8TTw==
+X-Google-Smtp-Source: AMsMyM4n1UW0u+22gzsf6E5ChxfjDUEqJ40NQekVxaebsPOJI9bblE7GXcPC5Eb2gZeHKCWAdVTCzQ==
+X-Received: by 2002:a05:600c:2181:b0:3b4:74e4:16f8 with SMTP id e1-20020a05600c218100b003b474e416f8mr1927026wme.174.1663845563964;
+        Thu, 22 Sep 2022 04:19:23 -0700 (PDT)
+Received: from [192.168.0.162] (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
+        by smtp.gmail.com with ESMTPSA id x2-20020a5d6b42000000b00225307f43fbsm4874060wrw.44.2022.09.22.04.19.23
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 22 Sep 2022 04:19:23 -0700 (PDT)
+Message-ID: <cc24035d-9a32-ff9e-bffa-a21a0f79f138@linaro.org>
+Date:   Thu, 22 Sep 2022 12:19:22 +0100
 MIME-Version: 1.0
-References: <20220922104225.1375331-1-bryan.odonoghue@linaro.org> <20220922104225.1375331-4-bryan.odonoghue@linaro.org>
-In-Reply-To: <20220922104225.1375331-4-bryan.odonoghue@linaro.org>
-From:   Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date:   Thu, 22 Sep 2022 12:16:11 +0100
-Message-ID: <CAPY8ntAAcbv0myL3F-OOOH_rUUF7q==DQFq1sCaYAY=+JapgcA@mail.gmail.com>
-Subject: Re: [PATCH v4 RESEND 3/3] media: i2c: imx412: Add new compatible strings
-To:     "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v4 RESEND 3/3] media: i2c: imx412: Add new compatible
+ strings
+Content-Language: en-US
+To:     Dave Stevenson <dave.stevenson@raspberrypi.com>
 Cc:     sakari.ailus@iki.fi, jacopo@jmondi.org, paul.j.murphy@intel.com,
         daniele.alessandrelli@intel.com, mchehab@kernel.org,
         linux-media@vger.kernel.org, krzysztof.kozlowski+dt@linaro.org,
         robh+dt@kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+References: <20220922104225.1375331-1-bryan.odonoghue@linaro.org>
+ <20220922104225.1375331-4-bryan.odonoghue@linaro.org>
+ <CAPY8ntAAcbv0myL3F-OOOH_rUUF7q==DQFq1sCaYAY=+JapgcA@mail.gmail.com>
+From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+In-Reply-To: <CAPY8ntAAcbv0myL3F-OOOH_rUUF7q==DQFq1sCaYAY=+JapgcA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -67,56 +79,17 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Brian
+On 22/09/2022 12:16, Dave Stevenson wrote:
+> It may*eventually*  work for all three parts, but isn't the time to
+> add the compatible string at the point where it is actually compatible
+> with the driver?
 
-On Thu, 22 Sept 2022 at 11:43, Bryan O'Donoghue
-<bryan.odonoghue@linaro.org> wrote:
->
-> The Sony imx477 and imx577 use the same silicon enabling reference code
-> from Sony in the available examples provided as the imx412.
->
-> Add in compatible strings to differentiate the parts.
->
-> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-> ---
->  drivers/media/i2c/imx412.c | 2 ++
->  1 file changed, 2 insertions(+)
->
-> diff --git a/drivers/media/i2c/imx412.c b/drivers/media/i2c/imx412.c
-> index 9f854a1a4c2f..93f362e3b132 100644
-> --- a/drivers/media/i2c/imx412.c
-> +++ b/drivers/media/i2c/imx412.c
-> @@ -1288,6 +1288,8 @@ static const struct dev_pm_ops imx412_pm_ops = {
->
->  static const struct of_device_id imx412_of_match[] = {
->         { .compatible = "sony,imx412", .data = "imx412" },
-> +       { .compatible = "sony,imx477", .data = "imx477" },
+Yes. I forgot about the 0x477 chip id on your part.
 
-IMX477 isn't compatible with this driver at present - it has 0x0477 in
-REG_ID (0x0016) instead of the 0x0577 that this driver looks for. The
-driver therefore won't probe. (I don't think I've missed a patch
-removing the ID check).
+I'm happy enough to drop 477 from the compat string or indeed to allow 
+0x0477 as a valid chip identifier in imx412.
 
-I know you state in your cover letter:
-  I think we have established that imx477 and imx577 do have additional
-  settings and modes over the imx412 which, we can and hopefully will add
-  in as time goes by. What we have upstream will work for all three parts.
+Sakari, what would you like to do ?
 
-It may *eventually* work for all three parts, but isn't the time to
-add the compatible string at the point where it is actually compatible
-with the driver?
-
-If you're adding in broken compatible strings then, as previously
-mentioned, imx378 is also in the same family IIRC it streams with the
-base imx477 registers but with some IQ issues. It reports 0x0378 in
-REG_ID.
-
-  Dave
-
-> +       { .compatible = "sony,imx577", .data = "imx577" },
->         { }
->  };
->
-> --
-> 2.34.1
->
+---
+bod
