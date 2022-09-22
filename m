@@ -2,98 +2,91 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1BEBD5E5D4B
-	for <lists+linux-media@lfdr.de>; Thu, 22 Sep 2022 10:20:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EDC655E5DB0
+	for <lists+linux-media@lfdr.de>; Thu, 22 Sep 2022 10:41:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229619AbiIVIUB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 22 Sep 2022 04:20:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35976 "EHLO
+        id S230309AbiIVIlw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 22 Sep 2022 04:41:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39486 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229499AbiIVIT7 (ORCPT
+        with ESMTP id S229717AbiIVIlt (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 22 Sep 2022 04:19:59 -0400
-Received: from dggsgout11.his.huawei.com (dggsgout11.his.huawei.com [45.249.212.51])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9AA4832DB5
-        for <linux-media@vger.kernel.org>; Thu, 22 Sep 2022 01:19:52 -0700 (PDT)
-Received: from mail02.huawei.com (unknown [172.30.67.143])
-        by dggsgout11.his.huawei.com (SkyGuard) with ESMTP id 4MY7Sb29WKzKN7s
-        for <linux-media@vger.kernel.org>; Thu, 22 Sep 2022 16:17:51 +0800 (CST)
-Received: from huaweicloud.com (unknown [10.175.102.38])
-        by APP2 (Coremail) with SMTP id Syh0CgAnenOlGixj44fdBA--.59445S4;
-        Thu, 22 Sep 2022 16:19:51 +0800 (CST)
-From:   Wei Yongjun <weiyongjun@huaweicloud.com>
-To:     Sean Young <sean@mess.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Wei Yongjun <weiyongjun1@huawei.com>, linux-media@vger.kernel.org
-Subject: [PATCH] media: rc: ir-spi: Silence no spi_device_id warnings
-Date:   Thu, 22 Sep 2022 08:37:03 +0000
-Message-Id: <20220922083703.1761143-1-weiyongjun@huaweicloud.com>
-X-Mailer: git-send-email 2.34.1
+        Thu, 22 Sep 2022 04:41:49 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AFAB5CDCCF;
+        Thu, 22 Sep 2022 01:41:47 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 11F0D611DF;
+        Thu, 22 Sep 2022 08:41:47 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1B4DBC433C1;
+        Thu, 22 Sep 2022 08:41:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1663836106;
+        bh=0eoFjcQopkDVXGcndNRjQDg5nJ3lKUmDPXyMxFGOeHo=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=iX6RKUvT1p92sezDzPubezh1aonVxG6Swuk58miPNcurs6dHVCCYWP2RuGqh8HQaj
+         UGn1AfTG1Bn5Gx2ukwC64vlAWHwOh9BVYg83bh2AuAnosLatGqCrYAZLwZxYU8lBKy
+         FfjJS/enFgr6FKW43CxE+XjK/YH3vnuYmhAxtj0o=
+Date:   Thu, 22 Sep 2022 10:41:43 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Johan Hovold <johan@kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Sean Young <sean@mess.org>, linux-media@vger.kernel.org,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Oliver Neukum <oneukum@suse.com>, stable@vger.kernel.org,
+        Dongliang Mu <mudongliangabcd@gmail.com>
+Subject: Re: [PATCH RESEND] media: flexcop-usb: fix endpoint type check
+Message-ID: <YywfxwBmdmvQ0i21@kroah.com>
+References: <20220822151027.27026-1-johan@kernel.org>
+ <YymBM1wJLAsBDU4E@hovoldconsulting.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: Syh0CgAnenOlGixj44fdBA--.59445S4
-X-Coremail-Antispam: 1UD129KBjvJXoW7Gw4DXw1rXr45Xr4fZF4Dtwb_yoW8Jr1kpF
-        W5Xa45AFykWw45Gw4Sg3yxWF90ganagayFgry3Gw1Y9as7Zry3JFWxtFy7Xr1DGFWUJ3W3
-        tFy0qryxJF4rArJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDU0xBIdaVrnRJUUUgEb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k2
-        6cxKx2IYs7xG6r1S6rWUM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
-        vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7Cj
-        xVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x
-        0267AKxVW0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG
-        6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFV
-        Cjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCj
-        c4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4
-        CE17CEb7AF67AKxVWUAVWUtwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1x
-        MIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_WFyUJV
-        Cq3wCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIY
-        CTnIWIevJa73UjIFyTuYvjxUzsqWUUUUU
-X-CM-SenderInfo: 5zhl50pqjm3046kxt4xhlfz01xgou0bp/
-X-CFilter-Loop: Reflected
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YymBM1wJLAsBDU4E@hovoldconsulting.com>
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Wei Yongjun <weiyongjun1@huawei.com>
+On Tue, Sep 20, 2022 at 11:00:35AM +0200, Johan Hovold wrote:
+> Mauro and Hans,
+> 
+> On Mon, Aug 22, 2022 at 05:10:27PM +0200, Johan Hovold wrote:
+> > Commit d725d20e81c2 ("media: flexcop-usb: sanity checking of endpoint
+> > type") tried to add an endpoint type sanity check for the single
+> > isochronous endpoint but instead broke the driver by checking the wrong
+> > descriptor or random data beyond the last endpoint descriptor.
+> > 
+> > Make sure to check the right endpoint descriptor.
+> > 
+> > Fixes: d725d20e81c2 ("media: flexcop-usb: sanity checking of endpoint type")
+> > Cc: Oliver Neukum <oneukum@suse.com>
+> > Cc: stable@vger.kernel.org	# 5.9
+> > Reported-by: Dongliang Mu <mudongliangabcd@gmail.com>
+> > Signed-off-by: Johan Hovold <johan@kernel.org>
+> > ---
+> > 
+> > It's been two months and two completely ignored reminders so resending.
+> > 
+> > Can someone please pick this fix up and let me know when that has been
+> > done?
+> 
+> It's been another month so sending yet another reminder. This driver as
+> been broken since 5.9 and I posted this fix almost four months ago and
+> have sent multiple reminders since.
+> 
+> Can someone please pick this one and the follow-up cleanups up?
 
-SPI devices use the spi_device_id for module autoloading even on
-systems using device tree, after commit 5fa6863ba692 ("spi: Check
-we have a spi_device_id for each DT compatible"), kernel warns as
-follows since the spi_device_id is missing:
+I've taken this one in my tree now.  Which one were the "follow-up"
+cleanups?
 
-SPI driver ir-spi has no spi_device_id for ir-spi-led
+thanks,
 
-Add spi_device_id entries to silence the warning, and ensure driver
-module autoloading works.
-
-Signed-off-by: Wei Yongjun <weiyongjun1@huawei.com>
----
- drivers/media/rc/ir-spi.c | 7 +++++++
- 1 file changed, 7 insertions(+)
-
-diff --git a/drivers/media/rc/ir-spi.c b/drivers/media/rc/ir-spi.c
-index 51aa55a84bb5..bbc81bed4f90 100644
---- a/drivers/media/rc/ir-spi.c
-+++ b/drivers/media/rc/ir-spi.c
-@@ -158,8 +158,15 @@ static const struct of_device_id ir_spi_of_match[] = {
- };
- MODULE_DEVICE_TABLE(of, ir_spi_of_match);
- 
-+static const struct spi_device_id ir_spi_ids[] = {
-+	{ "ir-spi-led" },
-+	{},
-+};
-+MODULE_DEVICE_TABLE(spi, ir_spi_ids);
-+
- static struct spi_driver ir_spi_driver = {
- 	.probe = ir_spi_probe,
-+	.id_table = ir_spi_ids,
- 	.driver = {
- 		.name = IR_SPI_DRIVER_NAME,
- 		.of_match_table = ir_spi_of_match,
--- 
-2.34.1
-
+greg k-h
