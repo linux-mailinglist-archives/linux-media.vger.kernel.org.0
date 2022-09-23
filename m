@@ -2,48 +2,46 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6DFA25E7D0B
-	for <lists+linux-media@lfdr.de>; Fri, 23 Sep 2022 16:31:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BA61E5E7D4D
+	for <lists+linux-media@lfdr.de>; Fri, 23 Sep 2022 16:38:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229616AbiIWOan (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 23 Sep 2022 10:30:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44276 "EHLO
+        id S231827AbiIWOih (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 23 Sep 2022 10:38:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56278 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230116AbiIWOag (ORCPT
+        with ESMTP id S229963AbiIWOie (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 23 Sep 2022 10:30:36 -0400
+        Fri, 23 Sep 2022 10:38:34 -0400
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 600E41397C2
-        for <linux-media@vger.kernel.org>; Fri, 23 Sep 2022 07:30:35 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 339BF143294
+        for <linux-media@vger.kernel.org>; Fri, 23 Sep 2022 07:38:31 -0700 (PDT)
 Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
         by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.92)
         (envelope-from <mfe@pengutronix.de>)
-        id 1objh1-0002rt-OC; Fri, 23 Sep 2022 16:30:15 +0200
+        id 1objoi-00045V-NU; Fri, 23 Sep 2022 16:38:12 +0200
 Received: from mfe by ptx.hi.pengutronix.de with local (Exim 4.92)
         (envelope-from <mfe@pengutronix.de>)
-        id 1objgz-00016D-Gx; Fri, 23 Sep 2022 16:30:13 +0200
-Date:   Fri, 23 Sep 2022 16:30:13 +0200
+        id 1objoh-0001T7-SC; Fri, 23 Sep 2022 16:38:11 +0200
+Date:   Fri, 23 Sep 2022 16:38:11 +0200
 From:   Marco Felsch <m.felsch@pengutronix.de>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
 Cc:     mchehab@kernel.org, robh+dt@kernel.org,
         krzysztof.kozlowski+dt@linaro.org, kishon@ti.com, vkoul@kernel.org,
-        sakari.ailus@linux.intel.com, jacopo@jmondi.org,
+        laurent.pinchart@ideasonboard.com, jacopo@jmondi.org,
         hverkuil@xs4all.nl, linux-phy@lists.infradead.org,
         linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
         linux-media@vger.kernel.org, kernel@pengutronix.de
 Subject: Re: [PATCH v3 4/4] media: tc358746: add Toshiba TC358746 Parallel to
  CSI-2 bridge driver
-Message-ID: <20220923143013.vymstztawb3wb2nf@pengutronix.de>
+Message-ID: <20220923143811.d5gk52vh2koczyhk@pengutronix.de>
 References: <20220922134843.3108267-1-m.felsch@pengutronix.de>
  <20220922134843.3108267-5-m.felsch@pengutronix.de>
- <Yyyq7CRB3Tg8508B@pendragon.ideasonboard.com>
- <20220923092726.mrurgoylqdlw3ena@pengutronix.de>
- <Yy24k5OQGcuZvcSo@pendragon.ideasonboard.com>
+ <Yy2rNit+rRGkcFdL@paasikivi.fi.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Yy24k5OQGcuZvcSo@pendragon.ideasonboard.com>
+In-Reply-To: <Yy2rNit+rRGkcFdL@paasikivi.fi.intel.com>
 User-Agent: NeoMutt/20180716
 X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
 X-SA-Exim-Mail-From: mfe@pengutronix.de
@@ -58,41 +56,127 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 22-09-23, Laurent Pinchart wrote:
+Hi Sakari,
+
+On 22-09-23, Sakari Ailus wrote:
 > Hi Marco,
 > 
-> On Fri, Sep 23, 2022 at 11:27:26AM +0200, Marco Felsch wrote:
-
-...
-
-> > > > +static int tc358746_write(struct tc358746 *tc358746, u32 reg, u32 val)
-> > > > +{
-> > > > +	size_t count;
-> > > > +	int err;
-> > > > +
-> > > > +	/* 32-bit registers starting from CLW_DPHYCONTTX */
-> > > > +	count = reg < CLW_DPHYCONTTX_REG ? 1 : 2;
-> > > > +
-> > > > +	err = regmap_bulk_write(tc358746->regmap, reg, &val, count);
-> > > > +	if (err)
-> > > > +		dev_dbg(tc358746->sd.dev,
-> > > > +			"Failed to write reg:0x%04x val:0x%04x\n", reg, val);
-> > > 
-> > > I'm not sure if the value is relevant here, but I'd add the error, it's
-> > > useful to know what kind of I2C issue occurred. Same for read().
-> > 
-> > Yeah.. I'm not sure, since you told me to not flood the kernel log. If
-> > someone recognised error while probing or streaming the debug will be
-> > turned on anyways. However, I will make it a dev_err() since this
-> > shouldnt appear normally, you're right.
+> Thanks for the update. A few small things below.
 > 
-> Sorry, I meant printing the value of the error code in the message, the
-> err variable. dev_err() is probably good too actually, as this isn't
-> meant to happen.
+> On Thu, Sep 22, 2022 at 03:48:43PM +0200, Marco Felsch wrote:
+> ...
+> > +static int tc358746_apply_misc_config(struct tc358746 *tc358746)
+> > +{
+> > +	const struct v4l2_mbus_framefmt *mbusfmt;
+> > +	struct v4l2_subdev *sd = &tc358746->sd;
+> > +	struct v4l2_subdev_state *sink_state;
+> > +	const struct tc358746_format *fmt;
+> > +	struct device *dev = sd->dev;
+> > +	u32 val;
+> > +	int err;
+> > +
+> > +	sink_state = v4l2_subdev_lock_and_get_active_state(sd);
+> > +	mbusfmt = v4l2_subdev_get_pad_format(sd, sink_state, TC358746_SINK);
+> > +	v4l2_subdev_unlock_state(sink_state);
+> > +
+> > +	fmt = tc358746_get_format_by_code(TC358746_SINK, mbusfmt->code);
+> 
+> You can no longer access mbusfmt here as you've already unlocked subdev
+> state.
 
-Sorry that was my fault, I misread your comment.. Anyway since we agree
-with dev_err() and I added the err value into the message, everything is
-fine :)
+You're right, Laurent also mentioned this but this function gets called
+during .s_stream(on) so the format shouldn't be changed that late.
+However since you're the 2nd with the thought, I will fix it in the v4.
+
+> > +
+> > +	/* Self defined CSI user data type id's are not supported yet */
+> > +	val = PDFMT(fmt->pdformat);
+> > +	dev_dbg(dev, "DATAFMT: 0x%x\n", val);
+> > +	err = tc358746_write(tc358746, DATAFMT_REG, val);
+> > +	if (err)
+> > +		return err;
+> > +
+> > +	val = PDATAF(fmt->pdataf);
+> > +	dev_dbg(dev, "CONFCTL[PDATAF]: 0x%x\n", fmt->pdataf);
+> > +	err = tc358746_update_bits(tc358746, CONFCTL_REG, PDATAF_MASK, val);
+> > +	if (err)
+> > +		return err;
+> > +
+> > +	val = tc358746->vb_size / 32;
+> > +	dev_dbg(dev, "FIFOCTL: %u (0x%x)\n", val, val);
+> > +	err = tc358746_write(tc358746, FIFOCTL_REG, val);
+> > +	if (err)
+> > +		return err;
+> > +
+> > +	/* Total number of bytes for each line/width */
+> > +	val = mbusfmt->width * fmt->bpp / 8;
+> > +	dev_dbg(dev, "WORDCNT: %u (0x%x)\n", val, val);
+> > +	return tc358746_write(tc358746, WORDCNT_REG, val);
+> > +}
+> 
+> ...
+> 
+> > +static int tc358746_s_stream(struct v4l2_subdev *sd, int enable)
+> > +{
+> > +	struct tc358746 *tc358746 = to_tc358746(sd);
+> > +	struct v4l2_subdev *src;
+> > +	int err;
+> > +
+> > +	dev_dbg(sd->dev, "%sable\n", enable ? "en" : "dis");
+> > +
+> > +	src = tc358746_get_remote_sd(&tc358746->pads[TC358746_SINK]);
+> > +	if (!src)
+> > +		return -EPIPE;
+> > +
+> > +	if (enable) {
+> > +		err = pm_runtime_resume_and_get(sd->dev);
+> > +		if (err)
+> > +			return err;
+> > +
+> > +		err = tc358746_apply_dphy_config(tc358746);
+> > +		if (err)
+> > +			goto err_out;
+> > +
+> > +		err = tc358746_apply_misc_config(tc358746);
+> > +		if (err)
+> > +			goto err_out;
+> > +
+> > +		err = tc358746_enable_csi_lanes(tc358746, 1);
+> > +		if (err)
+> > +			goto err_out;
+> > +
+> > +		err = tc358746_enable_csi_module(tc358746, 1);
+> > +		if (err)
+> > +			goto err_out;
+> > +
+> > +		err = tc358746_enable_parallel_port(tc358746, 1);
+> > +		if (err)
+> > +			goto err_out;
+> > +
+> > +		err = v4l2_subdev_call(src, video, s_stream, 1);
+> > +		if (err)
+> > +			goto err_out;
+> > +
+> > +		return err;
+> 
+> This can be return 0.
+
+Sure.
 
 Regards,
   Marco
+
+> 
+> > +
+> > +err_out:
+> > +		pm_runtime_mark_last_busy(sd->dev);
+> > +		pm_runtime_put_sync_autosuspend(sd->dev);
+> > +
+> > +		return err;
+> > +	}
+> 
+> -- 
+> Kind regards,
+> 
+> Sakari Ailus
+> 
