@@ -2,159 +2,171 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 39D615E8378
-	for <lists+linux-media@lfdr.de>; Fri, 23 Sep 2022 22:19:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1D5745E83DF
+	for <lists+linux-media@lfdr.de>; Fri, 23 Sep 2022 22:34:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233016AbiIWUTz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 23 Sep 2022 16:19:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40110 "EHLO
+        id S233139AbiIWUc5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 23 Sep 2022 16:32:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52406 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232723AbiIWURv (ORCPT
+        with ESMTP id S232938AbiIWUc3 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 23 Sep 2022 16:17:51 -0400
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A229C7D1FA;
-        Fri, 23 Sep 2022 13:14:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1663964099; x=1695500099;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Z4Ap7/60tpjYs9kb1z44MtzSE1l13TDa4jGX5dZVwRg=;
-  b=kU3WeIa1UdfDlb4cc9Hs5UE5ILJbpjWMtfRCg4L9GF6B0xh/mC6bHfhY
-   n9RmSKR7Es7j4X48ovtokLrSD4PnL8TnuQZrZp/Hh0DiAoPNT0Jv8z14S
-   2amO+xMQhjnTAvdWK0p/jME0LfSWNgYfQIOIm28ICBj2jBDuptfi1/DPO
-   3gpk8qpZ2AVjlw87K3pQwIXTCYnS6XRz0bokbkrQaiSoY54kS7rCI0/SB
-   oynIahcPu2WI5EPP2DFd35NHldiyI6l3ERCLOm1zkZcUVhRJ2PVQIWd5M
-   3chNIFfG870YZV4D7WTPDSJIcapNKpRw+jKFSS7b7hY4yxubk4bNMtNi6
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10479"; a="281051925"
-X-IronPort-AV: E=Sophos;i="5.93,340,1654585200"; 
-   d="scan'208";a="281051925"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2022 13:14:53 -0700
-X-IronPort-AV: E=Sophos;i="5.93,340,1654585200"; 
-   d="scan'208";a="724272569"
-Received: from punajuuri.fi.intel.com (HELO paasikivi.fi.intel.com) ([10.237.72.43])
-  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2022 13:14:50 -0700
-Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
-        by paasikivi.fi.intel.com (Postfix) with SMTP id CBA192030E;
-        Fri, 23 Sep 2022 23:14:47 +0300 (EEST)
-Date:   Fri, 23 Sep 2022 20:14:47 +0000
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund@ragnatech.se>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>
-Subject: Re: [PATCH v2 4/4] media: platform: Add Renesas RZ/G2L CRU driver
-Message-ID: <Yy4TtzPtSN9qiiQS@paasikivi.fi.intel.com>
-References: <20220905230406.30801-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20220905230406.30801-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
+        Fri, 23 Sep 2022 16:32:29 -0400
+Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com [IPv6:2607:f8b0:4864:20::1029])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7ACA41497BC
+        for <linux-media@vger.kernel.org>; Fri, 23 Sep 2022 13:28:27 -0700 (PDT)
+Received: by mail-pj1-x1029.google.com with SMTP id i15-20020a17090a4b8f00b0020073b4ac27so1242222pjh.3
+        for <linux-media@vger.kernel.org>; Fri, 23 Sep 2022 13:28:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date;
+        bh=WK0bGuD2tAxqqCEo+J+Vcp/Ca26AMBReT0rLu9mHjWo=;
+        b=Bq646OyB58An4Ya0i1tJSWid5B14G8+Igfn3fxCST+TPDeet6KAginBjtHf1G+96pP
+         KMbRLvXh6hUd7mw6RJpRt7mflnBYm9ibc+vu8XY4rLIHczU3FqSb/xj3tEHFFGtr1oRe
+         sICyRsZLX9/FsK6U8cZvA0aX8m/YlImy46ePk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date;
+        bh=WK0bGuD2tAxqqCEo+J+Vcp/Ca26AMBReT0rLu9mHjWo=;
+        b=dQfIb0xw2G8Pa54riJFA//170PuDLSaE5xbxqQSVuM/O6lXvT4LoL59YB1vpXyIYIK
+         EGo3Cu2Xm/tKDXnjYYq4iDrEXX9P7khducLDyTR7UurL/3yfwkrF8JVxqqdxpelYgDK+
+         sEvR+RwtikZtgbso+ZArMXstQP6q0wLawLtQv2itdkSQuwYAs/uNgYzmyrAA+xnNgqt7
+         mhaX68fohny/M9CZfpWAtjIo0PJCruE/UxeJOqV2i6mWTD0iRYqksNnXm84N9uGmatQX
+         AdJEbxqODK93Ev4Ay99gHMooXdunkoh8lR0NtPSlIcE8lNeUNzDVYTtTby//omLMycCt
+         dW6Q==
+X-Gm-Message-State: ACrzQf0OPjBz4JoCBFRoGoi2RoT48YvB2q3uTfuUd1qnGxJKUMIYpY38
+        MTZbE2583IsJVi7izRFqytfzpA==
+X-Google-Smtp-Source: AMsMyM72+AZrvCjzG0TpHX1QWIyqlT+yIJNjqD6XgzhlX4O0lN7py3H0HnAbWO3N8SQjTT6PAgNtPQ==
+X-Received: by 2002:a17:90b:17cf:b0:202:95a2:e310 with SMTP id me15-20020a17090b17cf00b0020295a2e310mr23778042pjb.76.1663964906615;
+        Fri, 23 Sep 2022 13:28:26 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id t2-20020aa79462000000b0053639773ad8sm6832080pfq.119.2022.09.23.13.28.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 23 Sep 2022 13:28:25 -0700 (PDT)
+From:   Kees Cook <keescook@chromium.org>
+To:     Vlastimil Babka <vbabka@suse.cz>
+Cc:     Kees Cook <keescook@chromium.org>,
+        "Ruhl, Michael J" <michael.j.ruhl@intel.com>,
+        Hyeonggon Yoo <42.hyeyoo@gmail.com>,
+        Christoph Lameter <cl@linux.com>,
+        Pekka Enberg <penberg@kernel.org>,
+        David Rientjes <rientjes@google.com>,
+        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Alex Elder <elder@kernel.org>,
+        Josef Bacik <josef@toxicpanda.com>,
+        David Sterba <dsterba@suse.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+        Jesse Brandeburg <jesse.brandeburg@intel.com>,
+        Daniel Micay <danielmicay@gmail.com>,
+        Yonghong Song <yhs@fb.com>, Marco Elver <elver@google.com>,
+        Miguel Ojeda <ojeda@kernel.org>, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, netdev@vger.kernel.org,
+        linux-btrfs@vger.kernel.org, linux-media@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+        linux-fsdevel@vger.kernel.org, intel-wired-lan@lists.osuosl.org,
+        dev@openvswitch.org, x86@kernel.org, llvm@lists.linux.dev,
+        linux-hardening@vger.kernel.org
+Subject: [PATCH v2 00/16] slab: Introduce kmalloc_size_roundup()
+Date:   Fri, 23 Sep 2022 13:28:06 -0700
+Message-Id: <20220923202822.2667581-1-keescook@chromium.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220905230406.30801-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3290; h=from:subject; bh=6t8CTnxnusXxlhLGNxOhRs5l2789SVRbReUcmZgsVm4=; b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBjLhbjKWBYYij171TDp3TdZmoZXSs7dXXkRN1eGod1 9RjCiP+JAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYy4W4wAKCRCJcvTf3G3AJnMrD/ 9AYEfZWXDOv2krdFVvtjQthCuAcgKZVOWzfaX/ZBtQRlYjuppFlG2ED1IEpuIhD0Ir80c5xPT0sC6o NsiMZw3mMRacDRN1JKTgZIg3s63bBHGPVJzr9Ms7LrhbLULxcInTn8Kmx1m+j/SOpIaVQbOz2eMMkZ hq15TaNyE7pBLM9SdfCtAyTs9eRAtVTuYrwZqvgSDjZ61SXuxi2k37cjMCmPHUTq/sIlGgP+BbmYVU h4TXPtyeel8GsxvMTh+ZJLwcMIm74VL8RdFIlqhUbTT1t2IHy48AtxwQQhaVX0FoQuaeRVIHGZ6W3H G8nJ1wcWlIzz3bYBH022dj7eQTsTkVCk6mdVQzd0tBA9yKVcNDoLBacX1DCakWCtJtW9hB3nI7wGSo dddWD44+KFc7CqbVkUJUBWKf0KFDD+RBxraKtYUvKQrLMx0oq545fsuTe+Wx85iePymCMknPsuIu7T RqpkKnn423yOsp7n6oWGz2jCxpOIGyTubVpWH5O/cuXKNmrDFZz8jsL8Js/2Of2DYZ5nq9YGQsiXeg 2S+DEM7sXnFtd9YfGznNOceTXn0B6askh1+E8cTpDv624NJQscze/0hYjyKnnV10f4gf0FRf/X6SzA azwQEVgyfXgzY00yn92DXcmjocb95A4MMqEAG/m2SLnjQl6aJMp6R561rcig==
+X-Developer-Key: i=keescook@chromium.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Prabhakar,
+Hi,
 
-On Tue, Sep 06, 2022 at 12:04:06AM +0100, Lad Prabhakar wrote:
-...
+The main details on this series are in patch #2's commit log. It's long,
+so I won't repeat it again here for the v2. As before, I've tried to
+trim the CC list.
 
-> +#define to_buf_list(vb2_buffer) (&container_of(vb2_buffer, \
-> +						struct rzg2l_cru_buffer, \
-> +						vb)->list)
+v2:
+- _keep_ ksize(), but remove instrumentation (makes patch series smaller)
+- reorganized skbuff logic to avoid yet more copy/paste code
+- added a WARN to a separate skbuff ksize usage
+- add new refactorings: bpf, openvswitch, devres, mempool, kasan
+- dropped "independent" patches: iwlwifi, x86/microcode/AMD (sent separately)
+v1: https://lore.kernel.org/lkml/20220922031013.2150682-1-keescook@chromium.org
 
-#define to_buf_list(vb2_buffer) \
-	(&container_of(vb2_buffer, struct rzg2l_cru_buffer, vb)->list)
+Notes:
+
+Originally when I was going to entirely remove ksize(), there were a
+handful for refactorings that just needed to do ksize -> __ksize. In
+the end, it was cleaner to actually leave ksize() as a real function,
+just without the kasan instrumentation. I wonder, however, if it should
+be converted into a static inline now?
+
+I dropped Jakub's Ack because I refactored that code a bunch more.
+
+The 2 patches that didn't need to call kmalloc_size_roundup() don't need
+to be part of this series. (One is already in -next, actually.)
+
+I'd like to land at least the first two patches in the coming v6.1 merge
+window so that the per-subsystem patches can be sent to their various
+subsystems directly. Vlastimil, what you think?
+
+Thanks!
+
+-Kees
 
 
-...
+Kees Cook (16):
+  slab: Remove __malloc attribute from realloc functions
+  slab: Introduce kmalloc_size_roundup()
+  skbuff: Proactively round up to kmalloc bucket size
+  skbuff: Phase out ksize() fallback for frag_size
+  net: ipa: Proactively round up to kmalloc bucket size
+  igb: Proactively round up to kmalloc bucket size
+  btrfs: send: Proactively round up to kmalloc bucket size
+  dma-buf: Proactively round up to kmalloc bucket size
+  coredump: Proactively round up to kmalloc bucket size
+  openvswitch: Use kmalloc_size_roundup() to match ksize() usage
+  bpf: Use kmalloc_size_roundup() to match ksize() usage
+  devres: Use kmalloc_size_roundup() to match ksize() usage
+  mempool: Use kmalloc_size_roundup() to match ksize() usage
+  kasan: Remove ksize()-related tests
+  mm: Make ksize() a reporting-only function
+  slab: Restore __alloc_size attribute to __kmalloc_track_caller
 
-> +static int rzg2l_cru_open(struct file *file)
-> +{
-> +	struct rzg2l_cru_dev *cru = video_drvdata(file);
-> +	int ret;
-> +
-> +	ret = clk_prepare_enable(cru->pclk);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret = clk_prepare_enable(cru->vclk);
-> +	if (ret)
-> +		goto disable_pclk;
-> +
-> +	ret = clk_prepare_enable(cru->aclk);
-> +	if (ret)
-> +		goto disable_vclk;
-> +
-> +	ret = mutex_lock_interruptible(&cru->lock);
-> +	if (ret)
-> +		goto disable_aclk;
-> +
-> +	file->private_data = cru;
-> +	ret = v4l2_fh_open(file);
-> +	if (ret)
-> +		goto err_unlock;
-> +
-> +	ret = v4l2_pipeline_pm_get(&cru->vdev.entity);
-
-Please use runtime PM instead in sensor drivers, we're trying to get rid of
-this function.
-
-It'd be nice to have it in this one as well.
-
-> +	if (ret < 0)
-> +		goto err_open;
-> +
-> +	mutex_unlock(&cru->lock);
-> +
-> +	return 0;
-> +err_open:
-> +	v4l2_fh_release(file);
-> +err_unlock:
-> +	mutex_unlock(&cru->lock);
-> +disable_aclk:
-> +	clk_disable_unprepare(cru->aclk);
-> +disable_vclk:
-> +	clk_disable_unprepare(cru->vclk);
-> +disable_pclk:
-> +	clk_disable_unprepare(cru->pclk);
-> +
-> +	return ret;
-> +}
-
-...
-
-> +void rzg2l_cru_v4l2_unregister(struct rzg2l_cru_dev *cru)
-> +{
-> +	if (!video_is_registered(&cru->vdev))
-> +		return;
-> +
-> +	v4l2_info(&cru->v4l2_dev, "Removed %s\n",
-> +		  video_device_node_name(&cru->vdev));
-
-I'd just leave this out. Same for the similar message on registration.
+ drivers/base/devres.c                     |  3 +
+ drivers/dma-buf/dma-resv.c                |  9 ++-
+ drivers/net/ethernet/intel/igb/igb_main.c |  5 +-
+ drivers/net/ipa/gsi_trans.c               |  7 +-
+ fs/btrfs/send.c                           | 11 +--
+ fs/coredump.c                             |  7 +-
+ include/linux/compiler_types.h            | 13 ++--
+ include/linux/skbuff.h                    |  5 +-
+ include/linux/slab.h                      | 46 +++++++++++--
+ kernel/bpf/verifier.c                     | 49 +++++++++-----
+ lib/test_kasan.c                          | 42 ------------
+ mm/kasan/shadow.c                         |  4 +-
+ mm/mempool.c                              |  2 +-
+ mm/slab.c                                 |  9 ++-
+ mm/slab_common.c                          | 62 ++++++++++-------
+ net/core/skbuff.c                         | 82 ++++++++++++-----------
+ net/openvswitch/flow_netlink.c            |  2 +-
+ 17 files changed, 192 insertions(+), 166 deletions(-)
 
 -- 
-Kind regards,
+2.34.1
 
-Sakari Ailus
