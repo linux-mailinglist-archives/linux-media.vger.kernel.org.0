@@ -2,233 +2,103 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 805145E7993
-	for <lists+linux-media@lfdr.de>; Fri, 23 Sep 2022 13:29:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A6F675E79E6
+	for <lists+linux-media@lfdr.de>; Fri, 23 Sep 2022 13:45:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230005AbiIWL3I (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 23 Sep 2022 07:29:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60818 "EHLO
+        id S231612AbiIWLpq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 23 Sep 2022 07:45:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59670 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229624AbiIWL3G (ORCPT
+        with ESMTP id S231477AbiIWLpn (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 23 Sep 2022 07:29:06 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C2017183AE;
-        Fri, 23 Sep 2022 04:29:04 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        Fri, 23 Sep 2022 07:45:43 -0400
+Received: from meesny.iki.fi (meesny.iki.fi [IPv6:2001:67c:2b0:1c1::201])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6E20FDF051
+        for <linux-media@vger.kernel.org>; Fri, 23 Sep 2022 04:45:41 -0700 (PDT)
+Received: from hillosipuli.retiisi.eu (dkwl20tj04snw15cjtflt-3.rev.dnainternet.fi [IPv6:2001:14ba:4493:6f40:fec3:d72a:e447:8113])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 7DF41B82289;
-        Fri, 23 Sep 2022 11:29:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 71C17C433D6;
-        Fri, 23 Sep 2022 11:28:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1663932542;
-        bh=bMYt1/N3KNrv0i41IENSYS+pss/KJGw9J8JCAluJZe4=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=mtNpKxd1lGQnHI5nG3P2zGAtV6XMmlokHgE/SVoqu0TriQbTz+abC3DxNjhX6waeg
-         kJmhxsJpW9KtW0Uu9l0o4PEajLuS22INuxkqTgYvgRTwk8DmtobAJUTE5nhQK5Kjh8
-         66wKro/NQtoRl96QDWkMy4Za0Mnw2WowaVo3WtrqqlB3NaK3HcLKEIgonO0IYR+vD4
-         OLK148heaY+Ls5+ii+KOc7ayVyIAhHBaPpUdcSSpuFXtxternihO4madYiZauN07nF
-         iDFdvFw9eGM/txPBfDzWmzQkoz49yrGiaDMCMtW2jpxKUTicjLU/B6S9H/mJTnq3v+
-         dDN6KuFoTqLOQ==
-Message-ID: <3bbdfb31-2ba2-7345-54c7-82a67d95e30f@kernel.org>
-Date:   Fri, 23 Sep 2022 13:28:54 +0200
+        (Authenticated sender: sailus)
+        by meesny.iki.fi (Postfix) with ESMTPSA id 733C9200C9;
+        Fri, 23 Sep 2022 14:45:36 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
+        t=1663933536;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=rH/fseSLL71Z/Z+Y4xaMAdB6Yh2Drx8uLb7ltd/Nfc4=;
+        b=GRSyxw/hy1tEN64hjwE8h8f6YP/L3LDWzWEwjXl/scZmWUobGruklOOdWxW6RxOOQVQqMh
+        d4VyhnUZaepJwBmoluqXZop5I9eDiAAoQs5+kc8j5RQ/jOs9O9QSKLKTqafBhY9L7Dgk4T
+        +ju1kHmVIQugs4c3fC6GYN89jHYSl9A=
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id CD970634CD2;
+        Fri, 23 Sep 2022 14:45:33 +0300 (EEST)
+Date:   Fri, 23 Sep 2022 14:45:33 +0300
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Cc:     Dave Stevenson <dave.stevenson@raspberrypi.com>, jacopo@jmondi.org,
+        paul.j.murphy@intel.com, daniele.alessandrelli@intel.com,
+        mchehab@kernel.org, linux-media@vger.kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, robh+dt@kernel.org
+Subject: Re: [PATCH v4 RESEND 3/3] media: i2c: imx412: Add new compatible
+ strings
+Message-ID: <Yy2cXQzlcdddp5Xe@valkosipuli.retiisi.eu>
+References: <20220922104225.1375331-1-bryan.odonoghue@linaro.org>
+ <20220922104225.1375331-4-bryan.odonoghue@linaro.org>
+ <CAPY8ntAAcbv0myL3F-OOOH_rUUF7q==DQFq1sCaYAY=+JapgcA@mail.gmail.com>
+ <cc24035d-9a32-ff9e-bffa-a21a0f79f138@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.0
-Subject: Re: [V14,08/15] dt-bindings: mediatek: Add mediatek,mt8195-jpgdec
- compatible
-To:     Irui Wang <irui.wang@mediatek.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Tzung-Bi Shih <tzungbi@chromium.org>,
-        angelogioacchino.delregno@collabora.com,
-        nicolas.dufresne@collabora.com, wenst@chromium.org,
-        kyrie wu <kyrie.wu@mediatek.com>
-Cc:     Project_Global_Chrome_Upstream_Group@mediatek.com,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org,
-        Tomasz Figa <tfiga@chromium.org>, xia.jiang@mediatek.com,
-        maoguang.meng@mediatek.com, Rob Herring <robh@kernel.org>
-References: <20220915064337.2686-1-irui.wang@mediatek.com>
- <20220915064337.2686-9-irui.wang@mediatek.com>
-Content-Language: en-US
-From:   Krzysztof Kozlowski <krzk@kernel.org>
-In-Reply-To: <20220915064337.2686-9-irui.wang@mediatek.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <cc24035d-9a32-ff9e-bffa-a21a0f79f138@linaro.org>
+ARC-Authentication-Results: i=1;
+        ORIGINATING;
+        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Seal: i=1; s=meesny; d=iki.fi; t=1663933536; a=rsa-sha256; cv=none;
+        b=Fp5ihAbGGrv+py25/u+nUAeXNeca1Fz77qTkAX9FC+r6TUorCEF+g0GuefCdsLR+mdfCrq
+        Sm5mA1GycdyhDQe92bl6mvqJOg4EOj5RjfqeXtttnVTbU2LTuJOI8e3GJWkaAxKp7f48LY
+        0/yHl4/lMm+evsmW/RQx352ScTMLF3U=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+        s=meesny; t=1663933536;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=rH/fseSLL71Z/Z+Y4xaMAdB6Yh2Drx8uLb7ltd/Nfc4=;
+        b=x6Ihyr1eVeckRkRQCY7964dnk6bqt/bEEeTBpU0bujd8bGcnCF5l90KKJFJBWE/BltWCUX
+        EMTsN3q4pJdKsuGCpEd3Hn8YvGh4TTr1TVCDCXcpxprNLsKYSrvS5BRTluBKNngKkmdHEA
+        tG1o3GO4MuGOrUW04MyYSDQ469PbaqU=
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 15/09/2022 08:43, Irui Wang wrote:
-> From: kyrie wu <kyrie.wu@mediatek.com>
+Hi Bryan, Dave,
+
+On Thu, Sep 22, 2022 at 12:19:22PM +0100, Bryan O'Donoghue wrote:
+> On 22/09/2022 12:16, Dave Stevenson wrote:
+> > It may*eventually*  work for all three parts, but isn't the time to
+> > add the compatible string at the point where it is actually compatible
+> > with the driver?
 > 
-> Add mediatek,mt8195-jpgdec compatible to binding document.
-
-Use scripts/get_maintainers.pl to CC all maintainers and relevant
-mailing lists.
-
+> Yes. I forgot about the 0x477 chip id on your part.
 > 
-> Signed-off-by: kyrie wu <kyrie.wu@mediatek.com>
-> Signed-off-by: irui wang <irui.wang@mediatek.com>
-> Reviewed-by: Rob Herring <robh@kernel.org>
-> ---
->  .../media/mediatek,mt8195-jpegdec.yaml        | 169 ++++++++++++++++++
->  1 file changed, 169 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/mediatek,mt8195-jpegdec.yaml
+> I'm happy enough to drop 477 from the compat string or indeed to allow
+> 0x0477 as a valid chip identifier in imx412.
 > 
-> diff --git a/Documentation/devicetree/bindings/media/mediatek,mt8195-jpegdec.yaml b/Documentation/devicetree/bindings/media/mediatek,mt8195-jpegdec.yaml
-> new file mode 100644
-> index 000000000000..9135cf889d1e
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/mediatek,mt8195-jpegdec.yaml
-> @@ -0,0 +1,169 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/mediatek,mt8195-jpegdec.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: MediaTek JPEG Encoder Device Tree Bindings
-> +
-> +maintainers:
-> +  - kyrie wu <kyrie.wu@mediatek.corp-partner.google.com>
-> +
-> +description:
-> +  MediaTek JPEG Decoder is the JPEG decode hardware present in MediaTek SoCs
-> +
-> +properties:
-> +  compatible:
-> +    items:
+> Sakari, what would you like to do ?
 
-You do not have more than one item. Skip items.
+If the driver already works with all three apart from the chip ID check,
+I'd just extend the check.
 
-> +      - const: mediatek,mt8195-jpgdec
-> +
-> +  power-domains:
-> +    maxItems: 1
-> +
-> +  iommus:
-> +    maxItems: 6
-> +    description:
-> +      Points to the respective IOMMU block with master port as argument, see
-> +      Documentation/devicetree/bindings/iommu/mediatek,iommu.yaml for details.
-> +      Ports are according to the HW.
-> +
-> +  dma-ranges:
-> +    maxItems: 1
-> +    description: |
-> +      Describes the physical address space of IOMMU maps to memory.
-> +
-> +  "#address-cells":
-> +    const: 2
-> +
-> +  "#size-cells":
-> +    const: 2
-> +
-> +  ranges: true
-> +
-> +# Required child node:
-> +patternProperties:
-> +  "^jpgdec@[0-9a-f]+$":
-> +    type: object
-> +    description:
-> +      The jpeg decoder hardware device node which should be added as subnodes to
-> +      the main jpeg node.
-> +
-> +    properties:
-> +      compatible:
-> +        const: mediatek,mt8195-jpgdec-hw
-> +
-> +      reg:
-> +        maxItems: 1
-> +
-> +      iommus:
-> +        minItems: 1
-> +        maxItems: 32
-> +        description:
-> +          List of the hardware port in respective IOMMU block for current Socs.
-> +          Refer to bindings/iommu/mediatek,iommu.yaml.
-> +
-> +      interrupts:
-> +        maxItems: 1
-> +
-> +      clocks:
-> +        maxItems: 1
-> +
-> +      clock-names:
-> +        items:
-> +          - const: jpgdec
-> +
-> +      power-domains:
-> +        maxItems: 1
-> +
-> +    required:
-> +      - compatible
-> +      - reg
-> +      - iommus
-> +      - interrupts
-> +      - clocks
-> +      - clock-names
-> +      - power-domains
-> +
-> +    additionalProperties: false
-> +
-> +required:
-> +  - compatible
-> +  - power-domains
-> +  - iommus
-> +  - dma-ranges
-> +  - ranges
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +    #include <dt-bindings/memory/mt8195-memory-port.h>
-> +    #include <dt-bindings/interrupt-controller/irq.h>
-> +    #include <dt-bindings/clock/mt8195-clk.h>
-> +    #include <dt-bindings/power/mt8195-power.h>
-> +
-> +    soc {
-> +        #address-cells = <2>;
-> +        #size-cells = <2>;
-> +
-> +        jpgdec_master {
+-- 
+Kind regards,
 
-No underscores in node names.
-
-Node names should be generic.
-https://devicetree-specification.readthedocs.io/en/latest/chapter2-devicetree-basics.html#generic-names-recommendation
-
-> +                compatible = "mediatek,mt8195-jpgdec";
-> +                power-domains = <&spm MT8195_POWER_DOMAIN_VDEC1>;
-> +                iommus = <&iommu_vpp M4U_PORT_L19_JPGDEC_WDMA0>,
-> +                     <&iommu_vpp M4U_PORT_L19_JPGDEC_BSDMA0>,
-> +                     <&iommu_vpp M4U_PORT_L19_JPGDEC_WDMA1>,
-> +                     <&iommu_vpp M4U_PORT_L19_JPGDEC_BSDMA1>,
-> +                     <&iommu_vpp M4U_PORT_L19_JPGDEC_BUFF_OFFSET1>,
-> +                     <&iommu_vpp M4U_PORT_L19_JPGDEC_BUFF_OFFSET0>;
-> +                dma-ranges = <0x1 0x0 0x0 0x40000000 0x0 0xfff00000>;
-> +                #address-cells = <2>;
-> +                #size-cells = <2>;
-> +                ranges;
-
-Mess up indentation.
-
-
-Best regards,
-Krzysztof
-
+Sakari Ailus
