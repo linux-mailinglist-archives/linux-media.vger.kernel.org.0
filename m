@@ -2,213 +2,144 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 75A7F5E7763
-	for <lists+linux-media@lfdr.de>; Fri, 23 Sep 2022 11:41:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B43F15E777E
+	for <lists+linux-media@lfdr.de>; Fri, 23 Sep 2022 11:43:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231970AbiIWJky (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 23 Sep 2022 05:40:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59764 "EHLO
+        id S231570AbiIWJn1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 23 Sep 2022 05:43:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37044 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232045AbiIWJiw (ORCPT
+        with ESMTP id S231517AbiIWJm5 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 23 Sep 2022 05:38:52 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D41C5130BDF;
-        Fri, 23 Sep 2022 02:38:37 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 0118BB82604;
-        Fri, 23 Sep 2022 09:38:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ABC12C433D6;
-        Fri, 23 Sep 2022 09:38:31 +0000 (UTC)
-Message-ID: <d390a832-c9be-e0bc-971e-d00339e4b34d@xs4all.nl>
-Date:   Fri, 23 Sep 2022 11:38:30 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [V14,0/15] Enable jpeg enc & dec multi-hardwares for MT8195
-Content-Language: en-US
-To:     Irui Wang <irui.wang@mediatek.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Tzung-Bi Shih <tzungbi@chromium.org>,
-        angelogioacchino.delregno@collabora.com,
-        nicolas.dufresne@collabora.com, wenst@chromium.org,
-        kyrie wu <kyrie.wu@mediatek.com>
-Cc:     Project_Global_Chrome_Upstream_Group@mediatek.com,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org,
-        Tomasz Figa <tfiga@chromium.org>, xia.jiang@mediatek.com,
-        maoguang.meng@mediatek.com
-References: <20220915064337.2686-1-irui.wang@mediatek.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <20220915064337.2686-1-irui.wang@mediatek.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        Fri, 23 Sep 2022 05:42:57 -0400
+Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com [210.118.77.11])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 38657EE669
+        for <linux-media@vger.kernel.org>; Fri, 23 Sep 2022 02:42:35 -0700 (PDT)
+Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
+        by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id 20220923094233euoutp01596416caa021a71d12e1267a0e7e61c1~XdAVk8FVR2365623656euoutp01M
+        for <linux-media@vger.kernel.org>; Fri, 23 Sep 2022 09:42:33 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com 20220923094233euoutp01596416caa021a71d12e1267a0e7e61c1~XdAVk8FVR2365623656euoutp01M
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+        s=mail20170921; t=1663926153;
+        bh=3N/10Z3eYKa4uqUpmb2xmKRNSg6VSTYifd8bIQi9eew=;
+        h=From:To:Cc:Subject:Date:References:From;
+        b=ZBHQdoXApxt6MSU+moFpFzKOQPnhc5C5ysh67TmEB+qAEa/PVNZEO7xTv+/vBET3A
+         /jY+0O+kBB/38pgVQU/odLyXq7JZmhoSQ6EooUkScgTlcRiBfZaUIbJdRiZltsVdCs
+         PEGeLcpnjn/NK7aLxsqLMi+kz6tY5MaAVxOCvcY0=
+Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
+        eucas1p1.samsung.com (KnoxPortal) with ESMTP id
+        20220923094233eucas1p12d158b8fe9f94a507479071895ed5465~XdAU_axMQ0230902309eucas1p1M;
+        Fri, 23 Sep 2022 09:42:33 +0000 (GMT)
+Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
+        eusmges3new.samsung.com (EUCPMTA) with SMTP id 8A.09.19378.98F7D236; Fri, 23
+        Sep 2022 10:42:33 +0100 (BST)
+Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
+        eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
+        20220923094232eucas1p1deb3985c9637a0876609c75967175e9b~XdAUj3bcK3070430704eucas1p1A;
+        Fri, 23 Sep 2022 09:42:32 +0000 (GMT)
+Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
+        eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
+        20220923094232eusmtrp2e3614e1a98beb959b984a7579ca68817~XdAUjN1rJ2354823548eusmtrp2s;
+        Fri, 23 Sep 2022 09:42:32 +0000 (GMT)
+X-AuditID: cbfec7f5-a4dff70000014bb2-58-632d7f893357
+Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
+        eusmgms1.samsung.com (EUCPMTA) with SMTP id AF.7F.07473.88F7D236; Fri, 23
+        Sep 2022 10:42:32 +0100 (BST)
+Received: from AMDC2765.digital.local (unknown [106.120.51.73]) by
+        eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
+        20220923094232eusmtip2025fc5ded37ac99d53a56e04e2ab8dda~XdAUHF7Zn0306903069eusmtip2M;
+        Fri, 23 Sep 2022 09:42:32 +0000 (GMT)
+From:   Marek Szyprowski <m.szyprowski@samsung.com>
+To:     linux-media@vger.kernel.org,
+        'Linux Samsung SOC' <linux-samsung-soc@vger.kernel.org>
+Cc:     Marek Szyprowski <m.szyprowski@samsung.com>,
+        Sylwester Nawrocki <s.nawrocki@samsung.com>,
+        Daniel Scally <djrscally@gmail.com>,
+        Sakari Ailus <sakari.ailus@iki.fi>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: [PATCH] media: exynos4-is: don't rely on the v4l2_async_subdev
+ internals
+Date:   Fri, 23 Sep 2022 11:42:01 +0200
+Message-Id: <20220923094201.18047-1-m.szyprowski@samsung.com>
+X-Mailer: git-send-email 2.17.1
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrIIsWRmVeSWpSXmKPExsWy7djPc7qd9brJBh+msFpsO/yO1aJz4hJ2
+        i54NW1ktZpzfx2Sx9shddovDb9pZLc7sX8nmwO6xc9Zddo/ZHTNZPQ5/Xcji0bdlFaPH501y
+        AaxRXDYpqTmZZalF+nYJXBknOl6yFDzmrli5u7qBsYOri5GTQ0LARGLb4afMXYxcHEICKxgl
+        lrVdYIRwvjBK3DpxjgXC+cwocaeziwWmZWLzalaIxHJGiX/f/rEgtKxqZAKpYhMwlOh628UG
+        YosIREk83HKFGcRmFrjPKPHitCqILSwQLPH92XZ2EJtFQFXifFcT0G4ODl4BW4lbGwUhlslL
+        rN5wAOw+CYG/7BKLNv1ihki4SGx6eIoNwhaWeHV8CzuELSPxf+d8JoiGdkaJBb/vQzkTGCUa
+        nt9ihKiylrhz7hcbyDZmAU2J9bv0IcKOEl1zVzGDhCUE+CRuvBWEuJlPYtK26VBhXomONiGI
+        ajWJWcfXwa09eOES1GkeEue7v4OdJiQQK3Gscx7bBEa5WQi7FjAyrmIUTy0tzk1PLTbOSy3X
+        K07MLS7NS9dLzs/dxAhMBaf/Hf+6g3HFq496hxiZOBgPMUpwMCuJ8M6+o5ksxJuSWFmVWpQf
+        X1Sak1p8iFGag0VJnJdthlaykEB6YklqdmpqQWoRTJaJg1OqgWm1pIm96b5pblPVencs23Uo
+        c0rOhUM7uBUXugeGBDUvfnsqjuvBIS6v6UxGjVLr/WekrxDed6Bp9d6arZeWz6yfXH9m9vL+
+        onNPq3bmvDwve3ZzcNTkmRXajBNfL3VIf5NatpzVS/3kB7kmr+vGE3ZeZajjY1n7PsrGLkph
+        H7/DV/XFUoV5k2NqNc+qvdtc7FblmiY7i6//7a2+CKmZ+wqmtB/NDVM18vusUPb70KFld76s
+        DNT4eDVZIavDWMSq25b/kuH3ryH80xjE2CNLVUw8F13Z9Pjrz6n73ZOvqXEwBfDyHF1wjnmm
+        6sv2fF/v9weaXB95v5E8PYft0/8ovucSe7p/XX+VN6/56yZ/ZyUlluKMREMt5qLiRADwfl7a
+        dAMAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrKLMWRmVeSWpSXmKPExsVy+t/xe7od9brJBl9va1psO/yO1aJz4hJ2
+        i54NW1ktZpzfx2Sx9shddovDb9pZLc7sX8nmwO6xc9Zddo/ZHTNZPQ5/Xcji0bdlFaPH501y
+        AaxRejZF+aUlqQoZ+cUltkrRhhZGeoaWFnpGJpZ6hsbmsVZGpkr6djYpqTmZZalF+nYJehkn
+        Ol6yFDzmrli5u7qBsYOri5GTQ0LARGJi82pWEFtIYCmjRMezGoi4jMTJaQ2sELawxJ9rXWxd
+        jFxANZ8YJZ6f38sMkmATMJToeguS4OAQEYiSWPjQCKSGWeAxo8T3WV3sIDXCAoESc1a8YgKx
+        WQRUJc53NTGC1PMK2Erc2igIMV9eYvWGA8wTGHkWMDKsYhRJLS3OTc8tNtQrTswtLs1L10vO
+        z93ECAy/bcd+bt7BOO/VR71DjEwcjIcYJTiYlUR4Z9/RTBbiTUmsrEotyo8vKs1JLT7EaAq0
+        biKzlGhyPjAC8kriDc0MTA1NzCwNTC3NjJXEeT0LOhKFBNITS1KzU1MLUotg+pg4OKUamCYc
+        iN5d/vXADb/pb4InSL88wSF38uT9Sx0JvgXP+Z7wys5y2zdZxabyfXXg22/hmZ/MpfJzTuos
+        bdv7S3zZ30bL1HIBjzitY+Jmt1vP3deKbF//IkZDfnuiS55lxpN2lZY3icofai6Fh79aeunl
+        EutGnejWe8duSvapdDZeulHv0JoiceK7boHic8M/v12FTyv37pFOO1FXwWDvry187a2NnM6x
+        pefqGou1v1dWOX/U/CPazL93M+eD3Qvm+1feVlxpff7ku+XHTmR1iB71Xv74zHKfCyc2tzu2
+        JrQ/FVEXWsIVu89PYZ3P9wkJuTH+Sj3vMuZlxRTdMg5cKnysvXm38AKP1I8bs4OZt3hIKLEU
+        ZyQaajEXFScCAHN+rTnIAgAA
+X-CMS-MailID: 20220923094232eucas1p1deb3985c9637a0876609c75967175e9b
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-RootMTR: 20220923094232eucas1p1deb3985c9637a0876609c75967175e9b
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20220923094232eucas1p1deb3985c9637a0876609c75967175e9b
+References: <CGME20220923094232eucas1p1deb3985c9637a0876609c75967175e9b@eucas1p1.samsung.com>
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Irui,
+Commit 1f391df44607 ("media: v4l2-async: Use endpoints in
+__v4l2_async_nf_add_fwnode_remote()") changed the data that is stored in
+the v4l2_async_subdev internals from the fwnode pointer to the parent
+device to the fwnode pointer to the matched endpoint. This broke the
+sensor matching code, which relied on the particular fwnode data in the
+v4l2_async_subdev internals. Fix this by simply matching the
+v4l2_async_subdev pointer, which is already available there.
 
-Something went wrong here: patches 10-15 never made it to the mailinglist.
+Reported-by: Daniel Scally <djrscally@gmail.com>
+Fixes: fa91f1056f17 ("[media] exynos4-is: Add support for asynchronous subdevices registration")
+Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
+---
+ drivers/media/platform/samsung/exynos4-is/media-dev.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-Can you repost?
-
-	Hans
-
-On 15/09/2022 08:43, Irui Wang wrote:
-> From: kyrie wu <kyrie.wu@mediatek.com>
-> 
-> This series adds support for multi hardwares jpeg enc & dec,
-> by first adding use of_platform_populate to manage each hardware
-> information:interrupt, clock, register bases and power.
-> Secondly add jpeg enc & dec work queue to deal with the encoding
-> or decoding requests of multi-hardwares at the same time.
-> Lastly, add output picture reorder function interface to
-> eliminate the out of order images.
-> 
-> This series has been tested with MT8195 Gstreamer.
-> Encoding and decoding worked for this chip.
-> 
-> Patches 1 Adds jpeg encoder dt-bindings for mt8195
-> 
-> Patches 2 jpeg encoder builds two module for using Multi-HW,
-> export some functions to make them visible by other modules.
-> 
-> Patches 3 use devm_of_platform_populate to manage multi-hardware.
-> 
-> Patch 4 add jpeg encoding timeout function to judge hardware timeout.
-> 
-> Patch 5 add encoding work queue to deal with multi-hardware encoding
-> at the same time.
-> 
-> Patch 6 add output picture reorder function to order images.
-> 
-> Patch 7 add stop cmd function to deal with EOS operation.
-> 
-> Patch 8 Adds jpeg decoder dt-bindings for mt8195
-> 
-> Patches 9 jpeg decoder builds three module for using Multi-HW,
-> export some functions to make them visible by other modules.
-> 
-> Patch 10 use of_platform_populate to manage multi-hardware.
-> 
-> Patch 11 add jpeg decoding timeout function to judge hardware timeout.
-> 
-> Patch 12 add decoding work queue to deal with multi-hardware decoding
-> at the same time.
-> 
-> Patch 13 add output picture reorder function to order images.
-> 
-> Patch 14 refactor jpegdec func interface for HW working.
-> 
-> Patch 15 add stop cmd function to deal with EOS operation.
-> 
-> ---
-> This series patches dependent on:
-> media_stage tree:
-> [1]
-> https://git.linuxtv.org/media_stage.git/commit/?id=b3627647f9ea7473d10fb08a95fd7c4133a17ca4
-> 
-> patch1 new jpegdec dt-bindings included files
-> [2] MM IOMMU binding:
-> https://patchwork.kernel.org/project/linux-mediatek/patch/20220217113453.13658-2-yong.wu@mediatek.com/
-> 
-> [3] MT8195 power domain:
-> https://patchwork.kernel.org/project/linux-mediatek/list/?series=580579
-> 
-> Changes compared with v13:
-> - some modifications for patch v13's review comments.
-> - fix kernel robot check errors.
-> - fix kernel-doc check warns.
-> - fix sparse check warns.
-> - combine jpeg encoder series with decoder series into
->   one single series.
-> 
-> Changes compared with v12:
-> - some modifications for patch v12's review comments.
-> 
-> Changes compared with v11:
-> - some modifications for patch v11's review comments.
-> - fix yaml file check errors.
-> 
-> Changes compared with v10:
-> - some modifications for patch v10's review comments.
-> - fix Gstreamer test errors.
-> 
-> Changes compared with v9:
-> - some modifications for patch v9's review comments.
-> 
-> Changes compared with v8:
-> - some modifications for patch v8's review comments.
-> - add stop cmd function.
-> 
-> Changes compared with v7:
-> - some modifications for patch v6's review comments.
-> 
-> Changes compared with v6:
-> - new yaml file for mt8195 jpeg encoder.
-> - some modifications for patch v5's review comments.
-> 
-> Changes compared with v5:
-> - use of_platform_populate to replace component framework to
->   manage multi-hardware in patch 2.
-> 
-> Changes compared with v4:
-> - No change compaered with v4
-> 
-> Changes compared with v3:
-> - Structure patches for consistency, non-backward
->   compatible and do not break any existing functionality
-> 
-> Changes compared with v2:
-> - Split the last two patches into several patches
->   to enhance readability
-> - Correct some syntax errors
-> - Explain why the component framework is used
-> 
-> Changes compared with v1:
-> - Add jpeg encoder dt-bindings for MT8195
-> - Use component framework to manage jpegenc HW
-> - Add jpegenc output pic reorder function interface
-> 
-> kyrie wu (15):
->   dt-bindings: mediatek: Add mediatek, mt8195-jpgenc compatible
->   mtk-jpegenc: export jpeg encoder functions
->   mtk-jpegenc: support jpegenc multi-hardware
->   mtk-jpegenc: add jpegenc timeout func interface
->   mtk-jpegenc: add jpeg encode worker interface
->   mtk-jpegenc: add output pic reorder interface
->   mtk-jpegenc: add stop cmd interface for jpgenc
->   dt-bindings: mediatek: Add mediatek,mt8195-jpgdec compatible
->   media: mtk-jpegdec: export jpeg decoder functions
->   media: mtk-jpegdec: support jpegdec multi-hardware
->   media: mtk-jpegdec: add jpegdec timeout func interface
->   media: mtk-jpegdec: add jpeg decode worker interface
->   media: mtk-jpegdec: add output pic reorder interface
->   media: mtk-jpegdec: refactor jpegdec func interface
->   mtk-jpegdec: add stop cmd interface for jpgdec
-> 
->  .../media/mediatek,mt8195-jpegdec.yaml        | 169 ++++++
->  .../media/mediatek,mt8195-jpegenc.yaml        | 147 ++++++
->  drivers/media/platform/mediatek/jpeg/Makefile |  14 +-
->  .../platform/mediatek/jpeg/mtk_jpeg_core.c    | 490 ++++++++++++++++--
->  .../platform/mediatek/jpeg/mtk_jpeg_core.h    | 169 +++++-
->  .../platform/mediatek/jpeg/mtk_jpeg_dec_hw.c  | 315 ++++++++++-
->  .../platform/mediatek/jpeg/mtk_jpeg_dec_hw.h  |   6 +-
->  .../platform/mediatek/jpeg/mtk_jpeg_dec_reg.h |   1 +
->  .../platform/mediatek/jpeg/mtk_jpeg_enc_hw.c  | 255 +++++++++
->  9 files changed, 1483 insertions(+), 83 deletions(-)
->  create mode 100644 Documentation/devicetree/bindings/media/mediatek,mt8195-jpegdec.yaml
->  create mode 100644 Documentation/devicetree/bindings/media/mediatek,mt8195-jpegenc.yaml
-> 
+diff --git a/drivers/media/platform/samsung/exynos4-is/media-dev.c b/drivers/media/platform/samsung/exynos4-is/media-dev.c
+index 52b43ea04030..412213b0c384 100644
+--- a/drivers/media/platform/samsung/exynos4-is/media-dev.c
++++ b/drivers/media/platform/samsung/exynos4-is/media-dev.c
+@@ -1380,9 +1380,7 @@ static int subdev_notifier_bound(struct v4l2_async_notifier *notifier,
+ 
+ 	/* Find platform data for this sensor subdev */
+ 	for (i = 0; i < ARRAY_SIZE(fmd->sensor); i++)
+-		if (fmd->sensor[i].asd &&
+-		    fmd->sensor[i].asd->match.fwnode ==
+-		    of_fwnode_handle(subdev->dev->of_node))
++		if (fmd->sensor[i].asd == asd)
+ 			si = &fmd->sensor[i];
+ 
+ 	if (si == NULL)
+-- 
+2.17.1
 
