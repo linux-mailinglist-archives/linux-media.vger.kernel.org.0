@@ -2,138 +2,121 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A32785E843D
-	for <lists+linux-media@lfdr.de>; Fri, 23 Sep 2022 22:42:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CD13B5E8433
+	for <lists+linux-media@lfdr.de>; Fri, 23 Sep 2022 22:41:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233294AbiIWUlM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 23 Sep 2022 16:41:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34052 "EHLO
+        id S233187AbiIWUkV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 23 Sep 2022 16:40:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40352 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231879AbiIWUkc (ORCPT
+        with ESMTP id S233185AbiIWUj6 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 23 Sep 2022 16:40:32 -0400
-Received: from mail-pg1-x52c.google.com (mail-pg1-x52c.google.com [IPv6:2607:f8b0:4864:20::52c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 58A82151B23
-        for <linux-media@vger.kernel.org>; Fri, 23 Sep 2022 13:35:45 -0700 (PDT)
-Received: by mail-pg1-x52c.google.com with SMTP id u69so1291240pgd.2
-        for <linux-media@vger.kernel.org>; Fri, 23 Sep 2022 13:35:45 -0700 (PDT)
+        Fri, 23 Sep 2022 16:39:58 -0400
+Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com [IPv6:2a00:1450:4864:20::430])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0756212646A;
+        Fri, 23 Sep 2022 13:35:11 -0700 (PDT)
+Received: by mail-wr1-x430.google.com with SMTP id cc5so1650421wrb.6;
+        Fri, 23 Sep 2022 13:35:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
-        bh=+2laYBdgjwT7rG4W5AHSQduuvkvGMevdVubQImW4gKw=;
-        b=nbTXxoItIcoLMSX/37BnKPPw/3YlEPQi9RGa22B4OfB3Mw3rQ7fVLlIBZDFWhU6SQB
-         iQQy0oVdOCW9DPex5gUVO+9CVPiYxCD2RX7jYGmew9mYG9nePUONwhOxImpJpLdtHO3I
-         +RIWIsZx79HIw7FNWO7gsYSXx6hJ7HZJNUkfA=
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date;
+        bh=3GTfrM0xAmg6CQZF7/FnBuxE5N54OIBbpsiD+Ni6eOc=;
+        b=SBafpol1TJk6trNlpNf24nyutL2QzEZyo3aNuJCG40qh/ujpyVnBnmN2QCvhU9jvSS
+         HbFOfHlhUS8Bf1z1LhxRCo/bUOg0MxB9qdDbmA3mXcG3bllNTIxVTPDjOrz9JTwogjUC
+         dyM1JkK8zPdpHbrI40ixGkwfdOErgSBdZGaK5kYsmW9oDy0Cxw/SQlSs/wkzIeKK5Ttr
+         1X1sS8UUtD6MT+ofKD8pQge/N4awyWU6XUSy3WnOVLYXVbUlkeD8ZIbiIvTZ37/C5AaX
+         rmZVBh1dSDRUzB9ImpH9TQ+38t5JMNuBlpDtPkKYUfa3ZgKRMsmUDbvjTN3P1Y9iPZGK
+         cGfQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date;
-        bh=+2laYBdgjwT7rG4W5AHSQduuvkvGMevdVubQImW4gKw=;
-        b=zS2H41w3haYXxADgjObglJOvUbv7alcC7NhsaLB+yj7a4oh8IjnbjNL1OcrRkWsqcv
-         pb+/aCFdGzm06X1HUEh3z3FXrruM0rM8B7MIVmWr+/9Ch2+TcAjB5o0YHhHPwAjM3GiX
-         mGt/gRHJCnoXNh9G2JD1x6+BaNaVjz4tZKsJzwVq5O36YVMcTPQuyYj1rB4Ih0CGVuHo
-         Ragf/F4++5Y6DljbRdMONIxcbcfHO6cXLCN72xscTeyCqvsLkSdmZlJpyW5R8dolKlu0
-         py5q34st3yJTPCLFbrTrOW2KDHE72/Mb0lf/wflKfSOWsEmNUqkjj8THI3OOlKTGKBWe
-         ViPA==
-X-Gm-Message-State: ACrzQf1KjIzfpHhhxVDWVNBt8JHfGghAssRmCRRncMWvXY9NcJES6e+v
-        gpowrwzHDZazDQPB3uOB8ssE4g==
-X-Google-Smtp-Source: AMsMyM5bm7zGXJ9d50JTGsymxB/VLZYV8oPS2I+E2tFMZpMAmvrfAs1/p+X8f9kZo4aKjt6+zvlMFg==
-X-Received: by 2002:a63:8649:0:b0:43a:d230:d3b5 with SMTP id x70-20020a638649000000b0043ad230d3b5mr9208334pgd.493.1663965329910;
-        Fri, 23 Sep 2022 13:35:29 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id w7-20020a170902e88700b0017685f53537sm6450933plg.186.2022.09.23.13.35.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 23 Sep 2022 13:35:28 -0700 (PDT)
-From:   Kees Cook <keescook@chromium.org>
-To:     Vlastimil Babka <vbabka@suse.cz>
-Cc:     Kees Cook <keescook@chromium.org>,
-        Christoph Lameter <cl@linux.com>,
-        Pekka Enberg <penberg@kernel.org>,
-        David Rientjes <rientjes@google.com>,
-        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Roman Gushchin <roman.gushchin@linux.dev>,
-        Hyeonggon Yoo <42.hyeyoo@gmail.com>, linux-mm@kvack.org,
-        "Ruhl, Michael J" <michael.j.ruhl@intel.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Alex Elder <elder@kernel.org>,
-        Josef Bacik <josef@toxicpanda.com>,
-        David Sterba <dsterba@suse.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-        Jesse Brandeburg <jesse.brandeburg@intel.com>,
-        Daniel Micay <danielmicay@gmail.com>,
-        Yonghong Song <yhs@fb.com>, Marco Elver <elver@google.com>,
-        Miguel Ojeda <ojeda@kernel.org>, linux-kernel@vger.kernel.org,
-        netdev@vger.kernel.org, linux-btrfs@vger.kernel.org,
-        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org, linux-fsdevel@vger.kernel.org,
-        intel-wired-lan@lists.osuosl.org, dev@openvswitch.org,
-        x86@kernel.org, llvm@lists.linux.dev,
-        linux-hardening@vger.kernel.org
-Subject: [PATCH v2 16/16] slab: Restore __alloc_size attribute to __kmalloc_track_caller
-Date:   Fri, 23 Sep 2022 13:28:22 -0700
-Message-Id: <20220923202822.2667581-17-keescook@chromium.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220923202822.2667581-1-keescook@chromium.org>
-References: <20220923202822.2667581-1-keescook@chromium.org>
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date;
+        bh=3GTfrM0xAmg6CQZF7/FnBuxE5N54OIBbpsiD+Ni6eOc=;
+        b=DflNiiDrB8jdCMqL4mhZ16wkhkqzd67rFDUitASTTk0rot0voP4uCG/FDQ26fx7kNr
+         EwFvkpDoaBw2OPdxsZzzjhoF231cZhDTo8FnYFqIxeOxtMT7okNrqVzNDEhNfnBjMHnm
+         SrJ8MwS2meKKXTcg2UfocCWJgDK8N3JsizoM4OU9brw8FEnElRnXLdpMunBI/2J87sYe
+         3fMiOv0sU8y7O4hwFlqfRh0KQMb8JYODA6GWI4rFhzHfgJdeJi8hxWz8OVQgwJDDaZ5q
+         EJP7IC6a8HnIeZjLVP3+ofUcYQKaU6F5aNxyI504Ts3L7fSWnEmtD9T3/2FuveUlrOQn
+         T8Ng==
+X-Gm-Message-State: ACrzQf2un9ygQUO3iR1UZH5pAQ6kTTskIoxFNyzPH5egHe/+a4yFGxaR
+        kTiE4esB4Pc87mRkOMHtWhRPkGOzBII=
+X-Google-Smtp-Source: AMsMyM4HK5gt2jETkQZCd3v7kXedzpcgXfMa5t7oiOXpEAbW9xJeFfCrOow2XEe86NCoQYkD1NbS0Q==
+X-Received: by 2002:a5d:6987:0:b0:228:623e:2dc5 with SMTP id g7-20020a5d6987000000b00228623e2dc5mr6492538wru.574.1663965309820;
+        Fri, 23 Sep 2022 13:35:09 -0700 (PDT)
+Received: from [192.168.0.30] (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net. [86.13.91.161])
+        by smtp.gmail.com with ESMTPSA id c190-20020a1c35c7000000b003b4a33a7d08sm3452670wma.9.2022.09.23.13.35.08
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 23 Sep 2022 13:35:09 -0700 (PDT)
+Message-ID: <441b7031-bc23-e0ff-6a28-51796c920790@gmail.com>
+Date:   Fri, 23 Sep 2022 21:35:08 +0100
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1650; h=from:subject; bh=/OaZMueZzIe84chcaXjPmGvBh3Vl4n1WZ7Et98TCic4=; b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBjLhbmpXV27OdVCurixM5mD3YL9FeIo8HzPKP6kKFZ 0hj84SaJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYy4W5gAKCRCJcvTf3G3AJrk1D/ 9suh4VQDWJhn6CjYJdrIyeIOje+kXnxuVQ4rZWxcfisvcOa9LBG3AeDjRuKI4VpUdYD37IwPPRov57 7ySYIwMkjVqKZEa/PzjhXiMhpeo5c/FR+mC/2/7gf0vf6wqxRDni79+/q13dY5meEj/JSCQ/VnxZRe gjJepCGBakVJaJJpuemoCwsjm59sySqVEfoXZQ3j8FvjLzn3UEHguFLm71uFRvZJYaFRgcZYER/6SM gtzHNWGWaCNhF8dkKOnwzFjb9Rnzxv996CnMgQ48xhu33oEvFn/qv87UNwxYH5nu+eGAj6AOn0942n o/n7ecuvzIw73BhNbAqSHTiF/7CH2P1ACFMXogDcRbmseRTH9IxMtimtJP4ycB5H3BlirHH62OwXYW HcNSihxuIstBMI+dXzPUAePdpDw9zFpCkThJFB3HawrMyY1xWxrUir3MaIirOiGPAaNsQ2phrSDz2q 89SyrvWcLNxNEqTTWGHN3J4vSrnAPQTLDJgx+qlchawQhrFpywa38+u+aGHG0NL7zPvmR7xoWq31Bj MvQuhlk8RDsuhGN+mFYxlipeK0PD5eo1yTnzSxnawr2guLYHLoh5ZATYEPsnWaJ23aiXDLUrWeSOx6 ihxdUdxuZS6AB+vqV1rDpWb7cFU4nZ6MydrAXZN1cwWnC866PyTB2WT4EREg==
-X-Developer-Key: i=keescook@chromium.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH] media: exynos4-is: don't rely on the v4l2_async_subdev
+ internals
+Content-Language: en-US
+To:     Marek Szyprowski <m.szyprowski@samsung.com>,
+        linux-media@vger.kernel.org,
+        'Linux Samsung SOC' <linux-samsung-soc@vger.kernel.org>
+Cc:     Sylwester Nawrocki <s.nawrocki@samsung.com>,
+        Sakari Ailus <sakari.ailus@iki.fi>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+References: <CGME20220923094232eucas1p1deb3985c9637a0876609c75967175e9b@eucas1p1.samsung.com>
+ <20220923094201.18047-1-m.szyprowski@samsung.com>
+From:   Daniel Scally <djrscally@gmail.com>
+In-Reply-To: <20220923094201.18047-1-m.szyprowski@samsung.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-With skbuff's post-allocation use of ksize() rearranged to use
-kmalloc_size_round() prior to allocation, the compiler can correctly
-reason about the size of these allocations. The prior mismatch had caused
-buffer overflow mitigations to erroneously fire under CONFIG_UBSAN_BOUNDS,
-requiring a partial revert of the __alloc_size attributes. Restore the
-attribute that had been removed in commit 93dd04ab0b2b ("slab: remove
-__alloc_size attribute from __kmalloc_track_caller").
+Hi Marek
 
-Cc: Christoph Lameter <cl@linux.com>
-Cc: Pekka Enberg <penberg@kernel.org>
-Cc: David Rientjes <rientjes@google.com>
-Cc: Joonsoo Kim <iamjoonsoo.kim@lge.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: Vlastimil Babka <vbabka@suse.cz>
-Cc: Roman Gushchin <roman.gushchin@linux.dev>
-Cc: Hyeonggon Yoo <42.hyeyoo@gmail.com>
-Cc: linux-mm@kvack.org
-Signed-off-by: Kees Cook <keescook@chromium.org>
----
- include/linux/slab.h | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+On 23/09/2022 10:42, Marek Szyprowski wrote:
+> Commit 1f391df44607 ("media: v4l2-async: Use endpoints in
+> __v4l2_async_nf_add_fwnode_remote()") changed the data that is stored in
+> the v4l2_async_subdev internals from the fwnode pointer to the parent
+> device to the fwnode pointer to the matched endpoint. This broke the
+> sensor matching code, which relied on the particular fwnode data in the
+> v4l2_async_subdev internals. Fix this by simply matching the
+> v4l2_async_subdev pointer, which is already available there.
+>
+> Reported-by: Daniel Scally <djrscally@gmail.com>
+> Fixes: fa91f1056f17 ("[media] exynos4-is: Add support for asynchronous subdevices registration")
+> Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
+> ---
 
-diff --git a/include/linux/slab.h b/include/linux/slab.h
-index 727640173568..297b85ed2c29 100644
---- a/include/linux/slab.h
-+++ b/include/linux/slab.h
-@@ -693,7 +693,8 @@ static inline __alloc_size(1, 2) void *kcalloc(size_t n, size_t size, gfp_t flag
-  * allocator where we care about the real place the memory allocation
-  * request comes from.
-  */
--extern void *__kmalloc_track_caller(size_t size, gfp_t flags, unsigned long caller);
-+extern void *__kmalloc_track_caller(size_t size, gfp_t flags, unsigned long caller)
-+				   __alloc_size(1);
- #define kmalloc_track_caller(size, flags) \
- 	__kmalloc_track_caller(size, flags, _RET_IP_)
- 
--- 
-2.34.1
 
+Yeah that makes more sense to me:
+
+
+Reviewed-by: Daniel Scally <djrscally@gmail.com>
+
+>   drivers/media/platform/samsung/exynos4-is/media-dev.c | 4 +---
+>   1 file changed, 1 insertion(+), 3 deletions(-)
+>
+> diff --git a/drivers/media/platform/samsung/exynos4-is/media-dev.c b/drivers/media/platform/samsung/exynos4-is/media-dev.c
+> index 52b43ea04030..412213b0c384 100644
+> --- a/drivers/media/platform/samsung/exynos4-is/media-dev.c
+> +++ b/drivers/media/platform/samsung/exynos4-is/media-dev.c
+> @@ -1380,9 +1380,7 @@ static int subdev_notifier_bound(struct v4l2_async_notifier *notifier,
+>   
+>   	/* Find platform data for this sensor subdev */
+>   	for (i = 0; i < ARRAY_SIZE(fmd->sensor); i++)
+> -		if (fmd->sensor[i].asd &&
+> -		    fmd->sensor[i].asd->match.fwnode ==
+> -		    of_fwnode_handle(subdev->dev->of_node))
+> +		if (fmd->sensor[i].asd == asd)
+>   			si = &fmd->sensor[i];
+>   
+>   	if (si == NULL)
