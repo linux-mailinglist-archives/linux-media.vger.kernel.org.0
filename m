@@ -2,205 +2,304 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1F6B95E8A01
-	for <lists+linux-media@lfdr.de>; Sat, 24 Sep 2022 10:18:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 87F215E8A2F
+	for <lists+linux-media@lfdr.de>; Sat, 24 Sep 2022 10:34:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233469AbiIXISK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 24 Sep 2022 04:18:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53818 "EHLO
+        id S233438AbiIXIew (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 24 Sep 2022 04:34:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52086 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233780AbiIXIRo (ORCPT
+        with ESMTP id S233336AbiIXIeu (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 24 Sep 2022 04:17:44 -0400
-Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com [IPv6:2a00:1450:4864:20::236])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5DCCAC843B
-        for <linux-media@vger.kernel.org>; Sat, 24 Sep 2022 01:15:31 -0700 (PDT)
-Received: by mail-lj1-x236.google.com with SMTP id b24so2322534ljk.6
-        for <linux-media@vger.kernel.org>; Sat, 24 Sep 2022 01:15:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date;
-        bh=nQomz4ut+7sjfQrrU1jIFAnyWatFfjECi53D3yczEIE=;
-        b=KI9bvqb1+pvOBd4LUHBVRiy4ZY0slRCTRZZlpbG/wkf5BfzAwgC4tzlqpiFF6oyV8H
-         D7v79qgnbhBTO6d2uDyYHRhhdOOhBfa6EEXzsR1OAGK0jLsPlfD7cA9BCk+dEYTkPA3D
-         wWtwWaAoPO0/uTRDdef7+H6/fPQ584Q/+VF22lUeYetTvqY4NLRzWkfcrMuUKAwvI8Ur
-         HORX0nTGI2VWAa2VLCpjSTjWJtDJGVfm/4NoDwUwRQY3sCzLDgDtibX9udsLmyhZz/Ab
-         UsteBe0vnTvVHno/YLL9xbDupvnLo0yMlhWvaVPU8HJaxwp4Vvg2Oz/Cql9apCVP7xpg
-         yn0g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=nQomz4ut+7sjfQrrU1jIFAnyWatFfjECi53D3yczEIE=;
-        b=Sa9GlBhThvzqy+PXkdyy5H3MS7vtwEDRsJGZXlMGcTFj/gifXW8yQwOg1DDOJXTAon
-         we59UY8DdqOetTiPNr9SVIqOTkNKzBQyaPExybqsmMwUU+VArg2Qx6VCYClT/o9jxXdB
-         6cBU7C4R0VFFefktJ6f+0kf1no0tzugx7jJDEU/dSfRCfJwsLa53Z7Tw4kpe4wG3xw0j
-         eRf4PK+Epf3KTB9Bd2PSpENgTQL8CCwC5sWvdgoB+W1QGUwPBotWwMZOnYyyPV29kZPe
-         PxC62ARcTbLaDUpAsZNvpHcv08JU7V9/c+KzwI0qJ6pt9tOv2GgOJQUqR0rc52luVUDb
-         Tnag==
-X-Gm-Message-State: ACrzQf3RvwtrR7be6usogYLypyfifPcw7P1qKld2yv3Hlt+1Qom5TPqs
-        e57yTTxiAgHES4ewOWUhCPY4nlHZE5E4gjEH2Q++GQ==
-X-Google-Smtp-Source: AMsMyM51jSACu0ueivCRHFSALnMRIGDYekDLNBr6hGK18mYNepOD+DBZDwtrPTKiiVk4AIl/66dQQBc8ZJ/gjsu15yk=
-X-Received: by 2002:a2e:be8d:0:b0:26c:f4b:47a0 with SMTP id
- a13-20020a2ebe8d000000b0026c0f4b47a0mr4030821ljr.92.1664007329396; Sat, 24
- Sep 2022 01:15:29 -0700 (PDT)
+        Sat, 24 Sep 2022 04:34:50 -0400
+Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E87D1E3DF
+        for <linux-media@vger.kernel.org>; Sat, 24 Sep 2022 01:34:47 -0700 (PDT)
+Received: from builder.linuxtv.org ([140.211.167.10])
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1oc0cX-009SMW-Jn; Sat, 24 Sep 2022 08:34:45 +0000
+Received: from localhost ([127.0.0.1] helo=builder.linuxtv.org)
+        by builder.linuxtv.org with esmtp (Exim 4.94.2)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1oc0cW-00FSZd-1X; Sat, 24 Sep 2022 08:34:43 +0000
+Date:   Sat, 24 Sep 2022 08:34:43 +0000 (UTC)
+From:   Jenkins Builder Robot <jenkins@linuxtv.org>
+To:     mchehab@kernel.org, linux-media@vger.kernel.org
+Message-ID: <112332480.0.1664008483405@builder.linuxtv.org>
+In-Reply-To: <633663900.0.1653841965143@builder.linuxtv.org>
+References: <633663900.0.1653841965143@builder.linuxtv.org>
+Subject: Build failed in Jenkins: ZBar #69
 MIME-Version: 1.0
-References: <20220923202822.2667581-1-keescook@chromium.org> <20220923202822.2667581-15-keescook@chromium.org>
-In-Reply-To: <20220923202822.2667581-15-keescook@chromium.org>
-From:   Dmitry Vyukov <dvyukov@google.com>
-Date:   Sat, 24 Sep 2022 10:15:18 +0200
-Message-ID: <CACT4Y+bg=j9VdteQwrJTNFF_t4EE5uDTMLj07+uMJ9-NcooXGQ@mail.gmail.com>
-Subject: Re: [PATCH v2 14/16] kasan: Remove ksize()-related tests
-To:     Kees Cook <keescook@chromium.org>
-Cc:     Vlastimil Babka <vbabka@suse.cz>,
-        Andrey Ryabinin <ryabinin.a.a@gmail.com>,
-        Alexander Potapenko <glider@google.com>,
-        Andrey Konovalov <andreyknvl@gmail.com>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        kasan-dev@googlegroups.com, linux-mm@kvack.org,
-        "Ruhl, Michael J" <michael.j.ruhl@intel.com>,
-        Hyeonggon Yoo <42.hyeyoo@gmail.com>,
-        Christoph Lameter <cl@linux.com>,
-        Pekka Enberg <penberg@kernel.org>,
-        David Rientjes <rientjes@google.com>,
-        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Alex Elder <elder@kernel.org>,
-        Josef Bacik <josef@toxicpanda.com>,
-        David Sterba <dsterba@suse.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        Jesse Brandeburg <jesse.brandeburg@intel.com>,
-        Daniel Micay <danielmicay@gmail.com>,
-        Yonghong Song <yhs@fb.com>, Marco Elver <elver@google.com>,
-        Miguel Ojeda <ojeda@kernel.org>, linux-kernel@vger.kernel.org,
-        netdev@vger.kernel.org, linux-btrfs@vger.kernel.org,
-        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org, linux-fsdevel@vger.kernel.org,
-        intel-wired-lan@lists.osuosl.org, dev@openvswitch.org,
-        x86@kernel.org, llvm@lists.linux.dev,
-        linux-hardening@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Instance-Identity: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAf928QubrKEjMQ0IZR0WWXn8zG7uTdH33F2Idx4Xmlp6Z138NdNMQYNG71OKzmvn3/E1G4rpd9JsMls16nRZ2NAPgOWX0qfFr6HyOoQklLGZt+vkOFb0BvmBFfdI+00J5B1SPupxv4pT3bDLSiwbBNCOLY4sdB0gG1ng14mzu47G8zmH6l2ZE/9urEd6OLFhzrb6ym4vlkCE8uvNJAdAWbeafd1plHSLdU/TVqHMZELuM0wt9khqhUOkfE+dHr7h6DNrkFpvm/8j/5wTuy98ZwwWimP+pfjSQMgKrhXjwHcJJa2N9v1HdwrwlUaRYuA6o8fwUHNC9vLj7cCXM3qiwIDAQAB
+X-Jenkins-Job: ZBar
+X-Jenkins-Result: FAILURE
+Auto-submitted: auto-generated
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, 23 Sept 2022 at 22:28, Kees Cook <keescook@chromium.org> wrote:
->
-> In preparation for no longer unpoisoning in ksize(), remove the behavioral
-> self-tests for ksize().
->
-> Cc: Andrey Ryabinin <ryabinin.a.a@gmail.com>
-> Cc: Alexander Potapenko <glider@google.com>
-> Cc: Andrey Konovalov <andreyknvl@gmail.com>
-> Cc: Dmitry Vyukov <dvyukov@google.com>
-> Cc: Vincenzo Frascino <vincenzo.frascino@arm.com>
-> Cc: Andrew Morton <akpm@linux-foundation.org>
-> Cc: kasan-dev@googlegroups.com
-> Cc: linux-mm@kvack.org
-> Signed-off-by: Kees Cook <keescook@chromium.org>
-> ---
->  lib/test_kasan.c  | 42 ------------------------------------------
->  mm/kasan/shadow.c |  4 +---
->  2 files changed, 1 insertion(+), 45 deletions(-)
->
-> diff --git a/lib/test_kasan.c b/lib/test_kasan.c
-> index 58c1b01ccfe2..bdd0ced8f8d7 100644
-> --- a/lib/test_kasan.c
-> +++ b/lib/test_kasan.c
-> @@ -753,46 +753,6 @@ static void kasan_global_oob_left(struct kunit *test)
->         KUNIT_EXPECT_KASAN_FAIL(test, *(volatile char *)p);
->  }
->
-> -/* Check that ksize() makes the whole object accessible. */
-> -static void ksize_unpoisons_memory(struct kunit *test)
-> -{
-> -       char *ptr;
-> -       size_t size = 123, real_size;
-> -
-> -       ptr = kmalloc(size, GFP_KERNEL);
-> -       KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ptr);
-> -       real_size = ksize(ptr);
-> -
-> -       OPTIMIZER_HIDE_VAR(ptr);
-> -
-> -       /* This access shouldn't trigger a KASAN report. */
- > -       ptr[size] = 'x';
+See <https://builder.linuxtv.org/job/ZBar/69/display/redirect>
 
-I would rather keep the tests and update to the new behavior. We had
-bugs in ksize, we need test coverage.
-I assume ptr[size] access must now produce an error even after ksize.
+Changes:
 
 
-> -       /* This one must. */
-> -       KUNIT_EXPECT_KASAN_FAIL(test, ((volatile char *)ptr)[real_size]);
-> -
-> -       kfree(ptr);
-> -}
-> -
-> -/*
-> - * Check that a use-after-free is detected by ksize() and via normal accesses
-> - * after it.
-> - */
-> -static void ksize_uaf(struct kunit *test)
-> -{
-> -       char *ptr;
-> -       int size = 128 - KASAN_GRANULE_SIZE;
-> -
-> -       ptr = kmalloc(size, GFP_KERNEL);
-> -       KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ptr);
-> -       kfree(ptr);
-> -
-> -       OPTIMIZER_HIDE_VAR(ptr);
-> -       KUNIT_EXPECT_KASAN_FAIL(test, ksize(ptr));
+------------------------------------------
+[...truncated 14.75 KB...]
+checking for sys/ipc.h... yes
+checking sys/shm.h usability... yes
+checking sys/shm.h presence... yes
+checking for sys/shm.h... yes
+checking sys/mman.h usability... yes
+checking sys/mman.h presence... yes
+checking for sys/mman.h... yes
+checking whether sys/types.h defines makedev... no
+checking sys/mkdev.h usability... no
+checking sys/mkdev.h presence... no
+checking for sys/mkdev.h... no
+checking sys/sysmacros.h usability... yes
+checking sys/sysmacros.h presence... yes
+checking for sys/sysmacros.h... yes
+checking for stdbool.h that conforms to C99... yes
+checking for _Bool... yes
+checking for int32_t... yes
+checking for uint32_t... yes
+checking for uint8_t... yes
+checking for uintptr_t... yes
+checking for uid_t in sys/types.h... yes
+checking for int32_t... (cached) yes
+checking for int64_t... yes
+checking for off_t... yes
+checking for size_t... yes
+checking for uint16_t... yes
+checking for uint32_t... (cached) yes
+checking for uint64_t... yes
+checking for uint8_t... (cached) yes
+checking for struct stat.st_rdev... yes
+checking for an ANSI C-conforming const... yes
+checking for inline... inline
+checking for stdlib.h... (cached) yes
+checking for unistd.h... (cached) yes
+checking for sys/param.h... yes
+checking for getpagesize... yes
+checking for working mmap... yes
+checking for alarm... yes
+checking for clock_gettime... yes
+checking for floor... no
+checking for getcwd... yes
+checking for gettimeofday... yes
+checking for localeconv... yes
+checking for memchr... yes
+checking for memmove... yes
+checking for memset... yes
+checking for modf... yes
+checking for munmap... yes
+checking for pow... no
+checking for select... yes
+checking for setenv... yes
+checking for sqrt... no
+checking for strcasecmp... yes
+checking for strchr... yes
+checking for strdup... yes
+checking for strerror... yes
+checking for strrchr... yes
+checking for strstr... yes
+checking for strtol... yes
+checking for strtoul... yes
+checking for malloc... yes
+checking for realloc... yes
+Generating config files
+checking that generated files are newer than configure... done
+configure: creating ./config.status
+config.status: creating zbar-qt.pc
+config.status: creating Makefile
+config.status: creating gtk/Makefile
+config.status: creating java/Makefile
+config.status: creating po/Makefile.in
+config.status: creating zbar/Makefile
+config.status: creating zbar.pc
+config.status: creating zbar-gtk.pc
+config.status: creating doc/doxygen.conf
+config.status: creating test/test_examples.sh
+config.status: creating test/check_dbus.sh
+config.status: creating include/config.h
+config.status: include/config.h is unchanged
+config.status: executing depfiles commands
+config.status: executing libtool commands
+config.status: executing po-directories commands
+config.status: creating po/POTFILES
+config.status: creating po/Makefile
+config.status: executing doc/version.xml commands
+config.status: executing doc/reldate.xml commands
 
-This is still a bug that should be detected, right? Calling ksize on a
-freed pointer is a bug.
+please verify that the detected configuration matches your expectations:
+------------------------------------------------------------------------
+gettext                yes
+X                      --with-x=yes
+pthreads               --enable-pthread=yes
+doc                    --enable-doc=yes
+v4l                    --enable-video=yes
+jpeg                   --with-jpeg=yes
+Python                 --with-python=python3 	python3.9
+GTK                    --with-gtk=gtk3       	Gtk3.24.24
+GObject introspection  --with-gir=yes
+Qt                     --with-qt=yes         	Qt
+Java                   --with-java=yes
+Dbus                   --with-dbus=yes
+ImageMagick            --with-imagemagick=yes
+Enabled codes:         ean databar code128 code93 code39 codabar i25 qrcode sqcode
+Disabled codes:        pdf417
+JAVA_HOME              /usr/lib/jvm/java-11-openjdk-amd64
 
-> -       KUNIT_EXPECT_KASAN_FAIL(test, ((volatile char *)ptr)[0]);
-> -       KUNIT_EXPECT_KASAN_FAIL(test, ((volatile char *)ptr)[size]);
-> -}
-> -
->  static void kasan_stack_oob(struct kunit *test)
->  {
->         char stack_array[10];
-> @@ -1392,8 +1352,6 @@ static struct kunit_case kasan_kunit_test_cases[] = {
->         KUNIT_CASE(kasan_stack_oob),
->         KUNIT_CASE(kasan_alloca_oob_left),
->         KUNIT_CASE(kasan_alloca_oob_right),
-> -       KUNIT_CASE(ksize_unpoisons_memory),
-> -       KUNIT_CASE(ksize_uaf),
->         KUNIT_CASE(kmem_cache_double_free),
->         KUNIT_CASE(kmem_cache_invalid_free),
->         KUNIT_CASE(kmem_cache_double_destroy),
-> diff --git a/mm/kasan/shadow.c b/mm/kasan/shadow.c
-> index 0e3648b603a6..0895c73e9b69 100644
-> --- a/mm/kasan/shadow.c
-> +++ b/mm/kasan/shadow.c
-> @@ -124,9 +124,7 @@ void kasan_unpoison(const void *addr, size_t size, bool init)
->         addr = kasan_reset_tag(addr);
->
->         /*
-> -        * Skip KFENCE memory if called explicitly outside of sl*b. Also note
-> -        * that calls to ksize(), where size is not a multiple of machine-word
-> -        * size, would otherwise poison the invalid portion of the word.
-> +        * Skip KFENCE memory if called explicitly outside of sl*b.
->          */
->         if (is_kfence_address(addr))
->                 return;
-> --
-> 2.34.1
+        => the Java unit test will *NOT* be enabled
++ make
+/bin/mkdir -p zbarcam
+i -Izbarcam -DQT_WIDGETS_LIB -DQT_X11EXTRAS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtX11Extras -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/x86_64-linux-gnu/qt5 -I./include zbarcam/zbarcam-qt.cpp -o zbarcam/moc_zbarcam_qt.h
+/bin/bash: line 1: i: command not found
+make: [Makefile:2462: zbarcam/moc_zbarcam_qt.h] Error 127 (ignored)
+/bin/mkdir -p qt
+Iqt -DQT_WIDGETS_LIB -DQT_X11EXTRAS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtX11Extras -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/x86_64-linux-gnu/qt5 -I./include include/zbar/QZBar.h -o qt/moc_QZBar.cpp
+/bin/bash: line 1: Iqt: command not found
+make: [Makefile:2491: qt/moc_QZBar.cpp] Error 127 (ignored)
+Iqt -DQT_WIDGETS_LIB -DQT_X11EXTRAS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtX11Extras -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/x86_64-linux-gnu/qt5 -I./include qt/QZBarThread.h -o qt/moc_QZBarThread.cpp
+/bin/bash: line 1: Iqt: command not found
+make: [Makefile:2487: qt/moc_QZBarThread.cpp] Error 127 (ignored)
+make  all-recursive
+make[1]: Entering directory '<https://builder.linuxtv.org/job/ZBar/ws/'>
+Making all in zbar
+make[2]: Entering directory '<https://builder.linuxtv.org/job/ZBar/ws/zbar'>
+  CC       libzbar_la-config.lo
+  CC       libzbar_la-error.lo
+  CC       libzbar_la-symbol.lo
+  CC       libzbar_la-image.lo
+  CC       libzbar_la-convert.lo
+  CC       libzbar_la-processor.lo
+  CC       processor/libzbar_la-lock.lo
+  CC       libzbar_la-refcnt.lo
+  CC       libzbar_la-window.lo
+  CC       libzbar_la-video.lo
+  CC       libzbar_la-img_scanner.lo
+  CC       libzbar_la-scanner.lo
+  CC       libzbar_la-decoder.lo
+  CC       libzbar_la-misc.lo
+  CC       decoder/libzbar_la-ean.lo
+  CC       decoder/libzbar_la-databar.lo
+  CC       decoder/libzbar_la-code128.lo
+  CC       decoder/libzbar_la-code93.lo
+  CC       decoder/libzbar_la-code39.lo
+  CC       decoder/libzbar_la-codabar.lo
+  CC       decoder/libzbar_la-i25.lo
+  CC       decoder/libzbar_la-qr_finder.lo
+  CC       qrcode/libzbar_la-qrdec.lo
+  CC       qrcode/libzbar_la-qrdectxt.lo
+  CC       qrcode/libzbar_la-rs.lo
+  CC       qrcode/libzbar_la-isaac.lo
+  CC       qrcode/libzbar_la-bch15_5.lo
+  CC       qrcode/libzbar_la-binarize.lo
+  CC       qrcode/libzbar_la-util.lo
+  CC       libzbar_la-sqcode.lo
+  CC       decoder/libzbar_la-sq_finder.lo
+  CC       processor/libzbar_la-posix.lo
+  CC       video/libzbar_la-v4l.lo
+  CC       video/libzbar_la-v4l2.lo
+  CC       libzbar_la-jpeg.lo
+  CC       processor/libzbar_la-x.lo
+  CC       window/libzbar_la-x.lo
+  CC       window/libzbar_la-ximage.lo
+  CC       window/libzbar_la-xv.lo
+  CCLD     libzbar.la
+copying selected object files to avoid basename conflicts...
+make[2]: Leaving directory '<https://builder.linuxtv.org/job/ZBar/ws/zbar'>
+Making all in po
+make[2]: Entering directory '<https://builder.linuxtv.org/job/ZBar/ws/po'>
+make[2]: Nothing to be done for 'all'.
+make[2]: Leaving directory '<https://builder.linuxtv.org/job/ZBar/ws/po'>
+Making all in gtk
+make[2]: Entering directory '<https://builder.linuxtv.org/job/ZBar/ws/gtk'>
+make  all-am
+make[3]: Entering directory '<https://builder.linuxtv.org/job/ZBar/ws/gtk'>
+  CC       libzbargtk_la-zbargtk.lo
+  CC       libzbargtk_la-zbarmarshal.lo
+  CCLD     libzbargtk.la
+  GISCAN   ZBar-1.0.gir
+  GICOMP   ZBar-1.0.gir
+make[3]: Leaving directory '<https://builder.linuxtv.org/job/ZBar/ws/gtk'>
+make[2]: Leaving directory '<https://builder.linuxtv.org/job/ZBar/ws/gtk'>
+Making all in java
+make[2]: Entering directory '<https://builder.linuxtv.org/job/ZBar/ws/java'>
+make  all-am
+make[3]: Entering directory '<https://builder.linuxtv.org/job/ZBar/ws/java'>
+  CC       libzbarjni_la-zbarjni.lo
+  CCLD     libzbarjni.la
+make[3]: Leaving directory '<https://builder.linuxtv.org/job/ZBar/ws/java'>
+make[2]: Leaving directory '<https://builder.linuxtv.org/job/ZBar/ws/java'>
+Making all in .
+make[2]: Entering directory '<https://builder.linuxtv.org/job/ZBar/ws/'>
+  CC       zbarimg/zbarimg-zbarimg.o
+  CCLD     zbarimg/zbarimg
+  CC       zbarcam/zbarcam-zbarcam.o
+  CCLD     zbarcam/zbarcam
+  CC       zbarcam/zbarcam_gtk-zbarcam-gtk.o
+  CC       zbarcam/zbarcam_gtk-scan_video.o
+  CCLD     zbarcam/zbarcam-gtk
+/bin/mkdir -p zbarcam
+i -Izbarcam -DQT_WIDGETS_LIB -DQT_X11EXTRAS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtX11Extras -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/x86_64-linux-gnu/qt5 -I./include zbarcam/zbarcam-qt.cpp -o zbarcam/moc_zbarcam_qt.h
+/bin/bash: line 1: i: command not found
+make[2]: [Makefile:2462: zbarcam/moc_zbarcam_qt.h] Error 127 (ignored)
+  CXX      zbarcam/zbarcam_qt-zbarcam-qt.o
+  CC       zbarcam/zbarcam_qt-scan_video.o
+  CXX      qt/libzbarqt_la-QZBar.lo
+  CXX      qt/libzbarqt_la-QZBarThread.lo
+/bin/mkdir -p qt
+Iqt -DQT_WIDGETS_LIB -DQT_X11EXTRAS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtX11Extras -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/x86_64-linux-gnu/qt5 -I./include include/zbar/QZBar.h -o qt/moc_QZBar.cpp
+/bin/bash: line 1: Iqt: command not found
+make[2]: [Makefile:2491: qt/moc_QZBar.cpp] Error 127 (ignored)
+  CXX      qt/libzbarqt_la-moc_QZBar.lo
+Iqt -DQT_WIDGETS_LIB -DQT_X11EXTRAS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtX11Extras -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/x86_64-linux-gnu/qt5 -I./include qt/QZBarThread.h -o qt/moc_QZBarThread.cpp
+/bin/bash: line 1: Iqt: command not found
+make[2]: [Makefile:2487: qt/moc_QZBarThread.cpp] Error 127 (ignored)
+  CXX      qt/libzbarqt_la-moc_QZBarThread.lo
+  CXXLD    qt/libzbarqt.la
+  CXXLD    zbarcam/zbarcam-qt
+  CC       python/zbar_la-zbarmodule.lo
+  CC       python/zbar_la-enum.lo
+  CC       python/zbar_la-exception.lo
+  CC       python/zbar_la-symbol.lo
+  CC       python/zbar_la-symbolset.lo
+  CC       python/zbar_la-symboliter.lo
+  CC       python/zbar_la-image.lo
+  CC       python/zbar_la-processor.lo
+  CC       python/zbar_la-imagescanner.lo
+  CC       python/zbar_la-decoder.lo
+  CC       python/zbar_la-scanner.lo
+  CCLD     python/zbar.la
+make[2]: Leaving directory '<https://builder.linuxtv.org/job/ZBar/ws/'>
+make[1]: Leaving directory '<https://builder.linuxtv.org/job/ZBar/ws/'>
++ make check-local
+/usr/bin/python3 <https://builder.linuxtv.org/job/ZBar/ws/test/barcodetest.py>
+E
+======================================================================
+ERROR: runTest (__main__.BuiltinTestCase)
+<https://builder.linuxtv.org/job/ZBar/ws/examples/ean-13.png>
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<https://builder.linuxtv.org/job/ZBar/ws/test/barcodetest.py",> line 163, in runTest
+    actual = run_zbarimg((expect.get('href'),))
+  File "<https://builder.linuxtv.org/job/ZBar/ws/test/barcodetest.py",> line 137, in run_zbarimg
+    'zbarimg returned error status (%d)\n' % rc + err
+TypeError: can only concatenate str (not "bytes") to str
+
+----------------------------------------------------------------------
+Ran 1 test in 0.953s
+
+FAILED (errors=1)
+make: *** [Makefile:2517: check-images-py] Error 1
+Build step 'Execute shell' marked build as failure
