@@ -2,34 +2,36 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 56A015E8A43
-	for <lists+linux-media@lfdr.de>; Sat, 24 Sep 2022 10:48:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 228DA5E8A44
+	for <lists+linux-media@lfdr.de>; Sat, 24 Sep 2022 10:50:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233626AbiIXIsa convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Sat, 24 Sep 2022 04:48:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38020 "EHLO
+        id S233599AbiIXIuW convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Sat, 24 Sep 2022 04:50:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41076 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229719AbiIXIs1 (ORCPT
+        with ESMTP id S233484AbiIXIuV (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 24 Sep 2022 04:48:27 -0400
+        Sat, 24 Sep 2022 04:50:21 -0400
 Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C7638E741A
-        for <linux-media@vger.kernel.org>; Sat, 24 Sep 2022 01:48:25 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 891F6AA4CF
+        for <linux-media@vger.kernel.org>; Sat, 24 Sep 2022 01:50:19 -0700 (PDT)
 Received: from builder.linuxtv.org ([140.211.167.10])
         by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.92)
         (envelope-from <jenkins@linuxtv.org>)
-        id 1oc0pf-009U3r-Pz; Sat, 24 Sep 2022 08:48:20 +0000
+        id 1oc0rV-009UFG-Vi; Sat, 24 Sep 2022 08:50:14 +0000
 Received: from localhost ([127.0.0.1] helo=builder.linuxtv.org)
         by builder.linuxtv.org with esmtp (Exim 4.94.2)
         (envelope-from <jenkins@linuxtv.org>)
-        id 1oc0pe-00FbPg-2C; Sat, 24 Sep 2022 08:48:17 +0000
-Date:   Sat, 24 Sep 2022 08:48:17 +0000 (UTC)
+        id 1oc0rR-00FbiJ-F3; Sat, 24 Sep 2022 08:50:11 +0000
+Date:   Sat, 24 Sep 2022 08:50:08 +0000 (UTC)
 From:   Jenkins Builder Robot <jenkins@linuxtv.org>
 To:     mchehab@kernel.org, linux-media@vger.kernel.org,
         mchehab@linuxtv.org
-Message-ID: <14251207.2.1664009297444@builder.linuxtv.org>
-Subject: Build failed in Jenkins: media_stage_gcc #111
+Message-ID: <5238096.3.1664009408815@builder.linuxtv.org>
+In-Reply-To: <14251207.2.1664009297444@builder.linuxtv.org>
+References: <14251207.2.1664009297444@builder.linuxtv.org>
+Subject: Build failed in Jenkins: media_stage_gcc #112
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8BIT
@@ -46,392 +48,219 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-See <https://builder.linuxtv.org/job/media_stage_gcc/111/display/redirect?page=changes>
+See <https://builder.linuxtv.org/job/media_stage_gcc/112/display/redirect?page=changes>
 
 Changes:
 
-[Mauro Carvalho Chehab] media: hantro: Store HEVC bit depth in context
+[Mauro Carvalho Chehab] media: sunxi: Fix some error handling path of sun8i_a83t_mipi_csi2_probe()
 
-[Mauro Carvalho Chehab] media: hantro: HEVC: Fix auxilary buffer size calculation
+[Mauro Carvalho Chehab] media: sunxi: Fix some error handling path of sun6i_mipi_csi2_probe()
 
-[Mauro Carvalho Chehab] media: hantro: HEVC: Fix chroma offset computation
+[Mauro Carvalho Chehab] media: cx88: add IR remote support for NotOnlyTV LV3H
 
-[Mauro Carvalho Chehab] media: hantro: postproc: Configure output regs to support 10bit
+[Mauro Carvalho Chehab] media: venus: dec: Handle the case where find_format fails
 
-[Mauro Carvalho Chehab] media: Hantro: HEVC: Allows 10-bit bitstream
+[Mauro Carvalho Chehab] media: venus: Fix NV12 decoder buffer discovery on HFI_VERSION_1XX
 
-[Mauro Carvalho Chehab] media: hantro: imx8m: Enable 10bit decoding
+[Mauro Carvalho Chehab] media: venus : Add default values for the control
 
-[Mauro Carvalho Chehab] media: hantro: Allows luma and chroma depth to be different
+[Mauro Carvalho Chehab] media: venus : Addition of control support - V4L2_CID_MIN_BUFFERS_FOR_OUTPUT
 
-[Mauro Carvalho Chehab] media: staging: ipu3-imgu: Fix BNR wb gain documentation
+[Mauro Carvalho Chehab] media: venus : CAPTURE Plane width/height alignment with OUT plane.
 
-[Mauro Carvalho Chehab] media: ov5640: Use runtime PM
+[Mauro Carvalho Chehab] media: venus : Addition of EOS Event support for Encoder
 
-[Mauro Carvalho Chehab] media: v4l2: Fix v4l2_i2c_subdev_set_name function documentation
+[Mauro Carvalho Chehab] media: venus : Addition of support for VIDIOC_TRY_ENCODER_CMD
 
-[Mauro Carvalho Chehab] media: i2c: mt9v111: Fix typo 'the the' in comment
+[Mauro Carvalho Chehab] media: venus : Remove the capture plane settings for venc_g_parm/venc_s_parm
 
-[Mauro Carvalho Chehab] media: ar0521: fix error return code in ar0521_power_on()
+[Mauro Carvalho Chehab] media: venus : Allow MIN/MAX settings for the v4l2 encoder controls defined range.
 
-[Mauro Carvalho Chehab] media: ar0521: Remove redundant variable ret
+[Mauro Carvalho Chehab] media: venus: venc_ctrls: Add default value for CLL info
 
-[Mauro Carvalho Chehab] media: ipu3-imgu: Fix NULL pointer dereference in active selection access
+[Mauro Carvalho Chehab] media: venus: venc: Set HDR10 PQ SEI property only for MAIN10 profile
 
-[Mauro Carvalho Chehab] media: v4l: subdev: Fail graciously when getting try data for NULL state
-
-[Mauro Carvalho Chehab] media: ar0521: Fix return value check in writing initial registers
-
-[Mauro Carvalho Chehab] media: ov8865: Fix an error handling path in ov8865_probe()
-
-[Mauro Carvalho Chehab] media: sun6i-mipi-csi2: Depend on PHY_SUN6I_MIPI_DPHY
-
-[Mauro Carvalho Chehab] media: Remove incorrect comment from struct v4l2_fwnode_endpoint
-
-[Mauro Carvalho Chehab] media: Documentation: mc: add definitions for stream and pipeline
-
-[Mauro Carvalho Chehab] media: media-entity.h: add include for min()
-
-[Mauro Carvalho Chehab] media: subdev: increase V4L2_FRAME_DESC_ENTRY_MAX to 8
-
-[Mauro Carvalho Chehab] media: mc: entity: Rename streaming_count -> start_count
-
-[Mauro Carvalho Chehab] media: mc: entity: Add iterator helper for entity pads
-
-[Mauro Carvalho Chehab] media: mc: entity: Merge media_entity_enum_init and __media_entity_enum_init
-
-[Mauro Carvalho Chehab] media: mc: entity: Move media_entity_get_fwnode_pad() out of graph walk section
-
-[Mauro Carvalho Chehab] media: mc: entity: Add media_entity_pipeline() to access the media pipeline
-
-[Mauro Carvalho Chehab] media: v4l2-dev: Add videodev wrappers for media pipelines
-
-[Mauro Carvalho Chehab] media: drivers: use video device pipeline start/stop
-
-[Mauro Carvalho Chehab] media: drivers: use video_device_pipeline()
-
-[Mauro Carvalho Chehab] media: mc: entity: add alloc variant of pipeline_start
-
-[Mauro Carvalho Chehab] media: drivers: use video_device_pipeline_alloc_start()
-
-[Mauro Carvalho Chehab] media: mc: entity: Rewrite media_pipeline_start()
-
-[Mauro Carvalho Chehab] media: mc: entity: Add has_pad_interdep entity operation
-
-[Mauro Carvalho Chehab] media: mc: convert pipeline funcs to take media_pad
-
-[Mauro Carvalho Chehab] media: dt-bindings: dongwoon,dw9714: convert to dtschema
-
-[Mauro Carvalho Chehab] media: dt-bindings: media: samsung,exynos5250-gsc: convert to dtschema
-
-[Mauro Carvalho Chehab] media: atomisp_gmin_platform: Switch to use acpi_evaluate_dsm_typed()
-
-[Mauro Carvalho Chehab] media: atomisp-ov2680: Fix ov2680_set_fmt()
-
-[Mauro Carvalho Chehab] media: atomisp-ov2680: Don't take the input_lock for try_fmt calls.
-
-[Mauro Carvalho Chehab] media: atomisp-ov2680: Improve ov2680_set_fmt() error handling
-
-[Mauro Carvalho Chehab] media: atomisp-notes: Add info about sensors v4l2_get_subdev_hostdata() use
-
-[Mauro Carvalho Chehab] media: atomisp: Fix VIDIOC_TRY_FMT
-
-[Mauro Carvalho Chehab] media: atomisp: Make atomisp_try_fmt_cap() take padding into account
-
-[Mauro Carvalho Chehab] media: atomisp: hmm_bo: Simplify alloc_private_pages()
-
-[Mauro Carvalho Chehab] media: atomisp: hmm_bo: Further simplify alloc_private_pages()
-
-[Mauro Carvalho Chehab] media: atomisp: hmm_bo: Rewrite alloc_private_pages() using pages_array helper funcs
-
-[Mauro Carvalho Chehab] media: atomisp: hmm_bo: Rewrite free_private_pages() using pages_array helper funcs
-
-[Mauro Carvalho Chehab] media: atomisp: hmm_bo: Drop PFN code path from alloc_user_pages()
-
-[Mauro Carvalho Chehab] media: atomisp: Ensure that USERPTR pointers are page aligned
-
-[Mauro Carvalho Chehab] media: atomisp: Fix device_caps reporting of the registered video-devs
-
-[Mauro Carvalho Chehab] media: atomisp: Remove file-injection support
-
-[Mauro Carvalho Chehab] media: atomisp: Remove atomisp_file_fops and atomisp_file_ioctl_ops
-
-[Mauro Carvalho Chehab] media: atomisp: Remove the outq videobuf queue
-
-[Mauro Carvalho Chehab] media: atomisp: Remove never set file_input flag
-
-[Mauro Carvalho Chehab] media: atomisp: Remove the ACC device node
-
-[Mauro Carvalho Chehab] media: atomisp: Remove some further ATOMISP_ACC_* related dead code
-
-[Mauro Carvalho Chehab] media: atomisp: Remove empty atomisp_css_set_cont_prev_start_time() function
-
-[Mauro Carvalho Chehab] media: atomisp: Split subdev and video-node registration into 2 steps
-
-[Mauro Carvalho Chehab] media: atomisp: Register /dev/* nodes at the end of atomisp_pci_probe()
-
-[Mauro Carvalho Chehab] media: atomisp: Remove loading mutex
-
-[Mauro Carvalho Chehab] media: atomisp: Fix v4l2_fh resource leak on open errors
-
-[Mauro Carvalho Chehab] media: atomisp: Simplify v4l2_fh_open() error handling
-
-[Mauro Carvalho Chehab] media: atomisp: prevent integer overflow in sh_css_set_black_frame()
-
-[Mauro Carvalho Chehab] media: atomisp: Use a normal mutex for the main lock
-
-[Mauro Carvalho Chehab] media: atomisp: Remove unused lock member from struct atomisp_sub_device
-
-[Mauro Carvalho Chehab] media: atomisp: Fix locking around asd->streaming read/write
-
-[Mauro Carvalho Chehab] media: atomisp: Remove asd == NULL checks from ioctl handling
-
-[Mauro Carvalho Chehab] media: atomisp: Add atomisp_pipe_check() helper
-
-[Mauro Carvalho Chehab] media: atomisp: Remove watchdog timer
-
-[Mauro Carvalho Chehab] media: atomisp: Move atomisp_streaming_count() check into __atomisp_css_recover()
-
-[Mauro Carvalho Chehab] media: atomisp: Rework asd->streaming state update in __atomisp_streamoff()
-
-[Mauro Carvalho Chehab] media: atomisp: Drop streamoff_mutex
-
-[Mauro Carvalho Chehab] media: atomisp: Use video_dev.lock for ioctl locking
-
-[Mauro Carvalho Chehab] media: atomisp: Remove a couple of not useful function wrappers
-
-[Mauro Carvalho Chehab] media: atomisp: Drop unnecessary first_streamoff check
-
-[Mauro Carvalho Chehab] media: atomisp: Make atomisp_set_raw_buffer_bitmap() static
-
-[Mauro Carvalho Chehab] media: atomisp: Remove unused atomisp_css_get_dis_statistics()
-
-[Mauro Carvalho Chehab] media: atomisp: Remove const/fixed camera_caps
-
-[Mauro Carvalho Chehab] media: atomisp: Remove atomisp_source_pad_to_stream_id()
-
-[Mauro Carvalho Chehab] media: atomisp_gmin_platform: Unexport and split camera_sensor_csi()
+[Mauro Carvalho Chehab] media: venus: hfi: Remove the unneeded result variable
 
 
 ------------------------------------------
-[...truncated 43.79 KB...]
-  HDRINST usr/include/rdma/cxgb4-abi.h
-  HDRINST usr/include/rdma/mlx5_user_ioctl_verbs.h
-  HDRINST usr/include/rdma/bnxt_re-abi.h
-  HDRINST usr/include/rdma/mlx4-abi.h
-  HDRINST usr/include/rdma/ocrdma-abi.h
-  HDRINST usr/include/rdma/ib_user_sa.h
-  HDRINST usr/include/rdma/mlx5-abi.h
-  HDRINST usr/include/rdma/erdma-abi.h
-  HDRINST usr/include/rdma/ib_user_ioctl_verbs.h
-  HDRINST usr/include/rdma/hns-abi.h
-  HDRINST usr/include/rdma/rdma_netlink.h
-  HDRINST usr/include/rdma/hfi/hfi1_user.h
-  HDRINST usr/include/rdma/hfi/hfi1_ioctl.h
-  HDRINST usr/include/rdma/rdma_user_ioctl.h
-  HDRINST usr/include/rdma/ib_user_verbs.h
-  HDRINST usr/include/scsi/scsi_netlink.h
-  HDRINST usr/include/scsi/scsi_netlink_fc.h
-  HDRINST usr/include/scsi/scsi_bsg_mpi3mr.h
-  HDRINST usr/include/scsi/fc/fc_els.h
-  HDRINST usr/include/scsi/fc/fc_ns.h
-  HDRINST usr/include/scsi/fc/fc_fs.h
-  HDRINST usr/include/scsi/fc/fc_gs.h
-  HDRINST usr/include/scsi/cxlflash_ioctl.h
-  HDRINST usr/include/scsi/scsi_bsg_fc.h
-  HDRINST usr/include/scsi/scsi_bsg_ufs.h
-  HDRINST usr/include/sound/asound_fm.h
-  HDRINST usr/include/sound/hdsp.h
-  HDRINST usr/include/sound/asound.h
-  HDRINST usr/include/sound/snd_ar_tokens.h
-  HDRINST usr/include/sound/skl-tplg-interface.h
-  HDRINST usr/include/sound/firewire.h
-  HDRINST usr/include/sound/compress_offload.h
-  HDRINST usr/include/sound/sof/header.h
-  HDRINST usr/include/sound/sof/abi.h
-  HDRINST usr/include/sound/sof/tokens.h
-  HDRINST usr/include/sound/sof/fw.h
-  HDRINST usr/include/sound/sfnt_info.h
-  HDRINST usr/include/sound/asoc.h
-  HDRINST usr/include/sound/compress_params.h
-  HDRINST usr/include/sound/intel/avs/tokens.h
-  HDRINST usr/include/sound/usb_stream.h
-  HDRINST usr/include/sound/emu10k1.h
-  HDRINST usr/include/sound/hdspm.h
-  HDRINST usr/include/sound/snd_sst_tokens.h
-  HDRINST usr/include/sound/asequencer.h
-  HDRINST usr/include/sound/sb16_csp.h
-  HDRINST usr/include/sound/tlv.h
-  HDRINST usr/include/video/uvesafb.h
-  HDRINST usr/include/video/sisfb.h
-  HDRINST usr/include/video/edid.h
-  HDRINST usr/include/xen/privcmd.h
-  HDRINST usr/include/xen/evtchn.h
-  HDRINST usr/include/xen/gntalloc.h
-  HDRINST usr/include/xen/gntdev.h
-  HDRINST usr/include/linux/version.h
-  HDRINST usr/include/asm/prctl.h
-  HDRINST usr/include/asm/mce.h
-  HDRINST usr/include/asm/debugreg.h
-  HDRINST usr/include/asm/kvm.h
-  HDRINST usr/include/asm/auxvec.h
-  HDRINST usr/include/asm/a.out.h
-  HDRINST usr/include/asm/signal.h
-  HDRINST usr/include/asm/hwcap2.h
-  HDRINST usr/include/asm/swab.h
-  HDRINST usr/include/asm/vm86.h
-  HDRINST usr/include/asm/hw_breakpoint.h
-  HDRINST usr/include/asm/vsyscall.h
-  HDRINST usr/include/asm/posix_types_64.h
-  HDRINST usr/include/asm/boot.h
-  HDRINST usr/include/asm/unistd.h
-  HDRINST usr/include/asm/perf_regs.h
-  HDRINST usr/include/asm/mman.h
-  HDRINST usr/include/asm/e820.h
-  HDRINST usr/include/asm/msr.h
-  HDRINST usr/include/asm/siginfo.h
-  HDRINST usr/include/asm/ucontext.h
-  HDRINST usr/include/asm/byteorder.h
-  HDRINST usr/include/asm/posix_types_x32.h
-  HDRINST usr/include/asm/vmx.h
-  HDRINST usr/include/asm/ist.h
-  HDRINST usr/include/asm/shmbuf.h
-  HDRINST usr/include/asm/bootparam.h
-  HDRINST usr/include/asm/posix_types_32.h
-  HDRINST usr/include/asm/sembuf.h
-  HDRINST usr/include/asm/amd_hsmp.h
-  HDRINST usr/include/asm/svm.h
-  HDRINST usr/include/asm/mtrr.h
-  HDRINST usr/include/asm/stat.h
-  HDRINST usr/include/asm/setup.h
-  HDRINST usr/include/asm/sigcontext32.h
-  HDRINST usr/include/asm/msgbuf.h
-  HDRINST usr/include/asm/sgx.h
-  HDRINST usr/include/asm/kvm_perf.h
-  HDRINST usr/include/asm/ptrace.h
-  HDRINST usr/include/asm/processor-flags.h
-  HDRINST usr/include/asm/sigcontext.h
-  HDRINST usr/include/asm/posix_types.h
-  HDRINST usr/include/asm/statfs.h
-  HDRINST usr/include/asm/bitsperlong.h
-  HDRINST usr/include/asm/kvm_para.h
-  HDRINST usr/include/asm/ptrace-abi.h
-  HDRINST usr/include/asm/ldt.h
-  HDRINST usr/include/asm/sockios.h
-  HDRINST usr/include/asm/poll.h
-  HDRINST usr/include/asm/socket.h
-  HDRINST usr/include/asm/fcntl.h
-  HDRINST usr/include/asm/types.h
-  HDRINST usr/include/asm/unistd_x32.h
-  HDRINST usr/include/asm/param.h
-  HDRINST usr/include/asm/termios.h
-  HDRINST usr/include/asm/resource.h
-  HDRINST usr/include/asm/unistd_64.h
-  HDRINST usr/include/asm/termbits.h
-  HDRINST usr/include/asm/ioctls.h
-  HDRINST usr/include/asm/unistd_32.h
-  HDRINST usr/include/asm/ipcbuf.h
-  HDRINST usr/include/asm/bpf_perf_event.h
-  HDRINST usr/include/asm/errno.h
-  HDRINST usr/include/asm/ioctl.h
-  UPD     include/generated/asm-offsets.h
+Started by an SCM change
+Running as SYSTEM
+Building remotely on slave2 in workspace <https://builder.linuxtv.org/job/media_stage_gcc/ws/>
+The recommended git tool is: NONE
+No credentials specified
+ > git rev-parse --resolve-git-dir <https://builder.linuxtv.org/job/media_stage_gcc/ws/.git> # timeout=10
+Fetching changes from the remote Git repository
+ > git config remote.origin.url git://linuxtv.org/media_stage.git # timeout=10
+Fetching upstream changes from git://linuxtv.org/media_stage.git
+ > git --version # timeout=10
+ > git --version # 'git version 2.30.2'
+ > git fetch --tags --force --progress -- git://linuxtv.org/media_stage.git +refs/heads/*:refs/remotes/origin/* # timeout=30
+Seen branch in repository origin/master
+Seen 1 remote branch
+ > git show-ref --tags -d # timeout=10
+Checking out Revision d7438db9b0b7157bf576c1a907690e77776ef593 (origin/master)
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f d7438db9b0b7157bf576c1a907690e77776ef593 # timeout=10
+Commit message: "media: venus: hfi: Remove the unneeded result variable"
+ > git rev-list --no-walk df383edffd2e3af1d0f4df48f248efcb49c58f79 # timeout=10
+The recommended git tool is: NONE
+No credentials specified
+ > git rev-parse d7438db9b0b7157bf576c1a907690e77776ef593^{commit} # timeout=10
+The recommended git tool is: NONE
+No credentials specified
+[GitCheckoutListener] Recording commits of 'git git://linuxtv.org/media_stage.git'
+[GitCheckoutListener] Found previous build 'media_stage_gcc #111' that contains recorded Git commits
+[GitCheckoutListener] -> Starting recording of new commits since 'df383ed'
+[GitCheckoutListener] -> Using head commit 'd7438db' as starting point
+[GitCheckoutListener] -> Git commit decorator could not be created for SCM 'hudson.plugins.git.GitSCM@5c728ce'
+[GitCheckoutListener] -> Recorded 15 new commits
+[media_stage_gcc] $ /bin/sh -xe /tmp/jenkins2257966611719843029.sh
++ export CCACHE_DIR=/var/lib/jenkins/.ccache
++ export PATH=/usr/lib/ccache:/usr/lib/ccache:/var/lib/jenkins/.local/bin:/usr/local/bin:/usr/bin:/bin:/usr/games
++ make W=1 allyesconfig
+#
+# configuration written to .config
+#
++ ./scripts/config -d MODULE_SIG -d KEYS -d IMA -d CONFIG_DEBUG_INFO -d SYSTEM_TRUSTED_KEYRING -d MODVERSIONS -d CHECK_SIGNATURE
++ make W=1 init
+  SYNC    include/config/auto.conf.cmd
+  DESCEND objtool
+  HOSTCC  <https://builder.linuxtv.org/job/media_stage_gcc/ws/tools/objtool/fixdep.o>
+  CALL    scripts/atomic/check-atomics.sh
   CALL    scripts/checksyscalls.sh
-  CC      init/main.o
+  HOSTLD  <https://builder.linuxtv.org/job/media_stage_gcc/ws/tools/objtool/fixdep-in.o>
+  LINK    <https://builder.linuxtv.org/job/media_stage_gcc/ws/tools/objtool/fixdep>
+  CC      <https://builder.linuxtv.org/job/media_stage_gcc/ws/tools/objtool/exec-cmd.o>
+  CC      <https://builder.linuxtv.org/job/media_stage_gcc/ws/tools/objtool/weak.o>
+  CC      <https://builder.linuxtv.org/job/media_stage_gcc/ws/tools/objtool/help.o>
+  CC      <https://builder.linuxtv.org/job/media_stage_gcc/ws/tools/objtool/check.o>
+  CC      <https://builder.linuxtv.org/job/media_stage_gcc/ws/tools/objtool/pager.o>
+  CC      <https://builder.linuxtv.org/job/media_stage_gcc/ws/tools/objtool/special.o>
+  CC      <https://builder.linuxtv.org/job/media_stage_gcc/ws/tools/objtool/arch/x86/special.o>
+  CC      <https://builder.linuxtv.org/job/media_stage_gcc/ws/tools/objtool/parse-options.o>
+  CC      <https://builder.linuxtv.org/job/media_stage_gcc/ws/tools/objtool/builtin-check.o>
+  CC      <https://builder.linuxtv.org/job/media_stage_gcc/ws/tools/objtool/run-command.o>
+  CC      <https://builder.linuxtv.org/job/media_stage_gcc/ws/tools/objtool/elf.o>
+  CC      <https://builder.linuxtv.org/job/media_stage_gcc/ws/tools/objtool/objtool.o>
+  CC      <https://builder.linuxtv.org/job/media_stage_gcc/ws/tools/objtool/arch/x86/decode.o>
+  CC      <https://builder.linuxtv.org/job/media_stage_gcc/ws/tools/objtool/sigchain.o>
+  CC      <https://builder.linuxtv.org/job/media_stage_gcc/ws/tools/objtool/subcmd-config.o>
+  CC      <https://builder.linuxtv.org/job/media_stage_gcc/ws/tools/objtool/orc_gen.o>
+  CC      <https://builder.linuxtv.org/job/media_stage_gcc/ws/tools/objtool/orc_dump.o>
+  CC      <https://builder.linuxtv.org/job/media_stage_gcc/ws/tools/objtool/libstring.o>
+  CC      <https://builder.linuxtv.org/job/media_stage_gcc/ws/tools/objtool/libctype.o>
+  CC      <https://builder.linuxtv.org/job/media_stage_gcc/ws/tools/objtool/str_error_r.o>
+  CC      <https://builder.linuxtv.org/job/media_stage_gcc/ws/tools/objtool/librbtree.o>
+  LD      <https://builder.linuxtv.org/job/media_stage_gcc/ws/tools/objtool/libsubcmd-in.o>
+  AR      <https://builder.linuxtv.org/job/media_stage_gcc/ws/tools/objtool/libsubcmd.a>
+  LD      <https://builder.linuxtv.org/job/media_stage_gcc/ws/tools/objtool/arch/x86/objtool-in.o>
+  LD      <https://builder.linuxtv.org/job/media_stage_gcc/ws/tools/objtool/objtool-in.o>
+  LINK    <https://builder.linuxtv.org/job/media_stage_gcc/ws/tools/objtool/objtool>
   CHK     include/generated/compile.h
-  CC      init/do_mounts.o
-  CC      init/do_mounts_rd.o
-  CC      init/do_mounts_initrd.o
-  CC      init/initramfs.o
-  CC      init/calibrate.o
-  CC      init/init_task.o
-  UPD     include/generated/compile.h
-  CC      init/version.o
-  AR      init/built-in.a
 + make W=1 -j9 drivers/staging/media/
   DESCEND objtool
   CALL    scripts/atomic/check-atomics.sh
   CALL    scripts/checksyscalls.sh
   CC      drivers/staging/media/max96712/max96712.o
+  CC      drivers/staging/media/deprecated/meye/meye.o
   CC      drivers/staging/media/deprecated/cpia2/cpia2_v4l.o
   CC      drivers/staging/media/rkvdec/rkvdec.o
-  CC      drivers/staging/media/deprecated/stkwebcam/stk-webcam.o
   CC      drivers/staging/media/omap4iss/iss.o
-  CC      drivers/staging/media/imx/imx-media-capture.o
-  CC      drivers/staging/media/deprecated/meye/meye.o
+  CC      drivers/staging/media/deprecated/stkwebcam/stk-webcam.o
   CC      drivers/staging/media/meson/vdec/esparser.o
+  CC      drivers/staging/media/imx/imx-media-capture.o
   CC      drivers/staging/media/atomisp/i2c/ov5693/atomisp-ov5693.o
+  CC      drivers/staging/media/deprecated/cpia2/cpia2_usb.o
   AR      drivers/staging/media/max96712/built-in.a
   CC      drivers/staging/media/imx/imx-media-dev-common.o
-  CC      drivers/staging/media/deprecated/cpia2/cpia2_usb.o
-  CC      drivers/staging/media/rkvdec/rkvdec-h264.o
-  CC      drivers/staging/media/deprecated/stkwebcam/stk-sensor.o
-  CC      drivers/staging/media/omap4iss/iss_csi2.o
-  CC      drivers/staging/media/imx/imx-media-of.o
-  AR      drivers/staging/media/deprecated/meye/built-in.a
-  CC      drivers/staging/media/sunxi/cedrus/cedrus.o
   CC      drivers/staging/media/meson/vdec/vdec.o
+  CC      drivers/staging/media/omap4iss/iss_csi2.o
+  CC      drivers/staging/media/rkvdec/rkvdec-h264.o
+  CC      drivers/staging/media/deprecated/cpia2/cpia2_core.o
+  CC      drivers/staging/media/deprecated/stkwebcam/stk-sensor.o
   AR      drivers/staging/media/atomisp/i2c/ov5693/built-in.a
   CC      drivers/staging/media/atomisp/i2c/atomisp-mt9m114.o
-  CC      drivers/staging/media/sunxi/cedrus/cedrus_video.o
-  CC      drivers/staging/media/imx/imx-media-utils.o
-  CC      drivers/staging/media/deprecated/cpia2/cpia2_core.o
+  AR      drivers/staging/media/deprecated/meye/built-in.a
+  CC      drivers/staging/media/imx/imx-media-of.o
+  CC      drivers/staging/media/atomisp/i2c/atomisp-gc2235.o
+  CC      drivers/staging/media/atomisp/i2c/atomisp-ov2722.o
+  CC      drivers/staging/media/meson/vdec/vdec_helpers.o
+  AR      drivers/staging/media/deprecated/cpia2/built-in.a
   AR      drivers/staging/media/deprecated/stkwebcam/built-in.a
-  CC      drivers/staging/media/imx/imx-media-dev.o
+  CC      drivers/staging/media/meson/vdec/vdec_platform.o
   CC      drivers/staging/media/omap4iss/iss_csiphy.o
   CC      drivers/staging/media/rkvdec/rkvdec-vp9.o
+  CC      drivers/staging/media/atomisp/i2c/atomisp-ov2680.o
+  CC      drivers/staging/media/meson/vdec/vdec_1.o
+  CC      drivers/staging/media/imx/imx-media-utils.o
+  CC      drivers/staging/media/imx/imx-media-dev.o
   CC      drivers/staging/media/imx/imx-media-internal-sd.o
-  CC      drivers/staging/media/meson/vdec/vdec_helpers.o
-  CC      drivers/staging/media/atomisp/i2c/atomisp-gc2235.o
-  CC      drivers/staging/media/sunxi/cedrus/cedrus_hw.o
-  CC      drivers/staging/media/sunxi/cedrus/cedrus_dec.o
-  CC      drivers/staging/media/sunxi/cedrus/cedrus_mpeg2.o
-  CC      drivers/staging/media/imx/imx-ic-common.o
   CC      drivers/staging/media/omap4iss/iss_ipipeif.o
-  AR      drivers/staging/media/deprecated/cpia2/built-in.a
+  CC      drivers/staging/media/imx/imx-ic-common.o
+  CC      drivers/staging/media/atomisp/i2c/atomisp-gc0310.o
   CC      drivers/staging/media/imx/imx-ic-prp.o
   AR      drivers/staging/media/rkvdec/built-in.a
   CC      drivers/staging/media/imx/imx-ic-prpencvf.o
-  CC      drivers/staging/media/meson/vdec/vdec_platform.o
-  CC      drivers/staging/media/atomisp/i2c/atomisp-ov2722.o
-  CC      drivers/staging/media/atomisp/i2c/atomisp-ov2680.o
-  CC      drivers/staging/media/atomisp/i2c/atomisp-gc0310.o
-  CC      drivers/staging/media/sunxi/cedrus/cedrus_h264.o
-  CC      drivers/staging/media/sunxi/cedrus/cedrus_h265.o
-  CC      drivers/staging/media/sunxi/cedrus/cedrus_vp8.o
-  CC      drivers/staging/media/omap4iss/iss_ipipe.o
-  CC      drivers/staging/media/meson/vdec/vdec_1.o
-  CC      drivers/staging/media/imx/imx-media-vdic.o
-  CC      drivers/staging/media/imx/imx-media-csc-scaler.o
-  CC      drivers/staging/media/atomisp/i2c/atomisp-libmsrlisthelper.o
-  CC      drivers/staging/media/atomisp/i2c/atomisp-lm3554.o
-  CC      drivers/staging/media/omap4iss/iss_resizer.o
-  CC      drivers/staging/media/imx/imx-media-csi.o
-  CC      drivers/staging/media/omap4iss/iss_video.o
-  AR      drivers/staging/media/sunxi/cedrus/built-in.a
-  AR      drivers/staging/media/sunxi/built-in.a
   CC      drivers/staging/media/meson/vdec/vdec_hevc.o
+  CC      drivers/staging/media/atomisp/i2c/atomisp-lm3554.o
+  CC      drivers/staging/media/imx/imx-media-vdic.o
+  CC      drivers/staging/media/omap4iss/iss_ipipe.o
+  CC      drivers/staging/media/omap4iss/iss_resizer.o
+  CC      drivers/staging/media/omap4iss/iss_video.o
+  CC      drivers/staging/media/imx/imx-media-csc-scaler.o
   CC      drivers/staging/media/meson/vdec/codec_mpeg12.o
   CC      drivers/staging/media/meson/vdec/codec_h264.o
-  CC      drivers/staging/media/imx/imx-media-fim.o
-  CC      drivers/staging/media/imx/imx6-mipi-csi2.o
+  CC      drivers/staging/media/imx/imx-media-csi.o
   AR      drivers/staging/media/atomisp/i2c/built-in.a
+  CC      drivers/staging/media/imx/imx-media-fim.o
   CC      drivers/staging/media/atomisp/pci/atomisp_cmd.o
-  AR      drivers/staging/media/omap4iss/built-in.a
+  CC      drivers/staging/media/imx/imx6-mipi-csi2.o
+  CC      drivers/staging/media/imx/imx7-media-csi.o
+  CC      drivers/staging/media/imx/imx8mq-mipi-csi2.o
   CC      drivers/staging/media/meson/vdec/codec_hevc_common.o
-  CC      drivers/staging/media/ipu3/ipu3-mmu.o
-  CC      drivers/staging/media/atomisp/pci/atomisp_compat_css20.o
+  AR      drivers/staging/media/omap4iss/built-in.a
+  CC      drivers/staging/media/meson/vdec/codec_vp9.o
+  CC      drivers/staging/media/sunxi/cedrus/cedrus.o
   CC      drivers/staging/media/ipu3/ipu3-dmamap.o
+  CC      drivers/staging/media/deprecated/tm6000/tm6000-cards.o
+  CC      drivers/staging/media/sunxi/cedrus/cedrus_video.o
+  CC      drivers/staging/media/ipu3/ipu3-tables.o
+  CC      drivers/staging/media/sunxi/cedrus/cedrus_hw.o
+  AR      drivers/staging/media/imx/built-in.a
+  CC      drivers/staging/media/ipu3/ipu3-css-pool.o
+  CC      drivers/staging/media/ipu3/ipu3-css-fw.o
+  CC      drivers/staging/media/ipu3/ipu3-css-params.o
+  CC      drivers/staging/media/sunxi/cedrus/cedrus_dec.o
+  CC      drivers/staging/media/deprecated/tm6000/tm6000-core.o
+  CC      drivers/staging/media/deprecated/tm6000/tm6000-i2c.o
+  AR      drivers/staging/media/meson/vdec/built-in.a
+  CC      drivers/staging/media/sunxi/cedrus/cedrus_mpeg2.o
+  CC      drivers/staging/media/atomisp/pci/atomisp_compat_css20.o
   CC      drivers/staging/media/atomisp/pci/atomisp_csi2.o
+  CC      drivers/staging/media/sunxi/cedrus/cedrus_h264.o
+  CC      drivers/staging/media/sunxi/cedrus/cedrus_h265.o
+  CC      drivers/staging/media/deprecated/fsl-viu/fsl-viu.o
+  CC      drivers/staging/media/sunxi/cedrus/cedrus_vp8.o
+  CC      drivers/staging/media/deprecated/tm6000/tm6000-video.o
+  CC      drivers/staging/media/ipu3/ipu3-css.o
+  CC      drivers/staging/media/deprecated/tm6000/tm6000-stds.o
   CC      drivers/staging/media/atomisp/pci/atomisp_drvfs.o
   CC      drivers/staging/media/atomisp/pci/atomisp_fops.o
   CC      drivers/staging/media/atomisp/pci/atomisp_ioctl.o
-  CC      drivers/staging/media/imx/imx7-media-csi.o
-  CC      drivers/staging/media/ipu3/ipu3-tables.o
-  CC      drivers/staging/media/meson/vdec/codec_vp9.o
   CC      drivers/staging/media/atomisp/pci/atomisp_subdev.o
-  CC      drivers/staging/media/imx/imx8mq-mipi-csi2.o
+  AR      drivers/staging/media/sunxi/cedrus/built-in.a
+  AR      drivers/staging/media/sunxi/built-in.a
   CC      drivers/staging/media/atomisp/pci/atomisp_tpg.o
-  CC      drivers/staging/media/ipu3/ipu3-css-pool.o
+  AR      drivers/staging/media/deprecated/fsl-viu/built-in.a
+  CC      drivers/staging/media/atomisp/pci/atomisp_v4l2.o
+  CC      drivers/staging/media/deprecated/tm6000/tm6000-input.o
+  CC      drivers/staging/media/deprecated/tm6000/tm6000-alsa.o
+  CC      drivers/staging/media/deprecated/tm6000/tm6000-dvb.o
+  CC      drivers/staging/media/ipu3/ipu3-v4l2.o
+  CC      drivers/staging/media/ipu3/ipu3.o
+  CC      drivers/staging/media/atomisp/pci/sh_css_firmware.o
+  CC      drivers/staging/media/atomisp/pci/sh_css_host_data.o
 drivers/staging/media/atomisp/pci/atomisp_ioctl.c: In function ‘atomisp_streamon’:
 drivers/staging/media/atomisp/pci/atomisp_ioctl.c:1714:30: error: variable ‘sink’ set but not used [-Werror=unused-but-set-variable]
  1714 |   struct v4l2_mbus_framefmt *sink;
@@ -439,27 +268,40 @@ drivers/staging/media/atomisp/pci/atomisp_ioctl.c:1714:30: error: variable ‘si
 cc1: all warnings being treated as errors
 make[4]: *** [scripts/Makefile.build:249: drivers/staging/media/atomisp/pci/atomisp_ioctl.o] Error 1
 make[4]: *** Waiting for unfinished jobs....
-  CC      drivers/staging/media/ipu3/ipu3-css-fw.o
-  CC      drivers/staging/media/ipu3/ipu3-css-params.o
-  CC      drivers/staging/media/ipu3/ipu3-css.o
-  CC      drivers/staging/media/ipu3/ipu3-v4l2.o
-  CC      drivers/staging/media/ipu3/ipu3.o
-  AR      drivers/staging/media/imx/built-in.a
-  AR      drivers/staging/media/meson/vdec/built-in.a
-  CC      drivers/staging/media/deprecated/tm6000/tm6000-cards.o
+  CC      drivers/staging/media/deprecated/zr364xx/zr364xx.o
+  AR      drivers/staging/media/deprecated/tm6000/built-in.a
+  CC      drivers/staging/media/deprecated/vpfe_capture/vpfe_capture.o
+  CC      drivers/staging/media/deprecated/saa7146/saa7146/mxb.o
+  AR      drivers/staging/media/ipu3/built-in.a
+  CC      drivers/staging/media/deprecated/saa7146/av7110/budget-patch.o
+  CC      drivers/staging/media/deprecated/saa7146/av7110/av7110_hw.o
+  CC      drivers/staging/media/deprecated/saa7146/common/saa7146_i2c.o
+  CC      drivers/staging/media/deprecated/saa7146/ttpci/budget-core.o
+  CC      drivers/staging/media/deprecated/saa7146/av7110/av7110_v4l.o
 make[3]: *** [scripts/Makefile.build:465: drivers/staging/media/atomisp] Error 2
 make[3]: *** Waiting for unfinished jobs....
-  CC      drivers/staging/media/deprecated/tm6000/tm6000-core.o
-  CC      drivers/staging/media/deprecated/fsl-viu/fsl-viu.o
-  CC      drivers/staging/media/deprecated/tm6000/tm6000-i2c.o
-  CC      drivers/staging/media/deprecated/tm6000/tm6000-video.o
-  CC      drivers/staging/media/deprecated/tm6000/tm6000-stds.o
-  CC      drivers/staging/media/deprecated/tm6000/tm6000-alsa.o
-  CC      drivers/staging/media/deprecated/tm6000/tm6000-input.o
-  AR      drivers/staging/media/ipu3/built-in.a
-  CC      drivers/staging/media/deprecated/tm6000/tm6000-dvb.o
-  AR      drivers/staging/media/deprecated/fsl-viu/built-in.a
-  AR      drivers/staging/media/deprecated/tm6000/built-in.a
+  CC      drivers/staging/media/deprecated/saa7146/av7110/av7110_av.o
+  CC      drivers/staging/media/deprecated/saa7146/saa7146/hexium_orion.o
+  CC      drivers/staging/media/deprecated/saa7146/common/saa7146_core.o
+  AR      drivers/staging/media/deprecated/zr364xx/built-in.a
+  CC      drivers/staging/media/deprecated/saa7146/common/saa7146_fops.o
+  CC      drivers/staging/media/deprecated/saa7146/common/saa7146_video.o
+  CC      drivers/staging/media/deprecated/saa7146/common/saa7146_hlp.o
+  CC      drivers/staging/media/deprecated/saa7146/ttpci/budget.o
+  CC      drivers/staging/media/deprecated/saa7146/av7110/av7110_ca.o
+  AR      drivers/staging/media/deprecated/vpfe_capture/built-in.a
+  CC      drivers/staging/media/deprecated/saa7146/av7110/av7110.o
+  CC      drivers/staging/media/deprecated/saa7146/saa7146/hexium_gemini.o
+  CC      drivers/staging/media/deprecated/saa7146/common/saa7146_vbi.o
+  CC      drivers/staging/media/deprecated/saa7146/ttpci/budget-av.o
+  CC      drivers/staging/media/deprecated/saa7146/ttpci/budget-ci.o
+  CC      drivers/staging/media/deprecated/saa7146/av7110/av7110_ir.o
+  CC      drivers/staging/media/deprecated/saa7146/av7110/sp8870.o
+  AR      drivers/staging/media/deprecated/saa7146/saa7146/built-in.a
+  AR      drivers/staging/media/deprecated/saa7146/common/built-in.a
+  AR      drivers/staging/media/deprecated/saa7146/av7110/built-in.a
+  AR      drivers/staging/media/deprecated/saa7146/ttpci/built-in.a
+  AR      drivers/staging/media/deprecated/saa7146/built-in.a
 make[2]: *** [scripts/Makefile.build:465: drivers/staging/media] Error 2
 make[1]: *** [scripts/Makefile.build:465: drivers/staging] Error 2
 make: *** [Makefile:1855: drivers] Error 2
