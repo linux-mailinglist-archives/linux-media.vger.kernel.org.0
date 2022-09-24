@@ -2,56 +2,54 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B87EB5E8DDE
-	for <lists+linux-media@lfdr.de>; Sat, 24 Sep 2022 17:29:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1C1AD5E8DF8
+	for <lists+linux-media@lfdr.de>; Sat, 24 Sep 2022 17:33:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233884AbiIXP2w (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 24 Sep 2022 11:28:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45286 "EHLO
+        id S233880AbiIXPdY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 24 Sep 2022 11:33:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54444 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233825AbiIXP2m (ORCPT
+        with ESMTP id S229650AbiIXPdX (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 24 Sep 2022 11:28:42 -0400
-Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 72F19AE9C4;
-        Sat, 24 Sep 2022 08:28:40 -0700 (PDT)
+        Sat, 24 Sep 2022 11:33:23 -0400
+Received: from relay10.mail.gandi.net (relay10.mail.gandi.net [217.70.178.230])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 26E3621BB;
+        Sat, 24 Sep 2022 08:33:19 -0700 (PDT)
 Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPSA id E06001C0005;
-        Sat, 24 Sep 2022 15:28:37 +0000 (UTC)
+        by mail.gandi.net (Postfix) with ESMTPSA id 55F61240003;
+        Sat, 24 Sep 2022 15:33:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1664033319;
+        t=1664033598;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=PcAx96hQWyvOVHMIzU0gp4tFx7K/DUMSyJG/y50Qklo=;
-        b=IUaxIX/5E5mDE7r8ZfueH/z48LI4wd6j9GtXLSy0QAOg0+JpssLhrfAhF77VDkRn4k1IRI
-        fmnNXvyk7w1YWHNQq4DHZiDToDzda4pSThPfKrqnhGd6sM8uvSuPYM+K6KS9DqPjvKk3sV
-        91tvO5vLfYjKRo+0aH3H2iT1/aVbUgHHdPpRiUUOQ5K5BEXuyO+bzG/DRVxIp9VOD+LpDj
-        Q6c5Pduq/kUd1U0UVUoP6ZNAR6X3c4DcMrEIO2WnxW9GQ6jcqHYDSD9lQhDxOi2uGMTvKY
-        dHBCwlrEvtZC2s0EN4AdM4i+qjYfU6m48nSF1v1YKGewu7TzRfNd5Z6a9ukXTw==
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=yryqlc2N3rY8CBimHhpSavD48n0BxZAVOXdJ5hPXc9Y=;
+        b=TZiCZOKBn1aA5aBFGXhtpXFHLrkTxx73ug3WNnwwZ7cjVMSselX1qlho5jbXNKBsVJrr/A
+        k+dd4x1qPtvnW9JrLh7qZ/NcsM9Xk+s1wWAkPb24864bxaZg2dgM7FhFzQ1boixkRb29Gm
+        cIxfyUMinFVMWlVW0kbMc6F52Hm9wix2kqs3a3lrplyc0IFc0PQCeTsfDnR6P8x5rdNoeb
+        yTr/pGkiHTxhydZZB3qWW2anQFK26YPKXeXXKCXC5Uz5UzHkaWqAxkXyISZKIal8nGXPm6
+        GOa11WGcDcoc12GC2lWVjBvpg+jYPV0MjF8iCKAiue/zZeyEEzeOWx5WFm/JGQ==
 From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To:     devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org
-Cc:     Rob Herring <robh+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+To:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+        linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+Cc:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Chen-Yu Tsai <wens@csie.org>,
         Jernej Skrabec <jernej.skrabec@gmail.com>,
         Samuel Holland <samuel@sholland.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Maxime Ripard <mripard@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Hans Verkuil <hans.verkuil@cisco.com>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Subject: [PATCH v6 7/7] ARM: dts: sun8i-a83t: Add BananaPi M3 OV8865 camera overlay
-Date:   Sat, 24 Sep 2022 17:28:20 +0200
-Message-Id: <20220924152820.77149-8-paul.kocialkowski@bootlin.com>
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: [PATCH v7 0/6] Allwinner A31/A83T MIPI CSI-2 and A31 ISP / ISP Driver
+Date:   Sat, 24 Sep 2022 17:32:58 +0200
+Message-Id: <20220924153304.77598-1-paul.kocialkowski@bootlin.com>
 X-Mailer: git-send-email 2.37.3
-In-Reply-To: <20220924152820.77149-1-paul.kocialkowski@bootlin.com>
-References: <20220924152820.77149-1-paul.kocialkowski@bootlin.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
@@ -62,145 +60,106 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add an overlay supporting the OV8865 from the BananaPi Camera v3
-peripheral board. The board has two sensors (OV5640 and OV8865)
-which cannot be supported in parallel as they share the same reset
-pin and the kernel currently has no support for this case.
+This part only concerns the introduction of the new ISP driver and related
+adaptation of the CSI driver.
 
-Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
----
- arch/arm/boot/dts/Makefile                    |   1 +
- .../sun8i-a83t-bananapi-m3-camera-ov8865.dts  | 109 ++++++++++++++++++
- 2 files changed, 110 insertions(+)
- create mode 100644 arch/arm/boot/dts/sun8i-a83t-bananapi-m3-camera-ov8865.dts
+Most non-dt patches still need reviewing but should be pretty straightforward. 
+Since this multi-part series has been going on for a while, it would be great
+to see it merged soon!
 
-diff --git a/arch/arm/boot/dts/Makefile b/arch/arm/boot/dts/Makefile
-index 1f1173efeb14..cf0ab67b430b 100644
---- a/arch/arm/boot/dts/Makefile
-+++ b/arch/arm/boot/dts/Makefile
-@@ -1340,6 +1340,7 @@ dtb-$(CONFIG_MACH_SUN8I) += \
- 	sun8i-a83t-allwinner-h8homlet-v2.dtb \
- 	sun8i-a83t-bananapi-m3.dtb \
- 	sun8i-a83t-bananapi-m3-camera-ov5640.dtbo \
-+	sun8i-a83t-bananapi-m3-camera-ov8865.dtbo \
- 	sun8i-a83t-cubietruck-plus.dtb \
- 	sun8i-a83t-tbs-a711.dtb \
- 	sun8i-h2-plus-bananapi-m2-zero.dtb \
-diff --git a/arch/arm/boot/dts/sun8i-a83t-bananapi-m3-camera-ov8865.dts b/arch/arm/boot/dts/sun8i-a83t-bananapi-m3-camera-ov8865.dts
-new file mode 100644
-index 000000000000..0656ee8d4bfe
---- /dev/null
-+++ b/arch/arm/boot/dts/sun8i-a83t-bananapi-m3-camera-ov8865.dts
-@@ -0,0 +1,109 @@
-+// SPDX-License-Identifier: GPL-2.0 OR X11
-+/*
-+ * Copyright 2022 Bootlin
-+ * Author: Kévin L'hôpital <kevin.lhopital@bootlin.com>
-+ * Author: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-+ */
-+
-+/dts-v1/;
-+/plugin/;
-+
-+#include <dt-bindings/clock/sun8i-a83t-ccu.h>
-+#include <dt-bindings/gpio/gpio.h>
-+
-+&{/} {
-+	/*
-+	 * These regulators actually have DLDO4 tied to their EN pin, which is
-+	 * described as input supply here for lack of a better representation.
-+	 * Their actual supply is PS, which is always-on.
-+	 */
-+
-+	ov8865_avdd: ov8865-avdd {
-+		compatible = "regulator-fixed";
-+		regulator-name = "ov8865-avdd";
-+		regulator-min-microvolt = <2800000>;
-+		regulator-max-microvolt = <2800000>;
-+		vin-supply = <&reg_dldo4>;
-+	};
-+
-+	ov8865_dovdd: ov8865-dovdd {
-+		compatible = "regulator-fixed";
-+		regulator-name = "ov8865-dovdd";
-+		regulator-min-microvolt = <2800000>;
-+		regulator-max-microvolt = <2800000>;
-+		vin-supply = <&reg_dldo4>;
-+	};
-+
-+	ov8865_dvdd: ov8865-dvdd {
-+		compatible = "regulator-fixed";
-+		regulator-name = "ov8865-dvdd";
-+		regulator-min-microvolt = <1200000>;
-+		regulator-max-microvolt = <1200000>;
-+		vin-supply = <&reg_dldo4>;
-+	};
-+};
-+
-+&ccu {
-+	assigned-clocks = <&ccu CLK_CSI_MCLK>;
-+	assigned-clock-parents = <&osc24M>;
-+	assigned-clock-rates = <24000000>;
-+};
-+
-+&csi {
-+	status = "okay";
-+};
-+
-+&i2c2 {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&i2c2_pe_pins>;
-+	status = "okay";
-+
-+	#address-cells = <1>;
-+	#size-cells = <0>;
-+
-+	ov8865: camera@36 {
-+		compatible = "ovti,ov8865";
-+		reg = <0x36>;
-+
-+		clocks = <&ccu CLK_CSI_MCLK>;
-+		assigned-clocks = <&ccu CLK_CSI_MCLK>;
-+		assigned-clock-parents = <&osc24M>;
-+		assigned-clock-rates = <24000000>;
-+
-+		avdd-supply = <&ov8865_avdd>;
-+		dovdd-supply = <&ov8865_dovdd>;
-+		dvdd-supply = <&ov8865_dvdd>;
-+
-+		powerdown-gpios = <&pio 4 17 GPIO_ACTIVE_LOW>; /* PE17 */
-+		reset-gpios = <&pio 4 16 GPIO_ACTIVE_LOW>; /* PE16 */
-+
-+		port {
-+			ov8865_out_mipi_csi2: endpoint {
-+				remote-endpoint = <&mipi_csi2_in_ov8865>;
-+				link-frequencies = /bits/ 64 <360000000>;
-+				data-lanes = <1 2 3 4>;
-+			};
-+		};
-+	};
-+};
-+
-+&mipi_csi2 {
-+	status = "okay";
-+};
-+
-+&mipi_csi2_in {
-+	mipi_csi2_in_ov8865: endpoint {
-+		remote-endpoint = <&ov8865_out_mipi_csi2>;
-+		data-lanes = <1 2 3 4>;
-+	};
-+};
-+
-+&pio {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&csi_mclk_pin>;
-+};
-+
-+&reg_dldo4 {
-+	regulator-min-microvolt = <2800000>;
-+	regulator-max-microvolt = <2800000>;
-+};
+Changes since v6:
+- Added a per-compatible check for the required port in dt binding;
+- Reworded ISP output port description in dt binding;
+- Reversed ISP detection order to have fwnode first;
+- Removed info print when ISP link is detected;
+- Added warn print when ISP is linked but not enabled in config;
+- Fixed sun6i_csi_isp_detect return type;
+- Removed useless initialization in sun6i_csi_isp_detect;
+- Fixed typo in sun6i_csi_isp_detect;
+- Added collected tags;
+
+Changes since v5:
+- Rebased on latest media tree;
+- Added collected tag;
+- Switched to using media_pad_remote_pad_first;
+- Switched to using media_pad_remote_pad_unique.
+
+Changes since v4:
+- Fixed device-tree binding indent-align;
+- Added collected tag;
+- Rebased on latest media tree;
+
+Changes since v3:
+- Removed the v4l2 controls handler from the driver;
+- Added variant structure for table sizes;
+- Removed the info message about video device registration;
+- Removed comments in uAPI header;
+- Used '/schemas/graph.yaml#/properties/port' whenever possible in bindings;
+- Added CSI patches dependent on the ISP driver;
+- Rebased on the latest media tree;
+
+Changes since all-in-one v2:
+- Updated Kconfig to follow the latest media-wide changes;
+- Reworked async subdev handling with a dedicated structure holding the
+  corresponding source to avoid matching in the driver;
+- Switched to clock-managed regmap mmio;
+- Used helper to get a single enabled link for an entity's pad, to replace
+  source selection at link_validate time and select the remote source at
+  stream on time instead;
+- Added mutex for mbus format serialization;
+- Used endpoint-base instead of video-interface for "internal" endpoints
+  in device-tree schema;
+- Added TODO with unstaging requirements;
+- Various cosmetic cleanups;
+- Updated copyright years;
+
+Paul Kocialkowski (6):
+  dt-bindings: media: Add Allwinner A31 ISP bindings documentation
+  dt-bindings: media: sun6i-a31-csi: Add internal output port to the ISP
+  staging: media: Add support for the Allwinner A31 ISP
+  MAINTAINERS: Add entry for the Allwinner A31 ISP driver
+  media: sun6i-csi: Detect the availability of the ISP
+  media: sun6i-csi: Add support for hooking to the isp devices
+
+ .../media/allwinner,sun6i-a31-csi.yaml        |   4 +
+ .../media/allwinner,sun6i-a31-isp.yaml        | 101 +++
+ MAINTAINERS                                   |   9 +
+ .../platform/sunxi/sun6i-csi/sun6i_csi.c      |  75 +-
+ .../platform/sunxi/sun6i-csi/sun6i_csi.h      |  10 +
+ .../sunxi/sun6i-csi/sun6i_csi_bridge.c        |  32 +-
+ .../sunxi/sun6i-csi/sun6i_csi_capture.c       |  19 +-
+ .../sunxi/sun6i-csi/sun6i_csi_capture.h       |   1 +
+ drivers/staging/media/sunxi/Kconfig           |   1 +
+ drivers/staging/media/sunxi/Makefile          |   1 +
+ drivers/staging/media/sunxi/sun6i-isp/Kconfig |  15 +
+ .../staging/media/sunxi/sun6i-isp/Makefile    |   4 +
+ .../staging/media/sunxi/sun6i-isp/TODO.txt    |   6 +
+ .../staging/media/sunxi/sun6i-isp/sun6i_isp.c | 555 +++++++++++++
+ .../staging/media/sunxi/sun6i-isp/sun6i_isp.h |  90 +++
+ .../media/sunxi/sun6i-isp/sun6i_isp_capture.c | 742 ++++++++++++++++++
+ .../media/sunxi/sun6i-isp/sun6i_isp_capture.h |  78 ++
+ .../media/sunxi/sun6i-isp/sun6i_isp_params.c  | 566 +++++++++++++
+ .../media/sunxi/sun6i-isp/sun6i_isp_params.h  |  52 ++
+ .../media/sunxi/sun6i-isp/sun6i_isp_proc.c    | 577 ++++++++++++++
+ .../media/sunxi/sun6i-isp/sun6i_isp_proc.h    |  66 ++
+ .../media/sunxi/sun6i-isp/sun6i_isp_reg.h     | 275 +++++++
+ .../sunxi/sun6i-isp/uapi/sun6i-isp-config.h   |  43 +
+ 23 files changed, 3309 insertions(+), 13 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/media/allwinner,sun6i-a31-isp.yaml
+ create mode 100644 drivers/staging/media/sunxi/sun6i-isp/Kconfig
+ create mode 100644 drivers/staging/media/sunxi/sun6i-isp/Makefile
+ create mode 100644 drivers/staging/media/sunxi/sun6i-isp/TODO.txt
+ create mode 100644 drivers/staging/media/sunxi/sun6i-isp/sun6i_isp.c
+ create mode 100644 drivers/staging/media/sunxi/sun6i-isp/sun6i_isp.h
+ create mode 100644 drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_capture.c
+ create mode 100644 drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_capture.h
+ create mode 100644 drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_params.c
+ create mode 100644 drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_params.h
+ create mode 100644 drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_proc.c
+ create mode 100644 drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_proc.h
+ create mode 100644 drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_reg.h
+ create mode 100644 drivers/staging/media/sunxi/sun6i-isp/uapi/sun6i-isp-config.h
+
 -- 
 2.37.3
 
