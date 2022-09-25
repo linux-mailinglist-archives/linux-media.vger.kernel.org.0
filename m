@@ -2,164 +2,166 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 13F545E9160
-	for <lists+linux-media@lfdr.de>; Sun, 25 Sep 2022 09:18:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AE4695E92BA
+	for <lists+linux-media@lfdr.de>; Sun, 25 Sep 2022 13:26:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230128AbiIYHRx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 25 Sep 2022 03:17:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44630 "EHLO
+        id S232086AbiIYL0l (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 25 Sep 2022 07:26:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57228 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229800AbiIYHRw (ORCPT
+        with ESMTP id S231790AbiIYL0j (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 25 Sep 2022 03:17:52 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EFC4A32ECF
-        for <linux-media@vger.kernel.org>; Sun, 25 Sep 2022 00:17:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1664090270;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=FnuW0+nquE7jeCs1wGd25t/HgD5sAtMc07QK9kih2sQ=;
-        b=SZBL0yllgncMHQJjYqneGvfhQm2AeybNL8PYw1Bfent43/fRlxWvUxkC/D/nmTltqWC4Ni
-        22qTmVCLexiT0Ag0Ho1YAYPfMzOY+P42y+y33CKftoPcY/OThEMaUdzmmOltw3hbApVM83
-        asdnwLDr1xKa8tvz4sXNyRRhsXEeWiE=
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
- [209.85.219.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-580-NOeBifRRNAGkPYmsXeTRYw-1; Sun, 25 Sep 2022 03:17:48 -0400
-X-MC-Unique: NOeBifRRNAGkPYmsXeTRYw-1
-Received: by mail-qv1-f69.google.com with SMTP id n15-20020ad444af000000b004a2a341ad71so2412611qvt.15
-        for <linux-media@vger.kernel.org>; Sun, 25 Sep 2022 00:17:48 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:user-agent:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date;
-        bh=FnuW0+nquE7jeCs1wGd25t/HgD5sAtMc07QK9kih2sQ=;
-        b=qpuvgD874G0OjS3+7RnhemuTnDeq4NHfdAR6KeiDMhG+t0g4sTujiW1Vdp2HANXeBD
-         yfayWyuCh2iGQnhew3z5eK//MDHAec0EQImKhKwzCyskuadqgmY2YUwBjJuRAnbsrePK
-         3Dc5ZJEv8Bzyftxihln4+eSjycVEbiBSe+zgSw8ovACezDkjIPz8YVL0gmya6PLj7qqG
-         vkxolFgXwFXeMNA3VeTAp7E843aNh/YkLV0BYbxfMGYpIRRwVQCMQDXUbSys7eE92v36
-         XKOwyTCf5sloT1NIuVfqrzeo5XpLgZsdTmbU8g12P2j1fwwbMTbCeqii3004W3Vf/+Mo
-         6DRg==
-X-Gm-Message-State: ACrzQf2pptFkPOgr1SYoTMPaYRGg7XlZkPC1/2uGCC5jr/BNN/5vVtuc
-        RDQZ2BhiwS7/K7ADF6O+fHq552FDlIP+X19PMiWIgGwH3YrOZLCniE1plZTjEewvuNoRYppIn0e
-        d0FClIXSyy+9hRWQh94Ot6po=
-X-Received: by 2002:a05:620a:c8f:b0:6cb:e329:b5b9 with SMTP id q15-20020a05620a0c8f00b006cbe329b5b9mr10667173qki.95.1664090268095;
-        Sun, 25 Sep 2022 00:17:48 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM4u6YF4dJIrwAN1QRZGgvTOpwH6qKYsc23O//LxYiiudu83+P6fv+LpA21i63RBBqqlayo//g==
-X-Received: by 2002:a05:620a:c8f:b0:6cb:e329:b5b9 with SMTP id q15-20020a05620a0c8f00b006cbe329b5b9mr10667159qki.95.1664090267816;
-        Sun, 25 Sep 2022 00:17:47 -0700 (PDT)
-Received: from gerbillo.redhat.com (146-241-97-96.dyn.eolo.it. [146.241.97.96])
-        by smtp.gmail.com with ESMTPSA id bp30-20020a05620a459e00b006c479acd82fsm10375465qkb.7.2022.09.25.00.17.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 25 Sep 2022 00:17:47 -0700 (PDT)
-Message-ID: <e340d993bce8e1b2742fba52ac6383771cfaddae.camel@redhat.com>
-Subject: Re: [PATCH v2 04/16] skbuff: Phase out ksize() fallback for
- frag_size
-From:   Paolo Abeni <pabeni@redhat.com>
-To:     Kees Cook <keescook@chromium.org>, Vlastimil Babka <vbabka@suse.cz>
-Cc:     "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>, netdev@vger.kernel.org,
-        "Ruhl, Michael J" <michael.j.ruhl@intel.com>,
-        Hyeonggon Yoo <42.hyeyoo@gmail.com>,
-        Christoph Lameter <cl@linux.com>,
-        Pekka Enberg <penberg@kernel.org>,
-        David Rientjes <rientjes@google.com>,
-        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Alex Elder <elder@kernel.org>,
-        Josef Bacik <josef@toxicpanda.com>,
-        David Sterba <dsterba@suse.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-        Jesse Brandeburg <jesse.brandeburg@intel.com>,
-        Daniel Micay <danielmicay@gmail.com>,
-        Yonghong Song <yhs@fb.com>, Marco Elver <elver@google.com>,
-        Miguel Ojeda <ojeda@kernel.org>, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-btrfs@vger.kernel.org,
-        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org, linux-fsdevel@vger.kernel.org,
-        intel-wired-lan@lists.osuosl.org, dev@openvswitch.org,
-        x86@kernel.org, llvm@lists.linux.dev,
-        linux-hardening@vger.kernel.org
-Date:   Sun, 25 Sep 2022 09:17:40 +0200
-In-Reply-To: <20220923202822.2667581-5-keescook@chromium.org>
-References: <20220923202822.2667581-1-keescook@chromium.org>
-         <20220923202822.2667581-5-keescook@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.42.4 (3.42.4-2.fc35) 
+        Sun, 25 Sep 2022 07:26:39 -0400
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D9D32F3B9
+        for <linux-media@vger.kernel.org>; Sun, 25 Sep 2022 04:26:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1664105198; x=1695641198;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=1c9I7ccATtOOdW3mOpBFCyma5avL04QJjLOrZXzjl1Q=;
+  b=NrKwH4SnRgyie/2a0lxI9ZSohxBuoLxH6RV1DB/zIIqLSAGwKiGKMNTh
+   5wqVbZZl+SnrCwpHorML6Syxb29YRySEy4/ctnGdCxorFiM4hKsPnTaoe
+   1kjqf9LPrCpksC1LPcBMdX4VNVKdlqdyttpM4dwU6c+oxy1U9C4SGcHGr
+   36VNjKbojs5ARgagBMuKXXu9L2C7RYN2NffZmpyqcBN3/tQa0yADqpcbl
+   NEIV3UtSOFXSUv7JMjGGkDokz8NUhe/+H5BoD9K7Gn/EQ4Y4Q3yyNlRXF
+   4pXJ+tyuqF9ZiH5En1KaN58rC9R4YTwgfQSA79tSVFpGX3v/1qfLOsj7S
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10480"; a="287986258"
+X-IronPort-AV: E=Sophos;i="5.93,344,1654585200"; 
+   d="scan'208";a="287986258"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2022 04:26:38 -0700
+X-IronPort-AV: E=Sophos;i="5.93,344,1654585200"; 
+   d="scan'208";a="865813084"
+Received: from punajuuri.fi.intel.com (HELO paasikivi.fi.intel.com) ([10.237.72.43])
+  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2022 04:26:35 -0700
+Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
+        by paasikivi.fi.intel.com (Postfix) with SMTP id 8B6D020077;
+        Sun, 25 Sep 2022 14:26:33 +0300 (EEST)
+Date:   Sun, 25 Sep 2022 11:26:33 +0000
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        niklas.soderlund+renesas@ragnatech.se,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Kishon Vijay Abraham <kishon@ti.com>,
+        satish.nagireddy@getcruise.com, Tomasz Figa <tfiga@chromium.org>
+Subject: Re: [PATCH v14 22/34] media: subdev: add v4l2_subdev_set_routing
+ helper()
+Message-ID: <YzA66QYWk6AX8KoJ@paasikivi.fi.intel.com>
+References: <20220831141357.1396081-1-tomi.valkeinen@ideasonboard.com>
+ <20220831141357.1396081-23-tomi.valkeinen@ideasonboard.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220831141357.1396081-23-tomi.valkeinen@ideasonboard.com>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, 2022-09-23 at 13:28 -0700, Kees Cook wrote:
-> All callers of APIs that allowed a 0-sized frag_size appear to be
-> passing actual size information already
+Moi,
 
-AFAICS, not yet:
-
-drivers/net/ethernet/qlogic/qed/qed_ll2.c:
-	skb = build_skb(buffer->data, 0); // -> __build_skb(..., 0) 
-		// ->  __build_skb_around()
-
-drivers/net/ethernet/broadcom/bnx2.c:
-	skb = build_skb(data, 0);
-
-I guess some more drivers have calls leading to 
-
-	__build_skb_around(...,  0)
-
-there are several call path to checks...
-
-
-> , so this use of ksize() can
-> be removed. However, just in case there is something still depending
-> on this behavior, issue a WARN and fall back to as before to ksize()
-> which means we'll also potentially get KASAN warnings.
+On Wed, Aug 31, 2022 at 05:13:45PM +0300, Tomi Valkeinen wrote:
+> Add a helper function to set the subdev routing. The helper can be used
+> from subdev driver's set_routing op to store the routing table.
 > 
-> Cc: "David S. Miller" <davem@davemloft.net>
-> Cc: Eric Dumazet <edumazet@google.com>
-> Cc: Jakub Kicinski <kuba@kernel.org>
-> Cc: Paolo Abeni <pabeni@redhat.com>
-> Cc: netdev@vger.kernel.org
-> Signed-off-by: Kees Cook <keescook@chromium.org>
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> Reviewed-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 > ---
->  net/core/skbuff.c | 18 ++++++++++--------
->  1 file changed, 10 insertions(+), 8 deletions(-)
+>  drivers/media/v4l2-core/v4l2-subdev.c | 28 +++++++++++++++++++++++++++
+>  include/media/v4l2-subdev.h           | 16 +++++++++++++++
+>  2 files changed, 44 insertions(+)
 > 
-> diff --git a/net/core/skbuff.c b/net/core/skbuff.c
-> index 0b30fbdbd0d0..84ca89c781cd 100644
-> --- a/net/core/skbuff.c
-> +++ b/net/core/skbuff.c
-> @@ -195,7 +195,11 @@ static void __build_skb_around(struct sk_buff *skb, void *data,
->  			       unsigned int frag_size)
->  {
->  	struct skb_shared_info *shinfo;
-> -	unsigned int size = frag_size ? : ksize(data);
-> +	unsigned int size = frag_size;
+> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
+> index 1ce9a7dc0c6e..f3f872c72180 100644
+> --- a/drivers/media/v4l2-core/v4l2-subdev.c
+> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
+> @@ -1180,6 +1180,34 @@ int v4l2_subdev_get_fmt(struct v4l2_subdev *sd, struct v4l2_subdev_state *state,
+>  }
+>  EXPORT_SYMBOL_GPL(v4l2_subdev_get_fmt);
+>  
+> +int v4l2_subdev_set_routing(struct v4l2_subdev *sd,
+> +			    struct v4l2_subdev_state *state,
+> +			    const struct v4l2_subdev_krouting *routing)
+> +{
+> +	struct v4l2_subdev_krouting *dst = &state->routing;
+> +	const struct v4l2_subdev_krouting *src = routing;
+> +	struct v4l2_subdev_krouting new_routing = { 0 };
 > +
-> +	/* All callers should be setting frag size now? */
-> +	if (WARN_ON_ONCE(size == 0))
-> +		size = ksize(data);
+> +	lockdep_assert_held(state->lock);
+> +
+> +	if (src->num_routes > 0) {
+> +		new_routing.routes = kmemdup(src->routes,
+> +			src->num_routes * sizeof(*src->routes),
 
-At some point in the future, I guess we could even drop this check,
-right?
+This can overflow.
 
-Thanks!
+> +			GFP_KERNEL);
 
-Paolo
+Apart from that:
 
+		new_routing.routes =
+			kmemdup(src->routes,
+				src->num_routes * sizeof(*src->routes),
+				GFP_KERNEL);
+
+> +
+> +		if (!new_routing.routes)
+> +			return -ENOMEM;
+> +	}
+> +
+> +	new_routing.num_routes = src->num_routes;
+> +
+> +	kfree(dst->routes);
+> +	*dst = new_routing;
+> +
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL_GPL(v4l2_subdev_set_routing);
+> +
+>  #endif /* CONFIG_VIDEO_V4L2_SUBDEV_API */
+>  
+>  #endif /* CONFIG_MEDIA_CONTROLLER */
+> diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
+> index 2d1509556ce0..b29003de8b0a 100644
+> --- a/include/media/v4l2-subdev.h
+> +++ b/include/media/v4l2-subdev.h
+> @@ -1412,6 +1412,22 @@ v4l2_subdev_lock_and_get_active_state(struct v4l2_subdev *sd)
+>  int v4l2_subdev_get_fmt(struct v4l2_subdev *sd, struct v4l2_subdev_state *state,
+>  			struct v4l2_subdev_format *format);
+>  
+> +/**
+> + * v4l2_subdev_set_routing() - Set given routing to subdev state
+> + * @sd: The subdevice
+> + * @state: The subdevice state
+> + * @routing: Routing that will be copied to subdev state
+> + *
+> + * This will release old routing table (if any) from the state, allocate
+> + * enough space for the given routing, and copy the routing.
+> + *
+> + * This can be used from the subdev driver's set_routing op, after validating
+> + * the routing.
+> + */
+> +int v4l2_subdev_set_routing(struct v4l2_subdev *sd,
+> +			    struct v4l2_subdev_state *state,
+> +			    const struct v4l2_subdev_krouting *routing);
+> +
+>  #endif /* CONFIG_VIDEO_V4L2_SUBDEV_API */
+>  
+>  #endif /* CONFIG_MEDIA_CONTROLLER */
+
+-- 
+Terveisin,
+
+Sakari Ailus
