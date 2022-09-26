@@ -2,149 +2,110 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 592475E9DA4
-	for <lists+linux-media@lfdr.de>; Mon, 26 Sep 2022 11:30:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4B9E25E9DC1
+	for <lists+linux-media@lfdr.de>; Mon, 26 Sep 2022 11:35:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234972AbiIZJav (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 26 Sep 2022 05:30:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46902 "EHLO
+        id S234158AbiIZJfU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 26 Sep 2022 05:35:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36856 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234953AbiIZJa1 (ORCPT
+        with ESMTP id S234112AbiIZJfT (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 26 Sep 2022 05:30:27 -0400
-Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com [IPv6:2a00:1450:4864:20::52d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1824812AB2;
-        Mon, 26 Sep 2022 02:29:26 -0700 (PDT)
-Received: by mail-ed1-x52d.google.com with SMTP id a41so8151939edf.4;
-        Mon, 26 Sep 2022 02:29:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date;
-        bh=RRTzEh4eX7QJuMr9PBYcSE6qe2YnKNQ4s+EeI3ZLOR8=;
-        b=N2CdQZ5DidOd7rXorrAHwsU7REyGYjsVLRQw24k5i/zVnwxTVLXi79SokmwMPQ23dG
-         ltHADiZ2Xdl1ZpGJHcq9sCz91HuEiXsn5cgUkN6cCcc0qhs3gJdO6JtWSNxOVKAm2maA
-         RUP45w5trMH4BmzGD7P4bYWDoQ80fJ5gk/tTcqUWNZwxEVqilkjzRE/DXJj2o9eLrnMT
-         Eibb/G/CFzTjUYyiTkzjs9+xpKaddZrQr2Ady4gPnOt6q/+8sfnBsKlTNnNA0nWB58c5
-         OZTJtHQ5pIa7jnF722Q6qFBJveO3Wd9eH06jY4XW0T30bgmjP4abl+o8prFN+WFIDcbp
-         QH5w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=RRTzEh4eX7QJuMr9PBYcSE6qe2YnKNQ4s+EeI3ZLOR8=;
-        b=TNPn9AYtmnngjVCdi87k1yFv6XJAA7gE4e+/fYSch7edyqffp+EnbWn3XHD1o+M85a
-         fYtu8kC1g/SiVIqgEX788FPBKsDctBwY2OoP72sJH6CReKNHoSlMH7wbNXnSVvKIHm57
-         E6TQ2wANT8JWxGQyVm9Z8Dr+NzczUByxK9nMJ/qnQhyHZDrUphrObp/km7ZQ+sTHIcod
-         uTDUnxsnbcfQ7FvjrVZAehFenluMtjjyPPE+1tfQtFSAzmko60nhmY4htX9B58ZLw1i1
-         hA2kqxIEnZmxePDoIwXVAO3lC+p25ncv1r4zVea8loWHMfKB2BVVGB7nid3xZTT1cczw
-         3WTA==
-X-Gm-Message-State: ACrzQf1w3KfGKXMtj93HKRC+GRO7asNNy5Vkd/Oe4WszXv1h/DgZfxpf
-        GFgbuRKN+giNOt4A3pjD9vw=
-X-Google-Smtp-Source: AMsMyM7SuVBgSYWy5kh1HhAcVXy6Llss6obNUjIA/ZoXJgkE8T8RGaoTb9VPoRu5QX3Pg6i6kN2O6A==
-X-Received: by 2002:a05:6402:2489:b0:454:11de:7698 with SMTP id q9-20020a056402248900b0045411de7698mr21490387eda.214.1664184564514;
-        Mon, 26 Sep 2022 02:29:24 -0700 (PDT)
-Received: from [192.168.178.21] (p4fc20ebf.dip0.t-ipconnect.de. [79.194.14.191])
-        by smtp.gmail.com with ESMTPSA id lh3-20020a170906f8c300b00782ee6b34f2sm3710039ejb.183.2022.09.26.02.29.21
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 26 Sep 2022 02:29:24 -0700 (PDT)
-Message-ID: <a07c4a5e-1668-3609-334c-8aee2834ff90@gmail.com>
-Date:   Mon, 26 Sep 2022 11:29:20 +0200
+        Mon, 26 Sep 2022 05:35:19 -0400
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C7AC165A7;
+        Mon, 26 Sep 2022 02:35:11 -0700 (PDT)
+X-UUID: 052695737cbd4371aa3e9cb94c2c7ed1-20220926
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+        h=Content-Type:Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=H+SYdkbHp/cDLX4mENwizZnmtVaNtoheJG/XM3EMbdA=;
+        b=MOoMGwleQLlgYV4UGVrO8NZaZbcRQOamSRomDJeKJOvN6kqZccP/f6/ZAyNwwjDkvVrcnjqaWBEpoYEAtgcXYKoCkrr1hIz281LVfEGXGadaxAJuetrdtQZPcaqjXkMn3dIN/g+oVAVhp8jes65kd7/JWTQ2r8uFaDTkfpnUHsw=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.11,REQID:72ed0038-030a-4d2a-8755-5903b5bcad91,IP:0,U
+        RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+        release,TS:0
+X-CID-META: VersionHash:39a5ff1,CLOUDID:eba60807-1cee-4c38-b21b-a45f9682fdc0,B
+        ulkID:nil,BulkQuantity:0,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,U
+        RL:11|1,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0
+X-UUID: 052695737cbd4371aa3e9cb94c2c7ed1-20220926
+Received: from mtkmbs11n1.mediatek.inc [(172.21.101.185)] by mailgw02.mediatek.com
+        (envelope-from <irui.wang@mediatek.com>)
+        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+        with ESMTP id 975954962; Mon, 26 Sep 2022 17:35:06 +0800
+Received: from mtkmbs11n1.mediatek.inc (172.21.101.185) by
+ mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.792.15; Mon, 26 Sep 2022 17:35:04 +0800
+Received: from localhost.localdomain (10.17.3.154) by mtkmbs11n1.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.2.792.15 via Frontend
+ Transport; Mon, 26 Sep 2022 17:35:03 +0800
+From:   Irui Wang <irui.wang@mediatek.com>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Tiffany Lin <tiffany.lin@mediatek.com>,
+        "Mauro Carvalho Chehab" <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Hsin-Yi Wang <hsinyi@chromium.org>,
+        <angelogioacchino.delregno@collabora.com>,
+        <nicolas.dufresne@collabora.com>
+CC:     Maoguang Meng <maoguang.meng@mediatek.com>,
+        Longfei Wang <longfei.wang@mediatek.com>,
+        Yunfei Dong <yunfei.dong@mediatek.com>,
+        "Irui Wang" <irui.wang@mediatek.com>,
+        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-mediatek@lists.infradead.org>,
+        <Project_Global_Chrome_Upstream_Group@mediatek.com>
+Subject: [PATCH] media: mediatek: vcodec: Skip unsupported h264 encoder profile
+Date:   Mon, 26 Sep 2022 17:35:01 +0800
+Message-ID: <20220926093501.26466-1-irui.wang@mediatek.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [Linaro-mm-sig] [PATCH v2 08/16] dma-buf: Proactively round up to
- kmalloc bucket size
-Content-Language: en-US
-To:     Kees Cook <keescook@chromium.org>, Vlastimil Babka <vbabka@suse.cz>
-Cc:     Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
-        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org,
-        "Ruhl, Michael J" <michael.j.ruhl@intel.com>,
-        Hyeonggon Yoo <42.hyeyoo@gmail.com>,
-        Christoph Lameter <cl@linux.com>,
-        Pekka Enberg <penberg@kernel.org>,
-        David Rientjes <rientjes@google.com>,
-        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Alex Elder <elder@kernel.org>,
-        Josef Bacik <josef@toxicpanda.com>,
-        David Sterba <dsterba@suse.com>,
-        Jesse Brandeburg <jesse.brandeburg@intel.com>,
-        Daniel Micay <danielmicay@gmail.com>,
-        Yonghong Song <yhs@fb.com>, Marco Elver <elver@google.com>,
-        Miguel Oj eda <ojeda@kernel.org>,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        netdev@vger.kernel.org, linux-btrfs@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, intel-wired-lan@lists.osuosl.org,
-        dev@openvswitch.org, x86@kernel.org, llvm@lists.linux.dev,
-        linux-hardening@vger.kernel.org
-References: <20220923202822.2667581-1-keescook@chromium.org>
- <20220923202822.2667581-9-keescook@chromium.org>
-From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-In-Reply-To: <20220923202822.2667581-9-keescook@chromium.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain
+X-MTK:  N
+X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,DKIM_INVALID,
+        DKIM_SIGNED,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,T_SPF_TEMPERROR,
+        UNPARSEABLE_RELAY,URIBL_CSS autolearn=no autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am 23.09.22 um 22:28 schrieb Kees Cook:
-> Instead of discovering the kmalloc bucket size _after_ allocation, round
-> up proactively so the allocation is explicitly made for the full size,
-> allowing the compiler to correctly reason about the resulting size of
-> the buffer through the existing __alloc_size() hint.
->
-> Cc: Sumit Semwal <sumit.semwal@linaro.org>
-> Cc: "Christian König" <christian.koenig@amd.com>
-> Cc: linux-media@vger.kernel.org
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: linaro-mm-sig@lists.linaro.org
-> Signed-off-by: Kees Cook <keescook@chromium.org>
+The encoder driver support h264 baseline, main, high encoder
+profile, set mask for V4L2_CID_MPEG_VIDEO_H264_PROFILE to skip
+the unsupported profile.
 
-Reviewed-by: Christian König <christian.koenig@amd.com>
+get supported h264_profile by command: v4l2-ctl -d /dev/videoX -L
+h264_profile 0x00990a6b (menu) : min=0 max=4 default=4 value=4
+        0: Baseline
+        2: Main
+        4: High
 
-> ---
->   drivers/dma-buf/dma-resv.c | 9 +++++++--
->   1 file changed, 7 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/dma-buf/dma-resv.c b/drivers/dma-buf/dma-resv.c
-> index 205acb2c744d..5b0a4b8830ff 100644
-> --- a/drivers/dma-buf/dma-resv.c
-> +++ b/drivers/dma-buf/dma-resv.c
-> @@ -98,12 +98,17 @@ static void dma_resv_list_set(struct dma_resv_list *list,
->   static struct dma_resv_list *dma_resv_list_alloc(unsigned int max_fences)
->   {
->   	struct dma_resv_list *list;
-> +	size_t size;
->   
-> -	list = kmalloc(struct_size(list, table, max_fences), GFP_KERNEL);
-> +	/* Round up to the next kmalloc bucket size. */
-> +	size = kmalloc_size_roundup(struct_size(list, table, max_fences));
-> +
-> +	list = kmalloc(size, GFP_KERNEL);
->   	if (!list)
->   		return NULL;
->   
-> -	list->max_fences = (ksize(list) - offsetof(typeof(*list), table)) /
-> +	/* Given the resulting bucket size, recalculated max_fences. */
-> +	list->max_fences = (size - offsetof(typeof(*list), table)) /
->   		sizeof(*list->table);
->   
->   	return list;
+Signed-off-by: Irui Wang <irui.wang@mediatek.com>
+---
+ drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc.c b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc.c
+index d810a78dde51..d65800a3b89d 100644
+--- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc.c
++++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc.c
+@@ -1397,7 +1397,10 @@ int mtk_vcodec_enc_ctrls_setup(struct mtk_vcodec_ctx *ctx)
+ 			0, V4L2_MPEG_VIDEO_HEADER_MODE_SEPARATE);
+ 	v4l2_ctrl_new_std_menu(handler, ops, V4L2_CID_MPEG_VIDEO_H264_PROFILE,
+ 			V4L2_MPEG_VIDEO_H264_PROFILE_HIGH,
+-			0, V4L2_MPEG_VIDEO_H264_PROFILE_HIGH);
++			~((1 << V4L2_MPEG_VIDEO_H264_PROFILE_BASELINE) |
++			  (1 << V4L2_MPEG_VIDEO_H264_PROFILE_MAIN) |
++			  (1 << V4L2_MPEG_VIDEO_H264_PROFILE_HIGH)),
++			V4L2_MPEG_VIDEO_H264_PROFILE_HIGH);
+ 	v4l2_ctrl_new_std_menu(handler, ops, V4L2_CID_MPEG_VIDEO_H264_LEVEL,
+ 			       h264_max_level,
+ 			       0, V4L2_MPEG_VIDEO_H264_LEVEL_4_0);
+-- 
+2.18.0
 
