@@ -2,185 +2,303 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9591B5EA882
-	for <lists+linux-media@lfdr.de>; Mon, 26 Sep 2022 16:35:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 38AFB5EA8F5
+	for <lists+linux-media@lfdr.de>; Mon, 26 Sep 2022 16:49:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234673AbiIZOfc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 26 Sep 2022 10:35:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60876 "EHLO
+        id S234669AbiIZOtu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 26 Sep 2022 10:49:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59428 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234674AbiIZOeh (ORCPT
+        with ESMTP id S235417AbiIZOsx (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 26 Sep 2022 10:34:37 -0400
-Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com [185.132.182.106])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A6DBE6746A
-        for <linux-media@vger.kernel.org>; Mon, 26 Sep 2022 05:52:48 -0700 (PDT)
-Received: from pps.filterd (m0288072.ppops.net [127.0.0.1])
-        by mx07-00178001.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 28Q9Q7VB008220;
-        Mon, 26 Sep 2022 14:52:43 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=selector1;
- bh=X7a3/vwHNL6Pq7FW4Dr7fc4sBJSak1ubgvS+CpqZ5Ag=;
- b=KL3mxTFVyPPohGGjWBD5g5GOsIkrYhpW/6KuIlmBSAVlZFtAJI0M1SN2SMj8bpFl65KJ
- 3NTjGevD9l/ONFfEkENLpr3nuDTM/2yOlr51cCWSxVpdVfILfQPvz0tHn5uDjhhliK9D
- SshfKayPd8UJGJ44+ZgLsDZn9jtlLDish7xkZds6HaeteQkxcUhkobb24KAhCVZKVjJ1
- ZclYuUa9tlFH36BuS1dkEdGtB51Fr624MrKQ2qUWLyyKlXCV4UKg9oxXGOWodJOEB0/u
- 5dJ1PD65uxkNO1oLQJItdJ3jfoRIMf91Iqq9YR2LNw5qUa2Y+B1EDVDuAaWOeW5C+P7z 7w== 
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-        by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3jsqam338x-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 26 Sep 2022 14:52:43 +0200
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 6300910002A;
-        Mon, 26 Sep 2022 14:52:42 +0200 (CEST)
-Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
-        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 5666622A6D5;
-        Mon, 26 Sep 2022 14:52:42 +0200 (CEST)
-Received: from [10.129.167.120] (10.75.127.50) by SHFDAG1NODE1.st.com
- (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.1.2375.31; Mon, 26 Sep
- 2022 14:52:42 +0200
-Message-ID: <0f7468ed-6806-131a-71a6-d6f9b923f958@foss.st.com>
-Date:   Mon, 26 Sep 2022 14:52:41 +0200
+        Mon, 26 Sep 2022 10:48:53 -0400
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1FAF771984;
+        Mon, 26 Sep 2022 06:15:25 -0700 (PDT)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out2.suse.de (Postfix) with ESMTPS id A1F231F9B0;
+        Mon, 26 Sep 2022 13:15:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+        t=1664198123; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=SUnm6fFN7Cbco4Ciib9Dp4ei7l6IMJGpVSBxC1Y2qbA=;
+        b=GINR8720H7FRt/NwnAThMXKadZ/jHetEfHQabCeHjYvJC0Ay/N/yrY4L2IA45c9LoMhZCZ
+        /uLFla1qp4N9dJxKYjP0KHnNnh00SxZWxr/BsVxiaGxK30LOcRDuqFnj7IDPt4SRjkUrrL
+        EsXkiYJ7NpGujiE2BPJ/t1EnWDNjjQs=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+        s=susede2_ed25519; t=1664198123;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=SUnm6fFN7Cbco4Ciib9Dp4ei7l6IMJGpVSBxC1Y2qbA=;
+        b=KgFpOhA7zTvFQoSfllErNdLrjLXyakGagE2DCW1UZbzMn8KUX2NJflS9dN3YuGifvDT+Zb
+        Y/3YCIzKAg7vORDA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id DD79213486;
+        Mon, 26 Sep 2022 13:15:22 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id d5MSNeqlMWPkZgAAMHmgww
+        (envelope-from <vbabka@suse.cz>); Mon, 26 Sep 2022 13:15:22 +0000
+Message-ID: <e0326835-9b0d-af1b-bd22-2aadb178bd25@suse.cz>
+Date:   Mon, 26 Sep 2022 15:15:22 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v3 5/5] media: i2c: Add driver for ST VGXY61 camera sensor
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.0
+Subject: Re: [PATCH v2 02/16] slab: Introduce kmalloc_size_roundup()
+To:     Kees Cook <keescook@chromium.org>
+Cc:     Christoph Lameter <cl@linux.com>,
+        Pekka Enberg <penberg@kernel.org>,
+        David Rientjes <rientjes@google.com>,
+        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+        Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org,
+        "Ruhl, Michael J" <michael.j.ruhl@intel.com>,
+        Hyeonggon Yoo <42.hyeyoo@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Alex Elder <elder@kernel.org>,
+        Josef Bacik <josef@toxicpanda.com>,
+        David Sterba <dsterba@suse.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+        Jesse Brandeburg <jesse.brandeburg@intel.com>,
+        Daniel Micay <danielmicay@gmail.com>,
+        Yonghong Song <yhs@fb.com>, Marco Elver <elver@google.com>,
+        Miguel Ojeda <ojeda@kernel.org>, linux-kernel@vger.kernel.org,
+        netdev@vger.kernel.org, linux-btrfs@vger.kernel.org,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org, linux-fsdevel@vger.kernel.org,
+        intel-wired-lan@lists.osuosl.org, dev@openvswitch.org,
+        x86@kernel.org, llvm@lists.linux.dev,
+        linux-hardening@vger.kernel.org
+References: <20220923202822.2667581-1-keescook@chromium.org>
+ <20220923202822.2667581-3-keescook@chromium.org>
 Content-Language: en-US
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-CC:     <linux-media@vger.kernel.org>, <alain.volmat@foss.st.com>,
-        <hugues.fruchet@foss.st.com>, <sylvain.petinot@foss.st.com>,
-        <dave.stevenson@raspberrypi.com>,
-        <laurent.pinchart@ideasonboard.com>,
-        <kieran.bingham@ideasonboard.com>
-References: <20220512074037.3829926-1-benjamin.mugnier@foss.st.com>
- <20220512074037.3829926-6-benjamin.mugnier@foss.st.com>
- <YwNUqE0f0hSOh0ul@paasikivi.fi.intel.com>
- <52dc65fd-6120-286c-1314-d7af1e8360df@foss.st.com>
- <YzA8QEBXmwlwpHqV@paasikivi.fi.intel.com>
- <0e00e072-93e7-66b2-446e-ea793c38bd0c@foss.st.com>
- <YzF0H/tNFgeSGlsU@paasikivi.fi.intel.com>
-From:   Benjamin MUGNIER <benjamin.mugnier@foss.st.com>
-In-Reply-To: <YzF0H/tNFgeSGlsU@paasikivi.fi.intel.com>
-Content-Type: text/plain; charset="UTF-8"
+From:   Vlastimil Babka <vbabka@suse.cz>
+In-Reply-To: <20220923202822.2667581-3-keescook@chromium.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.75.127.50]
-X-ClientProxiedBy: SFHDAG2NODE3.st.com (10.75.127.6) To SHFDAG1NODE1.st.com
- (10.75.129.69)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
- definitions=2022-09-26_08,2022-09-22_02,2022-06-22_01
-X-Spam-Status: No, score=-5.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,NICE_REPLY_A,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-3.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_SOFTFAIL autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sakari,
+On 9/23/22 22:28, Kees Cook wrote:
+> In the effort to help the compiler reason about buffer sizes, the
+> __alloc_size attribute was added to allocators. This improves the scope
+> of the compiler's ability to apply CONFIG_UBSAN_BOUNDS and (in the near
+> future) CONFIG_FORTIFY_SOURCE. For most allocations, this works well,
+> as the vast majority of callers are not expecting to use more memory
+> than what they asked for.
+> 
+> There is, however, one common exception to this: anticipatory resizing
+> of kmalloc allocations. These cases all use ksize() to determine the
+> actual bucket size of a given allocation (e.g. 128 when 126 was asked
+> for). This comes in two styles in the kernel:
+> 
+> 1) An allocation has been determined to be too small, and needs to be
+>     resized. Instead of the caller choosing its own next best size, it
+>     wants to minimize the number of calls to krealloc(), so it just uses
+>     ksize() plus some additional bytes, forcing the realloc into the next
+>     bucket size, from which it can learn how large it is now. For example:
+> 
+> 	data = krealloc(data, ksize(data) + 1, gfp);
+> 	data_len = ksize(data);
+> 
+> 2) The minimum size of an allocation is calculated, but since it may
+>     grow in the future, just use all the space available in the chosen
+>     bucket immediately, to avoid needing to reallocate later. A good
+>     example of this is skbuff's allocators:
+> 
+> 	data = kmalloc_reserve(size, gfp_mask, node, &pfmemalloc);
+> 	...
+> 	/* kmalloc(size) might give us more room than requested.
+> 	 * Put skb_shared_info exactly at the end of allocated zone,
+> 	 * to allow max possible filling before reallocation.
+> 	 */
+> 	osize = ksize(data);
+>          size = SKB_WITH_OVERHEAD(osize);
+> 
+> In both cases, the "how much was actually allocated?" question is answered
+> _after_ the allocation, where the compiler hinting is not in an easy place
+> to make the association any more. This mismatch between the compiler's
+> view of the buffer length and the code's intention about how much it is
+> going to actually use has already caused problems[1]. It is possible to
+> fix this by reordering the use of the "actual size" information.
+> 
+> We can serve the needs of users of ksize() and still have accurate buffer
+> length hinting for the compiler by doing the bucket size calculation
+> _before_ the allocation. Code can instead ask "how large an allocation
+> would I get for a given size?".
+> 
+> Introduce kmalloc_size_roundup(), to serve this function so we can start
+> replacing the "anticipatory resizing" uses of ksize().
+> 
+> [1] https://github.com/ClangBuiltLinux/linux/issues/1599
+>      https://github.com/KSPP/linux/issues/183
+> 
+> Cc: Vlastimil Babka <vbabka@suse.cz>
+> Cc: Christoph Lameter <cl@linux.com>
+> Cc: Pekka Enberg <penberg@kernel.org>
+> Cc: David Rientjes <rientjes@google.com>
+> Cc: Joonsoo Kim <iamjoonsoo.kim@lge.com>
+> Cc: Andrew Morton <akpm@linux-foundation.org>
+> Cc: linux-mm@kvack.org
+> Signed-off-by: Kees Cook <keescook@chromium.org>
 
-On 9/26/22 11:42, Sakari Ailus wrote:
-[...]
->>>>>> +	ctrl = v4l2_ctrl_new_int_menu(hdl, ops, V4L2_CID_LINK_FREQ, ARRAY_SIZE(link_freq) - 1, 0,
->>>>>> +				      link_freq);
->>>>>> +	ctrl->flags |= V4L2_CTRL_FLAG_READ_ONLY;
->>>>>> +	/* Custom controls */
->>>>>> +	v4l2_ctrl_new_custom(hdl, &vgxy61_hdr_ctrl, NULL);
->>>>>> +	/* Keep a pointer to these controls as we need to update them when setting the format */
->>>>>> +	sensor->pixel_rate_ctrl = v4l2_ctrl_new_std(hdl, ops, V4L2_CID_PIXEL_RATE, 1, INT_MAX, 1,
->>>>>> +						    get_pixel_rate(sensor));
->>>>>> +	sensor->pixel_rate_ctrl->flags |= V4L2_CTRL_FLAG_READ_ONLY;
->>>>>> +	sensor->expo_ctrl = v4l2_ctrl_new_std(hdl, ops, V4L2_CID_EXPOSURE, sensor->expo_min,
->>>>>> +					      sensor->expo_max, 1, sensor->expo_long);
->>>>>> +	sensor->vblank_ctrl = v4l2_ctrl_new_std(hdl, ops, V4L2_CID_VBLANK, sensor->vblank_min,
->>>>>> +						0xffff - sensor->current_mode->crop.height, 1,
->>>>>> +						sensor->vblank);
->>>>>> +	sensor->vflip_ctrl = v4l2_ctrl_new_std(hdl, ops, V4L2_CID_VFLIP, 0, 1, 1, sensor->vflip);
->>>>>> +	sensor->hflip_ctrl = v4l2_ctrl_new_std(hdl, ops, V4L2_CID_HFLIP, 0, 1, 1, sensor->hflip);
->>>>>
->>>>> You don't seem to have the link frequency control. I suppose you should, as
->>>>> well as have it in DT.
->>>>>
->>>>> <URL:https://hverkuil.home.xs4all.nl/spec/driver-api/camera-sensor.html#handling-clocks>
->>>>>
->>>>
->>>> Are you referring to V4L2_CID_LINK_FREQ? I defined it above as a read only
->>>> control as it is fixed for this sensor.
->>>
->>> Ah, it was of course the first control.
->>>
->>> Anyway, in general case, the frequencies that can be used on the board
->>> should come from DT, as using other frequencies may interfere with other
->>> devices in the same system.
->>
->> Ah I just remembered we talked about this with Laurent on v2:
->>
->> https://lore.kernel.org/linux-media/YmA5eTOoGNEbMyKB@pendragon.ideasonboard.com/
->>
->> Here is the relevant part:
->>>>> The link frequencies should come from DT.
->>>>
->>>> This is a hard requirement for this sensor. This value can not be
->>>> modified and must be 402MHz.
->>>>
->>>> I see the ov9734.c does something similar. Is adding this value to the
->>>> device tree really mandatory?
->>>
->>> I suppose it's fine then. Sakari, what do you think ?
->>
->> With this extra information, should I move the link frequency to the device tree or is it fine this way?
-> 
-> If the hardware can only use a single frequency (i.e. it's not a driver
-> limitation), then sure, no need to put this in DT.
-> 
+OK, added patch 1+2 to slab.git for-next branch.
+Had to adjust this one a bit, see below.
 
-Yes this is hardware limited.
-I'll send v6 soon. Thanks a ton.
+> ---
+>   include/linux/slab.h | 31 +++++++++++++++++++++++++++++++
+>   mm/slab.c            |  9 ++++++---
+>   mm/slab_common.c     | 20 ++++++++++++++++++++
+>   3 files changed, 57 insertions(+), 3 deletions(-)
+> 
+> diff --git a/include/linux/slab.h b/include/linux/slab.h
+> index 41bd036e7551..727640173568 100644
+> --- a/include/linux/slab.h
+> +++ b/include/linux/slab.h
+> @@ -188,7 +188,21 @@ void * __must_check krealloc(const void *objp, size_t new_size, gfp_t flags) __r
+>   void kfree(const void *objp);
+>   void kfree_sensitive(const void *objp);
+>   size_t __ksize(const void *objp);
+> +
+> +/**
+> + * ksize - Report actual allocation size of associated object
+> + *
+> + * @objp: Pointer returned from a prior kmalloc()-family allocation.
+> + *
+> + * This should not be used for writing beyond the originally requested
+> + * allocation size. Either use krealloc() or round up the allocation size
+> + * with kmalloc_size_roundup() prior to allocation. If this is used to
+> + * access beyond the originally requested allocation size, UBSAN_BOUNDS
+> + * and/or FORTIFY_SOURCE may trip, since they only know about the
+> + * originally allocated size via the __alloc_size attribute.
+> + */
+>   size_t ksize(const void *objp);
+> +
+>   #ifdef CONFIG_PRINTK
+>   bool kmem_valid_obj(void *object);
+>   void kmem_dump_obj(void *object);
+> @@ -779,6 +793,23 @@ extern void kvfree(const void *addr);
+>   extern void kvfree_sensitive(const void *addr, size_t len);
+>   
+>   unsigned int kmem_cache_size(struct kmem_cache *s);
+> +
+> +/**
+> + * kmalloc_size_roundup - Report allocation bucket size for the given size
+> + *
+> + * @size: Number of bytes to round up from.
+> + *
+> + * This returns the number of bytes that would be available in a kmalloc()
+> + * allocation of @size bytes. For example, a 126 byte request would be
+> + * rounded up to the next sized kmalloc bucket, 128 bytes. (This is strictly
+> + * for the general-purpose kmalloc()-based allocations, and is not for the
+> + * pre-sized kmem_cache_alloc()-based allocations.)
+> + *
+> + * Use this to kmalloc() the full bucket size ahead of time instead of using
+> + * ksize() to query the size after an allocation.
+> + */
+> +size_t kmalloc_size_roundup(size_t size);
+> +
+>   void __init kmem_cache_init_late(void);
+>   
+>   #if defined(CONFIG_SMP) && defined(CONFIG_SLAB)
+> diff --git a/mm/slab.c b/mm/slab.c
+> index 10e96137b44f..2da862bf6226 100644
+> --- a/mm/slab.c
+> +++ b/mm/slab.c
+> @@ -4192,11 +4192,14 @@ void __check_heap_object(const void *ptr, unsigned long n,
+>   #endif /* CONFIG_HARDENED_USERCOPY */
+>   
+>   /**
+> - * __ksize -- Uninstrumented ksize.
+> + * __ksize -- Report full size of underlying allocation
+>    * @objp: pointer to the object
+>    *
+> - * Unlike ksize(), __ksize() is uninstrumented, and does not provide the same
+> - * safety checks as ksize() with KASAN instrumentation enabled.
+> + * This should only be used internally to query the true size of allocations.
+> + * It is not meant to be a way to discover the usable size of an allocation
+> + * after the fact. Instead, use kmalloc_size_roundup(). Using memory beyond
+> + * the originally requested allocation size may trigger KASAN, UBSAN_BOUNDS,
+> + * and/or FORTIFY_SOURCE.
+>    *
+>    * Return: size of the actual memory used by @objp in bytes
+>    */
+> diff --git a/mm/slab_common.c b/mm/slab_common.c
+> index 457671ace7eb..d7420cf649f8 100644
+> --- a/mm/slab_common.c
+> +++ b/mm/slab_common.c
+> @@ -721,6 +721,26 @@ struct kmem_cache *kmalloc_slab(size_t size, gfp_t flags)
+>   	return kmalloc_caches[kmalloc_type(flags)][index];
+>   }
+>   
+> +size_t kmalloc_size_roundup(size_t size)
+> +{
+> +	struct kmem_cache *c;
+> +
+> +	/* Short-circuit the 0 size case. */
+> +	if (unlikely(size == 0))
+> +		return 0;
+> +	/* Short-circuit saturated "too-large" case. */
+> +	if (unlikely(size == SIZE_MAX))
+> +		return SIZE_MAX;
+> +	/* Above the smaller buckets, size is a multiple of page size. */
+> +	if (size > KMALLOC_MAX_CACHE_SIZE)
+> +		return PAGE_SIZE << get_order(size);
+> +
+> +	/* The flags don't matter since size_index is common to all. */
+> +	c = kmalloc_slab(size, GFP_KERNEL);
+> +	return c ? c->object_size : 0;
+> +}
+> +EXPORT_SYMBOL(kmalloc_size_roundup);
 
->>
->>>
->>> ...
->>>
->>>>>> +	sensor->slave_mode = of_property_read_bool(dev->of_node, "slave-mode");
->>>>>
->>>>> What does this actually do?
->>>>>
->>>>> On parallel bus the slave mode tells the synchronisation signals originate
->>>>> from the receiver. On CSI-2 there are no specific synchronisation signals.
->>>>>
->>>>
->>>> We discussed about this on v1 a while ago:
->>>>
->>>> https://lore.kernel.org/all/c610a2c9-31b1-1950-00fa-a6b3fd3517a1@foss.st.com/
->>>>
->>>> Tell me if there is any changes to be made, or maybe some documentation to
->>>> clarify?
->>>
->>> Ah, yes, I hadn't had time to read that reply yet. :-(
->>>
->>> I think we should have a generic solution for this. You may not have two
->>> similar kinds of sensors you're synchronising this way. One option could be
->>> to drop this functionality from the driver now to get it in sooner.
->>>
->>> Something to consider:
->>>
->>> - how to convey where the signal comes from (phandle),
->>>
->>> - capture start signal polarity,
->>>
->>> - whether it's input/output and
->>>
->>> - pull-down / pull-up configuration?
->>>
->>> These are similar to what GPIOs have. Hardware support may vary of course.
->>>
->>
->> Yes, we discussed this in the media summit.
->> I'll drop this for now.
->> I'll come back to this once the first version of the driver is accepted, and if Dave is not faster than me on this topic ;)
-> 
-> Sounds good.
-> 
+We need a SLOB version too as it's not yet removed... I added this:
+
+diff --git a/mm/slob.c b/mm/slob.c
+index 2bd4f476c340..5dbdf6ad8bcc 100644
+--- a/mm/slob.c
++++ b/mm/slob.c
+@@ -574,6 +574,20 @@ void kfree(const void *block)
+  }
+  EXPORT_SYMBOL(kfree);
+  
++size_t kmalloc_size_roundup(size_t size)
++{
++       /* Short-circuit the 0 size case. */
++       if (unlikely(size == 0))
++               return 0;
++       /* Short-circuit saturated "too-large" case. */
++       if (unlikely(size == SIZE_MAX))
++               return SIZE_MAX;
++
++       return ALIGN(size, ARCH_KMALLOC_MINALIGN);
++}
++
++EXPORT_SYMBOL(kmalloc_size_roundup);
++
+  /* can't use ksize for kmem_cache_alloc memory, only kmalloc */
+  size_t __ksize(const void *block)
+  {
+
+
