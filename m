@@ -2,349 +2,135 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 37BB45EAF82
-	for <lists+linux-media@lfdr.de>; Mon, 26 Sep 2022 20:19:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AD9505EAFBF
+	for <lists+linux-media@lfdr.de>; Mon, 26 Sep 2022 20:26:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231429AbiIZSTT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 26 Sep 2022 14:19:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55478 "EHLO
+        id S230273AbiIZS0V (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 26 Sep 2022 14:26:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44834 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230101AbiIZSSp (ORCPT
+        with ESMTP id S230190AbiIZS0H (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 26 Sep 2022 14:18:45 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CBC9FD76;
-        Mon, 26 Sep 2022 11:11:39 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4E8EB415;
-        Mon, 26 Sep 2022 20:11:37 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1664215897;
-        bh=HqN82ot/YsUR78RuI/U5/GaeTx6YXvwQ++AEduJCNGw=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Y1CsNodU80Fm9sBrGhZDTZGFWJA3r/4C6eWyTXHN7nsgmhHpxDwwWpnhqhY6PBY90
-         Mkh6Sp7cNRCI/ng3+sxsrExpfcnWDIqQcuUuSrckhckC+S/U3ubUTUMygXYlyZv+K2
-         K7TL+RBKX5AlqzwvItqwLpzMvlVgF1vd0IRo/5MI=
-Date:   Mon, 26 Sep 2022 21:11:21 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Biju Das <biju.das.jz@bp.renesas.com>
-Subject: Re: [PATCH v2 4/4] media: platform: Add Renesas RZ/G2L CRU driver
-Message-ID: <YzHrSU4RK/QFx9Xs@pendragon.ideasonboard.com>
-References: <20220905230406.30801-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20220905230406.30801-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <Yyx/NI8sew4hpFAc@pendragon.ideasonboard.com>
- <CA+V-a8u9DqzN_dDxU74F1wCZpJeODQet-aF7sd6j2=jk545x7Q@mail.gmail.com>
- <YzFp8x78/HJ/Yf2Y@pendragon.ideasonboard.com>
- <CA+V-a8tcj1iun1-9qcCP5649S___JfD_rL46v0_1HCcnEXnNVg@mail.gmail.com>
- <YzHTcuThQgNTo/HS@pendragon.ideasonboard.com>
- <CA+V-a8sGzAC1M8hxgbizKFnCbAGXzr0FXFzmsfnfEgMz_H_hxg@mail.gmail.com>
+        Mon, 26 Sep 2022 14:26:07 -0400
+Received: from mail-pf1-x436.google.com (mail-pf1-x436.google.com [IPv6:2607:f8b0:4864:20::436])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C0304D174
+        for <linux-media@vger.kernel.org>; Mon, 26 Sep 2022 11:24:40 -0700 (PDT)
+Received: by mail-pf1-x436.google.com with SMTP id a29so7532969pfk.5
+        for <linux-media@vger.kernel.org>; Mon, 26 Sep 2022 11:24:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date;
+        bh=4OBTQRXHJygCpY/2rBSvNKQlNNozBBa3mtJlOeJ/EyY=;
+        b=cSzvTXKu85TucB7q+g9CQdjC/FdnYJW7ESEBDVMDQZhpqkoHzMT6tB5vmqaaVmtq+c
+         HBo/BI5kdAn7jf+xxq5MiOLWI7cJumnHX29hS+SWLXo9wgZxYqgGZ4IjXwCG6/+UPFiS
+         mSjP6/8kEubWj+KXOsoeUGGJwGHBMRMvzL4Ek=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
+        bh=4OBTQRXHJygCpY/2rBSvNKQlNNozBBa3mtJlOeJ/EyY=;
+        b=HkD+K0q5KMBKxZc/ByOuObgweZqS4lSM4fg/DIjXgReJTQvqKfd0DvoYbJCiocyHD2
+         rQpPSAabmmjPkUyZnA9NTbWQ2UkGN6Cc0XTSyzjUnDr6EmnAteL4mEkgzY/ixQXNKQ/F
+         fhNqmIxR/xItNeDyY+xHy2yZEu14cdi4OeqGw0jqWJ81NuHrfjDbtl5ANO7WHcE9R1sK
+         YQCG/siOKvkYGRhgw1ULdFa0Jl0PAHh7KGDiPv0HQmHcdY14QzQqbtZ+tH2/+rBZ4eOB
+         ZboH9iMfdAgH1MLtu14G8fXEK4MSHErrb65tddbAsoRqPDT0IZIhpYXJpQ+lIO0Cdsg1
+         6yuQ==
+X-Gm-Message-State: ACrzQf3ylvorBvPw8Gt7VSOtYtLB0EqwTrci06r5lWIH4vAkAcHDKY3u
+        lKVvUJ3K9KPcNtu+LNMMePM9EQ==
+X-Google-Smtp-Source: AMsMyM6gzz3RlLPDBF6eEAacYBSNNxOrYYdXLeQNzcYYWROPiLY1NScn4aUnW3BZuZbnjPt9v5tgLQ==
+X-Received: by 2002:a63:4750:0:b0:43c:dac:9e4b with SMTP id w16-20020a634750000000b0043c0dac9e4bmr21137736pgk.300.1664216679159;
+        Mon, 26 Sep 2022 11:24:39 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id p2-20020a170902c70200b0016f85feae65sm11305644plp.87.2022.09.26.11.24.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 26 Sep 2022 11:24:38 -0700 (PDT)
+Date:   Mon, 26 Sep 2022 11:24:37 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     Vlastimil Babka <vbabka@suse.cz>
+Cc:     Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org,
+        "Ruhl, Michael J" <michael.j.ruhl@intel.com>,
+        Hyeonggon Yoo <42.hyeyoo@gmail.com>,
+        Christoph Lameter <cl@linux.com>,
+        Pekka Enberg <penberg@kernel.org>,
+        David Rientjes <rientjes@google.com>,
+        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Alex Elder <elder@kernel.org>,
+        Josef Bacik <josef@toxicpanda.com>,
+        David Sterba <dsterba@suse.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+        Jesse Brandeburg <jesse.brandeburg@intel.com>,
+        Daniel Micay <danielmicay@gmail.com>,
+        Yonghong Song <yhs@fb.com>, Marco Elver <elver@google.com>,
+        Miguel Ojeda <ojeda@kernel.org>, linux-kernel@vger.kernel.org,
+        netdev@vger.kernel.org, linux-btrfs@vger.kernel.org,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org, linux-fsdevel@vger.kernel.org,
+        intel-wired-lan@lists.osuosl.org, dev@openvswitch.org,
+        x86@kernel.org, llvm@lists.linux.dev,
+        linux-hardening@vger.kernel.org
+Subject: Re: [PATCH v2 13/16] mempool: Use kmalloc_size_roundup() to match
+ ksize() usage
+Message-ID: <202209261123.B2CBAE87E0@keescook>
+References: <20220923202822.2667581-1-keescook@chromium.org>
+ <20220923202822.2667581-14-keescook@chromium.org>
+ <f4fc52c4-7c18-1d76-0c7a-4058ea2486b9@suse.cz>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CA+V-a8sGzAC1M8hxgbizKFnCbAGXzr0FXFzmsfnfEgMz_H_hxg@mail.gmail.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <f4fc52c4-7c18-1d76-0c7a-4058ea2486b9@suse.cz>
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Prabhakar,
+On Mon, Sep 26, 2022 at 03:50:43PM +0200, Vlastimil Babka wrote:
+> On 9/23/22 22:28, Kees Cook wrote:
+> > Round up allocations with kmalloc_size_roundup() so that mempool's use
+> > of ksize() is always accurate and no special handling of the memory is
+> > needed by KASAN, UBSAN_BOUNDS, nor FORTIFY_SOURCE.
+> > 
+> > Cc: Andrew Morton <akpm@linux-foundation.org>
+> > Cc: linux-mm@kvack.org
+> > Signed-off-by: Kees Cook <keescook@chromium.org>
+> > ---
+> >   mm/mempool.c | 2 +-
+> >   1 file changed, 1 insertion(+), 1 deletion(-)
+> > 
+> > diff --git a/mm/mempool.c b/mm/mempool.c
+> > index 96488b13a1ef..0f3107b28e6b 100644
+> > --- a/mm/mempool.c
+> > +++ b/mm/mempool.c
+> > @@ -526,7 +526,7 @@ EXPORT_SYMBOL(mempool_free_slab);
+> >    */
+> >   void *mempool_kmalloc(gfp_t gfp_mask, void *pool_data)
+> >   {
+> > -	size_t size = (size_t)pool_data;
+> > +	size_t size = kmalloc_size_roundup((size_t)pool_data);
+> 
+> Hm it is kinda wasteful to call into kmalloc_size_roundup for every
+> allocation that has the same input. We could do it just once in
+> mempool_init_node() for adjusting pool->pool_data ?
+> 
+> But looking more closely, I wonder why poison_element() and
+> kasan_unpoison_element() in mm/mempool.c even have to use ksize()/__ksize()
+> and not just operate on the requested size (again, pool->pool_data). If no
+> kmalloc mempool's users use ksize() to write beyond requested size, then we
+> don't have to unpoison/poison that area either?
 
-On Mon, Sep 26, 2022 at 06:27:40PM +0100, Lad, Prabhakar wrote:
-> On Mon, Sep 26, 2022 at 5:29 PM Laurent Pinchart wrote:
-> > On Mon, Sep 26, 2022 at 05:24:47PM +0100, Lad, Prabhakar wrote:
-> > > On Mon, Sep 26, 2022 at 9:59 AM Laurent Pinchart wrote:
-> > > > On Fri, Sep 23, 2022 at 08:02:12PM +0100, Lad, Prabhakar wrote:
-> > > > > On Thu, Sep 22, 2022 at 4:29 PM Laurent Pinchart wrote:
-> > > > > > On Tue, Sep 06, 2022 at 12:04:06AM +0100, Lad Prabhakar wrote:
-> > > > > > > Add v4l driver for Renesas RZ/G2L Camera data Receiving Unit.
-> > > > > > >
-> > > > > > > Based on a patch in the BSP by Hien Huynh
-> > > > > > > <hien.huynh.px@renesas.com>
-> > > > > > >
-> > > > > > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > > > > > > ---
-> > > > > > > v1 -> v2
-> > > > > > > * No change
-> > > > > > >
-> > > > > > > RFC v2 -> v1
-> > > > > > > * Moved the driver to renesas folder
-> > > > > > > * Fixed review comments pointed by Jacopo
-> > > > > > >
-> > > > > > > RFC v1 -> RFC v2
-> > > > > > > * Dropped group
-> > > > > > > * Dropped CSI subdev and implemented as new driver
-> > > > > > > * Dropped "mc_" from function names
-> > > > > > > * Moved the driver to renesas folder
-> > > > > > > ---
-> > > > > > >  .../media/platform/renesas/rzg2l-cru/Kconfig  |  17 +
-> > > > > > >  .../media/platform/renesas/rzg2l-cru/Makefile |   3 +
-> > > > > > >  .../platform/renesas/rzg2l-cru/rzg2l-core.c   | 395 ++++++++++
-> > > > > > >  .../platform/renesas/rzg2l-cru/rzg2l-cru.h    | 152 ++++
-> > > > > > >  .../platform/renesas/rzg2l-cru/rzg2l-dma.c    | 734 ++++++++++++++++++
-> > > > > > >  .../platform/renesas/rzg2l-cru/rzg2l-v4l2.c   | 368 +++++++++
-> > > > > >
-> > > > > > I'd merge those two files together, they both handle the video node.
-> > > > > > There's a comment below that recommends adding a subdev, that should
-> > > > > > then go to a separate file.
-> > > > >
-> > > > > OK, I'll merge these files into rzg2l-video.c.
-> > > > >
-> > > > > > >  6 files changed, 1669 insertions(+)
-> > > > > > >  create mode 100644 drivers/media/platform/renesas/rzg2l-cru/rzg2l-core.c
-> > > > > > >  create mode 100644 drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h
-> > > > > > >  create mode 100644 drivers/media/platform/renesas/rzg2l-cru/rzg2l-dma.c
-> > > > > > >  create mode 100644 drivers/media/platform/renesas/rzg2l-cru/rzg2l-v4l2.c
-> > > > > > >
-> > > > > > > diff --git a/drivers/media/platform/renesas/rzg2l-cru/Kconfig b/drivers/media/platform/renesas/rzg2l-cru/Kconfig
-> > > > > > > index 57c40bb499df..08ff0e96b3f5 100644
-> > > > > > > --- a/drivers/media/platform/renesas/rzg2l-cru/Kconfig
-> > > > > > > +++ b/drivers/media/platform/renesas/rzg2l-cru/Kconfig
-> > > > > > > @@ -15,3 +15,20 @@ config VIDEO_RZG2L_CSI2
-> > > > > > >
-> > > > > > >         To compile this driver as a module, choose M here: the
-> > > > > > >         module will be called rzg2l-csi2.
-> > > > > > > +
-> > > > > > > +config VIDEO_RZG2L_CRU
-> > > > > > > +     tristate "RZ/G2L Camera Receiving Unit (CRU) Driver"
-> > > > > > > +     depends on ARCH_RENESAS || COMPILE_TEST
-> > > > > > > +     depends on V4L_PLATFORM_DRIVERS
-> > > > > > > +     depends on VIDEO_DEV && OF
-> > > > > > > +     select MEDIA_CONTROLLER
-> > > > > > > +     select V4L2_FWNODE
-> > > > > > > +     select VIDEOBUF2_DMA_CONTIG
-> > > > > > > +     select VIDEO_RZG2L_CSI2
-> > > > > >
-> > > > > > Is this required, can't the CRU be used with a parallel sensor without
-> > > > > > the CSI-2 receiver ?
-> > > > >
-> > > > > Yes the CRU can be used with parallel sensors, I'll drop the above select.
-> > > > >
-> > > > > > > +     select VIDEO_V4L2_SUBDEV_API
-> > > > > > > +     help
-> > > > > > > +       Support for Renesas RZ/G2L (and alike SoC's) Camera Receiving
-> > > > > > > +       Unit (CRU) driver.
-> > > > > > > +
-> > > > > > > +       To compile this driver as a module, choose M here: the
-> > > > > > > +       module will be called rzg2l-cru.
-> > > > > > > diff --git a/drivers/media/platform/renesas/rzg2l-cru/Makefile b/drivers/media/platform/renesas/rzg2l-cru/Makefile
-> > > > > > > index 91ea97a944e6..7628809e953f 100644
-> > > > > > > --- a/drivers/media/platform/renesas/rzg2l-cru/Makefile
-> > > > > > > +++ b/drivers/media/platform/renesas/rzg2l-cru/Makefile
-> > > > > > > @@ -1,3 +1,6 @@
-> > > > > > >  # SPDX-License-Identifier: GPL-2.0
-> > > > > > >
-> > > > > > >  obj-$(CONFIG_VIDEO_RZG2L_CSI2) += rzg2l-csi2.o
-> > > > > > > +
-> > > > > > > +rzg2l-cru-objs = rzg2l-core.o rzg2l-dma.o rzg2l-v4l2.o
-> > > > > > > +obj-$(CONFIG_VIDEO_RZG2L_CRU) += rzg2l-cru.o
-> > > > > > > diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-core.c b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-core.c
-> > > > > > > new file mode 100644
-> > > > > > > index 000000000000..b5d4110b1913
-> > > > > > > --- /dev/null
-> > > > > > > +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-core.c
-> > > > > > > @@ -0,0 +1,395 @@
-> > > > > > > +// SPDX-License-Identifier: GPL-2.0+
-> > > > > > > +/*
-> > > > > > > + * Driver for Renesas RZ/G2L CRU
-> > > > > > > + *
-> > > > > > > + * Copyright (C) 2022 Renesas Electronics Corp.
-> > > > > > > + *
-> > > > > > > + * Based on Renesas R-Car VIN
-> > > > > > > + * Copyright (C) 2011-2013 Renesas Solutions Corp.
-> > > > > > > + * Copyright (C) 2013 Cogent Embedded, Inc., <source@cogentembedded.com>
-> > > > > > > + * Copyright (C) 2008 Magnus Damm
-> > > > > > > + */
-> > > > > > > +
-> > > > > > > +#include <linux/clk.h>
-> > > > > > > +#include <linux/module.h>
-> > > > > > > +#include <linux/mod_devicetable.h>
-> > > > > > > +#include <linux/of.h>
-> > > > > > > +#include <linux/of_device.h>
-> > > > > > > +#include <linux/of_graph.h>
-> > > > > > > +#include <linux/platform_device.h>
-> > > > > > > +#include <linux/pm_runtime.h>
-> > > > > > > +
-> > > > > > > +#include <media/v4l2-fwnode.h>
-> > > > > > > +#include <media/v4l2-mc.h>
-> > > > > > > +
-> > > > > > > +#include "rzg2l-cru.h"
-> > > > > > > +
-> > > > > > > +#define v4l2_dev_to_cru(d)   container_of(d, struct rzg2l_cru_dev, v4l2_dev)
-> > > > > >
-> > > > > > As this macro is only used to get the rzg2l_cru_dev pointer from the
-> > > > > > v4l2_async_notifier pointer, you can replace it with
-> > > > > >
-> > > > > > #define notifier_to_cru(n)      container_of(n, struct rzg2l_cru_dev, notifier)
-> > > > > >
-> > > > > > I would also turn it into a static inline function for additional
-> > > > > > compile-time type safety.
-> > > > >
-> > > > > OK, I will do it as mentioned above.
-> > > > >
-> > > > > > > +
-> > > > > > > +static int rzg2l_cru_csi2_link_notify(struct media_link *link, u32 flags,
-> > > > > > > +                                   unsigned int notification)
-> > > > > > > +{
-> > > > > > > +     struct media_entity *entity;
-> > > > > > > +     struct rzg2l_cru_dev *cru;
-> > > > > > > +     struct media_pad *csi_pad;
-> > > > > > > +     struct v4l2_subdev *sd;
-> > > > > > > +     int ret;
-> > > > > > > +
-> > > > > > > +     ret = v4l2_pipeline_link_notify(link, flags, notification);
-> > > > > > > +     if (ret)
-> > > > > > > +             return ret;
-> > > > > > > +
-> > > > > > > +     /* Only care about link enablement for CRU nodes. */
-> > > > > > > +     if (!(flags & MEDIA_LNK_FL_ENABLED))
-> > > > > > > +             return 0;
-> > > > > > > +
-> > > > > > > +     cru = container_of(link->graph_obj.mdev, struct rzg2l_cru_dev, mdev);
-> > > > > > > +     /*
-> > > > > > > +      * Don't allow link changes if any entity in the graph is
-> > > > > > > +      * streaming, modifying the CHSEL register fields can disrupt
-> > > > > > > +      * running streams.
-> > > > > > > +      */
-> > > > > > > +     media_device_for_each_entity(entity, &cru->mdev)
-> > > > > > > +             if (media_entity_is_streaming(entity))
-> > > > > > > +                     return -EBUSY;
-> > > > > > > +
-> > > > > > > +     mutex_lock(&cru->mdev_lock);
-> > > > > > > +
-> > > > > > > +     csi_pad = media_pad_remote_pad_first(&cru->vdev.entity.pads[0]);
-> > > > > > > +     if (csi_pad) {
-> > > > > > > +             ret = -EMLINK;
-> > > > > > > +             goto out;
-> > > > > > > +     }
-> > > > > > > +
-> > > > > > > +     sd = media_entity_to_v4l2_subdev(link->source->entity);
-> > > > > > > +     if (cru->csi.subdev == sd) {
-> > > > > > > +             cru->csi.channel = link->source->index - 1;
-> > > > > > > +             cru->is_csi = true;
-> > > > > > > +     } else {
-> > > > > > > +             ret = -ENODEV;
-> > > > > > > +     }
-> > > > > > > +
-> > > > > > > +out:
-> > > > > > > +     mutex_unlock(&cru->mdev_lock);
-> > > > > > > +
-> > > > > > > +     return ret;
-> > > > > > > +}
-> > > > > > > +
-> > > > > > > +static const struct media_device_ops rzg2l_cru_media_ops = {
-> > > > > > > +     .link_notify = rzg2l_cru_csi2_link_notify,
-> > > > > > > +};
-> > > > > > > +
-> > > > > > > +/* -----------------------------------------------------------------------------
-> > > > > > > + * Group async notifier
-> > > > > > > + */
-> > > > > > > +
-> > > > > > > +static int rzg2l_cru_group_notify_complete(struct v4l2_async_notifier *notifier)
-> > > > > > > +{
-> > > > > > > +     struct rzg2l_cru_dev *cru = v4l2_dev_to_cru(notifier->v4l2_dev);
-> > > > > > > +     unsigned int i;
-> > > > > > > +     int ret;
-> > > > > > > +
-> > > > > > > +     ret = media_device_register(&cru->mdev);
-> > > > > > > +     if (ret)
-> > > > > > > +             return ret;
-> > > > > >
-> > > > > > I'd move the v4l2_device_register() call here, as it's the V4L2
-> > > > > > counterpart of the media device, and handling them together would be
-> > > > > > best.
-> > > > >
-> > > > > OK.
-> > > > >
-> > > > > > > +
-> > > > > > > +     ret = v4l2_device_register_subdev_nodes(&cru->v4l2_dev);
-> > > > > > > +     if (ret) {
-> > > > > > > +             dev_err(cru->dev, "Failed to register subdev nodes\n");
-> > > > > > > +             return ret;
-> > > > > > > +     }
-> > > > > > > +
-> > > > > > > +     if (!video_is_registered(&cru->vdev)) {
-> > > > > >
-> > > > > > Can this happen ?
-> > > > >
-> > > > > No, I'll drop this check.
-> > > > >
-> > > > > > > +             ret = rzg2l_cru_v4l2_register(cru);
-> > > > > > > +             if (ret)
-> > > > > > > +                     return ret;
-> > > > > > > +     }
-> > > > > > > +
-> > > > > > > +     /* Create all media device links between CRU and CSI-2's. */
-> > > > > > > +     /*
-> > > > > > > +      * TODO: RZ/G2L supports 4 VC0, as support for virtual channels
-> > > > > > > +      * should be implemented by streams API which is under development
-> > > > > > > +      * so for now just link it to VC0
-> > > > > > > +      */
-> > > > > >
-> > > > > > The streams API won't require more links, so I'd drop the comment and
-> > > > > > the loop and create a single link.
-> > > > >
-> > > > > OK.
-> > > > >
-> > > > > > > +     for (i = 1; i <= 1; i++) {
-> > > > > > > +             struct media_entity *source, *sink;
-> > > > > > > +
-> > > > > > > +             source = &cru->csi.subdev->entity;
-> > > > > > > +             sink = &cru->vdev.entity;
-> > > > > >
-> > > > > > Hmmm... I'd recommend adding a subdev to model the image processing
-> > > > > > pipeline of the CRU, between the CSI-2 receiver and the video node. That
-> > > > > > will help when you'll add support for parallel sensors, and it will also
-> > > > > > be needed by the streams API to select which virtual channel to capture.
-> > > > >/
-> > > > > just model as a dummy subdev for now (MEDIA_ENT_F_VID_MUX)?
-> > > >
-> > > > I think MEDIA_ENT_F_PROC_VIDEO_PIXEL_FORMATTER would be more
-> > > > appropriate.
-> > >
-> > > OK I will use MEDIA_ENT_F_PROC_VIDEO_PIXEL_FORMATTER. As this will be
-> > > just like a switch should I be implementing the get_fmt/set_fmt
-> > > callbacks?
-> >
-> > Yes, subdev operations need to be implemented, especially given that the
-> > CRU implements color space conversion, so the input and output formats
-> > of the subdev can be different.
-> 
-> OK, the reason I asked as, for the sink pad the format of IP subdev
-> will be the same as remote source pad (i.e. either from CSI/parallel
-> subdev) and for the source pad this will be the same as format on the
-> video node (ie CRU output).
-> 
-> get_fmt -> we get the subdev pad fmt of the remote source and return it.
-> set_fmt -> we just pass through, as the fmt is set on the video dev node.
-> 
-> Does the above sound good?
-
-No, subdevs must not query each other to implement those operations.
-Subdevs are configured by userspace separately from each other, so a
-subdev set_fmt handler must accept any format that is valid for the
-subdev, regardless of how the connected subdevs or video nodes are
-configured. get_fmt just returns the format that has been set on the
-subdev. Validation of the pipeline, to check that connected pads have a
-compatible format, is done when starting the stream.
+Yeah, I think that's a fair point. I will adjust this.
 
 -- 
-Regards,
-
-Laurent Pinchart
+Kees Cook
