@@ -2,359 +2,296 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 39D925EAEB0
-	for <lists+linux-media@lfdr.de>; Mon, 26 Sep 2022 19:53:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9C2475EAF2B
+	for <lists+linux-media@lfdr.de>; Mon, 26 Sep 2022 20:07:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230523AbiIZRxu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 26 Sep 2022 13:53:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56400 "EHLO
+        id S231351AbiIZSG5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 26 Sep 2022 14:06:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34114 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229596AbiIZRxM (ORCPT
+        with ESMTP id S230135AbiIZSGf (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 26 Sep 2022 13:53:12 -0400
-Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com [IPv6:2a00:1450:4864:20::633])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C77ACF4B4;
-        Mon, 26 Sep 2022 10:28:09 -0700 (PDT)
-Received: by mail-ej1-x633.google.com with SMTP id hy2so15586153ejc.8;
-        Mon, 26 Sep 2022 10:28:09 -0700 (PDT)
+        Mon, 26 Sep 2022 14:06:35 -0400
+Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com [IPv6:2607:f8b0:4864:20::1035])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E45A8277D
+        for <linux-media@vger.kernel.org>; Mon, 26 Sep 2022 10:50:39 -0700 (PDT)
+Received: by mail-pj1-x1035.google.com with SMTP id g1-20020a17090a708100b00203c1c66ae3so7675014pjk.2
+        for <linux-media@vger.kernel.org>; Mon, 26 Sep 2022 10:50:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date;
-        bh=xExxZjnmGcaw3QGraBtNgEvwSjAuoTSZutYwNZ79r+4=;
-        b=n7ivu5RiIj/cKKHmq6cyhWsFISUYZ5anCY8z5apwuftmN7cjxJ1l9wUEOiOUp2eI47
-         cUWmPYp4pwEwZOYK+NLl1u+y49n/pvbNlkK4wlf7KUc2YLqt5LDtrqrz/2Jo+RusyPkK
-         vv9NtO0ih1Bmj5+DUFTuJBaPT8zxWaT49jx1sCy6898S4FTjBA8n/1nt6GvIgl0xYh2q
-         KS8GDRFgpe3yiIvezDRkwUVoYHXZsSOhWWw8c0p3/0O9JDPn43pRZxcXuTxIv8UP/4Sz
-         3ildImah1o+HI91Rn+lz+owAC5wIgxedK4A5nVNEFS/XgxGNJ0BdRyVrAZWMuysy/7AA
-         skPw==
+        d=chromium.org; s=google;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date;
+        bh=TNDUsCjQ4zB2/5GZ7X+uS9zeoK4Uz9rg4Dmc7gG+Kts=;
+        b=diPFMelUGqg5Olz6I8z2UqQgP/qT0p6U2CTPr1IKXAPPQDlXjIbGiW+Mq8ZW/AJerP
+         YVtmTqGjAus4WfzbTh4Tizc48Roo/vvFh6ncx714UJ4hLWN/DikhBXoZzoyhCy7LE6Y/
+         3OYOMIYymLSLRxuRHD8IaRlLtQ4iFKBE+1Png=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=xExxZjnmGcaw3QGraBtNgEvwSjAuoTSZutYwNZ79r+4=;
-        b=DNqaK/1TbZhccVf8N30LwIgaTjyR1cZ+akyNsYsLrdPsSIidGuPWaEoXsw4XVs2ZSm
-         8Z/GoUzQJYaoamfmkio4wwwANmHw7FC3eIETwkswh5bYIoUETQvKfz9X25FBfJKwhmnr
-         2HwpH0WoRStK6YOXpAsBgCXY1SHSzxgeDrRbQwc22Hro2Yyyg0Pq0K0W77AgTbRtgCzx
-         LPBv5g/8YqnD0qoe3mLShG2e3nzGQNGkYCeEuVbSSJpot2GECYBVSL4BhmTqXHFtddqn
-         DEUoqBsztOvfXad7d47IwfTsRuUVhHVrwgc3AehEDAPk9MhvxPnhw+SdLq9tP02p4Ck/
-         Mvmg==
-X-Gm-Message-State: ACrzQf3KDKnpDIFT6+VHfE1xFJ00cpoA2KlNpzyq5neMBLa5Tl9Lml3l
-        Wkt+D3cyVEYOm23LhewC2C+fdacoX+Gzx+cfFps=
-X-Google-Smtp-Source: AMsMyM7ykhGwupiGVH5KR3XhZAtm66N440j3DJvQ+Fgg6IQoFyZrHjHIvVBnX7VC5416XVDKsOR868iWGVlzEEGIYh0=
-X-Received: by 2002:a17:907:75d4:b0:77a:fcb7:a2cc with SMTP id
- jl20-20020a17090775d400b0077afcb7a2ccmr19263536ejc.480.1664213287674; Mon, 26
- Sep 2022 10:28:07 -0700 (PDT)
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
+        bh=TNDUsCjQ4zB2/5GZ7X+uS9zeoK4Uz9rg4Dmc7gG+Kts=;
+        b=4197gial5clTcDOr/y3IyHy4yTqFAgrNB9MFDxTKDGdKTq9uQFFYZnp+UbzKKLtVlx
+         RRJ6/xiyVbmt4y7D1H/L6VKnm81YlINJ5IMd0b5qxA2AcUyS3J+b087JGRAxdVsgrNLf
+         n5aarnDF2sEBxweXFhRXrgK8StwsrM1PUn+qSlWpW5htmqqVSIjcVULWy/nnA1ZAManq
+         QteC2i6c9HtwNXFPmbjFaxvOFw6P+5aQNz5oNEHYk/8z+DdiMqTtV9k6GpyJFxpi2xWj
+         4Zpto9W2c2TEh7wMWsHX/MSAssAhgfSDSs7U+C0lavalqbnnKmWU2tJwsCvqAsZJPH0M
+         KnHA==
+X-Gm-Message-State: ACrzQf0UPlttUELCg1E5ccm1qDss/UtutWAWpJPzb0/xjk5k/h+lhN0N
+        +Y7OMW/+pZyAA07I1k3mkfihtQ==
+X-Google-Smtp-Source: AMsMyM53HUNBt6kGZBRWVtwFK3cgJAVMJrfeOBQoCVB2uG4qpYwM3FiGKu6g/YmgMRQUrRqqychKmQ==
+X-Received: by 2002:a17:90a:a09:b0:202:ab93:2afb with SMTP id o9-20020a17090a0a0900b00202ab932afbmr37124281pjo.60.1664214639071;
+        Mon, 26 Sep 2022 10:50:39 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id g13-20020aa79f0d000000b00536097dd45bsm12539497pfr.134.2022.09.26.10.50.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 26 Sep 2022 10:50:37 -0700 (PDT)
+Date:   Mon, 26 Sep 2022 10:50:36 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     Vlastimil Babka <vbabka@suse.cz>
+Cc:     Christoph Lameter <cl@linux.com>,
+        Pekka Enberg <penberg@kernel.org>,
+        David Rientjes <rientjes@google.com>,
+        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+        Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org,
+        "Ruhl, Michael J" <michael.j.ruhl@intel.com>,
+        Hyeonggon Yoo <42.hyeyoo@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Alex Elder <elder@kernel.org>,
+        Josef Bacik <josef@toxicpanda.com>,
+        David Sterba <dsterba@suse.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+        Jesse Brandeburg <jesse.brandeburg@intel.com>,
+        Daniel Micay <danielmicay@gmail.com>,
+        Yonghong Song <yhs@fb.com>, Marco Elver <elver@google.com>,
+        Miguel Ojeda <ojeda@kernel.org>, linux-kernel@vger.kernel.org,
+        netdev@vger.kernel.org, linux-btrfs@vger.kernel.org,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org, linux-fsdevel@vger.kernel.org,
+        intel-wired-lan@lists.osuosl.org, dev@openvswitch.org,
+        x86@kernel.org, llvm@lists.linux.dev,
+        linux-hardening@vger.kernel.org
+Subject: Re: [PATCH v2 02/16] slab: Introduce kmalloc_size_roundup()
+Message-ID: <202209261050.560459B@keescook>
+References: <20220923202822.2667581-1-keescook@chromium.org>
+ <20220923202822.2667581-3-keescook@chromium.org>
+ <e0326835-9b0d-af1b-bd22-2aadb178bd25@suse.cz>
 MIME-Version: 1.0
-References: <20220905230406.30801-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20220905230406.30801-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <Yyx/NI8sew4hpFAc@pendragon.ideasonboard.com> <CA+V-a8u9DqzN_dDxU74F1wCZpJeODQet-aF7sd6j2=jk545x7Q@mail.gmail.com>
- <YzFp8x78/HJ/Yf2Y@pendragon.ideasonboard.com> <CA+V-a8tcj1iun1-9qcCP5649S___JfD_rL46v0_1HCcnEXnNVg@mail.gmail.com>
- <YzHTcuThQgNTo/HS@pendragon.ideasonboard.com>
-In-Reply-To: <YzHTcuThQgNTo/HS@pendragon.ideasonboard.com>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Mon, 26 Sep 2022 18:27:40 +0100
-Message-ID: <CA+V-a8sGzAC1M8hxgbizKFnCbAGXzr0FXFzmsfnfEgMz_H_hxg@mail.gmail.com>
-Subject: Re: [PATCH v2 4/4] media: platform: Add Renesas RZ/G2L CRU driver
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Biju Das <biju.das.jz@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <e0326835-9b0d-af1b-bd22-2aadb178bd25@suse.cz>
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
+On Mon, Sep 26, 2022 at 03:15:22PM +0200, Vlastimil Babka wrote:
+> On 9/23/22 22:28, Kees Cook wrote:
+> > In the effort to help the compiler reason about buffer sizes, the
+> > __alloc_size attribute was added to allocators. This improves the scope
+> > of the compiler's ability to apply CONFIG_UBSAN_BOUNDS and (in the near
+> > future) CONFIG_FORTIFY_SOURCE. For most allocations, this works well,
+> > as the vast majority of callers are not expecting to use more memory
+> > than what they asked for.
+> > 
+> > There is, however, one common exception to this: anticipatory resizing
+> > of kmalloc allocations. These cases all use ksize() to determine the
+> > actual bucket size of a given allocation (e.g. 128 when 126 was asked
+> > for). This comes in two styles in the kernel:
+> > 
+> > 1) An allocation has been determined to be too small, and needs to be
+> >     resized. Instead of the caller choosing its own next best size, it
+> >     wants to minimize the number of calls to krealloc(), so it just uses
+> >     ksize() plus some additional bytes, forcing the realloc into the next
+> >     bucket size, from which it can learn how large it is now. For example:
+> > 
+> > 	data = krealloc(data, ksize(data) + 1, gfp);
+> > 	data_len = ksize(data);
+> > 
+> > 2) The minimum size of an allocation is calculated, but since it may
+> >     grow in the future, just use all the space available in the chosen
+> >     bucket immediately, to avoid needing to reallocate later. A good
+> >     example of this is skbuff's allocators:
+> > 
+> > 	data = kmalloc_reserve(size, gfp_mask, node, &pfmemalloc);
+> > 	...
+> > 	/* kmalloc(size) might give us more room than requested.
+> > 	 * Put skb_shared_info exactly at the end of allocated zone,
+> > 	 * to allow max possible filling before reallocation.
+> > 	 */
+> > 	osize = ksize(data);
+> >          size = SKB_WITH_OVERHEAD(osize);
+> > 
+> > In both cases, the "how much was actually allocated?" question is answered
+> > _after_ the allocation, where the compiler hinting is not in an easy place
+> > to make the association any more. This mismatch between the compiler's
+> > view of the buffer length and the code's intention about how much it is
+> > going to actually use has already caused problems[1]. It is possible to
+> > fix this by reordering the use of the "actual size" information.
+> > 
+> > We can serve the needs of users of ksize() and still have accurate buffer
+> > length hinting for the compiler by doing the bucket size calculation
+> > _before_ the allocation. Code can instead ask "how large an allocation
+> > would I get for a given size?".
+> > 
+> > Introduce kmalloc_size_roundup(), to serve this function so we can start
+> > replacing the "anticipatory resizing" uses of ksize().
+> > 
+> > [1] https://github.com/ClangBuiltLinux/linux/issues/1599
+> >      https://github.com/KSPP/linux/issues/183
+> > 
+> > Cc: Vlastimil Babka <vbabka@suse.cz>
+> > Cc: Christoph Lameter <cl@linux.com>
+> > Cc: Pekka Enberg <penberg@kernel.org>
+> > Cc: David Rientjes <rientjes@google.com>
+> > Cc: Joonsoo Kim <iamjoonsoo.kim@lge.com>
+> > Cc: Andrew Morton <akpm@linux-foundation.org>
+> > Cc: linux-mm@kvack.org
+> > Signed-off-by: Kees Cook <keescook@chromium.org>
+> 
+> OK, added patch 1+2 to slab.git for-next branch.
+> Had to adjust this one a bit, see below.
+> 
+> > ---
+> >   include/linux/slab.h | 31 +++++++++++++++++++++++++++++++
+> >   mm/slab.c            |  9 ++++++---
+> >   mm/slab_common.c     | 20 ++++++++++++++++++++
+> >   3 files changed, 57 insertions(+), 3 deletions(-)
+> > 
+> > diff --git a/include/linux/slab.h b/include/linux/slab.h
+> > index 41bd036e7551..727640173568 100644
+> > --- a/include/linux/slab.h
+> > +++ b/include/linux/slab.h
+> > @@ -188,7 +188,21 @@ void * __must_check krealloc(const void *objp, size_t new_size, gfp_t flags) __r
+> >   void kfree(const void *objp);
+> >   void kfree_sensitive(const void *objp);
+> >   size_t __ksize(const void *objp);
+> > +
+> > +/**
+> > + * ksize - Report actual allocation size of associated object
+> > + *
+> > + * @objp: Pointer returned from a prior kmalloc()-family allocation.
+> > + *
+> > + * This should not be used for writing beyond the originally requested
+> > + * allocation size. Either use krealloc() or round up the allocation size
+> > + * with kmalloc_size_roundup() prior to allocation. If this is used to
+> > + * access beyond the originally requested allocation size, UBSAN_BOUNDS
+> > + * and/or FORTIFY_SOURCE may trip, since they only know about the
+> > + * originally allocated size via the __alloc_size attribute.
+> > + */
+> >   size_t ksize(const void *objp);
+> > +
+> >   #ifdef CONFIG_PRINTK
+> >   bool kmem_valid_obj(void *object);
+> >   void kmem_dump_obj(void *object);
+> > @@ -779,6 +793,23 @@ extern void kvfree(const void *addr);
+> >   extern void kvfree_sensitive(const void *addr, size_t len);
+> >   unsigned int kmem_cache_size(struct kmem_cache *s);
+> > +
+> > +/**
+> > + * kmalloc_size_roundup - Report allocation bucket size for the given size
+> > + *
+> > + * @size: Number of bytes to round up from.
+> > + *
+> > + * This returns the number of bytes that would be available in a kmalloc()
+> > + * allocation of @size bytes. For example, a 126 byte request would be
+> > + * rounded up to the next sized kmalloc bucket, 128 bytes. (This is strictly
+> > + * for the general-purpose kmalloc()-based allocations, and is not for the
+> > + * pre-sized kmem_cache_alloc()-based allocations.)
+> > + *
+> > + * Use this to kmalloc() the full bucket size ahead of time instead of using
+> > + * ksize() to query the size after an allocation.
+> > + */
+> > +size_t kmalloc_size_roundup(size_t size);
+> > +
+> >   void __init kmem_cache_init_late(void);
+> >   #if defined(CONFIG_SMP) && defined(CONFIG_SLAB)
+> > diff --git a/mm/slab.c b/mm/slab.c
+> > index 10e96137b44f..2da862bf6226 100644
+> > --- a/mm/slab.c
+> > +++ b/mm/slab.c
+> > @@ -4192,11 +4192,14 @@ void __check_heap_object(const void *ptr, unsigned long n,
+> >   #endif /* CONFIG_HARDENED_USERCOPY */
+> >   /**
+> > - * __ksize -- Uninstrumented ksize.
+> > + * __ksize -- Report full size of underlying allocation
+> >    * @objp: pointer to the object
+> >    *
+> > - * Unlike ksize(), __ksize() is uninstrumented, and does not provide the same
+> > - * safety checks as ksize() with KASAN instrumentation enabled.
+> > + * This should only be used internally to query the true size of allocations.
+> > + * It is not meant to be a way to discover the usable size of an allocation
+> > + * after the fact. Instead, use kmalloc_size_roundup(). Using memory beyond
+> > + * the originally requested allocation size may trigger KASAN, UBSAN_BOUNDS,
+> > + * and/or FORTIFY_SOURCE.
+> >    *
+> >    * Return: size of the actual memory used by @objp in bytes
+> >    */
+> > diff --git a/mm/slab_common.c b/mm/slab_common.c
+> > index 457671ace7eb..d7420cf649f8 100644
+> > --- a/mm/slab_common.c
+> > +++ b/mm/slab_common.c
+> > @@ -721,6 +721,26 @@ struct kmem_cache *kmalloc_slab(size_t size, gfp_t flags)
+> >   	return kmalloc_caches[kmalloc_type(flags)][index];
+> >   }
+> > +size_t kmalloc_size_roundup(size_t size)
+> > +{
+> > +	struct kmem_cache *c;
+> > +
+> > +	/* Short-circuit the 0 size case. */
+> > +	if (unlikely(size == 0))
+> > +		return 0;
+> > +	/* Short-circuit saturated "too-large" case. */
+> > +	if (unlikely(size == SIZE_MAX))
+> > +		return SIZE_MAX;
+> > +	/* Above the smaller buckets, size is a multiple of page size. */
+> > +	if (size > KMALLOC_MAX_CACHE_SIZE)
+> > +		return PAGE_SIZE << get_order(size);
+> > +
+> > +	/* The flags don't matter since size_index is common to all. */
+> > +	c = kmalloc_slab(size, GFP_KERNEL);
+> > +	return c ? c->object_size : 0;
+> > +}
+> > +EXPORT_SYMBOL(kmalloc_size_roundup);
+> 
+> We need a SLOB version too as it's not yet removed... I added this:
+> 
+> diff --git a/mm/slob.c b/mm/slob.c
+> index 2bd4f476c340..5dbdf6ad8bcc 100644
+> --- a/mm/slob.c
+> +++ b/mm/slob.c
+> @@ -574,6 +574,20 @@ void kfree(const void *block)
+>  }
+>  EXPORT_SYMBOL(kfree);
+> +size_t kmalloc_size_roundup(size_t size)
+> +{
+> +       /* Short-circuit the 0 size case. */
+> +       if (unlikely(size == 0))
+> +               return 0;
+> +       /* Short-circuit saturated "too-large" case. */
+> +       if (unlikely(size == SIZE_MAX))
+> +               return SIZE_MAX;
+> +
+> +       return ALIGN(size, ARCH_KMALLOC_MINALIGN);
+> +}
+> +
+> +EXPORT_SYMBOL(kmalloc_size_roundup);
 
-On Mon, Sep 26, 2022 at 5:29 PM Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
->
-> Hi Prabhakar,
->
-> On Mon, Sep 26, 2022 at 05:24:47PM +0100, Lad, Prabhakar wrote:
-> > On Mon, Sep 26, 2022 at 9:59 AM Laurent Pinchart wrote:
-> > > On Fri, Sep 23, 2022 at 08:02:12PM +0100, Lad, Prabhakar wrote:
-> > > > On Thu, Sep 22, 2022 at 4:29 PM Laurent Pinchart wrote:
-> > > > > On Tue, Sep 06, 2022 at 12:04:06AM +0100, Lad Prabhakar wrote:
-> > > > > > Add v4l driver for Renesas RZ/G2L Camera data Receiving Unit.
-> > > > > >
-> > > > > > Based on a patch in the BSP by Hien Huynh
-> > > > > > <hien.huynh.px@renesas.com>
-> > > > > >
-> > > > > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > > > > > ---
-> > > > > > v1 -> v2
-> > > > > > * No change
-> > > > > >
-> > > > > > RFC v2 -> v1
-> > > > > > * Moved the driver to renesas folder
-> > > > > > * Fixed review comments pointed by Jacopo
-> > > > > >
-> > > > > > RFC v1 -> RFC v2
-> > > > > > * Dropped group
-> > > > > > * Dropped CSI subdev and implemented as new driver
-> > > > > > * Dropped "mc_" from function names
-> > > > > > * Moved the driver to renesas folder
-> > > > > > ---
-> > > > > >  .../media/platform/renesas/rzg2l-cru/Kconfig  |  17 +
-> > > > > >  .../media/platform/renesas/rzg2l-cru/Makefile |   3 +
-> > > > > >  .../platform/renesas/rzg2l-cru/rzg2l-core.c   | 395 ++++++++++
-> > > > > >  .../platform/renesas/rzg2l-cru/rzg2l-cru.h    | 152 ++++
-> > > > > >  .../platform/renesas/rzg2l-cru/rzg2l-dma.c    | 734 ++++++++++++++++++
-> > > > > >  .../platform/renesas/rzg2l-cru/rzg2l-v4l2.c   | 368 +++++++++
-> > > > >
-> > > > > I'd merge those two files together, they both handle the video node.
-> > > > > There's a comment below that recommends adding a subdev, that should
-> > > > > then go to a separate file.
-> > > >
-> > > > OK, I'll merge these files into rzg2l-video.c.
-> > > >
-> > > > > >  6 files changed, 1669 insertions(+)
-> > > > > >  create mode 100644 drivers/media/platform/renesas/rzg2l-cru/rzg2l-core.c
-> > > > > >  create mode 100644 drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h
-> > > > > >  create mode 100644 drivers/media/platform/renesas/rzg2l-cru/rzg2l-dma.c
-> > > > > >  create mode 100644 drivers/media/platform/renesas/rzg2l-cru/rzg2l-v4l2.c
-> > > > > >
-> > > > > > diff --git a/drivers/media/platform/renesas/rzg2l-cru/Kconfig b/drivers/media/platform/renesas/rzg2l-cru/Kconfig
-> > > > > > index 57c40bb499df..08ff0e96b3f5 100644
-> > > > > > --- a/drivers/media/platform/renesas/rzg2l-cru/Kconfig
-> > > > > > +++ b/drivers/media/platform/renesas/rzg2l-cru/Kconfig
-> > > > > > @@ -15,3 +15,20 @@ config VIDEO_RZG2L_CSI2
-> > > > > >
-> > > > > >         To compile this driver as a module, choose M here: the
-> > > > > >         module will be called rzg2l-csi2.
-> > > > > > +
-> > > > > > +config VIDEO_RZG2L_CRU
-> > > > > > +     tristate "RZ/G2L Camera Receiving Unit (CRU) Driver"
-> > > > > > +     depends on ARCH_RENESAS || COMPILE_TEST
-> > > > > > +     depends on V4L_PLATFORM_DRIVERS
-> > > > > > +     depends on VIDEO_DEV && OF
-> > > > > > +     select MEDIA_CONTROLLER
-> > > > > > +     select V4L2_FWNODE
-> > > > > > +     select VIDEOBUF2_DMA_CONTIG
-> > > > > > +     select VIDEO_RZG2L_CSI2
-> > > > >
-> > > > > Is this required, can't the CRU be used with a parallel sensor without
-> > > > > the CSI-2 receiver ?
-> > > >
-> > > > Yes the CRU can be used with parallel sensors, I'll drop the above select.
-> > > >
-> > > > > > +     select VIDEO_V4L2_SUBDEV_API
-> > > > > > +     help
-> > > > > > +       Support for Renesas RZ/G2L (and alike SoC's) Camera Receiving
-> > > > > > +       Unit (CRU) driver.
-> > > > > > +
-> > > > > > +       To compile this driver as a module, choose M here: the
-> > > > > > +       module will be called rzg2l-cru.
-> > > > > > diff --git a/drivers/media/platform/renesas/rzg2l-cru/Makefile b/drivers/media/platform/renesas/rzg2l-cru/Makefile
-> > > > > > index 91ea97a944e6..7628809e953f 100644
-> > > > > > --- a/drivers/media/platform/renesas/rzg2l-cru/Makefile
-> > > > > > +++ b/drivers/media/platform/renesas/rzg2l-cru/Makefile
-> > > > > > @@ -1,3 +1,6 @@
-> > > > > >  # SPDX-License-Identifier: GPL-2.0
-> > > > > >
-> > > > > >  obj-$(CONFIG_VIDEO_RZG2L_CSI2) += rzg2l-csi2.o
-> > > > > > +
-> > > > > > +rzg2l-cru-objs = rzg2l-core.o rzg2l-dma.o rzg2l-v4l2.o
-> > > > > > +obj-$(CONFIG_VIDEO_RZG2L_CRU) += rzg2l-cru.o
-> > > > > > diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-core.c b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-core.c
-> > > > > > new file mode 100644
-> > > > > > index 000000000000..b5d4110b1913
-> > > > > > --- /dev/null
-> > > > > > +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-core.c
-> > > > > > @@ -0,0 +1,395 @@
-> > > > > > +// SPDX-License-Identifier: GPL-2.0+
-> > > > > > +/*
-> > > > > > + * Driver for Renesas RZ/G2L CRU
-> > > > > > + *
-> > > > > > + * Copyright (C) 2022 Renesas Electronics Corp.
-> > > > > > + *
-> > > > > > + * Based on Renesas R-Car VIN
-> > > > > > + * Copyright (C) 2011-2013 Renesas Solutions Corp.
-> > > > > > + * Copyright (C) 2013 Cogent Embedded, Inc., <source@cogentembedded.com>
-> > > > > > + * Copyright (C) 2008 Magnus Damm
-> > > > > > + */
-> > > > > > +
-> > > > > > +#include <linux/clk.h>
-> > > > > > +#include <linux/module.h>
-> > > > > > +#include <linux/mod_devicetable.h>
-> > > > > > +#include <linux/of.h>
-> > > > > > +#include <linux/of_device.h>
-> > > > > > +#include <linux/of_graph.h>
-> > > > > > +#include <linux/platform_device.h>
-> > > > > > +#include <linux/pm_runtime.h>
-> > > > > > +
-> > > > > > +#include <media/v4l2-fwnode.h>
-> > > > > > +#include <media/v4l2-mc.h>
-> > > > > > +
-> > > > > > +#include "rzg2l-cru.h"
-> > > > > > +
-> > > > > > +#define v4l2_dev_to_cru(d)   container_of(d, struct rzg2l_cru_dev, v4l2_dev)
-> > > > >
-> > > > > As this macro is only used to get the rzg2l_cru_dev pointer from the
-> > > > > v4l2_async_notifier pointer, you can replace it with
-> > > > >
-> > > > > #define notifier_to_cru(n)      container_of(n, struct rzg2l_cru_dev, notifier)
-> > > > >
-> > > > > I would also turn it into a static inline function for additional
-> > > > > compile-time type safety.
-> > > >
-> > > > OK, I will do it as mentioned above.
-> > > >
-> > > > > > +
-> > > > > > +static int rzg2l_cru_csi2_link_notify(struct media_link *link, u32 flags,
-> > > > > > +                                   unsigned int notification)
-> > > > > > +{
-> > > > > > +     struct media_entity *entity;
-> > > > > > +     struct rzg2l_cru_dev *cru;
-> > > > > > +     struct media_pad *csi_pad;
-> > > > > > +     struct v4l2_subdev *sd;
-> > > > > > +     int ret;
-> > > > > > +
-> > > > > > +     ret = v4l2_pipeline_link_notify(link, flags, notification);
-> > > > > > +     if (ret)
-> > > > > > +             return ret;
-> > > > > > +
-> > > > > > +     /* Only care about link enablement for CRU nodes. */
-> > > > > > +     if (!(flags & MEDIA_LNK_FL_ENABLED))
-> > > > > > +             return 0;
-> > > > > > +
-> > > > > > +     cru = container_of(link->graph_obj.mdev, struct rzg2l_cru_dev, mdev);
-> > > > > > +     /*
-> > > > > > +      * Don't allow link changes if any entity in the graph is
-> > > > > > +      * streaming, modifying the CHSEL register fields can disrupt
-> > > > > > +      * running streams.
-> > > > > > +      */
-> > > > > > +     media_device_for_each_entity(entity, &cru->mdev)
-> > > > > > +             if (media_entity_is_streaming(entity))
-> > > > > > +                     return -EBUSY;
-> > > > > > +
-> > > > > > +     mutex_lock(&cru->mdev_lock);
-> > > > > > +
-> > > > > > +     csi_pad = media_pad_remote_pad_first(&cru->vdev.entity.pads[0]);
-> > > > > > +     if (csi_pad) {
-> > > > > > +             ret = -EMLINK;
-> > > > > > +             goto out;
-> > > > > > +     }
-> > > > > > +
-> > > > > > +     sd = media_entity_to_v4l2_subdev(link->source->entity);
-> > > > > > +     if (cru->csi.subdev == sd) {
-> > > > > > +             cru->csi.channel = link->source->index - 1;
-> > > > > > +             cru->is_csi = true;
-> > > > > > +     } else {
-> > > > > > +             ret = -ENODEV;
-> > > > > > +     }
-> > > > > > +
-> > > > > > +out:
-> > > > > > +     mutex_unlock(&cru->mdev_lock);
-> > > > > > +
-> > > > > > +     return ret;
-> > > > > > +}
-> > > > > > +
-> > > > > > +static const struct media_device_ops rzg2l_cru_media_ops = {
-> > > > > > +     .link_notify = rzg2l_cru_csi2_link_notify,
-> > > > > > +};
-> > > > > > +
-> > > > > > +/* -----------------------------------------------------------------------------
-> > > > > > + * Group async notifier
-> > > > > > + */
-> > > > > > +
-> > > > > > +static int rzg2l_cru_group_notify_complete(struct v4l2_async_notifier *notifier)
-> > > > > > +{
-> > > > > > +     struct rzg2l_cru_dev *cru = v4l2_dev_to_cru(notifier->v4l2_dev);
-> > > > > > +     unsigned int i;
-> > > > > > +     int ret;
-> > > > > > +
-> > > > > > +     ret = media_device_register(&cru->mdev);
-> > > > > > +     if (ret)
-> > > > > > +             return ret;
-> > > > >
-> > > > > I'd move the v4l2_device_register() call here, as it's the V4L2
-> > > > > counterpart of the media device, and handling them together would be
-> > > > > best.
-> > > >
-> > > > OK.
-> > > >
-> > > > > > +
-> > > > > > +     ret = v4l2_device_register_subdev_nodes(&cru->v4l2_dev);
-> > > > > > +     if (ret) {
-> > > > > > +             dev_err(cru->dev, "Failed to register subdev nodes\n");
-> > > > > > +             return ret;
-> > > > > > +     }
-> > > > > > +
-> > > > > > +     if (!video_is_registered(&cru->vdev)) {
-> > > > >
-> > > > > Can this happen ?
-> > > >
-> > > > No, I'll drop this check.
-> > > >
-> > > > > > +             ret = rzg2l_cru_v4l2_register(cru);
-> > > > > > +             if (ret)
-> > > > > > +                     return ret;
-> > > > > > +     }
-> > > > > > +
-> > > > > > +     /* Create all media device links between CRU and CSI-2's. */
-> > > > > > +     /*
-> > > > > > +      * TODO: RZ/G2L supports 4 VC0, as support for virtual channels
-> > > > > > +      * should be implemented by streams API which is under development
-> > > > > > +      * so for now just link it to VC0
-> > > > > > +      */
-> > > > >
-> > > > > The streams API won't require more links, so I'd drop the comment and
-> > > > > the loop and create a single link.
-> > > >
-> > > > OK.
-> > > >
-> > > > > > +     for (i = 1; i <= 1; i++) {
-> > > > > > +             struct media_entity *source, *sink;
-> > > > > > +
-> > > > > > +             source = &cru->csi.subdev->entity;
-> > > > > > +             sink = &cru->vdev.entity;
-> > > > >
-> > > > > Hmmm... I'd recommend adding a subdev to model the image processing
-> > > > > pipeline of the CRU, between the CSI-2 receiver and the video node. That
-> > > > > will help when you'll add support for parallel sensors, and it will also
-> > > > > be needed by the streams API to select which virtual channel to capture.
-> > > >/
-> > > > just model as a dummy subdev for now (MEDIA_ENT_F_VID_MUX)?
-> > >
-> > > I think MEDIA_ENT_F_PROC_VIDEO_PIXEL_FORMATTER would be more
-> > > appropriate.
-> >
-> > OK I will use MEDIA_ENT_F_PROC_VIDEO_PIXEL_FORMATTER. As this will be
-> > just like a switch should I be implementing the get_fmt/set_fmt
-> > callbacks?
->
-> Yes, subdev operations need to be implemented, especially given that the
-> CRU implements color space conversion, so the input and output formats
-> of the subdev can be different.
->
-OK, the reason I asked as, for the sink pad the format of IP subdev
-will be the same as remote source pad (i.e. either from CSI/parallel
-subdev) and for the source pad this will be the same as format on the
-video node (ie CRU output).
+Ah, perfect! Thanks for catching that. :)
 
-get_fmt -> we get the subdev pad fmt of the remote source and return it.
-set_fmt -> we just pass through, as the fmt is set on the video dev node.
+FWIW:
 
-Does the above sound good?
+Reviewed-by: Kees Cook <keescook@chromium.org>
 
-Cheers,
-Prabhakar
+-- 
+Kees Cook
