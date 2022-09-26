@@ -2,113 +2,148 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BF5005E994A
-	for <lists+linux-media@lfdr.de>; Mon, 26 Sep 2022 08:11:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 898A75E999F
+	for <lists+linux-media@lfdr.de>; Mon, 26 Sep 2022 08:36:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233319AbiIZGLH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 26 Sep 2022 02:11:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54164 "EHLO
+        id S233372AbiIZGgw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 26 Sep 2022 02:36:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46106 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229526AbiIZGLG (ORCPT
+        with ESMTP id S233782AbiIZGgV (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 26 Sep 2022 02:11:06 -0400
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 80DE827B1F;
-        Sun, 25 Sep 2022 23:11:03 -0700 (PDT)
-Received: from dggpeml500021.china.huawei.com (unknown [172.30.72.57])
-        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4MbXLv4MynzHtfk;
-        Mon, 26 Sep 2022 14:06:15 +0800 (CST)
-Received: from dggpeml500008.china.huawei.com (7.185.36.147) by
- dggpeml500021.china.huawei.com (7.185.36.21) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Mon, 26 Sep 2022 14:11:01 +0800
-Received: from huawei.com (10.67.175.34) by dggpeml500008.china.huawei.com
- (7.185.36.147) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.31; Mon, 26 Sep
- 2022 14:11:01 +0800
-From:   Ren Zhijie <renzhijie2@huawei.com>
-To:     <prabhakar.csengg@gmail.com>, <mchehab@kernel.org>,
-        <gregkh@linuxfoundation.org>, <hverkuil-cisco@xs4all.nl>
-CC:     <linux-media@vger.kernel.org>, <linux-staging@lists.linux.dev>,
-        <linux-kernel@vger.kernel.org>, Ren Zhijie <renzhijie2@huawei.com>
-Subject: [PATCH -next] media: davinci: Fix Kconfig dependency
-Date:   Mon, 26 Sep 2022 06:07:26 +0000
-Message-ID: <20220926060726.44556-1-renzhijie2@huawei.com>
-X-Mailer: git-send-email 2.17.1
+        Mon, 26 Sep 2022 02:36:21 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4798F1EAE8;
+        Sun, 25 Sep 2022 23:36:09 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 9710661757;
+        Mon, 26 Sep 2022 06:36:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B06A2C433C1;
+        Mon, 26 Sep 2022 06:36:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1664174168;
+        bh=RZWqL6mqGtYB3W7YZL1NmlDx5eOD8rP55uoSBbEQ7zk=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=te8u1O9i9c9mofZaPXRCXAhTN2NGWJE0QLtKRMautYWAj4BKsMYlDcwDNSJiIQLwh
+         JIg85KBLn3FjJYRHIPXql9VB7qDYM3AMCqf3Dr6KHXbAqONeIn3W2pj9b07hvWbpH7
+         4RrOyk/iCFNL/SYLxOsFLwBKi8Gm5tF5+7jpWrJVlepS2ZD7mE3kzwFSmAml2rQ4Ln
+         50G0Euw0BFTla11EagWXsrBNV6K1koFxRhLdKviLEaaHFkeLdnnBiwEOHnd4rY9v5o
+         N99LbczJfUs0dNMnzC5gOLvbhx6zLp38gf0CqduV/ShpJlD5l0KfAE2KDxo2a+xbMn
+         a9b+fhgOw7Kfg==
+Message-ID: <eb8883bc-1328-acd8-2c41-af877cecbfa4@kernel.org>
+Date:   Mon, 26 Sep 2022 08:36:01 +0200
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.67.175.34]
-X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
- dggpeml500008.china.huawei.com (7.185.36.147)
-X-CFilter-Loop: Reflected
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.0
+Subject: Re: [V14,08/15] dt-bindings: mediatek: Add mediatek,mt8195-jpgdec
+ compatible
+Content-Language: en-US
+To:     "kyrie.wu" <kyrie.wu@mediatek.com>,
+        Irui Wang <irui.wang@mediatek.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Tzung-Bi Shih <tzungbi@chromium.org>,
+        angelogioacchino.delregno@collabora.com,
+        nicolas.dufresne@collabora.com, wenst@chromium.org
+Cc:     Project_Global_Chrome_Upstream_Group@mediatek.com,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org,
+        Tomasz Figa <tfiga@chromium.org>, xia.jiang@mediatek.com,
+        maoguang.meng@mediatek.com, Rob Herring <robh@kernel.org>
+References: <20220915064337.2686-1-irui.wang@mediatek.com>
+ <20220915064337.2686-9-irui.wang@mediatek.com>
+ <3bbdfb31-2ba2-7345-54c7-82a67d95e30f@kernel.org>
+ <f0b80a0d60172e9c286c0cd3b599875a345ae4f0.camel@mediatek.com>
+From:   Krzysztof Kozlowski <krzk@kernel.org>
+In-Reply-To: <f0b80a0d60172e9c286c0cd3b599875a345ae4f0.camel@mediatek.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-10.9 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-If CONFIG_VIDEO_DAVINCI_VPBE_DISPLAY is not set,
-make ARCH=x86_64 CROSS_COMPILE=x86_64-linux-gnu-,
-will be failed, like this:
+On 26/09/2022 03:56, kyrie.wu wrote:
+> On Fri, 2022-09-23 at 13:28 +0200, Krzysztof Kozlowski wrote:
+>> On 15/09/2022 08:43, Irui Wang wrote:
+>>> From: kyrie wu <kyrie.wu@mediatek.com>
+>>>
+>>> Add mediatek,mt8195-jpgdec compatible to binding document.
+>>
+>> Use scripts/get_maintainers.pl to CC all maintainers and relevant
+>> mailing lists.
+>>
+>>>
+>>> Signed-off-by: kyrie wu <kyrie.wu@mediatek.com>
+>>> Signed-off-by: irui wang <irui.wang@mediatek.com>
+>>> Reviewed-by: Rob Herring <robh@kernel.org>
+>>> ---
+>>>  .../media/mediatek,mt8195-jpegdec.yaml        | 169
+>>> ++++++++++++++++++
+>>>  1 file changed, 169 insertions(+)
+>>>  create mode 100644
+>>> Documentation/devicetree/bindings/media/mediatek,mt8195-
+>>> jpegdec.yaml
+>>>
+>>> diff --git
+>>> a/Documentation/devicetree/bindings/media/mediatek,mt8195-
+>>> jpegdec.yaml
+>>> b/Documentation/devicetree/bindings/media/mediatek,mt8195-
+>>> jpegdec.yaml
+>>> new file mode 100644
+>>> index 000000000000..9135cf889d1e
+>>> --- /dev/null
+>>> +++ b/Documentation/devicetree/bindings/media/mediatek,mt8195-
+>>> jpegdec.yaml
+>>> @@ -0,0 +1,169 @@
+>>> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+>>> +%YAML 1.2
+>>> +---
+>>> +$id: 
+>>> https://urldefense.com/v3/__http://devicetree.org/schemas/media/mediatek,mt8195-jpegdec.yaml*__;Iw!!CTRNKA9wMg0ARbw!yu00-_vltBz3bkDyzkeH2PENGyfi_megjPx815JiqrNVa28ZU7kcFYidMEos_id7$
+>>>  
+>>> +$schema: 
+>>> https://urldefense.com/v3/__http://devicetree.org/meta-schemas/core.yaml*__;Iw!!CTRNKA9wMg0ARbw!yu00-_vltBz3bkDyzkeH2PENGyfi_megjPx815JiqrNVa28ZU7kcFYidMAikt6uh$
+>>>  
+>>> +
+>>> +title: MediaTek JPEG Encoder Device Tree Bindings
+>>> +
+>>> +maintainers:
+>>> +  - kyrie wu <kyrie.wu@mediatek.corp-partner.google.com>
+>>> +
+>>> +description:
+>>> +  MediaTek JPEG Decoder is the JPEG decode hardware present in
+>>> MediaTek SoCs
+>>> +
+>>> +properties:
+>>> +  compatible:
+>>> +    items:
+>>
+>> You do not have more than one item. Skip items.
+> 
+> Hello Krzysztof,
+> 
+> The device node has the compatible of "mediatek,mt8195-jpgdec",
+> if skip this item, it may case dt-binding checking error.
 
-drivers/staging/media/deprecated/vpfe_capture/dm644x_ccdc.o: In function `ccdc_configure':
-dm644x_ccdc.c:(.text+0xa46): undefined reference to `vpss_clear_wbl_overflow'
-dm644x_ccdc.c:(.text+0xd46): undefined reference to `vpss_clear_wbl_overflow'
-drivers/staging/media/deprecated/vpfe_capture/dm644x_ccdc.o: In function `ccdc_sbl_reset':
-dm644x_ccdc.c:(.text+0x696): undefined reference to `vpss_clear_wbl_overflow'
-drivers/staging/media/deprecated/vpfe_capture/dm355_ccdc.o: In function `ccdc_restore_defaults':
-dm355_ccdc.c:(.text+0x43a): undefined reference to `vpss_select_ccdc_source'
-dm355_ccdc.c:(.text+0x453): undefined reference to `vpss_enable_clock'
-drivers/staging/media/deprecated/vpfe_capture/dm355_ccdc.o: In function `ccdc_close':
-dm355_ccdc.c:(.text+0x475): undefined reference to `vpss_enable_clock'
-drivers/staging/media/deprecated/vpfe_capture/isif.o: In function `isif_open':
-isif.c:(.text+0x654): undefined reference to `vpss_enable_clock'
-isif.c:(.text+0x663): undefined reference to `vpss_enable_clock'
-isif.c:(.text+0x672): undefined reference to `vpss_enable_clock'
-isif.c:(.text+0x67e): undefined reference to `vpss_select_ccdc_source'
-drivers/staging/media/deprecated/vpfe_capture/isif.o: In function `isif_configure':
-isif.c:(.text+0xe61): undefined reference to `dm365_vpss_set_sync_pol'
-isif.c:(.text+0xe7b): undefined reference to `dm365_vpss_set_pg_frame_size'
-isif.c:(.text+0xe85): undefined reference to `vpss_select_ccdc_source'
+No, this won't happen if you use correct syntax.
 
-Add select VIDEO_DAVINCI_VPBE_DISPLAY dependency to Kconfig.
+> For another, we may extend this items in the future.
 
-Fixes: 6971757bdccc ("media: davinci: deprecate dm644x_ccdc, dm355_cddc and dm365_isif")
-Signed-off-by: Ren Zhijie <renzhijie2@huawei.com>
----
- drivers/staging/media/deprecated/vpfe_capture/Kconfig | 3 +++
- 1 file changed, 3 insertions(+)
+Not really, that would be change of ABI. If you have already list of
+devices, include them now.
 
-diff --git a/drivers/staging/media/deprecated/vpfe_capture/Kconfig b/drivers/staging/media/deprecated/vpfe_capture/Kconfig
-index 10250e7e566b..63a0808ed104 100644
---- a/drivers/staging/media/deprecated/vpfe_capture/Kconfig
-+++ b/drivers/staging/media/deprecated/vpfe_capture/Kconfig
-@@ -6,6 +6,7 @@ config VIDEO_DM6446_CCDC
- 	depends on ARCH_DAVINCI || COMPILE_TEST
- 	depends on I2C
- 	select VIDEOBUF_DMA_CONTIG
-+	select VIDEO_DAVINCI_VPBE_DISPLAY
- 	help
- 	  Enables DaVinci CCD hw module. DaVinci CCDC hw interfaces
- 	  with decoder modules such as TVP5146 over BT656 or
-@@ -26,6 +27,7 @@ config VIDEO_DM355_CCDC
- 	depends on ARCH_DAVINCI || COMPILE_TEST
- 	depends on I2C
- 	select VIDEOBUF_DMA_CONTIG
-+	select VIDEO_DAVINCI_VPBE_DISPLAY
- 	help
- 	  Enables DM355 CCD hw module. DM355 CCDC hw interfaces
- 	  with decoder modules such as TVP5146 over BT656 or
-@@ -46,6 +48,7 @@ config VIDEO_DM365_ISIF
- 	depends on ARCH_DAVINCI || COMPILE_TEST
- 	depends on I2C
- 	select VIDEOBUF_DMA_CONTIG
-+	select VIDEO_DAVINCI_VPBE_DISPLAY
- 	help
- 	  Enables ISIF hw module. This is the hardware module for
- 	  configuring ISIF in VPFE to capture Raw Bayer RGB data from
--- 
-2.17.1
+
+Best regards,
+Krzysztof
 
