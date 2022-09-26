@@ -2,93 +2,154 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6C8F55EAA81
-	for <lists+linux-media@lfdr.de>; Mon, 26 Sep 2022 17:22:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0345B5EAB5D
+	for <lists+linux-media@lfdr.de>; Mon, 26 Sep 2022 17:43:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236293AbiIZPWM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 26 Sep 2022 11:22:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49246 "EHLO
+        id S235520AbiIZPnX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 26 Sep 2022 11:43:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41636 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236284AbiIZPVB (ORCPT
+        with ESMTP id S229483AbiIZPmF (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 26 Sep 2022 11:21:01 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7CD04E49;
-        Mon, 26 Sep 2022 07:07:31 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 35F0FB80A4A;
-        Mon, 26 Sep 2022 14:07:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3383BC433C1;
-        Mon, 26 Sep 2022 14:07:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1664201249;
-        bh=4yu64h7afppe4HawaBZDNUNqopaG8iMFWkzcqeDw+LI=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=Cy5WZoa97DwR0yz45KeAou/18GyOuEQ0uevuHZ2lbksiItz1CO7OqDhTWTcDNktAd
-         kDZQJtVvf8Z27NflqcwAxbhbAfSZER45TheMyNy99T/UVnt7vvd93gNIs7Pw6pVr4T
-         SEuW2keil7opRw47lqyRO9MAMbRIEkql2ZoAW/7ezR+GaCI3j8asg6hi6zDkhKnLQv
-         5r3cf2EMP7Y+rAopktDoYiww5vMKE04CDYJDrY6CH3u3WLB18LUr7/1bPi/BwprQhK
-         SFGmPeVZqu1gr+Z6IspQ7BH/k0abnE35rC1FBJKl13VCSJs5dx3zSh+RoTydjuLzk8
-         RUEV+k6vAaB2A==
-Message-ID: <05261a77-0412-d333-96fe-53c4238d4ea1@kernel.org>
-Date:   Mon, 26 Sep 2022 16:07:22 +0200
+        Mon, 26 Sep 2022 11:42:05 -0400
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 412A170E7E;
+        Mon, 26 Sep 2022 07:25:31 -0700 (PDT)
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 28QCVUAj008613;
+        Mon, 26 Sep 2022 14:25:23 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
+ subject : date : message-id : mime-version : content-transfer-encoding :
+ content-type; s=qcppdkim1;
+ bh=/Fim5n7fBfkoA5GcNIO995Cj+zgM2K6EGU8Yr6rDkuo=;
+ b=bCisVVi9PQc6QfcY1tIyJ3p3QfwSN9LI/n75JdVPUr0Nd4rjJGQr7JBJr+hNgUcBM4Z7
+ 7rud//TBclEC2lnRXxewBMGL1pO65gQzIdMW5q8h/2wwuJa6isol0xWLbLiBfh7LQIQi
+ T3z9kqBJo2rM7aj0HknMkOcdDHvZhYmAFTUqJR5erJYWqWEW+Qb4XzAxvbPtG+8uT/Nl
+ VjTevXtdZXocj3qi0q0tUq7n0ORz1Cw/UmitvybJykJrBJSe+cwOvI33usPJk3S2K9/q
+ 08ZXuLIErpLLMc1Thwf4qh14nluoNulyAvL4cZwL7yVnhgd3UeGOFxeyC0/q2hjndU7Y Yw== 
+Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3jua51ruu4-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 26 Sep 2022 14:25:23 +0000
+Received: from nasanex01a.na.qualcomm.com (corens_vlan604_snip.qualcomm.com [10.53.140.1])
+        by NASANPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 28QEPMYB004087
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 26 Sep 2022 14:25:22 GMT
+Received: from mmitkov.eu.qualcomm.com (10.80.80.8) by
+ nasanex01a.na.qualcomm.com (10.52.223.231) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.29; Mon, 26 Sep 2022 07:25:19 -0700
+From:   <quic_mmitkov@quicinc.com>
+To:     <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <robert.foss@linaro.org>, <akapatra@quicinc.com>,
+        <jzala@quicinc.com>, <todor.too@gmail.com>
+CC:     <agross@kernel.org>, <bjorn.andersson@linaro.org>,
+        <konrad.dybcio@somainline.org>, <mchehab@kernel.org>,
+        <bryan.odonoghue@linaro.org>,
+        Milen Mitkov <quic_mmitkov@quicinc.com>
+Subject: [PATCH v2 0/4] media: camss: sm8250: Virtual channels support for SM8250
+Date:   Mon, 26 Sep 2022 17:25:00 +0300
+Message-ID: <20220926142505.1827-1-quic_mmitkov@quicinc.com>
+X-Mailer: git-send-email 2.37.3.windows.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.0
-Subject: Re: [V15,08/15] dt-bindings: mediatek: Add mediatek,mt8195-jpgdec
- compatible
-Content-Language: en-US
-To:     Irui Wang <irui.wang@mediatek.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Tzung-Bi Shih <tzungbi@chromium.org>,
-        angelogioacchino.delregno@collabora.com,
-        nicolas.dufresne@collabora.com, wenst@chromium.org,
-        kyrie wu <kyrie.wu@mediatek.com>
-Cc:     Project_Global_Chrome_Upstream_Group@mediatek.com,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org,
-        Tomasz Figa <tfiga@chromium.org>, xia.jiang@mediatek.com,
-        maoguang.meng@mediatek.com, Rob Herring <robh@kernel.org>
-References: <20220926091433.18633-1-irui.wang@mediatek.com>
- <20220926091433.18633-9-irui.wang@mediatek.com>
-From:   Krzysztof Kozlowski <krzk@kernel.org>
-In-Reply-To: <20220926091433.18633-9-irui.wang@mediatek.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-9.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01a.na.qualcomm.com (10.52.223.231)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: ehnwTfnEP-LgW4CpFRuiJDq6Jzut8Ng8
+X-Proofpoint-GUID: ehnwTfnEP-LgW4CpFRuiJDq6Jzut8Ng8
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
+ definitions=2022-09-26_08,2022-09-22_02,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 spamscore=0
+ lowpriorityscore=0 mlxlogscore=999 impostorscore=0 suspectscore=0
+ malwarescore=0 clxscore=1015 phishscore=0 adultscore=0 bulkscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2209130000 definitions=main-2209260091
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 26/09/2022 11:14, Irui Wang wrote:
-> +  - |
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +    #include <dt-bindings/memory/mt8195-memory-port.h>
-> +    #include <dt-bindings/interrupt-controller/irq.h>
-> +    #include <dt-bindings/clock/mt8195-clk.h>
-> +    #include <dt-bindings/power/mt8195-power.h>
-> +
-> +    soc {
-> +        #address-cells = <2>;
-> +        #size-cells = <2>;
-> +
-> +        jpgdec-master {
-> +                compatible = "mediatek,mt8195-jpgdec";
+From: Milen Mitkov <quic_mmitkov@quicinc.com>
 
-Same problem.
+These patches add support for multiple CSID virtual channels for 
+Qualcomm's SM8250 platform.
 
-Best regards,
-Krzysztof
+Changed for v2:
+- code syntax improvements
+- The info print for enabled channels was demoted to a dbg print. Can be
+  enabled with dynamic debug, e.g.:
+echo "file drivers/media/platform/qcom/camss/* +p" > /sys/kernel/debug/dynamic_debug/control
+
+NOTE: These changes depend on the multistream series that as of yet is
+still not merged officially upstream. The multistream changes
+allow for multiple clients on the same pipeline, which is otherwise not
+possible. For development and testing multistream series v14 was used:
+
+https://patchwork.kernel.org/project/linux-media/patch/20220831141357.1396081-2-tomi.valkeinen@ideasonboard.com/
+
+The CSID hardware on SM8250 can demux the input data stream into
+maximum of 4 multiple streams depending on virtual channel (vc)
+or data type (dt) configuration.
+
+Situations in which this is useful:
+- HDR sensors that produce a 2-frame HDR output, e.g. a light and a dark frame
+  (the setup we used  for testing, with the imx412 sensor),
+  or a 3-frame HDR output - light, medium-lit, dark frame.
+- sensors with additional metadata that is streamed over a different
+  virtual channel/datatype.
+- sensors that stream frames with multiple resolutions in the same pixel
+  data stream
+
+With these changes, the CSID entity has, as it did previously, a single
+sink port (0), and always exposes 4 source ports (1, 2,3, 4). The
+virtual channel configuration is determined by which of the source ports
+are linked to an output VFE line. For example, the link below will
+configure the CSID driver to enable vc 0 and vc 1:
+
+media-ctl -l '"msm_csid0":1->"msm_vfe0_rdi0":0[1]'
+media-ctl -l '"msm_csid0":2->"msm_vfe0_rdi1":0[1]'
+
+which will be demuxed and propagated into /dev/video0
+and /dev/video1 respectively. With this, the userspace can use
+any normal V4L2 client app to start/stop/queue/dequeue from these
+video nodes. Tested with the yavta app.
+
+Note also that implicit format propagation has been removed, so format
+for the linked source ports has to be set manually, e.g.:
+
+media-ctl -V '"msm_csid0":1[fmt:SRGGB10/3840x2160]'
+media-ctl -V '"msm_csid0":2[fmt:SRGGB10/3840x2160]'
+
+Previously setting the format on the sink port of the CSID entity would
+set the same format on the source port. However, with CSID demuxing there's
+no guarantee that the format on the source ports should be the same,
+in fact it can be different for each source port.
+
+Milen Mitkov (4):
+  media: camss: sm8250: Virtual channels for CSID
+  media: camss: vfe: Reserve VFE lines on stream start and link to CSID
+  media: camss: vfe-480: Multiple outputs support for SM8250
+  media: camss: sm8250: Pipeline starting and stopping for multiple
+    virtual channels
+
+ .../platform/qcom/camss/camss-csid-gen2.c     | 55 +++++++++++------
+ .../media/platform/qcom/camss/camss-csid.c    | 41 +++++++------
+ .../media/platform/qcom/camss/camss-csid.h    | 11 +++-
+ .../media/platform/qcom/camss/camss-vfe-480.c | 61 ++++++++++++-------
+ drivers/media/platform/qcom/camss/camss-vfe.c |  7 +++
+ .../media/platform/qcom/camss/camss-video.c   | 21 ++++++-
+ drivers/media/platform/qcom/camss/camss.c     |  2 +-
+ 7 files changed, 134 insertions(+), 64 deletions(-)
+
+-- 
+2.37.3
 
