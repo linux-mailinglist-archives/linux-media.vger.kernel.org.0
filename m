@@ -2,150 +2,107 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 189125E9787
-	for <lists+linux-media@lfdr.de>; Mon, 26 Sep 2022 02:41:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B753F5E9871
+	for <lists+linux-media@lfdr.de>; Mon, 26 Sep 2022 06:31:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233247AbiIZAla (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 25 Sep 2022 20:41:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53362 "EHLO
+        id S231218AbiIZEbC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 26 Sep 2022 00:31:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57442 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233217AbiIZAl3 (ORCPT
+        with ESMTP id S229824AbiIZEbA (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 25 Sep 2022 20:41:29 -0400
-Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com [IPv6:2607:f8b0:4864:20::102b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 336AA2BB1D
-        for <linux-media@vger.kernel.org>; Sun, 25 Sep 2022 17:41:27 -0700 (PDT)
-Received: by mail-pj1-x102b.google.com with SMTP id q15-20020a17090a304f00b002002ac83485so5293855pjl.0
-        for <linux-media@vger.kernel.org>; Sun, 25 Sep 2022 17:41:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date;
-        bh=Ee6jY7viFUfMjAsx1AOZFi9ykD0TZlKjDDVt7+BAWpA=;
-        b=Tymc3mQ6yYtKo/fUwb0pntTGEsuDmA3KGe5ZainSrzJcqfvTUXGD6g4AS/QDrdEz1m
-         IPp9Tld0kqL2gFrY1NTkahNxDsLTe8rCfVZ7Sf6Yy58l+LrHh3LtaZFzBUsKT5oECTI8
-         ASxk03BGu9JGtTcAH5Y41r1unU3COw5iwE/sg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=Ee6jY7viFUfMjAsx1AOZFi9ykD0TZlKjDDVt7+BAWpA=;
-        b=uZ4KM3tTTDidSPWxzidazMtsFbyjjg1/JMyKU9JmPFYegr5aVKdzMJe/5JFKVo8Ptv
-         rtc1ttqpNsf75ugnkVyN7a8QCUkLFRm/cO6/PEWVZxCgK2BDLtGRuBT2BxCl2IGJF+SA
-         Z70dum1C9QPGkknpUq5R0fQ8h2j8mponL3HfMFOHmgQz1zcnZ0si4GsfrfJadJyrfmZf
-         SZhHTSpcWKZuZWWMLq23eSBNs/zrzbDaEKxOFxX8DoRWAmtbTIe4JK89Oi5zMEy/7g/x
-         fTBThAiH78X3iHTz6fkHU2Y2sqdX2jwFGRIofuB0mgcPQmAUYVl5pQ3exCq17EMGMkm1
-         XsHA==
-X-Gm-Message-State: ACrzQf11jKx44LLWpuXNCZHZ1W5C4HUAdRQLA+V20cPec9JcKxE56uYl
-        FFI2/PZigbkkxcNXocDgzioerQ==
-X-Google-Smtp-Source: AMsMyM5VpMx54A01n2IxbeNYegjZcGYyyX6uNC/69UJfyYAh5+QLjokwGVSlu1kDsKsMHY6BwDZQuA==
-X-Received: by 2002:a17:902:ea0e:b0:178:3d49:45ad with SMTP id s14-20020a170902ea0e00b001783d4945admr19810833plg.103.1664152885590;
-        Sun, 25 Sep 2022 17:41:25 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id l7-20020a622507000000b0053ebafa7c42sm10576331pfl.79.2022.09.25.17.41.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 25 Sep 2022 17:41:24 -0700 (PDT)
-Date:   Sun, 25 Sep 2022 17:41:23 -0700
-From:   Kees Cook <keescook@chromium.org>
-To:     Paolo Abeni <pabeni@redhat.com>
-Cc:     Vlastimil Babka <vbabka@suse.cz>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>, netdev@vger.kernel.org,
-        "Ruhl, Michael J" <michael.j.ruhl@intel.com>,
-        Hyeonggon Yoo <42.hyeyoo@gmail.com>,
-        Christoph Lameter <cl@linux.com>,
-        Pekka Enberg <penberg@kernel.org>,
-        David Rientjes <rientjes@google.com>,
-        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Alex Elder <elder@kernel.org>,
-        Josef Bacik <josef@toxicpanda.com>,
-        David Sterba <dsterba@suse.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-        Jesse Brandeburg <jesse.brandeburg@intel.com>,
-        Daniel Micay <danielmicay@gmail.com>,
-        Yonghong Song <yhs@fb.com>, Marco Elver <elver@google.com>,
-        Miguel Ojeda <ojeda@kernel.org>, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-btrfs@vger.kernel.org,
-        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org, linux-fsdevel@vger.kernel.org,
-        intel-wired-lan@lists.osuosl.org, dev@openvswitch.org,
-        x86@kernel.org, llvm@lists.linux.dev,
-        linux-hardening@vger.kernel.org
-Subject: Re: [PATCH v2 04/16] skbuff: Phase out ksize() fallback for frag_size
-Message-ID: <202209251738.2E6B9C29D@keescook>
-References: <20220923202822.2667581-1-keescook@chromium.org>
- <20220923202822.2667581-5-keescook@chromium.org>
- <e340d993bce8e1b2742fba52ac6383771cfaddae.camel@redhat.com>
+        Mon, 26 Sep 2022 00:31:00 -0400
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4822029C93
+        for <linux-media@vger.kernel.org>; Sun, 25 Sep 2022 21:30:56 -0700 (PDT)
+Received: from dggpemm500022.china.huawei.com (unknown [172.30.72.57])
+        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4MbV9X2vNFzpVV5;
+        Mon, 26 Sep 2022 12:28:00 +0800 (CST)
+Received: from huawei.com (10.175.103.91) by dggpemm500022.china.huawei.com
+ (7.185.36.162) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.31; Mon, 26 Sep
+ 2022 12:30:53 +0800
+From:   Zeng Heng <zengheng4@huawei.com>
+To:     <prabhakar.csengg@gmail.com>, <mchehab@kernel.org>,
+        <gregkh@linuxfoundation.org>
+CC:     <linux-media@vger.kernel.org>, <linux-staging@lists.linux.dev>,
+        <liwei391@huawei.com>, <zengheng4@huawei.com>
+Subject: [PATCH -next] media: vpfe_capture: fix kconfig dependency errors
+Date:   Mon, 26 Sep 2022 12:37:41 +0800
+Message-ID: <20220926043741.553781-1-zengheng4@huawei.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <e340d993bce8e1b2742fba52ac6383771cfaddae.camel@redhat.com>
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [10.175.103.91]
+X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
+ dggpemm500022.china.huawei.com (7.185.36.162)
+X-CFilter-Loop: Reflected
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sun, Sep 25, 2022 at 09:17:40AM +0200, Paolo Abeni wrote:
-> On Fri, 2022-09-23 at 13:28 -0700, Kees Cook wrote:
-> > All callers of APIs that allowed a 0-sized frag_size appear to be
-> > passing actual size information already
-> 
-> AFAICS, not yet:
-> 
-> drivers/net/ethernet/qlogic/qed/qed_ll2.c:
-> 	skb = build_skb(buffer->data, 0); // -> __build_skb(..., 0) 
-> 		// ->  __build_skb_around()
-> 
-> drivers/net/ethernet/broadcom/bnx2.c:
-> 	skb = build_skb(data, 0);
-> 
-> I guess some more drivers have calls leading to 
-> 
-> 	__build_skb_around(...,  0)
-> 
-> there are several call path to checks...
+CONFIG_VIDEO_DM6446_CCDC & CONFIG_VIDEO_DM355_CCDC
+& CONFIG_VIDEO_DM365_ISIF all depend on feature
+VIDEO_DAVINCI_VPBE_DISPLAY, or the compiler would
+complain build errors as below:
 
-Ah-ha! Thank you. I will try to hunt these down -- I think we can't
-remove the "secret resizing" effect of ksize() without fixing these.
+ld: drivers/staging/media/deprecated/vpfe_capture/dm644x_ccdc.o: in function `ccdc_sbl_reset':
+/home/zengheng/linux-next/drivers/staging/media/deprecated/vpfe_capture/dm644x_ccdc.c:238: undefined reference to `vpss_clear_wbl_overflow'
+ld: /home/zengheng/linux-next/drivers/staging/media/deprecated/vpfe_capture/dm644x_ccdc.c:238: undefined reference to `vpss_clear_wbl_overflow'
+ld: /home/zengheng/linux-next/drivers/staging/media/deprecated/vpfe_capture/dm644x_ccdc.c:238: undefined reference to `vpss_clear_wbl_overflow'
+ld: drivers/staging/media/deprecated/vpfe_capture/dm355_ccdc.o: in function `ccdc_restore_defaults':
+/home/zengheng/linux-next/drivers/staging/media/deprecated/vpfe_capture/dm355_ccdc.c:175: undefined reference to `vpss_select_ccdc_source'
+ld: /home/zengheng/linux-next/drivers/staging/media/deprecated/vpfe_capture/dm355_ccdc.c:180: undefined reference to `vpss_enable_clock'
+ld: drivers/staging/media/deprecated/vpfe_capture/dm355_ccdc.o: in function `ccdc_close':
+/home/zengheng/linux-next/drivers/staging/media/deprecated/vpfe_capture/dm355_ccdc.c:196: undefined reference to `vpss_enable_clock'
+ld: drivers/staging/media/deprecated/vpfe_capture/isif.o: in function `isif_restore_defaults':
+/home/zengheng/linux-next/drivers/staging/media/deprecated/vpfe_capture/isif.c:252: undefined reference to `vpss_enable_clock'
+ld: /home/zengheng/linux-next/drivers/staging/media/deprecated/vpfe_capture/isif.c:253: undefined reference to `vpss_enable_clock'
+ld: /home/zengheng/linux-next/drivers/staging/media/deprecated/vpfe_capture/isif.c:254: undefined reference to `vpss_enable_clock'
+ld: /home/zengheng/linux-next/drivers/staging/media/deprecated/vpfe_capture/isif.c:257: undefined reference to `vpss_select_ccdc_source'
+ld: drivers/staging/media/deprecated/vpfe_capture/isif.o: in function `isif_config_raw':
+/home/zengheng/linux-next/drivers/staging/media/deprecated/vpfe_capture/isif.c:680: undefined reference to `dm365_vpss_set_sync_pol'
+ld: /home/zengheng/linux-next/drivers/staging/media/deprecated/vpfe_capture/isif.c:683: undefined reference to `dm365_vpss_set_pg_frame_size'
+ld: /home/zengheng/linux-next/drivers/staging/media/deprecated/vpfe_capture/isif.c:684: undefined reference to `vpss_select_ccdc_source'
 
-> > [...]
-> > diff --git a/net/core/skbuff.c b/net/core/skbuff.c
-> > index 0b30fbdbd0d0..84ca89c781cd 100644
-> > --- a/net/core/skbuff.c
-> > +++ b/net/core/skbuff.c
-> > @@ -195,7 +195,11 @@ static void __build_skb_around(struct sk_buff *skb, void *data,
-> >  			       unsigned int frag_size)
-> >  {
-> >  	struct skb_shared_info *shinfo;
-> > -	unsigned int size = frag_size ? : ksize(data);
-> > +	unsigned int size = frag_size;
-> > +
-> > +	/* All callers should be setting frag size now? */
-> > +	if (WARN_ON_ONCE(size == 0))
-> > +		size = ksize(data);
-> 
-> At some point in the future, I guess we could even drop this check,
-> right?
+Signed-off-by: Zeng Heng <zengheng4@huawei.com>
+---
+ drivers/staging/media/deprecated/vpfe_capture/Kconfig | 3 +++
+ 1 file changed, 3 insertions(+)
 
-Alternatively, we might be able to ask the slab if "data" came from
-kmalloc or a kmem_cache, and if the former, do:
-
-	data = krealloc(kmalloc_size_roundup(ksize(data), ...)
-
-But that seems ugly...
-
+diff --git a/drivers/staging/media/deprecated/vpfe_capture/Kconfig b/drivers/staging/media/deprecated/vpfe_capture/Kconfig
+index 10250e7e566b..557603b51b3f 100644
+--- a/drivers/staging/media/deprecated/vpfe_capture/Kconfig
++++ b/drivers/staging/media/deprecated/vpfe_capture/Kconfig
+@@ -5,6 +5,7 @@ config VIDEO_DM6446_CCDC
+ 	depends on VIDEO_DEV
+ 	depends on ARCH_DAVINCI || COMPILE_TEST
+ 	depends on I2C
++	depends on VIDEO_DAVINCI_VPBE_DISPLAY
+ 	select VIDEOBUF_DMA_CONTIG
+ 	help
+ 	  Enables DaVinci CCD hw module. DaVinci CCDC hw interfaces
+@@ -25,6 +26,7 @@ config VIDEO_DM355_CCDC
+ 	depends on VIDEO_DEV
+ 	depends on ARCH_DAVINCI || COMPILE_TEST
+ 	depends on I2C
++	depends on VIDEO_DAVINCI_VPBE_DISPLAY
+ 	select VIDEOBUF_DMA_CONTIG
+ 	help
+ 	  Enables DM355 CCD hw module. DM355 CCDC hw interfaces
+@@ -45,6 +47,7 @@ config VIDEO_DM365_ISIF
+ 	depends on VIDEO_DEV
+ 	depends on ARCH_DAVINCI || COMPILE_TEST
+ 	depends on I2C
++	depends on VIDEO_DAVINCI_VPBE_DISPLAY
+ 	select VIDEOBUF_DMA_CONTIG
+ 	help
+ 	  Enables ISIF hw module. This is the hardware module for
 -- 
-Kees Cook
+2.25.1
+
