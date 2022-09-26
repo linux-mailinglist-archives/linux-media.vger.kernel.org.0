@@ -2,279 +2,1554 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DC2F75EAD40
-	for <lists+linux-media@lfdr.de>; Mon, 26 Sep 2022 18:55:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 66E8E5EADCE
+	for <lists+linux-media@lfdr.de>; Mon, 26 Sep 2022 19:14:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230054AbiIZQzg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 26 Sep 2022 12:55:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57766 "EHLO
+        id S230224AbiIZRN5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 26 Sep 2022 13:13:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49776 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229898AbiIZQzP (ORCPT
+        with ESMTP id S230354AbiIZRNj (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 26 Sep 2022 12:55:15 -0400
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2866838AC;
-        Mon, 26 Sep 2022 08:49:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1664207346; x=1695743346;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=cVdSevvhDIWDYS8iV0bUsmnd4ZtdDXW1rzPl0O1tgDg=;
-  b=SG+tzfqlHEpj/CGX4mgrSW3yPAMvqMmoWXR0UtY65zkorUtkA/kcAJEx
-   d3o/qgu8MUXgSliKWWp91+PMBlnsnTGh8aAMTkt0/p0vbpOI91rWGRwm8
-   XKPPD+QpPJqgKJbv+Bl22AIGJvOhgF8OraSK8TMpH9bN83/qVje2Wz3Fi
-   nwpkbu+a3h6hobkA3hh2hxnniqdyd90Q0ENzX3ZyL4E/vSQuf3I7QMaem
-   nNQeaabrxJDENU7rwXneiUF1zNmVErOR/DjbLHdLJ2LwhMgH4UXFQDhtk
-   HV19duYh1tRmxMQ4JkcuAyjIOHigIIQETjd2nrtJnBD55Rt+im5fGxG5c
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10482"; a="299785946"
-X-IronPort-AV: E=Sophos;i="5.93,346,1654585200"; 
-   d="scan'208";a="299785946"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Sep 2022 08:49:05 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10482"; a="651872904"
-X-IronPort-AV: E=Sophos;i="5.93,346,1654585200"; 
-   d="scan'208";a="651872904"
-Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
-  by orsmga008.jf.intel.com with ESMTP; 26 Sep 2022 08:49:04 -0700
-Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
- ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Mon, 26 Sep 2022 08:49:04 -0700
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31 via Frontend Transport; Mon, 26 Sep 2022 08:49:04 -0700
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.172)
- by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2375.31; Mon, 26 Sep 2022 08:49:04 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=hhtVrnV1hWrZFMrW6hu+L0FvMm3efW1jV51BgXpDWUPYs92/cWrcS/NaHyp1AkTateGEmJ0rWmbKLghV347RQUlusnKQqDRoBx1ofdB3B6+Gr/2FFlS2Hvigns85tH74mj8Pfp+M8UzVeB5tj9kefJ7RonQ+iidia75muDq0WZmd7W1HHNPyutpemM0mQ2ZMI/WUP5TiebfZXT/EuxLlX04pk1XuTPb5tCpL66td5BdCSWKk00qUe7mqdU6ZxCrMqXSVHR1+xVUUl17Q2fI7WlOdW48kkuAutWAvadPVLvo2RO5CT017btgVcpcnRauIEVC0QltEa8qRpQB1zyKV7w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=fofTDFGBoNvMPEw1Dpr0xEP1PSg2NB2o1FENz4SGW6I=;
- b=Gjy8JkG/wFQ6bItH6RmDqCdYDrgE73YEiTXqndxOrZB7iLKF4fjqQ8OzEca/83b8O/JETI2JlFZtvYXcd9zP162MyRwysVuN06/zgbZ9kl3x2AixZ/LV1s6UyvONWapsDmXH8LWCyNylv1VJgPU+KC/kkC7lcggq1YsGPIXOvAN9zXIu/NEFDjGrSo8ECnrdW+5Az7bUA02c3apZxRU8E8cbzlHIN4/ezhWYQpd63LnELgKQGpOe84Daq/xXxYcF8Xkt7Monz1Ju8FXwBq4U6bJT24XIL7pinutnheTde/q/rrh8tHW6hrQNPnMFHs9UmJZ0CtJRzUSdGDEfl/szvA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from DM5PR11MB1324.namprd11.prod.outlook.com (2603:10b6:3:15::14) by
- BL1PR11MB5221.namprd11.prod.outlook.com (2603:10b6:208:310::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5654.25; Mon, 26 Sep
- 2022 15:49:02 +0000
-Received: from DM5PR11MB1324.namprd11.prod.outlook.com
- ([fe80::7992:6033:ae1f:3e08]) by DM5PR11MB1324.namprd11.prod.outlook.com
- ([fe80::7992:6033:ae1f:3e08%11]) with mapi id 15.20.5654.025; Mon, 26 Sep
- 2022 15:49:02 +0000
-From:   "Ruhl, Michael J" <michael.j.ruhl@intel.com>
-To:     Kees Cook <keescook@chromium.org>, Vlastimil Babka <vbabka@suse.cz>
-CC:     "Brandeburg, Jesse" <jesse.brandeburg@intel.com>,
-        "Nguyen, Anthony L" <anthony.l.nguyen@intel.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        "Eric Dumazet" <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        "intel-wired-lan@lists.osuosl.org" <intel-wired-lan@lists.osuosl.org>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        Hyeonggon Yoo <42.hyeyoo@gmail.com>,
-        "Christoph Lameter" <cl@linux.com>,
-        Pekka Enberg <penberg@kernel.org>,
-        David Rientjes <rientjes@google.com>,
-        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Alex Elder <elder@kernel.org>,
-        Josef Bacik <josef@toxicpanda.com>,
-        David Sterba <dsterba@suse.com>,
-        "Sumit Semwal" <sumit.semwal@linaro.org>,
-        =?iso-8859-1?Q?Christian_K=F6nig?= <christian.koenig@amd.com>,
-        Daniel Micay <danielmicay@gmail.com>,
-        "Yonghong Song" <yhs@fb.com>, Marco Elver <elver@google.com>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "linux-btrfs@vger.kernel.org" <linux-btrfs@vger.kernel.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-        "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
-        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-        "dev@openvswitch.org" <dev@openvswitch.org>,
-        "x86@kernel.org" <x86@kernel.org>,
-        "llvm@lists.linux.dev" <llvm@lists.linux.dev>,
-        "linux-hardening@vger.kernel.org" <linux-hardening@vger.kernel.org>
-Subject: RE: [PATCH v2 06/16] igb: Proactively round up to kmalloc bucket size
-Thread-Topic: [PATCH v2 06/16] igb: Proactively round up to kmalloc bucket
- size
-Thread-Index: AQHYz4sQnGagtDAy5Ey39TamNoTGUK3x3q/A
-Date:   Mon, 26 Sep 2022 15:49:02 +0000
-Message-ID: <DM5PR11MB13241141BB4C863F1A01D958C1529@DM5PR11MB1324.namprd11.prod.outlook.com>
-References: <20220923202822.2667581-1-keescook@chromium.org>
- <20220923202822.2667581-7-keescook@chromium.org>
-In-Reply-To: <20220923202822.2667581-7-keescook@chromium.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-reaction: no-action
-dlp-version: 11.6.500.17
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DM5PR11MB1324:EE_|BL1PR11MB5221:EE_
-x-ms-office365-filtering-correlation-id: 3b13f607-4bfa-4e36-51e6-08da9fd6a282
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: B30/mdLOatQAiRtXoSU9ThH7GMZqYobdTBoeUkupZqB8NQQzuiPufJRt+xUV9Mlphn9XaKTnwqkNVNJYRggptoA7kAxQvFhbc886EY3QlyT85/yj2C9zMjalS8Oy3TxjiS1jxCYsURNDSOcF0CAtyMDEjDeR16pObo4J4GfAgrrBAfednKnZ4/UR5BexfId7wivgzrr0QJFp43FV0FfBml2iSePSFbIFhd6VJ6VlpqDv+vydQazHYB7x5HY6d998BLlU1gRMVWXMJjeHv56alVS4Jr+IChnCXsJBE0rwxcmxcK6x1i9NbeiK5O8Yyj7n1nIMoeHuiLZy1hXX9TrOgJ/3TNWzRNuawYp9dMZ5YK2tQpO2GBObKlkt8acIM8Z9sUnzvKkvzAFUppLLMAaSpjo2do6OJLvjLsOC6WKCI7NAIbC2p57ErD8qmMPk0NegJkC5r7ormJKghC2TEuT/FqquQUqboirfhYhQ73+Vfm1CEr0gbtGpqkFDmDPMc4yBZNNdgDnCZTGIJpUOUw1WIcZf7YPVAjE6mniGb3R91hxwArP8PiKJZ73Z56uMBcKCTnmdreIlQxtlZ/wBWSghZVDMizzvlS1bLOEtNGocg2LMDaoBsabjFQ2AdUS1huJUSi7SJ6bbygE2+oP5q5BSvVmPV/JDMVxRjqv0KNo5btFhVfQo3lMG1e7/IZhZpStakQ+oisI/VOrD0OOGC4B/OYmvHx2LNU1uF+rSIkXZw+tPpmcJy5oB+JFibzQStJRlsmH5pGQEmYEKhkyBBkoCdw==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM5PR11MB1324.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(346002)(366004)(396003)(376002)(39860400002)(136003)(451199015)(54906003)(71200400001)(110136005)(316002)(478600001)(83380400001)(66556008)(76116006)(66946007)(8676002)(4326008)(66476007)(66446008)(41300700001)(7696005)(6506007)(52536014)(64756008)(5660300002)(9686003)(7416002)(26005)(7406005)(38070700005)(2906002)(8936002)(33656002)(186003)(66574015)(82960400001)(122000001)(38100700002)(55016003)(86362001);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?AIGrTDbDFItjn4Ryzw80Jp36y9fRnr/BqJ50poZHfHifbpx3TK4GxN3wLw?=
- =?iso-8859-1?Q?Wf/aeQeLRJCZ9P5nh/rDr4nnMOpahTfkkC+fUPq1MpEbJ46lY873by7FdU?=
- =?iso-8859-1?Q?J2cw3+PkOjZqr952qdBoDP4n8mZoRkqMrL3atK9pR8sqRNdtu8xwFT0Ry4?=
- =?iso-8859-1?Q?E3VFxUQN0aHmYndJtE6YUJtZ4cpUGhWpXPZD00EUFIAfWs08f8yaGjDJ9l?=
- =?iso-8859-1?Q?ncSm+xyxBD1R4/PxRVSYc0Nv1V9aOu4YjTqzAldndhWBHvVFrrUM0YBu3b?=
- =?iso-8859-1?Q?af2gbglzyB5yMA9V3vitzkoMMgO8yH5TSr3W3bosOAoIvAItjDFoqmuFVq?=
- =?iso-8859-1?Q?lLYN8jq4h95OEmiGeFteIAiZBIe6HUlX/nH7LDhl/blo8scMmaAOVsQrdf?=
- =?iso-8859-1?Q?olupVt356KLQ0Og0nB+ecMlN6EbqZPEcruA31MZSZ0lz76ubOChyHrIXXm?=
- =?iso-8859-1?Q?jHkYwR+Uhn03JA8wgBMLgoSpIL/+9dAQVGpMap0j3Rexm/8z40UtGBnVXj?=
- =?iso-8859-1?Q?CSovMeYyGmi4CHXoXfiXuo3glmED68t9C2lq9S75RTDhFTCK3auRcDWbyM?=
- =?iso-8859-1?Q?d/cMOsEr2vc8L7gNrbyI+W6m4b5QRggJ+22xh9hKaVesQMAlW4dMMG8A6T?=
- =?iso-8859-1?Q?79rzTmOGWj3/L5TcmkntS31AB9ZDukDEXFaNXQ8XYUfsbM/Rx1cGQMW3CN?=
- =?iso-8859-1?Q?H4GfFka+AdbGR54KnJFSl8qRL98dkmy1jtk7Z2cZauT0NIx0vppc4KiWN9?=
- =?iso-8859-1?Q?TC0XaITbgjREt+/EAfFGYS0bOszJ704Wv3Npd2AMTav6nAXhl2vVv74sAG?=
- =?iso-8859-1?Q?wFbhbVmou/FcES5nolt2Xb/FVQCwFfBxPv9MwJhdFu8RYUJQiAQaWVx+g2?=
- =?iso-8859-1?Q?7/4zjzaoUy/aYLnulenNzKyEL8bFpR/VOi76HPQP9x2Wl1tqUuvSKT4pWv?=
- =?iso-8859-1?Q?qW6AFEFivC3KSZVhkj58dSSpuDzp+sM/dnUHbL7BG5ppTcdEIxId1G+sD3?=
- =?iso-8859-1?Q?5ALS8UTSqkyW1SRqDYyMNlhsuBzKDRXOD1cKVLu6gO1YcfHYIhczsj5lde?=
- =?iso-8859-1?Q?jm5GeWXoMq2/sovZ2XCfk1kxMWV3r9O2lm7pc3YY6Ng5ImU9MDEmaHmFeP?=
- =?iso-8859-1?Q?kyLvTTPKI+oYCmZwHPWnpnkFDvdvqe0Kc7Qe3rBQXXgOhQdKP+eXbm+V0X?=
- =?iso-8859-1?Q?wxHazAY51hizH4umUdbO69bZRz1m5c/TJnY+lOYaQjLPWDJZwhk7QIydxY?=
- =?iso-8859-1?Q?rstGMoJHAM8AJzg6le3U0UXgLXoDSj8DzopjPGJTNbwzFHBAcNAPhp9Z/M?=
- =?iso-8859-1?Q?c2vlGWNZh56Z0wqfS3JdYCkq34Z4rSx6F/ABopOEmhytlzV18ZBGBsW4mL?=
- =?iso-8859-1?Q?bot2lCu7Fek8tSBGBVu1HOoveRb69bFXLcpJYo7fcCdEN42FqkLUXnSPL1?=
- =?iso-8859-1?Q?a0Khc3p2AVe1ETebA6FZH6M+4n0+tAgeeXDi7VWkVMqWd7NkvM/R7oDBkR?=
- =?iso-8859-1?Q?RP8WRKpGbcG09Tewj1uc4knl1D2rr/kKYIPNzWnPl1jPZ2Uq54QsXg87jf?=
- =?iso-8859-1?Q?P9kG9GzfXxaMwRKkPrnDxOfX5ElS5WaqBWzSNIT9TDPfiacjrff3Z9bYNW?=
- =?iso-8859-1?Q?EZE+iFekeX83uHYvQWK9qhM/5NwWK8ZZLM?=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+        Mon, 26 Sep 2022 13:13:39 -0400
+Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com [IPv6:2a00:1450:4864:20::535])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 343216E885;
+        Mon, 26 Sep 2022 09:25:17 -0700 (PDT)
+Received: by mail-ed1-x535.google.com with SMTP id v2so8886211edc.7;
+        Mon, 26 Sep 2022 09:25:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date;
+        bh=MZBbaA/BKnyk0Ruje7H4928UD9ojFyfLQo1ikEKj87s=;
+        b=XTNy/JkSykzqyjgOfLoBNGGta65QVhT98FD7Y/Su0yA0Q30c2bsHCv/9sncvKyfQbL
+         2HsOXMtGl7D8CeTvIk4wULvzTjed1lwTQ8J4/jUjF5YKKwfKwmIq5Y2Jetn7PYJJPEF1
+         B7uhqTqEoAQIwDoortB2usvvjO/tI+z66/x5XagSewtH4M3euJf2eBH7sUM8KpZej1Pm
+         wmfazjJvIzbwuX8HErI5611FFHA77ccdS/U5LcRe9Ed3SyEsgeVb6uOFGdhFZum1lMKe
+         RDmwksCRmhxqacpfFhEB1ng/D/NI6R1mdlMJ7CwC01lxU0V8Wg90EnCQN65QKjFJh01C
+         TQNg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date;
+        bh=MZBbaA/BKnyk0Ruje7H4928UD9ojFyfLQo1ikEKj87s=;
+        b=WzPZ8w0NDPUB2PZIGYL38Vhc3zmI4xI0kdo1E5GoQVoYY4ezFhmlEHgVEV8FOVnxvn
+         tOyv4Ay2PRSbqNnelkLecYURWhRiPHljttM3+1qgav55VsJ3sIWEl9qnmC35fk/FkjBC
+         TBd7iwoAufuE6LRF9m8bMF0Z3mhtROJP6Jz1IREuoDbIcXFwfQt0B0yY69VKPVNnShJm
+         W1WQnQH1wraq3BM9R6EGx877GmbX0MfcdbdhkqrAjgjkakKm8kyj+0yXN8eXXpJ4xjcu
+         X47uvuuiKr0VJPLH8+E6DMmciZT6QnOyZDdbXfJZBVtczP3PYtJ+AhVniVGHYPrmlBSH
+         rDCQ==
+X-Gm-Message-State: ACrzQf3b25MjIGgBCqwW2qIOmm26Jf3jTzgi9Y5vwNTZXEULRqtUavfb
+        gnuG0XRAeoOPcHWKLTCCzWvGbd36l9i4U2GKXRE=
+X-Google-Smtp-Source: AMsMyM6TP8Ghc006LQfXjsGOL5rJ/N2Aiqq20lYZqjqrGRR9IDwvV8w1Ne2oMNjrQ6RUyMuXwuhlOMDd3/WXNiNQgVY=
+X-Received: by 2002:a05:6402:518d:b0:451:6655:5fb4 with SMTP id
+ q13-20020a056402518d00b0045166555fb4mr23371744edd.150.1664209514843; Mon, 26
+ Sep 2022 09:25:14 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM5PR11MB1324.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3b13f607-4bfa-4e36-51e6-08da9fd6a282
-X-MS-Exchange-CrossTenant-originalarrivaltime: 26 Sep 2022 15:49:02.4457
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: QQDp/xFXJV7+d1QXhc5KT5kx9GvtnmEuu3UiJvVwVZaI8oGr7EdbJa6J1WFxdP4+VJW3h7gYwvRDgb0M5HM3n6atR7KeFrBgeExOURDbMX0=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR11MB5221
-X-OriginatorOrg: intel.com
-X-Spam-Status: No, score=-4.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+References: <20220905230406.30801-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20220905230406.30801-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <Yyx/NI8sew4hpFAc@pendragon.ideasonboard.com> <CA+V-a8u9DqzN_dDxU74F1wCZpJeODQet-aF7sd6j2=jk545x7Q@mail.gmail.com>
+ <YzFp8x78/HJ/Yf2Y@pendragon.ideasonboard.com>
+In-Reply-To: <YzFp8x78/HJ/Yf2Y@pendragon.ideasonboard.com>
+From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date:   Mon, 26 Sep 2022 17:24:47 +0100
+Message-ID: <CA+V-a8tcj1iun1-9qcCP5649S___JfD_rL46v0_1HCcnEXnNVg@mail.gmail.com>
+Subject: Re: [PATCH v2 4/4] media: platform: Add Renesas RZ/G2L CRU driver
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Biju Das <biju.das.jz@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_PDS_OTHER_BAD_TLD
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
->-----Original Message-----
->From: Kees Cook <keescook@chromium.org>
->Sent: Friday, September 23, 2022 4:28 PM
->To: Vlastimil Babka <vbabka@suse.cz>
->Cc: Kees Cook <keescook@chromium.org>; Brandeburg, Jesse
-><jesse.brandeburg@intel.com>; Nguyen, Anthony L
-><anthony.l.nguyen@intel.com>; David S. Miller <davem@davemloft.net>;
->Eric Dumazet <edumazet@google.com>; Jakub Kicinski <kuba@kernel.org>;
->Paolo Abeni <pabeni@redhat.com>; intel-wired-lan@lists.osuosl.org;
->netdev@vger.kernel.org; Ruhl, Michael J <michael.j.ruhl@intel.com>;
->Hyeonggon Yoo <42.hyeyoo@gmail.com>; Christoph Lameter
-><cl@linux.com>; Pekka Enberg <penberg@kernel.org>; David Rientjes
-><rientjes@google.com>; Joonsoo Kim <iamjoonsoo.kim@lge.com>; Andrew
->Morton <akpm@linux-foundation.org>; Greg Kroah-Hartman
-><gregkh@linuxfoundation.org>; Nick Desaulniers
-><ndesaulniers@google.com>; Alex Elder <elder@kernel.org>; Josef Bacik
-><josef@toxicpanda.com>; David Sterba <dsterba@suse.com>; Sumit Semwal
-><sumit.semwal@linaro.org>; Christian K=F6nig <christian.koenig@amd.com>;
->Daniel Micay <danielmicay@gmail.com>; Yonghong Song <yhs@fb.com>;
->Marco Elver <elver@google.com>; Miguel Ojeda <ojeda@kernel.org>; linux-
->kernel@vger.kernel.org; linux-mm@kvack.org; linux-btrfs@vger.kernel.org;
->linux-media@vger.kernel.org; dri-devel@lists.freedesktop.org; linaro-mm-
->sig@lists.linaro.org; linux-fsdevel@vger.kernel.org; dev@openvswitch.org;
->x86@kernel.org; llvm@lists.linux.dev; linux-hardening@vger.kernel.org
->Subject: [PATCH v2 06/16] igb: Proactively round up to kmalloc bucket size
+ Hi Laurent,
+
+On Mon, Sep 26, 2022 at 9:59 AM Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
 >
->In preparation for removing the "silently change allocation size"
->users of ksize(), explicitly round up all q_vector allocations so that
->allocations can be correctly compared to ksize().
+> Hi Prabhakar,
 >
->Additionally fix potential use-after-free in the case of new allocation
->failure: only free memory if the replacement allocation succeeds.
+> On Fri, Sep 23, 2022 at 08:02:12PM +0100, Lad, Prabhakar wrote:
+> > On Thu, Sep 22, 2022 at 4:29 PM Laurent Pinchart wrote:
+> > > On Tue, Sep 06, 2022 at 12:04:06AM +0100, Lad Prabhakar wrote:
+> > > > Add v4l driver for Renesas RZ/G2L Camera data Receiving Unit.
+> > > >
+> > > > Based on a patch in the BSP by Hien Huynh
+> > > > <hien.huynh.px@renesas.com>
+> > > >
+> > > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > > > ---
+> > > > v1 -> v2
+> > > > * No change
+> > > >
+> > > > RFC v2 -> v1
+> > > > * Moved the driver to renesas folder
+> > > > * Fixed review comments pointed by Jacopo
+> > > >
+> > > > RFC v1 -> RFC v2
+> > > > * Dropped group
+> > > > * Dropped CSI subdev and implemented as new driver
+> > > > * Dropped "mc_" from function names
+> > > > * Moved the driver to renesas folder
+> > > > ---
+> > > >  .../media/platform/renesas/rzg2l-cru/Kconfig  |  17 +
+> > > >  .../media/platform/renesas/rzg2l-cru/Makefile |   3 +
+> > > >  .../platform/renesas/rzg2l-cru/rzg2l-core.c   | 395 ++++++++++
+> > > >  .../platform/renesas/rzg2l-cru/rzg2l-cru.h    | 152 ++++
+> > > >  .../platform/renesas/rzg2l-cru/rzg2l-dma.c    | 734 ++++++++++++++++++
+> > > >  .../platform/renesas/rzg2l-cru/rzg2l-v4l2.c   | 368 +++++++++
+> > >
+> > > I'd merge those two files together, they both handle the video node.
+> > > There's a comment below that recommends adding a subdev, that should
+> > > then go to a separate file.
+> >
+> > OK, I'll merge these files into rzg2l-video.c.
+> >
+> > > >  6 files changed, 1669 insertions(+)
+> > > >  create mode 100644 drivers/media/platform/renesas/rzg2l-cru/rzg2l-core.c
+> > > >  create mode 100644 drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h
+> > > >  create mode 100644 drivers/media/platform/renesas/rzg2l-cru/rzg2l-dma.c
+> > > >  create mode 100644 drivers/media/platform/renesas/rzg2l-cru/rzg2l-v4l2.c
+> > > >
+> > > > diff --git a/drivers/media/platform/renesas/rzg2l-cru/Kconfig b/drivers/media/platform/renesas/rzg2l-cru/Kconfig
+> > > > index 57c40bb499df..08ff0e96b3f5 100644
+> > > > --- a/drivers/media/platform/renesas/rzg2l-cru/Kconfig
+> > > > +++ b/drivers/media/platform/renesas/rzg2l-cru/Kconfig
+> > > > @@ -15,3 +15,20 @@ config VIDEO_RZG2L_CSI2
+> > > >
+> > > >         To compile this driver as a module, choose M here: the
+> > > >         module will be called rzg2l-csi2.
+> > > > +
+> > > > +config VIDEO_RZG2L_CRU
+> > > > +     tristate "RZ/G2L Camera Receiving Unit (CRU) Driver"
+> > > > +     depends on ARCH_RENESAS || COMPILE_TEST
+> > > > +     depends on V4L_PLATFORM_DRIVERS
+> > > > +     depends on VIDEO_DEV && OF
+> > > > +     select MEDIA_CONTROLLER
+> > > > +     select V4L2_FWNODE
+> > > > +     select VIDEOBUF2_DMA_CONTIG
+> > > > +     select VIDEO_RZG2L_CSI2
+> > >
+> > > Is this required, can't the CRU be used with a parallel sensor without
+> > > the CSI-2 receiver ?
+> >
+> > Yes the CRU can be used with parallel sensors, I'll drop the above select.
+> >
+> > > > +     select VIDEO_V4L2_SUBDEV_API
+> > > > +     help
+> > > > +       Support for Renesas RZ/G2L (and alike SoC's) Camera Receiving
+> > > > +       Unit (CRU) driver.
+> > > > +
+> > > > +       To compile this driver as a module, choose M here: the
+> > > > +       module will be called rzg2l-cru.
+> > > > diff --git a/drivers/media/platform/renesas/rzg2l-cru/Makefile b/drivers/media/platform/renesas/rzg2l-cru/Makefile
+> > > > index 91ea97a944e6..7628809e953f 100644
+> > > > --- a/drivers/media/platform/renesas/rzg2l-cru/Makefile
+> > > > +++ b/drivers/media/platform/renesas/rzg2l-cru/Makefile
+> > > > @@ -1,3 +1,6 @@
+> > > >  # SPDX-License-Identifier: GPL-2.0
+> > > >
+> > > >  obj-$(CONFIG_VIDEO_RZG2L_CSI2) += rzg2l-csi2.o
+> > > > +
+> > > > +rzg2l-cru-objs = rzg2l-core.o rzg2l-dma.o rzg2l-v4l2.o
+> > > > +obj-$(CONFIG_VIDEO_RZG2L_CRU) += rzg2l-cru.o
+> > > > diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-core.c b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-core.c
+> > > > new file mode 100644
+> > > > index 000000000000..b5d4110b1913
+> > > > --- /dev/null
+> > > > +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-core.c
+> > > > @@ -0,0 +1,395 @@
+> > > > +// SPDX-License-Identifier: GPL-2.0+
+> > > > +/*
+> > > > + * Driver for Renesas RZ/G2L CRU
+> > > > + *
+> > > > + * Copyright (C) 2022 Renesas Electronics Corp.
+> > > > + *
+> > > > + * Based on Renesas R-Car VIN
+> > > > + * Copyright (C) 2011-2013 Renesas Solutions Corp.
+> > > > + * Copyright (C) 2013 Cogent Embedded, Inc., <source@cogentembedded.com>
+> > > > + * Copyright (C) 2008 Magnus Damm
+> > > > + */
+> > > > +
+> > > > +#include <linux/clk.h>
+> > > > +#include <linux/module.h>
+> > > > +#include <linux/mod_devicetable.h>
+> > > > +#include <linux/of.h>
+> > > > +#include <linux/of_device.h>
+> > > > +#include <linux/of_graph.h>
+> > > > +#include <linux/platform_device.h>
+> > > > +#include <linux/pm_runtime.h>
+> > > > +
+> > > > +#include <media/v4l2-fwnode.h>
+> > > > +#include <media/v4l2-mc.h>
+> > > > +
+> > > > +#include "rzg2l-cru.h"
+> > > > +
+> > > > +#define v4l2_dev_to_cru(d)   container_of(d, struct rzg2l_cru_dev, v4l2_dev)
+> > >
+> > > As this macro is only used to get the rzg2l_cru_dev pointer from the
+> > > v4l2_async_notifier pointer, you can replace it with
+> > >
+> > > #define notifier_to_cru(n)      container_of(n, struct rzg2l_cru_dev, notifier)
+> > >
+> > > I would also turn it into a static inline function for additional
+> > > compile-time type safety.
+> >
+> > OK, I will do it as mentioned above.
+> >
+> > > > +
+> > > > +static int rzg2l_cru_csi2_link_notify(struct media_link *link, u32 flags,
+> > > > +                                   unsigned int notification)
+> > > > +{
+> > > > +     struct media_entity *entity;
+> > > > +     struct rzg2l_cru_dev *cru;
+> > > > +     struct media_pad *csi_pad;
+> > > > +     struct v4l2_subdev *sd;
+> > > > +     int ret;
+> > > > +
+> > > > +     ret = v4l2_pipeline_link_notify(link, flags, notification);
+> > > > +     if (ret)
+> > > > +             return ret;
+> > > > +
+> > > > +     /* Only care about link enablement for CRU nodes. */
+> > > > +     if (!(flags & MEDIA_LNK_FL_ENABLED))
+> > > > +             return 0;
+> > > > +
+> > > > +     cru = container_of(link->graph_obj.mdev, struct rzg2l_cru_dev, mdev);
+> > > > +     /*
+> > > > +      * Don't allow link changes if any entity in the graph is
+> > > > +      * streaming, modifying the CHSEL register fields can disrupt
+> > > > +      * running streams.
+> > > > +      */
+> > > > +     media_device_for_each_entity(entity, &cru->mdev)
+> > > > +             if (media_entity_is_streaming(entity))
+> > > > +                     return -EBUSY;
+> > > > +
+> > > > +     mutex_lock(&cru->mdev_lock);
+> > > > +
+> > > > +     csi_pad = media_pad_remote_pad_first(&cru->vdev.entity.pads[0]);
+> > > > +     if (csi_pad) {
+> > > > +             ret = -EMLINK;
+> > > > +             goto out;
+> > > > +     }
+> > > > +
+> > > > +     sd = media_entity_to_v4l2_subdev(link->source->entity);
+> > > > +     if (cru->csi.subdev == sd) {
+> > > > +             cru->csi.channel = link->source->index - 1;
+> > > > +             cru->is_csi = true;
+> > > > +     } else {
+> > > > +             ret = -ENODEV;
+> > > > +     }
+> > > > +
+> > > > +out:
+> > > > +     mutex_unlock(&cru->mdev_lock);
+> > > > +
+> > > > +     return ret;
+> > > > +}
+> > > > +
+> > > > +static const struct media_device_ops rzg2l_cru_media_ops = {
+> > > > +     .link_notify = rzg2l_cru_csi2_link_notify,
+> > > > +};
+> > > > +
+> > > > +/* -----------------------------------------------------------------------------
+> > > > + * Group async notifier
+> > > > + */
+> > > > +
+> > > > +static int rzg2l_cru_group_notify_complete(struct v4l2_async_notifier *notifier)
+> > > > +{
+> > > > +     struct rzg2l_cru_dev *cru = v4l2_dev_to_cru(notifier->v4l2_dev);
+> > > > +     unsigned int i;
+> > > > +     int ret;
+> > > > +
+> > > > +     ret = media_device_register(&cru->mdev);
+> > > > +     if (ret)
+> > > > +             return ret;
+> > >
+> > > I'd move the v4l2_device_register() call here, as it's the V4L2
+> > > counterpart of the media device, and handling them together would be
+> > > best.
+> >
+> > OK.
+> >
+> > > > +
+> > > > +     ret = v4l2_device_register_subdev_nodes(&cru->v4l2_dev);
+> > > > +     if (ret) {
+> > > > +             dev_err(cru->dev, "Failed to register subdev nodes\n");
+> > > > +             return ret;
+> > > > +     }
+> > > > +
+> > > > +     if (!video_is_registered(&cru->vdev)) {
+> > >
+> > > Can this happen ?
+> >
+> > No, I'll drop this check.
+> >
+> > > > +             ret = rzg2l_cru_v4l2_register(cru);
+> > > > +             if (ret)
+> > > > +                     return ret;
+> > > > +     }
+> > > > +
+> > > > +     /* Create all media device links between CRU and CSI-2's. */
+> > > > +     /*
+> > > > +      * TODO: RZ/G2L supports 4 VC0, as support for virtual channels
+> > > > +      * should be implemented by streams API which is under development
+> > > > +      * so for now just link it to VC0
+> > > > +      */
+> > >
+> > > The streams API won't require more links, so I'd drop the comment and
+> > > the loop and create a single link.
+> >
+> > OK.
+> >
+> > > > +     for (i = 1; i <= 1; i++) {
+> > > > +             struct media_entity *source, *sink;
+> > > > +
+> > > > +             source = &cru->csi.subdev->entity;
+> > > > +             sink = &cru->vdev.entity;
+> > >
+> > > Hmmm... I'd recommend adding a subdev to model the image processing
+> > > pipeline of the CRU, between the CSI-2 receiver and the video node. That
+> > > will help when you'll add support for parallel sensors, and it will also
+> > > be needed by the streams API to select which virtual channel to capture.
+> >/
+> > just model as a dummy subdev for now (MEDIA_ENT_F_VID_MUX)?
 >
->Cc: Jesse Brandeburg <jesse.brandeburg@intel.com>
->Cc: Tony Nguyen <anthony.l.nguyen@intel.com>
->Cc: "David S. Miller" <davem@davemloft.net>
->Cc: Eric Dumazet <edumazet@google.com>
->Cc: Jakub Kicinski <kuba@kernel.org>
->Cc: Paolo Abeni <pabeni@redhat.com>
->Cc: intel-wired-lan@lists.osuosl.org
->Cc: netdev@vger.kernel.org
->Signed-off-by: Kees Cook <keescook@chromium.org>
->---
-> drivers/net/ethernet/intel/igb/igb_main.c | 5 +++--
-> 1 file changed, 3 insertions(+), 2 deletions(-)
+> I think MEDIA_ENT_F_PROC_VIDEO_PIXEL_FORMATTER would be more
+> appropriate.
 >
->diff --git a/drivers/net/ethernet/intel/igb/igb_main.c
->b/drivers/net/ethernet/intel/igb/igb_main.c
->index 2796e81d2726..eb51e531c096 100644
->--- a/drivers/net/ethernet/intel/igb/igb_main.c
->+++ b/drivers/net/ethernet/intel/igb/igb_main.c
->@@ -1195,15 +1195,16 @@ static int igb_alloc_q_vector(struct igb_adapter
->*adapter,
-> 		return -ENOMEM;
+OK I will use MEDIA_ENT_F_PROC_VIDEO_PIXEL_FORMATTER. As this will be
+just like a switch should I be implementing the get_fmt/set_fmt
+callbacks?
+
+> > > > +
+> > > > +             ret = media_create_pad_link(source, i, sink, 0, 0);
+> > > > +             if (ret) {
+> > > > +                     dev_err(cru->dev, "Error adding link from %s to %s\n",
+> > > > +                             source->name, sink->name);
+> > > > +                     break;
+> > > > +             }
+> > > > +     }
+> > > > +
+> > > > +     return ret;
+> > > > +}
+> > > > +
+> > > > +static void rzg2l_cru_group_notify_unbind(struct v4l2_async_notifier *notifier,
+> > > > +                                       struct v4l2_subdev *subdev,
+> > > > +                                       struct v4l2_async_subdev *asd)
+> > > > +{
+> > > > +     struct rzg2l_cru_dev *cru = v4l2_dev_to_cru(notifier->v4l2_dev);
+> > > > +
+> > > > +     rzg2l_cru_v4l2_unregister(cru);
+> > > > +
+> > > > +     mutex_lock(&cru->mdev_lock);
+> > > > +
+> > > > +     if (cru->csi.asd == asd) {
+> > > > +             cru->csi.subdev = NULL;
+> > > > +             dev_dbg(cru->dev, "Unbind CSI-2 %s\n", subdev->name);
+> > > > +     }
+> > > > +
+> > > > +     mutex_unlock(&cru->mdev_lock);
+> > > > +
+> > > > +     media_device_unregister(&cru->mdev);
+> > > > +}
+> > > > +
+> > > > +static int rzg2l_cru_group_notify_bound(struct v4l2_async_notifier *notifier,
+> > > > +                                     struct v4l2_subdev *subdev,
+> > > > +                                     struct v4l2_async_subdev *asd)
+> > > > +{
+> > > > +     struct rzg2l_cru_dev *cru = v4l2_dev_to_cru(notifier->v4l2_dev);
+> > > > +
+> > > > +     mutex_lock(&cru->mdev_lock);
+> > > > +
+> > > > +     if (cru->csi.asd == asd) {
+> > > > +             cru->csi.subdev = subdev;
+> > > > +             dev_dbg(cru->dev, "Bound CSI-2 %s\n", subdev->name);
+> > > > +     }
+> > > > +
+> > > > +     mutex_unlock(&cru->mdev_lock);
+> > > > +
+> > > > +     return 0;
+> > > > +}
+> > > > +
+> > > > +static const struct v4l2_async_notifier_operations rzg2l_cru_async_ops = {
+> > > > +     .bound = rzg2l_cru_group_notify_bound,
+> > > > +     .unbind = rzg2l_cru_group_notify_unbind,
+> > > > +     .complete = rzg2l_cru_group_notify_complete,
+> > > > +};
+> > > > +
+> > > > +static int rvin_mc_parse_of(struct rzg2l_cru_dev *cru, unsigned int id)
+> > >
+> > > The id parameter is always 0, I'd drop it.
+> >
+> > Agreed, I will drop it.
+> >
+> > > > +{
+> > > > +     struct v4l2_fwnode_endpoint vep = {
+> > > > +             .bus_type = V4L2_MBUS_CSI2_DPHY,
+> > > > +     };
+> > > > +     struct fwnode_handle *ep, *fwnode;
+> > > > +     struct v4l2_async_subdev *asd;
+> > > > +     int ret;
+> > > > +
+> > > > +     ep = fwnode_graph_get_endpoint_by_id(dev_fwnode(cru->dev), 1, id, 0);
+> > > > +     if (!ep)
+> > > > +             return 0;
+> > > > +
+> > > > +     fwnode = fwnode_graph_get_remote_endpoint(ep);
+> > > > +     ret = v4l2_fwnode_endpoint_parse(ep, &vep);
+> > > > +     fwnode_handle_put(ep);
+> > > > +     if (ret) {
+> > > > +             dev_err(cru->dev, "Failed to parse %pOF\n", to_of_node(fwnode));
+> > > > +             ret = -EINVAL;
+> > > > +             goto out;
+> > > > +     }
+> > > > +
+> > > > +     if (!of_device_is_available(to_of_node(fwnode))) {
+> > > > +             dev_dbg(cru->dev, "OF device %pOF disabled, ignoring\n",
+> > > > +                     to_of_node(fwnode));
+> > > > +             ret = -ENOTCONN;
+> > > > +             goto out;
+> > > > +     }
+> > > > +
+> > > > +     asd = v4l2_async_nf_add_fwnode(&cru->notifier, fwnode,
+> > > > +                                    struct v4l2_async_subdev);
+> > > > +     if (IS_ERR(asd)) {
+> > > > +             ret = PTR_ERR(asd);
+> > > > +             goto out;
+> > > > +     }
+> > > > +
+> > > > +     cru->csi.asd = asd;
+> > > > +
+> > > > +     dev_dbg(cru->dev, "Added OF device %pOF to slot %u\n",
+> > > > +             to_of_node(fwnode), vep.base.id);
+> > > > +out:
+> > > > +     fwnode_handle_put(fwnode);
+> > > > +
+> > > > +     return ret;
+> > > > +}
+> > > > +
+> > > > +static int rzg2l_cru_mc_parse_of_graph(struct rzg2l_cru_dev *cru)
+> > > > +{
+> > > > +     int ret;
+> > > > +
+> > > > +     v4l2_async_nf_init(&cru->notifier);
+> > > > +
+> > > > +     ret = rvin_mc_parse_of(cru, 0);
+> > > > +     if (ret)
+> > > > +             return ret;
+> > > > +
+> > > > +     cru->notifier.ops = &rzg2l_cru_async_ops;
+> > > > +
+> > > > +     if (list_empty(&cru->notifier.asd_list))
+> > > > +             return 0;
+> > > > +
+> > > > +     ret = v4l2_async_nf_register(&cru->v4l2_dev, &cru->notifier);
+> > > > +     if (ret < 0) {
+> > > > +             dev_err(cru->dev, "Notifier registration failed\n");
+> > > > +             v4l2_async_nf_cleanup(&cru->notifier);
+> > > > +             return ret;
+> > > > +     }
+> > > > +
+> > > > +     return 0;
+> > > > +}
+> > > > +
+> > > > +static int rzg2l_cru_csi2_init(struct rzg2l_cru_dev *cru)
+> > >
+> > > The naming is a bit weird, as this isn't related to CSI-2. I would name
+> > > the function rzg2l_cru_media_init().
+> >
+> > Agreed, I will rename it.
+> >
+> > > > +{
+> > > > +     struct media_device *mdev = NULL;
+> > > > +     const struct of_device_id *match;
+> > > > +     int ret;
+> > > > +
+> > > > +     cru->pad.flags = MEDIA_PAD_FL_SINK;
+> > > > +     ret = media_entity_pads_init(&cru->vdev.entity, 1, &cru->pad);
+> > > > +     if (ret)
+> > > > +             return ret;
+> > > > +
+> > > > +     mutex_init(&cru->mdev_lock);
+> > > > +     mdev = &cru->mdev;
+> > > > +     mdev->dev = cru->dev;
+> > > > +     mdev->ops = &rzg2l_cru_media_ops;
+> > > > +
+> > > > +     match = of_match_node(cru->dev->driver->of_match_table,
+> > > > +                           cru->dev->of_node);
+> > > > +
+> > > > +     strscpy(mdev->driver_name, KBUILD_MODNAME, sizeof(mdev->driver_name));
+> > > > +     strscpy(mdev->model, match->compatible, sizeof(mdev->model));
+> > > > +     snprintf(mdev->bus_info, sizeof(mdev->bus_info), "platform:%s",
+> > > > +              dev_name(mdev->dev));
+> > > > +
+> > > > +     cru->v4l2_dev.mdev = &cru->mdev;
+> > > > +
+> > > > +     media_device_init(mdev);
+> > > > +
+> > > > +     ret = rzg2l_cru_mc_parse_of_graph(cru);
+> > > > +     if (ret) {
+> > > > +             mutex_lock(&cru->mdev_lock);
+> > > > +             cru->v4l2_dev.mdev = NULL;
+> > > > +             mutex_unlock(&cru->mdev_lock);
+> > > > +     }
+> > > > +
+> > > > +     return 0;
+> > > > +}
+> > > > +
+> > > > +static int rzg2l_cru_probe(struct platform_device *pdev)
+> > > > +{
+> > > > +     struct rzg2l_cru_dev *cru;
+> > > > +     int irq, ret;
+> > > > +
+> > > > +     cru = devm_kzalloc(&pdev->dev, sizeof(*cru), GFP_KERNEL);
+> > > > +     if (!cru)
+> > > > +             return -ENOMEM;
+> > > > +
+> > > > +     cru->base = devm_platform_ioremap_resource(pdev, 0);
+> > > > +     if (IS_ERR(cru->base))
+> > > > +             return PTR_ERR(cru->base);
+> > > > +
+> > > > +     cru->presetn = devm_reset_control_get(&pdev->dev, "presetn");
+> > > > +     if (IS_ERR(cru->presetn))
+> > > > +             return dev_err_probe(&pdev->dev, PTR_ERR(cru->presetn),
+> > > > +                                  "failed to get cpg presetn\n");
+> > > > +
+> > > > +     cru->aresetn = devm_reset_control_get(&pdev->dev, "aresetn");
+> > > > +     if (IS_ERR(cru->aresetn))
+> > > > +             return dev_err_probe(&pdev->dev, PTR_ERR(cru->aresetn),
+> > > > +                                  "failed to get cpg aresetn\n");
+> > > > +
+> > > > +     cru->vclk = devm_clk_get(&pdev->dev, "vclk");
+> > > > +     if (IS_ERR(cru->vclk)) {
+> > > > +             dev_err(&pdev->dev, "Failed to get vclk");
+> > > > +             return PTR_ERR(cru->vclk);
+> > >
+> > > You could use dev_err_probe() here too (as well as below).
+> >
+> > OK.
+> >
+> > > > +     }
+> > > > +
+> > > > +     cru->pclk = devm_clk_get(&pdev->dev, "pclk");
+> > > > +     if (IS_ERR(cru->pclk)) {
+> > > > +             dev_err(&pdev->dev, "Failed to get pclk");
+> > > > +             return PTR_ERR(cru->pclk);
+> > > > +     }
+> > > > +
+> > > > +     cru->aclk = devm_clk_get(&pdev->dev, "aclk");
+> > > > +     if (IS_ERR(cru->aclk)) {
+> > > > +             dev_err(&pdev->dev, "Failed to get aclk");
+> > > > +             return PTR_ERR(cru->aclk);
+> > > > +     }
+> > > > +
+> > > > +     cru->dev = &pdev->dev;
+> > > > +     cru->info = of_device_get_match_data(&pdev->dev);
+> > > > +
+> > > > +     irq = platform_get_irq(pdev, 0);
+> > > > +     if (irq < 0)
+> > > > +             return irq;
+> > > > +
+> > > > +     ret = rzg2l_cru_dma_register(cru, irq);
+> > > > +     if (ret)
+> > > > +             return ret;
+> > > > +
+> > > > +     platform_set_drvdata(pdev, cru);
+> > > > +
+> > > > +     ret = rzg2l_cru_csi2_init(cru);
+> > > > +     if (ret)
+> > > > +             goto error_dma_unregister;
+> > > > +
+> > > > +     cru->num_buf = HW_BUFFER_DEFAULT;
+> > > > +     pm_suspend_ignore_children(&pdev->dev, true);
+> > > > +     pm_runtime_enable(&pdev->dev);
+> > > > +
+> > > > +     return 0;
+> > > > +
+> > > > +error_dma_unregister:
+> > > > +     rzg2l_cru_dma_unregister(cru);
+> > > > +
+> > > > +     return ret;
+> > > > +}
+> > > > +
+> > > > +static const struct of_device_id rzg2l_cru_of_id_table[] = {
+> > > > +     {
+> > > > +             .compatible = "renesas,rzg2l-cru",
+> > > > +     },
+> > > > +     { /* sentinel */ }
+> > > > +};
+> > > > +MODULE_DEVICE_TABLE(of, rzg2l_cru_of_id_table);
+> > > > +
+> > > > +static int rzg2l_cru_remove(struct platform_device *pdev)
+> > > > +{
+> > > > +     struct rzg2l_cru_dev *cru = platform_get_drvdata(pdev);
+> > > > +
+> > > > +     pm_runtime_disable(&pdev->dev);
+> > > > +
+> > > > +     rzg2l_cru_v4l2_unregister(cru);
+> > > > +
+> > > > +     v4l2_async_nf_unregister(&cru->notifier);
+> > > > +     v4l2_async_nf_cleanup(&cru->notifier);
+> > > > +
+> > > > +     media_device_cleanup(&cru->mdev);
+> > > > +     mutex_destroy(&cru->mdev_lock);
+> > > > +     cru->v4l2_dev.mdev = NULL;
+> > >
+> > > Is this needed ?
+> >
+> > Not required.
+> >
+> > > > +
+> > > > +     rzg2l_cru_dma_unregister(cru);
+> > > > +
+> > > > +     return 0;
+> > > > +}
+> > > > +
+> > > > +static struct platform_driver rzg2l_cru_driver = {
+> > > > +     .driver = {
+> > > > +             .name = "rzg2l-cru",
+> > > > +             .of_match_table = rzg2l_cru_of_id_table,
+> > > > +     },
+> > > > +     .probe = rzg2l_cru_probe,
+> > > > +     .remove = rzg2l_cru_remove,
+> > >
+> > > No PM ?
+> >
+> > I plan to gradually add at a later point.
+> >
+> > > > +};
+> > > > +
+> > > > +module_platform_driver(rzg2l_cru_driver);
+> > > > +
+> > > > +MODULE_AUTHOR("Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>");
+> > > > +MODULE_DESCRIPTION("Renesas RZ/G2L CRU driver");
+> > > > +MODULE_LICENSE("GPL");
+> > > > diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h
+> > > > new file mode 100644
+> > > > index 000000000000..a834680a3200
+> > > > --- /dev/null
+> > > > +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h
+> > > > @@ -0,0 +1,152 @@
+> > > > +/* SPDX-License-Identifier: GPL-2.0+ */
+> > > > +/*
+> > > > + * Driver for Renesas RZ/G2L CRU
+> > > > + *
+> > > > + * Copyright (C) 2022 Renesas Electronics Corp.
+> > > > + *
+> > >
+> > > Extra blank line.
+> >
+> > Oops, I will drop it.
+> >
+> > > > + */
+> > > > +
+> > > > +#ifndef __RZG2L_CRU__
+> > > > +#define __RZG2L_CRU__
+> > > > +
+> > > > +#include <linux/reset.h>
+> > > > +
+> > > > +#include <media/v4l2-async.h>
+> > > > +#include <media/v4l2-ctrls.h>
+> > > > +#include <media/v4l2-dev.h>
+> > > > +#include <media/v4l2-device.h>
+> > > > +#include <media/videobuf2-v4l2.h>
+> > > > +
+> > > > +/* Number of HW buffers */
+> > > > +#define HW_BUFFER_MAX                8
+> > > > +#define HW_BUFFER_DEFAULT    3
+> > >
+> > > Could you prefix macro names with CRU_ (or RZG2L_CRU_, up to you) ?
+> > > These names are a bit generic and could lead to clashes.
+> >
+> > Agreed, I will rename it.
+> >
+> > > > +
+> > > > +/* Address alignment mask for HW buffers */
+> > > > +#define HW_BUFFER_MASK               0x1ff
+> > > > +
+> > > > +/* Maximum number of CSI2 virtual channels */
+> > > > +#define CSI2_VCHANNEL                4
+> > > > +
+> > > > +#define CRU_MAX_INPUT_WIDTH  2800
+> > > > +#define CRU_MAX_INPUT_HEIGHT 4095
+> > > > +
+> > > > +/**
+> > > > + * enum rzg2l_cru_dma_state - DMA states
+> > > > + * @RZG2L_CRU_DMA_STOPPED:   No operation in progress
+> > > > + * @RZG2L_CRU_DMA_STARTING:  Capture starting up
+> > > > + * @RZG2L_CRU_DMA_RUNNING:   Operation in progress have buffers
+> > > > + * @RZG2L_CRU_DMA_STOPPING:  Stopping operation
+> > > > + */
+> > > > +enum rzg2l_cru_dma_state {
+> > > > +     RZG2L_CRU_DMA_STOPPED = 0,
+> > > > +     RZG2L_CRU_DMA_STARTING,
+> > > > +     RZG2L_CRU_DMA_RUNNING,
+> > > > +     RZG2L_CRU_DMA_STOPPING,
+> > > > +};
+> > > > +
+> > > > +struct rzg2l_cru_csi {
+> > > > +     struct v4l2_async_subdev *asd;
+> > > > +     struct v4l2_subdev *subdev;
+> > > > +     u32 channel;
+> > > > +};
+> > > > +
+> > > > +/**
+> > > > + * struct rzg2l_cru_dev - Renesas CRU device structure
+> > > > + * @dev:             (OF) device
+> > > > + * @base:            device I/O register space remapped to virtual memory
+> > > > + * @info:            info about CRU instance
+> > > > + *
+> > > > + * @presetn:         CRU_PRESETN reset line
+> > > > + * @aresetn:         CRU_ARESETN reset line
+> > > > + *
+> > > > + * @vclk:            CRU Main clock
+> > > > + * @pclk:            CPU Register access clock
+> > > > + * @aclk:            CRU image transfer clock
+> > > > + *
+> > > > + * @vdev:            V4L2 video device associated with CRU
+> > > > + * @v4l2_dev:                V4L2 device
+> > > > + * @ctrl_handler:    V4L2 control handler
+> > > > + * @num_buf:         Holds the current number of buffers enabled
+> > > > + * @notifier:                V4L2 asynchronous subdevs notifier
+> > > > + *
+> > > > + * @csi:             CSI info
+> > > > + * @mdev:            media device
+> > > > + * @mdev_lock:               protects the count, notifier and csi members
+> > > > + * @pad:             media pad for the video device entity
+> > > > + *
+> > > > + * @lock:            protects @queue
+> > > > + * @queue:           vb2 buffers queue
+> > > > + * @scratch:         cpu address for scratch buffer
+> > > > + * @scratch_phys:    physical address of the scratch buffer
+> > > > + *
+> > > > + * @qlock:           protects @queue_buf, @buf_list, @sequence
+> > > > + *                   @state
+> > > > + * @queue_buf:               Keeps track of buffers given to HW slot
+> > > > + * @buf_list:                list of queued buffers
+> > > > + * @sequence:                V4L2 buffers sequence number
+> > > > + * @state:           keeps track of operation state
+> > > > + *
+> > > > + * @is_csi:          flag to mark the CRU as using a CSI-2 subdevice
+> > > > + *
+> > > > + * @input_is_yuv:    flag to mark the input format of CRU
+> > > > + * @output_is_yuv:   flag to mark the output format of CRU
+> > > > + *
+> > > > + * @mbus_code:               media bus format code
+> > > > + * @format:          active V4L2 pixel format
+> > > > + *
+> > > > + * @compose:         active composing
+> > > > + */
+> > > > +struct rzg2l_cru_dev {
+> > > > +     struct device *dev;
+> > > > +     void __iomem *base;
+> > > > +     const struct rzg2l_cru_info *info;
+> > > > +
+> > > > +     struct reset_control *presetn;
+> > > > +     struct reset_control *aresetn;
+> > > > +
+> > > > +     struct clk *vclk;
+> > > > +     struct clk *pclk;
+> > > > +     struct clk *aclk;
+> > > > +
+> > > > +     struct video_device vdev;
+> > > > +     struct v4l2_device v4l2_dev;
+> > > > +     u8 num_buf;
+> > > > +
+> > > > +     struct v4l2_async_notifier notifier;
+> > > > +
+> > > > +     struct rzg2l_cru_csi csi;
+> > > > +     struct media_device mdev;
+> > > > +     struct mutex mdev_lock;
+> > > > +     struct media_pad pad;
+> > > > +
+> > > > +     struct mutex lock;
+> > > > +     struct vb2_queue queue;
+> > > > +     void *scratch;
+> > > > +     dma_addr_t scratch_phys;
+> > > > +
+> > > > +     spinlock_t qlock;
+> > > > +     struct vb2_v4l2_buffer *queue_buf[HW_BUFFER_MAX];
+> > > > +     struct list_head buf_list;
+> > > > +     unsigned int sequence;
+> > > > +     enum rzg2l_cru_dma_state state;
+> > > > +
+> > > > +     bool is_csi;
+> > > > +
+> > > > +     bool input_is_yuv;
+> > > > +     bool output_is_yuv;
+> > > > +
+> > > > +     u32 mbus_code;
+> > > > +     struct v4l2_pix_format format;
+> > > > +
+> > > > +     struct v4l2_rect compose;
+> > > > +};
+> > > > +
+> > > > +int rzg2l_cru_dma_register(struct rzg2l_cru_dev *cru, int irq);
+> > > > +void rzg2l_cru_dma_unregister(struct rzg2l_cru_dev *cru);
+> > > > +
+> > > > +int rzg2l_cru_v4l2_register(struct rzg2l_cru_dev *cru);
+> > > > +void rzg2l_cru_v4l2_unregister(struct rzg2l_cru_dev *cru);
+> > > > +
+> > > > +const struct v4l2_format_info *rzg2l_cru_format_from_pixel(u32 format);
+> > > > +
+> > > > +#endif
+> > > > diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-dma.c b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-dma.c
+> > > > new file mode 100644
+> > > > index 000000000000..44efd071f562
+> > > > --- /dev/null
+> > > > +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-dma.c
+> > > > @@ -0,0 +1,734 @@
+> > > > +// SPDX-License-Identifier: GPL-2.0+
+> > > > +/*
+> > > > + * Driver for Renesas RZ/G2L CRU
+> > > > + *
+> > > > + * Copyright (C) 2022 Renesas Electronics Corp.
+> > > > + *
+> > > > + * Based on Renesas R-Car VIN
+> > > > + * Copyright (C) 2011-2013 Renesas Solutions Corp.
+> > > > + * Copyright (C) 2013 Cogent Embedded, Inc., <source@cogentembedded.com>
+> > > > + * Copyright (C) 2008 Magnus Damm
+> > > > + */
+> > > > +
+> > > > +#include <linux/clk.h>
+> > > > +#include <linux/delay.h>
+> > > > +#include <linux/interrupt.h>
+> > > > +
+> > > > +#include <media/videobuf2-dma-contig.h>
+> > > > +
+> > > > +#include "rzg2l-cru.h"
+> > > > +#include "rzg2l-csi2.h"
+> > > > +
+> > > > +/* HW CRU Registers Definition */
+> > > > +/* CRU Control Register */
+> > > > +#define CRUnCTRL                     0x0
+> > > > +#define CRUnCTRL_VINSEL(x)           ((x) << 0)
+> > > > +
+> > > > +/* CRU Interrupt Enable Register */
+> > > > +#define CRUnIE                               0x4
+> > > > +#define CRUnIE_SFE                   BIT(16)
+> > > > +#define CRUnIE_EFE                   BIT(17)
+> > > > +
+> > > > +/* CRU Interrupt Status Register */
+> > > > +#define CRUnINTS                     0x8
+> > > > +#define CRUnINTS_SFS                 BIT(16)
+> > > > +
+> > > > +/* CRU Reset Register */
+> > > > +#define CRUnRST                              0xc
+> > > > +#define CRUnRST_VRESETN                      BIT(0)
+> > > > +
+> > > > +/* Memory Bank Base Address (Lower) Register for CRU Image Data */
+> > > > +#define AMnMBxADDRL(x)                       (0x100 + ((x) * 8))
+> > > > +
+> > > > +/* Memory Bank Base Address (Higher) Register for CRU Image Data */
+> > > > +#define AMnMBxADDRH(x)                       (0x104 + ((x) * 8))
+> > > > +
+> > > > +/* Memory Bank Enable Register for CRU Image Data */
+> > > > +#define AMnMBVALID                   0x148
+> > > > +#define AMnMBVALID_MBVALID(x)                GENMASK(x, 0)
+> > > > +
+> > > > +/* Memory Bank Status Register for CRU Image Data */
+> > > > +#define AMnMBS                               0x14c
+> > > > +#define AMnMBS_MBSTS                 0x7
+> > > > +
+> > > > +/* AXI Master FIFO Pointer Register for CRU Image Data */
+> > > > +#define AMnFIFOPNTR                  0x168
+> > > > +#define AMnFIFOPNTR_FIFOWPNTR                GENMASK(7, 0)
+> > > > +#define AMnFIFOPNTR_FIFORPNTR_Y              GENMASK(23, 16)
+> > > > +
+> > > > +/* AXI Master Transfer Stop Register for CRU Image Data */
+> > > > +#define AMnAXISTP                    0x174
+> > > > +#define AMnAXISTP_AXI_STOP           BIT(0)
+> > > > +
+> > > > +/* AXI Master Transfer Stop Status Register for CRU Image Data */
+> > > > +#define AMnAXISTPACK                 0x178
+> > > > +#define AMnAXISTPACK_AXI_STOP_ACK    BIT(0)
+> > > > +
+> > > > +/* CRU Image Processing Enable Register */
+> > > > +#define ICnEN                                0x200
+> > > > +#define ICnEN_ICEN                   BIT(0)
+> > > > +
+> > > > +/* CRU Image Processing Main Control Register */
+> > > > +#define ICnMC                                0x208
+> > > > +#define ICnMC_CSCTHR                 BIT(5)
+> > > > +#define ICnMC_INF_YUV8_422           (0x1e << 16)
+> > > > +#define ICnMC_INF_USER                       (0x30 << 16)
+> > > > +#define ICnMC_VCSEL(x)                       ((x) << 22)
+> > > > +#define ICnMC_INF_MASK                       GENMASK(21, 16)
+> > > > +
+> > > > +/* CRU Module Status Register */
+> > > > +#define ICnMS                                0x254
+> > > > +#define ICnMS_IA                     BIT(2)
+> > > > +
+> > > > +/* CRU Data Output Mode Register */
+> > > > +#define ICnDMR                               0x26c
+> > > > +#define ICnDMR_YCMODE_UYVY           (1 << 4)
+> > > > +
+> > > > +#define RZG2L_TIMEOUT_MS             100
+> > > > +#define RZG2L_RETRIES                        10
+> > > > +
+> > > > +struct rzg2l_cru_buffer {
+> > > > +     struct vb2_v4l2_buffer vb;
+> > > > +     struct list_head list;
+> > > > +};
+> > > > +
+> > > > +#define to_buf_list(vb2_buffer) (&container_of(vb2_buffer, \
+> > > > +                                             struct rzg2l_cru_buffer, \
+> > > > +                                             vb)->list)
+> > > > +
+> > > > +static void rzg2l_cru_write(struct rzg2l_cru_dev *cru, u32 offset, u32 value)
+> > > > +{
+> > > > +     iowrite32(value, cru->base + offset);
+> > > > +}
+> > > > +
+> > > > +static u32 rzg2l_cru_read(struct rzg2l_cru_dev *cru, u32 offset)
+> > > > +{
+> > > > +     return ioread32(cru->base + offset);
+> > > > +}
+> > > > +
+> > > > +/* Need to hold qlock before calling */
+> > > > +static void return_unused_buffers(struct rzg2l_cru_dev *cru,
+> > > > +                               enum vb2_buffer_state state)
+> > > > +{
+> > > > +     struct rzg2l_cru_buffer *buf, *node;
+> > > > +     unsigned long flags;
+> > > > +     unsigned int i;
+> > > > +
+> > > > +     spin_lock_irqsave(&cru->qlock, flags);
+> > > > +     for (i = 0; i < cru->num_buf; i++) {
+> > > > +             if (cru->queue_buf[i]) {
+> > > > +                     vb2_buffer_done(&cru->queue_buf[i]->vb2_buf,
+> > > > +                                     state);
+> > > > +                     cru->queue_buf[i] = NULL;
+> > > > +             }
+> > > > +     }
+> > > > +
+> > > > +     list_for_each_entry_safe(buf, node, &cru->buf_list, list) {
+> > > > +             vb2_buffer_done(&buf->vb.vb2_buf, state);
+> > > > +             list_del(&buf->list);
+> > > > +     }
+> > > > +     spin_unlock_irqrestore(&cru->qlock, flags);
+> > > > +}
+> > > > +
+> > > > +static int rzg2l_cru_queue_setup(struct vb2_queue *vq, unsigned int *nbuffers,
+> > > > +                              unsigned int *nplanes, unsigned int sizes[],
+> > > > +                              struct device *alloc_devs[])
+> > > > +{
+> > > > +     struct rzg2l_cru_dev *cru = vb2_get_drv_priv(vq);
+> > > > +
+> > > > +     /* Make sure the image size is large enough. */
+> > > > +     if (*nplanes)
+> > > > +             return sizes[0] < cru->format.sizeimage ? -EINVAL : 0;
+> > > > +
+> > > > +     *nplanes = 1;
+> > > > +     sizes[0] = cru->format.sizeimage;
+> > > > +
+> > > > +     return 0;
+> > > > +};
+> > > > +
+> > > > +static int rzg2l_cru_buffer_prepare(struct vb2_buffer *vb)
+> > > > +{
+> > > > +     struct rzg2l_cru_dev *cru = vb2_get_drv_priv(vb->vb2_queue);
+> > > > +     unsigned long size = cru->format.sizeimage;
+> > > > +
+> > > > +     if (vb2_plane_size(vb, 0) < size) {
+> > > > +             dev_err(cru->dev, "buffer too small (%lu < %lu)\n",
+> > > > +                     vb2_plane_size(vb, 0), size);
+> > > > +             return -EINVAL;
+> > > > +     }
+> > > > +
+> > > > +     vb2_set_plane_payload(vb, 0, size);
+> > > > +
+> > > > +     return 0;
+> > > > +}
+> > > > +
+> > > > +static void rzg2l_cru_buffer_queue(struct vb2_buffer *vb)
+> > > > +{
+> > > > +     struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
+> > > > +     struct rzg2l_cru_dev *cru = vb2_get_drv_priv(vb->vb2_queue);
+> > > > +     unsigned long flags;
+> > > > +
+> > > > +     spin_lock_irqsave(&cru->qlock, flags);
+> > > > +
+> > > > +     list_add_tail(to_buf_list(vbuf), &cru->buf_list);
+> > > > +
+> > > > +     spin_unlock_irqrestore(&cru->qlock, flags);
+> > > > +}
+> > > > +
+> > > > +static int rzg2l_cru_mc_validate_format(struct rzg2l_cru_dev *cru,
+> > > > +                                     struct v4l2_subdev *sd,
+> > > > +                                     struct media_pad *pad)
+> > > > +{
+> > > > +     struct v4l2_subdev_format fmt = {
+> > > > +             .which = V4L2_SUBDEV_FORMAT_ACTIVE,
+> > > > +     };
+> > > > +
+> > > > +     fmt.pad = pad->index;
+> > > > +     if (v4l2_subdev_call_state_active(sd, pad, get_fmt, &fmt))
+> > > > +             return -EPIPE;
+> > > > +
+> > > > +     if (cru->is_csi) {
+> > > > +             switch (fmt.format.code) {
+> > > > +             case MEDIA_BUS_FMT_UYVY8_1X16:
+> > > > +                     break;
+> > > > +             default:
+> > > > +                     return -EPIPE;
+> > > > +             }
+> > > > +     }
+> > > > +     cru->mbus_code = fmt.format.code;
+> > > > +
+> > > > +     switch (fmt.format.field) {
+> > > > +     case V4L2_FIELD_TOP:
+> > > > +     case V4L2_FIELD_BOTTOM:
+> > > > +     case V4L2_FIELD_NONE:
+> > > > +     case V4L2_FIELD_INTERLACED_TB:
+> > > > +     case V4L2_FIELD_INTERLACED_BT:
+> > > > +     case V4L2_FIELD_INTERLACED:
+> > > > +     case V4L2_FIELD_SEQ_TB:
+> > > > +     case V4L2_FIELD_SEQ_BT:
+> > > > +             break;
+> > > > +     default:
+> > > > +             return -EPIPE;
+> > > > +     }
+> > > > +
+> > > > +     if (fmt.format.width != cru->format.width ||
+> > > > +         fmt.format.height != cru->format.height ||
+> > > > +         fmt.format.code != cru->mbus_code)
+> > > > +             return -EPIPE;
+> > > > +
+> > > > +     return 0;
+> > > > +}
+> > > > +
+> > > > +static void rzg2l_cru_set_slot_addr(struct rzg2l_cru_dev *cru,
+> > > > +                                 int slot, dma_addr_t addr)
+> > > > +{
+> > > > +     const struct v4l2_format_info *fmt;
+> > > > +     int offsetx, offsety;
+> > > > +     dma_addr_t offset;
+> > > > +
+> > > > +     fmt = rzg2l_cru_format_from_pixel(cru->format.pixelformat);
+> > > > +
+> > > > +     /*
+> > > > +      * There is no HW support for composition do the best we can
+> > > > +      * by modifying the buffer offset
+> > > > +      */
+> > > > +     offsetx = cru->compose.left * fmt->bpp[0];
+> > > > +     offsety = cru->compose.top * cru->format.bytesperline;
+> > > > +     offset = addr + offsetx + offsety;
+> > > > +
+> > > > +     /*
+> > > > +      * The address needs to be 512 bytes aligned. Driver should never accept
+> > > > +      * settings that do not satisfy this in the first place...
+> > > > +      */
+> > > > +     if (WARN_ON((offsetx | offsety | offset) & HW_BUFFER_MASK))
+> > > > +             return;
+> > > > +
+> > > > +     /* Currently, we just use the buffer in 32 bits address */
+> > > > +     rzg2l_cru_write(cru, AMnMBxADDRL(slot), offset);
+> > > > +     rzg2l_cru_write(cru, AMnMBxADDRH(slot), 0);
+> > > > +}
+> > > > +
+> > > > +/*
+> > > > + * Moves a buffer from the queue to the HW slot. If no buffer is
+> > > > + * available use the scratch buffer. The scratch buffer is never
+> > > > + * returned to userspace, its only function is to enable the capture
+> > > > + * loop to keep running.
+> > > > + */
+> > > > +static void rzg2l_cru_fill_hw_slot(struct rzg2l_cru_dev *cru, int slot)
+> > > > +{
+> > > > +     struct vb2_v4l2_buffer *vbuf;
+> > > > +     struct rzg2l_cru_buffer *buf;
+> > > > +     dma_addr_t phys_addr;
+> > > > +
+> > > > +     /* A already populated slot shall never be overwritten. */
+> > > > +     if (WARN_ON(cru->queue_buf[slot]))
+> > > > +             return;
+> > > > +
+> > > > +     dev_dbg(cru->dev, "Filling HW slot: %d\n", slot);
+> > > > +
+> > > > +     if (list_empty(&cru->buf_list)) {
+> > > > +             cru->queue_buf[slot] = NULL;
+> > > > +             phys_addr = cru->scratch_phys;
+> > > > +     } else {
+> > > > +             /* Keep track of buffer we give to HW */
+> > > > +             buf = list_entry(cru->buf_list.next,
+> > > > +                              struct rzg2l_cru_buffer, list);
+> > > > +             vbuf = &buf->vb;
+> > > > +             list_del_init(to_buf_list(vbuf));
+> > > > +             cru->queue_buf[slot] = vbuf;
+> > > > +
+> > > > +             /* Setup DMA */
+> > > > +             phys_addr = vb2_dma_contig_plane_dma_addr(&vbuf->vb2_buf, 0);
+> > > > +     }
+> > > > +
+> > > > +     rzg2l_cru_set_slot_addr(cru, slot, phys_addr);
+> > > > +}
+> > > > +
+> > > > +static void rzg2l_cru_initialize_axi(struct rzg2l_cru_dev *cru)
+> > > > +{
+> > > > +     unsigned int slot;
+> > > > +
+> > > > +     /*
+> > > > +      * Set image data memory banks.
+> > > > +      * Currently, we will use maximum address.
+> > > > +      */
+> > > > +     rzg2l_cru_write(cru, AMnMBVALID, AMnMBVALID_MBVALID(cru->num_buf - 1));
+> > > > +
+> > > > +     for (slot = 0; slot < cru->num_buf; slot++)
+> > > > +             rzg2l_cru_fill_hw_slot(cru, slot);
+> > > > +}
+> > > > +
+> > > > +static void rzg2l_cru_csi2_setup(struct rzg2l_cru_dev *cru)
+> > > > +{
+> > > > +     u32 icnmc;
+> > > > +
+> > > > +     switch (cru->mbus_code) {
+> > > > +     case MEDIA_BUS_FMT_UYVY8_1X16:
+> > > > +             icnmc = ICnMC_INF_YUV8_422;
+> > > > +             cru->input_is_yuv = true;
+> > > > +             break;
+> > > > +     default:
+> > > > +             cru->input_is_yuv = false;
+> > > > +             icnmc = ICnMC_INF_USER;
+> > > > +             break;
+> > > > +     }
+> > > > +
+> > > > +     icnmc |= (rzg2l_cru_read(cru, ICnMC) & ~ICnMC_INF_MASK);
+> > > > +
+> > > > +     /* Set virtual channel CSI2 */
+> > > > +     icnmc |= ICnMC_VCSEL(cru->csi.channel);
+> > > > +
+> > > > +     rzg2l_cru_write(cru, ICnMC, icnmc);
+> > > > +}
+> > > > +
+> > > > +static int rzg2l_cru_initialize_image_conv(struct rzg2l_cru_dev *cru)
+> > > > +{
+> > > > +     u32 icndmr;
+> > > > +
+> > > > +     if (cru->is_csi)
+> > > > +             rzg2l_cru_csi2_setup(cru);
+> > > > +
+> > > > +     /* Output format */
+> > > > +     switch (cru->format.pixelformat) {
+> > > > +     case V4L2_PIX_FMT_UYVY:
+> > > > +             icndmr = ICnDMR_YCMODE_UYVY;
+> > > > +             cru->output_is_yuv = true;
+> > > > +             break;
+> > > > +     default:
+> > > > +             dev_err(cru->dev, "Invalid pixelformat (0x%x)\n",
+> > > > +                     cru->format.pixelformat);
+> > > > +             return -EINVAL;
+> > > > +     }
+> > > > +
+> > > > +     /* If input and output use same colorspace, do bypass mode */
+> > > > +     if (cru->output_is_yuv == cru->input_is_yuv)
+> > > > +             rzg2l_cru_write(cru, ICnMC,
+> > > > +                             rzg2l_cru_read(cru, ICnMC) | ICnMC_CSCTHR);
+> > > > +     else
+> > > > +             rzg2l_cru_write(cru, ICnMC,
+> > > > +                             rzg2l_cru_read(cru, ICnMC) & (~ICnMC_CSCTHR));
+> > > > +
+> > > > +     /* Set output data format */
+> > > > +     rzg2l_cru_write(cru, ICnDMR, icndmr);
+> > > > +
+> > > > +     return 0;
+> > > > +}
+> > > > +
+> > > > +static int rzg2l_cru_set_stream(struct rzg2l_cru_dev *cru, int on)
+> > > > +{
+> > > > +     struct rzg2l_csi2 *csi2 = sd_to_csi2(cru->csi.subdev);
+> > > > +     struct media_pipeline *pipe;
+> > > > +     struct v4l2_subdev *sd;
+> > > > +     struct media_pad *pad;
+> > > > +     unsigned long flags;
+> > > > +     int ret;
+> > > > +
+> > > > +     pad = media_pad_remote_pad_first(&cru->pad);
+> > > > +     if (!pad)
+> > > > +             return -EPIPE;
+> > > > +
+> > > > +     sd = media_entity_to_v4l2_subdev(pad->entity);
+> > > > +
+> > > > +     if (!on) {
+> > > > +             media_pipeline_stop(&cru->vdev.entity);
+> > > > +             return v4l2_subdev_call(sd, video, s_stream, 0);
+> > > > +     }
+> > > > +
+> > > > +     ret = rzg2l_cru_mc_validate_format(cru, sd, pad);
+> > > > +     if (ret)
+> > > > +             return ret;
+> > > > +
+> > > > +     rzg2l_csi2_dphy_setting(csi2, 1);
+> > > > +
+> > > > +     spin_lock_irqsave(&cru->qlock, flags);
+> > > > +
+> > > > +     /* Select a video input */
+> > > > +     if (cru->is_csi)
+> > > > +             rzg2l_cru_write(cru, CRUnCTRL, CRUnCTRL_VINSEL(0));
+> > > > +
+> > > > +     /* Cancel the software reset for image processing block */
+> > > > +     rzg2l_cru_write(cru, CRUnRST, CRUnRST_VRESETN);
+> > > > +
+> > > > +     /* Disable and clear the interrupt before using */
+> > > > +     rzg2l_cru_write(cru, CRUnIE, 0);
+> > > > +     rzg2l_cru_write(cru, CRUnINTS, 0x001f000f);
+> > > > +
+> > > > +     /* Initialize the AXI master */
+> > > > +     rzg2l_cru_initialize_axi(cru);
+> > > > +
+> > > > +     /* Initialize image convert */
+> > > > +     ret = rzg2l_cru_initialize_image_conv(cru);
+> > > > +     if (ret) {
+> > > > +             spin_unlock_irqrestore(&cru->qlock, flags);
+> > > > +             return ret;
+> > > > +     }
+> > > > +
+> > > > +     /* Enable interrupt */
+> > > > +     rzg2l_cru_write(cru, CRUnIE, CRUnIE_EFE);
+> > > > +
+> > > > +     /* Enable image processing reception */
+> > > > +     rzg2l_cru_write(cru, ICnEN, ICnEN_ICEN);
+> > > > +
+> > > > +     spin_unlock_irqrestore(&cru->qlock, flags);
+> > > > +
+> > > > +     pipe = sd->entity.pipe ? sd->entity.pipe : &cru->vdev.pipe;
+> > > > +     ret = media_pipeline_start(&cru->vdev.entity, pipe);
+> > > > +     if (ret)
+> > > > +             return ret;
+> > > > +
+> > > > +     clk_disable_unprepare(cru->vclk);
+> > > > +
+> > > > +     rzg2l_csi2_mipi_link_setting(csi2, 1);
+> > > > +
+> > > > +     ret = clk_prepare_enable(cru->vclk);
+> > > > +     if (ret)
+> > > > +             return ret;
+> > > > +
+> > > > +     rzg2l_csi2_cmn_rstb_deassert(csi2);
+> > > > +
+> > > > +     ret = v4l2_subdev_call(sd, video, s_stream, 1);
+> > > > +     if (ret == -ENOIOCTLCMD)
+> > > > +             ret = 0;
+> > > > +     if (ret)
+> > > > +             media_pipeline_stop(&cru->vdev.entity);
+> > > > +
+> > > > +     return ret;
+> > > > +}
+> > > > +
+> > > > +static void rzg2l_cru_stop_streaming(struct rzg2l_cru_dev *cru)
+> > > > +{
+> > > > +     struct rzg2l_csi2 *csi2 = sd_to_csi2(cru->csi.subdev);
+> > > > +     u32 amnfifopntr, amnfifopntr_w, amnfifopntr_r_y;
+> > > > +     unsigned int retries = 0;
+> > > > +     unsigned long flags;
+> > > > +     u32 icnms;
+> > > > +
+> > > > +     cru->state = RZG2L_CRU_DMA_STOPPING;
+> > > > +
+> > > > +     rzg2l_cru_set_stream(cru, 0);
+> > > > +
+> > > > +     rzg2l_csi2_dphy_setting(csi2, 0);
+> > > > +
+> > > > +     rzg2l_csi2_mipi_link_setting(csi2, 0);
+> > > > +
+> > > > +     spin_lock_irqsave(&cru->qlock, flags);
+> > > > +
+> > > > +     /* Disable and clear the interrupt */
+> > > > +     rzg2l_cru_write(cru, CRUnIE, 0);
+> > > > +     rzg2l_cru_write(cru, CRUnINTS, 0x001F0F0F);
+> > > > +
+> > > > +     /* Stop the operation of image conversion */
+> > > > +     rzg2l_cru_write(cru, ICnEN, 0);
+> > > > +
+> > > > +     /* Wait for streaming to stop */
+> > > > +     while ((rzg2l_cru_read(cru, ICnMS) & ICnMS_IA) && retries++ < RZG2L_RETRIES) {
+> > > > +             spin_unlock_irqrestore(&cru->qlock, flags);
+> > > > +             msleep(RZG2L_TIMEOUT_MS);
+> > > > +             spin_lock_irqsave(&cru->qlock, flags);
+> > > > +     }
+> > > > +
+> > > > +     icnms = rzg2l_cru_read(cru, ICnMS) & ICnMS_IA;
+> > > > +     if (icnms)
+> > > > +             dev_err(cru->dev, "Failed stop HW, something is seriously broken\n");
+> > > > +
+> > > > +     cru->state = RZG2L_CRU_DMA_STOPPED;
+> > > > +
+> > > > +     /* Wait until the FIFO becomes empty */
+> > > > +     for (retries = 5; retries > 0; retries--) {
+> > > > +             amnfifopntr = rzg2l_cru_read(cru, AMnFIFOPNTR);
+> > > > +
+> > > > +             amnfifopntr_w = amnfifopntr & AMnFIFOPNTR_FIFOWPNTR;
+> > > > +             amnfifopntr_r_y =
+> > > > +                     (amnfifopntr & AMnFIFOPNTR_FIFORPNTR_Y) >> 16;
+> > > > +             if (amnfifopntr_w == amnfifopntr_r_y)
+> > > > +                     break;
+> > > > +
+> > > > +             usleep_range(10, 20);
+> > > > +     }
+> > > > +
+> > > > +     /* Notify that FIFO is not empty here */
+> > > > +     if (!retries)
+> > > > +             dev_err(cru->dev, "Failed to empty FIFO\n");
+> > > > +
+> > > > +     /* Stop AXI bus */
+> > > > +     rzg2l_cru_write(cru, AMnAXISTP, AMnAXISTP_AXI_STOP);
+> > > > +
+> > > > +     /* Wait until the AXI bus stop */
+> > > > +     for (retries = 5; retries > 0; retries--) {
+> > > > +             if (rzg2l_cru_read(cru, AMnAXISTPACK) &
+> > > > +                     AMnAXISTPACK_AXI_STOP_ACK)
+> > > > +                     break;
+> > > > +
+> > > > +             usleep_range(10, 20);
+> > > > +     };
+> > > > +
+> > > > +     /* Notify that AXI bus can not stop here */
+> > > > +     if (!retries)
+> > > > +             dev_err(cru->dev, "Failed to stop AXI bus\n");
+> > > > +
+> > > > +     /* Cancel the AXI bus stop request */
+> > > > +     rzg2l_cru_write(cru, AMnAXISTP, 0);
+> > > > +
+> > > > +     /* Resets the image processing module */
+> > > > +     rzg2l_cru_write(cru, CRUnRST, 0);
+> > > > +
+> > > > +     spin_unlock_irqrestore(&cru->qlock, flags);
+> > > > +
+> > > > +     /* Set reset state */
+> > > > +     reset_control_assert(cru->aresetn);
+> > > > +}
+> > > > +
+> > > > +static int rzg2l_cru_start_streaming_vq(struct vb2_queue *vq, unsigned int count)
+> > > > +{
+> > > > +     struct rzg2l_cru_dev *cru = vb2_get_drv_priv(vq);
+> > > > +     int ret;
+> > > > +
+> > > > +     /* Release reset state */
+> > > > +     ret = reset_control_deassert(cru->aresetn);
+> > > > +     if (ret) {
+> > > > +             dev_err(cru->dev, "failed to deassert aresetn\n");
+> > > > +             return ret;
+> > > > +     }
+> > > > +
+> > > > +     /* Allocate scratch buffer. */
+> > > > +     cru->scratch = dma_alloc_coherent(cru->dev, cru->format.sizeimage,
+> > > > +                                       &cru->scratch_phys, GFP_KERNEL);
+> > > > +     if (!cru->scratch) {
+> > > > +             return_unused_buffers(cru, VB2_BUF_STATE_QUEUED);
+> > > > +             dev_err(cru->dev, "Failed to allocate scratch buffer\n");
+> > > > +             return -ENOMEM;
+> > > > +     }
+> > > > +
+> > > > +     cru->sequence = 0;
+> > > > +
+> > > > +     ret = rzg2l_cru_set_stream(cru, 1);
+> > > > +     if (ret) {
+> > > > +             return_unused_buffers(cru, VB2_BUF_STATE_QUEUED);
+> > > > +             goto out;
+> > > > +     }
+> > > > +
+> > > > +     cru->state = RZG2L_CRU_DMA_STARTING;
+> > > > +
+> > > > +     dev_dbg(cru->dev, "Starting to capture\n");
+> > > > +
+> > > > +out:
+> > > > +     if (ret)
+> > > > +             dma_free_coherent(cru->dev, cru->format.sizeimage, cru->scratch,
+> > > > +                               cru->scratch_phys);
+> > > > +
+> > > > +     return ret;
+> > > > +}
+> > > > +
+> > > > +static void rzg2l_cru_stop_streaming_vq(struct vb2_queue *vq)
+> > > > +{
+> > > > +     struct rzg2l_cru_dev *cru = vb2_get_drv_priv(vq);
+> > > > +
+> > > > +     rzg2l_cru_stop_streaming(cru);
+> > > > +
+> > > > +     /* Free scratch buffer */
+> > > > +     dma_free_coherent(cru->dev, cru->format.sizeimage, cru->scratch,
+> > > > +                       cru->scratch_phys);
+> > > > +
+> > > > +     return_unused_buffers(cru, VB2_BUF_STATE_ERROR);
+> > > > +}
+> > > > +
+> > > > +static const struct vb2_ops rzg2l_cru_qops = {
+> > > > +     .queue_setup            = rzg2l_cru_queue_setup,
+> > > > +     .buf_prepare            = rzg2l_cru_buffer_prepare,
+> > > > +     .buf_queue              = rzg2l_cru_buffer_queue,
+> > > > +     .start_streaming        = rzg2l_cru_start_streaming_vq,
+> > > > +     .stop_streaming         = rzg2l_cru_stop_streaming_vq,
+> > > > +     .wait_prepare           = vb2_ops_wait_prepare,
+> > > > +     .wait_finish            = vb2_ops_wait_finish,
+> > > > +};
+> > > > +
+> > > > +static irqreturn_t rzg2l_cru_irq(int irq, void *data)
+> > > > +{
+> > > > +     struct rzg2l_cru_dev *cru = data;
+> > > > +     unsigned int handled = 0;
+> > > > +     unsigned long flags;
+> > > > +     u32 irq_status;
+> > > > +     u32 amnmbs;
+> > > > +     int slot;
+> > > > +
+> > > > +     spin_lock_irqsave(&cru->qlock, flags);
+> > > > +
+> > > > +     irq_status = rzg2l_cru_read(cru, CRUnINTS);
+> > > > +     if (!irq_status)
+> > > > +             goto done;
+> > > > +
+> > > > +     handled = 1;
+> > > > +
+> > > > +     rzg2l_cru_write(cru, CRUnINTS, rzg2l_cru_read(cru, CRUnINTS));
+> > > > +
+> > > > +     /* Nothing to do if capture status is 'RZG2L_CRU_DMA_STOPPED' */
+> > > > +     if (cru->state == RZG2L_CRU_DMA_STOPPED) {
+> > > > +             dev_dbg(cru->dev, "IRQ while state stopped\n");
+> > > > +             goto done;
+> > > > +     }
+> > > > +
+> > > > +     /* Increase stop retries if capture status is 'RZG2L_CRU_DMA_STOPPING' */
+> > > > +     if (cru->state == RZG2L_CRU_DMA_STOPPING) {
+> > > > +             if (irq_status & CRUnINTS_SFS)
+> > > > +                     dev_dbg(cru->dev, "IRQ while state stopping\n");
+> > > > +             goto done;
+> > > > +     }
+> > > > +
+> > > > +     /* Prepare for capture and update state */
+> > > > +     amnmbs = rzg2l_cru_read(cru, AMnMBS);
+> > > > +     slot = amnmbs & AMnMBS_MBSTS;
+> > > > +
+> > > > +     /*
+> > > > +      * AMnMBS.MBSTS indicates the destination of Memory Bank (MB).
+> > > > +      * Recalculate to get the current transfer complete MB.
+> > > > +      */
+> > > > +     if (slot == 0)
+> > > > +             slot = cru->num_buf - 1;
+> > > > +     else
+> > > > +             slot--;
+> > > > +
+> > > > +     /*
+> > > > +      * To hand buffers back in a known order to userspace start
+> > > > +      * to capture first from slot 0.
+> > > > +      */
+> > > > +     if (cru->state == RZG2L_CRU_DMA_STARTING) {
+> > > > +             if (slot != 0) {
+> > > > +                     dev_dbg(cru->dev, "Starting sync slot: %d\n", slot);
+> > > > +                     goto done;
+> > > > +             }
+> > > > +
+> > > > +             dev_dbg(cru->dev, "Capture start synced!\n");
+> > > > +             cru->state = RZG2L_CRU_DMA_RUNNING;
+> > > > +     }
+> > > > +
+> > > > +     /* Capture frame */
+> > > > +     if (cru->queue_buf[slot]) {
+> > > > +             cru->queue_buf[slot]->field = cru->format.field;
+> > > > +             cru->queue_buf[slot]->sequence = cru->sequence;
+> > > > +             cru->queue_buf[slot]->vb2_buf.timestamp = ktime_get_ns();
+> > > > +             vb2_buffer_done(&cru->queue_buf[slot]->vb2_buf,
+> > > > +                             VB2_BUF_STATE_DONE);
+> > > > +             cru->queue_buf[slot] = NULL;
+> > > > +     } else {
+> > > > +             /* Scratch buffer was used, dropping frame. */
+> > > > +             dev_dbg(cru->dev, "Dropping frame %u\n", cru->sequence);
+> > > > +     }
+> > > > +
+> > > > +     cru->sequence++;
+> > > > +
+> > > > +     /* Prepare for next frame */
+> > > > +     rzg2l_cru_fill_hw_slot(cru, slot);
+> > > > +
+> > > > +done:
+> > > > +     spin_unlock_irqrestore(&cru->qlock, flags);
+> > > > +
+> > > > +     return IRQ_RETVAL(handled);
+> > > > +}
+> > > > +
+> > > > +void rzg2l_cru_dma_unregister(struct rzg2l_cru_dev *cru)
+> > > > +{
+> > > > +     mutex_destroy(&cru->lock);
+> > > > +
+> > > > +     v4l2_device_unregister(&cru->v4l2_dev);
+> > > > +     reset_control_assert(cru->presetn);
+> > > > +}
+> > > > +
+> > > > +int rzg2l_cru_dma_register(struct rzg2l_cru_dev *cru, int irq)
+> > > > +{
+> > > > +     struct vb2_queue *q = &cru->queue;
+> > > > +     unsigned int i;
+> > > > +     int ret;
+> > > > +
+> > > > +     ret = reset_control_deassert(cru->presetn);
+> > > > +     if (ret) {
+> > > > +             dev_err(cru->dev, "failed to deassert presetn\n");
+> > > > +             return ret;
+> > > > +     }
+> > >
+> > > Shouldn't this be done when starting streaming instead ?
+> >
+> > Agreed, Ill move it there.
+> >
+> > > > +
+> > > > +     /* Initialize the top-level structure */
+> > > > +     ret = v4l2_device_register(cru->dev, &cru->v4l2_dev);
+> > > > +     if (ret)
+> > > > +             return ret;
+> > > > +
+> > > > +     mutex_init(&cru->lock);
+> > > > +     INIT_LIST_HEAD(&cru->buf_list);
+> > > > +
+> > > > +     spin_lock_init(&cru->qlock);
+> > > > +
+> > > > +     cru->state = RZG2L_CRU_DMA_STOPPED;
+> > > > +
+> > > > +     for (i = 0; i < HW_BUFFER_MAX; i++)
+> > > > +             cru->queue_buf[i] = NULL;
+> > > > +
+> > > > +     /* buffer queue */
+> > > > +     q->type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
+> > > > +     q->io_modes = VB2_MMAP | VB2_READ | VB2_DMABUF;
+> > >
+> > > No VB2_READ please, that's very inefficient.
+> >
+> > OK, I'll drop it.
+> >
+> > > > +     q->lock = &cru->lock;
+> > > > +     q->drv_priv = cru;
+> > > > +     q->buf_struct_size = sizeof(struct rzg2l_cru_buffer);
+> > > > +     q->ops = &rzg2l_cru_qops;
+> > > > +     q->mem_ops = &vb2_dma_contig_memops;
+> > > > +     q->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
+> > > > +     q->min_buffers_needed = 4;
+> > >
+> > > Does the hardware really require 4 buffers to operate ?
+> >
+> > v4l2-compliance complains about sequnce mismatch when set to 3.
 >
-> 	ring_count =3D txr_count + rxr_count;
->-	size =3D struct_size(q_vector, ring, ring_count);
->+	size =3D kmalloc_size_roundup(struct_size(q_vector, ring, ring_count));
+> Then maybe there's another problem somewhere ? What's the minimum number
+> of buffers the hardware can operate with ?
+>
+FIFO depth is 16. We are using the similar code as rcar-vin where we
+use the scratch buffer (and also the rcar-vin sets the
+min_buffers_needed to 4)
 
-This looks good to me...
-
-> 	/* allocate q_vector and rings */
-> 	q_vector =3D adapter->q_vector[v_idx];
-> 	if (!q_vector) {
-> 		q_vector =3D kzalloc(size, GFP_KERNEL);
-> 	} else if (size > ksize(q_vector)) {
->-		kfree_rcu(q_vector, rcu);
-> 		q_vector =3D kzalloc(size, GFP_KERNEL);
->+		if (q_vector)
->+			kfree_rcu(q_vector, rcu);
-
-Even though this is in the ksize part, this seems like an unrelated change?
- Should this be in a different patch?
-
-Also, the kfree_rcu will free q_vector after the RCU grace period?
-
-Is that what you want to do?
-
-How does rcu distinguish between the original q_vector, and the newly kzall=
-oced one?
-
-Thanks,
-
-Mike
-
-
-
-> 	} else {
-> 		memset(q_vector, 0, size);
-> 	}
->--
->2.34.1
-
+Cheers,
+Prabhakar
