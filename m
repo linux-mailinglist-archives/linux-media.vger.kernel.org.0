@@ -2,121 +2,103 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9F5EC5E9A5B
-	for <lists+linux-media@lfdr.de>; Mon, 26 Sep 2022 09:22:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AF04E5E9A5D
+	for <lists+linux-media@lfdr.de>; Mon, 26 Sep 2022 09:23:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234025AbiIZHWa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 26 Sep 2022 03:22:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49060 "EHLO
+        id S234048AbiIZHXQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 26 Sep 2022 03:23:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49470 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233598AbiIZHW2 (ORCPT
+        with ESMTP id S233689AbiIZHXP (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 26 Sep 2022 03:22:28 -0400
-Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com [IPv6:2a00:1450:4864:20::62f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C64727B07
-        for <linux-media@vger.kernel.org>; Mon, 26 Sep 2022 00:22:26 -0700 (PDT)
-Received: by mail-ej1-x62f.google.com with SMTP id hy2so12071051ejc.8
-        for <linux-media@vger.kernel.org>; Mon, 26 Sep 2022 00:22:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date;
-        bh=arEExKrd27xpcTvK4rtW7+Qvh3aYRvXu9EvnpZK2cj0=;
-        b=DoOrvjFbE0Adr1A35SLOoMk9V9qmg44OrpXZ3JE69wpoYVtjmrUfIHPs3mRZjNfDg5
-         hUL/cseVsGwdQCIrTfeU/Lq7Qm+zWQsKKFglse4DDnk5QlJ/84fFwNOqe4rRM+dPOPsd
-         fpB50Wjt3YP1nOaFEiHlw3S76lU8lkeEHRakU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=arEExKrd27xpcTvK4rtW7+Qvh3aYRvXu9EvnpZK2cj0=;
-        b=lVmcijs4drvK9WOn/vsZs7rCRoDxTBOkbe3XX6cERhptSqff0J1Ib1S6UcEJJ77Gi1
-         YvrA4F69OMKp0LwoYD1/7SjRZ+eAebK/+1ESRMgoXzJuYqaHoKYKaNIcf0kVmRsEpaT+
-         CNFVw8jgG3Wk6RchTScHjL6P46NTWT2DotGEP/CBL0B8qzOf8wQC//kgilTgiaAeV+Rq
-         DmztIgIY0YQMhcKGyJQQwl7PD/6u9ingLCDXDyTZ95Z0LyPGn66SeRgBKhZ6T9eCwfGc
-         6eVmqXV3R9QPJx8mmdRf6XeRHMvg6j7ZdVgEWOVCwfFETgedSlMLfTulZKyfMDKCw+vW
-         b6bQ==
-X-Gm-Message-State: ACrzQf3NHKL998tj281LoXO9NUgkN9OLq06CbDALg03C1pu0h+8JVNqY
-        jXhYZVGu8WwpLbYLN/lH95eho3r+Ka8ieQ==
-X-Google-Smtp-Source: AMsMyM4LI9DN7du+l1gklRNfp5HhYNCxnNUwZpdAekofUdFqjPNWJ/HJzYnNfFx2/oYzcHcNcREstQ==
-X-Received: by 2002:a17:907:c13:b0:781:d3c2:5015 with SMTP id ga19-20020a1709070c1300b00781d3c25015mr16736742ejc.457.1664176944808;
-        Mon, 26 Sep 2022 00:22:24 -0700 (PDT)
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com. [209.85.208.53])
-        by smtp.gmail.com with ESMTPSA id qx10-20020a170906fcca00b0074182109623sm7975892ejb.39.2022.09.26.00.22.24
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 26 Sep 2022 00:22:24 -0700 (PDT)
-Received: by mail-ed1-f53.google.com with SMTP id e18so7754329edj.3
-        for <linux-media@vger.kernel.org>; Mon, 26 Sep 2022 00:22:24 -0700 (PDT)
-X-Received: by 2002:a05:6402:298b:b0:44f:20a:2db2 with SMTP id
- eq11-20020a056402298b00b0044f020a2db2mr21116022edb.138.1664176943666; Mon, 26
- Sep 2022 00:22:23 -0700 (PDT)
+        Mon, 26 Sep 2022 03:23:15 -0400
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 205F827B22;
+        Mon, 26 Sep 2022 00:23:12 -0700 (PDT)
+X-UUID: f424b5f4f30a4eb8b06251011b6e3f5d-20220926
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+        h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:CC:To:Subject:MIME-Version:Date:Message-ID; bh=IqWG+Rd5bDpvf8CcN3vOek+fmkXK/Li6MsYuujgzbAE=;
+        b=HEXQ9B4+4SSU5ndOdu+CPN1+JU7Za8penC6q75Vfg7nBrKZYbig9e98l5uHNX3VdnECEX9Z1m30ddxDBA3/UokQIuUL5jbtbTCX6xmbSOhXyzSa2rsdJ1NV20Yihf7QW+/ddvw2MRAW3sNsN1E+CVo6H0aoTuF9bZynsJRGT9TI=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.11,REQID:258a6b4a-062a-420e-b115-1e85eb617d77,IP:0,U
+        RL:0,TC:0,Content:-5,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+        :release,TS:-5
+X-CID-META: VersionHash:39a5ff1,CLOUDID:aa9737e4-87f9-4bb0-97b6-34957dc0fbbe,B
+        ulkID:nil,BulkQuantity:0,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,U
+        RL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0
+X-UUID: f424b5f4f30a4eb8b06251011b6e3f5d-20220926
+Received: from mtkexhb02.mediatek.inc [(172.21.101.103)] by mailgw02.mediatek.com
+        (envelope-from <allen-kh.cheng@mediatek.com>)
+        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+        with ESMTP id 1196096851; Mon, 26 Sep 2022 15:23:08 +0800
+Received: from mtkcas11.mediatek.inc (172.21.101.40) by
+ mtkmbs13n1.mediatek.inc (172.21.101.193) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.2.792.15; Mon, 26 Sep 2022 15:23:06 +0800
+Received: from [172.21.84.99] (172.21.84.99) by mtkcas11.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Mon, 26 Sep 2022 15:23:02 +0800
+Message-ID: <63c1962b-26a5-0415-9035-580c2842e67b@mediatek.com>
+Date:   Mon, 26 Sep 2022 15:23:01 +0800
 MIME-Version: 1.0
-References: <20220926001230.65b0683c@deangelis.fenrir.org.uk>
-In-Reply-To: <20220926001230.65b0683c@deangelis.fenrir.org.uk>
-From:   Ricardo Ribalda <ribalda@chromium.org>
-Date:   Mon, 26 Sep 2022 09:22:12 +0200
-X-Gmail-Original-Message-ID: <CANiDSCv1Zc+0sRmARu3-dnY4ian_HLBbZ13mb-G7hWDLGmMVXg@mail.gmail.com>
-Message-ID: <CANiDSCv1Zc+0sRmARu3-dnY4ian_HLBbZ13mb-G7hWDLGmMVXg@mail.gmail.com>
-Subject: Re: Foscam W21 webcam not working in Fedora 37 with kernel-5.19.11
-To:     Brian Morrison <bdm@fenrir.org.uk>
-Cc:     linux-media@vger.kernel.org
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH] media: mediatek: venc: Add h264 extended profile support
+Content-Language: en-US
+To:     Matthias Brugger <matthias.bgg@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>
+CC:     <Project_Global_Chrome_Upstream_Group@mediatek.com>,
+        <devicetree@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-mediatek@lists.infradead.org>, <hsinyi@chromium.org>,
+        kyrie wu <kyrie.wu@mediatek.com>
+References: <20220915115135.7271-1-allen-kh.cheng@mediatek.com>
+From:   Allen-KH Cheng <allen-kh.cheng@mediatek.com>
+In-Reply-To: <20220915115135.7271-1-allen-kh.cheng@mediatek.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-5.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_PASS,SPF_PASS,UNPARSEABLE_RELAY autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-HI Brian
+hello, maintainers
 
-/dev/video0 does not seem to be your Foscam, it is a virtual camera
-created by OBS.
+kindly disregard this patch.
 
-Could you try running
-ls -la /sys/class/video4linux/
-find /sys/devices/pci0000:00/0000:00:1d.2/0000:04:00.0/usb3/3-3/3-3:1.0/
+The MTK HW encoder does not yet support this. (only sw)
 
-To figure out if there is an actual camera there.
+Thanks,
+Allen
 
-Thanks!
-
-On Mon, 26 Sept 2022 at 02:31, Brian Morrison <bdm@fenrir.org.uk> wrote:
->
-> Hi
->
-> I have a webcam which claims to work on Linux, but I cannot get it to
-> do anything although with some extra packages installed (v4l2 related)
-> I did at least get uvcvideo and related modules loaded and a /dev/video0
-> device to appear, unfortunately that's it, no available video or audio
-> in guvcview, OBS or cheese.
->
-> v4l2 --list-device shows this:
->
-> OBS Virtual Camera (platform:v4l2loopback-000):
->         /dev/video0
->
-> v4l2-ctl --list-formats-ext shows this:
->
-> ioctl: VIDIOC_ENUM_FMT
->         Type: Video Capture
->
-> I have attached dmesg and lsusb logs as requested.
->
-> Please would someone have a look at this and see whether it is lack of
-> device recognition in the uvcvideo driver or other kernel-related
-> problem.
->
-> Thanks!
->
-> --
->
-> Brian Morrison
->
-
-
--- 
-Ricardo Ribalda
+On 9/15/22 19:51, Allen-KH Cheng wrote:
+> Add h264 extended profile support
+> 
+> Signed-off-by: Allen-KH Cheng <allen-kh.cheng@mediatek.com>
+> Co-developed-by: kyrie wu <kyrie.wu@mediatek.com>
+> Signed-off-by: kyrie wu <kyrie.wu@mediatek.com>
+> ---
+>  drivers/media/platform/mediatek/vcodec/venc/venc_h264_if.c | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
+> 
+> diff --git a/drivers/media/platform/mediatek/vcodec/venc/venc_h264_if.c b/drivers/media/platform/mediatek/vcodec/venc/venc_h264_if.c
+> index 13c4f860fa69..ac2ef6275d78 100644
+> --- a/drivers/media/platform/mediatek/vcodec/venc/venc_h264_if.c
+> +++ b/drivers/media/platform/mediatek/vcodec/venc/venc_h264_if.c
+> @@ -243,8 +243,7 @@ static unsigned int h264_get_profile(struct venc_h264_inst *inst,
+>  		mtk_vcodec_err(inst, "unsupported CONSTRAINED_BASELINE");
+>  		return 0;
+>  	case V4L2_MPEG_VIDEO_H264_PROFILE_EXTENDED:
+> -		mtk_vcodec_err(inst, "unsupported EXTENDED");
+> -		return 0;
+> +		return 88;
+>  	default:
+>  		mtk_vcodec_debug(inst, "unsupported profile %d", profile);
+>  		return 100;
