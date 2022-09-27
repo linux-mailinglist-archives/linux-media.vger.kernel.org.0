@@ -2,106 +2,87 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1FECD5EC521
-	for <lists+linux-media@lfdr.de>; Tue, 27 Sep 2022 15:57:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3426F5ECA97
+	for <lists+linux-media@lfdr.de>; Tue, 27 Sep 2022 19:16:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232903AbiI0N5r (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 27 Sep 2022 09:57:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57082 "EHLO
+        id S229834AbiI0RQj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 27 Sep 2022 13:16:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35660 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231788AbiI0N5e (ORCPT
+        with ESMTP id S229507AbiI0RQh (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 27 Sep 2022 09:57:34 -0400
-Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com [IPv6:2a00:1450:4864:20::635])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB9E9146624
-        for <linux-media@vger.kernel.org>; Tue, 27 Sep 2022 06:57:27 -0700 (PDT)
-Received: by mail-ej1-x635.google.com with SMTP id sd10so20923638ejc.2
-        for <linux-media@vger.kernel.org>; Tue, 27 Sep 2022 06:57:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
-         :from:to:cc:subject:date;
-        bh=wWmUplSIGLHqTXKQn830L50TUzZDqD8/z7vsdgzJtC8=;
-        b=ASPc4e4Zgz+eUs+S97BVl9bWv1qQHONmQi/YJX/JkSaYK7VZNlfBpN3xjDpkxBlAcO
-         3+KsOEMxUWYn7fmwxeAG26DK0u+8OxwYt7hRPOdiXen80HLSDDDpkXRjA8PjpZsu/xC+
-         quhabbvUiOP/51xY0nOK54k2j1xBOaAbw4n10=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=wWmUplSIGLHqTXKQn830L50TUzZDqD8/z7vsdgzJtC8=;
-        b=JwZr988nGN7FieS2BaCz2t7TTRTIzzYq4QjMYtJstdIvQvvO8IfMpxUC+bHPk4oMkM
-         W1VLNGcf3Y4fg4ax0cQj9HaaOoLUTBDBdbKU1FUS+3nW/59JNH2zKllFzuCDnEQTv4od
-         m3Tj7f9X7A6dSs5nIYrc4Zr99Y1XmaG5dM1LbzJ1ngmSC61VqiqBoMnxGpvoNejEysiG
-         c4huhGTXfqPfd1wIooaq5Km43HQrF94hWxtZLnPzzHlbUeu+FjBVPI0r4jjWVFQrraJ3
-         HJKvvqRUtPyYPMBQHsb7pOZprAQ8ybg1lekh0MjNXwVqmCWBwzIsPabft/qT7SX0SIDr
-         VZAw==
-X-Gm-Message-State: ACrzQf0YffOibjk2nQYtyTOg0pg7Fw12vQvTUpUx/TTebj8zNAxs4KC6
-        dHX/TYxjeumvx/ztOUqeFvvbpC9XLofml5umZUg=
-X-Google-Smtp-Source: AMsMyM4sAP+5pL/221gknuJxd+fEdErxWbLCfFCS1SJ2hLmgH5ebcw4UIZwLovSJ7rf5JxjwtQwu0Q==
-X-Received: by 2002:a17:907:9702:b0:782:6b6e:9e25 with SMTP id jg2-20020a170907970200b007826b6e9e25mr20747987ejc.258.1664287044456;
-        Tue, 27 Sep 2022 06:57:24 -0700 (PDT)
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com. [209.85.218.52])
-        by smtp.gmail.com with ESMTPSA id m7-20020a056402050700b00457a92f8ad6sm1218961edv.28.2022.09.27.06.57.24
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 27 Sep 2022 06:57:24 -0700 (PDT)
-Received: by mail-ej1-f52.google.com with SMTP id dv25so20816696ejb.12
-        for <linux-media@vger.kernel.org>; Tue, 27 Sep 2022 06:57:24 -0700 (PDT)
-X-Received: by 2002:a17:906:2699:b0:781:a473:9791 with SMTP id
- t25-20020a170906269900b00781a4739791mr23280968ejc.644.1664287043807; Tue, 27
- Sep 2022 06:57:23 -0700 (PDT)
+        Tue, 27 Sep 2022 13:16:37 -0400
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 45AA31CD114;
+        Tue, 27 Sep 2022 10:16:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1664298997; x=1695834997;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=odCSUQaD20kY0LLbPFVfME7ijRKqAtXNIipf6xkiSaA=;
+  b=FdVwUFMhf0x37q8TS52zvksXx6H4mctLkp3GVF9kzTv2nUoogZ9BCtID
+   xphCgpRD5oFWErYVE5i/IGPzgtqwNDRFP4KtZ81mpIZnclrfAFAn7zOu+
+   iUMH+kaCa8vV9rIaQJQ0mTvv1cYiG8c3nbylF4Qoug166OD7EyUKoBu5i
+   3POtV4lMGgh73XyXGneW++UQ7cwnrFbue+DeyKKm6jv0CROylWpoSPXzR
+   4SLFHNyJ46NNLHcDzcfJE9h6vK5LJZjT+8P231G+/hPux/cqJHc2AUdKb
+   YCe/MlrKy2XlNJbQm8wujb+E3hUugbdn2OwmZCh9QYkN+da1qqb2OZG+4
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10483"; a="301354133"
+X-IronPort-AV: E=Sophos;i="5.93,350,1654585200"; 
+   d="scan'208";a="301354133"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Sep 2022 10:16:05 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10483"; a="866645707"
+X-IronPort-AV: E=Sophos;i="5.93,350,1654585200"; 
+   d="scan'208";a="866645707"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by fmsmga006.fm.intel.com with ESMTP; 27 Sep 2022 10:16:02 -0700
+Received: by black.fi.intel.com (Postfix, from userid 1003)
+        id 2BC457C; Tue, 27 Sep 2022 20:16:20 +0300 (EEST)
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Subject: [PATCH v1 1/1] media: subdev: Replace custom implementation of device_match_fwnode()
+Date:   Tue, 27 Sep 2022 20:16:18 +0300
+Message-Id: <20220927171618.51971-1-andriy.shevchenko@linux.intel.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-References: <20220926001230.65b0683c@deangelis.fenrir.org.uk>
- <CANiDSCv1Zc+0sRmARu3-dnY4ian_HLBbZ13mb-G7hWDLGmMVXg@mail.gmail.com>
- <20220926163449.380463ca@deangelis.fenrir.org.uk> <CANiDSCuT4TJLDTXR7760wRBn85OQXKKj0z-jPCAW5MXsGMB5uw@mail.gmail.com>
- <20220927135459.7d614076@deangelis.fenrir.org.uk> <CANiDSCvSxtjbs4WogLyRAVALSN+HpCLC15smon3kHMnGqGgN+g@mail.gmail.com>
- <20220927143009.125b8ccc@deangelis.fenrir.org.uk> <CANiDSCtWnKYbrEMBq3sfk6UfmRNzwS1OAuFjQzvFQ5ct9vobfg@mail.gmail.com>
- <20220927144247.71ad1b8f@deangelis.fenrir.org.uk>
-In-Reply-To: <20220927144247.71ad1b8f@deangelis.fenrir.org.uk>
-From:   Ricardo Ribalda <ribalda@chromium.org>
-Date:   Tue, 27 Sep 2022 15:57:12 +0200
-X-Gmail-Original-Message-ID: <CANiDSCtKTzUs_D1OTwi57B1ssLOSszNbP+oX9q5LTG0PEvt7Ug@mail.gmail.com>
-Message-ID: <CANiDSCtKTzUs_D1OTwi57B1ssLOSszNbP+oX9q5LTG0PEvt7Ug@mail.gmail.com>
-Subject: Re: Foscam W21 webcam not working in Fedora 37 with kernel-5.19.11
-To:     Brian Morrison <bdm@fenrir.org.uk>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,
+        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, 27 Sept 2022 at 15:42, Brian Morrison <bdm@fenrir.org.uk> wrote:
->
-> On Tue, 27 Sep 2022 15:34:51 +0200
-> Ricardo Ribalda <ribalda@chromium.org> wrote:
->
-> > I am afraid that you need to ask in the fedora forum/ML why they are
-> > not authorizing the device by default. Maybe some user reported some
-> > malfunction with that device?
->
-> So this is not a kernel-related issue? I don't know how this sort of
-> authorization is controlled, perhaps you know?
->
+Replace custom implementation of the device_match_fwnode().
 
-It is not kernel related. Every distro handles that differently:
-https://docs.kernel.org/usb/authorization.html
+Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+---
+ drivers/media/v4l2-core/v4l2-subdev.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Maybe someone on the list knows how fedora does it. A fast google
-search shows: https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/security_guide/sec-using-usbguard
-
-Try on the fedora mailing list.
-
-> --
->
-> Brian Morrison
-
-
-
+diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
+index 5c27bac772ea..c483dd5575dd 100644
+--- a/drivers/media/v4l2-core/v4l2-subdev.c
++++ b/drivers/media/v4l2-core/v4l2-subdev.c
+@@ -845,7 +845,7 @@ int v4l2_subdev_get_fwnode_pad_1_to_1(struct media_entity *entity,
+ 	fwnode = fwnode_graph_get_port_parent(endpoint->local_fwnode);
+ 	fwnode_handle_put(fwnode);
+ 
+-	if (dev_fwnode(sd->dev) == fwnode)
++	if (device_match_fwnode(sd->dev, fwnode))
+ 		return endpoint->port;
+ 
+ 	return -ENXIO;
 -- 
-Ricardo Ribalda
+2.35.1
+
