@@ -2,526 +2,302 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F33845EBDA3
-	for <lists+linux-media@lfdr.de>; Tue, 27 Sep 2022 10:43:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7ED4A5EBEAF
+	for <lists+linux-media@lfdr.de>; Tue, 27 Sep 2022 11:33:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230242AbiI0InW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 27 Sep 2022 04:43:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39022 "EHLO
+        id S231569AbiI0Jc6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 27 Sep 2022 05:32:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56198 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229596AbiI0InV (ORCPT
+        with ESMTP id S231431AbiI0Jcw (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 27 Sep 2022 04:43:21 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ABE817539B
-        for <linux-media@vger.kernel.org>; Tue, 27 Sep 2022 01:43:16 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 46213B81A60
-        for <linux-media@vger.kernel.org>; Tue, 27 Sep 2022 08:43:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 82579C433D6
-        for <linux-media@vger.kernel.org>; Tue, 27 Sep 2022 08:43:13 +0000 (UTC)
-Message-ID: <a3fcdc6d-084a-b94f-277b-e5d8d9120c0a@xs4all.nl>
-Date:   Tue, 27 Sep 2022 10:43:11 +0200
+        Tue, 27 Sep 2022 05:32:52 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7691F3C153
+        for <linux-media@vger.kernel.org>; Tue, 27 Sep 2022 02:32:50 -0700 (PDT)
+Received: from [192.168.1.15] (91-158-154-79.elisa-laajakaista.fi [91.158.154.79])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id A34CDE5;
+        Tue, 27 Sep 2022 11:32:47 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1664271168;
+        bh=zFlKlOy+vmvXUX2SVYjWqvUeapabkblO2fNfNJO7HOU=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=ssyLvwnZN26xx9XEEXVBDxTc0RCJ12nSG3TNHUbeKYEHx3o2WS2ZAEWb53n0ynVN3
+         C902lFTUdBL8bsETZiRPsgc75qe1NOYr9+ugADZijNsa7r74kvXnoPjcE7d3zErbEB
+         amrrp4pAnwKlMnyh2ikazkI0LO8ilLXaAAyc1o6g=
+Message-ID: <97c4d4bc-9907-3ffc-1839-2678a30d53c4@ideasonboard.com>
+Date:   Tue, 27 Sep 2022 12:32:43 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v14 19/34] media: Documentation: Add GS_ROUTING
+ documentation
 Content-Language: en-US
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [PATCHv3] media: admin-guide: cec.rst
-Content-Type: text/plain; charset=UTF-8
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     linux-media@vger.kernel.org,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        niklas.soderlund+renesas@ragnatech.se,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Kishon Vijay Abraham <kishon@ti.com>,
+        satish.nagireddy@getcruise.com, Tomasz Figa <tfiga@chromium.org>
+References: <20220831141357.1396081-1-tomi.valkeinen@ideasonboard.com>
+ <20220831141357.1396081-20-tomi.valkeinen@ideasonboard.com>
+ <YzKRMiumNoskMuxw@paasikivi.fi.intel.com>
+From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+In-Reply-To: <YzKRMiumNoskMuxw@paasikivi.fi.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Document administration details about CEC devices. This was formerly
-documented in a cec-status.txt I kept on my website, but this really
-belongs here as an admin guide.
+On 27/09/2022 08:59, Sakari Ailus wrote:
+> Moi,
+> 
+> On Wed, Aug 31, 2022 at 05:13:42PM +0300, Tomi Valkeinen wrote:
+>> From: Jacopo Mondi <jacopo+renesas@jmondi.org>
+>>
+>> Add documentation for VIDIOC_SUBDEV_G/S_ROUTING ioctl and add
+>> description of multiplexed media pads and internal routing to the
+>> V4L2-subdev documentation section.
+>>
+>> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+>> Reviewed-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+>> ---
+>>   .../userspace-api/media/v4l/dev-subdev.rst    |   2 +
+>>   .../userspace-api/media/v4l/user-func.rst     |   1 +
+>>   .../media/v4l/vidioc-subdev-g-routing.rst     | 150 ++++++++++++++++++
+>>   3 files changed, 153 insertions(+)
+>>   create mode 100644 Documentation/userspace-api/media/v4l/vidioc-subdev-g-routing.rst
+>>
+>> diff --git a/Documentation/userspace-api/media/v4l/dev-subdev.rst b/Documentation/userspace-api/media/v4l/dev-subdev.rst
+>> index fd1de0a73a9f..a67c2749089a 100644
+>> --- a/Documentation/userspace-api/media/v4l/dev-subdev.rst
+>> +++ b/Documentation/userspace-api/media/v4l/dev-subdev.rst
+>> @@ -29,6 +29,8 @@ will feature a character device node on which ioctls can be called to
+>>   
+>>   -  negotiate image formats on individual pads
+>>   
+>> +-  inspect and modify internal data routing between pads of the same entity
+>> +
+>>   Sub-device character device nodes, conventionally named
+>>   ``/dev/v4l-subdev*``, use major number 81.
+>>   
+>> diff --git a/Documentation/userspace-api/media/v4l/user-func.rst b/Documentation/userspace-api/media/v4l/user-func.rst
+>> index 53e604bd7d60..228c1521f190 100644
+>> --- a/Documentation/userspace-api/media/v4l/user-func.rst
+>> +++ b/Documentation/userspace-api/media/v4l/user-func.rst
+>> @@ -70,6 +70,7 @@ Function Reference
+>>       vidioc-subdev-g-crop
+>>       vidioc-subdev-g-fmt
+>>       vidioc-subdev-g-frame-interval
+>> +    vidioc-subdev-g-routing
+>>       vidioc-subdev-g-selection
+>>       vidioc-subdev-querycap
+>>       vidioc-subscribe-event
+>> diff --git a/Documentation/userspace-api/media/v4l/vidioc-subdev-g-routing.rst b/Documentation/userspace-api/media/v4l/vidioc-subdev-g-routing.rst
+>> new file mode 100644
+>> index 000000000000..a0d9c79e162f
+>> --- /dev/null
+>> +++ b/Documentation/userspace-api/media/v4l/vidioc-subdev-g-routing.rst
+>> @@ -0,0 +1,150 @@
+>> +.. SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later
+>> +.. c:namespace:: V4L
+>> +
+>> +.. _VIDIOC_SUBDEV_G_ROUTING:
+>> +
+>> +******************************************************
+>> +ioctl VIDIOC_SUBDEV_G_ROUTING, VIDIOC_SUBDEV_S_ROUTING
+>> +******************************************************
+>> +
+>> +Name
+>> +====
+>> +
+>> +VIDIOC_SUBDEV_G_ROUTING - VIDIOC_SUBDEV_S_ROUTING - Get or set routing between streams of media pads in a media entity.
+>> +
+>> +
+>> +Synopsis
+>> +========
+>> +
+>> +.. c:function:: int ioctl( int fd, VIDIOC_SUBDEV_G_ROUTING, struct v4l2_subdev_routing *argp )
+>> +    :name: VIDIOC_SUBDEV_G_ROUTING
+>> +
+>> +.. c:function:: int ioctl( int fd, VIDIOC_SUBDEV_S_ROUTING, struct v4l2_subdev_routing *argp )
+>> +    :name: VIDIOC_SUBDEV_S_ROUTING
+>> +
+>> +
+>> +Arguments
+>> +=========
+>> +
+>> +``fd``
+>> +    File descriptor returned by :ref:`open() <func-open>`.
+>> +
+>> +``argp``
+>> +    Pointer to struct :c:type:`v4l2_subdev_routing`.
+>> +
+>> +
+>> +Description
+>> +===========
+>> +
+>> +These ioctls are used to get and set the routing in a media entity.
+>> +The routing configuration determines the flows of data inside an entity.
+>> +
+>> +Drivers report their current routing tables using the
+>> +``VIDIOC_SUBDEV_G_ROUTING`` ioctl and application may enable or disable routes
+>> +with the ``VIDIOC_SUBDEV_S_ROUTING`` ioctl, by adding or removing routes and
+>> +setting or clearing flags of the  ``flags`` field of a
+>> +struct :c:type:`v4l2_subdev_route`.
+> 
+> How about adding:
+> 
+> Routes that have V4L2_SUBDEV_ROUTE_FL_IMMUTABLE flag cannot be removed.
+> Depending on the driver, their V4L2_SUBDEV_ROUTE_FL_ACTIVE flag may be set
+> or reset.
 
-Updated the original cec-status.txt, and converted it to .rst.
+I have dropped the IMMUTABLE flag in my WIP branch, as I couldn't figure 
+out a use for it. The only immutable routes are source routes, which are 
+already special and there's no need for an extra flag.
 
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
----
-Change since v2:
-Added HP DisplayPort to HDMI True 4k Adapter to the CEC capable adapters
+> Also see a comment later on.
+> 
+>> +
+>> +All stream configurations are reset when ``VIDIOC_SUBDEV_S_ROUTING`` is called. This
+>> +means that the userspace mut reconfigure all streams after calling the ioctl
+>> +with e.g. ``VIDIOC_SUBDEV_S_FMT``.
+> 
+> How about this:
+> 
+> Calling ``VIDIOC_SUBDEV_S_ROUTING`` will cause the selections and subdev
+> formats being propagated from the sink pads towards the sources.
 
-Change since v1:
-Update MAINTAINERS as well since pulse8-cec.rst has been removed.
----
- .../admin-guide/media/cec-drivers.rst         |  10 -
- Documentation/admin-guide/media/cec.rst       | 369 ++++++++++++++++++
- Documentation/admin-guide/media/index.rst     |   3 +-
- .../admin-guide/media/pulse8-cec.rst          |  13 -
- .../media/cec/cec-pin-error-inj.rst           |   2 +
- MAINTAINERS                                   |   1 -
- 6 files changed, 373 insertions(+), 25 deletions(-)
- delete mode 100644 Documentation/admin-guide/media/cec-drivers.rst
- create mode 100644 Documentation/admin-guide/media/cec.rst
- delete mode 100644 Documentation/admin-guide/media/pulse8-cec.rst
+Hmm, but that's not true. The selections and formats will be zeroed, 
+unless the driver initializes them to a value. There's no propagation done.
 
-diff --git a/Documentation/admin-guide/media/cec-drivers.rst b/Documentation/admin-guide/media/cec-drivers.rst
-deleted file mode 100644
-index 8d9686c08df9..000000000000
---- a/Documentation/admin-guide/media/cec-drivers.rst
-+++ /dev/null
-@@ -1,10 +0,0 @@
--.. SPDX-License-Identifier: GPL-2.0
--
--=================================
--CEC driver-specific documentation
--=================================
--
--.. toctree::
--	:maxdepth: 2
--
--	pulse8-cec
-diff --git a/Documentation/admin-guide/media/cec.rst b/Documentation/admin-guide/media/cec.rst
-new file mode 100644
-index 000000000000..5c7259371494
---- /dev/null
-+++ b/Documentation/admin-guide/media/cec.rst
-@@ -0,0 +1,369 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+========
-+HDMI CEC
-+========
-+
-+Supported hardware in mainline
-+==============================
-+
-+HDMI Transmitters:
-+
-+- Exynos4
-+- Exynos5
-+- STIH4xx HDMI CEC
-+- V4L2 adv7511 (same HW, but a different driver from the drm adv7511)
-+- stm32
-+- Allwinner A10 (sun4i)
-+- Raspberry Pi
-+- dw-hdmi (Synopsis IP)
-+- amlogic (meson ao-cec and ao-cec-g12a)
-+- drm adv7511/adv7533
-+- omap4
-+- tegra
-+- rk3288, rk3399
-+- tda998x
-+- DisplayPort CEC-Tunneling-over-AUX on i915, nouveau and amdgpu
-+- ChromeOS EC CEC
-+- CEC for SECO boards (UDOO x86).
-+- Chrontel CH7322
-+
-+
-+HDMI Receivers:
-+
-+- adv7604/11/12
-+- adv7842
-+- tc358743
-+
-+USB Dongles (see below for additional information on how to use these
-+dongles):
-+
-+- Pulse-Eight: the pulse8-cec driver implements the following module option:
-+  ``persistent_config``: by default this is off, but when set to 1 the driver
-+  will store the current settings to the device's internal eeprom and restore
-+  it the next time the device is connected to the USB port.
-+- RainShadow Tech. Note: this driver does not support the persistent_config
-+  module option of the Pulse-Eight driver. The hardware supports it, but I
-+  have no plans to add this feature. But I accept patches :-)
-+
-+Miscellaneous:
-+
-+- vivid: emulates a CEC receiver and CEC transmitter.
-+  Can be used to test CEC applications without actual CEC hardware.
-+
-+- cec-gpio. If the CEC pin is hooked up to a GPIO pin then
-+  you can control the CEC line through this driver. This supports error
-+  injection as well.
-+
-+
-+Utilities
-+=========
-+
-+Utilities are available here: https://git.linuxtv.org/v4l-utils.git
-+
-+``utils/cec-ctl``: control a CEC device
-+
-+``utils/cec-compliance``: test compliance of a remote CEC device
-+
-+``utils/cec-follower``: emulate a CEC follower device
-+
-+Note that ``cec-ctl`` has support for the CEC Hospitality Profile as is
-+used in some hotel displays. See http://www.htng.org.
-+
-+Note that the libcec library (https://github.com/Pulse-Eight/libcec) supports
-+the linux CEC framework.
-+
-+If you want to get the CEC specification, then look at the References of
-+the HDMI wikipedia page: https://en.wikipedia.org/wiki/HDMI. CEC is part
-+of the HDMI specification. HDMI 1.3 is freely available (very similar to
-+HDMI 1.4 w.r.t. CEC) and should be good enough for most things.
-+
-+
-+DisplayPort to HDMI Adapters with working CEC
-+=============================================
-+
-+Background: most adapters do not support the CEC Tunneling feature,
-+and of those that do many did not actually connect the CEC pin.
-+Unfortunately, this means that while a CEC device is created, it
-+is actually all alone in the world and will never be able to see other
-+CEC devices.
-+
-+This is a list of known working adapters that have CEC Tunneling AND
-+that properly connected the CEC pin. If you find adapters that work
-+but are not in this list, then drop me a note.
-+
-+To test: hook up your DP-to-HDMI adapter to a CEC capable device
-+(typically a TV), then run::
-+
-+	cec-ctl --playback	# Configure the PC as a CEC Playback device
-+	cec-ctl -S		# Show the CEC topology
-+
-+The ``cec-ctl -S`` command should show at least two CEC devices,
-+ourselves and the CEC device you are connected to (i.e. typically the TV).
-+
-+General note: I have only seen this work with the Parade PS175, PS176 and
-+PS186 chipsets and the MegaChips 2900. While MegaChips 28x0 claims CEC support,
-+I have never seen it work.
-+
-+USB-C to HDMI
-+-------------
-+
-+Samsung Multiport Adapter EE-PW700: https://www.samsung.com/ie/support/model/EE-PW700BBEGWW/
-+
-+Kramer ADC-U31C/HF: https://www.kramerav.com/product/ADC-U31C/HF
-+
-+Club3D CAC-2504: https://www.club-3d.com/en/detail/2449/usb_3.1_type_c_to_hdmi_2.0_uhd_4k_60hz_active_adapter/
-+
-+DisplayPort to HDMI
-+-------------------
-+
-+Club3D CAC-1080: https://www.club-3d.com/en/detail/2442/displayport_1.4_to_hdmi_2.0b_hdr/
-+
-+CableCreation (SKU: CD0712): https://www.cablecreation.com/products/active-displayport-to-hdmi-adapter-4k-hdr
-+
-+HP DisplayPort to HDMI True 4k Adapter (P/N 2JA63AA): https://www.hp.com/us-en/shop/pdp/hp-displayport-to-hdmi-true-4k-adapter
-+
-+Mini-DisplayPort to HDMI
-+------------------------
-+
-+Club3D CAC-1180: https://www.club-3d.com/en/detail/2443/mini_displayport_1.4_to_hdmi_2.0b_hdr/
-+
-+Note that passive adapters will never work, you need an active adapter.
-+
-+The Club3D adapters in this list are all MegaChips 2900 based. Other Club3D adapters
-+are PS176 based and do NOT have the CEC pin hooked up, so only the three Club3D
-+adapters above are known to work.
-+
-+I suspect that MegaChips 2900 based designs in general are likely to work
-+whereas with the PS176 it is more hit-and-miss (mostly miss). The PS186 is
-+likely to have the CEC pin hooked up, it looks like they changed the reference
-+design for that chipset.
-+
-+
-+USB CEC Dongles
-+===============
-+
-+These dongles appear as ``/dev/ttyACMX`` devices and need the ``inputattach``
-+utility to create the ``/dev/cecX`` devices. Support for the Pulse-Eight
-+has been added to ``inputattach`` 1.6.0. Support for the Rainshadow Tech has
-+been added to ``inputattach`` 1.6.1.
-+
-+You also need udev rules to automatically start systemd services::
-+
-+	SUBSYSTEM=="tty", KERNEL=="ttyACM[0-9]*", ATTRS{idVendor}=="2548", ATTRS{idProduct}=="1002", ACTION=="add", TAG+="systemd", ENV{SYSTEMD_WANTS}+="pulse8-cec-inputattach@%k.service"
-+	SUBSYSTEM=="tty", KERNEL=="ttyACM[0-9]*", ATTRS{idVendor}=="2548", ATTRS{idProduct}=="1001", ACTION=="add", TAG+="systemd", ENV{SYSTEMD_WANTS}+="pulse8-cec-inputattach@%k.service"
-+	SUBSYSTEM=="tty", KERNEL=="ttyACM[0-9]*", ATTRS{idVendor}=="04d8", ATTRS{idProduct}=="ff59", ACTION=="add", TAG+="systemd", ENV{SYSTEMD_WANTS}+="rainshadow-cec-inputattach@%k.service"
-+
-+and these systemd services:
-+
-+For Pulse-Eight make /lib/systemd/system/pulse8-cec-inputattach@.service::
-+
-+	[Unit]
-+	Description=inputattach for pulse8-cec device on %I
-+
-+	[Service]
-+	Type=simple
-+	ExecStart=/usr/bin/inputattach --pulse8-cec /dev/%I
-+
-+For the RainShadow Tech make /lib/systemd/system/rainshadow-cec-inputattach@.service::
-+
-+	[Unit]
-+	Description=inputattach for rainshadow-cec device on %I
-+
-+	[Service]
-+	Type=simple
-+	ExecStart=/usr/bin/inputattach --rainshadow-cec /dev/%I
-+
-+
-+For proper suspend/resume support create: /lib/systemd/system/restart-cec-inputattach.service::
-+
-+	[Unit]
-+	Description=restart inputattach for cec devices
-+	After=suspend.target
-+
-+	[Service]
-+	Type=forking
-+	ExecStart=/bin/bash -c 'for d in /dev/serial/by-id/usb-Pulse-Eight*; do /usr/bin/inputattach --daemon --pulse8-cec $d; done; for d in /dev/serial/by-id/usb-RainShadow_Tech*; do /usr/bin/inputattach
---daemon --rainshadow-cec $d; done'
-+
-+	[Install]
-+	WantedBy=suspend.target
-+
-+And run ``systemctl enable restart-cec-inputattach``.
-+
-+To automatically set the physical address of the CEC device whenever the
-+EDID changes, you can use ``cec-ctl`` with the ``-E`` option::
-+
-+	cec-ctl -E /sys/class/drm/card0-DP-1/edid
-+
-+This assumes the dongle is connected to the card0-DP-1 output (``xrandr`` will tell
-+you which output is used) and it will poll for changes to the EDID and update
-+the Physical Address whenever they occur.
-+
-+To automatically run this command you can use cron. Edit crontab with
-+``crontab -e`` and add this line::
-+
-+	@reboot /usr/local/bin/cec-ctl -E /sys/class/drm/card0-DP-1/edid
-+
-+This only works for display drivers that expose the EDID in ``/sys/class/drm``,
-+such as the i915 driver.
-+
-+
-+CEC Without HPD
-+===============
-+
-+Some displays when in standby mode have no HDMI Hotplug Detect signal, but
-+CEC is still enabled so connected devices can send an <Image View On> CEC
-+message in order to wake up such displays. Unfortunately, not all CEC
-+adapters can support this. An example is the Odroid-U3 SBC that has a
-+level-shifter that is powered off when the HPD signal is low, thus
-+blocking the CEC pin. Even though the SoC can use CEC without a HPD,
-+the level-shifter will prevent this from functioning.
-+
-+There is a CEC capability flag to signal this: ``CEC_CAP_NEEDS_HPD``.
-+If set, then the hardware cannot wake up displays with this behavior.
-+
-+Note for CEC application implementers: the <Image View On> message must
-+be the first message you send, don't send any other messages before.
-+Certain very bad but unfortunately not uncommon CEC implementations
-+get very confused if they receive anything else but this message and
-+they won't wake up.
-+
-+When writing a driver it can be tricky to test this. There are two
-+ways to do this:
-+
-+1) Get a Pulse-Eight USB CEC dongle, connect an HDMI cable from your
-+   device to the Pulse-Eight, but do not connect the Pulse-Eight to
-+   the display.
-+
-+   Now configure the Pulse-Eight dongle::
-+
-+	cec-ctl -p0.0.0.0 --tv
-+
-+   and start monitoring::
-+
-+	sudo cec-ctl -M
-+
-+   On the device you are testing run::
-+
-+	cec-ctl --playback
-+
-+   It should report a physical address of f.f.f.f. Now run this
-+   command::
-+
-+	cec-ctl -t0 --image-view-on
-+
-+   The Pulse-Eight should see the <Image View On> message. If not,
-+   then something (hardware and/or software) is preventing the CEC
-+   message from going out.
-+
-+   To make sure you have the wiring correct just connect the
-+   Pulse-Eight to a CEC-enabled display and run the same command
-+   on your device: now there is a HPD, so you should see the command
-+   arriving at the Pulse-Eight.
-+
-+2) If you have another linux device supporting CEC without HPD, then
-+   you can just connect your device to that device. Yes, you can connect
-+   two HDMI outputs together. You won't have a HPD (which is what we
-+   want for this test), but the second device can monitor the CEC pin.
-+
-+   Otherwise use the same commands as in 1.
-+
-+If CEC messages do not come through when there is no HPD, then you
-+need to figure out why. Typically it is either a hardware restriction
-+or the software powers off the CEC core when the HPD goes low. The
-+first cannot be corrected of course, the second will likely required
-+driver changes.
-+
-+
-+Microcontrollers & CEC
-+======================
-+
-+We have seen some CEC implementations in displays that use a microcontroller
-+to sample the bus. This does not have to be a problem, but some implementations
-+have timing issues. This is hard to discover unless you can hook up a low-level
-+CEC debugger (see the next section).
-+
-+You will see cases where the CEC transmitter holds the CEC line high or low for
-+a longer time than is allowed. For directed messages this is not a problem since
-+if that happens the message will not be Acked and it will be retransmitted.
-+For broadcast messages no such mechanism exists.
-+
-+It's not clear what to do about this. It is probably wise to transmit some
-+broadcast messages twice to reduce the chance of them being lost. Specifically
-+<Standby> and <Active Source> are candidates for that.
-+
-+
-+Making a CEC debugger
-+=====================
-+
-+By using a Raspberry Pi 2B/3/4 and some cheap components you can make
-+your own low-level CEC debugger.
-+
-+Here is a picture of my setup:
-+
-+https://hverkuil.home.xs4all.nl/rpi3-cec.jpg
-+
-+It's a Raspberry Pi 3 together with a breadboard and some breadboard wires:
-+
-+http://www.dx.com/p/diy-40p-male-to-female-male-to-male-female-to-female-dupont-line-wire-3pcs-356089#.WYLOOXWGN7I
-+
-+Finally on of these HDMI female-female passthrough connectors (full soldering type 1):
-+
-+https://elabbay.myshopify.com/collections/camera/products/hdmi-af-af-v1a-hdmi-type-a-female-to-hdmi-type-a-female-pass-through-adapter-breakout-board?variant=45533926147
-+
-+We've tested this and it works up to 4kp30 (297 MHz). The quality is not high
-+enough to pass-through 4kp60 (594 MHz).
-+
-+I also added an RTC and a breakout shield:
-+
-+https://www.amazon.com/Makerfire%C2%AE-Raspberry-Module-DS1307-Battery/dp/B00ZOXWHK4
-+
-+https://www.dx.com/p/raspberry-pi-gpio-expansion-board-breadboard-easy-multiplexing-board-one-to-three-with-screw-for-raspberry-pi-2-3-b-b-2729992.html#.YGRCG0MzZ7I
-+
-+These two are not needed but they make life a bit easier.
-+
-+If you want to monitor the HPD line as well, then you need one of these
-+level shifters:
-+
-+https://www.adafruit.com/product/757
-+
-+(This is just where I got these components, there are many other places you
-+can get similar things).
-+
-+The CEC pin of the HDMI connector needs to be connected to these pins:
-+CE0/IO8 and CE1/IO7 (pull-up GPIOs). The (optional) HPD pin of the HDMI
-+connector should be connected (via a level shifter to convert the 5V
-+to 3.3V) to these pins: IO17 and IO27. The (optional) 5V pin of the HDMI
-+connector should be connected (via a level shifter) to these pins: IO22
-+and IO24. Monitoring the HPD an 5V lines is not necessary, but it is helpful.
-+
-+This kernel patch will hook up the cec-gpio driver correctly to
-+e.g. ``arch/arm/boot/dts/bcm2837-rpi-3-b-plus.dts``::
-+
-+	cec-gpio@7 {
-+		compatible = "cec-gpio";
-+		cec-gpios = <&gpio 7 (GPIO_ACTIVE_HIGH|GPIO_OPEN_DRAIN)>;
-+		hpd-gpios = <&gpio 17 GPIO_ACTIVE_HIGH>;
-+		v5-gpios = <&gpio 22 GPIO_ACTIVE_HIGH>;
-+	};
-+
-+	cec-gpio@8 {
-+		compatible = "cec-gpio";
-+		cec-gpios = <&gpio 8 (GPIO_ACTIVE_HIGH|GPIO_OPEN_DRAIN)>;
-+		hpd-gpios = <&gpio 27 GPIO_ACTIVE_HIGH>;
-+		v5-gpios = <&gpio 24 GPIO_ACTIVE_HIGH>;
-+	};
-+
-+This dts change will enable two cec GPIO devices: I typically use one to
-+send/receive CEC commands and the other to monitor. If you monitor using
-+an unconfigured CEC adapter then it will use GPIO interrupts which makes
-+monitoring very accurate.
-+
-+The documentation on how to use the error injection is here: :ref:`cec_pin_error_inj`.
-+
-+``cec-ctl --monitor-pin`` will do low-level CEC bus sniffing and analysis.
-+You can also store the CEC traffic to file using ``--store-pin`` and analyze
-+it later using ``--analyze-pin``.
-+
-+You can also use this as a full-fledged CEC device by configuring it
-+using ``cec-ctl --tv -p0.0.0.0`` or ``cec-ctl --playback -p1.0.0.0``.
-diff --git a/Documentation/admin-guide/media/index.rst b/Documentation/admin-guide/media/index.rst
-index c676af665111..43f4a292b245 100644
---- a/Documentation/admin-guide/media/index.rst
-+++ b/Documentation/admin-guide/media/index.rst
-@@ -38,13 +38,14 @@ The media subsystem
+>> +
+>> +A special case for routing are routes marked with
+>> +``V4L2_SUBDEV_ROUTE_FL_SOURCE`` flag. These routes are used to describe
+>> +source endpoints on sensors and the sink fields are unused.
+>> +
+>> +When inspecting routes through ``VIDIOC_SUBDEV_G_ROUTING`` and the application
+>> +provided ``num_routes`` is not big enough to contain all the available routes
+>> +the subdevice exposes, drivers return the ENOSPC error code and adjust the
+>> +value of the ``num_routes`` field. Application should then reserve enough memory
+>> +for all the route entries and call ``VIDIOC_SUBDEV_G_ROUTING`` again.
+>> +
+>> +.. tabularcolumns:: |p{4.4cm}|p{4.4cm}|p{8.7cm}|
+>> +
+>> +.. c:type:: v4l2_subdev_routing
+>> +
+>> +.. flat-table:: struct v4l2_subdev_routing
+>> +    :header-rows:  0
+>> +    :stub-columns: 0
+>> +    :widths:       1 1 2
+>> +
+>> +    * - __u32
+>> +      - ``which``
+>> +      - Format to modified, from enum
+>> +        :ref:`v4l2_subdev_format_whence <v4l2-subdev-format-whence>`.
+>> +    * - struct :c:type:`v4l2_subdev_route`
+>> +      - ``routes[]``
+>> +      - Array of struct :c:type:`v4l2_subdev_route` entries
+>> +    * - __u32
+>> +      - ``num_routes``
+>> +      - Number of entries of the routes array
+>> +    * - __u32
+>> +      - ``reserved``\ [5]
+>> +      - Reserved for future extensions. Applications and drivers must set
+>> +	the array to zero.
+>> +
+>> +.. tabularcolumns:: |p{4.4cm}|p{4.4cm}|p{8.7cm}|
+>> +
+>> +.. c:type:: v4l2_subdev_route
+>> +
+>> +.. flat-table:: struct v4l2_subdev_route
+>> +    :header-rows:  0
+>> +    :stub-columns: 0
+>> +    :widths:       1 1 2
+>> +
+>> +    * - __u32
+>> +      - ``sink_pad``
+>> +      - Sink pad number.
+>> +    * - __u32
+>> +      - ``sink_stream``
+>> +      - Sink pad stream number.
+>> +    * - __u32
+>> +      - ``source_pad``
+>> +      - Source pad number.
+>> +    * - __u32
+>> +      - ``source_stream``
+>> +      - Source pad stream number.
+>> +    * - __u32
+>> +      - ``flags``
+>> +      - Route enable/disable flags
+>> +	:ref:`v4l2_subdev_routing_flags <v4l2-subdev-routing-flags>`.
+>> +    * - __u32
+>> +      - ``reserved``\ [5]
+>> +      - Reserved for future extensions. Applications and drivers must set
+>> +	the array to zero.
+>> +
+>> +.. tabularcolumns:: |p{6.6cm}|p{2.2cm}|p{8.7cm}|
+>> +
+>> +.. _v4l2-subdev-routing-flags:
+>> +
+>> +.. flat-table:: enum v4l2_subdev_routing_flags
+>> +    :header-rows:  0
+>> +    :stub-columns: 0
+>> +    :widths:       3 1 4
+>> +
+>> +    * - V4L2_SUBDEV_ROUTE_FL_ACTIVE
+>> +      - 0
+>> +      - The route is enabled. Set by applications.
+>> +    * - V4L2_SUBDEV_ROUTE_FL_IMMUTABLE
+> 
+> How about calling this STATIC instead of IMMUTABLE? IMMUTABLE is used as a
+> link flag to mean a link that may not be changed in any way. In this case
+> we rather want to say that the route is always there, albeit you can still
+> enable or disable it.
 
- 	remote-controller
+If we think there's a need for this, I can add it back and name it 
+static. I think what it then should mean is that the user can 
+enable/disable it and also set the stream id, but the route must always 
+exist.
 
-+	cec
-+
- 	dvb
+But as I said above, I haven't figured out a use for this.
 
- 	cardlist
+>> +      - 1
+>> +      - The route is immutable. Set by the driver.
+>> +    * - V4L2_SUBDEV_ROUTE_FL_SOURCE
+>> +      - 2
+>> +      - The route is a source route, and the ``sink_pad`` and ``sink_stream``
+>> +        fields are unused. Set by the driver.
+>> +
+>> +Return Value
+>> +============
+>> +
+>> +On success 0 is returned, on error -1 and the ``errno`` variable is set
+>> +appropriately. The generic error codes are described at the
+>> +:ref:`Generic Error Codes <gen-errors>` chapter.
+>> +
+>> +ENOSPC
+>> +   The number of provided route entries is less than the available ones.
+> 
+> What does "available ones" mean in this context? More than is supported?
+> Wouldn't E2BIG be the appropriate code in that case?
 
- 	v4l-drivers
- 	dvb-drivers
--	cec-drivers
+Good question. I don't think I wrote this part =). ENOSPC refers to the 
+case where VIDIOC_SUBDEV_G_ROUTING is called without enough space for 
+the routing table. So "available ones" mean the routes in the subdev's 
+routing table, and "provided route entries" refers to the userspace 
+target routing table.
 
- **Copyright** |copy| 1999-2020 : LinuxTV Developers
+It sounds pretty odd, and obviously needs a clarification.
 
-diff --git a/Documentation/admin-guide/media/pulse8-cec.rst b/Documentation/admin-guide/media/pulse8-cec.rst
-deleted file mode 100644
-index 356d08b519f3..000000000000
---- a/Documentation/admin-guide/media/pulse8-cec.rst
-+++ /dev/null
-@@ -1,13 +0,0 @@
--.. SPDX-License-Identifier: GPL-2.0
--
--Pulse-Eight CEC Adapter driver
--==============================
--
--The pulse8-cec driver implements the following module option:
--
--``persistent_config``
-----------------------
--
--By default this is off, but when set to 1 the driver will store the current
--settings to the device's internal eeprom and restore it the next time the
--device is connected to the USB port.
-diff --git a/Documentation/userspace-api/media/cec/cec-pin-error-inj.rst b/Documentation/userspace-api/media/cec/cec-pin-error-inj.rst
-index b0efce40471f..411d42a742f3 100644
---- a/Documentation/userspace-api/media/cec/cec-pin-error-inj.rst
-+++ b/Documentation/userspace-api/media/cec/cec-pin-error-inj.rst
-@@ -1,5 +1,7 @@
- .. SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later
-
-+.. _cec_pin_error_inj:
-+
- CEC Pin Framework Error Injection
- =================================
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index d0f844857447..b73be73470c7 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -16515,7 +16515,6 @@ M:	Hans Verkuil <hverkuil@xs4all.nl>
- L:	linux-media@vger.kernel.org
- S:	Maintained
- T:	git git://linuxtv.org/media_tree.git
--F:	Documentation/admin-guide/media/pulse8-cec.rst
- F:	drivers/media/cec/usb/pulse8/
-
- PURELIFI PLFXLC DRIVER
--- 
-2.35.1
-
+  Tomi
