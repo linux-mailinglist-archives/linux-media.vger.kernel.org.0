@@ -2,33 +2,34 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 02F285EBCED
-	for <lists+linux-media@lfdr.de>; Tue, 27 Sep 2022 10:14:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9E8415EBD88
+	for <lists+linux-media@lfdr.de>; Tue, 27 Sep 2022 10:37:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229633AbiI0IOY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 27 Sep 2022 04:14:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50076 "EHLO
+        id S231666AbiI0IhO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 27 Sep 2022 04:37:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46070 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229834AbiI0INz (ORCPT
+        with ESMTP id S231698AbiI0IgV (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 27 Sep 2022 04:13:55 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 51DA0AB410;
-        Tue, 27 Sep 2022 01:10:29 -0700 (PDT)
+        Tue, 27 Sep 2022 04:36:21 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB31C101E0;
+        Tue, 27 Sep 2022 01:36:10 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id DD9E3616F2;
-        Tue, 27 Sep 2022 08:10:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9FC6FC433D6;
-        Tue, 27 Sep 2022 08:10:26 +0000 (UTC)
-Message-ID: <5dd713e1-0ad2-f9b3-6dd3-2ee87b329db8@xs4all.nl>
-Date:   Tue, 27 Sep 2022 10:10:24 +0200
+        by ams.source.kernel.org (Postfix) with ESMTPS id 2DCCAB80DA6;
+        Tue, 27 Sep 2022 08:36:09 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2372AC433D6;
+        Tue, 27 Sep 2022 08:36:05 +0000 (UTC)
+Message-ID: <4566e72a-a2a0-fd1a-89a5-66e0331ab672@xs4all.nl>
+Date:   Tue, 27 Sep 2022 10:36:04 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.10.0
 Subject: Re: [PATCH v2] media: dvb_vb2: fix possible out of bound access
 Content-Language: en-US
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
 To:     Hangyu Hua <hbh25y@gmail.com>, mchehab@kernel.org,
         senozhatsky@chromium.org, cai.huoqing@linux.dev,
         sw0312.kim@samsung.com, satendra.t@samsung.com,
@@ -36,8 +37,8 @@ To:     Hangyu Hua <hbh25y@gmail.com>, mchehab@kernel.org,
 Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <20220519021743.8295-1-hbh25y@gmail.com>
  <b4b52911-e135-38b6-ab2e-4580e1ac0302@gmail.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <b4b52911-e135-38b6-ab2e-4580e1ac0302@gmail.com>
+ <5dd713e1-0ad2-f9b3-6dd3-2ee87b329db8@xs4all.nl>
+In-Reply-To: <5dd713e1-0ad2-f9b3-6dd3-2ee87b329db8@xs4all.nl>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-9.0 required=5.0 tests=BAYES_00,
@@ -49,74 +50,84 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 27/09/2022 04:01, Hangyu Hua wrote:
-> On 19/5/2022 10:17, Hangyu Hua wrote:
->> vb2_core_qbuf and vb2_core_querybuf don't check the range of b->index
->> controlled by the user.
+Hi Hangyu,
+
+On 27/09/2022 10:10, Hans Verkuil wrote:
+> On 27/09/2022 04:01, Hangyu Hua wrote:
+>> On 19/5/2022 10:17, Hangyu Hua wrote:
+>>> vb2_core_qbuf and vb2_core_querybuf don't check the range of b->index
+>>> controlled by the user.
+>>>
+>>> Fix this by adding range checking code before using them.
+>>>
+>>> Fixes: 57868acc369a ("media: videobuf2: Add new uAPI for DVB streaming I/O")
+>>> Signed-off-by: Hangyu Hua <hbh25y@gmail.com>
+>>> Reviewed-by: Sergey Senozhatsky <senozhatsky@chromium.org>
+>>> ---
+>>>
+>>> v2:
+>>> 1. fix inappropriate use of dprintk.
+>>> 2. add "fixes" tag
+>>>
+>>>   drivers/media/dvb-core/dvb_vb2.c | 11 +++++++++++
+>>>   1 file changed, 11 insertions(+)
+>>>
+>>> diff --git a/drivers/media/dvb-core/dvb_vb2.c b/drivers/media/dvb-core/dvb_vb2.c
+>>> index a1bd6d9c9223..909df82fed33 100644
+>>> --- a/drivers/media/dvb-core/dvb_vb2.c
+>>> +++ b/drivers/media/dvb-core/dvb_vb2.c
+>>> @@ -354,6 +354,12 @@ int dvb_vb2_reqbufs(struct dvb_vb2_ctx *ctx, struct dmx_requestbuffers *req)
+>>>     int dvb_vb2_querybuf(struct dvb_vb2_ctx *ctx, struct dmx_buffer *b)
+>>>   {
+>>> +    struct vb2_queue *q = &ctx->vb_q;
+>>> +
+>>> +    if (b->index >= q->num_buffers) {
+>>> +        dprintk(1, "[%s] buffer index out of range\n", ctx->name);
+>>> +        return -EINVAL;
+>>> +    }
+>>>       vb2_core_querybuf(&ctx->vb_q, b->index, b);
+>>>       dprintk(3, "[%s] index=%d\n", ctx->name, b->index);
+>>>       return 0;
+>>> @@ -378,8 +384,13 @@ int dvb_vb2_expbuf(struct dvb_vb2_ctx *ctx, struct dmx_exportbuffer *exp)
+>>>     int dvb_vb2_qbuf(struct dvb_vb2_ctx *ctx, struct dmx_buffer *b)
+>>>   {
+>>> +    struct vb2_queue *q = &ctx->vb_q;
+>>>       int ret;
+>>>   +    if (b->index >= q->num_buffers) {
+>>> +        dprintk(1, "[%s] buffer index out of range\n", ctx->name);
+>>> +        return -EINVAL;
+>>> +    }
+>>>       ret = vb2_core_qbuf(&ctx->vb_q, b->index, b, NULL);
+>>>       if (ret) {
+>>>           dprintk(1, "[%s] index=%d errno=%d\n", ctx->name,
 >>
->> Fix this by adding range checking code before using them.
+>> Hi guys,
 >>
->> Fixes: 57868acc369a ("media: videobuf2: Add new uAPI for DVB streaming I/O")
->> Signed-off-by: Hangyu Hua <hbh25y@gmail.com>
->> Reviewed-by: Sergey Senozhatsky <senozhatsky@chromium.org>
->> ---
+>> Looks like this patch was forgotten to to merge into master branch. This bug still in:
+>> https://git.linuxtv.org/media_tree.git/tree/drivers/media/dvb-core/dvb_vb2.c#n355
+>> and
+>> https://git.linuxtv.org/media_tree.git/tree/drivers/media/dvb-core/dvb_vb2.c#n379
 >>
->> v2:
->> 1. fix inappropriate use of dprintk.
->> 2. add "fixes" tag
->>
->>   drivers/media/dvb-core/dvb_vb2.c | 11 +++++++++++
->>   1 file changed, 11 insertions(+)
->>
->> diff --git a/drivers/media/dvb-core/dvb_vb2.c b/drivers/media/dvb-core/dvb_vb2.c
->> index a1bd6d9c9223..909df82fed33 100644
->> --- a/drivers/media/dvb-core/dvb_vb2.c
->> +++ b/drivers/media/dvb-core/dvb_vb2.c
->> @@ -354,6 +354,12 @@ int dvb_vb2_reqbufs(struct dvb_vb2_ctx *ctx, struct dmx_requestbuffers *req)
->>     int dvb_vb2_querybuf(struct dvb_vb2_ctx *ctx, struct dmx_buffer *b)
->>   {
->> +    struct vb2_queue *q = &ctx->vb_q;
->> +
->> +    if (b->index >= q->num_buffers) {
->> +        dprintk(1, "[%s] buffer index out of range\n", ctx->name);
->> +        return -EINVAL;
->> +    }
->>       vb2_core_querybuf(&ctx->vb_q, b->index, b);
->>       dprintk(3, "[%s] index=%d\n", ctx->name, b->index);
->>       return 0;
->> @@ -378,8 +384,13 @@ int dvb_vb2_expbuf(struct dvb_vb2_ctx *ctx, struct dmx_exportbuffer *exp)
->>     int dvb_vb2_qbuf(struct dvb_vb2_ctx *ctx, struct dmx_buffer *b)
->>   {
->> +    struct vb2_queue *q = &ctx->vb_q;
->>       int ret;
->>   +    if (b->index >= q->num_buffers) {
->> +        dprintk(1, "[%s] buffer index out of range\n", ctx->name);
->> +        return -EINVAL;
->> +    }
->>       ret = vb2_core_qbuf(&ctx->vb_q, b->index, b, NULL);
->>       if (ret) {
->>           dprintk(1, "[%s] index=%d errno=%d\n", ctx->name,
+>> Thanks,
+>> Hangyu
 > 
-> Hi guys,
+> That's weird, it was part of this pull request:
 > 
-> Looks like this patch was forgotten to to merge into master branch. This bug still in:
-> https://git.linuxtv.org/media_tree.git/tree/drivers/media/dvb-core/dvb_vb2.c#n355
-> and
-> https://git.linuxtv.org/media_tree.git/tree/drivers/media/dvb-core/dvb_vb2.c#n379
+> https://patchwork.linuxtv.org/project/linux-media/patch/2eeaad13-091d-6547-cdeb-0a7a15dc5c3f@xs4all.nl/
 > 
-> Thanks,
-> Hangyu
+> But none of the patches in that PR ever made it to upstream. Something went very wrong
+> with that PR.
+> 
+> I'm preparing a new pull request.
+> 
+> Thank you very much for notifying me!
 
-That's weird, it was part of this pull request:
+Mauro discovered that a small number of patches were never pushed to our git trees,
+and so indeed got lost. They have now been merged. This patch has been really unlucky:
+it took a long time for the original patch to be reviewed, and then the PR itself
+fell through the cracks :-(
 
-https://patchwork.linuxtv.org/project/linux-media/patch/2eeaad13-091d-6547-cdeb-0a7a15dc5c3f@xs4all.nl/
-
-But none of the patches in that PR ever made it to upstream. Something went very wrong
-with that PR.
-
-I'm preparing a new pull request.
-
-Thank you very much for notifying me!
+Again, thank you very much for double checking this!
 
 Regards,
 
