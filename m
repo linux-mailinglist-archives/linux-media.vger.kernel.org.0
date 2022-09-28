@@ -2,94 +2,113 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 242155EDB56
-	for <lists+linux-media@lfdr.de>; Wed, 28 Sep 2022 13:09:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C253C5EDB9E
+	for <lists+linux-media@lfdr.de>; Wed, 28 Sep 2022 13:22:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233906AbiI1LIf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 28 Sep 2022 07:08:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39262 "EHLO
+        id S232932AbiI1LWW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 28 Sep 2022 07:22:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60476 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232750AbiI1LIF (ORCPT
+        with ESMTP id S232518AbiI1LWW (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 28 Sep 2022 07:08:05 -0400
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 202CF71703;
-        Wed, 28 Sep 2022 04:05:59 -0700 (PDT)
-X-UUID: 179023fb877044e78aaf801d5e0ff532-20220928
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-        h=Content-Type:Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From; bh=ZTfsflWx3N7AxFb4lrlsffCVdbLJdgpHUkr7293/8Xs=;
-        b=D2agMzHc0tmw/qVr5+c/OyFBp06+Y4d7nQcMn/7wSSO3PGyJwqFHRHScPZ2B89hwjaHwJ/iZtEseJZL0KrlhbTIyYYhWnmmO4A7ULVwaCkz0mjdz/xiG9IorwVwcgMOqz44YHfeZUGhi2aigLK/zNwGzutn3SWOWIFJtHRxlzmk=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.11,REQID:7d2bf829-8106-40c3-8a65-096e31836ca1,IP:0,U
-        RL:0,TC:0,Content:-5,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
-        :release,TS:-5
-X-CID-META: VersionHash:39a5ff1,CLOUDID:fa905ea3-dc04-435c-b19b-71e131a5fc35,B
-        ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
-        RL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0
-X-UUID: 179023fb877044e78aaf801d5e0ff532-20220928
-Received: from mtkexhb02.mediatek.inc [(172.21.101.103)] by mailgw01.mediatek.com
-        (envelope-from <jianhua.lin@mediatek.com>)
-        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-        with ESMTP id 956143121; Wed, 28 Sep 2022 19:05:53 +0800
-Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
- mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.792.3;
- Wed, 28 Sep 2022 19:05:52 +0800
-Received: from localhost.localdomain (10.17.3.154) by mtkmbs11n2.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.2.792.15 via Frontend
- Transport; Wed, 28 Sep 2022 19:05:51 +0800
-From:   Jianhua Lin <jianhua.lin@mediatek.com>
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>
-CC:     <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-mediatek@lists.infradead.org>,
-        <Project_Global_Chrome_Upstream_Group@mediatek.com>,
-        Jianhua Lin <jianhua.lin@mediatek.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH v2, 2/2] dt-bindings: media: mediatek-jpeg-encoder: Add MT8188 compatible string
-Date:   Wed, 28 Sep 2022 19:05:34 +0800
-Message-ID: <20220928110534.4756-3-jianhua.lin@mediatek.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220928110534.4756-1-jianhua.lin@mediatek.com>
-References: <20220928110534.4756-1-jianhua.lin@mediatek.com>
+        Wed, 28 Sep 2022 07:22:22 -0400
+X-Greylist: delayed 63 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 28 Sep 2022 04:22:21 PDT
+Received: from aer-iport-8.cisco.com (aer-iport-8.cisco.com [173.38.203.70])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1644CDCE99
+        for <linux-media@vger.kernel.org>; Wed, 28 Sep 2022 04:22:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=cisco.com; i=@cisco.com; l=2258; q=dns/txt; s=iport;
+  t=1664364141; x=1665573741;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=a7Q5tAQ6AD2zhdI5S4TKzBvo4aJ0YRPO1H/u1eQfJlo=;
+  b=b5K5HhvYm4ZEIjwR1OUjCuALoevaqhIrtgUr65gSTFtP1amRsZeGSKSr
+   GMHkKQpVnY6DRSbQc59VCNYq6GUO8NxGyEZFrOtqxBvzV189lWbmHZ9tq
+   43eMZe+26Sw1TJRdzNV+enwmrW0b0C6ggR+hmiy4nDYvDgb0mBYJnfae0
+   A=;
+X-IronPort-AV: E=Sophos;i="5.93,351,1654560000"; 
+   d="scan'208";a="1511355"
+Received: from aer-iport-nat.cisco.com (HELO aer-core-1.cisco.com) ([173.38.203.22])
+  by aer-iport-8.cisco.com with ESMTP/TLS/DHE-RSA-SEED-SHA; 28 Sep 2022 11:21:15 +0000
+Received: from office-260.rd.cisco.com ([10.47.77.162])
+        by aer-core-1.cisco.com (8.15.2/8.15.2) with ESMTP id 28SBLFek008487;
+        Wed, 28 Sep 2022 11:21:15 GMT
+From:   Erling Ljunggren <hljunggr@cisco.com>
+To:     linux-media@vger.kernel.org
+Cc:     Erling Ljunggren <hljunggr@cisco.com>
+Subject: [PATCH v3 0/5] Add the cat24c208 EDID EEPROM driver + new EDID capability
+Date:   Wed, 28 Sep 2022 13:21:42 +0200
+Message-Id: <20220928112147.358745-1-hljunggr@cisco.com>
+X-Mailer: git-send-email 2.37.3
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,
-        SPF_PASS,UNPARSEABLE_RELAY,URIBL_CSS autolearn=ham autolearn_force=no
-        version=3.4.6
+X-Outbound-SMTP-Client: 10.47.77.162, [10.47.77.162]
+X-Outbound-Node: aer-core-1.cisco.com
+X-Spam-Status: No, score=-9.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIMWL_WL_MED,DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        SPF_HELO_NONE,SPF_NONE,USER_IN_DEF_DKIM_WL autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add compatible for MT8188 jpeg encoder.
+This series adds support for the standalone cat24c208 EDID EEPROM i2c device.
+Usually EDID support is part of an HDMI receiver, but this is a standalone EEPROM.
 
-Signed-off-by: Jianhua Lin <jianhua.lin@mediatek.com>
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
----
- .../devicetree/bindings/media/mediatek-jpeg-encoder.yaml         | 1 +
- 1 file changed, 1 insertion(+)
+Note that EEPROMs for EDIDs are not regular EEPROM devices, these are dual port
+devices that follow the VESA E-DDC standard.
 
-diff --git a/Documentation/devicetree/bindings/media/mediatek-jpeg-encoder.yaml b/Documentation/devicetree/bindings/media/mediatek-jpeg-encoder.yaml
-index 4fd390c042a9..20134b0fc273 100644
---- a/Documentation/devicetree/bindings/media/mediatek-jpeg-encoder.yaml
-+++ b/Documentation/devicetree/bindings/media/mediatek-jpeg-encoder.yaml
-@@ -19,6 +19,7 @@ properties:
-           - mediatek,mt2701-jpgenc
-           - mediatek,mt8183-jpgenc
-           - mediatek,mt8186-jpgenc
-+          - mediatek,mt8188-jpgenc
-       - const: mediatek,mtk-jpgenc
-   reg:
-     maxItems: 1
+Since this is a standalone device that does not capture any video a new
+V4L2_CAP_EDID capability is introduced to represent such devices.
+Note that such a device doesn't have to be an EEPROM, it can also be
+implemented using a microcontroller, for example.
+
+v3:
+ - use old V4L2_CAP_ASYNCIO (0x02000000) capability bit
+ - validate physical address of edid in driver
+ - handle empty edid in driver
+ - add cec notifier support to driver
+ - update driver and bindings with hpd gpio support
+ - removed references to "memory" in capability and docs
+ - associate ioctls based on device direction
+
+v2:
+ - fix dt binding example
+ - rename i2c client variables in data struct
+ - fix include: of_device.h -> mod_devicetable.h
+ - Sorted makefile
+ - used define EDID_OFFSET_EXT_FLAG instead of magic number
+ - removed of_match_ptr
+ - added bus_info
+ - remove unneeded headers
+ - add depends on OF to Kconfig
+
+
+Erling Ljunggren (4):
+  media: videodev2.h: add V4L2_CAP_EDID
+  media: docs: Add V4L2_CAP_EDID
+  dt-bindings: media: add cat24c208 bindings
+  media: v4l2-dev: handle V4L2_CAP_EDID
+
+Jonathan Selnes (1):
+  media: i2c: cat24c208: driver for the cat24c208 EDID EEPROM
+
+ .../bindings/media/i2c/onnn,cat24c208.yaml    |  48 ++
+ .../userspace-api/media/v4l/biblio.rst        |  11 +
+ .../media/v4l/vidioc-querycap.rst             |  11 +
+ .../media/videodev2.h.rst.exceptions          |   1 +
+ MAINTAINERS                                   |   7 +
+ drivers/media/i2c/Kconfig                     |   9 +
+ drivers/media/i2c/Makefile                    |   1 +
+ drivers/media/i2c/cat24c208.c                 | 480 ++++++++++++++++++
+ drivers/media/v4l2-core/v4l2-dev.c            |  15 +
+ include/uapi/linux/videodev2.h                |   1 +
+ 10 files changed, 584 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/onnn,cat24c208.yaml
+ create mode 100644 drivers/media/i2c/cat24c208.c
+
 -- 
-2.18.0
+2.37.3
 
