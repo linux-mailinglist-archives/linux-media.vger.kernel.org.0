@@ -2,96 +2,84 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DDDC75EE2CD
-	for <lists+linux-media@lfdr.de>; Wed, 28 Sep 2022 19:14:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 88EAA5EE36C
+	for <lists+linux-media@lfdr.de>; Wed, 28 Sep 2022 19:47:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234672AbiI1ROM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 28 Sep 2022 13:14:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33896 "EHLO
+        id S234658AbiI1Rr0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 28 Sep 2022 13:47:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34564 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234469AbiI1RNo (ORCPT
+        with ESMTP id S234645AbiI1RrZ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 28 Sep 2022 13:13:44 -0400
-Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 899DFF1853
-        for <linux-media@vger.kernel.org>; Wed, 28 Sep 2022 10:13:15 -0700 (PDT)
-Received: by mail-pj1-x102d.google.com with SMTP id h8-20020a17090a054800b00205ccbae31eso3159009pjf.5
-        for <linux-media@vger.kernel.org>; Wed, 28 Sep 2022 10:13:15 -0700 (PDT)
+        Wed, 28 Sep 2022 13:47:25 -0400
+Received: from mail-lj1-x22a.google.com (mail-lj1-x22a.google.com [IPv6:2a00:1450:4864:20::22a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 52A07F6861
+        for <linux-media@vger.kernel.org>; Wed, 28 Sep 2022 10:47:23 -0700 (PDT)
+Received: by mail-lj1-x22a.google.com with SMTP id j24so15164382lja.4
+        for <linux-media@vger.kernel.org>; Wed, 28 Sep 2022 10:47:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date;
-        bh=d6n7vVcWWAUhY50nx1oX+SjTLgFqeY1Yq8iTalyfqd0=;
-        b=lIRHIZiWHITqRmakxRZHSG2SU2bpWinoR3Swar+fPYJBmT1qOO/MT6WnWN5yBDlhGu
-         /lQXgjvlz0O4V2+hnYy+98Yh09p4wB3YUjZ22bnBWEa9dMSwUm7gVI6Ae5kXcacwBn8L
-         BoOjiPYblWsCdJGhH6goLGXzHmU5/JoB80oyI=
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date;
+        bh=im9XgETRxegMUR78LTkoFFDmVSoYc1KHVKiHFv5Z2KY=;
+        b=a0JNO+DzxwYmo8m4zvCjgit8yewjJ/rCYwUMgSkwxCPXyb8MliNAyp3skj1+3k01/F
+         M56hDpGrQJCbaoHs9BdSfS6hcHio2xAckACPJRjtAQvTDIBD1DOrA7cC1mOzPy8GkefX
+         N1RkhaulmRkZPF7HGBB9wpJ/o23HY9wDawXIo2WTG6B3iQIOSXt32J5K+b6mrynF7Hid
+         BbFiBR0wFjTa3FLwSuODAYnbGWUv1u+FNJH3gLszI1MX7sVtsDf9zmu5i42QMCPbceEb
+         oulGVSsqEBN73DUOcJ130okuum1nwAtStdUR8qXWWsCWTscNXqXo1dKqN/7+Poj0WZPO
+         DfXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date;
-        bh=d6n7vVcWWAUhY50nx1oX+SjTLgFqeY1Yq8iTalyfqd0=;
-        b=qa69NQcLias+19/bdhXauiYzTCgcrkcVtZBc/SjZlgGdDcCbHpdA+U+sx31J7AbYul
-         v+f9b8ISs5mAFn6W+bbDOaP2x2BxtZsPU4cHwV8UhkJMBGtvwCJjliRfPggraCrcnU0Y
-         8ikGTO0wZou9DlGfeMDcbiE9hbVrcTdgtGYuesaZdmTSuq8edAsNTko6KcdQcH9+Bsxi
-         ElpKNuD/fyFKdraLdbtWNoFuRZ8daIkDmJKSDm82smzA013OQqN8q9OEiEBQbvWW+793
-         QfvfNIHKpiSIiqHjqNRLXtCY8+gjdCkGNkwI369LD8ndnNaYKGhtRg4FEl3Ub3WHVESA
-         cQXQ==
-X-Gm-Message-State: ACrzQf1iks0JrIz2MVCtgvdi8/6d6y/bzpdQ/Suv4dJXLgrtS+OAJSCU
-        1QCylW00OQGhr95oWuQlStex5A==
-X-Google-Smtp-Source: AMsMyM6sCBBdOCLg/ekAp2unP2+2il2GSYEdTvWU2WPyIonTKW/L3Ua/pLmu7ZGbcH4WrqStMgqaPQ==
-X-Received: by 2002:a17:902:db08:b0:176:d40e:4b57 with SMTP id m8-20020a170902db0800b00176d40e4b57mr799977plx.172.1664385194575;
-        Wed, 28 Sep 2022 10:13:14 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id q3-20020a170902dac300b00177faf558b5sm4082449plx.250.2022.09.28.10.13.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Sep 2022 10:13:13 -0700 (PDT)
-Date:   Wed, 28 Sep 2022 10:13:12 -0700
-From:   Kees Cook <keescook@chromium.org>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Vlastimil Babka <vbabka@suse.cz>, Christoph Lameter <cl@linux.com>,
-        Pekka Enberg <penberg@kernel.org>,
-        David Rientjes <rientjes@google.com>,
-        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Roman Gushchin <roman.gushchin@linux.dev>,
-        Hyeonggon Yoo <42.hyeyoo@gmail.com>,
-        Marco Elver <elver@google.com>, linux-mm@kvack.org,
-        "Ruhl, Michael J" <michael.j.ruhl@intel.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Alex Elder <elder@kernel.org>,
-        Josef Bacik <josef@toxicpanda.com>,
-        David Sterba <dsterba@suse.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-        Jesse Brandeburg <jesse.brandeburg@intel.com>,
-        Daniel Micay <danielmicay@gmail.com>,
-        Yonghong Song <yhs@fb.com>, Miguel Ojeda <ojeda@kernel.org>,
-        linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
-        linux-btrfs@vger.kernel.org, linux-media@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-        linux-fsdevel@vger.kernel.org, intel-wired-lan@lists.osuosl.org,
-        dev@openvswitch.org, x86@kernel.org, llvm@lists.linux.dev,
-        linux-hardening@vger.kernel.org
-Subject: Re: [PATCH v2 01/16] slab: Remove __malloc attribute from realloc
- functions
-Message-ID: <202209281011.66DD717D@keescook>
-References: <20220923202822.2667581-1-keescook@chromium.org>
- <20220923202822.2667581-2-keescook@chromium.org>
- <CAMuHMdXK+UN1YVZm9DenuXAM8hZRUZJwp=SXsueP7sWiVU3a9A@mail.gmail.com>
+        bh=im9XgETRxegMUR78LTkoFFDmVSoYc1KHVKiHFv5Z2KY=;
+        b=znubvqQFinBkcEb6XUVgL12xVkLajTsEwx/5J64rED1Xl1TJOLPyGi243xjvvAtcLI
+         F2kd4dHMZL9i9feYP9q0P47ZLKGo8YTUXWBV4x2YMo3xBFWw53LIV4vItRicPrN8iSRj
+         lThi/s85lMZyn/x73kXOkVKXEAIYrYz5+osOAyCdUBl8+gG2Rb95HohG4+eanN+A6MBn
+         wxbvQGdPXdXrb6mbey3SeXGf3CBhBvwCORBhm13qXTg7VOlp+txQLJNWUkzyKjO/g2nH
+         hIAIXRcwtl8ZV2bwGpv9EEIg8EOrFgPfMZIm8dkAV2xh8BkQjQizeS392HugymQk2CVo
+         cBxg==
+X-Gm-Message-State: ACrzQf3xptSTbcRe8H7VAxYaF0PQcqEFYpWKdMWOhJdMV7D0bT1oRw2c
+        ZEafaHOCwWSqbToSKrWHV7ZhcCA1Bq4J7w==
+X-Google-Smtp-Source: AMsMyM5lItS8m+a3tjAri2PadLRMGws9Z/yEkLDSyn/WAlOVnniMT1nbYT5FjnGrixQi+wl7GkLLRw==
+X-Received: by 2002:a2e:b016:0:b0:26b:f00b:a8cf with SMTP id y22-20020a2eb016000000b0026bf00ba8cfmr11755167ljk.24.1664387241691;
+        Wed, 28 Sep 2022 10:47:21 -0700 (PDT)
+Received: from [192.168.0.21] (78-11-189-27.static.ip.netia.com.pl. [78.11.189.27])
+        by smtp.gmail.com with ESMTPSA id i8-20020a056512006800b00494935ddb88sm531221lfo.240.2022.09.28.10.47.20
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 28 Sep 2022 10:47:21 -0700 (PDT)
+Message-ID: <b748aebe-09b5-d4b2-a6e4-0f13e440bc05@linaro.org>
+Date:   Wed, 28 Sep 2022 19:47:19 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAMuHMdXK+UN1YVZm9DenuXAM8hZRUZJwp=SXsueP7sWiVU3a9A@mail.gmail.com>
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.0
+Subject: Re: [PATCH v3 01/11] dt-bindings: remoteproc: mediatek: Give the
+ subnode a persistent name
+Content-Language: en-US
+To:     Tinghan Shen <tinghan.shen@mediatek.com>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Mathieu Poirier <mathieu.poirier@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Tiffany Lin <tiffany.lin@mediatek.com>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Yunfei Dong <yunfei.dong@mediatek.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     linux-remoteproc@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org
+References: <20220927025606.26673-1-tinghan.shen@mediatek.com>
+ <20220927025606.26673-2-tinghan.shen@mediatek.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20220927025606.26673-2-tinghan.shen@mediatek.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -100,56 +88,61 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Sep 28, 2022 at 09:26:15AM +0200, Geert Uytterhoeven wrote:
-> Hi Kees,
+On 27/09/2022 04:55, Tinghan Shen wrote:
+> The node name doesn't matter to add the subnode as a cros-ec rpmsg device.
+> Give it a clear persistent node name to simplify scp yaml.
 > 
-> On Fri, Sep 23, 2022 at 10:35 PM Kees Cook <keescook@chromium.org> wrote:
-> > The __malloc attribute should not be applied to "realloc" functions, as
-> > the returned pointer may alias the storage of the prior pointer. Instead
-> > of splitting __malloc from __alloc_size, which would be a huge amount of
-> > churn, just create __realloc_size for the few cases where it is needed.
-> >
-> > Additionally removes the conditional test for __alloc_size__, which is
-> > always defined now.
-> >
-> > Cc: Christoph Lameter <cl@linux.com>
-> > Cc: Pekka Enberg <penberg@kernel.org>
-> > Cc: David Rientjes <rientjes@google.com>
-> > Cc: Joonsoo Kim <iamjoonsoo.kim@lge.com>
-> > Cc: Andrew Morton <akpm@linux-foundation.org>
-> > Cc: Vlastimil Babka <vbabka@suse.cz>
-> > Cc: Roman Gushchin <roman.gushchin@linux.dev>
-> > Cc: Hyeonggon Yoo <42.hyeyoo@gmail.com>
-> > Cc: Marco Elver <elver@google.com>
-> > Cc: linux-mm@kvack.org
-> > Signed-off-by: Kees Cook <keescook@chromium.org>
+> Signed-off-by: Tinghan Shen <tinghan.shen@mediatek.com>
+> ---
+>  .../bindings/remoteproc/mtk,scp.yaml          | 35 ++++++++++---------
+>  .../arm64/boot/dts/mediatek/mt8183-kukui.dtsi |  2 +-
+>  2 files changed, 20 insertions(+), 17 deletions(-)
 > 
-> Thanks for your patch, which is now commit 63caa04ec60583b1 ("slab:
-> Remove __malloc attribute from realloc functions") in next-20220927.
-> 
-> Noreply@ellerman.id.au reported all gcc8-based builds to fail
-> (e.g. [1], more at [2]):
-> 
->     In file included from <command-line>:
->     ./include/linux/percpu.h: In function ‘__alloc_reserved_percpu’:
->     ././include/linux/compiler_types.h:279:30: error: expected
-> declaration specifiers before ‘__alloc_size__’
->      #define __alloc_size(x, ...) __alloc_size__(x, ## __VA_ARGS__) __malloc
->                                   ^~~~~~~~~~~~~~
->     ./include/linux/percpu.h:120:74: note: in expansion of macro ‘__alloc_size’
->     [...]
-> 
-> It's building fine with e.g. gcc-9 (which is my usual m68k cross-compiler).
-> Reverting this commit on next-20220927 fixes the issue.
-> 
-> [1] http://kisskb.ellerman.id.au/kisskb/buildresult/14803908/
-> [2] http://kisskb.ellerman.id.au/kisskb/head/1bd8b75fe6adeaa89d02968bdd811ffe708cf839/
+> diff --git a/Documentation/devicetree/bindings/remoteproc/mtk,scp.yaml b/Documentation/devicetree/bindings/remoteproc/mtk,scp.yaml
+> index 7e091eaffc18..786bed897916 100644
+> --- a/Documentation/devicetree/bindings/remoteproc/mtk,scp.yaml
+> +++ b/Documentation/devicetree/bindings/remoteproc/mtk,scp.yaml
+> @@ -58,6 +58,23 @@ properties:
+>    memory-region:
+>      maxItems: 1
+>  
+> +  cros-ec-rpmsg:
+> +    type: object
 
-Eek! Thanks for letting me know. I'm confused about this --
-__alloc_size__ wasn't optional in compiler_attributes.h -- but obviously
-I broke something! I'll go figure this out.
+additionalProperties: false on this level
 
--Kees
+> +    description:
+> +      This subnode represents the rpmsg device. The names of the devices
 
--- 
-Kees Cook
+What are the devices? You wrote that it is one device, not devices.
+
+> +      are not important. The properties of this node are defined by the
+> +      individual bindings for the rpmsg devices.
+
+??? No, you need to define the properties of the node, e.g. by a ref.
+
+> +
+> +    properties:
+> +      mediatek,rpmsg-name:
+> +        $ref: /schemas/types.yaml#/definitions/string-array
+> +        description:
+> +          Contains the name for the rpmsg device. Used to match
+> +          the subnode to rpmsg device announced by SCP.
+
+maxItems... but is it really a string-array?
+
+> +
+> +    required:
+> +      - mediatek,rpmsg-name
+> +
+>  required:
+>    - compatible
+>    - reg
+> @@ -89,21 +106,7 @@ allOf:
+>          reg-names:
+>            maxItems: 2
+>  
+
+Best regards,
+Krzysztof
+
