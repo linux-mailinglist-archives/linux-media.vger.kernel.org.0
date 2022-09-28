@@ -2,52 +2,65 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2FCC75EDBA2
-	for <lists+linux-media@lfdr.de>; Wed, 28 Sep 2022 13:22:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 34E6C5EDBE0
+	for <lists+linux-media@lfdr.de>; Wed, 28 Sep 2022 13:37:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233252AbiI1LWZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 28 Sep 2022 07:22:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60496 "EHLO
+        id S233305AbiI1LhN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 28 Sep 2022 07:37:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39920 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232959AbiI1LWX (ORCPT
+        with ESMTP id S233387AbiI1LhM (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 28 Sep 2022 07:22:23 -0400
-Received: from aer-iport-6.cisco.com (aer-iport-6.cisco.com [173.38.203.68])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 16555DCEB1
-        for <linux-media@vger.kernel.org>; Wed, 28 Sep 2022 04:22:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=cisco.com; i=@cisco.com; l=1711; q=dns/txt; s=iport;
-  t=1664364142; x=1665573742;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=lqL9lLmFaDtF9r4XcvzUHpGO4/UFYfKq+3g0/9ZdfMo=;
-  b=ZdpDHK5hoDCu6u2jCovE9YfxJBTWJBOyuSw1R+p+xxYtp3QqFw3Ni44s
-   FmdxmCMjdRs5cplCWW6I8C3J4UYb7g5A55MPoRAq3KQQ5H9o6N7M/mhD8
-   OP5iQdvF9EHa+cXh+rlVQ624aAYtL3psfvO2RMq/J2wUoX+KgaN1KwCd+
-   8=;
-X-IronPort-AV: E=Sophos;i="5.93,352,1654560000"; 
-   d="scan'208";a="1511164"
-Received: from aer-iport-nat.cisco.com (HELO aer-core-1.cisco.com) ([173.38.203.22])
-  by aer-iport-6.cisco.com with ESMTP/TLS/DHE-RSA-SEED-SHA; 28 Sep 2022 11:21:16 +0000
-Received: from office-260.rd.cisco.com ([10.47.77.162])
-        by aer-core-1.cisco.com (8.15.2/8.15.2) with ESMTP id 28SBLFep008487;
-        Wed, 28 Sep 2022 11:21:16 GMT
-From:   Erling Ljunggren <hljunggr@cisco.com>
-To:     linux-media@vger.kernel.org
-Cc:     Erling Ljunggren <hljunggr@cisco.com>
-Subject: [PATCH v3 5/5] media: v4l2-dev: handle V4L2_CAP_EDID
-Date:   Wed, 28 Sep 2022 13:21:47 +0200
-Message-Id: <20220928112147.358745-6-hljunggr@cisco.com>
-X-Mailer: git-send-email 2.37.3
-In-Reply-To: <20220928112147.358745-1-hljunggr@cisco.com>
-References: <20220928112147.358745-1-hljunggr@cisco.com>
+        Wed, 28 Sep 2022 07:37:12 -0400
+Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com [199.106.114.39])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 72CF91F7
+        for <linux-media@vger.kernel.org>; Wed, 28 Sep 2022 04:37:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+  t=1664365031; x=1695901031;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=E7kvbSJ0oIRNrrFdq6WfeMOH3xEy2adyCNBiTyxL7OI=;
+  b=bXyJw9Eh/jYxVFN0OsEFVtKFUBdS8Qn/1LNyrdGVzZRoMZpesYbUq5nm
+   B79NJZNhq0JvQySCObcRc5kUhCXGtF4kW+GoZldQz9W5q/JT8xzIUUgvW
+   aGNBB+nLSbOugnP+m1GK+YQ980UByGTgNqOquEwc7ZsaCTkscW99YKhvu
+   Q=;
+Received: from unknown (HELO ironmsg-SD-alpha.qualcomm.com) ([10.53.140.30])
+  by alexa-out-sd-02.qualcomm.com with ESMTP; 28 Sep 2022 04:35:06 -0700
+X-QCInternal: smtphost
+Received: from unknown (HELO nasanex01a.na.qualcomm.com) ([10.52.223.231])
+  by ironmsg-SD-alpha.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2022 04:35:06 -0700
+Received: from [10.251.45.234] (10.80.80.8) by nasanex01a.na.qualcomm.com
+ (10.52.223.231) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.29; Wed, 28 Sep
+ 2022 04:35:03 -0700
+Message-ID: <cf171830-a951-11e9-2b54-3b442bb04b2f@quicinc.com>
+Date:   Wed, 28 Sep 2022 14:35:01 +0300
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.0
+Subject: Re: [PATCH 4/4] media: camss: sm8250: Pipeline starting and stopping
+ for multiple virtual channels
+Content-Language: en-US
+To:     Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <robert.foss@linaro.org>, <akapatra@quicinc.com>,
+        <jzala@quicinc.com>, <todor.too@gmail.com>
+CC:     <agross@kernel.org>, <bjorn.andersson@linaro.org>,
+        <konrad.dybcio@somainline.org>, <mchehab@kernel.org>
+References: <20220926142505.1827-1-quic_mmitkov@quicinc.com>
+ <20220926142505.1827-5-quic_mmitkov@quicinc.com>
+ <ee5fa2f9-c3bc-b903-014f-ed5fea064f9f@linaro.org>
+From:   "Milen Mitkov (Consultant)" <quic_mmitkov@quicinc.com>
+In-Reply-To: <ee5fa2f9-c3bc-b903-014f-ed5fea064f9f@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Outbound-SMTP-Client: 10.47.77.162, [10.47.77.162]
-X-Outbound-Node: aer-core-1.cisco.com
-X-Spam-Status: No, score=-9.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIMWL_WL_MED,DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        SPF_HELO_NONE,SPF_NONE,USER_IN_DEF_DKIM_WL autolearn=ham
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01a.na.qualcomm.com (10.52.223.231)
+X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_PDS_OTHER_BAD_TLD autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -55,47 +68,26 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-When the V4L2_CAP_EDID capability flag is set,
-ioctls for enum inputs/outputs and get/set edid are automatically set.
+Hi Bryan,
 
-Signed-off-by: Erling Ljunggren <hljunggr@cisco.com>
----
- drivers/media/v4l2-core/v4l2-dev.c | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
+What is the error you're getting?
 
-diff --git a/drivers/media/v4l2-core/v4l2-dev.c b/drivers/media/v4l2-core/v4l2-dev.c
-index d00237ee4cae..e8222b9835e6 100644
---- a/drivers/media/v4l2-core/v4l2-dev.c
-+++ b/drivers/media/v4l2-core/v4l2-dev.c
-@@ -556,6 +556,7 @@ static void determine_valid_ioctls(struct video_device *vdev)
- 	bool is_rx = vdev->vfl_dir != VFL_DIR_TX;
- 	bool is_tx = vdev->vfl_dir != VFL_DIR_RX;
- 	bool is_io_mc = vdev->device_caps & V4L2_CAP_IO_MC;
-+	bool is_edid =  vdev->device_caps & V4L2_CAP_EDID;
- 
- 	bitmap_zero(valid_ioctls, BASE_VIDIOC_PRIVATE);
- 
-@@ -778,6 +779,20 @@ static void determine_valid_ioctls(struct video_device *vdev)
- 		SET_VALID_IOCTL(ops, VIDIOC_S_TUNER, vidioc_s_tuner);
- 		SET_VALID_IOCTL(ops, VIDIOC_S_HW_FREQ_SEEK, vidioc_s_hw_freq_seek);
- 	}
-+	if (is_edid) {
-+		SET_VALID_IOCTL(ops, VIDIOC_G_EDID, vidioc_g_edid);
-+		if (is_tx) {
-+			SET_VALID_IOCTL(ops, VIDIOC_G_OUTPUT, vidioc_g_output);
-+			SET_VALID_IOCTL(ops, VIDIOC_S_OUTPUT, vidioc_s_output);
-+			SET_VALID_IOCTL(ops, VIDIOC_ENUMOUTPUT, vidioc_enum_output);
-+		}
-+		if (is_rx) {
-+			SET_VALID_IOCTL(ops, VIDIOC_ENUMINPUT, vidioc_enum_input);
-+			SET_VALID_IOCTL(ops, VIDIOC_G_INPUT, vidioc_g_input);
-+			SET_VALID_IOCTL(ops, VIDIOC_S_INPUT, vidioc_s_input);
-+			SET_VALID_IOCTL(ops, VIDIOC_S_EDID, vidioc_s_edid);
-+		}
-+	}
- 
- 	bitmap_andnot(vdev->valid_ioctls, valid_ioctls, vdev->valid_ioctls,
- 			BASE_VIDIOC_PRIVATE);
--- 
-2.37.3
+I am testing on the linux-stable-22-09-09-imx577-camss branch. I wanted 
+to try on the newest one 
+(linux-stable-22-09-14-qrb5165-rb5-vision-mezzanine) but the multistream 
+pathes wouldn't apply cleanly there.
 
+On 28/09/2022 05:44, Bryan O'Donoghue wrote:
+> On 26/09/2022 15:25, quic_mmitkov@quicinc.com wrote:
+>> +    fmt.stream = 0;
+>
+> Thanks for updating your series.
+>
+> I downloaded and applied but the above is generating an error for me 
+> on linux-next..
+>
+> Its probably because its late/early but I don't see which branch you 
+> are working from here ?
+>
+> ---
+> bod
