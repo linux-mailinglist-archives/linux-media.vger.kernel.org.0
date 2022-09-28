@@ -2,45 +2,87 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 076B95EE3E1
-	for <lists+linux-media@lfdr.de>; Wed, 28 Sep 2022 20:07:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 511DD5EE4E7
+	for <lists+linux-media@lfdr.de>; Wed, 28 Sep 2022 21:17:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234569AbiI1SHG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 28 Sep 2022 14:07:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55062 "EHLO
+        id S233638AbiI1TR2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 28 Sep 2022 15:17:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53834 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233404AbiI1SHD (ORCPT
+        with ESMTP id S231949AbiI1TR1 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 28 Sep 2022 14:07:03 -0400
+        Wed, 28 Sep 2022 15:17:27 -0400
 Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F69B248D9
-        for <linux-media@vger.kernel.org>; Wed, 28 Sep 2022 11:07:01 -0700 (PDT)
-Received: from localhost.localdomain (node-1w7jr9st5p2etziuntaazujnj.ipv6.telus.net [IPv6:2001:569:beb1:1500:c96f:992f:7c34:9ff])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5224AE7C13;
+        Wed, 28 Sep 2022 12:17:25 -0700 (PDT)
+Received: from dimapc.. (unknown [109.252.125.248])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
         (No client certificate requested)
-        (Authenticated sender: dbrouwer)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 8EEAC660229C;
-        Wed, 28 Sep 2022 19:06:58 +0100 (BST)
+        (Authenticated sender: dmitry.osipenko)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 712166602299;
+        Wed, 28 Sep 2022 20:17:19 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1664388419;
-        bh=eGucq5lgm7g2/ZogB1sF6WP8K4S2isc+ssZ6S8QJfSg=;
+        s=mail; t=1664392643;
+        bh=x+LbBJS2tZ45QIcAQeiD7PzTYeniLrpyZp+rSQmzi+c=;
         h=From:To:Cc:Subject:Date:From;
-        b=cOKBt/6n2celWfc5xbMxgwL0kaSNejzsUbuBZgfa2jOkktRqZuYT9PO5kmtIFkG7m
-         AIKkCqrmqTt1qYNRZeKJVWBNigY+jJXUbfaZAgt2D/84YBqjEK+OLzu47FM01nse9D
-         HGNOkv1/SlWehL5XSDo4sOJy9Y25kSEnwtUieQ0nR+dZ1Xefr7yacdtCoIfeC7bZQM
-         MssvGXewvCVu3vLiarNPVcNhBmaVlxrUh/2JuhMkHqqL1aUZQfrfLFiT3OQJXOVqah
-         7rnjScnFSz/sOnhQEEPSqvRzPDdGL11KlbNOyCJXc3dioEmCGAN6rRIH/E6xgwAOcX
-         AjfrXCvRV0xDw==
-From:   Deborah Brouwer <deborah.brouwer@collabora.com>
-To:     linux-media@vger.kernel.org
-Cc:     hverkuil-cisco@xs4all.nl,
-        Deborah Brouwer <deborah.brouwer@collabora.com>
-Subject: [PATCH] v4l2-info: move flags2s to v4l2-info.h
-Date:   Wed, 28 Sep 2022 11:07:24 -0700
-Message-Id: <20220928180724.61839-1-deborah.brouwer@collabora.com>
+        b=RSqzZajkssm+OLwq2hEOT9R+CoxC5d7VCe/egP4Jdq/t/VaUmLs/xmnYW4qa3bCyf
+         Lts00mED/19NdGIZxKgA3QWjhiuZGSk7HELSArnBpppX6SDSk7GTgy58l+WGcxl/Xk
+         h8LbfZVlXQ17FnK62OSxdSgUr9y2p7w4ia79I5Nz2U8eK+chDPr0QDGrPIS4yXZxjY
+         1/nMp4u1yDJ3CZzkmYZTvytrkst8Sk9WmWl9vvH5k62w3ghR1uXMaZAcB45PP6b/2J
+         Ne99b892td1qpK/qXiA8rRXeeBcxhm8m/j7hRA7/vTRICN4X/GmW9jaZwe4UTwJxyp
+         HOn+OW3fvd+uA==
+From:   Dmitry Osipenko <dmitry.osipenko@collabora.com>
+To:     David Airlie <airlied@linux.ie>, Gerd Hoffmann <kraxel@redhat.com>,
+        Gurchetan Singh <gurchetansingh@chromium.org>,
+        Chia-I Wu <olvaffe@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+        Daniel Almeida <daniel.almeida@collabora.com>,
+        Gert Wollny <gert.wollny@collabora.com>,
+        Gustavo Padovan <gustavo.padovan@collabora.com>,
+        Daniel Stone <daniel@fooishbar.org>,
+        Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Rob Clark <robdclark@gmail.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+        "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+        =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas_os@shipmail.org>,
+        Qiang Yu <yuq825@gmail.com>,
+        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        Amol Maheshwari <amahesh@qti.qualcomm.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Leon Romanovsky <leon@kernel.org>,
+        Juergen Gross <jgross@suse.com>,
+        Stefano Stabellini <sstabellini@kernel.org>,
+        Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>,
+        Tomi Valkeinen <tomba@kernel.org>,
+        Russell King <linux@armlinux.org.uk>,
+        Lucas Stach <l.stach@pengutronix.de>,
+        Christian Gmeiner <christian.gmeiner@gmail.com>,
+        Ruhl Michael J <michael.j.ruhl@intel.com>
+Cc:     dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+        Dmitry Osipenko <digetx@gmail.com>,
+        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+        amd-gfx@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+        kernel@collabora.com, virtualization@lists.linux-foundation.org,
+        linux-rdma@vger.kernel.org, linux-arm-msm@vger.kernel.org
+Subject: [PATCH v6 00/21] Move all drivers to a common dma-buf locking convention
+Date:   Wed, 28 Sep 2022 22:15:39 +0300
+Message-Id: <20220928191600.5874-1-dmitry.osipenko@collabora.com>
 X-Mailer: git-send-email 2.37.3
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
@@ -51,51 +93,147 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Make the flag2s function available to other utilities.
+Hello,
 
-Signed-off-by: Deborah Brouwer <deborah.brouwer@collabora.com>
----
- utils/common/v4l2-info.cpp | 7 +------
- utils/common/v4l2-info.h   | 8 ++++++++
- 2 files changed, 9 insertions(+), 6 deletions(-)
+This series moves all drivers to a dynamic dma-buf locking specification.
+From now on all dma-buf importers are made responsible for holding
+dma-buf's reservation lock around all operations performed over dma-bufs
+in accordance to the locking specification. This allows us to utilize
+reservation lock more broadly around kernel without fearing of a potential
+deadlocks.
 
-diff --git a/utils/common/v4l2-info.cpp b/utils/common/v4l2-info.cpp
-index a7964ad0..b297d7ce 100644
---- a/utils/common/v4l2-info.cpp
-+++ b/utils/common/v4l2-info.cpp
-@@ -16,12 +16,7 @@ static std::string num2s(unsigned num, bool is_hex = true)
- 	return buf;
- }
- 
--struct flag_def {
--	unsigned flag;
--	const char *str;
--};
--
--static std::string flags2s(unsigned val, const flag_def *def)
-+std::string flags2s(unsigned val, const flag_def *def)
- {
- 	std::string s;
- 
-diff --git a/utils/common/v4l2-info.h b/utils/common/v4l2-info.h
-index 35237853..4a9aa3e8 100644
---- a/utils/common/v4l2-info.h
-+++ b/utils/common/v4l2-info.h
-@@ -11,6 +11,14 @@
- #include <linux/videodev2.h>
- #include <linux/v4l2-subdev.h>
- 
-+struct flag_def {
-+	unsigned flag;
-+	const char *str;
-+};
-+
-+/* Return a comma-separated string of flags or hex value if unknown */
-+std::string flags2s(unsigned val, const flag_def *def);
-+
- /* Print capability information */
- void v4l2_info_capability(const v4l2_capability &cap);
- void v4l2_info_subdev_capability(const v4l2_subdev_capability &subdevcap);
+This patchset passes all i915 selftests. It was also tested using VirtIO,
+Panfrost, Lima, Tegra, udmabuf, AMDGPU and Nouveau drivers. I tested cases
+of display+GPU, display+V4L and GPU+V4L dma-buf sharing (where appropriate),
+which covers majority of kernel drivers since rest of the drivers share
+same or similar code paths.
+
+Changelog:
+
+v6: - Added r-b from Michael Ruhl to the i915 patch.
+
+    - Added acks from Sumit Semwal and updated commit message of the
+      "Move dma_buf_vmap() to dynamic locking specification" patch like
+      was suggested by Sumit.
+
+    - Added "!dmabuf" check to dma_buf_vmap_unlocked() to match the locked
+      variant of the function, for consistency.
+
+v5: - Added acks and r-bs that were given to v4.
+
+    - Changed i915 preparation patch like was suggested by Michael Ruhl.
+      The scope of reservation locking is smaller now.
+
+v4: - Added dma_buf_mmap() to the "locking convention" documentation,
+      which was missed by accident in v3.
+
+    - Added acks from Christian König, Tomasz Figa and Hans Verkuil that
+      they gave to couple v3 patches.
+
+    - Dropped the "_unlocked" postfix from function names that don't have
+      the locked variant, as was requested by Christian König.
+
+    - Factored out the per-driver preparations into separate patches
+      to ease reviewing of the changes, which is now doable without the
+      global dma-buf functions renaming.
+
+    - Factored out the dynamic locking convention enforcements into separate
+      patches which add the final dma_resv_assert_held(dmabuf->resv) to the
+      dma-buf API functions.
+
+v3: - Factored out dma_buf_mmap_unlocked() and attachment functions
+      into aseparate patches, like was suggested by Christian König.
+
+    - Corrected and factored out dma-buf locking documentation into
+      a separate patch, like was suggested by Christian König.
+
+    - Intel driver dropped the reservation locking fews days ago from
+      its BO-release code path, but we need that locking for the imported
+      GEMs because in the end that code path unmaps the imported GEM.
+      So I added back the locking needed by the imported GEMs, updating
+      the "dma-buf attachment locking specification" patch appropriately.
+
+    - Tested Nouveau+Intel dma-buf import/export combo.
+
+    - Tested udmabuf import to i915/Nouveau/AMDGPU.
+
+    - Fixed few places in Etnaviv, Panfrost and Lima drivers that I missed
+      to switch to locked dma-buf vmapping in the drm/gem: Take reservation
+      lock for vmap/vunmap operations" patch. In a result invalidated the
+      Christian's r-b that he gave to v2.
+
+    - Added locked dma-buf vmap/vunmap functions that are needed for fixing
+      vmappping of Etnaviv, Panfrost and Lima drivers mentioned above.
+      I actually had this change stashed for the drm-shmem shrinker patchset,
+      but then realized that it's already needed by the dma-buf patches.
+      Also improved my tests to better cover these code paths.
+
+v2: - Changed locking specification to avoid problems with a cross-driver
+      ww locking, like was suggested by Christian König. Now the attach/detach
+      callbacks are invoked without the held lock and exporter should take the
+      lock.
+
+    - Added "locking convention" documentation that explains which dma-buf
+      functions and callbacks are locked/unlocked for importers and exporters,
+      which was requested by Christian König.
+
+    - Added ack from Tomasz Figa to the V4L patches that he gave to v1.
+
+Dmitry Osipenko (21):
+  dma-buf: Add unlocked variant of vmapping functions
+  dma-buf: Add unlocked variant of attachment-mapping functions
+  drm/gem: Take reservation lock for vmap/vunmap operations
+  drm/prime: Prepare to dynamic dma-buf locking specification
+  drm/armada: Prepare to dynamic dma-buf locking specification
+  drm/i915: Prepare to dynamic dma-buf locking specification
+  drm/omapdrm: Prepare to dynamic dma-buf locking specification
+  drm/tegra: Prepare to dynamic dma-buf locking specification
+  drm/etnaviv: Prepare to dynamic dma-buf locking specification
+  RDMA/umem: Prepare to dynamic dma-buf locking specification
+  misc: fastrpc: Prepare to dynamic dma-buf locking specification
+  xen/gntdev: Prepare to dynamic dma-buf locking specification
+  media: videobuf2: Prepare to dynamic dma-buf locking specification
+  media: tegra-vde: Prepare to dynamic dma-buf locking specification
+  dma-buf: Move dma_buf_vmap() to dynamic locking specification
+  dma-buf: Move dma_buf_attach() to dynamic locking specification
+  dma-buf: Move dma_buf_map_attachment() to dynamic locking
+    specification
+  dma-buf: Move dma_buf_mmap() to dynamic locking specification
+  dma-buf: Document dynamic locking convention
+  media: videobuf2: Stop using internal dma-buf lock
+  dma-buf: Remove obsoleted internal lock
+
+ Documentation/driver-api/dma-buf.rst          |   6 +
+ drivers/dma-buf/dma-buf.c                     | 214 +++++++++++++++---
+ drivers/gpu/drm/armada/armada_gem.c           |   8 +-
+ drivers/gpu/drm/drm_client.c                  |   4 +-
+ drivers/gpu/drm/drm_gem.c                     |  24 ++
+ drivers/gpu/drm/drm_gem_dma_helper.c          |   6 +-
+ drivers/gpu/drm/drm_gem_framebuffer_helper.c  |   6 +-
+ drivers/gpu/drm/drm_gem_ttm_helper.c          |   9 +-
+ drivers/gpu/drm/drm_prime.c                   |   6 +-
+ drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c   |   2 +-
+ drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c    |   2 +-
+ drivers/gpu/drm/i915/gem/i915_gem_object.c    |  14 ++
+ .../drm/i915/gem/selftests/i915_gem_dmabuf.c  |  16 +-
+ drivers/gpu/drm/lima/lima_sched.c             |   4 +-
+ drivers/gpu/drm/omapdrm/omap_gem_dmabuf.c     |   4 +-
+ drivers/gpu/drm/panfrost/panfrost_dump.c      |   4 +-
+ drivers/gpu/drm/panfrost/panfrost_perfcnt.c   |   6 +-
+ drivers/gpu/drm/qxl/qxl_object.c              |  17 +-
+ drivers/gpu/drm/qxl/qxl_prime.c               |   4 +-
+ drivers/gpu/drm/tegra/gem.c                   |  17 +-
+ drivers/infiniband/core/umem_dmabuf.c         |   7 +-
+ .../common/videobuf2/videobuf2-dma-contig.c   |  22 +-
+ .../media/common/videobuf2/videobuf2-dma-sg.c |  19 +-
+ .../common/videobuf2/videobuf2-vmalloc.c      |  17 +-
+ .../platform/nvidia/tegra-vde/dmabuf-cache.c  |   6 +-
+ drivers/misc/fastrpc.c                        |   6 +-
+ drivers/xen/gntdev-dmabuf.c                   |   8 +-
+ include/drm/drm_gem.h                         |   3 +
+ include/linux/dma-buf.h                       |  17 +-
+ 29 files changed, 323 insertions(+), 155 deletions(-)
+
 -- 
 2.37.3
 
