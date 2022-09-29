@@ -2,155 +2,114 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 391E65EF62C
-	for <lists+linux-media@lfdr.de>; Thu, 29 Sep 2022 15:13:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 654765EF681
+	for <lists+linux-media@lfdr.de>; Thu, 29 Sep 2022 15:27:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235165AbiI2NNd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 29 Sep 2022 09:13:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58564 "EHLO
+        id S235240AbiI2N1p (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 29 Sep 2022 09:27:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33468 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235362AbiI2NNa (ORCPT
+        with ESMTP id S235502AbiI2N1M (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 29 Sep 2022 09:13:30 -0400
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4E47517D40D;
-        Thu, 29 Sep 2022 06:13:26 -0700 (PDT)
-X-UUID: 92faf9ad737f4892a9a5f0bf38d632dd-20220929
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-        h=Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From; bh=mbgX4VpSRMg0U5YxW3XwshgiCZhR30trQYgE8YMGgSM=;
-        b=M3TWe7NuiYlN5FDthjVzT7XXlvGnlvc8aRh84tokQWzIsHNfF4Ei1E3x1rrDrTWc2hdFTdn/J+Rg7doickzHyE46OKnMd+D1uOn7rOLszY3RDjvxSgvAdHISdn1mXrKub0R1Bm9tkuUWw49vTdqJ66Hka7wmO3jfdoWXD4hqY2M=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.11,REQID:c2052a65-4fa7-49c9-bac2-eec27c83713a,IP:0,U
-        RL:0,TC:0,Content:-25,EDM:0,RT:0,SF:95,FILE:0,BULK:0,RULE:Release_Ham,ACTI
-        ON:release,TS:70
-X-CID-INFO: VERSION:1.1.11,REQID:c2052a65-4fa7-49c9-bac2-eec27c83713a,IP:0,URL
-        :0,TC:0,Content:-25,EDM:0,RT:0,SF:95,FILE:0,BULK:0,RULE:Spam_GS981B3D,ACTI
-        ON:quarantine,TS:70
-X-CID-META: VersionHash:39a5ff1,CLOUDID:299882a3-dc04-435c-b19b-71e131a5fc35,B
-        ulkID:220929211323ALKWPMY0,BulkQuantity:0,Recheck:0,SF:38|28|17|19|48|823|
-        824,TC:nil,Content:0,EDM:-3,IP:nil,URL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,
-        COL:0
-X-UUID: 92faf9ad737f4892a9a5f0bf38d632dd-20220929
-Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw02.mediatek.com
-        (envelope-from <allen-kh.cheng@mediatek.com>)
-        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-        with ESMTP id 1747756523; Thu, 29 Sep 2022 21:13:21 +0800
-Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
- mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.792.15; Thu, 29 Sep 2022 21:13:20 +0800
-Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
- mtkmbs11n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.792.15 via Frontend Transport; Thu, 29 Sep 2022 21:13:20 +0800
-From:   Allen-KH Cheng <allen-kh.cheng@mediatek.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        "Krzysztof Kozlowski" <krzysztof.kozlowski@linaro.org>
-CC:     <Project_Global_Chrome_Upstream_Group@mediatek.com>,
-        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>,
-        <linux-mediatek@lists.infradead.org>,
-        Allen-KH Cheng <allen-kh.cheng@mediatek.com>
-Subject: [PATCH v3 2/2] arm64: dts: mt8192: Add vcodec lat and core nodes
-Date:   Thu, 29 Sep 2022 21:13:09 +0800
-Message-ID: <20220929131309.18337-3-allen-kh.cheng@mediatek.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20220929131309.18337-1-allen-kh.cheng@mediatek.com>
-References: <20220929131309.18337-1-allen-kh.cheng@mediatek.com>
+        Thu, 29 Sep 2022 09:27:12 -0400
+Received: from mail-ot1-f49.google.com (mail-ot1-f49.google.com [209.85.210.49])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D3F91B2D0C;
+        Thu, 29 Sep 2022 06:26:59 -0700 (PDT)
+Received: by mail-ot1-f49.google.com with SMTP id cy15-20020a056830698f00b0065c530585afso835589otb.2;
+        Thu, 29 Sep 2022 06:26:59 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
+        bh=oNT1DEKI3TdF1HI/qkSD42aLEyNijprBhsci8wmzfrE=;
+        b=GSPKxDfrKkuHCHBmANXa6h42J1bc6nBqzsukqZo5J2nR6ofWGo42ZR4tGxncGEQUqL
+         wrgxcirxRGsX0MLvMXDdbIU7jm7kvD1ckOvT2yoIvRUoLjraC7xMwLRa23D5qhodLaBm
+         N/C2If0gwaPqSAF3UncffuPXxeCPeUHTsJQKoD4zf7JWXNsC7j1MY0Q1jsL7Ctezl4KJ
+         fpFOR3X1iR5xwdR/+CWalcD50JhdTSp7+GL5rW1ZyH9q7+shoBhMEysz4YghObYv4fgq
+         EmFtet4THA0QP/jalKu/HFJ1EJv5azwqTbTk/nuoDSfzDFjeO/7YVa87jHs7ldBpqFi6
+         1+xQ==
+X-Gm-Message-State: ACrzQf3ri0NBAVMtBFciz6OYMnMKy6z2vInGblKLr1xZsRM+Xbl6al4y
+        R21H6O9t+c9t1YRT+/K3Eg==
+X-Google-Smtp-Source: AMsMyM5+BBcdZkC7+B9FQICq1MumQkAyEKVPwHqYg6DLqIAVE+cqHK6wc1WEEkXaK3RVvgjFEXpomw==
+X-Received: by 2002:a05:6830:43ab:b0:658:2908:d909 with SMTP id s43-20020a05683043ab00b006582908d909mr1272894otv.294.1664458007300;
+        Thu, 29 Sep 2022 06:26:47 -0700 (PDT)
+Received: from macbook.herring.priv (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id x4-20020a056870434400b0011bde9f5745sm3902079oah.23.2022.09.29.06.26.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 29 Sep 2022 06:26:46 -0700 (PDT)
+Received: (nullmailer pid 1958793 invoked by uid 1000);
+        Thu, 29 Sep 2022 13:26:46 -0000
+Date:   Thu, 29 Sep 2022 08:26:46 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Erling Ljunggren <hljunggr@cisco.com>
+Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org
+Subject: Re: [PATCH v3 3/5] dt-bindings: media: add cat24c208 bindings
+Message-ID: <20220929132646.GA1881529-robh@kernel.org>
+References: <20220928112147.358745-1-hljunggr@cisco.com>
+ <20220928112147.358745-4-hljunggr@cisco.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-MTK:  N
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,
-        SPF_PASS,UNPARSEABLE_RELAY autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220928112147.358745-4-hljunggr@cisco.com>
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
+        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add vcodec lat and core nodes for mt8192 SoC.
+On Wed, Sep 28, 2022 at 01:21:45PM +0200, Erling Ljunggren wrote:
+> Add devicetree bindings for new cat24c208 EDID EEPROM driver.
+> 
+> Signed-off-by: Erling Ljunggren <hljunggr@cisco.com>
+> ---
+>  .../bindings/media/i2c/onnn,cat24c208.yaml    | 48 +++++++++++++++++++
+>  1 file changed, 48 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/i2c/onnn,cat24c208.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/media/i2c/onnn,cat24c208.yaml b/Documentation/devicetree/bindings/media/i2c/onnn,cat24c208.yaml
+> new file mode 100644
+> index 000000000000..fcfaccb5e39f
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/i2c/onnn,cat24c208.yaml
+> @@ -0,0 +1,48 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/i2c/onnn,cat24c208.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: ON Semiconductor CAT24C208 EDID EEPROM driver
+> +
+> +maintainers:
+> +  - Hans Verkuil <hverkuil-cisco@xs4all.nl>
+> +
+> +description: |
+> +  CAT24C208 is a dual port i2c EEPROM designed for EDID storage.
+> +
+> +
+> +properties:
+> +  compatible:
+> +    const: onnn,cat24c208
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  hpd-gpios:
+> +    maxItems: 1
+> +    description:
+> +      References to the GPIO that controls the HDMI hot-plug detection pin.
+> +      The active flag indicates the GPIO level that enables hot-plug detection.
 
-Signed-off-by: Allen-KH Cheng <allen-kh.cheng@mediatek.com>
-Tested-by: Chen-Yu Tsai <wenst@chromium.org>
----
- arch/arm64/boot/dts/mediatek/mt8192.dtsi | 60 ++++++++++++++++++++++++
- 1 file changed, 60 insertions(+)
+This node is supposed to represent a device, cat24c208, but that device 
+I'm guessing knows nothing about HPD. That's a property of the connector 
+and belongs in a connector node much like we have for the other side of 
+display connections. It may seem like overkill, but it frequently 
+evolves such that not having a connector node becomes a problem. See 
+'hdmi-connector' binding for example.
 
-diff --git a/arch/arm64/boot/dts/mediatek/mt8192.dtsi b/arch/arm64/boot/dts/mediatek/mt8192.dtsi
-index 6b20376191a7..fd3c3aaeadba 100644
---- a/arch/arm64/boot/dts/mediatek/mt8192.dtsi
-+++ b/arch/arm64/boot/dts/mediatek/mt8192.dtsi
-@@ -1449,6 +1449,66 @@
- 			power-domains = <&spm MT8192_POWER_DOMAIN_ISP2>;
- 		};
- 
-+		vcodec_dec: video-codec@16000000 {
-+			compatible = "mediatek,mt8192-vcodec-dec";
-+			reg = <0 0x16000000 0 0x1000>;
-+			mediatek,scp = <&scp>;
-+			iommus = <&iommu0 M4U_PORT_L4_VDEC_MC_EXT>;
-+			dma-ranges = <0x1 0x0 0x0 0x40000000 0x0 0xfff00000>;
-+			#address-cells = <2>;
-+			#size-cells = <2>;
-+			ranges = <0 0 0 0x16000000 0 0x26000>;
-+
-+			vcodec_lat: video-codec-lat@10000 {
-+				compatible = "mediatek,mtk-vcodec-lat";
-+				reg = <0x0 0x10000 0 0x800>;
-+				interrupts = <GIC_SPI 426 IRQ_TYPE_LEVEL_HIGH 0>;
-+				iommus = <&iommu0 M4U_PORT_L5_VDEC_LAT0_VLD_EXT>,
-+					 <&iommu0 M4U_PORT_L5_VDEC_LAT0_VLD2_EXT>,
-+					 <&iommu0 M4U_PORT_L5_VDEC_LAT0_AVC_MV_EXT>,
-+					 <&iommu0 M4U_PORT_L5_VDEC_LAT0_PRED_RD_EXT>,
-+					 <&iommu0 M4U_PORT_L5_VDEC_LAT0_TILE_EXT>,
-+					 <&iommu0 M4U_PORT_L5_VDEC_LAT0_WDMA_EXT>,
-+					 <&iommu0 M4U_PORT_L5_VDEC_LAT0_RG_CTRL_DMA_EXT>,
-+					 <&iommu0 M4U_PORT_L5_VDEC_UFO_ENC_EXT>;
-+				clocks = <&topckgen CLK_TOP_VDEC_SEL>,
-+					 <&vdecsys_soc CLK_VDEC_SOC_VDEC>,
-+					 <&vdecsys_soc CLK_VDEC_SOC_LAT>,
-+					 <&vdecsys_soc CLK_VDEC_SOC_LARB1>,
-+					 <&topckgen CLK_TOP_MAINPLL_D4>;
-+				clock-names = "sel", "soc-vdec", "soc-lat", "vdec", "top";
-+				assigned-clocks = <&topckgen CLK_TOP_VDEC_SEL>;
-+				assigned-clock-parents = <&topckgen CLK_TOP_MAINPLL_D4>;
-+				power-domains = <&spm MT8192_POWER_DOMAIN_VDEC>;
-+			};
-+
-+			vcodec_core: video-codec-core@25000 {
-+				compatible = "mediatek,mtk-vcodec-core";
-+				reg = <0 0x25000 0 0x1000>;
-+				interrupts = <GIC_SPI 425 IRQ_TYPE_LEVEL_HIGH 0>;
-+				iommus = <&iommu0 M4U_PORT_L4_VDEC_MC_EXT>,
-+					 <&iommu0 M4U_PORT_L4_VDEC_UFO_EXT>,
-+					 <&iommu0 M4U_PORT_L4_VDEC_PP_EXT>,
-+					 <&iommu0 M4U_PORT_L4_VDEC_PRED_RD_EXT>,
-+					 <&iommu0 M4U_PORT_L4_VDEC_PRED_WR_EXT>,
-+					 <&iommu0 M4U_PORT_L4_VDEC_PPWRAP_EXT>,
-+					 <&iommu0 M4U_PORT_L4_VDEC_TILE_EXT>,
-+					 <&iommu0 M4U_PORT_L4_VDEC_VLD_EXT>,
-+					 <&iommu0 M4U_PORT_L4_VDEC_VLD2_EXT>,
-+					 <&iommu0 M4U_PORT_L4_VDEC_AVC_MV_EXT>,
-+					 <&iommu0 M4U_PORT_L4_VDEC_RG_CTRL_DMA_EXT>;
-+				clocks = <&topckgen CLK_TOP_VDEC_SEL>,
-+					 <&vdecsys CLK_VDEC_VDEC>,
-+					 <&vdecsys CLK_VDEC_LAT>,
-+					 <&vdecsys CLK_VDEC_LARB1>,
-+					 <&topckgen CLK_TOP_MAINPLL_D4>;
-+				clock-names = "sel", "soc-vdec", "soc-lat", "vdec", "top";
-+				assigned-clocks = <&topckgen CLK_TOP_VDEC_SEL>;
-+				assigned-clock-parents = <&topckgen CLK_TOP_MAINPLL_D4>;
-+				power-domains = <&spm MT8192_POWER_DOMAIN_VDEC2>;
-+			};
-+		};
-+
- 		larb5: larb@1600d000 {
- 			compatible = "mediatek,mt8192-smi-larb";
- 			reg = <0 0x1600d000 0 0x1000>;
--- 
-2.18.0
-
+Rob
