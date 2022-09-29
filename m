@@ -2,123 +2,226 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 66D815EEE08
-	for <lists+linux-media@lfdr.de>; Thu, 29 Sep 2022 08:49:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8FE6A5EEF31
+	for <lists+linux-media@lfdr.de>; Thu, 29 Sep 2022 09:37:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234910AbiI2Gsz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 29 Sep 2022 02:48:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54412 "EHLO
+        id S230015AbiI2HhL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 29 Sep 2022 03:37:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40504 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234891AbiI2Gsy (ORCPT
+        with ESMTP id S235281AbiI2HhJ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 29 Sep 2022 02:48:54 -0400
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B3F412F749
-        for <linux-media@vger.kernel.org>; Wed, 28 Sep 2022 23:48:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1664434133; x=1695970133;
-  h=subject:to:references:from:message-id:date:mime-version:
-   in-reply-to:content-transfer-encoding;
-  bh=wBwbPtxJo2+Wju5RTftBf87LjJJW1KORsvMkC08f1lE=;
-  b=jYIjuTCJePltiZ9ErdfMm5p3t11GYRowHe0zMglpQ/6Dv0Pq5z5Fw3xD
-   +TbhY7UnxtagBMVNWHGLBwpJHq3WqJzECv/iX1MOjqPnffnlfzXmz0qGP
-   jcCr0CouLyYCsm4xeDwxRcX3ezQi3xtehkzThN4BW9nHy3kjTdDehZQKk
-   Gqv6HPFzBEwM+p0kaxfOixO0SQeho/8IUNk9ja8sQXQQUOcapQw6gTlxL
-   5VvBi4KEYJGqJC96qRTHTMl7at8uy47Jxfk9b7kMA/wJ5L9h+Iyq5kuC6
-   gyRYo6lNZphFON9JqFNYDvslcOfQ0elwNT5+4HYY+xLEvJI5qS3OkrA5Z
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10484"; a="300528588"
-X-IronPort-AV: E=Sophos;i="5.93,354,1654585200"; 
-   d="scan'208";a="300528588"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2022 23:48:53 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10484"; a="573342098"
-X-IronPort-AV: E=Sophos;i="5.93,354,1654585200"; 
-   d="scan'208";a="573342098"
-Received: from ipu5-build.bj.intel.com (HELO [10.238.232.188]) ([10.238.232.188])
-  by orsmga003.jf.intel.com with ESMTP; 28 Sep 2022 23:48:47 -0700
-Subject: Re: [PATCH v14 03/34] media: subdev: increase
- V4L2_FRAME_DESC_ENTRY_MAX to 8
-To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-        linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        niklas.soderlund+renesas@ragnatech.se,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Kishon Vijay Abraham <kishon@ti.com>,
-        satish.nagireddy@getcruise.com, Tomasz Figa <tfiga@chromium.org>,
-        "Qiu, Tian Shu" <tian.shu.qiu@intel.com>
-References: <20220831141357.1396081-1-tomi.valkeinen@ideasonboard.com>
- <20220831141357.1396081-4-tomi.valkeinen@ideasonboard.com>
-From:   Bingbu Cao <bingbu.cao@linux.intel.com>
-Message-ID: <ea72318d-2661-1918-6531-1518683364c3@linux.intel.com>
-Date:   Thu, 29 Sep 2022 14:48:46 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        Thu, 29 Sep 2022 03:37:09 -0400
+Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com [IPv6:2a00:1450:4864:20::12c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A0D8813941F
+        for <linux-media@vger.kernel.org>; Thu, 29 Sep 2022 00:37:07 -0700 (PDT)
+Received: by mail-lf1-x12c.google.com with SMTP id s6so975870lfo.7
+        for <linux-media@vger.kernel.org>; Thu, 29 Sep 2022 00:37:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date;
+        bh=C6HAcFRlUdRVNTmd1+LZDEckWRqIi/Jw90W8yfGFuaM=;
+        b=qrePgKY/Y+Vm7/UZSq1RNCj98EF+ZGGgs4eAocWnvNy3OL+hbXXhm7/hlNBWZtmh+w
+         HHpePbG503tmykGObV5MPrA42fKiouTwqXxUHeY6180cJ+hwMma60u7Mr31ZuIXyZjGk
+         CB9Ko/qcwaZ/9bEzlE5LXclzRuAQ6M7MmVNiSzr1s1P7jPgaWG/x39v200VI0dx3K5Uh
+         QgCNllL/mAQ2nJttbLYW4lxDr/Ce783BOmFE/L4c+jovVnoqxtcBGniMStFJUiG3+JhX
+         b3+WuUBiZHWhsY0POKuA/irYlQuOJ0S2R9kBBDhWDQIDWbm887eHhwRtrapD53VfNVdN
+         mzxg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date;
+        bh=C6HAcFRlUdRVNTmd1+LZDEckWRqIi/Jw90W8yfGFuaM=;
+        b=iJ9LSMg+zzggORLP0JVZU0SWEsBj0Ty+uvOTH29RUxXqGFYXeUrOQtQ6HG1sRkiyBs
+         2UaPiiIdBQSUWws1Du4+VCUq1dIEqxSLYyRxhdm7n4jUjbM5V1hJ+zqQaa2pjlKaO89l
+         H73PDHYHCFOSLvkReoQSNI5ZZtIozTlMseGhf1ru0nRQyR2ztK5vuSDAZrDMald7n6Ji
+         F8GkZ4beo+LlbIgwojFINh1pWJHVbg+aEKg+q7VdOHmPVXW+GQOpI5wi1b9Jvbpj0CKL
+         ltcPzYSgxttCtiiehJ3UIywX1GfdPCWzXMLHtbKod7uN05l7vjfRTZM+Ve1ulH/CnfSG
+         9jfw==
+X-Gm-Message-State: ACrzQf0ycBFlgqMhlyNh103LBHl3B5V7oShhe5Q8MpD8wAYBZ3XNXPJ2
+        SZh4ISklzgLd87UgyEcfE5D2QQ==
+X-Google-Smtp-Source: AMsMyM6auO7zd9V9y6sVWvoa5lOsJCgLzgjIBXw3FHxLXWyMNv86MEkFtRVwKPJbJmzPknh6BFI9cQ==
+X-Received: by 2002:a05:6512:511:b0:4a1:d9f3:ea10 with SMTP id o17-20020a056512051100b004a1d9f3ea10mr863530lfb.555.1664437025680;
+        Thu, 29 Sep 2022 00:37:05 -0700 (PDT)
+Received: from [192.168.0.21] (78-11-189-27.static.ip.netia.com.pl. [78.11.189.27])
+        by smtp.gmail.com with ESMTPSA id 10-20020ac25f0a000000b004979e1ff641sm704286lfq.115.2022.09.29.00.37.04
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 29 Sep 2022 00:37:05 -0700 (PDT)
+Message-ID: <65ef5f40-f8bd-045c-a9d7-6a74ceacc8e2@linaro.org>
+Date:   Thu, 29 Sep 2022 09:37:04 +0200
 MIME-Version: 1.0
-In-Reply-To: <20220831141357.1396081-4-tomi.valkeinen@ideasonboard.com>
-Content-Type: text/plain; charset=windows-1252
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.0
+Subject: Re: [PATCH v2] dt-bindings: media: st,stmipid02: Convert the text
+ bindings to YAML
 Content-Language: en-US
+To:     Marek Vasut <marex@denx.de>, linux-arm-kernel@lists.infradead.org
+Cc:     Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Sylvain Petinot <sylvain.petinot@foss.st.com>,
+        devicetree@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com
+References: <20220927184657.291714-1-marex@denx.de>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20220927184657.291714-1-marex@denx.de>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-
-
-On 8/31/22 10:13 PM, Tomi Valkeinen wrote:
-> V4L2_FRAME_DESC_ENTRY_MAX is currently set to 4. In theory it's possible
-> to have an arbitrary amount of streams in a single pad, so preferably
-> there should be no hardcoded maximum number.
+On 27/09/2022 20:46, Marek Vasut wrote:
+> Convert the text STMIPID02 DT bindings to YAML DT format to permit
+> validation of DTs using this I2C CSI-2 to CPI bridge.
 > 
-> However, I believe a reasonable max is 8, which would cover a CSI-2 pad
-> with 4 streams of pixel data and 4 streams of metadata.
-> 
-> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Reviewed-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> Reviewed-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> Signed-off-by: Marek Vasut <marex@denx.de>
 > ---
->  include/media/v4l2-subdev.h | 6 +++++-
->  1 file changed, 5 insertions(+), 1 deletion(-)
-> 
-> diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
-> index 9689f38a0af1..3797b99bb408 100644
-> --- a/include/media/v4l2-subdev.h
-> +++ b/include/media/v4l2-subdev.h
-> @@ -358,7 +358,11 @@ struct v4l2_mbus_frame_desc_entry {
->  	} bus;
->  };
->  
-> -#define V4L2_FRAME_DESC_ENTRY_MAX	4
-> + /*
-> +  * If this number is too small, it should be dropped altogether and the
-> +  * API switched to a dynamic number of frame descriptor entries.
-> +  */
-> +#define V4L2_FRAME_DESC_ENTRY_MAX	8
 
-The number 8 here is still not enough I think, CSI2 specification already
-extended the VC identifier to be at most 5 bits, which support a max of
-32 VCs.
+Thank you for your patch. There is something to discuss/improve.
 
-Considering the metadata, the number should be larger, it looks like that
-we have to switch using dynamic number?
+> +properties:
+> +  compatible:
+> +    const: st,st-mipid02
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    maxItems: 1
+> +
+> +  clock-names:
+> +    description:
+> +      Reference to the xclk input clock.
 
-BTW, does this change break the uAPI?
+This usually goes to "clocks", but on the other hand it does not bring
+any value (xclk is obvious from clock-names), so I propose to skip
+entire description.
 
->  
->  /**
->   * enum v4l2_mbus_frame_desc_type - media bus frame description type
-> 
+> +    items:
+> +      - const: xclk
+> +
+> +  VDDE-supply:
+> +    description:
+> +      Sensor digital IO supply. Must be 1.8 volts.
+> +
+> +  VDDIN-supply:
+> +    description:
+> +      Sensor internal regulator supply. Must be 1.8 volts.
+> +
+> +  reset-gpios:
+> +    description:
+> +      Reference to the GPIO connected to the xsdn pin, if any.
+> +      This is an active low signal to the mipid02.
+> +
+> +  ports:
+> +    $ref: /schemas/graph.yaml#/properties/ports
+> +    properties:
+> +      port@0:
+> +        $ref: /schemas/graph.yaml#/$defs/port-base
+> +        unevaluatedProperties: false
+> +        description: CSI-2 first input port
+> +        properties:
+> +          endpoint:
+> +            $ref: /schemas/media/video-interfaces.yaml#
+> +            unevaluatedProperties: false
+> +
+> +            properties:
+> +              data-lanes:
+> +                description:
+> +                  Single-lane operation shall be <1> or <2> .
+> +                  Dual-lane operation shall be <1 2> or <2 1> .
+> +                minItems: 1
+> +                maxItems: 2
 
--- 
+Blank line
+
+> +              lane-polarity:
+
+The property is "lane-polarities"
+
+> +                description:
+> +                  Any lane can be inverted or not.
+> +                minItems: 1
+> +                maxItems: 2
+> +
+> +            required:
+> +              - data-lanes
+> +
+> +      port@1:
+> +        $ref: /schemas/graph.yaml#/$defs/port-base
+> +        unevaluatedProperties: false
+> +        description: CSI-2 second input port
+> +        properties:
+> +          endpoint:
+> +            $ref: /schemas/media/video-interfaces.yaml#
+> +            unevaluatedProperties: false
+> +
+> +            properties:
+> +              data-lanes:
+> +                description:
+> +                  Single-lane operation shall be <1> or <2> .
+> +                maxItems: 1
+
+Blank line
+
+> +              lane-polarity:
+
+lane-polarities
+
+> +                description:
+> +                  Any lane can be inverted or not.
+> +                maxItems: 1
+> +
+> +            required:
+> +              - data-lanes
+> +
+> +      port@2:
+> +        $ref: /schemas/graph.yaml#/$defs/port-base
+> +        unevaluatedProperties: false
+> +        description: Output port
+> +        properties:
+> +          endpoint:
+> +            $ref: /schemas/media/video-interfaces.yaml#
+> +            unevaluatedProperties: false
+> +
+> +            properties:
+> +              bus-width:
+> +                enum: [6, 7, 8, 10, 12]
+
+Blank line
+
+> +              hsync-active: true
+> +              vsync-active: true
+
+You do not need these two - they come from video-interfaces.yaml
+
+
+> +
+> +            required:
+> +              - bus-width
+> +
+> +    anyOf:
+> +      - required:
+> +          - port@0
+> +      - required:
+> +          - port@1
+> +
+> +    required:
+> +      - port@2
+> +
+
 Best regards,
-Bingbu Cao
+Krzysztof
+
