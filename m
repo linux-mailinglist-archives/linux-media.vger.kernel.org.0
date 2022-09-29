@@ -2,183 +2,232 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4E74C5EF11B
-	for <lists+linux-media@lfdr.de>; Thu, 29 Sep 2022 11:01:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CEB7E5EF151
+	for <lists+linux-media@lfdr.de>; Thu, 29 Sep 2022 11:08:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235424AbiI2JAz convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Thu, 29 Sep 2022 05:00:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35632 "EHLO
+        id S235224AbiI2JI2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 29 Sep 2022 05:08:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52718 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235070AbiI2JAy (ORCPT
+        with ESMTP id S234912AbiI2JI1 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 29 Sep 2022 05:00:54 -0400
-Received: from mail-oi1-f182.google.com (mail-oi1-f182.google.com [209.85.167.182])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A61C126B56;
-        Thu, 29 Sep 2022 02:00:53 -0700 (PDT)
-Received: by mail-oi1-f182.google.com with SMTP id m130so948069oif.6;
-        Thu, 29 Sep 2022 02:00:53 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date;
-        bh=Ir+IzupNAXvXvPBkZ1yh/qacu5xVXDJ2KC3L3ZMV+D4=;
-        b=EED+KU8eMYhPRbakg8ufk7N7udWD/ajW0taKcnMaub1VgUUEk6pJVhDivnToBjIDFI
-         Ii4QoNk4pYr3EVXDi0seakF39cCNV7UWcpTXbkVpyjE2enfVAMsTmn8Iff3bfBE3q5+G
-         4jYiOEJaPb4iENUuMm+etMhu8E4F05mWl1qUHgE9DIabskklCZuNGzsA8luMoyNv6PPn
-         6Z/AalBN6VZU8RWNIUO6wUP5mAiRuereep444i3efUrI8CVrDXgOYQ/QKFTO2dAzLW5V
-         5KYpQss9DxkuKVysmb+te+tPo4ecJsWw0rHH7Qyh7+TDyDGm+cpu1Y/x10PkExBmweTQ
-         zO3g==
-X-Gm-Message-State: ACrzQf3jeNWP+lf1eYUBdQuOBkGrMyqOPc9rTX4d6jbuwwycQa1EufVP
-        7oJ07yldNkV/XT8X9pEjfKl8QWnroUGLsQ==
-X-Google-Smtp-Source: AMsMyM5vrNCkseckAA8F+Eoio9F3dk/sAQm6yX/uZ2lAkUbFkJg4rOwOGUF0gV17QHA7TmWXxYAzaQ==
-X-Received: by 2002:a05:6808:13c9:b0:350:109d:4916 with SMTP id d9-20020a05680813c900b00350109d4916mr6110929oiw.97.1664442052395;
-        Thu, 29 Sep 2022 02:00:52 -0700 (PDT)
-Received: from mail-ot1-f54.google.com (mail-ot1-f54.google.com. [209.85.210.54])
-        by smtp.gmail.com with ESMTPSA id cm30-20020a056870b61e00b0012c21a64a76sm3622029oab.24.2022.09.29.02.00.52
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 29 Sep 2022 02:00:52 -0700 (PDT)
-Received: by mail-ot1-f54.google.com with SMTP id f20-20020a9d7b54000000b006574e21f1b6so500473oto.5;
-        Thu, 29 Sep 2022 02:00:52 -0700 (PDT)
-X-Received: by 2002:a5b:104:0:b0:6b0:429:3fe9 with SMTP id 4-20020a5b0104000000b006b004293fe9mr2016091ybx.543.1664442041163;
- Thu, 29 Sep 2022 02:00:41 -0700 (PDT)
+        Thu, 29 Sep 2022 05:08:27 -0400
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27CA9140190;
+        Thu, 29 Sep 2022 02:08:25 -0700 (PDT)
+X-UUID: 11af9cbcd5014d42b9d79636f5635ae5-20220929
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+        h=Content-Type:Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=YCdRDqToYVYcH5rq1P+kT0m0RObD5qKR0f7deVe8cso=;
+        b=AHo3NnYDQMB9eAA58PQtTZT5Utabhffw3ujrCneAXp5qVY8hz5c/9V6Nb+l2MyZIetumPPXFVJWS0H6tMkjZzd6oYNFYm9F+Z28o5zYwoQb4IFtPYGqDbEZZO99sJqpBRX/lusFWp24UzYbvWP03N0m3mdwFjADCfPJkXuo4ERY=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.11,REQID:a5cd9bcc-8d85-4355-bcb1-42a599922f34,IP:0,U
+        RL:0,TC:0,Content:-25,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
+        N:release,TS:-25
+X-CID-META: VersionHash:39a5ff1,CLOUDID:87db6e07-1cee-4c38-b21b-a45f9682fdc0,B
+        ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
+        RL:1,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0
+X-UUID: 11af9cbcd5014d42b9d79636f5635ae5-20220929
+Received: from mtkmbs11n2.mediatek.inc [(172.21.101.187)] by mailgw02.mediatek.com
+        (envelope-from <irui.wang@mediatek.com>)
+        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+        with ESMTP id 579808888; Thu, 29 Sep 2022 17:08:21 +0800
+Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
+ mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.792.3;
+ Thu, 29 Sep 2022 17:08:19 +0800
+Received: from localhost.localdomain (10.17.3.154) by mtkmbs11n2.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.2.792.15 via Frontend
+ Transport; Thu, 29 Sep 2022 17:08:18 +0800
+From:   Irui Wang <irui.wang@mediatek.com>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        "Tzung-Bi Shih" <tzungbi@chromium.org>,
+        <angelogioacchino.delregno@collabora.com>,
+        <nicolas.dufresne@collabora.com>, <wenst@chromium.org>,
+        kyrie wu <kyrie.wu@mediatek.com>
+CC:     <Project_Global_Chrome_Upstream_Group@mediatek.com>,
+        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-mediatek@lists.infradead.org>,
+        Tomasz Figa <tfiga@chromium.org>, <xia.jiang@mediatek.com>,
+        <maoguang.meng@mediatek.com>,
+        kyrie wu <kyrie.wu@mediatek.corp-partner.google.com>
+Subject: [V17,0/15] Enable jpeg enc & dec multi-hardwares for MT8195
+Date:   Thu, 29 Sep 2022 17:08:02 +0800
+Message-ID: <20220929090817.24272-1-irui.wang@mediatek.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20220923202822.2667581-1-keescook@chromium.org>
- <20220923202822.2667581-2-keescook@chromium.org> <CAMuHMdXK+UN1YVZm9DenuXAM8hZRUZJwp=SXsueP7sWiVU3a9A@mail.gmail.com>
- <202209281011.66DD717D@keescook> <874jwqfuh6.fsf@mpe.ellerman.id.au>
-In-Reply-To: <874jwqfuh6.fsf@mpe.ellerman.id.au>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 29 Sep 2022 11:00:28 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVOvs4adSV7G6ucZ8dcr+RxfZOOK=jXeO2tEAaXkv80Xg@mail.gmail.com>
-Message-ID: <CAMuHMdVOvs4adSV7G6ucZ8dcr+RxfZOOK=jXeO2tEAaXkv80Xg@mail.gmail.com>
-Subject: Re: [PATCH v2 01/16] slab: Remove __malloc attribute from realloc functions
-To:     Michael Ellerman <mpe@ellerman.id.au>
-Cc:     Kees Cook <keescook@chromium.org>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Christoph Lameter <cl@linux.com>,
-        Pekka Enberg <penberg@kernel.org>,
-        David Rientjes <rientjes@google.com>,
-        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Roman Gushchin <roman.gushchin@linux.dev>,
-        Hyeonggon Yoo <42.hyeyoo@gmail.com>,
-        Marco Elver <elver@google.com>, linux-mm@kvack.org,
-        "Ruhl, Michael J" <michael.j.ruhl@intel.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Alex Elder <elder@kernel.org>,
-        Josef Bacik <josef@toxicpanda.com>,
-        David Sterba <dsterba@suse.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        Jesse Brandeburg <jesse.brandeburg@intel.com>,
-        Daniel Micay <danielmicay@gmail.com>,
-        Yonghong Song <yhs@fb.com>, Miguel Ojeda <ojeda@kernel.org>,
-        linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
-        linux-btrfs@vger.kernel.org, linux-media@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-        linux-fsdevel@vger.kernel.org, intel-wired-lan@lists.osuosl.org,
-        dev@openvswitch.org, x86@kernel.org, llvm@lists.linux.dev,
-        linux-hardening@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
-        autolearn=no autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-MTK:  N
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,
+        SPF_PASS,UNPARSEABLE_RELAY autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Michael,
+From: kyrie wu <kyrie.wu@mediatek.corp-partner.google.com>
 
-On Thu, Sep 29, 2022 at 10:36 AM Michael Ellerman <mpe@ellerman.id.au> wrote:
-> Kees Cook <keescook@chromium.org> writes:
-> > On Wed, Sep 28, 2022 at 09:26:15AM +0200, Geert Uytterhoeven wrote:
-> >> On Fri, Sep 23, 2022 at 10:35 PM Kees Cook <keescook@chromium.org> wrote:
-> >> > The __malloc attribute should not be applied to "realloc" functions, as
-> >> > the returned pointer may alias the storage of the prior pointer. Instead
-> >> > of splitting __malloc from __alloc_size, which would be a huge amount of
-> >> > churn, just create __realloc_size for the few cases where it is needed.
-> >> >
-> >> > Additionally removes the conditional test for __alloc_size__, which is
-> >> > always defined now.
-> >> >
-> >> > Cc: Christoph Lameter <cl@linux.com>
-> >> > Cc: Pekka Enberg <penberg@kernel.org>
-> >> > Cc: David Rientjes <rientjes@google.com>
-> >> > Cc: Joonsoo Kim <iamjoonsoo.kim@lge.com>
-> >> > Cc: Andrew Morton <akpm@linux-foundation.org>
-> >> > Cc: Vlastimil Babka <vbabka@suse.cz>
-> >> > Cc: Roman Gushchin <roman.gushchin@linux.dev>
-> >> > Cc: Hyeonggon Yoo <42.hyeyoo@gmail.com>
-> >> > Cc: Marco Elver <elver@google.com>
-> >> > Cc: linux-mm@kvack.org
-> >> > Signed-off-by: Kees Cook <keescook@chromium.org>
-> >>
-> >> Thanks for your patch, which is now commit 63caa04ec60583b1 ("slab:
-> >> Remove __malloc attribute from realloc functions") in next-20220927.
-> >>
-> >> Noreply@ellerman.id.au reported all gcc8-based builds to fail
-> >> (e.g. [1], more at [2]):
-> >>
-> >>     In file included from <command-line>:
-> >>     ./include/linux/percpu.h: In function ‘__alloc_reserved_percpu’:
-> >>     ././include/linux/compiler_types.h:279:30: error: expected
-> >> declaration specifiers before ‘__alloc_size__’
-> >>      #define __alloc_size(x, ...) __alloc_size__(x, ## __VA_ARGS__) __malloc
-> >>                                   ^~~~~~~~~~~~~~
-> >>     ./include/linux/percpu.h:120:74: note: in expansion of macro ‘__alloc_size’
-> >>     [...]
-> >>
-> >> It's building fine with e.g. gcc-9 (which is my usual m68k cross-compiler).
-> >> Reverting this commit on next-20220927 fixes the issue.
-> >>
-> >> [1] http://kisskb.ellerman.id.au/kisskb/buildresult/14803908/
-> >> [2] http://kisskb.ellerman.id.au/kisskb/head/1bd8b75fe6adeaa89d02968bdd811ffe708cf839/
-> >
-> > Eek! Thanks for letting me know. I'm confused about this --
-> > __alloc_size__ wasn't optional in compiler_attributes.h -- but obviously
-> > I broke something! I'll go figure this out.
->
-> This fixes it for me.
+This series adds support for multi hardwares jpeg enc & dec,
+by first adding use of_platform_populate to manage each hardware
+information:interrupt, clock, register bases and power.
+Secondly add jpeg enc & dec work queue to deal with the encoding
+or decoding requests of multi-hardwares at the same time.
+Lastly, add output picture reorder function interface to
+eliminate the out of order images.
 
-Kees submitted a similar patch 20 minutes before:
-https://lore.kernel.org/all/20220929081642.1932200-1-keescook@chromium.org
+This series has been tested with MT8195 Gstreamer.
+Encoding and decoding worked for this chip.
 
-> --- a/include/linux/compiler_types.h
-> +++ b/include/linux/compiler_types.h
-> @@ -275,8 +275,13 @@ struct ftrace_likely_data {
->   * be performing a _reallocation_, as that may alias the existing pointer.
->   * For these, use __realloc_size().
->   */
-> -#define __alloc_size(x, ...)   __alloc_size__(x, ## __VA_ARGS__) __malloc
-> -#define __realloc_size(x, ...) __alloc_size__(x, ## __VA_ARGS__)
-> +#ifdef __alloc_size__
-> +# define __alloc_size(x, ...)  __alloc_size__(x, ## __VA_ARGS__) __malloc
-> +# define __realloc_size(x, ...)        __alloc_size__(x, ## __VA_ARGS__)
-> +#else
-> +# define __alloc_size(x, ...)  __malloc
-> +# define __realloc_size(x, ...)
-> +#endif
->
->  #ifndef asm_volatile_goto
->  #define asm_volatile_goto(x...) asm goto(x)
+Patches 1 Adds jpeg encoder dt-bindings for mt8195
 
+Patches 2 jpeg encoder builds two module for using Multi-HW,
+export some functions to make them visible by other modules.
 
-Gr{oetje,eeting}s,
+Patches 3 use devm_of_platform_populate to manage multi-hardware.
 
-                        Geert
+Patch 4 add jpeg encoding timeout function to judge hardware timeout.
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+Patch 5 add encoding work queue to deal with multi-hardware encoding
+at the same time.
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Patch 6 add output picture reorder function to jpgenc order images.
+
+Patch 7 add stop cmd function to deal with jpgenc EOS operation.
+
+Patch 8 Adds jpeg decoder dt-bindings for mt8195
+
+Patches 9 jpeg decoder builds three module for using Multi-HW,
+export some functions to make them visible by other modules.
+
+Patch 10 use of_platform_populate to manage multi-hardware.
+
+Patch 11 add jpeg decoding timeout function to judge hardware timeout.
+
+Patch 12 add decoding work queue to deal with multi-hardware decoding
+at the same time.
+
+Patch 13 add output picture reorder function to jpgdec order images.
+
+Patch 14 refactor jpegdec func interface for HW working.
+
+Patch 15 add stop cmd function to deal with jpgdec EOS operation.
+
+---
+This series patches dependent on:
+media_stage tree:
+[1]
+https://git.linuxtv.org/media_stage.git/commit/?id=b3627647f9ea7473d10fb08a95fd7c4133a17ca4
+
+patch1 new jpegdec dt-bindings included files
+[2] MM IOMMU binding:
+https://patchwork.kernel.org/project/linux-mediatek/patch/20220217113453.13658-2-yong.wu@mediatek.com/
+
+[3] MT8195 power domain:
+https://patchwork.kernel.org/project/linux-mediatek/list/?series=580579
+
+Changes compared with v16:
+- some modifications for patch v16's review comments.
+
+Changes compared with v15:
+- some modifications for patch v15's review comments.
+
+Changes compared with v14:
+- some modifications for patch v14's review comments.
+
+Changes compared with v13:
+- some modifications for patch v13's review comments.
+- fix kernel robot check errors.
+- fix kernel-doc check warns.
+- fix sparse check warns.
+- combine jpeg encoder series with decoder series into
+  one single series.
+
+Changes compared with v12:
+- some modifications for patch v12's review comments.
+
+Changes compared with v11:
+- some modifications for patch v11's review comments.
+- fix yaml file check errors.
+
+Changes compared with v10:
+- some modifications for patch v10's review comments.
+- fix Gstreamer test errors.
+
+Changes compared with v9:
+- some modifications for patch v9's review comments.
+
+Changes compared with v8:
+- some modifications for patch v8's review comments.
+- add stop cmd function.
+
+Changes compared with v7:
+- some modifications for patch v6's review comments.
+
+Changes compared with v6:
+- new yaml file for mt8195 jpeg encoder.
+- some modifications for patch v5's review comments.
+
+Changes compared with v5:
+- use of_platform_populate to replace component framework to
+  manage multi-hardware in patch 2.
+
+Changes compared with v4:
+- No change compaered with v4
+
+Changes compared with v3:
+- Structure patches for consistency, non-backward
+  compatible and do not break any existing functionality
+
+Changes compared with v2:
+- Split the last two patches into several patches
+  to enhance readability
+- Correct some syntax errors
+- Explain why the component framework is used
+
+Changes compared with v1:
+- Add jpeg encoder dt-bindings for MT8195
+- Use component framework to manage jpegenc HW
+- Add jpegenc output pic reorder function interface
+
+kyrie wu (15):
+  dt-bindings: mediatek: Add mediatek, mt8195-jpgenc compatible
+  mtk-jpegenc: export jpeg encoder functions
+  mtk-jpegenc: support jpegenc multi-hardware
+  mtk-jpegenc: add jpegenc timeout func interface
+  mtk-jpegenc: add jpeg encode worker interface
+  mtk-jpegenc: add output pic reorder interface
+  mtk-jpegenc: add stop cmd interface for jpgenc
+  dt-bindings: mediatek: Add mediatek,mt8195-jpgdec compatible
+  media: mtk-jpegdec: export jpeg decoder functions
+  media: mtk-jpegdec: support jpegdec multi-hardware
+  media: mtk-jpegdec: add jpegdec timeout func interface
+  media: mtk-jpegdec: add jpeg decode worker interface
+  media: mtk-jpegdec: add output pic reorder interface
+  media: mtk-jpegdec: refactor jpegdec func interface
+  mtk-jpegdec: add stop cmd interface for jpgdec
+
+ .../media/mediatek,mt8195-jpegdec.yaml        | 168 ++++++
+ .../media/mediatek,mt8195-jpegenc.yaml        | 147 ++++++
+ drivers/media/platform/mediatek/jpeg/Makefile |  14 +-
+ .../platform/mediatek/jpeg/mtk_jpeg_core.c    | 490 ++++++++++++++++--
+ .../platform/mediatek/jpeg/mtk_jpeg_core.h    | 169 +++++-
+ .../platform/mediatek/jpeg/mtk_jpeg_dec_hw.c  | 315 ++++++++++-
+ .../platform/mediatek/jpeg/mtk_jpeg_dec_hw.h  |   6 +-
+ .../platform/mediatek/jpeg/mtk_jpeg_dec_reg.h |   1 +
+ .../platform/mediatek/jpeg/mtk_jpeg_enc_hw.c  | 255 +++++++++
+ 9 files changed, 1482 insertions(+), 83 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/media/mediatek,mt8195-jpegdec.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/mediatek,mt8195-jpegenc.yaml
+
+-- 
+2.18.0
+
