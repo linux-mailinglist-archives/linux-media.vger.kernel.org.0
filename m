@@ -2,103 +2,68 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1BFDE5EF165
-	for <lists+linux-media@lfdr.de>; Thu, 29 Sep 2022 11:11:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CB10A5EF18B
+	for <lists+linux-media@lfdr.de>; Thu, 29 Sep 2022 11:12:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235808AbiI2JJK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 29 Sep 2022 05:09:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53060 "EHLO
+        id S235670AbiI2JMn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 29 Sep 2022 05:12:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57134 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234912AbiI2JIt (ORCPT
+        with ESMTP id S235714AbiI2JMS (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 29 Sep 2022 05:08:49 -0400
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B2B3D14018F;
-        Thu, 29 Sep 2022 02:08:47 -0700 (PDT)
-X-UUID: c947fc08035b4bf0a5e094a4765f0fd9-20220929
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-        h=Content-Type:Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From; bh=05M3M7J7kDkTRDSeF5O8eaR0ZRr7az9EUbdWM6vT2FA=;
-        b=N9oZANvm1HKeH+fW6cUnhOHSNPJt+W1LdNsWuNfj+r13BvhosE2VpNCBX8tGNacpKRyQGIZRP9veeZ0nXG8sR4eWdX52b6nV0fduVokP5qo+gz/lRuAGaHfdqibFQZrljUmAYALD4fiei3omNge9Ws6G4AsXEy0pqCuYZbfomf4=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.11,REQID:b66c37dc-e077-42fe-94ba-d4e84abc8c71,IP:0,U
-        RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
-        release,TS:0
-X-CID-META: VersionHash:39a5ff1,CLOUDID:29e06e07-1cee-4c38-b21b-a45f9682fdc0,B
-        ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
-        RL:11|1,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0
-X-UUID: c947fc08035b4bf0a5e094a4765f0fd9-20220929
-Received: from mtkmbs11n1.mediatek.inc [(172.21.101.185)] by mailgw01.mediatek.com
-        (envelope-from <irui.wang@mediatek.com>)
-        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-        with ESMTP id 802079902; Thu, 29 Sep 2022 17:08:41 +0800
-Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
- mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.792.3;
- Thu, 29 Sep 2022 17:08:39 +0800
-Received: from localhost.localdomain (10.17.3.154) by mtkmbs11n2.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.2.792.15 via Frontend
- Transport; Thu, 29 Sep 2022 17:08:37 +0800
-From:   Irui Wang <irui.wang@mediatek.com>
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        "Tzung-Bi Shih" <tzungbi@chromium.org>,
-        <angelogioacchino.delregno@collabora.com>,
-        <nicolas.dufresne@collabora.com>, <wenst@chromium.org>,
-        kyrie wu <kyrie.wu@mediatek.com>
-CC:     <Project_Global_Chrome_Upstream_Group@mediatek.com>,
-        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-mediatek@lists.infradead.org>,
-        Tomasz Figa <tfiga@chromium.org>, <xia.jiang@mediatek.com>,
-        <maoguang.meng@mediatek.com>, irui wang <irui.wang@mediatek.com>
-Subject: [V17,15/15] mtk-jpegdec: add stop cmd interface for jpgdec
-Date:   Thu, 29 Sep 2022 17:08:17 +0800
-Message-ID: <20220929090817.24272-16-irui.wang@mediatek.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220929090817.24272-1-irui.wang@mediatek.com>
-References: <20220929090817.24272-1-irui.wang@mediatek.com>
+        Thu, 29 Sep 2022 05:12:18 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2DBAD142E30
+        for <linux-media@vger.kernel.org>; Thu, 29 Sep 2022 02:12:06 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id B110460A06
+        for <linux-media@vger.kernel.org>; Thu, 29 Sep 2022 09:11:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AD23AC433C1;
+        Thu, 29 Sep 2022 09:11:24 +0000 (UTC)
+Message-ID: <1ecd74b1-05ff-ce65-23c3-ca80b4b6469e@xs4all.nl>
+Date:   Thu, 29 Sep 2022 11:11:22 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-MTK:  N
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,
-        SPF_PASS,UNPARSEABLE_RELAY autolearn=ham autolearn_force=no
-        version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.0
+Content-Language: en-US
+To:     "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
+Cc:     Daniel Gomez <daniel@qtec.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [PATCH] videodev2.h: add p_s32 and p_s64 pointers
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: kyrie wu <kyrie.wu@mediatek.com>
+Added p_s32 and p_s64 pointers to the union in struct v4l2_ext_control to
+simplify INTEGER and INTEGER64 control array support.
 
-Add stop cmd interface for jpgdec to stop stream
+Internally the control framework handles such arrays just fine, but user space
+is missing corresponding pointers to access array elements of these types.
 
-Signed-off-by: kyrie wu <kyrie.wu@mediatek.com>
-Signed-off-by: irui wang <irui.wang@mediatek.com>
+The internal union v4l2_ctrl_ptr which the control framework uses already
+has these types, they just were never added to the public API.
+
+Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 ---
- drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
-index 2fe0e2a1c127..79a8f1b1965c 100644
---- a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
-+++ b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
-@@ -667,6 +667,9 @@ static const struct v4l2_ioctl_ops mtk_jpeg_dec_ioctl_ops = {
- 	.vidioc_streamoff               = v4l2_m2m_ioctl_streamoff,
- 
- 	.vidioc_unsubscribe_event	= v4l2_event_unsubscribe,
-+
-+	.vidioc_decoder_cmd = v4l2_m2m_ioctl_decoder_cmd,
-+	.vidioc_try_decoder_cmd = v4l2_m2m_ioctl_try_decoder_cmd,
- };
- 
- static int mtk_jpeg_queue_setup(struct vb2_queue *q,
--- 
-2.18.0
-
+diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+index 86cae23cc446..a6f5c008a5a8 100644
+--- a/include/uapi/linux/videodev2.h
++++ b/include/uapi/linux/videodev2.h
+@@ -1779,6 +1779,8 @@ struct v4l2_ext_control {
+ 		__u8 __user *p_u8;
+ 		__u16 __user *p_u16;
+ 		__u32 __user *p_u32;
++		__u32 __user *p_s32;
++		__u32 __user *p_s64;
+ 		struct v4l2_area __user *p_area;
+ 		struct v4l2_ctrl_h264_sps __user *p_h264_sps;
+ 		struct v4l2_ctrl_h264_pps *p_h264_pps;
