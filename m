@@ -2,70 +2,95 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 175015EF4F0
-	for <lists+linux-media@lfdr.de>; Thu, 29 Sep 2022 14:06:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DE8275EF627
+	for <lists+linux-media@lfdr.de>; Thu, 29 Sep 2022 15:13:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235579AbiI2MGG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 29 Sep 2022 08:06:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45896 "EHLO
+        id S235229AbiI2NNa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 29 Sep 2022 09:13:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58492 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235120AbiI2MGD (ORCPT
+        with ESMTP id S231340AbiI2NN2 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 29 Sep 2022 08:06:03 -0400
-Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9C634E511B
-        for <linux-media@vger.kernel.org>; Thu, 29 Sep 2022 05:06:01 -0700 (PDT)
-Received: by mail-pj1-x102a.google.com with SMTP id lx7so1167077pjb.0
-        for <linux-media@vger.kernel.org>; Thu, 29 Sep 2022 05:06:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=to:subject:message-id:date:from:reply-to:mime-version:from:to:cc
-         :subject:date;
-        bh=C+z24Pl7od6xO10XmMEfecsYemTIfW+XARlPRi62dVY=;
-        b=hMZ9Vemdv8syuRFF2/0V/mH81fjpaVXnKQjjwOdiEzcdi9eSlbUXmRicblzMOOY4+n
-         3XVfpmMUQ/3YQ6kMfcS6R1v37gh5eJua8Y2rcDEMS9N74yRMQEjIHMjYSUKDf2O6mlnG
-         dR6fOeDG0eYFBjEg8bQC0fzvcwoaUJMTVg06GEPuGuRYm5F5wT3xLIIGrzveR5U2NMas
-         N3dY4IxNlzraL9EUxzpgck+x7nLCIJGP2UpKJUG9FzSZfG0ASvOOBryQc9V/wQ44b1R5
-         4e4pYhc6dX4DGlqXlgSP7ZaPCYXRT8qUJZE9rLa0UTHtHwUAmAzeK687fE3YhcNLNp+E
-         NXFQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=to:subject:message-id:date:from:reply-to:mime-version
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=C+z24Pl7od6xO10XmMEfecsYemTIfW+XARlPRi62dVY=;
-        b=RLOAzFoOi5DaUwrfggHnqTHzxB1CLM6ob3NzAJaBPxuEolCjut6dcF6/aQvKwnfCBe
-         KviDo+4tyu0U7MAzfH7Nmq2Sck3h+vY039V/MW0lvrKyaBS9CSXIqhsqJkxjawKrDm5B
-         l8JZndOSGHR8iiD3xf9RVTcTSxBuEu7HfdLAGupLzQhgX3ItqBFSkl1mqlYBn9MGed4j
-         JcRpXzIDEPOKwXsADia4jmkeLI3fTcxD43shYdg17PwJkF+PXsYCdkdhBryAz6fOM8wK
-         M4oTr+uwXUYDKWoUbM2eNCdWJveSx6ekmTDL29G34rbrYWcajmYtTyFIUaBTgUSFSV2m
-         g63Q==
-X-Gm-Message-State: ACrzQf1vSqk4YX5PZlbbXCtXY/lebRvmP8iInDvIVS9aktIbvNHFSvFC
-        rfieyF/5tPPnd8mOTgXRwjuoJYBWajWcZoBhhCU=
-X-Google-Smtp-Source: AMsMyM7ChnpWsxK8gWDJem1rYc7kvm5VZH89+RSwLAjDf7KURvFbt9Y3/z8oi/oRZ08Hkv/NaTEEd0B4TLt+O3EAuFc=
-X-Received: by 2002:a17:902:cec9:b0:178:5fa6:f3c3 with SMTP id
- d9-20020a170902cec900b001785fa6f3c3mr3111043plg.83.1664453160345; Thu, 29 Sep
- 2022 05:06:00 -0700 (PDT)
+        Thu, 29 Sep 2022 09:13:28 -0400
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4DD76DF694;
+        Thu, 29 Sep 2022 06:13:22 -0700 (PDT)
+X-UUID: 09c17d8be2424325a166fc471c26ca30-20220929
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+        h=Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=STCDn5QB+UXKv417LvXk9TQm3f2P+5X47QlKUCTyQiE=;
+        b=qIkK7wA89/pwvKvho/+JHpsAPatm1nxC4qkZ1fK7NbRO1PAsCSQQattw5ppV1SwO0+GrpfULiNgv9ZXVWlpQradwAfXl1ZE24NM5xLjRXa2CL8tN+7/8JW5reGUXm5A+4bbevH/xhHjz6qzet+Qw4sKQpFst2hF1Eu/8YfHd/4Y=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.11,REQID:2ffe6ed5-7cad-440a-9089-edd560b9036f,IP:0,U
+        RL:0,TC:0,Content:0,EDM:0,RT:0,SF:95,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+        :release,TS:95
+X-CID-INFO: VERSION:1.1.11,REQID:2ffe6ed5-7cad-440a-9089-edd560b9036f,IP:0,URL
+        :0,TC:0,Content:0,EDM:0,RT:0,SF:95,FILE:0,BULK:0,RULE:Spam_GS981B3D,ACTION
+        :quarantine,TS:95
+X-CID-META: VersionHash:39a5ff1,CLOUDID:a1ee7407-1cee-4c38-b21b-a45f9682fdc0,B
+        ulkID:220929211317CMUFBLT7,BulkQuantity:0,Recheck:0,SF:38|28|17|19|48|823|
+        824,TC:nil,Content:0,EDM:-3,IP:nil,URL:1,File:nil,Bulk:nil,QS:nil,BEC:nil,
+        COL:0
+X-UUID: 09c17d8be2424325a166fc471c26ca30-20220929
+Received: from mtkcas11.mediatek.inc [(172.21.101.40)] by mailgw02.mediatek.com
+        (envelope-from <allen-kh.cheng@mediatek.com>)
+        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+        with ESMTP id 975782009; Thu, 29 Sep 2022 21:13:15 +0800
+Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
+ mtkmbs11n2.mediatek.inc (172.21.101.187) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.792.15; Thu, 29 Sep 2022 21:13:14 +0800
+Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
+ mtkmbs11n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.792.15 via Frontend Transport; Thu, 29 Sep 2022 21:13:14 +0800
+From:   Allen-KH Cheng <allen-kh.cheng@mediatek.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+CC:     <Project_Global_Chrome_Upstream_Group@mediatek.com>,
+        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>,
+        <linux-mediatek@lists.infradead.org>,
+        Allen-KH Cheng <allen-kh.cheng@mediatek.com>
+Subject: [PATCH v3 0/2] Add vcodec lat and core nodes for mt8192
+Date:   Thu, 29 Sep 2022 21:13:07 +0800
+Message-ID: <20220929131309.18337-1-allen-kh.cheng@mediatek.com>
+X-Mailer: git-send-email 2.18.0
 MIME-Version: 1.0
-Received: by 2002:a05:6a20:3d86:b0:96:fd77:da8a with HTTP; Thu, 29 Sep 2022
- 05:05:59 -0700 (PDT)
-Reply-To: paulmichael7787@gmail.com
-From:   paul michael <josephkaufamn@gmail.com>
-Date:   Thu, 29 Sep 2022 13:05:59 +0100
-Message-ID: <CA+TatOGzGuwoS+3x0Cvb6L+MQJKMSnJjHgqu1pT5vzAdNB_RUQ@mail.gmail.com>
-Subject: Hello
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=4.9 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FREEMAIL_REPLYTO,
-        FREEMAIL_REPLYTO_END_DIGIT,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        UNDISC_FREEM autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Level: ****
+Content-Type: text/plain
+X-MTK:  N
+X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,DKIM_INVALID,
+        DKIM_SIGNED,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,UNPARSEABLE_RELAY
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Every time I retest your email, it tells me to check with my ISP or
-Log onto incoming mail server (POP3): Your e-mail server rejected .
-Kindly verify if your email is still valid for us to talk.
+This series are based on linux-next, tag: next-20220928.
+We update the child node names from "vcodec" to "video-codec" based on
+the discussion in [1].
+
+[1] https://patchwork.kernel.org/project/linux-mediatek/patch/20220926105047.19419-1-allen-kh.cheng@mediatek.com/
+
+Change in v2:
+  - Add a dt-bindings patch for changing "vcodec" to "video-codec"
+  - Rename child names for vcodec lat and core nodes
+
+Change in v1:
+  - Replace node names with video-codec
+    [Allen-KH Cheng <allen-kh.cheng@mediatek.com>]
+
+Allen-KH Cheng (2):
+  media: dt-bindings: mediatek: Rename child node names for decoder
+  arm64: dts: mt8192: Add vcodec lat and core nodes
+
+ .../media/mediatek,vcodec-subdev-decoder.yaml |  8 +--
+ arch/arm64/boot/dts/mediatek/mt8192.dtsi      | 60 +++++++++++++++++++
+ 2 files changed, 64 insertions(+), 4 deletions(-)
+
+-- 
+2.18.0
+
