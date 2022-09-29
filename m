@@ -2,147 +2,142 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id ADE315EEB51
-	for <lists+linux-media@lfdr.de>; Thu, 29 Sep 2022 03:55:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0E78B5EECAE
+	for <lists+linux-media@lfdr.de>; Thu, 29 Sep 2022 06:12:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234791AbiI2Bzp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 28 Sep 2022 21:55:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44468 "EHLO
+        id S234634AbiI2EME (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 29 Sep 2022 00:12:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37044 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234768AbiI2BzV (ORCPT
+        with ESMTP id S234144AbiI2EMC (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 28 Sep 2022 21:55:21 -0400
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 155DE61B21;
-        Wed, 28 Sep 2022 18:55:04 -0700 (PDT)
-X-UUID: 4266164f268f4afabd20f67373882c42-20220929
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-        h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID; bh=KLeXZkzgR5Ay7eOUvGeW+A2UOiV7iAhJfQA6fiC/fas=;
-        b=SHqr0Cunqo5xnMTy2hauXSokoFUcURgPaoM913LTUazCm4o97CKrIJLs3234Cul2LSmmJ/gEA5I7WKKbQA3LlwcufLD31RAv+LAo/QcNTGsHUzbkbAMkwYs59K8SdTIn5BqKcgITpoD3m7TfNWuo3nXw/spYZdWgqpqebgLVVvE=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.11,REQID:8a6505e5-d9de-4399-84a9-3df7d0a4b147,IP:0,U
-        RL:0,TC:0,Content:-5,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
-        :release,TS:-5
-X-CID-META: VersionHash:39a5ff1,CLOUDID:35d85e07-1cee-4c38-b21b-a45f9682fdc0,B
-        ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
-        RL:11|1,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0
-X-UUID: 4266164f268f4afabd20f67373882c42-20220929
-Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by mailgw02.mediatek.com
-        (envelope-from <yunfei.dong@mediatek.com>)
-        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-        with ESMTP id 1924392031; Thu, 29 Sep 2022 09:55:00 +0800
-Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
- mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.792.15; Thu, 29 Sep 2022 09:54:58 +0800
-Received: from mhfsdcap04 (10.17.3.154) by mtkmbs11n2.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.2.792.15 via Frontend
- Transport; Thu, 29 Sep 2022 09:54:57 +0800
-Message-ID: <7d8fb7ea78ae2a850d26bba7b08f621b8494df5e.camel@mediatek.com>
-Subject: Re: [PATCH] media: mediatek: vcodec: Skip unsupported h264 encoder
- profile
-From:   "yunfei.dong@mediatek.com" <yunfei.dong@mediatek.com>
-To:     Allen-KH Cheng =?UTF-8?Q?=28=E7=A8=8B=E5=86=A0=E5=8B=B3=29?= 
-        <Allen-KH.Cheng@mediatek.com>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>,
-        Tiffany Lin =?UTF-8?Q?=28=E6=9E=97=E6=85=A7=E7=8F=8A=29?= 
-        <tiffany.lin@mediatek.com>,
-        "mchehab@kernel.org" <mchehab@kernel.org>,
-        "nicolas.dufresne@collabora.com" <nicolas.dufresne@collabora.com>,
-        Irui Wang =?UTF-8?Q?=28=E7=8E=8B=E7=91=9E=29?= 
-        <Irui.Wang@mediatek.com>,
-        "hsinyi@chromium.org" <hsinyi@chromium.org>,
-        "hverkuil-cisco@xs4all.nl" <hverkuil-cisco@xs4all.nl>,
-        "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
-        "angelogioacchino.delregno@collabora.com" 
-        <angelogioacchino.delregno@collabora.com>,
-        "acourbot@chromium.org" <acourbot@chromium.org>
-CC:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-mediatek@lists.infradead.org" 
-        <linux-mediatek@lists.infradead.org>,
-        Longfei Wang =?UTF-8?Q?=28=E7=8E=8B=E9=BE=99=E9=A3=9E=29?= 
-        <Longfei.Wang@mediatek.com>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        Maoguang Meng =?UTF-8?Q?=28=E5=AD=9F=E6=AF=9B=E5=B9=BF=29?= 
-        <Maoguang.Meng@mediatek.com>,
-        Project_Global_Chrome_Upstream_Group 
-        <Project_Global_Chrome_Upstream_Group@mediatek.com>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>
-Date:   Thu, 29 Sep 2022 09:54:56 +0800
-In-Reply-To: <e8bb661ec83129a1c660e876cb4fe9aaad41adfd.camel@mediatek.com>
-References: <20220926093501.26466-1-irui.wang@mediatek.com>
-         <e8bb661ec83129a1c660e876cb4fe9aaad41adfd.camel@mediatek.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+        Thu, 29 Sep 2022 00:12:02 -0400
+Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com [IPv6:2607:f8b0:4864:20::1032])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E986C60CD
+        for <linux-media@vger.kernel.org>; Wed, 28 Sep 2022 21:12:00 -0700 (PDT)
+Received: by mail-pj1-x1032.google.com with SMTP id 70so205696pjo.4
+        for <linux-media@vger.kernel.org>; Wed, 28 Sep 2022 21:12:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date;
+        bh=STj+8SEfgS7lcB+faqFMRz9NJZkvwlKuwcm00sEGhU8=;
+        b=lNR0fLJzXCnG+wp5+Jdwv/09D82ui3MgrLOOvMJN45VDqdrcOU8qvekS4ldycAjkgs
+         syjz7hwKGLdkfKFzbei5ajU5F+H6Cci4Ad9TiBpilHqANACWkP5gbOGhx6XL0eOUbBln
+         mxRKeJiuZA/U08yiVZb88Ecln0EUx0rRirhLE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-message-state:from:to:cc:subject:date;
+        bh=STj+8SEfgS7lcB+faqFMRz9NJZkvwlKuwcm00sEGhU8=;
+        b=EVGGU5Ttt0ziAXTbbpzPHbMbOvi1pl75NsnCxEFwZn/ceO8kmIYt4O3AOClTnzdfKF
+         TdtHA9Ks2LU88xmweRGtWidHmKPfGKR6CmHKixMPW0uKF9b1lkVUiGe46sfBk0lN9etk
+         /zOAPje19SELGsj8ttuiZ6bpNyvq7MTpfgs0rpD52saWYhe8sy3OUeVR0jd5MqsMByH/
+         8GYfmLXEIJWj/58Sn7d5CTE3bpRv6g+84DDGdL3JHRLU28Ej9RHV088/6xnVmicBehrv
+         CINZNM0gMoAP+wBjOb35jz7xIXHvHPSDQH0B6ZD0b1A4+51Fb8fROwlwhb/pZJltBqu9
+         /e/g==
+X-Gm-Message-State: ACrzQf2nEBubKHdKfqPgQeneagsOs/NTHeVk22kS+gN64ft7pHRDvQhL
+        BYcD53B/CiBu1FMB976lYA9tdQ==
+X-Google-Smtp-Source: AMsMyM4jCj6kK6IvM1Li6tTiCkuA4pJ7x9+4FBQ2MrrymNe4TLO0s6tDCfmZnlpNwteUwg+C2iUgnA==
+X-Received: by 2002:a17:903:248:b0:172:7520:db07 with SMTP id j8-20020a170903024800b001727520db07mr1481613plh.76.1664424720487;
+        Wed, 28 Sep 2022 21:12:00 -0700 (PDT)
+Received: from yunkec1.tok.corp.google.com ([2401:fa00:8f:203:9375:8953:1af9:fa00])
+        by smtp.gmail.com with ESMTPSA id j3-20020a63ec03000000b0043057fe66c0sm4436914pgh.48.2022.09.28.21.11.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 28 Sep 2022 21:11:59 -0700 (PDT)
+From:   Yunke Cao <yunkec@chromium.org>
+Date:   Thu, 29 Sep 2022 13:11:55 +0900
+Subject: [PATCH] Remove priv_user_controls in v4l2-test-controls
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-MTK:  N
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,
-        SPF_PASS,UNPARSEABLE_RELAY,URIBL_CSS autolearn=ham autolearn_force=no
-        version=3.4.6
+Message-Id: <20220929-remove_private_control_check-v1-0-80a304b76269@chromium.org>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        linux-media@vger.kernel.org
+Cc:     Yunke Cao <yunkec@chromium.org>,
+        Ricardo Ribalda <ribalda@chromium.org>
+X-Mailer: b4 0.11.0-dev-4d321
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Irui,
+Removing priv_user_controls and its related checks.
 
-Reviewed-by: Yunfei Dong <yunfei.dong@mediatek.com>
+I suspect this is wrong because:
 
-Thanks
-Yunfei Dong
+1. priv_user_controls == priv_user_controls_check is not always true.
 
-On Wed, 2022-09-28 at 21:38 +0800, Allen-KH Cheng (程冠勳) wrote:
-> Hi Irui,
-> 
-> Tested-by: Allen-KH Cheng <allen-kh.cheng@mediatek.com>
-> 
-> Tested for CTS cases on the mt8186 corsola board.
-> 
-> Thanks,
-> Allen
-> 
-> On Mon, 2022-09-26 at 17:35 +0800, Irui Wang wrote:
-> > The encoder driver support h264 baseline, main, high encoder
-> > profile, set mask for V4L2_CID_MPEG_VIDEO_H264_PROFILE to skip
-> > the unsupported profile.
-> > 
-> > get supported h264_profile by command: v4l2-ctl -d /dev/videoX -L
-> > h264_profile 0x00990a6b (menu) : min=0 max=4 default=4 value=4
-> >         0: Baseline
-> >         2: Main
-> >         4: High
-> > 
-> > Signed-off-by: Irui Wang <irui.wang@mediatek.com>
-> > ---
-> >  drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc.c | 5 ++++-
-> >  1 file changed, 4 insertions(+), 1 deletion(-)
-> > 
-> > diff --git
-> > a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc.c
-> > b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc.c
-> > index d810a78dde51..d65800a3b89d 100644
-> > --- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc.c
-> > +++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc.c
-> > @@ -1397,7 +1397,10 @@ int mtk_vcodec_enc_ctrls_setup(struct
-> > mtk_vcodec_ctx *ctx)
-> >  			0, V4L2_MPEG_VIDEO_HEADER_MODE_SEPARATE);
-> >  	v4l2_ctrl_new_std_menu(handler, ops,
-> > V4L2_CID_MPEG_VIDEO_H264_PROFILE,
-> >  			V4L2_MPEG_VIDEO_H264_PROFILE_HIGH,
-> > -			0, V4L2_MPEG_VIDEO_H264_PROFILE_HIGH);
-> > +			~((1 << V4L2_MPEG_VIDEO_H264_PROFILE_BASELINE)
-> > > 
-> > 
-> > +			  (1 << V4L2_MPEG_VIDEO_H264_PROFILE_MAIN) |
-> > +			  (1 << V4L2_MPEG_VIDEO_H264_PROFILE_HIGH)),
-> > +			V4L2_MPEG_VIDEO_H264_PROFILE_HIGH);
-> >  	v4l2_ctrl_new_std_menu(handler, ops,
-> > V4L2_CID_MPEG_VIDEO_H264_LEVEL,
-> >  			       h264_max_level,
-> >  			       0, V4L2_MPEG_VIDEO_H264_LEVEL_4_0);
+priv_user_controls counts the number of controls with
+id >= V4L2_CID_PRIVATE_BASE (0x08000000).
+priv_user_controls_check uses V4L2_CTRL_DRIVER_PRIV ((id) & 0xffff) >= 0x1000).
 
+The private controls defined in V4L2_CID_USER_BASE + 0x1000 will count towards
+priv_user_controls_check, but not priv_user_controls. For example,
+V4L2_CID_USER_MEYE_BASE (include/uapi/linux/v4l2-controls.h#n158).
+
+2. Line 205 returns error for id >= V4L2_CID_PRIVATE_BASE. Counting
+priv_user_controls will not happen.
+
+Signed-off-by: Yunke Cao <yunkec@chromium.org>
+---
+---
+ utils/v4l2-compliance/v4l2-test-controls.cpp | 22 +---------------------
+ 1 file changed, 1 insertion(+), 21 deletions(-)
+
+diff --git a/utils/v4l2-compliance/v4l2-test-controls.cpp b/utils/v4l2-compliance/v4l2-test-controls.cpp
+index 999dbcd7..18c9f638 100644
+--- a/utils/v4l2-compliance/v4l2-test-controls.cpp
++++ b/utils/v4l2-compliance/v4l2-test-controls.cpp
+@@ -182,7 +182,6 @@ int testQueryExtControls(struct node *node)
+ 	__u32 which = 0;
+ 	bool found_ctrl_class = false;
+ 	unsigned user_controls = 0;
+-	unsigned priv_user_controls = 0;
+ 	unsigned user_controls_check = 0;
+ 	unsigned priv_user_controls_check = 0;
+ 	unsigned class_count = 0;
+@@ -299,30 +298,11 @@ int testQueryExtControls(struct node *node)
+ 		user_controls++;
+ 	}
+ 
+-	for (id = V4L2_CID_PRIVATE_BASE; ; id++) {
+-		memset(&qctrl, 0xff, sizeof(qctrl));
+-		qctrl.id = id;
+-		ret = doioctl(node, VIDIOC_QUERY_EXT_CTRL, &qctrl);
+-		if (ret && ret != EINVAL)
+-			return fail("invalid query_ext_ctrl return code (%d)\n", ret);
+-		if (ret)
+-			break;
+-		if (qctrl.id != id)
+-			return fail("qctrl.id (%08x) != id (%08x)\n",
+-					qctrl.id, id);
+-		if (checkQCtrl(node, qctrl))
+-			return fail("invalid control %08x\n", qctrl.id);
+-		priv_user_controls++;
+-	}
+-
+-	if (priv_user_controls + user_controls && node->controls.empty())
++	if (user_controls && node->controls.empty())
+ 		return fail("does not support V4L2_CTRL_FLAG_NEXT_CTRL\n");
+ 	if (user_controls != user_controls_check)
+ 		return fail("expected %d user controls, got %d\n",
+ 			user_controls_check, user_controls);
+-	if (priv_user_controls != priv_user_controls_check)
+-		return fail("expected %d private controls, got %d\n",
+-			priv_user_controls_check, priv_user_controls);
+ 	return result;
+ }
+ 
+
+---
+base-commit: 7f560aede797b659b585f063ed1f143f58b03df5
+change-id: 20220929-remove_private_control_check-ab8cc38a1b9e
+
+Best regards,
+-- 
+Yunke Cao <yunkec@chromium.org>
