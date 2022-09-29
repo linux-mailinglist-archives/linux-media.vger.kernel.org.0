@@ -2,80 +2,120 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C19E95EF7DA
-	for <lists+linux-media@lfdr.de>; Thu, 29 Sep 2022 16:42:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 18E185EF807
+	for <lists+linux-media@lfdr.de>; Thu, 29 Sep 2022 16:53:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235707AbiI2Ol4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 29 Sep 2022 10:41:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42018 "EHLO
+        id S235702AbiI2Oxj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 29 Sep 2022 10:53:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42924 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235286AbiI2Olc (ORCPT
+        with ESMTP id S235724AbiI2Oxe (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 29 Sep 2022 10:41:32 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A9E601C45A9
-        for <linux-media@vger.kernel.org>; Thu, 29 Sep 2022 07:41:30 -0700 (PDT)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <mgr@pengutronix.de>)
-        id 1odujB-0006Jh-41; Thu, 29 Sep 2022 16:41:29 +0200
-Received: from [2a0a:edc0:0:1101:1d::ac] (helo=dude04.red.stw.pengutronix.de)
-        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-        (envelope-from <mgr@pengutronix.de>)
-        id 1odujB-003czA-Ls; Thu, 29 Sep 2022 16:41:28 +0200
-Received: from mgr by dude04.red.stw.pengutronix.de with local (Exim 4.94.2)
-        (envelope-from <mgr@pengutronix.de>)
-        id 1oduj9-005no9-L9; Thu, 29 Sep 2022 16:41:27 +0200
-From:   Michael Grzeschik <m.grzeschik@pengutronix.de>
-To:     linux-usb@vger.kernel.org
-Cc:     linux-media@vger.kernel.org, balbi@kernel.org,
-        laurent.pinchart@ideasonboard.com, kernel@pengutronix.d
-Subject: [PATCH] usb: gadget: uvc: don't put item still in use
-Date:   Thu, 29 Sep 2022 16:41:24 +0200
-Message-Id: <20220929144124.1365686-1-m.grzeschik@pengutronix.de>
-X-Mailer: git-send-email 2.30.2
+        Thu, 29 Sep 2022 10:53:34 -0400
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 6387D13F2BB;
+        Thu, 29 Sep 2022 07:53:33 -0700 (PDT)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id CEC591650;
+        Thu, 29 Sep 2022 07:53:39 -0700 (PDT)
+Received: from [10.1.38.20] (e122027.cambridge.arm.com [10.1.38.20])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 693D83F792;
+        Thu, 29 Sep 2022 07:53:30 -0700 (PDT)
+Message-ID: <e613a225-dabf-7e87-2624-a3244df8a877@arm.com>
+Date:   Thu, 29 Sep 2022 15:53:28 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: mgr@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v4 5/6] drm/sched: Use parent fence instead of finished
+Content-Language: en-GB
+To:     Arvind Yadav <Arvind.Yadav@amd.com>, Christian.Koenig@amd.com,
+        andrey.grodzovsky@amd.com, shashank.sharma@amd.com,
+        amaranath.somalapuram@amd.com, Arunpravin.PaneerSelvam@amd.com,
+        sumit.semwal@linaro.org, gustavo@padovan.org, airlied@linux.ie,
+        daniel@ffwll.ch, linux-media@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+        linux-kernel@vger.kernel.org
+References: <20220914164321.2156-1-Arvind.Yadav@amd.com>
+ <20220914164321.2156-6-Arvind.Yadav@amd.com>
+From:   Steven Price <steven.price@arm.com>
+In-Reply-To: <20220914164321.2156-6-Arvind.Yadav@amd.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-8.3 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_NONE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-With the patch "15a286a0bb08 (usb: gadget: uvc: add v4l2 enumeration api
-calls)" the driver is keeping a list of configfs entries currently
-configured. The list is used in uvc_v4l2 on runtime.
+On 14/09/2022 17:43, Arvind Yadav wrote:
+> Using the parent fence instead of the finished fence
+> to get the job status. This change is to avoid GPU
+> scheduler timeout error which can cause GPU reset.
 
-The driver now is giving back the list item just after it was referenced
-with config_item_put. It also calls config_item_put on uvc_free, which
-is the only and right place to give back the reference. This patch fixes
-the issue by removing the extra config_item_put in uvc_alloc.
+I'm able to reproduce crashes on Panfrost and I believe this commit is
+the cause. Specifically it's possible for job->s_fence->parent to be NULL.
 
-Fixes: 15a286a0bb08 (usb: gadget: uvc: add v4l2 enumeration api calls)
-Signed-off-by: Michael Grzeschik <m.grzeschik@pengutronix.de>
----
- drivers/usb/gadget/function/f_uvc.c | 1 -
- 1 file changed, 1 deletion(-)
+The underlying issue seems to involve drm_sched_resubmit_jobs_ext() - if
+the run_jobs() callback returns an error it will set s_fence->parent to
+NULL after signalling s_fence->finished:
 
-diff --git a/drivers/usb/gadget/function/f_uvc.c b/drivers/usb/gadget/function/f_uvc.c
-index e6948cf8def30b..8bc591431d153e 100644
---- a/drivers/usb/gadget/function/f_uvc.c
-+++ b/drivers/usb/gadget/function/f_uvc.c
-@@ -995,7 +995,6 @@ static struct usb_function *uvc_alloc(struct usb_function_instance *fi)
- 		goto err_config;
- 
- 	uvc->header = to_uvcg_streaming_header(h);
--	config_item_put(h);
- 	if (!uvc->header->linked) {
- 		mutex_unlock(&opts->lock);
- 		kfree(uvc);
--- 
-2.30.2
+> 		fence = sched->ops->run_job(s_job);
+> 		i++;
+> 
+> 		if (IS_ERR_OR_NULL(fence)) {
+> 			if (IS_ERR(fence))
+> 				dma_fence_set_error(&s_fence->finished, PTR_ERR(fence));
+> 
+> 			s_job->s_fence->parent = NULL;
+
+I don't understand the reasoning behind this change, but it doesn't seem
+right to be using the parent fence when we have code which can be
+setting that pointer to NULL.
+
+Since I don't understand the reasoning my only suggestion is to revert
+this patch (and potentially the dependent patch "dma-buf: Check status
+of enable-signaling bit on debug"?).
+
+Can anyone suggest a better fix?
+
+Thanks,
+
+Steve
+
+> Signed-off-by: Arvind Yadav <Arvind.Yadav@amd.com>
+> Reviewed-by: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
+> ---
+> 
+> changes in v1,v2 - Enable signaling for finished fence in sche_main()
+> is removed
+> 
+> ---
+>  drivers/gpu/drm/scheduler/sched_main.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+> index e0ab14e0fb6b..2ac28ad11432 100644
+> --- a/drivers/gpu/drm/scheduler/sched_main.c
+> +++ b/drivers/gpu/drm/scheduler/sched_main.c
+> @@ -829,7 +829,7 @@ drm_sched_get_cleanup_job(struct drm_gpu_scheduler *sched)
+>  	job = list_first_entry_or_null(&sched->pending_list,
+>  				       struct drm_sched_job, list);
+>  
+> -	if (job && dma_fence_is_signaled(&job->s_fence->finished)) {
+> +	if (job && dma_fence_is_signaled(job->s_fence->parent)) {
+>  		/* remove job from pending_list */
+>  		list_del_init(&job->list);
+>  
+> @@ -841,7 +841,7 @@ drm_sched_get_cleanup_job(struct drm_gpu_scheduler *sched)
+>  
+>  		if (next) {
+>  			next->s_fence->scheduled.timestamp =
+> -				job->s_fence->finished.timestamp;
+> +				job->s_fence->parent->timestamp;
+>  			/* start TO timer for next job */
+>  			drm_sched_start_timeout(sched);
+>  		}
 
