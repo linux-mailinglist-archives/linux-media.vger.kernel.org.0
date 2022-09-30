@@ -2,46 +2,46 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0B5405F0A03
-	for <lists+linux-media@lfdr.de>; Fri, 30 Sep 2022 13:23:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 24E1E5F0A71
+	for <lists+linux-media@lfdr.de>; Fri, 30 Sep 2022 13:31:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229628AbiI3LXx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 30 Sep 2022 07:23:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48904 "EHLO
+        id S230126AbiI3LbU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 30 Sep 2022 07:31:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33942 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232375AbiI3LXR (ORCPT
+        with ESMTP id S230344AbiI3Lal (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 30 Sep 2022 07:23:17 -0400
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C4E91E0DB
-        for <linux-media@vger.kernel.org>; Fri, 30 Sep 2022 04:14:49 -0700 (PDT)
+        Fri, 30 Sep 2022 07:30:41 -0400
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0956411F7D5
+        for <linux-media@vger.kernel.org>; Fri, 30 Sep 2022 04:21:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1664536489; x=1696072489;
+  t=1664536891; x=1696072891;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=nJcENkmCzofWWVlsXXYfizAjf719CPWc12RpaTYzCm8=;
-  b=g67q90Nlf/m2j9B/OaqJP8l7iAuzJDR3Pq5WbsTkBdKh4BcIXjVQtfoR
-   LlcBKKlvKRouK16ysDLoRv6JyWxpNBr6wAsNDxZTR9cmoNZMDm2Vomv0L
-   7ho/zSAlFpxp1YbwWL1H3BGqndF5XTXuv10RcBKTmXTYNrw+bc8JxBB+f
-   4VUtDJOqHrYAHqwaWH70D+V8fCT2zts/Ibp6ASa7KdgZU9jya1BWDe2Fb
-   n6PQVfQ5Pot2lRwOkuAMfBdkwrpDACC6/oQMpjBXwNBI0YjctYvcHsYYY
-   OOwS353+RP1QtXI3rSx6VDwN1w03Q1sRc+eO5CXqzs2frTjJAst879Quf
+  bh=N5K9lAv+26W0FthDYV3roJEVL+jIJQn8JiIlgA+Jl6k=;
+  b=KT6J8biL1k3VNngr4l9TsueUta3lRF5anGu2bVWNfwpShzCvn1XURGHo
+   uRd/ow4XDwCj5y9FJsscb+nt05PiCrY6Wqxn108jLEAbC74eaAwS5xT5V
+   J14JoSvg8N63V7mfePTh4T2a1Wz5v953nAXcTrcIK8nlx/jAL4JYfU/JF
+   TbsoMox4jTHW/vtTpvuiDq9sPyUAOpKajRiMjRVnkGfpsCa496OmqY4RZ
+   eb+NvMvsoL+4a+e/BWXQbEI77mtiZGzVMmxmXBzBDb0vUxWSe//8xquzE
+   118XxfQQ41zmJCsLzk5w0tkR/ludaKGnB78VcDs8OW8XdmIE23DwBYJcr
    A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10485"; a="364009517"
+X-IronPort-AV: E=McAfee;i="6500,9779,10485"; a="388446714"
 X-IronPort-AV: E=Sophos;i="5.93,358,1654585200"; 
-   d="scan'208";a="364009517"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Sep 2022 04:14:49 -0700
-X-IronPort-AV: E=McAfee;i="6500,9779,10485"; a="691214723"
+   d="scan'208";a="388446714"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Sep 2022 04:21:15 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10485"; a="726824087"
 X-IronPort-AV: E=Sophos;i="5.93,358,1654585200"; 
-   d="scan'208";a="691214723"
+   d="scan'208";a="726824087"
 Received: from punajuuri.fi.intel.com (HELO paasikivi.fi.intel.com) ([10.237.72.43])
-  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Sep 2022 04:14:46 -0700
+  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Sep 2022 04:21:12 -0700
 Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
-        by paasikivi.fi.intel.com (Postfix) with SMTP id D36E4200F1;
-        Fri, 30 Sep 2022 14:05:51 +0300 (EEST)
-Date:   Fri, 30 Sep 2022 11:05:51 +0000
+        by paasikivi.fi.intel.com (Postfix) with SMTP id 101C1200F1;
+        Fri, 30 Sep 2022 14:21:10 +0300 (EEST)
+Date:   Fri, 30 Sep 2022 11:21:10 +0000
 From:   Sakari Ailus <sakari.ailus@linux.intel.com>
 To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Cc:     linux-media@vger.kernel.org,
@@ -51,17 +51,22 @@ Cc:     linux-media@vger.kernel.org,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Kishon Vijay Abraham <kishon@ti.com>,
-        satish.nagireddy@getcruise.com, Tomasz Figa <tfiga@chromium.org>,
-        Michal Simek <michal.simek@xilinx.com>
-Subject: Re: [PATCH v14 20/34] media: subdev: Add [GS]_ROUTING subdev ioctls
- and operations
-Message-ID: <YzbNjzENgJ9PZsiJ@paasikivi.fi.intel.com>
+        satish.nagireddy@getcruise.com, Tomasz Figa <tfiga@chromium.org>
+Subject: Re: [PATCH v14 19/34] media: Documentation: Add GS_ROUTING
+ documentation
+Message-ID: <YzbRJp6lUB9wCO+Q@paasikivi.fi.intel.com>
 References: <20220831141357.1396081-1-tomi.valkeinen@ideasonboard.com>
- <20220831141357.1396081-21-tomi.valkeinen@ideasonboard.com>
+ <20220831141357.1396081-20-tomi.valkeinen@ideasonboard.com>
+ <YzKRMiumNoskMuxw@paasikivi.fi.intel.com>
+ <97c4d4bc-9907-3ffc-1839-2678a30d53c4@ideasonboard.com>
+ <YzLPOXkaWQe33g+q@paasikivi.fi.intel.com>
+ <65aa282f-b75b-6cef-c1e8-94d9beb8971c@ideasonboard.com>
+ <YzNnd2uoKk6JhyYC@paasikivi.fi.intel.com>
+ <549f6c1b-7956-649a-ed60-eac73a56fdd4@ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220831141357.1396081-21-tomi.valkeinen@ideasonboard.com>
+In-Reply-To: <549f6c1b-7956-649a-ed60-eac73a56fdd4@ideasonboard.com>
 X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
         SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
@@ -73,359 +78,335 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 Moi,
 
-On Wed, Aug 31, 2022 at 05:13:43PM +0300, Tomi Valkeinen wrote:
-> From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+On Wed, Sep 28, 2022 at 10:54:44AM +0300, Tomi Valkeinen wrote:
+> Hi,
 > 
-> Add support for subdev internal routing. A route is defined as a single
-> stream from a sink pad to a source pad.
+> On 28/09/2022 00:13, Sakari Ailus wrote:
+> > Moi,
+> > 
+> > On Tue, Sep 27, 2022 at 03:33:15PM +0300, Tomi Valkeinen wrote:
+> > > On 27/09/2022 13:23, Sakari Ailus wrote:
+> > > 
+> > > <snip>
+> > > 
+> > > > > > > +All stream configurations are reset when ``VIDIOC_SUBDEV_S_ROUTING`` is called. This
+> > > > > > > +means that the userspace mut reconfigure all streams after calling the ioctl
+> > > > > > > +with e.g. ``VIDIOC_SUBDEV_S_FMT``.
+> > > > > > 
+> > > > > > How about this:
+> > > > > > 
+> > > > > > Calling ``VIDIOC_SUBDEV_S_ROUTING`` will cause the selections and subdev
+> > > > > > formats being propagated from the sink pads towards the sources.
+> > > > > 
+> > > > > Hmm, but that's not true. The selections and formats will be zeroed, unless
+> > > > > the driver initializes them to a value. There's no propagation done.
+> > > > 
+> > > > They need to be propagated. The driver is responsible for maintaining a
+> > > > valid configuration for the processing steps in a sub-device, and with
+> > > > routes that must apply to routes as well.
+> > > 
+> > > Hmm, no, they don't need to be propagated. The driver needs to initialize
+> > > the formats and selections to valid configuration, that is true, but it
+> > > doesn't mean the driver propagates settings from the sink pads to the source
+> > > pads. In theory the formats on sink and source sides could be different.
+> > 
+> > After propagation, the user may set the format (or selection) later on in
+> > the processing steps. The propagation is required by the spec and I don't
+> > see why it would be different for drivers with support for streams. Of
+> > course this needs to take place taking hardware limitations into account.
 > 
-> The userspace can configure the routing via two new ioctls,
-> VIDIOC_SUBDEV_G_ROUTING and VIDIOC_SUBDEV_S_ROUTING, and subdevs can
-> implement the functionality with v4l2_subdev_pad_ops.set_routing().
-> 
-> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Signed-off-by: Michal Simek <michal.simek@xilinx.com>
-> 
-> - Add sink and source streams for multiplexed links
-> - Copy the argument back in case of an error. This is needed to let the
->   caller know the number of routes.
-> 
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> 
-> - Expand and refine documentation.
-> - Make the 'routes' pointer a __u64 __user pointer so that a compat32
->   version of the ioctl is not required.
-> - Add struct v4l2_subdev_krouting to be used for subdevice operations.
-> 
-> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> 
-> - Fix typecasing warnings
-> - Check sink & source pad types
-> - Add 'which' field
-> - Add V4L2_SUBDEV_ROUTE_FL_SOURCE
-> - Routing to subdev state
-> - Dropped get_routing subdev op
-> 
-> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> ---
->  drivers/media/v4l2-core/v4l2-ioctl.c  | 25 +++++++-
->  drivers/media/v4l2-core/v4l2-subdev.c | 87 +++++++++++++++++++++++++++
->  include/media/v4l2-subdev.h           | 22 +++++++
->  include/uapi/linux/v4l2-subdev.h      | 52 ++++++++++++++++
->  4 files changed, 185 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
-> index c314025d977e..1c02f935cc6c 100644
-> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
-> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-> @@ -16,6 +16,7 @@
->  #include <linux/kernel.h>
->  #include <linux/version.h>
->  
-> +#include <linux/v4l2-subdev.h>
->  #include <linux/videodev2.h>
->  
->  #include <media/media-device.h> /* for media_set_bus_info() */
-> @@ -3151,6 +3152,21 @@ static int check_array_args(unsigned int cmd, void *parg, size_t *array_size,
->  		ret = 1;
->  		break;
->  	}
-> +
-> +	case VIDIOC_SUBDEV_G_ROUTING:
-> +	case VIDIOC_SUBDEV_S_ROUTING: {
-> +		struct v4l2_subdev_routing *routing = parg;
-> +
-> +		if (routing->num_routes > 256)
-> +			return -EINVAL;
-> +
-> +		*user_ptr = u64_to_user_ptr(routing->routes);
-> +		*kernel_ptr = (void **)&routing->routes;
-> +		*array_size = sizeof(struct v4l2_subdev_route)
-> +			    * routing->num_routes;
-> +		ret = 1;
-> +		break;
-> +	}
->  	}
->  
->  	return ret;
-> @@ -3414,8 +3430,15 @@ video_usercopy(struct file *file, unsigned int orig_cmd, unsigned long arg,
->  	/*
->  	 * Some ioctls can return an error, but still have valid
->  	 * results that must be returned.
-> +	 *
-> +	 * FIXME: subdev IOCTLS are partially handled here and partially in
-> +	 * v4l2-subdev.c and the 'always_copy' flag can only be set for IOCTLS
-> +	 * defined here as part of the 'v4l2_ioctls' array. As
-> +	 * VIDIOC_SUBDEV_G_ROUTING needs to return results to applications even
-> +	 * in case of failure, but it is not defined here as part of the
-> +	 * 'v4l2_ioctls' array, insert an ad-hoc check to address that.
->  	 */
-> -	if (err < 0 && !always_copy)
-> +	if (err < 0 && !always_copy && cmd != VIDIOC_SUBDEV_G_ROUTING)
->  		goto out;
->  
->  out_array_args:
-> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
-> index 90826b956693..af1f53d99507 100644
-> --- a/drivers/media/v4l2-core/v4l2-subdev.c
-> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
-> @@ -23,6 +23,16 @@
->  #include <media/v4l2-fh.h>
->  #include <media/v4l2-event.h>
->  
-> +/*
-> + * Maximum stream ID is 63 for now, as we use u64 bitmask to represent a set
-> + * of streams.
-> + *
-> + * Note that V4L2_FRAME_DESC_ENTRY_MAX is related: V4L2_FRAME_DESC_ENTRY_MAX
-> + * restricts the total number of streams in a pad, although the stream ID is
-> + * not restricted.
-> + */
-> +#define V4L2_SUBDEV_MAX_STREAM_ID 63
-> +
->  #if defined(CONFIG_VIDEO_V4L2_SUBDEV_API)
->  static int subdev_fh_init(struct v4l2_subdev_fh *fh, struct v4l2_subdev *sd)
->  {
-> @@ -417,6 +427,10 @@ subdev_ioctl_get_state(struct v4l2_subdev *sd, struct v4l2_subdev_fh *subdev_fh,
->  	case VIDIOC_SUBDEV_S_SELECTION:
->  		which = ((struct v4l2_subdev_selection *)arg)->which;
->  		break;
-> +	case VIDIOC_SUBDEV_G_ROUTING:
-> +	case VIDIOC_SUBDEV_S_ROUTING:
-> +		which = ((struct v4l2_subdev_routing *)arg)->which;
-> +		break;
->  	}
->  
->  	return which == V4L2_SUBDEV_FORMAT_TRY ?
-> @@ -732,6 +746,78 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
->  	case VIDIOC_SUBDEV_QUERYSTD:
->  		return v4l2_subdev_call(sd, video, querystd, arg);
->  
-> +	case VIDIOC_SUBDEV_G_ROUTING: {
-> +		struct v4l2_subdev_routing *routing = arg;
-> +		struct v4l2_subdev_krouting *krouting;
-> +
-> +		if (!(sd->flags & V4L2_SUBDEV_FL_STREAMS))
-> +			return -ENOIOCTLCMD;
-> +
-> +		memset(routing->reserved, 0, sizeof(routing->reserved));
-> +
-> +		krouting = &state->routing;
-> +
-> +		if (routing->num_routes < krouting->num_routes) {
-> +			routing->num_routes = krouting->num_routes;
-> +			return -ENOSPC;
-> +		}
-> +
-> +		memcpy((struct v4l2_subdev_route *)(uintptr_t)routing->routes,
-> +		       krouting->routes,
-> +		       krouting->num_routes * sizeof(*krouting->routes));
-> +		routing->num_routes = krouting->num_routes;
-> +
-> +		return 0;
-> +	}
-> +
-> +	case VIDIOC_SUBDEV_S_ROUTING: {
-> +		struct v4l2_subdev_routing *routing = arg;
-> +		struct v4l2_subdev_route *routes =
-> +			(struct v4l2_subdev_route *)(uintptr_t)routing->routes;
-> +		struct v4l2_subdev_krouting krouting = {};
-> +		unsigned int i;
-> +
-> +		if (!(sd->flags & V4L2_SUBDEV_FL_STREAMS))
-> +			return -ENOIOCTLCMD;
-> +
-> +		if (routing->which != V4L2_SUBDEV_FORMAT_TRY && ro_subdev)
-> +			return -EPERM;
-> +
-> +		memset(routing->reserved, 0, sizeof(routing->reserved));
-> +
-> +		for (i = 0; i < routing->num_routes; ++i) {
-> +			const struct v4l2_subdev_route *route = &routes[i];
-> +			const struct media_pad *pads = sd->entity.pads;
-> +
-> +			if (route->sink_stream > V4L2_SUBDEV_MAX_STREAM_ID ||
-> +			    route->source_stream > V4L2_SUBDEV_MAX_STREAM_ID)
-> +				return -EINVAL;
-> +
-> +			/* Do not check sink pad for source routes */
-> +			if (!(route->flags & V4L2_SUBDEV_ROUTE_FL_SOURCE)) {
-> +				if (route->sink_pad >= sd->entity.num_pads)
-> +					return -EINVAL;
-> +
-> +				if (!(pads[route->sink_pad].flags &
-> +				      MEDIA_PAD_FL_SINK))
-> +					return -EINVAL;
-> +			}
-> +
-> +			if (route->source_pad >= sd->entity.num_pads)
-> +				return -EINVAL;
-> +
-> +			if (!(pads[route->source_pad].flags &
-> +			      MEDIA_PAD_FL_SOURCE))
-> +				return -EINVAL;
-> +		}
-> +
-> +		krouting.num_routes = routing->num_routes;
-> +		krouting.routes = routes;
-> +
-> +		return v4l2_subdev_call(sd, pad, set_routing, state,
-> +					routing->which, &krouting);
-> +	}
-> +
->  	default:
->  		return v4l2_subdev_call(sd, core, ioctl, cmd, arg);
->  	}
-> @@ -1015,6 +1101,7 @@ void __v4l2_subdev_state_free(struct v4l2_subdev_state *state)
->  
->  	mutex_destroy(&state->_lock);
->  
-> +	kfree(state->routing.routes);
->  	kvfree(state->pads);
->  	kfree(state);
->  }
-> diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
-> index c38de23b7f22..f38943932cfe 100644
-> --- a/include/media/v4l2-subdev.h
-> +++ b/include/media/v4l2-subdev.h
-> @@ -695,12 +695,26 @@ struct v4l2_subdev_pad_config {
->  	struct v4l2_rect try_compose;
->  };
->  
-> +/**
-> + * struct v4l2_subdev_krouting - subdev routing table
-> + *
-> + * @num_routes: number of routes
-> + * @routes: &struct v4l2_subdev_route
-> + *
-> + * This structure contains the routing table for a subdev.
-> + */
-> +struct v4l2_subdev_krouting {
-> +	unsigned int num_routes;
-> +	struct v4l2_subdev_route *routes;
-> +};
-> +
->  /**
->   * struct v4l2_subdev_state - Used for storing subdev state information.
->   *
->   * @_lock: default for 'lock'
->   * @lock: mutex for the state. May be replaced by the user.
->   * @pads: &struct v4l2_subdev_pad_config array
-> + * @routing: routing table for the subdev
->   *
->   * This structure only needs to be passed to the pad op if the 'which' field
->   * of the main argument is set to %V4L2_SUBDEV_FORMAT_TRY. For
-> @@ -711,6 +725,7 @@ struct v4l2_subdev_state {
->  	struct mutex _lock;
->  	struct mutex *lock;
->  	struct v4l2_subdev_pad_config *pads;
-> +	struct v4l2_subdev_krouting routing;
->  };
->  
->  /**
-> @@ -763,6 +778,9 @@ struct v4l2_subdev_state {
->   *		     this operation as close as possible to stream on time. The
->   *		     operation shall fail if the pad index it has been called on
->   *		     is not valid or in case of unrecoverable failures.
-> + *
-> + * @set_routing: enable or disable data connection routes described in the
-> + *		 subdevice routing table.
->   */
->  struct v4l2_subdev_pad_ops {
->  	int (*init_cfg)(struct v4l2_subdev *sd,
-> @@ -805,6 +823,10 @@ struct v4l2_subdev_pad_ops {
->  			      struct v4l2_mbus_frame_desc *fd);
->  	int (*get_mbus_config)(struct v4l2_subdev *sd, unsigned int pad,
->  			       struct v4l2_mbus_config *config);
-> +	int (*set_routing)(struct v4l2_subdev *sd,
-> +			   struct v4l2_subdev_state *state,
-> +			   enum v4l2_subdev_format_whence which,
-> +			   struct v4l2_subdev_krouting *route);
->  };
->  
->  /**
-> diff --git a/include/uapi/linux/v4l2-subdev.h b/include/uapi/linux/v4l2-subdev.h
-> index 89af27f50a41..b63b80576dd3 100644
-> --- a/include/uapi/linux/v4l2-subdev.h
-> +++ b/include/uapi/linux/v4l2-subdev.h
-> @@ -24,6 +24,7 @@
->  #ifndef __LINUX_V4L2_SUBDEV_H
->  #define __LINUX_V4L2_SUBDEV_H
->  
-> +#include <linux/const.h>
->  #include <linux/ioctl.h>
->  #include <linux/types.h>
->  #include <linux/v4l2-common.h>
-> @@ -191,6 +192,55 @@ struct v4l2_subdev_capability {
->  /* The v4l2 sub-device supports routing and multiplexed streams. */
->  #define V4L2_SUBDEV_CAP_STREAMS			0x00000002
->  
-> +/*
-> + * Is the route active? An active route will start when streaming is enabled
-> + * on a video node.
-> + */
-> +#define V4L2_SUBDEV_ROUTE_FL_ACTIVE		_BITUL(0)
+> I don't disagree with the above, but I still don't see why it matters here.
 
-_BITUL() will produce an unsigned long. This isn't necessary.
+It does. The user needs to be able to rely on the ability of the driver to
+maintain valid internal configuration. That user generally has less
+information on this than the driver.
 
-Please use (1U << 0) instead. Same below.
+> 
+> So do you suggest replacing the current paragraph with your version? Or
+> adding a new paragraph?
 
-> +
-> +/*
-> + * Is the route a source endpoint? A source endpoint route refers to a stream
-> + * generated by the subdevice (usually a sensor), and thus there is no
-> + * sink-side endpoint for the route. The sink_pad and sink_stream fields are
-> + * unused.
-> + * Set by the driver.
-> + */
-> +#define V4L2_SUBDEV_ROUTE_FL_SOURCE		_BITUL(2)
-> +
-> +/**
-> + * struct v4l2_subdev_route - A route inside a subdev
-> + *
-> + * @sink_pad: the sink pad index
-> + * @sink_stream: the sink stream identifier
-> + * @source_pad: the source pad index
-> + * @source_stream: the source stream identifier
-> + * @flags: route flags V4L2_SUBDEV_ROUTE_FL_*
-> + * @reserved: drivers and applications must zero this array
-> + */
-> +struct v4l2_subdev_route {
-> +	__u32 sink_pad;
-> +	__u32 sink_stream;
-> +	__u32 source_pad;
-> +	__u32 source_stream;
-> +	__u32 flags;
-> +	__u32 reserved[5];
-> +};
-> +
-> +/**
-> + * struct v4l2_subdev_routing - Subdev routing information
-> + *
-> + * @which: configuration type (from enum v4l2_subdev_format_whence)
-> + * @num_routes: the total number of routes in the routes array
-> + * @routes: pointer to the routes array
-> + * @reserved: drivers and applications must zero this array
-> + */
-> +struct v4l2_subdev_routing {
-> +	__u32 which;
-> +	__u32 num_routes;
-> +	__u64 routes;
-> +	__u32 reserved[6];
-> +};
-> +
->  /* Backwards compatibility define --- to be removed */
->  #define v4l2_subdev_edid v4l2_edid
->  
-> @@ -206,6 +256,8 @@ struct v4l2_subdev_capability {
->  #define VIDIOC_SUBDEV_S_CROP			_IOWR('V', 60, struct v4l2_subdev_crop)
->  #define VIDIOC_SUBDEV_G_SELECTION		_IOWR('V', 61, struct v4l2_subdev_selection)
->  #define VIDIOC_SUBDEV_S_SELECTION		_IOWR('V', 62, struct v4l2_subdev_selection)
-> +#define VIDIOC_SUBDEV_G_ROUTING			_IOWR('V', 38, struct v4l2_subdev_routing)
-> +#define VIDIOC_SUBDEV_S_ROUTING			_IOWR('V', 39, struct v4l2_subdev_routing)
->  /* The following ioctls are identical to the ioctls in videodev2.h */
->  #define VIDIOC_SUBDEV_G_STD			_IOR('V', 23, v4l2_std_id)
->  #define VIDIOC_SUBDEV_S_STD			_IOW('V', 24, v4l2_std_id)
+I'm preparing some more documentation related to interaction between
+routing, formats and selections. I can include this as well.
+
+> 
+> Why is propagation important here? Isn't the resetting of the configuration
+> the important thing?
+> 
+> For me, the propagation concept is important in the case where the user
+> configures the sink pads, as then the settings need to be propagated. Here
+> it doesn't matter.
+
+In general, if the user has configured something, it should not be changed
+by configuring independent albeit somewhat related things. I'm saying that
+the routing configuration shouldn't be an exception to how the interface
+works in general.
+
+> 
+> > > I guess you could say that the driver initializes the sink side streams and
+> > > then propagates those to the source side, but at least to me that gives the
+> > > wrong impression. What the driver does is initialize the configuration, or
+> > > reset the configuration to defaults (which it could do with propagation if
+> > > it so wants).
+> > > 
+> > > The framework provides v4l2_subdev_set_routing_with_fmt() helper to achieve
+> > > this, which sets the given format to all streams.
+> > > 
+> > > Anyway, I think we can talk about propagation if that helps, but I think the
+> > > main point there is that the settings are reset or initialized.
+> > > 
+> > > > > > > +
+> > > > > > > +A special case for routing are routes marked with
+> > > > > > > +``V4L2_SUBDEV_ROUTE_FL_SOURCE`` flag. These routes are used to describe
+> > > > > > > +source endpoints on sensors and the sink fields are unused.
+> > > > > > > +
+> > > > > > > +When inspecting routes through ``VIDIOC_SUBDEV_G_ROUTING`` and the application
+> > > > > > > +provided ``num_routes`` is not big enough to contain all the available routes
+> > > > > > > +the subdevice exposes, drivers return the ENOSPC error code and adjust the
+> > > > > > > +value of the ``num_routes`` field. Application should then reserve enough memory
+> > > > > > > +for all the route entries and call ``VIDIOC_SUBDEV_G_ROUTING`` again.
+> > > > > > > +
+> > > > > > > +.. tabularcolumns:: |p{4.4cm}|p{4.4cm}|p{8.7cm}|
+> > > > > > > +
+> > > > > > > +.. c:type:: v4l2_subdev_routing
+> > > > > > > +
+> > > > > > > +.. flat-table:: struct v4l2_subdev_routing
+> > > > > > > +    :header-rows:  0
+> > > > > > > +    :stub-columns: 0
+> > > > > > > +    :widths:       1 1 2
+> > > > > > > +
+> > > > > > > +    * - __u32
+> > > > > > > +      - ``which``
+> > > > > > > +      - Format to modified, from enum
+> > > > > > > +        :ref:`v4l2_subdev_format_whence <v4l2-subdev-format-whence>`.
+> > > > > > > +    * - struct :c:type:`v4l2_subdev_route`
+> > > > > > > +      - ``routes[]``
+> > > > > > > +      - Array of struct :c:type:`v4l2_subdev_route` entries
+> > > > > > > +    * - __u32
+> > > > > > > +      - ``num_routes``
+> > > > > > > +      - Number of entries of the routes array
+> > > > > > > +    * - __u32
+> > > > > > > +      - ``reserved``\ [5]
+> > > > > > > +      - Reserved for future extensions. Applications and drivers must set
+> > > > > > > +	the array to zero.
+> > > > > > > +
+> > > > > > > +.. tabularcolumns:: |p{4.4cm}|p{4.4cm}|p{8.7cm}|
+> > > > > > > +
+> > > > > > > +.. c:type:: v4l2_subdev_route
+> > > > > > > +
+> > > > > > > +.. flat-table:: struct v4l2_subdev_route
+> > > > > > > +    :header-rows:  0
+> > > > > > > +    :stub-columns: 0
+> > > > > > > +    :widths:       1 1 2
+> > > > > > > +
+> > > > > > > +    * - __u32
+> > > > > > > +      - ``sink_pad``
+> > > > > > > +      - Sink pad number.
+> > > > > > > +    * - __u32
+> > > > > > > +      - ``sink_stream``
+> > > > > > > +      - Sink pad stream number.
+> > > > > > > +    * - __u32
+> > > > > > > +      - ``source_pad``
+> > > > > > > +      - Source pad number.
+> > > > > > > +    * - __u32
+> > > > > > > +      - ``source_stream``
+> > > > > > > +      - Source pad stream number.
+> > > > > > > +    * - __u32
+> > > > > > > +      - ``flags``
+> > > > > > > +      - Route enable/disable flags
+> > > > > > > +	:ref:`v4l2_subdev_routing_flags <v4l2-subdev-routing-flags>`.
+> > > > > > > +    * - __u32
+> > > > > > > +      - ``reserved``\ [5]
+> > > > > > > +      - Reserved for future extensions. Applications and drivers must set
+> > > > > > > +	the array to zero.
+> > > > > > > +
+> > > > > > > +.. tabularcolumns:: |p{6.6cm}|p{2.2cm}|p{8.7cm}|
+> > > > > > > +
+> > > > > > > +.. _v4l2-subdev-routing-flags:
+> > > > > > > +
+> > > > > > > +.. flat-table:: enum v4l2_subdev_routing_flags
+> > > > > > > +    :header-rows:  0
+> > > > > > > +    :stub-columns: 0
+> > > > > > > +    :widths:       3 1 4
+> > > > > > > +
+> > > > > > > +    * - V4L2_SUBDEV_ROUTE_FL_ACTIVE
+> > > > > > > +      - 0
+> > > > > > > +      - The route is enabled. Set by applications.
+> > > > > > > +    * - V4L2_SUBDEV_ROUTE_FL_IMMUTABLE
+> > > > > > 
+> > > > > > How about calling this STATIC instead of IMMUTABLE? IMMUTABLE is used as a
+> > > > > > link flag to mean a link that may not be changed in any way. In this case
+> > > > > > we rather want to say that the route is always there, albeit you can still
+> > > > > > enable or disable it.
+> > > > > 
+> > > > > If we think there's a need for this, I can add it back and name it static. I
+> > > > > think what it then should mean is that the user can enable/disable it and
+> > > > > also set the stream id, but the route must always exist.
+> > > > 
+> > > > But the static routes are recognised by the stream ID only, aren't they?
+> > > > 
+> > > > I think we'll definitely need a way to determine which routes are always
+> > > > there and which ones can be removed at will.
+> > > 
+> > > That's the V4L2_SUBDEV_ROUTE_FL_SOURCE. V4L2_SUBDEV_ROUTE_FL_SOURCE routes
+> > > are always there, and the user can only enable or disable them.
+> > > 
+> > > This is why I dropped IMMUTABLE, as SOURCE is already immutable (or rather,
+> > > static), and I don't see a need for a non-source route to be static.
+> > 
+> > We don't know of such a device at the moment but I'm fairly certain they
+> > exist. A number of older CSI-2 receivers do not support directing different
+> > VC/DT pairs to different buffers in any generic sort of way.
+> 
+> That is true, but the problem there is that the driver often does not know
+> the number of streams.
+> 
+> For example, if we have a CSI-2 bridge which, say, has a single input and
+> two output pads. It routes VC0 & 2 to the first output and VC1 & 3 to the
+> second output.
+> 
+> Here it would be easy to say that there are 4 static streams, going as
+> described above. But that's not true, as data-types also define streams, so
+> we can actually have a lot more streams there.
+> 
+> This, I think, essentially means that static routes can never be defined for
+> any subdevice in the middle of the pipeline. The only places where we can
+> have static routes are the very beginning and very end of the pipeline. For
+> the beginning, i.e. the sensors, we already have source streams. But can we
+> have static routes on the end side, basically just before the DMA?
+
+If you can have a single route only, isn't that effectively static?
+Although in that case the sub-device should not support routing.
+
+> 
+> If we have a CSI-2 receiver that has a hardcoded handling of the VC & DT,
+> how does the userspace configure the routes? The userspace doesn't see the
+> VCs or DTs. We could have static routes defined in the receiver subdevice,
+> but does that help?
+
+Good point. I think not.
+
+I guess we would then leave the routes for the user to create and driver to
+try to configure the hardware accordingly or fail in link validation?
+
+Perhaps we won't need a static route flag then after all.
+
+> 
+> The HW I use, TI's CAL, has the means to configure VC/DT freely. But it has
+> 8 DMA engines, and, of course, each stream has to go to a single DMA engine.
+> So I think we could say that it has 8 static streams, and the user can only
+> enable or disable them. But I'm not sure how much adding a new flag for this
+> helps.
+
+Could this be limited by only allowing to create eight routes?
+
+> 
+> > Using one flag for two different purposes may thus prove problematic over
+> > time. I'd thus define another for the other purpose. In the worst case it
+> > won't be needed and we can make it obsolete later on.
+> 
+> I'd like to have a clear example of a setup where we need this flag and
+> benefit from it before adding it.
+> 
+> In the CAL case I don't see much benefit. I think the only thing it gives us
+> is a minimal discovery mechanism for the userspace to understand how CAL
+> routes can be configured. I say minimal, as it still won't cover it fully as
+> the validity of the routing depends on the actual VCs and DTs too (which
+> will be found out only at the stream start time).
+> 
+> And this would only give us discovery for the receiver and wouldn't help
+> with the bridges.
+> 
+> > > > > 
+> > > > > But as I said above, I haven't figured out a use for this.
+> > > > > 
+> > > > > > > +      - 1
+> > > > > > > +      - The route is immutable. Set by the driver.
+> > > > > > > +    * - V4L2_SUBDEV_ROUTE_FL_SOURCE
+> > > > > > > +      - 2
+> > > > > > > +      - The route is a source route, and the ``sink_pad`` and ``sink_stream``
+> > > > > > > +        fields are unused. Set by the driver.
+> > > > > > > +
+> > > > > > > +Return Value
+> > > > > > > +============
+> > > > > > > +
+> > > > > > > +On success 0 is returned, on error -1 and the ``errno`` variable is set
+> > > > > > > +appropriately. The generic error codes are described at the
+> > > > > > > +:ref:`Generic Error Codes <gen-errors>` chapter.
+> > > > > > > +
+> > > > > > > +ENOSPC
+> > > > > > > +   The number of provided route entries is less than the available ones.
+> > > > > > 
+> > > > > > What does "available ones" mean in this context? More than is supported?
+> > > > > > Wouldn't E2BIG be the appropriate code in that case?
+> > > > > 
+> > > > > Good question. I don't think I wrote this part =). ENOSPC refers to the case
+> > > > > where VIDIOC_SUBDEV_G_ROUTING is called without enough space for the routing
+> > > > > table. So "available ones" mean the routes in the subdev's routing table,
+> > > > > and "provided route entries" refers to the userspace target routing table.
+> > > > > 
+> > > > > It sounds pretty odd, and obviously needs a clarification.
+> > > > 
+> > > > I think I actually can think what this did mean. It means that the
+> > > > num_routes is smaller than the number of routes in a routing table when
+> > > > G_ROUTING is called. For that I think ENOSPC is the right code actually.
+> > > > 
+> > > > But also I think we need to document what happens when there are too many
+> > > > routes. For that E2BIG would be appropriate.
+> > > 
+> > > v4l2-ioctl.c returns EINVAL if there are over 256 routes. The drivers
+> > > should, of course, do additional check if needed. In v4l2-ioctl.c it seems
+> > > common to return EINVAL if there's too much data, but we can of course
+> > > define E2BIG for routing ioctls.
+> > 
+> > The number (256) is just the current limit. I don't expect more though.
+> > 
+> > But the user space could know the number is too large if we have a proper
+> > error code for it. Up to you. However at least documentation needs to be
+> > amended since this case remains undocumented.
+> 
+> I can change the returned error from EINVAL to E2BIG and document it. But
+> everything else in check_array_args return EINVAL, so it would be going into
+> different direction.
+
+Could this be beneficial in telling the user too many routes have been
+configured (as I wrote above)?
+
+> 
+> > > > Should we have a field for telling which route was the bad one, if it was
+> > > > one of them? That can be done later, too, if we'll ever need it.
+> > > 
+> > > Hmm maybe, although I wonder how often the drivers can say that this
+> > > particular route is the problem, and what would the userspace do with that
+> > > information...
+> > > 
+> > > Do you have any examples in mind?
+> > 
+> > I think it would be mainly useful for debugging purposes, software as such
+> > probably wouldn't need it. Say, if you have a problem somewhere in your,
+> > say, 256 routes, it could be hard to figure out which one of them is the
+> > faulty one.
+> 
+> Maybe... I'm a bit cautious about this, as I think it may be often difficult
+> to return a good "bad route" number, and for the user do any proper
+> debugging based only on it.
+> 
+> Similar to the pipeline validation, you need to turn on the kernel debugs to
+> see where things go wrong. Which is, of course, bad as a normal user cannot
+> do that, but I think for real debugging aid we'd need to return more than
+> just a single number.
+> 
+> I wonder if something like that would work... A videodev/subdev file
+> specific buffer for error strings (with a max size), which the user could
+> fetch if it gets an error.
+> 
+> Or perhaps not. Maybe the people who work on v4l2 level things also have the
+> means to enable kernel debugs.
+
+That's the other way. I haven't checked if there are appropriate debug
+prints there currently but it's always easy to add them later.
+
+This is something that could be also added later if needed. I'm not
+requesting it to be added now, as I wrote earlier.
 
 -- 
 Kind regards,
