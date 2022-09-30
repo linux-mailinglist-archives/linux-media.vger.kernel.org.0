@@ -2,167 +2,707 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id ED9665F06D9
-	for <lists+linux-media@lfdr.de>; Fri, 30 Sep 2022 10:49:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A1B3F5F06F7
+	for <lists+linux-media@lfdr.de>; Fri, 30 Sep 2022 10:57:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230280AbiI3ItW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 30 Sep 2022 04:49:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50998 "EHLO
+        id S231136AbiI3I5K (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 30 Sep 2022 04:57:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44628 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229873AbiI3ItV (ORCPT
+        with ESMTP id S230399AbiI3I5I (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 30 Sep 2022 04:49:21 -0400
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2053.outbound.protection.outlook.com [40.107.93.53])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7DCB11E4584;
-        Fri, 30 Sep 2022 01:49:20 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=EVEfsjqoOPzU3owzbYHFF8blvT7ZSy6QyJULLFLuE5Aeulw9ho9AEpMTf+OhfnVHqlVilfTF/Dp9NLrHbJSntu708Pr4+EIii/3o7sFsJ/OrSazrDLbXJpWS56B+hbp1cQkR+R9NU6J0bBl71HvfikmsNFfjijjnFG0AVmeNk3KtXO57S/wkDTXXsNQpPHxZVxX37/uQJ93mwMLi+ln8l7zA3RGyko4Ac4wWbnAL2j9rnihFiNy+rPFoO2HichJFm16uGjjojS0fWz6f0ziGpkoYEXm20oG101X1gJB9p5gZQMqUX/UUlBIqyAa4NnlIhbv8CKSSjaox7hpUojkhBQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=yB9BvnlLKxUMSN4iXjoR20WwGrLOdTsJXiF4BiMNHRc=;
- b=AzAM7T5ccItzHC3X0oIhTuhHlhATGyGQxqPacPnoyTleUYUIaWy9E6p7ZBsbE5769EJvL+0MjWvNtIw2yL7/Z7iA+HJkNbFoVSod+Ksw8MXB37c9iLzZt57ABcdZpi9gQWaR6hhySThIAXx9QgajhoRJEs6EO7P4aSywDBDPLaEa8HYX9WdpN6CCtr/LFxnkj7vPspnm2vZooAFJbv+7RzwuxJHtUEIV3HNbtelpxu9QU8W2lKZ+N9Yve56xh+BDwMveyszv6FUzpOiRB2CKv9JIq1uLggWsDmYjEhfsfEoYRKW+dXxBYP+IbLoqoW3lr8mytxgo+Gln7AnJY0H8Qw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=linaro.org smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=yB9BvnlLKxUMSN4iXjoR20WwGrLOdTsJXiF4BiMNHRc=;
- b=alWsUWfArYG1TZXIgpPUNxT5RYoY4myUJ3NuA7JXgkOX8xtXQ+q9c2IcbHnTMBOOcmKGPS5/kjZ+yhE1T0HoGCz9chXT9BhiDKYlk+au7MUkqV1E8eM94qzzurSHeoCfeW2HXdgzhyQGgJM9W6mwXk4UVfsVDjskrkQtZWBzAXw=
-Received: from MW2PR2101CA0027.namprd21.prod.outlook.com (2603:10b6:302:1::40)
- by SJ1PR12MB6217.namprd12.prod.outlook.com (2603:10b6:a03:458::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5676.17; Fri, 30 Sep
- 2022 08:49:18 +0000
-Received: from CO1NAM11FT081.eop-nam11.prod.protection.outlook.com
- (2603:10b6:302:1:cafe::82) by MW2PR2101CA0027.outlook.office365.com
- (2603:10b6:302:1::40) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5709.0 via Frontend
- Transport; Fri, 30 Sep 2022 08:49:18 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- CO1NAM11FT081.mail.protection.outlook.com (10.13.174.80) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.5676.17 via Frontend Transport; Fri, 30 Sep 2022 08:49:17 +0000
-Received: from amd.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.28; Fri, 30 Sep
- 2022 03:49:12 -0500
-From:   Arvind Yadav <Arvind.Yadav@amd.com>
-To:     <Christian.Koenig@amd.com>, <andrey.grodzovsky@amd.com>,
-        <shashank.sharma@amd.com>, <amaranath.somalapuram@amd.com>,
-        <Arunpravin.PaneerSelvam@amd.com>, <sumit.semwal@linaro.org>,
-        <gustavo@padovan.org>, <airlied@linux.ie>, <daniel@ffwll.ch>,
-        <linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
-        <linaro-mm-sig@lists.linaro.org>, <linux-kernel@vger.kernel.org>,
-        <steven.price@arm.com>
-CC:     Arvind Yadav <Arvind.Yadav@amd.com>
-Subject: [PATCH] drm/sched: Fix kernel NULL pointer dereference error
-Date:   Fri, 30 Sep 2022 14:18:10 +0530
-Message-ID: <20220930084810.4639-1-Arvind.Yadav@amd.com>
-X-Mailer: git-send-email 2.25.1
+        Fri, 30 Sep 2022 04:57:08 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E4BC43BC4F
+        for <linux-media@vger.kernel.org>; Fri, 30 Sep 2022 01:57:06 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 618466228B
+        for <linux-media@vger.kernel.org>; Fri, 30 Sep 2022 08:57:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 04A09C433C1;
+        Fri, 30 Sep 2022 08:57:03 +0000 (UTC)
+Message-ID: <81a3105e-c14b-f1f9-02d2-60e509067a0f@xs4all.nl>
+Date:   Fri, 30 Sep 2022 10:57:02 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO1NAM11FT081:EE_|SJ1PR12MB6217:EE_
-X-MS-Office365-Filtering-Correlation-Id: dde1680a-5008-4adf-f94b-08daa2c0a91b
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: fsBjAtrLjLvdaQndsx++oPHV9DUzllXkBnp+w5vVszyzKCADwAOomP5OVaRbjs6YJz6h97NV56Q9Qe3/3YWbgMX7bZVuF0Fw5xqrNCIOiLR+fpwh8EeERj9BEymO112VGYU2nSMcypFqkOHhzxi4xNaTQ5tMvF1ixJE2dDYbF+j6Rv9jiyUr/fgHTmy48V73zJ4TRhHE/ub8Y8sB0CSwzRhRulakLrOXUWasRqeKQQavVhV3YL16xOf71MclLPqPOyannIT3ISbyEZ8rEhFMHzW7GA8gpHcr7bIIgIw7+FwAkoLjvh2JKGxjfhK5YbVRhwCxJNYY6VS51oeo5/nAwE6ZZIOAYbzXB91OINIJPFzbmaZl0xFUqNFmQvc76rqo/lFJsUDrdeVoPcZuOBbdt+MGlawuWGHiPJZx5BpfzlhZBr1hLUgj5jz6kbhVHha4uWLw6ru02wvc0FQtdmZTDyR7AkpcGcvQO+l6goX3QFKBrDVz6nozSt3b3xfhiv38P31Tpmrnbfn+opHf9V+18ZiNgQLP1WmABxUwW7pup290ECdNgV9zBJ87+VpgEVzCa3QquByw/y+rZVbUzxLtdhZwhsBEwYqbg2CwH6QQi3kH4JEAvUH73gP2425aJp1q9Dr4omhz5Pe6fcmplfAbaqmofTzoczJmEvg/s6IBXMINmGr21WiVskiCBmdCFSAbHGAKraLLJ52dBg43lTDSrUa0PrLuW4i3d9NRGdVseA7LUo26vfo5J/Vj+vgbV/tUZ2IrC3Y7jkUusz6t8Fig2b/EZx/uzkCKqiIVe8jTE5tmZlC+Hw/zDpdNuUc8DcTl3blqR6z5uP0IgUoupQXcfNs1XISwOW4zeqcJ1oB/TlM=
-X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230022)(4636009)(136003)(376002)(346002)(396003)(39860400002)(451199015)(36840700001)(40470700004)(46966006)(16526019)(7696005)(316002)(478600001)(83380400001)(40460700003)(2906002)(82310400005)(336012)(47076005)(426003)(186003)(1076003)(8936002)(40480700001)(70206006)(2616005)(41300700001)(8676002)(70586007)(110136005)(26005)(4326008)(5660300002)(356005)(921005)(86362001)(82740400003)(36860700001)(36756003)(81166007)(83996005)(2101003)(36900700001);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Sep 2022 08:49:17.9074
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: dde1680a-5008-4adf-f94b-08daa2c0a91b
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT081.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ1PR12MB6217
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.0
+Subject: Re: [PATCH v8 08/10] v4l2-ctrls: add support for
+ V4L2_CTRL_WHICH_MIN/MAX_VAL
+Content-Language: en-US
+To:     Yunke Cao <yunkec@google.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Sergey Senozhatsky <senozhatsky@chromium.org>,
+        Ricardo Ribalda <ribalda@chromium.org>,
+        linux-media@vger.kernel.org
+References: <20220930064059.3633710-1-yunkec@google.com>
+ <20220930064059.3633710-9-yunkec@google.com>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <20220930064059.3633710-9-yunkec@google.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-7.2 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-BUG: kernel NULL pointer dereference, address: 0000000000000088
- #PF: supervisor read access in kernel mode
- #PF: error_code(0x0000) - not-present page
- PGD 0 P4D 0
- Oops: 0000 [#1] PREEMPT SMP NOPTI
- CPU: 2 PID: 0 Comm: swapper/2 Not tainted 6.0.0-rc2-custom #1
- Arvind : [dma_fence_default_wait _START] timeout = -1
- Hardware name: AMD Dibbler/Dibbler, BIOS RDB1107CC 09/26/2018
- RIP: 0010:drm_sched_job_done.isra.0+0x11/0x140 [gpu_sched]
- Code: 8b fe ff ff be 03 00 00 00 e8 7b da b7 e3 e9 d4 fe ff ff 66 0f 1f 44 00 00 0f 1f 44 00 00 55 48 89 e5 41 55 41 54 49 89 fc 53 <48> 8b 9f 88 00 00 00 f0 ff 8b f0 00 00 00 48 8b 83 80 01 00 00 f0
- RSP: 0018:ffffb1b1801d4d38 EFLAGS: 00010087
- RAX: ffffffffc0aa48b0 RBX: ffffb1b1801d4d70 RCX: 0000000000000018
- RDX: 000036c70afb7c1d RSI: ffff8a45ca413c60 RDI: 0000000000000000
- RBP: ffffb1b1801d4d50 R08: 00000000000000b5 R09: 0000000000000000
- R10: 0000000000000000 R11: 0000000000000000 R12: 0000000000000000
- R13: ffffb1b1801d4d70 R14: ffff8a45c4160000 R15: ffff8a45c416a708
- FS:  0000000000000000(0000) GS:ffff8a48a0a80000(0000) knlGS:0000000000000000
- CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
- CR2: 0000000000000088 CR3: 000000014ad50000 CR4: 00000000003506e0
- Call Trace:
-  <IRQ>
-  drm_sched_job_done_cb+0x12/0x20 [gpu_sched]
-  dma_fence_signal_timestamp_locked+0x7e/0x110
-  dma_fence_signal+0x31/0x60
-  amdgpu_fence_process+0xc4/0x140 [amdgpu]
-  gfx_v9_0_eop_irq+0x9d/0xd0 [amdgpu]
-  amdgpu_irq_dispatch+0xb7/0x210 [amdgpu]
-  amdgpu_ih_process+0x86/0x100 [amdgpu]
-  amdgpu_irq_handler+0x24/0x60 [amdgpu]
-  __handle_irq_event_percpu+0x4b/0x190
-  handle_irq_event_percpu+0x15/0x50
-  handle_irq_event+0x39/0x60
-  handle_edge_irq+0xaf/0x210
-  __common_interrupt+0x6e/0x110
-  common_interrupt+0xc1/0xe0
-  </IRQ>
-  <TASK>
 
-Signed-off-by: Arvind Yadav <Arvind.Yadav@amd.com>
----
- drivers/gpu/drm/scheduler/sched_main.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
-index 6684d88463b4..390272f6b126 100644
---- a/drivers/gpu/drm/scheduler/sched_main.c
-+++ b/drivers/gpu/drm/scheduler/sched_main.c
-@@ -172,7 +172,12 @@ drm_sched_rq_select_entity(struct drm_sched_rq *rq)
- static void drm_sched_job_done(struct drm_sched_job *s_job)
- {
- 	struct drm_sched_fence *s_fence = s_job->s_fence;
--	struct drm_gpu_scheduler *sched = s_fence->sched;
-+	struct drm_gpu_scheduler *sched;
-+
-+	if (!s_fence)
-+		return;
-+
-+	sched = s_fence->sched;
- 
- 	atomic_dec(&sched->hw_rq_count);
- 	atomic_dec(sched->score);
--- 
-2.25.1
+On 9/30/22 08:40, Yunke Cao wrote:
+> From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+> 
+> Add the capability of retrieving the min and max values of a
+> compound control.
+> 
+> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+> Signed-off-by: Yunke Cao <yunkec@google.com>
+> ---
+> Hi Hans,
+> 
+> I resubmitted because of the discussion in the previous version:
+> [PATCH v7 5/7] v4l2-ctrls: add support for V4L2_CTRL_WHICH_MIN/MAX_VAL.
+> It would be great if you can take a look, thanks!
+> 
+> Changelog since v7:
+> - Document that the definition of the min/max are provided by compound controls
+>   are defined in control documentation.
+> - Return error, instead of zeroed memory for v4l2_ctrl_ptr_create(NULL).
+> 
+> git am from https://lore.kernel.org/all/20191119113457.57833-3-hverkuil-cisco@xs4all.nl/
+> - Fixed some merge conflits.
+> - Fixed the build error in drivers/media/platform/qcom/venus.
+> 
+>  .../media/v4l/vidioc-g-ext-ctrls.rst          |   9 +-
+>  .../media/videodev2.h.rst.exceptions          |   2 +
+>  drivers/media/i2c/imx214.c                    |   5 +-
+>  .../media/platform/qcom/venus/venc_ctrls.c    |   9 +-
+>  drivers/media/v4l2-core/v4l2-ctrls-api.c      |  57 +++++--
+>  drivers/media/v4l2-core/v4l2-ctrls-core.c     | 151 ++++++++++++++++--
+>  drivers/media/v4l2-core/v4l2-ioctl.c          |   4 +-
+>  include/media/v4l2-ctrls.h                    |  34 +++-
+>  include/uapi/linux/videodev2.h                |   2 +
+>  9 files changed, 243 insertions(+), 30 deletions(-)
+> 
+> diff --git a/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst b/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst
+> index 927ef397f1ce..928328b604c2 100644
+> --- a/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst
+> +++ b/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst
+> @@ -304,14 +304,19 @@ still cause this situation.
+>        - Which value of the control to get/set/try.
+>      * - :cspan:`2` ``V4L2_CTRL_WHICH_CUR_VAL`` will return the current value of
+>  	the control, ``V4L2_CTRL_WHICH_DEF_VAL`` will return the default
+> +	value of the control, ``V4L2_CTRL_WHICH_MIN_VAL`` will return the minimum
+> +	value of the control, ``V4L2_CTRL_WHICH_MAX_VAL`` will return the maximum
+>  	value of the control and ``V4L2_CTRL_WHICH_REQUEST_VAL`` indicates that
+>  	these controls have to be retrieved from a request or tried/set for
+>  	a request. In the latter case the ``request_fd`` field contains the
+>  	file descriptor of the request that should be used. If the device
+>  	does not support requests, then ``EACCES`` will be returned.
+>  
+> -	When using ``V4L2_CTRL_WHICH_DEF_VAL`` be aware that you can only
+> -	get the default value of the control, you cannot set or try it.
+> +	When using ``V4L2_CTRL_WHICH_DEF_VAL``, ``V4L2_CTRL_WHICH_MIN_VAL``
+> +	or ``V4L2_CTRL_WHICH_MAX_VAL`` be aware that you can only get the
+> +	default/minimum/maximum value of the control, you cannot set or try it.
+> +	The definition of minimum/maximum values for compound types are provided by
+> +	the control documentation.
 
+It is probably a good idea to mention that if the compound type does not
+document the meaning of minimum/maximum, then it is not supported and querying
+MIN/MAX will result in -ENODATA (as I suggested in my v2 review).
+
+Which compound controls DO support this? I do not see any documentation of min/max
+in this series.
+
+>  
+>  	For backwards compatibility you can also use a control class here
+>  	(see :ref:`ctrl-class`). In that case all controls have to
+> diff --git a/Documentation/userspace-api/media/videodev2.h.rst.exceptions b/Documentation/userspace-api/media/videodev2.h.rst.exceptions
+> index 828cca8e2daa..6295b0fa5716 100644
+> --- a/Documentation/userspace-api/media/videodev2.h.rst.exceptions
+> +++ b/Documentation/userspace-api/media/videodev2.h.rst.exceptions
+> @@ -563,6 +563,8 @@ ignore define V4L2_CTRL_DRIVER_PRIV
+>  ignore define V4L2_CTRL_MAX_DIMS
+>  ignore define V4L2_CTRL_WHICH_CUR_VAL
+>  ignore define V4L2_CTRL_WHICH_DEF_VAL
+> +ignore define V4L2_CTRL_WHICH_MIN_VAL
+> +ignore define V4L2_CTRL_WHICH_MAX_VAL
+>  ignore define V4L2_CTRL_WHICH_REQUEST_VAL
+>  ignore define V4L2_OUT_CAP_CUSTOM_TIMINGS
+>  ignore define V4L2_CID_MAX_CTRLS
+> diff --git a/drivers/media/i2c/imx214.c b/drivers/media/i2c/imx214.c
+> index 83c1737abeec..aa0bfd18f7b7 100644
+> --- a/drivers/media/i2c/imx214.c
+> +++ b/drivers/media/i2c/imx214.c
+> @@ -1037,7 +1037,10 @@ static int imx214_probe(struct i2c_client *client)
+>  	imx214->unit_size = v4l2_ctrl_new_std_compound(&imx214->ctrls,
+>  				NULL,
+>  				V4L2_CID_UNIT_CELL_SIZE,
+> -				v4l2_ctrl_ptr_create((void *)&unit_size));
+> +				v4l2_ctrl_ptr_create((void *)&unit_size),
+> +				v4l2_ctrl_ptr_create(NULL),
+> +				v4l2_ctrl_ptr_create(NULL));
+> +
+>  	ret = imx214->ctrls.error;
+>  	if (ret) {
+>  		dev_err(&client->dev, "%s control init failed (%d)\n",
+> diff --git a/drivers/media/platform/qcom/venus/venc_ctrls.c b/drivers/media/platform/qcom/venus/venc_ctrls.c
+> index 7468e43800a9..28eca8f9d148 100644
+> --- a/drivers/media/platform/qcom/venus/venc_ctrls.c
+> +++ b/drivers/media/platform/qcom/venus/venc_ctrls.c
+> @@ -607,11 +607,16 @@ int venc_ctrl_init(struct venus_inst *inst)
+>  
+>  	v4l2_ctrl_new_std_compound(&inst->ctrl_handler, &venc_ctrl_ops,
+>  				   V4L2_CID_COLORIMETRY_HDR10_CLL_INFO,
+> -				   v4l2_ctrl_ptr_create(&p_hdr10_cll));
+> +				   v4l2_ctrl_ptr_create(&p_hdr10_cll),
+> +				   v4l2_ctrl_ptr_create(NULL),
+> +				   v4l2_ctrl_ptr_create(NULL));
+>  
+>  	v4l2_ctrl_new_std_compound(&inst->ctrl_handler, &venc_ctrl_ops,
+>  				   V4L2_CID_COLORIMETRY_HDR10_MASTERING_DISPLAY,
+> -				   v4l2_ctrl_ptr_create((void *)&p_hdr10_mastering));
+> +				   v4l2_ctrl_ptr_create((void *)&p_hdr10_mastering),
+> +				   v4l2_ctrl_ptr_create(NULL),
+> +				   v4l2_ctrl_ptr_create(NULL));
+> +
+>  
+>  	v4l2_ctrl_new_std_menu(&inst->ctrl_handler, &venc_ctrl_ops,
+>  			       V4L2_CID_MPEG_VIDEO_INTRA_REFRESH_PERIOD_TYPE,
+> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-api.c b/drivers/media/v4l2-core/v4l2-ctrls-api.c
+> index d0a3aa3806fb..3bfab11fe148 100644
+> --- a/drivers/media/v4l2-core/v4l2-ctrls-api.c
+> +++ b/drivers/media/v4l2-core/v4l2-ctrls-api.c
+> @@ -94,6 +94,34 @@ static int def_to_user(struct v4l2_ext_control *c, struct v4l2_ctrl *ctrl)
+>  	return ptr_to_user(c, ctrl, ctrl->p_new);
+>  }
+>  
+> +/* Helper function: copy the minimum control value back to the caller */
+> +static int min_to_user(struct v4l2_ext_control *c, struct v4l2_ctrl *ctrl)
+> +{
+> +	int idx, ret;
+> +
+> +	for (idx = 0; idx < ctrl->elems; idx++) {
+> +		ret = ctrl->type_ops->minimum(ctrl, idx, ctrl->p_new);
+> +		if (ret)
+> +			return ret;
+> +	}
+> +
+> +	return ptr_to_user(c, ctrl, ctrl->p_new);
+> +}
+> +
+> +/* Helper function: copy the maximum control value back to the caller */
+> +static int max_to_user(struct v4l2_ext_control *c, struct v4l2_ctrl *ctrl)
+> +{
+> +	int idx, ret;
+> +
+> +	for (idx = 0; idx < ctrl->elems; idx++) {
+> +		ret = ctrl->type_ops->maximum(ctrl, idx, ctrl->p_new);
+> +		if (ret)
+> +			return ret;
+> +	}
+> +
+> +	return ptr_to_user(c, ctrl, ctrl->p_new);
+> +}
+
+This needs to change: the minimum/maximum ops should work just like the init op:
+they fill the whole array, not just one element.
+
+> +
+>  /* Helper function: copy the caller-provider value as the new control value */
+>  static int user_to_new(struct v4l2_ext_control *c, struct v4l2_ctrl *ctrl)
+>  {
+> @@ -228,8 +256,8 @@ static int prepare_ext_ctrls(struct v4l2_ctrl_handler *hdl,
+>  		cs->error_idx = i;
+>  
+>  		if (cs->which &&
+> -		    cs->which != V4L2_CTRL_WHICH_DEF_VAL &&
+> -		    cs->which != V4L2_CTRL_WHICH_REQUEST_VAL &&
+> +		    (cs->which < V4L2_CTRL_WHICH_DEF_VAL ||
+> +		     cs->which > V4L2_CTRL_WHICH_MAX_VAL) &&
+>  		    V4L2_CTRL_ID2WHICH(id) != cs->which) {
+>  			dprintk(vdev,
+>  				"invalid which 0x%x or control id 0x%x\n",
+> @@ -367,8 +395,8 @@ static int prepare_ext_ctrls(struct v4l2_ctrl_handler *hdl,
+>   */
+>  static int class_check(struct v4l2_ctrl_handler *hdl, u32 which)
+>  {
+> -	if (which == 0 || which == V4L2_CTRL_WHICH_DEF_VAL ||
+> -	    which == V4L2_CTRL_WHICH_REQUEST_VAL)
+> +	if (which == 0 || (which >= V4L2_CTRL_WHICH_DEF_VAL &&
+> +			   which <= V4L2_CTRL_WHICH_MAX_VAL))
+>  		return 0;
+>  	return find_ref_lock(hdl, which | 1) ? 0 : -EINVAL;
+>  }
+> @@ -388,10 +416,12 @@ int v4l2_g_ext_ctrls_common(struct v4l2_ctrl_handler *hdl,
+>  	struct v4l2_ctrl_helper *helpers = helper;
+>  	int ret;
+>  	int i, j;
+> -	bool is_default, is_request;
+> +	bool is_default, is_request, is_min, is_max;
+>  
+>  	is_default = (cs->which == V4L2_CTRL_WHICH_DEF_VAL);
+>  	is_request = (cs->which == V4L2_CTRL_WHICH_REQUEST_VAL);
+> +	is_min = (cs->which == V4L2_CTRL_WHICH_MIN_VAL);
+> +	is_max = (cs->which == V4L2_CTRL_WHICH_MAX_VAL);
+>  
+>  	cs->error_idx = cs->count;
+>  	cs->which = V4L2_CTRL_ID2WHICH(cs->which);
+> @@ -431,13 +461,14 @@ int v4l2_g_ext_ctrls_common(struct v4l2_ctrl_handler *hdl,
+>  
+>  		/*
+>  		 * g_volatile_ctrl will update the new control values.
+> -		 * This makes no sense for V4L2_CTRL_WHICH_DEF_VAL and
+> +		 * This makes no sense for V4L2_CTRL_WHICH_DEF_VAL,
+> +		 * V4L2_CTRL_WHICH_MIN_VAL, V4L2_CTRL_WHICH_MAX_VAL and
+>  		 * V4L2_CTRL_WHICH_REQUEST_VAL. In the case of requests
+>  		 * it is v4l2_ctrl_request_complete() that copies the
+>  		 * volatile controls at the time of request completion
+>  		 * to the request, so you don't want to do that again.
+>  		 */
+> -		if (!is_default && !is_request &&
+> +		if (!is_default && !is_request && !is_min && !is_max &&
+>  		    ((master->flags & V4L2_CTRL_FLAG_VOLATILE) ||
+>  		    (master->has_volatiles && !is_cur_manual(master)))) {
+>  			for (j = 0; j < master->ncontrols; j++)
+> @@ -466,6 +497,10 @@ int v4l2_g_ext_ctrls_common(struct v4l2_ctrl_handler *hdl,
+>  				ret = -ENOMEM;
+>  			else if (is_request && ref->p_req_valid)
+>  				ret = req_to_user(cs->controls + idx, ref);
+> +			else if (is_min)
+> +				ret = min_to_user(cs->controls + idx, ref->ctrl);
+> +			else if (is_max)
+> +				ret = max_to_user(cs->controls + idx, ref->ctrl);
+>  			else if (is_volatile)
+>  				ret = new_to_user(cs->controls + idx, ref->ctrl);
+>  			else
+> @@ -563,9 +598,11 @@ int try_set_ext_ctrls_common(struct v4l2_fh *fh,
+>  
+>  	cs->error_idx = cs->count;
+>  
+> -	/* Default value cannot be changed */
+> -	if (cs->which == V4L2_CTRL_WHICH_DEF_VAL) {
+> -		dprintk(vdev, "%s: cannot change default value\n",
+> +	/* Default/minimum/maximum values cannot be changed */
+> +	if (cs->which == V4L2_CTRL_WHICH_DEF_VAL ||
+> +	    cs->which == V4L2_CTRL_WHICH_MIN_VAL ||
+> +	    cs->which == V4L2_CTRL_WHICH_MAX_VAL) {
+> +		dprintk(vdev, "%s: cannot change default/min/max value\n",
+>  			video_device_node_name(vdev));
+>  		return -EINVAL;
+>  	}
+> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-core.c b/drivers/media/v4l2-core/v4l2-ctrls-core.c
+> index 0ac36ebc45dd..e43d5369f6af 100644
+> --- a/drivers/media/v4l2-core/v4l2-ctrls-core.c
+> +++ b/drivers/media/v4l2-core/v4l2-ctrls-core.c
+> @@ -177,6 +177,30 @@ static void std_init_compound(const struct v4l2_ctrl *ctrl, u32 idx,
+>  	}
+>  }
+>  
+> +static int std_min_compound(const struct v4l2_ctrl *ctrl, u32 idx,
+> +			    union v4l2_ctrl_ptr ptr)
+> +{
+> +	void *p = ptr.p + idx * ctrl->elem_size;
+> +
+> +	if (!ctrl->p_min.p_const)
+> +		return -EINVAL;
+> +
+> +	memcpy(p, ctrl->p_min.p_const, ctrl->elem_size);
+> +	return 0;
+> +}
+> +
+> +static int std_max_compound(const struct v4l2_ctrl *ctrl, u32 idx,
+> +			    union v4l2_ctrl_ptr ptr)
+> +{
+> +	void *p = ptr.p + idx * ctrl->elem_size;
+> +
+> +	if (!ctrl->p_max.p_const)
+> +		return -EINVAL;
+> +
+> +	memcpy(p, ctrl->p_max.p_const, ctrl->elem_size);
+> +	return 0;
+> +}
+> +
+>  void v4l2_ctrl_type_op_init(const struct v4l2_ctrl *ctrl, u32 from_idx,
+>  			    union v4l2_ctrl_ptr ptr)
+>  {
+> @@ -247,6 +271,96 @@ void v4l2_ctrl_type_op_init(const struct v4l2_ctrl *ctrl, u32 from_idx,
+>  }
+>  EXPORT_SYMBOL(v4l2_ctrl_type_op_init);
+>  
+> +static int v4l2_ctrl_type_op_minimum(const struct v4l2_ctrl *ctrl, u32 idx,
+> +				     union v4l2_ctrl_ptr ptr)
+> +{
+> +	int ret;
+> +
+> +	switch (ctrl->type) {
+> +	case V4L2_CTRL_TYPE_STRING:
+> +		idx *= ctrl->elem_size;
+> +		memset(ptr.p_char + idx, ' ', ctrl->minimum);
+> +		ptr.p_char[idx + ctrl->minimum] = '\0';
+> +		break;
+> +	case V4L2_CTRL_TYPE_INTEGER64:
+> +		ptr.p_s64[idx] = ctrl->minimum;
+> +		break;
+> +	case V4L2_CTRL_TYPE_INTEGER:
+> +	case V4L2_CTRL_TYPE_INTEGER_MENU:
+> +	case V4L2_CTRL_TYPE_MENU:
+> +	case V4L2_CTRL_TYPE_BITMASK:
+> +	case V4L2_CTRL_TYPE_BOOLEAN:
+> +		ptr.p_s32[idx] = ctrl->minimum;
+> +		break;
+> +	case V4L2_CTRL_TYPE_BUTTON:
+> +	case V4L2_CTRL_TYPE_CTRL_CLASS:
+> +		ptr.p_s32[idx] = 0;
+> +		break;
+> +	case V4L2_CTRL_TYPE_U8:
+> +		ptr.p_u8[idx] = ctrl->minimum;
+> +		break;
+> +	case V4L2_CTRL_TYPE_U16:
+> +		ptr.p_u16[idx] = ctrl->minimum;
+> +		break;
+> +	case V4L2_CTRL_TYPE_U32:
+> +		ptr.p_u32[idx] = ctrl->minimum;
+> +		break;
+> +	default:
+> +		ret = std_min_compound(ctrl, idx, ptr);
+> +		if (ret)
+> +			return ret;
+> +
+> +		break;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int v4l2_ctrl_type_op_maximum(const struct v4l2_ctrl *ctrl, u32 idx,
+> +				     union v4l2_ctrl_ptr ptr)
+
+The v4l2_ctrl_type_op_init, v4l2_ctrl_type_op_minimum and v4l2_ctrl_type_op_maximum
+functions are all awfully similar. The only difference is ctrl->default_value/minimum/maximum.
+
+So perhaps this can be changed to a common function that has this as an argument.
+
+Note that these minimum/maximum ops should look like the init op: they need to
+fill all elements of the control array, not just one element.
+
+> +{
+> +	int ret;
+> +
+> +	switch (ctrl->type) {
+> +	case V4L2_CTRL_TYPE_STRING:
+> +		idx *= ctrl->elem_size;
+> +		memset(ptr.p_char + idx, ' ', ctrl->maximum);
+> +		ptr.p_char[idx + ctrl->maximum] = '\0';
+> +		break;
+> +	case V4L2_CTRL_TYPE_INTEGER64:
+> +		ptr.p_s64[idx] = ctrl->maximum;
+> +		break;
+> +	case V4L2_CTRL_TYPE_INTEGER:
+> +	case V4L2_CTRL_TYPE_INTEGER_MENU:
+> +	case V4L2_CTRL_TYPE_MENU:
+> +	case V4L2_CTRL_TYPE_BITMASK:
+> +	case V4L2_CTRL_TYPE_BOOLEAN:
+> +		ptr.p_s32[idx] = ctrl->maximum;
+> +		break;
+> +	case V4L2_CTRL_TYPE_BUTTON:
+> +	case V4L2_CTRL_TYPE_CTRL_CLASS:
+> +		ptr.p_s32[idx] = 0;
+> +		break;
+> +	case V4L2_CTRL_TYPE_U8:
+> +		ptr.p_u8[idx] = ctrl->maximum;
+> +		break;
+> +	case V4L2_CTRL_TYPE_U16:
+> +		ptr.p_u16[idx] = ctrl->maximum;
+> +		break;
+> +	case V4L2_CTRL_TYPE_U32:
+> +		ptr.p_u32[idx] = ctrl->maximum;
+> +		break;
+> +	default:
+> +		ret = std_max_compound(ctrl, idx, ptr);
+> +		if (ret)
+> +			return ret;
+> +
+> +		break;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+>  void v4l2_ctrl_type_op_log(const struct v4l2_ctrl *ctrl)
+>  {
+>  	union v4l2_ctrl_ptr ptr = ctrl->p_cur;
+> @@ -1043,6 +1157,8 @@ EXPORT_SYMBOL(v4l2_ctrl_type_op_validate);
+>  static const struct v4l2_ctrl_type_ops std_type_ops = {
+>  	.equal = v4l2_ctrl_type_op_equal,
+>  	.init = v4l2_ctrl_type_op_init,
+> +	.minimum = v4l2_ctrl_type_op_minimum,
+> +	.maximum = v4l2_ctrl_type_op_maximum,
+>  	.log = v4l2_ctrl_type_op_log,
+>  	.validate = v4l2_ctrl_type_op_validate,
+>  };
+> @@ -1514,7 +1630,10 @@ static struct v4l2_ctrl *v4l2_ctrl_new(struct v4l2_ctrl_handler *hdl,
+>  			s64 min, s64 max, u64 step, s64 def,
+>  			const u32 dims[V4L2_CTRL_MAX_DIMS], u32 elem_size,
+>  			u32 flags, const char * const *qmenu,
+> -			const s64 *qmenu_int, const union v4l2_ctrl_ptr p_def,
+> +			const s64 *qmenu_int,
+> +			const union v4l2_ctrl_ptr p_def,
+> +			const union v4l2_ctrl_ptr p_min,
+> +			const union v4l2_ctrl_ptr p_max,
+>  			void *priv)
+>  {
+>  	struct v4l2_ctrl *ctrl;
+> @@ -1674,7 +1793,7 @@ static struct v4l2_ctrl *v4l2_ctrl_new(struct v4l2_ctrl_handler *hdl,
+>  		sz_extra += 2 * tot_ctrl_size;
+>  
+
+I would like to have a sanity check: if p_def.p_const == NULL, then
+p_min and p_max are NULL as well.
+
+Also, check that either both p_min and p_max are NULL, or both are not NULL.
+
+If either condition is false, then return -EINVAL.
+
+>  	if (type >= V4L2_CTRL_COMPOUND_TYPES && p_def.p_const)
+> -		sz_extra += elem_size;
+> +		sz_extra += elem_size * 3;
+
+I think this can be done a bit smarter:
+
+	if (type >= V4L2_CTRL_COMPOUND_TYPES && p_def.p_const)
+		sz_extra += elem_size;
+	if (type >= V4L2_CTRL_COMPOUND_TYPES && p_min.p_const)
+		sz_extra += elem_size * 2;
+
+This assumes that the sanity checks mentioned above are done first.
+
+>  
+>  	ctrl = kvzalloc(sizeof(*ctrl) + sz_extra, GFP_KERNEL);
+>  	if (ctrl == NULL) {
+> @@ -1739,6 +1858,13 @@ static struct v4l2_ctrl *v4l2_ctrl_new(struct v4l2_ctrl_handler *hdl,
+>  			ctrl->p_def.p = ctrl->p_cur.p + tot_ctrl_size;
+>  		memcpy(ctrl->p_def.p, p_def.p_const, elem_size);
+>  	}
+> +	if (type >= V4L2_CTRL_COMPOUND_TYPES &&
+> +	    p_min.p_const && p_max.p_const) {
+> +		ctrl->p_min.p = ctrl->p_cur.p + 2 * tot_ctrl_size;
+
+This is wrong, p_min has size elem_size, not tot_ctrl_size.
+
+I'd write this as:
+
+		ctrl->p_min.p = ctrl->p_def.p + elem_size;
+		memcpy(ctrl->p_min.p, p_min.p_const, elem_size);
+		ctrl->p_max.p = ctrl->p_min.p + elem_size;
+		memcpy(ctrl->p_max.p, p_max.p_const, elem_size);
+
+> +		memcpy(ctrl->p_min.p, p_min.p_const, elem_size);
+> +		ctrl->p_max.p = ctrl->p_cur.p + 3 * tot_ctrl_size;
+> +		memcpy(ctrl->p_max.p, p_max.p_const, elem_size);
+> +	}
+>  
+>  	ctrl->type_ops->init(ctrl, 0, ctrl->p_cur);
+>  	cur_to_new(ctrl);
+> @@ -1790,7 +1916,8 @@ struct v4l2_ctrl *v4l2_ctrl_new_custom(struct v4l2_ctrl_handler *hdl,
+>  			type, min, max,
+>  			is_menu ? cfg->menu_skip_mask : step, def,
+>  			cfg->dims, cfg->elem_size,
+> -			flags, qmenu, qmenu_int, cfg->p_def, priv);
+> +			flags, qmenu, qmenu_int, cfg->p_def, cfg->p_min,
+> +			cfg->p_max, priv);
+>  	if (ctrl)
+>  		ctrl->is_private = cfg->is_private;
+>  	return ctrl;
+> @@ -1815,7 +1942,8 @@ struct v4l2_ctrl *v4l2_ctrl_new_std(struct v4l2_ctrl_handler *hdl,
+>  	}
+>  	return v4l2_ctrl_new(hdl, ops, NULL, id, name, type,
+>  			     min, max, step, def, NULL, 0,
+> -			     flags, NULL, NULL, ptr_null, NULL);
+> +			     flags, NULL, NULL, ptr_null, ptr_null,
+> +			     ptr_null, NULL);
+>  }
+>  EXPORT_SYMBOL(v4l2_ctrl_new_std);
+>  
+> @@ -1848,7 +1976,8 @@ struct v4l2_ctrl *v4l2_ctrl_new_std_menu(struct v4l2_ctrl_handler *hdl,
+>  	}
+>  	return v4l2_ctrl_new(hdl, ops, NULL, id, name, type,
+>  			     0, max, mask, def, NULL, 0,
+> -			     flags, qmenu, qmenu_int, ptr_null, NULL);
+> +			     flags, qmenu, qmenu_int, ptr_null, ptr_null,
+> +			     ptr_null, NULL);
+>  }
+>  EXPORT_SYMBOL(v4l2_ctrl_new_std_menu);
+>  
+> @@ -1880,7 +2009,8 @@ struct v4l2_ctrl *v4l2_ctrl_new_std_menu_items(struct v4l2_ctrl_handler *hdl,
+>  	}
+>  	return v4l2_ctrl_new(hdl, ops, NULL, id, name, type,
+>  			     0, max, mask, def, NULL, 0,
+> -			     flags, qmenu, NULL, ptr_null, NULL);
+> +			     flags, qmenu, NULL, ptr_null, ptr_null,
+> +			     ptr_null, NULL);
+>  
+>  }
+>  EXPORT_SYMBOL(v4l2_ctrl_new_std_menu_items);
+> @@ -1888,7 +2018,9 @@ EXPORT_SYMBOL(v4l2_ctrl_new_std_menu_items);
+>  /* Helper function for standard compound controls */
+>  struct v4l2_ctrl *v4l2_ctrl_new_std_compound(struct v4l2_ctrl_handler *hdl,
+>  				const struct v4l2_ctrl_ops *ops, u32 id,
+> -				const union v4l2_ctrl_ptr p_def)
+> +				const union v4l2_ctrl_ptr p_def,
+> +				const union v4l2_ctrl_ptr p_min,
+> +				const union v4l2_ctrl_ptr p_max)
+>  {
+>  	const char *name;
+>  	enum v4l2_ctrl_type type;
+> @@ -1902,7 +2034,7 @@ struct v4l2_ctrl *v4l2_ctrl_new_std_compound(struct v4l2_ctrl_handler *hdl,
+>  	}
+>  	return v4l2_ctrl_new(hdl, ops, NULL, id, name, type,
+>  			     min, max, step, def, NULL, 0,
+> -			     flags, NULL, NULL, p_def, NULL);
+> +			     flags, NULL, NULL, p_def, p_min, p_max, NULL);
+>  }
+>  EXPORT_SYMBOL(v4l2_ctrl_new_std_compound);
+>  
+> @@ -1926,7 +2058,8 @@ struct v4l2_ctrl *v4l2_ctrl_new_int_menu(struct v4l2_ctrl_handler *hdl,
+>  	}
+>  	return v4l2_ctrl_new(hdl, ops, NULL, id, name, type,
+>  			     0, max, 0, def, NULL, 0,
+> -			     flags, NULL, qmenu_int, ptr_null, NULL);
+> +			     flags, NULL, qmenu_int, ptr_null, ptr_null,
+> +			     ptr_null, NULL);
+>  }
+>  EXPORT_SYMBOL(v4l2_ctrl_new_int_menu);
+>  
+> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
+> index fddba75d9074..5d49e6d71b64 100644
+> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
+> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+> @@ -893,7 +893,9 @@ static bool check_ext_ctrls(struct v4l2_ext_controls *c, unsigned long ioctl)
+>  			return false;
+>  		break;
+>  	case V4L2_CTRL_WHICH_DEF_VAL:
+> -		/* Default value cannot be changed */
+> +	case V4L2_CTRL_WHICH_MIN_VAL:
+> +	case V4L2_CTRL_WHICH_MAX_VAL:
+> +		/* Default, minimum or maximum value cannot be changed */
+>  		if (ioctl == VIDIOC_S_EXT_CTRLS ||
+>  		    ioctl == VIDIOC_TRY_EXT_CTRLS) {
+>  			c->error_idx = c->count;
+> diff --git a/include/media/v4l2-ctrls.h b/include/media/v4l2-ctrls.h
+> index 1846caf9dd53..555b561231ef 100644
+> --- a/include/media/v4l2-ctrls.h
+> +++ b/include/media/v4l2-ctrls.h
+> @@ -125,6 +125,8 @@ struct v4l2_ctrl_ops {
+>   *
+>   * @equal: return true if all ctrl->elems array elements are equal.
+>   * @init: initialize the value for array elements from from_idx to ctrl->elems.
+> + * @minimum: set the value to the minimum value of the control.
+> + * @maximum: set the value to the maximum value of the control.
+>   * @log: log the value.
+>   * @validate: validate the value for ctrl->new_elems array elements.
+>   *	Return 0 on success and a negative value otherwise.
+> @@ -134,6 +136,10 @@ struct v4l2_ctrl_type_ops {
+>  		      union v4l2_ctrl_ptr ptr1, union v4l2_ctrl_ptr ptr2);
+>  	void (*init)(const struct v4l2_ctrl *ctrl, u32 from_idx,
+>  		     union v4l2_ctrl_ptr ptr);
+> +	int (*minimum)(const struct v4l2_ctrl *ctrl, u32 idx,
+> +		       union v4l2_ctrl_ptr ptr);
+> +	int (*maximum)(const struct v4l2_ctrl *ctrl, u32 idx,
+> +		       union v4l2_ctrl_ptr ptr);
+>  	void (*log)(const struct v4l2_ctrl *ctrl);
+>  	int (*validate)(const struct v4l2_ctrl *ctrl, union v4l2_ctrl_ptr ptr);
+>  };
+> @@ -239,6 +245,12 @@ typedef void (*v4l2_ctrl_notify_fnc)(struct v4l2_ctrl *ctrl, void *priv);
+>   * @p_def:	The control's default value represented via a union which
+>   *		provides a standard way of accessing control types
+>   *		through a pointer (for compound controls only).
+> + * @p_min:	The control's minimum value represented via a union which
+> + *		provides a standard way of accessing control types
+> + *		through a pointer (for compound controls only).
+> + * @p_max:	The control's maximum value represented via a union which
+> + *		provides a standard way of accessing control types
+> + *		through a pointer (for compound controls only).
+>   * @p_cur:	The control's current value represented via a union which
+>   *		provides a standard way of accessing control types
+>   *		through a pointer.
+> @@ -298,6 +310,8 @@ struct v4l2_ctrl {
+>  	} cur;
+>  
+>  	union v4l2_ctrl_ptr p_def;
+> +	union v4l2_ctrl_ptr p_min;
+> +	union v4l2_ctrl_ptr p_max;
+>  	union v4l2_ctrl_ptr p_new;
+>  	union v4l2_ctrl_ptr p_cur;
+>  };
+> @@ -417,6 +431,8 @@ struct v4l2_ctrl_handler {
+>   * @step:	The control's step value for non-menu controls.
+>   * @def:	The control's default value.
+>   * @p_def:	The control's default value for compound controls.
+> + * @p_min:	The control's minimum value for compound controls.
+> + * @p_max:	The control's maximum value for compound controls.
+>   * @dims:	The size of each dimension.
+>   * @elem_size:	The size in bytes of the control.
+>   * @flags:	The control's flags.
+> @@ -446,6 +462,8 @@ struct v4l2_ctrl_config {
+>  	u64 step;
+>  	s64 def;
+>  	union v4l2_ctrl_ptr p_def;
+> +	union v4l2_ctrl_ptr p_min;
+> +	union v4l2_ctrl_ptr p_max;
+>  	u32 dims[V4L2_CTRL_MAX_DIMS];
+>  	u32 elem_size;
+>  	u32 flags;
+> @@ -715,17 +733,23 @@ struct v4l2_ctrl *v4l2_ctrl_new_std_menu_items(struct v4l2_ctrl_handler *hdl,
+>   * @ops:       The control ops.
+>   * @id:        The control ID.
+>   * @p_def:     The control's default value.
+> + * @p_min:     The control's minimum value.
+> + * @p_max:     The control's maximum value.
+>   *
+> - * Sames as v4l2_ctrl_new_std(), but with support to compound controls, thanks
+> - * to the @p_def field. Use v4l2_ctrl_ptr_create() to create @p_def from a
+> - * pointer. Use v4l2_ctrl_ptr_create(NULL) if the default value of the
+> - * compound control should be all zeroes.
+> + * Same as v4l2_ctrl_new_std(), but with support to compound controls, thanks
+> + * to the @p_def/min/max field. Use v4l2_ctrl_ptr_create() to create
+> + * @p_def/min/max from a pointer. Use v4l2_ctrl_ptr_create(NULL) if the
+> + * default value of the compound control should be all zeroes. Use
+> + * v4l2_ctrl_ptr_create(NULL) if the min/max value of the compound control
+> + * is not defined, an error will be returned in this case.
+>   *
+>   */
+>  struct v4l2_ctrl *v4l2_ctrl_new_std_compound(struct v4l2_ctrl_handler *hdl,
+>  					     const struct v4l2_ctrl_ops *ops,
+>  					     u32 id,
+> -					     const union v4l2_ctrl_ptr p_def);
+> +					     const union v4l2_ctrl_ptr p_def,
+> +					     const union v4l2_ctrl_ptr p_min,
+> +					     const union v4l2_ctrl_ptr p_max);
+>  
+>  /**
+>   * v4l2_ctrl_new_int_menu() - Create a new standard V4L2 integer menu control.
+> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+> index a81951c51325..5f698b49c02e 100644
+> --- a/include/uapi/linux/videodev2.h
+> +++ b/include/uapi/linux/videodev2.h
+> @@ -1827,6 +1827,8 @@ struct v4l2_ext_controls {
+>  #define V4L2_CTRL_WHICH_CUR_VAL   0
+>  #define V4L2_CTRL_WHICH_DEF_VAL   0x0f000000
+>  #define V4L2_CTRL_WHICH_REQUEST_VAL 0x0f010000
+> +#define V4L2_CTRL_WHICH_MIN_VAL   0x0f020000
+> +#define V4L2_CTRL_WHICH_MAX_VAL   0x0f030000
+>  
+>  enum v4l2_ctrl_type {
+>  	V4L2_CTRL_TYPE_INTEGER	     = 1,
+
+Regards,
+
+	Hans
