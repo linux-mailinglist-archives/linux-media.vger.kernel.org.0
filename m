@@ -2,133 +2,131 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5ACC75F1454
-	for <lists+linux-media@lfdr.de>; Fri, 30 Sep 2022 23:05:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2EF035F1561
+	for <lists+linux-media@lfdr.de>; Sat,  1 Oct 2022 00:00:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232321AbiI3VFg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 30 Sep 2022 17:05:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60224 "EHLO
+        id S231879AbiI3WAR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 30 Sep 2022 18:00:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36284 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232192AbiI3VFf (ORCPT
+        with ESMTP id S231487AbiI3WAP (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 30 Sep 2022 17:05:35 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF6C18C020;
-        Fri, 30 Sep 2022 14:05:29 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5DBFA4D5;
-        Fri, 30 Sep 2022 23:05:27 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1664571927;
-        bh=yMPbFOlWA6DnUrGYk0efelboSLYqi558kgrzCCOcZss=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=sgQIyFYxgzelUKNDM9EkplmoUAS7EnjG1MlPNcTrXxXb1BrmUpMTqbKodj8yQBfCl
-         6y4Wg1Qh/lAwAE82AH6EH9LpmeXgrdfBud868Za0b6MMTxaklfGv3U6r18dGkp85mR
-         V3reQtJyugrKYkgOSQaZXq1fAHGIUQzC4J13LEFs=
-Date:   Sat, 1 Oct 2022 00:05:25 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Fri, 30 Sep 2022 18:00:15 -0400
+Received: from mail-oo1-f46.google.com (mail-oo1-f46.google.com [209.85.161.46])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 665BC6CF4E;
+        Fri, 30 Sep 2022 15:00:13 -0700 (PDT)
+Received: by mail-oo1-f46.google.com with SMTP id m11-20020a4aab8b000000b00476743c0743so3119670oon.10;
+        Fri, 30 Sep 2022 15:00:13 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
+        bh=LLT3ZYBdhjAVbmPO/uc2xLKM7qGWQtc4/hcvgBHyd9s=;
+        b=lXG2RbSv9XLijqIIokFRQR2/4OXodHdVsheKP1uiCTaD+Ziu+WzLlBPGJBEnEYdCAn
+         HVGMhAYmHMcshXNFK21PawZn3p6PBPzMUHEcKxuMykf/6h8ksoO8PhuzLhspKz0EzWtR
+         1uZlUCusjL/kjhPxLGdTjjq0o3RIZrONvWnQiDgO+xU7R3EEBnIAFr6saWJx8QCykUny
+         efxKLDnaD9cG3K+ch/pKfn+B6LHZUrdlTo2g8u1K4c26FVoPoq2dNMLK8XqSRH0a+PFQ
+         Y9HkbaVEMpBrt0OFMt0hSs3gwkq+oRqyFWQxaJ3v3ISiFB6zaA9ncPluNx525QWLx7x1
+         p9Ew==
+X-Gm-Message-State: ACrzQf2py4r+wS0gwO3jfQsGnAkm9k5SalmObE23eti09yUCxo7CnvoH
+        9QPBbNGRxhusiug+u1x/9Q==
+X-Google-Smtp-Source: AMsMyM6IrejG/870CvnrzUlNmyBET4I5DXOzFKtUrfEAwncNQElS2UqVUUb3+tMW/6JK2TF/26FdJg==
+X-Received: by 2002:a9d:ed2:0:b0:657:438a:eefb with SMTP id 76-20020a9d0ed2000000b00657438aeefbmr4289417otj.239.1664575212616;
+        Fri, 30 Sep 2022 15:00:12 -0700 (PDT)
+Received: from macbook.herring.priv (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id g65-20020acab644000000b0035028730c90sm782022oif.1.2022.09.30.15.00.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 30 Sep 2022 15:00:11 -0700 (PDT)
+Received: (nullmailer pid 1111251 invoked by uid 1000);
+        Fri, 30 Sep 2022 22:00:11 -0000
+Date:   Fri, 30 Sep 2022 17:00:11 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Allen-KH Cheng <allen-kh.cheng@mediatek.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Project_Global_Chrome_Upstream_Group@mediatek.com,
         linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Biju Das <biju.das.jz@bp.renesas.com>
-Subject: Re: [PATCH v2 2/4] media: dt-bindings: Document Renesas RZ/G2L CRU
- block
-Message-ID: <YzdaFRA0L+qKbfMx@pendragon.ideasonboard.com>
-References: <20220905230406.30801-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20220905230406.30801-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <29d456ed-620c-8dc9-01f0-54f96b670b94@linaro.org>
- <YysHAkWBfTTAJF3E@pendragon.ideasonboard.com>
- <ba436dd5-2ea2-b2e0-7056-5bae6b4c7bb4@linaro.org>
- <YytJ/oJK9s2mfqPL@pendragon.ideasonboard.com>
- <bba1ed72-d691-b51c-dce8-ab9a2e45fe86@linaro.org>
- <YyxnJ/Ho5rZQzDDN@pendragon.ideasonboard.com>
- <CA+V-a8vaHPbXQWyMeVWsFaf3mUSAECcJiiww5xmhC99+zm3SuQ@mail.gmail.com>
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-mediatek@lists.infradead.org
+Subject: Re: [PATCH v4 1/2] media: dt-bindings: mediatek: Rename child node
+ names for decoder
+Message-ID: <20220930220011.GA1107972-robh@kernel.org>
+References: <20220930112237.14411-1-allen-kh.cheng@mediatek.com>
+ <20220930112237.14411-2-allen-kh.cheng@mediatek.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CA+V-a8vaHPbXQWyMeVWsFaf3mUSAECcJiiww5xmhC99+zm3SuQ@mail.gmail.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <20220930112237.14411-2-allen-kh.cheng@mediatek.com>
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
+        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Prabhakar,
+On Fri, Sep 30, 2022 at 07:22:36PM +0800, Allen-KH Cheng wrote:
+> In order to make the names of the child nodes more generic, we rename
+> "vcodec" to "video-codec" for decoder in patternProperties and example.
 
-On Fri, Sep 30, 2022 at 11:49:22AM +0100, Lad, Prabhakar wrote:
-> On Thu, Sep 22, 2022 at 2:46 PM Laurent Pinchart wrote:
-> > On Wed, Sep 21, 2022 at 08:58:26PM +0200, Krzysztof Kozlowski wrote:
-> > > On 21/09/2022 19:29, Laurent Pinchart wrote:
-> > > >>>>> +  clock-names:
-> > > >>>>> +    items:
-> > > >>>>> +      - const: vclk
-> > > >>>>> +      - const: pclk
-> > > >>>>> +      - const: aclk
-> > > >>>>
-> > > >>>> Drop the "clk" suffixes. Remaining names could be made a bit more readable.
-> > > >>>
-> > > >>> These names come from the documentation, isn't it better to match the
-> > > >>> datasheet ?
-> > > >>
-> > > >> If datasheet calls it "vclk_really_clk_it_is_clk_clk", it's not the
-> > > >> reason to use it. :)
-> > > >>
-> > > >> The "clk" is redundant even if the hardware engineer thought different.
-> > > >>
-> > > >> The same for IRQs ("tx" not "txirq"), for dmas ("tx" not "txdma").
-> > > >
-> > > > I'd argue that naming clocks "v", "p" and "a" would be less readable and
-> > > > more confusing. Is this a new rule ?
-> > >
-> > > Not really, but also it's only a style issue.
-> > >
-> > > Indeed "v" and "p" are not much better... but still "vclk" does not
-> > > bring any additional information over "v". It's redundant.
-> > >
-> > > You can also drop entire entry - unless it helps in particular
-> > > implementation.
-> >
-> > There are multiple clocks, so I think names are better than indices. If
-> > you really insist we could name them "v", "p" and "a", but I think the
-> > clk suffix here improves readability. If those clocks were named
-> > "videoclk", "pixelclk" and "axiclk" I'd be fine dropping the suffix, but
-> > that's not the case here.
-> 
-> I have got the below details from the HW  team:
-> 
-> CRU_SYSCLK -> System clock for CSI-2 DPHY
-> CRU_VCLK -> video clock
-> CRU_PCLK -> APB clock
-> CRU_ACLK -> AXI clock
-> 
-> So I'll rename the clocks to below respectively:
-> 
-> +  clock-names:
-> +    items:
-> +      - const: system
-> +      - const: video
-> +      - const: apb
-> +      - const: axi
-> 
-> Does the above sound good?
+They are either generic or they aren't. Until something generic is 
+defined, I don't think it's worth the churn to change.
 
-That's great, thank you !
 
--- 
-Regards,
+> Signed-off-by: Allen-KH Cheng <allen-kh.cheng@mediatek.com>
+> Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+> ---
+>  .../bindings/media/mediatek,vcodec-subdev-decoder.yaml    | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/media/mediatek,vcodec-subdev-decoder.yaml b/Documentation/devicetree/bindings/media/mediatek,vcodec-subdev-decoder.yaml
+> index c4f20acdc1f8..67fde48f991c 100644
+> --- a/Documentation/devicetree/bindings/media/mediatek,vcodec-subdev-decoder.yaml
+> +++ b/Documentation/devicetree/bindings/media/mediatek,vcodec-subdev-decoder.yaml
+> @@ -91,7 +91,7 @@ properties:
+>  
+>  # Required child node:
+>  patternProperties:
+> -  '^vcodec-lat@[0-9a-f]+$':
+> +  '^video-codec-lat@[0-9a-f]+$':
 
-Laurent Pinchart
+Just 'video-codec' doesn't work?
+
+>      type: object
+>  
+>      properties:
+> @@ -145,7 +145,7 @@ patternProperties:
+>  
+>      additionalProperties: false
+>  
+> -  '^vcodec-core@[0-9a-f]+$':
+> +  '^video-codec-core@[0-9a-f]+$':
+>      type: object
+>  
+>      properties:
+> @@ -241,7 +241,7 @@ examples:
+>              #size-cells = <2>;
+>              ranges = <0 0 0 0x16000000 0 0x40000>;
+>              reg = <0 0x16000000 0 0x1000>;		/* VDEC_SYS */
+> -            vcodec-lat@10000 {
+> +            video-codec-lat@10000 {
+>                  compatible = "mediatek,mtk-vcodec-lat";
+>                  reg = <0 0x10000 0 0x800>;
+>                  interrupts = <GIC_SPI 426 IRQ_TYPE_LEVEL_HIGH 0>;
+> @@ -264,7 +264,7 @@ examples:
+>                  power-domains = <&spm MT8192_POWER_DOMAIN_VDEC>;
+>              };
+>  
+> -            vcodec-core@25000 {
+> +            video-codec-core@25000 {
+>                  compatible = "mediatek,mtk-vcodec-core";
+>                  reg = <0 0x25000 0 0x1000>;
+>                  interrupts = <GIC_SPI 425 IRQ_TYPE_LEVEL_HIGH 0>;
+> -- 
+> 2.18.0
+> 
+> 
