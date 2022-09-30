@@ -2,89 +2,110 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D9A1C5F04BF
-	for <lists+linux-media@lfdr.de>; Fri, 30 Sep 2022 08:19:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9FE5C5F04F4
+	for <lists+linux-media@lfdr.de>; Fri, 30 Sep 2022 08:41:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229797AbiI3GTs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 30 Sep 2022 02:19:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59740 "EHLO
+        id S230381AbiI3GlR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 30 Sep 2022 02:41:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58728 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229994AbiI3GTq (ORCPT
+        with ESMTP id S230368AbiI3GlP (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 30 Sep 2022 02:19:46 -0400
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 73A1210F9;
-        Thu, 29 Sep 2022 23:19:35 -0700 (PDT)
-X-UUID: 229bf0281b14485a85ef06c19501762a-20220930
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-        h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID; bh=Of3F+7sPVVjfsHtBLdfkKfBmX3fY1czHUbh00fJZAUE=;
-        b=bDo2qFqa/2Ci1EsPqzdagbjS1wcInvYNSPmaxh0qb6XhQCi/Soh0H+uQKepV7HR87lw81D6l/LYV+pNC5aNBnyonH75DdDwelSijxWQsz8WVOAkO+rmE8F4fIl7Md92dNv6IE3lJM9QTyBemfZrPJpjDTxfP9ZA8JoJXDJw3ndU=;
-X-CID-UNFAMILIAR: 1
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.11,REQID:ef91c13f-c991-421a-ac2b-fd2f76bbf4e2,IP:0,U
-        RL:0,TC:0,Content:-5,EDM:0,RT:0,SF:54,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
-        N:release,TS:49
-X-CID-INFO: VERSION:1.1.11,REQID:ef91c13f-c991-421a-ac2b-fd2f76bbf4e2,IP:0,URL
-        :0,TC:0,Content:-5,EDM:0,RT:0,SF:54,FILE:0,BULK:0,RULE:Release_HamU,ACTION
-        :release,TS:49
-X-CID-META: VersionHash:39a5ff1,CLOUDID:cd4098a3-dc04-435c-b19b-71e131a5fc35,B
-        ulkID:220930141931YWE3718G,BulkQuantity:0,Recheck:0,SF:38|28|16|19|48|823|
-        824|102,TC:nil,Content:0,EDM:-3,IP:nil,URL:1,File:nil,Bulk:nil,QS:nil,BEC:
-        nil,COL:0
-X-UUID: 229bf0281b14485a85ef06c19501762a-20220930
-Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by mailgw01.mediatek.com
-        (envelope-from <xiaoyong.lu@mediatek.com>)
-        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-        with ESMTP id 2007110508; Fri, 30 Sep 2022 14:19:29 +0800
-Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
- mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.792.3;
- Fri, 30 Sep 2022 14:19:28 +0800
-Received: from mhfsdcap04 (10.17.3.154) by mtkmbs11n2.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.2.792.15 via Frontend
- Transport; Fri, 30 Sep 2022 14:19:27 +0800
-Message-ID: <75bbf320eb1c54d2834012c1aafcc87105204e8d.camel@mediatek.com>
-Subject: Re: [RFC PATCH v3] media: mediatek: vcodec: support stateless AV1
- decoder
-From:   "xiaoyong.lu@mediatek.com" <xiaoyong.lu@mediatek.com>
-To:     Daniel Almeida <daniel.almeida@collabora.com>,
-        Yunfei Dong <yunfei.dong@mediatek.com>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        Tiffany Lin <tiffany.lin@mediatek.com>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Tomasz Figa <tfiga@google.com>
-CC:     Irui Wang <irui.wang@mediatek.com>,
-        George Sun <george.sun@mediatek.com>,
-        Steve Cho <stevecho@chromium.org>,
-        <srv_heupstream@mediatek.com>, <devicetree@vger.kernel.org>,
-        <Project_Global_Chrome_Upstream_Group@mediatek.com>,
-        <linux-kernel@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        <linux-mediatek@lists.infradead.org>,
-        Hsin-Yi Wang <hsinyi@chromium.org>,
-        Fritz Koenig <frkoenig@chromium.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-media@vger.kernel.org>
-Date:   Fri, 30 Sep 2022 14:19:26 +0800
-In-Reply-To: <927f95dd-283a-a3c0-6c2f-41a36bcc42ef@collabora.com>
-References: <20220901110416.21191-1-xiaoyong.lu@mediatek.com>
-         <927f95dd-283a-a3c0-6c2f-41a36bcc42ef@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+        Fri, 30 Sep 2022 02:41:15 -0400
+Received: from EUR05-VI1-obe.outbound.protection.outlook.com (mail-vi1eur05on2048.outbound.protection.outlook.com [40.107.21.48])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CDDF213DDB4;
+        Thu, 29 Sep 2022 23:41:13 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=GXZRXpuiqKN9NfHcrpBu4D5dggJec92ccqY8jQPpS5AgHntPoSzCm8g6HWsa8wTe6/rk8wCvC/fUfckGIv6NxEHC20WJ58h8UPMKgB/yDzq9+j5Ztg/DPCXoGRdIxNn3DWd1veS2hiMJIEaTNtuYqFweaZSwfzi/F4sqYW5caSBwTCBjpFdvepOmoLGrR4MRb84obFcEcBVy3CzN/oALex2VFHxQI4SDUBovv1dBR///Jeu28xqb2PTvP6GMOBhnIp4aWAH8o8cUcKtu0vL3Avl+LDtbYtgCUXp7k38Mt+ttZQ/l7AOJzooFrmKUZJqwX8JqmSaO8FR9+VEE06PynQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=7M/JtMp792+OsSFh6igLnhCjxWEygIu6JqcVO6GK53c=;
+ b=I7XVqKQBYpCPTbFgc1eK5yflAklLWYihg2f8ea/YwBrxq+HEr3nElsyQSWLUuxA5Q3ezvOsFM1Bgw/doqNmb/+hLpRxpQOT6RJVuK1fkTTBjDsQnUYJ+VlB4iK3zYcwm+HxaexzUIA8s9w210D8yplY+T0LZ1lSXzhihsSwkQwdLzWPtb732oY+AGatfBpguguGLtUqCIWrqljuSA352D89hwtgUkb3Ym+k4liei4JqRZvgh2an0l2G9nvKnszpdZO2HKiJs5kXCwunx4pcOJFn3bn0ibfPs0ktLbDz9dNnQdpKBwqoivuzsSNWZmhNC3U87YPkHJN0kmnAIpBEGMA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=7M/JtMp792+OsSFh6igLnhCjxWEygIu6JqcVO6GK53c=;
+ b=IKL5TlRRspcIqpO6RYocg7OWdfRbVLxwi8nSy0QySTQlU5rCg/dcw4dPHLKTUCblPeHKnR0Dvn1PA5/XalE4IPg1LZKY1efb9YRToqkgrcTcT80uxXnqwi8CZPcNxeaxKzFtRhgpLpLpOC/OOpG3aFT9MrFgJu6z9JwBYy6NUVk=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from AM6PR04MB6341.eurprd04.prod.outlook.com (2603:10a6:20b:d8::14)
+ by DU2PR04MB8998.eurprd04.prod.outlook.com (2603:10a6:10:2e1::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5654.26; Fri, 30 Sep
+ 2022 06:41:10 +0000
+Received: from AM6PR04MB6341.eurprd04.prod.outlook.com
+ ([fe80::4550:e439:2389:be53]) by AM6PR04MB6341.eurprd04.prod.outlook.com
+ ([fe80::4550:e439:2389:be53%5]) with mapi id 15.20.5676.023; Fri, 30 Sep 2022
+ 06:41:10 +0000
+From:   Ming Qian <ming.qian@nxp.com>
+To:     mchehab@kernel.org, hverkuil-cisco@xs4all.nl
+Cc:     shawnguo@kernel.org, robh+dt@kernel.org, s.hauer@pengutronix.de,
+        kernel@pengutronix.de, festevam@gmail.com, linux-imx@nxp.com,
+        xiahong.bao@nxp.com, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Subject: [PATCH] media: amphion: reset instance if it's aborted before codec header parsed
+Date:   Fri, 30 Sep 2022 14:40:47 +0800
+Message-Id: <20220930064047.19759-1-ming.qian@nxp.com>
+X-Mailer: git-send-email 2.37.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SI2PR02CA0039.apcprd02.prod.outlook.com
+ (2603:1096:4:196::9) To AM6PR04MB6341.eurprd04.prod.outlook.com
+ (2603:10a6:20b:d8::14)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-MTK:  N
-X-Spam-Status: No, score=0.4 required=5.0 tests=BAYES_00,DKIM_INVALID,
-        DKIM_SIGNED,HK_RANDOM_ENVFROM,HK_RANDOM_FROM,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_PASS,SPF_PASS,UNPARSEABLE_RELAY,URIBL_CSS autolearn=no
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AM6PR04MB6341:EE_|DU2PR04MB8998:EE_
+X-MS-Office365-Filtering-Correlation-Id: af07d2a7-8c11-4f62-3466-08daa2aec2fe
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: bSjarGprVSRO6XRmUVjTL5O+gy1maIFCZgMMLHXjJR35oYzrdln3QHB2w4O9hg0X4kAVKOF07ZUT5sJg+VVFlncjo7wOxZ7wtdIqBZMzYH79SSt+0EwfXvuAbpqcp264pJGZbhtzyZiIMFPMOQgbvHhm8UfRZVBe3TljW1J3C8CNe1eXkjAU17oq5NmS6xi9ya52nzHE83I0rdHXVAUYoewVypMF5tbsfXWgFhKCCvDQkPhSGbYX/CTxp9poxYNuu+nDCT44Lig7bjehMktfa873Yfw7GzaabADPk6VS3KIceb8EcyF3VGHPorRMkkP85a7krxWOyIbt9VN0zg8I8wOX+G1uOVhQM9djJA9si3rT4mU6qO1ra+hrwBKjn8VlNKb1O4/rU6+hhRKkBEw3iPpKH4VTfSA/RqnQyeM3+PyHxUQIMj+5WNKn2HlGhg5xJy9bpLUC6KcYk8iFhOIUQuKWy9nDjWaIJA9qwap5Olc3piQ1o02avlQFixM8NyBjd7aCTho3ZOXlxdooxdv1i0xaHb2Q+MzF95G6m49l9iWg7gsDY1uIRdIVIH9tMkrQxk8/iYWTTJeDzoBhd/OHSEgys3gDWVFiaAsJmDZxDlFkAtcQZJqodNLRJLGnuZKDsilLIEil2ww8F4vMYv+6yUOrFfrf5zeSTz6wNYjqKMmB7c86H6nRgI/S8xL6HiE8uuHAbvSvow9oZp4TzjG+E2Bv1v3YlPTRbqvebPIBNb+1oduR0g1akSxLZyLG5c1PemsKH+2W5kQA85KiD2AlOw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6PR04MB6341.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(366004)(39860400002)(376002)(136003)(396003)(346002)(451199015)(6486002)(6666004)(2616005)(38100700002)(38350700002)(2906002)(41300700001)(8936002)(4326008)(86362001)(66556008)(8676002)(316002)(26005)(66946007)(52116002)(6506007)(7416002)(36756003)(478600001)(5660300002)(44832011)(6512007)(66476007)(186003)(83380400001)(1076003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?wSgbllEOZ8ih8Yp7VXOm93HlEfbxEUI9D2lPSd+HWRC8G8SpKEgPUYym/UXn?=
+ =?us-ascii?Q?C238m9BhNILi+8aVRD79wChtiGOOr1pOi49HNU1VkbC50nXcgzhO0/wP6kmJ?=
+ =?us-ascii?Q?Oont4kMv3NgDVRDRjbtvuely6ZRGsSW97F4qoXcU0+Bv0KMFb8NtXeWtoCpF?=
+ =?us-ascii?Q?lYtfY5Orqf6eqNYA4u5UEKSDfFmnD0JUW8CqF1xgnDosJfm1FxKDWAH3i8xk?=
+ =?us-ascii?Q?zExh9LEho1Z+QqaVsdyMjAWbr7fDQGi7+7yyaBjGeAHG/sw46j5rk3asDKHS?=
+ =?us-ascii?Q?TUvDhcF9vBjjE/zfX/bu/FugBlbniEsrDsUkCMQRzMDXMK41fp145xwT8tuC?=
+ =?us-ascii?Q?02gIrWTjpCe7FjhuqEtIb1s1yE/rGoFGk6dkP3VU1Ceut9i/qIBKxbEmB/7T?=
+ =?us-ascii?Q?bSgiagX5rqqkDIGZujqE0a2ZiAFZ15N39M524fkpZoQ6aqMW745ajpkr31vk?=
+ =?us-ascii?Q?BbOSqFYfnDLQsRmV6/Kg6mnLYLzDxybfQqlaUPn9IshM1tMgBjUlER1fxPBk?=
+ =?us-ascii?Q?guHpDoQ8hdQkRMvXhyLmG4Ul53Dfk6Y05kNE8w8PlhDFFuiyWbEwt+CYSRGY?=
+ =?us-ascii?Q?TZ5VCfAu4UjVEKaQUKzaIMcWOTOnhYqRU9uWZzIfVaJEeK+kUsvXwLITnk+v?=
+ =?us-ascii?Q?TT4rCB7OX1Ag0AOwoxsKRh+d/BKZcnZAKq7CAsqfaYHOTDEI1fwOmXB5tIHK?=
+ =?us-ascii?Q?+c4BsWzrNokou0kKg79x8/6B2BKnNJIFxasCM+uyaIe2pxwxsJAFv3JYpY+j?=
+ =?us-ascii?Q?ji0Wylee3JnZzfZtFXO0yt45B9REkOY6Lnm1kgnlTpgFtdD9QFf1CRLrOoxO?=
+ =?us-ascii?Q?LILQte1npLqa/5R6ux9SV4Alx/a2KFWRqqTV3ykp8W2WHkYS+G8dONNIZoq7?=
+ =?us-ascii?Q?gxR3VHBXRntaIbstH+4DcoRBMhnls7Lr44z/Z7AIHcr7r9/FIvj78Jns//6T?=
+ =?us-ascii?Q?Kfh+NxSBf718dxPX4E4gf8KgxlS46abmcPqN1ykeiO1Uaec8356KsgaCvLIn?=
+ =?us-ascii?Q?T4aXfDxK4s1m72xg6sGekzyxRK21jYPXoUNMOKRbZ5v5A453p751ApZ/3yVY?=
+ =?us-ascii?Q?fCaWIdPYPfZV/TSqo0nkdQyv/gb4bDA1V+qAHGqDd+Erd0SlJdtRL7q4lPzv?=
+ =?us-ascii?Q?k4+tFc6AGLclj39+an+6aDn09qPuV981mHCqn86KnA9wfeR1D9nevY1SG1TX?=
+ =?us-ascii?Q?gOEHklyRREVpROIEhVYpWVYKfzzhTk1SToUROU4FCVU0zFo7UzlvvOYklkPo?=
+ =?us-ascii?Q?7Dzh50UwbTSBss0WwE83GMJQDwyD2GFA3BHdr4D3/gNeDj1j4SXMHNIORs12?=
+ =?us-ascii?Q?I+VpLheHdSWn35Kzpi9vb6++YBy+xgiWpY6vRQQscZZ1jDZjmKVdDnX28khU?=
+ =?us-ascii?Q?atDy4Coh6dZYwm/7O1tWzmvMkwxOjEnxjj/4yIaqjM+QgKK8zaEslesKkI/i?=
+ =?us-ascii?Q?s+xzL+sujnYzX146r7hMd5PEJgvtpI4P8ViaeRBOAU94GSwSPt7GVL1O+HI7?=
+ =?us-ascii?Q?LNlEyS40wqX2BMZuQefx5//DEf9ZQBYfpydvc6vqncWjiGxThVfAEDFbNFdF?=
+ =?us-ascii?Q?DALNoLlWLEHuWlSh8D0+hIyGveR8VwFtssJHavfS?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: af07d2a7-8c11-4f62-3466-08daa2aec2fe
+X-MS-Exchange-CrossTenant-AuthSource: AM6PR04MB6341.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Sep 2022 06:41:10.7826
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: l93UeRXKBIEnClTaclSSx3XpFIjIODEiFXi/2Zu3ZuJaIh6xuBLVWiJifRgBzNDF66ewJHOi1vbCxs5afbpv5g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU2PR04MB8998
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -92,212 +113,77 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Dear Daniel,
-Thanks for your good suggestion!
+there is hardware limitation that if it's aborted before
+the first codec header parsed, the codec may be stalled
+unless we do reset codec.
 
-I have updated v4 to fix
-your comment.
+and drop the source change event if it's triggered after reset.
 
-Changes from v3:
+Fixes: 6de8d628df6e ("media: amphion: add v4l2 m2m vpu decoder stateful driver")
+Signed-off-by: Ming Qian <ming.qian@nxp.com>
+---
+ drivers/media/platform/amphion/vdec.c | 13 ++++++++++---
+ 1 file changed, 10 insertions(+), 3 deletions(-)
 
-- modify comment for struct vdec_av1_slice_slot
-- add define SEG_LVL_ALT_Q
-- change use_lr/use_chroma_lr parse from av1 spec
-- use ARRAY_SIZE to replace size for loop_filter_level and
-loop_filter_mode_deltas
-- change array size of loop_filter_mode_deltas from 4 to 2
-- add define SECONDARY_FILTER_STRENGTH_NUM_BITS
-- change some hex values from upper case to lower case
-- change *dpb_sz equal to V4L2_AV1_TOTAL_REFS_PER_FRAME + 1
-- convert vb2_find_timestamp to vb2_find_buffer
-- test by av1 fluster, result is 173/239
-
-detail in link:
-
-https://patchwork.kernel.org/project/linux-mediatek/patch/20220930033000.22579-1-xiaoyong.lu@mediatek.com/
-
-
-thanks !
-Xiaoyong Lu
-
-On Thu, 2022-09-22 at 13:36 -0300, Daniel Almeida wrote:
-> Hi Xiaoyong.
-> 
-> Comments below (other code removed for brevity)
-> 
-> +/**
-> + * struct vdec_av1_slice_slot - slot info need save in global
-> instance
-> + * @frame_info: frame info for each slot
-> + * @timestamp:  time stamp info
-> + */
-> +struct vdec_av1_slice_slot {
-> +	struct vdec_av1_slice_frame_info
-> frame_info[AV1_MAX_FRAME_BUF_COUNT];
-> +	u64 timestamp[AV1_MAX_FRAME_BUF_COUNT];
-> +};
-> 
-> nit: slot info that needs to be saved in the global instance
-> 
-> +static int vdec_av1_slice_get_qindex(struct 
-> vdec_av1_slice_uncompressed_header *uh,
-> +				     int segmentation_id)
-> +{
-> +	struct vdec_av1_slice_seg *seg = &uh->seg;
-> +	struct vdec_av1_slice_quantization *quant = &uh->quant;
-> +	int data = 0, qindex = 0;
-> +
-> +	if (seg->segmentation_enabled &&
-> +	    (seg->feature_enabled_mask[segmentation_id] & BIT(0))) {
-> +		data = seg->feature_data[segmentation_id][0];
-> 
-> 
-> Maybe you should replace the 0 above by SEG_LVL_ALT_Q to be more 
-> explicit. Same goes for BIT(0).
-> 
-> +static void vdec_av1_slice_setup_lr(struct vdec_av1_slice_lr *lr,
-> +				    struct
-> v4l2_av1_loop_restoration  *ctrl_lr)
-> +{
-> +	int i;
-> +
-> +	for (i = 0; i < V4L2_AV1_NUM_PLANES_MAX; i++) {
-> +		lr->frame_restoration_type[i] = ctrl_lr-
-> >frame_restoration_type[i];
-> +		lr->loop_restoration_size[i] = ctrl_lr-
-> >loop_restoration_size[i];
-> +	}
-> +	lr->use_lr = !!lr->frame_restoration_type[0];
-> +	lr->use_chroma_lr = !!lr->frame_restoration_type[1];
-> +}
-> 
->  From a first glance, this looks a bit divergent from the spec?
-> 
-> for ( i = 0; i < NumPlanes; i++ ) {
->      lr_type
->      FrameRestorationType[i] = Remap_Lr_Type[lr_type]
->      if ( FrameRestorationType[i] != RESTORE_NONE ) {
->          UsesLr = 1
->          if ( i > 0 ) {
->              usesChromaLr = 1
->          }
->      }
-> }
-> 
-> I will include these two variables in the next iteration of the uapi
-> if 
-> computing them in the driver is problematic.
-> 
-> +static void vdec_av1_slice_setup_lf(struct
-> vdec_av1_slice_loop_filter *lf,
-> +				    struct v4l2_av1_loop_filter
-> *ctrl_lf)
-> +{
-> +	int i;
-> +
-> +	for (i = 0; i < 4; i++)
-> +		lf->loop_filter_level[i] = ctrl_lf->level[i];
-> +
-> +	for (i = 0; i < V4L2_AV1_TOTAL_REFS_PER_FRAME; i++)
-> +		lf->loop_filter_ref_deltas[i] = ctrl_lf->ref_deltas[i];
-> +
-> +	for (i = 0; i < 2; i++)
-> +		lf->loop_filter_mode_deltas[i] = ctrl_lf-
-> >mode_deltas[i];
-> +
-> +	lf->loop_filter_sharpness = ctrl_lf->sharpness;
-> +	lf->loop_filter_delta_enabled =
-> +		   BIT_FLAG(ctrl_lf,
-> V4L2_AV1_LOOP_FILTER_FLAG_DELTA_ENABLED);
-> +}
-> 
-> Maybe ARRAY_SIZE can be of use in the loop indices here?
-> 
-> +static void vdec_av1_slice_setup_cdef(struct vdec_av1_slice_cdef
-> *cdef,
-> +				      struct v4l2_av1_cdef *ctrl_cdef)
-> +{
-> +	int i;
-> +
-> +	cdef->cdef_damping = ctrl_cdef->damping_minus_3 + 3;
-> +	cdef->cdef_bits = ctrl_cdef->bits;
-> +
-> +	for (i = 0; i < V4L2_AV1_CDEF_MAX; i++) {
-> +		if (ctrl_cdef->y_sec_strength[i] == 4)
-> +			ctrl_cdef->y_sec_strength[i] -= 1;
-> +
-> +		if (ctrl_cdef->uv_sec_strength[i] == 4)
-> +			ctrl_cdef->uv_sec_strength[i] -= 1;
-> +
-> +		cdef->cdef_y_strength[i] = ctrl_cdef->y_pri_strength[i] 
-> << 2 |
-> +					   ctrl_cdef-
-> >y_sec_strength[i];
-> +		cdef->cdef_uv_strength[i] = ctrl_cdef-
-> >uv_pri_strength[i] << 2 |
-> +					    ctrl_cdef-
-> >uv_sec_strength[i];
-> +	}
-> +}
-> 
-> Maybe:
-> 
-> #define SECONDARY_FILTER_STRENGTH_NUM_BITS 2
-> 
-> +		cdef->cdef_y_strength[i] = ctrl_cdef->y_pri_strength[i] 
-> << 
-> SECONDARY_FILTER_STRENGTH_NUM_BITS |
-> +					   ctrl_cdef-
-> >y_sec_strength[i];
-> +		cdef->cdef_uv_strength[i] = ctrl_cdef-
-> >uv_pri_strength[i] << 
-> SECONDARY_FILTER_STRENGTH_NUM_BITS |
-> +					    ctrl_cdef-
-> >uv_sec_strength[i];
-> 
-> This should make it clearer.
-> 
-> +		sb_boundary_x_m1 =
-> +			(tile->mi_col_starts[tile_col + 1] - tile-
-> >mi_col_starts[tile_col] - 
-> 1) &
-> +			0x3F;
-> +		sb_boundary_y_m1 =
-> +			(tile->mi_row_starts[tile_row + 1] - tile-
-> >mi_row_starts[tile_row] - 
-> 1) &
-> +			0x1FF;
-> +
-> 
-> IIRC there's a preference for lower case hex values in the media
-> subsystem.
-> 
-> +static void vdec_av1_slice_get_dpb_size(struct
-> vdec_av1_slice_instance 
-> *instance, u32 *dpb_sz)
-> +{
-> +	/* refer av1 specification */
-> +	*dpb_sz = 9;
-> +}
-> 
-> That's actually defined as 8 in the spec, i.e.:
-> 
-> NUM_REF_FRAMES 8 Number of frames that can be stored for future
-> reference.
-> 
-> It's helpful to indicate the section if you reference the
-> specification, 
-> as it makes it easier for the reviewer to cross check.
-> 
-> +	/* get buffer address from vb2buf */
-> +	for (i = 0; i < V4L2_AV1_REFS_PER_FRAME; i++) {
-> +		struct vdec_av1_slice_fb *vref = &vsi->ref[i];
-> +		int idx = vb2_find_timestamp(vq, pfc->ref_idx[i], 0);
-> 
-> Needs to be converted to vb2_find_buffer in light of 
-> 
-https://lore.kernel.org/lkml/20220706182657.210650-3-ezequiel@vanguardiasur.com.ar/T/
-> 
-> -- Daniel
-> 
+diff --git a/drivers/media/platform/amphion/vdec.c b/drivers/media/platform/amphion/vdec.c
+index 9c3324717cbc..0d7676eee5ea 100644
+--- a/drivers/media/platform/amphion/vdec.c
++++ b/drivers/media/platform/amphion/vdec.c
+@@ -786,6 +786,9 @@ static bool vdec_check_source_change(struct vpu_inst *inst)
+ 	if (!inst->fh.m2m_ctx)
+ 		return false;
+ 
++	if (vdec->reset_codec)
++		return false;
++
+ 	sibling = vpu_helper_find_sibling(inst, inst->cap_format.type, inst->cap_format.pixfmt);
+ 	if (sibling && vdec->codec_info.pixfmt == sibling->pixfmt)
+ 		vdec->codec_info.pixfmt = inst->cap_format.pixfmt;
+@@ -1113,7 +1116,8 @@ static void vdec_event_seq_hdr(struct vpu_inst *inst, struct vpu_dec_codec_info
+ 		vdec->seq_tag = vdec->codec_info.tag;
+ 		if (vdec->is_source_changed) {
+ 			vdec_update_state(inst, VPU_CODEC_STATE_DYAMIC_RESOLUTION_CHANGE, 0);
+-			vpu_notify_source_change(inst);
++			vdec->source_change++;
++			vdec_handle_resolution_change(inst);
+ 			vdec->is_source_changed = false;
+ 		}
+ 	}
+@@ -1360,6 +1364,8 @@ static void vdec_abort(struct vpu_inst *inst)
+ 		  vdec->decoded_frame_count,
+ 		  vdec->display_frame_count,
+ 		  vdec->sequence);
++	if (!vdec->seq_hdr_found)
++		vdec->reset_codec = true;
+ 	vdec->params.end_flag = 0;
+ 	vdec->drain = 0;
+ 	vdec->params.frame_count = 0;
+@@ -1367,6 +1373,7 @@ static void vdec_abort(struct vpu_inst *inst)
+ 	vdec->display_frame_count = 0;
+ 	vdec->sequence = 0;
+ 	vdec->aborting = false;
++	inst->extra_size = 0;
+ }
+ 
+ static void vdec_stop(struct vpu_inst *inst, bool free)
+@@ -1489,8 +1496,7 @@ static int vdec_start_session(struct vpu_inst *inst, u32 type)
+ 	}
+ 
+ 	if (V4L2_TYPE_IS_OUTPUT(type)) {
+-		if (inst->state == VPU_CODEC_STATE_SEEK)
+-			vdec_update_state(inst, vdec->state, 1);
++		vdec_update_state(inst, vdec->state, 1);
+ 		vdec->eos_received = 0;
+ 		vpu_process_output_buffer(inst);
+ 	} else {
+@@ -1654,6 +1660,7 @@ static int vdec_open(struct file *file)
+ 		return ret;
+ 
+ 	vdec->fixed_fmt = false;
++	vdec->state = VPU_CODEC_STATE_ACTIVE;
+ 	inst->min_buffer_cap = VDEC_MIN_BUFFER_CAP;
+ 	inst->min_buffer_out = VDEC_MIN_BUFFER_OUT;
+ 	vdec_init(file);
+-- 
+2.37.1
 
