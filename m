@@ -2,101 +2,162 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2CD7A5F1B76
-	for <lists+linux-media@lfdr.de>; Sat,  1 Oct 2022 11:38:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 04A545F1BB8
+	for <lists+linux-media@lfdr.de>; Sat,  1 Oct 2022 12:07:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229770AbiJAJi2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 1 Oct 2022 05:38:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54356 "EHLO
+        id S229589AbiJAKHy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 1 Oct 2022 06:07:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57544 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229772AbiJAJiH (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sat, 1 Oct 2022 05:38:07 -0400
-Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com [IPv6:2a00:1450:4864:20::132])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 128A09E137
-        for <linux-media@vger.kernel.org>; Sat,  1 Oct 2022 02:36:16 -0700 (PDT)
-Received: by mail-lf1-x132.google.com with SMTP id d42so10279114lfv.0
-        for <linux-media@vger.kernel.org>; Sat, 01 Oct 2022 02:36:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date;
-        bh=ySbgyWorO38LTKoI632Q6sfES0ZxGVIwthdcT35EN3s=;
-        b=mJ/9ekSO9l8O12V28K4iivy8XqKo2KIaLUmuGRw9zvgRVhgPgDKCQFOUVu7JzW7WQ9
-         nmDIkf/G4ZY3Ftfa8DQYuzbws0JY8rcgovS3o+ZJ5UM2o0S3PSZe4O9UPvKlNr0Hyc/p
-         Y9PDjP4idxY/CQGHJqz7IZKPYpzFLYacT4HHqS4JJnNGqdJGsdjWRtn2Fu+S70qHuC3G
-         kJW7SiIS9ECVCWeGfhC4zVQh5MLlGZ5O9vCoRnviTub4Tt352aO+dA2/A8EP+od+BuDV
-         eKenX8Y1EI3zxGiTtdEfg1I5joXQHbWlOB6h5jPYMuaUcTTo3I7vhM4z6juR1o61Qoms
-         12bg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=ySbgyWorO38LTKoI632Q6sfES0ZxGVIwthdcT35EN3s=;
-        b=FkyduHMEacASbITrlARUH6CBz4aySQcjqBRJq0EmzMN6hj62QdqgPVe65rD1a0L8ga
-         wjWno/zqcvkyYeTA3UjLifxuAC/KJO0pGUtx/HxUJIqS5z9e0Y3cQhA/nzB9PduvOENj
-         LnegmFa45acq0+IXoaKcytte8mkuYHz/X/i2toJfJiFN935eYroNQ4C1WQFZhyIS4dJO
-         SO2x4Zx9lcPdg+OMyWDxYRdtgh9m9xmOShtOFyoaWYXOUDK39BcF5GX4VIJduKGI75oh
-         dch/K0zKFOnErWj1v79zisCmPccMbYVz8INEbN90o04WrVhsIM14wnrNc0miSjSrn3Jq
-         avjA==
-X-Gm-Message-State: ACrzQf0C/hQ3qC8rkvdQ9WY8oK3VXJ2fAHqep8fvKW9XDofXEepo3Ezr
-        8p+pblGVv/63GAUI4POs2vGtcQ==
-X-Google-Smtp-Source: AMsMyM6bbgFZJ8+sMNM9l/WKxhLRKRd0nJAXEV+hIpBTsCya1wPJA5qXAuI/pKK8yArz4xPTLWDwvw==
-X-Received: by 2002:a05:6512:b9d:b0:49b:9ad9:17c2 with SMTP id b29-20020a0565120b9d00b0049b9ad917c2mr4388114lfv.16.1664616974877;
-        Sat, 01 Oct 2022 02:36:14 -0700 (PDT)
-Received: from [192.168.0.21] (78-11-189-27.static.ip.netia.com.pl. [78.11.189.27])
-        by smtp.gmail.com with ESMTPSA id be43-20020a056512252b00b00494935ddb88sm704465lfb.240.2022.10.01.02.36.13
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 01 Oct 2022 02:36:14 -0700 (PDT)
-Message-ID: <c4870076-324a-a3a5-af1a-e812493b6436@linaro.org>
-Date:   Sat, 1 Oct 2022 11:36:13 +0200
+        with ESMTP id S229461AbiJAKHx (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 1 Oct 2022 06:07:53 -0400
+Received: from wnew1-smtp.messagingengine.com (wnew1-smtp.messagingengine.com [64.147.123.26])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B9A11116EF
+        for <linux-media@vger.kernel.org>; Sat,  1 Oct 2022 03:07:50 -0700 (PDT)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+        by mailnew.west.internal (Postfix) with ESMTP id 98CE62B06686;
+        Sat,  1 Oct 2022 06:07:45 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute1.internal (MEProxy); Sat, 01 Oct 2022 06:07:47 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+        :cc:content-transfer-encoding:content-type:date:date:from:from
+        :in-reply-to:in-reply-to:message-id:mime-version:references
+        :reply-to:sender:subject:subject:to:to; s=fm2; t=1664618865; x=
+        1664626065; bh=zIXcwmCmoLYgTDh4FHgjaJy+RlGzEyM3sUNFZ+n3zH0=; b=l
+        NTkmlKWYyZn2wwduSSJC/lXk6rIdzHpjrSti+chvHgMRapU9n2I3y6D6UMUFFEBO
+        1aKJTDCxivsyeLgf9nzypiMmJzA4BUyjYW48ggbuZLvXgh/oszF3nFHbqxZ2ZxcC
+        ZuX+oCP/EgUlitSp8CMIDDm9bv43UizPPhuw4RRQQDHzIJVEUyNirxLVMlQMo0vi
+        TiFj1cWuFFq/JLOHWP5ghLSZmbtBYBqx2wu6IZ8ppOGmVxhYyisHpTGk2CiQngVx
+        KMV0+QXn9qFGZYEgW7dBXeNSPv/ZPFf4EEX45wqQgOsDN7H2tu8mjgRLesm1RFtO
+        bO5fDyWzafb9s2UFzzmDw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-transfer-encoding
+        :content-type:date:date:feedback-id:feedback-id:from:from
+        :in-reply-to:in-reply-to:message-id:mime-version:references
+        :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+        :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1664618865; x=
+        1664626065; bh=zIXcwmCmoLYgTDh4FHgjaJy+RlGzEyM3sUNFZ+n3zH0=; b=Y
+        em3QRV0C1MBW6rb59zWiBPGHVHbDN+KWmlUKe/mlJXrECah9D4pwOe4DRp4TOzCM
+        +Bnf0JUplnxTp1Ex+eGpRtEjSsIj2qH5wvDqDJB5G6QIUlQmR6gebkksLnJny8n6
+        KtbSa6eRPl+3MjwEBbwUrC0U1N39dp4bR93N7Rhjd5M2vBbs6CIzAs7IOBn2qizt
+        /x5lRqb1GtLSFVCcBkWciBv4zG5O1oSnpfxLyKM+CvJ8fv6Iv6+SMSw9fuw6wltF
+        5J9p+pRKP/ItcIkQ4cmtE+U6movrHPxyv14eKabNfYNDFj4mHX4ZOW7PisKSYQMy
+        Fc593kRJvNY4dX9rLSLMw==
+X-ME-Sender: <xms:cBE4Y132j4B4Ft7AzdMDntpY9QHdYJtJKKMooaUW_JoIvP1GJg0Q1A>
+    <xme:cBE4Y8GPVSBo4WyAVH6vRj6RRT67efFGyPw6A_3uk45s97qBYxg2HbeXdXupfVGKx
+    88WqG-ZJyr9j6cwAKk>
+X-ME-Received: <xmr:cBE4Y17z4X4-ajgtTI9mkUWvwZOIf9jXoD3uYzUPtw700m6KAdzcj2o5QAT2>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfeehgedgvdegucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvfevuffkfhggtggugfgjsehtqhertddttddvnecuhfhrohhmpeforgig
+    ihhmvgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrf
+    grthhtvghrnhepjeeukeefhffhvefgvdffleevhffghfejjedvhedvvdekueehgefhgedt
+    hfdvfeejnecuffhomhgrihhnpehophgvnhhpghhprdhorhhgpdhusghunhhtuhdrtghomh
+    enucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrgig
+    ihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:cBE4Yy1_ZipqH1b0XxG1aHgqK616gSXiF5M4-ac1OlLb8w_m6wQHaQ>
+    <xmx:cBE4Y4FYpqOlJdCDoym4VUzB4XbnVGL-yghGMYRzRMdEkO-DztL8dQ>
+    <xmx:cBE4Yz8xKheWEZzaR7Lx2sVB2p1tEqqKObhUoGqZcobnalnHfaemmg>
+    <xmx:cRE4YwQtrtJUkkqBT1j0_GN3tIuoOthyOB37uZEN-EWhyhf2BqwbG7UDs40>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
+ 1 Oct 2022 06:07:43 -0400 (EDT)
+Date:   Sat, 1 Oct 2022 12:07:41 +0200
+From:   Maxime Ripard <maxime@cerno.tech>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Hidenori Kobayashi <hidenorik@chromium.org>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Ricardo Ribalda <ribalda@chromium.org>,
+        Daniel Scally <djrscally@gmail.com>,
+        Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>,
+        Dave Stevenson <dave.stevenson@raspberrypi.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>
+Subject: Re: [ANN] Media Summit at ELCE Dublin, September 12: Draft Agenda V2
+Message-ID: <20221001100741.4iivrmhn7ph2nhs2@houat>
+References: <3840c3cc-00fb-45dd-cb89-39b36fb6d733@xs4all.nl>
+ <YxX8dzSsquJmO5hP@paasikivi.fi.intel.com>
+ <YxYLSk2pKdGnNDP3@pendragon.ideasonboard.com>
+ <20220907115351.d774wruu22fdohwl@houat>
+ <20220930204642.o6l7qtgg4mhvlthe@houat>
+ <YzdXDuh9Wgm6o3OP@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.0
-Subject: Re: [PATCH] dt-bindings: mediatek: vcodec: Add the platform
- compatible to schema
-Content-Language: en-US
-To:     Irui Wang <irui.wang@mediatek.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>
-Cc:     Yunfei Dong <yunfei.dong@mediatek.com>,
-        Project_Global_Chrome_Upstream_Group@mediatek.com,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org,
-        Maoguang Meng <maoguang.meng@mediatek.com>
-References: <20221001030752.14486-1-irui.wang@mediatek.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20221001030752.14486-1-irui.wang@mediatek.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <YzdXDuh9Wgm6o3OP@pendragon.ideasonboard.com>
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_PASS,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 01/10/2022 05:07, Irui Wang wrote:
-> There are venc node warnings when running dtbs_check, the clock-names
-> was unexpected, missing properties '#address-cells' and '#size-cells'.
-> Add the corresponding platform compatible to schema.
-> 
-> Signed-off-by: Irui Wang <irui.wang@mediatek.com>
-> ---
->  .../bindings/media/mediatek,vcodec-encoder.yaml      | 12 +++++++++++-
->  1 file changed, 11 insertions(+), 1 deletion(-)
+On Fri, Sep 30, 2022 at 11:52:30PM +0300, Laurent Pinchart wrote:
+> Hi Maxime,
+>=20
+> On Fri, Sep 30, 2022 at 10:46:42PM +0200, Maxime Ripard wrote:
+> > On Wed, Sep 07, 2022 at 01:53:51PM +0200, Maxime Ripard wrote:
+> > > On Mon, Sep 05, 2022 at 05:44:26PM +0300, Laurent Pinchart wrote:
+> > > > On Mon, Sep 05, 2022 at 01:41:11PM +0000, Sakari Ailus wrote:
+> > > > > On Tue, Aug 23, 2022 at 12:53:44PM +0200, Hans Verkuil wrote:
+> > > > > > 16:45-18:00 Anything else?
+> > > > >=20
+> > > > > I think it'd be great to have a GPG key signing party at the end =
+of the
+> > > > > meeting.
+> > > >=20
+> > > > It's a good idea. Could everybody please send their GPG key fingerp=
+rint
+> > > > in an e-mail reply to prepare for that ? It can easily be retrieved=
+ with
+> > > > 'gpg -K' (make sure to pick the right key if you have multiple of t=
+hem).
+> > > > I'll start:
+> > > >=20
+> > > > sec   rsa4096/0xF045C2B96991256E 2014-10-09 [C]
+> > > >       94231B980100EC619AC10E10F045C2B96991256E
+> > > > uid                   [ultimate] Laurent Pinchart <laurent.pinchart=
+@ideasonboard.com>
+> > > >=20
+> > > > If you're generating a key for the occasion, create a primary key w=
+ith
+> > > > the Certify (C) capability only, and create separate sub-keys for
+> > > > Signature (S) and Encryption (E). There's little reason these days =
+to
+> > > > use less than 4096 bits for the primary key if you opt for RSA. The
+> > > > subkeys should have an expiration date.
+> > > >=20
+> > > > The primary key can then be moved to safe storage, you will only ne=
+ed
+> > > > the subkeys for daily usage.  The primary key will be used only to
+> > > > create new subkeys and to sign other people's keys.
+> > >=20
+> > > sec#  ed25519 2018-09-15 [C] [expires: 2023-03-17]
+> > >       BE5675C37E818C8B5764241C254BCFC56BF6CE8D
+> > > uid           [ultimate] Maxime Ripard <maxime.ripard@anandra.org>
+> > > uid           [ultimate] Maxime Ripard <mripard@kernel.org>
+> > > uid           [ultimate] Maxime Ripard (Work Address) <maxime@cerno.t=
+ech>
+> >=20
+> > I'm not entirely sure what happened, but it looks like all the
+> > signatures I received so far (Laurent, Jernej, Ricardo, Kieran, Jacopo
+> > and Chen-Yu) have been missing that UID
+> >=20
+> > Could you make sure that it's signed?
+>=20
+> The key I have here doesn't have that UID. To what key server have you
+> pushed it ?
 
+It is published on keys.openpgp.org and I sent it yesterday to
+keyserver.ubuntu.com.
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-
-Best regards,
-Krzysztof
-
+Maxime
