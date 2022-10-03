@@ -2,28 +2,28 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 278975F301F
+	by mail.lfdr.de (Postfix) with ESMTP id BBBFF5F3020
 	for <lists+linux-media@lfdr.de>; Mon,  3 Oct 2022 14:19:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229957AbiJCMTa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 3 Oct 2022 08:19:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56300 "EHLO
+        id S229954AbiJCMTb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 3 Oct 2022 08:19:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56314 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229813AbiJCMT3 (ORCPT
+        with ESMTP id S229952AbiJCMT3 (ORCPT
         <rfc822;linux-media@vger.kernel.org>); Mon, 3 Oct 2022 08:19:29 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 12C9C39BA2
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 32EEA3DF26
         for <linux-media@vger.kernel.org>; Mon,  3 Oct 2022 05:19:28 -0700 (PDT)
 Received: from desky.lan (91-158-154-79.elisa-laajakaista.fi [91.158.154.79])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 53374EF3;
-        Mon,  3 Oct 2022 14:19:23 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 22421440;
+        Mon,  3 Oct 2022 14:19:24 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1664799563;
-        bh=Vdtr6qDrTdMd9UK/H/ZfYgFjQNEiHg21ijp7hoYHQA0=;
+        s=mail; t=1664799564;
+        bh=WxP6tIlR6zgwcpiFChJebFIg8An19kx1E0AlLj2EuUM=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=eAEjf/y9eorHS01trywTCeRoex3n+1Dfz26GT7T3ZcmtZik8nnogqk2orYd7tPAug
-         nZlHEzUYmX5xwl/vLniYehy20wJH1nmCZwnINQ1AfeNd4Yca5wU/tnSYWIMurupgxb
-         gP9YqttXnLgXrxxjGsaZFwu2skg4auWYB6kjbg2w=
+        b=CCPeCOkQqY0LaaIyFqgDpFaFtIsNIjfrev22I8nq6Jm2Fch3bxdp4aAEItEcjMteW
+         Qb2+Nl/uSBSVmsiBmmKgV1KalwQAKP3tEwcrrNYAoclmyZ3TSQ/yKIX+IB2KZwlXKM
+         4AZMHCa9tdRLbBuvHHKU95XsNUqkJOS9h3Nzwmw0=
 From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 To:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
         Jacopo Mondi <jacopo+renesas@jmondi.org>,
@@ -34,9 +34,9 @@ To:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
         Kishon Vijay Abraham <kishon@ti.com>,
         satish.nagireddy@getcruise.com, Tomasz Figa <tfiga@chromium.org>
 Cc:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: [PATCH v15 06/19] media: subdev: add v4l2_subdev_has_pad_interdep()
-Date:   Mon,  3 Oct 2022 15:18:39 +0300
-Message-Id: <20221003121852.616745-7-tomi.valkeinen@ideasonboard.com>
+Subject: [PATCH v15 07/19] media: subdev: add v4l2_subdev_set_routing helper()
+Date:   Mon,  3 Oct 2022 15:18:40 +0300
+Message-Id: <20221003121852.616745-8-tomi.valkeinen@ideasonboard.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221003121852.616745-1-tomi.valkeinen@ideasonboard.com>
 References: <20221003121852.616745-1-tomi.valkeinen@ideasonboard.com>
@@ -51,89 +51,92 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add a v4l2_subdev_has_pad_interdep() helper function which can be used
-for media_entity_operations.has_pad_interdep op.
-
-It considers two pads interdependent if there is an active route between
-pad0 and pad1.
+Add a helper function to set the subdev routing. The helper can be used
+from subdev driver's set_routing op to store the routing table.
 
 Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Reviewed-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 ---
  drivers/media/v4l2-core/v4l2-subdev.c | 31 +++++++++++++++++++++++++++
- include/media/v4l2-subdev.h           | 18 ++++++++++++++++
- 2 files changed, 49 insertions(+)
+ include/media/v4l2-subdev.h           | 16 ++++++++++++++
+ 2 files changed, 47 insertions(+)
 
 diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
-index 1a451351554b..fff17b8536fc 100644
+index fff17b8536fc..3ae4f39a50e4 100644
 --- a/drivers/media/v4l2-core/v4l2-subdev.c
 +++ b/drivers/media/v4l2-core/v4l2-subdev.c
-@@ -1046,6 +1046,37 @@ int v4l2_subdev_link_validate(struct media_link *link)
+@@ -12,6 +12,7 @@
+ #include <linux/ioctl.h>
+ #include <linux/mm.h>
+ #include <linux/module.h>
++#include <linux/overflow.h>
+ #include <linux/slab.h>
+ #include <linux/types.h>
+ #include <linux/version.h>
+@@ -1181,6 +1182,36 @@ int v4l2_subdev_get_fmt(struct v4l2_subdev *sd, struct v4l2_subdev_state *state,
  }
- EXPORT_SYMBOL_GPL(v4l2_subdev_link_validate);
+ EXPORT_SYMBOL_GPL(v4l2_subdev_get_fmt);
  
-+bool v4l2_subdev_has_pad_interdep(struct media_entity *entity,
-+				  unsigned int pad0, unsigned int pad1)
++int v4l2_subdev_set_routing(struct v4l2_subdev *sd,
++			    struct v4l2_subdev_state *state,
++			    const struct v4l2_subdev_krouting *routing)
 +{
-+	struct v4l2_subdev *sd = media_entity_to_v4l2_subdev(entity);
-+	struct v4l2_subdev_krouting *routing;
-+	struct v4l2_subdev_state *state;
-+	unsigned int i;
++	struct v4l2_subdev_krouting *dst = &state->routing;
++	const struct v4l2_subdev_krouting *src = routing;
++	struct v4l2_subdev_krouting new_routing = { 0 };
++	size_t bytes;
 +
-+	state = v4l2_subdev_lock_and_get_active_state(sd);
++	if (unlikely(check_mul_overflow(src->num_routes, sizeof(*src->routes),
++					&bytes)))
++		return -EOVERFLOW;
 +
-+	routing = &state->routing;
++	lockdep_assert_held(state->lock);
 +
-+	for (i = 0; i < routing->num_routes; ++i) {
-+		struct v4l2_subdev_route *route = &routing->routes[i];
-+
-+		if (!(route->flags & V4L2_SUBDEV_ROUTE_FL_ACTIVE))
-+			continue;
-+
-+		if ((route->sink_pad == pad0 && route->source_pad == pad1) ||
-+		    (route->source_pad == pad0 && route->sink_pad == pad1)) {
-+			v4l2_subdev_unlock_state(state);
-+			return true;
-+		}
++	if (src->num_routes > 0) {
++		new_routing.routes = kmemdup(src->routes, bytes, GFP_KERNEL);
++		if (!new_routing.routes)
++			return -ENOMEM;
 +	}
 +
-+	v4l2_subdev_unlock_state(state);
++	new_routing.num_routes = src->num_routes;
 +
-+	return false;
++	kfree(dst->routes);
++	*dst = new_routing;
++
++	return 0;
 +}
-+EXPORT_SYMBOL_GPL(v4l2_subdev_has_pad_interdep);
++EXPORT_SYMBOL_GPL(v4l2_subdev_set_routing);
 +
- struct v4l2_subdev_state *
- __v4l2_subdev_state_alloc(struct v4l2_subdev *sd, const char *lock_name,
- 			  struct lock_class_key *lock_key)
+ #endif /* CONFIG_VIDEO_V4L2_SUBDEV_API */
+ 
+ #endif /* CONFIG_MEDIA_CONTROLLER */
 diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
-index 4934dc9468a8..45c41f4d6a2b 100644
+index 45c41f4d6a2b..7962e6572bda 100644
 --- a/include/media/v4l2-subdev.h
 +++ b/include/media/v4l2-subdev.h
-@@ -1241,6 +1241,24 @@ int v4l2_subdev_link_validate_default(struct v4l2_subdev *sd,
-  */
- int v4l2_subdev_link_validate(struct media_link *link);
+@@ -1419,6 +1419,22 @@ v4l2_subdev_lock_and_get_active_state(struct v4l2_subdev *sd)
+ int v4l2_subdev_get_fmt(struct v4l2_subdev *sd, struct v4l2_subdev_state *state,
+ 			struct v4l2_subdev_format *format);
  
 +/**
-+ * v4l2_subdev_has_pad_interdep - MC has_pad_interdep implementation for subdevs
++ * v4l2_subdev_set_routing() - Set given routing to subdev state
++ * @sd: The subdevice
++ * @state: The subdevice state
++ * @routing: Routing that will be copied to subdev state
 + *
-+ * @entity: pointer to &struct media_entity
-+ * @pad0: pad number for the first pad
-+ * @pad1: pad number for the second pad
++ * This will release old routing table (if any) from the state, allocate
++ * enough space for the given routing, and copy the routing.
 + *
-+ * This function is an implementation of the
-+ * media_entity_operations.has_pad_interdep operation for subdevs that
-+ * implement the multiplexed streams API (as indicated by the
-+ * V4L2_SUBDEV_FL_STREAMS subdev flag).
-+ *
-+ * It considers two pads interdependent if there is an active route between pad0
-+ * and pad1.
++ * This can be used from the subdev driver's set_routing op, after validating
++ * the routing.
 + */
-+bool v4l2_subdev_has_pad_interdep(struct media_entity *entity,
-+				  unsigned int pad0, unsigned int pad1);
++int v4l2_subdev_set_routing(struct v4l2_subdev *sd,
++			    struct v4l2_subdev_state *state,
++			    const struct v4l2_subdev_krouting *routing);
 +
- /**
-  * __v4l2_subdev_state_alloc - allocate v4l2_subdev_state
-  *
+ #endif /* CONFIG_VIDEO_V4L2_SUBDEV_API */
+ 
+ #endif /* CONFIG_MEDIA_CONTROLLER */
 -- 
 2.34.1
 
