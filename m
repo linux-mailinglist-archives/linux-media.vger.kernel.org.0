@@ -2,118 +2,183 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3AA8E5F275E
-	for <lists+linux-media@lfdr.de>; Mon,  3 Oct 2022 02:20:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6FD815F27B4
+	for <lists+linux-media@lfdr.de>; Mon,  3 Oct 2022 04:48:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229468AbiJCAUp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 2 Oct 2022 20:20:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58974 "EHLO
+        id S229484AbiJCCsg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 2 Oct 2022 22:48:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49466 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229453AbiJCAUn (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sun, 2 Oct 2022 20:20:43 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE19024BE1
-        for <linux-media@vger.kernel.org>; Sun,  2 Oct 2022 17:20:42 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8AAD0E03;
-        Mon,  3 Oct 2022 02:20:40 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1664756440;
-        bh=02BUDsluiWPm4kbo8RTQ2K9uBxPxgzkn5wXwXTIp/QI=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Hy2V/2VW0pvB/CNjE38Hps0/zXBxskM/Foduo2gfty99aL3nmtFQbVnMyNYUNcW1Y
-         /y4UkbSvUBn4FPSJO3by5GurgYQWQdFCS2u4yuceuO6DS+KZbD5vH+lr6wW6vMw8Sd
-         BavROZn18sDVq9lkN9BItKuD6/JEC6Uw/q8ICP5Y=
-Date:   Mon, 3 Oct 2022 03:20:39 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Maxime Ripard <maxime@cerno.tech>
-Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        Hidenori Kobayashi <hidenorik@chromium.org>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Ricardo Ribalda <ribalda@chromium.org>,
-        Daniel Scally <djrscally@gmail.com>,
-        Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>
-Subject: Re: [ANN] Media Summit at ELCE Dublin, September 12: Draft Agenda V2
-Message-ID: <Yzoq1w4GZvhjvTYZ@pendragon.ideasonboard.com>
-References: <3840c3cc-00fb-45dd-cb89-39b36fb6d733@xs4all.nl>
- <YxX8dzSsquJmO5hP@paasikivi.fi.intel.com>
- <YxYLSk2pKdGnNDP3@pendragon.ideasonboard.com>
- <20220907115351.d774wruu22fdohwl@houat>
- <20220930204642.o6l7qtgg4mhvlthe@houat>
- <YzdXDuh9Wgm6o3OP@pendragon.ideasonboard.com>
- <20221001100741.4iivrmhn7ph2nhs2@houat>
+        with ESMTP id S229453AbiJCCsf (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sun, 2 Oct 2022 22:48:35 -0400
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 519983CBC2;
+        Sun,  2 Oct 2022 19:48:30 -0700 (PDT)
+X-UUID: 919b954a1ee5423097d1341476326cae-20221003
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+        h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID; bh=2vONuU2pab5GQ7YgJJPuGj5E4IMi9T4UtvmYRBEDwIU=;
+        b=uGVDvN+Ihjijrz0GHz3cwqueRPDjrvaJ3XtwrrToFKZVVd+Wiba8kknWUpgi6N0jzyId3P91IeqLWfd/zseYYuOKP04haPDYvlz3xvCxKl1yiTOqGBW/l4plW+UuKqlL8d+O9HwnB8WMUolb9mkqpx/NcV0B4ZK82HGxRm9ewU8=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.11,REQID:f0594070-e85b-4cb3-97bc-be6780e43be7,IP:0,U
+        RL:0,TC:0,Content:0,EDM:0,RT:0,SF:45,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+        :release,TS:45
+X-CID-INFO: VERSION:1.1.11,REQID:f0594070-e85b-4cb3-97bc-be6780e43be7,IP:0,URL
+        :0,TC:0,Content:0,EDM:0,RT:0,SF:45,FILE:0,BULK:0,RULE:Release_Ham,ACTION:r
+        elease,TS:45
+X-CID-META: VersionHash:39a5ff1,CLOUDID:a3edf4e4-87f9-4bb0-97b6-34957dc0fbbe,B
+        ulkID:220930201300B3TGD7D5,BulkQuantity:136,Recheck:0,SF:38|28|17|19|48|82
+        3|824|102,TC:nil,Content:0,EDM:-3,IP:nil,URL:0,File:nil,Bulk:40,QS:nil,BEC
+        :nil,COL:0
+X-UUID: 919b954a1ee5423097d1341476326cae-20221003
+Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw01.mediatek.com
+        (envelope-from <moudy.ho@mediatek.com>)
+        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+        with ESMTP id 1715034978; Mon, 03 Oct 2022 10:48:20 +0800
+Received: from mtkcas11.mediatek.inc (172.21.101.40) by
+ mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.2.792.15; Mon, 3 Oct 2022 10:48:19 +0800
+Received: from mtksdccf07 (172.21.84.99) by mtkcas11.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Mon, 3 Oct 2022 10:48:19 +0800
+Message-ID: <ff5ce171d32d70a939603ff700b44f140baab9c6.camel@mediatek.com>
+Subject: Re: [PATCH v1 2/2] media: platform: mtk-mdp3: fix error handling
+ about components clock_on
+From:   moudy ho <moudy.ho@mediatek.com>
+To:     AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>
+CC:     <linux-media@vger.kernel.org>,
+        <linux-mediatek@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>,
+        <Project_Global_Chrome_Upstream_Group@mediatek.com>
+Date:   Mon, 3 Oct 2022 10:48:19 +0800
+In-Reply-To: <8afa9c8e-079e-6e50-a8d7-21e0b1698f76@collabora.com>
+References: <20220930102306.13201-1-moudy.ho@mediatek.com>
+         <20220930102306.13201-3-moudy.ho@mediatek.com>
+         <8afa9c8e-079e-6e50-a8d7-21e0b1698f76@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20221001100741.4iivrmhn7ph2nhs2@houat>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 7bit
+X-MTK:  N
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,
+        T_SPF_TEMPERROR,UNPARSEABLE_RELAY,URIBL_CSS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sat, Oct 01, 2022 at 12:07:41PM +0200, Maxime Ripard wrote:
-> On Fri, Sep 30, 2022 at 11:52:30PM +0300, Laurent Pinchart wrote:
-> > On Fri, Sep 30, 2022 at 10:46:42PM +0200, Maxime Ripard wrote:
-> > > On Wed, Sep 07, 2022 at 01:53:51PM +0200, Maxime Ripard wrote:
-> > > > On Mon, Sep 05, 2022 at 05:44:26PM +0300, Laurent Pinchart wrote:
-> > > > > On Mon, Sep 05, 2022 at 01:41:11PM +0000, Sakari Ailus wrote:
-> > > > > > On Tue, Aug 23, 2022 at 12:53:44PM +0200, Hans Verkuil wrote:
-> > > > > > > 16:45-18:00 Anything else?
-> > > > > > 
-> > > > > > I think it'd be great to have a GPG key signing party at the end of the
-> > > > > > meeting.
-> > > > > 
-> > > > > It's a good idea. Could everybody please send their GPG key fingerprint
-> > > > > in an e-mail reply to prepare for that ? It can easily be retrieved with
-> > > > > 'gpg -K' (make sure to pick the right key if you have multiple of them).
-> > > > > I'll start:
-> > > > > 
-> > > > > sec   rsa4096/0xF045C2B96991256E 2014-10-09 [C]
-> > > > >       94231B980100EC619AC10E10F045C2B96991256E
-> > > > > uid                   [ultimate] Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > > > > 
-> > > > > If you're generating a key for the occasion, create a primary key with
-> > > > > the Certify (C) capability only, and create separate sub-keys for
-> > > > > Signature (S) and Encryption (E). There's little reason these days to
-> > > > > use less than 4096 bits for the primary key if you opt for RSA. The
-> > > > > subkeys should have an expiration date.
-> > > > > 
-> > > > > The primary key can then be moved to safe storage, you will only need
-> > > > > the subkeys for daily usage.  The primary key will be used only to
-> > > > > create new subkeys and to sign other people's keys.
-> > > > 
-> > > > sec#  ed25519 2018-09-15 [C] [expires: 2023-03-17]
-> > > >       BE5675C37E818C8B5764241C254BCFC56BF6CE8D
-> > > > uid           [ultimate] Maxime Ripard <maxime.ripard@anandra.org>
-> > > > uid           [ultimate] Maxime Ripard <mripard@kernel.org>
-> > > > uid           [ultimate] Maxime Ripard (Work Address) <maxime@cerno.tech>
-> > > 
-> > > I'm not entirely sure what happened, but it looks like all the
-> > > signatures I received so far (Laurent, Jernej, Ricardo, Kieran, Jacopo
-> > > and Chen-Yu) have been missing that UID
-> > > 
-> > > Could you make sure that it's signed?
+On Fri, 2022-09-30 at 14:12 +0200, AngeloGioacchino Del Regno wrote:
+> Il 30/09/22 12:23, Moudy Ho ha scritto:
+> > Add goto statement in mdp_comp_clock_on() to avoid error code not
+> > being
+> > propagated or returning positive values.
+> > This change also performs a well-timed clock_off when an error
+> > occurs, and
+> > reduces unnecessary error logging in mdp_cmdq_send().
 > > 
-> > The key I have here doesn't have that UID. To what key server have you
-> > pushed it ?
+> > Fixes: 61890ccaefaf ("media: platform: mtk-mdp3: add MediaTek MDP3
+> > driver")
+> > Signed-off-by: Moudy Ho <moudy.ho@mediatek.com>
+> > ---
+> >   .../platform/mediatek/mdp3/mtk-mdp3-cmdq.c    |  4 +---
+> >   .../platform/mediatek/mdp3/mtk-mdp3-comp.c    | 24
+> > ++++++++++++++-----
+> >   2 files changed, 19 insertions(+), 9 deletions(-)
+> > 
+> > diff --git a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-cmdq.c
+> > b/drivers/media/platform/mediatek/mdp3/mtk-mdp3-cmdq.c
+> > index e194dec8050a..124c1b96e96b 100644
+> > --- a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-cmdq.c
+> > +++ b/drivers/media/platform/mediatek/mdp3/mtk-mdp3-cmdq.c
+> > @@ -433,10 +433,8 @@ int mdp_cmdq_send(struct mdp_dev *mdp, struct
+> > mdp_cmdq_param *param)
+> >   	cmd->mdp_ctx = param->mdp_ctx;
+> >   
+> >   	ret = mdp_comp_clocks_on(&mdp->pdev->dev, cmd->comps, cmd-
+> > >num_comps);
+> > -	if (ret) {
+> > -		dev_err(dev, "comp %d failed to enable clock!\n", ret);
+> > +	if (ret)
+> >   		goto err_free_path;
+> > -	}
+> >   
+> >   	dma_sync_single_for_device(mdp->cmdq_clt->chan->mbox->dev,
+> >   				   cmd->pkt.pa_base, cmd-
+> > >pkt.cmd_buf_size,
+> > diff --git a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-comp.c
+> > b/drivers/media/platform/mediatek/mdp3/mtk-mdp3-comp.c
+> > index d3eaf8884412..fe6a39315e88 100644
+> > --- a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-comp.c
+> > +++ b/drivers/media/platform/mediatek/mdp3/mtk-mdp3-comp.c
+> > @@ -699,12 +699,22 @@ int mdp_comp_clock_on(struct device *dev,
+> > struct mdp_comp *comp)
+> >   			dev_err(dev,
+> >   				"Failed to enable clk %d. type:%d
+> > id:%d\n",
+> >   				i, comp->type, comp->id);
+> > -			pm_runtime_put(comp->comp_dev);
+> > -			return ret;
+> > +			goto err_unwind;
+> >   		}
+> >   	}
+> >   
+> >   	return 0;
+> > +
+> > +err_unwind:
 > 
-> It is published on keys.openpgp.org and I sent it yesterday to
-> keyserver.ubuntu.com.
+> For this label to be clearer, I would rename it as `err_revert`, or
+> `clocks_off`, or even simply `err`, as the `unwind` word may create
+> some confusion here.
+> 
 
-The latter gave me your third UID, the former didn't.
+Hi Angelo,
 
--- 
+Thanks for the suggestion to rename to "err_revert" and make the flow
+more readable.
+I will correct it in the next version.
+
 Regards,
+Moudy
 
-Laurent Pinchart
+> > +	while (--i >= 0) {
+> > +		if (IS_ERR_OR_NULL(comp->clks[i]))
+> > +			continue;
+> > +		clk_disable_unprepare(comp->clks[i]);
+> > +	}
+> > +	if (comp->comp_dev)
+> > +		pm_runtime_put_sync(comp->comp_dev);
+> > +
+> > +	return ret;
+> >   }
+> >   
+> >   void mdp_comp_clock_off(struct device *dev, struct mdp_comp
+> > *comp)
+> > @@ -723,11 +733,13 @@ void mdp_comp_clock_off(struct device *dev,
+> > struct mdp_comp *comp)
+> >   
+> >   int mdp_comp_clocks_on(struct device *dev, struct mdp_comp
+> > *comps, int num)
+> >   {
+> > -	int i;
+> > +	int i, ret;
+> >   
+> > -	for (i = 0; i < num; i++)
+> > -		if (mdp_comp_clock_on(dev, &comps[i]) != 0)
+> > -			return ++i;
+> > +	for (i = 0; i < num; i++) {
+> > +		ret = mdp_comp_clock_on(dev, &comps[i]);
+> > +		if (ret)
+> > +			return ret;
+> > +	}
+> >   
+> >   	return 0;
+> >   }
+> > 
+
