@@ -2,148 +2,115 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5487B5F28F9
-	for <lists+linux-media@lfdr.de>; Mon,  3 Oct 2022 09:08:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 20D125F2FB0
+	for <lists+linux-media@lfdr.de>; Mon,  3 Oct 2022 13:33:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229743AbiJCHIp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 3 Oct 2022 03:08:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39998 "EHLO
+        id S229886AbiJCLc6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 3 Oct 2022 07:32:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42380 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229542AbiJCHIo (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 3 Oct 2022 03:08:44 -0400
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 655B0357CB;
-        Mon,  3 Oct 2022 00:08:39 -0700 (PDT)
-X-UUID: 8c8bfd03c1494ae68241001d4bdd836d-20221003
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-        h=Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From; bh=jvg4aCiyWw1VzxOrEJk07xqkVY906QHloJRYSRWJyrE=;
-        b=AnRuNSOoetn++VTQ0jhhCz4pxnTN4o7T06yi1p/bSdPUJu2h7flGvwGVnWAh/n633k/k1F89yupCwJ0OJ22f3ZGVviHB44xysorZEMsRWYCbKejJ5kjSy1C1jevVnmkUr9rR/ZFjM2NRZatS1V6upqc2FEZtp2cHrG3HwDGRg4s=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.11,REQID:48db2a15-051b-42e7-92b8-2edeb3dda6b0,IP:0,U
-        RL:0,TC:0,Content:0,EDM:0,RT:0,SF:95,FILE:0,BULK:0,RULE:Release_Ham,ACTION
-        :release,TS:95
-X-CID-INFO: VERSION:1.1.11,REQID:48db2a15-051b-42e7-92b8-2edeb3dda6b0,IP:0,URL
-        :0,TC:0,Content:0,EDM:0,RT:0,SF:95,FILE:0,BULK:0,RULE:Spam_GS981B3D,ACTION
-        :quarantine,TS:95
-X-CID-META: VersionHash:39a5ff1,CLOUDID:f644fde4-87f9-4bb0-97b6-34957dc0fbbe,B
-        ulkID:221003150834U8UHIKE9,BulkQuantity:0,Recheck:0,SF:38|28|17|19|48,TC:n
-        il,Content:0,EDM:-3,IP:nil,URL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0
-X-UUID: 8c8bfd03c1494ae68241001d4bdd836d-20221003
-Received: from mtkmbs13n1.mediatek.inc [(172.21.101.193)] by mailgw02.mediatek.com
-        (envelope-from <moudy.ho@mediatek.com>)
-        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-        with ESMTP id 390451375; Mon, 03 Oct 2022 15:08:33 +0800
-Received: from mtkmbs13n1.mediatek.inc (172.21.101.193) by
- mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.792.15; Mon, 3 Oct 2022 15:08:32 +0800
-Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
- mtkmbs13n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.792.15 via Frontend Transport; Mon, 3 Oct 2022 15:08:32 +0800
-From:   Moudy Ho <moudy.ho@mediatek.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>
-CC:     Chun-Kuang Hu <chunkuang.hu@kernel.org>,
-        <linux-media@vger.kernel.org>,
-        <linux-mediatek@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>,
-        <Project_Global_Chrome_Upstream_Group@mediatek.com>,
-        Moudy Ho <moudy.ho@mediatek.com>
-Subject: [PATCH v2 2/2] media: platform: mtk-mdp3: fix error handling about components clock_on
-Date:   Mon, 3 Oct 2022 15:08:30 +0800
-Message-ID: <20221003070830.23697-3-moudy.ho@mediatek.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20221003070830.23697-1-moudy.ho@mediatek.com>
-References: <20221003070830.23697-1-moudy.ho@mediatek.com>
+        with ESMTP id S229842AbiJCLcy (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 3 Oct 2022 07:32:54 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3C817422EE
+        for <linux-media@vger.kernel.org>; Mon,  3 Oct 2022 04:32:51 -0700 (PDT)
+Received: from [192.168.1.15] (91-158-154-79.elisa-laajakaista.fi [91.158.154.79])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 074F0440;
+        Mon,  3 Oct 2022 13:32:47 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1664796768;
+        bh=kl3Pdr/EEIysWMuL9kIi0OklmguLQLW+KAg9FJZwggI=;
+        h=Date:Subject:To:References:From:In-Reply-To:From;
+        b=n4pqoLnaoDyYXXXCZFsMLKge78yjW79dTfi6D37c8U4wqLoTxsTuyvhUIDOUm343T
+         Nnc+JPG8GMYeV4wHPvhtElR7DXZTwo5OlIDZoBpCDfdondSVdSR4nIOL9n6rXlmUBm
+         MFi8LQZ3Hs3cpNaDZQ0fbb2EsWf4P+E8M0ntqSvg=
+Message-ID: <cf01ba3b-ec26-0bb7-257b-a3cdf2d489d9@ideasonboard.com>
+Date:   Mon, 3 Oct 2022 14:32:44 +0300
 MIME-Version: 1.0
-Content-Type: text/plain
-X-MTK:  N
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_MSPIKE_H2,RDNS_NONE,
-        SPF_HELO_PASS,SPF_PASS,UNPARSEABLE_RELAY,URIBL_CSS autolearn=no
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v14 03/34] media: subdev: increase
+ V4L2_FRAME_DESC_ENTRY_MAX to 8
+Content-Language: en-US
+To:     Bingbu Cao <bingbu.cao@linux.intel.com>,
+        linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        niklas.soderlund+renesas@ragnatech.se,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Kishon Vijay Abraham <kishon@ti.com>,
+        satish.nagireddy@getcruise.com, Tomasz Figa <tfiga@chromium.org>,
+        "Qiu, Tian Shu" <tian.shu.qiu@intel.com>
+References: <20220831141357.1396081-1-tomi.valkeinen@ideasonboard.com>
+ <20220831141357.1396081-4-tomi.valkeinen@ideasonboard.com>
+ <ea72318d-2661-1918-6531-1518683364c3@linux.intel.com>
+From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+In-Reply-To: <ea72318d-2661-1918-6531-1518683364c3@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-3.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add goto statement in mdp_comp_clock_on() to avoid error code not being
-propagated or returning positive values.
-This change also performs a well-timed clock_off when an error occurs, and
-reduces unnecessary error logging in mdp_cmdq_send().
+Hi,
 
-Fixes: 61890ccaefaf ("media: platform: mtk-mdp3: add MediaTek MDP3 driver")
-Signed-off-by: Moudy Ho <moudy.ho@mediatek.com>
----
- .../platform/mediatek/mdp3/mtk-mdp3-cmdq.c    |  4 +---
- .../platform/mediatek/mdp3/mtk-mdp3-comp.c    | 24 ++++++++++++++-----
- 2 files changed, 19 insertions(+), 9 deletions(-)
+On 29/09/2022 09:48, Bingbu Cao wrote:
+> 
+> 
+> On 8/31/22 10:13 PM, Tomi Valkeinen wrote:
+>> V4L2_FRAME_DESC_ENTRY_MAX is currently set to 4. In theory it's possible
+>> to have an arbitrary amount of streams in a single pad, so preferably
+>> there should be no hardcoded maximum number.
+>>
+>> However, I believe a reasonable max is 8, which would cover a CSI-2 pad
+>> with 4 streams of pixel data and 4 streams of metadata.
+>>
+>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+>> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+>> Reviewed-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+>> Reviewed-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+>> ---
+>>   include/media/v4l2-subdev.h | 6 +++++-
+>>   1 file changed, 5 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
+>> index 9689f38a0af1..3797b99bb408 100644
+>> --- a/include/media/v4l2-subdev.h
+>> +++ b/include/media/v4l2-subdev.h
+>> @@ -358,7 +358,11 @@ struct v4l2_mbus_frame_desc_entry {
+>>   	} bus;
+>>   };
+>>   
+>> -#define V4L2_FRAME_DESC_ENTRY_MAX	4
+>> + /*
+>> +  * If this number is too small, it should be dropped altogether and the
+>> +  * API switched to a dynamic number of frame descriptor entries.
+>> +  */
+>> +#define V4L2_FRAME_DESC_ENTRY_MAX	8
+> 
+> The number 8 here is still not enough I think, CSI2 specification already
+> extended the VC identifier to be at most 5 bits, which support a max of
+> 32 VCs.
 
-diff --git a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-cmdq.c b/drivers/media/platform/mediatek/mdp3/mtk-mdp3-cmdq.c
-index e194dec8050a..124c1b96e96b 100644
---- a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-cmdq.c
-+++ b/drivers/media/platform/mediatek/mdp3/mtk-mdp3-cmdq.c
-@@ -433,10 +433,8 @@ int mdp_cmdq_send(struct mdp_dev *mdp, struct mdp_cmdq_param *param)
- 	cmd->mdp_ctx = param->mdp_ctx;
- 
- 	ret = mdp_comp_clocks_on(&mdp->pdev->dev, cmd->comps, cmd->num_comps);
--	if (ret) {
--		dev_err(dev, "comp %d failed to enable clock!\n", ret);
-+	if (ret)
- 		goto err_free_path;
--	}
- 
- 	dma_sync_single_for_device(mdp->cmdq_clt->chan->mbox->dev,
- 				   cmd->pkt.pa_base, cmd->pkt.cmd_buf_size,
-diff --git a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-comp.c b/drivers/media/platform/mediatek/mdp3/mtk-mdp3-comp.c
-index d3eaf8884412..7bc05f42a23c 100644
---- a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-comp.c
-+++ b/drivers/media/platform/mediatek/mdp3/mtk-mdp3-comp.c
-@@ -699,12 +699,22 @@ int mdp_comp_clock_on(struct device *dev, struct mdp_comp *comp)
- 			dev_err(dev,
- 				"Failed to enable clk %d. type:%d id:%d\n",
- 				i, comp->type, comp->id);
--			pm_runtime_put(comp->comp_dev);
--			return ret;
-+			goto err_revert;
- 		}
- 	}
- 
- 	return 0;
-+
-+err_revert:
-+	while (--i >= 0) {
-+		if (IS_ERR_OR_NULL(comp->clks[i]))
-+			continue;
-+		clk_disable_unprepare(comp->clks[i]);
-+	}
-+	if (comp->comp_dev)
-+		pm_runtime_put_sync(comp->comp_dev);
-+
-+	return ret;
- }
- 
- void mdp_comp_clock_off(struct device *dev, struct mdp_comp *comp)
-@@ -723,11 +733,13 @@ void mdp_comp_clock_off(struct device *dev, struct mdp_comp *comp)
- 
- int mdp_comp_clocks_on(struct device *dev, struct mdp_comp *comps, int num)
- {
--	int i;
-+	int i, ret;
- 
--	for (i = 0; i < num; i++)
--		if (mdp_comp_clock_on(dev, &comps[i]) != 0)
--			return ++i;
-+	for (i = 0; i < num; i++) {
-+		ret = mdp_comp_clock_on(dev, &comps[i]);
-+		if (ret)
-+			return ret;
-+	}
- 
- 	return 0;
- }
--- 
-2.18.0
+Well, 8 frame desc entries is not enough for the "old" CSI2 either as 
+there can be a lot of data-types, each a separate stream ("stream" as 
+defined by this series) which needs a frame desc.
 
+> Considering the metadata, the number should be larger, it looks like that
+> we have to switch using dynamic number?
+
+Do we have a current use case which needs more than 8 streams per pad? 
+If not, I'd stay away from this for the time being. This can be changed 
+later.
+
+> BTW, does this change break the uAPI?
+
+No, the frame desc is fully internal to the kernel.
+
+  Tomi
