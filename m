@@ -2,93 +2,102 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 460825F3886
-	for <lists+linux-media@lfdr.de>; Tue,  4 Oct 2022 00:02:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 08DB85F3965
+	for <lists+linux-media@lfdr.de>; Tue,  4 Oct 2022 00:54:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229959AbiJCWCD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 3 Oct 2022 18:02:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60822 "EHLO
+        id S229738AbiJCWyr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 3 Oct 2022 18:54:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58520 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229771AbiJCWCB (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 3 Oct 2022 18:02:01 -0400
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0EFB131DC6
-        for <linux-media@vger.kernel.org>; Mon,  3 Oct 2022 15:02:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1664834521; x=1696370521;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=rDkd5y4stzSKUTv6NyzilIRAU9N4qor8SP9sNSJ97F8=;
-  b=PgN6dEssGHUKK5zQsLP8WDpWbuFY/8kkTTtiIXfZuFO5SW1u7+0f7U+P
-   52y5BZGGbAiPwoWM1N0ltbqCXSwf98UOulpSue4pEFnZ4ecU6Sky1V517
-   mnr92Ze/BPy7OQPOlkCmVOQUGytFolwjcQsYyGp5g5Gr6l6vDcoYNjGpC
-   1h/dIsriB7Lc90knoJa3yme/B28/2Hf7NDPiPEQ9BYtNKCekD3S3YSv9L
-   Yl9O7pya5OBvAdAulC48q/fuqeP32vFWqjF+3T94v3csLUoMAZC24+QbR
-   R771nHmSQZWbKaaJwlPYukcYlYvbVQbLMg21nwRluahRdGCxVoYBJwozx
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10489"; a="282481473"
-X-IronPort-AV: E=Sophos;i="5.93,366,1654585200"; 
-   d="scan'208";a="282481473"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2022 15:02:00 -0700
-X-IronPort-AV: E=McAfee;i="6500,9779,10489"; a="686309436"
-X-IronPort-AV: E=Sophos;i="5.93,366,1654585200"; 
-   d="scan'208";a="686309436"
-Received: from punajuuri.fi.intel.com (HELO paasikivi.fi.intel.com) ([10.237.72.43])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2022 15:01:58 -0700
-Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
-        by paasikivi.fi.intel.com (Postfix) with SMTP id E841E20316;
-        Tue,  4 Oct 2022 01:01:55 +0300 (EEST)
-Date:   Mon, 3 Oct 2022 22:01:55 +0000
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-        linux-media@vger.kernel.org,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        niklas.soderlund+renesas@ragnatech.se,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Kishon Vijay Abraham <kishon@ti.com>,
-        satish.nagireddy@getcruise.com, Tomasz Figa <tfiga@chromium.org>,
-        Michal Simek <michal.simek@xilinx.com>
-Subject: Re: [PATCH v15 05/19] media: subdev: Add [GS]_ROUTING subdev ioctls
- and operations
-Message-ID: <Yztb06LVmPBKf8J2@paasikivi.fi.intel.com>
-References: <20221003121852.616745-1-tomi.valkeinen@ideasonboard.com>
- <20221003121852.616745-6-tomi.valkeinen@ideasonboard.com>
- <7b56d565-5358-67be-84b8-101a97f97f2b@xs4all.nl>
+        with ESMTP id S229616AbiJCWyo (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 3 Oct 2022 18:54:44 -0400
+X-Greylist: delayed 1801 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 03 Oct 2022 15:54:42 PDT
+Received: from mail-filter.k24.co.id (mail-filter.k24.co.id [117.20.63.118])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 171FFCFB;
+        Mon,  3 Oct 2022 15:54:37 -0700 (PDT)
+Received: from mail-filter.k24.co.id (localhost.localdomain [127.0.0.1])
+        by mail-filter.k24.co.id (Proxmox) with ESMTP id 3B55750344F;
+        Tue,  4 Oct 2022 04:58:16 +0700 (WIB)
+Received: from mta-02.k24.co.id (mta-02.k24.co.id [192.168.2.11])
+        by mail-filter.k24.co.id (Proxmox) with ESMTPS id 29A595039F8;
+        Tue,  4 Oct 2022 04:58:16 +0700 (WIB)
+Received: from localhost (localhost [127.0.0.1])
+        by mta-02.k24.co.id (Postfix) with ESMTP id BD790A0FBF;
+        Tue,  4 Oct 2022 04:58:15 +0700 (WIB)
+Received: from mta-02.k24.co.id ([127.0.0.1])
+        by localhost (mta-02.k24.co.id [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id CtNj6BeHeIYk; Tue,  4 Oct 2022 04:58:15 +0700 (WIB)
+Received: from localhost (localhost [127.0.0.1])
+        by mta-02.k24.co.id (Postfix) with ESMTP id 3DBC9A0FF9;
+        Tue,  4 Oct 2022 04:58:14 +0700 (WIB)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mta-02.k24.co.id 3DBC9A0FF9
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=k24.co.id;
+        s=201D0EFA-BD0A-11EB-90FB-4354FB48657B; t=1664834294;
+        bh=Yw62bKNhDK09NF2C5/gJe1ePr0AC5lJ8dr3g9D9gnpA=;
+        h=Date:From:Message-ID:MIME-Version;
+        b=eUel0ZyS4voooRXyAazrKUe9sSWvTOizWK/QjeafO1HHQov97lTtJ8zE/VKDW9kG/
+         4TXcKgbBadRJ3BgoKn/B2z5zwkAWMFvJ8SBdYfBK77Dlh7Fy5aGVrj3aoPsxUUd/xE
+         y65Dc84ASVq0gmCJBMtp+PFH0Qv5ZebfB3e/gzePfkauLe10Q2Ivk36A3qBe+YE3a5
+         vbkuLoN26XE7eZ7z1URW2wLY6gX9A5PKdjMKAq/8Y0Vy8UH/hGuYh/9hyfQb1cDpcy
+         Pk2k2jPTRZLjGbjjRAtbCtcr+Zr9O65rO7nxLtsU/OCybAlxauXdi0MbpIzGBrP+Cw
+         HdCgRe7dK//DQ==
+X-Virus-Scanned: amavisd-new at k24.co.id
+Received: from mta-02.k24.co.id ([127.0.0.1])
+        by localhost (mta-02.k24.co.id [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id J1sKnII_1ODb; Tue,  4 Oct 2022 04:58:14 +0700 (WIB)
+Received: from mailbox1.k24.co.id (mailbox1.k24.co.id [192.168.2.15])
+        by mta-02.k24.co.id (Postfix) with ESMTP id 198B0A0FAE;
+        Tue,  4 Oct 2022 04:57:51 +0700 (WIB)
+Date:   Tue, 4 Oct 2022 04:57:50 +0700 (WIB)
+From:   DIVERSITY CASH LOAN <fredy.daniswara@k24.co.id>
+Reply-To: BELINDA <belindasteenkamp14@gmail.com>
+Message-ID: <2129288997.3602620.1664834270921.JavaMail.zimbra@k24.co.id>
+Subject: New month promo
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <7b56d565-5358-67be-84b8-101a97f97f2b@xs4all.nl>
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_PASS,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Originating-IP: [192.168.2.10]
+X-Mailer: Zimbra 8.8.15_GA_4372 (zclient/8.8.15_GA_4372)
+Thread-Index: FEQ3IfcU2FvE+SDQCgXbHke9nAOpgg==
+Thread-Topic: New month promo
+X-Spam-Status: Yes, score=5.5 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FORGED_REPLYTO,
+        FREEMAIL_REPLYTO_END_DIGIT,MISSING_HEADERS,REPLYTO_WITHOUT_TO_CC,
+        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Report: *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+        *      [score: 0.5013]
+        * -0.0 SPF_PASS SPF: sender matches SPF record
+        *  1.0 MISSING_HEADERS Missing To: header
+        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+        *  0.2 FREEMAIL_REPLYTO_END_DIGIT Reply-To freemail username ends in
+        *      digit
+        *      [belindasteenkamp14[at]gmail.com]
+        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+        *      author's domain
+        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+        *       valid
+        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
+        *      envelope-from domain
+        *  1.6 REPLYTO_WITHOUT_TO_CC No description available.
+        *  2.1 FREEMAIL_FORGED_REPLYTO Freemail in Reply-To, but not From
+X-Spam-Level: *****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans,
+Whatever your goals are we will customize a loan just right for you from up=
+ to TEN MILLION RANDS
 
-On Mon, Oct 03, 2022 at 04:26:32PM +0200, Hans Verkuil wrote:
-> > +#define V4L2_SUBDEV_ROUTE_FL_SOURCE		(1U << 1)
-> 
-> Can we rename this to _FL_INTERNAL_SOURCE? Just 'SOURCE' is very confusing
-> IMHO. The name 'INTERNAL_SOURCE' makes it clear that it is generated internally,
-> and so does not come from an external sink-side endpoint.
-> 
-> I also think that the documentation for this flag in patch 04/19 is very vague,
-> I'll comment on that patch as well.
+What can an unsecured loan do for you and your family and also your busines=
+s.
 
-Having descriptive names is important but I think "SOURCE" as such is fine
-for the purpose. Adding "INTERNAL_" adds 9 characters to what is already a
-very long name, making the flag very clumsy to use in code. That's why I
-would prefer to keep it as-is.
+??Pensioners, blacklisted, debt review clients and self-employed, no paysli=
+p are highly welcome ??
 
--- 
-Kind regards,
+Call ??or what=E2=80=99s-app???? on...+27677352072
+Email??: belindasteenkamp14@gmail.com
 
-Sakari Ailus
