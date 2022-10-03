@@ -2,155 +2,118 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 46C4B5F2635
-	for <lists+linux-media@lfdr.de>; Mon,  3 Oct 2022 00:51:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3AA8E5F275E
+	for <lists+linux-media@lfdr.de>; Mon,  3 Oct 2022 02:20:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229496AbiJBWvT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 2 Oct 2022 18:51:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55700 "EHLO
+        id S229468AbiJCAUp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 2 Oct 2022 20:20:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58974 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230039AbiJBWui (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sun, 2 Oct 2022 18:50:38 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4BD631570F
-        for <linux-media@vger.kernel.org>; Sun,  2 Oct 2022 15:50:16 -0700 (PDT)
-Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <mgr@pengutronix.de>)
-        id 1of7mU-0001iX-2T; Mon, 03 Oct 2022 00:49:54 +0200
-Received: from mgr by ptx.hi.pengutronix.de with local (Exim 4.92)
-        (envelope-from <mgr@pengutronix.de>)
-        id 1of7mT-0001rl-Ql; Mon, 03 Oct 2022 00:49:53 +0200
-Date:   Mon, 3 Oct 2022 00:49:53 +0200
-From:   Michael Grzeschik <mgr@pengutronix.de>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-usb@vger.kernel.org, linux-media@vger.kernel.org,
-        balbi@kernel.org, kernel@pengutronix.de,
-        Daniel Scally <dan.scally@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>
-Subject: Re: [PATCH v2] usb: gadget: uvc: don't put item still in use
-Message-ID: <20221002224953.GC19990@pengutronix.de>
-References: <YzbZ62gq3i4n7Vhx@kroah.com>
- <20220930122839.1747279-1-m.grzeschik@pengutronix.de>
- <YzcWompDLd7iIip+@pendragon.ideasonboard.com>
- <20220930204449.GA19990@pengutronix.de>
+        with ESMTP id S229453AbiJCAUn (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sun, 2 Oct 2022 20:20:43 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE19024BE1
+        for <linux-media@vger.kernel.org>; Sun,  2 Oct 2022 17:20:42 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8AAD0E03;
+        Mon,  3 Oct 2022 02:20:40 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1664756440;
+        bh=02BUDsluiWPm4kbo8RTQ2K9uBxPxgzkn5wXwXTIp/QI=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Hy2V/2VW0pvB/CNjE38Hps0/zXBxskM/Foduo2gfty99aL3nmtFQbVnMyNYUNcW1Y
+         /y4UkbSvUBn4FPSJO3by5GurgYQWQdFCS2u4yuceuO6DS+KZbD5vH+lr6wW6vMw8Sd
+         BavROZn18sDVq9lkN9BItKuD6/JEC6Uw/q8ICP5Y=
+Date:   Mon, 3 Oct 2022 03:20:39 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Maxime Ripard <maxime@cerno.tech>
+Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Hidenori Kobayashi <hidenorik@chromium.org>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Ricardo Ribalda <ribalda@chromium.org>,
+        Daniel Scally <djrscally@gmail.com>,
+        Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>,
+        Dave Stevenson <dave.stevenson@raspberrypi.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>
+Subject: Re: [ANN] Media Summit at ELCE Dublin, September 12: Draft Agenda V2
+Message-ID: <Yzoq1w4GZvhjvTYZ@pendragon.ideasonboard.com>
+References: <3840c3cc-00fb-45dd-cb89-39b36fb6d733@xs4all.nl>
+ <YxX8dzSsquJmO5hP@paasikivi.fi.intel.com>
+ <YxYLSk2pKdGnNDP3@pendragon.ideasonboard.com>
+ <20220907115351.d774wruu22fdohwl@houat>
+ <20220930204642.o6l7qtgg4mhvlthe@houat>
+ <YzdXDuh9Wgm6o3OP@pendragon.ideasonboard.com>
+ <20221001100741.4iivrmhn7ph2nhs2@houat>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="GPJrCs/72TxItFYR"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20220930204449.GA19990@pengutronix.de>
-X-Sent-From: Pengutronix Hildesheim
-X-URL:  http://www.pengutronix.de/
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
-X-SA-Exim-Mail-From: mgr@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+In-Reply-To: <20221001100741.4iivrmhn7ph2nhs2@houat>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+On Sat, Oct 01, 2022 at 12:07:41PM +0200, Maxime Ripard wrote:
+> On Fri, Sep 30, 2022 at 11:52:30PM +0300, Laurent Pinchart wrote:
+> > On Fri, Sep 30, 2022 at 10:46:42PM +0200, Maxime Ripard wrote:
+> > > On Wed, Sep 07, 2022 at 01:53:51PM +0200, Maxime Ripard wrote:
+> > > > On Mon, Sep 05, 2022 at 05:44:26PM +0300, Laurent Pinchart wrote:
+> > > > > On Mon, Sep 05, 2022 at 01:41:11PM +0000, Sakari Ailus wrote:
+> > > > > > On Tue, Aug 23, 2022 at 12:53:44PM +0200, Hans Verkuil wrote:
+> > > > > > > 16:45-18:00 Anything else?
+> > > > > > 
+> > > > > > I think it'd be great to have a GPG key signing party at the end of the
+> > > > > > meeting.
+> > > > > 
+> > > > > It's a good idea. Could everybody please send their GPG key fingerprint
+> > > > > in an e-mail reply to prepare for that ? It can easily be retrieved with
+> > > > > 'gpg -K' (make sure to pick the right key if you have multiple of them).
+> > > > > I'll start:
+> > > > > 
+> > > > > sec   rsa4096/0xF045C2B96991256E 2014-10-09 [C]
+> > > > >       94231B980100EC619AC10E10F045C2B96991256E
+> > > > > uid                   [ultimate] Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > > > > 
+> > > > > If you're generating a key for the occasion, create a primary key with
+> > > > > the Certify (C) capability only, and create separate sub-keys for
+> > > > > Signature (S) and Encryption (E). There's little reason these days to
+> > > > > use less than 4096 bits for the primary key if you opt for RSA. The
+> > > > > subkeys should have an expiration date.
+> > > > > 
+> > > > > The primary key can then be moved to safe storage, you will only need
+> > > > > the subkeys for daily usage.  The primary key will be used only to
+> > > > > create new subkeys and to sign other people's keys.
+> > > > 
+> > > > sec#  ed25519 2018-09-15 [C] [expires: 2023-03-17]
+> > > >       BE5675C37E818C8B5764241C254BCFC56BF6CE8D
+> > > > uid           [ultimate] Maxime Ripard <maxime.ripard@anandra.org>
+> > > > uid           [ultimate] Maxime Ripard <mripard@kernel.org>
+> > > > uid           [ultimate] Maxime Ripard (Work Address) <maxime@cerno.tech>
+> > > 
+> > > I'm not entirely sure what happened, but it looks like all the
+> > > signatures I received so far (Laurent, Jernej, Ricardo, Kieran, Jacopo
+> > > and Chen-Yu) have been missing that UID
+> > > 
+> > > Could you make sure that it's signed?
+> > 
+> > The key I have here doesn't have that UID. To what key server have you
+> > pushed it ?
+> 
+> It is published on keys.openpgp.org and I sent it yesterday to
+> keyserver.ubuntu.com.
 
---GPJrCs/72TxItFYR
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+The latter gave me your third UID, the former didn't.
 
-Hi Laurent,
+-- 
+Regards,
 
-On Fri, Sep 30, 2022 at 10:44:49PM +0200, Michael Grzeschik wrote:
->On Fri, Sep 30, 2022 at 07:17:38PM +0300, Laurent Pinchart wrote:
->>On Fri, Sep 30, 2022 at 02:28:39PM +0200, Michael Grzeschik wrote:
->>>With the patch "588b9e85609b (usb: gadget: uvc: add v4l2 enumeration api
->>>calls)" the driver is keeping a list of configfs entries currently
->>>configured. The list is used in uvc_v4l2 on runtime.
->>
->>s/on runtime/at runtime/
->>
->>>The driver now is giving back the list item just after it was referenced
->>>with config_item_put. It also calls config_item_put on uvc_free, which
->>>is the only and right place to give back the reference. This patch fixes
->>>the issue by removing the extra config_item_put in uvc_alloc.
->>>
->>>Fixes: 588b9e85609b (usb: gadget: uvc: add v4l2 enumeration api calls)
->>
->>I still don't like this much :-( As shown by this fix, the additional
->>complexity that it incurs on the kernel side can cause bugs, and the
->>gain for userspace is quite minimal in my opinion, as parsing configfs
->>(or obtaining that information out-of-band through other means) will
->>still be needed anyway to handle controls properly (I think we have
->>agreed that userspace needs to handle the UVC requests in any case).
->
->I understand your objections regarding the out-of-band configfs data.
->While implementing the parser in the gstreamer uvcsink element I just
->stumbled over this. It still needs to parse configfs just for
->bInteraceNumber of the config and streaming interfaces. So actually with
->the parser in the kernel, this was no issue, since this information is
->already present there. I am more and more overthinking my latest
->conviction of moving the whole parsing code to userspace.
->
->Although, I understand that an partial parsing of the events in the
->kernel for the format negotiaton is not ideal, the kernel parser is
->still an valid option.
->
->In our other discussion I mentioned a proper uvc-events API where the
->kernel is already preparsing the gadget messages and creates events with
->well defined event types. The userspace could then just run an simple
->select over the event types and decide what to do.
-
-I looked into the v4l2_events and its subscription options. Since the
-UVC spec for class events only distinguishes requests for the control or
-the streaming interface, we could stuff this information in the
-v4l2_event.id field .
-
-The kernel would only need to preparse the setup events and check for
-wIndex of the ctrl message and set the v4l2_events id accordingly.
-
-This id could always be fixed numbers like streaming (1) and control (0).
-The userspace then would not need to parse the configfs for the
-interface numbers anymore.
-
-Since the uvc gadget is using private v4l2_event types anyway, using the
-id field would make sense in my opinion.
-
-Does this sound sane?
-
-Thanks
-Michael
-
-
---=20
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
-
---GPJrCs/72TxItFYR
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEElXvEUs6VPX6mDPT8C+njFXoeLGQFAmM6FY4ACgkQC+njFXoe
-LGRF2A//WMxbsk5ZxScpwKESaWjJ3VUv5kXKDMLX7VBAUeNECKTVJ/YZ5Lq3oxyF
-7XNXNdLqMYgD/Nlh5RsBRAXzeJy1GSOc8hGBlDq3hliRBDUVCCgEJWvEdRELzZ3M
-hw24gOri633QDGQZnvDo8ATpA3fNHi2zxRZkIIg2ERk2jcaQ2rCaOaVWdiRpCFm0
-eUDBpNNFCFe0mP2DfqYYDkWdcjv4Dw6OOFYA0A/wlqEOQPw5wWujvNVufUrBCqzp
-+SDdgzv9eg5m7xP5lyR0s4DQLmuyXgaPLtDpcErWUqx/Fhhm+nuvFm/6/eUoETBP
-UCAf7XtVqMdjGtto+il0bjStDDY3+1GFdvkqnP1S+TC9MSRy5HHq+7v1yAU8GcSJ
-NeyVT/Vx0sItXg4a7lSk5MFUwekUIKtJA0GMM0rc51eFMUqvfZxMnCLRLkciR0w5
-syW1A31x8soHwmbTFdgalCVTqqsm2RF9f9yZb7xBpsKr/7+t1PnJVSCDl54VIYcM
-Dbz6SNmCGqSV6drYJI75osjQ9R1unhj5pqB4aF/3B/svOLVNPpjExm5uh4HWt0v0
-MzGaYimY3Wl0L4ARwJdB+F8aYRFMr+kWjbmD9DlVSGK0gT8pBnS9mZqxQhqn6KlG
-jXQRX+wBf7LcIaXciNtxA3DBGXGlVBvTgB4kitFTNC5FqOI4T/Q=
-=MYom
------END PGP SIGNATURE-----
-
---GPJrCs/72TxItFYR--
+Laurent Pinchart
