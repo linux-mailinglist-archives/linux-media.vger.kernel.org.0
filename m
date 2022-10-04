@@ -2,115 +2,135 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DF97B5F409F
-	for <lists+linux-media@lfdr.de>; Tue,  4 Oct 2022 12:15:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8F5545F4098
+	for <lists+linux-media@lfdr.de>; Tue,  4 Oct 2022 12:13:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229596AbiJDKP3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 4 Oct 2022 06:15:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39784 "EHLO
+        id S229724AbiJDKNV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 4 Oct 2022 06:13:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34882 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229445AbiJDKP1 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 4 Oct 2022 06:15:27 -0400
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 412332AC79
-        for <linux-media@vger.kernel.org>; Tue,  4 Oct 2022 03:15:24 -0700 (PDT)
+        with ESMTP id S229672AbiJDKNT (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 4 Oct 2022 06:13:19 -0400
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9ED9228E02;
+        Tue,  4 Oct 2022 03:13:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1664878524; x=1696414524;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=/K7M43Dyqv7vXQZYikKA1OEQCt+nrxqM2mVGqErgGOU=;
-  b=eyciK0AhBOOu2wCmMUmNIzdSYbarJprxhkhKjSFJVPsxUZxlvOiqYwtx
-   MWcEZMPXCwCZyuBqUnt97PAjpJiNXg/Co/2Ko7gtY5qnWXYsjQ9q9P8Si
-   752sHs+8RTwhh1h2GRx8evhb3ES22L9JUVgOCh9SgaM2rAJFv6+FwctLp
-   uMBQeIYmUNHt2AF5IUsWMev1z4oIu5XL1chYQ6Edi/poSSRYZYt0YEkPx
-   YJciifCo4GWNwZZ8rf4V4xIo7YgptI8CwiZvK3bHcWMIOAB3OgtS1wSpN
-   Gbpx7T9wWeceb3taM5OzV0dn5Int5PUEjdl21FGGBlWoNZIVur/nb1AgK
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10489"; a="302852874"
+  t=1664878398; x=1696414398;
+  h=date:from:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=unSBrfZWWQiaWR5VmWYGXL4IstFzYLo18uQjnoBzJyQ=;
+  b=ScrgRUdrsA4otFfZ6Jyu/mtiH4FZ0NqkBAc6zMRRp98cyHKkbWKans9Q
+   QHjKQxjcLPka78qbH1HkMQ5X5kxZbi6CGlkp7izW5oH7V2c3Z6Z06nt21
+   uCBPJmnBdznIXeyHfe4EfYCYrRPp4mlHDyVFVHR4tt3LPtJq6TNvo/6iS
+   l9nh3zlRYCAj0m9CEXFX1zeTzq4kgVsMaC1Fl29iYB3U7cq795n3ZdtcG
+   zgvLCzD8YeG/kHs1Wkb3JpgOQAalOAQnD70jjFAtnKQIMjp4U7HNXVhJ5
+   A3GoaRDBZrMreJ82owWapeshukLxXWxj9biN/QZkuk43pd+bGAoDiQaOo
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10489"; a="303833888"
 X-IronPort-AV: E=Sophos;i="5.93,367,1654585200"; 
-   d="scan'208";a="302852874"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2022 03:15:23 -0700
-X-IronPort-AV: E=McAfee;i="6500,9779,10489"; a="728163858"
+   d="scan'208";a="303833888"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2022 03:13:18 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10489"; a="619053782"
 X-IronPort-AV: E=Sophos;i="5.93,367,1654585200"; 
-   d="scan'208";a="728163858"
-Received: from punajuuri.fi.intel.com (HELO paasikivi.fi.intel.com) ([10.237.72.43])
-  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2022 03:15:21 -0700
-Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
-        by paasikivi.fi.intel.com (Postfix) with SMTP id D27AE20321;
-        Tue,  4 Oct 2022 13:05:57 +0300 (EEST)
-Date:   Tue, 4 Oct 2022 10:05:57 +0000
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-        linux-media@vger.kernel.org,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        niklas.soderlund+renesas@ragnatech.se,
+   d="scan'208";a="619053782"
+Received: from kmreisi-mobl.ger.corp.intel.com ([10.252.39.196])
+  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2022 03:13:13 -0700
+Date:   Tue, 4 Oct 2022 13:13:10 +0300 (EEST)
+From:   =?ISO-8859-15?Q?Ilpo_J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
+To:     Irui Wang <irui.wang@mediatek.com>
+cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Kishon Vijay Abraham <kishon@ti.com>,
-        satish.nagireddy@getcruise.com, Tomasz Figa <tfiga@chromium.org>,
-        Michal Simek <michal.simek@xilinx.com>
-Subject: Re: [PATCH v15 05/19] media: subdev: Add [GS]_ROUTING subdev ioctls
- and operations
-Message-ID: <YzwFhYtzh8hPoAYv@paasikivi.fi.intel.com>
-References: <20221003121852.616745-1-tomi.valkeinen@ideasonboard.com>
- <20221003121852.616745-6-tomi.valkeinen@ideasonboard.com>
- <7b56d565-5358-67be-84b8-101a97f97f2b@xs4all.nl>
- <Yztb06LVmPBKf8J2@paasikivi.fi.intel.com>
- <eea402df-7468-f9fc-ed05-8581ea67f5d3@xs4all.nl>
+        Rob Herring <robh+dt@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Tzung-Bi Shih <tzungbi@chromium.org>,
+        angelogioacchino.delregno@collabora.com,
+        nicolas.dufresne@collabora.com,
+        Tiffany Lin <tiffany.lin@mediatek.com>,
+        Yunfei Dong <yunfei.dong@mediatek.com>,
+        Maoguang Meng <maoguang.meng@mediatek.com>,
+        Longfei Wang <longfei.wang@mediatek.com>,
+        Project_Global_Chrome_Upstream_Group@mediatek.com,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        LKML <linux-kernel@vger.kernel.org>,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org
+Subject: Re: [PATCH v6, 5/8] media: mediatek: vcodec: Add venc power on/off
+ function
+In-Reply-To: <20221001031737.18266-6-irui.wang@mediatek.com>
+Message-ID: <8a19febc-8662-b9f7-8250-44c23af06f91@linux.intel.com>
+References: <20221001031737.18266-1-irui.wang@mediatek.com> <20221001031737.18266-6-irui.wang@mediatek.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <eea402df-7468-f9fc-ed05-8581ea67f5d3@xs4all.nl>
-X-Spam-Status: No, score=-7.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans,
+On Sat, 1 Oct 2022, Irui Wang wrote:
 
-On Tue, Oct 04, 2022 at 10:43:55AM +0200, Hans Verkuil wrote:
-> Hi Sakari,
+> when enable multi-core encoding, all available encoder cores' power need
+> to be on/off, add new functions for encoder cores' power management.
 > 
-> On 10/4/22 00:01, Sakari Ailus wrote:
-> > Hi Hans,
-> > 
-> > On Mon, Oct 03, 2022 at 04:26:32PM +0200, Hans Verkuil wrote:
-> >>> +#define V4L2_SUBDEV_ROUTE_FL_SOURCE		(1U << 1)
-> >>
-> >> Can we rename this to _FL_INTERNAL_SOURCE? Just 'SOURCE' is very confusing
-> >> IMHO. The name 'INTERNAL_SOURCE' makes it clear that it is generated internally,
-> >> and so does not come from an external sink-side endpoint.
-> >>
-> >> I also think that the documentation for this flag in patch 04/19 is very vague,
-> >> I'll comment on that patch as well.
-> > 
-> > Having descriptive names is important but I think "SOURCE" as such is fine
-> > for the purpose. Adding "INTERNAL_" adds 9 characters to what is already a
-> > very long name, making the flag very clumsy to use in code. That's why I
-> > would prefer to keep it as-is.
-> > 
-> 
-> _FL_SOURCE is meaningless (at least to me): there are so many 'source' and 'sink'
-> references, that just plain 'SOURCE' doesn't help me understand what the flag
-> means. I did consider INT_SOURCE, but I thought 'INT' is too close to 'interrupt'.
-> I'm OK with that, though.
-> 
-> Another alternative would be _FL_NO_SINK: that clearly conveys that 1) there is
-> no sink, and implies that 2) the source is internally generated.
-> 
-> Or perhaps: _FL_SOURCE_ONLY?
+> Signed-off-by: Irui Wang <irui.wang@mediatek.com>
+> ---
 
-This appears as the best compromise IMO. NO_SINK is shorter but conveying
-the meaning through negation is what I don't like too much.
+> diff --git a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc_pm.c b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc_pm.c
+> index 75de5031d292..213c3f50e9eb 100644
+> --- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc_pm.c
+> +++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc_pm.c
+> @@ -9,6 +9,7 @@
+>  #include <linux/of_platform.h>
+>  #include <linux/pm_runtime.h>
+>  
+> +#include "mtk_vcodec_enc_hw.h"
+>  #include "mtk_vcodec_enc_pm.h"
+>  #include "mtk_vcodec_util.h"
+>  
+> @@ -56,6 +57,88 @@ int mtk_vcodec_init_enc_clk(struct platform_device *pdev,
+>  }
+>  EXPORT_SYMBOL_GPL(mtk_vcodec_init_enc_clk);
+>  
+> +static int mtk_enc_core_power_on(struct mtk_vcodec_ctx *ctx)
+> +{
+> +	struct mtk_venc_hw_dev *sub_core;
+> +	int ret, i;
+> +
+> +	/* multi-core encoding need power on all available cores */
+> +	for (i = 0; i < MTK_VENC_HW_MAX; i++) {
+> +		sub_core = (struct mtk_venc_hw_dev *)ctx->dev->enc_hw_dev[i];
+> +		if (!sub_core)
+> +			continue;
+> +
+> +		ret = pm_runtime_resume_and_get(&sub_core->plat_dev->dev);
+> +		if (ret) {
+> +			mtk_v4l2_err("power on sub_core[%d] fail %d", i, ret);
+> +			goto pm_on_fail;
+> +		}
+> +	}
+> +	return ret;
+> +
+> +pm_on_fail:
+> +	for (i -= 1; i >= 0; i--) {
+
+while (i--) {
+
+achieves the same.
+
+> +		sub_core = (struct mtk_venc_hw_dev *)ctx->dev->enc_hw_dev[i];
+> +		pm_runtime_put_sync(&sub_core->plat_dev->dev);
+> +	}
+> +	return ret;
+> +}
+
 
 -- 
-Kind regards,
+ i.
 
-Sakari Ailus
