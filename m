@@ -2,104 +2,115 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9FF995F4053
-	for <lists+linux-media@lfdr.de>; Tue,  4 Oct 2022 11:51:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DF97B5F409F
+	for <lists+linux-media@lfdr.de>; Tue,  4 Oct 2022 12:15:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229638AbiJDJvl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 4 Oct 2022 05:51:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57384 "EHLO
+        id S229596AbiJDKP3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 4 Oct 2022 06:15:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39784 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229641AbiJDJvN (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 4 Oct 2022 05:51:13 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B0255D81;
-        Tue,  4 Oct 2022 02:49:35 -0700 (PDT)
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits))
-        (No client certificate requested)
-        (Authenticated sender: kholk11)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 3CE686601595;
-        Tue,  4 Oct 2022 10:49:33 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1664876973;
-        bh=0JAossrh1s1hdIruCobtP1yntPLtj2cheG0ilCpKD4g=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=iNMFa0r/mUkXcpDHLcGnQXzL5H/YCfCOFDr7/zwbiDZQwxLsS1PaxgsKhaMno6kqG
-         MuzvN5z+biFI64Q8cQ50/LNSOzmfiql0cBClk7Rwk71MVD4Lye27Kn+KjQxZQ4QMDd
-         WnsmIF6vB0O7M79Jd1NwgfZursYLILfxIfR0gU8LTYfO+oUwGz72lamFmgRudlVrdI
-         X81kL9mA8SAgNn3zcsh3UL1uQ6wGu/lcHwM+oh7d83Dx5fGGGBKt6cGpSTRZpM6IRl
-         qsn7f1XmzRVhlMcXmBgyjvj/ibLklrqc8B4bg4YIFEjNnw96gqq8Tt5o8q6DgkvokI
-         TS2TRfsWm59Bw==
-Message-ID: <699e33a2-9498-9a84-47c9-419c952e75cf@collabora.com>
-Date:   Tue, 4 Oct 2022 11:49:30 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.0
-Subject: Re: [PATCH] media: platform: mtk-mdp3: remove unused
- VIDEO_MEDIATEK_VPU config
-Content-Language: en-US
-To:     Moudy Ho <moudy.ho@mediatek.com>,
+        with ESMTP id S229445AbiJDKP1 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 4 Oct 2022 06:15:27 -0400
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 412332AC79
+        for <linux-media@vger.kernel.org>; Tue,  4 Oct 2022 03:15:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1664878524; x=1696414524;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=/K7M43Dyqv7vXQZYikKA1OEQCt+nrxqM2mVGqErgGOU=;
+  b=eyciK0AhBOOu2wCmMUmNIzdSYbarJprxhkhKjSFJVPsxUZxlvOiqYwtx
+   MWcEZMPXCwCZyuBqUnt97PAjpJiNXg/Co/2Ko7gtY5qnWXYsjQ9q9P8Si
+   752sHs+8RTwhh1h2GRx8evhb3ES22L9JUVgOCh9SgaM2rAJFv6+FwctLp
+   uMBQeIYmUNHt2AF5IUsWMev1z4oIu5XL1chYQ6Edi/poSSRYZYt0YEkPx
+   YJciifCo4GWNwZZ8rf4V4xIo7YgptI8CwiZvK3bHcWMIOAB3OgtS1wSpN
+   Gbpx7T9wWeceb3taM5OzV0dn5Int5PUEjdl21FGGBlWoNZIVur/nb1AgK
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10489"; a="302852874"
+X-IronPort-AV: E=Sophos;i="5.93,367,1654585200"; 
+   d="scan'208";a="302852874"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2022 03:15:23 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10489"; a="728163858"
+X-IronPort-AV: E=Sophos;i="5.93,367,1654585200"; 
+   d="scan'208";a="728163858"
+Received: from punajuuri.fi.intel.com (HELO paasikivi.fi.intel.com) ([10.237.72.43])
+  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2022 03:15:21 -0700
+Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
+        by paasikivi.fi.intel.com (Postfix) with SMTP id D27AE20321;
+        Tue,  4 Oct 2022 13:05:57 +0300 (EEST)
+Date:   Tue, 4 Oct 2022 10:05:57 +0000
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+        linux-media@vger.kernel.org,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        niklas.soderlund+renesas@ragnatech.se,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     Chun-Kuang Hu <chunkuang.hu@kernel.org>,
-        linux-media@vger.kernel.org, linux-mediatek@lists.infradead.org,
-        linux-kernel@vger.kernel.org,
-        Project_Global_Chrome_Upstream_Group@mediatek.com
-References: <20221004023727.28946-1-moudy.ho@mediatek.com>
-From:   AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20221004023727.28946-1-moudy.ho@mediatek.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        Kishon Vijay Abraham <kishon@ti.com>,
+        satish.nagireddy@getcruise.com, Tomasz Figa <tfiga@chromium.org>,
+        Michal Simek <michal.simek@xilinx.com>
+Subject: Re: [PATCH v15 05/19] media: subdev: Add [GS]_ROUTING subdev ioctls
+ and operations
+Message-ID: <YzwFhYtzh8hPoAYv@paasikivi.fi.intel.com>
+References: <20221003121852.616745-1-tomi.valkeinen@ideasonboard.com>
+ <20221003121852.616745-6-tomi.valkeinen@ideasonboard.com>
+ <7b56d565-5358-67be-84b8-101a97f97f2b@xs4all.nl>
+ <Yztb06LVmPBKf8J2@paasikivi.fi.intel.com>
+ <eea402df-7468-f9fc-ed05-8581ea67f5d3@xs4all.nl>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <eea402df-7468-f9fc-ed05-8581ea67f5d3@xs4all.nl>
+X-Spam-Status: No, score=-7.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,
+        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Il 04/10/22 04:37, Moudy Ho ha scritto:
-> Since remoteproc completely replaces the VPU in MDP3, unused config
-> should be removed to avoid compilation warnings reported on i386 or x86_64.
-> 
+Hi Hans,
 
-MTK_SCP replaces VIDEO_MEDIATEK_VPU... but your description is not wrong, anyway.
-
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-
-> Warning messages:
->      WARNING: unmet direct dependencies detected for VIDEO_MEDIATEK_VPU
->            Depends on [n]: MEDIA_SUPPORT [=y] && MEDIA_PLATFORM_SUPPORT [=y]
->          && MEDIA_PLATFORM_DRIVERS [=y] && V4L_MEM2MEM_DRIVERS [=n] &&
->          VIDEO_DEV [=y] && (ARCH_MEDIATEK || COMPILE_TEST [=y])
->            Selected by [y]:
->            - VIDEO_MEDIATEK_MDP3 [=y] && MEDIA_SUPPORT [=y] &&
->          MEDIA_PLATFORM_SUPPORT [=y] && MEDIA_PLATFORM_DRIVERS [=y] &&
->          (MTK_IOMMU [=n] || COMPILE_TEST [=y]) && VIDEO_DEV [=y] &&
->          (ARCH_MEDIATEK || COMPILE_TEST [=y]) && HAS_DMA [=y] && REMOTEPROC
->          [=y]
+On Tue, Oct 04, 2022 at 10:43:55AM +0200, Hans Verkuil wrote:
+> Hi Sakari,
 > 
-> Fixes: 61890ccaefaf ("media: platform: mtk-mdp3: add MediaTek MDP3 driver")
-> Signed-off-by: Moudy Ho <moudy.ho@mediatek.com>
-> ---
->   drivers/media/platform/mediatek/mdp3/Kconfig | 1 -
->   1 file changed, 1 deletion(-)
+> On 10/4/22 00:01, Sakari Ailus wrote:
+> > Hi Hans,
+> > 
+> > On Mon, Oct 03, 2022 at 04:26:32PM +0200, Hans Verkuil wrote:
+> >>> +#define V4L2_SUBDEV_ROUTE_FL_SOURCE		(1U << 1)
+> >>
+> >> Can we rename this to _FL_INTERNAL_SOURCE? Just 'SOURCE' is very confusing
+> >> IMHO. The name 'INTERNAL_SOURCE' makes it clear that it is generated internally,
+> >> and so does not come from an external sink-side endpoint.
+> >>
+> >> I also think that the documentation for this flag in patch 04/19 is very vague,
+> >> I'll comment on that patch as well.
+> > 
+> > Having descriptive names is important but I think "SOURCE" as such is fine
+> > for the purpose. Adding "INTERNAL_" adds 9 characters to what is already a
+> > very long name, making the flag very clumsy to use in code. That's why I
+> > would prefer to keep it as-is.
+> > 
 > 
-> diff --git a/drivers/media/platform/mediatek/mdp3/Kconfig b/drivers/media/platform/mediatek/mdp3/Kconfig
-> index 50ae07b75b5f..846e759a8f6a 100644
-> --- a/drivers/media/platform/mediatek/mdp3/Kconfig
-> +++ b/drivers/media/platform/mediatek/mdp3/Kconfig
-> @@ -9,7 +9,6 @@ config VIDEO_MEDIATEK_MDP3
->   	select VIDEOBUF2_DMA_CONTIG
->   	select V4L2_MEM2MEM_DEV
->   	select MTK_MMSYS
-> -	select VIDEO_MEDIATEK_VPU
->   	select MTK_CMDQ
->   	select MTK_SCP
->   	default n
+> _FL_SOURCE is meaningless (at least to me): there are so many 'source' and 'sink'
+> references, that just plain 'SOURCE' doesn't help me understand what the flag
+> means. I did consider INT_SOURCE, but I thought 'INT' is too close to 'interrupt'.
+> I'm OK with that, though.
 > 
+> Another alternative would be _FL_NO_SINK: that clearly conveys that 1) there is
+> no sink, and implies that 2) the source is internally generated.
+> 
+> Or perhaps: _FL_SOURCE_ONLY?
 
+This appears as the best compromise IMO. NO_SINK is shorter but conveying
+the meaning through negation is what I don't like too much.
+
+-- 
+Kind regards,
+
+Sakari Ailus
