@@ -2,42 +2,42 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8F5545F4098
-	for <lists+linux-media@lfdr.de>; Tue,  4 Oct 2022 12:13:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6279C5F40B5
+	for <lists+linux-media@lfdr.de>; Tue,  4 Oct 2022 12:22:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229724AbiJDKNV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 4 Oct 2022 06:13:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34882 "EHLO
+        id S229662AbiJDKWI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 4 Oct 2022 06:22:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48512 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229672AbiJDKNT (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 4 Oct 2022 06:13:19 -0400
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9ED9228E02;
-        Tue,  4 Oct 2022 03:13:18 -0700 (PDT)
+        with ESMTP id S229701AbiJDKWD (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 4 Oct 2022 06:22:03 -0400
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E7B1D31DF3;
+        Tue,  4 Oct 2022 03:22:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1664878398; x=1696414398;
+  t=1664878921; x=1696414921;
   h=date:from:to:cc:subject:in-reply-to:message-id:
    references:mime-version;
-  bh=unSBrfZWWQiaWR5VmWYGXL4IstFzYLo18uQjnoBzJyQ=;
-  b=ScrgRUdrsA4otFfZ6Jyu/mtiH4FZ0NqkBAc6zMRRp98cyHKkbWKans9Q
-   QHjKQxjcLPka78qbH1HkMQ5X5kxZbi6CGlkp7izW5oH7V2c3Z6Z06nt21
-   uCBPJmnBdznIXeyHfe4EfYCYrRPp4mlHDyVFVHR4tt3LPtJq6TNvo/6iS
-   l9nh3zlRYCAj0m9CEXFX1zeTzq4kgVsMaC1Fl29iYB3U7cq795n3ZdtcG
-   zgvLCzD8YeG/kHs1Wkb3JpgOQAalOAQnD70jjFAtnKQIMjp4U7HNXVhJ5
-   A3GoaRDBZrMreJ82owWapeshukLxXWxj9biN/QZkuk43pd+bGAoDiQaOo
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10489"; a="303833888"
+  bh=tYiX0livaZV54Tpug1MQVrKJH6mQ7IQHkmnz80pYNMc=;
+  b=Lx5ecCpvJADqj4mBwKve/+zRtT8lrCSHkScQay4RtXTFEuj0ElXeZumR
+   mBnLziFdN8WFsqbdKUbm18Zl1b6ZM9+ecBpe4YYxONlzXafxDju3YM0q4
+   UM+HLpkOuVgLp/53bQlp1qjlONGwlDkdrO99fknFpWBzGmoQdBtNuKJkb
+   fM3JAn57/iwwWyQ1ex8shEuO3u3K+8ftpholn5j3EnR+W0Otp45ecz231
+   A8jNcZ5vjgzGNiIRtwM9QAfflN24NtAQtJ08JKJSesp9gQeNNcJfRGkHY
+   B3PgIwQL7+a/Ust9rf9lxXeGRgaKxW8vPy8n2kpSBISrTD8dX0vRDdlR/
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10489"; a="389167470"
 X-IronPort-AV: E=Sophos;i="5.93,367,1654585200"; 
-   d="scan'208";a="303833888"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2022 03:13:18 -0700
-X-IronPort-AV: E=McAfee;i="6500,9779,10489"; a="619053782"
+   d="scan'208";a="389167470"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2022 03:22:00 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10489"; a="657081017"
 X-IronPort-AV: E=Sophos;i="5.93,367,1654585200"; 
-   d="scan'208";a="619053782"
+   d="scan'208";a="657081017"
 Received: from kmreisi-mobl.ger.corp.intel.com ([10.252.39.196])
-  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2022 03:13:13 -0700
-Date:   Tue, 4 Oct 2022 13:13:10 +0300 (EEST)
+  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2022 03:21:55 -0700
+Date:   Tue, 4 Oct 2022 13:21:52 +0300 (EEST)
 From:   =?ISO-8859-15?Q?Ilpo_J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
 To:     Irui Wang <irui.wang@mediatek.com>
 cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
@@ -57,17 +57,16 @@ cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         LKML <linux-kernel@vger.kernel.org>,
         linux-arm-kernel@lists.infradead.org,
         linux-mediatek@lists.infradead.org
-Subject: Re: [PATCH v6, 5/8] media: mediatek: vcodec: Add venc power on/off
- function
-In-Reply-To: <20221001031737.18266-6-irui.wang@mediatek.com>
-Message-ID: <8a19febc-8662-b9f7-8250-44c23af06f91@linux.intel.com>
-References: <20221001031737.18266-1-irui.wang@mediatek.com> <20221001031737.18266-6-irui.wang@mediatek.com>
+Subject: Re: [PATCH v6, 6/8] media: mediatek: vcodec: Refactor encoder clock
+ on/off function
+In-Reply-To: <20221001031737.18266-7-irui.wang@mediatek.com>
+Message-ID: <3645b24f-436e-d6a5-27cd-287712eab22@linux.intel.com>
+References: <20221001031737.18266-1-irui.wang@mediatek.com> <20221001031737.18266-7-irui.wang@mediatek.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
-        autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -76,59 +75,68 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 On Sat, 1 Oct 2022, Irui Wang wrote:
 
-> when enable multi-core encoding, all available encoder cores' power need
-> to be on/off, add new functions for encoder cores' power management.
+> when enable multi-core encoding, encoder cores use their own clock,
+> refactor clock management functions with used encoder hardware id.
 > 
 > Signed-off-by: Irui Wang <irui.wang@mediatek.com>
 > ---
-
+>  .../mediatek/vcodec/mtk_vcodec_enc_pm.c       | 89 ++++++++++++++++---
+>  .../mediatek/vcodec/mtk_vcodec_enc_pm.h       |  6 +-
+>  .../platform/mediatek/vcodec/venc_drv_if.c    |  4 +-
+>  3 files changed, 84 insertions(+), 15 deletions(-)
+> 
 > diff --git a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc_pm.c b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc_pm.c
-> index 75de5031d292..213c3f50e9eb 100644
+> index 213c3f50e9eb..2f83aade779a 100644
 > --- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc_pm.c
 > +++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc_pm.c
-> @@ -9,6 +9,7 @@
->  #include <linux/of_platform.h>
->  #include <linux/pm_runtime.h>
+> @@ -60,7 +60,9 @@ EXPORT_SYMBOL_GPL(mtk_vcodec_init_enc_clk);
+>  static int mtk_enc_core_power_on(struct mtk_vcodec_ctx *ctx)
+>  {
+>  	struct mtk_venc_hw_dev *sub_core;
+> +	struct mtk_vcodec_clk *clk;
+>  	int ret, i;
+> +	int j = 0;
 >  
-> +#include "mtk_vcodec_enc_hw.h"
->  #include "mtk_vcodec_enc_pm.h"
->  #include "mtk_vcodec_util.h"
->  
-> @@ -56,6 +57,88 @@ int mtk_vcodec_init_enc_clk(struct platform_device *pdev,
->  }
->  EXPORT_SYMBOL_GPL(mtk_vcodec_init_enc_clk);
->  
-> +static int mtk_enc_core_power_on(struct mtk_vcodec_ctx *ctx)
-> +{
-> +	struct mtk_venc_hw_dev *sub_core;
-> +	int ret, i;
+>  	/* multi-core encoding need power on all available cores */
+>  	for (i = 0; i < MTK_VENC_HW_MAX; i++) {
+> @@ -73,12 +75,27 @@ static int mtk_enc_core_power_on(struct mtk_vcodec_ctx *ctx)
+>  			mtk_v4l2_err("power on sub_core[%d] fail %d", i, ret);
+>  			goto pm_on_fail;
+>  		}
 > +
-> +	/* multi-core encoding need power on all available cores */
-> +	for (i = 0; i < MTK_VENC_HW_MAX; i++) {
-> +		sub_core = (struct mtk_venc_hw_dev *)ctx->dev->enc_hw_dev[i];
-> +		if (!sub_core)
-> +			continue;
-> +
-> +		ret = pm_runtime_resume_and_get(&sub_core->plat_dev->dev);
-> +		if (ret) {
-> +			mtk_v4l2_err("power on sub_core[%d] fail %d", i, ret);
-> +			goto pm_on_fail;
+> +		clk = &sub_core->pm.venc_clk;
+> +		for (j = 0; j < clk->clk_num; j++) {
+> +			ret = clk_prepare(clk->clk_info[j].vcodec_clk);
+> +			if (ret) {
+> +				mtk_v4l2_err("prepare clk [%s] fail %d",
+> +					     clk->clk_info[j].clk_name, ret);
+> +				goto pm_on_fail;
+> +			}
 > +		}
-> +	}
-> +	return ret;
+>  	}
+>  	return ret;
+>  
+>  pm_on_fail:
+>  	for (i -= 1; i >= 0; i--) {
+>  		sub_core = (struct mtk_venc_hw_dev *)ctx->dev->enc_hw_dev[i];
 > +
-> +pm_on_fail:
-> +	for (i -= 1; i >= 0; i--) {
+> +		clk = &sub_core->pm.venc_clk;
+> +		for (j -= 1; j >= 0; j--)
+> +			clk_unprepare(clk->clk_info[j].vcodec_clk);
+> +
+>  		pm_runtime_put_sync(&sub_core->plat_dev->dev);
 
-while (i--) {
+There's more than one thing wrong here.
 
-achieves the same.
+pm_runtime_put_sync() won't be called for the ith entry when the later 
+goto pm_on_fail is taken because the loop decrements i right at the 
+start.
 
-> +		sub_core = (struct mtk_venc_hw_dev *)ctx->dev->enc_hw_dev[i];
-> +		pm_runtime_put_sync(&sub_core->plat_dev->dev);
-> +	}
-> +	return ret;
-> +}
+Similarly, i and j will mismatch for the ith entry because i was 
+decremented.
+
+Third, j does not start from clk->clk_num - 1 for the other entries 
+(for those lower "i"s).
 
 
 -- 
