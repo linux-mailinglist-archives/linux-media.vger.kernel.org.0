@@ -2,128 +2,93 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 91F7C5F577F
-	for <lists+linux-media@lfdr.de>; Wed,  5 Oct 2022 17:29:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6554F5F57F9
+	for <lists+linux-media@lfdr.de>; Wed,  5 Oct 2022 18:06:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230462AbiJEP3J (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 5 Oct 2022 11:29:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39590 "EHLO
+        id S230128AbiJEQGH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 5 Oct 2022 12:06:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39952 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230236AbiJEP3F (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 5 Oct 2022 11:29:05 -0400
-Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com [IPv6:2a00:1450:4864:20::32d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C1335247F
-        for <linux-media@vger.kernel.org>; Wed,  5 Oct 2022 08:29:03 -0700 (PDT)
-Received: by mail-wm1-x32d.google.com with SMTP id iv17so11003011wmb.4
-        for <linux-media@vger.kernel.org>; Wed, 05 Oct 2022 08:29:03 -0700 (PDT)
+        with ESMTP id S229750AbiJEQGH (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 5 Oct 2022 12:06:07 -0400
+Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com [IPv6:2a00:1450:4864:20::32b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2BB985C35E;
+        Wed,  5 Oct 2022 09:06:06 -0700 (PDT)
+Received: by mail-wm1-x32b.google.com with SMTP id e10-20020a05600c4e4a00b003b4eff4ab2cso1277245wmq.4;
+        Wed, 05 Oct 2022 09:06:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=raspberrypi.com; s=google;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
-        bh=6z3eOipP9uSMzPeU3wBGzwLbTfap33BpuIjU1zg0tEk=;
-        b=qQzZRbGT2wTwhRLH83pIdLCNg8GKK5mI8Py7DLK0afe6y02JwMwZcVmfzn44zDkeaO
-         4nJ38tSXc9JvikrKB1IT62mbZm9Z8n7KaURxABhAgmnDJASzWM1KrlI6MDIXKuhroJTu
-         /+hMocPK3vfC7kNJ4XOl1tTN1WOSQ22vS5B7vqzDdoL4NcYaWP06ZUBT3+RFAa8Q7Hju
-         e0kSLkH1Z6Q+raSQrTVKMhJC1TSIKaoOp/ZHiqx0JRBB6yaCXknnoKQkrVy0WkPUL7yH
-         Km44bAh5MJ6IVxtJOCyYKAzPUerqwCHDmeFsP6Dkj/a0aASQ7LGbOYakQe+ohvi2nP22
-         XIqg==
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date;
+        bh=pwSoe76/9sXHlthLlGvZI3z8LwisXO4XEQ5zMXLYIi4=;
+        b=BpiZOY5qoInatS2yLzXnvi6Pjkam8b8Z1vfnW8uDgXuqxF1Yp2XN8rMYz/2v2VorHj
+         Zw/KcYt7iPALUfJ2Bt78PA/UeYQMQiG4OVqRboIlrl4Pto9pTknD6ed0GmcFU4L7kS0c
+         xHGzeFo50d2hMRm8X+LurDsaQPdd0LKnp8yBEnYNXttGKfeMJpoNsUv8rjjiYJKEvn8U
+         tcaSbYUItsIi2Icq0LmjptCvK9Bwir7Z3W+5rxW682zSFFMnvNXPF0YYLAhEErZVx5fK
+         Ls7A+uNThcC5siK7vi1hIGv16R+YRyvroBzXl3wjFp/IcboqwSZMFNL22tqbyXWzUD29
+         GbKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date;
-        bh=6z3eOipP9uSMzPeU3wBGzwLbTfap33BpuIjU1zg0tEk=;
-        b=Xz77JBpBBtmYy+DaC5ChUoqeSoUWx4jYCsefivjnGU8B4OlW86nRQmW8r6W19eFfXT
-         +YQMnryyXgO7he+CJLq97kpD4g3iwiu71vbN7yj0WiC8VQoP22Fz0x9DcyrBwZ7WFMZ7
-         c757em0cwfj5o3IgrpP0XaRQYro73L7BqpnxpUMyw0sEIGHzRq5z7XvlV0tPQtIeGA01
-         1NMgwhpGxvZTePMZLgG6lMHktBcc2eDs1wgcDuhzTNHBRy0QU6r95NyQTt1IN+byQyGt
-         S9KD6Bbrw6bDRovp3vpzQ91iaaU/Ok9NzAacagxWVJVXLo7WjYd/cYYWipTlZh8kJLTb
-         CqfA==
-X-Gm-Message-State: ACrzQf2hd/DgkvmDQgohPyVJf4eer/k4FEfJ1r5bda4KsmxygnixBITY
-        3cT2XkCP2XMcx8SrZoLXpQzxw+EmO+wipw==
-X-Google-Smtp-Source: AMsMyM4R7vCfmdzS3F312wf/F0RNQlnMxcY1A91cTiRl9ZV0cTTTp4t5QdZQ8kxlIzecRtH2q9KU1A==
-X-Received: by 2002:a05:600c:1c89:b0:3b4:a612:c3e0 with SMTP id k9-20020a05600c1c8900b003b4a612c3e0mr113983wms.20.1664983742070;
-        Wed, 05 Oct 2022 08:29:02 -0700 (PDT)
-Received: from dave-Ubuntu2204.pitowers.org ([93.93.133.154])
-        by smtp.googlemail.com with ESMTPSA id y14-20020adfe6ce000000b0022c96d3b6f2sm19747237wrm.54.2022.10.05.08.29.01
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date;
+        bh=pwSoe76/9sXHlthLlGvZI3z8LwisXO4XEQ5zMXLYIi4=;
+        b=RTmkCqJL9dgbpdA1IrKsotBa5fnIu7sIRj4iYFanLfZhwRCAl5GaYGAn349R0Dja8b
+         3HMaTj9rjYibXUjtH71yggQMypOhbBuAfhX0tXeU32jSDbAApOEnz+oFocsPs1JqVkpo
+         L3BYpdX3tAMFZAoTMKeuU2WnPlnucJxK2EBGiw/aD7G/lO/gQnSFycMYdHxEbWU6264j
+         xTWgm/LyZZK+/LvtPglRRqVCJjK14KFrau+ejnuY1iY2y335ASkJG2KXENANtfXOv8yg
+         7c2lOuKNlAJ+Me8n0xDqM8L8W9P5Ub+BFdsywn5Be+3Pyv/gW9tM0UElsnqPZ8Ng7J7s
+         r+iA==
+X-Gm-Message-State: ACrzQf0UXSafWOmuY9FAgIxFzqcaC1mV58Q0Fdwl2Bc6UwPyDArdrgXr
+        uQOBW6qE+GPBi7AfSzdQaGE6yD7UGcn70RxX
+X-Google-Smtp-Source: AMsMyM4UWs5s2tWICWcVCZmWsRQhUm89CoHX5AtLtAuCy42s8VJcnOgfEvPdmSE736f/zFWukd4Llg==
+X-Received: by 2002:a05:600c:1e23:b0:3c0:2cb4:49cd with SMTP id ay35-20020a05600c1e2300b003c02cb449cdmr1214556wmb.95.1664985964636;
+        Wed, 05 Oct 2022 09:06:04 -0700 (PDT)
+Received: from localhost (cpc154979-craw9-2-0-cust193.16-3.cable.virginm.net. [80.193.200.194])
+        by smtp.gmail.com with ESMTPSA id o11-20020a05600c510b00b003a83ca67f73sm2469448wms.3.2022.10.05.09.06.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 05 Oct 2022 08:29:01 -0700 (PDT)
-From:   Dave Stevenson <dave.stevenson@raspberrypi.com>
-To:     paul.j.murphy@intel.com, daniele.alessandrelli@intel.com,
+        Wed, 05 Oct 2022 09:06:03 -0700 (PDT)
+From:   Colin Ian King <colin.i.king@gmail.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-media@vger.kernel.org
-Cc:     Dave Stevenson <dave.stevenson@raspberrypi.com>
-Subject: [PATCH 16/16] media: i2c: ov9282: Support event handlers
-Date:   Wed,  5 Oct 2022 16:28:09 +0100
-Message-Id: <20221005152809.3785786-17-dave.stevenson@raspberrypi.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20221005152809.3785786-1-dave.stevenson@raspberrypi.com>
-References: <20221005152809.3785786-1-dave.stevenson@raspberrypi.com>
+Cc:     kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] media: mxl5005s: Make array RegAddr static const
+Date:   Wed,  5 Oct 2022 17:06:03 +0100
+Message-Id: <20221005160603.321421-1-colin.i.king@gmail.com>
+X-Mailer: git-send-email 2.37.3
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-As noted in the headers for V4L2_SUBDEV_FL_HAS_EVENTS,
-"controls can send events, thus drivers exposing controls
-should set this flag".
+Don't populate the read-only array RegAddr on the stack but instead
+make it static const. Also makes the object code a little smaller.
 
-This driver exposes controls, but didn't reflect that it
-could generate events. Correct this, and add the default
-event handler functions.
-
-Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
 ---
- drivers/media/i2c/ov9282.c | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
+ drivers/media/tuners/mxl5005s.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/media/i2c/ov9282.c b/drivers/media/i2c/ov9282.c
-index bc429455421e..416c9656e3ac 100644
---- a/drivers/media/i2c/ov9282.c
-+++ b/drivers/media/i2c/ov9282.c
-@@ -14,6 +14,7 @@
- #include <linux/regulator/consumer.h>
+diff --git a/drivers/media/tuners/mxl5005s.c b/drivers/media/tuners/mxl5005s.c
+index ab4c43df9d18..cd9f225ca26c 100644
+--- a/drivers/media/tuners/mxl5005s.c
++++ b/drivers/media/tuners/mxl5005s.c
+@@ -3637,7 +3637,7 @@ static u16 MXL_GetCHRegister_ZeroIF(struct dvb_frontend *fe, u8 *RegNum,
+ 	u16 status = 0;
+ 	int i;
  
- #include <media/v4l2-ctrls.h>
-+#include <media/v4l2-event.h>
- #include <media/v4l2-fwnode.h>
- #include <media/v4l2-subdev.h>
+-	u8 RegAddr[] = {43, 136};
++	static const u8 RegAddr[] = {43, 136};
  
-@@ -1189,6 +1190,11 @@ static int ov9282_parse_hw_config(struct ov9282 *ov9282)
- }
+ 	*count = ARRAY_SIZE(RegAddr);
  
- /* V4l2 subdevice ops */
-+static const struct v4l2_subdev_core_ops ov9282_core_ops = {
-+	.subscribe_event = v4l2_ctrl_subdev_subscribe_event,
-+	.unsubscribe_event = v4l2_event_subdev_unsubscribe,
-+};
-+
- static const struct v4l2_subdev_video_ops ov9282_video_ops = {
- 	.s_stream = ov9282_set_stream,
- };
-@@ -1203,6 +1209,7 @@ static const struct v4l2_subdev_pad_ops ov9282_pad_ops = {
- };
- 
- static const struct v4l2_subdev_ops ov9282_subdev_ops = {
-+	.core = &ov9282_core_ops,
- 	.video = &ov9282_video_ops,
- 	.pad = &ov9282_pad_ops,
- };
-@@ -1419,7 +1426,8 @@ static int ov9282_probe(struct i2c_client *client)
- 	}
- 
- 	/* Initialize subdev */
--	ov9282->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
-+	ov9282->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE |
-+			    V4L2_SUBDEV_FL_HAS_EVENTS;
- 	ov9282->sd.entity.function = MEDIA_ENT_F_CAM_SENSOR;
- 
- 	/* Initialize source pad */
 -- 
-2.34.1
+2.37.3
 
