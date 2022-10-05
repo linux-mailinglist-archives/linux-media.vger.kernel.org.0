@@ -2,72 +2,112 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 38B1E5F543A
-	for <lists+linux-media@lfdr.de>; Wed,  5 Oct 2022 14:12:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4FA145F5565
+	for <lists+linux-media@lfdr.de>; Wed,  5 Oct 2022 15:30:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230017AbiJEMMj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 5 Oct 2022 08:12:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60772 "EHLO
+        id S229865AbiJENaa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 5 Oct 2022 09:30:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59158 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229710AbiJEMMi (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 5 Oct 2022 08:12:38 -0400
-Received: from mail-4022.proton.ch (mail-4022.proton.ch [185.70.40.22])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3681A41519
-        for <linux-media@vger.kernel.org>; Wed,  5 Oct 2022 05:12:35 -0700 (PDT)
-Date:   Wed, 05 Oct 2022 12:12:26 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
-        s=protonmail3; t=1664971952; x=1665231152;
-        bh=OYhK2PnD/kzbUIGy8BCP+ZesRla8gBOOWRw65Sm5cm0=;
-        h=Date:To:From:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
-         Subject:Reply-To:Feedback-ID:Message-ID;
-        b=lXsubILuNxeuRYTM6B/fie0bz9BtrpXk8y7fjzVg5fifU6K1ip/iI3SsPDh+p40DI
-         ucGldc8mZ34F1fPJgb7tsN/EwS0uZ3QMn4bVAiSqTM9O+lxVaQzs1Qh3aFfZhv7fps
-         hgQ4lh8jyYAMYY1LrxMD0VJhVbcLAiUx6eBFZ9MVZ4R/NkqCAPAZAEH6sPrIy/DlZ7
-         8Jh6YIgvVJTwpCFSaCNibFIDfAE5YyGfzeVADVjiLqgVEd9/do0E3E6FfN9n9tM85G
-         sdPx4KKY6QWkdI6rwjxQOzzQv1rD0q1mBHkXvTHSENSGxiOeZiIHaKTuuRDOD+Stae
-         75oS84pjtdFqw==
-To:     linux-media@vger.kernel.org
-From:   Simon Ser <contact@emersion.fr>
-Subject: [PATCH] edid-decode: fix clock step for CVT RBv3
-Message-ID: <20221005121221.14882-1-contact@emersion.fr>
-Feedback-ID: 1358184:user:proton
+        with ESMTP id S229676AbiJENa2 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 5 Oct 2022 09:30:28 -0400
+Received: from mail-oa1-f50.google.com (mail-oa1-f50.google.com [209.85.160.50])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3CCE14A11F;
+        Wed,  5 Oct 2022 06:30:26 -0700 (PDT)
+Received: by mail-oa1-f50.google.com with SMTP id 586e51a60fabf-132e9bc5ff4so803867fac.7;
+        Wed, 05 Oct 2022 06:30:26 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=irQeqZ8WEX66ZHtDLuvQlYzdGNkgZkPT/seAIhsHDCE=;
+        b=r6TNBLVaXtnbGtF7uk6kCPerWr3Ba/YdTCl/P22adYP9n2eukw9Eetp/vv82q8PUHJ
+         tRhHba0FneVd9676Km2uJqRKYzHGFaz6JMcWeh7tG/lmSR7mfiY7SguND0k23IileDKG
+         D3B8g9hOV8oLZG2tXqCNQtsbtwuGmqywjio5AxFmdAMgz2WO3tqba6HyPC4wzHdW677V
+         eC3p2Ljt/UtOXzQKO6R/2OXKTJnaPEeAi5R9LzDH84CPuSlId8gB9A10K5S/pWx22hbW
+         KOt5XLJrfx4KXjgw0dk9ZJQnDrXYkL2HtrllsXXXRQjaaz6Qfl4GU3ju/olGFuQLwEUn
+         5D2Q==
+X-Gm-Message-State: ACrzQf1pqvxrm6JZi6lKhiVOtgBYTAdF4rbiYBElINqpUKr0AmBkjLPP
+        7K6fw0S50L3uvAlgxCnsKw5Wk2E7nA==
+X-Google-Smtp-Source: AMsMyM7Dc9AAulz+lgm5eba8K4nXKXzu0+Ca/UyNBORLFk6fdfkXj2d1AselHUi2iVcgMfsHwdmvvg==
+X-Received: by 2002:a05:6870:14c1:b0:12d:be49:8c23 with SMTP id l1-20020a05687014c100b0012dbe498c23mr2600372oab.21.1664976625001;
+        Wed, 05 Oct 2022 06:30:25 -0700 (PDT)
+Received: from robh_at_kernel.org ([2607:fb90:5fee:ea3a:4239:ad4:650a:6e66])
+        by smtp.gmail.com with ESMTPSA id t14-20020a056870638e00b001313ec705f3sm5177066oap.37.2022.10.05.06.30.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 05 Oct 2022 06:30:24 -0700 (PDT)
+Received: (nullmailer pid 3275000 invoked by uid 1000);
+        Wed, 05 Oct 2022 13:30:22 -0000
+Date:   Wed, 5 Oct 2022 08:30:22 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Prabhakar <prabhakar.csengg@gmail.com>
+Cc:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund@ragnatech.se>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Jacopo Mondi <jacopo@jmondi.org>, linux-kernel@vger.kernel.org,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        linux-media@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        linux-renesas-soc@vger.kernel.org,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        devicetree@vger.kernel.org
+Subject: Re: [PATCH v3 2/4] media: dt-bindings: Document Renesas RZ/G2L CRU
+ block
+Message-ID: <166497662123.3274947.8880601658127889560.robh@kernel.org>
+References: <20221004234343.54777-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20221004234343.54777-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-0.2 required=5.0 tests=BAYES_20,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221004234343.54777-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
+        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-According to CVT 2.0 table 3-2, C_CLOCK_STEP =3D 0.001 for both
-RBv2 and RBv3.
+On Wed, 05 Oct 2022 00:43:41 +0100, Prabhakar wrote:
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> 
+> Document the CRU block found on Renesas RZ/G2L (and alike) SoCs.
+> 
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> ---
+> v2 -> v3
+> * Updated clock names
+> 
+> v1 -> v2
+> * Dropped media prefix from subject
+> * Dropped oneOf from compatible
+> * Used 4 spaces for indentation in example node
+> * Marked port0/1 as required
+> * Updated example node
+> * Included RB tag from Laurent
+> 
+> RFC v2 -> v1
+> * Dropped endpoint stuff from port1 as suggested by Rob
+> * Updated description for endpoint
+> 
+> RFC v1 -> RFC v2
+> * Dropped CSI
+> ---
+>  .../bindings/media/renesas,rzg2l-cru.yaml     | 157 ++++++++++++++++++
+>  1 file changed, 157 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/renesas,rzg2l-cru.yaml
+> 
 
-Signed-off-by: Simon Ser <contact@emersion.fr>
----
- calc-gtf-cvt.cpp | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/calc-gtf-cvt.cpp b/calc-gtf-cvt.cpp
-index dc22ad535135..6330bb7ac814 100644
---- a/calc-gtf-cvt.cpp
-+++ b/calc-gtf-cvt.cpp
-@@ -152,7 +152,7 @@ timings edid_state::calc_cvt_mode(unsigned h_pixels, un=
-signed v_lines,
- =09double interlace =3D int_rqd ? 0.5 : 0;
- =09double total_active_pixels =3D h_pixels_rnd + hor_margin * 2;
- =09double v_field_rate_rqd =3D int_rqd ? ip_freq_rqd * 2 : ip_freq_rqd;
--=09double clock_step =3D rb =3D=3D RB_CVT_V2 ? 0.001 : 0.25;
-+=09double clock_step =3D rb >=3D RB_CVT_V2 ? 0.001 : 0.25;
- =09double h_blank =3D (rb =3D=3D RB_CVT_V1 || (rb =3D=3D RB_CVT_V3 && alt)=
-) ? 160 : 80;
- =09double rb_v_fporch =3D rb =3D=3D RB_CVT_V1 ? 3 : 1;
- =09double refresh_multiplier =3D (rb =3D=3D RB_CVT_V2 && alt) ? 1000.0 / 1=
-001.0 : 1;
---=20
-2.38.0
-
-
+Reviewed-by: Rob Herring <robh@kernel.org>
