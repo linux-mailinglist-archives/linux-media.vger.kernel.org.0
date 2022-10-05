@@ -2,59 +2,59 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 700205F5773
-	for <lists+linux-media@lfdr.de>; Wed,  5 Oct 2022 17:28:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 04DB65F5774
+	for <lists+linux-media@lfdr.de>; Wed,  5 Oct 2022 17:28:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230457AbiJEP2y (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 5 Oct 2022 11:28:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39308 "EHLO
+        id S230461AbiJEP24 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 5 Oct 2022 11:28:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39312 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229888AbiJEP2x (ORCPT
+        with ESMTP id S229991AbiJEP2x (ORCPT
         <rfc822;linux-media@vger.kernel.org>); Wed, 5 Oct 2022 11:28:53 -0400
-Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com [IPv6:2a00:1450:4864:20::430])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3074057899
-        for <linux-media@vger.kernel.org>; Wed,  5 Oct 2022 08:28:51 -0700 (PDT)
-Received: by mail-wr1-x430.google.com with SMTP id u10so26366396wrq.2
-        for <linux-media@vger.kernel.org>; Wed, 05 Oct 2022 08:28:51 -0700 (PDT)
+Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com [IPv6:2a00:1450:4864:20::429])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 716344B9BE
+        for <linux-media@vger.kernel.org>; Wed,  5 Oct 2022 08:28:52 -0700 (PDT)
+Received: by mail-wr1-x429.google.com with SMTP id f11so23837793wrm.6
+        for <linux-media@vger.kernel.org>; Wed, 05 Oct 2022 08:28:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=raspberrypi.com; s=google;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
-        bh=y3WPiNu5a72VVLHY7+nk24MwdU+a1fkv2slymEUonvs=;
-        b=DXPMptmXpBWr0T81d2qzoVjWfLmgIAFeiVvzM8QWu7GBXBPLCz5Z/hx1/oujyHssbc
-         9GCSR4Ne0EvkqNWBwUJWskkC5kaMk7EqZtjkS5vqrHJ6bmqYrl5FNBQX/h3nu/TLiTgF
-         jMKsTBZWhN9UuRbd3lmrlwUwSBBwDGOr6PUTcnGibSEMvMiehfIJ5Pdi0LsNiZAJmaN7
-         RaE87Ek6+DwIHlbA+Y/F4o6haE9cIFCkXDJw0i5NgXryhGtkGWZqH9eKho8IG6J2cEAk
-         9fdifi4rYc96gsFKR+kHhbfSu7apUYp5JZI+wgC1XzeO9ZOupHlgEn//7SbCQqWGPE7E
-         KGyw==
+        bh=u48U+IK6M8Tybj3w4BxGG2Sv9mA9uX0DERliKfCIBNY=;
+        b=NHg9TtYaq0rrPvOlmB5+4d+h4ZDpNoaTGGFElByWHEp1c2K8FFybHy9gNOvkyEFxyD
+         LY191gTj0NdsWYL83BiQ/dqe/2GAvR//yWX94nBWcIVzexoUtASa9qAHgH6a/06+3t29
+         CLW2JnuRKQFvwJK43FlcJyTCSBWe7xcNDYM45cQDEbMRVQCwFYsvsUsGuIPP6ob5zopb
+         jp5EkCqult6plA8P7civb3ny0LgSnfZVwHyPHVyfNcbVdVq8EX+Cu6BV5rr+GHSSrhEi
+         tNX8wfOymbmTHCg2tI93aozl7iKfj7wuUgHlM7pRnGCIWaPVspgPfFrINcPs3RgD6s4V
+         tMrQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date;
-        bh=y3WPiNu5a72VVLHY7+nk24MwdU+a1fkv2slymEUonvs=;
-        b=raCb7Es3FCJEg9soQU0RMmIEboA5LEoNkMCiqQkZtCt9Ud4ACMjbGx9RobzQIlnyEA
-         Y1h+DF/NHR13SNreMucvjZhKln8H7M6/5cWmMdK80utg07RVV+oOd+ikaIBvkz7hB7A3
-         fvcRniufYpHw5isw5oa3l7agMtZo8MSmBGXmTqhStzSOwHIb78qnDgRp4TGVJl0TyxT6
-         5Vsi3KrCZFYshPwaTfPvqSoLxFlWGQEbLckoWb/qkW09S+AiCZsOK97HnOcrr/s1D1GM
-         vNOpX0ScIEa/P5qCdfA2nVvejday+xPdUMxF9uGiJ3C521vNkXFdzszWmAOf6NJ3XHag
-         BK9g==
-X-Gm-Message-State: ACrzQf15Pw0oDSQ3sRZraO/2MXTJUV9/jrTynxA+rPgNBv9g4SlTVg8l
-        RRdYnpSZI6DOmR0G4O6S2zpqN2O8YFdbkw==
-X-Google-Smtp-Source: AMsMyM7owYbO/RjyLRLlfG4LVO395pk7axHDBWaN4CpThSj0uFk+OXhfgqGuRy5mReqnE7nkqBZ7VQ==
-X-Received: by 2002:a5d:5010:0:b0:22a:cb71:9493 with SMTP id e16-20020a5d5010000000b0022acb719493mr207089wrt.514.1664983729727;
-        Wed, 05 Oct 2022 08:28:49 -0700 (PDT)
+        bh=u48U+IK6M8Tybj3w4BxGG2Sv9mA9uX0DERliKfCIBNY=;
+        b=SiXH7UQFgQGMNvPWCQaPmCpNErkZeYKpBa6lS9xNgYK6Lr7oGuVS4M2pbe/TxfbGca
+         sJ4gyAEz0TeGkYmWgo9WQfRwu6DzQMFKzcnWVnHyNDYeDr8PrGoa1eLEY0uo+aNjpQhx
+         in8DWA/57ntxesyRO2aLHaFGzvB/isgvlGqDy8P9YskgE4/kmBc3YrHc17lICsGv6SO/
+         pjPWY85mdaPGJ8dvp+kCiKiVwrny6cixljnmmKpQp50VWJ8NRJjzd0A6D5qfiRke9ZZx
+         HzMBSylk3IbiFwJLgXEtXL6T62hKvsB9PxrDp2zRs0PvQRMTSD2FCBh7iRrSqdQ+epLl
+         TaqA==
+X-Gm-Message-State: ACrzQf3vGyZ7bzisCnRAMYEfXRWZAvqueSbQx5FK8/ig6F1qRqiJwmrr
+        H75U0qRxYcAF8VJhIXj1C8Iaqg==
+X-Google-Smtp-Source: AMsMyM5j+kvw+TCPZZzqCe4vQUe9r0j7FrqZ4Livtql+ttRsCgz0kvoeo4XdIaLd3u/6rkk50ke8JQ==
+X-Received: by 2002:a5d:4f81:0:b0:21e:2cd7:25df with SMTP id d1-20020a5d4f81000000b0021e2cd725dfmr180206wru.439.1664983730710;
+        Wed, 05 Oct 2022 08:28:50 -0700 (PDT)
 Received: from dave-Ubuntu2204.pitowers.org ([93.93.133.154])
-        by smtp.googlemail.com with ESMTPSA id y14-20020adfe6ce000000b0022c96d3b6f2sm19747237wrm.54.2022.10.05.08.28.48
+        by smtp.googlemail.com with ESMTPSA id y14-20020adfe6ce000000b0022c96d3b6f2sm19747237wrm.54.2022.10.05.08.28.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 05 Oct 2022 08:28:48 -0700 (PDT)
+        Wed, 05 Oct 2022 08:28:49 -0700 (PDT)
 From:   Dave Stevenson <dave.stevenson@raspberrypi.com>
 To:     paul.j.murphy@intel.com, daniele.alessandrelli@intel.com,
         linux-media@vger.kernel.org
 Cc:     Dave Stevenson <dave.stevenson@raspberrypi.com>
-Subject: [PATCH 04/16] media: i2c: ov9282: Remove pixel rate from mode definition
-Date:   Wed,  5 Oct 2022 16:27:57 +0100
-Message-Id: <20221005152809.3785786-5-dave.stevenson@raspberrypi.com>
+Subject: [PATCH 05/16] media: i2c: ov9281: Support more than 1 mode.
+Date:   Wed,  5 Oct 2022 16:27:58 +0100
+Message-Id: <20221005152809.3785786-6-dave.stevenson@raspberrypi.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221005152809.3785786-1-dave.stevenson@raspberrypi.com>
 References: <20221005152809.3785786-1-dave.stevenson@raspberrypi.com>
@@ -69,85 +69,109 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The pixel rate is determined by the PLL setup in the common
-registers, not by the mode specific registers, therefore
-remove it from the mode definition and define it for all modes.
+The driver currently has multiple assumptions that there is
+only one supported mode.
+
+Convert supported_mode to an array, and fix up all references
+to correctly look at that array.
 
 Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 ---
- drivers/media/i2c/ov9282.c | 17 +++++++----------
- 1 file changed, 7 insertions(+), 10 deletions(-)
+ drivers/media/i2c/ov9282.c | 44 ++++++++++++++++++++++----------------
+ 1 file changed, 26 insertions(+), 18 deletions(-)
 
 diff --git a/drivers/media/i2c/ov9282.c b/drivers/media/i2c/ov9282.c
-index 1c77b77427f0..798ff8ba50bd 100644
+index 798ff8ba50bd..f7823d584522 100644
 --- a/drivers/media/i2c/ov9282.c
 +++ b/drivers/media/i2c/ov9282.c
-@@ -53,6 +53,10 @@
- #define OV9282_LINK_FREQ	400000000
- #define OV9282_NUM_DATA_LANES	2
- 
-+/* Pixel rate */
-+#define OV9282_PIXEL_RATE	(OV9282_LINK_FREQ * 2 * \
-+				 OV9282_NUM_DATA_LANES / 10)
-+
- #define OV9282_REG_MIN		0x00
- #define OV9282_REG_MAX		0xfffff
- 
-@@ -92,7 +96,6 @@ struct ov9282_reg_list {
-  * @vblank: Vertical blanking in lines
-  * @vblank_min: Minimum vertical blanking in lines
-  * @vblank_max: Maximum vertical blanking in lines
-- * @pclk: Sensor pixel clock
-  * @link_freq_idx: Link frequency index
-  * @reg_list: Register list for sensor mode
-  */
-@@ -103,7 +106,6 @@ struct ov9282_mode {
- 	u32 vblank;
- 	u32 vblank_min;
- 	u32 vblank_max;
--	u64 pclk;
- 	u32 link_freq_idx;
- 	struct ov9282_reg_list reg_list;
+@@ -262,20 +262,24 @@ static const struct ov9282_reg mode_1280x720_regs[] = {
  };
-@@ -118,7 +120,6 @@ struct ov9282_mode {
-  * @inclk: Sensor input clock
-  * @ctrl_handler: V4L2 control handler
-  * @link_freq_ctrl: Pointer to link frequency control
-- * @pclk_ctrl: Pointer to pixel clock control
-  * @hblank_ctrl: Pointer to horizontal blanking control
-  * @vblank_ctrl: Pointer to vertical blanking control
-  * @exp_ctrl: Pointer to exposure control
-@@ -138,7 +139,6 @@ struct ov9282 {
- 	struct regulator_bulk_data supplies[OV9282_NUM_SUPPLIES];
- 	struct v4l2_ctrl_handler ctrl_handler;
- 	struct v4l2_ctrl *link_freq_ctrl;
--	struct v4l2_ctrl *pclk_ctrl;
- 	struct v4l2_ctrl *hblank_ctrl;
- 	struct v4l2_ctrl *vblank_ctrl;
- 	struct {
-@@ -269,7 +269,6 @@ static const struct ov9282_mode supported_mode = {
- 	.vblank = 1022,
- 	.vblank_min = 151,
- 	.vblank_max = 51540,
--	.pclk = 160000000,
- 	.link_freq_idx = 0,
- 	.reg_list = {
- 		.num_of_regs = ARRAY_SIZE(mode_1280x720_regs),
-@@ -1006,11 +1005,9 @@ static int ov9282_init_controls(struct ov9282 *ov9282)
- 						1, mode->vblank);
  
- 	/* Read only controls */
--	ov9282->pclk_ctrl = v4l2_ctrl_new_std(ctrl_hdlr,
--					      &ov9282_ctrl_ops,
--					      V4L2_CID_PIXEL_RATE,
--					      mode->pclk, mode->pclk,
--					      1, mode->pclk);
-+	v4l2_ctrl_new_std(ctrl_hdlr, &ov9282_ctrl_ops, V4L2_CID_PIXEL_RATE,
-+			  OV9282_PIXEL_RATE, OV9282_PIXEL_RATE, 1,
-+			  OV9282_PIXEL_RATE);
+ /* Supported sensor mode configurations */
+-static const struct ov9282_mode supported_mode = {
+-	.width = 1280,
+-	.height = 720,
+-	.hblank = 250,
+-	.vblank = 1022,
+-	.vblank_min = 151,
+-	.vblank_max = 51540,
+-	.link_freq_idx = 0,
+-	.reg_list = {
+-		.num_of_regs = ARRAY_SIZE(mode_1280x720_regs),
+-		.regs = mode_1280x720_regs,
++static const struct ov9282_mode supported_modes[] = {
++	{
++		.width = 1280,
++		.height = 720,
++		.hblank = 250,
++		.vblank = 1022,
++		.vblank_min = 151,
++		.vblank_max = 51540,
++		.link_freq_idx = 0,
++		.reg_list = {
++			.num_of_regs = ARRAY_SIZE(mode_1280x720_regs),
++			.regs = mode_1280x720_regs,
++		},
+ 	},
+ };
  
- 	ov9282->link_freq_ctrl = v4l2_ctrl_new_int_menu(ctrl_hdlr,
- 							&ov9282_ctrl_ops,
++#define OV9282_NUM_MODES ARRAY_SIZE(supported_modes)
++
+ /**
+  * to_ov9282() - ov9282 V4L2 sub-device to ov9282 device.
+  * @subdev: pointer to ov9282 V4L2 sub-device
+@@ -536,15 +540,15 @@ static int ov9282_enum_frame_size(struct v4l2_subdev *sd,
+ 				  struct v4l2_subdev_state *sd_state,
+ 				  struct v4l2_subdev_frame_size_enum *fsize)
+ {
+-	if (fsize->index > 0)
++	if (fsize->index >= OV9282_NUM_MODES)
+ 		return -EINVAL;
+ 
+ 	if (fsize->code != MEDIA_BUS_FMT_Y10_1X10)
+ 		return -EINVAL;
+ 
+-	fsize->min_width = supported_mode.width;
++	fsize->min_width = supported_modes[fsize->index].width;
+ 	fsize->max_width = fsize->min_width;
+-	fsize->min_height = supported_mode.height;
++	fsize->min_height = supported_modes[fsize->index].height;
+ 	fsize->max_height = fsize->min_height;
+ 
+ 	return 0;
+@@ -619,7 +623,11 @@ static int ov9282_set_pad_format(struct v4l2_subdev *sd,
+ 
+ 	mutex_lock(&ov9282->mutex);
+ 
+-	mode = &supported_mode;
++	mode = v4l2_find_nearest_size(supported_modes,
++				      OV9282_NUM_MODES,
++				      width, height,
++				      fmt->format.width,
++				      fmt->format.height);
+ 	ov9282_fill_pad_format(ov9282, mode, fmt);
+ 
+ 	if (fmt->which == V4L2_SUBDEV_FORMAT_TRY) {
+@@ -652,7 +660,7 @@ static int ov9282_init_pad_cfg(struct v4l2_subdev *sd,
+ 	struct v4l2_subdev_format fmt = { 0 };
+ 
+ 	fmt.which = sd_state ? V4L2_SUBDEV_FORMAT_TRY : V4L2_SUBDEV_FORMAT_ACTIVE;
+-	ov9282_fill_pad_format(ov9282, &supported_mode, &fmt);
++	ov9282_fill_pad_format(ov9282, &supported_modes[0], &fmt);
+ 
+ 	return ov9282_set_pad_format(sd, sd_state, &fmt);
+ }
+@@ -1081,8 +1089,8 @@ static int ov9282_probe(struct i2c_client *client)
+ 		goto error_power_off;
+ 	}
+ 
+-	/* Set default mode to max resolution */
+-	ov9282->cur_mode = &supported_mode;
++	/* Set default mode to first mode */
++	ov9282->cur_mode = &supported_modes[0];
+ 	ov9282->vblank = ov9282->cur_mode->vblank;
+ 
+ 	ret = ov9282_init_controls(ov9282);
 -- 
 2.34.1
 
