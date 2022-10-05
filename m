@@ -2,60 +2,60 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F20945F575B
-	for <lists+linux-media@lfdr.de>; Wed,  5 Oct 2022 17:21:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8426C5F575C
+	for <lists+linux-media@lfdr.de>; Wed,  5 Oct 2022 17:21:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230390AbiJEPVO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 5 Oct 2022 11:21:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59856 "EHLO
+        id S230391AbiJEPVP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 5 Oct 2022 11:21:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59866 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230250AbiJEPVL (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 5 Oct 2022 11:21:11 -0400
-Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com [IPv6:2a00:1450:4864:20::42b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9D3F94331B
-        for <linux-media@vger.kernel.org>; Wed,  5 Oct 2022 08:21:08 -0700 (PDT)
-Received: by mail-wr1-x42b.google.com with SMTP id bu30so6566065wrb.8
-        for <linux-media@vger.kernel.org>; Wed, 05 Oct 2022 08:21:08 -0700 (PDT)
+        with ESMTP id S230404AbiJEPVM (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 5 Oct 2022 11:21:12 -0400
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2FCFC47BB9
+        for <linux-media@vger.kernel.org>; Wed,  5 Oct 2022 08:21:10 -0700 (PDT)
+Received: by mail-wr1-x436.google.com with SMTP id n12so6869867wrp.10
+        for <linux-media@vger.kernel.org>; Wed, 05 Oct 2022 08:21:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=raspberrypi.com; s=google;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
-        bh=0ETjPjVaLUGYelarsY27uOlCTsNUqB6Io6lTtEDWJ0g=;
-        b=Nn0SypSyWvJeuGsE/vkQjUErJwZ+YubWXkMSb4HOGRn00X52BBMz7l8ojES1nVU4by
-         vwIXXYdy9C1hDzgoO1LdyYKaujMWvITExyQBYLm26JzYQj+q/tGUYLjeffpQrqnBR9CM
-         VGxPLxvKROs6zfuPGirMIAN9m1aFDVxLwrZfaz0ZxEjgG+pV3S51FCgPK7vZOmnq+2rq
-         y3diZnhL8YAdTfJZgoFjlf9m/Dynil9gDdYh74/VWdyoxi5bQRF8/ckRbovigLU0XOq1
-         SjllRN9I42reY/2D3hV6sJzfcOBgCspw3CN5mu1n4iIwRNaq21+Wn91XMT+9xtmdeW0s
-         TT5g==
+        bh=P23Toul+yvAg8ITdVewN9IrDo8XBNapLz1MZzgSmTS0=;
+        b=hDHB7YmBPbaHebgrwJQZ13/uqZUZ8Gj9imN0rHpkqRHwUEYj9myvf8RrrIHrOTqE5W
+         HjlW9es1urBPchOjrKqlXoB6tmC4jfYgcYW/upTs63e0rq1oAyymdTPsZ5Tmj3pA1T/B
+         ZTGpZJ73Ga+onccSR42hTfhRR68yaa88Eo+sWY491qLCJTTw/PZjYcEVB64anB8+y2w2
+         Ldo56FKgIFd5QkzLtiE4LGxtq8hkF39ueqjw10KZGnyioAb/uOlrU67Rc86/ndR3gUZT
+         fFHfkDIEd0H38B7fzHc4c/XjWA5zVC7TZYK7cmqOUmxd1AbZ3BM3e7qX3ze95C72KFgs
+         BA9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date;
-        bh=0ETjPjVaLUGYelarsY27uOlCTsNUqB6Io6lTtEDWJ0g=;
-        b=ciQ8QtGlp7rMlk62J6YOOfE3Vze0Txsk0DWDsO/JLyQFON25vJZH0Sb8+3WrIf0NOW
-         v8+JdHvI+88xSyjRhapH91/HF8FUx7xLaV7CfH0+0pZ3g7fhtocWKuxSIx/MEpzHFbtl
-         fysZER5pOGusHU3lKi+bzfnyURRnlIoWegl47nHCMqXiunrXi9T20NKLI+Vex5o7nf6O
-         sudTDpgoyDPDlfWe16SfOmXDUfWZblo0Zpvg6cLMq32d7jixKNERurI8gtgSWTRhQ2gI
-         rZGGamxUuYEsAlL5GohbjXl7noRmxDMR8Lx2J4WgOrF0U8RNzHMYRJeSXPznr/FdlwH/
-         MOqg==
-X-Gm-Message-State: ACrzQf3cp49NqZ56p5a8X+MspjGvRSZlbkqLpC1EO5+BzlfIgCbwGZV8
-        /X1Z+59rLG6THqjZG67fGaeWRw==
-X-Google-Smtp-Source: AMsMyM4ts8oPlVnDO/To/gr+/vnD0qk0fzHTS+20rrjMFMxhXe3S3fhDipsKVLn7CdHxgmyWX9TLNg==
-X-Received: by 2002:a05:6000:1f1d:b0:22a:feb9:18a7 with SMTP id bv29-20020a0560001f1d00b0022afeb918a7mr183647wrb.152.1664983267235;
-        Wed, 05 Oct 2022 08:21:07 -0700 (PDT)
+        bh=P23Toul+yvAg8ITdVewN9IrDo8XBNapLz1MZzgSmTS0=;
+        b=7SYoAalt26gOZ1fuiLhtgb7wEyuq9Ms4dddtYdmD6xl1RC8byAT5NRi2Saogel1muO
+         y9XsfXQfhhVXkbkAiFh2OFXC3YIRtJH13ik/619c9sBP//KTTEJB00o+yib2QU/0ZDp5
+         wWe4Nvkfy98VgjI40Hh7/XCMHEOklIjwkmbtDOxlJrIeKa199g+Nou0Lrsy6wT0FpRGK
+         0lVWVLuQ3pzgST4npfj3uJXe1VN0y1DTurIFx5jYK992vHOWBGr+DeMp3Nu8ynfpBIwM
+         IgQRIGoSrrfukT5GGrkSOkbiM8ujRIAXwArEkn690ipig25empl8e7lk5Sabc4qQKHpK
+         7PUQ==
+X-Gm-Message-State: ACrzQf3FzFtISSnmJiqQ0+Q2CO6jvQEV/ldk8QmxuHpiPi+Fhms1JTvF
+        UwiCHtRGVDTiDlDWsIcFplDiBg==
+X-Google-Smtp-Source: AMsMyM4mODtW+t0PJdpmPEnDU9xx0k32mkrSIOuL2GCqzCOJD3SN1VbkyHovJSd9xTWuj5Np9MdgNw==
+X-Received: by 2002:a5d:654f:0:b0:22d:ac82:f870 with SMTP id z15-20020a5d654f000000b0022dac82f870mr180639wrv.7.1664983268707;
+        Wed, 05 Oct 2022 08:21:08 -0700 (PDT)
 Received: from dave-Ubuntu2204.pitowers.org ([93.93.133.154])
-        by smtp.googlemail.com with ESMTPSA id p2-20020a05600c1d8200b003b4764442f0sm2306854wms.11.2022.10.05.08.21.06
+        by smtp.googlemail.com with ESMTPSA id p2-20020a05600c1d8200b003b4764442f0sm2306854wms.11.2022.10.05.08.21.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 05 Oct 2022 08:21:06 -0700 (PDT)
+        Wed, 05 Oct 2022 08:21:08 -0700 (PDT)
 From:   Dave Stevenson <dave.stevenson@raspberrypi.com>
 To:     paul.j.murphy@intel.com, daniele.alessandrelli@intel.com,
         linux-media@vger.kernel.org, robh+dt@kernel.org,
         devicetree@vger.kernel.org
 Cc:     Dave Stevenson <dave.stevenson@raspberrypi.com>
-Subject: [PATCH 1/2] dt-bindings: media: ovti,ov9282: Add optional regulators
-Date:   Wed,  5 Oct 2022 16:20:17 +0100
-Message-Id: <20221005152018.3783890-2-dave.stevenson@raspberrypi.com>
+Subject: [PATCH 2/2] media: i2c: ov9282: Add support for regulators.
+Date:   Wed,  5 Oct 2022 16:20:18 +0100
+Message-Id: <20221005152018.3783890-3-dave.stevenson@raspberrypi.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221005152018.3783890-1-dave.stevenson@raspberrypi.com>
 References: <20221005152018.3783890-1-dave.stevenson@raspberrypi.com>
@@ -71,34 +71,114 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The OV9282 image sensor takes 3 voltage supplies, so
-define the relevant regulators.
+The sensor takes 3 supply rails - AVDD, DVDD, and DOVDD.
+
+Add hooks into the regulator framework for each of these
+regulators.
 
 Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 ---
- .../devicetree/bindings/media/i2c/ovti,ov9282.yaml       | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ drivers/media/i2c/ov9282.c | 38 ++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 38 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/media/i2c/ovti,ov9282.yaml b/Documentation/devicetree/bindings/media/i2c/ovti,ov9282.yaml
-index bf115ab9d926..652b4cfeded7 100644
---- a/Documentation/devicetree/bindings/media/i2c/ovti,ov9282.yaml
-+++ b/Documentation/devicetree/bindings/media/i2c/ovti,ov9282.yaml
-@@ -36,6 +36,15 @@ properties:
-     description: Reference to the GPIO connected to the XCLR pin, if any.
-     maxItems: 1
+diff --git a/drivers/media/i2c/ov9282.c b/drivers/media/i2c/ov9282.c
+index 2e0b315801e5..699fc5b753b4 100644
+--- a/drivers/media/i2c/ov9282.c
++++ b/drivers/media/i2c/ov9282.c
+@@ -11,6 +11,7 @@
+ #include <linux/i2c.h>
+ #include <linux/module.h>
+ #include <linux/pm_runtime.h>
++#include <linux/regulator/consumer.h>
  
-+  avdd-supply:
-+    description: Analog voltage supply, 2.8 volts
+ #include <media/v4l2-ctrls.h>
+ #include <media/v4l2-fwnode.h>
+@@ -55,6 +56,14 @@
+ #define OV9282_REG_MIN		0x00
+ #define OV9282_REG_MAX		0xfffff
+ 
++static const char * const ov9282_supply_names[] = {
++	"avdd",		/* Analog power */
++	"dovdd",	/* Digital I/O power */
++	"dvdd",		/* Digital core power */
++};
 +
-+  dvdd-supply:
-+    description: Digital core voltage supply, 1.2 volts
++#define OV9282_NUM_SUPPLIES ARRAY_SIZE(ov9282_supply_names)
 +
-+  dovdd-supply:
-+    description: Digital I/O voltage supply, 1.8 volts
+ /**
+  * struct ov9282_reg - ov9282 sensor register
+  * @address: Register address
+@@ -128,6 +137,7 @@ struct ov9282 {
+ 	struct media_pad pad;
+ 	struct gpio_desc *reset_gpio;
+ 	struct clk *inclk;
++	struct regulator_bulk_data supplies[OV9282_NUM_SUPPLIES];
+ 	struct v4l2_ctrl_handler ctrl_handler;
+ 	struct v4l2_ctrl *link_freq_ctrl;
+ 	struct v4l2_ctrl *pclk_ctrl;
+@@ -767,6 +777,18 @@ static int ov9282_detect(struct ov9282 *ov9282)
+ 	return 0;
+ }
+ 
++static int ov9282_configure_regulators(struct ov9282 *ov9282)
++{
++	unsigned int i;
 +
-   port:
-     additionalProperties: false
-     $ref: /schemas/graph.yaml#/$defs/port-base
++	for (i = 0; i < OV9282_NUM_SUPPLIES; i++)
++		ov9282->supplies[i].supply = ov9282_supply_names[i];
++
++	return devm_regulator_bulk_get(ov9282->dev,
++				       OV9282_NUM_SUPPLIES,
++				       ov9282->supplies);
++}
++
+ /**
+  * ov9282_parse_hw_config() - Parse HW configuration and check if supported
+  * @ov9282: pointer to ov9282 device
+@@ -803,6 +825,12 @@ static int ov9282_parse_hw_config(struct ov9282 *ov9282)
+ 		return PTR_ERR(ov9282->inclk);
+ 	}
+ 
++	ret = ov9282_configure_regulators(ov9282);
++	if (ret) {
++		dev_err(ov9282->dev, "Failed to get power regulators\n");
++		return ret;
++	}
++
+ 	rate = clk_get_rate(ov9282->inclk);
+ 	if (rate != OV9282_INCLK_RATE) {
+ 		dev_err(ov9282->dev, "inclk frequency mismatch");
+@@ -874,6 +902,12 @@ static int ov9282_power_on(struct device *dev)
+ 	struct ov9282 *ov9282 = to_ov9282(sd);
+ 	int ret;
+ 
++	ret = regulator_bulk_enable(OV9282_NUM_SUPPLIES, ov9282->supplies);
++	if (ret < 0) {
++		dev_err(dev, "Failed to enable regulators\n");
++		return ret;
++	}
++
+ 	usleep_range(400, 600);
+ 
+ 	gpiod_set_value_cansleep(ov9282->reset_gpio, 1);
+@@ -891,6 +925,8 @@ static int ov9282_power_on(struct device *dev)
+ error_reset:
+ 	gpiod_set_value_cansleep(ov9282->reset_gpio, 0);
+ 
++	regulator_bulk_disable(OV9282_NUM_SUPPLIES, ov9282->supplies);
++
+ 	return ret;
+ }
+ 
+@@ -909,6 +945,8 @@ static int ov9282_power_off(struct device *dev)
+ 
+ 	clk_disable_unprepare(ov9282->inclk);
+ 
++	regulator_bulk_disable(OV9282_NUM_SUPPLIES, ov9282->supplies);
++
+ 	return 0;
+ }
+ 
 -- 
 2.34.1
 
