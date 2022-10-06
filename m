@@ -2,138 +2,226 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B45C25F6A1B
-	for <lists+linux-media@lfdr.de>; Thu,  6 Oct 2022 16:57:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DF3935F6A2F
+	for <lists+linux-media@lfdr.de>; Thu,  6 Oct 2022 17:00:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231542AbiJFO5h (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 6 Oct 2022 10:57:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44972 "EHLO
+        id S231594AbiJFPAc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 6 Oct 2022 11:00:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51714 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230240AbiJFO5f (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 6 Oct 2022 10:57:35 -0400
-Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com [IPv6:2a00:1450:4864:20::52d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64419B0B00
-        for <linux-media@vger.kernel.org>; Thu,  6 Oct 2022 07:57:34 -0700 (PDT)
-Received: by mail-ed1-x52d.google.com with SMTP id s2so3236174edd.2
-        for <linux-media@vger.kernel.org>; Thu, 06 Oct 2022 07:57:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=raspberrypi.com; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=VwHedLlhJmkgTtEH55guuMN2O2V8/BvCbGmlKI8sRbg=;
-        b=ipuHRPkC958DSTKWYmmKn9dRXLky4JLkpPcTYvGqC/n2sbPaC5//JPIpaxUpxOiwfX
-         ElolL5RorQbhg8ow0S3zN50HQ5P0ErNLDAKTKVOp7fp+GRdy8Zq1SVumaLOdlg0xa4wJ
-         LS8iGNtIM4FxOt3wHKJWkgt0jMRCsTifZkGI3DvBMYSPqDTvF0ErVJHwsSfAAwUYYYiB
-         ObapT1UAT+4AzOVV5VaQpwMxKZk4VHabMlTeOaHhrej2SIETHALqq7Ocpv4ghCf6kuHP
-         wYpu9DbmqHu52K9E7h46XEGyvZIrR5ruZ7H/DwbMEibG+I8CDKwPjBNRSHYz0Yk1AzwJ
-         tRtA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=VwHedLlhJmkgTtEH55guuMN2O2V8/BvCbGmlKI8sRbg=;
-        b=GW9/38KkygBmE0k7VcwkE59e8as0qCpbSJI8xmnSvG6OAw6r+CyBsBbRwhyMaIndWc
-         1rsXcHYHt44IB/Hk30xskQfBv/h78hQbdaoFbqrcwMRWxsopYStXBQUlGfaCj/0DG7Yd
-         Gp3F3mhVGtG+7nkFTVOGostGgZFqtzD8/31yt01sY7vL6gnk7OpVL2H6RLkQ2hCEI/Ub
-         6LoB5ILm3gF768o4sP0Mf812AOBpIZOfiDsGX6y8qDXkDHhUCzjZZ1jO08Th7ZXV6dJ0
-         wFpWNnC3C6YJXPNagAQjqG5ONS34/sxzJSAPeqPesUPFH/I5HNQLgzgA4CmCPW21ja7y
-         h/wA==
-X-Gm-Message-State: ACrzQf15MV3vqb9eQcL43S18SflX20Go/U3Zp8sAK/1gSUJXPJ4ZYmYm
-        eTQ4ft5BSTeNPtyR+02Bq2MZILl6oeytUX7COSiRLQ==
-X-Google-Smtp-Source: AMsMyM7h2LKuNNHTotwOGug3WPuZxtNGxq6e3r4fz+fvpupe4CWme8+jU2qDr92lQxleXKiPlLifdKeWLMKwAbhDafQ=
-X-Received: by 2002:a05:6402:22ef:b0:458:bfe5:31a3 with SMTP id
- dn15-20020a05640222ef00b00458bfe531a3mr191636edb.6.1665068252936; Thu, 06 Oct
- 2022 07:57:32 -0700 (PDT)
-MIME-Version: 1.0
-References: <20221005190613.394277-1-jacopo@jmondi.org> <20221005190613.394277-4-jacopo@jmondi.org>
-In-Reply-To: <20221005190613.394277-4-jacopo@jmondi.org>
-From:   Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date:   Thu, 6 Oct 2022 15:57:16 +0100
-Message-ID: <CAPY8ntBgHm6KTpH6GBLiMtdRt1vAE4ne0EMq5N+x0CJJ9yU9+A@mail.gmail.com>
-Subject: Re: [PATCH 03/10] media: ar0521: Set maximum resolution to 2592x1944
-To:     Jacopo Mondi <jacopo@jmondi.org>
-Cc:     =?UTF-8?Q?Krzysztof_Ha=C5=82asa?= <khalasa@piap.pl>,
+        with ESMTP id S231713AbiJFPA3 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 6 Oct 2022 11:00:29 -0400
+Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::226])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6D99EACA3B
+        for <linux-media@vger.kernel.org>; Thu,  6 Oct 2022 08:00:23 -0700 (PDT)
+Received: (Authenticated sender: jacopo@jmondi.org)
+        by mail.gandi.net (Postfix) with ESMTPSA id 1101FC0003;
+        Thu,  6 Oct 2022 15:00:16 +0000 (UTC)
+Date:   Thu, 6 Oct 2022 17:00:15 +0200
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Dave Stevenson <dave.stevenson@raspberrypi.com>
+Cc:     Krzysztof =?utf-8?Q?Ha=C5=82asa?= <khalasa@piap.pl>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Sakari Ailus <sakari.ailus@iki.fi>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         linux-media@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Subject: Re: [PATCH 02/10] media: ar0521: Add V4L2_CID_ANALOG_GAIN
+Message-ID: <20221006150015.7p7qlab4dbaldnsg@uno.localdomain>
+References: <20221005190613.394277-1-jacopo@jmondi.org>
+ <20221005190613.394277-3-jacopo@jmondi.org>
+ <CAPY8ntB48837t+UN_6k5DJ6QBJvgz0Ohc4w4=7044amrdCy1=A@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAPY8ntB48837t+UN_6k5DJ6QBJvgz0Ohc4w4=7044amrdCy1=A@mail.gmail.com>
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jacopo
+Hi Dave
 
-On Wed, 5 Oct 2022 at 20:06, Jacopo Mondi <jacopo@jmondi.org> wrote:
+On Thu, Oct 06, 2022 at 03:44:54PM +0100, Dave Stevenson wrote:
+> Hi Jacopo
 >
-> Change the largest visibile resolution to 2592x1944, which corresponds
-> to the active pixel array area size. Take into account the horizontal
-> and vertical limits when programming the visible sizes to skip
-> dummy/inactive pixels.
+> On Wed, 5 Oct 2022 at 20:07, Jacopo Mondi <jacopo@jmondi.org> wrote:
+> >
+> > Add support for V4L2_CID_ANALOG_GAIN. The control programs the global
+> > gain register which applies to all color channels.
+> >
+> > As both the global digital and analog gains are controlled through a
+> > single register, in order not to overwrite the configured digital gain
+> > we need to read the current register value before modifying it.
+> >
+> > Implement a function to read register values and use it before applying
+> > the new analog gain.
+> >
+> > Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
+> > ---
+> >  drivers/media/i2c/ar0521.c | 64 ++++++++++++++++++++++++++++++++++++++
+> >  1 file changed, 64 insertions(+)
+> >
+> > diff --git a/drivers/media/i2c/ar0521.c b/drivers/media/i2c/ar0521.c
+> > index 89f3c01f18ce..581f5e42994d 100644
+> > --- a/drivers/media/i2c/ar0521.c
+> > +++ b/drivers/media/i2c/ar0521.c
+> > @@ -5,6 +5,8 @@
+> >   * Written by Krzysztof Hałasa
+> >   */
+> >
+> > +#include <asm/unaligned.h>
+> > +
+> >  #include <linux/clk.h>
+> >  #include <linux/delay.h>
+> >  #include <linux/pm_runtime.h>
+> > @@ -35,6 +37,11 @@
+> >  #define AR0521_HEIGHT_BLANKING_MIN     38u /* must be even */
+> >  #define AR0521_TOTAL_WIDTH_MIN      2968u
+> >
+> > +#define AR0521_ANA_GAIN_MIN            0x00
+> > +#define AR0521_ANA_GAIN_MAX            0x3f
+> > +#define AR0521_ANA_GAIN_STEP           0x01
+> > +#define AR0521_ANA_GAIN_DEFAULT                0x00
+> > +
+> >  /* AR0521 registers */
+> >  #define AR0521_REG_VT_PIX_CLK_DIV              0x0300
+> >  #define AR0521_REG_FRAME_LENGTH_LINES          0x0340
+> > @@ -55,6 +62,7 @@
+> >  #define AR0521_REG_RED_GAIN                    0x305A
+> >  #define AR0521_REG_GREEN2_GAIN                 0x305C
+> >  #define AR0521_REG_GLOBAL_GAIN                 0x305E
+> > +#define AR0521_REG_GLOBAL_GAIN_ANA_MASK                0x3f
+> >
+> >  #define AR0521_REG_HISPI_TEST_MODE             0x3066
+> >  #define AR0521_REG_HISPI_TEST_MODE_LP11                  0x0004
+> > @@ -77,6 +85,7 @@ static const char * const ar0521_supply_names[] = {
+> >
+> >  struct ar0521_ctrls {
+> >         struct v4l2_ctrl_handler handler;
+> > +       struct v4l2_ctrl *ana_gain;
+> >         struct {
+> >                 struct v4l2_ctrl *gain;
+> >                 struct v4l2_ctrl *red_balance;
+> > @@ -167,6 +176,36 @@ static int ar0521_write_reg(struct ar0521_dev *sensor, u16 reg, u16 val)
+> >         return ar0521_write_regs(sensor, buf, 2);
+> >  }
+> >
+> > +static int ar0521_read_reg(struct ar0521_dev *sensor, u16 reg, u16 *val)
+> > +{
+> > +       struct i2c_client *client = sensor->i2c_client;
+> > +       unsigned char buf[2];
+> > +       struct i2c_msg msg;
+> > +       int ret;
+> > +
+> > +       msg.addr = client->addr;
+> > +       msg.flags = client->flags;
+> > +       msg.len = sizeof(u16);
+> > +       msg.buf = buf;
+> > +       put_unaligned_be16(reg, buf);
+> > +
+> > +       ret = i2c_transfer(client->adapter, &msg, 1);
+> > +       if (ret < 0)
+> > +               return ret;
+> > +
+> > +       msg.len = sizeof(u16);
+> > +       msg.flags = client->flags | I2C_M_RD;
+> > +       msg.buf = buf;
+> > +
+> > +       ret = i2c_transfer(client->adapter, &msg, 1);
+> > +       if (ret < 0)
+> > +               return ret;
+> > +
+> > +       *val = get_unaligned_be16(buf);
+> > +
+> > +       return 0;
+> > +}
+> > +
+> >  static int ar0521_set_geometry(struct ar0521_dev *sensor)
+> >  {
+> >         /* All dimensions are unsigned 12-bit integers */
+> > @@ -187,6 +226,21 @@ static int ar0521_set_geometry(struct ar0521_dev *sensor)
+> >         return ar0521_write_regs(sensor, regs, ARRAY_SIZE(regs));
+> >  }
+> >
+> > +static int ar0521_set_analog_gain(struct ar0521_dev *sensor)
+> > +{
+> > +       u16 global_gain;
+> > +       int ret;
+> > +
+> > +       ret = ar0521_read_reg(sensor, AR0521_REG_GLOBAL_GAIN, &global_gain);
+> > +       if (ret)
+> > +               return ret;
+> > +
+> > +       global_gain &= ~AR0521_REG_GLOBAL_GAIN_ANA_MASK;
+> > +       global_gain |= sensor->ctrls.ana_gain->val & AR0521_REG_GLOBAL_GAIN_ANA_MASK;
+> > +
+> > +       return ar0521_write_reg(sensor, AR0521_REG_GLOBAL_GAIN, global_gain);
 >
-> Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
-> ---
->  drivers/media/i2c/ar0521.c | 23 +++++++++++++++++------
->  1 file changed, 17 insertions(+), 6 deletions(-)
+> Does this work without nasty interactions?
 >
-> diff --git a/drivers/media/i2c/ar0521.c b/drivers/media/i2c/ar0521.c
-> index 581f5e42994d..2b19ba898ce8 100644
-> --- a/drivers/media/i2c/ar0521.c
-> +++ b/drivers/media/i2c/ar0521.c
-> @@ -28,10 +28,17 @@
->  #define AR0521_PIXEL_CLOCK_MIN  (168 * 1000 * 1000)
->  #define AR0521_PIXEL_CLOCK_MAX  (414 * 1000 * 1000)
->
-> +#define AR0521_NATIVE_WIDTH            2604u
-> +#define AR0521_NATIVE_HEIGHT           1964u
-> +#define AR0521_MIN_X_ADDR_START                4u
-> +#define AR0521_MIN_Y_ADDR_START                4u
-> +#define AR0521_MAX_X_ADDR_END          2603u
-> +#define AR0521_MAX_Y_ADDR_END          1963u
 
-The register list I have (downloaded from OnSemi today) states that
-y_addr_max is 0x07a3, or 1955, readable from register 0x1186.
+It seems so :)
 
-Otherwise this looks reasonable.
+> The register reference I have says that the bits 6:0 of 0x3056,
+> 0x3058, 0x305a, 0x305c, and 0x305e are all aliased to register 0x3056.
+> That means that the writes from ar0521_set_gains for GAIN,
+> RED_BALANCE, and BLUE_BALANCE will stomp over your ANALOGUE_GAIN.
+>
 
-> +
->  #define AR0521_WIDTH_MIN              8u
-> -#define AR0521_WIDTH_MAX           2608u
-> +#define AR0521_WIDTH_MAX           2592u
->  #define AR0521_HEIGHT_MIN             8u
-> -#define AR0521_HEIGHT_MAX          1958u
-> +#define AR0521_HEIGHT_MAX          1944u
+but you're right the interactions between the registers are not 100%
+clear to me yet.
+
+The fact is that libcamera only manipulates ANALOGUE_GAIN while the
+other gains are not changed. I guess if one wants to manipulate the
+single gains individually this is possible, but when setting the
+global gain they will be overwritten ? This seems to be confirmed from
+my experiments where changing the BLUE/RED gains has no visible
+effects on the image as libcamera constantly adjusts the global gain
+
+> I also don't see a call to __v4l2_ctrl_handler_setup from
+> ar0521_set_stream, so whilst there is an explicit call to
+> ar0521_set_gains, ANALOGUE_GAIN won't be set.
 >
->  #define AR0521_WIDTH_BLANKING_MIN     572u
->  #define AR0521_HEIGHT_BLANKING_MIN     38u /* must be even */
-> @@ -208,13 +215,17 @@ static int ar0521_read_reg(struct ar0521_dev *sensor, u16 reg, u16 *val)
+See [PATCH 08/10] media: ar0521: Setup controls at s_stream time
+later in the series :)
+
+>   Dave
 >
->  static int ar0521_set_geometry(struct ar0521_dev *sensor)
->  {
-> +       /* Center the image in the visible ouput window. */
-> +       u16 x = clamp((AR0521_WIDTH_MAX - sensor->fmt.width) / 2,
-> +                      AR0521_MIN_X_ADDR_START, AR0521_MAX_X_ADDR_END);
-> +       u16 y = clamp(((AR0521_HEIGHT_MAX - sensor->fmt.height) / 2) & ~1,
-> +                      AR0521_MIN_Y_ADDR_START, AR0521_MAX_Y_ADDR_END);
-> +
->         /* All dimensions are unsigned 12-bit integers */
-> -       u16 x = (AR0521_WIDTH_MAX - sensor->fmt.width) / 2;
-> -       u16 y = ((AR0521_HEIGHT_MAX - sensor->fmt.height) / 2) & ~1;
->         __be16 regs[] = {
->                 be(AR0521_REG_FRAME_LENGTH_LINES),
-> -               be(sensor->total_height),
-> -               be(sensor->total_width),
-> +               be(sensor->fmt.height + sensor->ctrls.vblank->val),
-> +               be(sensor->fmt.width + sensor->ctrls.hblank->val),
->                 be(x),
->                 be(y),
->                 be(x + sensor->fmt.width - 1),
-> --
-> 2.37.3
+> [1] https://github.com/torvalds/linux/blob/master/drivers/media/i2c/ar0521.c#L190
 >
+> > +}
+> > +
+> >  static int ar0521_set_gains(struct ar0521_dev *sensor)
+> >  {
+> >         int green = sensor->ctrls.gain->val;
+> > @@ -456,6 +510,9 @@ static int ar0521_s_ctrl(struct v4l2_ctrl *ctrl)
+> >         case V4L2_CID_VBLANK:
+> >                 ret = ar0521_set_geometry(sensor);
+> >                 break;
+> > +       case V4L2_CID_ANALOGUE_GAIN:
+> > +               ret = ar0521_set_analog_gain(sensor);
+> > +               break;
+> >         case V4L2_CID_GAIN:
+> >         case V4L2_CID_RED_BALANCE:
+> >         case V4L2_CID_BLUE_BALANCE:
+> > @@ -499,6 +556,13 @@ static int ar0521_init_controls(struct ar0521_dev *sensor)
+> >         /* We can use our own mutex for the ctrl lock */
+> >         hdl->lock = &sensor->lock;
+> >
+> > +       /* Analog gain */
+> > +       ctrls->ana_gain = v4l2_ctrl_new_std(hdl, ops, V4L2_CID_ANALOGUE_GAIN,
+> > +                                           AR0521_ANA_GAIN_MIN,
+> > +                                           AR0521_ANA_GAIN_MAX,
+> > +                                           AR0521_ANA_GAIN_STEP,
+> > +                                           AR0521_ANA_GAIN_DEFAULT);
+> > +
+> >         /* Manual gain */
+> >         ctrls->gain = v4l2_ctrl_new_std(hdl, ops, V4L2_CID_GAIN, 0, 511, 1, 0);
+> >         ctrls->red_balance = v4l2_ctrl_new_std(hdl, ops, V4L2_CID_RED_BALANCE,
+> > --
+> > 2.37.3
+> >
