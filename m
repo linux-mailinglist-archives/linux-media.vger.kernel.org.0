@@ -2,132 +2,109 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C39B65F6BBF
-	for <lists+linux-media@lfdr.de>; Thu,  6 Oct 2022 18:27:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 45DFA5F6BD6
+	for <lists+linux-media@lfdr.de>; Thu,  6 Oct 2022 18:33:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231816AbiJFQ1f (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 6 Oct 2022 12:27:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57668 "EHLO
+        id S229540AbiJFQdz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 6 Oct 2022 12:33:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45394 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231789AbiJFQZv (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 6 Oct 2022 12:25:51 -0400
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0DFCE4E607;
-        Thu,  6 Oct 2022 09:25:48 -0700 (PDT)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out1.suse.de (Postfix) with ESMTPS id 2FBBB218E0;
-        Thu,  6 Oct 2022 16:25:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-        t=1665073547; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=XCQ01W/Zak7b1/Z15iSFiNNO+LnDKjRUCwgq9owN358=;
-        b=BuCJHwpPWmPIMX1bCVa8JvF5Z7d74n/yJTO58u9Flcub7+SsSH8xi8XlpREVi0km3sCU9I
-        n49kVMdngxh5xHUcQ7JaAcHnUNwcTFTbcX666mAdObWVWWOiQa+NDqw9MObg2XVpG17TSv
-        v1FutPp1yNGHL7WKXiiXO6EFByUMvOk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-        s=susede2_ed25519; t=1665073547;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=XCQ01W/Zak7b1/Z15iSFiNNO+LnDKjRUCwgq9owN358=;
-        b=SBbeuIQGR7WWo1BYruUMTbe52g3YJZXPJmGbNwSK0jCwlB3l1oeiG8qTbAyyKKzsNlfKnK
-        YUPXB99RMPIak5BQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id E0B0413AC8;
-        Thu,  6 Oct 2022 16:25:46 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id UOdXNooBP2OJIwAAMHmgww
-        (envelope-from <jack@suse.cz>); Thu, 06 Oct 2022 16:25:46 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-        id 30DD3A06E9; Thu,  6 Oct 2022 18:25:46 +0200 (CEST)
-Date:   Thu, 6 Oct 2022 18:25:46 +0200
-From:   Jan Kara <jack@suse.cz>
-To:     "Jason A. Donenfeld" <Jason@zx2c4.com>
-Cc:     linux-kernel@vger.kernel.org, patches@lists.linux.dev,
-        Andreas Noever <andreas.noever@gmail.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Christoph =?utf-8?Q?B=C3=B6hmwalder?= 
-        <christoph.boehmwalder@linbit.com>, Christoph Hellwig <hch@lst.de>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Dave Airlie <airlied@redhat.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Florian Westphal <fw@strlen.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "H . Peter Anvin" <hpa@zytor.com>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        Hugh Dickins <hughd@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        "James E . J . Bottomley" <jejb@linux.ibm.com>,
-        Jan Kara <jack@suse.com>, Jason Gunthorpe <jgg@ziepe.ca>,
-        Jens Axboe <axboe@kernel.dk>,
-        Johannes Berg <johannes@sipsolutions.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Jozsef Kadlecsik <kadlec@netfilter.org>,
-        KP Singh <kpsingh@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Marco Elver <elver@google.com>,
+        with ESMTP id S229780AbiJFQdy (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 6 Oct 2022 12:33:54 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D901B5153
+        for <linux-media@vger.kernel.org>; Thu,  6 Oct 2022 09:33:53 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id A69564DD;
+        Thu,  6 Oct 2022 18:33:50 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1665074030;
+        bh=bsdX2Pr0CxSnTJVpaCzxgg7Erf2WjC+nqi/pCQHSJ7Q=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=n3Lf5j2ouA8GH2a4TWk/2SRu4xywud3lmcRKReAQDEvVoKaXQYd6cC0D6bLNXYog1
+         iGBry1D1o4sB/Cl+6f3T0vOQT/i+lGTInmlTZqfr0wlwlpuktwxWEAIM+B6lgwZjlK
+         pEwRu8GuaF27BF1GTUbDXdQ8XTUBPLLYbe8fecKM=
+Date:   Thu, 6 Oct 2022 19:33:45 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Jacopo Mondi <jacopo@jmondi.org>
+Cc:     Krzysztof =?utf-8?Q?Ha=C5=82asa?= <khalasa@piap.pl>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Pablo Neira Ayuso <pablo@netfilter.org>,
-        Paolo Abeni <pabeni@redhat.com>, Theodore Ts'o <tytso@mit.edu>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Thomas Graf <tgraf@suug.ch>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        Yury Norov <yury.norov@gmail.com>,
-        dri-devel@lists.freedesktop.org, kasan-dev@googlegroups.com,
-        kernel-janitors@vger.kernel.org, linux-block@vger.kernel.org,
-        linux-crypto@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-mm@kvack.org, linux-mmc@vger.kernel.org,
-        linux-mtd@lists.infradead.org, linux-nvme@lists.infradead.org,
-        linux-rdma@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-wireless@vger.kernel.org, netdev@vger.kernel.org
-Subject: Re: [PATCH v2 3/5] treewide: use get_random_u32() when possible
-Message-ID: <20221006162546.hgkrftnsk5p3sug7@quack3>
-References: <20221006132510.23374-1-Jason@zx2c4.com>
- <20221006132510.23374-4-Jason@zx2c4.com>
+        Sakari Ailus <sakari.ailus@iki.fi>, linux-media@vger.kernel.org
+Subject: Re: [PATCH 01/10] media: ar0521: Implement enum_frame_sizes
+Message-ID: <Yz8DaZvFAOMKPlCQ@pendragon.ideasonboard.com>
+References: <20221005190613.394277-1-jacopo@jmondi.org>
+ <20221005190613.394277-2-jacopo@jmondi.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20221006132510.23374-4-Jason@zx2c4.com>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.6
+In-Reply-To: <20221005190613.394277-2-jacopo@jmondi.org>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu 06-10-22 07:25:08, Jason A. Donenfeld wrote:
-> The prandom_u32() function has been a deprecated inline wrapper around
-> get_random_u32() for several releases now, and compiles down to the
-> exact same code. Replace the deprecated wrapper with a direct call to
-> the real function.
+Hi Jacopo,
+
+Thank you for the patch.
+
+On Wed, Oct 05, 2022 at 09:06:04PM +0200, Jacopo Mondi wrote:
+> Implement the enum_frame_size pad operation.
 > 
-> Reviewed-by: Kees Cook <keescook@chromium.org>
-> Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
+> The sensor supports a continuous size range of resolutions.
+> 
+> Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
+> ---
+>  drivers/media/i2c/ar0521.c | 19 +++++++++++++++++++
+>  1 file changed, 19 insertions(+)
+> 
+> diff --git a/drivers/media/i2c/ar0521.c b/drivers/media/i2c/ar0521.c
+> index c7bdfc69b9be..89f3c01f18ce 100644
+> --- a/drivers/media/i2c/ar0521.c
+> +++ b/drivers/media/i2c/ar0521.c
+> @@ -798,6 +798,24 @@ static int ar0521_enum_mbus_code(struct v4l2_subdev *sd,
+>  	return 0;
+>  }
+>  
+> +static int ar0521_enum_frame_size(struct v4l2_subdev *sd,
+> +				  struct v4l2_subdev_state *sd_state,
+> +				  struct v4l2_subdev_frame_size_enum *fse)
+> +{
+> +	if (fse->index)
+> +		return -EINVAL;
+> +
+> +	if (fse->code != MEDIA_BUS_FMT_SGRBG8_1X8)
+> +		return -EINVAL;
+> +
+> +	fse->min_width = AR0521_WIDTH_MIN;
+> +	fse->max_width = AR0521_WIDTH_MAX;
+> +	fse->min_height = AR0521_HEIGHT_MIN;
+> +	fse->max_height = AR0521_HEIGHT_MAX;
 
-Looks good. Feel free to add:
+This matches the driver implementation of .set_fmt(), but that's because
+the driver is *really* wrong :-( It uses the format to configure the
+crop rectangle, which is not right. This needs to be fixed.
 
-Reviewed-by: Jan Kara <jack@suse.cz>
+> +
+> +	return 0;
+> +}
+> +
+>  static int ar0521_pre_streamon(struct v4l2_subdev *sd, u32 flags)
+>  {
+>  	struct ar0521_dev *sensor = to_ar0521_dev(sd);
+> @@ -864,6 +882,7 @@ static const struct v4l2_subdev_video_ops ar0521_video_ops = {
+>  
+>  static const struct v4l2_subdev_pad_ops ar0521_pad_ops = {
+>  	.enum_mbus_code = ar0521_enum_mbus_code,
+> +	.enum_frame_size = ar0521_enum_frame_size,
+>  	.get_fmt = ar0521_get_fmt,
+>  	.set_fmt = ar0521_set_fmt,
+>  };
 
-for the ext4 bits.
-
-								Honza
 -- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+Regards,
+
+Laurent Pinchart
