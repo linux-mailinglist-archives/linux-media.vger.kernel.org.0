@@ -2,38 +2,39 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EF8AA5F656E
-	for <lists+linux-media@lfdr.de>; Thu,  6 Oct 2022 13:54:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C55775F6571
+	for <lists+linux-media@lfdr.de>; Thu,  6 Oct 2022 13:54:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230165AbiJFLyB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 6 Oct 2022 07:54:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50604 "EHLO
+        id S230148AbiJFLyf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 6 Oct 2022 07:54:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50828 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230140AbiJFLx7 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 6 Oct 2022 07:53:59 -0400
-Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3589B9DDB8
-        for <linux-media@vger.kernel.org>; Thu,  6 Oct 2022 04:53:55 -0700 (PDT)
+        with ESMTP id S230003AbiJFLyd (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 6 Oct 2022 07:54:33 -0400
+Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::229])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 101B79D53E
+        for <linux-media@vger.kernel.org>; Thu,  6 Oct 2022 04:54:31 -0700 (PDT)
 Received: (Authenticated sender: jacopo@jmondi.org)
-        by mail.gandi.net (Postfix) with ESMTPSA id 5BBF3C0012;
-        Thu,  6 Oct 2022 11:53:53 +0000 (UTC)
-Date:   Thu, 6 Oct 2022 13:53:51 +0200
+        by mail.gandi.net (Postfix) with ESMTPSA id 6513BFF802;
+        Thu,  6 Oct 2022 11:54:29 +0000 (UTC)
+Date:   Thu, 6 Oct 2022 13:54:27 +0200
 From:   Jacopo Mondi <jacopo@jmondi.org>
 To:     Dave Stevenson <dave.stevenson@raspberrypi.com>
 Cc:     paul.j.murphy@intel.com, daniele.alessandrelli@intel.com,
         linux-media@vger.kernel.org
-Subject: Re: [PATCH 12/16] media: i2c: ov9282: Make V4L2_CID_HBLANK r/w
-Message-ID: <20221006115351.2c7o7xqwl252xtp7@uno.localdomain>
+Subject: Re: [PATCH 13/16] media: i2c: ov9282: Add selection API calls for
+ cropping info
+Message-ID: <20221006115427.unrzqizgdtvysxoc@uno.localdomain>
 References: <20221005152809.3785786-1-dave.stevenson@raspberrypi.com>
- <20221005152809.3785786-13-dave.stevenson@raspberrypi.com>
- <20221006094108.x3ey5cae4cc6cac2@uno.localdomain>
- <CAPY8ntCEoEn4J9-gqMwH6L+48DT8fWjnxiBYkjmpzDAn0qcg5w@mail.gmail.com>
+ <20221005152809.3785786-14-dave.stevenson@raspberrypi.com>
+ <20221006094341.hz3lvo5vqrf3voas@uno.localdomain>
+ <CAPY8ntAY=361=jYCn-pvBJpzWOypg4HejL1yZuC6kDO9QfzGow@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <CAPY8ntCEoEn4J9-gqMwH6L+48DT8fWjnxiBYkjmpzDAn0qcg5w@mail.gmail.com>
+In-Reply-To: <CAPY8ntAY=361=jYCn-pvBJpzWOypg4HejL1yZuC6kDO9QfzGow@mail.gmail.com>
 X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=ham
+        SPF_HELO_NONE,SPF_NONE,T_PDS_OTHER_BAD_TLD autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -41,46 +42,109 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Dave,
+Hi David
 
-On Thu, Oct 06, 2022 at 12:33:01PM +0100, Dave Stevenson wrote:
-> Hi Jacopo.
+On Thu, Oct 06, 2022 at 12:39:35PM +0100, Dave Stevenson wrote:
+> Hi Jacopo
 >
-> On Thu, 6 Oct 2022 at 10:41, Jacopo Mondi <jacopo@jmondi.org> wrote:
+> Thanks for the review.
+>
+> On Thu, 6 Oct 2022 at 10:43, Jacopo Mondi <jacopo@jmondi.org> wrote:
 > >
 > > Hi Dave
 > >
-> > On Wed, Oct 05, 2022 at 04:28:05PM +0100, Dave Stevenson wrote:
-> > > There's no reason why HBLANK has to be read-only as it
-> > > only changes the TIMING_HTS register in the sensor.
+> > On Wed, Oct 05, 2022 at 04:28:06PM +0100, Dave Stevenson wrote:
+> > > As required by libcamera, add the relevant cropping targets
+> > > to report which portion of the sensor is being read out in
+> > > any mode.
 > > >
-> > > Remove the READ_ONLY flag, and add the relevant handling
-> > > for it.
+> > > Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+> > > ---
+> > >  drivers/media/i2c/ov9282.c | 75 ++++++++++++++++++++++++++++++++++++++
+> > >  1 file changed, 75 insertions(+)
 > > >
-> > > The minimum value also varies based on whether continuous clock
-> > > mode is being used or not, so allow hblank_min to depend on
-> > > that.
+> > > diff --git a/drivers/media/i2c/ov9282.c b/drivers/media/i2c/ov9282.c
+> > > index 8e86aa7e4b2a..d892f53fb1ea 100644
+> > > --- a/drivers/media/i2c/ov9282.c
+> > > +++ b/drivers/media/i2c/ov9282.c
+> > > @@ -67,6 +67,17 @@
+> > >  #define OV9282_PIXEL_RATE    (OV9282_LINK_FREQ * 2 * \
+> > >                                OV9282_NUM_DATA_LANES / 10)
+> > >
+> > > +/*
+> > > + * OV9282 native and active pixel array size.
+> > > + * 8 dummy rows/columns on each edge of a 1280x800 active array
+> > > + */
+> > > +#define OV9282_NATIVE_WIDTH          1296U
+> > > +#define OV9282_NATIVE_HEIGHT         816U
+> > > +#define OV9282_PIXEL_ARRAY_LEFT              8U
+> > > +#define OV9282_PIXEL_ARRAY_TOP               8U
+> > > +#define OV9282_PIXEL_ARRAY_WIDTH     1280U
+> > > +#define OV9282_PIXEL_ARRAY_HEIGHT    800U
+> > > +
+> > >  #define OV9282_REG_MIN               0x00
+> > >  #define OV9282_REG_MAX               0xfffff
+> > >
+> > > @@ -118,6 +129,7 @@ struct ov9282_mode {
+> > >       u32 vblank_min;
+> > >       u32 vblank_max;
+> > >       u32 link_freq_idx;
+> > > +     struct v4l2_rect crop;
+> > >       struct ov9282_reg_list reg_list;
+> > >  };
+> > >
+> > > @@ -280,6 +292,16 @@ static const struct ov9282_mode supported_modes[] = {
+> > >               .vblank_min = 41,
+> > >               .vblank_max = 51540,
+> > >               .link_freq_idx = 0,
+> > > +             .crop = {
+> > > +                     /*
+> > > +                      * Note that this mode takes the top 720 lines from the
+> > > +                      * 800 of the sensor. It does not take a middle crop.
+> > > +                      */
+> > > +                     .left = OV9282_PIXEL_ARRAY_LEFT,
+> > > +                     .top = OV9282_PIXEL_ARRAY_TOP,
+> > > +                     .width = 1280,
+> > > +                     .height = 720
+> > > +             },
+> > >               .reg_list = {
+> > >                       .num_of_regs = ARRAY_SIZE(mode_1280x720_regs),
+> > >                       .regs = mode_1280x720_regs,
+> > > @@ -719,6 +741,58 @@ static int ov9282_init_pad_cfg(struct v4l2_subdev *sd,
+> > >       return ov9282_set_pad_format(sd, sd_state, &fmt);
+> > >  }
+> > >
+> > > +static const struct v4l2_rect *
+> > > +__ov9282_get_pad_crop(struct ov9282 *ov9282,
+> > > +                   struct v4l2_subdev_state *sd_state,
+> > > +                   unsigned int pad, enum v4l2_subdev_format_whence which)
+> > > +{
+> > > +     switch (which) {
+> > > +     case V4L2_SUBDEV_FORMAT_TRY:
+> > > +             return v4l2_subdev_get_try_crop(&ov9282->sd, sd_state, pad);
+> > > +     case V4L2_SUBDEV_FORMAT_ACTIVE:
+> > > +             return &ov9282->cur_mode->crop;
+> > > +     }
+> > > +
+> > > +     return NULL;
+> > > +}
+> > > +
+> > > +static int ov9282_get_selection(struct v4l2_subdev *sd,
+> > > +                             struct v4l2_subdev_state *sd_state,
+> > > +                             struct v4l2_subdev_selection *sel)
+> > > +{
+> > > +     switch (sel->target) {
+> > > +     case V4L2_SEL_TGT_CROP: {
+> > > +             struct ov9282 *ov9282 = to_ov9282(sd);
+> > > +
+> > > +             mutex_lock(&ov9282->mutex);
 > >
-> > Interesting, do you know why they're different and why the continous
-> > version is smaller ?
+> > As there's no set_selection, do we need the mutex here ?
 >
-> Dropping from HS to LP-11 and back to HS for non-continuous mode takes
-> a minimum amount of time, so the time per line on the MIPI bus is
-> increased. Whilst there is a FIFO between the pixel array and MIPI
-> block, having to expend that time on the MIPI side means that the FIFO
-> can overflow.
->
-> I haven't found this behaviour documented, but I was trying to work
-> out the difference between this driver and our downstream driver [1]
-> in max frame rate. The default value for TIMING_HTS of 0x2d8 (doubled
-> to 1456 pixels) didn't work with this mainline driver, and it used
-> 0x2fd (1530 pixels). The CSI clock mode turned out to be the
-> difference.
-> The minimum HTS has therefore been left alone for non-continuous clock
-> mode, and the lower setting added for continuous clock.
->
+> __ov9282_get_pad_crop is looking at the current mode, so the mutex is
+> against ov9282_set_pad_format changing the mode.
 
-Makes sense! Thanks for the explanation
+Ah right
 
 Please add my tag to v2
 Reviewed-by: Jacopo Mondi <jacopo@jmondi.org>
@@ -88,127 +152,52 @@ Reviewed-by: Jacopo Mondi <jacopo@jmondi.org>
 Thanks
   j
 
+>
+> You'll find the same pattern in imx214, imx219, ov5640, ov5647,
+> ov8865, and hopefully all other sensor drivers implementing
+> get_selection for V4L2_SEL_TGT_CROP.
+>
 >   Dave
 >
-> [1] https://github.com/raspberrypi/linux/blob/rpi-5.15.y/drivers/media/i2c/ov9281.c
-> based on https://github.com/rockchip-linux/kernel/blob/develop-4.4/drivers/media/i2c/ov9281.c
->
-> > >
-> > > Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> > > ---
-> > >  drivers/media/i2c/ov9282.c | 34 +++++++++++++++++++++-------------
-> > >  1 file changed, 21 insertions(+), 13 deletions(-)
-> > >
-> > > diff --git a/drivers/media/i2c/ov9282.c b/drivers/media/i2c/ov9282.c
-> > > index 12cbe401fd78..8e86aa7e4b2a 100644
-> > > --- a/drivers/media/i2c/ov9282.c
-> > > +++ b/drivers/media/i2c/ov9282.c
-> > > @@ -22,6 +22,9 @@
-> > >  #define OV9282_MODE_STANDBY  0x00
-> > >  #define OV9282_MODE_STREAMING        0x01
-> > >
-> > > +#define OV9282_REG_TIMING_HTS        0x380c
-> > > +#define OV9282_TIMING_HTS_MAX        0x7fff
+> > > +             sel->r = *__ov9282_get_pad_crop(ov9282, sd_state, sel->pad,
+> > > +                                             sel->which);
+> > > +             mutex_unlock(&ov9282->mutex);
 > > > +
-> > >  /* Lines per frame */
-> > >  #define OV9282_REG_LPFR              0x380e
+> > > +             return 0;
+> > > +     }
+> > > +
+> > > +     case V4L2_SEL_TGT_NATIVE_SIZE:
+> > > +             sel->r.top = 0;
+> > > +             sel->r.left = 0;
+> > > +             sel->r.width = OV9282_NATIVE_WIDTH;
+> > > +             sel->r.height = OV9282_NATIVE_HEIGHT;
+> > > +
+> > > +             return 0;
+> > > +
+> > > +     case V4L2_SEL_TGT_CROP_DEFAULT:
+> > > +     case V4L2_SEL_TGT_CROP_BOUNDS:
+> > > +             sel->r.top = OV9282_PIXEL_ARRAY_TOP;
+> > > +             sel->r.left = OV9282_PIXEL_ARRAY_LEFT;
+> > > +             sel->r.width = OV9282_PIXEL_ARRAY_WIDTH;
+> > > +             sel->r.height = OV9282_PIXEL_ARRAY_HEIGHT;
+> > > +
+> > > +             return 0;
+> > > +     }
+> > > +
+> > > +     return -EINVAL;
+> > > +}
+> > > +
+> > >  /**
+> > >   * ov9282_start_streaming() - Start sensor stream
+> > >   * @ov9282: pointer to ov9282 device
+> > > @@ -963,6 +1037,7 @@ static const struct v4l2_subdev_pad_ops ov9282_pad_ops = {
+> > >       .enum_frame_size = ov9282_enum_frame_size,
+> > >       .get_fmt = ov9282_get_pad_format,
+> > >       .set_fmt = ov9282_set_pad_format,
+> > > +     .get_selection = ov9282_get_selection,
+> > >  };
 > > >
-> > > @@ -99,7 +102,8 @@ struct ov9282_reg_list {
-> > >   * struct ov9282_mode - ov9282 sensor mode structure
-> > >   * @width: Frame width
-> > >   * @height: Frame height
-> > > - * @hblank: Horizontal blanking in lines
-> > > + * @hblank_min: Minimum horizontal blanking in lines for non-continuous[0] and
-> > > + *           continuous[1] clock modes
-> > >   * @vblank: Vertical blanking in lines
-> > >   * @vblank_min: Minimum vertical blanking in lines
-> > >   * @vblank_max: Maximum vertical blanking in lines
-> > > @@ -109,7 +113,7 @@ struct ov9282_reg_list {
-> > >  struct ov9282_mode {
-> > >       u32 width;
-> > >       u32 height;
-> > > -     u32 hblank;
-> > > +     u32 hblank_min[2];
-> > >       u32 vblank;
-> > >       u32 vblank_min;
-> > >       u32 vblank_max;
-> > > @@ -249,8 +253,6 @@ static const struct ov9282_reg mode_1280x720_regs[] = {
-> > >       {0x3809, 0x00},
-> > >       {0x380a, 0x02},
-> > >       {0x380b, 0xd0},
-> > > -     {0x380c, 0x02},
-> > > -     {0x380d, 0xfd},
-> > >       {0x3810, 0x00},
-> > >       {0x3811, 0x08},
-> > >       {0x3812, 0x00},
-> > > @@ -273,7 +275,7 @@ static const struct ov9282_mode supported_modes[] = {
-> > >       {
-> > >               .width = 1280,
-> > >               .height = 720,
-> > > -             .hblank = 250,
-> > > +             .hblank_min = { 250, 176 },
-> > >               .vblank = 1022,
-> > >               .vblank_min = 41,
-> > >               .vblank_max = 51540,
-> > > @@ -399,15 +401,17 @@ static int ov9282_write_regs(struct ov9282 *ov9282,
-> > >  static int ov9282_update_controls(struct ov9282 *ov9282,
-> > >                                 const struct ov9282_mode *mode)
-> > >  {
-> > > +     u32 hblank_min;
-> > >       int ret;
-> > >
-> > >       ret = __v4l2_ctrl_s_ctrl(ov9282->link_freq_ctrl, mode->link_freq_idx);
-> > >       if (ret)
-> > >               return ret;
-> > >
-> > > -     ret = __v4l2_ctrl_s_ctrl(ov9282->hblank_ctrl, mode->hblank);
-> > > -     if (ret)
-> > > -             return ret;
-> > > +     hblank_min = mode->hblank_min[ov9282->noncontinuous_clock ? 0 : 1];
-> > > +     ret =  __v4l2_ctrl_modify_range(ov9282->hblank_ctrl, hblank_min,
-> > > +                                     OV9282_TIMING_HTS_MAX - mode->width, 1,
-> > > +                                     hblank_min);
-> > >
-> > >       return __v4l2_ctrl_modify_range(ov9282->vblank_ctrl, mode->vblank_min,
-> > >                                       mode->vblank_max, 1, mode->vblank);
-> > > @@ -539,6 +543,10 @@ static int ov9282_set_ctrl(struct v4l2_ctrl *ctrl)
-> > >       case V4L2_CID_VFLIP:
-> > >               ret = ov9282_set_ctrl_vflip(ov9282, ctrl->val);
-> > >               break;
-> > > +     case V4L2_CID_HBLANK:
-> > > +             ret = ov9282_write_reg(ov9282, OV9282_REG_TIMING_HTS, 2,
-> > > +                                    (ctrl->val + ov9282->cur_mode->width) >> 1);
-> > > +             break;
-> > >       default:
-> > >               dev_err(ov9282->dev, "Invalid control %d", ctrl->id);
-> > >               ret = -EINVAL;
-> > > @@ -1033,6 +1041,7 @@ static int ov9282_init_controls(struct ov9282 *ov9282)
-> > >       struct v4l2_ctrl_handler *ctrl_hdlr = &ov9282->ctrl_handler;
-> > >       const struct ov9282_mode *mode = ov9282->cur_mode;
-> > >       struct v4l2_fwnode_device_properties props;
-> > > +     u32 hblank_min;
-> > >       u32 lpfr;
-> > >       int ret;
-> > >
-> > > @@ -1091,14 +1100,13 @@ static int ov9282_init_controls(struct ov9282 *ov9282)
-> > >       if (ov9282->link_freq_ctrl)
-> > >               ov9282->link_freq_ctrl->flags |= V4L2_CTRL_FLAG_READ_ONLY;
-> > >
-> > > +     hblank_min = mode->hblank_min[ov9282->noncontinuous_clock ? 0 : 1];
-> > >       ov9282->hblank_ctrl = v4l2_ctrl_new_std(ctrl_hdlr,
-> > >                                               &ov9282_ctrl_ops,
-> > >                                               V4L2_CID_HBLANK,
-> > > -                                             OV9282_REG_MIN,
-> > > -                                             OV9282_REG_MAX,
-> > > -                                             1, mode->hblank);
-> > > -     if (ov9282->hblank_ctrl)
-> > > -             ov9282->hblank_ctrl->flags |= V4L2_CTRL_FLAG_READ_ONLY;
-> > > +                                             hblank_min,
-> > > +                                             OV9282_TIMING_HTS_MAX - mode->width,
-> > > +                                             1, hblank_min);
-> > >
-> > >       ret = v4l2_fwnode_device_parse(ov9282->dev, &props);
-> > >       if (!ret) {
+> > >  static const struct v4l2_subdev_ops ov9282_subdev_ops = {
 > > > --
 > > > 2.34.1
 > > >
