@@ -2,147 +2,225 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 336605F6520
-	for <lists+linux-media@lfdr.de>; Thu,  6 Oct 2022 13:20:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 044FB5F653D
+	for <lists+linux-media@lfdr.de>; Thu,  6 Oct 2022 13:33:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231544AbiJFLUv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 6 Oct 2022 07:20:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60560 "EHLO
+        id S229636AbiJFLdW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 6 Oct 2022 07:33:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48466 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230323AbiJFLUt (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 6 Oct 2022 07:20:49 -0400
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F046F24F29;
-        Thu,  6 Oct 2022 04:20:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1665055248; x=1696591248;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=eVjakT2R76LOXKY8u4IZh2HVC/ewPG8SKlq4jIby030=;
-  b=WqrkPi8e1D6On7w5JzLyLYSHhh5x5lkc1TUgJOD19i00A9lEXxCzVEA2
-   OvaNb6rerTZ8Es+Sj3yr0hsk19d10whVrlCmXgFnwgkMYb8O8iM6p7n1T
-   YnzsU4XZr6jPkwmDkKas3mhLoA+CDhYcEVc2X3tMCupw6VUhwJY0KOITV
-   o4vg+74jhwxH/dHPvOWujF+mg3YJdMAi3YOSHotj1xg1H9BcBzU3Ymv2s
-   Aa93pz4GHx87zEP3SW93xYXG0VFL4gcmzjTmT4bIEU2/NyV5TgtD+LpA0
-   UwBZk4dqojg48hhXOEI4Ebkh+migLAeKWUIgDl6rlGq84/CQ7OpnKrzoi
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10491"; a="365355030"
-X-IronPort-AV: E=Sophos;i="5.95,163,1661842800"; 
-   d="scan'208";a="365355030"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Oct 2022 04:20:46 -0700
-X-IronPort-AV: E=McAfee;i="6500,9779,10491"; a="575791672"
-X-IronPort-AV: E=Sophos;i="5.95,163,1661842800"; 
-   d="scan'208";a="575791672"
-Received: from punajuuri.fi.intel.com (HELO paasikivi.fi.intel.com) ([10.237.72.43])
-  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Oct 2022 04:20:34 -0700
-Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
-        by paasikivi.fi.intel.com (Postfix) with SMTP id 2FEE7201DB;
-        Thu,  6 Oct 2022 14:20:32 +0300 (EEST)
-Date:   Thu, 6 Oct 2022 11:20:32 +0000
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        laurent.pinchart@ideasonboard.com,
-        niklas.soderlund+renesas@ragnatech.se, luca@lucaceresoli.net,
-        ian.arkver.dev@gmail.com, linux-media@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v4 00/31] v4l: add support for multiplexed streams
-Message-ID: <Yz66ADqFVj2UY248@paasikivi.fi.intel.com>
-References: <20190328200608.9463-1-jacopo+renesas@jmondi.org>
- <1510023a-a6aa-611e-8920-32b949ec5250@ideasonboard.com>
+        with ESMTP id S229453AbiJFLdW (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 6 Oct 2022 07:33:22 -0400
+Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com [IPv6:2a00:1450:4864:20::532])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E7882980F
+        for <linux-media@vger.kernel.org>; Thu,  6 Oct 2022 04:33:19 -0700 (PDT)
+Received: by mail-ed1-x532.google.com with SMTP id l22so2371791edj.5
+        for <linux-media@vger.kernel.org>; Thu, 06 Oct 2022 04:33:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=raspberrypi.com; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date;
+        bh=yGA9OHjceBcJqOYxyJ7ur7ZHF9Qta3hEwVJlmZRytNQ=;
+        b=QzLxC03VzMzeJWVxK70LF20hhm06PhDSm/rHL3PiBx8xWoCGIqa1W5j1U6dpkdFHYS
+         AgAe4HNNhLrAckHtpNE3Pqv6fiRlIGOiUM8B0T66XQK4X1QQ0aGJ23w4IqTbxT6ZmzcV
+         67jnC254fLAycNtqJpDBWDD3ZUDJu5+cfJOH6XMUI0uWEBaOCdueJZ2YN52kM2xzXDsk
+         hgvkYoDiH+t9hTzu63wnLVD836CGzdUUg3xazHcNIxatxmcPgAzcEXs2nhDWb7IAmRI7
+         1/wvXpnLSyhisp/k8zxkEaymDB1W/1TjARJaiQqbX5FjkmON1imtrxXgWb6oGWMmeTdw
+         QcOw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date;
+        bh=yGA9OHjceBcJqOYxyJ7ur7ZHF9Qta3hEwVJlmZRytNQ=;
+        b=Bad+OeWBIm756vFYUlA33csQ8zDmBpCNVSU8WzsHfQfVc8aHCfVsAfJ1ioPXxhn73e
+         MOsLx9MZlZ8Hb8gxBVcDvSNu/bDX59P3UeHMsxHMKGGIGFAvpDY7uxHC0bhXEaEVPVhX
+         f6gC8t92BqJjWPK7ZnvWg0fd6ISUEWLx92DsB2y7OfaXKPyMrJTtRRzoMVjke4ZKQVOY
+         9IrvbdvcL7zkcHJ1yFaazh+TipJIpDd1fO1MelW453x4btnf3/pVuu0RLDInp1KfCFtA
+         SQJtPY3XpTYgLesuBeAHKiB12IqRzdQC02iRGgCoDzONVqJ/MILxsSNQtVeHjgVYCjpt
+         z8Pg==
+X-Gm-Message-State: ACrzQf3R8swKvxQ82Rw4LTSZRZUFrgx81lFK7CmTZkPK0whcOrifJhi4
+        TkbE/vNLo+Cq4jsjTlL5fsBG8AnYoWfCV+B4xyuZmPXLI5Irdw==
+X-Google-Smtp-Source: AMsMyM6pOd+RllqzbyhJ0kKMHWPkoVlr5pulzgDpDeRbTCR4YvpMw2tDqpxAYn4LTxkcSkLTQxvJ5uSdPN4P4kgvvxc=
+X-Received: by 2002:a05:6402:3552:b0:451:2037:639e with SMTP id
+ f18-20020a056402355200b004512037639emr4231175edd.136.1665055998151; Thu, 06
+ Oct 2022 04:33:18 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1510023a-a6aa-611e-8920-32b949ec5250@ideasonboard.com>
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+References: <20221005152809.3785786-1-dave.stevenson@raspberrypi.com>
+ <20221005152809.3785786-13-dave.stevenson@raspberrypi.com> <20221006094108.x3ey5cae4cc6cac2@uno.localdomain>
+In-Reply-To: <20221006094108.x3ey5cae4cc6cac2@uno.localdomain>
+From:   Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date:   Thu, 6 Oct 2022 12:33:01 +0100
+Message-ID: <CAPY8ntCEoEn4J9-gqMwH6L+48DT8fWjnxiBYkjmpzDAn0qcg5w@mail.gmail.com>
+Subject: Re: [PATCH 12/16] media: i2c: ov9282: Make V4L2_CID_HBLANK r/w
+To:     Jacopo Mondi <jacopo@jmondi.org>
+Cc:     paul.j.murphy@intel.com, daniele.alessandrelli@intel.com,
+        linux-media@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Moi,
+Hi Jacopo.
 
-On Thu, Feb 11, 2021 at 03:44:56PM +0200, Tomi Valkeinen wrote:
-> Hi all,
-> 
-> On 28/03/2019 22:05, Jacopo Mondi wrote:
-> > Hello,
-> >    new iteration of multiplexed stream support patch series.
-> > 
-> > V3 available at:
-> > https://patchwork.kernel.org/cover/10839889/
-> > 
-> > V2 sent by Niklas is available at:
-> > https://patchwork.kernel.org/cover/10573817/
-> > 
-> > Series available at:
-> > git://jmondi.org/linux v4l2-mux/media-master/v4
-> 
-> I'm trying to understand how these changes can be used with virtual
-> channels and also with embedded data.
-> 
-> I have an SoC with two CSI-2 RX ports, both of which connect to a
-> processing block with 8 DMA engines. Each of the DMA engines can be
-> programmed to handle a certain virtual channel and datatype.
-> 
-> The board has a multiplexer, connected to 4 cameras, and the multiplexer
-> connects to SoC's CSI-2 RX port. This board has just one multiplexer
-> connected, but, of course, both RX ports could have a multiplexer,
-> amounting to total 8 cameras.
-> 
-> So, in theory, there could be 16 streams to be handled (4 pixel streams
-> and 4 embedded data streams for both RX ports). With only 8 DMA engines
-> available, the driver has to manage them dynamically, reserving a DMA
-> engine when a stream is started.
-> 
-> My confusion is with the /dev/video nodes. I think it would be logical
-> to create 8 of them, one for each DMA engine (or less, if I know there
-> is only, say, 1 camera connected, in which case 2 nodes would be
+On Thu, 6 Oct 2022 at 10:41, Jacopo Mondi <jacopo@jmondi.org> wrote:
+>
+> Hi Dave
+>
+> On Wed, Oct 05, 2022 at 04:28:05PM +0100, Dave Stevenson wrote:
+> > There's no reason why HBLANK has to be read-only as it
+> > only changes the TIMING_HTS register in the sensor.
+> >
+> > Remove the READ_ONLY flag, and add the relevant handling
+> > for it.
+> >
+> > The minimum value also varies based on whether continuous clock
+> > mode is being used or not, so allow hblank_min to depend on
+> > that.
+>
+> Interesting, do you know why they're different and why the continous
+> version is smaller ?
 
-For more complex devices, it is often not possible to define such a number.
-Say, put an external ISP in between the sensor and the CSI-2 receiver, and
-you may get more streams than you would from the sensor alone.
+Dropping from HS to LP-11 and back to HS for non-continuous mode takes
+a minimum amount of time, so the time per line on the MIPI bus is
+increased. Whilst there is a FIFO between the pixel array and MIPI
+block, having to expend that time on the MIPI side means that the FIFO
+can overflow.
 
-> enough). But in that case how does the user know what data is being
-> received from that node? In other words, how to connect, say,
-> /dev/video0 to second camera's embedded data stream?
-> 
-> Another option would be to create 16 /dev/video nodes, and document that
-> first one maps to virtual channel 0 + pixel data, second to virtual
-> channel 0 + embedded data, and so on. And only allow 8 of them to be
-> turned on at a time. But I don't like this idea much.
+I haven't found this behaviour documented, but I was trying to work
+out the difference between this driver and our downstream driver [1]
+in max frame rate. The default value for TIMING_HTS of 0x2d8 (doubled
+to 1456 pixels) didn't work with this mainline driver, and it used
+0x2fd (1530 pixels). The CSI clock mode turned out to be the
+difference.
+The minimum HTS has therefore been left alone for non-continuous clock
+mode, and the lower setting added for continuous clock.
 
-This isn't great IMO as it is limited to pre-defined use cases.
+  Dave
 
-> 
-> The current driver architecture is such that the multiplexer is modeled
-> with a subdev with 4 sink pads and one source pad, the SoC's RX ports
-> are subdevs with a single sink and a single output pad, and then there
-> are the video devices connected to RX's source pad.
-> 
-> And while I can connect the video node's pad to the source pad on either
-> of the RX ports, I don't think I have any way to define which stream it
-> receives.
-> 
-> Does that mean that each RX port subdev should instead have 8 source
-> pads? Isn't a pad like a physical connection? There's really just one
-> output from the RX port, with multiplexed streams, so 8 pads doesn't
-> sound right.
+[1] https://github.com/raspberrypi/linux/blob/rpi-5.15.y/drivers/media/i2c/ov9281.c
+based on https://github.com/rockchip-linux/kernel/blob/develop-4.4/drivers/media/i2c/ov9281.c
 
-If you have eight DMAs you should always have eight video nodes.
-
-I would put one link between the sub-device and a video node, and handle
-the incoming streams by routing them to the desired video nodes.
-
-If there's any doubt about the approach, it needs to be documented in
-driver documentation.
-
--- 
-Terveisin,
-
-Sakari Ailus
+> >
+> > Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+> > ---
+> >  drivers/media/i2c/ov9282.c | 34 +++++++++++++++++++++-------------
+> >  1 file changed, 21 insertions(+), 13 deletions(-)
+> >
+> > diff --git a/drivers/media/i2c/ov9282.c b/drivers/media/i2c/ov9282.c
+> > index 12cbe401fd78..8e86aa7e4b2a 100644
+> > --- a/drivers/media/i2c/ov9282.c
+> > +++ b/drivers/media/i2c/ov9282.c
+> > @@ -22,6 +22,9 @@
+> >  #define OV9282_MODE_STANDBY  0x00
+> >  #define OV9282_MODE_STREAMING        0x01
+> >
+> > +#define OV9282_REG_TIMING_HTS        0x380c
+> > +#define OV9282_TIMING_HTS_MAX        0x7fff
+> > +
+> >  /* Lines per frame */
+> >  #define OV9282_REG_LPFR              0x380e
+> >
+> > @@ -99,7 +102,8 @@ struct ov9282_reg_list {
+> >   * struct ov9282_mode - ov9282 sensor mode structure
+> >   * @width: Frame width
+> >   * @height: Frame height
+> > - * @hblank: Horizontal blanking in lines
+> > + * @hblank_min: Minimum horizontal blanking in lines for non-continuous[0] and
+> > + *           continuous[1] clock modes
+> >   * @vblank: Vertical blanking in lines
+> >   * @vblank_min: Minimum vertical blanking in lines
+> >   * @vblank_max: Maximum vertical blanking in lines
+> > @@ -109,7 +113,7 @@ struct ov9282_reg_list {
+> >  struct ov9282_mode {
+> >       u32 width;
+> >       u32 height;
+> > -     u32 hblank;
+> > +     u32 hblank_min[2];
+> >       u32 vblank;
+> >       u32 vblank_min;
+> >       u32 vblank_max;
+> > @@ -249,8 +253,6 @@ static const struct ov9282_reg mode_1280x720_regs[] = {
+> >       {0x3809, 0x00},
+> >       {0x380a, 0x02},
+> >       {0x380b, 0xd0},
+> > -     {0x380c, 0x02},
+> > -     {0x380d, 0xfd},
+> >       {0x3810, 0x00},
+> >       {0x3811, 0x08},
+> >       {0x3812, 0x00},
+> > @@ -273,7 +275,7 @@ static const struct ov9282_mode supported_modes[] = {
+> >       {
+> >               .width = 1280,
+> >               .height = 720,
+> > -             .hblank = 250,
+> > +             .hblank_min = { 250, 176 },
+> >               .vblank = 1022,
+> >               .vblank_min = 41,
+> >               .vblank_max = 51540,
+> > @@ -399,15 +401,17 @@ static int ov9282_write_regs(struct ov9282 *ov9282,
+> >  static int ov9282_update_controls(struct ov9282 *ov9282,
+> >                                 const struct ov9282_mode *mode)
+> >  {
+> > +     u32 hblank_min;
+> >       int ret;
+> >
+> >       ret = __v4l2_ctrl_s_ctrl(ov9282->link_freq_ctrl, mode->link_freq_idx);
+> >       if (ret)
+> >               return ret;
+> >
+> > -     ret = __v4l2_ctrl_s_ctrl(ov9282->hblank_ctrl, mode->hblank);
+> > -     if (ret)
+> > -             return ret;
+> > +     hblank_min = mode->hblank_min[ov9282->noncontinuous_clock ? 0 : 1];
+> > +     ret =  __v4l2_ctrl_modify_range(ov9282->hblank_ctrl, hblank_min,
+> > +                                     OV9282_TIMING_HTS_MAX - mode->width, 1,
+> > +                                     hblank_min);
+> >
+> >       return __v4l2_ctrl_modify_range(ov9282->vblank_ctrl, mode->vblank_min,
+> >                                       mode->vblank_max, 1, mode->vblank);
+> > @@ -539,6 +543,10 @@ static int ov9282_set_ctrl(struct v4l2_ctrl *ctrl)
+> >       case V4L2_CID_VFLIP:
+> >               ret = ov9282_set_ctrl_vflip(ov9282, ctrl->val);
+> >               break;
+> > +     case V4L2_CID_HBLANK:
+> > +             ret = ov9282_write_reg(ov9282, OV9282_REG_TIMING_HTS, 2,
+> > +                                    (ctrl->val + ov9282->cur_mode->width) >> 1);
+> > +             break;
+> >       default:
+> >               dev_err(ov9282->dev, "Invalid control %d", ctrl->id);
+> >               ret = -EINVAL;
+> > @@ -1033,6 +1041,7 @@ static int ov9282_init_controls(struct ov9282 *ov9282)
+> >       struct v4l2_ctrl_handler *ctrl_hdlr = &ov9282->ctrl_handler;
+> >       const struct ov9282_mode *mode = ov9282->cur_mode;
+> >       struct v4l2_fwnode_device_properties props;
+> > +     u32 hblank_min;
+> >       u32 lpfr;
+> >       int ret;
+> >
+> > @@ -1091,14 +1100,13 @@ static int ov9282_init_controls(struct ov9282 *ov9282)
+> >       if (ov9282->link_freq_ctrl)
+> >               ov9282->link_freq_ctrl->flags |= V4L2_CTRL_FLAG_READ_ONLY;
+> >
+> > +     hblank_min = mode->hblank_min[ov9282->noncontinuous_clock ? 0 : 1];
+> >       ov9282->hblank_ctrl = v4l2_ctrl_new_std(ctrl_hdlr,
+> >                                               &ov9282_ctrl_ops,
+> >                                               V4L2_CID_HBLANK,
+> > -                                             OV9282_REG_MIN,
+> > -                                             OV9282_REG_MAX,
+> > -                                             1, mode->hblank);
+> > -     if (ov9282->hblank_ctrl)
+> > -             ov9282->hblank_ctrl->flags |= V4L2_CTRL_FLAG_READ_ONLY;
+> > +                                             hblank_min,
+> > +                                             OV9282_TIMING_HTS_MAX - mode->width,
+> > +                                             1, hblank_min);
+> >
+> >       ret = v4l2_fwnode_device_parse(ov9282->dev, &props);
+> >       if (!ret) {
+> > --
+> > 2.34.1
+> >
