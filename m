@@ -2,138 +2,253 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 87DD65F670F
-	for <lists+linux-media@lfdr.de>; Thu,  6 Oct 2022 15:01:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D92235F671E
+	for <lists+linux-media@lfdr.de>; Thu,  6 Oct 2022 15:01:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229977AbiJFNBc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 6 Oct 2022 09:01:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43646 "EHLO
+        id S231149AbiJFNBt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 6 Oct 2022 09:01:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43884 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230307AbiJFNBa (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 6 Oct 2022 09:01:30 -0400
-Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com [IPv6:2a00:1450:4864:20::62d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 413C797D73
-        for <linux-media@vger.kernel.org>; Thu,  6 Oct 2022 06:01:28 -0700 (PDT)
-Received: by mail-ej1-x62d.google.com with SMTP id bj12so4310032ejb.13
-        for <linux-media@vger.kernel.org>; Thu, 06 Oct 2022 06:01:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=raspberrypi.com; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date;
-        bh=HFc7f2WKa/j1PhUI19mVsKIdUn9komv6x1mgVqD/NT4=;
-        b=EXoj9b7Aa9Ba+5E5K8Rohf9GP+kFGcBOceuZprMTxgGU9GSVc+riIajgVcxyQzBFs8
-         IE6RNmEwTkVU4iL1EF1dorXC13JsffWH6I35CaA31DZg5XL1MyTlemu9WUDCDBIpniEI
-         2jwh+1slMaLfEL2y3wfP86lcWk6nY1pWTBnPlFKJ60WxX6nyZACgg56owQF+oMmA16Nx
-         QXnzbxuzUbOcp0YkjJmBL7jPHJV8Sh88SJwiDvv3kIaBzb5yfAsu9YNuFzgNxsjVLoUS
-         2KpB3JNVVnrGHjUTd0FQTG8anHIKKLewKjDbp7T/r/0WyTuo6R8BQAtSoMj3VU7hY9WJ
-         GLEw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=HFc7f2WKa/j1PhUI19mVsKIdUn9komv6x1mgVqD/NT4=;
-        b=e4PKTrcuKJHQCL/cjZTEbt7+4jusC/iPFsLWBriWcWICqwqqPvOshPJ1DbAjt6Hob8
-         ZnESKNcWuhUDCsiPtidjUk7AKDxzHBYEgtpf3RBfCO9oHj7rxWwrbkpe+aQ6Mrqr1IEh
-         BeY7p/TYua32xfS67GMe3ads5INXiqZurM+TfPvsIXiWdKp+IvBLV2qDpCm5tw8Bz2qy
-         v674y03sPicwYvBgs3goUcoqtjLcTnheqpZYasvmaj7/i1wGKvN/X5mUSclCthIoC/kK
-         L0AxsYxcxfSPHZ4ImMlwUpZCk46jQcqJGHQUDcoxvGRRR66yNYSfuZlTBuvo/pMItOU1
-         btMQ==
-X-Gm-Message-State: ACrzQf2q+SLb6ifJhsR9VqcrEX3WmsuqTO5xNGD9cqOb0CmoOFtaBb/q
-        Lac4jAiNMlrw0/vvpyeYC1K0596YrwdaNzudcNKxAw==
-X-Google-Smtp-Source: AMsMyM6AN3YA1YVvvF+FqLh0kGwuupc3asOwVb7PwZIcip5OMYy7cSVwNtbYeNFEHYZH+w/tzVEcGQb8c7CSnVLqX40=
-X-Received: by 2002:a17:907:1c98:b0:78d:3b08:33ef with SMTP id
- nb24-20020a1709071c9800b0078d3b0833efmr3912008ejc.175.1665061287512; Thu, 06
- Oct 2022 06:01:27 -0700 (PDT)
+        with ESMTP id S230133AbiJFNBn (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 6 Oct 2022 09:01:43 -0400
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D2C8E8A1FC;
+        Thu,  6 Oct 2022 06:01:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1665061302; x=1696597302;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Ru6CnBvVhIEhYJCAeuuxpRt9HHeJLOxAuoa9BjBuh8k=;
+  b=AGWKWrAmNTte351h2k1feYl2fEi8rMwITVCJk7pNUXa1Ng0fQ3b2azOq
+   uKuvJLxK0mA9Tqu3UQrxcvZhNBZH7+ufyXr/eCl51aK2E+6alzDUNMpev
+   Nal/AmQePVXxf51aw66W9WRCAYm+XU/TtJLHLlzK0fLBMpvOkNSKnYU6a
+   G0RPB2YNDasi333P00LsC+HLiCjUDiLmBkQrJ9Dt5KAHtZ7QeMOcScwI0
+   yVVxu3xrA0z8zp+mB6pCuwFd+t1IPnDGoJrgOtk/mfFAE1KbrDX96OsuA
+   Q6dzk7SPLhjyK1/yFBt+FIYuNforlaW4X0SnFFSBR/uzfXEGd3cKuEo3f
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10491"; a="283804515"
+X-IronPort-AV: E=Sophos;i="5.95,163,1661842800"; 
+   d="scan'208";a="283804515"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Oct 2022 06:01:41 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10491"; a="767139765"
+X-IronPort-AV: E=Sophos;i="5.95,163,1661842800"; 
+   d="scan'208";a="767139765"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by fmsmga001.fm.intel.com with ESMTP; 06 Oct 2022 06:01:22 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1ogQUx-0039Oq-2J;
+        Thu, 06 Oct 2022 16:01:11 +0300
+Date:   Thu, 6 Oct 2022 16:01:11 +0300
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     "Jason A. Donenfeld" <Jason@zx2c4.com>
+Cc:     Jan Kara <jack@suse.cz>, Andrew Lunn <andrew@lunn.ch>,
+        "Darrick J . Wong" <djwong@kernel.org>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        dri-devel@lists.freedesktop.org,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>, linux-sctp@vger.kernel.org,
+        "Md . Haris Iqbal" <haris.iqbal@ionos.com>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Christoph Hellwig <hch@lst.de>,
+        Andy Gospodarek <andy@greyhouse.net>,
+        Sergey Matyukevich <geomatsi@gmail.com>,
+        Rohit Maheshwari <rohitm@chelsio.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        ceph-devel@vger.kernel.org,
+        Christophe Leroy <christophe.leroy@csgroup.eu>,
+        Jozsef Kadlecsik <kadlec@netfilter.org>,
+        Nilesh Javali <njavali@marvell.com>,
+        Jean-Paul Roubelat <jpr@f6fbb.org>,
+        Dick Kennedy <dick.kennedy@broadcom.com>,
+        Jay Vosburgh <j.vosburgh@gmail.com>,
+        Potnuri Bharat Teja <bharat@chelsio.com>,
+        Vinay Kumar Yadav <vinay.yadav@chelsio.com>,
+        linux-nfs@vger.kernel.org, Nicholas Piggin <npiggin@gmail.com>,
+        Igor Mitsyanko <imitsyanko@quantenna.com>,
+        Andy Lutomirski <luto@kernel.org>, linux-hams@vger.kernel.org,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Trond Myklebust <trond.myklebust@hammerspace.com>,
+        linux-raid@vger.kernel.org, Neil Horman <nhorman@tuxdriver.com>,
+        Hante Meuleman <hante.meuleman@broadcom.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-usb@vger.kernel.org,
+        Michael Chan <michael.chan@broadcom.com>,
+        linux-kernel@vger.kernel.org, Varun Prakash <varun@chelsio.com>,
+        Chuck Lever <chuck.lever@oracle.com>,
+        netfilter-devel@vger.kernel.org,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        Jiri Olsa <jolsa@kernel.org>, Jan Kara <jack@suse.com>,
+        linux-fsdevel@vger.kernel.org,
+        Lars Ellenberg <lars.ellenberg@linbit.com>,
+        linux-media@vger.kernel.org,
+        Claudiu Beznea <claudiu.beznea@microchip.com>,
+        Sharvari Harisangam <sharvari.harisangam@nxp.com>,
+        linux-fbdev@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-mmc@vger.kernel.org,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Song Liu <song@kernel.org>, Eric Dumazet <edumazet@google.com>,
+        target-devel@vger.kernel.org, John Stultz <jstultz@google.com>,
+        Stanislav Fomichev <sdf@google.com>,
+        Gregory Greenman <gregory.greenman@intel.com>,
+        drbd-dev@lists.linbit.com, dev@openvswitch.org,
+        Leon Romanovsky <leon@kernel.org>,
+        Helge Deller <deller@gmx.de>, Hugh Dickins <hughd@google.com>,
+        James Smart <james.smart@broadcom.com>,
+        Anil S Keshavamurthy <anil.s.keshavamurthy@intel.com>,
+        Pravin B Shelar <pshelar@ovn.org>,
+        Julian Anastasov <ja@ssi.bg>, coreteam@netfilter.org,
+        Veaceslav Falico <vfalico@gmail.com>,
+        Yonghong Song <yhs@fb.com>,
+        Namjae Jeon <linkinjeon@kernel.org>,
+        linux-crypto@vger.kernel.org,
+        Santosh Shilimkar <santosh.shilimkar@oracle.com>,
+        Ganapathi Bhat <ganapathi017@gmail.com>,
+        linux-actions@lists.infradead.org,
+        Simon Horman <horms@verge.net.au>,
+        Jaegeuk Kim <jaegeuk@kernel.org>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>,
+        Hao Luo <haoluo@google.com>, Theodore Ts'o <tytso@mit.edu>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>,
+        Florian Westphal <fw@strlen.de>,
+        Andreas =?iso-8859-1?Q?F=E4rber?= <afaerber@suse.de>,
+        Jon Maloy <jmaloy@redhat.com>,
+        Vlad Yasevich <vyasevich@gmail.com>,
+        Anna Schumaker <anna@kernel.org>,
+        Yehezkel Bernat <YehezkelShB@gmail.com>,
+        Haoyue Xu <xuhaoyue1@hisilicon.com>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        linux-wireless@vger.kernel.org,
+        Marcelo Ricardo Leitner <marcelo.leitner@gmail.com>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        linux-nvme@lists.infradead.org,
+        Michal Januszewski <spock@gentoo.org>,
+        linux-mtd@lists.infradead.org, kasan-dev@googlegroups.com,
+        Cong Wang <xiyou.wangcong@gmail.com>,
+        Thomas Sailer <t.sailer@alumni.ethz.ch>,
+        Ajay Singh <ajay.kathat@microchip.com>,
+        Xiubo Li <xiubli@redhat.com>, Sagi Grimberg <sagi@grimberg.me>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Jonathan Corbet <corbet@lwn.net>, linux-rdma@vger.kernel.org,
+        lvs-devel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        "Naveen N . Rao" <naveen.n.rao@linux.ibm.com>,
+        Ilya Dryomov <idryomov@gmail.com>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Pablo Neira Ayuso <pablo@netfilter.org>,
+        Marco Elver <elver@google.com>,
+        Kees Cook <keescook@chromium.org>,
+        Yury Norov <yury.norov@gmail.com>,
+        "James E . J . Bottomley" <jejb@linux.ibm.com>,
+        Jamal Hadi Salim <jhs@mojatatu.com>,
+        KP Singh <kpsingh@kernel.org>, Borislav Petkov <bp@alien8.de>,
+        Keith Busch <kbusch@kernel.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Franky Lin <franky.lin@broadcom.com>,
+        Arend van Spriel <aspriel@gmail.com>,
+        linux-ext4@vger.kernel.org,
+        Wenpeng Liang <liangwenpeng@huawei.com>,
+        "Martin K . Petersen" <martin.petersen@oracle.com>,
+        Xinming Hu <huxinming820@gmail.com>,
+        linux-stm32@st-md-mailman.stormreply.com,
+        Jeff Layton <jlayton@kernel.org>, linux-xfs@vger.kernel.org,
+        netdev@vger.kernel.org, Ying Xue <ying.xue@windriver.com>,
+        Manish Rangankar <mrangankar@marvell.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Toke =?iso-8859-1?Q?H=F8iland-J=F8rgensen?= <toke@toke.dk>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Amitkumar Karwar <amitkarwar@gmail.com>, linux-mm@kvack.org,
+        Andreas Dilger <adilger.kernel@dilger.ca>,
+        Ayush Sawal <ayush.sawal@chelsio.com>,
+        Andreas Noever <andreas.noever@gmail.com>,
+        Jiri Pirko <jiri@resnulli.us>,
+        linux-f2fs-devel@lists.sourceforge.net,
+        Jack Wang <jinpu.wang@ionos.com>,
+        Steffen Klassert <steffen.klassert@secunet.com>,
+        rds-devel@oss.oracle.com, Herbert Xu <herbert@gondor.apana.org.au>,
+        linux-scsi@vger.kernel.org, dccp@vger.kernel.org,
+        Richard Weinberger <richard@nod.at>,
+        Russell King <linux@armlinux.org.uk>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        SHA-cyfmac-dev-list@infineon.com, Ingo Molnar <mingo@redhat.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        John Fastabend <john.fastabend@gmail.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Manivannan Sadhasivam <mani@kernel.org>,
+        Michael Jamet <michael.jamet@intel.com>,
+        Kalle Valo <kvalo@kernel.org>,
+        Akinobu Mita <akinobu.mita@gmail.com>,
+        linux-block@vger.kernel.org, dmaengine@vger.kernel.org,
+        Hannes Reinecke <hare@suse.de>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Jens Axboe <axboe@kernel.dk>, cake@lists.bufferbloat.net,
+        brcm80211-dev-list.pdl@broadcom.com,
+        Yishai Hadas <yishaih@nvidia.com>,
+        Hideaki YOSHIFUJI <yoshfuji@linux-ipv6.org>,
+        linuxppc-dev@lists.ozlabs.org, David Ahern <dsahern@kernel.org>,
+        Philipp Reisner <philipp.reisner@linbit.com>,
+        Stephen Hemminger <stephen@networkplumber.org>,
+        Christoph =?iso-8859-1?Q?B=F6hmwalder?= 
+        <christoph.boehmwalder@linbit.com>, Vinod Koul <vkoul@kernel.org>,
+        tipc-discussion@lists.sourceforge.net, Thomas Graf <tgraf@suug.ch>,
+        Johannes Berg <johannes@sipsolutions.net>,
+        Sungjong Seo <sj1557.seo@samsung.com>,
+        Martin KaFai Lau <martin.lau@linux.dev>
+Subject: Re: [f2fs-dev] [PATCH v1 3/5] treewide: use get_random_u32() when
+ possible
+Message-ID: <Yz7Rl7BXamKQhRzH@smile.fi.intel.com>
+References: <20221005214844.2699-1-Jason@zx2c4.com>
+ <20221005214844.2699-4-Jason@zx2c4.com>
+ <20221006084331.4bdktc2zlvbaszym@quack3>
+ <Yz7LCyIAHC6l5mG9@zx2c4.com>
 MIME-Version: 1.0
-References: <20221005152809.3785786-1-dave.stevenson@raspberrypi.com>
- <20221005152809.3785786-7-dave.stevenson@raspberrypi.com> <20221006092319.x4nc5p5y3c7oqyc7@uno.localdomain>
-In-Reply-To: <20221006092319.x4nc5p5y3c7oqyc7@uno.localdomain>
-From:   Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date:   Thu, 6 Oct 2022 14:01:09 +0100
-Message-ID: <CAPY8ntBF_VhYsUSL3=HDCHK=smgGXXrrq7tYn7MwSL2wJNLcFw@mail.gmail.com>
-Subject: Re: [PATCH 06/16] media: i2c: ov9282: Correct HTS register for
- configured pixel rate
-To:     Jacopo Mondi <jacopo@jmondi.org>
-Cc:     paul.j.murphy@intel.com, daniele.alessandrelli@intel.com,
-        linux-media@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Yz7LCyIAHC6l5mG9@zx2c4.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jacopo
+On Thu, Oct 06, 2022 at 06:33:15AM -0600, Jason A. Donenfeld wrote:
+> On Thu, Oct 06, 2022 at 10:43:31AM +0200, Jan Kara wrote:
 
-Thanks for the review (missed responding on my first pass)
+...
 
-On Thu, 6 Oct 2022 at 10:23, Jacopo Mondi <jacopo@jmondi.org> wrote:
->
-> Hi Dave,
->
-> On Wed, Oct 05, 2022 at 04:27:59PM +0100, Dave Stevenson wrote:
-> > The calculations from pixel rate, width+hblank, and height+vblank
-> > do not give the correct framerate - it's half the speed it should
-> > be.
-> >
-> > Whilst not documented as such, the TIMING_HTS register (0x380c/d)
-> > appears to be in units of 2 pixels.
-> > The default is 0x2d8 (728) which can not be valid as-is when the
-> > frame is 1280 active pixels wide. Doubling to 0x5b0 (1456) results
-> > in the correct timings.
->
-> Not sure I get this one. If TIMING_HTS has a 2-pixels units, won't
-> 0x2d8 be correct (as it equals to your desired 1456 pixels) ?
+> > The code here is effectively doing the
+> > 
+> > 	parent_group = prandom_u32_max(ngroups);
+> > 
+> > Similarly here we can use prandom_u32_max(ngroups) like:
+> > 
+> > 		if (qstr) {
+> > 			...
+> > 			parent_group = hinfo.hash % ngroups;
+> > 		} else
+> > 			parent_group = prandom_u32_max(ngroups);
+> 
+> Nice catch. I'll move these to patch #1.
 
-Bad wording by me.
-From the datasheet the default register value is 0x2d8, which is less
-than the width.
-Treating it as 0x2d8 * 2 = 1456 gives the right numbers.
+I believe coccinelle is able to handle this kind of code as well, so Kees'
+proposal to use it seems more plausible since it's less error prone and more
+flexible / powerful.
 
-> >
-> > This driver isn't using the default frame width + hblank, so
-> > use 0x02fd which is half of the width of 1280 and hblank of 250
-> > which is reported to userspace. With this the frame rate calculations
-> > work correctly.
->
-> So this patch is basically changing the default vblank from 728 to 760 ?
+-- 
+With Best Regards,
+Andy Shevchenko
 
-Again bad wording.
-The driver was using a value of 0x5fa intending it to be 1530 pixels.
-(As discussed later, this is due to the driver using non-continuous
-clock mode, which needs an increased hblanking).
-However as the units are 2-pixels, the actual value required is 0x5fa
-/ 2 = 0x2fd.
 
-I'll reword this.
-
-> Should we rather move the per-mode blankings to the mode definition
-> and program them when applying a new mode ?
->
-> >
-> > Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> > ---
-> >  drivers/media/i2c/ov9282.c | 4 ++--
-> >  1 file changed, 2 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/drivers/media/i2c/ov9282.c b/drivers/media/i2c/ov9282.c
-> > index f7823d584522..1cd6cb4addfb 100644
-> > --- a/drivers/media/i2c/ov9282.c
-> > +++ b/drivers/media/i2c/ov9282.c
-> > @@ -242,8 +242,8 @@ static const struct ov9282_reg mode_1280x720_regs[] = {
-> >       {0x3809, 0x00},
-> >       {0x380a, 0x02},
-> >       {0x380b, 0xd0},
-> > -     {0x380c, 0x05},
-> > -     {0x380d, 0xfa},
-> > +     {0x380c, 0x02},
-> > +     {0x380d, 0xfd},
-> >       {0x3810, 0x00},
-> >       {0x3811, 0x08},
-> >       {0x3812, 0x00},
-> > --
-> > 2.34.1
-> >
