@@ -2,132 +2,132 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 19EC85F6A51
-	for <lists+linux-media@lfdr.de>; Thu,  6 Oct 2022 17:10:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6B1D75F6A5F
+	for <lists+linux-media@lfdr.de>; Thu,  6 Oct 2022 17:16:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230116AbiJFPKc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 6 Oct 2022 11:10:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41256 "EHLO
+        id S229906AbiJFPQL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 6 Oct 2022 11:16:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50726 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231139AbiJFPKb (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 6 Oct 2022 11:10:31 -0400
-Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com [IPv6:2a00:1450:4864:20::62a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 48E1BA4BB5
-        for <linux-media@vger.kernel.org>; Thu,  6 Oct 2022 08:10:29 -0700 (PDT)
-Received: by mail-ej1-x62a.google.com with SMTP id z23so5186540ejw.12
-        for <linux-media@vger.kernel.org>; Thu, 06 Oct 2022 08:10:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=raspberrypi.com; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=afzUczd6kaHrVeeqD2iTvsGr02wStcKgInt1VFqRngA=;
-        b=RgPijdJ5XrrE4UhKWUSe2Gc8X3HEoWZv43tDnQuy5MTKksJEovTBtRuQgVcYugNz7M
-         e+sv/6R3cUxSHC6J69Op4fqKjd6C4hRaC2ryXUgRndubdV75t8WKSu/mAsRFaNnxv1mG
-         3tDGolVDpvqIec6NfG9tfSYQEAuL0cQh7cXm3TrZPZDlC7diPa5Yws25FWwZfxOpYyN8
-         8QVE6rHqsWea+RZFnzPWLsxg9MY55RiiHGyheHQHsy0E7Fh/AHYtjqH1rZXYQmZjXPBz
-         LdzSBbq+OacuCVu3t/Vjk4WyV7ZLZNxRtYXRxmtUc2buncc8jhKFUgSKzOzLrTSvCsw0
-         GHhQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=afzUczd6kaHrVeeqD2iTvsGr02wStcKgInt1VFqRngA=;
-        b=VI2iAwW14ZVQyrTPu8iv7KeMyYDoRMGa18Z0P6e1F8Artz8NdVGgyQ65yyP98aBhuN
-         hQZ+WoxkjZEn+vVyO08k+JlPLmuCptr535upxwY9T72ukVIiENtVIb3do6YHEbOUrf7R
-         T/kUjX8r4kV+4VVcbd3MUsKuboF3ez73WtMCzQJlxv3G6k/45Fz5ggJeIdhs0t5aCO5K
-         xJALwbPm4m+r0SmRQgjCSIryLD10K612qrW3ZXyu0IZ/UYq5VhJ714l9yo8OW/CHM992
-         h8DReoHcbPIpb1Xi6EKuR4zb6X+eJJjxcKx7cxay1C/P+nuY6xrnAyGyAiKv+HkFFEQe
-         iXHw==
-X-Gm-Message-State: ACrzQf27PDOEJY+AYHYGqrLR/I8F+1s1vh0PDclSfNF/RTMMC17r2Eb4
-        m0bpWDzVwhJexNrxDIAiGNXm7dA297r5nIyODW0C8w==
-X-Google-Smtp-Source: AMsMyM7uo+Y16iyeaqQQLsZV6UCDph1opxoSpuSzP+tCUHBloWuiIK78r1yqb/xUnyiFBpCw+RHwqOdvdXJkeWabQp0=
-X-Received: by 2002:a17:907:3e0b:b0:78d:4b7c:89bd with SMTP id
- hp11-20020a1709073e0b00b0078d4b7c89bdmr247610ejc.742.1665069027494; Thu, 06
- Oct 2022 08:10:27 -0700 (PDT)
+        with ESMTP id S229527AbiJFPQJ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 6 Oct 2022 11:16:09 -0400
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92180A59A6;
+        Thu,  6 Oct 2022 08:16:02 -0700 (PDT)
+X-UUID: dc14bd85e839499fba43ab84e6888523-20221006
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+        h=Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=oyQcrxZYCAvggulovd4FRHdXOU2WjZQVKRd7NG1+zj8=;
+        b=p8N6h9I1xEIzT+RLRfn+ixVQ/U+pJQIb1WaPlfiZNrSTmi+u5GgLCpMmeRRkcYbHOJ8TCORE0js6QNmZ1IRyfnXOJhVMJQNt+ej4cSSJdxWC4As3hUqzAHWiqqH5bj/ivSm4f5K7o6E6l2pK2vb+ACNzn8LAXN9Ew4B0Op7LNig=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.11,REQID:7eb20aea-da04-41e6-bc0b-4d53c687f712,IP:0,U
+        RL:0,TC:0,Content:-25,EDM:0,RT:0,SF:100,FILE:0,BULK:0,RULE:Release_Ham,ACT
+        ION:release,TS:75
+X-CID-INFO: VERSION:1.1.11,REQID:7eb20aea-da04-41e6-bc0b-4d53c687f712,IP:0,URL
+        :0,TC:0,Content:-25,EDM:0,RT:0,SF:100,FILE:0,BULK:0,RULE:Spam_GS981B3D,ACT
+        ION:quarantine,TS:75
+X-CID-META: VersionHash:39a5ff1,CLOUDID:9de575fe-ee8c-4ff7-afe9-644435e96625,B
+        ulkID:221006231557JDPH4WSB,BulkQuantity:0,Recheck:0,SF:38|28|17|19|48|823|
+        824,TC:nil,Content:0,EDM:-3,IP:nil,URL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,
+        COL:0
+X-UUID: dc14bd85e839499fba43ab84e6888523-20221006
+Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by mailgw02.mediatek.com
+        (envelope-from <moudy.ho@mediatek.com>)
+        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+        with ESMTP id 855305414; Thu, 06 Oct 2022 23:15:56 +0800
+Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
+ mtkmbs11n2.mediatek.inc (172.21.101.187) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.792.15; Thu, 6 Oct 2022 23:15:55 +0800
+Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
+ mtkmbs11n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.792.15 via Frontend Transport; Thu, 6 Oct 2022 23:15:55 +0800
+From:   Moudy Ho <moudy.ho@mediatek.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>
+CC:     Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+        <linux-media@vger.kernel.org>,
+        <linux-mediatek@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>,
+        <Project_Global_Chrome_Upstream_Group@mediatek.com>,
+        Moudy Ho <moudy.ho@mediatek.com>
+Subject: [PATCH v1] media: platform: mtk-mdp3: fix error handling in mdp_probe()
+Date:   Thu, 6 Oct 2022 23:15:53 +0800
+Message-ID: <20221006151553.28083-1-moudy.ho@mediatek.com>
+X-Mailer: git-send-email 2.18.0
 MIME-Version: 1.0
-References: <20221005190613.394277-1-jacopo@jmondi.org> <20221005190613.394277-6-jacopo@jmondi.org>
-In-Reply-To: <20221005190613.394277-6-jacopo@jmondi.org>
-From:   Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date:   Thu, 6 Oct 2022 16:10:10 +0100
-Message-ID: <CAPY8ntB_JQHJQH7DChEyou-RSRTcEF-Uy=+3Ly06MUtg0TCZ6A@mail.gmail.com>
-Subject: Re: [PATCH 05/10] media: ar0521: Add LINK_FREQ control
-To:     Jacopo Mondi <jacopo@jmondi.org>
-Cc:     =?UTF-8?Q?Krzysztof_Ha=C5=82asa?= <khalasa@piap.pl>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@iki.fi>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-media@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain
+X-MTK:  N
+X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,DKIM_INVALID,
+        DKIM_SIGNED,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,UNPARSEABLE_RELAY,
+        URIBL_CSS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jacopo
+Adjust label "err_return" order to avoid double freeing, and
+add two labels for easy traceability.
 
-On Wed, 5 Oct 2022 at 20:07, Jacopo Mondi <jacopo@jmondi.org> wrote:
->
-> Add support for V4L2_CID_LINK_FREQ which currently reports a single
-> hard-coded frequency which depends on the fixed pixel clock.
->
-> This will change in the next patches where the pixel rate will be
-> computed from the desired link_frequency.
->
-> Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
+Fixes: 61890ccaefaf ("media: platform: mtk-mdp3: add MediaTek MDP3 driver")
+Signed-off-by: Moudy Ho <moudy.ho@mediatek.com>
+---
+ .../media/platform/mediatek/mdp3/mtk-mdp3-core.c  | 15 ++++++++-------
+ 1 file changed, 8 insertions(+), 7 deletions(-)
 
-Looks valid based on the current pixel rate of 184MPix/s, 8bpp,
-divided by 4 lanes, and DDR.
+diff --git a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-core.c b/drivers/media/platform/mediatek/mdp3/mtk-mdp3-core.c
+index c413e59d4286..2d1f6ae9f080 100644
+--- a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-core.c
++++ b/drivers/media/platform/mediatek/mdp3/mtk-mdp3-core.c
+@@ -196,27 +196,27 @@ static int mdp_probe(struct platform_device *pdev)
+ 	mm_pdev = __get_pdev_by_id(pdev, MDP_INFRA_MMSYS);
+ 	if (!mm_pdev) {
+ 		ret = -ENODEV;
+-		goto err_return;
++		goto err_destroy_device;
+ 	}
+ 	mdp->mdp_mmsys = &mm_pdev->dev;
+ 
+ 	mm_pdev = __get_pdev_by_id(pdev, MDP_INFRA_MUTEX);
+ 	if (WARN_ON(!mm_pdev)) {
+ 		ret = -ENODEV;
+-		goto err_return;
++		goto err_destroy_device;
+ 	}
+ 	for (i = 0; i < MDP_PIPE_MAX; i++) {
+ 		mdp->mdp_mutex[i] = mtk_mutex_get(&mm_pdev->dev);
+ 		if (!mdp->mdp_mutex[i]) {
+ 			ret = -ENODEV;
+-			goto err_return;
++			goto err_free_mutex;
+ 		}
+ 	}
+ 
+ 	ret = mdp_comp_config(mdp);
+ 	if (ret) {
+ 		dev_err(dev, "Failed to config mdp components\n");
+-		goto err_return;
++		goto err_free_mutex;
+ 	}
+ 
+ 	mdp->job_wq = alloc_workqueue(MDP_MODULE_NAME, WQ_FREEZABLE, 0);
+@@ -287,11 +287,12 @@ static int mdp_probe(struct platform_device *pdev)
+ 	destroy_workqueue(mdp->job_wq);
+ err_deinit_comp:
+ 	mdp_comp_destroy(mdp);
+-err_return:
++err_free_mutex:
+ 	for (i = 0; i < MDP_PIPE_MAX; i++)
+-		if (mdp)
+-			mtk_mutex_put(mdp->mdp_mutex[i]);
++		mtk_mutex_put(mdp->mdp_mutex[i]);
++err_destroy_device:
+ 	kfree(mdp);
++err_return:
+ 	dev_dbg(dev, "Errno %d\n", ret);
+ 	return ret;
+ }
+-- 
+2.18.0
 
-> ---
->  drivers/media/i2c/ar0521.c | 9 +++++++++
->  1 file changed, 9 insertions(+)
->
-> diff --git a/drivers/media/i2c/ar0521.c b/drivers/media/i2c/ar0521.c
-> index 21649aecf442..c5410b091654 100644
-> --- a/drivers/media/i2c/ar0521.c
-> +++ b/drivers/media/i2c/ar0521.c
-> @@ -90,6 +90,10 @@ static const char * const ar0521_supply_names[] = {
->         "vaa",          /* Analog (2.7V) supply */
->  };
->
-> +static const s64 ar0521_link_frequencies[] = {
-> +       184000000,
-> +};
-> +
->  struct ar0521_ctrls {
->         struct v4l2_ctrl_handler handler;
->         struct v4l2_ctrl *ana_gain;
-> @@ -104,6 +108,7 @@ struct ar0521_ctrls {
->         };
->         struct v4l2_ctrl *pixrate;
->         struct v4l2_ctrl *exposure;
-> +       struct v4l2_ctrl *link_freq;
->         struct v4l2_ctrl *test_pattern;
->  };
->
-> @@ -655,6 +660,10 @@ static int ar0521_init_controls(struct ar0521_dev *sensor)
->         ctrls->exposure = v4l2_ctrl_new_std(hdl, ops, V4L2_CID_EXPOSURE, 0,
->                                             65535, 1, 360);
->
-> +       ctrls->link_freq = v4l2_ctrl_new_int_menu(hdl, ops, V4L2_CID_LINK_FREQ,
-> +                                       ARRAY_SIZE(ar0521_link_frequencies) - 1,
-> +                                       0, ar0521_link_frequencies);
-> +
-
-Admittedly there is only one entry, but did you want to make it a read
-only control? With no case for it in s_ctrl, you'll get errors thrown
-from the control handler framework.
-
-  Dave
-
->         ctrls->test_pattern = v4l2_ctrl_new_std_menu_items(hdl, ops,
->                                         V4L2_CID_TEST_PATTERN,
->                                         ARRAY_SIZE(test_pattern_menu) - 1,
-> --
-> 2.37.3
->
