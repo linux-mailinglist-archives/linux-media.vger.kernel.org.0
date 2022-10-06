@@ -2,47 +2,47 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 59D4E5F5E9D
-	for <lists+linux-media@lfdr.de>; Thu,  6 Oct 2022 04:09:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 317B85F5FFD
+	for <lists+linux-media@lfdr.de>; Thu,  6 Oct 2022 06:17:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229529AbiJFCJu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 5 Oct 2022 22:09:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43774 "EHLO
+        id S229701AbiJFER5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 6 Oct 2022 00:17:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36360 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229675AbiJFCJr (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 5 Oct 2022 22:09:47 -0400
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D04CB85C
-        for <linux-media@vger.kernel.org>; Wed,  5 Oct 2022 19:09:43 -0700 (PDT)
+        with ESMTP id S229548AbiJFERz (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 6 Oct 2022 00:17:55 -0400
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 080BD7F0B3
+        for <linux-media@vger.kernel.org>; Wed,  5 Oct 2022 21:17:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1665022184; x=1696558184;
+  t=1665029872; x=1696565872;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=K0b7YsCbY4A/j1HYvBi9QwABBsq6GzEs7GTGdJ+mn/c=;
-  b=FJevNRCks4tjZeCIRi21qsI/MqwI8stjOENTU1pXYQU2IpOcd9rKoinB
-   vPEniU04iknUaHo4SmK60/+W+XBgIXTeuooQNk1w1vzi53S4ilkqgW0nl
-   yhuw7+7xmE3moZR06h3UaHvFsdg9URk+kkrOaKf/eHuRwEF897jlOvj7Z
-   rr6mh6jYts4da3f8HeB0U3Fu6Sec/Xk+MhcUiZmLzmF7eX4RiGdSSea0l
-   JwiH3Yc66HASGfyJ/lBURryVxEo5jE5Bbe0g+W0jt5whTRQr5SLgFFLKN
-   MD/Hm4jwLJP0eoyynuyjIxXQA9Gq/gVCjiX8nSexDx254nIj6pMe7agl2
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10491"; a="283691681"
+  bh=T/F8d053DxVBnJiAX74Y4WqJp9qW6+CU4KWyVQq28ZE=;
+  b=BZAimWOwXOEI5jWZw49UDQOqHyVo42TgQ24WM0cwiCu0jdbUMao8jQjD
+   tVZ2622Vetf5cylqTUQvBZ77HdO3XcKXhQWt+Z4zLGMqcQ5NLGqgoBHLT
+   e9Odq4BnxjPWPrKooILQblgUlaObkRSi0rH9OgeyoBCKlR+gIsx+xXPjl
+   4pjbHRa6tG3TtqahaYVi+7aea6yz/j5hUB7C7IhXGYiT18iwV1fVF3e8a
+   Y0yOuxdlQY1wxYYyhkNRu+vmdBJmZbzdXeeEHcXUfsKjxsak1txqYDXCq
+   aacGo8wrUqfbpLLtahCHKibYW8g7UR/OFWHSVFSxPZgyqlGQ73Vc/lCqM
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10491"; a="304333249"
 X-IronPort-AV: E=Sophos;i="5.95,162,1661842800"; 
-   d="scan'208";a="283691681"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2022 19:09:43 -0700
+   d="scan'208";a="304333249"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2022 21:17:51 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10491"; a="766969904"
+X-IronPort-AV: E=McAfee;i="6500,9779,10491"; a="602283096"
 X-IronPort-AV: E=Sophos;i="5.95,162,1661842800"; 
-   d="scan'208";a="766969904"
+   d="scan'208";a="602283096"
 Received: from lkp-server01.sh.intel.com (HELO d4f44333118a) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 05 Oct 2022 19:09:40 -0700
+  by orsmga006.jf.intel.com with ESMTP; 05 Oct 2022 21:17:48 -0700
 Received: from kbuild by d4f44333118a with local (Exim 4.96)
         (envelope-from <lkp@intel.com>)
-        id 1ogGKR-0001nF-2X;
-        Thu, 06 Oct 2022 02:09:39 +0000
-Date:   Thu, 6 Oct 2022 10:08:53 +0800
+        id 1ogIKR-0001tx-25;
+        Thu, 06 Oct 2022 04:17:47 +0000
+Date:   Thu, 6 Oct 2022 12:17:07 +0800
 From:   kernel test robot <lkp@intel.com>
 To:     Jacopo Mondi <jacopo@jmondi.org>,
         Krzysztof =?utf-8?Q?Ha=C5=82asa?= <khalasa@piap.pl>,
@@ -52,16 +52,16 @@ To:     Jacopo Mondi <jacopo@jmondi.org>,
 Cc:     llvm@lists.linux.dev, kbuild-all@lists.01.org,
         linux-media@vger.kernel.org, Jacopo Mondi <jacopo@jmondi.org>
 Subject: Re: [PATCH 07/10] media: ar0521: Adjust exposure and blankings limits
-Message-ID: <202210060931.ZQurHpfN-lkp@intel.com>
+Message-ID: <202210061244.j1dv52Ud-lkp@intel.com>
 References: <20221005190613.394277-8-jacopo@jmondi.org>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="JujhjXjJCUe6kxn/"
+Content-Type: multipart/mixed; boundary="iNIE/GpSj4ecXPUa"
 Content-Disposition: inline
 In-Reply-To: <20221005190613.394277-8-jacopo@jmondi.org>
 X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE,UPPERCASE_50_75 autolearn=ham
-        autolearn_force=no version=3.4.6
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        UPPERCASE_50_75 autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -69,16 +69,16 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 
---JujhjXjJCUe6kxn/
+--iNIE/GpSj4ecXPUa
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 Hi Jacopo,
 
-I love your patch! Perhaps something to improve:
+I love your patch! Yet something to improve:
 
-[auto build test WARNING on media-tree/master]
-[also build test WARNING on linus/master v6.0]
+[auto build test ERROR on media-tree/master]
+[also build test ERROR on linus/master v6.0]
 [cannot apply to next-20221005]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
@@ -97,13 +97,28 @@ reproduce (this is a W=1 build):
         git checkout 800a6425eee843e2cb1f8047accb401df327f45d
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/media/i2c/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
+>> drivers/media/i2c/ar0521.c:608:3: error: expected expression
+                   int exp_max = sensor->fmt.height + ctrl->val - 4;
+                   ^
+>> drivers/media/i2c/ar0521.c:609:50: error: use of undeclared identifier 'exp_max'; did you mean 'exp_val'?
+                   int exp_val = min(sensor->ctrls.exposure->val, exp_max);
+                                                                  ^~~~~~~
+                                                                  exp_val
+   include/linux/minmax.h:45:36: note: expanded from macro 'min'
+   #define min(x, y)       __careful_cmp(x, y, <)
+                                            ^
+   include/linux/minmax.h:36:38: note: expanded from macro '__careful_cmp'
+           __builtin_choose_expr(__safe_cmp(x, y), \
+                                               ^
+   include/linux/minmax.h:26:19: note: expanded from macro '__safe_cmp'
+                   (__typecheck(x, y) && __no_side_effects(x, y))
                                    ^
    include/linux/minmax.h:20:39: note: expanded from macro '__typecheck'
            (!!(sizeof((typeof(x) *)1 == (typeof(y) *)1)))
@@ -111,7 +126,7 @@ All warnings (new ones prefixed by >>):
    drivers/media/i2c/ar0521.c:609:7: note: 'exp_val' declared here
                    int exp_val = min(sensor->ctrls.exposure->val, exp_max);
                        ^
-   drivers/media/i2c/ar0521.c:609:50: error: use of undeclared identifier 'exp_max'; did you mean 'exp_val'?
+>> drivers/media/i2c/ar0521.c:609:50: error: use of undeclared identifier 'exp_max'; did you mean 'exp_val'?
                    int exp_val = min(sensor->ctrls.exposure->val, exp_max);
                                                                   ^~~~~~~
                                                                   exp_val
@@ -133,7 +148,7 @@ All warnings (new ones prefixed by >>):
    drivers/media/i2c/ar0521.c:609:7: note: 'exp_val' declared here
                    int exp_val = min(sensor->ctrls.exposure->val, exp_max);
                        ^
-   drivers/media/i2c/ar0521.c:609:50: error: use of undeclared identifier 'exp_max'; did you mean 'exp_val'?
+>> drivers/media/i2c/ar0521.c:609:50: error: use of undeclared identifier 'exp_max'; did you mean 'exp_val'?
                    int exp_val = min(sensor->ctrls.exposure->val, exp_max);
                                                                   ^~~~~~~
                                                                   exp_val
@@ -149,7 +164,7 @@ All warnings (new ones prefixed by >>):
    drivers/media/i2c/ar0521.c:609:7: note: 'exp_val' declared here
                    int exp_val = min(sensor->ctrls.exposure->val, exp_max);
                        ^
-   drivers/media/i2c/ar0521.c:609:50: error: use of undeclared identifier 'exp_max'; did you mean 'exp_val'?
+>> drivers/media/i2c/ar0521.c:609:50: error: use of undeclared identifier 'exp_max'; did you mean 'exp_val'?
                    int exp_val = min(sensor->ctrls.exposure->val, exp_max);
                                                                   ^~~~~~~
                                                                   exp_val
@@ -165,7 +180,7 @@ All warnings (new ones prefixed by >>):
    drivers/media/i2c/ar0521.c:609:7: note: 'exp_val' declared here
                    int exp_val = min(sensor->ctrls.exposure->val, exp_max);
                        ^
-   drivers/media/i2c/ar0521.c:609:50: error: use of undeclared identifier 'exp_max'; did you mean 'exp_val'?
+>> drivers/media/i2c/ar0521.c:609:50: error: use of undeclared identifier 'exp_max'; did you mean 'exp_val'?
                    int exp_val = min(sensor->ctrls.exposure->val, exp_max);
                                                                   ^~~~~~~
                                                                   exp_val
@@ -181,7 +196,7 @@ All warnings (new ones prefixed by >>):
    drivers/media/i2c/ar0521.c:609:7: note: 'exp_val' declared here
                    int exp_val = min(sensor->ctrls.exposure->val, exp_max);
                        ^
-   drivers/media/i2c/ar0521.c:609:50: error: use of undeclared identifier 'exp_max'; did you mean 'exp_val'?
+>> drivers/media/i2c/ar0521.c:609:50: error: use of undeclared identifier 'exp_max'; did you mean 'exp_val'?
                    int exp_val = min(sensor->ctrls.exposure->val, exp_max);
                                                                   ^~~~~~~
                                                                   exp_val
@@ -204,13 +219,13 @@ All warnings (new ones prefixed by >>):
    drivers/media/i2c/ar0521.c:609:7: note: 'exp_val' declared here
                    int exp_val = min(sensor->ctrls.exposure->val, exp_max);
                        ^
->> drivers/media/i2c/ar0521.c:609:7: warning: mixing declarations and code is incompatible with standards before C99 [-Wdeclaration-after-statement]
+   drivers/media/i2c/ar0521.c:609:7: warning: mixing declarations and code is incompatible with standards before C99 [-Wdeclaration-after-statement]
                    int exp_val = min(sensor->ctrls.exposure->val, exp_max);
                        ^
    1 warning and 8 errors generated.
 
 
-vim +609 drivers/media/i2c/ar0521.c
+vim +608 drivers/media/i2c/ar0521.c
 
    597	
    598	static int ar0521_s_ctrl(struct v4l2_ctrl *ctrl)
@@ -223,7 +238,7 @@ vim +609 drivers/media/i2c/ar0521.c
    605	
    606		switch (ctrl->id) {
    607		case V4L2_CID_VBLANK:
-   608			int exp_max = sensor->fmt.height + ctrl->val - 4;
+ > 608			int exp_max = sensor->fmt.height + ctrl->val - 4;
  > 609			int exp_val = min(sensor->ctrls.exposure->val, exp_max);
    610			__v4l2_ctrl_modify_range(sensor->ctrls.exposure,
    611						 sensor->ctrls.exposure->minimum,
@@ -269,7 +284,7 @@ vim +609 drivers/media/i2c/ar0521.c
 0-DAY CI Kernel Test Service
 https://01.org/lkp
 
---JujhjXjJCUe6kxn/
+--iNIE/GpSj4ecXPUa
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: attachment; filename=config
 
@@ -6282,4 +6297,4 @@ CONFIG_ARCH_USE_MEMTEST=y
 # end of Kernel Testing and Coverage
 # end of Kernel hacking
 
---JujhjXjJCUe6kxn/--
+--iNIE/GpSj4ecXPUa--
