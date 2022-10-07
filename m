@@ -2,154 +2,250 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 98C215F78D8
-	for <lists+linux-media@lfdr.de>; Fri,  7 Oct 2022 15:21:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 78BAD5F794C
+	for <lists+linux-media@lfdr.de>; Fri,  7 Oct 2022 15:56:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229874AbiJGNU4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 7 Oct 2022 09:20:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42236 "EHLO
+        id S229508AbiJGN4N (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 7 Oct 2022 09:56:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46030 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229710AbiJGNUv (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 7 Oct 2022 09:20:51 -0400
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 714FC89CF5;
-        Fri,  7 Oct 2022 06:20:50 -0700 (PDT)
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 297BWf7l020691;
-        Fri, 7 Oct 2022 13:20:44 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding : content-type; s=qcppdkim1;
- bh=GrTtXyw3LwMpYy+O6xjoKOXG8mtQt9xYXSfxY5dD+M4=;
- b=c6dcABtoKdEfjDoMGlssFzdrxtCybtcOsUavrJCsIXjSu9qhZG6xso9LkAdQdXMRV0mm
- K5EkNDoFFC8IpAYYhPUEa8wg7RYgst3IxhV9NOMTad2KB+N4ykoP44CqCBEfHDENZ6Cs
- lj079px9jgEPHhFjvRb/xXOZT6OypUCOvU7Ntu1ksWkY/cDauWlIxFbGu/Jz0WFOC8Tk
- KA4Ykkg4Zrh3zy1TO7pQjQBpT0k2Qe8WJlPvGQvmb8YylJH4gU8mG766ub37kYvWELMx
- CppDiQ8AoaZMdV1Jx5QZ730T0xB7R9NYcfh/Rbchr5Oc1BxRuSq83T+7G/GcZnorgOw2 QA== 
-Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3k295e99ac-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 07 Oct 2022 13:20:44 +0000
-Received: from nasanex01a.na.qualcomm.com ([10.52.223.231])
-        by NASANPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 297DKiaS002292
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 7 Oct 2022 13:20:44 GMT
-Received: from mmitkov.eu.qualcomm.com (10.80.80.8) by
- nasanex01a.na.qualcomm.com (10.52.223.231) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.29; Fri, 7 Oct 2022 06:20:40 -0700
-From:   <quic_mmitkov@quicinc.com>
-To:     <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        <robert.foss@linaro.org>, <akapatra@quicinc.com>,
-        <jzala@quicinc.com>, <todor.too@gmail.com>
-CC:     <agross@kernel.org>, <bjorn.andersson@linaro.org>,
-        <konrad.dybcio@somainline.org>, <mchehab@kernel.org>,
-        <bryan.odonoghue@linaro.org>, <cgera@qti.qualcomm.com>,
-        <gchinnab@quicinc.com>, <ayasan@qti.qualcomm.com>,
-        Milen Mitkov <quic_mmitkov@quicinc.com>
-Subject: [PATCH v3 4/4] media: camss: sm8250: Pipeline starting and stopping for multiple virtual channels
-Date:   Fri, 7 Oct 2022 16:20:09 +0300
-Message-ID: <20221007132009.1886-5-quic_mmitkov@quicinc.com>
-X-Mailer: git-send-email 2.37.3.windows.1
-In-Reply-To: <20221007132009.1886-1-quic_mmitkov@quicinc.com>
-References: <20221007132009.1886-1-quic_mmitkov@quicinc.com>
+        with ESMTP id S229470AbiJGN4L (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 7 Oct 2022 09:56:11 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 644D7C90D0
+        for <linux-media@vger.kernel.org>; Fri,  7 Oct 2022 06:56:08 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 30B34BBE;
+        Fri,  7 Oct 2022 15:56:06 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1665150966;
+        bh=pHPYnr3kXsULHAuLtAFxSBZC4l9FHqn3Vchi/UJoj1k=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=L+8k9Ui80G9GUa2OrArw3FAQ4v7VmuRe6Ns4nTIlp9ftZSQDsnBrRbyAeiJynWUie
+         ZmOr2hLUMoaS9FdihvF3YJ6dF06bDegvh9DKmpLzpm2nSr+e2fR6Rly4rcLWOTYTsF
+         OnzHO4DlyjbyrVT6AvVCwQwk7V5rCMfJKgSj9PFE=
+Date:   Fri, 7 Oct 2022 16:56:01 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Jacopo Mondi <jacopo@jmondi.org>
+Cc:     Krzysztof =?utf-8?Q?Ha=C5=82asa?= <khalasa@piap.pl>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@iki.fi>, linux-media@vger.kernel.org
+Subject: Re: [PATCH 04/10] media: ar0521: Rework PLL computation
+Message-ID: <Y0Av8cjapldZhA96@pendragon.ideasonboard.com>
+References: <20221005190613.394277-1-jacopo@jmondi.org>
+ <20221005190613.394277-5-jacopo@jmondi.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01a.na.qualcomm.com (10.52.223.231)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: RgVzmC03SAbXBcfmB7IoK2VjbpUUuj6G
-X-Proofpoint-GUID: RgVzmC03SAbXBcfmB7IoK2VjbpUUuj6G
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
- definitions=2022-10-06_05,2022-10-07_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- phishscore=0 adultscore=0 mlxlogscore=776 impostorscore=0
- lowpriorityscore=0 malwarescore=0 bulkscore=0 spamscore=0 clxscore=1015
- mlxscore=0 suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2209130000 definitions=main-2210070080
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS,T_PDS_OTHER_BAD_TLD autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20221005190613.394277-5-jacopo@jmondi.org>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Milen Mitkov <quic_mmitkov@quicinc.com>
+Hi Jacopo,
 
-Use the multistream series function video_device_pipeline_alloc_start
-to allows multiple clients of the same pipeline.
+Thank you for the patch.
 
-If any of the entities in the pipeline doesn't return success at stop
-(e.g. if a VFE line remains running), the full pipeline won't be stopped.
-This allows for stopping and starting streams at any point without
-disrupting the other running streams.
+On Wed, Oct 05, 2022 at 09:06:07PM +0200, Jacopo Mondi wrote:
+> Rework the PLL computation procedure to take into account the currently
+> configured format bpp and the number of data lanes.
+> 
+> Comment the PLL configuration procedure with information provided by the
+> sensor chip manual and remove the hardcoded divider from the pixel clock
+> calculation.
+> 
+> The PLL configuration procedure has been verified by forcing a pixel
+> rate of 414 MHz and verify that the effective output pixel rate matches
+> the expected 60 frames per second.
 
-Signed-off-by: Milen Mitkov <quic_mmitkov@quicinc.com>
----
- .../media/platform/qcom/camss/camss-video.c   | 21 ++++++++++++++++---
- 1 file changed, 18 insertions(+), 3 deletions(-)
+This is the kind of code that would benefit from testing with kunit.
 
-diff --git a/drivers/media/platform/qcom/camss/camss-video.c b/drivers/media/platform/qcom/camss/camss-video.c
-index 81fb3a5bc1d5..b042faf3dcda 100644
---- a/drivers/media/platform/qcom/camss/camss-video.c
-+++ b/drivers/media/platform/qcom/camss/camss-video.c
-@@ -353,6 +353,7 @@ static int video_get_subdev_format(struct camss_video *video,
- 
- 	fmt.pad = pad;
- 	fmt.which = V4L2_SUBDEV_FORMAT_ACTIVE;
-+	fmt.stream = 0;
- 
- 	ret = v4l2_subdev_call(subdev, pad, get_fmt, NULL, &fmt);
- 	if (ret)
-@@ -493,9 +494,11 @@ static int video_start_streaming(struct vb2_queue *q, unsigned int count)
- 	struct v4l2_subdev *subdev;
- 	int ret;
- 
--	ret = video_device_pipeline_start(vdev, &video->pipe);
--	if (ret < 0)
-+	ret = video_device_pipeline_alloc_start(vdev);
-+	if (ret < 0) {
-+		dev_err(video->camss->dev, "Failed to start media pipeline: %d\n", ret);
- 		return ret;
-+	}
- 
- 	ret = video_check_format(video);
- 	if (ret < 0)
-@@ -536,6 +539,7 @@ static void video_stop_streaming(struct vb2_queue *q)
- 	struct media_entity *entity;
- 	struct media_pad *pad;
- 	struct v4l2_subdev *subdev;
-+	int ret;
- 
- 	entity = &vdev->entity;
- 	while (1) {
-@@ -550,7 +554,18 @@ static void video_stop_streaming(struct vb2_queue *q)
- 		entity = pad->entity;
- 		subdev = media_entity_to_v4l2_subdev(entity);
- 
--		v4l2_subdev_call(subdev, video, s_stream, 0);
-+		ret = v4l2_subdev_call(subdev, video, s_stream, 0);
-+
-+		if (ret == -EBUSY) {
-+			/* Don't stop if other instances of the pipeline are still running */
-+			dev_dbg(video->camss->dev, "Video pipeline still used, don't stop streaming.\n");
-+			return;
-+		}
-+
-+		if (ret) {
-+			dev_err(video->camss->dev, "Video pipeline stop failed: %d\n", ret);
-+			return;
-+		}
- 	}
- 
- 	video_device_pipeline_stop(vdev);
+> Do not modify the default pixel rate for the moment as it will be made
+> configurable through V4L2_CID_LINK_FREQ in subsequent patches.
+> 
+> Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
+
+I think we should extract the PLL calculation code from the CCS driver
+into a library. Sakari ? :-)
+
+Regarding the code below, given that the documentation of the sensor
+seems to have quite a few mistakes in its PLL description, I would say
+that whatever works works. More investigation is likely needed to figure
+out how things work, fix the documentation, and improve the PLL
+calculation. I won't spend time on that now.
+
+> ---
+>  drivers/media/i2c/ar0521.c | 113 +++++++++++++++++++++++++++----------
+>  1 file changed, 84 insertions(+), 29 deletions(-)
+> 
+> diff --git a/drivers/media/i2c/ar0521.c b/drivers/media/i2c/ar0521.c
+> index 2b19ba898ce8..21649aecf442 100644
+> --- a/drivers/media/i2c/ar0521.c
+> +++ b/drivers/media/i2c/ar0521.c
+> @@ -23,7 +23,7 @@
+>  #define AR0521_PLL_MIN		 (320 * 1000 * 1000)
+>  #define AR0521_PLL_MAX		(1280 * 1000 * 1000)
+>  
+> -/* Effective pixel clocks, the registers may be DDR */
+> +/* Effective pixel sample rate on the pixel array. */
+>  #define AR0521_PIXEL_CLOCK_RATE	 (184 * 1000 * 1000)
+>  #define AR0521_PIXEL_CLOCK_MIN	 (168 * 1000 * 1000)
+>  #define AR0521_PIXEL_CLOCK_MAX	 (414 * 1000 * 1000)
+> @@ -125,10 +125,14 @@ struct ar0521_dev {
+>  	unsigned int lane_count;
+>  	u16 total_width;
+>  	u16 total_height;
+> -	u16 pll_pre;
+> -	u16 pll_mult;
+> -	u16 pll_pre2;
+> -	u16 pll_mult2;
+> +	struct {
+> +		u16 pre;
+> +		u16 mult;
+> +		u16 pre2;
+> +		u16 mult2;
+> +		u16 vt_pix;
+> +	} pll;
+> +
+>  	bool streaming;
+>  };
+>  
+> @@ -153,6 +157,16 @@ static u32 div64_round_up(u64 v, u32 d)
+>  	return div_u64(v + d - 1, d);
+>  }
+>  
+> +static int ar0521_code_to_bpp(struct ar0521_dev *sensor)
+> +{
+> +	switch (sensor->fmt.code) {
+> +	case MEDIA_BUS_FMT_SGRBG8_1X8:
+> +		return 8;
+> +	}
+> +
+> +	return -EINVAL;
+> +}
+> +
+>  /* Data must be BE16, the first value is the register address */
+>  static int ar0521_write_regs(struct ar0521_dev *sensor, const __be16 *data,
+>  			     unsigned int count)
+> @@ -273,8 +287,7 @@ static int ar0521_set_gains(struct ar0521_dev *sensor)
+>  	return ar0521_write_regs(sensor, regs, ARRAY_SIZE(regs));
+>  }
+>  
+> -static u32 calc_pll(struct ar0521_dev *sensor, int num, u32 freq, u16 *pre_ptr,
+> -		    u16 *mult_ptr)
+> +static u32 calc_pll(struct ar0521_dev *sensor, u32 freq, u16 *pre_ptr, u16 *mult_ptr)
+>  {
+>  	u16 pre = 1, mult = 1, new_pre;
+>  	u32 pll = AR0521_PLL_MAX + 1;
+> @@ -309,37 +322,79 @@ static u32 calc_pll(struct ar0521_dev *sensor, int num, u32 freq, u16 *pre_ptr,
+>  	return pll;
+>  }
+>  
+> -#define DIV 4
+>  static void ar0521_calc_mode(struct ar0521_dev *sensor)
+>  {
+> -	unsigned int speed_mod = 4 / sensor->lane_count; /* 1 with 4 DDR lanes */
+> -	u16 total_width = max(sensor->fmt.width + AR0521_WIDTH_BLANKING_MIN,
+> -			      AR0521_TOTAL_WIDTH_MIN);
+> -	u16 total_height = sensor->fmt.height + AR0521_HEIGHT_BLANKING_MIN;
+> -
+> -	/* Calculate approximate pixel clock first */
+> -	u64 pix_clk = AR0521_PIXEL_CLOCK_RATE;
+> -
+> -	/* PLL1 drives pixel clock - dual rate */
+> -	pix_clk = calc_pll(sensor, 1, pix_clk * (DIV / 2), &sensor->pll_pre,
+> -			   &sensor->pll_mult);
+> -	pix_clk = div64_round(pix_clk, (DIV / 2));
+> -	calc_pll(sensor, 2, pix_clk * (DIV / 2) * speed_mod, &sensor->pll_pre2,
+> -		 &sensor->pll_mult2);
+> -
+> -	sensor->total_width = total_width;
+> -	sensor->total_height = total_height;
+> +	unsigned int pixel_clock;
+> +	u16 pre, mult;
+> +	u32 vco;
+> +	int bpp;
+> +
+> +	/*
+> +	 * PLL1 and PLL2 are computed equally even if the application note
+> +	 * suggests a slower PLL1 clock. Maintain pll1 and pll2 divider and
+> +	 * multipler separated to later specialize the calculation procedure.
+> +	 *
+> +	 * PLL1:
+> +	 * - mclk -> / pre_div1 * pre_mul1 = VCO1 = COUNTER_CLOCK
+> +	 *
+> +	 * PLL2:
+> +	 * - mclk -> / pre_div * pre_mul = VCO
+> +	 *
+> +	 *   VCO -> / vt_pix = PIXEL_CLOCK
+> +	 *   VCO -> / vt_pix / 2 = WORD_CLOCK
+> +	 *   VCO -> / op_sys = SERIAL_CLOCK
+> +	 *
+> +	 * With:
+> +	 * - vt_pix = bpp / 2
+> +	 * - WORD_CLOCK = PIXEL_CLOCK / 2
+> +	 * - SERIAL_CLOCK = MIPI data rate (Mbps / lane) = WORD_CLOCK * bpp
+> +	 *   NOTE: this implies the MIPI clock is divided internally by 2
+> +	 *         to account for DDR.
+> +	 *
+> +	 * As op_sys_div is fixed to 1:
+> +	 *
+> +	 * SERIAL_CLOCK = VCO
+> +	 * VCO = 2 * MIPI_CLK
+> +	 * VCO = PIXEL_CLOCK * bpp / 2
+> +	 *
+> +	 * In the clock tree:
+> +	 * MIPI_CLK = PIXEL_CLOCK * bpp / 2 / 2
+> +	 *
+> +	 * Generic pixel_rate to bus clock frequencey equation:
+> +	 * MIPI_CLK = V4L2_CID_PIXEL_RATE * bpp / lanes / 2
+> +	 *
+> +	 * From which we derive the PIXEL_CLOCK to use in the clock tree:
+> +	 * PIXEL_CLOCK = V4L2_CID_PIXEL_RATE * 2 / lanes
+> +	 *
+> +	 * Documented clock ranges:
+> +	 *   WORD_CLOCK = (35MHz - 120 MHz)
+> +	 *   PIXEL_CLOCK = (84MHz - 207MHz)
+> +	 *   VCO = (320MHz - 1280MHz)
+> +	 *
+> +	 * TODO: in case we have less data lanes we have to reduce the desired
+> +	 * VCO not to exceed the limits specified by the datasheet and
+> +	 * consequentially reduce the obtained pixel clock.
+> +	 */
+> +	pixel_clock = AR0521_PIXEL_CLOCK_RATE * 2 / sensor->lane_count;
+> +	bpp = ar0521_code_to_bpp(sensor);
+> +	sensor->pll.vt_pix = bpp / 2;
+> +	vco = pixel_clock * sensor->pll.vt_pix;
+> +
+> +	calc_pll(sensor, vco, &pre, &mult);
+> +
+> +	sensor->pll.pre = sensor->pll.pre2 = pre;
+> +	sensor->pll.mult = sensor->pll.mult2 = mult;
+>  }
+>  
+>  static int ar0521_write_mode(struct ar0521_dev *sensor)
+>  {
+>  	__be16 pll_regs[] = {
+>  		be(AR0521_REG_VT_PIX_CLK_DIV),
+> -		/* 0x300 */ be(4), /* vt_pix_clk_div = number of bits / 2 */
+> +		/* 0x300 */ be(sensor->pll.vt_pix), /* vt_pix_clk_div = bpp / 2 */
+>  		/* 0x302 */ be(1), /* vt_sys_clk_div */
+> -		/* 0x304 */ be((sensor->pll_pre2 << 8) | sensor->pll_pre),
+> -		/* 0x306 */ be((sensor->pll_mult2 << 8) | sensor->pll_mult),
+> -		/* 0x308 */ be(8), /* op_pix_clk_div = 2 * vt_pix_clk_div */
+> +		/* 0x304 */ be((sensor->pll.pre2 << 8) | sensor->pll.pre),
+> +		/* 0x306 */ be((sensor->pll.mult2 << 8) | sensor->pll.mult),
+> +		/* 0x308 */ be(sensor->pll.vt_pix * 2), /* op_pix_clk_div = 2 * vt_pix_clk_div */
+>  		/* 0x30A */ be(1)  /* op_sys_clk_div */
+>  	};
+>  	int ret;
+
 -- 
-2.37.3
+Regards,
 
+Laurent Pinchart
