@@ -2,74 +2,50 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4A3CF5F77C1
-	for <lists+linux-media@lfdr.de>; Fri,  7 Oct 2022 13:58:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E7A7E5F77C4
+	for <lists+linux-media@lfdr.de>; Fri,  7 Oct 2022 13:58:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229579AbiJGL6V (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 7 Oct 2022 07:58:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46582 "EHLO
+        id S229701AbiJGL6k (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 7 Oct 2022 07:58:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46844 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229679AbiJGL6R (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 7 Oct 2022 07:58:17 -0400
-Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com [91.207.212.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 57B9ED01B2
-        for <linux-media@vger.kernel.org>; Fri,  7 Oct 2022 04:58:15 -0700 (PDT)
-Received: from pps.filterd (m0046660.ppops.net [127.0.0.1])
-        by mx07-00178001.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 2979vIRA014907;
-        Fri, 7 Oct 2022 13:57:54 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=selector1;
- bh=DjPLsYA5xJOFcUGZ19bq6/JbJP9OeuXPH8mmdeFQQSc=;
- b=fiRiVxEpZRnH4GcS4gLRrOxYCvfss84UWswg9c8+x8zgxUie5VhbkQo7+z01/vT/aEw9
- TFDaVZHg5htiyJWCNdxru1HUv7w74j/DDFgbwagdm9FGY76TohpxeXFUO4C0OMMtmc4T
- GyHV95G836nKnDflGa6d2bCoAz65Tov3XCbjkkd7IvvqtXRHn0BxRvLZt6QVPIPQHDz4
- 5DXcrFhQ9PNavbYqQZ7HdN7jaXuC5yMy8ftc319XX/B0OD4Gj2mX9U1gHeQEYdh+2OrA
- qxAUKRgv9EsmxUoHf6x5wnmhwQqe3eGk68Gjf/VvPw3BYFXoPJ6FwCwtF3XiucGrAFqO Og== 
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-        by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3k1fsuu7s6-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 07 Oct 2022 13:57:54 +0200
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 1DF2410003D;
-        Fri,  7 Oct 2022 13:57:49 +0200 (CEST)
-Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
-        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 18428222CB6;
-        Fri,  7 Oct 2022 13:57:49 +0200 (CEST)
-Received: from [10.252.8.171] (10.75.127.121) by SHFDAG1NODE1.st.com
- (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.1.2375.31; Fri, 7 Oct
- 2022 13:57:48 +0200
-Message-ID: <6d481061-4ee0-0df2-e86a-d86ae06600f0@foss.st.com>
-Date:   Fri, 7 Oct 2022 13:57:48 +0200
+        with ESMTP id S229531AbiJGL6f (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 7 Oct 2022 07:58:35 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DCDB5CF866;
+        Fri,  7 Oct 2022 04:58:33 -0700 (PDT)
+Received: from [192.168.1.15] (91-158-154-79.elisa-laajakaista.fi [91.158.154.79])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id D90BBBBE;
+        Fri,  7 Oct 2022 13:58:30 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1665143911;
+        bh=v5HsThQcrApFO/RRHq0wRJMHyC462XDJhteLf+j9ksg=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=gDH9yrf5vDcvx/i9cj0ohjZnJwJG5J0wK7P4KxaYArdXbcbSZyT19Q/eTgGEYtp/k
+         DF6YPTxs5NGyCd2IWMoEWoE9WDbqrTHRzeOmo9NekIAwJcKzFXs4szwzO6lJU6UjeT
+         p8OLkJgcLCeIbJ+35Kq0NUCELi0ZwFCjCog65Uws=
+Message-ID: <fe62899e-7718-afb6-21db-83da333b8a9b@ideasonboard.com>
+Date:   Fri, 7 Oct 2022 14:58:28 +0300
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v6 3/4] media: dt-bindings: media: i2c: Add ST VGXY61
- camera sensor binding
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Subject: Re: [PATCH v4 00/31] v4l: add support for multiplexed streams
 Content-Language: en-US
 To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-CC:     <linux-media@vger.kernel.org>, <alain.volmat@foss.st.com>,
-        <hugues.fruchet@foss.st.com>, <sylvain.petinot@foss.st.com>,
-        <dave.stevenson@raspberrypi.com>,
-        <laurent.pinchart@ideasonboard.com>,
-        <kieran.bingham@ideasonboard.com>, <nicolas@ndufresne.ca>,
-        <hverkuil@xs4all.nl>
-References: <20220927083702.14138-1-benjamin.mugnier@foss.st.com>
- <20220927083702.14138-4-benjamin.mugnier@foss.st.com>
- <Yz8pPJgqt9pcfSbp@paasikivi.fi.intel.com>
-From:   Benjamin MUGNIER <benjamin.mugnier@foss.st.com>
-In-Reply-To: <Yz8pPJgqt9pcfSbp@paasikivi.fi.intel.com>
-Content-Type: text/plain; charset="UTF-8"
+Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        laurent.pinchart@ideasonboard.com,
+        niklas.soderlund+renesas@ragnatech.se, luca@lucaceresoli.net,
+        ian.arkver.dev@gmail.com, linux-media@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+References: <20190328200608.9463-1-jacopo+renesas@jmondi.org>
+ <1510023a-a6aa-611e-8920-32b949ec5250@ideasonboard.com>
+ <Yz66ADqFVj2UY248@paasikivi.fi.intel.com>
+From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+In-Reply-To: <Yz66ADqFVj2UY248@paasikivi.fi.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.75.127.121]
-X-ClientProxiedBy: GPXDAG2NODE4.st.com (10.75.127.68) To SHFDAG1NODE1.st.com
- (10.75.129.69)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
- definitions=2022-10-06_05,2022-10-07_01,2022-06-22_01
-X-Spam-Status: No, score=-5.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,NICE_REPLY_A,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+X-Spam-Status: No, score=-4.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
         SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -77,171 +53,89 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sakari,
-
-Thank you for your review.
-
-On 10/6/22 21:15, Sakari Ailus wrote:
-> Hi Benjamin,
+On 06/10/2022 14:20, Sakari Ailus wrote:
+> Moi,
 > 
-> On Tue, Sep 27, 2022 at 10:37:01AM +0200, Benjamin Mugnier wrote:
->> Add device tree binding for the ST VGXY61 camera sensor, and update
->> MAINTAINERS file.
+> On Thu, Feb 11, 2021 at 03:44:56PM +0200, Tomi Valkeinen wrote:
+
+You found an old one =).
+
+>> Hi all,
 >>
->> Signed-off-by: Benjamin Mugnier <benjamin.mugnier@foss.st.com>
->> ---
->>  .../bindings/media/i2c/st,st-vgxy61.yaml      | 112 ++++++++++++++++++
->>  MAINTAINERS                                   |   9 ++
->>  2 files changed, 121 insertions(+)
->>  create mode 100644 Documentation/devicetree/bindings/media/i2c/st,st-vgxy61.yaml
+>> On 28/03/2019 22:05, Jacopo Mondi wrote:
+>>> Hello,
+>>>     new iteration of multiplexed stream support patch series.
+>>>
+>>> V3 available at:
+>>> https://patchwork.kernel.org/cover/10839889/
+>>>
+>>> V2 sent by Niklas is available at:
+>>> https://patchwork.kernel.org/cover/10573817/
+>>>
+>>> Series available at:
+>>> git://jmondi.org/linux v4l2-mux/media-master/v4
 >>
->> diff --git a/Documentation/devicetree/bindings/media/i2c/st,st-vgxy61.yaml b/Documentation/devicetree/bindings/media/i2c/st,st-vgxy61.yaml
->> new file mode 100644
->> index 000000000000..652170367675
->> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/media/i2c/st,st-vgxy61.yaml
->> @@ -0,0 +1,112 @@
->> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
->> +# Copyright (c) 2022 STMicroelectronics SA.
->> +%YAML 1.2
->> +---
->> +$id: http://devicetree.org/schemas/media/i2c/st,st-vgxy61.yaml#
->> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->> +
->> +title: STMicroelectronics VGxy61 HDR Global Shutter Sensor Family Device Tree Bindings
->> +
->> +maintainers:
->> +  - Benjamin Mugnier <benjamin.mugnier@foss.st.com>
->> +  - Sylvain Petinot <sylvain.petinot@foss.st.com>
->> +
->> +description: |-
->> +  STMicroelectronics VGxy61 family has a CSI-2 output port. CSI-2 output is a
->> +  quad lanes 800Mbps per lane.
->> +  Supported formats are RAW8, RAW10, RAW12, RAW14 and RAW16.
->> +  Following part number are supported
->> +  - VG5661 and VG6661 are 1.6 Mpx (1464 x 1104) monochrome and color sensors.
->> +  Maximum frame rate is 75 fps.
->> +  - VG5761 and VG6761 are 2.3 Mpx (1944 x 1204) monochrome and color sensors.
->> +  Maximum frame rate is 60 fps.
->> +
->> +properties:
->> +  compatible:
->> +    const: st,st-vgxy61
->> +
->> +  reg:
->> +    maxItems: 1
->> +
->> +  clocks:
->> +    maxItems: 1
->> +
->> +  VCORE-supply:
->> +    description:
->> +      Sensor digital core supply. Must be 1.2 volts.
->> +
->> +  VDDIO-supply:
->> +    description:
->> +      Sensor digital IO supply. Must be 1.8 volts.
->> +
->> +  VANA-supply:
->> +    description:
->> +      Sensor analog supply. Must be 2.8 volts.
->> +
->> +  reset-gpios:
->> +    description:
->> +      Reference to the GPIO connected to the reset pin, if any.
->> +      This is an active low signal to the vgxy61.
->> +
->> +  st,strobe-gpios-polarity:
->> +    description:
->> +      Invert polarity of strobe GPIOs.
->> +    type: boolean
+>> I'm trying to understand how these changes can be used with virtual
+>> channels and also with embedded data.
+>>
+>> I have an SoC with two CSI-2 RX ports, both of which connect to a
+>> processing block with 8 DMA engines. Each of the DMA engines can be
+>> programmed to handle a certain virtual channel and datatype.
+>>
+>> The board has a multiplexer, connected to 4 cameras, and the multiplexer
+>> connects to SoC's CSI-2 RX port. This board has just one multiplexer
+>> connected, but, of course, both RX ports could have a multiplexer,
+>> amounting to total 8 cameras.
+>>
+>> So, in theory, there could be 16 streams to be handled (4 pixel streams
+>> and 4 embedded data streams for both RX ports). With only 8 DMA engines
+>> available, the driver has to manage them dynamically, reserving a DMA
+>> engine when a stream is started.
+>>
+>> My confusion is with the /dev/video nodes. I think it would be logical
+>> to create 8 of them, one for each DMA engine (or less, if I know there
+>> is only, say, 1 camera connected, in which case 2 nodes would be
 > 
-> This was probably intended to be left out of this version?
+> For more complex devices, it is often not possible to define such a number.
+> Say, put an external ISP in between the sensor and the CSI-2 receiver, and
+> you may get more streams than you would from the sensor alone.
 > 
-
-Indeed, I forgot to update this file. Thanks a lot for double checking.
-
-
-Regards,
-
-Benjamin
-
->> +
->> +  port:
->> +    $ref: /schemas/graph.yaml#/$defs/port-base
->> +    additionalProperties: false
->> +
->> +    properties:
->> +      endpoint:
->> +        $ref: /schemas/media/video-interfaces.yaml#
->> +        unevaluatedProperties: false
->> +
->> +        properties:
->> +          data-lanes:
->> +            description:
->> +              CSI lanes to use
->> +            items:
->> +              - const: 1
->> +              - const: 2
->> +              - const: 3
->> +              - const: 4
->> +
->> +          remote-endpoint: true
->> +
->> +        required:
->> +          - data-lanes
->> +
->> +required:
->> +  - compatible
->> +  - clocks
->> +  - VCORE-supply
->> +  - VDDIO-supply
->> +  - VANA-supply
->> +  - port
->> +
->> +additionalProperties: false
->> +
->> +examples:
->> +  - |
->> +    #include <dt-bindings/gpio/gpio.h>
->> +    i2c {
->> +        #address-cells = <1>;
->> +        #size-cells = <0>;
->> +        vgxy61: csi2tx@10 {
->> +            compatible = "st,st-vgxy61";
->> +            reg = <0x10>;
->> +            clocks = <&clk_ext_camera>;
->> +            VCORE-supply = <&v1v2>;
->> +            VDDIO-supply = <&v1v8>;
->> +            VANA-supply = <&v2v8>;
->> +            reset-gpios = <&mfxgpio 18 GPIO_ACTIVE_LOW>;
->> +            port {
->> +                ep0: endpoint {
->> +                    data-lanes = <1 2 3 4>;
->> +                    remote-endpoint = <&mipi_csi2_out>;
->> +                };
->> +            };
->> +        };
->> +    };
->> +...
->> diff --git a/MAINTAINERS b/MAINTAINERS
->> index a58f1fc6dd47..2e855bfdfeb7 100644
->> --- a/MAINTAINERS
->> +++ b/MAINTAINERS
->> @@ -19278,6 +19278,15 @@ S:	Maintained
->>  F:	Documentation/hwmon/stpddc60.rst
->>  F:	drivers/hwmon/pmbus/stpddc60.c
->>  
->> +ST VGXY61 DRIVER
->> +M:	Benjamin Mugnier <benjamin.mugnier@foss.st.com>
->> +M:	Sylvain Petinot <sylvain.petinot@foss.st.com>
->> +L:	linux-media@vger.kernel.org
->> +S:	Maintained
->> +T:	git git://linuxtv.org/media_tree.git
->> +F:	Documentation/devicetree/bindings/media/i2c/st,st-vgxy61.yaml
->> +F:	drivers/media/i2c/st-vgxy61.c
->> +
->>  ST VL53L0X ToF RANGER(I2C) IIO DRIVER
->>  M:	Song Qiang <songqiang1304521@gmail.com>
->>  L:	linux-iio@vger.kernel.org
+>> enough). But in that case how does the user know what data is being
+>> received from that node? In other words, how to connect, say,
+>> /dev/video0 to second camera's embedded data stream?
+>>
+>> Another option would be to create 16 /dev/video nodes, and document that
+>> first one maps to virtual channel 0 + pixel data, second to virtual
+>> channel 0 + embedded data, and so on. And only allow 8 of them to be
+>> turned on at a time. But I don't like this idea much.
 > 
+> This isn't great IMO as it is limited to pre-defined use cases.
+> 
+>>
+>> The current driver architecture is such that the multiplexer is modeled
+>> with a subdev with 4 sink pads and one source pad, the SoC's RX ports
+>> are subdevs with a single sink and a single output pad, and then there
+>> are the video devices connected to RX's source pad.
+>>
+>> And while I can connect the video node's pad to the source pad on either
+>> of the RX ports, I don't think I have any way to define which stream it
+>> receives.
+>>
+>> Does that mean that each RX port subdev should instead have 8 source
+>> pads? Isn't a pad like a physical connection? There's really just one
+>> output from the RX port, with multiplexed streams, so 8 pads doesn't
+>> sound right.
+> 
+> If you have eight DMAs you should always have eight video nodes.
+> 
+> I would put one link between the sub-device and a video node, and handle
+> the incoming streams by routing them to the desired video nodes.
+
+This is how it's been for quite a while. However, I think this model 
+causes problems with more programmable DMA systems, where there's no 
+maximum number of DMA "engines" (or the max is something like 256). But 
+for now those systems can just define a sensible number of DMAs (8? 16? 
+I guess it depends on the HW).
+
+  Tomi
+
