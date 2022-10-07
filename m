@@ -2,148 +2,181 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2A1905F77B9
-	for <lists+linux-media@lfdr.de>; Fri,  7 Oct 2022 13:56:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A191B5F77BA
+	for <lists+linux-media@lfdr.de>; Fri,  7 Oct 2022 13:56:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229701AbiJGL4U (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 7 Oct 2022 07:56:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45432 "EHLO
+        id S229715AbiJGL4p (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 7 Oct 2022 07:56:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45520 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229494AbiJGL4T (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 7 Oct 2022 07:56:19 -0400
-Received: from EUR01-HE1-obe.outbound.protection.outlook.com (mail-eopbgr130078.outbound.protection.outlook.com [40.107.13.78])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 76FEDCF85E
-        for <linux-media@vger.kernel.org>; Fri,  7 Oct 2022 04:56:16 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=m3R5a7UnaXO+7Xe1gakk9jidJS2bEr2JzyUfKw8uX6RE++PVGn32vMkoI4zcJj5bnAdXo+MGXypD+jGNwJUjw++5sMyLRRQCVf0dqMCsRpSJJMcwRjACTp864/lV1g4+OUu9NcZNWV31mY7jGxchnDmxgQ400KlZj7wM2eDxSTcbha2fwoxTWSXOevQ3sbZJJ44aQq25t/8csCB1lvDXVR2LV3RKZkK8qzsT9z7S8ul7JCTzFf4FtgYwLZLVS6UHIiJ8pgapfRwHwHwGOKbvAy0CUF+XybRhlgwDOusTWMAezccm41Vmp+ZZmoHygYGumRecZoofURDX8SqXHrTjaQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Qgztqly+Y05ehRbbVp7hzmVTwNi0MBxA5woVM1TPZwc=;
- b=UU6crIFLtog7bwqmbeFF/5oUqz05s2Ej/6VhfKWkgMxN9SdFr368aXYP/yqfnWB4sdR6JW5NIpfLmXB7lMc/46LIGePoZpqOH6lE6VUOBb7zlnvuZ7caVvN6wOzaegncVVG+SW/ors8d97snt7xq6+DkUNO1E0E0HrOlYVw+S09D1Goxucr0bXC5YWF6qoNKXYlAqcXYtBvFF1+jhDxXv70dAD9R4MGE7u4P+gvMQuAFLzWAeMFoSk8X9FKgH+DZcYXmcj9Cg/c7oVw1pSNRSN5ZFELXICni/I+knK5JSFQqTaGGYRqgzOurbS3JQkG2BziMuSAfTY31hbjiahy9pQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=piap.lukasiewicz.gov.pl; dmarc=pass action=none
- header.from=piap.pl; dkim=pass header.d=piap.pl; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=lukasiewiczgov.onmicrosoft.com; s=selector1-lukasiewiczgov-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Qgztqly+Y05ehRbbVp7hzmVTwNi0MBxA5woVM1TPZwc=;
- b=smpXcRi/PMDmX5pZbrsK0V0t9Brzhj/+zgzr2tQ6HGW5/LnpgDdZhbVdmC9j6DNj8em6LNs1c5kVgOLtBqWCGkXn457sxjzhC6yK8wOMQWuNvBjKLAJlK/zzcZAD+MI2njfTpQ0NcA440VQcqKLEZH60yuRrRXptNyYMwRdVgTw=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=piap.pl;
-Received: from VI1P193MB0685.EURP193.PROD.OUTLOOK.COM (2603:10a6:800:155::18)
- by DU2P193MB2307.EURP193.PROD.OUTLOOK.COM (2603:10a6:10:2f1::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5676.31; Fri, 7 Oct
- 2022 11:56:12 +0000
-Received: from VI1P193MB0685.EURP193.PROD.OUTLOOK.COM
- ([fe80::a859:9fdb:38b7:b0f8]) by VI1P193MB0685.EURP193.PROD.OUTLOOK.COM
- ([fe80::a859:9fdb:38b7:b0f8%3]) with mapi id 15.20.5676.034; Fri, 7 Oct 2022
- 11:56:12 +0000
-From:   =?utf-8?Q?Krzysztof_Ha=C5=82asa?= <khalasa@piap.pl>
-To:     Jacopo Mondi <jacopo@jmondi.org>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@iki.fi>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-media@vger.kernel.org
-Subject: Re: [PATCH 02/10] media: ar0521: Add V4L2_CID_ANALOG_GAIN
-References: <20221005190613.394277-1-jacopo@jmondi.org>
-        <20221005190613.394277-3-jacopo@jmondi.org>
-        <m31qrk6wgc.fsf@t19.piap.pl>
-        <20221007071725.zxcbx4kwwh2pt7ax@uno.localdomain>
-Date:   Fri, 07 Oct 2022 13:56:11 +0200
-In-Reply-To: <20221007071725.zxcbx4kwwh2pt7ax@uno.localdomain> (Jacopo Mondi's
-        message of "Fri, 7 Oct 2022 09:17:25 +0200")
-Message-ID: <m3wn9b4zl0.fsf@t19.piap.pl>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-ClientProxiedBy: FR0P281CA0003.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:15::8) To VI1P193MB0685.EURP193.PROD.OUTLOOK.COM
- (2603:10a6:800:155::18)
+        with ESMTP id S229569AbiJGL4o (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 7 Oct 2022 07:56:44 -0400
+Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com [91.207.212.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E3EDCF85A
+        for <linux-media@vger.kernel.org>; Fri,  7 Oct 2022 04:56:42 -0700 (PDT)
+Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
+        by mx07-00178001.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 2979ppqh003023;
+        Fri, 7 Oct 2022 13:56:32 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=selector1;
+ bh=mK3fHxEolTmw6h8qdCYf8/e2p0cmMBEpv/vZuf8VuCg=;
+ b=LOyFDkpBQWL0KdSKDIE6IDU9r95lACErS3IRsz5nrj1qjIIMDOqNMDHUEhsF14aGqd5C
+ tsTAwoafobw4wnCp4C3ARHWLgrhRqJsxD0ARnvAq3iEt2PivxjR71LpzaLT8kRUNO7kZ
+ ifmDbHM3QnbDtf4NCJM7lRGlMv33LWRxBVbpXmOsYfAR3p530lDjTL7OlK4bBu/8JM+i
+ lkhnWa6Isvt0qKUqwf8u/cR/SnS5XWh9LyF5/nuaXYWAW8MXQU6zhsQz8AsK0q/bCEHj
+ ChkvAAC74xxQqjroApVy7EKiZB9kOVTYoeQ1H9Ii3mqI+EIP3mVmXxeIg3qC5kRIv8UH 9Q== 
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+        by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3k16dsewg9-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 07 Oct 2022 13:56:32 +0200
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 77AFA10002A;
+        Fri,  7 Oct 2022 13:56:26 +0200 (CEST)
+Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
+        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 58E6021F148;
+        Fri,  7 Oct 2022 13:56:26 +0200 (CEST)
+Received: from [10.252.8.171] (10.75.127.123) by SHFDAG1NODE1.st.com
+ (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.1.2375.31; Fri, 7 Oct
+ 2022 13:56:25 +0200
+Message-ID: <31392601-bde1-e383-e0f6-30ad804240d8@foss.st.com>
+Date:   Fri, 7 Oct 2022 13:56:25 +0200
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: VI1P193MB0685:EE_|DU2P193MB2307:EE_
-X-MS-Office365-Filtering-Correlation-Id: de267cba-b2d1-42bd-841c-08daa85aee64
-X-MS-Exchange-AtpMessageProperties: SA
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Y1fnX/v2uPGFwg5JrewduvdofvKbf9xJhqsqQEoxe+GZs7qE9ylke8RhqJB0iibtk1hyyqmV9bW+uDe+ZpExJV44HbBf0A4OlE/3qmOvJDIlGIecqzIPWkzB9wLARRuQGNOOs9PbG/Du642PYDNoN065vb1elanimKahMzLojC6zbDI4rjUs96Zl1y1bIU4nv+oCsTX0mLntT8hU9mKj7RgPG+R8Ctb4J57j00f3ApPQC3PnfKEC3BBfSb+YNDo0J+8BtLm23ic9l1sutz9Pkxxysj58ogPsvbBQF5DuMtBTw9N6JX8c6/aHwgVpjYqNZtXhTdVKvl5aeaGX+Yh7R6pJmzuYmrSmSDSCbMf4+62dtGXoJv0pwSHTJ6EaA04nCJVhMyiCg2jzS5WVHU6eA0ZQ4tVGtQHv0fCVlqxgkR7o7FGrjADaUDLNxtLe1Pp1b9DLAAbV2xoogs3Ss5OkQxRe7cVMlvsVf5Kf1LH6VYQFHP1n60fN57Ohyfv7xHafP3WADNeF7FeDH1qncuJq2Nl9Sngun00ksyuAZw7qNpaMY5LxMUAnl8s1NVopHU7UkdmWQq1dWSslQQvdGjd85cCYnNwhU5f0RXu6H9nG+CrvvlH9+6slkC++nVQZtP4ZKstqTAj/wEiwIwkfzpUo3xhCLDcLi4MVVOsCm6dj02vNHjWaJOPvshXhgj6dlIB8k6IVOJ9sW+CN1ML4J8B7iwHy2JJlDueS4jmpPnkYDVKTFWlpixpAbicJ7SUnkK3dRvdxQc94szSanYID5n501Q==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VI1P193MB0685.EURP193.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230022)(4636009)(39860400002)(376002)(396003)(366004)(136003)(346002)(451199015)(83380400001)(4744005)(478600001)(6512007)(38100700002)(38350700002)(83170400001)(41300700001)(66556008)(8676002)(66476007)(186003)(26005)(42882007)(52116002)(2906002)(6506007)(6486002)(8936002)(5660300002)(66946007)(316002)(4326008)(54906003)(6916009)(786003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?MVMxRk1CSHZrc0h2UHFzT0tsQVhVQVUvUk1scWN1YldyYWVWaU9jY1VrQUw5?=
- =?utf-8?B?cW1CWi9OMWRWaDA2ZVcvenVFSkEzWXg4Qm5NaHV3cExqbmErM3kyaVR4QjJF?=
- =?utf-8?B?ZXdSL1ovbUJRdytyOGV6dXRSOFppT2Z5L1c4b3cxS0wyUm45MlRZeTBtS3F6?=
- =?utf-8?B?MVZoZHNKZUdwdFYwb2FaUk1DcmlmN1RsODlmYllMTzZURTkrNDhkOU9GRlFN?=
- =?utf-8?B?OGFrZVlFRGJENU45N0pDeElFZzEyMVM4THVodzdwQkIxeGw5STRneEtQdVF1?=
- =?utf-8?B?KzdEZ2V5TzlHMVJxcDN2RStWQkZ1ZjFTYjhqSExBcnZZYi9pRVJhNHFqQUtq?=
- =?utf-8?B?NmhyK1FqTlZUTWR0V3Zucm9KMm54d2NsSEJpcUNXem1Zelk1T2x6eUNvaGlG?=
- =?utf-8?B?cS9FVzdwTzBrQVRKZisrZVVPNHlVRTJBM2R0dXl6amxRdDdXUFN4c1dxdytp?=
- =?utf-8?B?WEtTallIMi9lckpOMXNBRHRBeU5OclZmZStMUjk2Y1JQam9hakx6TDBpaC9x?=
- =?utf-8?B?ZXpkMEhMOTg1Zk83UTMvNHhCenpOeENMY0lvMlZYT2J4NVJQazBZR1JwUjR6?=
- =?utf-8?B?V09mdG5RSnV6b2oyUG9WYWV6bkIyWlU0aThhKzRYOXhWUmxRTFdmem9FUVhQ?=
- =?utf-8?B?bUlFM09YUktCb2Ezbmd6QnoxTjNEZ3RGRUNiS3hiWWExRm5MbTVicEZxR0VJ?=
- =?utf-8?B?aEwwTGo2Tm5RVXZVK0pwbEZCZlJQWUk1UWlzSXBwME5qeHNkcm1CbldQaWp5?=
- =?utf-8?B?SVI2MGNRSCtIRXdBTmJlakJoc0l1OUtnSGtESlBvUDdQdW1tbFdyT0hwSFAr?=
- =?utf-8?B?M2RlNmdKTTRJb0g4YkZZZ0hYeWpiSW94UXFCSlc4enhOREZPcWxLSlJ5di9a?=
- =?utf-8?B?TEdTSTk3dFp4bzR0YlhKTzl1dDIvLzhOcmRXa0NSRGpYemN0cjQxbjZFdXIv?=
- =?utf-8?B?N09EN3ZlOWtERHpMdVF6TWhaRU5nTm04cncwTHBwK1RHWnpFQ25kQTBPd3lo?=
- =?utf-8?B?Mm9ZOWh6cEFkbStMa2FVRE9wTDRPR2hhM0F6c1VVNUl1NkYyVmJ3RWRDZzhi?=
- =?utf-8?B?dkxlZ0RGT0Z2LzY0U21YRzI1dWcyNW9DYStnVzVEU0ROWmpORURDNEE4YjAz?=
- =?utf-8?B?eEJJRU5SenJxbHZ4ZzFHcUgvM0RQZlVvdldOektxcnlMWFhmRHNXZ212U3ox?=
- =?utf-8?B?cnlZTHVmODdmV3B4Z1NjUm9RWWIxTk5rc3VHM2ludXZxVTNud0NKR0Q4NGt3?=
- =?utf-8?B?aGxzZlNXQ21rMVdiSW53OGhaNjJyNHBRM3dxanMwMk5aSkpnY20xMURxSUZM?=
- =?utf-8?B?MG5xSVFnbU1jVjRzaU5xYVd6TkdjUDBPZmtRWGhSRm5VQVZYUDFsRE9TN2VM?=
- =?utf-8?B?REZDbnJwWWp2cVhmWmxOODNFNEtYNERNMFBIbitKb2ptSmRvYXlQMUdkSzlN?=
- =?utf-8?B?WlBUYzZUQy8yTnV0YU54dTJTcGM1RVd1Ly9HRGwvQitvWFMzWWFBOFVqeG5I?=
- =?utf-8?B?SEFhbjhrM3I0bjgrNDJYL0dmYzUwcFozWC9sMTN3RjdvOFlMWFRPV2IzcWd4?=
- =?utf-8?B?eCtNSzdCZDBOSEZqZEVjU3NoemFtODVKQjg4bVhXM00wSno3OTEvUSswMWNO?=
- =?utf-8?B?cytKZHVrcm1ZcGNVNXlxNE1YR0ZUZk9sNktIc3JkQjVzUURVSmpKc01lOTBm?=
- =?utf-8?B?cVZkK1lKRGw3R05samxkM1ZFSmhjbWhuV29sbmFwaFhZNlQvaEtuMjhRSlRV?=
- =?utf-8?B?V21ZQnBIZDBZMUl6R2FTamRzZjNGVkV0eVYxSElxVzlibWNBTk5vNHZFNk9O?=
- =?utf-8?B?NGtsM0lwdWt0MEorS3hBNDBYNmVEazQ4bEtveEpNbmRwSGRDeHBVdFZUV0ZO?=
- =?utf-8?B?UFZKSzQ0bHkxUTZhU0tubG9CWGVpaFAzbTJPWW5kaThSVkRDS0pyL3NNbWcr?=
- =?utf-8?B?OEZwR3FnYXBUTFNSajU5Z0xhSEdVZDdlNEJ1Y0JFZks0T29yOU9PUEh4ODJH?=
- =?utf-8?B?SlZzdTN5WEtLM1RZaVA5akhyd0lsaW1XMzVyWWtnTkN3T21JOG5XYWhIRjBi?=
- =?utf-8?B?WUkwVm9iZWtYdzJFSktKbm1VdmxIeDU5SWI4ejV6bEVldUdleGgwMmNPc01Y?=
- =?utf-8?B?cm56SWU1NElYR2VEVUVQVkpTeUpWLzJzSkZLV3pxbWhscy95VEg2NWxscW9G?=
- =?utf-8?Q?NxIvVw9CLo0q7O1woaT6zSsa2rselrEKFmreXHz88ala?=
-X-OriginatorOrg: piap.pl
-X-MS-Exchange-CrossTenant-Network-Message-Id: de267cba-b2d1-42bd-841c-08daa85aee64
-X-MS-Exchange-CrossTenant-AuthSource: VI1P193MB0685.EURP193.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Oct 2022 11:56:12.7840
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3e05b101-c6fe-47e5-82e1-c6a410bb95c0
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: eYeRroeO8LW+B0Dt1ZCoH74x60SAmNyepLvvPclPNpj2N2IvEFtsytS6fJOVHYEFtteWNl7FtPLmCycVI3APxG+87fpUN9ZWbLcp7sheH5wQB0+tqEwQqH0n4c81tpUe9T39P+LCKXgOvyyIcpZBpw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU2P193MB2307
-X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS autolearn=no
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v6 1/4] media: v4l: Add 1X16 16-bit greyscale media bus
+ code definition
+Content-Language: en-US
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+CC:     <linux-media@vger.kernel.org>, <alain.volmat@foss.st.com>,
+        <hugues.fruchet@foss.st.com>, <sylvain.petinot@foss.st.com>,
+        <dave.stevenson@raspberrypi.com>, <sakari.ailus@linux.intel.com>,
+        <kieran.bingham@ideasonboard.com>, <nicolas@ndufresne.ca>,
+        <hverkuil@xs4all.nl>
+References: <20220927083702.14138-1-benjamin.mugnier@foss.st.com>
+ <20220927083702.14138-2-benjamin.mugnier@foss.st.com>
+ <Yz9IIN2Jgum27tk0@pendragon.ideasonboard.com>
+From:   Benjamin MUGNIER <benjamin.mugnier@foss.st.com>
+In-Reply-To: <Yz9IIN2Jgum27tk0@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.75.127.123]
+X-ClientProxiedBy: GPXDAG2NODE4.st.com (10.75.127.68) To SHFDAG1NODE1.st.com
+ (10.75.129.69)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
+ definitions=2022-10-06_05,2022-10-07_01,2022-06-22_01
+X-Spam-Status: No, score=-5.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,NICE_REPLY_A,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Jacopo Mondi <jacopo@jmondi.org> writes:
+Hi Laurent,
 
->> BTW ISP can't really do that color balancing for you, since the sensor
->> operates at its native bit resolution and ISP is limited to the output
->> format, which is currently only 8-bit.
->
-> I'm not sure what do you mean here either :)
+Thank you for your review.
 
-Well, the sensor does DSP on 12 bits internally, or something alike.
-Then it outputs (currently) 8 bits of data, the rest being lost. If you
-do color balancing etc. on this, you may get worse results (like color
-banding).
---=20
-Krzysztof "Chris" Ha=C5=82asa
+On 10/6/22 23:26, Laurent Pinchart wrote:
+> Hi Benjamin,
+> 
+> Thank you for the patch.
+> 
+> On Tue, Sep 27, 2022 at 10:36:59AM +0200, Benjamin Mugnier wrote:
+>> This extends the greyscale media bus family originally from
+>> MEDIA_BUS_FMT_Y8_1X8 up to MEDIA_BUS_FMT_Y14_1X14 by adding
+>> MEDIA_BUS_FMT_Y16_1X16, and behaves the same way with 16 bits.
+>> Add its documentation in subdev-formats.rst
+>>
+>> Signed-off-by: Benjamin Mugnier <benjamin.mugnier@foss.st.com>
+>> ---
+>>  .../media/v4l/subdev-formats.rst              | 37 +++++++++++++++++++
+>>  include/uapi/linux/media-bus-format.h         |  3 +-
+>>  2 files changed, 39 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/Documentation/userspace-api/media/v4l/subdev-formats.rst b/Documentation/userspace-api/media/v4l/subdev-formats.rst
+>> index d21d532eee15..19025e9ba447 100644
+>> --- a/Documentation/userspace-api/media/v4l/subdev-formats.rst
+>> +++ b/Documentation/userspace-api/media/v4l/subdev-formats.rst
+>> @@ -7355,6 +7355,43 @@ the following codes.
+>>        - v\ :sub:`2`
+>>        - v\ :sub:`1`
+>>        - v\ :sub:`0`
+>> +    * .. _MEDIA-BUS-FMT-Y16-1X16:
+>> +
+>> +      - MEDIA_BUS_FMT_Y16_1X16
+>> +      - 0x202e
+>> +      -
+>> +      -
+>> +      -
+>> +      -
+>> +      -
+>> +      -
+>> +      -
+>> +      -
+>> +      -
+>> +      -
+>> +      -
+>> +      -
+>> +      -
+>> +      -
+>> +      -
+>> +      -
+>> +      -
+>> +      - y\ :sub:`15`
+>> +      - y\ :sub:`14`
+>> +      - y\ :sub:`13`
+>> +      - y\ :sub:`12`
+>> +      - y\ :sub:`11`
+>> +      - y\ :sub:`10`
+>> +      - y\ :sub:`9`
+>> +      - y\ :sub:`8`
+>> +      - y\ :sub:`7`
+>> +      - y\ :sub:`6`
+>> +      - y\ :sub:`5`
+>> +      - y\ :sub:`4`
+>> +      - y\ :sub:`3`
+>> +      - y\ :sub:`2`
+>> +      - y\ :sub:`1`
+>> +      - y\ :sub:`0`
+> 
+> Could you please add this right after MEDIA_BUS_FMT_Y14_1X14 ? Same in include/uapi/linux/media-bus-format.h. With this change,
+> 
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> 
 
-Sie=C4=87 Badawcza =C5=81ukasiewicz
-Przemys=C5=82owy Instytut Automatyki i Pomiar=C3=B3w PIAP
-Al. Jerozolimskie 202, 02-486 Warszawa
+Sure no problem.
+
+
+Regards,
+
+Benjamin
+
+>>  
+>>  
+>>  .. raw:: latex
+>> diff --git a/include/uapi/linux/media-bus-format.h b/include/uapi/linux/media-bus-format.h
+>> index ec3323dbb927..b078dd125e57 100644
+>> --- a/include/uapi/linux/media-bus-format.h
+>> +++ b/include/uapi/linux/media-bus-format.h
+>> @@ -69,7 +69,7 @@
+>>  #define MEDIA_BUS_FMT_RGB121212_1X36		0x1019
+>>  #define MEDIA_BUS_FMT_RGB161616_1X48		0x101a
+>>  
+>> -/* YUV (including grey) - next is	0x202e */
+>> +/* YUV (including grey) - next is	0x202f */
+>>  #define MEDIA_BUS_FMT_Y8_1X8			0x2001
+>>  #define MEDIA_BUS_FMT_UV8_1X8			0x2015
+>>  #define MEDIA_BUS_FMT_UYVY8_1_5X8		0x2002
+>> @@ -115,6 +115,7 @@
+>>  #define MEDIA_BUS_FMT_YUV12_1X36		0x2029
+>>  #define MEDIA_BUS_FMT_YUV16_1X48		0x202a
+>>  #define MEDIA_BUS_FMT_UYYVYY16_0_5X48		0x202b
+>> +#define MEDIA_BUS_FMT_Y16_1X16			0x202e
+>>  
+>>  /* Bayer - next is	0x3021 */
+>>  #define MEDIA_BUS_FMT_SBGGR8_1X8		0x3001
+> 
