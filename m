@@ -2,140 +2,131 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 589FB5F7864
-	for <lists+linux-media@lfdr.de>; Fri,  7 Oct 2022 14:57:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C897B5F7897
+	for <lists+linux-media@lfdr.de>; Fri,  7 Oct 2022 15:06:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229707AbiJGM55 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 7 Oct 2022 08:57:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53482 "EHLO
+        id S229730AbiJGNGw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 7 Oct 2022 09:06:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44904 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229561AbiJGM5z (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 7 Oct 2022 08:57:55 -0400
-Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C447EA59B1
-        for <linux-media@vger.kernel.org>; Fri,  7 Oct 2022 05:57:53 -0700 (PDT)
-Received: (Authenticated sender: jacopo@jmondi.org)
-        by mail.gandi.net (Postfix) with ESMTPSA id C8DC71BF20C;
-        Fri,  7 Oct 2022 12:57:50 +0000 (UTC)
-Date:   Fri, 7 Oct 2022 14:57:49 +0200
-From:   Jacopo Mondi <jacopo@jmondi.org>
+        with ESMTP id S229723AbiJGNGv (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 7 Oct 2022 09:06:51 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A12AC90E0
+        for <linux-media@vger.kernel.org>; Fri,  7 Oct 2022 06:06:50 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 494CFBBE;
+        Fri,  7 Oct 2022 15:06:48 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1665148008;
+        bh=lSiN/40+e+o6tBNeYKg9OufLr8uphunI4l4WJXm4/SE=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=uDlJ69Ji9NvS2P0GRat2n8cv0scIBzivbmILyotVDqHuVhb0moXZlZI4iLYuaKRgM
+         Dn6mFm5TsubyLL304qxG93XISzlnekj8Njy9xEGKDCpCILvpivDm2+TVIWqswI2po/
+         svCz7ipDl/LAPrq+9ScS3VmN5i2yZwnSu6qoxIxQ=
+Date:   Fri, 7 Oct 2022 16:06:43 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Dave Stevenson <dave.stevenson@raspberrypi.com>
-Cc:     paul.j.murphy@intel.com, daniele.alessandrelli@intel.com,
-        linux-media@vger.kernel.org,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: Re: [PATCH 16/16] media: i2c: ov9282: Support event handlers
-Message-ID: <20221007125749.rvvmfe4wklxt2mmv@uno.localdomain>
-References: <20221005152809.3785786-1-dave.stevenson@raspberrypi.com>
- <20221005152809.3785786-17-dave.stevenson@raspberrypi.com>
- <20221006095956.dy5x3ie2gf635b3w@uno.localdomain>
- <CAPY8ntCg0nM84qsauexXHSAdCKc0K9fco6wDjZ-KzfOdqMyrFQ@mail.gmail.com>
+Cc:     Jacopo Mondi <jacopo@jmondi.org>,
+        Krzysztof =?utf-8?Q?Ha=C5=82asa?= <khalasa@piap.pl>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@iki.fi>, linux-media@vger.kernel.org
+Subject: Re: [PATCH 03/10] media: ar0521: Set maximum resolution to 2592x1944
+Message-ID: <Y0AkY6o6spakYJD3@pendragon.ideasonboard.com>
+References: <20221005190613.394277-1-jacopo@jmondi.org>
+ <20221005190613.394277-4-jacopo@jmondi.org>
+ <CAPY8ntBgHm6KTpH6GBLiMtdRt1vAE4ne0EMq5N+x0CJJ9yU9+A@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <CAPY8ntCg0nM84qsauexXHSAdCKc0K9fco6wDjZ-KzfOdqMyrFQ@mail.gmail.com>
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <CAPY8ntBgHm6KTpH6GBLiMtdRt1vAE4ne0EMq5N+x0CJJ9yU9+A@mail.gmail.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-
-On Fri, Oct 07, 2022 at 11:22:23AM +0100, Dave Stevenson wrote:
+On Thu, Oct 06, 2022 at 03:57:16PM +0100, Dave Stevenson wrote:
 > Hi Jacopo
->
-> + Hans for comment on compliance / controls framework
->
-> On Thu, 6 Oct 2022 at 10:59, Jacopo Mondi <jacopo@jmondi.org> wrote:
+> 
+> On Wed, 5 Oct 2022 at 20:06, Jacopo Mondi <jacopo@jmondi.org> wrote:
 > >
-> > Hi Dave
+> > Change the largest visibile resolution to 2592x1944, which corresponds
+> > to the active pixel array area size. Take into account the horizontal
+> > and vertical limits when programming the visible sizes to skip
+> > dummy/inactive pixels.
 > >
-> > On Wed, Oct 05, 2022 at 04:28:09PM +0100, Dave Stevenson wrote:
-> > > As noted in the headers for V4L2_SUBDEV_FL_HAS_EVENTS,
-> > > "controls can send events, thus drivers exposing controls
-> > > should set this flag".
-> > >
+> > Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
+> > ---
+> >  drivers/media/i2c/ar0521.c | 23 +++++++++++++++++------
+> >  1 file changed, 17 insertions(+), 6 deletions(-)
 > >
-> > I was expecting this to only apply to drivers that actually generate
-> > events...
+> > diff --git a/drivers/media/i2c/ar0521.c b/drivers/media/i2c/ar0521.c
+> > index 581f5e42994d..2b19ba898ce8 100644
+> > --- a/drivers/media/i2c/ar0521.c
+> > +++ b/drivers/media/i2c/ar0521.c
+> > @@ -28,10 +28,17 @@
+> >  #define AR0521_PIXEL_CLOCK_MIN  (168 * 1000 * 1000)
+> >  #define AR0521_PIXEL_CLOCK_MAX  (414 * 1000 * 1000)
 > >
-> > Not sure I can give a tag here as my understanding of this part is
-> > limited, let's wait for other opinions :)
->
-> I had to rack my memory on this one.
->
-> It fixes a v4l2-compliance failure:
-> fail: v4l2-test-controls.cpp(835): subscribe event for control 'User
-> Controls' failed
-> test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: FAIL
-> (v4l-utils built at ToT from today, so fd544473800 "support INTEGER
-> and INTEGER64 control arrays")
->
-> So either it is required by all drivers that expose controls, or it's
-> an issue in v4l2-compliance.
-> I believe it's the former as all controls can create a V4L2_EVENT_CTRL
-> event should the value or range change (very common for things like
-> HBLANK and VBLANK in image sensor drivers).
->
+> > +#define AR0521_NATIVE_WIDTH            2604u
+> > +#define AR0521_NATIVE_HEIGHT           1964u
+> > +#define AR0521_MIN_X_ADDR_START                4u
+> > +#define AR0521_MIN_Y_ADDR_START                4u
+> > +#define AR0521_MAX_X_ADDR_END          2603u
+> > +#define AR0521_MAX_Y_ADDR_END          1963u
+> 
+> The register list I have (downloaded from OnSemi today) states that
+> y_addr_max is 0x07a3, or 1955, readable from register 0x1186.
 
-It seems only 19 sensor drivers in total implement a .subscribe_event
-function... let's say there's room for improvements :)
+And it also states, in the documentation of y_addr_start, that legal
+values are [0, 2463]. Who do we trust ? :-) [0, 2463] sounds like a copy
+& paste mistake to me. Another data point is from the developer guide,
+which states on the first page that the maximum values for x_addr_start
+and y_addr_start are 2603 and 1963 respectively. 2603 matches the
+documentation of x_addr_max.
 
-> Thanks
->   Dave
->
-> > > This driver exposes controls, but didn't reflect that it
-> > > could generate events. Correct this, and add the default
-> > > event handler functions.
-> > >
-> > > Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> > > ---
-> > >  drivers/media/i2c/ov9282.c | 10 +++++++++-
-> > >  1 file changed, 9 insertions(+), 1 deletion(-)
-> > >
-> > > diff --git a/drivers/media/i2c/ov9282.c b/drivers/media/i2c/ov9282.c
-> > > index bc429455421e..416c9656e3ac 100644
-> > > --- a/drivers/media/i2c/ov9282.c
-> > > +++ b/drivers/media/i2c/ov9282.c
-> > > @@ -14,6 +14,7 @@
-> > >  #include <linux/regulator/consumer.h>
-> > >
-> > >  #include <media/v4l2-ctrls.h>
-> > > +#include <media/v4l2-event.h>
-> > >  #include <media/v4l2-fwnode.h>
-> > >  #include <media/v4l2-subdev.h>
-> > >
-> > > @@ -1189,6 +1190,11 @@ static int ov9282_parse_hw_config(struct ov9282 *ov9282)
-> > >  }
-> > >
-> > >  /* V4l2 subdevice ops */
-> > > +static const struct v4l2_subdev_core_ops ov9282_core_ops = {
-> > > +     .subscribe_event = v4l2_ctrl_subdev_subscribe_event,
-> > > +     .unsubscribe_event = v4l2_event_subdev_unsubscribe,
-> > > +};
-> > > +
-> > >  static const struct v4l2_subdev_video_ops ov9282_video_ops = {
-> > >       .s_stream = ov9282_set_stream,
-> > >  };
-> > > @@ -1203,6 +1209,7 @@ static const struct v4l2_subdev_pad_ops ov9282_pad_ops = {
-> > >  };
-> > >
-> > >  static const struct v4l2_subdev_ops ov9282_subdev_ops = {
-> > > +     .core = &ov9282_core_ops,
-> > >       .video = &ov9282_video_ops,
-> > >       .pad = &ov9282_pad_ops,
-> > >  };
-> > > @@ -1419,7 +1426,8 @@ static int ov9282_probe(struct i2c_client *client)
-> > >       }
-> > >
-> > >       /* Initialize subdev */
-> > > -     ov9282->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
-> > > +     ov9282->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE |
-> > > +                         V4L2_SUBDEV_FL_HAS_EVENTS;
-> > >       ov9282->sd.entity.function = MEDIA_ENT_F_CAM_SENSOR;
-> > >
-> > >       /* Initialize source pad */
-> > > --
-> > > 2.34.1
-> > >
+It would be useful to dump the limits registers (0x1000 - 0x1300).
+
+> Otherwise this looks reasonable.
+> 
+> > +
+> >  #define AR0521_WIDTH_MIN              8u
+> > -#define AR0521_WIDTH_MAX           2608u
+> > +#define AR0521_WIDTH_MAX           2592u
+> >  #define AR0521_HEIGHT_MIN             8u
+> > -#define AR0521_HEIGHT_MAX          1958u
+> > +#define AR0521_HEIGHT_MAX          1944u
+> >
+> >  #define AR0521_WIDTH_BLANKING_MIN     572u
+> >  #define AR0521_HEIGHT_BLANKING_MIN     38u /* must be even */
+> > @@ -208,13 +215,17 @@ static int ar0521_read_reg(struct ar0521_dev *sensor, u16 reg, u16 *val)
+> >
+> >  static int ar0521_set_geometry(struct ar0521_dev *sensor)
+> >  {
+> > +       /* Center the image in the visible ouput window. */
+> > +       u16 x = clamp((AR0521_WIDTH_MAX - sensor->fmt.width) / 2,
+> > +                      AR0521_MIN_X_ADDR_START, AR0521_MAX_X_ADDR_END);
+> > +       u16 y = clamp(((AR0521_HEIGHT_MAX - sensor->fmt.height) / 2) & ~1,
+> > +                      AR0521_MIN_Y_ADDR_START, AR0521_MAX_Y_ADDR_END);
+> > +
+> >         /* All dimensions are unsigned 12-bit integers */
+> > -       u16 x = (AR0521_WIDTH_MAX - sensor->fmt.width) / 2;
+> > -       u16 y = ((AR0521_HEIGHT_MAX - sensor->fmt.height) / 2) & ~1;
+> >         __be16 regs[] = {
+> >                 be(AR0521_REG_FRAME_LENGTH_LINES),
+> > -               be(sensor->total_height),
+> > -               be(sensor->total_width),
+> > +               be(sensor->fmt.height + sensor->ctrls.vblank->val),
+> > +               be(sensor->fmt.width + sensor->ctrls.hblank->val),
+> >                 be(x),
+> >                 be(y),
+> >                 be(x + sensor->fmt.width - 1),
+
+-- 
+Regards,
+
+Laurent Pinchart
