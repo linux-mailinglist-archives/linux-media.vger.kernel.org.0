@@ -2,226 +2,177 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0B0E45F7983
-	for <lists+linux-media@lfdr.de>; Fri,  7 Oct 2022 16:08:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C10665F799D
+	for <lists+linux-media@lfdr.de>; Fri,  7 Oct 2022 16:20:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229776AbiJGOIX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 7 Oct 2022 10:08:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34442 "EHLO
+        id S229644AbiJGOUo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 7 Oct 2022 10:20:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55760 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229445AbiJGOIU (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 7 Oct 2022 10:08:20 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 74FBC120EE1;
-        Fri,  7 Oct 2022 07:08:19 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id E2A6961D16;
-        Fri,  7 Oct 2022 14:08:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 070E7C433C1;
-        Fri,  7 Oct 2022 14:08:11 +0000 (UTC)
-Authentication-Results: smtp.kernel.org;
-        dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com header.b="nfYgePI9"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105;
-        t=1665151688;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=GwMExxyHWRhjupCjy80ATuiTjwid+3186g/nbW9UcWo=;
-        b=nfYgePI9KM8BlGnmbR3ouUoTgbqX0bmg+MHxz9qox2mDg1Ao4QNQA34F1ojE6QWVH7lnMZ
-        JCnOmfX2/22xviCjt9MflZdzSKJ6jqjmdSwH6RCVEhuoe4krJ9q8+B6hn4YxZ0DzwoUloS
-        EW51bMUr/eMjeREL5G2BmpFXN0LLrR0=
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 7db71c1d (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
-        Fri, 7 Oct 2022 14:08:08 +0000 (UTC)
-Date:   Fri, 7 Oct 2022 08:07:58 -0600
-From:   "Jason A. Donenfeld" <Jason@zx2c4.com>
-To:     Christophe Leroy <christophe.leroy@csgroup.eu>
-Cc:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "patches@lists.linux.dev" <patches@lists.linux.dev>,
-        Andreas Noever <andreas.noever@gmail.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Christoph =?utf-8?Q?B=C3=B6hmwalder?= 
-        <christoph.boehmwalder@linbit.com>, Christoph Hellwig <hch@lst.de>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Dave Airlie <airlied@redhat.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Florian Westphal <fw@strlen.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "H . Peter Anvin" <hpa@zytor.com>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        Helge Deller <deller@gmx.de>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        Huacai Chen <chenhuacai@kernel.org>,
-        Hugh Dickins <hughd@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        "James E . J . Bottomley" <jejb@linux.ibm.com>,
-        Jan Kara <jack@suse.com>, Jason Gunthorpe <jgg@ziepe.ca>,
-        Jens Axboe <axboe@kernel.dk>,
-        Johannes Berg <johannes@sipsolutions.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Jozsef Kadlecsik <kadlec@netfilter.org>,
-        KP Singh <kpsingh@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Marco Elver <elver@google.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Pablo Neira Ayuso <pablo@netfilter.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Richard Weinberger <richard@nod.at>,
-        Russell King <linux@armlinux.org.uk>,
-        Theodore Ts'o <tytso@mit.edu>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Thomas Graf <tgraf@suug.ch>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        WANG Xuerui <kernel@xen0n.name>, Will Deacon <will@kernel.org>,
-        Yury Norov <yury.norov@gmail.com>,
-        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-        "kasan-dev@googlegroups.com" <kasan-dev@googlegroups.com>,
-        "kernel-janitors@vger.kernel.org" <kernel-janitors@vger.kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
-        "linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "linux-mips@vger.kernel.org" <linux-mips@vger.kernel.org>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
-        "linux-mtd@lists.infradead.org" <linux-mtd@lists.infradead.org>,
-        "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
-        "linux-parisc@vger.kernel.org" <linux-parisc@vger.kernel.org>,
-        "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
-        "linux-s390@vger.kernel.org" <linux-s390@vger.kernel.org>,
-        "linux-um@lists.infradead.org" <linux-um@lists.infradead.org>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        "linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>,
-        "linuxppc-dev@lists.ozlabs.org" <linuxppc-dev@lists.ozlabs.org>,
-        "loongarch@lists.linux.dev" <loongarch@lists.linux.dev>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "sparclinux@vger.kernel.org" <sparclinux@vger.kernel.org>,
-        "x86@kernel.org" <x86@kernel.org>,
-        Toke =?utf-8?Q?H=C3=B8iland-J=C3=B8rgensen?= <toke@toke.dk>,
-        Chuck Lever <chuck.lever@oracle.com>, Jan Kara <jack@suse.cz>
-Subject: Re: [PATCH v3 3/5] treewide: use get_random_u32() when possible
-Message-ID: <Y0Ayvov/KQmrIwTS@zx2c4.com>
-References: <20221006165346.73159-1-Jason@zx2c4.com>
- <20221006165346.73159-4-Jason@zx2c4.com>
- <848ed24c-13ef-6c38-fd13-639b33809194@csgroup.eu>
- <CAHmME9raQ4E00r9r8NyWJ17iSXE_KniTG0onCNAfMmfcGar1eg@mail.gmail.com>
- <f10fcfbf-2da6-cf2d-6027-fbf8b52803e9@csgroup.eu>
- <6396875c-146a-acf5-dd9e-7f93ba1b4bc3@csgroup.eu>
- <CAHmME9pE4saqnwxhsAwt-xegYGjsavPOGnHCbZhUXD7kaJ+GAA@mail.gmail.com>
- <501b0fc3-6c67-657f-781e-25ee0283bc2e@csgroup.eu>
+        with ESMTP id S229539AbiJGOUm (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 7 Oct 2022 10:20:42 -0400
+Received: from mail-il1-f197.google.com (mail-il1-f197.google.com [209.85.166.197])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E4DD1B5147
+        for <linux-media@vger.kernel.org>; Fri,  7 Oct 2022 07:20:39 -0700 (PDT)
+Received: by mail-il1-f197.google.com with SMTP id f15-20020a056e020b4f00b002fa34db70f0so3908155ilu.2
+        for <linux-media@vger.kernel.org>; Fri, 07 Oct 2022 07:20:39 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=rn00CJS7mE+YZ5wyQ2Dplu+9tG4WBX9Dh0zTaYBAe8Q=;
+        b=4aguMCNwx5ZPqq2mFOYkRf/o9Bf9kXaOJ4UCpILGK/akhBVzd4oA5p2NJ8RYeylW4t
+         ltrKhzsFC9dTlIziL/HQO2cQt0ly3TDeESjBlD5+k8vOjtYl1d5g0Nw9XXIzKYJ53qAk
+         wrcUw3A41IBEMA7S6JU6KYhZ/MB3KNF6FpAIsjKI6CM+4skPb3Wu+gR53ZI5eKbrZ1lo
+         ZA2Za5C5NHJlNQJLmNipgRzlgSS+0M3oQ1mLDRm054fT6e/KOCeK4JtW9v3OM6lWGoba
+         jV3vEW4Cif3n+XpZY6Rp4iu1yryxqDvF6STWJlTMxBxLPYEdpAq0MbtuGbr+3KUmDLXI
+         RpsQ==
+X-Gm-Message-State: ACrzQf0GgYkTJtzxwbkcPA2vRoRt3KjChK4dm2/uer8amY7P65OHBxbl
+        M7k11KTFtJMUf3oIcituYTTzdaaC36tsVtRFal8fby8qX1OC
+X-Google-Smtp-Source: AMsMyM5MkJE1uAZFD5OaaIaujO18BwlaJ0OC20U1YkpGNwbdolpYzQpHYP3S2aNHfm8XC2eWtk5u4uKQJJYzwYiB+olPluIoDwQf
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <501b0fc3-6c67-657f-781e-25ee0283bc2e@csgroup.eu>
-X-Spam-Status: No, score=-6.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Received: by 2002:a05:6638:58f:b0:363:4772:d13d with SMTP id
+ a15-20020a056638058f00b003634772d13dmr2450082jar.25.1665152439119; Fri, 07
+ Oct 2022 07:20:39 -0700 (PDT)
+Date:   Fri, 07 Oct 2022 07:20:39 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000a178f505ea72837a@google.com>
+Subject: [syzbot] KASAN: use-after-free Read in dvb_devnode
+From:   syzbot <syzbot+4b677cfa21f5bd6295cd@syzkaller.appspotmail.com>
+To:     cai.huoqing@linux.dev, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-usb@vger.kernel.org,
+        mchehab@kernel.org, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,FROM_LOCAL_HEX,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Oct 07, 2022 at 04:57:24AM +0000, Christophe Leroy wrote:
-> 
-> 
-> Le 07/10/2022 à 01:36, Jason A. Donenfeld a écrit :
-> > On 10/6/22, Christophe Leroy <christophe.leroy@csgroup.eu> wrote:
-> >>
-> >>
-> >> Le 06/10/2022 à 19:31, Christophe Leroy a écrit :
-> >>>
-> >>>
-> >>> Le 06/10/2022 à 19:24, Jason A. Donenfeld a écrit :
-> >>>> Hi Christophe,
-> >>>>
-> >>>> On Thu, Oct 6, 2022 at 11:21 AM Christophe Leroy
-> >>>> <christophe.leroy@csgroup.eu> wrote:
-> >>>>> Le 06/10/2022 à 18:53, Jason A. Donenfeld a écrit :
-> >>>>>> The prandom_u32() function has been a deprecated inline wrapper around
-> >>>>>> get_random_u32() for several releases now, and compiles down to the
-> >>>>>> exact same code. Replace the deprecated wrapper with a direct call to
-> >>>>>> the real function. The same also applies to get_random_int(), which is
-> >>>>>> just a wrapper around get_random_u32().
-> >>>>>>
-> >>>>>> Reviewed-by: Kees Cook <keescook@chromium.org>
-> >>>>>> Acked-by: Toke Høiland-Jørgensen <toke@toke.dk> # for sch_cake
-> >>>>>> Acked-by: Chuck Lever <chuck.lever@oracle.com> # for nfsd
-> >>>>>> Reviewed-by: Jan Kara <jack@suse.cz> # for ext4
-> >>>>>> Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
-> >>>>>> ---
-> >>>>>
-> >>>>>> diff --git a/arch/powerpc/kernel/process.c
-> >>>>>> b/arch/powerpc/kernel/process.c
-> >>>>>> index 0fbda89cd1bb..9c4c15afbbe8 100644
-> >>>>>> --- a/arch/powerpc/kernel/process.c
-> >>>>>> +++ b/arch/powerpc/kernel/process.c
-> >>>>>> @@ -2308,6 +2308,6 @@ void notrace __ppc64_runlatch_off(void)
-> >>>>>>     unsigned long arch_align_stack(unsigned long sp)
-> >>>>>>     {
-> >>>>>>         if (!(current->personality & ADDR_NO_RANDOMIZE) &&
-> >>>>>> randomize_va_space)
-> >>>>>> -             sp -= get_random_int() & ~PAGE_MASK;
-> >>>>>> +             sp -= get_random_u32() & ~PAGE_MASK;
-> >>>>>>         return sp & ~0xf;
-> >>>>>
-> >>>>> Isn't that a candidate for prandom_u32_max() ?
-> >>>>>
-> >>>>> Note that sp is deemed to be 16 bytes aligned at all time.
-> >>>>
-> >>>> Yes, probably. It seemed non-trivial to think about, so I didn't. But
-> >>>> let's see here... maybe it's not too bad:
-> >>>>
-> >>>> If PAGE_MASK is always ~(PAGE_SIZE-1), then ~PAGE_MASK is
-> >>>> (PAGE_SIZE-1), so prandom_u32_max(PAGE_SIZE) should yield the same
-> >>>> thing? Is that accurate? And holds across platforms (this comes up a
-> >>>> few places)? If so, I'll do that for a v4.
-> >>>>
-> >>>
-> >>> On powerpc it is always (from arch/powerpc/include/asm/page.h) :
-> >>>
-> >>> /*
-> >>>    * Subtle: (1 << PAGE_SHIFT) is an int, not an unsigned long. So if we
-> >>>    * assign PAGE_MASK to a larger type it gets extended the way we want
-> >>>    * (i.e. with 1s in the high bits)
-> >>>    */
-> >>> #define PAGE_MASK      (~((1 << PAGE_SHIFT) - 1))
-> >>>
-> >>> #define PAGE_SIZE        (1UL << PAGE_SHIFT)
-> >>>
-> >>>
-> >>> So it would work I guess.
-> >>
-> >> But taking into account that sp must remain 16 bytes aligned, would it
-> >> be better to do something like ?
-> >>
-> >> 	sp -= prandom_u32_max(PAGE_SIZE >> 4) << 4;
-> >>
-> >> 	return sp;
-> > 
-> > Does this assume that sp is already aligned at the beginning of the
-> > function? I'd assume from the function's name that this isn't the
-> > case?
-> 
-> Ah you are right, I overlooked it.
+Hello,
 
-So I think to stay on the safe side, I'm going to go with
-`prandom_u32_max(PAGE_SIZE)`. Sound good?
+syzbot found the following issue on:
 
-Jason
+HEAD commit:    00988f70a076 Merge tag 'usb-serial-6.0-rc8' of https://git..
+git tree:       https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+console output: https://syzkaller.appspot.com/x/log.txt?x=145efc82880000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=f64cd66daa10a81a
+dashboard link: https://syzkaller.appspot.com/bug?extid=4b677cfa21f5bd6295cd
+compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
+
+Unfortunately, I don't have any reproducer for this issue yet.
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+4b677cfa21f5bd6295cd@syzkaller.appspotmail.com
+
+BUG: KASAN: use-after-free in dvb_devnode+0x122/0x1b0 drivers/media/dvb-core/dvbdev.c:1025
+Read of size 4 at addr ffff888113a1d860 by task udevd/1179
+
+CPU: 0 PID: 1179 Comm: udevd Not tainted 6.0.0-rc7-syzkaller-00946-g00988f70a076 #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 09/22/2022
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:88 [inline]
+ dump_stack_lvl+0xcd/0x134 lib/dump_stack.c:106
+ print_address_description mm/kasan/report.c:317 [inline]
+ print_report.cold+0x2ba/0x719 mm/kasan/report.c:433
+ kasan_report+0xb1/0x1e0 mm/kasan/report.c:495
+ dvb_devnode+0x122/0x1b0 drivers/media/dvb-core/dvbdev.c:1025
+ device_get_devnode+0x154/0x2b0 drivers/base/core.c:3796
+ dev_uevent+0x40d/0x770 drivers/base/core.c:2404
+ uevent_show+0x1b8/0x380 drivers/base/core.c:2492
+ dev_attr_show+0x4b/0x90 drivers/base/core.c:2195
+ sysfs_kf_seq_show+0x219/0x3d0 fs/sysfs/file.c:59
+ kernfs_seq_show+0x169/0x1e0 fs/kernfs/file.c:217
+ seq_read_iter+0x4f5/0x1280 fs/seq_file.c:230
+ kernfs_fop_read_iter+0x523/0x710 fs/kernfs/file.c:299
+ call_read_iter include/linux/fs.h:2181 [inline]
+ new_sync_read fs/read_write.c:389 [inline]
+ vfs_read+0x67d/0x930 fs/read_write.c:470
+ ksys_read+0x127/0x250 fs/read_write.c:607
+ do_syscall_x64 arch/x86/entry/common.c:50 [inline]
+ do_syscall_64+0x35/0xb0 arch/x86/entry/common.c:80
+ entry_SYSCALL_64_after_hwframe+0x63/0xcd
+RIP: 0033:0x7f28d98228fe
+Code: c0 e9 e6 fe ff ff 50 48 8d 3d 0e c7 09 00 e8 c9 cf 01 00 66 0f 1f 84 00 00 00 00 00 64 8b 04 25 18 00 00 00 85 c0 75 14 0f 05 <48> 3d 00 f0 ff ff 77 5a c3 66 0f 1f 84 00 00 00 00 00 48 83 ec 28
+RSP: 002b:00007ffcef6cb338 EFLAGS: 00000246 ORIG_RAX: 0000000000000000
+RAX: ffffffffffffffda RBX: 0000559cdeb69680 RCX: 00007f28d98228fe
+RDX: 0000000000001000 RSI: 0000559cdeb746f0 RDI: 000000000000000c
+RBP: 00007f28d98ef380 R08: 000000000000000c R09: 00007f28d98f2a60
+R10: 0000000000000008 R11: 0000000000000246 R12: 0000559cdeb69680
+R13: 0000000000000d68 R14: 00007f28d98ee780 R15: 0000000000000d68
+ </TASK>
+
+The buggy address belongs to the physical page:
+page:ffffea00044e8740 refcount:0 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x113a1d
+flags: 0x200000000000000(node=0|zone=2)
+raw: 0200000000000000 0000000000000000 ffffffff00000201 0000000000000000
+raw: 0000000000000000 0000000000110000 00000000ffffffff 0000000000000000
+page dumped because: kasan: bad access detected
+page_owner tracks the page as freed
+page last allocated via order 2, migratetype Unmovable, gfp_mask 0x140dc0(GFP_USER|__GFP_COMP|__GFP_ZERO), pid 28063, tgid 28063 (kworker/0:5), ts 3378237051573, free_ts 3378714082458
+ prep_new_page mm/page_alloc.c:2532 [inline]
+ get_page_from_freelist+0x11cc/0x2a20 mm/page_alloc.c:4283
+ __alloc_pages+0x1c7/0x510 mm/page_alloc.c:5515
+ alloc_pages+0x1a6/0x270 mm/mempolicy.c:2270
+ kmalloc_order+0x34/0xf0 mm/slab_common.c:933
+ kmalloc_order_trace+0x13/0x120 mm/slab_common.c:949
+ kmalloc_large include/linux/slab.h:529 [inline]
+ kmalloc include/linux/slab.h:593 [inline]
+ kzalloc include/linux/slab.h:733 [inline]
+ dvb_usb_device_init+0x113/0x640 drivers/media/usb/dvb-usb/dvb-usb-init.c:279
+ usb_probe_interface+0x30b/0x7f0 drivers/usb/core/driver.c:396
+ call_driver_probe drivers/base/dd.c:560 [inline]
+ really_probe+0x249/0xb90 drivers/base/dd.c:639
+ __driver_probe_device+0x1df/0x4d0 drivers/base/dd.c:778
+ driver_probe_device+0x4c/0x1a0 drivers/base/dd.c:808
+ __device_attach_driver+0x1d0/0x2e0 drivers/base/dd.c:936
+ bus_for_each_drv+0x15f/0x1e0 drivers/base/bus.c:427
+ __device_attach+0x1e4/0x530 drivers/base/dd.c:1008
+ bus_probe_device+0x1e4/0x290 drivers/base/bus.c:487
+ device_add+0xbd5/0x1e90 drivers/base/core.c:3517
+ usb_set_configuration+0x1019/0x1900 drivers/usb/core/message.c:2170
+page last free stack trace:
+ reset_page_owner include/linux/page_owner.h:24 [inline]
+ free_pages_prepare mm/page_alloc.c:1449 [inline]
+ free_pcp_prepare+0x5d2/0xb80 mm/page_alloc.c:1499
+ free_unref_page_prepare mm/page_alloc.c:3380 [inline]
+ free_unref_page+0x19/0x420 mm/page_alloc.c:3476
+ dvb_usb_device_init+0x50e/0x640 drivers/media/usb/dvb-usb/dvb-usb-init.c:322
+ usb_probe_interface+0x30b/0x7f0 drivers/usb/core/driver.c:396
+ call_driver_probe drivers/base/dd.c:560 [inline]
+ really_probe+0x249/0xb90 drivers/base/dd.c:639
+ __driver_probe_device+0x1df/0x4d0 drivers/base/dd.c:778
+ driver_probe_device+0x4c/0x1a0 drivers/base/dd.c:808
+ __device_attach_driver+0x1d0/0x2e0 drivers/base/dd.c:936
+ bus_for_each_drv+0x15f/0x1e0 drivers/base/bus.c:427
+ __device_attach+0x1e4/0x530 drivers/base/dd.c:1008
+ bus_probe_device+0x1e4/0x290 drivers/base/bus.c:487
+ device_add+0xbd5/0x1e90 drivers/base/core.c:3517
+ usb_set_configuration+0x1019/0x1900 drivers/usb/core/message.c:2170
+ usb_generic_driver_probe+0xba/0x100 drivers/usb/core/generic.c:238
+ usb_probe_device+0xd4/0x2c0 drivers/usb/core/driver.c:293
+ call_driver_probe drivers/base/dd.c:560 [inline]
+ really_probe+0x249/0xb90 drivers/base/dd.c:639
+
+Memory state around the buggy address:
+ ffff888113a1d700: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff
+ ffff888113a1d780: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff
+>ffff888113a1d800: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff
+                                                       ^
+ ffff888113a1d880: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff
+ ffff888113a1d900: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff
+==================================================================
+
+
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
