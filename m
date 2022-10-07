@@ -2,61 +2,63 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DF79A5F76CC
-	for <lists+linux-media@lfdr.de>; Fri,  7 Oct 2022 12:22:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F24675F76E1
+	for <lists+linux-media@lfdr.de>; Fri,  7 Oct 2022 12:32:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229665AbiJGKWr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 7 Oct 2022 06:22:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43076 "EHLO
+        id S229543AbiJGKcs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 7 Oct 2022 06:32:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57968 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229754AbiJGKWo (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 7 Oct 2022 06:22:44 -0400
-Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com [IPv6:2a00:1450:4864:20::62a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2AED2CA8B8
-        for <linux-media@vger.kernel.org>; Fri,  7 Oct 2022 03:22:42 -0700 (PDT)
-Received: by mail-ej1-x62a.google.com with SMTP id bj12so10232699ejb.13
-        for <linux-media@vger.kernel.org>; Fri, 07 Oct 2022 03:22:42 -0700 (PDT)
+        with ESMTP id S229461AbiJGKcr (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 7 Oct 2022 06:32:47 -0400
+Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com [IPv6:2a00:1450:4864:20::635])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 015273FD55
+        for <linux-media@vger.kernel.org>; Fri,  7 Oct 2022 03:32:45 -0700 (PDT)
+Received: by mail-ej1-x635.google.com with SMTP id ot12so10424329ejb.1
+        for <linux-media@vger.kernel.org>; Fri, 07 Oct 2022 03:32:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=raspberrypi.com; s=google;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=BP33Ef8DLwzht1Pp9O/Mz/wS+8ZXznCvNckEasYKbMY=;
-        b=UsPCfyieAXA6OnYODxhig4ofA9UhFwasNJcJCmt0RY5djnezPsNhTmAhMKSQnQGsnR
-         glLJhbDA+O7TAlwFh68Q2tut1sKgWD9zdRBCyJya3bzheaXwDdkK09Nhu7HNNaUkaGUW
-         0cUdeYsZeWJYX+T+tclCdN+18VNQVCJRoB7S81V4G2oQ/TltxrLDeERD9qUdDYvz63LV
-         JNl0vkVUwTrWcPmdwLUkuOdEHq4PnM3x3tdzi4peg4YB/BuN4wMG9Z2gdXkNWXNfj1Zi
-         lAhGTOTppY/pym00F7wmsYv/NqXFiFgfvkmu0u40Tv64uJ1IJFqCZ/d9oVf8xeV0fROs
-         //lg==
+        bh=RnAH/Gm/1GUDTRLqU0itcvxGpxgtT2ENwkPZZ9gOSyk=;
+        b=mpCMY24Xq7L60Py1/ZOQG28gvE3xJXzfWPyN0LQCsMUOoxU4i/KUjAqu6fdXacDGdA
+         lbntAqpbHmJ9SfWLk6o/CO5Vzz6jyBtJjomZJ0O7HoxkUsnN/aj7cJu4D/qIKJBNSmX3
+         Xj20c6zoAysJXbw6V8Y6VU0tx5z62yBLEUBVGESfkhHqW8Mgu/ts4B3l0yrgApU08/3t
+         VlTGR+aH1lcIRJ0HI8GfWjvHhtnjqepYsm7teXNNyZvAa7QGuLLnewvcbploo675B/bj
+         zSCJJrrTrNJaq8r4EqDnZlhx0/zcJV0qS9eozuHA1Eu2X47WVyzjYGypfJhxstsxSn+8
+         WZWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=BP33Ef8DLwzht1Pp9O/Mz/wS+8ZXznCvNckEasYKbMY=;
-        b=tZM0GYJ0jPpA89CwItLgG7WQJlPP0PHtl9TilcbbJjpcX98dpnZg3KRT7cgM6C+Jfs
-         DQl1YxSoXlaybMU8q/Q3Y++U0yvIbeQA5EEkBva6i1+2RwEJxU2MUJDGeXj/aQW/8WvN
-         3oVfr2+1ee2zbw+th5I+q728gxTKp+apXomZK6xsLT3AZ2SY4hXR5qgkJ/0AOAP/NX3I
-         pDCjmLN1XcM1UskHTN5D3A2Fuzrd5PrlE67RZLt6/62LctTyE57PH6hQg3n/SOfwP9Nz
-         4lV8UnV2leVspIVkEy3wWBjq3QsgycMEqQcfPMAGLnMJtCFDaAZo7JOEm9L+TYdKe0nM
-         YjWg==
-X-Gm-Message-State: ACrzQf0+kW6G9hWDYUb4Vz5T+5iYFrelYmMNV5OFa1OqS6jMJwXPUdAE
-        s2cj3/bQX2LyoEmo5/P+WiXiRCSgMQDEkD2wppI7uA==
-X-Google-Smtp-Source: AMsMyM7LfSkjDp7yAtiK270mhGemnZSQS44b+XX0x5ZYZOM2ihZ+ZifLoAFOgs7jjg19CQx1SxSSwvmn4DWrtSlWQeI=
-X-Received: by 2002:a17:907:8b0f:b0:783:6169:5bc5 with SMTP id
- sz15-20020a1709078b0f00b0078361695bc5mr3650186ejc.200.1665138160728; Fri, 07
- Oct 2022 03:22:40 -0700 (PDT)
+        bh=RnAH/Gm/1GUDTRLqU0itcvxGpxgtT2ENwkPZZ9gOSyk=;
+        b=Ke//y336c7nqUNrHs/l7fR0R6yEnPDSYxECG9ayqOiTckzebijkwnTYeyQB+8MtUOn
+         CnBwdz4CxoiKC83/2iD+j2d+ycW/gXetXcz59QHsavHLrU2Z+2Gyo2rWrnZST4TFOL7M
+         m3ABJyu+Ba1u/8E6WaB/kaonpbYtEjyNL7tVwDC8noSvpCulH/D1wlnGlrglXHICGall
+         ZFiXJ+AsQB7egbKNqPAcuYfIwsCV9wXErkuPhMtboB9zkdjyHcm1wdZ+zGyCaJYOTE1x
+         tB+sG0l/HSTOzbEX4QUP3OQrzYQyuGtGzbtN0ashKEQahLtDuSHoyz1xf2Joiy+sYR9S
+         d0zQ==
+X-Gm-Message-State: ACrzQf3r3v1u4kfok2t+ZZooaTw6uASBBtNQsX3e4R7YVz7uqAYYg0Yy
+        1ug5X18FRrrzLu0zEDHnx4KreGdtgv8NCFtrRplJDzwlHFk=
+X-Google-Smtp-Source: AMsMyM45QSAhKuIBRhddYAGRP1wBb120Fy2sR2eWfRY7k+4cIsBjVZeICUnbmOHpLqQcdDRvqG0WfZZtGQa4rhxLy78=
+X-Received: by 2002:a17:907:2703:b0:78d:2f6e:3add with SMTP id
+ w3-20020a170907270300b0078d2f6e3addmr3524971ejk.154.1665138764584; Fri, 07
+ Oct 2022 03:32:44 -0700 (PDT)
 MIME-Version: 1.0
-References: <20221005152809.3785786-1-dave.stevenson@raspberrypi.com>
- <20221005152809.3785786-17-dave.stevenson@raspberrypi.com> <20221006095956.dy5x3ie2gf635b3w@uno.localdomain>
-In-Reply-To: <20221006095956.dy5x3ie2gf635b3w@uno.localdomain>
+References: <20221005190613.394277-1-jacopo@jmondi.org> <20221005190613.394277-2-jacopo@jmondi.org>
+ <Yz8DaZvFAOMKPlCQ@pendragon.ideasonboard.com> <20221007072959.n52j2bzrn6xstjnd@uno.localdomain>
+ <Yz/fMH5iEWtKDWNF@pendragon.ideasonboard.com>
+In-Reply-To: <Yz/fMH5iEWtKDWNF@pendragon.ideasonboard.com>
 From:   Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date:   Fri, 7 Oct 2022 11:22:23 +0100
-Message-ID: <CAPY8ntCg0nM84qsauexXHSAdCKc0K9fco6wDjZ-KzfOdqMyrFQ@mail.gmail.com>
-Subject: Re: [PATCH 16/16] media: i2c: ov9282: Support event handlers
-To:     Jacopo Mondi <jacopo@jmondi.org>
-Cc:     paul.j.murphy@intel.com, daniele.alessandrelli@intel.com,
-        linux-media@vger.kernel.org,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Date:   Fri, 7 Oct 2022 11:32:27 +0100
+Message-ID: <CAPY8ntDa11Psmpg8XbnZqZCWXO1c4WxEkXR5e4sAG95X-Tmvww@mail.gmail.com>
+Subject: Re: [PATCH 01/10] media: ar0521: Implement enum_frame_sizes
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Jacopo Mondi <jacopo@jmondi.org>,
+        =?UTF-8?Q?Krzysztof_Ha=C5=82asa?= <khalasa@piap.pl>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@iki.fi>, linux-media@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
@@ -67,95 +69,95 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jacopo
+Hi Laurent and Jacopo.
 
-+ Hans for comment on compliance / controls framework
-
-On Thu, 6 Oct 2022 at 10:59, Jacopo Mondi <jacopo@jmondi.org> wrote:
+On Fri, 7 Oct 2022 at 09:11, Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
 >
-> Hi Dave
+> Hi Jacopo,
 >
-> On Wed, Oct 05, 2022 at 04:28:09PM +0100, Dave Stevenson wrote:
-> > As noted in the headers for V4L2_SUBDEV_FL_HAS_EVENTS,
-> > "controls can send events, thus drivers exposing controls
-> > should set this flag".
+> On Fri, Oct 07, 2022 at 09:29:59AM +0200, Jacopo Mondi wrote:
+> > On Thu, Oct 06, 2022 at 07:33:45PM +0300, Laurent Pinchart wrote:
+> > > On Wed, Oct 05, 2022 at 09:06:04PM +0200, Jacopo Mondi wrote:
+> > > > Implement the enum_frame_size pad operation.
+> > > >
+> > > > The sensor supports a continuous size range of resolutions.
+> > > >
+> > > > Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
+> > > > ---
+> > > >  drivers/media/i2c/ar0521.c | 19 +++++++++++++++++++
+> > > >  1 file changed, 19 insertions(+)
+> > > >
+> > > > diff --git a/drivers/media/i2c/ar0521.c b/drivers/media/i2c/ar0521.c
+> > > > index c7bdfc69b9be..89f3c01f18ce 100644
+> > > > --- a/drivers/media/i2c/ar0521.c
+> > > > +++ b/drivers/media/i2c/ar0521.c
+> > > > @@ -798,6 +798,24 @@ static int ar0521_enum_mbus_code(struct v4l2_subdev *sd,
+> > > >   return 0;
+> > > >  }
+> > > >
+> > > > +static int ar0521_enum_frame_size(struct v4l2_subdev *sd,
+> > > > +                           struct v4l2_subdev_state *sd_state,
+> > > > +                           struct v4l2_subdev_frame_size_enum *fse)
+> > > > +{
+> > > > + if (fse->index)
+> > > > +         return -EINVAL;
+> > > > +
+> > > > + if (fse->code != MEDIA_BUS_FMT_SGRBG8_1X8)
+> > > > +         return -EINVAL;
+> > > > +
+> > > > + fse->min_width = AR0521_WIDTH_MIN;
+> > > > + fse->max_width = AR0521_WIDTH_MAX;
+> > > > + fse->min_height = AR0521_HEIGHT_MIN;
+> > > > + fse->max_height = AR0521_HEIGHT_MAX;
+> > >
+> > > This matches the driver implementation of .set_fmt(), but that's because
+> > > the driver is *really* wrong :-( It uses the format to configure the
+> > > crop rectangle, which is not right. This needs to be fixed.
 > >
+> > As far as I understand it, the driver supports smaller resolutions by
+> > cropping only, while the sensor would be actually capable of binning.
+> >
+> > As the driver currently only crops, the analog rectangle always matches the
+> > output size hence adding s_selection(CROP) just to replicate what
+> > s_ftm() does feels a little dumb ?
+> >
+> > I concur that ideally the driver should be capable of producing
+> > smaller resolution by binning, and in that case being able to
+> > configure the analog crop rectangle would be useful. But as long as it
+> > doesn't...
 >
-> I was expecting this to only apply to drivers that actually generate
-> events...
+> We have enough issues with sensor drivers implementing binning or
+> skipping in different ways to not make it worse by implementing cropping
+> in a creative way as wall :-)
 >
-> Not sure I can give a tag here as my understanding of this part is
-> limited, let's wait for other opinions :)
+> The first step is to fix the driver to implement the selection API. Then
+> binning and skipping can be implemented on top, if anyone becomes
+> interested in them.
 
-I had to rack my memory on this one.
+The datasheet and register reference have a fair number of references
+to SMIA standards. I wonder if the CCS driver can take over from this
+driver entirely....
 
-It fixes a v4l2-compliance failure:
-fail: v4l2-test-controls.cpp(835): subscribe event for control 'User
-Controls' failed
-test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: FAIL
-(v4l-utils built at ToT from today, so fd544473800 "support INTEGER
-and INTEGER64 control arrays")
-
-So either it is required by all drivers that expose controls, or it's
-an issue in v4l2-compliance.
-I believe it's the former as all controls can create a V4L2_EVENT_CTRL
-event should the value or range change (very common for things like
-HBLANK and VBLANK in image sensor drivers).
-
-Thanks
   Dave
 
-> > This driver exposes controls, but didn't reflect that it
-> > could generate events. Correct this, and add the default
-> > event handler functions.
-> >
-> > Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> > ---
-> >  drivers/media/i2c/ov9282.c | 10 +++++++++-
-> >  1 file changed, 9 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/media/i2c/ov9282.c b/drivers/media/i2c/ov9282.c
-> > index bc429455421e..416c9656e3ac 100644
-> > --- a/drivers/media/i2c/ov9282.c
-> > +++ b/drivers/media/i2c/ov9282.c
-> > @@ -14,6 +14,7 @@
-> >  #include <linux/regulator/consumer.h>
-> >
-> >  #include <media/v4l2-ctrls.h>
-> > +#include <media/v4l2-event.h>
-> >  #include <media/v4l2-fwnode.h>
-> >  #include <media/v4l2-subdev.h>
-> >
-> > @@ -1189,6 +1190,11 @@ static int ov9282_parse_hw_config(struct ov9282 *ov9282)
-> >  }
-> >
-> >  /* V4l2 subdevice ops */
-> > +static const struct v4l2_subdev_core_ops ov9282_core_ops = {
-> > +     .subscribe_event = v4l2_ctrl_subdev_subscribe_event,
-> > +     .unsubscribe_event = v4l2_event_subdev_unsubscribe,
-> > +};
-> > +
-> >  static const struct v4l2_subdev_video_ops ov9282_video_ops = {
-> >       .s_stream = ov9282_set_stream,
-> >  };
-> > @@ -1203,6 +1209,7 @@ static const struct v4l2_subdev_pad_ops ov9282_pad_ops = {
-> >  };
-> >
-> >  static const struct v4l2_subdev_ops ov9282_subdev_ops = {
-> > +     .core = &ov9282_core_ops,
-> >       .video = &ov9282_video_ops,
-> >       .pad = &ov9282_pad_ops,
-> >  };
-> > @@ -1419,7 +1426,8 @@ static int ov9282_probe(struct i2c_client *client)
-> >       }
-> >
-> >       /* Initialize subdev */
-> > -     ov9282->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
-> > +     ov9282->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE |
-> > +                         V4L2_SUBDEV_FL_HAS_EVENTS;
-> >       ov9282->sd.entity.function = MEDIA_ENT_F_CAM_SENSOR;
-> >
-> >       /* Initialize source pad */
-> > --
-> > 2.34.1
-> >
+> > > > +
+> > > > + return 0;
+> > > > +}
+> > > > +
+> > > >  static int ar0521_pre_streamon(struct v4l2_subdev *sd, u32 flags)
+> > > >  {
+> > > >   struct ar0521_dev *sensor = to_ar0521_dev(sd);
+> > > > @@ -864,6 +882,7 @@ static const struct v4l2_subdev_video_ops ar0521_video_ops = {
+> > > >
+> > > >  static const struct v4l2_subdev_pad_ops ar0521_pad_ops = {
+> > > >   .enum_mbus_code = ar0521_enum_mbus_code,
+> > > > + .enum_frame_size = ar0521_enum_frame_size,
+> > > >   .get_fmt = ar0521_get_fmt,
+> > > >   .set_fmt = ar0521_set_fmt,
+> > > >  };
+>
+> --
+> Regards,
+>
+> Laurent Pinchart
