@@ -2,246 +2,127 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 429755F761C
-	for <lists+linux-media@lfdr.de>; Fri,  7 Oct 2022 11:22:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 01DAC5F762C
+	for <lists+linux-media@lfdr.de>; Fri,  7 Oct 2022 11:26:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229674AbiJGJWs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 7 Oct 2022 05:22:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50792 "EHLO
+        id S229674AbiJGJ0Q (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 7 Oct 2022 05:26:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59550 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229707AbiJGJWq (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 7 Oct 2022 05:22:46 -0400
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6E77DDED36;
-        Fri,  7 Oct 2022 02:22:36 -0700 (PDT)
-X-UUID: def0848e360a41c698660df597356fec-20221007
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-        h=Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From; bh=NrsOOHJKQckev5SMzUy0VhCEQURlG7/SyAHua25KXPY=;
-        b=R/4P/+7oWI2hZO2wphliEmgVUXfJh9niBAAX/344tSM9n04BK4x9Dz0UpbjiPUPzhAttRIj53mpE+2KIr1ICTvQAsEqyN+k2DyywDj0J2JtiIbB+cU4vFowZOtJSPt4F1waG1TgmHnftjnwrlt0t+/Yy0QBf2TlNEBQw+Qvb9gI=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.11,REQID:5344445b-dd21-474b-960c-1f20d3a55603,IP:0,U
-        RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
-        release,TS:0
-X-CID-META: VersionHash:39a5ff1,CLOUDID:951cd7b8-daef-48a8-8c50-40026d6a74c2,B
-        ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
-        RL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0
-X-UUID: def0848e360a41c698660df597356fec-20221007
-Received: from mtkexhb02.mediatek.inc [(172.21.101.103)] by mailgw02.mediatek.com
-        (envelope-from <moudy.ho@mediatek.com>)
-        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-        with ESMTP id 249068420; Fri, 07 Oct 2022 17:22:32 +0800
-Received: from mtkcas11.mediatek.inc (172.21.101.40) by
- mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3;
- Fri, 7 Oct 2022 17:22:31 +0800
-Received: from mtksdccf07.mediatek.inc (172.21.84.99) by mtkcas11.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Fri, 7 Oct 2022 17:22:31 +0800
-From:   Moudy Ho <moudy.ho@mediatek.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>
-CC:     Chun-Kuang Hu <chunkuang.hu@kernel.org>,
-        <linux-media@vger.kernel.org>,
-        <linux-mediatek@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>,
-        <Project_Global_Chrome_Upstream_Group@mediatek.com>,
-        Moudy Ho <moudy.ho@mediatek.com>
-Subject: [PATCH v1 2/2] media: platform: mtk-mdp3: extend shared memory structure to 4-byte aligned
-Date:   Fri, 7 Oct 2022 17:22:30 +0800
-Message-ID: <20221007092230.11893-3-moudy.ho@mediatek.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20221007092230.11893-1-moudy.ho@mediatek.com>
-References: <20221007092230.11893-1-moudy.ho@mediatek.com>
+        with ESMTP id S229559AbiJGJ0M (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 7 Oct 2022 05:26:12 -0400
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2B844F2513;
+        Fri,  7 Oct 2022 02:26:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1665134771; x=1696670771;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=YIsvu8HuZoKfT0WBNxjXL2VasbVdSxWppe8Gs3rIq6U=;
+  b=lgV+Escms5zyViBvmedV3BHNjjb3FjjYj3Vz3SzYv4k0JXq+4hjSlm7Z
+   r4wxpTH0Ri9xpOMDvtHwj7d93ePr3ndqye1fjavDVQQ+SETk4itjJWcSm
+   wa8rwMZIT/8eJXO8VmESYry5dyAie8TXc4x4yNV3pM5aWwoQPO3bkgpkS
+   5FwlBOd0Tn2PaEuo4c362qsQW98fTFbIC1/XD4vUU2g+dv369hvJQlOyO
+   kia5cm/CgIT7PszSeLeDt+YUCfvMLXWgB9lh/d1JZONjtIsUmsVYuIlsY
+   aADoUXeW7RL6U688rIGXycyhSIPVhJPCvgocB1YG8oOBtTC77bqJsmGC+
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10492"; a="302414297"
+X-IronPort-AV: E=Sophos;i="5.95,166,1661842800"; 
+   d="scan'208";a="302414297"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Oct 2022 02:26:10 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10492"; a="658277156"
+X-IronPort-AV: E=Sophos;i="5.95,166,1661842800"; 
+   d="scan'208";a="658277156"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by orsmga001.jf.intel.com with ESMTP; 07 Oct 2022 02:26:03 -0700
+Received: by black.fi.intel.com (Postfix, from userid 1001)
+        id 6645E17E; Fri,  7 Oct 2022 12:26:23 +0300 (EEST)
+Date:   Fri, 7 Oct 2022 12:26:23 +0300
+From:   Mika Westerberg <mika.westerberg@linux.intel.com>
+To:     "Jason A. Donenfeld" <Jason@zx2c4.com>
+Cc:     linux-kernel@vger.kernel.org, patches@lists.linux.dev,
+        Andreas Noever <andreas.noever@gmail.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Christoph B??hmwalder <christoph.boehmwalder@linbit.com>,
+        Christoph Hellwig <hch@lst.de>,
+        Christophe Leroy <christophe.leroy@csgroup.eu>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Dave Airlie <airlied@redhat.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Florian Westphal <fw@strlen.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        Helge Deller <deller@gmx.de>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        Huacai Chen <chenhuacai@kernel.org>,
+        Hugh Dickins <hughd@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        "James E . J . Bottomley" <jejb@linux.ibm.com>,
+        Jan Kara <jack@suse.com>, Jason Gunthorpe <jgg@ziepe.ca>,
+        Jens Axboe <axboe@kernel.dk>,
+        Johannes Berg <johannes@sipsolutions.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Jozsef Kadlecsik <kadlec@netfilter.org>,
+        KP Singh <kpsingh@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Marco Elver <elver@google.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Pablo Neira Ayuso <pablo@netfilter.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Richard Weinberger <richard@nod.at>,
+        Russell King <linux@armlinux.org.uk>,
+        Theodore Ts'o <tytso@mit.edu>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Thomas Graf <tgraf@suug.ch>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        WANG Xuerui <kernel@xen0n.name>, Will Deacon <will@kernel.org>,
+        Yury Norov <yury.norov@gmail.com>,
+        dri-devel@lists.freedesktop.org, kasan-dev@googlegroups.com,
+        kernel-janitors@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-block@vger.kernel.org,
+        linux-crypto@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-mips@vger.kernel.org, linux-mm@kvack.org,
+        linux-mmc@vger.kernel.org, linux-mtd@lists.infradead.org,
+        linux-nvme@lists.infradead.org, linux-parisc@vger.kernel.org,
+        linux-rdma@vger.kernel.org, linux-s390@vger.kernel.org,
+        linux-um@lists.infradead.org, linux-usb@vger.kernel.org,
+        linux-wireless@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        loongarch@lists.linux.dev, netdev@vger.kernel.org,
+        sparclinux@vger.kernel.org, x86@kernel.org,
+        Toke H??iland-J??rgensen <toke@toke.dk>,
+        Chuck Lever <chuck.lever@oracle.com>, Jan Kara <jack@suse.cz>
+Subject: Re: [PATCH v3 3/5] treewide: use get_random_u32() when possible
+Message-ID: <Yz/wv0sqBR+J+jy+@black.fi.intel.com>
+References: <20221006165346.73159-1-Jason@zx2c4.com>
+ <20221006165346.73159-4-Jason@zx2c4.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-MTK:  N
-X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,DKIM_INVALID,
-        DKIM_SIGNED,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,UNPARSEABLE_RELAY,
-        URIBL_CSS autolearn=no autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221006165346.73159-4-Jason@zx2c4.com>
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The communication between MDP3 kernel driver and SCP is pass through
-a shared memory, and the data structure is defined in the "mtk-img-ipi.h".
-However, there is a 4-byte read limit in further SCP hardware, so the
-data structure should be in 4-byte aligned.
+On Thu, Oct 06, 2022 at 10:53:44AM -0600, Jason A. Donenfeld wrote:
+>  drivers/thunderbolt/xdomain.c                  |  2 +-
 
-Signed-off-by: Moudy Ho <moudy.ho@mediatek.com>
----
- .../platform/mediatek/mdp3/mtk-img-ipi.h      | 76 +++++++++----------
- 1 file changed, 38 insertions(+), 38 deletions(-)
-
-diff --git a/drivers/media/platform/mediatek/mdp3/mtk-img-ipi.h b/drivers/media/platform/mediatek/mdp3/mtk-img-ipi.h
-index 3e66ebaee2da..c7f231f8ea3e 100644
---- a/drivers/media/platform/mediatek/mdp3/mtk-img-ipi.h
-+++ b/drivers/media/platform/mediatek/mdp3/mtk-img-ipi.h
-@@ -51,14 +51,14 @@ struct img_sw_addr {
- 
- struct img_plane_format {
- 	u32 size;
--	u16 stride;
-+	u32 stride;
- } __packed;
- 
- struct img_pix_format {
--	u16 width;
--	u16 height;
-+	u32 width;
-+	u32 height;
- 	u32 colorformat; /* enum mdp_color */
--	u16 ycbcr_prof; /* enum mdp_ycbcr_profile */
-+	u32 ycbcr_prof; /* enum mdp_ycbcr_profile */
- 	struct img_plane_format plane_fmt[IMG_MAX_PLANES];
- } __packed;
- 
-@@ -72,10 +72,10 @@ struct img_image_buffer {
- #define IMG_SUBPIXEL_SHIFT	20
- 
- struct img_crop {
--	s16 left;
--	s16 top;
--	u16 width;
--	u16 height;
-+	s32 left;
-+	s32 top;
-+	u32 width;
-+	u32 height;
- 	u32 left_subpix;
- 	u32 top_subpix;
- 	u32 width_subpix;
-@@ -90,24 +90,24 @@ struct img_crop {
- 
- struct img_input {
- 	struct img_image_buffer buffer;
--	u16 flags; /* HDR, DRE, dither */
-+	u32 flags; /* HDR, DRE, dither */
- } __packed;
- 
- struct img_output {
- 	struct img_image_buffer buffer;
- 	struct img_crop crop;
--	s16 rotation;
--	u16 flags; /* H-flip, sharpness, dither */
-+	s32 rotation;
-+	u32 flags; /* H-flip, sharpness, dither */
- } __packed;
- 
- struct img_ipi_frameparam {
- 	u32 index;
- 	u32 frame_no;
- 	struct img_timeval timestamp;
--	u8 type; /* enum mdp_stream_type */
--	u8 state;
--	u8 num_inputs;
--	u8 num_outputs;
-+	u32 type; /* enum mdp_stream_type */
-+	u32 state;
-+	u32 num_inputs;
-+	u32 num_outputs;
- 	u64 drv_data;
- 	struct img_input inputs[IMG_MAX_HW_INPUTS];
- 	struct img_output outputs[IMG_MAX_HW_OUTPUTS];
-@@ -123,51 +123,51 @@ struct img_sw_buffer {
- } __packed;
- 
- struct img_ipi_param {
--	u8 usage;
-+	u32 usage;
- 	struct img_sw_buffer frm_param;
- } __packed;
- 
- struct img_frameparam {
- 	struct list_head list_entry;
- 	struct img_ipi_frameparam frameparam;
--};
-+} __packed;
- 
- /* ISP-MDP generic output information */
- 
- struct img_comp_frame {
--	u32 output_disable:1;
--	u32 bypass:1;
--	u16 in_width;
--	u16 in_height;
--	u16 out_width;
--	u16 out_height;
-+	u32 output_disable;
-+	u32 bypass;
-+	u32 in_width;
-+	u32 in_height;
-+	u32 out_width;
-+	u32 out_height;
- 	struct img_crop crop;
--	u16 in_total_width;
--	u16 out_total_width;
-+	u32 in_total_width;
-+	u32 out_total_width;
- } __packed;
- 
- struct img_region {
--	s16 left;
--	s16 right;
--	s16 top;
--	s16 bottom;
-+	s32 left;
-+	s32 right;
-+	s32 top;
-+	s32 bottom;
- } __packed;
- 
- struct img_offset {
--	s16 left;
--	s16 top;
-+	s32 left;
-+	s32 top;
- 	u32 left_subpix;
- 	u32 top_subpix;
- } __packed;
- 
- struct img_comp_subfrm {
--	u32 tile_disable:1;
-+	u32 tile_disable;
- 	struct img_region in;
- 	struct img_region out;
- 	struct img_offset luma;
- 	struct img_offset chroma;
--	s16 out_vertical; /* Output vertical index */
--	s16 out_horizontal; /* Output horizontal index */
-+	s32 out_vertical; /* Output vertical index */
-+	s32 out_horizontal; /* Output horizontal index */
- } __packed;
- 
- #define IMG_MAX_SUBFRAMES	14
-@@ -250,8 +250,8 @@ struct isp_data {
- } __packed;
- 
- struct img_compparam {
--	u16 type; /* enum mdp_comp_type */
--	u16 id; /* enum mtk_mdp_comp_id */
-+	u32 type; /* enum mdp_comp_id */
-+	u32 id; /* engine alias_id */
- 	u32 input;
- 	u32 outputs[IMG_MAX_HW_OUTPUTS];
- 	u32 num_outputs;
-@@ -273,12 +273,12 @@ struct img_mux {
- 	u32 reg;
- 	u32 value;
- 	u32 subsys_id;
--};
-+} __packed;
- 
- struct img_mmsys_ctrl {
- 	struct img_mux sets[IMG_MAX_COMPONENTS * 2];
- 	u32 num_sets;
--};
-+} __packed;
- 
- struct img_config {
- 	struct img_compparam components[IMG_MAX_COMPONENTS];
--- 
-2.18.0
-
+Acked-by: Mika Westerberg <mika.westerberg@linux.intel.com>
