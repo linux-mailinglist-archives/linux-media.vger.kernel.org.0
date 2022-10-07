@@ -2,177 +2,155 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C10665F799D
-	for <lists+linux-media@lfdr.de>; Fri,  7 Oct 2022 16:20:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0B27A5F79AF
+	for <lists+linux-media@lfdr.de>; Fri,  7 Oct 2022 16:27:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229644AbiJGOUo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 7 Oct 2022 10:20:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55760 "EHLO
+        id S229513AbiJGO1P (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 7 Oct 2022 10:27:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38250 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229539AbiJGOUm (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 7 Oct 2022 10:20:42 -0400
-Received: from mail-il1-f197.google.com (mail-il1-f197.google.com [209.85.166.197])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E4DD1B5147
-        for <linux-media@vger.kernel.org>; Fri,  7 Oct 2022 07:20:39 -0700 (PDT)
-Received: by mail-il1-f197.google.com with SMTP id f15-20020a056e020b4f00b002fa34db70f0so3908155ilu.2
-        for <linux-media@vger.kernel.org>; Fri, 07 Oct 2022 07:20:39 -0700 (PDT)
+        with ESMTP id S229469AbiJGO1O (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 7 Oct 2022 10:27:14 -0400
+Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com [IPv6:2a00:1450:4864:20::635])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 338E01204F2
+        for <linux-media@vger.kernel.org>; Fri,  7 Oct 2022 07:27:13 -0700 (PDT)
+Received: by mail-ej1-x635.google.com with SMTP id r17so11692596eja.7
+        for <linux-media@vger.kernel.org>; Fri, 07 Oct 2022 07:27:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=raspberrypi.com; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=IpmYryjc9nMc9Om3VTeUL9pEBMN5PGsg8fqgQ0tY5sI=;
+        b=bTkIcvcxs0j5UCOUyX8/YvmgGNnX3JctdSpUyGCy4rH2CaTpVU5RqhhzZ/ZenR72QY
+         Pw3GjJjj57bdpZsKjJuIzDGEvjHplGyWzzSgVPRXK1Ox+ESm7E/eSpOuggiMBOuR4WHN
+         BZ6uAqPVOtsATpFBwoETosqxUhxuLFvIDkpHFMKqjPCh6Xeblp9Pt4UkFyCbNwUmbtUg
+         QTGov0IXy83/dwRjJiGBI4oqhVHuXxyq07Tbd+RPm2JCnu0Hxplp+HxjURo1NEDturYS
+         44PGrxSmNisfl7ZhQ7ZivMhR+LwR+VAry8mqCIZ7kzEoScvGwDJ+7MykRNk7igC8j3Xs
+         BR0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=rn00CJS7mE+YZ5wyQ2Dplu+9tG4WBX9Dh0zTaYBAe8Q=;
-        b=4aguMCNwx5ZPqq2mFOYkRf/o9Bf9kXaOJ4UCpILGK/akhBVzd4oA5p2NJ8RYeylW4t
-         ltrKhzsFC9dTlIziL/HQO2cQt0ly3TDeESjBlD5+k8vOjtYl1d5g0Nw9XXIzKYJ53qAk
-         wrcUw3A41IBEMA7S6JU6KYhZ/MB3KNF6FpAIsjKI6CM+4skPb3Wu+gR53ZI5eKbrZ1lo
-         ZA2Za5C5NHJlNQJLmNipgRzlgSS+0M3oQ1mLDRm054fT6e/KOCeK4JtW9v3OM6lWGoba
-         jV3vEW4Cif3n+XpZY6Rp4iu1yryxqDvF6STWJlTMxBxLPYEdpAq0MbtuGbr+3KUmDLXI
-         RpsQ==
-X-Gm-Message-State: ACrzQf0GgYkTJtzxwbkcPA2vRoRt3KjChK4dm2/uer8amY7P65OHBxbl
-        M7k11KTFtJMUf3oIcituYTTzdaaC36tsVtRFal8fby8qX1OC
-X-Google-Smtp-Source: AMsMyM5MkJE1uAZFD5OaaIaujO18BwlaJ0OC20U1YkpGNwbdolpYzQpHYP3S2aNHfm8XC2eWtk5u4uKQJJYzwYiB+olPluIoDwQf
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=IpmYryjc9nMc9Om3VTeUL9pEBMN5PGsg8fqgQ0tY5sI=;
+        b=dsdzwvoQyvAUOh0PifQT6HotnamRyWc1UUKSYQvB2mdg2db3emaTIcOq5Whxj4gDIe
+         OmC0hy8IdqJjst4cS0i9DezTaF+/Lh+aKdjcgadahZ3bKUdeAjQwPrLQNes0w7px5mJM
+         2B0jbe+cygf8RfDQjAVrzIUoj/pOUn5TTF/VTV5Vl2k3ueassIRVicdSi6wjN8V7I2gO
+         hK382YrL+7aQ7tmErinwgYWUJpzRFARCI5vVsmeuOvc3rifRrkv/oVXkxDOovq4/1osv
+         ff4nReJmRnBzNPy6OP9pGdwFjnCpyvkfLX7+9tdlHejL+Q/KGdGfYktRYR3NCsJtbNDe
+         i3oA==
+X-Gm-Message-State: ACrzQf17qyoY9i3rEwFCz0OvTJZDttB4qQUowDhLltRNNVgus58wgYlX
+        rdGMTTn0VbbEWmzz9Ld6VPclE+9ShgMc5dm1ltvcaA==
+X-Google-Smtp-Source: AMsMyM54k80oW9RLpshbGWbQHb+uqOZIvCFkQicATtVAEC+7TPv3FreFgsSDG9wUH4cpx2z5QqZEv5uZqsDdOm1g2BI=
+X-Received: by 2002:a17:907:3e0b:b0:78d:4b7c:89bd with SMTP id
+ hp11-20020a1709073e0b00b0078d4b7c89bdmr4119136ejc.742.1665152831720; Fri, 07
+ Oct 2022 07:27:11 -0700 (PDT)
 MIME-Version: 1.0
-X-Received: by 2002:a05:6638:58f:b0:363:4772:d13d with SMTP id
- a15-20020a056638058f00b003634772d13dmr2450082jar.25.1665152439119; Fri, 07
- Oct 2022 07:20:39 -0700 (PDT)
-Date:   Fri, 07 Oct 2022 07:20:39 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000a178f505ea72837a@google.com>
-Subject: [syzbot] KASAN: use-after-free Read in dvb_devnode
-From:   syzbot <syzbot+4b677cfa21f5bd6295cd@syzkaller.appspotmail.com>
-To:     cai.huoqing@linux.dev, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-usb@vger.kernel.org,
-        mchehab@kernel.org, syzkaller-bugs@googlegroups.com
+References: <20221005190613.394277-1-jacopo@jmondi.org> <20221005190613.394277-6-jacopo@jmondi.org>
+ <CAPY8ntB_JQHJQH7DChEyou-RSRTcEF-Uy=+3Ly06MUtg0TCZ6A@mail.gmail.com> <Y0AxI2RKxomjEb2t@pendragon.ideasonboard.com>
+In-Reply-To: <Y0AxI2RKxomjEb2t@pendragon.ideasonboard.com>
+From:   Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date:   Fri, 7 Oct 2022 15:26:55 +0100
+Message-ID: <CAPY8ntCh4UFT5swHvwPj7xz8wPH3MJB-aJjEd9bCgXVubRyp5w@mail.gmail.com>
+Subject: Re: [PATCH 05/10] media: ar0521: Add LINK_FREQ control
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Jacopo Mondi <jacopo@jmondi.org>,
+        =?UTF-8?Q?Krzysztof_Ha=C5=82asa?= <khalasa@piap.pl>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@iki.fi>, linux-media@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,FROM_LOCAL_HEX,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello,
+On Fri, 7 Oct 2022 at 15:01, Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+>
+> On Thu, Oct 06, 2022 at 04:10:10PM +0100, Dave Stevenson wrote:
+> > On Wed, 5 Oct 2022 at 20:07, Jacopo Mondi wrote:
+> > >
+> > > Add support for V4L2_CID_LINK_FREQ which currently reports a single
+> > > hard-coded frequency which depends on the fixed pixel clock.
+> > >
+> > > This will change in the next patches where the pixel rate will be
+> > > computed from the desired link_frequency.
+> > >
+> > > Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
+> >
+> > Looks valid based on the current pixel rate of 184MPix/s, 8bpp,
+> > divided by 4 lanes, and DDR.
+> >
+> > > ---
+> > >  drivers/media/i2c/ar0521.c | 9 +++++++++
+> > >  1 file changed, 9 insertions(+)
+> > >
+> > > diff --git a/drivers/media/i2c/ar0521.c b/drivers/media/i2c/ar0521.c
+> > > index 21649aecf442..c5410b091654 100644
+> > > --- a/drivers/media/i2c/ar0521.c
+> > > +++ b/drivers/media/i2c/ar0521.c
+> > > @@ -90,6 +90,10 @@ static const char * const ar0521_supply_names[] = {
+> > >         "vaa",          /* Analog (2.7V) supply */
+> > >  };
+> > >
+> > > +static const s64 ar0521_link_frequencies[] = {
+> > > +       184000000,
+> > > +};
+> > > +
+> > >  struct ar0521_ctrls {
+> > >         struct v4l2_ctrl_handler handler;
+> > >         struct v4l2_ctrl *ana_gain;
+> > > @@ -104,6 +108,7 @@ struct ar0521_ctrls {
+> > >         };
+> > >         struct v4l2_ctrl *pixrate;
+> > >         struct v4l2_ctrl *exposure;
+> > > +       struct v4l2_ctrl *link_freq;
+> > >         struct v4l2_ctrl *test_pattern;
+> > >  };
+> > >
+> > > @@ -655,6 +660,10 @@ static int ar0521_init_controls(struct ar0521_dev *sensor)
+> > >         ctrls->exposure = v4l2_ctrl_new_std(hdl, ops, V4L2_CID_EXPOSURE, 0,
+> > >                                             65535, 1, 360);
+> > >
+> > > +       ctrls->link_freq = v4l2_ctrl_new_int_menu(hdl, ops, V4L2_CID_LINK_FREQ,
+> > > +                                       ARRAY_SIZE(ar0521_link_frequencies) - 1,
+> > > +                                       0, ar0521_link_frequencies);
+> > > +
+> >
+> > Admittedly there is only one entry, but did you want to make it a read
+> > only control? With no case for it in s_ctrl, you'll get errors thrown
+> > from the control handler framework.
+>
+> I'd make it writable even if there's a single entry, so that userspace
+> won't need special logic. It will also prepare for support of multiple
+> entries in the future.
 
-syzbot found the following issue on:
+Do you really see a situation where userspace will be configuring link
+frequency instead of DT / ACPI?
+A quick search seems to imply that only 1 current driver supports a
+r/w link frequency - mt9v032. That would imply that having a
+controllable link frequency would require the special logic in
+userspace.
 
-HEAD commit:    00988f70a076 Merge tag 'usb-serial-6.0-rc8' of https://git..
-git tree:       https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-console output: https://syzkaller.appspot.com/x/log.txt?x=145efc82880000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=f64cd66daa10a81a
-dashboard link: https://syzkaller.appspot.com/bug?extid=4b677cfa21f5bd6295cd
-compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
+I'm always very cautious about drivers that are linking PIXEL_RATE and
+LINK_FREQ - most of the sensors are tending to have 2 (or more) PLLs,
+and there is a FIFO between the image sensor (PIXEL_RATE) and the MIPI
+block (LINK_FREQ). imx290 is certainly wrong (pixel rate does not
+change with mode, but link freq does), and I'm fairly certain that
+ov7251 is as well (pixel rate is 48MPix/s whether at 240 or 319.2MHz
+link frequency). Patches coming soon for both.
 
-Unfortunately, I don't have any reproducer for this issue yet.
+  Dave
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+4b677cfa21f5bd6295cd@syzkaller.appspotmail.com
-
-BUG: KASAN: use-after-free in dvb_devnode+0x122/0x1b0 drivers/media/dvb-core/dvbdev.c:1025
-Read of size 4 at addr ffff888113a1d860 by task udevd/1179
-
-CPU: 0 PID: 1179 Comm: udevd Not tainted 6.0.0-rc7-syzkaller-00946-g00988f70a076 #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 09/22/2022
-Call Trace:
- <TASK>
- __dump_stack lib/dump_stack.c:88 [inline]
- dump_stack_lvl+0xcd/0x134 lib/dump_stack.c:106
- print_address_description mm/kasan/report.c:317 [inline]
- print_report.cold+0x2ba/0x719 mm/kasan/report.c:433
- kasan_report+0xb1/0x1e0 mm/kasan/report.c:495
- dvb_devnode+0x122/0x1b0 drivers/media/dvb-core/dvbdev.c:1025
- device_get_devnode+0x154/0x2b0 drivers/base/core.c:3796
- dev_uevent+0x40d/0x770 drivers/base/core.c:2404
- uevent_show+0x1b8/0x380 drivers/base/core.c:2492
- dev_attr_show+0x4b/0x90 drivers/base/core.c:2195
- sysfs_kf_seq_show+0x219/0x3d0 fs/sysfs/file.c:59
- kernfs_seq_show+0x169/0x1e0 fs/kernfs/file.c:217
- seq_read_iter+0x4f5/0x1280 fs/seq_file.c:230
- kernfs_fop_read_iter+0x523/0x710 fs/kernfs/file.c:299
- call_read_iter include/linux/fs.h:2181 [inline]
- new_sync_read fs/read_write.c:389 [inline]
- vfs_read+0x67d/0x930 fs/read_write.c:470
- ksys_read+0x127/0x250 fs/read_write.c:607
- do_syscall_x64 arch/x86/entry/common.c:50 [inline]
- do_syscall_64+0x35/0xb0 arch/x86/entry/common.c:80
- entry_SYSCALL_64_after_hwframe+0x63/0xcd
-RIP: 0033:0x7f28d98228fe
-Code: c0 e9 e6 fe ff ff 50 48 8d 3d 0e c7 09 00 e8 c9 cf 01 00 66 0f 1f 84 00 00 00 00 00 64 8b 04 25 18 00 00 00 85 c0 75 14 0f 05 <48> 3d 00 f0 ff ff 77 5a c3 66 0f 1f 84 00 00 00 00 00 48 83 ec 28
-RSP: 002b:00007ffcef6cb338 EFLAGS: 00000246 ORIG_RAX: 0000000000000000
-RAX: ffffffffffffffda RBX: 0000559cdeb69680 RCX: 00007f28d98228fe
-RDX: 0000000000001000 RSI: 0000559cdeb746f0 RDI: 000000000000000c
-RBP: 00007f28d98ef380 R08: 000000000000000c R09: 00007f28d98f2a60
-R10: 0000000000000008 R11: 0000000000000246 R12: 0000559cdeb69680
-R13: 0000000000000d68 R14: 00007f28d98ee780 R15: 0000000000000d68
- </TASK>
-
-The buggy address belongs to the physical page:
-page:ffffea00044e8740 refcount:0 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x113a1d
-flags: 0x200000000000000(node=0|zone=2)
-raw: 0200000000000000 0000000000000000 ffffffff00000201 0000000000000000
-raw: 0000000000000000 0000000000110000 00000000ffffffff 0000000000000000
-page dumped because: kasan: bad access detected
-page_owner tracks the page as freed
-page last allocated via order 2, migratetype Unmovable, gfp_mask 0x140dc0(GFP_USER|__GFP_COMP|__GFP_ZERO), pid 28063, tgid 28063 (kworker/0:5), ts 3378237051573, free_ts 3378714082458
- prep_new_page mm/page_alloc.c:2532 [inline]
- get_page_from_freelist+0x11cc/0x2a20 mm/page_alloc.c:4283
- __alloc_pages+0x1c7/0x510 mm/page_alloc.c:5515
- alloc_pages+0x1a6/0x270 mm/mempolicy.c:2270
- kmalloc_order+0x34/0xf0 mm/slab_common.c:933
- kmalloc_order_trace+0x13/0x120 mm/slab_common.c:949
- kmalloc_large include/linux/slab.h:529 [inline]
- kmalloc include/linux/slab.h:593 [inline]
- kzalloc include/linux/slab.h:733 [inline]
- dvb_usb_device_init+0x113/0x640 drivers/media/usb/dvb-usb/dvb-usb-init.c:279
- usb_probe_interface+0x30b/0x7f0 drivers/usb/core/driver.c:396
- call_driver_probe drivers/base/dd.c:560 [inline]
- really_probe+0x249/0xb90 drivers/base/dd.c:639
- __driver_probe_device+0x1df/0x4d0 drivers/base/dd.c:778
- driver_probe_device+0x4c/0x1a0 drivers/base/dd.c:808
- __device_attach_driver+0x1d0/0x2e0 drivers/base/dd.c:936
- bus_for_each_drv+0x15f/0x1e0 drivers/base/bus.c:427
- __device_attach+0x1e4/0x530 drivers/base/dd.c:1008
- bus_probe_device+0x1e4/0x290 drivers/base/bus.c:487
- device_add+0xbd5/0x1e90 drivers/base/core.c:3517
- usb_set_configuration+0x1019/0x1900 drivers/usb/core/message.c:2170
-page last free stack trace:
- reset_page_owner include/linux/page_owner.h:24 [inline]
- free_pages_prepare mm/page_alloc.c:1449 [inline]
- free_pcp_prepare+0x5d2/0xb80 mm/page_alloc.c:1499
- free_unref_page_prepare mm/page_alloc.c:3380 [inline]
- free_unref_page+0x19/0x420 mm/page_alloc.c:3476
- dvb_usb_device_init+0x50e/0x640 drivers/media/usb/dvb-usb/dvb-usb-init.c:322
- usb_probe_interface+0x30b/0x7f0 drivers/usb/core/driver.c:396
- call_driver_probe drivers/base/dd.c:560 [inline]
- really_probe+0x249/0xb90 drivers/base/dd.c:639
- __driver_probe_device+0x1df/0x4d0 drivers/base/dd.c:778
- driver_probe_device+0x4c/0x1a0 drivers/base/dd.c:808
- __device_attach_driver+0x1d0/0x2e0 drivers/base/dd.c:936
- bus_for_each_drv+0x15f/0x1e0 drivers/base/bus.c:427
- __device_attach+0x1e4/0x530 drivers/base/dd.c:1008
- bus_probe_device+0x1e4/0x290 drivers/base/bus.c:487
- device_add+0xbd5/0x1e90 drivers/base/core.c:3517
- usb_set_configuration+0x1019/0x1900 drivers/usb/core/message.c:2170
- usb_generic_driver_probe+0xba/0x100 drivers/usb/core/generic.c:238
- usb_probe_device+0xd4/0x2c0 drivers/usb/core/driver.c:293
- call_driver_probe drivers/base/dd.c:560 [inline]
- really_probe+0x249/0xb90 drivers/base/dd.c:639
-
-Memory state around the buggy address:
- ffff888113a1d700: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff
- ffff888113a1d780: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff
->ffff888113a1d800: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff
-                                                       ^
- ffff888113a1d880: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff
- ffff888113a1d900: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff
-==================================================================
-
-
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+> > >         ctrls->test_pattern = v4l2_ctrl_new_std_menu_items(hdl, ops,
+> > >                                         V4L2_CID_TEST_PATTERN,
+> > >                                         ARRAY_SIZE(test_pattern_menu) - 1,
+>
+> --
+> Regards,
+>
+> Laurent Pinchart
