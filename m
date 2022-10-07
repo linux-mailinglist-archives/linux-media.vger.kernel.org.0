@@ -2,162 +2,246 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3ECE85F79E4
-	for <lists+linux-media@lfdr.de>; Fri,  7 Oct 2022 16:44:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 113085F7C04
+	for <lists+linux-media@lfdr.de>; Fri,  7 Oct 2022 19:13:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229495AbiJGOob (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 7 Oct 2022 10:44:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35222 "EHLO
+        id S229682AbiJGRNI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 7 Oct 2022 13:13:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56520 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229646AbiJGOoa (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 7 Oct 2022 10:44:30 -0400
-Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com [IPv6:2a00:1450:4864:20::429])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D33B8BB96
-        for <linux-media@vger.kernel.org>; Fri,  7 Oct 2022 07:44:29 -0700 (PDT)
-Received: by mail-wr1-x429.google.com with SMTP id bv10so4059164wrb.4
-        for <linux-media@vger.kernel.org>; Fri, 07 Oct 2022 07:44:29 -0700 (PDT)
+        with ESMTP id S229534AbiJGRNH (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 7 Oct 2022 13:13:07 -0400
+Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com [IPv6:2607:f8b0:4864:20::1031])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4ED57D77D2
+        for <linux-media@vger.kernel.org>; Fri,  7 Oct 2022 10:12:45 -0700 (PDT)
+Received: by mail-pj1-x1031.google.com with SMTP id b15so4954881pje.1
+        for <linux-media@vger.kernel.org>; Fri, 07 Oct 2022 10:12:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=dH0I0D9MQ2kV5lmx0JlAikpECtYodT/MBKaJgTnZkgI=;
-        b=JluJt4k1Oh4t+094uv2CBEPcMFfUeREaXqGnpyEdh//ADa/GwG7i3O825BovB4yR5d
-         //A7x4OXOMjXFfT3L5631kfpMoZ2X8IGlomagqHSuaDKsqniyDAr9X8w0EpP/9BVMEkM
-         bYLLJC8e1T0XRY1kjiRguYPSWMnq0i72OCL9td6bLQ0nVRrVYzEz9TbYzPrA++jVd/6k
-         z8CLXwdyGYn9mFsJYUNtmGan5JSQGtrjUdn+62HJoauMOjxQSOF4C7R1/7G6Z+jbpoA4
-         hTXgJCqCSJ3cD3g5+6j2aD8bjBB98MzNYEuqxNnpNBWghg34IFs42i4xKLvg3+y9TNIi
-         iM5g==
+        d=chromium.org; s=google;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=r+ar3rF5Nifj4ZH0w5BLPJvorwhCPz9FpYPvkQg1fFY=;
+        b=lnyLGuYmjS75CgXIYPygwDolRfcdA6yOcav2EBBasADUNmB+X4q/LGyG3GplPLKF4D
+         kbVVCg/8bBMxcfD9rLKmUEYYLhbyeB5zPm6ZDbYMckDnSVVJGqQeX6zA9l/IbMFC0x6e
+         tEj8qeloPyDPz0HyArmtPjFAzjrVIlk8ES+6Y=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=dH0I0D9MQ2kV5lmx0JlAikpECtYodT/MBKaJgTnZkgI=;
-        b=LJaht66Q6UOxmpASHVbWdKRzncX88pPsBQHom3io7+Mecx9PY2Lw5sLSA1IeP5KEXZ
-         6E+ZBBh+3dM5MTzhdhrXrlMx7+4ByB9Z75oka/+rpGjU+L+POkQxpN8AE2TWlVMfgtPo
-         ECBvz1+yiYRGf/MkDPWlxJEuuG6OgxJzI7MShxPAPV0Dl1WxCjhJbCHAxoshLeMqjin/
-         55f5QEYriffOUrZxc0jq2W1a3xRu0FJm2q5sf4XpMTEpL3YcP4vCV1X9mulCNP+9iUim
-         hXCEZUk6Fl31p+a2R6yNip8vtY/IPPYJMF2gI0m+mJ9OzWSYlBmdgmQQN7bQ+pLAahaE
-         OrQw==
-X-Gm-Message-State: ACrzQf1J1QCv64+Vlszkhb2tVyVbGjmOtIPJDy/v2Uk2FSpVkjqFdeiA
-        3SSFILwNpkJApS5Ggc71++8OnjHHEvFIAw==
-X-Google-Smtp-Source: AMsMyM5N3qr4xcQGe0HtKtrEIHPPSpq5/OmhDeQKAZulWlLFxUAci8mn+esb4RMaZV6Z6cVRzOkk3w==
-X-Received: by 2002:adf:edd1:0:b0:22e:5257:a19e with SMTP id v17-20020adfedd1000000b0022e5257a19emr3339317wro.180.1665153867464;
-        Fri, 07 Oct 2022 07:44:27 -0700 (PDT)
-Received: from [192.168.0.159] (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
-        by smtp.gmail.com with ESMTPSA id l15-20020adfe58f000000b0022ac119fcc5sm2142938wrm.60.2022.10.07.07.44.26
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 07 Oct 2022 07:44:27 -0700 (PDT)
-Message-ID: <2b54256f-edba-0379-d6df-3135f6c61440@linaro.org>
-Date:   Fri, 7 Oct 2022 15:44:27 +0100
+        bh=r+ar3rF5Nifj4ZH0w5BLPJvorwhCPz9FpYPvkQg1fFY=;
+        b=1Rjk89rBFmbf+Xea6JWj4Ic4Dk1qtboi6cFp+2e9ZJQQQBNE4pZXqoIszMnF6IM0nr
+         ttOlKXXjY3bm9ZCJAW9wXy6hOfApFWdhjleT9nVjQHmWjIEjC5DGtNAshoKM608ygKAX
+         djXQ215X4+RAbm3ThpDsm9StNvLxygYTDMLVKLVCiO+DvAWm2msKiXmcU6i3aeCzPoVl
+         Sq4kvAaRHU/HP19r/tFtW8lrfwRBRa99vejq3EVvSI3vTbG9CESZ2EvdLblzBE0fXibp
+         Vpj02vs4RqtrjG93Y9zXfYPXxESRr1cevrL75C7z7Wmu8/G/VyuH5X7t5DX2k0GRcEKC
+         5MFQ==
+X-Gm-Message-State: ACrzQf2c3ogj1PcTYFYOX7woHWyHOpJ4a0qgh/NcFEMr334ihV5/PZ+2
+        33qOL5S+aAz1wq/1e+An4SfNBQ==
+X-Google-Smtp-Source: AMsMyM5FdSz2fuOhnh7+TfKkWyevTFzVNHatDVk0F2miilQc1NJEc103WmEytUatslzSlAWFEVnJrw==
+X-Received: by 2002:a17:902:f707:b0:17f:8541:c04b with SMTP id h7-20020a170902f70700b0017f8541c04bmr6026417plo.98.1665162764769;
+        Fri, 07 Oct 2022 10:12:44 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id q13-20020aa7842d000000b0056234327070sm1944049pfn.95.2022.10.07.10.12.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 07 Oct 2022 10:12:43 -0700 (PDT)
+Date:   Fri, 7 Oct 2022 10:12:42 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     "Jason A. Donenfeld" <Jason@zx2c4.com>
+Cc:     Christophe Leroy <christophe.leroy@csgroup.eu>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "patches@lists.linux.dev" <patches@lists.linux.dev>,
+        Andreas Noever <andreas.noever@gmail.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Christoph =?iso-8859-1?Q?B=F6hmwalder?= 
+        <christoph.boehmwalder@linbit.com>, Christoph Hellwig <hch@lst.de>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Dave Airlie <airlied@redhat.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Florian Westphal <fw@strlen.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        Helge Deller <deller@gmx.de>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        Huacai Chen <chenhuacai@kernel.org>,
+        Hugh Dickins <hughd@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        "James E . J . Bottomley" <jejb@linux.ibm.com>,
+        Jan Kara <jack@suse.com>, Jason Gunthorpe <jgg@ziepe.ca>,
+        Jens Axboe <axboe@kernel.dk>,
+        Johannes Berg <johannes@sipsolutions.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Jozsef Kadlecsik <kadlec@netfilter.org>,
+        KP Singh <kpsingh@kernel.org>, Marco Elver <elver@google.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Pablo Neira Ayuso <pablo@netfilter.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Richard Weinberger <richard@nod.at>,
+        Russell King <linux@armlinux.org.uk>,
+        Theodore Ts'o <tytso@mit.edu>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Thomas Graf <tgraf@suug.ch>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        WANG Xuerui <kernel@xen0n.name>, Will Deacon <will@kernel.org>,
+        Yury Norov <yury.norov@gmail.com>,
+        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+        "kasan-dev@googlegroups.com" <kasan-dev@googlegroups.com>,
+        "kernel-janitors@vger.kernel.org" <kernel-janitors@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+        "linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "linux-mips@vger.kernel.org" <linux-mips@vger.kernel.org>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
+        "linux-mtd@lists.infradead.org" <linux-mtd@lists.infradead.org>,
+        "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+        "linux-parisc@vger.kernel.org" <linux-parisc@vger.kernel.org>,
+        "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
+        "linux-s390@vger.kernel.org" <linux-s390@vger.kernel.org>,
+        "linux-um@lists.infradead.org" <linux-um@lists.infradead.org>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        "linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>,
+        "linuxppc-dev@lists.ozlabs.org" <linuxppc-dev@lists.ozlabs.org>,
+        "loongarch@lists.linux.dev" <loongarch@lists.linux.dev>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "sparclinux@vger.kernel.org" <sparclinux@vger.kernel.org>,
+        "x86@kernel.org" <x86@kernel.org>,
+        Toke =?iso-8859-1?Q?H=F8iland-J=F8rgensen?= <toke@toke.dk>,
+        Chuck Lever <chuck.lever@oracle.com>, Jan Kara <jack@suse.cz>
+Subject: Re: [PATCH v3 3/5] treewide: use get_random_u32() when possible
+Message-ID: <202210071010.52C672FA9@keescook>
+References: <20221006165346.73159-1-Jason@zx2c4.com>
+ <20221006165346.73159-4-Jason@zx2c4.com>
+ <848ed24c-13ef-6c38-fd13-639b33809194@csgroup.eu>
+ <CAHmME9raQ4E00r9r8NyWJ17iSXE_KniTG0onCNAfMmfcGar1eg@mail.gmail.com>
+ <f10fcfbf-2da6-cf2d-6027-fbf8b52803e9@csgroup.eu>
+ <6396875c-146a-acf5-dd9e-7f93ba1b4bc3@csgroup.eu>
+ <CAHmME9pE4saqnwxhsAwt-xegYGjsavPOGnHCbZhUXD7kaJ+GAA@mail.gmail.com>
+ <501b0fc3-6c67-657f-781e-25ee0283bc2e@csgroup.eu>
+ <Y0Ayvov/KQmrIwTS@zx2c4.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v3 4/4] media: camss: sm8250: Pipeline starting and
- stopping for multiple virtual channels
-Content-Language: en-US
-To:     quic_mmitkov@quicinc.com, linux-media@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, robert.foss@linaro.org,
-        akapatra@quicinc.com, jzala@quicinc.com, todor.too@gmail.com
-Cc:     agross@kernel.org, bjorn.andersson@linaro.org,
-        konrad.dybcio@somainline.org, mchehab@kernel.org,
-        cgera@qti.qualcomm.com, gchinnab@quicinc.com,
-        ayasan@qti.qualcomm.com
-References: <20221007132009.1886-1-quic_mmitkov@quicinc.com>
- <20221007132009.1886-5-quic_mmitkov@quicinc.com>
-From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <20221007132009.1886-5-quic_mmitkov@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_PDS_OTHER_BAD_TLD autolearn=unavailable
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <Y0Ayvov/KQmrIwTS@zx2c4.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 07/10/2022 14:20, quic_mmitkov@quicinc.com wrote:
-> From: Milen Mitkov <quic_mmitkov@quicinc.com>
+On Fri, Oct 07, 2022 at 08:07:58AM -0600, Jason A. Donenfeld wrote:
+> On Fri, Oct 07, 2022 at 04:57:24AM +0000, Christophe Leroy wrote:
+> > 
+> > 
+> > Le 07/10/2022 à 01:36, Jason A. Donenfeld a écrit :
+> > > On 10/6/22, Christophe Leroy <christophe.leroy@csgroup.eu> wrote:
+> > >>
+> > >>
+> > >> Le 06/10/2022 à 19:31, Christophe Leroy a écrit :
+> > >>>
+> > >>>
+> > >>> Le 06/10/2022 à 19:24, Jason A. Donenfeld a écrit :
+> > >>>> Hi Christophe,
+> > >>>>
+> > >>>> On Thu, Oct 6, 2022 at 11:21 AM Christophe Leroy
+> > >>>> <christophe.leroy@csgroup.eu> wrote:
+> > >>>>> Le 06/10/2022 à 18:53, Jason A. Donenfeld a écrit :
+> > >>>>>> The prandom_u32() function has been a deprecated inline wrapper around
+> > >>>>>> get_random_u32() for several releases now, and compiles down to the
+> > >>>>>> exact same code. Replace the deprecated wrapper with a direct call to
+> > >>>>>> the real function. The same also applies to get_random_int(), which is
+> > >>>>>> just a wrapper around get_random_u32().
+> > >>>>>>
+> > >>>>>> Reviewed-by: Kees Cook <keescook@chromium.org>
+> > >>>>>> Acked-by: Toke Høiland-Jørgensen <toke@toke.dk> # for sch_cake
+> > >>>>>> Acked-by: Chuck Lever <chuck.lever@oracle.com> # for nfsd
+> > >>>>>> Reviewed-by: Jan Kara <jack@suse.cz> # for ext4
+> > >>>>>> Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
+> > >>>>>> ---
+> > >>>>>
+> > >>>>>> diff --git a/arch/powerpc/kernel/process.c
+> > >>>>>> b/arch/powerpc/kernel/process.c
+> > >>>>>> index 0fbda89cd1bb..9c4c15afbbe8 100644
+> > >>>>>> --- a/arch/powerpc/kernel/process.c
+> > >>>>>> +++ b/arch/powerpc/kernel/process.c
+> > >>>>>> @@ -2308,6 +2308,6 @@ void notrace __ppc64_runlatch_off(void)
+> > >>>>>>     unsigned long arch_align_stack(unsigned long sp)
+> > >>>>>>     {
+> > >>>>>>         if (!(current->personality & ADDR_NO_RANDOMIZE) &&
+> > >>>>>> randomize_va_space)
+> > >>>>>> -             sp -= get_random_int() & ~PAGE_MASK;
+> > >>>>>> +             sp -= get_random_u32() & ~PAGE_MASK;
+> > >>>>>>         return sp & ~0xf;
+> > >>>>>
+> > >>>>> Isn't that a candidate for prandom_u32_max() ?
+> > >>>>>
+> > >>>>> Note that sp is deemed to be 16 bytes aligned at all time.
+> > >>>>
+> > >>>> Yes, probably. It seemed non-trivial to think about, so I didn't. But
+> > >>>> let's see here... maybe it's not too bad:
+> > >>>>
+> > >>>> If PAGE_MASK is always ~(PAGE_SIZE-1), then ~PAGE_MASK is
+> > >>>> (PAGE_SIZE-1), so prandom_u32_max(PAGE_SIZE) should yield the same
+> > >>>> thing? Is that accurate? And holds across platforms (this comes up a
+> > >>>> few places)? If so, I'll do that for a v4.
+> > >>>>
+> > >>>
+> > >>> On powerpc it is always (from arch/powerpc/include/asm/page.h) :
+> > >>>
+> > >>> /*
+> > >>>    * Subtle: (1 << PAGE_SHIFT) is an int, not an unsigned long. So if we
+> > >>>    * assign PAGE_MASK to a larger type it gets extended the way we want
+> > >>>    * (i.e. with 1s in the high bits)
+> > >>>    */
+> > >>> #define PAGE_MASK      (~((1 << PAGE_SHIFT) - 1))
+> > >>>
+> > >>> #define PAGE_SIZE        (1UL << PAGE_SHIFT)
+> > >>>
+> > >>>
+> > >>> So it would work I guess.
+> > >>
+> > >> But taking into account that sp must remain 16 bytes aligned, would it
+> > >> be better to do something like ?
+> > >>
+> > >> 	sp -= prandom_u32_max(PAGE_SIZE >> 4) << 4;
+> > >>
+> > >> 	return sp;
+> > > 
+> > > Does this assume that sp is already aligned at the beginning of the
+> > > function? I'd assume from the function's name that this isn't the
+> > > case?
+> > 
+> > Ah you are right, I overlooked it.
 > 
-> Use the multistream series function video_device_pipeline_alloc_start
-> to allows multiple clients of the same pipeline.
-> 
-> If any of the entities in the pipeline doesn't return success at stop
-> (e.g. if a VFE line remains running), the full pipeline won't be stopped.
-> This allows for stopping and starting streams at any point without
-> disrupting the other running streams.
-> 
-> Signed-off-by: Milen Mitkov <quic_mmitkov@quicinc.com>
-> ---
->   .../media/platform/qcom/camss/camss-video.c   | 21 ++++++++++++++++---
->   1 file changed, 18 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/media/platform/qcom/camss/camss-video.c b/drivers/media/platform/qcom/camss/camss-video.c
-> index 81fb3a5bc1d5..b042faf3dcda 100644
-> --- a/drivers/media/platform/qcom/camss/camss-video.c
-> +++ b/drivers/media/platform/qcom/camss/camss-video.c
-> @@ -353,6 +353,7 @@ static int video_get_subdev_format(struct camss_video *video,
->   
->   	fmt.pad = pad;
->   	fmt.which = V4L2_SUBDEV_FORMAT_ACTIVE;
-> +	fmt.stream = 0;
->   
->   	ret = v4l2_subdev_call(subdev, pad, get_fmt, NULL, &fmt);
->   	if (ret)
-> @@ -493,9 +494,11 @@ static int video_start_streaming(struct vb2_queue *q, unsigned int count)
->   	struct v4l2_subdev *subdev;
->   	int ret;
->   
-> -	ret = video_device_pipeline_start(vdev, &video->pipe);
-> -	if (ret < 0)
-> +	ret = video_device_pipeline_alloc_start(vdev);
-> +	if (ret < 0) {
-> +		dev_err(video->camss->dev, "Failed to start media pipeline: %d\n", ret);
->   		return ret;
-> +	}
->   
->   	ret = video_check_format(video);
->   	if (ret < 0)
-> @@ -536,6 +539,7 @@ static void video_stop_streaming(struct vb2_queue *q)
->   	struct media_entity *entity;
->   	struct media_pad *pad;
->   	struct v4l2_subdev *subdev;
-> +	int ret;
->   
->   	entity = &vdev->entity;
->   	while (1) {
-> @@ -550,7 +554,18 @@ static void video_stop_streaming(struct vb2_queue *q)
->   		entity = pad->entity;
->   		subdev = media_entity_to_v4l2_subdev(entity);
->   
-> -		v4l2_subdev_call(subdev, video, s_stream, 0);
-> +		ret = v4l2_subdev_call(subdev, video, s_stream, 0);
-> +
-> +		if (ret == -EBUSY) {
-> +			/* Don't stop if other instances of the pipeline are still running */
-> +			dev_dbg(video->camss->dev, "Video pipeline still used, don't stop streaming.\n");
-> +			return;
-> +		}
-> +
-> +		if (ret) {
-> +			dev_err(video->camss->dev, "Video pipeline stop failed: %d\n", ret);
-> +			return;
-> +		}
->   	}
->   
->   	video_device_pipeline_stop(vdev);
+> So I think to stay on the safe side, I'm going to go with
+> `prandom_u32_max(PAGE_SIZE)`. Sound good?
 
-Hi.
+Given these kinds of less mechanical changes, it may make sense to split
+these from the "trivial" conversions in a treewide patch. The chance of
+needing a revert from the simple 1:1 conversions is much lower than the
+need to revert by-hand changes.
 
-This still doesn't apply to media tip of tree fixes
+The Cocci script I suggested in my v1 review gets 80% of the first
+patch, for example.
 
-I get 3/4 patches in then the last one doesn't apply
-
-To ssh://git.linaro.org/people/bryan.odonoghue/kernel.git
-  * [new branch]                HEAD -> 
-media-tree-fixes-22-10-07+qcom-camss-vc-partial
-
+-- 
+Kees Cook
