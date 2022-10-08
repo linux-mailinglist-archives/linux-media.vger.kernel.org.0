@@ -2,114 +2,154 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AF0815F8795
-	for <lists+linux-media@lfdr.de>; Sat,  8 Oct 2022 23:54:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DF3AB5F880E
+	for <lists+linux-media@lfdr.de>; Sun,  9 Oct 2022 00:09:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229563AbiJHVx6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 8 Oct 2022 17:53:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46908 "EHLO
+        id S229674AbiJHWJW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 8 Oct 2022 18:09:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38850 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229379AbiJHVx5 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sat, 8 Oct 2022 17:53:57 -0400
-Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com [66.111.4.26])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B86232063
-        for <linux-media@vger.kernel.org>; Sat,  8 Oct 2022 14:53:56 -0700 (PDT)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-        by mailout.nyi.internal (Postfix) with ESMTP id D874A5C00E4;
-        Sat,  8 Oct 2022 17:53:53 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute5.internal (MEProxy); Sat, 08 Oct 2022 17:53:53 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fastmail.com; h=
-        cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
-        :message-id:mime-version:reply-to:sender:subject:subject:to:to;
-         s=fm3; t=1665266033; x=1665352433; bh=uHw6FLeKrnDjbGOBPPzfIewGF
-        Vy5B/VI4oql5ep7vBc=; b=cbf8Qd6Dv0AElGyc1PbGMtz49/npyoX3QblVuYq2h
-        KaBHK/wBE36gZeIj37rWRqkBJsyW1qkI1EwfieIBsOVjq3e3G8BCQ02j43RZJq3W
-        f1BjO92lNKNN59WDDLa49/ErG5U9sPdO5/iUJ+LiOasFMdwakFm9jryHSvvtdMUr
-        s5aSh74MYvbrwZ+9xP4XBVc/yMYRJnl45CwxFsvMZ4L5BNucXFuWh91fppEAMSeb
-        G62WYWSzF/sub7H3rRBYQCfpzSAtJu/pT9Qip8ZWwb7UmcckIQctJkGEiNqbgB2B
-        2LuO8JGR4Fz6wi/PFrgxnQUR9zpN2jOAFLXhovKRLugJw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
-        :feedback-id:feedback-id:from:from:in-reply-to:message-id
-        :mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
-        1665266033; x=1665352433; bh=uHw6FLeKrnDjbGOBPPzfIewGFVy5B/VI4oq
-        l5ep7vBc=; b=dqg/NlFVmQysQuNxnolxUeM7nT39OtuVE3ArfXnP+C8PwFPW+DE
-        CJoRH807WIhXHUQAUOQI9Z97V4NAy2yId9MhPnSZoCPfT4VaNwtaulRROzbQm3Hq
-        AB5WQnAby5Yj7sLS66Eix4KLhMQFIkf8qc/fiP/6kwQe8v75twBRKG34yfp2HiBw
-        Di6PDufcMCJdYJwTkza8e9p3vye90oWHDsZ0ibDkdpBojqpjUFBW2XaGplDaoDPm
-        yk7+3zOHf1KjjdwaMSAD/w4JFIU6jZT8cJFS+sSEACkH0jzwJR5rjg8RtGRQL59t
-        6UJ8G7qT37DrbQrZe5W2CxhsupVQ4tzv8vQ==
-X-ME-Sender: <xms:cfFBY1NO8gyiV5mWAD6aIMO2qOA9nn77Y9AZzkX1mjYFaysonC1abQ>
-    <xme:cfFBY38HBKx-32pGT2liRfZPJBl0d6QH_lQoI8CZMO31UWV509HA_cOkkWusyEFPi
-    lZNQHjLvEHpV3CvxL4>
-X-ME-Received: <xmr:cfFBY0Sj594wr69GI_YCBgKiTLuAeljZf1dWxXaS5mE-QNzVhTTnQfo2uX1csxtzvxpPkqKQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfeejtddgtdefucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucenucfjughrpefhvfevufffkffoggfgsedtkeertd
-    ertddtnecuhfhrohhmpeffrghfnhgrucfjihhrshgthhhfvghlugcuoegurghfnhgrsehf
-    rghsthhmrghilhdrtghomheqnecuggftrfgrthhtvghrnhepveeuhfejgffhkeekleelhe
-    etkeevveffgfdvfeeffeefvdelffeliedtvddvgfeknecuvehluhhsthgvrhfuihiivgep
-    tdenucfrrghrrghmpehmrghilhhfrhhomhepuggrfhhnrgesfhgrshhtmhgrihhlrdgtoh
-    hm
-X-ME-Proxy: <xmx:cfFBYxsI48Sov3NR-gp5drLCff_nZuCHKFAQdzaDRlKGB210eLFWHg>
-    <xmx:cfFBY9d5Gu15babKmNiepFosyt9_EKGJ-inu32GcD6GhZn2nBAnj4A>
-    <xmx:cfFBY92m1wK25Id9LYFrIKUi3VktkCAOIP9uRM8ZZVX-fTJjMbbOzg>
-    <xmx:cfFBY-pK9ONcR3706Zomg21ZpUnMZipIONN1CUQ_AeL7bSagqtMRWA>
-Feedback-ID: i0e894699:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
- 8 Oct 2022 17:53:52 -0400 (EDT)
-From:   Dafna Hirschfeld <dafna@fastmail.com>
-To:     skhan@linuxfoundation.org, kieran.bingham@ideasonboard.com,
-        linux-media@vger.kernel.org
-Cc:     Dafna Hirschfeld <dafna@fastmail.com>
-Subject: [PATCH] media: vimc: Update device configuration in the documentation
-Date:   Sun,  9 Oct 2022 00:53:46 +0300
-Message-Id: <20221008215346.172559-1-dafna@fastmail.com>
-X-Mailer: git-send-email 2.25.1
+        with ESMTP id S229596AbiJHWJT (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 8 Oct 2022 18:09:19 -0400
+Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.85.151])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B155C31200
+        for <linux-media@vger.kernel.org>; Sat,  8 Oct 2022 15:09:03 -0700 (PDT)
+Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ uk-mta-98-KtAFQuLTPeKLVd871cru4Q-1; Sat, 08 Oct 2022 23:08:05 +0100
+X-MC-Unique: KtAFQuLTPeKLVd871cru4Q-1
+Received: from AcuMS.Aculab.com (10.202.163.4) by AcuMS.aculab.com
+ (10.202.163.4) with Microsoft SMTP Server (TLS) id 15.0.1497.38; Sat, 8 Oct
+ 2022 23:08:03 +0100
+Received: from AcuMS.Aculab.com ([::1]) by AcuMS.aculab.com ([::1]) with mapi
+ id 15.00.1497.040; Sat, 8 Oct 2022 23:08:03 +0100
+From:   David Laight <David.Laight@ACULAB.COM>
+To:     "'Jason A. Donenfeld'" <Jason@zx2c4.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "patches@lists.linux.dev" <patches@lists.linux.dev>
+CC:     Andreas Noever <andreas.noever@gmail.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Borislav Petkov <bp@alien8.de>,
+        "Catalin Marinas" <catalin.marinas@arm.com>,
+        =?utf-8?B?Q2hyaXN0b3BoIELDtmhtd2FsZGVy?= 
+        <christoph.boehmwalder@linbit.com>, Christoph Hellwig <hch@lst.de>,
+        Christophe Leroy <christophe.leroy@csgroup.eu>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Dave Airlie <airlied@redhat.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        "Eric Dumazet" <edumazet@google.com>,
+        Florian Westphal <fw@strlen.de>,
+        "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        Helge Deller <deller@gmx.de>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        Huacai Chen <chenhuacai@kernel.org>,
+        Hugh Dickins <hughd@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        "James E . J . Bottomley" <jejb@linux.ibm.com>,
+        Jan Kara <jack@suse.com>, Jason Gunthorpe <jgg@ziepe.ca>,
+        Jens Axboe <axboe@kernel.dk>,
+        Johannes Berg <johannes@sipsolutions.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Jozsef Kadlecsik <kadlec@netfilter.org>,
+        KP Singh <kpsingh@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Marco Elver <elver@google.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        "Michael Ellerman" <mpe@ellerman.id.au>,
+        Pablo Neira Ayuso <pablo@netfilter.org>,
+        "Paolo Abeni" <pabeni@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        "Richard Weinberger" <richard@nod.at>,
+        Russell King <linux@armlinux.org.uk>,
+        "Theodore Ts'o" <tytso@mit.edu>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        "Thomas Gleixner" <tglx@linutronix.de>,
+        Thomas Graf <tgraf@suug.ch>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        WANG Xuerui <kernel@xen0n.name>, Will Deacon <will@kernel.org>,
+        Yury Norov <yury.norov@gmail.com>,
+        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+        "kasan-dev@googlegroups.com" <kasan-dev@googlegroups.com>,
+        "kernel-janitors@vger.kernel.org" <kernel-janitors@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+        "linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "linux-mips@vger.kernel.org" <linux-mips@vger.kernel.org>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
+        "linux-mtd@lists.infradead.org" <linux-mtd@lists.infradead.org>,
+        "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+        "linux-parisc@vger.kernel.org" <linux-parisc@vger.kernel.org>,
+        "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
+        "linux-s390@vger.kernel.org" <linux-s390@vger.kernel.org>,
+        "linux-um@lists.infradead.org" <linux-um@lists.infradead.org>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        "linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>,
+        "linuxppc-dev@lists.ozlabs.org" <linuxppc-dev@lists.ozlabs.org>,
+        "loongarch@lists.linux.dev" <loongarch@lists.linux.dev>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "sparclinux@vger.kernel.org" <sparclinux@vger.kernel.org>,
+        "x86@kernel.org" <x86@kernel.org>, Jan Kara <jack@suse.cz>
+Subject: RE: [PATCH v4 2/6] treewide: use prandom_u32_max() when possible
+Thread-Topic: [PATCH v4 2/6] treewide: use prandom_u32_max() when possible
+Thread-Index: AQHY2ncm2NigVNsUqkWyNH5TWnqFQK4FDn2g
+Date:   Sat, 8 Oct 2022 22:08:03 +0000
+Message-ID: <01fafe0e56554b1c9c934c458b93473a@AcuMS.aculab.com>
+References: <20221007180107.216067-1-Jason@zx2c4.com>
+ <20221007180107.216067-3-Jason@zx2c4.com>
+In-Reply-To: <20221007180107.216067-3-Jason@zx2c4.com>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: base64
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Since commit 9b4a9b31b9ae ("media: vimc: Enable set resolution at the scaler src pad")
-the configuration in the documentation does
-not work. Replace it with the configuration
-described in commit 9b4a9b31b9ae
-
-Signed-off-by: Dafna Hirschfeld <dafna@fastmail.com>
----
- Documentation/admin-guide/media/vimc.rst | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
-
-diff --git a/Documentation/admin-guide/media/vimc.rst b/Documentation/admin-guide/media/vimc.rst
-index 3b4d2b36b4f3..29d843a8ddb1 100644
---- a/Documentation/admin-guide/media/vimc.rst
-+++ b/Documentation/admin-guide/media/vimc.rst
-@@ -35,11 +35,11 @@ of commands fits for the default topology:
- 
-         media-ctl -d platform:vimc -V '"Sensor A":0[fmt:SBGGR8_1X8/640x480]'
-         media-ctl -d platform:vimc -V '"Debayer A":0[fmt:SBGGR8_1X8/640x480]'
--        media-ctl -d platform:vimc -V '"Sensor B":0[fmt:SBGGR8_1X8/640x480]'
--        media-ctl -d platform:vimc -V '"Debayer B":0[fmt:SBGGR8_1X8/640x480]'
--        v4l2-ctl -z platform:vimc -d "RGB/YUV Capture" -v width=1920,height=1440
-+        media-ctl -d platform:vimc -V '"Scaler":0[fmt:RGB888_1X24/640x480]'
-+        media-ctl -d platform:vimc -V '"Scaler":0[crop:(100,50)/400x150]'
-+        media-ctl -d platform:vimc -V '"Scaler":1[fmt:RGB888_1X24/300x700]'
-+        v4l2-ctl -z platform:vimc -d "RGB/YUV Capture" -v width=300,height=700
-         v4l2-ctl -z platform:vimc -d "Raw Capture 0" -v pixelformat=BA81
--        v4l2-ctl -z platform:vimc -d "Raw Capture 1" -v pixelformat=BA81
- 
- Subdevices
- ----------
--- 
-2.25.1
+RnJvbTogSmFzb24gQS4gRG9uZW5mZWxkDQo+IFNlbnQ6IDA3IE9jdG9iZXIgMjAyMiAxOTowMQ0K
+PiANCj4gUmF0aGVyIHRoYW4gaW5jdXJyaW5nIGEgZGl2aXNpb24gb3IgcmVxdWVzdGluZyB0b28g
+bWFueSByYW5kb20gYnl0ZXMgZm9yDQo+IHRoZSBnaXZlbiByYW5nZSwgdXNlIHRoZSBwcmFuZG9t
+X3UzMl9tYXgoKSBmdW5jdGlvbiwgd2hpY2ggb25seSB0YWtlcw0KPiB0aGUgbWluaW11bSByZXF1
+aXJlZCBieXRlcyBmcm9tIHRoZSBSTkcgYW5kIGF2b2lkcyBkaXZpc2lvbnMuDQo+IA0KLi4uDQo+
+IC0tLSBhL2xpYi9jbWRsaW5lX2t1bml0LmMNCj4gKysrIGIvbGliL2NtZGxpbmVfa3VuaXQuYw0K
+PiBAQCAtNzYsNyArNzYsNyBAQCBzdGF0aWMgdm9pZCBjbWRsaW5lX3Rlc3RfbGVhZF9pbnQoc3Ry
+dWN0IGt1bml0ICp0ZXN0KQ0KPiAgCQlpbnQgcmMgPSBjbWRsaW5lX3Rlc3RfdmFsdWVzW2ldOw0K
+PiAgCQlpbnQgb2Zmc2V0Ow0KPiANCj4gLQkJc3ByaW50ZihpbiwgIiV1JXMiLCBwcmFuZG9tX3Uz
+Ml9tYXgoMjU2KSwgc3RyKTsNCj4gKwkJc3ByaW50ZihpbiwgIiV1JXMiLCBnZXRfcmFuZG9tX2lu
+dCgpICUgMjU2LCBzdHIpOw0KPiAgCQkvKiBPbmx5IGZpcnN0ICctJyBhZnRlciB0aGUgbnVtYmVy
+IHdpbGwgYWR2YW5jZSB0aGUgcG9pbnRlciAqLw0KPiAgCQlvZmZzZXQgPSBzdHJsZW4oaW4pIC0g
+c3RybGVuKHN0cikgKyAhIShyYyA9PSAyKTsNCj4gIAkJY21kbGluZV9kb19vbmVfdGVzdCh0ZXN0
+LCBpbiwgcmMsIG9mZnNldCk7DQo+IEBAIC05NCw3ICs5NCw3IEBAIHN0YXRpYyB2b2lkIGNtZGxp
+bmVfdGVzdF90YWlsX2ludChzdHJ1Y3Qga3VuaXQgKnRlc3QpDQo+ICAJCWludCByYyA9IHN0cmNt
+cChzdHIsICIiKSA/IChzdHJjbXAoc3RyLCAiLSIpID8gMCA6IDEpIDogMTsNCj4gIAkJaW50IG9m
+ZnNldDsNCj4gDQo+IC0JCXNwcmludGYoaW4sICIlcyV1Iiwgc3RyLCBwcmFuZG9tX3UzMl9tYXgo
+MjU2KSk7DQo+ICsJCXNwcmludGYoaW4sICIlcyV1Iiwgc3RyLCBnZXRfcmFuZG9tX2ludCgpICUg
+MjU2KTsNCj4gIAkJLyoNCj4gIAkJICogT25seSBmaXJzdCBhbmQgbGVhZGluZyAnLScgbm90IGZv
+bGxvd2VkIGJ5IGludGVnZXINCj4gIAkJICogd2lsbCBhZHZhbmNlIHRoZSBwb2ludGVyLg0KDQpT
+b21ldGhpbmcgaGFzIGdvbmUgYmFja3dhcmRzIGhlcmUuLi4uDQpBbmQgZ2V0X3JhbmRvbV91OCgp
+IGxvb2tzIGEgYmV0dGVyIGZpdC4NCg0KCURhdmlkDQoNCi0NClJlZ2lzdGVyZWQgQWRkcmVzcyBM
+YWtlc2lkZSwgQnJhbWxleSBSb2FkLCBNb3VudCBGYXJtLCBNaWx0b24gS2V5bmVzLCBNSzEgMVBU
+LCBVSw0KUmVnaXN0cmF0aW9uIE5vOiAxMzk3Mzg2IChXYWxlcykNCg==
 
