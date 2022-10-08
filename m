@@ -1,69 +1,116 @@
 Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E9AEE5F8103
-	for <lists+linux-media@lfdr.de>; Sat,  8 Oct 2022 01:04:54 +0200 (CEST)
+Received: from out1.vger.email (unknown [IPv6:2620:137:e000::1:20])
+	by mail.lfdr.de (Postfix) with ESMTP id 648D35F81E2
+	for <lists+linux-media@lfdr.de>; Sat,  8 Oct 2022 03:29:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229495AbiJGXEg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 7 Oct 2022 19:04:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56944 "EHLO
+        id S229739AbiJHB30 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 7 Oct 2022 21:29:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56212 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229445AbiJGXEf (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 7 Oct 2022 19:04:35 -0400
-Received: from mail-oi1-x22f.google.com (mail-oi1-x22f.google.com [IPv6:2607:f8b0:4864:20::22f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5BDE199
-        for <linux-media@vger.kernel.org>; Fri,  7 Oct 2022 16:04:33 -0700 (PDT)
-Received: by mail-oi1-x22f.google.com with SMTP id o64so7131140oib.12
-        for <linux-media@vger.kernel.org>; Fri, 07 Oct 2022 16:04:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=to:in-reply-to:cc:references:message-id:date:subject:mime-version
-         :from:content-transfer-encoding:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=cJfuuF9lKbZrzeRMRPZLKHPdNCoVkv4e1zGAMiZ1COo=;
-        b=JYyaj31HoYCsTL6s9TMyoFH/ayiLDLZQy6Xbrcd7Id+Hb/7deirQN725U3yAotgP3T
-         YLmcqyhaZzmrgTXNzkod5wu8ZeQB1UWJVLgNmLmnozj/r2LBITDabgTLRtt0yf0VdhH9
-         w3XHwkDMVx62CaztnvfNP2ruwcwDuiuj6i/RjuwDJy0RKhdWNukxRHSvkq8Nm6h0/78C
-         sfT+s0jQeavabbCP5wLMtkOr3yC8EGnN+yeH0RfMHvHIwE/MB4LV+X4zSXctfmLyt2UF
-         r4Osy+BX4valW6EhIAftzkGHSfhDRJWwf415FX/PZsjoYHcPUrMybHQxtmUelWRUWSqW
-         ksCA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=to:in-reply-to:cc:references:message-id:date:subject:mime-version
-         :from:content-transfer-encoding:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=cJfuuF9lKbZrzeRMRPZLKHPdNCoVkv4e1zGAMiZ1COo=;
-        b=rm7Q19dUbtA12MAx+H9HcqsW12UzUIjEvtGb+VNzL7vNWRyGYlCkMS1gqf/KqQMbXM
-         WtuYsYV72bgS/yven13AmwKHJEyjUZRp/FWLSMOr0BFirtcxuNHCWD+aZM2pBdIbxSTh
-         mpYboL6WjKPRr1O0JFBxPxgXYpfmmoRh9gQerAS+8r0fgmQo29HgmTMG5Ywa8VdUWpfo
-         thLcR5YTkGvQobuRs5lbyBFgJMo5EA4MTlr1IYvqfML9woWuZoGfal4lhjnygCKldFbu
-         fVOqss59dEu6UPe0C14aE4pO5Ps0extuvguUECaT+jxFlXxXyouEn8zPeN6VydnFe6x3
-         YWrQ==
-X-Gm-Message-State: ACrzQf0K0OO6yqjz4Hta8tBCs/l+BteMwARufp4qMgxjyhztlD7ZrUx6
-        NefG+p/4nhQqPm8OYv5/n8AOkqcOXe8=
-X-Google-Smtp-Source: AMsMyM71A+8C+EWMKK3eI7vzHKO5ANQbYaprrb4WNnuA2Rx2Rk3qp3we9sbzZewOj89FuMJWYdbXig==
-X-Received: by 2002:a05:6808:13d1:b0:354:436a:2b02 with SMTP id d17-20020a05680813d100b00354436a2b02mr1925768oiw.124.1665183872330;
-        Fri, 07 Oct 2022 16:04:32 -0700 (PDT)
-Received: from smtpclient.apple ([186.212.115.217])
-        by smtp.gmail.com with ESMTPSA id r17-20020a05687002d100b00130d060ce80sm2141250oaf.31.2022.10.07.16.04.31
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 07 Oct 2022 16:04:31 -0700 (PDT)
+        with ESMTP id S229468AbiJHB3Y (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 7 Oct 2022 21:29:24 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EDDADBC604;
+        Fri,  7 Oct 2022 18:29:21 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 60D8FB8248E;
+        Sat,  8 Oct 2022 01:29:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B6C01C433C1;
+        Sat,  8 Oct 2022 01:29:12 +0000 (UTC)
+Authentication-Results: smtp.kernel.org;
+        dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com header.b="F0WFV840"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105;
+        t=1665192550;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=2a2X1YlfkZ0pGgKe1BT3qPauqYJUuDonzfwdbODwUj0=;
+        b=F0WFV8408bfDyb840yWHYb2sS5Uszq0PMkkmtmrVRBUNL2FY49DLuZ3A8VZX01cjH92PRw
+        963/yLDTfSbPjK9v/cSx6ClQtvwOaP31xlyhs5+LtAOzyMXtRqv5atZ8HOk8wnFIOFKYJl
+        weXSG5WPTsM48QIVGdJf4b19sbZPAzo=
+Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 08b122db (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
+        Sat, 8 Oct 2022 01:29:09 +0000 (UTC)
+Date:   Fri, 7 Oct 2022 19:28:59 -0600
+From:   "Jason A. Donenfeld" <Jason@zx2c4.com>
+To:     "Darrick J. Wong" <djwong@kernel.org>
+Cc:     linux-kernel@vger.kernel.org, patches@lists.linux.dev,
+        Andreas Noever <andreas.noever@gmail.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Christoph =?utf-8?Q?B=C3=B6hmwalder?= 
+        <christoph.boehmwalder@linbit.com>, Christoph Hellwig <hch@lst.de>,
+        Christophe Leroy <christophe.leroy@csgroup.eu>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Dave Airlie <airlied@redhat.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Florian Westphal <fw@strlen.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        Helge Deller <deller@gmx.de>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        Huacai Chen <chenhuacai@kernel.org>,
+        Hugh Dickins <hughd@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        "James E . J . Bottomley" <jejb@linux.ibm.com>,
+        Jan Kara <jack@suse.com>, Jason Gunthorpe <jgg@ziepe.ca>,
+        Jens Axboe <axboe@kernel.dk>,
+        Johannes Berg <johannes@sipsolutions.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Jozsef Kadlecsik <kadlec@netfilter.org>,
+        KP Singh <kpsingh@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Marco Elver <elver@google.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Pablo Neira Ayuso <pablo@netfilter.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Richard Weinberger <richard@nod.at>,
+        Russell King <linux@armlinux.org.uk>,
+        Theodore Ts'o <tytso@mit.edu>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Thomas Graf <tgraf@suug.ch>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        WANG Xuerui <kernel@xen0n.name>, Will Deacon <will@kernel.org>,
+        Yury Norov <yury.norov@gmail.com>,
+        dri-devel@lists.freedesktop.org, kasan-dev@googlegroups.com,
+        kernel-janitors@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-block@vger.kernel.org,
+        linux-crypto@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-mips@vger.kernel.org, linux-mm@kvack.org,
+        linux-mmc@vger.kernel.org, linux-mtd@lists.infradead.org,
+        linux-nvme@lists.infradead.org, linux-parisc@vger.kernel.org,
+        linux-rdma@vger.kernel.org, linux-s390@vger.kernel.org,
+        linux-um@lists.infradead.org, linux-usb@vger.kernel.org,
+        linux-wireless@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        loongarch@lists.linux.dev, netdev@vger.kernel.org,
+        sparclinux@vger.kernel.org, x86@kernel.org, Jan Kara <jack@suse.cz>
+Subject: Re: [PATCH v4 2/6] treewide: use prandom_u32_max() when possible
+Message-ID: <Y0DSW4AAX/yA3CdI@zx2c4.com>
+References: <20221007180107.216067-1-Jason@zx2c4.com>
+ <20221007180107.216067-3-Jason@zx2c4.com>
+ <Y0CXYjV8qMpJxxBa@magnolia>
+MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-From:   Devendra Tewari <devendra.tewari@gmail.com>
-Mime-Version: 1.0 (1.0)
-Subject: Re: [PATCH] videodev2.h: apply packed attribute to union
-Date:   Fri, 7 Oct 2022 20:04:16 -0300
-Message-Id: <969BFFB7-0FEB-44F8-9195-4932C52FB123@gmail.com>
-References: <166517991147.1077487.14561113854570206898@Monstersaurus>
-Cc:     linux-media@vger.kernel.org
-In-Reply-To: <166517991147.1077487.14561113854570206898@Monstersaurus>
-To:     Kieran Bingham <kieran.bingham@ideasonboard.com>
-X-Mailer: iPhone Mail (20A380)
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <Y0CXYjV8qMpJxxBa@magnolia>
+X-Spam-Status: No, score=-6.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -71,72 +118,70 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+On Fri, Oct 07, 2022 at 02:17:22PM -0700, Darrick J. Wong wrote:
+> On Fri, Oct 07, 2022 at 12:01:03PM -0600, Jason A. Donenfeld wrote:
+> > Rather than incurring a division or requesting too many random bytes for
+> > the given range, use the prandom_u32_max() function, which only takes
+> > the minimum required bytes from the RNG and avoids divisions.
+> > 
+> > Reviewed-by: Kees Cook <keescook@chromium.org>
+> > Reviewed-by: KP Singh <kpsingh@kernel.org>
+> > Reviewed-by: Christoph Böhmwalder <christoph.boehmwalder@linbit.com> # for drbd
+> > Reviewed-by: Jan Kara <jack@suse.cz> # for ext2, ext4, and sbitmap
+> > Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
+> > ---
+> 
+> <snip, skip to the xfs part>
+> 
+> > diff --git a/fs/xfs/libxfs/xfs_alloc.c b/fs/xfs/libxfs/xfs_alloc.c
+> > index e2bdf089c0a3..6261599bb389 100644
+> > --- a/fs/xfs/libxfs/xfs_alloc.c
+> > +++ b/fs/xfs/libxfs/xfs_alloc.c
+> > @@ -1520,7 +1520,7 @@ xfs_alloc_ag_vextent_lastblock(
+> >  
+> >  #ifdef DEBUG
+> >  	/* Randomly don't execute the first algorithm. */
+> > -	if (prandom_u32() & 1)
+> > +	if (prandom_u32_max(2))
+> 
+> I wonder if these usecases (picking 0 or 1 randomly) ought to have a
+> trivial wrapper to make it more obvious that we want boolean semantics:
+> 
+> static inline bool prandom_bool(void)
+> {
+> 	return prandom_u32_max(2);
+> }
+> 
+> 	if (prandom_bool())
+> 		use_crazy_algorithm(...);
+> 
 
+Yea, I've had a lot of similar ideas there. Part of doing this (initial)
+patchset is to get an intuitive sense of what's actually used and how
+often. On my list for investigation are a get_random_u32_max() to return
+uniform numbers by rejection sampling (prandom_u32_max() doesn't do
+that uniformly) and adding a function for booleans or bits < 8. Possible
+ideas for the latter include:
 
-> No dia 7 de out. de 2022, =C3=A0s 18:58, Kieran Bingham <kieran.bingham@id=
-easonboard.com> escreveu:
->=20
-> =EF=BB=BFHi Devendra,
->=20
-> Quoting Devendra Tewari (2022-04-22 20:20:31)
->> Fixes clang warning: field within 'v4l2_ext_control' is less than
->=20
-> Can you detail which version of clang this occurs with? Have you tried
-> more than one version?
->=20
+   bool get_random_bool(void);
+   bool get_random_bool(unsigned int probability);
+   bool get_random_bits(u8 bits_less_than_eight);
 
-This started happening with version 14.0.1 and I continue to see it with ver=
-sion 15.
+With the core of all of those involving the same batching as the current
+get_random_u{8,16,32,64}() functions, but also buffering the latest byte
+and managing how many bits are left in it that haven't been shifted out
+yet.
 
->=20
->> 'v4l2_ext_control::(anonymous union
->>=20
->> Signed-off-by: Devendra Tewari <devendra.tewari@gmail.com>
->> ---
->> include/uapi/linux/videodev2.h | 2 +-
->> 1 file changed, 1 insertion(+), 1 deletion(-)
->>=20
->> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev=
-2.h
->> index 3768a0a80830..767c52c722cd 100644
->> --- a/include/uapi/linux/videodev2.h
->> +++ b/include/uapi/linux/videodev2.h
->> @@ -1765,7 +1765,7 @@ struct v4l2_ext_control {
->>                struct v4l2_ctrl_vp9_compressed_hdr __user *p_vp9_compress=
-ed_hdr_probs;
->>                struct v4l2_ctrl_vp9_frame __user *p_vp9_frame;
->>                void __user *ptr;
->> -       };
->> +       } __attribute__ ((packed));
->=20
-> This is a curious fix. It's applying a packed attribute to the union,
-> which I presume means that it's then applying the packed attribute to
-> any item in the union.
->=20
-> The items are all either: __s32, __s64, values - or pointers.
->=20
-> While applying this attribute here may fix the compiler warning, I'm not
-> sure it's clear why this is required. This file also has other
-> locations where a union inside a packed struct is not marked as packed.
-> Should all unions be marked with the attribute?
+So API-wise, there are a few ways to go, so hopefully this series will
+start to give a good picture of what's needed.
 
-Interesting - I need to look deeper into packed.
+One thing I've noticed is that most of the prandom_u32_max(2)
+invocations are in debug or test code, so that doesn't need to be
+optimized. But kfence does that too in its hot path, so a
+get_random_bool() function there would in theory lead to an 8x speed-up.
+But I guess I just have to try some things and see.
 
-> Is there any more context from the compiler warning beyond what is
-> reported above?
+Anyway, that is a long way to say, I share you curiosity on the matter
+and I'm looking into it.
 
-I'll post a more detailed log asap.
-
->=20
-> --
-> Kieran
->=20
->=20
->> } __attribute__ ((packed));
->>=20
->> struct v4l2_ext_controls {
->> --=20
->> 2.25.1
->>=20
-Thanks,
-Devendra=
+Jason
