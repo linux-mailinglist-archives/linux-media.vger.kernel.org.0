@@ -2,163 +2,114 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C11755F87A4
-	for <lists+linux-media@lfdr.de>; Sat,  8 Oct 2022 23:54:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AF0815F8795
+	for <lists+linux-media@lfdr.de>; Sat,  8 Oct 2022 23:54:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229638AbiJHVyL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 8 Oct 2022 17:54:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47068 "EHLO
+        id S229563AbiJHVx6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 8 Oct 2022 17:53:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46908 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229596AbiJHVyG (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sat, 8 Oct 2022 17:54:06 -0400
-Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.85.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 76EC432ECA
-        for <linux-media@vger.kernel.org>; Sat,  8 Oct 2022 14:54:03 -0700 (PDT)
-Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- uk-mta-322-B0KkuonxN4-iDxIJpOcDbw-1; Sat, 08 Oct 2022 22:53:36 +0100
-X-MC-Unique: B0KkuonxN4-iDxIJpOcDbw-1
-Received: from AcuMS.Aculab.com (10.202.163.6) by AcuMS.aculab.com
- (10.202.163.6) with Microsoft SMTP Server (TLS) id 15.0.1497.38; Sat, 8 Oct
- 2022 22:53:33 +0100
-Received: from AcuMS.Aculab.com ([::1]) by AcuMS.aculab.com ([::1]) with mapi
- id 15.00.1497.040; Sat, 8 Oct 2022 22:53:33 +0100
-From:   David Laight <David.Laight@ACULAB.COM>
-To:     "'Jason A. Donenfeld'" <Jason@zx2c4.com>,
-        Kees Cook <keescook@chromium.org>
-CC:     Christophe Leroy <christophe.leroy@csgroup.eu>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "patches@lists.linux.dev" <patches@lists.linux.dev>,
-        Andreas Noever <andreas.noever@gmail.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        "Andy Shevchenko" <andriy.shevchenko@linux.intel.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        =?utf-8?B?Q2hyaXN0b3BoIELDtmhtd2FsZGVy?= 
-        <christoph.boehmwalder@linbit.com>, Christoph Hellwig <hch@lst.de>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        "Dave Airlie" <airlied@redhat.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Florian Westphal <fw@strlen.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "H . Peter Anvin" <hpa@zytor.com>,
-        "Heiko Carstens" <hca@linux.ibm.com>, Helge Deller <deller@gmx.de>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        Huacai Chen <chenhuacai@kernel.org>,
-        "Hugh Dickins" <hughd@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        "James E . J . Bottomley" <jejb@linux.ibm.com>,
-        Jan Kara <jack@suse.com>, Jason Gunthorpe <jgg@ziepe.ca>,
-        Jens Axboe <axboe@kernel.dk>,
-        Johannes Berg <johannes@sipsolutions.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "Jozsef Kadlecsik" <kadlec@netfilter.org>,
-        KP Singh <kpsingh@kernel.org>, Marco Elver <elver@google.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        "Michael Ellerman" <mpe@ellerman.id.au>,
-        Pablo Neira Ayuso <pablo@netfilter.org>,
-        "Paolo Abeni" <pabeni@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        "Richard Weinberger" <richard@nod.at>,
-        Russell King <linux@armlinux.org.uk>,
-        "Theodore Ts'o" <tytso@mit.edu>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        "Thomas Gleixner" <tglx@linutronix.de>,
-        Thomas Graf <tgraf@suug.ch>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        WANG Xuerui <kernel@xen0n.name>, Will Deacon <will@kernel.org>,
-        Yury Norov <yury.norov@gmail.com>,
-        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-        "kasan-dev@googlegroups.com" <kasan-dev@googlegroups.com>,
-        "kernel-janitors@vger.kernel.org" <kernel-janitors@vger.kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
-        "linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "linux-mips@vger.kernel.org" <linux-mips@vger.kernel.org>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
-        "linux-mtd@lists.infradead.org" <linux-mtd@lists.infradead.org>,
-        "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
-        "linux-parisc@vger.kernel.org" <linux-parisc@vger.kernel.org>,
-        "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
-        "linux-s390@vger.kernel.org" <linux-s390@vger.kernel.org>,
-        "linux-um@lists.infradead.org" <linux-um@lists.infradead.org>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        "linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>,
-        "linuxppc-dev@lists.ozlabs.org" <linuxppc-dev@lists.ozlabs.org>,
-        "loongarch@lists.linux.dev" <loongarch@lists.linux.dev>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "sparclinux@vger.kernel.org" <sparclinux@vger.kernel.org>,
-        "x86@kernel.org" <x86@kernel.org>,
-        =?utf-8?B?VG9rZSBIw7hpbGFuZC1Kw7hyZ2Vuc2Vu?= <toke@toke.dk>,
-        Chuck Lever <chuck.lever@oracle.com>, Jan Kara <jack@suse.cz>
-Subject: RE: [PATCH v3 3/5] treewide: use get_random_u32() when possible
-Thread-Topic: [PATCH v3 3/5] treewide: use get_random_u32() when possible
-Thread-Index: AQHY2nYZ0LDp17FxT0u8eu+L+6kCF64FCBzw
-Date:   Sat, 8 Oct 2022 21:53:33 +0000
-Message-ID: <69080fb8cace486db4e28e2e90f1d550@AcuMS.aculab.com>
-References: <20221006165346.73159-1-Jason@zx2c4.com>
- <20221006165346.73159-4-Jason@zx2c4.com>
- <848ed24c-13ef-6c38-fd13-639b33809194@csgroup.eu>
- <CAHmME9raQ4E00r9r8NyWJ17iSXE_KniTG0onCNAfMmfcGar1eg@mail.gmail.com>
- <f10fcfbf-2da6-cf2d-6027-fbf8b52803e9@csgroup.eu>
- <6396875c-146a-acf5-dd9e-7f93ba1b4bc3@csgroup.eu>
- <CAHmME9pE4saqnwxhsAwt-xegYGjsavPOGnHCbZhUXD7kaJ+GAA@mail.gmail.com>
- <501b0fc3-6c67-657f-781e-25ee0283bc2e@csgroup.eu>
- <Y0Ayvov/KQmrIwTS@zx2c4.com> <202210071010.52C672FA9@keescook>
- <Y0BoQmVauPLC2uW5@zx2c4.com>
-In-Reply-To: <Y0BoQmVauPLC2uW5@zx2c4.com>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.202.205.107]
+        with ESMTP id S229379AbiJHVx5 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 8 Oct 2022 17:53:57 -0400
+Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com [66.111.4.26])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B86232063
+        for <linux-media@vger.kernel.org>; Sat,  8 Oct 2022 14:53:56 -0700 (PDT)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+        by mailout.nyi.internal (Postfix) with ESMTP id D874A5C00E4;
+        Sat,  8 Oct 2022 17:53:53 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute5.internal (MEProxy); Sat, 08 Oct 2022 17:53:53 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fastmail.com; h=
+        cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
+        :message-id:mime-version:reply-to:sender:subject:subject:to:to;
+         s=fm3; t=1665266033; x=1665352433; bh=uHw6FLeKrnDjbGOBPPzfIewGF
+        Vy5B/VI4oql5ep7vBc=; b=cbf8Qd6Dv0AElGyc1PbGMtz49/npyoX3QblVuYq2h
+        KaBHK/wBE36gZeIj37rWRqkBJsyW1qkI1EwfieIBsOVjq3e3G8BCQ02j43RZJq3W
+        f1BjO92lNKNN59WDDLa49/ErG5U9sPdO5/iUJ+LiOasFMdwakFm9jryHSvvtdMUr
+        s5aSh74MYvbrwZ+9xP4XBVc/yMYRJnl45CwxFsvMZ4L5BNucXFuWh91fppEAMSeb
+        G62WYWSzF/sub7H3rRBYQCfpzSAtJu/pT9Qip8ZWwb7UmcckIQctJkGEiNqbgB2B
+        2LuO8JGR4Fz6wi/PFrgxnQUR9zpN2jOAFLXhovKRLugJw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
+        :feedback-id:feedback-id:from:from:in-reply-to:message-id
+        :mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
+        1665266033; x=1665352433; bh=uHw6FLeKrnDjbGOBPPzfIewGFVy5B/VI4oq
+        l5ep7vBc=; b=dqg/NlFVmQysQuNxnolxUeM7nT39OtuVE3ArfXnP+C8PwFPW+DE
+        CJoRH807WIhXHUQAUOQI9Z97V4NAy2yId9MhPnSZoCPfT4VaNwtaulRROzbQm3Hq
+        AB5WQnAby5Yj7sLS66Eix4KLhMQFIkf8qc/fiP/6kwQe8v75twBRKG34yfp2HiBw
+        Di6PDufcMCJdYJwTkza8e9p3vye90oWHDsZ0ibDkdpBojqpjUFBW2XaGplDaoDPm
+        yk7+3zOHf1KjjdwaMSAD/w4JFIU6jZT8cJFS+sSEACkH0jzwJR5rjg8RtGRQL59t
+        6UJ8G7qT37DrbQrZe5W2CxhsupVQ4tzv8vQ==
+X-ME-Sender: <xms:cfFBY1NO8gyiV5mWAD6aIMO2qOA9nn77Y9AZzkX1mjYFaysonC1abQ>
+    <xme:cfFBY38HBKx-32pGT2liRfZPJBl0d6QH_lQoI8CZMO31UWV509HA_cOkkWusyEFPi
+    lZNQHjLvEHpV3CvxL4>
+X-ME-Received: <xmr:cfFBY0Sj594wr69GI_YCBgKiTLuAeljZf1dWxXaS5mE-QNzVhTTnQfo2uX1csxtzvxpPkqKQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfeejtddgtdefucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucenucfjughrpefhvfevufffkffoggfgsedtkeertd
+    ertddtnecuhfhrohhmpeffrghfnhgrucfjihhrshgthhhfvghlugcuoegurghfnhgrsehf
+    rghsthhmrghilhdrtghomheqnecuggftrfgrthhtvghrnhepveeuhfejgffhkeekleelhe
+    etkeevveffgfdvfeeffeefvdelffeliedtvddvgfeknecuvehluhhsthgvrhfuihiivgep
+    tdenucfrrghrrghmpehmrghilhhfrhhomhepuggrfhhnrgesfhgrshhtmhgrihhlrdgtoh
+    hm
+X-ME-Proxy: <xmx:cfFBYxsI48Sov3NR-gp5drLCff_nZuCHKFAQdzaDRlKGB210eLFWHg>
+    <xmx:cfFBY9d5Gu15babKmNiepFosyt9_EKGJ-inu32GcD6GhZn2nBAnj4A>
+    <xmx:cfFBY92m1wK25Id9LYFrIKUi3VktkCAOIP9uRM8ZZVX-fTJjMbbOzg>
+    <xmx:cfFBY-pK9ONcR3706Zomg21ZpUnMZipIONN1CUQ_AeL7bSagqtMRWA>
+Feedback-ID: i0e894699:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
+ 8 Oct 2022 17:53:52 -0400 (EDT)
+From:   Dafna Hirschfeld <dafna@fastmail.com>
+To:     skhan@linuxfoundation.org, kieran.bingham@ideasonboard.com,
+        linux-media@vger.kernel.org
+Cc:     Dafna Hirschfeld <dafna@fastmail.com>
+Subject: [PATCH] media: vimc: Update device configuration in the documentation
+Date:   Sun,  9 Oct 2022 00:53:46 +0300
+Message-Id: <20221008215346.172559-1-dafna@fastmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: aculab.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: base64
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-RnJvbTogSmFzb24gQS4gRG9uZW5mZWxkDQo+IFNlbnQ6IDA3IE9jdG9iZXIgMjAyMiAxODo1Ng0K
-Li4uDQo+ID4gR2l2ZW4gdGhlc2Uga2luZHMgb2YgbGVzcyBtZWNoYW5pY2FsIGNoYW5nZXMsIGl0
-IG1heSBtYWtlIHNlbnNlIHRvIHNwbGl0DQo+ID4gdGhlc2UgZnJvbSB0aGUgInRyaXZpYWwiIGNv
-bnZlcnNpb25zIGluIGEgdHJlZXdpZGUgcGF0Y2guIFRoZSBjaGFuY2Ugb2YNCj4gPiBuZWVkaW5n
-IGEgcmV2ZXJ0IGZyb20gdGhlIHNpbXBsZSAxOjEgY29udmVyc2lvbnMgaXMgbXVjaCBsb3dlciB0
-aGFuIHRoZQ0KPiA+IG5lZWQgdG8gcmV2ZXJ0IGJ5LWhhbmQgY2hhbmdlcy4NCj4gPg0KPiA+IFRo
-ZSBDb2NjaSBzY3JpcHQgSSBzdWdnZXN0ZWQgaW4gbXkgdjEgcmV2aWV3IGdldHMgODAlIG9mIHRo
-ZSBmaXJzdA0KPiA+IHBhdGNoLCBmb3IgZXhhbXBsZS4NCj4gDQo+IEknbGwgc3BsaXQgdGhpbmdz
-IHVwIGludG8gYSBtZWNoYW5pY2FsIHN0ZXAgYW5kIGEgbm9uLW1lY2hhbmljYWwgc3RlcC4NCj4g
-R29vZCBpZGVhLg0KDQpJJ2QgYWxzbyBkbyBzb21ldGhpbmcgYWJvdXQgdGhlICdnZXRfcmFuZG9t
-X2ludCgpICYgMycgY2FzZXMuDQooaWUgcmVtYWluZGVyIGJ5IDJebi0xKQ0KVGhlc2UgY2FuIGJl
-IGNvbnZlcnRlZCB0byAnZ2V0X3JhbmRvbV91OCgpICYgMycgKGV0YykuDQpTbyB0aGV5IG9ubHkg
-bmVlZCBvbmUgcmFuZG9tIGJ5dGUgKG5vdCA0KSBhbmQgbm8gbXVsdGlwbHkuDQoNClBvc3NpYmx5
-IHNvbWV0aGluZyBiYXNlZCBvbiAodGhlIHF1aWNrbHkgdHlwZWQsIGFuZCBub3QgQyk6DQojZGVm
-aW5lIGdldF9yYW5kb21fYmVsb3codmFsKSBbDQoJaWYgKGJ1aWx0aW5fY29uc3RhbnQodmFsKSkN
-CgkJQlVJTERfQlVHX09OKCF2YWwgfHwgdmFsID4gMHgxMDAwMDAwMDB1bGwpDQoJCWlmICghKHZh
-bCAmICh2YWwgLSAxKSkgew0KCQkJaWYgKHZhbCA8PSAweDEwMCkNCgkJCQlyZXR1cm4gZ2V0X3Jh
-bmRvbV91OCgpICYgKHZhbCAtIDEpOw0KCQkJaWYgKHZhbCA8PSAweDEwMDAwKQ0KCQkJCXJldHVy
-biBnZXRfcmFuZG9tX3UxNigpICYgKHZhbCAtIDEpOw0KCQkJcmV0dXJuIGdldF9yYW5kb21fdTMy
-KCkgJiAodmFsIC0gMSk7DQoJCX0NCgl9DQoJQlVJTERfQlVHX09OKHNpemVvZiAodmFsKSA+IDQp
-Ow0KCXJldHVybiAoKHU2NClnZXRfcmFuZG9tX3UzMigpICogdmFsKSA+PiAzMjsNCn0NCg0KZ2V0
-X3JhbmRvbV9iZWxvdygpIGlzIGEgbXVjaCBiZXR0ZXIgbmFtZSB0aGFuIHByYW5kb21fdTMyX21h
-eCgpLg0KDQoJRGF2aWQNCg0KLQ0KUmVnaXN0ZXJlZCBBZGRyZXNzIExha2VzaWRlLCBCcmFtbGV5
-IFJvYWQsIE1vdW50IEZhcm0sIE1pbHRvbiBLZXluZXMsIE1LMSAxUFQsIFVLDQpSZWdpc3RyYXRp
-b24gTm86IDEzOTczODYgKFdhbGVzKQ0K
+Since commit 9b4a9b31b9ae ("media: vimc: Enable set resolution at the scaler src pad")
+the configuration in the documentation does
+not work. Replace it with the configuration
+described in commit 9b4a9b31b9ae
+
+Signed-off-by: Dafna Hirschfeld <dafna@fastmail.com>
+---
+ Documentation/admin-guide/media/vimc.rst | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/Documentation/admin-guide/media/vimc.rst b/Documentation/admin-guide/media/vimc.rst
+index 3b4d2b36b4f3..29d843a8ddb1 100644
+--- a/Documentation/admin-guide/media/vimc.rst
++++ b/Documentation/admin-guide/media/vimc.rst
+@@ -35,11 +35,11 @@ of commands fits for the default topology:
+ 
+         media-ctl -d platform:vimc -V '"Sensor A":0[fmt:SBGGR8_1X8/640x480]'
+         media-ctl -d platform:vimc -V '"Debayer A":0[fmt:SBGGR8_1X8/640x480]'
+-        media-ctl -d platform:vimc -V '"Sensor B":0[fmt:SBGGR8_1X8/640x480]'
+-        media-ctl -d platform:vimc -V '"Debayer B":0[fmt:SBGGR8_1X8/640x480]'
+-        v4l2-ctl -z platform:vimc -d "RGB/YUV Capture" -v width=1920,height=1440
++        media-ctl -d platform:vimc -V '"Scaler":0[fmt:RGB888_1X24/640x480]'
++        media-ctl -d platform:vimc -V '"Scaler":0[crop:(100,50)/400x150]'
++        media-ctl -d platform:vimc -V '"Scaler":1[fmt:RGB888_1X24/300x700]'
++        v4l2-ctl -z platform:vimc -d "RGB/YUV Capture" -v width=300,height=700
+         v4l2-ctl -z platform:vimc -d "Raw Capture 0" -v pixelformat=BA81
+-        v4l2-ctl -z platform:vimc -d "Raw Capture 1" -v pixelformat=BA81
+ 
+ Subdevices
+ ----------
+-- 
+2.25.1
 
