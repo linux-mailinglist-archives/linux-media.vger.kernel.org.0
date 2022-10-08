@@ -2,98 +2,118 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EA2735F858F
-	for <lists+linux-media@lfdr.de>; Sat,  8 Oct 2022 16:12:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4B3E45F85D6
+	for <lists+linux-media@lfdr.de>; Sat,  8 Oct 2022 17:37:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229745AbiJHOMT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 8 Oct 2022 10:12:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49862 "EHLO
+        id S229755AbiJHPhi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 8 Oct 2022 11:37:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56922 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229643AbiJHOMS (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sat, 8 Oct 2022 10:12:18 -0400
-Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com [IPv6:2a00:1450:4864:20::630])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64BEB4AD41
-        for <linux-media@vger.kernel.org>; Sat,  8 Oct 2022 07:12:16 -0700 (PDT)
-Received: by mail-ej1-x630.google.com with SMTP id ot12so16723930ejb.1
-        for <linux-media@vger.kernel.org>; Sat, 08 Oct 2022 07:12:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=W0QbvPxiY+MeQIGR6l62aG+Bjcd6CIWsYg5jv5wW/DI=;
-        b=uIo8g8OKRVj5jBu+TXV+hiKo+5/FKoWXQ116F8mawF2H9Gm/u116IDa3QGCaOnl41O
-         AyZeCH1LZmnsyB24mETrP7vzs4U8oVmoaelZ7PKZHABxTsJf0s3LOLlTSHMlo/+3qJC4
-         tCBYyTNxWiWjFiEdR6JZp/r+/WQwTo5ebAsOdY0OKxGiH5aEzD8SKptKNzoHQVcWdScY
-         V5WspnxBgxZFGNQ+iWrv5TfiZKCqJN5Y+SGT8Z833eBgwztwD88i9ghMw29K4GoSmuhr
-         W7XAN1G2sZyA4Pqqc+J+Q032SLbzHU3WAudolLxV4Bp8WBApI0v23f9Vu/TEJbAWJ2hG
-         N7Zg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=W0QbvPxiY+MeQIGR6l62aG+Bjcd6CIWsYg5jv5wW/DI=;
-        b=hfLYG64poq2fkQzst3qMOPUnduyo79mO8W5FQSvNAU6+GFieHlTT7y09bDQYMUhJiG
-         NoPLTLOZceh4pqKuP+cRcA5buW8qUPw51avtXlFBGMAKM8i0ljkbgiOw6T5iyX9egYTu
-         DJ3KRm5Uv+2djwGyA5+Gt/c6FiJcz5okuHs0+yyemjjhEjRgcFDiwtW1CsXJ1JewKrA3
-         osYDUSEQYEhDt/ZKgoS8ky+8w91xgrWwTxEZ8AMPv5spE+KIFX6eXJFhdAHDwsT6LPyw
-         1bFI2XVgk3/E4O0qTJkUKbsmxdKg1TWcGLXFv2QLpH9E3yzlSYUhQk/UnXLs4Axl9jn3
-         jF2A==
-X-Gm-Message-State: ACrzQf2+ECpUNIth/OCg7hbs02qhxq1ogM/fSBaz949CK6giry4ibFC8
-        uZS7SU3kW7KkvpyaIWVMk2Zt8w==
-X-Google-Smtp-Source: AMsMyM5VQ7yP5vR1PSJTzyrUtzBzRZG77J4y8z0Rg0wrxBDfPaKqgEyW6uYxQ3BBmJkJga4NwxFb3w==
-X-Received: by 2002:a17:907:62a7:b0:789:48ea:ddb0 with SMTP id nd39-20020a17090762a700b0078948eaddb0mr7883069ejc.575.1665238334912;
-        Sat, 08 Oct 2022 07:12:14 -0700 (PDT)
-Received: from sleipner.berto.se (p54ac5370.dip0.t-ipconnect.de. [84.172.83.112])
-        by smtp.googlemail.com with ESMTPSA id i17-20020aa7c711000000b004575085bf18sm3500619edq.74.2022.10.08.07.12.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 08 Oct 2022 07:12:14 -0700 (PDT)
-From:   =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-To:     Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        linux-media@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org,
-        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-Subject: [PATCH] media: i2c: adv748x: Remove dead function declaration
-Date:   Sat,  8 Oct 2022 16:12:05 +0200
-Message-Id: <20221008141205.3493964-1-niklas.soderlund+renesas@ragnatech.se>
-X-Mailer: git-send-email 2.37.3
+        with ESMTP id S229494AbiJHPhh (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 8 Oct 2022 11:37:37 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6310B3F1EE;
+        Sat,  8 Oct 2022 08:37:36 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id B0D2C60A0F;
+        Sat,  8 Oct 2022 15:37:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6325DC433D6;
+        Sat,  8 Oct 2022 15:37:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1665243455;
+        bh=iZs4LS2c78mWTK7VP9rYv0Gd7Qjrrk7FRFLOtLI7jIE=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=lpPo/FwsRx8A1pEIFq0YgzBE1yJUA/ftclR7pjjmkm3BCTs9ykaCaGipjTgZ2RrqF
+         G0/1Rl4a9+kU2ICW186Oe5J0xg7g1U3glZrfVWobe1UK+MUIqWbN273i1QVNGsmeQ9
+         ddRoAQjkMz3vc5+dmmxBpuMuIV8SZkRQZD25nr8M=
+Date:   Sat, 8 Oct 2022 17:38:15 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     "Jason A. Donenfeld" <Jason@zx2c4.com>
+Cc:     linux-kernel@vger.kernel.org, patches@lists.linux.dev,
+        Andreas Noever <andreas.noever@gmail.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Christoph =?iso-8859-1?Q?B=F6hmwalder?= 
+        <christoph.boehmwalder@linbit.com>, Christoph Hellwig <hch@lst.de>,
+        Christophe Leroy <christophe.leroy@csgroup.eu>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Dave Airlie <airlied@redhat.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Florian Westphal <fw@strlen.de>,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        Helge Deller <deller@gmx.de>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        Huacai Chen <chenhuacai@kernel.org>,
+        Hugh Dickins <hughd@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        "James E . J . Bottomley" <jejb@linux.ibm.com>,
+        Jan Kara <jack@suse.com>, Jason Gunthorpe <jgg@ziepe.ca>,
+        Jens Axboe <axboe@kernel.dk>,
+        Johannes Berg <johannes@sipsolutions.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Jozsef Kadlecsik <kadlec@netfilter.org>,
+        KP Singh <kpsingh@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Marco Elver <elver@google.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Pablo Neira Ayuso <pablo@netfilter.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Richard Weinberger <richard@nod.at>,
+        Russell King <linux@armlinux.org.uk>,
+        Theodore Ts'o <tytso@mit.edu>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Thomas Graf <tgraf@suug.ch>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        WANG Xuerui <kernel@xen0n.name>, Will Deacon <will@kernel.org>,
+        Yury Norov <yury.norov@gmail.com>,
+        dri-devel@lists.freedesktop.org, kasan-dev@googlegroups.com,
+        kernel-janitors@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-block@vger.kernel.org,
+        linux-crypto@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-mips@vger.kernel.org, linux-mm@kvack.org,
+        linux-mmc@vger.kernel.org, linux-mtd@lists.infradead.org,
+        linux-nvme@lists.infradead.org, linux-parisc@vger.kernel.org,
+        linux-rdma@vger.kernel.org, linux-s390@vger.kernel.org,
+        linux-um@lists.infradead.org, linux-usb@vger.kernel.org,
+        linux-wireless@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        loongarch@lists.linux.dev, netdev@vger.kernel.org,
+        sparclinux@vger.kernel.org, x86@kernel.org
+Subject: Re: [PATCH v5 0/7] treewide cleanup of random integer usage
+Message-ID: <Y0GZZ71Ugh9Ev99R@kroah.com>
+References: <20221008055359.286426-1-Jason@zx2c4.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221008055359.286426-1-Jason@zx2c4.com>
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-There is no implementation of adv748x_register_subdevs(), remove the
-declaration in the header file.
+On Fri, Oct 07, 2022 at 11:53:52PM -0600, Jason A. Donenfeld wrote:
+> Changes v4->v5:
+> - Coccinelle is now used for as much mechanical aspects as possible,
+>   with mechanical parts split off from non-mechanical parts. This should
+>   drastically reduce the amount of code that needs to be reviewed
+>   carefully. Each commit mentions now if it was done by hand or is
+>   mechanical.
 
-Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
----
- drivers/media/i2c/adv748x/adv748x.h | 3 ---
- 1 file changed, 3 deletions(-)
+All look good to me, thanks for the cleanups.
 
-diff --git a/drivers/media/i2c/adv748x/adv748x.h b/drivers/media/i2c/adv748x/adv748x.h
-index d75eb3d8be5a..6f90f78f58cf 100644
---- a/drivers/media/i2c/adv748x/adv748x.h
-+++ b/drivers/media/i2c/adv748x/adv748x.h
-@@ -428,9 +428,6 @@ void adv748x_subdev_init(struct v4l2_subdev *sd, struct adv748x_state *state,
- 			 const struct v4l2_subdev_ops *ops, u32 function,
- 			 const char *ident);
- 
--int adv748x_register_subdevs(struct adv748x_state *state,
--			     struct v4l2_device *v4l2_dev);
--
- int adv748x_tx_power(struct adv748x_csi2 *tx, bool on);
- 
- int adv748x_afe_init(struct adv748x_afe *afe);
--- 
-2.37.3
-
+Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
