@@ -2,63 +2,63 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3528D5F84DC
-	for <lists+linux-media@lfdr.de>; Sat,  8 Oct 2022 13:04:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 692995F8515
+	for <lists+linux-media@lfdr.de>; Sat,  8 Oct 2022 13:48:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229379AbiJHLEo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 8 Oct 2022 07:04:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38532 "EHLO
+        id S229486AbiJHLsZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 8 Oct 2022 07:48:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45030 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229547AbiJHLEm (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sat, 8 Oct 2022 07:04:42 -0400
-Received: from mail-oo1-xc35.google.com (mail-oo1-xc35.google.com [IPv6:2607:f8b0:4864:20::c35])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 388FD13DEC
-        for <linux-media@vger.kernel.org>; Sat,  8 Oct 2022 04:04:41 -0700 (PDT)
-Received: by mail-oo1-xc35.google.com with SMTP id g15-20020a4a894f000000b0047f8e899623so5096620ooi.5
-        for <linux-media@vger.kernel.org>; Sat, 08 Oct 2022 04:04:41 -0700 (PDT)
+        with ESMTP id S229379AbiJHLsY (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 8 Oct 2022 07:48:24 -0400
+Received: from mail-oo1-xc31.google.com (mail-oo1-xc31.google.com [IPv6:2607:f8b0:4864:20::c31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 401F84F6A6
+        for <linux-media@vger.kernel.org>; Sat,  8 Oct 2022 04:48:23 -0700 (PDT)
+Received: by mail-oo1-xc31.google.com with SMTP id x6-20020a4ac586000000b0047f8cc6dbe4so5153284oop.3
+        for <linux-media@vger.kernel.org>; Sat, 08 Oct 2022 04:48:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=to:references:message-id:content-transfer-encoding:cc:date
          :in-reply-to:from:subject:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=rQD3VDG0XIL4jbO5j0GtKRswMSCzSQWEg4QTcifRKFI=;
-        b=WHDteUBS0567mYZhsQIgYMXxnMB59xeWwYYli5X02fFDX/NBhtYgBrU/1dtO6RAvx5
-         QV54BRJ7WsAA08rbIBZxGchtXK9FNWIcXbOVWy7/xZBYF8D0ZcOWHcIoibmcrw2WLsmc
-         cbAQqncEbyHw1klitjC9+fAe27GhBgc2FINYDU5aOY1/exIQHpW9p6lxQtRav6FxBxf+
-         dNBL+RgAzEic7i/2bR4Ta7bgdNDdloQ2UMqUq9TCImd9m1lchWSinTlWuCde9sFLoJg3
-         V7CNhdDqZOdLo94UJy0AIIvrL1HuqO0HiuBIEikiyyEAfZlQMisPDpyVdz5yNPNGt07R
-         iNkg==
+        bh=73QtHZDhbIGuujQNI6Z7ZQzch+gIkHHRWbkMn7pJwxs=;
+        b=ESr1xs4JOjb74mz8DMtNIsBIqfeR0+Q04hExkKYfEeWcBI00NJdRqgUhRzh0gN+mUN
+         O+9Q6eGIw8HqO18tey0qUrTy8VsKwK/j5naj6FLe7ZZ/14sr+Fi0m2xeuxw7z+1s/kDc
+         v/y434FrTuPOORFdur/Vazf7A8h271pH/fQ19zhH1lhlNWjdxwtrGFeLmoqQ4YVfU4Hm
+         Z+pPjHPV7HNXFv4tzhompR+1T33Wufj/eLydEwgKxPiRPCpkud1heV9HkMwHMcqdFfyL
+         gjkmgLqvWbmNi4Ny7h1e5i8W6PzyefD4JRjCaSGnq7+/cVomtaRLgHI0mkz8BqkhXT1C
+         CDVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=to:references:message-id:content-transfer-encoding:cc:date
          :in-reply-to:from:subject:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=rQD3VDG0XIL4jbO5j0GtKRswMSCzSQWEg4QTcifRKFI=;
-        b=fkhzNQaaYG8xWSSJ4WOjM7RuQXfCSBQkWczet8rCjKV+cU2gkJ25HRPlJ+f1mxTVYQ
-         bamhlHjhOJ+JmTO/bPtOxy8Q0dIOiY5sO/e2fCifopJqdGlROFSNNdd0MzkSK85kX6ZD
-         BZXG440B0j2RT2+lEjpc8xQUOR3aTOo3z2+gO1F5JhfGsCyYLMH+VwZ0W95WjdUYZS+f
-         bQRH8PvWNLhPG4gi9leM7S3Pt8u+F9XGVv5LSZSWMN8ix6qCNHQa6CIVRGDjK0ZMSfSH
-         R6q9HPrxNk4YZkePFV49Bj7ZbNqflh7/JIFeZE7qYRZ6N0J5k7Lb7sJ7lVGnsSq7xQOJ
-         bqVQ==
-X-Gm-Message-State: ACrzQf1SN87iLzvWX9hgXbTMPlA+Qvm73MEuFPDE/A6cK7t1n5w399Pn
-        +4hOgO0mNQq0OiuJINSGrGfWQqn/Zqc=
-X-Google-Smtp-Source: AMsMyM6bzMSHTq0OULhhUqgZeyJoX+rCkUGJ4rx6ETtEiOSdKlxIeKOtA9w1yrV+IMJpIFiJ8yPdog==
-X-Received: by 2002:a9d:7c89:0:b0:655:dfb1:331c with SMTP id q9-20020a9d7c89000000b00655dfb1331cmr3810857otn.224.1665227080467;
-        Sat, 08 Oct 2022 04:04:40 -0700 (PDT)
+        bh=73QtHZDhbIGuujQNI6Z7ZQzch+gIkHHRWbkMn7pJwxs=;
+        b=fBJbXNFtC5vfqAtzLBz86MtyJEjIIRt/sEfnNozThvftDLZ0ttFotkQfcHhPpL4Gmc
+         FcFxWoWqMQWJqFHvaWs2BqWNhEgeqmvTKN60zGAvlaElCIoTxUvF0tsV1Pi7ebBSyvZG
+         /a028m7USoe3w4ROOskBoy/6T+Itm9HwdczERyOokbIAPPGtqNAe71SV0JL/lEiSfJ0y
+         oZySU48ROvWNeB7zknNTBh1G6pv+lksFw9L7ePaqX7fi5fHOQTnN0b2npPzeaSlNhb03
+         DPqTN2AtCBeXoiprprv9Np9CPmJw4CL7JZqS2QoxY09YYPmXFRI1lc7DIA8Tb2tqjeog
+         UKag==
+X-Gm-Message-State: ACrzQf2100dMcC+y/W+OjCAQ/Ig1zJfVFkuULjotu1YrVTTs9RtkYSEM
+        5v3bDEVC7jIEbc0aF5nULSI42+cYzgg=
+X-Google-Smtp-Source: AMsMyM4i/7qqXaik9bYc1CEgsOJp+K8w4ZdFEHg/RQqxQ2T465Ayv0BddeDjeWl9ejQT9wnwvidwxQ==
+X-Received: by 2002:a05:6830:2b28:b0:657:7798:2eda with SMTP id l40-20020a0568302b2800b0065777982edamr4124664otv.153.1665229702350;
+        Sat, 08 Oct 2022 04:48:22 -0700 (PDT)
 Received: from smtpclient.apple ([186.212.115.217])
-        by smtp.gmail.com with ESMTPSA id v24-20020a05683011d800b006618ad77a63sm1124083otq.74.2022.10.08.04.04.39
+        by smtp.gmail.com with ESMTPSA id r41-20020a05687017a900b00132f141ef2dsm2507489oae.56.2022.10.08.04.48.21
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Sat, 08 Oct 2022 04:04:40 -0700 (PDT)
+        Sat, 08 Oct 2022 04:48:22 -0700 (PDT)
 Content-Type: text/plain;
         charset=utf-8
 Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3731.200.92\))
 Subject: Re: [PATCH] videodev2.h: apply packed attribute to union
 From:   Devendra Tewari <devendra.tewari@gmail.com>
 In-Reply-To: <969BFFB7-0FEB-44F8-9195-4932C52FB123@gmail.com>
-Date:   Sat, 8 Oct 2022 08:04:26 -0300
+Date:   Sat, 8 Oct 2022 08:48:08 -0300
 Cc:     linux-media@vger.kernel.org
 Content-Transfer-Encoding: quoted-printable
-Message-Id: <00587D7F-CE87-4846-9119-BD06CB4D289D@gmail.com>
+Message-Id: <A6CA791E-98FD-430E-8A6D-8F43241CF97D@gmail.com>
 References: <166517991147.1077487.14561113854570206898@Monstersaurus>
  <969BFFB7-0FEB-44F8-9195-4932C52FB123@gmail.com>
 To:     Kieran Bingham <kieran.bingham@ideasonboard.com>
@@ -131,36 +131,16 @@ packed.
 >> Should all unions be marked with the attribute?
 >=20
 > Interesting - I need to look deeper into packed.
+
+The only explanation I can think of is that this may be the only =
+instance where a union inside a packed struct has other structs that are =
+not packed.
+
 >=20
 >> Is there any more context from the compiler warning beyond what is
 >> reported above?
 >=20
 > I'll post a more detailed log asap.
-
-This is the log with clang 15 compiler=E2=80=A6
-
- ../git/src/libcamera/v4l2_device.cpp
-| In file included from ../git/src/libcamera/v4l2_device.cpp:8:
-| In file included from =
-../git/include/libcamera/internal/v4l2_device.h:15:
-| ../git/include/linux/videodev2.h:1724:2: error: field  within =
-'v4l2_ext_control' is less aligned than 'v4l2_ext_control::(anonymous =
-union at ../git/include/linux/videodev2.h:1724:2)' and is usually due to =
-'v4l2_ext_control' being packed, which can lead to unaligned accesses =
-[-Werror,-Wunaligned-access]
-|         union {
-|         ^
-| 1 error generated.
-
-
-Compiler version...
-
-# clang --version
-clang version 15.0.1 (https://github.com/llvm/llvm-project =
-29d395a1b7a8176abb1d6278f7df98301fbe7744)
-Target: x86_64-unknown-linux-gnu
-Thread model: posix
-
 >=20
 >>=20
 >> --
@@ -175,7 +155,8 @@ Thread model: posix
 >>>=20
 > Thanks,
 > Devendra
-Resending because mailing list daemon is unhappy with rich text.
+
+Resending because mail daemon rejected rich text message.
 
 Thanks,
 Devendra
