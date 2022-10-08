@@ -2,70 +2,69 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 692995F8515
-	for <lists+linux-media@lfdr.de>; Sat,  8 Oct 2022 13:48:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EA2735F858F
+	for <lists+linux-media@lfdr.de>; Sat,  8 Oct 2022 16:12:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229486AbiJHLsZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 8 Oct 2022 07:48:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45030 "EHLO
+        id S229745AbiJHOMT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 8 Oct 2022 10:12:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49862 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229379AbiJHLsY (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sat, 8 Oct 2022 07:48:24 -0400
-Received: from mail-oo1-xc31.google.com (mail-oo1-xc31.google.com [IPv6:2607:f8b0:4864:20::c31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 401F84F6A6
-        for <linux-media@vger.kernel.org>; Sat,  8 Oct 2022 04:48:23 -0700 (PDT)
-Received: by mail-oo1-xc31.google.com with SMTP id x6-20020a4ac586000000b0047f8cc6dbe4so5153284oop.3
-        for <linux-media@vger.kernel.org>; Sat, 08 Oct 2022 04:48:23 -0700 (PDT)
+        with ESMTP id S229643AbiJHOMS (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 8 Oct 2022 10:12:18 -0400
+Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com [IPv6:2a00:1450:4864:20::630])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64BEB4AD41
+        for <linux-media@vger.kernel.org>; Sat,  8 Oct 2022 07:12:16 -0700 (PDT)
+Received: by mail-ej1-x630.google.com with SMTP id ot12so16723930ejb.1
+        for <linux-media@vger.kernel.org>; Sat, 08 Oct 2022 07:12:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=to:references:message-id:content-transfer-encoding:cc:date
-         :in-reply-to:from:subject:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=73QtHZDhbIGuujQNI6Z7ZQzch+gIkHHRWbkMn7pJwxs=;
-        b=ESr1xs4JOjb74mz8DMtNIsBIqfeR0+Q04hExkKYfEeWcBI00NJdRqgUhRzh0gN+mUN
-         O+9Q6eGIw8HqO18tey0qUrTy8VsKwK/j5naj6FLe7ZZ/14sr+Fi0m2xeuxw7z+1s/kDc
-         v/y434FrTuPOORFdur/Vazf7A8h271pH/fQ19zhH1lhlNWjdxwtrGFeLmoqQ4YVfU4Hm
-         Z+pPjHPV7HNXFv4tzhompR+1T33Wufj/eLydEwgKxPiRPCpkud1heV9HkMwHMcqdFfyL
-         gjkmgLqvWbmNi4Ny7h1e5i8W6PzyefD4JRjCaSGnq7+/cVomtaRLgHI0mkz8BqkhXT1C
-         CDVQ==
+        d=ragnatech-se.20210112.gappssmtp.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=W0QbvPxiY+MeQIGR6l62aG+Bjcd6CIWsYg5jv5wW/DI=;
+        b=uIo8g8OKRVj5jBu+TXV+hiKo+5/FKoWXQ116F8mawF2H9Gm/u116IDa3QGCaOnl41O
+         AyZeCH1LZmnsyB24mETrP7vzs4U8oVmoaelZ7PKZHABxTsJf0s3LOLlTSHMlo/+3qJC4
+         tCBYyTNxWiWjFiEdR6JZp/r+/WQwTo5ebAsOdY0OKxGiH5aEzD8SKptKNzoHQVcWdScY
+         V5WspnxBgxZFGNQ+iWrv5TfiZKCqJN5Y+SGT8Z833eBgwztwD88i9ghMw29K4GoSmuhr
+         W7XAN1G2sZyA4Pqqc+J+Q032SLbzHU3WAudolLxV4Bp8WBApI0v23f9Vu/TEJbAWJ2hG
+         N7Zg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=to:references:message-id:content-transfer-encoding:cc:date
-         :in-reply-to:from:subject:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=73QtHZDhbIGuujQNI6Z7ZQzch+gIkHHRWbkMn7pJwxs=;
-        b=fBJbXNFtC5vfqAtzLBz86MtyJEjIIRt/sEfnNozThvftDLZ0ttFotkQfcHhPpL4Gmc
-         FcFxWoWqMQWJqFHvaWs2BqWNhEgeqmvTKN60zGAvlaElCIoTxUvF0tsV1Pi7ebBSyvZG
-         /a028m7USoe3w4ROOskBoy/6T+Itm9HwdczERyOokbIAPPGtqNAe71SV0JL/lEiSfJ0y
-         oZySU48ROvWNeB7zknNTBh1G6pv+lksFw9L7ePaqX7fi5fHOQTnN0b2npPzeaSlNhb03
-         DPqTN2AtCBeXoiprprv9Np9CPmJw4CL7JZqS2QoxY09YYPmXFRI1lc7DIA8Tb2tqjeog
-         UKag==
-X-Gm-Message-State: ACrzQf2100dMcC+y/W+OjCAQ/Ig1zJfVFkuULjotu1YrVTTs9RtkYSEM
-        5v3bDEVC7jIEbc0aF5nULSI42+cYzgg=
-X-Google-Smtp-Source: AMsMyM4i/7qqXaik9bYc1CEgsOJp+K8w4ZdFEHg/RQqxQ2T465Ayv0BddeDjeWl9ejQT9wnwvidwxQ==
-X-Received: by 2002:a05:6830:2b28:b0:657:7798:2eda with SMTP id l40-20020a0568302b2800b0065777982edamr4124664otv.153.1665229702350;
-        Sat, 08 Oct 2022 04:48:22 -0700 (PDT)
-Received: from smtpclient.apple ([186.212.115.217])
-        by smtp.gmail.com with ESMTPSA id r41-20020a05687017a900b00132f141ef2dsm2507489oae.56.2022.10.08.04.48.21
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Sat, 08 Oct 2022 04:48:22 -0700 (PDT)
-Content-Type: text/plain;
-        charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3731.200.92\))
-Subject: Re: [PATCH] videodev2.h: apply packed attribute to union
-From:   Devendra Tewari <devendra.tewari@gmail.com>
-In-Reply-To: <969BFFB7-0FEB-44F8-9195-4932C52FB123@gmail.com>
-Date:   Sat, 8 Oct 2022 08:48:08 -0300
-Cc:     linux-media@vger.kernel.org
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <A6CA791E-98FD-430E-8A6D-8F43241CF97D@gmail.com>
-References: <166517991147.1077487.14561113854570206898@Monstersaurus>
- <969BFFB7-0FEB-44F8-9195-4932C52FB123@gmail.com>
-To:     Kieran Bingham <kieran.bingham@ideasonboard.com>
-X-Mailer: Apple Mail (2.3731.200.92)
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=W0QbvPxiY+MeQIGR6l62aG+Bjcd6CIWsYg5jv5wW/DI=;
+        b=hfLYG64poq2fkQzst3qMOPUnduyo79mO8W5FQSvNAU6+GFieHlTT7y09bDQYMUhJiG
+         NoPLTLOZceh4pqKuP+cRcA5buW8qUPw51avtXlFBGMAKM8i0ljkbgiOw6T5iyX9egYTu
+         DJ3KRm5Uv+2djwGyA5+Gt/c6FiJcz5okuHs0+yyemjjhEjRgcFDiwtW1CsXJ1JewKrA3
+         osYDUSEQYEhDt/ZKgoS8ky+8w91xgrWwTxEZ8AMPv5spE+KIFX6eXJFhdAHDwsT6LPyw
+         1bFI2XVgk3/E4O0qTJkUKbsmxdKg1TWcGLXFv2QLpH9E3yzlSYUhQk/UnXLs4Axl9jn3
+         jF2A==
+X-Gm-Message-State: ACrzQf2+ECpUNIth/OCg7hbs02qhxq1ogM/fSBaz949CK6giry4ibFC8
+        uZS7SU3kW7KkvpyaIWVMk2Zt8w==
+X-Google-Smtp-Source: AMsMyM5VQ7yP5vR1PSJTzyrUtzBzRZG77J4y8z0Rg0wrxBDfPaKqgEyW6uYxQ3BBmJkJga4NwxFb3w==
+X-Received: by 2002:a17:907:62a7:b0:789:48ea:ddb0 with SMTP id nd39-20020a17090762a700b0078948eaddb0mr7883069ejc.575.1665238334912;
+        Sat, 08 Oct 2022 07:12:14 -0700 (PDT)
+Received: from sleipner.berto.se (p54ac5370.dip0.t-ipconnect.de. [84.172.83.112])
+        by smtp.googlemail.com with ESMTPSA id i17-20020aa7c711000000b004575085bf18sm3500619edq.74.2022.10.08.07.12.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 08 Oct 2022 07:12:14 -0700 (PDT)
+From:   =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+To:     Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        linux-media@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org,
+        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Subject: [PATCH] media: i2c: adv748x: Remove dead function declaration
+Date:   Sat,  8 Oct 2022 16:12:05 +0200
+Message-Id: <20221008141205.3493964-1-niklas.soderlund+renesas@ragnatech.se>
+X-Mailer: git-send-email 2.37.3
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -73,91 +72,28 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+There is no implementation of adv748x_register_subdevs(), remove the
+declaration in the header file.
 
+Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+---
+ drivers/media/i2c/adv748x/adv748x.h | 3 ---
+ 1 file changed, 3 deletions(-)
 
-> On 7 Oct 2022, at 20:04, Devendra Tewari <devendra.tewari@gmail.com> =
-wrote:
->=20
->=20
->=20
->> No dia 7 de out. de 2022, =C3=A0s 18:58, Kieran Bingham =
-<kieran.bingham@ideasonboard.com> escreveu:
->>=20
->> =EF=BB=BFHi Devendra,
->>=20
->> Quoting Devendra Tewari (2022-04-22 20:20:31)
->>> Fixes clang warning: field within 'v4l2_ext_control' is less than
->>=20
->> Can you detail which version of clang this occurs with? Have you =
-tried
->> more than one version?
->>=20
->=20
-> This started happening with version 14.0.1 and I continue to see it =
-with version 15.
->=20
->>=20
->>> 'v4l2_ext_control::(anonymous union
->>>=20
->>> Signed-off-by: Devendra Tewari <devendra.tewari@gmail.com>
->>> ---
->>> include/uapi/linux/videodev2.h | 2 +-
->>> 1 file changed, 1 insertion(+), 1 deletion(-)
->>>=20
->>> diff --git a/include/uapi/linux/videodev2.h =
-b/include/uapi/linux/videodev2.h
->>> index 3768a0a80830..767c52c722cd 100644
->>> --- a/include/uapi/linux/videodev2.h
->>> +++ b/include/uapi/linux/videodev2.h
->>> @@ -1765,7 +1765,7 @@ struct v4l2_ext_control {
->>>               struct v4l2_ctrl_vp9_compressed_hdr __user =
-*p_vp9_compressed_hdr_probs;
->>>               struct v4l2_ctrl_vp9_frame __user *p_vp9_frame;
->>>               void __user *ptr;
->>> -       };
->>> +       } __attribute__ ((packed));
->>=20
->> This is a curious fix. It's applying a packed attribute to the union,
->> which I presume means that it's then applying the packed attribute to
->> any item in the union.
->>=20
->> The items are all either: __s32, __s64, values - or pointers.
->>=20
->> While applying this attribute here may fix the compiler warning, I'm =
-not
->> sure it's clear why this is required. This file also has other
->> locations where a union inside a packed struct is not marked as =
-packed.
->> Should all unions be marked with the attribute?
->=20
-> Interesting - I need to look deeper into packed.
-
-The only explanation I can think of is that this may be the only =
-instance where a union inside a packed struct has other structs that are =
-not packed.
-
->=20
->> Is there any more context from the compiler warning beyond what is
->> reported above?
->=20
-> I'll post a more detailed log asap.
->=20
->>=20
->> --
->> Kieran
->>=20
->>=20
->>> } __attribute__ ((packed));
->>>=20
->>> struct v4l2_ext_controls {
->>> --=20
->>> 2.25.1
->>>=20
-> Thanks,
-> Devendra
-
-Resending because mail daemon rejected rich text message.
-
-Thanks,
-Devendra
+diff --git a/drivers/media/i2c/adv748x/adv748x.h b/drivers/media/i2c/adv748x/adv748x.h
+index d75eb3d8be5a..6f90f78f58cf 100644
+--- a/drivers/media/i2c/adv748x/adv748x.h
++++ b/drivers/media/i2c/adv748x/adv748x.h
+@@ -428,9 +428,6 @@ void adv748x_subdev_init(struct v4l2_subdev *sd, struct adv748x_state *state,
+ 			 const struct v4l2_subdev_ops *ops, u32 function,
+ 			 const char *ident);
+ 
+-int adv748x_register_subdevs(struct adv748x_state *state,
+-			     struct v4l2_device *v4l2_dev);
+-
+ int adv748x_tx_power(struct adv748x_csi2 *tx, bool on);
+ 
+ int adv748x_afe_init(struct adv748x_afe *afe);
+-- 
+2.37.3
 
