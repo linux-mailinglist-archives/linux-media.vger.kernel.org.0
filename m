@@ -2,202 +2,179 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 913F05F8205
-	for <lists+linux-media@lfdr.de>; Sat,  8 Oct 2022 03:40:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 42F065F821F
+	for <lists+linux-media@lfdr.de>; Sat,  8 Oct 2022 03:48:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229721AbiJHBkd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 7 Oct 2022 21:40:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47434 "EHLO
+        id S229801AbiJHBsT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 7 Oct 2022 21:48:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56894 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229468AbiJHBkb (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 7 Oct 2022 21:40:31 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 292553C171;
-        Fri,  7 Oct 2022 18:40:29 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        with ESMTP id S229724AbiJHBsR (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 7 Oct 2022 21:48:17 -0400
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DD2297F247;
+        Fri,  7 Oct 2022 18:48:15 -0700 (PDT)
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+        by smtp-out1.suse.de (Postfix) with ESMTP id 5CAB2218A9;
+        Sat,  8 Oct 2022 01:48:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+        t=1665193694; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=L7jyJrkdsFmXq01fk0YZDGAy2JdoxUyJSLc3cwYSrwM=;
+        b=YWuRC+TfYfwErIkc330RxLKxH3WMk3+dQndL1heGH5+0LZgm/f4EYgrdi7gKIOifK4JrQb
+        fbOAF1lamzHdcySR//xnYsj3IEp2On9P+uwWNI1ISz87U73vPdtrIMC7TaT0cZkP5Jz0PF
+        PKl4Hb1QBFsr8tgCNEj84n6Zu9Rv24c=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+        s=susede2_ed25519; t=1665193694;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=L7jyJrkdsFmXq01fk0YZDGAy2JdoxUyJSLc3cwYSrwM=;
+        b=CehdQSF8yK+QRZLXHJHewgP7KtkOSzhbIjd2k+F9FUzuJHpggS5q3aMLI2lZQk/wkFcKRj
+        CjVecdIBUyxmWNCA==
+Received: from lion.mk-sys.cz (unknown [10.100.200.14])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id DE307B8242E;
-        Sat,  8 Oct 2022 01:40:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1F81CC433D6;
-        Sat,  8 Oct 2022 01:40:20 +0000 (UTC)
-Authentication-Results: smtp.kernel.org;
-        dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com header.b="m7dkF4Qq"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105;
-        t=1665193218;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=vNH2mnpIcj00WUdnQLlhiavniZvHilK6oGwgWIcL7uw=;
-        b=m7dkF4QqvbJypdgEAbc35NBJnnqvQzB21sgNt0EURJQOR1FGkUsyi73yIMXgdPHVIIUlOg
-        5CTO5f2vbWzw/vm/odmtp7dHuxfMwfhY9ZkhyfcncvX8HsEngEbDzs4FmPwfNkPExdyoZz
-        X0uIWOW2Vu+MHRe3zl9le1EOdBfLqFs=
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id f0b17dc7 (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
-        Sat, 8 Oct 2022 01:40:18 +0000 (UTC)
-Date:   Fri, 7 Oct 2022 19:40:07 -0600
-From:   "Jason A. Donenfeld" <Jason@zx2c4.com>
-To:     Rolf Eike Beer <eike-kernel@sf-tec.de>
-Cc:     linux-kernel@vger.kernel.org, patches@lists.linux.dev,
-        andreas.noever@gmail.com, akpm@linux-foundation.org,
-        andriy.shevchenko@linux.intel.com, bp@alien8.de,
-        catalin.marinas@arm.com, christoph.boehmwalder@linbit.com,
-        hch@lst.de, christophe.leroy@csgroup.eu, daniel@iogearbox.net,
-        airlied@redhat.com, dave.hansen@linux.intel.com,
-        davem@davemloft.net, edumazet@google.com, fw@strlen.de,
-        gregkh@linuxfoundation.org, hpa@zytor.com, hca@linux.ibm.com,
-        deller@gmx.de, herbert@gondor.apana.org.au, chenhuacai@kernel.org,
-        hughd@google.com, kuba@kernel.org, jejb@linux.ibm.com,
-        jack@suse.com, jgg@ziepe.ca, axboe@kernel.dk,
-        johannes@sipsolutions.net, corbet@lwn.net, kadlec@netfilter.org,
-        kpsingh@kernel.org, keescook@chromium.org, elver@google.com,
-        mchehab@kernel.org, mpe@ellerman.id.au, pablo@netfilter.org,
-        pabeni@redhat.com, peterz@infradead.org, richard@nod.at,
-        linux@armlinux.org.uk, tytso@mit.edu, tsbogend@alpha.franken.de,
-        tglx@linutronix.de, tgraf@suug.ch, ulf.hansson@linaro.org,
-        vigneshr@ti.com, kernel@xen0n.name, will@kernel.org,
-        yury.norov@gmail.com, dri-devel@lists.freedesktop.org,
-        kasan-dev@googlegroups.com, kernel-janitors@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-block@vger.kernel.org,
-        linux-crypto@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-mips@vger.kernel.org, linux-mm@kvack.org,
-        linux-mmc@vger.kernel.org, linux-mtd@lists.infradead.org,
-        linux-nvme@lists.infradead.org, linux-parisc@vger.kernel.org,
-        linux-rdma@vger.kernel.org, linux-s390@vger.kernel.org,
-        linux-um@lists.infradead.org, linux-usb@vger.kernel.org,
-        linux-wireless@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        loongarch@lists.linux.dev, netdev@vger.kernel.org,
-        sparclinux@vger.kernel.org, x86@kernel.org, toke@toke.dk,
-        chuck.lever@oracle.com, jack@suse.cz,
-        mika.westerberg@linux.intel.com
-Subject: Re: [PATCH v4 4/6] treewide: use get_random_u32() when possible
-Message-ID: <Y0DU93wMsDwlLmMP@zx2c4.com>
-References: <20221007180107.216067-1-Jason@zx2c4.com>
- <20221007180107.216067-5-Jason@zx2c4.com>
- <3216619.44csPzL39Z@daneel.sf-tec.de>
+        by relay2.suse.de (Postfix) with ESMTPS id E6C222C141;
+        Sat,  8 Oct 2022 01:48:13 +0000 (UTC)
+Received: by lion.mk-sys.cz (Postfix, from userid 1000)
+        id BAB9A6092E; Sat,  8 Oct 2022 03:48:13 +0200 (CEST)
+Date:   Sat, 8 Oct 2022 03:48:13 +0200
+From:   Michal Kubecek <mkubecek@suse.cz>
+To:     "Yadav, Arvind" <arvyadav@amd.com>
+Cc:     Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+        Arvind Yadav <Arvind.Yadav@amd.com>, andrey.grodzovsky@amd.com,
+        shashank.sharma@amd.com, amaranath.somalapuram@amd.com,
+        Arunpravin.PaneerSelvam@amd.com, sumit.semwal@linaro.org,
+        gustavo@padovan.org, airlied@linux.ie, daniel@ffwll.ch,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
+        steven.price@arm.com
+Subject: Re: [PATCH] drm/sched: Fix kernel NULL pointer dereference error
+Message-ID: <20221008014813.vgcdte65mydbwlqa@lion.mk-sys.cz>
+References: <20220930084810.4639-1-Arvind.Yadav@amd.com>
+ <38ef1813-030c-8315-249d-349d69b81c52@amd.com>
+ <e4aeea32-4ed8-c1db-e826-32ce278f61c4@amd.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="5pgokusjefpgtu4a"
 Content-Disposition: inline
-In-Reply-To: <3216619.44csPzL39Z@daneel.sf-tec.de>
-X-Spam-Status: No, score=-6.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+In-Reply-To: <e4aeea32-4ed8-c1db-e826-32ce278f61c4@amd.com>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Oct 07, 2022 at 10:34:47PM +0200, Rolf Eike Beer wrote:
-> > diff --git a/arch/parisc/kernel/process.c b/arch/parisc/kernel/process.c
-> > index 7c37e09c92da..18c4f0e3e906 100644
-> > --- a/arch/parisc/kernel/process.c
-> > +++ b/arch/parisc/kernel/process.c
-> > @@ -288,7 +288,7 @@ __get_wchan(struct task_struct *p)
-> > 
-> >  static inline unsigned long brk_rnd(void)
-> >  {
-> > -	return (get_random_int() & BRK_RND_MASK) << PAGE_SHIFT;
-> > +	return (get_random_u32() & BRK_RND_MASK) << PAGE_SHIFT;
-> >  }
-> 
-> Can't this be
-> 
->   prandom_u32_max(BRK_RND_MASK + 1) << PAGE_SHIFT
-> 
-> ? More similar code with other masks follows below.
 
-I guess it can, because BRK_RND_MASK happens to have all its lower bits
-set. But as a "_MASK" maybe this isn't a given, and I don't want to
-change intended semantics in this patchset. It's also not more
-efficient, because BRK_RND_MASK is actually an expression:
+--5pgokusjefpgtu4a
+Content-Type: text/plain; charset=iso-8859-2
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-    #define BRK_RND_MASK        (is_32bit_task() ? 0x07ffUL : 0x3ffffUL)
+On Fri, Sep 30, 2022 at 09:09:56PM +0530, Yadav, Arvind wrote:
+>=20
+> On 9/30/2022 4:56 PM, Christian K=F6nig wrote:
+> > Am 30.09.22 um 10:48 schrieb Arvind Yadav:
+> > > BUG: kernel NULL pointer dereference, address: 0000000000000088
+> > > =A0 #PF: supervisor read access in kernel mode
+> > > =A0 #PF: error_code(0x0000) - not-present page
+> > > =A0 PGD 0 P4D 0
+> > > =A0 Oops: 0000 [#1] PREEMPT SMP NOPTI
+> > > =A0 CPU: 2 PID: 0 Comm: swapper/2 Not tainted 6.0.0-rc2-custom #1
+> > > =A0 Arvind : [dma_fence_default_wait _START] timeout =3D -1
+> > > =A0 Hardware name: AMD Dibbler/Dibbler, BIOS RDB1107CC 09/26/2018
+> > > =A0 RIP: 0010:drm_sched_job_done.isra.0+0x11/0x140 [gpu_sched]
+> > > =A0 Code: 8b fe ff ff be 03 00 00 00 e8 7b da b7 e3 e9 d4 fe ff ff 66
+> > > 0f 1f 44 00 00 0f 1f 44 00 00 55 48 89 e5 41 55 41 54 49 89 fc 53
+> > > <48> 8b 9f 88 00 00 00 f0 ff 8b f0 00 00 00 48 8b 83 80 01 00 00 f0
+> > > =A0 RSP: 0018:ffffb1b1801d4d38 EFLAGS: 00010087
+> > > =A0 RAX: ffffffffc0aa48b0 RBX: ffffb1b1801d4d70 RCX: 0000000000000018
+> > > =A0 RDX: 000036c70afb7c1d RSI: ffff8a45ca413c60 RDI: 0000000000000000
+> > > =A0 RBP: ffffb1b1801d4d50 R08: 00000000000000b5 R09: 0000000000000000
+> > > =A0 R10: 0000000000000000 R11: 0000000000000000 R12: 0000000000000000
+> > > =A0 R13: ffffb1b1801d4d70 R14: ffff8a45c4160000 R15: ffff8a45c416a708
+> > > =A0 FS:=A0 0000000000000000(0000) GS:ffff8a48a0a80000(0000)
+> > > knlGS:0000000000000000
+> > > =A0 CS:=A0 0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> > > =A0 CR2: 0000000000000088 CR3: 000000014ad50000 CR4: 00000000003506e0
+> > > =A0 Call Trace:
+> > > =A0=A0 <IRQ>
+> > > =A0=A0 drm_sched_job_done_cb+0x12/0x20 [gpu_sched]
+> > > =A0=A0 dma_fence_signal_timestamp_locked+0x7e/0x110
+> > > =A0=A0 dma_fence_signal+0x31/0x60
+> > > =A0=A0 amdgpu_fence_process+0xc4/0x140 [amdgpu]
+> > > =A0=A0 gfx_v9_0_eop_irq+0x9d/0xd0 [amdgpu]
+> > > =A0=A0 amdgpu_irq_dispatch+0xb7/0x210 [amdgpu]
+> > > =A0=A0 amdgpu_ih_process+0x86/0x100 [amdgpu]
+> > > =A0=A0 amdgpu_irq_handler+0x24/0x60 [amdgpu]
+> > > =A0=A0 __handle_irq_event_percpu+0x4b/0x190
+> > > =A0=A0 handle_irq_event_percpu+0x15/0x50
+> > > =A0=A0 handle_irq_event+0x39/0x60
+> > > =A0=A0 handle_edge_irq+0xaf/0x210
+> > > =A0=A0 __common_interrupt+0x6e/0x110
+> > > =A0=A0 common_interrupt+0xc1/0xe0
+> > > =A0=A0 </IRQ>
+> > > =A0=A0 <TASK>
+> >=20
+> > How is this triggered any why haven't we seen it before?
+>=20
+> IGT has few 'amdgpu' specific testcases which is not related=A0 to fence.
+>=20
+> while running those test cases I have got this crash but this crash is not
+> always reproducible.
 
-So at compile-time, the compiler can't prove that it's <= U16_MAX, since
-it isn't always the case, so it'll use get_random_u32() anyway.
+I've encountered this crash twice (out of two attempts) with kernel
+built from mainline commit 4c86114194e6 when I started firefox.
 
-[Side note: maybe that compile-time check should become a runtime check,
- but I'll need to do some benchmarking before changing that and
- introducing two added branches to every non-constant invocation, so for
- now it's a compile-time check. Fortunately the vast majority of uses
- are done on inputs the compiler can prove something about.]
+The patch below fixed the crash and does not seem to introduce any
+apparent issue.
 
-> 
-> > diff --git a/drivers/gpu/drm/i915/i915_gem_gtt.c
-> > b/drivers/gpu/drm/i915/i915_gem_gtt.c index 329ff75b80b9..7bd1861ddbdf
-> > 100644
-> > --- a/drivers/gpu/drm/i915/i915_gem_gtt.c
-> > +++ b/drivers/gpu/drm/i915/i915_gem_gtt.c
-> > @@ -137,12 +137,12 @@ static u64 random_offset(u64 start, u64 end, u64 len,
-> > u64 align) range = round_down(end - len, align) - round_up(start, align);
-> >  	if (range) {
-> >  		if (sizeof(unsigned long) == sizeof(u64)) {
-> > -			addr = get_random_long();
-> > +			addr = get_random_u64();
-> >  		} else {
-> > -			addr = get_random_int();
-> > +			addr = get_random_u32();
-> >  			if (range > U32_MAX) {
-> >  				addr <<= 32;
-> > -				addr |= get_random_int();
-> > +				addr |= get_random_u32();
-> >  			}
-> >  		}
-> >  		div64_u64_rem(addr, range, &addr);
-> 
-> How about 
-> 
->  		if (sizeof(unsigned long) == sizeof(u64) || range > 
-> U32_MAX)
-> 			addr = get_random_u64();
->  		else
-> 			addr = get_random_u32();
-> 
+Tested-by: Michal Kubecek <mkubecek@suse.cz>
 
-Yes, maybe, probably, indeed... But I don't want to go wild and start
-fixing all the weird algorithms everywhere. My goal is to only make
-changes that are "obviously right". But maybe after this lands this is
-something that you or I can submit to the i915 people as an
-optimization.
+> > > Signed-off-by: Arvind Yadav <Arvind.Yadav@amd.com>
+> > > ---
+> > > =A0 drivers/gpu/drm/scheduler/sched_main.c | 7 ++++++-
+> > > =A0 1 file changed, 6 insertions(+), 1 deletion(-)
+> > >=20
+> > > diff --git a/drivers/gpu/drm/scheduler/sched_main.c
+> > > b/drivers/gpu/drm/scheduler/sched_main.c
+> > > index 6684d88463b4..390272f6b126 100644
+> > > --- a/drivers/gpu/drm/scheduler/sched_main.c
+> > > +++ b/drivers/gpu/drm/scheduler/sched_main.c
+> > > @@ -172,7 +172,12 @@ drm_sched_rq_select_entity(struct drm_sched_rq *=
+rq)
+> > > =A0 static void drm_sched_job_done(struct drm_sched_job *s_job)
+> > > =A0 {
+> > > =A0=A0=A0=A0=A0 struct drm_sched_fence *s_fence =3D s_job->s_fence;
+> > > -=A0=A0=A0 struct drm_gpu_scheduler *sched =3D s_fence->sched;
+> > > +=A0=A0=A0 struct drm_gpu_scheduler *sched;
+> > > +
+> > > +=A0=A0=A0 if (!s_fence)
+> > > +=A0=A0=A0=A0=A0=A0=A0 return;
+> > > +
+> > > +=A0=A0=A0 sched =3D s_fence->sched;
+> > > =A0 =A0=A0=A0=A0=A0 atomic_dec(&sched->hw_rq_count);
+> > > =A0=A0=A0=A0=A0 atomic_dec(sched->score);
+> >=20
 
-> > diff --git a/drivers/infiniband/hw/cxgb4/cm.c
-> > b/drivers/infiniband/hw/cxgb4/cm.c index 14392c942f49..499a425a3379 100644
-> > --- a/drivers/infiniband/hw/cxgb4/cm.c
-> > +++ b/drivers/infiniband/hw/cxgb4/cm.c
-> > @@ -734,7 +734,7 @@ static int send_connect(struct c4iw_ep *ep)
-> >  				   &ep->com.remote_addr;
-> >  	int ret;
-> >  	enum chip_type adapter_type = ep->com.dev->rdev.lldi.adapter_type;
-> > -	u32 isn = (prandom_u32() & ~7UL) - 1;
-> > +	u32 isn = (get_random_u32() & ~7UL) - 1;
-> >  	struct net_device *netdev;
-> >  	u64 params;
-> > 
-> > @@ -2469,7 +2469,7 @@ static int accept_cr(struct c4iw_ep *ep, struct
-> > sk_buff *skb, }
-> > 
-> >  	if (!is_t4(adapter_type)) {
-> > -		u32 isn = (prandom_u32() & ~7UL) - 1;
-> > +		u32 isn = (get_random_u32() & ~7UL) - 1;
-> 
-> u32 isn = get_random_u32() | 0x7;
+--5pgokusjefpgtu4a
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Again, maybe so, but same rationale as above.
+-----BEGIN PGP SIGNATURE-----
 
-> >  static void ns_do_bit_flips(struct nandsim *ns, int num)
-> >  {
-> > -	if (bitflips && prandom_u32() < (1 << 22)) {
-> > +	if (bitflips && get_random_u32() < (1 << 22)) {
-> 
-> Doing "get_random_u16() < (1 << 6)" should have the same probability with only 
-> 2 bytes of random, no?
+iQEzBAABCAAdFiEEWN3j3bieVmp26mKO538sG/LRdpUFAmNA1tYACgkQ538sG/LR
+dpV9Egf/X/c89wk7BGPF4Qfl7wWawuErji4M7g7kcNcN2mIRN0TxhrO0ahZ98tue
+Vk1ajmPKRlf9m7UL4ocommViSSKmdEBVhVc/EXqHXuMspAeZg1mimTZbel5Rmggc
+HCkGa+HaUAqlBHK9WpxuILXw2sRPm6IspfpcltlyUGGawz3bjoGXBz/Uzjle3GuG
+aU2A6bjUELm7t48qA8O9NT0l0z3lez1lgmYEJLgy1zLy8Rkpc3rmwdB9hTrWu1Bm
+7WCjOJ4nJaxHawpCZDpYvRos520nZJO/jDqiue/F/U+PCLS3dPqJGVtJ1GhVHs0q
+PL73Uk8zANEbXFRtnMfcV+b6S/vr/A==
+=xK3o
+-----END PGP SIGNATURE-----
 
-That's very clever. (1<<22)/(1<<32) == (1<<6)/(1<<16). But also, same
-rationale as above for not doing that.
-
-Anyway, I realize this is probably disappointing to read. But also, we
-can come back to those optimization cases later pretty easily.
-
-Jason
+--5pgokusjefpgtu4a--
