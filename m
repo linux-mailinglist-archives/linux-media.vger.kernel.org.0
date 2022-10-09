@@ -2,53 +2,53 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AE9FA5F8D39
-	for <lists+linux-media@lfdr.de>; Sun,  9 Oct 2022 20:37:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C921B5F8D3A
+	for <lists+linux-media@lfdr.de>; Sun,  9 Oct 2022 20:37:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230332AbiJIShK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 9 Oct 2022 14:37:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57224 "EHLO
+        id S230333AbiJIShN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 9 Oct 2022 14:37:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57248 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230317AbiJIShI (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sun, 9 Oct 2022 14:37:08 -0400
-Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com [IPv6:2a00:1450:4864:20::52b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 41198255BC
-        for <linux-media@vger.kernel.org>; Sun,  9 Oct 2022 11:37:06 -0700 (PDT)
-Received: by mail-ed1-x52b.google.com with SMTP id u21so13239178edi.9
-        for <linux-media@vger.kernel.org>; Sun, 09 Oct 2022 11:37:06 -0700 (PDT)
+        with ESMTP id S230313AbiJIShJ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sun, 9 Oct 2022 14:37:09 -0400
+Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com [IPv6:2a00:1450:4864:20::535])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5868025C64
+        for <linux-media@vger.kernel.org>; Sun,  9 Oct 2022 11:37:07 -0700 (PDT)
+Received: by mail-ed1-x535.google.com with SMTP id a13so13317643edj.0
+        for <linux-media@vger.kernel.org>; Sun, 09 Oct 2022 11:37:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=ragnatech-se.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=650CKL7jG68nxDoInuvIIiaPVyoJzCbMNz5mJ0ac+VE=;
-        b=NojZ7W8zUYaAv7hhoE0pihblpBiNN3GinDMXILUq+l5vUtfh3HRLyxT5zgRFUb4bx3
-         iMqy4sb5UNOYch8UGSjgcDse7Eg68hV6K271G8xx/HpudIhrYfvXEXIW99SsWYTlTFmH
-         Yk/SR8QL0aoH7tgdsMMjcvQgLtisAPvcAx74Jiovdnuwj+lzh6XDodk4ChlQ/bMN+t0W
-         0HB8NQfsh2G8QfglaHx4auJb7dZfDGy6pDilcqra9oo7QW2F+suyvelBl+OloZAYgkTR
-         +0q6Z10fc0zfRyhY8dHvO94O63qkI/pCXhodVcIoaO5zhjDrXIBA6EL8lUwU9n0/zwTQ
-         pbew==
+        bh=nj0Wfwy57ePpPrUHPKsXOZY4zPaEoycK+hSSdAHSG9Y=;
+        b=r7VQPz6lVYietClII1zBmMvguenaxKiGqGAH8OJtpyWztgcUYZacNOLpT0rGbIb1ks
+         UmX/UqUzbLZPYi9/MLD1oInyYljzD6s3zNKPXWWUwP/an6AmNb9MR4oyceWD51Qdp/L+
+         I1hYE/UGZJX6wR7IEZsyzffnSF93179e/vXfhLNnu4P4ARm2/gjiIogqjbSt0jdw6NOp
+         o1BzjLAoEDJvENXPRAFEO735xBt1YlnOhRgH1Iut8SbuVs8vH/Y4KpDA1JSlRvWoKMcD
+         iR7mRP7aYMFMrlcLDJOpX7vrQa1jTiCaadru18YPS2O3GmzqCqVwRBrX8Y295+2Ehl00
+         Eaog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=650CKL7jG68nxDoInuvIIiaPVyoJzCbMNz5mJ0ac+VE=;
-        b=BPAHoFImFrBjdcYq8TXT7VmHEHRgIeqGtofml0e/FSMc5ZVt5w03PJTGRXVThX+MhH
-         JbKu5iLKH7bjjTjuJM2bHpvjVOxQSt+iqBQv32m7EE/qJUreFMyQSbNzKciOEFmsujlh
-         bDqdIhEp59K1rESAd5gRnfb2LAK0SHZuNMcJzlHgCcns2HGQrUzq6+JflLXAnN3fv+hF
-         vm8eMZvewT1gIRQnRO3X+aAhdxGNEVG2KZIZloEknpuA7zDMcfnZaLXIavExt17+USw6
-         TzOMPFAFcD+gdA52RgF0s7hg8pn3rfY9/31HoB2YwqClpt1NZM9tuTWY12XA4GjwDO4j
-         EbPQ==
-X-Gm-Message-State: ACrzQf0KitQdj7as3Fs0E4tqeMepOy/DU1ami2/QAAkSRdDylFDjQdHV
-        SCy1bnpKAY/3CKeDmzOftuokFweZRwO3M27m
-X-Google-Smtp-Source: AMsMyM576NSLFz+53iRFUAcyFz0UAUhSIJniyx06ji7mx1LhHVM+xQehjTRfKJG9HKM6B15Jvxo1eA==
-X-Received: by 2002:a05:6402:298d:b0:451:5fc5:d423 with SMTP id eq13-20020a056402298d00b004515fc5d423mr14260051edb.102.1665340624800;
-        Sun, 09 Oct 2022 11:37:04 -0700 (PDT)
+        bh=nj0Wfwy57ePpPrUHPKsXOZY4zPaEoycK+hSSdAHSG9Y=;
+        b=Ee/aEvyp5a2E8R2wjW2cOy6F8Po0GyO1+IkpMU2K1J56bufmznlhi6iNljT76LpEi0
+         vbF8REkRqb2HocLAc8aEEI3FeHi13B7JlNN+yflKLcy+FsU3WJ4NkhTeakgjBKaRiuLY
+         Jlx9QmXPtRa38pagdaaw9FAlV3DJ9wT7LK5zty1FC/dTxvK5BeX5hRUTblLCaG5BW2SI
+         x7F3mr0jiBrS8aRo/0zrw4M6wG4GLdTYeQmCUQQPwDii+dwTiOdMb9b096G3VU5HDySl
+         FzHl4cBrMWumjpwT0DJuY/syQTS58tRTyvVdTQoEmAt2tKfEm0c+VsQRAMDzzddTaqg4
+         aiAQ==
+X-Gm-Message-State: ACrzQf3eGrNdZmb89bZpLuGabWRYK6IfQHp3xrSsL8MbF98QZOdPEz4p
+        AnGFy9DJqmQ3TrkBdnTPFfIa2w==
+X-Google-Smtp-Source: AMsMyM5iRj06WJuGV5rSB2uASdv2+t8V4IIgp0k/thNjxm31entGR9/up3eqSrM/S7mzO0KGaA5OBQ==
+X-Received: by 2002:a05:6402:27c9:b0:45b:c963:2586 with SMTP id c9-20020a05640227c900b0045bc9632586mr7730858ede.61.1665340625703;
+        Sun, 09 Oct 2022 11:37:05 -0700 (PDT)
 Received: from sleipner.berto.se (p54ac5370.dip0.t-ipconnect.de. [84.172.83.112])
         by smtp.googlemail.com with ESMTPSA id o14-20020a50fd8e000000b00459148fbb3csm5610050edt.86.2022.10.09.11.37.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 09 Oct 2022 11:37:04 -0700 (PDT)
+        Sun, 09 Oct 2022 11:37:05 -0700 (PDT)
 From:   =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
         <niklas.soderlund+renesas@ragnatech.se>
 To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
@@ -56,9 +56,9 @@ To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
 Cc:     linux-renesas-soc@vger.kernel.org,
         =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
         <niklas.soderlund+renesas@ragnatech.se>
-Subject: [PATCH 1/3] media: rcar-vin: Do not cache remote rectangle
-Date:   Sun,  9 Oct 2022 20:35:49 +0200
-Message-Id: <20221009183551.1664631-2-niklas.soderlund+renesas@ragnatech.se>
+Subject: [PATCH 2/3] media: rcar-vin: Store scaler in a function pointer
+Date:   Sun,  9 Oct 2022 20:35:50 +0200
+Message-Id: <20221009183551.1664631-3-niklas.soderlund+renesas@ragnatech.se>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20221009183551.1664631-1-niklas.soderlund+renesas@ragnatech.se>
 References: <20221009183551.1664631-1-niklas.soderlund+renesas@ragnatech.se>
@@ -75,185 +75,226 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Prepare for scaling support in the media controller part of the driver
-by not caching the remote rectangle. Mimic the omap3isp and look it up
-each time it's needed.
+The scaler implementation is different between the VIN generations, and
+not all SoCs have a scaler. Currently only Gen2 scalers are supported.
+
+Prepare to add support for more scalers by storing the setup in a
+function pointer initialized at probe time. While at it move call site
+to after, instead of before, the generic capture setup, this have no
+effect on the Gen2 scaler but will be leveraged by the Gen3 scaler.
 
 Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 ---
- .../platform/renesas/rcar-vin/rcar-v4l2.c     | 84 ++++++++++++++-----
- .../platform/renesas/rcar-vin/rcar-vin.h      |  2 -
- 2 files changed, 65 insertions(+), 21 deletions(-)
+ .../platform/renesas/rcar-vin/rcar-core.c     | 13 +++++--
+ .../platform/renesas/rcar-vin/rcar-dma.c      | 34 +++++++++++++------
+ .../platform/renesas/rcar-vin/rcar-v4l2.c     |  6 ++++
+ .../platform/renesas/rcar-vin/rcar-vin.h      |  6 ++++
+ 4 files changed, 46 insertions(+), 13 deletions(-)
 
-diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-v4l2.c b/drivers/media/platform/renesas/rcar-vin/rcar-v4l2.c
-index 576059f9bbe3..a0b398aa2596 100644
---- a/drivers/media/platform/renesas/rcar-vin/rcar-v4l2.c
-+++ b/drivers/media/platform/renesas/rcar-vin/rcar-v4l2.c
-@@ -226,10 +226,10 @@ static int rvin_reset_format(struct rvin_dev *vin)
+diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-core.c b/drivers/media/platform/renesas/rcar-vin/rcar-core.c
+index 968a74234e92..c70c29a82ce1 100644
+--- a/drivers/media/platform/renesas/rcar-vin/rcar-core.c
++++ b/drivers/media/platform/renesas/rcar-vin/rcar-core.c
+@@ -1132,6 +1132,7 @@ static const struct rvin_info rcar_info_h1 = {
+ 	.use_mc = false,
+ 	.max_width = 2048,
+ 	.max_height = 2048,
++	.scaler = rvin_scaler_gen2,
+ };
  
- 	v4l2_fill_pix_format(&vin->format, &fmt.format);
+ static const struct rvin_info rcar_info_m1 = {
+@@ -1139,6 +1140,7 @@ static const struct rvin_info rcar_info_m1 = {
+ 	.use_mc = false,
+ 	.max_width = 2048,
+ 	.max_height = 2048,
++	.scaler = rvin_scaler_gen2,
+ };
  
--	vin->src_rect.top = 0;
--	vin->src_rect.left = 0;
--	vin->src_rect.width = vin->format.width;
--	vin->src_rect.height = vin->format.height;
-+	vin->crop.top = 0;
-+	vin->crop.left = 0;
-+	vin->crop.width = vin->format.width;
-+	vin->crop.height = vin->format.height;
+ static const struct rvin_info rcar_info_gen2 = {
+@@ -1146,6 +1148,7 @@ static const struct rvin_info rcar_info_gen2 = {
+ 	.use_mc = false,
+ 	.max_width = 2048,
+ 	.max_height = 2048,
++	.scaler = rvin_scaler_gen2,
+ };
  
- 	/*  Make use of the hardware interlacer by default. */
- 	if (vin->format.field == V4L2_FIELD_ALTERNATE) {
-@@ -239,8 +239,6 @@ static int rvin_reset_format(struct rvin_dev *vin)
+ static const struct rvin_group_route rcar_info_r8a774e1_routes[] = {
+@@ -1409,13 +1412,17 @@ static int rcar_vin_probe(struct platform_device *pdev)
  
- 	rvin_format_align(vin, &vin->format);
+ 	platform_set_drvdata(pdev, vin);
  
--	vin->crop = vin->src_rect;
--
- 	vin->compose.top = 0;
- 	vin->compose.left = 0;
- 	vin->compose.width = vin->format.width;
-@@ -349,7 +347,6 @@ static int rvin_s_fmt_vid_cap(struct file *file, void *priv,
- 
- 	v4l2_rect_map_inside(&vin->crop, &src_rect);
- 	v4l2_rect_map_inside(&vin->compose, &fmt_rect);
--	vin->src_rect = src_rect;
- 
- 	return 0;
- }
-@@ -428,10 +425,57 @@ static int rvin_enum_fmt_vid_cap(struct file *file, void *priv,
- 	return -EINVAL;
- }
- 
-+static int rvin_remote_rectangle(struct rvin_dev *vin, struct v4l2_rect *rect)
-+{
-+	struct v4l2_subdev_format fmt = {
-+		.which = V4L2_SUBDEV_FORMAT_ACTIVE,
-+	};
-+	struct v4l2_subdev *sd;
-+	unsigned int index;
-+	int ret;
-+
-+	if (vin->info->use_mc) {
-+		struct media_pad *pad = media_pad_remote_pad_first(&vin->pad);
-+
-+		if (!pad)
-+			return -EINVAL;
-+
-+		sd = media_entity_to_v4l2_subdev(pad->entity);
-+		index = pad->index;
+-	if (vin->info->use_isp)
++	if (vin->info->use_isp) {
+ 		ret = rvin_isp_init(vin);
+-	else if (vin->info->use_mc)
++	} else if (vin->info->use_mc) {
+ 		ret = rvin_csi2_init(vin);
+-	else
 +	} else {
-+		sd = vin_to_source(vin);
-+		index = vin->parallel.source_pad;
+ 		ret = rvin_parallel_init(vin);
+ 
++		if (vin->info->scaler)
++			vin->scaler = vin->info->scaler;
 +	}
 +
-+	fmt.pad = index;
-+	ret = v4l2_subdev_call(sd, pad, get_fmt, NULL, &fmt);
-+	if (ret)
-+		return ret;
-+
-+	rect->left = rect->top = 0;
-+	rect->width = fmt.format.width;
-+	rect->height = fmt.format.height;
-+
-+	if (fmt.format.field == V4L2_FIELD_ALTERNATE) {
-+		switch (vin->format.field) {
-+		case V4L2_FIELD_INTERLACED_TB:
-+		case V4L2_FIELD_INTERLACED_BT:
-+		case V4L2_FIELD_INTERLACED:
-+		case V4L2_FIELD_SEQ_TB:
-+		case V4L2_FIELD_SEQ_BT:
-+			rect->height *= 2;
-+			break;
-+		}
-+	}
-+
-+	return 0;
+ 	if (ret) {
+ 		rvin_dma_unregister(vin);
+ 		return ret;
+diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-dma.c b/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
+index 8d37fbdc266a..0efd98998acb 100644
+--- a/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
++++ b/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
+@@ -160,9 +160,17 @@ static u32 rvin_read(struct rvin_dev *vin, u32 offset)
+ }
+ 
+ /* -----------------------------------------------------------------------------
+- * Crop and Scaling Gen2
++ * Crop and Scaling
+  */
+ 
++static bool rvin_scaler_needed(const struct rvin_dev *vin)
++{
++	return !(vin->crop.width == vin->format.width &&
++		 vin->compose.width == vin->format.width &&
++		 vin->crop.height == vin->format.height &&
++		 vin->compose.height == vin->format.height);
 +}
 +
- static int rvin_g_selection(struct file *file, void *fh,
- 			    struct v4l2_selection *s)
+ struct vin_coeff {
+ 	unsigned short xs_value;
+ 	u32 coeff_set[24];
+@@ -535,7 +543,7 @@ static void rvin_set_coeff(struct rvin_dev *vin, unsigned short xs)
+ 	rvin_write(vin, p_set->coeff_set[23], VNC8C_REG);
+ }
+ 
+-static void rvin_crop_scale_comp_gen2(struct rvin_dev *vin)
++void rvin_scaler_gen2(struct rvin_dev *vin)
  {
+ 	unsigned int crop_height;
+ 	u32 xs, ys;
+@@ -594,9 +602,8 @@ void rvin_crop_scale_comp(struct rvin_dev *vin)
+ 	rvin_write(vin, vin->crop.top, VNSLPRC_REG);
+ 	rvin_write(vin, vin->crop.top + vin->crop.height - 1, VNELPRC_REG);
+ 
+-	/* TODO: Add support for the UDS scaler. */
+-	if (vin->info->model != RCAR_GEN3)
+-		rvin_crop_scale_comp_gen2(vin);
++	if (vin->scaler)
++		vin->scaler(vin);
+ 
+ 	fmt = rvin_format_from_pixel(vin, vin->format.pixelformat);
+ 	stride = vin->format.bytesperline / fmt->bpp;
+@@ -984,12 +991,12 @@ static int rvin_capture_start(struct rvin_dev *vin)
+ 	for (slot = 0; slot < HW_BUFFER_NUM; slot++)
+ 		rvin_fill_hw_slot(vin, slot);
+ 
+-	rvin_crop_scale_comp(vin);
+-
+ 	ret = rvin_setup(vin);
+ 	if (ret)
+ 		return ret;
+ 
++	rvin_crop_scale_comp(vin);
++
+ 	vin_dbg(vin, "Starting to capture\n");
+ 
+ 	/* Continuous Frame Capture Mode */
+@@ -1234,9 +1241,16 @@ static int rvin_mc_validate_format(struct rvin_dev *vin, struct v4l2_subdev *sd,
+ 		return -EPIPE;
+ 	}
+ 
+-	if (fmt.format.width != vin->format.width ||
+-	    fmt.format.height != vin->format.height ||
+-	    fmt.format.code != vin->mbus_code)
++	if (rvin_scaler_needed(vin)) {
++		if (!vin->scaler)
++			return -EPIPE;
++	} else {
++		if (fmt.format.width != vin->format.width ||
++		    fmt.format.height != vin->format.height)
++			return -EPIPE;
++	}
++
++	if (fmt.format.code != vin->mbus_code)
+ 		return -EPIPE;
+ 
+ 	return 0;
+diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-v4l2.c b/drivers/media/platform/renesas/rcar-vin/rcar-v4l2.c
+index a0b398aa2596..07564e05ed8c 100644
+--- a/drivers/media/platform/renesas/rcar-vin/rcar-v4l2.c
++++ b/drivers/media/platform/renesas/rcar-vin/rcar-v4l2.c
+@@ -477,6 +477,9 @@ static int rvin_g_selection(struct file *file, void *fh,
  	struct rvin_dev *vin = video_drvdata(file);
-+	int ret;
+ 	int ret;
  
++	if (!vin->scaler)
++		return -ENOIOCTLCMD;
++
  	if (s->type != V4L2_BUF_TYPE_VIDEO_CAPTURE)
  		return -EINVAL;
-@@ -439,9 +483,10 @@ static int rvin_g_selection(struct file *file, void *fh,
- 	switch (s->target) {
- 	case V4L2_SEL_TGT_CROP_BOUNDS:
- 	case V4L2_SEL_TGT_CROP_DEFAULT:
--		s->r.left = s->r.top = 0;
--		s->r.width = vin->src_rect.width;
--		s->r.height = vin->src_rect.height;
-+		ret = rvin_remote_rectangle(vin, &s->r);
-+		if (ret)
-+			return ret;
-+
- 		break;
- 	case V4L2_SEL_TGT_CROP:
- 		s->r = vin->crop;
-@@ -473,6 +518,7 @@ static int rvin_s_selection(struct file *file, void *fh,
- 		.width = 6,
- 		.height = 2,
+ 
+@@ -520,6 +523,9 @@ static int rvin_s_selection(struct file *file, void *fh,
  	};
-+	int ret;
+ 	int ret;
  
++	if (!vin->scaler)
++		return -ENOIOCTLCMD;
++
  	if (s->type != V4L2_BUF_TYPE_VIDEO_CAPTURE)
  		return -EINVAL;
-@@ -482,23 +528,23 @@ static int rvin_s_selection(struct file *file, void *fh,
- 	switch (s->target) {
- 	case V4L2_SEL_TGT_CROP:
- 		/* Can't crop outside of source input */
--		max_rect.top = max_rect.left = 0;
--		max_rect.width = vin->src_rect.width;
--		max_rect.height = vin->src_rect.height;
-+		ret = rvin_remote_rectangle(vin, &max_rect);
-+		if (ret)
-+			return ret;
-+
- 		v4l2_rect_map_inside(&r, &max_rect);
  
--		v4l_bound_align_image(&r.width, 6, vin->src_rect.width, 0,
--				      &r.height, 2, vin->src_rect.height, 0, 0);
-+		v4l_bound_align_image(&r.width, 6, max_rect.width, 0,
-+				      &r.height, 2, max_rect.height, 0, 0);
- 
--		r.top  = clamp_t(s32, r.top, 0,
--				 vin->src_rect.height - r.height);
--		r.left = clamp_t(s32, r.left, 0, vin->src_rect.width - r.width);
-+		r.top  = clamp_t(s32, r.top, 0, max_rect.height - r.height);
-+		r.left = clamp_t(s32, r.left, 0, max_rect.width - r.width);
- 
- 		vin->crop = s->r = r;
- 
- 		vin_dbg(vin, "Cropped %dx%d@%d:%d of %dx%d\n",
- 			r.width, r.height, r.left, r.top,
--			vin->src_rect.width, vin->src_rect.height);
-+			max_rect.width, max_rect.height);
- 		break;
- 	case V4L2_SEL_TGT_COMPOSE:
- 		/* Make sure compose rect fits inside output format */
 diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-vin.h b/drivers/media/platform/renesas/rcar-vin/rcar-vin.h
-index 1f94589d9ef1..469c4aaf90e2 100644
+index 469c4aaf90e2..334c327889a0 100644
 --- a/drivers/media/platform/renesas/rcar-vin/rcar-vin.h
 +++ b/drivers/media/platform/renesas/rcar-vin/rcar-vin.h
-@@ -203,7 +203,6 @@ struct rvin_info {
+@@ -31,6 +31,7 @@
+ /* Max number on VIN instances that can be in a system */
+ #define RCAR_VIN_NUM 32
+ 
++struct rvin_dev;
+ struct rvin_group;
+ 
+ enum model_id {
+@@ -155,6 +156,7 @@ struct rvin_group_route {
+  * @max_height:		max input height the VIN supports
+  * @routes:		list of possible routes from the CSI-2 recivers to
+  *			all VINs. The list mush be NULL terminated.
++ * @scaler:		Optional scaler
+  */
+ struct rvin_info {
+ 	enum model_id model;
+@@ -165,6 +167,7 @@ struct rvin_info {
+ 	unsigned int max_width;
+ 	unsigned int max_height;
+ 	const struct rvin_group_route *routes;
++	void (*scaler)(struct rvin_dev *vin);
+ };
+ 
+ /**
+@@ -203,6 +206,7 @@ struct rvin_info {
   *
   * @crop:		active cropping
   * @compose:		active composing
-- * @src_rect:		active size of the video source
++ * @scaler:		Optional scaler
   * @std:		active video standard of the video source
   *
   * @alpha:		Alpha component to fill in for supported pixel formats
-@@ -247,7 +246,6 @@ struct rvin_dev {
+@@ -246,6 +250,7 @@ struct rvin_dev {
  
  	struct v4l2_rect crop;
  	struct v4l2_rect compose;
--	struct v4l2_rect src_rect;
++	void (*scaler)(struct rvin_dev *vin);
  	v4l2_std_id std;
  
  	unsigned int alpha;
+@@ -302,6 +307,7 @@ const struct rvin_video_format *rvin_format_from_pixel(struct rvin_dev *vin,
+ 
+ 
+ /* Cropping, composing and scaling */
++void rvin_scaler_gen2(struct rvin_dev *vin);
+ void rvin_crop_scale_comp(struct rvin_dev *vin);
+ 
+ int rvin_set_channel_routing(struct rvin_dev *vin, u8 chsel);
 -- 
 2.37.3
 
