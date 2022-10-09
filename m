@@ -2,35 +2,35 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D88ED5F9592
-	for <lists+linux-media@lfdr.de>; Mon, 10 Oct 2022 02:21:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4C47D5F95C8
+	for <lists+linux-media@lfdr.de>; Mon, 10 Oct 2022 02:25:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232504AbiJJAVT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 9 Oct 2022 20:21:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45796 "EHLO
+        id S232236AbiJJAZh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 9 Oct 2022 20:25:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60150 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232495AbiJJAUG (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sun, 9 Oct 2022 20:20:06 -0400
+        with ESMTP id S232745AbiJJAWf (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sun, 9 Oct 2022 20:22:35 -0400
 Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DD92CDF07;
-        Sun,  9 Oct 2022 16:54:48 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0AFD25F7F;
+        Sun,  9 Oct 2022 16:56:27 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 36DFDB80DEE;
-        Sun,  9 Oct 2022 23:54:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CF140C433B5;
-        Sun,  9 Oct 2022 23:54:44 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id BF9C9B80C74;
+        Sun,  9 Oct 2022 23:56:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 52C2EC433B5;
+        Sun,  9 Oct 2022 23:56:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1665359685;
-        bh=yxGkSTZYL1lOGJSNqH0ReJY84nBjcJY52M5+93fYZ7c=;
+        s=k20201202; t=1665359784;
+        bh=qjR24BSMmkAFS/BFtuOkdK3KlnwctJ3VBLjJxkzooCQ=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=GVY3o9WP/x4ceRAR560UbnmCdghhCuB4Rq4V0/oSPrZt+DRA7rtkz808yCGNTzD7H
-         ElLzv2qUT5aznFJqzg/yTakXuB3dB6kzCNLR3QPzG+0+NeWCVkgg/Eu7ojuZHUb3D3
-         Tc4RdbuN37hocUNHv5Gu4QsP4C28ESXj7sIy7tbqbohCNaUuk7Sx3tG8tlKxiE1s86
-         C7FrIqUHO+Esyj4XT+mEjbH4vZWGAWJ4wmf2shvYqB0a41yfPnOuV5Xdd4SpdummSw
-         RT4WBui+OBezc8XW536/ZpNVW6F3FhnLEdyi03SSCyIB73cldI0zOsl/lk0PhihVBZ
-         4uRGcey+Psmfg==
+        b=Yq8Y3s1Bre6eEay07gi39LORAeMoFxk5BmWe+vnR2YRKbJrWTCfCbOY6DLCJoLa+P
+         52onZ47xpdatABpPKW1gmcpAHoHpAaCA/jRWv6n2UAAOp3Br0T+hFXRQtA7LIflhpQ
+         ZVUsMVWlb55zdFpT0nIxob4HmVCyyhY8Oem9vxcWiJDB5wyzG52OfmLqvskVhfDvfk
+         xVFyAuviZsrIBv1tVJqZpQgodmiSDPHD2WojdjzVXIa0F8hlNDgqcxm1OeCMCDLpcX
+         mM2w7crhIwVKVMyuCWJI5IxIjZhXlxuoOkJArYlY2hcPBL72YzKuYAMjBqYOezt+Po
+         s2/60jo7RSx/w==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Vivek Kasireddy <vivek.kasireddy@intel.com>,
@@ -39,12 +39,12 @@ Cc:     Vivek Kasireddy <vivek.kasireddy@intel.com>,
         Sasha Levin <sashal@kernel.org>, sumit.semwal@linaro.org,
         christian.koenig@amd.com, dri-devel@lists.freedesktop.org,
         linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-Subject: [PATCH AUTOSEL 5.15 08/25] udmabuf: Set ubuf->sg = NULL if the creation of sg table fails
-Date:   Sun,  9 Oct 2022 19:54:08 -0400
-Message-Id: <20221009235426.1231313-8-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.10 07/22] udmabuf: Set ubuf->sg = NULL if the creation of sg table fails
+Date:   Sun,  9 Oct 2022 19:55:25 -0400
+Message-Id: <20221009235540.1231640-7-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20221009235426.1231313-1-sashal@kernel.org>
-References: <20221009235426.1231313-1-sashal@kernel.org>
+In-Reply-To: <20221009235540.1231640-1-sashal@kernel.org>
+References: <20221009235540.1231640-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -138,10 +138,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 6 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/dma-buf/udmabuf.c b/drivers/dma-buf/udmabuf.c
-index 38e8767ec371..bf11d32205f3 100644
+index b624f3d8f0e6..e359c5c6c4df 100644
 --- a/drivers/dma-buf/udmabuf.c
 +++ b/drivers/dma-buf/udmabuf.c
-@@ -124,17 +124,20 @@ static int begin_cpu_udmabuf(struct dma_buf *buf,
+@@ -118,17 +118,20 @@ static int begin_cpu_udmabuf(struct dma_buf *buf,
  {
  	struct udmabuf *ubuf = buf->priv;
  	struct device *dev = ubuf->device->this_device;
