@@ -2,166 +2,180 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B81D95F893F
-	for <lists+linux-media@lfdr.de>; Sun,  9 Oct 2022 05:41:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E23505F8976
+	for <lists+linux-media@lfdr.de>; Sun,  9 Oct 2022 07:39:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229882AbiJIDlz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 8 Oct 2022 23:41:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41966 "EHLO
+        id S229637AbiJIFjI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 9 Oct 2022 01:39:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54608 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229839AbiJIDlV (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sat, 8 Oct 2022 23:41:21 -0400
-Received: from mail-pg1-x52d.google.com (mail-pg1-x52d.google.com [IPv6:2607:f8b0:4864:20::52d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E59BA349B4
-        for <linux-media@vger.kernel.org>; Sat,  8 Oct 2022 20:41:16 -0700 (PDT)
-Received: by mail-pg1-x52d.google.com with SMTP id e129so7772334pgc.9
-        for <linux-media@vger.kernel.org>; Sat, 08 Oct 2022 20:41:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Jc9wqi9hH7sDAuXmZMPHByefEvgO0MbR3+ZEqDB7Wuk=;
-        b=ZhbF7aukJSn3TNMRwCJkZSqm1r+X38mJ2RxvPJW6Z+9mn1TOlxypOyituNx8mz1HVC
-         FGqxSiHSDomVzpOPFi9kka3+6Rdn9v0XaNwqyXLdtOhmQI0POv0z39c8Rsj4C7/d+KIP
-         fJKzHg6Na0ETg2nVHR+d6vQT/rsL3lGZwlInw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Jc9wqi9hH7sDAuXmZMPHByefEvgO0MbR3+ZEqDB7Wuk=;
-        b=lZKCPsbuiojAKaID8pZuljxoRNGXmxQbl6d933DfEefT+VEzAz9HhAXThsdldwXtBO
-         hzi1cHR88/fEmBV1g0s1nEO3TF9mZ0Wf/hFEaM9qxAbt375E+rxQYW0/ZPUgRyZY2mvr
-         TwsSBhggQpxhu4Qc3V6ZAdyd6rLQq+15L0n3ZDKRykAXLs9E4E9hIDGXQTq/0ahaaa/g
-         p97WOmoqsqApWj9trmZY7ONSa3vn7f855HesY4SBsePaDWbq3WvglgzIaDL9E7DyssDQ
-         cAm973xxdxKZ1Pm7m/acJr230QDjGdkWFd22Onj3Nc54Hzz9miYz6jH4t4ukxlbDFFon
-         wC7A==
-X-Gm-Message-State: ACrzQf2HcpiXhgiryQowGV4WdXZj0wlig6feqpH8ZszTt1jhLGZhzxGn
-        jQnCC89vizCrfTroxvJT5cPn1g==
-X-Google-Smtp-Source: AMsMyM7YoBLGpPreiN9760Jo2f1/EfVU3YsZS0ZZ4a+XLEChtkH8ZIzixkyyCKOXZUBZ1uN6dxOluQ==
-X-Received: by 2002:a63:5a44:0:b0:431:fa3a:f92c with SMTP id k4-20020a635a44000000b00431fa3af92cmr11522888pgm.471.1665286876368;
-        Sat, 08 Oct 2022 20:41:16 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id w2-20020a626202000000b0053e8f4a10c1sm4198763pfb.217.2022.10.08.20.41.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 08 Oct 2022 20:41:15 -0700 (PDT)
-Date:   Sat, 8 Oct 2022 20:41:14 -0700
-From:   Kees Cook <keescook@chromium.org>
-To:     "Jason A. Donenfeld" <Jason@zx2c4.com>
-Cc:     linux-kernel@vger.kernel.org, patches@lists.linux.dev,
-        Andreas Noever <andreas.noever@gmail.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Christoph =?iso-8859-1?Q?B=F6hmwalder?= 
-        <christoph.boehmwalder@linbit.com>, Christoph Hellwig <hch@lst.de>,
-        Christophe Leroy <christophe.leroy@csgroup.eu>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Dave Airlie <airlied@redhat.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Florian Westphal <fw@strlen.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "H . Peter Anvin" <hpa@zytor.com>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        Helge Deller <deller@gmx.de>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        Huacai Chen <chenhuacai@kernel.org>,
-        Hugh Dickins <hughd@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        "James E . J . Bottomley" <jejb@linux.ibm.com>,
-        Jan Kara <jack@suse.com>, Jason Gunthorpe <jgg@ziepe.ca>,
-        Jens Axboe <axboe@kernel.dk>,
-        Johannes Berg <johannes@sipsolutions.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Jozsef Kadlecsik <kadlec@netfilter.org>,
-        KP Singh <kpsingh@kernel.org>, Marco Elver <elver@google.com>,
+        with ESMTP id S229458AbiJIFjH (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sun, 9 Oct 2022 01:39:07 -0400
+Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com [66.111.4.29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2AA9032B86
+        for <linux-media@vger.kernel.org>; Sat,  8 Oct 2022 22:39:06 -0700 (PDT)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+        by mailout.nyi.internal (Postfix) with ESMTP id 8BD035C00F8;
+        Sun,  9 Oct 2022 01:39:05 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute1.internal (MEProxy); Sun, 09 Oct 2022 01:39:05 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fastmail.com; h=
+        cc:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+        :message-id:mime-version:references:reply-to:sender:subject
+        :subject:to:to; s=fm3; t=1665293945; x=1665380345; bh=vBjW1qNt6v
+        Wq+jciJa8stN/rPWx9/yLvAAU/bpSDGEw=; b=QymyVAd2/X5UyqyzZTZ7DB2ljX
+        ZdO9dh3Of2c+gEoKD+j/y9TUOpAdkVns76l/rwT/pnXh8jRvsOwVH18lGMgqCyp8
+        6nKSDP7sn9stOxsSsfYwfhUFRJJvUbEcZhaZncPdqKUf09ZXCAjxaWK+PI1WmF4n
+        er2Vgny2Z4I0L+NAK9s5CxyI6ZbJtXZBScmd0F90l1Uk8qRrpGSmqK6jJpHCWGZu
+        cJO6LQVBNcDYXFjcgtB22SwPCAD3QoxDej+CFbQmriwJF6i8XnG/CKhvLp23OCJA
+        JCfcfUNzJj4H6DAblJx0Va6mQBPlq6N+IdLw93SQHIm3QdPHp0UTWUPr4vDg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+        :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+        :mime-version:references:reply-to:sender:subject:subject:to:to
+        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+        fm3; t=1665293945; x=1665380345; bh=vBjW1qNt6vWq+jciJa8stN/rPWx9
+        /yLvAAU/bpSDGEw=; b=linpvrlplJh9hwh8AFCcEtMtq0NYTXcW2RfOJRVfq1nU
+        p//0eOoIH97KGrGKt46BvCJghD3OcO2aZXRHqgi6hH2FI24f/deWe3uj+Y4O3wXp
+        1Q61sL62wHoHccFoe6S2ZVi00BNz6ucE0S0qbo8FVbGBWMZv+Yio6yCY9ffSJf3I
+        X6y8OM5fDihjUDRQCiPVqcjyKlbc8t6KV2hb8g8gxywUKhBLE3qf24mWAyZDyHCn
+        A8X4dHyn1SQZaCXWBrZkE3F5CtExMHFNEsl56y7d/pmKDYK3esZEP8odf/KzW+8e
+        7tP2wNXR/kV5wKFvc0cC5SWtPB55oNwdOggvmEdN5Q==
+X-ME-Sender: <xms:eF5CY_q9s-cp7o3H1LQCh2WzN_7DJcJtqhagNKTnZEAgAqt3CkCqPA>
+    <xme:eF5CY5qbpFpdLOjavzjzGvScjMVKHp7mm3jS5L-NE9ZXCnXeJU2HSYVXidAzsIbj8
+    IlPGahH6d-g8osFwY4>
+X-ME-Received: <xmr:eF5CY8P0OnE6ydGfajB61uqnaEN7zVmCrWmMYa-L4SSp56mpQHKYEA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfeejtddgleejucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvfevuffkfhggtggujgesthdtredttddtjeenucfhrhhomhepffgrfhhn
+    rgcujfhirhhstghhfhgvlhguuceouggrfhhnrgesfhgrshhtmhgrihhlrdgtohhmqeenuc
+    ggtffrrghtthgvrhhnpedvhedtledukeegveelfeeuvddujeeiteehkedvhfetkeffudej
+    hfeftdduhedvkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfh
+    hrohhmpegurghfnhgrsehfrghsthhmrghilhdrtghomh
+X-ME-Proxy: <xmx:eF5CYy7VqDCQa76uXlV71kFm8UAQL4eJB3Zy42iYINwjaX4t_TMTqA>
+    <xmx:eF5CY-7cFQ78cl6Xq3isykHjPS_L3XAkkzzdcpm7umpK2tw564nNMw>
+    <xmx:eF5CY6iBGzSdXiU3NKqGpHW5f-84_lm986J1rB_8KK05auGH0AbvaQ>
+    <xmx:eV5CY3GddaJGbmWzzzJhXdk_ZZPyxTgpStpJgclVltRWnPu7ssJF_w>
+Feedback-ID: i0e894699:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
+ 9 Oct 2022 01:39:01 -0400 (EDT)
+Date:   Sun, 9 Oct 2022 08:38:59 +0300
+From:   Dafna Hirschfeld <dafna@fastmail.com>
+To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        niklas.soderlund+renesas@ragnatech.se,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Pablo Neira Ayuso <pablo@netfilter.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Richard Weinberger <richard@nod.at>,
-        Russell King <linux@armlinux.org.uk>,
-        Theodore Ts'o <tytso@mit.edu>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Thomas Graf <tgraf@suug.ch>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        WANG Xuerui <kernel@xen0n.name>, Will Deacon <will@kernel.org>,
-        Yury Norov <yury.norov@gmail.com>,
-        dri-devel@lists.freedesktop.org, kasan-dev@googlegroups.com,
-        kernel-janitors@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-block@vger.kernel.org,
-        linux-crypto@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-mips@vger.kernel.org, linux-mm@kvack.org,
-        linux-mmc@vger.kernel.org, linux-mtd@lists.infradead.org,
-        linux-nvme@lists.infradead.org, linux-parisc@vger.kernel.org,
-        linux-rdma@vger.kernel.org, linux-s390@vger.kernel.org,
-        linux-um@lists.infradead.org, linux-usb@vger.kernel.org,
-        linux-wireless@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        loongarch@lists.linux.dev, netdev@vger.kernel.org,
-        sparclinux@vger.kernel.org, x86@kernel.org
-Subject: Re: [PATCH v5 0/7] treewide cleanup of random integer usage
-Message-ID: <202210082028.692DFA21@keescook>
-References: <20221008055359.286426-1-Jason@zx2c4.com>
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Kishon Vijay Abraham <kishon@ti.com>,
+        satish.nagireddy@getcruise.com, Tomasz Figa <tfiga@chromium.org>
+Subject: Re: [PATCH v15 08/19] media: subdev: Add for_each_active_route()
+ macro
+Message-ID: <20221009053859.fmiiwdu4rjxe5c7g@guri>
+References: <20221003121852.616745-1-tomi.valkeinen@ideasonboard.com>
+ <20221003121852.616745-9-tomi.valkeinen@ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Disposition: inline
-In-Reply-To: <20221008055359.286426-1-Jason@zx2c4.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+In-Reply-To: <20221003121852.616745-9-tomi.valkeinen@ideasonboard.com>
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_LOW,
+        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Oct 07, 2022 at 11:53:52PM -0600, Jason A. Donenfeld wrote:
-> This is a five part treewide cleanup of random integer handling. The
-> rules for random integers are:
+On 03.10.2022 15:18, Tomi Valkeinen wrote:
+>From: Jacopo Mondi <jacopo+renesas@jmondi.org>
+>
+>Add a for_each_active_route() macro to replace the repeated pattern
+>of iterating on the active routes of a routing table.
+>
+>Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+>Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+>---
+> .clang-format                         |  1 +
+> drivers/media/v4l2-core/v4l2-subdev.c | 20 ++++++++++++++++++++
+> include/media/v4l2-subdev.h           | 13 +++++++++++++
+> 3 files changed, 34 insertions(+)
+>
+>diff --git a/.clang-format b/.clang-format
+>index 1247d54f9e49..31f39ae78f7b 100644
+>--- a/.clang-format
+>+++ b/.clang-format
+>@@ -190,6 +190,7 @@ ForEachMacros:
+>   - 'for_each_active_dev_scope'
+>   - 'for_each_active_drhd_unit'
+>   - 'for_each_active_iommu'
+>+  - 'for_each_active_route'
+>   - 'for_each_aggr_pgid'
+>   - 'for_each_available_child_of_node'
+>   - 'for_each_bench'
+>diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
+>index 3ae4f39a50e4..1049c07d2e49 100644
+>--- a/drivers/media/v4l2-core/v4l2-subdev.c
+>+++ b/drivers/media/v4l2-core/v4l2-subdev.c
+>@@ -1212,6 +1212,26 @@ int v4l2_subdev_set_routing(struct v4l2_subdev *sd,
+> }
+> EXPORT_SYMBOL_GPL(v4l2_subdev_set_routing);
+>
+>+struct v4l2_subdev_route *
+>+__v4l2_subdev_next_active_route(const struct v4l2_subdev_krouting *routing,
+>+				struct v4l2_subdev_route *route)
+>+{
+>+	if (route)
+>+		++route;
+>+	else
+>+		route = &routing->routes[0];
+>+
+>+	for (; route < routing->routes + routing->num_routes; ++route) {
+>+		if (!(route->flags & V4L2_SUBDEV_ROUTE_FL_ACTIVE))
+>+			continue;
+>+
+>+		return route;
+>+	}
+>+
+>+	return NULL;
+>+}
+>+EXPORT_SYMBOL_GPL(__v4l2_subdev_next_active_route);
+>+
+> #endif /* CONFIG_VIDEO_V4L2_SUBDEV_API */
+>
+> #endif /* CONFIG_MEDIA_CONTROLLER */
+>diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
+>index 7962e6572bda..89e58208e330 100644
+>--- a/include/media/v4l2-subdev.h
+>+++ b/include/media/v4l2-subdev.h
+>@@ -1435,6 +1435,19 @@ int v4l2_subdev_set_routing(struct v4l2_subdev *sd,
+> 			    struct v4l2_subdev_state *state,
+> 			    const struct v4l2_subdev_krouting *routing);
+>
+>+struct v4l2_subdev_route *
+>+__v4l2_subdev_next_active_route(const struct v4l2_subdev_krouting *routing,
+>+				struct v4l2_subdev_route *route);
+>+
+>+/**
+>+ * for_each_active_route - iterate on all active routes of a routing table
+>+ * @routing: The routing table
+>+ * @route: The route iterator
+>+ */
+>+#define for_each_active_route(routing, route) \
+>+	for ((route) = NULL;                  \
+>+	     ((route) = __v4l2_subdev_next_active_route((routing), (route)));)
+Hi, shouldn't it be something like:
+	for ((route) = NULL; (route) ; (route) = __v4l2_subdev_next_active_route((routing), (route)))
 
-Reviewing the delta between of my .cocci rules and your v5, everything
-matches, except for get_random_int() conversions for files not in
-your tree:
+Thanks,
+Dafna
 
-diff --git a/drivers/gpu/drm/tests/drm_buddy_test.c b/drivers/gpu/drm/tests/drm_buddy_test.c
-index 7a2b2d6bc3fe..62f69589a72d 100644
---- a/drivers/gpu/drm/tests/drm_buddy_test.c
-+++ b/drivers/gpu/drm/tests/drm_buddy_test.c
-@@ -729,7 +729,7 @@ static void drm_test_buddy_alloc_limit(struct kunit *test)
- static int drm_buddy_init_test(struct kunit *test)
- {
- 	while (!random_seed)
--		random_seed = get_random_int();
-+		random_seed = get_random_u32();
- 
- 	return 0;
- }
-diff --git a/drivers/gpu/drm/tests/drm_mm_test.c b/drivers/gpu/drm/tests/drm_mm_test.c
-index 659d1af4dca7..c4b66eeae203 100644
---- a/drivers/gpu/drm/tests/drm_mm_test.c
-+++ b/drivers/gpu/drm/tests/drm_mm_test.c
-@@ -2212,7 +2212,7 @@ static void drm_test_mm_color_evict_range(struct kunit *test)
- static int drm_mm_init_test(struct kunit *test)
- {
- 	while (!random_seed)
--		random_seed = get_random_int();
-+		random_seed = get_random_u32();
- 
- 	return 0;
- }
-
-So, I guess I mean to say that "prandom: remove unused functions" is
-going to cause some pain. :) Perhaps don't push that to -next, and do a
-final pass next merge window to catch any new stuff, and then send those
-updates and the removal before -rc1 closes?
-
--- 
-Kees Cook
+>+
+> #endif /* CONFIG_VIDEO_V4L2_SUBDEV_API */
+>
+> #endif /* CONFIG_MEDIA_CONTROLLER */
+>-- 
+>2.34.1
+>
