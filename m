@@ -2,100 +2,109 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B052F5F8EF3
-	for <lists+linux-media@lfdr.de>; Sun,  9 Oct 2022 23:23:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4786B5F8EF8
+	for <lists+linux-media@lfdr.de>; Sun,  9 Oct 2022 23:35:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230520AbiJIVXV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 9 Oct 2022 17:23:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35182 "EHLO
+        id S229854AbiJIVfV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 9 Oct 2022 17:35:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52860 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230515AbiJIVXT (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sun, 9 Oct 2022 17:23:19 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D60410FE0;
-        Sun,  9 Oct 2022 14:23:18 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 0E547B80D9A;
-        Sun,  9 Oct 2022 21:23:17 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0430BC433C1;
-        Sun,  9 Oct 2022 21:23:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1665350595;
-        bh=yFS/PCpZl5mS1BZ/oMc8mFIPNf0Kk6CwYUVHSVUSUOI=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=QnrTEvlPPY3mrq3etiMXavPO93nMwTBB8iOBJ7RSib22qK9PnmBCl6SBHeVe8bQzs
-         LKuNoXKX86bgivc2ZGAPNZHz++G2TCqRJD17quZbT8fxvhaRZBMGYp8zWBDF64gceS
-         D+joOrbYPIh3GfUgVLkxkK7qQubmRjuFLmHSP896ZVW1e9peweSgiPeGoRIaZnSKV3
-         5eVs+W4jmijM/753ik3H3Z5H6nwBENlJAuF1CHUjZocZxDGFaDl2BuSJv65LgKdD0f
-         5OLFNH13J2Nq1QNv99GDUhi9eQ/UF4rdPSZZSAieXqigIug1LyFEhA8vzsTia9IPfe
-         +6DpR2SumOovQ==
-Date:   Sun, 9 Oct 2022 23:23:12 +0200
-From:   Wolfram Sang <wsa@kernel.org>
-To:     Niklas =?utf-8?Q?S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-Cc:     Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        with ESMTP id S229887AbiJIVfT (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sun, 9 Oct 2022 17:35:19 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B2101C915;
+        Sun,  9 Oct 2022 14:35:18 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3520B9C4;
+        Sun,  9 Oct 2022 23:35:15 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1665351315;
+        bh=G039zjAux/RiMi/GUO2mIlJOW1hz3O4bVoFnIHRELoY=;
+        h=From:To:Cc:Subject:Date:From;
+        b=ta8zRipDyLUBh/MjWNX50cjYaBMx862MqfEkdd2FfiqIuKm2CZJKd62CfhM/v+wmL
+         4sj3FUZ1eU8/28vplMFFV37P/KBHvjGu/dZRdTNr2YpfQj9dhzwh7DhUKCdnGVPhQi
+         3LUDT31OmqjiOCSQ4+keFBwIP/YPt3KDsbvEpBkw=
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     linux-media@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] media: i2c: adv748x: Remove dead function declaration
-Message-ID: <Y0M7wKRl8Y+X3+Sy@shikoro>
-Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
-        Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-References: <20221008141205.3493964-1-niklas.soderlund+renesas@ragnatech.se>
+        Sakari Ailus <sakari.ailus@iki.fi>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Subject: [RFC PATCH] media: Documentation: Drop deprecated bytesused == 0
+Date:   Mon, 10 Oct 2022 00:35:09 +0300
+Message-Id: <20221009213509.860-1-laurent.pinchart@ideasonboard.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="DYXNEn36yuYEx5UC"
-Content-Disposition: inline
-In-Reply-To: <20221008141205.3493964-1-niklas.soderlund+renesas@ragnatech.se>
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 
---DYXNEn36yuYEx5UC
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+The V4L2 API historically allowed buffers to be queued with bytesused
+set to 0 on output devices, in which case the driver would use the
+buffer length. This behaviour is deprecated, and videobuf2 prints a
+warning message in the kernel log. Drop it from the documentation.
 
-On Sat, Oct 08, 2022 at 04:12:05PM +0200, Niklas S=C3=B6derlund wrote:
-> There is no implementation of adv748x_register_subdevs(), remove the
-> declaration in the header file.
->=20
-> Signed-off-by: Niklas S=C3=B6derlund <niklas.soderlund+renesas@ragnatech.=
-se>
+Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+---
 
-True.
+This patch aims at starting (or continuing) the discussion related to
+handling of bytesused == 0 on video output devices. videobuf2 currently
+printes a warning that indicates the behaviour is deprecated, but the
+API documentation allows it explicitly. This discrepency bothers me and
+I think we should fix it.
 
-Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+We probably won't be able to drop support for the deprecated behaviour
+in the near future, if ever. If we want to push applications to get
+fixed, we may want to replace the dev_warn() with a WARN_ONCE(), which
+could be done in a v2 of this patch, or in another patch.
 
+Another option would be to consider that the behaviour is fine and keep
+official support for it in the documentation, in which case vb2 should
+stop warning about it. This wouldn't be my preference.
 
---DYXNEn36yuYEx5UC
-Content-Type: application/pgp-signature; name="signature.asc"
+---
+ Documentation/userspace-api/media/v4l/buffer.rst | 11 +++--------
+ 1 file changed, 3 insertions(+), 8 deletions(-)
 
------BEGIN PGP SIGNATURE-----
+diff --git a/Documentation/userspace-api/media/v4l/buffer.rst b/Documentation/userspace-api/media/v4l/buffer.rst
+index 4638ec64db00..04dec3e570ed 100644
+--- a/Documentation/userspace-api/media/v4l/buffer.rst
++++ b/Documentation/userspace-api/media/v4l/buffer.rst
+@@ -187,10 +187,8 @@ struct v4l2_buffer
+ 	on the negotiated data format and may change with each buffer for
+ 	compressed variable size data like JPEG images. Drivers must set
+ 	this field when ``type`` refers to a capture stream, applications
+-	when it refers to an output stream. If the application sets this
+-	to 0 for an output stream, then ``bytesused`` will be set to the
+-	size of the buffer (see the ``length`` field of this struct) by
+-	the driver. For multiplanar formats this field is ignored and the
++	when it refers to an output stream. For multiplanar formats this field
++        is ignored and the
+ 	``planes`` pointer is used instead.
+     * - __u32
+       - ``flags``
+@@ -327,10 +325,7 @@ struct v4l2_plane
+       - ``bytesused``
+       - The number of bytes occupied by data in the plane (its payload).
+ 	Drivers must set this field when ``type`` refers to a capture
+-	stream, applications when it refers to an output stream. If the
+-	application sets this to 0 for an output stream, then
+-	``bytesused`` will be set to the size of the plane (see the
+-	``length`` field of this struct) by the driver.
++	stream, applications when it refers to an output stream.
+ 
+ 	.. note::
+ 
+-- 
+Regards,
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmNDO8AACgkQFA3kzBSg
-KbYMjA/+MDx9IRlZYtxNjNbqJRgP152X5iFmziCLqmazEofD+9cIS4G6lu+sagBK
-vu+SsrFpeZPdfxi3QqnRTcTKslSkAU5VufKcmea1ZHu0am+9XOR6cKwjvhJkXnGn
-KgzVDefnHqfqiQo+zXGB5tlQCc1DEWvcuF8Lrcr0TboLl7o2lNMVxmVsQikJIvii
-TVfLuMau388LuO/9XQdIrK3BG0XSzsWKvwjPY8Km12ThWJ9Uv7RZARX5v12PiXta
-hS29T1suYhSTtdtcc30LWbQr2uM/iVGfb8K9A2/LNLg2iQrOFuZjl2aH/p7522o3
-oS7S6mKzcelpScPAFloQsyB42PG/EHaPJwO1rI1osmW2wN6eKEkOpNSQiQhUraTg
-AnBJAiKXmhpUtrsL8/HEX4Cys11t1AqcliIH4E4KKDeCloGS19QEPHTUjx5ndadL
-UsIw0PE5C57gBRv+zZobEvoj7W0rCRznY+KK/gnNuGJBQp8g81gifMfgsbHQ1X3W
-CpcmxjtFpFzZIPtMBI0tCOzs/KewPGLWMVVV1qiL+7ll1pNEAoECoAKcVJ3TJu1g
-ZDkMQKm1eF3gtacvDwBxgfMXunmnTpOZDCN32H5K0wY+Ns0UECxl3txVK5/V1kIs
-BjENOTxeSTwhNyYBGMFe981OwXFM4TqyRvCSl4LAyEZ5dclcW2g=
-=dM2J
------END PGP SIGNATURE-----
+Laurent Pinchart
 
---DYXNEn36yuYEx5UC--
