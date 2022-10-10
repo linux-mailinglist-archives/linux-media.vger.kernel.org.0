@@ -2,84 +2,169 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1246D5F9B67
-	for <lists+linux-media@lfdr.de>; Mon, 10 Oct 2022 10:51:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ACCD95F9BBE
+	for <lists+linux-media@lfdr.de>; Mon, 10 Oct 2022 11:19:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231159AbiJJIvY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 10 Oct 2022 04:51:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47324 "EHLO
+        id S230230AbiJJJTO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 10 Oct 2022 05:19:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33242 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231527AbiJJIvU (ORCPT
+        with ESMTP id S230201AbiJJJTN (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 10 Oct 2022 04:51:20 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 15ECC4E847;
-        Mon, 10 Oct 2022 01:51:17 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 79DBC4DB;
-        Mon, 10 Oct 2022 10:51:15 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1665391875;
-        bh=87IEKzF7DYNsk0fq38E7M+HB5C03eadds4RSpd6nbIA=;
-        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-        b=sRR/0Q3aA0jjE1jZqUmcRPe7KT4LXoM1hK84efu/aRV1SghtMfopxKxlUNbThUAJW
-         IH4mH4wjwfLc8UL8HLXAcBe+Km3v8TN1eVKxa7HlfDh6DlGbu3H7H757d8Rp9+rQ0h
-         4Y1/kXANzq5bQihUqv9MGpThEp0qq/yCVHLrR40Y=
-Content-Type: text/plain; charset="utf-8"
+        Mon, 10 Oct 2022 05:19:13 -0400
+Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com [91.207.212.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 213594A801
+        for <linux-media@vger.kernel.org>; Mon, 10 Oct 2022 02:19:11 -0700 (PDT)
+Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
+        by mx07-00178001.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 29A78g4w025478;
+        Mon, 10 Oct 2022 11:19:05 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=selector1;
+ bh=Uethha4ISFWphstG0Le66mJfCfQpr/gJjzQTdicQID8=;
+ b=Y3NyhtIG8ltUygWB1uz29QtEfzEa9FdWpN4zv+y99QIihaoDci/ULXX/wGBVckaG27iD
+ GXRIuVua9+DzoSr+qbWAh/mHl9ip84FKYRj89Me8FJg2D/LhYX8a+8TQjdpaA9h40hoy
+ wDuRxygNTKNAibINfykUD7oT+6LsLJM5cGkqTZpD/8qx6UJqIBCrWwaQuMI3/TyEDAlU
+ cBw3X2PIDdHv91WfWqOTDYBYns9Ltm3q4nUf/YUft8xb04Ar5NQoFfgNxfqMXjeDkJ2v
+ WQMAKKoq16wmdA48wgJQ6f2A1h8/z/idqleXLoOnsSEMaBjmQhVrRBI1tRpXWzygX+Qj lg== 
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+        by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3k31gpjrb9-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 10 Oct 2022 11:19:05 +0200
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id AA7F410003B;
+        Mon, 10 Oct 2022 11:19:01 +0200 (CEST)
+Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
+        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 97E8B2194D5;
+        Mon, 10 Oct 2022 11:19:01 +0200 (CEST)
+Received: from [10.129.166.189] (10.75.127.117) by SHFDAG1NODE1.st.com
+ (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.1.2375.31; Mon, 10 Oct
+ 2022 11:19:01 +0200
+Message-ID: <7c36fdaf-fa2a-4581-5f16-02fbfc3b20fb@foss.st.com>
+Date:   Mon, 10 Oct 2022 11:19:01 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20221008141205.3493964-1-niklas.soderlund+renesas@ragnatech.se>
-References: <20221008141205.3493964-1-niklas.soderlund+renesas@ragnatech.se>
-Subject: Re: [PATCH] media: i2c: adv748x: Remove dead function declaration
-From:   Kieran Bingham <kieran.bingham@ideasonboard.com>
-Cc:     linux-renesas-soc@vger.kernel.org,
-        Niklas =?utf-8?q?S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Niklas =?utf-8?q?S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        linux-media@vger.kernel.org
-Date:   Mon, 10 Oct 2022 09:51:13 +0100
-Message-ID: <166539187307.3760285.3172855036838354991@Monstersaurus>
-User-Agent: alot/0.10
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v6 4/4] media: i2c: Add driver for ST VGXY61 camera sensor
+Content-Language: en-US
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+CC:     <linux-media@vger.kernel.org>, <alain.volmat@foss.st.com>,
+        <hugues.fruchet@foss.st.com>, <sylvain.petinot@foss.st.com>,
+        <dave.stevenson@raspberrypi.com>,
+        <laurent.pinchart@ideasonboard.com>,
+        <kieran.bingham@ideasonboard.com>, <nicolas@ndufresne.ca>,
+        <hverkuil@xs4all.nl>
+References: <20220927083702.14138-1-benjamin.mugnier@foss.st.com>
+ <20220927083702.14138-5-benjamin.mugnier@foss.st.com>
+ <Yz8pE15/9tDf6Tjy@paasikivi.fi.intel.com>
+ <af876e81-9105-9a0f-4dd1-47bc17886536@foss.st.com>
+ <Y0PX8SRn51FlOS5c@paasikivi.fi.intel.com>
+From:   Benjamin MUGNIER <benjamin.mugnier@foss.st.com>
+In-Reply-To: <Y0PX8SRn51FlOS5c@paasikivi.fi.intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.75.127.117]
+X-ClientProxiedBy: GPXDAG2NODE4.st.com (10.75.127.68) To SHFDAG1NODE1.st.com
+ (10.75.129.69)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
+ definitions=2022-10-07_04,2022-10-07_01,2022-06-22_01
+X-Spam-Status: No, score=-4.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,NICE_REPLY_A,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Quoting Niklas S=C3=B6derlund (2022-10-08 15:12:05)
-> There is no implementation of adv748x_register_subdevs(), remove the
-> declaration in the header file.
->=20
-> Signed-off-by: Niklas S=C3=B6derlund <niklas.soderlund+renesas@ragnatech.=
-se>
+Hi Sakari,
 
-Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+On 10/10/22 10:29, Sakari Ailus wrote:
+> Hi Benjamin,
+> 
+> On Fri, Oct 07, 2022 at 02:24:16PM +0200, Benjamin MUGNIER wrote:
+>> Hi Sakari,
+>>
+>> Thank you for your review.
+>> Please consider everything not commented as queued for v7.
+>>
+>> On 10/6/22 21:14, Sakari Ailus wrote:
+>>> Hi Benjamin,
+>>>
+>>> Thanks for the update. A few more comments below...
+>>>
+>>> On Tue, Sep 27, 2022 at 10:37:02AM +0200, Benjamin Mugnier wrote:
+>>>> +static const char * const vgxy61_hdr_mode_menu[] = {
+>>>> +	"HDR linearize",
+>>>> +	"HDR substraction",
+>>>> +	"No HDR",
+>>>> +};
+>>>
+>>> I think more documentation is needed on the HDR modes. What do these mean?
+>>> For instance, are they something that requires further processing or is the
+>>> result e.g. a ready HDR image?
+>>>
+>>> This should probably make it to driver specific documentation.
+>>>
+>>
+>> Sure, in fact I did something like this in v3:
+>> https://lore.kernel.org/linux-media/20220512074037.3829926-4-benjamin.mugnier@foss.st.com/
+>>
+>> Since I standardized the control I was unsure what to do with this documentation, and dropped it.
+>> I will add back the Documentation/userspace-api/media/drivers/st-vgxy61.rst file from this commit to the patchset, while changing the control name to the new one.
+> 
+> Yes, please. That seems reasonably good.
+> 
+> I think Laurent's proposal on a HDR control for sensor-implemented HDR is a
+> good one. Further controls can be added later on.
+> 
+>>>> +	sensor->gpios_polarity = of_property_read_bool(dev->of_node,
+>>>> +						       "invert-gpios-polarity");
+> 
+> How about:
+> 
+> 	device_property_read_bool(dev, ...);
+> 
 
-> ---
->  drivers/media/i2c/adv748x/adv748x.h | 3 ---
->  1 file changed, 3 deletions(-)
->=20
-> diff --git a/drivers/media/i2c/adv748x/adv748x.h b/drivers/media/i2c/adv7=
-48x/adv748x.h
-> index d75eb3d8be5a..6f90f78f58cf 100644
-> --- a/drivers/media/i2c/adv748x/adv748x.h
-> +++ b/drivers/media/i2c/adv748x/adv748x.h
-> @@ -428,9 +428,6 @@ void adv748x_subdev_init(struct v4l2_subdev *sd, stru=
-ct adv748x_state *state,
->                          const struct v4l2_subdev_ops *ops, u32 function,
->                          const char *ident);
-> =20
-> -int adv748x_register_subdevs(struct adv748x_state *state,
-> -                            struct v4l2_device *v4l2_dev);
-> -
->  int adv748x_tx_power(struct adv748x_csi2 *tx, bool on);
-> =20
->  int adv748x_afe_init(struct adv748x_afe *afe);
-> --=20
-> 2.37.3
->
+Sounds great.
+
+>>>
+>>> I thought we did discuss dropping support for sensor synchronisation in
+>>> this version?
+>>>
+>>
+>> This properties affects strobing lights gpios polarities as you can see
+>> in vgxy61_update_gpios_strobe_polarity. If set to '1' all strobing gpios
+>> are inverted. This has nothing to do with the sensor synchronization.
+> 
+> So this is for strobing a LED flash? It would be good to mention this in
+> DT bindings.
+> 
+>>
+>> Now I realize this is poorly named, and I even forgot to document it in
+>> the device tree bindings file. I apologize.
+> 
+> No problem.
+> 
+>>
+>> I would like to rename it to 'st,strobe-polarity' since this is vendor
+>> specific and to better reflect that it affects strobing gpios. I'll make
+>> this change for v7 and document this in the bindings file too. Tell me if
+>> there is any issues with that.
+> 
+> That name seems reasonable to me. Although, *if* this is actually usable as
+> a GPIO as the bindings suggest, then the GPIO flags would probably be a
+> better alternative.
+> 
+
+If by GPIO flag you mean adding 'gpios' to the property, We could go with 'st,strobe-gpios-polarity', which in the end this leads to the same property name as it was in the dt bindings :)
+I'll add a bit of comments on the bindings. It seems to be the best choice.
+
+Thank you.
+
+-- 
+Regards,
+
+Benjamin
