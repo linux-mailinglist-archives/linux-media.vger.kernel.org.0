@@ -2,250 +2,191 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D61BB5F9869
-	for <lists+linux-media@lfdr.de>; Mon, 10 Oct 2022 08:34:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0F64C5F9AEC
+	for <lists+linux-media@lfdr.de>; Mon, 10 Oct 2022 10:26:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231453AbiJJGea (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 10 Oct 2022 02:34:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46038 "EHLO
+        id S230082AbiJJI0b (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 10 Oct 2022 04:26:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32922 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231319AbiJJGe2 (ORCPT
+        with ESMTP id S229471AbiJJI03 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 10 Oct 2022 02:34:28 -0400
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AAF755602D;
-        Sun,  9 Oct 2022 23:34:26 -0700 (PDT)
-X-UUID: baa3877652294a90bfedb05f01ab8aaf-20221010
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-        h=Content-Type:Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=FsTaSh9VCKsrA8vd4WZHIlcZYB79KrDqTmuQM1SfHW8=;
-        b=qmblZ1zx0Lm1QjxgY7v6LVEts5+u6X1MrEtoPUekUp97xjiZ7MkGG5tKi3eEz61kS3fX2b/mUaRqHWyxuZOVtBD4XjRaj8GzyfzNlASFi8HMM1g/1dvjnIUc5vlINcW5dmPSxlNsV4rUpcK8jf+e88kof0rRvj/kk9Keo+cGm2E=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.11,REQID:3cae6664-b537-42c3-9e25-ff108f8fd637,IP:0,U
-        RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
-        release,TS:0
-X-CID-META: VersionHash:39a5ff1,CLOUDID:e9bc68e1-2948-402a-a6e4-b5d31fe11eb7,B
-        ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
-        RL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0
-X-UUID: baa3877652294a90bfedb05f01ab8aaf-20221010
-Received: from mtkmbs11n1.mediatek.inc [(172.21.101.185)] by mailgw01.mediatek.com
-        (envelope-from <mingjia.zhang@mediatek.com>)
-        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-        with ESMTP id 2115615430; Mon, 10 Oct 2022 14:34:21 +0800
-Received: from mtkmbs13n1.mediatek.inc (172.21.101.193) by
- mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.792.3;
- Mon, 10 Oct 2022 14:34:19 +0800
-Received: from localhost.localdomain (10.17.3.154) by mtkmbs13n1.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.2.792.15 via Frontend
- Transport; Mon, 10 Oct 2022 14:34:18 +0800
-From:   Mingjia Zhang <mingjia.zhang@mediatek.com>
-To:     Yunfei Dong <yunfei.dong@mediatek.com>,
-        Alexandre Courbot <acourbot@chromium.org>,
+        Mon, 10 Oct 2022 04:26:29 -0400
+Received: from wnew1-smtp.messagingengine.com (wnew1-smtp.messagingengine.com [64.147.123.26])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 33292DF0D
+        for <linux-media@vger.kernel.org>; Mon, 10 Oct 2022 01:26:25 -0700 (PDT)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+        by mailnew.west.internal (Postfix) with ESMTP id 85E042B0673B;
+        Mon, 10 Oct 2022 04:26:20 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute1.internal (MEProxy); Mon, 10 Oct 2022 04:26:22 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+        :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+        :message-id:mime-version:references:reply-to:sender:subject
+        :subject:to:to; s=fm3; t=1665390380; x=1665397580; bh=+HNL0KL8wS
+        ey7vxThpAtrbkojWq3FLbzmJvRRF4D2Mo=; b=vxqkmG7xhW7/j0fdk1M9H5hCQf
+        36xONFVNkxTIwV/VvBElxv07tw1f9D2vpgpCMwDvyyEksgdTXz0bKt06s1TlM3Fo
+        6fdhgD9Qnvu/gx9A99OhBeQAXzVuzlR1JkAduwo6x2gWeXb7EyXhjbOdHdDNqfvi
+        /3P4EIhO+RTkkiIkVoPUZdmcYXQzERAU2CkeSRp6pG8Y6fJ5HJmdFFjhI7S7LU+d
+        g5MsFeLPLZjDhQ35coCZEzKo2epRCwDzeJ1DwPtcs7O/1KUCqSgLIr/qiHwYtVpm
+        05XG6x6KGIW0DUSJlxOIKJSdkAGvy+hnw8gEovSnc2aYdbBNHkRV3VeqE8Bw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+        :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+        :mime-version:references:reply-to:sender:subject:subject:to:to
+        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+        fm3; t=1665390380; x=1665397580; bh=+HNL0KL8wSey7vxThpAtrbkojWq3
+        FLbzmJvRRF4D2Mo=; b=BP6X/lBWjhcIHEA2V8WwrDEgQQYWPa3U5mVVEe2ufc9Z
+        Fo+fTCAICab5yJHqGfomCXbOfn9DX0L46yU8wR95U2YGFdRHlwCY3D/KKYDDg+u6
+        dFaW9eG/7HY2BnIJMjbr0uKkNRbz8BX4uLi6dvnJTPHmW8zna5MBJEpSOuVFm27k
+        aRUc2w1SNYb7Mw5dqpwS8Myh6BhWENhypaGhRUUdn+QBQtSwQ1UN/HgwSgLU4rpF
+        Bc7zt9y/j1T+hmVnyVuYpTpcr3wM9BGjVebhWWkHBZTq4vHmewFBfVBSZN6ltW04
+        2zMN3mircLw4M8YiaATrtvOxJZd3jhQp9CHDwp+wUQ==
+X-ME-Sender: <xms:K9dDY84ymzTPa_ilhkK5Nq7CUhbTxJZrPVAPJCpmYr6isch5u7TXAQ>
+    <xme:K9dDY97Rl5eDAnBykGXsSgVwyAlxbd3UkDvAY7S6zybR-plTGBPpke_60mJ-ncoz5
+    j3uMWIBeBSXMp9ECTo>
+X-ME-Received: <xmr:K9dDY7cnOuZaAGsW192m-MujnZe9Z2P4jg8-NRvm-aCU6atuKxxK2tdl7GWL>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfeejfedgudejucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihi
+    mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
+    htthgvrhhnpeefgfelteehheejfeetkeeujeevtdektdefgeegleejgfdttdeltdeivddv
+    leffveenucffohhmrghinhepohhpvghnphhgphdrohhrghdpuhgsuhhnthhurdgtohhmne
+    cuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmhgrgihi
+    mhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:K9dDYxK_CNoHVwWrpgb-rIUqaNfk4SdWxlvllYGfvNNzJxv62ol-rA>
+    <xmx:K9dDYwJLP65U8lNdjBUT4RvlMMXGqut5WwzE77vZCxASsRrffXX8fQ>
+    <xmx:K9dDYyxYFXEV671sPziGFOv19siMlZCo931ccSOBxQoE8mLwbd-RzA>
+    <xmx:LNdDY21WSt-Ac6k4FumxprdIU9OCSakiseCQOrjGBAEb93wZj-Wujc6qi3A>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 10 Oct 2022 04:26:19 -0400 (EDT)
+Date:   Mon, 10 Oct 2022 10:26:18 +0200
+From:   Maxime Ripard <maxime@cerno.tech>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
         Nicolas Dufresne <nicolas@ndufresne.ca>,
-        "Hans Verkuil" <hverkuil-cisco@xs4all.nl>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
         Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        Tiffany Lin <tiffany.lin@mediatek.com>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Tomasz Figa <tfiga@google.com>
-CC:     George Sun <george.sun@mediatek.com>,
-        Xiaoyong Lu <xiaoyong.lu@mediatek.com>,
-        Hsin-Yi Wang <hsinyi@chromium.org>,
-        Fritz Koenig <frkoenig@chromium.org>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        Irui Wang <irui.wang@mediatek.com>,
-        "Steve Cho" <stevecho@chromium.org>, <linux-media@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-mediatek@lists.infradead.org>,
-        <Project_Global_Chrome_Upstream_Group@mediatek.com>,
-        Mingjia Zhang <mingjia.zhang@mediatek.com>
-Subject: [PATCH, v3] media: mediatek: vcodec: Add to support VP9 inner racing mode
-Date:   Mon, 10 Oct 2022 14:33:41 +0800
-Message-ID: <20221010063341.5753-1-mingjia.zhang@mediatek.com>
-X-Mailer: git-send-email 2.25.1
+        Hidenori Kobayashi <hidenorik@chromium.org>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Ricardo Ribalda <ribalda@chromium.org>,
+        Daniel Scally <djrscally@gmail.com>,
+        Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>,
+        Dave Stevenson <dave.stevenson@raspberrypi.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>
+Subject: Re: [ANN] Media Summit at ELCE Dublin, September 12: Draft Agenda V2
+Message-ID: <20221010082618.cu7mhdx266rdubwq@houat>
+References: <3840c3cc-00fb-45dd-cb89-39b36fb6d733@xs4all.nl>
+ <YxX8dzSsquJmO5hP@paasikivi.fi.intel.com>
+ <YxYLSk2pKdGnNDP3@pendragon.ideasonboard.com>
+ <20220907115351.d774wruu22fdohwl@houat>
+ <20220930204642.o6l7qtgg4mhvlthe@houat>
+ <YzdXDuh9Wgm6o3OP@pendragon.ideasonboard.com>
+ <20221001100741.4iivrmhn7ph2nhs2@houat>
+ <Yzoq1w4GZvhjvTYZ@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-MTK:  N
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,
-        SPF_PASS,UNPARSEABLE_RELAY,URIBL_CSS autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="2tkwlht6rfw4gbdu"
+Content-Disposition: inline
+In-Reply-To: <Yzoq1w4GZvhjvTYZ@pendragon.ideasonboard.com>
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_PASS,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-In order to reduce decoder latency, enable VP9 inner racing mode.
-Send lat trans buffer information to core when trigger lat to work,
-need not to wait until lat decode done.
 
-Signed-off-by: mingjia zhang <mingjia.zhang@mediatek.com>
----
-1. CTS/GTS test pass
-2. Fluster result: Ran 275/303 tests successfully
----
- .../vcodec/vdec/vdec_vp9_req_lat_if.c         | 72 +++++++++++--------
- 1 file changed, 44 insertions(+), 28 deletions(-)
+--2tkwlht6rfw4gbdu
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c b/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c
-index 81de876d51267..f07015eb79218 100644
---- a/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c
-+++ b/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c
-@@ -436,6 +436,7 @@ struct vdec_vp9_slice_ref {
-  * @frame_ctx:		4 frame context according to VP9 Spec
-  * @frame_ctx_helper:	4 frame context according to newest kernel spec
-  * @dirty:		state of each frame context
-+ * @local_vsi:		local instance vsi information
-  * @init_vsi:		vsi used for initialized VP9 instance
-  * @vsi:		vsi used for decoding/flush ...
-  * @core_vsi:		vsi used for Core stage
-@@ -482,6 +483,8 @@ struct vdec_vp9_slice_instance {
- 	struct v4l2_vp9_frame_context frame_ctx_helper;
- 	unsigned char dirty[4];
- 
-+	struct vdec_vp9_slice_vsi local_vsi;
-+
- 	/* MicroP vsi */
- 	union {
- 		struct vdec_vp9_slice_init_vsi *init_vsi;
-@@ -1616,16 +1619,10 @@ static int vdec_vp9_slice_update_single(struct vdec_vp9_slice_instance *instance
- }
- 
- static int vdec_vp9_slice_update_lat(struct vdec_vp9_slice_instance *instance,
--				     struct vdec_lat_buf *lat_buf,
--				     struct vdec_vp9_slice_pfc *pfc)
-+				     struct vdec_vp9_slice_vsi *vsi)
- {
--	struct vdec_vp9_slice_vsi *vsi;
--
--	vsi = &pfc->vsi;
--	memcpy(&pfc->state[0], &vsi->state, sizeof(vsi->state));
--
- 	mtk_vcodec_debug(instance, "Frame %u LAT CRC 0x%08x %lx %lx\n",
--			 pfc->seq, vsi->state.crc[0],
-+			 (instance->seq - 1), vsi->state.crc[0],
- 			 (unsigned long)vsi->trans.dma_addr,
- 			 (unsigned long)vsi->trans.dma_addr_end);
- 
-@@ -2090,6 +2087,13 @@ static int vdec_vp9_slice_lat_decode(void *h_vdec, struct mtk_vcodec_mem *bs,
- 		return ret;
- 	}
- 
-+	if (IS_VDEC_INNER_RACING(ctx->dev->dec_capability)) {
-+		vdec_vp9_slice_vsi_from_remote(vsi, instance->vsi, 0);
-+		memcpy(&instance->local_vsi, vsi, sizeof(*vsi));
-+		vdec_msg_queue_qbuf(&ctx->dev->msg_queue_core_ctx, lat_buf);
-+		vsi = &instance->local_vsi;
-+	}
-+
- 	if (instance->irq) {
- 		ret = mtk_vcodec_wait_for_done_ctx(ctx,	MTK_INST_IRQ_RECEIVED,
- 						   WAIT_INTR_TIMEOUT_MS, MTK_VDEC_LAT0);
-@@ -2102,22 +2106,25 @@ static int vdec_vp9_slice_lat_decode(void *h_vdec, struct mtk_vcodec_mem *bs,
- 	}
- 
- 	vdec_vp9_slice_vsi_from_remote(vsi, instance->vsi, 0);
--	ret = vdec_vp9_slice_update_lat(instance, lat_buf, pfc);
-+	ret = vdec_vp9_slice_update_lat(instance, vsi);
- 
--	/* LAT trans full, no more UBE or decode timeout */
--	if (ret) {
--		mtk_vcodec_err(instance, "VP9 decode error: %d\n", ret);
--		return ret;
--	}
-+	if (!IS_VDEC_INNER_RACING(ctx->dev->dec_capability))
-+		/* LAT trans full, no more UBE or decode timeout */
-+		if (ret) {
-+			mtk_vcodec_err(instance, "frame[%d] decode error: %d\n",
-+				       ret, (instance->seq - 1));
-+			return ret;
-+		}
- 
--	mtk_vcodec_debug(instance, "lat dma addr: 0x%lx 0x%lx\n",
--			 (unsigned long)pfc->vsi.trans.dma_addr,
--			 (unsigned long)pfc->vsi.trans.dma_addr_end);
- 
--	vdec_msg_queue_update_ube_wptr(&ctx->msg_queue,
--				       vsi->trans.dma_addr_end +
--				       ctx->msg_queue.wdma_addr.dma_addr);
--	vdec_msg_queue_qbuf(&ctx->dev->msg_queue_core_ctx, lat_buf);
-+	vsi->trans.dma_addr_end += ctx->msg_queue.wdma_addr.dma_addr;
-+	vdec_msg_queue_update_ube_wptr(&ctx->msg_queue, vsi->trans.dma_addr_end);
-+	if (!IS_VDEC_INNER_RACING(ctx->dev->dec_capability))
-+		vdec_msg_queue_qbuf(&ctx->dev->msg_queue_core_ctx, lat_buf);
-+
-+	mtk_vcodec_debug(instance, "lat trans end addr(0x%lx), ube start addr(0x%lx)\n",
-+			 (unsigned long)vsi->trans.dma_addr_end,
-+			 (unsigned long)ctx->msg_queue.wdma_addr.dma_addr);
- 
- 	return 0;
- }
-@@ -2139,22 +2146,22 @@ static int vdec_vp9_slice_decode(void *h_vdec, struct mtk_vcodec_mem *bs,
- static int vdec_vp9_slice_core_decode(struct vdec_lat_buf *lat_buf)
- {
- 	struct vdec_vp9_slice_instance *instance;
--	struct vdec_vp9_slice_pfc *pfc;
-+	struct vdec_vp9_slice_pfc *pfc = NULL;
- 	struct mtk_vcodec_ctx *ctx = NULL;
- 	struct vdec_fb *fb = NULL;
- 	int ret = -EINVAL;
- 
- 	if (!lat_buf)
--		goto err;
-+		return -EINVAL;
- 
- 	pfc = lat_buf->private_data;
- 	ctx = lat_buf->ctx;
- 	if (!pfc || !ctx)
--		goto err;
-+		return -EINVAL;
- 
- 	instance = ctx->drv_handle;
- 	if (!instance)
--		goto err;
-+		return -EINVAL;
- 
- 	fb = ctx->dev->vdec_pdata->get_cap_buffer(ctx);
- 	if (!fb) {
-@@ -2193,10 +2200,14 @@ static int vdec_vp9_slice_core_decode(struct vdec_lat_buf *lat_buf)
- 		goto err;
- 	}
- 
--	pfc->vsi.trans.dma_addr_end += ctx->msg_queue.wdma_addr.dma_addr;
- 	mtk_vcodec_debug(instance, "core dma_addr_end 0x%lx\n",
- 			 (unsigned long)pfc->vsi.trans.dma_addr_end);
--	vdec_msg_queue_update_ube_rptr(&ctx->msg_queue, pfc->vsi.trans.dma_addr_end);
-+
-+	if (IS_VDEC_INNER_RACING(ctx->dev->dec_capability))
-+		vdec_msg_queue_update_ube_rptr(&ctx->msg_queue, pfc->vsi.trans.dma_addr);
-+	else
-+		vdec_msg_queue_update_ube_rptr(&ctx->msg_queue, pfc->vsi.trans.dma_addr_end);
-+
- 	ctx->dev->vdec_pdata->cap_to_disp(ctx, 0, lat_buf->src_buf_req);
- 
- 	return 0;
-@@ -2204,7 +2215,12 @@ static int vdec_vp9_slice_core_decode(struct vdec_lat_buf *lat_buf)
- err:
- 	if (ctx && pfc) {
- 		/* always update read pointer */
--		vdec_msg_queue_update_ube_rptr(&ctx->msg_queue, pfc->vsi.trans.dma_addr_end);
-+		if (IS_VDEC_INNER_RACING(ctx->dev->dec_capability))
-+			vdec_msg_queue_update_ube_rptr(&ctx->msg_queue,
-+						       pfc->vsi.trans.dma_addr);
-+		else
-+			vdec_msg_queue_update_ube_rptr(&ctx->msg_queue,
-+						       pfc->vsi.trans.dma_addr_end);
- 
- 		if (fb)
- 			ctx->dev->vdec_pdata->cap_to_disp(ctx, 1, lat_buf->src_buf_req);
--- 
-2.18.0
+On Mon, Oct 03, 2022 at 03:20:39AM +0300, Laurent Pinchart wrote:
+> On Sat, Oct 01, 2022 at 12:07:41PM +0200, Maxime Ripard wrote:
+> > On Fri, Sep 30, 2022 at 11:52:30PM +0300, Laurent Pinchart wrote:
+> > > On Fri, Sep 30, 2022 at 10:46:42PM +0200, Maxime Ripard wrote:
+> > > > On Wed, Sep 07, 2022 at 01:53:51PM +0200, Maxime Ripard wrote:
+> > > > > On Mon, Sep 05, 2022 at 05:44:26PM +0300, Laurent Pinchart wrote:
+> > > > > > On Mon, Sep 05, 2022 at 01:41:11PM +0000, Sakari Ailus wrote:
+> > > > > > > On Tue, Aug 23, 2022 at 12:53:44PM +0200, Hans Verkuil wrote:
+> > > > > > > > 16:45-18:00 Anything else?
+> > > > > > >=20
+> > > > > > > I think it'd be great to have a GPG key signing party at the =
+end of the
+> > > > > > > meeting.
+> > > > > >=20
+> > > > > > It's a good idea. Could everybody please send their GPG key fin=
+gerprint
+> > > > > > in an e-mail reply to prepare for that ? It can easily be retri=
+eved with
+> > > > > > 'gpg -K' (make sure to pick the right key if you have multiple =
+of them).
+> > > > > > I'll start:
+> > > > > >=20
+> > > > > > sec   rsa4096/0xF045C2B96991256E 2014-10-09 [C]
+> > > > > >       94231B980100EC619AC10E10F045C2B96991256E
+> > > > > > uid                   [ultimate] Laurent Pinchart <laurent.pinc=
+hart@ideasonboard.com>
+> > > > > >=20
+> > > > > > If you're generating a key for the occasion, create a primary k=
+ey with
+> > > > > > the Certify (C) capability only, and create separate sub-keys f=
+or
+> > > > > > Signature (S) and Encryption (E). There's little reason these d=
+ays to
+> > > > > > use less than 4096 bits for the primary key if you opt for RSA.=
+ The
+> > > > > > subkeys should have an expiration date.
+> > > > > >=20
+> > > > > > The primary key can then be moved to safe storage, you will onl=
+y need
+> > > > > > the subkeys for daily usage.  The primary key will be used only=
+ to
+> > > > > > create new subkeys and to sign other people's keys.
+> > > > >=20
+> > > > > sec#  ed25519 2018-09-15 [C] [expires: 2023-03-17]
+> > > > >       BE5675C37E818C8B5764241C254BCFC56BF6CE8D
+> > > > > uid           [ultimate] Maxime Ripard <maxime.ripard@anandra.org>
+> > > > > uid           [ultimate] Maxime Ripard <mripard@kernel.org>
+> > > > > uid           [ultimate] Maxime Ripard (Work Address) <maxime@cer=
+no.tech>
+> > > >=20
+> > > > I'm not entirely sure what happened, but it looks like all the
+> > > > signatures I received so far (Laurent, Jernej, Ricardo, Kieran, Jac=
+opo
+> > > > and Chen-Yu) have been missing that UID
+> > > >=20
+> > > > Could you make sure that it's signed?
+> > >=20
+> > > The key I have here doesn't have that UID. To what key server have you
+> > > pushed it ?
+> >=20
+> > It is published on keys.openpgp.org and I sent it yesterday to
+> > keyserver.ubuntu.com.
+>=20
+> The latter gave me your third UID, the former didn't.
 
+It looks like you can only push new signatures through --send-keys, but
+not new UID. It should work now
+
+Maxime
+
+--2tkwlht6rfw4gbdu
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCY0PXKgAKCRDj7w1vZxhR
+xcpxAPoD1Jx/kCzJeQOj7D0AZlr5H9ixXztdZ4bpsEQx8VEwXwEA+CteMcm5LX3G
+GEBAPBvmy0VE3NKsB0S8CXCXpuGaLQI=
+=bptG
+-----END PGP SIGNATURE-----
+
+--2tkwlht6rfw4gbdu--
