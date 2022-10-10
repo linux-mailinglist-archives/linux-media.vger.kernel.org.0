@@ -2,124 +2,157 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E554E5F9CCE
-	for <lists+linux-media@lfdr.de>; Mon, 10 Oct 2022 12:31:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E549F5F9D43
+	for <lists+linux-media@lfdr.de>; Mon, 10 Oct 2022 13:03:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231853AbiJJKbw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 10 Oct 2022 06:31:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39530 "EHLO
+        id S231949AbiJJLDs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 10 Oct 2022 07:03:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41968 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231835AbiJJKbv (ORCPT
+        with ESMTP id S231641AbiJJLDr (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 10 Oct 2022 06:31:51 -0400
-Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com [IPv6:2a00:1450:4864:20::62e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D42D63FA33
-        for <linux-media@vger.kernel.org>; Mon, 10 Oct 2022 03:31:49 -0700 (PDT)
-Received: by mail-ej1-x62e.google.com with SMTP id d26so16794681eje.10
-        for <linux-media@vger.kernel.org>; Mon, 10 Oct 2022 03:31:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=raspberrypi.com; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=1YtWsAF9bw/EH1jjkSpnmov+JJYiSARLVH6VNgqLddY=;
-        b=O1sdqpHwRRVNg8vkVVwqVWzgeMgZLghqPPcSg8qM8A4eX6XorKEbZn32BExQQNHxQo
-         EgapTKFHs8feKyzk9ZfSNo/yQHOYwbaGHHv6jN2BWws2eLmBUaheTbG0+10zHszwvXHm
-         JtGBOV3rC/vfD/Zsm3V70mWUjfKC+IzR2yrd7BlNMtxiiKSfTrHg4nWgvFQTYLeMNypK
-         dUIZXo6mhtFjPP2u7kE5VO+/WA7Lzt8A47PG7oqemvUCI3zbq1psFqz/hLWTPhMvk35S
-         PKk6vAkI5719ZTHctmn2vngRIAx5cEpvP9doOku+HbthvvfZ4C0DyoP9GOf0gu+qdeKP
-         pSJA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=1YtWsAF9bw/EH1jjkSpnmov+JJYiSARLVH6VNgqLddY=;
-        b=FKZ/nGFYOcSLgsx+RcpivsZLe+ZzVna0xmdgkh7jvbxqKQPJ4g4wd+jibMS651HU3v
-         xpc2BUfIXgXq1uzGDl6fDebetmlGoKBherzm0/CzxDVuev2USdD9Fvu3NwWxJB/0YHUN
-         JsN5HkDc8ud6+xyJPFJuoGdB/utulpr9zI9OipkFxYEekKrLlPz6K3eejYRsel5HNyyk
-         Z1JeoJtro6ZEuunBbWZzmAGd8+85gOW7cyetSZcaSogH2hXWK55l+eNgu3ZRAdgKfEBM
-         g/Jw5FxcNp0PbjJEWXsMgnMlUqHlFShr6hF6chqQUpiGH8fHZRn+ZsNHu/ZS0Vy8N5QI
-         z06w==
-X-Gm-Message-State: ACrzQf3+6/HEbgC61kdBix2FhVmMaSCc5d9urbCADSWQy19vj0eajg1Q
-        w4xSocvWcLiV1qjm2Iokuw9zF1+CWmnSFH48PHUAlbudahI=
-X-Google-Smtp-Source: AMsMyM4mTe3zXK6VCCR10ByJDxL1Fz4SFh6pMyhiIxY2bKaYozjVCdQK6Dn6L94mnCcu4+RG2uaUnusYWGC2yiEhfiQ=
-X-Received: by 2002:a17:907:1c98:b0:78d:3b08:33ef with SMTP id
- nb24-20020a1709071c9800b0078d3b0833efmr14342483ejc.175.1665397908376; Mon, 10
- Oct 2022 03:31:48 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220721083540.1525-1-laurent.pinchart@ideasonboard.com> <YwQpT5JpyfXBEIVE@pendragon.ideasonboard.com>
-In-Reply-To: <YwQpT5JpyfXBEIVE@pendragon.ideasonboard.com>
-From:   Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date:   Mon, 10 Oct 2022 11:31:33 +0100
-Message-ID: <CAPY8ntAsJNOAJ2te2vQSK6AeXj8LyB6Krepc88FL=6U6O9zb2g@mail.gmail.com>
-Subject: Re: [PATCH 00/19] media: i2c: imx290: Miscellaneous improvements
+        Mon, 10 Oct 2022 07:03:47 -0400
+Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [IPv6:2a0b:5c81:1c1::37])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D9079DFAC;
+        Mon, 10 Oct 2022 04:03:45 -0700 (PDT)
+Received: from hillosipuli.retiisi.eu (dkv1q4tdsdyy1rk42mgbt-3.rev.dnainternet.fi [IPv6:2001:14ba:446a:dc40:6f18:157:2316:5143])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: sailus)
+        by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 6964C1B001B1;
+        Mon, 10 Oct 2022 14:03:42 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
+        t=1665399822;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=X+umJlZlDZ6iSnvwxVf1PmWT7krWCU4iHOOGGM49XJ0=;
+        b=HLwEa1DSIR1kzxU3hqCTaZ1ZJ8fxZC5oZvYZatX72Wckl43xo58rAZrY9p6v+mWHI4B+BI
+        Iam6n3ZuuBRf+K6e+9mxqyatEVzNdzDvNwZfpy1B/CFzGWgXAeybiyDVjJx7PRdMjIYsEt
+        X5wXPIbAeVbFFfQG7p4C/r4YadIHG7qwYS6kTwuoMXGExIcVtXLHt/sHdjwrnHwLX4md6F
+        xegs/TVzfRpSqwi2ITamWuzRfojnEwgidhy82bN6sJ6Pt/knpZPwMHacIM8PHuB3ykNU/6
+        VDC1dMnhdqNIrpu1+D9XNZcy7NDNomOdSxFcjP+ERziiV7jFgaB26pQhT5DiQw==
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id D1851634C93;
+        Mon, 10 Oct 2022 14:03:41 +0300 (EEST)
+Date:   Mon, 10 Oct 2022 14:03:41 +0300
+From:   Sakari Ailus <sakari.ailus@iki.fi>
 To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Sakari Ailus <sakari.ailus@iki.fi>, linux-media@vger.kernel.org,
-        Manivannan Sadhasivam <mani@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Subject: Re: [RFC PATCH] media: Documentation: Drop deprecated bytesused == 0
+Message-ID: <Y0P8DQQ0XlRxzAoH@valkosipuli.retiisi.eu>
+References: <20221009213509.860-1-laurent.pinchart@ideasonboard.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221009213509.860-1-laurent.pinchart@ideasonboard.com>
+ARC-Authentication-Results: i=1;
+        ORIGINATING;
+        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+        s=lahtoruutu; t=1665399822;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=X+umJlZlDZ6iSnvwxVf1PmWT7krWCU4iHOOGGM49XJ0=;
+        b=HxR3uaBRGoWlBvJoLd5b7/p/amZQ5M72sw0OFPcktOR/9f7Wa+ZIf+oipa2xzJdTJB+TY0
+        VGmElii/6p6fGIImGHC53PpqkJ+BgrSfPZ7n7Gfxnz1kf0q4hyC85h3OXuDr0E4c8k+E/A
+        2pXxLRLED1UiATGeYZr5W3/Aw4uBKGmHUUxHGu+paZTmsn8RLWa3ZPq0xYvPc4alsH+O6p
+        gkiyAuiPPrAzesLwWEeqSy2EZtdSqB/mO8gH5YWn3IVXr2CYgYv9+fia+fEIy/r60hFiP5
+        +hvhzveUc3rnV9yaPwh/3Ly1zyTMrxaHEnp52GxAAUUAtwbqAN07j1r97kND4A==
+ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1665399822; a=rsa-sha256;
+        cv=none;
+        b=YW1ArMHyOEhEbGtMmt12xX/R+4fxComNmM0c+PDUfh831PQZjBtyKkyxt1XXriHceEJ9aE
+        INZ57scckNCGlPTFv7sMGc25ODoV6LI2JmAewJkgzPxvkBKKyDZva5Pt7bF0dstlEZtuAN
+        TbN9L2GX4u4+h6Lf6w8PZuteSk0rYTLsrUpbdtEyoabBaD40qlV0XGybTCjlaVV7BZM5sp
+        a4Pq1sEcYkhdFBmk49qCtDGuzgqsAsyIZqbP/VjeYroEf8iapdQSqq/Yh1hP12nmIeFE7y
+        q4yIXV+98lJJqGjQAaavDWWcuV+Bc5DpsOxYuXIHzyULI/JU+SyxlT4pgqNqLQ==
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent
+Hi Laurent,
 
-Do you have plans for a v2 on this patch set? I also have a number of
-patches for imx290 and there's little point in causing grief to each
-other with conflicts.
-Or I could take the non-controversial patches from your set and send a
-combined patch set?
+On Mon, Oct 10, 2022 at 12:35:09AM +0300, Laurent Pinchart wrote:
+> From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> 
+> The V4L2 API historically allowed buffers to be queued with bytesused
+> set to 0 on output devices, in which case the driver would use the
+> buffer length. This behaviour is deprecated, and videobuf2 prints a
+> warning message in the kernel log. Drop it from the documentation.
+> 
+> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 
-Thanks
-  Dave
+Thanks!
 
-On Tue, 23 Aug 2022 at 02:12, Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
->
-> Hi Sakari,
->
-> Could you already pick up patches 01/19, 02/19, 04/19, 05/19 and 06/19
-> in your tree ? Your opinion on 03/19 woud be appreciated too, I think
-> it's a candidate for merge as well.
->
-> On Thu, Jul 21, 2022 at 11:35:21AM +0300, Laurent Pinchart wrote:
-> > Hello,
-> >
-> > This patch series gathers miscellaneous improvements for the imx290
-> > driver. The most notable changes on the kernel side is patch 07/19 that
-> > simplifies register access, and on the userspace API side patches 14/19,
-> > 15/19 and 18/19 that extend the driver with controls and selection
-> > rectangles required by libcamera.
-> >
-> > Laurent Pinchart (19):
-> >   media: i2c: imx290: Use device lock for the control handler
-> >   media: i2c: imx290: Print error code when I2C transfer fails
-> >   media: i2c: imx290: Specify HMAX values in decimal
-> >   media: i2c: imx290: Replace macro with explicit ARRAY_SIZE()
-> >   media: i2c: imx290: Drop imx290_write_buffered_reg()
-> >   media: i2c: imx290: Drop regmap cache
-> >   media: i2c: imx290: Support variable-sized registers
-> >   media: i2c: imx290: Correct register sizes
-> >   media: i2c: imx290: Simplify error handling when writing registers
-> >   media: i2c: imx290: Define more register macros
-> >   media: i2c: imx290: Add exposure time control
-> >   media: i2c: imx290: Fix max gain value
-> >   media: i2c: imx290: Split control initialization to separate function
-> >   media: i2c: imx290: Implement HBLANK and VBLANK controls
-> >   media: i2c: imx290: Create controls for fwnode properties
-> >   media: i2c: imx290: Move registers with fixed value to init array
-> >   media: i2c: imx290: Factor out format retrieval to separate function
-> >   media: i2c: imx290: Add crop selection targets support
-> >   media: i2c: imx290: Replace GAIN control with ANALOGUE_GAIN
-> >
-> >  drivers/media/i2c/imx290.c | 781 ++++++++++++++++++++++---------------
-> >  1 file changed, 458 insertions(+), 323 deletions(-)
->
-> --
+Reviewed-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+
+> ---
+> 
+> This patch aims at starting (or continuing) the discussion related to
+> handling of bytesused == 0 on video output devices. videobuf2 currently
+> printes a warning that indicates the behaviour is deprecated, but the
+> API documentation allows it explicitly. This discrepency bothers me and
+> I think we should fix it.
+> 
+> We probably won't be able to drop support for the deprecated behaviour
+> in the near future, if ever. If we want to push applications to get
+> fixed, we may want to replace the dev_warn() with a WARN_ONCE(), which
+> could be done in a v2 of this patch, or in another patch.
+> 
+> Another option would be to consider that the behaviour is fine and keep
+> official support for it in the documentation, in which case vb2 should
+> stop warning about it. This wouldn't be my preference.
+> 
+> ---
+>  Documentation/userspace-api/media/v4l/buffer.rst | 11 +++--------
+>  1 file changed, 3 insertions(+), 8 deletions(-)
+> 
+> diff --git a/Documentation/userspace-api/media/v4l/buffer.rst b/Documentation/userspace-api/media/v4l/buffer.rst
+> index 4638ec64db00..04dec3e570ed 100644
+> --- a/Documentation/userspace-api/media/v4l/buffer.rst
+> +++ b/Documentation/userspace-api/media/v4l/buffer.rst
+> @@ -187,10 +187,8 @@ struct v4l2_buffer
+>  	on the negotiated data format and may change with each buffer for
+>  	compressed variable size data like JPEG images. Drivers must set
+>  	this field when ``type`` refers to a capture stream, applications
+> -	when it refers to an output stream. If the application sets this
+> -	to 0 for an output stream, then ``bytesused`` will be set to the
+> -	size of the buffer (see the ``length`` field of this struct) by
+> -	the driver. For multiplanar formats this field is ignored and the
+> +	when it refers to an output stream. For multiplanar formats this field
+> +        is ignored and the
+>  	``planes`` pointer is used instead.
+>      * - __u32
+>        - ``flags``
+> @@ -327,10 +325,7 @@ struct v4l2_plane
+>        - ``bytesused``
+>        - The number of bytes occupied by data in the plane (its payload).
+>  	Drivers must set this field when ``type`` refers to a capture
+> -	stream, applications when it refers to an output stream. If the
+> -	application sets this to 0 for an output stream, then
+> -	``bytesused`` will be set to the size of the plane (see the
+> -	``length`` field of this struct) by the driver.
+> +	stream, applications when it refers to an output stream.
+>  
+>  	.. note::
+>  
+> -- 
 > Regards,
->
+> 
 > Laurent Pinchart
+> 
+
+-- 
+Sakari Ailus
