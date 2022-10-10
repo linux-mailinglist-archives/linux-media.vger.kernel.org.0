@@ -2,46 +2,117 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id ED1545FA34D
-	for <lists+linux-media@lfdr.de>; Mon, 10 Oct 2022 20:20:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E72FA5FA3D5
+	for <lists+linux-media@lfdr.de>; Mon, 10 Oct 2022 20:57:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229695AbiJJSUk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 10 Oct 2022 14:20:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34714 "EHLO
+        id S229838AbiJJS5A (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 10 Oct 2022 14:57:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46994 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229530AbiJJSUi (ORCPT
+        with ESMTP id S229824AbiJJS4m (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 10 Oct 2022 14:20:38 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C7E9C193E2
-        for <linux-media@vger.kernel.org>; Mon, 10 Oct 2022 11:20:34 -0700 (PDT)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <mgr@pengutronix.de>)
-        id 1ohxOD-00027t-58; Mon, 10 Oct 2022 20:20:33 +0200
-Received: from [2a0a:edc0:0:1101:1d::ac] (helo=dude04.red.stw.pengutronix.de)
-        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-        (envelope-from <mgr@pengutronix.de>)
-        id 1ohxOC-000kEL-B1; Mon, 10 Oct 2022 20:20:32 +0200
-Received: from mgr by dude04.red.stw.pengutronix.de with local (Exim 4.94.2)
-        (envelope-from <mgr@pengutronix.de>)
-        id 1ohxOB-001kJd-N5; Mon, 10 Oct 2022 20:20:31 +0200
-From:   Michael Grzeschik <m.grzeschik@pengutronix.de>
-To:     linux-usb@vger.kernel.org
-Cc:     linux-media@vger.kernel.org, balbi@kernel.org,
-        laurent.pinchart@ideasonboard.com, kernel@pengutronix.de
-Subject: [PATCH] usb: gadget: uvc: default the ctrl request interface offsets
-Date:   Mon, 10 Oct 2022 20:20:28 +0200
-Message-Id: <20221010182028.402155-1-m.grzeschik@pengutronix.de>
-X-Mailer: git-send-email 2.30.2
+        Mon, 10 Oct 2022 14:56:42 -0400
+Received: from mail-qk1-x729.google.com (mail-qk1-x729.google.com [IPv6:2607:f8b0:4864:20::729])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CCA6449B7D
+        for <linux-media@vger.kernel.org>; Mon, 10 Oct 2022 11:56:39 -0700 (PDT)
+Received: by mail-qk1-x729.google.com with SMTP id y1so7203571qky.12
+        for <linux-media@vger.kernel.org>; Mon, 10 Oct 2022 11:56:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ziepe.ca; s=google;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=mfdinePb/h+FQryCI1VnJk1iVMwwW9XbS8GRZ1SXnEM=;
+        b=Y1FJnNxKCCmUeBjERypSSpOT5hLZIa3B6ZfL7TmeBlDcYn7G53u+wzaqGztD4xstS6
+         H56NjZrTnnAs/mwbv/53uHY1GhzxoFxOLWj+6+255TR+XIgzukZ2wrhnTPfXH4rpl0ll
+         x20RYa7gkPKPOAB+2GjUbYRf86UKilK/+RP5mPzo1iTwxgbIcI/NL1hAwcQva+CI+c58
+         wXQg1m452/c0qjzqE/xGhDgd9xycIGhUX5tiX7SJhqTWnYftDSAsnXqQ0qceqqSNwxFf
+         a0gsQbHVGj7OQXKVN8LpCmOTHmcWT/lMPoHErC7k7GBXJjyyytJ8h/nDzI7STIfMcpme
+         CGHA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=mfdinePb/h+FQryCI1VnJk1iVMwwW9XbS8GRZ1SXnEM=;
+        b=EWOSBaQr/tb68rslsFOqysj3ZO5hrwyN2XiVmkteSAZ+93QO+w7mW16QGUbdsSA8Tx
+         jar+SsJPTklrXx0TfU6fjUMd28HlrLSsXlk+hTqWmxB6K7h44iPkcRmZviS0ISqxxBfZ
+         /w7pXC4F/2OY38o8wE+ZwfW/KgTVNfy8ddXpU2AyU2Kuz9uSt4E/ZFyxwkkWuuMxbYbX
+         0OFDZNOS0kbymDqM8/OVDCtiSVGS/SvTY2NW1hf6wRP3s68QfaPf+WPyYHlWg9TfMzAt
+         3j812I8IMZHggoy7mRPHjy7LmQNR5AvtT/RsRZkQtugoPS8KobbifewYlNhFDrXfarfH
+         H2FA==
+X-Gm-Message-State: ACrzQf1J6ZSNU+8vQ5esqRSkP+47YgitbHMzUW7D1MfPJIxfBaEaMmyR
+        zb679KSsWDUPVpxjoOS2qFg4Dw==
+X-Google-Smtp-Source: AMsMyM4cq1ZiSompu2ffs6ddf24dPwkk/2Lnq1GVt1O6/KQn3scUPTnTqdwZ/uWcjL7riJrPyy9iDQ==
+X-Received: by 2002:a05:620a:4397:b0:6e1:345a:e080 with SMTP id a23-20020a05620a439700b006e1345ae080mr13783062qkp.677.1665428198984;
+        Mon, 10 Oct 2022 11:56:38 -0700 (PDT)
+Received: from ziepe.ca (hlfxns017vw-47-55-122-23.dhcp-dynamic.fibreop.ns.bellaliant.net. [47.55.122.23])
+        by smtp.gmail.com with ESMTPSA id j8-20020a05620a288800b006bb2cd2f6d1sm10684472qkp.127.2022.10.10.11.56.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 10 Oct 2022 11:56:38 -0700 (PDT)
+Received: from jgg by wakko with local (Exim 4.95)
+        (envelope-from <jgg@ziepe.ca>)
+        id 1ohxx7-0012V5-CO;
+        Mon, 10 Oct 2022 15:56:37 -0300
+Date:   Mon, 10 Oct 2022 15:56:37 -0300
+From:   Jason Gunthorpe <jgg@ziepe.ca>
+To:     Dmitry Osipenko <dmitry.osipenko@collabora.com>
+Cc:     Leon Romanovsky <leon@kernel.org>, dri-devel@lists.freedesktop.org,
+        linux-kernel@vger.kernel.org, Dmitry Osipenko <digetx@gmail.com>,
+        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+        amd-gfx@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+        kernel@collabora.com, virtualization@lists.linux-foundation.org,
+        linux-rdma@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        David Airlie <airlied@linux.ie>,
+        Gerd Hoffmann <kraxel@redhat.com>,
+        Gurchetan Singh <gurchetansingh@chromium.org>,
+        Chia-I Wu <olvaffe@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+        Daniel Almeida <daniel.almeida@collabora.com>,
+        Gert Wollny <gert.wollny@collabora.com>,
+        Gustavo Padovan <gustavo.padovan@collabora.com>,
+        Daniel Stone <daniel@fooishbar.org>,
+        Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Rob Clark <robdclark@gmail.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+        "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+        Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas_os@shipmail.org>,
+        Qiang Yu <yuq825@gmail.com>,
+        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        Amol Maheshwari <amahesh@qti.qualcomm.com>,
+        Juergen Gross <jgross@suse.com>,
+        Stefano Stabellini <sstabellini@kernel.org>,
+        Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>,
+        Tomi Valkeinen <tomba@kernel.org>,
+        Russell King <linux@armlinux.org.uk>,
+        Lucas Stach <l.stach@pengutronix.de>,
+        Christian Gmeiner <christian.gmeiner@gmail.com>,
+        Ruhl Michael J <michael.j.ruhl@intel.com>
+Subject: Re: [PATCH v6 10/21] RDMA/umem: Prepare to dynamic dma-buf locking
+ specification
+Message-ID: <Y0Rq5Zb9+63++2z/@ziepe.ca>
+References: <20220928191600.5874-1-dmitry.osipenko@collabora.com>
+ <20220928191600.5874-11-dmitry.osipenko@collabora.com>
+ <e3ba146d-8153-add5-2cf4-02fe6519abee@collabora.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: mgr@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+In-Reply-To: <e3ba146d-8153-add5-2cf4-02fe6519abee@collabora.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -49,77 +120,50 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-For the userspace it is needed to distinguish between requests for the
-control or streaming interface. The userspace would have to parse the
-configfs to know which interface index it has to compare the ctrl
-requests against. Since the interface numbers are not fixed, e.g. for
-composite gadgets, the interface offset depends on the setup.
+On Sun, Oct 09, 2022 at 03:08:56AM +0300, Dmitry Osipenko wrote:
+> On 9/28/22 22:15, Dmitry Osipenko wrote:
+> > Prepare InfiniBand drivers to the common dynamic dma-buf locking
+> > convention by starting to use the unlocked versions of dma-buf API
+> > functions.
+> > 
+> > Acked-by: Christian König <christian.koenig@amd.com>
+> > Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+> > ---
+> >  drivers/infiniband/core/umem_dmabuf.c | 7 ++++---
+> >  1 file changed, 4 insertions(+), 3 deletions(-)
+> > 
+> > diff --git a/drivers/infiniband/core/umem_dmabuf.c b/drivers/infiniband/core/umem_dmabuf.c
+> > index 04c04e6d24c3..43b26bc12288 100644
+> > --- a/drivers/infiniband/core/umem_dmabuf.c
+> > +++ b/drivers/infiniband/core/umem_dmabuf.c
+> > @@ -26,7 +26,8 @@ int ib_umem_dmabuf_map_pages(struct ib_umem_dmabuf *umem_dmabuf)
+> >  	if (umem_dmabuf->sgt)
+> >  		goto wait_fence;
+> >  
+> > -	sgt = dma_buf_map_attachment(umem_dmabuf->attach, DMA_BIDIRECTIONAL);
+> > +	sgt = dma_buf_map_attachment_unlocked(umem_dmabuf->attach,
+> > +					      DMA_BIDIRECTIONAL);
+> >  	if (IS_ERR(sgt))
+> >  		return PTR_ERR(sgt);
+> >  
+> > @@ -102,8 +103,8 @@ void ib_umem_dmabuf_unmap_pages(struct ib_umem_dmabuf *umem_dmabuf)
+> >  		umem_dmabuf->last_sg_trim = 0;
+> >  	}
+> >  
+> > -	dma_buf_unmap_attachment(umem_dmabuf->attach, umem_dmabuf->sgt,
+> > -				 DMA_BIDIRECTIONAL);
+> > +	dma_buf_unmap_attachment_unlocked(umem_dmabuf->attach, umem_dmabuf->sgt,
+> > +					  DMA_BIDIRECTIONAL);
+> >  
+> >  	umem_dmabuf->sgt = NULL;
+> >  }
+> 
+> Jason / Leon,
+> 
+> Could you please ack this patch?
 
-The kernel has this information when handing over the ctrl request to
-the userspace. This patch removes the offset from the interface numbers
-and expose the default interface defines in the uapi g_uvc.h.
+You probably don't need it, for something so simple, but sure
 
-Signed-off-by: Michael Grzeschik <m.grzeschik@pengutronix.de>
----
- drivers/usb/gadget/function/f_uvc.c | 16 +++++++++++++---
- include/uapi/linux/usb/g_uvc.h      |  3 +++
- 2 files changed, 16 insertions(+), 3 deletions(-)
+Acked-by: Jason Gunthorpe <jgg@nvidia.com>
 
-diff --git a/drivers/usb/gadget/function/f_uvc.c b/drivers/usb/gadget/function/f_uvc.c
-index 6e196e06181ecf..d6e7821c9f3121 100644
---- a/drivers/usb/gadget/function/f_uvc.c
-+++ b/drivers/usb/gadget/function/f_uvc.c
-@@ -39,9 +39,6 @@ MODULE_PARM_DESC(trace, "Trace level bitmask");
- 
- /* string IDs are assigned dynamically */
- 
--#define UVC_STRING_CONTROL_IDX			0
--#define UVC_STRING_STREAMING_IDX		1
--
- static struct usb_string uvc_en_us_strings[] = {
- 	/* [UVC_STRING_CONTROL_IDX].s = DYNAMIC, */
- 	[UVC_STRING_STREAMING_IDX].s = "Video Streaming",
-@@ -228,6 +225,8 @@ uvc_function_setup(struct usb_function *f, const struct usb_ctrlrequest *ctrl)
- 	struct uvc_device *uvc = to_uvc(f);
- 	struct v4l2_event v4l2_event;
- 	struct uvc_event *uvc_event = (void *)&v4l2_event.u.data;
-+	unsigned int interface = le16_to_cpu(ctrl->wIndex) & 0xff;
-+	struct usb_ctrlrequest *mctrl;
- 
- 	if ((ctrl->bRequestType & USB_TYPE_MASK) != USB_TYPE_CLASS) {
- 		uvcg_info(f, "invalid request type\n");
-@@ -248,6 +247,17 @@ uvc_function_setup(struct usb_function *f, const struct usb_ctrlrequest *ctrl)
- 	memset(&v4l2_event, 0, sizeof(v4l2_event));
- 	v4l2_event.type = UVC_EVENT_SETUP;
- 	memcpy(&uvc_event->req, ctrl, sizeof(uvc_event->req));
-+
-+
-+	/* check for the interface number, fixup the interface number in
-+	 * the ctrl request so the userspace doesn't have to bother with
-+	 * offset and configfs parsing
-+	 */
-+	mctrl = &uvc_event->req;
-+	mctrl->wIndex &= ~cpu_to_le16(0xff);
-+	if (interface == uvc->streaming_intf)
-+		mctrl->wIndex = cpu_to_le16(UVC_STRING_STREAMING_IDX);
-+
- 	v4l2_event_queue(&uvc->vdev, &v4l2_event);
- 
- 	return 0;
-diff --git a/include/uapi/linux/usb/g_uvc.h b/include/uapi/linux/usb/g_uvc.h
-index 652f169a019e7d..8d7824dde1b2f9 100644
---- a/include/uapi/linux/usb/g_uvc.h
-+++ b/include/uapi/linux/usb/g_uvc.h
-@@ -21,6 +21,9 @@
- #define UVC_EVENT_DATA			(V4L2_EVENT_PRIVATE_START + 5)
- #define UVC_EVENT_LAST			(V4L2_EVENT_PRIVATE_START + 5)
- 
-+#define UVC_STRING_CONTROL_IDX			0
-+#define UVC_STRING_STREAMING_IDX		1
-+
- struct uvc_request_data {
- 	__s32 length;
- 	__u8 data[60];
--- 
-2.30.2
-
+Jason
