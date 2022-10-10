@@ -2,412 +2,264 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CF3095FA480
-	for <lists+linux-media@lfdr.de>; Mon, 10 Oct 2022 22:05:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2F46F5FA495
+	for <lists+linux-media@lfdr.de>; Mon, 10 Oct 2022 22:15:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229492AbiJJUFM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 10 Oct 2022 16:05:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56794 "EHLO
+        id S229630AbiJJUPF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 10 Oct 2022 16:15:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47810 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229758AbiJJUE5 (ORCPT
+        with ESMTP id S229502AbiJJUPB (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 10 Oct 2022 16:04:57 -0400
-Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com [IPv6:2a00:1450:4864:20::629])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C682D17580;
-        Mon, 10 Oct 2022 13:04:50 -0700 (PDT)
-Received: by mail-ej1-x629.google.com with SMTP id 13so27127918ejn.3;
-        Mon, 10 Oct 2022 13:04:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=wtD1IXvsraFqhtdDj5G8OtdTuVJdvL9wEZGq+4I72sk=;
-        b=jT8MPoB0AECKCJv6Gzre1ARIwwkZdZaSFElfkorOr2y5ibG6177IqSS1f1Y0mhThRT
-         5KvYTZtQRkvWDnkR8pDFH+Z8VF7H0A802v30ua6TdezUBj13hUIwxlbDLPOTEi729hHW
-         FFRS9CNLsNdi7sneu/mjPVR/FTmP6B9JbW//ecHVv/Uagab6F59scIAf3tEEulgHFnYX
-         aDHqx8h1TJ9t64KijCPH8o4QzOdyJCwq4tGvH1bPWzbziWI5Pdje5jfmXwryr+5QpIJC
-         k7GREdjVUpazZlWddBr9KIwRYupYpEViETSLmVrIC82qY7sl5az0ZOxMT5810chXvTXD
-         Abig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=wtD1IXvsraFqhtdDj5G8OtdTuVJdvL9wEZGq+4I72sk=;
-        b=R69xHz1xCKFo8bcRcTBKa5pwKtuvp/REo6tkaBY1ozoyQgFXizGlqQtKtke2YF0A5I
-         CKDNyzCWD4qSSR6gmTdZbuE3JvCpM2PVGLZXbWh0bAIs/lnb20smapwurxdmjVGWOrRg
-         BdUXh/37GiQPe87NEnq4jWPMG11t6To276tiW75bcryNjrkeoM/Zx74UQvRqMXha2pL+
-         ZYbJa0fT27+R/gyJ39QK1F68cdzb8Nde4AM1aE1L2cf7loOxFma6tucChT56LsziKUkJ
-         ETRVPLXFX37aeM51+73VzvWJC/TDxnFMYFqeEqXNMlBPA7olhrKENOCxzfLou0OaoGsy
-         kY0g==
-X-Gm-Message-State: ACrzQf09CggYrOcPOF76qEONSZg3Zpr46cBSyOHNu2yxhvaFCiyeAfHW
-        FRXFIXbNEdjv3oGgq8vsHdA92yRgn65G8N+DEYziumBESJlCyA==
-X-Google-Smtp-Source: AMsMyM5thm/5gzOiF1TNnQChLOlv+0/xSldHNK72ND3cLfoUbvIUjr/k5nMWBA+Fyx+2jgVB3lp87OgLp4IOs+lxjBc=
-X-Received: by 2002:a17:906:5a4b:b0:78d:4e5a:d101 with SMTP id
- my11-20020a1709065a4b00b0078d4e5ad101mr15241186ejc.196.1665432288754; Mon, 10
- Oct 2022 13:04:48 -0700 (PDT)
+        Mon, 10 Oct 2022 16:15:01 -0400
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9AE9330F76;
+        Mon, 10 Oct 2022 13:14:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1665432899; x=1696968899;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=hoHtp7ua/tOZfAXpLOK1gBSb/sEyQkWFQ6Xh4kF5nfY=;
+  b=HubOx1wdiYmCEBX6FHOglY66/019WVdLKdldl1tmK89hflxiia2wDcwC
+   YFSxDYvlzHjqcHty7/l4oLWatyOdIwzfzalp4tD5YDDOSiSIBzQfR1vo5
+   kgBHAvWO+IWbXTpQAqjP28BiO4A0dxflwDUJ4Ffs5gpXjBG6FsQHcCdm2
+   gyCH+p3hKUiA5LG1qKn8dA8xlZExfbDjLU21MnMstn/DFZQz8QIIb95gh
+   jN8vNEaCyCU0jwOyKYULlrh66HJCVNaIkXWL3AiDeeu94GdJ1Hk4XZBur
+   8k64Q6RiU+2kjKsnl8trzwMbxHvp7xaFlkUocScYOy0fdkTC4+TfI4sNO
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10496"; a="303065999"
+X-IronPort-AV: E=Sophos;i="5.95,173,1661842800"; 
+   d="scan'208";a="303065999"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2022 13:14:59 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10496"; a="603862730"
+X-IronPort-AV: E=Sophos;i="5.95,173,1661842800"; 
+   d="scan'208";a="603862730"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by orsmga006.jf.intel.com with ESMTP; 10 Oct 2022 13:14:48 -0700
+Received: by black.fi.intel.com (Postfix, from userid 1003)
+        id 8E95D1C8; Mon, 10 Oct 2022 23:15:08 +0300 (EEST)
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Marc Zyngier <maz@kernel.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        Kent Gibson <warthog618@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Billy Tsai <billy_tsai@aspeedtech.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Chen-Yu Tsai <wenst@chromium.org>,
+        Claudiu Beznea <claudiu.beznea@microchip.com>,
+        Samuel Holland <samuel@sholland.org>,
+        Horatiu Vultur <horatiu.vultur@microchip.com>,
+        =?UTF-8?q?Rafa=C5=82=20Mi=C5=82ecki?= <rafal@milecki.pl>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Phil Edworthy <phil.edworthy@renesas.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Fabien Dessenne <fabien.dessenne@foss.st.com>,
+        Prathamesh Shete <pshete@nvidia.com>,
+        Basavaraj Natikar <Basavaraj.Natikar@amd.com>,
+        linux-gpio@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-media@vger.kernel.org, linux-actions@lists.infradead.org,
+        linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org,
+        linux-rpi-kernel@lists.infradead.org, alsa-devel@alsa-project.org,
+        patches@opensource.cirrus.com, linux-mediatek@lists.infradead.org,
+        linux-mips@vger.kernel.org, linux-riscv@lists.infradead.org,
+        linux-omap@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-samsung-soc@vger.kernel.org
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Patrice Chotard <patrice.chotard@foss.st.com>,
+        =?UTF-8?q?Andreas=20F=C3=A4rber?= <afaerber@suse.de>,
+        Manivannan Sadhasivam <mani@kernel.org>,
+        Andrew Jeffery <andrew@aj.id.au>,
+        Joel Stanley <joel@jms.id.au>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Ray Jui <rjui@broadcom.com>,
+        Scott Branden <sbranden@broadcom.com>,
+        Broadcom internal kernel review list 
+        <bcm-kernel-feedback-list@broadcom.com>,
+        Charles Keepax <ckeepax@opensource.cirrus.com>,
+        Richard Fitzgerald <rf@opensource.cirrus.com>,
+        Dong Aisheng <aisheng.dong@nxp.com>,
+        Fabio Estevam <festevam@gmail.com>,
+        Shawn Guo <shawnguo@kernel.org>, Jacky Bai <ping.bai@nxp.com>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Andy Shevchenko <andy@kernel.org>,
+        Sean Wang <sean.wang@kernel.org>, Andrew Lunn <andrew@lunn.ch>,
+        Gregory Clement <gregory.clement@bootlin.com>,
+        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+        Avi Fishman <avifishman70@gmail.com>,
+        Tomer Maimon <tmaimon77@gmail.com>,
+        Tali Perry <tali.perry1@gmail.com>,
+        Patrick Venture <venture@google.com>,
+        Nancy Yuen <yuenn@google.com>,
+        Benjamin Fair <benjaminfair@google.com>,
+        Ludovic Desroches <ludovic.desroches@microchip.com>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Paul Cercueil <paul@crapouillou.net>,
+        Damien Le Moal <damien.lemoal@wdc.com>,
+        Tony Lindgren <tony@atomide.com>,
+        Haojian Zhuang <haojian.zhuang@linaro.org>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Michal Simek <michal.simek@xilinx.com>,
+        Andy Gross <agross@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@somainline.org>,
+        Tomasz Figa <tomasz.figa@gmail.com>,
+        Sylwester Nawrocki <s.nawrocki@samsung.com>,
+        Alim Akhtar <alim.akhtar@samsung.com>,
+        Viresh Kumar <vireshk@kernel.org>,
+        Shiraz Hashim <shiraz.linux.kernel@gmail.com>, soc@kernel.org,
+        Orson Zhai <orsonzhai@gmail.com>,
+        Baolin Wang <baolin.wang@linux.alibaba.com>,
+        Chunyan Zhang <zhang.lyra@gmail.com>,
+        Emil Renner Berthing <kernel@esmil.dk>,
+        Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
+        Masami Hiramatsu <mhiramat@kernel.org>
+Subject: [rft, PATCH v2 00/36] pinctrl: Clean up and add missed headers
+Date:   Mon, 10 Oct 2022 23:14:16 +0300
+Message-Id: <20221010201453.77401-1-andriy.shevchenko@linux.intel.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-References: <20220927201634.750141-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20220927201634.750141-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Mon, 10 Oct 2022 21:04:22 +0100
-Message-ID: <CA+V-a8vQce5+my5nQr=CiJf9KtuHgzmt18PT1kwp9Nq8ADHYFw@mail.gmail.com>
-Subject: Re: [PATCH] media: i2c: ov5645: Use runtime PM
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     Shawn Tu <shawnx.tu@intel.com>, Jacopo Mondi <jacopo@jmondi.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+Currently the header inclusion inside the pinctrl headers seems more arbitrary
+than logical. This series is basically out of two parts:
+- add missed headers to the pin control drivers / users
+- clean up the headers of pin control subsystem
 
-On Tue, Sep 27, 2022 at 9:16 PM Prabhakar <prabhakar.csengg@gmail.com> wrote:
->
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->
-> Switch to using runtime PM for power management.
->
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> ---
->  drivers/media/i2c/Kconfig  |   2 +-
->  drivers/media/i2c/ov5645.c | 135 +++++++++++++++++++------------------
->  2 files changed, 69 insertions(+), 68 deletions(-)
->
-I know it's too early, but I dont want to miss the v6.2 window for
-RZ/G2L CRU driver [0].
+The idea is to have this series to be pulled after -rc1 by the GPIO and
+pin control subsystems, so all new drivers will utilize cleaned up headers
+of the pin control.
 
-Gentle ping for review.
+Please, review and comment.
 
-[0] https://patchwork.kernel.org/project/linux-renesas-soc/cover/20221004234343.54777-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
+Changelog v2:
+- added preparatory patches: all, but last (LKP)
+- added missed forward declaration to the last patch (LKP)
 
-Cheers,
-Prabhakar
+Andy Shevchenko (36):
+  gpiolib: tegra186: Add missed header(s)
+  gpiolib: cdev: Add missed header(s)
+  media: c8sectpfe: Add missed header(s)
+  pinctrl: actions: Add missed header(s)
+  pinctrl: aspeed: Add missed header(s)
+  pinctrl: at91: Add missed header(s)
+  pinctrl: axp209: Add missed header(s)
+  pinctrl: bcm: Add missed header(s)
+  pinctrl: cygnus-mux: Add missed header(s)
+  pinctrl: imx: Add missed header(s)
+  pinctrl: ingenic: Add missed header(s)
+  pinctrl: k210: Add missed header(s)
+  pinctrl: lochnagar: Add missed header(s)
+  pinctrl: mediatek: Add missed header(s)
+  pinctrl: mvebu: Add missed header(s)
+  pinctrl: npcm7xx: Add missed header(s)
+  pinctrl: ocelot: Add missed header(s)
+  pinctrl: qcom: Add missed header(s)
+  pinctrl: renesas: Add missed header(s)
+  pinctrl: samsung: Add missed header(s)
+  pinctrl: single: Add missed header(s)
+  pinctrl: spear: Add missed header(s)
+  pinctrl: sprd: Add missed header(s)
+  pinctrl: st: Add missed header(s)
+  pinctrl: starfive: Add missed header(s)
+  pinctrl: stm32: Add missed header(s)
+  pinctrl: stmfx: Add missed header(s)
+  pinctrl: tegra: Add missed header(s)
+  pinctrl: ti-iodelay: Add missed header(s)
+  pinctrl: uniphier: Add missed header(s)
+  pinctrl: zynqmp: Add missed header(s)
+  pinctrl: cherryview: Add missed header(s)
+  pinctrl: lynxpoint: Add missed header(s)
+  pinctrl: merrifield: Add missed header(s)
+  pinctrl: intel: Add missed header(s)
+  pinctrl: Clean up headers
 
-> diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
-> index 7806d4b81716..c0edd1017fe8 100644
-> --- a/drivers/media/i2c/Kconfig
-> +++ b/drivers/media/i2c/Kconfig
-> @@ -459,7 +459,7 @@ config VIDEO_OV5640
->  config VIDEO_OV5645
->         tristate "OmniVision OV5645 sensor support"
->         depends on OF
-> -       depends on I2C && VIDEO_DEV
-> +       depends on I2C && PM && VIDEO_DEV
->         select MEDIA_CONTROLLER
->         select VIDEO_V4L2_SUBDEV_API
->         select V4L2_FWNODE
-> diff --git a/drivers/media/i2c/ov5645.c b/drivers/media/i2c/ov5645.c
-> index 81e4e87e1821..3c3b30338328 100644
-> --- a/drivers/media/i2c/ov5645.c
-> +++ b/drivers/media/i2c/ov5645.c
-> @@ -27,6 +27,7 @@
->  #include <linux/module.h>
->  #include <linux/of.h>
->  #include <linux/of_graph.h>
-> +#include <linux/pm_runtime.h>
->  #include <linux/regulator/consumer.h>
->  #include <linux/slab.h>
->  #include <linux/types.h>
-> @@ -108,7 +109,6 @@ struct ov5645 {
->         u8 timing_tc_reg21;
->
->         struct mutex power_lock; /* lock to protect power state */
-> -       int power_count;
->
->         struct gpio_desc *enable_gpio;
->         struct gpio_desc *rst_gpio;
-> @@ -635,8 +635,24 @@ static int ov5645_set_register_array(struct ov5645 *ov5645,
->         return 0;
->  }
->
-> -static int ov5645_set_power_on(struct ov5645 *ov5645)
-> +static int ov5645_set_power_off(struct device *dev)
->  {
-> +       struct v4l2_subdev *sd = dev_get_drvdata(dev);
-> +       struct ov5645 *ov5645 = to_ov5645(sd);
-> +
-> +       ov5645_write_reg(ov5645, OV5645_IO_MIPI_CTRL00, 0x58);
-> +       gpiod_set_value_cansleep(ov5645->rst_gpio, 1);
-> +       gpiod_set_value_cansleep(ov5645->enable_gpio, 0);
-> +       clk_disable_unprepare(ov5645->xclk);
-> +       regulator_bulk_disable(OV5645_NUM_SUPPLIES, ov5645->supplies);
-> +
-> +       return 0;
-> +}
-> +
-> +static int ov5645_set_power_on(struct device *dev)
-> +{
-> +       struct v4l2_subdev *sd = dev_get_drvdata(dev);
-> +       struct ov5645 *ov5645 = to_ov5645(sd);
->         int ret;
->
->         ret = regulator_bulk_enable(OV5645_NUM_SUPPLIES, ov5645->supplies);
-> @@ -658,57 +674,19 @@ static int ov5645_set_power_on(struct ov5645 *ov5645)
->
->         msleep(20);
->
-> -       return 0;
-> -}
-> -
-> -static void ov5645_set_power_off(struct ov5645 *ov5645)
-> -{
-> -       gpiod_set_value_cansleep(ov5645->rst_gpio, 1);
-> -       gpiod_set_value_cansleep(ov5645->enable_gpio, 0);
-> -       clk_disable_unprepare(ov5645->xclk);
-> -       regulator_bulk_disable(OV5645_NUM_SUPPLIES, ov5645->supplies);
-> -}
-> -
-> -static int ov5645_s_power(struct v4l2_subdev *sd, int on)
-> -{
-> -       struct ov5645 *ov5645 = to_ov5645(sd);
-> -       int ret = 0;
-> -
-> -       mutex_lock(&ov5645->power_lock);
-> -
-> -       /* If the power count is modified from 0 to != 0 or from != 0 to 0,
-> -        * update the power state.
-> -        */
-> -       if (ov5645->power_count == !on) {
-> -               if (on) {
-> -                       ret = ov5645_set_power_on(ov5645);
-> -                       if (ret < 0)
-> -                               goto exit;
-> -
-> -                       ret = ov5645_set_register_array(ov5645,
-> -                                       ov5645_global_init_setting,
-> +       ret = ov5645_set_register_array(ov5645, ov5645_global_init_setting,
->                                         ARRAY_SIZE(ov5645_global_init_setting));
-> -                       if (ret < 0) {
-> -                               dev_err(ov5645->dev,
-> -                                       "could not set init registers\n");
-> -                               ov5645_set_power_off(ov5645);
-> -                               goto exit;
-> -                       }
-> -
-> -                       usleep_range(500, 1000);
-> -               } else {
-> -                       ov5645_write_reg(ov5645, OV5645_IO_MIPI_CTRL00, 0x58);
-> -                       ov5645_set_power_off(ov5645);
-> -               }
-> +       if (ret < 0) {
-> +               dev_err(ov5645->dev, "could not set init registers\n");
-> +               goto exit;
->         }
->
-> -       /* Update the power count. */
-> -       ov5645->power_count += on ? 1 : -1;
-> -       WARN_ON(ov5645->power_count < 0);
-> +       usleep_range(500, 1000);
->
-> -exit:
-> -       mutex_unlock(&ov5645->power_lock);
-> +       return 0;
->
-> +exit:
-> +       ov5645_set_power_off(dev);
->         return ret;
->  }
->
-> @@ -795,7 +773,7 @@ static int ov5645_s_ctrl(struct v4l2_ctrl *ctrl)
->         int ret;
->
->         mutex_lock(&ov5645->power_lock);
-> -       if (!ov5645->power_count) {
-> +       if (!pm_runtime_get_if_in_use(ov5645->dev)) {
->                 mutex_unlock(&ov5645->power_lock);
->                 return 0;
->         }
-> @@ -827,6 +805,7 @@ static int ov5645_s_ctrl(struct v4l2_ctrl *ctrl)
->                 break;
->         }
->
-> +       pm_runtime_put_autosuspend(ov5645->dev);
->         mutex_unlock(&ov5645->power_lock);
->
->         return ret;
-> @@ -991,6 +970,10 @@ static int ov5645_s_stream(struct v4l2_subdev *subdev, int enable)
->         int ret;
->
->         if (enable) {
-> +               ret = pm_runtime_resume_and_get(ov5645->dev);
-> +               if (ret < 0)
-> +                       return ret;
-> +
->                 ret = ov5645_set_register_array(ov5645,
->                                         ov5645->current_mode->data,
->                                         ov5645->current_mode->data_size);
-> @@ -998,22 +981,22 @@ static int ov5645_s_stream(struct v4l2_subdev *subdev, int enable)
->                         dev_err(ov5645->dev, "could not set mode %dx%d\n",
->                                 ov5645->current_mode->width,
->                                 ov5645->current_mode->height);
-> -                       return ret;
-> +                       goto err_rpm_put;
->                 }
->                 ret = v4l2_ctrl_handler_setup(&ov5645->ctrls);
->                 if (ret < 0) {
->                         dev_err(ov5645->dev, "could not sync v4l2 controls\n");
-> -                       return ret;
-> +                       goto err_rpm_put;
->                 }
->
->                 ret = ov5645_write_reg(ov5645, OV5645_IO_MIPI_CTRL00, 0x45);
->                 if (ret < 0)
-> -                       return ret;
-> +                       goto err_rpm_put;
->
->                 ret = ov5645_write_reg(ov5645, OV5645_SYSTEM_CTRL0,
->                                        OV5645_SYSTEM_CTRL0_START);
->                 if (ret < 0)
-> -                       return ret;
-> +                       goto err_rpm_put;
->         } else {
->                 ret = ov5645_write_reg(ov5645, OV5645_IO_MIPI_CTRL00, 0x40);
->                 if (ret < 0)
-> @@ -1023,14 +1006,15 @@ static int ov5645_s_stream(struct v4l2_subdev *subdev, int enable)
->                                        OV5645_SYSTEM_CTRL0_STOP);
->                 if (ret < 0)
->                         return ret;
-> +               pm_runtime_put(ov5645->dev);
->         }
->
->         return 0;
-> -}
->
-> -static const struct v4l2_subdev_core_ops ov5645_core_ops = {
-> -       .s_power = ov5645_s_power,
-> -};
-> +err_rpm_put:
-> +       pm_runtime_put(ov5645->dev);
-> +       return ret;
-> +}
->
->  static const struct v4l2_subdev_video_ops ov5645_video_ops = {
->         .s_stream = ov5645_s_stream,
-> @@ -1046,7 +1030,6 @@ static const struct v4l2_subdev_pad_ops ov5645_subdev_pad_ops = {
->  };
->
->  static const struct v4l2_subdev_ops ov5645_subdev_ops = {
-> -       .core = &ov5645_core_ops,
->         .video = &ov5645_video_ops,
->         .pad = &ov5645_subdev_pad_ops,
->  };
-> @@ -1188,11 +1171,9 @@ static int ov5645_probe(struct i2c_client *client)
->                 goto free_ctrl;
->         }
->
-> -       ret = ov5645_s_power(&ov5645->sd, true);
-> -       if (ret < 0) {
-> -               dev_err(dev, "could not power up OV5645\n");
-> +       ret = ov5645_set_power_on(dev);
-> +       if (ret)
->                 goto free_entity;
-> -       }
->
->         ret = ov5645_read_reg(ov5645, OV5645_CHIP_ID_HIGH, &chip_id_high);
->         if (ret < 0 || chip_id_high != OV5645_CHIP_ID_HIGH_BYTE) {
-> @@ -1209,12 +1190,16 @@ static int ov5645_probe(struct i2c_client *client)
->
->         dev_info(dev, "OV5645 detected at address 0x%02x\n", client->addr);
->
-> +       pm_runtime_set_active(dev);
-> +       pm_runtime_get_noresume(dev);
-> +       pm_runtime_enable(dev);
-> +
->         ret = ov5645_read_reg(ov5645, OV5645_AEC_PK_MANUAL,
->                               &ov5645->aec_pk_manual);
->         if (ret < 0) {
->                 dev_err(dev, "could not read AEC/AGC mode\n");
->                 ret = -ENODEV;
-> -               goto power_down;
-> +               goto err_pm_runtime;
->         }
->
->         ret = ov5645_read_reg(ov5645, OV5645_TIMING_TC_REG20,
-> @@ -1222,7 +1207,7 @@ static int ov5645_probe(struct i2c_client *client)
->         if (ret < 0) {
->                 dev_err(dev, "could not read vflip value\n");
->                 ret = -ENODEV;
-> -               goto power_down;
-> +               goto err_pm_runtime;
->         }
->
->         ret = ov5645_read_reg(ov5645, OV5645_TIMING_TC_REG21,
-> @@ -1230,14 +1215,18 @@ static int ov5645_probe(struct i2c_client *client)
->         if (ret < 0) {
->                 dev_err(dev, "could not read hflip value\n");
->                 ret = -ENODEV;
-> -               goto power_down;
-> +               goto err_pm_runtime;
->         }
->
-> -       ov5645_s_power(&ov5645->sd, false);
-> +       pm_runtime_set_autosuspend_delay(dev, 1000);
-> +       pm_runtime_use_autosuspend(dev);
-> +       pm_runtime_put_autosuspend(dev);
->
->         ret = v4l2_async_register_subdev(&ov5645->sd);
->         if (ret < 0) {
->                 dev_err(dev, "could not register v4l2 device\n");
-> +               pm_runtime_disable(dev);
-> +               pm_runtime_set_suspended(dev);
->                 goto free_entity;
->         }
->
-> @@ -1245,8 +1234,11 @@ static int ov5645_probe(struct i2c_client *client)
->
->         return 0;
->
-> +err_pm_runtime:
-> +       pm_runtime_disable(dev);
-> +       pm_runtime_put_noidle(dev);
->  power_down:
-> -       ov5645_s_power(&ov5645->sd, false);
-> +       ov5645_set_power_off(dev);
->  free_entity:
->         media_entity_cleanup(&ov5645->sd.entity);
->  free_ctrl:
-> @@ -1264,6 +1256,10 @@ static void ov5645_remove(struct i2c_client *client)
->         v4l2_async_unregister_subdev(&ov5645->sd);
->         media_entity_cleanup(&ov5645->sd.entity);
->         v4l2_ctrl_handler_free(&ov5645->ctrls);
-> +       pm_runtime_disable(ov5645->dev);
-> +       if (!pm_runtime_status_suspended(ov5645->dev))
-> +               ov5645_set_power_off(ov5645->dev);
-> +       pm_runtime_set_suspended(ov5645->dev);
->         mutex_destroy(&ov5645->power_lock);
->  }
->
-> @@ -1279,10 +1275,15 @@ static const struct of_device_id ov5645_of_match[] = {
->  };
->  MODULE_DEVICE_TABLE(of, ov5645_of_match);
->
-> +static const struct dev_pm_ops ov5645_pm_ops = {
-> +       SET_RUNTIME_PM_OPS(ov5645_set_power_off, ov5645_set_power_on, NULL)
-> +};
-> +
->  static struct i2c_driver ov5645_i2c_driver = {
->         .driver = {
->                 .of_match_table = ov5645_of_match,
->                 .name  = "ov5645",
-> +               .pm = &ov5645_pm_ops,
->         },
->         .probe_new = ov5645_probe,
->         .remove = ov5645_remove,
-> --
-> 2.25.1
->
+ drivers/gpio/gpio-tegra186.c                  |  3 +-
+ drivers/gpio/gpiolib-cdev.c                   |  6 ++--
+ .../st/sti/c8sectpfe/c8sectpfe-core.c         |  8 +++--
+ drivers/pinctrl/actions/pinctrl-owl.c         | 10 +++---
+ drivers/pinctrl/aspeed/pinctrl-aspeed.c       |  1 +
+ drivers/pinctrl/bcm/pinctrl-bcm281xx.c        | 13 +++++---
+ drivers/pinctrl/bcm/pinctrl-cygnus-mux.c      |  9 ++++--
+ drivers/pinctrl/bcm/pinctrl-iproc-gpio.c      | 12 ++++---
+ drivers/pinctrl/bcm/pinctrl-ns2-mux.c         |  8 +++--
+ drivers/pinctrl/bcm/pinctrl-nsp-mux.c         |  8 +++--
+ drivers/pinctrl/cirrus/pinctrl-lochnagar.c    |  6 ++--
+ drivers/pinctrl/core.c                        | 19 ++++++------
+ drivers/pinctrl/core.h                        | 12 ++++++-
+ drivers/pinctrl/devicetree.h                  |  6 ++++
+ drivers/pinctrl/freescale/pinctrl-imx.c       |  8 +++--
+ drivers/pinctrl/intel/pinctrl-cherryview.c    |  6 ++--
+ drivers/pinctrl/intel/pinctrl-intel.c         |  6 ++--
+ drivers/pinctrl/intel/pinctrl-lynxpoint.c     |  6 ++--
+ drivers/pinctrl/intel/pinctrl-merrifield.c    |  4 ++-
+ drivers/pinctrl/mediatek/pinctrl-moore.c      |  3 ++
+ drivers/pinctrl/mediatek/pinctrl-paris.c      |  5 +++
+ drivers/pinctrl/mvebu/pinctrl-mvebu.c         | 14 +++++----
+ drivers/pinctrl/nuvoton/pinctrl-npcm7xx.c     | 11 ++++---
+ drivers/pinctrl/pinconf.h                     | 10 ++++++
+ drivers/pinctrl/pinctrl-at91-pio4.c           | 10 ++++--
+ drivers/pinctrl/pinctrl-at91.c                | 16 +++++-----
+ drivers/pinctrl/pinctrl-axp209.c              |  8 +++--
+ drivers/pinctrl/pinctrl-ingenic.c             | 10 +++---
+ drivers/pinctrl/pinctrl-k210.c                | 12 ++++---
+ drivers/pinctrl/pinctrl-ocelot.c              | 10 +++---
+ drivers/pinctrl/pinctrl-single.c              |  5 ++-
+ drivers/pinctrl/pinctrl-st.c                  | 21 ++++++++-----
+ drivers/pinctrl/pinctrl-stmfx.c               |  2 ++
+ drivers/pinctrl/pinctrl-utils.h               |  5 +++
+ drivers/pinctrl/pinctrl-zynqmp.c              |  4 ++-
+ drivers/pinctrl/pinmux.c                      | 17 +++++-----
+ drivers/pinctrl/pinmux.h                      | 11 +++++++
+ drivers/pinctrl/qcom/pinctrl-spmi-gpio.c      |  8 +++--
+ drivers/pinctrl/qcom/pinctrl-spmi-mpp.c       |  8 +++--
+ drivers/pinctrl/renesas/pinctrl-rzg2l.c       |  7 +++--
+ drivers/pinctrl/renesas/pinctrl-rzv2m.c       |  4 ++-
+ drivers/pinctrl/renesas/pinctrl.c             |  8 +++--
+ drivers/pinctrl/samsung/pinctrl-samsung.c     | 11 ++++---
+ drivers/pinctrl/spear/pinctrl-spear.c         |  6 ++--
+ drivers/pinctrl/sprd/pinctrl-sprd.c           |  6 ++--
+ .../starfive/pinctrl-starfive-jh7100.c        |  2 ++
+ drivers/pinctrl/stm32/pinctrl-stm32.c         | 16 +++++-----
+ drivers/pinctrl/tegra/pinctrl-tegra.c         |  6 ++--
+ drivers/pinctrl/ti/pinctrl-ti-iodelay.c       |  8 +++--
+ .../pinctrl/uniphier/pinctrl-uniphier-core.c  |  8 +++--
+ include/linux/pinctrl/consumer.h              | 31 +++++++++----------
+ include/linux/pinctrl/devinfo.h               |  6 ++--
+ include/linux/pinctrl/machine.h               |  8 +++--
+ include/linux/pinctrl/pinconf-generic.h       | 23 ++++++++------
+ include/linux/pinctrl/pinctrl.h               | 18 +++++------
+ include/linux/pinctrl/pinmux.h                |  5 ++-
+ 56 files changed, 328 insertions(+), 186 deletions(-)
+
+
+base-commit: 9d157c89c5569f0ef560b7a5b2d7bf59ae98499c
+-- 
+2.35.1
+
