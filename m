@@ -2,157 +2,199 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E549F5F9D43
-	for <lists+linux-media@lfdr.de>; Mon, 10 Oct 2022 13:03:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 323A65F9E1D
+	for <lists+linux-media@lfdr.de>; Mon, 10 Oct 2022 13:56:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231949AbiJJLDs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 10 Oct 2022 07:03:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41968 "EHLO
+        id S230367AbiJJL4x (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 10 Oct 2022 07:56:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34752 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231641AbiJJLDr (ORCPT
+        with ESMTP id S232313AbiJJL4g (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 10 Oct 2022 07:03:47 -0400
-Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [IPv6:2a0b:5c81:1c1::37])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D9079DFAC;
-        Mon, 10 Oct 2022 04:03:45 -0700 (PDT)
-Received: from hillosipuli.retiisi.eu (dkv1q4tdsdyy1rk42mgbt-3.rev.dnainternet.fi [IPv6:2001:14ba:446a:dc40:6f18:157:2316:5143])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: sailus)
-        by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 6964C1B001B1;
-        Mon, 10 Oct 2022 14:03:42 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
-        t=1665399822;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=X+umJlZlDZ6iSnvwxVf1PmWT7krWCU4iHOOGGM49XJ0=;
-        b=HLwEa1DSIR1kzxU3hqCTaZ1ZJ8fxZC5oZvYZatX72Wckl43xo58rAZrY9p6v+mWHI4B+BI
-        Iam6n3ZuuBRf+K6e+9mxqyatEVzNdzDvNwZfpy1B/CFzGWgXAeybiyDVjJx7PRdMjIYsEt
-        X5wXPIbAeVbFFfQG7p4C/r4YadIHG7qwYS6kTwuoMXGExIcVtXLHt/sHdjwrnHwLX4md6F
-        xegs/TVzfRpSqwi2ITamWuzRfojnEwgidhy82bN6sJ6Pt/knpZPwMHacIM8PHuB3ykNU/6
-        VDC1dMnhdqNIrpu1+D9XNZcy7NDNomOdSxFcjP+ERziiV7jFgaB26pQhT5DiQw==
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id D1851634C93;
-        Mon, 10 Oct 2022 14:03:41 +0300 (EEST)
-Date:   Mon, 10 Oct 2022 14:03:41 +0300
-From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Subject: Re: [RFC PATCH] media: Documentation: Drop deprecated bytesused == 0
-Message-ID: <Y0P8DQQ0XlRxzAoH@valkosipuli.retiisi.eu>
-References: <20221009213509.860-1-laurent.pinchart@ideasonboard.com>
+        Mon, 10 Oct 2022 07:56:36 -0400
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8134D5D0F4
+        for <linux-media@vger.kernel.org>; Mon, 10 Oct 2022 04:56:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1665402964; x=1696938964;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=/NkJq3Tqd5uPFKBn8GZ1D3cqTXW3INNUrpamsBX5Ya0=;
+  b=jz99svJLvqJMyTa6YNV4WtavgGGb8BJxeZ1ImUg3Hr737wMmjeiHnQXD
+   7+XpMRKvyh4xQj14kzCQ0OdSC+oaPvQKhJHDYAhTLEPhonsd/lYLIgd8/
+   /tpcr9hXKfJU8+GCO8zCRTkxX1CFtyXBX7UOLVVkoV3tNXANQ1sO1msrk
+   yVTpu/gdDEl+AxbTy+xi+dZoyme7Gt5WLsG5DC41h9bMAGJSZoMR7lKxE
+   28uYuZX9e92z6CRb24wCVtFrx9TNUbNRajvgqehZoxR/EEApB5wfAxry1
+   1COGUrgYAAtIfkgj12inNSsJH2Efi1eN35Y/J5K5ZsvLev0qsL8Wa5NKu
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10495"; a="304193885"
+X-IronPort-AV: E=Sophos;i="5.95,173,1661842800"; 
+   d="scan'208";a="304193885"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2022 04:56:03 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10495"; a="730509740"
+X-IronPort-AV: E=Sophos;i="5.95,173,1661842800"; 
+   d="scan'208";a="730509740"
+Received: from punajuuri.fi.intel.com (HELO paasikivi.fi.intel.com) ([10.237.72.43])
+  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2022 04:56:00 -0700
+Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
+        by paasikivi.fi.intel.com (Postfix) with SMTP id 9209320387;
+        Mon, 10 Oct 2022 14:55:58 +0300 (EEST)
+Date:   Mon, 10 Oct 2022 11:55:58 +0000
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Benjamin MUGNIER <benjamin.mugnier@foss.st.com>
+Cc:     linux-media@vger.kernel.org, alain.volmat@foss.st.com,
+        hugues.fruchet@foss.st.com, sylvain.petinot@foss.st.com,
+        dave.stevenson@raspberrypi.com, laurent.pinchart@ideasonboard.com,
+        kieran.bingham@ideasonboard.com, nicolas@ndufresne.ca,
+        hverkuil@xs4all.nl
+Subject: Re: [PATCH v6 4/4] media: i2c: Add driver for ST VGXY61 camera sensor
+Message-ID: <Y0QITlCsMe0wdPam@paasikivi.fi.intel.com>
+References: <20220927083702.14138-1-benjamin.mugnier@foss.st.com>
+ <20220927083702.14138-5-benjamin.mugnier@foss.st.com>
+ <Yz8pE15/9tDf6Tjy@paasikivi.fi.intel.com>
+ <af876e81-9105-9a0f-4dd1-47bc17886536@foss.st.com>
+ <Y0PX8SRn51FlOS5c@paasikivi.fi.intel.com>
+ <7c36fdaf-fa2a-4581-5f16-02fbfc3b20fb@foss.st.com>
+ <Y0Pm0WhZpWgKxDbD@paasikivi.fi.intel.com>
+ <62b268df-3c9d-79b2-31a6-61770843ee66@foss.st.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221009213509.860-1-laurent.pinchart@ideasonboard.com>
-ARC-Authentication-Results: i=1;
-        ORIGINATING;
-        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-        s=lahtoruutu; t=1665399822;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=X+umJlZlDZ6iSnvwxVf1PmWT7krWCU4iHOOGGM49XJ0=;
-        b=HxR3uaBRGoWlBvJoLd5b7/p/amZQ5M72sw0OFPcktOR/9f7Wa+ZIf+oipa2xzJdTJB+TY0
-        VGmElii/6p6fGIImGHC53PpqkJ+BgrSfPZ7n7Gfxnz1kf0q4hyC85h3OXuDr0E4c8k+E/A
-        2pXxLRLED1UiATGeYZr5W3/Aw4uBKGmHUUxHGu+paZTmsn8RLWa3ZPq0xYvPc4alsH+O6p
-        gkiyAuiPPrAzesLwWEeqSy2EZtdSqB/mO8gH5YWn3IVXr2CYgYv9+fia+fEIy/r60hFiP5
-        +hvhzveUc3rnV9yaPwh/3Ly1zyTMrxaHEnp52GxAAUUAtwbqAN07j1r97kND4A==
-ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1665399822; a=rsa-sha256;
-        cv=none;
-        b=YW1ArMHyOEhEbGtMmt12xX/R+4fxComNmM0c+PDUfh831PQZjBtyKkyxt1XXriHceEJ9aE
-        INZ57scckNCGlPTFv7sMGc25ODoV6LI2JmAewJkgzPxvkBKKyDZva5Pt7bF0dstlEZtuAN
-        TbN9L2GX4u4+h6Lf6w8PZuteSk0rYTLsrUpbdtEyoabBaD40qlV0XGybTCjlaVV7BZM5sp
-        a4Pq1sEcYkhdFBmk49qCtDGuzgqsAsyIZqbP/VjeYroEf8iapdQSqq/Yh1hP12nmIeFE7y
-        q4yIXV+98lJJqGjQAaavDWWcuV+Bc5DpsOxYuXIHzyULI/JU+SyxlT4pgqNqLQ==
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <62b268df-3c9d-79b2-31a6-61770843ee66@foss.st.com>
+X-Spam-Status: No, score=-7.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,
+        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
+Hi Benjamin,
 
-On Mon, Oct 10, 2022 at 12:35:09AM +0300, Laurent Pinchart wrote:
-> From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+On Mon, Oct 10, 2022 at 11:50:25AM +0200, Benjamin MUGNIER wrote:
+> Hi Sakari,
 > 
-> The V4L2 API historically allowed buffers to be queued with bytesused
-> set to 0 on output devices, in which case the driver would use the
-> buffer length. This behaviour is deprecated, and videobuf2 prints a
-> warning message in the kernel log. Drop it from the documentation.
+> On 10/10/22 11:33, Sakari Ailus wrote:
+> > Hi Benjamin,
+> > 
+> > On Mon, Oct 10, 2022 at 11:19:01AM +0200, Benjamin MUGNIER wrote:
+> >> Hi Sakari,
+> >>
+> >> On 10/10/22 10:29, Sakari Ailus wrote:
+> >>> Hi Benjamin,
+> >>>
+> >>> On Fri, Oct 07, 2022 at 02:24:16PM +0200, Benjamin MUGNIER wrote:
+> >>>> Hi Sakari,
+> >>>>
+> >>>> Thank you for your review.
+> >>>> Please consider everything not commented as queued for v7.
+> >>>>
+> >>>> On 10/6/22 21:14, Sakari Ailus wrote:
+> >>>>> Hi Benjamin,
+> >>>>>
+> >>>>> Thanks for the update. A few more comments below...
+> >>>>>
+> >>>>> On Tue, Sep 27, 2022 at 10:37:02AM +0200, Benjamin Mugnier wrote:
+> >>>>>> +static const char * const vgxy61_hdr_mode_menu[] = {
+> >>>>>> +	"HDR linearize",
+> >>>>>> +	"HDR substraction",
+> >>>>>> +	"No HDR",
+> >>>>>> +};
+> >>>>>
+> >>>>> I think more documentation is needed on the HDR modes. What do these mean?
+> >>>>> For instance, are they something that requires further processing or is the
+> >>>>> result e.g. a ready HDR image?
+> >>>>>
+> >>>>> This should probably make it to driver specific documentation.
+> >>>>>
+> >>>>
+> >>>> Sure, in fact I did something like this in v3:
+> >>>> https://lore.kernel.org/linux-media/20220512074037.3829926-4-benjamin.mugnier@foss.st.com/
+> >>>>
+> >>>> Since I standardized the control I was unsure what to do with this documentation, and dropped it.
+> >>>> I will add back the Documentation/userspace-api/media/drivers/st-vgxy61.rst file from this commit to the patchset, while changing the control name to the new one.
+> >>>
+> >>> Yes, please. That seems reasonably good.
+> >>>
+> >>> I think Laurent's proposal on a HDR control for sensor-implemented HDR is a
+> >>> good one. Further controls can be added later on.
+> >>>
+> >>>>>> +	sensor->gpios_polarity = of_property_read_bool(dev->of_node,
+> >>>>>> +						       "invert-gpios-polarity");
+> >>>
+> >>> How about:
+> >>>
+> >>> 	device_property_read_bool(dev, ...);
+> >>>
+> >>
+> >> Sounds great.
+> >>
+> >>>>>
+> >>>>> I thought we did discuss dropping support for sensor synchronisation in
+> >>>>> this version?
+> >>>>>
+> >>>>
+> >>>> This properties affects strobing lights gpios polarities as you can see
+> >>>> in vgxy61_update_gpios_strobe_polarity. If set to '1' all strobing gpios
+> >>>> are inverted. This has nothing to do with the sensor synchronization.
+> >>>
+> >>> So this is for strobing a LED flash? It would be good to mention this in
+> >>> DT bindings.
+> >>>
+> >>>>
+> >>>> Now I realize this is poorly named, and I even forgot to document it in
+> >>>> the device tree bindings file. I apologize.
+> >>>
+> >>> No problem.
+> >>>
+> >>>>
+> >>>> I would like to rename it to 'st,strobe-polarity' since this is vendor
+> >>>> specific and to better reflect that it affects strobing gpios. I'll make
+> >>>> this change for v7 and document this in the bindings file too. Tell me if
+> >>>> there is any issues with that.
+> >>>
+> >>> That name seems reasonable to me. Although, *if* this is actually usable as
+> >>> a GPIO as the bindings suggest, then the GPIO flags would probably be a
+> >>> better alternative.
+> >>>
+> >>
+> >> If by GPIO flag you mean adding 'gpios' to the property, We could go with 'st,strobe-gpios-polarity', which in the end this leads to the same property name as it was in the dt bindings :)
+> >> I'll add a bit of comments on the bindings. It seems to be the best choice.
+> > 
+> > Is this a GPIO or is it not (e.g. strobe signal only)?
+> > 
+> > For the latter the this should be fine. And "flash-leds" property should be
+> > there as well I guess?
+> > 
 > 
-> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 
-Thanks!
+Please wrap the lines at around 74. Rewrapped now...
 
-Reviewed-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> This property controls the polarity of and output GPIO connected to the
+> sensor. This output GPIO is driven by the sensor firmware in order to
+> illuminate the scene whenever necessary. I'm not sure this goes under the
+> "flash-leds" category, as it only provides a signal with either "0"
+> (don't illuminate) or a 1 (illuminate) ? The sensor controls the signal
 
-> ---
+This is what sensors generally do.
+
+> following the programmed "strobe-mode" as you can see in
+> vgxy61_strobe_mode according to the HDR mode. It does not have a
+> max-microamp or timeout values as a flash I suppose, it is really a
+> simple signal.
+
+Those are usually configured for the flash driver, not on the sensor.
+
 > 
-> This patch aims at starting (or continuing) the discussion related to
-> handling of bytesused == 0 on video output devices. videobuf2 currently
-> printes a warning that indicates the behaviour is deprecated, but the
-> API documentation allows it explicitly. This discrepency bothers me and
-> I think we should fix it.
+> Practically we have what we call "illuminators" that are either built in
+> the sensor'smodule, are externally connected to the sensor's module.
 > 
-> We probably won't be able to drop support for the deprecated behaviour
-> in the near future, if ever. If we want to push applications to get
-> fixed, we may want to replace the dev_warn() with a WARN_ONCE(), which
-> could be done in a v2 of this patch, or in another patch.
-> 
-> Another option would be to consider that the behaviour is fine and keep
-> official support for it in the documentation, in which case vb2 should
-> stop warning about it. This wouldn't be my preference.
-> 
-> ---
->  Documentation/userspace-api/media/v4l/buffer.rst | 11 +++--------
->  1 file changed, 3 insertions(+), 8 deletions(-)
-> 
-> diff --git a/Documentation/userspace-api/media/v4l/buffer.rst b/Documentation/userspace-api/media/v4l/buffer.rst
-> index 4638ec64db00..04dec3e570ed 100644
-> --- a/Documentation/userspace-api/media/v4l/buffer.rst
-> +++ b/Documentation/userspace-api/media/v4l/buffer.rst
-> @@ -187,10 +187,8 @@ struct v4l2_buffer
->  	on the negotiated data format and may change with each buffer for
->  	compressed variable size data like JPEG images. Drivers must set
->  	this field when ``type`` refers to a capture stream, applications
-> -	when it refers to an output stream. If the application sets this
-> -	to 0 for an output stream, then ``bytesused`` will be set to the
-> -	size of the buffer (see the ``length`` field of this struct) by
-> -	the driver. For multiplanar formats this field is ignored and the
-> +	when it refers to an output stream. For multiplanar formats this field
-> +        is ignored and the
->  	``planes`` pointer is used instead.
->      * - __u32
->        - ``flags``
-> @@ -327,10 +325,7 @@ struct v4l2_plane
->        - ``bytesused``
->        - The number of bytes occupied by data in the plane (its payload).
->  	Drivers must set this field when ``type`` refers to a capture
-> -	stream, applications when it refers to an output stream. If the
-> -	application sets this to 0 for an output stream, then
-> -	``bytesused`` will be set to the size of the plane (see the
-> -	``length`` field of this struct) by the driver.
-> +	stream, applications when it refers to an output stream.
->  
->  	.. note::
->  
-> -- 
-> Regards,
-> 
-> Laurent Pinchart
-> 
+> Hope this is clearer.
 
 -- 
+Regards,
+
 Sakari Ailus
