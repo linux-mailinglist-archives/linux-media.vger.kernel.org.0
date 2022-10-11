@@ -2,163 +2,129 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BC9DB5FB80E
-	for <lists+linux-media@lfdr.de>; Tue, 11 Oct 2022 18:14:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C8D725FB9BD
+	for <lists+linux-media@lfdr.de>; Tue, 11 Oct 2022 19:36:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230180AbiJKQOx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 11 Oct 2022 12:14:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51628 "EHLO
+        id S229745AbiJKRgH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 11 Oct 2022 13:36:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45386 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229744AbiJKQOs (ORCPT
+        with ESMTP id S229608AbiJKRfu (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 11 Oct 2022 12:14:48 -0400
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B3B42F003;
-        Tue, 11 Oct 2022 09:14:45 -0700 (PDT)
-Received: by mail-ed1-f54.google.com with SMTP id v12so2565050edc.6;
-        Tue, 11 Oct 2022 09:14:45 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:reply-to:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=gcCjfDN4mDKfmx6uTh8+bavSggaZhIbJoPNugTf0yYI=;
-        b=JMFnbtPjwrDpGhFMR1mf2dgkS3as4HvfFlzlExRVkpiEmbI7t8GMtE3sbMlBCEUMi8
-         d4HZXbGJEhNcNK/Rlt2vTgJmHJHrGV/nnM/iVvZI5oDgJwZPPnl1f0l1qJvLijXvdgQW
-         rG+Wbm7agFfsi9DJ/0WD1Zab7mpgfMcXuW4A0objUlrVTg/Fya+eKYfFfXFbE0clcUKd
-         bHaqHmnFl6JpnN8tP0q5+IxwEGGA/NUDXiE7hj/mED1GNfOgPDJGDGG5tbyOE2DbWYC2
-         B39U7weAETlxZy0DJ2IlJpVM6gXKJVSokML7jcc2Wi6ipQC8MC4jbLSBQpCrr/eZMbAI
-         7Log==
-X-Gm-Message-State: ACrzQf0dGMMPUNn295rp50aTfJQZyVHCFkWsUrlsQoJUU8BLKfcF+oZB
-        DXcZPf505Cjzdio1Tiho8s3h7y0iidQnCB3a
-X-Google-Smtp-Source: AMsMyM7ZqUp8nr4UTSkIePDm3PChCTNq8ODcC9u6v+t1VPzyVXQm6vECSYNxICUxkk5mMNcW3biFhw==
-X-Received: by 2002:a05:6402:4313:b0:45a:b150:6796 with SMTP id m19-20020a056402431300b0045ab1506796mr18367378edc.246.1665504883732;
-        Tue, 11 Oct 2022 09:14:43 -0700 (PDT)
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com. [209.85.221.51])
-        by smtp.gmail.com with ESMTPSA id l1-20020a1709060cc100b007402796f065sm2884993ejh.132.2022.10.11.09.14.41
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 11 Oct 2022 09:14:42 -0700 (PDT)
-Received: by mail-wr1-f51.google.com with SMTP id u10so22398844wrq.2;
-        Tue, 11 Oct 2022 09:14:41 -0700 (PDT)
-X-Received: by 2002:adf:eb84:0:b0:22a:917e:1c20 with SMTP id
- t4-20020adfeb84000000b0022a917e1c20mr15144886wrn.223.1665504881328; Tue, 11
- Oct 2022 09:14:41 -0700 (PDT)
+        Tue, 11 Oct 2022 13:35:50 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9407595AD8;
+        Tue, 11 Oct 2022 10:33:17 -0700 (PDT)
+Received: from [192.168.2.145] (109-252-119-114.nat.spd-mgts.ru [109.252.119.114])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits))
+        (No client certificate requested)
+        (Authenticated sender: dmitry.osipenko)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id BECC86602358;
+        Tue, 11 Oct 2022 18:31:47 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1665509511;
+        bh=FbjwvyBn8Jk5nWNvSwUKiVg917Dtcke8nkTgpCuxGHg=;
+        h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
+        b=j9FFZ8t9+K/yyb3uyYTMRMmOZwbPmrFNo2nLiwt+NaQZrbzcY4YA8uPgvq9KqKyKu
+         qfSxAQSs3xdybENOLmYyju3gm2jzJes8ytBnen1UmrG70xGfL9X93PKjnudy4jAGU9
+         gl+8JqZyTgX4VAz30gatLmK/w1aZ0uiSfREFVnx4BKEjtHICZB25vE8HLEsmHDTqCu
+         yIpeJVFLrAb6mYjYFS9OIEMj1EcqLBHaz1mjNnYKGPhtHbHH9fs9DzhtYGqeU92wP3
+         bGYgN3stcLAlbVz256MpW1wDubM6bGRxeP+1wxa5ae3PSGyqaSwxKah/5yl/VkpzQm
+         rYhgIy9tlB8RA==
+Message-ID: <fd3baeeb-2277-768c-e0d1-f3adcecb848a@collabora.com>
+Date:   Tue, 11 Oct 2022 20:31:45 +0300
 MIME-Version: 1.0
-References: <20221010201453.77401-1-andriy.shevchenko@linux.intel.com> <20221010201453.77401-8-andriy.shevchenko@linux.intel.com>
-In-Reply-To: <20221010201453.77401-8-andriy.shevchenko@linux.intel.com>
-Reply-To: wens@csie.org
-From:   Chen-Yu Tsai <wens@csie.org>
-Date:   Wed, 12 Oct 2022 00:14:28 +0800
-X-Gmail-Original-Message-ID: <CAGb2v65EuTdS3uvr6EgpiiK25PeYrVh+itte2wHz_wM=E1S4OA@mail.gmail.com>
-Message-ID: <CAGb2v65EuTdS3uvr6EgpiiK25PeYrVh+itte2wHz_wM=E1S4OA@mail.gmail.com>
-Subject: Re: [PATCH v2 07/36] pinctrl: axp209: Add missed header(s)
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     Marc Zyngier <maz@kernel.org>, Bartosz Golaszewski <brgl@bgdev.pl>,
-        Kent Gibson <warthog618@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Billy Tsai <billy_tsai@aspeedtech.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Chen-Yu Tsai <wenst@chromium.org>,
-        Claudiu Beznea <claudiu.beznea@microchip.com>,
-        Samuel Holland <samuel@sholland.org>,
-        Horatiu Vultur <horatiu.vultur@microchip.com>,
-        =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Phil Edworthy <phil.edworthy@renesas.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Fabien Dessenne <fabien.dessenne@foss.st.com>,
-        Prathamesh Shete <pshete@nvidia.com>,
-        Basavaraj Natikar <Basavaraj.Natikar@amd.com>,
-        linux-gpio@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-media@vger.kernel.org, linux-actions@lists.infradead.org,
-        linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org,
-        linux-rpi-kernel@lists.infradead.org, alsa-devel@alsa-project.org,
-        patches@opensource.cirrus.com, linux-mediatek@lists.infradead.org,
-        linux-mips@vger.kernel.org, linux-riscv@lists.infradead.org,
-        linux-omap@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-samsung-soc@vger.kernel.org,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.1
+Subject: Re: [PATCH v6 00/21] Move all drivers to a common dma-buf locking
+ convention
+From:   Dmitry Osipenko <dmitry.osipenko@collabora.com>
+To:     David Airlie <airlied@linux.ie>, Gerd Hoffmann <kraxel@redhat.com>,
+        Gurchetan Singh <gurchetansingh@chromium.org>,
+        Chia-I Wu <olvaffe@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+        Daniel Almeida <daniel.almeida@collabora.com>,
+        Gert Wollny <gert.wollny@collabora.com>,
+        Gustavo Padovan <gustavo.padovan@collabora.com>,
+        Daniel Stone <daniel@fooishbar.org>,
+        Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Rob Clark <robdclark@gmail.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+        "Pan, Xinhui" <Xinhui.Pan@amd.com>,
         Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Patrice Chotard <patrice.chotard@foss.st.com>,
-        =?UTF-8?Q?Andreas_F=C3=A4rber?= <afaerber@suse.de>,
-        Manivannan Sadhasivam <mani@kernel.org>,
-        Andrew Jeffery <andrew@aj.id.au>,
-        Joel Stanley <joel@jms.id.au>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Ray Jui <rjui@broadcom.com>,
-        Scott Branden <sbranden@broadcom.com>,
-        Broadcom internal kernel review list 
-        <bcm-kernel-feedback-list@broadcom.com>,
-        Charles Keepax <ckeepax@opensource.cirrus.com>,
-        Richard Fitzgerald <rf@opensource.cirrus.com>,
-        Dong Aisheng <aisheng.dong@nxp.com>,
-        Fabio Estevam <festevam@gmail.com>,
-        Shawn Guo <shawnguo@kernel.org>, Jacky Bai <ping.bai@nxp.com>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Andy Shevchenko <andy@kernel.org>,
-        Sean Wang <sean.wang@kernel.org>, Andrew Lunn <andrew@lunn.ch>,
-        Gregory Clement <gregory.clement@bootlin.com>,
-        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
-        Avi Fishman <avifishman70@gmail.com>,
-        Tomer Maimon <tmaimon77@gmail.com>,
-        Tali Perry <tali.perry1@gmail.com>,
-        Patrick Venture <venture@google.com>,
-        Nancy Yuen <yuenn@google.com>,
-        Benjamin Fair <benjaminfair@google.com>,
-        Ludovic Desroches <ludovic.desroches@microchip.com>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Paul Cercueil <paul@crapouillou.net>,
-        Damien Le Moal <damien.lemoal@wdc.com>,
-        Tony Lindgren <tony@atomide.com>,
-        Haojian Zhuang <haojian.zhuang@linaro.org>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Michal Simek <michal.simek@xilinx.com>,
-        Andy Gross <agross@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@somainline.org>,
-        Tomasz Figa <tomasz.figa@gmail.com>,
-        Sylwester Nawrocki <s.nawrocki@samsung.com>,
-        Alim Akhtar <alim.akhtar@samsung.com>,
-        Viresh Kumar <vireshk@kernel.org>,
-        Shiraz Hashim <shiraz.linux.kernel@gmail.com>, soc@kernel.org,
-        Orson Zhai <orsonzhai@gmail.com>,
-        Baolin Wang <baolin.wang@linux.alibaba.com>,
-        Chunyan Zhang <zhang.lyra@gmail.com>,
-        Emil Renner Berthing <kernel@esmil.dk>,
-        Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
-        Masami Hiramatsu <mhiramat@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+        Tomasz Figa <tfiga@chromium.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+        =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas_os@shipmail.org>,
+        Qiang Yu <yuq825@gmail.com>,
+        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        Amol Maheshwari <amahesh@qti.qualcomm.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Leon Romanovsky <leon@kernel.org>,
+        Juergen Gross <jgross@suse.com>,
+        Stefano Stabellini <sstabellini@kernel.org>,
+        Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>,
+        Tomi Valkeinen <tomba@kernel.org>,
+        Russell King <linux@armlinux.org.uk>,
+        Lucas Stach <l.stach@pengutronix.de>,
+        Christian Gmeiner <christian.gmeiner@gmail.com>,
+        Ruhl Michael J <michael.j.ruhl@intel.com>
+Cc:     dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+        Dmitry Osipenko <digetx@gmail.com>,
+        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+        amd-gfx@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+        kernel@collabora.com, virtualization@lists.linux-foundation.org,
+        linux-rdma@vger.kernel.org, linux-arm-msm@vger.kernel.org
+References: <20220928191600.5874-1-dmitry.osipenko@collabora.com>
+Content-Language: en-US
+In-Reply-To: <20220928191600.5874-1-dmitry.osipenko@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-5.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Oct 11, 2022 at 4:16 AM Andy Shevchenko
-<andriy.shevchenko@linux.intel.com> wrote:
->
-> Do not imply that some of the generic headers may be always included.
-> Instead, include explicitly what we are direct user of.
->
-> While at it, sort headers alphabetically.
->
-> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+On 9/28/22 22:15, Dmitry Osipenko wrote:
+> Hello,
+> 
+> This series moves all drivers to a dynamic dma-buf locking specification.
+> From now on all dma-buf importers are made responsible for holding
+> dma-buf's reservation lock around all operations performed over dma-bufs
+> in accordance to the locking specification. This allows us to utilize
+> reservation lock more broadly around kernel without fearing of a potential
+> deadlocks.
+> 
+> This patchset passes all i915 selftests. It was also tested using VirtIO,
+> Panfrost, Lima, Tegra, udmabuf, AMDGPU and Nouveau drivers. I tested cases
+> of display+GPU, display+V4L and GPU+V4L dma-buf sharing (where appropriate),
+> which covers majority of kernel drivers since rest of the drivers share
+> same or similar code paths.
 
-Acked-by: Chen-Yu Tsai <wens@csie.org>
+All the non-drm patches have been acked by the respective maintainers.
+I'm now feeling comfortable to take this series into drm-misc-next and
+going to do it later this week.
+
+If anyone have more comments to add, then please do it now. It won't be
+possible to drop out patches from drm-misc once they will be merged. All
+further changes will have to be made on top of the applied patches.
+
+Thanks to all who reviewed this patchset!
+
+-- 
+Best regards,
+Dmitry
+
