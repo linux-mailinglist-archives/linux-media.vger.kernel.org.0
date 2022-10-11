@@ -2,126 +2,171 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0DA9F5FB4CA
-	for <lists+linux-media@lfdr.de>; Tue, 11 Oct 2022 16:43:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4C32E5FB4ED
+	for <lists+linux-media@lfdr.de>; Tue, 11 Oct 2022 16:50:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229734AbiJKOnG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 11 Oct 2022 10:43:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47108 "EHLO
+        id S229847AbiJKOuD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 11 Oct 2022 10:50:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60234 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229517AbiJKOnF (ORCPT
+        with ESMTP id S229573AbiJKOuB (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 11 Oct 2022 10:43:05 -0400
-Received: from mail-vs1-xe29.google.com (mail-vs1-xe29.google.com [IPv6:2607:f8b0:4864:20::e29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C4F845141C
-        for <linux-media@vger.kernel.org>; Tue, 11 Oct 2022 07:43:04 -0700 (PDT)
-Received: by mail-vs1-xe29.google.com with SMTP id 126so14478032vsi.10
-        for <linux-media@vger.kernel.org>; Tue, 11 Oct 2022 07:43:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=snQBN4uLHS6g/2mZEbV3nmJWLKPBzs3PH5k6rbcDXAc=;
-        b=WBcVh6+p305sT87FKdIU6AAdpi+V4PQD/V4TjRY/CAitG1FYkNmQa/ek85unHEnAXa
-         OBVU/eQUpPHFZlqbDMaqAp5gLmyWIRbr4hDhBc19gC6FJrScN6qhJM3xDRDnRG2Cc9Yd
-         3cF54iVQFHo2oMwN33y0gq77lh/XdTUp2q8Ha7v9CTb2YKg73y3PNgIBizySmVafoBl1
-         rxaxHk6c243cKRNXUQ24WDbNhf4t4dAz+LGKCa5tCB1LJKSaaBCV4fgX5Eu3pji6K7Qi
-         8G8+JL8Lkhz/J3z+o/bkpB4sgQrvAX+RQX5FOXlbs6/LoQ8R+kQoaHeUlfKIR79/YWrx
-         1MSg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=snQBN4uLHS6g/2mZEbV3nmJWLKPBzs3PH5k6rbcDXAc=;
-        b=A2L9bUIs16ePq3e1x4u4izB0eXWpjjh1C6PgrTl4z8Fngp3TOT89sP2nA7vEdAXrjF
-         6UfJngRU5IkE86TT2RlS/Vqb63rhJWGWJscvm6yVIcPtvGOjPI9jxHTZF5DNuQH872CX
-         eQNAQK9ex7VWqsw1arkFOKfSbXFl8sdSioKjZViHef3vR3h25vxaDIhMMXKM6MDXSn/e
-         4qLhNZpfAUzOk0MHNwjVxnP23dUauEdK6sfToIBBGtqePC50mdHaAEkdzvz0skp9J6FW
-         I+p1qOdwhl7H5VvM842TQGR6THmoJRtz1dI6zE2cvP8oOhgTtYTeyIoc/j9mM40WsS2M
-         qWYw==
-X-Gm-Message-State: ACrzQf12rao/CEljzHsZqYwNDN3gIiDrUhSQApBnGnYzvsMgH9S5Ey9W
-        YiJ5j2lmjJ5if94aAUJaIO/19w/nxDw2WZye8OY=
-X-Google-Smtp-Source: AMsMyM5/g/okYGvdT/HtwBCw5LwzLeH1IKtAl2nnypwGSoYoFQuv+FZHLn2L4vFM78pBCXvFJn14P0MzwT6Pa8MQoAc=
-X-Received: by 2002:a05:6102:3d9c:b0:3a7:16a0:104f with SMTP id
- h28-20020a0561023d9c00b003a716a0104fmr11357043vsv.23.1665499383762; Tue, 11
- Oct 2022 07:43:03 -0700 (PDT)
+        Tue, 11 Oct 2022 10:50:01 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0562B1D0FA;
+        Tue, 11 Oct 2022 07:49:57 -0700 (PDT)
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: kholk11)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 3DECE660235B;
+        Tue, 11 Oct 2022 15:49:51 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1665499795;
+        bh=WjWfvO7t5fdyGrI6m+hgGbT3QH4QBKj79I/hqKmON7Y=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=JOT+AnjvhQZ3vD+INlRyJUZGm23CWRspXdxuJNoFNT/2BU3BDi5IDkH2Yrh9cl34H
+         N8tYn0ib9h2NSJZ2wAIfZfryQVLEoNCgFUyUgtoeB3uep2/6DEsQ7yGEO0febOyHvI
+         hMQps4hKjRpiDfHJVubm1kSgDODcE0fxz35XL3pmTQUoBsYWlj52rSQaBN3or/Qysa
+         Nnl5TlEZJvEM/mGOVrA3G338yKAO4fX3D/W0mLbDZJMGmbluyKM/eYT4wVNA1RFmtD
+         w5vR7Uu6LnwTML9dH9/oGV1Cci4KZACKsyC/Ihfwo8y3IRLkhbhb0iRzW5ZY4Zwh1d
+         X736PHBsaUIKg==
+Message-ID: <74cdcd93-a528-ec8c-0808-0d698b86e47d@collabora.com>
+Date:   Tue, 11 Oct 2022 16:49:48 +0200
 MIME-Version: 1.0
-References: <20220712000251.13607-1-laurent.pinchart@ideasonboard.com> <20220712000251.13607-8-laurent.pinchart@ideasonboard.com>
-In-Reply-To: <20220712000251.13607-8-laurent.pinchart@ideasonboard.com>
-From:   Adam Ford <aford173@gmail.com>
-Date:   Tue, 11 Oct 2022 09:42:52 -0500
-Message-ID: <CAHCN7xL7a8SPe9pYY_Me-d9BLqMTXZ_WLLAyzKGFsqFnE9h1Sg@mail.gmail.com>
-Subject: Re: [PATCH v2 7/7] media: nxp: Add i.MX8 ISI driver
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, Sakari Ailus <sakari.ailus@iki.fi>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Xavier Roumegue <xavier.roumegue@oss.nxp.com>,
-        linux-imx@nxp.com, kernel@pengutronix.de
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.0
+Subject: Re: [PATCH v2 14/36] pinctrl: mediatek: Add missed header(s)
+Content-Language: en-US
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Marc Zyngier <maz@kernel.org>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        Kent Gibson <warthog618@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Billy Tsai <billy_tsai@aspeedtech.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Chen-Yu Tsai <wenst@chromium.org>,
+        Claudiu Beznea <claudiu.beznea@microchip.com>,
+        Samuel Holland <samuel@sholland.org>,
+        Horatiu Vultur <horatiu.vultur@microchip.com>,
+        =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Phil Edworthy <phil.edworthy@renesas.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Fabien Dessenne <fabien.dessenne@foss.st.com>,
+        Prathamesh Shete <pshete@nvidia.com>,
+        Basavaraj Natikar <Basavaraj.Natikar@amd.com>,
+        linux-gpio@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-media@vger.kernel.org, linux-actions@lists.infradead.org,
+        linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org,
+        linux-rpi-kernel@lists.infradead.org, alsa-devel@alsa-project.org,
+        patches@opensource.cirrus.com, linux-mediatek@lists.infradead.org,
+        linux-mips@vger.kernel.org, linux-riscv@lists.infradead.org,
+        linux-omap@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-samsung-soc@vger.kernel.org
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Patrice Chotard <patrice.chotard@foss.st.com>,
+        =?UTF-8?Q?Andreas_F=c3=a4rber?= <afaerber@suse.de>,
+        Manivannan Sadhasivam <mani@kernel.org>,
+        Andrew Jeffery <andrew@aj.id.au>,
+        Joel Stanley <joel@jms.id.au>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Ray Jui <rjui@broadcom.com>,
+        Scott Branden <sbranden@broadcom.com>,
+        Broadcom internal kernel review list 
+        <bcm-kernel-feedback-list@broadcom.com>,
+        Charles Keepax <ckeepax@opensource.cirrus.com>,
+        Richard Fitzgerald <rf@opensource.cirrus.com>,
+        Dong Aisheng <aisheng.dong@nxp.com>,
+        Fabio Estevam <festevam@gmail.com>,
+        Shawn Guo <shawnguo@kernel.org>, Jacky Bai <ping.bai@nxp.com>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Andy Shevchenko <andy@kernel.org>,
+        Sean Wang <sean.wang@kernel.org>, Andrew Lunn <andrew@lunn.ch>,
+        Gregory Clement <gregory.clement@bootlin.com>,
+        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+        Avi Fishman <avifishman70@gmail.com>,
+        Tomer Maimon <tmaimon77@gmail.com>,
+        Tali Perry <tali.perry1@gmail.com>,
+        Patrick Venture <venture@google.com>,
+        Nancy Yuen <yuenn@google.com>,
+        Benjamin Fair <benjaminfair@google.com>,
+        Ludovic Desroches <ludovic.desroches@microchip.com>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Paul Cercueil <paul@crapouillou.net>,
+        Damien Le Moal <damien.lemoal@wdc.com>,
+        Tony Lindgren <tony@atomide.com>,
+        Haojian Zhuang <haojian.zhuang@linaro.org>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Michal Simek <michal.simek@xilinx.com>,
+        Andy Gross <agross@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@somainline.org>,
+        Tomasz Figa <tomasz.figa@gmail.com>,
+        Sylwester Nawrocki <s.nawrocki@samsung.com>,
+        Alim Akhtar <alim.akhtar@samsung.com>,
+        Viresh Kumar <vireshk@kernel.org>,
+        Shiraz Hashim <shiraz.linux.kernel@gmail.com>, soc@kernel.org,
+        Orson Zhai <orsonzhai@gmail.com>,
+        Baolin Wang <baolin.wang@linux.alibaba.com>,
+        Chunyan Zhang <zhang.lyra@gmail.com>,
+        Emil Renner Berthing <kernel@esmil.dk>,
+        Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
+        Masami Hiramatsu <mhiramat@kernel.org>
+References: <20221010201453.77401-1-andriy.shevchenko@linux.intel.com>
+ <20221010201453.77401-15-andriy.shevchenko@linux.intel.com>
+From:   AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20221010201453.77401-15-andriy.shevchenko@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-5.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Jul 11, 2022 at 7:06 PM Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
->
-> The Image Sensing Interface (ISI) combines image processing pipelines
-> with DMA engines to process and capture frames originating from a
-> variety of sources. The inputs to the ISI go through Pixel Link
-> interfaces, and their number and nature is SoC-dependent. They cover
-> both capture interfaces (MIPI CSI-2 RX, HDMI RX) and memory inputs.
->
-
-Tested-by: Adam Ford <aford173@gmail.com> #imx8mn-beacon
-
-> Signed-off-by: Christian Hemp <c.hemp@phytec.de>
-> Signed-off-by: Dong Aisheng <aisheng.dong@nxp.com>
-> Signed-off-by: Guoniu Zhou <guoniu.zhou@nxp.com>
-> Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
-> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Signed-off-by: Stefan Riedmueller <s.riedmueller@phytec.de>
+Il 10/10/22 22:14, Andy Shevchenko ha scritto:
+> Do not imply that some of the generic headers may be always included.
+> Instead, include explicitly what we are direct user of.
+> 
+> While at it, sort headers alphabetically.
+> 
+> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 > ---
->  MAINTAINERS                                   |    7 +
->  drivers/media/platform/nxp/Kconfig            |    2 +
->  drivers/media/platform/nxp/Makefile           |    1 +
->  drivers/media/platform/nxp/imx8-isi/Kconfig   |   22 +
->  drivers/media/platform/nxp/imx8-isi/Makefile  |    9 +
->  .../platform/nxp/imx8-isi/imx8-isi-core.c     |  646 +++++++
->  .../platform/nxp/imx8-isi/imx8-isi-core.h     |  394 +++++
->  .../platform/nxp/imx8-isi/imx8-isi-crossbar.c |  529 ++++++
->  .../platform/nxp/imx8-isi/imx8-isi-debug.c    |  109 ++
->  .../media/platform/nxp/imx8-isi/imx8-isi-hw.c |  651 +++++++
->  .../platform/nxp/imx8-isi/imx8-isi-m2m.c      |  858 ++++++++++
->  .../platform/nxp/imx8-isi/imx8-isi-pipe.c     |  867 ++++++++++
->  .../platform/nxp/imx8-isi/imx8-isi-regs.h     |  418 +++++
->  .../platform/nxp/imx8-isi/imx8-isi-video.c    | 1513 +++++++++++++++++
->  14 files changed, 6026 insertions(+)
->  create mode 100644 drivers/media/platform/nxp/imx8-isi/Kconfig
->  create mode 100644 drivers/media/platform/nxp/imx8-isi/Makefile
->  create mode 100644 drivers/media/platform/nxp/imx8-isi/imx8-isi-core.c
->  create mode 100644 drivers/media/platform/nxp/imx8-isi/imx8-isi-core.h
->  create mode 100644 drivers/media/platform/nxp/imx8-isi/imx8-isi-crossbar.c
->  create mode 100644 drivers/media/platform/nxp/imx8-isi/imx8-isi-debug.c
->  create mode 100644 drivers/media/platform/nxp/imx8-isi/imx8-isi-hw.c
->  create mode 100644 drivers/media/platform/nxp/imx8-isi/imx8-isi-m2m.c
->  create mode 100644 drivers/media/platform/nxp/imx8-isi/imx8-isi-pipe.c
->  create mode 100644 drivers/media/platform/nxp/imx8-isi/imx8-isi-regs.h
->  create mode 100644 drivers/media/platform/nxp/imx8-isi/imx8-isi-video.c
->
-<snip>
+>   drivers/pinctrl/mediatek/pinctrl-moore.c | 3 +++
+>   drivers/pinctrl/mediatek/pinctrl-paris.c | 5 +++++
+>   2 files changed, 8 insertions(+)
+> 
+> diff --git a/drivers/pinctrl/mediatek/pinctrl-moore.c b/drivers/pinctrl/mediatek/pinctrl-moore.c
+> index 526faaebaf77..9474ada5addb 100644
+> --- a/drivers/pinctrl/mediatek/pinctrl-moore.c
+> +++ b/drivers/pinctrl/mediatek/pinctrl-moore.c
+> @@ -9,6 +9,9 @@
+>    */
+>   
+>   #include <linux/gpio/driver.h>
+> +
 
-> +}
+Apart from this blank line that I deem unnecessary....
 
-> --
-> Regards,
->
-> Laurent Pinchart
->
+Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+
+
