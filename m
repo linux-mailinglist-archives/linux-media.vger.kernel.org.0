@@ -2,127 +2,182 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B110E5FBEC4
-	for <lists+linux-media@lfdr.de>; Wed, 12 Oct 2022 02:56:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4783D5FBF8F
+	for <lists+linux-media@lfdr.de>; Wed, 12 Oct 2022 05:47:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229502AbiJLA4Y (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 11 Oct 2022 20:56:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52974 "EHLO
+        id S229541AbiJLDre (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 11 Oct 2022 23:47:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46342 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229452AbiJLA4X (ORCPT
+        with ESMTP id S229506AbiJLDrc (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 11 Oct 2022 20:56:23 -0400
-Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com [IPv6:2a00:1450:4864:20::331])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 279516E2F4
-        for <linux-media@vger.kernel.org>; Tue, 11 Oct 2022 17:56:22 -0700 (PDT)
-Received: by mail-wm1-x331.google.com with SMTP id n9so4000932wms.1
-        for <linux-media@vger.kernel.org>; Tue, 11 Oct 2022 17:56:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:references:cc:to:from
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=WkqzanB1DDRnDxQamf+4bhkxHNhqIEh+Zu+CDjOM9rI=;
-        b=AyeQ6MhP5KkuynPLFQqDtngZDyKcxvO7s/PbYbM5FH8uYWBGlMzX8UMrswueTln/4y
-         21w/P27eWFw4alNNMDcM9E1v+wN4Zaw8ySDndOFviogcst2RXBdrztf/q30SHV8ax/rT
-         IyHpraIvEvEfFlBOem5fSQ+IreTgzYRshZ3p2l7DAKvoFNIQo4X24blEUxbFHM7nrOXC
-         +GXE4GxOil6ktqIabaXQ7MX02IscrZRBrTEBl3CjRXgBDBSvPkhKH0bv8z1+1f3RQJqu
-         UyMCdnIAtQxyAUvcGALQ5/4+XUryKdnyPoQbQ0hB7RKnWeLnySDqvw2AsIwQf/jb8QOD
-         886A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:references:cc:to:from
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=WkqzanB1DDRnDxQamf+4bhkxHNhqIEh+Zu+CDjOM9rI=;
-        b=0vx48TPBnRNCFBdEvPGca2xn59EBySl3efMuQKiDPdXNnersT7XJ0iXRt030CzF0Vq
-         Sp01cjzHPd+eBY7bSINls0I2olU9D1LWmmPhCk9e83vmmRNAto1GzeucqHOZYpgdAndr
-         JFoiz46M7VeosNtjb4kr5gJ1TYoHbLmIx0cixRKQ8HHJ/L3vDSiC+PsVcqsMsjS1oLx+
-         Xo1EPcrxHecgcyCqXTph67IqBrc7Zubt4gsj4Iseu3PEDR44KqBWhCC+JFV4wAEHuurg
-         9eC1LLSj9iCxPUf865YKeSQUL7KeZbdfvumYVMdeaWrtfpuf8baLwm+GNGpWyAHiIrte
-         tPog==
-X-Gm-Message-State: ACrzQf2lnTDhdzpz+N7v5eUVhc4gKDhopcU1ExGAx/vPsi3F9sDTSCPd
-        W/d20QllRfPOsjm3GD+7N9EdRA==
-X-Google-Smtp-Source: AMsMyM7NCvlMh/5issR4gqX9Yct/QwXNNJ7JhKg66RGQKNyMUkRdy5o/AmkMpXfA+AL6rRHs9nRb1Q==
-X-Received: by 2002:a05:600c:3d13:b0:3b4:be25:9236 with SMTP id bh19-20020a05600c3d1300b003b4be259236mr996443wmb.65.1665536180653;
-        Tue, 11 Oct 2022 17:56:20 -0700 (PDT)
-Received: from [192.168.0.162] (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
-        by smtp.gmail.com with ESMTPSA id f8-20020a05600c4e8800b003b4cba4ef71sm337450wmq.41.2022.10.11.17.56.19
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 11 Oct 2022 17:56:20 -0700 (PDT)
-Message-ID: <1679970e-a1db-3b6b-7170-2296c32fdff1@linaro.org>
-Date:   Wed, 12 Oct 2022 01:56:19 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.1
-Subject: Re: [PATCH v4 RESEND 3/3] media: i2c: imx412: Add new compatible
- strings
-Content-Language: en-US
-From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-To:     Dave Stevenson <dave.stevenson@raspberrypi.com>
-Cc:     sakari.ailus@iki.fi, jacopo@jmondi.org, paul.j.murphy@intel.com,
-        daniele.alessandrelli@intel.com, mchehab@kernel.org,
-        linux-media@vger.kernel.org, krzysztof.kozlowski+dt@linaro.org,
-        robh+dt@kernel.org
-References: <20220922104225.1375331-1-bryan.odonoghue@linaro.org>
- <20220922104225.1375331-4-bryan.odonoghue@linaro.org>
- <CAPY8ntAAcbv0myL3F-OOOH_rUUF7q==DQFq1sCaYAY=+JapgcA@mail.gmail.com>
- <cc24035d-9a32-ff9e-bffa-a21a0f79f138@linaro.org>
-In-Reply-To: <cc24035d-9a32-ff9e-bffa-a21a0f79f138@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-5.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        Tue, 11 Oct 2022 23:47:32 -0400
+Received: from mailout3.samsung.com (mailout3.samsung.com [203.254.224.33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5BA7D792CC
+        for <linux-media@vger.kernel.org>; Tue, 11 Oct 2022 20:47:30 -0700 (PDT)
+Received: from epcas5p1.samsung.com (unknown [182.195.41.39])
+        by mailout3.samsung.com (KnoxPortal) with ESMTP id 20221012034726epoutp03e88e96e671cdfe6bf62cc323b6364b57~dNas9wJ2n2580525805epoutp03d
+        for <linux-media@vger.kernel.org>; Wed, 12 Oct 2022 03:47:26 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com 20221012034726epoutp03e88e96e671cdfe6bf62cc323b6364b57~dNas9wJ2n2580525805epoutp03d
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+        s=mail20170921; t=1665546446;
+        bh=a0vdFYoSfapPhn0wOLLbypVWbERl2E7gGu0xV0Veo/8=;
+        h=From:To:Cc:Subject:Date:References:From;
+        b=NtXF0NeDIFcUUGxl2G2FqEdVx8K+7+fSVU8pkdaCXR9ENvgUrDGDWXEswtiPs13Pk
+         F7RE6SMs0n0CjDneedA6SWt3Jhi3uyATmmHeHgEgXL4WfHiswrcsNVh9AbqVA54bWy
+         jJseyBeTutaceZ1BX2KunGGMUg6u59H30Lru4Ybs=
+Received: from epsnrtp1.localdomain (unknown [182.195.42.162]) by
+        epcas5p1.samsung.com (KnoxPortal) with ESMTP id
+        20221012034725epcas5p1e9ecd07b3fe2d1222a12f907f30e1c26~dNasBYKhP0055500555epcas5p1M;
+        Wed, 12 Oct 2022 03:47:25 +0000 (GMT)
+Received: from epsmges5p3new.samsung.com (unknown [182.195.38.181]) by
+        epsnrtp1.localdomain (Postfix) with ESMTP id 4MnJWG3v6Zz4x9Q0; Wed, 12 Oct
+        2022 03:47:22 +0000 (GMT)
+Received: from epcas5p1.samsung.com ( [182.195.41.39]) by
+        epsmges5p3new.samsung.com (Symantec Messaging Gateway) with SMTP id
+        E0.62.56352.AC836436; Wed, 12 Oct 2022 12:47:22 +0900 (KST)
+Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
+        epcas5p2.samsung.com (KnoxPortal) with ESMTPA id
+        20221011125138epcas5p21b0a93e3bde26c3377e3fa7f34d86933~dBMkFxV8S3211732117epcas5p2D;
+        Tue, 11 Oct 2022 12:51:38 +0000 (GMT)
+Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
+        epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
+        20221011125138epsmtrp1db6a44e521f61c05f6e70a5c3716ff8e~dBMkEjaCP2654526545epsmtrp1-;
+        Tue, 11 Oct 2022 12:51:38 +0000 (GMT)
+X-AuditID: b6c32a4b-5f7fe7000001dc20-d6-634638ca48d7
+Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
+        epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+        F5.0D.14392.AD665436; Tue, 11 Oct 2022 21:51:38 +0900 (KST)
+Received: from cheetah.sa.corp.samsungelectronics.net (unknown
+        [107.109.115.53]) by epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
+        20221011125135epsmtip1dd029d2e4ca18021177e1357e793ef95~dBMg8WcKV2675426754epsmtip1I;
+        Tue, 11 Oct 2022 12:51:35 +0000 (GMT)
+From:   aakarsh jain <aakarsh.jain@samsung.com>
+To:     linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
+Cc:     m.szyprowski@samsung.com, andrzej.hajda@intel.com,
+        mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
+        ezequiel@vanguardiasur.com.ar, jernej.skrabec@gmail.com,
+        benjamin.gaignard@collabora.com, stanimir.varbanov@linaro.org,
+        dillon.minfei@gmail.com, david.plowman@raspberrypi.com,
+        mark.rutland@arm.com, robh+dt@kernel.org, krzk+dt@kernel.org,
+        andi@etezian.org, alim.akhtar@samsung.com,
+        aswani.reddy@samsung.com, pankaj.dubey@samsung.com,
+        linux-fsd@tesla.com, smitha.t@samsung.com, aakarsh.jain@samsung.com
+Subject: [Patch v3 00/15] Add MFC v12 support.
+Date:   Tue, 11 Oct 2022 17:55:01 +0530
+Message-Id: <20221011122516.32135-1-aakarsh.jain@samsung.com>
+X-Mailer: git-send-email 2.17.1
+X-Brightmail-Tracker: H4sIAAAAAAAAA0WTe0zTVxTHub9f+2s11v14jUsVVxoVwYCUlxcFJZOYX5ApBAduhLGm/CgN
+        pe3aAsMsKjCYIoM90IyHMCmdCQ+LQEvBAh10ISFuEUZAU7sxOoU69hI1BghbS2H773PO+Z77
+        PTn3XjbuNU1w2RKZmlbKhFI+sZ1hGAsOCp1AJ0Xho1++jh4b65lortlAIM2rBQz9rFlmoNFe
+        PQv1TTfi6Na4mYlaLD8wUf+38wx0Z9FZnay3MdBCy22AHA0/EajHPsNEvzzNQD8ONhGoulvP
+        RF0WGwtpZycx9E3PGoZa9c9ZqGLIwkI2kwGgjystWAKkOps7AWW0tQFqtu0ZTg002FiUxuTA
+        qJ72KwT1aMZEUL1tF6mK71YYVE1fO6DWy26wqCrLLEEt9+yhJl4ss1J2vpsfl0cLc2glj5aJ
+        5DkSmTiefyot+0R2dEy4IFQQiw7zeTJhAR3PT0xOCT0pkTrXwOcVCaWFzlSKUKXiHzoWp5QX
+        qmlenlyljufTihypIkoRphIWqApl4jAZrT4iCA+PiHYK38/PG1i8jCtMvh8uzv4DLoEhzyqw
+        jQ3JKFh2c5moAtvZXuRdAO+slG8GzwB8qf0EcwcvAXzwZz/YahnpGgfuwhCAMxNW3B1UYFD3
+        2xOWS0WQoXBEayZc7EOWAmi/rHaJcLKcAW33VjdE3mQYLK2rY7qYQe6D66tXNyw4ZDx8aLFj
+        brs3YEe3ecMBkktsWLNYuzlHImz9vmmTveHT8T6Wm7nQUVu5ySJob3XgbpZCnamO4ebj0Dzd
+        5GS2c6JgqBs85E4HwGsTtzd8cXIn/HT1180ZONDYvMX7YdOjV0w374ZjHVrgOgaSFNQvSlxp
+        LzIL1k49BJ+BgIb/Db4GoB340wpVgZhWRSsiZXTxfzclkhf0gI3nHXLKCObn/gobBRgbjALI
+        xvk+HNDypsiLkyMsOU8r5dnKQimtGgXRzpV9jnN9RXLn/5CpswVRseFRMTExUbGRMQK+H0fz
+        VYjIixQL1XQ+TSto5VYfxt7GvYQF5R61D3twOc2S5zXWysZlD0+6G+5Q6PqqHRcOp5p2JGMX
+        Mw5YZ66+lkHWW7Vha/cDi4Lfjrww1pm8agmO86H+SBy632F9R3euM9A0YsrMitwvCoy9lXSe
+        Tvecv3K3PmmQV13ZXnygSLH7QZbpml+Q3VDt5/FY3KuXT5XMRfTnln/kmMpL1fg2puUsaX83
+        Z2omD9oYTzrSu9hLe7LfOnfQHJB71t9w5npp2rGErMZyyuJ/VjT8QaY1ITXCWIZM3pmxL0Ik
+        eNsck3ui9T0WFxNc3/v3FwunV3ZVn15dzw04k75rr3mYd0TMG9DdC50vxsrFN+TkoH/SWrfh
+        6AQqOc5nqPKEghBcqRL+CxGtuLFnBAAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFmpkkeLIzCtJLcpLzFFi42LZdlhJTvdWmmuywZd9MhZPd8xktXgwbxub
+        xeIfz5ks7i/+zGJxaPNWdostV2YzWyw/foDVYv6Rc6wW2w8+YrHY+AIoe3HmXRaL5/PXMVq8
+        nHWPzWLT42usFg9fhVtc3jWHzaJnw1ZWi7VH7rJbLL1+kcli2aY/TBaLtn5ht2jde4Td4u6e
+        bYwWLW1HmBwkPNbMW8PosePuEkaP60s+MXvsnHWX3WPxnpdMHptWdbJ53Lm2h81j85J6j9aj
+        v1g8+rasYvT41zSX3aPryHU2j8+b5DxOff3MHsAXxWWTkpqTWZZapG+XwJWx80UHc8Ee0YoX
+        1/8zNjDuFexi5OSQEDCR2L/2OGMXIxeHkMBuRonvK24wQiRkJP63HWOHsIUlVv57zg5R1Mwk
+        cXrWTxaQBJuArsT+pQfYQBIiAq2MEtdXdjKBOMwCs1kkfkw6wApSJSygJ9E4ZQqYzSKgKvHv
+        dzfYCl4BW4mbRx4zQayQl1i94QDzBEaeBYwMqxglUwuKc9Nziw0LDPNSy/WKE3OLS/PS9ZLz
+        czcxgmNJS3MH4/ZVH/QOMTJxMB5ilOBgVhLhZZzvlCzEm5JYWZValB9fVJqTWnyIUZqDRUmc
+        90LXyXghgfTEktTs1NSC1CKYLBMHp1QDUzjz1KzlGQ0z7G+f1+C2iVq91GTFtR1M3FLtgQnf
+        M80nZS1eyPvrx1eVpTu/Wq9Nr1HfPrEuLP6m2Dzze9Vv2zUnHFA7VfWr6+2NIyaaV29OiDb/
+        HLGIR7uXv/TvhcJGW+MDoWe2bJvp91f6g+rqWoG0jRx/6o3eeN0TOJG14kmP8LPrr5Z5JEle
+        iuJ4z3Gb4WdCgvbXi9zmaRp3+eptD516+r1nZmB56dKrwicWNzlIe65Ozmrcwn/8kvri+mbm
+        Nzyzbyma6dmU1KlbMP2r8vg5/doOR5lNM/Xk2kV8Dj9wzdX4ZD9t464crdDJ7pln89edLv/X
+        0GbvJf9mFod32uRlrjOTrq4qDEooEzgsoMRSnJFoqMVcVJwIADrzEMIUAwAA
+X-CMS-MailID: 20221011125138epcas5p21b0a93e3bde26c3377e3fa7f34d86933
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-Sendblock-Type: REQ_APPROVE
+CMS-TYPE: 105P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20221011125138epcas5p21b0a93e3bde26c3377e3fa7f34d86933
+References: <CGME20221011125138epcas5p21b0a93e3bde26c3377e3fa7f34d86933@epcas5p2.samsung.com>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 22/09/2022 12:19, Bryan O'Donoghue wrote:
-> On 22/09/2022 12:16, Dave Stevenson wrote:
->> It may*eventually*  work for all three parts, but isn't the time to
->> add the compatible string at the point where it is actually compatible
->> with the driver?
-> 
-> Yes. I forgot about the 0x477 chip id on your part.
-> 
-> I'm happy enough to drop 477 from the compat string or indeed to allow 
-> 0x0477 as a valid chip identifier in imx412.
-> 
-> Sakari, what would you like to do ?
-> 
-> ---
-> bod
+This patch series adds MFC v12 support. MFC v12 is used in
+Tesla FSD SoC.
 
-Right.
+This adds support for following:
 
-So I got myself the official rpi imx477 sensor and ran the imx412/imx577 
-driver on the rpi 5.19.y tree
+* Add support for VP9 encoder
+* Add support for YV12 and I420 format (3-plane)
+* Add support for Rate Control, UHD and DMABUF for encoder
+* Add support for DPB buffers allocation based on MFC requirement
+* Update Documentation for control id definitions
 
-It looks like the rpi driver configures imx477 for two MIPI data-lanes, 
-whereas upstream imx412 wants four MIPI data-lanes.
+Changes since v2:
+ - Addressed review comments by Rob Herring.
+ - Addressed review comments by Krzysztof Kozlowski.
+ - Addressed review comments by Andi Shyti.
 
-So already that means the imx412 config as-is won't work.
+Smitha T Murthy (15):
+  dt-bindings: media: s5p-mfc: Add new DT schema for MFC
+  dt-bindings: media: s5p-mfc: Add mfcv12 variant
+  media: s5p-mfc: Rename IS_MFCV10 macro
+  media: s5p-mfc: Add initial support for MFCv12
+  Documention: v4l: Documentation for VP9 CIDs.
+  media: v4l2: Add v4l2 control IDs for VP9 encoder.
+  media: s5p-mfc: Add support for VP9 encoder.
+  media: s5p-mfc: Add YV12 and I420 multiplanar format support
+  media: s5p-mfc: Add support for rate controls in MFCv12
+  media: s5p-mfc: Add support for UHD encoding.
+  media: s5p-mfc: Add support for DMABUF for encoder
+  media: s5p-mfc: Set context for valid case before calling try_run
+  media: s5p-mfc: Load firmware for each run in MFCv12.
+  media: s5p-mfc: DPB Count Independent of VIDIOC_REQBUF
+  arm64: dts: fsd: Add MFC related DT enteries
 
-But, we do know these sensors are very very close.
+ .../devicetree/bindings/media/s5p-mfc.txt     |  75 ---------
+ .../bindings/media/samsung,s5p-mfc.yaml       | 164 ++++++++++++++++++
+ .../media/v4l/ext-ctrls-codec.rst             | 167 +++++++
+ arch/arm64/boot/dts/tesla/fsd.dtsi            |  21 +
+ .../platform/samsung/s5p-mfc/regs-mfc-v12.h   |  60 +++
+ .../platform/samsung/s5p-mfc/regs-mfc-v7.h    |   1 +
+ .../platform/samsung/s5p-mfc/regs-mfc-v8.h    |   3 +
+ .../media/platform/samsung/s5p-mfc/s5p_mfc.c  |  36 +-
+ .../platform/samsung/s5p-mfc/s5p_mfc_cmd_v6.c |   3 +
+ .../platform/samsung/s5p-mfc/s5p_mfc_common.h |  56 ++-
+ .../platform/samsung/s5p-mfc/s5p_mfc_ctrl.c   |   9 +-
+ .../platform/samsung/s5p-mfc/s5p_mfc_dec.c    |  51 ++-
+ .../platform/samsung/s5p-mfc/s5p_mfc_enc.c    | 410 +++++++++++++++--
+ .../platform/samsung/s5p-mfc/s5p_mfc_opr.h    |  16 +-
+ .../platform/samsung/s5p-mfc/s5p_mfc_opr_v5.c |  12 +-
+ .../platform/samsung/s5p-mfc/s5p_mfc_opr_v6.c | 435 ++++++++++++++++--
+ .../platform/samsung/s5p-mfc/s5p_mfc_opr_v6.h |   7 +-
+ drivers/media/v4l2-core/v4l2-ctrls-defs.c     |  44 ++
+ include/uapi/linux/v4l2-controls.h            |  33 ++
+ 19 files changed, 1349 insertions(+), 203 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/media/samsung,s5p-mfc.yaml
+ create mode 100644 drivers/media/platform/samsung/s5p-mfc/regs-mfc-v12.h
 
-I think the right medium term thing to do is try take in the majority of 
-the imx477 code - including the various test modes, and resolutions and 
-support for different MIPI data-lane configurations.
+-- 
+2.17.1
 
-Its not clear to me that the imx412/imx577 and imx378/imx477 can 
-genuinely live in the same codebase though.
-
-Anyway I think adding imx477 to the imx412 driver should be considered 
-out of scope pending answering most of those questions and getting the 
-code to work.
-
-Anyway that merging of rpi imx477 and upstream imx412/imx577 code feels 
-like an entirely different series.
-
-So I'll resend this series minus the imx477 bits.
-
----
-bod
