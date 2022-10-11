@@ -2,153 +2,85 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 693605FAAEC
-	for <lists+linux-media@lfdr.de>; Tue, 11 Oct 2022 05:00:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E3E545FAC26
+	for <lists+linux-media@lfdr.de>; Tue, 11 Oct 2022 08:07:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229624AbiJKDAb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 10 Oct 2022 23:00:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35666 "EHLO
+        id S229492AbiJKGHo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 11 Oct 2022 02:07:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52664 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229481AbiJKDA1 (ORCPT
+        with ESMTP id S229451AbiJKGHm (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 10 Oct 2022 23:00:27 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8939C51425;
-        Mon, 10 Oct 2022 20:00:25 -0700 (PDT)
+        Tue, 11 Oct 2022 02:07:42 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 013BF868AF;
+        Mon, 10 Oct 2022 23:07:41 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id C52046108C;
-        Tue, 11 Oct 2022 03:00:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 207E1C433D6;
-        Tue, 11 Oct 2022 03:00:18 +0000 (UTC)
-Authentication-Results: smtp.kernel.org;
-        dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com header.b="HINC5krz"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105;
-        t=1665457216;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=Qirw48xc/tsq9oJ9bN2wDgpC7gkOILHLI1FFvZKjy0g=;
-        b=HINC5krzVlg2RfBkI+DN4TfkkfdILG81+nGbG6H3ymULtvrDJBAAPyivNN5Ks6xLTRDgBj
-        St0npOJIqnMiQJAEsME6hn8HSGUVr7vaSgTvTLlUyVWoppp8tjC9zJyq6/W2qkBuApVnBr
-        cXYoav/TXzo4IDNClYviVzHvX/Qex3Y=
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 0a7ccddd (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
-        Tue, 11 Oct 2022 03:00:16 +0000 (UTC)
-Date:   Mon, 10 Oct 2022 21:00:08 -0600
-From:   "Jason A. Donenfeld" <Jason@zx2c4.com>
-To:     "Elliott, Robert (Servers)" <elliott@hpe.com>
-Cc:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "patches@lists.linux.dev" <patches@lists.linux.dev>,
-        Andreas Noever <andreas.noever@gmail.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Christoph =?utf-8?Q?B=C3=B6hmwalder?= 
-        <christoph.boehmwalder@linbit.com>, Christoph Hellwig <hch@lst.de>,
-        Christophe Leroy <christophe.leroy@csgroup.eu>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Dave Airlie <airlied@redhat.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Florian Westphal <fw@strlen.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "H . Peter Anvin" <hpa@zytor.com>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        Helge Deller <deller@gmx.de>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        Huacai Chen <chenhuacai@kernel.org>,
-        Hugh Dickins <hughd@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        "James E . J . Bottomley" <jejb@linux.ibm.com>,
-        Jan Kara <jack@suse.com>, Jason Gunthorpe <jgg@ziepe.ca>,
-        Jens Axboe <axboe@kernel.dk>,
-        Johannes Berg <johannes@sipsolutions.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Jozsef Kadlecsik <kadlec@netfilter.org>,
-        KP Singh <kpsingh@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Marco Elver <elver@google.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Pablo Neira Ayuso <pablo@netfilter.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Richard Weinberger <richard@nod.at>,
-        Russell King <linux@armlinux.org.uk>,
-        Theodore Ts'o <tytso@mit.edu>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Thomas Graf <tgraf@suug.ch>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        WANG Xuerui <kernel@xen0n.name>, Will Deacon <will@kernel.org>,
-        Yury Norov <yury.norov@gmail.com>,
-        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-        "kasan-dev@googlegroups.com" <kasan-dev@googlegroups.com>,
-        "kernel-janitors@vger.kernel.org" <kernel-janitors@vger.kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
-        "linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "linux-mips@vger.kernel.org" <linux-mips@vger.kernel.org>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
-        "linux-mtd@lists.infradead.org" <linux-mtd@lists.infradead.org>,
-        "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
-        "linux-parisc@vger.kernel.org" <linux-parisc@vger.kernel.org>,
-        "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
-        "linux-s390@vger.kernel.org" <linux-s390@vger.kernel.org>,
-        "linux-um@lists.infradead.org" <linux-um@lists.infradead.org>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        "linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>,
-        "linuxppc-dev@lists.ozlabs.org" <linuxppc-dev@lists.ozlabs.org>,
-        "loongarch@lists.linux.dev" <loongarch@lists.linux.dev>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "sparclinux@vger.kernel.org" <sparclinux@vger.kernel.org>,
-        "x86@kernel.org" <x86@kernel.org>,
-        Toke =?utf-8?Q?H=C3=B8iland-J=C3=B8rgensen?= <toke@toke.dk>
-Subject: Re: [PATCH v6 3/7] treewide: use get_random_{u8,u16}() when
- possible, part 1
-Message-ID: <Y0TcOH/BDfg5c1gj@zx2c4.com>
-References: <20221010230613.1076905-1-Jason@zx2c4.com>
- <20221010230613.1076905-4-Jason@zx2c4.com>
- <MW5PR84MB18421AC962BE140DDEB58A8BAB239@MW5PR84MB1842.NAMPRD84.PROD.OUTLOOK.COM>
+        by ams.source.kernel.org (Postfix) with ESMTPS id A4C3CB80EBB;
+        Tue, 11 Oct 2022 06:07:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A9505C433C1;
+        Tue, 11 Oct 2022 06:07:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1665468459;
+        bh=Ztn/SuQD1VKNGNL2CbvXzTt1o6hjQCqxd0wod5i/mYI=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=RGlaBgG68ZDPqlsZo/D/GSCBpsdN2djsBQ7SqS0vadinmCO4ehd6yl24C2fpt/0ck
+         TGwzcNvlVFDZ20w+Ghu6KSCZl6HSotcTqDTawqRxEFYoE1h6vpT7Cq2nNkvSWh00IX
+         +EbEq4mFC53nI4GM5QU1kB3/MMnUQ/XV1X4pN+iQ=
+Date:   Tue, 11 Oct 2022 08:08:22 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Michael Grzeschik <mgr@pengutronix.de>
+Cc:     linux-usb@vger.kernel.org, linux-media@vger.kernel.org,
+        balbi@kernel.org, laurent.pinchart@ideasonboard.com,
+        kernel@pengutronix.de
+Subject: Re: [PATCH] usb: gadget: uvc: default the ctrl request interface
+ offsets
+Message-ID: <Y0UIVtyyJCfpsKpT@kroah.com>
+References: <20221010182028.402155-1-m.grzeschik@pengutronix.de>
+ <Y0R+z9gtW1+Yd71d@kroah.com>
+ <20221010210359.GG27626@pengutronix.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <MW5PR84MB18421AC962BE140DDEB58A8BAB239@MW5PR84MB1842.NAMPRD84.PROD.OUTLOOK.COM>
-X-Spam-Status: No, score=-6.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+In-Reply-To: <20221010210359.GG27626@pengutronix.de>
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Oct 11, 2022 at 01:18:40AM +0000, Elliott, Robert (Servers) wrote:
+On Mon, Oct 10, 2022 at 11:03:59PM +0200, Michael Grzeschik wrote:
+> On Mon, Oct 10, 2022 at 10:21:35PM +0200, Greg KH wrote:
+> > On Mon, Oct 10, 2022 at 08:20:28PM +0200, Michael Grzeschik wrote:
+> > > For the userspace it is needed to distinguish between requests for the
+> > > control or streaming interface. The userspace would have to parse the
+> > > configfs to know which interface index it has to compare the ctrl
+> > > requests against. Since the interface numbers are not fixed, e.g. for
+> > > composite gadgets, the interface offset depends on the setup.
+> > > 
+> > > The kernel has this information when handing over the ctrl request to
+> > > the userspace. This patch removes the offset from the interface numbers
+> > > and expose the default interface defines in the uapi g_uvc.h.
+> > > 
+> > > Signed-off-by: Michael Grzeschik <m.grzeschik@pengutronix.de>
+> > > ---
+> > >  drivers/usb/gadget/function/f_uvc.c | 16 +++++++++++++---
+> > >  include/uapi/linux/usb/g_uvc.h      |  3 +++
+> > >  2 files changed, 16 insertions(+), 3 deletions(-)
+> > 
+> > This is a v2, what changed from v1?
 > 
-> > diff --git a/crypto/testmgr.c b/crypto/testmgr.c
-> ...
-> > @@ -944,7 +944,7 @@ static void generate_random_bytes(u8 *buf, size_t count)
-> >  	default:
-> >  		/* Fully random bytes */
-> >  		for (i = 0; i < count; i++)
-> > -			buf[i] = (u8)prandom_u32();
-> > +			buf[i] = get_random_u8();
-> 
-> Should that whole for loop be replaced with this?
->     get_random_bytes(buf, count);
+> v1 - v2: - removed the extra variable in struct uvc_event
+>         - replacing the ctrl request bits in place
+> 	 - included the move of the defualt interface defines to g_uvc.h
 
-Wow, that's kind of grotesque. Yea, it certainly should. But that's
-beyond the scope of this patchset. I'll send a follow-up patch just for
-this case to Herbert after this cleanup lands, though.
+Great, please submit a v3 with that info.
 
-Jason
+thanks,
+
+greg k-h
