@@ -2,45 +2,45 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 73B4A5FB1F1
-	for <lists+linux-media@lfdr.de>; Tue, 11 Oct 2022 14:04:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DA0A15FB200
+	for <lists+linux-media@lfdr.de>; Tue, 11 Oct 2022 14:06:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229520AbiJKMEa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 11 Oct 2022 08:04:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41370 "EHLO
+        id S229625AbiJKMG2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 11 Oct 2022 08:06:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48816 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229475AbiJKME3 (ORCPT
+        with ESMTP id S229605AbiJKMGZ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 11 Oct 2022 08:04:29 -0400
-Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com [185.132.182.106])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 50E26895CC
-        for <linux-media@vger.kernel.org>; Tue, 11 Oct 2022 05:04:24 -0700 (PDT)
-Received: from pps.filterd (m0288072.ppops.net [127.0.0.1])
-        by mx07-00178001.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 29B8Wjmd018631;
-        Tue, 11 Oct 2022 14:03:53 +0200
+        Tue, 11 Oct 2022 08:06:25 -0400
+Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com [91.207.212.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 26D2515716
+        for <linux-media@vger.kernel.org>; Tue, 11 Oct 2022 05:06:16 -0700 (PDT)
+Received: from pps.filterd (m0046660.ppops.net [127.0.0.1])
+        by mx07-00178001.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 29B8L3wa026261;
+        Tue, 11 Oct 2022 14:06:08 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=from : to : cc :
  subject : date : message-id : mime-version : content-transfer-encoding :
  content-type; s=selector1;
  bh=VaZOx4a0nMd2cmF4X7p+QEM0By51r1CGh1zYvfIKeAo=;
- b=Z2tG4mBrBw8ftGpjWIn9QPOVduQV4TYqYUWoCBmP5gwLNhebTrPKVHLonhxYuuMZrXsk
- DLU3GlFh8Qgh4p9CnPGtPUZTWOR5Rq2pcg5lT3jjN4TbjRTESP77RBAjl1UYGzpZs0Wc
- syv6RSYNZZFbALFE91zzxA3usn4uJrURAnMQsV5NvbNyBE6pmLNofjhA0U42CCgjfJQj
- I8sJ8DesQp/QdiUxvS5uPc4M/nqcZETVqQsGRrdS2xRyj2+EmVV6ZRSDELOItEY/omSG
- xn9XjYBE+AsBqLdUqd7u7lMJ/GEAQToDPb5zm6Ek3AmLYiH+Hi5XR2kWo5hwspSA3CiC hA== 
+ b=sN8GyeNHoaHdXhGBtrpzL58Vx9Y6rJWrVProhKudlqy6FrCSYh+2aER12wlcuE0/rXMq
+ aKXExpSl72B3xAwYe7e7Xj909Un8yz0G3YeXBhao2gps87ixr5bYsgh8PQKjHpF43jE0
+ 30NWnGOt9efGyqC/axfvJcXHu0Nw+GXjpaH9cBQqzOzzhGZIqdj/D39dtE8oV5pJEDM1
+ Ylot4244D52WhJkmnpVmFF0kG3rSJCaznGkI9/af2C41idvcsbWqDUadRMdodW8UX0Pz
+ fiZsVVmcW4mNi/2cRQZ4L0PIDfHkhbT66FlqHNJK+UQGNEhKSVUvU+wT7WBqSRP8NziG yg== 
 Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-        by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3k31exj0wr-1
+        by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3k4hweypbn-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 11 Oct 2022 14:03:53 +0200
+        Tue, 11 Oct 2022 14:06:08 +0200
 Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id BD6AB10002A;
-        Tue, 11 Oct 2022 14:03:47 +0200 (CEST)
+        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 1F7EF100034;
+        Tue, 11 Oct 2022 14:06:04 +0200 (CEST)
 Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
-        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id B0CAD2248DB;
-        Tue, 11 Oct 2022 14:03:47 +0200 (CEST)
-Received: from localhost (10.75.127.47) by SHFDAG1NODE1.st.com (10.75.129.69)
+        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 1A081214D1E;
+        Tue, 11 Oct 2022 14:06:04 +0200 (CEST)
+Received: from localhost (10.75.127.46) by SHFDAG1NODE1.st.com (10.75.129.69)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.1.2375.31; Tue, 11 Oct
- 2022 14:03:47 +0200
+ 2022 14:06:03 +0200
 From:   Benjamin Mugnier <benjamin.mugnier@foss.st.com>
 To:     <linux-media@vger.kernel.org>
 CC:     <alain.volmat@foss.st.com>, <hugues.fruchet@foss.st.com>,
@@ -51,13 +51,13 @@ CC:     <alain.volmat@foss.st.com>, <hugues.fruchet@foss.st.com>,
         <hverkuil@xs4all.nl>,
         Benjamin Mugnier <benjamin.mugnier@foss.st.com>
 Subject: [PATCH v7 0/5] media: Add ST VGXY61 camera sensor driver
-Date:   Tue, 11 Oct 2022 14:03:33 +0200
-Message-ID: <20221011120338.28327-1-benjamin.mugnier@foss.st.com>
+Date:   Tue, 11 Oct 2022 14:05:50 +0200
+Message-ID: <20221011120555.28889-1-benjamin.mugnier@foss.st.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Originating-IP: [10.75.127.47]
+X-Originating-IP: [10.75.127.46]
 X-ClientProxiedBy: SFHDAG2NODE3.st.com (10.75.127.6) To SHFDAG1NODE1.st.com
  (10.75.129.69)
 X-Proofpoint-Virus-Version: vendor=baseguard
