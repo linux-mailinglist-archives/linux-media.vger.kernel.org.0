@@ -2,144 +2,54 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8F71C5FC30E
-	for <lists+linux-media@lfdr.de>; Wed, 12 Oct 2022 11:28:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 34EBE5FC35D
+	for <lists+linux-media@lfdr.de>; Wed, 12 Oct 2022 12:01:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229748AbiJLJ2H (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 12 Oct 2022 05:28:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33646 "EHLO
+        id S229925AbiJLKBn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 12 Oct 2022 06:01:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37276 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229470AbiJLJ2G (ORCPT
+        with ESMTP id S229894AbiJLKBm (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 12 Oct 2022 05:28:06 -0400
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 62A6D6DFA4;
-        Wed, 12 Oct 2022 02:28:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1665566885; x=1697102885;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=qhjlf4VP4KU87PnsBPh/fqq0oXQyFaow7NJ5J2AW6zQ=;
-  b=rQXMSy6ivOk/YhlKcO/5DMuyYWRadeM9RtnjKzRsqN1SVUP+Nw7mZblK
-   02i9th/fOqkdja6MnBM+kvZqBPeO2vOcrKShoHb0PlrZDxvnMdmQhmOND
-   EQoqzmlmLuqFSoOjUmrl+B6iWgUgpOCvivzl+9AzB1BTTbhysmIIOCuiy
-   NdpoS7eD6q+OKBr3Gka135jKGFMMHLv84Wot3Pe1zXpKDTW+jgLNG9w7N
-   PBN2OSbKHysv68LC+o4ioy4vCfXxC6a1p8t1IinBP8E9nM9hOkm9GwvSN
-   I3ZWEiPXRyUfUZic1pDx1gIsrAwCPp1/DCA5pmHzW3WDfEPTvTgV/QqgX
-   g==;
-X-IronPort-AV: E=Sophos;i="5.95,178,1661842800"; 
-   d="scan'208";a="118159012"
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa6.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 12 Oct 2022 02:28:04 -0700
-Received: from chn-vm-ex04.mchp-main.com (10.10.85.152) by
- chn-vm-ex01.mchp-main.com (10.10.85.143) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.12; Wed, 12 Oct 2022 02:28:00 -0700
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (10.10.215.89) by
- email.microchip.com (10.10.87.151) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.12 via Frontend Transport; Wed, 12 Oct 2022 02:27:59 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=D4DX2KVt/QawKK88D/jXhukg4tyTQrp6u19xC3jKtttgQsAMPdPPFKrfQo5pazcReAjhy02QhhuRBHYpnl7A2vaTr7jwJQIdBxJNfSYyc91eg3tKHjDxoeJTiVdnk+p3i6+nJ4tMOd2TMHV9mRfgW83AKnwyB7AE+WH9ZG6QvDjOY/8q1+1XYYgTkWLv3dj93k3sUsHqMtvMbr8qISVSSDq7O0RDE0FmJDCDD1xoCSTlpvha8xVRkXFQFp8rwMDMGTM0IWhqASjTEi8U8a7UJDAgYF3Yttl/z1Mqhn5b8nYVyvpOrWIvFnX54DY/Bna75lFc0cS0NVEAKEJbdsm2ag==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=7iRhWY4TOUueHH+bPhzv6B4yeDWd1qauYA4MUMrBiXA=;
- b=MtL+Nm2Qu1Na8BMi57yPn4c7L9UdaknOKy4LvL7PhfBh7COZIR0AvpUy3+NUipxosl5EtoiLTP5gyCFGxNmaLAev2nzApOm01COoeOIsfLr0OFNY+YKWND0rQj6wUxSex1IOzqMTvyDfsNO+ZrdxJGu2mZHi6cHzfy7Y1Eiu4uzY/wpve8DIsYuRZYx/QBUKXj1AjZTZG61B3Xv/yDvIQdQ4fS4RMBcKbaBu5Fbbwv/9JUwhO+9a1f719RfLiPIMi5givANUi0NJTEyipAx2/KFlgiAhZ7cs8ORq+bzSQdSuOZaUHxR6lBxRMLacxuh8XSXIKWhHrwt8VofH41VwsA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=microchip.com; dmarc=pass action=none
- header.from=microchip.com; dkim=pass header.d=microchip.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=microchiptechnology.onmicrosoft.com;
- s=selector2-microchiptechnology-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=7iRhWY4TOUueHH+bPhzv6B4yeDWd1qauYA4MUMrBiXA=;
- b=P+kVnt2dDfA0XxOqseF4J5wuz4z1FMJ0aGNPiCzhkImd7fJJRNk9b9/SgOAb7NP1cqKBz48v9A1gPjA3u92GPyxE77YTucGKH1JP90GIM2cocfJzc/X0m66ag/FovFfG/dO8H+uuZ1l1AJARtoY2lElF0kRWIKE1GGJxRUT45QA=
-Received: from PH0PR11MB5611.namprd11.prod.outlook.com (2603:10b6:510:ed::9)
- by BL1PR11MB6027.namprd11.prod.outlook.com (2603:10b6:208:392::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5709.15; Wed, 12 Oct
- 2022 09:27:58 +0000
-Received: from PH0PR11MB5611.namprd11.prod.outlook.com
- ([fe80::f3c0:8863:2bf8:2f77]) by PH0PR11MB5611.namprd11.prod.outlook.com
- ([fe80::f3c0:8863:2bf8:2f77%9]) with mapi id 15.20.5709.022; Wed, 12 Oct 2022
- 09:27:58 +0000
-From:   <Shravan.Chippa@microchip.com>
-To:     <sakari.ailus@iki.fi>
-CC:     <paul.j.murphy@intel.com>, <daniele.alessandrelli@intel.com>,
-        <mchehab@kernel.org>, <linux-media@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <Conor.Dooley@microchip.com>,
-        <Prakash.Battu@microchip.com>
-Subject: RE: [PATCH v4] media: i2c: imx334: support lower bandwidth mode
-Thread-Topic: [PATCH v4] media: i2c: imx334: support lower bandwidth mode
-Thread-Index: AQHYzK9awxPJcnRsMkKQ3xMPRpeBzK3oO6wAgAjvzMCAAMuUgIAHULEggAHT6YCAD4HEwA==
-Date:   Wed, 12 Oct 2022 09:27:58 +0000
-Message-ID: <PH0PR11MB5611BE11C6F670971DCED30681229@PH0PR11MB5611.namprd11.prod.outlook.com>
-References: <20220920051023.12330-1-shravan.chippa@microchip.com>
- <YymuoFhxHBQLAicQ@valkosipuli.retiisi.eu>
- <PH0PR11MB56118BCE8F6B5E045485A71C81529@PH0PR11MB5611.namprd11.prod.outlook.com>
- <YzHYi2FQN1R+Ge4w@valkosipuli.retiisi.eu>
- <PH0PR11MB5611B27A6A2EFA9ABD79AB5E81599@PH0PR11MB5611.namprd11.prod.outlook.com>
- <YzmD+yNv0Ryj/8IC@valkosipuli.retiisi.eu>
-In-Reply-To: <YzmD+yNv0Ryj/8IC@valkosipuli.retiisi.eu>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=microchip.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: PH0PR11MB5611:EE_|BL1PR11MB6027:EE_
-x-ms-office365-filtering-correlation-id: 7df2b3a1-fc36-4ef9-e460-08daac340d00
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: q1lzu/WFWrf0w/OwVDiRrn3gYZewEoE1IZGouXLsnFhkO7VCZWVa6Gua5vkHJkNMoOSakq7rAZ4m1DA4cUYT2GHgHxpqkTUwqM59I49Z89w+iHUjgM21XMQcB8bGTQ1I3mAMdsyuRjyjMYtgdLHXDeofvEkTXX5ZG2+BSMEr11kOtpoOF50MxtjYkINFgcM38e8M9dEqqUAxXN/TX75Nc1aLSpJ1IZmhy4Sx8VvCwAmMKZrdcdCNXpNfM5DW3G75K4MDO+CknK9uIqLUX+KQfOq474EJMiaUJEeaWZmGbqlydhAhOlTc2FDHdR1s/9oNDTewhwbwALDl2Lg+Le7G+5Yjwq2MkjuyzJ1k2M9xdWTRCH7mo9MYFxq/RfNtw+ZoLLw73HvJwW+nCerugstB6tgLjDLlhUtMNI3dGJ7Whbcf6s7SWeCjF7fQWZn8h0inrg+MkZp/J/SQ34xUEnUFZBTaqA9o3l+YxUBcsqu3I47kIpKyFzCy3fn+V6X3wlCrz40wr02La1bVb7ZOCbeHqsMvqUFQNa9yRQlzaVdxq9Hh4i/aRSgn5Bd525NuDn5HVGBlf5KY9dCYw3IVgikuyxhHPFzaRmiOHOZ2CB6j7o5TX6JrIX1ki0WqMUVeKxS96R6L6PbWq2/v6ky+O1t6N7afkBxighRLn0QJlAue3Z/PqNFKRv0lr3V3vFdpqU6u4bfA7rydWsStVpmJvwiCwfUhM/O4Hr8T9e7Id2tBCkQbuMsNYqBXB7kcnYZimCgy60kwdfk2F2016NBizF8aSA==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR11MB5611.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(39860400002)(396003)(376002)(136003)(346002)(366004)(451199015)(55016003)(107886003)(26005)(53546011)(8936002)(86362001)(41300700001)(2906002)(5660300002)(4326008)(33656002)(66946007)(66556008)(66446008)(66476007)(64756008)(52536014)(76116006)(316002)(6916009)(54906003)(478600001)(8676002)(71200400001)(38070700005)(6506007)(122000001)(83380400001)(9686003)(38100700002)(7696005)(186003);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?zSZQEF0UB7Lh8e7IDsbBbpWtB8VwhrI7u2yJk7TCRZZ00/XlDA900nCHFg5M?=
- =?us-ascii?Q?ZedMVo98wFbD14ffRet7Ati68KIFg25FOLlSg0GbB4ccfLJr/IydtWR+7kxo?=
- =?us-ascii?Q?1svuSZgF8NjR+oSM4/l9HNOSPizgq2zWr+I4LNTM+3daWyUzVaOR/Dx8nDDn?=
- =?us-ascii?Q?ygqDUhoUaRBYRqdXhx9jTdqsFq0r5YyGFXGGZ0qytWPVOXyuXn/tKVH5Ucdo?=
- =?us-ascii?Q?58oKsz5HScw4EaujmNkTOzseNORSpShhN+61HmgMSWpmVUCiYPPQbzxSZ20A?=
- =?us-ascii?Q?8ntoAcDt9F6n3sHFn932JOSCwJeFNvd5AljpUxBS1nDgbx+VEGGlePNtmtbv?=
- =?us-ascii?Q?Hf/sj6RBP3UgCVDDB8Ohva3Q7w01e8fjKNgVOlbOJSdtjxXEEKp1mutOp0Y/?=
- =?us-ascii?Q?FVvpcsMBQTItMRL3SRaftcREsMz2Q7Sgf6jbByGmtCcy6FC0kDBOqDm4xi6b?=
- =?us-ascii?Q?HEU/Hh/qk0pt+1SZHCImhY14+VMdrw2was/fMBnHRYajNAx86duXbnHr/0zU?=
- =?us-ascii?Q?VQCrHbRiehDxuSjSlfhXy8TXLHURY2OKF1M2T0/AubWm2DEqUquh6zQvYkEE?=
- =?us-ascii?Q?zx37L7kXkFm7dd9eCJsJGM6tAKe8YfXWBIZe923kR1RikqVdeNyHIq15lVsI?=
- =?us-ascii?Q?J26rCiz83WoHYpY6husZtdTxzKJ6ktz+Xbjq3ZB+5UHSvuxY1xCg/p6UatT2?=
- =?us-ascii?Q?LQpBvWJz3fY1L08+I21drLX4D7hjmCwEu6R3oLNn0KiA3ZGg/Nh19G1J4mjF?=
- =?us-ascii?Q?8B3QnqKaMU4kL+84TSFDo6F9Ter+4m18sZD7hB7JkOqYFeufD6My+AgVXMxW?=
- =?us-ascii?Q?Z4rGeDQ+qYdJruZQWXirCj8Du8daO85nj01lQJsoEW7K6UnXyntz4ecPTCTu?=
- =?us-ascii?Q?t62nXJp3z/OHM+G+S60oDZD6zBVbLuhL6LjAAc15xm8WZZMJaB3jegnXYgCN?=
- =?us-ascii?Q?Hio8+ugb6/Ockp7YD9XClGab7lblViPePKdK91FIQju153SZIOqfXnncTlyF?=
- =?us-ascii?Q?Bil26XTdwEkBZozNUZ5RQShI5NSNk2tMctiZFY1rH1i0ASE4Oa56VKi363nI?=
- =?us-ascii?Q?+8cGf/Z/qxZaGOl/JatL+5oswMkofZhsNbtSTbQbiP1KEWpdKAbto8cCHZjG?=
- =?us-ascii?Q?GTBs51h2MhWcCjkEXpUOw4+aARnYWdRFZBLcQAmbJLE0hxKbOwCteX/buy85?=
- =?us-ascii?Q?Z05jkKWhFIJZWkl12fbT9FG4Y+bjjtFwyulotR5q/BSwJcypimC3+jpQNwuN?=
- =?us-ascii?Q?lufP1nX5JDShDMv3esEQ9Mq6BwGt46Bd/Ggdpwjym0x8WygC4dGQYcKertyt?=
- =?us-ascii?Q?AQPM9yEfPbiOsJsnS8EYbFhPUntMc18hrNXhEcjl/bfQz6oB7oWCWhH5rWcz?=
- =?us-ascii?Q?ox2ImaPqQT7yd4eLghZC6LCxJKfN6Tvkx1wens9U1pzbD75hT1XVq87vNisW?=
- =?us-ascii?Q?ZE13/AKxoS6tHNLyK/x5bmTCu18nkH7led6Ay7D6T59h3yUdsJYAwIysVsHo?=
- =?us-ascii?Q?9UmgbS5t3B8L+Cy5IxDI6kYR0p4mqFLmntvmf37xpgRcs8EsqDqBvsXY8Cz4?=
- =?us-ascii?Q?Rnr8OcQ+5wN/Zw5pNC0J2uqnd2D5fsTMBpvGdKqU?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        Wed, 12 Oct 2022 06:01:42 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 14789AE861
+        for <linux-media@vger.kernel.org>; Wed, 12 Oct 2022 03:01:36 -0700 (PDT)
+Received: from [192.168.1.15] (91-158-154-79.elisa-laajakaista.fi [91.158.154.79])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2E3974DB;
+        Wed, 12 Oct 2022 12:01:33 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1665568893;
+        bh=0Z72kk/V4kYIt+UFdsFe4qkiRRw/i4/qYjZXHkOk8gs=;
+        h=Date:Subject:To:References:From:In-Reply-To:From;
+        b=R4uQ7QKfehc0YeqD9LSwNOvI/kV0qVx22ZWe7/nJS+14eCNR7ZAKZyA1IsOEb7UBS
+         JeZPSr8uRxPNbyP9NArdvEd6wn9fsgE2Cvs+U+IvWQFRRdZbO410QZCYI4rW7GSFsT
+         oQIJudephTPFWqJeGIbPRlmaKdmK/Eix4DIFI79E=
+Message-ID: <bc575b8d-6d91-fffc-5674-fb2303366f42@ideasonboard.com>
+Date:   Wed, 12 Oct 2022 13:01:29 +0300
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR11MB5611.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7df2b3a1-fc36-4ef9-e460-08daac340d00
-X-MS-Exchange-CrossTenant-originalarrivaltime: 12 Oct 2022 09:27:58.2629
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3f4057f3-b418-4d4e-ba84-d55b4e897d88
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: LDViVAlQ221GZQCwE9Eum7D2+87VzgAok6GfGhtuqQSS/BhsNsY4/Ue4QGqmCADgf9PohU6cQFTT8dB3zRww2ike4LyQgq39qUOlC8xtFMY=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR11MB6027
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_PASS,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Subject: Re: [PATCH v15 04/19] media: Documentation: Add GS_ROUTING
+ documentation
+Content-Language: en-US
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        niklas.soderlund+renesas@ragnatech.se,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Kishon Vijay Abraham <kishon@ti.com>,
+        satish.nagireddy@getcruise.com, Tomasz Figa <tfiga@chromium.org>
+References: <20221003121852.616745-1-tomi.valkeinen@ideasonboard.com>
+ <20221003121852.616745-5-tomi.valkeinen@ideasonboard.com>
+ <2ea25584-de49-b311-14fe-8c430733bd7b@xs4all.nl>
+From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+In-Reply-To: <2ea25584-de49-b311-14fe-8c430733bd7b@xs4all.nl>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
         SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -147,52 +57,210 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-> -----Original Message-----
-> From: Sakari Ailus <sakari.ailus@iki.fi>
-> Sent: 02 October 2022 05:59 PM
-> To: shravan Chippa - I35088 <Shravan.Chippa@microchip.com>
-> Cc: paul.j.murphy@intel.com; daniele.alessandrelli@intel.com;
-> mchehab@kernel.org; linux-media@vger.kernel.org; linux-
-> kernel@vger.kernel.org; Conor Dooley - M52691
-> <Conor.Dooley@microchip.com>; Battu Prakash Reddy - I30399
-> <Prakash.Battu@microchip.com>
-> Subject: Re: [PATCH v4] media: i2c: imx334: support lower bandwidth mode
->=20
-> EXTERNAL EMAIL: Do not click links or open attachments unless you know th=
-e
-> content is safe
->=20
-> On Sat, Oct 01, 2022 at 08:51:46AM +0000, Shravan.Chippa@microchip.com
-> wrote:
-> > > > > > +     case MEDIA_BUS_FMT_SRGGB12_1X12:
-> > > > > > +             return imx334_write_regs(imx334,
-> > > > > > + raw12_framefmt_regs,
-> > > > > > +
-> > > > > > + ARRAY_SIZE(raw12_framefmt_regs));
-> > > > >
-> > > > > I think you'll also need changes to the pixel clock calculation.
-> > > > >
-> > > > In this driver pixel clock read only variable.
-> > > > Pixel clock change maybe in different series.
-> > >
-> > > Please address it in this patch.
-> > >
-> > > Is the link frequency affected by this patch as well?
-> >
-> > I will try to modify my patch with the default link frequency
-> > available in the driver
->=20
-> Also check the frequencies the driver enables will be available in link-
-> frequencies.
+Hi,
 
-This patch is not affecting the default link frequency 891Mbps with input c=
-lock frequency (24Mhz)
-I have cross-checked with the present supported 3840x2160 resolution and im=
-x334 UG.
+On 03/10/2022 17:31, Hans Verkuil wrote:
+> Hi Tomi,
+> 
+> On 10/3/22 14:18, Tomi Valkeinen wrote:
+>> From: Jacopo Mondi <jacopo+renesas@jmondi.org>
+>>
+>> Add documentation for VIDIOC_SUBDEV_G/S_ROUTING ioctl and add
+>> description of multiplexed media pads and internal routing to the
+>> V4L2-subdev documentation section.
+>>
+>> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+>> Reviewed-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+>> ---
+>>   .../userspace-api/media/v4l/dev-subdev.rst    |   2 +
+>>   .../userspace-api/media/v4l/user-func.rst     |   1 +
+>>   .../media/v4l/vidioc-subdev-g-routing.rst     | 155 ++++++++++++++++++
+>>   3 files changed, 158 insertions(+)
+>>   create mode 100644 Documentation/userspace-api/media/v4l/vidioc-subdev-g-routing.rst
+>>
+>> diff --git a/Documentation/userspace-api/media/v4l/dev-subdev.rst b/Documentation/userspace-api/media/v4l/dev-subdev.rst
+>> index fd1de0a73a9f..a67c2749089a 100644
+>> --- a/Documentation/userspace-api/media/v4l/dev-subdev.rst
+>> +++ b/Documentation/userspace-api/media/v4l/dev-subdev.rst
+>> @@ -29,6 +29,8 @@ will feature a character device node on which ioctls can be called to
+>>   
+>>   -  negotiate image formats on individual pads
+>>   
+>> +-  inspect and modify internal data routing between pads of the same entity
+>> +
+>>   Sub-device character device nodes, conventionally named
+>>   ``/dev/v4l-subdev*``, use major number 81.
+>>   
+>> diff --git a/Documentation/userspace-api/media/v4l/user-func.rst b/Documentation/userspace-api/media/v4l/user-func.rst
+>> index 53e604bd7d60..228c1521f190 100644
+>> --- a/Documentation/userspace-api/media/v4l/user-func.rst
+>> +++ b/Documentation/userspace-api/media/v4l/user-func.rst
+>> @@ -70,6 +70,7 @@ Function Reference
+>>       vidioc-subdev-g-crop
+>>       vidioc-subdev-g-fmt
+>>       vidioc-subdev-g-frame-interval
+>> +    vidioc-subdev-g-routing
+>>       vidioc-subdev-g-selection
+>>       vidioc-subdev-querycap
+>>       vidioc-subscribe-event
+>> diff --git a/Documentation/userspace-api/media/v4l/vidioc-subdev-g-routing.rst b/Documentation/userspace-api/media/v4l/vidioc-subdev-g-routing.rst
+>> new file mode 100644
+>> index 000000000000..6d8fc3b11352
+>> --- /dev/null
+>> +++ b/Documentation/userspace-api/media/v4l/vidioc-subdev-g-routing.rst
+>> @@ -0,0 +1,155 @@
+>> +.. SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later
+>> +.. c:namespace:: V4L
+>> +
+>> +.. _VIDIOC_SUBDEV_G_ROUTING:
+>> +
+>> +******************************************************
+>> +ioctl VIDIOC_SUBDEV_G_ROUTING, VIDIOC_SUBDEV_S_ROUTING
+>> +******************************************************
+>> +
+>> +Name
+>> +====
+>> +
+>> +VIDIOC_SUBDEV_G_ROUTING - VIDIOC_SUBDEV_S_ROUTING - Get or set routing between streams of media pads in a media entity.
+>> +
+>> +
+>> +Synopsis
+>> +========
+>> +
+>> +.. c:function:: int ioctl( int fd, VIDIOC_SUBDEV_G_ROUTING, struct v4l2_subdev_routing *argp )
+>> +    :name: VIDIOC_SUBDEV_G_ROUTING
+>> +
+>> +.. c:function:: int ioctl( int fd, VIDIOC_SUBDEV_S_ROUTING, struct v4l2_subdev_routing *argp )
+>> +    :name: VIDIOC_SUBDEV_S_ROUTING
+>> +
+>> +
+>> +Arguments
+>> +=========
+>> +
+>> +``fd``
+>> +    File descriptor returned by :ref:`open() <func-open>`.
+>> +
+>> +``argp``
+>> +    Pointer to struct :c:type:`v4l2_subdev_routing`.
+>> +
+>> +
+>> +Description
+>> +===========
+>> +
+>> +These ioctls are used to get and set the routing in a media entity.
+>> +The routing configuration determines the flows of data inside an entity.
+>> +
+>> +Drivers report their current routing tables using the
+>> +``VIDIOC_SUBDEV_G_ROUTING`` ioctl and application may enable or disable routes
+>> +with the ``VIDIOC_SUBDEV_S_ROUTING`` ioctl, by adding or removing routes and
+>> +setting or clearing flags of the  ``flags`` field of a
+>> +struct :c:type:`v4l2_subdev_route`.
+>> +
+>> +All stream configurations are reset when ``VIDIOC_SUBDEV_S_ROUTING`` is called. This
+>> +means that the userspace mut reconfigure all streams after calling the ioctl
+> 
+> typo: mut -> must
+> 
+>> +with e.g. ``VIDIOC_SUBDEV_S_FMT``.
+>> +
+>> +A special case for routing are routes marked with
+>> +``V4L2_SUBDEV_ROUTE_FL_SOURCE`` flag. These routes are used to describe
+>> +source endpoints on sensors and the sink fields are unused.
+> 
+> This is very vague. As mentioned in my review for 05/19 I think this flag should
+> be renamed to INTERNAL_SOURCE. Then the last sentence can change to:
+> 
+> "These routes are used to describe source endpoints where the stream is internally
+> created (such as a sensor) and so the sink fields are unused."
+> 
+>> +
+>> +When inspecting routes through ``VIDIOC_SUBDEV_G_ROUTING`` and the application
+>> +provided ``num_routes`` is not big enough to contain all the available routes
+>> +the subdevice exposes, drivers return the ENOSPC error code and adjust the
+>> +value of the ``num_routes`` field. Application should then reserve enough memory
+>> +for all the route entries and call ``VIDIOC_SUBDEV_G_ROUTING`` again.
+>> +
+>> +.. tabularcolumns:: |p{4.4cm}|p{4.4cm}|p{8.7cm}|
+>> +
+>> +.. c:type:: v4l2_subdev_routing
+>> +
+>> +.. flat-table:: struct v4l2_subdev_routing
+>> +    :header-rows:  0
+>> +    :stub-columns: 0
+>> +    :widths:       1 1 2
+>> +
+>> +    * - __u32
+>> +      - ``which``
+>> +      - Format to modified, from enum
+>> +        :ref:`v4l2_subdev_format_whence <v4l2-subdev-format-whence>`.
+>> +    * - struct :c:type:`v4l2_subdev_route`
+>> +      - ``routes[]``
+>> +      - Array of struct :c:type:`v4l2_subdev_route` entries
+>> +    * - __u32
+>> +      - ``num_routes``
+>> +      - Number of entries of the routes array
+>> +    * - __u32
+>> +      - ``reserved``\ [5]
+>> +      - Reserved for future extensions. Applications and drivers must set
+>> +	the array to zero.
+>> +
+>> +.. tabularcolumns:: |p{4.4cm}|p{4.4cm}|p{8.7cm}|
+>> +
+>> +.. c:type:: v4l2_subdev_route
+>> +
+>> +.. flat-table:: struct v4l2_subdev_route
+>> +    :header-rows:  0
+>> +    :stub-columns: 0
+>> +    :widths:       1 1 2
+>> +
+>> +    * - __u32
+>> +      - ``sink_pad``
+>> +      - Sink pad number.
+>> +    * - __u32
+>> +      - ``sink_stream``
+>> +      - Sink pad stream number.
+>> +    * - __u32
+>> +      - ``source_pad``
+>> +      - Source pad number.
+>> +    * - __u32
+>> +      - ``source_stream``
+>> +      - Source pad stream number.
+>> +    * - __u32
+>> +      - ``flags``
+>> +      - Route enable/disable flags
+>> +	:ref:`v4l2_subdev_routing_flags <v4l2-subdev-routing-flags>`.
+>> +    * - __u32
+>> +      - ``reserved``\ [5]
+>> +      - Reserved for future extensions. Applications and drivers must set
+>> +	the array to zero.
+>> +
+>> +.. tabularcolumns:: |p{6.6cm}|p{2.2cm}|p{8.7cm}|
+>> +
+>> +.. _v4l2-subdev-routing-flags:
+>> +
+>> +.. flat-table:: enum v4l2_subdev_routing_flags
+>> +    :header-rows:  0
+>> +    :stub-columns: 0
+>> +    :widths:       3 1 4
+>> +
+>> +    * - V4L2_SUBDEV_ROUTE_FL_ACTIVE
+>> +      - 0
+>> +      - The route is enabled. Set by applications.
+>> +    * - V4L2_SUBDEV_ROUTE_FL_IMMUTABLE
+>> +      - 1
+>> +      - The route is immutable. Set by the driver.
+>> +    * - V4L2_SUBDEV_ROUTE_FL_SOURCE
+>> +      - 2
+>> +      - The route is a source route, and the ``sink_pad`` and ``sink_stream``
+>> +        fields are unused. Set by the driver.
+> 
+> Same issue as above, it's very vague.
+> 
+> "Used to describe a route source endpoint where the stream is internally
+> created (such as a sensor) and so the sink fields are unused."
 
-Thanks,
-Shravan
+I think this and the above suggestion are good, I'll make the change.
 
->=20
-> --
-> Sakari Ailus
+  Tomi
+
