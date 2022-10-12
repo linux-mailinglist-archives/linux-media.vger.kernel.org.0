@@ -2,133 +2,391 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5C4A55FCB24
-	for <lists+linux-media@lfdr.de>; Wed, 12 Oct 2022 20:55:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7014D5FCB2C
+	for <lists+linux-media@lfdr.de>; Wed, 12 Oct 2022 20:56:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230044AbiJLSze (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 12 Oct 2022 14:55:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35924 "EHLO
+        id S229839AbiJLS43 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 12 Oct 2022 14:56:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36736 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230057AbiJLSzG (ORCPT
+        with ESMTP id S229569AbiJLS4G (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 12 Oct 2022 14:55:06 -0400
-Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [IPv6:2a0b:5c81:1c1::37])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED49624977
-        for <linux-media@vger.kernel.org>; Wed, 12 Oct 2022 11:54:58 -0700 (PDT)
-Received: from hillosipuli.retiisi.eu (82-181-192-243.bb.dnainternet.fi [82.181.192.243])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: sailus)
-        by lahtoruutu.iki.fi (Postfix) with ESMTPSA id D05581B0036A;
-        Wed, 12 Oct 2022 21:54:54 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
-        t=1665600895;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=gamqM9rQ7URLiGM1go0PxM2LXY4RqqxTgEABCVPazls=;
-        b=vj/UkM5S8kvcOqh2e+TiBNtuEq8EopkwK5pP9LbFEEn4VD4jPjRNj3C/DlC3OLYjLrLkXc
-        6oEwelZYLZjftnfaKuXqxUDFK5ExmaMqu+sDYBCj4vfSH95hDAiNkfNP7NkIrH5IZpyPc8
-        cFqXxalsCdfelbZ3qHJS8WtwN0Hw7pXhsSZ9cR/mLdb1nNwgVKSY9dQRgKwIayoKh6Vuvr
-        vGY24aVo3JAf+ffpRttG2GXOSVdtp+//ryepLixjD/sFcBwTK8RCE0hO05uM/xy3sgEKpY
-        1pLazFgD0uxuUQWU5E3yMLdMIpnBMHzfJAfiVvgi2LUXQgLBfU2DIjcqZpHzwQ==
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 66484634C93;
-        Wed, 12 Oct 2022 21:54:54 +0300 (EEST)
-Date:   Wed, 12 Oct 2022 21:54:54 +0300
-From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Krzysztof =?utf-8?Q?Ha=C5=82asa?= <khalasa@piap.pl>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org
-Subject: Re: [PATCH 02/10] media: ar0521: Add V4L2_CID_ANALOG_GAIN
-Message-ID: <Y0cNfkt4d5dzAN2i@valkosipuli.retiisi.eu>
-References: <20221005190613.394277-1-jacopo@jmondi.org>
- <20221005190613.394277-3-jacopo@jmondi.org>
- <CAPY8ntB48837t+UN_6k5DJ6QBJvgz0Ohc4w4=7044amrdCy1=A@mail.gmail.com>
- <20221006150015.7p7qlab4dbaldnsg@uno.localdomain>
- <Yz7u0LT2kwhyhc8x@pendragon.ideasonboard.com>
- <m3wn9c5hip.fsf@t19.piap.pl>
- <Yz/hPRyc13LmY3Lh@pendragon.ideasonboard.com>
+        Wed, 12 Oct 2022 14:56:06 -0400
+Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com [IPv6:2a00:1450:4864:20::52a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F15803FA3D;
+        Wed, 12 Oct 2022 11:55:54 -0700 (PDT)
+Received: by mail-ed1-x52a.google.com with SMTP id r14so11368084edc.7;
+        Wed, 12 Oct 2022 11:55:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=HVB6ZYTXUvLg/D/PHLwOskXsHA8JVr/HQ+MinTA/oK8=;
+        b=fZlrmklj1VesxLv2gq0SAZzmWe0r6DaFZOmox6WujoQAbtR8IpxJ1O2dSL2wrywfdT
+         umudUW7shlTPgER348TqX9Kewhbblv+mgt45kOpdRD+gjZ4DUWJNF5tXIaBaleZjX8/5
+         Kuxz1OxfBep3CsmtKFWRe7eHi6ojd4f6utfCQIhxGs48J/1hPrS8Wyqf+mk25x+KL1ye
+         65rkoL+6p44nRxs4XZnqPk818HSh3TUMsYzuedgahANH0EoqgNOuR0X2Lq/mLcPrB9uR
+         1aHJpDf/Lryf34XPYr4bqSmfJBuY223CMNyqmZ+YeVzVULf0SP8nxXMXUzxKR9tzZmSc
+         lEmA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=HVB6ZYTXUvLg/D/PHLwOskXsHA8JVr/HQ+MinTA/oK8=;
+        b=38u4Gt1/VQHtl9Va9NDzjm88NE23QGQF5HTHreNQL7U6Yz9mei2vUZzoBgReRkfIay
+         vmCnLF8aBMWVr+FAwxEqwLU8S1NMUJRe6fiUaAVw4MTW8iR/r+3lkOgAWUU8QEr0z0xR
+         O3P4THninM6z0nmyoTHOj8ae93HVuMHQJxO+qF0U4VLpvKcJjSE7xiZOOklf4FfD+YUM
+         BnpMhMuGuIQLnKVVdRmk5rik5qPtCUnMe80c0X0ySSjUPe3ww/4cEw5mv9vZ4Z7dyMzP
+         n8yk36DnrNxbMelx5IDDXT47ViB7eyfTq+LGVeSImRdIOcMJh/9270SHg/8UzNXJhou2
+         XsKg==
+X-Gm-Message-State: ACrzQf2rWWGRnA5gwFG//D8FhsTZoiGV85YvBYXTrjzAa0neohKwmwLW
+        xTC/6B58SsWuSDAHlMBCGoOojUj8EBMmz3d5URA=
+X-Google-Smtp-Source: AMsMyM7bh/aV4pHRcV6NpRU8yjGQWB83+0rDVN2nWli5zW92pfuvmVWDajmG36eY9rwedsYEY6W7BAiknzjS70XsZ2k=
+X-Received: by 2002:a05:6402:5485:b0:459:147a:d902 with SMTP id
+ fg5-20020a056402548500b00459147ad902mr29644202edb.263.1665600952970; Wed, 12
+ Oct 2022 11:55:52 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <Yz/hPRyc13LmY3Lh@pendragon.ideasonboard.com>
-ARC-Authentication-Results: i=1;
-        ORIGINATING;
-        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-        s=lahtoruutu; t=1665600895;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=gamqM9rQ7URLiGM1go0PxM2LXY4RqqxTgEABCVPazls=;
-        b=SMTr+07kGH393bN0irNmETQRURwaTBShnaOXm6LjzWT3D2jkyYqbaJ+tFh7LWq3phiSUR9
-        RuLqaDGFRPpUc1d00z1qTO78HUUkqfqIhae9YkikCd3Wv2P/IQ0WXfbJbmdjvQfevpLftw
-        NBKlcly4ZryQBa2QGTMvXRTckNmaVuhiIWTW3CYgRHiNZ0IgSJJigSX0YTWHW4aog8ZUpp
-        Jt0b27k2112vzdY+buPo75mo8LEC4A1tW226lFynDxsU9DLHi2zFfcAHzheinTv9JYnZV0
-        nNkHoVlIHbRtRVs6V3uouo/lfEkbtZoYdyTysHAMZOrJukA0RwC06WEbplU+5A==
-ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1665600895; a=rsa-sha256;
-        cv=none;
-        b=ViFSZ7w4C+xQm/Xz01X6HbIxhx09PhS5g5PAizzVPOuLnBK4nTfNIzL2VccI2fHuwXF+f5
-        48SCgRfn5tTGm5xdRIEHGf+QnaB/gGjgctEkRqTb4KFOyD46VxdeHAq0wwmovkqLa+WTEi
-        AzY08c5IXkP+3tsLvslPAZKp8nvr4uHXlXoJ+BZt8CawhBzfRggSuhY8CqIMMknCfpLwEW
-        /UE9+izJmEf4OhslYV76WcmtR+WYMNBk00CNGlD7O9fa3vbRdNWWcTwsra/Vmir4O/QiDl
-        PgdoUVdR+X0/U61wy8ei8s000w6UL8UBALN4l7k/eE2yV0YrXjH+KfXfyeDHNA==
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+References: <20220927201634.750141-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <Y0Ulvmyg8rBOPbRF@paasikivi.fi.intel.com> <CA+V-a8v6ZGC7Ea6zdWGcLVyyq2Q=pUb0C_OwHWjFqSmuo5f-ZA@mail.gmail.com>
+In-Reply-To: <CA+V-a8v6ZGC7Ea6zdWGcLVyyq2Q=pUb0C_OwHWjFqSmuo5f-ZA@mail.gmail.com>
+From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date:   Wed, 12 Oct 2022 19:55:25 +0100
+Message-ID: <CA+V-a8vkB=Fok5S-L_zLT+unxuuSJJk+pkeS52N_kcugCoeT6w@mail.gmail.com>
+Subject: Re: [PATCH] media: i2c: ov5645: Use runtime PM
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Shawn Tu <shawnx.tu@intel.com>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
+Hi Sakari,
 
-On Fri, Oct 07, 2022 at 11:20:13AM +0300, Laurent Pinchart wrote:
-> Hi Krzysztof,
-> 
-> On Fri, Oct 07, 2022 at 07:28:46AM +0200, Krzysztof Hałasa wrote:
-> > Laurent Pinchart writes:
-> > 
-> > > I'm tempted to drop support for the colour gains really, and turn the
-> > > V4L2_CID_GAIN into V4L2_CID_DIGITAL_GAIN. Digital colour gains can still
-> > > be useful on platforms that have no ISP, but I think we need an array of
-> > > gains in that case, not abusing V4L2_CID_RED_BALANCE and
-> > > V4L2_CID_BLUE_BALANCE. Any objection ?
-> > 
-> > I'm fine with spliting it into analog/digital as long as there is a way
-> > to set individual R/G/B (digital) gain values.
-> 
-> With the controls we have today in V4L2, we could map
-> V4L2_CID_RED_BALANCE and V4L2_CID_BLUE_BALANCE to the red and blue
-> digital gains, with V4L2_CID_DIGITAL_GAIN setting the global digital
-> gain.
-> 
-> I'm tempted to bite the bullet and define a new
-> V4L2_CID_DIGITAL_COLOR_GAINS control that would expose an array of
-> gains, but if we extend the API for that, I think we should also include
-> support for HDR at the same time, with at least T1/T2 sets of gains.
-> 
-> Sakari, any opinion ?
+On Tue, Oct 11, 2022 at 9:36 AM Lad, Prabhakar
+<prabhakar.csengg@gmail.com> wrote:
+>
+> Hi Sakari,
+>
+> Thanks for the review. That was quick.
+>
+> On Tue, Oct 11, 2022 at 9:14 AM Sakari Ailus
+> <sakari.ailus@linux.intel.com> wrote:
+> >
+> > Hi Prabhakar,
+> >
+> > Thanks for the patch. It's great to see drivers moving to runtime PM!
+> >
+> > On Tue, Sep 27, 2022 at 09:16:34PM +0100, Prabhakar wrote:
+> > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > >
+> > > Switch to using runtime PM for power management.
+> > >
+> > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > > ---
+> > >  drivers/media/i2c/Kconfig  |   2 +-
+> > >  drivers/media/i2c/ov5645.c | 135 +++++++++++++++++++------------------
+> > >  2 files changed, 69 insertions(+), 68 deletions(-)
+> > >
+> > > diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
+> > > index 7806d4b81716..c0edd1017fe8 100644
+> > > --- a/drivers/media/i2c/Kconfig
+> > > +++ b/drivers/media/i2c/Kconfig
+> > > @@ -459,7 +459,7 @@ config VIDEO_OV5640
+> > >  config VIDEO_OV5645
+> > >       tristate "OmniVision OV5645 sensor support"
+> > >       depends on OF
+> > > -     depends on I2C && VIDEO_DEV
+> > > +     depends on I2C && PM && VIDEO_DEV
+> > >       select MEDIA_CONTROLLER
+> > >       select VIDEO_V4L2_SUBDEV_API
+> > >       select V4L2_FWNODE
+> > > diff --git a/drivers/media/i2c/ov5645.c b/drivers/media/i2c/ov5645.c
+> > > index 81e4e87e1821..3c3b30338328 100644
+> > > --- a/drivers/media/i2c/ov5645.c
+> > > +++ b/drivers/media/i2c/ov5645.c
+> > > @@ -27,6 +27,7 @@
+> > >  #include <linux/module.h>
+> > >  #include <linux/of.h>
+> > >  #include <linux/of_graph.h>
+> > > +#include <linux/pm_runtime.h>
+> > >  #include <linux/regulator/consumer.h>
+> > >  #include <linux/slab.h>
+> > >  #include <linux/types.h>
+> > > @@ -108,7 +109,6 @@ struct ov5645 {
+> > >       u8 timing_tc_reg21;
+> > >
+> > >       struct mutex power_lock; /* lock to protect power state */
+> > > -     int power_count;
+> > >
+> > >       struct gpio_desc *enable_gpio;
+> > >       struct gpio_desc *rst_gpio;
+> > > @@ -635,8 +635,24 @@ static int ov5645_set_register_array(struct ov5645 *ov5645,
+> > >       return 0;
+> > >  }
+> > >
+> > > -static int ov5645_set_power_on(struct ov5645 *ov5645)
+> > > +static int ov5645_set_power_off(struct device *dev)
+> > >  {
+> > > +     struct v4l2_subdev *sd = dev_get_drvdata(dev);
+> > > +     struct ov5645 *ov5645 = to_ov5645(sd);
+> > > +
+> > > +     ov5645_write_reg(ov5645, OV5645_IO_MIPI_CTRL00, 0x58);
+> > > +     gpiod_set_value_cansleep(ov5645->rst_gpio, 1);
+> > > +     gpiod_set_value_cansleep(ov5645->enable_gpio, 0);
+> > > +     clk_disable_unprepare(ov5645->xclk);
+> > > +     regulator_bulk_disable(OV5645_NUM_SUPPLIES, ov5645->supplies);
+> > > +
+> > > +     return 0;
+> > > +}
+> > > +
+> > > +static int ov5645_set_power_on(struct device *dev)
+> > > +{
+> > > +     struct v4l2_subdev *sd = dev_get_drvdata(dev);
+> > > +     struct ov5645 *ov5645 = to_ov5645(sd);
+> > >       int ret;
+> > >
+> > >       ret = regulator_bulk_enable(OV5645_NUM_SUPPLIES, ov5645->supplies);
+> > > @@ -658,57 +674,19 @@ static int ov5645_set_power_on(struct ov5645 *ov5645)
+> > >
+> > >       msleep(20);
+> > >
+> > > -     return 0;
+> > > -}
+> > > -
+> > > -static void ov5645_set_power_off(struct ov5645 *ov5645)
+> > > -{
+> > > -     gpiod_set_value_cansleep(ov5645->rst_gpio, 1);
+> > > -     gpiod_set_value_cansleep(ov5645->enable_gpio, 0);
+> > > -     clk_disable_unprepare(ov5645->xclk);
+> > > -     regulator_bulk_disable(OV5645_NUM_SUPPLIES, ov5645->supplies);
+> > > -}
+> > > -
+> > > -static int ov5645_s_power(struct v4l2_subdev *sd, int on)
+> > > -{
+> > > -     struct ov5645 *ov5645 = to_ov5645(sd);
+> > > -     int ret = 0;
+> > > -
+> > > -     mutex_lock(&ov5645->power_lock);
+> > > -
+> > > -     /* If the power count is modified from 0 to != 0 or from != 0 to 0,
+> > > -      * update the power state.
+> > > -      */
+> > > -     if (ov5645->power_count == !on) {
+> > > -             if (on) {
+> > > -                     ret = ov5645_set_power_on(ov5645);
+> > > -                     if (ret < 0)
+> > > -                             goto exit;
+> > > -
+> > > -                     ret = ov5645_set_register_array(ov5645,
+> > > -                                     ov5645_global_init_setting,
+> > > +     ret = ov5645_set_register_array(ov5645, ov5645_global_init_setting,
+> > >                                       ARRAY_SIZE(ov5645_global_init_setting));
+> > > -                     if (ret < 0) {
+> > > -                             dev_err(ov5645->dev,
+> > > -                                     "could not set init registers\n");
+> > > -                             ov5645_set_power_off(ov5645);
+> > > -                             goto exit;
+> > > -                     }
+> > > -
+> > > -                     usleep_range(500, 1000);
+> > > -             } else {
+> > > -                     ov5645_write_reg(ov5645, OV5645_IO_MIPI_CTRL00, 0x58);
+> > > -                     ov5645_set_power_off(ov5645);
+> > > -             }
+> > > +     if (ret < 0) {
+> > > +             dev_err(ov5645->dev, "could not set init registers\n");
+> > > +             goto exit;
+> > >       }
+> > >
+> > > -     /* Update the power count. */
+> > > -     ov5645->power_count += on ? 1 : -1;
+> > > -     WARN_ON(ov5645->power_count < 0);
+> > > +     usleep_range(500, 1000);
+> > >
+> > > -exit:
+> > > -     mutex_unlock(&ov5645->power_lock);
+> > > +     return 0;
+> > >
+> > > +exit:
+> > > +     ov5645_set_power_off(dev);
+> > >       return ret;
+> > >  }
+> > >
+> > > @@ -795,7 +773,7 @@ static int ov5645_s_ctrl(struct v4l2_ctrl *ctrl)
+> > >       int ret;
+> > >
+> > >       mutex_lock(&ov5645->power_lock);
+> > > -     if (!ov5645->power_count) {
+> > > +     if (!pm_runtime_get_if_in_use(ov5645->dev)) {
+> > >               mutex_unlock(&ov5645->power_lock);
+> > >               return 0;
+> > >       }
+> > > @@ -827,6 +805,7 @@ static int ov5645_s_ctrl(struct v4l2_ctrl *ctrl)
+> > >               break;
+> > >       }
+> > >
+> > > +     pm_runtime_put_autosuspend(ov5645->dev);
+> > >       mutex_unlock(&ov5645->power_lock);
+> > >
+> > >       return ret;
+> > > @@ -991,6 +970,10 @@ static int ov5645_s_stream(struct v4l2_subdev *subdev, int enable)
+> > >       int ret;
+> > >
+> > >       if (enable) {
+> > > +             ret = pm_runtime_resume_and_get(ov5645->dev);
+> > > +             if (ret < 0)
+> > > +                     return ret;
+> > > +
+> > >               ret = ov5645_set_register_array(ov5645,
+> > >                                       ov5645->current_mode->data,
+> > >                                       ov5645->current_mode->data_size);
+> > > @@ -998,22 +981,22 @@ static int ov5645_s_stream(struct v4l2_subdev *subdev, int enable)
+> > >                       dev_err(ov5645->dev, "could not set mode %dx%d\n",
+> > >                               ov5645->current_mode->width,
+> > >                               ov5645->current_mode->height);
+> > > -                     return ret;
+> > > +                     goto err_rpm_put;
+> > >               }
+> > >               ret = v4l2_ctrl_handler_setup(&ov5645->ctrls);
+> > >               if (ret < 0) {
+> > >                       dev_err(ov5645->dev, "could not sync v4l2 controls\n");
+> > > -                     return ret;
+> > > +                     goto err_rpm_put;
+> > >               }
+> > >
+> > >               ret = ov5645_write_reg(ov5645, OV5645_IO_MIPI_CTRL00, 0x45);
+> > >               if (ret < 0)
+> > > -                     return ret;
+> > > +                     goto err_rpm_put;
+> > >
+> > >               ret = ov5645_write_reg(ov5645, OV5645_SYSTEM_CTRL0,
+> > >                                      OV5645_SYSTEM_CTRL0_START);
+> > >               if (ret < 0)
+> > > -                     return ret;
+> > > +                     goto err_rpm_put;
+> > >       } else {
+> > >               ret = ov5645_write_reg(ov5645, OV5645_IO_MIPI_CTRL00, 0x40);
+> > >               if (ret < 0)
+> > > @@ -1023,14 +1006,15 @@ static int ov5645_s_stream(struct v4l2_subdev *subdev, int enable)
+> > >                                      OV5645_SYSTEM_CTRL0_STOP);
+> > >               if (ret < 0)
+> > >                       return ret;
+> >
+> > Not a problem with this patch and should be addressed separately, but the
+> > caller will just call s_stream(0) and will ignore the return value. You
+> > could complain about the error but still should return 0 when disabling
+> > streaming.
+> >
+> OK, I will create a separate patch on top of this.
+>
+> > > +             pm_runtime_put(ov5645->dev);
+> > >       }
+> > >
+> > >       return 0;
+> > > -}
+> > >
+> > > -static const struct v4l2_subdev_core_ops ov5645_core_ops = {
+> > > -     .s_power = ov5645_s_power,
+> > > -};
+> > > +err_rpm_put:
+> > > +     pm_runtime_put(ov5645->dev);
+> > > +     return ret;
+> > > +}
+> > >
+> > >  static const struct v4l2_subdev_video_ops ov5645_video_ops = {
+> > >       .s_stream = ov5645_s_stream,
+> > > @@ -1046,7 +1030,6 @@ static const struct v4l2_subdev_pad_ops ov5645_subdev_pad_ops = {
+> > >  };
+> > >
+> > >  static const struct v4l2_subdev_ops ov5645_subdev_ops = {
+> > > -     .core = &ov5645_core_ops,
+> > >       .video = &ov5645_video_ops,
+> > >       .pad = &ov5645_subdev_pad_ops,
+> > >  };
+> > > @@ -1188,11 +1171,9 @@ static int ov5645_probe(struct i2c_client *client)
+> > >               goto free_ctrl;
+> > >       }
+> > >
+> > > -     ret = ov5645_s_power(&ov5645->sd, true);
+> > > -     if (ret < 0) {
+> > > -             dev_err(dev, "could not power up OV5645\n");
+> > > +     ret = ov5645_set_power_on(dev);
+> > > +     if (ret)
+> > >               goto free_entity;
+> > > -     }
+> > >
+> > >       ret = ov5645_read_reg(ov5645, OV5645_CHIP_ID_HIGH, &chip_id_high);
+> > >       if (ret < 0 || chip_id_high != OV5645_CHIP_ID_HIGH_BYTE) {
+> > > @@ -1209,12 +1190,16 @@ static int ov5645_probe(struct i2c_client *client)
+> > >
+> > >       dev_info(dev, "OV5645 detected at address 0x%02x\n", client->addr);
+> > >
+> > > +     pm_runtime_set_active(dev);
+> > > +     pm_runtime_get_noresume(dev);
+> > > +     pm_runtime_enable(dev);
+> > > +
+> > >       ret = ov5645_read_reg(ov5645, OV5645_AEC_PK_MANUAL,
+> > >                             &ov5645->aec_pk_manual);
+> > >       if (ret < 0) {
+> > >               dev_err(dev, "could not read AEC/AGC mode\n");
+> > >               ret = -ENODEV;
+> > > -             goto power_down;
+> > > +             goto err_pm_runtime;
+> > >       }
+> > >
+> > >       ret = ov5645_read_reg(ov5645, OV5645_TIMING_TC_REG20,
+> > > @@ -1222,7 +1207,7 @@ static int ov5645_probe(struct i2c_client *client)
+> > >       if (ret < 0) {
+> > >               dev_err(dev, "could not read vflip value\n");
+> > >               ret = -ENODEV;
+> > > -             goto power_down;
+> > > +             goto err_pm_runtime;
+> > >       }
+> > >
+> > >       ret = ov5645_read_reg(ov5645, OV5645_TIMING_TC_REG21,
+> > > @@ -1230,14 +1215,18 @@ static int ov5645_probe(struct i2c_client *client)
+> > >       if (ret < 0) {
+> > >               dev_err(dev, "could not read hflip value\n");
+> > >               ret = -ENODEV;
+> > > -             goto power_down;
+> > > +             goto err_pm_runtime;
+> > >       }
+> > >
+> > > -     ov5645_s_power(&ov5645->sd, false);
+> > > +     pm_runtime_set_autosuspend_delay(dev, 1000);
+> > > +     pm_runtime_use_autosuspend(dev);
+> > > +     pm_runtime_put_autosuspend(dev);
+> >
+> > You can also do this after registering async subdev. That allows removing
+> > err_pm_runtime label and the two lines below it.
+> >
+> Agreed, I'll move this after registering the subdev.
+>
+On a closer look, I can move the above after registering the subdev,
+but I can get rid of err_pm_runtime label as PM is enabled further up
+the code path to detect the senosr.
 
-Would you use multiple controls for that or just a single one?
+If you are OK with this i'll post a v2 along with the below two
+patches + the suggestions you mentioned earlier on this patch.
 
-The size of a matrix control is not changeable dynamically so I presume the
-driver would create as large control as needed, and program to hardware as
-much as needed.
+[0] https://patchwork.linuxtv.org/project/linux-media/patch/20220927202005.750621-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
+[1] https://patchwork.linuxtv.org/project/linux-media/patch/20220919153540.178732-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
 
--- 
-Regards,
-
-Sakari Ailus
+Cheers,
+Prabhakar
