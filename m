@@ -2,182 +2,223 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1FE575FC368
-	for <lists+linux-media@lfdr.de>; Wed, 12 Oct 2022 12:04:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 74B175FC3C4
+	for <lists+linux-media@lfdr.de>; Wed, 12 Oct 2022 12:31:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229825AbiJLKEw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 12 Oct 2022 06:04:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39574 "EHLO
+        id S229734AbiJLKbC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 12 Oct 2022 06:31:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37048 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229657AbiJLKEu (ORCPT
+        with ESMTP id S229761AbiJLKbA (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 12 Oct 2022 06:04:50 -0400
-Received: from mail-qt1-x82d.google.com (mail-qt1-x82d.google.com [IPv6:2607:f8b0:4864:20::82d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D0E511443;
-        Wed, 12 Oct 2022 03:04:47 -0700 (PDT)
-Received: by mail-qt1-x82d.google.com with SMTP id w3so2092168qtv.9;
-        Wed, 12 Oct 2022 03:04:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=R2uNoWDHy+GOry29L6DC1dXWZKJOzJDC9JxozJVSpGE=;
-        b=ZuAn0riuXHel9rEBKRhDJaphdwknBUsVfuUv/T2PqZwW+uHUs0jQAoNTggSP2xYvxV
-         AIPBHcfBEeKUY8XaTwBfDZ4rSHoMsN+0EmQWS+Q65k7ex3GR3DSFMtYWLj5CjjdFW5lS
-         H15Im9ztaYgi/pdTI+XTH4+61vil18OUHSI0xGSAcGYNKUvzy6F36vXqiFhOKG65c2tn
-         Hm9UqrwXHcz71mbsaS1jF9iuBu0ckjr5DhBRLVoVyj42mBo6ELsboWfCQHWyRGQ4tlaj
-         QaFlpQ5WtgjVo1xKNFF2bpP4chzh3RulgtzO05YqhYqIONKukzB/OS4NwSuMzh0mSuvU
-         pMLQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=R2uNoWDHy+GOry29L6DC1dXWZKJOzJDC9JxozJVSpGE=;
-        b=c251R7Jd2O3hbIAN527I1kvzRHu6QHTkG2ICV7ukZ0rYa9Phe+rMgEqQKRWmR/JDug
-         5QHqprc4I94QMq9ixicxhvYlxwXu4z75cJAj2qcFyVhNeUgsZX6+V1TDR+gDOnzaqrhh
-         J80qVRYt+pKyxi4tJxSxMbCA4pL/7uW7vsWM2dAx1BRG8/IMj5CpkBBXQK/0QQWtRjLq
-         IQ0GTMaUC/7hGrPuypXyNJ9VhUPaDeO36CoZIP7ZtaPdc3QgOSFL69sCvs9eCqQmE52R
-         LZgXN40CJtCsABB8a4mCXNuliZI/yx8UYfsVeGKJCw2o+swLEiyOVBkkyGxSZtS0tT+h
-         Ttrw==
-X-Gm-Message-State: ACrzQf1nfca33kUS/tUxRzkm9qtFNMtcB0SI1M3RQFZTi1e2lXHJ1sXq
-        qIYB3oBEcU/WzR51cZSukGmYJrGptQdM0SbiN6o=
-X-Google-Smtp-Source: AMsMyM5ie8LeIoK7BaYP5eKG5FZkx73UfHVDBrIIwi+8uhHlPAnlyvjeeFl/0Iy9XueA0qyfGOPRZ2XY3nQxTptpumo=
-X-Received: by 2002:ac8:7c43:0:b0:35c:cd8f:3da5 with SMTP id
- o3-20020ac87c43000000b0035ccd8f3da5mr23132665qtv.61.1665569086451; Wed, 12
- Oct 2022 03:04:46 -0700 (PDT)
+        Wed, 12 Oct 2022 06:31:00 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 55B435814A
+        for <linux-media@vger.kernel.org>; Wed, 12 Oct 2022 03:30:59 -0700 (PDT)
+Received: from [192.168.1.15] (91-158-154-79.elisa-laajakaista.fi [91.158.154.79])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id DD41A492;
+        Wed, 12 Oct 2022 12:30:56 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1665570657;
+        bh=H14mk6/p/Tkw8+ryJ2TedpXz4YtcByVPWoa4GrSXeZQ=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=gdgQLTWs/B9s1IMhv3FNg2rO9TlbDlXUEdC1CymR5CGqmOvTo0KzKFCx5EXIG+b4M
+         fvMk7dxJf8v3xF1HioCRa1WVGG05jWO0ZQ1AJDRM5mdCcb1fbiv2qWI0XOvFCYoqQ6
+         tn2ciYhdawLaaztRnLZr1j2f5os7C1SMOk1Mi/Rg=
+Message-ID: <dbe3ff30-df57-e981-90c1-3b917e9ee65f@ideasonboard.com>
+Date:   Wed, 12 Oct 2022 13:30:53 +0300
 MIME-Version: 1.0
-References: <20221010201453.77401-1-andriy.shevchenko@linux.intel.com> <0684f480-2092-d520-2c8e-bd9a2dca47e3@gmail.com>
-In-Reply-To: <0684f480-2092-d520-2c8e-bd9a2dca47e3@gmail.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Wed, 12 Oct 2022 13:04:10 +0300
-Message-ID: <CAHp75VdDjyUAZBTaoPOe5oA3f_5xRznAooq08=Eff4F1AZyVOQ@mail.gmail.com>
-Subject: Re: [rft, PATCH v2 00/36] pinctrl: Clean up and add missed headers
-To:     Florian Fainelli <f.fainelli@gmail.com>
-Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Marc Zyngier <maz@kernel.org>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        Kent Gibson <warthog618@gmail.com>,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Subject: Re: [PATCH 1/1] media: Documentation: Interaction between routes,
+ formats and selections
+Content-Language: en-US
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     linux-media@vger.kernel.org,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        niklas.soderlund+renesas@ragnatech.se,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Billy Tsai <billy_tsai@aspeedtech.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Chen-Yu Tsai <wenst@chromium.org>,
-        Claudiu Beznea <claudiu.beznea@microchip.com>,
-        Samuel Holland <samuel@sholland.org>,
-        Horatiu Vultur <horatiu.vultur@microchip.com>,
-        =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Phil Edworthy <phil.edworthy@renesas.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Fabien Dessenne <fabien.dessenne@foss.st.com>,
-        Prathamesh Shete <pshete@nvidia.com>,
-        Basavaraj Natikar <Basavaraj.Natikar@amd.com>,
-        linux-gpio@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-media@vger.kernel.org, linux-actions@lists.infradead.org,
-        linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org,
-        linux-rpi-kernel@lists.infradead.org, alsa-devel@alsa-project.org,
-        patches@opensource.cirrus.com, linux-mediatek@lists.infradead.org,
-        linux-mips@vger.kernel.org, linux-riscv@lists.infradead.org,
-        linux-omap@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-samsung-soc@vger.kernel.org,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Patrice Chotard <patrice.chotard@foss.st.com>,
-        =?UTF-8?Q?Andreas_F=C3=A4rber?= <afaerber@suse.de>,
-        Manivannan Sadhasivam <mani@kernel.org>,
-        Andrew Jeffery <andrew@aj.id.au>,
-        Joel Stanley <joel@jms.id.au>, Ray Jui <rjui@broadcom.com>,
-        Scott Branden <sbranden@broadcom.com>,
-        Broadcom internal kernel review list 
-        <bcm-kernel-feedback-list@broadcom.com>,
-        Charles Keepax <ckeepax@opensource.cirrus.com>,
-        Richard Fitzgerald <rf@opensource.cirrus.com>,
-        Dong Aisheng <aisheng.dong@nxp.com>,
-        Fabio Estevam <festevam@gmail.com>,
-        Shawn Guo <shawnguo@kernel.org>, Jacky Bai <ping.bai@nxp.com>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Andy Shevchenko <andy@kernel.org>,
-        Sean Wang <sean.wang@kernel.org>, Andrew Lunn <andrew@lunn.ch>,
-        Gregory Clement <gregory.clement@bootlin.com>,
-        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
-        Avi Fishman <avifishman70@gmail.com>,
-        Tomer Maimon <tmaimon77@gmail.com>,
-        Tali Perry <tali.perry1@gmail.com>,
-        Patrick Venture <venture@google.com>,
-        Nancy Yuen <yuenn@google.com>,
-        Benjamin Fair <benjaminfair@google.com>,
-        Ludovic Desroches <ludovic.desroches@microchip.com>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Paul Cercueil <paul@crapouillou.net>,
-        Damien Le Moal <damien.lemoal@wdc.com>,
-        Tony Lindgren <tony@atomide.com>,
-        Haojian Zhuang <haojian.zhuang@linaro.org>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Michal Simek <michal.simek@xilinx.com>,
-        Andy Gross <agross@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@somainline.org>,
-        Tomasz Figa <tomasz.figa@gmail.com>,
-        Sylwester Nawrocki <s.nawrocki@samsung.com>,
-        Alim Akhtar <alim.akhtar@samsung.com>,
-        Viresh Kumar <vireshk@kernel.org>,
-        Shiraz Hashim <shiraz.linux.kernel@gmail.com>, soc@kernel.org,
-        Orson Zhai <orsonzhai@gmail.com>,
-        Baolin Wang <baolin.wang@linux.alibaba.com>,
-        Chunyan Zhang <zhang.lyra@gmail.com>,
-        Emil Renner Berthing <kernel@esmil.dk>,
-        Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
-        Masami Hiramatsu <mhiramat@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Kishon Vijay Abraham <kishon@ti.com>,
+        satish.nagireddy@getcruise.com, Tomasz Figa <tfiga@chromium.org>
+References: <20221003121852.616745-10-tomi.valkeinen@ideasonboard.com>
+ <20221011104729.1058-1-sakari.ailus@linux.intel.com>
+From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+In-Reply-To: <20221011104729.1058-1-sakari.ailus@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Oct 11, 2022 at 11:56 PM Florian Fainelli <f.fainelli@gmail.com> wrote:
-> On 10/10/2022 1:14 PM, Andy Shevchenko wrote:
-> > Currently the header inclusion inside the pinctrl headers seems more arbitrary
-> > than logical. This series is basically out of two parts:
-> > - add missed headers to the pin control drivers / users
-> > - clean up the headers of pin control subsystem
-> >
-> > The idea is to have this series to be pulled after -rc1 by the GPIO and
-> > pin control subsystems, so all new drivers will utilize cleaned up headers
-> > of the pin control.
-> >
-> > Please, review and comment.
->
-> Did you really need to split this on a per-driver basis as opposed to
-> just a treewide drivers/pinctrl, drivers/media and drivers/gpiolib patch
-> set?
->
-> 36 patches seems needlessly high when 4 patches could have achieve the
-> same outcome.
+Hoi,
 
-I can combine them if maintainers ask for that, nevertheless for Intel
-pin control and GPIO drivers, which I care more about, I would like to
-leave as separate changes (easy to see in history what was done).
+On 11/10/2022 13:47, Sakari Ailus wrote:
+> Document how setting up routes interacts with formats and selections.
+> 
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> ---
+> Moi,
+> 
+> This could be added on top of the set.
+> 
+> Comments are welcome.
+> 
+>   .../userspace-api/media/v4l/dev-subdev.rst    | 48 ++++++++++++++-----
+>   1 file changed, 37 insertions(+), 11 deletions(-)
+> 
+> diff --git a/Documentation/userspace-api/media/v4l/dev-subdev.rst b/Documentation/userspace-api/media/v4l/dev-subdev.rst
+> index 5075b1828b32d..830235eb01598 100644
+> --- a/Documentation/userspace-api/media/v4l/dev-subdev.rst
+> +++ b/Documentation/userspace-api/media/v4l/dev-subdev.rst
+> @@ -406,6 +406,8 @@ pixel array is not rectangular but cross-shaped or round. The maximum
+>   size may also be smaller than the BOUNDS rectangle.
+>   
+>   
+> +.. _format-propagation:
+> +
+>   Order of configuration and format propagation
+>   ---------------------------------------------
+>   
+> @@ -507,12 +509,12 @@ source pads.
+>   Streams, multiplexed media pads and internal routing
+>   ----------------------------------------------------
+>   
+> -Commonly V4L2 subdevices support only separate video streams, that is, only a
+> -single stream can pass through a media link and a media pad. Thus each pad
+> -contains a format configuration for that single stream. In some cases a subdev
+> -can do stream processing and split a stream into two or compose two streams
+> -into one, but the inputs and outputs for the subdev are still a single stream
+> -per pad.
+> +Commonly V4L2 subdevices do not support multiple, unrelated video streams.
 
+I wonder if we should use some other word than "commonly", as it seems 
+pretty common nowadays that there is at least a embedded data. Should we 
+instead say, e.g., "Simple V4L2 subdevices..."
 
--- 
-With Best Regards,
-Andy Shevchenko
+> +Only a single stream can pass through a media link and a media
+
+This could be a continuation of the previous sentence: "... video 
+streams, and only a single stream..."
+
+> +pad. Thus each pad contains a format and selection configuration for that single stream.
+> +A subdev can do stream processing and split a stream into
+> +two or compose two streams into one, but the inputs and outputs for the
+> +subdev are still a single stream per pad.
+>   
+>   Some hardware, e.g. MIPI CSI-2, support multiplexed streams, that is, multiple
+>   data streams are transmitted on the same bus, which is represented by a media
+> @@ -539,15 +541,37 @@ streams from one end of the link to the other, and subdevices have routing
+>   tables which describe how the incoming streams from sink pads are routed to the
+>   source pads.
+>   
+> -A stream ID (often just "stream") is a media link-local identifier for a stream.
+> +A stream ID is a media link-local identifier for a stream.
+>   In other words, a particular stream ID must exist on both sides of a media
+>   link, but another stream ID can be used for the same stream at the other side
+> -of the subdevice.
+> +of the subdevice. The same stream ID is used to refer to the stream on
+> +both pads of the link on all ioctls operating on pads.
+>   
+>   A stream at a specific point in the media pipeline is identified with the
+> -subdev and a (pad, stream) pair. For subdevices that do not support
+> +subdev and a pad--stream pair. For subdevices that do not support
+
+Is there a double-dash on purpose?
+
+Btw, above you removed the "(often just "stream")", but here you use 
+"stream" instead of "stream ID".
+
+>   multiplexed streams the 'stream' is always 0.
+>   
+> +Interaction between routes, formats and selections
+> +^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> +
+> +The addition of routes to the V4L2 sub-device interface moves the
+> +sub-device formats and selections from pads to pad--stream pairs. Instead
+
+I guess it is, as you use it here also...
+
+> +of the sub-device wide merging of streams from all source pads towards all
+> +sink pads, this takes place separately for each route. The stream ID on
+> +the sink pad for each configured route is used to configure format and
+> +selections on the sink pad. Similarly, the stream ID on the source pad of
+> +each configured route is used to configure format and selections on the
+> +source pad.
+
+Hmm, "stream ID is used to configure format" sounds odd to me. The ioctl 
+is used to configure the format, but rather than using only pad ID to 
+identify the configuration target, you now use pad ID - stream ID pair.
+
+And is that just extra duplication above to talk separately about sink 
+and source sides? They don't matter here, the point is just the 
+pad-stream vs only pad.
+
+> +
+> +Any number of routes from streams on sink pads towards streams on source
+
+This also sounds a bit odd to me: "a route from a stream on a sink pad". 
+I think we're missing a word here which means the specific point of a 
+stream in the pipeline.
+
+I have suggested "stream endpoint", but it's not really an "end" point. 
+"Stream waypoint"? So you would configure a format to a subdev's stream 
+waypoint. And "Any number of routes from stream waypoints on sink pads 
+towards stream waypoints on source pads".
+
+So a "stream waypoint" would be a triplet of subdev-padID-streamID, or 
+just padID-streamID if the subdev is obvious.
+
+Even if we don't find a perfect or even a very good term for this, I 
+think we should just use something. Using just "stream" makes things 
+quite confusing, in my opinion.
+
+> +pads is allowed, to the extent supported by drivers. For every stream on a
+> +sink pad, however, only a single route is allowed.
+
+Hmm, why is that?
+
+> +
+> +Pad--stream pairs are not static but are replaced by calls to the
+> +:ref:`VIDIOC_SUBDEV_S_ROUTING <VIDIOC_SUBDEV_G_ROUTING>` ioctl. This also
+> +applies to stream format and selection configurations which that are
+
+Should that "applies to" be "affects the"?
+
+> +reverted to driver defaults.
+> +
+>   Configuring streams
+>   ^^^^^^^^^^^^^^^^^^^
+>   
+> @@ -565,8 +589,10 @@ Controller API <media_controller>`
+>   setting the routing table will reset all the stream configurations in a media
+>   entity.
+>   
+> -3) Configure streams. Each route endpoint must be configured
+
+Oh, here I seem to use "route endpoint".
+
+> -with :ref:`VIDIOC_SUBDEV_S_FMT <VIDIOC_SUBDEV_G_FMT>`.
+> +3) Configure formats and selections on routes. Each route is configured
+
+I'm not sure if we "configure formats on routes". Earlier I think we've 
+talked about configuring the streams (stream waypoints).
+
+> +separately as documented plain subdevices in :ref:`<format-propagation>`.
+
+Is there something missing from above? Or drop "plain subdevices"?
+
+> +The stream ID is set to the same stream ID used on sink and source pads of
+> +the :ref:`VIDIOC_SUBDEV_S_ROUTING <VIDIOC_SUBDEV_G_ROUTING>` ioctl.
+
+Yes. But I think this could be said more clearly if we have a good word 
+for the padID-streamID pair.
+
+  Tomi
+
