@@ -2,68 +2,82 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AC50B5FC6AA
-	for <lists+linux-media@lfdr.de>; Wed, 12 Oct 2022 15:41:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E2F175FC6CE
+	for <lists+linux-media@lfdr.de>; Wed, 12 Oct 2022 15:55:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229874AbiJLNlf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 12 Oct 2022 09:41:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57856 "EHLO
+        id S229729AbiJLNy6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 12 Oct 2022 09:54:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52552 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229543AbiJLNlc (ORCPT
+        with ESMTP id S229754AbiJLNyy (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 12 Oct 2022 09:41:32 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1BC6A3910E;
-        Wed, 12 Oct 2022 06:41:32 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id B3B2A61525;
-        Wed, 12 Oct 2022 13:41:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E212FC433D6;
-        Wed, 12 Oct 2022 13:41:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1665582091;
-        bh=gS9wxuRyVQOOebK7MIwLmtqB4zEv1W61TkcfnxFrAzY=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=VaPCfZrrRSpbp0FpZmR1OJ4MlXTMM58CVhb6JBzhst2KoQINIjDTsKQWs70AoHBvD
-         M3bC/U76FQYv5IWdX5jE/b+99vF002V9IJHUXShTnyBH3KxhdYLGlq5SnPpwvJEaIO
-         g+aj+AeUvIP1GdNd7dFgfUGjRkMGHKJESwegLjIZamG0JgzjA7MQT6IqKo67n3ZQYM
-         inTvLp4QLgLGjDYCe06AvlHXrh9a0jLXF4Kd/NXxU6MkBwsQBxkjT3D9E1dNFPeukW
-         JEVYEdoAsah/bqeMc5y3XiF9K5cDtR0wjjE9jrJhDzOpGj60odsNvUFKiKKTEXMScx
-         4EauRhKk9PsTg==
-Message-ID: <bfb59645-17fe-eba9-e244-9e5b639ce2dd@kernel.org>
-Date:   Wed, 12 Oct 2022 09:41:24 -0400
+        Wed, 12 Oct 2022 09:54:54 -0400
+Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com [IPv6:2607:f8b0:4864:20::1030])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AE65311A05;
+        Wed, 12 Oct 2022 06:54:50 -0700 (PDT)
+Received: by mail-pj1-x1030.google.com with SMTP id x1-20020a17090ab00100b001fda21bbc90so2038073pjq.3;
+        Wed, 12 Oct 2022 06:54:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=4W9PYnqE39FVIWPtx23Tk+GKt7RrA3d27Hf1sKJ7FqQ=;
+        b=UozGTu6YyIYkQQoEJ9mpP/ZP9EXBHkczxk9/ST0nwoYD5CXIifS1ksxnJ1z/XlD8Iv
+         DnXdQDc3QD5BBRt/elc/g3MpiMLgBMvz47ICmyWRQUwskodG72pwSD0FvOfnFwxR4gNT
+         0Nv0c1ZEd9a//beEgotrvzkxpjlIn11dOn3z2tb/KyektIxRp3AMw9k8NLnKlAlJMfAZ
+         ZW00APC6mm2Rgc0I9F6MtW+FIkz4pX/PUfBY7jV2tV/BJmcb7sxvPImZbSg5MEvkpS1A
+         VQqSmx00wjuq8wBY7o0koQO6OL1C+JRHOCj4nWqmVRt4CML82YQgP9dT0rzT4hrO952e
+         5MGA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=4W9PYnqE39FVIWPtx23Tk+GKt7RrA3d27Hf1sKJ7FqQ=;
+        b=SQhryKpLsYaX+V71pp5IBRS91fGROUxv/7os8zPiWHgrsgXKzeuG1h65Jj64zfWZF7
+         7IWKDWKmgKqZuUTkekP2/70ehkVv/MtkZPZTvesxMsSC7mN+na3607EqGVL9SsRBxFjU
+         FVWv6ZGoOiN5LAjzN6YaOmb9VKq9ondgpTxA1+7NNbQLWl0M6m+qyaPYjySpxdYiGfgy
+         WXgjgmyQWuPfwEgaEIPPGwtrAVnHxdQxO6ihwyPHrsYHr0MUr0P4ycIs0snez01/u9Zd
+         WYDeUz0NOYr5KhIzXviB+EcmGQ8eDE6CauVwSFOHg5dQBJ08MgvHkwChpVexFJp4YgAu
+         3OAA==
+X-Gm-Message-State: ACrzQf0IbnWsera2MGpRInyopnRNiIL6leMZLFxUL8vtXllgRpW9BRlE
+        FESDsb3b3u3wTjARLSj6nYc=
+X-Google-Smtp-Source: AMsMyM4GsOvqLbKi8bnipwZei9bul2eCxZ/xzZEAA7xagdE0qfFC/6Wvyu2i9hoIPRYsb/0vz6gCvA==
+X-Received: by 2002:a17:90a:f2c3:b0:20b:b75f:2f9e with SMTP id gt3-20020a17090af2c300b0020bb75f2f9emr5408380pjb.43.1665582890145;
+        Wed, 12 Oct 2022 06:54:50 -0700 (PDT)
+Received: from sol (110-174-58-111.static.tpgi.com.au. [110.174.58.111])
+        by smtp.gmail.com with ESMTPSA id s20-20020aa78bd4000000b00562f6df42f1sm8959924pfd.152.2022.10.12.06.54.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 12 Oct 2022 06:54:49 -0700 (PDT)
+Date:   Wed, 12 Oct 2022 21:54:39 +0800
+From:   Kent Gibson <warthog618@gmail.com>
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc:     Bartosz Golaszewski <brgl@bgdev.pl>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        linux-gpio@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-media@vger.kernel.org, linux-actions@lists.infradead.org,
+        linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org,
+        linux-rpi-kernel@lists.infradead.org, alsa-devel@alsa-project.org,
+        patches@opensource.cirrus.com, linux-mediatek@lists.infradead.org,
+        linux-mips@vger.kernel.org, linux-riscv@lists.infradead.org,
+        linux-omap@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-samsung-soc@vger.kernel.org
+Subject: Re: [PATCH v2 02/36] gpiolib: cdev: Add missed header(s)
+Message-ID: <Y0bHH06cbngWk4mH@sol>
+References: <20221010201453.77401-1-andriy.shevchenko@linux.intel.com>
+ <20221010201453.77401-3-andriy.shevchenko@linux.intel.com>
+ <Y0SyVwjDl7NGfTPn@sol>
+ <Y0bBXSHyxpdTGxoU@smile.fi.intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.2
-Subject: Re: [Patch v3 01/15] dt-bindings: media: s5p-mfc: Add new DT schema
- for MFC
-Content-Language: en-US
-To:     Rob Herring <robh@kernel.org>,
-        aakarsh jain <aakarsh.jain@samsung.com>
-Cc:     linux-fsd@tesla.com, linux-media@vger.kernel.org,
-        pankaj.dubey@samsung.com, linux-arm-kernel@lists.infradead.org,
-        dillon.minfei@gmail.com, devicetree@vger.kernel.org,
-        krzk+dt@kernel.org, smitha.t@samsung.com,
-        benjamin.gaignard@collabora.com, stanimir.varbanov@linaro.org,
-        jernej.skrabec@gmail.com, robh+dt@kernel.org,
-        aswani.reddy@samsung.com, mchehab@kernel.org,
-        hverkuil-cisco@xs4all.nl, mark.rutland@arm.com,
-        m.szyprowski@samsung.com, linux-kernel@vger.kernel.org,
-        alim.akhtar@samsung.com, andi@etezian.org, andrzej.hajda@intel.com,
-        ezequiel@vanguardiasur.com.ar, david.plowman@raspberrypi.com
-References: <20221011122516.32135-1-aakarsh.jain@samsung.com>
- <CGME20221011125142epcas5p13c858a5f27830fb1de50fa51e9730eca@epcas5p1.samsung.com>
- <20221011122516.32135-2-aakarsh.jain@samsung.com>
- <166558064414.1937173.2124012536890566845.robh@kernel.org>
-From:   Krzysztof Kozlowski <krzk@kernel.org>
-In-Reply-To: <166558064414.1937173.2124012536890566845.robh@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-7.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS autolearn=ham
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Y0bBXSHyxpdTGxoU@smile.fi.intel.com>
+X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -71,34 +85,46 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 12/10/2022 09:19, Rob Herring wrote:
-> On Tue, 11 Oct 2022 17:55:02 +0530, aakarsh jain wrote:
->> From: Smitha T Murthy <smitha.t@samsung.com>
->>
->> Convert DT schema for s5p-mfc in yaml format
->>
->> Cc: linux-fsd@tesla.com
->> Signed-off-by: Smitha T Murthy <smitha.t@samsung.com>
->> Signed-off-by: Aakarsh Jain <aakarsh.jain@samsung.com>
->> ---
->>  .../devicetree/bindings/media/s5p-mfc.txt     |  75 --------
->>  .../bindings/media/samsung,s5p-mfc.yaml       | 163 ++++++++++++++++++
->>  2 files changed, 163 insertions(+), 75 deletions(-)
->>  create mode 100644 Documentation/devicetree/bindings/media/samsung,s5p-mfc.yaml
->>
+On Wed, Oct 12, 2022 at 04:30:05PM +0300, Andy Shevchenko wrote:
+> On Tue, Oct 11, 2022 at 08:01:27AM +0800, Kent Gibson wrote:
+> > On Mon, Oct 10, 2022 at 11:14:18PM +0300, Andy Shevchenko wrote:
 > 
-> Running 'make dtbs_check' with the schema in this patch gives the
-> following warnings. Consider if they are expected or the schema is
-> incorrect. These may not be new warnings.
+> ...
 > 
-> Note that it is not yet a requirement to have 0 warnings for dtbs_check.
-> This will change in the future.
+> > > -#include <linux/gpio.h>
+> > >  #include <linux/gpio/driver.h>
+> > > +#include <linux/gpio.h>
 > 
-> Full log is available here: https://patchwork.ozlabs.org/patch/
+> > But moving the gpio subsystem header after the gpio/driver is not
+> > alphabetical ('.' precedes '/') and it read better and made more sense
+> > to me the way it was.
+> 
+> Okay, I will move it back.
+> 
+> ...
+> 
+> > > +#include <linux/seq_file.h>
+> > 
+> > I wasn't aware that we use anything from seq_file.
+> > What am I missing?
+> 
+> 
+> Eventually I can answer to your question: the commit 0ae3109a8391
+> ("gpiolib: cdev: add fdinfo output for line request file descriptors")
+> is what you are missing.
+> 
+> That said, we need this patch.
 > 
 
-All these must be fixed before schema can be applied.
+Ah, yes - totally forgot that one is in flight.
+That makes sense then.
 
-Best regards,
-Krzysztof
+With the gpio headers retaining their original order:
 
+Rewiewed-by: Kent Gibson <warthog618@gmail.com>
+
+> -- 
+> With Best Regards,
+> Andy Shevchenko
+> 
+> 
