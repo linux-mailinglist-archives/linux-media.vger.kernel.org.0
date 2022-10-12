@@ -2,391 +2,118 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7014D5FCB2C
-	for <lists+linux-media@lfdr.de>; Wed, 12 Oct 2022 20:56:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8A09F5FCB40
+	for <lists+linux-media@lfdr.de>; Wed, 12 Oct 2022 21:02:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229839AbiJLS43 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 12 Oct 2022 14:56:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36736 "EHLO
+        id S229889AbiJLTCG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 12 Oct 2022 15:02:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54794 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229569AbiJLS4G (ORCPT
+        with ESMTP id S229899AbiJLTCE (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 12 Oct 2022 14:56:06 -0400
-Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com [IPv6:2a00:1450:4864:20::52a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F15803FA3D;
-        Wed, 12 Oct 2022 11:55:54 -0700 (PDT)
-Received: by mail-ed1-x52a.google.com with SMTP id r14so11368084edc.7;
-        Wed, 12 Oct 2022 11:55:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=HVB6ZYTXUvLg/D/PHLwOskXsHA8JVr/HQ+MinTA/oK8=;
-        b=fZlrmklj1VesxLv2gq0SAZzmWe0r6DaFZOmox6WujoQAbtR8IpxJ1O2dSL2wrywfdT
-         umudUW7shlTPgER348TqX9Kewhbblv+mgt45kOpdRD+gjZ4DUWJNF5tXIaBaleZjX8/5
-         Kuxz1OxfBep3CsmtKFWRe7eHi6ojd4f6utfCQIhxGs48J/1hPrS8Wyqf+mk25x+KL1ye
-         65rkoL+6p44nRxs4XZnqPk818HSh3TUMsYzuedgahANH0EoqgNOuR0X2Lq/mLcPrB9uR
-         1aHJpDf/Lryf34XPYr4bqSmfJBuY223CMNyqmZ+YeVzVULf0SP8nxXMXUzxKR9tzZmSc
-         lEmA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=HVB6ZYTXUvLg/D/PHLwOskXsHA8JVr/HQ+MinTA/oK8=;
-        b=38u4Gt1/VQHtl9Va9NDzjm88NE23QGQF5HTHreNQL7U6Yz9mei2vUZzoBgReRkfIay
-         vmCnLF8aBMWVr+FAwxEqwLU8S1NMUJRe6fiUaAVw4MTW8iR/r+3lkOgAWUU8QEr0z0xR
-         O3P4THninM6z0nmyoTHOj8ae93HVuMHQJxO+qF0U4VLpvKcJjSE7xiZOOklf4FfD+YUM
-         BnpMhMuGuIQLnKVVdRmk5rik5qPtCUnMe80c0X0ySSjUPe3ww/4cEw5mv9vZ4Z7dyMzP
-         n8yk36DnrNxbMelx5IDDXT47ViB7eyfTq+LGVeSImRdIOcMJh/9270SHg/8UzNXJhou2
-         XsKg==
-X-Gm-Message-State: ACrzQf2rWWGRnA5gwFG//D8FhsTZoiGV85YvBYXTrjzAa0neohKwmwLW
-        xTC/6B58SsWuSDAHlMBCGoOojUj8EBMmz3d5URA=
-X-Google-Smtp-Source: AMsMyM7bh/aV4pHRcV6NpRU8yjGQWB83+0rDVN2nWli5zW92pfuvmVWDajmG36eY9rwedsYEY6W7BAiknzjS70XsZ2k=
-X-Received: by 2002:a05:6402:5485:b0:459:147a:d902 with SMTP id
- fg5-20020a056402548500b00459147ad902mr29644202edb.263.1665600952970; Wed, 12
- Oct 2022 11:55:52 -0700 (PDT)
+        Wed, 12 Oct 2022 15:02:04 -0400
+X-Greylist: delayed 35708 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 12 Oct 2022 12:02:02 PDT
+Received: from meesny.iki.fi (meesny.iki.fi [195.140.195.201])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E3B3A22BD0
+        for <linux-media@vger.kernel.org>; Wed, 12 Oct 2022 12:02:02 -0700 (PDT)
+Received: from hillosipuli.retiisi.eu (82-181-192-243.bb.dnainternet.fi [82.181.192.243])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: sailus)
+        by meesny.iki.fi (Postfix) with ESMTPSA id 92EDD203BE;
+        Wed, 12 Oct 2022 22:02:00 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
+        t=1665601320;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=qvsGcvatRJhuIhRIso4XTTrVj7h45my1d2kQf4Cw3xc=;
+        b=bes8fZFsR0GkhV/Vlj4clFrpnOtxU1TYOYBafsuCBpJi/w7c/S6cbSnnUCIRLvht5Q3nRW
+        7jt90THw0hFLpjH22ZCNcmvgnaizWHWayqOBss70Qx9+4xfkfUSe9x3/oHQmQtgTMLcFPT
+        H19hsG1AupmzFVuC+Dc50BAOH0k0HXU=
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 475F3634C93;
+        Wed, 12 Oct 2022 22:02:00 +0300 (EEST)
+Date:   Wed, 12 Oct 2022 22:02:00 +0300
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Jacopo Mondi <jacopo@jmondi.org>,
+        Krzysztof =?utf-8?Q?Ha=C5=82asa?= <khalasa@piap.pl>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH 04/10] media: ar0521: Rework PLL computation
+Message-ID: <Y0cPKNN90wA6Bsrh@valkosipuli.retiisi.eu>
+References: <20221005190613.394277-1-jacopo@jmondi.org>
+ <20221005190613.394277-5-jacopo@jmondi.org>
+ <Y0Av8cjapldZhA96@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-References: <20220927201634.750141-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <Y0Ulvmyg8rBOPbRF@paasikivi.fi.intel.com> <CA+V-a8v6ZGC7Ea6zdWGcLVyyq2Q=pUb0C_OwHWjFqSmuo5f-ZA@mail.gmail.com>
-In-Reply-To: <CA+V-a8v6ZGC7Ea6zdWGcLVyyq2Q=pUb0C_OwHWjFqSmuo5f-ZA@mail.gmail.com>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Wed, 12 Oct 2022 19:55:25 +0100
-Message-ID: <CA+V-a8vkB=Fok5S-L_zLT+unxuuSJJk+pkeS52N_kcugCoeT6w@mail.gmail.com>
-Subject: Re: [PATCH] media: i2c: ov5645: Use runtime PM
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Shawn Tu <shawnx.tu@intel.com>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Y0Av8cjapldZhA96@pendragon.ideasonboard.com>
+ARC-Authentication-Results: i=1;
+        ORIGINATING;
+        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Seal: i=1; s=meesny; d=iki.fi; t=1665601320; a=rsa-sha256; cv=none;
+        b=KjsizHQeeEob1F0cydKZTNcTmOzHDuesZ2Wzkc/FHM+Cfeq4q2A1FKv8jDQprVaiBq1RJy
+        xCHJlcfrgVx70cZd6K0QFvJAJXERB1iGDpKxJN3rQRPkQHSN9udLeuVpvqDVL9aZcIfBDt
+        ikTYQVqr9nnAUGOrum1Pjv6tg17RyvY=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+        s=meesny; t=1665601320;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=qvsGcvatRJhuIhRIso4XTTrVj7h45my1d2kQf4Cw3xc=;
+        b=FrhqAF3bUFC0lNphWQZJaEGdFqMoLeRbbc63Kd90Cop2TI6bOUoZlw+oSYhEdrfafJH3fL
+        32qH66PVkKQqSlZF1Qq5+MwG+UdU0ZVhG9tjigo9FKpVsX6WX9JhNltvvB4/PHzmHxQs+f
+        FFxOR0jO+/KGaF2K3auWnXcMkSLatXk=
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sakari,
+Hi Laurent,
 
-On Tue, Oct 11, 2022 at 9:36 AM Lad, Prabhakar
-<prabhakar.csengg@gmail.com> wrote:
->
-> Hi Sakari,
->
-> Thanks for the review. That was quick.
->
-> On Tue, Oct 11, 2022 at 9:14 AM Sakari Ailus
-> <sakari.ailus@linux.intel.com> wrote:
-> >
-> > Hi Prabhakar,
-> >
-> > Thanks for the patch. It's great to see drivers moving to runtime PM!
-> >
-> > On Tue, Sep 27, 2022 at 09:16:34PM +0100, Prabhakar wrote:
-> > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > >
-> > > Switch to using runtime PM for power management.
-> > >
-> > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > > ---
-> > >  drivers/media/i2c/Kconfig  |   2 +-
-> > >  drivers/media/i2c/ov5645.c | 135 +++++++++++++++++++------------------
-> > >  2 files changed, 69 insertions(+), 68 deletions(-)
-> > >
-> > > diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
-> > > index 7806d4b81716..c0edd1017fe8 100644
-> > > --- a/drivers/media/i2c/Kconfig
-> > > +++ b/drivers/media/i2c/Kconfig
-> > > @@ -459,7 +459,7 @@ config VIDEO_OV5640
-> > >  config VIDEO_OV5645
-> > >       tristate "OmniVision OV5645 sensor support"
-> > >       depends on OF
-> > > -     depends on I2C && VIDEO_DEV
-> > > +     depends on I2C && PM && VIDEO_DEV
-> > >       select MEDIA_CONTROLLER
-> > >       select VIDEO_V4L2_SUBDEV_API
-> > >       select V4L2_FWNODE
-> > > diff --git a/drivers/media/i2c/ov5645.c b/drivers/media/i2c/ov5645.c
-> > > index 81e4e87e1821..3c3b30338328 100644
-> > > --- a/drivers/media/i2c/ov5645.c
-> > > +++ b/drivers/media/i2c/ov5645.c
-> > > @@ -27,6 +27,7 @@
-> > >  #include <linux/module.h>
-> > >  #include <linux/of.h>
-> > >  #include <linux/of_graph.h>
-> > > +#include <linux/pm_runtime.h>
-> > >  #include <linux/regulator/consumer.h>
-> > >  #include <linux/slab.h>
-> > >  #include <linux/types.h>
-> > > @@ -108,7 +109,6 @@ struct ov5645 {
-> > >       u8 timing_tc_reg21;
-> > >
-> > >       struct mutex power_lock; /* lock to protect power state */
-> > > -     int power_count;
-> > >
-> > >       struct gpio_desc *enable_gpio;
-> > >       struct gpio_desc *rst_gpio;
-> > > @@ -635,8 +635,24 @@ static int ov5645_set_register_array(struct ov5645 *ov5645,
-> > >       return 0;
-> > >  }
-> > >
-> > > -static int ov5645_set_power_on(struct ov5645 *ov5645)
-> > > +static int ov5645_set_power_off(struct device *dev)
-> > >  {
-> > > +     struct v4l2_subdev *sd = dev_get_drvdata(dev);
-> > > +     struct ov5645 *ov5645 = to_ov5645(sd);
-> > > +
-> > > +     ov5645_write_reg(ov5645, OV5645_IO_MIPI_CTRL00, 0x58);
-> > > +     gpiod_set_value_cansleep(ov5645->rst_gpio, 1);
-> > > +     gpiod_set_value_cansleep(ov5645->enable_gpio, 0);
-> > > +     clk_disable_unprepare(ov5645->xclk);
-> > > +     regulator_bulk_disable(OV5645_NUM_SUPPLIES, ov5645->supplies);
-> > > +
-> > > +     return 0;
-> > > +}
-> > > +
-> > > +static int ov5645_set_power_on(struct device *dev)
-> > > +{
-> > > +     struct v4l2_subdev *sd = dev_get_drvdata(dev);
-> > > +     struct ov5645 *ov5645 = to_ov5645(sd);
-> > >       int ret;
-> > >
-> > >       ret = regulator_bulk_enable(OV5645_NUM_SUPPLIES, ov5645->supplies);
-> > > @@ -658,57 +674,19 @@ static int ov5645_set_power_on(struct ov5645 *ov5645)
-> > >
-> > >       msleep(20);
-> > >
-> > > -     return 0;
-> > > -}
-> > > -
-> > > -static void ov5645_set_power_off(struct ov5645 *ov5645)
-> > > -{
-> > > -     gpiod_set_value_cansleep(ov5645->rst_gpio, 1);
-> > > -     gpiod_set_value_cansleep(ov5645->enable_gpio, 0);
-> > > -     clk_disable_unprepare(ov5645->xclk);
-> > > -     regulator_bulk_disable(OV5645_NUM_SUPPLIES, ov5645->supplies);
-> > > -}
-> > > -
-> > > -static int ov5645_s_power(struct v4l2_subdev *sd, int on)
-> > > -{
-> > > -     struct ov5645 *ov5645 = to_ov5645(sd);
-> > > -     int ret = 0;
-> > > -
-> > > -     mutex_lock(&ov5645->power_lock);
-> > > -
-> > > -     /* If the power count is modified from 0 to != 0 or from != 0 to 0,
-> > > -      * update the power state.
-> > > -      */
-> > > -     if (ov5645->power_count == !on) {
-> > > -             if (on) {
-> > > -                     ret = ov5645_set_power_on(ov5645);
-> > > -                     if (ret < 0)
-> > > -                             goto exit;
-> > > -
-> > > -                     ret = ov5645_set_register_array(ov5645,
-> > > -                                     ov5645_global_init_setting,
-> > > +     ret = ov5645_set_register_array(ov5645, ov5645_global_init_setting,
-> > >                                       ARRAY_SIZE(ov5645_global_init_setting));
-> > > -                     if (ret < 0) {
-> > > -                             dev_err(ov5645->dev,
-> > > -                                     "could not set init registers\n");
-> > > -                             ov5645_set_power_off(ov5645);
-> > > -                             goto exit;
-> > > -                     }
-> > > -
-> > > -                     usleep_range(500, 1000);
-> > > -             } else {
-> > > -                     ov5645_write_reg(ov5645, OV5645_IO_MIPI_CTRL00, 0x58);
-> > > -                     ov5645_set_power_off(ov5645);
-> > > -             }
-> > > +     if (ret < 0) {
-> > > +             dev_err(ov5645->dev, "could not set init registers\n");
-> > > +             goto exit;
-> > >       }
-> > >
-> > > -     /* Update the power count. */
-> > > -     ov5645->power_count += on ? 1 : -1;
-> > > -     WARN_ON(ov5645->power_count < 0);
-> > > +     usleep_range(500, 1000);
-> > >
-> > > -exit:
-> > > -     mutex_unlock(&ov5645->power_lock);
-> > > +     return 0;
-> > >
-> > > +exit:
-> > > +     ov5645_set_power_off(dev);
-> > >       return ret;
-> > >  }
-> > >
-> > > @@ -795,7 +773,7 @@ static int ov5645_s_ctrl(struct v4l2_ctrl *ctrl)
-> > >       int ret;
-> > >
-> > >       mutex_lock(&ov5645->power_lock);
-> > > -     if (!ov5645->power_count) {
-> > > +     if (!pm_runtime_get_if_in_use(ov5645->dev)) {
-> > >               mutex_unlock(&ov5645->power_lock);
-> > >               return 0;
-> > >       }
-> > > @@ -827,6 +805,7 @@ static int ov5645_s_ctrl(struct v4l2_ctrl *ctrl)
-> > >               break;
-> > >       }
-> > >
-> > > +     pm_runtime_put_autosuspend(ov5645->dev);
-> > >       mutex_unlock(&ov5645->power_lock);
-> > >
-> > >       return ret;
-> > > @@ -991,6 +970,10 @@ static int ov5645_s_stream(struct v4l2_subdev *subdev, int enable)
-> > >       int ret;
-> > >
-> > >       if (enable) {
-> > > +             ret = pm_runtime_resume_and_get(ov5645->dev);
-> > > +             if (ret < 0)
-> > > +                     return ret;
-> > > +
-> > >               ret = ov5645_set_register_array(ov5645,
-> > >                                       ov5645->current_mode->data,
-> > >                                       ov5645->current_mode->data_size);
-> > > @@ -998,22 +981,22 @@ static int ov5645_s_stream(struct v4l2_subdev *subdev, int enable)
-> > >                       dev_err(ov5645->dev, "could not set mode %dx%d\n",
-> > >                               ov5645->current_mode->width,
-> > >                               ov5645->current_mode->height);
-> > > -                     return ret;
-> > > +                     goto err_rpm_put;
-> > >               }
-> > >               ret = v4l2_ctrl_handler_setup(&ov5645->ctrls);
-> > >               if (ret < 0) {
-> > >                       dev_err(ov5645->dev, "could not sync v4l2 controls\n");
-> > > -                     return ret;
-> > > +                     goto err_rpm_put;
-> > >               }
-> > >
-> > >               ret = ov5645_write_reg(ov5645, OV5645_IO_MIPI_CTRL00, 0x45);
-> > >               if (ret < 0)
-> > > -                     return ret;
-> > > +                     goto err_rpm_put;
-> > >
-> > >               ret = ov5645_write_reg(ov5645, OV5645_SYSTEM_CTRL0,
-> > >                                      OV5645_SYSTEM_CTRL0_START);
-> > >               if (ret < 0)
-> > > -                     return ret;
-> > > +                     goto err_rpm_put;
-> > >       } else {
-> > >               ret = ov5645_write_reg(ov5645, OV5645_IO_MIPI_CTRL00, 0x40);
-> > >               if (ret < 0)
-> > > @@ -1023,14 +1006,15 @@ static int ov5645_s_stream(struct v4l2_subdev *subdev, int enable)
-> > >                                      OV5645_SYSTEM_CTRL0_STOP);
-> > >               if (ret < 0)
-> > >                       return ret;
-> >
-> > Not a problem with this patch and should be addressed separately, but the
-> > caller will just call s_stream(0) and will ignore the return value. You
-> > could complain about the error but still should return 0 when disabling
-> > streaming.
-> >
-> OK, I will create a separate patch on top of this.
->
-> > > +             pm_runtime_put(ov5645->dev);
-> > >       }
-> > >
-> > >       return 0;
-> > > -}
-> > >
-> > > -static const struct v4l2_subdev_core_ops ov5645_core_ops = {
-> > > -     .s_power = ov5645_s_power,
-> > > -};
-> > > +err_rpm_put:
-> > > +     pm_runtime_put(ov5645->dev);
-> > > +     return ret;
-> > > +}
-> > >
-> > >  static const struct v4l2_subdev_video_ops ov5645_video_ops = {
-> > >       .s_stream = ov5645_s_stream,
-> > > @@ -1046,7 +1030,6 @@ static const struct v4l2_subdev_pad_ops ov5645_subdev_pad_ops = {
-> > >  };
-> > >
-> > >  static const struct v4l2_subdev_ops ov5645_subdev_ops = {
-> > > -     .core = &ov5645_core_ops,
-> > >       .video = &ov5645_video_ops,
-> > >       .pad = &ov5645_subdev_pad_ops,
-> > >  };
-> > > @@ -1188,11 +1171,9 @@ static int ov5645_probe(struct i2c_client *client)
-> > >               goto free_ctrl;
-> > >       }
-> > >
-> > > -     ret = ov5645_s_power(&ov5645->sd, true);
-> > > -     if (ret < 0) {
-> > > -             dev_err(dev, "could not power up OV5645\n");
-> > > +     ret = ov5645_set_power_on(dev);
-> > > +     if (ret)
-> > >               goto free_entity;
-> > > -     }
-> > >
-> > >       ret = ov5645_read_reg(ov5645, OV5645_CHIP_ID_HIGH, &chip_id_high);
-> > >       if (ret < 0 || chip_id_high != OV5645_CHIP_ID_HIGH_BYTE) {
-> > > @@ -1209,12 +1190,16 @@ static int ov5645_probe(struct i2c_client *client)
-> > >
-> > >       dev_info(dev, "OV5645 detected at address 0x%02x\n", client->addr);
-> > >
-> > > +     pm_runtime_set_active(dev);
-> > > +     pm_runtime_get_noresume(dev);
-> > > +     pm_runtime_enable(dev);
-> > > +
-> > >       ret = ov5645_read_reg(ov5645, OV5645_AEC_PK_MANUAL,
-> > >                             &ov5645->aec_pk_manual);
-> > >       if (ret < 0) {
-> > >               dev_err(dev, "could not read AEC/AGC mode\n");
-> > >               ret = -ENODEV;
-> > > -             goto power_down;
-> > > +             goto err_pm_runtime;
-> > >       }
-> > >
-> > >       ret = ov5645_read_reg(ov5645, OV5645_TIMING_TC_REG20,
-> > > @@ -1222,7 +1207,7 @@ static int ov5645_probe(struct i2c_client *client)
-> > >       if (ret < 0) {
-> > >               dev_err(dev, "could not read vflip value\n");
-> > >               ret = -ENODEV;
-> > > -             goto power_down;
-> > > +             goto err_pm_runtime;
-> > >       }
-> > >
-> > >       ret = ov5645_read_reg(ov5645, OV5645_TIMING_TC_REG21,
-> > > @@ -1230,14 +1215,18 @@ static int ov5645_probe(struct i2c_client *client)
-> > >       if (ret < 0) {
-> > >               dev_err(dev, "could not read hflip value\n");
-> > >               ret = -ENODEV;
-> > > -             goto power_down;
-> > > +             goto err_pm_runtime;
-> > >       }
-> > >
-> > > -     ov5645_s_power(&ov5645->sd, false);
-> > > +     pm_runtime_set_autosuspend_delay(dev, 1000);
-> > > +     pm_runtime_use_autosuspend(dev);
-> > > +     pm_runtime_put_autosuspend(dev);
-> >
-> > You can also do this after registering async subdev. That allows removing
-> > err_pm_runtime label and the two lines below it.
-> >
-> Agreed, I'll move this after registering the subdev.
->
-On a closer look, I can move the above after registering the subdev,
-but I can get rid of err_pm_runtime label as PM is enabled further up
-the code path to detect the senosr.
+On Fri, Oct 07, 2022 at 04:56:01PM +0300, Laurent Pinchart wrote:
+> Hi Jacopo,
+> 
+> Thank you for the patch.
+> 
+> On Wed, Oct 05, 2022 at 09:06:07PM +0200, Jacopo Mondi wrote:
+> > Rework the PLL computation procedure to take into account the currently
+> > configured format bpp and the number of data lanes.
+> > 
+> > Comment the PLL configuration procedure with information provided by the
+> > sensor chip manual and remove the hardcoded divider from the pixel clock
+> > calculation.
+> > 
+> > The PLL configuration procedure has been verified by forcing a pixel
+> > rate of 414 MHz and verify that the effective output pixel rate matches
+> > the expected 60 frames per second.
+> 
+> This is the kind of code that would benefit from testing with kunit.
+> 
+> > Do not modify the default pixel rate for the moment as it will be made
+> > configurable through V4L2_CID_LINK_FREQ in subsequent patches.
+> > 
+> > Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
+> 
+> I think we should extract the PLL calculation code from the CCS driver
+> into a library. Sakari ? :-)
 
-If you are OK with this i'll post a v2 along with the below two
-patches + the suggestions you mentioned earlier on this patch.
+It already is a module. I think there is another driver using it, written
+by you. :-)
 
-[0] https://patchwork.linuxtv.org/project/linux-media/patch/20220927202005.750621-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
-[1] https://patchwork.linuxtv.org/project/linux-media/patch/20220919153540.178732-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
+Some PLLs are as in CCS but there are different ones, too, especially in
+Omnivision sensors. Sometimes CCS PLL calculator can be used on non-CCS sensors
+by fixing one of the multipliers or divisors to 1.
 
-Cheers,
-Prabhakar
+-- 
+Sakari Ailus
