@@ -2,103 +2,160 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C26815FC5B8
-	for <lists+linux-media@lfdr.de>; Wed, 12 Oct 2022 14:58:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E762E5FC646
+	for <lists+linux-media@lfdr.de>; Wed, 12 Oct 2022 15:19:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229808AbiJLM6X (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 12 Oct 2022 08:58:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51506 "EHLO
+        id S229875AbiJLNTy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 12 Oct 2022 09:19:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38772 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229788AbiJLM6W (ORCPT
+        with ESMTP id S229785AbiJLNTt (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 12 Oct 2022 08:58:22 -0400
-Received: from mail-qv1-xf2a.google.com (mail-qv1-xf2a.google.com [IPv6:2607:f8b0:4864:20::f2a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B725FB9783
-        for <linux-media@vger.kernel.org>; Wed, 12 Oct 2022 05:58:20 -0700 (PDT)
-Received: by mail-qv1-xf2a.google.com with SMTP id z18so10825100qvn.6
-        for <linux-media@vger.kernel.org>; Wed, 12 Oct 2022 05:58:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=TnfLH1uWZM93WnOCm/j3uIYB90yqvfJmq8bZxGsy+kc=;
-        b=bH9us0saWKJQhA1kWT+vjoJW/+MSU1ic6wzQjV9QVFsbI3TcBrQuuJZh3xjEm4f81/
-         eAGrKd/w5yeMAeReTuqMd7v/KkHwN3FV3fyfR9uJejV6DwvTrW4RGK0cvn2ibR3CQ6fQ
-         IaB66scH892vFJSAK1xZ+4vFs5J46bMJI5pcjdfZbJAXmLF4+DOkDBvjJ5hA/PUlDu2a
-         oDIEyD6mdc33E5LDd5iZ951AzEkN3m7lXBv8fC00ap3yF2/Cm3KDoKqnSEoIPk0RSIpz
-         ABQMK3GOtNd5cluoYOYpu4Odo+f3xbPGHhLFKaX0lKXldZF33B4bSGAF9VfMEOmEBDR0
-         XwtA==
+        Wed, 12 Oct 2022 09:19:49 -0400
+Received: from mail-oo1-f42.google.com (mail-oo1-f42.google.com [209.85.161.42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C61C3EE22;
+        Wed, 12 Oct 2022 06:19:43 -0700 (PDT)
+Received: by mail-oo1-f42.google.com with SMTP id g15-20020a4a894f000000b0047f8e899623so12119072ooi.5;
+        Wed, 12 Oct 2022 06:19:43 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
+        h=date:subject:message-id:references:in-reply-to:cc:to:from
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=TnfLH1uWZM93WnOCm/j3uIYB90yqvfJmq8bZxGsy+kc=;
-        b=L07+tXWn6Y5RXKJCe4Cpv9tmQ1EOxT8kWZ6x5waGGTOsmp6V7v3jA2pMqD8X49wUtz
-         K3mlIA8pu0lteNwE43kLIzNPbR+Ukuiekkl3kktr4oOY9rDBhdPcOmYV5KBeB/Ns1gyX
-         j08xeMAw/wcaoq34keA95VIGr/nX6d1EOF+Ft1/GMnsTFAE+hNLZWnqzkvl/OFfUmtlY
-         v/KLeigjc47bXgqe3dKKUpx0wHJW0pPxXq9maQJHdM518J82/m/Yc46XlFcjm59aYcQ1
-         bPhAogq3qaJUO9VYsKxeQN19GOvVsr3CXpvkZMjE0pbF/yyUjcOAnDa+VV1X4H/YIhNI
-         sunw==
-X-Gm-Message-State: ACrzQf2IjBm5AOqgxXYTDxT97P+2mMRa+aU/VAdGWoum/az0nA4Ji5q3
-        y7Cr9S8GeAabEL8u9bbAA3XfzQ==
-X-Google-Smtp-Source: AMsMyM4g/HhyeEiE7hqMEnGkibS/RP//a3WhquctLtW5wccxFEO5/bzMLDqE97UGNpAEEYvXTcrcQg==
-X-Received: by 2002:a0c:e04e:0:b0:4b1:cae6:4b0a with SMTP id y14-20020a0ce04e000000b004b1cae64b0amr22874277qvk.121.1665579499909;
-        Wed, 12 Oct 2022 05:58:19 -0700 (PDT)
-Received: from [192.168.1.57] (cpe-72-225-192-120.nyc.res.rr.com. [72.225.192.120])
-        by smtp.gmail.com with ESMTPSA id u10-20020a05620a430a00b006e702033b15sm15449244qko.66.2022.10.12.05.58.18
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 12 Oct 2022 05:58:19 -0700 (PDT)
-Message-ID: <be6586ab-8a4e-91cd-cc30-81d49e6d4616@linaro.org>
-Date:   Wed, 12 Oct 2022 08:58:17 -0400
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.2
-Subject: Re: [Patch v3 02/15] dt-bindings: media: s5p-mfc: Add mfcv12 variant
-Content-Language: en-US
-To:     aakarsh jain <aakarsh.jain@samsung.com>,
-        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
-Cc:     m.szyprowski@samsung.com, andrzej.hajda@intel.com,
-        mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
-        ezequiel@vanguardiasur.com.ar, jernej.skrabec@gmail.com,
+        bh=vK3/2ktgZFYxmk6D2dAbFjGlvGPsnMW8mq4UIJV60gw=;
+        b=X3/pJ1KMDZpjoEORfIEzwpZibCaaufimt1q5kxt9kWrA+aut65ZIq+uzUtNtHtwoBt
+         t3G/E4u3UpL9QVlgS2b43sXpE2Nu5UCn2VQY75TKQp28Z6WKKWYvzQ0qdoyvPZoLbww2
+         aaukCGRloxGdoI9AagW0deDiAmPWG7lwmeviroGg1vC37G4HcDizZK+6lI6mv8WMYWl8
+         7vC9e9xZUHJo309h/2qC5qbg7EgZPcedm7M9wtvi6CEH8EXRyi47F6ZSqK8vhqifD/iV
+         u/6aPA2Z/ioHXWBZib5If8TQOKTOcXh0fnzOOFM48Irzj573cOrPiL8abZtIavgoZ40m
+         KJnQ==
+X-Gm-Message-State: ACrzQf1gYYAmx6e81dBNBsADiZ4ncwj+lhrKuv8oiQeVsazhgCgmT5RM
+        P08mzCwTTPjooqx42S3Clw==
+X-Google-Smtp-Source: AMsMyM4IrNGXQTD0hDlqbYMLetA/d6BTgR/0gu4wgW2iciejDR0oJA3WkrTBrQIuJMT1xDM2vVBC3A==
+X-Received: by 2002:a9d:4808:0:b0:661:b220:cb5b with SMTP id c8-20020a9d4808000000b00661b220cb5bmr3070570otf.370.1665580782513;
+        Wed, 12 Oct 2022 06:19:42 -0700 (PDT)
+Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id c28-20020a056830349c00b00660fe564e12sm6436095otu.58.2022.10.12.06.19.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 12 Oct 2022 06:19:42 -0700 (PDT)
+Received: (nullmailer pid 1941576 invoked by uid 1000);
+        Wed, 12 Oct 2022 13:19:39 -0000
+From:   Rob Herring <robh@kernel.org>
+To:     aakarsh jain <aakarsh.jain@samsung.com>
+Cc:     linux-fsd@tesla.com, linux-media@vger.kernel.org,
+        pankaj.dubey@samsung.com, linux-arm-kernel@lists.infradead.org,
+        dillon.minfei@gmail.com, devicetree@vger.kernel.org,
+        krzk+dt@kernel.org, smitha.t@samsung.com,
         benjamin.gaignard@collabora.com, stanimir.varbanov@linaro.org,
-        dillon.minfei@gmail.com, david.plowman@raspberrypi.com,
-        mark.rutland@arm.com, robh+dt@kernel.org, krzk+dt@kernel.org,
-        andi@etezian.org, alim.akhtar@samsung.com,
-        aswani.reddy@samsung.com, pankaj.dubey@samsung.com,
-        linux-fsd@tesla.com, smitha.t@samsung.com
-References: <20221011122516.32135-1-aakarsh.jain@samsung.com>
- <CGME20221011125145epcas5p4f9d2656c8b91d7bb6a51989afa49120d@epcas5p4.samsung.com>
- <20221011122516.32135-3-aakarsh.jain@samsung.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20221011122516.32135-3-aakarsh.jain@samsung.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+        jernej.skrabec@gmail.com, robh+dt@kernel.org,
+        aswani.reddy@samsung.com, mchehab@kernel.org,
+        hverkuil-cisco@xs4all.nl, mark.rutland@arm.com,
+        m.szyprowski@samsung.com, linux-kernel@vger.kernel.org,
+        alim.akhtar@samsung.com, andi@etezian.org, andrzej.hajda@intel.com,
+        ezequiel@vanguardiasur.com.ar, david.plowman@raspberrypi.com
+In-Reply-To: <20221011122516.32135-2-aakarsh.jain@samsung.com>
+References: <20221011122516.32135-1-aakarsh.jain@samsung.com>        <CGME20221011125142epcas5p13c858a5f27830fb1de50fa51e9730eca@epcas5p1.samsung.com> <20221011122516.32135-2-aakarsh.jain@samsung.com>
+Message-Id: <166558064414.1937173.2124012536890566845.robh@kernel.org>
+Subject: Re: [Patch v3 01/15] dt-bindings: media: s5p-mfc: Add new DT schema for MFC
+Date:   Wed, 12 Oct 2022 08:19:39 -0500
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
+        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 11/10/2022 08:25, aakarsh jain wrote:
+On Tue, 11 Oct 2022 17:55:02 +0530, aakarsh jain wrote:
 > From: Smitha T Murthy <smitha.t@samsung.com>
 > 
-> Add Tesla FSD MFC(MFC v12) compatible.
+> Convert DT schema for s5p-mfc in yaml format
+> 
+> Cc: linux-fsd@tesla.com
+> Signed-off-by: Smitha T Murthy <smitha.t@samsung.com>
+> Signed-off-by: Aakarsh Jain <aakarsh.jain@samsung.com>
+> ---
+>  .../devicetree/bindings/media/s5p-mfc.txt     |  75 --------
+>  .../bindings/media/samsung,s5p-mfc.yaml       | 163 ++++++++++++++++++
+>  2 files changed, 163 insertions(+), 75 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/media/samsung,s5p-mfc.yaml
+> 
+
+Running 'make dtbs_check' with the schema in this patch gives the
+following warnings. Consider if they are expected or the schema is
+incorrect. These may not be new warnings.
+
+Note that it is not yet a requirement to have 0 warnings for dtbs_check.
+This will change in the future.
+
+Full log is available here: https://patchwork.ozlabs.org/patch/
 
 
-Please use scripts/get_maintainers.pl to get a list of necessary people
-and lists to CC.  It might happen, that command when run on an older
-kernel, gives you outdated entries.  Therefore please be sure you base
-your patches on recent Linux kernel.
+codec@13400000: clock-names: ['mfc', 'sclk_mfc'] is too long
+	arch/arm/boot/dts/exynos3250-artik5-eval.dtb
+	arch/arm/boot/dts/exynos3250-monk.dtb
+	arch/arm/boot/dts/exynos3250-rinato.dtb
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+codec@13400000: clocks: [[7, 178], [7, 228]] is too long
+	arch/arm/boot/dts/exynos3250-artik5-eval.dtb
+	arch/arm/boot/dts/exynos3250-monk.dtb
+	arch/arm/boot/dts/exynos3250-rinato.dtb
 
-Best regards,
-Krzysztof
+codec@13400000: iommus: [[36]] is too short
+	arch/arm/boot/dts/exynos3250-monk.dtb
+	arch/arm/boot/dts/exynos3250-monk.dtb
+
+codec@13400000: iommus: [[40]] is too short
+	arch/arm/boot/dts/exynos3250-artik5-eval.dtb
+	arch/arm/boot/dts/exynos3250-artik5-eval.dtb
+
+codec@13400000: iommus: [[47]] is too short
+	arch/arm/boot/dts/exynos3250-rinato.dtb
+	arch/arm/boot/dts/exynos3250-rinato.dtb
+
+codec@13400000: memory-region: [[31], [32]] is too long
+	arch/arm/boot/dts/exynos4210-smdkv310.dtb
+
+codec@13400000: memory-region: [[37], [38]] is too long
+	arch/arm/boot/dts/exynos4210-origen.dtb
+
+codec@13400000: memory-region: [[41], [42]] is too long
+	arch/arm/boot/dts/exynos4412-smdk4412.dtb
+
+codec@13400000: memory-region: [[43], [44]] is too long
+	arch/arm/boot/dts/exynos4412-origen.dtb
+
+codec@13400000: memory-region: [[47], [48]] is too long
+	arch/arm/boot/dts/exynos4412-itop-elite.dtb
+	arch/arm/boot/dts/exynos4412-odroidx2.dtb
+	arch/arm/boot/dts/exynos4412-odroidx.dtb
+
+codec@13400000: memory-region: [[48], [49]] is too long
+	arch/arm/boot/dts/exynos4412-odroidu3.dtb
+
+codec@f1700000: clock-names:0: 'mfc' was expected
+	arch/arm/boot/dts/s5pv210-aquila.dtb
+	arch/arm/boot/dts/s5pv210-fascinate4g.dtb
+	arch/arm/boot/dts/s5pv210-galaxys.dtb
+	arch/arm/boot/dts/s5pv210-goni.dtb
+	arch/arm/boot/dts/s5pv210-smdkc110.dtb
+	arch/arm/boot/dts/s5pv210-smdkv210.dtb
+	arch/arm/boot/dts/s5pv210-torbreck.dtb
+
+codec@f1700000: clock-names:1: 'sclk_mfc' was expected
+	arch/arm/boot/dts/s5pv210-aquila.dtb
+	arch/arm/boot/dts/s5pv210-fascinate4g.dtb
+	arch/arm/boot/dts/s5pv210-galaxys.dtb
+	arch/arm/boot/dts/s5pv210-goni.dtb
+	arch/arm/boot/dts/s5pv210-smdkc110.dtb
+	arch/arm/boot/dts/s5pv210-smdkv210.dtb
+	arch/arm/boot/dts/s5pv210-torbreck.dtb
+
+codec@f1700000: memory-region: [[51], [52]] is too long
+	arch/arm/boot/dts/s5pv210-fascinate4g.dtb
+
+codec@f1700000: memory-region: [[55], [56]] is too long
+	arch/arm/boot/dts/s5pv210-galaxys.dtb
 
