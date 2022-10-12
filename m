@@ -2,114 +2,110 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2F4285FC0FC
-	for <lists+linux-media@lfdr.de>; Wed, 12 Oct 2022 08:58:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BE95B5FC0FE
+	for <lists+linux-media@lfdr.de>; Wed, 12 Oct 2022 08:59:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229675AbiJLG6l (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 12 Oct 2022 02:58:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33338 "EHLO
+        id S229712AbiJLG7a (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 12 Oct 2022 02:59:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33504 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229563AbiJLG6g (ORCPT
+        with ESMTP id S229563AbiJLG73 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 12 Oct 2022 02:58:36 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C73380F6B
-        for <linux-media@vger.kernel.org>; Tue, 11 Oct 2022 23:58:35 -0700 (PDT)
-Received: from [192.168.1.15] (91-158-154-79.elisa-laajakaista.fi [91.158.154.79])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id CC7704DB;
-        Wed, 12 Oct 2022 08:58:32 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1665557913;
-        bh=8hpf6+tVLIYURAQ7ar755YT3AIL7GD8obcRAVtJDFuY=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=TBwccPGGEgSx9iXVIpJURbsLOKJ01GQuz0k9AkmVyCGfPqpDY4NtThq6sTx+9iRxm
-         amZCsuFx6gIiJ+UCKb5IFx5IdxgATLZhT/KwQx0gX4/vnpBhGGM7QCK4R9bOdulA6a
-         Rdo4g0Ozis5JQ3zpiYRZMlqH60KdlYH5/5ua7iyg=
-Message-ID: <9cdae272-e73b-9acb-2011-dfb6884a033a@ideasonboard.com>
-Date:   Wed, 12 Oct 2022 09:58:30 +0300
+        Wed, 12 Oct 2022 02:59:29 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD34980F6B;
+        Tue, 11 Oct 2022 23:59:28 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 15FCAB8168A;
+        Wed, 12 Oct 2022 06:59:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 535E2C433C1;
+        Wed, 12 Oct 2022 06:59:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1665557965;
+        bh=KNXP/yuvIKyB5/D8uMXmcEGaahkP82Y4IiUwnvBx3iQ=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=r6GEzmJ8AGcy3DgVUX9p86/UyhSqkBu7+WXGkx/Pnvg4ig5gzuiruxT6rWVSxXIwd
+         Yxun71LZxCQzcQIWIt+84yrn6uCy6e/b1SiQZXCJQy0RMbjTkknt1rPnI6BsDhiOgZ
+         8JCaE5Gpul9q2M4I9JvrAaUk2nuyl1I/MDO6rBlc=
+Date:   Wed, 12 Oct 2022 09:00:10 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Michael Grzeschik <mgr@pengutronix.de>
+Cc:     linux-usb@vger.kernel.org, balbi@kernel.org,
+        laurent.pinchart@ideasonboard.com, kernel@pengutronix.de,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH] usb: gadget: uvc: limit isoc_sg to super speed gadgets
+Message-ID: <Y0Zl+r0QowRg3n4a@kroah.com>
+References: <20221011205707.1603017-1-m.grzeschik@pengutronix.de>
+ <20221011213256.GI27626@pengutronix.de>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH v15 07/19] media: subdev: add v4l2_subdev_set_routing
- helper()
-Content-Language: en-US
-To:     Yunke Cao <yunkec@chromium.org>
-Cc:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        niklas.soderlund+renesas@ragnatech.se,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Kishon Vijay Abraham <kishon@ti.com>,
-        satish.nagireddy@getcruise.com, Tomasz Figa <tfiga@chromium.org>
-References: <20221003121852.616745-1-tomi.valkeinen@ideasonboard.com>
- <20221003121852.616745-8-tomi.valkeinen@ideasonboard.com>
- <CAEDqmY4=yVOWA4-V-dc_5BQRA_TnGPmxBERrTj3hKBs8EXkjGg@mail.gmail.com>
-From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-In-Reply-To: <CAEDqmY4=yVOWA4-V-dc_5BQRA_TnGPmxBERrTj3hKBs8EXkjGg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-5.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221011213256.GI27626@pengutronix.de>
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 12/10/2022 09:22, Yunke Cao wrote:
-> Hi Tomi,
+On Tue, Oct 11, 2022 at 11:32:56PM +0200, Michael Grzeschik wrote:
+> On Tue, Oct 11, 2022 at 10:57:07PM +0200, Michael Grzeschik wrote:
+> > The overhead of preparing sg data is high for transfers with limited
+> > payload. When transferring isoc over high-speed usb the maximum payload
+> > is rather small which is a good argument no to use sg. This patch is
+> > changing the uvc_video_encode_isoc_sg encode function only to be used
+> > for super speed gadgets.
+> > 
+> > Signed-off-by: Michael Grzeschik <m.grzeschik@pengutronix.de>
+> > ---
+> > drivers/usb/gadget/function/uvc_video.c | 9 +++++++--
+> > 1 file changed, 7 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/drivers/usb/gadget/function/uvc_video.c b/drivers/usb/gadget/function/uvc_video.c
+> > index bb037fcc90e69e..5081eb3bc5484c 100644
+> > --- a/drivers/usb/gadget/function/uvc_video.c
+> > +++ b/drivers/usb/gadget/function/uvc_video.c
+> > @@ -448,6 +448,9 @@ static void uvcg_video_pump(struct work_struct *work)
+> >  */
+> > int uvcg_video_enable(struct uvc_video *video, int enable)
+> > {
+> > +	struct uvc_device *uvc = video->uvc;
+> > +	struct usb_composite_dev *cdev = uvc->func.config->cdev;
+> > +	struct usb_gadget *gadget = cdev->gadget;
+> > 	unsigned int i;
+> > 	int ret;
+> > 
+> > @@ -479,9 +482,11 @@ int uvcg_video_enable(struct uvc_video *video, int enable)
+> > 	if (video->max_payload_size) {
+> > 		video->encode = uvc_video_encode_bulk;
+> > 		video->payload_size = 0;
+> > -	} else
+> > -		video->encode = video->queue.use_sg ?
+> > +	} else {
+> > +		video->encode = (video->queue.use_sg &&
+> > +				 !(gadget->speed <= USB_SPEED_HIGH)) ?
 > 
-> On Wed, Oct 12, 2022 at 2:03 PM Tomi Valkeinen
-> <tomi.valkeinen@ideasonboard.com> wrote:
->>
->> Add a helper function to set the subdev routing. The helper can be used
->> from subdev driver's set_routing op to store the routing table.
->>
->> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
->> Reviewed-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
->> ---
->>   drivers/media/v4l2-core/v4l2-subdev.c | 31 +++++++++++++++++++++++++++
->>   include/media/v4l2-subdev.h           | 16 ++++++++++++++
->>   2 files changed, 47 insertions(+)
->>
->> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
->> index fff17b8536fc..3ae4f39a50e4 100644
->> --- a/drivers/media/v4l2-core/v4l2-subdev.c
->> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
->> @@ -12,6 +12,7 @@
->>   #include <linux/ioctl.h>
->>   #include <linux/mm.h>
->>   #include <linux/module.h>
->> +#include <linux/overflow.h>
->>   #include <linux/slab.h>
->>   #include <linux/types.h>
->>   #include <linux/version.h>
->> @@ -1181,6 +1182,36 @@ int v4l2_subdev_get_fmt(struct v4l2_subdev *sd, struct v4l2_subdev_state *state,
->>   }
->>   EXPORT_SYMBOL_GPL(v4l2_subdev_get_fmt);
->>
->> +int v4l2_subdev_set_routing(struct v4l2_subdev *sd,
->> +                           struct v4l2_subdev_state *state,
->> +                           const struct v4l2_subdev_krouting *routing)
->> +{
->> +       struct v4l2_subdev_krouting *dst = &state->routing;
->> +       const struct v4l2_subdev_krouting *src = routing;
->> +       struct v4l2_subdev_krouting new_routing = { 0 };
->> +       size_t bytes;
->> +
->> +       if (unlikely(check_mul_overflow(src->num_routes, sizeof(*src->routes),
+> I also came up with the following Idea:
 > 
-> Do we need to cast (size_t)src->num_routes here?
-> My compiler is complaining:
-> ./include/linux/overflow.h:85:22: error: comparison of distinct
-> pointer types lacks a cast [-Werror]
->     85 |         (void) (&__a == &__b);                  \
+> -                                !(gadget->speed <= USB_SPEED_HIGH)) ?
+> +                                video->req_size > 4096) ?
 > 
+> Would this threshold of 4096 make sense? What should be preferred?
 
-Yes, I think we should do that. Thanks! I need to remember to compile 
-with other compilers than arm32 too =).
+Where did you pick 4096 from?  Even if you pick PAGE_SIZE, why?  Last
+time I ran memcpy() tests vs. sg on a range of processors the benifit
+did not kick in until the value was MUCH larger than just 4k, but I
+guess that depends on the overall codepath involved here.
 
-  Tomi
+So please test, and don't just guess, and then document it really really
+well why you picked that value.
 
+For now, the SPEED_HIGH should be sufficient I think.
+
+thanks,
+
+greg k-h
