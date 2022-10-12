@@ -2,55 +2,37 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 25C595FC096
-	for <lists+linux-media@lfdr.de>; Wed, 12 Oct 2022 08:22:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 89D6A5FC0B9
+	for <lists+linux-media@lfdr.de>; Wed, 12 Oct 2022 08:37:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229633AbiJLGW4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 12 Oct 2022 02:22:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58578 "EHLO
+        id S229729AbiJLGhB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 12 Oct 2022 02:37:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52534 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229544AbiJLGWy (ORCPT
+        with ESMTP id S229711AbiJLGhA (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 12 Oct 2022 02:22:54 -0400
-Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com [IPv6:2607:f8b0:4864:20::1036])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 06E608996C
-        for <linux-media@vger.kernel.org>; Tue, 11 Oct 2022 23:22:54 -0700 (PDT)
-Received: by mail-pj1-x1036.google.com with SMTP id q10-20020a17090a304a00b0020b1d5f6975so1149567pjl.0
-        for <linux-media@vger.kernel.org>; Tue, 11 Oct 2022 23:22:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=U3WTBqNq7Po/J3SmoHs3NxLMUPLBaj/mfSzSu3Pd4q0=;
-        b=V4L/09qVqzZv9gs+gyINX/wUaIItdsyqMl76x0RKzf3BpbzocqvByb5H7hW9JcviTA
-         jJNTqVjjnLHHCJQ0bSBhLzuv/Kh+N7CObUioQFgay071XcWTCGlnytbMV+9U8x9bipOC
-         wSUGNJSEkM92SV6jOx5DsVzO6LvU+htcJYZpw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=U3WTBqNq7Po/J3SmoHs3NxLMUPLBaj/mfSzSu3Pd4q0=;
-        b=dQnqPJW1rARof3JXA/eZGfQ8bLxQGh64IFJkmS1TXKhl8aabo1Yrj6HdyDBSePbtWa
-         DLNLAmpXNlvjsXJLsV1EjkVHGwhRhC+2UJSsXFARfcgfUk3yNaruffSfxovDBqI+jcKh
-         edrsenQMj7y5+z2U0ZQ8mju3fSfDb7WrH4rIOZkZs7ZsOPTsLQHDg/n7KeOLJBy947ZE
-         gNtCrCanERD56QpfFYnghOzntcBpTYTZSkIfT15J/gWBWsk1I5fXK7tTJ7FT8EoQm7AT
-         YDeX3qnhzbJCCAFpO+5qSdtJGRBnEMKd771iB00rMhUmdUBzvi9i64pxjN75pI1/noEn
-         I+7A==
-X-Gm-Message-State: ACrzQf3r9aJiVlUSqxfV7nTCAq49pXd7zKiDs2y4Qq/j6b25zRzFa7OD
-        IYrBof8OaA6kBmRYV1phyZzfb4lGXFPAreGLrqo11nl3UGA=
-X-Google-Smtp-Source: AMsMyM6MQdi3Ih0kz30hcs1GIJODyz64W1CGVABjRF8PgKDfQychuWCbcmpcJcm2tuWnFoqQ5YJIS2Q5MXRX2WoXAgQ=
-X-Received: by 2002:a17:90b:3b8b:b0:20d:4fd9:9a0f with SMTP id
- pc11-20020a17090b3b8b00b0020d4fd99a0fmr3163328pjb.17.1665555773500; Tue, 11
- Oct 2022 23:22:53 -0700 (PDT)
+        Wed, 12 Oct 2022 02:37:00 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 63B01AE22C
+        for <linux-media@vger.kernel.org>; Tue, 11 Oct 2022 23:36:58 -0700 (PDT)
+Received: from [192.168.1.15] (91-158-154-79.elisa-laajakaista.fi [91.158.154.79])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0307F4DB;
+        Wed, 12 Oct 2022 08:36:54 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1665556615;
+        bh=yzyZmUZKimNlFKvBs+5neaPTl9s7bglN+1KFVumvE5U=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=M153ULekxq94svVuBDUtVKaf8gk6CnqqAB5Hk4/QsD95F0BPC4qaQKsKZ72zWUJtx
+         UYITBAyC8pmPeZ3DKzItlR/PlAHHO6LXDeRvaHwzYUL8+d/+2sv+FuWJJE4sfFp3wJ
+         4ZFYZkOsKZWEPd2Zwvasaiicq8zIfmuL07yyN7bs=
+Message-ID: <d0f39af5-41f3-1fe6-be5f-7d563888e771@ideasonboard.com>
+Date:   Wed, 12 Oct 2022 09:36:52 +0300
 MIME-Version: 1.0
-References: <20221003121852.616745-1-tomi.valkeinen@ideasonboard.com> <20221003121852.616745-8-tomi.valkeinen@ideasonboard.com>
-In-Reply-To: <20221003121852.616745-8-tomi.valkeinen@ideasonboard.com>
-From:   Yunke Cao <yunkec@chromium.org>
-Date:   Wed, 12 Oct 2022 15:22:42 +0900
-Message-ID: <CAEDqmY4=yVOWA4-V-dc_5BQRA_TnGPmxBERrTj3hKBs8EXkjGg@mail.gmail.com>
-Subject: Re: [PATCH v15 07/19] media: subdev: add v4l2_subdev_set_routing helper()
-To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Subject: Re: [PATCH v15 10/19] media: subdev: add stream based configuration
+Content-Language: en-US
+To:     Dafna Hirschfeld <dafna@fastmail.com>
 Cc:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
         Jacopo Mondi <jacopo+renesas@jmondi.org>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
@@ -59,119 +41,301 @@ Cc:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Kishon Vijay Abraham <kishon@ti.com>,
         satish.nagireddy@getcruise.com, Tomasz Figa <tfiga@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+References: <20221003121852.616745-1-tomi.valkeinen@ideasonboard.com>
+ <20221003121852.616745-11-tomi.valkeinen@ideasonboard.com>
+ <20221009062434.27flg66oxt6wxrc7@guri>
+From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+In-Reply-To: <20221009062434.27flg66oxt6wxrc7@guri>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-5.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Tomi,
+On 09/10/2022 09:24, Dafna Hirschfeld wrote:
+> On 03.10.2022 15:18, Tomi Valkeinen wrote:
+>> Add support to manage configurations (format, crop, compose) per stream,
+>> instead of per pad. This is accomplished with data structures that hold
+>> an array of all subdev's stream configurations.
+>>
+>> The number of streams can vary at runtime based on routing. Every time
+>> the routing is changed, the stream configurations need to be
+>> re-initialized.
+>>
+>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+>> ---
+>> .../v4l/vidioc-subdev-enum-frame-interval.rst |   5 +-
+>> .../v4l/vidioc-subdev-enum-frame-size.rst     |   5 +-
+>> .../v4l/vidioc-subdev-enum-mbus-code.rst      |   5 +-
+>> .../media/v4l/vidioc-subdev-g-crop.rst        |   5 +-
+>> .../media/v4l/vidioc-subdev-g-fmt.rst         |   5 +-
+>> .../v4l/vidioc-subdev-g-frame-interval.rst    |   5 +-
+>> .../media/v4l/vidioc-subdev-g-selection.rst   |   5 +-
+>> drivers/media/v4l2-core/v4l2-subdev.c         | 154 +++++++++++++++++-
+>> include/media/v4l2-subdev.h                   |  79 +++++++++
+>> include/uapi/linux/v4l2-subdev.h              |  28 +++-
+>> 10 files changed, 275 insertions(+), 21 deletions(-)
+>>
+>> diff --git 
+>> a/Documentation/userspace-api/media/v4l/vidioc-subdev-enum-frame-interval.rst b/Documentation/userspace-api/media/v4l/vidioc-subdev-enum-frame-interval.rst
+>> index 3703943b412f..8def4c05d3da 100644
+>> --- 
+>> a/Documentation/userspace-api/media/v4l/vidioc-subdev-enum-frame-interval.rst
+>> +++ 
+>> b/Documentation/userspace-api/media/v4l/vidioc-subdev-enum-frame-interval.rst
+>> @@ -92,7 +92,10 @@ multiple pads of the same sub-device is not defined.
+>>       - Frame intervals to be enumerated, from enum
+>>     :ref:`v4l2_subdev_format_whence <v4l2-subdev-format-whence>`.
+>>     * - __u32
+>> -      - ``reserved``\ [8]
+>> +      - ``stream``
+>> +      - Stream identifier.
+>> +    * - __u32
+>> +      - ``reserved``\ [7]
+>>       - Reserved for future extensions. Applications and drivers must set
+>>     the array to zero.
+>>
+>> diff --git 
+>> a/Documentation/userspace-api/media/v4l/vidioc-subdev-enum-frame-size.rst b/Documentation/userspace-api/media/v4l/vidioc-subdev-enum-frame-size.rst
+>> index c25a9896df0e..3ef361c0dca7 100644
+>> --- 
+>> a/Documentation/userspace-api/media/v4l/vidioc-subdev-enum-frame-size.rst
+>> +++ 
+>> b/Documentation/userspace-api/media/v4l/vidioc-subdev-enum-frame-size.rst
+>> @@ -97,7 +97,10 @@ information about try formats.
+>>       - Frame sizes to be enumerated, from enum
+>>     :ref:`v4l2_subdev_format_whence <v4l2-subdev-format-whence>`.
+>>     * - __u32
+>> -      - ``reserved``\ [8]
+>> +      - ``stream``
+>> +      - Stream identifier.
+>> +    * - __u32
+>> +      - ``reserved``\ [7]
+>>       - Reserved for future extensions. Applications and drivers must set
+>>     the array to zero.
+>>
+>> diff --git 
+>> a/Documentation/userspace-api/media/v4l/vidioc-subdev-enum-mbus-code.rst b/Documentation/userspace-api/media/v4l/vidioc-subdev-enum-mbus-code.rst
+>> index 417f1a19bcc4..248f6f9ee7c5 100644
+>> --- 
+>> a/Documentation/userspace-api/media/v4l/vidioc-subdev-enum-mbus-code.rst
+>> +++ 
+>> b/Documentation/userspace-api/media/v4l/vidioc-subdev-enum-mbus-code.rst
+>> @@ -73,7 +73,10 @@ information about the try formats.
+>>       - ``flags``
+>>       - See :ref:`v4l2-subdev-mbus-code-flags`
+>>     * - __u32
+>> -      - ``reserved``\ [7]
+>> +      - ``stream``
+>> +      - Stream identifier.
+>> +    * - __u32
+>> +      - ``reserved``\ [6]
+>>       - Reserved for future extensions. Applications and drivers must set
+>>     the array to zero.
+>>
+>> diff --git 
+>> a/Documentation/userspace-api/media/v4l/vidioc-subdev-g-crop.rst 
+>> b/Documentation/userspace-api/media/v4l/vidioc-subdev-g-crop.rst
+>> index bd15c0a5a66b..1d267f7e7991 100644
+>> --- a/Documentation/userspace-api/media/v4l/vidioc-subdev-g-crop.rst
+>> +++ b/Documentation/userspace-api/media/v4l/vidioc-subdev-g-crop.rst
+>> @@ -96,7 +96,10 @@ modified format should be as close as possible to 
+>> the original request.
+>>       - ``rect``
+>>       - Crop rectangle boundaries, in pixels.
+>>     * - __u32
+>> -      - ``reserved``\ [8]
+>> +      - ``stream``
+>> +      - Stream identifier.
+>> +    * - __u32
+>> +      - ``reserved``\ [7]
+>>       - Reserved for future extensions. Applications and drivers must set
+>>     the array to zero.
+>>
+>> diff --git 
+>> a/Documentation/userspace-api/media/v4l/vidioc-subdev-g-fmt.rst 
+>> b/Documentation/userspace-api/media/v4l/vidioc-subdev-g-fmt.rst
+>> index 7acdbb939d89..ed253a1e44b7 100644
+>> --- a/Documentation/userspace-api/media/v4l/vidioc-subdev-g-fmt.rst
+>> +++ b/Documentation/userspace-api/media/v4l/vidioc-subdev-g-fmt.rst
+>> @@ -102,7 +102,10 @@ should be as close as possible to the original 
+>> request.
+>>       - Definition of an image format, see 
+>> :c:type:`v4l2_mbus_framefmt` for
+>>     details.
+>>     * - __u32
+>> -      - ``reserved``\ [8]
+>> +      - ``stream``
+>> +      - Stream identifier.
+>> +    * - __u32
+>> +      - ``reserved``\ [7]
+>>       - Reserved for future extensions. Applications and drivers must set
+>>     the array to zero.
+>>
+>> diff --git 
+>> a/Documentation/userspace-api/media/v4l/vidioc-subdev-g-frame-interval.rst b/Documentation/userspace-api/media/v4l/vidioc-subdev-g-frame-interval.rst
+>> index d7fe7543c506..842f962d2aea 100644
+>> --- 
+>> a/Documentation/userspace-api/media/v4l/vidioc-subdev-g-frame-interval.rst
+>> +++ 
+>> b/Documentation/userspace-api/media/v4l/vidioc-subdev-g-frame-interval.rst
+>> @@ -90,7 +90,10 @@ the same sub-device is not defined.
+>>       - ``interval``
+>>       - Period, in seconds, between consecutive video frames.
+>>     * - __u32
+>> -      - ``reserved``\ [9]
+>> +      - ``stream``
+>> +      - Stream identifier.
+>> +    * - __u32
+>> +      - ``reserved``\ [8]
+>>       - Reserved for future extensions. Applications and drivers must set
+>>     the array to zero.
+>>
+>> diff --git 
+>> a/Documentation/userspace-api/media/v4l/vidioc-subdev-g-selection.rst 
+>> b/Documentation/userspace-api/media/v4l/vidioc-subdev-g-selection.rst
+>> index f9172a42f036..6b629c19168c 100644
+>> --- a/Documentation/userspace-api/media/v4l/vidioc-subdev-g-selection.rst
+>> +++ b/Documentation/userspace-api/media/v4l/vidioc-subdev-g-selection.rst
+>> @@ -94,7 +94,10 @@ Selection targets and flags are documented in
+>>       - ``r``
+>>       - Selection rectangle, in pixels.
+>>     * - __u32
+>> -      - ``reserved``\ [8]
+>> +      - ``stream``
+>> +      - Stream identifier.
+>> +    * - __u32
+>> +      - ``reserved``\ [7]
+>>       - Reserved for future extensions. Applications and drivers must set
+>>     the array to zero.
+>>
+>> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c 
+>> b/drivers/media/v4l2-core/v4l2-subdev.c
+>> index 1049c07d2e49..be778e619694 100644
+>> --- a/drivers/media/v4l2-core/v4l2-subdev.c
+>> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
+>> @@ -159,8 +159,22 @@ static inline int check_pad(struct v4l2_subdev 
+>> *sd, u32 pad)
+>>     return 0;
+>> }
+>>
+>> -static int check_state_pads(u32 which, struct v4l2_subdev_state *state)
+>> +static int check_state(struct v4l2_subdev *sd, struct 
+>> v4l2_subdev_state *state,
+>> +               u32 which, u32 pad, u32 stream)
+>> {
+>> +    if (sd->flags & V4L2_SUBDEV_FL_STREAMS) {
+>> +#if defined(CONFIG_VIDEO_V4L2_SUBDEV_API)
+>> +        if (!v4l2_subdev_state_get_stream_format(state, pad, stream))
+>> +            return -EINVAL;
+>> +        return 0;
+>> +#else
+>> +        return -EINVAL;
+>> +#endif
+>> +    }
+>> +
+>> +    if (stream != 0)
+>> +        return -EINVAL;
+>> +
+>>     if (which == V4L2_SUBDEV_FORMAT_TRY && (!state || !state->pads))
+>>         return -EINVAL;
+>>
+>> @@ -175,7 +189,7 @@ static inline int check_format(struct v4l2_subdev 
+>> *sd,
+>>         return -EINVAL;
+>>
+>>     return check_which(format->which) ? : check_pad(sd, format->pad) ? :
+>> -           check_state_pads(format->which, state);
+>> +           check_state(sd, state, format->which, format->pad, 
+>> format->stream);
+>> }
+>>
+>> static int call_get_fmt(struct v4l2_subdev *sd,
+>> @@ -202,7 +216,7 @@ static int call_enum_mbus_code(struct v4l2_subdev 
+>> *sd,
+>>         return -EINVAL;
+>>
+>>     return check_which(code->which) ? : check_pad(sd, code->pad) ? :
+>> -           check_state_pads(code->which, state) ? :
+>> +           check_state(sd, state, code->which, code->pad, 
+>> code->stream) ? :
+>>            sd->ops->pad->enum_mbus_code(sd, state, code);
+>> }
+>>
+>> @@ -214,7 +228,7 @@ static int call_enum_frame_size(struct v4l2_subdev 
+>> *sd,
+>>         return -EINVAL;
+>>
+>>     return check_which(fse->which) ? : check_pad(sd, fse->pad) ? :
+>> -           check_state_pads(fse->which, state) ? :
+>> +           check_state(sd, state, fse->which, fse->pad, fse->stream) ? :
+>>            sd->ops->pad->enum_frame_size(sd, state, fse);
+>> }
+>>
+>> @@ -249,7 +263,7 @@ static int call_enum_frame_interval(struct 
+>> v4l2_subdev *sd,
+>>         return -EINVAL;
+>>
+>>     return check_which(fie->which) ? : check_pad(sd, fie->pad) ? :
+>> -           check_state_pads(fie->which, state) ? :
+>> +           check_state(sd, state, fie->which, fie->pad, fie->stream) ? :
+>>            sd->ops->pad->enum_frame_interval(sd, state, fie);
+>> }
+>>
+>> @@ -261,7 +275,7 @@ static inline int check_selection(struct 
+>> v4l2_subdev *sd,
+>>         return -EINVAL;
+>>
+>>     return check_which(sel->which) ? : check_pad(sd, sel->pad) ? :
+>> -           check_state_pads(sel->which, state);
+>> +           check_state(sd, state, sel->which, sel->pad, sel->stream);
+>> }
+>>
+>> static int call_get_selection(struct v4l2_subdev *sd,
+>> @@ -1095,7 +1109,8 @@ __v4l2_subdev_state_alloc(struct v4l2_subdev 
+>> *sd, const char *lock_name,
+>>     else
+>>         state->lock = &state->_lock;
+>>
+>> -    if (sd->entity.num_pads) {
+>> +    /* Drivers that support streams do not need the legacy pad config */
+>> +    if (!(sd->flags & V4L2_SUBDEV_FL_STREAMS) && sd->entity.num_pads) {
+>>         state->pads = kvcalloc(sd->entity.num_pads,
+>>                        sizeof(*state->pads), GFP_KERNEL);
+>>         if (!state->pads) {
+>> @@ -1135,6 +1150,7 @@ void __v4l2_subdev_state_free(struct 
+>> v4l2_subdev_state *state)
+>>     mutex_destroy(&state->_lock);
+>>
+>>     kfree(state->routing.routes);
+>> +    kvfree(state->stream_configs.configs);
+>>     kvfree(state->pads);
+>>     kfree(state);
+>> }
+>> @@ -1164,6 +1180,59 @@ EXPORT_SYMBOL_GPL(v4l2_subdev_cleanup);
+>>
+>> #if defined(CONFIG_VIDEO_V4L2_SUBDEV_API)
+>>
+>> +static int
+>> +v4l2_subdev_init_stream_configs(struct v4l2_subdev_stream_configs 
+>> *stream_configs,
+>> +                const struct v4l2_subdev_krouting *routing)
+>> +{
+>> +    struct v4l2_subdev_stream_configs new_configs = { 0 };
+>> +    struct v4l2_subdev_route *route;
+>> +    u32 format_idx = 0;
+> I think you don't need both format_idx and idx,
+> also, it can be 'int'
 
-On Wed, Oct 12, 2022 at 2:03 PM Tomi Valkeinen
-<tomi.valkeinen@ideasonboard.com> wrote:
->
-> Add a helper function to set the subdev routing. The helper can be used
-> from subdev driver's set_routing op to store the routing table.
->
-> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> Reviewed-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> ---
->  drivers/media/v4l2-core/v4l2-subdev.c | 31 +++++++++++++++++++++++++++
->  include/media/v4l2-subdev.h           | 16 ++++++++++++++
->  2 files changed, 47 insertions(+)
->
-> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
-> index fff17b8536fc..3ae4f39a50e4 100644
-> --- a/drivers/media/v4l2-core/v4l2-subdev.c
-> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
-> @@ -12,6 +12,7 @@
->  #include <linux/ioctl.h>
->  #include <linux/mm.h>
->  #include <linux/module.h>
-> +#include <linux/overflow.h>
->  #include <linux/slab.h>
->  #include <linux/types.h>
->  #include <linux/version.h>
-> @@ -1181,6 +1182,36 @@ int v4l2_subdev_get_fmt(struct v4l2_subdev *sd, struct v4l2_subdev_state *state,
->  }
->  EXPORT_SYMBOL_GPL(v4l2_subdev_get_fmt);
->
-> +int v4l2_subdev_set_routing(struct v4l2_subdev *sd,
-> +                           struct v4l2_subdev_state *state,
-> +                           const struct v4l2_subdev_krouting *routing)
-> +{
-> +       struct v4l2_subdev_krouting *dst = &state->routing;
-> +       const struct v4l2_subdev_krouting *src = routing;
-> +       struct v4l2_subdev_krouting new_routing = { 0 };
-> +       size_t bytes;
-> +
-> +       if (unlikely(check_mul_overflow(src->num_routes, sizeof(*src->routes),
+Yes, we can do with just a single variable.
 
-Do we need to cast (size_t)src->num_routes here?
-My compiler is complaining:
-./include/linux/overflow.h:85:22: error: comparison of distinct
-pointer types lacks a cast [-Werror]
-   85 |         (void) (&__a == &__b);                  \
+I'll keep it as unsigned, as it's an index to an array. Signed doesn't 
+make sense there.
 
-Thanks,
-Yunke
+  Tomi
 
-
-> +                                       &bytes)))
-> +               return -EOVERFLOW;
-> +
-> +       lockdep_assert_held(state->lock);
-> +
-> +       if (src->num_routes > 0) {
-> +               new_routing.routes = kmemdup(src->routes, bytes, GFP_KERNEL);
-> +               if (!new_routing.routes)
-> +                       return -ENOMEM;
-> +       }
-> +
-> +       new_routing.num_routes = src->num_routes;
-> +
-> +       kfree(dst->routes);
-> +       *dst = new_routing;
-> +
-> +       return 0;
-> +}
-> +EXPORT_SYMBOL_GPL(v4l2_subdev_set_routing);
-> +
->  #endif /* CONFIG_VIDEO_V4L2_SUBDEV_API */
->
->  #endif /* CONFIG_MEDIA_CONTROLLER */
-> diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
-> index 45c41f4d6a2b..7962e6572bda 100644
-> --- a/include/media/v4l2-subdev.h
-> +++ b/include/media/v4l2-subdev.h
-> @@ -1419,6 +1419,22 @@ v4l2_subdev_lock_and_get_active_state(struct v4l2_subdev *sd)
->  int v4l2_subdev_get_fmt(struct v4l2_subdev *sd, struct v4l2_subdev_state *state,
->                         struct v4l2_subdev_format *format);
->
-> +/**
-> + * v4l2_subdev_set_routing() - Set given routing to subdev state
-> + * @sd: The subdevice
-> + * @state: The subdevice state
-> + * @routing: Routing that will be copied to subdev state
-> + *
-> + * This will release old routing table (if any) from the state, allocate
-> + * enough space for the given routing, and copy the routing.
-> + *
-> + * This can be used from the subdev driver's set_routing op, after validating
-> + * the routing.
-> + */
-> +int v4l2_subdev_set_routing(struct v4l2_subdev *sd,
-> +                           struct v4l2_subdev_state *state,
-> +                           const struct v4l2_subdev_krouting *routing);
-> +
->  #endif /* CONFIG_VIDEO_V4L2_SUBDEV_API */
->
->  #endif /* CONFIG_MEDIA_CONTROLLER */
-> --
-> 2.34.1
->
->
