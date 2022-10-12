@@ -2,265 +2,182 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 34EBE5FC35D
-	for <lists+linux-media@lfdr.de>; Wed, 12 Oct 2022 12:01:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1FE575FC368
+	for <lists+linux-media@lfdr.de>; Wed, 12 Oct 2022 12:04:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229925AbiJLKBn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 12 Oct 2022 06:01:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37276 "EHLO
+        id S229825AbiJLKEw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 12 Oct 2022 06:04:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39574 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229894AbiJLKBm (ORCPT
+        with ESMTP id S229657AbiJLKEu (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 12 Oct 2022 06:01:42 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 14789AE861
-        for <linux-media@vger.kernel.org>; Wed, 12 Oct 2022 03:01:36 -0700 (PDT)
-Received: from [192.168.1.15] (91-158-154-79.elisa-laajakaista.fi [91.158.154.79])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2E3974DB;
-        Wed, 12 Oct 2022 12:01:33 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1665568893;
-        bh=0Z72kk/V4kYIt+UFdsFe4qkiRRw/i4/qYjZXHkOk8gs=;
-        h=Date:Subject:To:References:From:In-Reply-To:From;
-        b=R4uQ7QKfehc0YeqD9LSwNOvI/kV0qVx22ZWe7/nJS+14eCNR7ZAKZyA1IsOEb7UBS
-         JeZPSr8uRxPNbyP9NArdvEd6wn9fsgE2Cvs+U+IvWQFRRdZbO410QZCYI4rW7GSFsT
-         oQIJudephTPFWqJeGIbPRlmaKdmK/Eix4DIFI79E=
-Message-ID: <bc575b8d-6d91-fffc-5674-fb2303366f42@ideasonboard.com>
-Date:   Wed, 12 Oct 2022 13:01:29 +0300
+        Wed, 12 Oct 2022 06:04:50 -0400
+Received: from mail-qt1-x82d.google.com (mail-qt1-x82d.google.com [IPv6:2607:f8b0:4864:20::82d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D0E511443;
+        Wed, 12 Oct 2022 03:04:47 -0700 (PDT)
+Received: by mail-qt1-x82d.google.com with SMTP id w3so2092168qtv.9;
+        Wed, 12 Oct 2022 03:04:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=R2uNoWDHy+GOry29L6DC1dXWZKJOzJDC9JxozJVSpGE=;
+        b=ZuAn0riuXHel9rEBKRhDJaphdwknBUsVfuUv/T2PqZwW+uHUs0jQAoNTggSP2xYvxV
+         AIPBHcfBEeKUY8XaTwBfDZ4rSHoMsN+0EmQWS+Q65k7ex3GR3DSFMtYWLj5CjjdFW5lS
+         H15Im9ztaYgi/pdTI+XTH4+61vil18OUHSI0xGSAcGYNKUvzy6F36vXqiFhOKG65c2tn
+         Hm9UqrwXHcz71mbsaS1jF9iuBu0ckjr5DhBRLVoVyj42mBo6ELsboWfCQHWyRGQ4tlaj
+         QaFlpQ5WtgjVo1xKNFF2bpP4chzh3RulgtzO05YqhYqIONKukzB/OS4NwSuMzh0mSuvU
+         pMLQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=R2uNoWDHy+GOry29L6DC1dXWZKJOzJDC9JxozJVSpGE=;
+        b=c251R7Jd2O3hbIAN527I1kvzRHu6QHTkG2ICV7ukZ0rYa9Phe+rMgEqQKRWmR/JDug
+         5QHqprc4I94QMq9ixicxhvYlxwXu4z75cJAj2qcFyVhNeUgsZX6+V1TDR+gDOnzaqrhh
+         J80qVRYt+pKyxi4tJxSxMbCA4pL/7uW7vsWM2dAx1BRG8/IMj5CpkBBXQK/0QQWtRjLq
+         IQ0GTMaUC/7hGrPuypXyNJ9VhUPaDeO36CoZIP7ZtaPdc3QgOSFL69sCvs9eCqQmE52R
+         LZgXN40CJtCsABB8a4mCXNuliZI/yx8UYfsVeGKJCw2o+swLEiyOVBkkyGxSZtS0tT+h
+         Ttrw==
+X-Gm-Message-State: ACrzQf1nfca33kUS/tUxRzkm9qtFNMtcB0SI1M3RQFZTi1e2lXHJ1sXq
+        qIYB3oBEcU/WzR51cZSukGmYJrGptQdM0SbiN6o=
+X-Google-Smtp-Source: AMsMyM5ie8LeIoK7BaYP5eKG5FZkx73UfHVDBrIIwi+8uhHlPAnlyvjeeFl/0Iy9XueA0qyfGOPRZ2XY3nQxTptpumo=
+X-Received: by 2002:ac8:7c43:0:b0:35c:cd8f:3da5 with SMTP id
+ o3-20020ac87c43000000b0035ccd8f3da5mr23132665qtv.61.1665569086451; Wed, 12
+ Oct 2022 03:04:46 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH v15 04/19] media: Documentation: Add GS_ROUTING
- documentation
-Content-Language: en-US
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        niklas.soderlund+renesas@ragnatech.se,
+References: <20221010201453.77401-1-andriy.shevchenko@linux.intel.com> <0684f480-2092-d520-2c8e-bd9a2dca47e3@gmail.com>
+In-Reply-To: <0684f480-2092-d520-2c8e-bd9a2dca47e3@gmail.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Wed, 12 Oct 2022 13:04:10 +0300
+Message-ID: <CAHp75VdDjyUAZBTaoPOe5oA3f_5xRznAooq08=Eff4F1AZyVOQ@mail.gmail.com>
+Subject: Re: [rft, PATCH v2 00/36] pinctrl: Clean up and add missed headers
+To:     Florian Fainelli <f.fainelli@gmail.com>
+Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Marc Zyngier <maz@kernel.org>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        Kent Gibson <warthog618@gmail.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Kishon Vijay Abraham <kishon@ti.com>,
-        satish.nagireddy@getcruise.com, Tomasz Figa <tfiga@chromium.org>
-References: <20221003121852.616745-1-tomi.valkeinen@ideasonboard.com>
- <20221003121852.616745-5-tomi.valkeinen@ideasonboard.com>
- <2ea25584-de49-b311-14fe-8c430733bd7b@xs4all.nl>
-From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-In-Reply-To: <2ea25584-de49-b311-14fe-8c430733bd7b@xs4all.nl>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        Billy Tsai <billy_tsai@aspeedtech.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Chen-Yu Tsai <wenst@chromium.org>,
+        Claudiu Beznea <claudiu.beznea@microchip.com>,
+        Samuel Holland <samuel@sholland.org>,
+        Horatiu Vultur <horatiu.vultur@microchip.com>,
+        =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Phil Edworthy <phil.edworthy@renesas.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Fabien Dessenne <fabien.dessenne@foss.st.com>,
+        Prathamesh Shete <pshete@nvidia.com>,
+        Basavaraj Natikar <Basavaraj.Natikar@amd.com>,
+        linux-gpio@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-media@vger.kernel.org, linux-actions@lists.infradead.org,
+        linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org,
+        linux-rpi-kernel@lists.infradead.org, alsa-devel@alsa-project.org,
+        patches@opensource.cirrus.com, linux-mediatek@lists.infradead.org,
+        linux-mips@vger.kernel.org, linux-riscv@lists.infradead.org,
+        linux-omap@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-samsung-soc@vger.kernel.org,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Patrice Chotard <patrice.chotard@foss.st.com>,
+        =?UTF-8?Q?Andreas_F=C3=A4rber?= <afaerber@suse.de>,
+        Manivannan Sadhasivam <mani@kernel.org>,
+        Andrew Jeffery <andrew@aj.id.au>,
+        Joel Stanley <joel@jms.id.au>, Ray Jui <rjui@broadcom.com>,
+        Scott Branden <sbranden@broadcom.com>,
+        Broadcom internal kernel review list 
+        <bcm-kernel-feedback-list@broadcom.com>,
+        Charles Keepax <ckeepax@opensource.cirrus.com>,
+        Richard Fitzgerald <rf@opensource.cirrus.com>,
+        Dong Aisheng <aisheng.dong@nxp.com>,
+        Fabio Estevam <festevam@gmail.com>,
+        Shawn Guo <shawnguo@kernel.org>, Jacky Bai <ping.bai@nxp.com>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Andy Shevchenko <andy@kernel.org>,
+        Sean Wang <sean.wang@kernel.org>, Andrew Lunn <andrew@lunn.ch>,
+        Gregory Clement <gregory.clement@bootlin.com>,
+        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+        Avi Fishman <avifishman70@gmail.com>,
+        Tomer Maimon <tmaimon77@gmail.com>,
+        Tali Perry <tali.perry1@gmail.com>,
+        Patrick Venture <venture@google.com>,
+        Nancy Yuen <yuenn@google.com>,
+        Benjamin Fair <benjaminfair@google.com>,
+        Ludovic Desroches <ludovic.desroches@microchip.com>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Paul Cercueil <paul@crapouillou.net>,
+        Damien Le Moal <damien.lemoal@wdc.com>,
+        Tony Lindgren <tony@atomide.com>,
+        Haojian Zhuang <haojian.zhuang@linaro.org>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Michal Simek <michal.simek@xilinx.com>,
+        Andy Gross <agross@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@somainline.org>,
+        Tomasz Figa <tomasz.figa@gmail.com>,
+        Sylwester Nawrocki <s.nawrocki@samsung.com>,
+        Alim Akhtar <alim.akhtar@samsung.com>,
+        Viresh Kumar <vireshk@kernel.org>,
+        Shiraz Hashim <shiraz.linux.kernel@gmail.com>, soc@kernel.org,
+        Orson Zhai <orsonzhai@gmail.com>,
+        Baolin Wang <baolin.wang@linux.alibaba.com>,
+        Chunyan Zhang <zhang.lyra@gmail.com>,
+        Emil Renner Berthing <kernel@esmil.dk>,
+        Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
+        Masami Hiramatsu <mhiramat@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+On Tue, Oct 11, 2022 at 11:56 PM Florian Fainelli <f.fainelli@gmail.com> wrote:
+> On 10/10/2022 1:14 PM, Andy Shevchenko wrote:
+> > Currently the header inclusion inside the pinctrl headers seems more arbitrary
+> > than logical. This series is basically out of two parts:
+> > - add missed headers to the pin control drivers / users
+> > - clean up the headers of pin control subsystem
+> >
+> > The idea is to have this series to be pulled after -rc1 by the GPIO and
+> > pin control subsystems, so all new drivers will utilize cleaned up headers
+> > of the pin control.
+> >
+> > Please, review and comment.
+>
+> Did you really need to split this on a per-driver basis as opposed to
+> just a treewide drivers/pinctrl, drivers/media and drivers/gpiolib patch
+> set?
+>
+> 36 patches seems needlessly high when 4 patches could have achieve the
+> same outcome.
 
-On 03/10/2022 17:31, Hans Verkuil wrote:
-> Hi Tomi,
-> 
-> On 10/3/22 14:18, Tomi Valkeinen wrote:
->> From: Jacopo Mondi <jacopo+renesas@jmondi.org>
->>
->> Add documentation for VIDIOC_SUBDEV_G/S_ROUTING ioctl and add
->> description of multiplexed media pads and internal routing to the
->> V4L2-subdev documentation section.
->>
->> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
->> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
->> Reviewed-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
->> ---
->>   .../userspace-api/media/v4l/dev-subdev.rst    |   2 +
->>   .../userspace-api/media/v4l/user-func.rst     |   1 +
->>   .../media/v4l/vidioc-subdev-g-routing.rst     | 155 ++++++++++++++++++
->>   3 files changed, 158 insertions(+)
->>   create mode 100644 Documentation/userspace-api/media/v4l/vidioc-subdev-g-routing.rst
->>
->> diff --git a/Documentation/userspace-api/media/v4l/dev-subdev.rst b/Documentation/userspace-api/media/v4l/dev-subdev.rst
->> index fd1de0a73a9f..a67c2749089a 100644
->> --- a/Documentation/userspace-api/media/v4l/dev-subdev.rst
->> +++ b/Documentation/userspace-api/media/v4l/dev-subdev.rst
->> @@ -29,6 +29,8 @@ will feature a character device node on which ioctls can be called to
->>   
->>   -  negotiate image formats on individual pads
->>   
->> +-  inspect and modify internal data routing between pads of the same entity
->> +
->>   Sub-device character device nodes, conventionally named
->>   ``/dev/v4l-subdev*``, use major number 81.
->>   
->> diff --git a/Documentation/userspace-api/media/v4l/user-func.rst b/Documentation/userspace-api/media/v4l/user-func.rst
->> index 53e604bd7d60..228c1521f190 100644
->> --- a/Documentation/userspace-api/media/v4l/user-func.rst
->> +++ b/Documentation/userspace-api/media/v4l/user-func.rst
->> @@ -70,6 +70,7 @@ Function Reference
->>       vidioc-subdev-g-crop
->>       vidioc-subdev-g-fmt
->>       vidioc-subdev-g-frame-interval
->> +    vidioc-subdev-g-routing
->>       vidioc-subdev-g-selection
->>       vidioc-subdev-querycap
->>       vidioc-subscribe-event
->> diff --git a/Documentation/userspace-api/media/v4l/vidioc-subdev-g-routing.rst b/Documentation/userspace-api/media/v4l/vidioc-subdev-g-routing.rst
->> new file mode 100644
->> index 000000000000..6d8fc3b11352
->> --- /dev/null
->> +++ b/Documentation/userspace-api/media/v4l/vidioc-subdev-g-routing.rst
->> @@ -0,0 +1,155 @@
->> +.. SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later
->> +.. c:namespace:: V4L
->> +
->> +.. _VIDIOC_SUBDEV_G_ROUTING:
->> +
->> +******************************************************
->> +ioctl VIDIOC_SUBDEV_G_ROUTING, VIDIOC_SUBDEV_S_ROUTING
->> +******************************************************
->> +
->> +Name
->> +====
->> +
->> +VIDIOC_SUBDEV_G_ROUTING - VIDIOC_SUBDEV_S_ROUTING - Get or set routing between streams of media pads in a media entity.
->> +
->> +
->> +Synopsis
->> +========
->> +
->> +.. c:function:: int ioctl( int fd, VIDIOC_SUBDEV_G_ROUTING, struct v4l2_subdev_routing *argp )
->> +    :name: VIDIOC_SUBDEV_G_ROUTING
->> +
->> +.. c:function:: int ioctl( int fd, VIDIOC_SUBDEV_S_ROUTING, struct v4l2_subdev_routing *argp )
->> +    :name: VIDIOC_SUBDEV_S_ROUTING
->> +
->> +
->> +Arguments
->> +=========
->> +
->> +``fd``
->> +    File descriptor returned by :ref:`open() <func-open>`.
->> +
->> +``argp``
->> +    Pointer to struct :c:type:`v4l2_subdev_routing`.
->> +
->> +
->> +Description
->> +===========
->> +
->> +These ioctls are used to get and set the routing in a media entity.
->> +The routing configuration determines the flows of data inside an entity.
->> +
->> +Drivers report their current routing tables using the
->> +``VIDIOC_SUBDEV_G_ROUTING`` ioctl and application may enable or disable routes
->> +with the ``VIDIOC_SUBDEV_S_ROUTING`` ioctl, by adding or removing routes and
->> +setting or clearing flags of the  ``flags`` field of a
->> +struct :c:type:`v4l2_subdev_route`.
->> +
->> +All stream configurations are reset when ``VIDIOC_SUBDEV_S_ROUTING`` is called. This
->> +means that the userspace mut reconfigure all streams after calling the ioctl
-> 
-> typo: mut -> must
-> 
->> +with e.g. ``VIDIOC_SUBDEV_S_FMT``.
->> +
->> +A special case for routing are routes marked with
->> +``V4L2_SUBDEV_ROUTE_FL_SOURCE`` flag. These routes are used to describe
->> +source endpoints on sensors and the sink fields are unused.
-> 
-> This is very vague. As mentioned in my review for 05/19 I think this flag should
-> be renamed to INTERNAL_SOURCE. Then the last sentence can change to:
-> 
-> "These routes are used to describe source endpoints where the stream is internally
-> created (such as a sensor) and so the sink fields are unused."
-> 
->> +
->> +When inspecting routes through ``VIDIOC_SUBDEV_G_ROUTING`` and the application
->> +provided ``num_routes`` is not big enough to contain all the available routes
->> +the subdevice exposes, drivers return the ENOSPC error code and adjust the
->> +value of the ``num_routes`` field. Application should then reserve enough memory
->> +for all the route entries and call ``VIDIOC_SUBDEV_G_ROUTING`` again.
->> +
->> +.. tabularcolumns:: |p{4.4cm}|p{4.4cm}|p{8.7cm}|
->> +
->> +.. c:type:: v4l2_subdev_routing
->> +
->> +.. flat-table:: struct v4l2_subdev_routing
->> +    :header-rows:  0
->> +    :stub-columns: 0
->> +    :widths:       1 1 2
->> +
->> +    * - __u32
->> +      - ``which``
->> +      - Format to modified, from enum
->> +        :ref:`v4l2_subdev_format_whence <v4l2-subdev-format-whence>`.
->> +    * - struct :c:type:`v4l2_subdev_route`
->> +      - ``routes[]``
->> +      - Array of struct :c:type:`v4l2_subdev_route` entries
->> +    * - __u32
->> +      - ``num_routes``
->> +      - Number of entries of the routes array
->> +    * - __u32
->> +      - ``reserved``\ [5]
->> +      - Reserved for future extensions. Applications and drivers must set
->> +	the array to zero.
->> +
->> +.. tabularcolumns:: |p{4.4cm}|p{4.4cm}|p{8.7cm}|
->> +
->> +.. c:type:: v4l2_subdev_route
->> +
->> +.. flat-table:: struct v4l2_subdev_route
->> +    :header-rows:  0
->> +    :stub-columns: 0
->> +    :widths:       1 1 2
->> +
->> +    * - __u32
->> +      - ``sink_pad``
->> +      - Sink pad number.
->> +    * - __u32
->> +      - ``sink_stream``
->> +      - Sink pad stream number.
->> +    * - __u32
->> +      - ``source_pad``
->> +      - Source pad number.
->> +    * - __u32
->> +      - ``source_stream``
->> +      - Source pad stream number.
->> +    * - __u32
->> +      - ``flags``
->> +      - Route enable/disable flags
->> +	:ref:`v4l2_subdev_routing_flags <v4l2-subdev-routing-flags>`.
->> +    * - __u32
->> +      - ``reserved``\ [5]
->> +      - Reserved for future extensions. Applications and drivers must set
->> +	the array to zero.
->> +
->> +.. tabularcolumns:: |p{6.6cm}|p{2.2cm}|p{8.7cm}|
->> +
->> +.. _v4l2-subdev-routing-flags:
->> +
->> +.. flat-table:: enum v4l2_subdev_routing_flags
->> +    :header-rows:  0
->> +    :stub-columns: 0
->> +    :widths:       3 1 4
->> +
->> +    * - V4L2_SUBDEV_ROUTE_FL_ACTIVE
->> +      - 0
->> +      - The route is enabled. Set by applications.
->> +    * - V4L2_SUBDEV_ROUTE_FL_IMMUTABLE
->> +      - 1
->> +      - The route is immutable. Set by the driver.
->> +    * - V4L2_SUBDEV_ROUTE_FL_SOURCE
->> +      - 2
->> +      - The route is a source route, and the ``sink_pad`` and ``sink_stream``
->> +        fields are unused. Set by the driver.
-> 
-> Same issue as above, it's very vague.
-> 
-> "Used to describe a route source endpoint where the stream is internally
-> created (such as a sensor) and so the sink fields are unused."
+I can combine them if maintainers ask for that, nevertheless for Intel
+pin control and GPIO drivers, which I care more about, I would like to
+leave as separate changes (easy to see in history what was done).
 
-I think this and the above suggestion are good, I'll make the change.
 
-  Tomi
-
+-- 
+With Best Regards,
+Andy Shevchenko
