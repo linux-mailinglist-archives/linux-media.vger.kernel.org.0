@@ -2,137 +2,138 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AA1815FD57B
-	for <lists+linux-media@lfdr.de>; Thu, 13 Oct 2022 09:18:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C62CA5FD58E
+	for <lists+linux-media@lfdr.de>; Thu, 13 Oct 2022 09:33:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229498AbiJMHSx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 13 Oct 2022 03:18:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46290 "EHLO
+        id S229498AbiJMHdl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 13 Oct 2022 03:33:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44234 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229533AbiJMHSw (ORCPT
+        with ESMTP id S229582AbiJMHdj (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 13 Oct 2022 03:18:52 -0400
-Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::224])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 77FF23EA46
-        for <linux-media@vger.kernel.org>; Thu, 13 Oct 2022 00:18:50 -0700 (PDT)
-Received: (Authenticated sender: jacopo@jmondi.org)
-        by mail.gandi.net (Postfix) with ESMTPSA id 4FDC8E0005;
-        Thu, 13 Oct 2022 07:18:48 +0000 (UTC)
-Date:   Thu, 13 Oct 2022 09:18:46 +0200
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Karthik Poduval <karthik.poduval@gmail.com>
-Cc:     linux-media@vger.kernel.org
-Subject: Re: V4L2 M2M driver architecture question for a new hardware
-Message-ID: <20221013071846.dnp3o3pj747wnknt@uno.localdomain>
-References: <CAFP0Ok9iHi+1nyzxMfMA58QC5=H4H48ALBY+1e8eeTMsfbUY3A@mail.gmail.com>
+        Thu, 13 Oct 2022 03:33:39 -0400
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D85C411E44F
+        for <linux-media@vger.kernel.org>; Thu, 13 Oct 2022 00:33:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1665646418; x=1697182418;
+  h=subject:to:references:from:message-id:date:mime-version:
+   in-reply-to:content-transfer-encoding;
+  bh=FVeBU1VFMxTjJbz58RbNkQ1swie2wOSWxFWGHSAZYuc=;
+  b=MQv11Xx79Gkr3MrrxOXoiVOCRCC5xN+aMpGOvSgu+k8uNhCok2Mt3N/Y
+   +ahx1S39NswhtTKYsPFZSnOO5hWEyUUCU/zC4edbPtD6NFkbS+u98tI8y
+   TU4yjsmCtrQAS4aOKGml/w1ZDJjcEc2S6/H4V8rmaxGB93uW0Pbooo9Xg
+   i2FeY64YGDVO4m3P5crR2wK9XKiQYcCJoDk2rdDg5VXDF2trCA2KZQrHf
+   JYAlzWjx+IPEt8PDKn9HZEivHGSmslNyg5pHbJ1uqxZNrvav0dyvm1k3p
+   9L5WqgC8U5tsm+ruHRMp+QuO1joD3OeF7oPJsYcpX+fXbsjYrjVLvzTo6
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10498"; a="284732507"
+X-IronPort-AV: E=Sophos;i="5.95,180,1661842800"; 
+   d="scan'208";a="284732507"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Oct 2022 00:31:26 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10498"; a="629418251"
+X-IronPort-AV: E=Sophos;i="5.95,180,1661842800"; 
+   d="scan'208";a="629418251"
+Received: from ipu5-build.bj.intel.com (HELO [10.238.232.188]) ([10.238.232.188])
+  by fmsmga007.fm.intel.com with ESMTP; 13 Oct 2022 00:31:23 -0700
+Subject: Re: [PATCH v14 03/34] media: subdev: increase
+ V4L2_FRAME_DESC_ENTRY_MAX to 8
+To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+        linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        niklas.soderlund+renesas@ragnatech.se,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Kishon Vijay Abraham <kishon@ti.com>,
+        satish.nagireddy@getcruise.com, Tomasz Figa <tfiga@chromium.org>,
+        "Qiu, Tian Shu" <tian.shu.qiu@intel.com>
+References: <20220831141357.1396081-1-tomi.valkeinen@ideasonboard.com>
+ <20220831141357.1396081-4-tomi.valkeinen@ideasonboard.com>
+ <ea72318d-2661-1918-6531-1518683364c3@linux.intel.com>
+ <cf01ba3b-ec26-0bb7-257b-a3cdf2d489d9@ideasonboard.com>
+From:   Bingbu Cao <bingbu.cao@linux.intel.com>
+Message-ID: <678f0385-0ac0-199a-7d0d-23077982804d@linux.intel.com>
+Date:   Thu, 13 Oct 2022 15:31:38 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CAFP0Ok9iHi+1nyzxMfMA58QC5=H4H48ALBY+1e8eeTMsfbUY3A@mail.gmail.com>
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <cf01ba3b-ec26-0bb7-257b-a3cdf2d489d9@ideasonboard.com>
+Content-Type: text/plain; charset=windows-1252
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
+        SPF_HELO_PASS,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello Karthik
+Tomi, 
 
-On Wed, Oct 12, 2022 at 10:59:50PM -0700, Karthik Poduval wrote:
-> Hi All,
->
-> I have hardware that does some sort of image manipulation. The
-> hardware takes 2 inputs.
-> - image buffer
-> - config param buffer
-> and generates one output which is also an image buffer.
-> The input and output images formats fall under standard image
-> definitions of V4L2 like various YUV/RGB formats (interleaved or
-> multiplanar).
->
-> The config param buffer is kind of like a set of instructions for the
-> hardware that needs to be passed with every input and output image
-> which tells the hardware how to process the image.
-> The hardware will be given different input images and output images
-> every time and possibly different config param buffers too (in some
-> cases). The config param buffers may have variable sizes too based on
-> the nature of processing for that frame, but input and output images
-> are fixed in size for a given context. I should also mention that the
-> config param buffers are a few KBs in size so zero copy is a
-> requirement. The config params buffers are written by userspace
-> (possibly also driver in kernel space) and read by hardware.
->
+On 10/3/22 7:32 PM, Tomi Valkeinen wrote:
+> Hi,
+> 
+> On 29/09/2022 09:48, Bingbu Cao wrote:
+>>
+>>
+>> On 8/31/22 10:13 PM, Tomi Valkeinen wrote:
+>>> V4L2_FRAME_DESC_ENTRY_MAX is currently set to 4. In theory it's possible
+>>> to have an arbitrary amount of streams in a single pad, so preferably
+>>> there should be no hardcoded maximum number.
+>>>
+>>> However, I believe a reasonable max is 8, which would cover a CSI-2 pad
+>>> with 4 streams of pixel data and 4 streams of metadata.
+>>>
+>>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+>>> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+>>> Reviewed-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+>>> Reviewed-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+>>> ---
+>>>   include/media/v4l2-subdev.h | 6 +++++-
+>>>   1 file changed, 5 insertions(+), 1 deletion(-)
+>>>
+>>> diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
+>>> index 9689f38a0af1..3797b99bb408 100644
+>>> --- a/include/media/v4l2-subdev.h
+>>> +++ b/include/media/v4l2-subdev.h
+>>> @@ -358,7 +358,11 @@ struct v4l2_mbus_frame_desc_entry {
+>>>       } bus;
+>>>   };
+>>>   -#define V4L2_FRAME_DESC_ENTRY_MAX    4
+>>> + /*
+>>> +  * If this number is too small, it should be dropped altogether and the
+>>> +  * API switched to a dynamic number of frame descriptor entries.
+>>> +  */
+>>> +#define V4L2_FRAME_DESC_ENTRY_MAX    8
+>>
+>> The number 8 here is still not enough I think, CSI2 specification already
+>> extended the VC identifier to be at most 5 bits, which support a max of
+>> 32 VCs.
+> 
+> Well, 8 frame desc entries is not enough for the "old" CSI2 either as there can be a lot of data-types, each a separate stream ("stream" as defined by this series) which needs a frame desc.
+> 
+>> Considering the metadata, the number should be larger, it looks like that
+>> we have to switch using dynamic number?
+> 
+> Do we have a current use case which needs more than 8 streams per pad? If not, I'd stay away from this for the time being. This can be changed later.
 
-This sounds very much how a regular M2M ISP driver works. I can't tell
-about codecs as I'm no expert there, but I expect them to be similar,
-so your use case is covered by existing drivers.
+Yes, we have a use case which run at maximum 6 streams + 4 meta-data.
 
-> Here were two mechanisms I had in mind while trying to design a V4L2
-> M2M driver for this hardware.
-> - Use a custom multiplanar input format where one plane is a config
-> param buffer with remaining planes for input images (in case the input
-> image is also multiplanar).
+> 
+>> BTW, does this change break the uAPI?
+> 
+> No, the frame desc is fully internal to the kernel.
 
-If you're wondering how to pass parameters to the HW I suggest to
-consider registering an output video device node, where you simply
-queue buffers with your parameters to.
+Got it, thanks.
+> 
+>  Tomi
 
-Your HW could be modeled as a single subdevice with 3 video device
-nodes, one output device for input images, one output device for
-parameters, and one capture device for output images.
-
-                   +-----------+
-       +----+      | HW subdav |      +------+
-       | In | ---> 0           0  --> | out  |
-       +----+      |           |      +------+
-                   +-----0-----+
-                         ^
-                         |
-                     +--------+
-                     | params |
-                     +--------+
-
-The parameters buffer can be of modeled using the v4l2_meta_format[1]
-interface. The data format of the buffer could be defined as a custom
-metadata format, you can see examples here [2]
-
-[1] https://www.kernel.org/doc/html/latest/userspace-api/media/v4l/dev-meta.html#c.v4l2_meta_format
-[2] https://www.kernel.org/doc/html/latest/userspace-api/media/v4l/meta-formats.html#meta-formats
-
-I suggest to look at the IPU3 and RkISP1 drivers for reference.
-
-> - Use dmabuf heaps to allocate config param buffer. Tie this config
-> param buffer fd to an input buffer (using request API). Driver would
-> have to attach the config param buffer dmabuf fd, use it and detach.
->
-
-You should be able to easily allocate buffers in the video device as
-you would easily do and export them as dmabuf fds by using
-VIDIOC_EXPBUF [3].
-
-Once you have them you can map them in your application code and
-write their content.
-
-[3] https://www.kernel.org/doc/html/latest/userspace-api/media/v4l/vidioc-expbuf.html
-
-> Any comments/concerns about the above two mechanisms ?
-> Any other better ideas ?
-> Are there any existing V4L2 M2M mechanisms present to deal with per
-> frame param buffers that are also zero copy ?
-> Is the media request API able to do zero copy for setting compound
-> controls for large (several KBs) compound controls ? (making the above
-> dmabuf heap approach unnecessary)
-
-Now, all the above assumes your parameters buffer is modeled as a
-structure of parameters (and possibly data tables). If you are instead
-looking at something that can be modeled through controls you might
-have better guidance by looking at how codecs work, but there I can't
-help much ;)
-
-Hope it helps
-   j
->
-> --
-> Regards,
-> Karthik Poduval
+-- 
+Best regards,
+Bingbu Cao
