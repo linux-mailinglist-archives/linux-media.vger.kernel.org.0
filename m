@@ -2,138 +2,95 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0AC415FD8F1
-	for <lists+linux-media@lfdr.de>; Thu, 13 Oct 2022 14:13:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5843B5FD945
+	for <lists+linux-media@lfdr.de>; Thu, 13 Oct 2022 14:38:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229533AbiJMMNi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 13 Oct 2022 08:13:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36454 "EHLO
+        id S229614AbiJMMiW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 13 Oct 2022 08:38:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59008 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229650AbiJMMNf (ORCPT
+        with ESMTP id S229513AbiJMMiV (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 13 Oct 2022 08:13:35 -0400
-Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com [199.106.114.38])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CED99F88DB;
-        Thu, 13 Oct 2022 05:13:28 -0700 (PDT)
+        Thu, 13 Oct 2022 08:38:21 -0400
+Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com [IPv6:2a00:1450:4864:20::32c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C9F1011D999
+        for <linux-media@vger.kernel.org>; Thu, 13 Oct 2022 05:38:19 -0700 (PDT)
+Received: by mail-wm1-x32c.google.com with SMTP id y10so1117578wma.0
+        for <linux-media@vger.kernel.org>; Thu, 13 Oct 2022 05:38:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
-  t=1665663209; x=1697199209;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=1qoOj96ApBOzc1TcpPtjYI+umqPnp7rb8jnSe3iG49w=;
-  b=PjXj/8KX2MSkKjyJ7T0Nq+JeEc64LtDFNZHDeirz12s0k7m1inr6xwK/
-   vYkaQF9i7C4ZGXzVvz+2f4Q5/DqrAlxAIwQc9yNFLxhV7Xs+tMN2Wg2qn
-   VKJMaaB/gbU7lZuGRZTeFucLJ062xd8zczstQhPURNHTFIUx86pmgVaVq
-   U=;
-Received: from unknown (HELO ironmsg-SD-alpha.qualcomm.com) ([10.53.140.30])
-  by alexa-out-sd-01.qualcomm.com with ESMTP; 13 Oct 2022 05:13:27 -0700
-X-QCInternal: smtphost
-Received: from unknown (HELO nasanex01a.na.qualcomm.com) ([10.52.223.231])
-  by ironmsg-SD-alpha.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Oct 2022 05:13:27 -0700
-Received: from mmitkov.eu.qualcomm.com (10.80.80.8) by
- nasanex01a.na.qualcomm.com (10.52.223.231) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.29; Thu, 13 Oct 2022 05:13:24 -0700
-From:   <quic_mmitkov@quicinc.com>
-To:     <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        <robert.foss@linaro.org>, <akapatra@quicinc.com>,
-        <jzala@quicinc.com>, <todor.too@gmail.com>
-CC:     <agross@kernel.org>, <konrad.dybcio@somainline.org>,
-        <mchehab@kernel.org>, <bryan.odonoghue@linaro.org>,
-        <cgera@qti.qualcomm.com>, <gchinnab@quicinc.com>,
-        <ayasan@qti.qualcomm.com>, <laurent.pinchart@ideasonboard.com>,
-        Milen Mitkov <quic_mmitkov@quicinc.com>
-Subject: [PATCH v4 4/4] media: camss: sm8250: Pipeline starting and stopping for multiple virtual channels
-Date:   Thu, 13 Oct 2022 15:12:55 +0300
-Message-ID: <20221013121255.1977-5-quic_mmitkov@quicinc.com>
-X-Mailer: git-send-email 2.37.3.windows.1
-In-Reply-To: <20221013121255.1977-1-quic_mmitkov@quicinc.com>
-References: <20221013121255.1977-1-quic_mmitkov@quicinc.com>
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=n98JEg0aU1YMdIAxv7Liv37PwlgbINKHuzKrarqY9oc=;
+        b=iDrElDPw41gvQqgZ7TCAlQXfNmXe96Amnb7+vhhTeovAYPx4oTjcfZ051zH+LVawP/
+         pliD9rHIbDthh33BiZWTDDwp9amDjROYQ6aBl7n2A0phJk0CDjqgsFxGxad9Zzzz/tkm
+         G7lLj0DHttDzf4VOMG2TkHnxEvR4CfitJnAdCbK3ubOSX3CqbQEjzFHKFIrVFIz4Ux9u
+         zRBR5mxWpf8IxBXTtxSZDqATLtC60CqjexUvfQ6qO37SBtZlc/rKe9AZs+nLrnuJ6Mif
+         EgI/v1hbWPK3Q+nBJ+iuevV+hjPgfzQtG3mhrxC0HRgLpdhInNCa/bkDfjl8i/4b2MhI
+         nM+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=n98JEg0aU1YMdIAxv7Liv37PwlgbINKHuzKrarqY9oc=;
+        b=raat4aHOs/Cj+JRn+2FO7JxtawQLk7Vttn0Xe+aVSozVjiSwqZibzD31xQT78WXz/S
+         WrshaR13Y5sAznd9iAMHvpqKcSczLiQm3iKTFQSNHlD41tFPEml62/kfPieOHQ7bH9wp
+         OvZpF7m/i2x1BZEuw3fTXVuMK/fkwSmDgQccc599/QOreX3ZhzDheS52A9WAt1iW/ynl
+         T44mQRZYh2WretulxPN7ocWqq0iXd1kyfqKu2z4ygOkZqG+zzogJQzXEprkejvOOpLen
+         hsn+dma5yqEKfgsmPpX13LjfZhgE9LtbQR5+BwefknimcYaWj0dtYOefjJ6gdNhpUf7j
+         2LIw==
+X-Gm-Message-State: ACrzQf03gHxzR56iCI90gfft2ElWV3ZuISftcmrPRq0HdtplwJ9k3JyN
+        PkZRHbcE/dkBb+etpV2I+HjLZw==
+X-Google-Smtp-Source: AMsMyM6xvD7KaKmCY3+ro/8lfB0TUt9lb1jEjbicKFawRN/dFfDJGtC6Pxnpi9cJz+RClZlE3Bj/xg==
+X-Received: by 2002:a7b:c056:0:b0:3b4:e007:2050 with SMTP id u22-20020a7bc056000000b003b4e0072050mr6443748wmc.38.1665664698341;
+        Thu, 13 Oct 2022 05:38:18 -0700 (PDT)
+Received: from [192.168.0.162] (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
+        by smtp.gmail.com with ESMTPSA id e5-20020a5d5945000000b00231893bfdc7sm2030004wri.2.2022.10.13.05.38.17
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 13 Oct 2022 05:38:17 -0700 (PDT)
+Message-ID: <a6558ad9-bd04-ca1a-fa20-8d1d55612887@linaro.org>
+Date:   Thu, 13 Oct 2022 13:38:17 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01a.na.qualcomm.com (10.52.223.231)
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.1
+Subject: Re: [PATCH v4 0/4] media: camss: sm8250: Virtual channels support for
+ SM8250
+Content-Language: en-US
+To:     quic_mmitkov@quicinc.com, linux-media@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, robert.foss@linaro.org,
+        akapatra@quicinc.com, jzala@quicinc.com, todor.too@gmail.com
+Cc:     agross@kernel.org, konrad.dybcio@somainline.org,
+        mchehab@kernel.org, cgera@qti.qualcomm.com, gchinnab@quicinc.com,
+        ayasan@qti.qualcomm.com, laurent.pinchart@ideasonboard.com
+References: <20221013121255.1977-1-quic_mmitkov@quicinc.com>
+From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+In-Reply-To: <20221013121255.1977-1-quic_mmitkov@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-3.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Milen Mitkov <quic_mmitkov@quicinc.com>
+On 13/10/2022 13:12, quic_mmitkov@quicinc.com wrote:
+> For v4:
+> - fixes the warning reported by the kernel test robot
+> - tiny code change to enable the vc functionality with the partially-applied
+>    multistream patches on linux-next (tested on tag:next-20221010)
 
-Use the multistream series function video_device_pipeline_alloc_start
-to allows multiple clients of the same pipeline.
+Ah.
 
-If any of the entities in the pipeline doesn't return success at stop
-(e.g. if a VFE line remains running), the full pipeline won't be stopped.
-This allows for stopping and starting streams at any point without
-disrupting the other running streams.
+I never groked I need to apply an alternative set on top to test this.
+Doh !
 
-Signed-off-by: Milen Mitkov <quic_mmitkov@quicinc.com>
-Reviewed-by: Robert Foss <robert.foss@linaro.org>
+Let me see if I can give you a tested-by
+
 ---
- .../media/platform/qcom/camss/camss-video.c   | 21 ++++++++++++++++---
- 1 file changed, 18 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/media/platform/qcom/camss/camss-video.c b/drivers/media/platform/qcom/camss/camss-video.c
-index 81fb3a5bc1d5..094971e2ff02 100644
---- a/drivers/media/platform/qcom/camss/camss-video.c
-+++ b/drivers/media/platform/qcom/camss/camss-video.c
-@@ -351,6 +351,7 @@ static int video_get_subdev_format(struct camss_video *video,
- 	if (subdev == NULL)
- 		return -EPIPE;
- 
-+	memset(&fmt, 0, sizeof(fmt));
- 	fmt.pad = pad;
- 	fmt.which = V4L2_SUBDEV_FORMAT_ACTIVE;
- 
-@@ -493,9 +494,11 @@ static int video_start_streaming(struct vb2_queue *q, unsigned int count)
- 	struct v4l2_subdev *subdev;
- 	int ret;
- 
--	ret = video_device_pipeline_start(vdev, &video->pipe);
--	if (ret < 0)
-+	ret = video_device_pipeline_alloc_start(vdev);
-+	if (ret < 0) {
-+		dev_err(video->camss->dev, "Failed to start media pipeline: %d\n", ret);
- 		return ret;
-+	}
- 
- 	ret = video_check_format(video);
- 	if (ret < 0)
-@@ -536,6 +539,7 @@ static void video_stop_streaming(struct vb2_queue *q)
- 	struct media_entity *entity;
- 	struct media_pad *pad;
- 	struct v4l2_subdev *subdev;
-+	int ret;
- 
- 	entity = &vdev->entity;
- 	while (1) {
-@@ -550,7 +554,18 @@ static void video_stop_streaming(struct vb2_queue *q)
- 		entity = pad->entity;
- 		subdev = media_entity_to_v4l2_subdev(entity);
- 
--		v4l2_subdev_call(subdev, video, s_stream, 0);
-+		ret = v4l2_subdev_call(subdev, video, s_stream, 0);
-+
-+		if (ret == -EBUSY) {
-+			/* Don't stop if other instances of the pipeline are still running */
-+			dev_dbg(video->camss->dev, "Video pipeline still used, don't stop streaming.\n");
-+			return;
-+		}
-+
-+		if (ret) {
-+			dev_err(video->camss->dev, "Video pipeline stop failed: %d\n", ret);
-+			return;
-+		}
- 	}
- 
- 	video_device_pipeline_stop(vdev);
--- 
-2.37.3
-
+bod
