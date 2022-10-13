@@ -2,142 +2,170 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4DE0E5FD5C8
-	for <lists+linux-media@lfdr.de>; Thu, 13 Oct 2022 09:55:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5CE4D5FD5D5
+	for <lists+linux-media@lfdr.de>; Thu, 13 Oct 2022 10:00:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229585AbiJMHzI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 13 Oct 2022 03:55:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59592 "EHLO
+        id S229771AbiJMIAl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 13 Oct 2022 04:00:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41788 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229761AbiJMHzE (ORCPT
+        with ESMTP id S229769AbiJMIAh (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 13 Oct 2022 03:55:04 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 24FE7303CF
-        for <linux-media@vger.kernel.org>; Thu, 13 Oct 2022 00:55:01 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id D3D6FB81D3C
-        for <linux-media@vger.kernel.org>; Thu, 13 Oct 2022 07:54:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CC0EAC433D6;
-        Thu, 13 Oct 2022 07:54:57 +0000 (UTC)
-Message-ID: <00c6c05e-de08-5823-2692-fadc65b218a9@xs4all.nl>
-Date:   Thu, 13 Oct 2022 09:54:56 +0200
+        Thu, 13 Oct 2022 04:00:37 -0400
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C4DEA9A9CC
+        for <linux-media@vger.kernel.org>; Thu, 13 Oct 2022 01:00:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1665648034; x=1697184034;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=7+x4KrmWM+D3wlLVPtWUGxaZsMc6SBEXpWM9S9SftWs=;
+  b=RRbLWKKhR95xRx9Q2lardKZ/kdWSROKKabXOUCrCpfID2unYmTD5QHHb
+   3piicYnXQx2TkPt54Y8gZzdbWm+IraZCtqm4+LsIpwxirq1L3h1mRxAcX
+   j1fWPuvFMF8x/EFBEBrJvFViEvtGzhvQ8s+ygjHT/UvyA2I5VDZ7TrPry
+   3/RWYeBxN7toZjLygoxysv3FqKbGlQ3y+6YNmKS2k2u+3SZqeC3raQ7L9
+   YxQBeF1/G2YyHrdggL18CVm22g0gFQg5qDqawVJ7nr/VYTxzxP9esUDcT
+   6nFihb7ZRMzdlFLMdaeezFWDh5nN6FFXD8eD29OE1ISdW9wQT34ouup1L
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10498"; a="306646912"
+X-IronPort-AV: E=Sophos;i="5.95,180,1661842800"; 
+   d="scan'208";a="306646912"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Oct 2022 01:00:29 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10498"; a="769520831"
+X-IronPort-AV: E=Sophos;i="5.95,180,1661842800"; 
+   d="scan'208";a="769520831"
+Received: from punajuuri.fi.intel.com (HELO paasikivi.fi.intel.com) ([10.237.72.43])
+  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Oct 2022 01:00:27 -0700
+Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
+        by paasikivi.fi.intel.com (Postfix) with SMTP id D0A1A203F0;
+        Thu, 13 Oct 2022 11:00:24 +0300 (EEST)
+Date:   Thu, 13 Oct 2022 08:00:24 +0000
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Benjamin MUGNIER <benjamin.mugnier@foss.st.com>
+Cc:     linux-media@vger.kernel.org, alain.volmat@foss.st.com,
+        hugues.fruchet@foss.st.com, sylvain.petinot@foss.st.com,
+        dave.stevenson@raspberrypi.com, laurent.pinchart@ideasonboard.com,
+        kieran.bingham@ideasonboard.com, nicolas@ndufresne.ca,
+        hverkuil@xs4all.nl
+Subject: Re: [PATCH v6 4/4] media: i2c: Add driver for ST VGXY61 camera sensor
+Message-ID: <Y0fFmJj6Ytjb8+VY@paasikivi.fi.intel.com>
+References: <Yz8pE15/9tDf6Tjy@paasikivi.fi.intel.com>
+ <af876e81-9105-9a0f-4dd1-47bc17886536@foss.st.com>
+ <Y0PX8SRn51FlOS5c@paasikivi.fi.intel.com>
+ <7c36fdaf-fa2a-4581-5f16-02fbfc3b20fb@foss.st.com>
+ <Y0Pm0WhZpWgKxDbD@paasikivi.fi.intel.com>
+ <62b268df-3c9d-79b2-31a6-61770843ee66@foss.st.com>
+ <Y0QITlCsMe0wdPam@paasikivi.fi.intel.com>
+ <b5175106-cab0-4a6a-6ba5-20070940ccff@foss.st.com>
+ <Y0QVhUIPZYJYZ1Sm@paasikivi.fi.intel.com>
+ <1a4825dd-25ff-e556-63a2-fc9cacdb32cc@foss.st.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.2
-Subject: Re: [PATCH] Remove priv_user_controls in v4l2-test-controls
-Content-Language: en-US
-To:     Yunke Cao <yunkec@chromium.org>, linux-media@vger.kernel.org
-Cc:     Ricardo Ribalda <ribalda@chromium.org>
-References: <20220929-remove_private_control_check-v1-0-80a304b76269@chromium.org>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <20220929-remove_private_control_check-v1-0-80a304b76269@chromium.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-7.9 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1a4825dd-25ff-e556-63a2-fc9cacdb32cc@foss.st.com>
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Yunke,
+Hi Benjamin,
 
-On 9/29/22 06:11, Yunke Cao wrote:
-> Removing priv_user_controls and its related checks.
+On Mon, Oct 10, 2022 at 03:12:30PM +0200, Benjamin MUGNIER wrote:
+> Hi Sakari,
 > 
-> I suspect this is wrong because:
+> On 10/10/22 14:52, Sakari Ailus wrote:
+> > Hi Benjamin,
+> > 
+> > On Mon, Oct 10, 2022 at 02:11:46PM +0200, Benjamin MUGNIER wrote:
+> > 
+> > ...
+> > 
+> >>>>>>>>> I thought we did discuss dropping support for sensor synchronisation in
+> >>>>>>>>> this version?
+> >>>>>>>>>
+> >>>>>>>>
+> >>>>>>>> This properties affects strobing lights gpios polarities as you can see
+> >>>>>>>> in vgxy61_update_gpios_strobe_polarity. If set to '1' all strobing gpios
+> >>>>>>>> are inverted. This has nothing to do with the sensor synchronization.
+> >>>>>>>
+> >>>>>>> So this is for strobing a LED flash? It would be good to mention this in
+> >>>>>>> DT bindings.
+> >>>>>>>
+> >>>>>>>>
+> >>>>>>>> Now I realize this is poorly named, and I even forgot to document it in
+> >>>>>>>> the device tree bindings file. I apologize.
+> >>>>>>>
+> >>>>>>> No problem.
+> >>>>>>>
+> >>>>>>>>
+> >>>>>>>> I would like to rename it to 'st,strobe-polarity' since this is vendor
+> >>>>>>>> specific and to better reflect that it affects strobing gpios. I'll make
+> >>>>>>>> this change for v7 and document this in the bindings file too. Tell me if
+> >>>>>>>> there is any issues with that.
+> >>>>>>>
+> >>>>>>> That name seems reasonable to me. Although, *if* this is actually usable as
+> >>>>>>> a GPIO as the bindings suggest, then the GPIO flags would probably be a
+> >>>>>>> better alternative.
+> >>>>>>>
+> >>>>>>
+> >>>>>> If by GPIO flag you mean adding 'gpios' to the property, We could go with 'st,strobe-gpios-polarity', which in the end this leads to the same property name as it was in the dt bindings :)
+> >>>>>> I'll add a bit of comments on the bindings. It seems to be the best choice.
+> >>>>>
+> >>>>> Is this a GPIO or is it not (e.g. strobe signal only)?
+> >>>>>
+> >>>>> For the latter the this should be fine. And "flash-leds" property should be
+> >>>>> there as well I guess?
+> >>>>>
+> >>>>
+> >>>
+> >>> Please wrap the lines at around 74. Rewrapped now...
+> >>>
+> >>
+> >> Done. Thank you.
+> >>
+> >>>> This property controls the polarity of and output GPIO connected to the
+> >>>> sensor. This output GPIO is driven by the sensor firmware in order to
+> >>>> illuminate the scene whenever necessary. I'm not sure this goes under the
+> >>>> "flash-leds" category, as it only provides a signal with either "0"
+> >>>> (don't illuminate) or a 1 (illuminate) ? The sensor controls the signal
+> >>>
+> >>> This is what sensors generally do.
+> >>>
+> >>>> following the programmed "strobe-mode" as you can see in
+> >>>> vgxy61_strobe_mode according to the HDR mode. It does not have a
+> >>>> max-microamp or timeout values as a flash I suppose, it is really a
+> >>>> simple signal.
+> >>>
+> >>> Those are usually configured for the flash driver, not on the sensor.
+> >>>
+> >>
+> >> Ok, I guess in this case there is no flash driver. Should I keep the
+> >> 'st,strobe-gpios-polarity' property or are you aware of an already
+> >> defined property for this behavior?
+> > 
+> > So the LED is directly connected to this pin (perhaps in series with a
+> > resistor)? That is an unusual solution.
+> > 
 > 
-> 1. priv_user_controls == priv_user_controls_check is not always true.
+> Yes, the pin is connected to a transistor responsible of powering on and
+> off the LEDs according to the pin value, so that they have correct
+> voltage from another power supply. But yes that's basically it.
 > 
-> priv_user_controls counts the number of controls with
-> id >= V4L2_CID_PRIVATE_BASE (0x08000000).
-> priv_user_controls_check uses V4L2_CTRL_DRIVER_PRIV ((id) & 0xffff) >= 0x1000).
-> 
-> The private controls defined in V4L2_CID_USER_BASE + 0x1000 will count towards
-> priv_user_controls_check, but not priv_user_controls. For example,
-> V4L2_CID_USER_MEYE_BASE (include/uapi/linux/v4l2-controls.h#n158).
-> 
-> 2. Line 205 returns error for id >= V4L2_CID_PRIVATE_BASE. Counting
-> priv_user_controls will not happen.
+> Thanks a lot.
 
-A long time ago all private controls in a driver started at ID V4L2_CID_PRIVATE_BASE.
-When the control framework was created, all private controls were changed to start
-at a control class base + 0x1000, and to stay compatible with old userspace the
-control framework emulated enumerating such controls from V4L2_CID_PRIVATE_BASE.
+I think it's fine as-is. Maybe the property could be called
+"st,strobe-polarity" as this isn't a GPIO from software point of view?
 
-These compliance tests verify that that emulation is still working correctly.
+Virtually all other users have a flash driver chip. But the flash LED isn't
+part of the module in those cases either.
 
-So this code is OK. If you have an example of where it fails, then that is likely
-to be a bug elsewhere. I would need more information to see what could be the cause
-in that case.
+-- 
+Kind regards,
 
-For the record:
-
-Rejected-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-
-Regards,
-
-	Hans
-
-> 
-> Signed-off-by: Yunke Cao <yunkec@chromium.org>
-> ---
-> ---
->  utils/v4l2-compliance/v4l2-test-controls.cpp | 22 +---------------------
->  1 file changed, 1 insertion(+), 21 deletions(-)
-> 
-> diff --git a/utils/v4l2-compliance/v4l2-test-controls.cpp b/utils/v4l2-compliance/v4l2-test-controls.cpp
-> index 999dbcd7..18c9f638 100644
-> --- a/utils/v4l2-compliance/v4l2-test-controls.cpp
-> +++ b/utils/v4l2-compliance/v4l2-test-controls.cpp
-> @@ -182,7 +182,6 @@ int testQueryExtControls(struct node *node)
->  	__u32 which = 0;
->  	bool found_ctrl_class = false;
->  	unsigned user_controls = 0;
-> -	unsigned priv_user_controls = 0;
->  	unsigned user_controls_check = 0;
->  	unsigned priv_user_controls_check = 0;
->  	unsigned class_count = 0;
-> @@ -299,30 +298,11 @@ int testQueryExtControls(struct node *node)
->  		user_controls++;
->  	}
->  
-> -	for (id = V4L2_CID_PRIVATE_BASE; ; id++) {
-> -		memset(&qctrl, 0xff, sizeof(qctrl));
-> -		qctrl.id = id;
-> -		ret = doioctl(node, VIDIOC_QUERY_EXT_CTRL, &qctrl);
-> -		if (ret && ret != EINVAL)
-> -			return fail("invalid query_ext_ctrl return code (%d)\n", ret);
-> -		if (ret)
-> -			break;
-> -		if (qctrl.id != id)
-> -			return fail("qctrl.id (%08x) != id (%08x)\n",
-> -					qctrl.id, id);
-> -		if (checkQCtrl(node, qctrl))
-> -			return fail("invalid control %08x\n", qctrl.id);
-> -		priv_user_controls++;
-> -	}
-> -
-> -	if (priv_user_controls + user_controls && node->controls.empty())
-> +	if (user_controls && node->controls.empty())
->  		return fail("does not support V4L2_CTRL_FLAG_NEXT_CTRL\n");
->  	if (user_controls != user_controls_check)
->  		return fail("expected %d user controls, got %d\n",
->  			user_controls_check, user_controls);
-> -	if (priv_user_controls != priv_user_controls_check)
-> -		return fail("expected %d private controls, got %d\n",
-> -			priv_user_controls_check, priv_user_controls);
->  	return result;
->  }
->  
-> 
-> ---
-> base-commit: 7f560aede797b659b585f063ed1f143f58b03df5
-> change-id: 20220929-remove_private_control_check-ab8cc38a1b9e
-> 
-> Best regards,
+Sakari Ailus
