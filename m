@@ -2,124 +2,119 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 798B15FE418
-	for <lists+linux-media@lfdr.de>; Thu, 13 Oct 2022 23:18:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 710D15FE545
+	for <lists+linux-media@lfdr.de>; Fri, 14 Oct 2022 00:32:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229969AbiJMVSS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 13 Oct 2022 17:18:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55988 "EHLO
+        id S229655AbiJMWce (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 13 Oct 2022 18:32:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59458 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229883AbiJMVSK (ORCPT
+        with ESMTP id S229460AbiJMWcb (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 13 Oct 2022 17:18:10 -0400
-Received: from mail-qk1-x730.google.com (mail-qk1-x730.google.com [IPv6:2607:f8b0:4864:20::730])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 23582178A1
-        for <linux-media@vger.kernel.org>; Thu, 13 Oct 2022 14:18:07 -0700 (PDT)
-Received: by mail-qk1-x730.google.com with SMTP id b25so1306033qkk.7
-        for <linux-media@vger.kernel.org>; Thu, 13 Oct 2022 14:18:07 -0700 (PDT)
+        Thu, 13 Oct 2022 18:32:31 -0400
+Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com [IPv6:2a00:1450:4864:20::332])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4214A18D822;
+        Thu, 13 Oct 2022 15:32:29 -0700 (PDT)
+Received: by mail-wm1-x332.google.com with SMTP id c7-20020a05600c0ac700b003c6cad86f38so4244937wmr.2;
+        Thu, 13 Oct 2022 15:32:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=GpUcGMMTLEomNjTCrbBwsAmpnz2xKhZqSnjc0ThAaUs=;
-        b=ZXurGH/Z4HQBw7HeSk8mIe1MIcC65s+3gMCung+gK5e1TVWaUu5UE4ut+gVQgOVgNu
-         7vAVI12Ug6bikn9Yez/wuV9fxQi/E1paOrQPL/RH77TWxADk7Iq7sJ2wx0Mbopj+qlUf
-         oWxnaJajVbqB/XwNll/lE13lZeDwiGBNN55x8mozLJOkoOqBNCWl89f198HCHS3AL1iW
-         4A+z7nQoos4ya1yhP6F26Or/8TgSPIBknW47u2fUIWOY/+G984ns+ifd3BiCKFZ4N08X
-         AuNIucYlVrxjXpaFTrJDJDvm1I1thWgtHBtfTwh0Iy9PA1uVdM09zJAuJI1a8f7DJTEk
-         VnCg==
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=cmLu5/VoD+O0UJu6VoLDdnrtTxKovAe8n1SjzXtC2Xs=;
+        b=b7DBr9u1eaqWEAbv5Qbg/QNyboll+gHJXOnlDd/6Sb8TT8U/oXq177K6ef9HL9aVG5
+         BHgyrWvnsWEi8CyoZp/n26mA4xSHw+GJEPPTlRnMC4tSuGw9fbTn78ZiOaAr1abfApHR
+         zHaGplBXSq2rjsdJ9dCMEhdVT70dXV+6peKRPS8dConrKaRvWemUfWGUOHFwFN+wZ4jx
+         6T9Nhf871eCwS5xD//AJxcL8R5yb5bWGtVu30oShYxJPVdiqzd8EsKWRN9tKMnMLDZ42
+         IGelHqUbnJA2+bK7zHhRlAew2xZDRAZWc4VvwGyDNJOEhY4ujRO7Ss2SHwdbk0DAXpiU
+         Z1xA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=GpUcGMMTLEomNjTCrbBwsAmpnz2xKhZqSnjc0ThAaUs=;
-        b=IfSVW/BjsLQ63c9Xt7A9xT9ldEwxsi2mrRiporx5URTOp8hqxQq8r9i9RlRzXpMUhN
-         mfe1PEiEWO2FPglBOy9ENJswH5K0CEwMw8+U7T8/wXwbMNreL9U/pH/PD6JEw83VVk7c
-         WUTHg0ZU0A8iwuwOP2gH/GhdDoWDHiL9Wk3L7R1h5Rj+TngftVb2gsqX0zl1iq3MRzAZ
-         kQ3e028VBCf7xFOkBABkvrISDIruNw7deHhj6rMKLVaGE099sV37qD18Jcr7217nCfE8
-         e8YMp+x+9NuO8XyCjFxOqZT573jDbzPSYCogrGEeq5Sn7FRkqvSVsoXGrRn6aaTXgqui
-         lgVA==
-X-Gm-Message-State: ACrzQf34PL8V9w9fKS9CRzzHp46IZnWnvtuaa3yZwUDLG0CSVgROQaAF
-        SheouYypU4GsvGNnmM2jxkLrOA==
-X-Google-Smtp-Source: AMsMyM6+0K3K9x9m57Jyeie2QSjIrUGbpa5EzJY5X1qA1AoyhSlTz4c/SQDE11VdncG3Y6RT63+Zqg==
-X-Received: by 2002:a37:9a46:0:b0:6ec:55c9:7872 with SMTP id c67-20020a379a46000000b006ec55c97872mr1597614qke.102.1665695844921;
-        Thu, 13 Oct 2022 14:17:24 -0700 (PDT)
-Received: from [192.168.1.57] (cpe-72-225-192-120.nyc.res.rr.com. [72.225.192.120])
-        by smtp.gmail.com with ESMTPSA id i5-20020a05622a08c500b0039bfe8acff6sm740039qte.58.2022.10.13.14.17.23
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 13 Oct 2022 14:17:24 -0700 (PDT)
-Message-ID: <4ab5d9bb-36e1-2375-4803-d6c0df438de4@linaro.org>
-Date:   Thu, 13 Oct 2022 17:15:13 -0400
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=cmLu5/VoD+O0UJu6VoLDdnrtTxKovAe8n1SjzXtC2Xs=;
+        b=6lmN9MGuEaxxm2hkpM86AQ5fI4OzCWiXEs9/QVyll9fenxkQOSEBDJslzB/bMdAQzR
+         Ed0D/H7jaE7avSAi0wxRjLxGcFQ99i4mWnplUW8X6InSQycX/pgoJ1LfkvblRlSX26YS
+         tfXBIRaqFZ0hPqceIvWOSaIC1LBvubWr+z70f03icdtEpT+Rydq/iKCVbW4DGAxg9Gi7
+         7mSHEa9UPPWx9k0YiNDAjyqDk5GvOIG/gWNzfKzMdrBWyGIJAXzRqsW3+rP4OTcVTKBQ
+         ean+axS0InISjBod1eJw4t/N+GFDrL6fkpF/PvYtx3Ff8eWBxlSDen6p8jyIISil4TMF
+         b0Qw==
+X-Gm-Message-State: ACrzQf3eORQdt0W0lw3MCFZW/8rmkgS78DnmL1OtAWErYrvJhpU4qp7x
+        2NE8K8F5Vn9auDr6JUU1m1Y=
+X-Google-Smtp-Source: AMsMyM77thVePWoPhfex4il6b5GCYPnvQuwIdmlHmgZi42gv3PuduqSo5xmO3eAT9zGfb65CVQdWVg==
+X-Received: by 2002:a05:600c:19ce:b0:3b9:c36f:f9e2 with SMTP id u14-20020a05600c19ce00b003b9c36ff9e2mr1394145wmq.110.1665700348341;
+        Thu, 13 Oct 2022 15:32:28 -0700 (PDT)
+Received: from localhost (cpc154979-craw9-2-0-cust193.16-3.cable.virginm.net. [80.193.200.194])
+        by smtp.gmail.com with ESMTPSA id j28-20020a5d6e5c000000b0022cd27bc8c1sm726789wrz.9.2022.10.13.15.32.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 13 Oct 2022 15:32:27 -0700 (PDT)
+From:   Colin Ian King <colin.i.king@gmail.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev
+Cc:     kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] media: atomisp: Fix spelling mistake "mis-match" -> "mismatch"
+Date:   Thu, 13 Oct 2022 23:32:27 +0100
+Message-Id: <20221013223227.129440-1-colin.i.king@gmail.com>
+X-Mailer: git-send-email 2.37.3
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.2
-Subject: Re: [PATCH v5 1/3] media: dt-bindings: imx412: Extend compatible
- strings
-To:     Bryan O'Donoghue <bryan.odonoghue@linaro.org>, sakari.ailus@iki.fi,
-        dave.stevenson@raspberrypi.com, jacopo@jmondi.org,
-        paul.j.murphy@intel.com, daniele.alessandrelli@intel.com,
-        mchehab@kernel.org, linux-media@vger.kernel.org
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20221013125142.3321405-1-bryan.odonoghue@linaro.org>
- <20221013125142.3321405-2-bryan.odonoghue@linaro.org>
-Content-Language: en-US
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20221013125142.3321405-2-bryan.odonoghue@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-3.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 13/10/2022 08:51, Bryan O'Donoghue wrote:
-> Add compatible bindings for imx577 which uses the same silicon enabling
-> reference code from Sony in the available examples provided.
-> 
-> Cc: sakari.ailus@iki.fi
-> Cc: dave.stevenson@raspberrypi.com
-> Cc: jacopo@jmondi.org
-> Cc: "Paul J. Murphy" <paul.j.murphy@intel.com>
-> Cc: Daniele Alessandrelli <daniele.alessandrelli@intel.com>
-> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-> Cc: Rob Herring <robh+dt@kernel.org>
-> Cc: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-> Cc: linux-media@vger.kernel.org
-> Cc: devicetree@vger.kernel.org
-> Cc: linux-kernel@vger.kernel.org
-> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-> ---
->  Documentation/devicetree/bindings/media/i2c/sony,imx412.yaml | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/media/i2c/sony,imx412.yaml b/Documentation/devicetree/bindings/media/i2c/sony,imx412.yaml
-> index 26d1807d0bb6..d1561841ccbc 100644
-> --- a/Documentation/devicetree/bindings/media/i2c/sony,imx412.yaml
-> +++ b/Documentation/devicetree/bindings/media/i2c/sony,imx412.yaml
-> @@ -19,7 +19,10 @@ description:
->  
->  properties:
->    compatible:
-> -    const: sony,imx412
-> +    items:
+There are a few spelling mistakes in dev_err messages. Fix them.
 
-You have only one item, so drop the "items".
+Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
+---
+ drivers/staging/media/atomisp/pci/atomisp_cmd.c          | 4 ++--
+ drivers/staging/media/atomisp/pci/atomisp_compat_css20.c | 2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
-> +      - enum:
-> +          - sony,imx412
-> +          - sony,imx577
->    reg:
->      description: I2C address
->      maxItems: 1
-
-Best regards,
-Krzysztof
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.c b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
+index c72d0e344671..90f25cc22227 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_cmd.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
+@@ -3288,7 +3288,7 @@ int atomisp_css_cp_dvs2_coefs(struct atomisp_sub_device *asd,
+ 	if (!IS_ISP2401) {
+ 		if (sizeof(*cur) != sizeof(coefs->grid) ||
+ 		    memcmp(&coefs->grid, cur, sizeof(coefs->grid))) {
+-			dev_err(asd->isp->dev, "dvs grid mis-match!\n");
++			dev_err(asd->isp->dev, "dvs grid mismatch!\n");
+ 			/* If the grid info in the argument differs from the current
+ 			grid info, we tell the caller to reset the grid size and
+ 			try again. */
+@@ -3344,7 +3344,7 @@ int atomisp_css_cp_dvs2_coefs(struct atomisp_sub_device *asd,
+ 
+ 		if (sizeof(*cur) != sizeof(dvs2_coefs.grid) ||
+ 		    memcmp(&dvs2_coefs.grid, cur, sizeof(dvs2_coefs.grid))) {
+-			dev_err(asd->isp->dev, "dvs grid mis-match!\n");
++			dev_err(asd->isp->dev, "dvs grid mismatch!\n");
+ 			/* If the grid info in the argument differs from the current
+ 			grid info, we tell the caller to reset the grid size and
+ 			try again. */
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c b/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
+index fdc05548d972..b36cbde7036a 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
+@@ -3180,7 +3180,7 @@ static int atomisp_compare_dvs_grid(struct atomisp_sub_device *asd,
+ 	}
+ 
+ 	if (sizeof(*cur) != sizeof(*atomgrid)) {
+-		dev_err(asd->isp->dev, "dvs grid mis-match!\n");
++		dev_err(asd->isp->dev, "dvs grid mismatch!\n");
+ 		return -EINVAL;
+ 	}
+ 
+-- 
+2.37.3
 
