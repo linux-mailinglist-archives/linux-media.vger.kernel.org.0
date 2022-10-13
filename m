@@ -2,113 +2,160 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A6BF45FD99B
-	for <lists+linux-media@lfdr.de>; Thu, 13 Oct 2022 14:52:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C08C45FDCAC
+	for <lists+linux-media@lfdr.de>; Thu, 13 Oct 2022 16:53:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229851AbiJMMwD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 13 Oct 2022 08:52:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35524 "EHLO
+        id S229691AbiJMOxX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 13 Oct 2022 10:53:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57602 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229814AbiJMMv6 (ORCPT
+        with ESMTP id S229459AbiJMOxW (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 13 Oct 2022 08:51:58 -0400
-Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com [IPv6:2a00:1450:4864:20::32f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4498D127915
-        for <linux-media@vger.kernel.org>; Thu, 13 Oct 2022 05:51:56 -0700 (PDT)
-Received: by mail-wm1-x32f.google.com with SMTP id v130-20020a1cac88000000b003bcde03bd44so3165593wme.5
-        for <linux-media@vger.kernel.org>; Thu, 13 Oct 2022 05:51:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=QF0PqOehg1Uzod+E+BZuMuy8LI8b3uRczxR//Iq0qL0=;
-        b=R5rNXsqlYEe7NcGlvbpqFH9PS0839eRD/ziELLqTPLpyUdNd6KnGWM/S/twY8QO0ZC
-         Ny56/TND0tvJKeczUL/vGgVlehC5JI1BK7GAddzbuM3oSIRTSR5OLOQP+IRRvlWGCFk6
-         gmGuN2gq5QeqnmspvYXaaloWLlbq/ReYnPZJf5CGhEP2WnLURThOMnyUS6ydB3dPMWvG
-         MbyuTEbjVgZ74aBlTeW+zlaffwYJVnCBSW7Hhf/ljbhnX2OvJULXLxk7+ur1fj9cyx6T
-         ondP8DKnYgIsPwx9VKmeZGAFYLOquHCrgQKYTmNPEWpcxua7HiV9My4U13Js+mjzDyHU
-         8yPw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=QF0PqOehg1Uzod+E+BZuMuy8LI8b3uRczxR//Iq0qL0=;
-        b=X8f4rSQgrSbg6fecX266EozSWuyrYUdNtty7n0v4g3lYJ3GAH4JhtyJ1Zmdzr5UQLc
-         mpz3A6D24bPGaDxZJqP5XsNMapFtuKEmflOq9BUeUyolNjx6vOq2X86ZT0uR7iAdJVHo
-         mVEAJFkIWkiUYEIdj9snJu1om/bh5CgBlJhGoqmFesXfXJB0ozv/YefrgN/RPrGo2bSw
-         M+apRb4MooYBz+aV2fvRp135QmfPFTFDhk3cBubeqRIa31Uq8kYC1KuqWdTK2hz9j6x+
-         9t0ydAXpZ9dWdk/XhLA35V51oX++jeGilCB6/s749kXa5HKim4TWd/zTgWG8lsVuLjGW
-         XLMw==
-X-Gm-Message-State: ACrzQf3RVnFJRnFdP5i5m6ZtRJDRqH+0oqKWkPf7nsKNN9MIoeC7iycd
-        aYvwFh3pNRybWkSwr8sC6BXVVg==
-X-Google-Smtp-Source: AMsMyM752iGLYstxsWPWYYibiBDkVJj6eCQDYekYZjxIQvbDDqubYBQSDZ2MweIVgMVb564mnXa/4w==
-X-Received: by 2002:a05:600c:4e91:b0:3b4:bcbd:b641 with SMTP id f17-20020a05600c4e9100b003b4bcbdb641mr6575982wmq.59.1665665514687;
-        Thu, 13 Oct 2022 05:51:54 -0700 (PDT)
-Received: from planet9.chello.ie (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
-        by smtp.gmail.com with ESMTPSA id m3-20020a056000024300b0022e3e7813f0sm1332292wrz.107.2022.10.13.05.51.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 13 Oct 2022 05:51:54 -0700 (PDT)
-From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-To:     sakari.ailus@iki.fi, dave.stevenson@raspberrypi.com,
-        jacopo@jmondi.org, paul.j.murphy@intel.com,
-        daniele.alessandrelli@intel.com, mchehab@kernel.org,
-        linux-media@vger.kernel.org
-Cc:     bryan.odonoghue@linaro.org, Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v5 3/3] media: i2c: imx412: Add new compatible strings
-Date:   Thu, 13 Oct 2022 13:51:42 +0100
-Message-Id: <20221013125142.3321405-4-bryan.odonoghue@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20221013125142.3321405-1-bryan.odonoghue@linaro.org>
-References: <20221013125142.3321405-1-bryan.odonoghue@linaro.org>
+        Thu, 13 Oct 2022 10:53:22 -0400
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC417104D25;
+        Thu, 13 Oct 2022 07:53:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1665672801; x=1697208801;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=r+A85jTxRgf0CRicOayM4dLLN5VzvuhrenYOP1O6oTU=;
+  b=VBGQt3snKjaSwwIfB7YOjIhGItT1jhraaOyt/kxPQdFmLsAiKxfjMZ6/
+   wTvssSGWNAA5yxuojqVut3MlNJOmvWjDB5elRRqSDAKUIxYv1zwyZnPq8
+   VBvbvculER9n6hIqddQGd/StEG/GfU8NvlcYhvz90HmrQh3GZCbuG+4Vt
+   Fova2skDghdNYp0Abp5DZ3SZDl/Gtia9BF+/3Zd/o0j0FlfPVN/fQ8mAh
+   efiwBEJxZXxTPvIVLAjiFBPfzdS4bSlDwAKwtiQBEs43kyDXiJ6rA0MZW
+   qpEWPpxmQ0k2SIWwmV7SKES/GvsfSCndSOerYJq8Yla5DIfLiNQ0g/pLg
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10499"; a="285484078"
+X-IronPort-AV: E=Sophos;i="5.95,180,1661842800"; 
+   d="scan'208";a="285484078"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Oct 2022 07:53:21 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10499"; a="872359863"
+X-IronPort-AV: E=Sophos;i="5.95,180,1661842800"; 
+   d="scan'208";a="872359863"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by fmsmga006.fm.intel.com with ESMTP; 13 Oct 2022 07:53:11 -0700
+Received: by black.fi.intel.com (Postfix, from userid 1001)
+        id DC55F26D; Thu, 13 Oct 2022 17:53:31 +0300 (EEST)
+Date:   Thu, 13 Oct 2022 17:53:31 +0300
+From:   Mika Westerberg <mika.westerberg@linux.intel.com>
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc:     Marc Zyngier <maz@kernel.org>, Bartosz Golaszewski <brgl@bgdev.pl>,
+        Kent Gibson <warthog618@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Billy Tsai <billy_tsai@aspeedtech.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Chen-Yu Tsai <wenst@chromium.org>,
+        Claudiu Beznea <claudiu.beznea@microchip.com>,
+        Samuel Holland <samuel@sholland.org>,
+        Horatiu Vultur <horatiu.vultur@microchip.com>,
+        Rafa?? Mi??ecki <rafal@milecki.pl>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Phil Edworthy <phil.edworthy@renesas.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Fabien Dessenne <fabien.dessenne@foss.st.com>,
+        Prathamesh Shete <pshete@nvidia.com>,
+        Basavaraj Natikar <Basavaraj.Natikar@amd.com>,
+        linux-gpio@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-media@vger.kernel.org, linux-actions@lists.infradead.org,
+        linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org,
+        linux-rpi-kernel@lists.infradead.org, alsa-devel@alsa-project.org,
+        patches@opensource.cirrus.com, linux-mediatek@lists.infradead.org,
+        linux-mips@vger.kernel.org, linux-riscv@lists.infradead.org,
+        linux-omap@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-samsung-soc@vger.kernel.org,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Patrice Chotard <patrice.chotard@foss.st.com>,
+        Andreas F??rber <afaerber@suse.de>,
+        Manivannan Sadhasivam <mani@kernel.org>,
+        Andrew Jeffery <andrew@aj.id.au>,
+        Joel Stanley <joel@jms.id.au>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Ray Jui <rjui@broadcom.com>,
+        Scott Branden <sbranden@broadcom.com>,
+        Broadcom internal kernel review list 
+        <bcm-kernel-feedback-list@broadcom.com>,
+        Charles Keepax <ckeepax@opensource.cirrus.com>,
+        Richard Fitzgerald <rf@opensource.cirrus.com>,
+        Dong Aisheng <aisheng.dong@nxp.com>,
+        Fabio Estevam <festevam@gmail.com>,
+        Shawn Guo <shawnguo@kernel.org>, Jacky Bai <ping.bai@nxp.com>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Andy Shevchenko <andy@kernel.org>,
+        Sean Wang <sean.wang@kernel.org>, Andrew Lunn <andrew@lunn.ch>,
+        Gregory Clement <gregory.clement@bootlin.com>,
+        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+        Avi Fishman <avifishman70@gmail.com>,
+        Tomer Maimon <tmaimon77@gmail.com>,
+        Tali Perry <tali.perry1@gmail.com>,
+        Patrick Venture <venture@google.com>,
+        Nancy Yuen <yuenn@google.com>,
+        Benjamin Fair <benjaminfair@google.com>,
+        Ludovic Desroches <ludovic.desroches@microchip.com>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Paul Cercueil <paul@crapouillou.net>,
+        Damien Le Moal <damien.lemoal@wdc.com>,
+        Tony Lindgren <tony@atomide.com>,
+        Haojian Zhuang <haojian.zhuang@linaro.org>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Michal Simek <michal.simek@xilinx.com>,
+        Andy Gross <agross@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@somainline.org>,
+        Tomasz Figa <tomasz.figa@gmail.com>,
+        Sylwester Nawrocki <s.nawrocki@samsung.com>,
+        Alim Akhtar <alim.akhtar@samsung.com>,
+        Viresh Kumar <vireshk@kernel.org>,
+        Shiraz Hashim <shiraz.linux.kernel@gmail.com>, soc@kernel.org,
+        Orson Zhai <orsonzhai@gmail.com>,
+        Baolin Wang <baolin.wang@linux.alibaba.com>,
+        Chunyan Zhang <zhang.lyra@gmail.com>,
+        Emil Renner Berthing <kernel@esmil.dk>,
+        Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
+        Masami Hiramatsu <mhiramat@kernel.org>
+Subject: Re: [PATCH v2 35/36] pinctrl: intel: Add missed header(s)
+Message-ID: <Y0gma4fmhWISrKHe@black.fi.intel.com>
+References: <20221010201453.77401-1-andriy.shevchenko@linux.intel.com>
+ <20221010201453.77401-36-andriy.shevchenko@linux.intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221010201453.77401-36-andriy.shevchenko@linux.intel.com>
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The Sony imx577 uses the same silicon enabling reference code in the
-available examples provided as the imx412.
+On Mon, Oct 10, 2022 at 11:14:51PM +0300, Andy Shevchenko wrote:
+> Do not imply that some of the generic headers may be always included.
+> Instead, include explicitly what we are direct user of.
+> 
+> While at it, sort headers alphabetically.
+> 
+> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 
-Add in compatible strings to enable and differentiate the parts.
+Reviewed-by: Mika Westerberg <mika.westerberg@linux.intel.com>
 
-Cc: sakari.ailus@iki.fi
-Cc: dave.stevenson@raspberrypi.com
-Cc: jacopo@jmondi.org
-Cc: "Paul J. Murphy" <paul.j.murphy@intel.com>
-Cc: Daniele Alessandrelli <daniele.alessandrelli@intel.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Rob Herring <robh+dt@kernel.org>
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Cc: linux-media@vger.kernel.org
-Cc: devicetree@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
-Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
----
- drivers/media/i2c/imx412.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/drivers/media/i2c/imx412.c b/drivers/media/i2c/imx412.c
-index 9f854a1a4c2f..88e6fc78106b 100644
---- a/drivers/media/i2c/imx412.c
-+++ b/drivers/media/i2c/imx412.c
-@@ -1288,6 +1288,7 @@ static const struct dev_pm_ops imx412_pm_ops = {
- 
- static const struct of_device_id imx412_of_match[] = {
- 	{ .compatible = "sony,imx412", .data = "imx412" },
-+	{ .compatible = "sony,imx577", .data = "imx577" },
- 	{ }
- };
- 
--- 
-2.34.1
-
+For all the intel pinctrl changes.
