@@ -2,36 +2,36 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4E2845FD14B
-	for <lists+linux-media@lfdr.de>; Thu, 13 Oct 2022 02:36:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B03E75FD1B8
+	for <lists+linux-media@lfdr.de>; Thu, 13 Oct 2022 02:45:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230388AbiJMAfy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 12 Oct 2022 20:35:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39092 "EHLO
+        id S232233AbiJMApC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 12 Oct 2022 20:45:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36654 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231950AbiJMAdj (ORCPT
+        with ESMTP id S232685AbiJMAoa (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 12 Oct 2022 20:33:39 -0400
+        Wed, 12 Oct 2022 20:44:30 -0400
 Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 517BC108DFA;
-        Wed, 12 Oct 2022 17:28:55 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 586A915A01;
+        Wed, 12 Oct 2022 17:37:13 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id C2B1CB81CE7;
-        Thu, 13 Oct 2022 00:27:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 86415C433D7;
-        Thu, 13 Oct 2022 00:27:18 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 3DF96B81CD5;
+        Thu, 13 Oct 2022 00:28:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 17509C433D6;
+        Thu, 13 Oct 2022 00:28:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1665620839;
-        bh=ADoOtZnSU9oV8MbDNTbTO5d6Bon2s5hfP1Wx3LGYy6Q=;
+        s=k20201202; t=1665620885;
+        bh=I8ezokeOvdwxeajGpOMcd4rVTOREH+HgaSV+jFScXJk=;
         h=From:To:Cc:Subject:Date:From;
-        b=d3fo8672lesjNHmjY5eXXZkr7YoMDznZa5Eiv5lFOIURm2XHjsJqlucOKtITiUU/A
-         266/J1qbBFi2jMEQKd/wmakeuUIbJWSCzIY2xIFdw6ZowGe8VymXtwOxw+pv13ycim
-         qRQES7NBaOlHymZUvLwTgrWJEYt9Zr4pjQEREwdn/v4JUfaEJIlzzqQ/YC76nKaM4X
-         dhpc9flFud+bAtYtj32X9e/JNgxw52is3dpHrh8KoKcrxxQhnRa7Jd2v5Nllrt29Zw
-         j+Y8/y4EZSlKS/0zeJrlq6SIHmZ0CsI0F7tVEZPBH/apR0cUxg1OEzNVywaKfFi+cW
-         U0NONPIiQ7W6g==
+        b=B/x2DTeV3zHFIP6Qyjx21NC/6whBOHQNbjzBLgi+KMgOMJT6jvGqpuFOLsml0ZDUg
+         rs2vgA1VdM7iKrETu45p2g7bosvUT7pgaqOYnrvBaS6HuXpqACLTZA6yOyJH0+5ouY
+         3V6t6LZa9x03+WD5XGgCympYcRwO7QV8fk9y0zvWYrlmwEDh4eZ3qXmrnN8XMZcO7/
+         xEwto8JxA8YB+XlNCpLCCInjKGw+yAFbwJ0bh3BFpJXpb1wKFePlHj1GNG5CU8pehO
+         +KsM2CmTl9gIpcn3CLhfCw1pUrOIS7jjHCr2Al3Z+Fie7ox1xULTDsgHVcA/iahGYU
+         pIbnG95pdwnEw==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Zheyu Ma <zheyuma97@gmail.com>,
@@ -40,9 +40,9 @@ Cc:     Zheyu Ma <zheyuma97@gmail.com>,
         Sasha Levin <sashal@kernel.org>,
         laurent.pinchart@ideasonboard.com, sakari.ailus@linux.intel.com,
         linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 01/13] media: cx88: Fix a null-ptr-deref bug in buffer_prepare()
-Date:   Wed, 12 Oct 2022 20:27:00 -0400
-Message-Id: <20221013002716.1895839-1-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.9 01/10] media: cx88: Fix a null-ptr-deref bug in buffer_prepare()
+Date:   Wed, 12 Oct 2022 20:27:48 -0400
+Message-Id: <20221013002802.1896096-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
 X-stable: review
@@ -94,10 +94,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  2 files changed, 26 insertions(+), 26 deletions(-)
 
 diff --git a/drivers/media/pci/cx88/cx88-vbi.c b/drivers/media/pci/cx88/cx88-vbi.c
-index c637679b01b2..2649f87c070f 100644
+index d3237cf8ffa3..78d78b7c974c 100644
 --- a/drivers/media/pci/cx88/cx88-vbi.c
 +++ b/drivers/media/pci/cx88/cx88-vbi.c
-@@ -144,11 +144,10 @@ static int buffer_prepare(struct vb2_buffer *vb)
+@@ -140,11 +140,10 @@ static int buffer_prepare(struct vb2_buffer *vb)
  		return -EINVAL;
  	vb2_set_plane_payload(vb, 0, size);
  
@@ -114,10 +114,10 @@ index c637679b01b2..2649f87c070f 100644
  
  static void buffer_finish(struct vb2_buffer *vb)
 diff --git a/drivers/media/pci/cx88/cx88-video.c b/drivers/media/pci/cx88/cx88-video.c
-index 1748812bd7e5..79c293c86f14 100644
+index 3b140ad598de..0ad0f4ab6c4b 100644
 --- a/drivers/media/pci/cx88/cx88-video.c
 +++ b/drivers/media/pci/cx88/cx88-video.c
-@@ -452,6 +452,7 @@ static int queue_setup(struct vb2_queue *q,
+@@ -443,6 +443,7 @@ static int queue_setup(struct vb2_queue *q,
  
  static int buffer_prepare(struct vb2_buffer *vb)
  {
@@ -125,7 +125,7 @@ index 1748812bd7e5..79c293c86f14 100644
  	struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
  	struct cx8800_dev *dev = vb->vb2_queue->drv_priv;
  	struct cx88_core *core = dev->core;
-@@ -466,35 +467,35 @@ static int buffer_prepare(struct vb2_buffer *vb)
+@@ -457,42 +458,42 @@ static int buffer_prepare(struct vb2_buffer *vb)
  
  	switch (core->field) {
  	case V4L2_FIELD_TOP:
@@ -180,8 +180,7 @@ index 1748812bd7e5..79c293c86f14 100644
 +				       core->height >> 1);
  		break;
  	}
- 	dprintk(2,
-@@ -502,7 +503,7 @@ static int buffer_prepare(struct vb2_buffer *vb)
+ 	dprintk(2,"[%p/%d] buffer_prepare - %dx%d %dbpp \"%s\" - dma=0x%08lx\n",
  		buf, buf->vb.vb2_buf.index,
  		core->width, core->height, dev->fmt->depth, dev->fmt->name,
  		(unsigned long)buf->risc.dma);
