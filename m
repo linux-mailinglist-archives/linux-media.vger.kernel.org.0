@@ -2,217 +2,69 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0BDAC5FD793
-	for <lists+linux-media@lfdr.de>; Thu, 13 Oct 2022 12:05:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 628335FD7B6
+	for <lists+linux-media@lfdr.de>; Thu, 13 Oct 2022 12:17:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229600AbiJMKFM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 13 Oct 2022 06:05:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43614 "EHLO
+        id S229640AbiJMKRE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 13 Oct 2022 06:17:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40894 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229710AbiJMKFK (ORCPT
+        with ESMTP id S229618AbiJMKRD (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 13 Oct 2022 06:05:10 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2AC7953A70
-        for <linux-media@vger.kernel.org>; Thu, 13 Oct 2022 03:05:08 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 0626761779
-        for <linux-media@vger.kernel.org>; Thu, 13 Oct 2022 10:05:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CE4F9C433D6;
-        Thu, 13 Oct 2022 10:05:06 +0000 (UTC)
-Message-ID: <48e8b244-cee6-2d48-ad5e-1fc203aefe0f@xs4all.nl>
-Date:   Thu, 13 Oct 2022 12:05:05 +0200
+        Thu, 13 Oct 2022 06:17:03 -0400
+Received: from Chamillionaire.breakpoint.cc (Chamillionaire.breakpoint.cc [IPv6:2a0a:51c0:0:12e:520::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED085F6C22;
+        Thu, 13 Oct 2022 03:17:00 -0700 (PDT)
+Received: from fw by Chamillionaire.breakpoint.cc with local (Exim 4.92)
+        (envelope-from <fw@strlen.de>)
+        id 1oivGV-00028B-QF; Thu, 13 Oct 2022 12:16:35 +0200
+Date:   Thu, 13 Oct 2022 12:16:35 +0200
+From:   Florian Westphal <fw@strlen.de>
+To:     Rolf Eike Beer <eike-kernel@sf-tec.de>
+Cc:     linux-kernel@vger.kernel.org, patches@lists.linux.dev,
+        "Jason A. Donenfeld" <Jason@zx2c4.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Florian Westphal <fw@strlen.de>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        Thomas Graf <tgraf@suug.ch>, kasan-dev@googlegroups.com,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        kernel-janitors@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-block@vger.kernel.org,
+        linux-crypto@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-mips@vger.kernel.org, linux-mm@kvack.org,
+        linux-mmc@vger.kernel.org, linux-mtd@lists.infradead.org,
+        linux-nvme@lists.infradead.org, linux-parisc@vger.kernel.org,
+        linux-rdma@vger.kernel.org, linux-s390@vger.kernel.org,
+        linux-um@lists.infradead.org, linux-usb@vger.kernel.org,
+        linux-wireless@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        loongarch@lists.linux.dev, netdev@vger.kernel.org,
+        sparclinux@vger.kernel.org, x86@kernel.org
+Subject: Re: [PATCH v6 5/7] treewide: use get_random_u32() when possible
+Message-ID: <20221013101635.GB11818@breakpoint.cc>
+References: <20221010230613.1076905-1-Jason@zx2c4.com>
+ <20221010230613.1076905-6-Jason@zx2c4.com>
+ <3026360.ZldQQBzMgz@eto.sf-tec.de>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.2
-Subject: Re: [PATCH] Remove priv_user_controls in v4l2-test-controls
-Content-Language: en-US
-To:     Ricardo Ribalda <ribalda@chromium.org>
-Cc:     Yunke Cao <yunkec@chromium.org>, linux-media@vger.kernel.org
-References: <20220929-remove_private_control_check-v1-0-80a304b76269@chromium.org>
- <00c6c05e-de08-5823-2692-fadc65b218a9@xs4all.nl>
- <CANiDSCs-ajz_NUF0ZYbOdrfC5PXy82_iJiE2BsY5i6xF5ote=A@mail.gmail.com>
- <73113af5-7482-0242-52ae-79168c101fdd@xs4all.nl>
- <CANiDSCudOnnZTijAJbPzZ8-1d4=nn=269SxhgRbwpAwV51hxeg@mail.gmail.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <CANiDSCudOnnZTijAJbPzZ8-1d4=nn=269SxhgRbwpAwV51hxeg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-7.9 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <3026360.ZldQQBzMgz@eto.sf-tec.de>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Ricardo,
+Rolf Eike Beer <eike-kernel@sf-tec.de> wrote:
+> Florian, can you comment and maybe fix it?
 
-On 10/13/22 11:56, Ricardo Ribalda wrote:
-> On Thu, 13 Oct 2022 at 11:54, Hans Verkuil <hverkuil-cisco@xs4all.nl> wrote:
->>
->>
->>
->> On 10/13/22 11:52, Ricardo Ribalda wrote:
->>> Hi Hans
->>>
->>>
->>> On Thu, 13 Oct 2022 at 09:55, Hans Verkuil <hverkuil-cisco@xs4all.nl> wrote:
->>>>
->>>> Hi Yunke,
->>>>
->>>> On 9/29/22 06:11, Yunke Cao wrote:
->>>>> Removing priv_user_controls and its related checks.
->>>>>
->>>>> I suspect this is wrong because:
->>>>>
->>>>> 1. priv_user_controls == priv_user_controls_check is not always true.
->>>>>
->>>>> priv_user_controls counts the number of controls with
->>>>> id >= V4L2_CID_PRIVATE_BASE (0x08000000).
->>>>> priv_user_controls_check uses V4L2_CTRL_DRIVER_PRIV ((id) & 0xffff) >= 0x1000).
->>>>>
->>>>> The private controls defined in V4L2_CID_USER_BASE + 0x1000 will count towards
->>>>> priv_user_controls_check, but not priv_user_controls. For example,
->>>>> V4L2_CID_USER_MEYE_BASE (include/uapi/linux/v4l2-controls.h#n158).
->>>>>
->>>>> 2. Line 205 returns error for id >= V4L2_CID_PRIVATE_BASE. Counting
->>>>> priv_user_controls will not happen.
->>>>
->>>> A long time ago all private controls in a driver started at ID V4L2_CID_PRIVATE_BASE.
->>>> When the control framework was created, all private controls were changed to start
->>>> at a control class base + 0x1000, and to stay compatible with old userspace the
->>>> control framework emulated enumerating such controls from V4L2_CID_PRIVATE_BASE.
->>>
->>> The emulated controls are also enumerated with?
->>>
->>> qctrl.id = id | V4L2_CTRL_FLAG_NEXT_CTRL | V4L2_CTRL_FLAG_NEXT_COMPOUND; ?
->>
->> No, they are not.
->>
->>>
->>> Because if so, they wont pass the test:
->>>
->>> if (id >= V4L2_CID_PRIVATE_BASE)
->>>     return fail("no V4L2_CID_PRIVATE_BASE allowed\n");
->>
->> Exactly: they should never be enumerated that way, if they appear, then the
->> emulation is broken and this test fails.
-> 
-> 
-> Gotcha...  I was not aware of that emulation.
-> 
-> So that means we have to add that emulation to uvc control framework :(
+Can't comment, do not remember -- this was 5 years ago.
 
-Ah, now I understand your interest in this!
+> Or you wanted to move the variable before the loop and keep the random state
+> between the loops and only reseed when all '1' bits have been consumed.
 
-Hmm. UVC never had it, so there are no userspace apps that rely on this.
-
-I am inclined to patch v4l2-compliance to skip this check for uvc.
-Or more specifically: if it is uvc, then no V4L2_CID_PRIVATE_BASE controls
-should be seen.
-
-Any userspace app that wants to use the new uvc private controls should
-update their code. This is for the ROI, right? It's probably failing due to
-the V4L2_CID_UVC_REGION_OF_INTEREST_AUTO control. But since this only makes
-sense if the application can also use the compound control to obtain the ROI,
-supporting V4L2_CID_PRIVATE_BASE is pretty pointless anyway: that would only
-see the _AUTO control.
-
-Regards,
-
-	Hans
-
-> 
-> Thanks!
->>
->> Regards,
->>
->>         Hans
->>
->>>
->>> Thanks!
->>>
->>>
->>>
->>>>
->>>> These compliance tests verify that that emulation is still working correctly.
->>>>
->>>> So this code is OK. If you have an example of where it fails, then that is likely
->>>> to be a bug elsewhere. I would need more information to see what could be the cause
->>>> in that case.
->>>>
->>>> For the record:
->>>>
->>>> Rejected-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
->>>>
->>>> Regards,
->>>>
->>>>         Hans
->>>>
->>>>>
->>>>> Signed-off-by: Yunke Cao <yunkec@chromium.org>
->>>>> ---
->>>>> ---
->>>>>  utils/v4l2-compliance/v4l2-test-controls.cpp | 22 +---------------------
->>>>>  1 file changed, 1 insertion(+), 21 deletions(-)
->>>>>
->>>>> diff --git a/utils/v4l2-compliance/v4l2-test-controls.cpp b/utils/v4l2-compliance/v4l2-test-controls.cpp
->>>>> index 999dbcd7..18c9f638 100644
->>>>> --- a/utils/v4l2-compliance/v4l2-test-controls.cpp
->>>>> +++ b/utils/v4l2-compliance/v4l2-test-controls.cpp
->>>>> @@ -182,7 +182,6 @@ int testQueryExtControls(struct node *node)
->>>>>       __u32 which = 0;
->>>>>       bool found_ctrl_class = false;
->>>>>       unsigned user_controls = 0;
->>>>> -     unsigned priv_user_controls = 0;
->>>>>       unsigned user_controls_check = 0;
->>>>>       unsigned priv_user_controls_check = 0;
->>>>>       unsigned class_count = 0;
->>>>> @@ -299,30 +298,11 @@ int testQueryExtControls(struct node *node)
->>>>>               user_controls++;
->>>>>       }
->>>>>
->>>>> -     for (id = V4L2_CID_PRIVATE_BASE; ; id++) {
->>>>> -             memset(&qctrl, 0xff, sizeof(qctrl));
->>>>> -             qctrl.id = id;
->>>>> -             ret = doioctl(node, VIDIOC_QUERY_EXT_CTRL, &qctrl);
->>>>> -             if (ret && ret != EINVAL)
->>>>> -                     return fail("invalid query_ext_ctrl return code (%d)\n", ret);
->>>>> -             if (ret)
->>>>> -                     break;
->>>>> -             if (qctrl.id != id)
->>>>> -                     return fail("qctrl.id (%08x) != id (%08x)\n",
->>>>> -                                     qctrl.id, id);
->>>>> -             if (checkQCtrl(node, qctrl))
->>>>> -                     return fail("invalid control %08x\n", qctrl.id);
->>>>> -             priv_user_controls++;
->>>>> -     }
->>>>> -
->>>>> -     if (priv_user_controls + user_controls && node->controls.empty())
->>>>> +     if (user_controls && node->controls.empty())
->>>>>               return fail("does not support V4L2_CTRL_FLAG_NEXT_CTRL\n");
->>>>>       if (user_controls != user_controls_check)
->>>>>               return fail("expected %d user controls, got %d\n",
->>>>>                       user_controls_check, user_controls);
->>>>> -     if (priv_user_controls != priv_user_controls_check)
->>>>> -             return fail("expected %d private controls, got %d\n",
->>>>> -                     priv_user_controls_check, priv_user_controls);
->>>>>       return result;
->>>>>  }
->>>>>
->>>>>
->>>>> ---
->>>>> base-commit: 7f560aede797b659b585f063ed1f143f58b03df5
->>>>> change-id: 20220929-remove_private_control_check-ab8cc38a1b9e
->>>>>
->>>>> Best regards,
->>>
->>>
->>>
-> 
-> 
-> 
+Probably.  No clue, best to NOT change it to not block Jasons series and
+then just simplify this and remove all the useless shifts.
