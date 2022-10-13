@@ -2,149 +2,180 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C674E5FD65F
-	for <lists+linux-media@lfdr.de>; Thu, 13 Oct 2022 10:44:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9BCA55FD6F5
+	for <lists+linux-media@lfdr.de>; Thu, 13 Oct 2022 11:25:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229578AbiJMIoN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 13 Oct 2022 04:44:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41402 "EHLO
+        id S229543AbiJMJZQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 13 Oct 2022 05:25:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42028 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229495AbiJMIoM (ORCPT
+        with ESMTP id S229649AbiJMJZM (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 13 Oct 2022 04:44:12 -0400
+        Thu, 13 Oct 2022 05:25:12 -0400
 Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com [IPv6:2a00:1450:4864:20::629])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 98FBD125731
-        for <linux-media@vger.kernel.org>; Thu, 13 Oct 2022 01:44:11 -0700 (PDT)
-Received: by mail-ej1-x629.google.com with SMTP id bj12so2317634ejb.13
-        for <linux-media@vger.kernel.org>; Thu, 13 Oct 2022 01:44:11 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A58F7543F1
+        for <linux-media@vger.kernel.org>; Thu, 13 Oct 2022 02:25:08 -0700 (PDT)
+Received: by mail-ej1-x629.google.com with SMTP id d26so2555348eje.10
+        for <linux-media@vger.kernel.org>; Thu, 13 Oct 2022 02:25:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
+        d=raspberrypi.com; s=google;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=1turIhhCY/CNq6vedzeKW5KsXI/Kc8E5BbkBmS9//dw=;
-        b=W4aCnSv/pS6sxxmcDpVOLBiP3nJa+/KfvNOAeQNKJGBglZJN2eu9WG3GmO3KaZrfnT
-         3d0BNOc6SDzFsMGcqWZxJDpHvhWOss+9Vw6wv/sokjE+5TgI71wcW+8Usml460WG5aRk
-         9/w0FI8nsS4UIET/gHIO/QLb3xP/qLk65Yf+yChupUoVPlYwal+MUcBlhLlzRm66Rmj+
-         PU19fwARVl9hYcNrQj48Gf38HXVk55g2NrpRJ1jZPT3+RITN629FpNKAusBtspBkQI+6
-         6SmeTpe2y4On5r+0xwHWsCOrZ3OgRbUXmHALGB4P67K19COng0K63b9EvqwdORPok8f2
-         7mqg==
+        bh=Ul0bbdXyB6C80cHfP5yKdfBpafNpk4f+NWNnP9J9RHA=;
+        b=Gn5VxKqgQsU2aJwHFtdIhvuMB41CkCGDENiyLfISy4+NWAUoAXgKQNhwPBJZVuY5mf
+         3NlCPFeETxAP8igToEDKMwHxn80YJfh7zcOHDnZL/NXpSiyY96uxU4yIkwbuRE/Cq/S7
+         79yvsh8vM3zUBeIOdh0lI9gGAS9A/np8FjLREoskBI54rsAr0d1rdVy8jAFfIAKDF4Wz
+         /5xeVpjGZkUWrHLGztYXRdf7Q9QBkq5/WjoXAu3x33hREB7HRnf38jjxn7kYoX3rUxgl
+         TAdGPfxjPctKdumvVfWXNPKjiyUqrbwgBlpsVipK3geN12PWJG0Pnz4VXmoPfvj/C7vi
+         q3xA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=1turIhhCY/CNq6vedzeKW5KsXI/Kc8E5BbkBmS9//dw=;
-        b=a/+ezmY6f5/pYd+1pda3EXeSO7vmC+173j4Lq8FExSiDStDcdF+vfuKH5bjGINnw03
-         v3Jxx6/a1Y2QecZ1ieFuY5V9+Vv2lhBsGt3Y39kqJIgjLPDUfwGYIr5ESvXCOqHxmnGv
-         bo33KciYIN0yM1ZbbKAz5j2D5SxBOJVMZT27y8dbtng1fxinC+wWB3/13Y6jl5756sQG
-         DpRGOqjU6foqe7HMFwOrtm7YoDqMR8Nf8vJjNzurjvbVlRvTsI3aXU38LUVK442HWt5A
-         MWgN7hzDYCag9S/DhPD8mmpJ5qskn0Q992CwMSDi337Mq0vO3vZz/YDq7OiKxWaC0jiR
-         aO3w==
-X-Gm-Message-State: ACrzQf2k5OGqpunSnSoKHb34WkGfRLLhPOEF0FFTF/R9sTtChGPECZuE
-        r9tMaW6N5rbp2ZbOw5Ilz28dOjUTZ3l3WyxuRa6Dyw==
-X-Google-Smtp-Source: AMsMyM7wNqIO+EB2D/0v+xopEqUBPYinzoMy1XCYOu8eZX0GDYt8CcigXnBWY7cmGmj8pgyuwPwQq+sHevEYcnC4UP8=
-X-Received: by 2002:a17:907:5c2:b0:77e:def7:65d8 with SMTP id
- wg2-20020a17090705c200b0077edef765d8mr25999403ejb.487.1665650650112; Thu, 13
- Oct 2022 01:44:10 -0700 (PDT)
+        bh=Ul0bbdXyB6C80cHfP5yKdfBpafNpk4f+NWNnP9J9RHA=;
+        b=rnazvAKvYul4JppeOFG5R4vuuiMYVwBRjkXnxAoTpQQC9AAQt9EFNC2/jRQhl6n5On
+         OWKYqlK7hDfF/f5hlCoxkvX5jLpURp5l11XdXUwoWTVUjiYY9tG4f/msKVM9wzBcdmFw
+         lFqa/a2x32Pr5yA9dv+DVql9RgMFmrvuLqxTIJAP3FZw6GDHtHQDr2roCzRU4tPH3ElU
+         cgZY9rUdcp3ISlwSZQzkiWfW8r+khQ8pZbzeCPWhEPlNEROhiMg5QR4dt67UDFN7VyYp
+         bmaDZDdjqw1QLsqjwLII50Ee7GAGUjTOkHNAfYy7d9Uuu6CPW58U2tTGRjR/sesKyNdq
+         DPXw==
+X-Gm-Message-State: ACrzQf1xkdFFtJnnrcCJZxlMdkjAbM0k/BY9F0s3eK+PytkqouKCLxju
+        L+BvjwPWjBEut6ugcGqNbRkA6Qi4t0wyER9lGzM96w==
+X-Google-Smtp-Source: AMsMyM5VAvyEwMI2EXfkVUr7GtJjD18yeHN2uCxuV1GlwcozvX2dfNV3Xq3ecZ/Gcvp3qDHFR9TUs6nGiEDObS4U+7U=
+X-Received: by 2002:a17:907:80b:b0:77a:86a1:db52 with SMTP id
+ wv11-20020a170907080b00b0077a86a1db52mr26857758ejb.294.1665653106666; Thu, 13
+ Oct 2022 02:25:06 -0700 (PDT)
 MIME-Version: 1.0
-References: <20221007132009.1886-1-quic_mmitkov@quicinc.com> <20221007132009.1886-5-quic_mmitkov@quicinc.com>
-In-Reply-To: <20221007132009.1886-5-quic_mmitkov@quicinc.com>
-From:   Robert Foss <robert.foss@linaro.org>
-Date:   Thu, 13 Oct 2022 10:43:59 +0200
-Message-ID: <CAG3jFyurUzHruDxCt33A+YPyqjhgk6u1tctbL+97GuTmZOyaqw@mail.gmail.com>
-Subject: Re: [PATCH v3 4/4] media: camss: sm8250: Pipeline starting and
- stopping for multiple virtual channels
-To:     quic_mmitkov@quicinc.com
-Cc:     linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        akapatra@quicinc.com, jzala@quicinc.com, todor.too@gmail.com,
-        agross@kernel.org, bjorn.andersson@linaro.org,
-        konrad.dybcio@somainline.org, mchehab@kernel.org,
-        bryan.odonoghue@linaro.org, cgera@qti.qualcomm.com,
-        gchinnab@quicinc.com, ayasan@qti.qualcomm.com
+References: <CAFP0Ok9iHi+1nyzxMfMA58QC5=H4H48ALBY+1e8eeTMsfbUY3A@mail.gmail.com>
+ <20221013071846.dnp3o3pj747wnknt@uno.localdomain>
+In-Reply-To: <20221013071846.dnp3o3pj747wnknt@uno.localdomain>
+From:   Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date:   Thu, 13 Oct 2022 10:24:50 +0100
+Message-ID: <CAPY8ntAHvQX=XdrF3gUtDJTgwUoUe+fZwQG5B347+cz-FYeS9Q@mail.gmail.com>
+Subject: Re: V4L2 M2M driver architecture question for a new hardware
+To:     Jacopo Mondi <jacopo@jmondi.org>
+Cc:     Karthik Poduval <karthik.poduval@gmail.com>,
+        linux-media@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_PDS_OTHER_BAD_TLD autolearn=ham
-        autolearn_force=no version=3.4.6
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, 7 Oct 2022 at 15:20, <quic_mmitkov@quicinc.com> wrote:
->
-> From: Milen Mitkov <quic_mmitkov@quicinc.com>
->
-> Use the multistream series function video_device_pipeline_alloc_start
-> to allows multiple clients of the same pipeline.
->
-> If any of the entities in the pipeline doesn't return success at stop
-> (e.g. if a VFE line remains running), the full pipeline won't be stopped.
-> This allows for stopping and starting streams at any point without
-> disrupting the other running streams.
->
-> Signed-off-by: Milen Mitkov <quic_mmitkov@quicinc.com>
-> ---
->  .../media/platform/qcom/camss/camss-video.c   | 21 ++++++++++++++++---
->  1 file changed, 18 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/media/platform/qcom/camss/camss-video.c b/drivers/media/platform/qcom/camss/camss-video.c
-> index 81fb3a5bc1d5..b042faf3dcda 100644
-> --- a/drivers/media/platform/qcom/camss/camss-video.c
-> +++ b/drivers/media/platform/qcom/camss/camss-video.c
-> @@ -353,6 +353,7 @@ static int video_get_subdev_format(struct camss_video *video,
->
->         fmt.pad = pad;
->         fmt.which = V4L2_SUBDEV_FORMAT_ACTIVE;
-> +       fmt.stream = 0;
->
->         ret = v4l2_subdev_call(subdev, pad, get_fmt, NULL, &fmt);
->         if (ret)
-> @@ -493,9 +494,11 @@ static int video_start_streaming(struct vb2_queue *q, unsigned int count)
->         struct v4l2_subdev *subdev;
->         int ret;
->
-> -       ret = video_device_pipeline_start(vdev, &video->pipe);
-> -       if (ret < 0)
-> +       ret = video_device_pipeline_alloc_start(vdev);
-> +       if (ret < 0) {
-> +               dev_err(video->camss->dev, "Failed to start media pipeline: %d\n", ret);
->                 return ret;
-> +       }
->
->         ret = video_check_format(video);
->         if (ret < 0)
-> @@ -536,6 +539,7 @@ static void video_stop_streaming(struct vb2_queue *q)
->         struct media_entity *entity;
->         struct media_pad *pad;
->         struct v4l2_subdev *subdev;
-> +       int ret;
->
->         entity = &vdev->entity;
->         while (1) {
-> @@ -550,7 +554,18 @@ static void video_stop_streaming(struct vb2_queue *q)
->                 entity = pad->entity;
->                 subdev = media_entity_to_v4l2_subdev(entity);
->
-> -               v4l2_subdev_call(subdev, video, s_stream, 0);
-> +               ret = v4l2_subdev_call(subdev, video, s_stream, 0);
-> +
-> +               if (ret == -EBUSY) {
-> +                       /* Don't stop if other instances of the pipeline are still running */
-> +                       dev_dbg(video->camss->dev, "Video pipeline still used, don't stop streaming.\n");
-> +                       return;
-> +               }
-> +
-> +               if (ret) {
-> +                       dev_err(video->camss->dev, "Video pipeline stop failed: %d\n", ret);
-> +                       return;
-> +               }
->         }
->
->         video_device_pipeline_stop(vdev);
-> --
-> 2.37.3
->
+Hi Karthik and Jacopo
 
-Reviewed-by: Robert Foss <robert.foss@linaro.org>
+On Thu, 13 Oct 2022 at 08:18, Jacopo Mondi <jacopo@jmondi.org> wrote:
+>
+> Hello Karthik
+>
+> On Wed, Oct 12, 2022 at 10:59:50PM -0700, Karthik Poduval wrote:
+> > Hi All,
+> >
+> > I have hardware that does some sort of image manipulation. The
+> > hardware takes 2 inputs.
+> > - image buffer
+> > - config param buffer
+> > and generates one output which is also an image buffer.
+> > The input and output images formats fall under standard image
+> > definitions of V4L2 like various YUV/RGB formats (interleaved or
+> > multiplanar).
+> >
+> > The config param buffer is kind of like a set of instructions for the
+> > hardware that needs to be passed with every input and output image
+> > which tells the hardware how to process the image.
+> > The hardware will be given different input images and output images
+> > every time and possibly different config param buffers too (in some
+> > cases). The config param buffers may have variable sizes too based on
+> > the nature of processing for that frame, but input and output images
+> > are fixed in size for a given context. I should also mention that the
+> > config param buffers are a few KBs in size so zero copy is a
+> > requirement. The config params buffers are written by userspace
+> > (possibly also driver in kernel space) and read by hardware.
+> >
+>
+> This sounds very much how a regular M2M ISP driver works. I can't tell
+> about codecs as I'm no expert there, but I expect them to be similar,
+> so your use case is covered by existing drivers.
+>
+> > Here were two mechanisms I had in mind while trying to design a V4L2
+> > M2M driver for this hardware.
+> > - Use a custom multiplanar input format where one plane is a config
+> > param buffer with remaining planes for input images (in case the input
+> > image is also multiplanar).
+>
+> If you're wondering how to pass parameters to the HW I suggest to
+> consider registering an output video device node, where you simply
+> queue buffers with your parameters to.
+>
+> Your HW could be modeled as a single subdevice with 3 video device
+> nodes, one output device for input images, one output device for
+> parameters, and one capture device for output images.
+>
+>                    +-----------+
+>        +----+      | HW subdav |      +------+
+>        | In | ---> 0           0  --> | out  |
+>        +----+      |           |      +------+
+>                    +-----0-----+
+>                          ^
+>                          |
+>                      +--------+
+>                      | params |
+>                      +--------+
+
+The main drawback of this over the codec model of a single video
+device with both an _OUTPUT and _CAPTURE queue is that you can not run
+multiple instances simultaneously - there is no way to tie the
+relevant clients together. I don't know whether supporting
+simultaneous multiple clients is a requirement in this case, but that
+may be a key decision in choosing how to represent the device.
+
+  Dave
+
+> The parameters buffer can be of modeled using the v4l2_meta_format[1]
+> interface. The data format of the buffer could be defined as a custom
+> metadata format, you can see examples here [2]
+>
+> [1] https://www.kernel.org/doc/html/latest/userspace-api/media/v4l/dev-meta.html#c.v4l2_meta_format
+> [2] https://www.kernel.org/doc/html/latest/userspace-api/media/v4l/meta-formats.html#meta-formats
+>
+> I suggest to look at the IPU3 and RkISP1 drivers for reference.
+>
+> > - Use dmabuf heaps to allocate config param buffer. Tie this config
+> > param buffer fd to an input buffer (using request API). Driver would
+> > have to attach the config param buffer dmabuf fd, use it and detach.
+> >
+>
+> You should be able to easily allocate buffers in the video device as
+> you would easily do and export them as dmabuf fds by using
+> VIDIOC_EXPBUF [3].
+>
+> Once you have them you can map them in your application code and
+> write their content.
+>
+> [3] https://www.kernel.org/doc/html/latest/userspace-api/media/v4l/vidioc-expbuf.html
+>
+> > Any comments/concerns about the above two mechanisms ?
+> > Any other better ideas ?
+> > Are there any existing V4L2 M2M mechanisms present to deal with per
+> > frame param buffers that are also zero copy ?
+> > Is the media request API able to do zero copy for setting compound
+> > controls for large (several KBs) compound controls ? (making the above
+> > dmabuf heap approach unnecessary)
+>
+> Now, all the above assumes your parameters buffer is modeled as a
+> structure of parameters (and possibly data tables). If you are instead
+> looking at something that can be modeled through controls you might
+> have better guidance by looking at how codecs work, but there I can't
+> help much ;)
+>
+> Hope it helps
+>    j
+> >
+> > --
+> > Regards,
+> > Karthik Poduval
