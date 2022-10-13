@@ -2,193 +2,169 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B03E75FD1B8
-	for <lists+linux-media@lfdr.de>; Thu, 13 Oct 2022 02:45:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B36435FD27F
+	for <lists+linux-media@lfdr.de>; Thu, 13 Oct 2022 03:23:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232233AbiJMApC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 12 Oct 2022 20:45:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36654 "EHLO
+        id S229605AbiJMBXX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 12 Oct 2022 21:23:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49252 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232685AbiJMAoa (ORCPT
+        with ESMTP id S229489AbiJMBXV (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 12 Oct 2022 20:44:30 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 586A915A01;
-        Wed, 12 Oct 2022 17:37:13 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 3DF96B81CD5;
-        Thu, 13 Oct 2022 00:28:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 17509C433D6;
-        Thu, 13 Oct 2022 00:28:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1665620885;
-        bh=I8ezokeOvdwxeajGpOMcd4rVTOREH+HgaSV+jFScXJk=;
-        h=From:To:Cc:Subject:Date:From;
-        b=B/x2DTeV3zHFIP6Qyjx21NC/6whBOHQNbjzBLgi+KMgOMJT6jvGqpuFOLsml0ZDUg
-         rs2vgA1VdM7iKrETu45p2g7bosvUT7pgaqOYnrvBaS6HuXpqACLTZA6yOyJH0+5ouY
-         3V6t6LZa9x03+WD5XGgCympYcRwO7QV8fk9y0zvWYrlmwEDh4eZ3qXmrnN8XMZcO7/
-         xEwto8JxA8YB+XlNCpLCCInjKGw+yAFbwJ0bh3BFpJXpb1wKFePlHj1GNG5CU8pehO
-         +KsM2CmTl9gIpcn3CLhfCw1pUrOIS7jjHCr2Al3Z+Fie7ox1xULTDsgHVcA/iahGYU
-         pIbnG95pdwnEw==
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Zheyu Ma <zheyuma97@gmail.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sasha Levin <sashal@kernel.org>,
-        laurent.pinchart@ideasonboard.com, sakari.ailus@linux.intel.com,
-        linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.9 01/10] media: cx88: Fix a null-ptr-deref bug in buffer_prepare()
-Date:   Wed, 12 Oct 2022 20:27:48 -0400
-Message-Id: <20221013002802.1896096-1-sashal@kernel.org>
-X-Mailer: git-send-email 2.35.1
+        Wed, 12 Oct 2022 21:23:21 -0400
+Received: from out30-42.freemail.mail.aliyun.com (out30-42.freemail.mail.aliyun.com [115.124.30.42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 53076D77DA;
+        Wed, 12 Oct 2022 18:23:16 -0700 (PDT)
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R631e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018045192;MF=baolin.wang@linux.alibaba.com;NM=1;PH=DS;RN=98;SR=0;TI=SMTPD_---0VS19mRS_1665624179;
+Received: from 30.97.48.54(mailfrom:baolin.wang@linux.alibaba.com fp:SMTPD_---0VS19mRS_1665624179)
+          by smtp.aliyun-inc.com;
+          Thu, 13 Oct 2022 09:23:04 +0800
+Message-ID: <b7c8afe1-af89-9b5a-2c2c-82a2810ca9f1@linux.alibaba.com>
+Date:   Thu, 13 Oct 2022 09:23:27 +0800
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.0
+Subject: Re: [PATCH v2 23/36] pinctrl: sprd: Add missed header(s)
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Marc Zyngier <maz@kernel.org>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        Kent Gibson <warthog618@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Billy Tsai <billy_tsai@aspeedtech.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Chen-Yu Tsai <wenst@chromium.org>,
+        Claudiu Beznea <claudiu.beznea@microchip.com>,
+        Samuel Holland <samuel@sholland.org>,
+        Horatiu Vultur <horatiu.vultur@microchip.com>,
+        =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Phil Edworthy <phil.edworthy@renesas.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Fabien Dessenne <fabien.dessenne@foss.st.com>,
+        Prathamesh Shete <pshete@nvidia.com>,
+        Basavaraj Natikar <Basavaraj.Natikar@amd.com>,
+        linux-gpio@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-media@vger.kernel.org, linux-actions@lists.infradead.org,
+        linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org,
+        linux-rpi-kernel@lists.infradead.org, alsa-devel@alsa-project.org,
+        patches@opensource.cirrus.com, linux-mediatek@lists.infradead.org,
+        linux-mips@vger.kernel.org, linux-riscv@lists.infradead.org,
+        linux-omap@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-samsung-soc@vger.kernel.org
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Patrice Chotard <patrice.chotard@foss.st.com>,
+        =?UTF-8?Q?Andreas_F=c3=a4rber?= <afaerber@suse.de>,
+        Manivannan Sadhasivam <mani@kernel.org>,
+        Andrew Jeffery <andrew@aj.id.au>,
+        Joel Stanley <joel@jms.id.au>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Ray Jui <rjui@broadcom.com>,
+        Scott Branden <sbranden@broadcom.com>,
+        Broadcom internal kernel review list 
+        <bcm-kernel-feedback-list@broadcom.com>,
+        Charles Keepax <ckeepax@opensource.cirrus.com>,
+        Richard Fitzgerald <rf@opensource.cirrus.com>,
+        Dong Aisheng <aisheng.dong@nxp.com>,
+        Fabio Estevam <festevam@gmail.com>,
+        Shawn Guo <shawnguo@kernel.org>, Jacky Bai <ping.bai@nxp.com>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Andy Shevchenko <andy@kernel.org>,
+        Sean Wang <sean.wang@kernel.org>, Andrew Lunn <andrew@lunn.ch>,
+        Gregory Clement <gregory.clement@bootlin.com>,
+        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+        Avi Fishman <avifishman70@gmail.com>,
+        Tomer Maimon <tmaimon77@gmail.com>,
+        Tali Perry <tali.perry1@gmail.com>,
+        Patrick Venture <venture@google.com>,
+        Nancy Yuen <yuenn@google.com>,
+        Benjamin Fair <benjaminfair@google.com>,
+        Ludovic Desroches <ludovic.desroches@microchip.com>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Paul Cercueil <paul@crapouillou.net>,
+        Damien Le Moal <damien.lemoal@wdc.com>,
+        Tony Lindgren <tony@atomide.com>,
+        Haojian Zhuang <haojian.zhuang@linaro.org>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Michal Simek <michal.simek@xilinx.com>,
+        Andy Gross <agross@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@somainline.org>,
+        Tomasz Figa <tomasz.figa@gmail.com>,
+        Sylwester Nawrocki <s.nawrocki@samsung.com>,
+        Alim Akhtar <alim.akhtar@samsung.com>,
+        Viresh Kumar <vireshk@kernel.org>,
+        Shiraz Hashim <shiraz.linux.kernel@gmail.com>, soc@kernel.org,
+        Orson Zhai <orsonzhai@gmail.com>,
+        Chunyan Zhang <zhang.lyra@gmail.com>,
+        Emil Renner Berthing <kernel@esmil.dk>,
+        Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
+        Masami Hiramatsu <mhiramat@kernel.org>
+References: <20221010201453.77401-1-andriy.shevchenko@linux.intel.com>
+ <20221010201453.77401-24-andriy.shevchenko@linux.intel.com>
+From:   Baolin Wang <baolin.wang@linux.alibaba.com>
+In-Reply-To: <20221010201453.77401-24-andriy.shevchenko@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-10.4 required=5.0 tests=BAYES_00,
+        ENV_AND_HDR_SPF_MATCH,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,
+        USER_IN_DEF_SPF_WL autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Zheyu Ma <zheyuma97@gmail.com>
 
-[ Upstream commit 2b064d91440b33fba5b452f2d1b31f13ae911d71 ]
 
-When the driver calls cx88_risc_buffer() to prepare the buffer, the
-function call may fail, resulting in a empty buffer and null-ptr-deref
-later in buffer_queue().
+On 10/11/2022 4:14 AM, Andy Shevchenko wrote:
+> Do not imply that some of the generic headers may be always included.
+> Instead, include explicitly what we are direct user of.
+> 
+> While at it, sort headers alphabetically.
+> 
+> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 
-The following log can reveal it:
+LGTM. Thanks.
+Reviewed-by: Baolin Wang <baolin.wang@linux.alibaba.com>
 
-[   41.822762] general protection fault, probably for non-canonical address 0xdffffc0000000000: 0000 [#1] PREEMPT SMP KASAN PTI
-[   41.824488] KASAN: null-ptr-deref in range [0x0000000000000000-0x0000000000000007]
-[   41.828027] RIP: 0010:buffer_queue+0xc2/0x500
-[   41.836311] Call Trace:
-[   41.836945]  __enqueue_in_driver+0x141/0x360
-[   41.837262]  vb2_start_streaming+0x62/0x4a0
-[   41.838216]  vb2_core_streamon+0x1da/0x2c0
-[   41.838516]  __vb2_init_fileio+0x981/0xbc0
-[   41.839141]  __vb2_perform_fileio+0xbf9/0x1120
-[   41.840072]  vb2_fop_read+0x20e/0x400
-[   41.840346]  v4l2_read+0x215/0x290
-[   41.840603]  vfs_read+0x162/0x4c0
-
-Fix this by checking the return value of cx88_risc_buffer()
-
-[hverkuil: fix coding style issues]
-
-Signed-off-by: Zheyu Ma <zheyuma97@gmail.com>
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/media/pci/cx88/cx88-vbi.c   |  9 +++---
- drivers/media/pci/cx88/cx88-video.c | 43 +++++++++++++++--------------
- 2 files changed, 26 insertions(+), 26 deletions(-)
-
-diff --git a/drivers/media/pci/cx88/cx88-vbi.c b/drivers/media/pci/cx88/cx88-vbi.c
-index d3237cf8ffa3..78d78b7c974c 100644
---- a/drivers/media/pci/cx88/cx88-vbi.c
-+++ b/drivers/media/pci/cx88/cx88-vbi.c
-@@ -140,11 +140,10 @@ static int buffer_prepare(struct vb2_buffer *vb)
- 		return -EINVAL;
- 	vb2_set_plane_payload(vb, 0, size);
- 
--	cx88_risc_buffer(dev->pci, &buf->risc, sgt->sgl,
--			 0, VBI_LINE_LENGTH * lines,
--			 VBI_LINE_LENGTH, 0,
--			 lines);
--	return 0;
-+	return cx88_risc_buffer(dev->pci, &buf->risc, sgt->sgl,
-+				0, VBI_LINE_LENGTH * lines,
-+				VBI_LINE_LENGTH, 0,
-+				lines);
- }
- 
- static void buffer_finish(struct vb2_buffer *vb)
-diff --git a/drivers/media/pci/cx88/cx88-video.c b/drivers/media/pci/cx88/cx88-video.c
-index 3b140ad598de..0ad0f4ab6c4b 100644
---- a/drivers/media/pci/cx88/cx88-video.c
-+++ b/drivers/media/pci/cx88/cx88-video.c
-@@ -443,6 +443,7 @@ static int queue_setup(struct vb2_queue *q,
- 
- static int buffer_prepare(struct vb2_buffer *vb)
- {
-+	int ret;
- 	struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
- 	struct cx8800_dev *dev = vb->vb2_queue->drv_priv;
- 	struct cx88_core *core = dev->core;
-@@ -457,42 +458,42 @@ static int buffer_prepare(struct vb2_buffer *vb)
- 
- 	switch (core->field) {
- 	case V4L2_FIELD_TOP:
--		cx88_risc_buffer(dev->pci, &buf->risc,
--				 sgt->sgl, 0, UNSET,
--				 buf->bpl, 0, core->height);
-+		ret = cx88_risc_buffer(dev->pci, &buf->risc,
-+				       sgt->sgl, 0, UNSET,
-+				       buf->bpl, 0, core->height);
- 		break;
- 	case V4L2_FIELD_BOTTOM:
--		cx88_risc_buffer(dev->pci, &buf->risc,
--				 sgt->sgl, UNSET, 0,
--				 buf->bpl, 0, core->height);
-+		ret = cx88_risc_buffer(dev->pci, &buf->risc,
-+				       sgt->sgl, UNSET, 0,
-+				       buf->bpl, 0, core->height);
- 		break;
- 	case V4L2_FIELD_SEQ_TB:
--		cx88_risc_buffer(dev->pci, &buf->risc,
--				 sgt->sgl,
--				 0, buf->bpl * (core->height >> 1),
--				 buf->bpl, 0,
--				 core->height >> 1);
-+		ret = cx88_risc_buffer(dev->pci, &buf->risc,
-+				       sgt->sgl,
-+				       0, buf->bpl * (core->height >> 1),
-+				       buf->bpl, 0,
-+				       core->height >> 1);
- 		break;
- 	case V4L2_FIELD_SEQ_BT:
--		cx88_risc_buffer(dev->pci, &buf->risc,
--				 sgt->sgl,
--				 buf->bpl * (core->height >> 1), 0,
--				 buf->bpl, 0,
--				 core->height >> 1);
-+		ret = cx88_risc_buffer(dev->pci, &buf->risc,
-+				       sgt->sgl,
-+				       buf->bpl * (core->height >> 1), 0,
-+				       buf->bpl, 0,
-+				       core->height >> 1);
- 		break;
- 	case V4L2_FIELD_INTERLACED:
- 	default:
--		cx88_risc_buffer(dev->pci, &buf->risc,
--				 sgt->sgl, 0, buf->bpl,
--				 buf->bpl, buf->bpl,
--				 core->height >> 1);
-+		ret = cx88_risc_buffer(dev->pci, &buf->risc,
-+				       sgt->sgl, 0, buf->bpl,
-+				       buf->bpl, buf->bpl,
-+				       core->height >> 1);
- 		break;
- 	}
- 	dprintk(2,"[%p/%d] buffer_prepare - %dx%d %dbpp \"%s\" - dma=0x%08lx\n",
- 		buf, buf->vb.vb2_buf.index,
- 		core->width, core->height, dev->fmt->depth, dev->fmt->name,
- 		(unsigned long)buf->risc.dma);
--	return 0;
-+	return ret;
- }
- 
- static void buffer_finish(struct vb2_buffer *vb)
--- 
-2.35.1
-
+> ---
+>   drivers/pinctrl/sprd/pinctrl-sprd.c | 6 ++++--
+>   1 file changed, 4 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/pinctrl/sprd/pinctrl-sprd.c b/drivers/pinctrl/sprd/pinctrl-sprd.c
+> index dca7a505d413..c1806b7dcf78 100644
+> --- a/drivers/pinctrl/sprd/pinctrl-sprd.c
+> +++ b/drivers/pinctrl/sprd/pinctrl-sprd.c
+> @@ -13,12 +13,14 @@
+>   #include <linux/of.h>
+>   #include <linux/of_device.h>
+>   #include <linux/platform_device.h>
+> +#include <linux/slab.h>
+> +
+> +#include <linux/pinctrl/consumer.h>
+>   #include <linux/pinctrl/machine.h>
+> -#include <linux/pinctrl/pinconf.h>
+>   #include <linux/pinctrl/pinconf-generic.h>
+> +#include <linux/pinctrl/pinconf.h>
+>   #include <linux/pinctrl/pinctrl.h>
+>   #include <linux/pinctrl/pinmux.h>
+> -#include <linux/slab.h>
+>   
+>   #include "../core.h"
+>   #include "../pinmux.h"
