@@ -2,68 +2,88 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8915F5FE9F7
-	for <lists+linux-media@lfdr.de>; Fri, 14 Oct 2022 10:02:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C898A5FEC97
+	for <lists+linux-media@lfdr.de>; Fri, 14 Oct 2022 12:32:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230020AbiJNIB6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 14 Oct 2022 04:01:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40494 "EHLO
+        id S229650AbiJNKb7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 14 Oct 2022 06:31:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49368 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230030AbiJNIBz (ORCPT
+        with ESMTP id S229518AbiJNKb5 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 14 Oct 2022 04:01:55 -0400
-Received: from mail.fadrush.pl (mail.fadrush.pl [54.37.225.211])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A702F1BB972
-        for <linux-media@vger.kernel.org>; Fri, 14 Oct 2022 01:01:54 -0700 (PDT)
-Received: by mail.fadrush.pl (Postfix, from userid 1002)
-        id 74B9023754; Fri, 14 Oct 2022 08:01:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=fadrush.pl; s=mail;
-        t=1665734494; bh=bD6j9gIFU6CLTaCGl0Ow9oeIxtirvTfMeNZSfLEZQ+I=;
-        h=Date:From:To:Subject:From;
-        b=GLL/cWejV1V4n5/5yN87v0PL7GEMdT0S5lqUSsxnwbvCxuqb7EvxNoSpKl3l1skPp
-         eSjqCtthjVWZvDbN+aziP7DB9MHvjJE1JM1JcTSxSY8WbIKlvbeclE9tcQU1qhAWLS
-         z0wUTjDXSsCPJKyUuwcnV8J9k3y7c9Qye5qvX7nmsjXgjHVhDvZEClFXy8oEjk3tbo
-         c7WQ0DxmSItzS5jwj+7QUBjak/VgCfrbkQVyCYjB2DpA//mbWwgQxcMkH0feiVqdz0
-         LoxwwH9goaymzFSsYxyIB53MHKR3HFLqVDeCZ/SlpauiPqHIKpqHcUcxzgXY9+XGNz
-         lJl4D/TJgnjHg==
-Received: by mail.fadrush.pl for <linux-media@vger.kernel.org>; Fri, 14 Oct 2022 08:00:54 GMT
-Message-ID: <20221014064500-0.1.28.m7nq.0.znn22d9q8i@fadrush.pl>
-Date:   Fri, 14 Oct 2022 08:00:54 GMT
-From:   "Jakub Olejniczak" <jakub.olejniczak@fadrush.pl>
-To:     <linux-media@vger.kernel.org>
-Subject: =?UTF-8?Q?Zwi=C4=99kszenie_p=C5=82ynno=C5=9Bci_finansowej?=
-X-Mailer: mail.fadrush.pl
+        Fri, 14 Oct 2022 06:31:57 -0400
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 26E9F252BF;
+        Fri, 14 Oct 2022 03:31:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1665743516; x=1697279516;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ptDZqIUqk3munuUKVxS0oc3Bl5qrSZ+Czm3phxJrSjQ=;
+  b=eQofEcQcBRytGBhdtkNtgtCCqEubujQsksvsPcYThFSDLHWantJhmwG2
+   xQdMoWrk74weH0brIBzLBfVMGPnqPi9zAIqLl+dB/GJj6tBt0eaJull+2
+   NgNa46Fq49w6rvFADQjSw1ihDgLZA2rDpKCrVQ7lz398T0sY+B/mmWflH
+   v+rm5JzZIRCHugLo1BfKnjCruNMubmBFLdZKkZeVRKw7ifM6OB1mR6QgK
+   CuWXKejITuKzk5wdYofrkGlJcoRQ0z2WyJi0+KuJPIVeL39fB8t/uqJ+z
+   ul5CF8j3DKtMCevVrOM0gNan+AGV1lfyHOM4AUWmBQxp+HL6FY/ZduTIa
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10499"; a="304083164"
+X-IronPort-AV: E=Sophos;i="5.95,184,1661842800"; 
+   d="scan'208";a="304083164"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2022 03:31:55 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10499"; a="660688519"
+X-IronPort-AV: E=Sophos;i="5.95,184,1661842800"; 
+   d="scan'208";a="660688519"
+Received: from punajuuri.fi.intel.com (HELO paasikivi.fi.intel.com) ([10.237.72.43])
+  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2022 03:31:52 -0700
+Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
+        by paasikivi.fi.intel.com (Postfix) with SMTP id 370C720146;
+        Fri, 14 Oct 2022 13:31:50 +0300 (EEST)
+Date:   Fri, 14 Oct 2022 10:31:50 +0000
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Shawn Tu <shawnx.tu@intel.com>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH] media: i2c: ov5645: Use runtime PM
+Message-ID: <Y0k6lrytZctR/UnX@paasikivi.fi.intel.com>
+References: <20220927201634.750141-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <Y0Ulvmyg8rBOPbRF@paasikivi.fi.intel.com>
+ <CA+V-a8v6ZGC7Ea6zdWGcLVyyq2Q=pUb0C_OwHWjFqSmuo5f-ZA@mail.gmail.com>
+ <CA+V-a8vkB=Fok5S-L_zLT+unxuuSJJk+pkeS52N_kcugCoeT6w@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-0.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_VALIDITY_RPBL,
-        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CA+V-a8vkB=Fok5S-L_zLT+unxuuSJJk+pkeS52N_kcugCoeT6w@mail.gmail.com>
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Dzie=C5=84 dobry,
+Hi Prabhakar,
 
-kontaktuj=C4=99 si=C4=99 z Pa=C5=84stwem, poniewa=C5=BC chcia=C5=82bym za=
-proponowa=C4=87 wygodne rozwi=C4=85zanie, kt=C3=B3re umo=C5=BCliwi Pa=C5=84=
-stwa firmie stabilny rozw=C3=B3j.=20
+On Wed, Oct 12, 2022 at 07:55:25PM +0100, Lad, Prabhakar wrote:
+> On a closer look, I can move the above after registering the subdev,
+> but I can get rid of err_pm_runtime label as PM is enabled further up
+> the code path to detect the senosr.
+> 
+> If you are OK with this i'll post a v2 along with the below two
+> patches + the suggestions you mentioned earlier on this patch.
 
-Konkurencyjne otoczenie wymaga ci=C4=85g=C5=82ego ulepszania i poszerzeni=
-a oferty, co z kolei wi=C4=85=C5=BCe si=C4=99 z konieczno=C5=9Bci=C4=85 i=
-nwestowania. Brak odpowiedniego kapita=C5=82u powa=C5=BCnie ogranicza tem=
-po rozwoju firmy.
+Sounds good to me.
 
-Od wielu lat z powodzeniem pomagam firmom w uzyskaniu najlepszej formy fi=
-nansowania z banku oraz UE. Mam sta=C5=82ych Klient=C3=B3w, kt=C3=B3rzy n=
-adal ch=C4=99tnie korzystaj=C4=85 z moich us=C5=82ug, a tak=C5=BCe poleca=
-j=C4=85 je innym.
-
-Czy chcieliby Pa=C5=84stwo skorzysta=C4=87 z pomocy wykwalifikowanego i d=
-o=C5=9Bwiadczonego doradcy finansowego?
-
-
-Pozdrawiam
-Jakub Olejniczak
+-- 
+Sakari Ailus
