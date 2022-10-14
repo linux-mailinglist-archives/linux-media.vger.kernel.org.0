@@ -2,207 +2,221 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B24325FECFE
-	for <lists+linux-media@lfdr.de>; Fri, 14 Oct 2022 13:11:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 86E855FEECA
+	for <lists+linux-media@lfdr.de>; Fri, 14 Oct 2022 15:42:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229843AbiJNLLP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 14 Oct 2022 07:11:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41680 "EHLO
+        id S229689AbiJNNl7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 14 Oct 2022 09:41:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35694 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229897AbiJNLK4 (ORCPT
+        with ESMTP id S229614AbiJNNl6 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 14 Oct 2022 07:10:56 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 579231C4920
-        for <linux-media@vger.kernel.org>; Fri, 14 Oct 2022 04:10:42 -0700 (PDT)
-Received: from [192.168.1.15] (91-158-154-79.elisa-laajakaista.fi [91.158.154.79])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9DC076DE;
-        Fri, 14 Oct 2022 13:10:38 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1665745839;
-        bh=EKcKtDR72ZkB6RGdEjmXqqHuTFjlq53U0UJ7So5mB1w=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=RZKi32oHOaz2HanqkRR7cZZYROvJksIJ4B9RQVZYQy7K+MtanwXi1N+IZF1NQ7qVk
-         X0MLBE7qJJ9yrNdmASa+zte6fZ7rj+8mrf1M/RANenOYqk3qXjVRuTucC9LU2mozte
-         5A3EuawNbWE8jKn+zFhqxqCCkDfMKU5lQvPCSD04=
-Message-ID: <7007e416-e9ee-008a-bd63-3a01b8a02af3@ideasonboard.com>
-Date:   Fri, 14 Oct 2022 14:10:35 +0300
+        Fri, 14 Oct 2022 09:41:58 -0400
+Received: from mail-vs1-xe32.google.com (mail-vs1-xe32.google.com [IPv6:2607:f8b0:4864:20::e32])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8CDF518C40F;
+        Fri, 14 Oct 2022 06:41:56 -0700 (PDT)
+Received: by mail-vs1-xe32.google.com with SMTP id a2so4867022vsc.13;
+        Fri, 14 Oct 2022 06:41:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=VhsGglXkDpyWTUDP1zpBe/DMVjny5tzPLCxJzM1rCH8=;
+        b=cIH2cckbEGL+G/8YvkQXnCT075p7SPbYhAj2r9HrLwKpOTGpyu9IMoDGGdvcFUwmYm
+         74Mzg0H0xer4u3MHNrjdmo418+0ytiVPIJKkTv0LawZhbJOTvYxpp9alGdc/mdIiR7Ql
+         8VwG49acoRv2MWeaDla+1OAt1de8IBl4+bf5juw8OANDCHtos05zE82UhFftovI9wEna
+         twOp6cm5s/w7FPlzANG6n6srVutDn9bLYLw6EKYAQAie+TyyNYs6Wm8HakWeyPTyvN9r
+         3zmL/orgX5pyIIfZ8SvCP1rJ1AuE/n9+JXQh73cB7RFIM41zfnxFcTg155Q6JnyosLgZ
+         xK0g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=VhsGglXkDpyWTUDP1zpBe/DMVjny5tzPLCxJzM1rCH8=;
+        b=1ZhZX+kJhdHQ7GJ5o0mIV+zDIFTIFc7phJF1ckxONM7py4pxXLLU3FEgoZbaOPmHL1
+         Gc6m/Hp6ByU1h5vBUjwpO0Ay7Ho9MlTM3S0uE2SYYU9knjtab9IPajBrYQihjC61RcIL
+         //d2lsqS9ZmmUUMmcGs3Wy58+xUH0Lmqjg7t7eIehMuGzcKOS6thahi4FV1A6TC1BeSD
+         SKEsPOxdGWOOc9hy5imv46Mr2IgRrCm5ZzT7pn7HaZEIRKZnPgn8/BPC52aao7I4GvZM
+         HNkXCOjVh712Fcbh3i5EAsaqLg9uxBnJQGHJTE4fZF9bDOPFjwYc3JE0kecyzO2hG7c7
+         xcOw==
+X-Gm-Message-State: ACrzQf0ge4Jl9fubPRYQbU3MQ2siPfbsdZevrY/7URfURVuogYnVskz6
+        RzIAj45/Czej0kg5Hdc0YwGLzpv465RZQgWBuxo=
+X-Google-Smtp-Source: AMsMyM7C0xvkIkQ+4nTj1gQpIbbBxDC8WXcerlQyMkQN7bDj/EnnYReGlbrgoOEF6yBlqaxk2Z/WA2ezOvu7KgtSaV8=
+X-Received: by 2002:a67:c09b:0:b0:3a7:954f:5e4d with SMTP id
+ x27-20020a67c09b000000b003a7954f5e4dmr2345935vsi.31.1665754915522; Fri, 14
+ Oct 2022 06:41:55 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH v15 11/19] media: subdev: use streams in
- v4l2_subdev_link_validate()
-Content-Language: en-US
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     linux-media@vger.kernel.org,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        niklas.soderlund+renesas@ragnatech.se,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Kishon Vijay Abraham <kishon@ti.com>,
-        satish.nagireddy@getcruise.com, Tomasz Figa <tfiga@chromium.org>
-References: <20221003121852.616745-1-tomi.valkeinen@ideasonboard.com>
- <20221003121852.616745-12-tomi.valkeinen@ideasonboard.com>
- <Y0k//ATM3oDFdn+a@paasikivi.fi.intel.com>
-From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-In-Reply-To: <Y0k//ATM3oDFdn+a@paasikivi.fi.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-5.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+References: <20220818125027.1131-1-yongsuyoo0215@gmail.com>
+ <CANXPkT4KL9KxvgjaJO058zg8nb00qaiPfDFKEaQ42g6v18XvKA@mail.gmail.com> <CANXPkT4hB4AEKk_=piESRTxToBsoKCpaq8vvjP05o3CX6QX4_g@mail.gmail.com>
+In-Reply-To: <CANXPkT4hB4AEKk_=piESRTxToBsoKCpaq8vvjP05o3CX6QX4_g@mail.gmail.com>
+From:   =?UTF-8?B?7Jyg7Jqp7IiY?= <yongsuyoo0215@gmail.com>
+Date:   Fri, 14 Oct 2022 22:41:47 +0900
+Message-ID: <CANXPkT4pzpEKMXuBShAeWfA80g5UigodrVZc+EBDnTLrHjnpyA@mail.gmail.com>
+Subject: Re: [PATCH] media: dvb_ca_en50221: A bug is fixed for size write
+To:     mchehab@kernel.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, yongsu.yoo@lge.com,
+        =?UTF-8?B?7Jyg7Jqp7IiY?= <yongsuyoo0215@gmail.com>,
+        Hans Petter Selasky <hps@selasky.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 14/10/2022 13:54, Sakari Ailus wrote:
-> Moi,
-> 
-> On Mon, Oct 03, 2022 at 03:18:44PM +0300, Tomi Valkeinen wrote:
->> Update v4l2_subdev_link_validate() to use routing and streams for
->> validation.
->>
->> Instead of just looking at the format on the pad on both ends of the
->> link, the routing tables are used to collect all the streams going from
->> the source to the sink over the link, and the streams' formats on both
->> ends of the link are verified.
->>
->> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
->> ---
->>   drivers/media/v4l2-core/v4l2-subdev.c | 182 +++++++++++++++++++++++---
->>   1 file changed, 162 insertions(+), 20 deletions(-)
->>
->> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
->> index be778e619694..1cea6ec750c0 100644
->> --- a/drivers/media/v4l2-core/v4l2-subdev.c
->> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
->> @@ -1014,7 +1014,7 @@ int v4l2_subdev_link_validate_default(struct v4l2_subdev *sd,
->>   EXPORT_SYMBOL_GPL(v4l2_subdev_link_validate_default);
->>   
->>   static int
->> -v4l2_subdev_link_validate_get_format(struct media_pad *pad,
->> +v4l2_subdev_link_validate_get_format(struct media_pad *pad, u32 stream,
->>   				     struct v4l2_subdev_format *fmt)
->>   {
->>   	if (is_media_entity_v4l2_subdev(pad->entity)) {
->> @@ -1023,7 +1023,11 @@ v4l2_subdev_link_validate_get_format(struct media_pad *pad,
->>   
->>   		fmt->which = V4L2_SUBDEV_FORMAT_ACTIVE;
->>   		fmt->pad = pad->index;
->> -		return v4l2_subdev_call_state_active(sd, pad, get_fmt, fmt);
->> +		fmt->stream = stream;
->> +
->> +		return v4l2_subdev_call(sd, pad, get_fmt,
->> +					v4l2_subdev_get_locked_active_state(sd),
->> +					fmt);
->>   	}
->>   
->>   	WARN(pad->entity->function != MEDIA_ENT_F_IO_V4L,
->> @@ -1033,31 +1037,169 @@ v4l2_subdev_link_validate_get_format(struct media_pad *pad,
->>   	return -EINVAL;
->>   }
->>   
->> +#if defined(CONFIG_VIDEO_V4L2_SUBDEV_API)
->> +
->> +static void __v4l2_link_validate_get_streams(struct media_pad *pad,
->> +					     u64 *streams_mask)
->> +{
->> +	struct v4l2_subdev_route *route;
->> +	struct v4l2_subdev_state *state;
->> +	struct v4l2_subdev *subdev;
->> +
->> +	subdev = media_entity_to_v4l2_subdev(pad->entity);
->> +
->> +	*streams_mask = 0;
->> +
->> +	state = v4l2_subdev_get_locked_active_state(subdev);
->> +	if (WARN_ON(!state))
->> +		return;
->> +
->> +	for_each_active_route(&state->routing, route) {
->> +		u32 route_pad;
->> +		u32 route_stream;
->> +
->> +		if (pad->flags & MEDIA_PAD_FL_SOURCE) {
->> +			route_pad = route->source_pad;
->> +			route_stream = route->source_stream;
->> +		} else {
->> +			route_pad = route->sink_pad;
->> +			route_stream = route->sink_stream;
->> +		}
->> +
->> +		if (route_pad != pad->index)
->> +			continue;
->> +
->> +		*streams_mask |= BIT_ULL(route_stream);
->> +	}
->> +}
->> +
->> +#endif /* CONFIG_VIDEO_V4L2_SUBDEV_API */
->> +
->> +static void v4l2_link_validate_get_streams(struct media_pad *pad,
->> +					   u64 *streams_mask)
->> +{
->> +	struct v4l2_subdev *subdev = media_entity_to_v4l2_subdev(pad->entity);
->> +
->> +	if (!(subdev->flags & V4L2_SUBDEV_FL_STREAMS)) {
->> +		/* Non-streams subdevs have an implicit stream 0 */
->> +		*streams_mask = BIT_ULL(0);
->> +		return;
->> +	}
->> +
->> +#if defined(CONFIG_VIDEO_V4L2_SUBDEV_API)
->> +	__v4l2_link_validate_get_streams(pad, streams_mask);
->> +#else
->> +	/* This shouldn't happen */
->> +	*streams_mask = 0;
->> +#endif
->> +}
->> +
->> +static int v4l2_subdev_link_validate_locked(struct media_link *link)
->> +{
->> +	struct v4l2_subdev *sink_subdev =
->> +		media_entity_to_v4l2_subdev(link->sink->entity);
->> +	struct device *dev = sink_subdev->entity.graph_obj.mdev->dev;
->> +	u64 source_streams_mask;
->> +	u64 sink_streams_mask;
->> +	u64 dangling_sink_streams;
->> +	u32 stream;
->> +	int ret;
->> +
->> +	dev_dbg(dev, "validating link \"%s\":%u -> \"%s\":%u\n",
->> +		link->source->entity->name, link->source->index,
->> +		link->sink->entity->name, link->sink->index);
->> +
->> +	v4l2_link_validate_get_streams(link->source, &source_streams_mask);
->> +	v4l2_link_validate_get_streams(link->sink, &sink_streams_mask);
->> +
->> +	/*
->> +	 * It is ok to have more source streams than sink streams as extra
->> +	 * source streams can just be ignored by the receiver, but having extra
->> +	 * sink streams is an error as streams must have a source.
->> +	 */
->> +	dangling_sink_streams = (source_streams_mask ^ sink_streams_mask) &
->> +				sink_streams_mask;
->> +	if (dangling_sink_streams) {
->> +		dev_err(dev, "Dangling sink streams: mask %#llx\n",
->> +			dangling_sink_streams);
->> +		return -EINVAL;
->> +	}
->> +
->> +	/* Validate source and sink stream formats */
->> +
->> +	for_each_set_bit(stream, (void *)&sink_streams_mask, 64) {
-> 
-> Does this work as expected? The second argument is expected to be unsigned
-> long (or an array of two of them) whereas you have a u64.
+Dear All
+Can you share how this patch is going ?
 
-Where do you see that? I thought find_next_bit (used by 
-for_each_set_bit) is given a start address and arbitrarily large 
-bit-size number.
-
-  Tomi
-
+2022=EB=85=84 9=EC=9B=94 15=EC=9D=BC (=EB=AA=A9) =EC=98=A4=ED=9B=84 5:47, =
+=EC=9C=A0=EC=9A=A9=EC=88=98 <yongsuyoo0215@gmail.com>=EB=8B=98=EC=9D=B4 =EC=
+=9E=91=EC=84=B1:
+>
+> Dear All
+> Can you share how this patch is going ?
+>
+> 2022=EB=85=84 8=EC=9B=94 31=EC=9D=BC (=EC=88=98) =EC=98=A4=ED=9B=84 10:43=
+, =EC=9C=A0=EC=9A=A9=EC=88=98 <yongsuyoo0215@gmail.com>=EB=8B=98=EC=9D=B4 =
+=EC=9E=91=EC=84=B1:
+> >
+> > Dear All
+> > Can you share how this patch is going ?
+> >
+> > 2022=EB=85=84 8=EC=9B=94 18=EC=9D=BC (=EB=AA=A9) =EC=98=A4=ED=9B=84 9:5=
+0, YongSu Yoo <yongsuyoo0215@gmail.com>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=
+=B1:
+> > >
+> > > Signed-off-by:Yongsu Yoo <yongsuyoo0215@gmail.com>
+> > >
+> > > The function of "dvb_ca_en50221_write_data" at source/drivers/media
+> > > /dvb-core/dvb_ca_en50221.c is used for two cases.
+> > > The first case is for writing APDU data in the function of
+> > > "dvb_ca_en50221_io_write" at source/drivers/media/dvb-core/
+> > > dvb_ca_en50221.c.
+> > > The second case is for writing the host link buf size on the
+> > > Command Register in the function of "dvb_ca_en50221_link_init"
+> > > at source/drivers/media/dvb-core/dvb_ca_en50221.c.
+> > > In the second case, there exists a bug like followings.
+> > > In the function of the "dvb_ca_en50221_link_init",
+> > > after a TV host calculates the host link buf_size,
+> > > the TV host writes the calculated host link buf_size on the
+> > > Size Register.
+> > > Accroding to the en50221 Spec (the page 60 of
+> > > https://dvb.org/wp-content/uploads/2020/02/En50221.V1.pdf),
+> > > before this writing operation, the "SW(CMDREG_SW)" flag in the
+> > > Command Register should be set. We can see this setting operation
+> > > in the function of the "dvb_ca_en50221_link_init" like below.
+> > > ...
+> > >         if ((ret =3D ca->pub->write_cam_control(ca->pub, slot,
+> > > CTRLIF_COMMAND, IRQEN | CMDREG_SW)) !=3D 0)
+> > >                 return ret;
+> > > ...
+> > > But, after that, the real writing operation is implemented using
+> > > the function of the "dvb_ca_en50221_write_data" in the function of
+> > > "dvb_ca_en50221_link_init", and the "dvb_ca_en50221_write_data"
+> > > includes the function of "ca->pub->write_cam_control",
+> > > and the function of the "ca->pub->write_cam_control" in the
+> > > function of the "dvb_ca_en50221_wrte_data" does not include
+> > > "CMDREG_SW" flag like below.
+> > > ...
+> > >         if ((status =3D ca->pub->write_cam_control(ca->pub, slot,
+> > > CTRLIF_COMMAND, IRQEN | CMDREG_HC)) !=3D 0)
+> > > ...
+> > > In the above source code, we can see only the "IRQEN | CMDREG_HC",
+> > > but we cannot see the "CMDREG_SW".
+> > > The "CMDREG_SW" flag which was set in the function of the
+> > > "dvb_ca_en50221_link_init" was rollbacked by the follwoing function
+> > > of the "dvb_ca_en50221_write_data".
+> > > This is a bug. and this bug causes that the calculated host link buf_=
+size
+> > > is not properly written in the CI module.
+> > > Through this patch, we fix this bug.
+> > > ---
+> > >  drivers/media/dvb-core/dvb_ca_en50221.c | 12 +++++++-----
+> > >  1 file changed, 7 insertions(+), 5 deletions(-)
+> > >
+> > > diff --git a/drivers/media/dvb-core/dvb_ca_en50221.c b/drivers/media/=
+dvb-core/dvb_ca_en50221.c
+> > > index 15a08d8c69ef..13f249b0a080 100644
+> > > --- a/drivers/media/dvb-core/dvb_ca_en50221.c
+> > > +++ b/drivers/media/dvb-core/dvb_ca_en50221.c
+> > > @@ -187,7 +187,7 @@ static void dvb_ca_en50221_thread_wakeup(struct d=
+vb_ca_private *ca);
+> > >  static int dvb_ca_en50221_read_data(struct dvb_ca_private *ca, int s=
+lot,
+> > >                                     u8 *ebuf, int ecount);
+> > >  static int dvb_ca_en50221_write_data(struct dvb_ca_private *ca, int =
+slot,
+> > > -                                    u8 *ebuf, int ecount);
+> > > +                                    u8 *ebuf, int ecount, int size_w=
+rite_flag);
+> > >
+> > >  /**
+> > >   * findstr - Safely find needle in haystack.
+> > > @@ -370,7 +370,7 @@ static int dvb_ca_en50221_link_init(struct dvb_ca=
+_private *ca, int slot)
+> > >         ret =3D dvb_ca_en50221_wait_if_status(ca, slot, STATUSREG_FR,=
+ HZ / 10);
+> > >         if (ret)
+> > >                 return ret;
+> > > -       ret =3D dvb_ca_en50221_write_data(ca, slot, buf, 2);
+> > > +       ret =3D dvb_ca_en50221_write_data(ca, slot, buf, 2, CMDREG_SW=
+);
+> > >         if (ret !=3D 2)
+> > >                 return -EIO;
+> > >         ret =3D ca->pub->write_cam_control(ca->pub, slot, CTRLIF_COMM=
+AND, IRQEN);
+> > > @@ -778,11 +778,13 @@ static int dvb_ca_en50221_read_data(struct dvb_=
+ca_private *ca, int slot,
+> > >   * @buf: The data in this buffer is treated as a complete link-level=
+ packet to
+> > >   *      be written.
+> > >   * @bytes_write: Size of ebuf.
+> > > + * @size_write_flag: A flag on Command Register which says whether t=
+he link size
+> > > + * information will be writen or not.
+> > >   *
+> > >   * return: Number of bytes written, or < 0 on error.
+> > >   */
+> > >  static int dvb_ca_en50221_write_data(struct dvb_ca_private *ca, int =
+slot,
+> > > -                                    u8 *buf, int bytes_write)
+> > > +                                    u8 *buf, int bytes_write, int si=
+ze_write_flag)
+> > >  {
+> > >         struct dvb_ca_slot *sl =3D &ca->slot_info[slot];
+> > >         int status;
+> > > @@ -817,7 +819,7 @@ static int dvb_ca_en50221_write_data(struct dvb_c=
+a_private *ca, int slot,
+> > >
+> > >         /* OK, set HC bit */
+> > >         status =3D ca->pub->write_cam_control(ca->pub, slot, CTRLIF_C=
+OMMAND,
+> > > -                                           IRQEN | CMDREG_HC);
+> > > +                                           IRQEN | CMDREG_HC | size_=
+write_flag);
+> > >         if (status)
+> > >                 goto exit;
+> > >
+> > > @@ -1508,7 +1510,7 @@ static ssize_t dvb_ca_en50221_io_write(struct f=
+ile *file,
+> > >
+> > >                         mutex_lock(&sl->slot_lock);
+> > >                         status =3D dvb_ca_en50221_write_data(ca, slot=
+, fragbuf,
+> > > -                                                          fraglen + =
+2);
+> > > +                                                          fraglen + =
+2, 0);
+> > >                         mutex_unlock(&sl->slot_lock);
+> > >                         if (status =3D=3D (fraglen + 2)) {
+> > >                                 written =3D 1;
+> > > --
+> > > 2.17.1
+> > >
