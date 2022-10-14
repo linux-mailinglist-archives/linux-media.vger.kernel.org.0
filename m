@@ -2,221 +2,239 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 86E855FEECA
-	for <lists+linux-media@lfdr.de>; Fri, 14 Oct 2022 15:42:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7743E5FF09B
+	for <lists+linux-media@lfdr.de>; Fri, 14 Oct 2022 16:50:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229689AbiJNNl7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 14 Oct 2022 09:41:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35694 "EHLO
+        id S229790AbiJNOuA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 14 Oct 2022 10:50:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35074 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229614AbiJNNl6 (ORCPT
+        with ESMTP id S229843AbiJNOt6 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 14 Oct 2022 09:41:58 -0400
-Received: from mail-vs1-xe32.google.com (mail-vs1-xe32.google.com [IPv6:2607:f8b0:4864:20::e32])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8CDF518C40F;
-        Fri, 14 Oct 2022 06:41:56 -0700 (PDT)
-Received: by mail-vs1-xe32.google.com with SMTP id a2so4867022vsc.13;
-        Fri, 14 Oct 2022 06:41:56 -0700 (PDT)
+        Fri, 14 Oct 2022 10:49:58 -0400
+Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com [IPv6:2a00:1450:4864:20::62e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B86C027920
+        for <linux-media@vger.kernel.org>; Fri, 14 Oct 2022 07:49:56 -0700 (PDT)
+Received: by mail-ej1-x62e.google.com with SMTP id ot12so11067442ejb.1
+        for <linux-media@vger.kernel.org>; Fri, 14 Oct 2022 07:49:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:to:subject:message-id:date:from
+        d=raspberrypi.com; s=google;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=VhsGglXkDpyWTUDP1zpBe/DMVjny5tzPLCxJzM1rCH8=;
-        b=cIH2cckbEGL+G/8YvkQXnCT075p7SPbYhAj2r9HrLwKpOTGpyu9IMoDGGdvcFUwmYm
-         74Mzg0H0xer4u3MHNrjdmo418+0ytiVPIJKkTv0LawZhbJOTvYxpp9alGdc/mdIiR7Ql
-         8VwG49acoRv2MWeaDla+1OAt1de8IBl4+bf5juw8OANDCHtos05zE82UhFftovI9wEna
-         twOp6cm5s/w7FPlzANG6n6srVutDn9bLYLw6EKYAQAie+TyyNYs6Wm8HakWeyPTyvN9r
-         3zmL/orgX5pyIIfZ8SvCP1rJ1AuE/n9+JXQh73cB7RFIM41zfnxFcTg155Q6JnyosLgZ
-         xK0g==
+        bh=GIpSgzlvYmugkQQC5I1HA0hlfluEpXrt+wWyXIkqQxc=;
+        b=oP1tRqPVUveyKExgXgd78A3XI4GqnDkiYd3aADuLfiyszUUgPQzxS4g4NFLBbfeNTS
+         N9/Kt1D7/gX+Y01Z23EsuLnrcMxdM/A0Fl4odPOlzC1bPzHnvRgOSfs4SFcqT5/HvQNu
+         55htXFmA9N4pyDcUuyLJpLDZgsD8OOa0+7hEbaOnsAhLJhUaH0jncHbTIreATgvPzQXL
+         cW6RwxnF6nfI9NKxV0dQa1cwUC5MqlrY62r9ldKfQiv5K6kBQ8Ebm3691Vkjm2D3lAnC
+         OKfjTjPv13w3pws1ErBM4Vr25IQZvIDToP80HEvcvKNK9b/4kH5DWCV9JD6RvHCQZHlF
+         PQjg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:to:subject:message-id:date:from
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=VhsGglXkDpyWTUDP1zpBe/DMVjny5tzPLCxJzM1rCH8=;
-        b=1ZhZX+kJhdHQ7GJ5o0mIV+zDIFTIFc7phJF1ckxONM7py4pxXLLU3FEgoZbaOPmHL1
-         Gc6m/Hp6ByU1h5vBUjwpO0Ay7Ho9MlTM3S0uE2SYYU9knjtab9IPajBrYQihjC61RcIL
-         //d2lsqS9ZmmUUMmcGs3Wy58+xUH0Lmqjg7t7eIehMuGzcKOS6thahi4FV1A6TC1BeSD
-         SKEsPOxdGWOOc9hy5imv46Mr2IgRrCm5ZzT7pn7HaZEIRKZnPgn8/BPC52aao7I4GvZM
-         HNkXCOjVh712Fcbh3i5EAsaqLg9uxBnJQGHJTE4fZF9bDOPFjwYc3JE0kecyzO2hG7c7
-         xcOw==
-X-Gm-Message-State: ACrzQf0ge4Jl9fubPRYQbU3MQ2siPfbsdZevrY/7URfURVuogYnVskz6
-        RzIAj45/Czej0kg5Hdc0YwGLzpv465RZQgWBuxo=
-X-Google-Smtp-Source: AMsMyM7C0xvkIkQ+4nTj1gQpIbbBxDC8WXcerlQyMkQN7bDj/EnnYReGlbrgoOEF6yBlqaxk2Z/WA2ezOvu7KgtSaV8=
-X-Received: by 2002:a67:c09b:0:b0:3a7:954f:5e4d with SMTP id
- x27-20020a67c09b000000b003a7954f5e4dmr2345935vsi.31.1665754915522; Fri, 14
- Oct 2022 06:41:55 -0700 (PDT)
+        bh=GIpSgzlvYmugkQQC5I1HA0hlfluEpXrt+wWyXIkqQxc=;
+        b=bu5KRd6XiPpEbtf9HZeDw+I0L02+Ou1fOi1uYRj7775twKCjnUQhrMUJs+ol9Dcdja
+         Z3F5OyNo8Mkila4konvRJkw/SRj5yzUlGkiVfL5QBqMBHWnIbEqtEYycRmc7XCIy9PcK
+         HrN2jlombyQsyDV1oowoXsZVsbYngxAXgupWyfbn0ksnKoxLaz990K6Xr0b7hntIHPGC
+         Vpsr1Aw7xr7bWyOox3IFiABH973Mxk5xzypAn03iK+wi+b63oD8RyEbmuSh+LoEWUJDx
+         REw3HcXMb+1iXq7PnX9cMfUYuU6yMJUxHAtDtGOUsKZTcgEeOf8arMgZ0i4W/ZL+l02K
+         D3zQ==
+X-Gm-Message-State: ACrzQf3eIcDctwvrjJkfjDG6XY0Sy5AhomsMpimUfXP5yBz5khBgfMT3
+        Mjao4PlJcH3mCIiBZoqp+/RPPV/VzlkeBo0fHxvgRg==
+X-Google-Smtp-Source: AMsMyM4FqPtRFdFnOvgmTr8RdQFiZC5sah5KuAsRkJsi052ZItMDDOFMVkUNp9Xkh2QmzEbO6gJCOpZ4vM1jrKFLnZ0=
+X-Received: by 2002:a17:907:1c98:b0:78d:3b08:33ef with SMTP id
+ nb24-20020a1709071c9800b0078d3b0833efmr3971354ejc.175.1665758994668; Fri, 14
+ Oct 2022 07:49:54 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220818125027.1131-1-yongsuyoo0215@gmail.com>
- <CANXPkT4KL9KxvgjaJO058zg8nb00qaiPfDFKEaQ42g6v18XvKA@mail.gmail.com> <CANXPkT4hB4AEKk_=piESRTxToBsoKCpaq8vvjP05o3CX6QX4_g@mail.gmail.com>
-In-Reply-To: <CANXPkT4hB4AEKk_=piESRTxToBsoKCpaq8vvjP05o3CX6QX4_g@mail.gmail.com>
-From:   =?UTF-8?B?7Jyg7Jqp7IiY?= <yongsuyoo0215@gmail.com>
-Date:   Fri, 14 Oct 2022 22:41:47 +0900
-Message-ID: <CANXPkT4pzpEKMXuBShAeWfA80g5UigodrVZc+EBDnTLrHjnpyA@mail.gmail.com>
-Subject: Re: [PATCH] media: dvb_ca_en50221: A bug is fixed for size write
-To:     mchehab@kernel.org, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, yongsu.yoo@lge.com,
-        =?UTF-8?B?7Jyg7Jqp7IiY?= <yongsuyoo0215@gmail.com>,
-        Hans Petter Selasky <hps@selasky.org>
+References: <CAFP0Ok9iHi+1nyzxMfMA58QC5=H4H48ALBY+1e8eeTMsfbUY3A@mail.gmail.com>
+ <20221013071846.dnp3o3pj747wnknt@uno.localdomain> <CAPY8ntAHvQX=XdrF3gUtDJTgwUoUe+fZwQG5B347+cz-FYeS9Q@mail.gmail.com>
+ <CAFP0Ok_DJpRYdSZe=y0L7DqmzDFB8-GN671oZzTYRFMTVDsJDA@mail.gmail.com>
+In-Reply-To: <CAFP0Ok_DJpRYdSZe=y0L7DqmzDFB8-GN671oZzTYRFMTVDsJDA@mail.gmail.com>
+From:   Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date:   Fri, 14 Oct 2022 15:49:38 +0100
+Message-ID: <CAPY8ntBUhbxFGH9W8vQLkTT08H=bv895V7n0fC_y0LJO7xBVoA@mail.gmail.com>
+Subject: Re: V4L2 M2M driver architecture question for a new hardware
+To:     Karthik Poduval <karthik.poduval@gmail.com>
+Cc:     Jacopo Mondi <jacopo@jmondi.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Dear All
-Can you share how this patch is going ?
+Hi Karthik
 
-2022=EB=85=84 9=EC=9B=94 15=EC=9D=BC (=EB=AA=A9) =EC=98=A4=ED=9B=84 5:47, =
-=EC=9C=A0=EC=9A=A9=EC=88=98 <yongsuyoo0215@gmail.com>=EB=8B=98=EC=9D=B4 =EC=
-=9E=91=EC=84=B1:
+On Fri, 14 Oct 2022 at 15:26, Karthik Poduval <karthik.poduval@gmail.com> w=
+rote:
 >
-> Dear All
-> Can you share how this patch is going ?
+> Thanks for the reply Jacopo and Dave.
 >
-> 2022=EB=85=84 8=EC=9B=94 31=EC=9D=BC (=EC=88=98) =EC=98=A4=ED=9B=84 10:43=
-, =EC=9C=A0=EC=9A=A9=EC=88=98 <yongsuyoo0215@gmail.com>=EB=8B=98=EC=9D=B4 =
-=EC=9E=91=EC=84=B1:
-> >
-> > Dear All
-> > Can you share how this patch is going ?
-> >
-> > 2022=EB=85=84 8=EC=9B=94 18=EC=9D=BC (=EB=AA=A9) =EC=98=A4=ED=9B=84 9:5=
-0, YongSu Yoo <yongsuyoo0215@gmail.com>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=
-=B1:
-> > >
-> > > Signed-off-by:Yongsu Yoo <yongsuyoo0215@gmail.com>
-> > >
-> > > The function of "dvb_ca_en50221_write_data" at source/drivers/media
-> > > /dvb-core/dvb_ca_en50221.c is used for two cases.
-> > > The first case is for writing APDU data in the function of
-> > > "dvb_ca_en50221_io_write" at source/drivers/media/dvb-core/
-> > > dvb_ca_en50221.c.
-> > > The second case is for writing the host link buf size on the
-> > > Command Register in the function of "dvb_ca_en50221_link_init"
-> > > at source/drivers/media/dvb-core/dvb_ca_en50221.c.
-> > > In the second case, there exists a bug like followings.
-> > > In the function of the "dvb_ca_en50221_link_init",
-> > > after a TV host calculates the host link buf_size,
-> > > the TV host writes the calculated host link buf_size on the
-> > > Size Register.
-> > > Accroding to the en50221 Spec (the page 60 of
-> > > https://dvb.org/wp-content/uploads/2020/02/En50221.V1.pdf),
-> > > before this writing operation, the "SW(CMDREG_SW)" flag in the
-> > > Command Register should be set. We can see this setting operation
-> > > in the function of the "dvb_ca_en50221_link_init" like below.
-> > > ...
-> > >         if ((ret =3D ca->pub->write_cam_control(ca->pub, slot,
-> > > CTRLIF_COMMAND, IRQEN | CMDREG_SW)) !=3D 0)
-> > >                 return ret;
-> > > ...
-> > > But, after that, the real writing operation is implemented using
-> > > the function of the "dvb_ca_en50221_write_data" in the function of
-> > > "dvb_ca_en50221_link_init", and the "dvb_ca_en50221_write_data"
-> > > includes the function of "ca->pub->write_cam_control",
-> > > and the function of the "ca->pub->write_cam_control" in the
-> > > function of the "dvb_ca_en50221_wrte_data" does not include
-> > > "CMDREG_SW" flag like below.
-> > > ...
-> > >         if ((status =3D ca->pub->write_cam_control(ca->pub, slot,
-> > > CTRLIF_COMMAND, IRQEN | CMDREG_HC)) !=3D 0)
-> > > ...
-> > > In the above source code, we can see only the "IRQEN | CMDREG_HC",
-> > > but we cannot see the "CMDREG_SW".
-> > > The "CMDREG_SW" flag which was set in the function of the
-> > > "dvb_ca_en50221_link_init" was rollbacked by the follwoing function
-> > > of the "dvb_ca_en50221_write_data".
-> > > This is a bug. and this bug causes that the calculated host link buf_=
-size
-> > > is not properly written in the CI module.
-> > > Through this patch, we fix this bug.
-> > > ---
-> > >  drivers/media/dvb-core/dvb_ca_en50221.c | 12 +++++++-----
-> > >  1 file changed, 7 insertions(+), 5 deletions(-)
-> > >
-> > > diff --git a/drivers/media/dvb-core/dvb_ca_en50221.c b/drivers/media/=
-dvb-core/dvb_ca_en50221.c
-> > > index 15a08d8c69ef..13f249b0a080 100644
-> > > --- a/drivers/media/dvb-core/dvb_ca_en50221.c
-> > > +++ b/drivers/media/dvb-core/dvb_ca_en50221.c
-> > > @@ -187,7 +187,7 @@ static void dvb_ca_en50221_thread_wakeup(struct d=
-vb_ca_private *ca);
-> > >  static int dvb_ca_en50221_read_data(struct dvb_ca_private *ca, int s=
-lot,
-> > >                                     u8 *ebuf, int ecount);
-> > >  static int dvb_ca_en50221_write_data(struct dvb_ca_private *ca, int =
-slot,
-> > > -                                    u8 *ebuf, int ecount);
-> > > +                                    u8 *ebuf, int ecount, int size_w=
-rite_flag);
-> > >
-> > >  /**
-> > >   * findstr - Safely find needle in haystack.
-> > > @@ -370,7 +370,7 @@ static int dvb_ca_en50221_link_init(struct dvb_ca=
-_private *ca, int slot)
-> > >         ret =3D dvb_ca_en50221_wait_if_status(ca, slot, STATUSREG_FR,=
- HZ / 10);
-> > >         if (ret)
-> > >                 return ret;
-> > > -       ret =3D dvb_ca_en50221_write_data(ca, slot, buf, 2);
-> > > +       ret =3D dvb_ca_en50221_write_data(ca, slot, buf, 2, CMDREG_SW=
-);
-> > >         if (ret !=3D 2)
-> > >                 return -EIO;
-> > >         ret =3D ca->pub->write_cam_control(ca->pub, slot, CTRLIF_COMM=
-AND, IRQEN);
-> > > @@ -778,11 +778,13 @@ static int dvb_ca_en50221_read_data(struct dvb_=
-ca_private *ca, int slot,
-> > >   * @buf: The data in this buffer is treated as a complete link-level=
- packet to
-> > >   *      be written.
-> > >   * @bytes_write: Size of ebuf.
-> > > + * @size_write_flag: A flag on Command Register which says whether t=
-he link size
-> > > + * information will be writen or not.
-> > >   *
-> > >   * return: Number of bytes written, or < 0 on error.
-> > >   */
-> > >  static int dvb_ca_en50221_write_data(struct dvb_ca_private *ca, int =
-slot,
-> > > -                                    u8 *buf, int bytes_write)
-> > > +                                    u8 *buf, int bytes_write, int si=
-ze_write_flag)
-> > >  {
-> > >         struct dvb_ca_slot *sl =3D &ca->slot_info[slot];
-> > >         int status;
-> > > @@ -817,7 +819,7 @@ static int dvb_ca_en50221_write_data(struct dvb_c=
-a_private *ca, int slot,
-> > >
-> > >         /* OK, set HC bit */
-> > >         status =3D ca->pub->write_cam_control(ca->pub, slot, CTRLIF_C=
-OMMAND,
-> > > -                                           IRQEN | CMDREG_HC);
-> > > +                                           IRQEN | CMDREG_HC | size_=
-write_flag);
-> > >         if (status)
-> > >                 goto exit;
-> > >
-> > > @@ -1508,7 +1510,7 @@ static ssize_t dvb_ca_en50221_io_write(struct f=
-ile *file,
-> > >
-> > >                         mutex_lock(&sl->slot_lock);
-> > >                         status =3D dvb_ca_en50221_write_data(ca, slot=
-, fragbuf,
-> > > -                                                          fraglen + =
-2);
-> > > +                                                          fraglen + =
-2, 0);
-> > >                         mutex_unlock(&sl->slot_lock);
-> > >                         if (status =3D=3D (fraglen + 2)) {
-> > >                                 written =3D 1;
-> > > --
-> > > 2.17.1
-> > >
+> On Thu, Oct 13, 2022, 2:25 AM Dave Stevenson <dave.stevenson@raspberrypi.=
+com> wrote:
+>>
+>> Hi Karthik and Jacopo
+>>
+>> On Thu, 13 Oct 2022 at 08:18, Jacopo Mondi <jacopo@jmondi.org> wrote:
+>> >
+>> > Hello Karthik
+>> >
+>> > On Wed, Oct 12, 2022 at 10:59:50PM -0700, Karthik Poduval wrote:
+>> > > Hi All,
+>> > >
+>> > > I have hardware that does some sort of image manipulation. The
+>> > > hardware takes 2 inputs.
+>> > > - image buffer
+>> > > - config param buffer
+>> > > and generates one output which is also an image buffer.
+>> > > The input and output images formats fall under standard image
+>> > > definitions of V4L2 like various YUV/RGB formats (interleaved or
+>> > > multiplanar).
+>> > >
+>> > > The config param buffer is kind of like a set of instructions for th=
+e
+>> > > hardware that needs to be passed with every input and output image
+>> > > which tells the hardware how to process the image.
+>> > > The hardware will be given different input images and output images
+>> > > every time and possibly different config param buffers too (in some
+>> > > cases). The config param buffers may have variable sizes too based o=
+n
+>> > > the nature of processing for that frame, but input and output images
+>> > > are fixed in size for a given context. I should also mention that th=
+e
+>> > > config param buffers are a few KBs in size so zero copy is a
+>> > > requirement. The config params buffers are written by userspace
+>> > > (possibly also driver in kernel space) and read by hardware.
+>> > >
+>> >
+>> > This sounds very much how a regular M2M ISP driver works. I can't tell
+>> > about codecs as I'm no expert there, but I expect them to be similar,
+>> > so your use case is covered by existing drivers.
+>> >
+>> > > Here were two mechanisms I had in mind while trying to design a V4L2
+>> > > M2M driver for this hardware.
+>> > > - Use a custom multiplanar input format where one plane is a config
+>> > > param buffer with remaining planes for input images (in case the inp=
+ut
+>> > > image is also multiplanar).
+>> >
+>> > If you're wondering how to pass parameters to the HW I suggest to
+>> > consider registering an output video device node, where you simply
+>> > queue buffers with your parameters to.
+>> >
+>> > Your HW could be modeled as a single subdevice with 3 video device
+>> > nodes, one output device for input images, one output device for
+>> > parameters, and one capture device for output images.
+>> >
+>> >                    +-----------+
+>> >        +----+      | HW subdav |      +------+
+>> >        | In | ---> 0           0  --> | out  |
+>> >        +----+      |           |      +------+
+>> >                    +-----0-----+
+>> >                          ^
+>> >                          |
+>> >                      +--------+
+>> >                      | params |
+>> >                      +--------+
+>>
+>> The main drawback of this over the codec model of a single video
+>> device with both an _OUTPUT and _CAPTURE queue is that you can not run
+>> multiple instances simultaneously - there is no way to tie the
+>> relevant clients together. I don't know whether supporting
+>> simultaneous multiple clients is a requirement in this case, but that
+>> may be a key decision in choosing how to represent the device.
+>
+>
+> Yes multi context feature of V4L2 M2M is a requirement. Is it possible to=
+ have a capture, output and param queues for M2M devices ? It's essentially=
+ fits the M2M architecture but with a larger control param so we are lookin=
+g for zero copy instead of relying on V4L2 ctrl's ioctl based approach.
+
+AIUI You can't have multiple input (or output) queues as then it
+becomes ambiguous as to which queue triggered a poll/select. With one
+_OUTPUT queue it will trigger "write", and one _CAPTURE queue will
+trigger "read". Add a 3rd queue and you don't know which one to query.
+
+Using dma-heaps does work - we've used that in the bcm2835-isp driver
+[1] for passing in lens shading tables (again several kB, but there
+they are largely static).
+In that case we need to jump through a couple of hoops to map the
+dmabuf into the ISP control software's memory space as well, but
+fundamentally it's very similar.
+
+V4L2_CTRL_FLAG_EXECUTE_ON_WRITE is necessary to handle the case where you:
+- allocate a buffer from dma-heap and get fd N.
+- pass the fd into the V4L2 driver, which acquires the underlying dmabuf.
+- close the fd as userspace doesn't want it anymore.
+- allocate a new buffer from dma-buf and get fd N again, but it is
+referencing a new underlying dmabuf.
+- pass the fd into V4L2 - the control framework would generally view
+it as "no change" and not call your control handler :-(
+
+If you configure userspace to hang on to the same dmabuf and update
+it, then you need to add in some method to ensure the config buffer
+isn't in use by your driver at the point you update it. And don't
+forget about cache management.
+
+I'll leave it for others to comment on whether it is really acceptable
+to mainline to use a dmabuf fd in a control.
+
+  Dave
+
+[1] https://github.com/raspberrypi/linux/blob/rpi-5.15.y/drivers/staging/vc=
+04_services/bcm2835-isp/bcm2835-v4l2-isp.c#L752
+
+>> > The parameters buffer can be of modeled using the v4l2_meta_format[1]
+>> > interface. The data format of the buffer could be defined as a custom
+>> > metadata format, you can see examples here [2]
+>> >
+>> > [1] https://www.kernel.org/doc/html/latest/userspace-api/media/v4l/dev=
+-meta.html#c.v4l2_meta_format
+>> > [2] https://www.kernel.org/doc/html/latest/userspace-api/media/v4l/met=
+a-formats.html#meta-formats
+>> >
+>> > I suggest to look at the IPU3 and RkISP1 drivers for reference.
+>> >
+>> > > - Use dmabuf heaps to allocate config param buffer. Tie this config
+>> > > param buffer fd to an input buffer (using request API). Driver would
+>> > > have to attach the config param buffer dmabuf fd, use it and detach.
+>> > >
+>> >
+>> > You should be able to easily allocate buffers in the video device as
+>> > you would easily do and export them as dmabuf fds by using
+>> > VIDIOC_EXPBUF [3].
+>> >
+>> > Once you have them you can map them in your application code and
+>> > write their content.
+>> >
+>> > [3] https://www.kernel.org/doc/html/latest/userspace-api/media/v4l/vid=
+ioc-expbuf.html
+>> >
+>> > > Any comments/concerns about the above two mechanisms ?
+>> > > Any other better ideas ?
+>> > > Are there any existing V4L2 M2M mechanisms present to deal with per
+>> > > frame param buffers that are also zero copy ?
+>> > > Is the media request API able to do zero copy for setting compound
+>> > > controls for large (several KBs) compound controls ? (making the abo=
+ve
+>> > > dmabuf heap approach unnecessary)
+>> >
+>> > Now, all the above assumes your parameters buffer is modeled as a
+>> > structure of parameters (and possibly data tables). If you are instead
+>> > looking at something that can be modeled through controls you might
+>> > have better guidance by looking at how codecs work, but there I can't
+>> > help much ;)
+>> >
+>> > Hope it helps
+>> >    j
+>> > >
+>> > > --
+>> > > Regards,
+>> > > Karthik Poduval
