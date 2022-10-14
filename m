@@ -2,118 +2,89 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 731995FF3C4
-	for <lists+linux-media@lfdr.de>; Fri, 14 Oct 2022 20:41:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 00B705FF3E3
+	for <lists+linux-media@lfdr.de>; Fri, 14 Oct 2022 20:58:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230387AbiJNSlK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 14 Oct 2022 14:41:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45102 "EHLO
+        id S231211AbiJNS6y (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 14 Oct 2022 14:58:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51174 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230112AbiJNSlJ (ORCPT
+        with ESMTP id S230110AbiJNS6x (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 14 Oct 2022 14:41:09 -0400
-Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com [IPv6:2a00:1450:4864:20::52a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9D23C1C116B;
-        Fri, 14 Oct 2022 11:41:06 -0700 (PDT)
-Received: by mail-ed1-x52a.google.com with SMTP id g27so7986832edf.11;
-        Fri, 14 Oct 2022 11:41:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=w8juC6hMPMU2N03LaFSLm2HtS0qIXfus5Qh81eVapbo=;
-        b=RtNba/Q15Dwtjw+/9AybnS/nkRDKtk46OAbyJKFRQs5MVZRUawxrNeIhiEVXtkxc5G
-         lbVgu0N4fL6sTHjthSXG/WvdTP672n7pgaKRoETtGl7VnsEuF6hdG9wAfe2yQWCtvGYl
-         B3zChh2OixTvT7VsdmdQ4dvaVUx2s6oxa87FghJWdcUddeYAvAsg4Er9BICMgN+XVPsW
-         mRLmOZ6ePhX/ZDigreEhIdmjF0EGNEZgQeH4L6q62woIgX5KJe31PhCFNF6z2nPqoT42
-         pPIpl20rhzV+zdtcqxG77x/IFcJ7qNhqw7BH5U427mEURl0SxA03A46aAoLvlrVWjyAb
-         Y1hg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=w8juC6hMPMU2N03LaFSLm2HtS0qIXfus5Qh81eVapbo=;
-        b=Nen52ch4vDD7SSribFg0kStrfsNTVYz697sNcIL0BxtQwgdmq80otw8hQ9C0aHVsFu
-         rzUjr0znW6XYMi1YKqrJG4mx72u2pV8kErleUFpDdPIgVm+yykhzaDx6hmhb56LWMrXQ
-         7co42pFuHzAVTUjvnu30MSLwXnSsLb26CjaZdwwRKl/ZuzMFtvGhNhw898coELA1sDxT
-         8Q1mF6Xzvh/aSOq417cFQK/wlC9uoECjZwwHz8lK9Di9Nmah1E9WHb+p4OCnDxFsYyX2
-         UAN1rNIWSFrzUzpAl4ZlmtXodDfITPEB+fIAauIO03L+AeKKCWpKlqpRJWHdIAptndv7
-         uxyQ==
-X-Gm-Message-State: ACrzQf2rqgrjsmqTDYJqhZFr5QQnJt/MTugPd3PvJLTCA2z0i9YKwMMs
-        ffLi7qoDNX6P2YqiiFf13Ia8yAxWEk5DqETkr5A=
-X-Google-Smtp-Source: AMsMyM7gGbl8alPUyCtiMtgGvzBv11vh19S7U55cAsqsI5VCbyej6jfc5cwLQkFaH4IGmeWQ5U72JYiN8gSoJYoe7CU=
-X-Received: by 2002:a05:6402:26cf:b0:45d:48d7:928e with SMTP id
- x15-20020a05640226cf00b0045d48d7928emr2432edd.275.1665772865109; Fri, 14 Oct
- 2022 11:41:05 -0700 (PDT)
+        Fri, 14 Oct 2022 14:58:53 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EAEC21D3A55;
+        Fri, 14 Oct 2022 11:58:51 -0700 (PDT)
+Received: from [IPV6:2804:431:c7c2:614d:1e72:1ebe:1da0:adb9] (unknown [IPv6:2804:431:c7c2:614d:1e72:1ebe:1da0:adb9])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: dwlsalmeida)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id ADA086602374;
+        Fri, 14 Oct 2022 19:58:43 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1665773930;
+        bh=w5tCG0PCgpm5rqkO5qJrYz3YWsrGRktxZ3+TQEPwUak=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=UYu4GLSSuy4BnwFuENkS+CvxAS0BiLA5kCbW/jeORGNJ2/KjM1UVpfdHXC8b40lNn
+         TjLGqckcUc2dEgEmfMvllEfZAtgLY63//eeJRG99CtJWGa31ngkQBvSU2mAPckLrNX
+         B4AoWgTF0gnsliKBrAHIbgdZN6Znt1RIwWCppplk7WaCR4pjGxDjYB3Q7G9daa7OtO
+         ayAJUMQAqSaZfVXsR1qsyWa29+tPdbYZz6xGPLFO121z/BZZqC0gK1ALlgidiaXdEq
+         FbHL8iqbaN84MeXzeT64Y6Z1k03QnDLG/ROE9kaYf0OOPgEzfIKXTX0J4kEskJvOaF
+         k/WUnUxtFqJiw==
+Message-ID: <de4738ec-5362-aa8c-1d4f-a08a4ab3cfc2@collabora.com>
+Date:   Fri, 14 Oct 2022 15:58:39 -0300
 MIME-Version: 1.0
-References: <20221014183459.181567-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20221014183459.181567-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Fri, 14 Oct 2022 19:40:37 +0100
-Message-ID: <CA+V-a8szP16n90tkwVaqdbC-e7sEs8pA6GKCY5EzAfU630RGyA@mail.gmail.com>
-Subject: Re: [PATCH v2 0/5] media: i2c: ov5645 driver enhancements
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Shawn Tu <shawnx.tu@intel.com>,
-        Jacopo Mondi <jacopo@jmondi.org>, linux-media@vger.kernel.org,
-        Rob Herring <robh+dt@kernel.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.2
+Subject: Re: [RFC PATCH v5] media: mediatek: vcodec: support stateless AV1
+ decoder
+Content-Language: en-US
+To:     Xiaoyong Lu <xiaoyong.lu@mediatek.com>,
+        Yunfei Dong <yunfei.dong@mediatek.com>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Tiffany Lin <tiffany.lin@mediatek.com>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        Rob Herring <robh+dt@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Tomasz Figa <tfiga@google.com>
+Cc:     Irui Wang <irui.wang@mediatek.com>,
+        George Sun <george.sun@mediatek.com>,
+        Steve Cho <stevecho@chromium.org>, srv_heupstream@mediatek.com,
+        devicetree@vger.kernel.org,
+        Project_Global_Chrome_Upstream_Group@mediatek.com,
+        linux-kernel@vger.kernel.org,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        linux-mediatek@lists.infradead.org,
+        Hsin-Yi Wang <hsinyi@chromium.org>,
+        Fritz Koenig <frkoenig@chromium.org>,
+        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+References: <20221001012915.8974-1-xiaoyong.lu@mediatek.com>
+From:   Daniel Almeida <daniel.almeida@collabora.com>
+In-Reply-To: <20221001012915.8974-1-xiaoyong.lu@mediatek.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-5.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sakari,
+Hi Xiaoyong!
 
-On Fri, Oct 14, 2022 at 7:35 PM Prabhakar <prabhakar.csengg@gmail.com> wrote:
->
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->
-> Hi All,
->
-> The main aim of this series is to add PM support to the sensor driver.
->
-> I had two more patches [0] and [1] which were for ov5645, so instead
-> sending them separately I have clubbed them as series.
->
-> v1-> v2
-> - patch #1 is infact a v3 [1] no changes
-> - patch #2 fixed review comments pointed by Sakari
-> - patch #3 [0] no changes
-> - patches #4 and #5 are new
->
-> [0] https://patchwork.linuxtv.org/project/linux-media/patch/20220927202005.750621-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
-> [1] https://patchwork.linuxtv.org/project/linux-media/patch/20220919153540.178732-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
->
-> Cheers,
-> Prabhakar
->
-> Lad Prabhakar (5):
->   media: dt-bindings: ov5645: Convert OV5645 binding to a schema
->   media: i2c: ov5645: Use runtime PM
->   media: i2c: ov5645: Drop empty comment
->   media: i2c: ov5645: Return zero for s_stream(0)
->   media: i2c: ov5645: Call ov5645_entity_init_cfg() before registering
->     the subdev
->
-After sending this series I realized I had an additional patch [0] for
-ov5645 which I should have tagged along with the series. Can you
-please pick [0] while reviewing this series.
+I have tested this and arrived at the same Fluster score:
 
-[0] https://patchwork.kernel.org/project/linux-media/patch/20220919143350.176746-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
+173/239 - AOM
+11/13 - Chromium 8bit
 
-Cheers,
-Prabhakar
+Reviewed-by: Daniel Almeida <daniel.almeida@collabora.com>
+Tested-by: Daniel Almeida <daniel.almeida@collabora.com>
