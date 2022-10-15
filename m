@@ -2,111 +2,98 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E08345FF8D4
-	for <lists+linux-media@lfdr.de>; Sat, 15 Oct 2022 08:27:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D25455FF93D
+	for <lists+linux-media@lfdr.de>; Sat, 15 Oct 2022 10:56:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229871AbiJOG1s (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 15 Oct 2022 02:27:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53028 "EHLO
+        id S229595AbiJOI46 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 15 Oct 2022 04:56:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56282 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229763AbiJOG1N (ORCPT
+        with ESMTP id S229504AbiJOI45 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 15 Oct 2022 02:27:13 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8BBA9659E4;
-        Fri, 14 Oct 2022 23:26:39 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0B941499;
-        Sat, 15 Oct 2022 08:26:37 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1665815198;
-        bh=Cn/hJ0clCI7VAKIRxe8PPQFi5xPi17rVs3wRrQadLxM=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=WcdCzKUmydu+xlPtWNxlPMVcRY5JR1XsD4CBXFkR9SZhYHQ6XQAoR9UFAu2HYZUMT
-         IjUKRpvpKWKSNHMpwJ0V0gtanpvpJCIGhQUck6sAz4VCUFCkzFwlFNWaifirNVaACd
-         rEnjuG4Jyeg7z48UX7ORJ2WVQlOEJHkSvH9tI0hA=
-Date:   Sat, 15 Oct 2022 09:26:36 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Prabhakar <prabhakar.csengg@gmail.com>
-Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Shawn Tu <shawnx.tu@intel.com>,
-        Jacopo Mondi <jacopo@jmondi.org>, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH v2 5/5] media: i2c: ov5645: Call ov5645_entity_init_cfg()
- before registering the subdev
-Message-ID: <Y0pSnKREW0pjtPYI@pendragon.ideasonboard.com>
-References: <20221014183459.181567-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20221014183459.181567-6-prabhakar.mahadev-lad.rj@bp.renesas.com>
+        Sat, 15 Oct 2022 04:56:57 -0400
+Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com [IPv6:2a00:1450:4864:20::42e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 218B054CBC;
+        Sat, 15 Oct 2022 01:56:56 -0700 (PDT)
+Received: by mail-wr1-x42e.google.com with SMTP id bk15so10843489wrb.13;
+        Sat, 15 Oct 2022 01:56:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=0X+gCfLWk5TUIBEE4uVNIMOzTDG0E4qM1D5Qax11i2I=;
+        b=pHpO7107OpquGnHJhSqOhbtPmX/HecNgQu22Nquh/DVdy3rGLndI7dIlVVUPIG8rmA
+         zdevwbfTe4MW/OBTppIIzmYo12hvvmNEBuFsAndnPiaxSifKQM8iXDZeLm1wLJVHxyrh
+         RmRsi2uRSJuFBWS0+KqnGvDdvP/tRU8sobo3QieMCZI9fnGYzruaILVk88E+CUwscDsC
+         F4yuiWpg+5YnceLK7DZIBBhaszWVO1sykiSRNsXbJdHhW6xSNueWUJauJEYqnc5JDtqy
+         tG/h1MTvlcw4tyoBdTmOAqnhiglUpGheU4BsEZrQy7jF+FZBSKLBGmOU61KQyj3H1iY8
+         9J1w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=0X+gCfLWk5TUIBEE4uVNIMOzTDG0E4qM1D5Qax11i2I=;
+        b=ONdHulNuzauCd1rnPkCqe82FxXNcixzgikBv27Er+NPqnY02hjz3g7nEvUkCe8d0yD
+         FOP+UT5+L96RlVQiba/PILTka4+A2CibmVR/w78DI1Dnd/fz6GoqiekzHd5rwzlhBX0F
+         utCB76AGhDEvMS6o4S7dudKiPwzNPGyDfQh+mbwh1I4u3wcuBl6feqCmqX40fi0KHl5m
+         n/s6obtLb6HnzivXxST7cWAfhcraIoVP5ijGb/mnTCTfTmVKkkyipR9xuoe+pTBKsLfE
+         BhNGpidq2SsHur5RV+/Zg5CDuOoIxh/UPkJWwkmzC0yFeZDjtDn+0mZ8FSvHZDy+bC7s
+         Ca7Q==
+X-Gm-Message-State: ACrzQf0m7Uu8LIT0rV9WE/1Ajcd9WKgbZ+ACn4KlRR8Vg4FQyRcHvhrB
+        OQWO0ey2n4AGCfGTO9sjyLs=
+X-Google-Smtp-Source: AMsMyM6o2+150KN7ski7UAyqMdVqeFDCetxFBkOcmP65fzpy/I/gMe7dO3+Dny3SzZzEiz0NnF2mFw==
+X-Received: by 2002:a05:6000:a1b:b0:22e:49e0:7ce3 with SMTP id co27-20020a0560000a1b00b0022e49e07ce3mr966759wrb.66.1665824214513;
+        Sat, 15 Oct 2022 01:56:54 -0700 (PDT)
+Received: from kista.localdomain (82-149-19-102.dynamic.telemach.net. [82.149.19.102])
+        by smtp.gmail.com with ESMTPSA id g17-20020a05600c4ed100b003b4ac05a8a4sm12432978wmq.27.2022.10.15.01.56.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 15 Oct 2022 01:56:53 -0700 (PDT)
+From:   Jernej Skrabec <jernej.skrabec@gmail.com>
+To:     mchehab@kernel.org, hverkuil-cisco@xs4all.nl
+Cc:     ezequiel@vanguardiasur.com.ar, benjamin.gaignard@collabora.com,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Jernej Skrabec <jernej.skrabec@gmail.com>
+Subject: [PATCH] media: Fix P010 tiled format description
+Date:   Sat, 15 Oct 2022 10:56:51 +0200
+Message-Id: <20221015085651.2471818-1-jernej.skrabec@gmail.com>
+X-Mailer: git-send-email 2.38.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20221014183459.181567-6-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Prabhakar,
+There is only 31 bytes of space (without null character) for format
+description. P010 tiled format description overflows that for 1
+character and warning is generated when used. Fix that by changing Cb to
+U and Cr to V, which is also consistent with some other descriptions.
 
-Thank you for the patch.
+Fixes: 3c8e19d3d3f9 ("media: Add P010 tiled format")
+Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+---
+ drivers/media/v4l2-core/v4l2-ioctl.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-On Fri, Oct 14, 2022 at 07:34:59PM +0100, Prabhakar wrote:
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> 
-> Make sure we call ov5645_entity_init_cfg() before registering the subdev
-> to make sure default formats are set up.
-> 
-> Suggested-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-If you have a few spare cycles, it would be even better to convert the
-driver to the subdev active state API :-) You could then drop this call
-entirely.
-
-> ---
-> v1->v2
-> * New patch
-> ---
->  drivers/media/i2c/ov5645.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/media/i2c/ov5645.c b/drivers/media/i2c/ov5645.c
-> index b3825294aaf1..14bcc6e42dd2 100644
-> --- a/drivers/media/i2c/ov5645.c
-> +++ b/drivers/media/i2c/ov5645.c
-> @@ -1212,6 +1212,8 @@ static int ov5645_probe(struct i2c_client *client)
->  		goto err_pm_runtime;
->  	}
->  
-> +	ov5645_entity_init_cfg(&ov5645->sd, NULL);
-> +
->  	ret = v4l2_async_register_subdev(&ov5645->sd);
->  	if (ret < 0) {
->  		dev_err(dev, "could not register v4l2 device\n");
-> @@ -1224,8 +1226,6 @@ static int ov5645_probe(struct i2c_client *client)
->  	pm_runtime_use_autosuspend(dev);
->  	pm_runtime_put_autosuspend(dev);
->  
-> -	ov5645_entity_init_cfg(&ov5645->sd, NULL);
-> -
->  	return 0;
->  
->  err_pm_runtime:
-
+diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
+index e6fd355a2e92..5e5616d5915a 100644
+--- a/drivers/media/v4l2-core/v4l2-ioctl.c
++++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+@@ -1357,7 +1357,7 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
+ 	case V4L2_PIX_FMT_NV12_4L4:	descr = "Y/CbCr 4:2:0 (4x4 Linear)"; break;
+ 	case V4L2_PIX_FMT_NV12_16L16:	descr = "Y/CbCr 4:2:0 (16x16 Linear)"; break;
+ 	case V4L2_PIX_FMT_NV12_32L32:   descr = "Y/CbCr 4:2:0 (32x32 Linear)"; break;
+-	case V4L2_PIX_FMT_P010_4L4:	descr = "10-bit Y/CbCr 4:2:0 (4x4 Linear)"; break;
++	case V4L2_PIX_FMT_P010_4L4:	descr = "10-bit Y/UV 4:2:0 (4x4 Linear)"; break;
+ 	case V4L2_PIX_FMT_NV12M:	descr = "Y/CbCr 4:2:0 (N-C)"; break;
+ 	case V4L2_PIX_FMT_NV21M:	descr = "Y/CrCb 4:2:0 (N-C)"; break;
+ 	case V4L2_PIX_FMT_NV16M:	descr = "Y/CbCr 4:2:2 (N-C)"; break;
 -- 
-Regards,
+2.38.0
 
-Laurent Pinchart
