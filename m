@@ -2,87 +2,118 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D51175FF7BA
-	for <lists+linux-media@lfdr.de>; Sat, 15 Oct 2022 03:06:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AE7C95FF8A6
+	for <lists+linux-media@lfdr.de>; Sat, 15 Oct 2022 07:54:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229504AbiJOBGB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 14 Oct 2022 21:06:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34260 "EHLO
+        id S229554AbiJOFy1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 15 Oct 2022 01:54:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33754 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229471AbiJOBGA (ORCPT
+        with ESMTP id S229540AbiJOFy0 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 14 Oct 2022 21:06:00 -0400
-Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 077D44E633
-        for <linux-media@vger.kernel.org>; Fri, 14 Oct 2022 18:05:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; q=dns/txt; s=axis-central1; t=1665795956;
-  x=1697331956;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=iVwK2GRtn92OPRcznEom/Q8WgotFiMHCirVyQ1JyFdM=;
-  b=LHzci1vi5HfsvzCFwMefDIWa9NNiOXzfehP/CpKq3sVZYapJmCCdMsuv
-   MLmkLPh01kLpqvj8idVvpjd0/rndVHo6O1FgETAe4F3isX/wrbWi04+dD
-   any/c7CqYp594jzPFqzBlYKqcaGgQjIVUuFE7iPOk1DUgrl53e2wvyA7d
-   AJK58srS0dhIsJiXZflhbaOPEj7wDI6W5i72TG2n+gmBVFSQ0GUFFEUzk
-   xZlYPMxP6UnrYPgemINF3Y0xAzWanyW6udZCZl429h2AQ4CANrdJ3RpKC
-   7sOVCzGCStQge1ALYLqaan8lrcYW1le45Bd2vcNgyVSfAUIOEhnDSJOjM
-   w==;
-From:   Peter Kjellerstedt <pkj@axis.com>
-To:     <linux-media@vger.kernel.org>
-CC:     Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-Subject: [PATCH] configure.ac, Makefile.am: Support building without NLS
-Date:   Sat, 15 Oct 2022 03:05:41 +0200
-Message-ID: <20221015010541.688322-1-pkj@axis.com>
-X-Mailer: git-send-email 2.37.3
+        Sat, 15 Oct 2022 01:54:26 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A621558C3;
+        Fri, 14 Oct 2022 22:54:25 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 15DDD499;
+        Sat, 15 Oct 2022 07:54:22 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1665813263;
+        bh=DZYzkqs5Jujshbu03ccubh/EURrg2D906VTI6AMeaGc=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=vLbFtvqNcXY8xoVfdJV6XGCD5oA7vO5jGK1L9VhEi+cFQydJpDh50H//opx1SUKMd
+         g9MaZwTCEq0l390EaHnxRUp8lpc4RuE8gTgEaWIyFjJRfJSmnr/2LNphABXyDELefH
+         7ItT3PftxdOZ7N0Waq7mBn0k7WAL7ulM31oVmVKk=
+Date:   Sat, 15 Oct 2022 08:54:20 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Rob Herring <robh@kernel.org>
+Cc:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Shawn Tu <shawnx.tu@intel.com>,
+        Jacopo Mondi <jacopo@jmondi.org>, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH v2 1/5] media: dt-bindings: ov5645: Convert OV5645
+ binding to a schema
+Message-ID: <Y0pLDFMsFmHhC/R8@pendragon.ideasonboard.com>
+References: <20221014183459.181567-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20221014183459.181567-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <CAL_JsqKC_BJDJLLFck_0CbQ-0rZ0oVWMAdiwwGep23nh2pP19g@mail.gmail.com>
+ <CA+V-a8vMLuzJ8h5UDNXUiZRXPV1vJ9gguUMywe_+sPcU8tK+tA@mail.gmail.com>
+ <20221014214029.GA2937999-robh@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_PASS,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20221014214029.GA2937999-robh@kernel.org>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Avoid entering the v4l-utils-po and libdvbv5-po directories if NLS
-support is disabled, as the generated Makefiles in those directories are
-empty then.
+Hi Rob,
 
-Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
----
- Makefile.am  | 6 +++++-
- configure.ac | 1 +
- 2 files changed, 6 insertions(+), 1 deletion(-)
+On Fri, Oct 14, 2022 at 04:40:29PM -0500, Rob Herring wrote:
+> On Fri, Oct 14, 2022 at 10:27:53PM +0100, Lad, Prabhakar wrote:
+> > On Fri, Oct 14, 2022 at 10:05 PM Rob Herring <robh+dt@kernel.org> wrote:
+> > > On Fri, Oct 14, 2022 at 1:35 PM Prabhakar <prabhakar.csengg@gmail.com> wrote:
+> > > >
+> > > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > > >
+> > > > Convert the simple OV5645 Device Tree binding to json-schema.
+> > > >
+> > > > The previous binding marked the below properties as required which was a
+> > > > driver requirement and not the device requirement so just drop them from
+> > > > the required list during the conversion.
+> > > > - clock-frequency
+> > > > - enable-gpios
+> > > > - reset-gpios
+> > > >
+> > > > Also drop the "clock-names" property as we have a single clock source for
+> > > > the sensor and the driver has been updated to drop the clk referencing by
+> > > > name.
+> > >
+> > > Driver requirements are the ABI!
+> > >
+> > > This breaks a kernel without the driver change and a DTB that has
+> > > dropped the properties.
+> > >
+> > I already have a patch for the driver [0] which I missed to include
+> > along with the series.
+> 
+> You completely miss the point. Read the first sentence again. Changing 
+> driver requirements changes the ABI.
+> 
+> This breaks the ABI. The driver patch does not help that.
 
-diff --git a/Makefile.am b/Makefile.am
-index 7fb443ab..8e924af8 100644
---- a/Makefile.am
-+++ b/Makefile.am
-@@ -2,7 +2,11 @@ AUTOMAKE_OPTIONS = foreign
- ACLOCAL_AMFLAGS = -I m4
- AM_MAKEFLAGS = $(word 1, $(subst 1, -w, $(filter 1, $(V))) --no-print-directory)
- 
--SUBDIRS = v4l-utils-po libdvbv5-po lib
-+SUBDIRS = lib
-+
-+if USE_NLS
-+SUBDIRS += v4l-utils-po libdvbv5-po
-+endif
- 
- if WITH_V4LUTILS
- SUBDIRS += utils contrib
-diff --git a/configure.ac b/configure.ac
-index 05298981..7c78467f 100644
---- a/configure.ac
-+++ b/configure.ac
-@@ -99,6 +99,7 @@ DX_INIT_DOXYGEN($PACKAGE_NAME, doxygen_libdvbv5.cfg)
- ALL_LINGUAS=""
- m4_ifdef(AM_GNU_GETTEXT_REQUIRE_VERSION,[AM_GNU_GETTEXT_REQUIRE_VERSION([0.19.8])],[AM_GNU_GETTEXT_VERSION([0.19.8])])
- AM_GNU_GETTEXT([external])
-+AM_CONDITIONAL([USE_NLS], [test "$USE_NLS" = "yes"])
- 
- LIBDVBV5_DOMAIN="libdvbv5"
- AC_DEFINE([LIBDVBV5_DOMAIN], "libdvbv5", [libdvbv5 domain])
+I'm not following you here. If the DT binding makes a mandatory property
+optional, it doesn't break any existing platform. The only thing that
+would not work is a new DT that doesn't contain the now optional
+property combined with an older driver that makes it required. That's
+not a regression, as it would be a *new* DT.
+
+> > > Also, with 'clock-names' dropped, you've just introduced a bunch of
+> > > warnings on other people's platforms. Are you going to 'fix' all of
+> > > them?
+> > >
+> > Yes I will fix them, once the patch driver patch [0] is merged in.
+> 
+> Why? You are just making extra work. We have enough warnings as-is to 
+> fix.
+
+I agree that a DT binding change should patch all in-tree DTS to avoid
+introducing new warnings.
+
+-- 
+Regards,
+
+Laurent Pinchart
