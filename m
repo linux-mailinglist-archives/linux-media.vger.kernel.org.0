@@ -2,152 +2,141 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B893C5FFDFA
-	for <lists+linux-media@lfdr.de>; Sun, 16 Oct 2022 09:34:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 88CCE5FFFB4
+	for <lists+linux-media@lfdr.de>; Sun, 16 Oct 2022 15:52:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229594AbiJPHeh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 16 Oct 2022 03:34:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35432 "EHLO
+        id S229671AbiJPNwT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 16 Oct 2022 09:52:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47182 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229481AbiJPHeg (ORCPT
+        with ESMTP id S229579AbiJPNwR (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 16 Oct 2022 03:34:36 -0400
-Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com [IPv6:2a00:1450:4864:20::52a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1410CBC8A
-        for <linux-media@vger.kernel.org>; Sun, 16 Oct 2022 00:34:32 -0700 (PDT)
-Received: by mail-ed1-x52a.google.com with SMTP id u21so12078433edi.9
-        for <linux-media@vger.kernel.org>; Sun, 16 Oct 2022 00:34:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=raspberrypi.com; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=ol23f0mTip3eN5UsZYfUoAc5S9yMrd+dnrxtsXL66bM=;
-        b=anmOiWsylxu+yhtRSqHjuaxWUv+DLObv6uilibAG+C9qr6NHX0vOPsIvZWPUgpc10q
-         Mn4BNayZfmm2fqdKEg8TvOfjw3jRzVHi+b8MZJgTjWmZsm1lJE/GhzgGtNVR25MG7j7N
-         dwqHN+XupPnJhC+Elj45Ij+gGSZTpMtIvVnEP4VPZx3rEsu9H7C7aquG27eLafRaso/d
-         g0Gtz6Q/im4v0aSIDMY4q8DRL4w0lrzt521RchYlT+DIF07M3HkU61eA0BM2l7/c+SjE
-         x7eumnEJ2mswoiA24qkbmTzGR2Rjmz1zZusUtoINs+CBtAa8gm8dX+/7Oxl8aoOqNsJW
-         isDA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ol23f0mTip3eN5UsZYfUoAc5S9yMrd+dnrxtsXL66bM=;
-        b=YNb+A9/HRxiqRcr51l7stlhNNAJoiqzmBxllj51JuhjOPnoxnaIe2nzULfHWCSundt
-         blrtrilUso7Pb1jyrPk/kOp+HteXxVAtpLJAFXHsNKoV+nVGFNI36r1qwaIumR0YdPQk
-         UDABBNyoUuE9j+wts3aCC0LsodChEkVVw4dSrtOemeEjLXoOVu3NsdaiejR2B5RqjN5s
-         r869GGsd2vOOlJ/KOyQ+GXt3Ph4C+shhuYDGQNCF9t3vsBPxuFnkTZdACf5iXvSWkgsl
-         ZcN+bT/5K+Pa2kH9PpyJCc6OYOwGT88jjY8cnURUWnxaEjX4O8+Gi+kyA/IZFXxIXthL
-         KU3A==
-X-Gm-Message-State: ACrzQf0o9/gJ047rmjKPsXzSHaizJOFy4cXwg3033fS1wPA4abpc7h1S
-        fO4a46MkbodxLH1quoH6BXEYGiptWh8DtCy+TxdIH0lT92I=
-X-Google-Smtp-Source: AMsMyM7EUV54esUxoDwo/zKoibopB+oI4dO1CrZVSuzf00cBChJvsTPBRwAigj2DaL3kCuhot7KLSP2SrkHpud0i+Qs=
-X-Received: by 2002:a05:6402:c4d:b0:457:99ec:1837 with SMTP id
- cs13-20020a0564020c4d00b0045799ec1837mr5078636edb.86.1665905670614; Sun, 16
- Oct 2022 00:34:30 -0700 (PDT)
+        Sun, 16 Oct 2022 09:52:17 -0400
+Received: from EUR01-HE1-obe.outbound.protection.outlook.com (mail-eopbgr130044.outbound.protection.outlook.com [40.107.13.44])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 701EC34985;
+        Sun, 16 Oct 2022 06:52:16 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=MStsA8qBPaZmw4UZ1Q7LlHinl/TQd7d6PRGl0uLzgNMjV9KacqKS2PymOwVMzXakRwNsgc1KhAYA5vql6FrOajGUk3L4MEy7on4BhFodinJJRd6AfhzOt6a+It5ZkvZfu1udg1ONM1LOAHLAmL1WuFYNITSu8FcobV4lB1gxSX8KeeGf43XUSdGe9Qh3LQV7zMwnxWini/Z5a3/1zEdL9PbW/13W+kbJ6LUbsZjGjT4PVeLohg7BA/i590Tklo1zWIKNprmAbokuaaq60I9dgtsGduVbY1+4pe3L1dO/X4eSENm3NNWGLQ4Dk2msiesVa2u2bwFJwnFpGqy6WlYVwg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=6dDCDn2uhf8VX5gl/G265a7U8zGhv62uupqW5+zCYqw=;
+ b=IW8+v9tPxqY7vMQ42uIjxeeGv4LtgoSlHeG2j+xxmejJQ+CQ5MIeH164c2cXoJR+5PGy8oc6NDAWshQlHUXGcKHt5xrxbcGVlmaaC7NP371DJbAec/BEJZr3PZJ35U60kuBKOyLX/WSBSf9uLBxsJBPGYHrqNGUUs6CD6sRJNmJtMU3j+wg5U0KDCqcyRSvgWfvmqZmAsZ2JDTKZQfNqXTz7QACWfGregOjVTLKIq/qmz+V5nG0ciSuLgD2hsz/HcpeCN98lYpDih80Wfc39HkRGF9nz6c+v8KiSSTDIKkfhdsoRODAW+51gX4BsVGePQml3RlZIUq66w1EoBdAKIw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
+ dkim=pass header.d=oss.nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
+ s=selector2-NXP1-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=6dDCDn2uhf8VX5gl/G265a7U8zGhv62uupqW5+zCYqw=;
+ b=ZDk8WdhQWIvv+qYMxzq4jx0DRJNee8bPcKO2EyiHMnulWlmgDCi/6kIIWMPD9Rp/gComUkI3imGa0LbZQq1ad0Mv5MJBpqwG+qJ42RmoUMydIoVuvsfF5XngwoLGXULEX3q24IuZ7/E+nzEmcPLNMDrNSgle3q+6R9u7xffWvGU=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=oss.nxp.com;
+Received: from AS4PR04MB9244.eurprd04.prod.outlook.com (2603:10a6:20b:4e3::9)
+ by AS8PR04MB8149.eurprd04.prod.outlook.com (2603:10a6:20b:3fd::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5723.26; Sun, 16 Oct
+ 2022 13:52:12 +0000
+Received: from AS4PR04MB9244.eurprd04.prod.outlook.com
+ ([fe80::a1ae:2f3c:6a54:fb24]) by AS4PR04MB9244.eurprd04.prod.outlook.com
+ ([fe80::a1ae:2f3c:6a54:fb24%4]) with mapi id 15.20.5723.032; Sun, 16 Oct 2022
+ 13:52:12 +0000
+From:   Mirela Rabulea <mirela.rabulea@oss.nxp.com>
+To:     mchehab@kernel.org, shawnguo@kernel.org, s.hauer@pengutronix.de,
+        dan.carpenter@oracle.com, ming.qian@nxp.com
+Cc:     linux-media@vger.kernel.org, linux-imx@nxp.com,
+        kernel@pengutronix.de, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org, festevam@gmail.com
+Subject: [PATCH] media: imx-jpeg: Fix Coverity issue in probe
+Date:   Sun, 16 Oct 2022 16:52:00 +0300
+Message-Id: <20221016135200.3406628-1-mirela.rabulea@oss.nxp.com>
+X-Mailer: git-send-email 2.25.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: AM0PR03CA0004.eurprd03.prod.outlook.com
+ (2603:10a6:208:14::17) To AS4PR04MB9244.eurprd04.prod.outlook.com
+ (2603:10a6:20b:4e3::9)
 MIME-Version: 1.0
-References: <20220721083540.1525-1-laurent.pinchart@ideasonboard.com>
- <YwQpT5JpyfXBEIVE@pendragon.ideasonboard.com> <CAPY8ntAsJNOAJ2te2vQSK6AeXj8LyB6Krepc88FL=6U6O9zb2g@mail.gmail.com>
- <Y0uYhiny89r9J8//@pendragon.ideasonboard.com>
-In-Reply-To: <Y0uYhiny89r9J8//@pendragon.ideasonboard.com>
-From:   Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date:   Sun, 16 Oct 2022 08:34:15 +0100
-Message-ID: <CAPY8ntDJ0-hLSHWtX5+bHaDR9quu=usP1+gaHFcZupAHtQYAFg@mail.gmail.com>
-Subject: Re: [PATCH 00/19] media: i2c: imx290: Miscellaneous improvements
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Sakari Ailus <sakari.ailus@iki.fi>, linux-media@vger.kernel.org,
-        Manivannan Sadhasivam <mani@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AS4PR04MB9244:EE_|AS8PR04MB8149:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8202f536-b9ff-4cab-7fa5-08daaf7da03c
+X-MS-Exchange-SharedMailbox-RoutingAgent-Processed: True
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: sos8eGzWfnkqYDaOBHN4mRTbSnK3tI9Vtu69QZtndrpbr6UiVFDu2WB6PWL79RtHslAPGT8vcX0oArB/iiOPVWmQDOFz/1oIbFiyRlvieCfYXVVsx3FpeH++oSOlXs7z4fP87LxuG5hBbGrQQOEt+UqdHyZxiQMiFqatQoBoWhGF2bLe/8GLXby3s5OBvs+PEFmDL0Fot8Coju5g5Xv2xT8tt0yEwMcv4zZG9WfOx8wJTiMQi4lIjPDQBF3CEmrNDBfFhFEh4yzSoqN3ZUMcDfkmMjTavTlz9m4SYIv2zW+fz6IWfoLwn6iyIrODKW+k0025V2z84yCLuWfAaMhJ6WBmcgqgk1vO3RR7q3C/juIsPjYznDJZifg8sSJCQfF3Ug/rHXDrVozZQSlwnObvR94/22dFVf/QADrKZDJZjRf8km831GyeSaFdXwCJrfeEusHc/qkxlSjZEucS8pFVBqlhFHmvkYUxvT4SP34Z7dBiyOY4K1e44kGHbeeyDmM30qBZAFjN/s9ur2c4PjHh8ncE1V6U0nTOFT4EteQgemrQthr6iJLjV1/yw9S5Bq0e01Otj3YOZ5kk5gYGTBK0fJSz/YKiW2N1eLsxm8+v1LW+CNNUkEB5i4wZLwM5gQdbFneBQK6h+nqsBh7vvez+Ad3iqCJsNfD2Pc+99XUzbhlIqCAimM+E6VregKRhyKZTVsupYvqYvKqwTl6mnYLE2GmB/h42dzhNN1I3lqkBCa+4T1VU2trzFDvlQ8n1SYC3
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS4PR04MB9244.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(376002)(39860400002)(396003)(346002)(366004)(136003)(451199015)(6512007)(26005)(2616005)(52116002)(6506007)(6666004)(186003)(1076003)(316002)(66476007)(66946007)(66556008)(478600001)(6486002)(2906002)(8676002)(86362001)(38350700002)(38100700002)(41300700001)(4744005)(5660300002)(8936002)(44832011)(4326008);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?YRwAlaBY74CjHvNfCVCCUEwgesHIuH+5ggBNIrJnNY3Fw9iX3j0O010djtqI?=
+ =?us-ascii?Q?pqmPpkcTfn+yFn6x1L3FqV/MO5mwH8P5gqyxPYP0JJr3PbVuV6r6Jp/s071F?=
+ =?us-ascii?Q?7JwALhYfuDIYmIj6NscAxSfzt3KkX7y6MMhC61TwOkzjLnvLAR1sRY+1T3BY?=
+ =?us-ascii?Q?kFpyHFMHaqHKU9DcEly7RPLj0DD338jnsngEyCSYnn2+n/BfSkrUgVXTPbvG?=
+ =?us-ascii?Q?LCuLDKo7KY5JJsqdWcTyTYcA5nYWy/j+e48kjBRR/hj7Cpe3kdccLS48hTob?=
+ =?us-ascii?Q?dEvA00yDlFeTjOnZ8tPx3AC0cazR0XFoDMbGB2CXq/ysiH9vaZdDu9Z/gonG?=
+ =?us-ascii?Q?F8zgLCmQ+itq1ZvREk1S7nWxjRSYqP8umzQPOs52BwTO9cmXNgoOkw7XkPV5?=
+ =?us-ascii?Q?lB+/ZDUIvauatTf9ZprvZ1BRpmO46iY0IjlYWTAC9HSIZg05lCpfPnTzh7lY?=
+ =?us-ascii?Q?NDyP/tL0EwDeqvf2xbB5TpRrYleYAEJ+zEyEiUjDQGN/GF/BBT7unAuNp+zS?=
+ =?us-ascii?Q?kwyo00Z+7DwU6Hv3kGjf5Aqvr7unrAOOOd4nliU/qmvgEsJqeOQb909zprpv?=
+ =?us-ascii?Q?LCUVrY0VZcbbujrL3xxBfBxizzGCm9WD9kIVxracjCRwHmFk3u3tZRxxcKLc?=
+ =?us-ascii?Q?kF/nFzRmfVcYF4WcLNbhrthjJkfQ0asFoeEU+zfDQ9BaC5wCMIqhzlGfl1Tp?=
+ =?us-ascii?Q?ged6YifRvXdCK4J0EnqxjEIWBqDakKlwSPqYwKAqwbxz22+LakSryhmExWiu?=
+ =?us-ascii?Q?3cVpE+UOnNu70s71T0bpOK8FZCWzmtre0xQ1thllFpimqeEkTOdsAc13sQpF?=
+ =?us-ascii?Q?H4Tid1jOki4GPdeydth+VfmzpJIWyTQEiQjJqMXc6DdqR8tAKCEALOUwJBd8?=
+ =?us-ascii?Q?/7tdaoND4iURk57GkLb7kFs2W62nhrrZgoR7n2AS2KLgOXEt3LqBZdA7mt22?=
+ =?us-ascii?Q?qtvt4rktz4SVULmNYrv91aDRwEg/8iXBTPFBjn/KbbE9xTl7gWBeYQVL6t/6?=
+ =?us-ascii?Q?JYPxYCLNjUNf9tMksP9qz2vEM1R7nX9sALdZTd+JMmzLG+O8ik9FDsNihQ/a?=
+ =?us-ascii?Q?/w9Z989MnikAnQQNPFRkhIeeEwW1rz+s7OICH+1CQhInZiUZi1ZMdRj7zn1P?=
+ =?us-ascii?Q?L4UMiyfFYGtH13mxBNeNFwLjwOEs1p84C0ry/RYFa+FoIkMw45qc85EDPAkD?=
+ =?us-ascii?Q?VlUR3HJKXKUS29TGh14Oky0v51N7LebhXWkn5/+VCTb+yg912JZe0/Qd7DF1?=
+ =?us-ascii?Q?nqT5Kwnhsf8qFz5L9n3ytn6K0lPgw6esQ1LalezQcCDjep8+KtldkvVHjEMr?=
+ =?us-ascii?Q?Vool4OV84t1L0yiAX6xg5uGWJgkq3WP1niGeFRTN8gLmGi+nJmXGnZXTb12n?=
+ =?us-ascii?Q?q+BNMXY6dhDxIGwX9dtVesjsDahlxsx9XDSgnuRKtrL0NytNxn5+gMIP5Azq?=
+ =?us-ascii?Q?s8kVp10nd5coY9LE3XlY/hWTzydi4j7R5kds1ut4BrOB02f0Wm2KzsN62RJW?=
+ =?us-ascii?Q?rKQffIWaOOmiRsRro/AvF0kJxXDpmwojmJ6Pk2GNRTALZcPvC/rrueGdQfJ/?=
+ =?us-ascii?Q?Nfvmr/XurcwtmVgLpFwti3Ft3ljZ6yrU5klBXfOzFZ4Vmo9tycFslCbFM+4c?=
+ =?us-ascii?Q?uA=3D=3D?=
+X-OriginatorOrg: oss.nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8202f536-b9ff-4cab-7fa5-08daaf7da03c
+X-MS-Exchange-CrossTenant-AuthSource: AS4PR04MB9244.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Oct 2022 13:52:12.2157
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 2eZ9lgUukL/NHWQ4OcXrTZJ94qercNgP3jsuXMBOePivNDMzAkbKM9/nftcL4htSdas1flQpaPHDpiFWjnaNew==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR04MB8149
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent
+Possible dereference null return after of_match_node,
+so check for NULL of_id.
 
-On Sun, 16 Oct 2022 at 06:37, Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
->
-> Hi Dave,
->
-> On Mon, Oct 10, 2022 at 11:31:33AM +0100, Dave Stevenson wrote:
-> > Hi Laurent
-> >
-> > Do you have plans for a v2 on this patch set? I also have a number of
-> > patches for imx290 and there's little point in causing grief to each
-> > other with conflicts.
-> > Or I could take the non-controversial patches from your set and send a
-> > combined patch set?
->
-> I'm working on a v2, I'll send it shortly. Do I assume correctly you'll
-> submit IMX327 support on top ? :-)
+Signed-off-by: Mirela Rabulea <mirela.rabulea@oss.nxp.com>
+---
+ drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Thanks - I'll review it tomorrow and sort my patches on top again.
+diff --git a/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c b/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c
+index 51a503f0a47b..9d0a361a94cb 100644
+--- a/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c
++++ b/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c
+@@ -2432,6 +2432,8 @@ static int mxc_jpeg_probe(struct platform_device *pdev)
+ 	unsigned int slot;
+ 
+ 	of_id = of_match_node(mxc_jpeg_match, dev->of_node);
++	if (!of_id)
++		return -ENODEV;
+ 	mode = *(const int *)of_id->data;
+ 
+ 	jpeg = devm_kzalloc(dev, sizeof(struct mxc_jpeg_dev), GFP_KERNEL);
+-- 
+2.25.1
 
-This driver is effectively IMX327 - max 1920x1080@60fps in 12 bit.
-
-IMX290 adds a 1920x1080@120fps 10bit only mode which isn't currently
-supported by the driver. I have patches to add 10bit support, but I
-don't increase the frame rate in them.
-
-IMX462 adds that 1920x1080@120fps mode in both 10 and 12 bit, but
-again I haven't looked at adding support, partly as I don't have a
-datasheet for that variant. I may see if the change for 120fps 10bit
-on imx290 works in 12 bit mode for IMX462.
-For IMX290, 1080p120 needs a link frequency of 445.5MHz on 4 lanes to
-be supported (2 lanes not permitted), so there will be more link
-frequency messing required to support it. The basic numbers say that
-is fast enough for 12bit as well, so there's hope.
-
-  Dave
-
-> > On Tue, 23 Aug 2022 at 02:12, Laurent Pinchart wrote:
-> > >
-> > > Hi Sakari,
-> > >
-> > > Could you already pick up patches 01/19, 02/19, 04/19, 05/19 and 06/19
-> > > in your tree ? Your opinion on 03/19 woud be appreciated too, I think
-> > > it's a candidate for merge as well.
-> > >
-> > > On Thu, Jul 21, 2022 at 11:35:21AM +0300, Laurent Pinchart wrote:
-> > > > Hello,
-> > > >
-> > > > This patch series gathers miscellaneous improvements for the imx290
-> > > > driver. The most notable changes on the kernel side is patch 07/19 that
-> > > > simplifies register access, and on the userspace API side patches 14/19,
-> > > > 15/19 and 18/19 that extend the driver with controls and selection
-> > > > rectangles required by libcamera.
-> > > >
-> > > > Laurent Pinchart (19):
-> > > >   media: i2c: imx290: Use device lock for the control handler
-> > > >   media: i2c: imx290: Print error code when I2C transfer fails
-> > > >   media: i2c: imx290: Specify HMAX values in decimal
-> > > >   media: i2c: imx290: Replace macro with explicit ARRAY_SIZE()
-> > > >   media: i2c: imx290: Drop imx290_write_buffered_reg()
-> > > >   media: i2c: imx290: Drop regmap cache
-> > > >   media: i2c: imx290: Support variable-sized registers
-> > > >   media: i2c: imx290: Correct register sizes
-> > > >   media: i2c: imx290: Simplify error handling when writing registers
-> > > >   media: i2c: imx290: Define more register macros
-> > > >   media: i2c: imx290: Add exposure time control
-> > > >   media: i2c: imx290: Fix max gain value
-> > > >   media: i2c: imx290: Split control initialization to separate function
-> > > >   media: i2c: imx290: Implement HBLANK and VBLANK controls
-> > > >   media: i2c: imx290: Create controls for fwnode properties
-> > > >   media: i2c: imx290: Move registers with fixed value to init array
-> > > >   media: i2c: imx290: Factor out format retrieval to separate function
-> > > >   media: i2c: imx290: Add crop selection targets support
-> > > >   media: i2c: imx290: Replace GAIN control with ANALOGUE_GAIN
-> > > >
-> > > >  drivers/media/i2c/imx290.c | 781 ++++++++++++++++++++++---------------
-> > > >  1 file changed, 458 insertions(+), 323 deletions(-)
->
-> --
-> Regards,
->
-> Laurent Pinchart
