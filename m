@@ -2,38 +2,38 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6F07F5FFD77
-	for <lists+linux-media@lfdr.de>; Sun, 16 Oct 2022 08:16:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 31CCA5FFD78
+	for <lists+linux-media@lfdr.de>; Sun, 16 Oct 2022 08:16:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229761AbiJPGP7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 16 Oct 2022 02:15:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38700 "EHLO
+        id S229762AbiJPGQA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 16 Oct 2022 02:16:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38716 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229757AbiJPGP6 (ORCPT
+        with ESMTP id S229760AbiJPGP7 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 16 Oct 2022 02:15:58 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC19A3846D
-        for <linux-media@vger.kernel.org>; Sat, 15 Oct 2022 23:15:56 -0700 (PDT)
+        Sun, 16 Oct 2022 02:15:59 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BAF8436DF0
+        for <linux-media@vger.kernel.org>; Sat, 15 Oct 2022 23:15:58 -0700 (PDT)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3EA70BB3;
-        Sun, 16 Oct 2022 08:15:55 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 964D3E65;
+        Sun, 16 Oct 2022 08:15:56 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1665900955;
-        bh=XX7iVu1rjCVujnNc0BvwN8j44mW7wxcqxtpsQn5Hubc=;
+        s=mail; t=1665900956;
+        bh=wGoPnD6bq0js73PR0yN/hApPnCYaUBESVytOiSJ7nJQ=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=prdXkRDUxq4Gc6TPL68rbTe4odE5j/axiebpuM5Dmvwz36Y/hDg8ZEWOZPIrJOucO
-         0bUnRS77h2cZyGyto9R/MQbwfjJeRIA2+BzzSNwDjVPO9nrYAnRmvRUsUWbxM8AtAe
-         N1jRk9Z6rNbotuB8PzhscIC9JGO9elF47BvXYm6c=
+        b=XTc68nssjkGeSsPs8S+H/IRGvxL1uuZcFAz0u7Gn21JwLQoNzCnHWQ82pFrfOI4v1
+         O/blekJnbb8xjwrMP8NpaBVakhstcEPz8vQvvd1IY9LiixlIbWiICV3yDcuR+4XqZj
+         6KnE2Esrpa4pFfKuRn3F1xR5Fdck//UEp5CI08G4=
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     linux-media@vger.kernel.org
 Cc:     Sakari Ailus <sakari.ailus@iki.fi>,
         Manivannan Sadhasivam <mani@kernel.org>,
         Alexander Stein <alexander.stein@ew.tq-group.com>,
         Dave Stevenson <dave.stevenson@raspberrypi.com>
-Subject: [PATCH v2 04/20] media: i2c: imx290: Replace macro with explicit ARRAY_SIZE()
-Date:   Sun, 16 Oct 2022 09:15:07 +0300
-Message-Id: <20221016061523.30127-5-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH v2 05/20] media: i2c: imx290: Drop imx290_write_buffered_reg()
+Date:   Sun, 16 Oct 2022 09:15:08 +0300
+Message-Id: <20221016061523.30127-6-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20221016061523.30127-1-laurent.pinchart@ideasonboard.com>
 References: <20221016061523.30127-1-laurent.pinchart@ideasonboard.com>
@@ -48,52 +48,67 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Use ARRAY_SIZE(imx290->supplies) for code that needs the size of the
-array, instead of relying on the IMX290_NUM_SUPPLIES. The result is less
-error-prone as it ties the size to the array.
+The imx290_write_buffered_reg() function wraps a register write with
+register hold, to enable changing multiple registers synchronously. It
+is used for the gain only, which is an 8-bit register, defeating its
+purpose.
+
+The feature is useful, but should be implemented differently. Drop the
+function for now, to prepare for a rework of register access.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Reviewed-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+Acked-by: Alexander Stein <alexander.stein@ew.tq-group.com>
 ---
- drivers/media/i2c/imx290.c | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+ drivers/media/i2c/imx290.c | 32 +-------------------------------
+ 1 file changed, 1 insertion(+), 31 deletions(-)
 
 diff --git a/drivers/media/i2c/imx290.c b/drivers/media/i2c/imx290.c
-index 64bd43813dbf..0f32f391b2e7 100644
+index 0f32f391b2e7..5646f1704a1e 100644
 --- a/drivers/media/i2c/imx290.c
 +++ b/drivers/media/i2c/imx290.c
-@@ -790,10 +790,10 @@ static int imx290_get_regulators(struct device *dev, struct imx290 *imx290)
- {
- 	unsigned int i;
- 
--	for (i = 0; i < IMX290_NUM_SUPPLIES; i++)
-+	for (i = 0; i < ARRAY_SIZE(imx290->supplies); i++)
- 		imx290->supplies[i].supply = imx290_supply_name[i];
- 
--	return devm_regulator_bulk_get(dev, IMX290_NUM_SUPPLIES,
-+	return devm_regulator_bulk_get(dev, ARRAY_SIZE(imx290->supplies),
- 				       imx290->supplies);
- }
- 
-@@ -852,7 +852,8 @@ static int imx290_power_on(struct device *dev)
- 		return ret;
- 	}
- 
--	ret = regulator_bulk_enable(IMX290_NUM_SUPPLIES, imx290->supplies);
-+	ret = regulator_bulk_enable(ARRAY_SIZE(imx290->supplies),
-+				    imx290->supplies);
- 	if (ret) {
- 		dev_err(dev, "Failed to enable regulators\n");
- 		clk_disable_unprepare(imx290->xclk);
-@@ -876,7 +877,7 @@ static int imx290_power_off(struct device *dev)
- 
- 	clk_disable_unprepare(imx290->xclk);
- 	gpiod_set_value_cansleep(imx290->rst_gpio, 1);
--	regulator_bulk_disable(IMX290_NUM_SUPPLIES, imx290->supplies);
-+	regulator_bulk_disable(ARRAY_SIZE(imx290->supplies), imx290->supplies);
- 
+@@ -413,41 +413,11 @@ static int imx290_set_register_array(struct imx290 *imx290,
  	return 0;
  }
+ 
+-static int imx290_write_buffered_reg(struct imx290 *imx290, u16 address_low,
+-				     u8 nr_regs, u32 value)
+-{
+-	unsigned int i;
+-	int ret;
+-
+-	ret = imx290_write_reg(imx290, IMX290_REGHOLD, 0x01);
+-	if (ret) {
+-		dev_err(imx290->dev, "Error setting hold register\n");
+-		return ret;
+-	}
+-
+-	for (i = 0; i < nr_regs; i++) {
+-		ret = imx290_write_reg(imx290, address_low + i,
+-				       (u8)(value >> (i * 8)));
+-		if (ret) {
+-			dev_err(imx290->dev, "Error writing buffered registers\n");
+-			return ret;
+-		}
+-	}
+-
+-	ret = imx290_write_reg(imx290, IMX290_REGHOLD, 0x00);
+-	if (ret) {
+-		dev_err(imx290->dev, "Error setting hold register\n");
+-		return ret;
+-	}
+-
+-	return ret;
+-}
+-
+ static int imx290_set_gain(struct imx290 *imx290, u32 value)
+ {
+ 	int ret;
+ 
+-	ret = imx290_write_buffered_reg(imx290, IMX290_GAIN, 1, value);
++	ret = imx290_write_reg(imx290, IMX290_GAIN, value);
+ 	if (ret)
+ 		dev_err(imx290->dev, "Unable to write gain\n");
+ 
 -- 
 Regards,
 
