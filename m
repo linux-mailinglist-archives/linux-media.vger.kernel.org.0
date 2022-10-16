@@ -2,214 +2,189 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3FD5B5FFD64
-	for <lists+linux-media@lfdr.de>; Sun, 16 Oct 2022 07:53:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B80E35FFD6E
+	for <lists+linux-media@lfdr.de>; Sun, 16 Oct 2022 08:11:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229747AbiJPFxl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 16 Oct 2022 01:53:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58278 "EHLO
+        id S229693AbiJPGLW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 16 Oct 2022 02:11:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60142 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229725AbiJPFxk (ORCPT
+        with ESMTP id S229761AbiJPGLT (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 16 Oct 2022 01:53:40 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2BBC43DBD6
-        for <linux-media@vger.kernel.org>; Sat, 15 Oct 2022 22:53:39 -0700 (PDT)
+        Sun, 16 Oct 2022 02:11:19 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 67A733ED6B
+        for <linux-media@vger.kernel.org>; Sat, 15 Oct 2022 23:11:17 -0700 (PDT)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5B04C30A;
-        Sun, 16 Oct 2022 07:53:37 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7374630A;
+        Sun, 16 Oct 2022 08:11:15 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1665899617;
-        bh=nY3LtBgh9GaI/Ev9+Z++q30u+AolROGG77sl+7Jqa7A=;
+        s=mail; t=1665900675;
+        bh=958uoNOBay0N+pNA6JcV89PTtPiHXMEMNEATgxl6X5w=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=tCkx3YjzGSP/YkGjnuCtDWMKZ8388ntLyVM24oSItx9jzo0/30xHlZjAK9N19D55s
-         gjzOn/9U8KYnkVufQ1Uf+Zxk9kg4wSeGoVp5xKwU8WU4LN4eups7/gGfrAD7EFKJNy
-         nWP72vQ18mIsSCORXNaEdwZn72Zm+m04iAq0k5Zk=
-Date:   Sun, 16 Oct 2022 08:53:14 +0300
+        b=HUD1SeOpQ+8Nv7UnM79wp/Fj6pGI7zyz9DBZZbhclaWEzq1V6fmjGUbgV9G0S7Y2x
+         tSxem+VPuv6mUrM9G9z0OmOMYrhuQ8O2ZXeq7EPQTJNIdQdFaENAgWPY6OfhtklpPJ
+         n0ZQknZHgodtUIvxF9h5Fu/tJxqPRU/k+yk3gNow=
+Date:   Sun, 16 Oct 2022 09:10:51 +0300
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Dave Stevenson <dave.stevenson@raspberrypi.com>
-Cc:     linux-media@vger.kernel.org,
+Cc:     Alexander Stein <alexander.stein@ew.tq-group.com>,
+        linux-media@vger.kernel.org,
         Manivannan Sadhasivam <mani@kernel.org>,
         Sakari Ailus <sakari.ailus@iki.fi>
-Subject: Re: [PATCH 18/19] media: i2c: imx290: Add crop selection targets
- support
-Message-ID: <Y0ucSuT9vYkwbynH@pendragon.ideasonboard.com>
+Subject: Re: Re: [PATCH 14/19] media: i2c: imx290: Implement HBLANK and
+ VBLANK controls
+Message-ID: <Y0uga4eAv4v93xl8@pendragon.ideasonboard.com>
 References: <20220721083540.1525-1-laurent.pinchart@ideasonboard.com>
- <20220721083540.1525-19-laurent.pinchart@ideasonboard.com>
- <CAPY8ntD=rk+dfA8_gjJ7-Q07qL0Fgz5y_ug+jXJh=CH1U=bjjQ@mail.gmail.com>
+ <3399452.atdPhlSkOF@steina-w>
+ <Ytk1wWOec2tkOB8M@pendragon.ideasonboard.com>
+ <4167869.k3LOHGUjKi@steina-w>
+ <CAPY8ntC-GF5QEVZ_VQqi+LJzt7==_t2u2W=VDfeYw-3mk4mnmg@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <CAPY8ntD=rk+dfA8_gjJ7-Q07qL0Fgz5y_ug+jXJh=CH1U=bjjQ@mail.gmail.com>
+In-Reply-To: <CAPY8ntC-GF5QEVZ_VQqi+LJzt7==_t2u2W=VDfeYw-3mk4mnmg@mail.gmail.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,PDS_OTHER_BAD_TLD,SPF_HELO_PASS,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Dave,
+Hello,
 
-On Thu, Jul 21, 2022 at 04:39:08PM +0100, Dave Stevenson wrote:
-> On Thu, 21 Jul 2022 at 09:36, Laurent Pinchart wrote:
-> > Implement read-only access to crop selection rectangles to expose the
-> > analogue crop rectangle. The public (leaked) IMX290 documentation is not
-> > very clear on how cropping is implemented and configured exactly, so
-> > the margins may not be entirely accurate.
-> >
-> > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > ---
-> >  drivers/media/i2c/imx290.c | 94 ++++++++++++++++++++++++++++++++++++++
-> >  1 file changed, 94 insertions(+)
-> >
-> > diff --git a/drivers/media/i2c/imx290.c b/drivers/media/i2c/imx290.c
-> > index baf9941c5fbe..0cb11ec1cf0f 100644
-> > --- a/drivers/media/i2c/imx290.c
-> > +++ b/drivers/media/i2c/imx290.c
-> > @@ -105,6 +105,53 @@
-> >
-> >  #define IMX290_VMAX_DEFAULT                            1125
-> >
-> > +
-> > +/*
-> > + * The IMX290 pixel array is organized as follows:
-> > + *
-> > + *     +------------------------------------+
-> > + *     |           Optical Black            |     }  Vertical effective optical black (10)
-> > + * +---+------------------------------------+---+
-> > + * |   |                                    |   | }  Effective top margin (8)
-> > + * |   |   +----------------------------+   |   | \
-> > + * |   |   |                            |   |   |  |
-> > + * |   |   |                            |   |   |  |
-> > + * |   |   |                            |   |   |  |
-> > + * |   |   |    Recording Pixel Area    |   |   |  | Recommended height (1080)
-> > + * |   |   |                            |   |   |  |
-> > + * |   |   |                            |   |   |  |
-> > + * |   |   |                            |   |   |  |
-> > + * |   |   +----------------------------+   |   | /
-> > + * |   |                                    |   | }  Effective bottom margin (8)
+On Thu, Jul 21, 2022 at 05:37:23PM +0100, Dave Stevenson wrote:
+> On Thu, 21 Jul 2022 at 12:32, Alexander Stein wrote:
+> > Am Donnerstag, 21. Juli 2022, 13:17:21 CEST schrieb Laurent Pinchart:
+> > > On Thu, Jul 21, 2022 at 12:05:46PM +0200, Alexander Stein wrote:
+> > > > Am Donnerstag, 21. Juli 2022, 10:35:35 CEST schrieb Laurent Pinchart:
+> > > > > Add support for the V4L2_CID_HBLANK and V4L2_CID_VBLANK controls to the
+> > > > > imx290 driver. Make the controls read-only to start with, to report the
+> > > > > values to userspace for timing calculation.
+> > > > >
+> > > > > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > > > > ---
+> > > > >
+> > > > >  drivers/media/i2c/imx290.c | 39 +++++++++++++++++++++++++++++++++++++-
+> > > > >  1 file changed, 38 insertions(+), 1 deletion(-)
+> > > > >
+> > > > > diff --git a/drivers/media/i2c/imx290.c b/drivers/media/i2c/imx290.c
+> > > > > index 4408dd3e191f..7190399f4111 100644
+> > > > > --- a/drivers/media/i2c/imx290.c
+> > > > > +++ b/drivers/media/i2c/imx290.c
+> > > > > @@ -146,6 +146,8 @@ struct imx290 {
+> > > > >   struct v4l2_ctrl_handler ctrls;
+> > > > >   struct v4l2_ctrl *link_freq;
+> > > > >   struct v4l2_ctrl *pixel_rate;
+> > > > > + struct v4l2_ctrl *hblank;
+> > > > > + struct v4l2_ctrl *vblank;
+> > > > >   struct mutex lock;
+> > > > >  };
+> > > > >
+> > > > > @@ -642,6 +644,20 @@ static int imx290_set_fmt(struct v4l2_subdev *sd,
+> > > > >           if (imx290->pixel_rate)
+> > > > >                   __v4l2_ctrl_s_ctrl_int64(imx290->pixel_rate,
+> > > > >                                            imx290_calc_pixel_rate(imx290));
+> > > > > +
+> > > > > +         if (imx290->hblank) {
+> > > > > +                 unsigned int hblank = mode->hmax - mode->width;
+> > > > > +
+> > > > > +                 __v4l2_ctrl_modify_range(imx290->hblank, hblank, hblank,
+> > > > > +                                          1, hblank);
+> > > > > +         }
+> > > > > +
+> > > > > +         if (imx290->vblank) {
+> > > > > +                 unsigned int vblank = IMX290_VMAX_DEFAULT - mode->height;
+> > > > > +
+> > > > > +                 __v4l2_ctrl_modify_range(imx290->vblank, vblank, vblank,
+> > > > > +                                          1, vblank);
+> > > > > +         }
+> > > > >   }
+> > > > >
+> > > > >   *format = fmt->format;
+> > > > > @@ -880,9 +896,10 @@ static const struct media_entity_operations imx290_subdev_entity_ops = {
+> > > > > 
+> > > > >  static int imx290_ctrl_init(struct imx290 *imx290)
+> > > > >  {
+> > > > > + unsigned int blank;
+> > > > >   int ret;
+> > > > >
+> > > > > - v4l2_ctrl_handler_init(&imx290->ctrls, 5);
+> > > > > + v4l2_ctrl_handler_init(&imx290->ctrls, 7);
+> > > > >   imx290->ctrls.lock = &imx290->lock;
+> > > > >
+> > > > >   v4l2_ctrl_new_std(&imx290->ctrls, &imx290_ctrl_ops,
+> > > > > @@ -910,6 +927,26 @@ static int imx290_ctrl_init(struct imx290 *imx290)
+> > > > >                                ARRAY_SIZE(imx290_test_pattern_menu) - 1,
+> > > > >                                0, 0, imx290_test_pattern_menu);
+> > > > >
+> > > > > + /*
+> > > > > +  * Horizontal blanking is controlled through the HMAX register, which
+> > > > > +  * contains a line length in INCK clock units. The INCK frequency is
+> > > > > +  * fixed to 74.25 MHz. The HMAX value is currently fixed to 1100,
+> > > > > +  * convert it to a number of pixels based on the nominal pixel rate.
+> > > > > +  */
+> > > >
+> > > > Currently the driver only supports 37.125 MHz, please refer to
+> > > > imx290_probe.
+> > > 
+> > > Indeed. Re-reading the comment, I suspect something is wrong, as hmax is
+> > > not converted to pixels here (and is also not fixed to 1100).
+
+I'll drop the comment in v2.
+
+> > > The only
+> > > datasheet I found that is publicly accessed doesn't explain very clearly
+> > > how the HMAX value should be computed. Based on your experience with IMX
+> > > sensors, would you be able to shed some light on this ?
 > 
-> I have an official datasheet from Sony. "Effective margin for colour
-> processing" at the bottom is stated to be 9 lines, not 8. That also
-> makes the numbers then tally of total height being 8 + 1080 + 9 =
-> 1097.
+> It is pretty much a standard HTS setting based on a pixel rate that is
+> fixed at 148.5MPix/s.
 
-Will fix in v2. The value in the text and macro is correct, only the
-diagram has an issue.
+I'm following you for HTS, but not for the fixed pixel rate. Could you
+elaborate ?
 
-> Otherwise I agree with the numbers you quote here.
+> Likewise VMAX is equivalent to a traditional VTS.
+
+Yes, that one is easy.
+
+> I've been through the same path in
+> https://github.com/raspberrypi/linux/commits/rpi-5.15.y/drivers/media/i2c/imx290.c
 > 
-> My datasheet does go into how window mode is configured, however
-> window mode is not being used.
-> The register sets present in the driver set the output image size to
-> 1920x1080 or 1280x720 of the overall 1945x1097 pixels. They differ
-> slightly from the definitions given in the datasheet for the Full HD
-> 1080p and HD720p modes which read out 1945x1097 and 1297x725 pixels
-> respectively (assuming I've read it correctly). Exactly how those
-> extra pixels are cropped off isn't defined, but I'd suspect it was the
-> top left portion of the full image.
+> > Can you share the link to this datasheet you found?
+
+https://static6.arrow.com/aropdfconversion/c0c7efde6571c768020a72f59b226308b9669e45/sony_imx290lqr-c_datasheet.pdf
+
+> > Sorry, my experience is more like try and error. I don't fully understand this
+> > as well, but apparently this depends on frame rate select (FRSEL).
 > 
-> If you want 100% defined cropping for each mode then that should be
-> achievable using window mode.
-
-I'd like that, but one thing at a time :-) I may experiment if I can
-find free time.
-
-> > + * +---+------------------------------------+---+
-> > + *  <-> <-> <--------------------------> <-> <->
-> > + *                                            \----  Ignored right margin (4)
-> > + *                                        \--------  Effective right margin (9)
-> > + *                       \-------------------------  Recommended width (1920)
-> > + *       \-----------------------------------------  Effective left margin (8)
-> > + *   \---------------------------------------------  Ignored left margin (4)
-> > + *
-> > + * The optical black lines are output over CSI-2 with a separate data type.
-> > + *
-> > + * The pixel array is meant to have 1920x1080 usable pixels after image
-> > + * processing in an ISP. It has 8 (9) extra active pixels usable for color
-> > + * processing in the ISP on the top and left (bottom and right) sides of the
-> > + * image. In addition, 4 additional pixels are present on the left and right
-> > + * sides of the image, documented as "ignored area".
-> > + *
-> > + * As far as is understood, all pixels of the pixel array (ignored area, color
-> > + * processing margins and recording area) can be output by the sensor.
-> > + */
-> > +
-> > +#define IMX290_PIXEL_ARRAY_WIDTH                       1945
-> > +#define IMX290_PIXEL_ARRAY_HEIGHT                      1097
-> > +#define IMX920_PIXEL_ARRAY_MARGIN_LEFT                 12
-> > +#define IMX920_PIXEL_ARRAY_MARGIN_RIGHT                        13
-> > +#define IMX920_PIXEL_ARRAY_MARGIN_TOP                  8
-> > +#define IMX920_PIXEL_ARRAY_MARGIN_BOTTOM               9
-> > +#define IMX290_PIXEL_ARRAY_RECORDING_WIDTH             1920
-> > +#define IMX290_PIXEL_ARRAY_RECORDING_HEIGHT            1080
-> > +
-> >  static const char * const imx290_supply_name[] = {
-> >         "vdda",
-> >         "vddd",
-> > @@ -671,6 +718,52 @@ static int imx290_set_fmt(struct v4l2_subdev *sd,
-> >         return 0;
-> >  }
-> >
-> > +static int imx290_get_selection(struct v4l2_subdev *sd,
-> > +                               struct v4l2_subdev_state *sd_state,
-> > +                               struct v4l2_subdev_selection *sel)
-> > +{
-> > +       struct imx290 *imx290 = to_imx290(sd);
-> > +       struct v4l2_mbus_framefmt *format;
-> > +
-> > +       switch (sel->target) {
-> > +       case V4L2_SEL_TGT_CROP: {
-> > +               format = imx290_get_pad_format(imx290, sd_state, sel->which);
-> > +
-> > +               mutex_lock(&imx290->lock);
-> > +
-> > +               sel->r.top = IMX920_PIXEL_ARRAY_MARGIN_TOP
-> > +                          + (IMX290_PIXEL_ARRAY_RECORDING_HEIGHT - format->height) / 2;
-> > +               sel->r.left = IMX920_PIXEL_ARRAY_MARGIN_LEFT
-> > +                           + (IMX290_PIXEL_ARRAY_RECORDING_WIDTH - format->width) / 2;
-> > +               sel->r.width = format->width;
-> > +               sel->r.height = format->height;
-> > +
-> > +               mutex_unlock(&imx290->lock);
-> > +               return 0;
-> > +       }
-> > +
-> > +       case V4L2_SEL_TGT_NATIVE_SIZE:
-> > +       case V4L2_SEL_TGT_CROP_BOUNDS:
-> > +               sel->r.top = 0;
-> > +               sel->r.left = 0;
-> > +               sel->r.width = IMX290_PIXEL_ARRAY_WIDTH;
-> > +               sel->r.height = IMX290_PIXEL_ARRAY_HEIGHT;
-> > +
-> > +               return 0;
-> > +
-> > +       case V4L2_SEL_TGT_CROP_DEFAULT:
-> > +               sel->r.top = IMX920_PIXEL_ARRAY_MARGIN_TOP;
-> > +               sel->r.left = IMX920_PIXEL_ARRAY_MARGIN_LEFT;
-> > +               sel->r.width = IMX290_PIXEL_ARRAY_RECORDING_WIDTH;
-> > +               sel->r.height = IMX290_PIXEL_ARRAY_RECORDING_HEIGHT;
-> > +
-> > +               return 0;
-> > +
-> > +       default:
-> > +               return -EINVAL;
-> > +       }
-> > +}
-> > +
-> >  static int imx290_entity_init_cfg(struct v4l2_subdev *subdev,
-> >                                   struct v4l2_subdev_state *sd_state)
-> >  {
-> > @@ -887,6 +980,7 @@ static const struct v4l2_subdev_pad_ops imx290_pad_ops = {
-> >         .enum_frame_size = imx290_enum_frame_size,
-> >         .get_fmt = imx290_get_fmt,
-> >         .set_fmt = imx290_set_fmt,
-> > +       .get_selection = imx290_get_selection,
-> >  };
-> >
-> >  static const struct v4l2_subdev_ops imx290_subdev_ops = {
+> FRSEL is the one difference between IMX327 and IMX290 (and presumably
+> IMX462 too). IMX290 adds "0" as a valid value for 120/100fps mode.
+> However there is no need to change FRSEL for standard frame rate
+> control - you can set it at 0x01 and get a full range of frame rates
+> through VMAX and HMAX. If you wished to extend that range for slower
+> rates, you could conditionally set it to 0x2 to double the frame time.
+> 
+> > > > > + blank = imx290->current_mode->hmax - imx290->current_mode->width;
+> > > > > + imx290->hblank = v4l2_ctrl_new_std(&imx290->ctrls, &imx290_ctrl_ops,
+> > > > > +                                    V4L2_CID_HBLANK, blank, blank, 1,
+> > > > > +                                    blank);
+> > > > > + if (imx290->hblank)
+> > > > > +         imx290->hblank->flags |= V4L2_CTRL_FLAG_READ_ONLY;
+> > > > > +
+> > > > > + blank = IMX290_VMAX_DEFAULT - imx290->current_mode->height;
+> > > > > + imx290->vblank = v4l2_ctrl_new_std(&imx290->ctrls, &imx290_ctrl_ops,
+> > > > > +                                    V4L2_CID_VBLANK, blank, blank, 1,
+> > > > > +                                    blank);
+> > > > > + if (imx290->vblank)
+> > > > > +         imx290->vblank->flags |= V4L2_CTRL_FLAG_READ_ONLY;
+> > > > > +
+> > > > >
+> > > > >   imx290->sd.ctrl_handler = &imx290->ctrls;
+> > > > >
+> > > > >   if (imx290->ctrls.error) {
 
 -- 
 Regards,
