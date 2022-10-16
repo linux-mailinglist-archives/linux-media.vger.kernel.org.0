@@ -2,98 +2,93 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8C53D600062
-	for <lists+linux-media@lfdr.de>; Sun, 16 Oct 2022 17:06:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BEBB160028D
+	for <lists+linux-media@lfdr.de>; Sun, 16 Oct 2022 19:57:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229924AbiJPPGF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 16 Oct 2022 11:06:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48400 "EHLO
+        id S229722AbiJPR5s (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 16 Oct 2022 13:57:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60876 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229908AbiJPPGD (ORCPT
+        with ESMTP id S229597AbiJPR5q (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 16 Oct 2022 11:06:03 -0400
-Received: from mail-qt1-x829.google.com (mail-qt1-x829.google.com [IPv6:2607:f8b0:4864:20::829])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D8B9242AFE
-        for <linux-media@vger.kernel.org>; Sun, 16 Oct 2022 08:06:01 -0700 (PDT)
-Received: by mail-qt1-x829.google.com with SMTP id g16so1615260qtu.2
-        for <linux-media@vger.kernel.org>; Sun, 16 Oct 2022 08:06:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=sZRp/fSwQq25KMpGhSZVmGnYNucuD6Tcnn49Kw1Ky48=;
-        b=TYHVsGCeK1huMx7iRcl5ZkR5iFfPLnDfD0Ay8IPxJFA7kMJ29tvnWr6edCMGUxPOho
-         xOwn0zn9STFngRPfDC+2Kzu/Fk4/S5N+cQXwoCCzW8YIcKm7VOPzSe0RZQmEgGeoRKrm
-         W9G9js11IGI8th2W6h1luDsMwdEH8pa8KXxpnovy07kSYctSA26d9Kql/0byEX46yh3P
-         E+CawSCBb+KnrKfqkxpcTK3qblJio+yYNPJ6pASsMPV0zJDePfdshiOp4bOqRG8niBPQ
-         dAEMl4fMkxUP1FbNTcZigE/Pmt91Dwmk2n3Y5JXIS8hJ8ye/lYKfinl8GwpYF3T+vkNj
-         rFSA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=sZRp/fSwQq25KMpGhSZVmGnYNucuD6Tcnn49Kw1Ky48=;
-        b=3/V5rkn6n/omzCHpfu13ASyobf0G8KTKrGHfiDYcDIBBcVJBOO9vfuv9LbcQR/JKb2
-         Qi/Qr472fh2JoS9/2TUPDZd7M28Y9S+m53NnKjtzeTYOlJQTZcpIQAI4M+1hS7QkiAu1
-         Z+NFqVxsmiOPFVfwNrQa1+lIN07wZ12cIklI0jL6YkbNBuj+6sgm3AFfzRTkxcJZE/W8
-         UQIsQsiW9vWRn2xKzClOspn4oaXuI3GbGDCNEBYXEVt5ZUzFdjY0uG18f/TbKATWme8a
-         TbVLNqpmWfSAuBVQnjd3wGiCDwziIYLTAvQOTDwauSL6642+yKIhgSBy7SbWcnicUyFw
-         MA8w==
-X-Gm-Message-State: ACrzQf3Efw2663ZUMErzTqxdXIaQQYB5amgr+A9Z/g6ScxRWfKpaHqNX
-        hlW3vwhkhQ9XwHreT/q64UUuPhj4JQxqHw==
-X-Google-Smtp-Source: AMsMyM40b617U3a6uGTVRT5RHjRhTstA6B9hRcf7vlbFDNy16XMMoRZlf5BOcXK97FsKax34nJms3Q==
-X-Received: by 2002:a05:622a:174b:b0:35d:1be5:c65e with SMTP id l11-20020a05622a174b00b0035d1be5c65emr5351950qtk.422.1665932759534;
-        Sun, 16 Oct 2022 08:05:59 -0700 (PDT)
-Received: from ?IPV6:2601:42:0:3450:9b13:d679:7b5b:6921? ([2601:42:0:3450:9b13:d679:7b5b:6921])
-        by smtp.gmail.com with ESMTPSA id bm11-20020a05620a198b00b006ee96d82188sm7245263qkb.1.2022.10.16.08.05.57
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 16 Oct 2022 08:05:58 -0700 (PDT)
-Message-ID: <edc9e423-0aab-e0bf-8307-abbbcf68b1d9@linaro.org>
-Date:   Sun, 16 Oct 2022 11:05:57 -0400
+        Sun, 16 Oct 2022 13:57:46 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4278B27B32
+        for <linux-media@vger.kernel.org>; Sun, 16 Oct 2022 10:57:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1665943063;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=bNMBnjvfrzkdnfwWyZTfK7G/c+bKomsasGS1xsA6FV4=;
+        b=ERJKGR+bS6MpeypQn3FCQZQH8w0NMGtdZkl08HQt/Cy84gT/tZTg25APyp9KtGOEIXA0Na
+        i0mJ5iY6dRr0HB5b/bRUGCay5vMIr4i0SqmIKIoRozLweUnFzRu+5FVxa2vDoHGG2GqHfd
+        Q3Sp0UUp4mFiEQW13Y6eArY9vO9COaQ=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-673-oeXvGoFzMTaL7xRSFjsdGQ-1; Sun, 16 Oct 2022 13:57:41 -0400
+X-MC-Unique: oeXvGoFzMTaL7xRSFjsdGQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com [10.11.54.2])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BB7773C01D9D;
+        Sun, 16 Oct 2022 17:57:40 +0000 (UTC)
+Received: from localhost.localdomain (unknown [10.39.192.97])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id E66D0414A815;
+        Sun, 16 Oct 2022 17:57:38 +0000 (UTC)
+From:   Hans de Goede <hdegoede@redhat.com>
+To:     Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org
+Cc:     Hans de Goede <hdegoede@redhat.com>
+Subject: [PATCH v4l-utils 0/4] Fix various v4lconvert functions assuming stride == width
+Date:   Sun, 16 Oct 2022 19:57:25 +0200
+Message-Id: <20221016175729.187258-1-hdegoede@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.2
-Subject: Re: [PATCH v2 01/20] media: dt-bindings: Convert imx290.txt to YAML
-Content-Language: en-US
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-media@vger.kernel.org
-Cc:     Sakari Ailus <sakari.ailus@iki.fi>,
-        Manivannan Sadhasivam <mani@kernel.org>,
-        Alexander Stein <alexander.stein@ew.tq-group.com>,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        devicetree@vger.kernel.org
-References: <20221016061523.30127-1-laurent.pinchart@ideasonboard.com>
- <20221016061523.30127-2-laurent.pinchart@ideasonboard.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20221016061523.30127-2-laurent.pinchart@ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 16/10/2022 02:15, Laurent Pinchart wrote:
-> Convert the Sony IMX290 DT binding from text to YAML. Add Manivannan as
-> a maintainer given that he is listed in MAINTAINERS for the file, as
-> volunteering myself.
-> 
-> The name of the input clock, "xclk", is wrong as the hardware manual
-> names it INCK. As the device has a single clock, the name could be
-> omitted, but that would require a corresponding change to the driver and
-> is thus a candidate for further patches.
-> 
+Hi All,
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+I (finally) have my videobuf2 conversion of the atomisp2 driver working
+(I'll post the kernel patches real soon now). This means working MMAP mode,
+which means I can use e.g. camorama with libv4l2 to do the conversion.
 
-Best regards,
-Krzysztof
+By hacking libv4lconvert to prefer certain formats I have been able to test
+yuv420, yuyv, rgb565, nv12 and nv16 support in the atomisp2 code. Which has
+resulted in me finding a bunch of issues inside v4lconvert because
+the atomisp2 driver generally creates frames where stride != width.
+
+This patch series fixes this. All patches have been tested on actual
+hw, at least all the input -> rgb24 paths.
+
+Regards,
+
+Hans
+
+
+Hans de Goede (4):
+  libv4lconvert: Fix v4lconvert_yuv420_to_rgb/bgr24() not taking stride
+    into account
+  libv4lconvert: Fix v4lconvert_rgb565_to_rgb/bgr24() not taking stride
+    into account
+  libv4lconvert: Fix v4lconvert_nv12_*() not taking stride into account
+  libv4lconvert: Fix v4lconvert_nv16_to_yuyv() not taking stride into
+    account
+
+ lib/libv4lconvert/libv4lconvert-priv.h | 14 +++---
+ lib/libv4lconvert/libv4lconvert.c      | 32 ++++++------
+ lib/libv4lconvert/rgbyuv.c             | 70 +++++++++++++++++---------
+ 3 files changed, 69 insertions(+), 47 deletions(-)
+
+-- 
+2.37.3
 
