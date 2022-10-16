@@ -2,38 +2,38 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D3ADE5FFD81
-	for <lists+linux-media@lfdr.de>; Sun, 16 Oct 2022 08:16:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2F31B5FFD82
+	for <lists+linux-media@lfdr.de>; Sun, 16 Oct 2022 08:16:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229775AbiJPGQM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 16 Oct 2022 02:16:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39042 "EHLO
+        id S229786AbiJPGQO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 16 Oct 2022 02:16:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39084 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229788AbiJPGQL (ORCPT
+        with ESMTP id S229693AbiJPGQN (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 16 Oct 2022 02:16:11 -0400
+        Sun, 16 Oct 2022 02:16:13 -0400
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5428738694
-        for <linux-media@vger.kernel.org>; Sat, 15 Oct 2022 23:16:10 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F14EC3685D
+        for <linux-media@vger.kernel.org>; Sat, 15 Oct 2022 23:16:11 -0700 (PDT)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id CF9241804;
-        Sun, 16 Oct 2022 08:16:08 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7B98D1BA6;
+        Sun, 16 Oct 2022 08:16:10 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1665900969;
-        bh=xzDptOdAaWlbBEvmzAxEpEd1hc4CwiZVV+xluYKf2R4=;
+        s=mail; t=1665900970;
+        bh=jvvkUupLN+Vqc5dU8Yl6JxjayxEPR0Frts0gwialj4E=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=iXHcCzPME8vXfJB1Aqjt+BjjdabeN1q14frtyu1yyA3KZXam+C99Pc1csNaKCYab5
-         l02oqnMJ4/jhQRz9sRUIMp7IeY8ICLH7C28y6dI0nEt73GuERZpl1mE63xJphrLFzF
-         BRTL0lYMpop2ckfelYzZcBLB0kVSGlUCPBCj2es8=
+        b=j9TBiGe+Gl7783e3Mdo0cVeFhf8JI6O5SqqX+fvG9RJOOtMygT1V36ysSvE0XmpuL
+         /OYKUsY8GncSWIxSkqI26l2uZ3SXBu8fEjNboXo29LRaWwaAoeSlPecihqdiV7Ah5l
+         uQJj8XLy6soJV0+6WcTKcBE7YN5nvgOedW3fZzbs=
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     linux-media@vger.kernel.org
 Cc:     Sakari Ailus <sakari.ailus@iki.fi>,
         Manivannan Sadhasivam <mani@kernel.org>,
         Alexander Stein <alexander.stein@ew.tq-group.com>,
         Dave Stevenson <dave.stevenson@raspberrypi.com>
-Subject: [PATCH v2 14/20] media: i2c: imx290: Split control initialization to separate function
-Date:   Sun, 16 Oct 2022 09:15:17 +0300
-Message-Id: <20221016061523.30127-15-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH v2 15/20] media: i2c: imx290: Implement HBLANK and VBLANK controls
+Date:   Sun, 16 Oct 2022 09:15:18 +0300
+Message-Id: <20221016061523.30127-16-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20221016061523.30127-1-laurent.pinchart@ideasonboard.com>
 References: <20221016061523.30127-1-laurent.pinchart@ideasonboard.com>
@@ -48,149 +48,86 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The imx290_probe() function is too large. Split control initialzation to
-a dedicated function to increase code readability.
+Add support for the V4L2_CID_HBLANK and V4L2_CID_VBLANK controls to the
+imx290 driver. Make the controls read-only to start with, to report the
+values to userspace for timing calculation.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Acked-by: Alexander Stein <alexander.stein@ew.tq-group.com>
 ---
- drivers/media/i2c/imx290.c | 109 +++++++++++++++++++++----------------
- 1 file changed, 61 insertions(+), 48 deletions(-)
+Changes since v1:
+
+- Drop incorrect comment
+---
+ drivers/media/i2c/imx290.c | 33 ++++++++++++++++++++++++++++++++-
+ 1 file changed, 32 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/media/i2c/imx290.c b/drivers/media/i2c/imx290.c
-index 43ac6244c3a2..5deeab594e9b 100644
+index 5deeab594e9b..c5cecfd5d24c 100644
 --- a/drivers/media/i2c/imx290.c
 +++ b/drivers/media/i2c/imx290.c
-@@ -878,6 +878,62 @@ static const struct media_entity_operations imx290_subdev_entity_ops = {
- 	.link_validate = v4l2_subdev_link_validate,
+@@ -146,6 +146,8 @@ struct imx290 {
+ 	struct v4l2_ctrl_handler ctrls;
+ 	struct v4l2_ctrl *link_freq;
+ 	struct v4l2_ctrl *pixel_rate;
++	struct v4l2_ctrl *hblank;
++	struct v4l2_ctrl *vblank;
+ 
+ 	struct mutex lock;
  };
- 
-+static int imx290_ctrl_init(struct imx290 *imx290)
-+{
-+	int ret;
+@@ -642,6 +644,20 @@ static int imx290_set_fmt(struct v4l2_subdev *sd,
+ 		if (imx290->pixel_rate)
+ 			__v4l2_ctrl_s_ctrl_int64(imx290->pixel_rate,
+ 						 imx290_calc_pixel_rate(imx290));
 +
-+	v4l2_ctrl_handler_init(&imx290->ctrls, 5);
-+	imx290->ctrls.lock = &imx290->lock;
++		if (imx290->hblank) {
++			unsigned int hblank = mode->hmax - mode->width;
 +
-+	/*
-+	 * The sensor has an analog gain and a digital gain, both controlled
-+	 * through a single gain value, expressed in 0.3dB increments. Values
-+	 * from 0.0dB (0) to 30.0dB (100) apply analog gain only, higher values
-+	 * up to 72.0dB (240) add further digital gain. Limit the range to
-+	 * analog gain only, support for digital gain can be added separately
-+	 * if needed.
-+	 *
-+	 * The IMX327 and IMX462 are largely compatible with the IMX290, but
-+	 * have an analog gain range of 0.0dB to 29.4dB and 42dB of digital
-+	 * gain. When support for those sensors gets added to the driver, the
-+	 * gain control should be adjusted accordingly.
-+	 */
-+	v4l2_ctrl_new_std(&imx290->ctrls, &imx290_ctrl_ops,
-+			  V4L2_CID_GAIN, 0, 100, 1, 0);
++			__v4l2_ctrl_modify_range(imx290->hblank, hblank, hblank,
++						 1, hblank);
++		}
 +
-+	v4l2_ctrl_new_std(&imx290->ctrls, &imx290_ctrl_ops,
-+			  V4L2_CID_EXPOSURE, 1, IMX290_VMAX_DEFAULT - 2, 1,
-+			  IMX290_VMAX_DEFAULT - 2);
++		if (imx290->vblank) {
++			unsigned int vblank = IMX290_VMAX_DEFAULT - mode->height;
 +
-+	imx290->link_freq =
-+		v4l2_ctrl_new_int_menu(&imx290->ctrls, &imx290_ctrl_ops,
-+				       V4L2_CID_LINK_FREQ,
-+				       imx290_link_freqs_num(imx290) - 1, 0,
-+				       imx290_link_freqs_ptr(imx290));
-+	if (imx290->link_freq)
-+		imx290->link_freq->flags |= V4L2_CTRL_FLAG_READ_ONLY;
-+
-+	imx290->pixel_rate = v4l2_ctrl_new_std(&imx290->ctrls, &imx290_ctrl_ops,
-+					       V4L2_CID_PIXEL_RATE,
-+					       1, INT_MAX, 1,
-+					       imx290_calc_pixel_rate(imx290));
-+
-+	v4l2_ctrl_new_std_menu_items(&imx290->ctrls, &imx290_ctrl_ops,
-+				     V4L2_CID_TEST_PATTERN,
-+				     ARRAY_SIZE(imx290_test_pattern_menu) - 1,
-+				     0, 0, imx290_test_pattern_menu);
-+
-+	imx290->sd.ctrl_handler = &imx290->ctrls;
-+
-+	if (imx290->ctrls.error) {
-+		ret = imx290->ctrls.error;
-+		v4l2_ctrl_handler_free(&imx290->ctrls);
-+		return ret;
-+	}
-+
-+	return 0;
-+}
-+
- /*
-  * Returns 0 if all link frequencies used by the driver for the given number
-  * of MIPI data lanes are mentioned in the device tree, or the value of the
-@@ -1016,54 +1072,10 @@ static int imx290_probe(struct i2c_client *client)
- 	 */
- 	imx290_entity_init_cfg(&imx290->sd, NULL);
- 
--	v4l2_ctrl_handler_init(&imx290->ctrls, 5);
--	imx290->ctrls.lock = &imx290->lock;
--
--	/*
--	 * The sensor has an analog gain and a digital gain, both controlled
--	 * through a single gain value, expressed in 0.3dB increments. Values
--	 * from 0.0dB (0) to 30.0dB (100) apply analog gain only, higher values
--	 * up to 72.0dB (240) add further digital gain. Limit the range to
--	 * analog gain only, support for digital gain can be added separately
--	 * if needed.
--	 *
--	 * The IMX327 and IMX462 are largely compatible with the IMX290, but
--	 * have an analog gain range of 0.0dB to 29.4dB and 42dB of digital
--	 * gain. When support for those sensors gets added to the driver, the
--	 * gain control should be adjusted accordingly.
--	 */
--	v4l2_ctrl_new_std(&imx290->ctrls, &imx290_ctrl_ops,
--			  V4L2_CID_GAIN, 0, 100, 1, 0);
--
--	v4l2_ctrl_new_std(&imx290->ctrls, &imx290_ctrl_ops,
--			  V4L2_CID_EXPOSURE, 1, IMX290_VMAX_DEFAULT - 2, 1,
--			  IMX290_VMAX_DEFAULT - 2);
--
--	imx290->link_freq =
--		v4l2_ctrl_new_int_menu(&imx290->ctrls, &imx290_ctrl_ops,
--				       V4L2_CID_LINK_FREQ,
--				       imx290_link_freqs_num(imx290) - 1, 0,
--				       imx290_link_freqs_ptr(imx290));
--	if (imx290->link_freq)
--		imx290->link_freq->flags |= V4L2_CTRL_FLAG_READ_ONLY;
--
--	imx290->pixel_rate = v4l2_ctrl_new_std(&imx290->ctrls, &imx290_ctrl_ops,
--					       V4L2_CID_PIXEL_RATE,
--					       1, INT_MAX, 1,
--					       imx290_calc_pixel_rate(imx290));
--
--	v4l2_ctrl_new_std_menu_items(&imx290->ctrls, &imx290_ctrl_ops,
--				     V4L2_CID_TEST_PATTERN,
--				     ARRAY_SIZE(imx290_test_pattern_menu) - 1,
--				     0, 0, imx290_test_pattern_menu);
--
--	imx290->sd.ctrl_handler = &imx290->ctrls;
--
--	if (imx290->ctrls.error) {
--		dev_err(dev, "Control initialization error %d\n",
--			imx290->ctrls.error);
--		ret = imx290->ctrls.error;
--		goto free_ctrl;
-+	ret = imx290_ctrl_init(imx290);
-+	if (ret < 0) {
-+		dev_err(dev, "Control initialization error %d\n", ret);
-+		goto free_mutex;
++			__v4l2_ctrl_modify_range(imx290->vblank, vblank, vblank,
++						 1, vblank);
++		}
  	}
  
- 	v4l2_i2c_subdev_init(&imx290->sd, client, &imx290_subdev_ops);
-@@ -1104,6 +1116,7 @@ static int imx290_probe(struct i2c_client *client)
- 	media_entity_cleanup(&imx290->sd.entity);
- free_ctrl:
- 	v4l2_ctrl_handler_free(&imx290->ctrls);
-+free_mutex:
- 	mutex_destroy(&imx290->lock);
- free_err:
- 	v4l2_fwnode_endpoint_free(&ep);
+ 	*format = fmt->format;
+@@ -880,9 +896,10 @@ static const struct media_entity_operations imx290_subdev_entity_ops = {
+ 
+ static int imx290_ctrl_init(struct imx290 *imx290)
+ {
++	unsigned int blank;
+ 	int ret;
+ 
+-	v4l2_ctrl_handler_init(&imx290->ctrls, 5);
++	v4l2_ctrl_handler_init(&imx290->ctrls, 7);
+ 	imx290->ctrls.lock = &imx290->lock;
+ 
+ 	/*
+@@ -923,6 +940,20 @@ static int imx290_ctrl_init(struct imx290 *imx290)
+ 				     ARRAY_SIZE(imx290_test_pattern_menu) - 1,
+ 				     0, 0, imx290_test_pattern_menu);
+ 
++	blank = imx290->current_mode->hmax - imx290->current_mode->width;
++	imx290->hblank = v4l2_ctrl_new_std(&imx290->ctrls, &imx290_ctrl_ops,
++					   V4L2_CID_HBLANK, blank, blank, 1,
++					   blank);
++	if (imx290->hblank)
++		imx290->hblank->flags |= V4L2_CTRL_FLAG_READ_ONLY;
++
++	blank = IMX290_VMAX_DEFAULT - imx290->current_mode->height;
++	imx290->vblank = v4l2_ctrl_new_std(&imx290->ctrls, &imx290_ctrl_ops,
++					   V4L2_CID_VBLANK, blank, blank, 1,
++					   blank);
++	if (imx290->vblank)
++		imx290->vblank->flags |= V4L2_CTRL_FLAG_READ_ONLY;
++
+ 	imx290->sd.ctrl_handler = &imx290->ctrls;
+ 
+ 	if (imx290->ctrls.error) {
 -- 
 Regards,
 
