@@ -2,38 +2,38 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CE3E95FFD76
-	for <lists+linux-media@lfdr.de>; Sun, 16 Oct 2022 08:15:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6F07F5FFD77
+	for <lists+linux-media@lfdr.de>; Sun, 16 Oct 2022 08:16:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229754AbiJPGP6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 16 Oct 2022 02:15:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38686 "EHLO
+        id S229761AbiJPGP7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 16 Oct 2022 02:15:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38700 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229749AbiJPGP5 (ORCPT
+        with ESMTP id S229757AbiJPGP6 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 16 Oct 2022 02:15:57 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A52863868D
-        for <linux-media@vger.kernel.org>; Sat, 15 Oct 2022 23:15:55 -0700 (PDT)
+        Sun, 16 Oct 2022 02:15:58 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC19A3846D
+        for <linux-media@vger.kernel.org>; Sat, 15 Oct 2022 23:15:56 -0700 (PDT)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id CAA3030A;
-        Sun, 16 Oct 2022 08:15:53 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3EA70BB3;
+        Sun, 16 Oct 2022 08:15:55 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1665900954;
-        bh=/466VGYX2j4F9BwkKaCOb7b2eHO6m5ApoFpyNPIGyQ8=;
+        s=mail; t=1665900955;
+        bh=XX7iVu1rjCVujnNc0BvwN8j44mW7wxcqxtpsQn5Hubc=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=UU5i6vyXFZI/aJaGPSYcT+GEWHa2JUEdMdlD6UUiY5EeMWmLfa+j+NBmck7+LFyQp
-         eFrOjB3JRYtXKJceUof3OINfzWV8eNhhT06ogV3bys7/uLTwnUG+8vFlhiGG2hZZJr
-         K9AEEm0SPARL0VeZ/coOE2xa92nyN7qEmsSlFhHY=
+        b=prdXkRDUxq4Gc6TPL68rbTe4odE5j/axiebpuM5Dmvwz36Y/hDg8ZEWOZPIrJOucO
+         0bUnRS77h2cZyGyto9R/MQbwfjJeRIA2+BzzSNwDjVPO9nrYAnRmvRUsUWbxM8AtAe
+         N1jRk9Z6rNbotuB8PzhscIC9JGO9elF47BvXYm6c=
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     linux-media@vger.kernel.org
 Cc:     Sakari Ailus <sakari.ailus@iki.fi>,
         Manivannan Sadhasivam <mani@kernel.org>,
         Alexander Stein <alexander.stein@ew.tq-group.com>,
         Dave Stevenson <dave.stevenson@raspberrypi.com>
-Subject: [PATCH v2 03/20] media: i2c: imx290: Print error code when I2C transfer fails
-Date:   Sun, 16 Oct 2022 09:15:06 +0300
-Message-Id: <20221016061523.30127-4-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH v2 04/20] media: i2c: imx290: Replace macro with explicit ARRAY_SIZE()
+Date:   Sun, 16 Oct 2022 09:15:07 +0300
+Message-Id: <20221016061523.30127-5-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20221016061523.30127-1-laurent.pinchart@ideasonboard.com>
 References: <20221016061523.30127-1-laurent.pinchart@ideasonboard.com>
@@ -48,39 +48,52 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Knowing why I2C transfers fail is useful for debugging. Extend the error
-message to print the error code.
+Use ARRAY_SIZE(imx290->supplies) for code that needs the size of the
+array, instead of relying on the IMX290_NUM_SUPPLIES. The result is less
+error-prone as it ties the size to the array.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Reviewed-by: Alexander Stein <alexander.stein@ew.tq-group.com>
 ---
- drivers/media/i2c/imx290.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ drivers/media/i2c/imx290.c | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/media/i2c/imx290.c b/drivers/media/i2c/imx290.c
-index d97a5fb1d501..64bd43813dbf 100644
+index 64bd43813dbf..0f32f391b2e7 100644
 --- a/drivers/media/i2c/imx290.c
 +++ b/drivers/media/i2c/imx290.c
-@@ -370,7 +370,8 @@ static inline int __always_unused imx290_read_reg(struct imx290 *imx290, u16 add
+@@ -790,10 +790,10 @@ static int imx290_get_regulators(struct device *dev, struct imx290 *imx290)
+ {
+ 	unsigned int i;
  
- 	ret = regmap_read(imx290->regmap, addr, &regval);
- 	if (ret) {
--		dev_err(imx290->dev, "I2C read failed for addr: %x\n", addr);
-+		dev_err(imx290->dev, "Failed to read register 0x%04x: %d\n",
-+			addr, ret);
+-	for (i = 0; i < IMX290_NUM_SUPPLIES; i++)
++	for (i = 0; i < ARRAY_SIZE(imx290->supplies); i++)
+ 		imx290->supplies[i].supply = imx290_supply_name[i];
+ 
+-	return devm_regulator_bulk_get(dev, IMX290_NUM_SUPPLIES,
++	return devm_regulator_bulk_get(dev, ARRAY_SIZE(imx290->supplies),
+ 				       imx290->supplies);
+ }
+ 
+@@ -852,7 +852,8 @@ static int imx290_power_on(struct device *dev)
  		return ret;
  	}
  
-@@ -385,7 +386,8 @@ static int imx290_write_reg(struct imx290 *imx290, u16 addr, u8 value)
- 
- 	ret = regmap_write(imx290->regmap, addr, value);
+-	ret = regulator_bulk_enable(IMX290_NUM_SUPPLIES, imx290->supplies);
++	ret = regulator_bulk_enable(ARRAY_SIZE(imx290->supplies),
++				    imx290->supplies);
  	if (ret) {
--		dev_err(imx290->dev, "I2C write failed for addr: %x\n", addr);
-+		dev_err(imx290->dev, "Failed to write register 0x%04x: %d\n",
-+			addr, ret);
- 		return ret;
- 	}
+ 		dev_err(dev, "Failed to enable regulators\n");
+ 		clk_disable_unprepare(imx290->xclk);
+@@ -876,7 +877,7 @@ static int imx290_power_off(struct device *dev)
  
+ 	clk_disable_unprepare(imx290->xclk);
+ 	gpiod_set_value_cansleep(imx290->rst_gpio, 1);
+-	regulator_bulk_disable(IMX290_NUM_SUPPLIES, imx290->supplies);
++	regulator_bulk_disable(ARRAY_SIZE(imx290->supplies), imx290->supplies);
+ 
+ 	return 0;
+ }
 -- 
 Regards,
 
