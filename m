@@ -2,46 +2,47 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5B8CC5FFCF6
-	for <lists+linux-media@lfdr.de>; Sun, 16 Oct 2022 03:46:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 79B035FFCFB
+	for <lists+linux-media@lfdr.de>; Sun, 16 Oct 2022 03:53:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229704AbiJPBqS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 15 Oct 2022 21:46:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43896 "EHLO
+        id S229633AbiJPBxi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 15 Oct 2022 21:53:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54132 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229570AbiJPBqR (ORCPT
+        with ESMTP id S229510AbiJPBxh (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 15 Oct 2022 21:46:17 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 070A911C18;
-        Sat, 15 Oct 2022 18:46:17 -0700 (PDT)
+        Sat, 15 Oct 2022 21:53:37 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CCEB43686C
+        for <linux-media@vger.kernel.org>; Sat, 15 Oct 2022 18:53:35 -0700 (PDT)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2AB1F30A;
-        Sun, 16 Oct 2022 03:46:15 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1A14C30A;
+        Sun, 16 Oct 2022 03:53:32 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1665884775;
-        bh=YDOM3lMyh9M7owe/+bGuu7XAjVQIxwukPr6wy9ip+ZA=;
+        s=mail; t=1665885213;
+        bh=4Li8Krzuko7zJWSyHX3Ah8ThtkckdDSQQAOp16tGr0c=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=JhBrkoOYmBN4vwTYObCYAxN4kWWC3ONin6NOt6GGwySDZUNsHSfv3L5f4gB0V+NcV
-         aPYpr7Z3lwyeSY2bVrCgXZR9rWTfv8nLGMT9IhvYpj1oq2vTqFVtV5lru3SkoRLnNC
-         uSWAhZKuAB4W7QX/Ej4ODD18ooQqSBhbXkfhnMKU=
-Date:   Sun, 16 Oct 2022 04:45:52 +0300
+        b=KJSj0R+RW76YkSW3t3cIYH84lRjltkITiyUcZFt+vF+rf1uWTs6db8YOdSbBRRbtw
+         9Lk7y+BZQHY0qVegr/VODgE/EmhaIe97iDSYujWK91GfEcLBkMzsEdhN4/FrhQQN6Q
+         ZsfOYlxbI/SHI0sdW7aj9xX9uIn7R8CADq7aSy0w=
+Date:   Sun, 16 Oct 2022 04:53:10 +0300
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     quic_mmitkov@quicinc.com
-Cc:     linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        robert.foss@linaro.org, akapatra@quicinc.com, jzala@quicinc.com,
-        todor.too@gmail.com, agross@kernel.org,
-        konrad.dybcio@somainline.org, mchehab@kernel.org,
-        bryan.odonoghue@linaro.org, cgera@qti.qualcomm.com,
-        gchinnab@quicinc.com, ayasan@qti.qualcomm.com
-Subject: Re: [PATCH v4 0/4] media: camss: sm8250: Virtual channels support
- for SM8250
-Message-ID: <Y0tiUGQa/oAis/jN@pendragon.ideasonboard.com>
-References: <20221013121255.1977-1-quic_mmitkov@quicinc.com>
+To:     Dave Stevenson <dave.stevenson@raspberrypi.com>
+Cc:     Jacopo Mondi <jacopo@jmondi.org>,
+        Krzysztof =?utf-8?Q?Ha=C5=82asa?= <khalasa@piap.pl>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@iki.fi>, linux-media@vger.kernel.org
+Subject: Re: [PATCH 05/10] media: ar0521: Add LINK_FREQ control
+Message-ID: <Y0tkBvcufgwSe/AT@pendragon.ideasonboard.com>
+References: <20221005190613.394277-1-jacopo@jmondi.org>
+ <20221005190613.394277-6-jacopo@jmondi.org>
+ <CAPY8ntB_JQHJQH7DChEyou-RSRTcEF-Uy=+3Ly06MUtg0TCZ6A@mail.gmail.com>
+ <Y0AxI2RKxomjEb2t@pendragon.ideasonboard.com>
+ <CAPY8ntCh4UFT5swHvwPj7xz8wPH3MJB-aJjEd9bCgXVubRyp5w@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20221013121255.1977-1-quic_mmitkov@quicinc.com>
+In-Reply-To: <CAPY8ntCh4UFT5swHvwPj7xz8wPH3MJB-aJjEd9bCgXVubRyp5w@mail.gmail.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
         autolearn=ham autolearn_force=no version=3.4.6
@@ -51,101 +52,97 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello Milen,
+Hi Dave,
 
-Thank you for the patches.
+On Fri, Oct 07, 2022 at 03:26:55PM +0100, Dave Stevenson wrote:
+> On Fri, 7 Oct 2022 at 15:01, Laurent Pinchart wrote:
+> > On Thu, Oct 06, 2022 at 04:10:10PM +0100, Dave Stevenson wrote:
+> > > On Wed, 5 Oct 2022 at 20:07, Jacopo Mondi wrote:
+> > > >
+> > > > Add support for V4L2_CID_LINK_FREQ which currently reports a single
+> > > > hard-coded frequency which depends on the fixed pixel clock.
+> > > >
+> > > > This will change in the next patches where the pixel rate will be
+> > > > computed from the desired link_frequency.
+> > > >
+> > > > Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
+> > >
+> > > Looks valid based on the current pixel rate of 184MPix/s, 8bpp,
+> > > divided by 4 lanes, and DDR.
+> > >
+> > > > ---
+> > > >  drivers/media/i2c/ar0521.c | 9 +++++++++
+> > > >  1 file changed, 9 insertions(+)
+> > > >
+> > > > diff --git a/drivers/media/i2c/ar0521.c b/drivers/media/i2c/ar0521.c
+> > > > index 21649aecf442..c5410b091654 100644
+> > > > --- a/drivers/media/i2c/ar0521.c
+> > > > +++ b/drivers/media/i2c/ar0521.c
+> > > > @@ -90,6 +90,10 @@ static const char * const ar0521_supply_names[] = {
+> > > >         "vaa",          /* Analog (2.7V) supply */
+> > > >  };
+> > > >
+> > > > +static const s64 ar0521_link_frequencies[] = {
+> > > > +       184000000,
+> > > > +};
+> > > > +
+> > > >  struct ar0521_ctrls {
+> > > >         struct v4l2_ctrl_handler handler;
+> > > >         struct v4l2_ctrl *ana_gain;
+> > > > @@ -104,6 +108,7 @@ struct ar0521_ctrls {
+> > > >         };
+> > > >         struct v4l2_ctrl *pixrate;
+> > > >         struct v4l2_ctrl *exposure;
+> > > > +       struct v4l2_ctrl *link_freq;
+> > > >         struct v4l2_ctrl *test_pattern;
+> > > >  };
+> > > >
+> > > > @@ -655,6 +660,10 @@ static int ar0521_init_controls(struct ar0521_dev *sensor)
+> > > >         ctrls->exposure = v4l2_ctrl_new_std(hdl, ops, V4L2_CID_EXPOSURE, 0,
+> > > >                                             65535, 1, 360);
+> > > >
+> > > > +       ctrls->link_freq = v4l2_ctrl_new_int_menu(hdl, ops, V4L2_CID_LINK_FREQ,
+> > > > +                                       ARRAY_SIZE(ar0521_link_frequencies) - 1,
+> > > > +                                       0, ar0521_link_frequencies);
+> > > > +
+> > >
+> > > Admittedly there is only one entry, but did you want to make it a read
+> > > only control? With no case for it in s_ctrl, you'll get errors thrown
+> > > from the control handler framework.
+> >
+> > I'd make it writable even if there's a single entry, so that userspace
+> > won't need special logic. It will also prepare for support of multiple
+> > entries in the future.
+> 
+> Do you really see a situation where userspace will be configuring link
+> frequency instead of DT / ACPI?
+> A quick search seems to imply that only 1 current driver supports a
+> r/w link frequency - mt9v032. That would imply that having a
+> controllable link frequency would require the special logic in
+> userspace.
 
-I'll try to give this an initial review soon.
+Looking at the mainline kernel only, the N9, N950 and Librem5 all
+specify multiple link frequencies, and so does the sdm845-db845c
+development board.
 
-What hardware platform would you recommend, if any, if I wanted to test
-this series ? Ideally that would be an off-the-shelf development board
-that can easily be sourced, and that wouldn't require out-of-tree
-drivers (beside perhaps for the camera sensor if it's not in mainline
-yet) to test the camss driver (ethernet would be very appreciated, so
-would display support).
+This indeed requires specific logic in userspace, and to be honest, I
+haven't really thought about how it would be implemented. Sakari has
+more experience than me here, he may be able to shed some light.
 
-On Thu, Oct 13, 2022 at 03:12:51PM +0300, quic_mmitkov@quicinc.com wrote:
-> From: Milen Mitkov <quic_mmitkov@quicinc.com>
-> 
-> For v4:
-> - fixes the warning reported by the kernel test robot
-> - tiny code change to enable the vc functionality with the partially-applied
->   multistream patches on linux-next (tested on tag:next-20221010)
-> 
-> For v3:
-> - setting the sink pad format on the CSID entity will now propagate the
->   format to the source pads to keep the subdev in a valid internal state.
-> - code syntax improvements
-> 
-> For v2:
-> - code syntax improvements
-> - The info print for the enabled VCs was demoted to a dbg print. Can be
->   enabled with dynamic debug, e.g.:
-> echo "file drivers/media/platform/qcom/camss/* +p" > /sys/kernel/debug/dynamic_debug/control
-> 
-> NOTE: These changes depend on the multistream series, that as of yet
-> is still not merged upstream. However, part of the
-> multistream patches are merged in linux-next (tested on
-> tag:next-20221010), including the patch that introduces the
-> video_device_pipeline_alloc_start() functionality. This allows 
-> applying and using this series on linux-next without applying the
-> complete multistream set.
-> 
-> The CSID hardware on SM8250 can demux the input data stream into
-> maximum of 4 multiple streams depending on virtual channel (vc)
-> or data type (dt) configuration.
-> 
-> Situations in which demuxing is useful:
-> - HDR sensors that produce a 2-frame HDR output, e.g. a light and a dark frame
->   (the setup we used for testing, with the imx412 sensor),
->   or a 3-frame HDR output - light, medium-lit, dark frame.
-> - sensors with additional metadata that is streamed over a different
->   virtual channel/datatype.
-> - sensors that produce frames with multiple resolutions in the same pixel
->   data stream
-> 
-> With these changes, the CSID entity has, as it did previously, a single
-> sink port (0), and always exposes 4 source ports (1, 2,3, 4). The
-> virtual channel configuration is determined by which of the source ports
-> are linked to an output VFE line. For example, the link below will
-> configure the CSID driver to enable vc 0 and vc 1:
-> 
-> media-ctl -l '"msm_csid0":1->"msm_vfe0_rdi0":0[1]'
-> media-ctl -l '"msm_csid0":2->"msm_vfe0_rdi1":0[1]'
-> 
-> which will be demuxed and propagated into /dev/video0
-> and /dev/video1 respectively. With this, the userspace can use
-> any normal V4L2 client app to start/stop/queue/dequeue from these
-> video nodes. Tested with the yavta app.
-> 
-> The format of each RDI channel of the used VFE(s) (msm_vfe0_rdi0,
-> msm_vfe0_rdi1,...) must also be configured explicitly.
-> 
-> Note that in order to keep a valid internal subdevice state,
-> setting the sink pad format of the CSID subdevice will propagate
-> this format to the source pads. However, since the CSID hardware
-> can demux the input stream into several streams each of which can 
-> be a different format, in that case each source pad's 
-> format must be set individually, e.g.:
-> 
-> media-ctl -V '"msm_csid0":1[fmt:SRGGB10/3840x2160]'
-> media-ctl -V '"msm_csid0":2[fmt:SRGGB10/960x540]'
-> 
-> Milen Mitkov (4):
->   media: camss: sm8250: Virtual channels for CSID
->   media: camss: vfe: Reserve VFE lines on stream start and link to CSID
->   media: camss: vfe-480: Multiple outputs support for SM8250
->   media: camss: sm8250: Pipeline starting and stopping for multiple
->     virtual channels
-> 
->  .../platform/qcom/camss/camss-csid-gen2.c     | 54 ++++++++++------
->  .../media/platform/qcom/camss/camss-csid.c    | 44 +++++++++----
->  .../media/platform/qcom/camss/camss-csid.h    | 11 +++-
->  .../media/platform/qcom/camss/camss-vfe-480.c | 61 ++++++++++++-------
->  drivers/media/platform/qcom/camss/camss-vfe.c |  7 +++
->  .../media/platform/qcom/camss/camss-video.c   | 21 ++++++-
->  drivers/media/platform/qcom/camss/camss.c     |  2 +-
->  7 files changed, 140 insertions(+), 60 deletions(-)
+> I'm always very cautious about drivers that are linking PIXEL_RATE and
+> LINK_FREQ - most of the sensors are tending to have 2 (or more) PLLs,
+> and there is a FIFO between the image sensor (PIXEL_RATE) and the MIPI
+> block (LINK_FREQ). imx290 is certainly wrong (pixel rate does not
+> change with mode, but link freq does), and I'm fairly certain that
+> ov7251 is as well (pixel rate is 48MPix/s whether at 240 or 319.2MHz
+> link frequency). Patches coming soon for both.
+
+That's a good point, different link frequencies may or may not result in
+different pixel rates.
+
+> > > >         ctrls->test_pattern = v4l2_ctrl_new_std_menu_items(hdl, ops,
+> > > >                                         V4L2_CID_TEST_PATTERN,
+> > > >                                         ARRAY_SIZE(test_pattern_menu) - 1,
 
 -- 
 Regards,
