@@ -2,57 +2,70 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D5515600368
-	for <lists+linux-media@lfdr.de>; Sun, 16 Oct 2022 23:03:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 97792600401
+	for <lists+linux-media@lfdr.de>; Mon, 17 Oct 2022 00:53:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229711AbiJPVDq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 16 Oct 2022 17:03:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33858 "EHLO
+        id S229738AbiJPWx4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 16 Oct 2022 18:53:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60490 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229572AbiJPVDo (ORCPT
+        with ESMTP id S229737AbiJPWxz (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 16 Oct 2022 17:03:44 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E02B367B7;
-        Sun, 16 Oct 2022 14:03:43 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8387AE65;
-        Sun, 16 Oct 2022 23:03:40 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1665954220;
-        bh=/HjB+raKBthocv/QhAd0ZHFd1QaretPzH2sxa49Rnm8=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=HHQswEjbNdQK+pIeuX/gPUDU6UkSWamMHeVO69fBmy9ka8tdq0WY4Bh1p9070Pt2K
-         zIUAm28hoSgNMriJl7oGHFfLk16rZTUzjm8xELgK+g8GgPzdRKkz94FkiD9URRysI+
-         y/0GtnFDio77gnEmEy37hAjxZeTnmQNv4OJkWfOQ=
-Date:   Mon, 17 Oct 2022 00:03:17 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     Prabhakar <prabhakar.csengg@gmail.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
+        Sun, 16 Oct 2022 18:53:55 -0400
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F7D72F02A
+        for <linux-media@vger.kernel.org>; Sun, 16 Oct 2022 15:53:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1665960834; x=1697496834;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=h3pwOTiTqSZ5/x49xkX4HnR7XYgwJBwviD1Gqjl0LLE=;
+  b=bgMQfJ/b92gm2dpksm8hpwWo5t5ZsR0+c18WfKqq2LxYxJTh1jjwKKL0
+   zm4iTzn9ny7SFa1tzVJGWi2Nk8u729WUb6WD0S1DyD//X/y2PTkxd++V1
+   fdfNL/NUadLVr/JZCzyorzlUQpZYydBmzabsyXspg8f+Gibb/YsoKQUvE
+   6QV8WH5ypuHh4AX9wkm7uVZL7L6QfrQhhelmdVO6dKD5CPgsRM0htm+3J
+   ALpVNETy9XdZgqda0K4tpFnb5+QF+muIS0HEb7AcAbYuFHLjlFXccpe+D
+   /5BfpeAv5qQHVeOVTgMjQ51M48K5OnZ76fLiEQbzwDHSC+BClTMbeLqLF
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10502"; a="306748478"
+X-IronPort-AV: E=Sophos;i="5.95,190,1661842800"; 
+   d="scan'208";a="306748478"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2022 15:53:53 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10502"; a="691142505"
+X-IronPort-AV: E=Sophos;i="5.95,190,1661842800"; 
+   d="scan'208";a="691142505"
+Received: from punajuuri.fi.intel.com (HELO paasikivi.fi.intel.com) ([10.237.72.43])
+  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2022 15:53:50 -0700
+Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
+        by paasikivi.fi.intel.com (Postfix) with SMTP id 904F720244;
+        Mon, 17 Oct 2022 01:37:39 +0300 (EEST)
+Date:   Sun, 16 Oct 2022 22:37:39 +0000
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        niklas.soderlund+renesas@ragnatech.se,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Shawn Tu <shawnx.tu@intel.com>,
-        Jacopo Mondi <jacopo@jmondi.org>, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH v2 4/5] media: i2c: ov5645: Return zero for s_stream(0)
-Message-ID: <Y0xxlTP53dwx8VD+@pendragon.ideasonboard.com>
-References: <20221014183459.181567-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20221014183459.181567-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <Y0pSYfw+VDxXv85b@pendragon.ideasonboard.com>
- <Y0snkMEp9WqGtzom@paasikivi.fi.intel.com>
- <Y0tA4cZBdwCOkaOs@pendragon.ideasonboard.com>
- <Y0xnXM+Iw5OkdKj6@paasikivi.fi.intel.com>
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Kishon Vijay Abraham <kishon@ti.com>,
+        satish.nagireddy@getcruise.com, Tomasz Figa <tfiga@chromium.org>
+Subject: Re: [PATCH v15 11/19] media: subdev: use streams in
+ v4l2_subdev_link_validate()
+Message-ID: <Y0yHs5tOz/MyMcF3@paasikivi.fi.intel.com>
+References: <20221003121852.616745-1-tomi.valkeinen@ideasonboard.com>
+ <20221003121852.616745-12-tomi.valkeinen@ideasonboard.com>
+ <Y0k//ATM3oDFdn+a@paasikivi.fi.intel.com>
+ <7007e416-e9ee-008a-bd63-3a01b8a02af3@ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Y0xnXM+Iw5OkdKj6@paasikivi.fi.intel.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+In-Reply-To: <7007e416-e9ee-008a-bd63-3a01b8a02af3@ideasonboard.com>
+X-Spam-Status: No, score=-4.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -60,70 +73,154 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sakari,
+Moi,
 
-On Sun, Oct 16, 2022 at 08:19:40PM +0000, Sakari Ailus wrote:
-> On Sun, Oct 16, 2022 at 02:23:13AM +0300, Laurent Pinchart wrote:
-> > On Sat, Oct 15, 2022 at 09:35:12PM +0000, Sakari Ailus wrote:
-> > > On Sat, Oct 15, 2022 at 09:25:37AM +0300, Laurent Pinchart wrote:
-> > > > On Fri, Oct 14, 2022 at 07:34:58PM +0100, Prabhakar wrote:
-> > > > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > > > > 
-> > > > > Always return zero while stopping the stream as the caller will ignore the
-> > > > > return value.
-> > > > > 
-> > > > > This patch drops checking the return value of ov5645_write_reg() and
-> > > > > continues further in the code path while stopping stream. The user anyway
-> > > > > gets an error message in case ov5645_write_reg() fails.
-> > > > 
-> > > > Continuing all the way to pm_runtime_put() is fine, but I don't think
-> > > > the function should return 0. It's not up to the driver to decide if a
-> > > > failure would be useful to signal to the caller or not.
+On Fri, Oct 14, 2022 at 02:10:35PM +0300, Tomi Valkeinen wrote:
+> On 14/10/2022 13:54, Sakari Ailus wrote:
+> > Moi,
+> > 
+> > On Mon, Oct 03, 2022 at 03:18:44PM +0300, Tomi Valkeinen wrote:
+> > > Update v4l2_subdev_link_validate() to use routing and streams for
+> > > validation.
 > > > 
-> > > If the function returns an error when disabling streaming, what is the
-> > > expected power state of the device after this?
+> > > Instead of just looking at the format on the pad on both ends of the
+> > > link, the routing tables are used to collect all the streams going from
+> > > the source to the sink over the link, and the streams' formats on both
+> > > ends of the link are verified.
+> > > 
+> > > Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> > > ---
+> > >   drivers/media/v4l2-core/v4l2-subdev.c | 182 +++++++++++++++++++++++---
+> > >   1 file changed, 162 insertions(+), 20 deletions(-)
+> > > 
+> > > diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
+> > > index be778e619694..1cea6ec750c0 100644
+> > > --- a/drivers/media/v4l2-core/v4l2-subdev.c
+> > > +++ b/drivers/media/v4l2-core/v4l2-subdev.c
+> > > @@ -1014,7 +1014,7 @@ int v4l2_subdev_link_validate_default(struct v4l2_subdev *sd,
+> > >   EXPORT_SYMBOL_GPL(v4l2_subdev_link_validate_default);
+> > >   static int
+> > > -v4l2_subdev_link_validate_get_format(struct media_pad *pad,
+> > > +v4l2_subdev_link_validate_get_format(struct media_pad *pad, u32 stream,
+> > >   				     struct v4l2_subdev_format *fmt)
+> > >   {
+> > >   	if (is_media_entity_v4l2_subdev(pad->entity)) {
+> > > @@ -1023,7 +1023,11 @@ v4l2_subdev_link_validate_get_format(struct media_pad *pad,
+> > >   		fmt->which = V4L2_SUBDEV_FORMAT_ACTIVE;
+> > >   		fmt->pad = pad->index;
+> > > -		return v4l2_subdev_call_state_active(sd, pad, get_fmt, fmt);
+> > > +		fmt->stream = stream;
+> > > +
+> > > +		return v4l2_subdev_call(sd, pad, get_fmt,
+> > > +					v4l2_subdev_get_locked_active_state(sd),
+> > > +					fmt);
+> > >   	}
+> > >   	WARN(pad->entity->function != MEDIA_ENT_F_IO_V4L,
+> > > @@ -1033,31 +1037,169 @@ v4l2_subdev_link_validate_get_format(struct media_pad *pad,
+> > >   	return -EINVAL;
+> > >   }
+> > > +#if defined(CONFIG_VIDEO_V4L2_SUBDEV_API)
+> > > +
+> > > +static void __v4l2_link_validate_get_streams(struct media_pad *pad,
+> > > +					     u64 *streams_mask)
+> > > +{
+> > > +	struct v4l2_subdev_route *route;
+> > > +	struct v4l2_subdev_state *state;
+> > > +	struct v4l2_subdev *subdev;
+> > > +
+> > > +	subdev = media_entity_to_v4l2_subdev(pad->entity);
+> > > +
+> > > +	*streams_mask = 0;
+> > > +
+> > > +	state = v4l2_subdev_get_locked_active_state(subdev);
+> > > +	if (WARN_ON(!state))
+> > > +		return;
+> > > +
+> > > +	for_each_active_route(&state->routing, route) {
+> > > +		u32 route_pad;
+> > > +		u32 route_stream;
+> > > +
+> > > +		if (pad->flags & MEDIA_PAD_FL_SOURCE) {
+> > > +			route_pad = route->source_pad;
+> > > +			route_stream = route->source_stream;
+> > > +		} else {
+> > > +			route_pad = route->sink_pad;
+> > > +			route_stream = route->sink_stream;
+> > > +		}
+> > > +
+> > > +		if (route_pad != pad->index)
+> > > +			continue;
+> > > +
+> > > +		*streams_mask |= BIT_ULL(route_stream);
+> > > +	}
+> > > +}
+> > > +
+> > > +#endif /* CONFIG_VIDEO_V4L2_SUBDEV_API */
+> > > +
+> > > +static void v4l2_link_validate_get_streams(struct media_pad *pad,
+> > > +					   u64 *streams_mask)
+> > > +{
+> > > +	struct v4l2_subdev *subdev = media_entity_to_v4l2_subdev(pad->entity);
+> > > +
+> > > +	if (!(subdev->flags & V4L2_SUBDEV_FL_STREAMS)) {
+> > > +		/* Non-streams subdevs have an implicit stream 0 */
+> > > +		*streams_mask = BIT_ULL(0);
+> > > +		return;
+> > > +	}
+> > > +
+> > > +#if defined(CONFIG_VIDEO_V4L2_SUBDEV_API)
+> > > +	__v4l2_link_validate_get_streams(pad, streams_mask);
+> > > +#else
+> > > +	/* This shouldn't happen */
+> > > +	*streams_mask = 0;
+> > > +#endif
+> > > +}
+> > > +
+> > > +static int v4l2_subdev_link_validate_locked(struct media_link *link)
+> > > +{
+> > > +	struct v4l2_subdev *sink_subdev =
+> > > +		media_entity_to_v4l2_subdev(link->sink->entity);
+> > > +	struct device *dev = sink_subdev->entity.graph_obj.mdev->dev;
+> > > +	u64 source_streams_mask;
+> > > +	u64 sink_streams_mask;
+> > > +	u64 dangling_sink_streams;
+> > > +	u32 stream;
+> > > +	int ret;
+> > > +
+> > > +	dev_dbg(dev, "validating link \"%s\":%u -> \"%s\":%u\n",
+> > > +		link->source->entity->name, link->source->index,
+> > > +		link->sink->entity->name, link->sink->index);
+> > > +
+> > > +	v4l2_link_validate_get_streams(link->source, &source_streams_mask);
+> > > +	v4l2_link_validate_get_streams(link->sink, &sink_streams_mask);
+> > > +
+> > > +	/*
+> > > +	 * It is ok to have more source streams than sink streams as extra
+> > > +	 * source streams can just be ignored by the receiver, but having extra
+> > > +	 * sink streams is an error as streams must have a source.
+> > > +	 */
+> > > +	dangling_sink_streams = (source_streams_mask ^ sink_streams_mask) &
+> > > +				sink_streams_mask;
+> > > +	if (dangling_sink_streams) {
+> > > +		dev_err(dev, "Dangling sink streams: mask %#llx\n",
+> > > +			dangling_sink_streams);
+> > > +		return -EINVAL;
+> > > +	}
+> > > +
+> > > +	/* Validate source and sink stream formats */
+> > > +
+> > > +	for_each_set_bit(stream, (void *)&sink_streams_mask, 64) {
 > > 
-> > That's up to us to decide :-)
-> > 
-> > > The contract between the caller and the callee is that the state is not
-> > > changed if there is an error.
-> > 
-> > For most APIs, but that's not universal.
-> > 
-> > > This is a special case as very few callers
-> > > check the return value for streamoff operation and those that do generally
-> > > just print something. I've never seen a caller trying to prevent streaming
-> > > off in this case, for instance.
-> > 
-> > I think the stream off call should proceed and try to power off the
-> > device even if an error occurs along the way, i.e. it shouldn't return
-> > upon the first detected error.
-> > 
-> > > Of course we could document that streaming off always counts as succeeded
-> > > (e.g. decreasing device's runtime PM usage_count) while it could return an
-> > > informational error code. But I wonder if anyone would ever benefit from
-> > > that somehow. :-)
-> > 
-> > I think it could be useful to propagate errors up to inform the user
-> > that something wrong happened. That would involve fixing lots of drivers
-> > along the call chain though, so there's no urgency for the ov5645 to do
-> > so, but isn't it better to propagate the error code instead of hiding
-> > the issue ?
+> > Does this work as expected? The second argument is expected to be unsigned
+> > long (or an array of two of them) whereas you have a u64.
 > 
-> I also don't think hiding the issue would be the best thing to do, but that
-> wouldn't likely be a big problem either.
-> 
-> How about printing a warning in the wrapper while returning zero to the
-> original caller? This would keep the API intact while still leaving a trace
-> on something failing. Of course the driver is also free to print whatever
-> messages it likes.
+> Where do you see that? I thought find_next_bit (used by for_each_set_bit) is
+> given a start address and arbitrarily large bit-size number.
 
-While I think error propagation could be more useful in the long run,
-printing a message in the wrapper is a good idea. I like centralized
-error handling, it has a tendency to go wrong when left to individual
-drivers.
+sink_streams_mask is a u64 while for_each_set_bit() expects an array of
+unsigned longs. Endianness matters.
 
 -- 
-Regards,
+Terveisin,
 
-Laurent Pinchart
+Sakari Ailus
