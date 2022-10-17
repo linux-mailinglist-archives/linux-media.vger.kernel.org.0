@@ -2,67 +2,80 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5C12D6010A4
-	for <lists+linux-media@lfdr.de>; Mon, 17 Oct 2022 15:58:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E95AB601103
+	for <lists+linux-media@lfdr.de>; Mon, 17 Oct 2022 16:22:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229779AbiJQN6l (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 17 Oct 2022 09:58:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39644 "EHLO
+        id S230298AbiJQOWR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 17 Oct 2022 10:22:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40312 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230272AbiJQN6X (ORCPT
+        with ESMTP id S230161AbiJQOWP (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 17 Oct 2022 09:58:23 -0400
-Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com [IPv6:2a00:1450:4864:20::62c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C6757647D2
-        for <linux-media@vger.kernel.org>; Mon, 17 Oct 2022 06:58:16 -0700 (PDT)
-Received: by mail-ej1-x62c.google.com with SMTP id sc25so25067373ejc.12
-        for <linux-media@vger.kernel.org>; Mon, 17 Oct 2022 06:58:15 -0700 (PDT)
+        Mon, 17 Oct 2022 10:22:15 -0400
+Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com [IPv6:2a00:1450:4864:20::429])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF9BC2408A
+        for <linux-media@vger.kernel.org>; Mon, 17 Oct 2022 07:22:13 -0700 (PDT)
+Received: by mail-wr1-x429.google.com with SMTP id bu30so18701684wrb.8
+        for <linux-media@vger.kernel.org>; Mon, 17 Oct 2022 07:22:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=raspberrypi.com; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=l6qb7EnwWd+MujPJIdP+A0aq3ZXuoSEIdKGZ1nIKSBU=;
-        b=WSmB0k/y+owfGHpr7XZueKvVYyAsF/HG2UJkVCUUx80g+eJoYbIqb/Dd3iKZLzj+2a
-         HlXroWuTmESs69/ky6M71ERjUYT0Vgsf4U5UkSc+wysCnkS4//hW4yDcQOwaXUBF4Q0l
-         QlzgDugDExrrxJbmObFjv51ilttgLbTJ6OxO3DA/mqtlTFNdZ9H9Hkj2Trmw1KWe4XRJ
-         mzHAbc0kqWVnDlm4nJvp4rcv9pVxJXTXVZoQ60+RffoBNNYo5wcQQecPszl5ii9yD+y1
-         jqu6e6CBQEPtJlqtbAG6nBWTvYhhzBZOweeGHTMEqmI6aYFNMdv3uUnS8GM6/rliDWd4
-         9hhw==
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=TuOMl3iT0yyNJ+0dzGqfmuaNm/ol+M26qoUuhqpcYfk=;
+        b=DC4nCcnDdyHi5kJ5tIjaAAHoVhtdOgolEGfdfypoRv+Yn9htV7bhLNcZRt8oPphBaA
+         d29dVNuVRDpw9usB08oNYmOQxpoTgFKDgobVYegn4PXITiITPzRhyrZmxyL2M5WPUkiq
+         pQY3LvoJ+pFDi+DrR43UbQcgMTyqpOXULqRFeiUdv9La0Qe/+Diwkcqkc7lQGbNzOJWz
+         6FIRRddUluOvDg4AJ60fcBAgKjfS0FwfJHkrffctCXAWhP6wNQSgge9k5RJAyY8veeAG
+         xKdfQo/fMGMLvvOQ9u/6yXanq1Zl9VC8G1/QuRTCnGxgCzJ0ACeYreJ8QO6cT6XJ0VhV
+         9v/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=l6qb7EnwWd+MujPJIdP+A0aq3ZXuoSEIdKGZ1nIKSBU=;
-        b=5qQLrbBr+kneJP+8150JDaiOTVOdEykYkZg3MTo6m1bTA86YpJ2qCvImG+xkb/tSWG
-         VSwurFxWF21GlJClH6BklcRJJkoS0nqsm1pX9LuPPMsdg/UMxBibr3y1GM+i2sdf0sml
-         4PRmIG1L1Ev6nc4lUXVHzniECEp1NMQ6aiiu1hwKZm6doNT0HtT7DQyKnhg16o6XbplY
-         9MZ3x89mwPZap32QbBraTyJjbNaMpk0EPGtjnYv901LQZXmEvJw7V9ybdtzBTECmHuP2
-         rc2rvedODGBlysZiGPxpKlIOVUs1O+xuhDmYDwEyi5Xn50LuDDwbawnpt3HCxsdiLglc
-         GjRw==
-X-Gm-Message-State: ACrzQf3LsFPan32KoloYJ+U/Kpov5MOoOrCq6bQIU9ZyiwdjwR0auFtC
-        UIUNe5gdfuLz6/zQq202liawI/uxIPMyuWePASBsRQ==
-X-Google-Smtp-Source: AMsMyM4Ov26cj1GiYz2ZhZkbdyGIWCXwoTehLQKTtCSomF/ccslqb6E03xaDlUVPloPpohLqaFpy9ZrmfmEJj3op23o=
-X-Received: by 2002:a17:907:97c1:b0:791:98b8:9ab8 with SMTP id
- js1-20020a17090797c100b0079198b89ab8mr765215ejc.425.1666015094221; Mon, 17
- Oct 2022 06:58:14 -0700 (PDT)
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=TuOMl3iT0yyNJ+0dzGqfmuaNm/ol+M26qoUuhqpcYfk=;
+        b=BZRJYYE0l4chyCG1VPcqWM4aE+jKriPpTUYnuEsY2WxQWdZJAGJGH8OlfcJQKddxDT
+         hQ3BVDSrn/j4YM8jIFM58kChSVX4kZRdB+Fwk9QeUH24vME8bP5u/2nFdB0oprSo5ivh
+         9797241h3hJ1CnNMh9oOdUl6eXuztwrbfXDuXdwXIsr3nxkZD1AkMLrxswwhC16191R/
+         Yox5exZTYN03TB3jGqt5sVapvfbtxCmbMUtGdA1rW6KgaOFrWexBjEafJPW8XAo6CRwa
+         uZHqpmqmT6t8rzA5SviScLwKeFy7U2KfSybnRJnF4Ym2VUki8NkZ0wHnuJP1c++b2LBO
+         E6/A==
+X-Gm-Message-State: ACrzQf0r8J3wKHdXLlBV+dFFCbRbUrQ1ZSHFIfO6vF+Csqw42XCUo1Bk
+        3yq3z/62NT05Z49Nb0SotSJlwA==
+X-Google-Smtp-Source: AMsMyM6VdbLnrsRYaMWBmueogmtwKtHU7EAurWG76b8EBxq9HrxDAgCDdbwwdVXl5moBKswGY2TO5Q==
+X-Received: by 2002:a5d:526d:0:b0:22e:4f4d:2546 with SMTP id l13-20020a5d526d000000b0022e4f4d2546mr6410119wrc.464.1666016532297;
+        Mon, 17 Oct 2022 07:22:12 -0700 (PDT)
+Received: from [192.168.0.162] (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
+        by smtp.gmail.com with ESMTPSA id o5-20020a5d62c5000000b00228cbac7a25sm8590928wrv.64.2022.10.17.07.22.11
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 17 Oct 2022 07:22:11 -0700 (PDT)
+Message-ID: <89dcd314-37bb-b944-b7e6-b6c71a3514fc@linaro.org>
+Date:   Mon, 17 Oct 2022 15:22:10 +0100
 MIME-Version: 1.0
-References: <20221016061523.30127-1-laurent.pinchart@ideasonboard.com> <20221016061523.30127-2-laurent.pinchart@ideasonboard.com>
-In-Reply-To: <20221016061523.30127-2-laurent.pinchart@ideasonboard.com>
-From:   Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date:   Mon, 17 Oct 2022 14:57:58 +0100
-Message-ID: <CAPY8ntCH5qc9cMHEjyX2K-2spibi=zp8vdvexz1Coouyp5sKWg@mail.gmail.com>
-Subject: Re: [PATCH v2 01/20] media: dt-bindings: Convert imx290.txt to YAML
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, Sakari Ailus <sakari.ailus@iki.fi>,
-        Manivannan Sadhasivam <mani@kernel.org>,
-        Alexander Stein <alexander.stein@ew.tq-group.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        devicetree@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.1
+Subject: Re: [PATCH v4 0/4] media: camss: sm8250: Virtual channels support for
+ SM8250
+Content-Language: en-US
+To:     Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        akapatra@quicinc.com, jzala@quicinc.com,
+        linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
+        quic_mmitkov@quicinc.com, robert.foss@linaro.org,
+        todor.too@gmail.com
+Cc:     agross@kernel.org, konrad.dybcio@somainline.org,
+        mchehab@kernel.org, cgera@qti.qualcomm.com, gchinnab@quicinc.com,
+        ayasan@qti.qualcomm.com, laurent.pinchart@ideasonboard.com,
+        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+References: <20221013121255.1977-1-quic_mmitkov@quicinc.com>
+ <1a7ab9da-e7fb-9077-5d6e-705629bb2b10@linaro.org>
+ <166601200198.3760285.1520904024668899853@Monstersaurus>
+From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+In-Reply-To: <166601200198.3760285.1520904024668899853@Monstersaurus>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -71,252 +84,132 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent
+On 17/10/2022 14:06, Kieran Bingham wrote:
+> Quoting Bryan O'Donoghue (2022-10-17 01:16:05)
+>> On 13/10/2022 13:12, quic_mmitkov@quicinc.com wrote:
+>>> From: Milen Mitkov <quic_mmitkov@quicinc.com>
+>>>
+>>> For v4:
+>>> - fixes the warning reported by the kernel test robot
+>>> - tiny code change to enable the vc functionality with the partially-applied
+>>>     multistream patches on linux-next (tested on tag:next-20221010)
+>>>
+>>> For v3:
+>>> - setting the sink pad format on the CSID entity will now propagate the
+>>>     format to the source pads to keep the subdev in a valid internal state.
+>>> - code syntax improvements
+>>>
+>>> For v2:
+>>> - code syntax improvements
+>>> - The info print for the enabled VCs was demoted to a dbg print. Can be
+>>>     enabled with dynamic debug, e.g.:
+>>> echo "file drivers/media/platform/qcom/camss/* +p" > /sys/kernel/debug/dynamic_debug/control
+>>>
+>>> NOTE: These changes depend on the multistream series, that as of yet
+>>> is still not merged upstream. However, part of the
+>>> multistream patches are merged in linux-next (tested on
+>>> tag:next-20221010), including the patch that introduces the
+>>> video_device_pipeline_alloc_start() functionality. This allows
+>>> applying and using this series on linux-next without applying the
+>>> complete multistream set.
+>>>
+>>> The CSID hardware on SM8250 can demux the input data stream into
+>>> maximum of 4 multiple streams depending on virtual channel (vc)
+>>> or data type (dt) configuration.
+>>>
+>>> Situations in which demuxing is useful:
+>>> - HDR sensors that produce a 2-frame HDR output, e.g. a light and a dark frame
+>>>     (the setup we used for testing, with the imx412 sensor),
+>>>     or a 3-frame HDR output - light, medium-lit, dark frame.
+>>> - sensors with additional metadata that is streamed over a different
+>>>     virtual channel/datatype.
+>>> - sensors that produce frames with multiple resolutions in the same pixel
+>>>     data stream
+>>>
+>>> With these changes, the CSID entity has, as it did previously, a single
+>>> sink port (0), and always exposes 4 source ports (1, 2,3, 4). The
+>>> virtual channel configuration is determined by which of the source ports
+>>> are linked to an output VFE line. For example, the link below will
+>>> configure the CSID driver to enable vc 0 and vc 1:
+>>>
+>>> media-ctl -l '"msm_csid0":1->"msm_vfe0_rdi0":0[1]'
+>>> media-ctl -l '"msm_csid0":2->"msm_vfe0_rdi1":0[1]'
+>>>
+>>> which will be demuxed and propagated into /dev/video0
+>>> and /dev/video1 respectively. With this, the userspace can use
+>>> any normal V4L2 client app to start/stop/queue/dequeue from these
+>>> video nodes. Tested with the yavta app.
+>>>
+>>> The format of each RDI channel of the used VFE(s) (msm_vfe0_rdi0,
+>>> msm_vfe0_rdi1,...) must also be configured explicitly.
+>>>
+>>> Note that in order to keep a valid internal subdevice state,
+>>> setting the sink pad format of the CSID subdevice will propagate
+>>> this format to the source pads. However, since the CSID hardware
+>>> can demux the input stream into several streams each of which can
+>>> be a different format, in that case each source pad's
+>>> format must be set individually, e.g.:
+>>>
+>>> media-ctl -V '"msm_csid0":1[fmt:SRGGB10/3840x2160]'
+>>> media-ctl -V '"msm_csid0":2[fmt:SRGGB10/960x540]'
+>>>
+>>> Milen Mitkov (4):
+>>>     media: camss: sm8250: Virtual channels for CSID
+>>>     media: camss: vfe: Reserve VFE lines on stream start and link to CSID
+>>>     media: camss: vfe-480: Multiple outputs support for SM8250
+>>>     media: camss: sm8250: Pipeline starting and stopping for multiple
+>>>       virtual channels
+>>>
+>>>    .../platform/qcom/camss/camss-csid-gen2.c     | 54 ++++++++++------
+>>>    .../media/platform/qcom/camss/camss-csid.c    | 44 +++++++++----
+>>>    .../media/platform/qcom/camss/camss-csid.h    | 11 +++-
+>>>    .../media/platform/qcom/camss/camss-vfe-480.c | 61 ++++++++++++-------
+>>>    drivers/media/platform/qcom/camss/camss-vfe.c |  7 +++
+>>>    .../media/platform/qcom/camss/camss-video.c   | 21 ++++++-
+>>>    drivers/media/platform/qcom/camss/camss.c     |  2 +-
+>>>    7 files changed, 140 insertions(+), 60 deletions(-)
+>>>
+>>
+>> Hi Milen
+>>
+>> The set applies to next-20221013 including patch#4.
+>>
+>> I can confirm it doesn't break anything for me - though my sensor is a
+>> bog-standard imx577 so it doesn't have any VC support.
+> 
+> Interesting though - the IMX477 has the ability to convey metadata on a
+> separate VC... That's actually the thing holding back the RPi IMX477
+> driver from mainline, as the way it was anticipated to support multiple
+> data streams is with the new multiplexed streams API.
+> 
+> And I think we inferred that the IMX577 and IMX477 are closely related,
+> so should have similar capabilities for obtaining metadata channels?
 
-On Sun, 16 Oct 2022 at 07:15, Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
->
-> Convert the Sony IMX290 DT binding from text to YAML. Add Manivannan as
-> a maintainer given that he is listed in MAINTAINERS for the file, as
-> volunteering myself.
->
-> The name of the input clock, "xclk", is wrong as the hardware manual
-> names it INCK. As the device has a single clock, the name could be
-> omitted, but that would require a corresponding change to the driver and
-> is thus a candidate for further patches.
->
-> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> ---
->  .../devicetree/bindings/media/i2c/imx290.txt  |  57 --------
->  .../bindings/media/i2c/sony,imx290.yaml       | 129 ++++++++++++++++++
->  MAINTAINERS                                   |   2 +-
->  3 files changed, 130 insertions(+), 58 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/media/i2c/imx290.txt
->  create mode 100644 Documentation/devicetree/bindings/media/i2c/sony,imx290.yaml
->
-> diff --git a/Documentation/devicetree/bindings/media/i2c/imx290.txt b/Documentation/devicetree/bindings/media/i2c/imx290.txt
-> deleted file mode 100644
-> index a3cc21410f7c..000000000000
-> --- a/Documentation/devicetree/bindings/media/i2c/imx290.txt
-> +++ /dev/null
-> @@ -1,57 +0,0 @@
-> -* Sony IMX290 1/2.8-Inch CMOS Image Sensor
-> -
-> -The Sony IMX290 is a 1/2.8-Inch CMOS Solid-state image sensor with
-> -Square Pixel for Color Cameras. It is programmable through I2C and 4-wire
-> -interfaces. The sensor output is available via CMOS logic parallel SDR output,
-> -Low voltage LVDS DDR output and CSI-2 serial data output. The CSI-2 bus is the
-> -default. No bindings have been defined for the other busses.
-> -
-> -Required Properties:
-> -- compatible: Should be "sony,imx290"
-> -- reg: I2C bus address of the device
-> -- clocks: Reference to the xclk clock.
-> -- clock-names: Should be "xclk".
-> -- clock-frequency: Frequency of the xclk clock in Hz.
-> -- vdddo-supply: Sensor digital IO regulator.
-> -- vdda-supply: Sensor analog regulator.
-> -- vddd-supply: Sensor digital core regulator.
-> -
-> -Optional Properties:
-> -- reset-gpios: Sensor reset GPIO
-> -
-> -The imx290 device node should contain one 'port' child node with
-> -an 'endpoint' subnode. For further reading on port node refer to
-> -Documentation/devicetree/bindings/media/video-interfaces.txt.
-> -
-> -Required Properties on endpoint:
-> -- data-lanes: check ../video-interfaces.txt
-> -- link-frequencies: check ../video-interfaces.txt
-> -- remote-endpoint: check ../video-interfaces.txt
-> -
-> -Example:
-> -       &i2c1 {
-> -               ...
-> -               imx290: camera-sensor@1a {
-> -                       compatible = "sony,imx290";
-> -                       reg = <0x1a>;
-> -
-> -                       reset-gpios = <&msmgpio 35 GPIO_ACTIVE_LOW>;
-> -                       pinctrl-names = "default";
-> -                       pinctrl-0 = <&camera_rear_default>;
-> -
-> -                       clocks = <&gcc GCC_CAMSS_MCLK0_CLK>;
-> -                       clock-names = "xclk";
-> -                       clock-frequency = <37125000>;
-> -
-> -                       vdddo-supply = <&camera_vdddo_1v8>;
-> -                       vdda-supply = <&camera_vdda_2v8>;
-> -                       vddd-supply = <&camera_vddd_1v5>;
-> -
-> -                       port {
-> -                               imx290_ep: endpoint {
-> -                                       data-lanes = <1 2 3 4>;
-> -                                       link-frequencies = /bits/ 64 <445500000>;
-> -                                       remote-endpoint = <&csiphy0_ep>;
-> -                               };
-> -                       };
-> -               };
-> diff --git a/Documentation/devicetree/bindings/media/i2c/sony,imx290.yaml b/Documentation/devicetree/bindings/media/i2c/sony,imx290.yaml
-> new file mode 100644
-> index 000000000000..21377daae026
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/i2c/sony,imx290.yaml
-> @@ -0,0 +1,129 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/i2c/sony,imx290.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Sony IMX290 1/2.8-Inch CMOS Image Sensor
-> +
-> +maintainers:
-> +  - Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-> +  - Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> +
-> +description: |-
-> +  The Sony IMX290 is a 1/2.8-Inch CMOS Solid-state image sensor with Square
-> +  Pixel for Color Cameras. It is programmable through I2C and 4-wire
-> +  interfaces. The sensor output is available via CMOS logic parallel SDR
-> +  output, Low voltage LVDS DDR output and CSI-2 serial data output. The CSI-2
-> +  bus is the default. No bindings have been defined for the other busses.
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - sony,imx290
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    maxItems: 1
-> +
-> +  clock-names:
-> +    description: Input clock (37.125 MHz or 74.25 MHz)
-> +    items:
-> +      - const: xclk
-> +
-> +  clock-frequency:
-> +    description: Frequency of the xclk clock in Hz
-> +
-> +  vdda-supply:
-> +    description: Analog power supply (2.9V)
-> +
-> +  vddd-supply:
-> +    description: Digital core power supply (1.2V)
-> +
-> +  vdddo-supply:
-> +    description: Digital I/O power supply (1.8V)
-> +
-> +  reset-gpios:
-> +    description: Sensor reset (XCLR) GPIO
-> +    maxItems: 1
-> +
-> +  port:
-> +    $ref: /schemas/graph.yaml#/$defs/port-base
-> +    description: |
-> +      Video output port
-> +
-> +    properties:
-> +      endpoint:
-> +        $ref: /schemas/media/video-interfaces.yaml#
-> +        unevaluatedProperties: false
-> +
-> +        properties:
-> +          data-lanes:
-> +            anyOf:
-> +              - items:
-> +                  - const: 1
-> +                  - const: 2
-> +              - items:
-> +                  - const: 1
-> +                  - const: 2
-> +                  - const: 3
-> +                  - const: 4
-> +
-> +          link-frequencies: true
-> +
-> +        required:
-> +          - data-lanes
-> +          - link-frequencies
-> +
-> +    additionalProperties: false
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - clocks
-> +  - clock-names
-> +  - clock-frequency
-> +  - vdda-supply
-> +  - vddd-supply
-> +  - vdddo-supply
-> +  - port
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/gpio/gpio.h>
-> +
-> +    i2c {
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +
-> +        imx290: camera-sensor@1a {
-> +            compatible = "sony,imx290";
-> +            reg = <0x1a>;
-> +
-> +            pinctrl-names = "default";
-> +            pinctrl-0 = <&camera_rear_default>;
-> +
-> +            clocks = <&gcc 90>;
-> +            clock-names = "xclk";
-> +            clock-frequency = <37125000>;
-> +
-> +            vdddo-supply = <&camera_vdddo_1v8>;
-> +            vdda-supply = <&camera_vdda_2v8>;
-> +            vddd-supply = <&camera_vddd_1v5>;
-> +
-> +            reset-gpios = <&msmgpio 35 GPIO_ACTIVE_LOW>;
-> +
-> +            port {
-> +                imx290_ep: endpoint {
-> +                    data-lanes = <1 2 3 4>;
-> +                    link-frequencies = /bits/ 64 <445500000>;
+Hmm I was not aware of that.
 
-Minor nit that this won't work with the current Linux driver due to a
-driver restriction implementing the recommended settings from Sony.
-OV8865 has the same restrictions and notes it in the binding[1]. I
-don't know if this is the preferred approach or not.
+If we could import the rpi/imx477.c code into upstrea/imx412.c it might 
+be possible
 
-  Dave
+The core init is very similar
 
-[1] https://github.com/torvalds/linux/blob/master/Documentation/devicetree/bindings/media/i2c/ov8856.yaml#L78
+https://github.com/raspberrypi/linux/blob/rpi-5.19.y/drivers/media/i2c/imx477.c#L167
 
-> +                    remote-endpoint = <&csiphy0_ep>;
-> +                };
-> +            };
-> +        };
-> +    };
-> +...
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 72b9654f764c..c431fd20e89b 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -18982,7 +18982,7 @@ M:      Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
->  L:     linux-media@vger.kernel.org
->  S:     Maintained
->  T:     git git://linuxtv.org/media_tree.git
-> -F:     Documentation/devicetree/bindings/media/i2c/imx290.txt
-> +F:     Documentation/devicetree/bindings/media/i2c/sony,imx290.yaml
->  F:     drivers/media/i2c/imx290.c
->
->  SONY IMX319 SENSOR DRIVER
-> --
-> Regards,
->
-> Laurent Pinchart
->
+https://github.com/raspberrypi/linux/blob/rpi-5.19.y/drivers/media/i2c/imx412.c#L160
+
+Maybe it would be possible to apply the rest of the imx477 config on-top 
+as a POC
+
+https://github.com/raspberrypi/linux/blob/rpi-5.19.y/drivers/media/i2c/imx477.c#L479
+
+The similary is born out by the shared init code I can see in Leopard 
+imaging's driver, I'm not sure if it supports virtual-channels - I'll 
+have a look, though.
+
+What's in the imx477 meta-data ?
+
+@Milen if you have the imx577 datasheet - I don't - perhaps we could 
+cherry-pick some of the code from imx477 and get the imx412.c->imx577 
+dumping VC data out with the RB5 camera mezzanine.
+
+---
+bod
