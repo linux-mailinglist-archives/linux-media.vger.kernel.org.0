@@ -2,169 +2,185 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DB3586009CF
-	for <lists+linux-media@lfdr.de>; Mon, 17 Oct 2022 11:02:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 47BD5600A84
+	for <lists+linux-media@lfdr.de>; Mon, 17 Oct 2022 11:25:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230468AbiJQJCa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 17 Oct 2022 05:02:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36872 "EHLO
+        id S230384AbiJQJZA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 17 Oct 2022 05:25:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39682 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230435AbiJQJC2 (ORCPT
+        with ESMTP id S231288AbiJQJYk (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 17 Oct 2022 05:02:28 -0400
-Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com [IPv6:2a00:1450:4864:20::62a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E959C20BD3
-        for <linux-media@vger.kernel.org>; Mon, 17 Oct 2022 02:02:22 -0700 (PDT)
-Received: by mail-ej1-x62a.google.com with SMTP id d26so23320153eje.10
-        for <linux-media@vger.kernel.org>; Mon, 17 Oct 2022 02:02:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=+DzhSmH1cBeruDtFaVKaVattsEwc8q4hTsou+lcv6jY=;
-        b=Q+/ZCk5uKgheops7slfnvs8xurY8FEURvOhzY1eTrLbemXNWuo99WUD81VK+SpWCxY
-         kzFTgIjquxop1/2G9aP+Jc1kCFR8S4kpwj8bfbUkfgvulb3p97gFWTEKh91wZsvKLTym
-         IGt1H+AuIDwRoqtXQsNeJNwHocUiIbe3K3kYShul2xo1CQl7PNr7jxP/Mgn3ZFbkZlVO
-         J/03NK6UfMQfdp40SIbVe6sr9G0pZuHS/nb7XvkWBeDwVFOg7SA3FW+4r+22nfUcKvmM
-         0KiMdRaZT5lr/vOJbfahx9OfxFGmc5oyK0hcI+W0d917YHmMVMRNLZ2UqBGud/XBVBC3
-         GKCA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=+DzhSmH1cBeruDtFaVKaVattsEwc8q4hTsou+lcv6jY=;
-        b=wZmHm3nB8wdMS4VYPvczj798JJS/2Ydzl5U3A0VSPdjm9CdbYCoKnVdqCnn9ntWIQN
-         raN/vxU3Brp5Jv9LJaWmDrHikV3JtrwHa0HaQXIr765WJVHO+56pYuIzMRomIeWxOxFY
-         UIYm9KlmxDjkE4r5qunGKAwnv+I0QXy4LI4ECgSBSbXM2LH0eDPM2A8/69dBVH2e8ROP
-         5b0HcYo8qKhX32sty1e+jTM/Rip51LKHrSOKyIv0/AniW6Abv+RMnfX3WL6tu+gVNPia
-         1GjX4G7YcXFf9AbxeWkczK2taDJWMal+eUqy2UC/7NaodOxgR1/3rI+3FNez3/O41q+u
-         ZSdA==
-X-Gm-Message-State: ACrzQf1U13y1sEeTpmjZFJV+bvDyAsQZmpiVXL4h3R3d6whDLp7ArEQE
-        RaxhlAYG+ja0caVjvnrV2KIW/BCTK2fL5W0m5hu++g==
-X-Google-Smtp-Source: AMsMyM4UDyy4gIfLqRCo+xVdWhgvw2QqSAfU62C/zZi9P70aMTTtCFnk0FMes6AqIcJjw6kKWDVGE0urcJP2xkclA/A=
-X-Received: by 2002:a17:906:8a48:b0:78d:acdc:b7d9 with SMTP id
- gx8-20020a1709068a4800b0078dacdcb7d9mr7921544ejc.500.1665997341068; Mon, 17
- Oct 2022 02:02:21 -0700 (PDT)
-MIME-Version: 1.0
-References: <20221010201453.77401-1-andriy.shevchenko@linux.intel.com>
-In-Reply-To: <20221010201453.77401-1-andriy.shevchenko@linux.intel.com>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Mon, 17 Oct 2022 11:02:09 +0200
-Message-ID: <CACRpkdZ1M3ckw+jFgvMqG4jvR-t_44GPoZ6ZDXszwZCJr-cDpg@mail.gmail.com>
-Subject: Re: [rft, PATCH v2 00/36] pinctrl: Clean up and add missed headers
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     Marc Zyngier <maz@kernel.org>, Bartosz Golaszewski <brgl@bgdev.pl>,
-        Kent Gibson <warthog618@gmail.com>,
+        Mon, 17 Oct 2022 05:24:40 -0400
+Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::226])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D10951208F
+        for <linux-media@vger.kernel.org>; Mon, 17 Oct 2022 02:24:29 -0700 (PDT)
+Received: (Authenticated sender: jacopo@jmondi.org)
+        by mail.gandi.net (Postfix) with ESMTPSA id E7C69C0014;
+        Mon, 17 Oct 2022 09:24:25 +0000 (UTC)
+Date:   Mon, 17 Oct 2022 11:24:24 +0200
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Dave Stevenson <dave.stevenson@raspberrypi.com>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Krzysztof =?utf-8?Q?Ha=C5=82asa?= <khalasa@piap.pl>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Billy Tsai <billy_tsai@aspeedtech.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Chen-Yu Tsai <wenst@chromium.org>,
-        Claudiu Beznea <claudiu.beznea@microchip.com>,
-        Samuel Holland <samuel@sholland.org>,
-        Horatiu Vultur <horatiu.vultur@microchip.com>,
-        =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Phil Edworthy <phil.edworthy@renesas.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Fabien Dessenne <fabien.dessenne@foss.st.com>,
-        Prathamesh Shete <pshete@nvidia.com>,
-        Basavaraj Natikar <Basavaraj.Natikar@amd.com>,
-        linux-gpio@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-media@vger.kernel.org, linux-actions@lists.infradead.org,
-        linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org,
-        linux-rpi-kernel@lists.infradead.org, alsa-devel@alsa-project.org,
-        patches@opensource.cirrus.com, linux-mediatek@lists.infradead.org,
-        linux-mips@vger.kernel.org, linux-riscv@lists.infradead.org,
-        linux-omap@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-samsung-soc@vger.kernel.org,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Patrice Chotard <patrice.chotard@foss.st.com>,
-        =?UTF-8?Q?Andreas_F=C3=A4rber?= <afaerber@suse.de>,
-        Manivannan Sadhasivam <mani@kernel.org>,
-        Andrew Jeffery <andrew@aj.id.au>,
-        Joel Stanley <joel@jms.id.au>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Ray Jui <rjui@broadcom.com>,
-        Scott Branden <sbranden@broadcom.com>,
-        Broadcom internal kernel review list 
-        <bcm-kernel-feedback-list@broadcom.com>,
-        Charles Keepax <ckeepax@opensource.cirrus.com>,
-        Richard Fitzgerald <rf@opensource.cirrus.com>,
-        Dong Aisheng <aisheng.dong@nxp.com>,
-        Fabio Estevam <festevam@gmail.com>,
-        Shawn Guo <shawnguo@kernel.org>, Jacky Bai <ping.bai@nxp.com>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Andy Shevchenko <andy@kernel.org>,
-        Sean Wang <sean.wang@kernel.org>, Andrew Lunn <andrew@lunn.ch>,
-        Gregory Clement <gregory.clement@bootlin.com>,
-        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
-        Avi Fishman <avifishman70@gmail.com>,
-        Tomer Maimon <tmaimon77@gmail.com>,
-        Tali Perry <tali.perry1@gmail.com>,
-        Patrick Venture <venture@google.com>,
-        Nancy Yuen <yuenn@google.com>,
-        Benjamin Fair <benjaminfair@google.com>,
-        Ludovic Desroches <ludovic.desroches@microchip.com>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Paul Cercueil <paul@crapouillou.net>,
-        Damien Le Moal <damien.lemoal@wdc.com>,
-        Tony Lindgren <tony@atomide.com>,
-        Haojian Zhuang <haojian.zhuang@linaro.org>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Michal Simek <michal.simek@xilinx.com>,
-        Andy Gross <agross@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@somainline.org>,
-        Tomasz Figa <tomasz.figa@gmail.com>,
-        Sylwester Nawrocki <s.nawrocki@samsung.com>,
-        Alim Akhtar <alim.akhtar@samsung.com>,
-        Viresh Kumar <vireshk@kernel.org>,
-        Shiraz Hashim <shiraz.linux.kernel@gmail.com>, soc@kernel.org,
-        Orson Zhai <orsonzhai@gmail.com>,
-        Baolin Wang <baolin.wang@linux.alibaba.com>,
-        Chunyan Zhang <zhang.lyra@gmail.com>,
-        Emil Renner Berthing <kernel@esmil.dk>,
-        Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
-        Masami Hiramatsu <mhiramat@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        Sakari Ailus <sakari.ailus@iki.fi>, linux-media@vger.kernel.org
+Subject: Re: [PATCH 05/10] media: ar0521: Add LINK_FREQ control
+Message-ID: <20221017092424.hygkg26dpubti3ne@uno.localdomain>
+References: <20221005190613.394277-1-jacopo@jmondi.org>
+ <20221005190613.394277-6-jacopo@jmondi.org>
+ <CAPY8ntB_JQHJQH7DChEyou-RSRTcEF-Uy=+3Ly06MUtg0TCZ6A@mail.gmail.com>
+ <Y0AxI2RKxomjEb2t@pendragon.ideasonboard.com>
+ <CAPY8ntCh4UFT5swHvwPj7xz8wPH3MJB-aJjEd9bCgXVubRyp5w@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CAPY8ntCh4UFT5swHvwPj7xz8wPH3MJB-aJjEd9bCgXVubRyp5w@mail.gmail.com>
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Oct 10, 2022 at 10:15 PM Andy Shevchenko
-<andriy.shevchenko@linux.intel.com> wrote:
+Hi Dave
 
-> Currently the header inclusion inside the pinctrl headers seems more arbitrary
-> than logical. This series is basically out of two parts:
-> - add missed headers to the pin control drivers / users
-> - clean up the headers of pin control subsystem
+On Fri, Oct 07, 2022 at 03:26:55PM +0100, Dave Stevenson wrote:
+> On Fri, 7 Oct 2022 at 15:01, Laurent Pinchart
+> <laurent.pinchart@ideasonboard.com> wrote:
+> >
+> > On Thu, Oct 06, 2022 at 04:10:10PM +0100, Dave Stevenson wrote:
+> > > On Wed, 5 Oct 2022 at 20:07, Jacopo Mondi wrote:
+> > > >
+> > > > Add support for V4L2_CID_LINK_FREQ which currently reports a single
+> > > > hard-coded frequency which depends on the fixed pixel clock.
+> > > >
+> > > > This will change in the next patches where the pixel rate will be
+> > > > computed from the desired link_frequency.
+> > > >
+> > > > Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
+> > >
+> > > Looks valid based on the current pixel rate of 184MPix/s, 8bpp,
+> > > divided by 4 lanes, and DDR.
+> > >
+> > > > ---
+> > > >  drivers/media/i2c/ar0521.c | 9 +++++++++
+> > > >  1 file changed, 9 insertions(+)
+> > > >
+> > > > diff --git a/drivers/media/i2c/ar0521.c b/drivers/media/i2c/ar0521.c
+> > > > index 21649aecf442..c5410b091654 100644
+> > > > --- a/drivers/media/i2c/ar0521.c
+> > > > +++ b/drivers/media/i2c/ar0521.c
+> > > > @@ -90,6 +90,10 @@ static const char * const ar0521_supply_names[] = {
+> > > >         "vaa",          /* Analog (2.7V) supply */
+> > > >  };
+> > > >
+> > > > +static const s64 ar0521_link_frequencies[] = {
+> > > > +       184000000,
+> > > > +};
+> > > > +
+> > > >  struct ar0521_ctrls {
+> > > >         struct v4l2_ctrl_handler handler;
+> > > >         struct v4l2_ctrl *ana_gain;
+> > > > @@ -104,6 +108,7 @@ struct ar0521_ctrls {
+> > > >         };
+> > > >         struct v4l2_ctrl *pixrate;
+> > > >         struct v4l2_ctrl *exposure;
+> > > > +       struct v4l2_ctrl *link_freq;
+> > > >         struct v4l2_ctrl *test_pattern;
+> > > >  };
+> > > >
+> > > > @@ -655,6 +660,10 @@ static int ar0521_init_controls(struct ar0521_dev *sensor)
+> > > >         ctrls->exposure = v4l2_ctrl_new_std(hdl, ops, V4L2_CID_EXPOSURE, 0,
+> > > >                                             65535, 1, 360);
+> > > >
+> > > > +       ctrls->link_freq = v4l2_ctrl_new_int_menu(hdl, ops, V4L2_CID_LINK_FREQ,
+> > > > +                                       ARRAY_SIZE(ar0521_link_frequencies) - 1,
+> > > > +                                       0, ar0521_link_frequencies);
+> > > > +
+> > >
+> > > Admittedly there is only one entry, but did you want to make it a read
+> > > only control? With no case for it in s_ctrl, you'll get errors thrown
+> > > from the control handler framework.
+> >
+> > I'd make it writable even if there's a single entry, so that userspace
+> > won't need special logic. It will also prepare for support of multiple
+> > entries in the future.
 >
-> The idea is to have this series to be pulled after -rc1 by the GPIO and
-> pin control subsystems, so all new drivers will utilize cleaned up headers
-> of the pin control.
+> Do you really see a situation where userspace will be configuring link
+> frequency instead of DT / ACPI?
+> A quick search seems to imply that only 1 current driver supports a
+> r/w link frequency - mt9v032. That would imply that having a
+> controllable link frequency would require the special logic in
+> userspace.
+>
 
-Aha I see you want to send a pull request so I backed out the applied patches
-from the series for now.
+Yes it does, but we need one way or another to allow userspace to
+control the sampling frequency as extending (or shrinking) blankings
+helps up to the point you reach their limits.
 
-Yours,
-Linus Walleij
+I was never really fond of the idea that such action should go through
+link frequency, which seems very much a parameter of the bus that
+should be negotiated between the recv and the tx parts, rather than
+being user configurable.
+
+
+> I'm always very cautious about drivers that are linking PIXEL_RATE and
+> LINK_FREQ - most of the sensors are tending to have 2 (or more) PLLs,
+> and there is a FIFO between the image sensor (PIXEL_RATE) and the MIPI
+> block (LINK_FREQ). imx290 is certainly wrong (pixel rate does not
+> change with mode, but link freq does), and I'm fairly certain that
+> ov7251 is as well (pixel rate is 48MPix/s whether at 240 or 319.2MHz
+> link frequency). Patches coming soon for both.
+
+The current definition of PIXEL_RATE indeed describes the sampling
+frequency on the pixel array, which might or might not reflect the
+output pixel rate. However most if not all usages of PIXEL_RATE I've
+seen (and FTR the way it is used in libcamera) is to denote the output
+pixel rate (ie it is used to compute the output timings given the line
+length and frame height)
+
+I wonder
+
+1) The current definition of PIXEL_RATE as the sampling rate on the
+pixel array: what purposes does it serve ? Are there algorithms that
+require to know the sampling rate in the analog domain ? Are there
+implementations that treat PIXEL_RATE differently than the "pixel
+output rate" ?
+
+2) LINK_FREQ is the closest control we have to express the output
+pixel rate, but to me is very specific to the bus configuration and
+does not express per se anything useful to userspace for computing
+timings based on frame/lane sizes. The fact LINK_FREQ is a menu contol
+reflects how much it relates to the HW configuration as it is assumed
+to come from DT
+
+Do we need an r/w PIXEL_OUTPUT_RATE control to replace
+- LINK_FREQ for userspace to configure it
+- PIXEL_RATE for userspace to read it
+
+LINK_FREQ should only be used in the tx/rx negotiation. It shall
+vary according to PIXEL_OUTPUT_RATE, possibily in the options
+specified in DTS (which are there because they have usually been
+validated for RF emissions, that's my understanding at least).
+
+PIXEL_RATE will equally vary, if required, and algorithms that need to
+know the sampling frequency in the analog domain will continue using
+it.
+
+Or maybe the original idea was to have a pixel array entity and a
+separate tx entity, each of them with different PIXEL_RATE control ?
+
+
+>
+>   Dave
+>
+> > > >         ctrls->test_pattern = v4l2_ctrl_new_std_menu_items(hdl, ops,
+> > > >                                         V4L2_CID_TEST_PATTERN,
+> > > >                                         ARRAY_SIZE(test_pattern_menu) - 1,
+> >
+> > --
+> > Regards,
+> >
+> > Laurent Pinchart
