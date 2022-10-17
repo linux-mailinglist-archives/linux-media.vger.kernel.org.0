@@ -2,130 +2,149 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 235F76008D7
-	for <lists+linux-media@lfdr.de>; Mon, 17 Oct 2022 10:38:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C1C1A600930
+	for <lists+linux-media@lfdr.de>; Mon, 17 Oct 2022 10:52:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230056AbiJQIiM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 17 Oct 2022 04:38:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52996 "EHLO
+        id S230365AbiJQIwN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 17 Oct 2022 04:52:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58846 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229975AbiJQIiL (ORCPT
+        with ESMTP id S230295AbiJQIvz (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 17 Oct 2022 04:38:11 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B1A15FB6
-        for <linux-media@vger.kernel.org>; Mon, 17 Oct 2022 01:38:10 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5B5FBCCF;
-        Mon, 17 Oct 2022 10:38:08 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1665995888;
-        bh=n7WpIOHSvDVVaAlzCH207N7FIuOtrpRCi1sld5sdMiQ=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=nRK6zJXyZZr/1GEJpTmlD91e/3hX+qVgv4bbJsqkHl80zQ4aigIhEj+2Uh53prvKe
-         qITyc1BjL0wTsr5YzAnV5GOrJT8vkBLEQjF1LwJpjLUIW486c3HuLHLYAsGU7V4Yst
-         9cmbC/x+IrTovydFNuhQIr8hLQNy5fpMbexopLYw=
-Date:   Mon, 17 Oct 2022 11:37:44 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Alexander Stein <alexander.stein@ew.tq-group.com>
-Cc:     linux-media@vger.kernel.org, Sakari Ailus <sakari.ailus@iki.fi>,
-        Manivannan Sadhasivam <mani@kernel.org>,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>
-Subject: Re: [PATCH v2 18/20] media: i2c: imx290: Factor out format retrieval
- to separate function
-Message-ID: <Y00UWMmPTnmEuaI3@pendragon.ideasonboard.com>
-References: <20221016061523.30127-1-laurent.pinchart@ideasonboard.com>
- <20221016061523.30127-19-laurent.pinchart@ideasonboard.com>
- <5869053.lOV4Wx5bFT@steina-w>
+        Mon, 17 Oct 2022 04:51:55 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 267015073E
+        for <linux-media@vger.kernel.org>; Mon, 17 Oct 2022 01:51:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1665996666;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=FjYHEebma8UYIFvq1Yz9+6YiyBVirhL+oeP6HjonLqk=;
+        b=Z7OPnbPjkpTV9PldQSqsj1wFqkytcr6irwLqSb+c56X5RdH1QkYz9cwMOr2ZpE8AAEyLJC
+        m2oU2QECv0t/kvE72ng5TnhNHlheaB0OkVQRnuJ0X4VFpMRpyyPGDCYY/FsSGTGZi/5B3C
+        +UbCJyLmcQMDK+Xk5lRblmh8v6R+Pv8=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-10-NsTFl27aP5243UdZdk9oPQ-1; Mon, 17 Oct 2022 04:51:02 -0400
+X-MC-Unique: NsTFl27aP5243UdZdk9oPQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com [10.11.54.3])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A299186E91C;
+        Mon, 17 Oct 2022 08:51:01 +0000 (UTC)
+Received: from x1.localdomain.com (unknown [10.39.194.44])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 3273A10A58CE;
+        Mon, 17 Oct 2022 08:50:59 +0000 (UTC)
+From:   Hans de Goede <hdegoede@redhat.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     Hans de Goede <hdegoede@redhat.com>,
+        Tsuchiya Yuto <kitakar@gmail.com>,
+        Andy Shevchenko <andy@kernel.org>,
+        Yury Luneff <yury.lunev@gmail.com>,
+        Nable <nable.maininbox@googlemail.com>,
+        andrey.i.trufanov@gmail.com, Fabio Aiuto <fabioaiuto83@gmail.com>,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: [PATCH 00/17] media: atomisp: Convert to videobuf2
+Date:   Mon, 17 Oct 2022 10:50:40 +0200
+Message-Id: <20221017085057.7483-1-hdegoede@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <5869053.lOV4Wx5bFT@steina-w>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
+X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Alexander,
+Hi All,
 
-On Mon, Oct 17, 2022 at 07:55:28AM +0200, Alexander Stein wrote:
-> Am Sonntag, 16. Oktober 2022, 08:15:21 CEST schrieb Laurent Pinchart:
-> > The driver duplicates the same pattern to access the try or active
-> > format in multiple locations. Factor it out to a separate function.
-> > 
-> > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > ---
-> > Changes since v1:
-> > 
-> > - Avoid returning NULL from imx290_get_pad_format()
-> > ---
-> >  drivers/media/i2c/imx290.c | 24 ++++++++++++++----------
-> >  1 file changed, 14 insertions(+), 10 deletions(-)
-> > 
-> > diff --git a/drivers/media/i2c/imx290.c b/drivers/media/i2c/imx290.c
-> > index 0b34d60f8ce2..b0ff0e8ed45a 100644
-> > --- a/drivers/media/i2c/imx290.c
-> > +++ b/drivers/media/i2c/imx290.c
-> > @@ -519,6 +519,16 @@ static const struct v4l2_ctrl_ops imx290_ctrl_ops = {
-> >  	.s_ctrl = imx290_set_ctrl,
-> >  };
-> > 
-> > +static struct v4l2_mbus_framefmt *
-> > +imx290_get_pad_format(struct imx290 *imx290, struct v4l2_subdev_state *state,
-> > +		      u32 which)
-> > +{
-> > +	if (which == V4L2_SUBDEV_FORMAT_ACTIVE)
-> > +		return &imx290->current_format;
-> > +	else
-> > +		return v4l2_subdev_get_try_format(&imx290->sd, state, 0);
-> > +}
-> > +
-> 
-> v4l2_subdev_get_try_format can return NULL, which would be dereferenced later 
-> on. But this happens only if state is NULL itself, which will raise a WARN_ON 
-> anyway. So i guess this is fine.
+This patch series converts the staging atomisp driver to use the videobuf2
+framework, fixing MMP mode now working.
 
-I'll add a patch on top of the series to convert the driver to the V4L2
-active state, that should simplify all this.
+This also contains an important fix to try_fmt handling, so that
+the various supported output formats can actually be used by userspace
+which calls try_fmt before doing s_fmt.
 
-> Acked-by: Alexander Stein <alexander.stein@ew.tq-group.com>
-> 
-> >  static int imx290_enum_mbus_code(struct v4l2_subdev *sd,
-> >  				 struct v4l2_subdev_state *sd_state,
-> >  				 struct v4l2_subdev_mbus_code_enum *code)
-> > @@ -562,12 +572,7 @@ static int imx290_get_fmt(struct v4l2_subdev *sd,
-> > 
-> >  	mutex_lock(&imx290->lock);
-> > 
-> > -	if (fmt->which == V4L2_SUBDEV_FORMAT_TRY)
-> > -		framefmt = v4l2_subdev_get_try_format(&imx290->sd, sd_state,
-> > -						      fmt->pad);
-> > -	else
-> > -		framefmt = &imx290->current_format;
-> > -
-> > +	framefmt = imx290_get_pad_format(imx290, sd_state, fmt->which);
-> >  	fmt->format = *framefmt;
-> > 
-> >  	mutex_unlock(&imx290->lock);
-> > @@ -627,10 +632,9 @@ static int imx290_set_fmt(struct v4l2_subdev *sd,
-> >  	fmt->format.code = imx290_formats[i].code;
-> >  	fmt->format.field = V4L2_FIELD_NONE;
-> > 
-> > -	if (fmt->which == V4L2_SUBDEV_FORMAT_TRY) {
-> > -		format = v4l2_subdev_get_try_format(sd, sd_state, fmt->pad);
-> > -	} else {
-> > -		format = &imx290->current_format;
-> > +	format = imx290_get_pad_format(imx290, sd_state, fmt->which);
-> > +
-> > +	if (fmt->which == V4L2_SUBDEV_FORMAT_ACTIVE) {
-> >  		imx290->current_mode = mode;
-> >  		imx290->bpp = imx290_formats[i].bpp;
+One thing missing from this conversion is moving over to using a per queue
+mutex. After getting the basic videobuf2 conversion in place I first needed
+to do a bunch of other fixes (like the try_fmt one) to make camorama work
+again, so I ran out of time this weekend.
 
--- 
+There is a bunch of preparation in the form of commented
+out code + FIXME comments in "media: atomisp: Convert to videobuf2"
+this causes a bunch of checkpatch warnings. Moving to a per queue
+mutex is my next planned patch (series?).
+
+So slowly this is starting to look more and more like a standard
+v4l2 device (with all the complex pipeline handling hidden in the driver,
+moving that to userspace seems to be impossible with this design since
+multiple pipeline steps are handled by a single firmware program).
+
 Regards,
 
-Laurent Pinchart
+Hans
+
+
+Hans de Goede (17):
+  media: atomisp: Add hmm_create_from_vmalloc_buf() function
+  media: atomisp: Add ia_css_frame_init_from_info() function
+  media: atomisp: Make atomisp_q_video_buffers_to_css() static
+  media: atomisp: On streamoff wait for buffers owned by the CSS to be
+    given back
+  media: atomisp: Remove unused atomisp_buffers_queued[_pipe] functions
+  media: atomisp: Also track buffers in a list when submitted to the ISP
+  media: atomisp: Add an index helper variable to atomisp_buf_done()
+  media: atomisp: Use new atomisp_flush_video_pipe() helper in
+    atomisp_streamoff()
+  media: atomisp: Add ia_css_frame_get_info() helper
+  media: atomisp: Convert to videobuf2
+  media: atomisp: Make it possible to call atomisp_set_fmt() without a
+    file handle
+  media: atomisp: Fix VIDIOC_REQBUFS failing when VIDIOC_S_FMT has not
+    been called yet
+  media: atomisp: Refactor atomisp_adjust_fmt()
+  media: atomisp: Fix atomisp_try_fmt_cap() always returning YUV420
+    pixelformat
+  media: atomisp: Make atomisp_g_fmt_cap() default to YUV420
+  media: atomisp: Remove __atomisp_get_pipe() helper
+  media: atomisp: gc0310: Power on sensor from set_fmt() callback
+
+ .../media/atomisp/i2c/atomisp-gc0310.c        |  14 +-
+ drivers/staging/media/atomisp/i2c/gc0310.h    |   1 +
+ .../staging/media/atomisp/include/hmm/hmm.h   |   2 +
+ .../media/atomisp/include/hmm/hmm_bo.h        |   4 +-
+ .../staging/media/atomisp/pci/atomisp_cmd.c   | 353 ++++--------
+ .../staging/media/atomisp/pci/atomisp_cmd.h   |   9 +-
+ .../media/atomisp/pci/atomisp_common.h        |   6 +-
+ .../media/atomisp/pci/atomisp_compat.h        |   3 +-
+ .../media/atomisp/pci/atomisp_compat_css20.c  |   6 +-
+ .../staging/media/atomisp/pci/atomisp_fops.c  | 521 ++++++-----------
+ .../staging/media/atomisp/pci/atomisp_fops.h  |  13 -
+ .../staging/media/atomisp/pci/atomisp_ioctl.c | 543 ++++--------------
+ .../staging/media/atomisp/pci/atomisp_ioctl.h |  10 +-
+ .../media/atomisp/pci/atomisp_subdev.c        |   1 +
+ .../media/atomisp/pci/atomisp_subdev.h        |  20 +-
+ drivers/staging/media/atomisp/pci/hmm/hmm.c   |  15 +-
+ .../staging/media/atomisp/pci/hmm/hmm_bo.c    |  32 +-
+ .../media/atomisp/pci/ia_css_frame_public.h   |  36 +-
+ .../bayer_io_ls/ia_css_bayer_io.host.c        |  10 +-
+ .../yuv444_io_ls/ia_css_yuv444_io.host.c      |  10 +-
+ .../isp/kernels/ref/ref_1.0/ia_css_ref.host.c |   2 +-
+ .../isp/kernels/tnr/tnr_1.0/ia_css_tnr.host.c |   4 +-
+ .../pci/runtime/debug/src/ia_css_debug.c      |  26 +-
+ .../atomisp/pci/runtime/frame/src/frame.c     |  82 +--
+ drivers/staging/media/atomisp/pci/sh_css.c    |  38 +-
+ .../staging/media/atomisp/pci/sh_css_params.c |  17 +-
+ drivers/staging/media/atomisp/pci/sh_css_sp.c |  52 +-
+ 27 files changed, 643 insertions(+), 1187 deletions(-)
+
+-- 
+2.37.3
+
