@@ -2,68 +2,65 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DF347600D9F
-	for <lists+linux-media@lfdr.de>; Mon, 17 Oct 2022 13:21:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 26044600E09
+	for <lists+linux-media@lfdr.de>; Mon, 17 Oct 2022 13:47:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230098AbiJQLVd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 17 Oct 2022 07:21:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45612 "EHLO
+        id S230183AbiJQLr0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 17 Oct 2022 07:47:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45392 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229732AbiJQLVc (ORCPT
+        with ESMTP id S229597AbiJQLrZ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 17 Oct 2022 07:21:32 -0400
-Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com [IPv6:2a00:1450:4864:20::52c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D317662A91
-        for <linux-media@vger.kernel.org>; Mon, 17 Oct 2022 04:21:26 -0700 (PDT)
-Received: by mail-ed1-x52c.google.com with SMTP id b12so15543088edd.6
-        for <linux-media@vger.kernel.org>; Mon, 17 Oct 2022 04:21:26 -0700 (PDT)
+        Mon, 17 Oct 2022 07:47:25 -0400
+Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com [199.106.114.38])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6964252E63;
+        Mon, 17 Oct 2022 04:47:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=raspberrypi.com; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=ESlVYACg7riS16UtYuQf8DPZbmCk4aeHdyRBRqmKcMQ=;
-        b=cuvpDnh3oQn+2krK9gGawHvchiNGzUZPJrH40k9IFHSOKzXBH+4OK4IYo9BpZVnLvB
-         9yUsFy6ZVWfFu0Y4dzKisCDRWJoYE0+s32FCjVL+tra8ruehR3SsPt1pqu20ATIfH51x
-         Bz0DARwDQeEqIkuNhIUsnBGsWrOPL1NVMHKdIjEj/tJmWk6SKcNNb/rOmthiewSAIL+j
-         LugZMETnGds05xxafY4cXyXslqbKXhi/8JMTv6IAlto9jJlMox6tPi2MrLT78fonvlLv
-         /SgtZlRu3gUd3aTIoBmO6RD8o3Gn51Jr2l1jY6bAruD6BLdjN7WKGgzDfCoBbG+ZH0Q3
-         u4eQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ESlVYACg7riS16UtYuQf8DPZbmCk4aeHdyRBRqmKcMQ=;
-        b=3DCen5YmA7dyL8Ld6v3DDsJo1VmbyPSeWoor1NViQ+BuDDk/8GvO/bkdZF5SOCZC3A
-         8wjEHmPhVt7Twcx20HNn6CYzTGdTfiHosLbGhvSkjtwlikin2SfC3NvUcsmR9UqcMS5R
-         pNcO9lpFI97DsJWqcht7pMXUS+Judgm6bbj699SXmx2SYFvFQ6fQL96+fCwu32lO3wlg
-         p49nQ7Cn2dyjWmPSa2ErcSxTdkmLYz8pBNHNr2sSchRL+ZTYuKfZp7Xq/dS0oCAGVA6S
-         QZcEZLKL6+vBkKcDiHOmaVpwUO68g6GrPDB1Isio/PHygpqaeb6ctEd05vRgGttsrhDF
-         etLA==
-X-Gm-Message-State: ACrzQf3skzfqPWM63sFozDaUwfrpqDKB8VU6y7zepV08QKB1Y3Q8NUMc
-        ezA3w4QC9DqgWvbM01UaKkurTl4fd5LTYNm9PNpxeg==
-X-Google-Smtp-Source: AMsMyM7A3PjdSXRnrBIXfCBlckfJOaIYLmrlvm3Qp2Nz/5Soi8cx5UzMMW9MrIcGenob37a4iAKrCFM4otKIG448IXY=
-X-Received: by 2002:a05:6402:2913:b0:45c:a7d6:c1ef with SMTP id
- ee19-20020a056402291300b0045ca7d6c1efmr9656066edb.276.1666005685364; Mon, 17
- Oct 2022 04:21:25 -0700 (PDT)
+  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+  t=1666007238; x=1697543238;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=hIB4ethcAcNsSc6jzifbqgmyiYEdvxm4/JEPJw6Rl0A=;
+  b=hynI1aawjhPPsl0C9YGJ6CfAGGfoEIsOHCfvhA07/yY1+9a4s1YQWSMX
+   rNYYu75qJ2/sVJ6E9AudJLDOUlofNQdU3yp02nWMtVRQVW5KLr8J/K+lK
+   xem56AWAnlhHFZzo63j/w8wZSNx5zbllOMZeG93V+SWx7sS7Ro8TouCtd
+   8=;
+Received: from unknown (HELO ironmsg04-sd.qualcomm.com) ([10.53.140.144])
+  by alexa-out-sd-01.qualcomm.com with ESMTP; 17 Oct 2022 04:47:17 -0700
+X-QCInternal: smtphost
+Received: from unknown (HELO nasanex01a.na.qualcomm.com) ([10.52.223.231])
+  by ironmsg04-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2022 04:47:17 -0700
+Received: from [10.251.44.159] (10.80.80.8) by nasanex01a.na.qualcomm.com
+ (10.52.223.231) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.29; Mon, 17 Oct
+ 2022 04:47:14 -0700
+Message-ID: <f7cbad3c-76ab-093e-72c4-8d7629cd6b5b@quicinc.com>
+Date:   Mon, 17 Oct 2022 14:47:12 +0300
 MIME-Version: 1.0
-References: <20221005190613.394277-1-jacopo@jmondi.org> <20221005190613.394277-6-jacopo@jmondi.org>
- <CAPY8ntB_JQHJQH7DChEyou-RSRTcEF-Uy=+3Ly06MUtg0TCZ6A@mail.gmail.com>
- <Y0AxI2RKxomjEb2t@pendragon.ideasonboard.com> <CAPY8ntCh4UFT5swHvwPj7xz8wPH3MJB-aJjEd9bCgXVubRyp5w@mail.gmail.com>
- <Y0tkBvcufgwSe/AT@pendragon.ideasonboard.com>
-In-Reply-To: <Y0tkBvcufgwSe/AT@pendragon.ideasonboard.com>
-From:   Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date:   Mon, 17 Oct 2022 12:21:10 +0100
-Message-ID: <CAPY8ntBU_ELTKnM9+uV+3H3tvzbKGxS+6bF=wv4PMvNyVb+Yiw@mail.gmail.com>
-Subject: Re: [PATCH 05/10] media: ar0521: Add LINK_FREQ control
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Jacopo Mondi <jacopo@jmondi.org>,
-        =?UTF-8?Q?Krzysztof_Ha=C5=82asa?= <khalasa@piap.pl>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@iki.fi>, linux-media@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.3
+Subject: Re: [PATCH v4 0/4] media: camss: sm8250: Virtual channels support for
+ SM8250
+Content-Language: en-US
+To:     Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <robert.foss@linaro.org>, <akapatra@quicinc.com>,
+        <jzala@quicinc.com>, <todor.too@gmail.com>
+CC:     <agross@kernel.org>, <konrad.dybcio@somainline.org>,
+        <mchehab@kernel.org>, <cgera@qti.qualcomm.com>,
+        <gchinnab@quicinc.com>, <ayasan@qti.qualcomm.com>,
+        <laurent.pinchart@ideasonboard.com>
+References: <20221013121255.1977-1-quic_mmitkov@quicinc.com>
+ <1a7ab9da-e7fb-9077-5d6e-705629bb2b10@linaro.org>
+From:   "Milen Mitkov (Consultant)" <quic_mmitkov@quicinc.com>
+In-Reply-To: <1a7ab9da-e7fb-9077-5d6e-705629bb2b10@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01a.na.qualcomm.com (10.52.223.231)
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -71,134 +68,148 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent
-
-On Sun, 16 Oct 2022 at 02:53, Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
+On 17/10/2022 03:16, Bryan O'Donoghue wrote:
+> On 13/10/2022 13:12, quic_mmitkov@quicinc.com wrote:
+>> From: Milen Mitkov <quic_mmitkov@quicinc.com>
+>>
+>> For v4:
+>> - fixes the warning reported by the kernel test robot
+>> - tiny code change to enable the vc functionality with the 
+>> partially-applied
+>>    multistream patches on linux-next (tested on tag:next-20221010)
+>>
+>> For v3:
+>> - setting the sink pad format on the CSID entity will now propagate the
+>>    format to the source pads to keep the subdev in a valid internal 
+>> state.
+>> - code syntax improvements
+>>
+>> For v2:
+>> - code syntax improvements
+>> - The info print for the enabled VCs was demoted to a dbg print. Can be
+>>    enabled with dynamic debug, e.g.:
+>> echo "file drivers/media/platform/qcom/camss/* +p" > 
+>> /sys/kernel/debug/dynamic_debug/control
+>>
+>> NOTE: These changes depend on the multistream series, that as of yet
+>> is still not merged upstream. However, part of the
+>> multistream patches are merged in linux-next (tested on
+>> tag:next-20221010), including the patch that introduces the
+>> video_device_pipeline_alloc_start() functionality. This allows
+>> applying and using this series on linux-next without applying the
+>> complete multistream set.
+>>
+>> The CSID hardware on SM8250 can demux the input data stream into
+>> maximum of 4 multiple streams depending on virtual channel (vc)
+>> or data type (dt) configuration.
+>>
+>> Situations in which demuxing is useful:
+>> - HDR sensors that produce a 2-frame HDR output, e.g. a light and a 
+>> dark frame
+>>    (the setup we used for testing, with the imx412 sensor),
+>>    or a 3-frame HDR output - light, medium-lit, dark frame.
+>> - sensors with additional metadata that is streamed over a different
+>>    virtual channel/datatype.
+>> - sensors that produce frames with multiple resolutions in the same 
+>> pixel
+>>    data stream
+>>
+>> With these changes, the CSID entity has, as it did previously, a single
+>> sink port (0), and always exposes 4 source ports (1, 2,3, 4). The
+>> virtual channel configuration is determined by which of the source ports
+>> are linked to an output VFE line. For example, the link below will
+>> configure the CSID driver to enable vc 0 and vc 1:
+>>
+>> media-ctl -l '"msm_csid0":1->"msm_vfe0_rdi0":0[1]'
+>> media-ctl -l '"msm_csid0":2->"msm_vfe0_rdi1":0[1]'
+>>
+>> which will be demuxed and propagated into /dev/video0
+>> and /dev/video1 respectively. With this, the userspace can use
+>> any normal V4L2 client app to start/stop/queue/dequeue from these
+>> video nodes. Tested with the yavta app.
+>>
+>> The format of each RDI channel of the used VFE(s) (msm_vfe0_rdi0,
+>> msm_vfe0_rdi1,...) must also be configured explicitly.
+>>
+>> Note that in order to keep a valid internal subdevice state,
+>> setting the sink pad format of the CSID subdevice will propagate
+>> this format to the source pads. However, since the CSID hardware
+>> can demux the input stream into several streams each of which can
+>> be a different format, in that case each source pad's
+>> format must be set individually, e.g.:
+>>
+>> media-ctl -V '"msm_csid0":1[fmt:SRGGB10/3840x2160]'
+>> media-ctl -V '"msm_csid0":2[fmt:SRGGB10/960x540]'
+>>
+>> Milen Mitkov (4):
+>>    media: camss: sm8250: Virtual channels for CSID
+>>    media: camss: vfe: Reserve VFE lines on stream start and link to CSID
+>>    media: camss: vfe-480: Multiple outputs support for SM8250
+>>    media: camss: sm8250: Pipeline starting and stopping for multiple
+>>      virtual channels
+>>
+>>   .../platform/qcom/camss/camss-csid-gen2.c     | 54 ++++++++++------
+>>   .../media/platform/qcom/camss/camss-csid.c    | 44 +++++++++----
+>>   .../media/platform/qcom/camss/camss-csid.h    | 11 +++-
+>>   .../media/platform/qcom/camss/camss-vfe-480.c | 61 ++++++++++++-------
+>>   drivers/media/platform/qcom/camss/camss-vfe.c |  7 +++
+>>   .../media/platform/qcom/camss/camss-video.c   | 21 ++++++-
+>>   drivers/media/platform/qcom/camss/camss.c     |  2 +-
+>>   7 files changed, 140 insertions(+), 60 deletions(-)
+>>
 >
-> Hi Dave,
+> Hi Milen
 >
-> On Fri, Oct 07, 2022 at 03:26:55PM +0100, Dave Stevenson wrote:
-> > On Fri, 7 Oct 2022 at 15:01, Laurent Pinchart wrote:
-> > > On Thu, Oct 06, 2022 at 04:10:10PM +0100, Dave Stevenson wrote:
-> > > > On Wed, 5 Oct 2022 at 20:07, Jacopo Mondi wrote:
-> > > > >
-> > > > > Add support for V4L2_CID_LINK_FREQ which currently reports a single
-> > > > > hard-coded frequency which depends on the fixed pixel clock.
-> > > > >
-> > > > > This will change in the next patches where the pixel rate will be
-> > > > > computed from the desired link_frequency.
-> > > > >
-> > > > > Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
-> > > >
-> > > > Looks valid based on the current pixel rate of 184MPix/s, 8bpp,
-> > > > divided by 4 lanes, and DDR.
-> > > >
-> > > > > ---
-> > > > >  drivers/media/i2c/ar0521.c | 9 +++++++++
-> > > > >  1 file changed, 9 insertions(+)
-> > > > >
-> > > > > diff --git a/drivers/media/i2c/ar0521.c b/drivers/media/i2c/ar0521.c
-> > > > > index 21649aecf442..c5410b091654 100644
-> > > > > --- a/drivers/media/i2c/ar0521.c
-> > > > > +++ b/drivers/media/i2c/ar0521.c
-> > > > > @@ -90,6 +90,10 @@ static const char * const ar0521_supply_names[] = {
-> > > > >         "vaa",          /* Analog (2.7V) supply */
-> > > > >  };
-> > > > >
-> > > > > +static const s64 ar0521_link_frequencies[] = {
-> > > > > +       184000000,
-> > > > > +};
-> > > > > +
-> > > > >  struct ar0521_ctrls {
-> > > > >         struct v4l2_ctrl_handler handler;
-> > > > >         struct v4l2_ctrl *ana_gain;
-> > > > > @@ -104,6 +108,7 @@ struct ar0521_ctrls {
-> > > > >         };
-> > > > >         struct v4l2_ctrl *pixrate;
-> > > > >         struct v4l2_ctrl *exposure;
-> > > > > +       struct v4l2_ctrl *link_freq;
-> > > > >         struct v4l2_ctrl *test_pattern;
-> > > > >  };
-> > > > >
-> > > > > @@ -655,6 +660,10 @@ static int ar0521_init_controls(struct ar0521_dev *sensor)
-> > > > >         ctrls->exposure = v4l2_ctrl_new_std(hdl, ops, V4L2_CID_EXPOSURE, 0,
-> > > > >                                             65535, 1, 360);
-> > > > >
-> > > > > +       ctrls->link_freq = v4l2_ctrl_new_int_menu(hdl, ops, V4L2_CID_LINK_FREQ,
-> > > > > +                                       ARRAY_SIZE(ar0521_link_frequencies) - 1,
-> > > > > +                                       0, ar0521_link_frequencies);
-> > > > > +
-> > > >
-> > > > Admittedly there is only one entry, but did you want to make it a read
-> > > > only control? With no case for it in s_ctrl, you'll get errors thrown
-> > > > from the control handler framework.
-> > >
-> > > I'd make it writable even if there's a single entry, so that userspace
-> > > won't need special logic. It will also prepare for support of multiple
-> > > entries in the future.
-> >
-> > Do you really see a situation where userspace will be configuring link
-> > frequency instead of DT / ACPI?
-> > A quick search seems to imply that only 1 current driver supports a
-> > r/w link frequency - mt9v032. That would imply that having a
-> > controllable link frequency would require the special logic in
-> > userspace.
+> The set applies to next-20221013 including patch#4.
 >
-> Looking at the mainline kernel only, the N9, N950 and Librem5 all
-> specify multiple link frequencies, and so does the sdm845-db845c
-> development board.
-
-Sorry, insufficient time to go through all of those in detail.
-
-Looking at sdm845-db845c, yes the base DT lists multiple link
-frequencies for OV8856 [1], however the OV8856 driver then makes the
-LINK_FREQ control READ_ONLY[2].
-So what is userspace meant to do with that information?
-
-IMX290 also requires 2 link frequencies to be listed, but the control
-is read only, and which is used is based on mode selection.
-(Hmm, I've just noticed that the DT binding example doesn't match the
-driver as it only lists one link-freq. OV8856 binding lists the
-restriction of the driver in the binding).
-
-N9 and N950 use "nokia,smia", which maps to CCS. Yes that driver does
-allow configuration of link frequency from userspace, but it still
-feels to me to be an odd control to allow userspace to control.
-
-[1] https://elixir.bootlin.com/linux/latest/source/arch/arm64/boot/dts/qcom/sdm845-db845c.dts#L1240
-[2] https://elixir.bootlin.com/linux/latest/source/drivers/media/i2c/ov8856.c#L1949
-
-> This indeed requires specific logic in userspace, and to be honest, I
-> haven't really thought about how it would be implemented. Sakari has
-> more experience than me here, he may be able to shed some light.
+> I can confirm it doesn't break anything for me - though my sensor is a 
+> bog-standard imx577 so it doesn't have any VC support.
 >
-> > I'm always very cautious about drivers that are linking PIXEL_RATE and
-> > LINK_FREQ - most of the sensors are tending to have 2 (or more) PLLs,
-> > and there is a FIFO between the image sensor (PIXEL_RATE) and the MIPI
-> > block (LINK_FREQ). imx290 is certainly wrong (pixel rate does not
-> > change with mode, but link freq does), and I'm fairly certain that
-> > ov7251 is as well (pixel rate is 48MPix/s whether at 240 or 319.2MHz
-> > link frequency). Patches coming soon for both.
+> Before I give you a tested-by for the series .. is this normal ?
 >
-> That's a good point, different link frequencies may or may not result in
-> different pixel rates.
-
-See my response to Jacopo.
-
-As you know I have a fair number of sensors around, and I see a fairly
-large number of the mainline drivers getting this wrong. I don't know
-whether that is down to copy/paste of drivers, or misunderstanding of
-the requirements, but it fouls up frame rate control and exposure
-calibration in almost every case.
-
-  Dave
-
-> > > >         ctrls->test_pattern = v4l2_ctrl_new_std_menu_items(hdl, ops,
-> > > > >                                         V4L2_CID_TEST_PATTERN,
-> > > > >                                         ARRAY_SIZE(test_pattern_menu) - 1,
+> [   90.535909] qcom-camss ac6a000.camss: VFE HW Version = 2.0.1
+> [   90.545756] qcom-camss ac6a000.camss: CSIPHY 3PH HW Version = 
+> 0x40010000
+> [   90.546358] qcom-camss ac6a000.camss: CSID HW Version = 2.0.1
+> [   90.546365] qcom-camss ac6a000.camss: csid_link_setup: Enabled CSID 
+> virtual channels mask 0x1
+> [   90.547675] qcom-camss ac6a000.camss: csid_link_setup: Enabled CSID 
+> virtual channels mask 0x0
 >
-> --
-> Regards,
+> I have
 >
-> Laurent Pinchart
+> - ov9282 on cam1
+> - imx577 on cam2
+>
+> i.e. why do I see this message twice if I only have the one sensor 
+> active, with no VCs and one operable camera ?
+>
+> ---
+> bod
+
+
+Hey Bryan,
+
+I don't see the second print (..."virtual channels mask 0x0") on my side 
+when testing with the standard imx577 driver. I also have imx577 on slot 
+2 and ov9282 on slot 1. I am testing with:
+
+media-ctl --reset
+media-ctl -v -d /dev/media0 -V '"imx577 
+'22-001a'":0[fmt:SRGGB10/4056x3040 field:none]'
+media-ctl -V '"msm_csiphy2":0[fmt:SRGGB10/4056x3040]'
+media-ctl -V '"msm_csid0":0[fmt:SRGGB10/4056x3040]'
+media-ctl -V '"msm_vfe0_rdi0":0[fmt:SRGGB10/4056x3040]'
+media-ctl -l '"msm_csiphy2":1->"msm_csid0":0[1]'
+media-ctl -l '"msm_csid0":1->"msm_vfe0_rdi0":0[1]'
+
+yavta -B capture-mplane -c -I -n 5 -f SRGGB10P -s 4056x3040 -F /dev/video0
+
+
+What is your testing procedure?
+
+
+Regards,
+
+Milen
+
