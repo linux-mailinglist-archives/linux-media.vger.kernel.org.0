@@ -2,117 +2,255 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A788B601C18
-	for <lists+linux-media@lfdr.de>; Tue, 18 Oct 2022 00:12:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C7C07601D56
+	for <lists+linux-media@lfdr.de>; Tue, 18 Oct 2022 01:09:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230144AbiJQWMD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 17 Oct 2022 18:12:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43258 "EHLO
+        id S231174AbiJQXJq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 17 Oct 2022 19:09:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55500 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229976AbiJQWMC (ORCPT
+        with ESMTP id S231653AbiJQXJU (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 17 Oct 2022 18:12:02 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 301886CD2A
-        for <linux-media@vger.kernel.org>; Mon, 17 Oct 2022 15:12:01 -0700 (PDT)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <mgr@pengutronix.de>)
-        id 1okYL0-0006xq-LA; Tue, 18 Oct 2022 00:11:58 +0200
-Received: from [2a0a:edc0:0:1101:1d::ac] (helo=dude04.red.stw.pengutronix.de)
-        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-        (envelope-from <mgr@pengutronix.de>)
-        id 1okYKz-002A1H-Eg; Tue, 18 Oct 2022 00:11:57 +0200
-Received: from mgr by dude04.red.stw.pengutronix.de with local (Exim 4.94.2)
-        (envelope-from <mgr@pengutronix.de>)
-        id 1okYKy-00DFaV-Sk; Tue, 18 Oct 2022 00:11:56 +0200
-From:   Michael Grzeschik <m.grzeschik@pengutronix.de>
-To:     linux-usb@vger.kernel.org
-Cc:     linux-media@vger.kernel.org, balbi@kernel.org,
-        laurent.pinchart@ideasonboard.com, kernel@pengutronix.de
-Subject: [PATCH v2] usb: gadget: uvc: limit isoc_sg to super speed gadgets
-Date:   Tue, 18 Oct 2022 00:11:41 +0200
-Message-Id: <20221017221141.3134818-1-m.grzeschik@pengutronix.de>
-X-Mailer: git-send-email 2.30.2
+        Mon, 17 Oct 2022 19:09:20 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 79D7526564;
+        Mon, 17 Oct 2022 16:09:03 -0700 (PDT)
+Received: from [192.168.2.145] (109-252-119-114.nat.spd-mgts.ru [109.252.119.114])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits))
+        (No client certificate requested)
+        (Authenticated sender: dmitry.osipenko)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 7C1C76601FFC;
+        Tue, 18 Oct 2022 00:07:55 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1666048078;
+        bh=2GrMtWd10Wnlax8s/RjhFcf5NhFdqFOsobxcG/TF5FI=;
+        h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
+        b=bflFd2fuxbZ7WdPgMNPk0ilhalGuPL0tam7c/LkBESyeP9dfPyXqmQE2X55BbuIE2
+         J8njzZuwoJmxNgPTjcH+VIMmQSKJhTbx/FL9qchckumrfUl1+UnqRJsFfzEtApc4kQ
+         M6C3HqvxZaR0Fp3HPJjXJOE0N5C1EyQOa7wW2/qqKFshkfLd8l6M7uLiln01k5/3VB
+         iTXH0Y0piaoaCq6SmFjssHqYn9MiaeLZ4QwPv+OQIdHYcDqILPGZyq+hztt8T5hOxF
+         zPZfkTs30/4mMFqbqGceyUMiC9MQFseaPdnDhp0lUMHlS4xCxQrKMt0LYCsoMxp2G6
+         6W3SIGonkpg1w==
+Message-ID: <d943fec8-a1ef-faa5-4132-c7618acb891f@collabora.com>
+Date:   Tue, 18 Oct 2022 02:07:53 +0300
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.1
+Subject: Re: [PATCH v7 00/21] Move all drivers to a common dma-buf locking
+ convention
+From:   Dmitry Osipenko <dmitry.osipenko@collabora.com>
+To:     David Airlie <airlied@linux.ie>, Gerd Hoffmann <kraxel@redhat.com>,
+        Gurchetan Singh <gurchetansingh@chromium.org>,
+        Chia-I Wu <olvaffe@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+        Daniel Almeida <daniel.almeida@collabora.com>,
+        Gert Wollny <gert.wollny@collabora.com>,
+        Gustavo Padovan <gustavo.padovan@collabora.com>,
+        Daniel Stone <daniel@fooishbar.org>,
+        Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Rob Clark <robdclark@gmail.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+        "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+        =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas_os@shipmail.org>,
+        Qiang Yu <yuq825@gmail.com>,
+        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        Amol Maheshwari <amahesh@qti.qualcomm.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Leon Romanovsky <leon@kernel.org>,
+        Juergen Gross <jgross@suse.com>,
+        Stefano Stabellini <sstabellini@kernel.org>,
+        Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>,
+        Tomi Valkeinen <tomba@kernel.org>,
+        Russell King <linux@armlinux.org.uk>,
+        Lucas Stach <l.stach@pengutronix.de>,
+        Christian Gmeiner <christian.gmeiner@gmail.com>,
+        Ruhl Michael J <michael.j.ruhl@intel.com>
+Cc:     dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+        Dmitry Osipenko <digetx@gmail.com>,
+        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+        amd-gfx@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+        kernel@collabora.com, virtualization@lists.linux-foundation.org,
+        linux-rdma@vger.kernel.org, linux-arm-msm@vger.kernel.org
+References: <20221017172229.42269-1-dmitry.osipenko@collabora.com>
+Content-Language: en-US
+In-Reply-To: <20221017172229.42269-1-dmitry.osipenko@collabora.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: mgr@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The overhead of preparing sg data is high for transfers with limited
-payload. When transferring isoc over high-speed usb the maximum payload
-is rather small which is a good argument no to use sg. This patch is
-changing the uvc_video_encode_isoc_sg encode function only to be used
-for super speed gadgets.
+On 10/17/22 20:22, Dmitry Osipenko wrote:
+> Hello,
+> 
+> This series moves all drivers to a dynamic dma-buf locking specification.
+> From now on all dma-buf importers are made responsible for holding
+> dma-buf's reservation lock around all operations performed over dma-bufs
+> in accordance to the locking specification. This allows us to utilize
+> reservation lock more broadly around kernel without fearing of a potential
+> deadlocks.
+> 
+> This patchset passes all i915 selftests. It was also tested using VirtIO,
+> Panfrost, Lima, Tegra, udmabuf, AMDGPU and Nouveau drivers. I tested cases
+> of display+GPU, display+V4L and GPU+V4L dma-buf sharing (where appropriate),
+> which covers majority of kernel drivers since rest of the drivers share
+> same or similar code paths.
+> 
+> Changelog:
+> 
+> v7: - Rebased on top of recent drm-misc-next.
+> 
+>     - Added ack from Jason Gunthorpe to the RDMA patch.
+> 
+>     - Added iosys_map_clear() to dma_buf_vmap_unlocked(), making it fully
+>       consistent with dma_buf_vmap().
+> 
+> v6: - Added r-b from Michael Ruhl to the i915 patch.
+> 
+>     - Added acks from Sumit Semwal and updated commit message of the
+>       "Move dma_buf_vmap() to dynamic locking specification" patch like
+>       was suggested by Sumit.
+> 
+>     - Added "!dmabuf" check to dma_buf_vmap_unlocked() to match the locked
+>       variant of the function, for consistency.
+> 
+> v5: - Added acks and r-bs that were given to v4.
+> 
+>     - Changed i915 preparation patch like was suggested by Michael Ruhl.
+>       The scope of reservation locking is smaller now.
+> 
+> v4: - Added dma_buf_mmap() to the "locking convention" documentation,
+>       which was missed by accident in v3.
+> 
+>     - Added acks from Christian König, Tomasz Figa and Hans Verkuil that
+>       they gave to couple v3 patches.
+> 
+>     - Dropped the "_unlocked" postfix from function names that don't have
+>       the locked variant, as was requested by Christian König.
+> 
+>     - Factored out the per-driver preparations into separate patches
+>       to ease reviewing of the changes, which is now doable without the
+>       global dma-buf functions renaming.
+> 
+>     - Factored out the dynamic locking convention enforcements into separate
+>       patches which add the final dma_resv_assert_held(dmabuf->resv) to the
+>       dma-buf API functions.
+> 
+> v3: - Factored out dma_buf_mmap_unlocked() and attachment functions
+>       into aseparate patches, like was suggested by Christian König.
+> 
+>     - Corrected and factored out dma-buf locking documentation into
+>       a separate patch, like was suggested by Christian König.
+> 
+>     - Intel driver dropped the reservation locking fews days ago from
+>       its BO-release code path, but we need that locking for the imported
+>       GEMs because in the end that code path unmaps the imported GEM.
+>       So I added back the locking needed by the imported GEMs, updating
+>       the "dma-buf attachment locking specification" patch appropriately.
+> 
+>     - Tested Nouveau+Intel dma-buf import/export combo.
+> 
+>     - Tested udmabuf import to i915/Nouveau/AMDGPU.
+> 
+>     - Fixed few places in Etnaviv, Panfrost and Lima drivers that I missed
+>       to switch to locked dma-buf vmapping in the drm/gem: Take reservation
+>       lock for vmap/vunmap operations" patch. In a result invalidated the
+>       Christian's r-b that he gave to v2.
+> 
+>     - Added locked dma-buf vmap/vunmap functions that are needed for fixing
+>       vmappping of Etnaviv, Panfrost and Lima drivers mentioned above.
+>       I actually had this change stashed for the drm-shmem shrinker patchset,
+>       but then realized that it's already needed by the dma-buf patches.
+>       Also improved my tests to better cover these code paths.
+> 
+> v2: - Changed locking specification to avoid problems with a cross-driver
+>       ww locking, like was suggested by Christian König. Now the attach/detach
+>       callbacks are invoked without the held lock and exporter should take the
+>       lock.
+> 
+>     - Added "locking convention" documentation that explains which dma-buf
+>       functions and callbacks are locked/unlocked for importers and exporters,
+>       which was requested by Christian König.
+> 
+>     - Added ack from Tomasz Figa to the V4L patches that he gave to v1.
+> 
+> Dmitry Osipenko (21):
+>   dma-buf: Add unlocked variant of vmapping functions
+>   dma-buf: Add unlocked variant of attachment-mapping functions
+>   drm/gem: Take reservation lock for vmap/vunmap operations
+>   drm/prime: Prepare to dynamic dma-buf locking specification
+>   drm/armada: Prepare to dynamic dma-buf locking specification
+>   drm/i915: Prepare to dynamic dma-buf locking specification
+>   drm/omapdrm: Prepare to dynamic dma-buf locking specification
+>   drm/tegra: Prepare to dynamic dma-buf locking specification
+>   drm/etnaviv: Prepare to dynamic dma-buf locking specification
+>   RDMA/umem: Prepare to dynamic dma-buf locking specification
+>   misc: fastrpc: Prepare to dynamic dma-buf locking specification
+>   xen/gntdev: Prepare to dynamic dma-buf locking specification
+>   media: videobuf2: Prepare to dynamic dma-buf locking specification
+>   media: tegra-vde: Prepare to dynamic dma-buf locking specification
+>   dma-buf: Move dma_buf_vmap() to dynamic locking specification
+>   dma-buf: Move dma_buf_attach() to dynamic locking specification
+>   dma-buf: Move dma_buf_map_attachment() to dynamic locking
+>     specification
+>   dma-buf: Move dma_buf_mmap() to dynamic locking specification
+>   dma-buf: Document dynamic locking convention
+>   media: videobuf2: Stop using internal dma-buf lock
+>   dma-buf: Remove obsoleted internal lock
+> 
+>  Documentation/driver-api/dma-buf.rst          |   6 +
+>  drivers/dma-buf/dma-buf.c                     | 216 +++++++++++++++---
+>  drivers/gpu/drm/armada/armada_gem.c           |   8 +-
+>  drivers/gpu/drm/drm_client.c                  |   4 +-
+>  drivers/gpu/drm/drm_gem.c                     |  24 ++
+>  drivers/gpu/drm/drm_gem_dma_helper.c          |   6 +-
+>  drivers/gpu/drm/drm_gem_framebuffer_helper.c  |   6 +-
+>  drivers/gpu/drm/drm_gem_ttm_helper.c          |   9 +-
+>  drivers/gpu/drm/drm_prime.c                   |   6 +-
+>  drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c   |   2 +-
+>  drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c    |   2 +-
+>  drivers/gpu/drm/i915/gem/i915_gem_object.c    |  14 ++
+>  .../drm/i915/gem/selftests/i915_gem_dmabuf.c  |  16 +-
+>  drivers/gpu/drm/lima/lima_sched.c             |   4 +-
+>  drivers/gpu/drm/omapdrm/omap_gem_dmabuf.c     |   4 +-
+>  drivers/gpu/drm/panfrost/panfrost_dump.c      |   4 +-
+>  drivers/gpu/drm/panfrost/panfrost_perfcnt.c   |   6 +-
+>  drivers/gpu/drm/qxl/qxl_object.c              |  17 +-
+>  drivers/gpu/drm/qxl/qxl_prime.c               |   4 +-
+>  drivers/gpu/drm/tegra/gem.c                   |  17 +-
+>  drivers/infiniband/core/umem_dmabuf.c         |   7 +-
+>  .../common/videobuf2/videobuf2-dma-contig.c   |  22 +-
+>  .../media/common/videobuf2/videobuf2-dma-sg.c |  19 +-
+>  .../common/videobuf2/videobuf2-vmalloc.c      |  17 +-
+>  .../platform/nvidia/tegra-vde/dmabuf-cache.c  |   6 +-
+>  drivers/misc/fastrpc.c                        |   6 +-
+>  drivers/xen/gntdev-dmabuf.c                   |   8 +-
+>  include/drm/drm_gem.h                         |   3 +
+>  include/linux/dma-buf.h                       |  17 +-
+>  29 files changed, 325 insertions(+), 155 deletions(-)
+> 
 
-Signed-off-by: Michael Grzeschik <m.grzeschik@pengutronix.de>
+Applied to drm-misc-next
 
----
-v1 -> v2: - always setting mem and sg elements since now both is working in runtime
-
- drivers/usb/gadget/function/uvc_queue.c | 9 +++------
- drivers/usb/gadget/function/uvc_video.c | 9 +++++++--
- 2 files changed, 10 insertions(+), 8 deletions(-)
-
-diff --git a/drivers/usb/gadget/function/uvc_queue.c b/drivers/usb/gadget/function/uvc_queue.c
-index ec500ee499eed1..31c50ba1774f0d 100644
---- a/drivers/usb/gadget/function/uvc_queue.c
-+++ b/drivers/usb/gadget/function/uvc_queue.c
-@@ -84,12 +84,9 @@ static int uvc_buffer_prepare(struct vb2_buffer *vb)
- 		return -ENODEV;
- 
- 	buf->state = UVC_BUF_STATE_QUEUED;
--	if (queue->use_sg) {
--		buf->sgt = vb2_dma_sg_plane_desc(vb, 0);
--		buf->sg = buf->sgt->sgl;
--	} else {
--		buf->mem = vb2_plane_vaddr(vb, 0);
--	}
-+	buf->sgt = vb2_dma_sg_plane_desc(vb, 0);
-+	buf->sg = buf->sgt->sgl;
-+	buf->mem = vb2_plane_vaddr(vb, 0);
- 	buf->length = vb2_plane_size(vb, 0);
- 	if (vb->type == V4L2_BUF_TYPE_VIDEO_CAPTURE)
- 		buf->bytesused = 0;
-diff --git a/drivers/usb/gadget/function/uvc_video.c b/drivers/usb/gadget/function/uvc_video.c
-index bb037fcc90e69e..5081eb3bc5484c 100644
---- a/drivers/usb/gadget/function/uvc_video.c
-+++ b/drivers/usb/gadget/function/uvc_video.c
-@@ -448,6 +448,9 @@ static void uvcg_video_pump(struct work_struct *work)
-  */
- int uvcg_video_enable(struct uvc_video *video, int enable)
- {
-+	struct uvc_device *uvc = video->uvc;
-+	struct usb_composite_dev *cdev = uvc->func.config->cdev;
-+	struct usb_gadget *gadget = cdev->gadget;
- 	unsigned int i;
- 	int ret;
- 
-@@ -479,9 +482,11 @@ int uvcg_video_enable(struct uvc_video *video, int enable)
- 	if (video->max_payload_size) {
- 		video->encode = uvc_video_encode_bulk;
- 		video->payload_size = 0;
--	} else
--		video->encode = video->queue.use_sg ?
-+	} else {
-+		video->encode = (video->queue.use_sg &&
-+				 !(gadget->speed <= USB_SPEED_HIGH)) ?
- 			uvc_video_encode_isoc_sg : uvc_video_encode_isoc;
-+	}
- 
- 	video->req_int_count = 0;
- 
 -- 
-2.30.2
+Best regards,
+Dmitry
 
