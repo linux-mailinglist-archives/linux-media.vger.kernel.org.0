@@ -2,203 +2,238 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D769560127F
-	for <lists+linux-media@lfdr.de>; Mon, 17 Oct 2022 17:10:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BAC666012AE
+	for <lists+linux-media@lfdr.de>; Mon, 17 Oct 2022 17:24:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231638AbiJQPKs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 17 Oct 2022 11:10:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56822 "EHLO
+        id S231345AbiJQPX7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 17 Oct 2022 11:23:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42420 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231480AbiJQPKa (ORCPT
+        with ESMTP id S230498AbiJQPX5 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 17 Oct 2022 11:10:30 -0400
-Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::222])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C9F646CD2F
-        for <linux-media@vger.kernel.org>; Mon, 17 Oct 2022 08:10:08 -0700 (PDT)
-Received: (Authenticated sender: jacopo@jmondi.org)
-        by mail.gandi.net (Postfix) with ESMTPSA id 7E07640003;
-        Mon, 17 Oct 2022 15:10:05 +0000 (UTC)
-Date:   Mon, 17 Oct 2022 17:10:03 +0200
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Krzysztof =?utf-8?Q?Ha=C5=82asa?= <khalasa@piap.pl>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@iki.fi>, linux-media@vger.kernel.org
-Subject: Re: [PATCH 02/10] media: ar0521: Add V4L2_CID_ANALOG_GAIN
-Message-ID: <20221017151003.5vqxgfewyjrmrdei@uno.localdomain>
-References: <20221005190613.394277-1-jacopo@jmondi.org>
- <20221005190613.394277-3-jacopo@jmondi.org>
- <m31qrk6wgc.fsf@t19.piap.pl>
- <20221007071725.zxcbx4kwwh2pt7ax@uno.localdomain>
- <Yz/jqA6ZACHOXxl/@pendragon.ideasonboard.com>
+        Mon, 17 Oct 2022 11:23:57 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3D05622295;
+        Mon, 17 Oct 2022 08:23:56 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4FAF3CCF;
+        Mon, 17 Oct 2022 17:23:54 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1666020234;
+        bh=DltY8pcDH0JhjbrZrMewyQKbVIkGbFx73kY1D/dIVjA=;
+        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+        b=I5NDZm17aYF0F/75KzT2rsv9VRkgElBVkcXJd7TtXjCZDhY1DTgqkutVO+Lzn/mrf
+         LPfXHmWUOJYtFI09Ew2NmcV7PGS5oslP3P626feBLVm/hzXcfpJSoPfUo9T2YIc1ns
+         5l7l97jDebAY5gTf0lqqDLk8fVGTRBNQwm0GITQI=
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <Yz/jqA6ZACHOXxl/@pendragon.ideasonboard.com>
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <89dcd314-37bb-b944-b7e6-b6c71a3514fc@linaro.org>
+References: <20221013121255.1977-1-quic_mmitkov@quicinc.com> <1a7ab9da-e7fb-9077-5d6e-705629bb2b10@linaro.org> <166601200198.3760285.1520904024668899853@Monstersaurus> <89dcd314-37bb-b944-b7e6-b6c71a3514fc@linaro.org>
+Subject: Re: [PATCH v4 0/4] media: camss: sm8250: Virtual channels support for SM8250
+From:   Kieran Bingham <kieran.bingham@ideasonboard.com>
+Cc:     agross@kernel.org, konrad.dybcio@somainline.org,
+        mchehab@kernel.org, cgera@qti.qualcomm.com, gchinnab@quicinc.com,
+        ayasan@qti.qualcomm.com, laurent.pinchart@ideasonboard.com,
+        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+To:     Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        akapatra@quicinc.com, jzala@quicinc.com,
+        linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
+        quic_mmitkov@quicinc.com, robert.foss@linaro.org,
+        todor.too@gmail.com
+Date:   Mon, 17 Oct 2022 16:23:51 +0100
+Message-ID: <166602023184.2677993.9915646081546526687@Monstersaurus>
+User-Agent: alot/0.10
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-I'm back with a few more data...
+Quoting Bryan O'Donoghue (2022-10-17 15:22:10)
+> On 17/10/2022 14:06, Kieran Bingham wrote:
+> > Quoting Bryan O'Donoghue (2022-10-17 01:16:05)
+> >> On 13/10/2022 13:12, quic_mmitkov@quicinc.com wrote:
+> >>> From: Milen Mitkov <quic_mmitkov@quicinc.com>
+> >>>
+> >>> For v4:
+> >>> - fixes the warning reported by the kernel test robot
+> >>> - tiny code change to enable the vc functionality with the partially-=
+applied
+> >>>     multistream patches on linux-next (tested on tag:next-20221010)
+> >>>
+> >>> For v3:
+> >>> - setting the sink pad format on the CSID entity will now propagate t=
+he
+> >>>     format to the source pads to keep the subdev in a valid internal =
+state.
+> >>> - code syntax improvements
+> >>>
+> >>> For v2:
+> >>> - code syntax improvements
+> >>> - The info print for the enabled VCs was demoted to a dbg print. Can =
+be
+> >>>     enabled with dynamic debug, e.g.:
+> >>> echo "file drivers/media/platform/qcom/camss/* +p" > /sys/kernel/debu=
+g/dynamic_debug/control
+> >>>
+> >>> NOTE: These changes depend on the multistream series, that as of yet
+> >>> is still not merged upstream. However, part of the
+> >>> multistream patches are merged in linux-next (tested on
+> >>> tag:next-20221010), including the patch that introduces the
+> >>> video_device_pipeline_alloc_start() functionality. This allows
+> >>> applying and using this series on linux-next without applying the
+> >>> complete multistream set.
+> >>>
+> >>> The CSID hardware on SM8250 can demux the input data stream into
+> >>> maximum of 4 multiple streams depending on virtual channel (vc)
+> >>> or data type (dt) configuration.
+> >>>
+> >>> Situations in which demuxing is useful:
+> >>> - HDR sensors that produce a 2-frame HDR output, e.g. a light and a d=
+ark frame
+> >>>     (the setup we used for testing, with the imx412 sensor),
+> >>>     or a 3-frame HDR output - light, medium-lit, dark frame.
+> >>> - sensors with additional metadata that is streamed over a different
+> >>>     virtual channel/datatype.
+> >>> - sensors that produce frames with multiple resolutions in the same p=
+ixel
+> >>>     data stream
+> >>>
+> >>> With these changes, the CSID entity has, as it did previously, a sing=
+le
+> >>> sink port (0), and always exposes 4 source ports (1, 2,3, 4). The
+> >>> virtual channel configuration is determined by which of the source po=
+rts
+> >>> are linked to an output VFE line. For example, the link below will
+> >>> configure the CSID driver to enable vc 0 and vc 1:
+> >>>
+> >>> media-ctl -l '"msm_csid0":1->"msm_vfe0_rdi0":0[1]'
+> >>> media-ctl -l '"msm_csid0":2->"msm_vfe0_rdi1":0[1]'
+> >>>
+> >>> which will be demuxed and propagated into /dev/video0
+> >>> and /dev/video1 respectively. With this, the userspace can use
+> >>> any normal V4L2 client app to start/stop/queue/dequeue from these
+> >>> video nodes. Tested with the yavta app.
+> >>>
+> >>> The format of each RDI channel of the used VFE(s) (msm_vfe0_rdi0,
+> >>> msm_vfe0_rdi1,...) must also be configured explicitly.
+> >>>
+> >>> Note that in order to keep a valid internal subdevice state,
+> >>> setting the sink pad format of the CSID subdevice will propagate
+> >>> this format to the source pads. However, since the CSID hardware
+> >>> can demux the input stream into several streams each of which can
+> >>> be a different format, in that case each source pad's
+> >>> format must be set individually, e.g.:
+> >>>
+> >>> media-ctl -V '"msm_csid0":1[fmt:SRGGB10/3840x2160]'
+> >>> media-ctl -V '"msm_csid0":2[fmt:SRGGB10/960x540]'
+> >>>
+> >>> Milen Mitkov (4):
+> >>>     media: camss: sm8250: Virtual channels for CSID
+> >>>     media: camss: vfe: Reserve VFE lines on stream start and link to =
+CSID
+> >>>     media: camss: vfe-480: Multiple outputs support for SM8250
+> >>>     media: camss: sm8250: Pipeline starting and stopping for multiple
+> >>>       virtual channels
+> >>>
+> >>>    .../platform/qcom/camss/camss-csid-gen2.c     | 54 ++++++++++------
+> >>>    .../media/platform/qcom/camss/camss-csid.c    | 44 +++++++++----
+> >>>    .../media/platform/qcom/camss/camss-csid.h    | 11 +++-
+> >>>    .../media/platform/qcom/camss/camss-vfe-480.c | 61 ++++++++++++---=
+----
+> >>>    drivers/media/platform/qcom/camss/camss-vfe.c |  7 +++
+> >>>    .../media/platform/qcom/camss/camss-video.c   | 21 ++++++-
+> >>>    drivers/media/platform/qcom/camss/camss.c     |  2 +-
+> >>>    7 files changed, 140 insertions(+), 60 deletions(-)
+> >>>
+> >>
+> >> Hi Milen
+> >>
+> >> The set applies to next-20221013 including patch#4.
+> >>
+> >> I can confirm it doesn't break anything for me - though my sensor is a
+> >> bog-standard imx577 so it doesn't have any VC support.
+> >=20
+> > Interesting though - the IMX477 has the ability to convey metadata on a
+> > separate VC... That's actually the thing holding back the RPi IMX477
+> > driver from mainline, as the way it was anticipated to support multiple
+> > data streams is with the new multiplexed streams API.
+> >=20
+> > And I think we inferred that the IMX577 and IMX477 are closely related,
+> > so should have similar capabilities for obtaining metadata channels?
+>=20
+> Hmm I was not aware of that.
+>=20
+> If we could import the rpi/imx477.c code into upstrea/imx412.c it might=20
+> be possible
+>=20
+> The core init is very similar
+>=20
+> https://github.com/raspberrypi/linux/blob/rpi-5.19.y/drivers/media/i2c/im=
+x477.c#L167
+>=20
+> https://github.com/raspberrypi/linux/blob/rpi-5.19.y/drivers/media/i2c/im=
+x412.c#L160
+>=20
+> Maybe it would be possible to apply the rest of the imx477 config on-top =
 
-On Fri, Oct 07, 2022 at 11:30:32AM +0300, Laurent Pinchart wrote:
-> Hi Jacopo,
->
-> On Fri, Oct 07, 2022 at 09:17:25AM +0200, Jacopo Mondi wrote:
-> > On Fri, Oct 07, 2022 at 07:20:51AM +0200, Krzysztof Hałasa wrote:
-> > > Jacopo Mondi writes:
-> > >
-> > > > +static int ar0521_read_reg(struct ar0521_dev *sensor, u16 reg, u16 *val)
-> > > > +{
-> > > > +	struct i2c_client *client = sensor->i2c_client;
-> > > > +	unsigned char buf[2];
-> > > > +	struct i2c_msg msg;
-> > > > +	int ret;
-> > > > +
-> > > > +	msg.addr = client->addr;
-> > > > +	msg.flags = client->flags;
-> > > > +	msg.len = sizeof(u16);
-> > > > +	msg.buf = buf;
-> > > > +	put_unaligned_be16(reg, buf);
-> > > > +
-> > > > +	ret = i2c_transfer(client->adapter, &msg, 1);
-> > > > +	if (ret < 0)
-> > > > +		return ret;
-> > > > +
-> > > > +	msg.len = sizeof(u16);
-> > > > +	msg.flags = client->flags | I2C_M_RD;
-> > > > +	msg.buf = buf;
-> > > > +
-> > > > +	ret = i2c_transfer(client->adapter, &msg, 1);
-> > > > +	if (ret < 0)
-> > > > +		return ret;
-> > > > +
-> > > > +	*val = get_unaligned_be16(buf);
-> > > > +
-> > > > +	return 0;
-> > > > +}
-> > >
-> > > Why not simply use a shadow register?
-> >
-> > Sorry I didn't get you. Care to expand ?
->
-> I think Krzysztof meant caching the value in the ar0521_dev structure,
-> so it doesn't have to be read back. I2C is slow, let's avoid reads as
-> much as possible.
->
-> This being said, if all gain controls are in the same cluster, you won't
-> need to read back or cache anything yourself, the control framework will
-> handle that for you.
->
-> > > > +static int ar0521_set_analog_gain(struct ar0521_dev *sensor)
-> > > > +{
-> > > > +	u16 global_gain;
-> > > > +	int ret;
-> > > > +
-> > > > +	ret = ar0521_read_reg(sensor, AR0521_REG_GLOBAL_GAIN, &global_gain);
-> > > > +	if (ret)
-> > > > +		return ret;
-> > > > +
-> > > > +	global_gain &= ~AR0521_REG_GLOBAL_GAIN_ANA_MASK;
-> > > > +	global_gain |= sensor->ctrls.ana_gain->val & AR0521_REG_GLOBAL_GAIN_ANA_MASK;
-> > > > +
-> > > > +	return ar0521_write_reg(sensor, AR0521_REG_GLOBAL_GAIN, global_gain);
-> > >
-> > > This one is simple: you can't write to AR0521_REG_GLOBAL_GAIN.
-> >
-> > Uh
-> >
-> > I can guarantee you it works :)
-> >
-> > > You can write to individual color gain registers (any will do for analog
-> > > gain), but writing to AR0521_REG_GLOBAL_GAIN will reset all the digital
-> > > gains as well. Reading the register doesn't give you anything
-> >
-> > I think that's ok, isn't it ? If one wants to control the global gain
-> > it goes through this register, if individual gains need to be
-> > configured one should not set the global gain ?
->
-> The issue is that if the user has set different digital gains for the
-> different channels, you will overwrite them with the same below for all
-> channels. That's not good.
->
+> as a POC
+>=20
+> https://github.com/raspberrypi/linux/blob/rpi-5.19.y/drivers/media/i2c/im=
+x477.c#L479
+>=20
+> The similary is born out by the shared init code I can see in Leopard=20
+> imaging's driver, I'm not sure if it supports virtual-channels - I'll=20
+> have a look, though.
+>=20
+> What's in the imx477 meta-data ?
 
-Yes, the global digital gain overwrites the per-channel ones
+The exact exposure of the captured frame, exact gain, and frame length,
+and even the temperature of the sensor at the time of capture (not sure
+at /which/ time if this is a long exposure).
 
-> What you could experiment with is register 0x0204
 
-Nope, that's a no-op
+https://git.libcamera.org/libcamera/libcamera.git/tree/src/ipa/raspberrypi/=
+cam_helper_imx477.cpp#n168
 
-> (analog_gain_code_global) which seem to provide a global analog gain
-> without overwriting the digital gains, but it's not entirely clear from
-> the documentation if it will work. The register name comes from
-> SMIA++/CCS, but the documentation doesn't match the coarse/fine gain
-> model, experiments would be needed. Another option is register 0x3028,
+"""
+void CamHelperImx477::populateMetadata(const MdParser::RegisterMap &registe=
+rs,
+				       Metadata &metadata) const
+{
+	DeviceStatus deviceStatus;
 
-0x3028, albeit documented differently, effectively changes the global
-analog gain as the lower 6 bits of 0x305e do.
+	deviceStatus.shutterSpeed =3D exposure(registers.at(expHiReg) * 256 + regi=
+sters.at(expLoReg));
+	deviceStatus.analogueGain =3D gain(registers.at(gainHiReg) * 256 + registe=
+rs.at(gainLoReg));
+	deviceStatus.frameLength =3D registers.at(frameLengthHiReg) * 256 + regist=
+ers.at(frameLengthLoReg);
+	deviceStatus.sensorTemperature =3D std::clamp<int8_t>(registers.at(tempera=
+tureReg), -20, 80);
 
-Values set to 0x3028 are reflected in 0x305e and viceversa, so I think
-that V4L2_CID_ANALOG_GAIN can be safely directed to 0x3028 without
-the need to read back the current digital gain value before reading the
-register.
+	metadata.set("device.status", deviceStatus);
+}
 
-The per-channel analog gains component will be overwritten
-but considering that the existing CID_GAIN, CID_BLUE_BALANCE and
-CID_RED_BALANCE cluster computes the green/red/blue analog and digital
-gains as follows:
+"""
 
-	int green = sensor->ctrls.gain->val;
-	int red = max(green + sensor->ctrls.red_balance->val, 0);
-	int blue = max(green + sensor->ctrls.blue_balance->val, 0);
-	unsigned int gain = min(red, min(green, blue));
-	unsigned int analog = min(gain, 64u); /* range is 0 - 127 */
+Having the embedded metadata from the sensor helps to ensure accurate
+handling in the control loops, so I believe we would always prefer to
+reference this when available, rather than what we 'think' we have
+programmed. (Which due to timing, or any other error - might not be as
+accurate as what the metadata will report).
+--
+Kieran
 
-So that CID_GAIN is mapped on the green channel, the only way to make
-this less nasty would be to actually define multi-dimensional
-DIGITAL and ANALOG gain controls, where the three channels are mapped
-to the three dimensions, and use CID_DIGITAL_GAIN and CID_ANALOG_GAIN
-as global control gains (with the caveat that the global gains are
-meant to override the per channel ones).
 
-Personally I'm fine with a single, non-clusterized CID_ANALOG_GAIN and
-leave the existing cluster as it is. The multi-dimensional control
-might indeed prove useful albeit it will break existing applications
-that rely on the CID_GAIN/RED,BLUE_BALANCE cluster.
-
-> which is also named analog_gain_code_global, but is documented
-> differently.
->
-> Could you btw read registers 0x0000 to 0x00ff and provide the data ?
-
-There is nothing interesting there if not default values. I was hoping
-that analogue_gain_m0 analogue_gain_c0 and analogue_gain_m1
-analogue_gain_c1 would provide a way to inject gains using the
-standard CCS gain model, but those registers are said to be read-only
-and do not change when the global analog gain changes, so I wonder if
-the SMIA/CCS interface for this chip is actually enabled (it might
-depend on the fw revision ?)
-
->
-> > > interesting, either (the analog gain which you overwrite anyway).
-> >
-> > The high bits are the global digital gain, and I need to read its value in
-> > order not to overwrite them.
-> >
-> > > BTW ISP can't really do that color balancing for you, since the sensor
-> > > operates at its native bit resolution and ISP is limited to the output
-> > > format, which is currently only 8-bit.
-> >
-> > I'm not sure what do you mean here either :)
->
-> I'm also not sure to see the problem.
->
-> --
-> Regards,
->
-> Laurent Pinchart
+>=20
+> @Milen if you have the imx577 datasheet - I don't - perhaps we could=20
+> cherry-pick some of the code from imx477 and get the imx412.c->imx577=20
+> dumping VC data out with the RB5 camera mezzanine.
+>=20
+> ---
+> bod
