@@ -2,42 +2,42 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C443F600944
-	for <lists+linux-media@lfdr.de>; Mon, 17 Oct 2022 10:53:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F2860600947
+	for <lists+linux-media@lfdr.de>; Mon, 17 Oct 2022 10:53:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230347AbiJQIxA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 17 Oct 2022 04:53:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58866 "EHLO
+        id S230325AbiJQIxK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 17 Oct 2022 04:53:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59356 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230219AbiJQIwi (ORCPT
+        with ESMTP id S230362AbiJQIwy (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 17 Oct 2022 04:52:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D727E476E9
-        for <linux-media@vger.kernel.org>; Mon, 17 Oct 2022 01:52:02 -0700 (PDT)
+        Mon, 17 Oct 2022 04:52:54 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 74EF31EC77
+        for <linux-media@vger.kernel.org>; Mon, 17 Oct 2022 01:52:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1665996721;
+        s=mimecast20190719; t=1665996749;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=TPdbeQealhb4iYGrILxvz14Fvv/y3kW1q5BYkYvqZW8=;
-        b=Hm26784SHjvXq1l7w38dUqI0xwRU43Jmahm3iJDADB4lrLqSNbpKcTyk7VaH+8m7dDVLWF
-        7zyWhLW9+UZ+uFcTBBBjN/ipJQzuApnudrdOzE1IraL50h2ZIL/e2sP3dLmjzaHts21OLO
-        752LEagWUmsa9wriivF8G6Pr91Gh1vk=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+        bh=YgyPtG2D7KJgGVVAPTOg/f4XZbzbpdj3TrZEbxLCmGA=;
+        b=C8pvmutnQkG2G/jMTM5vPQEWSBLLL8OcvwmS6jcppP71CedLqDrr16H5lKOpeb/ZCK7o6H
+        vJY6+N0P6OyAOyQcbaZMje0G17+sUvkEWBsT8ctAdu3v+IwpYj6mLuvHbQyWGAywb4onV/
+        y/L0Zqe1wZztNqyQF0zpTwAmJUlYcEU=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-352-yELg59cxMBqxvxqC1SmosQ-1; Mon, 17 Oct 2022 04:51:55 -0400
-X-MC-Unique: yELg59cxMBqxvxqC1SmosQ-1
+ us-mta-185-eQRZTa12NNWaQNG54L042A-1; Mon, 17 Oct 2022 04:52:25 -0400
+X-MC-Unique: eQRZTa12NNWaQNG54L042A-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com [10.11.54.3])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 22635185A7AB;
-        Mon, 17 Oct 2022 08:51:48 +0000 (UTC)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 014AD29A8AEB;
+        Mon, 17 Oct 2022 08:51:50 +0000 (UTC)
 Received: from x1.localdomain.com (unknown [10.39.194.44])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 1C16410A58D0;
-        Mon, 17 Oct 2022 08:51:33 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 5D8BD10A58CE;
+        Mon, 17 Oct 2022 08:51:41 +0000 (UTC)
 From:   Hans de Goede <hdegoede@redhat.com>
 To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Sakari Ailus <sakari.ailus@linux.intel.com>
@@ -48,9 +48,9 @@ Cc:     Hans de Goede <hdegoede@redhat.com>,
         Nable <nable.maininbox@googlemail.com>,
         andrey.i.trufanov@gmail.com, Fabio Aiuto <fabioaiuto83@gmail.com>,
         linux-media@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: [PATCH 13/17] media: atomisp: Refactor atomisp_adjust_fmt()
-Date:   Mon, 17 Oct 2022 10:50:53 +0200
-Message-Id: <20221017085057.7483-14-hdegoede@redhat.com>
+Subject: [PATCH 14/17] media: atomisp: Fix atomisp_try_fmt_cap() always returning YUV420 pixelformat
+Date:   Mon, 17 Oct 2022 10:50:54 +0200
+Message-Id: <20221017085057.7483-15-hdegoede@redhat.com>
 In-Reply-To: <20221017085057.7483-1-hdegoede@redhat.com>
 References: <20221017085057.7483-1-hdegoede@redhat.com>
 MIME-Version: 1.0
@@ -66,61 +66,54 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Refactor atomisp_adjust_fmt():
+The atomisp_try_fmt() call in atomisp_try_fmt_cap() replaces
+the pixelformat passed by userspace with the sensors native pixelformat.
 
-1. The block starting at "format_bridge = atomisp_get_format_bridge(...)"
-and ending with "if (field == V4L2_FIELD_ANY) field = V4L2_FIELD_NONE;"
-is duplicated. With only the second block:
-a) Properly checking that format_bridge is not NULL; amd
-b) Having the special handling for IA_CSS_FRAME_FORMAT_RAW
+Which always gets replaced by V4L2_PIX_FMT_YUV420 by atomisp_adjust_fmt()
+because raw sensor formats are not supported.
 
-Remove the first block.
+This needs to be fixed so that userspace which does a try_fmt call before
+s_fmt does not end up always getting YUV420 even if it passed something
+else into the try_fmt call.
 
-2. On a NULL return from atomisp_get_format_bridge(f->fmt.pix.pixelformat)
-fall back to V4L2_PIX_FMT_YUV420 just like in the IA_CSS_FRAME_FORMAT_RAW
-case. atomisp_adjust_fmt() is used in VIDIOC_TRY_FMT handling and that
-should jusy pick a fmt rather then returning -EINVAL.
+To fix this restore the userspace requested pixelformat before
+the atomisp_adjust_fmt() call. atomisp_adjust_fmt() will replace this
+with V4L2_PIX_FMT_YUV420 in case an unsupported format is requested.
+
+Note this relies on the "media: atomisp: Refactor atomisp_adjust_fmt()"
+change, before that atomisp_adjust_fmt() would return -EINVAL for
+unsupported pixelformats.
 
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- .../staging/media/atomisp/pci/atomisp_ioctl.c | 23 +------------------
- 1 file changed, 1 insertion(+), 22 deletions(-)
+ drivers/staging/media/atomisp/pci/atomisp_ioctl.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
 diff --git a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-index e7a26e2986af..fbcd377fcb08 100644
+index fbcd377fcb08..149f7ebafb36 100644
 --- a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
 +++ b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-@@ -878,29 +878,8 @@ static int atomisp_adjust_fmt(struct v4l2_format *f)
- 	u32 padded_width;
+@@ -922,6 +922,7 @@ static int atomisp_try_fmt_cap(struct file *file, void *fh,
+ 			       struct v4l2_format *f)
+ {
+ 	struct video_device *vdev = video_devdata(file);
++	u32 pixfmt = f->fmt.pix.pixelformat;
+ 	int ret;
  
- 	format_bridge = atomisp_get_format_bridge(f->fmt.pix.pixelformat);
--
--	padded_width = f->fmt.pix.width + pad_w;
--
--	if (format_bridge->planar) {
--		f->fmt.pix.bytesperline = padded_width;
--		f->fmt.pix.sizeimage = PAGE_ALIGN(f->fmt.pix.height *
--						  DIV_ROUND_UP(format_bridge->depth *
--						  padded_width, 8));
--	} else {
--		f->fmt.pix.bytesperline = DIV_ROUND_UP(format_bridge->depth *
--						      padded_width, 8);
--		f->fmt.pix.sizeimage = PAGE_ALIGN(f->fmt.pix.height * f->fmt.pix.bytesperline);
--	}
--
--	if (f->fmt.pix.field == V4L2_FIELD_ANY)
--		f->fmt.pix.field = V4L2_FIELD_NONE;
--
--	format_bridge = atomisp_get_format_bridge(f->fmt.pix.pixelformat);
--	if (!format_bridge)
--		return -EINVAL;
--
- 	/* Currently, raw formats are broken!!! */
--	if (format_bridge->sh_fmt == IA_CSS_FRAME_FORMAT_RAW) {
-+	if (!format_bridge || format_bridge->sh_fmt == IA_CSS_FRAME_FORMAT_RAW) {
- 		f->fmt.pix.pixelformat = V4L2_PIX_FMT_YUV420;
+ 	/*
+@@ -935,6 +936,12 @@ static int atomisp_try_fmt_cap(struct file *file, void *fh,
+ 	if (ret)
+ 		return ret;
  
- 		format_bridge = atomisp_get_format_bridge(f->fmt.pix.pixelformat);
++	/*
++	 * atomisp_try_fmt() replaces pixelformat with the sensors native
++	 * format, restore the actual format requested by userspace.
++	 */
++	f->fmt.pix.pixelformat = pixfmt;
++
+ 	return atomisp_adjust_fmt(f);
+ }
+ 
 -- 
 2.37.3
 
