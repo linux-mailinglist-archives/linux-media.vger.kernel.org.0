@@ -2,435 +2,250 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D45F0600691
-	for <lists+linux-media@lfdr.de>; Mon, 17 Oct 2022 08:07:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1DC0C60074C
+	for <lists+linux-media@lfdr.de>; Mon, 17 Oct 2022 09:08:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230115AbiJQGHq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 17 Oct 2022 02:07:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59556 "EHLO
+        id S229910AbiJQHIl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 17 Oct 2022 03:08:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38246 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230071AbiJQGHp (ORCPT
+        with ESMTP id S230155AbiJQHIj (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 17 Oct 2022 02:07:45 -0400
-Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5304A4E635
-        for <linux-media@vger.kernel.org>; Sun, 16 Oct 2022 23:07:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1665986863; x=1697522863;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=UlbYKOZYpKpxkbns/Emn9Wt8+FMeIo+0P+mZALrFYvI=;
-  b=D3MQxeMgowl8EzzrXgJVg1cQ4x6n5T0/gkkZPRgV8qww6un7rZ2B24iF
-   Yj+1C6QNTklFnDgwyRONmZuLim27+zLpGp3T0CbpPcKb3MWX3zL4yQnus
-   jQ36yiFXGoGK5b4pwUOdDVLLPg+ZA/mYjCfyy90AIv+hMf5GSdeD3aGQ6
-   PT9D0GlIJhWMIbA6/kFM3ITOTZLy8fqwwtRO9gr/xCMf8+fJ589ZzEyce
-   qGzK3RMaCSCOVNcysjFFVqUSb663v9E65reNCVRz9Isr0y+0cNQK+e5mO
-   gQ9F+hEMU/HbuBOPDXokVTKUEm7FQxmm2zzUO/0twBy72YxKhRNqSU6hY
-   A==;
-X-IronPort-AV: E=Sophos;i="5.95,190,1661810400"; 
-   d="scan'208";a="26776598"
-Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
-  by mx1-pgp.tq-group.com with ESMTP; 17 Oct 2022 08:07:41 +0200
-Received: from mx1.tq-group.com ([192.168.6.7])
-  by tq-pgp-pr1.tq-net.de (PGP Universal service);
-  Mon, 17 Oct 2022 08:07:41 +0200
-X-PGP-Universal: processed;
-        by tq-pgp-pr1.tq-net.de on Mon, 17 Oct 2022 08:07:41 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1665986861; x=1697522861;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=UlbYKOZYpKpxkbns/Emn9Wt8+FMeIo+0P+mZALrFYvI=;
-  b=eh08TZwQXc4CA7hztQUQ57gBnLcQrPrH7utjgfsH9K5HpjnTbPHiEp5S
-   PM079yS/uS9G2b95KGKfWaUBpjoFXMlljEwucWEBLdbnVIwRVSubVytrZ
-   wdZPH3Fke5NhYbXtM/cVBRdT//9s4YQ4L0hPrc8nGtEBfyo0LmZpMzc+w
-   EwIOeGX3W4EngvnL3G9Vq6f0sA6Red4lqd2ps8CtxDU1G2nXmzXV9Msce
-   pzYHzhCLcKVku8P7fo4nMc7x/PwV4kf8OmkvJLQqTGhbQX4C0Yr4cpLg0
-   zrMAZb+TNUEvOEKe3jt5A/W0R5s7rli26R5+Z/ohm4svAlgUXgH9T0y7O
-   Q==;
-X-IronPort-AV: E=Sophos;i="5.95,190,1661810400"; 
-   d="scan'208";a="26776597"
-Received: from vtuxmail01.tq-net.de ([10.115.0.20])
-  by mx1.tq-group.com with ESMTP; 17 Oct 2022 08:07:41 +0200
-Received: from steina-w.localnet (unknown [10.123.53.21])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+        Mon, 17 Oct 2022 03:08:39 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E51BE222B1;
+        Mon, 17 Oct 2022 00:08:37 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id AE2AD280056;
-        Mon, 17 Oct 2022 08:07:41 +0200 (CEST)
-From:   Alexander Stein <alexander.stein@ew.tq-group.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, Sakari Ailus <sakari.ailus@iki.fi>,
-        Manivannan Sadhasivam <mani@kernel.org>,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>
-Subject: Re: [PATCH v2 11/20] media: i2c: imx290: Define more register macros
-Date:   Mon, 17 Oct 2022 08:07:41 +0200
-Message-ID: <4749306.GXAFRqVoOG@steina-w>
-Organization: TQ-Systems GmbH
-In-Reply-To: <20221016061523.30127-12-laurent.pinchart@ideasonboard.com>
-References: <20221016061523.30127-1-laurent.pinchart@ideasonboard.com> <20221016061523.30127-12-laurent.pinchart@ideasonboard.com>
+        by ams.source.kernel.org (Postfix) with ESMTPS id 971B8B80F6F;
+        Mon, 17 Oct 2022 07:08:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B78F8C433D6;
+        Mon, 17 Oct 2022 07:08:31 +0000 (UTC)
+Message-ID: <11db8299-cb75-dd97-11bd-3f269a8434cf@xs4all.nl>
+Date:   Mon, 17 Oct 2022 09:08:30 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.2
+Subject: Re: [V17,0/15] Enable jpeg enc & dec multi-hardwares for MT8195
+Content-Language: en-US
+To:     "kyrie.wu" <kyrie.wu@mediatek.com>,
+        Irui Wang <irui.wang@mediatek.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Tzung-Bi Shih <tzungbi@chromium.org>,
+        angelogioacchino.delregno@collabora.com,
+        nicolas.dufresne@collabora.com, wenst@chromium.org
+Cc:     Project_Global_Chrome_Upstream_Group@mediatek.com,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org,
+        Tomasz Figa <tfiga@chromium.org>, xia.jiang@mediatek.com,
+        maoguang.meng@mediatek.com,
+        kyrie wu <kyrie.wu@mediatek.corp-partner.google.com>
+References: <20220929090817.24272-1-irui.wang@mediatek.com>
+ <81fb2973c0376c988cf2f6550da24b533e341092.camel@mediatek.com>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <81fb2973c0376c988cf2f6550da24b533e341092.camel@mediatek.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello Laurent,
+Hi Irui,
 
-thanks for the updated series.
+On 10/14/22 11:26, kyrie.wu wrote:
+> On Thu, 2022-09-29 at 17:08 +0800, Irui Wang wrote:
+>> From: kyrie wu <kyrie.wu@mediatek.corp-partner.google.com>
+> 
+> Dear Hans,
+> 
+> Do you have any comments about the series patches?
 
-Am Sonntag, 16. Oktober 2022, 08:15:14 CEST schrieb Laurent Pinchart:
-> Define macros for all registers programmed by the driver for which
-> documentation is available to increase readability. This starts making
-> use of 16-bit registers in the register arrays, so the value field has
-> to be increased to 32 bits.
-> 
-> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> ---
->  drivers/media/i2c/imx290.c | 219 +++++++++++++++++++++----------------
->  1 file changed, 124 insertions(+), 95 deletions(-)
-> 
-> diff --git a/drivers/media/i2c/imx290.c b/drivers/media/i2c/imx290.c
-> index 0f26da5c2e54..93fd043669dc 100644
-> --- a/drivers/media/i2c/imx290.c
-> +++ b/drivers/media/i2c/imx290.c
-> @@ -31,14 +31,73 @@
->  #define IMX290_STANDBY					
-IMX290_REG_8BIT(0x3000)
->  #define IMX290_REGHOLD					
-IMX290_REG_8BIT(0x3001)
->  #define IMX290_XMSTA					
-IMX290_REG_8BIT(0x3002)
-> +#define IMX290_ADBIT					
-IMX290_REG_8BIT(0x3005)
-> +#define IMX290_ADBIT_10BIT				(0 << 0)
-> +#define IMX290_ADBIT_12BIT				(1 << 0)
-> +#define IMX290_CTRL_07					
-IMX290_REG_8BIT(0x3007)
-> +#define IMX290_VREVERSE					
-BIT(0)
-> +#define IMX290_HREVERSE					
-BIT(1)
-> +#define IMX290_WINMODE_1080P				(0 << 4)
-> +#define IMX290_WINMODE_720P				(1 << 4)
-> +#define IMX290_WINMODE_CROP				(4 << 4)
->  #define IMX290_FR_FDG_SEL				
-IMX290_REG_8BIT(0x3009)
->  #define IMX290_BLKLEVEL					
-IMX290_REG_16BIT(0x300a)
->  #define IMX290_GAIN					
-IMX290_REG_8BIT(0x3014)
-> +#define IMX290_VMAX					
-IMX290_REG_24BIT(0x3018)
->  #define IMX290_HMAX					
-IMX290_REG_16BIT(0x301c)
-> +#define IMX290_SHS1					
-IMX290_REG_24BIT(0x3020)
-> +#define IMX290_WINWV_OB					
-IMX290_REG_8BIT(0x303a)
-> +#define IMX290_WINPV					
-IMX290_REG_16BIT(0x303c)
-> +#define IMX290_WINWV					
-IMX290_REG_16BIT(0x303e)
-> +#define IMX290_WINPH					
-IMX290_REG_16BIT(0x3040)
-> +#define IMX290_WINWH					
-IMX290_REG_16BIT(0x3042)
-> +#define IMX290_OUT_CTRL					
-IMX290_REG_8BIT(0x3046)
-> +#define IMX290_ODBIT_10BIT				(0 << 0)
-> +#define IMX290_ODBIT_12BIT				(1 << 0)
-> +#define IMX290_OPORTSEL_PARALLEL			(0x0 << 4)
-> +#define IMX290_OPORTSEL_LVDS_2CH			(0xd << 4)
-> +#define IMX290_OPORTSEL_LVDS_4CH			(0xe << 4)
-> +#define IMX290_OPORTSEL_LVDS_8CH			(0xf << 4)
-> +#define IMX290_XSOUTSEL					
-IMX290_REG_8BIT(0x304b)
-> +#define IMX290_XSOUTSEL_XVSOUTSEL_HIGH			(0 << 0)
-> +#define IMX290_XSOUTSEL_XVSOUTSEL_VSYNC			(2 << 0)
-> +#define IMX290_XSOUTSEL_XHSOUTSEL_HIGH			(0 << 2)
-> +#define IMX290_XSOUTSEL_XHSOUTSEL_HSYNC			(2 << 2)
-> +#define IMX290_INCKSEL1					
-IMX290_REG_8BIT(0x305c)
-> +#define IMX290_INCKSEL2					
-IMX290_REG_8BIT(0x305d)
-> +#define IMX290_INCKSEL3					
-IMX290_REG_8BIT(0x305e)
-> +#define IMX290_INCKSEL4					
-IMX290_REG_8BIT(0x305f)
->  #define IMX290_PGCTRL					
-IMX290_REG_8BIT(0x308c)
-> +#define IMX290_ADBIT1					
-IMX290_REG_8BIT(0x3129)
-> +#define IMX290_ADBIT1_10BIT				0x1d
-> +#define IMX290_ADBIT1_12BIT				0x00
-> +#define IMX290_INCKSEL5					
-IMX290_REG_8BIT(0x315e)
-> +#define IMX290_INCKSEL6					
-IMX290_REG_8BIT(0x3164)
-> +#define IMX290_ADBIT2					
-IMX290_REG_8BIT(0x317c)
-> +#define IMX290_ADBIT2_10BIT				0x12
-> +#define IMX290_ADBIT2_12BIT				0x00
->  #define IMX290_CHIP_ID					
-IMX290_REG_16BIT(0x319a)
-> +#define IMX290_ADBIT3					
-IMX290_REG_16BIT(0x31ec)
+None :-)
 
-AFAICS this is only 8 bits wide.
+It's all in this pull request:
 
-Thanks
-Alexander
+https://patchwork.linuxtv.org/project/linux-media/patch/50618425-5159-4077-3d3b-6938c86ca474@xs4all.nl/
 
-> +#define IMX290_ADBIT3_10BIT				0x37
-> +#define IMX290_ADBIT3_12BIT				0x0e
-> +#define IMX290_REPETITION				
-IMX290_REG_8BIT(0x3405)
->  #define IMX290_PHY_LANE_NUM				
-IMX290_REG_8BIT(0x3407)
-> +#define IMX290_OPB_SIZE_V				
-IMX290_REG_8BIT(0x3414)
-> +#define IMX290_Y_OUT_SIZE				
-IMX290_REG_16BIT(0x3418)
-> +#define IMX290_CSI_DT_FMT				
-IMX290_REG_16BIT(0x3441)
-> +#define IMX290_CSI_DT_FMT_RAW10				
-0x0a0a
-> +#define IMX290_CSI_DT_FMT_RAW12				
-0x0c0c
->  #define IMX290_CSI_LANE_MODE				
-IMX290_REG_8BIT(0x3443)
-> +#define IMX290_EXTCK_FREQ				
-IMX290_REG_16BIT(0x3444)
-> +#define IMX290_TCLKPOST					
-IMX290_REG_16BIT(0x3446)
-> +#define IMX290_THSZERO					
-IMX290_REG_16BIT(0x3448)
-> +#define IMX290_THSPREPARE				
-IMX290_REG_16BIT(0x344a)
-> +#define IMX290_TCLKTRAIL				
-IMX290_REG_16BIT(0x344c)
-> +#define IMX290_THSTRAIL					
-IMX290_REG_16BIT(0x344e)
-> +#define IMX290_TCLKZERO					
-IMX290_REG_16BIT(0x3450)
-> +#define IMX290_TCLKPREPARE				
-IMX290_REG_16BIT(0x3452)
-> +#define IMX290_TLPX					
-IMX290_REG_16BIT(0x3454)
-> +#define IMX290_X_OUT_SIZE				
-IMX290_REG_16BIT(0x3472)
-> 
->  #define IMX290_PGCTRL_REGEN				BIT(0)
->  #define IMX290_PGCTRL_THRU				BIT(1)
-> @@ -54,7 +113,7 @@ static const char * const imx290_supply_name[] = {
-> 
->  struct imx290_regval {
->  	u32 reg;
-> -	u8 val;
-> +	u32 val;
->  };
-> 
->  struct imx290_mode {
-> @@ -116,22 +175,16 @@ static const char * const imx290_test_pattern_menu[] =
-> { };
-> 
->  static const struct imx290_regval imx290_global_init_settings[] = {
-> -	{ IMX290_REG_8BIT(0x3007), 0x00 },
-> -	{ IMX290_REG_8BIT(0x3018), 0x65 },
-> -	{ IMX290_REG_8BIT(0x3019), 0x04 },
-> -	{ IMX290_REG_8BIT(0x301a), 0x00 },
-> -	{ IMX290_REG_8BIT(0x3444), 0x20 },
-> -	{ IMX290_REG_8BIT(0x3445), 0x25 },
-> -	{ IMX290_REG_8BIT(0x303a), 0x0c },
-> -	{ IMX290_REG_8BIT(0x3040), 0x00 },
-> -	{ IMX290_REG_8BIT(0x3041), 0x00 },
-> -	{ IMX290_REG_8BIT(0x303c), 0x00 },
-> -	{ IMX290_REG_8BIT(0x303d), 0x00 },
-> -	{ IMX290_REG_8BIT(0x3042), 0x9c },
-> -	{ IMX290_REG_8BIT(0x3043), 0x07 },
-> -	{ IMX290_REG_8BIT(0x303e), 0x49 },
-> -	{ IMX290_REG_8BIT(0x303f), 0x04 },
-> -	{ IMX290_REG_8BIT(0x304b), 0x0a },
-> +	{ IMX290_CTRL_07, IMX290_WINMODE_1080P },
-> +	{ IMX290_VMAX, 1125 },
-> +	{ IMX290_EXTCK_FREQ, 0x2520 },
-> +	{ IMX290_WINWV_OB, 12 },
-> +	{ IMX290_WINPH, 0 },
-> +	{ IMX290_WINPV, 0 },
-> +	{ IMX290_WINWH, 1948 },
-> +	{ IMX290_WINWV, 1097 },
-> +	{ IMX290_XSOUTSEL, IMX290_XSOUTSEL_XVSOUTSEL_VSYNC |
-> +			   IMX290_XSOUTSEL_XHSOUTSEL_HSYNC },
->  	{ IMX290_REG_8BIT(0x300f), 0x00 },
->  	{ IMX290_REG_8BIT(0x3010), 0x21 },
->  	{ IMX290_REG_8BIT(0x3012), 0x64 },
-> @@ -177,102 +230,78 @@ static const struct imx290_regval
-> imx290_global_init_settings[] = {
-> 
->  static const struct imx290_regval imx290_1080p_settings[] = {
->  	/* mode settings */
-> -	{ IMX290_REG_8BIT(0x3007), 0x00 },
-> -	{ IMX290_REG_8BIT(0x303a), 0x0c },
-> -	{ IMX290_REG_8BIT(0x3414), 0x0a },
-> -	{ IMX290_REG_8BIT(0x3472), 0x80 },
-> -	{ IMX290_REG_8BIT(0x3473), 0x07 },
-> -	{ IMX290_REG_8BIT(0x3418), 0x38 },
-> -	{ IMX290_REG_8BIT(0x3419), 0x04 },
-> +	{ IMX290_CTRL_07, IMX290_WINMODE_1080P },
-> +	{ IMX290_WINWV_OB, 12 },
-> +	{ IMX290_OPB_SIZE_V, 10 },
-> +	{ IMX290_X_OUT_SIZE, 1920 },
-> +	{ IMX290_Y_OUT_SIZE, 1080 },
->  	{ IMX290_REG_8BIT(0x3012), 0x64 },
->  	{ IMX290_REG_8BIT(0x3013), 0x00 },
-> -	{ IMX290_REG_8BIT(0x305c), 0x18 },
-> -	{ IMX290_REG_8BIT(0x305d), 0x03 },
-> -	{ IMX290_REG_8BIT(0x305e), 0x20 },
-> -	{ IMX290_REG_8BIT(0x305f), 0x01 },
-> -	{ IMX290_REG_8BIT(0x315e), 0x1a },
-> -	{ IMX290_REG_8BIT(0x3164), 0x1a },
-> +	{ IMX290_INCKSEL1, 0x18 },
-> +	{ IMX290_INCKSEL2, 0x03 },
-> +	{ IMX290_INCKSEL3, 0x20 },
-> +	{ IMX290_INCKSEL4, 0x01 },
-> +	{ IMX290_INCKSEL5, 0x1a },
-> +	{ IMX290_INCKSEL6, 0x1a },
->  	{ IMX290_REG_8BIT(0x3480), 0x49 },
->  	/* data rate settings */
-> -	{ IMX290_REG_8BIT(0x3405), 0x10 },
-> -	{ IMX290_REG_8BIT(0x3446), 0x57 },
-> -	{ IMX290_REG_8BIT(0x3447), 0x00 },
-> -	{ IMX290_REG_8BIT(0x3448), 0x37 },
-> -	{ IMX290_REG_8BIT(0x3449), 0x00 },
-> -	{ IMX290_REG_8BIT(0x344a), 0x1f },
-> -	{ IMX290_REG_8BIT(0x344b), 0x00 },
-> -	{ IMX290_REG_8BIT(0x344c), 0x1f },
-> -	{ IMX290_REG_8BIT(0x344d), 0x00 },
-> -	{ IMX290_REG_8BIT(0x344e), 0x1f },
-> -	{ IMX290_REG_8BIT(0x344f), 0x00 },
-> -	{ IMX290_REG_8BIT(0x3450), 0x77 },
-> -	{ IMX290_REG_8BIT(0x3451), 0x00 },
-> -	{ IMX290_REG_8BIT(0x3452), 0x1f },
-> -	{ IMX290_REG_8BIT(0x3453), 0x00 },
-> -	{ IMX290_REG_8BIT(0x3454), 0x17 },
-> -	{ IMX290_REG_8BIT(0x3455), 0x00 },
-> +	{ IMX290_REPETITION, 0x10 },
-> +	{ IMX290_TCLKPOST, 87 },
-> +	{ IMX290_THSZERO, 55 },
-> +	{ IMX290_THSPREPARE, 31 },
-> +	{ IMX290_TCLKTRAIL, 31 },
-> +	{ IMX290_THSTRAIL, 31 },
-> +	{ IMX290_TCLKZERO, 119 },
-> +	{ IMX290_TCLKPREPARE, 31 },
-> +	{ IMX290_TLPX, 23 },
->  };
-> 
->  static const struct imx290_regval imx290_720p_settings[] = {
->  	/* mode settings */
-> -	{ IMX290_REG_8BIT(0x3007), 0x10 },
-> -	{ IMX290_REG_8BIT(0x303a), 0x06 },
-> -	{ IMX290_REG_8BIT(0x3414), 0x04 },
-> -	{ IMX290_REG_8BIT(0x3472), 0x00 },
-> -	{ IMX290_REG_8BIT(0x3473), 0x05 },
-> -	{ IMX290_REG_8BIT(0x3418), 0xd0 },
-> -	{ IMX290_REG_8BIT(0x3419), 0x02 },
-> +	{ IMX290_CTRL_07, IMX290_WINMODE_720P },
-> +	{ IMX290_WINWV_OB, 6 },
-> +	{ IMX290_OPB_SIZE_V, 4 },
-> +	{ IMX290_X_OUT_SIZE, 1280 },
-> +	{ IMX290_Y_OUT_SIZE, 720 },
->  	{ IMX290_REG_8BIT(0x3012), 0x64 },
->  	{ IMX290_REG_8BIT(0x3013), 0x00 },
-> -	{ IMX290_REG_8BIT(0x305c), 0x20 },
-> -	{ IMX290_REG_8BIT(0x305d), 0x00 },
-> -	{ IMX290_REG_8BIT(0x305e), 0x20 },
-> -	{ IMX290_REG_8BIT(0x305f), 0x01 },
-> -	{ IMX290_REG_8BIT(0x315e), 0x1a },
-> -	{ IMX290_REG_8BIT(0x3164), 0x1a },
-> +	{ IMX290_INCKSEL1, 0x20 },
-> +	{ IMX290_INCKSEL2, 0x00 },
-> +	{ IMX290_INCKSEL3, 0x20 },
-> +	{ IMX290_INCKSEL4, 0x01 },
-> +	{ IMX290_INCKSEL5, 0x1a },
-> +	{ IMX290_INCKSEL6, 0x1a },
->  	{ IMX290_REG_8BIT(0x3480), 0x49 },
->  	/* data rate settings */
-> -	{ IMX290_REG_8BIT(0x3405), 0x10 },
-> -	{ IMX290_REG_8BIT(0x3446), 0x4f },
-> -	{ IMX290_REG_8BIT(0x3447), 0x00 },
-> -	{ IMX290_REG_8BIT(0x3448), 0x2f },
-> -	{ IMX290_REG_8BIT(0x3449), 0x00 },
-> -	{ IMX290_REG_8BIT(0x344a), 0x17 },
-> -	{ IMX290_REG_8BIT(0x344b), 0x00 },
-> -	{ IMX290_REG_8BIT(0x344c), 0x17 },
-> -	{ IMX290_REG_8BIT(0x344d), 0x00 },
-> -	{ IMX290_REG_8BIT(0x344e), 0x17 },
-> -	{ IMX290_REG_8BIT(0x344f), 0x00 },
-> -	{ IMX290_REG_8BIT(0x3450), 0x57 },
-> -	{ IMX290_REG_8BIT(0x3451), 0x00 },
-> -	{ IMX290_REG_8BIT(0x3452), 0x17 },
-> -	{ IMX290_REG_8BIT(0x3453), 0x00 },
-> -	{ IMX290_REG_8BIT(0x3454), 0x17 },
-> -	{ IMX290_REG_8BIT(0x3455), 0x00 },
-> +	{ IMX290_REPETITION, 0x10 },
-> +	{ IMX290_TCLKPOST, 79 },
-> +	{ IMX290_THSZERO, 47 },
-> +	{ IMX290_THSPREPARE, 23 },
-> +	{ IMX290_TCLKTRAIL, 23 },
-> +	{ IMX290_THSTRAIL, 23 },
-> +	{ IMX290_TCLKZERO, 87 },
-> +	{ IMX290_TCLKPREPARE, 23 },
-> +	{ IMX290_TLPX, 23 },
->  };
-> 
->  static const struct imx290_regval imx290_10bit_settings[] = {
-> -	{ IMX290_REG_8BIT(0x3005), 0x00},
-> -	{ IMX290_REG_8BIT(0x3046), 0x00},
-> -	{ IMX290_REG_8BIT(0x3129), 0x1d},
-> -	{ IMX290_REG_8BIT(0x317c), 0x12},
-> -	{ IMX290_REG_8BIT(0x31ec), 0x37},
-> -	{ IMX290_REG_8BIT(0x3441), 0x0a},
-> -	{ IMX290_REG_8BIT(0x3442), 0x0a},
-> -	{ IMX290_REG_8BIT(0x300a), 0x3c},
-> -	{ IMX290_REG_8BIT(0x300b), 0x00},
-> +	{ IMX290_ADBIT, IMX290_ADBIT_10BIT },
-> +	{ IMX290_OUT_CTRL, IMX290_ODBIT_10BIT },
-> +	{ IMX290_ADBIT1, IMX290_ADBIT1_10BIT },
-> +	{ IMX290_ADBIT2, IMX290_ADBIT2_10BIT },
-> +	{ IMX290_ADBIT3, IMX290_ADBIT3_10BIT },
-> +	{ IMX290_CSI_DT_FMT, IMX290_CSI_DT_FMT_RAW10 },
-> +	{ IMX290_BLKLEVEL, 60 },
->  };
-> 
->  static const struct imx290_regval imx290_12bit_settings[] = {
-> -	{ IMX290_REG_8BIT(0x3005), 0x01 },
-> -	{ IMX290_REG_8BIT(0x3046), 0x01 },
-> -	{ IMX290_REG_8BIT(0x3129), 0x00 },
-> -	{ IMX290_REG_8BIT(0x317c), 0x00 },
-> -	{ IMX290_REG_8BIT(0x31ec), 0x0e },
-> -	{ IMX290_REG_8BIT(0x3441), 0x0c },
-> -	{ IMX290_REG_8BIT(0x3442), 0x0c },
-> -	{ IMX290_REG_8BIT(0x300a), 0xf0 },
-> -	{ IMX290_REG_8BIT(0x300b), 0x00 },
-> +	{ IMX290_ADBIT, IMX290_ADBIT_12BIT },
-> +	{ IMX290_OUT_CTRL, IMX290_ODBIT_12BIT },
-> +	{ IMX290_ADBIT1, IMX290_ADBIT1_12BIT },
-> +	{ IMX290_ADBIT2, IMX290_ADBIT2_12BIT },
-> +	{ IMX290_ADBIT3, IMX290_ADBIT3_12BIT },
-> +	{ IMX290_CSI_DT_FMT, IMX290_CSI_DT_FMT_RAW12 },
-> +	{ IMX290_BLKLEVEL, 240 },
->  };
-> 
->  /* supported link frequencies */
+Now that rc1 has been released by Linus I expect this PR to be merged by the end of this week
+(depending on Mauro's schedule).
 
-Acked-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+Regards,
 
+	Hans
 
+> 
+> Thanks.
+> 
+> Regards,
+> Kyrie.
+>>
+>> This series adds support for multi hardwares jpeg enc & dec,
+>> by first adding use of_platform_populate to manage each hardware
+>> information:interrupt, clock, register bases and power.
+>> Secondly add jpeg enc & dec work queue to deal with the encoding
+>> or decoding requests of multi-hardwares at the same time.
+>> Lastly, add output picture reorder function interface to
+>> eliminate the out of order images.
+>>
+>> This series has been tested with MT8195 Gstreamer.
+>> Encoding and decoding worked for this chip.
+>>
+>> Patches 1 Adds jpeg encoder dt-bindings for mt8195
+>>
+>> Patches 2 jpeg encoder builds two module for using Multi-HW,
+>> export some functions to make them visible by other modules.
+>>
+>> Patches 3 use devm_of_platform_populate to manage multi-hardware.
+>>
+>> Patch 4 add jpeg encoding timeout function to judge hardware timeout.
+>>
+>> Patch 5 add encoding work queue to deal with multi-hardware encoding
+>> at the same time.
+>>
+>> Patch 6 add output picture reorder function to jpgenc order images.
+>>
+>> Patch 7 add stop cmd function to deal with jpgenc EOS operation.
+>>
+>> Patch 8 Adds jpeg decoder dt-bindings for mt8195
+>>
+>> Patches 9 jpeg decoder builds three module for using Multi-HW,
+>> export some functions to make them visible by other modules.
+>>
+>> Patch 10 use of_platform_populate to manage multi-hardware.
+>>
+>> Patch 11 add jpeg decoding timeout function to judge hardware
+>> timeout.
+>>
+>> Patch 12 add decoding work queue to deal with multi-hardware decoding
+>> at the same time.
+>>
+>> Patch 13 add output picture reorder function to jpgdec order images.
+>>
+>> Patch 14 refactor jpegdec func interface for HW working.
+>>
+>> Patch 15 add stop cmd function to deal with jpgdec EOS operation.
+>>
+>> ---
+>> This series patches dependent on:
+>> media_stage tree:
+>> [1]
+>>
+> https://git.linuxtv.org/media_stage.git/commit/?id=b3627647f9ea7473d10fb08a95fd7c4133a17ca4
+>>
+>> patch1 new jpegdec dt-bindings included files
+>> [2] MM IOMMU binding:
+>>
+> https://patchwork.kernel.org/project/linux-mediatek/patch/20220217113453.13658-2-yong.wu@mediatek.com/
+>>
+>> [3] MT8195 power domain:
+>>
+> https://patchwork.kernel.org/project/linux-mediatek/list/?series=580579
+>>
+>> Changes compared with v16:
+>> - some modifications for patch v16's review comments.
+>>
+>> Changes compared with v15:
+>> - some modifications for patch v15's review comments.
+>>
+>> Changes compared with v14:
+>> - some modifications for patch v14's review comments.
+>>
+>> Changes compared with v13:
+>> - some modifications for patch v13's review comments.
+>> - fix kernel robot check errors.
+>> - fix kernel-doc check warns.
+>> - fix sparse check warns.
+>> - combine jpeg encoder series with decoder series into
+>>   one single series.
+>>
+>> Changes compared with v12:
+>> - some modifications for patch v12's review comments.
+>>
+>> Changes compared with v11:
+>> - some modifications for patch v11's review comments.
+>> - fix yaml file check errors.
+>>
+>> Changes compared with v10:
+>> - some modifications for patch v10's review comments.
+>> - fix Gstreamer test errors.
+>>
+>> Changes compared with v9:
+>> - some modifications for patch v9's review comments.
+>>
+>> Changes compared with v8:
+>> - some modifications for patch v8's review comments.
+>> - add stop cmd function.
+>>
+>> Changes compared with v7:
+>> - some modifications for patch v6's review comments.
+>>
+>> Changes compared with v6:
+>> - new yaml file for mt8195 jpeg encoder.
+>> - some modifications for patch v5's review comments.
+>>
+>> Changes compared with v5:
+>> - use of_platform_populate to replace component framework to
+>>   manage multi-hardware in patch 2.
+>>
+>> Changes compared with v4:
+>> - No change compaered with v4
+>>
+>> Changes compared with v3:
+>> - Structure patches for consistency, non-backward
+>>   compatible and do not break any existing functionality
+>>
+>> Changes compared with v2:
+>> - Split the last two patches into several patches
+>>   to enhance readability
+>> - Correct some syntax errors
+>> - Explain why the component framework is used
+>>
+>> Changes compared with v1:
+>> - Add jpeg encoder dt-bindings for MT8195
+>> - Use component framework to manage jpegenc HW
+>> - Add jpegenc output pic reorder function interface
+>>
+>> kyrie wu (15):
+>>   dt-bindings: mediatek: Add mediatek, mt8195-jpgenc compatible
+>>   mtk-jpegenc: export jpeg encoder functions
+>>   mtk-jpegenc: support jpegenc multi-hardware
+>>   mtk-jpegenc: add jpegenc timeout func interface
+>>   mtk-jpegenc: add jpeg encode worker interface
+>>   mtk-jpegenc: add output pic reorder interface
+>>   mtk-jpegenc: add stop cmd interface for jpgenc
+>>   dt-bindings: mediatek: Add mediatek,mt8195-jpgdec compatible
+>>   media: mtk-jpegdec: export jpeg decoder functions
+>>   media: mtk-jpegdec: support jpegdec multi-hardware
+>>   media: mtk-jpegdec: add jpegdec timeout func interface
+>>   media: mtk-jpegdec: add jpeg decode worker interface
+>>   media: mtk-jpegdec: add output pic reorder interface
+>>   media: mtk-jpegdec: refactor jpegdec func interface
+>>   mtk-jpegdec: add stop cmd interface for jpgdec
+>>
+>>  .../media/mediatek,mt8195-jpegdec.yaml        | 168 ++++++
+>>  .../media/mediatek,mt8195-jpegenc.yaml        | 147 ++++++
+>>  drivers/media/platform/mediatek/jpeg/Makefile |  14 +-
+>>  .../platform/mediatek/jpeg/mtk_jpeg_core.c    | 490
+>> ++++++++++++++++--
+>>  .../platform/mediatek/jpeg/mtk_jpeg_core.h    | 169 +++++-
+>>  .../platform/mediatek/jpeg/mtk_jpeg_dec_hw.c  | 315 ++++++++++-
+>>  .../platform/mediatek/jpeg/mtk_jpeg_dec_hw.h  |   6 +-
+>>  .../platform/mediatek/jpeg/mtk_jpeg_dec_reg.h |   1 +
+>>  .../platform/mediatek/jpeg/mtk_jpeg_enc_hw.c  | 255 +++++++++
+>>  9 files changed, 1482 insertions(+), 83 deletions(-)
+>>  create mode 100644
+>> Documentation/devicetree/bindings/media/mediatek,mt8195-jpegdec.yaml
+>>  create mode 100644
+>> Documentation/devicetree/bindings/media/mediatek,mt8195-jpegenc.yaml
+>>
+> 
