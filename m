@@ -2,255 +2,210 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C7C07601D56
-	for <lists+linux-media@lfdr.de>; Tue, 18 Oct 2022 01:09:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 170FE6022AB
+	for <lists+linux-media@lfdr.de>; Tue, 18 Oct 2022 05:31:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231174AbiJQXJq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 17 Oct 2022 19:09:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55500 "EHLO
+        id S230283AbiJRDb3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 17 Oct 2022 23:31:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43988 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231653AbiJQXJU (ORCPT
+        with ESMTP id S230346AbiJRDaz (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 17 Oct 2022 19:09:20 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 79D7526564;
-        Mon, 17 Oct 2022 16:09:03 -0700 (PDT)
-Received: from [192.168.2.145] (109-252-119-114.nat.spd-mgts.ru [109.252.119.114])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits))
-        (No client certificate requested)
-        (Authenticated sender: dmitry.osipenko)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 7C1C76601FFC;
-        Tue, 18 Oct 2022 00:07:55 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1666048078;
-        bh=2GrMtWd10Wnlax8s/RjhFcf5NhFdqFOsobxcG/TF5FI=;
-        h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
-        b=bflFd2fuxbZ7WdPgMNPk0ilhalGuPL0tam7c/LkBESyeP9dfPyXqmQE2X55BbuIE2
-         J8njzZuwoJmxNgPTjcH+VIMmQSKJhTbx/FL9qchckumrfUl1+UnqRJsFfzEtApc4kQ
-         M6C3HqvxZaR0Fp3HPJjXJOE0N5C1EyQOa7wW2/qqKFshkfLd8l6M7uLiln01k5/3VB
-         iTXH0Y0piaoaCq6SmFjssHqYn9MiaeLZ4QwPv+OQIdHYcDqILPGZyq+hztt8T5hOxF
-         zPZfkTs30/4mMFqbqGceyUMiC9MQFseaPdnDhp0lUMHlS4xCxQrKMt0LYCsoMxp2G6
-         6W3SIGonkpg1w==
-Message-ID: <d943fec8-a1ef-faa5-4132-c7618acb891f@collabora.com>
-Date:   Tue, 18 Oct 2022 02:07:53 +0300
+        Mon, 17 Oct 2022 23:30:55 -0400
+Received: from mailout3.samsung.com (mailout3.samsung.com [203.254.224.33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 433C5A2211
+        for <linux-media@vger.kernel.org>; Mon, 17 Oct 2022 20:22:38 -0700 (PDT)
+Received: from epcas5p2.samsung.com (unknown [182.195.41.40])
+        by mailout3.samsung.com (KnoxPortal) with ESMTP id 20221018031352epoutp0311bb7a534a7177e11ca76c8d6dda4d1d~fC1GSAMqt2032120321epoutp03g
+        for <linux-media@vger.kernel.org>; Tue, 18 Oct 2022 03:13:52 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com 20221018031352epoutp0311bb7a534a7177e11ca76c8d6dda4d1d~fC1GSAMqt2032120321epoutp03g
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+        s=mail20170921; t=1666062832;
+        bh=c/a+95d+SSTk7rbIdpxKMCAMcfv3X4Pw1T9RxrAwG1M=;
+        h=From:To:Cc:In-Reply-To:Subject:Date:References:From;
+        b=JYz9auHiXYhzLOB3gf1mSWUct2JTHoCP6DSPMd/6kVQfRecTLfRDIqnmaPLQgzqHm
+         JXHXq26ajAESVmOiBpXX4k7jdcHz6XFeHUZx6qAdxX4gxO0vRH6DW4g6o+a+F2uqsk
+         dGVFSefsc0LuVonAJxS8z0jMrApMqc6+knqJirw0=
+Received: from epsnrtp2.localdomain (unknown [182.195.42.163]) by
+        epcas5p3.samsung.com (KnoxPortal) with ESMTP id
+        20221018031351epcas5p3273be2a9ab89617cb2ed7a14ab4c026f~fC1FrGjim1357913579epcas5p3d;
+        Tue, 18 Oct 2022 03:13:51 +0000 (GMT)
+Received: from epsmges5p3new.samsung.com (unknown [182.195.38.183]) by
+        epsnrtp2.localdomain (Postfix) with ESMTP id 4MrzTm1h7vz4x9Q9; Tue, 18 Oct
+        2022 03:13:48 +0000 (GMT)
+Received: from epcas5p2.samsung.com ( [182.195.41.40]) by
+        epsmges5p3new.samsung.com (Symantec Messaging Gateway) with SMTP id
+        FC.A7.56352.CE91E436; Tue, 18 Oct 2022 12:13:48 +0900 (KST)
+Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
+        epcas5p4.samsung.com (KnoxPortal) with ESMTPA id
+        20221017141616epcas5p4c2b5406e266beb45d2f80155364c9b45~e4OK1pZhH1394913949epcas5p4W;
+        Mon, 17 Oct 2022 14:16:16 +0000 (GMT)
+Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
+        epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
+        20221017141616epsmtrp1671cfdcd278e61f2c859abeb95ddbc23~e4OK0Yft13032930329epsmtrp1T;
+        Mon, 17 Oct 2022 14:16:16 +0000 (GMT)
+X-AuditID: b6c32a4b-5f7fe7000001dc20-89-634e19ec3f6e
+Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
+        epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+        07.EC.14392.0B36D436; Mon, 17 Oct 2022 23:16:16 +0900 (KST)
+Received: from FDSFTE308 (unknown [107.122.81.79]) by epsmtip1.samsung.com
+        (KnoxPortal) with ESMTPA id
+        20221017141613epsmtip1c028052d20d25d4b07cc20bd48240698~e4OHmNS7O2783727837epsmtip1X;
+        Mon, 17 Oct 2022 14:16:12 +0000 (GMT)
+From:   "Aakarsh Jain" <aakarsh.jain@samsung.com>
+To:     "'Krzysztof Kozlowski'" <krzk@kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <devicetree@vger.kernel.org>
+Cc:     <m.szyprowski@samsung.com>, <andrzej.hajda@intel.com>,
+        <mchehab@kernel.org>, <hverkuil-cisco@xs4all.nl>,
+        <ezequiel@vanguardiasur.com.ar>, <jernej.skrabec@gmail.com>,
+        <benjamin.gaignard@collabora.com>, <stanimir.varbanov@linaro.org>,
+        <dillon.minfei@gmail.com>, <david.plowman@raspberrypi.com>,
+        <mark.rutland@arm.com>, <robh+dt@kernel.org>, <krzk+dt@kernel.org>,
+        <andi@etezian.org>, <alim.akhtar@samsung.com>,
+        <aswani.reddy@samsung.com>, <pankaj.dubey@samsung.com>,
+        <linux-fsd@tesla.com>, <smitha.t@samsung.com>
+In-Reply-To: <87380fdb-4053-e8dc-e997-b7c42be025ca@kernel.org>
+Subject: RE: [Patch v3 01/15] dt-bindings: media: s5p-mfc: Add new DT schema
+ for MFC
+Date:   Mon, 17 Oct 2022 19:46:11 +0530
+Message-ID: <000001d8e233$04db73d0$0e925b70$@samsung.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.1
-Subject: Re: [PATCH v7 00/21] Move all drivers to a common dma-buf locking
- convention
-From:   Dmitry Osipenko <dmitry.osipenko@collabora.com>
-To:     David Airlie <airlied@linux.ie>, Gerd Hoffmann <kraxel@redhat.com>,
-        Gurchetan Singh <gurchetansingh@chromium.org>,
-        Chia-I Wu <olvaffe@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-        Daniel Almeida <daniel.almeida@collabora.com>,
-        Gert Wollny <gert.wollny@collabora.com>,
-        Gustavo Padovan <gustavo.padovan@collabora.com>,
-        Daniel Stone <daniel@fooishbar.org>,
-        Tomeu Vizoso <tomeu.vizoso@collabora.com>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Rob Clark <robdclark@gmail.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
-        "Pan, Xinhui" <Xinhui.Pan@amd.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
-        =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas_os@shipmail.org>,
-        Qiang Yu <yuq825@gmail.com>,
-        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Amol Maheshwari <amahesh@qti.qualcomm.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Leon Romanovsky <leon@kernel.org>,
-        Juergen Gross <jgross@suse.com>,
-        Stefano Stabellini <sstabellini@kernel.org>,
-        Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>,
-        Tomi Valkeinen <tomba@kernel.org>,
-        Russell King <linux@armlinux.org.uk>,
-        Lucas Stach <l.stach@pengutronix.de>,
-        Christian Gmeiner <christian.gmeiner@gmail.com>,
-        Ruhl Michael J <michael.j.ruhl@intel.com>
-Cc:     dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-        Dmitry Osipenko <digetx@gmail.com>,
-        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
-        amd-gfx@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
-        kernel@collabora.com, virtualization@lists.linux-foundation.org,
-        linux-rdma@vger.kernel.org, linux-arm-msm@vger.kernel.org
-References: <20221017172229.42269-1-dmitry.osipenko@collabora.com>
-Content-Language: en-US
-In-Reply-To: <20221017172229.42269-1-dmitry.osipenko@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+X-Mailer: Microsoft Outlook 16.0
+Thread-Index: AQIjXZOHgvokXGuofbg3rWbxTFZEMQGGfBLcASb/h3kCFgW7f61XjFLw
+Content-Language: en-in
+X-Brightmail-Tracker: H4sIAAAAAAAAA02TfVBUVRjG59y9u3ehdr0hDIfNkrlNFjgLbMB6STFKZG5BSUPqZDl0270D
+        DPvVfoAxmUyBKQJSasFKYCyQEIIuH4J8SLCMQiWjICyjC4gkLpWUgAMLAy17ofjvd973ec57
+        nnPm8DkeRZiIn6TSM1oVrSB47mhDp9/L4j993pEFVSxi5GhRA480zU0g5IhpGiU7ausxsq7/
+        LIf88Vo7lyy23OCSl38eQ8lLD53dmwU2lJworgak3TjMI3t7L2Kk+f4Al7w3uZ/su1LII7Mv
+        1nPJCxYbRpYN3kTIcvMiQpbUz2BkZqsFI20tDYDMOGpBIiBVVVQFqEZbKaAGSx9zqCajDaNM
+        LXaEMlce51F3B1p4VG3pESqzy4FSuXWVgFr64nuMyrIM8qhp8/NUz+w0Fis8kLwjkaHljNaX
+        UcnU8iRVQjgRHRe/Kz5UGiQRS8LIbYSvilYy4URkTKw4KknhvAbCN4VWGJylWFqnIwJ37tCq
+        DXrGN1Gt04cTjEau0IRoAnS0UmdQJQSoGP2rkqCgV0Kdwo+SE5dPWRHNgNehkSETmg4ueWQB
+        Nz7EQ6B9eZGTBdz5HngzgFUdpTx28RjAIWP+aucJgH3XKzhrlts5tYBttAJ4yzKMsIsJAM9/
+        5+CuqHh4IBzpyeauNDzxBgCnlyZcG3PwkyhcGPoWW1G54Tvho2Ntrn034vtghmXO5UbxF2F6
+        YxZvhQV4GBwqdwCWn4HdBePoCnPwrbD8hz9Wz+QL538vd3k98Sh4taCBx2q8Ydd8tisExG+5
+        wYoZ06ohEt6pOQNY3ggnr9VhLIug/eTRVZbB+yX2Vb0C1rScRll+Dbb3FzqZ7xzgB2uuBLLl
+        5+CZnmqEnSuEOQvjCFsXwMaiNd4CC++yGSG+CXb+VAbyAGFcF824LppxXQTj/9POAbQS+DAa
+        nTKB0YVqglVM6n9vLlMrzcD1UfyjG8HY6N8BHQDhgw4A+RzCUxA1EyPzEMjpT9MYrTpea1Aw
+        ug4Q6rzvrzkiL5na+dNU+nhJSFhQiFQqDQkLlkoIb4Ep31/mgSfQeiaZYTSMds2H8N1E6ciD
+        r2rHmg9b50Wp32x+49fuX07MRDim+g2ih+nWE0bNwu3Tw+dTbJ8HxLVF0Ht3zT3553j8lDDt
+        pbemj4yMPp1f1/juUpNDU1T++gFeq+CUVSga8H1w0CgetVRV5BDVb28/PDnbWXXMYd+XWpbb
+        5dM92d4r/+Dsbmz3zH775QslX75gbc7tFW9QZ/j1ZYq3KgPUvz21PbVYfO4E6Ckdn92rePSZ
+        0bxtc15Bb4zXh/yo4JbIO4ZP3oNx7hvE/YcSU9QRtUPLCiXt8B+QSyUf22nvvIqDmlHhjaWr
+        EUybPVqeVvz+9fApTB2zkASsb1ZWisT4Yv4W9z1Nf0Vu2rN4j4AW4bMEqkukJf4crY7+Fx4y
+        yGixBAAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFmphleLIzCtJLcpLzFFi42LZdlhJTndDsm+ywdoPIhYP5m1js1j84zmT
+        xf3Fn1ksDm3eym6x5cpsZovlxw+wWsw/co7VYvvBRywWG18AZS/OvMti8Xz+OkaLl7PusVmc
+        P7+B3WLT42usFg9fhVtc3jWHzaJnw1ZWi7VH7rJbLL1+kcli2aY/TBaLtn5ht2jde4Td4u6e
+        bYwWLW1HmBwkPNbMW8PosePuEkaP60s+MXvsnHWX3WPxnpdMHptWdbJ53Lm2h81j85J6j9aj
+        v1g8+rasYvT41zSX3aPryHU2j8+b5DxOff3MHsAXxWWTkpqTWZZapG+XwJXxaflf1oIJohX/
+        Ht9kbGB8LdjFyMkhIWAicbV3M2MXIxeHkMBuRonmS1fZIRIyEv/bjkHZwhIr/z1nhyh6yiix
+        7VYPWIJNQF/i/qkeVhBbRGAXo8SSl+YgRcwCS1kkriy/zgrR8ZlRou3zXLAOTgE7iXcd+5i7
+        GDk4hAVCJHZ/qwMJswioSjTs6GIDsXkFLCVuLvvFCGELSpyc+YQFxGYW0JZ4evMpnL1s4Wtm
+        iOsUJH4+XQZ1hJvE/pnb2CBqxCWO/uxhnsAoPAvJqFlIRs1CMmoWkpYFjCyrGCVTC4pz03OL
+        DQsM81LL9YoTc4tL89L1kvNzNzGCE4qW5g7G7as+6B1iZOJgPMQowcGsJMLr9sUnWYg3JbGy
+        KrUoP76oNCe1+BCjNAeLkjjvha6T8UIC6YklqdmpqQWpRTBZJg5OqQamtOYwXfZ4vVrP6Vc/
+        Sk2aqH3NgvW4f8nP8KfWlzYLZguFMU2tey1zevfevPzdmq5TvZleqs79vvDovpn8ukUVe6dF
+        Vzx8ZP1O+t2bG7qm0axTVSKtlvlNVbhm8vleF0/6P+6FzI9yF/nIJalp5gidOq/Vr6FT/LZ0
+        Q9HjNTIeXyacYryQ8rYrM/mLxIyAVXllXZvuJdsdWxQ5ZdIps7fTEsTYWpW3G+uE9c2Lib2U
+        KL92bdW3nlbpSuUnXcvd7Z7vbgzTSv63yvT7/lkneQ68mvQ6s7X82JnIm2dDXjZ+v8/0+r69
+        rdX9tztnhUmk/2B4c8Iwt/zsAZMoX+eiQ5MKTK47qTjukJh4bafkjfYNSizFGYmGWsxFxYkA
+        8R0G75cDAAA=
+X-CMS-MailID: 20221017141616epcas5p4c2b5406e266beb45d2f80155364c9b45
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-Sendblock-Type: REQ_APPROVE
+CMS-TYPE: 105P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20221011125142epcas5p13c858a5f27830fb1de50fa51e9730eca
+References: <20221011122516.32135-1-aakarsh.jain@samsung.com>
+        <CGME20221011125142epcas5p13c858a5f27830fb1de50fa51e9730eca@epcas5p1.samsung.com>
+        <20221011122516.32135-2-aakarsh.jain@samsung.com>
+        <87380fdb-4053-e8dc-e997-b7c42be025ca@kernel.org>
+X-Spam-Status: No, score=-4.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 10/17/22 20:22, Dmitry Osipenko wrote:
-> Hello,
-> 
-> This series moves all drivers to a dynamic dma-buf locking specification.
-> From now on all dma-buf importers are made responsible for holding
-> dma-buf's reservation lock around all operations performed over dma-bufs
-> in accordance to the locking specification. This allows us to utilize
-> reservation lock more broadly around kernel without fearing of a potential
-> deadlocks.
-> 
-> This patchset passes all i915 selftests. It was also tested using VirtIO,
-> Panfrost, Lima, Tegra, udmabuf, AMDGPU and Nouveau drivers. I tested cases
-> of display+GPU, display+V4L and GPU+V4L dma-buf sharing (where appropriate),
-> which covers majority of kernel drivers since rest of the drivers share
-> same or similar code paths.
-> 
-> Changelog:
-> 
-> v7: - Rebased on top of recent drm-misc-next.
-> 
->     - Added ack from Jason Gunthorpe to the RDMA patch.
-> 
->     - Added iosys_map_clear() to dma_buf_vmap_unlocked(), making it fully
->       consistent with dma_buf_vmap().
-> 
-> v6: - Added r-b from Michael Ruhl to the i915 patch.
-> 
->     - Added acks from Sumit Semwal and updated commit message of the
->       "Move dma_buf_vmap() to dynamic locking specification" patch like
->       was suggested by Sumit.
-> 
->     - Added "!dmabuf" check to dma_buf_vmap_unlocked() to match the locked
->       variant of the function, for consistency.
-> 
-> v5: - Added acks and r-bs that were given to v4.
-> 
->     - Changed i915 preparation patch like was suggested by Michael Ruhl.
->       The scope of reservation locking is smaller now.
-> 
-> v4: - Added dma_buf_mmap() to the "locking convention" documentation,
->       which was missed by accident in v3.
-> 
->     - Added acks from Christian König, Tomasz Figa and Hans Verkuil that
->       they gave to couple v3 patches.
-> 
->     - Dropped the "_unlocked" postfix from function names that don't have
->       the locked variant, as was requested by Christian König.
-> 
->     - Factored out the per-driver preparations into separate patches
->       to ease reviewing of the changes, which is now doable without the
->       global dma-buf functions renaming.
-> 
->     - Factored out the dynamic locking convention enforcements into separate
->       patches which add the final dma_resv_assert_held(dmabuf->resv) to the
->       dma-buf API functions.
-> 
-> v3: - Factored out dma_buf_mmap_unlocked() and attachment functions
->       into aseparate patches, like was suggested by Christian König.
-> 
->     - Corrected and factored out dma-buf locking documentation into
->       a separate patch, like was suggested by Christian König.
-> 
->     - Intel driver dropped the reservation locking fews days ago from
->       its BO-release code path, but we need that locking for the imported
->       GEMs because in the end that code path unmaps the imported GEM.
->       So I added back the locking needed by the imported GEMs, updating
->       the "dma-buf attachment locking specification" patch appropriately.
-> 
->     - Tested Nouveau+Intel dma-buf import/export combo.
-> 
->     - Tested udmabuf import to i915/Nouveau/AMDGPU.
-> 
->     - Fixed few places in Etnaviv, Panfrost and Lima drivers that I missed
->       to switch to locked dma-buf vmapping in the drm/gem: Take reservation
->       lock for vmap/vunmap operations" patch. In a result invalidated the
->       Christian's r-b that he gave to v2.
-> 
->     - Added locked dma-buf vmap/vunmap functions that are needed for fixing
->       vmappping of Etnaviv, Panfrost and Lima drivers mentioned above.
->       I actually had this change stashed for the drm-shmem shrinker patchset,
->       but then realized that it's already needed by the dma-buf patches.
->       Also improved my tests to better cover these code paths.
-> 
-> v2: - Changed locking specification to avoid problems with a cross-driver
->       ww locking, like was suggested by Christian König. Now the attach/detach
->       callbacks are invoked without the held lock and exporter should take the
->       lock.
-> 
->     - Added "locking convention" documentation that explains which dma-buf
->       functions and callbacks are locked/unlocked for importers and exporters,
->       which was requested by Christian König.
-> 
->     - Added ack from Tomasz Figa to the V4L patches that he gave to v1.
-> 
-> Dmitry Osipenko (21):
->   dma-buf: Add unlocked variant of vmapping functions
->   dma-buf: Add unlocked variant of attachment-mapping functions
->   drm/gem: Take reservation lock for vmap/vunmap operations
->   drm/prime: Prepare to dynamic dma-buf locking specification
->   drm/armada: Prepare to dynamic dma-buf locking specification
->   drm/i915: Prepare to dynamic dma-buf locking specification
->   drm/omapdrm: Prepare to dynamic dma-buf locking specification
->   drm/tegra: Prepare to dynamic dma-buf locking specification
->   drm/etnaviv: Prepare to dynamic dma-buf locking specification
->   RDMA/umem: Prepare to dynamic dma-buf locking specification
->   misc: fastrpc: Prepare to dynamic dma-buf locking specification
->   xen/gntdev: Prepare to dynamic dma-buf locking specification
->   media: videobuf2: Prepare to dynamic dma-buf locking specification
->   media: tegra-vde: Prepare to dynamic dma-buf locking specification
->   dma-buf: Move dma_buf_vmap() to dynamic locking specification
->   dma-buf: Move dma_buf_attach() to dynamic locking specification
->   dma-buf: Move dma_buf_map_attachment() to dynamic locking
->     specification
->   dma-buf: Move dma_buf_mmap() to dynamic locking specification
->   dma-buf: Document dynamic locking convention
->   media: videobuf2: Stop using internal dma-buf lock
->   dma-buf: Remove obsoleted internal lock
-> 
->  Documentation/driver-api/dma-buf.rst          |   6 +
->  drivers/dma-buf/dma-buf.c                     | 216 +++++++++++++++---
->  drivers/gpu/drm/armada/armada_gem.c           |   8 +-
->  drivers/gpu/drm/drm_client.c                  |   4 +-
->  drivers/gpu/drm/drm_gem.c                     |  24 ++
->  drivers/gpu/drm/drm_gem_dma_helper.c          |   6 +-
->  drivers/gpu/drm/drm_gem_framebuffer_helper.c  |   6 +-
->  drivers/gpu/drm/drm_gem_ttm_helper.c          |   9 +-
->  drivers/gpu/drm/drm_prime.c                   |   6 +-
->  drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c   |   2 +-
->  drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c    |   2 +-
->  drivers/gpu/drm/i915/gem/i915_gem_object.c    |  14 ++
->  .../drm/i915/gem/selftests/i915_gem_dmabuf.c  |  16 +-
->  drivers/gpu/drm/lima/lima_sched.c             |   4 +-
->  drivers/gpu/drm/omapdrm/omap_gem_dmabuf.c     |   4 +-
->  drivers/gpu/drm/panfrost/panfrost_dump.c      |   4 +-
->  drivers/gpu/drm/panfrost/panfrost_perfcnt.c   |   6 +-
->  drivers/gpu/drm/qxl/qxl_object.c              |  17 +-
->  drivers/gpu/drm/qxl/qxl_prime.c               |   4 +-
->  drivers/gpu/drm/tegra/gem.c                   |  17 +-
->  drivers/infiniband/core/umem_dmabuf.c         |   7 +-
->  .../common/videobuf2/videobuf2-dma-contig.c   |  22 +-
->  .../media/common/videobuf2/videobuf2-dma-sg.c |  19 +-
->  .../common/videobuf2/videobuf2-vmalloc.c      |  17 +-
->  .../platform/nvidia/tegra-vde/dmabuf-cache.c  |   6 +-
->  drivers/misc/fastrpc.c                        |   6 +-
->  drivers/xen/gntdev-dmabuf.c                   |   8 +-
->  include/drm/drm_gem.h                         |   3 +
->  include/linux/dma-buf.h                       |  17 +-
->  29 files changed, 325 insertions(+), 155 deletions(-)
-> 
 
-Applied to drm-misc-next
 
--- 
-Best regards,
-Dmitry
+> -----Original Message-----
+> From: Krzysztof Kozlowski =5Bmailto:krzk=40kernel.org=5D
+> Sent: 12 October 2022 18:27
+> To: aakarsh jain <aakarsh.jain=40samsung.com>; linux-arm-
+> kernel=40lists.infradead.org; linux-media=40vger.kernel.org; linux-
+> kernel=40vger.kernel.org; devicetree=40vger.kernel.org
+> Cc: m.szyprowski=40samsung.com; andrzej.hajda=40intel.com;
+> mchehab=40kernel.org; hverkuil-cisco=40xs4all.nl;
+> ezequiel=40vanguardiasur.com.ar; jernej.skrabec=40gmail.com;
+> benjamin.gaignard=40collabora.com; stanimir.varbanov=40linaro.org;
+> dillon.minfei=40gmail.com; david.plowman=40raspberrypi.com;
+> mark.rutland=40arm.com; robh+dt=40kernel.org; krzk+dt=40kernel.org;
+> andi=40etezian.org; alim.akhtar=40samsung.com; aswani.reddy=40samsung.com=
+;
+> pankaj.dubey=40samsung.com; linux-fsd=40tesla.com; smitha.t=40samsung.com
+> Subject: Re: =5BPatch v3 01/15=5D dt-bindings: media: s5p-mfc: Add new DT
+> schema for MFC
+>=20
+> On 11/10/2022 08:25, aakarsh jain wrote:
+> > From: Smitha T Murthy <smitha.t=40samsung.com>
+> >
+> > Convert DT schema for s5p-mfc in yaml format
+>=20
+> Convert S5P-MFC bindings to DT schema.
+>=20
+> You also missed full-stop.
+>=20
+Ok will address it in next series.
+
+> My second comment was ignored here.
+>=20
+I missed one review comment which was related to change in commit message. =
+Will address it in next series.
+> >
+> > Cc: linux-fsd=40tesla.com
+> > Signed-off-by: Smitha T Murthy <smitha.t=40samsung.com>
+> > Signed-off-by: Aakarsh Jain <aakarsh.jain=40samsung.com>
+> > ---
+> >  .../devicetree/bindings/media/s5p-mfc.txt     =7C  75 --------
+> >  .../bindings/media/samsung,s5p-mfc.yaml       =7C 163
+> ++++++++++++++++++
+> >  2 files changed, 163 insertions(+), 75 deletions(-)  create mode
+> > 100644 Documentation/devicetree/bindings/media/samsung,s5p-mfc.yaml
+> >
+> > diff --git a/Documentation/devicetree/bindings/media/s5p-mfc.txt
+> > b/Documentation/devicetree/bindings/media/s5p-mfc.txt
+> > index aa54c8159d9f..8b137891791f 100644
+> > --- a/Documentation/devicetree/bindings/media/s5p-mfc.txt
+> > +++ b/Documentation/devicetree/bindings/media/s5p-mfc.txt
+>=20
+> This is a friendly reminder during the review process.
+>=20
+> It seems my previous comments were not fully addressed. Maybe my
+> feedback got lost between the quotes, maybe you just forgot to apply it.
+> Please go back to the previous discussion and either implement all reques=
+ted
+> changes or keep discussing them.
+>=20
+> Thank you.
+>=20
+Apart from your second review comment  I guess we have addressed all your r=
+eview comments in the current patch.
+Please review other changes as well and let us know if any changes required=
+.
+
+Thanks for the review.
+
+> Best regards,
+> Krzysztof
+
 
