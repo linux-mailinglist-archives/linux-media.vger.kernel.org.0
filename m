@@ -2,101 +2,245 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 21995600A9C
-	for <lists+linux-media@lfdr.de>; Mon, 17 Oct 2022 11:27:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2FDC6600AB2
+	for <lists+linux-media@lfdr.de>; Mon, 17 Oct 2022 11:29:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231270AbiJQJ1W (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 17 Oct 2022 05:27:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55740 "EHLO
+        id S230215AbiJQJ3A (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 17 Oct 2022 05:29:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58024 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231196AbiJQJ1U (ORCPT
+        with ESMTP id S230401AbiJQJ26 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 17 Oct 2022 05:27:20 -0400
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E945B2D1EF;
-        Mon, 17 Oct 2022 02:27:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1665998836; x=1697534836;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=uMXEjdYfJ4AJV1TGc6N3Z98FaBO6KSM8lYZW5Txc/+Q=;
-  b=Pi7/Q36Gv0V2i/sunl3bQdHyhH5qB8SHZyMfmWmEat3yrl9eiKxT78Sz
-   APOS0Qb8qzVjrN+KNu07fJY7PNHx6BR3vNnbyS2PlR7gNCTALCG/B3pjI
-   9k7dg1EMl7UN1N1aJmZs6RrJdhY3aY0sh6olGIhCCIrS1byNmiiKokih9
-   rYNJFHXPbcxGE4GVOsKLfRpsj69TJb46Ng5U0gOylBsvY6Mb9zIGJT/+2
-   wDH8gHghzQ3uBIKgysAt4oXt9QEzxK8fuxNPnGt2UdYba7J6MyAienvNa
-   vwMi4RvzF1QZ6NvCZP+EGFWGJw8xlOeBWP4ynSBBnCycHY3jrlswlS21f
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10502"; a="303365454"
-X-IronPort-AV: E=Sophos;i="5.95,191,1661842800"; 
-   d="scan'208";a="303365454"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2022 02:27:08 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10502"; a="630619961"
-X-IronPort-AV: E=Sophos;i="5.95,191,1661842800"; 
-   d="scan'208";a="630619961"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by fmsmga007.fm.intel.com with ESMTP; 17 Oct 2022 02:27:03 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1okMOj-008i6R-2u;
-        Mon, 17 Oct 2022 12:27:01 +0300
-Date:   Mon, 17 Oct 2022 12:27:01 +0300
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Linus Walleij <linus.walleij@linaro.org>
-Cc:     Bartosz Golaszewski <brgl@bgdev.pl>,
-        Kent Gibson <warthog618@gmail.com>, linux-gpio@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
-        linux-actions@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
-        openbmc@lists.ozlabs.org, linux-rpi-kernel@lists.infradead.org,
-        alsa-devel@alsa-project.org, patches@opensource.cirrus.com,
-        linux-mediatek@lists.infradead.org, linux-mips@vger.kernel.org,
-        linux-riscv@lists.infradead.org, linux-omap@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-samsung-soc@vger.kernel.org
-Subject: Re: [rft, PATCH v2 00/36] pinctrl: Clean up and add missed headers
-Message-ID: <Y00f5exY2fM6IwZ+@smile.fi.intel.com>
-References: <20221010201453.77401-1-andriy.shevchenko@linux.intel.com>
- <CACRpkdZ1M3ckw+jFgvMqG4jvR-t_44GPoZ6ZDXszwZCJr-cDpg@mail.gmail.com>
+        Mon, 17 Oct 2022 05:28:58 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 68A6352802
+        for <linux-media@vger.kernel.org>; Mon, 17 Oct 2022 02:28:39 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 4E72960F90
+        for <linux-media@vger.kernel.org>; Mon, 17 Oct 2022 09:28:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EE22DC433C1;
+        Mon, 17 Oct 2022 09:28:31 +0000 (UTC)
+Message-ID: <c0745c66-552e-f5e9-c035-80fc13fc712a@xs4all.nl>
+Date:   Mon, 17 Oct 2022 11:28:30 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CACRpkdZ1M3ckw+jFgvMqG4jvR-t_44GPoZ6ZDXszwZCJr-cDpg@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-X-Spam-Status: No, score=-4.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,
-        SPF_NONE,SUSPICIOUS_RECIPS autolearn=ham autolearn_force=no
-        version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.2
+Subject: Re: V4L2 M2M driver architecture question for a new hardware
+Content-Language: en-US
+To:     Dave Stevenson <dave.stevenson@raspberrypi.com>,
+        Karthik Poduval <karthik.poduval@gmail.com>
+Cc:     Jacopo Mondi <jacopo@jmondi.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>
+References: <CAFP0Ok9iHi+1nyzxMfMA58QC5=H4H48ALBY+1e8eeTMsfbUY3A@mail.gmail.com>
+ <20221013071846.dnp3o3pj747wnknt@uno.localdomain>
+ <CAPY8ntAHvQX=XdrF3gUtDJTgwUoUe+fZwQG5B347+cz-FYeS9Q@mail.gmail.com>
+ <CAFP0Ok_DJpRYdSZe=y0L7DqmzDFB8-GN671oZzTYRFMTVDsJDA@mail.gmail.com>
+ <CAPY8ntBUhbxFGH9W8vQLkTT08H=bv895V7n0fC_y0LJO7xBVoA@mail.gmail.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+In-Reply-To: <CAPY8ntBUhbxFGH9W8vQLkTT08H=bv895V7n0fC_y0LJO7xBVoA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Oct 17, 2022 at 11:02:09AM +0200, Linus Walleij wrote:
-> On Mon, Oct 10, 2022 at 10:15 PM Andy Shevchenko
-> <andriy.shevchenko@linux.intel.com> wrote:
+Hi Karthik,
+
+On 10/14/22 16:49, Dave Stevenson wrote:
+> Hi Karthik
 > 
-> > Currently the header inclusion inside the pinctrl headers seems more arbitrary
-> > than logical. This series is basically out of two parts:
-> > - add missed headers to the pin control drivers / users
-> > - clean up the headers of pin control subsystem
-> >
-> > The idea is to have this series to be pulled after -rc1 by the GPIO and
-> > pin control subsystems, so all new drivers will utilize cleaned up headers
-> > of the pin control.
+> On Fri, 14 Oct 2022 at 15:26, Karthik Poduval <karthik.poduval@gmail.com> wrote:
+>>
+>> Thanks for the reply Jacopo and Dave.
+>>
+>> On Thu, Oct 13, 2022, 2:25 AM Dave Stevenson <dave.stevenson@raspberrypi.com> wrote:
+>>>
+>>> Hi Karthik and Jacopo
+>>>
+>>> On Thu, 13 Oct 2022 at 08:18, Jacopo Mondi <jacopo@jmondi.org> wrote:
+>>>>
+>>>> Hello Karthik
+>>>>
+>>>> On Wed, Oct 12, 2022 at 10:59:50PM -0700, Karthik Poduval wrote:
+>>>>> Hi All,
+>>>>>
+>>>>> I have hardware that does some sort of image manipulation. The
+>>>>> hardware takes 2 inputs.
+>>>>> - image buffer
+>>>>> - config param buffer
+>>>>> and generates one output which is also an image buffer.
+>>>>> The input and output images formats fall under standard image
+>>>>> definitions of V4L2 like various YUV/RGB formats (interleaved or
+>>>>> multiplanar).
+>>>>>
+>>>>> The config param buffer is kind of like a set of instructions for the
+>>>>> hardware that needs to be passed with every input and output image
+>>>>> which tells the hardware how to process the image.
+>>>>> The hardware will be given different input images and output images
+>>>>> every time and possibly different config param buffers too (in some
+>>>>> cases). The config param buffers may have variable sizes too based on
+>>>>> the nature of processing for that frame, but input and output images
+>>>>> are fixed in size for a given context. I should also mention that the
+>>>>> config param buffers are a few KBs in size so zero copy is a
+>>>>> requirement. The config params buffers are written by userspace
+>>>>> (possibly also driver in kernel space) and read by hardware.
+>>>>>
+>>>>
+>>>> This sounds very much how a regular M2M ISP driver works. I can't tell
+>>>> about codecs as I'm no expert there, but I expect them to be similar,
+>>>> so your use case is covered by existing drivers.
+>>>>
+>>>>> Here were two mechanisms I had in mind while trying to design a V4L2
+>>>>> M2M driver for this hardware.
+>>>>> - Use a custom multiplanar input format where one plane is a config
+>>>>> param buffer with remaining planes for input images (in case the input
+>>>>> image is also multiplanar).
+>>>>
+>>>> If you're wondering how to pass parameters to the HW I suggest to
+>>>> consider registering an output video device node, where you simply
+>>>> queue buffers with your parameters to.
+>>>>
+>>>> Your HW could be modeled as a single subdevice with 3 video device
+>>>> nodes, one output device for input images, one output device for
+>>>> parameters, and one capture device for output images.
+>>>>
+>>>>                    +-----------+
+>>>>        +----+      | HW subdav |      +------+
+>>>>        | In | ---> 0           0  --> | out  |
+>>>>        +----+      |           |      +------+
+>>>>                    +-----0-----+
+>>>>                          ^
+>>>>                          |
+>>>>                      +--------+
+>>>>                      | params |
+>>>>                      +--------+
+>>>
+>>> The main drawback of this over the codec model of a single video
+>>> device with both an _OUTPUT and _CAPTURE queue is that you can not run
+>>> multiple instances simultaneously - there is no way to tie the
+>>> relevant clients together. I don't know whether supporting
+>>> simultaneous multiple clients is a requirement in this case, but that
+>>> may be a key decision in choosing how to represent the device.
+>>
+>>
+>> Yes multi context feature of V4L2 M2M is a requirement. Is it possible to have a capture, output and param queues for M2M devices ? It's essentially fits the M2M architecture but with a larger control param so we are looking for zero copy instead of relying on V4L2 ctrl's ioctl based approach.
 > 
-> Aha I see you want to send a pull request so I backed out the applied patches
-> from the series for now.
+> AIUI You can't have multiple input (or output) queues as then it
+> becomes ambiguous as to which queue triggered a poll/select. With one
+> _OUTPUT queue it will trigger "write", and one _CAPTURE queue will
+> trigger "read". Add a 3rd queue and you don't know which one to query.
 
-Can I consider all that you answered to as Rb tag?
+Correct. The m2m framework assumes a single capture and a single output
+queue. There are no plans to change that, and I'm not so sure I want
+that anyway.
 
--- 
-With Best Regards,
-Andy Shevchenko
+> 
+> Using dma-heaps does work - we've used that in the bcm2835-isp driver
+> [1] for passing in lens shading tables (again several kB, but there
+> they are largely static).
+> In that case we need to jump through a couple of hoops to map the
+> dmabuf into the ISP control software's memory space as well, but
+> fundamentally it's very similar.
+> 
+> V4L2_CTRL_FLAG_EXECUTE_ON_WRITE is necessary to handle the case where you:
+> - allocate a buffer from dma-heap and get fd N.
+> - pass the fd into the V4L2 driver, which acquires the underlying dmabuf.
+> - close the fd as userspace doesn't want it anymore.
+> - allocate a new buffer from dma-buf and get fd N again, but it is
+> referencing a new underlying dmabuf.
+> - pass the fd into V4L2 - the control framework would generally view
+> it as "no change" and not call your control handler :-(
+> 
+> If you configure userspace to hang on to the same dmabuf and update
+> it, then you need to add in some method to ensure the config buffer
+> isn't in use by your driver at the point you update it. And don't
+> forget about cache management.
+> 
+> I'll leave it for others to comment on whether it is really acceptable
+> to mainline to use a dmabuf fd in a control.
 
+I have no problem with that, and indeed in that case you need that flag,
+but that's exactly the sort of use-case it was designed for.
 
+Stateless codecs use a /dev/mediaX device and an M2M /dev/videoX device.
+The media device is used for the Request API through which you can associate
+controls with the buffer that you send to the hardware. This can be used
+for the params. For stateless decoders the parameters are controls, and
+are not zero copy. The amount of data is limited. We also added support for
+dynamic arrays since often array controls are small, but they can theoretically
+be large. With dynamic arrays you can just pass what is needed, while still
+allowing for worst-case behavior. Whether that is useful or not for you, I
+don't know.
+
+If you really need zero-copy, then passing a dmabuf fd as a control should
+work fine. You'd be the first doing this, though, so you might encounter
+issues that I overlooked...
+
+The main issue with using a dmabuf fd is how to document and verify the
+contents you pass. Basically it has to be documented as if it was a
+compound control, not a dmabuf. Unless your device will only run on a
+32 bit architecture, you will need to ensure that the data layout is
+the same for 32 bit and 64 bit, and validation is a problem as well:
+you will need to make your own control validation code that maps the
+fd and checks the contents. By default the control framework will just
+validate the fd itself, but you likely want to validate the contents.
+
+Regards,
+
+	Hans
+
+> 
+>   Dave
+> 
+> [1] https://github.com/raspberrypi/linux/blob/rpi-5.15.y/drivers/staging/vc04_services/bcm2835-isp/bcm2835-v4l2-isp.c#L752
+> 
+>>>> The parameters buffer can be of modeled using the v4l2_meta_format[1]
+>>>> interface. The data format of the buffer could be defined as a custom
+>>>> metadata format, you can see examples here [2]
+>>>>
+>>>> [1] https://www.kernel.org/doc/html/latest/userspace-api/media/v4l/dev-meta.html#c.v4l2_meta_format
+>>>> [2] https://www.kernel.org/doc/html/latest/userspace-api/media/v4l/meta-formats.html#meta-formats
+>>>>
+>>>> I suggest to look at the IPU3 and RkISP1 drivers for reference.
+>>>>
+>>>>> - Use dmabuf heaps to allocate config param buffer. Tie this config
+>>>>> param buffer fd to an input buffer (using request API). Driver would
+>>>>> have to attach the config param buffer dmabuf fd, use it and detach.
+>>>>>
+>>>>
+>>>> You should be able to easily allocate buffers in the video device as
+>>>> you would easily do and export them as dmabuf fds by using
+>>>> VIDIOC_EXPBUF [3].
+>>>>
+>>>> Once you have them you can map them in your application code and
+>>>> write their content.
+>>>>
+>>>> [3] https://www.kernel.org/doc/html/latest/userspace-api/media/v4l/vidioc-expbuf.html
+>>>>
+>>>>> Any comments/concerns about the above two mechanisms ?
+>>>>> Any other better ideas ?
+>>>>> Are there any existing V4L2 M2M mechanisms present to deal with per
+>>>>> frame param buffers that are also zero copy ?
+>>>>> Is the media request API able to do zero copy for setting compound
+>>>>> controls for large (several KBs) compound controls ? (making the above
+>>>>> dmabuf heap approach unnecessary)
+>>>>
+>>>> Now, all the above assumes your parameters buffer is modeled as a
+>>>> structure of parameters (and possibly data tables). If you are instead
+>>>> looking at something that can be modeled through controls you might
+>>>> have better guidance by looking at how codecs work, but there I can't
+>>>> help much ;)
+>>>>
+>>>> Hope it helps
+>>>>    j
+>>>>>
+>>>>> --
+>>>>> Regards,
+>>>>> Karthik Poduval
