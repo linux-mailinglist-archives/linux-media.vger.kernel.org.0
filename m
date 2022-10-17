@@ -2,164 +2,167 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 38032600948
-	for <lists+linux-media@lfdr.de>; Mon, 17 Oct 2022 10:53:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7DC43600950
+	for <lists+linux-media@lfdr.de>; Mon, 17 Oct 2022 10:53:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230211AbiJQIxL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 17 Oct 2022 04:53:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59788 "EHLO
+        id S230362AbiJQIxO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 17 Oct 2022 04:53:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59854 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230372AbiJQIwz (ORCPT
+        with ESMTP id S230280AbiJQIw7 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 17 Oct 2022 04:52:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9B95E46D92
-        for <linux-media@vger.kernel.org>; Mon, 17 Oct 2022 01:52:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1665996744;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=W5AfnCvIPYxPgEN9hAaGD5HXf9969B0k37l0uWB8gF4=;
-        b=OGn9ryiSMIDgG9+rokngsNWRgRm639Eju59kYPZK24PwfSe6JIUjB81hB6AfJxTpFg7YlR
-        DG45KGEtPCRzsoNGrL3XN6lmWYY+OBzTADLJJC8iXKzMhExqWy6scd0dHborzZhBrHhJJO
-        FHY5SGhr9p1XTIdI+cF8VaqehiDWa0Q=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-604-hbVI1jLPPNizxRMspn-z4A-1; Mon, 17 Oct 2022 04:52:23 -0400
-X-MC-Unique: hbVI1jLPPNizxRMspn-z4A-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com [10.11.54.3])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7C53A857AA0;
-        Mon, 17 Oct 2022 08:52:12 +0000 (UTC)
-Received: from x1.localdomain.com (unknown [10.39.194.44])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id EBA1F10A58CF;
-        Mon, 17 Oct 2022 08:52:01 +0000 (UTC)
-From:   Hans de Goede <hdegoede@redhat.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     Hans de Goede <hdegoede@redhat.com>,
-        Tsuchiya Yuto <kitakar@gmail.com>,
-        Andy Shevchenko <andy@kernel.org>,
-        Yury Luneff <yury.lunev@gmail.com>,
-        Nable <nable.maininbox@googlemail.com>,
-        andrey.i.trufanov@gmail.com, Fabio Aiuto <fabioaiuto83@gmail.com>,
-        linux-media@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: [PATCH 17/17] media: atomisp: gc0310: Power on sensor from set_fmt() callback
-Date:   Mon, 17 Oct 2022 10:50:57 +0200
-Message-Id: <20221017085057.7483-18-hdegoede@redhat.com>
-In-Reply-To: <20221017085057.7483-1-hdegoede@redhat.com>
-References: <20221017085057.7483-1-hdegoede@redhat.com>
+        Mon, 17 Oct 2022 04:52:59 -0400
+Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com [IPv6:2a00:1450:4864:20::62f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A11749B4B
+        for <linux-media@vger.kernel.org>; Mon, 17 Oct 2022 01:52:37 -0700 (PDT)
+Received: by mail-ej1-x62f.google.com with SMTP id b2so23309319eja.6
+        for <linux-media@vger.kernel.org>; Mon, 17 Oct 2022 01:52:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=RSHN6l2+g+4OGMRyyb272PZL53GFhvSEXhliSYcOFd8=;
+        b=X6igH+Jie1S0VzS+zWZR6N7qO4+ZzW3su1dA/ypmDVJf0+sLibI/eRdvYybkZNB8Fx
+         tRph14UQHSGL+gvGfpqalTHJJwJDMkweJLXyu+ihhEn44rt6Z1pH1cskikX2WSNqbaZC
+         eShz98OUWT/q7B0kNz7WoRHxGEoZ5MnMFQ5RxlSov34h3ToWZQ8qMXG0lZb28Bu3LY9e
+         vVssMEHBwniESvUS5h1nw5HmNA8myx5ybU2ZB6tz1y8UFYLXqoJHtbIT5KwF4Z3nG1wB
+         hZ6XEUAiFUtt4VlyKNAroIKcIhJkuwaxi7YNrvbPMud5aqref871a8W8oOBGPBf0anja
+         e9gA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=RSHN6l2+g+4OGMRyyb272PZL53GFhvSEXhliSYcOFd8=;
+        b=fCAcwePLZiD8JrVw1yjCU4wDF3fAbxM2/moEauet3dbD6PzY1NYZ2IfElofx2pzrvc
+         3/v9GNuNUJiqubzQStWpAdC3YKdhQl7Qo7s3GRUg6L9Zj+mHZYVj4xSmS3zVqYPYZmV2
+         pYdA+uJj0FAakCDLIRi+7Ic71oh4C6swBXzx0hinv1hLU+Sb5MEGimWv/KKPRq3qV9bg
+         jAsyHZp4kBr3IPV7CQhJs8ZiAYd4DDp90ZoJ2csvV4D5rNR2NmHmy6DSaEBiGC99YvNn
+         urtHUF6SjjzT1/B6m3AH/FiClZHcYa6NvQxkPpnhej0ggO522Hk1TswTFFz2u9OnkV8W
+         bcCQ==
+X-Gm-Message-State: ACrzQf3coA3V5T4WLLNJyXSpZJwEVAd1Lo6cVvc+EbOYp5EnKnuqe9SI
+        48GbyL6/quyH7W5SZwAvz36sRcnnX0zLVl0sE8nZ4A==
+X-Google-Smtp-Source: AMsMyM4xXsX24thv22hzdvInSfyg/7yTP/iUIEUiXEmAdaX/1vHBYb0+Be/bfRhSQyyTc1ooPZanlVL4emxNWtmN+mY=
+X-Received: by 2002:a17:907:a06b:b0:78d:d25f:b726 with SMTP id
+ ia11-20020a170907a06b00b0078dd25fb726mr7837040ejc.203.1665996755146; Mon, 17
+ Oct 2022 01:52:35 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
-X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=ham
-        autolearn_force=no version=3.4.6
+References: <20221010201453.77401-1-andriy.shevchenko@linux.intel.com> <20221010201453.77401-2-andriy.shevchenko@linux.intel.com>
+In-Reply-To: <20221010201453.77401-2-andriy.shevchenko@linux.intel.com>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Mon, 17 Oct 2022 10:52:24 +0200
+Message-ID: <CACRpkdbdzFR-a_xh8EjLMAshTeesOYhD3-_Bkc=vi7iK72ZKtA@mail.gmail.com>
+Subject: Re: [PATCH v2 01/36] gpiolib: tegra186: Add missed header(s)
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc:     Marc Zyngier <maz@kernel.org>, Bartosz Golaszewski <brgl@bgdev.pl>,
+        Kent Gibson <warthog618@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Billy Tsai <billy_tsai@aspeedtech.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Chen-Yu Tsai <wenst@chromium.org>,
+        Claudiu Beznea <claudiu.beznea@microchip.com>,
+        Samuel Holland <samuel@sholland.org>,
+        Horatiu Vultur <horatiu.vultur@microchip.com>,
+        =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Phil Edworthy <phil.edworthy@renesas.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Fabien Dessenne <fabien.dessenne@foss.st.com>,
+        Prathamesh Shete <pshete@nvidia.com>,
+        Basavaraj Natikar <Basavaraj.Natikar@amd.com>,
+        linux-gpio@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-media@vger.kernel.org, linux-actions@lists.infradead.org,
+        linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org,
+        linux-rpi-kernel@lists.infradead.org, alsa-devel@alsa-project.org,
+        patches@opensource.cirrus.com, linux-mediatek@lists.infradead.org,
+        linux-mips@vger.kernel.org, linux-riscv@lists.infradead.org,
+        linux-omap@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-samsung-soc@vger.kernel.org,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Patrice Chotard <patrice.chotard@foss.st.com>,
+        =?UTF-8?Q?Andreas_F=C3=A4rber?= <afaerber@suse.de>,
+        Manivannan Sadhasivam <mani@kernel.org>,
+        Andrew Jeffery <andrew@aj.id.au>,
+        Joel Stanley <joel@jms.id.au>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Ray Jui <rjui@broadcom.com>,
+        Scott Branden <sbranden@broadcom.com>,
+        Broadcom internal kernel review list 
+        <bcm-kernel-feedback-list@broadcom.com>,
+        Charles Keepax <ckeepax@opensource.cirrus.com>,
+        Richard Fitzgerald <rf@opensource.cirrus.com>,
+        Dong Aisheng <aisheng.dong@nxp.com>,
+        Fabio Estevam <festevam@gmail.com>,
+        Shawn Guo <shawnguo@kernel.org>, Jacky Bai <ping.bai@nxp.com>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Andy Shevchenko <andy@kernel.org>,
+        Sean Wang <sean.wang@kernel.org>, Andrew Lunn <andrew@lunn.ch>,
+        Gregory Clement <gregory.clement@bootlin.com>,
+        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+        Avi Fishman <avifishman70@gmail.com>,
+        Tomer Maimon <tmaimon77@gmail.com>,
+        Tali Perry <tali.perry1@gmail.com>,
+        Patrick Venture <venture@google.com>,
+        Nancy Yuen <yuenn@google.com>,
+        Benjamin Fair <benjaminfair@google.com>,
+        Ludovic Desroches <ludovic.desroches@microchip.com>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Paul Cercueil <paul@crapouillou.net>,
+        Damien Le Moal <damien.lemoal@wdc.com>,
+        Tony Lindgren <tony@atomide.com>,
+        Haojian Zhuang <haojian.zhuang@linaro.org>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Michal Simek <michal.simek@xilinx.com>,
+        Andy Gross <agross@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@somainline.org>,
+        Tomasz Figa <tomasz.figa@gmail.com>,
+        Sylwester Nawrocki <s.nawrocki@samsung.com>,
+        Alim Akhtar <alim.akhtar@samsung.com>,
+        Viresh Kumar <vireshk@kernel.org>,
+        Shiraz Hashim <shiraz.linux.kernel@gmail.com>, soc@kernel.org,
+        Orson Zhai <orsonzhai@gmail.com>,
+        Baolin Wang <baolin.wang@linux.alibaba.com>,
+        Chunyan Zhang <zhang.lyra@gmail.com>,
+        Emil Renner Berthing <kernel@esmil.dk>,
+        Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
+        Masami Hiramatsu <mhiramat@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Depending on which order userspace makes various v4l2 calls, the sensor
-might still be powered down when set_fmt is called.
+On Mon, Oct 10, 2022 at 10:15 PM Andy Shevchenko
+<andriy.shevchenko@linux.intel.com> wrote:
 
-What should really happen here is delay the writing of the mode-related
-registers till streaming is started, but for now use the same quick fix
-as the atomisp_ov2680 code and call power_up() from set_fmt() in
-combination with keeping track of the power-state to avoid doing the
-power-up sequence twice.
+> Do not imply that some of the generic headers may be always included.
+> Instead, include explicitly what we are direct user of.
+>
+> While at it, sort headers alphabetically.
+>
+> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
----
- drivers/staging/media/atomisp/i2c/atomisp-gc0310.c | 14 ++++++++++++--
- drivers/staging/media/atomisp/i2c/gc0310.h         |  1 +
- 2 files changed, 13 insertions(+), 2 deletions(-)
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 
-diff --git a/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c b/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
-index cbc8b1d91995..45338abb0973 100644
---- a/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
-+++ b/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
-@@ -786,8 +786,6 @@ static int gpio_ctrl(struct v4l2_subdev *sd, bool flag)
- 	return ret;
- }
- 
--static int power_down(struct v4l2_subdev *sd);
--
- static int power_up(struct v4l2_subdev *sd)
- {
- 	struct gc0310_device *dev = to_gc0310_sensor(sd);
-@@ -800,6 +798,9 @@ static int power_up(struct v4l2_subdev *sd)
- 		return -ENODEV;
- 	}
- 
-+	if (dev->power_on)
-+		return 0; /* Already on */
-+
- 	/* power control */
- 	ret = power_ctrl(sd, 1);
- 	if (ret)
-@@ -820,6 +821,7 @@ static int power_up(struct v4l2_subdev *sd)
- 
- 	msleep(100);
- 
-+	dev->power_on = true;
- 	return 0;
- 
- fail_gpio:
-@@ -844,6 +846,9 @@ static int power_down(struct v4l2_subdev *sd)
- 		return -ENODEV;
- 	}
- 
-+	if (!dev->power_on)
-+		return 0; /* Already off */
-+
- 	/* gpio ctrl */
- 	ret = gpio_ctrl(sd, 0);
- 	if (ret) {
-@@ -861,6 +866,7 @@ static int power_down(struct v4l2_subdev *sd)
- 	if (ret)
- 		dev_err(&client->dev, "vprog failed.\n");
- 
-+	dev->power_on = false;
- 	return ret;
- }
- 
-@@ -935,6 +941,9 @@ static int gc0310_set_fmt(struct v4l2_subdev *sd,
- 		return 0;
- 	}
- 
-+	/* s_power has not been called yet for std v4l2 clients (camorama) */
-+	power_up(sd);
-+
- 	dev_dbg(&client->dev, "%s: before gc0310_write_reg_array %s\n",
- 		__func__, dev->res->desc);
- 	ret = startup(sd);
-@@ -1073,6 +1082,7 @@ static int gc0310_s_config(struct v4l2_subdev *sd,
- 	 * as first power on by board may not fulfill the
- 	 * power on sequqence needed by the module
- 	 */
-+	dev->power_on = true; /* force power_down() to run */
- 	ret = power_down(sd);
- 	if (ret) {
- 		dev_err(&client->dev, "gc0310 power-off err.\n");
-diff --git a/drivers/staging/media/atomisp/i2c/gc0310.h b/drivers/staging/media/atomisp/i2c/gc0310.h
-index db643ebc3909..4b9ce681bd93 100644
---- a/drivers/staging/media/atomisp/i2c/gc0310.h
-+++ b/drivers/staging/media/atomisp/i2c/gc0310.h
-@@ -152,6 +152,7 @@ struct gc0310_device {
- 	int vt_pix_clk_freq_mhz;
- 	struct gc0310_resolution *res;
- 	u8 type;
-+	bool power_on;
- };
- 
- enum gc0310_tok_type {
--- 
-2.37.3
-
+Yours,
+Linus Walleij
