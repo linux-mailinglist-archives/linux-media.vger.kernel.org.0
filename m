@@ -2,75 +2,75 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 96F19600671
-	for <lists+linux-media@lfdr.de>; Mon, 17 Oct 2022 07:52:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4C746600679
+	for <lists+linux-media@lfdr.de>; Mon, 17 Oct 2022 07:55:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229564AbiJQFwW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 17 Oct 2022 01:52:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57456 "EHLO
+        id S230053AbiJQFze (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 17 Oct 2022 01:55:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37260 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230076AbiJQFwV (ORCPT
+        with ESMTP id S230063AbiJQFzc (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 17 Oct 2022 01:52:21 -0400
+        Mon, 17 Oct 2022 01:55:32 -0400
 Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 962FB558EB
-        for <linux-media@vger.kernel.org>; Sun, 16 Oct 2022 22:52:17 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E83EB26D5
+        for <linux-media@vger.kernel.org>; Sun, 16 Oct 2022 22:55:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1665985937; x=1697521937;
+  t=1665986131; x=1697522131;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=xPka3LObUG/VkKtgb1BnDWe3VG573dTj68XypImNMcc=;
-  b=fKpP7x72uga0IDHYR33s96KGtHGubrmzU8hV06UaebYpGBFzlnYxfvBr
-   4TZ0jYcJdH2nFuMunM0uACoGcm7vx2XjJf9pLHrj+nz4/UwvbIDtpt4FY
-   XPkTPjd0Qar2wPjp/8YlE0A+/abiKxAlVWs6+f5jpS4AWXPE/vxQErdxy
-   /fxWRZ1yK60wwWGZmjJU6vSjQBhZeiH0LkB21tHe5IlKwvD6+GOfHxeWg
-   jPu/8Llj7NSgpPIVI3TntHCus+BbnmoWF3lS58YMgfk0zjsc/0TQLrY8y
-   FlrGUAQr50V+I18kMjQYCCMd5sQbZ0NBy4UJuen0emQuxFlWUQF4PUAD4
-   w==;
-X-IronPort-AV: E=Sophos;i="5.95,190,1661810400"; 
-   d="scan'208";a="26776104"
-Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
-  by mx1-pgp.tq-group.com with ESMTP; 17 Oct 2022 07:52:15 +0200
-Received: from mx1.tq-group.com ([192.168.6.7])
-  by tq-pgp-pr1.tq-net.de (PGP Universal service);
-  Mon, 17 Oct 2022 07:52:15 +0200
-X-PGP-Universal: processed;
-        by tq-pgp-pr1.tq-net.de on Mon, 17 Oct 2022 07:52:15 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1665985935; x=1697521935;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=xPka3LObUG/VkKtgb1BnDWe3VG573dTj68XypImNMcc=;
-  b=iPFxMkcWjcBCvdzxhOZl5N32xkwkZwYUWyuBw6ZVphzA69mHJG6KwE6N
-   zzpHAF7RrPZ5ef5jLiFlP81lMwpdwYQWDnzfbaY2qbUq5gyL2cETxHnJr
-   awc0qQZlBDpi1O0xTYV1eyJh9hLxTr77S/rDWosKdJJBzA6BGPNiGa3x+
-   psH088G004d8U1iaIOp8T86svyOOrvb8RvlpykWO+LEtp7vzM1rVY+VB4
-   rwY2EbDMet6K+q88s7PP9aEjA0L2180rylpquB1uPrt8ITDzGCgN9sF0l
-   tjT/klL1/BNG7ckaoyrxhfOK931UJP0TWhebR0vbpTqP8bjWPrepuVhCn
+  bh=kyxLLZw2+0qWNp+iSuhlbJDCy+9UPaksPz5OX8dM7Ak=;
+  b=DALD4QaAs2Q+fn+yaHgczigKNKa59gu1hZXjJ6FzmZ67ZBJR/1EykrQP
+   dsl3U3M0IuJsRPd38rK5YMw4xQUQclzJBoZ/ZTcEoLPxrQRQQqZT6p5Y8
+   PZ+MuRK9MG0YsBAX0ANzr9uk1+BU/BLhza1u2zT1TVBSnh7dOMoI8rmt8
+   ABZJBiWi+Id0PKiJJO2Pa3fHSBst+XS9kN2LM0zbdtJPJSvoKjMgCdLjO
+   AhO3m1SNbRmCfKPrq6IP/3WGgjdLipBazM6v7tLQB6H42BbMP9VgRsASn
+   UfvvEEenfNy6Fm7HuPyIMOpW39r1epbh0ZAO7VqTWFnn/gGoDNxE683GW
    g==;
 X-IronPort-AV: E=Sophos;i="5.95,190,1661810400"; 
-   d="scan'208";a="26776103"
+   d="scan'208";a="26776202"
+Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
+  by mx1-pgp.tq-group.com with ESMTP; 17 Oct 2022 07:55:29 +0200
+Received: from mx1.tq-group.com ([192.168.6.7])
+  by tq-pgp-pr1.tq-net.de (PGP Universal service);
+  Mon, 17 Oct 2022 07:55:29 +0200
+X-PGP-Universal: processed;
+        by tq-pgp-pr1.tq-net.de on Mon, 17 Oct 2022 07:55:29 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1665986129; x=1697522129;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=kyxLLZw2+0qWNp+iSuhlbJDCy+9UPaksPz5OX8dM7Ak=;
+  b=VXYJwsRp6Jay8/zdwUqYvev9z0cIiJbhQtlpBGQAWKs3IHqSdrH/supS
+   oAMzxZO6ZrhsHn+1hNT2YpMHtGdcDU2ZhCf+2ExPgioOsG7EQSFIe/iG9
+   WW4usBzih+oswXcn9GZf28EWDDcvgcMlkicDb7wzOjJqQDTFIAAgDV/GR
+   tkSJQJEx2ycDfRRW4jR+Q7Ez9JUis+ODiWsa7e5lQllb2UbxFFw2X9Qbo
+   q4sn9dhh1RJjvSVkaVLinLwL9M3FVQ1gxQl7MGhK+tsBBkc/y+FFwRK5/
+   j7HSOXDITWmVvEisPSn0drty6mRQbmJf0MKyct591OCNMBMC6Saif0stW
+   w==;
+X-IronPort-AV: E=Sophos;i="5.95,190,1661810400"; 
+   d="scan'208";a="26776201"
 Received: from vtuxmail01.tq-net.de ([10.115.0.20])
-  by mx1.tq-group.com with ESMTP; 17 Oct 2022 07:52:15 +0200
+  by mx1.tq-group.com with ESMTP; 17 Oct 2022 07:55:29 +0200
 Received: from steina-w.localnet (unknown [10.123.53.21])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
         (No client certificate requested)
-        by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 6113A280056;
-        Mon, 17 Oct 2022 07:52:15 +0200 (CEST)
+        by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 5D32A280056;
+        Mon, 17 Oct 2022 07:55:29 +0200 (CEST)
 From:   Alexander Stein <alexander.stein@ew.tq-group.com>
 To:     linux-media@vger.kernel.org,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Cc:     Sakari Ailus <sakari.ailus@iki.fi>,
         Manivannan Sadhasivam <mani@kernel.org>,
         Dave Stevenson <dave.stevenson@raspberrypi.com>
-Subject: Re: [PATCH v2 17/20] media: i2c: imx290: Move registers with fixed value to init array
-Date:   Mon, 17 Oct 2022 07:52:00 +0200
-Message-ID: <2651531.mvXUDI8C0e@steina-w>
+Subject: Re: [PATCH v2 18/20] media: i2c: imx290: Factor out format retrieval to separate function
+Date:   Mon, 17 Oct 2022 07:55:28 +0200
+Message-ID: <5869053.lOV4Wx5bFT@steina-w>
 Organization: TQ-Systems GmbH
-In-Reply-To: <20221016061523.30127-18-laurent.pinchart@ideasonboard.com>
-References: <20221016061523.30127-1-laurent.pinchart@ideasonboard.com> <20221016061523.30127-18-laurent.pinchart@ideasonboard.com>
+In-Reply-To: <20221016061523.30127-19-laurent.pinchart@ideasonboard.com>
+References: <20221016061523.30127-1-laurent.pinchart@ideasonboard.com> <20221016061523.30127-19-laurent.pinchart@ideasonboard.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
@@ -85,72 +85,83 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 Hello Laurent,
 
-thanks for the updated series.
+thanks for the updated patch.
 
-Am Sonntag, 16. Oktober 2022, 08:15:20 CEST schrieb Laurent Pinchart:
-> Registers 0x3012, 0x3013 and 0x3480 are not documented and are set in
-> the per-mode register arrays with values indentical for all modes. Move
-> them to the common array.
+Am Sonntag, 16. Oktober 2022, 08:15:21 CEST schrieb Laurent Pinchart:
+> The driver duplicates the same pattern to access the try or active
+> format in multiple locations. Factor it out to a separate function.
 > 
 > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 > ---
->  drivers/media/i2c/imx290.c | 8 ++------
->  1 file changed, 2 insertions(+), 6 deletions(-)
+> Changes since v1:
+> 
+> - Avoid returning NULL from imx290_get_pad_format()
+> ---
+>  drivers/media/i2c/imx290.c | 24 ++++++++++++++----------
+>  1 file changed, 14 insertions(+), 10 deletions(-)
 > 
 > diff --git a/drivers/media/i2c/imx290.c b/drivers/media/i2c/imx290.c
-> index 93eab6c96ca0..0b34d60f8ce2 100644
+> index 0b34d60f8ce2..b0ff0e8ed45a 100644
 > --- a/drivers/media/i2c/imx290.c
 > +++ b/drivers/media/i2c/imx290.c
-> @@ -192,6 +192,7 @@ static const struct imx290_regval
-> imx290_global_init_settings[] = { { IMX290_REG_8BIT(0x300f), 0x00 },
->  	{ IMX290_REG_8BIT(0x3010), 0x21 },
->  	{ IMX290_REG_8BIT(0x3012), 0x64 },
-> +	{ IMX290_REG_8BIT(0x3013), 0x00 },
->  	{ IMX290_REG_8BIT(0x3016), 0x09 },
->  	{ IMX290_REG_8BIT(0x3070), 0x02 },
->  	{ IMX290_REG_8BIT(0x3071), 0x11 },
-> @@ -230,6 +231,7 @@ static const struct imx290_regval
-> imx290_global_init_settings[] = { { IMX290_REG_8BIT(0x33b0), 0x50 },
->  	{ IMX290_REG_8BIT(0x33b2), 0x1a },
->  	{ IMX290_REG_8BIT(0x33b3), 0x04 },
-> +	{ IMX290_REG_8BIT(0x3480), 0x49 },
+> @@ -519,6 +519,16 @@ static const struct v4l2_ctrl_ops imx290_ctrl_ops = {
+>  	.s_ctrl = imx290_set_ctrl,
 >  };
 > 
->  static const struct imx290_regval imx290_1080p_settings[] = {
-> @@ -239,15 +241,12 @@ static const struct imx290_regval
-> imx290_1080p_settings[] = { { IMX290_OPB_SIZE_V, 10 },
->  	{ IMX290_X_OUT_SIZE, 1920 },
->  	{ IMX290_Y_OUT_SIZE, 1080 },
-> -	{ IMX290_REG_8BIT(0x3012), 0x64 },
-> -	{ IMX290_REG_8BIT(0x3013), 0x00 },
->  	{ IMX290_INCKSEL1, 0x18 },
->  	{ IMX290_INCKSEL2, 0x03 },
->  	{ IMX290_INCKSEL3, 0x20 },
->  	{ IMX290_INCKSEL4, 0x01 },
->  	{ IMX290_INCKSEL5, 0x1a },
->  	{ IMX290_INCKSEL6, 0x1a },
-> -	{ IMX290_REG_8BIT(0x3480), 0x49 },
->  	/* data rate settings */
->  	{ IMX290_REPETITION, 0x10 },
->  	{ IMX290_TCLKPOST, 87 },
-> @@ -267,15 +266,12 @@ static const struct imx290_regval
-> imx290_720p_settings[] = { { IMX290_OPB_SIZE_V, 4 },
->  	{ IMX290_X_OUT_SIZE, 1280 },
->  	{ IMX290_Y_OUT_SIZE, 720 },
-> -	{ IMX290_REG_8BIT(0x3012), 0x64 },
-> -	{ IMX290_REG_8BIT(0x3013), 0x00 },
->  	{ IMX290_INCKSEL1, 0x20 },
->  	{ IMX290_INCKSEL2, 0x00 },
->  	{ IMX290_INCKSEL3, 0x20 },
->  	{ IMX290_INCKSEL4, 0x01 },
->  	{ IMX290_INCKSEL5, 0x1a },
->  	{ IMX290_INCKSEL6, 0x1a },
-> -	{ IMX290_REG_8BIT(0x3480), 0x49 },
->  	/* data rate settings */
->  	{ IMX290_REPETITION, 0x10 },
->  	{ IMX290_TCLKPOST, 79 },
+> +static struct v4l2_mbus_framefmt *
+> +imx290_get_pad_format(struct imx290 *imx290, struct v4l2_subdev_state
+> *state, +		      u32 which)
+> +{
+> +	if (which == V4L2_SUBDEV_FORMAT_ACTIVE)
+> +		return &imx290->current_format;
+> +	else
+> +		return v4l2_subdev_get_try_format(&imx290->sd, state, 
+0);
+> +}
+> +
 
-Acked-by:  Alexander Stein <alexander.stein@ew.tq-group.com>
+v4l2_subdev_get_try_format can return NULL, which would be dereferenced later 
+on. But this happens only if state is NULL itself, which will raise a WARN_ON 
+anyway. So i guess this is fine.
+
+Acked-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+
+>  static int imx290_enum_mbus_code(struct v4l2_subdev *sd,
+>  				 struct v4l2_subdev_state 
+*sd_state,
+>  				 struct v4l2_subdev_mbus_code_enum 
+*code)
+> @@ -562,12 +572,7 @@ static int imx290_get_fmt(struct v4l2_subdev *sd,
+> 
+>  	mutex_lock(&imx290->lock);
+> 
+> -	if (fmt->which == V4L2_SUBDEV_FORMAT_TRY)
+> -		framefmt = v4l2_subdev_get_try_format(&imx290->sd, 
+sd_state,
+> -						      fmt-
+>pad);
+> -	else
+> -		framefmt = &imx290->current_format;
+> -
+> +	framefmt = imx290_get_pad_format(imx290, sd_state, fmt->which);
+>  	fmt->format = *framefmt;
+> 
+>  	mutex_unlock(&imx290->lock);
+> @@ -627,10 +632,9 @@ static int imx290_set_fmt(struct v4l2_subdev *sd,
+>  	fmt->format.code = imx290_formats[i].code;
+>  	fmt->format.field = V4L2_FIELD_NONE;
+> 
+> -	if (fmt->which == V4L2_SUBDEV_FORMAT_TRY) {
+> -		format = v4l2_subdev_get_try_format(sd, sd_state, fmt-
+>pad);
+> -	} else {
+> -		format = &imx290->current_format;
+> +	format = imx290_get_pad_format(imx290, sd_state, fmt->which);
+> +
+> +	if (fmt->which == V4L2_SUBDEV_FORMAT_ACTIVE) {
+>  		imx290->current_mode = mode;
+>  		imx290->bpp = imx290_formats[i].bpp;
+
 
 
 
