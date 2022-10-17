@@ -2,250 +2,146 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1DC0C60074C
-	for <lists+linux-media@lfdr.de>; Mon, 17 Oct 2022 09:08:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4FEDC60076A
+	for <lists+linux-media@lfdr.de>; Mon, 17 Oct 2022 09:12:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229910AbiJQHIl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 17 Oct 2022 03:08:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38246 "EHLO
+        id S230085AbiJQHMU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 17 Oct 2022 03:12:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51774 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230155AbiJQHIj (ORCPT
+        with ESMTP id S229597AbiJQHMS (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 17 Oct 2022 03:08:39 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E51BE222B1;
-        Mon, 17 Oct 2022 00:08:37 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 971B8B80F6F;
-        Mon, 17 Oct 2022 07:08:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B78F8C433D6;
-        Mon, 17 Oct 2022 07:08:31 +0000 (UTC)
-Message-ID: <11db8299-cb75-dd97-11bd-3f269a8434cf@xs4all.nl>
-Date:   Mon, 17 Oct 2022 09:08:30 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.2
-Subject: Re: [V17,0/15] Enable jpeg enc & dec multi-hardwares for MT8195
-Content-Language: en-US
-To:     "kyrie.wu" <kyrie.wu@mediatek.com>,
-        Irui Wang <irui.wang@mediatek.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Mon, 17 Oct 2022 03:12:18 -0400
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 71BFFCC5;
+        Mon, 17 Oct 2022 00:12:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1665990737; x=1697526737;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=x6PiYaEhI9CWQtceoPEo/iuzEQmzk58Ipq2FJvB4zG8=;
+  b=jUKKVqMFOxCqhnVk5ka9sAo+6nUlN4r5vCOSWAkxMscf3d2rs0jnfjWi
+   Rc/kQHLpRTDKANMPZR6uCavG6lFf8obLGCsn5Rsm32qdtq4F9xVYZh1Rg
+   21UfAxBrQE30wfoAxQRLBVX/ISTdHpuQIPZDNooZipqJ5fbluIMLZd8NV
+   BRx5fDZGk70cmbFLLF75xqRpdWGavV9YiZrQrHMhQk8c3xrOBHPLuk1pt
+   KJFrCS+Gbhs8NX5ChjvJpDldcVU7JnvgHIaxccZMmLq2VBl3Tz2WWzr/U
+   T8gVwzvOWgMaQzHbI+9Eupncp5+a9lEw2Wj939BbzVqXhjDy5H+MD1smy
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10502"; a="369917627"
+X-IronPort-AV: E=Sophos;i="5.95,190,1661842800"; 
+   d="scan'208";a="369917627"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2022 00:12:16 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10502"; a="630581889"
+X-IronPort-AV: E=Sophos;i="5.95,190,1661842800"; 
+   d="scan'208";a="630581889"
+Received: from punajuuri.fi.intel.com (HELO paasikivi.fi.intel.com) ([10.237.72.43])
+  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2022 00:12:13 -0700
+Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
+        by paasikivi.fi.intel.com (Postfix) with SMTP id E8E10202D5;
+        Mon, 17 Oct 2022 10:12:10 +0300 (EEST)
+Date:   Mon, 17 Oct 2022 07:12:10 +0000
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Prabhakar <prabhakar.csengg@gmail.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Rob Herring <robh+dt@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Tzung-Bi Shih <tzungbi@chromium.org>,
-        angelogioacchino.delregno@collabora.com,
-        nicolas.dufresne@collabora.com, wenst@chromium.org
-Cc:     Project_Global_Chrome_Upstream_Group@mediatek.com,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org,
-        Tomasz Figa <tfiga@chromium.org>, xia.jiang@mediatek.com,
-        maoguang.meng@mediatek.com,
-        kyrie wu <kyrie.wu@mediatek.corp-partner.google.com>
-References: <20220929090817.24272-1-irui.wang@mediatek.com>
- <81fb2973c0376c988cf2f6550da24b533e341092.camel@mediatek.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <81fb2973c0376c988cf2f6550da24b533e341092.camel@mediatek.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Shawn Tu <shawnx.tu@intel.com>,
+        Jacopo Mondi <jacopo@jmondi.org>, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH v2 4/5] media: i2c: ov5645: Return zero for s_stream(0)
+Message-ID: <Y00ASntfSkMsWTN0@paasikivi.fi.intel.com>
+References: <20221014183459.181567-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20221014183459.181567-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <Y0pSYfw+VDxXv85b@pendragon.ideasonboard.com>
+ <Y0snkMEp9WqGtzom@paasikivi.fi.intel.com>
+ <Y0tA4cZBdwCOkaOs@pendragon.ideasonboard.com>
+ <Y0xnXM+Iw5OkdKj6@paasikivi.fi.intel.com>
+ <Y0xxlTP53dwx8VD+@pendragon.ideasonboard.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Y0xxlTP53dwx8VD+@pendragon.ideasonboard.com>
+X-Spam-Status: No, score=-4.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Irui,
-
-On 10/14/22 11:26, kyrie.wu wrote:
-> On Thu, 2022-09-29 at 17:08 +0800, Irui Wang wrote:
->> From: kyrie wu <kyrie.wu@mediatek.corp-partner.google.com>
+On Mon, Oct 17, 2022 at 12:03:17AM +0300, Laurent Pinchart wrote:
+> Hi Sakari,
 > 
-> Dear Hans,
+> On Sun, Oct 16, 2022 at 08:19:40PM +0000, Sakari Ailus wrote:
+> > On Sun, Oct 16, 2022 at 02:23:13AM +0300, Laurent Pinchart wrote:
+> > > On Sat, Oct 15, 2022 at 09:35:12PM +0000, Sakari Ailus wrote:
+> > > > On Sat, Oct 15, 2022 at 09:25:37AM +0300, Laurent Pinchart wrote:
+> > > > > On Fri, Oct 14, 2022 at 07:34:58PM +0100, Prabhakar wrote:
+> > > > > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > > > > > 
+> > > > > > Always return zero while stopping the stream as the caller will ignore the
+> > > > > > return value.
+> > > > > > 
+> > > > > > This patch drops checking the return value of ov5645_write_reg() and
+> > > > > > continues further in the code path while stopping stream. The user anyway
+> > > > > > gets an error message in case ov5645_write_reg() fails.
+> > > > > 
+> > > > > Continuing all the way to pm_runtime_put() is fine, but I don't think
+> > > > > the function should return 0. It's not up to the driver to decide if a
+> > > > > failure would be useful to signal to the caller or not.
+> > > > 
+> > > > If the function returns an error when disabling streaming, what is the
+> > > > expected power state of the device after this?
+> > > 
+> > > That's up to us to decide :-)
+> > > 
+> > > > The contract between the caller and the callee is that the state is not
+> > > > changed if there is an error.
+> > > 
+> > > For most APIs, but that's not universal.
+> > > 
+> > > > This is a special case as very few callers
+> > > > check the return value for streamoff operation and those that do generally
+> > > > just print something. I've never seen a caller trying to prevent streaming
+> > > > off in this case, for instance.
+> > > 
+> > > I think the stream off call should proceed and try to power off the
+> > > device even if an error occurs along the way, i.e. it shouldn't return
+> > > upon the first detected error.
+> > > 
+> > > > Of course we could document that streaming off always counts as succeeded
+> > > > (e.g. decreasing device's runtime PM usage_count) while it could return an
+> > > > informational error code. But I wonder if anyone would ever benefit from
+> > > > that somehow. :-)
+> > > 
+> > > I think it could be useful to propagate errors up to inform the user
+> > > that something wrong happened. That would involve fixing lots of drivers
+> > > along the call chain though, so there's no urgency for the ov5645 to do
+> > > so, but isn't it better to propagate the error code instead of hiding
+> > > the issue ?
+> > 
+> > I also don't think hiding the issue would be the best thing to do, but that
+> > wouldn't likely be a big problem either.
+> > 
+> > How about printing a warning in the wrapper while returning zero to the
+> > original caller? This would keep the API intact while still leaving a trace
+> > on something failing. Of course the driver is also free to print whatever
+> > messages it likes.
 > 
-> Do you have any comments about the series patches?
+> While I think error propagation could be more useful in the long run,
+> printing a message in the wrapper is a good idea. I like centralized
+> error handling, it has a tendency to go wrong when left to individual
+> drivers.
 
-None :-)
+I can send a patch...
 
-It's all in this pull request:
-
-https://patchwork.linuxtv.org/project/linux-media/patch/50618425-5159-4077-3d3b-6938c86ca474@xs4all.nl/
-
-Now that rc1 has been released by Linus I expect this PR to be merged by the end of this week
-(depending on Mauro's schedule).
-
-Regards,
-
-	Hans
-
-> 
-> Thanks.
-> 
-> Regards,
-> Kyrie.
->>
->> This series adds support for multi hardwares jpeg enc & dec,
->> by first adding use of_platform_populate to manage each hardware
->> information:interrupt, clock, register bases and power.
->> Secondly add jpeg enc & dec work queue to deal with the encoding
->> or decoding requests of multi-hardwares at the same time.
->> Lastly, add output picture reorder function interface to
->> eliminate the out of order images.
->>
->> This series has been tested with MT8195 Gstreamer.
->> Encoding and decoding worked for this chip.
->>
->> Patches 1 Adds jpeg encoder dt-bindings for mt8195
->>
->> Patches 2 jpeg encoder builds two module for using Multi-HW,
->> export some functions to make them visible by other modules.
->>
->> Patches 3 use devm_of_platform_populate to manage multi-hardware.
->>
->> Patch 4 add jpeg encoding timeout function to judge hardware timeout.
->>
->> Patch 5 add encoding work queue to deal with multi-hardware encoding
->> at the same time.
->>
->> Patch 6 add output picture reorder function to jpgenc order images.
->>
->> Patch 7 add stop cmd function to deal with jpgenc EOS operation.
->>
->> Patch 8 Adds jpeg decoder dt-bindings for mt8195
->>
->> Patches 9 jpeg decoder builds three module for using Multi-HW,
->> export some functions to make them visible by other modules.
->>
->> Patch 10 use of_platform_populate to manage multi-hardware.
->>
->> Patch 11 add jpeg decoding timeout function to judge hardware
->> timeout.
->>
->> Patch 12 add decoding work queue to deal with multi-hardware decoding
->> at the same time.
->>
->> Patch 13 add output picture reorder function to jpgdec order images.
->>
->> Patch 14 refactor jpegdec func interface for HW working.
->>
->> Patch 15 add stop cmd function to deal with jpgdec EOS operation.
->>
->> ---
->> This series patches dependent on:
->> media_stage tree:
->> [1]
->>
-> https://git.linuxtv.org/media_stage.git/commit/?id=b3627647f9ea7473d10fb08a95fd7c4133a17ca4
->>
->> patch1 new jpegdec dt-bindings included files
->> [2] MM IOMMU binding:
->>
-> https://patchwork.kernel.org/project/linux-mediatek/patch/20220217113453.13658-2-yong.wu@mediatek.com/
->>
->> [3] MT8195 power domain:
->>
-> https://patchwork.kernel.org/project/linux-mediatek/list/?series=580579
->>
->> Changes compared with v16:
->> - some modifications for patch v16's review comments.
->>
->> Changes compared with v15:
->> - some modifications for patch v15's review comments.
->>
->> Changes compared with v14:
->> - some modifications for patch v14's review comments.
->>
->> Changes compared with v13:
->> - some modifications for patch v13's review comments.
->> - fix kernel robot check errors.
->> - fix kernel-doc check warns.
->> - fix sparse check warns.
->> - combine jpeg encoder series with decoder series into
->>   one single series.
->>
->> Changes compared with v12:
->> - some modifications for patch v12's review comments.
->>
->> Changes compared with v11:
->> - some modifications for patch v11's review comments.
->> - fix yaml file check errors.
->>
->> Changes compared with v10:
->> - some modifications for patch v10's review comments.
->> - fix Gstreamer test errors.
->>
->> Changes compared with v9:
->> - some modifications for patch v9's review comments.
->>
->> Changes compared with v8:
->> - some modifications for patch v8's review comments.
->> - add stop cmd function.
->>
->> Changes compared with v7:
->> - some modifications for patch v6's review comments.
->>
->> Changes compared with v6:
->> - new yaml file for mt8195 jpeg encoder.
->> - some modifications for patch v5's review comments.
->>
->> Changes compared with v5:
->> - use of_platform_populate to replace component framework to
->>   manage multi-hardware in patch 2.
->>
->> Changes compared with v4:
->> - No change compaered with v4
->>
->> Changes compared with v3:
->> - Structure patches for consistency, non-backward
->>   compatible and do not break any existing functionality
->>
->> Changes compared with v2:
->> - Split the last two patches into several patches
->>   to enhance readability
->> - Correct some syntax errors
->> - Explain why the component framework is used
->>
->> Changes compared with v1:
->> - Add jpeg encoder dt-bindings for MT8195
->> - Use component framework to manage jpegenc HW
->> - Add jpegenc output pic reorder function interface
->>
->> kyrie wu (15):
->>   dt-bindings: mediatek: Add mediatek, mt8195-jpgenc compatible
->>   mtk-jpegenc: export jpeg encoder functions
->>   mtk-jpegenc: support jpegenc multi-hardware
->>   mtk-jpegenc: add jpegenc timeout func interface
->>   mtk-jpegenc: add jpeg encode worker interface
->>   mtk-jpegenc: add output pic reorder interface
->>   mtk-jpegenc: add stop cmd interface for jpgenc
->>   dt-bindings: mediatek: Add mediatek,mt8195-jpgdec compatible
->>   media: mtk-jpegdec: export jpeg decoder functions
->>   media: mtk-jpegdec: support jpegdec multi-hardware
->>   media: mtk-jpegdec: add jpegdec timeout func interface
->>   media: mtk-jpegdec: add jpeg decode worker interface
->>   media: mtk-jpegdec: add output pic reorder interface
->>   media: mtk-jpegdec: refactor jpegdec func interface
->>   mtk-jpegdec: add stop cmd interface for jpgdec
->>
->>  .../media/mediatek,mt8195-jpegdec.yaml        | 168 ++++++
->>  .../media/mediatek,mt8195-jpegenc.yaml        | 147 ++++++
->>  drivers/media/platform/mediatek/jpeg/Makefile |  14 +-
->>  .../platform/mediatek/jpeg/mtk_jpeg_core.c    | 490
->> ++++++++++++++++--
->>  .../platform/mediatek/jpeg/mtk_jpeg_core.h    | 169 +++++-
->>  .../platform/mediatek/jpeg/mtk_jpeg_dec_hw.c  | 315 ++++++++++-
->>  .../platform/mediatek/jpeg/mtk_jpeg_dec_hw.h  |   6 +-
->>  .../platform/mediatek/jpeg/mtk_jpeg_dec_reg.h |   1 +
->>  .../platform/mediatek/jpeg/mtk_jpeg_enc_hw.c  | 255 +++++++++
->>  9 files changed, 1482 insertions(+), 83 deletions(-)
->>  create mode 100644
->> Documentation/devicetree/bindings/media/mediatek,mt8195-jpegdec.yaml
->>  create mode 100644
->> Documentation/devicetree/bindings/media/mediatek,mt8195-jpegenc.yaml
->>
-> 
+-- 
+Sakari Ailus
