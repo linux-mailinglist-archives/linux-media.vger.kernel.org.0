@@ -2,129 +2,142 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8D2536013B1
-	for <lists+linux-media@lfdr.de>; Mon, 17 Oct 2022 18:42:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BE92B6013F4
+	for <lists+linux-media@lfdr.de>; Mon, 17 Oct 2022 18:52:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229728AbiJQQmX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 17 Oct 2022 12:42:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43004 "EHLO
+        id S229920AbiJQQwZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 17 Oct 2022 12:52:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35934 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229707AbiJQQmV (ORCPT
+        with ESMTP id S229772AbiJQQwX (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 17 Oct 2022 12:42:21 -0400
-Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com [IPv6:2a00:1450:4864:20::632])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A37615973D
-        for <linux-media@vger.kernel.org>; Mon, 17 Oct 2022 09:42:20 -0700 (PDT)
-Received: by mail-ej1-x632.google.com with SMTP id a26so26255431ejc.4
-        for <linux-media@vger.kernel.org>; Mon, 17 Oct 2022 09:42:20 -0700 (PDT)
+        Mon, 17 Oct 2022 12:52:23 -0400
+Received: from mail-oi1-x233.google.com (mail-oi1-x233.google.com [IPv6:2607:f8b0:4864:20::233])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6E86CF031;
+        Mon, 17 Oct 2022 09:52:22 -0700 (PDT)
+Received: by mail-oi1-x233.google.com with SMTP id n130so12753068oia.6;
+        Mon, 17 Oct 2022 09:52:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=raspberrypi.com; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=lWcG9WS3+/MVrOc+gU6GDpfPccXSEVR6p0l+LcgUhg0=;
-        b=XB+k4TXurrzudPHAuVmfdBT+Qe9TN6Dxy2axkHLcXnYJkak5x/fy1gklIiWJjQQ+8G
-         DwpahOGDRzSKx14elBrdVXcXIMmXVeMY1Xu+nw7tDM+cL35Y+M4J1MWsiNv+pFayxeKK
-         +P1SpPgwI3UOCD3w+9kMupi1wBsGNhDR7/4dotCQzLHln1Z5Tnmb0PeSSOge//Dq5A2b
-         jTfMKk0F6Bc1e7J4OyQgQGrI9wqBlvsFc9spLfcDsi21CrjQx8IsxY0tSw1dg7t06d0t
-         wriKhZR1JmuwtcAd0mfm7hqspHriik0B9FliH9ex+h8Yb+3qF4i88tWjRX58IlcJEklx
-         nrVA==
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+1LwX5bRFQXNkq6PB+GJkYIHW1maFFhRT+npXlh3EBU=;
+        b=Wli2+vCUPK20VH6qBK0/9u0+D86Cprn715QA3rGfohk6lLxfaKQ/gr2fBPGeUKivfV
+         9scv3keMMR40vWDmdGPV9mBFqcrR3IHAjiKgk9g2HFz+2GzmZeYm2V80n+MJ78WVfpcT
+         yeYzVTE/N/xMeay1FUkdDXp4VjEEugswL6+/mgtjc3koOgAHsXFOFPuqyxYHHSkwavDv
+         C+M6uSoIBnLjtzFoB6Ioq0cJQ0heFLwsSXacVrlHTrT1UMeP6VkCilRtw5NikcgJK2rM
+         52sgzEMrbJk98DoOJk/9P8dvOgrS6rFCixGcl08kKYuIS08WWQTsUWkkSY90XgZi+dpx
+         Y0Pg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=lWcG9WS3+/MVrOc+gU6GDpfPccXSEVR6p0l+LcgUhg0=;
-        b=58SkN5yFOD1SyxQyE/pT1Ij6On0WPHVIrqIzmxDRmbcT+/IB3eGY/tCl29cdm75kRV
-         6BQjqKdNaq6ecN8m2P9J+FNU2KHmXgxggxwz6a9myoDUZPIGlGBXFyeOTgmFpgh+OXWm
-         Cy5BFCfUueva4/JvFrnuPnKU7fKvbtP3zRG0lhdD/tHCJGi45nh6583uRZx5ojvI9U0Y
-         OsifQ42aaxhjd/OyZAMiUd3gQpoAMCHt2kaaAWCXHNYSOme9k/T19qQJaOpoii5AUjCO
-         cvTCcbfkAZ5YqInz+1cmHB1VGfZP0NSKkzgcTS0m1qsfhAGMPyTEeDgfxq6i4WJPZl8J
-         v1+g==
-X-Gm-Message-State: ACrzQf07vUnRu1TRHrAAU5+eiiG/0C3/5r7WIpKb52cUs/6TBfK2t8xs
-        oVtJg6Y2SsoFQV8k2XLkeW83+IU9lerLoYL3vOVPY2Bq+PqeSw==
-X-Google-Smtp-Source: AMsMyM42DlIUUimFkmz8h4VjHPGFnkLlqlE9g/7pXCffiYKRtKriYlYWqUiArHmr7dW4Sf8Te9FI43j+GqIYL90NrTM=
-X-Received: by 2002:a17:907:3e11:b0:78d:9918:217f with SMTP id
- hp17-20020a1709073e1100b0078d9918217fmr9073465ejc.742.1666024939202; Mon, 17
- Oct 2022 09:42:19 -0700 (PDT)
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=+1LwX5bRFQXNkq6PB+GJkYIHW1maFFhRT+npXlh3EBU=;
+        b=XSSNn23qw/E0UN8ffxR5ZpQNZdHRIaPHIlYMLIJLCONrfLQIoossvJu098Kea8vvO2
+         G5p0I6/uftBfotA8cjJf1RSS0ZeRM4B9pHLzgW8N+nchKJAXMWS9WnQQFOTveSrmpFz1
+         LJPzUWMqtgLdQtCg0YO8ErZTb441Rw1H8ESpjpJiHgKoE5ECP7HdobC1fwvUMO3TAvjP
+         o/EDCPb3qkytJQsjKDCbXVFoZ+ndFgO9eU7vwm+UTQaFqOF0G9bPxY3cZD5AJ+eFWmzN
+         rQGK5eJtpMmx5zuNYmewxjPQORkDlSBPuPafKz6olaQw88m5DdqcbqJrPPXdMhnbL8Go
+         CDJw==
+X-Gm-Message-State: ACrzQf1nQvzPzYESHAA6ACxGrbAm0A5rvo5pjGpqaWYFcDUskChRdIP0
+        78bH5vQJ4wLob1gR+FTOcHKKCv3ma4n03pcuBIM=
+X-Google-Smtp-Source: AMsMyM7pkfs8YvaEJ3rXNBXJfzbthWWMDK+JMBHXzoIgFykCTCTTewwkS0A48fh2TzykUTENTQtzoKPd6PQhlDPFwow=
+X-Received: by 2002:a05:6808:14d2:b0:354:c733:abd3 with SMTP id
+ f18-20020a05680814d200b00354c733abd3mr5577155oiw.96.1666025541711; Mon, 17
+ Oct 2022 09:52:21 -0700 (PDT)
 MIME-Version: 1.0
-References: <20221005190613.394277-1-jacopo@jmondi.org> <20221005190613.394277-3-jacopo@jmondi.org>
- <m31qrk6wgc.fsf@t19.piap.pl> <20221007071725.zxcbx4kwwh2pt7ax@uno.localdomain>
- <Yz/jqA6ZACHOXxl/@pendragon.ideasonboard.com> <20221017151003.5vqxgfewyjrmrdei@uno.localdomain>
- <Y017fLwL8zqzukl9@valkosipuli.retiisi.eu> <20221017163159.ttozu526qsqiiaaf@uno.localdomain>
-In-Reply-To: <20221017163159.ttozu526qsqiiaaf@uno.localdomain>
-From:   Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date:   Mon, 17 Oct 2022 17:42:03 +0100
-Message-ID: <CAPY8ntDuK76bZz2Zd6JkmL=mkcK9GfNR5U6EiFFiPrLhKCM5kA@mail.gmail.com>
-Subject: Re: [PATCH 02/10] media: ar0521: Add V4L2_CID_ANALOG_GAIN
-To:     Jacopo Mondi <jacopo@jmondi.org>
-Cc:     Sakari Ailus <sakari.ailus@iki.fi>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        =?UTF-8?Q?Krzysztof_Ha=C5=82asa?= <khalasa@piap.pl>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org
+References: <20221013210714.16320-1-fmdefrancesco@gmail.com> <fb0b7389-7121-04f8-176d-1ababe0ad8f2@amd.com>
+In-Reply-To: <fb0b7389-7121-04f8-176d-1ababe0ad8f2@amd.com>
+From:   Alex Deucher <alexdeucher@gmail.com>
+Date:   Mon, 17 Oct 2022 12:52:10 -0400
+Message-ID: <CADnq5_PP3VCXQ5rbC0-8Qsi5W7Ew87U_bRknz4=qxbrPxVQ+qA@mail.gmail.com>
+Subject: Re: [PATCH] drm/radeon: Replace kmap() with kmap_local_page()
+To:     =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc:     "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Christian Brauner <brauner@kernel.org>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Kees Cook <keescook@chromium.org>,
+        amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+        linux-kernel@vger.kernel.org, bpf@vger.kernel.org,
+        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+        linux-hwmon@vger.kernel.org, linux-hardening@vger.kernel.org,
+        "Venkataramanan, Anirudh" <anirudh.venkataramanan@intel.com>,
+        Ira Weiny <ira.weiny@intel.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jacopo
+Applied.  Thanks!
 
-On Mon, 17 Oct 2022 at 17:32, Jacopo Mondi <jacopo@jmondi.org> wrote:
+On Fri, Oct 14, 2022 at 3:03 AM Christian K=C3=B6nig
+<christian.koenig@amd.com> wrote:
 >
-> Hi Sakari,
->
-> On Mon, Oct 17, 2022 at 06:57:48PM +0300, Sakari Ailus wrote:
-> > Hi Jacopo,
+> Am 13.10.22 um 23:07 schrieb Fabio M. De Francesco:
+> > The use of kmap() is being deprecated in favor of kmap_local_page().
 > >
-> > On Mon, Oct 17, 2022 at 05:10:03PM +0200, Jacopo Mondi wrote:
-> > > > which is also named analog_gain_code_global, but is documented
-> > > > differently.
-> > > >
-> > > > Could you btw read registers 0x0000 to 0x00ff and provide the data ?
-> > >
-> > > There is nothing interesting there if not default values. I was hoping
-> > > that analogue_gain_m0 analogue_gain_c0 and analogue_gain_m1
-> > > analogue_gain_c1 would provide a way to inject gains using the
-> > > standard CCS gain model, but those registers are said to be read-only
+> > There are two main problems with kmap(): (1) It comes with an overhead =
+as
+> > the mapping space is restricted and protected by a global lock for
+> > synchronization and (2) it also requires global TLB invalidation when t=
+he
+> > kmap=E2=80=99s pool wraps and it might block when the mapping space is =
+fully
+> > utilized until a slot becomes available.
 > >
-> > The m[01] and c[01] factors in the CCS analogue gain formula are constants
-> > that determine how the sensor's analogue gain setting translates to actual
-> > analogue gain. They are not intended to be modifiable at runtime.
+> > With kmap_local_page() the mappings are per thread, CPU local, can take
+> > page faults, and can be called from any context (including interrupts).
+> > It is faster than kmap() in kernels with HIGHMEM enabled. Furthermore,
+> > the tasks can be preempted and, when they are scheduled to run again, t=
+he
+> > kernel virtual addresses are restored and still valid.
+> >
+> > Therefore, replace kmap() with kmap_local_page() in radeon_ttm_gtt_read=
+().
+> >
+> > Cc: "Venkataramanan, Anirudh" <anirudh.venkataramanan@intel.com>
+> > Suggested-by: Ira Weiny <ira.weiny@intel.com>
+> > Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+>
+> Reviewed-by: Christian K=C3=B6nig <christian.koenig@amd.com>
+>
+> > ---
+> >   drivers/gpu/drm/radeon/radeon_ttm.c | 4 ++--
+> >   1 file changed, 2 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/radeon/radeon_ttm.c b/drivers/gpu/drm/rade=
+on/radeon_ttm.c
+> > index d33fec488713..bdb4c0e0736b 100644
+> > --- a/drivers/gpu/drm/radeon/radeon_ttm.c
+> > +++ b/drivers/gpu/drm/radeon/radeon_ttm.c
+> > @@ -869,11 +869,11 @@ static ssize_t radeon_ttm_gtt_read(struct file *f=
+, char __user *buf,
+> >
+> >               page =3D rdev->gart.pages[p];
+> >               if (page) {
+> > -                     ptr =3D kmap(page);
+> > +                     ptr =3D kmap_local_page(page);
+> >                       ptr +=3D off;
+> >
+> >                       r =3D copy_to_user(buf, ptr, cur_size);
+> > -                     kunmap(rdev->gart.pages[p]);
+> > +                     kunmap_local(ptr);
+> >               } else
+> >                       r =3D clear_user(buf, cur_size);
 > >
 >
-> You're right sorry, indeed they're constant.
->
-> For this sensor:
-> analogue_gain_type: 0
-> analogue_gain_m0: 1
-> analogue_gain_c0: 0
-> analogue_gain_m1: 0
-> analogue_gain_c1: 4
->
-> I should be capable of programming the global analog gain using the linear
-> CCS gain model if the sensor is actually CCS compliant.
->
->         gain = m0 * x + c0 / m1 * x + c1
->              = R0x0204 / 4
->
-> However, the application developer guide shows the gain to be set
-> through manufacturer specific registers (0x3028 or 0x305e) and I cannot
-> find much correlations between the manufacturer specific gain model
-> (a piecewise exponential function) and the model described by CCS, which
-> seems way simpler.
-
-I do see a reference to register 0x0204 as analogue_gain_code_global
-in the register reference (page 4), and it is listed as programmable
-(7 bits). No idea if it works or not.
-
-   Dave
-
-> > --
-> > Kind regards,
-> >
-> > Sakari Ailus
