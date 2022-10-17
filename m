@@ -2,62 +2,62 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 44FB7600D52
-	for <lists+linux-media@lfdr.de>; Mon, 17 Oct 2022 13:02:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DF347600D9F
+	for <lists+linux-media@lfdr.de>; Mon, 17 Oct 2022 13:21:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231165AbiJQLCa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 17 Oct 2022 07:02:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46530 "EHLO
+        id S230098AbiJQLVd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 17 Oct 2022 07:21:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45612 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230486AbiJQLCC (ORCPT
+        with ESMTP id S229732AbiJQLVc (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 17 Oct 2022 07:02:02 -0400
-Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com [IPv6:2a00:1450:4864:20::52a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 39CAF631D4
-        for <linux-media@vger.kernel.org>; Mon, 17 Oct 2022 04:00:48 -0700 (PDT)
-Received: by mail-ed1-x52a.google.com with SMTP id b12so15468433edd.6
-        for <linux-media@vger.kernel.org>; Mon, 17 Oct 2022 04:00:47 -0700 (PDT)
+        Mon, 17 Oct 2022 07:21:32 -0400
+Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com [IPv6:2a00:1450:4864:20::52c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D317662A91
+        for <linux-media@vger.kernel.org>; Mon, 17 Oct 2022 04:21:26 -0700 (PDT)
+Received: by mail-ed1-x52c.google.com with SMTP id b12so15543088edd.6
+        for <linux-media@vger.kernel.org>; Mon, 17 Oct 2022 04:21:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=raspberrypi.com; s=google;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=S9mm88qWyMuiIFsbmbRc07e019jfJ9VuOEtAwJuOtXg=;
-        b=OCLfHPFGvNEAJ6AIgMKbreNoQtZfH7Zcpms90wz3/bocUokgzPxe25uoSVBfRp3DjL
-         hWzhMQNmAxuQ+GA3JR+QWMLe+nJqdj/BhxM938h4pHCAn8BI2UV8rQ1wPzfrwCHtwO/2
-         Hy9BHc6LgCLhNg7oAKa1FgAEJ8pJ68Qtc/6vhtDEaDUgSxAGppXYJeWMPsAPx5dweLLz
-         +VerG1q6u3BcRCVLWK4eCJV80hk4V4pK17tWX7q+Pk2O8SoBBUd/Ecu9hpHvTobWDEtJ
-         C7kBUzcD0FLF6sOlomThCLGieNX+UUFIeegFcQCJZxB8fqn+/hkRc04oLn8vkvpWep5Z
-         n41w==
+        bh=ESlVYACg7riS16UtYuQf8DPZbmCk4aeHdyRBRqmKcMQ=;
+        b=cuvpDnh3oQn+2krK9gGawHvchiNGzUZPJrH40k9IFHSOKzXBH+4OK4IYo9BpZVnLvB
+         9yUsFy6ZVWfFu0Y4dzKisCDRWJoYE0+s32FCjVL+tra8ruehR3SsPt1pqu20ATIfH51x
+         Bz0DARwDQeEqIkuNhIUsnBGsWrOPL1NVMHKdIjEj/tJmWk6SKcNNb/rOmthiewSAIL+j
+         LugZMETnGds05xxafY4cXyXslqbKXhi/8JMTv6IAlto9jJlMox6tPi2MrLT78fonvlLv
+         /SgtZlRu3gUd3aTIoBmO6RD8o3Gn51Jr2l1jY6bAruD6BLdjN7WKGgzDfCoBbG+ZH0Q3
+         u4eQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=S9mm88qWyMuiIFsbmbRc07e019jfJ9VuOEtAwJuOtXg=;
-        b=KscQYoRIhe2XGxho7r59rTmtTz+dHzW/6Xsdtw/CT+edaCMSJBirQEn1l1sVJgUHBa
-         1V9og+J+JOtkOn6lmpjBfgdAn7DOSFTbTK6PZ0s2aNsfJEcuOvvTzxaa4VvAQb54PhVf
-         H+wT7HaVnj4VxpTNBxNi/jYGuxkAoKCZFfc5mGFxp5eVK9tWgsaM0bLqc9B0UcgYnCLU
-         OVcbV0/ZZf9e2xt8u+ObPfL749AnKQlrHcOyvhfqMTyko4vny173fIxUsjvTSW0khNGN
-         4qrMkAjlTADq0GUlWN91Wi4WaIB+5Rdj1FS1k7R/xwmiHt0juzccjZTGIXnDI/Sw5jdy
-         rR4w==
-X-Gm-Message-State: ACrzQf1vpdmt/2mt7MdZkr3pwJOUSKaLXgY342GxwxDGm/AjWeFCgokk
-        9Yo5/QV2dUbjgoTLIu4whfTfntiTnar/RiCa+sJ7Zw==
-X-Google-Smtp-Source: AMsMyM4RSEBeYytHdZND77lI9DNpCEHpujaaKW2P1WJRoeiseA3abZD6JP0m+cOnkDMAGCfgJYBurkuWN4uw6QhRshg=
-X-Received: by 2002:a05:6402:22ef:b0:458:bfe5:31a3 with SMTP id
- dn15-20020a05640222ef00b00458bfe531a3mr9640429edb.6.1666004444176; Mon, 17
- Oct 2022 04:00:44 -0700 (PDT)
+        bh=ESlVYACg7riS16UtYuQf8DPZbmCk4aeHdyRBRqmKcMQ=;
+        b=3DCen5YmA7dyL8Ld6v3DDsJo1VmbyPSeWoor1NViQ+BuDDk/8GvO/bkdZF5SOCZC3A
+         8wjEHmPhVt7Twcx20HNn6CYzTGdTfiHosLbGhvSkjtwlikin2SfC3NvUcsmR9UqcMS5R
+         pNcO9lpFI97DsJWqcht7pMXUS+Judgm6bbj699SXmx2SYFvFQ6fQL96+fCwu32lO3wlg
+         p49nQ7Cn2dyjWmPSa2ErcSxTdkmLYz8pBNHNr2sSchRL+ZTYuKfZp7Xq/dS0oCAGVA6S
+         QZcEZLKL6+vBkKcDiHOmaVpwUO68g6GrPDB1Isio/PHygpqaeb6ctEd05vRgGttsrhDF
+         etLA==
+X-Gm-Message-State: ACrzQf3skzfqPWM63sFozDaUwfrpqDKB8VU6y7zepV08QKB1Y3Q8NUMc
+        ezA3w4QC9DqgWvbM01UaKkurTl4fd5LTYNm9PNpxeg==
+X-Google-Smtp-Source: AMsMyM7A3PjdSXRnrBIXfCBlckfJOaIYLmrlvm3Qp2Nz/5Soi8cx5UzMMW9MrIcGenob37a4iAKrCFM4otKIG448IXY=
+X-Received: by 2002:a05:6402:2913:b0:45c:a7d6:c1ef with SMTP id
+ ee19-20020a056402291300b0045ca7d6c1efmr9656066edb.276.1666005685364; Mon, 17
+ Oct 2022 04:21:25 -0700 (PDT)
 MIME-Version: 1.0
 References: <20221005190613.394277-1-jacopo@jmondi.org> <20221005190613.394277-6-jacopo@jmondi.org>
  <CAPY8ntB_JQHJQH7DChEyou-RSRTcEF-Uy=+3Ly06MUtg0TCZ6A@mail.gmail.com>
  <Y0AxI2RKxomjEb2t@pendragon.ideasonboard.com> <CAPY8ntCh4UFT5swHvwPj7xz8wPH3MJB-aJjEd9bCgXVubRyp5w@mail.gmail.com>
- <20221017092424.hygkg26dpubti3ne@uno.localdomain>
-In-Reply-To: <20221017092424.hygkg26dpubti3ne@uno.localdomain>
+ <Y0tkBvcufgwSe/AT@pendragon.ideasonboard.com>
+In-Reply-To: <Y0tkBvcufgwSe/AT@pendragon.ideasonboard.com>
 From:   Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date:   Mon, 17 Oct 2022 12:00:29 +0100
-Message-ID: <CAPY8ntAw0Hj3kEUM4BNK9FdPK3b1=4jSST1YTVKd-zUDP0LqVw@mail.gmail.com>
+Date:   Mon, 17 Oct 2022 12:21:10 +0100
+Message-ID: <CAPY8ntBU_ELTKnM9+uV+3H3tvzbKGxS+6bF=wv4PMvNyVb+Yiw@mail.gmail.com>
 Subject: Re: [PATCH 05/10] media: ar0521: Add LINK_FREQ control
-To:     Jacopo Mondi <jacopo@jmondi.org>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Jacopo Mondi <jacopo@jmondi.org>,
         =?UTF-8?Q?Krzysztof_Ha=C5=82asa?= <khalasa@piap.pl>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Sakari Ailus <sakari.ailus@iki.fi>, linux-media@vger.kernel.org
@@ -71,16 +71,15 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jacopo
+Hi Laurent
 
-On Mon, 17 Oct 2022 at 10:24, Jacopo Mondi <jacopo@jmondi.org> wrote:
+On Sun, 16 Oct 2022 at 02:53, Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
 >
-> Hi Dave
+> Hi Dave,
 >
 > On Fri, Oct 07, 2022 at 03:26:55PM +0100, Dave Stevenson wrote:
-> > On Fri, 7 Oct 2022 at 15:01, Laurent Pinchart
-> > <laurent.pinchart@ideasonboard.com> wrote:
-> > >
+> > On Fri, 7 Oct 2022 at 15:01, Laurent Pinchart wrote:
 > > > On Thu, Oct 06, 2022 at 04:10:10PM +0100, Dave Stevenson wrote:
 > > > > On Wed, 5 Oct 2022 at 20:07, Jacopo Mondi wrote:
 > > > > >
@@ -145,19 +144,35 @@ On Mon, 17 Oct 2022 at 10:24, Jacopo Mondi <jacopo@jmondi.org> wrote:
 > > r/w link frequency - mt9v032. That would imply that having a
 > > controllable link frequency would require the special logic in
 > > userspace.
-> >
 >
-> Yes it does, but we need one way or another to allow userspace to
-> control the sampling frequency as extending (or shrinking) blankings
-> helps up to the point you reach their limits.
+> Looking at the mainline kernel only, the N9, N950 and Librem5 all
+> specify multiple link frequencies, and so does the sdm845-db845c
+> development board.
+
+Sorry, insufficient time to go through all of those in detail.
+
+Looking at sdm845-db845c, yes the base DT lists multiple link
+frequencies for OV8856 [1], however the OV8856 driver then makes the
+LINK_FREQ control READ_ONLY[2].
+So what is userspace meant to do with that information?
+
+IMX290 also requires 2 link frequencies to be listed, but the control
+is read only, and which is used is based on mode selection.
+(Hmm, I've just noticed that the DT binding example doesn't match the
+driver as it only lists one link-freq. OV8856 binding lists the
+restriction of the driver in the binding).
+
+N9 and N950 use "nokia,smia", which maps to CCS. Yes that driver does
+allow configuration of link frequency from userspace, but it still
+feels to me to be an odd control to allow userspace to control.
+
+[1] https://elixir.bootlin.com/linux/latest/source/arch/arm64/boot/dts/qcom/sdm845-db845c.dts#L1240
+[2] https://elixir.bootlin.com/linux/latest/source/drivers/media/i2c/ov8856.c#L1949
+
+> This indeed requires specific logic in userspace, and to be honest, I
+> haven't really thought about how it would be implemented. Sakari has
+> more experience than me here, he may be able to shed some light.
 >
-> I was never really fond of the idea that such action should go through
-> link frequency, which seems very much a parameter of the bus that
-> should be negotiated between the recv and the tx parts, rather than
-> being user configurable.
-
-Indeed - that's PIXEL_RATE, not LINK_FREQ.
-
 > > I'm always very cautious about drivers that are linking PIXEL_RATE and
 > > LINK_FREQ - most of the sensors are tending to have 2 (or more) PLLs,
 > > and there is a FIFO between the image sensor (PIXEL_RATE) and the MIPI
@@ -166,101 +181,24 @@ Indeed - that's PIXEL_RATE, not LINK_FREQ.
 > > ov7251 is as well (pixel rate is 48MPix/s whether at 240 or 319.2MHz
 > > link frequency). Patches coming soon for both.
 >
-> The current definition of PIXEL_RATE indeed describes the sampling
-> frequency on the pixel array, which might or might not reflect the
-> output pixel rate. However most if not all usages of PIXEL_RATE I've
-> seen (and FTR the way it is used in libcamera) is to denote the output
-> pixel rate (ie it is used to compute the output timings given the line
-> length and frame height)
->
-> I wonder
->
-> 1) The current definition of PIXEL_RATE as the sampling rate on the
-> pixel array: what purposes does it serve ? Are there algorithms that
-> require to know the sampling rate in the analog domain ? Are there
-> implementations that treat PIXEL_RATE differently than the "pixel
-> output rate" ?
+> That's a good point, different link frequencies may or may not result in
+> different pixel rates.
 
-Sampling rate on the array is the basis of using VBLANK and HBLANK to
-control frame rate. See documentation at [1]
+See my response to Jacopo.
 
-frame interval = (analogue crop width + horizontal blanking) *
-                 (analogue crop height + vertical blanking) / pixel rate
-
-This is NOT the pixel rate on the CSI link.
-
-Taking an example of IMX219 [2], section 9.1 shows the clock structure
-with 2 PLLs. PLL1 drives the pixel array (PIXEL_RATE). PLL2 drives the
-MIPI block (LINK_FREQ).
-There is a FIFO between the pixel array and MIPI, and therefore they
-can run at different rates.
-
-OV5647 is the same.
-IMX327/290/462 are the same, although FRSEL configures specific
-dividers for the PIXEL_RATE.
-OV9281 is the same (2 PLLs).
-
-In your case it does appear that LINK_FREQ and PIXEL_RATE are bound
-together. From the developer guide:
-"to reduce MIPI data rate, sensor pixel clock must be reduced as well"
-
-On AR0521 max frame interval is dictated by line_length_pck (0x0342)
-and frame_length_lines (0x0340), both of which are 16bit values.
-At your highest pixel rate of 414000000 I make that 10.37seconds per
-frame, or 0.09fps. So without altering link frequency, my calculations
-say you can do 0.09 to 60fps. Are you currently looking at use cases
-that need frame rates outside these limits? If not, why are you
-looking at changing the rate of anything?
-
-[1] https://www.kernel.org/doc/html/latest/driver-api/media/camera-sensor.html#raw-camera-sensors
-[2] https://github.com/rellimmot/Sony-IMX219-Raspberry-Pi-V2-CMOS/blob/master/RASPBERRY%20PI%20CAMERA%20V2%20DATASHEET%20IMX219PQH5_7.0.0_Datasheet_XXX.PDF
-[3] https://pdfcoffee.com/ov9281-datasheet-pdf-free.html section 2.8.
-
-> 2) LINK_FREQ is the closest control we have to express the output
-> pixel rate, but to me is very specific to the bus configuration and
-> does not express per se anything useful to userspace for computing
-> timings based on frame/lane sizes. The fact LINK_FREQ is a menu contol
-> reflects how much it relates to the HW configuration as it is assumed
-> to come from DT
-
-I'll agree - link frequency is IMHO near useless to userspace.
-It has a place for EMC compatibility, but I see that as coming from DT
-and the platform configuration, and not from userland.
-
-> Do we need an r/w PIXEL_OUTPUT_RATE control to replace
-> - LINK_FREQ for userspace to configure it
-> - PIXEL_RATE for userspace to read it
-
-No new control needed. Make PIXEL_RATE r/w, and make it modify the
-pixel array clock configuration. AIUI Drivers are allowed to validate
-controls, therefore presumably you can make it lock to discrete values
-instead of a full range.
-
-> LINK_FREQ should only be used in the tx/rx negotiation. It shall
-> vary according to PIXEL_OUTPUT_RATE, possibily in the options
-> specified in DTS (which are there because they have usually been
-> validated for RF emissions, that's my understanding at least).
->
-> PIXEL_RATE will equally vary, if required, and algorithms that need to
-> know the sampling frequency in the analog domain will continue using
-> it.
->
-> Or maybe the original idea was to have a pixel array entity and a
-> separate tx entity, each of them with different PIXEL_RATE control ?
-
-Pass over the original intent - I've not been involved in the V4L2
-side of things long enough to know that.
+As you know I have a fair number of sensors around, and I see a fairly
+large number of the mainline drivers getting this wrong. I don't know
+whether that is down to copy/paste of drivers, or misunderstanding of
+the requirements, but it fouls up frame rate control and exposure
+calibration in almost every case.
 
   Dave
 
-> >
-> >   Dave
-> >
-> > > > >         ctrls->test_pattern = v4l2_ctrl_new_std_menu_items(hdl, ops,
+> > > >         ctrls->test_pattern = v4l2_ctrl_new_std_menu_items(hdl, ops,
 > > > > >                                         V4L2_CID_TEST_PATTERN,
 > > > > >                                         ARRAY_SIZE(test_pattern_menu) - 1,
-> > >
-> > > --
-> > > Regards,
-> > >
-> > > Laurent Pinchart
+>
+> --
+> Regards,
+>
+> Laurent Pinchart
