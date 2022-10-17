@@ -2,65 +2,68 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 043816007DD
-	for <lists+linux-media@lfdr.de>; Mon, 17 Oct 2022 09:41:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 680E96007F6
+	for <lists+linux-media@lfdr.de>; Mon, 17 Oct 2022 09:44:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230108AbiJQHlV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 17 Oct 2022 03:41:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60968 "EHLO
+        id S230299AbiJQHoI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 17 Oct 2022 03:44:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36668 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230022AbiJQHlU (ORCPT
+        with ESMTP id S230264AbiJQHnu (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 17 Oct 2022 03:41:20 -0400
-Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com [IPv6:2a00:1450:4864:20::634])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BBB2813DDF;
-        Mon, 17 Oct 2022 00:41:17 -0700 (PDT)
-Received: by mail-ej1-x634.google.com with SMTP id bj12so22850104ejb.13;
-        Mon, 17 Oct 2022 00:41:17 -0700 (PDT)
+        Mon, 17 Oct 2022 03:43:50 -0400
+Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com [IPv6:2a00:1450:4864:20::52f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 983665AC6A;
+        Mon, 17 Oct 2022 00:43:46 -0700 (PDT)
+Received: by mail-ed1-x52f.google.com with SMTP id b12so14790957edd.6;
+        Mon, 17 Oct 2022 00:43:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=jp8HrSCso1cEfmmqdQBEdUtj0Bbq01HpoZXdky0tskI=;
-        b=fbtJmyV8qM0M7KbwD36UBnvc5tzo0doZXFZ/rKdCDx8J3dYTtTSn/IYu+gZtMCBLgp
-         lQvG5PJDQN7Yrzkbc8NJ0q6iGhSvRMMKQnlQjzKIbd5V+AF6ny6Pwsvs2V4+pWCEFIC+
-         gaqbTTfnIQClaSTJVTF71H9Mfc9yqtRPvqIm4F7sHF1JaXtTiuW99vHpazTA9lqm9za8
-         ac8ZWPMB+cf0oq+dp0GoqNYrZj5ldg8eZLQ2JVAoG+z9Bk47MrXDNLLf3OX+ung1X3aK
-         an7QqerLK5UB69vodObQcJB8xyhiv2AjbIjDY2RkhFo7jLrkwK4gz5XJ1u36pFoNZY2z
-         AQjA==
+        bh=HzEUJJelzyjW+5auI+Hjf750SOVJbqYXjyc8xQ8Ffqs=;
+        b=igIgzf/VGcCX2b7W0upGeYtIgf/j5Ud9XCHMKDgMSWAvAITVOiQezIwIvLaqT5LhSj
+         GWyRPoSINEqwTKwOqg18SqVGKDN+jJU7Jxs0iyMcamV6xtu8Vu6fc1gQMahUnxFZP2pX
+         idN+Ro7+knnNjorftKjl4I50qkJS9dsKrgSnzFx0i+MasOayT84IxC/t0OvKCINawY/u
+         3h5fEaCNO1cuGjcq+DObDW5yhv5ggtNMWLXYQ0Bo7/LYYL++6DxlmXwkDHs7G07Nu14z
+         vYa27JneKcaQYDTE7WMaSRI06WEpSVS440CwReOC1cFqHvR6iSfEkGMCyf5a3wPmz3nQ
+         micA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=jp8HrSCso1cEfmmqdQBEdUtj0Bbq01HpoZXdky0tskI=;
-        b=m0QRq3sghvRHaNL0NC7WBMqf+0UxmOpaqStSWPA5icmxipCRqPzFwr2auLnPAa6iUx
-         v6bY8RXPgTie1BuHEMim+1UusAVDoS78M83d13pAdeQ6WYlHWGizwa1+vF3F4Wdj9yub
-         uuoedS1y36rGIX82vKaE0nwFADTBhKVtGlsWgDU6LZWXBFCGrqpFk8GdZazP+PQTrPUk
-         YRyBV1wO9M74nzhJUYaKo+Hi81QssttjzBb6qN44YHW20COmOKXdOWDjU0x5Mj2OnbQX
-         w4Ooak/cK1kEIF3navrqDSPuoccIg4kAPLKLbZD5kdEdw97rhw5PZ+YyIp9sqg9XIu5R
-         jMqA==
-X-Gm-Message-State: ACrzQf36H+LSUAmIsVCxKH0afZkR+5hlecvEzfv2A1bSd51dxhz7F373
-        7HLG0tD3/fckhI/7acacLwIW8r6FoFT/zYo+iUY=
-X-Google-Smtp-Source: AMsMyM71lZzbP/LAJp4Ui5wekihf0780L8XnOegyGGstUHtaFcNanS3NyUllyd/7igndW+Z+Um8u8n5p2XT0oK/PrJA=
-X-Received: by 2002:a17:906:5a4b:b0:78d:4e5a:d101 with SMTP id
- my11-20020a1709065a4b00b0078d4e5ad101mr7459289ejc.196.1665992475700; Mon, 17
- Oct 2022 00:41:15 -0700 (PDT)
+        bh=HzEUJJelzyjW+5auI+Hjf750SOVJbqYXjyc8xQ8Ffqs=;
+        b=xERJfcv45MpwqzQcPuHtAhS05GYdxCGQMSH1j8clEVWAFSbAsZuzXbb6rzPHyU6O1i
+         qQzDiVPgS9MEJCnqsZepqxlj8LnzIr6NxnU0k5tPcwT4lSvv2fUClK5eoAm2i/xcR2ZC
+         z2NjTpxz3KGPT903P1oRXQz7Qz8wzRwdKd+gzR7LRB+va4Sg2Mci5NNAr+eUHEd9B6XJ
+         pqnHRsM3RNlz23LF8s/iNybxd5WXaaPduCz15r/3jnwlUOmrwHV6/eJjEogt+NVycUUv
+         8jrE4frgRsgCKbxJPn8e27pEJZ0swUv2rfRWL0tUmjTmiRUUmTOEDUbFRyJbDS1aHnx/
+         ECzw==
+X-Gm-Message-State: ACrzQf08gFH9LwDiupeKWIaAx2VmstlY36O3oE338xXj2QrUPddcX0nG
+        3ggMp7Zf9tkBXRTRMBhZwDbX8vS6+tHK3s1U0DIF+nboYls=
+X-Google-Smtp-Source: AMsMyM6UWBlVBFyY9kZ3VAO15n63NaLMSzxs1B9JRZbQWD7SHQ1cabFywZb2aRRvVjJbZvx81IRUBk89Z34BpkYDao8=
+X-Received: by 2002:a05:6402:5485:b0:459:147a:d902 with SMTP id
+ fg5-20020a056402548500b00459147ad902mr9358513edb.263.1665992624442; Mon, 17
+ Oct 2022 00:43:44 -0700 (PDT)
 MIME-Version: 1.0
 References: <20221014183459.181567-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20221014183459.181567-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <Y0pSYfw+VDxXv85b@pendragon.ideasonboard.com> <Y0snkMEp9WqGtzom@paasikivi.fi.intel.com>
- <Y0tA4cZBdwCOkaOs@pendragon.ideasonboard.com> <Y0xnXM+Iw5OkdKj6@paasikivi.fi.intel.com>
- <Y0xxlTP53dwx8VD+@pendragon.ideasonboard.com> <Y00ASntfSkMsWTN0@paasikivi.fi.intel.com>
-In-Reply-To: <Y00ASntfSkMsWTN0@paasikivi.fi.intel.com>
+ <20221014183459.181567-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <CAL_JsqKC_BJDJLLFck_0CbQ-0rZ0oVWMAdiwwGep23nh2pP19g@mail.gmail.com>
+ <CA+V-a8vMLuzJ8h5UDNXUiZRXPV1vJ9gguUMywe_+sPcU8tK+tA@mail.gmail.com>
+ <20221014214029.GA2937999-robh@kernel.org> <Y0pLDFMsFmHhC/R8@pendragon.ideasonboard.com>
+ <2928a80c-6c5d-c7e0-10f1-4c3b18dab525@linaro.org>
+In-Reply-To: <2928a80c-6c5d-c7e0-10f1-4c3b18dab525@linaro.org>
 From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Mon, 17 Oct 2022 08:40:49 +0100
-Message-ID: <CA+V-a8vtAAkmV6BfP0azNOTcxDbs2yaCbKQ4M_hrsTmRv+OQaw@mail.gmail.com>
-Subject: Re: [PATCH v2 4/5] media: i2c: ov5645: Return zero for s_stream(0)
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Date:   Mon, 17 Oct 2022 08:43:18 +0100
+Message-ID: <CA+V-a8uO4gTAObT+gZ-rROD2xyTXYP6kxfihMbgfbw1W2zXdPg@mail.gmail.com>
+Subject: Re: [PATCH v2 1/5] media: dt-bindings: ov5645: Convert OV5645 binding
+ to a schema
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Rob Herring <robh@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Hans Verkuil <hverkuil@xs4all.nl>,
         Shawn Tu <shawnx.tu@intel.com>,
@@ -80,79 +83,79 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sakari,
+On Sat, Oct 15, 2022 at 2:17 PM Krzysztof Kozlowski
+<krzysztof.kozlowski@linaro.org> wrote:
+>
+> On 15/10/2022 01:54, Laurent Pinchart wrote:
+> > Hi Rob,
+> >
+> > On Fri, Oct 14, 2022 at 04:40:29PM -0500, Rob Herring wrote:
+> >> On Fri, Oct 14, 2022 at 10:27:53PM +0100, Lad, Prabhakar wrote:
+> >>> On Fri, Oct 14, 2022 at 10:05 PM Rob Herring <robh+dt@kernel.org> wrote:
+> >>>> On Fri, Oct 14, 2022 at 1:35 PM Prabhakar <prabhakar.csengg@gmail.com> wrote:
+> >>>>>
+> >>>>> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> >>>>>
+> >>>>> Convert the simple OV5645 Device Tree binding to json-schema.
+> >>>>>
+> >>>>> The previous binding marked the below properties as required which was a
+> >>>>> driver requirement and not the device requirement so just drop them from
+> >>>>> the required list during the conversion.
+> >>>>> - clock-frequency
+> >>>>> - enable-gpios
+> >>>>> - reset-gpios
+> >>>>>
+> >>>>> Also drop the "clock-names" property as we have a single clock source for
+> >>>>> the sensor and the driver has been updated to drop the clk referencing by
+> >>>>> name.
+> >>>>
+> >>>> Driver requirements are the ABI!
+> >>>>
+> >>>> This breaks a kernel without the driver change and a DTB that has
+> >>>> dropped the properties.
+> >>>>
+> >>> I already have a patch for the driver [0] which I missed to include
+> >>> along with the series.
+> >>
+> >> You completely miss the point. Read the first sentence again. Changing
+> >> driver requirements changes the ABI.
+> >>
+> >> This breaks the ABI. The driver patch does not help that.
+> >
+> > I'm not following you here. If the DT binding makes a mandatory property
+> > optional, it doesn't break any existing platform. The only thing that
+> > would not work is a new DT that doesn't contain the now optional
+> > property combined with an older driver that makes it required. That's
+> > not a regression, as it would be a *new* DT.
+>
+> You're right although in-tree DTS are now not compatible with older
+> kernels. So it is not only about new DTS, it is about our kernel DTS
+> which requires new kernel to work.
+>
+To confirm, we are ok dropping the clock-names property here right?
 
-On Mon, Oct 17, 2022 at 8:12 AM Sakari Ailus
-<sakari.ailus@linux.intel.com> wrote:
+> DTS are exported and used by other systems, thus if someone blindly
+> takes this new DTS without clock-names, his kernel/OS/bootloader might
+> stop working.
 >
-> On Mon, Oct 17, 2022 at 12:03:17AM +0300, Laurent Pinchart wrote:
-> > Hi Sakari,
+> That is however a more relaxed requirement than kernel ABI against old DTS.
+>
 > >
-> > On Sun, Oct 16, 2022 at 08:19:40PM +0000, Sakari Ailus wrote:
-> > > On Sun, Oct 16, 2022 at 02:23:13AM +0300, Laurent Pinchart wrote:
-> > > > On Sat, Oct 15, 2022 at 09:35:12PM +0000, Sakari Ailus wrote:
-> > > > > On Sat, Oct 15, 2022 at 09:25:37AM +0300, Laurent Pinchart wrote:
-> > > > > > On Fri, Oct 14, 2022 at 07:34:58PM +0100, Prabhakar wrote:
-> > > > > > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > > > > > >
-> > > > > > > Always return zero while stopping the stream as the caller will ignore the
-> > > > > > > return value.
-> > > > > > >
-> > > > > > > This patch drops checking the return value of ov5645_write_reg() and
-> > > > > > > continues further in the code path while stopping stream. The user anyway
-> > > > > > > gets an error message in case ov5645_write_reg() fails.
-> > > > > >
-> > > > > > Continuing all the way to pm_runtime_put() is fine, but I don't think
-> > > > > > the function should return 0. It's not up to the driver to decide if a
-> > > > > > failure would be useful to signal to the caller or not.
-> > > > >
-> > > > > If the function returns an error when disabling streaming, what is the
-> > > > > expected power state of the device after this?
-> > > >
-> > > > That's up to us to decide :-)
-> > > >
-> > > > > The contract between the caller and the callee is that the state is not
-> > > > > changed if there is an error.
-> > > >
-> > > > For most APIs, but that's not universal.
-> > > >
-> > > > > This is a special case as very few callers
-> > > > > check the return value for streamoff operation and those that do generally
-> > > > > just print something. I've never seen a caller trying to prevent streaming
-> > > > > off in this case, for instance.
-> > > >
-> > > > I think the stream off call should proceed and try to power off the
-> > > > device even if an error occurs along the way, i.e. it shouldn't return
-> > > > upon the first detected error.
-> > > >
-> > > > > Of course we could document that streaming off always counts as succeeded
-> > > > > (e.g. decreasing device's runtime PM usage_count) while it could return an
-> > > > > informational error code. But I wonder if anyone would ever benefit from
-> > > > > that somehow. :-)
-> > > >
-> > > > I think it could be useful to propagate errors up to inform the user
-> > > > that something wrong happened. That would involve fixing lots of drivers
-> > > > along the call chain though, so there's no urgency for the ov5645 to do
-> > > > so, but isn't it better to propagate the error code instead of hiding
-> > > > the issue ?
-> > >
-> > > I also don't think hiding the issue would be the best thing to do, but that
-> > > wouldn't likely be a big problem either.
-> > >
-> > > How about printing a warning in the wrapper while returning zero to the
-> > > original caller? This would keep the API intact while still leaving a trace
-> > > on something failing. Of course the driver is also free to print whatever
-> > > messages it likes.
+> >>>> Also, with 'clock-names' dropped, you've just introduced a bunch of
+> >>>> warnings on other people's platforms. Are you going to 'fix' all of
+> >>>> them?
+> >>>>
+> >>> Yes I will fix them, once the patch driver patch [0] is merged in.
+> >>
+> >> Why? You are just making extra work. We have enough warnings as-is to
+> >> fix.
 > >
-> > While I think error propagation could be more useful in the long run,
-> > printing a message in the wrapper is a good idea. I like centralized
-> > error handling, it has a tendency to go wrong when left to individual
-> > drivers.
+> > I agree that a DT binding change should patch all in-tree DTS to avoid
+> > introducing new warnings.
 >
-> I can send a patch...
+> Yes.
 >
-To conclude, for v3 I'll continue down the code path upon error and
-then report back the error?
+OK, I'll send dts changes along with this patch series.
 
 Cheers,
 Prabhakar
