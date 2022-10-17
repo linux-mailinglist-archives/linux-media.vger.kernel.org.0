@@ -2,169 +2,265 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B85B2600CDA
-	for <lists+linux-media@lfdr.de>; Mon, 17 Oct 2022 12:50:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 44FB7600D52
+	for <lists+linux-media@lfdr.de>; Mon, 17 Oct 2022 13:02:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229818AbiJQKu3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 17 Oct 2022 06:50:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33336 "EHLO
+        id S231165AbiJQLCa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 17 Oct 2022 07:02:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46530 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230046AbiJQKu2 (ORCPT
+        with ESMTP id S230486AbiJQLCC (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 17 Oct 2022 06:50:28 -0400
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6BC44578A6
-        for <linux-media@vger.kernel.org>; Mon, 17 Oct 2022 03:50:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1666003827; x=1697539827;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=YbOkvYQsW6PZagmDC7OK7DxiFj39y/xfaq0GxBZAnLM=;
-  b=LzAyPOlitzS3mpYyTbY4fj3hRDVkFcd6vKJWga/6gmhLDLXFfAb3gi8Y
-   eqXxLfmyyhJZEZF7T2xtpj7pLSYPobudqk1fIa1mBnHmLYRjboNN7B3jt
-   gslpA6ED53+Q0MryhcopAvILpvUdcphaAI9K/WcVBSc4tSkjc+NaKc6BK
-   SiDppzqVcS8CrF+keAGLRW7tYdDjfD+7a8LKeyU/a5tU+rKqUNcjlX6Lw
-   FU7xxcGRG8DHidjCNIg3AL0kHSTw25b1R/xZBFOrudn9PKW2LEzFZ/aZE
-   7p/mQkby32rP507DwqxkVUaUF0rfnId048eP+Vm/R1LDecT3DBiJFG4NM
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10502"; a="304505419"
-X-IronPort-AV: E=Sophos;i="5.95,191,1661842800"; 
-   d="scan'208";a="304505419"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2022 03:50:26 -0700
-X-IronPort-AV: E=McAfee;i="6500,9779,10502"; a="803307511"
-X-IronPort-AV: E=Sophos;i="5.95,191,1661842800"; 
-   d="scan'208";a="803307511"
-Received: from punajuuri.fi.intel.com (HELO paasikivi.fi.intel.com) ([10.237.72.43])
-  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2022 03:50:25 -0700
-Received: from punajuuri.localdomain (punajuuri.localdomain [192.168.240.130])
-        by paasikivi.fi.intel.com (Postfix) with ESMTP id 3AE4A20310;
-        Mon, 17 Oct 2022 13:50:23 +0300 (EEST)
-Received: from sailus by punajuuri.localdomain with local (Exim 4.94.2)
-        (envelope-from <sakari.ailus@linux.intel.com>)
-        id 1okNhc-000FGx-EA; Mon, 17 Oct 2022 13:50:36 +0300
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     linux-media@vger.kernel.org
-Cc:     Tomasz Figa <tfiga@chromium.org>,
-        Bingbu Cao <bingbu.cao@linux.intel.com>,
-        "Qiu, Tian Shu" <tian.shu.qiu@intel.com>
-Subject: [PATCH 1/1] dw9768: Enable low-power probe on ACPI
-Date:   Mon, 17 Oct 2022 13:50:36 +0300
-Message-Id: <20221017105036.58662-1-sakari.ailus@linux.intel.com>
-X-Mailer: git-send-email 2.30.2
+        Mon, 17 Oct 2022 07:02:02 -0400
+Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com [IPv6:2a00:1450:4864:20::52a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 39CAF631D4
+        for <linux-media@vger.kernel.org>; Mon, 17 Oct 2022 04:00:48 -0700 (PDT)
+Received: by mail-ed1-x52a.google.com with SMTP id b12so15468433edd.6
+        for <linux-media@vger.kernel.org>; Mon, 17 Oct 2022 04:00:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=raspberrypi.com; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=S9mm88qWyMuiIFsbmbRc07e019jfJ9VuOEtAwJuOtXg=;
+        b=OCLfHPFGvNEAJ6AIgMKbreNoQtZfH7Zcpms90wz3/bocUokgzPxe25uoSVBfRp3DjL
+         hWzhMQNmAxuQ+GA3JR+QWMLe+nJqdj/BhxM938h4pHCAn8BI2UV8rQ1wPzfrwCHtwO/2
+         Hy9BHc6LgCLhNg7oAKa1FgAEJ8pJ68Qtc/6vhtDEaDUgSxAGppXYJeWMPsAPx5dweLLz
+         +VerG1q6u3BcRCVLWK4eCJV80hk4V4pK17tWX7q+Pk2O8SoBBUd/Ecu9hpHvTobWDEtJ
+         C7kBUzcD0FLF6sOlomThCLGieNX+UUFIeegFcQCJZxB8fqn+/hkRc04oLn8vkvpWep5Z
+         n41w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=S9mm88qWyMuiIFsbmbRc07e019jfJ9VuOEtAwJuOtXg=;
+        b=KscQYoRIhe2XGxho7r59rTmtTz+dHzW/6Xsdtw/CT+edaCMSJBirQEn1l1sVJgUHBa
+         1V9og+J+JOtkOn6lmpjBfgdAn7DOSFTbTK6PZ0s2aNsfJEcuOvvTzxaa4VvAQb54PhVf
+         H+wT7HaVnj4VxpTNBxNi/jYGuxkAoKCZFfc5mGFxp5eVK9tWgsaM0bLqc9B0UcgYnCLU
+         OVcbV0/ZZf9e2xt8u+ObPfL749AnKQlrHcOyvhfqMTyko4vny173fIxUsjvTSW0khNGN
+         4qrMkAjlTADq0GUlWN91Wi4WaIB+5Rdj1FS1k7R/xwmiHt0juzccjZTGIXnDI/Sw5jdy
+         rR4w==
+X-Gm-Message-State: ACrzQf1vpdmt/2mt7MdZkr3pwJOUSKaLXgY342GxwxDGm/AjWeFCgokk
+        9Yo5/QV2dUbjgoTLIu4whfTfntiTnar/RiCa+sJ7Zw==
+X-Google-Smtp-Source: AMsMyM4RSEBeYytHdZND77lI9DNpCEHpujaaKW2P1WJRoeiseA3abZD6JP0m+cOnkDMAGCfgJYBurkuWN4uw6QhRshg=
+X-Received: by 2002:a05:6402:22ef:b0:458:bfe5:31a3 with SMTP id
+ dn15-20020a05640222ef00b00458bfe531a3mr9640429edb.6.1666004444176; Mon, 17
+ Oct 2022 04:00:44 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+References: <20221005190613.394277-1-jacopo@jmondi.org> <20221005190613.394277-6-jacopo@jmondi.org>
+ <CAPY8ntB_JQHJQH7DChEyou-RSRTcEF-Uy=+3Ly06MUtg0TCZ6A@mail.gmail.com>
+ <Y0AxI2RKxomjEb2t@pendragon.ideasonboard.com> <CAPY8ntCh4UFT5swHvwPj7xz8wPH3MJB-aJjEd9bCgXVubRyp5w@mail.gmail.com>
+ <20221017092424.hygkg26dpubti3ne@uno.localdomain>
+In-Reply-To: <20221017092424.hygkg26dpubti3ne@uno.localdomain>
+From:   Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date:   Mon, 17 Oct 2022 12:00:29 +0100
+Message-ID: <CAPY8ntAw0Hj3kEUM4BNK9FdPK3b1=4jSST1YTVKd-zUDP0LqVw@mail.gmail.com>
+Subject: Re: [PATCH 05/10] media: ar0521: Add LINK_FREQ control
+To:     Jacopo Mondi <jacopo@jmondi.org>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        =?UTF-8?Q?Krzysztof_Ha=C5=82asa?= <khalasa@piap.pl>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@iki.fi>, linux-media@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add support for low-power probe to the driver. Also fix runtime PM API
-usage in the driver.
+Hi Jacopo
 
-Much of the hassle comes from different factors affecting device power
-states during probe for ACPI and DT.
+On Mon, 17 Oct 2022 at 10:24, Jacopo Mondi <jacopo@jmondi.org> wrote:
+>
+> Hi Dave
+>
+> On Fri, Oct 07, 2022 at 03:26:55PM +0100, Dave Stevenson wrote:
+> > On Fri, 7 Oct 2022 at 15:01, Laurent Pinchart
+> > <laurent.pinchart@ideasonboard.com> wrote:
+> > >
+> > > On Thu, Oct 06, 2022 at 04:10:10PM +0100, Dave Stevenson wrote:
+> > > > On Wed, 5 Oct 2022 at 20:07, Jacopo Mondi wrote:
+> > > > >
+> > > > > Add support for V4L2_CID_LINK_FREQ which currently reports a single
+> > > > > hard-coded frequency which depends on the fixed pixel clock.
+> > > > >
+> > > > > This will change in the next patches where the pixel rate will be
+> > > > > computed from the desired link_frequency.
+> > > > >
+> > > > > Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
+> > > >
+> > > > Looks valid based on the current pixel rate of 184MPix/s, 8bpp,
+> > > > divided by 4 lanes, and DDR.
+> > > >
+> > > > > ---
+> > > > >  drivers/media/i2c/ar0521.c | 9 +++++++++
+> > > > >  1 file changed, 9 insertions(+)
+> > > > >
+> > > > > diff --git a/drivers/media/i2c/ar0521.c b/drivers/media/i2c/ar0521.c
+> > > > > index 21649aecf442..c5410b091654 100644
+> > > > > --- a/drivers/media/i2c/ar0521.c
+> > > > > +++ b/drivers/media/i2c/ar0521.c
+> > > > > @@ -90,6 +90,10 @@ static const char * const ar0521_supply_names[] = {
+> > > > >         "vaa",          /* Analog (2.7V) supply */
+> > > > >  };
+> > > > >
+> > > > > +static const s64 ar0521_link_frequencies[] = {
+> > > > > +       184000000,
+> > > > > +};
+> > > > > +
+> > > > >  struct ar0521_ctrls {
+> > > > >         struct v4l2_ctrl_handler handler;
+> > > > >         struct v4l2_ctrl *ana_gain;
+> > > > > @@ -104,6 +108,7 @@ struct ar0521_ctrls {
+> > > > >         };
+> > > > >         struct v4l2_ctrl *pixrate;
+> > > > >         struct v4l2_ctrl *exposure;
+> > > > > +       struct v4l2_ctrl *link_freq;
+> > > > >         struct v4l2_ctrl *test_pattern;
+> > > > >  };
+> > > > >
+> > > > > @@ -655,6 +660,10 @@ static int ar0521_init_controls(struct ar0521_dev *sensor)
+> > > > >         ctrls->exposure = v4l2_ctrl_new_std(hdl, ops, V4L2_CID_EXPOSURE, 0,
+> > > > >                                             65535, 1, 360);
+> > > > >
+> > > > > +       ctrls->link_freq = v4l2_ctrl_new_int_menu(hdl, ops, V4L2_CID_LINK_FREQ,
+> > > > > +                                       ARRAY_SIZE(ar0521_link_frequencies) - 1,
+> > > > > +                                       0, ar0521_link_frequencies);
+> > > > > +
+> > > >
+> > > > Admittedly there is only one entry, but did you want to make it a read
+> > > > only control? With no case for it in s_ctrl, you'll get errors thrown
+> > > > from the control handler framework.
+> > >
+> > > I'd make it writable even if there's a single entry, so that userspace
+> > > won't need special logic. It will also prepare for support of multiple
+> > > entries in the future.
+> >
+> > Do you really see a situation where userspace will be configuring link
+> > frequency instead of DT / ACPI?
+> > A quick search seems to imply that only 1 current driver supports a
+> > r/w link frequency - mt9v032. That would imply that having a
+> > controllable link frequency would require the special logic in
+> > userspace.
+> >
+>
+> Yes it does, but we need one way or another to allow userspace to
+> control the sampling frequency as extending (or shrinking) blankings
+> helps up to the point you reach their limits.
+>
+> I was never really fond of the idea that such action should go through
+> link frequency, which seems very much a parameter of the bus that
+> should be negotiated between the recv and the tx parts, rather than
+> being user configurable.
 
-Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-Fixes: 859891228e56 ("media: i2c: dw9768: Add DW9768 VCM driver")
----
-Hi folks,
+Indeed - that's PIXEL_RATE, not LINK_FREQ.
 
-I think I don't have the hardware so this is untested (apart from
-compiling). Testing would be appreciated.
+> > I'm always very cautious about drivers that are linking PIXEL_RATE and
+> > LINK_FREQ - most of the sensors are tending to have 2 (or more) PLLs,
+> > and there is a FIFO between the image sensor (PIXEL_RATE) and the MIPI
+> > block (LINK_FREQ). imx290 is certainly wrong (pixel rate does not
+> > change with mode, but link freq does), and I'm fairly certain that
+> > ov7251 is as well (pixel rate is 48MPix/s whether at 240 or 319.2MHz
+> > link frequency). Patches coming soon for both.
+>
+> The current definition of PIXEL_RATE indeed describes the sampling
+> frequency on the pixel array, which might or might not reflect the
+> output pixel rate. However most if not all usages of PIXEL_RATE I've
+> seen (and FTR the way it is used in libcamera) is to denote the output
+> pixel rate (ie it is used to compute the output timings given the line
+> length and frame height)
+>
+> I wonder
+>
+> 1) The current definition of PIXEL_RATE as the sampling rate on the
+> pixel array: what purposes does it serve ? Are there algorithms that
+> require to know the sampling rate in the analog domain ? Are there
+> implementations that treat PIXEL_RATE differently than the "pixel
+> output rate" ?
 
-Much of the ugliness comes from having to test between DT and ACPI as DT
-has no means to tell the device should not be powered on during probe. To
-be added once someone needs it I guess.
+Sampling rate on the array is the basis of using VBLANK and HBLANK to
+control frame rate. See documentation at [1]
 
- drivers/media/i2c/dw9768.c | 33 +++++++++++++++++++++++++--------
- 1 file changed, 25 insertions(+), 8 deletions(-)
+frame interval = (analogue crop width + horizontal blanking) *
+                 (analogue crop height + vertical blanking) / pixel rate
 
-diff --git a/drivers/media/i2c/dw9768.c b/drivers/media/i2c/dw9768.c
-index c086580efac78..60ae0adf51744 100644
---- a/drivers/media/i2c/dw9768.c
-+++ b/drivers/media/i2c/dw9768.c
-@@ -414,6 +414,7 @@ static int dw9768_probe(struct i2c_client *client)
- {
- 	struct device *dev = &client->dev;
- 	struct dw9768 *dw9768;
-+	bool full_power;
- 	unsigned int i;
- 	int ret;
- 
-@@ -469,13 +470,23 @@ static int dw9768_probe(struct i2c_client *client)
- 
- 	dw9768->sd.entity.function = MEDIA_ENT_F_LENS;
- 
-+	/*
-+	 * Figure out whether we're going to power up the device here. Generally
-+	 * this is done if CONFIG_PM is disabled in a DT system or the device is
-+	 * to be powered on in an ACPI system. Similarly for power off in
-+	 * remove.
-+	 */
- 	pm_runtime_enable(dev);
--	if (!pm_runtime_enabled(dev)) {
-+	full_power = (is_acpi_node(dev_fwnode(dev)) &&
-+		      acpi_dev_state_d0(dev)) ||
-+		     (is_of_node(dev_fwnode(dev)) && !pm_runtime_enabled(dev));
-+	if (full_power) {
- 		ret = dw9768_runtime_resume(dev);
- 		if (ret < 0) {
- 			dev_err(dev, "failed to power on: %d\n", ret);
- 			goto err_clean_entity;
- 		}
-+		pm_runtime_set_active(dev);
- 	}
- 
- 	ret = v4l2_async_register_subdev(&dw9768->sd);
-@@ -484,14 +495,17 @@ static int dw9768_probe(struct i2c_client *client)
- 		goto err_power_off;
- 	}
- 
-+	pm_runtime_idle(dev);
-+
- 	return 0;
- 
- err_power_off:
--	if (pm_runtime_enabled(dev))
--		pm_runtime_disable(dev);
--	else
-+	if (full_power) {
- 		dw9768_runtime_suspend(dev);
-+		pm_runtime_set_suspended(dev);
-+	}
- err_clean_entity:
-+	pm_runtime_disable(dev);
- 	media_entity_cleanup(&dw9768->sd.entity);
- err_free_handler:
- 	v4l2_ctrl_handler_free(&dw9768->ctrls);
-@@ -503,14 +517,17 @@ static int dw9768_remove(struct i2c_client *client)
- {
- 	struct v4l2_subdev *sd = i2c_get_clientdata(client);
- 	struct dw9768 *dw9768 = sd_to_dw9768(sd);
-+	struct device *dev = &client->dev;
- 
- 	v4l2_async_unregister_subdev(&dw9768->sd);
- 	v4l2_ctrl_handler_free(&dw9768->ctrls);
- 	media_entity_cleanup(&dw9768->sd.entity);
--	pm_runtime_disable(&client->dev);
--	if (!pm_runtime_status_suspended(&client->dev))
--		dw9768_runtime_suspend(&client->dev);
--	pm_runtime_set_suspended(&client->dev);
-+	if ((is_acpi_node(dev_fwnode(dev)) && acpi_dev_state_d0(dev)) ||
-+	    (is_of_node(dev_fwnode(dev)) && !pm_runtime_enabled(dev))) {
-+		dw9768_runtime_suspend(dev);
-+		pm_runtime_set_suspended(dev);
-+	}
-+	pm_runtime_disable(dev);
- 
- 	return 0;
- }
--- 
-2.30.2
+This is NOT the pixel rate on the CSI link.
 
+Taking an example of IMX219 [2], section 9.1 shows the clock structure
+with 2 PLLs. PLL1 drives the pixel array (PIXEL_RATE). PLL2 drives the
+MIPI block (LINK_FREQ).
+There is a FIFO between the pixel array and MIPI, and therefore they
+can run at different rates.
+
+OV5647 is the same.
+IMX327/290/462 are the same, although FRSEL configures specific
+dividers for the PIXEL_RATE.
+OV9281 is the same (2 PLLs).
+
+In your case it does appear that LINK_FREQ and PIXEL_RATE are bound
+together. From the developer guide:
+"to reduce MIPI data rate, sensor pixel clock must be reduced as well"
+
+On AR0521 max frame interval is dictated by line_length_pck (0x0342)
+and frame_length_lines (0x0340), both of which are 16bit values.
+At your highest pixel rate of 414000000 I make that 10.37seconds per
+frame, or 0.09fps. So without altering link frequency, my calculations
+say you can do 0.09 to 60fps. Are you currently looking at use cases
+that need frame rates outside these limits? If not, why are you
+looking at changing the rate of anything?
+
+[1] https://www.kernel.org/doc/html/latest/driver-api/media/camera-sensor.html#raw-camera-sensors
+[2] https://github.com/rellimmot/Sony-IMX219-Raspberry-Pi-V2-CMOS/blob/master/RASPBERRY%20PI%20CAMERA%20V2%20DATASHEET%20IMX219PQH5_7.0.0_Datasheet_XXX.PDF
+[3] https://pdfcoffee.com/ov9281-datasheet-pdf-free.html section 2.8.
+
+> 2) LINK_FREQ is the closest control we have to express the output
+> pixel rate, but to me is very specific to the bus configuration and
+> does not express per se anything useful to userspace for computing
+> timings based on frame/lane sizes. The fact LINK_FREQ is a menu contol
+> reflects how much it relates to the HW configuration as it is assumed
+> to come from DT
+
+I'll agree - link frequency is IMHO near useless to userspace.
+It has a place for EMC compatibility, but I see that as coming from DT
+and the platform configuration, and not from userland.
+
+> Do we need an r/w PIXEL_OUTPUT_RATE control to replace
+> - LINK_FREQ for userspace to configure it
+> - PIXEL_RATE for userspace to read it
+
+No new control needed. Make PIXEL_RATE r/w, and make it modify the
+pixel array clock configuration. AIUI Drivers are allowed to validate
+controls, therefore presumably you can make it lock to discrete values
+instead of a full range.
+
+> LINK_FREQ should only be used in the tx/rx negotiation. It shall
+> vary according to PIXEL_OUTPUT_RATE, possibily in the options
+> specified in DTS (which are there because they have usually been
+> validated for RF emissions, that's my understanding at least).
+>
+> PIXEL_RATE will equally vary, if required, and algorithms that need to
+> know the sampling frequency in the analog domain will continue using
+> it.
+>
+> Or maybe the original idea was to have a pixel array entity and a
+> separate tx entity, each of them with different PIXEL_RATE control ?
+
+Pass over the original intent - I've not been involved in the V4L2
+side of things long enough to know that.
+
+  Dave
+
+> >
+> >   Dave
+> >
+> > > > >         ctrls->test_pattern = v4l2_ctrl_new_std_menu_items(hdl, ops,
+> > > > >                                         V4L2_CID_TEST_PATTERN,
+> > > > >                                         ARRAY_SIZE(test_pattern_menu) - 1,
+> > >
+> > > --
+> > > Regards,
+> > >
+> > > Laurent Pinchart
