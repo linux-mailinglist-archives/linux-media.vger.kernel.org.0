@@ -2,200 +2,306 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 33F34602F1B
-	for <lists+linux-media@lfdr.de>; Tue, 18 Oct 2022 17:03:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0FC20602F25
+	for <lists+linux-media@lfdr.de>; Tue, 18 Oct 2022 17:05:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230406AbiJRPC5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 18 Oct 2022 11:02:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40266 "EHLO
+        id S230423AbiJRPFx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 18 Oct 2022 11:05:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48082 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230175AbiJRPCz (ORCPT
+        with ESMTP id S230192AbiJRPFw (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 18 Oct 2022 11:02:55 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CCFCFDBE63;
-        Tue, 18 Oct 2022 08:02:53 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id BA34B8B9;
-        Tue, 18 Oct 2022 17:02:50 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1666105371;
-        bh=SxxFnC+VXfTQM93h3lf8Xya9KlFotjZNHzBf9IWVqWA=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=a4OqbN8B4RLPeFsn75wbfVjZdlwhITv5G90JvphNWGCiXEKKraDrTTSeZnlgSPTl5
-         R5oZxOAw9t3AaancL7Nwq8Iv8lXjvOP2zYeEs9cslvGEyCxenDJCeCVix4ZkvMr/KD
-         tpKcnbK668MQOa2gWvwlOzql88Y+OCmAJN/qmIJI=
-Date:   Tue, 18 Oct 2022 18:02:26 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Ricardo Ribalda <ribalda@chromium.org>
-Cc:     Alan Stern <stern@rowland.harvard.edu>, inux@roeck-us.net,
-        Nazar Mokrynskyi <nazar@mokrynskyi.com>,
-        linux-media@vger.kernel.org, linux-usb@vger.kernel.org
-Subject: Re: [Bug 216543] kernel NULL pointer dereference
- usb_hcd_alloc_bandwidth
-Message-ID: <Y07AAmc2QnP5HiBg@pendragon.ideasonboard.com>
-References: <bug-216543-208809@https.bugzilla.kernel.org/>
- <bug-216543-208809-AR52CPrAl3@https.bugzilla.kernel.org/>
- <Y03IXMGpZ2fCof2k@rowland.harvard.edu>
- <CANiDSCuiYCNM+6F2+3efps2uR_Q+p-oBSu-gVmY6ygf4_1U49Q@mail.gmail.com>
+        Tue, 18 Oct 2022 11:05:52 -0400
+Received: from mail-qk1-x733.google.com (mail-qk1-x733.google.com [IPv6:2607:f8b0:4864:20::733])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 404FFC356F
+        for <linux-media@vger.kernel.org>; Tue, 18 Oct 2022 08:05:49 -0700 (PDT)
+Received: by mail-qk1-x733.google.com with SMTP id d13so8797838qko.5
+        for <linux-media@vger.kernel.org>; Tue, 18 Oct 2022 08:05:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=HBKwtGOVmBtQkFbjQTDFgGB6zvwH5MNmJgIbqMQ1y9k=;
+        b=09Q41mf2aoi3/7NEVmbm7OtPYPGMVz8N7WKCs9RPB1gECe1tgaHi0zDIQo8qcRIRiK
+         ItSi4NzFHQAmyD/+NkV6A8hsQttxXfeE7oy5LwjA18OrZ5g02aDI+BCVlDjcHfKNDw0i
+         OrJlDveEohPFdg6hr6Xbr737QLcDiQ6NUoQu5PVj0OBanF++upl5vfdawnl/ru/OuQTQ
+         GTKvVrh01HdWh9EZBQmzkIgSo1oCT0fsYnS1WcFYmfkWYnm7WZ8nn7LiCDfxtqaLQL41
+         D9HjXQQu8rMhoHwFmcgzKTsKEtcw9AgVbZFU6D5HwKAI8TZXroDl2ojUKBTDOXOqW0FQ
+         ydQQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=HBKwtGOVmBtQkFbjQTDFgGB6zvwH5MNmJgIbqMQ1y9k=;
+        b=qzWQRN92yEzd1iEBhEQ3my+74SHOvd8sybXl/S2M458qoXC4LER9xt+tfQhzIxoJWx
+         P/939nvUDJwaDhH+nPwtpUFqWt3tGD1rxAVcwC5wi0uIpAh1mltH1feF6L5JkoLGClMF
+         MWPDZHlclKXJYrc90Mh1tk7pjO+AngiKjqc3JcyZOJN9rI9CnMQ4fdtMj9pNYarRnDmi
+         NwJNdgTaQWrISCnCSieoZqRz0VvF5Qyq59oNVyvwYJTLRwXxBFgsv85rwELGciD3PZI0
+         NgB8paP6MVFm0t37H9BX3CovJ/TaiLC31R9rp+MalsPCsIDKYRfQTlYIl0A2lRvbKgwJ
+         zaxA==
+X-Gm-Message-State: ACrzQf2Ak1TEE6yeFW8RgBkeJwrMvlbu3wClivZ8gIWmUwRA3fdmMgLI
+        jhx2peV9rOmZZFQB4KuyCe7gfA==
+X-Google-Smtp-Source: AMsMyM58jA4nq6UJTkAANjtbM75ThReTOH7ATEAhmrna6g/A2N6qMPmE3HrjMHIcyJEwnWjZHdjtLQ==
+X-Received: by 2002:ae9:e002:0:b0:6eb:adfb:5e03 with SMTP id m2-20020ae9e002000000b006ebadfb5e03mr2096467qkk.243.1666105548289;
+        Tue, 18 Oct 2022 08:05:48 -0700 (PDT)
+Received: from nicolas-tpx395.localdomain (192-222-136-102.qc.cable.ebox.net. [192.222.136.102])
+        by smtp.gmail.com with ESMTPSA id h14-20020ac8568e000000b0039913d588fbsm2075232qta.48.2022.10.18.08.05.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 18 Oct 2022 08:05:46 -0700 (PDT)
+Message-ID: <1f3b8e326d64810999e1430da56fbe2f3efc0a91.camel@ndufresne.ca>
+Subject: Re: [Patch v3 05/15] Documention: v4l: Documentation for VP9 CIDs.
+From:   Nicolas Dufresne <nicolas@ndufresne.ca>
+To:     aakarsh jain <aakarsh.jain@samsung.com>,
+        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
+Cc:     m.szyprowski@samsung.com, andrzej.hajda@intel.com,
+        mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
+        ezequiel@vanguardiasur.com.ar, jernej.skrabec@gmail.com,
+        benjamin.gaignard@collabora.com, stanimir.varbanov@linaro.org,
+        dillon.minfei@gmail.com, david.plowman@raspberrypi.com,
+        mark.rutland@arm.com, robh+dt@kernel.org, krzk+dt@kernel.org,
+        andi@etezian.org, alim.akhtar@samsung.com,
+        aswani.reddy@samsung.com, pankaj.dubey@samsung.com,
+        linux-fsd@tesla.com, smitha.t@samsung.com
+Date:   Tue, 18 Oct 2022 11:05:44 -0400
+In-Reply-To: <20221011122516.32135-6-aakarsh.jain@samsung.com>
+References: <20221011122516.32135-1-aakarsh.jain@samsung.com>
+         <CGME20221011125155epcas5p1e47309b4dd767e81817c316aa0e8b7ca@epcas5p1.samsung.com>
+         <20221011122516.32135-6-aakarsh.jain@samsung.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.4 (3.44.4-2.fc36) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CANiDSCuiYCNM+6F2+3efps2uR_Q+p-oBSu-gVmY6ygf4_1U49Q@mail.gmail.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-hi Ricardo,
+Hi,
 
-On Tue, Oct 18, 2022 at 02:40:44PM +0900, Ricardo Ribalda wrote:
-> Hi
-> 
-> Guenter already provided some patches to fix this issue:
-> https://lore.kernel.org/lkml/20200917022547.198090-1-linux@roeck-us.net/
-> 
-> Until we have a solution on the core (or rewrite the kernel in rust
-> ;P) , I think we should merge them (or something similar).
-> 
-> I can prepare a patchset merging Guenter set and my "grannular PM"
-> https://lore.kernel.org/linux-media/20220920-resend-powersave-v1-0-123aa2ba3836@chromium.org/
+thanks for your patch, very minor comment below.
 
-How about working on a proper fix instead ? :-)
+Le mardi 11 octobre 2022 =C3=A0 17:55 +0530, aakarsh jain a =C3=A9crit=C2=
+=A0:
+> From: Smitha T Murthy <smitha.t@samsung.com>
+>=20
+> Adds V4l2 controls for VP9 encoder documention.
+>=20
+> Cc: linux-fsd@tesla.com
+> Signed-off-by: Smitha T Murthy <smitha.t@samsung.com>
+> Signed-off-by: Aakarsh Jain <aakarsh.jain@samsung.com>
+> ---
+>  .../media/v4l/ext-ctrls-codec.rst             | 167 ++++++++++++++++++
+>  1 file changed, 167 insertions(+)
+>=20
+> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/=
+Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> index 2a165ae063fb..2277d83a7cf0 100644
+> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> @@ -2187,6 +2187,16 @@ enum v4l2_mpeg_video_vp8_profile -
+>      * - ``V4L2_MPEG_VIDEO_VP8_PROFILE_3``
+>        - Profile 3
+> =20
+> +VP9 Control Reference
+> +---------------------
+> +
+> +The VP9 controls include controls for encoding parameters of VP9 video
+> +codec.
+> +
+> +.. _vp9-control-id:
+> +
+> +VP9 Control IDs
+> +
+>  .. _v4l2-mpeg-video-vp9-profile:
+> =20
+>  ``V4L2_CID_MPEG_VIDEO_VP9_PROFILE``
+> @@ -2253,6 +2263,163 @@ enum v4l2_mpeg_video_vp9_level -
+>      * - ``V4L2_MPEG_VIDEO_VP9_LEVEL_6_2``
+>        - Level 6.2
+> =20
+> +``V4L2_CID_CODEC_VP9_I_FRAME_QP``
+> +    Quantization parameter for an I frame for VP9. Valid range: from 1 t=
+o 255.
+> +
+> +``V4L2_CID_CODEC_VP9_P_FRAME_QP``
+> +    Quantization parameter for an P frame for VP9. Valid range: from 1 t=
+o 255.
+> +
+> +``V4L2_CID_CODEC_VP9_MAX_QP``
+> +    Maximum quantization parameter for VP9. Valid range: from 1 to 255.
+> +    Recommended range for MFC is from 230 to 255.
 
-> It can always be reverted when we reach consensus on how to do it for
-> every driver.
-> 
-> Regards!
-> 
-> 
-> On Tue, 18 Oct 2022 at 06:46, Alan Stern <stern@rowland.harvard.edu> wrote:
-> >
-> > Moving this bug report from bugzilla to the mailing lists.
-> >
-> > The short description of the bug is that in uvcvideo, disconnect races
-> > with starting a video transfer.  The race shows up on Nazar's system
-> > because of a marginal USB cable which leads to a lot of spontaneous
-> > disconnections.
-> >
-> > On Mon, Oct 17, 2022 at 05:59:48PM +0000, bugzilla-daemon@kernel.org wrote:
-> > > https://bugzilla.kernel.org/show_bug.cgi?id=216543
-> > >
-> > > --- Comment #7 from Nazar Mokrynskyi (nazar@mokrynskyi.com) ---
-> > > Created attachment 303022
-> > >   --> https://bugzilla.kernel.org/attachment.cgi?id=303022&action=edit
-> > > Kernel log with uvc-trace patch applied
-> >
-> > For everyone's information, here is the uvc-trace patch.  All it does is
-> > add messages to the kernel log when uvcvideo's probe and disconnect
-> > routines run, and just before uvc_video_start_transfer() calls
-> > usb_set_interface().
-> >
-> > --- usb-devel/drivers/media/usb/uvc/uvc_video.c
-> > +++ usb-devel/drivers/media/usb/uvc/uvc_video.c
-> > @@ -1965,6 +1965,7 @@ static int uvc_video_start_transfer(stru
-> >                         "Selecting alternate setting %u (%u B/frame bandwidth)\n",
-> >                         altsetting, best_psize);
-> >
-> > +               dev_info(&intf->dev, "uvc set alt\n");
-> >                 ret = usb_set_interface(stream->dev->udev, intfnum, altsetting);
-> >                 if (ret < 0)
-> >                         return ret;
-> > --- usb-devel/drivers/media/usb/uvc/uvc_driver.c
-> > +++ usb-devel/drivers/media/usb/uvc/uvc_driver.c
-> > @@ -2374,6 +2374,8 @@ static int uvc_probe(struct usb_interfac
-> >         int function;
-> >         int ret;
-> >
-> > +       dev_info(&intf->dev, "uvc_probe start\n");
-> > +
-> >         /* Allocate memory for the device and initialize it. */
-> >         dev = kzalloc(sizeof(*dev), GFP_KERNEL);
-> >         if (dev == NULL)
-> > @@ -2535,6 +2537,7 @@ static void uvc_disconnect(struct usb_in
-> >                 return;
-> >
-> >         uvc_unregister_video(dev);
-> > +       dev_info(&intf->dev, "uvc_disconnect done\n");
-> >         kref_put(&dev->ref, uvc_delete);
-> >  }
-> >
-> > The output in the kernel log below clearly shows that there is a bug in
-> > the uvcvideo driver.
-> >
-> > > I'm on 6.0.2 and seemingly get this even more frequently with good cable and no
-> > > extra adapters. So I patched 6.0.2 with uvc-trace above and reproduced it
-> > > within a few minutes.
-> > >
-> > > USB seems to reset, often camera stops or freezes in the browser, but the light
-> > > on the camera itself remains on. Sometimes I can enable/disable/enable camera
-> > > for it to reboot, but the last time I did that in the log I got null pointer
-> > > de-reference again.
-> >
-> > Here is the important part of the log:
-> >
-> > [  684.746848] usb 8-2.4.4: reset SuperSpeed USB device number 6 using xhci_hcd
-> > [  684.810979] uvcvideo 8-2.4.4:1.0: uvc_probe start
-> > [  684.811032] usb 8-2.4.4: Found UVC 1.00 device Logitech BRIO (046d:085e)
-> > [  684.843413] input: Logitech BRIO as /devices/pci0000:00/0000:00:08.1/0000:59:00.3/usb8/8-2/8-2.4/8-2.4.4/8-2.4.4:1.0/input/input43
-> > [  684.911255] usb 8-2.4.4: current rate 16000 is different from the runtime rate 24000
-> > ...
-> > [  743.800368] uvcvideo 8-2.4.4:1.1: uvc set alt
-> >
-> > This is where an ioctl calls uvc_video_start_transfer.
-> >
-> > [  748.654701] usb 8-2.4.4: USB disconnect, device number 6
-> > [  748.714355] uvcvideo 8-2.4.4:1.0: uvc_disconnect done
-> >
-> > This is where the disconnect starts and finishes
-> >
-> > [  748.898340] BUG: kernel NULL pointer dereference, address: 0000000000000000
-> > [  748.898344] #PF: supervisor read access in kernel mode
-> > [  748.898346] #PF: error_code(0x0000) - not-present page
-> > [  748.898347] PGD 0 P4D 0
-> > [  748.898349] Oops: 0000 [#1] PREEMPT SMP NOPTI
-> > [  748.898351] CPU: 16 PID: 11890 Comm: VideoCapture Not tainted 6.0.2-x64v2-uvc-trace-xanmod1 #1
-> > [  748.898353] Hardware name: Gigabyte Technology Co., Ltd. B550 VISION D/B550 VISION D, BIOS F15d 07/20/2022
-> > [  748.898354] RIP: 0010:usb_ifnum_to_if+0x35/0x60
-> > ...
-> > [  748.898368] Call Trace:
-> > [  748.898370]  <TASK>
-> > [  748.898370]  usb_hcd_alloc_bandwidth+0x240/0x370
-> > [  748.898375]  usb_set_interface+0x122/0x350
-> > [  748.898378]  uvc_video_start_transfer.cold+0xd8/0x2ae [uvcvideo]
-> > [  748.898383]  uvc_video_start_streaming+0x75/0xd0 [uvcvideo]
-> > [  748.898386]  uvc_start_streaming+0x25/0xe0 [uvcvideo]
-> > [  748.898390]  vb2_start_streaming+0x86/0x140 [videobuf2_common]
-> > [  748.898393]  vb2_core_streamon+0x57/0xc0 [videobuf2_common]
-> > [  748.898395]  uvc_queue_streamon+0x25/0x40 [uvcvideo]
-> > [  748.898398]  uvc_ioctl_streamon+0x35/0x60 [uvcvideo]
-> > [  748.898401]  __video_do_ioctl+0x19a/0x3f0 [videodev]
-> >
-> > And this proves that uvc_disconnect() returned before the driver was
-> > finished accessing the device.
-> >
-> > I don't know how the driver works or how it tries to prevent this sort
-> > of race from occurring, but apparently the strategy isn't working.
-> >
-> > > Please let me know if there is any other information I can provide and what
-> > > could be the root cause of this annoying behavior.
-> >
-> > At this point I will bow out of the discussion; it's up to the uvcvideo
-> > maintainers to investigate further.  Maybe they can provide a patch for
-> > you to test.
-> >
-> > Alan Stern
-> 
-> 
-> 
-> -- 
-> Ricardo Ribalda
+We don't usually want every single HW to be documented in the generic part =
+of
+the documentation. The range supported by the HW should be found at run-tim=
+e I
+suppose, by querying the control. Would that work for you to remove the MFC
+specifics here and in other controls ?
 
--- 
-Regards,
+> +
+> +``V4L2_CID_CODEC_VP9_MIN_QP``
+> +    Minimum quantization parameter for VP9. Valid range: from 1 to 255.
+> +    Recommended range for MFC is from 1 to 24.
+> +
+> +``V4L2_CID_CODEC_VP9_RC_FRAME_RATE``
+> +    Indicates the number of evenly spaced subintervals, called ticks, wi=
+thin
+> +    one second. This is a 16 bit unsigned integer and has a maximum valu=
+e up to
+> +    0xffff and a minimum value of 1.
+> +
+> +``V4L2_CID_CODEC_VP9_GF_REFRESH_PERIOD``
+> +    Indicates the refresh period of the golden frame for VP9 encoder.
+> +
+> +.. _v4l2-vp9-golden-frame-sel:
+> +
+> +``V4L2_CID_CODEC_VP9_GOLDEN_FRAMESEL``
+> +    (enum)
+> +
+> +enum v4l2_mpeg_vp9_golden_framesel -
+> +    Selects the golden frame for encoding. Valid when NUM_OF_REF is 2.
+> +    Possible values are:
+> +
+> +.. raw:: latex
+> +
+> +    \footnotesize
+> +
+> +.. tabularcolumns:: |p{9.0cm}|p{8.0cm}|
+> +
+> +.. flat-table::
+> +    :header-rows:  0
+> +    :stub-columns: 0
+> +
+> +    * - ``V4L2_CID_CODEC_VP9_GOLDEN_FRAME_USE_PREV``
+> +      - Use the (n-2)th frame as a golden frame, current frame index bei=
+ng
+> +        'n'.
+> +    * - ``V4L2_CID_CODEC_VP9_GOLDEN_FRAME_USE_REF_PERIOD``
+> +      - Use the previous specific frame indicated by
+> +        ``V4L2_CID_CODEC_VP9_GF_REFRESH_PERIOD`` as a
+> +        golden frame.
+> +
+> +.. raw:: latex
+> +
+> +    \normalsize
+> +
+> +
+> +``V4L2_CID_CODEC_VP9_HIERARCHY_QP_ENABLE``
+> +    Allows host to specify the quantization parameter values for each
+> +    temporal layer through HIERARCHICAL_QP_LAYER. This is valid only
+> +    if HIERARCHICAL_CODING_LAYER is greater than 1. Setting the control
+> +    value to 1 enables setting of the QP values for the layers.
+> +
+> +.. _v4l2-vp9-ref-number-of-pframes:
+> +
+> +``V4L2_CID_CODEC_VP9_REF_NUMBER_FOR_PFRAMES``
+> +    (enum)
+> +
+> +enum v4l2_mpeg_vp9_ref_num_for_pframes -
+> +    Number of reference pictures for encoding P frames.
+> +
+> +.. raw:: latex
+> +
+> +    \footnotesize
+> +
+> +.. tabularcolumns:: |p{9.0cm}|p{8.0cm}|
+> +
+> +.. flat-table::
+> +    :header-rows:  0
+> +    :stub-columns: 0
+> +
+> +    * - ``V4L2_CID_CODEC_VP9_1_REF_PFRAME``
+> +      - Indicates one reference frame, last encoded frame will be search=
+ed.
+> +    * - ``V4L2_CID_CODEC_VP9_GOLDEN_FRAME_USE_REF_PERIOD``
+> +      - Indicates 2 reference frames, last encoded frame and golden fram=
+e
+> +        will be searched.
+> +
+> +.. raw:: latex
+> +
+> +    \normalsize
+> +
+> +
+> +``V4L2_CID_CODEC_VP9_HIERARCHICAL_CODING_LAYER``
+> +    Indicates the number of hierarchial coding layer.
+> +    In normal encoding (non-hierarchial coding), it should be zero.
+> +    VP9 has upto 3 layer of encoder.
+> +
+> +``V4L2_CID_CODEC_VP9_HIERARCHY_RC_ENABLE``
+> +    Indicates enabling of bit rate for hierarchical coding layers VP9 en=
+coder.
+> +
+> +``V4L2_CID_CODEC_VP9_HIER_CODING_L0_BR``
+> +    Indicates bit rate for hierarchical coding layer 0 for VP9 encoder.
+> +
+> +``V4L2_CID_CODEC_VP9_HIER_CODING_L1_BR``
+> +    Indicates bit rate for hierarchical coding layer 1 for VP9 encoder.
+> +
+> +``V4L2_CID_CODEC_VP9_HIER_CODING_L2_BR``
+> +    Indicates bit rate for hierarchical coding layer 2 for VP9 encoder.
+> +
+> +``V4L2_CID_CODEC_VP9_HIER_CODING_L0_QP``
+> +    Indicates quantization parameter for hierarchical coding layer 0.
+> +    Valid range: [V4L2_CID_CODEC_VP9_MIN_QP,
+> +    V4L2_CID_CODEC_VP9_MAX_QP].
+> +
+> +``V4L2_CID_CODEC_VP9_HIER_CODING_L1_QP``
+> +    Indicates quantization parameter for hierarchical coding layer 1.
+> +    Valid range: [V4L2_CID_CODEC_VP9_MIN_QP,
+> +    V4L2_CID_CODEC_VP9_MAX_QP].
+> +
+> +``V4L2_CID_CODEC_VP9_HIER_CODING_L2_QP``
+> +    Indicates quantization parameter for hierarchical coding layer 2.
+> +    Valid range: [V4L2_CID_CODEC_VP9_MIN_QP,
+> +    V4L2_CID_CODEC_VP9_MAX_QP].
+> +
+> +.. _v4l2-vp9-max-partition-depth:
+> +
+> +``V4L2_CID_CODEC_VP9_MAX_PARTITION_DEPTH``
+> +    (enum)
+> +
+> +enum v4l2_mpeg_vp9_num_partitions -
+> +    Indicate maximum coding unit depth.
+> +
+> +.. raw:: latex
+> +
+> +    \footnotesize
+> +
+> +.. tabularcolumns:: |p{9.0cm}|p{8.0cm}|
+> +
+> +.. flat-table::
+> +    :header-rows:  0
+> +    :stub-columns: 0
+> +
+> +    * - ``V4L2_CID_CODEC_VP9_0_PARTITION``
+> +      - No coding unit partition depth.
+> +    * - ``V4L2_CID_CODEC_VP9_1_PARTITION``
+> +      - Allows one coding unit partition depth.
+> +
+> +.. raw:: latex
+> +
+> +    \normalsize
+> +
+> +
+> +``V4L2_CID_CODEC_VP9_DISABLE_INTRA_PU_SPLIT``
+> +    Zero indicates enable intra NxN PU split.
+> +    One indicates disable intra NxN PU split.
+> +
+> +``V4L2_CID_CODEC_VP9_DISABLE_IVF_HEADER``
+> +    Indicates IVF header generation. Zero indicates enable IVF format.
+> +    One indicates disable IVF format.
+> +
+> =20
+>  High Efficiency Video Coding (HEVC/H.265) Control Reference
+>  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
 
-Laurent Pinchart
