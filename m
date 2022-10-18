@@ -2,160 +2,122 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3AE676028D1
-	for <lists+linux-media@lfdr.de>; Tue, 18 Oct 2022 11:55:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D34216028E7
+	for <lists+linux-media@lfdr.de>; Tue, 18 Oct 2022 12:00:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230141AbiJRJzv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 18 Oct 2022 05:55:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58778 "EHLO
+        id S229509AbiJRKAT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 18 Oct 2022 06:00:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41864 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229623AbiJRJzu (ORCPT
+        with ESMTP id S229498AbiJRKAP (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 18 Oct 2022 05:55:50 -0400
-Received: from mail-vs1-xe34.google.com (mail-vs1-xe34.google.com [IPv6:2607:f8b0:4864:20::e34])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 01612B03DF
-        for <linux-media@vger.kernel.org>; Tue, 18 Oct 2022 02:55:49 -0700 (PDT)
-Received: by mail-vs1-xe34.google.com with SMTP id h3so14164029vsa.4
-        for <linux-media@vger.kernel.org>; Tue, 18 Oct 2022 02:55:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=fHxePj/mZk3CsytYYPoDZH/iNdYUG/Ul5xfu8zN39CE=;
-        b=OYyvIRNLbIXwMu8B/GP88pxXrBL1rTVN9OKaaVp/yCjYwxp2DiR8uf2cHv99SQhhbP
-         ovobN81Sc9Ab+x8TgvH+gt2GR5hbwNAMQg0nTIJtF0QSR75P6jA1F51PqRneDvCrwdWr
-         eSLd9+3CKgZGM+8HyndN0MCQ3By0MhOjASV9Q=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=fHxePj/mZk3CsytYYPoDZH/iNdYUG/Ul5xfu8zN39CE=;
-        b=ebukhFqJr26Y0TO5VQGwcPTZNfhZrXtXsx/re0jTX9RHdvVGuqGsUAzvCCYieVRaQj
-         IzaWk3tTxNaR5p8thC93D/Q9fcuovD2okzQ/diScg4TEPtAto7DlUKvSXO1hMU7v1b9i
-         lgoOukv/78anunZk/DXzSZ4EL7Eu8DAksixWsrrrrnp3l2yIwLIEdOp9raKlgduC0+zd
-         2u1vnYW01YF6hbwaT01qx9gAHiDZxbA0Z/6wFDAEtM3p44tDv24LknAsIPMXf96IUbXW
-         INSKV1GOtDee8OqfWh6YB4gTHosiC5hHthp8zj3NPlRczbpR7yjy7TXSdeYacrQ/sK2R
-         am9g==
-X-Gm-Message-State: ACrzQf1NOb+DWBpDgErZEWiV9HtG3I/gtdajreb1g+OLHBiXWm7o3LV5
-        SXr3EFBz0sMLUgMxV5qwSZloMB0kwZ+QoVQTogIGTw==
-X-Google-Smtp-Source: AMsMyM6GgD/Ll61bSvxwgEJyCP26sucK9tDFdq9CCdZxSHx2TzvQOlTTAReK+eEoO6lxWQgVsRzgtN68ZiTGLSBKSFA=
-X-Received: by 2002:a67:f684:0:b0:392:ac17:f9b0 with SMTP id
- n4-20020a67f684000000b00392ac17f9b0mr926868vso.85.1666086948130; Tue, 18 Oct
- 2022 02:55:48 -0700 (PDT)
+        Tue, 18 Oct 2022 06:00:15 -0400
+Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::229])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 48D6A3ECE8
+        for <linux-media@vger.kernel.org>; Tue, 18 Oct 2022 03:00:10 -0700 (PDT)
+Received: (Authenticated sender: jacopo@jmondi.org)
+        by mail.gandi.net (Postfix) with ESMTPSA id 39F25FF80C;
+        Tue, 18 Oct 2022 10:00:06 +0000 (UTC)
+Date:   Tue, 18 Oct 2022 12:00:05 +0200
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     linux-media@vger.kernel.org
+Cc:     Dave Stevenson <dave.stevenson@raspberrypi.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        libcamera-devel@lists.libcamera.org
+Subject: [Camera sensor drivers] Resetting V4L2 controls after a mode change
+Message-ID: <20221018100005.3brlbe2ps3uphsmp@uno.localdomain>
 MIME-Version: 1.0
-References: <20221017090208.19041-1-yunfei.dong@mediatek.com>
-In-Reply-To: <20221017090208.19041-1-yunfei.dong@mediatek.com>
-From:   Chen-Yu Tsai <wenst@chromium.org>
-Date:   Tue, 18 Oct 2022 17:55:36 +0800
-Message-ID: <CAGXv+5G5Lr6rCB0D+q9egRFmhAzpGL49dNrQeCT8JpeUT+OiAA@mail.gmail.com>
-Subject: Re: [PATCH] media: mediatek: vcodec: fix h264 cavlc bitstream fail
-To:     Yunfei Dong <yunfei.dong@mediatek.com>
-Cc:     Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        Tiffany Lin <tiffany.lin@mediatek.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        George Sun <george.sun@mediatek.com>,
-        Xiaoyong Lu <xiaoyong.lu@mediatek.com>,
-        Hsin-Yi Wang <hsinyi@chromium.org>,
-        Fritz Koenig <frkoenig@chromium.org>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Steve Cho <stevecho@chromium.org>, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org,
-        Project_Global_Chrome_Upstream_Group@mediatek.com
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Oct 17, 2022 at 5:02 PM Yunfei Dong <yunfei.dong@mediatek.com> wrote:
->
-> Some cavlc bistream will decode fail when the frame size is small than
-> 20 bytes. Need to add pending data at the end of the bitstream.
+Hello,
+   I'm breaking out a discussion point from a review comment I
+received from Dave on the following patch
+https://lore.kernel.org/linux-media/20221005190613.394277-1-jacopo@jmondi.org/T/#m3308616247d646ebecad89c158a622de35f1cce3
+to collect opinions and possibily define what is the the expected behaviour
+for sensor drivers.
 
-"magic terminating pattern" instead of "pending data"?
+The controls I'm here considering are H/VBLANK and EXPOSURE, but the
+question might generally apply to other controls as well.
 
-> For the size of mapped memory is at least one page, adding four bytes data
-> won't lead to access unknown virtual memory.
+To summarize the issue:
 
-Actually we can narrow this down a bit. The minimum dimension (16x16)
-sets the minimum size of the buffer at 256 bytes.
+When a new mode is applied the blanking controls limits (min/max)
+have to be updated to reflect the new configuration.
 
-> Fixes: 59fba9eed5a7 ("media: mediatek: vcodec: support stateless H.264 decoding for mt8192")
-> Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
-> ---
->  .../vcodec/vdec/vdec_h264_req_multi_if.c      | 27 ++++++++++++++++---
->  1 file changed, 24 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_multi_if.c b/drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_multi_if.c
-> index 4cc92700692b..c1583dddcb04 100644
-> --- a/drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_multi_if.c
-> +++ b/drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_multi_if.c
-> @@ -539,6 +539,24 @@ static int vdec_h264_slice_core_decode(struct vdec_lat_buf *lat_buf)
->         return 0;
->  }
->
-> +static void vdec_h264_insert_startcode(struct mtk_vcodec_dev *vcodec_dev, unsigned char *buf,
-> +                                      size_t *bs_size, struct mtk_h264_pps_param *pps)
-> +{
-> +       struct device *dev = &vcodec_dev->plat_dev->dev;
-> +
-> +       /* cavlc bitstream when entropy_coding_mode_flag is false. */
-> +       if (pps->entropy_coding_mode_flag || *bs_size > 20 ||
-> +           !(of_device_is_compatible(dev->of_node, "mediatek,mt8192-vcodec-dec") ||
-> +           of_device_is_compatible(dev->of_node, "mediatek,mt8195-vcodec-dec")))
-> +               return;
-> +
+In example
 
-There should be a comment here describing what is added.
+       max_hblank = AR0521_TOTAL_WIDTH_MAX - sensor->fmt.width;
+       __v4l2_ctrl_modify_range(sensor->ctrls.hblank,
+                                sensor->ctrls.hblank->minimum,
+                                max_hblank, sensor->ctrls.hblank->step,
+                                sensor->ctrls.hblank->minimum);
 
+       max_vblank = AR0521_TOTAL_HEIGHT_MAX - sensor->fmt.height;
+       __v4l2_ctrl_modify_range(sensor->ctrls.vblank,
+                                sensor->ctrls.vblank->minimum,
+                                max_vblank, sensor->ctrls.vblank->step,
+                                sensor->ctrls.vblank->minimum);
 
-ChenYu
+The questions I would like to clarify, and possibily define a standard
+behaviour that userspace can relay on, are:
 
-> +       buf[*bs_size] = 0;
-> +       buf[*bs_size + 1] = 0;
-> +       buf[*bs_size + 2] = 1;
-> +       buf[*bs_size + 3] = 0xff;
-> +       (*bs_size) += 4;
-> +}
-> +
->  static int vdec_h264_slice_lat_decode(void *h_vdec, struct mtk_vcodec_mem *bs,
->                                       struct vdec_fb *fb, bool *res_chg)
->  {
-> @@ -582,9 +600,6 @@ static int vdec_h264_slice_lat_decode(void *h_vdec, struct mtk_vcodec_mem *bs,
->         }
->
->         inst->vsi->dec.nal_info = buf[nal_start_idx];
-> -       inst->vsi->dec.bs_buf_addr = (u64)bs->dma_addr;
-> -       inst->vsi->dec.bs_buf_size = bs->size;
-> -
->         lat_buf->src_buf_req = src_buf_info->m2m_buf.vb.vb2_buf.req_obj.req;
->         v4l2_m2m_buf_copy_metadata(&src_buf_info->m2m_buf.vb, &lat_buf->ts_info, true);
->
-> @@ -592,6 +607,12 @@ static int vdec_h264_slice_lat_decode(void *h_vdec, struct mtk_vcodec_mem *bs,
->         if (err)
->                 goto err_free_fb_out;
->
-> +       vdec_h264_insert_startcode(inst->ctx->dev, buf, &bs->size,
-> +                                  &share_info->h264_slice_params.pps);
-> +
-> +       inst->vsi->dec.bs_buf_addr = (uint64_t)bs->dma_addr;
-> +       inst->vsi->dec.bs_buf_size = bs->size;
-> +
->         *res_chg = inst->resolution_changed;
->         if (inst->resolution_changed) {
->                 mtk_vcodec_debug(inst, "- resolution changed -");
-> --
-> 2.25.1
->
+1) When a new format is applied to the sensor, should the control value
+   and its default value be updated as well to maintain the same (or as close
+   as possible) configuration as the initial one, or should they be left
+   unchanged (apart for clamping them in the new limits, which is
+   automatically done by the v4l2-controls framework) ?
+
+2) Can userspace rely on the control default value (set at initialization
+   time and after a mode change) to represent a sensible configuration, in
+   example a tested and known-to-work framerate ?
+
+There are two main arguments in favour or againt resetting controls
+when a new mode is applied. The obvious one in favour is that when a
+new mode is applied, userspace can rely on a default configuration
+that is reasonable and known to work and the control default value
+can be used a reference if the control is later modified during
+streaming. Also, not resetting controls can leave the sensor driver in
+an unspecified (but hopefully valid) state (see Laurent's example in [1])
+
+This mostly benefits 'generic' userspace which is not interested in
+modifying blankings, but also provide 'specialized' userspace a
+reference to compute a default configuration which is known to work.
+
+However, on the other hand, such a behaviour would prevent (or make
+harder) concurrent access to the camera from different applications.
+The most trivial example is a camera viewer that does not control
+blankings, which are side-configured by the user through another
+application (say, v4l2-ctl). In this case, when a mode is set on the
+sensor the blanking values are reset, overwriting the manually applied
+configuration. This is a common use case when developing, when
+a configuration is forced on the sensor to validate it, but it's a valid use
+case in general, as a mode configuration would then actually
+overwrite other parameters that might be considered "unrelated" to the
+output resolution and format.
+
+Once we establish an expected behaviour, should we try to document it
+and possibly enforce it in sensor drivers through reviews and
+hopefully by providing helpers ? Whatever the decision ends up being
+I think we want to standardize sensor drivers to behave the same.
+
+Thanks
+   j
+
+[1] https://lists.libcamera.org/pipermail/libcamera-devel/2022-October/034885.html
+" Consider a case with two modes, lores and hires. As
+sensors typically express horizontal blanking as a horizontal total
+size, the hblank control max value will be larger for lores than hires.
+If the sensor were to set the default hblank to a value valid for lores
+but not hires, switching from lores -> hires -> lores would change the
+effective hblank value even if userspace doesn't touch the hblank
+control at all."
