@@ -2,57 +2,58 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 11162602A6D
-	for <lists+linux-media@lfdr.de>; Tue, 18 Oct 2022 13:43:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 82B1C602A79
+	for <lists+linux-media@lfdr.de>; Tue, 18 Oct 2022 13:44:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229943AbiJRLnH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 18 Oct 2022 07:43:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51756 "EHLO
+        id S230195AbiJRLoe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 18 Oct 2022 07:44:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55270 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229913AbiJRLnG (ORCPT
+        with ESMTP id S229760AbiJRLob (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 18 Oct 2022 07:43:06 -0400
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B9E11222A9;
-        Tue, 18 Oct 2022 04:42:47 -0700 (PDT)
-X-UUID: ed1989fdbe9f44c5b4338f426a986e10-20221018
+        Tue, 18 Oct 2022 07:44:31 -0400
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7067513E13;
+        Tue, 18 Oct 2022 04:44:27 -0700 (PDT)
+X-UUID: 3af5d139345c4ed69f5a93620fe23a9d-20221018
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-        h=Content-Type:Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=tG0N5Imt8sQtSGLzlkEksopxM01mlREtCjpaw9PTrAk=;
-        b=LwlGOjgzWt+p0aWyDjlZkmBIVdfgx3E33QT//bQokGi27m1M8WDPlKPkSGQUd0edjy3jZ8+1vixUA9EHmeGUYHHuuGyouSwGcrqxxcPDzab4uQxs+Vfwc4aHChh5zPZT2ea5/JfWBAoP9CxcaqiyvkQffTZn3Hi1oPyRDxdSLkc=;
+        h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID; bh=9Sc8Gwb5/VBXc4/8kAJE2lTKRhreTCBJCxEItFeyo+k=;
+        b=RtsAULFIj89HxzpvfUV3Tnc1HKinIsY8ao3+J6iBbiIoqPqfBpvl9Wk4v6bfgyErQrQeZmJbOk49XtGD8m993WFO586eiHMjd5rwCxm0W9uD9hMRypcUarHXvgsa0MAvJy6wTkpv5MyRgM4pwyV2YUXgdHFhVd7P6C4k5CutqQY=;
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.11,REQID:e9c60308-a294-4c3a-991c-2775c6befb14,IP:0,U
-        RL:0,TC:0,Content:-25,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
-        N:release,TS:-25
-X-CID-META: VersionHash:39a5ff1,CLOUDID:4f652aa3-73e4-48dd-a911-57b5d5484f14,B
+X-CID-O-INFO: VERSION:1.1.11,REQID:c3c64f9b-d959-4229-a63f-73d3b6963f40,IP:0,U
+        RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+        release,TS:0
+X-CID-META: VersionHash:39a5ff1,CLOUDID:858c2ba4-ebb2-41a8-a87c-97702aaf2e20,B
         ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
         RL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0
-X-UUID: ed1989fdbe9f44c5b4338f426a986e10-20221018
-Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by mailgw02.mediatek.com
+X-UUID: 3af5d139345c4ed69f5a93620fe23a9d-20221018
+Received: from mtkmbs11n1.mediatek.inc [(172.21.101.185)] by mailgw01.mediatek.com
         (envelope-from <yunfei.dong@mediatek.com>)
-        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-        with ESMTP id 606959868; Tue, 18 Oct 2022 19:41:26 +0800
+        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+        with ESMTP id 1247805421; Tue, 18 Oct 2022 19:44:19 +0800
 Received: from mtkcas10.mediatek.inc (172.21.101.39) by
- mtkmbs13n2.mediatek.inc (172.21.101.108) with Microsoft SMTP Server
+ mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.2.792.15; Tue, 18 Oct 2022 19:41:25 +0800
-Received: from localhost.localdomain (10.17.3.154) by mtkcas10.mediatek.inc
+ 15.2.792.15; Tue, 18 Oct 2022 19:44:18 +0800
+Received: from mhfsdcap04 (10.17.3.154) by mtkcas10.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Tue, 18 Oct 2022 19:41:24 +0800
-From:   Yunfei Dong <yunfei.dong@mediatek.com>
-To:     Yunfei Dong <yunfei.dong@mediatek.com>,
-        Chen-Yu Tsai <wenst@chromium.org>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>,
+ Transport; Tue, 18 Oct 2022 19:44:17 +0800
+Message-ID: <087750f4a7d334c03a5eda1fd2e2b3573792ec33.camel@mediatek.com>
+Subject: Re: [PATCH] media: mediatek: vcodec: fix h264 cavlc bitstream fail
+From:   "yunfei.dong@mediatek.com" <yunfei.dong@mediatek.com>
+To:     Chen-Yu Tsai <wenst@chromium.org>
+CC:     Nicolas Dufresne <nicolas@ndufresne.ca>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         AngeloGioacchino Del Regno 
         <angelogioacchino.delregno@collabora.com>,
         Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        Tiffany Lin <tiffany.lin@mediatek.com>
-CC:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Tiffany Lin <tiffany.lin@mediatek.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
         Matthias Brugger <matthias.bgg@gmail.com>,
         George Sun <george.sun@mediatek.com>,
         Xiaoyong Lu <xiaoyong.lu@mediatek.com>,
         Hsin-Yi Wang <hsinyi@chromium.org>,
-        Fritz Koenig <frkoenig@chromium.org>,
+        "Fritz Koenig" <frkoenig@chromium.org>,
         Daniel Vetter <daniel@ffwll.ch>,
         Steve Cho <stevecho@chromium.org>,
         <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
@@ -60,13 +61,14 @@ CC:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         <linux-arm-kernel@lists.infradead.org>,
         <linux-mediatek@lists.infradead.org>,
         <Project_Global_Chrome_Upstream_Group@mediatek.com>
-Subject: [PATCH v2] media: mediatek: vcodec: fix h264 cavlc bitstream fail
-Date:   Tue, 18 Oct 2022 19:41:22 +0800
-Message-ID: <20221018114122.26785-1-yunfei.dong@mediatek.com>
-X-Mailer: git-send-email 2.25.1
+Date:   Tue, 18 Oct 2022 19:44:16 +0800
+In-Reply-To: <CAGXv+5G5Lr6rCB0D+q9egRFmhAzpGL49dNrQeCT8JpeUT+OiAA@mail.gmail.com>
+References: <20221017090208.19041-1-yunfei.dong@mediatek.com>
+         <CAGXv+5G5Lr6rCB0D+q9egRFmhAzpGL49dNrQeCT8JpeUT+OiAA@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 X-MTK:  N
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,
@@ -78,79 +80,118 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Some cavlc bistream will decode fail when the frame size is small than
-20 bytes. Need to add pending data at the end of the bitstream.
+Hi Chen-Yu,
 
-For the minimum size of mapped memory is 256 bytes(16x16), adding four bytes data
-won't lead to access unknown virtual memory.
-
-Fixes: 59fba9eed5a7 ("media: mediatek: vcodec: support stateless H.264 decoding for mt8192")
-Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
----
-compared with v1:
-- add detail comments for function: vdec_h264_insert_startcode.
-- re-write commit message.
----
- .../vcodec/vdec/vdec_h264_req_multi_if.c      | 32 +++++++++++++++++--
- 1 file changed, 29 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_multi_if.c b/drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_multi_if.c
-index 4cc92700692b..18e048755d11 100644
---- a/drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_multi_if.c
-+++ b/drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_multi_if.c
-@@ -539,6 +539,29 @@ static int vdec_h264_slice_core_decode(struct vdec_lat_buf *lat_buf)
- 	return 0;
- }
- 
-+static void vdec_h264_insert_startcode(struct mtk_vcodec_dev *vcodec_dev, unsigned char *buf,
-+				       size_t *bs_size, struct mtk_h264_pps_param *pps)
-+{
-+	struct device *dev = &vcodec_dev->plat_dev->dev;
-+
-+	/* Need to add pending data at the end of bitstream when bs_sz is small than
-+	 * 20 bytes for cavlc bitstream, or lat will decode fail. This pending data is
-+	 * useful for mt8192 and mt8195 platform.
-+	 *
-+	 * cavlc bitstream when entropy_coding_mode_flag is false.
-+	 */
-+	if (pps->entropy_coding_mode_flag || *bs_size > 20 ||
-+	    !(of_device_is_compatible(dev->of_node, "mediatek,mt8192-vcodec-dec") ||
-+	    of_device_is_compatible(dev->of_node, "mediatek,mt8195-vcodec-dec")))
-+		return;
-+
-+	buf[*bs_size] = 0;
-+	buf[*bs_size + 1] = 0;
-+	buf[*bs_size + 2] = 1;
-+	buf[*bs_size + 3] = 0xff;
-+	(*bs_size) += 4;
-+}
-+
- static int vdec_h264_slice_lat_decode(void *h_vdec, struct mtk_vcodec_mem *bs,
- 				      struct vdec_fb *fb, bool *res_chg)
- {
-@@ -582,9 +605,6 @@ static int vdec_h264_slice_lat_decode(void *h_vdec, struct mtk_vcodec_mem *bs,
- 	}
- 
- 	inst->vsi->dec.nal_info = buf[nal_start_idx];
--	inst->vsi->dec.bs_buf_addr = (u64)bs->dma_addr;
--	inst->vsi->dec.bs_buf_size = bs->size;
--
- 	lat_buf->src_buf_req = src_buf_info->m2m_buf.vb.vb2_buf.req_obj.req;
- 	v4l2_m2m_buf_copy_metadata(&src_buf_info->m2m_buf.vb, &lat_buf->ts_info, true);
- 
-@@ -592,6 +612,12 @@ static int vdec_h264_slice_lat_decode(void *h_vdec, struct mtk_vcodec_mem *bs,
- 	if (err)
- 		goto err_free_fb_out;
- 
-+	vdec_h264_insert_startcode(inst->ctx->dev, buf, &bs->size,
-+				   &share_info->h264_slice_params.pps);
-+
-+	inst->vsi->dec.bs_buf_addr = (uint64_t)bs->dma_addr;
-+	inst->vsi->dec.bs_buf_size = bs->size;
-+
- 	*res_chg = inst->resolution_changed;
- 	if (inst->resolution_changed) {
- 		mtk_vcodec_debug(inst, "- resolution changed -");
--- 
-2.25.1
+Thanks for your suggestion.
+On Tue, 2022-10-18 at 17:55 +0800, Chen-Yu Tsai wrote:
+> On Mon, Oct 17, 2022 at 5:02 PM Yunfei Dong <yunfei.dong@mediatek.com
+> > wrote:
+> > 
+> > Some cavlc bistream will decode fail when the frame size is small
+> > than
+> > 20 bytes. Need to add pending data at the end of the bitstream.
+> 
+> "magic terminating pattern" instead of "pending data"?
+> 
+> > For the size of mapped memory is at least one page, adding four
+> > bytes data
+> > won't lead to access unknown virtual memory.
+> 
+> Actually we can narrow this down a bit. The minimum dimension (16x16)
+> sets the minimum size of the buffer at 256 bytes.
+> 
+Fix in patch v2.
+> > Fixes: 59fba9eed5a7 ("media: mediatek: vcodec: support stateless
+> > H.264 decoding for mt8192")
+> > Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
+> > ---
+> >  .../vcodec/vdec/vdec_h264_req_multi_if.c      | 27
+> > ++++++++++++++++---
+> >  1 file changed, 24 insertions(+), 3 deletions(-)
+> > 
+> > diff --git
+> > a/drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_multi_i
+> > f.c
+> > b/drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_multi_i
+> > f.c
+> > index 4cc92700692b..c1583dddcb04 100644
+> > ---
+> > a/drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_multi_i
+> > f.c
+> > +++
+> > b/drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_multi_i
+> > f.c
+> > @@ -539,6 +539,24 @@ static int vdec_h264_slice_core_decode(struct
+> > vdec_lat_buf *lat_buf)
+> >         return 0;
+> >  }
+> > 
+> > +static void vdec_h264_insert_startcode(struct mtk_vcodec_dev
+> > *vcodec_dev, unsigned char *buf,
+> > +                                      size_t *bs_size, struct
+> > mtk_h264_pps_param *pps)
+> > +{
+> > +       struct device *dev = &vcodec_dev->plat_dev->dev;
+> > +
+> > +       /* cavlc bitstream when entropy_coding_mode_flag is false.
+> > */
+> > +       if (pps->entropy_coding_mode_flag || *bs_size > 20 ||
+> > +           !(of_device_is_compatible(dev->of_node,
+> > "mediatek,mt8192-vcodec-dec") ||
+> > +           of_device_is_compatible(dev->of_node, "mediatek,mt8195-
+> > vcodec-dec")))
+> > +               return;
+> > +
+> 
+> There should be a comment here describing what is added.
+> 
+Fix in patch v2.
+> 
+> ChenYu
+> 
+Best Regards,
+Yunfei Dong
+> > +       buf[*bs_size] = 0;
+> > +       buf[*bs_size + 1] = 0;
+> > +       buf[*bs_size + 2] = 1;
+> > +       buf[*bs_size + 3] = 0xff;
+> > +       (*bs_size) += 4;
+> > +}
+> > +
+> >  static int vdec_h264_slice_lat_decode(void *h_vdec, struct
+> > mtk_vcodec_mem *bs,
+> >                                       struct vdec_fb *fb, bool
+> > *res_chg)
+> >  {
+> > @@ -582,9 +600,6 @@ static int vdec_h264_slice_lat_decode(void
+> > *h_vdec, struct mtk_vcodec_mem *bs,
+> >         }
+> > 
+> >         inst->vsi->dec.nal_info = buf[nal_start_idx];
+> > -       inst->vsi->dec.bs_buf_addr = (u64)bs->dma_addr;
+> > -       inst->vsi->dec.bs_buf_size = bs->size;
+> > -
+> >         lat_buf->src_buf_req = src_buf_info-
+> > >m2m_buf.vb.vb2_buf.req_obj.req;
+> >         v4l2_m2m_buf_copy_metadata(&src_buf_info->m2m_buf.vb,
+> > &lat_buf->ts_info, true);
+> > 
+> > @@ -592,6 +607,12 @@ static int vdec_h264_slice_lat_decode(void
+> > *h_vdec, struct mtk_vcodec_mem *bs,
+> >         if (err)
+> >                 goto err_free_fb_out;
+> > 
+> > +       vdec_h264_insert_startcode(inst->ctx->dev, buf, &bs->size,
+> > +                                  &share_info-
+> > >h264_slice_params.pps);
+> > +
+> > +       inst->vsi->dec.bs_buf_addr = (uint64_t)bs->dma_addr;
+> > +       inst->vsi->dec.bs_buf_size = bs->size;
+> > +
+> >         *res_chg = inst->resolution_changed;
+> >         if (inst->resolution_changed) {
+> >                 mtk_vcodec_debug(inst, "- resolution changed -");
+> > --
+> > 2.25.1
+> > 
 
