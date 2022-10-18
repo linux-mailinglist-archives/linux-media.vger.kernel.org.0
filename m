@@ -2,192 +2,116 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 611A060263A
-	for <lists+linux-media@lfdr.de>; Tue, 18 Oct 2022 09:54:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 292A86027FB
+	for <lists+linux-media@lfdr.de>; Tue, 18 Oct 2022 11:10:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230287AbiJRHyt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 18 Oct 2022 03:54:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36392 "EHLO
+        id S229453AbiJRJKR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 18 Oct 2022 05:10:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54302 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229768AbiJRHyr (ORCPT
+        with ESMTP id S229992AbiJRJKQ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 18 Oct 2022 03:54:47 -0400
-Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com [91.207.212.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 80AE4DFC9
-        for <linux-media@vger.kernel.org>; Tue, 18 Oct 2022 00:54:41 -0700 (PDT)
-Received: from pps.filterd (m0046660.ppops.net [127.0.0.1])
-        by mx07-00178001.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 29I7mScV021995;
-        Tue, 18 Oct 2022 09:54:34 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=selector1;
- bh=gX8FG7ruS+cn9uhg7ytv3s2cGG9LFXmc1E7B/yDG6tI=;
- b=coru0rnx3ah2QYp8/xKi5HMD5F1rFykLjKGzA8ZbexUy+x2AzwXy1FNy81/dUi8VlNcA
- 9d5goN+12qpouoktarqRWN8NlR4pHFbiEPZCqebDAzpvrQagE+1st7W0anRE27+vy3X8
- fYjLCITamE8q0Ot9CQJ/OxZRHkUhFTg1A5KdA9iuiS3QGO1Z7ZzPtxghzwnjk6mfYFMK
- ah/2Q7HyBb/t2TiFTXZqR7ehFRnky7XV9thQdiuQst8OXF5im5O18ielG+hPlz+zeWGa
- jgpea9NVIC2Ao05gFn3inoyaCdRQmzrxOVzrKcMwF0H3mx/LAasDg1r6sq9zNVkp7Ko2 4A== 
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-        by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3k7j0d2tnu-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 18 Oct 2022 09:54:34 +0200
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id A329410004D;
-        Tue, 18 Oct 2022 09:54:24 +0200 (CEST)
-Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
-        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 90B9D21682C;
-        Tue, 18 Oct 2022 09:54:24 +0200 (CEST)
-Received: from [10.129.166.189] (10.129.166.189) by SHFDAG1NODE1.st.com
- (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.31; Tue, 18 Oct
- 2022 09:54:24 +0200
-Message-ID: <db055c8d-9823-0297-06f8-7c9cf4316a91@foss.st.com>
-Date:   Tue, 18 Oct 2022 09:54:11 +0200
+        Tue, 18 Oct 2022 05:10:16 -0400
+Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com [IPv6:2607:f8b0:4864:20::1033])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C875F7A755
+        for <linux-media@vger.kernel.org>; Tue, 18 Oct 2022 02:10:14 -0700 (PDT)
+Received: by mail-pj1-x1033.google.com with SMTP id fw14so13408130pjb.3
+        for <linux-media@vger.kernel.org>; Tue, 18 Oct 2022 02:10:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ukoFf7wEa/GfUfveeUzu2PUBZk7HPVe9cL2u/UltyEU=;
+        b=csXExqhBkarPFPg6wEBtNxdgATZM8UopsHo3GUeTmwW04QbJH4NX5y5046JrhCf66H
+         OS0czsOqU3JxwafgRAZIi/JmUa4SB4MFcsWb6JIv40cZWC5kkr9pC+tJUljFXEwRJ0fy
+         cnX/HOTJHiOBudJTp5MtFv4L99UUXYYVX7yLg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ukoFf7wEa/GfUfveeUzu2PUBZk7HPVe9cL2u/UltyEU=;
+        b=AqSwdySZeKvcQNCIgCLJfOaMunMcMG6+8HZ7jPBTShHwWoYsQ3wqecFouRBVFPU6cJ
+         iO+iarfgvZJi7P1TqS1sEBuTfES+s6OZnnkAtzdjuBEDoUnYMFk07Pw4KrY9myT7N+C/
+         MgHUU5cQDEbdqO46Gyj8rkA0nIsS0eRw24uS+1jRNM5CPBSZLSeny3WTHiuSlZKuF+WD
+         EOsT272JLUQYyr5khnbV4SYVIiUr/fhRM1VnkgYCWcsQdIvvjpncqn+o13s8LYdTJQz5
+         FHwcv9AInIe0PEdrUGqi9sLiClpCGymIhzFBoJJIVVfbZqi7KoOcDTBiBl1v7frUPgDQ
+         ZV5Q==
+X-Gm-Message-State: ACrzQf0E3jVAqAaF6y4HHJoAQGjzpXEdbhySW+7cv1RKZoGtAAvOTPkl
+        SgTVtckepZfxjd3Rb/t393JaEw==
+X-Google-Smtp-Source: AMsMyM6AMqxalz2EiUvSsTLj683MBoAwpQpreDb/Xeav5jgLr57NynSC9KI51LhT7Kytdced3HqcMQ==
+X-Received: by 2002:a17:90b:3588:b0:20b:590:46a2 with SMTP id mm8-20020a17090b358800b0020b059046a2mr2491865pjb.14.1666084214343;
+        Tue, 18 Oct 2022 02:10:14 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id h10-20020a170902680a00b0017300ec80b0sm8058997plk.308.2022.10.18.02.10.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 18 Oct 2022 02:10:13 -0700 (PDT)
+From:   Kees Cook <keescook@chromium.org>
+To:     Sumit Semwal <sumit.semwal@linaro.org>
+Cc:     Kees Cook <keescook@chromium.org>, linux-media@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+        linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
+Subject: [PATCH v3] dma-buf: Proactively round up to kmalloc bucket size
+Date:   Tue, 18 Oct 2022 02:10:11 -0700
+Message-Id: <20221018090858.never.941-kees@kernel.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH v6 4/4] media: i2c: Add driver for ST VGXY61 camera sensor
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-CC:     <linux-media@vger.kernel.org>, <alain.volmat@foss.st.com>,
-        <hugues.fruchet@foss.st.com>, <sylvain.petinot@foss.st.com>,
-        <dave.stevenson@raspberrypi.com>,
-        <laurent.pinchart@ideasonboard.com>,
-        <kieran.bingham@ideasonboard.com>, <nicolas@ndufresne.ca>,
-        <hverkuil@xs4all.nl>
-References: <Yz8pE15/9tDf6Tjy@paasikivi.fi.intel.com>
- <af876e81-9105-9a0f-4dd1-47bc17886536@foss.st.com>
- <Y0PX8SRn51FlOS5c@paasikivi.fi.intel.com>
- <7c36fdaf-fa2a-4581-5f16-02fbfc3b20fb@foss.st.com>
- <Y0Pm0WhZpWgKxDbD@paasikivi.fi.intel.com>
- <62b268df-3c9d-79b2-31a6-61770843ee66@foss.st.com>
- <Y0QITlCsMe0wdPam@paasikivi.fi.intel.com>
- <b5175106-cab0-4a6a-6ba5-20070940ccff@foss.st.com>
- <Y0QVhUIPZYJYZ1Sm@paasikivi.fi.intel.com>
- <1a4825dd-25ff-e556-63a2-fc9cacdb32cc@foss.st.com>
- <Y0fFmJj6Ytjb8+VY@paasikivi.fi.intel.com>
-Content-Language: en-US
-From:   Benjamin MUGNIER <benjamin.mugnier@foss.st.com>
-In-Reply-To: <Y0fFmJj6Ytjb8+VY@paasikivi.fi.intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.129.166.189]
-X-ClientProxiedBy: SHFCAS1NODE1.st.com (10.75.129.72) To SHFDAG1NODE1.st.com
- (10.75.129.69)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-10-18_01,2022-10-17_02,2022-06-22_01
-X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,NICE_REPLY_A,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1673; h=from:subject:message-id; bh=8hepCmu6KkNCIQiT6ONpaMe4VoHSy9sRDnadRc3o6dY=; b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBjTm1zq8jKCG/tc7/8bPvsM44d+bw8pliNmUV1nYs9 oZ3UNCqJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCY05tcwAKCRCJcvTf3G3AJh7AEA CTcI1pdlR5PlvYxNvP2WDxxU4tjQpCYFU8DL3QIbpSPAGCSHnu/fLH6mOTmflitrQ/DsyHD4LRh+Gc MNL44FREEbJ4PDUi+k2SbLlkCESNKduXwzMSU4AzBIbf3TD2GmvqnQc6663oVj/0gCMK1PtcnYqkkK 7dOrQHMvouIoxWrgiOoK8U8K+6pHwwJK66vChECKJN261DcRu+LrteWxTMCEuwWexFa8DVde3NAK9Z rBLz4Cq8ZdLitk/OXx0Dq5Sr+lvsTuhgodexasrD6PbK4g3XSSyHuqSiRLwSb+WgKJaOQ/FwHA/zxz N1ktC3FGVv0rs3PTxdAwcI0FNVEpUdZUkQI0UfFotI03jATt3Ar/11oa77oln6OVD4p86J25TmPSsL 5mbkclNofm6EXo/VniQoq6dc6Bt4acmroVMeYDxRuAwfwxW0tBusHyGG0uUaczhMLcI+8aB7B9Ww5w Z1tpDuQLaTSmDAfOskStapWlFTBdZczM8RsO88iM5k/TH/00g53wBnDEHyYBXaMZWIc+rSuGFChZzf H0+guk6+nfMF3k18/pY3Ysj5RPQE3FF4i1DOJ1aqc9zQLB9+BV8bbsTxy/GCHGenjhYmFipzHZeJat dOlM+mCyFQ3zOAYDS2ZW+1sW0Gfg5Xqh5qC7jyxMfqfwVjvzt1oaXABQEm0g==
+X-Developer-Key: i=keescook@chromium.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sakari,
+Instead of discovering the kmalloc bucket size _after_ allocation, round
+up proactively so the allocation is explicitly made for the full size,
+allowing the compiler to correctly reason about the resulting size of
+the buffer through the existing __alloc_size() hint.
 
-On 10/13/22 10:00, Sakari Ailus wrote:
-> Hi Benjamin,
-> 
-> On Mon, Oct 10, 2022 at 03:12:30PM +0200, Benjamin MUGNIER wrote:
->> Hi Sakari,
->>
->> On 10/10/22 14:52, Sakari Ailus wrote:
->>> Hi Benjamin,
->>>
->>> On Mon, Oct 10, 2022 at 02:11:46PM +0200, Benjamin MUGNIER wrote:
->>>
->>> ...
->>>
->>>>>>>>>>> I thought we did discuss dropping support for sensor synchronisation in
->>>>>>>>>>> this version?
->>>>>>>>>>>
->>>>>>>>>>
->>>>>>>>>> This properties affects strobing lights gpios polarities as you can see
->>>>>>>>>> in vgxy61_update_gpios_strobe_polarity. If set to '1' all strobing gpios
->>>>>>>>>> are inverted. This has nothing to do with the sensor synchronization.
->>>>>>>>>
->>>>>>>>> So this is for strobing a LED flash? It would be good to mention this in
->>>>>>>>> DT bindings.
->>>>>>>>>
->>>>>>>>>>
->>>>>>>>>> Now I realize this is poorly named, and I even forgot to document it in
->>>>>>>>>> the device tree bindings file. I apologize.
->>>>>>>>>
->>>>>>>>> No problem.
->>>>>>>>>
->>>>>>>>>>
->>>>>>>>>> I would like to rename it to 'st,strobe-polarity' since this is vendor
->>>>>>>>>> specific and to better reflect that it affects strobing gpios. I'll make
->>>>>>>>>> this change for v7 and document this in the bindings file too. Tell me if
->>>>>>>>>> there is any issues with that.
->>>>>>>>>
->>>>>>>>> That name seems reasonable to me. Although, *if* this is actually usable as
->>>>>>>>> a GPIO as the bindings suggest, then the GPIO flags would probably be a
->>>>>>>>> better alternative.
->>>>>>>>>
->>>>>>>>
->>>>>>>> If by GPIO flag you mean adding 'gpios' to the property, We could go with 'st,strobe-gpios-polarity', which in the end this leads to the same property name as it was in the dt bindings :)
->>>>>>>> I'll add a bit of comments on the bindings. It seems to be the best choice.
->>>>>>>
->>>>>>> Is this a GPIO or is it not (e.g. strobe signal only)?
->>>>>>>
->>>>>>> For the latter the this should be fine. And "flash-leds" property should be
->>>>>>> there as well I guess?
->>>>>>>
->>>>>>
->>>>>
->>>>> Please wrap the lines at around 74. Rewrapped now...
->>>>>
->>>>
->>>> Done. Thank you.
->>>>
->>>>>> This property controls the polarity of and output GPIO connected to the
->>>>>> sensor. This output GPIO is driven by the sensor firmware in order to
->>>>>> illuminate the scene whenever necessary. I'm not sure this goes under the
->>>>>> "flash-leds" category, as it only provides a signal with either "0"
->>>>>> (don't illuminate) or a 1 (illuminate) ? The sensor controls the signal
->>>>>
->>>>> This is what sensors generally do.
->>>>>
->>>>>> following the programmed "strobe-mode" as you can see in
->>>>>> vgxy61_strobe_mode according to the HDR mode. It does not have a
->>>>>> max-microamp or timeout values as a flash I suppose, it is really a
->>>>>> simple signal.
->>>>>
->>>>> Those are usually configured for the flash driver, not on the sensor.
->>>>>
->>>>
->>>> Ok, I guess in this case there is no flash driver. Should I keep the
->>>> 'st,strobe-gpios-polarity' property or are you aware of an already
->>>> defined property for this behavior?
->>>
->>> So the LED is directly connected to this pin (perhaps in series with a
->>> resistor)? That is an unusual solution.
->>>
->>
->> Yes, the pin is connected to a transistor responsible of powering on and
->> off the LEDs according to the pin value, so that they have correct
->> voltage from another power supply. But yes that's basically it.
->>
->> Thanks a lot.
-> 
-> I think it's fine as-is. Maybe the property could be called
-> "st,strobe-polarity" as this isn't a GPIO from software point of view?
+Cc: Sumit Semwal <sumit.semwal@linaro.org>
+Cc: linux-media@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org
+Cc: linaro-mm-sig@lists.linaro.org
+Reviewed-by: Christian König <christian.koenig@amd.com>
+Signed-off-by: Kees Cook <keescook@chromium.org>
+---
+v3: added reviewed-by, rebase to v6.1-rc1
+v2: https://lore.kernel.org/lkml/20220923202822.2667581-9-keescook@chromium.org/
+---
+ drivers/dma-buf/dma-resv.c | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
-You're right.
-As I already published v7 I queued this for v8 in order to reduce the
-noise on the mailing list, if you don't mind.
-
-Thanks a ton for your explanations.
-
-> 
-> Virtually all other users have a flash driver chip. But the flash LED isn't
-> part of the module in those cases either.
-> 
-
+diff --git a/drivers/dma-buf/dma-resv.c b/drivers/dma-buf/dma-resv.c
+index e3885c90a3ac..1c76aed8e262 100644
+--- a/drivers/dma-buf/dma-resv.c
++++ b/drivers/dma-buf/dma-resv.c
+@@ -98,12 +98,17 @@ static void dma_resv_list_set(struct dma_resv_list *list,
+ static struct dma_resv_list *dma_resv_list_alloc(unsigned int max_fences)
+ {
+ 	struct dma_resv_list *list;
++	size_t size;
+ 
+-	list = kmalloc(struct_size(list, table, max_fences), GFP_KERNEL);
++	/* Round up to the next kmalloc bucket size. */
++	size = kmalloc_size_roundup(struct_size(list, table, max_fences));
++
++	list = kmalloc(size, GFP_KERNEL);
+ 	if (!list)
+ 		return NULL;
+ 
+-	list->max_fences = (ksize(list) - offsetof(typeof(*list), table)) /
++	/* Given the resulting bucket size, recalculated max_fences. */
++	list->max_fences = (size - offsetof(typeof(*list), table)) /
+ 		sizeof(*list->table);
+ 
+ 	return list;
 -- 
-Regards,
+2.34.1
 
-Benjamin
