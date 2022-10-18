@@ -2,137 +2,106 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 59CB7602DED
-	for <lists+linux-media@lfdr.de>; Tue, 18 Oct 2022 16:07:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A6CFA602E30
+	for <lists+linux-media@lfdr.de>; Tue, 18 Oct 2022 16:20:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229848AbiJROHs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 18 Oct 2022 10:07:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47256 "EHLO
+        id S231408AbiJROUG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 18 Oct 2022 10:20:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44334 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229633AbiJROHq (ORCPT
+        with ESMTP id S231182AbiJROT6 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 18 Oct 2022 10:07:46 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD99FD0CCC;
-        Tue, 18 Oct 2022 07:07:44 -0700 (PDT)
+        Tue, 18 Oct 2022 10:19:58 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92AED34721;
+        Tue, 18 Oct 2022 07:19:49 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 25564B81F73;
-        Tue, 18 Oct 2022 14:07:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 11B55C433D6;
-        Tue, 18 Oct 2022 14:07:38 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 45F91615B7;
+        Tue, 18 Oct 2022 14:19:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 29293C433D7;
+        Tue, 18 Oct 2022 14:19:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1666102061;
-        bh=YOBDV69ieCkZ1ZbzMh3takPsupKBzGYYcLBUjuH2lG8=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=mYmkpq8qVaYooBwDbXkYeal6frw6fJsf4AchEeNdpzI4lwLVbDhmYfMeDLg2CDvkf
-         T9xeiNTUeCVrxJ/6IjsRa8FoTQPBVNaVOsOLTFpJ5Qn8T64exUQ4+ggexy36QTmYfd
-         5RE/HAlQW7hSaRNiCRLhlsmN/iMN8agv6uvqhCtoVNTGmWstbqv1eWjDOzCddBpcsw
-         8zPVL7Oo9xqxMRhWnXJW/TOujrCJxX61Nh/IUHBVx/sw06GNJfNWVEMI3aP6lYYci+
-         SoAUDlcDDUkCp9zuPTxI0OOuCWPsR7FcvERwiUS7UPoyMcK32uw0D777VBV6nK1rtj
-         3fcg880TiDNYA==
-Message-ID: <f3ec66cf-6568-4668-695c-97ad5e302841@kernel.org>
-Date:   Tue, 18 Oct 2022 10:07:37 -0400
+        s=k20201202; t=1666102787;
+        bh=UwmPyOiwydUIdoR7qtf/m6yxy1stYEPyZMeeo4TZY14=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=R036K5fJI9bW6k3F8MXTK0o6oXd0L9l0JJIuXDgvJRQ+DpELLMrnQaskuGzQ3PNpl
+         5SrOaU0RImyCgy32sfxC5eRRZkNEp6CCLBW25aO6x1Bkln65rxCmf2mpg9TCz8kk9K
+         49nf3vSPxpB+mdHV2ZtAVD3BEBnCBh7pwwRRqLSzYJO7BjyixoCxxzoTaYPiDq+78S
+         iXL/ctAVdWpKPxyEKulq9MR5haIiI0mMw/eriYtqI2GRCtgocVOI8ygVejKRrEr0CY
+         G18dGkYqF/f23stp1lqmkQTbEwj7EgOANQq23OrqgNibEnsHfKKVxnzI31IUVj6WEO
+         H7UcJvj2YRQqw==
+Date:   Tue, 18 Oct 2022 16:19:44 +0200
+From:   Wolfram Sang <wsa@kernel.org>
+To:     Michal Simek <michal.simek@amd.com>
+Cc:     tumic@gpxsee.org, Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Michal Simek <michal.simek@xilinx.com>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-i2c@vger.kernel.org, Lizhi Hou <lizhi.hou@amd.com>,
+        Martin =?utf-8?B?VMWvbWE=?= <martin.tuma@digiteqautomotive.com>
+Subject: Re: [PATCH v3 1/2] i2c: xiic: Added platform module alias for the
+ xiic I2C driver
+Message-ID: <Y062ANTWvCy4e4XT@ninjato>
+Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
+        Michal Simek <michal.simek@amd.com>, tumic@gpxsee.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Michal Simek <michal.simek@xilinx.com>, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org,
+        Lizhi Hou <lizhi.hou@amd.com>,
+        Martin =?utf-8?B?VMWvbWE=?= <martin.tuma@digiteqautomotive.com>
+References: <20221018140338.7080-1-tumic@gpxsee.org>
+ <20221018140338.7080-2-tumic@gpxsee.org>
+ <611cd6ff-e6f1-ceed-b2eb-7dcbbf18b36b@amd.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.0
-Subject: Re: [Patch v3 01/15] dt-bindings: media: s5p-mfc: Add new DT schema
- for MFC
-Content-Language: en-US
-To:     Aakarsh Jain <aakarsh.jain@samsung.com>,
-        'Rob Herring' <robh@kernel.org>
-Cc:     linux-fsd@tesla.com, linux-media@vger.kernel.org,
-        pankaj.dubey@samsung.com, linux-arm-kernel@lists.infradead.org,
-        dillon.minfei@gmail.com, devicetree@vger.kernel.org,
-        krzk+dt@kernel.org, smitha.t@samsung.com,
-        benjamin.gaignard@collabora.com, stanimir.varbanov@linaro.org,
-        jernej.skrabec@gmail.com, robh+dt@kernel.org,
-        aswani.reddy@samsung.com, mchehab@kernel.org,
-        hverkuil-cisco@xs4all.nl, mark.rutland@arm.com,
-        m.szyprowski@samsung.com, linux-kernel@vger.kernel.org,
-        alim.akhtar@samsung.com, andi@etezian.org, andrzej.hajda@intel.com,
-        ezequiel@vanguardiasur.com.ar, david.plowman@raspberrypi.com
-References: <20221011122516.32135-1-aakarsh.jain@samsung.com>
- <CGME20221011125142epcas5p13c858a5f27830fb1de50fa51e9730eca@epcas5p1.samsung.com>
- <20221011122516.32135-2-aakarsh.jain@samsung.com>
- <166558064414.1937173.2124012536890566845.robh@kernel.org>
- <000501d8e2df$3d209700$b761c500$@samsung.com>
- <1b079ee2-d406-507c-77f9-a228d337ad71@kernel.org>
- <009301d8e2f4$9a2cbb30$ce863190$@samsung.com>
-From:   Krzysztof Kozlowski <krzk@kernel.org>
-In-Reply-To: <009301d8e2f4$9a2cbb30$ce863190$@samsung.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="Dgrm/z4i6fDpduV7"
+Content-Disposition: inline
+In-Reply-To: <611cd6ff-e6f1-ceed-b2eb-7dcbbf18b36b@amd.com>
 X-Spam-Status: No, score=-7.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 18/10/2022 09:21, Aakarsh Jain wrote:
-> 
-> 
->> -----Original Message-----
->> From: Krzysztof Kozlowski [mailto:krzk@kernel.org]
->> Sent: 18 October 2022 18:40
->> To: Aakarsh Jain <aakarsh.jain@samsung.com>; 'Rob Herring'
->> <robh@kernel.org>
->> Cc: linux-fsd@tesla.com; linux-media@vger.kernel.org;
->> pankaj.dubey@samsung.com; linux-arm-kernel@lists.infradead.org;
->> dillon.minfei@gmail.com; devicetree@vger.kernel.org; krzk+dt@kernel.org;
->> smitha.t@samsung.com; benjamin.gaignard@collabora.com;
->> stanimir.varbanov@linaro.org; jernej.skrabec@gmail.com;
->> robh+dt@kernel.org; aswani.reddy@samsung.com; mchehab@kernel.org;
->> hverkuil-cisco@xs4all.nl; mark.rutland@arm.com;
->> m.szyprowski@samsung.com; linux-kernel@vger.kernel.org;
->> alim.akhtar@samsung.com; andi@etezian.org; andrzej.hajda@intel.com;
->> ezequiel@vanguardiasur.com.ar; david.plowman@raspberrypi.com
->> Subject: Re: [Patch v3 01/15] dt-bindings: media: s5p-mfc: Add new DT
->> schema for MFC
->>
->> On 18/10/2022 06:48, Aakarsh Jain wrote:
->>>>
->>>> codec@f1700000: clock-names:1: 'sclk_mfc' was expected
->>>> 	arch/arm/boot/dts/s5pv210-aquila.dtb
->>>> 	arch/arm/boot/dts/s5pv210-fascinate4g.dtb
->>>> 	arch/arm/boot/dts/s5pv210-galaxys.dtb
->>>> 	arch/arm/boot/dts/s5pv210-goni.dtb
->>>> 	arch/arm/boot/dts/s5pv210-smdkc110.dtb
->>>> 	arch/arm/boot/dts/s5pv210-smdkv210.dtb
->>>> 	arch/arm/boot/dts/s5pv210-torbreck.dtb
->>>>
->>>> codec@f1700000: memory-region: [[51], [52]] is too long
->>>> 	arch/arm/boot/dts/s5pv210-fascinate4g.dtb
->>>>
->>>> codec@f1700000: memory-region: [[55], [56]] is too long
->>>> 	arch/arm/boot/dts/s5pv210-galaxys.dtb
->>>
->>>
->>>
->>> Hi Rob,
->>>
->>> We tried reproducing warnings as reported above, but I am not able to
->>> see these warnings after  running make dtbs_check & make
->>> DT_CHECKER_FLAGS=-m dt_binding_check.
->>> Packages used-
->>> yamllint 1.10.0
->>> $ dt-mk-schema --version
->>> 2022.9
->>
->>
->> Are you sure you are running these commands on proper config and arch?
->>
-> yes. arm64/defconfig .
 
-Which does not look like proper arch. Look at the warnings Rob robot
-provided.
+--Dgrm/z4i6fDpduV7
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
 
-Best regards,
-Krzysztof
+> You should likely send it separately because this will go via different
+> maintainer tree.
+>=20
+> Not a problem with this patch.
+>=20
+> Acked-by: Michal Simek <michal.simek@amd.com>
 
+I'll pick it, no problems.
+
+
+--Dgrm/z4i6fDpduV7
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmNOtfwACgkQFA3kzBSg
+Kba/nA//bRwF+nTsr5x6lTTadUjNVu/UZ30i4nbf4nmtXG6YyQIkO8uQctkW0x7B
+DD7Cquhh+7Ub6L0PQm/L1L4eaevdtpo/5mMzrbSO4pNkzkyBtTSGYYTxlJJtE+Tk
+APLHphVmBeMcObGyP/MElkjUMPCjyTcBHiKKljMa0M4Uqn0K3vPmJbppGVVAb00W
+U6AksjJbjVJGX+1TqhW/I6/+oZ+GXmtd03MUfxh17bkw0ZU1HGnQwex+0FcypFur
+32mlhl3M5ASMr/xe2kjA+2UPfaRXAWBlT+mX20bWcel70kIYMFX1LF/B4kntR3HY
+xaLd3qnbwez/hfGNukcScXIgZEOZEPSDbAB9rxZAlfUOsJIMtmy4f+ijDJiy2ddZ
+FOawoo09Hxyucu9GnzYeOajAXIWP52wsBzBNYuC3QVfCC4cGtKQ9NzxcpsoReAZw
+D3FJAQ/U5Ty6OnQ2IyLOm+TigJ67w0eEV4xOXl89z6Rznd8WpbYraoVgxrktTZ5a
+2O6jwZyklrZNZ9oRny1WYsgZ6jRiU9ZkNZYfLer9+EN1FA0rmGaIo3hNtZAjaSNK
+icr9shXMj5bs/azDko7ZgRO7TTcIuVluypfZz9Q2XZIjfUlR84adH8BEKsz90xGw
+ZLfH6atu+u4M5FoZ+KelDHwQ98c7qmHeqUqTIHNrD0mHDcgW8oE=
+=vNmL
+-----END PGP SIGNATURE-----
+
+--Dgrm/z4i6fDpduV7--
