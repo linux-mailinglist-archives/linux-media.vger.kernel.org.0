@@ -2,104 +2,100 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8E1D2605092
-	for <lists+linux-media@lfdr.de>; Wed, 19 Oct 2022 21:37:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 75B49605240
+	for <lists+linux-media@lfdr.de>; Wed, 19 Oct 2022 23:52:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230520AbiJSThw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 19 Oct 2022 15:37:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34924 "EHLO
+        id S230476AbiJSVwQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 19 Oct 2022 17:52:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45948 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230139AbiJSThv (ORCPT
+        with ESMTP id S229525AbiJSVwP (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 19 Oct 2022 15:37:51 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 51E8A1C77CD;
-        Wed, 19 Oct 2022 12:37:46 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id E9706619B2;
-        Wed, 19 Oct 2022 19:37:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A6E8BC433D6;
-        Wed, 19 Oct 2022 19:37:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1666208264;
-        bh=zzDnXnBL9vEr+QpUWo9r+S/EQsKUu96j8JwyBHOVwtI=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=V9F+WKgQjG4vYQB00lvJhfXxWHGnqU2tOoUuEzbytipTu6D8xcBWMLJKlgy1OMlfN
-         l0ZT1MAirDjOYZYjrwUx5lYN7bA4vYrBfBPnmgO29j5+x7b+hLnPC61faSeykpOtf8
-         4QkAa2Q2ln+0IHUW04VwgxjTqEgeRgh4Qi2bUYnJbcwbCoS7ESZVjfWCKx4l5PGv60
-         NTczhVvzYzx0m+dX4l8VZFNkBlgTCnGLPaB5usJJu1suMaCP92EOpzbiA/RyRlHCx6
-         SJbOjS2yXaojSfQI2Ib5J0+NWI6mY9G+1kbcDS/7GdUhYru2kA+tmCZjO9LFTTatXg
-         BHZhiFwKfbW8g==
-Date:   Wed, 19 Oct 2022 21:37:40 +0200
-From:   Wolfram Sang <wsa@kernel.org>
-To:     tumic@gpxsee.org
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Michal Simek <michal.simek@xilinx.com>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-i2c@vger.kernel.org, Lizhi Hou <lizhi.hou@amd.com>,
-        Martin =?utf-8?B?VMWvbWE=?= <martin.tuma@digiteqautomotive.com>
-Subject: Re: [PATCH v3 1/2] i2c: xiic: Added platform module alias for the
- xiic I2C driver
-Message-ID: <Y1BSBH2WsTg2HITv@shikoro>
-Mail-Followup-To: Wolfram Sang <wsa@kernel.org>, tumic@gpxsee.org,
+        Wed, 19 Oct 2022 17:52:15 -0400
+Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE51B317ED;
+        Wed, 19 Oct 2022 14:52:14 -0700 (PDT)
+Received: by mail-wr1-x431.google.com with SMTP id f11so31270858wrm.6;
+        Wed, 19 Oct 2022 14:52:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=eApXCcN6gbSeEBoZawynJhdcd3WZewwA9ECGhchf8gc=;
+        b=TJOqUaTZM1yxHvki48bMZ1o3xH5Cycg7ZoYpjkLoeg90ylQ61Z2xKLLRYQBRqRV8nC
+         lbt9H9cj8Q5PS+IxezJUgpsownODsx547LaWqwR8mlX9fAnTuJ3qhrcW9QUbhozcbD0A
+         Vn2nMR+U3EShmMbN8ip7gUX4Xo0eFoDCzaLXCvD9XSIU5nJAFvYgkEcznIsKcVsMeUyZ
+         cCXznc/UNUCFHxOPx5Gs+9GUJEiOxg6ucydsDphfjjtuUTSa6GZzPYZVzqVW4LiktPaT
+         +3UvEIIaLXS1JkeqPXRW9lHL8DMpE+bEggBQXeSBEKjQe4QzJcGBKiRd4otwV3RcHJKT
+         BOqw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=eApXCcN6gbSeEBoZawynJhdcd3WZewwA9ECGhchf8gc=;
+        b=AyxlmG4OenlhY7UjBMlXYEqxUlKe0XdNIZOjo2j8blo73sz5vUBhwBa/j5VUABnMry
+         E0W/lK4bOWvyjI1ECTGaqNkvNDyh+tjJ7S3KdPaLd5nuXBPwseLD5O2721AJoAatCYXw
+         lQCl4BcXIxS0C5vbQHEPbrt+t3HWyO4vzm8Lvm8D9WGidQ1KKJ86n2u3s0HnGfX847gv
+         PEIv/vGvHdwdiCGiwbb8ReN60JTIcFn4CgEQpKbYgvbr+k5Ba1dI6uwE4Klpr8Zg0uZ4
+         /ESDZiivPEZhLKxIJLOBbyWJcshNa/wl9pZdPurnpAQ/vgb7SwVHFwuuUXkroCbWTTMx
+         3bOQ==
+X-Gm-Message-State: ACrzQf3vDD1VvhJYG3grWG3dTCnx689ktSVOuj2RS05pem9Q16i/wcG8
+        13PVFejbljGeyMCB/prb6QMDCK3QxuV2+mln
+X-Google-Smtp-Source: AMsMyM57RpsQoDL6fsHYnO9NGHs0ib7Ga/t0MaIomoZ6IXPHYz4JSXpitGHlsS1wZsMj2/d9xGTHzQ==
+X-Received: by 2002:a5d:428c:0:b0:22e:5d4e:c71e with SMTP id k12-20020a5d428c000000b0022e5d4ec71emr6271418wrq.19.1666216333341;
+        Wed, 19 Oct 2022 14:52:13 -0700 (PDT)
+Received: from localhost (cpc154979-craw9-2-0-cust193.16-3.cable.virginm.net. [80.193.200.194])
+        by smtp.gmail.com with ESMTPSA id p26-20020a1c545a000000b003c6c5a5a651sm1046313wmi.28.2022.10.19.14.52.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 19 Oct 2022 14:52:12 -0700 (PDT)
+From:   Colin Ian King <colin.i.king@gmail.com>
+To:     Hans Verkuil <hverkuil@xs4all.nl>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Michal Simek <michal.simek@xilinx.com>, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org,
-        Lizhi Hou <lizhi.hou@amd.com>,
-        Martin =?utf-8?B?VMWvbWE=?= <martin.tuma@digiteqautomotive.com>
-References: <20221018140338.7080-1-tumic@gpxsee.org>
- <20221018140338.7080-2-tumic@gpxsee.org>
+        linux-media@vger.kernel.org
+Cc:     kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] media: test_drivers: remove redundant assignment to variable checksum
+Date:   Wed, 19 Oct 2022 22:52:12 +0100
+Message-Id: <20221019215212.1434808-1-colin.i.king@gmail.com>
+X-Mailer: git-send-email 2.37.3
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="uxB784pxQw7s8Yt3"
-Content-Disposition: inline
-In-Reply-To: <20221018140338.7080-2-tumic@gpxsee.org>
-X-Spam-Status: No, score=-7.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Variable checksum is assigned a value that is never read, it is assigned
+a new value in a following for-loop. The assignment is redundant and can
+be removed.
 
---uxB784pxQw7s8Yt3
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Cleans up clang scan build warning:
+drivers/media/test-drivers/vivid/vivid-vbi-gen.c:197:2: warning: Value
+stored to 'checksum' is never read [deadcode.DeadStores]
 
-On Tue, Oct 18, 2022 at 04:03:37PM +0200, tumic@gpxsee.org wrote:
-> From: Martin T=C5=AFma <martin.tuma@digiteqautomotive.com>
->=20
-> The missing "platform" alias is required for the mgb4 v4l2 driver to load
-> the i2c controller driver when probing the HW.
->=20
-> Signed-off-by: Martin T=C5=AFma <martin.tuma@digiteqautomotive.com>
+Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
+---
+ drivers/media/test-drivers/vivid/vivid-vbi-gen.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-Applied to for-current, thanks!
+diff --git a/drivers/media/test-drivers/vivid/vivid-vbi-gen.c b/drivers/media/test-drivers/vivid/vivid-vbi-gen.c
+index a141369a7a63..70a4024d461e 100644
+--- a/drivers/media/test-drivers/vivid/vivid-vbi-gen.c
++++ b/drivers/media/test-drivers/vivid/vivid-vbi-gen.c
+@@ -194,7 +194,6 @@ static void vivid_vbi_gen_set_time_of_day(u8 *packet)
+ 	for (checksum = i = 0; i <= 8; i++)
+ 		checksum += packet[i] & 0x7f;
+ 	packet[9] = calc_parity(0x100 - checksum);
+-	checksum = 0;
+ 	packet[10] = calc_parity(0x07);
+ 	packet[11] = calc_parity(0x04);
+ 	if (sys_tz.tz_minuteswest >= 0)
+-- 
+2.37.3
 
-
---uxB784pxQw7s8Yt3
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmNQUgQACgkQFA3kzBSg
-KbY98w//Qs7csy1GDLfOayVJM3t8Rq5MxB/m3g3Bf8phgPF3Iy9Au7q/xS6V2HR/
-ze1O3+artSqEEICWofLyRnZt6PDc0G4hj/8KvUlyu0R9PL/75vBJl2wY/ixFtoWd
-iPG1p+Xje4Q4r2dms806Kx71S6zFf/r75UUd/1H+Ki5mTGdfLr7YQmHweQLvqrlM
-3+zHSGTrBlOQxIoca1xR1QWWxV/6mrEVOS99Qtv0rMPajBi2fSMe70eATrq51Tx9
-qIuv+UdFQI1ZNwnHqhysjuWRd4Gw/HrjYFxQQ9CV4cn4EAq++U44ImepKBtQwqmL
-QHup6ApTt+kk22drCuuG1dcod7nfpoRjGP2kacSRpfBRLmTR0PXxWi5/U2F+XRs+
-xqUMBtYJIRB3ED4eUVGJ9iJi5TjLYsk+GWqFUzzdjbuuEHCDYurbfifJ3+fnQK9Y
-enf2UHOWq/Tz9hBa+xIO2d6zU3tNf5rP99lHLBU24Nw1StCtFGX/Gyyb1TkdVUmv
-78ubr2ZVtttJcl6TT2/3vX3V5NQvmuNCGouQX4bvRMgyUDJ4y01ZX9I0bUCQbu37
-8wmd+6Nq/18IWk3nQbnPQ2ewE68HhfNzjV+QUPvi9hVLzbpNszLtwVRu+lXzYXq3
-M55ibROv6PTvBNNB3CbmcyZOU6t0wFthxZRBTZj2amHHth+9Myo=
-=OMev
------END PGP SIGNATURE-----
-
---uxB784pxQw7s8Yt3--
