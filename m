@@ -2,226 +2,252 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 52A526032F4
-	for <lists+linux-media@lfdr.de>; Tue, 18 Oct 2022 21:03:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 11FF4603795
+	for <lists+linux-media@lfdr.de>; Wed, 19 Oct 2022 03:35:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229882AbiJRTDA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 18 Oct 2022 15:03:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53510 "EHLO
+        id S229525AbiJSBfS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 18 Oct 2022 21:35:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37190 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229959AbiJRTCz (ORCPT
+        with ESMTP id S229489AbiJSBfR (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 18 Oct 2022 15:02:55 -0400
-X-Greylist: delayed 452 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 18 Oct 2022 12:02:50 PDT
-Received: from smtp.smtpout.orange.fr (smtp-30.smtpout.orange.fr [80.12.242.30])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 11643BE510
-        for <linux-media@vger.kernel.org>; Tue, 18 Oct 2022 12:02:46 -0700 (PDT)
-Received: from [192.168.1.18] ([86.243.100.34])
-        by smtp.orange.fr with ESMTPA
-        id krk4o4LYpJvOZkrk4odlCd; Tue, 18 Oct 2022 20:55:12 +0200
-X-ME-Helo: [192.168.1.18]
-X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
-X-ME-Date: Tue, 18 Oct 2022 20:55:12 +0200
-X-ME-IP: 86.243.100.34
-Message-ID: <15ebc256-1855-7720-05e1-6673b1da7d93@wanadoo.fr>
-Date:   Tue, 18 Oct 2022 20:55:07 +0200
+        Tue, 18 Oct 2022 21:35:17 -0400
+Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com [IPv6:2a00:1450:4864:20::530])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3604B33A21
+        for <linux-media@vger.kernel.org>; Tue, 18 Oct 2022 18:35:16 -0700 (PDT)
+Received: by mail-ed1-x530.google.com with SMTP id t16so3834603edd.2
+        for <linux-media@vger.kernel.org>; Tue, 18 Oct 2022 18:35:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=PP0nZffe35Yny8gJ0uSwpL8KkT3IolKUEY+qW3HiB+w=;
+        b=hkShKGwqlK6WD3RViU5aZug84AI/oSaQ13UJQ7+uJTVGYdAhYApLB1lYKZZEJK4LS8
+         KPeNT9YZ+nMG2Cj8Cq/DCJoyPIgfTwZeQC5dO9wVHy+GQ/4DX9WR+zFu9eZdhof37+Rf
+         hp1Mb9SkVnmeiIqoX7fvGigfE3BKm2CvdvOlo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=PP0nZffe35Yny8gJ0uSwpL8KkT3IolKUEY+qW3HiB+w=;
+        b=ya2VYz+y7O8Oym4YDJ/tGXEukYS/Mz0FHzsj1/NVKeOMTp4YNts3wVsoKqB2whVbcm
+         iunZDeEcUXZYBhR28CuesHn6ObIhcDc0wZBH6H7cDrPRrvUQAIkfi+Md2Cn1ICVFxkw/
+         oUPxlEU63vJ7DJci+FB0SdYhL0uUkChh6iOm+FSkj4T6zT5uhuRB2kr5EMHZToTDAwq3
+         W3e7HgTw/hHDZJnbyA3mx1CXSNtjU36FOsT/m8kRZsBVnDCVEM+LBnGfNv98OQ8dXe3o
+         tsdy1SWTFDzutsvHZmKY4H1LaxReFGfvWA8kDtj2S9ewlXwBYiMqfrZkFMsLGbE1oj+2
+         nHhQ==
+X-Gm-Message-State: ACrzQf3LPhx5J7+muS36dMcb3JMhcSGBykynz+cfoRImkP/FilhYMwm6
+        SBaeoDvWgDpfYdDVDnv9aP8Ma/lN9BuKBTCX
+X-Google-Smtp-Source: AMsMyM5Xdl2ZHKI18RvdlK2IJZ3BEw8xcXLlLI+uzBA2JKzwf5kIym5BDFtoMNAe3roXXOP/8MOWqw==
+X-Received: by 2002:a05:6402:354d:b0:45c:b772:5ef4 with SMTP id f13-20020a056402354d00b0045cb7725ef4mr5211349edd.225.1666143314638;
+        Tue, 18 Oct 2022 18:35:14 -0700 (PDT)
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com. [209.85.218.48])
+        by smtp.gmail.com with ESMTPSA id ti5-20020a170907c20500b0078d8c1eee44sm8054224ejc.158.2022.10.18.18.35.12
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 18 Oct 2022 18:35:12 -0700 (PDT)
+Received: by mail-ej1-f48.google.com with SMTP id k2so36558451ejr.2
+        for <linux-media@vger.kernel.org>; Tue, 18 Oct 2022 18:35:12 -0700 (PDT)
+X-Received: by 2002:a17:907:7245:b0:78d:ec9c:e743 with SMTP id
+ ds5-20020a170907724500b0078dec9ce743mr4772878ejc.466.1666143312064; Tue, 18
+ Oct 2022 18:35:12 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH v3 2/2] media: i2c: add support for OV4689
-To:     mike.rudenko@gmail.com
-Cc:     arec.kao@intel.com, c.hemp@phytec.de,
-        dave.stevenson@raspberrypi.com, devicetree@vger.kernel.org,
-        hverkuil@xs4all.nl, jimmy.su@intel.com,
-        krzysztof.kozlowski+dt@linaro.org,
-        laurent.pinchart+renesas@ideasonboard.com,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        marex@denx.de, mchehab@kernel.org, rdunlap@infradead.org,
-        robh+dt@kernel.org, sakari.ailus@linux.intel.com,
-        shawnx.tu@intel.com, tommaso.merciai@amarulasolutions.com
-References: <20220927222152.132951-1-mike.rudenko@gmail.com>
- <20220927222152.132951-3-mike.rudenko@gmail.com>
-Content-Language: fr
-From:   Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-In-Reply-To: <20220927222152.132951-3-mike.rudenko@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,
-        SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.6
+References: <bug-216543-208809@https.bugzilla.kernel.org/> <bug-216543-208809-AR52CPrAl3@https.bugzilla.kernel.org/>
+ <Y03IXMGpZ2fCof2k@rowland.harvard.edu> <CANiDSCuiYCNM+6F2+3efps2uR_Q+p-oBSu-gVmY6ygf4_1U49Q@mail.gmail.com>
+ <Y07AAmc2QnP5HiBg@pendragon.ideasonboard.com>
+In-Reply-To: <Y07AAmc2QnP5HiBg@pendragon.ideasonboard.com>
+From:   Ricardo Ribalda <ribalda@chromium.org>
+Date:   Wed, 19 Oct 2022 10:35:00 +0900
+X-Gmail-Original-Message-ID: <CANiDSCsSn=UJfCt6shy8htGXAPyeEceVzKva3eD+YxhC3YVmxA@mail.gmail.com>
+Message-ID: <CANiDSCsSn=UJfCt6shy8htGXAPyeEceVzKva3eD+YxhC3YVmxA@mail.gmail.com>
+Subject: Re: [Bug 216543] kernel NULL pointer dereference usb_hcd_alloc_bandwidth
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Alan Stern <stern@rowland.harvard.edu>,
+        Nazar Mokrynskyi <nazar@mokrynskyi.com>,
+        linux-media@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux@roeck-us.net, Tomasz Figa <tfiga@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Le 28/09/2022 à 00:21, Mikhail Rudenko a écrit :
-> Add a V4L2 sub-device driver for OmniVision OV4689 image sensor. This
-> is a 4 Mpx image sensor using the I2C bus for control and the CSI-2
-> bus for data.
-> 
-> This driver supports following features:
-> - manual exposure and analog gain control support
-> - test pattern support
-> - media controller support
-> - runtime PM support
-> - support following resolutions:
->    + 2688x1520 at 30 fps
-> 
-> The driver provides all mandatory V4L2 controls for compatibility with
-> libcamera. The sensor supports 1/2/4-lane CSI-2 modes, but the driver
-> implements 4 lane mode only at this moment.
+Hi Laurent
 
-Hi,
+On Wed, 19 Oct 2022 at 00:02, Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+>
+> hi Ricardo,
+>
+> On Tue, Oct 18, 2022 at 02:40:44PM +0900, Ricardo Ribalda wrote:
+> > Hi
+> >
+> > Guenter already provided some patches to fix this issue:
+> > https://lore.kernel.org/lkml/20200917022547.198090-1-linux@roeck-us.net/
+> >
+> > Until we have a solution on the core (or rewrite the kernel in rust
+> > ;P) , I think we should merge them (or something similar).
+> >
+> > I can prepare a patchset merging Guenter set and my "grannular PM"
+> > https://lore.kernel.org/linux-media/20220920-resend-powersave-v1-0-123aa2ba3836@chromium.org/
+>
+> How about working on a proper fix instead ? :-)
 
-a few nitpick below.
+We already have a fix that has been extensively tested ;P
 
-CJ
+When put on top of granular PM it is a tiny patch:
+https://git.kernel.org/pub/scm/linux/kernel/git/ribalda/linux.git/commit/?h=b4/resend-powersave&id=cf826010bedda38f8faf8d072f95a9ca69ed452d
+that can be cleanly reverted when/if we fix it in core.
 
-> 
-> Signed-off-by: Mikhail Rudenko <mike.rudenko-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> ---
+I would like to avoid that more and more people/distros have
+downstream patches on top of uvc to fix real issues just because we
+think that it is not the "perfect" solution.
 
-[...]
+Would you please take a second look at the combined patchset?
 
-> +static int ov4689_check_sensor_id(struct ov4689 *ov4689,
-> +				  struct i2c_client *client)
-> +{
-> +	struct device *dev = &ov4689->client->dev;
-> +	u32 id = 0;
-> +	int ret;
-> +
-> +	ret = ov4689_read_reg(client, OV4689_REG_CHIP_ID,
-> +			      OV4689_REG_VALUE_16BIT, &id);
-> +	if (id != CHIP_ID) {
-> +		dev_err(dev, "Unexpected sensor id(%06x), ret(%d)\n", id, ret);
-> +		return -ENODEV;
 
-return ret?
-(otherwise what is the point of -EINVAL and -EIO in ov4689_read_reg()?)
+Thanks!
 
-> +	}
-> +
-> +	dev_info(dev, "Detected OV%06x sensor\n", CHIP_ID);
-> +
-> +	return 0;
-> +}
+>
+> > It can always be reverted when we reach consensus on how to do it for
+> > every driver.
+> >
+> > Regards!
+> >
+> >
+> > On Tue, 18 Oct 2022 at 06:46, Alan Stern <stern@rowland.harvard.edu> wrote:
+> > >
+> > > Moving this bug report from bugzilla to the mailing lists.
+> > >
+> > > The short description of the bug is that in uvcvideo, disconnect races
+> > > with starting a video transfer.  The race shows up on Nazar's system
+> > > because of a marginal USB cable which leads to a lot of spontaneous
+> > > disconnections.
+> > >
+> > > On Mon, Oct 17, 2022 at 05:59:48PM +0000, bugzilla-daemon@kernel.org wrote:
+> > > > https://bugzilla.kernel.org/show_bug.cgi?id=216543
+> > > >
+> > > > --- Comment #7 from Nazar Mokrynskyi (nazar@mokrynskyi.com) ---
+> > > > Created attachment 303022
+> > > >   --> https://bugzilla.kernel.org/attachment.cgi?id=303022&action=edit
+> > > > Kernel log with uvc-trace patch applied
+> > >
+> > > For everyone's information, here is the uvc-trace patch.  All it does is
+> > > add messages to the kernel log when uvcvideo's probe and disconnect
+> > > routines run, and just before uvc_video_start_transfer() calls
+> > > usb_set_interface().
+> > >
+> > > --- usb-devel/drivers/media/usb/uvc/uvc_video.c
+> > > +++ usb-devel/drivers/media/usb/uvc/uvc_video.c
+> > > @@ -1965,6 +1965,7 @@ static int uvc_video_start_transfer(stru
+> > >                         "Selecting alternate setting %u (%u B/frame bandwidth)\n",
+> > >                         altsetting, best_psize);
+> > >
+> > > +               dev_info(&intf->dev, "uvc set alt\n");
+> > >                 ret = usb_set_interface(stream->dev->udev, intfnum, altsetting);
+> > >                 if (ret < 0)
+> > >                         return ret;
+> > > --- usb-devel/drivers/media/usb/uvc/uvc_driver.c
+> > > +++ usb-devel/drivers/media/usb/uvc/uvc_driver.c
+> > > @@ -2374,6 +2374,8 @@ static int uvc_probe(struct usb_interfac
+> > >         int function;
+> > >         int ret;
+> > >
+> > > +       dev_info(&intf->dev, "uvc_probe start\n");
+> > > +
+> > >         /* Allocate memory for the device and initialize it. */
+> > >         dev = kzalloc(sizeof(*dev), GFP_KERNEL);
+> > >         if (dev == NULL)
+> > > @@ -2535,6 +2537,7 @@ static void uvc_disconnect(struct usb_in
+> > >                 return;
+> > >
+> > >         uvc_unregister_video(dev);
+> > > +       dev_info(&intf->dev, "uvc_disconnect done\n");
+> > >         kref_put(&dev->ref, uvc_delete);
+> > >  }
+> > >
+> > > The output in the kernel log below clearly shows that there is a bug in
+> > > the uvcvideo driver.
+> > >
+> > > > I'm on 6.0.2 and seemingly get this even more frequently with good cable and no
+> > > > extra adapters. So I patched 6.0.2 with uvc-trace above and reproduced it
+> > > > within a few minutes.
+> > > >
+> > > > USB seems to reset, often camera stops or freezes in the browser, but the light
+> > > > on the camera itself remains on. Sometimes I can enable/disable/enable camera
+> > > > for it to reboot, but the last time I did that in the log I got null pointer
+> > > > de-reference again.
+> > >
+> > > Here is the important part of the log:
+> > >
+> > > [  684.746848] usb 8-2.4.4: reset SuperSpeed USB device number 6 using xhci_hcd
+> > > [  684.810979] uvcvideo 8-2.4.4:1.0: uvc_probe start
+> > > [  684.811032] usb 8-2.4.4: Found UVC 1.00 device Logitech BRIO (046d:085e)
+> > > [  684.843413] input: Logitech BRIO as /devices/pci0000:00/0000:00:08.1/0000:59:00.3/usb8/8-2/8-2.4/8-2.4.4/8-2.4.4:1.0/input/input43
+> > > [  684.911255] usb 8-2.4.4: current rate 16000 is different from the runtime rate 24000
+> > > ...
+> > > [  743.800368] uvcvideo 8-2.4.4:1.1: uvc set alt
+> > >
+> > > This is where an ioctl calls uvc_video_start_transfer.
+> > >
+> > > [  748.654701] usb 8-2.4.4: USB disconnect, device number 6
+> > > [  748.714355] uvcvideo 8-2.4.4:1.0: uvc_disconnect done
+> > >
+> > > This is where the disconnect starts and finishes
+> > >
+> > > [  748.898340] BUG: kernel NULL pointer dereference, address: 0000000000000000
+> > > [  748.898344] #PF: supervisor read access in kernel mode
+> > > [  748.898346] #PF: error_code(0x0000) - not-present page
+> > > [  748.898347] PGD 0 P4D 0
+> > > [  748.898349] Oops: 0000 [#1] PREEMPT SMP NOPTI
+> > > [  748.898351] CPU: 16 PID: 11890 Comm: VideoCapture Not tainted 6.0.2-x64v2-uvc-trace-xanmod1 #1
+> > > [  748.898353] Hardware name: Gigabyte Technology Co., Ltd. B550 VISION D/B550 VISION D, BIOS F15d 07/20/2022
+> > > [  748.898354] RIP: 0010:usb_ifnum_to_if+0x35/0x60
+> > > ...
+> > > [  748.898368] Call Trace:
+> > > [  748.898370]  <TASK>
+> > > [  748.898370]  usb_hcd_alloc_bandwidth+0x240/0x370
+> > > [  748.898375]  usb_set_interface+0x122/0x350
+> > > [  748.898378]  uvc_video_start_transfer.cold+0xd8/0x2ae [uvcvideo]
+> > > [  748.898383]  uvc_video_start_streaming+0x75/0xd0 [uvcvideo]
+> > > [  748.898386]  uvc_start_streaming+0x25/0xe0 [uvcvideo]
+> > > [  748.898390]  vb2_start_streaming+0x86/0x140 [videobuf2_common]
+> > > [  748.898393]  vb2_core_streamon+0x57/0xc0 [videobuf2_common]
+> > > [  748.898395]  uvc_queue_streamon+0x25/0x40 [uvcvideo]
+> > > [  748.898398]  uvc_ioctl_streamon+0x35/0x60 [uvcvideo]
+> > > [  748.898401]  __video_do_ioctl+0x19a/0x3f0 [videodev]
+> > >
+> > > And this proves that uvc_disconnect() returned before the driver was
+> > > finished accessing the device.
+> > >
+> > > I don't know how the driver works or how it tries to prevent this sort
+> > > of race from occurring, but apparently the strategy isn't working.
+> > >
+> > > > Please let me know if there is any other information I can provide and what
+> > > > could be the root cause of this annoying behavior.
+> > >
+> > > At this point I will bow out of the discussion; it's up to the uvcvideo
+> > > maintainers to investigate further.  Maybe they can provide a patch for
+> > > you to test.
+> > >
+> > > Alan Stern
+> >
+> >
+> >
+> > --
+> > Ricardo Ribalda
+>
+> --
+> Regards,
+>
+> Laurent Pinchart
 
-[...]
 
-> +static int ov4689_probe(struct i2c_client *client)
-> +{
-> +	struct device *dev = &client->dev;
-> +	struct v4l2_subdev *sd;
-> +	struct ov4689 *ov4689;
-> +	int ret;
-> +
-> +	ret = ov4689_check_hwcfg(dev);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ov4689 = devm_kzalloc(dev, sizeof(*ov4689), GFP_KERNEL);
-> +	if (!ov4689)
-> +		return -ENOMEM;
-> +
-> +	ov4689->client = client;
-> +	ov4689->cur_mode = &supported_modes[OV4689_MODE_2688_1520];
-> +
-> +	ov4689->xvclk = devm_clk_get_optional(dev, NULL);
-> +	if (IS_ERR(ov4689->xvclk)) {
-> +		return dev_err_probe(dev, PTR_ERR(ov4689->xvclk),
-> +				     "Failed to get external clock\n");
-> +	}
-> +
-> +	if (!ov4689->xvclk) {
-> +		dev_dbg(dev,
-> +			"No clock provided, using clock-frequency property\n");
-> +		device_property_read_u32(dev, "clock-frequency", &ov4689->clock_rate);
-> +	} else {
-> +		ov4689->clock_rate = clk_get_rate(ov4689->xvclk);
-> +	}
-> +
-> +	if (ov4689->clock_rate != OV4689_XVCLK_FREQ) {
-> +		dev_err(dev,
-> +			"External clock rate mismatch: got %d Hz, expected %d Hz\n",
-> +			ov4689->clock_rate, OV4689_XVCLK_FREQ);
-> +		return -EINVAL;
-> +	}
-> +
-> +	ov4689->reset_gpio = devm_gpiod_get_optional(dev, "reset",
-> +						     GPIOD_OUT_LOW);
-> +	if (IS_ERR(ov4689->reset_gpio)) {
-> +		dev_err(dev, "Failed to get reset-gpios\n");
-> +		return PTR_ERR(ov4689->reset_gpio);
-> +	}
-> +
-> +	ov4689->pwdn_gpio = devm_gpiod_get_optional(dev, "pwdn", GPIOD_OUT_LOW);
-> +	if (IS_ERR(ov4689->pwdn_gpio)) {
-> +		dev_err(dev, "Failed to get pwdn-gpios\n");
-> +		return PTR_ERR(ov4689->pwdn_gpio);
-> +	}
-> +
-> +	ret = ov4689_configure_regulators(ov4689);
-> +	if (ret) {
-> +		dev_err(dev, "Failed to get power regulators\n");
 
-dev_err_probe()?
-I think that devm_regulator_bulk_get() can return -EPROBE_DEFER)
-
-> +		return ret;
-> +	}
-> +
-> +	mutex_init(&ov4689->mutex);
-> +
-> +	sd = &ov4689->subdev;
-> +	v4l2_i2c_subdev_init(sd, client, &ov4689_subdev_ops);
-> +	ret = ov4689_initialize_controls(ov4689);
-> +	if (ret)
-> +		goto err_destroy_mutex;
-> +
-> +	ret = ov4689_power_on(dev);
-> +	if (ret)
-> +		goto err_free_handler;
-> +
-> +	ret = ov4689_check_sensor_id(ov4689, client);
-> +	if (ret)
-> +		goto err_power_off;
-> +
-> +#ifdef CONFIG_VIDEO_V4L2_SUBDEV_API
-> +	sd->internal_ops = &ov4689_internal_ops;
-> +	sd->flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
-> +#endif
-> +#if defined(CONFIG_MEDIA_CONTROLLER)
-> +	ov4689->pad.flags = MEDIA_PAD_FL_SOURCE;
-> +	sd->entity.function = MEDIA_ENT_F_CAM_SENSOR;
-> +	ret = media_entity_pads_init(&sd->entity, 1, &ov4689->pad);
-> +	if (ret < 0)
-> +		goto err_power_off;
-> +#endif
-> +
-> +	ret = v4l2_async_register_subdev_sensor(sd);
-> +	if (ret) {
-> +		dev_err(dev, "v4l2 async register subdev failed\n");
-> +		goto err_clean_entity;
-> +	}
-> +
-> +	pm_runtime_set_active(dev);
-> +	pm_runtime_enable(dev);
-> +	pm_runtime_idle(dev);
-> +
-> +	return 0;
-> +
-> +err_clean_entity:
-> +	media_entity_cleanup(&sd->entity);
-> +err_power_off:
-> +	ov4689_power_off(dev);
-> +err_free_handler:
-> +	v4l2_ctrl_handler_free(&ov4689->ctrl_handler);
-> +err_destroy_mutex:
-> +	mutex_destroy(&ov4689->mutex);
-> +
-> +	return ret;
-> +}
-
-[...]
-
+-- 
+Ricardo Ribalda
