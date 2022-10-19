@@ -2,221 +2,375 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1BD0E6037A2
-	for <lists+linux-media@lfdr.de>; Wed, 19 Oct 2022 03:45:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3D8C96037FA
+	for <lists+linux-media@lfdr.de>; Wed, 19 Oct 2022 04:22:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229760AbiJSBpY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 18 Oct 2022 21:45:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51898 "EHLO
+        id S229774AbiJSCWu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 18 Oct 2022 22:22:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34510 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229613AbiJSBpW (ORCPT
+        with ESMTP id S229610AbiJSCWt (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 18 Oct 2022 21:45:22 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7A2D678214;
-        Tue, 18 Oct 2022 18:45:21 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 01CFB5A4;
-        Wed, 19 Oct 2022 03:45:17 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1666143918;
-        bh=4fpsRQyvNiBfjUNmuJ+PHujTa19ZfHlaYVQUh6HbBQA=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=v9T4YHk/c8m4qLkVt51WcMehO1+m2JpUkgaWpsXL/v618IM1Kyl1mANgn899kE3Nd
-         RqS/Xn4LKZ1NdlBhQ3cGOJtPb5r4UUS4iV8xyhB/p9GyBm+jAEOLYn1IQeutrJNrP0
-         eChmmte0Ul3I+tn6lkQM1e98nZ6nUMhcx6XQhzmE=
-Date:   Wed, 19 Oct 2022 04:44:53 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Ricardo Ribalda <ribalda@chromium.org>
-Cc:     Alan Stern <stern@rowland.harvard.edu>,
-        Nazar Mokrynskyi <nazar@mokrynskyi.com>,
-        linux-media@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux@roeck-us.net, Tomasz Figa <tfiga@chromium.org>
-Subject: Re: [Bug 216543] kernel NULL pointer dereference
- usb_hcd_alloc_bandwidth
-Message-ID: <Y09WlZwb270lHPkv@pendragon.ideasonboard.com>
-References: <bug-216543-208809@https.bugzilla.kernel.org/>
- <bug-216543-208809-AR52CPrAl3@https.bugzilla.kernel.org/>
- <Y03IXMGpZ2fCof2k@rowland.harvard.edu>
- <CANiDSCuiYCNM+6F2+3efps2uR_Q+p-oBSu-gVmY6ygf4_1U49Q@mail.gmail.com>
- <Y07AAmc2QnP5HiBg@pendragon.ideasonboard.com>
- <CANiDSCsSn=UJfCt6shy8htGXAPyeEceVzKva3eD+YxhC3YVmxA@mail.gmail.com>
+        Tue, 18 Oct 2022 22:22:49 -0400
+Received: from mail-qk1-x72d.google.com (mail-qk1-x72d.google.com [IPv6:2607:f8b0:4864:20::72d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8B004B03F7
+        for <linux-media@vger.kernel.org>; Tue, 18 Oct 2022 19:22:47 -0700 (PDT)
+Received: by mail-qk1-x72d.google.com with SMTP id d13so9914453qko.5
+        for <linux-media@vger.kernel.org>; Tue, 18 Oct 2022 19:22:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=f5CsfMItzKX6acLzl11vwpPmN1BA6KZvOi/g9HYGupc=;
+        b=kMc5LprrewGysF1s2VpBZcvnjphOAwA7+kybpYRcFEWYm54blGw1G8STnbfC55Crzl
+         2yK2ON7K6AqR9Kja/8wxEk3Xxs8fgGI3GhkM4Et0CfIfa31enUuAbDJ2PgVPlnaktL3U
+         JcZsNbCEsOXV89/UUcgrWr3r4uXkc0WvJQsew7pK56f+BMne9GiuyceamCdqcKtYZp2h
+         LXh785ZBLib+vrqBd2RXE/rtlbLf/39YYCb3JuLpRm2+WPkhIhFcgyQr3mrnVIQhJnFX
+         N6XFOf+0ssJUsjL1Ad7bBxWz6SeRO+b//8JzhXEEC1pwo6twYG56eBY5GvpLsnQQf8K+
+         1lqQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=f5CsfMItzKX6acLzl11vwpPmN1BA6KZvOi/g9HYGupc=;
+        b=knh9NTsL+JGHAyn61+cdA0sGMTVO3Uo43tCkknO2nTDFLgTlgv1m8rE+aLyKgDwIxo
+         899YDUWM7YHrNCJmI4z5F6i8wdLEEk0UWmZrl6KWjKSFRsBrFJtK4JQTEWMB8cL66gSk
+         W3X5tW3+X8dEj/+3cOhD7ad9J/JkcN2pbAkqnzOGMkR5n9lRY8vdmmyYWX6zn3riPGew
+         TJMAZGrNp2i4J+txwGQaKAlaCfvP7i59Llbbhq1+9/OoX+6HdQtZ0dJYXAWf5J+VLhMV
+         xqPHExBHbl/4gCBmgNZHTP3YDe+mfLqlrBsEU90UXw/XwaChIduHktLzVFljQ+Zpvdyd
+         fEyA==
+X-Gm-Message-State: ACrzQf2Vg/6Q2IrCuhPzVmr6bhYrTfO1HNGYj8tNNukaUQB4lt1UP1A2
+        yUK4NSghBkDXtFMLq42r5U1zLg==
+X-Google-Smtp-Source: AMsMyM6uVdKLG4NIIPMBI98DpCK7zNjCjvx2I/NLmYcUwGs9TcIY9oeuihKO/MG7smwrBx0tumL4jQ==
+X-Received: by 2002:a05:620a:17a9:b0:6ee:d5b6:e35c with SMTP id ay41-20020a05620a17a900b006eed5b6e35cmr3929738qkb.728.1666146166621;
+        Tue, 18 Oct 2022 19:22:46 -0700 (PDT)
+Received: from [192.168.10.124] (pool-72-83-177-149.washdc.east.verizon.net. [72.83.177.149])
+        by smtp.gmail.com with ESMTPSA id b14-20020ac844ce000000b003434d3b5938sm3082694qto.2.2022.10.18.19.22.44
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 18 Oct 2022 19:22:45 -0700 (PDT)
+Message-ID: <7e05ad85-9887-75b6-f96d-c3ef02d9b717@linaro.org>
+Date:   Tue, 18 Oct 2022 22:22:43 -0400
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CANiDSCsSn=UJfCt6shy8htGXAPyeEceVzKva3eD+YxhC3YVmxA@mail.gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.0
+Subject: Re: [PATCH v6, 1/8] dt-bindings: media: mediatek: vcodec: Adds
+ encoder cores dt-bindings for mt8195
+Content-Language: en-US
+To:     Irui Wang <irui.wang@mediatek.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Tzung-Bi Shih <tzungbi@chromium.org>,
+        angelogioacchino.delregno@collabora.com,
+        nicolas.dufresne@collabora.com,
+        Tiffany Lin <tiffany.lin@mediatek.com>
+Cc:     Yunfei Dong <yunfei.dong@mediatek.com>,
+        Maoguang Meng <maoguang.meng@mediatek.com>,
+        Longfei Wang <longfei.wang@mediatek.com>,
+        Project_Global_Chrome_Upstream_Group@mediatek.com,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org
+References: <20221001031737.18266-1-irui.wang@mediatek.com>
+ <20221001031737.18266-2-irui.wang@mediatek.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20221001031737.18266-2-irui.wang@mediatek.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Ricardo,
-
-On Wed, Oct 19, 2022 at 10:35:00AM +0900, Ricardo Ribalda wrote:
-> On Wed, 19 Oct 2022 at 00:02, Laurent Pinchart wrote:
-> > On Tue, Oct 18, 2022 at 02:40:44PM +0900, Ricardo Ribalda wrote:
-> > > Hi
-> > >
-> > > Guenter already provided some patches to fix this issue:
-> > > https://lore.kernel.org/lkml/20200917022547.198090-1-linux@roeck-us.net/
-> > >
-> > > Until we have a solution on the core (or rewrite the kernel in rust
-> > > ;P) , I think we should merge them (or something similar).
-> > >
-> > > I can prepare a patchset merging Guenter set and my "grannular PM"
-> > > https://lore.kernel.org/linux-media/20220920-resend-powersave-v1-0-123aa2ba3836@chromium.org/
-> >
-> > How about working on a proper fix instead ? :-)
+On 30/09/2022 23:17, Irui Wang wrote:
+> mt8195 has two H264 encoder hardware, which are named core0 and core1.
+> The two encoder cores are independent, we can just enable one core to
+> do encoding or enable both of them to achieve higher performance. We
+> pick core0 as main device and core1 as its subdevice, it just a way to
+> to manage the two encoder hardware, because they are two equal encoder
+> hardware with the same function.
 > 
-> We already have a fix that has been extensively tested ;P
+
+You have redundant dt-bindings (second one) in the subject. Drop it.
+
+> Signed-off-by: Irui Wang <irui.wang@mediatek.com>
+> ---
+>  .../media/mediatek,vcodec-encoder-core.yaml   | 217 ++++++++++++++++++
+>  .../media/mediatek,vcodec-encoder.yaml        |   1 -
+>  2 files changed, 217 insertions(+), 1 deletion(-)
+>  create mode 100644 Documentation/devicetree/bindings/media/mediatek,vcodec-encoder-core.yaml
 > 
-> When put on top of granular PM it is a tiny patch:
-> https://git.kernel.org/pub/scm/linux/kernel/git/ribalda/linux.git/commit/?h=b4/resend-powersave&id=cf826010bedda38f8faf8d072f95a9ca69ed452d
-> that can be cleanly reverted when/if we fix it in core.
-> 
-> I would like to avoid that more and more people/distros have
-> downstream patches on top of uvc to fix real issues just because we
-> think that it is not the "perfect" solution.
+> diff --git a/Documentation/devicetree/bindings/media/mediatek,vcodec-encoder-core.yaml b/Documentation/devicetree/bindings/media/mediatek,vcodec-encoder-core.yaml
+> new file mode 100644
+> index 000000000000..1dda7d7908da
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/mediatek,vcodec-encoder-core.yaml
+> @@ -0,0 +1,217 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +
+> +%YAML 1.2
+> +---
+> +$id: "http://devicetree.org/schemas/media/mediatek,vcodec-encoder-core.yaml#"
+> +$schema: "http://devicetree.org/meta-schemas/core.yaml#"
+> +
+> +title: MediaTek Video Encoder Accelerator With Multi Core
+> +
+> +maintainers:
+> +  - Irui Wang <irui.wang@mediatek.com>
+> +
+> +description: |
+> +  MediaTek Video Encoder is the video encoder hardware present in MediaTek
+> +  SoCs which supports high resolution encoding functionalities. To meet higher
+> +  encoder performance, there will be one or more encoder hardware inside SoC,
+> +  which named core0, core1, etc.. For example, mt8195 has two encoder hardware,
+> +  the two encoder cores block diagram, can check below.
+> +  --------------------------------------------------------------
+> +  Input frame  0     1     2     3     4     5     6
+> +               |     |     |     |     |     |     |
+> +               v     |     v     |     v     |     v
+> +           +-------+ | +-------+ | +-------+ | +-------+
+> +           | core0 | | | core0 | | | core0 | | | core0 |
+> +           +-------+ | +-------+ | +-------+ | +-------+
+> +               |     |     |     |     |     |     |
+> +               |     v     |     v     |     v     |
+> +               | +-------+ | +-------+ | +-------+ |
+> +               | | core1 | | | core1 | | | core1 | |
+> +               | +-------+ | +-------+ | +-------+ |
+> +               |     |     |     |     |     |     |
+> +               v     v     v     v     v     v     v    <parent>
+> +  --------------------------------------------------------------
+> +                            core || index               <child>
+> +                                 \/
+> +       +--------------------------------------------------+
+> +       |                     core0/core1                  |
+> +       |             enable/disable power/clk/irq         |
+> +       +--------------------------------------------------+
+> +  --------------------------------------------------------------
+> +  As above, there are two cores child devices, they are two encoder hardware
+> +  which can encode input frames in order. When start encoding, input frame 0
+> +  will be encoded by core0, and input frame 1 can be encoded by core1 even if
+> +  frame 0 has not been encoded done yet, after frame 0 encoded done, frame 2
+> +  will be encoded by core0, even input frames are encoded by core0 and odd
+> +  input frames are encoded by core1, these two encoder cores encode ench input
+> +  frames in this overlapping manner.
+> +
+> +properties:
+> +  compatible:
+> +    items:
 
-And I would like to avoid having to roll out manual changes to all
-drivers when the problem can be fixed in the core, just because nobody
-can be bothered to spend time to implement a good fix. We don't have to
-aim for a solution at the cdev level if that takes too long, an
-implementation in V4L2 would be enough to start with.
+Drop items (you have only one item).
 
-I'm getting tired of having to reexplain this continuously with nobody
-listening. This could have been solved a long time ago.
+> +      - enum:
+> +          - mediatek,mt8195-vcodec-enc
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  mediatek,scp:
+> +    $ref: /schemas/types.yaml#/definitions/phandle
+> +    description: |
+> +      The node of system control processor (SCP), using
+> +      the remoteproc & rpmsg framework.
+> +
+> +  iommus:
+> +    minItems: 1
+> +    maxItems: 32
+> +    description: |
+> +      List of the hardware port in respective IOMMU block for current Socs.
+> +      Refer to bindings/iommu/mediatek,iommu.yaml.
 
-> Would you please take a second look at the combined patchset?
+Drop the path, is rather obvious (and actually not correct, because it
+misses include).
 
-I will have a look. If I recall correctly, there were some patches in
-Guenter's series that I had no issue with, I'll start with those.
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    maxItems: 1
+> +
+> +  clock-names:
+> +    maxItems: 1
+> +
+> +  power-domains:
+> +    maxItems: 1
+> +
+> +  dma-ranges:
+> +    maxItems: 1
+> +    description: |
+> +      Describes the physical address space of IOMMU maps to memory.
+> +
+> +  "#address-cells":
+> +    const: 2
+> +
+> +  "#size-cells":
+> +    const: 2
+> +
+> +  ranges: true
+> +
+> +# Required child node:
+> +patternProperties:
+> +  "^venc-core@[0-9a-f]+$":
 
-> > > It can always be reverted when we reach consensus on how to do it for
-> > > every driver.
-> > >
-> > > Regards!
-> > >
-> > > On Tue, 18 Oct 2022 at 06:46, Alan Stern wrote:
-> > > >
-> > > > Moving this bug report from bugzilla to the mailing lists.
-> > > >
-> > > > The short description of the bug is that in uvcvideo, disconnect races
-> > > > with starting a video transfer.  The race shows up on Nazar's system
-> > > > because of a marginal USB cable which leads to a lot of spontaneous
-> > > > disconnections.
-> > > >
-> > > > On Mon, Oct 17, 2022 at 05:59:48PM +0000, bugzilla-daemon@kernel.org wrote:
-> > > > > https://bugzilla.kernel.org/show_bug.cgi?id=216543
-> > > > >
-> > > > > --- Comment #7 from Nazar Mokrynskyi (nazar@mokrynskyi.com) ---
-> > > > > Created attachment 303022
-> > > > >   --> https://bugzilla.kernel.org/attachment.cgi?id=303022&action=edit
-> > > > > Kernel log with uvc-trace patch applied
-> > > >
-> > > > For everyone's information, here is the uvc-trace patch.  All it does is
-> > > > add messages to the kernel log when uvcvideo's probe and disconnect
-> > > > routines run, and just before uvc_video_start_transfer() calls
-> > > > usb_set_interface().
-> > > >
-> > > > --- usb-devel/drivers/media/usb/uvc/uvc_video.c
-> > > > +++ usb-devel/drivers/media/usb/uvc/uvc_video.c
-> > > > @@ -1965,6 +1965,7 @@ static int uvc_video_start_transfer(stru
-> > > >                         "Selecting alternate setting %u (%u B/frame bandwidth)\n",
-> > > >                         altsetting, best_psize);
-> > > >
-> > > > +               dev_info(&intf->dev, "uvc set alt\n");
-> > > >                 ret = usb_set_interface(stream->dev->udev, intfnum, altsetting);
-> > > >                 if (ret < 0)
-> > > >                         return ret;
-> > > > --- usb-devel/drivers/media/usb/uvc/uvc_driver.c
-> > > > +++ usb-devel/drivers/media/usb/uvc/uvc_driver.c
-> > > > @@ -2374,6 +2374,8 @@ static int uvc_probe(struct usb_interfac
-> > > >         int function;
-> > > >         int ret;
-> > > >
-> > > > +       dev_info(&intf->dev, "uvc_probe start\n");
-> > > > +
-> > > >         /* Allocate memory for the device and initialize it. */
-> > > >         dev = kzalloc(sizeof(*dev), GFP_KERNEL);
-> > > >         if (dev == NULL)
-> > > > @@ -2535,6 +2537,7 @@ static void uvc_disconnect(struct usb_in
-> > > >                 return;
-> > > >
-> > > >         uvc_unregister_video(dev);
-> > > > +       dev_info(&intf->dev, "uvc_disconnect done\n");
-> > > >         kref_put(&dev->ref, uvc_delete);
-> > > >  }
-> > > >
-> > > > The output in the kernel log below clearly shows that there is a bug in
-> > > > the uvcvideo driver.
-> > > >
-> > > > > I'm on 6.0.2 and seemingly get this even more frequently with good cable and no
-> > > > > extra adapters. So I patched 6.0.2 with uvc-trace above and reproduced it
-> > > > > within a few minutes.
-> > > > >
-> > > > > USB seems to reset, often camera stops or freezes in the browser, but the light
-> > > > > on the camera itself remains on. Sometimes I can enable/disable/enable camera
-> > > > > for it to reboot, but the last time I did that in the log I got null pointer
-> > > > > de-reference again.
-> > > >
-> > > > Here is the important part of the log:
-> > > >
-> > > > [  684.746848] usb 8-2.4.4: reset SuperSpeed USB device number 6 using xhci_hcd
-> > > > [  684.810979] uvcvideo 8-2.4.4:1.0: uvc_probe start
-> > > > [  684.811032] usb 8-2.4.4: Found UVC 1.00 device Logitech BRIO (046d:085e)
-> > > > [  684.843413] input: Logitech BRIO as /devices/pci0000:00/0000:00:08.1/0000:59:00.3/usb8/8-2/8-2.4/8-2.4.4/8-2.4.4:1.0/input/input43
-> > > > [  684.911255] usb 8-2.4.4: current rate 16000 is different from the runtime rate 24000
-> > > > ...
-> > > > [  743.800368] uvcvideo 8-2.4.4:1.1: uvc set alt
-> > > >
-> > > > This is where an ioctl calls uvc_video_start_transfer.
-> > > >
-> > > > [  748.654701] usb 8-2.4.4: USB disconnect, device number 6
-> > > > [  748.714355] uvcvideo 8-2.4.4:1.0: uvc_disconnect done
-> > > >
-> > > > This is where the disconnect starts and finishes
-> > > >
-> > > > [  748.898340] BUG: kernel NULL pointer dereference, address: 0000000000000000
-> > > > [  748.898344] #PF: supervisor read access in kernel mode
-> > > > [  748.898346] #PF: error_code(0x0000) - not-present page
-> > > > [  748.898347] PGD 0 P4D 0
-> > > > [  748.898349] Oops: 0000 [#1] PREEMPT SMP NOPTI
-> > > > [  748.898351] CPU: 16 PID: 11890 Comm: VideoCapture Not tainted 6.0.2-x64v2-uvc-trace-xanmod1 #1
-> > > > [  748.898353] Hardware name: Gigabyte Technology Co., Ltd. B550 VISION D/B550 VISION D, BIOS F15d 07/20/2022
-> > > > [  748.898354] RIP: 0010:usb_ifnum_to_if+0x35/0x60
-> > > > ...
-> > > > [  748.898368] Call Trace:
-> > > > [  748.898370]  <TASK>
-> > > > [  748.898370]  usb_hcd_alloc_bandwidth+0x240/0x370
-> > > > [  748.898375]  usb_set_interface+0x122/0x350
-> > > > [  748.898378]  uvc_video_start_transfer.cold+0xd8/0x2ae [uvcvideo]
-> > > > [  748.898383]  uvc_video_start_streaming+0x75/0xd0 [uvcvideo]
-> > > > [  748.898386]  uvc_start_streaming+0x25/0xe0 [uvcvideo]
-> > > > [  748.898390]  vb2_start_streaming+0x86/0x140 [videobuf2_common]
-> > > > [  748.898393]  vb2_core_streamon+0x57/0xc0 [videobuf2_common]
-> > > > [  748.898395]  uvc_queue_streamon+0x25/0x40 [uvcvideo]
-> > > > [  748.898398]  uvc_ioctl_streamon+0x35/0x60 [uvcvideo]
-> > > > [  748.898401]  __video_do_ioctl+0x19a/0x3f0 [videodev]
-> > > >
-> > > > And this proves that uvc_disconnect() returned before the driver was
-> > > > finished accessing the device.
-> > > >
-> > > > I don't know how the driver works or how it tries to prevent this sort
-> > > > of race from occurring, but apparently the strategy isn't working.
-> > > >
-> > > > > Please let me know if there is any other information I can provide and what
-> > > > > could be the root cause of this annoying behavior.
-> > > >
-> > > > At this point I will bow out of the discussion; it's up to the uvcvideo
-> > > > maintainers to investigate further.  Maybe they can provide a patch for
-> > > > you to test.
+Didn't we have a big discussion that these should be called differently?
+Maybe the hardware is different... but maybe not.
 
--- 
-Regards,
+https://lore.kernel.org/all/20220930112237.14411-2-allen-kh.cheng@mediatek.com/
 
-Laurent Pinchart
+> +    type: object
+> +    description: |
+> +      The video encoder core device node which should be added as subnodes to
+> +      the main venc node, it represents a encoder hardware.
+> +
+> +    properties:
+> +      compatible:
+> +        const: mediatek,mtk-venc-hw
+> +
+> +      reg:
+> +        maxItems: 1
+> +
+> +      mediatek,hw-id:
+> +        $ref: /schemas/types.yaml#/definitions/uint32
+> +        description: |
+> +          Current encoder core id. We use it to pick which one encoder core
+> +          will be used to encoding current input frame.
+
+Isn't this coming from unit address? Why do you need some ID?
+
+> +
+> +      iommus:
+> +        minItems: 1
+> +        maxItems: 32
+> +        description: |
+> +          List of the hardware port in respective IOMMU block for current Socs.
+> +          Refer to bindings/iommu/mediatek,iommu.yaml.
+
+Also drop last line.
+
+> +
+> +      interrupts:
+> +        maxItems: 1
+> +
+> +      clocks:
+> +        maxItems: 1
+> +
+> +      clock-names:
+> +        maxItems: 1
+> +
+> +      power-domains:
+> +        maxItems: 1
+> +
+> +    required:
+> +      - compatible
+> +      - reg
+> +      - mediatek,hw-id
+> +      - iommus
+> +      - interrupts
+> +      - clocks
+> +      - clock-names
+> +      - assigned-clocks
+> +      - assigned-clock-parents
+> +      - power-domains
+> +
+> +    additionalProperties: false
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - mediatek,scp
+> +  - iommus
+> +  - interrupts
+> +  - clocks
+> +  - clock-names
+> +  - dma-ranges
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +    #include <dt-bindings/memory/mt8195-memory-port.h>
+> +    #include <dt-bindings/interrupt-controller/irq.h>
+> +    #include <dt-bindings/clock/mt8195-clk.h>
+> +    #include <dt-bindings/power/mt8195-power.h>
+> +
+> +    soc {
+> +        #address-cells = <2>;
+> +        #size-cells = <2>;
+> +
+> +        venc: venc@1a020000 {
+
+Node names should be generic.
+https://devicetree-specification.readthedocs.io/en/latest/chapter2-devicetree-basics.html#generic-names-recommendation
+
+> +            compatible = "mediatek,mt8195-vcodec-enc";
+> +            reg = <0 0x1a020000 0 0x10000>;
+> +            mediatek,scp = <&scp>;
+> +            iommus = <&iommu_vdo M4U_PORT_L19_VENC_RCPU>,
+> +                     <&iommu_vdo M4U_PORT_L19_VENC_REC>,
+> +                     <&iommu_vdo M4U_PORT_L19_VENC_BSDMA>,
+> +                     <&iommu_vdo M4U_PORT_L19_VENC_SV_COMV>,
+> +                     <&iommu_vdo M4U_PORT_L19_VENC_RD_COMV>,
+> +                     <&iommu_vdo M4U_PORT_L19_VENC_CUR_LUMA>,
+> +                     <&iommu_vdo M4U_PORT_L19_VENC_CUR_CHROMA>,
+> +                     <&iommu_vdo M4U_PORT_L19_VENC_REF_LUMA>,
+> +                     <&iommu_vdo M4U_PORT_L19_VENC_REF_CHROMA>;
+> +            interrupts = <GIC_SPI 341 IRQ_TYPE_LEVEL_HIGH 0>;
+> +            clocks = <&vencsys CLK_VENC_VENC>;
+> +            clock-names = "clk_venc";
+> +            power-domains = <&spm MT8195_POWER_DOMAIN_VENC>;
+> +            dma-ranges = <0x1 0x0 0x0 0x40000000 0x0 0xfff00000>;
+> +            #address-cells = <2>;
+> +            #size-cells = <2>;
+> +            ranges;
+> +
+> +            venc-core@1b020000 {
+> +                compatible = "mediatek,mtk-venc-hw";
+> +                reg = <0 0x1b020000 0 0x10000>;
+> +                mediatek,hw-id = <1>;
+> +                iommus = <&iommu_vpp M4U_PORT_L20_VENC_RCPU>,
+> +                         <&iommu_vpp M4U_PORT_L20_VENC_REC>,
+> +                         <&iommu_vpp M4U_PORT_L20_VENC_BSDMA>,
+> +                         <&iommu_vpp M4U_PORT_L20_VENC_SV_COMV>,
+> +                         <&iommu_vpp M4U_PORT_L20_VENC_RD_COMV>,
+> +                         <&iommu_vpp M4U_PORT_L20_VENC_CUR_LUMA>,
+> +                         <&iommu_vpp M4U_PORT_L20_VENC_CUR_CHROMA>,
+> +                         <&iommu_vpp M4U_PORT_L20_VENC_REF_LUMA>,
+> +                         <&iommu_vpp M4U_PORT_L20_VENC_REF_CHROMA>;
+> +                interrupts = <GIC_SPI 346 IRQ_TYPE_LEVEL_HIGH 0>;
+> +                clocks = <&vencsys_core1 CLK_VENC_CORE1_VENC>;
+> +                clock-names = "clk_venc_core1";
+> +                assigned-clocks = <&topckgen CLK_TOP_VENC>;
+> +                assigned-clock-parents = <&topckgen CLK_TOP_UNIVPLL_D4>;
+> +                power-domains = <&spm MT8195_POWER_DOMAIN_VENC_CORE1>;
+> +            };
+> +        };
+> +    };
+> diff --git a/Documentation/devicetree/bindings/media/mediatek,vcodec-encoder.yaml b/Documentation/devicetree/bindings/media/mediatek,vcodec-encoder.yaml
+> index 32aee09aea33..f5f79efe3ba3 100644
+> --- a/Documentation/devicetree/bindings/media/mediatek,vcodec-encoder.yaml
+> +++ b/Documentation/devicetree/bindings/media/mediatek,vcodec-encoder.yaml
+> @@ -22,7 +22,6 @@ properties:
+>        - mediatek,mt8183-vcodec-enc
+>        - mediatek,mt8188-vcodec-enc
+>        - mediatek,mt8192-vcodec-enc
+> -      - mediatek,mt8195-vcodec-enc
+
+Why? Commit msg did not explain this to me.
+
+>  
+>    reg:
+>      maxItems: 1
+
+Best regards,
+Krzysztof
+
