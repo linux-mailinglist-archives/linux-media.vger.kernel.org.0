@@ -2,64 +2,65 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BEEF5605401
-	for <lists+linux-media@lfdr.de>; Thu, 20 Oct 2022 01:34:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D4940605472
+	for <lists+linux-media@lfdr.de>; Thu, 20 Oct 2022 02:22:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230263AbiJSXew (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 19 Oct 2022 19:34:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56408 "EHLO
+        id S230024AbiJTAWV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 19 Oct 2022 20:22:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49120 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229747AbiJSXeu (ORCPT
+        with ESMTP id S229958AbiJTAWT (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 19 Oct 2022 19:34:50 -0400
-Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com [IPv6:2a00:1450:4864:20::236])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 220A54C03B;
-        Wed, 19 Oct 2022 16:34:44 -0700 (PDT)
-Received: by mail-lj1-x236.google.com with SMTP id b18so24125805ljr.13;
-        Wed, 19 Oct 2022 16:34:44 -0700 (PDT)
+        Wed, 19 Oct 2022 20:22:19 -0400
+Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com [IPv6:2a00:1450:4864:20::12b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D47101ACA8A;
+        Wed, 19 Oct 2022 17:22:16 -0700 (PDT)
+Received: by mail-lf1-x12b.google.com with SMTP id r14so30868753lfm.2;
+        Wed, 19 Oct 2022 17:22:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=mime-version:message-id:in-reply-to:date:subject:cc:to:from
          :user-agent:references:from:to:cc:subject:date:message-id:reply-to;
-        bh=s10cQ+IVnX/uRPP9OVA0Ehyftkbjlu/NdMFx5DN2opU=;
-        b=HjUFhVrbw9YdfOKfrDALImppLfBktBqlEYTSzgXdUEf3Fmd4IM8fp0j0NGEiE0G4I1
-         U5WP4OQXE8Yhu/X6E7XNzz1bg2MaIlNgHhvji2oXlJcADs/5ZQ3LL16LFBnsA+YaKhVG
-         FwRgqMOMk0ZRrH7KQonaQdfRfLOD+wosH9xda/INUUiMquQsPTzcq4Ne+WZOyWAxxwhK
-         mSGNcVj2qPgfHiPZ4LLBwOZFty5uWCB9t/qTH21BknhvoT9BoEdR5/3ueAOBdM7ytngf
-         KhsbpS0CkNWy7MQfLXegm6b6IxuG6vvu9zH61UwWtuMGbcTDz8ccowUay4bL1BtabpiA
-         Yerw==
+        bh=asRY2X5Rr1Ewc67jDN1nohrzRfFAbG4o6G3cqJZFzEA=;
+        b=fGq0UO4ebAsVjQ/LfQ+2kjGelt7YwlXAos7pFqE8Hn2RXOqM1vRjA03Q195PYMTtXa
+         4BfYXV5LBdPFyc8weprAKlGvkYbrdaPTrS14KkIeKsUHeTjO6rJ2pSbAiJef8YkaunSW
+         pmRYEvH6rCi2UAzVCfLXiEBIv7uE+CrJvfnP+Ek2Be5eeYCBWh5Yj4C4GBxOT0Ja9ybK
+         ppZLMsMc6V0m8v0uJ1is27hXreKgbPiI+KJQ58hWmeoJx31mWb7cT279Mn4htIdELXuS
+         ZzxftIXABrG57R4J6LGq/ZRC82MW7ns/REGlAVK1qd719SwCv/o/gDhlFtcRIghm2gI9
+         XvFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=mime-version:message-id:in-reply-to:date:subject:cc:to:from
          :user-agent:references:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=s10cQ+IVnX/uRPP9OVA0Ehyftkbjlu/NdMFx5DN2opU=;
-        b=086iQDr46iLRBJyWiIvs76SJiU/SxSFbeFz7uWYbhKy1fwoKO/2OozaadYwmr+jepH
-         q9r6rNAZfu9WV4KwChvUsTAcHbXNlLO3uXU/x0LsWCw+dAO1hi9T+03K8jogirV/idEf
-         9hd6N4NCKLXxj0MgD73f38c/gjU5lDHdDWWyshP9IOzt684us4UEz6+F9APqiGwdQwMh
-         W1H7/5FKvTlMghPGMnF7J+cMg2oRyX5SQ5/yQiY7KqzKCi4upVv6R4oehnwv62pG5Eem
-         8JddVbMsVerAtW1OncifgSp5j4lG6w3ksVbtMnvu1ykPesrYkWlKe5FMM7v2oLQDUYVP
-         mvFw==
-X-Gm-Message-State: ACrzQf0/79QYPP2TKGt9uto6XSfuCYierU5ktx0noCNJ8xVIzf02+KvB
-        Sz/ZgLS70sqh+dvjNDGuPmQ0SKPLpItKGQ==
-X-Google-Smtp-Source: AMsMyM59jHwS9SFPFNm+zV5P6+EB5ehjtg0VjEzvPNVkHZmVO34ZmdDT45/KKfOh3ryQwO7EBFUh4g==
-X-Received: by 2002:a2e:b0f8:0:b0:26e:3bb:1099 with SMTP id h24-20020a2eb0f8000000b0026e03bb1099mr3624614ljl.441.1666222482538;
-        Wed, 19 Oct 2022 16:34:42 -0700 (PDT)
+        bh=asRY2X5Rr1Ewc67jDN1nohrzRfFAbG4o6G3cqJZFzEA=;
+        b=NdWoBeTjykQxbpaQdHIiabutOQeLIaauPo9TRwZYXehOpjdaNQnT1UB9xUHUqryQHb
+         SfKJEA3nPH+j4FBsXleLNEupPrKIEhs4lXfdhIJ5u2i2h9sRmp4kQkUCWktujL/JJpMF
+         aF8pR58n/hGqcPRqx4jZu4nkh+UgCrDg0SN1xhKqw6mA50MXFgeAPhJmn6565hjaKoGm
+         u+QSCR17IAFOqshWS4ATsCdrLnOGf5O7u2+ATdAeaKNgLJu1QFF0J1aiCQJ3IUUhI8Bd
+         dOmktrgU+Y5fP6cBTt55mUnLT1ECh687ifxYwnIheGNEeS8UFsOXrJ6ewTYII/ilmdYD
+         vrpw==
+X-Gm-Message-State: ACrzQf1YiH/b7tv35ga81UiMESdk5lamWSnDCCzdE+FStAegB23R8lNh
+        HV9ZPatXtSsYY7YHxFhhfQWieetnXlaTWg==
+X-Google-Smtp-Source: AMsMyM6ZL0F8sg6jWGE5fLxM/CYjmcaJ7th56MRtstuXLN6dFiht+jNCTyL58qiz/SZk13fa+L07hA==
+X-Received: by 2002:a05:6512:12c4:b0:4a2:5598:f6a2 with SMTP id p4-20020a05651212c400b004a25598f6a2mr3656039lfg.409.1666225334397;
+        Wed, 19 Oct 2022 17:22:14 -0700 (PDT)
 Received: from razdolb (95-31-187-187.broadband.corbina.ru. [95.31.187.187])
-        by smtp.gmail.com with ESMTPSA id d9-20020a056512368900b0048b0696d0b1sm2472750lfs.90.2022.10.19.16.34.40
+        by smtp.gmail.com with ESMTPSA id g22-20020a2eb5d6000000b0026de1bf528esm2598912ljn.119.2022.10.19.17.22.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Oct 2022 16:34:41 -0700 (PDT)
+        Wed, 19 Oct 2022 17:22:13 -0700 (PDT)
 References: <20220927222152.132951-1-mike.rudenko@gmail.com>
  <20220927222152.132951-3-mike.rudenko@gmail.com>
- <Y0+0D+8DuVR2Nk+k@paasikivi.fi.intel.com>
+ <20221018175844.737kplwsvbhe4qut@uno.localdomain>
 User-agent: mu4e 1.9.0; emacs 28.2
 From:   Mikhail Rudenko <mike.rudenko@gmail.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Jacopo Mondi <jacopo@jmondi.org>
 Cc:     Tommaso Merciai <tommaso.merciai@amarulasolutions.com>,
         Dave Stevenson <dave.stevenson@raspberrypi.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
         Hans Verkuil <hverkuil@xs4all.nl>,
         Shawn Tu <shawnx.tu@intel.com>,
         Randy Dunlap <rdunlap@infradead.org>,
@@ -69,14 +70,14 @@ Cc:     Tommaso Merciai <tommaso.merciai@amarulasolutions.com>,
         Jimmy Su <jimmy.su@intel.com>, linux-media@vger.kernel.org,
         devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
 Subject: Re: [PATCH v3 2/2] media: i2c: add support for OV4689
-Date:   Thu, 20 Oct 2022 02:13:23 +0300
-In-reply-to: <Y0+0D+8DuVR2Nk+k@paasikivi.fi.intel.com>
-Message-ID: <87v8of1j73.fsf@gmail.com>
+Date:   Thu, 20 Oct 2022 02:34:54 +0300
+In-reply-to: <20221018175844.737kplwsvbhe4qut@uno.localdomain>
+Message-ID: <87mt9rz6mj.fsf@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-Spam-Status: No, score=-0.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,PDS_OTHER_BAD_TLD,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=no
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -85,15 +86,13 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 
-Hi Sakari,
+Hi Jacopo,
 
-Thanks for the review! See my comment below.
+Thanks for the review! See my comments below.
 
-On 2022-10-19 at 08:23 GMT, Sakari Ailus <sakari.ailus@linux.intel.com> wrote:
+On 2022-10-18 at 19:58 +02, Jacopo Mondi <jacopo@jmondi.org> wrote:
 
-> Hi Mikhail,
->
-> Thanks for the update. A few small matters below...
+> Hi Mikhail
 >
 > On Wed, Sep 28, 2022 at 01:21:34AM +0300, Mikhail Rudenko wrote:
 >> Add a V4L2 sub-device driver for OmniVision OV4689 image sensor. This
@@ -144,12 +143,6 @@ On 2022-10-19 at 08:23 GMT, Sakari Ailus <sakari.ailus@linux.intel.com> wrote:
 >> +config VIDEO_OV4689
 >> +	tristate "OmniVision OV4689 sensor support"
 >> +	depends on OF
->
-> You could drop the OF dependency here.
->
-
-Will do in v4.
-
 >> +	depends on GPIOLIB && VIDEO_DEV && I2C
 >> +	select MEDIA_CONTROLLER
 >> +	select VIDEO_V4L2_SUBDEV_API
@@ -187,6 +180,12 @@ Will do in v4.
 >> + * ov4689 driver
 >> + *
 >> + * Copyright (C) 2017 Fuzhou Rockchip Electronics Co., Ltd.
+>
+> Maybe you want your copyright too ?
+>
+
+Looks like a good idea. Will update copyright in v4.
+
 >> + */
 >> +
 >> +#include <linux/clk.h>
@@ -194,6 +193,20 @@ Will do in v4.
 >> +#include <linux/delay.h>
 >> +#include <linux/gpio/consumer.h>
 >> +#include <linux/i2c.h>
+>
+> Maybe
+> #include <linux/mod_devicetable.h>
+>
+> for of_device_id
+>
+> (maybe you can drop linux/device.h with this)
+>
+
+I tried just dropping linux/device.h, and got no compile errors. Looks
+like linux/mod_devicetable.h is included via linux/i2c.h. So what is
+better: drop device.h and add mod_devicetable.h as you suggest, or just
+drop device.h?
+
 >> +#include <linux/module.h>
 >> +#include <linux/pm_runtime.h>
 >> +#include <linux/regulator/consumer.h>
@@ -273,6 +286,16 @@ Will do in v4.
 >> +	struct gpio_desc *reset_gpio;
 >> +	struct gpio_desc *pwdn_gpio;
 >> +	struct regulator_bulk_data supplies[ARRAY_SIZE(ov4689_supply_names)];
+>
+> You use ARRAY_SIZE(ov4689_supply_names) in multiple places, maybe you
+> can define it (I know Sakari sometimes suggests against this, so if
+> you changed this because of his comment feel free to ignore mine, it's
+> not necessary to go back and forth).
+>
+
+This was made this way in v3 following Sakari's suggestion, so leaving
+it as is for now.
+
 >> +
 >> +	struct v4l2_subdev subdev;
 >> +	struct media_pad pad;
@@ -628,13 +651,6 @@ Will do in v4.
 >> +		sel->r.left = 16;
 >> +		sel->r.width = 2688;
 >> +		sel->r.height = 1520;
->
-> Could these values come from the sensor mode?
->
-
-I think yes, especially having in mind that more modes will probably
-come in future. So I'll move these constants to ov4689_mode in v4.
-
 >> +		return 0;
 >> +	}
 >> +	return -EINVAL;
@@ -696,13 +712,6 @@ come in future. So I'll move these constants to ov4689_mode in v4.
 >> +static inline u32 ov4689_cal_delay(struct ov4689 *ov4689, u32 cycles)
 >> +{
 >> +	return DIV_ROUND_UP(cycles, ov4689->clock_rate / 1000 / 1000);
->
-> The clock frequency gets rounded down here. You might end up with a shorter
-> delay than intended.
->
-
-I see, will fix in v4.
-
 >> +}
 >> +
 >> +static int __maybe_unused ov4689_power_on(struct device *dev)
@@ -721,17 +730,6 @@ I see, will fix in v4.
 >> +	gpiod_set_value_cansleep(ov4689->reset_gpio, 1);
 >> +
 >> +	ret = regulator_bulk_enable(ARRAY_SIZE(ov4689_supply_names), ov4689->supplies);
->
-> Please run:
->
-> $ ./scripts/checkpatch.pl --strict --max-line-length=80
->
-> on the patch.
->
-
-Thanks, looks like I missed the max-line-length part before
-submitting. Will fix in v4.
-
 >> +	if (ret < 0) {
 >> +		dev_err(dev, "Failed to enable regulators\n");
 >> +		goto disable_clk;
@@ -767,12 +765,6 @@ submitting. Will fix in v4.
 >> +}
 >> +
 >> +#ifdef CONFIG_VIDEO_V4L2_SUBDEV_API
->
-> You can remove these checks. The driver already selects this option.
->
-
-Will remove in v4.
-
 >> +static int ov4689_open(struct v4l2_subdev *sd, struct v4l2_subdev_fh *fh)
 >> +{
 >> +	struct ov4689 *ov4689 = to_ov4689(sd);
@@ -821,25 +813,41 @@ Will remove in v4.
 >> + * Map userspace (logical) gain to sensor (physical) gain using
 >> + * ov4689_gain_ranges table.
 >> + */
+>
+> Ah, I see quite some discussions on your previous version on this so
+> part..
+>
+> The design is very weird, so I'm afraid modeling that in userspace
+> might result in an implementation quite specific for this sensor, and
+> even if libcamera has camera sensor helpers so far we have modeled
+> there "generic" gain models, something I'm afraid this is not.
+>
+> Does the linearization work with the sensor gain format (0x3035 =
+> 0x04) or the real gain format (0x3035 = 0x00) ?
+>
+> Looking at your gain ranges you seem to map on the intervals of "real
+> gain format" according to the last plot you sent, but I see in the
+> driver 0x3035 being set to 0x04 at init time and not changed. Have I
+> missed that ?
+>
+
+This mapping uses [0x3503] = 0x4. Logical gain ranges (which are exposed
+to userspace) are set up this way to satisfy two conditions: (1)
+physical and logical gain are 1-to-1 mapping for 0x-2x range and (2)
+observed gain is linear in logical gain. Logical gain ranges are mapped
+to the ranges of physical (sensor) gain of approximately 128 units long
+(except the first one, which is 256 units long). The tests I ran with
+this driver show monotonic and almost linear gain from the userspace
+perspective, so I believe that present mapping implementation is
+correct.
+
+
 >> +static int ov4689_map_gain(struct ov4689 *ov4689, int logical_gain, int *result)
 >> +{
 >> +	int num_ranges = ARRAY_SIZE(ov4689_gain_ranges);
->
-> I'd say this would be cleaner if you used ARRAY_SIZE() below without this
-> temporary variable.
->
-
-Okay, will fix in v4.
-
 >> +	const struct device *dev = &ov4689->client->dev;
 >> +	const struct ov4689_gain_range *range;
 >> +	int n;
->
-> unsigned int, please.
->
-
-Will fix in v4.
-
 >> +
 >> +	for (n = 0; n < num_ranges; n++) {
 >> +		if (logical_gain >= ov4689_gain_ranges[n].logical_min &&
@@ -905,6 +913,16 @@ Will fix in v4.
 >> +				ov4689->client, OV4689_REG_GAIN_L,
 >> +				OV4689_REG_VALUE_08BIT,
 >> +				sensor_gain & OV4689_GAIN_L_MASK);
+>
+> I see also 0x3507[1:0] being documented as "Long gain[17:16]"
+>
+
+In this driver we never use gain register values above 2047, so 0x3507
+is always set to zero. This gives us analog gains up to 16x, which is
+sufficient for typical use cases. If someone needs to extend gain range,
+we could try to use greater register values, but that needs additional
+research.
+
 >> +		break;
 >> +	case V4L2_CID_VBLANK:
 >> +		ret = ov4689_write_reg(ov4689->client, OV4689_REG_VTS,
@@ -957,6 +975,12 @@ Will fix in v4.
 >> +			  mode->pixel_rate, 1, mode->pixel_rate);
 >> +
 >> +	h_blank_dev = mode->hts_def - mode->width;
+>
+> s/dev/def ?
+>
+
+Will rename in v4.
+
 >> +	ctrl = v4l2_ctrl_new_std(handler, NULL, V4L2_CID_HBLANK, h_blank_dev,
 >> +				 h_blank_dev, 1, h_blank_dev);
 >> +	if (ctrl)
@@ -965,6 +989,16 @@ Will fix in v4.
 >> +	vblank_def = mode->vts_def - mode->height;
 >> +	v4l2_ctrl_new_std(handler, &ov4689_ctrl_ops, V4L2_CID_VBLANK,
 >> +			  vblank_def, OV4689_VTS_MAX - mode->height, 1,
+>
+> Usually the minimum vertical blanking is smaller than the default you
+> have here calculated. Unfortunately is not always documented...
+>
+
+I've done some experiments with HTS and VTS, and when setting HTS to the
+minimum working value (886), reducing VTS below 1554 resulted in stream
+errors. So I'll prefer to stay on the safe side and leave minimum vblank
+as is.
+
 >> +			  vblank_def);
 >> +
 >> +	exposure_max = mode->vts_def - 4;
@@ -1052,6 +1086,24 @@ Will fix in v4.
 >> +			if (freqs[i] == ep->link_frequencies[j])
 >> +				return freqs[i];
 >> +	}
+>
+> What is the purpose of this function ? It verifies that at least one
+> of the frequencies specified in dt matches one registered in the driver.
+> As long as you have a single frequency that's fine and you could
+> simplify this, as soon as you have more frequencies in the driver
+> should you make sure all of them are listed in dts ?
+>
+
+Before v3 I just compared the only link frequency we actually support to
+the value from dts. This function was implemented per Sakari's
+suggestion "Please instead compare with array entries" in [1].
+
+
+> Or maybe you should just populate the list of driver's frequencies using
+> what comes from DTS ? Sakari what is your opinion here ?
+>
+
+
 >> +
 >> +	return 0;
 >> +}
@@ -1068,6 +1120,14 @@ Will fix in v4.
 >> +	endpoint = fwnode_graph_get_next_endpoint(fwnode, NULL);
 >> +	if (!endpoint)
 >> +		return -EPROBE_DEFER;
+>
+> Why EPROBE_DEFER ? The endpoint doesn't depend on the probing order
+> afaict, either it's there or not, and if it is not the DTS is
+> malformed. I would return -ENXIO or -EINVAL
+>
+
+Will fix in v4.
+
 >> +
 >> +	ret = v4l2_fwnode_endpoint_alloc_parse(endpoint, &bus_cfg);
 >> +	fwnode_handle_put(endpoint);
@@ -1120,17 +1180,22 @@ Will fix in v4.
 >> +		return dev_err_probe(dev, PTR_ERR(ov4689->xvclk),
 >> +				     "Failed to get external clock\n");
 >> +	}
->
-> No need for curly braces here.
->
-
-Will fix in v4
-
 >> +
 >> +	if (!ov4689->xvclk) {
 >> +		dev_dbg(dev,
 >> +			"No clock provided, using clock-frequency property\n");
 >> +		device_property_read_u32(dev, "clock-frequency", &ov4689->clock_rate);
+>
+> This is only valid on ACPI afaict, and this driver depends on OF. I
+> would just make the clock mandatory and that's it.
+>
+> But I see this has been suggested in previous review, so don't bother
+> with back and forth.
+>
+
+Okay, will also remove dependency on OF in v4 as per Sakari's
+suggestion.
+
 >> +	} else {
 >> +		ov4689->clock_rate = clk_get_rate(ov4689->xvclk);
 >> +	}
@@ -1178,10 +1243,23 @@ Will fix in v4
 >> +		goto err_power_off;
 >> +
 >> +#ifdef CONFIG_VIDEO_V4L2_SUBDEV_API
+>
+> Any reason not to select this symbol ?
+>
 >> +	sd->internal_ops = &ov4689_internal_ops;
 >> +	sd->flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
 >> +#endif
 >> +#if defined(CONFIG_MEDIA_CONTROLLER)
+>
+> Same question really.
+>
+> It's not wrong having it here, I just wonder if sensor driver should
+> have this ifdef dance or they can just select those symbols and that's
+> it. Any opinion from others ?
+
+Sakari suggest we should drop these, so will do it in v4.
+
+>
 >> +	ov4689->pad.flags = MEDIA_PAD_FL_SOURCE;
 >> +	sd->entity.function = MEDIA_ENT_F_CAM_SENSOR;
 >> +	ret = media_entity_pads_init(&sd->entity, 1, &ov4689->pad);
@@ -1237,13 +1315,6 @@ Will fix in v4
 >> +	{},
 >> +};
 >> +MODULE_DEVICE_TABLE(i2c, ov4689_id);
->
-> Do you need this table? If not, please remove.
->
-
-I do not use this personally, and I'm not sure whether it is needed for
-some use case other than mine. So will remove in v4 as you suggest.
-
 >> +
 >> +static const struct of_device_id ov4689_of_match[] = {
 >> +	{ .compatible = "ovti,ov4689" },
@@ -1266,6 +1337,11 @@ some use case other than mine. So will remove in v4 as you suggest.
 >> +
 >> +MODULE_DESCRIPTION("OmniVision ov4689 sensor driver");
 >> +MODULE_LICENSE("GPL");
+>> --
+>> 2.37.3
+>>
+
+[1] https://lore.kernel.org/all/YywwjmN9qqwFoEc5@paasikivi.fi.intel.com/
 
 --
 Best regards,
