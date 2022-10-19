@@ -2,127 +2,230 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4DF31604515
-	for <lists+linux-media@lfdr.de>; Wed, 19 Oct 2022 14:21:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5859D60446D
+	for <lists+linux-media@lfdr.de>; Wed, 19 Oct 2022 14:04:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233108AbiJSMVJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 19 Oct 2022 08:21:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46236 "EHLO
+        id S231310AbiJSMEx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 19 Oct 2022 08:04:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35240 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233267AbiJSMTm (ORCPT
+        with ESMTP id S232200AbiJSMDe (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 19 Oct 2022 08:19:42 -0400
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B7F565668;
-        Wed, 19 Oct 2022 04:55:22 -0700 (PDT)
-X-UUID: 9e2244b9f5e1430cbb49fe1ac3ce02b5-20221019
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-        h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID; bh=F+3N5jdI5Vdo+TGFz2Tt3Kx3wcLZK4tfh0R6kaTzfo4=;
-        b=PjTvdmEHWiqw09J54bOAxr1dmCDvPJISe4/WmVzzTmy5hNfTZ22RP0DMYxSQunnyICJEYduLDEr+nrt+ZSLaCD+Vf+fWvG1hG+tfrEH40/aTzC9dII87b5bK3XosHeM9kzlV7tqv8JoNvMYN5T1ltkY+UGPM/C1AffgYpM0dC4o=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.12,REQID:e22817f7-e0fa-4f0c-95dd-0fb874ae3dbf,IP:0,U
-        RL:0,TC:0,Content:-5,EDM:0,RT:0,SF:45,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
-        N:release,TS:40
-X-CID-INFO: VERSION:1.1.12,REQID:e22817f7-e0fa-4f0c-95dd-0fb874ae3dbf,IP:0,URL
-        :0,TC:0,Content:-5,EDM:0,RT:0,SF:45,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
-        release,TS:40
-X-CID-META: VersionHash:62cd327,CLOUDID:37c34aa3-73e4-48dd-a911-57b5d5484f14,B
-        ulkID:2210191807288342RCAR,BulkQuantity:0,Recheck:0,SF:38|28|17|19|48|102,
-        TC:nil,Content:0,EDM:-3,IP:nil,URL:11|1,File:nil,Bulk:nil,QS:nil,BEC:nil,C
-        OL:0
-X-UUID: 9e2244b9f5e1430cbb49fe1ac3ce02b5-20221019
-Received: from mtkmbs13n1.mediatek.inc [(172.21.101.193)] by mailgw01.mediatek.com
-        (envelope-from <irui.wang@mediatek.com>)
-        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-        with ESMTP id 318839224; Wed, 19 Oct 2022 18:07:28 +0800
-Received: from mtkcas10.mediatek.inc (172.21.101.39) by
- mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.2.792.15; Wed, 19 Oct 2022 18:07:26 +0800
-Received: from mhfsdcap04 (10.17.3.154) by mtkcas10.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Wed, 19 Oct 2022 18:07:25 +0800
-Message-ID: <d264de2367a777e310b0824fb2e04bfb37d46d3d.camel@mediatek.com>
-Subject: Re: [PATCH] media: mediatek: vcodec: Skip unsupported h264 encoder
- profile
-From:   Irui Wang <irui.wang@mediatek.com>
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Tiffany Lin <tiffany.lin@mediatek.com>,
-        "Mauro Carvalho Chehab" <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Hsin-Yi Wang <hsinyi@chromium.org>,
-        <angelogioacchino.delregno@collabora.com>,
-        <nicolas.dufresne@collabora.com>
-CC:     Maoguang Meng <maoguang.meng@mediatek.com>,
-        Longfei Wang <longfei.wang@mediatek.com>,
-        Yunfei Dong <yunfei.dong@mediatek.com>,
-        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-mediatek@lists.infradead.org>,
-        <Project_Global_Chrome_Upstream_Group@mediatek.com>
-Date:   Wed, 19 Oct 2022 18:07:25 +0800
-In-Reply-To: <20220926093501.26466-1-irui.wang@mediatek.com>
-References: <20220926093501.26466-1-irui.wang@mediatek.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+        Wed, 19 Oct 2022 08:03:34 -0400
+Received: from mail-io1-xd2f.google.com (mail-io1-xd2f.google.com [IPv6:2607:f8b0:4864:20::d2f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8C44550714
+        for <linux-media@vger.kernel.org>; Wed, 19 Oct 2022 04:39:48 -0700 (PDT)
+Received: by mail-io1-xd2f.google.com with SMTP id d142so14156702iof.7
+        for <linux-media@vger.kernel.org>; Wed, 19 Oct 2022 04:39:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=raspberrypi.com; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=GbOPw3JM1MwE0gKUTrIWgyJWfoLtVHcDbJMnzeP9Iog=;
+        b=eS4aVouqc4qAxQI8vyFfNfzyh+KvBYlrsfmPeoqLiiBW+yRkJPbdUPW8bZIYlnEnWq
+         81wzhJwDahTrrKVxWpPP7cO8FnP6KOAjlk5IUR92sfF3DbF9LhZC6KeGlSkrEW0bTbB6
+         XvE+p1aU0n+oT/mwtr+ypWuhfCvLyAV9BAEvJPoVdDzAHe3NNCnA6i6AyT3y4ASW0umz
+         +gVWjRc8jGsUayLikKXBNcLMkD0KtjViAuGIl8DEvnl3z+ONUsp0ChOOpe9A81a/ZdJc
+         7eNuO+cGF9zpoibZsRahHwgIgs/reFL0p/wnh3BvNxTdNfRZkQzewT9WQ2BOr9AhfASG
+         lobQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=GbOPw3JM1MwE0gKUTrIWgyJWfoLtVHcDbJMnzeP9Iog=;
+        b=fl9Q5gZbLhDakhz/wFG3J/epXUi+B0h6JT+0NtRdLIy2A5m56dM2nalJUeTxVysZpD
+         eZlwR1WBrNdF+7c9pXv26bWXB6gbt4iE2eMPvtK5SeRY9+g/HlkMh/rUxKuy0u2YW54N
+         gZBj+8Il2pvIOC6mxpO5TrOKNNXy8oHFwuna+rKZNatJs8Sn/NUSc/Kc0FC9qeGeGMXV
+         zAnh/0j6T7yDYiuY67CVD3roOTnSd2ojN0vejahbOkKr1ZnIXMc7GhbHlBrfM7Tr0DoM
+         BvNoaYDxGz8omWvdZEh5na8LECTvvgjAuJPDPHaFLjISnnN75Sa2UOD78olSeBE0NUjk
+         6NpA==
+X-Gm-Message-State: ACrzQf1hGGyuTHH83QQhJFfdezuUx6m0WcaoLzH48MyiEDHGwb58a6tC
+        cJyLlb1WoCSmvm/Os6tLc++19YKWOSGUpxaLkXjkoQ==
+X-Google-Smtp-Source: AMsMyM4nmOpi42M3jYL7+FKvXIycMLYh3T/dQq3prXQimla+F99lXK7qcIwlxHs6PhRHRhm3VL+8yRpG+uguqf/YXKY=
+X-Received: by 2002:a02:9601:0:b0:363:74ca:bfda with SMTP id
+ c1-20020a029601000000b0036374cabfdamr5929894jai.8.1666179517748; Wed, 19 Oct
+ 2022 04:38:37 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-MTK:  N
+References: <20220721083540.1525-1-laurent.pinchart@ideasonboard.com>
+ <YwQpT5JpyfXBEIVE@pendragon.ideasonboard.com> <CAPY8ntAsJNOAJ2te2vQSK6AeXj8LyB6Krepc88FL=6U6O9zb2g@mail.gmail.com>
+ <Y0uYhiny89r9J8//@pendragon.ideasonboard.com> <CAPY8ntDJ0-hLSHWtX5+bHaDR9quu=usP1+gaHFcZupAHtQYAFg@mail.gmail.com>
+ <CAPY8ntDm8VSDT1DhvdRmOjUbq3feQ61MN6XQ70p1ZX4d+JwA_g@mail.gmail.com> <Y0/SXOIXf3CGjNuv@valkosipuli.retiisi.eu>
+In-Reply-To: <Y0/SXOIXf3CGjNuv@valkosipuli.retiisi.eu>
+From:   Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date:   Wed, 19 Oct 2022 12:38:21 +0100
+Message-ID: <CAPY8ntBnKFj5eZJspEDE9S7TN9TLpJiQjdb-nQsQ=+JjQhxyXg@mail.gmail.com>
+Subject: Re: [PATCH 00/19] media: i2c: imx290: Miscellaneous improvements
+To:     Sakari Ailus <sakari.ailus@iki.fi>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-media@vger.kernel.org,
+        Manivannan Sadhasivam <mani@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,
-        SPF_PASS,UNPARSEABLE_RELAY autolearn=ham autolearn_force=no
-        version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Dear Hans,
+Hi Sakari
 
-Gently ping for this patch, could you help to review this patch?
+Thanks for the response
 
-Thanks
-Best Regards
+On Wed, 19 Oct 2022 at 11:33, Sakari Ailus <sakari.ailus@iki.fi> wrote:
+>
+> Hi Dave,
+>
+> On Mon, Oct 17, 2022 at 07:07:20PM +0100, Dave Stevenson wrote:
+> > Hi Laurent
+> >
+> > On Sun, 16 Oct 2022 at 08:34, Dave Stevenson
+> > <dave.stevenson@raspberrypi.com> wrote:
+> > >
+> > > Hi Laurent
+> > >
+> > > On Sun, 16 Oct 2022 at 06:37, Laurent Pinchart
+> > > <laurent.pinchart@ideasonboard.com> wrote:
+> > > >
+> > > > Hi Dave,
+> > > >
+> > > > On Mon, Oct 10, 2022 at 11:31:33AM +0100, Dave Stevenson wrote:
+> > > > > Hi Laurent
+> > > > >
+> > > > > Do you have plans for a v2 on this patch set? I also have a number of
+> > > > > patches for imx290 and there's little point in causing grief to each
+> > > > > other with conflicts.
+> > > > > Or I could take the non-controversial patches from your set and send a
+> > > > > combined patch set?
+> > > >
+> > > > I'm working on a v2, I'll send it shortly. Do I assume correctly you'll
+> > > > submit IMX327 support on top ? :-)
+> > >
+> > > Thanks - I'll review it tomorrow and sort my patches on top again.
+> >
+> > I've reworked my patches on top of yours. It gives r/w VBLANK and
+> > HBLANK, and corrects PIXEL_RATE.
+> > I'm testing on our 6.0 branch, but
+> > https://github.com/6by9/linux/commits/linuxtv_imx290/drivers/media/i2c
+> > is against the linux-media branch.
+> >
+> > I've messed something up in the "media: i2c: imx290: Support 60fps in
+> > 2 lane operation" patch at present - I'm looking into what has gone
+> > wrong, as the earlier versions of that patch worked fine. The branch
+> > will get force-pushed once I've fixed it.
+> >
+> > > This driver is effectively IMX327 - max 1920x1080@60fps in 12 bit.
+> > >
+> > > IMX290 adds a 1920x1080@120fps 10bit only mode which isn't currently
+> > > supported by the driver. I have patches to add 10bit support, but I
+> > > don't increase the frame rate in them.
+> > >
+> > > IMX462 adds that 1920x1080@120fps mode in both 10 and 12 bit, but
+> > > again I haven't looked at adding support, partly as I don't have a
+> > > datasheet for that variant. I may see if the change for 120fps 10bit
+> > > on imx290 works in 12 bit mode for IMX462.
+> > > For IMX290, 1080p120 needs a link frequency of 445.5MHz on 4 lanes to
+> > > be supported (2 lanes not permitted), so there will be more link
+> > > frequency messing required to support it. The basic numbers say that
+> > > is fast enough for 12bit as well, so there's hope.
+> >
+> > I guess seeing as I'm messing with the clock setup, I may as well keep
+> > going and look at the 120fps modes. It's a little trickier as the Pi
+> > ISP will be on the edge at those rates, but it should be good enough.
+> >
+> > There is an awkward question with regard link-frequencies. Is there a
+> > need to support multiple sets of link-frequency, or do we support any
+> > set of 2?
+> > ie for imx290, on 4 lanes do we want:
+> > - 891Mbit/s for 1080p120 10bit
+> > - 445.5Mbit/s for 1080p60 10 or 12 bit
+> > - 594Mbit/s for 720p120 10bit
+> > - 297Mbit/s for 720p60 10 and 12 bit
+> > all to be present in DT?
+> > If only 891 and 594 then you're limited to 10 bit images, but
+> > otherwise it should be fully functional. The max frame interval would
+> > be half that of 445.5 and 297 though, so there are compromises, but
+> > who/what then controls the link_frequency to switch between the
+> > ranges?
+>
+> It's up to the user space to set that control in a general case. I guess
+> there are no specific rules on how many you should put to DT, but generally
+> those that are useful should be there.
 
-On Mon, 2022-09-26 at 17:35 +0800, Irui Wang wrote:
-> The encoder driver support h264 baseline, main, high encoder
-> profile, set mask for V4L2_CID_MPEG_VIDEO_H264_PROFILE to skip
-> the unsupported profile.
-> 
-> get supported h264_profile by command: v4l2-ctl -d /dev/videoX -L
-> h264_profile 0x00990a6b (menu) : min=0 max=4 default=4 value=4
->         0: Baseline
->         2: Main
->         4: High
-> 
-> Signed-off-by: Irui Wang <irui.wang@mediatek.com>
-> ---
->  drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc.c | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc.c
-> b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc.c
-> index d810a78dde51..d65800a3b89d 100644
-> --- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc.c
-> +++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc.c
-> @@ -1397,7 +1397,10 @@ int mtk_vcodec_enc_ctrls_setup(struct
-> mtk_vcodec_ctx *ctx)
->  			0, V4L2_MPEG_VIDEO_HEADER_MODE_SEPARATE);
->  	v4l2_ctrl_new_std_menu(handler, ops,
-> V4L2_CID_MPEG_VIDEO_H264_PROFILE,
->  			V4L2_MPEG_VIDEO_H264_PROFILE_HIGH,
-> -			0, V4L2_MPEG_VIDEO_H264_PROFILE_HIGH);
-> +			~((1 << V4L2_MPEG_VIDEO_H264_PROFILE_BASELINE)
-> |
-> +			  (1 << V4L2_MPEG_VIDEO_H264_PROFILE_MAIN) |
-> +			  (1 << V4L2_MPEG_VIDEO_H264_PROFILE_HIGH)),
-> +			V4L2_MPEG_VIDEO_H264_PROFILE_HIGH);
->  	v4l2_ctrl_new_std_menu(handler, ops,
-> V4L2_CID_MPEG_VIDEO_H264_LEVEL,
->  			       h264_max_level,
->  			       0, V4L2_MPEG_VIDEO_H264_LEVEL_4_0);
+Does the driver have to support multiple sets of link frequencies
+simultaneously?
 
+The way the driver is currently written you have one link freq for
+1080p and one for 720p (2/3rds the rate used for 1080p). You could
+retain using only 2 link frequencies at a time.
+
+If DT/ACPI gives us 222.75MHz and 148.5MHz on 4 lanes, or 445.5MHz and
+297MHz on 2 lanes, with IMX327, IMX290 or IMX462, then use the current
+configuration that can do 0.03 to 60fps as RAW10 or RAW12.
+If DT/ACPI gives us 445.5MHz and 297MHz on 4 lanes and are on an
+IMX290 (not IMX327), then use a new configuration that can do 0.06 to
+120fps as RAW10 only.
+If DT/ACPI gives us 445.5MHz and 297MHz on 4 lanes and are on an
+IMX462, then use a new configuration that can do 0.06 to 120fps as
+RAW10 or RAW12.
+If the configuration doesn't fall into any of these categories, then
+it is rejected.
+
+Whoever is putting together the DT/ACPI for the device can then choose
+whether they value the lower minimum frame rate and RAW12, or the
+higher frame rate but are prepared to sacrifice RAW12. (As we use
+dtoverlays, we can add overrides so that person is the end user).
+Trying to cram that lot in so that it can all be used simultaneously
+will get quite ugly - the register configuration is not quite as
+simple as one might hope, and you'd be filtering the permitted modes
+and bit depths all over the place.
+
+As I mentioned at the Media Summit in Dublin I've had users wanting
+IMX462 for astronomy use cases, so halving the max exposure time by
+dropping the current max 60fps configuration won't be popular. I guess
+you could incorrectly use an IMX327 compatible string in the DT when
+using an IMX290/462 to force the behaviour, but that feels even more
+of a hack.
+
+> I wonder why 12 bpp output isn't possible at the double frequency. Of
+> course it is possible the sensor's clock tree makes that impossible but it
+> is still unusual.
+
+It is a little weird. As noted in the later emails, I have put
+together settings to get 120fps running, and have tried it on both
+IMX462 and IMX290.
+
+720p120 RAW12 works fine on both, as do 720p120 and 1080p120 in RAW10.
+However 1080p120 RAW12 doesn't work on either, so I suspect it is
+something in the CSI2 block configuration that can't quite hit that
+data rate without further changes. I'll see if Sony wants to be
+friendly with datasheets for the IMX462.
+
+> >
+> > I can see another can of worms being opened here!
+>
+> If this is what the sensor does, how else it should be operated?
+
+As above, link frequency remains read only based on DT or ACPI, and
+that then restricts the configurations that are possible.
+
+I've never seen a good userspace example of using
+V4L2_CID_LINK_FREQUENCY, so without that it always seems to be a
+setting that is generally only used by the CSI-2 receiver to adapt
+appropriately to the data rate.
+To my mind it falls into the same category as binning and cropping -
+it's lovely to expose the full feature set, but that is just passing
+the buck to some heuristics in userspace. Generally the user of the
+camera doesn't care (they just want their camera to work) so
+realistically you're looking at libcamera, and it doesn't necessarily
+have sufficient information about the sensor or use case to make a
+good decision.
+
+  Dave
+
+> --
+> Kind regards,
+>
+> Sakari Ailus
