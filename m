@@ -2,49 +2,78 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 63B956042A5
-	for <lists+linux-media@lfdr.de>; Wed, 19 Oct 2022 13:09:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4DF31604515
+	for <lists+linux-media@lfdr.de>; Wed, 19 Oct 2022 14:21:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231350AbiJSLIL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 19 Oct 2022 07:08:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54512 "EHLO
+        id S233108AbiJSMVJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 19 Oct 2022 08:21:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46236 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231622AbiJSLH1 (ORCPT
+        with ESMTP id S233267AbiJSMTm (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 19 Oct 2022 07:07:27 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3FBFEFFFB3
-        for <linux-media@vger.kernel.org>; Wed, 19 Oct 2022 03:36:22 -0700 (PDT)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <mgr@pengutronix.de>)
-        id 1ol6Q2-0005oG-9s; Wed, 19 Oct 2022 12:35:26 +0200
-Received: from [2a0a:edc0:0:1101:1d::ac] (helo=dude04.red.stw.pengutronix.de)
-        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-        (envelope-from <mgr@pengutronix.de>)
-        id 1ol6Q1-0006FV-Eo; Wed, 19 Oct 2022 12:35:25 +0200
-Received: from mgr by dude04.red.stw.pengutronix.de with local (Exim 4.94.2)
-        (envelope-from <mgr@pengutronix.de>)
-        id 1ol6Q0-00COQ6-KL; Wed, 19 Oct 2022 12:35:24 +0200
-From:   Michael Grzeschik <m.grzeschik@pengutronix.de>
-To:     linux-usb@vger.kernel.org
-Cc:     linux-media@vger.kernel.org, balbi@kernel.org,
-        laurent.pinchart@ideasonboard.com, kernel@pengutronix.de
-Subject: [PATCH v4 2/2] usb: gadget: uvc: add validate and fix function for uvc response
-Date:   Wed, 19 Oct 2022 12:35:22 +0200
-Message-Id: <20221019103522.2925375-3-m.grzeschik@pengutronix.de>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20221019103522.2925375-1-m.grzeschik@pengutronix.de>
-References: <20221019103522.2925375-1-m.grzeschik@pengutronix.de>
+        Wed, 19 Oct 2022 08:19:42 -0400
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B7F565668;
+        Wed, 19 Oct 2022 04:55:22 -0700 (PDT)
+X-UUID: 9e2244b9f5e1430cbb49fe1ac3ce02b5-20221019
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+        h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID; bh=F+3N5jdI5Vdo+TGFz2Tt3Kx3wcLZK4tfh0R6kaTzfo4=;
+        b=PjTvdmEHWiqw09J54bOAxr1dmCDvPJISe4/WmVzzTmy5hNfTZ22RP0DMYxSQunnyICJEYduLDEr+nrt+ZSLaCD+Vf+fWvG1hG+tfrEH40/aTzC9dII87b5bK3XosHeM9kzlV7tqv8JoNvMYN5T1ltkY+UGPM/C1AffgYpM0dC4o=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.12,REQID:e22817f7-e0fa-4f0c-95dd-0fb874ae3dbf,IP:0,U
+        RL:0,TC:0,Content:-5,EDM:0,RT:0,SF:45,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
+        N:release,TS:40
+X-CID-INFO: VERSION:1.1.12,REQID:e22817f7-e0fa-4f0c-95dd-0fb874ae3dbf,IP:0,URL
+        :0,TC:0,Content:-5,EDM:0,RT:0,SF:45,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+        release,TS:40
+X-CID-META: VersionHash:62cd327,CLOUDID:37c34aa3-73e4-48dd-a911-57b5d5484f14,B
+        ulkID:2210191807288342RCAR,BulkQuantity:0,Recheck:0,SF:38|28|17|19|48|102,
+        TC:nil,Content:0,EDM:-3,IP:nil,URL:11|1,File:nil,Bulk:nil,QS:nil,BEC:nil,C
+        OL:0
+X-UUID: 9e2244b9f5e1430cbb49fe1ac3ce02b5-20221019
+Received: from mtkmbs13n1.mediatek.inc [(172.21.101.193)] by mailgw01.mediatek.com
+        (envelope-from <irui.wang@mediatek.com>)
+        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+        with ESMTP id 318839224; Wed, 19 Oct 2022 18:07:28 +0800
+Received: from mtkcas10.mediatek.inc (172.21.101.39) by
+ mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.2.792.15; Wed, 19 Oct 2022 18:07:26 +0800
+Received: from mhfsdcap04 (10.17.3.154) by mtkcas10.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Wed, 19 Oct 2022 18:07:25 +0800
+Message-ID: <d264de2367a777e310b0824fb2e04bfb37d46d3d.camel@mediatek.com>
+Subject: Re: [PATCH] media: mediatek: vcodec: Skip unsupported h264 encoder
+ profile
+From:   Irui Wang <irui.wang@mediatek.com>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Tiffany Lin <tiffany.lin@mediatek.com>,
+        "Mauro Carvalho Chehab" <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Hsin-Yi Wang <hsinyi@chromium.org>,
+        <angelogioacchino.delregno@collabora.com>,
+        <nicolas.dufresne@collabora.com>
+CC:     Maoguang Meng <maoguang.meng@mediatek.com>,
+        Longfei Wang <longfei.wang@mediatek.com>,
+        Yunfei Dong <yunfei.dong@mediatek.com>,
+        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-mediatek@lists.infradead.org>,
+        <Project_Global_Chrome_Upstream_Group@mediatek.com>
+Date:   Wed, 19 Oct 2022 18:07:25 +0800
+In-Reply-To: <20220926093501.26466-1-irui.wang@mediatek.com>
+References: <20220926093501.26466-1-irui.wang@mediatek.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: mgr@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+Content-Transfer-Encoding: 7bit
+X-MTK:  N
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,
+        SPF_PASS,UNPARSEABLE_RELAY autolearn=ham autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -52,145 +81,48 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-When the userspace gets the setup requests for UVC_GET_CUR UVC_GET_MIN,
-UVC_GET_MAX, UVC_GET_DEF it will fill out the ctrl response. This data
-needs to be validated. Since the kernel also knows the limits for valid
-cases, it can fixup the values in case the userspace is setting invalid
-data.
+Dear Hans,
 
-Signed-off-by: Michael Grzeschik <m.grzeschik@pengutronix.de>
+Gently ping for this patch, could you help to review this patch?
 
----
-v1 -> v4:
-- new patch
+Thanks
+Best Regards
 
- drivers/usb/gadget/function/f_uvc.c    |  4 +-
- drivers/usb/gadget/function/uvc.h      |  1 +
- drivers/usb/gadget/function/uvc_v4l2.c | 76 ++++++++++++++++++++++++++
- 3 files changed, 80 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/usb/gadget/function/f_uvc.c b/drivers/usb/gadget/function/f_uvc.c
-index 6e131624011a5e..098bd3c4e3c0b3 100644
---- a/drivers/usb/gadget/function/f_uvc.c
-+++ b/drivers/usb/gadget/function/f_uvc.c
-@@ -254,8 +254,10 @@ uvc_function_setup(struct usb_function *f, const struct usb_ctrlrequest *ctrl)
- 	 */
- 	mctrl = &uvc_event->req;
- 	mctrl->wIndex &= ~cpu_to_le16(0xff);
--	if (interface == uvc->streaming_intf)
-+	if (interface == uvc->streaming_intf) {
-+		uvc->streaming_request = ctrl->bRequest;
- 		mctrl->wIndex = cpu_to_le16(UVC_STRING_STREAMING_IDX);
-+	}
- 
- 	v4l2_event_queue(&uvc->vdev, &v4l2_event);
- 
-diff --git a/drivers/usb/gadget/function/uvc.h b/drivers/usb/gadget/function/uvc.h
-index 40226b1f7e148a..1be4d5f24b46bf 100644
---- a/drivers/usb/gadget/function/uvc.h
-+++ b/drivers/usb/gadget/function/uvc.h
-@@ -151,6 +151,7 @@ struct uvc_device {
- 	void *control_buf;
- 
- 	unsigned int streaming_intf;
-+	unsigned char streaming_request;
- 
- 	/* Events */
- 	unsigned int event_length;
-diff --git a/drivers/usb/gadget/function/uvc_v4l2.c b/drivers/usb/gadget/function/uvc_v4l2.c
-index c4ed48d6b8a407..d67aef71f8afc3 100644
---- a/drivers/usb/gadget/function/uvc_v4l2.c
-+++ b/drivers/usb/gadget/function/uvc_v4l2.c
-@@ -178,6 +178,67 @@ static struct uvcg_frame *find_closest_frame_by_size(struct uvc_device *uvc,
-  * Requests handling
-  */
- 
-+/* validate and fixup streaming ctrl request response data if possible */
-+static void
-+uvc_validate_streaming_ctrl(struct uvc_device *uvc,
-+			    struct uvc_streaming_control *ctrl)
-+{
-+	struct f_uvc_opts *opts = fi_to_f_uvc_opts(uvc->func.fi);
-+	unsigned int iformat, iframe;
-+	struct uvcg_format *uformat;
-+	struct uvcg_frame *uframe;
-+	bool ival_found = false;
-+	int i;
-+
-+	iformat = ctrl->bFormatIndex;
-+	iframe = ctrl->bFrameIndex;
-+
-+	/* Restrict the iformat, iframe and dwFrameInterval to valid values.
-+	 * Negative values for iformat and iframe will result in the maximum
-+	 * valid value being selected
-+	 */
-+	iformat = clamp((unsigned int)iformat, 1U,
-+			(unsigned int)uvc->header->num_fmt);
-+	if (iformat != ctrl->bFormatIndex) {
-+		uvcg_info(&uvc->func,
-+			  "Userspace set invalid Format Index - fixup\n");
-+		ctrl->bFormatIndex = iformat;
-+	}
-+	uformat = find_format_by_index(uvc, iformat);
-+
-+	iframe = clamp((unsigned int)iframe, 1U,
-+		       (unsigned int)uformat->num_frames);
-+	if (iframe != ctrl->bFrameIndex) {
-+		uvcg_info(&uvc->func,
-+			  "Userspace set invalid Frame Index - fixup\n");
-+		ctrl->bFrameIndex = iframe;
-+	}
-+	uframe = find_frame_by_index(uvc, uformat, iframe);
-+
-+	if (ctrl->dwFrameInterval) {
-+		for (i = 0; i < uframe->frame.b_frame_interval_type; i++) {
-+			if (ctrl->dwFrameInterval ==
-+				 uframe->dw_frame_interval[i])
-+				ival_found = true;
-+		}
-+	}
-+	if (!ival_found) {
-+		uvcg_info(&uvc->func,
-+			  "Userspace set invalid Frame Inteval - fixup\n");
-+		ctrl->dwFrameInterval = uframe->frame.dw_default_frame_interval;
-+	}
-+
-+	if (!ctrl->dwMaxPayloadTransferSize ||
-+			ctrl->dwMaxPayloadTransferSize >
-+				opts->streaming_maxpacket)
-+		ctrl->dwMaxPayloadTransferSize = opts->streaming_maxpacket;
-+
-+	if (!ctrl->dwMaxVideoFrameSize ||
-+			ctrl->dwMaxVideoFrameSize >
-+				uframe->frame.dw_max_video_frame_buffer_size)
-+		ctrl->dwMaxVideoFrameSize = uvc_get_frame_size(uformat, uframe);
-+}
-+
- static int
- uvc_send_response(struct uvc_device *uvc, struct uvc_request_data *data)
- {
-@@ -192,6 +253,21 @@ uvc_send_response(struct uvc_device *uvc, struct uvc_request_data *data)
- 
- 	memcpy(req->buf, data->data, req->length);
- 
-+	/* validate the ctrl content and fixup */
-+	if (!uvc->event_setup_out) {
-+		struct uvc_streaming_control *ctrl = req->buf;
-+
-+		switch (uvc->streaming_request) {
-+		case UVC_GET_CUR:
-+		case UVC_GET_MIN:
-+		case UVC_GET_MAX:
-+		case UVC_GET_DEF:
-+			uvc_validate_streaming_ctrl(uvc, ctrl);
-+		default:
-+			break;
-+		}
-+	}
-+
- 	return usb_ep_queue(cdev->gadget->ep0, req, GFP_KERNEL);
- }
- 
--- 
-2.30.2
+On Mon, 2022-09-26 at 17:35 +0800, Irui Wang wrote:
+> The encoder driver support h264 baseline, main, high encoder
+> profile, set mask for V4L2_CID_MPEG_VIDEO_H264_PROFILE to skip
+> the unsupported profile.
+> 
+> get supported h264_profile by command: v4l2-ctl -d /dev/videoX -L
+> h264_profile 0x00990a6b (menu) : min=0 max=4 default=4 value=4
+>         0: Baseline
+>         2: Main
+>         4: High
+> 
+> Signed-off-by: Irui Wang <irui.wang@mediatek.com>
+> ---
+>  drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc.c | 5 ++++-
+>  1 file changed, 4 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc.c
+> b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc.c
+> index d810a78dde51..d65800a3b89d 100644
+> --- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc.c
+> +++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc.c
+> @@ -1397,7 +1397,10 @@ int mtk_vcodec_enc_ctrls_setup(struct
+> mtk_vcodec_ctx *ctx)
+>  			0, V4L2_MPEG_VIDEO_HEADER_MODE_SEPARATE);
+>  	v4l2_ctrl_new_std_menu(handler, ops,
+> V4L2_CID_MPEG_VIDEO_H264_PROFILE,
+>  			V4L2_MPEG_VIDEO_H264_PROFILE_HIGH,
+> -			0, V4L2_MPEG_VIDEO_H264_PROFILE_HIGH);
+> +			~((1 << V4L2_MPEG_VIDEO_H264_PROFILE_BASELINE)
+> |
+> +			  (1 << V4L2_MPEG_VIDEO_H264_PROFILE_MAIN) |
+> +			  (1 << V4L2_MPEG_VIDEO_H264_PROFILE_HIGH)),
+> +			V4L2_MPEG_VIDEO_H264_PROFILE_HIGH);
+>  	v4l2_ctrl_new_std_menu(handler, ops,
+> V4L2_CID_MPEG_VIDEO_H264_LEVEL,
+>  			       h264_max_level,
+>  			       0, V4L2_MPEG_VIDEO_H264_LEVEL_4_0);
 
