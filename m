@@ -2,273 +2,98 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 35D20605480
-	for <lists+linux-media@lfdr.de>; Thu, 20 Oct 2022 02:31:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 14B2B605498
+	for <lists+linux-media@lfdr.de>; Thu, 20 Oct 2022 02:51:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230024AbiJTAbL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 19 Oct 2022 20:31:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40312 "EHLO
+        id S230133AbiJTAvg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 19 Oct 2022 20:51:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50190 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229525AbiJTAbJ (ORCPT
+        with ESMTP id S229896AbiJTAvf (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 19 Oct 2022 20:31:09 -0400
-Received: from mail-lj1-x231.google.com (mail-lj1-x231.google.com [IPv6:2a00:1450:4864:20::231])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F1A112501B;
-        Wed, 19 Oct 2022 17:31:08 -0700 (PDT)
-Received: by mail-lj1-x231.google.com with SMTP id h8so24273588lja.11;
-        Wed, 19 Oct 2022 17:31:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
-         :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=94WcgxukPF6gv4pDOFyGQ6vmA1VsSrDLSZYCmZeRwZE=;
-        b=hMMng2873LOYHjPWBufkIHKX2xniBXhoodFpR4Sy2b1L3b0XWVrhBq2M6NFvemrTvv
-         u/6dzXIZevldyktqipZDxPF0Fa/gwVTrivhfjhHfSMYPV5qzth6pUhxtOe0A8wdNPbjH
-         D2chnySbz8ate2IMB4CRoq33aD9Jfl5gQuEG8xamr1MyCFua9wcBnnyTJiptaGDdp05p
-         R5UyNPyQCCWweEAjNBUahSfzifedFBpC0ZlZ3NuTXy2GDZIybPMLuaPXky/cRt/hjffi
-         cPLc2BC9IJ452XEKMS4n7QXnAq5nKM43z/gTMFwIRA9R3yxjjD+lY0ZgL3P03IaWgsxY
-         dr+g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
-         :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=94WcgxukPF6gv4pDOFyGQ6vmA1VsSrDLSZYCmZeRwZE=;
-        b=H8ksVVTD8qzfIDkceZQmiH792JQOpSVR0jsMrIB+ME8A3+JbKelVmIY+cmUlY4mRxw
-         /TM2SMEHgpwjMsr+Vh2IcBYrKL4EZIW/qvw25OnDDqE8UNc1RUlNHdK6aZ7D05v0ZFsn
-         hnKBr7U6UIByrVqaZSgBTaXy43NOhNPmXzhVZG0I+G/1l1a4RT0M+GsvqE4vh+UgzAfN
-         aculFWOOyv+ch54I2ypMGVYMIUgzl6slHtux9JH+kKulselB2YeTKGhrC8dTMT7+1eis
-         7aX9Y7oRIW8Dt0wNqDb71iOLbLLWfE/Bl2ZjJ9OAWsW5QZU1L6A2Yyg1ZWcqlbmg3hxv
-         sg3A==
-X-Gm-Message-State: ACrzQf0Wc8x+CGZOXBgjL15sowKA8uKAhRrybb8uJ993lxRwoRHV6+sk
-        A+P1rH0Qp9evheou8s8k6XQ=
-X-Google-Smtp-Source: AMsMyM69j2GE8wVFWhJF4YgJtyaMWeBwu1z6rDhGxdfcgUUUt9VDRqT/gfGlxvJuJuVx5qSO94ugGw==
-X-Received: by 2002:a05:651c:242:b0:26d:fb4b:9c8 with SMTP id x2-20020a05651c024200b0026dfb4b09c8mr3836993ljn.353.1666225866785;
-        Wed, 19 Oct 2022 17:31:06 -0700 (PDT)
-Received: from razdolb (95-31-187-187.broadband.corbina.ru. [95.31.187.187])
-        by smtp.gmail.com with ESMTPSA id q9-20020a19a409000000b00498f871f33fsm2503088lfc.86.2022.10.19.17.31.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Oct 2022 17:31:06 -0700 (PDT)
-References: <20220927222152.132951-1-mike.rudenko@gmail.com>
- <20220927222152.132951-3-mike.rudenko@gmail.com>
- <15ebc256-1855-7720-05e1-6673b1da7d93@wanadoo.fr>
-User-agent: mu4e 1.9.0; emacs 28.2
-From:   Mikhail Rudenko <mike.rudenko@gmail.com>
-To:     Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Cc:     arec.kao@intel.com, c.hemp@phytec.de,
-        dave.stevenson@raspberrypi.com, devicetree@vger.kernel.org,
-        hverkuil@xs4all.nl, jimmy.su@intel.com,
-        krzysztof.kozlowski+dt@linaro.org,
-        laurent.pinchart+renesas@ideasonboard.com,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        marex@denx.de, mchehab@kernel.org, rdunlap@infradead.org,
-        robh+dt@kernel.org, sakari.ailus@linux.intel.com,
-        shawnx.tu@intel.com, tommaso.merciai@amarulasolutions.com
-Subject: Re: [PATCH v3 2/2] media: i2c: add support for OV4689
-Date:   Thu, 20 Oct 2022 03:22:59 +0300
-In-reply-to: <15ebc256-1855-7720-05e1-6673b1da7d93@wanadoo.fr>
-Message-ID: <87fsfjz67r.fsf@gmail.com>
+        Wed, 19 Oct 2022 20:51:35 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64F02140E7B;
+        Wed, 19 Oct 2022 17:51:34 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 0143161846;
+        Thu, 20 Oct 2022 00:51:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CDC6EC433C1;
+        Thu, 20 Oct 2022 00:51:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1666227093;
+        bh=+TEDTEQh8wfO5ZvO5TOR+gKPPLDgjveN6xby83dLwgY=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=ln+P9ANNtDhLdvHjiZsF4YPLsOfH3kYDNkdMiNnZ9z60VCuRxERbRNyaZfyjJ+gOX
+         7Uqkm6/o5HjCV1Ld3HJALGe3/FaHhlAQR6fcsmxyzhJMp3OruTs/QF03S+e4DnBJcZ
+         S1AS6OvvnWNhpoPYs8feBQnKy4Etphzl8JTVxdzAo1hFW3jDjg2j4CqiD4v9prDLmK
+         xtSLl634x0fpgg2HNEhJImALz54SJHLUPRaE90ALBko5aPHbc3A9T0kn+/+HN047E+
+         HpSXYgkbzu690CEFVnhYQWgDo+JzSqj64016gHtfF2iaHswrtFkGArHIyF89sBlOuE
+         iHCB+D/VPgABg==
+Date:   Wed, 19 Oct 2022 19:51:30 -0500
+From:   Bjorn Andersson <andersson@kernel.org>
+To:     Stanimir Varbanov <stanimir.varbanov@linaro.org>
+Cc:     linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>
+Subject: Re: [PATCH 1/2] venus: kconfig: Fix compile-testing on x86 platforms
+Message-ID: <20221020005130.w633hs5pnnwxxkpp@builder.lan>
+References: <20220713110351.827446-1-stanimir.varbanov@linaro.org>
+ <20220713110351.827446-2-stanimir.varbanov@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220713110351.827446-2-stanimir.varbanov@linaro.org>
+X-Spam-Status: No, score=-7.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+On Wed, Jul 13, 2022 at 02:03:50PM +0300, Stanimir Varbanov wrote:
+> Fix Venus driver COMPILE_TEST compilation on x86 platform by
+> adding a dependacy on V4L_PLATFORM_DRIVERS and select QCOM_SMEM
+> instead of depending on it.
+> 
+> Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
+> ---
+>  drivers/media/platform/qcom/venus/Kconfig | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/media/platform/qcom/venus/Kconfig b/drivers/media/platform/qcom/venus/Kconfig
+> index bfd50e8f3421..95814b175c3e 100644
+> --- a/drivers/media/platform/qcom/venus/Kconfig
+> +++ b/drivers/media/platform/qcom/venus/Kconfig
+> @@ -1,12 +1,14 @@
+>  config VIDEO_QCOM_VENUS
+>  	tristate "Qualcomm Venus V4L2 encoder/decoder driver"
+> +	depends on V4L_PLATFORM_DRIVERS
+>  	depends on V4L_MEM2MEM_DRIVERS
+> -	depends on VIDEO_DEV && QCOM_SMEM
+> +	depends on VIDEO_DEV
+>  	depends on (ARCH_QCOM && IOMMU_DMA) || COMPILE_TEST
+>  	select QCOM_MDT_LOADER if ARCH_QCOM
+>  	select QCOM_SCM
+>  	select VIDEOBUF2_DMA_CONTIG
+>  	select V4L2_MEM2MEM_DEV
+> +	select QCOM_SMEM
 
-Hi Christophe,
+QCOM_SMEM is user selectable, and it's a fairly broadly used API. So I
+would prefer that we introduce stub functions in linux/soc/qcom/smem.h.
 
-Thanks for the review! See my comments below.
+Regards,
+Bjorn
 
-On 2022-10-18 at 20:55 +02, Christophe JAILLET <christophe.jaillet@wanadoo.=
-fr> wrote:
-
-> Le 28/09/2022 =C3=A0 00:21, Mikhail Rudenko a =C3=A9crit=C2=A0:
->> Add a V4L2 sub-device driver for OmniVision OV4689 image sensor. This
->> is a 4 Mpx image sensor using the I2C bus for control and the CSI-2
->> bus for data.
->> This driver supports following features:
->> - manual exposure and analog gain control support
->> - test pattern support
->> - media controller support
->> - runtime PM support
->> - support following resolutions:
->>    + 2688x1520 at 30 fps
->> The driver provides all mandatory V4L2 controls for compatibility
->> with
->> libcamera. The sensor supports 1/2/4-lane CSI-2 modes, but the driver
->> implements 4 lane mode only at this moment.
->
-> Hi,
->
-> a few nitpick below.
->
-> CJ
->
->> Signed-off-by: Mikhail Rudenko
->> <mike.rudenko-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
->> ---
->
-> [...]
->
->> +static int ov4689_check_sensor_id(struct ov4689 *ov4689,
->> +				  struct i2c_client *client)
->> +{
->> +	struct device *dev =3D &ov4689->client->dev;
->> +	u32 id =3D 0;
->> +	int ret;
->> +
->> +	ret =3D ov4689_read_reg(client, OV4689_REG_CHIP_ID,
->> +			      OV4689_REG_VALUE_16BIT, &id);
->> +	if (id !=3D CHIP_ID) {
->> +		dev_err(dev, "Unexpected sensor id(%06x), ret(%d)\n", id, ret);
->> +		return -ENODEV;
->
-> return ret?
-> (otherwise what is the point of -EINVAL and -EIO in ov4689_read_reg()?)
->
-
-Maybe we should reserve -ENODEV for the case when
-ret=3D=3D0 && id !=3D CHIP_ID and return ret otherwise?
-What do you think about it?
-
->> +	}
->> +
->> +	dev_info(dev, "Detected OV%06x sensor\n", CHIP_ID);
->> +
->> +	return 0;
->> +}
->
-> [...]
->
->> +static int ov4689_probe(struct i2c_client *client)
->> +{
->> +	struct device *dev =3D &client->dev;
->> +	struct v4l2_subdev *sd;
->> +	struct ov4689 *ov4689;
->> +	int ret;
->> +
->> +	ret =3D ov4689_check_hwcfg(dev);
->> +	if (ret)
->> +		return ret;
->> +
->> +	ov4689 =3D devm_kzalloc(dev, sizeof(*ov4689), GFP_KERNEL);
->> +	if (!ov4689)
->> +		return -ENOMEM;
->> +
->> +	ov4689->client =3D client;
->> +	ov4689->cur_mode =3D &supported_modes[OV4689_MODE_2688_1520];
->> +
->> +	ov4689->xvclk =3D devm_clk_get_optional(dev, NULL);
->> +	if (IS_ERR(ov4689->xvclk)) {
->> +		return dev_err_probe(dev, PTR_ERR(ov4689->xvclk),
->> +				     "Failed to get external clock\n");
->> +	}
->> +
->> +	if (!ov4689->xvclk) {
->> +		dev_dbg(dev,
->> +			"No clock provided, using clock-frequency property\n");
->> +		device_property_read_u32(dev, "clock-frequency", &ov4689->clock_rate);
->> +	} else {
->> +		ov4689->clock_rate =3D clk_get_rate(ov4689->xvclk);
->> +	}
->> +
->> +	if (ov4689->clock_rate !=3D OV4689_XVCLK_FREQ) {
->> +		dev_err(dev,
->> +			"External clock rate mismatch: got %d Hz, expected %d Hz\n",
->> +			ov4689->clock_rate, OV4689_XVCLK_FREQ);
->> +		return -EINVAL;
->> +	}
->> +
->> +	ov4689->reset_gpio =3D devm_gpiod_get_optional(dev, "reset",
->> +						     GPIOD_OUT_LOW);
->> +	if (IS_ERR(ov4689->reset_gpio)) {
->> +		dev_err(dev, "Failed to get reset-gpios\n");
->> +		return PTR_ERR(ov4689->reset_gpio);
->> +	}
->> +
->> +	ov4689->pwdn_gpio =3D devm_gpiod_get_optional(dev, "pwdn", GPIOD_OUT_L=
-OW);
->> +	if (IS_ERR(ov4689->pwdn_gpio)) {
->> +		dev_err(dev, "Failed to get pwdn-gpios\n");
->> +		return PTR_ERR(ov4689->pwdn_gpio);
->> +	}
->> +
->> +	ret =3D ov4689_configure_regulators(ov4689);
->> +	if (ret) {
->> +		dev_err(dev, "Failed to get power regulators\n");
->
-> dev_err_probe()?
-> I think that devm_regulator_bulk_get() can return -EPROBE_DEFER)
->
-
-Nice catch, will fix in v4.
-
->> +		return ret;
->> +	}
->> +
->> +	mutex_init(&ov4689->mutex);
->> +
->> +	sd =3D &ov4689->subdev;
->> +	v4l2_i2c_subdev_init(sd, client, &ov4689_subdev_ops);
->> +	ret =3D ov4689_initialize_controls(ov4689);
->> +	if (ret)
->> +		goto err_destroy_mutex;
->> +
->> +	ret =3D ov4689_power_on(dev);
->> +	if (ret)
->> +		goto err_free_handler;
->> +
->> +	ret =3D ov4689_check_sensor_id(ov4689, client);
->> +	if (ret)
->> +		goto err_power_off;
->> +
->> +#ifdef CONFIG_VIDEO_V4L2_SUBDEV_API
->> +	sd->internal_ops =3D &ov4689_internal_ops;
->> +	sd->flags |=3D V4L2_SUBDEV_FL_HAS_DEVNODE;
->> +#endif
->> +#if defined(CONFIG_MEDIA_CONTROLLER)
->> +	ov4689->pad.flags =3D MEDIA_PAD_FL_SOURCE;
->> +	sd->entity.function =3D MEDIA_ENT_F_CAM_SENSOR;
->> +	ret =3D media_entity_pads_init(&sd->entity, 1, &ov4689->pad);
->> +	if (ret < 0)
->> +		goto err_power_off;
->> +#endif
->> +
->> +	ret =3D v4l2_async_register_subdev_sensor(sd);
->> +	if (ret) {
->> +		dev_err(dev, "v4l2 async register subdev failed\n");
->> +		goto err_clean_entity;
->> +	}
->> +
->> +	pm_runtime_set_active(dev);
->> +	pm_runtime_enable(dev);
->> +	pm_runtime_idle(dev);
->> +
->> +	return 0;
->> +
->> +err_clean_entity:
->> +	media_entity_cleanup(&sd->entity);
->> +err_power_off:
->> +	ov4689_power_off(dev);
->> +err_free_handler:
->> +	v4l2_ctrl_handler_free(&ov4689->ctrl_handler);
->> +err_destroy_mutex:
->> +	mutex_destroy(&ov4689->mutex);
->> +
->> +	return ret;
->> +}
->
-> [...]
-
-
---
-Best regards,
-Mikhail Rudenko
+>  	help
+>  	  This is a V4L2 driver for Qualcomm Venus video accelerator
+>  	  hardware. It accelerates encoding and decoding operations
+> -- 
+> 2.25.1
+> 
