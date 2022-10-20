@@ -2,175 +2,216 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8F297605B92
-	for <lists+linux-media@lfdr.de>; Thu, 20 Oct 2022 11:56:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5A38F605EC6
+	for <lists+linux-media@lfdr.de>; Thu, 20 Oct 2022 13:23:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229967AbiJTJ4A (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 20 Oct 2022 05:56:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36670 "EHLO
+        id S231150AbiJTLXu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 20 Oct 2022 07:23:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35754 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229695AbiJTJz5 (ORCPT
+        with ESMTP id S230402AbiJTLXt (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 20 Oct 2022 05:55:57 -0400
-Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com [211.20.114.71])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD90E15B104;
-        Thu, 20 Oct 2022 02:55:53 -0700 (PDT)
-Received: from mail.aspeedtech.com ([192.168.0.24])
-        by twspam01.aspeedtech.com with ESMTP id 29K9W5Jd085421;
-        Thu, 20 Oct 2022 17:32:05 +0800 (GMT-8)
-        (envelope-from jammy_huang@aspeedtech.com)
-Received: from [192.168.2.115] (192.168.2.115) by TWMBX02.aspeed.com
- (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Thu, 20 Oct
- 2022 17:54:32 +0800
-Message-ID: <a9dc473c-1556-bd3d-fc1f-5a7e54d21352@aspeedtech.com>
-Date:   Thu, 20 Oct 2022 17:54:33 +0800
+        Thu, 20 Oct 2022 07:23:49 -0400
+Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::226])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9FC4111CB4E
+        for <linux-media@vger.kernel.org>; Thu, 20 Oct 2022 04:23:43 -0700 (PDT)
+Received: (Authenticated sender: jacopo@jmondi.org)
+        by mail.gandi.net (Postfix) with ESMTPSA id 43DEFC000A;
+        Thu, 20 Oct 2022 11:23:39 +0000 (UTC)
+Date:   Thu, 20 Oct 2022 13:23:37 +0200
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Dave Stevenson <dave.stevenson@raspberrypi.com>,
+        Krzysztof =?utf-8?Q?Ha=C5=82asa?= <khalasa@piap.pl>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@iki.fi>, linux-media@vger.kernel.org
+Subject: Re: [PATCH 03/10] media: ar0521: Set maximum resolution to 2592x1944
+Message-ID: <20221020112337.5umwzgqkgam36ygu@uno.localdomain>
+References: <20221005190613.394277-1-jacopo@jmondi.org>
+ <20221005190613.394277-4-jacopo@jmondi.org>
+ <CAPY8ntBgHm6KTpH6GBLiMtdRt1vAE4ne0EMq5N+x0CJJ9yU9+A@mail.gmail.com>
+ <Y0AkY6o6spakYJD3@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.1
-Subject: Re: [PATCH v9 1/4] media: v4l: Add definition for the Aspeed JPEG
- format
-Content-Language: en-US
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-CC:     <eajames@linux.ibm.com>, <mchehab@kernel.org>, <joel@jms.id.au>,
-        <andrew@aj.id.au>, <linux-media@vger.kernel.org>,
-        <openbmc@lists.ozlabs.org>, <linux-arm-kernel@lists.infradead.org>,
-        <linux-aspeed@lists.ozlabs.org>, <linux-kernel@vger.kernel.org>,
-        <hverkuil-cisco@xs4all.nl>, <ezequiel@vanguardiasur.com.ar>,
-        <nicolas.dufresne@collabora.com>, <stanimir.varbanov@linaro.org>,
-        <laurent.pinchart@ideasonboard.com>, <ribalda@chromium.org>
-References: <20220921025112.13150-1-jammy_huang@aspeedtech.com>
- <20220921025112.13150-2-jammy_huang@aspeedtech.com>
- <Yy2tAlGXFJS+a2Lz@paasikivi.fi.intel.com>
-From:   Jammy Huang <jammy_huang@aspeedtech.com>
-In-Reply-To: <Yy2tAlGXFJS+a2Lz@paasikivi.fi.intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [192.168.2.115]
-X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
- (192.168.0.24)
-X-DNSRBL: 
-X-MAIL: twspam01.aspeedtech.com 29K9W5Jd085421
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <Y0AkY6o6spakYJD3@pendragon.ideasonboard.com>
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sakari,
+Hi Laurent
 
-Thanks for your review.
-
-On 2022/9/23 下午 08:56, Sakari Ailus wrote:
-> Hi Jammy,
+On Fri, Oct 07, 2022 at 04:06:43PM +0300, Laurent Pinchart wrote:
+> On Thu, Oct 06, 2022 at 03:57:16PM +0100, Dave Stevenson wrote:
+> > Hi Jacopo
+> >
+> > On Wed, 5 Oct 2022 at 20:06, Jacopo Mondi <jacopo@jmondi.org> wrote:
+> > >
+> > > Change the largest visibile resolution to 2592x1944, which corresponds
+> > > to the active pixel array area size. Take into account the horizontal
+> > > and vertical limits when programming the visible sizes to skip
+> > > dummy/inactive pixels.
+> > >
+> > > Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
+> > > ---
+> > >  drivers/media/i2c/ar0521.c | 23 +++++++++++++++++------
+> > >  1 file changed, 17 insertions(+), 6 deletions(-)
+> > >
+> > > diff --git a/drivers/media/i2c/ar0521.c b/drivers/media/i2c/ar0521.c
+> > > index 581f5e42994d..2b19ba898ce8 100644
+> > > --- a/drivers/media/i2c/ar0521.c
+> > > +++ b/drivers/media/i2c/ar0521.c
+> > > @@ -28,10 +28,17 @@
+> > >  #define AR0521_PIXEL_CLOCK_MIN  (168 * 1000 * 1000)
+> > >  #define AR0521_PIXEL_CLOCK_MAX  (414 * 1000 * 1000)
+> > >
+> > > +#define AR0521_NATIVE_WIDTH            2604u
+> > > +#define AR0521_NATIVE_HEIGHT           1964u
+> > > +#define AR0521_MIN_X_ADDR_START                4u
+> > > +#define AR0521_MIN_Y_ADDR_START                4u
+> > > +#define AR0521_MAX_X_ADDR_END          2603u
+> > > +#define AR0521_MAX_Y_ADDR_END          1963u
+> >
+> > The register list I have (downloaded from OnSemi today) states that
+> > y_addr_max is 0x07a3, or 1955, readable from register 0x1186.
 >
-> Thanks for the update.
+> And it also states, in the documentation of y_addr_start, that legal
+> values are [0, 2463]. Who do we trust ? :-) [0, 2463] sounds like a copy
+> & paste mistake to me. Another data point is from the developer guide,
+> which states on the first page that the maximum values for x_addr_start
+> and y_addr_start are 2603 and 1963 respectively. 2603 matches the
+> documentation of x_addr_max.
 >
-> On Wed, Sep 21, 2022 at 10:51:09AM +0800, Jammy Huang wrote:
->> This introduces support for the Aspeed JPEG format, where the new frame
->> can refer to previous frame to reduce the amount of compressed data.
->> The concept is similar to I/P frame of video compression. It will
->> compare the new frame with previous one to decide which macroblock's
->> data is changed, and only the changed macroblocks will be compressed.
->>
->> This Aspeed JPEG format is used by the video engine on Aspeed platforms,
->> which is generally adapted for remote KVM.
->>
->> Signed-off-by: Jammy Huang <jammy_huang@aspeedtech.com>
->> ---
->>   .../userspace-api/media/v4l/pixfmt-reserved.rst | 17 +++++++++++++++++
->>   drivers/media/v4l2-core/v4l2-ioctl.c            |  1 +
->>   include/uapi/linux/videodev2.h                  |  1 +
->>   3 files changed, 19 insertions(+)
->>
->> diff --git a/Documentation/userspace-api/media/v4l/pixfmt-reserved.rst b/Documentation/userspace-api/media/v4l/pixfmt-reserved.rst
->> index 0ff68cd8cf62..f62bc76d606f 100644
->> --- a/Documentation/userspace-api/media/v4l/pixfmt-reserved.rst
->> +++ b/Documentation/userspace-api/media/v4l/pixfmt-reserved.rst
->> @@ -258,6 +258,23 @@ please make a proposal on the linux-media mailing list.
->>           and it is used by various multimedia hardware blocks like GPU, display
->>           controllers, ISP and video accelerators.
->>           It contains four planes for progressive video.
->> +    * .. _V4L2-PIX-FMT-AJPG:
->> +
->> +      - ``V4L2_PIX_FMT_AJPG``
->> +      - 'AJPG'
->> +      - ASPEED JPEG format used by the aspeed-video driver on Aspeed platforms,
->> +        which is generally adapted for remote KVM.
->> +        On each frame compression, I will compare the new frame with previous
->> +        one to decide which macroblock's data is changed, and only the changed
->> +        macroblocks will be compressed.
->> +
->> +        The implementation is based on AST2600 A3 datasheet, revision 0.9, which
->> +        is not publicly available. Or you can reference Video stream data format
->> +        – ASPEED mode compression of SDK_User_Guide which available on
->> +        AspeedTech-BMC/openbmc/releases.
->> +
->> +        Decoder's implementation can be found here,
->> +        `https://github.com/AspeedTech-BMC/aspeed_codec/ <https://github.com/AspeedTech-BMC/aspeed_codec/>`__
-> This is better than the previous versions.
+> It would be useful to dump the limits registers (0x1000 - 0x1300).
 >
-> Can you still run
+Here you go
+
+[   36.805434] Register integration_time_capabilities = 1
+[   36.811658] Register coarse_integration_time_min = 0
+[   36.817713] Register coarse_integration_time_max_margin = 0
+[   36.824373] Register digital_gain_capability = 1
+[   36.830049] Register digital_gain_min = 100
+[   36.835322] Register digital_gain_max = 7fc
+[   36.840582] Register digital_gain_step = 4
+[   36.845733] Register min_pre_pll_clk_div = 1
+[   36.851068] Register max_pre_pll_clk_div = 40
+[   36.856495] Register min_pll_mult = 20
+[   36.861300] Register max_pll_mult = 180
+[   36.866198] Register min_vt_sys_clk_div = 1
+[   36.871449] Register max_vt_sys_clk_div = 10
+[   36.876708] Register min_vt_pix_clk_div = 4
+[   36.881947] Register max_vt_pix_clk_div = 10
+[   36.887281] Register min_frame_lenght_lines = 30
+[   36.892967] Register max_frame_lenght_lines = ffff
+[   36.898834] Register min_line_lenght_pck = be0
+[   36.904358] Register max_line_lenght_pck = fffc
+[   36.909946] Register min_line_blanking_pck = f0
+[   36.915539] Register min_frame_blanking_lines = 1c
+[   36.921413] Register min_op_sys_clk_div = 1
+[   36.926659] Register max_op_sys_clk_div = 10
+[   36.932028] Register min_op_pix_clk_div = 6
+[   36.937266] Register max_op_pix_clk_div = a
+[   36.942530] Register x_addr_min = 0
+[   36.947085] Register y_addr_min = 0
+[   36.951636] Register x_addr_max = a2b
+[   36.956364] Register y_addr_max = 7a3
+[   36.961081] Register min_even_inc = 1
+[   36.965808] Register max_even_inc = 1
+[   36.970536] Register min_odd_inc = 1
+[   36.975192] Register max_odd_inc = 7
+[   36.979839] Register scaling_capabilities = 2
+[   36.985269] Register scaler_m_min = 10
+[   36.990086] Register scaler_m_max = 80
+[   36.994909] Register scaler_n_min = 10
+[   36.999730] Register scaler_n_max = 10
+[   37.004550] Register compression_capabilities = 1
+
+The most interesting things here are:
+
+Register x_addr_min = 0
+Register y_addr_min = 0
+Register x_addr_max = a2b = 2603
+Register y_addr_max = 7a3 = 1955
+
+Which confirms the values reported in the registers description
+instead of what's reported in the application guide
+
+And these represents the min and max total width and height (visible
+and blankings).
+
+Register min_frame_lenght_lines = 30 = 48
+Register max_frame_lenght_lines = ffff = 65535
+Register min_line_lenght_pck = be0 = 3040
+Register max_line_lenght_pck = fffc = 65532
+
+Now, the driver uses as max_vblank the (y_addr_end - width) value (same goes
+for hblank) where y_addr_end instead represents the -visible- pixels end address
+not the total size.
+
+I presume we should instead use the above reported maximum values,
+which gives much more space for blankings...
+
+This values instead
+
+Register min_line_blanking_pck = f0 = 240
+Register min_frame_blanking_lines = 1c = 28
+
+Report the min H/VBLANK values (which are currently set to 572 and 38
+in the driver).
+
+How these
+min_line_blanking_pck = f0 = 240
+min_line_lenght_pck = be0 = 3040
+
+play together is not clear to me yet as with a max visible width of
+2592 and a min_total_width of 3040, the minimum allowed hblank should
+be of at least 448 pixels. All the smaller resolutions should have a
+larger blanking, if 3040 is actually the minimum required total width.
+
+As this part is not clear, I would not modify this part, as it works
+and matches the expected frame rate.
+
+
+> > Otherwise this looks reasonable.
+> >
+> > > +
+> > >  #define AR0521_WIDTH_MIN              8u
+> > > -#define AR0521_WIDTH_MAX           2608u
+> > > +#define AR0521_WIDTH_MAX           2592u
+> > >  #define AR0521_HEIGHT_MIN             8u
+> > > -#define AR0521_HEIGHT_MAX          1958u
+> > > +#define AR0521_HEIGHT_MAX          1944u
+> > >
+> > >  #define AR0521_WIDTH_BLANKING_MIN     572u
+> > >  #define AR0521_HEIGHT_BLANKING_MIN     38u /* must be even */
+> > > @@ -208,13 +215,17 @@ static int ar0521_read_reg(struct ar0521_dev *sensor, u16 reg, u16 *val)
+> > >
+> > >  static int ar0521_set_geometry(struct ar0521_dev *sensor)
+> > >  {
+> > > +       /* Center the image in the visible ouput window. */
+> > > +       u16 x = clamp((AR0521_WIDTH_MAX - sensor->fmt.width) / 2,
+> > > +                      AR0521_MIN_X_ADDR_START, AR0521_MAX_X_ADDR_END);
+> > > +       u16 y = clamp(((AR0521_HEIGHT_MAX - sensor->fmt.height) / 2) & ~1,
+> > > +                      AR0521_MIN_Y_ADDR_START, AR0521_MAX_Y_ADDR_END);
+> > > +
+> > >         /* All dimensions are unsigned 12-bit integers */
+> > > -       u16 x = (AR0521_WIDTH_MAX - sensor->fmt.width) / 2;
+> > > -       u16 y = ((AR0521_HEIGHT_MAX - sensor->fmt.height) / 2) & ~1;
+> > >         __be16 regs[] = {
+> > >                 be(AR0521_REG_FRAME_LENGTH_LINES),
+> > > -               be(sensor->total_height),
+> > > -               be(sensor->total_width),
+> > > +               be(sensor->fmt.height + sensor->ctrls.vblank->val),
+> > > +               be(sensor->fmt.width + sensor->ctrls.hblank->val),
+> > >                 be(x),
+> > >                 be(y),
+> > >                 be(x + sensor->fmt.width - 1),
 >
-> $ scripts/checkpatch.pl --strict --max-line-length=80
+> --
+> Regards,
 >
-> ?
-I will correct the length to meet the rule.
->
-> On the decoder --- which values is the user supposed to use for mode_420,
-> selector and advance_selector parameters? I think this needs to be
-> documented.
-
-I will update following information to aspeed_codec's github, and 
-provide recommended
-
-values.
-
-"The following parameters should be provided by the encoded stream to 
-let decoder
-
-know how to work, because Aspeed codec does not include the information 
-needed
-
-for decoding in the header. Users can adjust the three parameters, 
-mode420, selector,
-
-and advance_selector, to achieve the desired quality level while at the 
-same time
-
-reduce the storage size."
-
->>   .. raw:: latex
->>   
->>       \normalsize
->> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
->> index a1a1b51ac599..c72bc3410bee 100644
->> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
->> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
->> @@ -1497,6 +1497,7 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
->>   		case V4L2_PIX_FMT_MT21C:	descr = "Mediatek Compressed Format"; break;
->>   		case V4L2_PIX_FMT_QC08C:	descr = "QCOM Compressed 8-bit Format"; break;
->>   		case V4L2_PIX_FMT_QC10C:	descr = "QCOM Compressed 10-bit Format"; break;
->> +		case V4L2_PIX_FMT_AJPG:		descr = "Aspeed JPEG"; break;
->>   		default:
->>   			if (fmt->description[0])
->>   				return;
->> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
->> index 86cae23cc446..870a7e5ef8ca 100644
->> --- a/include/uapi/linux/videodev2.h
->> +++ b/include/uapi/linux/videodev2.h
->> @@ -775,6 +775,7 @@ struct v4l2_pix_format {
->>   #define V4L2_PIX_FMT_HI240    v4l2_fourcc('H', 'I', '2', '4') /* BTTV 8-bit dithered RGB */
->>   #define V4L2_PIX_FMT_QC08C    v4l2_fourcc('Q', '0', '8', 'C') /* Qualcomm 8-bit compressed */
->>   #define V4L2_PIX_FMT_QC10C    v4l2_fourcc('Q', '1', '0', 'C') /* Qualcomm 10-bit compressed */
->> +#define V4L2_PIX_FMT_AJPG     v4l2_fourcc('A', 'J', 'P', 'G') /* Aspeed JPEG */
->>   
->>   /* 10bit raw packed, 32 bytes for every 25 pixels, last LSB 6 bits unused */
->>   #define V4L2_PIX_FMT_IPU3_SBGGR10	v4l2_fourcc('i', 'p', '3', 'b') /* IPU3 packed 10-bit BGGR bayer */
-
--- 
-Best Regards
-Jammy
-
+> Laurent Pinchart
