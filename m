@@ -2,107 +2,103 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E0E39607571
-	for <lists+linux-media@lfdr.de>; Fri, 21 Oct 2022 12:52:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F2F49607656
+	for <lists+linux-media@lfdr.de>; Fri, 21 Oct 2022 13:37:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230224AbiJUKwq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 21 Oct 2022 06:52:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59448 "EHLO
+        id S230318AbiJULh2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 21 Oct 2022 07:37:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53664 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229711AbiJUKwp (ORCPT
+        with ESMTP id S230238AbiJULhU (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 21 Oct 2022 06:52:45 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 00E771885A6;
-        Fri, 21 Oct 2022 03:52:43 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id A1B0EB82B8F;
-        Fri, 21 Oct 2022 10:52:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2AC6DC433D6;
-        Fri, 21 Oct 2022 10:52:33 +0000 (UTC)
-Date:   Fri, 21 Oct 2022 11:52:30 +0100
-From:   Mark Brown <broonie@debian.org>
-To:     Adam Borowski <kilobyte@angband.pl>
-Cc:     linux-kernel@lists.debian.org,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Jiaxin Yu <jiaxin.yu@mediatek.com>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        linux-mediatek@lists.infradead.org, alsa-devel@alsa-project.org,
-        David Howells <dhowells@redhat.com>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        "David S. Miller" <davem@davemloft.net>, keyrings@vger.kernel.org,
-        linux-crypto@vger.kernel.org,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Richard Weinberger <richard@nod.at>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        linux-mtd@lists.infradead.org, linux-spi@vger.kernel.org,
-        Yong Zhi <yong.zhi@intel.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Bingbu Cao <bingbu.cao@intel.com>,
-        Dan Scally <djrscally@gmail.com>,
-        Tianshu Qiu <tian.shu.qiu@intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, Khalil Blaiech <kblaiech@nvidia.com>,
-        Asmaa Mnebhi <asmaa@nvidia.com>, linux-i2c@vger.kernel.org,
-        Cezary Rojewski <cezary.rojewski@intel.com>,
-        Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
-        Liam Girdwood <liam.r.girdwood@linux.intel.com>,
-        Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
-        Bard Liao <yung-chuan.liao@linux.intel.com>,
-        Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
-        Kai Vehmanen <kai.vehmanen@linux.intel.com>,
-        Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>, Brent Lu <brent.lu@intel.com>
-Subject: Re: [PATCH 0/6] a pile of randconfig fixes
-Message-ID: <Y1J57jJ1+FTG7U9O@sirena.org.uk>
-References: <20221020221749.33746-1-kilobyte@angband.pl>
+        Fri, 21 Oct 2022 07:37:20 -0400
+Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com [IPv6:2a00:1450:4864:20::236])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9677E4DB0E
+        for <linux-media@vger.kernel.org>; Fri, 21 Oct 2022 04:37:17 -0700 (PDT)
+Received: by mail-lj1-x236.google.com with SMTP id c20so3284223ljj.7
+        for <linux-media@vger.kernel.org>; Fri, 21 Oct 2022 04:37:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:to:subject:message-id:date:from:sender
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=qkaiv2o3NVqHRnpYdsOz0DnLx29kYFAjU3QBqzY3M+0=;
+        b=UZ82XeRyAW4KdaBkeBt0o9ghzP7pHeYUKs8Q8Mh6AdyFeME85nP9XaNck0DqpUpXh+
+         nWJQD0CxUz5YjGpbqYWEUCs807bnTwH/QlmQkf5hyIVADeggI8x7yUqsy48bRSb53l4S
+         h88/o5pgmUIznge2VpFxicpiCeaUJAiAW1h5tZMiIkaPBi2WtVAJQrAVah5gks97tlVW
+         eUXlxUEXGa0QygninAOK2qf+8Tok7S57b7r2Se1oZ0uOFBUfWSIBYB7Azw59wmBMI54O
+         0NM01JHALqsVk04bnp076H3UbPWQMalEITmAVdEaam0TWkTa2vgRGfPVU7g4zhPXNQMa
+         6NWA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:to:subject:message-id:date:from:sender
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=qkaiv2o3NVqHRnpYdsOz0DnLx29kYFAjU3QBqzY3M+0=;
+        b=nyH9N4wG5xX/MmQJpIWnu7LPp45g6e8SnWFUdHG94K24IpAMxEy0h7X21WZTjK+vjM
+         iJQz6y7Ws/pSUfdHPxh9FFi/W9vnGPI84fpBYFBz3N8Dgfl/n7czEYww43JgPMVNPtia
+         ZutqPhtDPjBRJzMVcZUnqp5spRPPRHlqpAIfdZ9vfHG1zQv54GZdpgYEvPw1VtCOPzsC
+         ueffUVQ5c3KLDO+nAaaXwOGU3oJBKSz+FF0AtnvKNmLKg+wnsLgpyTTRlhCDWxCtZEar
+         MmJn//YzpjLMP0lLncvlwVsoZbBBaSEIewI49FG+EKJyAex/jNeM+CFdoGtkP5G+wgmJ
+         AnOg==
+X-Gm-Message-State: ACrzQf0CJU9AcKKx1dywnuJvscTJGIYhB5QxbtWBLxjBLyCBZa5/bmOd
+        Lk7iN+CHvgnzOMlq0uPPScwHnE/cCUXk5NuEN9s=
+X-Google-Smtp-Source: AMsMyM4lIQkLr59jswu1yJ4hrOFbU1Y+ZZEJ/qoBJiBoBypM0/lBwxFpq3zgEK2PQ84hqS57EjnU9iAHUn+d9OwOkKw=
+X-Received: by 2002:a2e:83c6:0:b0:26d:e24c:ec01 with SMTP id
+ s6-20020a2e83c6000000b0026de24cec01mr6302811ljh.340.1666352235392; Fri, 21
+ Oct 2022 04:37:15 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="wWcrkmaG6Bl+vyW8"
-Content-Disposition: inline
-In-Reply-To: <20221020221749.33746-1-kilobyte@angband.pl>
-X-Cookie: On the eighth day, God created FORTRAN.
-X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+Sender: safio8242@gmail.com
+Received: by 2002:a05:6504:2108:b0:1f6:a3e9:8eaf with HTTP; Fri, 21 Oct 2022
+ 04:37:14 -0700 (PDT)
+From:   Hannah Alex <hannah.aalex1@gmail.com>
+Date:   Fri, 21 Oct 2022 11:37:14 +0000
+X-Google-Sender-Auth: rkIxcOw7Avwso349MI0nhlmdwzs
+Message-ID: <CABdtqMCBYqWaNZ0uZ_0cmvwAyfyBiWCyJ85iKXvgWkYPkF9Bow@mail.gmail.com>
+Subject: =?UTF-8?B?T2zDoQ==?=
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=0.9 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-
---wWcrkmaG6Bl+vyW8
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-On Fri, Oct 21, 2022 at 12:17:49AM +0200, Adam Borowski wrote:
-
-> I've been doing randconfig build tests for quite a while, here's a pile of
-> fixes.  I'm not sure what's the best way to submit these: do you folks
-> prefer a series like this, or a number of individual submissions?
-
-Individual submissions would cut down on the noise from the enormous CC
-list.  If you were going to send as a patch series it should be a single
-message per patch as covered in sumbitting-patches.rst.
-
---wWcrkmaG6Bl+vyW8
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmNSee4ACgkQJNaLcl1U
-h9BDwgf+IkbiCFyXzVrO3F8yBx883iUJM3R8A5LPsrxScBUzS3Nu7PgzWmko3Bfa
-wm/rXizNrMQPDqUakrtR8duh+w/eL6Lz3YrZEQEaM2fd8+MayJt9tXB4o/qfcrBc
-B3o7lbqL9Hp0yqRKKG8orcvyiJDpOh2Z+zLAYqy+LuFLuiv6kSKu8h7c2vm7DKCw
-+wGkRN5blfrYPHGOoU/r6oqjT2qx6BFUsXpnILPw2XRtXlkYv37BLu4rRgZ7qc+D
-Afo+DwE5y6d9t9ebOL0UjvgveEysSY3VksxCcjtWru+wN/bjPbET1VFJUrfbMyGf
-y+JN6EsaYWeKmGsk5T5pZ5XczMBC+A==
-=kG7z
------END PGP SIGNATURE-----
-
---wWcrkmaG6Bl+vyW8--
+Querido,
+Meu nome =C3=A9 Hannah Alex, gostaria de saber sobre seus servi=C3=A7os par=
+a ser meu
+parceiro/investidor estrangeiro e me ajude a transferir e gerenciar meu
+fundos investindo em empreendimentos lucrativos, como a compra de empresas
+a=C3=A7=C3=B5es ou Im=C3=B3veis em seu pa=C3=ADs. Eu tenho uma quantia razo=
+=C3=A1vel que eu
+herdado do meu falecido pai, que eu gostaria que voc=C3=AA me ajudasse a in=
+vestir
+seu pa=C3=ADs. eu anexo minhas fotos pessoais, comprovante de pagamento do =
+fundo, meu
+passaporte internacional, certid=C3=A3o de =C3=B3bito do meu falecido pai e=
+ um
+documento de quatro p=C3=A1ginas
+testamento do meu falecido pai. Estou lhe enviando tudo isso para que
+voc=C3=AA possa ter
+confian=C3=A7a de que voc=C3=AA est=C3=A1 lidando com uma pessoa real
+Observa=C3=A7=C3=A3o: abaixo est=C3=A3o os principais motivos pelos quais e=
+stou
+entrando em contato com voc=C3=AA.
+(1) Para fornecer uma nova conta banc=C3=A1ria vazia na qual esse dinheiro =
+seria
+transferido. se voc=C3=AA n=C3=A3o quiser que usemos sua conta pessoal.
+(2) Servir como guardi=C3=A3o deste fundo, uma vez que o banco insistiu que=
+ seus
+acordo com meu pai era que eu fornecesse um parceiro estrangeiro antes
+liberando o fundo.
+(3) Fazer arranjos para que eu venha ao seu pa=C3=ADs para promover minha
+educa=C3=A7=C3=A3o e obter uma autoriza=C3=A7=C3=A3o de resid=C3=AAncia em =
+seu pa=C3=ADs.
+Por favor, responda assim que voc=C3=AA ler esta mensagem para mais
+detalhes e provas.
+Atenciosamente.
+Hana Alex.
