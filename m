@@ -2,75 +2,107 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D7F236072CA
-	for <lists+linux-media@lfdr.de>; Fri, 21 Oct 2022 10:47:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E0E39607571
+	for <lists+linux-media@lfdr.de>; Fri, 21 Oct 2022 12:52:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230310AbiJUIr4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 21 Oct 2022 04:47:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47488 "EHLO
+        id S230224AbiJUKwq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 21 Oct 2022 06:52:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59448 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230394AbiJUIrk (ORCPT
+        with ESMTP id S229711AbiJUKwp (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 21 Oct 2022 04:47:40 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DCA4D1B5749;
-        Fri, 21 Oct 2022 01:47:28 -0700 (PDT)
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits))
+        Fri, 21 Oct 2022 06:52:45 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 00E771885A6;
+        Fri, 21 Oct 2022 03:52:43 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        (Authenticated sender: kholk11)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 261DF6602253;
-        Fri, 21 Oct 2022 09:47:27 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1666342047;
-        bh=3eiZ7szUM3OGxgQJ5CQfnDH0rk8YT6swITKmzLR52I0=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=mYvD6b4iGePjjlYqWTUkjv03Z2uF4Z06HMzaQSws37T6h4GfMD7/RC4cZHOQpCCQ/
-         gDOmvcEdZlcDTL5Kkzn5wJf0h6g9Yyien7kiONzKR+T/Vj2/HXWQsT5sIgZNs9Y6N5
-         sjzzJTZ5V5Bgqpqn8TuMDVyhU+exACNyS+H98skwKVTV65XhLKYFhxgJA4WRFlegP0
-         PqT9UwHu8IuKkZKPHtAI6qsGoLJdHT8bxWt7caV5MUR3QQfkUC6gwWk1idweWTbKVj
-         leq32C5jEGq8sxU6Q8Xn+rwoVpHlpK53QtoHdAOh4YeJZtFdXUJHIdj9LucWVU9md8
-         LllCcCo8U8ZLg==
-Message-ID: <bc4dacea-b4a8-89f5-a9cb-c698b439cc53@collabora.com>
-Date:   Fri, 21 Oct 2022 10:47:24 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.3
-Subject: Re: [PATCH v3 3/3] media: platform: mtk-mdp3: fix error handling in
- mdp_probe()
-Content-Language: en-US
-To:     Moudy Ho <moudy.ho@mediatek.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        by ams.source.kernel.org (Postfix) with ESMTPS id A1B0EB82B8F;
+        Fri, 21 Oct 2022 10:52:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2AC6DC433D6;
+        Fri, 21 Oct 2022 10:52:33 +0000 (UTC)
+Date:   Fri, 21 Oct 2022 11:52:30 +0100
+From:   Mark Brown <broonie@debian.org>
+To:     Adam Borowski <kilobyte@angband.pl>
+Cc:     linux-kernel@lists.debian.org,
         Matthias Brugger <matthias.bgg@gmail.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     Chun-Kuang Hu <chunkuang.hu@kernel.org>,
-        linux-media@vger.kernel.org, linux-mediatek@lists.infradead.org,
-        linux-kernel@vger.kernel.org,
-        Project_Global_Chrome_Upstream_Group@mediatek.com
-References: <20221020071800.20487-1-moudy.ho@mediatek.com>
- <20221020071800.20487-4-moudy.ho@mediatek.com>
-From:   AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20221020071800.20487-4-moudy.ho@mediatek.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
-        SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Jiaxin Yu <jiaxin.yu@mediatek.com>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        linux-mediatek@lists.infradead.org, alsa-devel@alsa-project.org,
+        David Howells <dhowells@redhat.com>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        "David S. Miller" <davem@davemloft.net>, keyrings@vger.kernel.org,
+        linux-crypto@vger.kernel.org,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Richard Weinberger <richard@nod.at>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        linux-mtd@lists.infradead.org, linux-spi@vger.kernel.org,
+        Yong Zhi <yong.zhi@intel.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Bingbu Cao <bingbu.cao@intel.com>,
+        Dan Scally <djrscally@gmail.com>,
+        Tianshu Qiu <tian.shu.qiu@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, Khalil Blaiech <kblaiech@nvidia.com>,
+        Asmaa Mnebhi <asmaa@nvidia.com>, linux-i2c@vger.kernel.org,
+        Cezary Rojewski <cezary.rojewski@intel.com>,
+        Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+        Liam Girdwood <liam.r.girdwood@linux.intel.com>,
+        Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+        Bard Liao <yung-chuan.liao@linux.intel.com>,
+        Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
+        Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+        Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>, Brent Lu <brent.lu@intel.com>
+Subject: Re: [PATCH 0/6] a pile of randconfig fixes
+Message-ID: <Y1J57jJ1+FTG7U9O@sirena.org.uk>
+References: <20221020221749.33746-1-kilobyte@angband.pl>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="wWcrkmaG6Bl+vyW8"
+Content-Disposition: inline
+In-Reply-To: <20221020221749.33746-1-kilobyte@angband.pl>
+X-Cookie: On the eighth day, God created FORTRAN.
+X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Il 20/10/22 09:18, Moudy Ho ha scritto:
-> Adjust label "err_return" order to avoid double freeing, and
-> add two labels for easy traceability.
-> 
-> Fixes: 61890ccaefaf ("media: platform: mtk-mdp3: add MediaTek MDP3 driver")
-> Signed-off-by: Moudy Ho <moudy.ho@mediatek.com>
 
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+--wWcrkmaG6Bl+vyW8
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
+On Fri, Oct 21, 2022 at 12:17:49AM +0200, Adam Borowski wrote:
 
+> I've been doing randconfig build tests for quite a while, here's a pile of
+> fixes.  I'm not sure what's the best way to submit these: do you folks
+> prefer a series like this, or a number of individual submissions?
+
+Individual submissions would cut down on the noise from the enormous CC
+list.  If you were going to send as a patch series it should be a single
+message per patch as covered in sumbitting-patches.rst.
+
+--wWcrkmaG6Bl+vyW8
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmNSee4ACgkQJNaLcl1U
+h9BDwgf+IkbiCFyXzVrO3F8yBx883iUJM3R8A5LPsrxScBUzS3Nu7PgzWmko3Bfa
+wm/rXizNrMQPDqUakrtR8duh+w/eL6Lz3YrZEQEaM2fd8+MayJt9tXB4o/qfcrBc
+B3o7lbqL9Hp0yqRKKG8orcvyiJDpOh2Z+zLAYqy+LuFLuiv6kSKu8h7c2vm7DKCw
++wGkRN5blfrYPHGOoU/r6oqjT2qx6BFUsXpnILPw2XRtXlkYv37BLu4rRgZ7qc+D
+Afo+DwE5y6d9t9ebOL0UjvgveEysSY3VksxCcjtWru+wN/bjPbET1VFJUrfbMyGf
+y+JN6EsaYWeKmGsk5T5pZ5XczMBC+A==
+=kG7z
+-----END PGP SIGNATURE-----
+
+--wWcrkmaG6Bl+vyW8--
