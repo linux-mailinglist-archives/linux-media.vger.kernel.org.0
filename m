@@ -2,34 +2,34 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0968C608BE3
-	for <lists+linux-media@lfdr.de>; Sat, 22 Oct 2022 12:47:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A7379608B61
+	for <lists+linux-media@lfdr.de>; Sat, 22 Oct 2022 12:17:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230062AbiJVKrv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 22 Oct 2022 06:47:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58866 "EHLO
+        id S230294AbiJVKQ4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 22 Oct 2022 06:16:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49288 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230047AbiJVKrd (ORCPT
+        with ESMTP id S230160AbiJVKQ2 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 22 Oct 2022 06:47:33 -0400
+        Sat, 22 Oct 2022 06:16:28 -0400
 Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [IPv6:2001:4b98:dc4:8::240])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D1E901D8F28
-        for <linux-media@vger.kernel.org>; Sat, 22 Oct 2022 03:05:16 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 10DCA2E982B
+        for <linux-media@vger.kernel.org>; Sat, 22 Oct 2022 02:33:16 -0700 (PDT)
 Received: from relay10.mail.gandi.net (unknown [IPv6:2001:4b98:dc4:8::230])
-        by mslow1.mail.gandi.net (Postfix) with ESMTP id 4DB70CCC1F
-        for <linux-media@vger.kernel.org>; Sat, 22 Oct 2022 09:21:54 +0000 (UTC)
+        by mslow1.mail.gandi.net (Postfix) with ESMTP id 913A1CCC36
+        for <linux-media@vger.kernel.org>; Sat, 22 Oct 2022 09:21:56 +0000 (UTC)
 Received: (Authenticated sender: jacopo@jmondi.org)
-        by mail.gandi.net (Postfix) with ESMTPSA id D37EC240009;
-        Sat, 22 Oct 2022 09:20:32 +0000 (UTC)
+        by mail.gandi.net (Postfix) with ESMTPSA id 2D68A24000A;
+        Sat, 22 Oct 2022 09:20:34 +0000 (UTC)
 From:   Jacopo Mondi <jacopo@jmondi.org>
 To:     =?UTF-8?q?Krzysztof=20Ha=C5=82asa?= <khalasa@piap.pl>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Sakari Ailus <sakari.ailus@iki.fi>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Cc:     Jacopo Mondi <jacopo@jmondi.org>, linux-media@vger.kernel.org
-Subject: [PATCH v2 02/10] media: ar0521: Add V4L2_CID_ANALOG_GAIN
-Date:   Sat, 22 Oct 2022 11:20:07 +0200
-Message-Id: <20221022092015.208592-3-jacopo@jmondi.org>
+Subject: [PATCH v2 03/10] media: ar0521: Set maximum resolution to 2592x1944
+Date:   Sat, 22 Oct 2022 11:20:08 +0200
+Message-Id: <20221022092015.208592-4-jacopo@jmondi.org>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20221022092015.208592-1-jacopo@jmondi.org>
 References: <20221022092015.208592-1-jacopo@jmondi.org>
@@ -43,62 +43,62 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add support for V4L2_CID_ANALOG_GAIN. The control programs the global
-gain register which applies to all color channels.
+Change the largest visibile resolution to 2592x1944, which corresponds
+to the active pixel array area size. Take into account the horizontal
+and vertical limits when programming the visible sizes to skip
+dummy/inactive pixels.
 
 Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
 ---
- drivers/media/i2c/ar0521.c | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
+ drivers/media/i2c/ar0521.c | 23 +++++++++++++++++------
+ 1 file changed, 17 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/media/i2c/ar0521.c b/drivers/media/i2c/ar0521.c
-index 0daa61df2603..ba169f0218a9 100644
+index ba169f0218a9..dfa4de0f4996 100644
 --- a/drivers/media/i2c/ar0521.c
 +++ b/drivers/media/i2c/ar0521.c
-@@ -35,6 +35,11 @@
+@@ -26,10 +26,17 @@
+ #define AR0521_PIXEL_CLOCK_MIN	 (168 * 1000 * 1000)
+ #define AR0521_PIXEL_CLOCK_MAX	 (414 * 1000 * 1000)
+ 
++#define AR0521_NATIVE_WIDTH		2604u
++#define AR0521_NATIVE_HEIGHT		1964u
++#define AR0521_MIN_X_ADDR_START		0u
++#define AR0521_MIN_Y_ADDR_START		0u
++#define AR0521_MAX_X_ADDR_END		2603u
++#define AR0521_MAX_Y_ADDR_END		1955u
++
+ #define AR0521_WIDTH_MIN	       8u
+-#define AR0521_WIDTH_MAX	    2608u
++#define AR0521_WIDTH_MAX	    2592u
+ #define AR0521_HEIGHT_MIN	       8u
+-#define AR0521_HEIGHT_MAX	    1958u
++#define AR0521_HEIGHT_MAX	    1944u
+ 
+ #define AR0521_WIDTH_BLANKING_MIN     572u
  #define AR0521_HEIGHT_BLANKING_MIN     38u /* must be even */
- #define AR0521_TOTAL_WIDTH_MIN	     2968u
+@@ -176,13 +183,17 @@ static int ar0521_write_reg(struct ar0521_dev *sensor, u16 reg, u16 val)
  
-+#define AR0521_ANA_GAIN_MIN		0x00
-+#define AR0521_ANA_GAIN_MAX		0x3f
-+#define AR0521_ANA_GAIN_STEP		0x01
-+#define AR0521_ANA_GAIN_DEFAULT		0x00
+ static int ar0521_set_geometry(struct ar0521_dev *sensor)
+ {
++	/* Center the image in the visible output window. */
++	u16 x = clamp((AR0521_WIDTH_MAX - sensor->fmt.width) / 2,
++		       AR0521_MIN_X_ADDR_START, AR0521_MAX_X_ADDR_END);
++	u16 y = clamp(((AR0521_HEIGHT_MAX - sensor->fmt.height) / 2) & ~1,
++		       AR0521_MIN_Y_ADDR_START, AR0521_MAX_Y_ADDR_END);
 +
- /* AR0521 registers */
- #define AR0521_REG_VT_PIX_CLK_DIV		0x0300
- #define AR0521_REG_FRAME_LENGTH_LINES		0x0340
-@@ -50,6 +55,8 @@
- #define   AR0521_REG_RESET_RESTART		  BIT(1)
- #define   AR0521_REG_RESET_INIT			  BIT(0)
- 
-+#define AR0521_REG_ANA_GAIN_CODE_GLOBAL		0x3028
-+
- #define AR0521_REG_GREEN1_GAIN			0x3056
- #define AR0521_REG_BLUE_GAIN			0x3058
- #define AR0521_REG_RED_GAIN			0x305A
-@@ -456,6 +463,10 @@ static int ar0521_s_ctrl(struct v4l2_ctrl *ctrl)
- 	case V4L2_CID_VBLANK:
- 		ret = ar0521_set_geometry(sensor);
- 		break;
-+	case V4L2_CID_ANALOGUE_GAIN:
-+		ret = ar0521_write_reg(sensor, AR0521_REG_ANA_GAIN_CODE_GLOBAL,
-+				       ctrl->val);
-+		break;
- 	case V4L2_CID_GAIN:
- 	case V4L2_CID_RED_BALANCE:
- 	case V4L2_CID_BLUE_BALANCE:
-@@ -499,6 +510,11 @@ static int ar0521_init_controls(struct ar0521_dev *sensor)
- 	/* We can use our own mutex for the ctrl lock */
- 	hdl->lock = &sensor->lock;
- 
-+	/* Analog gain */
-+	v4l2_ctrl_new_std(hdl, ops, V4L2_CID_ANALOGUE_GAIN,
-+			  AR0521_ANA_GAIN_MIN, AR0521_ANA_GAIN_MAX,
-+			  AR0521_ANA_GAIN_STEP, AR0521_ANA_GAIN_DEFAULT);
-+
- 	/* Manual gain */
- 	ctrls->gain = v4l2_ctrl_new_std(hdl, ops, V4L2_CID_GAIN, 0, 511, 1, 0);
- 	ctrls->red_balance = v4l2_ctrl_new_std(hdl, ops, V4L2_CID_RED_BALANCE,
+ 	/* All dimensions are unsigned 12-bit integers */
+-	u16 x = (AR0521_WIDTH_MAX - sensor->fmt.width) / 2;
+-	u16 y = ((AR0521_HEIGHT_MAX - sensor->fmt.height) / 2) & ~1;
+ 	__be16 regs[] = {
+ 		be(AR0521_REG_FRAME_LENGTH_LINES),
+-		be(sensor->total_height),
+-		be(sensor->total_width),
++		be(sensor->fmt.height + sensor->ctrls.vblank->val),
++		be(sensor->fmt.width + sensor->ctrls.hblank->val),
+ 		be(x),
+ 		be(y),
+ 		be(x + sensor->fmt.width - 1),
 -- 
 2.37.3
 
