@@ -2,113 +2,114 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CA5D8608BA0
-	for <lists+linux-media@lfdr.de>; Sat, 22 Oct 2022 12:28:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 63E88608C38
+	for <lists+linux-media@lfdr.de>; Sat, 22 Oct 2022 13:04:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230449AbiJVK2D (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 22 Oct 2022 06:28:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39612 "EHLO
+        id S230194AbiJVLEN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 22 Oct 2022 07:04:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60034 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230291AbiJVK1q (ORCPT
+        with ESMTP id S231145AbiJVLDZ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 22 Oct 2022 06:27:46 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C43E3468C7;
-        Sat, 22 Oct 2022 02:42:41 -0700 (PDT)
-Received: from localhost (89-26-75-29.goll.dyn.salzburg-online.at [89.26.75.29])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        Sat, 22 Oct 2022 07:03:25 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F0A6C140A6;
+        Sat, 22 Oct 2022 03:21:31 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        (Authenticated sender: sebastianfricke)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 79C0E660247B;
-        Sat, 22 Oct 2022 10:42:17 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1666431737;
-        bh=9zWEmJ8nynpwf7MY4F3NB+pWBM0KjyaSIimX+SQ+i6M=;
+        by dfw.source.kernel.org (Postfix) with ESMTPS id CE36760BBF;
+        Sat, 22 Oct 2022 10:21:30 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B97FEC433D6;
+        Sat, 22 Oct 2022 10:21:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1666434090;
+        bh=4VayhwOVTKVAjPqqz97sF96LRLG+KRcajksLHZHtUxk=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=AUuaj+XeQSZZtWcN0+zLn45zkLxRS2/K0CDBPb7VvOhc3UUyYtyCQQakT9ocraMYm
-         3sxZdpmnwbIAnRUZA288aRL+KdkKb8JL9RNTx/J7fl/r0i+PDqCHP1kDpmDN//5iDJ
-         rNrPOd/bJ/+m4o5yM4P/JfTPVLg68XUJnMWGXbosRjxKwNzkL4/+jTqTlZNndEHSUi
-         +0oAyUzWnmdLz6KQ45h2ljjSa4EXV+wxYodZ2OwHQtjRzS5KmpiJGc4X5ZQ3RHwPNc
-         bNSCPVGlKIdb1WKprK9R9vgPhZdV8tCEawtA8iyR+EoH5pBoGLk2FhaXDzYWjiWRyZ
-         6N/tJs5aC3pGg==
-Date:   Sat, 22 Oct 2022 11:42:14 +0200
-From:   Sebastian Fricke <sebastian.fricke@collabora.com>
-To:     linux-media@vger.kernel.org
-Cc:     kernel@collabora.com, nas.chung@chipsnmedia.com,
-        hverkuil@xs4all.nl, ezequiel@vanguardiasur.com.ar,
-        linux-kernel@vger.kernel.org, nicolas.dufresne@collabora.com,
-        p.zabel@pengutronix.de, dafna@fastmail.com
-Subject: Re: [PATCH v10 5/7] media: chips-media: wave5: Add TODO file
-Message-ID: <20221022094214.t7d36usgqk446t4q@basti-XPS-13-9310>
-References: <20221022000506.221933-1-sebastian.fricke@collabora.com>
- <20221022000506.221933-6-sebastian.fricke@collabora.com>
+        b=wOx3mp5ksWJtvhNhAOmZUG8X3+HuRkTdY9Nc7h6cWFEIxsW4svt4t9REDVX0plI4T
+         0jvG2TdFgRx98jdox1K2bPVjxSRKOYymF+6X8vmbsIcB0hIMeoD9P7/9qN6LIAT+Ko
+         fQekZTeUTocY/mdL9wRqCZaeHaw+pLcmNqIWDT+k=
+Date:   Sat, 22 Oct 2022 12:21:27 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     "Jason A. Donenfeld" <Jason@zx2c4.com>
+Cc:     linux-kernel@vger.kernel.org, Kees Cook <keescook@chromium.org>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Russell King <linux@armlinux.org.uk>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        Christoph =?iso-8859-1?Q?B=F6hmwalder?= 
+        <christoph.boehmwalder@linbit.com>,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Jason Gunthorpe <jgg@nvidia.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        "Martin K . Petersen" <martin.petersen@oracle.com>,
+        Theodore Ts'o <tytso@mit.edu>,
+        Andreas Dilger <adilger.kernel@dilger.ca>,
+        Jaegeuk Kim <jaegeuk@kernel.org>,
+        Richard Weinberger <richard@nod.at>,
+        "Darrick J . Wong" <djwong@kernel.org>,
+        SeongJae Park <sj@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Helge Deller <deller@gmx.de>, netdev@vger.kernel.org,
+        linux-crypto@vger.kernel.org, linux-block@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, loongarch@lists.linux.dev,
+        linux-mips@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        linux-mmc@vger.kernel.org, linux-parisc@vger.kernel.org
+Subject: Re: [PATCH v1 0/5] convert tree to
+ get_random_u32_{below,above,between}()
+Message-ID: <Y1PEJxnlY7dh4yK8@kroah.com>
+References: <20221022014403.3881893-1-Jason@zx2c4.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221022000506.221933-6-sebastian.fricke@collabora.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <20221022014403.3881893-1-Jason@zx2c4.com>
+X-Spam-Status: No, score=-7.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hey all,
+On Fri, Oct 21, 2022 at 09:43:58PM -0400, Jason A. Donenfeld wrote:
+> Hey everyone,
+> 
+> Here's the second and final tranche of tree-wide conversions to get
+> random integer handling a bit tamer. It's predominantly another
+> Coccinelle-based patchset.
+> 
+> First we s/prandom_u32_max/get_random_u32_below/, since the former is
+> just a deprecated alias for the latter. Then in the next commit we can
+> remove prandom_u32_max all together. I'm quite happy about finally being
+> able to do that. It means that prandom.h is now only for deterministic and 
+> repeatable randomness, not non-deterministic/cryptographic randomness.
+> That line is no longer blurred.
+> 
+> Then, in order to clean up a bunch of inefficient patterns, we introduce
+> two trivial static inline helper functions built on top of
+> get_random_u32_below: get_random_u32_above and get_random_u32_between.
+> These are pretty straight forward to use and understand. Then the final
+> two patches convert some gnarly open-coded number juggling to use these
+> helpers.
+> 
+> I've used Coccinelle for all the treewide patches, so hopefully review
+> is rather uneventful. I didn't accept all of the changes that Coccinelle
+> proposed, though, as these tend to be somewhat context-specific. I erred
+> on the side of just going with the most obvious cases, at least this
+> time through. And then we can address more complicated cases through
+> actual maintainer trees.
+> 
+> Since get_random_u32_below() sits in my random.git tree, these patches
+> too will flow through that same tree.
+> 
+> Regards,
+> Jason
 
-sorry I noticed that the TODO file is still in the staging directory.
-Will be fixed in V11.
 
-Greetings,
-Sebastian
-
-On 22.10.2022 02:05, Sebastian Fricke wrote:
->From: Nas Chung <nas.chung@chipsnmedia.com>
->
->Add a TODO file with remaining elements to be improved/added.
->
->Signed-off-by: Robert Beckett <bob.beckett@collabora.com>
->Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
->Signed-off-by: Sebastian Fricke <sebastian.fricke@collabora.com>
->Signed-off-by: Nas Chung <nas.chung@chipsnmedia.com>
->---
-> drivers/staging/media/wave5/TODO | 25 +++++++++++++++++++++++++
-> 1 file changed, 25 insertions(+)
-> create mode 100644 drivers/staging/media/wave5/TODO
->
->diff --git a/drivers/staging/media/wave5/TODO b/drivers/staging/media/wave5/TODO
->new file mode 100644
->index 000000000000..6cc38d4ccbc9
->--- /dev/null
->+++ b/drivers/staging/media/wave5/TODO
->@@ -0,0 +1,25 @@
->+* Handle interrupts better
->+
->+Currently the interrupt handling uses an unusual design employing a kfifo to
->+transfer irq status to irq thread. This was done as a work around for dropped
->+interrupts seen with IRQF_ONESHOT based handling.
->+
->+This needs further investigation and fixing properly, with the aid of
->+C&M and StarFive engineers.
->+
->+* remove all struct fields, that are assigned to but not used in the code, add
->+  documentation about each removed field at the macro for the register it is
->+  related too.
->+
->+* power management handling - add (runtime_)suspen/resume cb where the clock is enabled
->+
->+* revise logic of wave5_vpu_(dec/enc)_register_framebuffer
->+
->+* check if the  normal kernel endianness/__swab32 routines are sufficient. (instead of the ones
->+  implemented in the driver)
->+
->+* Extended Codec Controls for encoder.
->+
->+implement extended codec control for HEVC/H264 encoder.
->+PROFILE/LEVEL/MIN_QP/MAX_QP/LOOP_FILTER/HFLIP/VFIIP/ROTATE/
->+GOP_SIZE/RC_ENABLE/I_PERIOD/BITRATE.
->-- 
->2.25.1
->
+Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
