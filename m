@@ -2,72 +2,74 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 63E88608C38
-	for <lists+linux-media@lfdr.de>; Sat, 22 Oct 2022 13:04:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D5989608CC3
+	for <lists+linux-media@lfdr.de>; Sat, 22 Oct 2022 13:37:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230194AbiJVLEN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 22 Oct 2022 07:04:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60034 "EHLO
+        id S230424AbiJVLhy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 22 Oct 2022 07:37:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59000 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231145AbiJVLDZ (ORCPT
+        with ESMTP id S230020AbiJVLhi (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 22 Oct 2022 07:03:25 -0400
+        Sat, 22 Oct 2022 07:37:38 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F0A6C140A6;
-        Sat, 22 Oct 2022 03:21:31 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B0F30DF9;
+        Sat, 22 Oct 2022 04:24:15 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id CE36760BBF;
-        Sat, 22 Oct 2022 10:21:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B97FEC433D6;
-        Sat, 22 Oct 2022 10:21:29 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 3920260D34;
+        Sat, 22 Oct 2022 11:24:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ED202C433C1;
+        Sat, 22 Oct 2022 11:24:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1666434090;
-        bh=4VayhwOVTKVAjPqqz97sF96LRLG+KRcajksLHZHtUxk=;
+        s=korg; t=1666437854;
+        bh=QlHVwvQAZAIgvjk8abE10EkrdDUL7r/AigVC5ALYQK4=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=wOx3mp5ksWJtvhNhAOmZUG8X3+HuRkTdY9Nc7h6cWFEIxsW4svt4t9REDVX0plI4T
-         0jvG2TdFgRx98jdox1K2bPVjxSRKOYymF+6X8vmbsIcB0hIMeoD9P7/9qN6LIAT+Ko
-         fQekZTeUTocY/mdL9wRqCZaeHaw+pLcmNqIWDT+k=
-Date:   Sat, 22 Oct 2022 12:21:27 +0200
+        b=un1PldCoLSJ88cWZRYnjm5Oi1KiCHJHB0LueFTTYXn8D7fIAxS0vK6V48SeMy9VdW
+         ZuWEiHtsrYztxbCEB+Ntyz+QhjY7UYniFteggfYw/ntXKMozNoEsqsq66wk3rOhU3K
+         hzsEaBZQY3uGlKbG/0kkX3FnGtw/tJtrFvWLyT24=
+Date:   Sat, 22 Oct 2022 13:24:12 +0200
 From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     "Jason A. Donenfeld" <Jason@zx2c4.com>
-Cc:     linux-kernel@vger.kernel.org, Kees Cook <keescook@chromium.org>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Russell King <linux@armlinux.org.uk>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        Christoph =?iso-8859-1?Q?B=F6hmwalder?= 
-        <christoph.boehmwalder@linbit.com>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Jason Gunthorpe <jgg@nvidia.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        "Martin K . Petersen" <martin.petersen@oracle.com>,
-        Theodore Ts'o <tytso@mit.edu>,
-        Andreas Dilger <adilger.kernel@dilger.ca>,
-        Jaegeuk Kim <jaegeuk@kernel.org>,
-        Richard Weinberger <richard@nod.at>,
-        "Darrick J . Wong" <djwong@kernel.org>,
-        SeongJae Park <sj@kernel.org>,
+To:     Arnd Bergmann <arnd@kernel.org>
+Cc:     linux-arm-kernel@lists.infradead.org,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        linux-kernel@vger.kernel.org, Ben Dooks <ben-linux@fluff.org>,
+        Simtec Linux Team <linux@simtec.co.uk>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Alim Akhtar <alim.akhtar@samsung.com>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
         Thomas Gleixner <tglx@linutronix.de>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Helge Deller <deller@gmx.de>, netdev@vger.kernel.org,
-        linux-crypto@vger.kernel.org, linux-block@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, loongarch@lists.linux.dev,
-        linux-mips@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        linux-mmc@vger.kernel.org, linux-parisc@vger.kernel.org
-Subject: Re: [PATCH v1 0/5] convert tree to
- get_random_u32_{below,above,between}()
-Message-ID: <Y1PEJxnlY7dh4yK8@kroah.com>
-References: <20221022014403.3881893-1-Jason@zx2c4.com>
+        Jonathan Cameron <jic23@kernel.org>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Sylwester Nawrocki <sylvester.nawrocki@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Richard Weinberger <richard@nod.at>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        Tomasz Figa <tomasz.figa@gmail.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Alessandro Zummo <a.zummo@towertech.it>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Chanwoo Choi <cw00.choi@samsung.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        linux-samsung-soc@vger.kernel.org, linux-i2c@vger.kernel.org,
+        linux-iio@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-mmc@vger.kernel.org, linux-mtd@lists.infradead.org,
+        linux-gpio@vger.kernel.org, linux-rtc@vger.kernel.org,
+        linux-serial@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-watchdog@vger.kernel.org, linux-clk@vger.kernel.org
+Subject: Re: [PATCH 02/21] ARM: s3c: remove s3c24xx specific hacks
+Message-ID: <Y1PS3A75mXIEb+MA@kroah.com>
+References: <20221021202254.4142411-1-arnd@kernel.org>
+ <20221021203329.4143397-2-arnd@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221022014403.3881893-1-Jason@zx2c4.com>
+In-Reply-To: <20221021203329.4143397-2-arnd@kernel.org>
 X-Spam-Status: No, score=-7.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
@@ -77,39 +79,14 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Oct 21, 2022 at 09:43:58PM -0400, Jason A. Donenfeld wrote:
-> Hey everyone,
+On Fri, Oct 21, 2022 at 10:27:35PM +0200, Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
 > 
-> Here's the second and final tranche of tree-wide conversions to get
-> random integer handling a bit tamer. It's predominantly another
-> Coccinelle-based patchset.
+> A number of device drivers reference CONFIG_ARM_S3C24XX_CPUFREQ or
+> similar symbols that are no longer available with the platform gone,
+> though the drivers themselves are still used on newer platforms,
+> so remove these hacks.
 > 
-> First we s/prandom_u32_max/get_random_u32_below/, since the former is
-> just a deprecated alias for the latter. Then in the next commit we can
-> remove prandom_u32_max all together. I'm quite happy about finally being
-> able to do that. It means that prandom.h is now only for deterministic and 
-> repeatable randomness, not non-deterministic/cryptographic randomness.
-> That line is no longer blurred.
-> 
-> Then, in order to clean up a bunch of inefficient patterns, we introduce
-> two trivial static inline helper functions built on top of
-> get_random_u32_below: get_random_u32_above and get_random_u32_between.
-> These are pretty straight forward to use and understand. Then the final
-> two patches convert some gnarly open-coded number juggling to use these
-> helpers.
-> 
-> I've used Coccinelle for all the treewide patches, so hopefully review
-> is rather uneventful. I didn't accept all of the changes that Coccinelle
-> proposed, though, as these tend to be somewhat context-specific. I erred
-> on the side of just going with the most obvious cases, at least this
-> time through. And then we can address more complicated cases through
-> actual maintainer trees.
-> 
-> Since get_random_u32_below() sits in my random.git tree, these patches
-> too will flow through that same tree.
-> 
-> Regards,
-> Jason
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 
-
-Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
