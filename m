@@ -2,54 +2,47 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 502C66091D5
-	for <lists+linux-media@lfdr.de>; Sun, 23 Oct 2022 10:53:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C3F9D6091FF
+	for <lists+linux-media@lfdr.de>; Sun, 23 Oct 2022 11:29:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229587AbiJWIxs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 23 Oct 2022 04:53:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50230 "EHLO
+        id S229781AbiJWJ3N (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 23 Oct 2022 05:29:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44658 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229497AbiJWIxr (ORCPT
+        with ESMTP id S230037AbiJWJ3J (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 23 Oct 2022 04:53:47 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3ADD8691B3;
-        Sun, 23 Oct 2022 01:53:46 -0700 (PDT)
-Received: from localhost (89-26-75-29.goll.dyn.salzburg-online.at [89.26.75.29])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: sebastianfricke)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 31C176602339;
-        Sun, 23 Oct 2022 09:53:44 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1666515224;
-        bh=aJ+LP5ZHSfQrG2p0HuBnO/v4SrrZrqIly83JQj98tWk=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=JIl6XYqwNgGKmWbKY7Sf+eGnekyH/T08sjzJdSPcP/Pb3t+NwCE71DIw0L7mnrmz6
-         SP4sggzS82fJ4kLeAB9wN+1tkr7NowRPugBwtE6CcbRnRDZgqalhWvoff2Y2rPotwX
-         1bGaY/T+pdrAa+3YwZDmG4elvm1I9u9GqP9hEkO/VTIjwxOwd5YPX0vqPQMOPKubMx
-         r9eI8iBvk146tn2mo6BaR7FcXcRvZAPDn50RY/6BlP/RD1ReYJwEMao5cVjpQieICt
-         oOBbLpyqKIYTztm9LxN/LObFKgUazupLnRf8qx/KByAGpKUGCt7K2JD/aWZqkMXHYt
-         dbFFw000NS6fw==
-Date:   Sun, 23 Oct 2022 10:53:41 +0200
-From:   Sebastian Fricke <sebastian.fricke@collabora.com>
-To:     linux-media@vger.kernel.org
+        Sun, 23 Oct 2022 05:29:09 -0400
+Received: from smtp.smtpout.orange.fr (smtp-11.smtpout.orange.fr [80.12.242.11])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59D1E69F40
+        for <linux-media@vger.kernel.org>; Sun, 23 Oct 2022 02:29:04 -0700 (PDT)
+Received: from [192.168.1.18] ([86.243.100.34])
+        by smtp.orange.fr with ESMTPA
+        id mXHuoJQyQvbzbmXHuoordZ; Sun, 23 Oct 2022 11:29:02 +0200
+X-ME-Helo: [192.168.1.18]
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Sun, 23 Oct 2022 11:29:02 +0200
+X-ME-IP: 86.243.100.34
+Message-ID: <6a2e5dec-ab54-a156-98f0-a8bff6a24700@wanadoo.fr>
+Date:   Sun, 23 Oct 2022 11:28:58 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Subject: Re: [PATCH v10 3/7] media: chips-media: wave5: Add the vdi layer
+To:     Sebastian Fricke <sebastian.fricke@collabora.com>,
+        linux-media@vger.kernel.org
 Cc:     kernel@collabora.com, nas.chung@chipsnmedia.com,
         hverkuil@xs4all.nl, ezequiel@vanguardiasur.com.ar,
         linux-kernel@vger.kernel.org, nicolas.dufresne@collabora.com,
         p.zabel@pengutronix.de, dafna@fastmail.com
-Subject: Re: [PATCH v10 6/7] dt-bindings: media: wave5: add yaml devicetree
- bindings
-Message-ID: <20221023085341.s23qinjuw4qls3dn@basti-XPS-13-9310>
 References: <20221022000506.221933-1-sebastian.fricke@collabora.com>
- <20221022000506.221933-7-sebastian.fricke@collabora.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Disposition: inline
-In-Reply-To: <20221022000506.221933-7-sebastian.fricke@collabora.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+ <20221022000506.221933-4-sebastian.fricke@collabora.com>
+Content-Language: fr
+From:   Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+In-Reply-To: <20221022000506.221933-4-sebastian.fricke@collabora.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -57,106 +50,403 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hey all,
+Le 22/10/2022 à 02:05, Sebastian Fricke a écrit :
+> From: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+> 
+> Add the vdi part of the wave5 codec driver. The wave5-vdi.h header
+> defines common helper functions such as writing/reading register and
+> handling endianness.
+> 
+> Signed-off-by: Robert Beckett <bob.beckett@collabora.com>
+> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+> Signed-off-by: Sebastian Fricke <sebastian.fricke@collabora.com>
 
-I have noticed that I renamed the file incorrectly, in V11 it will be
-called: "cnm,wave5.yml"
+Hi, a few nit below.
 
-Greetings,
-Sebastian
+CJ
 
-On 22.10.2022 02:05, Sebastian Fricke wrote:
->From: Robert Beckett <bob.beckett@collabora.com>
->
->Add bindings for the wave5 chips&media codec driver
->
->Signed-off-by: Robert Beckett <bob.beckett@collabora.com>
->Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
->Signed-off-by: Sebastian Fricke <sebastian.fricke@collabora.com>
->---
-> .../devicetree/bindings/media/wave5.yml       | 73 +++++++++++++++++++
-> 1 file changed, 73 insertions(+)
-> create mode 100644 Documentation/devicetree/bindings/media/wave5.yml
->
->diff --git a/Documentation/devicetree/bindings/media/wave5.yml b/Documentation/devicetree/bindings/media/wave5.yml
->new file mode 100644
->index 000000000000..85dc3c744876
->--- /dev/null
->+++ b/Documentation/devicetree/bindings/media/wave5.yml
->@@ -0,0 +1,73 @@
->+# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
->+%YAML 1.2
->+---
->+$id: http://devicetree.org/schemas/media/wave5.yaml#
->+$schema: http://devicetree.org/meta-schemas/core.yaml#
->+
->+title: Chips&Media Wave 5 Series multi-standard codec IP
->+
->+maintainers:
->+  - Nas Chung <nas.chung@chipsnmedia.com>
->+  - Robert Beckett <bob.beckett@collabora.com>
->+  - Sebastian Fricke <sebastian.fricke@collabora.com>
->+
->+description: |-
->+  The Chips&Media WAVE codec IP is a multi format video encoder/decoder
->+
->+properties:
->+  compatible:
->+    anyOf:
->+      - items:
->+        - enum:
->+            - cnm,cm511-vpu
->+            - cnm,cm517-vpu
->+            - cnm,cm521-vpu
->+            - cnm,cm521c-vpu
->+            - cnm,cm521c-dual-vpu
->+            - cnm,cm521e1-vpu
->+            - cnm,cm537-vpu
->+  reg:
->+    maxItems: 1
->+
->+  clocks:
->+    minItems: 1
->+    maxItems: 4
->+
->+  clock-names:
->+    minItems: 1
->+    maxItems: 4
->+
->+  interrupts:
->+    maxItems: 1
->+
->+  power-domains:
->+    maxItems: 1
->+
->+  resets:
->+    maxItems: 1
->+
->+  sram:
->+    $ref: /schemas/types.yaml#/definitions/phandle
->+    description: phandle pointing to the SRAM device node
->+    maxItems: 1
->+
->+required:
->+  - compatible
->+  - reg
->+  - interrupts
->+  - clocks
->+  - clock-names
->+
->+additionalProperties: false
->+
->+examples:
->+  - |
->+    vpu: video-codec@12345678 {
->+        compatible = "cnm,cm521-vpu";
->+        reg = <0x12345678 0x1000>;
->+        interrupts = <42>;
->+        clocks = <&clks 42>;
->+        clock-names = "vcodec";
->+        sram = <&sram>;
->+    };
->+
->-- 
->2.25.1
->
+> ---
+>   .../platform/chips-media/wave5/wave5-vdi.c    | 261 ++++++++++++++++++
+>   .../platform/chips-media/wave5/wave5-vdi.h    |  67 +++++
+>   .../platform/chips-media/wave5/wave5-vpuapi.h |   2 +-
+>   3 files changed, 329 insertions(+), 1 deletion(-)
+>   create mode 100644 drivers/media/platform/chips-media/wave5/wave5-vdi.c
+>   create mode 100644 drivers/media/platform/chips-media/wave5/wave5-vdi.h
+> 
+> diff --git a/drivers/media/platform/chips-media/wave5/wave5-vdi.c b/drivers/media/platform/chips-media/wave5/wave5-vdi.c
+> new file mode 100644
+> index 000000000000..f85580dba294
+> --- /dev/null
+> +++ b/drivers/media/platform/chips-media/wave5/wave5-vdi.c
+> @@ -0,0 +1,261 @@
+> +// SPDX-License-Identifier: (GPL-2.0 OR BSD-3-Clause)
+> +/*
+> + * Wave5 series multi-standard codec IP - low level access functions
+> + *
+> + * Copyright (C) 2021 CHIPS&MEDIA INC
+> + */
+> +
+> +#include <linux/bug.h>
+> +#include "wave5-vdi.h"
+> +#include "wave5-vpu.h"
+> +#include "wave5-regdefine.h"
+> +#include <linux/delay.h>
+> +
+> +#define VDI_SRAM_BASE_ADDR		0x00
+> +
+> +#define VDI_SYSTEM_ENDIAN		VDI_LITTLE_ENDIAN
+> +#define VDI_128BIT_BUS_SYSTEM_ENDIAN	VDI_128BIT_LITTLE_ENDIAN
+> +
+> +static int wave5_vdi_allocate_common_memory(struct device *dev)
+> +{
+> +	struct vpu_device *vpu_dev = dev_get_drvdata(dev);
+> +
+> +	if (!vpu_dev->common_mem.vaddr) {
+> +		int ret;
+> +
+> +		vpu_dev->common_mem.size = SIZE_COMMON;
+> +		ret = wave5_vdi_allocate_dma_memory(vpu_dev, &vpu_dev->common_mem);
+> +		if (ret) {
+> +			dev_err(dev, "unable to allocate common buffer\n");
+> +			return ret;
+> +		}
+> +	}
+> +
+> +	dev_dbg(dev, "[VDI] common_mem: daddr=%pad size=%zu vaddr=0x%p\n",
+> +		&vpu_dev->common_mem.daddr, vpu_dev->common_mem.size, vpu_dev->common_mem.vaddr);
+> +
+> +	return 0;
+> +}
+> +
+> +int wave5_vdi_init(struct device *dev)
+> +{
+> +	struct vpu_device *vpu_dev = dev_get_drvdata(dev);
+> +	int ret;
+> +
+> +	ret = wave5_vdi_allocate_common_memory(dev);
+> +	if (ret < 0) {
+> +		dev_err(dev, "[VDI] failed to get vpu common buffer from driver\n");
+> +		return ret;
+> +	}
+> +
+> +	if (!PRODUCT_CODE_W_SERIES(vpu_dev->product_code)) {
+> +		WARN_ONCE(1, "unsupported product code: 0x%x\n", vpu_dev->product_code);
+> +		return 0;
+> +	}
+> +
+> +	// if BIT processor is not running.
+> +	if (wave5_vdi_readl(vpu_dev, W5_VCPU_CUR_PC) == 0) {
+> +		int i;
+> +
+> +		for (i = 0; i < 64; i++)
+> +			wave5_vdi_write_register(vpu_dev, (i * 4) + 0x100, 0x0);
+> +	}
+> +
+> +	dev_dbg(dev, "[VDI] driver initialized successfully\n");
+> +
+> +	return 0;
+> +}
+> +
+> +int wave5_vdi_release(struct device *dev)
+> +{
+> +	struct vpu_device *vpu_dev = dev_get_drvdata(dev);
+> +
+> +	vpu_dev->vdb_register = NULL;
+> +	wave5_vdi_free_dma_memory(vpu_dev, &vpu_dev->common_mem);
+> +
+> +	return 0;
+> +}
+> +
+> +void wave5_vdi_write_register(struct vpu_device *vpu_dev, u32 addr, u32 data)
+> +{
+> +	writel(data, vpu_dev->vdb_register + addr);
+> +}
+> +
+> +unsigned int wave5_vdi_readl(struct vpu_device *vpu_dev, u32 addr)
+> +{
+> +	return readl(vpu_dev->vdb_register + addr);
+> +}
+> +
+> +int wave5_vdi_clear_memory(struct vpu_device *vpu_dev, struct vpu_buf *vb)
+> +{
+> +	if (!vb || !vb->vaddr) {
+> +		dev_err(vpu_dev->dev, "%s: unable to clear unmapped buffer\n", __func__);
+> +		return -EINVAL;
+> +	}
+> +
+> +	memset(vb->vaddr, 0, vb->size);
+> +	return vb->size;
+> +}
+> +
+> +static void wave5_swap_endian(struct vpu_device *vpu_dev, u8 *data, size_t len,
+> +			      unsigned int endian);
+> +
+> +int wave5_vdi_write_memory(struct vpu_device *vpu_dev, struct vpu_buf *vb, size_t offset,
+> +			   u8 *data, size_t len, unsigned int endian)
+> +{
+> +	if (!vb || !vb->vaddr) {
+> +		dev_err(vpu_dev->dev, "%s: unable to write to unmapped buffer\n", __func__);
+> +		return -EINVAL;
+> +	}
+> +
+> +	if (offset > vb->size || len > vb->size || offset + len > vb->size) {
+> +		dev_err(vpu_dev->dev, "%s: buffer too small\n", __func__);
+> +		return -ENOSPC;
+> +	}
+> +
+> +	wave5_swap_endian(vpu_dev, data, len, endian);
+> +	memcpy(vb->vaddr + offset, data, len);
+> +
+> +	return len;
+> +}
+> +
+> +int wave5_vdi_allocate_dma_memory(struct vpu_device *vpu_dev, struct vpu_buf *vb)
+> +{
+> +	void *vaddr;
+> +	dma_addr_t daddr;
+> +
+> +	if (!vb->size) {
+> +		dev_err(vpu_dev->dev, "%s: requested size==0\n", __func__);
+> +		return -EINVAL;
+> +	}
+> +
+> +	vaddr = dma_alloc_coherent(vpu_dev->dev, vb->size, &daddr, GFP_KERNEL);
+> +	if (!vaddr)
+> +		return -ENOMEM;
+> +	vb->vaddr = vaddr;
+> +	vb->daddr = daddr;
+> +
+> +	return 0;
+> +}
+> +
+> +void wave5_vdi_free_dma_memory(struct vpu_device *vpu_dev, struct vpu_buf *vb)
+> +{
+> +	if (vb->size == 0)
+> +		return;
+> +
+> +	if (!vb->vaddr)
+> +		dev_err(vpu_dev->dev, "%s: requested free of unmapped buffer\n", __func__);
+> +	else
+> +		dma_free_coherent(vpu_dev->dev, vb->size, vb->vaddr, vb->daddr);
+> +
+> +	memset(vb, 0, sizeof(*vb));
+> +}
+> +
+> +unsigned int wave5_vdi_convert_endian(struct vpu_device *vpu_dev, unsigned int endian)
+> +{
+> +	if (PRODUCT_CODE_W_SERIES(vpu_dev->product_code)) {
+> +		switch (endian) {
+> +		case VDI_LITTLE_ENDIAN:
+> +			endian = 0x00;
+> +			break;
+> +		case VDI_BIG_ENDIAN:
+> +			endian = 0x0f;
+> +			break;
+> +		case VDI_32BIT_LITTLE_ENDIAN:
+> +			endian = 0x04;
+> +			break;
+> +		case VDI_32BIT_BIG_ENDIAN:
+> +			endian = 0x03;
+> +			break;
+> +		}
+> +	}
+> +
+> +	return (endian & 0x0f);
+> +}
+> +
+> +static void byte_swap(unsigned char *data, size_t len)
+> +{
+> +	u8 temp;
+> +	unsigned int i;
+> +
+> +	for (i = 0; i < len; i += 2) {
+> +		temp = data[i];
+> +		data[i] = data[i + 1];
+> +		data[i + 1] = temp;
+
+swap(ptr[i], ptr[i + 1]);
+?
+
+> +	}
+> +}
+> +
+> +static void word_swap(unsigned char *data, size_t len)
+> +{
+> +	u16 temp;
+> +	u16 *ptr = (u16 *)data;
+> +	unsigned int i;
+> +	size_t size = len / sizeof(uint16_t);
+> +
+> +	for (i = 0; i < size; i += 2) {
+> +		temp = ptr[i];
+> +		ptr[i] = ptr[i + 1];
+> +		ptr[i + 1] = temp;
+
+swap(ptr[i], ptr[i + 1]);
+?
+
+> +	}
+> +}
+> +
+> +static void dword_swap(unsigned char *data, size_t len)
+> +{
+> +	u32 temp;
+> +	u32 *ptr = (u32 *)data;
+> +	size_t size = len / sizeof(u32);
+> +	unsigned int i;
+> +
+> +	for (i = 0; i < size; i += 2) {
+> +		temp = ptr[i];
+> +		ptr[i] = ptr[i + 1];
+> +		ptr[i + 1] = temp;
+
+swap(ptr[i], ptr[i + 1]);
+?
+
+> +	}
+> +}
+> +
+> +static void lword_swap(unsigned char *data, size_t len)
+> +{
+> +	u64 temp;
+> +	u64 *ptr = (u64 *)data;
+> +	size_t size = len / sizeof(uint64_t);
+> +	unsigned int i;
+> +
+> +	for (i = 0; i < size; i += 2) {
+> +		temp = ptr[i];
+> +		ptr[i] = ptr[i + 1];
+> +		ptr[i + 1] = temp;
+
+swap(ptr[i], ptr[i + 1]);
+?
+
+> +	}
+> +}
+> +
+> +static void wave5_swap_endian(struct vpu_device *vpu_dev, u8 *data, size_t len,
+> +			      unsigned int endian)
+> +{
+> +	int changes;
+> +	unsigned int sys_endian = VDI_128BIT_BUS_SYSTEM_ENDIAN;
+> +	bool byte_change, word_change, dword_change, lword_change;
+> +
+> +	if (!PRODUCT_CODE_W_SERIES(vpu_dev->product_code)) {
+> +		dev_err(vpu_dev->dev, "unknown product id: %08x\n", vpu_dev->product_code);
+> +		return;
+> +	}
+> +
+> +	endian = wave5_vdi_convert_endian(vpu_dev, endian);
+> +	sys_endian = wave5_vdi_convert_endian(vpu_dev, sys_endian);
+> +	if (endian == sys_endian)
+> +		return;
+> +
+> +	changes = endian ^ sys_endian;
+> +	byte_change = changes & 0x01;
+> +	word_change = ((changes & 0x02) == 0x02);
+> +	dword_change = ((changes & 0x04) == 0x04);
+> +	lword_change = ((changes & 0x08) == 0x08);
+> +
+> +	if (byte_change)
+> +		byte_swap(data, len);
+> +	if (word_change)
+> +		word_swap(data, len);
+> +	if (dword_change)
+> +		dword_swap(data, len);
+> +	if (lword_change)
+> +		lword_swap(data, len);
+> +}
+> diff --git a/drivers/media/platform/chips-media/wave5/wave5-vdi.h b/drivers/media/platform/chips-media/wave5/wave5-vdi.h
+> new file mode 100644
+> index 000000000000..8e1d09331d5c
+> --- /dev/null
+> +++ b/drivers/media/platform/chips-media/wave5/wave5-vdi.h
+> @@ -0,0 +1,67 @@
+> +/* SPDX-License-Identifier: (GPL-2.0 OR BSD-3-Clause) */
+> +/*
+> + * Wave5 series multi-standard codec IP - low level access functions
+> + *
+> + * Copyright (C) 2021 CHIPS&MEDIA INC
+> + */
+> +
+> +#ifndef _VDI_H_
+> +#define _VDI_H_
+> +
+> +#include "wave5-vpuconfig.h"
+> +#include <linux/string.h>
+> +#include <linux/slab.h>
+> +#include <linux/device.h>
+> +
+> +/************************************************************************/
+> +/* COMMON REGISTERS */
+> +/************************************************************************/
+> +#define VPU_PRODUCT_CODE_REGISTER 0x1044
+> +
+> +/* system register write */
+> +#define vpu_write_reg(VPU_INST, ADDR, DATA) wave5_vdi_write_register(VPU_INST, ADDR, DATA)
+> +// system register read
+
+The style of comment is not the same as the line above.
+
+> +#define vpu_read_reg(CORE, ADDR) wave5_vdi_readl(CORE, ADDR)
+> +
+> +struct vpu_buf {
+> +	size_t size;
+> +	dma_addr_t daddr;
+> +	void *vaddr;
+> +};
+> +
+> +struct dma_vpu_buf {
+> +	size_t size;
+> +	dma_addr_t daddr;
+> +};
+> +
+> +enum endian_mode {
+> +	VDI_LITTLE_ENDIAN = 0, /* 64bit LE */
+> +	VDI_BIG_ENDIAN, /* 64bit BE */
+> +	VDI_32BIT_LITTLE_ENDIAN,
+> +	VDI_32BIT_BIG_ENDIAN,
+> +	/* WAVE PRODUCTS */
+> +	VDI_128BIT_LITTLE_ENDIAN = 16,
+> +	VDI_128BIT_LE_BYTE_SWAP,
+> +	VDI_128BIT_LE_WORD_SWAP,
+> +	VDI_128BIT_LE_WORD_BYTE_SWAP,
+> +	VDI_128BIT_LE_DWORD_SWAP,
+> +	VDI_128BIT_LE_DWORD_BYTE_SWAP,
+> +	VDI_128BIT_LE_DWORD_WORD_SWAP,
+> +	VDI_128BIT_LE_DWORD_WORD_BYTE_SWAP,
+> +	VDI_128BIT_BE_DWORD_WORD_BYTE_SWAP,
+> +	VDI_128BIT_BE_DWORD_WORD_SWAP,
+> +	VDI_128BIT_BE_DWORD_BYTE_SWAP,
+> +	VDI_128BIT_BE_DWORD_SWAP,
+> +	VDI_128BIT_BE_WORD_BYTE_SWAP,
+> +	VDI_128BIT_BE_WORD_SWAP,
+> +	VDI_128BIT_BE_BYTE_SWAP,
+> +	VDI_128BIT_BIG_ENDIAN = 31,
+> +	VDI_ENDIAN_MAX
+> +};
+> +
+> +#define VDI_128BIT_ENDIAN_MASK 0xf
+> +
+> +int wave5_vdi_init(struct device *dev);
+> +int wave5_vdi_release(struct device *dev);	//this function may be called only at system off.
+> +
+> +#endif //#ifndef _VDI_H_
+> diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpuapi.h b/drivers/media/platform/chips-media/wave5/wave5-vpuapi.h
+> index 8b36c7196526..ef930408d977 100644
+> --- a/drivers/media/platform/chips-media/wave5/wave5-vpuapi.h
+> +++ b/drivers/media/platform/chips-media/wave5/wave5-vpuapi.h
+> @@ -1159,7 +1159,7 @@ int wave5_vdi_clear_memory(struct vpu_device *vpu_dev, struct vpu_buf *vb);
+>   int wave5_vdi_allocate_dma_memory(struct vpu_device *vpu_dev, struct vpu_buf *vb);
+>   int wave5_vdi_write_memory(struct vpu_device *vpu_dev, struct vpu_buf *vb, size_t offset,
+>   			   u8 *data, size_t len, unsigned int endian);
+> -int wave5_vdi_convert_endian(struct vpu_device *vpu_dev, unsigned int endian);
+> +unsigned int wave5_vdi_convert_endian(struct vpu_device *vpu_dev, unsigned int endian);
+
+wave5_vdi_convert_endian() seems to be already declared and used in 
+patch 2, but not defined there.
+
+>   void wave5_vdi_free_dma_memory(struct vpu_device *vpu_dev, struct vpu_buf *vb);
+>   
+>   int wave5_vpu_init_with_bitcode(struct device *dev, u8 *bitcode, size_t size);
+
