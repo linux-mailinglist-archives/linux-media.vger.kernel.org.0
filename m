@@ -2,124 +2,120 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B126A609562
-	for <lists+linux-media@lfdr.de>; Sun, 23 Oct 2022 20:09:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8FF1B609666
+	for <lists+linux-media@lfdr.de>; Sun, 23 Oct 2022 23:09:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230454AbiJWSJJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 23 Oct 2022 14:09:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40018 "EHLO
+        id S229729AbiJWVJG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 23 Oct 2022 17:09:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56644 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230395AbiJWSJC (ORCPT
+        with ESMTP id S229497AbiJWVJE (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 23 Oct 2022 14:09:02 -0400
-Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com [IPv6:2a00:1450:4864:20::334])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 54C127295C
-        for <linux-media@vger.kernel.org>; Sun, 23 Oct 2022 11:09:00 -0700 (PDT)
-Received: by mail-wm1-x334.google.com with SMTP id 186-20020a1c02c3000000b003c6c154d528so8536996wmc.4
-        for <linux-media@vger.kernel.org>; Sun, 23 Oct 2022 11:09:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=SqFi2wmLGXsQfu/MZ0ShWytXRLk9pwr7X9yOqzu3XMM=;
-        b=xr1jMXVmN57HPedWjHBHw1rrR1I978R/fF6s6AJxl5r6la7lQvhSNZVE8+g2y0CLiO
-         sDalDXJWkgYjhjEW/tk2thpgvWl6aN/4cUoHucR/vgyQGfBHk/P8fVym9OLTYL9CaDNc
-         gW1/wghLPtZzxuOCGhEE5dyrYtYTJsZ7jphSDYrKqG+oJwnjxwiZMzhfPhUVrkSGT+zu
-         5VweFASmBJDlLQN+flFQth9QRLtbPOQNBbETZ75/uwAkj0tW+hrOnW5GnQhWc/dIW6xR
-         vnkUaLQLdc5GSXiDVFlRPo8TgQp1RGMp1/59R56exH01qg/nbJrdKRA5l0wPE4Qmy1c+
-         JkKA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=SqFi2wmLGXsQfu/MZ0ShWytXRLk9pwr7X9yOqzu3XMM=;
-        b=KPH+4a2rQ/1AlbVN8MQYYRs1LIILuyqwd+q9LhDPpliyjq/e4dc8GGa2Sqjggv5HLb
-         bJomX0VwH3RHW6nYQWkopwrUJzpvzRm6qg/Gb/5fwu2zxs4JQXvwHLn14o4DzxST3W5F
-         asbWwkWS474KVp3u9+6grFkiw/EVtXn76Km/Qb2d94iGqZM4T5BKZPRCOVN8JjbRvue8
-         gjDJmy5F68YZ08tuPz+ZxqS6G2xEz7dbqZiav6IM/ZTMGyKnTemK34u+jUb7ThWMlswb
-         +qLIoNfVXNO3edtlWpZynXXbgPPkciP8UHAQoOL46q3kX1i/+d6Gd+KlR1Re6vttcObP
-         Y87A==
-X-Gm-Message-State: ACrzQf0p2/S1D+Ymfc0QVJiWk0KDJpIINwQ7eQbtEAVrJTyV8ooLGp2g
-        GOTpDb9DJ5N6lgsVGEz2o0SZow==
-X-Google-Smtp-Source: AMsMyM72SUpT+H3YAHck0Mm/xenvuseMLAPPp2oOExNAh4/7iab4VjcAEYTBVCFws4DOL079RWUZ7Q==
-X-Received: by 2002:a05:600c:5104:b0:3c6:d8e0:bc2e with SMTP id o4-20020a05600c510400b003c6d8e0bc2emr19762303wms.156.1666548538775;
-        Sun, 23 Oct 2022 11:08:58 -0700 (PDT)
-Received: from ?IPV6:2a05:6e02:1041:c10:14a0:fbb0:c618:c972? ([2a05:6e02:1041:c10:14a0:fbb0:c618:c972])
-        by smtp.googlemail.com with ESMTPSA id g10-20020a5d554a000000b002364c77bcacsm8318216wrw.38.2022.10.23.11.08.56
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 23 Oct 2022 11:08:58 -0700 (PDT)
-Message-ID: <b085d1ee-2924-47f5-a952-27040ae3eb1c@linaro.org>
-Date:   Sun, 23 Oct 2022 20:08:55 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH 02/21] ARM: s3c: remove s3c24xx specific hacks
-Content-Language: en-US
-To:     Arnd Bergmann <arnd@kernel.org>,
-        linux-arm-kernel@lists.infradead.org,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc:     linux-kernel@vger.kernel.org, Ben Dooks <ben-linux@fluff.org>,
-        Simtec Linux Team <linux@simtec.co.uk>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Alim Akhtar <alim.akhtar@samsung.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Sylwester Nawrocki <sylvester.nawrocki@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Richard Weinberger <richard@nod.at>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        Tomasz Figa <tomasz.figa@gmail.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Alessandro Zummo <a.zummo@towertech.it>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Sun, 23 Oct 2022 17:09:04 -0400
+Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 83D396686E;
+        Sun, 23 Oct 2022 14:09:03 -0700 (PDT)
+Received: from cwcc.thunk.org (pool-173-48-120-46.bstnma.fios.verizon.net [173.48.120.46])
+        (authenticated bits=0)
+        (User authenticated as tytso@ATHENA.MIT.EDU)
+        by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 29NL7D2p025712
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Sun, 23 Oct 2022 17:07:14 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
+        t=1666559243; bh=zbENVyGNAon7zNh9ohkJFECSMTzXRXbcNrepMHxrEAM=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To;
+        b=FXNrxCWraFmMAOW+vqR38ZOexAnGjiiR9A8LdOwTHYuoNMBlL77R2zP0ktOpr83lt
+         VqRJZ2eM6bTmotP3IJ0ZjbLCm4EYxGWCpxZWFf6OGNB4ci103uHdfxC4WF6VQ2zTX/
+         sdIQ8AMmuFf2tnrWyiobYzmlMOkVIMT/l7Xfqoj9INuJk54r2BALT8VjDgqDT3Zhdd
+         VJdERnwc5/7VlgvkT7OeoHx0mHgokAaWpeUY/UYmdBjcPk3IReiiQVTczMP0A0m8lc
+         roc5e18VhoTm14PI9JdmJ03W1yO7BPKEnbbIuJ9deFvxdyuN3p81VawGcIo+Cv1H4t
+         KETGAaOyQuEfg==
+Received: by cwcc.thunk.org (Postfix, from userid 15806)
+        id BE8CB15C33A3; Sun, 23 Oct 2022 17:07:13 -0400 (EDT)
+Date:   Sun, 23 Oct 2022 17:07:13 -0400
+From:   "Theodore Ts'o" <tytso@mit.edu>
+To:     Jakub Kicinski <kuba@kernel.org>
+Cc:     "Jason A. Donenfeld" <Jason@zx2c4.com>,
+        linux-kernel@vger.kernel.org, Kees Cook <keescook@chromium.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jiri Slaby <jirislaby@kernel.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Chanwoo Choi <cw00.choi@samsung.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        linux-samsung-soc@vger.kernel.org, linux-i2c@vger.kernel.org,
-        linux-iio@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-mmc@vger.kernel.org, linux-mtd@lists.infradead.org,
-        linux-gpio@vger.kernel.org, linux-rtc@vger.kernel.org,
-        linux-serial@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-watchdog@vger.kernel.org, linux-clk@vger.kernel.org
-References: <20221021202254.4142411-1-arnd@kernel.org>
- <20221021203329.4143397-2-arnd@kernel.org>
-From:   Daniel Lezcano <daniel.lezcano@linaro.org>
-In-Reply-To: <20221021203329.4143397-2-arnd@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+        Russell King <linux@armlinux.org.uk>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        Christoph =?iso-8859-1?Q?B=F6hmwalder?= 
+        <christoph.boehmwalder@linbit.com>,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Jason Gunthorpe <jgg@nvidia.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        "Martin K . Petersen" <martin.petersen@oracle.com>,
+        Andreas Dilger <adilger.kernel@dilger.ca>,
+        Jaegeuk Kim <jaegeuk@kernel.org>,
+        Richard Weinberger <richard@nod.at>,
+        "Darrick J . Wong" <djwong@kernel.org>,
+        SeongJae Park <sj@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Helge Deller <deller@gmx.de>, netdev@vger.kernel.org,
+        linux-crypto@vger.kernel.org, linux-block@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, loongarch@lists.linux.dev,
+        linux-mips@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        linux-mmc@vger.kernel.org, linux-parisc@vger.kernel.org
+Subject: Re: [PATCH v1 0/5] convert tree to
+ get_random_u32_{below,above,between}()
+Message-ID: <Y1WtAZfciG1z2CC7@mit.edu>
+References: <20221022014403.3881893-1-Jason@zx2c4.com>
+ <20221021205522.6b56fd24@kernel.org>
+ <Y1NwJJOIB4gI5G11@zx2c4.com>
+ <20221021223242.05df0a5b@kernel.org>
+ <Y1OD2tdVwQsydSNV@zx2c4.com>
+ <20221021230322.00dd045c@kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221021230322.00dd045c@kernel.org>
+X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,DKIM_INVALID,
+        DKIM_SIGNED,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_NONE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 21/10/2022 22:27, Arnd Bergmann wrote:
-> From: Arnd Bergmann <arnd@arndb.de>
+On Fri, Oct 21, 2022 at 11:03:22PM -0700, Jakub Kicinski wrote:
+> On Sat, 22 Oct 2022 07:47:06 +0200 Jason A. Donenfeld wrote:
+> > On Fri, Oct 21, 2022 at 10:32:42PM -0700, Jakub Kicinski wrote:
+> > > But whatever. I mean - hopefully there aren't any conflicts in the ~50
+> > > networking files you touch. I just wish that people didn't pipe up with
+> > > the tree wide changes right after the merge window. Feels like the
+> > > worst possible timing.  
+> > 
+> > Oh, if the timing is what makes this especially worrisome, I have
+> > no qualms about rebasing much later, and reposting this series then.
+> > I'll do that.
 > 
-> A number of device drivers reference CONFIG_ARM_S3C24XX_CPUFREQ or
-> similar symbols that are no longer available with the platform gone,
-> though the drivers themselves are still used on newer platforms,
-> so remove these hacks.
-> 
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> Cool, thanks! I promise to not be grumpy if you repost around rc6 :)
 
-Acked-by: Daniel Lezcano <daniel.lezcano@linaro.org>
+One way of making things less painful for the stable branch and for
+the upstream branch is to *add* new helpers instead of playing
+replacement games like s/prandom_u32_max/get_random_u32_below/.  This
+is what causes the patch conflict problems.
 
+One advantage of at least adding the new functions to the stable
+branches, even if we don't do the wholesale replacement, is that it
+makes it much less likely that a backported patch, which uses the new
+API, won't fail to compile --- and of course, the major headache case
+is one where it's not noticed at first because it didn't get picked up
+in people's test compiles until after the Linux x.y.z release has been
+pushed out.
 
--- 
-<http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
+Whether it's worth doing the wholesale replacement is a different
+question, but separating "add the new functions with one or two use
+cases so the functions are actulaly _used_" from the "convert the
+world to use the new functions" from the "remove the old functions",
+might life easier.
 
-Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
-<http://twitter.com/#!/linaroorg> Twitter |
-<http://www.linaro.org/linaro-blog/> Blog
+					- Ted
