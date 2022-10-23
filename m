@@ -2,76 +2,161 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7D3EE60905C
-	for <lists+linux-media@lfdr.de>; Sun, 23 Oct 2022 01:09:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 502C66091D5
+	for <lists+linux-media@lfdr.de>; Sun, 23 Oct 2022 10:53:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230209AbiJVXJO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 22 Oct 2022 19:09:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60424 "EHLO
+        id S229587AbiJWIxs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 23 Oct 2022 04:53:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50230 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230201AbiJVXJB (ORCPT
+        with ESMTP id S229497AbiJWIxr (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 22 Oct 2022 19:09:01 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C58EDD73FF;
-        Sat, 22 Oct 2022 16:09:00 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        Sun, 23 Oct 2022 04:53:47 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3ADD8691B3;
+        Sun, 23 Oct 2022 01:53:46 -0700 (PDT)
+Received: from localhost (89-26-75-29.goll.dyn.salzburg-online.at [89.26.75.29])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 9574C60B5A;
-        Sat, 22 Oct 2022 23:09:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id F1CC1C433D7;
-        Sat, 22 Oct 2022 23:08:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1666480140;
-        bh=cz8/25HdrJuSpWBSh/ESrWOVq1qtgiL4RiTz4cHPWnk=;
-        h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-        b=aCD4w6gUj2vPotDBeUSnVDJeaJlzFFB28gLxEM3jFZBLdWATaMUScyW/CyqzUYxl7
-         zcPH8LQA0cGl33EiJnnWqz0Z+IdqlEXrcP+hpidIe4RQt1l+PMKTGgOMLpanmsgNfp
-         /QORsPOgXlIg96NtUL3BidwUK4fgr9iybfCWtl346BikAgJ8NkonuL0MP8inMU/PwU
-         4CdDv93ME0uGuN8S+cIcREOnZKUBIhZMNHbK5ImZtYE7Esx3skSjHmJKyia8b+seoo
-         9HNLg9/gDK3MPB49zxeNa520JnCYIVcDFDiDVZrwhjJgONgfAsfX/D3k96tS/Fy0zv
-         T2WaRFnRkZF3g==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id D7354E270E1;
-        Sat, 22 Oct 2022 23:08:59 +0000 (UTC)
-Subject: Re: [GIT PULL for v6.1-rc2] media updates
-From:   pr-tracker-bot@kernel.org
-In-Reply-To: <20221021220748.144ffe20@sal.lan>
-References: <20221021220748.144ffe20@sal.lan>
-X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <20221021220748.144ffe20@sal.lan>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/mchehab/linux-media tags/media/v6.1-2
-X-PR-Tracked-Commit-Id: d67614f276c1499ad939fa5c1aadd35498cc6b34
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 3272eb1ace32627d0ba1d20373fae246f46770ca
-Message-Id: <166648013987.24083.16214942280384848222.pr-tracker-bot@kernel.org>
-Date:   Sat, 22 Oct 2022 23:08:59 +0000
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-X-Spam-Status: No, score=-7.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        (Authenticated sender: sebastianfricke)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 31C176602339;
+        Sun, 23 Oct 2022 09:53:44 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1666515224;
+        bh=aJ+LP5ZHSfQrG2p0HuBnO/v4SrrZrqIly83JQj98tWk=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=JIl6XYqwNgGKmWbKY7Sf+eGnekyH/T08sjzJdSPcP/Pb3t+NwCE71DIw0L7mnrmz6
+         SP4sggzS82fJ4kLeAB9wN+1tkr7NowRPugBwtE6CcbRnRDZgqalhWvoff2Y2rPotwX
+         1bGaY/T+pdrAa+3YwZDmG4elvm1I9u9GqP9hEkO/VTIjwxOwd5YPX0vqPQMOPKubMx
+         r9eI8iBvk146tn2mo6BaR7FcXcRvZAPDn50RY/6BlP/RD1ReYJwEMao5cVjpQieICt
+         oOBbLpyqKIYTztm9LxN/LObFKgUazupLnRf8qx/KByAGpKUGCt7K2JD/aWZqkMXHYt
+         dbFFw000NS6fw==
+Date:   Sun, 23 Oct 2022 10:53:41 +0200
+From:   Sebastian Fricke <sebastian.fricke@collabora.com>
+To:     linux-media@vger.kernel.org
+Cc:     kernel@collabora.com, nas.chung@chipsnmedia.com,
+        hverkuil@xs4all.nl, ezequiel@vanguardiasur.com.ar,
+        linux-kernel@vger.kernel.org, nicolas.dufresne@collabora.com,
+        p.zabel@pengutronix.de, dafna@fastmail.com
+Subject: Re: [PATCH v10 6/7] dt-bindings: media: wave5: add yaml devicetree
+ bindings
+Message-ID: <20221023085341.s23qinjuw4qls3dn@basti-XPS-13-9310>
+References: <20221022000506.221933-1-sebastian.fricke@collabora.com>
+ <20221022000506.221933-7-sebastian.fricke@collabora.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Disposition: inline
+In-Reply-To: <20221022000506.221933-7-sebastian.fricke@collabora.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The pull request you sent on Fri, 21 Oct 2022 22:07:48 +0100:
+Hey all,
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/mchehab/linux-media tags/media/v6.1-2
+I have noticed that I renamed the file incorrectly, in V11 it will be
+called: "cnm,wave5.yml"
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/3272eb1ace32627d0ba1d20373fae246f46770ca
+Greetings,
+Sebastian
 
-Thank you!
-
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+On 22.10.2022 02:05, Sebastian Fricke wrote:
+>From: Robert Beckett <bob.beckett@collabora.com>
+>
+>Add bindings for the wave5 chips&media codec driver
+>
+>Signed-off-by: Robert Beckett <bob.beckett@collabora.com>
+>Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+>Signed-off-by: Sebastian Fricke <sebastian.fricke@collabora.com>
+>---
+> .../devicetree/bindings/media/wave5.yml       | 73 +++++++++++++++++++
+> 1 file changed, 73 insertions(+)
+> create mode 100644 Documentation/devicetree/bindings/media/wave5.yml
+>
+>diff --git a/Documentation/devicetree/bindings/media/wave5.yml b/Documentation/devicetree/bindings/media/wave5.yml
+>new file mode 100644
+>index 000000000000..85dc3c744876
+>--- /dev/null
+>+++ b/Documentation/devicetree/bindings/media/wave5.yml
+>@@ -0,0 +1,73 @@
+>+# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+>+%YAML 1.2
+>+---
+>+$id: http://devicetree.org/schemas/media/wave5.yaml#
+>+$schema: http://devicetree.org/meta-schemas/core.yaml#
+>+
+>+title: Chips&Media Wave 5 Series multi-standard codec IP
+>+
+>+maintainers:
+>+  - Nas Chung <nas.chung@chipsnmedia.com>
+>+  - Robert Beckett <bob.beckett@collabora.com>
+>+  - Sebastian Fricke <sebastian.fricke@collabora.com>
+>+
+>+description: |-
+>+  The Chips&Media WAVE codec IP is a multi format video encoder/decoder
+>+
+>+properties:
+>+  compatible:
+>+    anyOf:
+>+      - items:
+>+        - enum:
+>+            - cnm,cm511-vpu
+>+            - cnm,cm517-vpu
+>+            - cnm,cm521-vpu
+>+            - cnm,cm521c-vpu
+>+            - cnm,cm521c-dual-vpu
+>+            - cnm,cm521e1-vpu
+>+            - cnm,cm537-vpu
+>+  reg:
+>+    maxItems: 1
+>+
+>+  clocks:
+>+    minItems: 1
+>+    maxItems: 4
+>+
+>+  clock-names:
+>+    minItems: 1
+>+    maxItems: 4
+>+
+>+  interrupts:
+>+    maxItems: 1
+>+
+>+  power-domains:
+>+    maxItems: 1
+>+
+>+  resets:
+>+    maxItems: 1
+>+
+>+  sram:
+>+    $ref: /schemas/types.yaml#/definitions/phandle
+>+    description: phandle pointing to the SRAM device node
+>+    maxItems: 1
+>+
+>+required:
+>+  - compatible
+>+  - reg
+>+  - interrupts
+>+  - clocks
+>+  - clock-names
+>+
+>+additionalProperties: false
+>+
+>+examples:
+>+  - |
+>+    vpu: video-codec@12345678 {
+>+        compatible = "cnm,cm521-vpu";
+>+        reg = <0x12345678 0x1000>;
+>+        interrupts = <42>;
+>+        clocks = <&clks 42>;
+>+        clock-names = "vcodec";
+>+        sram = <&sram>;
+>+    };
+>+
+>-- 
+>2.25.1
+>
