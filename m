@@ -2,164 +2,124 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7B60260ADDA
-	for <lists+linux-media@lfdr.de>; Mon, 24 Oct 2022 16:37:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1E7DA60ADAC
+	for <lists+linux-media@lfdr.de>; Mon, 24 Oct 2022 16:30:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229556AbiJXOhN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 24 Oct 2022 10:37:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54548 "EHLO
+        id S236277AbiJXOag (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 24 Oct 2022 10:30:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56216 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234553AbiJXOgg (ORCPT
+        with ESMTP id S234904AbiJXO2v (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 24 Oct 2022 10:36:36 -0400
-Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [IPv6:2001:4b98:dc4:8::240])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 008FAE09F8
-        for <linux-media@vger.kernel.org>; Mon, 24 Oct 2022 06:12:00 -0700 (PDT)
-Received: from relay4-d.mail.gandi.net (unknown [217.70.183.196])
-        by mslow1.mail.gandi.net (Postfix) with ESMTP id 76C98CADBF
-        for <linux-media@vger.kernel.org>; Mon, 24 Oct 2022 12:32:36 +0000 (UTC)
-Received: (Authenticated sender: jacopo@jmondi.org)
-        by mail.gandi.net (Postfix) with ESMTPSA id 088FCE0009;
-        Mon, 24 Oct 2022 12:31:06 +0000 (UTC)
-Date:   Mon, 24 Oct 2022 14:31:05 +0200
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Dave Stevenson <dave.stevenson@raspberrypi.com>
-Cc:     Krzysztof =?utf-8?Q?Ha=C5=82asa?= <khalasa@piap.pl>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@iki.fi>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-media@vger.kernel.org
-Subject: Re: [PATCH v2 02/10] media: ar0521: Add V4L2_CID_ANALOG_GAIN
-Message-ID: <20221024123105.fgqu4g44luauhza6@uno.localdomain>
-References: <20221022092015.208592-1-jacopo@jmondi.org>
- <20221022092015.208592-3-jacopo@jmondi.org>
- <CAPY8ntCxsZwVqNzQpA-TBbdJ6zmd_cZgrcVqm5b31ngF-CiH7w@mail.gmail.com>
+        Mon, 24 Oct 2022 10:28:51 -0400
+Received: from mail-oa1-f42.google.com (mail-oa1-f42.google.com [209.85.160.42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2ED92D73C2;
+        Mon, 24 Oct 2022 06:02:17 -0700 (PDT)
+Received: by mail-oa1-f42.google.com with SMTP id 586e51a60fabf-13b23e29e36so10999254fac.8;
+        Mon, 24 Oct 2022 06:02:16 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=p+x9joGdXdBFLPPxN1p6d7/jrm+b1E7zu0ZikUl9XbM=;
+        b=kN4xIs/QEGJ+oT9qrn2OjPi/N6FcvGH6BvACP76blbVF103TXYi+7qEU5tINWQ+OJz
+         dApYzrcvxoO2ZIXOFTxb7h3JgOvX67e53Ux9I2wwMvKPIJrbpeDZZobSiNgXQhwqMaF/
+         R3ztR06WTPRqxKei/NzyOWyK9tZuNZ0Cm15uInIPmFb7tUxRSre+3lm52uo1EfezpHK9
+         o9VNCRaweqKifLKL/48NiILy3trNo3072uYGiXhEVisoQwGcZ30ghYt4hAv1vlMBiN/X
+         ltLvQXpHTYGfKkWtuOvorD19U4Zbzkwzp6qZaLG5THbYH133b9fRVRaPubb8xH2WHVbL
+         oPdg==
+X-Gm-Message-State: ACrzQf3i7XkzH7UpZj1xKGIMrADeoCGwSUDmJj0hXhqGuTa4oC2Svjr2
+        vms3XoPp+qtUCiVrBxssV68CXNLJaw==
+X-Google-Smtp-Source: AMsMyM4RB1x55W7tWXLqKMCfn9+yNGKoyP28eeDXqoWuK46CSg7FurAIxSSG6961lNUtLuCZU2W88g==
+X-Received: by 2002:a05:6870:e9a8:b0:133:223f:49a1 with SMTP id r40-20020a056870e9a800b00133223f49a1mr38235091oao.114.1666616434841;
+        Mon, 24 Oct 2022 06:00:34 -0700 (PDT)
+Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id g20-20020a056870c15400b0012796e8033dsm2716705oad.57.2022.10.24.06.00.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 24 Oct 2022 06:00:34 -0700 (PDT)
+Received: (nullmailer pid 1652638 invoked by uid 1000);
+        Mon, 24 Oct 2022 13:00:35 -0000
+Date:   Mon, 24 Oct 2022 08:00:35 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Arnd Bergmann <arnd@kernel.org>
+Cc:     linux-arm-kernel@lists.infradead.org,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        linux-kernel@vger.kernel.org, Ben Dooks <ben-linux@fluff.org>,
+        Simtec Linux Team <linux@simtec.co.uk>,
+        Arnd Bergmann <arnd@arndb.de>, linux-doc@vger.kernel.org,
+        linux-samsung-soc@vger.kernel.org, devicetree@vger.kernel.org,
+        patches@opensource.cirrus.com,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-ide@vger.kernel.org, linux-clk@vger.kernel.org,
+        linux-pm@vger.kernel.org, dmaengine@vger.kernel.org,
+        linux-hwmon@vger.kernel.org, linux-i2c@vger.kernel.org,
+        linux-iio@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-leds@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-mmc@vger.kernel.org, linux-mtd@lists.infradead.org,
+        linux-gpio@vger.kernel.org, linux-rtc@vger.kernel.org,
+        linux-spi@vger.kernel.org, linux-serial@vger.kernel.org,
+        linux-usb@vger.kernel.org, linux-fbdev@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linux-watchdog@vger.kernel.org,
+        alsa-devel@alsa-project.org, linux-pwm@vger.kernel.org
+Subject: Re: [PATCH 00/21] ARM: s3c: clean out obsolete platforms
+Message-ID: <20221024130035.GA1645003-robh@kernel.org>
+References: <20221021202254.4142411-1-arnd@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAPY8ntCxsZwVqNzQpA-TBbdJ6zmd_cZgrcVqm5b31ngF-CiH7w@mail.gmail.com>
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <20221021202254.4142411-1-arnd@kernel.org>
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
+        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Dave,
+On Fri, Oct 21, 2022 at 10:22:28PM +0200, Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
+> 
+> The s3c24xx platform was marked as deprecated a while ago,
+> and for the s3c64xx platform, we marked all except one legacy
+> board file as unused.
+> 
+> This series removes all of those, leaving only s3c64xx support
+> for DT based boots as well as the cragg6410 board file.
+> 
+> About half of the s3c specific drivers were only used on
+> the now removed machines, so these drivers can be retired
+> as well. I can either merge the driver removal patches through
+> the soc tree along with the board file patches, or subsystem
+> maintainers can pick them up into their own trees, whichever
+> they prefer.
 
-On Mon, Oct 24, 2022 at 01:13:58PM +0100, Dave Stevenson wrote:
-> Hi Jacopo
->
-> On Sat, 22 Oct 2022 at 11:47, Jacopo Mondi <jacopo@jmondi.org> wrote:
-> >
-> > Add support for V4L2_CID_ANALOG_GAIN. The control programs the global
-> > gain register which applies to all color channels.
-> >
-> > Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
-> > ---
-> >  drivers/media/i2c/ar0521.c | 16 ++++++++++++++++
-> >  1 file changed, 16 insertions(+)
-> >
-> > diff --git a/drivers/media/i2c/ar0521.c b/drivers/media/i2c/ar0521.c
-> > index 0daa61df2603..ba169f0218a9 100644
-> > --- a/drivers/media/i2c/ar0521.c
-> > +++ b/drivers/media/i2c/ar0521.c
-> > @@ -35,6 +35,11 @@
-> >  #define AR0521_HEIGHT_BLANKING_MIN     38u /* must be even */
-> >  #define AR0521_TOTAL_WIDTH_MIN      2968u
-> >
-> > +#define AR0521_ANA_GAIN_MIN            0x00
-> > +#define AR0521_ANA_GAIN_MAX            0x3f
->
-> The register reference I have says it is u3.4 format, which would make
-> the max value 0x7f rather than 0x3f.
->
-> Functionally it makes no real difference, but a max gain of nearly x7
-> 15/16ths  is preferable to nearly x3 15/16ths.
->
-> If it is u3.4 I'd have expected the minimum to be 0x10 to avoid a gain
-> of less than x1 (does it even work?)
->
+[...]
 
-The value of the 0x3280 register is written in the 7 low bits of the
-0x305e register. Whatever is written to 0x305e is similalrly reflected
-in the 0x3280 one. The 0x305e[6:4] bits are the coarse analog gain
-value and the lower 4 bits are the fine analog gain value. I wonder if
-u3.4 is used there to describe the that, even if u3.4 has a different
-meaning
+>  Documentation/arm/index.rst                   |    1 -
+>  Documentation/arm/samsung-s3c24xx/cpufreq.rst |   77 -
+>  .../arm/samsung-s3c24xx/eb2410itx.rst         |   59 -
+>  Documentation/arm/samsung-s3c24xx/gpio.rst    |  172 --
+>  Documentation/arm/samsung-s3c24xx/h1940.rst   |   41 -
+>  Documentation/arm/samsung-s3c24xx/index.rst   |   20 -
+>  Documentation/arm/samsung-s3c24xx/nand.rst    |   30 -
+>  .../arm/samsung-s3c24xx/overview.rst          |  311 ---
+>  Documentation/arm/samsung-s3c24xx/s3c2412.rst |  121 -
+>  Documentation/arm/samsung-s3c24xx/s3c2413.rst |   22 -
+>  .../arm/samsung-s3c24xx/smdk2440.rst          |   57 -
+>  Documentation/arm/samsung-s3c24xx/suspend.rst |  137 --
+>  .../arm/samsung-s3c24xx/usb-host.rst          |   91 -
+>  Documentation/arm/samsung/overview.rst        |   13 -
 
-> Looking at the listed m0, c0, m1, c1 values for gain (1, 0, 0, and 4
-> respectively), that maps to a formula:
-> gain = code / 4
-> Min and max codes are 0 and 0x1f, so that implies it will do a gain of
-> less than x1, and goes up to x7.75.
+What about?:
 
-The sensor does not use the CCS gain model, but an exponential
-piecewise function documented as a table of register values/gains in
-the application manual.
+Documentation/devicetree/bindings/clock/samsung,s3c2410-clock.txt
+Documentation/devicetree/bindings/interrupt-controller/samsung,s3c24xx-irq.txt
+Documentation/devicetree/bindings/mmc/samsung,s3cmci.txt
+Documentation/devicetree/bindings/mtd/samsung-s3c2410.txt
+Documentation/devicetree/bindings/usb/s3c2410-usb.txt
 
-The sensor exposes a list of CCS-compatible registers, including
-"0x0204 analogue_gain_code_global", from which I presume one should
-contorl the gain if the CCS compatible model works. From my tests,
-writing to that register is a no-op.
-
-I presume the CCS compatible interface is not plumbed, or maybe it
-depdends on the FW version, or else :)
-
->
-> So much contradictory information!!
->
-
-Yes :)
-
-> I'm happy to add a R-B tag for the code side, but the limits seem to
-> be a little all over the place. I'd be looking at taking some test
-> images with fixed exposure time at each gain code to work out what
-> value is actually x1, x2, x4, etc. Doing so does require knowing the
-> black level and applying an appropriate correction to the raw values,
-> or extrapolating from the results.
->
->   Dave
->
-> > +#define AR0521_ANA_GAIN_STEP           0x01
-> > +#define AR0521_ANA_GAIN_DEFAULT                0x00
-> > +
-> >  /* AR0521 registers */
-> >  #define AR0521_REG_VT_PIX_CLK_DIV              0x0300
-> >  #define AR0521_REG_FRAME_LENGTH_LINES          0x0340
-> > @@ -50,6 +55,8 @@
-> >  #define   AR0521_REG_RESET_RESTART               BIT(1)
-> >  #define   AR0521_REG_RESET_INIT                          BIT(0)
-> >
-> > +#define AR0521_REG_ANA_GAIN_CODE_GLOBAL                0x3028
-> > +
-> >  #define AR0521_REG_GREEN1_GAIN                 0x3056
-> >  #define AR0521_REG_BLUE_GAIN                   0x3058
-> >  #define AR0521_REG_RED_GAIN                    0x305A
-> > @@ -456,6 +463,10 @@ static int ar0521_s_ctrl(struct v4l2_ctrl *ctrl)
-> >         case V4L2_CID_VBLANK:
-> >                 ret = ar0521_set_geometry(sensor);
-> >                 break;
-> > +       case V4L2_CID_ANALOGUE_GAIN:
-> > +               ret = ar0521_write_reg(sensor, AR0521_REG_ANA_GAIN_CODE_GLOBAL,
-> > +                                      ctrl->val);
-> > +               break;
-> >         case V4L2_CID_GAIN:
-> >         case V4L2_CID_RED_BALANCE:
-> >         case V4L2_CID_BLUE_BALANCE:
-> > @@ -499,6 +510,11 @@ static int ar0521_init_controls(struct ar0521_dev *sensor)
-> >         /* We can use our own mutex for the ctrl lock */
-> >         hdl->lock = &sensor->lock;
-> >
-> > +       /* Analog gain */
-> > +       v4l2_ctrl_new_std(hdl, ops, V4L2_CID_ANALOGUE_GAIN,
-> > +                         AR0521_ANA_GAIN_MIN, AR0521_ANA_GAIN_MAX,
-> > +                         AR0521_ANA_GAIN_STEP, AR0521_ANA_GAIN_DEFAULT);
-> > +
-> >         /* Manual gain */
-> >         ctrls->gain = v4l2_ctrl_new_std(hdl, ops, V4L2_CID_GAIN, 0, 511, 1, 0);
-> >         ctrls->red_balance = v4l2_ctrl_new_std(hdl, ops, V4L2_CID_RED_BALANCE,
-> > --
-> > 2.37.3
-> >
+Rob
