@@ -2,293 +2,126 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 87061609AD9
-	for <lists+linux-media@lfdr.de>; Mon, 24 Oct 2022 09:00:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5EAE9609BCA
+	for <lists+linux-media@lfdr.de>; Mon, 24 Oct 2022 09:49:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230209AbiJXHAc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 24 Oct 2022 03:00:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39122 "EHLO
+        id S229911AbiJXHtV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 24 Oct 2022 03:49:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58164 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229501AbiJXHAa (ORCPT
+        with ESMTP id S230181AbiJXHtT (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 24 Oct 2022 03:00:30 -0400
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D7C742BB35;
-        Mon, 24 Oct 2022 00:00:20 -0700 (PDT)
-X-UUID: 8bbf94c61458406ebc1e2683938f1fb0-20221024
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-        h=Content-Type:Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=j7rpdpDxukLQykFxVx9uWvBd2Oi6MhJtBN5ZZYflQgs=;
-        b=hc1ZECvLUVMblUKT58qysNGQ97Gai1XfYCTn8ybgjwk/lQEF8jgPT9aUYluqTbOzDwT4wIW51wX3FTELq+u8ylgaNSyYR/X/K2V8wL7/TNf4pqDfOQdOJIuS38qLwXGFbfIpaEy3mBc3RH13KktuR5yzezTstKDglGcocf/VXjo=;
-X-CID-UNFAMILIAR: 1
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.12,REQID:efdb091b-3789-4238-b420-43d90d38ba83,IP:0,U
-        RL:0,TC:0,Content:0,EDM:0,RT:0,SF:100,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
-        N:release,TS:100
-X-CID-INFO: VERSION:1.1.12,REQID:efdb091b-3789-4238-b420-43d90d38ba83,IP:0,URL
-        :0,TC:0,Content:0,EDM:0,RT:0,SF:100,FILE:0,BULK:0,RULE:Spam_GS981B3D,ACTIO
-        N:quarantine,TS:100
-X-CID-META: VersionHash:62cd327,CLOUDID:447f79c8-03ab-4171-989e-341ab5339257,B
-        ulkID:221024150017OMBNL3KB,BulkQuantity:0,Recheck:0,SF:38|28|16|19|48,TC:n
-        il,Content:0,EDM:-3,IP:nil,URL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0
-X-UUID: 8bbf94c61458406ebc1e2683938f1fb0-20221024
-Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw02.mediatek.com
-        (envelope-from <mingjia.zhang@mediatek.com>)
-        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-        with ESMTP id 1964739988; Mon, 24 Oct 2022 15:00:14 +0800
-Received: from mtkmbs11n1.mediatek.inc (172.21.101.186) by
- mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.792.15; Mon, 24 Oct 2022 15:00:12 +0800
-Received: from localhost.localdomain (10.17.3.154) by mtkmbs11n1.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.2.792.15 via Frontend
- Transport; Mon, 24 Oct 2022 15:00:11 +0800
-From:   Mingjia Zhang <mingjia.zhang@mediatek.com>
-To:     Yunfei Dong <yunfei.dong@mediatek.com>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>,
-        "Hans Verkuil" <hverkuil-cisco@xs4all.nl>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        Tiffany Lin <tiffany.lin@mediatek.com>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Tomasz Figa <tfiga@google.com>
-CC:     George Sun <george.sun@mediatek.com>,
-        Xiaoyong Lu <xiaoyong.lu@mediatek.com>,
-        Hsin-Yi Wang <hsinyi@chromium.org>,
-        Fritz Koenig <frkoenig@chromium.org>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        Irui Wang <irui.wang@mediatek.com>,
-        "Steve Cho" <stevecho@chromium.org>, <linux-media@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-mediatek@lists.infradead.org>,
-        <Project_Global_Chrome_Upstream_Group@mediatek.com>
-Subject: [PATCH v4] media: mediatek: vcodec: Add to support VP9 inner racing mode
-Date:   Mon, 24 Oct 2022 15:00:09 +0800
-Message-ID: <20221024070009.4488-1-mingjia.zhang@mediatek.com>
-X-Mailer: git-send-email 2.25.1
+        Mon, 24 Oct 2022 03:49:19 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2AA54F7C;
+        Mon, 24 Oct 2022 00:49:17 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id D0455B80E23;
+        Mon, 24 Oct 2022 07:49:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3673CC433C1;
+        Mon, 24 Oct 2022 07:49:13 +0000 (UTC)
+Message-ID: <b645f983-447b-7b4b-6dd6-d5f10da08e96@xs4all.nl>
+Date:   Mon, 24 Oct 2022 09:49:11 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.2
+Subject: Re: Question for an accepted patch: use of DMA-BUF based videobuf2
+ capture buffer with no-HW-cache-coherent HW
+Content-Language: en-US
+To:     yuji2.ishikawa@toshiba.co.jp, posciak@chromium.org,
+        paul.kocialkowski@bootlin.com, mchehab+samsung@kernel.org,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <TYAPR01MB6201561D2644EE783BA8B196922E9@TYAPR01MB6201.jpnprd01.prod.outlook.com>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <TYAPR01MB6201561D2644EE783BA8B196922E9@TYAPR01MB6201.jpnprd01.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-MTK:  N
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,
-        T_SPF_TEMPERROR,UNPARSEABLE_RELAY autolearn=ham autolearn_force=no
-        version=3.4.6
+X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-In order to reduce decoder latency, enable VP9 inner racing mode.
-Send lat trans buffer information to core when trigger lat to work,
-need not to wait until lat decode done.
+Hi Yuji,
 
-Signed-off-by: Mingjia Zhang <mingjia.zhang@mediatek.com>
----
-Changes from v3:
+On 10/24/22 06:02, yuji2.ishikawa@toshiba.co.jp wrote:
+> Hi,
+> 
+> I'm porting a V4L2 capture driver from 4.19.y to 5.10.y [1].
+> 
+> When I test the ported driver, I sometimes find a corruption on a captured image.
+> 
+> Because the corruption is exactly aligned with cacheline, I started investigation from map/unmap of DMA-BUF.
+> 
+>  
+> 
+> The capture driver uses DMA-BUF for videobuf2.
+> 
+> The capture hardware does not have HW-mantained cache coherency with CPU, that is, explicit map/unmap is essential on QBUF/DQBUF.
+> 
+> After some hours of struggle, I found a patch removing cache synchronizations on QBUF/DQBUF.
+> 
+>  
+> 
+> https://patchwork.kernel.org/project/linux-media/patch/20190124095156.21898-1-paul.kocialkowski@bootlin.com/ <https://patchwork.kernel.org/project/linux-media/patch/20190124095156.21898-1-paul.kocialkowski@bootlin.com/>
+> 
+>  
+> 
+> When I removed this patch from my 5.10.y working-tree, the driver yielded images without any defects.v
+> 
+>  
+> 
+> ***************
+> 
+> Sorry for a mention to a patch released 4 years ago.
+> 
+> The patch removes map/unmap on QBUF/DQBUF to improve the performance of V4L2 decoder device, by reusing previously decoded frames.
+> 
+> However, there seems no cares nor compensations for modifying lifecycle of DMA-BUF, especially on video capture devices.
 
-- CTS/GTS test pass
-- Fluster result: Ran 275/303 tests successfully
+I'm not entirely sure what you mean exactly.
 
-Changes from v2:
+> 
+>  
+> 
+> Would you tell me some idea on this patch:
+> 
+> * Do well-implemented capture drivers work well even if this patch is applied?
 
-- CTS/GTS test pass
-- Fluster result: Ran 240/303 tests successfully
+Yes, dmabuf is used extensively and I have not had any reports of issues.
 
-Changes from v1:
+> 
+> * How should a video capture driver call V4L2/videobuf2 APIs, especially when the hardware does not support cache coherency?
 
-- CTS/GTS test pass
----
- .../vcodec/vdec/vdec_vp9_req_lat_if.c         | 87 ++++++++++---------
- 1 file changed, 48 insertions(+), 39 deletions(-)
+It should all be handled correctly by the core frameworks.
 
-diff --git a/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c b/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c
-index 81de876d51267..baf7ecd54eda3 100644
---- a/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c
-+++ b/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c
-@@ -436,6 +436,7 @@ struct vdec_vp9_slice_ref {
-  * @frame_ctx:		4 frame context according to VP9 Spec
-  * @frame_ctx_helper:	4 frame context according to newest kernel spec
-  * @dirty:		state of each frame context
-+ * @local_vsi:		local instance vsi information
-  * @init_vsi:		vsi used for initialized VP9 instance
-  * @vsi:		vsi used for decoding/flush ...
-  * @core_vsi:		vsi used for Core stage
-@@ -482,6 +483,8 @@ struct vdec_vp9_slice_instance {
- 	struct v4l2_vp9_frame_context frame_ctx_helper;
- 	unsigned char dirty[4];
- 
-+	struct vdec_vp9_slice_vsi local_vsi;
-+
- 	/* MicroP vsi */
- 	union {
- 		struct vdec_vp9_slice_init_vsi *init_vsi;
-@@ -1616,16 +1619,10 @@ static int vdec_vp9_slice_update_single(struct vdec_vp9_slice_instance *instance
- }
- 
- static int vdec_vp9_slice_update_lat(struct vdec_vp9_slice_instance *instance,
--				     struct vdec_lat_buf *lat_buf,
--				     struct vdec_vp9_slice_pfc *pfc)
-+				     struct vdec_vp9_slice_vsi *vsi)
- {
--	struct vdec_vp9_slice_vsi *vsi;
--
--	vsi = &pfc->vsi;
--	memcpy(&pfc->state[0], &vsi->state, sizeof(vsi->state));
--
- 	mtk_vcodec_debug(instance, "Frame %u LAT CRC 0x%08x %lx %lx\n",
--			 pfc->seq, vsi->state.crc[0],
-+			 (instance->seq - 1), vsi->state.crc[0],
- 			 (unsigned long)vsi->trans.dma_addr,
- 			 (unsigned long)vsi->trans.dma_addr_end);
- 
-@@ -2090,6 +2087,13 @@ static int vdec_vp9_slice_lat_decode(void *h_vdec, struct mtk_vcodec_mem *bs,
- 		return ret;
- 	}
- 
-+	if (IS_VDEC_INNER_RACING(ctx->dev->dec_capability)) {
-+		vdec_vp9_slice_vsi_from_remote(vsi, instance->vsi, 0);
-+		memcpy(&instance->local_vsi, vsi, sizeof(*vsi));
-+		vdec_msg_queue_qbuf(&ctx->dev->msg_queue_core_ctx, lat_buf);
-+		vsi = &instance->local_vsi;
-+	}
-+
- 	if (instance->irq) {
- 		ret = mtk_vcodec_wait_for_done_ctx(ctx,	MTK_INST_IRQ_RECEIVED,
- 						   WAIT_INTR_TIMEOUT_MS, MTK_VDEC_LAT0);
-@@ -2102,22 +2106,25 @@ static int vdec_vp9_slice_lat_decode(void *h_vdec, struct mtk_vcodec_mem *bs,
- 	}
- 
- 	vdec_vp9_slice_vsi_from_remote(vsi, instance->vsi, 0);
--	ret = vdec_vp9_slice_update_lat(instance, lat_buf, pfc);
-+	ret = vdec_vp9_slice_update_lat(instance, vsi);
- 
--	/* LAT trans full, no more UBE or decode timeout */
--	if (ret) {
--		mtk_vcodec_err(instance, "VP9 decode error: %d\n", ret);
--		return ret;
--	}
-+	if (!IS_VDEC_INNER_RACING(ctx->dev->dec_capability))
-+		/* LAT trans full, no more UBE or decode timeout */
-+		if (ret) {
-+			mtk_vcodec_err(instance, "frame[%d] decode error: %d\n",
-+				       ret, (instance->seq - 1));
-+			return ret;
-+		}
- 
--	mtk_vcodec_debug(instance, "lat dma addr: 0x%lx 0x%lx\n",
--			 (unsigned long)pfc->vsi.trans.dma_addr,
--			 (unsigned long)pfc->vsi.trans.dma_addr_end);
- 
--	vdec_msg_queue_update_ube_wptr(&ctx->msg_queue,
--				       vsi->trans.dma_addr_end +
--				       ctx->msg_queue.wdma_addr.dma_addr);
--	vdec_msg_queue_qbuf(&ctx->dev->msg_queue_core_ctx, lat_buf);
-+	vsi->trans.dma_addr_end += ctx->msg_queue.wdma_addr.dma_addr;
-+	vdec_msg_queue_update_ube_wptr(&ctx->msg_queue, vsi->trans.dma_addr_end);
-+	if (!IS_VDEC_INNER_RACING(ctx->dev->dec_capability))
-+		vdec_msg_queue_qbuf(&ctx->dev->msg_queue_core_ctx, lat_buf);
-+
-+	mtk_vcodec_debug(instance, "lat trans end addr(0x%lx), ube start addr(0x%lx)\n",
-+			 (unsigned long)vsi->trans.dma_addr_end,
-+			 (unsigned long)ctx->msg_queue.wdma_addr.dma_addr);
- 
- 	return 0;
- }
-@@ -2139,40 +2146,40 @@ static int vdec_vp9_slice_decode(void *h_vdec, struct mtk_vcodec_mem *bs,
- static int vdec_vp9_slice_core_decode(struct vdec_lat_buf *lat_buf)
- {
- 	struct vdec_vp9_slice_instance *instance;
--	struct vdec_vp9_slice_pfc *pfc;
-+	struct vdec_vp9_slice_pfc *pfc = NULL;
- 	struct mtk_vcodec_ctx *ctx = NULL;
- 	struct vdec_fb *fb = NULL;
- 	int ret = -EINVAL;
- 
- 	if (!lat_buf)
--		goto err;
-+		return -EINVAL;
- 
- 	pfc = lat_buf->private_data;
- 	ctx = lat_buf->ctx;
- 	if (!pfc || !ctx)
--		goto err;
-+		return -EINVAL;
- 
- 	instance = ctx->drv_handle;
- 	if (!instance)
--		goto err;
-+		return -EINVAL;
- 
- 	fb = ctx->dev->vdec_pdata->get_cap_buffer(ctx);
- 	if (!fb) {
- 		ret = -EBUSY;
--		goto err;
-+		goto vdec_dec_end;
- 	}
- 
- 	ret = vdec_vp9_slice_setup_core(instance, fb, lat_buf, pfc);
- 	if (ret) {
- 		mtk_vcodec_err(instance, "vdec_vp9_slice_setup_core\n");
--		goto err;
-+		goto vdec_dec_end;
- 	}
- 	vdec_vp9_slice_vsi_to_remote(&pfc->vsi, instance->core_vsi);
- 
- 	ret = vpu_dec_core(&instance->vpu);
- 	if (ret) {
- 		mtk_vcodec_err(instance, "vpu_dec_core\n");
--		goto err;
-+		goto vdec_dec_end;
- 	}
- 
- 	if (instance->irq) {
-@@ -2190,25 +2197,27 @@ static int vdec_vp9_slice_core_decode(struct vdec_lat_buf *lat_buf)
- 	ret = vdec_vp9_slice_update_core(instance, lat_buf, pfc);
- 	if (ret) {
- 		mtk_vcodec_err(instance, "vdec_vp9_slice_update_core\n");
--		goto err;
-+		goto vdec_dec_end;
- 	}
- 
--	pfc->vsi.trans.dma_addr_end += ctx->msg_queue.wdma_addr.dma_addr;
- 	mtk_vcodec_debug(instance, "core dma_addr_end 0x%lx\n",
- 			 (unsigned long)pfc->vsi.trans.dma_addr_end);
--	vdec_msg_queue_update_ube_rptr(&ctx->msg_queue, pfc->vsi.trans.dma_addr_end);
--	ctx->dev->vdec_pdata->cap_to_disp(ctx, 0, lat_buf->src_buf_req);
--
--	return 0;
- 
--err:
--	if (ctx && pfc) {
--		/* always update read pointer */
--		vdec_msg_queue_update_ube_rptr(&ctx->msg_queue, pfc->vsi.trans.dma_addr_end);
-+vdec_dec_end:
-+	/* always update read pointer */
-+	if (IS_VDEC_INNER_RACING(ctx->dev->dec_capability))
-+		vdec_msg_queue_update_ube_rptr(&ctx->msg_queue,
-+					       pfc->vsi.trans.dma_addr);
-+	else
-+		vdec_msg_queue_update_ube_rptr(&ctx->msg_queue,
-+					       pfc->vsi.trans.dma_addr_end);
- 
-+	if (ret)
- 		if (fb)
- 			ctx->dev->vdec_pdata->cap_to_disp(ctx, 1, lat_buf->src_buf_req);
--	}
-+	else
-+		ctx->dev->vdec_pdata->cap_to_disp(ctx, 0, lat_buf->src_buf_req);
-+
- 	return ret;
- }
- 
--- 
-2.18.0
+I think you need to debug more inside videobuf2-core.c. Some printk's that show the
+dmabuf fd when the buffer is mapped and when it is unmapped + the length it is
+mapping should hopefully help a bit.
 
+Regards,
+
+	Hans
+
+> 
+>  
+> 
+> ***************
+> 
+> [1] FYI: the capture driver is not on mainline yet; the candidate is,
+> 
+> https://lore.kernel.org/all/20220810132822.32534-1-yuji2.ishikawa@toshiba.co.jp/ <https://lore.kernel.org/all/20220810132822.32534-1-yuji2.ishikawa@toshiba.co.jp/>
+> 
+>  
+> 
+>  
+> 
+> Regards,
+> 
+>               Yuji Ishikawa
+> 
