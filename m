@@ -2,163 +2,142 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4A8CF60B5C0
-	for <lists+linux-media@lfdr.de>; Mon, 24 Oct 2022 20:39:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 399BC60B58D
+	for <lists+linux-media@lfdr.de>; Mon, 24 Oct 2022 20:32:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229787AbiJXSjl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 24 Oct 2022 14:39:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43558 "EHLO
+        id S231185AbiJXSb6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 24 Oct 2022 14:31:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53842 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231628AbiJXSi4 (ORCPT
+        with ESMTP id S231145AbiJXSbb (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 24 Oct 2022 14:38:56 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A94B157473
-        for <linux-media@vger.kernel.org>; Mon, 24 Oct 2022 10:21:05 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 8810C614EE
-        for <linux-media@vger.kernel.org>; Mon, 24 Oct 2022 17:05:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A42A0C433C1
-        for <linux-media@vger.kernel.org>; Mon, 24 Oct 2022 17:05:33 +0000 (UTC)
-Message-ID: <0e1107d2-fdbf-ffa6-7f39-aa8ea1bdfcc1@xs4all.nl>
-Date:   Mon, 24 Oct 2022 19:05:31 +0200
+        Mon, 24 Oct 2022 14:31:31 -0400
+Received: from mail-io1-xd2a.google.com (mail-io1-xd2a.google.com [IPv6:2607:f8b0:4864:20::d2a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6BE4937428
+        for <linux-media@vger.kernel.org>; Mon, 24 Oct 2022 10:12:47 -0700 (PDT)
+Received: by mail-io1-xd2a.google.com with SMTP id o65so8263913iof.4
+        for <linux-media@vger.kernel.org>; Mon, 24 Oct 2022 10:12:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=subject:from:cc:to:content-language:user-agent:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=yo8X3kdODOGqSn+K8PMBYliTU4w3mUxBAvbY1N92N7k=;
+        b=LqlPzZD9w3QkySfcqXSJwnUWpTzQOnvFHIAVqMKwz3KDzZWp4g0WVEHzYa5MY7mqic
+         7o9NNqtTtqOcRgDXmlEAGtiPnKG7+hZu0OclgThX2gj0FBulqcwgNocYPOTfPwQqEy3V
+         2aJmx3A8X2F0LgKBPDfJgsZpV5YBSZBiAJV1E=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=subject:from:cc:to:content-language:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=yo8X3kdODOGqSn+K8PMBYliTU4w3mUxBAvbY1N92N7k=;
+        b=D7Ai9Bzyfd18oHW57BUBjvjWOTnCETs7I8vBgI89U9S1GhJIk05b+hGy5BB+oXinK4
+         7XAsjJPBWgBaXQw9LAESv9XwuXH05OMJGPb2kEbXAY2WpGz4/GKq3kknoXYXnvPPnGst
+         Srd1gJ8N83LaSV3IWULwzbPcFDBnPPXmvByn6TDragTXUPFsMTWPs3P1psP8Zw46+RnS
+         4HSCquAGiK869maSEUqhGaoK3r0Zl3kD/7TQZSWiUiFg8KDHpiM+ZlmGGzUJ38444jLo
+         bAUW791VosAFhmlFgHXpuRWlerfQpYqj9AKAePmA5AsYR/llA61kGYVke+pmViKr7jQE
+         ejTQ==
+X-Gm-Message-State: ACrzQf0kxl8w5rBGZ883Q5LZui/2J/ZmEwDJJR0fuqsrZ1vhFlB0esys
+        Nds2rtjTneef/Nwhmh0rJ8hA/WFBP2wypw==
+X-Google-Smtp-Source: AMsMyM4GbLO4WaCglULeD3D5wXfmuEPFheWGxEZcjPXVVppTmRiWHoSebySEZPZjOrFqZBqeRgMZ1w==
+X-Received: by 2002:a05:6638:3391:b0:374:1739:3795 with SMTP id h17-20020a056638339100b0037417393795mr3486501jav.87.1666631494735;
+        Mon, 24 Oct 2022 10:11:34 -0700 (PDT)
+Received: from [192.168.1.128] ([38.15.45.1])
+        by smtp.gmail.com with ESMTPSA id t2-20020a056e02010200b002ff7cd2691bsm166077ilm.20.2022.10.24.10.11.34
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 24 Oct 2022 10:11:34 -0700 (PDT)
+Content-Type: multipart/mixed; boundary="------------S0gGEUjZJ1lGVKI3JJ6Cqds9"
+Message-ID: <e2a8df50-21bd-eb55-83dc-30703712338c@linuxfoundation.org>
+Date:   Mon, 24 Oct 2022 11:11:33 -0600
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.2
+ Thunderbird/102.2.2
 Content-Language: en-US
-To:     "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [GIT PULL FOR v6.2] Various fixes and enhancements
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     linux-media@vger.kernel.org, Shuah Khan <skhan@linuxfoundation.org>
+From:   Shuah Khan <skhan@linuxfoundation.org>
+Subject: [GIT PULL] Linux Media vimc fixes update for 6.1-rc4
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The following changes since commit 247f34f7b80357943234f93f247a1ae6b6c3a740:
+This is a multi-part message in MIME format.
+--------------S0gGEUjZJ1lGVKI3JJ6Cqds9
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-  Linux 6.1-rc2 (2022-10-23 15:27:33 -0700)
+Hi Mauro,
+
+Please pull the following vimc fixes update for 6.1-rc4.
+
+This vimc fixes update for Linux Media 6.1-rc4 consists of a single
+fix to documentation. Current configuration in the document is outdated
+and doesn't work.
+
+diff is attached.
+
+thanks,
+-- Shuah
+
+----------------------------------------------------------------
+The following changes since commit 9abf2313adc1ca1b6180c508c25f22f9395cc780:
+
+   Linux 6.1-rc1 (2022-10-16 15:36:24 -0700)
 
 are available in the Git repository at:
 
-  git://linuxtv.org/hverkuil/media_tree.git tags/br-v6.2d
+   git://git.kernel.org/pub/scm/linux/kernel/git/shuah/linux tags/linux-vimc-6.1-rc4
 
-for you to fetch changes up to 16f3211110c86e724a97c00bffc7352ab89fc94c:
+for you to fetch changes up to ca6976420bf11cb2c11702d824692c3b7d301b37:
 
-  media: saa7164: remove variable cnt (2022-10-24 19:03:54 +0200)
-
-----------------------------------------------------------------
-Tag branch
+   media: vimc: Update device configuration in the documentation (2022-10-18 16:24:53 -0600)
 
 ----------------------------------------------------------------
-Andy Shevchenko (1):
-      media: c8sectpfe: Add missed header(s)
+linux-vimc-6.1-rc4
 
-Colin Ian King (7):
-      media: atomisp: Fix spelling mistake "modee" -> "mode"
-      media: mxl5005s: Make array RegAddr static const
-      media: atomisp: Fix spelling mistake "mis-match" -> "mismatch"
-      media: vivid: remove redundant assignment to variable checksum
-      media: platform: s5p-mfc: Fix spelling mistake "mmaping" -> "mmapping"
-      radio-terratec: Remove variable p
-      media: saa7164: remove variable cnt
+This vimc fixes update for Linux Media 6.1-rc4 consists of a single
+fix to documentation. Current configuration in the document is outdated
+and doesn't work.
 
+----------------------------------------------------------------
 Dafna Hirschfeld (1):
-      media: vimc: Update device configuration in the documentation
+       media: vimc: Update device configuration in the documentation
 
-Gaosheng Cui (7):
-      media: dvb-frontends: remove unused drx_dap_fasi_funct_g declaration
-      media: cxd2820r: remove unused cxd2820r_debug declaration
-      media: saa7134: remove unused declarations in saa7134.h
-      saa7164: remove unused saa7164_call_i2c_clients declaration
-      cx25821: remove unused cx25821_video_wakeup() declaration
-      bttv: remove unused tea5757_set_freq declaration
-      media: zoran: remove unused declarations in zoran_device.h
+  Documentation/admin-guide/media/vimc.rst | 8 ++++----
+  1 file changed, 4 insertions(+), 4 deletions(-)
 
-Hans Verkuil (4):
-      videodev2.h: add p_s32 and p_s64 pointers
-      vivid: add INTEGER and INTEGER64 test control arrays
-      media: meson/vdec: always init coef_node_start
-      atomisp: fix potential NULL pointer dereferences
+----------------------------------------------------------------
+--------------S0gGEUjZJ1lGVKI3JJ6Cqds9
+Content-Type: text/x-patch; charset=UTF-8; name="linux-vimc-6.1-rc4.diff"
+Content-Disposition: attachment; filename="linux-vimc-6.1-rc4.diff"
+Content-Transfer-Encoding: base64
 
-Irui Wang (1):
-      media: mediatek: vcodec: Skip unsupported h264 encoder profile
+ZGlmZiAtLWdpdCBhL0RvY3VtZW50YXRpb24vYWRtaW4tZ3VpZGUvbWVkaWEvdmltYy5yc3Qg
+Yi9Eb2N1bWVudGF0aW9uL2FkbWluLWd1aWRlL21lZGlhL3ZpbWMucnN0CmluZGV4IDNiNGQy
+YjM2YjRmMy4uMjlkODQzYThkZGIxIDEwMDY0NAotLS0gYS9Eb2N1bWVudGF0aW9uL2FkbWlu
+LWd1aWRlL21lZGlhL3ZpbWMucnN0CisrKyBiL0RvY3VtZW50YXRpb24vYWRtaW4tZ3VpZGUv
+bWVkaWEvdmltYy5yc3QKQEAgLTM1LDExICszNSwxMSBAQCBvZiBjb21tYW5kcyBmaXRzIGZv
+ciB0aGUgZGVmYXVsdCB0b3BvbG9neToKIAogICAgICAgICBtZWRpYS1jdGwgLWQgcGxhdGZv
+cm06dmltYyAtViAnIlNlbnNvciBBIjowW2ZtdDpTQkdHUjhfMVg4LzY0MHg0ODBdJwogICAg
+ICAgICBtZWRpYS1jdGwgLWQgcGxhdGZvcm06dmltYyAtViAnIkRlYmF5ZXIgQSI6MFtmbXQ6
+U0JHR1I4XzFYOC82NDB4NDgwXScKLSAgICAgICAgbWVkaWEtY3RsIC1kIHBsYXRmb3JtOnZp
+bWMgLVYgJyJTZW5zb3IgQiI6MFtmbXQ6U0JHR1I4XzFYOC82NDB4NDgwXScKLSAgICAgICAg
+bWVkaWEtY3RsIC1kIHBsYXRmb3JtOnZpbWMgLVYgJyJEZWJheWVyIEIiOjBbZm10OlNCR0dS
+OF8xWDgvNjQweDQ4MF0nCi0gICAgICAgIHY0bDItY3RsIC16IHBsYXRmb3JtOnZpbWMgLWQg
+IlJHQi9ZVVYgQ2FwdHVyZSIgLXYgd2lkdGg9MTkyMCxoZWlnaHQ9MTQ0MAorICAgICAgICBt
+ZWRpYS1jdGwgLWQgcGxhdGZvcm06dmltYyAtViAnIlNjYWxlciI6MFtmbXQ6UkdCODg4XzFY
+MjQvNjQweDQ4MF0nCisgICAgICAgIG1lZGlhLWN0bCAtZCBwbGF0Zm9ybTp2aW1jIC1WICci
+U2NhbGVyIjowW2Nyb3A6KDEwMCw1MCkvNDAweDE1MF0nCisgICAgICAgIG1lZGlhLWN0bCAt
+ZCBwbGF0Zm9ybTp2aW1jIC1WICciU2NhbGVyIjoxW2ZtdDpSR0I4ODhfMVgyNC8zMDB4NzAw
+XScKKyAgICAgICAgdjRsMi1jdGwgLXogcGxhdGZvcm06dmltYyAtZCAiUkdCL1lVViBDYXB0
+dXJlIiAtdiB3aWR0aD0zMDAsaGVpZ2h0PTcwMAogICAgICAgICB2NGwyLWN0bCAteiBwbGF0
+Zm9ybTp2aW1jIC1kICJSYXcgQ2FwdHVyZSAwIiAtdiBwaXhlbGZvcm1hdD1CQTgxCi0gICAg
+ICAgIHY0bDItY3RsIC16IHBsYXRmb3JtOnZpbWMgLWQgIlJhdyBDYXB0dXJlIDEiIC12IHBp
+eGVsZm9ybWF0PUJBODEKIAogU3ViZGV2aWNlcwogLS0tLS0tLS0tLQo=
 
-Jernej Skrabec (4):
-      media: v4l2-ioctl.c: Unify YCbCr/YUV terms in format descriptions
-      media: cedrus: hevc: Fix offset adjustments
-      media: cedrus: h265: Associate mv col buffers with buffer
-      media: cedrus: h264: Optimize mv col buffer allocation
-
-Jiasheng Jiang (1):
-      media: coda: jpeg: Add check for kmalloc
-
-Laurent Pinchart (1):
-      media: v4l2-ctrls: Fix off-by-one error in integer menu control check
-
-Liu Shixin (1):
-      media: aspeed: use DEFINE_SHOW_ATTRIBUTE to simplify code
-
-Ming Qian (1):
-      media: amphion: reset instance if it's aborted before codec header parsed
-
-Mirela Rabulea (1):
-      media: imx-jpeg: Fix Coverity issue in probe
-
-Moudy Ho (1):
-      media: platform: mtk-mdp3: remove unused VIDEO_MEDIATEK_VPU config
-
-Niklas Söderlund (2):
-      media: adv748x: Remove dead function declaration
-      media: adv748x: afe: Select input port when initializing AFE
-
-Shang XiaoJing (1):
-      media: stm32: dcmi: Remove redundant dev_err call
-
-Yunfei Dong (1):
-      media: mediatek: vcodec: fix h264 cavlc bitstream fail
-
- Documentation/admin-guide/media/vimc.rst                                  |   8 ++--
- drivers/media/dvb-frontends/cxd2820r_priv.h                               |   2 -
- drivers/media/dvb-frontends/drx39xyj/drx_dap_fasi.h                       |   2 -
- drivers/media/i2c/adv748x/adv748x-afe.c                                   |   4 ++
- drivers/media/i2c/adv748x/adv748x.h                                       |   3 --
- drivers/media/pci/bt8xx/bttv.h                                            |   1 -
- drivers/media/pci/cx25821/cx25821-video.h                                 |   3 --
- drivers/media/pci/saa7134/saa7134.h                                       |   4 --
- drivers/media/pci/saa7164/saa7164-core.c                                  |   6 +--
- drivers/media/pci/saa7164/saa7164.h                                       |   2 -
- drivers/media/pci/zoran/zoran_device.h                                    |   2 -
- drivers/media/platform/amphion/vdec.c                                     |  13 ++++--
- drivers/media/platform/aspeed/aspeed-video.c                              |  16 +------
- drivers/media/platform/chips-media/coda-jpeg.c                            |  10 ++++-
- drivers/media/platform/mediatek/mdp3/Kconfig                              |   1 -
- drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc.c                   |   5 ++-
- drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_multi_if.c      |  32 ++++++++++++--
- drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c                            |   2 +
- drivers/media/platform/samsung/s5p-mfc/s5p_mfc.c                          |   4 +-
- drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-core.c                  |   8 ++--
- drivers/media/platform/st/stm32/stm32-dcmi.c                              |   4 +-
- drivers/media/radio/radio-terratec.c                                      |   3 --
- drivers/media/test-drivers/vivid/vivid-ctrls.c                            |  28 ++++++++++++
- drivers/media/test-drivers/vivid/vivid-vbi-gen.c                          |   1 -
- drivers/media/tuners/mxl5005s.c                                           |   2 +-
- drivers/media/v4l2-core/v4l2-ctrls-core.c                                 |   2 +-
- drivers/media/v4l2-core/v4l2-ioctl.c                                      |  34 +++++++--------
- drivers/staging/media/atomisp/pci/atomisp_cmd.c                           |  12 +++---
- drivers/staging/media/atomisp/pci/atomisp_compat_css20.c                  |   2 +-
- drivers/staging/media/atomisp/pci/css_2401_system/host/pixelgen_private.h |   2 +-
- drivers/staging/media/meson/vdec/codec_vp9.c                              |   3 +-
- drivers/staging/media/sunxi/cedrus/cedrus.h                               |  16 +++----
- drivers/staging/media/sunxi/cedrus/cedrus_h264.c                          | 118 +++++++++++++++++++++++++--------------------------
- drivers/staging/media/sunxi/cedrus/cedrus_h265.c                          |  88 ++++++++++++++++++++++----------------
- drivers/staging/media/sunxi/cedrus/cedrus_regs.h                          |   2 +
- include/uapi/linux/videodev2.h                                            |   2 +
- 36 files changed, 251 insertions(+), 196 deletions(-)
+--------------S0gGEUjZJ1lGVKI3JJ6Cqds9--
