@@ -2,250 +2,164 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 052D660AE79
-	for <lists+linux-media@lfdr.de>; Mon, 24 Oct 2022 17:02:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7B60260ADDA
+	for <lists+linux-media@lfdr.de>; Mon, 24 Oct 2022 16:37:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233467AbiJXPCC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 24 Oct 2022 11:02:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43756 "EHLO
+        id S229556AbiJXOhN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 24 Oct 2022 10:37:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54548 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232447AbiJXPBp (ORCPT
+        with ESMTP id S234553AbiJXOgg (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 24 Oct 2022 11:01:45 -0400
-Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com [IPv6:2607:f8b0:4864:20::102f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 33671132EBE
-        for <linux-media@vger.kernel.org>; Mon, 24 Oct 2022 06:38:16 -0700 (PDT)
-Received: by mail-pj1-x102f.google.com with SMTP id r61-20020a17090a43c300b00212f4e9cccdso3931045pjg.5
-        for <linux-media@vger.kernel.org>; Mon, 24 Oct 2022 06:38:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=wiP9jS952IZOWcL/pVtNm5S9NucWCd+fi6C3AHbXT/o=;
-        b=Wmjw+YBbfbQzr4P3mGJzdz86Pr1QTcS8Xx0ZDy3yQG5kMeVAWjvvzMAGPOlpqZA4Hd
-         nX1PTIKK4WGThZMRatkX7W62zknb05+sb435nbmW/m+zJk7RWBfqVK2DF2mzVAljEnvR
-         rJy9vg+9UyyOFUzXo6fx1spl+kxJv9k6cGosUCrIBvZf94YBh1Qu+yGBLHNXvXBJigmN
-         EZ608QbdhjYMG58PwJ4pLxhHEGP3UipSJbVjyf8GXoqop8AQEeoMTBl0p4DJnpL6XScw
-         IrkKjSCjjjuUf+z3yg8/i2NdD6cNllkY9ZilJBO0+7Gm9qc0MgS9D5gEHhiF+y3/QcXm
-         SLdg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=wiP9jS952IZOWcL/pVtNm5S9NucWCd+fi6C3AHbXT/o=;
-        b=XZRbAVEjpRYi3dgt4SFnP0YWxNUcIiLCf1XWJIcjiqNSUavHH2WZICwMhSnZtqpLOG
-         xQ/8VviiZLnPvuJbdvQN45TOTBBqrblyVqXdjc64mkRsbYMPHlunamuLMJqQalSgzlsN
-         pBWAQUCv04rrAwjUHC86iRAanxcH9L+QFxQbrRq47OZsEgJ55XoK6EjxKPJ1rsjrU39l
-         tAmRw3XgCo05IOP7W6kaTgcZsoXCi9PC5YMx4kYb5Aq95+ERpPP93fuIi18ipkt6LaSX
-         BLzMA6csVODh77xkUwmZBtV5C1sCFyAjBEy4hrS2mF9XBUXmiiqOsxzLlFU/xEY2j9zJ
-         2ucg==
-X-Gm-Message-State: ACrzQf3zsWOTum5Oobwz9WWzI87UVTq/Ti/pwsAr/4uCW66kQnyanrRr
-        8XVugvQv9eTrF0qjWQaK+9wyz3o0F91KmQ==
-X-Google-Smtp-Source: AMsMyM4B5Snj6u5GQrG1tZZFXhC/VAAEyUP1giWk5ju319EFibalR6g5PfblDQDPQyIyehJLwnKEYg==
-X-Received: by 2002:a05:6214:27ea:b0:4bb:6e71:7cc6 with SMTP id jt10-20020a05621427ea00b004bb6e717cc6mr4320206qvb.24.1666614599792;
-        Mon, 24 Oct 2022 05:29:59 -0700 (PDT)
-Received: from [192.168.1.8] ([64.57.193.93])
-        by smtp.gmail.com with ESMTPSA id 5-20020a370805000000b006ec09d7d357sm14636384qki.47.2022.10.24.05.29.58
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 24 Oct 2022 05:29:59 -0700 (PDT)
-Message-ID: <fc923325-335d-e768-ea72-ba1712320d9d@linaro.org>
-Date:   Mon, 24 Oct 2022 08:29:57 -0400
+        Mon, 24 Oct 2022 10:36:36 -0400
+Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [IPv6:2001:4b98:dc4:8::240])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 008FAE09F8
+        for <linux-media@vger.kernel.org>; Mon, 24 Oct 2022 06:12:00 -0700 (PDT)
+Received: from relay4-d.mail.gandi.net (unknown [217.70.183.196])
+        by mslow1.mail.gandi.net (Postfix) with ESMTP id 76C98CADBF
+        for <linux-media@vger.kernel.org>; Mon, 24 Oct 2022 12:32:36 +0000 (UTC)
+Received: (Authenticated sender: jacopo@jmondi.org)
+        by mail.gandi.net (Postfix) with ESMTPSA id 088FCE0009;
+        Mon, 24 Oct 2022 12:31:06 +0000 (UTC)
+Date:   Mon, 24 Oct 2022 14:31:05 +0200
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Dave Stevenson <dave.stevenson@raspberrypi.com>
+Cc:     Krzysztof =?utf-8?Q?Ha=C5=82asa?= <khalasa@piap.pl>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@iki.fi>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH v2 02/10] media: ar0521: Add V4L2_CID_ANALOG_GAIN
+Message-ID: <20221024123105.fgqu4g44luauhza6@uno.localdomain>
+References: <20221022092015.208592-1-jacopo@jmondi.org>
+ <20221022092015.208592-3-jacopo@jmondi.org>
+ <CAPY8ntCxsZwVqNzQpA-TBbdJ6zmd_cZgrcVqm5b31ngF-CiH7w@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.0
-Subject: Re: [PATCH 05/21] ARM: s3c: simplify platform code
-Content-Language: en-US
-To:     Arnd Bergmann <arnd@kernel.org>,
-        linux-arm-kernel@lists.infradead.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     linux-kernel@vger.kernel.org, Ben Dooks <ben-linux@fluff.org>,
-        Simtec Linux Team <linux@simtec.co.uk>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Alim Akhtar <alim.akhtar@samsung.com>,
-        Mark Brown <broonie@kernel.org>,
-        Juerg Haefliger <juerg.haefliger@canonical.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Tomasz Figa <tomasz.figa@gmail.com>,
-        Heiko Stuebner <heiko@sntech.de>,
-        linux-samsung-soc@vger.kernel.org, linux-media@vger.kernel.org
-References: <20221021202254.4142411-1-arnd@kernel.org>
- <20221021203329.4143397-5-arnd@kernel.org>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20221021203329.4143397-5-arnd@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CAPY8ntCxsZwVqNzQpA-TBbdJ6zmd_cZgrcVqm5b31ngF-CiH7w@mail.gmail.com>
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
+        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 21/10/2022 16:27, Arnd Bergmann wrote:
-> From: Arnd Bergmann <arnd@arndb.de>
-> 
-> Following down the now unused symbols and header files, some additional
-> content can be dropped that is used by neither the s3c64xx DT support
-> nor the crag6410 board.
-> 
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-> ---
->  arch/arm/mach-s3c/Kconfig                    |  50 --
->  arch/arm/mach-s3c/Kconfig.s3c64xx            |   5 -
->  arch/arm/mach-s3c/Makefile                   |   2 -
->  arch/arm/mach-s3c/Makefile.s3c64xx           |   1 -
->  arch/arm/mach-s3c/adc-core.h                 |  24 -
->  arch/arm/mach-s3c/ata-core-s3c64xx.h         |  24 -
->  arch/arm/mach-s3c/backlight-s3c64xx.h        |  22 -
->  arch/arm/mach-s3c/cpu.h                      |  47 --
->  arch/arm/mach-s3c/dev-audio-s3c64xx.c        | 127 ----
->  arch/arm/mach-s3c/devs.c                     | 725 -------------------
->  arch/arm/mach-s3c/devs.h                     |  37 -
->  arch/arm/mach-s3c/dma-s3c64xx.h              |  57 --
->  arch/arm/mach-s3c/dma.h                      |   2 -
->  arch/arm/mach-s3c/gpio-cfg-helpers.h         | 124 ----
->  arch/arm/mach-s3c/gpio-cfg.h                 |  19 -
->  arch/arm/mach-s3c/gpio-core.h                |   3 -
->  arch/arm/mach-s3c/gpio-samsung.c             | 443 +----------
->  arch/arm/mach-s3c/iic-core.h                 |   7 -
->  arch/arm/mach-s3c/init.c                     |  26 +-
->  arch/arm/mach-s3c/map-s3c.h                  |  37 -
->  arch/arm/mach-s3c/onenand-core-s3c64xx.h     |  32 -
->  arch/arm/mach-s3c/otom.h                     |  25 -
->  arch/arm/mach-s3c/pm-core-s3c64xx.h          |  17 -
->  arch/arm/mach-s3c/pm-s3c64xx.c               |  83 ---
->  arch/arm/mach-s3c/pm.c                       |   7 +-
->  arch/arm/mach-s3c/pm.h                       |  12 -
->  arch/arm/mach-s3c/regs-srom-s3c64xx.h        |  55 --
->  arch/arm/mach-s3c/s3c6400.c                  |   6 -
->  arch/arm/mach-s3c/s3c6410.c                  |   9 -
->  arch/arm/mach-s3c/sdhci.h                    |  25 -
->  arch/arm/mach-s3c/setup-ide-s3c64xx.c        |  40 -
->  arch/arm/mach-s3c/sleep-s3c64xx.S            |  27 -
->  include/linux/platform_data/media/s5p_hdmi.h |  32 -
->  33 files changed, 6 insertions(+), 2146 deletions(-)
->  delete mode 100644 arch/arm/mach-s3c/adc-core.h
->  delete mode 100644 arch/arm/mach-s3c/ata-core-s3c64xx.h
->  delete mode 100644 arch/arm/mach-s3c/backlight-s3c64xx.h
->  delete mode 100644 arch/arm/mach-s3c/dma-s3c64xx.h
->  delete mode 100644 arch/arm/mach-s3c/dma.h
->  delete mode 100644 arch/arm/mach-s3c/onenand-core-s3c64xx.h
->  delete mode 100644 arch/arm/mach-s3c/otom.h
->  delete mode 100644 arch/arm/mach-s3c/regs-srom-s3c64xx.h
->  delete mode 100644 arch/arm/mach-s3c/setup-ide-s3c64xx.c
->  delete mode 100644 include/linux/platform_data/media/s5p_hdmi.h
-> 
-> diff --git a/arch/arm/mach-s3c/Kconfig b/arch/arm/mach-s3c/Kconfig
-> index 0dde4010aa64..b3656109f1f7 100644
-> --- a/arch/arm/mach-s3c/Kconfig
-> +++ b/arch/arm/mach-s3c/Kconfig
-> @@ -90,36 +90,6 @@ config S3C_DEV_I2C1
->  	help
->  	  Compile in platform device definitions for I2C channel 1
->  
-> -config S3C_DEV_I2C2
-> -	bool
-> -	help
-> -	  Compile in platform device definitions for I2C channel 2
-> -
-> -config S3C_DEV_I2C3
-> -	bool
-> -	help
-> -	  Compile in platform device definition for I2C controller 3
-> -
-> -config S3C_DEV_I2C4
-> -	bool
-> -	help
-> -	  Compile in platform device definition for I2C controller 4
-> -
-> -config S3C_DEV_I2C5
-> -	bool
-> -	help
-> -	  Compile in platform device definition for I2C controller 5
-> -
-> -config S3C_DEV_I2C6
-> -	bool
-> -	help
-> -	  Compile in platform device definition for I2C controller 6
-> -
-> -config S3C_DEV_I2C7
-> -	bool
-> -	help
-> -	  Compile in platform device definition for I2C controller 7
-> -
->  config S3C_DEV_FB
->  	bool
->  	help
-> @@ -135,26 +105,6 @@ config S3C_DEV_USB_HSOTG
->  	help
->  	  Compile in platform device definition for USB high-speed OtG
->  
-> -config S3C_DEV_WDT
-> -	bool
-> -	help
-> -	  Compile in platform device definition for Watchdog Timer
-> -
-> -config S3C_DEV_NAND
-> -	bool
-> -	help
-> -	  Compile in platform device definition for NAND controller
-> -
-> -config S3C_DEV_ONENAND
-> -	bool
-> -	help
-> -	  Compile in platform device definition for OneNAND controller
-> -
-> -config S3C_DEV_RTC
-> -	bool
-> -	help
-> -	  Compile in platform device definition for RTC
-> -
->  config S3C64XX_DEV_SPI0
->  	bool
->  	help
-> diff --git a/arch/arm/mach-s3c/Kconfig.s3c64xx b/arch/arm/mach-s3c/Kconfig.s3c64xx
-> index c403d7642f0a..c52c7ce1d8fa 100644
-> --- a/arch/arm/mach-s3c/Kconfig.s3c64xx
-> +++ b/arch/arm/mach-s3c/Kconfig.s3c64xx
-> @@ -15,12 +15,9 @@ menuconfig ARCH_S3C64XX
->  	select HAVE_TCM
->  	select PLAT_SAMSUNG
->  	select PM_GENERIC_DOMAINS if PM
-> -	select S3C_DEV_NAND if ATAGS
->  	select S3C_GPIO_TRACK if ATAGS
-> -	select S3C2410_WATCHDOG
+Hi Dave,
 
-This does not seem right. S3C2410_WATCHDOG is a driver used by all
-(including Exynos) platforms.
+On Mon, Oct 24, 2022 at 01:13:58PM +0100, Dave Stevenson wrote:
+> Hi Jacopo
+>
+> On Sat, 22 Oct 2022 at 11:47, Jacopo Mondi <jacopo@jmondi.org> wrote:
+> >
+> > Add support for V4L2_CID_ANALOG_GAIN. The control programs the global
+> > gain register which applies to all color channels.
+> >
+> > Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
+> > ---
+> >  drivers/media/i2c/ar0521.c | 16 ++++++++++++++++
+> >  1 file changed, 16 insertions(+)
+> >
+> > diff --git a/drivers/media/i2c/ar0521.c b/drivers/media/i2c/ar0521.c
+> > index 0daa61df2603..ba169f0218a9 100644
+> > --- a/drivers/media/i2c/ar0521.c
+> > +++ b/drivers/media/i2c/ar0521.c
+> > @@ -35,6 +35,11 @@
+> >  #define AR0521_HEIGHT_BLANKING_MIN     38u /* must be even */
+> >  #define AR0521_TOTAL_WIDTH_MIN      2968u
+> >
+> > +#define AR0521_ANA_GAIN_MIN            0x00
+> > +#define AR0521_ANA_GAIN_MAX            0x3f
+>
+> The register reference I have says it is u3.4 format, which would make
+> the max value 0x7f rather than 0x3f.
+>
+> Functionally it makes no real difference, but a max gain of nearly x7
+> 15/16ths  is preferable to nearly x3 15/16ths.
+>
+> If it is u3.4 I'd have expected the minimum to be 0x10 to avoid a gain
+> of less than x1 (does it even work?)
+>
 
->  	select SAMSUNG_ATAGS if ATAGS
->  	select SAMSUNG_WAKEMASK if PM
-> -	select WATCHDOG
->  	help
->  	  Samsung S3C64XX series based systems
->  
-> @@ -121,10 +118,8 @@ config MACH_WLF_CRAGG_6410
->  	select S3C_DEV_HSMMC1
->  	select S3C_DEV_HSMMC2
->  	select S3C_DEV_I2C1
-> -	select S3C_DEV_RTC
+The value of the 0x3280 register is written in the 7 low bits of the
+0x305e register. Whatever is written to 0x305e is similalrly reflected
+in the 0x3280 one. The 0x305e[6:4] bits are the coarse analog gain
+value and the lower 4 bits are the fine analog gain value. I wonder if
+u3.4 is used there to describe the that, even if u3.4 has a different
+meaning
 
-This as well.
+> Looking at the listed m0, c0, m1, c1 values for gain (1, 0, 0, and 4
+> respectively), that maps to a formula:
+> gain = code / 4
+> Min and max codes are 0 and 0x1f, so that implies it will do a gain of
+> less than x1, and goes up to x7.75.
 
->  	select S3C_DEV_USB_HOST
->  	select S3C_DEV_USB_HSOTG
-> -	select S3C_DEV_WDT
->  	select SAMSUNG_DEV_KEYPAD
->  	select SAMSUNG_DEV_PWM
->  	help
+The sensor does not use the CCS gain model, but an exponential
+piecewise function documented as a table of register values/gains in
+the application manual.
 
+The sensor exposes a list of CCS-compatible registers, including
+"0x0204 analogue_gain_code_global", from which I presume one should
+contorl the gain if the CCS compatible model works. From my tests,
+writing to that register is a no-op.
 
+I presume the CCS compatible interface is not plumbed, or maybe it
+depdends on the FW version, or else :)
 
-Best regards,
-Krzysztof
+>
+> So much contradictory information!!
+>
 
+Yes :)
+
+> I'm happy to add a R-B tag for the code side, but the limits seem to
+> be a little all over the place. I'd be looking at taking some test
+> images with fixed exposure time at each gain code to work out what
+> value is actually x1, x2, x4, etc. Doing so does require knowing the
+> black level and applying an appropriate correction to the raw values,
+> or extrapolating from the results.
+>
+>   Dave
+>
+> > +#define AR0521_ANA_GAIN_STEP           0x01
+> > +#define AR0521_ANA_GAIN_DEFAULT                0x00
+> > +
+> >  /* AR0521 registers */
+> >  #define AR0521_REG_VT_PIX_CLK_DIV              0x0300
+> >  #define AR0521_REG_FRAME_LENGTH_LINES          0x0340
+> > @@ -50,6 +55,8 @@
+> >  #define   AR0521_REG_RESET_RESTART               BIT(1)
+> >  #define   AR0521_REG_RESET_INIT                          BIT(0)
+> >
+> > +#define AR0521_REG_ANA_GAIN_CODE_GLOBAL                0x3028
+> > +
+> >  #define AR0521_REG_GREEN1_GAIN                 0x3056
+> >  #define AR0521_REG_BLUE_GAIN                   0x3058
+> >  #define AR0521_REG_RED_GAIN                    0x305A
+> > @@ -456,6 +463,10 @@ static int ar0521_s_ctrl(struct v4l2_ctrl *ctrl)
+> >         case V4L2_CID_VBLANK:
+> >                 ret = ar0521_set_geometry(sensor);
+> >                 break;
+> > +       case V4L2_CID_ANALOGUE_GAIN:
+> > +               ret = ar0521_write_reg(sensor, AR0521_REG_ANA_GAIN_CODE_GLOBAL,
+> > +                                      ctrl->val);
+> > +               break;
+> >         case V4L2_CID_GAIN:
+> >         case V4L2_CID_RED_BALANCE:
+> >         case V4L2_CID_BLUE_BALANCE:
+> > @@ -499,6 +510,11 @@ static int ar0521_init_controls(struct ar0521_dev *sensor)
+> >         /* We can use our own mutex for the ctrl lock */
+> >         hdl->lock = &sensor->lock;
+> >
+> > +       /* Analog gain */
+> > +       v4l2_ctrl_new_std(hdl, ops, V4L2_CID_ANALOGUE_GAIN,
+> > +                         AR0521_ANA_GAIN_MIN, AR0521_ANA_GAIN_MAX,
+> > +                         AR0521_ANA_GAIN_STEP, AR0521_ANA_GAIN_DEFAULT);
+> > +
+> >         /* Manual gain */
+> >         ctrls->gain = v4l2_ctrl_new_std(hdl, ops, V4L2_CID_GAIN, 0, 511, 1, 0);
+> >         ctrls->red_balance = v4l2_ctrl_new_std(hdl, ops, V4L2_CID_RED_BALANCE,
+> > --
+> > 2.37.3
+> >
