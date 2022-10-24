@@ -2,156 +2,305 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CCE55609929
-	for <lists+linux-media@lfdr.de>; Mon, 24 Oct 2022 06:33:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CF460609A4C
+	for <lists+linux-media@lfdr.de>; Mon, 24 Oct 2022 08:13:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229714AbiJXEdB convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Mon, 24 Oct 2022 00:33:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37292 "EHLO
+        id S230235AbiJXGN3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 24 Oct 2022 02:13:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37226 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229501AbiJXEdA (ORCPT
+        with ESMTP id S230221AbiJXGNV (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 24 Oct 2022 00:33:00 -0400
-Received: from mo-csw.securemx.jp (mo-csw1114.securemx.jp [210.130.202.156])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 19527753BA;
-        Sun, 23 Oct 2022 21:32:58 -0700 (PDT)
-Received: by mo-csw.securemx.jp (mx-mo-csw1114) id 29O4WX1D015399; Mon, 24 Oct 2022 13:32:33 +0900
-X-Iguazu-Qid: 2wGrYy8wQgAWV0xULn
-X-Iguazu-QSIG: v=2; s=0; t=1666585952; q=2wGrYy8wQgAWV0xULn; m=DPW8j72U1WrcwvAABj0KbT39wzyWneK7jEIjY+M50uQ=
-Received: from imx2-a.toshiba.co.jp (imx2-a.toshiba.co.jp [106.186.93.35])
-        by relay.securemx.jp (mx-mr1110) id 29O4WVOb032413
-        (version=TLSv1.2 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-        Mon, 24 Oct 2022 13:32:32 +0900
-X-SA-MID: 48169620
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=bt0D4ArB2oWZkMRvHgBVqd+mQxczJXV47nJyC5TCq3Xp3HsXdRicQtejOzqNdAhcCtYrSeH1xQpIsa9/mSe6+GFsuC73YOBFm6Y6ekcYpowL9Ww198V53JTJxHpDnREcTH5amhuceO9No04ivnz/QcmU0i90ft4Sdfa/OhyEnpXEDVPw4oylVW7dyUq9bCAvRe5gl1q2s7UxdEhUfZeaNgfeueK/v9vIZUdH39Ki57b9jHeSy/0O3EtLaYCUdKZRK1+hRxRaSfL7X1f1f7SLzkYbkhdQvZR70ipEz6lpsePOX31F/MoC79gSRypwblu+4XN/G7ZYQlHOGtKbGho3ig==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=bttP4DE0dD3pEtZbVmzWHkdWrRMY6dCs7ozusx2pzxc=;
- b=YMzUa7SgM+wbcOeHrkwgEqJrbV8iR2sdeEkTZ4QYY2jfQ/EMzIiTF8eVyntwnP9Qh10oqinWcXvAGt6FFs0wI3ryOQPDkyn44H7xRcjb2bldkjA1UZg1clEy9ak5RrPe2DGgWwNcr1e7mRgej4JLbsoTh9TkpYfLrJVbDj4WcGwM1nGC0P3NA8/fL9A0mswDuBY3rWKXHjVHXDWr/woqce4cJn7fjwuapNctnqb9oXDTcpb8kuhxNX5GbcrpiDsuISrO2Q53PbLEmEbLdV+PZCnFIlGBIUe09FAFu5EN0BLek7zVctoZpYS5id6ie0QaPmGUiZJauDzRfmQXEK9Iqg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=toshiba.co.jp; dmarc=pass action=none
- header.from=toshiba.co.jp; dkim=pass header.d=toshiba.co.jp; arc=none
-From:   <yuji2.ishikawa@toshiba.co.jp>
-To:     <posciak@chromium.org>, <paul.kocialkowski@bootlin.com>,
-        <hverkuil-cisco@xs4all.nl>, <mchehab+samsung@kernel.org>,
-        <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: Question for an accepted patch: use of DMA-BUF based videobuf2
- capture buffer with no-HW-cache-coherent HW
-Thread-Topic: Question for an accepted patch: use of DMA-BUF based videobuf2
- capture buffer with no-HW-cache-coherent HW
-Thread-Index: AdjnYKQwg5kJk8s9S/Cvff5NBTRsiQ==
-Date:   Mon, 24 Oct 2022 04:27:26 +0000
-X-TSB-HOP2: ON
-Message-ID: <TYAPR01MB6201716571D23E09CC436555922E9@TYAPR01MB6201.jpnprd01.prod.outlook.com>
-Accept-Language: ja-JP, en-US
-Content-Language: ja-JP
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=toshiba.co.jp;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TYAPR01MB6201:EE_|OS3PR01MB5992:EE_
-x-ms-office365-filtering-correlation-id: 90ed0f6b-9488-4212-51d5-08dab5780e06
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: tr7ztXMHUPLUIBFlCU493PVBKIQW4n2TeEPT9goodtwNbUZ54hy64IaFCHRVq/DUt4YTPr2JCi/zu/4JGFULGpgOYhUSZisunGgcyxFjprRi3kAXUCqDsHDTaGJ4bVAq+qP2sPMcgp2W8peTzXMGy6uKwIsgFPPNOzZyrx5ja5UEja7ZxrcbiC6y7eclxD1ahSiooTAYgJqn/sTKalTMdsFuQughJj1y1wH2HLkomO56gQImLKy872eVcA+ZLn6icGZtlpV5IIaJF7hlV//Xp7fHxzUrJkeAfy8BuExO9nB9FF3J4O0W42zEyBTBX16UFRPSEUY4TMuZcWx9HtGn0DjxXZyGXdDYlH6RyQuiklVwuvs0drzNaEYkaMmdIJQvVdEvamEm1MnNxPGkNjMZ0QdWLLWrmZuyAqB+TwrmyhdnPZi5jF/op2uYwtywsMXGmzrWqwj7r3CK4Tzpi9DQ5obJeu/90e/V7y7wJ1km6VfuNRqdplNPzs2ONWLJl90oEwIJ+IdouQglJH4nn2rStAuTF1rLEfQOCb5a8RBcAEv+YEvd96TEoVf+FSFBNiOqdovSPb6X5fHrMDx9/BtCNKSMxEQIZ9wPGOrjHUOK2Mhgur50IP9bXdk6VpgnhjurF7j6XKllDHPBjBBtGOIQZsL0TKuzP5u7a76fbsJ7hS9a9PEHBs8o7QqsKgn4BJ8hJnbfgR13+dc6E++623IjctpeVvoLwQaw9z+V/bJ0X99CCVzs7rDSBVPCuvusrxW6XYldqiy9V0QgYDvzdUhoYHjrt3buiT0wqrf/DveDvaw=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYAPR01MB6201.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(39860400002)(396003)(136003)(376002)(346002)(366004)(451199015)(186003)(83380400001)(38070700005)(5660300002)(86362001)(38100700002)(2906002)(122000001)(52536014)(8936002)(41300700001)(55016003)(478600001)(966005)(9686003)(71200400001)(26005)(76116006)(6506007)(316002)(66446008)(66476007)(66556008)(66946007)(8676002)(110136005)(64756008)(7696005)(33656002);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?iso-2022-jp?B?TXRCSGNpaEducHUxcVpaTVBvTHZZRFdYZWUyRGMzbVVQSDM3OUF0N3lN?=
- =?iso-2022-jp?B?RXc0eEE0dDBrNWFoZHVhYUs5aS9LcFZPb25EQ1NvYXQ4MVZoQjRycFBj?=
- =?iso-2022-jp?B?dWs4dFJoMTRGSU1zNHhRTFdYYU4xMGRRNzlmbi9LUE9ucURSTzRpSFJB?=
- =?iso-2022-jp?B?Rk42bmNPVVBOQ2RrMnk2ZUpnSGorYlVOOTRYbGtaaERaZ29YeS8yZ25E?=
- =?iso-2022-jp?B?ZmdEYjlQZDlsM25ab0ZuSzhGNU5sZmFMRlord1Y2aGlxVWFvdEZ5MU1I?=
- =?iso-2022-jp?B?M08xeVlNZGFsLzc3amlqQWlzWGhFaW84Vy82S29LZ2xvY28xS3J3MFRl?=
- =?iso-2022-jp?B?SFNrNHYxZFJrQ3JDS0N2RmZIOXZaMXVqdnJnOGtLcktpWSsxYzJuakZr?=
- =?iso-2022-jp?B?QlNRTVdHYmlCWDRjekhMbFRJSGRWOU1QcWZRUEdaYVYwR25HT1pHd0Ix?=
- =?iso-2022-jp?B?Mm5KcnVjR2xFSkdBMS81NHZrTjZsSTBORjBNQks5YUdIUEV1UVBvaE5N?=
- =?iso-2022-jp?B?dU4rUmVnL0g2R29KNTFlWGh5dFZRV1pqaVNOSElKb1h2SkdCV3FzRllS?=
- =?iso-2022-jp?B?bkFwTm96M0E5Zzl6UVVUc0g3aklGVjhzQm9lcm1LclJPVk83eDJ5Y0tC?=
- =?iso-2022-jp?B?bmZsVEtyYlRpdmpERGNwTHN0S2o3bjNCSUltRHdQNnkwM0taQ1lKRTEx?=
- =?iso-2022-jp?B?VW0vMTlLQXJ5UFZOMzR1VUtVT1pIZkN3TlVxUVVGSEpzUmppczhlcDRw?=
- =?iso-2022-jp?B?ZmZ5eFdhQ1F3Qkdsb0I3S0pDQnJnTEZHY1UwZzJ3UGltdGpDem9tSFda?=
- =?iso-2022-jp?B?dWUyNW1ueWEvUWpNUUJHcmpLV2tmc1JDSFdSdXQwZWJzbzBmT0dwdHlW?=
- =?iso-2022-jp?B?WDd6RXhkVldEMktLV0hkVmhUN3E5VjZqN1prY1RFUmViVE41dnRiZEl1?=
- =?iso-2022-jp?B?U2hVU2xlMk1KZk1VN3lrWFBCQVZ0Y29NWWw1NXdiZStUR1ViM1VsbjFk?=
- =?iso-2022-jp?B?R3oveFRSQW1nTVc4SlpGWXBYSzM1ODd2QUY0T3VpL3R2T05NN0M1Ukto?=
- =?iso-2022-jp?B?b3o3MUQ1bFBCQTNTczBLOWRxWUczZFZVL2xRU3g2d01oRGt6OWtUZFNv?=
- =?iso-2022-jp?B?aW9kRndUWTJxV1d6cFViS3dXOFpFK2h5am03c1lJZU9SSzkzckxsWDNL?=
- =?iso-2022-jp?B?bWJ1dndiZUVNL2xYRmdpUXNGZTJjN3I5SUwvZDBZcGJJQ0J1T1Vpc0xz?=
- =?iso-2022-jp?B?dzVLeExCL1lSRmNIYjd0RmFIaXJjbGc0YVowMWdBVEVaellhNkowamRK?=
- =?iso-2022-jp?B?TU5WaUk0M3RGUlh2UW1rS3lMTzY0NlJWNzNmUkd2VjZqOVhrZ1lFZGJt?=
- =?iso-2022-jp?B?MmFick4wMjNjVG91QU40cmdmekxxVzNTblZZQThSQ0V5TmMxVitzWTl1?=
- =?iso-2022-jp?B?MWxuWXJTaFQrNXg1YVdOTEFaSlJKaTVjdE5maE53YVMxL0cwU2NSUncw?=
- =?iso-2022-jp?B?ejZ3VDhmKzd0czdTMFRiQU93cDFxRXhRN01SVFg4ZDhTd2NnZFZmaFE2?=
- =?iso-2022-jp?B?ZG9KRTloZGZ4K1pyNElnU2IrSFVkdXpYaW5aRy8zSHlpeXBXYXRjNmtT?=
- =?iso-2022-jp?B?VnV1WG9xb0lObUlSSGYySU1nc3lzbjFmYkZRMThnZk1KaDFNNE4yeXE0?=
- =?iso-2022-jp?B?d0JNV09maFNoc3dKTDUzOStOeUNlQU8wS3R5MkpnVzFGV3pJWDdOU1Va?=
- =?iso-2022-jp?B?ZFZFQWQvOXM5YjJDc2doS0RXNFRmdkdydDQ5c0JybFJsM0t0elB1ZXh2?=
- =?iso-2022-jp?B?ZFE3V0doMkpYWXo2NStPNTU4WlowZThHWStVbUlCSGM5TGNlTEZ5aDVy?=
- =?iso-2022-jp?B?bjhyYTVVU0krYk1obzlmN0xacTJEK3pNem5XTXY3Q1RjWDBsMTBxT0Rk?=
- =?iso-2022-jp?B?RFFkZzkyK2EzQjB2Zk9FdVI3Ny92UWNVMDRmTXFwc0JFaU40UUh1OHZX?=
- =?iso-2022-jp?B?Q2dScHZtdUI4QVdIOWRHRWM4Y1pIeFAwU2VZZjVRS25rZHBXWUtwOUh6?=
- =?iso-2022-jp?B?MHhlYisvU0QvUU9hK2RxdlR3elEyR040TDd4bGlFeGtaTWxjdkdUeUlv?=
- =?iso-2022-jp?B?TGp3aElvU2NkS0hBNGVsLzkzMU1KR3JpWnNrY1J6N1BHZEJTckpGcXBQ?=
- =?iso-2022-jp?B?cXh3NEhrd1VSNEhSNitxNXYzVDBmUVowT3ZpVUZ1S1loRzZLd09ISCtB?=
- =?iso-2022-jp?B?d1UzeHFaYmxJOGJGRDVTTmFMM0dEZGZYcWVudGg3OE5NcGNKWEd6RlR3?=
- =?iso-2022-jp?B?MklHZlRHVGdTY1B1Z2xnNDU3eG5wUlNaMVE9PQ==?=
-Content-Type: text/plain; charset="iso-2022-jp"
-Content-Transfer-Encoding: 8BIT
+        Mon, 24 Oct 2022 02:13:21 -0400
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 73AE15EDC0;
+        Sun, 23 Oct 2022 23:13:13 -0700 (PDT)
+X-UUID: a2dff95d01144a34b87cfb358f67dda6-20221024
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+        h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID; bh=6e7wfegJhKXSWN3e5NJom6LRAKKJMHCkUrFGhn4Auf0=;
+        b=sVIlPoOL9B815YH2jKHjdlyTOse42LMcnADQKeh/6iIGg3Crmvg0+tfNmx1E6VsrtaxNDkU8nUpMz1JdT6IjZyX0Z03DPMk3wjbVAlR4MDMl0QiF8NZpFXooFwIl9MqKJZj/ngAKfHNF4rXuEoCbA1QtFb+OPttj1qtptFURJL8=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.12,REQID:bb77f255-a5d8-48d8-b331-a708ecadd7e1,IP:0,U
+        RL:0,TC:0,Content:-5,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+        :release,TS:-5
+X-CID-META: VersionHash:62cd327,CLOUDID:282ce16c-89d3-4bfa-baad-dc632a24bca3,B
+        ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
+        RL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0
+X-UUID: a2dff95d01144a34b87cfb358f67dda6-20221024
+Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by mailgw01.mediatek.com
+        (envelope-from <mingjia.zhang@mediatek.com>)
+        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+        with ESMTP id 1032663793; Mon, 24 Oct 2022 14:13:09 +0800
+Received: from mtkmbs13n2.mediatek.inc (172.21.101.108) by
+ mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.792.15; Mon, 24 Oct 2022 14:13:06 +0800
+Received: from mhfsdcap04 (10.17.3.154) by mtkmbs13n2.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.2.792.15 via Frontend
+ Transport; Mon, 24 Oct 2022 14:13:05 +0800
+Message-ID: <9eabf0b05bfb3071257cbccf5b19a434522f79ff.camel@mediatek.com>
+Subject: Re: [PATCH, v2] media: mediatek: vcodec: Add to support VP9 inner
+ racing mode
+From:   "mingjia.zhang@mediatek.com" <mingjia.zhang@mediatek.com>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Yunfei Dong <yunfei.dong@mediatek.com>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Tiffany Lin <tiffany.lin@mediatek.com>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Tomasz Figa <tfiga@google.com>
+CC:     Irui Wang <irui.wang@mediatek.com>,
+        George Sun <george.sun@mediatek.com>,
+        Steve Cho <stevecho@chromium.org>,
+        <devicetree@vger.kernel.org>,
+        <Project_Global_Chrome_Upstream_Group@mediatek.com>,
+        <linux-kernel@vger.kernel.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        Xiaoyong Lu <xiaoyong.lu@mediatek.com>,
+        <linux-mediatek@lists.infradead.org>,
+        Hsin-Yi Wang <hsinyi@chromium.org>,
+        Fritz Koenig <frkoenig@chromium.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-media@vger.kernel.org>
+Date:   Mon, 24 Oct 2022 14:13:05 +0800
+In-Reply-To: <27263bbf-10d0-174d-38b4-5d6b0a6bc9bd@xs4all.nl>
+References: <20220727061310.2307-1-mingjia.zhang@mediatek.com>
+         <27263bbf-10d0-174d-38b4-5d6b0a6bc9bd@xs4all.nl>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TYAPR01MB6201.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 90ed0f6b-9488-4212-51d5-08dab5780e06
-X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Oct 2022 04:27:26.1876
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: f109924e-fb71-4ba0-b2cc-65dcdf6fbe4f
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: JnfWscJOlF4eUp1tyPRvNk/G9b3TdvwbtHIdtsHonVf6yCondHKWeMSf40HFCVht2cLLA4vafrgPctwzyg2OUZyv7/nr6l4QwTmfNC5xSgM=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS3PR01MB5992
-X-OriginatorOrg: toshiba.co.jp
-MSSCP.TransferMailToMossAgent: 103
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 7bit
+X-MTK:  N
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,
+        T_SPF_TEMPERROR,UNPARSEABLE_RELAY autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
-I'm porting a V4L2 capture driver from 4.19.y to 5.10.y [1].
-When I test the ported driver, I sometimes find a corruption on a captured image.
-Because the corruption is exactly aligned with cacheline, I started investigation from map/unmap of DMA-BUF.
+Hi Hans,
 
-The capture driver uses DMA-BUF for videobuf2.
-The capture hardware does not have HW-mantained cache coherency with CPU, that is, explicit map/unmap is essential on QBUF/DQBUF.
-After some hours of struggle, I found a patch removing cache synchronizations on QBUF/DQBUF.
+Thanks for you reply and useful suggestions.
 
-https://patchwork.kernel.org/project/linux-media/patch/20190124095156.21898-1-paul.kocialkowski@bootlin.com/
+The previous patch v3 may not fully modified. Now I push patch v4.
+Please help to review it, thanks.
 
-When I removed this patch from my 5.10.y working-tree, the driver yielded images without any defects.
+Thanks,
+mingjia
 
-***************
-Sorry for a mention to a patch released 4 years ago.
-The patch removes map/unmap on QBUF/DQBUF to improve the performance of V4L2 decoder device, by reusing previously decoded frames.
-However, there seems no cares nor compensations for modifying lifecycle of DMA-BUF, especially on video capture devices.
+On Wed, 2022-08-24 at 15:02 +0200, Hans Verkuil wrote:
+> Hi Mingjia,
+> 
+> On 27/07/2022 08:13, Mingjia Zhang wrote:
+> > In order to reduce decoder latency, enable VP9 inner racing mode.
+> > Send lat trans buffer information to core when trigger lat to work,
+> > need not to wait until lat decode done.
+> > 
+> > Signed-off-by: mingjia zhang <mingjia.zhang@mediatek.com>
+> 
+> I'm getting this compile warning:
+> 
+> drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c: In
+> function 'vdec_vp9_slice_core_decode':
+> drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c:221
+> 8:50: warning: 'instance' may be used uninitialized in this function
+> [-Wmaybe-uninitialized]
+>  2218 |                 if (IS_VDEC_INNER_RACING(instance->ctx->dev-
+> >dec_capability))
+>       |                                                  ^~
+> 
 
-Would you tell me some idea on this patch:
-* Do well-implemented capture drivers work well even if this patch is applied?
-* How should a video capture driver call V4L2/videobuf2 APIs, especially when the hardware does not support cache coherency?
+After reviewing the error handling in vdec_vp9_slice_core_decode(), I
+found that the problem you pointed out does exist in error handle part.
+'instance' may be used uninitialized in this function. I have fixed
+this build warning and reviewed other code, thanks.
 
-***************
-[1] FYI: the capture driver is not on mainline yet; the candidate is,
-https://lore.kernel.org/all/20220810132822.32534-1-yuji2.ishikawa@toshiba.co.jp/
+> I think you need to take a close look at the error handling in
+> vdec_vp9_slice_core_decode().
+> 
+> After each error there is a 'goto err;' and that will run the new
+> code, and that doesn't
+> feel right.
+> 
 
-***************
-Sorry for sending the same email message again. I wrongly posted previous one with HTML format.
+I have modified the code logic, and reduced some redundant code,
+thanks.
 
-Regards,
-              Yuji Ishikawa
+> Regards,
+> 
+> 	Hans
+> 
+> > ---
+> > 1. CTS/GTS test pass
+> > 2. Fluster result: Ran 240/303 tests successfully
+> > ---
+> >  .../vcodec/vdec/vdec_vp9_req_lat_if.c         | 64 ++++++++++++---
+> > ----
+> >  1 file changed, 40 insertions(+), 24 deletions(-)
+> > 
+> > diff --git
+> > a/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c
+> > b/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c
+> > index fb1c36a3592d..92b47f0fdf40 100644
+> > ---
+> > a/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c
+> > +++
+> > b/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c
+> > @@ -436,6 +436,7 @@ struct vdec_vp9_slice_ref {
+> >   * @frame_ctx:		4 frame context according to VP9 Spec
+> >   * @frame_ctx_helper:	4 frame context according to newest
+> > kernel spec
+> >   * @dirty:		state of each frame context
+> > + * @local_vsi:		local instance vsi information
+> >   * @init_vsi:		vsi used for initialized VP9 instance
+> >   * @vsi:		vsi used for decoding/flush ...
+> >   * @core_vsi:		vsi used for Core stage
+> > @@ -482,6 +483,8 @@ struct vdec_vp9_slice_instance {
+> >  	struct v4l2_vp9_frame_context frame_ctx_helper;
+> >  	unsigned char dirty[4];
+> >  
+> > +	struct vdec_vp9_slice_vsi local_vsi;
+> > +
+> >  	/* MicroP vsi */
+> >  	union {
+> >  		struct vdec_vp9_slice_init_vsi *init_vsi;
+> > @@ -1616,16 +1619,10 @@ static int
+> > vdec_vp9_slice_update_single(struct vdec_vp9_slice_instance
+> > *instance
+> >  }
+> >  
+> >  static int vdec_vp9_slice_update_lat(struct
+> > vdec_vp9_slice_instance *instance,
+> > -				     struct vdec_lat_buf *lat_buf,
+> > -				     struct vdec_vp9_slice_pfc *pfc)
+> > +				     struct vdec_vp9_slice_vsi *vsi)
+> >  {
+> > -	struct vdec_vp9_slice_vsi *vsi;
+> > -
+> > -	vsi = &pfc->vsi;
+> > -	memcpy(&pfc->state[0], &vsi->state, sizeof(vsi->state));
+> > -
+> >  	mtk_vcodec_debug(instance, "Frame %u LAT CRC 0x%08x %lx %lx\n",
+> > -			 pfc->seq, vsi->state.crc[0],
+> > +			 (instance->seq - 1), vsi->state.crc[0],
+> >  			 (unsigned long)vsi->trans.dma_addr,
+> >  			 (unsigned long)vsi->trans.dma_addr_end);
+> >  
+> > @@ -2090,6 +2087,13 @@ static int vdec_vp9_slice_lat_decode(void
+> > *h_vdec, struct mtk_vcodec_mem *bs,
+> >  		return ret;
+> >  	}
+> >  
+> > +	if (IS_VDEC_INNER_RACING(instance->ctx->dev->dec_capability)) {
+> > +		vdec_vp9_slice_vsi_from_remote(vsi, instance->vsi, 0);
+> > +		memcpy(&instance->local_vsi, vsi, sizeof(*vsi));
+> > +		vdec_msg_queue_qbuf(&ctx->dev->msg_queue_core_ctx,
+> > lat_buf);
+> > +		vsi = &instance->local_vsi;
+> > +	}
+> > +
+> >  	if (instance->irq) {
+> >  		ret = mtk_vcodec_wait_for_done_ctx(ctx,	MTK_INST_IR
+> > Q_RECEIVED,
+> >  						   WAIT_INTR_TIMEOUT_MS
+> > , MTK_VDEC_LAT0);
+> > @@ -2102,22 +2106,25 @@ static int vdec_vp9_slice_lat_decode(void
+> > *h_vdec, struct mtk_vcodec_mem *bs,
+> >  	}
+> >  
+> >  	vdec_vp9_slice_vsi_from_remote(vsi, instance->vsi, 0);
+> > -	ret = vdec_vp9_slice_update_lat(instance, lat_buf, pfc);
+> > +	ret = vdec_vp9_slice_update_lat(instance, vsi);
+> >  
+> > -	/* LAT trans full, no more UBE or decode timeout */
+> > -	if (ret) {
+> > -		mtk_vcodec_err(instance, "VP9 decode error: %d\n",
+> > ret);
+> > -		return ret;
+> > -	}
+> > +	if (!IS_VDEC_INNER_RACING(instance->ctx->dev->dec_capability))
+> > +		/* LAT trans full, no more UBE or decode timeout */
+> > +		if (ret) {
+> > +			mtk_vcodec_err(instance, "frame[%d] decode
+> > error: %d\n",
+> > +				       ret, (instance->seq - 1));
+> > +			return ret;
+> > +		}
+> >  
+> > -	mtk_vcodec_debug(instance, "lat dma addr: 0x%lx 0x%lx\n",
+> > -			 (unsigned long)pfc->vsi.trans.dma_addr,
+> > -			 (unsigned long)pfc->vsi.trans.dma_addr_end);
+> >  
+> > -	vdec_msg_queue_update_ube_wptr(&ctx->msg_queue,
+> > -				       vsi->trans.dma_addr_end +
+> > -				       ctx-
+> > >msg_queue.wdma_addr.dma_addr);
+> > -	vdec_msg_queue_qbuf(&ctx->dev->msg_queue_core_ctx, lat_buf);
+> > +	vsi->trans.dma_addr_end += ctx->msg_queue.wdma_addr.dma_addr;
+> > +	vdec_msg_queue_update_ube_wptr(&ctx->msg_queue, vsi-
+> > >trans.dma_addr_end);
+> > +	if (!IS_VDEC_INNER_RACING(instance->ctx->dev->dec_capability))
+> > +		vdec_msg_queue_qbuf(&ctx->dev->msg_queue_core_ctx,
+> > lat_buf);
+> > +
+> > +	mtk_vcodec_debug(instance, "lat trans end addr(0x%lx), ube
+> > start addr(0x%lx)\n",
+> > +			 (unsigned long)vsi->trans.dma_addr_end,
+> > +			 (unsigned long)ctx-
+> > >msg_queue.wdma_addr.dma_addr);
+> >  
+> >  	return 0;
+> >  }
+> > @@ -2193,10 +2200,14 @@ static int
+> > vdec_vp9_slice_core_decode(struct vdec_lat_buf *lat_buf)
+> >  		goto err;
+> >  	}
+> >  
+> > -	pfc->vsi.trans.dma_addr_end += ctx-
+> > >msg_queue.wdma_addr.dma_addr;
+> >  	mtk_vcodec_debug(instance, "core dma_addr_end 0x%lx\n",
+> >  			 (unsigned long)pfc->vsi.trans.dma_addr_end);
+> > -	vdec_msg_queue_update_ube_rptr(&ctx->msg_queue, pfc-
+> > >vsi.trans.dma_addr_end);
+> > +
+> > +	if (IS_VDEC_INNER_RACING(instance->ctx->dev->dec_capability))
+> > +		vdec_msg_queue_update_ube_rptr(&ctx->msg_queue, pfc-
+> > >vsi.trans.dma_addr);
+> > +	else
+> > +		vdec_msg_queue_update_ube_rptr(&ctx->msg_queue, pfc-
+> > >vsi.trans.dma_addr_end);
+> > +
+> >  	ctx->dev->vdec_pdata->cap_to_disp(ctx, 0, lat_buf-
+> > >src_buf_req);
+> >  
+> >  	return 0;
+> > @@ -2204,7 +2215,12 @@ static int vdec_vp9_slice_core_decode(struct
+> > vdec_lat_buf *lat_buf)
+> >  err:
+> >  	if (ctx && pfc) {
+> >  		/* always update read pointer */
+> > -		vdec_msg_queue_update_ube_rptr(&ctx->msg_queue, pfc-
+> > >vsi.trans.dma_addr_end);
+> > +		if (IS_VDEC_INNER_RACING(instance->ctx->dev-
+> > >dec_capability))
+> > +			vdec_msg_queue_update_ube_rptr(&ctx->msg_queue,
+> > +						       pfc-
+> > >vsi.trans.dma_addr);
+> > +		else
+> > +			vdec_msg_queue_update_ube_rptr(&ctx->msg_queue,
+> > +						       pfc-
+> > >vsi.trans.dma_addr_end);
+> >  
+> >  		if (fb)
+> >  			ctx->dev->vdec_pdata->cap_to_disp(ctx, 1,
+> > lat_buf->src_buf_req);
 
