@@ -2,133 +2,114 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2A16960BB4F
-	for <lists+linux-media@lfdr.de>; Mon, 24 Oct 2022 22:55:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1EB3960B936
+	for <lists+linux-media@lfdr.de>; Mon, 24 Oct 2022 22:06:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235217AbiJXUza (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 24 Oct 2022 16:55:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47716 "EHLO
+        id S231741AbiJXUG3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 24 Oct 2022 16:06:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48564 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235221AbiJXUzM (ORCPT
+        with ESMTP id S232209AbiJXUFt (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 24 Oct 2022 16:55:12 -0400
-Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com [IPv6:2a00:1450:4864:20::62c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6D2C62611E
-        for <linux-media@vger.kernel.org>; Mon, 24 Oct 2022 12:01:20 -0700 (PDT)
-Received: by mail-ej1-x62c.google.com with SMTP id kt23so1665795ejc.7
-        for <linux-media@vger.kernel.org>; Mon, 24 Oct 2022 12:01:20 -0700 (PDT)
+        Mon, 24 Oct 2022 16:05:49 -0400
+Received: from mail-pg1-x533.google.com (mail-pg1-x533.google.com [IPv6:2607:f8b0:4864:20::533])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 721312958FF
+        for <linux-media@vger.kernel.org>; Mon, 24 Oct 2022 11:26:31 -0700 (PDT)
+Received: by mail-pg1-x533.google.com with SMTP id f9so4961440pgj.2
+        for <linux-media@vger.kernel.org>; Mon, 24 Oct 2022 11:26:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=raspberrypi.com; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=Dcq4+9dUc38EghTqFIaQUzXr6wxF6uf42T6SQkF/Jcc=;
-        b=jrVNUuNPgzT8f0EgDgXYwEQUmtL/CW4M46DMpYdPSDEorv9fTyrKvqv4D4Wkk0JSlk
-         K6u3g3rE/rkaPsr23rQIRd8ZcLTqUUPD+EUvEaC8rwBcYiSc0EDPNAxMcXrxvJbNAoGI
-         Zg6K+RUMhSwCQtnAfMTDOr+ZmArMJKafikphZNM03ntWwuaxMafil6z+RqAtz+1/gKaQ
-         jYtQUiKFE2UomrwgyOUW58L8aK3opcLS16tz4BAoLAgfKS/D9X1grmDEyqdkfpZ23f+p
-         X4WX2NO1Xakwm51yevNG0p2xKwDyXZN5Dhn2uePV0pkb2/f1nxiEROPmWA0v5pVGIZTJ
-         5HPg==
+        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=4oIVzfpMgaAT0HX4FWTthc6xrrun7ylc9/g6rsWhf08=;
+        b=1O1ZHqYiBlXY2fwJNdkh+vQ/VNUVsNL1SE/FLAfOhoxD5MPiaq4El7Qm3wHo+8cgb3
+         gl9aeVRIggYlqbyizkSb3bBtxGG+NDi5jQPFLC5t5vcs2zVF6v3XXS2LwIAxKpdiwggC
+         n0PBC2uHZpCn05uEfUStTvJ1YOjR10a1WhlYwJ1EMZXodMLzQ2LjYg7xigqwXSPkiO03
+         194iUFBYOfLlARIf+xoEZo/W0V34QwVqxfhOTk30UjgjuOg0gjGBGTFOiN2O2yCX/CJd
+         B7mqvd4VripHn5nnSvfz8dNOkV/MSTcHE9+6t9xVPrjJY5DORvB26GRhxou4kxGlK326
+         FM1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Dcq4+9dUc38EghTqFIaQUzXr6wxF6uf42T6SQkF/Jcc=;
-        b=BxwuxDV7EKHllmgBYMu35AsO2v4xl+GqIqW75u9Ecw42fOKkJj4OTKWKr3UEXf2cVY
-         P4kojuWP2Rabk0kOeND+cRGrzMdnGaWQGYLSaYTBfX4XEjDawF7ry+qB22Bb/Ah1NCca
-         HL2DMyAGnBMsZbSLiuoPqtIx710ebftHMFi9JFB9Oh4+PyACBnqaFUIMqKPcGQQq1JtX
-         LGs2NfhxbYaBpobXfP1AZ1zOtzlCfef3KLoKkchz5BrrcKBVO0RTpf44+7BInveYbtSM
-         ZwvNcYF4Rm7SzZ55gtVRsbzNK5keh0fn/kJqt8QCh+4gFSXk4sioydVXiC8XNvRIdG8T
-         jkzg==
-X-Gm-Message-State: ACrzQf2sCvX5AbuXO/f5HDoTp6hNNBMlXzdDiGtnT8KE+sdYOiCIjomY
-        2+cTBTh0iuQW+TKRporNs4g3wgrB35xPRGmleK8aE5K80AM=
-X-Google-Smtp-Source: AMsMyM51mSl9lXNENFrOfMsXS77oqViBIk5N6CCWdzJeax+dVv0khtjUdw8emK5EX4EWbP5uTnL5H7ijSJlNeBJPMVQ=
-X-Received: by 2002:a17:907:2cf1:b0:78d:cafc:caba with SMTP id
- hz17-20020a1709072cf100b0078dcafccabamr28508836ejc.154.1666626271386; Mon, 24
- Oct 2022 08:44:31 -0700 (PDT)
-MIME-Version: 1.0
-References: <20221022092015.208592-1-jacopo@jmondi.org> <20221022092015.208592-7-jacopo@jmondi.org>
-In-Reply-To: <20221022092015.208592-7-jacopo@jmondi.org>
-From:   Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date:   Mon, 24 Oct 2022 16:44:15 +0100
-Message-ID: <CAPY8ntB2hj8TQ8++TyM0FLg0KMzLugrkKXESKq0nF6-VGEtNaA@mail.gmail.com>
-Subject: Re: [PATCH v2 06/10] media: ar0521: Add LINK_FREQ control
-To:     Jacopo Mondi <jacopo@jmondi.org>
-Cc:     =?UTF-8?Q?Krzysztof_Ha=C5=82asa?= <khalasa@piap.pl>,
+        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=4oIVzfpMgaAT0HX4FWTthc6xrrun7ylc9/g6rsWhf08=;
+        b=KBp+M9RKyMWQfuReowbw1iXXFayDpr1afx4enEcOMJ9y/W6y4yITXjS8IqE0cJqFt1
+         WTKXRioLmYse0mpM5cACx+xLaYYy7H2nymt72dbX+ShOJnLU5yW0CTZfSNyTBz43B4X+
+         rLhx6sn1JkdTNbVkW3mK9XSNer8JxF6iWAFMSbjhOBTP958LvSlQ9gy70ejUhfGz7W3n
+         mkC/PJ9wcCwZPPnG1574SfN0ciY5xxD4WABgTt3tDNtT8vdbPjJTYa2G8hB9m/XY702d
+         D5cKBSSW1imx284ZoOgjkkuYvvnkUGW0kr3k0gnNa5AlY1FORur5aMYbUxQhUGT7Cd9c
+         Nkpg==
+X-Gm-Message-State: ACrzQf26TJmC9R8wuO7LWIXyJbYKmOKb3CZKR1rTes2neD6bCEOOLY2o
+        18eTH9yFIaDbP8XJJyTU8pneOg==
+X-Google-Smtp-Source: AMsMyM5NJO1kEdsQTHB/8tQPhUzIwVroAro5GyKcBeo3+9Tpkq+lfovTaDaocHC24z3Nm955Wr4NWg==
+X-Received: by 2002:aa7:81cc:0:b0:563:4e53:c08b with SMTP id c12-20020aa781cc000000b005634e53c08bmr34743652pfn.19.1666635958991;
+        Mon, 24 Oct 2022 11:25:58 -0700 (PDT)
+Received: from localhost ([75.172.140.17])
+        by smtp.gmail.com with ESMTPSA id z11-20020a170903018b00b00177f4ef7970sm72911plg.11.2022.10.24.11.25.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 24 Oct 2022 11:25:58 -0700 (PDT)
+From:   Kevin Hilman <khilman@baylibre.com>
+To:     Arnd Bergmann <arnd@kernel.org>, Sekhar Nori <nsekhar@ti.com>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        linux-arm-kernel@lists.infradead.org
+Cc:     linux-kernel@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
+        Russell King <linux@armlinux.org.uk>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@iki.fi>,
+        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+        Sergey Shtylyov <s.shtylyov@omp.ru>,
+        David Lechner <david@lechnology.com>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Marc Zyngier <maz@kernel.org>,
+        "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
+        Lee Jones <lee@kernel.org>,
+        Alessandro Zummo <a.zummo@towertech.it>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Bin Liu <b-liu@ti.com>,
+        Peter Ujfalusi <peter.ujfalusi@gmail.com>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-media@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-0.5 required=5.0 tests=BAYES_00,DATE_IN_PAST_03_06,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Yang Yingliang <yangyingliang@huawei.com>,
+        linux-media@vger.kernel.org, linux-ide@vger.kernel.org,
+        linux-clk@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-rtc@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-usb@vger.kernel.org, alsa-devel@alsa-project.org
+Subject: Re: [PATCH 00/14] ARM: remove unused davinci board & drivers
+In-Reply-To: <20221019152947.3857217-1-arnd@kernel.org>
+References: <20221019152947.3857217-1-arnd@kernel.org>
+Date:   Mon, 24 Oct 2022 11:25:57 -0700
+Message-ID: <7h7d0phydm.fsf@baylibre.com>
+MIME-Version: 1.0
+Content-Type: text/plain
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jacopo
+Arnd Bergmann <arnd@kernel.org> writes:
 
-On Sat, 22 Oct 2022 at 11:38, Jacopo Mondi <jacopo@jmondi.org> wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
 >
-> Add support for V4L2_CID_LINK_FREQ which currently reports a single
-> hard-coded frequency which depends on the fixed pixel clock.
+> As part of removing all board files that were previously marked as unused,
+> I looked through the davinci platform and recursively removed everything
+> that has now become unused.
 >
-> Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
-> ---
->  drivers/media/i2c/ar0521.c | 15 +++++++++++++++
->  1 file changed, 15 insertions(+)
->
-> diff --git a/drivers/media/i2c/ar0521.c b/drivers/media/i2c/ar0521.c
-> index fcd852760750..2310346f11d5 100644
-> --- a/drivers/media/i2c/ar0521.c
-> +++ b/drivers/media/i2c/ar0521.c
-> @@ -89,6 +89,10 @@ static const char * const ar0521_supply_names[] = {
->         "vaa",          /* Analog (2.7V) supply */
->  };
->
-> +static const s64 ar0521_link_frequencies[] = {
-> +       184000000,
-> +};
-> +
->  struct ar0521_ctrls {
->         struct v4l2_ctrl_handler handler;
->         struct {
-> @@ -547,6 +551,13 @@ static int ar0521_s_ctrl(struct v4l2_ctrl *ctrl)
->                 ret = ar0521_write_reg(sensor, AR0521_REG_TEST_PATTERN_MODE,
->                                        ctrl->val);
->                 break;
-> +       case V4L2_CID_LINK_FREQ:
-> +               /*
-> +                * Link frequency index is used at PLL configuration time,
-> +                * nothing to do here.
-> +                */
-> +               ret = 0;
-> +               break;
+> In particular, this is for all dm3xx support, in addition to the dm64xx
+> support removed previously. The remaining support is now for da8xx using
+> devicetree only, which means a lot of the da8xx specific device support
+> can also go away.
 
-Defining as read only removes the need for this, but it depends on
-whether you expect to have userspace changing it in the future.
+Acked-by: Kevin Hilman <khilman@baylibre.com>
 
-As it stands it works, so:
-
-Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
-
->         default:
->                 dev_err(&sensor->i2c_client->dev,
->                         "Unsupported control %x\n", ctrl->id);
-> @@ -611,6 +622,10 @@ static int ar0521_init_controls(struct ar0521_dev *sensor)
->         ctrls->exposure = v4l2_ctrl_new_std(hdl, ops, V4L2_CID_EXPOSURE, 0,
->                                             65535, 1, 360);
->
-> +       v4l2_ctrl_new_int_menu(hdl, ops, V4L2_CID_LINK_FREQ,
-> +                              ARRAY_SIZE(ar0521_link_frequencies) - 1,
-> +                              0, ar0521_link_frequencies);
-> +
->         ctrls->test_pattern = v4l2_ctrl_new_std_menu_items(hdl, ops,
->                                         V4L2_CID_TEST_PATTERN,
->                                         ARRAY_SIZE(test_pattern_menu) - 1,
-> --
-> 2.37.3
->
+Kevin
