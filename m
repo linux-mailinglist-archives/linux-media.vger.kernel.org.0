@@ -2,226 +2,68 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 54BFD609DDD
-	for <lists+linux-media@lfdr.de>; Mon, 24 Oct 2022 11:19:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3326A609E2D
+	for <lists+linux-media@lfdr.de>; Mon, 24 Oct 2022 11:42:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230030AbiJXJTz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 24 Oct 2022 05:19:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39710 "EHLO
+        id S230210AbiJXJme (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 24 Oct 2022 05:42:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48550 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229983AbiJXJTs (ORCPT
+        with ESMTP id S229729AbiJXJmd (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 24 Oct 2022 05:19:48 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59B1310FDC;
-        Mon, 24 Oct 2022 02:19:36 -0700 (PDT)
+        Mon, 24 Oct 2022 05:42:33 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E96C63F11
+        for <linux-media@vger.kernel.org>; Mon, 24 Oct 2022 02:42:32 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 119F76112D;
-        Mon, 24 Oct 2022 09:19:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C8BE8C433C1;
-        Mon, 24 Oct 2022 09:19:26 +0000 (UTC)
-Message-ID: <76dc6599-3b24-918c-ba08-77c3192c5c04@xs4all.nl>
-Date:   Mon, 24 Oct 2022 11:19:25 +0200
+        by ams.source.kernel.org (Postfix) with ESMTPS id 3B481B8100E
+        for <linux-media@vger.kernel.org>; Mon, 24 Oct 2022 09:42:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8E983C433C1
+        for <linux-media@vger.kernel.org>; Mon, 24 Oct 2022 09:42:29 +0000 (UTC)
+Message-ID: <45f9f51f-f369-e9ff-c8eb-e7bc92879621@xs4all.nl>
+Date:   Mon, 24 Oct 2022 11:42:28 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.3.2
-Subject: Re: [PATCH v7 13/21] media: videobuf2: Prepare to dynamic dma-buf
- locking specification
 Content-Language: en-US
-To:     Dmitry Osipenko <dmitry.osipenko@collabora.com>,
-        David Airlie <airlied@linux.ie>,
-        Gerd Hoffmann <kraxel@redhat.com>,
-        Gurchetan Singh <gurchetansingh@chromium.org>,
-        Chia-I Wu <olvaffe@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-        Daniel Almeida <daniel.almeida@collabora.com>,
-        Gert Wollny <gert.wollny@collabora.com>,
-        Gustavo Padovan <gustavo.padovan@collabora.com>,
-        Daniel Stone <daniel@fooishbar.org>,
-        Tomeu Vizoso <tomeu.vizoso@collabora.com>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Rob Clark <robdclark@gmail.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
-        "Pan, Xinhui" <Xinhui.Pan@amd.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
-        =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas_os@shipmail.org>,
-        Qiang Yu <yuq825@gmail.com>,
-        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Amol Maheshwari <amahesh@qti.qualcomm.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Leon Romanovsky <leon@kernel.org>,
-        Juergen Gross <jgross@suse.com>,
-        Stefano Stabellini <sstabellini@kernel.org>,
-        Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>,
-        Tomi Valkeinen <tomba@kernel.org>,
-        Russell King <linux@armlinux.org.uk>,
-        Lucas Stach <l.stach@pengutronix.de>,
-        Christian Gmeiner <christian.gmeiner@gmail.com>,
-        Ruhl Michael J <michael.j.ruhl@intel.com>
-Cc:     dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-        Dmitry Osipenko <digetx@gmail.com>,
-        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
-        amd-gfx@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
-        kernel@collabora.com, virtualization@lists.linux-foundation.org,
-        linux-rdma@vger.kernel.org, linux-arm-msm@vger.kernel.org
-References: <20221017172229.42269-1-dmitry.osipenko@collabora.com>
- <20221017172229.42269-14-dmitry.osipenko@collabora.com>
+To:     "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
 From:   Hans Verkuil <hverkuil@xs4all.nl>
-In-Reply-To: <20221017172229.42269-14-dmitry.osipenko@collabora.com>
+Subject: [GIT FIXES FOR v6.1] vivid: fix control handler mutex deadlock
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-
-
-On 10/17/22 19:22, Dmitry Osipenko wrote:
-> Prepare V4L2 memory allocators to the common dynamic dma-buf locking
-> convention by starting to use the unlocked versions of dma-buf API
-> functions.
-> 
-> Acked-by: Tomasz Figa <tfiga@chromium.org>
-
-Acked-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-
-Thanks!
+This fixes a regression in 6.1.
 
 	Hans
 
-> Acked-by: Christian König <christian.koenig@amd.com>
-> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-> ---
->  drivers/media/common/videobuf2/videobuf2-dma-contig.c | 11 ++++++-----
->  drivers/media/common/videobuf2/videobuf2-dma-sg.c     |  8 ++++----
->  drivers/media/common/videobuf2/videobuf2-vmalloc.c    |  6 +++---
->  3 files changed, 13 insertions(+), 12 deletions(-)
-> 
-> diff --git a/drivers/media/common/videobuf2/videobuf2-dma-contig.c b/drivers/media/common/videobuf2/videobuf2-dma-contig.c
-> index 678b359717c4..79f4d8301fbb 100644
-> --- a/drivers/media/common/videobuf2/videobuf2-dma-contig.c
-> +++ b/drivers/media/common/videobuf2/videobuf2-dma-contig.c
-> @@ -101,7 +101,7 @@ static void *vb2_dc_vaddr(struct vb2_buffer *vb, void *buf_priv)
->  	if (buf->db_attach) {
->  		struct iosys_map map;
->  
-> -		if (!dma_buf_vmap(buf->db_attach->dmabuf, &map))
-> +		if (!dma_buf_vmap_unlocked(buf->db_attach->dmabuf, &map))
->  			buf->vaddr = map.vaddr;
->  
->  		return buf->vaddr;
-> @@ -711,7 +711,7 @@ static int vb2_dc_map_dmabuf(void *mem_priv)
->  	}
->  
->  	/* get the associated scatterlist for this buffer */
-> -	sgt = dma_buf_map_attachment(buf->db_attach, buf->dma_dir);
-> +	sgt = dma_buf_map_attachment_unlocked(buf->db_attach, buf->dma_dir);
->  	if (IS_ERR(sgt)) {
->  		pr_err("Error getting dmabuf scatterlist\n");
->  		return -EINVAL;
-> @@ -722,7 +722,8 @@ static int vb2_dc_map_dmabuf(void *mem_priv)
->  	if (contig_size < buf->size) {
->  		pr_err("contiguous chunk is too small %lu/%lu\n",
->  		       contig_size, buf->size);
-> -		dma_buf_unmap_attachment(buf->db_attach, sgt, buf->dma_dir);
-> +		dma_buf_unmap_attachment_unlocked(buf->db_attach, sgt,
-> +						  buf->dma_dir);
->  		return -EFAULT;
->  	}
->  
-> @@ -750,10 +751,10 @@ static void vb2_dc_unmap_dmabuf(void *mem_priv)
->  	}
->  
->  	if (buf->vaddr) {
-> -		dma_buf_vunmap(buf->db_attach->dmabuf, &map);
-> +		dma_buf_vunmap_unlocked(buf->db_attach->dmabuf, &map);
->  		buf->vaddr = NULL;
->  	}
-> -	dma_buf_unmap_attachment(buf->db_attach, sgt, buf->dma_dir);
-> +	dma_buf_unmap_attachment_unlocked(buf->db_attach, sgt, buf->dma_dir);
->  
->  	buf->dma_addr = 0;
->  	buf->dma_sgt = NULL;
-> diff --git a/drivers/media/common/videobuf2/videobuf2-dma-sg.c b/drivers/media/common/videobuf2/videobuf2-dma-sg.c
-> index fa69158a65b1..36ecdea8d707 100644
-> --- a/drivers/media/common/videobuf2/videobuf2-dma-sg.c
-> +++ b/drivers/media/common/videobuf2/videobuf2-dma-sg.c
-> @@ -309,7 +309,7 @@ static void *vb2_dma_sg_vaddr(struct vb2_buffer *vb, void *buf_priv)
->  
->  	if (!buf->vaddr) {
->  		if (buf->db_attach) {
-> -			ret = dma_buf_vmap(buf->db_attach->dmabuf, &map);
-> +			ret = dma_buf_vmap_unlocked(buf->db_attach->dmabuf, &map);
->  			buf->vaddr = ret ? NULL : map.vaddr;
->  		} else {
->  			buf->vaddr = vm_map_ram(buf->pages, buf->num_pages, -1);
-> @@ -565,7 +565,7 @@ static int vb2_dma_sg_map_dmabuf(void *mem_priv)
->  	}
->  
->  	/* get the associated scatterlist for this buffer */
-> -	sgt = dma_buf_map_attachment(buf->db_attach, buf->dma_dir);
-> +	sgt = dma_buf_map_attachment_unlocked(buf->db_attach, buf->dma_dir);
->  	if (IS_ERR(sgt)) {
->  		pr_err("Error getting dmabuf scatterlist\n");
->  		return -EINVAL;
-> @@ -594,10 +594,10 @@ static void vb2_dma_sg_unmap_dmabuf(void *mem_priv)
->  	}
->  
->  	if (buf->vaddr) {
-> -		dma_buf_vunmap(buf->db_attach->dmabuf, &map);
-> +		dma_buf_vunmap_unlocked(buf->db_attach->dmabuf, &map);
->  		buf->vaddr = NULL;
->  	}
-> -	dma_buf_unmap_attachment(buf->db_attach, sgt, buf->dma_dir);
-> +	dma_buf_unmap_attachment_unlocked(buf->db_attach, sgt, buf->dma_dir);
->  
->  	buf->dma_sgt = NULL;
->  }
-> diff --git a/drivers/media/common/videobuf2/videobuf2-vmalloc.c b/drivers/media/common/videobuf2/videobuf2-vmalloc.c
-> index 948152f1596b..7831bf545874 100644
-> --- a/drivers/media/common/videobuf2/videobuf2-vmalloc.c
-> +++ b/drivers/media/common/videobuf2/videobuf2-vmalloc.c
-> @@ -376,7 +376,7 @@ static int vb2_vmalloc_map_dmabuf(void *mem_priv)
->  	struct iosys_map map;
->  	int ret;
->  
-> -	ret = dma_buf_vmap(buf->dbuf, &map);
-> +	ret = dma_buf_vmap_unlocked(buf->dbuf, &map);
->  	if (ret)
->  		return -EFAULT;
->  	buf->vaddr = map.vaddr;
-> @@ -389,7 +389,7 @@ static void vb2_vmalloc_unmap_dmabuf(void *mem_priv)
->  	struct vb2_vmalloc_buf *buf = mem_priv;
->  	struct iosys_map map = IOSYS_MAP_INIT_VADDR(buf->vaddr);
->  
-> -	dma_buf_vunmap(buf->dbuf, &map);
-> +	dma_buf_vunmap_unlocked(buf->dbuf, &map);
->  	buf->vaddr = NULL;
->  }
->  
-> @@ -399,7 +399,7 @@ static void vb2_vmalloc_detach_dmabuf(void *mem_priv)
->  	struct iosys_map map = IOSYS_MAP_INIT_VADDR(buf->vaddr);
->  
->  	if (buf->vaddr)
-> -		dma_buf_vunmap(buf->dbuf, &map);
-> +		dma_buf_vunmap_unlocked(buf->dbuf, &map);
->  
->  	kfree(buf);
->  }
+The following changes since commit d67614f276c1499ad939fa5c1aadd35498cc6b34:
+
+  Merge fixes into media_stage (2022-09-27 10:27:56 +0200)
+
+are available in the Git repository at:
+
+  git://linuxtv.org/hverkuil/media_tree.git tags/br-v6.1s
+
+for you to fetch changes up to e1406584a767c980e70dcf5c71443b561ee9b17c:
+
+  vivid: fix control handler mutex deadlock (2022-10-24 11:40:34 +0200)
+
+----------------------------------------------------------------
+Tag branch
+
+----------------------------------------------------------------
+Hans Verkuil (1):
+      vivid: fix control handler mutex deadlock
+
+ drivers/media/test-drivers/vivid/vivid-vid-cap.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
