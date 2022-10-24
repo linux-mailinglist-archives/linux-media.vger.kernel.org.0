@@ -2,114 +2,121 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1EB3960B936
-	for <lists+linux-media@lfdr.de>; Mon, 24 Oct 2022 22:06:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2346660BCFE
+	for <lists+linux-media@lfdr.de>; Tue, 25 Oct 2022 00:03:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231741AbiJXUG3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 24 Oct 2022 16:06:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48564 "EHLO
+        id S231596AbiJXWDj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 24 Oct 2022 18:03:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35742 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232209AbiJXUFt (ORCPT
+        with ESMTP id S231806AbiJXWDT (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 24 Oct 2022 16:05:49 -0400
-Received: from mail-pg1-x533.google.com (mail-pg1-x533.google.com [IPv6:2607:f8b0:4864:20::533])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 721312958FF
-        for <linux-media@vger.kernel.org>; Mon, 24 Oct 2022 11:26:31 -0700 (PDT)
-Received: by mail-pg1-x533.google.com with SMTP id f9so4961440pgj.2
-        for <linux-media@vger.kernel.org>; Mon, 24 Oct 2022 11:26:31 -0700 (PDT)
+        Mon, 24 Oct 2022 18:03:19 -0400
+Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com [IPv6:2a00:1450:4864:20::630])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D2F342FACE3;
+        Mon, 24 Oct 2022 13:17:21 -0700 (PDT)
+Received: by mail-ej1-x630.google.com with SMTP id k2so7689186ejr.2;
+        Mon, 24 Oct 2022 13:17:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=4oIVzfpMgaAT0HX4FWTthc6xrrun7ylc9/g6rsWhf08=;
-        b=1O1ZHqYiBlXY2fwJNdkh+vQ/VNUVsNL1SE/FLAfOhoxD5MPiaq4El7Qm3wHo+8cgb3
-         gl9aeVRIggYlqbyizkSb3bBtxGG+NDi5jQPFLC5t5vcs2zVF6v3XXS2LwIAxKpdiwggC
-         n0PBC2uHZpCn05uEfUStTvJ1YOjR10a1WhlYwJ1EMZXodMLzQ2LjYg7xigqwXSPkiO03
-         194iUFBYOfLlARIf+xoEZo/W0V34QwVqxfhOTk30UjgjuOg0gjGBGTFOiN2O2yCX/CJd
-         B7mqvd4VripHn5nnSvfz8dNOkV/MSTcHE9+6t9xVPrjJY5DORvB26GRhxou4kxGlK326
-         FM1Q==
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=1fBlLJXdA6H7C7X3qALVt9OFqOQbonL8kspTcSbYe8A=;
+        b=YPJ3jwQsNmm9WLt/GBkLWWRa6lFn8eahlu81M8lp72RvYGLMe/rQjA2qPa5v1u4tT6
+         90ivSVYqP66OxTklswMOTjjr9ecvUkAP0NUIauygidG6sWAb1j1q05ALUBQxKfn0aTu5
+         2S3QwjiaKOaIMvBqG9wc3wTVwidG1wG8FEuhFE+iEE2VUjwRX7c+FY1I7Xdn55PK08z9
+         i2ufSZEQzWz2r7uSmuMUBEkFRjVqHQY1evrOLHZ5Fk2qSSqIk/Jn+sTiLw0wQLqe4tal
+         36VZBHwYk13cnxp/sU7GMLV7E/HHAvlWE1h6zbYbhyPiwxfyyLicgnWx9g4h+13XZg8z
+         xLMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=4oIVzfpMgaAT0HX4FWTthc6xrrun7ylc9/g6rsWhf08=;
-        b=KBp+M9RKyMWQfuReowbw1iXXFayDpr1afx4enEcOMJ9y/W6y4yITXjS8IqE0cJqFt1
-         WTKXRioLmYse0mpM5cACx+xLaYYy7H2nymt72dbX+ShOJnLU5yW0CTZfSNyTBz43B4X+
-         rLhx6sn1JkdTNbVkW3mK9XSNer8JxF6iWAFMSbjhOBTP958LvSlQ9gy70ejUhfGz7W3n
-         mkC/PJ9wcCwZPPnG1574SfN0ciY5xxD4WABgTt3tDNtT8vdbPjJTYa2G8hB9m/XY702d
-         D5cKBSSW1imx284ZoOgjkkuYvvnkUGW0kr3k0gnNa5AlY1FORur5aMYbUxQhUGT7Cd9c
-         Nkpg==
-X-Gm-Message-State: ACrzQf26TJmC9R8wuO7LWIXyJbYKmOKb3CZKR1rTes2neD6bCEOOLY2o
-        18eTH9yFIaDbP8XJJyTU8pneOg==
-X-Google-Smtp-Source: AMsMyM5NJO1kEdsQTHB/8tQPhUzIwVroAro5GyKcBeo3+9Tpkq+lfovTaDaocHC24z3Nm955Wr4NWg==
-X-Received: by 2002:aa7:81cc:0:b0:563:4e53:c08b with SMTP id c12-20020aa781cc000000b005634e53c08bmr34743652pfn.19.1666635958991;
-        Mon, 24 Oct 2022 11:25:58 -0700 (PDT)
-Received: from localhost ([75.172.140.17])
-        by smtp.gmail.com with ESMTPSA id z11-20020a170903018b00b00177f4ef7970sm72911plg.11.2022.10.24.11.25.58
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=1fBlLJXdA6H7C7X3qALVt9OFqOQbonL8kspTcSbYe8A=;
+        b=5aU6Nqu9jL2jf6ccP2zCWobbqPbgI4Xh9okWhY2/wvVbZ+puqBopY0J77wVjKjPrZ/
+         hPtvsoVpNPjk/RC6WPlL2+x3EC73wqc0TOgzFchspZL51fM+KqmebIb18DPnAsiDQvjF
+         KHq1Ovx3MvT7W1DKUk5dLTNHwvGYpykQznFKWCo2APdv94FxyspPAKUKe2RR746whQzS
+         6JRLjFWkD0My0b2d1nDK8rtPqQhODBYX9VqKCDFL/AUSrjiDtX2teOEPS0T0bsq/C5kl
+         PvJr8QsXGcG83+OPC8+69psBKjMYVPsvOMT7xZZWAHRv2nchBDlcQG/JXRvEP37aXuIJ
+         z77Q==
+X-Gm-Message-State: ACrzQf3kCxabPTfGqrQ6hiYbxf7pTrSI+X9a7yVaFktbdZl4aZ/kXVjh
+        fuT0LiP8BPMlXDmw9mNBdj0=
+X-Google-Smtp-Source: AMsMyM6Tfi2MudIbF6SuC3N6qkh7fPJgYp0ed+IaKSyzxHBs7xvcwSqolHobZJoh1xVju7+sSEmzxA==
+X-Received: by 2002:a17:907:7e87:b0:78e:2dc3:945 with SMTP id qb7-20020a1709077e8700b0078e2dc30945mr29430002ejc.326.1666642529414;
+        Mon, 24 Oct 2022 13:15:29 -0700 (PDT)
+Received: from kista.localdomain (82-149-19-102.dynamic.telemach.net. [82.149.19.102])
+        by smtp.gmail.com with ESMTPSA id op7-20020a170906bce700b0073d638a7a89sm332023ejb.99.2022.10.24.13.15.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Oct 2022 11:25:58 -0700 (PDT)
-From:   Kevin Hilman <khilman@baylibre.com>
-To:     Arnd Bergmann <arnd@kernel.org>, Sekhar Nori <nsekhar@ti.com>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        linux-arm-kernel@lists.infradead.org
-Cc:     linux-kernel@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
-        Russell King <linux@armlinux.org.uk>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
-        Sergey Shtylyov <s.shtylyov@omp.ru>,
-        David Lechner <david@lechnology.com>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Marc Zyngier <maz@kernel.org>,
-        "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
-        Lee Jones <lee@kernel.org>,
-        Alessandro Zummo <a.zummo@towertech.it>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Bin Liu <b-liu@ti.com>,
-        Peter Ujfalusi <peter.ujfalusi@gmail.com>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Yang Yingliang <yangyingliang@huawei.com>,
-        linux-media@vger.kernel.org, linux-ide@vger.kernel.org,
-        linux-clk@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-rtc@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-usb@vger.kernel.org, alsa-devel@alsa-project.org
-Subject: Re: [PATCH 00/14] ARM: remove unused davinci board & drivers
-In-Reply-To: <20221019152947.3857217-1-arnd@kernel.org>
-References: <20221019152947.3857217-1-arnd@kernel.org>
-Date:   Mon, 24 Oct 2022 11:25:57 -0700
-Message-ID: <7h7d0phydm.fsf@baylibre.com>
+        Mon, 24 Oct 2022 13:15:28 -0700 (PDT)
+From:   Jernej Skrabec <jernej.skrabec@gmail.com>
+To:     mripard@kernel.org, paul.kocialkowski@bootlin.com
+Cc:     mchehab@kernel.org, gregkh@linuxfoundation.org, wens@csie.org,
+        samuel@sholland.org, hverkuil-cisco@xs4all.nl,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+        linux-kernel@vger.kernel.org,
+        Jernej Skrabec <jernej.skrabec@gmail.com>
+Subject: [PATCH 00/11] media: cedrus: Format handling improvements and 10-bit HEVC support
+Date:   Mon, 24 Oct 2022 22:15:04 +0200
+Message-Id: <20221024201515.34129-1-jernej.skrabec@gmail.com>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
-        autolearn=unavailable autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Arnd Bergmann <arnd@kernel.org> writes:
+While my first intention was to just add 10-bit HEVC handling, I noticed
+a few format handling issues and a bit of redundancy in some cases. Final
+result is that driver now sticks to stateless decoder rules better.
 
-> From: Arnd Bergmann <arnd@arndb.de>
->
-> As part of removing all board files that were previously marked as unused,
-> I looked through the davinci platform and recursively removed everything
-> that has now become unused.
->
-> In particular, this is for all dm3xx support, in addition to the dm64xx
-> support removed previously. The remaining support is now for da8xx using
-> devicetree only, which means a lot of the da8xx specific device support
-> can also go away.
+Format handling improvements:
+1. Default format selection is now based on HW capabilities. Before, MPEG2
+   was hardcoded but some Cedrus variants don't actually support it.
+2. Controls are registered only if related codec is supported by HW.
+3. Untiled output format is preferred, if supported, over tiled one. All
+   display engine cores support untiled format, but only first generation
+   supports tiled one.
 
-Acked-by: Kevin Hilman <khilman@baylibre.com>
+I hope this makes Cedrus eligible for destaging.
 
-Kevin
+Best regards,
+Jernej
+
+Jernej Skrabec (11):
+  media: cedrus: remove superfluous call
+  media: cedrus: Add format reset helpers
+  media: cedrus: use helper to set default formats
+  media: cedrus: Add helper for checking capabilities
+  media: cedrus: Filter controls based on capability
+  media: cedrus: set codec ops immediately
+  media: cedrus: Remove cedrus_codec enum
+  media: cedrus: prefer untiled capture format
+  media: cedrus: initialize controls a bit later
+  media: cedrus: Adjust buffer size based on control values
+  media: cedrus: h265: Support decoding 10-bit frames
+
+ drivers/staging/media/sunxi/cedrus/cedrus.c   |  97 +++++-----
+ drivers/staging/media/sunxi/cedrus/cedrus.h   |  22 +--
+ .../staging/media/sunxi/cedrus/cedrus_dec.c   |   4 +-
+ .../staging/media/sunxi/cedrus/cedrus_h264.c  |   2 +-
+ .../staging/media/sunxi/cedrus/cedrus_h265.c  |  37 +++-
+ .../staging/media/sunxi/cedrus/cedrus_hw.c    |  18 +-
+ .../staging/media/sunxi/cedrus/cedrus_hw.h    |   2 +-
+ .../staging/media/sunxi/cedrus/cedrus_mpeg2.c |   2 +-
+ .../staging/media/sunxi/cedrus/cedrus_regs.h  |  16 ++
+ .../staging/media/sunxi/cedrus/cedrus_video.c | 166 ++++++++++--------
+ .../staging/media/sunxi/cedrus/cedrus_video.h |   2 +
+ .../staging/media/sunxi/cedrus/cedrus_vp8.c   |   2 +-
+ 12 files changed, 225 insertions(+), 145 deletions(-)
+
+--
+2.38.1
+
