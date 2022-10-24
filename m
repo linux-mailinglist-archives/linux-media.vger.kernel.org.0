@@ -2,160 +2,171 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C2A6460B793
-	for <lists+linux-media@lfdr.de>; Mon, 24 Oct 2022 21:26:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0DEC960B522
+	for <lists+linux-media@lfdr.de>; Mon, 24 Oct 2022 20:12:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233150AbiJXT0O (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 24 Oct 2022 15:26:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45886 "EHLO
+        id S232731AbiJXSMz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 24 Oct 2022 14:12:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48130 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233475AbiJXTYa (ORCPT
+        with ESMTP id S231854AbiJXSMU (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 24 Oct 2022 15:24:30 -0400
-Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com [IPv6:2a00:1450:4864:20::12e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AFF6BC96DE
-        for <linux-media@vger.kernel.org>; Mon, 24 Oct 2022 10:58:42 -0700 (PDT)
-Received: by mail-lf1-x12e.google.com with SMTP id r12so1746090lfp.1
-        for <linux-media@vger.kernel.org>; Mon, 24 Oct 2022 10:58:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=raspberrypi.com; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=+EzIzuTftGVrDluf8hctvZNhqg4czf41UuRrGAvuWlQ=;
-        b=Q7EirRngwZ8YZSYyKQMICZmBi/OTsKCBFvNQDhlLJOwoMeUZ7NAcDzOa/aGr4LWbeu
-         8xQ2VGd1NCISz12yJROFeOns72hA59OSkcw5DTq1u3GCKG+h14qnJHbEl/J66HNK08Mi
-         OR3CzGw7JKDh4oNeFThM5QRkjDMuQY8o1wrHDXGjLTsC7o/Bx84LzuKZ70pU/Vszxd/b
-         XLfSQO9VDTNfj0j2oEW8F5PlPuPevuQcnzp/O44137k2ZbSw7srE0Nf+sPTVWH137Lfg
-         1NV09GY4dgriccyBlJTH1c1O7nRCGF626AvT9nItbKQX0iStlNf0gV1+6a13HpepgsHV
-         PZjw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=+EzIzuTftGVrDluf8hctvZNhqg4czf41UuRrGAvuWlQ=;
-        b=YifpcBnJ5nGuc98l1hlkOxaktOBmkXWDY1rMZluut7VSfayXHYX1g32rlRiTvgiFCF
-         jqabv8QgsuzYA80XG8GkPC5bSKaQMLewZHvobdMK+eHiyhvw4o7sdsp1MasMlTQEptQy
-         OlMZQWpb6MjEOOFC824YtspVPdhtCQAt8aYzlGRaX609aQaf3eVkDueVuK5Q/zW58+dX
-         +WrBU4ft0waS4VVct1+bSzEPBHUigRwbNqeOcW03+Gpb6fSQO2zTTKjZIlcrlv98rTmb
-         DlUPb955Aa9S+B8WqRiI39Wza+LplLmkzRIBzHQ0nDj1zu9QGFHnNTcQpuWYpoASw509
-         USXg==
-X-Gm-Message-State: ACrzQf1Ue/jvbDZVa9Oyx8DUsucPLvquDAUeApUZkCfeflyDCrjJh0aQ
-        d1ylNezya7cUSfmiffVsA5Zg51RFEa8DLFh3y6swuwYDYs+RoQ==
-X-Google-Smtp-Source: AMsMyM7VXASuorBtEu6iYbr8rp0zn/bAF6Rq0G5in/cWEdHEBC7e+E7E3h+njfI41pzi+c7OJYVV0DCH1va3jH6LZRc=
-X-Received: by 2002:a17:907:3e11:b0:78d:9918:217f with SMTP id
- hp17-20020a1709073e1100b0078d9918217fmr26493603ejc.742.1666613654141; Mon, 24
- Oct 2022 05:14:14 -0700 (PDT)
-MIME-Version: 1.0
-References: <20221022092015.208592-1-jacopo@jmondi.org> <20221022092015.208592-3-jacopo@jmondi.org>
-In-Reply-To: <20221022092015.208592-3-jacopo@jmondi.org>
-From:   Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date:   Mon, 24 Oct 2022 13:13:58 +0100
-Message-ID: <CAPY8ntCxsZwVqNzQpA-TBbdJ6zmd_cZgrcVqm5b31ngF-CiH7w@mail.gmail.com>
-Subject: Re: [PATCH v2 02/10] media: ar0521: Add V4L2_CID_ANALOG_GAIN
-To:     Jacopo Mondi <jacopo@jmondi.org>
-Cc:     =?UTF-8?Q?Krzysztof_Ha=C5=82asa?= <khalasa@piap.pl>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@iki.fi>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-media@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-0.5 required=5.0 tests=BAYES_00,DATE_IN_PAST_03_06,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+        Mon, 24 Oct 2022 14:12:20 -0400
+Received: from wnew4-smtp.messagingengine.com (wnew4-smtp.messagingengine.com [64.147.123.18])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C56126C452;
+        Mon, 24 Oct 2022 09:53:44 -0700 (PDT)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+        by mailnew.west.internal (Postfix) with ESMTP id 011D42B066F0;
+        Mon, 24 Oct 2022 09:19:09 -0400 (EDT)
+Received: from imap51 ([10.202.2.101])
+  by compute3.internal (MEProxy); Mon, 24 Oct 2022 09:19:12 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+        :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+        :message-id:mime-version:references:reply-to:sender:subject
+        :subject:to:to; s=fm2; t=1666617549; x=1666624749; bh=dNk4I7ELz1
+        Q72dRob/8j+4seSTYFKAZT/RUPASjRJ5c=; b=q+NqZuUcR73y8BnZPPG5dx1Zsk
+        6km9xLqa6tEkJrornmVIrbgVsoTaG0EQRj//U3P/qs5FFUR0kQj3xsDpIMDiHNAP
+        KHymuWr00P67rJl6tNZNMaSvfwBvDXs8mjOeO+DtIb91LFvy9u7IqPZlLBHzDqVY
+        OqQ+UV/5sGJOiUEzmGUI9NOmwTaSDzu4RgOGbpc9QTg1ReluTq9aBn60FamJs6vN
+        DKIJe0X1BrhoAYInvyHnNd5GZdOejs+w4Suvb5ImKHNqRwAYBvpipR0/HvaVLckd
+        CHTLMlrLH5H5bEpdNq1ZJ2ZVvg8gjN0DzzHIiqNjzW420ViiiKKJHNZdB8zg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+        :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+        :mime-version:references:reply-to:sender:subject:subject:to:to
+        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+        fm3; t=1666617549; x=1666624749; bh=dNk4I7ELz1Q72dRob/8j+4seSTYF
+        KAZT/RUPASjRJ5c=; b=uYEImk9/JaoBLZkHmS4JMUN51UUW3Adz4NZ33zTXfhfn
+        X2zc+bMCIXUEr4nNHo354GqKRASijikTpJx4FFU+epgcfr8J1IPlgZPNpNiYVB9M
+        w8ihE4tr46Zh/a1sL2xOLJxavoW+rkvJ5mUtViAoLX1JGrLBO17yVcJcaCCL+4DZ
+        U79zEm+ybsbN3XMbJe7XZH2qegoAJbChw5mNkbbe1D33ukaTT9FYQuJEpTpQ+3Cm
+        dcgc9DJADBfxr4sonBlprzuNuFtddjyQxgp5OFhdXtZwXkncp0R9eBa1XvUUpv5H
+        Fai3j/IlJ8ZfnHiUrjBdKzUP8vcWG93GWsi2JgpEew==
+X-ME-Sender: <xms:zZBWY4d6hZdrWDWBmQnXOunjtmGBLNtVOGtYlcpUAkqGnIq3nQ_ULg>
+    <xme:zZBWY6ORVL4inZtEZ347UGYnYKlOyas-DedRgWZhgJSTlHghoiUBMTH5Vdl7j2SlB
+    orGRM2A45E3sznwkiE>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrgedtgedgheelucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehr
+    nhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrth
+    htvghrnhepffehueegteeihfegtefhjefgtdeugfegjeelheejueethfefgeeghfektdek
+    teffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprg
+    hrnhgusegrrhhnuggsrdguvg
+X-ME-Proxy: <xmx:zZBWY5jMfpgYOekZ5Xiy1zZWPWGF2N1SaGbKcsqvIIsAoksVTelYew>
+    <xmx:zZBWY98Y0Yr03VdtjC58Vfn64oQoe8znN7FH4bLecym0d8-7ie150w>
+    <xmx:zZBWY0u1N4N4cR6ZhhO6MwuQK8N3p7TbkgEiIMvu0C2hnaFTg0G-QA>
+    <xmx:zZBWY2px7fOBs4XObZs9jNKaCaM5g4TthCLLA4wr0bUEo7pzc_VBCiqJhiU>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+        id 3DDB5B60086; Mon, 24 Oct 2022 09:19:09 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.7.0-alpha0-1047-g9e4af4ada4-fm-20221005.001-g9e4af4ad
+Mime-Version: 1.0
+Message-Id: <e5aa233d-526b-45ab-9acb-ab792b8686bc@app.fastmail.com>
+In-Reply-To: <20221024130035.GA1645003-robh@kernel.org>
+References: <20221021202254.4142411-1-arnd@kernel.org>
+ <20221024130035.GA1645003-robh@kernel.org>
+Date:   Mon, 24 Oct 2022 15:18:41 +0200
+From:   "Arnd Bergmann" <arnd@arndb.de>
+To:     "Rob Herring" <robh@kernel.org>, "Arnd Bergmann" <arnd@kernel.org>
+Cc:     linux-arm-kernel@lists.infradead.org,
+        "Krzysztof Kozlowski" <krzysztof.kozlowski@linaro.org>,
+        linux-kernel@vger.kernel.org, "Ben Dooks" <ben-linux@fluff.org>,
+        "Simtec Linux Team" <linux@simtec.co.uk>,
+        linux-doc@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
+        devicetree@vger.kernel.org, patches@opensource.cirrus.com,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-ide@vger.kernel.org, linux-clk@vger.kernel.org,
+        linux-pm@vger.kernel.org, dmaengine@vger.kernel.org,
+        linux-hwmon@vger.kernel.org, linux-i2c@vger.kernel.org,
+        linux-iio@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-leds@vger.kernel.org, linux-media@vger.kernel.org,
+        "linux-mmc @ vger . kernel . org" <linux-mmc@vger.kernel.org>,
+        linux-mtd@lists.infradead.org,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        linux-rtc@vger.kernel.org, linux-spi@vger.kernel.org,
+        linux-serial@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-watchdog@vger.kernel.org, alsa-devel@alsa-project.org,
+        linux-pwm@vger.kernel.org
+Subject: Re: [PATCH 00/21] ARM: s3c: clean out obsolete platforms
+Content-Type: text/plain
+X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,DKIM_INVALID,
+        DKIM_SIGNED,RCVD_IN_DNSWL_LOW,SPF_HELO_PASS,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jacopo
-
-On Sat, 22 Oct 2022 at 11:47, Jacopo Mondi <jacopo@jmondi.org> wrote:
+On Mon, Oct 24, 2022, at 15:00, Rob Herring wrote:
+> On Fri, Oct 21, 2022 at 10:22:28PM +0200, Arnd Bergmann wrote:
+>> From: Arnd Bergmann <arnd@arndb.de>
+>> 
+>> The s3c24xx platform was marked as deprecated a while ago,
+>> and for the s3c64xx platform, we marked all except one legacy
+>> board file as unused.
+>> 
+>> This series removes all of those, leaving only s3c64xx support
+>> for DT based boots as well as the cragg6410 board file.
+>> 
+>> About half of the s3c specific drivers were only used on
+>> the now removed machines, so these drivers can be retired
+>> as well. I can either merge the driver removal patches through
+>> the soc tree along with the board file patches, or subsystem
+>> maintainers can pick them up into their own trees, whichever
+>> they prefer.
 >
-> Add support for V4L2_CID_ANALOG_GAIN. The control programs the global
-> gain register which applies to all color channels.
+> [...]
 >
-> Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
-> ---
->  drivers/media/i2c/ar0521.c | 16 ++++++++++++++++
->  1 file changed, 16 insertions(+)
+>>  Documentation/arm/index.rst                   |    1 -
+>>  Documentation/arm/samsung-s3c24xx/cpufreq.rst |   77 -
+>>  .../arm/samsung-s3c24xx/eb2410itx.rst         |   59 -
+>>  Documentation/arm/samsung-s3c24xx/gpio.rst    |  172 --
+>>  Documentation/arm/samsung-s3c24xx/h1940.rst   |   41 -
+>>  Documentation/arm/samsung-s3c24xx/index.rst   |   20 -
+>>  Documentation/arm/samsung-s3c24xx/nand.rst    |   30 -
+>>  .../arm/samsung-s3c24xx/overview.rst          |  311 ---
+>>  Documentation/arm/samsung-s3c24xx/s3c2412.rst |  121 -
+>>  Documentation/arm/samsung-s3c24xx/s3c2413.rst |   22 -
+>>  .../arm/samsung-s3c24xx/smdk2440.rst          |   57 -
+>>  Documentation/arm/samsung-s3c24xx/suspend.rst |  137 --
+>>  .../arm/samsung-s3c24xx/usb-host.rst          |   91 -
+>>  Documentation/arm/samsung/overview.rst        |   13 -
 >
-> diff --git a/drivers/media/i2c/ar0521.c b/drivers/media/i2c/ar0521.c
-> index 0daa61df2603..ba169f0218a9 100644
-> --- a/drivers/media/i2c/ar0521.c
-> +++ b/drivers/media/i2c/ar0521.c
-> @@ -35,6 +35,11 @@
->  #define AR0521_HEIGHT_BLANKING_MIN     38u /* must be even */
->  #define AR0521_TOTAL_WIDTH_MIN      2968u
+> What about?:
 >
-> +#define AR0521_ANA_GAIN_MIN            0x00
-> +#define AR0521_ANA_GAIN_MAX            0x3f
+> Documentation/devicetree/bindings/clock/samsung,s3c2410-clock.txt
+> Documentation/devicetree/bindings/interrupt-controller/samsung,s3c24xx-irq.txt
+> Documentation/devicetree/bindings/mmc/samsung,s3cmci.txt
 
-The register reference I have says it is u3.4 format, which would make
-the max value 0x7f rather than 0x3f.
+Good catch!
 
-Functionally it makes no real difference, but a max gain of nearly x7
-15/16ths  is preferable to nearly x3 15/16ths.
+I've removed these three now and and will add the removal to
+the same patch, also the related
+samsung,s3c2412-clock.txt and samsung,s3c2443-clock.txt
+files.
 
-If it is u3.4 I'd have expected the minimum to be 0x10 to avoid a gain
-of less than x1 (does it even work?)
+> Documentation/devicetree/bindings/mtd/samsung-s3c2410.txt
 
-Looking at the listed m0, c0, m1, c1 values for gain (1, 0, 0, and 4
-respectively), that maps to a formula:
-gain = code / 4
-Min and max codes are 0 and 0x1f, so that implies it will do a gain of
-less than x1, and goes up to x7.75.
+samsung,s3c2412-nand is apparently still used on s3c6400,
+and the driver is selectable on that platform, so I think
+that should remain in there until we remove s3c64xx in 2024,
+even if it is not referenced by the dts files in the kernel.
 
-So much contradictory information!!
+> Documentation/devicetree/bindings/usb/s3c2410-usb.txt
 
-I'm happy to add a R-B tag for the code side, but the limits seem to
-be a little all over the place. I'd be looking at taking some test
-images with fixed exposure time at each gain code to work out what
-value is actually x1, x2, x4, etc. Doing so does require knowing the
-black level and applying an appropriate correction to the raw values,
-or extrapolating from the results.
+Similarly, the driver is used on the crag6410 board
+(without DT), and probably just works with the DT based
+boards if one adds a node to s3c64xx.dtsi.
 
-  Dave
+I've also checked if any of the other removed drivers
+matches of_device_id[] strings to see if there are more
+bindings to kill off, but I don't see any that have
+now become obsolete. It did point me to pxa2xx_ac97_dt_ids,
+which Robert already complained about, this apparently
+is still used with dts files outside of mainline.
 
-> +#define AR0521_ANA_GAIN_STEP           0x01
-> +#define AR0521_ANA_GAIN_DEFAULT                0x00
-> +
->  /* AR0521 registers */
->  #define AR0521_REG_VT_PIX_CLK_DIV              0x0300
->  #define AR0521_REG_FRAME_LENGTH_LINES          0x0340
-> @@ -50,6 +55,8 @@
->  #define   AR0521_REG_RESET_RESTART               BIT(1)
->  #define   AR0521_REG_RESET_INIT                          BIT(0)
->
-> +#define AR0521_REG_ANA_GAIN_CODE_GLOBAL                0x3028
-> +
->  #define AR0521_REG_GREEN1_GAIN                 0x3056
->  #define AR0521_REG_BLUE_GAIN                   0x3058
->  #define AR0521_REG_RED_GAIN                    0x305A
-> @@ -456,6 +463,10 @@ static int ar0521_s_ctrl(struct v4l2_ctrl *ctrl)
->         case V4L2_CID_VBLANK:
->                 ret = ar0521_set_geometry(sensor);
->                 break;
-> +       case V4L2_CID_ANALOGUE_GAIN:
-> +               ret = ar0521_write_reg(sensor, AR0521_REG_ANA_GAIN_CODE_GLOBAL,
-> +                                      ctrl->val);
-> +               break;
->         case V4L2_CID_GAIN:
->         case V4L2_CID_RED_BALANCE:
->         case V4L2_CID_BLUE_BALANCE:
-> @@ -499,6 +510,11 @@ static int ar0521_init_controls(struct ar0521_dev *sensor)
->         /* We can use our own mutex for the ctrl lock */
->         hdl->lock = &sensor->lock;
->
-> +       /* Analog gain */
-> +       v4l2_ctrl_new_std(hdl, ops, V4L2_CID_ANALOGUE_GAIN,
-> +                         AR0521_ANA_GAIN_MIN, AR0521_ANA_GAIN_MAX,
-> +                         AR0521_ANA_GAIN_STEP, AR0521_ANA_GAIN_DEFAULT);
-> +
->         /* Manual gain */
->         ctrls->gain = v4l2_ctrl_new_std(hdl, ops, V4L2_CID_GAIN, 0, 511, 1, 0);
->         ctrls->red_balance = v4l2_ctrl_new_std(hdl, ops, V4L2_CID_RED_BALANCE,
-> --
-> 2.37.3
->
+      Arnd
