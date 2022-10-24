@@ -2,64 +2,66 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E0B13609FFD
-	for <lists+linux-media@lfdr.de>; Mon, 24 Oct 2022 13:14:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6BD4060A004
+	for <lists+linux-media@lfdr.de>; Mon, 24 Oct 2022 13:15:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229776AbiJXLOC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 24 Oct 2022 07:14:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37186 "EHLO
+        id S230115AbiJXLPj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 24 Oct 2022 07:15:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44670 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230167AbiJXLNr (ORCPT
+        with ESMTP id S230175AbiJXLPb (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 24 Oct 2022 07:13:47 -0400
-Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com [IPv6:2a00:1450:4864:20::236])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C58FF558F6
-        for <linux-media@vger.kernel.org>; Mon, 24 Oct 2022 04:13:41 -0700 (PDT)
-Received: by mail-lj1-x236.google.com with SMTP id b18so12230030ljr.13
-        for <linux-media@vger.kernel.org>; Mon, 24 Oct 2022 04:13:41 -0700 (PDT)
+        Mon, 24 Oct 2022 07:15:31 -0400
+Received: from mail-lj1-x231.google.com (mail-lj1-x231.google.com [IPv6:2a00:1450:4864:20::231])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 179573FEC5
+        for <linux-media@vger.kernel.org>; Mon, 24 Oct 2022 04:15:28 -0700 (PDT)
+Received: by mail-lj1-x231.google.com with SMTP id u11so291263ljk.6
+        for <linux-media@vger.kernel.org>; Mon, 24 Oct 2022 04:15:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=GQBhMfU9yAtMBMLsn5TqDPcK0uuy56RHbwQClF+P3Xw=;
-        b=tE6AcGD5HnQE9c6x6CQkkdicNOKjhu51CT9+dhLOeWcAXlIk5Fiy0E6X3LAbpBr3yK
-         9/YecfRlYtfiNLEXdibP2t/AWbn23KCqZCh1vdNrFox0vfwsOoIFCiVk2ePJZlBcPund
-         gTqWM8H31RUFuPkwa3vGQLWOL+l5tB5+q3XQHevOOn5cS/X//TGBmvraB2xcG3JBpGVE
-         +t/vrdeJRjIFYI2eJhgNVDQOq2iTu/eB2pIo5f8w3DUnR8azrlW03NwSstGlYQlW1iIF
-         UWHkj7Wxjqd+LgdMHviTzhB66P7FadWzNFkllXHSN3z0RCravY63jZgMKAX15/zB057/
-         GuOQ==
+        bh=geEB6fV3wEtS6ClYuWGPBbSqN21ssVSd8mamRsDSheM=;
+        b=Eg6n60n/IeWZmARYBXZ3UA2kBl9GjKDQ2wPPeMH0m9x50UQDkv7XUBHQe5VE1kyzI9
+         8SaLoYORQc+hu/1RrI1kvWurqqpQokzDnju0qipDB4eR9NVIl5LPsSyPeZoJAEAHPYzh
+         OaIujSJG25qYOvpZUZq1Hu+V46MVDnmJA8IaXeC9z2F6vgQXymd+l+6A8tj5DMmQFhOd
+         9kPYBCEiqPePR6g6+uI/HuQkWA2GK16IdSMmQj9aOkMbABOM9+09+N7j8BodRBOzY3ye
+         cbzaVpQq5btnNrHM2Xl4nd1CozJoOYGOZlJjheDx/3LU+CjQt82EKpHtjrQ9v1UcrOyM
+         lJtQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=GQBhMfU9yAtMBMLsn5TqDPcK0uuy56RHbwQClF+P3Xw=;
-        b=4AkMevqLw2vZi3qgBi8JOi6u+YAotrPdqL3jU0RewMdRqmnGjluWgkVM/O8s43xyb2
-         l2n494TNUES/AiXbN6B4RerfG6gSb/M3HwAAxrrnEw8jKB5P0zENR671dPCiDfQ5TnNX
-         Q1tNHmqCinPa35GBOZmBHmibaG6MzlzqaArpch1L9syg3b7oVaMoP281Z1ao/BPylJZu
-         bwzncCqF3AD/pRfw51gw1Yx4MwKcf+Ns1cNi1JyFzUIl2rusZipkAbwqXRS1rmor6AVS
-         Z87jkPRWaLovRxJbKZdDbB+WUAO2+Wf4jVuhfAyOIrSlkxVJfrTX1TKlqBdOfctbNUF8
-         P6sw==
-X-Gm-Message-State: ACrzQf3J87WgpKcOA9Hb4BypH6admzMlmorpPOPJkXbvytPSGkbKRDhP
-        2Z+X+NEztKC39YYnTo0KXVEZv0oYaDJ9Cg==
-X-Google-Smtp-Source: AMsMyM7oZvG9HGmzSTOSuwHqNSbHOarrC2UMcsxU2V957p7k6KdSSFfDncgJf3nRdqY5/trWAd1rWg==
-X-Received: by 2002:a2e:7303:0:b0:277:c7c:9c61 with SMTP id o3-20020a2e7303000000b002770c7c9c61mr1366077ljc.274.1666610019556;
-        Mon, 24 Oct 2022 04:13:39 -0700 (PDT)
+        bh=geEB6fV3wEtS6ClYuWGPBbSqN21ssVSd8mamRsDSheM=;
+        b=xveMKzYRnzNvHaGa8HI3jRdH2EfyO2yNoEEPThR3FxCze+69d05CUGSSfl1ZiV9Jzq
+         qVt+cJdm/qNkkoNjxyEUw7AekF8OWc9SZkATCT421uyfD2yEAEsCBTKQNaMBDPT+CwPY
+         OKJ1m1Dt+JW6JC8ge0WQR2/1bLiNmEClz5Ro3sLXiNTqhWEzMU2j6dgSdSAv/q2nf/p2
+         z1+17LKDtzzlTEsHT1lu/O0hmDbiPtrz15B5mKoE2nTIOY6V6mQRzPpVmO0wK8MERKMk
+         5gbeL0ntITZKv8xbqhYEjXznk6LjDA0l0A5Qcd3me0/B+6yc/XWNywM/8A+OdJEIqghR
+         fgfQ==
+X-Gm-Message-State: ACrzQf3SCFmEUKAIk3U2Abu75m/0LhJE5Z56/SAJF6JQOEnN2/CHmu/c
+        ek7I9voN0+RqHup+MsFefnnlzQ==
+X-Google-Smtp-Source: AMsMyM64iB1h9I766HfT1pqZcz5ayi34AhWDAPGnqb4/WS3p4yTEIPAvlQgtveHrj5VEr7OTfE/euA==
+X-Received: by 2002:a2e:bd86:0:b0:26d:e64e:c230 with SMTP id o6-20020a2ebd86000000b0026de64ec230mr11704383ljq.405.1666610126934;
+        Mon, 24 Oct 2022 04:15:26 -0700 (PDT)
 Received: from fedora.. ([85.235.10.72])
-        by smtp.gmail.com with ESMTPSA id t28-20020a05651c205c00b0026e02eb613csm4889676ljo.18.2022.10.24.04.13.38
+        by smtp.gmail.com with ESMTPSA id f5-20020a2e9e85000000b0026dfdcbccdasm4890211ljk.14.2022.10.24.04.15.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Oct 2022 04:13:38 -0700 (PDT)
+        Mon, 24 Oct 2022 04:15:26 -0700 (PDT)
 From:   Linus Walleij <linus.walleij@linaro.org>
 To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-media@vger.kernel.org
 Cc:     Linus Walleij <linus.walleij@linaro.org>,
         Sylwester Nawrocki <s.nawrocki@samsung.com>,
         Andrzej Hajda <andrzej.hajda@intel.com>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
         Alim Akhtar <alim.akhtar@samsung.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH v3] media: s5c73m3: Switch to GPIO descriptors
-Date:   Mon, 24 Oct 2022 13:13:34 +0200
-Message-Id: <20221024111334.7207-1-linus.walleij@linaro.org>
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Tommaso Merciai <tommaso.merciai@amarulasolutions.com>
+Subject: [PATCH v5] media: s5k4ecgx: Switch to GPIO descriptors
+Date:   Mon, 24 Oct 2022 13:15:23 +0200
+Message-Id: <20221024111523.7289-1-linus.walleij@linaro.org>
 X-Mailer: git-send-email 2.37.3
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -73,294 +75,298 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 The driver has an option to pass in GPIO numbers from platform
-data but this is not used in the kernel so delete this. Get
-GPIO descriptors using the standard API and simplify the code,
+data but this is not used in the kernel so delete this and the
+whole platform data mechanism.
+
+Get GPIO descriptors using the standard API and simplify the code,
 gpiolib will handle any inversions.
 
 Cc: Sylwester Nawrocki <s.nawrocki@samsung.com>
 Cc: Andrzej Hajda <andrzej.hajda@intel.com>
+Cc: Krzysztof Kozlowski <krzk@kernel.org>
 Cc: Alim Akhtar <alim.akhtar@samsung.com>
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Reviewed-by: Tommaso Merciai <tommaso.merciai@amarulasolutions.com>
 Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
 ---
-ChangeLog v2->v3:
+ChangeLog v4->v5:
 - Rebase on v6.1-rc1
-ChangeLog v1->v2:
-- Collect Krzysztof's ACK
+ChangeLog v3->v4:
+- Collect Tommaso's Review tag
 - Rebase on v6.0-rc1
+ChangeLog v2->v3:
+- COMMIT and send out what is actually in my tree (and
+  compiling).
+ChangeLog v1->v2:
+- Fix compile bug by sending out the patch actually in my
+  git tree.
 ---
- drivers/media/i2c/s5c73m3/s5c73m3-core.c  | 116 ++++++----------------
- drivers/media/i2c/s5c73m3/s5c73m3-ctrls.c |   1 -
- drivers/media/i2c/s5c73m3/s5c73m3.h       |  10 +-
- include/media/i2c/s5c73m3.h               |  15 ---
- 4 files changed, 32 insertions(+), 110 deletions(-)
+ drivers/media/i2c/s5k4ecgx.c | 132 ++++++++---------------------------
+ include/media/i2c/s5k4ecgx.h |  33 ---------
+ 2 files changed, 31 insertions(+), 134 deletions(-)
+ delete mode 100644 include/media/i2c/s5k4ecgx.h
 
-diff --git a/drivers/media/i2c/s5c73m3/s5c73m3-core.c b/drivers/media/i2c/s5c73m3/s5c73m3-core.c
-index d96ba58ce1e5..3319ef865bb3 100644
---- a/drivers/media/i2c/s5c73m3/s5c73m3-core.c
-+++ b/drivers/media/i2c/s5c73m3/s5c73m3-core.c
-@@ -10,12 +10,11 @@
- #include <linux/clk.h>
+diff --git a/drivers/media/i2c/s5k4ecgx.c b/drivers/media/i2c/s5k4ecgx.c
+index 3dddcd9dd351..24caaed30b2c 100644
+--- a/drivers/media/i2c/s5k4ecgx.c
++++ b/drivers/media/i2c/s5k4ecgx.c
+@@ -15,7 +15,7 @@
+ #include <linux/ctype.h>
  #include <linux/delay.h>
  #include <linux/firmware.h>
 -#include <linux/gpio.h>
 +#include <linux/gpio/consumer.h>
  #include <linux/i2c.h>
- #include <linux/init.h>
- #include <linux/media.h>
  #include <linux/module.h>
--#include <linux/of_gpio.h>
- #include <linux/of_graph.h>
  #include <linux/regulator/consumer.h>
- #include <linux/sizes.h>
-@@ -1347,24 +1346,6 @@ static int s5c73m3_oif_open(struct v4l2_subdev *sd, struct v4l2_subdev_fh *fh)
- 	return 0;
- }
+@@ -23,7 +23,6 @@
+ #include <asm/unaligned.h>
  
--static int s5c73m3_gpio_set_value(struct s5c73m3 *priv, int id, u32 val)
--{
--	if (!gpio_is_valid(priv->gpio[id].gpio))
--		return 0;
--	gpio_set_value(priv->gpio[id].gpio, !!val);
--	return 1;
--}
--
--static int s5c73m3_gpio_assert(struct s5c73m3 *priv, int id)
--{
--	return s5c73m3_gpio_set_value(priv, id, priv->gpio[id].level);
--}
--
--static int s5c73m3_gpio_deassert(struct s5c73m3 *priv, int id)
--{
--	return s5c73m3_gpio_set_value(priv, id, !priv->gpio[id].level);
--}
--
- static int __s5c73m3_power_on(struct s5c73m3 *state)
- {
- 	int i, ret;
-@@ -1386,10 +1367,12 @@ static int __s5c73m3_power_on(struct s5c73m3 *state)
- 	v4l2_dbg(1, s5c73m3_dbg, &state->oif_sd, "clock frequency: %ld\n",
- 					clk_get_rate(state->clock));
- 
--	s5c73m3_gpio_deassert(state, STBY);
-+	/*
-+	 * Deassert standby and reset GPIO lines, gpiolib will handle inversion
-+	 */
-+	gpiod_set_value(state->stby, 0);
- 	usleep_range(100, 200);
--
--	s5c73m3_gpio_deassert(state, RSET);
-+	gpiod_set_value(state->reset, 0);
- 	usleep_range(50, 100);
- 
- 	return 0;
-@@ -1404,11 +1387,14 @@ static int __s5c73m3_power_off(struct s5c73m3 *state)
- {
- 	int i, ret;
- 
--	if (s5c73m3_gpio_assert(state, RSET))
--		usleep_range(10, 50);
--
--	if (s5c73m3_gpio_assert(state, STBY))
--		usleep_range(100, 200);
-+	/*
-+	 * Assert reset and then standby GPIO lines, gpiolib will handle
-+	 * inversion.
-+	 */
-+	gpiod_set_value(state->reset, 1);
-+	usleep_range(10, 50);
-+	gpiod_set_value(state->stby, 1);
-+	usleep_range(100, 200);
- 
- 	clk_disable_unprepare(state->clock);
- 
-@@ -1543,58 +1529,10 @@ static const struct v4l2_subdev_ops oif_subdev_ops = {
- 	.video	= &s5c73m3_oif_video_ops,
- };
- 
--static int s5c73m3_configure_gpios(struct s5c73m3 *state)
--{
--	static const char * const gpio_names[] = {
--		"S5C73M3_STBY", "S5C73M3_RST"
--	};
--	struct i2c_client *c = state->i2c_client;
--	struct s5c73m3_gpio *g = state->gpio;
--	int ret, i;
--
--	for (i = 0; i < GPIO_NUM; ++i) {
--		unsigned int flags = GPIOF_DIR_OUT;
--		if (g[i].level)
--			flags |= GPIOF_INIT_HIGH;
--		ret = devm_gpio_request_one(&c->dev, g[i].gpio, flags,
--					    gpio_names[i]);
--		if (ret) {
--			v4l2_err(c, "failed to request gpio %s\n",
--				 gpio_names[i]);
--			return ret;
--		}
--	}
--	return 0;
--}
--
--static int s5c73m3_parse_gpios(struct s5c73m3 *state)
--{
--	static const char * const prop_names[] = {
--		"standby-gpios", "xshutdown-gpios",
--	};
--	struct device *dev = &state->i2c_client->dev;
--	struct device_node *node = dev->of_node;
--	int ret, i;
--
--	for (i = 0; i < GPIO_NUM; ++i) {
--		enum of_gpio_flags of_flags;
--
--		ret = of_get_named_gpio_flags(node, prop_names[i],
--					      0, &of_flags);
--		if (ret < 0) {
--			dev_err(dev, "failed to parse %s DT property\n",
--				prop_names[i]);
--			return -EINVAL;
--		}
--		state->gpio[i].gpio = ret;
--		state->gpio[i].level = !(of_flags & OF_GPIO_ACTIVE_LOW);
--	}
--	return 0;
--}
--
- static int s5c73m3_get_platform_data(struct s5c73m3 *state)
- {
--	struct device *dev = &state->i2c_client->dev;
-+	struct i2c_client *c = state->i2c_client;
-+	struct device *dev = &c->dev;
- 	const struct s5c73m3_platform_data *pdata = dev->platform_data;
- 	struct device_node *node = dev->of_node;
- 	struct device_node *node_ep;
-@@ -1608,8 +1546,6 @@ static int s5c73m3_get_platform_data(struct s5c73m3 *state)
- 		}
- 
- 		state->mclk_frequency = pdata->mclk_frequency;
--		state->gpio[STBY] = pdata->gpio_stby;
--		state->gpio[RSET] = pdata->gpio_reset;
- 		return 0;
- 	}
- 
-@@ -1624,9 +1560,19 @@ static int s5c73m3_get_platform_data(struct s5c73m3 *state)
- 					state->mclk_frequency);
- 	}
- 
--	ret = s5c73m3_parse_gpios(state);
--	if (ret < 0)
--		return -EINVAL;
-+	/* Request GPIO lines asserted */
-+	state->stby = devm_gpiod_get(dev, "standby", GPIOD_OUT_HIGH);
-+	if (IS_ERR(state->stby)) {
-+		v4l2_err(c, "failed to request gpio S5C73M3_STBY");
-+		return PTR_ERR(state->stby);
-+	}
-+	gpiod_set_consumer_name(state->stby, "S5C73M3_STBY");
-+	state->reset = devm_gpiod_get(dev, "xshutdown", GPIOD_OUT_HIGH);
-+	if (IS_ERR(state->reset)) {
-+		v4l2_err(c, "failed to request gpio S5C73M3_RST");
-+		return PTR_ERR(state->reset);
-+	}
-+	gpiod_set_consumer_name(state->reset, "S5C73M3_RST");
- 
- 	node_ep = of_graph_get_next_endpoint(node, NULL);
- 	if (!node_ep) {
-@@ -1708,10 +1654,6 @@ static int s5c73m3_probe(struct i2c_client *client)
- 	if (ret < 0)
- 		return ret;
- 
--	ret = s5c73m3_configure_gpios(state);
--	if (ret)
--		goto out_err;
--
- 	for (i = 0; i < S5C73M3_MAX_SUPPLIES; i++)
- 		state->supplies[i].supply = s5c73m3_supply_names[i];
- 
-diff --git a/drivers/media/i2c/s5c73m3/s5c73m3-ctrls.c b/drivers/media/i2c/s5c73m3/s5c73m3-ctrls.c
-index 141ad0ba7f5a..e3543ae384ed 100644
---- a/drivers/media/i2c/s5c73m3/s5c73m3-ctrls.c
-+++ b/drivers/media/i2c/s5c73m3/s5c73m3-ctrls.c
-@@ -10,7 +10,6 @@
- #include <linux/sizes.h>
- #include <linux/delay.h>
- #include <linux/firmware.h>
--#include <linux/gpio.h>
- #include <linux/i2c.h>
- #include <linux/init.h>
- #include <linux/media.h>
-diff --git a/drivers/media/i2c/s5c73m3/s5c73m3.h b/drivers/media/i2c/s5c73m3/s5c73m3.h
-index c3fcfdd3ea66..1fc7df41c5ee 100644
---- a/drivers/media/i2c/s5c73m3/s5c73m3.h
-+++ b/drivers/media/i2c/s5c73m3/s5c73m3.h
-@@ -12,6 +12,7 @@
- #include <linux/clk.h>
- #include <linux/kernel.h>
- #include <linux/regulator/consumer.h>
-+#include <linux/gpio/consumer.h>
- #include <media/v4l2-common.h>
+ #include <media/media-entity.h>
+-#include <media/i2c/s5k4ecgx.h>
  #include <media/v4l2-ctrls.h>
- #include <media/v4l2-subdev.h>
-@@ -351,12 +352,6 @@ struct s5c73m3_ctrls {
- 	struct v4l2_ctrl *scene_mode;
- };
+ #include <media/v4l2-device.h>
+ #include <media/v4l2-mediabus.h>
+@@ -171,12 +170,6 @@ static const char * const s5k4ecgx_supply_names[] = {
  
--enum s5c73m3_gpio_id {
+ #define S5K4ECGX_NUM_SUPPLIES ARRAY_SIZE(s5k4ecgx_supply_names)
+ 
+-enum s5k4ecgx_gpio_id {
 -	STBY,
 -	RSET,
 -	GPIO_NUM,
 -};
 -
- enum s5c73m3_resolution_types {
- 	RES_ISP,
- 	RES_JPEG,
-@@ -383,7 +378,8 @@ struct s5c73m3 {
- 	u32 i2c_read_address;
+ struct s5k4ecgx {
+ 	struct v4l2_subdev sd;
+ 	struct media_pad pad;
+@@ -190,7 +183,8 @@ struct s5k4ecgx {
+ 	u8 set_params;
  
- 	struct regulator_bulk_data supplies[S5C73M3_MAX_SUPPLIES];
--	struct s5c73m3_gpio gpio[GPIO_NUM];
+ 	struct regulator_bulk_data supplies[S5K4ECGX_NUM_SUPPLIES];
+-	struct s5k4ecgx_gpio gpio[GPIO_NUM];
 +	struct gpio_desc *stby;
 +	struct gpio_desc *reset;
+ };
  
- 	struct clk *clock;
+ static inline struct s5k4ecgx *to_s5k4ecgx(struct v4l2_subdev *sd)
+@@ -454,15 +448,6 @@ static int s5k4ecgx_init_sensor(struct v4l2_subdev *sd)
+ 	return ret;
+ }
  
-diff --git a/include/media/i2c/s5c73m3.h b/include/media/i2c/s5c73m3.h
-index a51f1025ba1c..df0769d64523 100644
---- a/include/media/i2c/s5c73m3.h
-+++ b/include/media/i2c/s5c73m3.h
-@@ -20,21 +20,9 @@
- #include <linux/videodev2.h>
- #include <media/v4l2-mediabus.h>
+-static int s5k4ecgx_gpio_set_value(struct s5k4ecgx *priv, int id, u32 val)
+-{
+-	if (!gpio_is_valid(priv->gpio[id].gpio))
+-		return 0;
+-	gpio_set_value(priv->gpio[id].gpio, val);
+-
+-	return 1;
+-}
+-
+ static int __s5k4ecgx_power_on(struct s5k4ecgx *priv)
+ {
+ 	int ret;
+@@ -472,23 +457,22 @@ static int __s5k4ecgx_power_on(struct s5k4ecgx *priv)
+ 		return ret;
+ 	usleep_range(30, 50);
  
+-	/* The polarity of STBY is controlled by TSP */
+-	if (s5k4ecgx_gpio_set_value(priv, STBY, priv->gpio[STBY].level))
+-		usleep_range(30, 50);
+-
+-	if (s5k4ecgx_gpio_set_value(priv, RSET, priv->gpio[RSET].level))
+-		usleep_range(30, 50);
++	/* De-assert standby and reset */
++	gpiod_set_value(priv->stby, 0);
++	usleep_range(30, 50);
++	gpiod_set_value(priv->reset, 0);
++	usleep_range(30, 50);
+ 
+ 	return 0;
+ }
+ 
+ static int __s5k4ecgx_power_off(struct s5k4ecgx *priv)
+ {
+-	if (s5k4ecgx_gpio_set_value(priv, RSET, !priv->gpio[RSET].level))
+-		usleep_range(30, 50);
+-
+-	if (s5k4ecgx_gpio_set_value(priv, STBY, !priv->gpio[STBY].level))
+-		usleep_range(30, 50);
++	/* Assert reset and standby */
++	gpiod_set_value(priv->reset, 1);
++	usleep_range(30, 50);
++	gpiod_set_value(priv->stby, 1);
++	usleep_range(30, 50);
+ 
+ 	priv->streaming = 0;
+ 
+@@ -840,68 +824,6 @@ static const struct v4l2_subdev_ops s5k4ecgx_ops = {
+ 	.video = &s5k4ecgx_video_ops,
+ };
+ 
+-/*
+- * GPIO setup
+- */
+-static int s5k4ecgx_config_gpio(int nr, int val, const char *name)
+-{
+-	unsigned long flags = val ? GPIOF_OUT_INIT_HIGH : GPIOF_OUT_INIT_LOW;
+-	int ret;
+-
+-	if (!gpio_is_valid(nr))
+-		return 0;
+-	ret = gpio_request_one(nr, flags, name);
+-	if (!ret)
+-		gpio_export(nr, 0);
+-
+-	return ret;
+-}
+-
+-static void s5k4ecgx_free_gpios(struct s5k4ecgx *priv)
+-{
+-	int i;
+-
+-	for (i = 0; i < ARRAY_SIZE(priv->gpio); i++) {
+-		if (!gpio_is_valid(priv->gpio[i].gpio))
+-			continue;
+-		gpio_free(priv->gpio[i].gpio);
+-		priv->gpio[i].gpio = -EINVAL;
+-	}
+-}
+-
+-static int s5k4ecgx_config_gpios(struct s5k4ecgx *priv,
+-				  const struct s5k4ecgx_platform_data *pdata)
+-{
+-	const struct s5k4ecgx_gpio *gpio = &pdata->gpio_stby;
+-	int ret;
+-
+-	priv->gpio[STBY].gpio = -EINVAL;
+-	priv->gpio[RSET].gpio  = -EINVAL;
+-
+-	ret = s5k4ecgx_config_gpio(gpio->gpio, gpio->level, "S5K4ECGX_STBY");
+-
+-	if (ret) {
+-		s5k4ecgx_free_gpios(priv);
+-		return ret;
+-	}
+-	priv->gpio[STBY] = *gpio;
+-	if (gpio_is_valid(gpio->gpio))
+-		gpio_set_value(gpio->gpio, 0);
+-
+-	gpio = &pdata->gpio_reset;
+-
+-	ret = s5k4ecgx_config_gpio(gpio->gpio, gpio->level, "S5K4ECGX_RST");
+-	if (ret) {
+-		s5k4ecgx_free_gpios(priv);
+-		return ret;
+-	}
+-	priv->gpio[RSET] = *gpio;
+-	if (gpio_is_valid(gpio->gpio))
+-		gpio_set_value(gpio->gpio, 0);
+-
+-	return 0;
+-}
+-
+ static int s5k4ecgx_init_v4l2_ctrls(struct s5k4ecgx *priv)
+ {
+ 	const struct v4l2_ctrl_ops *ops = &s5k4ecgx_ctrl_ops;
+@@ -965,11 +887,22 @@ static int s5k4ecgx_probe(struct i2c_client *client,
+ 	if (ret)
+ 		return ret;
+ 
+-	ret = s5k4ecgx_config_gpios(priv, pdata);
+-	if (ret) {
+-		dev_err(&client->dev, "Failed to set gpios\n");
+-		goto out_err1;
++	/* Request GPIO lines asserted */
++	priv->stby = devm_gpiod_get(&client->dev, "standby", GPIOD_OUT_HIGH);
++	if (IS_ERR(priv->stby)) {
++		v4l2_err(sd, "failed to request gpio S5K4ECGX_STBY");
++		ret = PTR_ERR(priv->stby);
++		goto out_err;
++	}
++	gpiod_set_consumer_name(priv->stby, "S5K4ECGX_STBY");
++	priv->reset = devm_gpiod_get(&client->dev, "reset", GPIOD_OUT_HIGH);
++	if (IS_ERR(priv->reset)) {
++		v4l2_err(sd, "failed to request gpio S5K4ECGX_RST");
++		ret = PTR_ERR(priv->reset);
++		goto out_err;
+ 	}
++	gpiod_set_consumer_name(priv->reset, "S5K4ECGX_RST");
++
+ 	for (i = 0; i < S5K4ECGX_NUM_SUPPLIES; i++)
+ 		priv->supplies[i].supply = s5k4ecgx_supply_names[i];
+ 
+@@ -977,20 +910,18 @@ static int s5k4ecgx_probe(struct i2c_client *client,
+ 				 priv->supplies);
+ 	if (ret) {
+ 		dev_err(&client->dev, "Failed to get regulators\n");
+-		goto out_err2;
++		goto out_err;
+ 	}
+ 	ret = s5k4ecgx_init_v4l2_ctrls(priv);
+ 	if (ret)
+-		goto out_err2;
++		goto out_err;
+ 
+ 	priv->curr_pixfmt = &s5k4ecgx_formats[0];
+ 	priv->curr_frmsize = &s5k4ecgx_prev_sizes[0];
+ 
+ 	return 0;
+ 
+-out_err2:
+-	s5k4ecgx_free_gpios(priv);
+-out_err1:
++out_err:
+ 	media_entity_cleanup(&priv->sd.entity);
+ 
+ 	return ret;
+@@ -1002,7 +933,6 @@ static void s5k4ecgx_remove(struct i2c_client *client)
+ 	struct s5k4ecgx *priv = to_s5k4ecgx(sd);
+ 
+ 	mutex_destroy(&priv->lock);
+-	s5k4ecgx_free_gpios(priv);
+ 	v4l2_device_unregister_subdev(sd);
+ 	v4l2_ctrl_handler_free(&priv->handler);
+ 	media_entity_cleanup(&sd->entity);
+diff --git a/include/media/i2c/s5k4ecgx.h b/include/media/i2c/s5k4ecgx.h
+deleted file mode 100644
+index 92202eb35249..000000000000
+--- a/include/media/i2c/s5k4ecgx.h
++++ /dev/null
+@@ -1,33 +0,0 @@
+-/* SPDX-License-Identifier: GPL-2.0-or-later */
+-/*
+- * S5K4ECGX image sensor header file
+- *
+- * Copyright (C) 2012, Linaro
+- * Copyright (C) 2012, Samsung Electronics Co., Ltd.
+- */
+-
+-#ifndef S5K4ECGX_H
+-#define S5K4ECGX_H
+-
 -/**
-- * struct s5c73m3_gpio - data structure describing a GPIO
-- * @gpio:  GPIO number
+- * struct s5k4ecgx_gpio - data structure describing a GPIO
+- * @gpio: GPIO number
 - * @level: indicates active state of the @gpio
 - */
--struct s5c73m3_gpio {
+-struct s5k4ecgx_gpio {
 -	int gpio;
 -	int level;
 -};
 -
- /**
-  * struct s5c73m3_platform_data - s5c73m3 driver platform data
-  * @mclk_frequency: sensor's master clock frequency in Hz
-- * @gpio_reset:  GPIO driving RESET pin
-- * @gpio_stby:   GPIO driving STBY pin
-  * @bus_type:    bus type
-  * @nlanes:      maximum number of MIPI-CSI lanes used
-  * @horiz_flip:  default horizontal image flip value, non zero to enable
-@@ -44,9 +32,6 @@ struct s5c73m3_gpio {
- struct s5c73m3_platform_data {
- 	unsigned long mclk_frequency;
- 
--	struct s5c73m3_gpio gpio_reset;
--	struct s5c73m3_gpio gpio_stby;
+-/**
+- * struct s5k4ecgx_platform_data - s5k4ecgx driver platform data
+- * @gpio_reset:	 GPIO driving RESET pin
+- * @gpio_stby:	 GPIO driving STBY pin
+- */
 -
- 	enum v4l2_mbus_type bus_type;
- 	u8 nlanes;
- 	u8 horiz_flip;
+-struct s5k4ecgx_platform_data {
+-	struct s5k4ecgx_gpio gpio_reset;
+-	struct s5k4ecgx_gpio gpio_stby;
+-};
+-
+-#endif /* S5K4ECGX_H */
 -- 
 2.34.1
 
