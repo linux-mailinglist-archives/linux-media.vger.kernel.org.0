@@ -2,42 +2,50 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6A58560A0FC
-	for <lists+linux-media@lfdr.de>; Mon, 24 Oct 2022 13:21:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EC65F60A356
+	for <lists+linux-media@lfdr.de>; Mon, 24 Oct 2022 13:55:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230230AbiJXLV2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 24 Oct 2022 07:21:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58066 "EHLO
+        id S231696AbiJXLzU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 24 Oct 2022 07:55:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55178 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230238AbiJXLVS (ORCPT
+        with ESMTP id S232273AbiJXLyQ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 24 Oct 2022 07:21:18 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B6904BA7C;
-        Mon, 24 Oct 2022 04:20:54 -0700 (PDT)
+        Mon, 24 Oct 2022 07:54:16 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A8319753B0;
+        Mon, 24 Oct 2022 04:45:25 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 8DEB56122A;
-        Mon, 24 Oct 2022 11:20:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A56B1C433D7;
-        Mon, 24 Oct 2022 11:20:49 +0000 (UTC)
-Message-ID: <f0ce21e1-eeab-ea51-4e6f-32f302a530b8@xs4all.nl>
-Date:   Mon, 24 Oct 2022 13:20:48 +0200
+        by ams.source.kernel.org (Postfix) with ESMTPS id 38147B8113A;
+        Mon, 24 Oct 2022 11:38:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 869C1C43143;
+        Mon, 24 Oct 2022 11:38:38 +0000 (UTC)
+Message-ID: <d75c0597-2323-27f2-a7e2-b319667bdcf6@xs4all.nl>
+Date:   Mon, 24 Oct 2022 13:38:36 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.3.2
-Subject: Re: [PATCH -next] media: davinci: Fix Kconfig dependency
+Subject: Re: [PATCH v1] media: cedrus: Propagate error code from
+ cedrus_h265_skip_bits()
 Content-Language: en-US
-To:     Ren Zhijie <renzhijie2@huawei.com>, prabhakar.csengg@gmail.com,
-        mchehab@kernel.org, gregkh@linuxfoundation.org
+To:     Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Samuel Holland <samuel@sholland.org>,
+        Nicolas Dufresne <nicolas.dufresne@collabora.com>
 Cc:     linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-kernel@vger.kernel.org
-References: <20220926060726.44556-1-renzhijie2@huawei.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <20220926060726.44556-1-renzhijie2@huawei.com>
+        linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+        kernel@collabora.com
+References: <20220914150105.209484-1-dmitry.osipenko@collabora.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+In-Reply-To: <20220914150105.209484-1-dmitry.osipenko@collabora.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
         HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
@@ -47,72 +55,133 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Ren,
+Hi Dmitry,
 
-I'm skipping this since the driver will be removed very soon (6.2 if all goes well).
+This patch has a conflict with this patch from Jernej:
 
-Regards,
+https://patchwork.linuxtv.org/project/linux-media/patch/20221017194413.1198301-1-jernej.skrabec@gmail.com/
+
+I decided to take Jernej's patch first. Can you make a v2 that sits on top of
+that patch?
+
+Thanks!
 
 	Hans
 
-On 9/26/22 08:07, Ren Zhijie wrote:
-> If CONFIG_VIDEO_DAVINCI_VPBE_DISPLAY is not set,
-> make ARCH=x86_64 CROSS_COMPILE=x86_64-linux-gnu-,
-> will be failed, like this:
+On 9/14/22 17:01, Dmitry Osipenko wrote:
+> The cedrus_h265_skip_bits() may get into infinite loop if decoding
+> parameters are incorrect. In this case we detect the loop and print
+> a error message, continuing the decoding that is fated to fail.
 > 
-> drivers/staging/media/deprecated/vpfe_capture/dm644x_ccdc.o: In function `ccdc_configure':
-> dm644x_ccdc.c:(.text+0xa46): undefined reference to `vpss_clear_wbl_overflow'
-> dm644x_ccdc.c:(.text+0xd46): undefined reference to `vpss_clear_wbl_overflow'
-> drivers/staging/media/deprecated/vpfe_capture/dm644x_ccdc.o: In function `ccdc_sbl_reset':
-> dm644x_ccdc.c:(.text+0x696): undefined reference to `vpss_clear_wbl_overflow'
-> drivers/staging/media/deprecated/vpfe_capture/dm355_ccdc.o: In function `ccdc_restore_defaults':
-> dm355_ccdc.c:(.text+0x43a): undefined reference to `vpss_select_ccdc_source'
-> dm355_ccdc.c:(.text+0x453): undefined reference to `vpss_enable_clock'
-> drivers/staging/media/deprecated/vpfe_capture/dm355_ccdc.o: In function `ccdc_close':
-> dm355_ccdc.c:(.text+0x475): undefined reference to `vpss_enable_clock'
-> drivers/staging/media/deprecated/vpfe_capture/isif.o: In function `isif_open':
-> isif.c:(.text+0x654): undefined reference to `vpss_enable_clock'
-> isif.c:(.text+0x663): undefined reference to `vpss_enable_clock'
-> isif.c:(.text+0x672): undefined reference to `vpss_enable_clock'
-> isif.c:(.text+0x67e): undefined reference to `vpss_select_ccdc_source'
-> drivers/staging/media/deprecated/vpfe_capture/isif.o: In function `isif_configure':
-> isif.c:(.text+0xe61): undefined reference to `dm365_vpss_set_sync_pol'
-> isif.c:(.text+0xe7b): undefined reference to `dm365_vpss_set_pg_frame_size'
-> isif.c:(.text+0xe85): undefined reference to `vpss_select_ccdc_source'
+> Will be cleaner to abort the decoding early. Propagate the error code
+> to cedrus_device_run() and reset hardware on the cedrus_h265_skip_bits()
+> failure.
 > 
-> Add select VIDEO_DAVINCI_VPBE_DISPLAY dependency to Kconfig.
-> 
-> Fixes: 6971757bdccc ("media: davinci: deprecate dm644x_ccdc, dm355_cddc and dm365_isif")
-> Signed-off-by: Ren Zhijie <renzhijie2@huawei.com>
+> Suggested-by: Jernej Škrabec <jernej.skrabec@gmail.com>
+> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 > ---
->  drivers/staging/media/deprecated/vpfe_capture/Kconfig | 3 +++
->  1 file changed, 3 insertions(+)
+>  drivers/staging/media/sunxi/cedrus/cedrus_dec.c  |  2 ++
+>  drivers/staging/media/sunxi/cedrus/cedrus_h265.c | 15 ++++++++++++---
+>  drivers/staging/media/sunxi/cedrus/cedrus_hw.c   |  7 ++++++-
+>  drivers/staging/media/sunxi/cedrus/cedrus_hw.h   |  2 ++
+>  4 files changed, 22 insertions(+), 4 deletions(-)
 > 
-> diff --git a/drivers/staging/media/deprecated/vpfe_capture/Kconfig b/drivers/staging/media/deprecated/vpfe_capture/Kconfig
-> index 10250e7e566b..63a0808ed104 100644
-> --- a/drivers/staging/media/deprecated/vpfe_capture/Kconfig
-> +++ b/drivers/staging/media/deprecated/vpfe_capture/Kconfig
-> @@ -6,6 +6,7 @@ config VIDEO_DM6446_CCDC
->  	depends on ARCH_DAVINCI || COMPILE_TEST
->  	depends on I2C
->  	select VIDEOBUF_DMA_CONTIG
-> +	select VIDEO_DAVINCI_VPBE_DISPLAY
->  	help
->  	  Enables DaVinci CCD hw module. DaVinci CCDC hw interfaces
->  	  with decoder modules such as TVP5146 over BT656 or
-> @@ -26,6 +27,7 @@ config VIDEO_DM355_CCDC
->  	depends on ARCH_DAVINCI || COMPILE_TEST
->  	depends on I2C
->  	select VIDEOBUF_DMA_CONTIG
-> +	select VIDEO_DAVINCI_VPBE_DISPLAY
->  	help
->  	  Enables DM355 CCD hw module. DM355 CCDC hw interfaces
->  	  with decoder modules such as TVP5146 over BT656 or
-> @@ -46,6 +48,7 @@ config VIDEO_DM365_ISIF
->  	depends on ARCH_DAVINCI || COMPILE_TEST
->  	depends on I2C
->  	select VIDEOBUF_DMA_CONTIG
-> +	select VIDEO_DAVINCI_VPBE_DISPLAY
->  	help
->  	  Enables ISIF hw module. This is the hardware module for
->  	  configuring ISIF in VPFE to capture Raw Bayer RGB data from
+> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_dec.c b/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
+> index e7f7602a5ab4..ae5df3dc01c0 100644
+> --- a/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
+> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
+> @@ -112,6 +112,8 @@ void cedrus_device_run(void *priv)
+>  
+>  		dev->dec_ops[ctx->current_codec]->trigger(ctx);
+>  	} else {
+> +		cedrus_hw_reset(dev);
+> +
+>  		v4l2_m2m_buf_done_and_job_finish(ctx->dev->m2m_dev,
+>  						 ctx->fh.m2m_ctx,
+>  						 VB2_BUF_STATE_ERROR);
+> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
+> index 4952fc17f3e6..f409f59452d8 100644
+> --- a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
+> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
+> @@ -224,9 +224,10 @@ static void cedrus_h265_pred_weight_write(struct cedrus_dev *dev,
+>  	}
+>  }
+>  
+> -static void cedrus_h265_skip_bits(struct cedrus_dev *dev, int num)
+> +static int cedrus_h265_skip_bits(struct cedrus_dev *dev, int num)
+>  {
+>  	int count = 0;
+> +	int err;
+>  
+>  	while (count < num) {
+>  		int tmp = min(num - count, 32);
+> @@ -235,11 +236,16 @@ static void cedrus_h265_skip_bits(struct cedrus_dev *dev, int num)
+>  			     VE_DEC_H265_TRIGGER_FLUSH_BITS |
+>  			     VE_DEC_H265_TRIGGER_TYPE_N_BITS(tmp));
+>  
+> -		if (cedrus_wait_for(dev, VE_DEC_H265_STATUS, VE_DEC_H265_STATUS_VLD_BUSY))
+> +		err = cedrus_wait_for(dev, VE_DEC_H265_STATUS, VE_DEC_H265_STATUS_VLD_BUSY);
+> +		if (err) {
+>  			dev_err_ratelimited(dev->dev, "timed out waiting to skip bits\n");
+> +			return err;
+> +		}
+>  
+>  		count += tmp;
+>  	}
+> +
+> +	return 0;
+>  }
+>  
+>  static void cedrus_h265_write_scaling_list(struct cedrus_ctx *ctx,
+> @@ -408,6 +414,7 @@ static int cedrus_h265_setup(struct cedrus_ctx *ctx, struct cedrus_run *run)
+>  	u32 pic_order_cnt[2];
+>  	u8 *padding;
+>  	int count;
+> +	int err;
+>  	u32 reg;
+>  
+>  	sps = run->h265.sps;
+> @@ -534,7 +541,9 @@ static int cedrus_h265_setup(struct cedrus_ctx *ctx, struct cedrus_run *run)
+>  	/* Include the one bit. */
+>  	count++;
+>  
+> -	cedrus_h265_skip_bits(dev, slice_params->data_byte_offset * 8 - count);
+> +	err = cedrus_h265_skip_bits(dev, slice_params->data_byte_offset * 8 - count);
+> +	if (err)
+> +		return err;
+>  
+>  	/* Bitstream parameters. */
+>  
+> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_hw.c b/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
+> index a6470a89851e..e9ceca332062 100644
+> --- a/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
+> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
+> @@ -168,11 +168,16 @@ void cedrus_watchdog(struct work_struct *work)
+>  					 VB2_BUF_STATE_ERROR);
+>  }
+>  
+> +void cedrus_hw_reset(struct cedrus_dev *dev)
+> +{
+> +	reset_control_reset(dev->rstc);
+> +}
+> +
+>  int cedrus_hw_suspend(struct device *device)
+>  {
+>  	struct cedrus_dev *dev = dev_get_drvdata(device);
+>  
+> -	reset_control_assert(dev->rstc);
+> +	cedrus_hw_reset(dev);
+>  
+>  	clk_disable_unprepare(dev->ram_clk);
+>  	clk_disable_unprepare(dev->mod_clk);
+> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_hw.h b/drivers/staging/media/sunxi/cedrus/cedrus_hw.h
+> index 7c92f00e36da..919c4475f0d7 100644
+> --- a/drivers/staging/media/sunxi/cedrus/cedrus_hw.h
+> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_hw.h
+> @@ -30,4 +30,6 @@ void cedrus_hw_remove(struct cedrus_dev *dev);
+>  
+>  void cedrus_watchdog(struct work_struct *work);
+>  
+> +void cedrus_hw_reset(struct cedrus_dev *dev);
+> +
+>  #endif
