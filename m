@@ -2,82 +2,78 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6246660CF31
-	for <lists+linux-media@lfdr.de>; Tue, 25 Oct 2022 16:36:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 72C6060CF52
+	for <lists+linux-media@lfdr.de>; Tue, 25 Oct 2022 16:41:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231349AbiJYOgF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 25 Oct 2022 10:36:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38870 "EHLO
+        id S232523AbiJYOlc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 25 Oct 2022 10:41:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56492 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232477AbiJYOfb (ORCPT
+        with ESMTP id S232282AbiJYOlR (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 25 Oct 2022 10:35:31 -0400
-Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com [IPv6:2a00:1450:4864:20::535])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E16FC9F750
-        for <linux-media@vger.kernel.org>; Tue, 25 Oct 2022 07:35:21 -0700 (PDT)
-Received: by mail-ed1-x535.google.com with SMTP id r14so36542159edc.7
-        for <linux-media@vger.kernel.org>; Tue, 25 Oct 2022 07:35:21 -0700 (PDT)
+        Tue, 25 Oct 2022 10:41:17 -0400
+Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com [IPv6:2a00:1450:4864:20::62c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 81932FC6DA
+        for <linux-media@vger.kernel.org>; Tue, 25 Oct 2022 07:41:11 -0700 (PDT)
+Received: by mail-ej1-x62c.google.com with SMTP id fy4so13079538ejc.5
+        for <linux-media@vger.kernel.org>; Tue, 25 Oct 2022 07:41:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=cDM4r82Vu25XAn8FTag9RA1fMYhJwpZR6aZfJo/nKnA=;
-        b=nIVyfuuLI2cY//5mXH5HGb5Gjqd/AcguOXfo5HF8Q8BDI7cOi75JXbGnOG3v+vIuz3
-         mt1skZQQchxvpTC3zTEBetG8//LJ4N9Xl1oxUA3Tj98dynsanFBRDfN5LYrPR8TOVWal
-         FXN3gLDVO7LtkrPcDknz18vwrl8Qhcxtgll4s=
+        h=cc:to:message-id:date:from:content-transfer-encoding:mime-version
+         :subject:from:to:cc:subject:date:message-id:reply-to;
+        bh=VlQIi+yWsREsm4PbEFci1yyfl5Bxh5Wh05SXkdf2/oE=;
+        b=WSbhXDecQ6UZV0LzcVzWyCNJjJYMwMUbOrb6PGiPBI8fQaFDy6cBXDHBDosTJ4x8AL
+         DeoUWQIM39HA9WHLlgM/FrGqDE+gzEQH2wIZ6mfrSEVMBK5V1gS2o/OD/IuW0ADsNa5A
+         VSQtWgVl8kYFxAQQxiTHZNtM1Z5+kOFaupjRA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=cDM4r82Vu25XAn8FTag9RA1fMYhJwpZR6aZfJo/nKnA=;
-        b=Zs0clJ7755gt5eKEbDyHpkx5iGdPSzow5NAiLlSdkPKFAoLxV3Pv4eASawSY+7xb9F
-         IvPp/3/sGZuQbTGpyRGgoPxUizqxnMVxRtVwiniy9zictMSIOimB7xZnNQDDNL+01xMe
-         9txo7oKVgrIs2Mf5DXqDVQHJJM0TEEQPnmbGDs8i5fU/mIXyYAyr1Gh5Vp9haUpkeeUs
-         oN45JjmiD87wWJf/kr6ls4++u8fRVxDTPjHuoDlfx5XoPg0zm0PW9dBQBoYr9ylQ/zyL
-         PqZdF6nXxDq+Cb4yV2jPjI0xXO8m6knIVcqmWHLitmnorsm09TJvrUa4deoZMaxy3O9S
-         OpFg==
-X-Gm-Message-State: ACrzQf1iBk9YMmK4t5QS04qtDrAXWkE1ptwr0xkMy57Z7mAcnsl8kbg8
-        ifAo8XmWcwMuUQMYi+hDAyp+ng==
-X-Google-Smtp-Source: AMsMyM6ZxduJLpfqNo1FL1eE1kp3pE8jxsD/Mw6MleY81obi30oIH1q1NflkTjkUCgp4ZZhPnjBT1g==
-X-Received: by 2002:a05:6402:496:b0:443:a5f5:d3b with SMTP id k22-20020a056402049600b00443a5f50d3bmr37136318edv.331.1666708520472;
-        Tue, 25 Oct 2022 07:35:20 -0700 (PDT)
+        h=cc:to:message-id:date:from:content-transfer-encoding:mime-version
+         :subject:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=VlQIi+yWsREsm4PbEFci1yyfl5Bxh5Wh05SXkdf2/oE=;
+        b=d25FxlBaO+2Abd1vpJNh9uXt6Zy4wdX1w/oQdkZmOdxkIUwLTtyFqtPd88EqpvfjvS
+         gBfYYUXTjpGHswBLLH34vxSgxTy2R+7qQRb5I8KurD/+eloEiWWY1Pcihicig6lc3l++
+         4lliIX9rEOANRTkNdh10loPq6+4dt/QI2+8z4rjeC5Mx0/HD5+d2QPSqdv0UP23FOeQY
+         lcRyGb7acEsiTiYxn1mlU09RJmigzmyc4m4taDw2VdULXEs5uBElPBblFGe5AgAdabDd
+         7zopRc6c7dw2mgnGytHuYu+4pO4GTLmXQ/imfJezPgfXvLHLMvxuBDJ1jxS9p/6sBaOo
+         GbGQ==
+X-Gm-Message-State: ACrzQf1dOQYJQd6Lfz0t0HmdTCz+wJhkBL7O4BTimTmWhCWPlxrxTjPG
+        Lm12w11VnyoIZdRMZFwAITcis6LYw8cG7qbe
+X-Google-Smtp-Source: AMsMyM7cv3FLT05dgKzO1MeeqspWJLX9roFJARyw91hGmK0lm2d601mBeGtRk+4rHDFVLGMRqLu4Jg==
+X-Received: by 2002:a17:907:75d2:b0:7a0:72b8:236a with SMTP id jl18-20020a17090775d200b007a072b8236amr15921485ejc.47.1666708870288;
+        Tue, 25 Oct 2022 07:41:10 -0700 (PDT)
 Received: from alco.roam.corp.google.com ([2620:0:1059:10:e6ae:c7ac:c234:953c])
-        by smtp.gmail.com with ESMTPSA id e9-20020a170906314900b007acd04fcedcsm631021eje.46.2022.10.25.07.35.19
+        by smtp.gmail.com with ESMTPSA id kz12-20020a17090777cc00b00734bfab4d59sm1500813ejc.170.2022.10.25.07.41.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Oct 2022 07:35:20 -0700 (PDT)
-From:   Ricardo Ribalda <ribalda@chromium.org>
-Date:   Tue, 25 Oct 2022 16:34:29 +0200
-Subject: [PATCH v2 8/8] media: uvcvideo: Only call status ep if hw supports it
+        Tue, 25 Oct 2022 07:41:09 -0700 (PDT)
+Subject: [PATCH v1 0/1] [RESEND] media: uvcvideo: Handle cameras with invalid usb_strings
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20220920-resend-powersave-v2-8-5135d1bb1c38@chromium.org>
-References: <20220920-resend-powersave-v2-0-5135d1bb1c38@chromium.org>
-In-Reply-To: <20220920-resend-powersave-v2-0-5135d1bb1c38@chromium.org>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Max Staudt <mstaudt@google.com>, linux-media@vger.kernel.org,
-        Tomasz Figa <tfiga@chromium.org>, linux-kernel@vger.kernel.org,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Ricardo Ribalda <ribalda@chromium.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>
+X-b4-tracking: H4sIAHz1V2MC/w3LwQqAIAwA0F+JnRuoUEF/o7bZIBa47CL9ex7f4XUwqkIG+9Sh0ismtw74eYJ8Ri
+ 2EcgxDcCF4FxZsltCeKlowM2/s2a3kGEZI0QhTjZrPUbRd1/f9Ii4c9GEAAAA=
+From:   Ricardo Ribalda <ribalda@chromium.org>
+Date:   Tue, 25 Oct 2022 16:41:00 +0200
+Message-Id: <20221025-usb-string-v1-0-4c351b6907bb@chromium.org>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     linux-media@vger.kernel.org, Guenter Roeck <linux@roeck-us.net>,
+        linux-kernel@vger.kernel.org,
+        Ricardo Ribalda <ribalda@chromium.org>
 X-Mailer: b4 0.11.0-dev-d93f8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4002; i=ribalda@chromium.org;
- h=from:subject:message-id; bh=IWi5UBoOQCglgZ8fk/i0G4nYeLqeSgpNrXbJjKKYXhk=;
- b=owEBbQKS/ZANAwAKAdE30T7POsSIAcsmYgBjV/QcG5LK6K0jUjnoGq8KBuuEpJ6sMYJlNi4Z99xs
- BCAWNeiJAjMEAAEKAB0WIQREDzjr+/4oCDLSsx7RN9E+zzrEiAUCY1f0HAAKCRDRN9E+zzrEiH3VEA
- CIqowtYcGGbBD5Wo2qirQ1FwAwCwchTq489hfSl5qGvsmBQohbYAFQDlUA7h2CRwwQnkU/vt3ZpFab
- 8M1Rvi+rfRZk9bSrcvodaXlamQIAQvShxFKOBniermTFJ4WJwyTDboodQyCtnhkiVczysx0Tb7RcrQ
- dNH9Uw/2ttvLSclYZO/msOuA8XYz+64OWIoMVP6wkeimPHw+QXUq+aFmRaWeIwEsEU394owG674Ct7
- tvA72i0vlg3Ls3sA1vPavMa/RDwnR+Arx7wXHAhZEYoTHTrq7PBvhBXWaHhye3roTAQZBbokSTmKq6
- v8Byx7IpUaBSoURpqsi342uJU+kdU7Or4foGrEXvrM7s5O+O0EHeXGGw8JO4xVZeA/edYDcg5vQ6/u
- jnE5jYg5sm1mom3gG0sKQnWVxWw770mR+kgAM9eL5nlRqg15VXz/rRLPau8giNSudLk6bmw1bGysgt
- +eLWLT7vIBwUWfU7I0HPZ8hF8Hxz9I0n26m8VK1xQlP1VxxqHtcvJ85dkIckJ1P++hBOKH9kDumDNe
- C7NU709b8c9tWMVgdHsaOtB+vgT5t65tpN7+bplq6flFkkt9Id9y6RhD6IbvVzgvo5Zs7c1UsGz8rU
- 03qsjRjeWNYJueL1GByAPAzYO+yRWATDEkzzZ+velzXiVLlbQCK4VKm1wxmQ==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=721; i=ribalda@chromium.org;
+ h=from:subject:message-id; bh=HS9crhUmx//ZE5EikyWreNBNGmdK2E7sBUiEO7VxSXo=;
+ b=owEBbQKS/ZANAwAKAdE30T7POsSIAcsmYgBjV/V/HOENVGKtlg6nyBSnKRyFCfSj2UsZP53RtwYV
+ W4n+nWCJAjMEAAEKAB0WIQREDzjr+/4oCDLSsx7RN9E+zzrEiAUCY1f1fwAKCRDRN9E+zzrEiKnPD/
+ 4nR++LM/8UpdNK3LneR8a/C6b+gEs/P2axzOW1QFJtcr12XYJumksRrhEy3NDVq8ycBGbIc1M24KfD
+ U/u/HXCDiaMoD+HeVAkzTWNygNoqtswzbkr4WQl0EpKA1kTUGGD+w0QqeD0RY+tDOzkm6wGBr/Nidp
+ BcDL7pdIqTZtC3ilGbEBoCrr5nwlp3CBWs2mAgQLB371a3gkqVoQOJlZ62qUU7jZDHChEg7jJNKqZc
+ D0XY3tJ9g5nfXUT/qL776o59lsc4N9iLYwnm3x4eaFd4g8c2EcOblqF26sFyRLWKFEUiHZzV+Ak0e/
+ 6ApsU/INrZPWpzejjkyN5TAARFvoRYbE2jroGlCRkP+r70HhP4M951eg5lVKIA3AvctJZQAK+5bqhk
+ VFaxrLavlFrsc/PIOldzVrsWNtUJgP0Hr7eVWcaI1qvT/h9YBCQ8Z0BjzJ1gaV2gGSyhzF6PkQIhab
+ YBl77QICbY0BxTnj5ErUzJPIPIS/igL9qfmiC+3i8uOrUUvLv+0a6B7jC5lLJTgRmhSbK7uCbBQgGx
+ YBBbHeVbVJ1zUar/zjhbE+hDRev5x3B874XMRYsnsxCKyDVgOn3104h7fKs99GBCQ8I9QkvSRLALq/
+ mKz0bs+ZL3i1FB6HK4H8lT25azVkK1z7aKMBI20lZn2LPY97wXbozwANszMQ==
 X-Developer-Key: i=ribalda@chromium.org; a=openpgp;
  fpr=9EC3BB66E2FC129A6F90B39556A0D81F9F782DA9
 X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
@@ -90,136 +86,25 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Instead of calling uvc_status_* regardless if the hw supports it or not,
-make all the calls conditional.
+Resend a patch from Guenter that felt intro the cracks...
 
-This simplifies the locking during suspend/resume.
-
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-media@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: Guenter Roeck <linux@roeck-us.net>
 Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 
-diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
-index f15fbdbcd8bb..d2841f0d9132 100644
---- a/drivers/media/usb/uvc/uvc_driver.c
-+++ b/drivers/media/usb/uvc/uvc_driver.c
-@@ -1847,7 +1847,8 @@ static void uvc_delete(struct kref *kref)
- 	struct uvc_device *dev = container_of(kref, struct uvc_device, ref);
- 	struct list_head *p, *n;
- 
--	uvc_status_cleanup(dev);
-+	if (dev->int_ep)
-+		uvc_status_cleanup(dev);
- 	uvc_ctrl_cleanup_device(dev);
- 
- 	usb_put_intf(dev->intf);
-@@ -1918,7 +1919,8 @@ static void uvc_unregister_video(struct uvc_device *dev)
- 		mutex_unlock(&stream->mutex);
- 	}
- 
--	uvc_status_unregister(dev);
-+	if (dev->int_ep)
-+		uvc_status_unregister(dev);
- 	uvc_ctrl_stop_device(dev);
- 
- 	if (dev->vdev.dev)
-@@ -2222,7 +2224,9 @@ static int uvc_probe(struct usb_interface *intf,
- 	usb_set_intfdata(intf, dev);
- 
- 	/* Initialize the interrupt URB. */
--	if ((ret = uvc_status_init(dev)) < 0) {
-+	if (dev->int_ep)
-+		ret = uvc_status_init(dev);
-+	if (ret < 0) {
- 		dev_info(&dev->udev->dev,
- 			 "Unable to initialize the status endpoint (%d), status interrupt will not be supported.\n",
- 			 ret);
-@@ -2274,6 +2278,8 @@ static int uvc_suspend(struct usb_interface *intf, pm_message_t message)
- 	/* Controls are cached on the fly so they don't need to be saved. */
- 	if (intf->cur_altsetting->desc.bInterfaceSubClass ==
- 	    UVC_SC_VIDEOCONTROL) {
-+		if (!dev->int_ep)
-+			return 0;
- 		mutex_lock(&dev->lock);
- 		if (dev->users)
- 			uvc_status_stop(dev);
-@@ -2308,6 +2314,9 @@ static int __uvc_resume(struct usb_interface *intf, int reset)
- 				return ret;
- 		}
- 
-+		if (!dev->int_ep)
-+			return ret;
-+
- 		mutex_lock(&dev->lock);
- 		if (dev->users)
- 			ret = uvc_status_start(dev, GFP_NOIO);
-diff --git a/drivers/media/usb/uvc/uvc_status.c b/drivers/media/usb/uvc/uvc_status.c
-index cb90aff344bc..627cf11066e7 100644
---- a/drivers/media/usb/uvc/uvc_status.c
-+++ b/drivers/media/usb/uvc/uvc_status.c
-@@ -277,7 +277,7 @@ int uvc_status_init(struct uvc_device *dev)
- 	unsigned int pipe;
- 	int interval;
- 
--	if (ep == NULL)
-+	if (WARN_ON(!ep))
- 		return 0;
- 
- 	uvc_input_init(dev);
-@@ -312,19 +312,23 @@ int uvc_status_init(struct uvc_device *dev)
- 
- void uvc_status_unregister(struct uvc_device *dev)
- {
-+	if (WARN_ON(!dev->int_ep))
-+		return;
- 	usb_kill_urb(dev->int_urb);
- 	uvc_input_unregister(dev);
- }
- 
- void uvc_status_cleanup(struct uvc_device *dev)
- {
-+	if (WARN_ON(!dev->int_ep))
-+		return;
- 	usb_free_urb(dev->int_urb);
- 	kfree(dev->status);
- }
- 
- int uvc_status_start(struct uvc_device *dev, gfp_t flags)
- {
--	if (dev->int_urb == NULL)
-+	if (WARN_ON(!dev->int_ep) || !dev->int_urb)
- 		return 0;
- 
- 	return usb_submit_urb(dev->int_urb, flags);
-@@ -332,5 +336,8 @@ int uvc_status_start(struct uvc_device *dev, gfp_t flags)
- 
- void uvc_status_stop(struct uvc_device *dev)
- {
-+	if (WARN_ON(!dev->int_ep) || !dev->int_urb)
-+		return;
-+
- 	usb_kill_urb(dev->int_urb);
- }
-diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/uvc_v4l2.c
-index c250b628fc4f..2861ab122beb 100644
---- a/drivers/media/usb/uvc/uvc_v4l2.c
-+++ b/drivers/media/usb/uvc/uvc_v4l2.c
-@@ -44,7 +44,7 @@ static int uvc_pm_get(struct uvc_streaming *stream)
- 		goto done;
- 	}
- 
--	if (!stream->dev->users)
-+	if (!stream->dev->users && stream->dev->int_ep)
- 		ret = uvc_status_start(stream->dev, GFP_KERNEL);
- 	if (!ret)
- 		stream->dev->users++;
-@@ -66,7 +66,7 @@ static void uvc_pm_put(struct uvc_streaming *stream)
- 		return;
- 	}
- 	stream->dev->users--;
--	if (!stream->dev->users)
-+	if (!stream->dev->users && stream->dev->int_ep)
- 		uvc_status_stop(stream->dev);
- 	mutex_unlock(&stream->dev->lock);
- 
+---
+Guenter Roeck (1):
+      media: uvcvideo: Handle errors from calls to usb_string
 
+ drivers/media/usb/uvc/uvc_driver.c | 48 +++++++++++++++-----------------------
+ 1 file changed, 19 insertions(+), 29 deletions(-)
+---
+base-commit: 1a2dcbdde82e3a5f1db9b2f4c48aa1aeba534fb2
+change-id: 20221025-usb-string-cff7f1f06e0f
+
+Best regards,
 -- 
-b4 0.11.0-dev-d93f8
+Ricardo Ribalda <ribalda@chromium.org>
