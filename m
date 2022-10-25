@@ -2,107 +2,89 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C0A2060CA3A
-	for <lists+linux-media@lfdr.de>; Tue, 25 Oct 2022 12:41:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5A6D660CA5E
+	for <lists+linux-media@lfdr.de>; Tue, 25 Oct 2022 12:52:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232155AbiJYKlo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 25 Oct 2022 06:41:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50482 "EHLO
+        id S232420AbiJYKwM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 25 Oct 2022 06:52:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56844 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231447AbiJYKln (ORCPT
+        with ESMTP id S232054AbiJYKwK (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 25 Oct 2022 06:41:43 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 051BF48C83;
-        Tue, 25 Oct 2022 03:41:42 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 9F53E618A2;
-        Tue, 25 Oct 2022 10:41:41 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3C550C433D6;
-        Tue, 25 Oct 2022 10:41:38 +0000 (UTC)
-Message-ID: <293e27b5-b7b0-c637-fd3a-2f6dfa507c81@xs4all.nl>
-Date:   Tue, 25 Oct 2022 12:41:36 +0200
+        Tue, 25 Oct 2022 06:52:10 -0400
+Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com [IPv6:2607:f8b0:4864:20::42a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E39DE87FA0
+        for <linux-media@vger.kernel.org>; Tue, 25 Oct 2022 03:52:06 -0700 (PDT)
+Received: by mail-pf1-x42a.google.com with SMTP id e4so7504698pfl.2
+        for <linux-media@vger.kernel.org>; Tue, 25 Oct 2022 03:52:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=fkFgfXaqdgquVI7NKap7slqYaaQFBUcSMpcB4V0T548=;
+        b=Q+C5jfhGTlV+0CycaedPDStrr2Y2IMHmbobgBp7DFZOrz3z6jiVjEa2HURaWqMDxI/
+         nbBN0XwEHwFL/2DnNmTdoLm+Vor1UQtolwTv4ZukYiZvQtHV4AxZyCK1vRhZ46bDQUZ/
+         Td9yDUu4dDwkcXZW4PqAZQiLY+HBXAmWJip4U24eHLn+7i6OTqvfMPFGEIBCbSeFRvfS
+         yU7HCRGlrwz09NkJvmAujHT92fvrqvqa+cgQSCy9mjmnUj0LEb6uottAqjAeyGv7abMa
+         MMkDqnGX1UYGMHR2u2G4aoYZkOVeaotLkyeM52rKU91vIeV4CbyVKYpKhRgtV6vP/8go
+         3ipQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=fkFgfXaqdgquVI7NKap7slqYaaQFBUcSMpcB4V0T548=;
+        b=1jQshxLsA3t4Hfxr6ZlDMBD4dc5RKOmiWlC9lm1m6j2vPSPsSuQyR9rYp+FrS7KJJv
+         LbpS0Xd/C6inrZo/EJ67cW09OVQfqSf2E9yEU630A3N9f9Q7p9UBuXCDZs53QtHKPIvZ
+         bwwuoqVQd1YAwmCVmNZpVv3lD76Uv6Li9aKVYEy5B96gkkFkTdiRdODIFvXyZm7pHg9Z
+         K+eTRx0xItahj9FJmIrUUnYSvjJJP5esYLFzmdM+oatSxym/ZgUrL7eVCuhT3oLVv2kg
+         Cl+3yZ/FdZ4nih2suZBzrUQ71fYxGCwY4e/LrJ7JAYocoThpM1KuXaGaBbkYnq4vTYlw
+         Kp3g==
+X-Gm-Message-State: ACrzQf0NAKyKYDxRjnBSYrbnt2CKLG4N2/j4ntfPPHmMZ5y8I9lVTpkl
+        EdBCjLCk82FMHzB2kKpCNUubemO1gPVR1YQVkGcnRQ==
+X-Google-Smtp-Source: AMsMyM785sCKS3w4c9cdcxntZqWnMDoua0hVMWr5eI29Ibt4q88PZFK/VvBN+IuVz+ipSuEXgbxZX6rBpjrGPnQOg0g=
+X-Received: by 2002:a65:6148:0:b0:458:88cd:f46 with SMTP id
+ o8-20020a656148000000b0045888cd0f46mr32019568pgv.303.1666695126166; Tue, 25
+ Oct 2022 03:52:06 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.0
-Subject: Re: [PATCH v1] media: cedrus: Propagate error code from
- cedrus_h265_skip_bits()
-Content-Language: en-US
-To:     Dmitry Osipenko <dmitry.osipenko@collabora.com>,
-        =?UTF-8?Q?Jernej_=c5=a0krabec?= <jernej.skrabec@gmail.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+References: <20221025055528.1117251-1-yunkec@google.com> <20221025055528.1117251-3-yunkec@google.com>
+ <Y1ezLUMVELC/J5ze@google.com>
+In-Reply-To: <Y1ezLUMVELC/J5ze@google.com>
+From:   Yunke Cao <yunkec@google.com>
+Date:   Tue, 25 Oct 2022 19:51:54 +0900
+Message-ID: <CANqU6FdwC9yAMZOqv0wm2pZ+HTkLZHV+OkAK6x-95w2Baz-fUQ@mail.gmail.com>
+Subject: Re: [PATCH v9 02/11] media: uvcvideo: add uvc_ctrl_get_boundary for
+ getting default value
+To:     Sergey Senozhatsky <senozhatsky@chromium.org>
+Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Samuel Holland <samuel@sholland.org>,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Cc:     linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
-        kernel@collabora.com
-References: <20220914150105.209484-1-dmitry.osipenko@collabora.com>
- <d75c0597-2323-27f2-a7e2-b319667bdcf6@xs4all.nl>
- <12078224.O9o76ZdvQC@jernej-laptop>
- <3a26e105-9c50-8cdd-b4be-ba97b3306261@collabora.com>
- <1103d833-6c29-6ccb-05dd-a2883eaa2281@xs4all.nl>
- <fcf78a88-ab27-3a6a-db06-66504fc18e10@collabora.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-In-Reply-To: <fcf78a88-ab27-3a6a-db06-66504fc18e10@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+        Tomasz Figa <tfiga@chromium.org>,
+        Ricardo Ribalda <ribalda@chromium.org>,
+        linux-media@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 10/25/22 12:36, Dmitry Osipenko wrote:
-> On 10/25/22 13:23, Hans Verkuil wrote:
->> On 10/25/22 11:34, Dmitry Osipenko wrote:
->>> On 10/25/22 07:59, Jernej Škrabec wrote:
->>>> Dne ponedeljek, 24. oktober 2022 ob 13:38:36 CEST je Hans Verkuil napisal(a):
->>>>> Hi Dmitry,
->>>>>
->>>>> This patch has a conflict with this patch from Jernej:
->>>>>
->>>>> https://patchwork.linuxtv.org/project/linux-media/patch/20221017194413.11983
->>>>> 01-1-jernej.skrabec@gmail.com/
->>>>>
->>>>> I decided to take Jernej's patch first. Can you make a v2 that sits on top
->>>>> of that patch?
->>>> I believe you already merged first version of the patch for 6.1. No need for 
->>>> this version though, first version already solves main issue.
->>>
->>> That was a followup to the first version.
->>>
->>
->> I have no idea what you are both talking about :-)
->>
->> "I believe you already merged first version of the patch for 6.1" Which patch
->> are you referring to?
-> 
-> This is about [1] that was already merged. This patch implements the
-> error propagation that Jernej asked [2] when he reviewed [1].
-> 
-> [1]
-> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=91db7a3fc7fe670cf1770a398a43bb4a1f776bf1
-> 
-> [2] https://lore.kernel.org/lkml/1733932.VLH7GnMWUR@kista/
-> 
-> I'll prepare the v2 if this change is still desired by Jernej.
-> 
+On Tue, Oct 25, 2022 at 6:58 PM Sergey Senozhatsky
+<senozhatsky@chromium.org> wrote:
+>
+> On (22/10/25 14:55), Yunke Cao wrote:
+> >
+> > +int __uvc_ctrl_get_boundary_std(struct uvc_video_chain *chain,
+> > +                             struct uvc_control *ctrl,
+> > +                             struct uvc_control_mapping *mapping,
+> > +                             struct v4l2_ext_control *xctrl)
+>
+> This should be static, as far as I can tell.
 
-Ah, OK. That was not obvious to me :-)
-
-I'll mark this v1 patch as 'Changes Requested' in patchwork.
-
-Thank you for the explanation!
-
-Regards,
-
-	Hans
+Ah, thanks!
