@@ -2,82 +2,130 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3F5C460D0BE
-	for <lists+linux-media@lfdr.de>; Tue, 25 Oct 2022 17:36:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E372060D0BB
+	for <lists+linux-media@lfdr.de>; Tue, 25 Oct 2022 17:35:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232665AbiJYPgO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 25 Oct 2022 11:36:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50184 "EHLO
+        id S232572AbiJYPfu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 25 Oct 2022 11:35:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46328 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232471AbiJYPgL (ORCPT
+        with ESMTP id S232351AbiJYPfs (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 25 Oct 2022 11:36:11 -0400
-X-Greylist: delayed 410 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 25 Oct 2022 08:36:03 PDT
-Received: from mail.terefe.re (mail.terefe.re [5.255.96.200])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC917F9708
-        for <linux-media@vger.kernel.org>; Tue, 25 Oct 2022 08:36:02 -0700 (PDT)
-Received: from localhost.localdomain (unknown [212.106.161.89])
-        by mail.terefe.re (Postfix) with ESMTPSA id 44E0120AE4;
-        Tue, 25 Oct 2022 17:29:11 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=terefe.re; s=default;
-        t=1666711751; bh=XcxAOdkETChosayCH05m3XXi4Y1joWYPGbXjc9OWTJU=;
-        h=From:To:Cc:Subject:Date:From;
-        b=HqhJyPiS1V9cUBBNalTXwJbQXGNJ4hjnQjxDRRRxwWsDLKg7moxwfnd8SiBLqKPC2
-         0d3jS+P4vYKlQhcflZo/JKKlGLJh3trKHMJYKujDqiFpuXkHlBWriVaDWRSeJ/DSMB
-         iN4WUEmnIqsk5syQCGhMCvL2om1ITu+L2AI6iEp/EY2/+Xp4KtnZqL/0wTiB8eBwz7
-         ePx2tK/fvxoixIid3CkEUSiBJBGGsZZa2z9GaLgHl102t5UfQ/S/vhceYwA8KbQOti
-         zRACYeHcqCHk8/7oyJBVRqlHFG/XmIaXXs4jkpAG/31x3dlSUe6pl/Mw2EKGXXFjGN
-         B6Ntc7KPaI1zQ==
-From:   Tomasz Maciej Nowak <tmn505@terefe.re>
-To:     linux-media@vger.kernel.org,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Tomasz Maciej Nowak <tmn505@gmail.com>
-Subject: [PATCH] media-build: fix menuconfig usage for kernel >= 5.13.0
-Date:   Tue, 25 Oct 2022 17:29:02 +0200
-Message-Id: <20221025152902.14298-1-tmn505@terefe.re>
-X-Mailer: git-send-email 2.38.1
+        Tue, 25 Oct 2022 11:35:48 -0400
+Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::222])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 22060C896D;
+        Tue, 25 Oct 2022 08:35:44 -0700 (PDT)
+Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
+        by mail.gandi.net (Postfix) with ESMTPSA id 49DEE40005;
+        Tue, 25 Oct 2022 15:35:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+        t=1666712142;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=gljpnoLdjIj8FbPBucJH+YyBjAPYhwcjGzRd/+2JJQw=;
+        b=T/k+AbuL8LIp52QrJAzo2LJ42AWkOjjNgtqUWu+ZMYuYLjkK3uHkRY6euDkBQnKVI9swFN
+        eOjXRCVBfx+yazWvnC1AOhcEucXdZPWFju49HXACZIR7D8mRxKNbKpg2QSWDYTFqQcN+sy
+        Y9dbhiVyXdoXaKIevjkUq5tefS2e1VC/T0JcLSt121Yo+11tj33qPc+MJ9qoZXqHrqlxsh
+        LaeJFQJii+k3kuHzbDgEGFsl7CBdrnzDqbo8UQiKjF+WDjbqNrpzUy/QaH5Q30BWBwLU+M
+        7IIibejt4/ltjZ2XrdJXEMLVK0j6ygPsAAzFrlKNc44EqHWs2/T30qqRGGzQzA==
+Date:   Tue, 25 Oct 2022 17:35:33 +0200
+From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+To:     Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>
+Cc:     Dan Carpenter <dan.carpenter@oracle.com>, mripard@kernel.org,
+        mchehab@kernel.org, gregkh@linuxfoundation.org, wens@csie.org,
+        samuel@sholland.org, hverkuil-cisco@xs4all.nl,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 04/11] media: cedrus: Add helper for checking capabilities
+Message-ID: <Y1gCRR8gMwy84WiT@aptenodytes>
+References: <20221024201515.34129-1-jernej.skrabec@gmail.com>
+ <13124586.uLZWGnKmhe@jernej-laptop>
+ <Y1f/U8NxyJo/pMAH@aptenodytes>
+ <8131177.T7Z3S40VBb@jernej-laptop>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="0MKLJJwphdxhPi/7"
+Content-Disposition: inline
+In-Reply-To: <8131177.T7Z3S40VBb@jernej-laptop>
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+        SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Tomasz Maciej Nowak <tmn505@gmail.com>
 
-Because of 6dd85ff178cd ("kconfig: change "modules" from sub-option to
-first-level attribute") in Linux kernel the "option" key-word is not
-recognised anymore. That causes an abort when menuconfig is invoked.
-Fix it by adding proper attribute depending on kernel version the
-media_build is used against.
+--0MKLJJwphdxhPi/7
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Tomasz Maciej Nowak <tmn505@gmail.com>
----
- v4l/scripts/make_kconfig.pl | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+On Tue 25 Oct 22, 17:28, Jernej =C5=A0krabec wrote:
+> Dne torek, 25. oktober 2022 ob 17:22:59 CEST je Paul Kocialkowski napisal=
+(a):
+> > Hi Jernej,
+> >=20
+> > On Tue 25 Oct 22, 17:17, Jernej =C5=A0krabec wrote:
+> > > Dne torek, 25. oktober 2022 ob 08:30:28 CEST je Dan Carpenter napisal=
+(a):
+> > > > On Mon, Oct 24, 2022 at 10:15:08PM +0200, Jernej Skrabec wrote:
+> > > > > There is several different Cedrus cores with varying capabilities=
+, so
+> > > > > some operations like listing formats depends on checks if feature=
+ is
+> > > > > supported or not.
+> > > > >=20
+> > > > > Currently check for capabilities is only in format enumeration he=
+lper,
+> > > > > but it will be used also elsewhere later. Let's convert this chec=
+k to
+> > > > > helper and while at it, also simplify it. There is no need to che=
+ck if
+> > > > > capability mask is zero, condition will still work properly.
+> > > >=20
+> > > > Sure.  That's true.  Out of curiousity, can
+> > > > cedrus_formats[i].capabilities
+> > > > be zero?  Because it feels like that's what should be checked.
+> > >=20
+> > > Yes, it can be. It's the case for V4L2_PIX_FMT_NV12_32L32. All varian=
+ts
+> > > supports it, so there is no special capability needed in order to be
+> > > listed. What would you check in such case? Condition still works for =
+this
+> > > case.
+> > I think the problem is that (bits & 0) =3D=3D 0 is always true.
+> > So if the input caps are 0, we need to make sure to return false.
+>=20
+> No. If format (or any other) capabilities are 0, means they are supported=
+ by=20
+> all variants and it's expected from cedrus_is_capable() to return true.
 
-diff --git a/v4l/scripts/make_kconfig.pl b/v4l/scripts/make_kconfig.pl
-index 69f0c67a37b1..76fbf8a168bc 100755
---- a/v4l/scripts/make_kconfig.pl
-+++ b/v4l/scripts/make_kconfig.pl
-@@ -651,7 +651,11 @@ while (my ($key, $deps) = each %depend) {
- 	print OUT "# Needed by ", join(', ', keys %$deps), "\n";
- 	print OUT "config $key\n\ttristate\n";
- 	print OUT "\tdefault ", qw(n m y)[$kernopts{$key}], "\n\n";
--	print OUT "\toption modules\n" if ($key eq "MODULES");
-+	if (cmp_ver($kernver, '5.13.0') < 0) {
-+		print OUT "\toption modules\n" if ($key eq "MODULES");
-+	} else {
-+		print OUT "\tmodules\n" if ($key eq "MODULES");
-+	}
- }
- close OUT;
- 
--- 
-2.38.1
+Mhh, yeah. Not sure what I was thinking. Sorry for the noise.
 
+Paul
+
+--=20
+Paul Kocialkowski, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
+
+--0MKLJJwphdxhPi/7
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmNYAkUACgkQ3cLmz3+f
+v9ExOgf+JjLX4UvV2q9WgfaedsDfvk8XQ59souVqoWl11kJGfLC74ip19V7R5ttI
+wo4Vl3QiaxHTpEYnd+v2TEMNDQwJtDsiGk5q3WseMkq+43RNU2CVO7+CUHSZOx6P
+YYoAxWRCHLdXReHCGlfLsTc2UrarJpwXrHZmb/90czDBLoLJ2vmlmKPUbGq1lLyx
+EfYgbipaDMydKh5EVaQ8/1cGzDhZ37eUiISHtz/0yppi87pkLPK27AHMKtwSlThU
+GSqVolVkhfnSqDZGFoMsjQ+SiWA+4ff1WSOZeJcEfr0mNoFi0rh0ZWz0mkpZoRfd
+XzMOHG4IkTS/kHaQ9Th2p3x+9ANCXw==
+=8Pgc
+-----END PGP SIGNATURE-----
+
+--0MKLJJwphdxhPi/7--
