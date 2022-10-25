@@ -2,111 +2,150 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BA06B60C33A
-	for <lists+linux-media@lfdr.de>; Tue, 25 Oct 2022 07:27:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D935260C383
+	for <lists+linux-media@lfdr.de>; Tue, 25 Oct 2022 07:55:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230285AbiJYF1b (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 25 Oct 2022 01:27:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48608 "EHLO
+        id S230183AbiJYFzj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 25 Oct 2022 01:55:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43040 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230015AbiJYF1a (ORCPT
+        with ESMTP id S229954AbiJYFzh (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 25 Oct 2022 01:27:30 -0400
-X-Greylist: delayed 1320 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 24 Oct 2022 22:27:29 PDT
-Received: from gateway20.websitewelcome.com (gateway20.websitewelcome.com [192.185.59.4])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 670BEC96FA
-        for <linux-media@vger.kernel.org>; Mon, 24 Oct 2022 22:27:29 -0700 (PDT)
-Received: from atl1wswcm02.websitewelcome.com (unknown [50.6.129.163])
-        by atl1wswob01.websitewelcome.com (Postfix) with ESMTP id C290A400DF01E
-        for <linux-media@vger.kernel.org>; Tue, 25 Oct 2022 05:05:04 +0000 (UTC)
-Received: from br984.hostgator.com.br ([162.241.203.37])
-        by cmsmtp with ESMTP
-        id nC7corLCB4ZGbnC7covSXD; Tue, 25 Oct 2022 05:05:04 +0000
-X-Authority-Reason: nr=8
-Received: from [177.194.67.221] (port=44582 helo=arch-avell.meuintelbras.local)
-        by br984.hostgator.com.br with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.95)
-        (envelope-from <pedro.guilherme@espectro.eng.br>)
-        id 1onC7b-001KDW-Qk;
-        Tue, 25 Oct 2022 02:05:04 -0300
-From:   Pedro Guilherme Siqueira Moreira <pedro.guilherme@espectro.eng.br>
-To:     laurent.pinchart@ideasonboard.com
-Cc:     mchehab@kernel.org, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Pedro Guilherme Siqueira Moreira 
-        <pedro.guilherme@espectro.eng.br>
-Subject: [PATCH v2 3/3] media: uvc_driver: fix usage of symbolic permissions to octal
-Date:   Tue, 25 Oct 2022 02:04:50 -0300
-Message-Id: <20221025050450.1743072-3-pedro.guilherme@espectro.eng.br>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20221025050450.1743072-1-pedro.guilherme@espectro.eng.br>
-References: <20221025050450.1743072-1-pedro.guilherme@espectro.eng.br>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - br984.hostgator.com.br
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - espectro.eng.br
-X-BWhitelist: no
-X-Source-IP: 177.194.67.221
-X-Source-L: No
-X-Exim-ID: 1onC7b-001KDW-Qk
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-Source-Sender: (arch-avell.meuintelbras.local) [177.194.67.221]:44582
-X-Source-Auth: pedro.guilherme@espectro.eng.br
-X-Email-Count: 10
-X-Source-Cap: ZXNwZWN0ODU7ZXNwZWN0ODU7YnI5ODQuaG9zdGdhdG9yLmNvbS5icg==
-X-Local-Domain: yes
-X-CMAE-Envelope: MS4xfM2aUXjP9Lecu7ii4w9lf0kGJyp9zbJN9aTXwlpZbP3OEhjvx0cFMkTBi4Wrd5beaN+1n10mXYmyctsdqiCBOID1XombcPr4eeAWHfKscIMkRlytYLyU
- v2QtOZ+RBYvQOy/22zqTsu111szeMyXSUdM1WRIEdNK7qKS+HtL7oYpy0U6fysdcOUH9zdDV9BZ6Kf2NX2bFwQCD675IoZVqzkJp/+MsaLBCHsM2IcYyuc5m
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_PASS,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+        Tue, 25 Oct 2022 01:55:37 -0400
+Received: from mail-pj1-x104a.google.com (mail-pj1-x104a.google.com [IPv6:2607:f8b0:4864:20::104a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 07F7432B9D
+        for <linux-media@vger.kernel.org>; Mon, 24 Oct 2022 22:55:35 -0700 (PDT)
+Received: by mail-pj1-x104a.google.com with SMTP id lk10-20020a17090b33ca00b0020da9954852so10107345pjb.1
+        for <linux-media@vger.kernel.org>; Mon, 24 Oct 2022 22:55:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=hCTrgj30KiKZFoVMtrvRb/nCA2yDxlk4E13ZcsjVjd4=;
+        b=mj2sN/5WZAvWn0No/3z9RP5jrojsMeaydH+n3/BKEVgJS6gT1D+k4/jOS51G+y5viN
+         KgaGau6+Ehc0+LA5AejG3JwBwn4Z2gvOQWPtqE5DLgpy8F8QW4WyJxdoMY1hC87u7JGX
+         1dFUaUVozfJzX2RZkT2cRt7gQHQ2XRk8ker7mtFaAzoCYhpFDN/ODlQpjAnKF+FzOjz2
+         bFlr+zg8j5Gy+IV5fX45aecLLVRY+SDHr7e0EjgI++UAah/g62qyNQwoO9gEVb0zgj28
+         rPHx/25lIT+zDyRtfvwzxY9yjzNmKdl5qSmOQ2txzFVsVXck/8X7KAtsgtNgjnh2kbJW
+         HRdA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=hCTrgj30KiKZFoVMtrvRb/nCA2yDxlk4E13ZcsjVjd4=;
+        b=k8uIpWiwHIou5VLY9U2rJ2wyYxBu7KipYarcVA8R0t7QuAmkNUwLEsL3YQvRSbjUaG
+         SkJkKuNoM4+uyAl+0R0luEX5HfKfxmAJLqzsJFtTQUqM/58crQr821b9ns8yHSlhEBq+
+         fO4Wy2mEoEpeKBfUM5f8GJkUPCDTMzTIwlYODTfCfS/BYR1sYrvieOnCdy2rMun1UnHl
+         NBOvfGIId3cTz6W3YGQGXiX9ipg011PgkkDNN1amdOuUYVBGxMgylzhNY9MYoRqruOa7
+         Eearbtl3MCmxsm3AkV7grSeyeS0e6jxHFuTuvRTv2KkfU1Jk7GpXNulONY0CT0lw1bRi
+         OVuQ==
+X-Gm-Message-State: ACrzQf0lTYVQFMSh2GOUI1THJqjGXnMDUy8mjZnEMoSvkIHsokGQH2Ko
+        LL9DEPTMfLFh6AVfBTi/bORPGEQvaww=
+X-Google-Smtp-Source: AMsMyM7eTmt6mAtTKMtNR5RgbMFAL1WgbKqJF3U68iO8tay0LV5U7bUhFKCBkT+t0lgnj2jnPhqRb1iCw/0=
+X-Received: from yunkec1.tok.corp.google.com ([2401:fa00:8f:203:7ee8:fa64:12b0:14f3])
+ (user=yunkec job=sendgmr) by 2002:a17:902:eb92:b0:186:7067:3e9a with SMTP id
+ q18-20020a170902eb9200b0018670673e9amr23544462plg.80.1666677334956; Mon, 24
+ Oct 2022 22:55:34 -0700 (PDT)
+Date:   Tue, 25 Oct 2022 14:55:17 +0900
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.38.0.135.g90850a2211-goog
+Message-ID: <20221025055528.1117251-1-yunkec@google.com>
+Subject: [PATCH v9 00/11] media: Implement UVC v1.5 ROI
+From:   Yunke Cao <yunkec@google.com>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Sergey Senozhatsky <senozhatsky@chromium.org>,
+        Ricardo Ribalda <ribalda@chromium.org>,
+        linux-media@vger.kernel.org, Yunke Cao <yunkec@google.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-9.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Change symbolic permissions to octal equivalents as recommended by
-scripts/checkpatch.pl on drivers/media/usb/uvc/uvc_driver.c.
+Hi,
 
-Signed-off-by: Pedro Guilherme Siqueira Moreira <pedro.guilherme@espectro.eng.br>
----
- drivers/media/usb/uvc/uvc_driver.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+This patch set implements UVC v1.5 region of interest using V4L2
+control API.
 
-diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
-index 7b6c97ad3a41..c5adad4e51e2 100644
---- a/drivers/media/usb/uvc/uvc_driver.c
-+++ b/drivers/media/usb/uvc/uvc_driver.c
-@@ -2362,17 +2362,17 @@ static int uvc_clock_param_set(const char *val, const struct kernel_param *kp)
- }
- 
- module_param_call(clock, uvc_clock_param_set, uvc_clock_param_get,
--		  &uvc_clock_param, S_IRUGO|S_IWUSR);
-+		  &uvc_clock_param, 0644);
- MODULE_PARM_DESC(clock, "Video buffers timestamp clock");
--module_param_named(hwtimestamps, uvc_hw_timestamps_param, uint, S_IRUGO|S_IWUSR);
-+module_param_named(hwtimestamps, uvc_hw_timestamps_param, uint, 0644);
- MODULE_PARM_DESC(hwtimestamps, "Use hardware timestamps");
--module_param_named(nodrop, uvc_no_drop_param, uint, S_IRUGO|S_IWUSR);
-+module_param_named(nodrop, uvc_no_drop_param, uint, 0644);
- MODULE_PARM_DESC(nodrop, "Don't drop incomplete frames");
--module_param_named(quirks, uvc_quirks_param, uint, S_IRUGO|S_IWUSR);
-+module_param_named(quirks, uvc_quirks_param, uint, 0644);
- MODULE_PARM_DESC(quirks, "Forced device quirks");
--module_param_named(trace, uvc_dbg_param, uint, S_IRUGO|S_IWUSR);
-+module_param_named(trace, uvc_dbg_param, uint, 0644);
- MODULE_PARM_DESC(trace, "Trace level bitmask");
--module_param_named(timeout, uvc_timeout_param, uint, S_IRUGO|S_IWUSR);
-+module_param_named(timeout, uvc_timeout_param, uint, 0644);
- MODULE_PARM_DESC(timeout, "Streaming control requests timeout");
- 
- /* ------------------------------------------------------------------------
+ROI control is consisted two uvc specific controls.
+1. A rectangle control with a newly added type V4L2_CTRL_TYPE_RECT.
+2. An auto control with type bitmask.
+
+V4L2_CTRL_WHICH_MIN/MAX_VAL is added to support the rectangle control.
+
+Tested on two different usb cameras using v4l2-compliance, v4l2-ctl
+and calling ioctls.
+
+1/11 adds V4L2_CTRL_TYPE_RECT.
+2/11, 3/11, 4/11 refactors uvc_ctrl.c.
+5/11 adds support for compound controls.
+6/11 implements ROI in UVC.
+7/11 initializes ROI control to default value.
+8/11 is a cherry-pick for Hans' implementation of
+V4L2_CTRL_WHICH_MIN/MAX_VAL in v4l2-core.
+9/11 documents min/max for the rectangle control.
+10/11 supports MIN/MAX in UVC.
+11/11 documents the changes.
+
+Hans, Laurent, thank you for the review on v7/v8. 
+It would be great if you can take another look, thanks!
+
+Changelog since v8:
+- Rebased onto media-stage master (v6.1-rc2).
+- Addressed Hans' comments in 8/11 v4l2-ctrls: add support for
+  V4L2_CTRL_WHICH_MIN/MAX_VAL. Including adding a new documentation patch
+  9/11.
+Changelog since v7:
+- Rebased onto media-stage master.
+- Move the factoring logic from 5/10 to 2/10 and 3/10 (new patch in v8).
+- In patch 4/10, split uvc_control_mapping.size to v4l2 and data size.
+- Move initializing ROI control from 5/10 into its own patch 7/10.
+- Address some comments. Changelogs are in patches.
+
+Hans Verkuil (1):
+  v4l2-ctrls: add support for V4L2_CTRL_WHICH_MIN/MAX_VAL
+
+Yunke Cao (10):
+  media: v4l2_ctrl: Add V4L2_CTRL_TYPE_RECT
+  media: uvcvideo: add uvc_ctrl_get_boundary for getting default value
+  media: uvcvideo: introduce __uvc_ctrl_get_std()
+  media: uvcvideo: Split uvc_control_mapping.size to v4l2 and data size
+  media: uvcvideo: Add support for compound controls
+  media: uvcvideo: implement UVC v1.5 ROI
+  media: uvcvideo: initilaize ROI control to default value
+  media: v4l2: document the usage of min/max for V4L2_CTRL_TYPE_RECT
+  media: uvcvideo: support V4L2_CTRL_WHICH_MIN/MAX_VAL
+  media: uvcvideo: document UVC v1.5 ROI
+
+ .../userspace-api/media/drivers/uvcvideo.rst  |  64 +-
+ .../media/v4l/vidioc-g-ext-ctrls.rst          |  15 +-
+ .../media/v4l/vidioc-queryctrl.rst            |  11 +
+ .../media/videodev2.h.rst.exceptions          |   3 +
+ drivers/media/i2c/imx214.c                    |   5 +-
+ .../media/platform/qcom/venus/venc_ctrls.c    |   9 +-
+ drivers/media/usb/uvc/uvc_ctrl.c              | 676 ++++++++++++++----
+ drivers/media/usb/uvc/uvc_driver.c            |   2 +-
+ drivers/media/usb/uvc/uvc_v4l2.c              |  22 +-
+ drivers/media/usb/uvc/uvcvideo.h              |  23 +-
+ drivers/media/v4l2-core/v4l2-ctrls-api.c      |  57 +-
+ drivers/media/v4l2-core/v4l2-ctrls-core.c     | 171 ++++-
+ drivers/media/v4l2-core/v4l2-ioctl.c          |   4 +-
+ include/media/v4l2-ctrls.h                    |  36 +-
+ include/uapi/linux/usb/video.h                |   1 +
+ include/uapi/linux/uvcvideo.h                 |  13 +
+ include/uapi/linux/v4l2-controls.h            |   9 +
+ include/uapi/linux/videodev2.h                |   4 +
+ 18 files changed, 923 insertions(+), 202 deletions(-)
+
 -- 
-2.38.1
+2.38.0.135.g90850a2211-goog
 
