@@ -2,121 +2,147 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0A24E60D4A8
-	for <lists+linux-media@lfdr.de>; Tue, 25 Oct 2022 21:25:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 64BE560D548
+	for <lists+linux-media@lfdr.de>; Tue, 25 Oct 2022 22:12:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231470AbiJYTZt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 25 Oct 2022 15:25:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52380 "EHLO
+        id S232859AbiJYUMW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 25 Oct 2022 16:12:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59406 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230397AbiJYTZl (ORCPT
+        with ESMTP id S232781AbiJYUMJ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 25 Oct 2022 15:25:41 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A679D018F
-        for <linux-media@vger.kernel.org>; Tue, 25 Oct 2022 12:25:40 -0700 (PDT)
-Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <mgr@pengutronix.de>)
-        id 1onPYQ-0003UL-0e; Tue, 25 Oct 2022 21:25:38 +0200
-Received: from mgr by ptx.hi.pengutronix.de with local (Exim 4.92)
-        (envelope-from <mgr@pengutronix.de>)
-        id 1onPYP-00045Y-MM; Tue, 25 Oct 2022 21:25:37 +0200
-Date:   Tue, 25 Oct 2022 21:25:37 +0200
-From:   Michael Grzeschik <mgr@pengutronix.de>
-To:     Greg KH <gregkh@linuxfoundation.org>
-Cc:     linux-usb@vger.kernel.org, linux-media@vger.kernel.org,
-        balbi@kernel.org, laurent.pinchart@ideasonboard.com,
-        kernel@pengutronix.de
-Subject: Re: [PATCH v2] usb: gadget: uvc: limit isoc_sg to super speed gadgets
-Message-ID: <20221025192537.GA10842@pengutronix.de>
-References: <20221017221141.3134818-1-m.grzeschik@pengutronix.de>
- <Y1PVhIGlh1uMR2i/@kroah.com>
+        Tue, 25 Oct 2022 16:12:09 -0400
+X-Greylist: delayed 1427 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 25 Oct 2022 13:11:59 PDT
+Received: from gateway30.websitewelcome.com (gateway30.websitewelcome.com [192.185.152.11])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E9477E326
+        for <linux-media@vger.kernel.org>; Tue, 25 Oct 2022 13:11:58 -0700 (PDT)
+Received: from atl1wswcm06.websitewelcome.com (unknown [50.6.129.167])
+        by atl3wswob01.websitewelcome.com (Postfix) with ESMTP id 08F4B1A208C
+        for <linux-media@vger.kernel.org>; Tue, 25 Oct 2022 19:48:09 +0000 (UTC)
+Received: from br984.hostgator.com.br ([162.241.203.37])
+        by cmsmtp with ESMTP
+        id nPuDoB89HPz0tnPuDoUviO; Tue, 25 Oct 2022 19:48:09 +0000
+X-Authority-Reason: nr=8
+Received: from [200.168.210.66] (port=39217 helo=[10.10.85.164])
+        by br984.hostgator.com.br with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+        (Exim 4.95)
+        (envelope-from <pedro.guilherme@espectro.eng.br>)
+        id 1onPuC-001nmw-N6;
+        Tue, 25 Oct 2022 16:48:08 -0300
+Message-ID: <01f80fd2-b869-fb1c-1e97-e4b73ab87605@espectro.eng.br>
+Date:   Tue, 25 Oct 2022 16:48:01 -0300
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="gKMricLos+KVdGMg"
-Content-Disposition: inline
-In-Reply-To: <Y1PVhIGlh1uMR2i/@kroah.com>
-X-Sent-From: Pengutronix Hildesheim
-X-URL:  http://www.pengutronix.de/
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
-X-SA-Exim-Mail-From: mgr@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Subject: Re: [PATCH v2 1/3] media: uvc_driver: fix missing newline after
+ declarations
+Content-Language: en-US
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     mchehab@kernel.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20221025050450.1743072-1-pedro.guilherme@espectro.eng.br>
+ <Y1gwETdTkfAMTB8E@pendragon.ideasonboard.com>
+ <Y1gxfeHa5iOax8BD@pendragon.ideasonboard.com>
+From:   Pedro Guilherme Siqueira Moreira <pedro.guilherme@espectro.eng.br>
+In-Reply-To: <Y1gxfeHa5iOax8BD@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - br984.hostgator.com.br
+X-AntiAbuse: Original Domain - vger.kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - espectro.eng.br
+X-BWhitelist: no
+X-Source-IP: 200.168.210.66
+X-Source-L: No
+X-Exim-ID: 1onPuC-001nmw-N6
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-Source-Sender: ([10.10.85.164]) [200.168.210.66]:39217
+X-Source-Auth: pedro.guilherme@espectro.eng.br
+X-Email-Count: 2
+X-Source-Cap: ZXNwZWN0ODU7ZXNwZWN0ODU7YnI5ODQuaG9zdGdhdG9yLmNvbS5icg==
+X-Local-Domain: yes
+X-CMAE-Envelope: MS4xfMS9zFJyHVH6JoOrVC+uhkgjV9QR/O4X5FfpL3i+jngt1WqQzGtQFeVkTvgkH93L3PmomWPumhxe4NznwHWGxsrp58sS4LFf3ES6q/GPI6NPMO90hpTB
+ lCx0aIZ/W8sPfotWadVUJnCWLY/o9GVp9+fvj6ij5zkqUdhbIKJ08e47op5kr3XUmJhVsQPabkFjUOA3oDq5PkyT+eMqbCuN4QeF+babJON9ZNiv+DBg6KS+
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,
+        URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Laurent,
 
---gKMricLos+KVdGMg
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Thank you for the info and for accepting my patch!  I'll better revise 
+the subject lines from now on.
 
-Hi!
-
-On Sat, Oct 22, 2022 at 01:35:32PM +0200, Greg KH wrote:
->On Tue, Oct 18, 2022 at 12:11:41AM +0200, Michael Grzeschik wrote:
->> The overhead of preparing sg data is high for transfers with limited
->> payload. When transferring isoc over high-speed usb the maximum payload
->> is rather small which is a good argument no to use sg. This patch is
->> changing the uvc_video_encode_isoc_sg encode function only to be used
->> for super speed gadgets.
+On 25/10/2022 15:57, Laurent Pinchart wrote:
+> I forgot to mention, the subject line should start with "media:
+> uvcvideo:", not "media: uvc_driver:". You can have a look at the git log
+> to see how subject lines are usually formatted for a driver or
+> subsystem.
+> 
+> No need to send a v3, I'll change this in my tree, for all three patches
+> in the series.
+> 
+> On Tue, Oct 25, 2022 at 09:51:03PM +0300, Laurent Pinchart wrote:
+>> Hi Pedro,
 >>
->> Signed-off-by: Michael Grzeschik <m.grzeschik@pengutronix.de>
+>> Thank you for the patch.
 >>
->> ---
->> v1 -> v2: - always setting mem and sg elements since now both is working=
- in runtime
->
->I'm guessing this is a "fix"?  If so, what commit id is this a fix for?
+>> On Tue, Oct 25, 2022 at 02:04:48AM -0300, Pedro Guilherme Siqueira Moreira wrote:
+>>> Fixes 'Missing a blank line after declarations' warning issued by
+>>> scripts/checkpatch.pl on drivers/media/usb/uvc/uvc_driver.c
+>>>
+>>> Signed-off-by: Pedro Guilherme Siqueira Moreira <pedro.guilherme@espectro.eng.br>
+>>
+>> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+>>
+>>> ---
+>>>   drivers/media/usb/uvc/uvc_driver.c | 4 ++++
+>>>   1 file changed, 4 insertions(+)
+>>>
+>>> diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
+>>> index 215fb483efb0..b591ad823c66 100644
+>>> --- a/drivers/media/usb/uvc/uvc_driver.c
+>>> +++ b/drivers/media/usb/uvc/uvc_driver.c
+>>> @@ -732,6 +732,7 @@ static int uvc_parse_streaming(struct uvc_device *dev,
+>>>   	/* Parse the alternate settings to find the maximum bandwidth. */
+>>>   	for (i = 0; i < intf->num_altsetting; ++i) {
+>>>   		struct usb_host_endpoint *ep;
+>>> +
+>>>   		alts = &intf->altsetting[i];
+>>>   		ep = uvc_find_endpoint(alts,
+>>>   				streaming->header.bEndpointAddress);
+>>> @@ -1859,12 +1860,14 @@ static void uvc_delete(struct kref *kref)
+>>>   
+>>>   	list_for_each_safe(p, n, &dev->chains) {
+>>>   		struct uvc_video_chain *chain;
+>>> +
+>>>   		chain = list_entry(p, struct uvc_video_chain, list);
+>>>   		kfree(chain);
+>>>   	}
+>>>   
+>>>   	list_for_each_safe(p, n, &dev->entities) {
+>>>   		struct uvc_entity *entity;
+>>> +
+>>>   		entity = list_entry(p, struct uvc_entity, list);
+>>>   #ifdef CONFIG_MEDIA_CONTROLLER
+>>>   		uvc_mc_cleanup_entity(entity);
+>>> @@ -1874,6 +1877,7 @@ static void uvc_delete(struct kref *kref)
+>>>   
+>>>   	list_for_each_safe(p, n, &dev->streams) {
+>>>   		struct uvc_streaming *streaming;
+>>> +
+>>>   		streaming = list_entry(p, struct uvc_streaming, list);
+>>>   		usb_driver_release_interface(&uvc_driver.driver,
+>>>   			streaming->intf);
+> 
 
-This is not a fix but a feature. I am working to improve it
-also to work with dmabuf memory comming in as vaddr. This needs some
-extra mapping. Since you already took this patch, I will send fix for
-this one then.
-
->And any reason you aren't cc:ing me on these patches?
-
-This was not intentional. I have my scripts that I usually recycle.
-They probably need to be updatet.
-
-Thanks,
-Michael
-
---=20
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
-
---gKMricLos+KVdGMg
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEElXvEUs6VPX6mDPT8C+njFXoeLGQFAmNYOC8ACgkQC+njFXoe
-LGQ++Q//RCjJ89tZWPNGhuDWpfgDTHCLKrASrUIBJbrwkbOUKs69DBoLOL02YQ9y
-EJnT5Sij3p+3Czqf/K9t9gCz7pxaiL4778FRClwU4ab+LoBBPE94zaUVNsTKAsXf
-scQiD601XMPuS2AffbbwgNw1cZs7BodnIg7Jh4B/ekgB0Vp4hq/Rl5NDOR0oOLUW
-A6epq2TCPkKYLTZ6TZoZMETW230ySin+GfGfaX9zOSozdvBEN70uWDOxu+YFR1iE
-r6dp3NJ3bhLq93CPC43+cM7ojhO5FfvSFk9bDMWisH0c7pPY1H1Ziob5yU45uLno
-4+A9siocTzmCl7KZLvRa9CjBh2tAAhuqU1lQSGrnarDuzoWqgqRRDyn81eMM38KR
-G8mH6oEHOH6dYmq9ZBSLMncTLfxwBRBD0bab6zluCNcBxim+2HALdUKuBDgyKMXk
-bk/c7Lyk9zw6VLV7H5OU1y0EIl65B0VmldZsbXbEJ3NRFpmMJcqDxq8GAzeVQT3L
-7rBygtqq2lsec52Krf9PVGla7x5zfN4DRnOlOFHJnI+ZpUgsc+MTaQ1bOWrbpXKu
-WfrL3Qki/yLJc2if0nuss7MMn7zVwK4CbRbawLaeQ/NPalzFcKiP1Cz3V+VqNqQF
-JFPEcGv7HnSElkGnsh57dAKb3JrrBnUmzviXS94A9wdSppPDA5E=
-=Bh+Y
------END PGP SIGNATURE-----
-
---gKMricLos+KVdGMg--
+-- 
+Regards,
+Pedro
