@@ -2,101 +2,118 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BE33360D022
-	for <lists+linux-media@lfdr.de>; Tue, 25 Oct 2022 17:17:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C63BA60D076
+	for <lists+linux-media@lfdr.de>; Tue, 25 Oct 2022 17:24:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233010AbiJYPRw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 25 Oct 2022 11:17:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40546 "EHLO
+        id S233101AbiJYPYu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 25 Oct 2022 11:24:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34602 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232694AbiJYPRu (ORCPT
+        with ESMTP id S233339AbiJYPYa (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 25 Oct 2022 11:17:50 -0400
-Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com [IPv6:2a00:1450:4864:20::42a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F2A62303D3;
-        Tue, 25 Oct 2022 08:17:49 -0700 (PDT)
-Received: by mail-wr1-x42a.google.com with SMTP id h9so10560370wrt.0;
-        Tue, 25 Oct 2022 08:17:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ZNYnzxUYxZx4XD4Lwaw+hJ+8re+ot06tXHAq9yK6z6I=;
-        b=lLz0o4cAIskTwp7ABd3e6vyx5q9XxRcKxkusLDtvncdPEUydTQN6ylznML/3yB/0B6
-         Y9gCW+xnxc00wI62CK2Id71kIm2nTL5yZ6A9kA4FnEBAnSCc+YMg/zWSLzBdSSwxqcbO
-         Q2tBKIH/Q5WtjxR1VQVZ0eHNyECpX6rskKU9JCTZT3eWsAvwGobcfo8EFNJt5Uih/aue
-         lWPYXHA6lKVRqJyFit/eNyzZqiib9/lf19QFCa61PAguWbmSrV6SWapCKMCjARNSzg89
-         2E82SAv44NB+Irys2ei9Y6ka7JobgmEq+Vym3LLPyxclsI3iiYFhh9QZhsqc/ZSXWigz
-         iLMw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ZNYnzxUYxZx4XD4Lwaw+hJ+8re+ot06tXHAq9yK6z6I=;
-        b=z/vBgpzgtVISuEBdSYqYJgN0Y1hieZ4Tppqc6SQJFhNrUUPaFQMgyzgJ09cpNV6Na+
-         oRVMcrkZYPKjSI5lFmSVVuEukRMI+YVl/dr0B9eULJYNDdUWMBswKpJQl1iCnQLnBNK3
-         gO86RK6flLq5XX578lXD94HO5P7cUD7++URC6u/OJX4s1W/emCopBpOpqKTBXIEBGfzY
-         StBYh49oSrYyX/bAnDBHBp/ssY0/M/LOi1kMDf9uotsU3Lkp0EYH3iW5/H8gkBq2VlxE
-         A5W7ZWeEiBg11//nANNd+UxAXr/dEktqrApMQ47kedH7GGDgmjF/7k+9iroZ0RQQZYPh
-         6Z9g==
-X-Gm-Message-State: ACrzQf3GG5owX9Qjz9KtC4o3d7BVX3wnXso3ws0n8v5QFmWZXWljdPZJ
-        LbU2vF0r22i0pufxYOnjLc4=
-X-Google-Smtp-Source: AMsMyM4k+sL9ejhrgxIrUG2j+VYySP/clvgyL/EnFgkDZ96m1kQCxllzpWiqTW4fA086/Ds6KHJt9w==
-X-Received: by 2002:adf:ba8f:0:b0:22c:def3:1179 with SMTP id p15-20020adfba8f000000b0022cdef31179mr26168784wrg.571.1666711068568;
-        Tue, 25 Oct 2022 08:17:48 -0700 (PDT)
-Received: from jernej-laptop.localnet (82-149-19-102.dynamic.telemach.net. [82.149.19.102])
-        by smtp.gmail.com with ESMTPSA id f9-20020a5d5689000000b0022e3538d305sm3358017wrv.117.2022.10.25.08.17.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Oct 2022 08:17:48 -0700 (PDT)
-From:   Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To:     Dan Carpenter <dan.carpenter@oracle.com>
-Cc:     mripard@kernel.org, paul.kocialkowski@bootlin.com,
+        Tue, 25 Oct 2022 11:24:30 -0400
+Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A6D32BB1A;
+        Tue, 25 Oct 2022 08:23:05 -0700 (PDT)
+Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
+        by mail.gandi.net (Postfix) with ESMTPSA id 4ECFF240003;
+        Tue, 25 Oct 2022 15:23:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+        t=1666711384;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=qDzusZ9A8zw1jVXS4iAKbgJV8r3mCHdkLf1MyFvx4gk=;
+        b=WyQWk65ertDntaKhrGj2iEo9HpiA+d4viIf1ns4+LTjL95FFJj5RygO21qTem71T734nMU
+        XuFdPvOe3SmnjD1hJ+Z/cEwn0j4R4PsZlGPJ8Fldbt43ScGRbt0KWzH2gPCBXrdb7pMqCt
+        tmpzhW6N+nEO+LS8MnOFxA5edif7JHq89c1iXH4YiwaCcDLCNgJsNYWgM782c1EHXKwSN/
+        vu/Q6w3dgJv/6gDN43FtD61zcadhTxBb8NZ0ZAqiQo5xICYa89ushQMdyJzT3U3yg16Dtb
+        cP1yW44UuAwQD2fUa761qEcPQnDGHLAXciStnBRnV+Rv6AG2+zVCFLqtdyyYug==
+Date:   Tue, 25 Oct 2022 17:22:59 +0200
+From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+To:     Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>
+Cc:     Dan Carpenter <dan.carpenter@oracle.com>, mripard@kernel.org,
         mchehab@kernel.org, gregkh@linuxfoundation.org, wens@csie.org,
         samuel@sholland.org, hverkuil-cisco@xs4all.nl,
         linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
         linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
         linux-kernel@vger.kernel.org
 Subject: Re: [PATCH 04/11] media: cedrus: Add helper for checking capabilities
-Date:   Tue, 25 Oct 2022 17:17:47 +0200
-Message-ID: <13124586.uLZWGnKmhe@jernej-laptop>
-In-Reply-To: <Y1eChJS/0aEchtpH@kadam>
-References: <20221024201515.34129-1-jernej.skrabec@gmail.com> <20221024201515.34129-5-jernej.skrabec@gmail.com> <Y1eChJS/0aEchtpH@kadam>
+Message-ID: <Y1f/U8NxyJo/pMAH@aptenodytes>
+References: <20221024201515.34129-1-jernej.skrabec@gmail.com>
+ <20221024201515.34129-5-jernej.skrabec@gmail.com>
+ <Y1eChJS/0aEchtpH@kadam>
+ <13124586.uLZWGnKmhe@jernej-laptop>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="W34rlajBUncxrU/f"
+Content-Disposition: inline
+In-Reply-To: <13124586.uLZWGnKmhe@jernej-laptop>
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Dne torek, 25. oktober 2022 ob 08:30:28 CEST je Dan Carpenter napisal(a):
-> On Mon, Oct 24, 2022 at 10:15:08PM +0200, Jernej Skrabec wrote:
-> > There is several different Cedrus cores with varying capabilities, so
-> > some operations like listing formats depends on checks if feature is
-> > supported or not.
-> > 
-> > Currently check for capabilities is only in format enumeration helper,
-> > but it will be used also elsewhere later. Let's convert this check to
-> > helper and while at it, also simplify it. There is no need to check if
-> > capability mask is zero, condition will still work properly.
-> 
-> Sure.  That's true.  Out of curiousity, can cedrus_formats[i].capabilities
-> be zero?  Because it feels like that's what should be checked.
 
-Yes, it can be. It's the case for V4L2_PIX_FMT_NV12_32L32. All variants 
-supports it, so there is no special capability needed in order to be listed. 
-What would you check in such case? Condition still works for this case.
+--W34rlajBUncxrU/f
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Best regards,
-Jernej
+Hi Jernej,
 
+On Tue 25 Oct 22, 17:17, Jernej =C5=A0krabec wrote:
+> Dne torek, 25. oktober 2022 ob 08:30:28 CEST je Dan Carpenter napisal(a):
+> > On Mon, Oct 24, 2022 at 10:15:08PM +0200, Jernej Skrabec wrote:
+> > > There is several different Cedrus cores with varying capabilities, so
+> > > some operations like listing formats depends on checks if feature is
+> > > supported or not.
+> > >=20
+> > > Currently check for capabilities is only in format enumeration helper,
+> > > but it will be used also elsewhere later. Let's convert this check to
+> > > helper and while at it, also simplify it. There is no need to check if
+> > > capability mask is zero, condition will still work properly.
+> >=20
+> > Sure.  That's true.  Out of curiousity, can cedrus_formats[i].capabilit=
+ies
+> > be zero?  Because it feels like that's what should be checked.
+>=20
+> Yes, it can be. It's the case for V4L2_PIX_FMT_NV12_32L32. All variants=
+=20
+> supports it, so there is no special capability needed in order to be list=
+ed.=20
+> What would you check in such case? Condition still works for this case.
 
+I think the problem is that (bits & 0) =3D=3D 0 is always true.
+So if the input caps are 0, we need to make sure to return false.
 
+Cheers,
 
+Paul
+
+--=20
+Paul Kocialkowski, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
+
+--W34rlajBUncxrU/f
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmNX/1MACgkQ3cLmz3+f
+v9Hflwf/W2MqmRYak1O1TUFjnU5lVd99pw1YkGwToYlc9u+6GUXrUy0MBg0vXhOB
+o0P+HJNDhO1cRPqpTWcL3B3dJ13j0RhTHOGQNFVtkedHoWsRKM3OGCYHlGgMwGQm
+FBYMx7GgV6HkB3uox/fY60RAqYG42RWkm6h+lVwdb/771kNvEBDYX1U/rrQaLSCY
+uh/6uKNqO6EtUaLYI/ox+7C35G2DZepkHz+9miOY7KDdgXBloFKA+9t8OdjYx899
+KROzq5yjNk04Jbe3xFX9B2saxt8Y6OlxcElLKyZFBJ1NhjaGss14BToEH9etGQ/8
+6gSrdpjlnmrKeVQvEFKhIhKxx56bpw==
+=0zvP
+-----END PGP SIGNATURE-----
+
+--W34rlajBUncxrU/f--
