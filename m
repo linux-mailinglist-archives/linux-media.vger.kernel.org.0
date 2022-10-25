@@ -2,200 +2,461 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 13B8860CB6C
-	for <lists+linux-media@lfdr.de>; Tue, 25 Oct 2022 14:00:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 84FCF60CC62
+	for <lists+linux-media@lfdr.de>; Tue, 25 Oct 2022 14:48:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230179AbiJYMAJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 25 Oct 2022 08:00:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43246 "EHLO
+        id S232406AbiJYMsa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 25 Oct 2022 08:48:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40624 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229995AbiJYMAH (ORCPT
+        with ESMTP id S232419AbiJYMr6 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 25 Oct 2022 08:00:07 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E277A3CBD1
-        for <linux-media@vger.kernel.org>; Tue, 25 Oct 2022 05:00:05 -0700 (PDT)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <mgr@pengutronix.de>)
-        id 1onIbD-000512-V4; Tue, 25 Oct 2022 14:00:04 +0200
-Received: from [2a0a:edc0:0:1101:1d::ac] (helo=dude04.red.stw.pengutronix.de)
-        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-        (envelope-from <mgr@pengutronix.de>)
-        id 1onIbD-000Ifp-W1; Tue, 25 Oct 2022 14:00:03 +0200
-Received: from mgr by dude04.red.stw.pengutronix.de with local (Exim 4.94.2)
-        (envelope-from <mgr@pengutronix.de>)
-        id 1onIbC-004aN0-CY; Tue, 25 Oct 2022 14:00:02 +0200
-From:   Michael Grzeschik <m.grzeschik@pengutronix.de>
-To:     linux-usb@vger.kernel.org
-Cc:     linux-media@vger.kernel.org, balbi@kernel.org,
-        laurent.pinchart@ideasonboard.com, kernel@pengutronix.de
-Subject: [RESEND v4] usb: gadget: uvc: add validate and fix function for uvc response
-Date:   Tue, 25 Oct 2022 13:59:59 +0200
-Message-Id: <20221025115959.1092504-1-m.grzeschik@pengutronix.de>
-X-Mailer: git-send-email 2.30.2
+        Tue, 25 Oct 2022 08:47:58 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7A2E01929B0;
+        Tue, 25 Oct 2022 05:46:03 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (unknown [95.214.66.65])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7A1BB8BF;
+        Tue, 25 Oct 2022 14:46:01 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1666701961;
+        bh=KkV5bU+3bHvkHXA0jMekZn25qpK93fpbfJkxiYMk7N0=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Qjc0CXnNKUwbhlTP+OCFtQdpj6OvGGBmqW2NrCbYkoVMWpPCKZQd5P6vUVWGZHh5F
+         96v4/dOkE8uNTIBkAlm1U9OQ5fnDbkFk86gk2dyWX/eGzJnGo01an8GP3oRd0isLfX
+         /oEon9tNUkHCKbaYBbqk6Ib9z+47ynOPq7x6TsaU=
+Date:   Tue, 25 Oct 2022 15:45:36 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Ricardo Ribalda <ribalda@chromium.org>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-kernel@vger.kernel.org, Tomasz Figa <tfiga@chromium.org>,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH v1 3/3] media: uvcvideo: Do power management granularly
+Message-ID: <Y1facEGMo+N1v0RU@pendragon.ideasonboard.com>
+References: <20220920-resend-powersave-v1-0-123aa2ba3836@chromium.org>
+ <20220920-resend-powersave-v1-3-123aa2ba3836@chromium.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: mgr@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20220920-resend-powersave-v1-3-123aa2ba3836@chromium.org>
+X-Spam-Status: No, score=1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_SBL_CSS,SPF_HELO_PASS,
+        SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Level: *
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-When the userspace gets the setup requests for UVC_GET_CUR UVC_GET_MIN,
-UVC_GET_MAX, UVC_GET_DEF it will fill out the ctrl response. This data
-needs to be validated. Since the kernel also knows the limits for valid
-cases, it can fixup the values in case the userspace is setting invalid
-data.
+Hi Ricardo,
 
-Signed-off-by: Michael Grzeschik <m.grzeschik@pengutronix.de>
+Thank you for the patch.
 
----
-v1 -> v4:
-- new patch
+On Tue, Sep 20, 2022 at 04:09:52PM +0200, Ricardo Ribalda wrote:
+> Instead of suspending/resume the USB device at open()/close(), do it
+> when the device is actually used.
+> 
+> This way we can reduce the power consumption when a service is holding
+> the video device and leaving it in an idle state.
+> 
+> Reviewed-by: Tomasz Figa <tfiga@chromium.org>
+> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> 
+> diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/uvc_v4l2.c
+> index 8d5002543e2c..b9642afabd9b 100644
+> --- a/drivers/media/usb/uvc/uvc_v4l2.c
+> +++ b/drivers/media/usb/uvc/uvc_v4l2.c
+> @@ -25,6 +25,46 @@
+>  
+>  #include "uvcvideo.h"
+>  
+> +/* ------------------------------------------------------------------------
+> + * UVC power management
+> + */
+> +
+> +static int uvc_pm_get(struct uvc_streaming *stream)
+> +{
+> +	int ret = 0;
 
-Since the patch:
+No need to initialize ret to 0.
 
-  d182bf156c4 (usb: gadget: uvc: default the ctrl request interface offset)
+> +
+> +	ret = usb_autopm_get_interface(stream->dev->intf);
+> +	if (ret)
+> +		return ret;
+> +
+> +	mutex_lock(&stream->dev->lock);
+> +	if (!stream->dev->users)
+> +		ret = uvc_status_start(stream->dev, GFP_KERNEL);
 
-is now in the usb-next tree, I resend this patch again, as it is no part
-of any series anymore.
+For devices that don't have a status endpoint, we will end up calling
+uvc_status_start() and uvc_status_stop() around most ioctl calls (all
+call sites of uvc_pm_get() and uvc_pm_put() below). uvc_status_start()
+and uvc_status_stop() are no-op in that case, but conceptually I don't
+think that's very nice. Could we instead keep the status start/stop
+calls to open()/release() ?
 
- drivers/usb/gadget/function/f_uvc.c    |  4 +-
- drivers/usb/gadget/function/uvc.h      |  1 +
- drivers/usb/gadget/function/uvc_v4l2.c | 76 ++++++++++++++++++++++++++
- 3 files changed, 80 insertions(+), 1 deletion(-)
+If you don't mind, I'll give this a try and post a new version of the
+patch, that should be faster than going through another review round.
 
-diff --git a/drivers/usb/gadget/function/f_uvc.c b/drivers/usb/gadget/function/f_uvc.c
-index 6e131624011a5e..098bd3c4e3c0b3 100644
---- a/drivers/usb/gadget/function/f_uvc.c
-+++ b/drivers/usb/gadget/function/f_uvc.c
-@@ -254,8 +254,10 @@ uvc_function_setup(struct usb_function *f, const struct usb_ctrlrequest *ctrl)
- 	 */
- 	mctrl = &uvc_event->req;
- 	mctrl->wIndex &= ~cpu_to_le16(0xff);
--	if (interface == uvc->streaming_intf)
-+	if (interface == uvc->streaming_intf) {
-+		uvc->streaming_request = ctrl->bRequest;
- 		mctrl->wIndex = cpu_to_le16(UVC_STRING_STREAMING_IDX);
-+	}
- 
- 	v4l2_event_queue(&uvc->vdev, &v4l2_event);
- 
-diff --git a/drivers/usb/gadget/function/uvc.h b/drivers/usb/gadget/function/uvc.h
-index 40226b1f7e148a..1be4d5f24b46bf 100644
---- a/drivers/usb/gadget/function/uvc.h
-+++ b/drivers/usb/gadget/function/uvc.h
-@@ -151,6 +151,7 @@ struct uvc_device {
- 	void *control_buf;
- 
- 	unsigned int streaming_intf;
-+	unsigned char streaming_request;
- 
- 	/* Events */
- 	unsigned int event_length;
-diff --git a/drivers/usb/gadget/function/uvc_v4l2.c b/drivers/usb/gadget/function/uvc_v4l2.c
-index c4ed48d6b8a407..d67aef71f8afc3 100644
---- a/drivers/usb/gadget/function/uvc_v4l2.c
-+++ b/drivers/usb/gadget/function/uvc_v4l2.c
-@@ -178,6 +178,67 @@ static struct uvcg_frame *find_closest_frame_by_size(struct uvc_device *uvc,
-  * Requests handling
-  */
- 
-+/* validate and fixup streaming ctrl request response data if possible */
-+static void
-+uvc_validate_streaming_ctrl(struct uvc_device *uvc,
-+			    struct uvc_streaming_control *ctrl)
-+{
-+	struct f_uvc_opts *opts = fi_to_f_uvc_opts(uvc->func.fi);
-+	unsigned int iformat, iframe;
-+	struct uvcg_format *uformat;
-+	struct uvcg_frame *uframe;
-+	bool ival_found = false;
-+	int i;
-+
-+	iformat = ctrl->bFormatIndex;
-+	iframe = ctrl->bFrameIndex;
-+
-+	/* Restrict the iformat, iframe and dwFrameInterval to valid values.
-+	 * Negative values for iformat and iframe will result in the maximum
-+	 * valid value being selected
-+	 */
-+	iformat = clamp((unsigned int)iformat, 1U,
-+			(unsigned int)uvc->header->num_fmt);
-+	if (iformat != ctrl->bFormatIndex) {
-+		uvcg_info(&uvc->func,
-+			  "Userspace set invalid Format Index - fixup\n");
-+		ctrl->bFormatIndex = iformat;
-+	}
-+	uformat = find_format_by_index(uvc, iformat);
-+
-+	iframe = clamp((unsigned int)iframe, 1U,
-+		       (unsigned int)uformat->num_frames);
-+	if (iframe != ctrl->bFrameIndex) {
-+		uvcg_info(&uvc->func,
-+			  "Userspace set invalid Frame Index - fixup\n");
-+		ctrl->bFrameIndex = iframe;
-+	}
-+	uframe = find_frame_by_index(uvc, uformat, iframe);
-+
-+	if (ctrl->dwFrameInterval) {
-+		for (i = 0; i < uframe->frame.b_frame_interval_type; i++) {
-+			if (ctrl->dwFrameInterval ==
-+				 uframe->dw_frame_interval[i])
-+				ival_found = true;
-+		}
-+	}
-+	if (!ival_found) {
-+		uvcg_info(&uvc->func,
-+			  "Userspace set invalid Frame Inteval - fixup\n");
-+		ctrl->dwFrameInterval = uframe->frame.dw_default_frame_interval;
-+	}
-+
-+	if (!ctrl->dwMaxPayloadTransferSize ||
-+			ctrl->dwMaxPayloadTransferSize >
-+				opts->streaming_maxpacket)
-+		ctrl->dwMaxPayloadTransferSize = opts->streaming_maxpacket;
-+
-+	if (!ctrl->dwMaxVideoFrameSize ||
-+			ctrl->dwMaxVideoFrameSize >
-+				uframe->frame.dw_max_video_frame_buffer_size)
-+		ctrl->dwMaxVideoFrameSize = uvc_get_frame_size(uformat, uframe);
-+}
-+
- static int
- uvc_send_response(struct uvc_device *uvc, struct uvc_request_data *data)
- {
-@@ -192,6 +253,21 @@ uvc_send_response(struct uvc_device *uvc, struct uvc_request_data *data)
- 
- 	memcpy(req->buf, data->data, req->length);
- 
-+	/* validate the ctrl content and fixup */
-+	if (!uvc->event_setup_out) {
-+		struct uvc_streaming_control *ctrl = req->buf;
-+
-+		switch (uvc->streaming_request) {
-+		case UVC_GET_CUR:
-+		case UVC_GET_MIN:
-+		case UVC_GET_MAX:
-+		case UVC_GET_DEF:
-+			uvc_validate_streaming_ctrl(uvc, ctrl);
-+		default:
-+			break;
-+		}
-+	}
-+
- 	return usb_ep_queue(cdev->gadget->ep0, req, GFP_KERNEL);
- }
- 
+> +	if (!ret)
+> +		stream->dev->users++;
+> +	mutex_unlock(&stream->dev->lock);
+> +
+> +	if (ret)
+> +		usb_autopm_put_interface(stream->dev->intf);
+> +
+> +	return ret;
+> +}
+> +
+> +static void uvc_pm_put(struct uvc_streaming *stream)
+> +{
+> +	mutex_lock(&stream->dev->lock);
+> +	if (WARN_ON(!stream->dev->users)) {
+> +		mutex_unlock(&stream->dev->lock);
+> +		return;
+> +	}
+> +	stream->dev->users--;
+> +	if (!stream->dev->users)
+> +		uvc_status_stop(stream->dev);
+> +	mutex_unlock(&stream->dev->lock);
+> +
+> +	usb_autopm_put_interface(stream->dev->intf);
+> +}
+> +
+>  /* ------------------------------------------------------------------------
+>   * UVC ioctls
+>   */
+> @@ -249,6 +289,9 @@ static int uvc_v4l2_try_format(struct uvc_streaming *stream,
+>  	 * developers test their webcams with the Linux driver as well as with
+>  	 * the Windows driver).
+>  	 */
+> +	ret = uvc_pm_get(stream);
+> +	if (ret)
+> +		return ret;
+>  	mutex_lock(&stream->mutex);
+>  	if (stream->dev->quirks & UVC_QUIRK_PROBE_EXTRAFIELDS)
+>  		probe->dwMaxVideoFrameSize =
+> @@ -257,6 +300,7 @@ static int uvc_v4l2_try_format(struct uvc_streaming *stream,
+>  	/* Probe the device. */
+>  	ret = uvc_probe_video(stream, probe);
+>  	mutex_unlock(&stream->mutex);
+> +	uvc_pm_put(stream);
+>  	if (ret < 0)
+>  		return ret;
+>  
+> @@ -468,7 +512,13 @@ static int uvc_v4l2_set_streamparm(struct uvc_streaming *stream,
+>  	}
+>  
+>  	/* Probe the device with the new settings. */
+> +	ret = uvc_pm_get(stream);
+> +	if (ret) {
+> +		mutex_unlock(&stream->mutex);
+> +		return ret;
+> +	}
+>  	ret = uvc_probe_video(stream, &probe);
+> +	uvc_pm_put(stream);
+>  	if (ret < 0) {
+>  		mutex_unlock(&stream->mutex);
+>  		return ret;
+> @@ -559,36 +609,29 @@ static int uvc_v4l2_open(struct file *file)
+>  {
+>  	struct uvc_streaming *stream;
+>  	struct uvc_fh *handle;
+> -	int ret = 0;
+>  
+>  	stream = video_drvdata(file);
+>  	uvc_dbg(stream->dev, CALLS, "%s\n", __func__);
+>  
+> -	ret = usb_autopm_get_interface(stream->dev->intf);
+> -	if (ret < 0)
+> -		return ret;
+> -
+>  	/* Create the device handle. */
+>  	handle = kzalloc(sizeof(*handle), GFP_KERNEL);
+> -	if (handle == NULL) {
+> -		usb_autopm_put_interface(stream->dev->intf);
+> +	if (!handle)
+>  		return -ENOMEM;
+> -	}
+>  
+> -	mutex_lock(&stream->dev->lock);
+> -	if (stream->dev->users == 0) {
+> -		ret = uvc_status_start(stream->dev, GFP_KERNEL);
+> -		if (ret < 0) {
+> -			mutex_unlock(&stream->dev->lock);
+> -			usb_autopm_put_interface(stream->dev->intf);
+> +	/*
+> +	 * If the uvc evdev exists we cannot suspend when the device
+> +	 * is idle. Otherwise we will miss button actions.
+> +	 */
+> +	if (stream->dev->input) {
+> +		int ret;
+> +
+> +		ret = uvc_pm_get(stream);
+> +		if (ret) {
+>  			kfree(handle);
+>  			return ret;
+>  		}
+>  	}
+>  
+> -	stream->dev->users++;
+> -	mutex_unlock(&stream->dev->lock);
+> -
+>  	v4l2_fh_init(&handle->vfh, &stream->vdev);
+>  	v4l2_fh_add(&handle->vfh);
+>  	handle->chain = stream->chain;
+> @@ -610,6 +653,12 @@ static int uvc_v4l2_release(struct file *file)
+>  	if (uvc_has_privileges(handle))
+>  		uvc_queue_release(&stream->queue);
+>  
+> +	if (handle->is_streaming)
+> +		uvc_pm_put(stream);
+> +
+> +	if (stream->dev->input)
+> +		uvc_pm_put(stream);
+> +
+>  	/* Release the file handle. */
+>  	uvc_dismiss_privileges(handle);
+>  	v4l2_fh_del(&handle->vfh);
+> @@ -617,12 +666,6 @@ static int uvc_v4l2_release(struct file *file)
+>  	kfree(handle);
+>  	file->private_data = NULL;
+>  
+> -	mutex_lock(&stream->dev->lock);
+> -	if (--stream->dev->users == 0)
+> -		uvc_status_stop(stream->dev);
+> -	mutex_unlock(&stream->dev->lock);
+> -
+> -	usb_autopm_put_interface(stream->dev->intf);
+>  	return 0;
+>  }
+>  
+> @@ -849,9 +892,17 @@ static int uvc_ioctl_streamon(struct file *file, void *fh,
+>  
+>  	if (handle->is_streaming)
+>  		goto unlock;
+> +
+> +	ret = uvc_pm_get(stream);
+> +	if (ret)
+> +		goto unlock;
+> +
+>  	ret = uvc_queue_streamon(&stream->queue, type);
+>  	handle->is_streaming = !ret;
+>  
+> +	if (!handle->is_streaming)
+> +		uvc_pm_put(stream);
+> +
+>  unlock:
+>  	mutex_unlock(&stream->mutex);
+>  
+> @@ -875,6 +926,9 @@ static int uvc_ioctl_streamoff(struct file *file, void *fh,
+>  	ret = uvc_queue_streamoff(&stream->queue, type);
+>  	handle->is_streaming = !!ret;
+>  
+> +	if (!handle->is_streaming)
+> +		uvc_pm_put(stream);
+> +
+>  unlock:
+>  	mutex_unlock(&stream->mutex);
+>  
+> @@ -928,6 +982,7 @@ static int uvc_ioctl_g_input(struct file *file, void *fh, unsigned int *input)
+>  {
+>  	struct uvc_fh *handle = fh;
+>  	struct uvc_video_chain *chain = handle->chain;
+> +	struct uvc_streaming *stream = handle->stream;
+>  	u8 *buf;
+>  	int ret;
+>  
+> @@ -941,9 +996,16 @@ static int uvc_ioctl_g_input(struct file *file, void *fh, unsigned int *input)
+>  	if (!buf)
+>  		return -ENOMEM;
+>  
+> +	ret = uvc_pm_get(stream);
+> +	if (ret) {
+> +		kfree(buf);
+> +		return ret;
+> +	}
+> +
+>  	ret = uvc_query_ctrl(chain->dev, UVC_GET_CUR, chain->selector->id,
+>  			     chain->dev->intfnum,  UVC_SU_INPUT_SELECT_CONTROL,
+>  			     buf, 1);
+> +	uvc_pm_put(stream);
+>  	if (!ret)
+>  		*input = *buf - 1;
+>  
+> @@ -956,6 +1018,7 @@ static int uvc_ioctl_s_input(struct file *file, void *fh, unsigned int input)
+>  {
+>  	struct uvc_fh *handle = fh;
+>  	struct uvc_video_chain *chain = handle->chain;
+> +	struct uvc_streaming *stream = handle->stream;
+>  	u8 *buf;
+>  	int ret;
+>  
+> @@ -977,10 +1040,17 @@ static int uvc_ioctl_s_input(struct file *file, void *fh, unsigned int input)
+>  	if (!buf)
+>  		return -ENOMEM;
+>  
+> +	ret = uvc_pm_get(stream);
+> +	if (ret) {
+> +		kfree(buf);
+> +		return ret;
+> +	}
+> +
+>  	*buf = input + 1;
+>  	ret = uvc_query_ctrl(chain->dev, UVC_SET_CUR, chain->selector->id,
+>  			     chain->dev->intfnum, UVC_SU_INPUT_SELECT_CONTROL,
+>  			     buf, 1);
+> +	uvc_pm_put(stream);
+>  	kfree(buf);
+>  
+>  	return ret;
+> @@ -991,8 +1061,15 @@ static int uvc_ioctl_queryctrl(struct file *file, void *fh,
+>  {
+>  	struct uvc_fh *handle = fh;
+>  	struct uvc_video_chain *chain = handle->chain;
+> +	struct uvc_streaming *stream = handle->stream;
+> +	int ret;
+>  
+> -	return uvc_query_v4l2_ctrl(chain, qc);
+> +	ret = uvc_pm_get(stream);
+> +	if (ret)
+> +		return ret;
+> +	ret = uvc_query_v4l2_ctrl(chain, qc);
+> +	uvc_pm_put(stream);
+> +	return ret;
+>  }
+>  
+>  static int uvc_ioctl_query_ext_ctrl(struct file *file, void *fh,
+> @@ -1000,10 +1077,15 @@ static int uvc_ioctl_query_ext_ctrl(struct file *file, void *fh,
+>  {
+>  	struct uvc_fh *handle = fh;
+>  	struct uvc_video_chain *chain = handle->chain;
+> +	struct uvc_streaming *stream = handle->stream;
+>  	struct v4l2_queryctrl qc = { qec->id };
+>  	int ret;
+>  
+> +	ret = uvc_pm_get(stream);
+> +	if (ret)
+> +		return ret;
+>  	ret = uvc_query_v4l2_ctrl(chain, &qc);
+> +	uvc_pm_put(stream);
+>  	if (ret)
+>  		return ret;
+>  
+> @@ -1049,6 +1131,7 @@ static int uvc_ioctl_g_ext_ctrls(struct file *file, void *fh,
+>  {
+>  	struct uvc_fh *handle = fh;
+>  	struct uvc_video_chain *chain = handle->chain;
+> +	struct uvc_streaming *stream = handle->stream;
+>  	struct v4l2_ext_control *ctrl = ctrls->controls;
+>  	unsigned int i;
+>  	int ret;
+> @@ -1073,22 +1156,30 @@ static int uvc_ioctl_g_ext_ctrls(struct file *file, void *fh,
+>  		return 0;
+>  	}
+>  
+> +	ret = uvc_pm_get(stream);
+> +	if (ret)
+> +		return ret;
+>  	ret = uvc_ctrl_begin(chain);
+> -	if (ret < 0)
+> +	if (ret < 0) {
+> +		uvc_pm_put(stream);
+>  		return ret;
+> +	}
+>  
+>  	for (i = 0; i < ctrls->count; ++ctrl, ++i) {
+>  		ret = uvc_ctrl_get(chain, ctrl);
+>  		if (ret < 0) {
+>  			uvc_ctrl_rollback(handle);
+>  			ctrls->error_idx = i;
+> -			return ret;
+> +			goto done;
+>  		}
+>  	}
+>  
+>  	ctrls->error_idx = 0;
+>  
+> -	return uvc_ctrl_rollback(handle);
+> +	ret = uvc_ctrl_rollback(handle);
+> +done:
+> +	uvc_pm_put(stream);
+> +	return ret;
+>  }
+>  
+>  static int uvc_ioctl_s_try_ext_ctrls(struct uvc_fh *handle,
+> @@ -1097,6 +1188,7 @@ static int uvc_ioctl_s_try_ext_ctrls(struct uvc_fh *handle,
+>  {
+>  	struct v4l2_ext_control *ctrl = ctrls->controls;
+>  	struct uvc_video_chain *chain = handle->chain;
+> +	struct uvc_streaming *stream = handle->stream;
+>  	unsigned int i;
+>  	int ret;
+>  
+> @@ -1104,9 +1196,15 @@ static int uvc_ioctl_s_try_ext_ctrls(struct uvc_fh *handle,
+>  	if (ret < 0)
+>  		return ret;
+>  
+> +	ret = uvc_pm_get(stream);
+> +	if (ret)
+> +		return ret;
+> +
+>  	ret = uvc_ctrl_begin(chain);
+> -	if (ret < 0)
+> +	if (ret < 0) {
+> +		uvc_pm_put(stream);
+>  		return ret;
+> +	}
+>  
+>  	for (i = 0; i < ctrls->count; ++ctrl, ++i) {
+>  		ret = uvc_ctrl_set(handle, ctrl);
+> @@ -1114,16 +1212,20 @@ static int uvc_ioctl_s_try_ext_ctrls(struct uvc_fh *handle,
+>  			uvc_ctrl_rollback(handle);
+>  			ctrls->error_idx = ioctl == VIDIOC_S_EXT_CTRLS ?
+>  						    ctrls->count : i;
+> -			return ret;
+> +			goto done;
+>  		}
+>  	}
+>  
+>  	ctrls->error_idx = 0;
+>  
+>  	if (ioctl == VIDIOC_S_EXT_CTRLS)
+> -		return uvc_ctrl_commit(handle, ctrls);
+> +		ret = uvc_ctrl_commit(handle, ctrls);
+>  	else
+> -		return uvc_ctrl_rollback(handle);
+> +		ret = uvc_ctrl_rollback(handle);
+> +
+> +done:
+> +	uvc_pm_put(stream);
+> +	return ret;
+>  }
+>  
+>  static int uvc_ioctl_s_ext_ctrls(struct file *file, void *fh,
+> @@ -1147,8 +1249,16 @@ static int uvc_ioctl_querymenu(struct file *file, void *fh,
+>  {
+>  	struct uvc_fh *handle = fh;
+>  	struct uvc_video_chain *chain = handle->chain;
+> +	struct uvc_streaming *stream = handle->stream;
+> +	int ret;
+> +
+> +	ret = uvc_pm_get(stream);
+> +	if (ret)
+> +		return ret;
+> +	ret = uvc_query_v4l2_menu(chain, qm);
+> +	uvc_pm_put(stream);
+>  
+> -	return uvc_query_v4l2_menu(chain, qm);
+> +	return ret;
+>  }
+>  
+>  static int uvc_ioctl_g_selection(struct file *file, void *fh,
+> 
+
 -- 
-2.30.2
+Regards,
 
+Laurent Pinchart
