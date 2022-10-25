@@ -2,109 +2,143 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C463D60CE84
-	for <lists+linux-media@lfdr.de>; Tue, 25 Oct 2022 16:13:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E96AC60CF1D
+	for <lists+linux-media@lfdr.de>; Tue, 25 Oct 2022 16:35:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232294AbiJYOM7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 25 Oct 2022 10:12:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45454 "EHLO
+        id S232252AbiJYOfS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 25 Oct 2022 10:35:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38582 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232403AbiJYOM5 (ORCPT
+        with ESMTP id S232097AbiJYOfO (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 25 Oct 2022 10:12:57 -0400
-Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [IPv6:2a0b:5c81:1c1::37])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3C5659B864;
-        Tue, 25 Oct 2022 07:12:54 -0700 (PDT)
-Received: from hillosipuli.retiisi.eu (82-181-192-243.bb.dnainternet.fi [82.181.192.243])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: sailus)
-        by lahtoruutu.iki.fi (Postfix) with ESMTPSA id E46441B0044A;
-        Tue, 25 Oct 2022 17:12:50 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
-        t=1666707171;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=XFL+t8pTLlxshR5Y494Lo/7XFKIEJLwgm1LVi7RCUyc=;
-        b=CRGeKeLobSYGjuleAsTPFcvFtR/AwxK4AoQ2KHLCyOEwAwEnvk/p0elprM291+Ol4gHiFw
-        zqdS77a8+OBIogwIeNdf7VLvFCW/Zgwux1DhiXZ417EmuZytOae67L7CPT4R8Y8bIFWyhn
-        ApIDWgEDf0418GDZliG4PfJx9kCWnH5yiHSeGZMV5jk5Z7dqVnMHwaFcNHDMXzG36cQCYl
-        1knvssY3bHjAdVwnqneQcyuaUoJnkxIv5BiwuTMG1rdOWihvZOhvjlZIYm0kmtMR6Jw+mA
-        UjkuJXUq8MW2a1c37UW6EKhjlPfh7TtTsE57PmPBhh/cHphSr03v7/3lAVVHZA==
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 8A631634DB0;
-        Tue, 25 Oct 2022 17:12:50 +0300 (EEST)
-Date:   Tue, 25 Oct 2022 17:12:50 +0300
-From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     Dave Stevenson <dave.stevenson@raspberrypi.com>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-media@vger.kernel.org,
-        Manivannan Sadhasivam <mani@kernel.org>,
-        Alexander Stein <alexander.stein@ew.tq-group.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        devicetree@vger.kernel.org
-Subject: Re: [PATCH v2 01/20] media: dt-bindings: Convert imx290.txt to YAML
-Message-ID: <Y1fu4krZn+bMPTIs@valkosipuli.retiisi.eu>
-References: <20221016061523.30127-1-laurent.pinchart@ideasonboard.com>
- <20221016061523.30127-2-laurent.pinchart@ideasonboard.com>
- <CAPY8ntCH5qc9cMHEjyX2K-2spibi=zp8vdvexz1Coouyp5sKWg@mail.gmail.com>
+        Tue, 25 Oct 2022 10:35:14 -0400
+Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com [IPv6:2a00:1450:4864:20::631])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 82A1087F9D
+        for <linux-media@vger.kernel.org>; Tue, 25 Oct 2022 07:35:12 -0700 (PDT)
+Received: by mail-ej1-x631.google.com with SMTP id d26so12939998eje.10
+        for <linux-media@vger.kernel.org>; Tue, 25 Oct 2022 07:35:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=cc:to:message-id:date:from:content-transfer-encoding:mime-version
+         :subject:from:to:cc:subject:date:message-id:reply-to;
+        bh=9br0ZyOHSVRhHpxSm/lkMcBl8HPRwiAhy4oQ/5+vON0=;
+        b=NAdRz4uGX5vaYMHtHre85T1/QAn0YaWEuk8cU9Z9GAJwiFmiRCcjFLABG34ksbMNIX
+         2AgLu1CU3iIh1MuYdw+Gkb3zijx+3ja7hOyY94P2ZOFzVTqcvo5bMeCF/GoTKyMY1ou9
+         uKcPMd06uEez4mmoxRRHqSGa5lsGaJkmzIfU8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:message-id:date:from:content-transfer-encoding:mime-version
+         :subject:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=9br0ZyOHSVRhHpxSm/lkMcBl8HPRwiAhy4oQ/5+vON0=;
+        b=76+qs1fwIpMeE7z7tcD9vzHqZG7mPjSUlRnyTKYp+mpvEAnl/pMSNBqomIPtCvCpdV
+         GPFXrhX9xL8LYANbiLtV7qqlgGRfZaUTZohWcD8PPlBBHT6L2w1vNtemcEf8sSopcRVi
+         qR52BCqZYn+PJV9Gpf64rTvWJbDxyiThij7EUr5Kpee6yBLxnAQlBW8gus4yNSDIDrZR
+         /MYD/Qr1LmL6p7WhyYKmp5TZt4VijItqEOpp4HIyuJbHcMtdTFMFJ+1XxJhCXi6+xtr5
+         9OhiqocSUzRLAqYH7r3Avgweb8CE/PVcVWzq6gyFnKy3EOtu1BC6cWx1HAWjwuHed7OH
+         i/rA==
+X-Gm-Message-State: ACrzQf3cYzZrfW/65d5M6k/rcMU84vOIHlapCB+iRgOx9P8k2zHieWOj
+        v/8xYG4SI1zwDq+qn7RgobRMGQ==
+X-Google-Smtp-Source: AMsMyM61qXwVmlnqt0k5KkxZYdzhgAkGlWy2KA4EsgiC22mCWd+K662gcSJCRtVF9teJJTqiudgNzA==
+X-Received: by 2002:a17:906:2a93:b0:78d:b87e:6aab with SMTP id l19-20020a1709062a9300b0078db87e6aabmr32745951eje.157.1666708511050;
+        Tue, 25 Oct 2022 07:35:11 -0700 (PDT)
+Received: from alco.roam.corp.google.com ([2620:0:1059:10:e6ae:c7ac:c234:953c])
+        by smtp.gmail.com with ESMTPSA id e9-20020a170906314900b007acd04fcedcsm631021eje.46.2022.10.25.07.35.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 25 Oct 2022 07:35:10 -0700 (PDT)
+Subject: [PATCH v2 0/8] [RESEND] media: uvcvideo: Implement granular power management
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAPY8ntCH5qc9cMHEjyX2K-2spibi=zp8vdvexz1Coouyp5sKWg@mail.gmail.com>
-ARC-Authentication-Results: i=1;
-        ORIGINATING;
-        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-        s=lahtoruutu; t=1666707171;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=XFL+t8pTLlxshR5Y494Lo/7XFKIEJLwgm1LVi7RCUyc=;
-        b=RHfidUSKTgN0Hn5VvPGupU3ZCvEfedZPJ9LSvsEZ/ilYdpSKyEycs0daofGByhymJNhVQ7
-        j7NnJIKcYk6tyZn674m/qmIOoEz/y4aksGLZJgWYGBe9ZbYBVgS8Ey/xSx/MK+s8ZTyacR
-        KJQ2B/MM9XzInMLAFi7OYsG/St6KSUxey6Vd+QQEvkpMUiKimNdWgILMndilxLwaIDRhpi
-        9IQjDmQz0vWqpgfcWIXwIpMClM9x+HfrB/UDrnnM1sXlQKNK1fL5e0XbVT9cJd6tNfvLI+
-        N2PeQ6DVjfvp5K+A90dT1VU8mZGVc1UdL36J8/HUMot2rIF+O+JwqhmRZ3za/g==
-ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1666707171; a=rsa-sha256;
-        cv=none;
-        b=OJgrF8DWxKGGXg54BH3s328jleHV+ezEWbLWHI7pfjPkQ82F7P2XsVio7TklUUaxaxJSPP
-        rolCmgErFx3WmARbqg5Mng8JWwk3bvuetnpcp84BSA7018b71H/BQeaiVCP9zfYjVyXiaE
-        ym8Mgc6ufpjTIH/9V5b8fdUbzfuOQFf9mz1ZB5TMpMb79yxQx9BPK+DzXAwiphXXaHahs+
-        doEdnPn4XmY+m9OcpYaR0AAwQUrzHStrXK8KRJMFBeuWVdNcO7Fk14TjxAymPH5R3lIKBP
-        /LEwi4r2gISoTXOry2ugDkkPlfnb1PakEE1ybLL2IRPMaN+EYuK/by2hLBfs8g==
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-b4-tracking: H4sIAO3zV2MC/32NTQrCMBCFr1Jm7Ugyxf648h7iIm2HJtAmMmMjUnp3gwdw9fgefO/toCyBFa7VDs
+ I5aEixAJ0qGL2LM2OYCgMZItOTQWHlOOEzvVnUZcZL39nW9jxR00LRBqeMg7g4+iLGbVlK6YO+knx+
+ N9mWuP9ZzBYNWqqdo8HVXd3cRi9pDdt6TjLD4ziOLwiD3s+4AAAA
+From:   Ricardo Ribalda <ribalda@chromium.org>
+Date:   Tue, 25 Oct 2022 16:34:21 +0200
+Message-Id: <20220920-resend-powersave-v2-0-5135d1bb1c38@chromium.org>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Max Staudt <mstaudt@google.com>, linux-media@vger.kernel.org,
+        Tomasz Figa <tfiga@chromium.org>, linux-kernel@vger.kernel.org,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Ricardo Ribalda <ribalda@chromium.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>
+X-Mailer: b4 0.11.0-dev-d93f8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2195; i=ribalda@chromium.org;
+ h=from:subject:message-id; bh=gYbwqdZCjHzTHN76p6vLT9g8wCagTeQkq1M2o9SG/ig=;
+ b=owEBbQKS/ZANAwAKAdE30T7POsSIAcsmYgBjV/Pz3t7i0pQeRgei7wYcq59IisYUZgO1FSKep7HW
+ DevTUTeJAjMEAAEKAB0WIQREDzjr+/4oCDLSsx7RN9E+zzrEiAUCY1fz8wAKCRDRN9E+zzrEiMfpD/
+ wKeFHwQ7Yd35g10O6CpjuxcDxqRM+C6KRi5ku+F6MFlRcd7FAmHntUew7Ply59K8nrUlQHqfPDO3Nv
+ H9DD2L7GP2QLcM+eRtB0ivRuLf92XQKYePJA6oIO8te6wGrk8KFX/nKvt4s6ns9OJv5SXSZzHzF6DH
+ p6x/O1VjJ8qU700kmpWPjzLGSoLIWXwfSiijggfH7Om3M6gImpmI1WIPlPVCD0U08ohRr3KCLcubU5
+ zqJFJDcI/b0UAhYTZgy8Dq0apyNkyqt1rpCty8uPjkayhnJGDAYWJh4/SOzYBVWVdfTUFIGqLXnwOR
+ dmtGMhjIYUHLjevtCacsIiah3t+bW73xERk3HEPebnBhIP6TqoMkS615h/rhGwgYXPIWLs+0Zw0M4F
+ 84iWZQiPxDU7MhJuUEsbUDAAAdWG+uknBg0Nko27cT/BzV0RmRmYXEO3XmXmWMFH+KtIVo23fzZ/oS
+ j6vrd/MIXEF5XTt5EWxYa2ZAykRztgjA3zQNXSknP1oIhgjrVy+j3UX6jwGmBnJDirEbxu8fMH5jk1
+ cEbFb1Hq5Qn7I5DO2ooX9e4TpyZcpBRXKj561lcm4RwKiaxKCYCYtYwE7//FD2GfWasHpWtGVlQuUI
+ HfhUs0wDFVLBK93YBKf1VSsQbf5U7pg+byTniWywvsZWp0Y1nHH3UkiM0BwA==
+X-Developer-Key: i=ribalda@chromium.org; a=openpgp;
+ fpr=9EC3BB66E2FC129A6F90B39556A0D81F9F782DA9
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Dave,
+Instead of suspending/resume the USB device at open()/close(), do it
+when the device is actually used.
 
-On Mon, Oct 17, 2022 at 02:57:58PM +0100, Dave Stevenson wrote:
-> > +                    link-frequencies = /bits/ 64 <445500000>;
-> 
-> Minor nit that this won't work with the current Linux driver due to a
-> driver restriction implementing the recommended settings from Sony.
-> OV8865 has the same restrictions and notes it in the binding[1]. I
-> don't know if this is the preferred approach or not.
+This way we can reduce the power consumption when a service is holding
+the video device and leaving it in an idle state.
 
-The DT describes hardware and is not bound by (current) driver limitations.
-So I'd say that if the hardware supports multiple frequencies, the
-supported ones need to be listed here.
+And now that all the access to the hardware, has a common entry path, 
+use it to fix the race conditions to hardware disconnects.
 
-I'd also like to merge the series, it's been out of tree for long already.
+To: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-media@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Tomasz Figa <tfiga@chromium.org>
+Cc: Alan Stern <stern@rowland.harvard.edu>
+Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc: Guenter Roeck <linux@roeck-us.net>
+Cc: Max Staudt <mstaudt@google.com>
+Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+---
+Changes in v2:
+- Make access to uvc_status contitional
+- Merge with Guenter race condition patchset: https://lore.kernel.org/lkml/20200917022547.198090-1-linux@roeck-us.net/
+- Link to v1: https://lore.kernel.org/r/20220920-resend-powersave-v1-0-123aa2ba3836@chromium.org
 
+---
+Guenter Roeck (4):
+      media: uvcvideo: Cancel async worker earlier
+      media: uvcvideo: Lock video streams and queues while unregistering
+      media: uvcvideo: Release stream queue when unregistering video device
+      media: uvcvideo: Protect uvc queue file operations against disconnect
+
+Ricardo Ribalda (4):
+      media: uvcvideo: Only create input devs if hw supports it
+      media: uvcvideo: Refactor streamon/streamoff
+      media: uvcvideo: Do power management granularly
+      media: uvcvideo: Only call status ep if hw supports it
+
+ drivers/media/usb/uvc/uvc_ctrl.c   |  11 +-
+ drivers/media/usb/uvc/uvc_driver.c |  28 +++++-
+ drivers/media/usb/uvc/uvc_queue.c  |  32 +++++-
+ drivers/media/usb/uvc/uvc_status.c |  34 ++++++-
+ drivers/media/usb/uvc/uvc_v4l2.c   | 201 ++++++++++++++++++++++++++++++-------
+ drivers/media/usb/uvc/uvcvideo.h   |   2 +
+ 6 files changed, 262 insertions(+), 46 deletions(-)
+---
+base-commit: 1a2dcbdde82e3a5f1db9b2f4c48aa1aeba534fb2
+change-id: 20220920-resend-powersave-5981719ed267
+
+Best regards,
 -- 
-Kind regards,
-
-Sakari Ailus
+Ricardo Ribalda <ribalda@chromium.org>
