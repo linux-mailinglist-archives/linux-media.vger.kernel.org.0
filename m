@@ -2,45 +2,35 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8200660CA2C
-	for <lists+linux-media@lfdr.de>; Tue, 25 Oct 2022 12:36:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C0A2060CA3A
+	for <lists+linux-media@lfdr.de>; Tue, 25 Oct 2022 12:41:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232014AbiJYKgO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 25 Oct 2022 06:36:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55390 "EHLO
+        id S232155AbiJYKlo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 25 Oct 2022 06:41:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50482 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231808AbiJYKgL (ORCPT
+        with ESMTP id S231447AbiJYKln (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 25 Oct 2022 06:36:11 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB48E11A1D;
-        Tue, 25 Oct 2022 03:36:08 -0700 (PDT)
-Received: from [192.168.2.138] (109-252-112-196.nat.spd-mgts.ru [109.252.112.196])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        Tue, 25 Oct 2022 06:41:43 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 051BF48C83;
+        Tue, 25 Oct 2022 03:41:42 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        (Authenticated sender: dmitry.osipenko)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 944CD660239C;
-        Tue, 25 Oct 2022 11:36:06 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1666694167;
-        bh=asjeGT77iVFKNvBoOyaKFQC3C+LKDkA03+0QH0yhYDw=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=A8oFHe5QT2rpBTeO3g1xKqFH3MqBiHEtVQD5XLYnX48k1/Sr3bW68/RwvUWNzDNoh
-         yYlaTiq7uOg8ZYqcMeccNE3cd83c9xPHY6hKH3KMe/UmPLemJK4MWAdEUe6lcEHCiu
-         6YBPdxMWAc7ocs5/fwGX5WPTHlDjKsmRY9jo9DcmKS95HkrJPa0S0LK5hTwtm+r196
-         RsVqTCzH7GJ/EitJN+T5xzYw7P1udtStBztJYhLwiDKXIayVDsGs3fYDWr0S41sgKw
-         QXwFxzoZ78wYuFf0LWj/WX1Lx/VnF43H14BTfmcgLv+JBkGjbrZVHuGYzGAPtfnYFZ
-         FcYujIB725WIQ==
-Message-ID: <fcf78a88-ab27-3a6a-db06-66504fc18e10@collabora.com>
-Date:   Tue, 25 Oct 2022 13:36:03 +0300
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 9F53E618A2;
+        Tue, 25 Oct 2022 10:41:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3C550C433D6;
+        Tue, 25 Oct 2022 10:41:38 +0000 (UTC)
+Message-ID: <293e27b5-b7b0-c637-fd3a-2f6dfa507c81@xs4all.nl>
+Date:   Tue, 25 Oct 2022 12:41:36 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.1
+ Thunderbird/102.3.0
 Subject: Re: [PATCH v1] media: cedrus: Propagate error code from
  cedrus_h265_skip_bits()
 Content-Language: en-US
-To:     Hans Verkuil <hverkuil@xs4all.nl>,
+To:     Dmitry Osipenko <dmitry.osipenko@collabora.com>,
         =?UTF-8?Q?Jernej_=c5=a0krabec?= <jernej.skrabec@gmail.com>,
         Maxime Ripard <mripard@kernel.org>,
         Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
@@ -56,54 +46,63 @@ References: <20220914150105.209484-1-dmitry.osipenko@collabora.com>
  <12078224.O9o76ZdvQC@jernej-laptop>
  <3a26e105-9c50-8cdd-b4be-ba97b3306261@collabora.com>
  <1103d833-6c29-6ccb-05dd-a2883eaa2281@xs4all.nl>
-From:   Dmitry Osipenko <dmitry.osipenko@collabora.com>
-In-Reply-To: <1103d833-6c29-6ccb-05dd-a2883eaa2281@xs4all.nl>
+ <fcf78a88-ab27-3a6a-db06-66504fc18e10@collabora.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+In-Reply-To: <fcf78a88-ab27-3a6a-db06-66504fc18e10@collabora.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
-        SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 10/25/22 13:23, Hans Verkuil wrote:
-> On 10/25/22 11:34, Dmitry Osipenko wrote:
->> On 10/25/22 07:59, Jernej Škrabec wrote:
->>> Dne ponedeljek, 24. oktober 2022 ob 13:38:36 CEST je Hans Verkuil napisal(a):
->>>> Hi Dmitry,
->>>>
->>>> This patch has a conflict with this patch from Jernej:
->>>>
->>>> https://patchwork.linuxtv.org/project/linux-media/patch/20221017194413.11983
->>>> 01-1-jernej.skrabec@gmail.com/
->>>>
->>>> I decided to take Jernej's patch first. Can you make a v2 that sits on top
->>>> of that patch?
->>> I believe you already merged first version of the patch for 6.1. No need for 
->>> this version though, first version already solves main issue.
+On 10/25/22 12:36, Dmitry Osipenko wrote:
+> On 10/25/22 13:23, Hans Verkuil wrote:
+>> On 10/25/22 11:34, Dmitry Osipenko wrote:
+>>> On 10/25/22 07:59, Jernej Škrabec wrote:
+>>>> Dne ponedeljek, 24. oktober 2022 ob 13:38:36 CEST je Hans Verkuil napisal(a):
+>>>>> Hi Dmitry,
+>>>>>
+>>>>> This patch has a conflict with this patch from Jernej:
+>>>>>
+>>>>> https://patchwork.linuxtv.org/project/linux-media/patch/20221017194413.11983
+>>>>> 01-1-jernej.skrabec@gmail.com/
+>>>>>
+>>>>> I decided to take Jernej's patch first. Can you make a v2 that sits on top
+>>>>> of that patch?
+>>>> I believe you already merged first version of the patch for 6.1. No need for 
+>>>> this version though, first version already solves main issue.
+>>>
+>>> That was a followup to the first version.
+>>>
 >>
->> That was a followup to the first version.
+>> I have no idea what you are both talking about :-)
 >>
+>> "I believe you already merged first version of the patch for 6.1" Which patch
+>> are you referring to?
 > 
-> I have no idea what you are both talking about :-)
+> This is about [1] that was already merged. This patch implements the
+> error propagation that Jernej asked [2] when he reviewed [1].
 > 
-> "I believe you already merged first version of the patch for 6.1" Which patch
-> are you referring to?
+> [1]
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=91db7a3fc7fe670cf1770a398a43bb4a1f776bf1
+> 
+> [2] https://lore.kernel.org/lkml/1733932.VLH7GnMWUR@kista/
+> 
+> I'll prepare the v2 if this change is still desired by Jernej.
+> 
 
-This is about [1] that was already merged. This patch implements the
-error propagation that Jernej asked [2] when he reviewed [1].
+Ah, OK. That was not obvious to me :-)
 
-[1]
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=91db7a3fc7fe670cf1770a398a43bb4a1f776bf1
+I'll mark this v1 patch as 'Changes Requested' in patchwork.
 
-[2] https://lore.kernel.org/lkml/1733932.VLH7GnMWUR@kista/
+Thank you for the explanation!
 
-I'll prepare the v2 if this change is still desired by Jernej.
+Regards,
 
--- 
-Best regards,
-Dmitry
-
+	Hans
