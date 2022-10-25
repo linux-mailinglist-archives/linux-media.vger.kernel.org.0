@@ -2,123 +2,273 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 489CA60CFBE
-	for <lists+linux-media@lfdr.de>; Tue, 25 Oct 2022 16:59:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 55BCB60CFC8
+	for <lists+linux-media@lfdr.de>; Tue, 25 Oct 2022 17:00:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232140AbiJYO7L (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 25 Oct 2022 10:59:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37440 "EHLO
+        id S232477AbiJYPAI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 25 Oct 2022 11:00:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41402 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231602AbiJYO7K (ORCPT
+        with ESMTP id S231620AbiJYPAG (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 25 Oct 2022 10:59:10 -0400
-Received: from mail-io1-xd2a.google.com (mail-io1-xd2a.google.com [IPv6:2607:f8b0:4864:20::d2a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 73BAA1AC1F8
-        for <linux-media@vger.kernel.org>; Tue, 25 Oct 2022 07:59:09 -0700 (PDT)
-Received: by mail-io1-xd2a.google.com with SMTP id 137so10498608iou.9
-        for <linux-media@vger.kernel.org>; Tue, 25 Oct 2022 07:59:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=Qf9l8TdBoqI3NSI3uJgvcfgTwT27VcCao15/BLv2mmM=;
-        b=CS3mnQ7JD6Q8rKoVfoDkCC+DFRUfHfkHxcAvQ72s5DnYhjp6MdDQGy5vs/jIuAZl8w
-         fGqhH+rPyCGoccxGPyuMShyPPDgCRLIBzTT5PIbNLhk+736yD/7X/OeUAAgvRUBSW1Gg
-         gTwzP/q5lUOMZZLv0Zs9jFyhWc3ADpyEJRgt0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Qf9l8TdBoqI3NSI3uJgvcfgTwT27VcCao15/BLv2mmM=;
-        b=WNhqZ4eGp01KnQ2hL/7Gc5HtiAunbAObl/WDY43jeSyEBN0Jr/MfGrkjVswRVqcRtv
-         QRnjgReEaj92I5tVgDKXsSBAI/j9pHa15cjrDdoGj7c58HrBy3+s5FMgRTE6uuDilXIx
-         S9Iy9CXvDe3kYLzkNTRyTBtYKp0ptQ5GyKp3JzTCWVuzEQfJhrjPOF0i8Fw9xId1p7FI
-         fXaubT9iHD9/rhjNXmOoBzRL8XhEFnChJ3DBygNCmaeuZdtZqccmPGVR6BhMq80rWZAr
-         bzGCIcMYYTOzcaR5E5FvZSzFAil8YzfABRKsW0aHQQTxRUsmMH+qTHH6Tqmyvo/zdAhb
-         602g==
-X-Gm-Message-State: ACrzQf1CYz+HT66Zl34F00PNHvJ88qtZdaYbyglZQBbbE/i5RXbLsH4w
-        IhJGKgDeeGr0Izd2UTQW2yI3ywo7F0rkPV04
-X-Google-Smtp-Source: AMsMyM5OitPr6k2OlKDivCcwqbas6jJhWg44aq4nWCPwCfHPiHYRq5un3siZmScQA4SEDI1V25KQBw==
-X-Received: by 2002:a02:8804:0:b0:35b:7425:82af with SMTP id r4-20020a028804000000b0035b742582afmr24451207jai.21.1666709948518;
-        Tue, 25 Oct 2022 07:59:08 -0700 (PDT)
-Received: from mail-io1-f49.google.com (mail-io1-f49.google.com. [209.85.166.49])
-        by smtp.gmail.com with ESMTPSA id y25-20020a056638229900b00363a11b0b44sm994447jas.9.2022.10.25.07.59.07
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 25 Oct 2022 07:59:07 -0700 (PDT)
-Received: by mail-io1-f49.google.com with SMTP id r142so10491748iod.11
-        for <linux-media@vger.kernel.org>; Tue, 25 Oct 2022 07:59:07 -0700 (PDT)
-X-Received: by 2002:a5d:9ac1:0:b0:6a3:1938:e6b0 with SMTP id
- x1-20020a5d9ac1000000b006a31938e6b0mr22659626ion.186.1666709947180; Tue, 25
- Oct 2022 07:59:07 -0700 (PDT)
+        Tue, 25 Oct 2022 11:00:06 -0400
+Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::224])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92BD820343;
+        Tue, 25 Oct 2022 08:00:02 -0700 (PDT)
+Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
+        by mail.gandi.net (Postfix) with ESMTPSA id 46C1FE0006;
+        Tue, 25 Oct 2022 14:59:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+        t=1666710001;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=4uMbjYj8dN19a1ZhsZb+uHoXrmGlTaA0A9W+9Yri6ig=;
+        b=HdLJZ0tmYxUsZlHif4mOZsXvKQGwWl47bzzHl2iulv6T5FSRFrud9rzvtaLu5e275kcwYq
+        u8Om6HhdBEzGWdD7wIk0DbwyaoWHscXopexT2U5eiAB5aKELD2NgsvCGQy0NZbWDiWSD3h
+        mxafiP4Xd0KN9i9wy29Oyd6LT1rni52ozt9Wh6RhR4lw9OAFrSfRT6g0uQOCCtr9NMMfUZ
+        edlhZ0RydtiXME4FDgSBjEeDvyjTwA7ZhU3oacH6QUhwUqx+1q4Mk7KZofBNXcA6p0Y5fL
+        B7Vg8ZZavvZ3FcfpCpDZB423VAXNjjLnTt9qMrVYEr+/8PG6JuQMraPBBJ5tiQ==
+Date:   Tue, 25 Oct 2022 16:59:57 +0200
+From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+To:     Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc:     mripard@kernel.org, mchehab@kernel.org, gregkh@linuxfoundation.org,
+        wens@csie.org, samuel@sholland.org, hverkuil-cisco@xs4all.nl,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 06/11] media: cedrus: set codec ops immediately
+Message-ID: <Y1f57R7SUPHsS7Lv@aptenodytes>
+References: <20221024201515.34129-1-jernej.skrabec@gmail.com>
+ <20221024201515.34129-7-jernej.skrabec@gmail.com>
 MIME-Version: 1.0
-References: <20221025050450.1743072-1-pedro.guilherme@espectro.eng.br> <20221025050450.1743072-3-pedro.guilherme@espectro.eng.br>
-In-Reply-To: <20221025050450.1743072-3-pedro.guilherme@espectro.eng.br>
-From:   Ricardo Ribalda <ribalda@chromium.org>
-Date:   Tue, 25 Oct 2022 16:58:56 +0200
-X-Gmail-Original-Message-ID: <CANiDSCvN5DEDdjCkO-KXgYwnhF_FGE4c=DMGiUTy4KKp51ANFA@mail.gmail.com>
-Message-ID: <CANiDSCvN5DEDdjCkO-KXgYwnhF_FGE4c=DMGiUTy4KKp51ANFA@mail.gmail.com>
-Subject: Re: [PATCH v2 3/3] media: uvc_driver: fix usage of symbolic
- permissions to octal
-To:     Pedro Guilherme Siqueira Moreira <pedro.guilherme@espectro.eng.br>
-Cc:     laurent.pinchart@ideasonboard.com, mchehab@kernel.org,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="oD2NMcpZjd/EqoUz"
+Content-Disposition: inline
+In-Reply-To: <20221024201515.34129-7-jernej.skrabec@gmail.com>
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+        SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, 25 Oct 2022 at 07:40, Pedro Guilherme Siqueira Moreira
-<pedro.guilherme@espectro.eng.br> wrote:
->
-> Change symbolic permissions to octal equivalents as recommended by
-> scripts/checkpatch.pl on drivers/media/usb/uvc/uvc_driver.c.
->
-> Signed-off-by: Pedro Guilherme Siqueira Moreira <pedro.guilherme@espectro.eng.br>
-Reviewed-by: Ricardo Ribalda <ribalda@chromium.org>
+
+--oD2NMcpZjd/EqoUz
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Hi Jernej,
+
+On Mon 24 Oct 22, 22:15, Jernej Skrabec wrote:
+> We'll need codec ops soon after output format is set in following
+> commits. Let's move current codec setup to set output format callback.
+> While at it, let's remove one level of indirection by changing
+> current_codec to point to codec ops structure directly.
+
+This looks much better, thanks!
+
+Acked-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+
+Cheers,
+
+Paul
+
+> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 > ---
->  drivers/media/usb/uvc/uvc_driver.c | 12 ++++++------
->  1 file changed, 6 insertions(+), 6 deletions(-)
->
-> diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
-> index 7b6c97ad3a41..c5adad4e51e2 100644
-> --- a/drivers/media/usb/uvc/uvc_driver.c
-> +++ b/drivers/media/usb/uvc/uvc_driver.c
-> @@ -2362,17 +2362,17 @@ static int uvc_clock_param_set(const char *val, const struct kernel_param *kp)
->  }
->
->  module_param_call(clock, uvc_clock_param_set, uvc_clock_param_get,
-> -                 &uvc_clock_param, S_IRUGO|S_IWUSR);
-> +                 &uvc_clock_param, 0644);
->  MODULE_PARM_DESC(clock, "Video buffers timestamp clock");
-> -module_param_named(hwtimestamps, uvc_hw_timestamps_param, uint, S_IRUGO|S_IWUSR);
-> +module_param_named(hwtimestamps, uvc_hw_timestamps_param, uint, 0644);
->  MODULE_PARM_DESC(hwtimestamps, "Use hardware timestamps");
-> -module_param_named(nodrop, uvc_no_drop_param, uint, S_IRUGO|S_IWUSR);
-> +module_param_named(nodrop, uvc_no_drop_param, uint, 0644);
->  MODULE_PARM_DESC(nodrop, "Don't drop incomplete frames");
-> -module_param_named(quirks, uvc_quirks_param, uint, S_IRUGO|S_IWUSR);
-> +module_param_named(quirks, uvc_quirks_param, uint, 0644);
->  MODULE_PARM_DESC(quirks, "Forced device quirks");
-> -module_param_named(trace, uvc_dbg_param, uint, S_IRUGO|S_IWUSR);
-> +module_param_named(trace, uvc_dbg_param, uint, 0644);
->  MODULE_PARM_DESC(trace, "Trace level bitmask");
-> -module_param_named(timeout, uvc_timeout_param, uint, S_IRUGO|S_IWUSR);
-> +module_param_named(timeout, uvc_timeout_param, uint, 0644);
->  MODULE_PARM_DESC(timeout, "Streaming control requests timeout");
->
->  /* ------------------------------------------------------------------------
-> --
+>  drivers/staging/media/sunxi/cedrus/cedrus.c   |  5 ---
+>  drivers/staging/media/sunxi/cedrus/cedrus.h   |  3 +-
+>  .../staging/media/sunxi/cedrus/cedrus_dec.c   |  4 +-
+>  .../staging/media/sunxi/cedrus/cedrus_hw.c    |  6 +--
+>  .../staging/media/sunxi/cedrus/cedrus_video.c | 44 ++++++++-----------
+>  5 files changed, 25 insertions(+), 37 deletions(-)
+>=20
+> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.c b/drivers/stagin=
+g/media/sunxi/cedrus/cedrus.c
+> index 023566b02dc5..8cfe47574c39 100644
+> --- a/drivers/staging/media/sunxi/cedrus/cedrus.c
+> +++ b/drivers/staging/media/sunxi/cedrus/cedrus.c
+> @@ -455,11 +455,6 @@ static int cedrus_probe(struct platform_device *pdev)
+>  		return ret;
+>  	}
+> =20
+> -	dev->dec_ops[CEDRUS_CODEC_MPEG2] =3D &cedrus_dec_ops_mpeg2;
+> -	dev->dec_ops[CEDRUS_CODEC_H264] =3D &cedrus_dec_ops_h264;
+> -	dev->dec_ops[CEDRUS_CODEC_H265] =3D &cedrus_dec_ops_h265;
+> -	dev->dec_ops[CEDRUS_CODEC_VP8] =3D &cedrus_dec_ops_vp8;
+> -
+>  	mutex_init(&dev->dev_mutex);
+> =20
+>  	INIT_DELAYED_WORK(&dev->watchdog_work, cedrus_watchdog);
+> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.h b/drivers/stagin=
+g/media/sunxi/cedrus/cedrus.h
+> index 7a1619967513..0b082b1fae22 100644
+> --- a/drivers/staging/media/sunxi/cedrus/cedrus.h
+> +++ b/drivers/staging/media/sunxi/cedrus/cedrus.h
+> @@ -126,7 +126,7 @@ struct cedrus_ctx {
+> =20
+>  	struct v4l2_pix_format		src_fmt;
+>  	struct v4l2_pix_format		dst_fmt;
+> -	enum cedrus_codec		current_codec;
+> +	struct cedrus_dec_ops		*current_codec;
+> =20
+>  	struct v4l2_ctrl_handler	hdl;
+>  	struct v4l2_ctrl		**ctrls;
+> @@ -185,7 +185,6 @@ struct cedrus_dev {
+>  	struct platform_device	*pdev;
+>  	struct device		*dev;
+>  	struct v4l2_m2m_dev	*m2m_dev;
+> -	struct cedrus_dec_ops	*dec_ops[CEDRUS_CODEC_LAST];
+> =20
+>  	/* Device file mutex */
+>  	struct mutex		dev_mutex;
+> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_dec.c b/drivers/st=
+aging/media/sunxi/cedrus/cedrus_dec.c
+> index e7f7602a5ab4..fbbf9e6f0f50 100644
+> --- a/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
+> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
+> @@ -94,7 +94,7 @@ void cedrus_device_run(void *priv)
+> =20
+>  	cedrus_dst_format_set(dev, &ctx->dst_fmt);
+> =20
+> -	error =3D dev->dec_ops[ctx->current_codec]->setup(ctx, &run);
+> +	error =3D ctx->current_codec->setup(ctx, &run);
+>  	if (error)
+>  		v4l2_err(&ctx->dev->v4l2_dev,
+>  			 "Failed to setup decoding job: %d\n", error);
+> @@ -110,7 +110,7 @@ void cedrus_device_run(void *priv)
+>  		schedule_delayed_work(&dev->watchdog_work,
+>  				      msecs_to_jiffies(2000));
+> =20
+> -		dev->dec_ops[ctx->current_codec]->trigger(ctx);
+> +		ctx->current_codec->trigger(ctx);
+>  	} else {
+>  		v4l2_m2m_buf_done_and_job_finish(ctx->dev->m2m_dev,
+>  						 ctx->fh.m2m_ctx,
+> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_hw.c b/drivers/sta=
+ging/media/sunxi/cedrus/cedrus_hw.c
+> index a6470a89851e..c3387cd1e80f 100644
+> --- a/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
+> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
+> @@ -132,12 +132,12 @@ static irqreturn_t cedrus_irq(int irq, void *data)
+>  		return IRQ_NONE;
+>  	}
+> =20
+> -	status =3D dev->dec_ops[ctx->current_codec]->irq_status(ctx);
+> +	status =3D ctx->current_codec->irq_status(ctx);
+>  	if (status =3D=3D CEDRUS_IRQ_NONE)
+>  		return IRQ_NONE;
+> =20
+> -	dev->dec_ops[ctx->current_codec]->irq_disable(ctx);
+> -	dev->dec_ops[ctx->current_codec]->irq_clear(ctx);
+> +	ctx->current_codec->irq_disable(ctx);
+> +	ctx->current_codec->irq_clear(ctx);
+> =20
+>  	if (status =3D=3D CEDRUS_IRQ_ERROR)
+>  		state =3D VB2_BUF_STATE_ERROR;
+> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_video.c b/drivers/=
+staging/media/sunxi/cedrus/cedrus_video.c
+> index 04b7b87ef0b7..3591bf9d7d9c 100644
+> --- a/drivers/staging/media/sunxi/cedrus/cedrus_video.c
+> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_video.c
+> @@ -335,6 +335,21 @@ static int cedrus_s_fmt_vid_out_p(struct cedrus_ctx =
+*ctx,
+>  		break;
+>  	}
+> =20
+> +	switch (ctx->src_fmt.pixelformat) {
+> +	case V4L2_PIX_FMT_MPEG2_SLICE:
+> +		ctx->current_codec =3D &cedrus_dec_ops_mpeg2;
+> +		break;
+> +	case V4L2_PIX_FMT_H264_SLICE:
+> +		ctx->current_codec =3D &cedrus_dec_ops_h264;
+> +		break;
+> +	case V4L2_PIX_FMT_HEVC_SLICE:
+> +		ctx->current_codec =3D &cedrus_dec_ops_h265;
+> +		break;
+> +	case V4L2_PIX_FMT_VP8_FRAME:
+> +		ctx->current_codec =3D &cedrus_dec_ops_vp8;
+> +		break;
+> +	}
+> +
+>  	/* Propagate format information to capture. */
+>  	ctx->dst_fmt.colorspace =3D pix_fmt->colorspace;
+>  	ctx->dst_fmt.xfer_func =3D pix_fmt->xfer_func;
+> @@ -493,34 +508,13 @@ static int cedrus_start_streaming(struct vb2_queue =
+*vq, unsigned int count)
+>  	struct cedrus_dev *dev =3D ctx->dev;
+>  	int ret =3D 0;
+> =20
+> -	switch (ctx->src_fmt.pixelformat) {
+> -	case V4L2_PIX_FMT_MPEG2_SLICE:
+> -		ctx->current_codec =3D CEDRUS_CODEC_MPEG2;
+> -		break;
+> -
+> -	case V4L2_PIX_FMT_H264_SLICE:
+> -		ctx->current_codec =3D CEDRUS_CODEC_H264;
+> -		break;
+> -
+> -	case V4L2_PIX_FMT_HEVC_SLICE:
+> -		ctx->current_codec =3D CEDRUS_CODEC_H265;
+> -		break;
+> -
+> -	case V4L2_PIX_FMT_VP8_FRAME:
+> -		ctx->current_codec =3D CEDRUS_CODEC_VP8;
+> -		break;
+> -
+> -	default:
+> -		return -EINVAL;
+> -	}
+> -
+>  	if (V4L2_TYPE_IS_OUTPUT(vq->type)) {
+>  		ret =3D pm_runtime_resume_and_get(dev->dev);
+>  		if (ret < 0)
+>  			goto err_cleanup;
+> =20
+> -		if (dev->dec_ops[ctx->current_codec]->start) {
+> -			ret =3D dev->dec_ops[ctx->current_codec]->start(ctx);
+> +		if (ctx->current_codec->start) {
+> +			ret =3D ctx->current_codec->start(ctx);
+>  			if (ret)
+>  				goto err_pm;
+>  		}
+> @@ -542,8 +536,8 @@ static void cedrus_stop_streaming(struct vb2_queue *v=
+q)
+>  	struct cedrus_dev *dev =3D ctx->dev;
+> =20
+>  	if (V4L2_TYPE_IS_OUTPUT(vq->type)) {
+> -		if (dev->dec_ops[ctx->current_codec]->stop)
+> -			dev->dec_ops[ctx->current_codec]->stop(ctx);
+> +		if (ctx->current_codec->stop)
+> +			ctx->current_codec->stop(ctx);
+> =20
+>  		pm_runtime_put(dev->dev);
+>  	}
+> --=20
 > 2.38.1
->
+>=20
 
+--=20
+Paul Kocialkowski, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
 
--- 
-Ricardo Ribalda
+--oD2NMcpZjd/EqoUz
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmNX+e0ACgkQ3cLmz3+f
+v9Gh2AgAhZG4wZU9V8QjHESBxFjr2JG0F0DF3rM1ySGskU1UazP7+OPBFB//PrqC
+JuDQEtTyNMA5XvfinkUtKVa6P3l0A5TKhxqigNZFTEt3vEey8Juqp8sMsvgIcbK/
+nbv1LwGU5hovWKNrsdbhP1DE2hpXNdHQLij6EjGSoK+CxaSBrvLJFL1mHbtCf9sU
+IHqIGFjG/qwcU49EN7u4jh0Dr1I93dq6GJGBt05qARkETTb4cZE96YAmXFpQnFSU
+rOwWJFgI7uflvuvJwP8ApJEW1CZEXhL+8RQ7IssCnBebmdAqwLlVcUIua3SNMrXR
+zvQI4wc66mag2oG7CClXwZFEQZ3+fA==
+=g8u3
+-----END PGP SIGNATURE-----
+
+--oD2NMcpZjd/EqoUz--
