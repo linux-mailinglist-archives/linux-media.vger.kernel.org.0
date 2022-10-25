@@ -2,45 +2,43 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B8E7D60D43C
-	for <lists+linux-media@lfdr.de>; Tue, 25 Oct 2022 20:55:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DFBAD60D443
+	for <lists+linux-media@lfdr.de>; Tue, 25 Oct 2022 20:57:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231693AbiJYSzd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 25 Oct 2022 14:55:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54676 "EHLO
+        id S231986AbiJYS5e (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 25 Oct 2022 14:57:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35734 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231877AbiJYSza (ORCPT
+        with ESMTP id S230245AbiJYS5c (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 25 Oct 2022 14:55:30 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A5E4FC508E;
-        Tue, 25 Oct 2022 11:55:29 -0700 (PDT)
+        Tue, 25 Oct 2022 14:57:32 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF9F082615;
+        Tue, 25 Oct 2022 11:57:31 -0700 (PDT)
 Received: from pendragon.ideasonboard.com (85-76-12-207-nat.elisa-mobile.fi [85.76.12.207])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 579578A9;
-        Tue, 25 Oct 2022 20:55:27 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 891B58A9;
+        Tue, 25 Oct 2022 20:57:29 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1666724127;
-        bh=3qAP2ptfziaJOJ/l9CrdXI1jDAs6RcHna+H7AdQM4JU=;
+        s=mail; t=1666724250;
+        bh=sUxBbw/hoLihBOcBWqIiTAboCQk5BVUQWaHk8euqREU=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=rYK8hr9Lq0/6HSnjW95/xdT385/UQB9fV64itQ+fqfw8y6xTH+B58N0LhQXP/DirA
-         SUTEzqboK2J5CSBCiVadI1tO/6ftc8bvRbomrd4GIy1kK2LNPYxBnvnJqlxFlj0LZE
-         V/uFvQEot1FWTqoO98y6AXFiGhKg719v7k8N8Tz4=
-Date:   Tue, 25 Oct 2022 21:54:59 +0300
+        b=vy7ajde5iXGQG/viyJddy5iFMk4X//xAvFwLc7qYhygARrjWpjWSUGnsxsaDtngQ2
+         FCMyzLIztS28S7HQ0JNU18riYPXmB3EytlsP/erbKXcyTCbXfyw2ggqnWLSt6ijd1S
+         lHKXnNR5gz446ngwxWrMXM4tVOpAf8AWZu+nEeW4=
+Date:   Tue, 25 Oct 2022 21:57:01 +0300
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Ricardo Ribalda <ribalda@chromium.org>
-Cc:     Pedro Guilherme Siqueira Moreira 
-        <pedro.guilherme@espectro.eng.br>, mchehab@kernel.org,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 3/3] media: uvc_driver: fix usage of symbolic
- permissions to octal
-Message-ID: <Y1gxA1k4tn/KGnEz@pendragon.ideasonboard.com>
+To:     Pedro Guilherme Siqueira Moreira <pedro.guilherme@espectro.eng.br>
+Cc:     mchehab@kernel.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 1/3] media: uvc_driver: fix missing newline after
+ declarations
+Message-ID: <Y1gxfeHa5iOax8BD@pendragon.ideasonboard.com>
 References: <20221025050450.1743072-1-pedro.guilherme@espectro.eng.br>
- <20221025050450.1743072-3-pedro.guilherme@espectro.eng.br>
- <CANiDSCvN5DEDdjCkO-KXgYwnhF_FGE4c=DMGiUTy4KKp51ANFA@mail.gmail.com>
+ <Y1gwETdTkfAMTB8E@pendragon.ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <CANiDSCvN5DEDdjCkO-KXgYwnhF_FGE4c=DMGiUTy4KKp51ANFA@mail.gmail.com>
+In-Reply-To: <Y1gwETdTkfAMTB8E@pendragon.ideasonboard.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
         URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
@@ -50,52 +48,66 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Oct 25, 2022 at 04:58:56PM +0200, Ricardo Ribalda wrote:
-> On Tue, 25 Oct 2022 at 07:40, Pedro Guilherme Siqueira Moreira wrote:
-> >
-> > Change symbolic permissions to octal equivalents as recommended by
-> > scripts/checkpatch.pl on drivers/media/usb/uvc/uvc_driver.c.
-> >
+I forgot to mention, the subject line should start with "media:
+uvcvideo:", not "media: uvc_driver:". You can have a look at the git log
+to see how subject lines are usually formatted for a driver or
+subsystem.
+
+No need to send a v3, I'll change this in my tree, for all three patches
+in the series.
+
+On Tue, Oct 25, 2022 at 09:51:03PM +0300, Laurent Pinchart wrote:
+> Hi Pedro,
+> 
+> Thank you for the patch.
+> 
+> On Tue, Oct 25, 2022 at 02:04:48AM -0300, Pedro Guilherme Siqueira Moreira wrote:
+> > Fixes 'Missing a blank line after declarations' warning issued by
+> > scripts/checkpatch.pl on drivers/media/usb/uvc/uvc_driver.c
+> > 
 > > Signed-off-by: Pedro Guilherme Siqueira Moreira <pedro.guilherme@espectro.eng.br>
->
-> Reviewed-by: Ricardo Ribalda <ribalda@chromium.org>
-
-And for this one too:
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
+> 
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> 
 > > ---
-> >  drivers/media/usb/uvc/uvc_driver.c | 12 ++++++------
-> >  1 file changed, 6 insertions(+), 6 deletions(-)
-> >
+> >  drivers/media/usb/uvc/uvc_driver.c | 4 ++++
+> >  1 file changed, 4 insertions(+)
+> > 
 > > diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
-> > index 7b6c97ad3a41..c5adad4e51e2 100644
+> > index 215fb483efb0..b591ad823c66 100644
 > > --- a/drivers/media/usb/uvc/uvc_driver.c
 > > +++ b/drivers/media/usb/uvc/uvc_driver.c
-> > @@ -2362,17 +2362,17 @@ static int uvc_clock_param_set(const char *val, const struct kernel_param *kp)
-> >  }
-> >
-> >  module_param_call(clock, uvc_clock_param_set, uvc_clock_param_get,
-> > -                 &uvc_clock_param, S_IRUGO|S_IWUSR);
-> > +                 &uvc_clock_param, 0644);
-> >  MODULE_PARM_DESC(clock, "Video buffers timestamp clock");
-> > -module_param_named(hwtimestamps, uvc_hw_timestamps_param, uint, S_IRUGO|S_IWUSR);
-> > +module_param_named(hwtimestamps, uvc_hw_timestamps_param, uint, 0644);
-> >  MODULE_PARM_DESC(hwtimestamps, "Use hardware timestamps");
-> > -module_param_named(nodrop, uvc_no_drop_param, uint, S_IRUGO|S_IWUSR);
-> > +module_param_named(nodrop, uvc_no_drop_param, uint, 0644);
-> >  MODULE_PARM_DESC(nodrop, "Don't drop incomplete frames");
-> > -module_param_named(quirks, uvc_quirks_param, uint, S_IRUGO|S_IWUSR);
-> > +module_param_named(quirks, uvc_quirks_param, uint, 0644);
-> >  MODULE_PARM_DESC(quirks, "Forced device quirks");
-> > -module_param_named(trace, uvc_dbg_param, uint, S_IRUGO|S_IWUSR);
-> > +module_param_named(trace, uvc_dbg_param, uint, 0644);
-> >  MODULE_PARM_DESC(trace, "Trace level bitmask");
-> > -module_param_named(timeout, uvc_timeout_param, uint, S_IRUGO|S_IWUSR);
-> > +module_param_named(timeout, uvc_timeout_param, uint, 0644);
-> >  MODULE_PARM_DESC(timeout, "Streaming control requests timeout");
-> >
-> >  /* ------------------------------------------------------------------------
+> > @@ -732,6 +732,7 @@ static int uvc_parse_streaming(struct uvc_device *dev,
+> >  	/* Parse the alternate settings to find the maximum bandwidth. */
+> >  	for (i = 0; i < intf->num_altsetting; ++i) {
+> >  		struct usb_host_endpoint *ep;
+> > +
+> >  		alts = &intf->altsetting[i];
+> >  		ep = uvc_find_endpoint(alts,
+> >  				streaming->header.bEndpointAddress);
+> > @@ -1859,12 +1860,14 @@ static void uvc_delete(struct kref *kref)
+> >  
+> >  	list_for_each_safe(p, n, &dev->chains) {
+> >  		struct uvc_video_chain *chain;
+> > +
+> >  		chain = list_entry(p, struct uvc_video_chain, list);
+> >  		kfree(chain);
+> >  	}
+> >  
+> >  	list_for_each_safe(p, n, &dev->entities) {
+> >  		struct uvc_entity *entity;
+> > +
+> >  		entity = list_entry(p, struct uvc_entity, list);
+> >  #ifdef CONFIG_MEDIA_CONTROLLER
+> >  		uvc_mc_cleanup_entity(entity);
+> > @@ -1874,6 +1877,7 @@ static void uvc_delete(struct kref *kref)
+> >  
+> >  	list_for_each_safe(p, n, &dev->streams) {
+> >  		struct uvc_streaming *streaming;
+> > +
+> >  		streaming = list_entry(p, struct uvc_streaming, list);
+> >  		usb_driver_release_interface(&uvc_driver.driver,
+> >  			streaming->intf);
 
 -- 
 Regards,
