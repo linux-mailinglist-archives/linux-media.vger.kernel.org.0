@@ -2,44 +2,46 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E279560C196
-	for <lists+linux-media@lfdr.de>; Tue, 25 Oct 2022 04:19:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3C66960C1D9
+	for <lists+linux-media@lfdr.de>; Tue, 25 Oct 2022 04:43:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230398AbiJYCTd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 24 Oct 2022 22:19:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57326 "EHLO
+        id S231390AbiJYCnh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 24 Oct 2022 22:43:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37758 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230143AbiJYCTc (ORCPT
+        with ESMTP id S231366AbiJYCng (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 24 Oct 2022 22:19:32 -0400
-Received: from gateway31.websitewelcome.com (gateway31.websitewelcome.com [192.185.144.91])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 148D2167D4
-        for <linux-media@vger.kernel.org>; Mon, 24 Oct 2022 19:19:26 -0700 (PDT)
-Received: from atl1wswcm04.websitewelcome.com (unknown [50.6.129.165])
-        by atl3wswob02.websitewelcome.com (Postfix) with ESMTP id ACFA4E6EA2
-        for <linux-media@vger.kernel.org>; Tue, 25 Oct 2022 02:19:25 +0000 (UTC)
+        Mon, 24 Oct 2022 22:43:36 -0400
+X-Greylist: delayed 1447 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 24 Oct 2022 19:43:35 PDT
+Received: from gateway32.websitewelcome.com (gateway32.websitewelcome.com [192.185.145.102])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B60B263FC
+        for <linux-media@vger.kernel.org>; Mon, 24 Oct 2022 19:43:35 -0700 (PDT)
+Received: from atl1wswcm06.websitewelcome.com (unknown [50.6.129.167])
+        by atl3wswob03.websitewelcome.com (Postfix) with ESMTP id 8AC74439D1
+        for <linux-media@vger.kernel.org>; Tue, 25 Oct 2022 02:19:27 +0000 (UTC)
 Received: from br984.hostgator.com.br ([162.241.203.37])
         by cmsmtp with ESMTP
-        id n9XJojsINgEOMn9XJoBo8N; Tue, 25 Oct 2022 02:19:25 +0000
+        id n9XLomLj8Pz0tn9XLo7uOK; Tue, 25 Oct 2022 02:19:27 +0000
 X-Authority-Reason: nr=8
 Received: from [177.194.67.221] (port=49966 helo=arch-avell.meuintelbras.local)
         by br984.hostgator.com.br with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
         (Exim 4.95)
         (envelope-from <pedro.guilherme@espectro.eng.br>)
-        id 1on9XI-002QdP-Pn;
-        Mon, 24 Oct 2022 23:19:25 -0300
+        id 1on9XK-002QdP-It;
+        Mon, 24 Oct 2022 23:19:26 -0300
 From:   Pedro Guilherme Siqueira Moreira <pedro.guilherme@espectro.eng.br>
 To:     laurent.pinchart@ideasonboard.com
 Cc:     mchehab@kernel.org, linux-media@vger.kernel.org,
         linux-kernel@vger.kernel.org,
         Pedro Guilherme Siqueira Moreira 
         <pedro.guilherme@espectro.eng.br>
-Subject: [PATCH v2 1/3] media: uvc_driver: fix missing newline after declarations
-Date:   Mon, 24 Oct 2022 23:19:17 -0300
-Message-Id: <20221025021919.929910-1-pedro.guilherme@espectro.eng.br>
+Subject: [PATCH v2 2/3] media: uvc_driver: fix assignment inside if condition
+Date:   Mon, 24 Oct 2022 23:19:18 -0300
+Message-Id: <20221025021919.929910-2-pedro.guilherme@espectro.eng.br>
 X-Mailer: git-send-email 2.38.1
-In-Reply-To: <Y1c9nS04fpoLqPVe@pendragon.ideasonboard.com>
+In-Reply-To: <20221025021919.929910-1-pedro.guilherme@espectro.eng.br>
 References: <Y1c9nS04fpoLqPVe@pendragon.ideasonboard.com>
+ <20221025021919.929910-1-pedro.guilherme@espectro.eng.br>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
@@ -50,19 +52,19 @@ X-AntiAbuse: Sender Address Domain - espectro.eng.br
 X-BWhitelist: no
 X-Source-IP: 177.194.67.221
 X-Source-L: No
-X-Exim-ID: 1on9XI-002QdP-Pn
+X-Exim-ID: 1on9XK-002QdP-It
 X-Source: 
 X-Source-Args: 
 X-Source-Dir: 
 X-Source-Sender: (arch-avell.meuintelbras.local) [177.194.67.221]:49966
 X-Source-Auth: pedro.guilherme@espectro.eng.br
-X-Email-Count: 2
+X-Email-Count: 6
 X-Source-Cap: ZXNwZWN0ODU7ZXNwZWN0ODU7YnI5ODQuaG9zdGdhdG9yLmNvbS5icg==
 X-Local-Domain: yes
-X-CMAE-Envelope: MS4xfCG9rsy4v8Yc++HiA4EztBtVgvRzVROD62m+ypXpFfneAB4ciICNpogXL9PNpy6MyH1RozTA9LC/WAWCMoMIyDRcGVv19CmxFLg9rqE3wUjKvNW6ExGz
- t/CybM02ZYsewpZHehP4Hy4AFjHexwqGDD18hm/Mu7O2mN6H06LduS918UfnDpHqF9TipvIHkRoZ3ADv5gAzNEAUC00+quuMAA+uoPB1JmxOmLa5jPayPjNQ
+X-CMAE-Envelope: MS4xfD7hml7K8scJxbXHJ5+kvPw+x5fU8bxH/SeCmXX5pP+vD1lU52nzUYo2jDbqYFNkF/spLX1hE9ZnXXyscgtJpuyAvNvDLaCqKQ3bxtbqhldytFuKhxrV
+ mvKGM1y1jc8ri8DZcv2KkfjUai6gLptU9FLW1eKktfJwRQ9SJVEZ77ZKsEEaAdeab/nf7uOrMQ0rYUKK2ObM6K/ONjIWy6t+7a95lg/5BUKkHlAIQp9vfUaz
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,URIBL_BLOCKED autolearn=ham
+        SPF_HELO_PASS,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -70,50 +72,39 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Fixes 'Missing a blank line after declarations' warning issued by
-scripts/checkpatch.pl on lines 2150, 2156, and 2165 of
+Fixes 'do not use assignment in if condition' errors issued by
+scripts/checkpatch.pl on lines 1464 and 2500 on
 drivers/media/usb/uvc/uvc_driver.c
 
 Signed-off-by: Pedro Guilherme Siqueira Moreira <pedro.guilherme@espectro.eng.br>
 ---
- drivers/media/usb/uvc/uvc_driver.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ drivers/media/usb/uvc/uvc_driver.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
-index 215fb483efb0..b591ad823c66 100644
+index b591ad823c66..7b6c97ad3a41 100644
 --- a/drivers/media/usb/uvc/uvc_driver.c
 +++ b/drivers/media/usb/uvc/uvc_driver.c
-@@ -732,6 +732,7 @@ static int uvc_parse_streaming(struct uvc_device *dev,
- 	/* Parse the alternate settings to find the maximum bandwidth. */
- 	for (i = 0; i < intf->num_altsetting; ++i) {
- 		struct usb_host_endpoint *ep;
-+
- 		alts = &intf->altsetting[i];
- 		ep = uvc_find_endpoint(alts,
- 				streaming->header.bEndpointAddress);
-@@ -1859,12 +1860,14 @@ static void uvc_delete(struct kref *kref)
+@@ -1174,7 +1174,8 @@ static int uvc_parse_control(struct uvc_device *dev)
+ 		    buffer[1] != USB_DT_CS_INTERFACE)
+ 			goto next_descriptor;
  
- 	list_for_each_safe(p, n, &dev->chains) {
- 		struct uvc_video_chain *chain;
-+
- 		chain = list_entry(p, struct uvc_video_chain, list);
- 		kfree(chain);
- 	}
+-		if ((ret = uvc_parse_standard_control(dev, buffer, buflen)) < 0)
++		ret = uvc_parse_standard_control(dev, buffer, buflen);
++		if (ret < 0)
+ 			return ret;
  
- 	list_for_each_safe(p, n, &dev->entities) {
- 		struct uvc_entity *entity;
-+
- 		entity = list_entry(p, struct uvc_entity, list);
- #ifdef CONFIG_MEDIA_CONTROLLER
- 		uvc_mc_cleanup_entity(entity);
-@@ -1874,6 +1877,7 @@ static void uvc_delete(struct kref *kref)
+ next_descriptor:
+@@ -2213,7 +2214,8 @@ static int uvc_probe(struct usb_interface *intf,
+ 	usb_set_intfdata(intf, dev);
  
- 	list_for_each_safe(p, n, &dev->streams) {
- 		struct uvc_streaming *streaming;
-+
- 		streaming = list_entry(p, struct uvc_streaming, list);
- 		usb_driver_release_interface(&uvc_driver.driver,
- 			streaming->intf);
+ 	/* Initialize the interrupt URB. */
+-	if ((ret = uvc_status_init(dev)) < 0) {
++	ret = uvc_status_init(dev);
++	if (ret < 0) {
+ 		dev_info(&dev->udev->dev,
+ 			 "Unable to initialize the status endpoint (%d), status interrupt will not be supported.\n",
+ 			 ret);
 -- 
 2.38.1
 
