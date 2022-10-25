@@ -2,213 +2,123 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0AFFC60CF54
-	for <lists+linux-media@lfdr.de>; Tue, 25 Oct 2022 16:41:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 489CA60CFBE
+	for <lists+linux-media@lfdr.de>; Tue, 25 Oct 2022 16:59:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232266AbiJYOld (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 25 Oct 2022 10:41:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56522 "EHLO
+        id S232140AbiJYO7L (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 25 Oct 2022 10:59:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37440 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232648AbiJYOlR (ORCPT
+        with ESMTP id S231602AbiJYO7K (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 25 Oct 2022 10:41:17 -0400
-Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com [IPv6:2a00:1450:4864:20::634])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E862AC696F
-        for <linux-media@vger.kernel.org>; Tue, 25 Oct 2022 07:41:12 -0700 (PDT)
-Received: by mail-ej1-x634.google.com with SMTP id fy4so13079691ejc.5
-        for <linux-media@vger.kernel.org>; Tue, 25 Oct 2022 07:41:12 -0700 (PDT)
+        Tue, 25 Oct 2022 10:59:10 -0400
+Received: from mail-io1-xd2a.google.com (mail-io1-xd2a.google.com [IPv6:2607:f8b0:4864:20::d2a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 73BAA1AC1F8
+        for <linux-media@vger.kernel.org>; Tue, 25 Oct 2022 07:59:09 -0700 (PDT)
+Received: by mail-io1-xd2a.google.com with SMTP id 137so10498608iou.9
+        for <linux-media@vger.kernel.org>; Tue, 25 Oct 2022 07:59:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Z8Q7Eo8f6MX7051gxMFYWST4RQwUsS8lCeTzT9duqJA=;
-        b=F8cArrqGhNbIDu30ZlYDVoGzbO0uCStS7Tj1qhfSS0HoX1LJDPY92IpgXhArfICEcK
-         0Qr8AgZgKgy9XF2Da5E4E3XePJ9AL1eMKs94wyutjuN5B5QjE+R014QRTnn1oKrcWXA4
-         0uvGj8mPBI3IpHLA7qF0PJ2s1HHzEhskM3xLE=
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=Qf9l8TdBoqI3NSI3uJgvcfgTwT27VcCao15/BLv2mmM=;
+        b=CS3mnQ7JD6Q8rKoVfoDkCC+DFRUfHfkHxcAvQ72s5DnYhjp6MdDQGy5vs/jIuAZl8w
+         fGqhH+rPyCGoccxGPyuMShyPPDgCRLIBzTT5PIbNLhk+736yD/7X/OeUAAgvRUBSW1Gg
+         gTwzP/q5lUOMZZLv0Zs9jFyhWc3ADpyEJRgt0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Z8Q7Eo8f6MX7051gxMFYWST4RQwUsS8lCeTzT9duqJA=;
-        b=ErSPqPj6d3eU5df6Lk5JUrOi55P+/3bz12yb4EKES85cJ7T5WArD6Cu7AUQMbdpT9v
-         iga1OYXql0FLk+k1cq4J0gQ8uppcDz/zuIDhqyyzCU1vd7MH830vNljXMJAA+IfeJDm2
-         Z5v3kp5+ak+iIcH1fxKwK1PfHxitxaJZrMv/Xc14t2QPSQxUsufFfKQ3MPvcZClQ/FJR
-         2X96CqKgdgpcaMyXm3JVlXsYWXJVqkgqdwIZJ6C5kkNkfz3AIebBAtH2ekUhrxrDgBe6
-         tg7G3m5J7jFrxFWxoLEt5qoBtUpyMxo0ClDcw920ubrBvjNz5ozaaISOuAXO12TyxjT3
-         OH9g==
-X-Gm-Message-State: ACrzQf1WFCswAtmNIUanqdeodiCwNGEzhIbcWbND3Eb9ouRIJhtx/ycE
-        eOTECMulVzek1Gu31XE3F8EEHEQVaHIsbP1v
-X-Google-Smtp-Source: AMsMyM4Ja6PNxxkiFC6rRppD1DFEiI6C3QFhB4I6FS37Xe1LBbHdngdO9FgPkmwASZa2sAre/5Oauw==
-X-Received: by 2002:a17:906:8b81:b0:78e:1cb:e411 with SMTP id nr1-20020a1709068b8100b0078e01cbe411mr31939787ejc.681.1666708871272;
-        Tue, 25 Oct 2022 07:41:11 -0700 (PDT)
-Received: from alco.roam.corp.google.com ([2620:0:1059:10:e6ae:c7ac:c234:953c])
-        by smtp.gmail.com with ESMTPSA id kz12-20020a17090777cc00b00734bfab4d59sm1500813ejc.170.2022.10.25.07.41.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Oct 2022 07:41:10 -0700 (PDT)
-From:   Ricardo Ribalda <ribalda@chromium.org>
-Date:   Tue, 25 Oct 2022 16:41:01 +0200
-Subject: [PATCH v1 1/1] media: uvcvideo: Handle errors from calls to usb_string
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Qf9l8TdBoqI3NSI3uJgvcfgTwT27VcCao15/BLv2mmM=;
+        b=WNhqZ4eGp01KnQ2hL/7Gc5HtiAunbAObl/WDY43jeSyEBN0Jr/MfGrkjVswRVqcRtv
+         QRnjgReEaj92I5tVgDKXsSBAI/j9pHa15cjrDdoGj7c58HrBy3+s5FMgRTE6uuDilXIx
+         S9Iy9CXvDe3kYLzkNTRyTBtYKp0ptQ5GyKp3JzTCWVuzEQfJhrjPOF0i8Fw9xId1p7FI
+         fXaubT9iHD9/rhjNXmOoBzRL8XhEFnChJ3DBygNCmaeuZdtZqccmPGVR6BhMq80rWZAr
+         bzGCIcMYYTOzcaR5E5FvZSzFAil8YzfABRKsW0aHQQTxRUsmMH+qTHH6Tqmyvo/zdAhb
+         602g==
+X-Gm-Message-State: ACrzQf1CYz+HT66Zl34F00PNHvJ88qtZdaYbyglZQBbbE/i5RXbLsH4w
+        IhJGKgDeeGr0Izd2UTQW2yI3ywo7F0rkPV04
+X-Google-Smtp-Source: AMsMyM5OitPr6k2OlKDivCcwqbas6jJhWg44aq4nWCPwCfHPiHYRq5un3siZmScQA4SEDI1V25KQBw==
+X-Received: by 2002:a02:8804:0:b0:35b:7425:82af with SMTP id r4-20020a028804000000b0035b742582afmr24451207jai.21.1666709948518;
+        Tue, 25 Oct 2022 07:59:08 -0700 (PDT)
+Received: from mail-io1-f49.google.com (mail-io1-f49.google.com. [209.85.166.49])
+        by smtp.gmail.com with ESMTPSA id y25-20020a056638229900b00363a11b0b44sm994447jas.9.2022.10.25.07.59.07
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 25 Oct 2022 07:59:07 -0700 (PDT)
+Received: by mail-io1-f49.google.com with SMTP id r142so10491748iod.11
+        for <linux-media@vger.kernel.org>; Tue, 25 Oct 2022 07:59:07 -0700 (PDT)
+X-Received: by 2002:a5d:9ac1:0:b0:6a3:1938:e6b0 with SMTP id
+ x1-20020a5d9ac1000000b006a31938e6b0mr22659626ion.186.1666709947180; Tue, 25
+ Oct 2022 07:59:07 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20221025-usb-string-v1-1-4c351b6907bb@chromium.org>
-References: <20221025-usb-string-v1-0-4c351b6907bb@chromium.org>
-In-Reply-To: <20221025-usb-string-v1-0-4c351b6907bb@chromium.org>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     linux-media@vger.kernel.org, Guenter Roeck <linux@roeck-us.net>,
-        linux-kernel@vger.kernel.org,
-        Ricardo Ribalda <ribalda@chromium.org>
-X-Mailer: b4 0.11.0-dev-d93f8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4832; i=ribalda@chromium.org;
- h=from:subject:message-id; bh=cTCPKelWtEgBKQLFQFET74HVmg1j9rftmX9QZBAVbL4=;
- b=owEBbQKS/ZANAwAKAdE30T7POsSIAcsmYgBjV/WDCANcIccORULUf/p2hsS8zyoeEvkkWPv5JgMF
- 8FQBgx+JAjMEAAEKAB0WIQREDzjr+/4oCDLSsx7RN9E+zzrEiAUCY1f1gwAKCRDRN9E+zzrEiFEoD/
- 0b/PPW67kslsrYvtQ9ubr3rJqrybZAoFlU8ST+e09Q0c5TFfFa531GG8JvAOUt5foP/raTfxvooV85
- L6pulj3D7qn+vJaQFTTrZD1sE7hrnY8jNdm1KL1V1LzHrrbGyTdCr2peASY6MRzvTpR9VU2TMy6vY5
- +dpeRoHD2TK5zcZEzF4hBjmAuvcXS9KHfCfECE4bKM6KNPM2SeVEsXPMeDUn++8c6Q0HYB1g5MZcJz
- o0PPSFc5mCqQFqnmLxjf4Epn+qNH0HT1qbaOCtPXLCjZHaO+FVNGL6xDq3LTzRXwfLSXX5pVOmza8R
- GudjwFbbHmI/RXvJngiopT5zxHH+YrS2Uz/GNgk8AZDb2zwCPPdNMBq7zbbygPgfciF0lb2vTVilKE
- c+YVONURsU2iJ1MVZa7LctuE0V/pWVN+c6t1GjJc+RZG7dBZYXG9Em4ueT/CWZgyhQzXefELv+fVRw
- y3Ua7IAMh24qFbUlAngTZdpigg/966iS56OVvbqz+FGFyeitKuOQ3RYLdPUtf7WZa8nyaZN6IOcByR
- jtgAADUURJWKsNRnL9c7FYHmd2GLoXhsnOJwpPC0rrvACWEHqKB4Rd3pLWhfwZ5zb4iOYm97l3kbt1
- RZF+0+N8JCmgMCA9sSZ6G1Ws/2wsdI0a/3wjSG/75CN3x4B+XmbvusbnnN9g==
-X-Developer-Key: i=ribalda@chromium.org; a=openpgp;
- fpr=9EC3BB66E2FC129A6F90B39556A0D81F9F782DA9
+References: <20221025050450.1743072-1-pedro.guilherme@espectro.eng.br> <20221025050450.1743072-3-pedro.guilherme@espectro.eng.br>
+In-Reply-To: <20221025050450.1743072-3-pedro.guilherme@espectro.eng.br>
+From:   Ricardo Ribalda <ribalda@chromium.org>
+Date:   Tue, 25 Oct 2022 16:58:56 +0200
+X-Gmail-Original-Message-ID: <CANiDSCvN5DEDdjCkO-KXgYwnhF_FGE4c=DMGiUTy4KKp51ANFA@mail.gmail.com>
+Message-ID: <CANiDSCvN5DEDdjCkO-KXgYwnhF_FGE4c=DMGiUTy4KKp51ANFA@mail.gmail.com>
+Subject: Re: [PATCH v2 3/3] media: uvc_driver: fix usage of symbolic
+ permissions to octal
+To:     Pedro Guilherme Siqueira Moreira <pedro.guilherme@espectro.eng.br>
+Cc:     laurent.pinchart@ideasonboard.com, mchehab@kernel.org,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
-        autolearn_force=no version=3.4.6
+        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Guenter Roeck <linux@roeck-us.net>
+On Tue, 25 Oct 2022 at 07:40, Pedro Guilherme Siqueira Moreira
+<pedro.guilherme@espectro.eng.br> wrote:
+>
+> Change symbolic permissions to octal equivalents as recommended by
+> scripts/checkpatch.pl on drivers/media/usb/uvc/uvc_driver.c.
+>
+> Signed-off-by: Pedro Guilherme Siqueira Moreira <pedro.guilherme@espectro.eng.br>
+Reviewed-by: Ricardo Ribalda <ribalda@chromium.org>
+> ---
+>  drivers/media/usb/uvc/uvc_driver.c | 12 ++++++------
+>  1 file changed, 6 insertions(+), 6 deletions(-)
+>
+> diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
+> index 7b6c97ad3a41..c5adad4e51e2 100644
+> --- a/drivers/media/usb/uvc/uvc_driver.c
+> +++ b/drivers/media/usb/uvc/uvc_driver.c
+> @@ -2362,17 +2362,17 @@ static int uvc_clock_param_set(const char *val, const struct kernel_param *kp)
+>  }
+>
+>  module_param_call(clock, uvc_clock_param_set, uvc_clock_param_get,
+> -                 &uvc_clock_param, S_IRUGO|S_IWUSR);
+> +                 &uvc_clock_param, 0644);
+>  MODULE_PARM_DESC(clock, "Video buffers timestamp clock");
+> -module_param_named(hwtimestamps, uvc_hw_timestamps_param, uint, S_IRUGO|S_IWUSR);
+> +module_param_named(hwtimestamps, uvc_hw_timestamps_param, uint, 0644);
+>  MODULE_PARM_DESC(hwtimestamps, "Use hardware timestamps");
+> -module_param_named(nodrop, uvc_no_drop_param, uint, S_IRUGO|S_IWUSR);
+> +module_param_named(nodrop, uvc_no_drop_param, uint, 0644);
+>  MODULE_PARM_DESC(nodrop, "Don't drop incomplete frames");
+> -module_param_named(quirks, uvc_quirks_param, uint, S_IRUGO|S_IWUSR);
+> +module_param_named(quirks, uvc_quirks_param, uint, 0644);
+>  MODULE_PARM_DESC(quirks, "Forced device quirks");
+> -module_param_named(trace, uvc_dbg_param, uint, S_IRUGO|S_IWUSR);
+> +module_param_named(trace, uvc_dbg_param, uint, 0644);
+>  MODULE_PARM_DESC(trace, "Trace level bitmask");
+> -module_param_named(timeout, uvc_timeout_param, uint, S_IRUGO|S_IWUSR);
+> +module_param_named(timeout, uvc_timeout_param, uint, 0644);
+>  MODULE_PARM_DESC(timeout, "Streaming control requests timeout");
+>
+>  /* ------------------------------------------------------------------------
+> --
+> 2.38.1
+>
 
-On a Webcam from Quanta, we see the following error.
-
-usb 3-5: New USB device found, idVendor=0408, idProduct=30d2, bcdDevice= 0.03
-usb 3-5: New USB device strings: Mfr=3, Product=1, SerialNumber=2
-usb 3-5: Product: USB2.0 HD UVC WebCam
-usb 3-5: Manufacturer: Quanta
-usb 3-5: SerialNumber: 0x0001
-...
-uvcvideo: Found UVC 1.10 device USB2.0 HD UVC WebCam (0408:30d2)
-uvcvideo: Failed to initialize entity for entity 5
-uvcvideo: Failed to register entities (-22).
-
-The Webcam reports an entity of type UVC_VC_EXTENSION_UNIT. It reports a
-string index of '7' associated with that entity. The attempt to read that
-string from the camera fails with error -32 (-EPIPE). usb_string() returns
-that error, but it is ignored. As result, the entity name is empty. This
-later causes v4l2_device_register_subdev() to return -EINVAL, and no
-entities are registered as result.
-
-While this appears to be a firmware problem with the camera, the kernel
-should still handle the situation gracefully. To do that, check the return
-value from usb_string(). If it reports an error, assign the entity's
-default name.
-
-Signed-off-by: Guenter Roeck <linux@roeck-us.net>
-
-diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
-index 215fb483efb0..828c443faaa9 100644
---- a/drivers/media/usb/uvc/uvc_driver.c
-+++ b/drivers/media/usb/uvc/uvc_driver.c
-@@ -879,10 +879,8 @@ static int uvc_parse_vendor_control(struct uvc_device *dev,
- 					       + n;
- 		memcpy(unit->extension.bmControls, &buffer[23+p], 2*n);
- 
--		if (buffer[24+p+2*n] != 0)
--			usb_string(udev, buffer[24+p+2*n], unit->name,
--				   sizeof(unit->name));
--		else
-+		if (buffer[24+p+2*n] == 0 ||
-+		    usb_string(udev, buffer[24+p+2*n], unit->name, sizeof(unit->name)) < 0)
- 			sprintf(unit->name, "Extension %u", buffer[3]);
- 
- 		list_add_tail(&unit->list, &dev->entities);
-@@ -1006,15 +1004,15 @@ static int uvc_parse_standard_control(struct uvc_device *dev,
- 			memcpy(term->media.bmTransportModes, &buffer[10+n], p);
- 		}
- 
--		if (buffer[7] != 0)
--			usb_string(udev, buffer[7], term->name,
--				   sizeof(term->name));
--		else if (UVC_ENTITY_TYPE(term) == UVC_ITT_CAMERA)
--			sprintf(term->name, "Camera %u", buffer[3]);
--		else if (UVC_ENTITY_TYPE(term) == UVC_ITT_MEDIA_TRANSPORT_INPUT)
--			sprintf(term->name, "Media %u", buffer[3]);
--		else
--			sprintf(term->name, "Input %u", buffer[3]);
-+		if (buffer[7] == 0 ||
-+		    usb_string(udev, buffer[7], term->name, sizeof(term->name)) < 0) {
-+			if (UVC_ENTITY_TYPE(term) == UVC_ITT_CAMERA)
-+				sprintf(term->name, "Camera %u", buffer[3]);
-+			if (UVC_ENTITY_TYPE(term) == UVC_ITT_MEDIA_TRANSPORT_INPUT)
-+				sprintf(term->name, "Media %u", buffer[3]);
-+			else
-+				sprintf(term->name, "Input %u", buffer[3]);
-+		}
- 
- 		list_add_tail(&term->list, &dev->entities);
- 		break;
-@@ -1047,10 +1045,8 @@ static int uvc_parse_standard_control(struct uvc_device *dev,
- 
- 		memcpy(term->baSourceID, &buffer[7], 1);
- 
--		if (buffer[8] != 0)
--			usb_string(udev, buffer[8], term->name,
--				   sizeof(term->name));
--		else
-+		if (buffer[8] == 0 ||
-+		    usb_string(udev, buffer[8], term->name, sizeof(term->name)) < 0)
- 			sprintf(term->name, "Output %u", buffer[3]);
- 
- 		list_add_tail(&term->list, &dev->entities);
-@@ -1072,10 +1068,8 @@ static int uvc_parse_standard_control(struct uvc_device *dev,
- 
- 		memcpy(unit->baSourceID, &buffer[5], p);
- 
--		if (buffer[5+p] != 0)
--			usb_string(udev, buffer[5+p], unit->name,
--				   sizeof(unit->name));
--		else
-+		if (buffer[5+p] == 0 ||
-+		    usb_string(udev, buffer[5+p], unit->name, sizeof(unit->name)) < 0)
- 			sprintf(unit->name, "Selector %u", buffer[3]);
- 
- 		list_add_tail(&unit->list, &dev->entities);
-@@ -1105,10 +1099,8 @@ static int uvc_parse_standard_control(struct uvc_device *dev,
- 		if (dev->uvc_version >= 0x0110)
- 			unit->processing.bmVideoStandards = buffer[9+n];
- 
--		if (buffer[8+n] != 0)
--			usb_string(udev, buffer[8+n], unit->name,
--				   sizeof(unit->name));
--		else
-+		if (buffer[8+n] == 0 ||
-+		    usb_string(udev, buffer[8+n], unit->name, sizeof(unit->name)) < 0)
- 			sprintf(unit->name, "Processing %u", buffer[3]);
- 
- 		list_add_tail(&unit->list, &dev->entities);
-@@ -1136,10 +1128,8 @@ static int uvc_parse_standard_control(struct uvc_device *dev,
- 		unit->extension.bmControls = (u8 *)unit + sizeof(*unit);
- 		memcpy(unit->extension.bmControls, &buffer[23+p], n);
- 
--		if (buffer[23+p+n] != 0)
--			usb_string(udev, buffer[23+p+n], unit->name,
--				   sizeof(unit->name));
--		else
-+		if (buffer[23+p+n] == 0 ||
-+		    usb_string(udev, buffer[23+p+n], unit->name, sizeof(unit->name)) < 0)
- 			sprintf(unit->name, "Extension %u", buffer[3]);
- 
- 		list_add_tail(&unit->list, &dev->entities);
 
 -- 
-b4 0.11.0-dev-d93f8
+Ricardo Ribalda
