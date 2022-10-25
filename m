@@ -2,116 +2,118 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4E4AE60C561
-	for <lists+linux-media@lfdr.de>; Tue, 25 Oct 2022 09:36:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 28BDB60C6CB
+	for <lists+linux-media@lfdr.de>; Tue, 25 Oct 2022 10:46:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231274AbiJYHgX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 25 Oct 2022 03:36:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36766 "EHLO
+        id S230187AbiJYIp6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 25 Oct 2022 04:45:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46734 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231808AbiJYHgH (ORCPT
+        with ESMTP id S229678AbiJYIpz (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 25 Oct 2022 03:36:07 -0400
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 334381CFE7
-        for <linux-media@vger.kernel.org>; Tue, 25 Oct 2022 00:36:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1666683362; x=1698219362;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=TvKLXiGrpVfXoL7NtswXs0kG1IYYBtBAq1r5eKanmxU=;
-  b=eORwXo9Asd0YUt/QxvcPyxEjOgfyj0/GrOMkkgxINb6QKr3m+AHqxwa0
-   mXbJGpxQYhXhccbGlrpueal//NiYvD0UugRyBCVfqb9aw7kTtQmcRUFeH
-   74/HBpQXrGQ2WjiKWLeAeYqv35hFvcftt2RD5NW3UxWlI5X1lGoX0eiHZ
-   bMZJuvCI/F9bgwN9UBfM1zMDblafnq/tdPGv39qWuhxrYB/AnoTp4FDCH
-   ReZQN7+m3h/39PAuDnnfPFYAeQsBZokpZYtTyONOVWtC1WkcTe3PSQXwY
-   4jyyBhYnBKXsKOLG9PM5lf4habBFFd7p659sm2xwURan6HcmeQU5PXsVJ
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10510"; a="306341668"
-X-IronPort-AV: E=Sophos;i="5.95,211,1661842800"; 
-   d="scan'208";a="306341668"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2022 00:36:00 -0700
-X-IronPort-AV: E=McAfee;i="6500,9779,10510"; a="664818913"
-X-IronPort-AV: E=Sophos;i="5.95,211,1661842800"; 
-   d="scan'208";a="664818913"
-Received: from punajuuri.fi.intel.com (HELO paasikivi.fi.intel.com) ([10.237.72.43])
-  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2022 00:35:57 -0700
-Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
-        by paasikivi.fi.intel.com (Postfix) with SMTP id 511062021B;
-        Tue, 25 Oct 2022 10:35:51 +0300 (EEST)
-Date:   Tue, 25 Oct 2022 07:35:51 +0000
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Benjamin Mugnier <benjamin.mugnier@foss.st.com>
-Cc:     linux-media@vger.kernel.org, alain.volmat@foss.st.com,
-        hugues.fruchet@foss.st.com, sylvain.petinot@foss.st.com,
-        dave.stevenson@raspberrypi.com, laurent.pinchart@ideasonboard.com,
-        kieran.bingham@ideasonboard.com, nicolas@ndufresne.ca,
-        hverkuil@xs4all.nl
-Subject: Re: [PATCH v7 4/5] media: Documentation: Add ST VGXY61 driver
- documentation
-Message-ID: <Y1eR1+crUROuGurt@paasikivi.fi.intel.com>
-References: <20221011120555.28889-1-benjamin.mugnier@foss.st.com>
- <20221011123030.31802-2-benjamin.mugnier@foss.st.com>
+        Tue, 25 Oct 2022 04:45:55 -0400
+Received: from mail-io1-xd2f.google.com (mail-io1-xd2f.google.com [IPv6:2607:f8b0:4864:20::d2f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C7A4FD03B6
+        for <linux-media@vger.kernel.org>; Tue, 25 Oct 2022 01:45:53 -0700 (PDT)
+Received: by mail-io1-xd2f.google.com with SMTP id r142so9709999iod.11
+        for <linux-media@vger.kernel.org>; Tue, 25 Oct 2022 01:45:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=r7Y5khI94/D2ljSZhlC1O6a2PmmY16yoIwTovHKDb3o=;
+        b=a1vITaQWC9wX5kZL0LSKI6aBsiRjCc4Sv++aaVxhu7tmXDZWlAkT4hTB/LO2SU8kei
+         OpaIiKyH8rO75wdLEY76es+7cGVc6FI9hNpKUIISNQkOwERw7tYB8wCyKB0EzPYw+9ko
+         ASdRb7Pp8VU6GGx4cDhDRamITFOdGk8+vIPjI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=r7Y5khI94/D2ljSZhlC1O6a2PmmY16yoIwTovHKDb3o=;
+        b=JtTe6GwpusArPq5haHV65B6sNzYvFCIv0btNejy6gj5i0Sw2zhr/gT8Nerlmk5wLKA
+         TVc74sl/Ahn8R+fAdAB1gbhVVBnv/OG5DExUOdjPpGV7UkqiFWV/9Jongs6/Bvyv1uW7
+         6WK296ooNZjbeN6kBeGWQqrCicpvXBWL8uhTeTweWx2OSxRyM73zlRpS36k+ZBCIL1Ld
+         M2DQrtF5Y9Z8nf5b+BA+k67x7GK/z8IGR5emir6B4hD8i3VdB08Qk0atArFFKuDcnIqX
+         gtnwkhbyFYfb6o+zprWT/koLRRNJCJxP+DP//IxEfLqlCMwE9NMJ+SLecG3oSTqFKMqi
+         Eyfg==
+X-Gm-Message-State: ACrzQf3e4TMWbBZkLDs2AfKLwWinwUMEAr92TY/iKZ+/yAji3QP5uVKk
+        qzW+WdTmVjHmANpo3uDMFCOzCEdMkZWhQexf
+X-Google-Smtp-Source: AMsMyM6DqtNHNCfINXpS8Va2OhRr+DC52pENDALHEr4ZB6aUlB3/Be6JP3ZeREVma+C9fXASO4Fc+A==
+X-Received: by 2002:a02:a08d:0:b0:374:ad42:31ec with SMTP id g13-20020a02a08d000000b00374ad4231ecmr4229677jah.8.1666687552927;
+        Tue, 25 Oct 2022 01:45:52 -0700 (PDT)
+Received: from mail-io1-f47.google.com (mail-io1-f47.google.com. [209.85.166.47])
+        by smtp.gmail.com with ESMTPSA id j17-20020a056e02125100b002f139ba4135sm799710ilq.86.2022.10.25.01.45.51
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 25 Oct 2022 01:45:52 -0700 (PDT)
+Received: by mail-io1-f47.google.com with SMTP id e15so9759997iof.2
+        for <linux-media@vger.kernel.org>; Tue, 25 Oct 2022 01:45:51 -0700 (PDT)
+X-Received: by 2002:a02:cc51:0:b0:36d:df36:fcb1 with SMTP id
+ i17-20020a02cc51000000b0036ddf36fcb1mr8743541jaq.51.1666687551449; Tue, 25
+ Oct 2022 01:45:51 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221011123030.31802-2-benjamin.mugnier@foss.st.com>
-X-Spam-Status: No, score=-4.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+References: <20221025050450.1743072-1-pedro.guilherme@espectro.eng.br> <20221025050450.1743072-2-pedro.guilherme@espectro.eng.br>
+In-Reply-To: <20221025050450.1743072-2-pedro.guilherme@espectro.eng.br>
+From:   Ricardo Ribalda <ribalda@chromium.org>
+Date:   Tue, 25 Oct 2022 10:45:40 +0200
+X-Gmail-Original-Message-ID: <CANiDSCs1pQEq73=vuNR9gymLMZFDkS3acDXRPNT=hc=eEvLzSA@mail.gmail.com>
+Message-ID: <CANiDSCs1pQEq73=vuNR9gymLMZFDkS3acDXRPNT=hc=eEvLzSA@mail.gmail.com>
+Subject: Re: [PATCH v2 2/3] media: uvc_driver: fix assignment inside if condition
+To:     Pedro Guilherme Siqueira Moreira <pedro.guilherme@espectro.eng.br>
+Cc:     laurent.pinchart@ideasonboard.com, mchehab@kernel.org,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Benjamin,
-
-On Tue, Oct 11, 2022 at 02:30:29PM +0200, Benjamin Mugnier wrote:
-> Document V4L2_CID_HDR_MODE possible values for this sensor.
-> 
-> Signed-off-by: Benjamin Mugnier <benjamin.mugnier@foss.st.com>
+On Tue, 25 Oct 2022 at 07:08, Pedro Guilherme Siqueira Moreira
+<pedro.guilherme@espectro.eng.br> wrote:
+>
+> Fixes 'do not use assignment in if condition' errors issued by
+> scripts/checkpatch.pl on drivers/media/usb/uvc/uvc_driver.c
+>
+> Signed-off-by: Pedro Guilherme Siqueira Moreira <pedro.guilherme@espectro.eng.br>
+Reviewed-by: Ricardo Ribalda <ribalda@chromium.org>
 > ---
->  .../userspace-api/media/drivers/st-vgxy61.rst | 23 +++++++++++++++++++
->  1 file changed, 23 insertions(+)
->  create mode 100644 Documentation/userspace-api/media/drivers/st-vgxy61.rst
-> 
-> diff --git a/Documentation/userspace-api/media/drivers/st-vgxy61.rst b/Documentation/userspace-api/media/drivers/st-vgxy61.rst
-> new file mode 100644
-> index 000000000000..213b884dcfa6
-> --- /dev/null
-> +++ b/Documentation/userspace-api/media/drivers/st-vgxy61.rst
-> @@ -0,0 +1,23 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +ST VGXY61 camera sensor driver
-> +==============================
-> +
-> +The ST VGXY61 driver implements the following controls:
-> +
-> +``V4L2_CID_HDR_SENSOR_MODE``
-> +-------------------------------
-> +    Change the sensor HDR mode. A HDR picture is obtained by merging two captures of the same scene
-> +    using two different exposure periods.
-> +
-> +.. flat-table::
-> +    :header-rows:  0
-> +    :stub-columns: 0
-> +    :widths:       1 4
-> +
-> +    * - HDR linearize
-> +      - The merger outputs a long exposure capture as long as it is not saturated.
-> +    * - HDR substraction
-> +      - This involves subtracting the short exposure frame from the long exposure frame.
-> +    * - "No HDR"
-> +      - This mode is used for standard dynamic range (SDR) exposures.
+>  drivers/media/usb/uvc/uvc_driver.c | 6 ++++--
+>  1 file changed, 4 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
+> index b591ad823c66..7b6c97ad3a41 100644
+> --- a/drivers/media/usb/uvc/uvc_driver.c
+> +++ b/drivers/media/usb/uvc/uvc_driver.c
+> @@ -1174,7 +1174,8 @@ static int uvc_parse_control(struct uvc_device *dev)
+>                     buffer[1] != USB_DT_CS_INTERFACE)
+>                         goto next_descriptor;
+>
+> -               if ((ret = uvc_parse_standard_control(dev, buffer, buflen)) < 0)
+> +               ret = uvc_parse_standard_control(dev, buffer, buflen);
+> +               if (ret < 0)
+>                         return ret;
+>
+>  next_descriptor:
+> @@ -2213,7 +2214,8 @@ static int uvc_probe(struct usb_interface *intf,
+>         usb_set_intfdata(intf, dev);
+>
+>         /* Initialize the interrupt URB. */
+> -       if ((ret = uvc_status_init(dev)) < 0) {
+> +       ret = uvc_status_init(dev);
+> +       if (ret < 0) {
+>                 dev_info(&dev->udev->dev,
+>                          "Unable to initialize the status endpoint (%d), status interrupt will not be supported.\n",
+>                          ret);
+> --
+> 2.38.1
+>
 
-I wonder if it would be helpful for the user space to have macros to define
-these values.
-
-The lines should be wrapped at 80, too. I'll do that while applying...
 
 -- 
-Sakari Ailus
+Ricardo Ribalda
