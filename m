@@ -2,78 +2,66 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A245160C074
-	for <lists+linux-media@lfdr.de>; Tue, 25 Oct 2022 03:07:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9662860C13D
+	for <lists+linux-media@lfdr.de>; Tue, 25 Oct 2022 03:43:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230404AbiJYBHE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 24 Oct 2022 21:07:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60140 "EHLO
+        id S231260AbiJYBnh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 24 Oct 2022 21:43:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50734 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230471AbiJYBGZ (ORCPT
+        with ESMTP id S231411AbiJYBnX (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 24 Oct 2022 21:06:25 -0400
-Received: from mail-oa1-x2e.google.com (mail-oa1-x2e.google.com [IPv6:2001:4860:4864:20::2e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EEF354A10C;
-        Mon, 24 Oct 2022 17:13:22 -0700 (PDT)
-Received: by mail-oa1-x2e.google.com with SMTP id 586e51a60fabf-12c8312131fso13797337fac.4;
-        Mon, 24 Oct 2022 17:13:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=IGPioqrvo9StUbHADKkHl19MNXlGRLsr8yyQyLq+9dw=;
-        b=fw426MFVi8E8FV5waIk4Oob4n7Z60FaIvxuxFizMZl0Bqjgu6QzlV08gF9kneZoYMm
-         aM3Nw2cEIDRftpvXafrojAp2ttB3ExekuZm6uEu/dkvjs/r5sEka0OeTmTHUR/G6vTZh
-         Ubcx2hEBP00PzwyTFlvbwPhRoV0WRxQkwcoknaqUDOHz2afOVF08TOaj8NF9pw4yvQbC
-         f4gge7qgH7clv0bv5m2IsWrdz0TYehwQr6r4CcSzgrcCL62nIXmmJwAlAvUAotzyPk/Q
-         nFhEU4//YOMAU+BxrcC/UKKbpafDL7QclxfAopSt+u4dxWj4PAAIZUTtPj4v+pjgS355
-         k5QA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=IGPioqrvo9StUbHADKkHl19MNXlGRLsr8yyQyLq+9dw=;
-        b=Pc8M8c0lEjqy3ruDFuGTLaC7ayd0VP/IhLucLsSuFV955PTrx7reaa1M6rwpEM19k0
-         JAYattwbK9ZOB1qs3RLP9/Lx9pOn83BJzg8EysyN+KY1i38Vr6i4fX8tkDzZCO7YH7XH
-         Iwj5vSDm9j2OBrEdTwRw9exds/wgbFCYLfVRuupgMnEk9uUf9ktJOWDbm3uMcesm1Fer
-         f/NlL287NHBtBsZ/rBaU6Cx5diDCsSm+KcuR6jKux/FRCB0WOA73g8PrfMJ/8Gliht/q
-         D9CEkB2kmqtxDlrcIa6HBKulgquFuZ7J39WnrPP19piongaCVzzCW+fwr7ynDo3ye3Cl
-         CQ0w==
-X-Gm-Message-State: ACrzQf0bceRsxydes4iyepHyzO4wRCqFiwhPvnRDAfL4nxKUYbZJEadP
-        sY5eFtPg65Q2irqKqGm0ZMU=
-X-Google-Smtp-Source: AMsMyM568uBoXBTKTQH5tI8SsoA5Gk98p6XETIY9iE85DbOALaC6GXX/8hoMHb4avmS4PetrB7QuuQ==
-X-Received: by 2002:a05:6870:4284:b0:13b:91b7:89a8 with SMTP id y4-20020a056870428400b0013b91b789a8mr5715289oah.284.1666656801702;
-        Mon, 24 Oct 2022 17:13:21 -0700 (PDT)
-Received: from gabriel-Nitro-AN515-54.. (201-27-204-68.dsl.telesp.net.br. [201.27.204.68])
-        by smtp.gmail.com with ESMTPSA id k41-20020a05687095a900b00131c3d4d38fsm757823oao.39.2022.10.24.17.13.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Oct 2022 17:13:20 -0700 (PDT)
-From:   Gabriel Lima Luz <lima.gabriel.luz@gmail.com>
-To:     Rui Miguel Silva <rmfrfs@gmail.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        outreachy@lists.linux.dev
-Cc:     Gabriel Lima Luz <lima.gabriel.luz@gmail.com>
-Subject: [PATCH v2] staging: media: imx: imx7-media-csi: Fix parenthesis alignment
-Date:   Mon, 24 Oct 2022 21:12:39 -0300
-Message-Id: <20221025001239.16345-1-lima.gabriel.luz@gmail.com>
-X-Mailer: git-send-email 2.34.1
+        Mon, 24 Oct 2022 21:43:23 -0400
+X-Greylist: delayed 1387 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 24 Oct 2022 18:26:54 PDT
+Received: from gateway34.websitewelcome.com (gateway34.websitewelcome.com [192.185.149.77])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9FC55F0B
+        for <linux-media@vger.kernel.org>; Mon, 24 Oct 2022 18:26:51 -0700 (PDT)
+Received: from atl1wswcm04.websitewelcome.com (unknown [50.6.129.165])
+        by atl3wswob05.websitewelcome.com (Postfix) with ESMTP id 2D3BF15CBF
+        for <linux-media@vger.kernel.org>; Tue, 25 Oct 2022 01:03:45 +0000 (UTC)
+Received: from br984.hostgator.com.br ([162.241.203.37])
+        by cmsmtp with ESMTP
+        id n8M4oiK3JgEOMn8M4oANrz; Tue, 25 Oct 2022 01:03:45 +0000
+X-Authority-Reason: nr=8
+Received: from [177.194.67.221] (port=43054 helo=arch-avell.meuintelbras.local)
+        by br984.hostgator.com.br with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.95)
+        (envelope-from <pedro.guilherme@espectro.eng.br>)
+        id 1on8M4-001BYl-76;
+        Mon, 24 Oct 2022 22:03:44 -0300
+From:   Pedro Guilherme Siqueira Moreira <pedro.guilherme@espectro.eng.br>
+To:     laurent.pinchart@ideasonboard.com
+Cc:     mchehab@kernel.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Pedro Guilherme Siqueira Moreira 
+        <pedro.guilherme@espectro.eng.br>
+Subject: [PATCH 1/3] media: uvc_driver: fix missing newline after declarations
+Date:   Mon, 24 Oct 2022 22:03:01 -0300
+Message-Id: <20221025010303.570815-1-pedro.guilherme@espectro.eng.br>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - br984.hostgator.com.br
+X-AntiAbuse: Original Domain - vger.kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - espectro.eng.br
+X-BWhitelist: no
+X-Source-IP: 177.194.67.221
+X-Source-L: No
+X-Exim-ID: 1on8M4-001BYl-76
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-Source-Sender: (arch-avell.meuintelbras.local) [177.194.67.221]:43054
+X-Source-Auth: pedro.guilherme@espectro.eng.br
+X-Email-Count: 2
+X-Source-Cap: ZXNwZWN0ODU7ZXNwZWN0ODU7YnI5ODQuaG9zdGdhdG9yLmNvbS5icg==
+X-Local-Domain: yes
+X-CMAE-Envelope: MS4xfLpaOJuzFnAtADDDDNq0S2RGfNwC46e0AUhV1UcfQDXebN0yYF1m/EpYOyJADM2hWcYSQ4ZaxEFtfNrKtRPosWSwpsDTi+iEEsPtx7NqMzhyvmfyZ7wI
+ JC5RKyJD0TeHe6C4k/2yzCUmWkCWR4glSttTS3GBxiDGrHpWZBPhQFK5vpu3A/QcanxemQ48fLB1ZbVLcrIfFjdaIacqyLHXl0Rxy4nOaoDTIXB7Ognx+zbA
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -81,33 +69,46 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Adhere to Linux kernel coding style.
-
-Reported by checkpatch:
-
-CHECK: Alignment should match open parenthesis
-
-Signed-off-by: Gabriel Lima Luz <lima.gabriel.luz@gmail.com>
+Signed-off-by: Pedro Guilherme Siqueira Moreira <pedro.guilherme@espectro.eng.br>
 ---
-Altered changes acording to feedback for a more readable code
+ drivers/media/usb/uvc/uvc_driver.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
- drivers/staging/media/imx/imx7-media-csi.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/staging/media/imx/imx7-media-csi.c b/drivers/staging/media/imx/imx7-media-csi.c
-index cbc66ef0eda8..b241b68f456c 100644
---- a/drivers/staging/media/imx/imx7-media-csi.c
-+++ b/drivers/staging/media/imx/imx7-media-csi.c
-@@ -1704,7 +1704,8 @@ static int imx7_csi_init_cfg(struct v4l2_subdev *sd,
- 		mf->xfer_func = V4L2_MAP_XFER_FUNC_DEFAULT(mf->colorspace);
- 		mf->ycbcr_enc = V4L2_MAP_YCBCR_ENC_DEFAULT(mf->colorspace);
- 		mf->quantization = V4L2_MAP_QUANTIZATION_DEFAULT(!cc->yuv,
--					mf->colorspace, mf->ycbcr_enc);
-+							mf->colorspace,
-+							mf->ycbcr_enc);
+diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
+index 215fb483efb0..b591ad823c66 100644
+--- a/drivers/media/usb/uvc/uvc_driver.c
++++ b/drivers/media/usb/uvc/uvc_driver.c
+@@ -732,6 +732,7 @@ static int uvc_parse_streaming(struct uvc_device *dev,
+ 	/* Parse the alternate settings to find the maximum bandwidth. */
+ 	for (i = 0; i < intf->num_altsetting; ++i) {
+ 		struct usb_host_endpoint *ep;
++
+ 		alts = &intf->altsetting[i];
+ 		ep = uvc_find_endpoint(alts,
+ 				streaming->header.bEndpointAddress);
+@@ -1859,12 +1860,14 @@ static void uvc_delete(struct kref *kref)
  
- 		csi->cc[i] = cc;
+ 	list_for_each_safe(p, n, &dev->chains) {
+ 		struct uvc_video_chain *chain;
++
+ 		chain = list_entry(p, struct uvc_video_chain, list);
+ 		kfree(chain);
  	}
+ 
+ 	list_for_each_safe(p, n, &dev->entities) {
+ 		struct uvc_entity *entity;
++
+ 		entity = list_entry(p, struct uvc_entity, list);
+ #ifdef CONFIG_MEDIA_CONTROLLER
+ 		uvc_mc_cleanup_entity(entity);
+@@ -1874,6 +1877,7 @@ static void uvc_delete(struct kref *kref)
+ 
+ 	list_for_each_safe(p, n, &dev->streams) {
+ 		struct uvc_streaming *streaming;
++
+ 		streaming = list_entry(p, struct uvc_streaming, list);
+ 		usb_driver_release_interface(&uvc_driver.driver,
+ 			streaming->intf);
 -- 
-2.34.1
+2.38.1
 
