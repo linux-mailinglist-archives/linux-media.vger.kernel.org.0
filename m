@@ -2,59 +2,59 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8287660CF26
-	for <lists+linux-media@lfdr.de>; Tue, 25 Oct 2022 16:35:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0C6A260CF2A
+	for <lists+linux-media@lfdr.de>; Tue, 25 Oct 2022 16:36:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232467AbiJYOf0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 25 Oct 2022 10:35:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38866 "EHLO
+        id S229744AbiJYOff (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 25 Oct 2022 10:35:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39024 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232330AbiJYOfV (ORCPT
+        with ESMTP id S232442AbiJYOfX (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 25 Oct 2022 10:35:21 -0400
-Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com [IPv6:2a00:1450:4864:20::636])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 533A58D20F
-        for <linux-media@vger.kernel.org>; Tue, 25 Oct 2022 07:35:18 -0700 (PDT)
-Received: by mail-ej1-x636.google.com with SMTP id 13so13048597ejn.3
-        for <linux-media@vger.kernel.org>; Tue, 25 Oct 2022 07:35:18 -0700 (PDT)
+        Tue, 25 Oct 2022 10:35:23 -0400
+Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com [IPv6:2a00:1450:4864:20::52b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2926497EE0
+        for <linux-media@vger.kernel.org>; Tue, 25 Oct 2022 07:35:20 -0700 (PDT)
+Received: by mail-ed1-x52b.google.com with SMTP id y69so17527239ede.5
+        for <linux-media@vger.kernel.org>; Tue, 25 Oct 2022 07:35:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=CBQi3G3Ym31IbBZKsntX/6j7yLQdhJIuZJ9n/O1WbSA=;
-        b=IjtjnaitqL4YWVUyckfhshIgXOqDSQJwVkL3vu2mQ4xLMHxL/dvldbBzC935krRQ11
-         ThoQfe/9ZmVJR9xGdVe49xD+ISZZz6kRFkaVl8VD77hG5C25AaD7EiilpJzTriHn38TK
-         h8Dpip8/8XY32l896EkV72KqhvKco/+1rFN8g=
+        bh=mMLlFka1I97WBpNYC6a4inYcni8WZqVzi63jLlkZWi4=;
+        b=Qfx1Bj1JK4e65/6R6MgGPuZBNlmRrurek97IQhmwS7ceqdGvFOmGBXWflS5Vd3NqdV
+         6iHkNVHzo3C12kEjve4QbVskgamxt0uKBkixiQ3UM/8EOccBLC71OkDBWpxiRqYdOBH5
+         mx9SSGbDC2WSkZFqEc+VOYvHzPLJ0OrYbE19g=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=CBQi3G3Ym31IbBZKsntX/6j7yLQdhJIuZJ9n/O1WbSA=;
-        b=Pu2r6Qd2PDINIh7rHNIgvt/HQlM9VfFoDkWAN0PpBNiA5HExENuTQBl16wKRdFC/Hj
-         UawAeUw6PebEnGWfk5e6eP1yI0gzTdKmphs0Rx93x7xmNt1w07wlqhivZH8rjeIetm1O
-         RkIFNPMR8golxoFWhogFxNmjBCJSAb7O7WRjeovov0nrU6ZHQFDML2r8nCyEGP/fWDbN
-         FjRaZZvJnTKKN4KpzD6lT17ZUCgxsabDNExm7+RE01HN0zWUmYcT1m4klKUd/VlR/TlS
-         htc9jmvsibHkw3Uy1m4M8ikFyoECmDMjResaW2CAXmw4yD9mlo6PjtaWyI5xoP3RE991
-         v44g==
-X-Gm-Message-State: ACrzQf03FWb+UqsU82mHHwPx3L+zfsiGSTzAxnOzFZ3ZCKhk8VmcWyu7
-        DtleDZbuETPPXV9AG5iV+yEehQ==
-X-Google-Smtp-Source: AMsMyM56iCvlaSjd6gTckL2lznGsHz+xLxt6FQFcShC9bAxTNItckDBO95rvBajAVRfKDgZqHqnUeA==
-X-Received: by 2002:a17:907:2672:b0:780:8bb5:25a3 with SMTP id ci18-20020a170907267200b007808bb525a3mr32505579ejc.281.1666708517878;
-        Tue, 25 Oct 2022 07:35:17 -0700 (PDT)
+        bh=mMLlFka1I97WBpNYC6a4inYcni8WZqVzi63jLlkZWi4=;
+        b=Zs0QpJHFR2+QqV7JTr735egO7dnTUxkLF6Hl4HeBHGbSBZdA7buz6s8lapA1+iJF7/
+         Lo6rC5smZ7Ds5UyiUQj7MtUpwFpgQ5hSsV1TTT1ha3labdlP8F4t9pD0lmK92rtb71ZC
+         xDnRMQvMhV4+D3hNqkUfAtCZE/M5KwIdLvrJ3Bbcb/iK5ksVArY5QxU/vKfoep5WqjH3
+         eBV7VfxBszyRGlTiG4Wsfezx9SUGjD7ShKffCIbIMLH6s7k3oRMMUGZOLfw72hyDfWPW
+         ujCncLcdCH72sTDiMg7DeKzOwBEyZJxrYpXYtV1vdhF7TWR+ds3RhHqnrR6PUiP9dblt
+         ShTg==
+X-Gm-Message-State: ACrzQf2B2BZ+5rHvqh0emkXDvaZ+HsNL7GRTyZqBKf31xIY4VKQaty/K
+        985UbA7Jj5hUQySGeMasZhh99/pVGhfbZbtx
+X-Google-Smtp-Source: AMsMyM6FQBVzRSrfYqYI4K+zQsyvap1uAg7GY4Wor8zwg61CEy1cwP5rbvR3Fl0VoLOrK9Bkb95w9Q==
+X-Received: by 2002:aa7:c504:0:b0:461:122b:882b with SMTP id o4-20020aa7c504000000b00461122b882bmr25086551edq.14.1666708519387;
+        Tue, 25 Oct 2022 07:35:19 -0700 (PDT)
 Received: from alco.roam.corp.google.com ([2620:0:1059:10:e6ae:c7ac:c234:953c])
-        by smtp.gmail.com with ESMTPSA id e9-20020a170906314900b007acd04fcedcsm631021eje.46.2022.10.25.07.35.16
+        by smtp.gmail.com with ESMTPSA id e9-20020a170906314900b007acd04fcedcsm631021eje.46.2022.10.25.07.35.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Oct 2022 07:35:17 -0700 (PDT)
+        Tue, 25 Oct 2022 07:35:18 -0700 (PDT)
 From:   Ricardo Ribalda <ribalda@chromium.org>
-Date:   Tue, 25 Oct 2022 16:34:27 +0200
-Subject: [PATCH v2 6/8] media: uvcvideo: Release stream queue when unregistering
- video device
+Date:   Tue, 25 Oct 2022 16:34:28 +0200
+Subject: [PATCH v2 7/8] media: uvcvideo: Protect uvc queue file operations against
+ disconnect
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20220920-resend-powersave-v2-6-5135d1bb1c38@chromium.org>
+Message-Id: <20220920-resend-powersave-v2-7-5135d1bb1c38@chromium.org>
 References: <20220920-resend-powersave-v2-0-5135d1bb1c38@chromium.org>
 In-Reply-To: <20220920-resend-powersave-v2-0-5135d1bb1c38@chromium.org>
 To:     Mauro Carvalho Chehab <mchehab@kernel.org>
@@ -66,25 +66,25 @@ Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Ricardo Ribalda <ribalda@chromium.org>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>
 X-Mailer: b4 0.11.0-dev-d93f8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3485; i=ribalda@chromium.org;
- h=from:subject:message-id; bh=lnR79aPbgxGWW1+CW9B6Zk1T+xgYfHfisqEZO2U/Www=;
- b=owEBbQKS/ZANAwAKAdE30T7POsSIAcsmYgBjV/QYDKMQuekATrtARrL80BycwWYzTmtrt+zsj9AD
- Uhw4JSiJAjMEAAEKAB0WIQREDzjr+/4oCDLSsx7RN9E+zzrEiAUCY1f0GAAKCRDRN9E+zzrEiI6QD/
- 0YKUZQY1+1WWOIAxk70HDqqWeaHrf/XJIMpizWgNm50/uF6FBK/Fj8hYdn+TwVNqn9lL7mYKzRxPag
- wlWYgRgL/E2K9QuwwdkFTsC2OLArFbm3KVaH1mCIotDg9O/TLJh2f3o8rHEXFg8GWVhkkMHMoeaQOK
- +UnpMs8fVCfDv9XOmOqP8T+tsHV7H21K5D5+6dA6ExzDQqFcU2X7fWkBwGgCA98YIOxTrlN4Ud5XWK
- nCvGc2669t2c+J1u8ZON1MCRrPb3ihRJ3qWIFLCppFhcCV8eseRKkzAUIBIjUB1AtckDWG0mMPW4RH
- Xd7iLVpcy95Leh1PlxfCDwntWwk4BX44btHUDu+MBaIxQQtQhnesSrLD9IJfQDat8gYfj1mYUaCL3F
- u2tMmFZtLHfr0XwXa15Ir4oyyPwDDPGeXpIdAAa9PddzaHuio1DgSM/pLugytcvKIKwFcwvDYCHPvm
- 2lmLqG1fr3duw+kxwbnjsiqMm7B1+0OqgY8CD2NL2k2MonWEsOQFjBYJxPzhQa9IPb/ldhUqERMcwK
- YYO3w/vvBv3m5NaIBD/6MGPu7BXM/7qqu2ETJ5L2yWawxlxbQ7VdeQUwteDiVf7bByiS7xijIb+TKh
- jdweYJRY/fQklPWZZBwnEm5a367xU50ftQ6S/BYPFmav6XIg1p6aBMDxJx7Q==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2373; i=ribalda@chromium.org;
+ h=from:subject:message-id; bh=VNSZpEP9LE78JkEZDvuh4x3SXN68AOH2OfrHeEklewU=;
+ b=owEBbQKS/ZANAwAKAdE30T7POsSIAcsmYgBjV/QaTdNr8W8xCBJiosDRFO8HU1dfVbh3902iej3P
+ m8gzCRmJAjMEAAEKAB0WIQREDzjr+/4oCDLSsx7RN9E+zzrEiAUCY1f0GgAKCRDRN9E+zzrEiBnhD/
+ 9wmBIBsC055I344aXmhM2aHVv1TK7xU8KToLtryYZk8LQNH9y8Ig9+QVK+r4QJg4ospiMPZD1SOawX
+ VUnsDnvOceokhNWnFuKYgUecVqEOlqR8hw7dAbgnyVD1bwj4a5sehLIb3zPikjifZQfMK2dhCNJaYM
+ e5SpvDDj0ovqFzeAwm8Zu93D+SBeW/XQ+smypqV5/Yp2mAf19HpqWLc9BibgpyJvxsMrAEm39EkPg1
+ BSStVdabcgeVmokFb7QCjTcKgAPCXxICwDljQcdTR3cUt3Vw6N0j1iIenekVpOgh2f/F9N1T6TF6wR
+ GVf+cLl4t6MnSAGEXL8xWpqx/zZZ+CfO3B0ofoLxFvdhiGa62Igbi2uRGnpzlZdoYmg9vINVdXu1EQ
+ neRRkAB0kBEdWswz5RDsfNVsq+OoXGfqfmOFLTVIzZbf+oPDGQPJWmH30b/TEZeruDwMu6LY9/Izhp
+ JTiNsIf7/m4wFbBFXgYs3dy5trr4OpkvQfdgXcbgn/L/c5Uc0GqH4Z1nHko560Uduxpr2z8xXUOWfo
+ G4yT1y48Ct0+i4CXNaN5aBgMg//PdRCdCSnhrvZBly9WPcsGrZZCtRl7skmukpShQbdCewb1KkvYdt
+ h3FS7QlmqZ0RuR8pFcjWvmgk1nIFnfgUm0p6wsRhwxCimvmyV5+2hXDo9ndg==
 X-Developer-Key: i=ribalda@chromium.org; a=openpgp;
  fpr=9EC3BB66E2FC129A6F90B39556A0D81F9F782DA9
 X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -93,84 +93,80 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 From: Guenter Roeck <linux@roeck-us.net>
 
-The following traceback was observed when stress testing the uvcvideo
-driver.
+uvc queue file operations have no mutex protection against USB
+disconnect. This is questionable at least for the poll operation,
+which has to wait for the uvc queue mutex. By the time that mutex
+has been acquired, is it possible that the video device has been
+unregistered.
 
-config->interface[0] is NULL
-WARNING: CPU: 0 PID: 2757 at drivers/usb/core/usb.c:285 usb_ifnum_to_if+0x81/0x85
-^^^ added log message and WARN() to prevent crash
-Modules linked in: <...>
-CPU: 0 PID: 2757 Comm: inotify_reader Not tainted 4.19.139 #20
-Hardware name: Google Phaser/Phaser, BIOS Google_Phaser.10952.0.0 08/09/2018
-RIP: 0010:usb_ifnum_to_if+0x81/0x85
-Code: <...>
-RSP: 0018:ffff9ee20141fa58 EFLAGS: 00010246
-RAX: 438a0e5a525f1800 RBX: 0000000000000000 RCX: 0000000000000000
-RDX: ffff975477a1de90 RSI: ffff975477a153d0 RDI: ffff975477a153d0
-RBP: ffff9ee20141fa70 R08: 000000000000002c R09: 002daec189138d78
-R10: 0000001000000000 R11: ffffffffa7da42e6 R12: ffff975459594800
-R13: 0000000000000001 R14: 0000000000000001 R15: ffff975465376400
-FS:  00007ddebffd6700(0000) GS:ffff975477a00000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 0000000012c83000 CR3: 00000001bbaf8000 CR4: 0000000000340ef0
-Call Trace:
- usb_set_interface+0x3b/0x2f3
- uvc_video_stop_streaming+0x38/0x81 [uvcvideo]
- uvc_stop_streaming+0x21/0x49 [uvcvideo]
- __vb2_queue_cancel+0x33/0x249 [videobuf2_common]
- vb2_core_queue_release+0x1c/0x45 [videobuf2_common]
- uvc_queue_release+0x26/0x32 [uvcvideo]
- uvc_v4l2_release+0x41/0xdd [uvcvideo]
- v4l2_release+0x99/0xed
- __fput+0xf0/0x1ea
- task_work_run+0x7f/0xa7
- do_exit+0x1d1/0x6eb
- do_group_exit+0x9d/0xac
- get_signal+0x135/0x482
- do_signal+0x4a/0x63c
- exit_to_usermode_loop+0x86/0xa5
- do_syscall_64+0x171/0x269
- ? __do_page_fault+0x272/0x474
- entry_SYSCALL_64_after_hwframe+0x44/0xa9
-RIP: 0033:0x7ddec156dc26
-Code: Bad RIP value.
-RSP: 002b:00007ddebffd5c10 EFLAGS: 00000293 ORIG_RAX: 0000000000000017
-RAX: fffffffffffffdfe RBX: 000000000000000a RCX: 00007ddec156dc26
-RDX: 0000000000000000 RSI: 00007ddebffd5d28 RDI: 000000000000000a
-RBP: 00007ddebffd5c50 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000293 R12: 00007ddebffd5d28
-R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000000
-
-When this was observed, a USB disconnect was in progress, uvc_disconnect()
-had returned, but usb_disable_device() was still running.
-Drivers are not supposed to call any USB functions after the driver
-disconnect function has been called. The uvcvideo driver does not follow
-that convention and tries to write to the disconnected USB interface
-anyway. This results in a variety of race conditions.
-
-To solve this specific problem, release the uvc queue from
-uvc_unregister_video() after the associated video devices have been
-unregistered. Since the function already holds the uvc queue mutex,
-bypass uvc_queue_release() and call vb2_queue_release() directly.
+Protect all file operations by using the queue mutex to avoid
+possible race conditions. After acquiring the mutex, check if
+the video device is still registered, and bail out if not.
 
 Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Cc: Alan Stern <stern@rowland.harvard.edu>
 Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Signed-off-by: Guenter Roeck <linux@roeck-us.net>
 
-diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
-index 14b66019208d..f15fbdbcd8bb 100644
---- a/drivers/media/usb/uvc/uvc_driver.c
-+++ b/drivers/media/usb/uvc/uvc_driver.c
-@@ -1912,6 +1912,8 @@ static void uvc_unregister_video(struct uvc_device *dev)
+diff --git a/drivers/media/usb/uvc/uvc_queue.c b/drivers/media/usb/uvc/uvc_queue.c
+index 16fa17bbd15e..aed45cbc814e 100644
+--- a/drivers/media/usb/uvc/uvc_queue.c
++++ b/drivers/media/usb/uvc/uvc_queue.c
+@@ -354,24 +354,52 @@ int uvc_queue_streamoff(struct uvc_video_queue *queue, enum v4l2_buf_type type)
  
- 		uvc_debugfs_cleanup_stream(stream);
- 
-+		vb2_queue_release(&stream->queue.queue);
+ int uvc_queue_mmap(struct uvc_video_queue *queue, struct vm_area_struct *vma)
+ {
+-	return vb2_mmap(&queue->queue, vma);
++	struct uvc_streaming *stream = uvc_queue_to_stream(queue);
++	int ret;
 +
- 		mutex_unlock(&stream->queue.mutex);
- 		mutex_unlock(&stream->mutex);
- 	}
++	mutex_lock(&queue->mutex);
++	if (!video_is_registered(&stream->vdev)) {
++		ret = -ENODEV;
++		goto unlock;
++	}
++	ret = vb2_mmap(&queue->queue, vma);
++unlock:
++	mutex_unlock(&queue->mutex);
++	return ret;
+ }
+ 
+ #ifndef CONFIG_MMU
+ unsigned long uvc_queue_get_unmapped_area(struct uvc_video_queue *queue,
+ 		unsigned long pgoff)
+ {
+-	return vb2_get_unmapped_area(&queue->queue, 0, 0, pgoff, 0);
++	struct uvc_streaming *stream = uvc_queue_to_stream(queue);
++	unsigned long ret;
++
++	mutex_lock(&queue->mutex);
++	if (!video_is_registered(&stream->vdev)) {
++		ret = -ENODEV;
++		goto unlock;
++	}
++	ret = vb2_get_unmapped_area(&queue->queue, 0, 0, pgoff, 0);
++unlock:
++	mutex_unlock(&queue->mutex);
++	return ret;
+ }
+ #endif
+ 
+ __poll_t uvc_queue_poll(struct uvc_video_queue *queue, struct file *file,
+ 			    poll_table *wait)
+ {
++	struct uvc_streaming *stream = uvc_queue_to_stream(queue);
+ 	__poll_t ret;
+ 
+ 	mutex_lock(&queue->mutex);
++	if (!video_is_registered(&stream->vdev)) {
++		ret = EPOLLERR;
++		goto unlock;
++	}
+ 	ret = vb2_poll(&queue->queue, file, wait);
++unlock:
+ 	mutex_unlock(&queue->mutex);
+ 
+ 	return ret;
 
 -- 
 b4 0.11.0-dev-d93f8
