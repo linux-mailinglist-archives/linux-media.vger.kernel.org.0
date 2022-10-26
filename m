@@ -2,70 +2,84 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DAF3660E120
-	for <lists+linux-media@lfdr.de>; Wed, 26 Oct 2022 14:46:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2AAF760E17B
+	for <lists+linux-media@lfdr.de>; Wed, 26 Oct 2022 15:07:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233640AbiJZMqB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 26 Oct 2022 08:46:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47988 "EHLO
+        id S233714AbiJZNHY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 26 Oct 2022 09:07:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57474 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233119AbiJZMqA (ORCPT
+        with ESMTP id S232823AbiJZNHV (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 26 Oct 2022 08:46:00 -0400
-Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com [IPv6:2a00:1450:4864:20::12b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2972199381;
-        Wed, 26 Oct 2022 05:45:58 -0700 (PDT)
-Received: by mail-lf1-x12b.google.com with SMTP id d6so28261443lfs.10;
-        Wed, 26 Oct 2022 05:45:58 -0700 (PDT)
+        Wed, 26 Oct 2022 09:07:21 -0400
+Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com [IPv6:2a00:1450:4864:20::336])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1C574FAA46;
+        Wed, 26 Oct 2022 06:07:17 -0700 (PDT)
+Received: by mail-wm1-x336.google.com with SMTP id c3-20020a1c3503000000b003bd21e3dd7aso1456909wma.1;
+        Wed, 26 Oct 2022 06:07:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=wCYS2MrhiyiJRqchJbvsfNWsp2c+i8O2FNVXcaDM2G4=;
-        b=OCrv7IpWNVUMh2AO7e6i1IyrvD4QBaDHl9M/25FYN8pyuGhpeRH6kYbzWzzSnceI0c
-         N4a2t56ENioRfRnjumaWnYNQen0MC47bXE3ZZVDFEuu2XWhWJdvJyU8AUDd3KsRcqlh+
-         kHjrSSIHAlKCafM4UYmdwMxf0qeDdf8EMmOFFQqRobtLhiKPcItmnudZvpSiS6cTc23k
-         +q/eRIT/IFKikBZBogYbxKkbGcesrxwg3SnVVJk/98giXNrMCdFm2qQg2Zp3/QOmmcbR
-         jwHE9uR86dqDDhXLmwMBh+pSNamlPxqpPtwqHFBSovR9xvrylqtUOIrC3yJ7jMFIdFM/
-         PnTg==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=U4gTLQJXz8CMD4MLdfjgD1120eev/1EzGcTrgRnh7XU=;
+        b=aXDDaKjTkIvcxKodmX/+BaVYCdDTU7FaI3gq/pU7TC2XjKNFpp/AHW+uYK8oP9xRVY
+         4/PoYLl2z4sh4Y/pCgKIQWYKVh3QCrPFTDnhLzPR/IjY6MX10weZ4Bc7cGAuwIo1LKYB
+         XlhIoL9uOSxkSbSFx1gs/y4OOafXKeZtubOE3GRqLTbF1chhS3LeAdI10G8eAg0/cQwS
+         hbIJQCNj+JeVVKyaBMkd7HW7w/oPltgUbLEXLBZ3ftIA7WogWr8CAe3QHdaQgbI4BOyh
+         6EDw4nhON1NoZl0AWE7scf/eByvEDw6NlvBR1EkOnzW8GvgUt+ObhBKDNHo1NyJYJNvU
+         vKRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=wCYS2MrhiyiJRqchJbvsfNWsp2c+i8O2FNVXcaDM2G4=;
-        b=vMB9O1UKSuDOW4MbDRRhStiQTt5OjAB0e1oSjg28cEVgf5gttx0Jmkn/O950a2c/ZD
-         zr4Ix5ZTjogiqkLIuURKTMSfx1WFWETorGPSXHLWHFCrolf0aPDdmaNuF21Y10vOUi76
-         bt4L3s+Q01g+IpEGv3LHs0pOmAg+MKKy7LbJRd0JcWPnckDfSweQDwN4VzIvepNrgYoH
-         qOtvwqPZLu8u1u/v9EGHGPBQ7n+4QZjuWcNalE4GoKyO25dS9R5y5j2nI0gEahL9X/dR
-         FN2bXL5i5VPInrDazHVDxXzybt3MxJhvV+tXPws8W9gL38c2alGVU++3eWtpyxHXIbGT
-         p8YQ==
-X-Gm-Message-State: ACrzQf1GnRyPox6S4QaSDJOl3YFLuYxCSiZofVE3W/GkRk0cKZqZy4tW
-        nbQ+luVqJrb9tDBCS95mb0q8HDPr3Ted0Q==
-X-Google-Smtp-Source: AMsMyM7PmmfexehbTSLlEBJ85BUrVcVkxpZ12MjCwV8C0zdOptDhQ86sr76L1I0wSxNc5kzBjQ0OtA==
-X-Received: by 2002:ac2:4f03:0:b0:495:ec98:bcac with SMTP id k3-20020ac24f03000000b00495ec98bcacmr15638176lfr.339.1666788356422;
-        Wed, 26 Oct 2022 05:45:56 -0700 (PDT)
-Received: from localhost (95-31-187-187.broadband.corbina.ru. [95.31.187.187])
-        by smtp.gmail.com with ESMTPSA id k21-20020a2ea275000000b0026c35c4720esm932661ljm.24.2022.10.26.05.45.55
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=U4gTLQJXz8CMD4MLdfjgD1120eev/1EzGcTrgRnh7XU=;
+        b=s2rcbYcPAxyyfInZu/J2C5mfQG80hfatyk+jJa+zhlj5CDpO0DPwQ3zNFLebhqclgg
+         +7LMhS/n2BGkg0hq5wq7uIwTp9PzB2YjG97TzRuAl22EYtX7siTD7fhCNiWI4ZXa+kCF
+         cDJ3UBZ3QygQJTXxcQ0N3EsEDijBCFZO3piML9t7+RZ/l4jX7MRLf5UN1a4RnIEnYfgA
+         fTiJq6WidKb5fgW3zJHHqwY5Fck1DPnaGXcYh60X8ccTUG3eO999AFET2FWWpM7oQgGt
+         8ApI5qL/NLaSkhWcXcUsVayChK3WGaVnT2ubNYl8h4Ko26KsOh67QfwVUP5ezeIAJrS6
+         reTA==
+X-Gm-Message-State: ACrzQf0rPd62mYqMf3wzVrZ6CJcUq8UndZB/NqOzL2MrR8zpD6YBDpRq
+        EZnxv+rCb2wyIc8O7rSXJ54=
+X-Google-Smtp-Source: AMsMyM48kddrD6lp9ckBPpw7UY4pEAXskQBW0gVtLLEqOUJGtxCXskiv0N20wQEPWzQJKQgfPomwJA==
+X-Received: by 2002:a7b:cc15:0:b0:3b4:ca90:970d with SMTP id f21-20020a7bcc15000000b003b4ca90970dmr2458810wmh.198.1666789635445;
+        Wed, 26 Oct 2022 06:07:15 -0700 (PDT)
+Received: from prasmi.home ([2a00:23c8:2501:c701:cc:c67c:46e:319e])
+        by smtp.gmail.com with ESMTPSA id l3-20020adfa383000000b002366eb01e07sm5245433wrb.114.2022.10.26.06.07.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 26 Oct 2022 05:45:55 -0700 (PDT)
-From:   Mikhail Rudenko <mike.rudenko@gmail.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     Jacopo Mondi <jacopo@jmondi.org>, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Mikhail Rudenko <mike.rudenko@gmail.com>
-Subject: [PATCH] media: i2c: ov4689: code cleanup
-Date:   Wed, 26 Oct 2022 15:45:51 +0300
-Message-Id: <20221026124552.163172-1-mike.rudenko@gmail.com>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <Y1gl1FMAjhXCfCmk@paasikivi.fi.intel.com>
-References: <Y1gl1FMAjhXCfCmk@paasikivi.fi.intel.com>
+        Wed, 26 Oct 2022 06:07:14 -0700 (PDT)
+From:   Prabhakar <prabhakar.csengg@gmail.com>
+X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     Shawn Tu <shawnx.tu@intel.com>, Jacopo Mondi <jacopo@jmondi.org>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-renesas-soc@vger.kernel.org,
+        Prabhakar <prabhakar.csengg@gmail.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH v3 0/9] media: i2c: ov5645 driver enhancements
+Date:   Wed, 26 Oct 2022 14:06:49 +0100
+Message-Id: <20221026130658.45601-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -73,71 +87,56 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Fix minor nits from the last review round: extra {}, temporary
-variables for ARRAYS_SIZE(), redundant check in ov4689_check_hwcfg.
-No functional change intended.
+From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Signed-off-by: Mikhail Rudenko <mike.rudenko@gmail.com>
----
- drivers/media/i2c/ov4689.c | 18 +++++-------------
- 1 file changed, 5 insertions(+), 13 deletions(-)
+Hi All,
 
-diff --git a/drivers/media/i2c/ov4689.c b/drivers/media/i2c/ov4689.c
-index 419ff7371ba8..c602e507d42b 100644
---- a/drivers/media/i2c/ov4689.c
-+++ b/drivers/media/i2c/ov4689.c
-@@ -623,9 +623,8 @@ static int ov4689_map_gain(struct ov4689 *ov4689, int logical_gain, int *result)
- 
- 	for (n = 0; n < ARRAY_SIZE(ov4689_gain_ranges); n++) {
- 		if (logical_gain >= ov4689_gain_ranges[n].logical_min &&
--		    logical_gain <= ov4689_gain_ranges[n].logical_max) {
-+		    logical_gain <= ov4689_gain_ranges[n].logical_max)
- 			break;
--		}
- 	}
- 
- 	if (n == ARRAY_SIZE(ov4689_gain_ranges)) {
-@@ -815,23 +814,22 @@ static int ov4689_check_sensor_id(struct ov4689 *ov4689,
- 
- static int ov4689_configure_regulators(struct ov4689 *ov4689)
- {
--	unsigned int supplies_count = ARRAY_SIZE(ov4689_supply_names);
- 	unsigned int i;
- 
--	for (i = 0; i < supplies_count; i++)
-+	for (i = 0; i < ARRAY_SIZE(ov4689_supply_names); i++)
- 		ov4689->supplies[i].supply = ov4689_supply_names[i];
- 
--	return devm_regulator_bulk_get(&ov4689->client->dev, supplies_count,
-+	return devm_regulator_bulk_get(&ov4689->client->dev,
-+				       ARRAY_SIZE(ov4689_supply_names),
- 				       ov4689->supplies);
- }
- 
- static u64 ov4689_check_link_frequency(struct v4l2_fwnode_endpoint *ep)
- {
--	unsigned int freqs_count = ARRAY_SIZE(link_freq_menu_items);
- 	const u64 *freqs = link_freq_menu_items;
- 	unsigned int i, j;
- 
--	for (i = 0; i < freqs_count; i++) {
-+	for (i = 0; i < ARRAY_SIZE(link_freq_menu_items); i++) {
- 		for (j = 0; j < ep->nr_of_link_frequencies; j++)
- 			if (freqs[i] == ep->link_frequencies[j])
- 				return freqs[i];
-@@ -864,12 +862,6 @@ static int ov4689_check_hwcfg(struct device *dev)
- 		goto out_free_bus_cfg;
- 	}
- 
--	if (!bus_cfg.nr_of_link_frequencies) {
--		dev_err(dev, "No link frequencies defined\n");
--		ret = -EINVAL;
--		goto out_free_bus_cfg;
--	}
--
- 	if (!ov4689_check_link_frequency(&bus_cfg)) {
- 		dev_err(dev, "No supported link frequency found\n");
- 		ret = -EINVAL;
+The main aim of this series is to add Runtime PM support to the sensor
+driver alongside some cleanups and fixes.
+
+v2 -> v3
+- Included patch#1 [2] as part of this series
+- Patched all in-tree DTS for dropping the clock preoperty to
+  avoid dt warnings
+- Fixed review comments pointed by Sakari and Laurent for the Runtime
+  PM patch
+- Now sending the error code of first error while stream off.
+- Included RB tags from Laurent
+
+v1-> v2
+- patch #1 is infact a v3 [1] no changes
+- patch #2 fixed review comments pointed by Sakari
+- patch #3 [0] no changes 
+- patches #4 and #5 are new
+
+[0] https://patchwork.linuxtv.org/project/linux-media/patch/20220927202005.750621-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
+[1] https://patchwork.linuxtv.org/project/linux-media/patch/20220919153540.178732-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
+[2] https://patchwork.kernel.org/project/linux-media/patch/20220919143350.176746-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
+
+Lad Prabhakar (9):
+  media: i2c: ov5645: Drop fetching the clk reference by name
+  ARM: dts: imx6qdl-pico: Drop clock-names property
+  ARM: dts: imx6qdl-wandboard: Drop clock-names property
+  arm64: dts: renesas: aistarvision-mipi-adapter-2.1: Drop clock-names
+    property
+  media: dt-bindings: ov5645: Convert OV5645 binding to a schema
+  media: i2c: ov5645: Use runtime PM
+  media: i2c: ov5645: Drop empty comment
+  media: i2c: ov5645: Don't return early on failures for s_stream(0)
+  media: i2c: ov5645: Call ov5645_entity_init_cfg() before registering
+    the subdev
+
+ .../devicetree/bindings/media/i2c/ov5645.txt  |  54 ------
+ .../bindings/media/i2c/ovti,ov5645.yaml       | 104 ++++++++++++
+ arch/arm/boot/dts/imx6qdl-pico.dtsi           |   1 -
+ arch/arm/boot/dts/imx6qdl-wandboard.dtsi      |   1 -
+ .../aistarvision-mipi-adapter-2.1.dtsi        |   1 -
+ drivers/media/i2c/Kconfig                     |   2 +-
+ drivers/media/i2c/ov5645.c                    | 157 +++++++++---------
+ 7 files changed, 186 insertions(+), 134 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/media/i2c/ov5645.txt
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/ovti,ov5645.yaml
+
 -- 
-2.38.1
+2.25.1
 
