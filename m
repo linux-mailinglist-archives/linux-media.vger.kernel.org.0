@@ -2,129 +2,162 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8E25F60DB97
-	for <lists+linux-media@lfdr.de>; Wed, 26 Oct 2022 08:51:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5952260DC03
+	for <lists+linux-media@lfdr.de>; Wed, 26 Oct 2022 09:21:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232935AbiJZGvJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 26 Oct 2022 02:51:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46412 "EHLO
+        id S232731AbiJZHV4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 26 Oct 2022 03:21:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42806 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232823AbiJZGvH (ORCPT
+        with ESMTP id S230134AbiJZHVz (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 26 Oct 2022 02:51:07 -0400
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F595578AC
-        for <linux-media@vger.kernel.org>; Tue, 25 Oct 2022 23:51:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1666767064; x=1698303064;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=OpdL22wdhyWFPa05OhWTUGg4/Dw/UL4CdVsDAMqe0S4=;
-  b=gYK6nRF1fF322EO7h/Y+C0Mk0A3XGukuedy0iWfvtCKInFVoltBX1Czx
-   VIrlMWdTlfWe18Ot/VoUN7arl/DJwt9qmP59qR1KRkbyU6jlH0pZdLaEo
-   L9r12pqmFjVjgXgDE485LAp6RZXeHNnSg1J86UYuDtdKWNW/AzHw3KcoU
-   OVKZwQrwA976zdzckEDAaHhPLx6T6Q9nmy2q9QxrKraTjni+motszMn7A
-   YQFv2KvsM9cqUQZbQBaIBuwS9Ad/S7CHpdcoodyZ+SuwxHCC/pX8LQtvr
-   61YQ6AXeMgeWSGyUjTc68b5i3MYTV8AxFn6zmmlHJuiDQ1Aqt7DnrivQP
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10511"; a="394187467"
-X-IronPort-AV: E=Sophos;i="5.95,213,1661842800"; 
-   d="scan'208";a="394187467"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2022 23:50:53 -0700
-X-IronPort-AV: E=McAfee;i="6500,9779,10511"; a="877082821"
-X-IronPort-AV: E=Sophos;i="5.95,213,1661842800"; 
-   d="scan'208";a="877082821"
-Received: from punajuuri.fi.intel.com (HELO paasikivi.fi.intel.com) ([10.237.72.43])
-  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2022 23:50:52 -0700
-Received: from punajuuri.localdomain (punajuuri.localdomain [192.168.240.130])
-        by paasikivi.fi.intel.com (Postfix) with ESMTP id A826620210;
-        Wed, 26 Oct 2022 09:50:50 +0300 (EEST)
-Received: from sailus by punajuuri.localdomain with local (Exim 4.94.2)
-        (envelope-from <sakari.ailus@linux.intel.com>)
-        id 1onaG4-002V06-1T; Wed, 26 Oct 2022 09:51:24 +0300
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     linux-media@vger.kernel.org
-Cc:     laurent.pinchart@ideasonboard.com,
-        Prabhakar Lad <prabhakar.csengg@gmail.com>
-Subject: [PATCH 1/1] v4l: subdev: Warn if disabling streaming failed, return success
-Date:   Wed, 26 Oct 2022 09:51:23 +0300
-Message-Id: <20221026065123.595777-1-sakari.ailus@linux.intel.com>
-X-Mailer: git-send-email 2.30.2
+        Wed, 26 Oct 2022 03:21:55 -0400
+Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C11338681
+        for <linux-media@vger.kernel.org>; Wed, 26 Oct 2022 00:21:53 -0700 (PDT)
+Received: from hillosipuli.retiisi.eu (dkxjnptf9d2bpn7gcmbty-3.rev.dnainternet.fi [IPv6:2001:14ba:44ce:b640:9d1d:82c5:eca2:5060])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: sailus)
+        by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 515171B00203;
+        Wed, 26 Oct 2022 10:21:51 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
+        t=1666768911;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=QGLSMhn6R0TKJBQoFnxwmLTm48g/MsAbAQ1sfnvkeiw=;
+        b=fUGBE7PS96Wva1RtbxMYEOM/6HeYq7DSWvVZVZlkDDzZzcs2VTkqCuyBknMIYXvetHKD4I
+        y00waHm1OZf3CE03tZ1AfO6R04KRM+yHondEyhUF6y+XBC1JGEdsys0vS3of324jN7C4la
+        1K+npE/FAfUX1f76b1JCKqsQ8K5/JRPHm5bn3m9DCVrpjg94YWY3uJ65Z3uSLPKmGZonFK
+        jkg/vyhsEs6Y2FSKrRrIN1BXl1I6LS0i9G6Tg/CcUuKRINnbgQMr+T1BYVKjExemm1pjSD
+        ghNKaZKNH+xDibvY/XLqZoe2blqde7goYFY5bS3WD9WZbnSaeUSuy2DNsspqIA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+        s=lahtoruutu; t=1666768911;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=QGLSMhn6R0TKJBQoFnxwmLTm48g/MsAbAQ1sfnvkeiw=;
+        b=JgQCOabTPm/L8voNx+uUFu0F7fpQupXjnGgjCyEM2KLLTnt7SpqYNbBhfs5qPiZ+wOauEY
+        7P6uUBzlvBo0i9d31H6AC5xwenMKUdDmO9uIewMOEUP2OmBf2mXTBn6tCg9Hd/wo9nW4YJ
+        8WsESBVHYaH/HAd3O6lGouT2src2BB7bYefe6vUEqk9JYCayT4k/+N5iVkGSQLTWCfKr3J
+        V6DoXAzEKtRctoxBHqc/cniWdqNXe5Ek1AQK7b+RUR7mq9iRCIpQQ/StzeoN/faO91i/7w
+        lc9R31ME5eyDKY/W2BsfHYc7AVX4EpuaR6OdywwvbwxYhS9mc3gYMoU8B8HJRg==
+ARC-Authentication-Results: i=1;
+        ORIGINATING;
+        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1666768911; a=rsa-sha256;
+        cv=none;
+        b=iYmE02Cn04OBTvLBqBFk8ZSfiUitP3/Hg4H+5lw4ayESwT1wIfBdrt+OaItihiwe6/mnJs
+        bFernlPCM0QvT0WPjtL5TaoLIwP+M+imMJ5BrWPKtqzEJIcJgT8eaFs/VrzHWq/GAMM92Y
+        7ZFdgRI58Vvsc2PH83nnJHyWf5FyWp3mxGZ2hkXPipbQWC1IMkLLxCw941U814rhRURTva
+        oMXqvM9Auf/XY+Hkqxsn3Jys0LgMGVuG7o1jpmYbiA8nEyiNTqo5J1J+sji4Z0yqzYEw8k
+        fHBOHnJjxUChDN7j/IXB1+Fr65n39q+CiN1iezaBDdaj5vJPJP705LbfnGo/qw==
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id D088D634DB0;
+        Wed, 26 Oct 2022 10:21:50 +0300 (EEST)
+Date:   Wed, 26 Oct 2022 10:21:50 +0300
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     Dave Stevenson <dave.stevenson@raspberrypi.com>
+Cc:     paul.j.murphy@intel.com, daniele.alessandrelli@intel.com,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH 08/16] media: i2c: ov9282: Add selection for CSI2 clock
+ mode
+Message-ID: <Y1jgDsmgXZYx0rZf@valkosipuli.retiisi.eu>
+References: <20221005152809.3785786-1-dave.stevenson@raspberrypi.com>
+ <20221005152809.3785786-9-dave.stevenson@raspberrypi.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221005152809.3785786-9-dave.stevenson@raspberrypi.com>
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Complain in the newly added s_stream video op wrapper if disabling
-streaming failed. Also return zero in this case as there's nothing the
-caller can do to return the error.
+Hi Dave,
 
-This way drivers also won't need to bother with printing error messages.
+On Wed, Oct 05, 2022 at 04:28:01PM +0100, Dave Stevenson wrote:
+> The sensor supports either having the CSI2 clock lane free
+> running, or gated when there is no packet to transmit.
+> The driver only selected gated (non-continuous) clock mode.
+> 
+> Add code to allow fwnode to configure whether the clock is
+> gated or free running.
+> 
+> Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+> ---
+>  drivers/media/i2c/ov9282.c | 16 +++++++++++++++-
+>  1 file changed, 15 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/media/i2c/ov9282.c b/drivers/media/i2c/ov9282.c
+> index abb1223c0260..334b31af34a4 100644
+> --- a/drivers/media/i2c/ov9282.c
+> +++ b/drivers/media/i2c/ov9282.c
+> @@ -46,6 +46,9 @@
+>  /* Group hold register */
+>  #define OV9282_REG_HOLD		0x3308
+>  
+> +#define OV9282_REG_MIPI_CTRL00	0x4800
+> +#define OV9282_GATED_CLOCK	BIT(5)
+> +
+>  /* Input clock rate */
+>  #define OV9282_INCLK_RATE	24000000
+>  
+> @@ -138,6 +141,7 @@ struct ov9282 {
+>  	struct clk *inclk;
+>  	struct regulator_bulk_data supplies[OV9282_NUM_SUPPLIES];
+>  	struct v4l2_ctrl_handler ctrl_handler;
+> +	bool noncontinuous_clock;
+>  	struct v4l2_ctrl *link_freq_ctrl;
+>  	struct v4l2_ctrl *hblank_ctrl;
+>  	struct v4l2_ctrl *vblank_ctrl;
+> @@ -211,7 +215,6 @@ static const struct ov9282_reg common_regs[] = {
+>  	{0x4601, 0x04},
+>  	{0x470f, 0x00},
+>  	{0x4f07, 0x00},
+> -	{0x4800, 0x20},
+>  	{0x5000, 0x9f},
+>  	{0x5001, 0x00},
+>  	{0x5e00, 0x00},
+> @@ -684,6 +687,14 @@ static int ov9282_start_streaming(struct ov9282 *ov9282)
+>  		return ret;
+>  	}
+>  
+> +	ret = ov9282_write_reg(ov9282, OV9282_REG_MIPI_CTRL00, 1,
+> +			       ov9282->noncontinuous_clock ?
+> +					OV9282_GATED_CLOCK : 0);
 
-Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
----
- drivers/media/v4l2-core/v4l2-subdev.c | 15 +++++++++++++++
- include/media/v4l2-subdev.h           |  6 ++++--
- 2 files changed, 19 insertions(+), 2 deletions(-)
+Wouldn't this better fit for power on?
 
-diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
-index 5c27bac772ea4..8a4ca2bd1584d 100644
---- a/drivers/media/v4l2-core/v4l2-subdev.c
-+++ b/drivers/media/v4l2-core/v4l2-subdev.c
-@@ -318,6 +318,20 @@ static int call_get_mbus_config(struct v4l2_subdev *sd, unsigned int pad,
- 	       sd->ops->pad->get_mbus_config(sd, pad, config);
- }
- 
-+static int call_s_stream(struct v4l2_subdev *sd, int enable)
-+{
-+	int ret;
-+
-+	ret = sd->ops->video->s_stream(sd, enable);
-+
-+	if (!enable && ret < 0) {
-+		dev_warn(sd->dev, "disabling streaming failed (%d)\n", ret);
-+		return 0;
-+	}
-+
-+	return ret;
-+}
-+
- #ifdef CONFIG_MEDIA_CONTROLLER
- /*
-  * Create state-management wrapper for pad ops dealing with subdev state. The
-@@ -377,6 +391,7 @@ static const struct v4l2_subdev_pad_ops v4l2_subdev_call_pad_wrappers = {
- static const struct v4l2_subdev_video_ops v4l2_subdev_call_video_wrappers = {
- 	.g_frame_interval	= call_g_frame_interval,
- 	.s_frame_interval	= call_s_frame_interval,
-+	.s_stream		= call_s_stream,
- };
- 
- const struct v4l2_subdev_ops v4l2_subdev_call_wrappers = {
-diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
-index 54566d139da79..b15fa9930f30c 100644
---- a/include/media/v4l2-subdev.h
-+++ b/include/media/v4l2-subdev.h
-@@ -440,8 +440,10 @@ enum v4l2_subdev_pre_streamon_flags {
-  * @g_input_status: get input status. Same as the status field in the
-  *	&struct v4l2_input
-  *
-- * @s_stream: used to notify the driver that a video stream will start or has
-- *	stopped.
-+ * @s_stream: start (enabled == 1) or stop (enabled == 0) streaming on the
-+ *	sub-device. Failure on stop will remove any resources acquired in
-+ *	streaming start, while the error code is still returned by the driver.
-+ *	Also see call_s_stream wrapper in v4l2-subdev.c.
-  *
-  * @g_pixelaspect: callback to return the pixelaspect ratio.
-  *
+> +	if (ret) {
+> +		dev_err(ov9282->dev, "fail to write MIPI_CTRL00");
+> +		return ret;
+> +	}
+> +
+>  	/* Write sensor mode registers */
+>  	reg_list = &ov9282->cur_mode->reg_list;
+>  	ret = ov9282_write_regs(ov9282, reg_list->regs, reg_list->num_of_regs);
+> @@ -861,6 +872,9 @@ static int ov9282_parse_hw_config(struct ov9282 *ov9282)
+>  	if (ret)
+>  		return ret;
+>  
+> +	ov9282->noncontinuous_clock =
+> +		bus_cfg.bus.mipi_csi2.flags & V4L2_MBUS_CSI2_NONCONTINUOUS_CLOCK;
+> +
+>  	if (bus_cfg.bus.mipi_csi2.num_data_lanes != OV9282_NUM_DATA_LANES) {
+>  		dev_err(ov9282->dev,
+>  			"number of CSI2 data lanes %d is not supported",
+
 -- 
-2.30.2
+Kind regards,
 
+Sakari Ailus
