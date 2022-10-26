@@ -2,60 +2,71 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D24EC60E00F
-	for <lists+linux-media@lfdr.de>; Wed, 26 Oct 2022 13:54:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7078760E01C
+	for <lists+linux-media@lfdr.de>; Wed, 26 Oct 2022 14:00:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233126AbiJZLyp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 26 Oct 2022 07:54:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51806 "EHLO
+        id S233481AbiJZL77 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 26 Oct 2022 07:59:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58102 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233085AbiJZLyo (ORCPT
+        with ESMTP id S231681AbiJZL75 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 26 Oct 2022 07:54:44 -0400
-Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com [IPv6:2a00:1450:4864:20::536])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A647746871
-        for <linux-media@vger.kernel.org>; Wed, 26 Oct 2022 04:54:43 -0700 (PDT)
-Received: by mail-ed1-x536.google.com with SMTP id 21so7040506edv.3
-        for <linux-media@vger.kernel.org>; Wed, 26 Oct 2022 04:54:43 -0700 (PDT)
+        Wed, 26 Oct 2022 07:59:57 -0400
+Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com [IPv6:2a00:1450:4864:20::533])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C966013DC6;
+        Wed, 26 Oct 2022 04:59:55 -0700 (PDT)
+Received: by mail-ed1-x533.google.com with SMTP id t15so6348214edd.4;
+        Wed, 26 Oct 2022 04:59:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=3SXk0G6Nv3s5aWZhsivA2V4/5/wKca4suiKHxmU/dRc=;
-        b=Ui8TyGELDUESATOYtAyErWpNceO5N1NDIUH1IV8AHsugHuatHIHeAP8Hh5aIrDnYFc
-         WpEmCjB42yIKju+0gkE5P2LZrS2qYvtxoS8mL93zPPSR/yz2H0gwLcfk6C5yB5T0N0iW
-         lEQZAqWovmcb6o3EihI5s2BLhf/FS0+vWNltJrNnh2Q4oCUMimXOu6V1FzHRTrDjGf++
-         g9dwqeCpL6CNswtNierHdA3c3nkVx2aCaB3joUBIS7UtMP4WrHueIH4dsCLGq/NhQYZP
-         bdGo0nzxYg/JfHtr0ivXdzYPCqTbE6crQ7nG+9mHFyA8ovb4hMwV3zoVsYBNBDAzTHjK
-         MjFQ==
+        bh=2Dbff/IBDtjjnRXywEoj6LRjme/A3fCnG3Sdfp4DfP4=;
+        b=faksOE5hQ3vCGif6dOF5DkpAAnJTHvrwrTfGzKNlmxD9OGF9wWCjPeik8O/jhghQDd
+         mpR40Sq1zOrb1d/SFO/YolN26bTUHI5pNApTvLNJu+82Q0jPhQjZ787qkm8g3/6BR2IK
+         uqa+GIS5ai6cQYidnvHs8Edb3/qrnT69BOEgTZqFoiztlxrIfYmfGFxKQStAVS0h9wUO
+         JaZlRgq13LKM3izzA25phlsneJdoUIo6sPWFQjv5WjWaINzWQ95ORbXM/7hr1+m2Axf1
+         G95GQ90bXFKwmcGPwUbCguXn6ZUzENUNVL43fmL+zU5umla+IGgHY9mjiBRxUnlLuLz0
+         +QdQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=3SXk0G6Nv3s5aWZhsivA2V4/5/wKca4suiKHxmU/dRc=;
-        b=06AAGw0NSPFqBWVcMf6EJ+TWuQKdo3mtk12qdJvU5zcEi5n8KSiMyz0NGE0EFopjpY
-         zoEALBYCH+5YKhnlvO2NmS2F5OeUWzMn+Bic4mG3tG8xaeoARRCv5VBsdQbBePnOP7QM
-         ukqOsuzHzK3GP8NaUYk5WcqACOlOezcHOynzNlaV8XTK98hxvc4+usrUFVCQVB9i0RcX
-         Cj0Nyp7I/2qlPkDA/GepPlr+CTVDTACbpc1AlrYmiP7J5gfrLIwJU+53+Ia0mYRfQglc
-         Cl1UYT7VPqsI6N/8eZvZhEa/M+1nW9kVO0xM3DJpXRAvCDfmOwanXYEkKAki3g5bA4Q6
-         hGiw==
-X-Gm-Message-State: ACrzQf3ij5fUckfrQsTHiQR7Qqs9ktzTbc2b5To1mf3dVgjRlq8KXggx
-        MIurRsWCPZC2P0mipGSb0N9Wd5adrOhJgwyNsng=
-X-Google-Smtp-Source: AMsMyM5f2JMQaYQ4h8NcUIf1Wt83DsaFGFzLbFalgIjpI6RR4S9bRAGNSB7xGuf2g3uTyX+4BD6OIZW7AovWC2YP5ho=
-X-Received: by 2002:a05:6402:26cf:b0:45d:48d7:928e with SMTP id
- x15-20020a05640226cf00b0045d48d7928emr39112804edd.275.1666785282043; Wed, 26
- Oct 2022 04:54:42 -0700 (PDT)
+        bh=2Dbff/IBDtjjnRXywEoj6LRjme/A3fCnG3Sdfp4DfP4=;
+        b=Uj6Wkx+Nhip86poZwuHe/tkPscRuuHeajlCaN3GFehBGvlLWD8XxBMmzMknB2tKIsh
+         h7JtJRYmqfWP/kds1bbCXrkaMlQ9/3SCpHIyBRUoUdsvDrPr+fmTb0vo7+L078fJv/3K
+         a4g9G6kFFEUPuFjXewikKD4H4+NdcGt3kQyEoMHWxiE+7zxBklG6pyhXDbcYecAGbGXk
+         Fdn33OmASCunC/0frTv2cCpFoLqKgmOHFFUgKRGZxNJbO5iWJhNZ9lV0gWII4Gdl43jm
+         hZn0bjFUZgJ37OFfztBVdufZJF54VtuMcTa8MNVewbw9sZYVLaMpngBo13CGPPsuZMK2
+         2nzw==
+X-Gm-Message-State: ACrzQf04Tbi8jGlDKtJHxRjlL4U43ynFnWv2YPV/3yeg4V8t/5yO09sK
+        R6c8IFBeN0NURCNCYX1toWKxUC5OVRzxWv0bhVw=
+X-Google-Smtp-Source: AMsMyM5Tp8QwQQhN7fOAlLWSg2jSmcNamZNqvKXoR7rgN58leG2RUPDwRlkuSaVsyxZ7iF3NbdI8nBB/gG7oIOLJZoc=
+X-Received: by 2002:a05:6402:40cd:b0:462:7b99:d40d with SMTP id
+ z13-20020a05640240cd00b004627b99d40dmr277928edb.319.1666785594409; Wed, 26
+ Oct 2022 04:59:54 -0700 (PDT)
 MIME-Version: 1.0
-References: <20221026065123.595777-1-sakari.ailus@linux.intel.com>
-In-Reply-To: <20221026065123.595777-1-sakari.ailus@linux.intel.com>
+References: <20221014183459.181567-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20221014183459.181567-6-prabhakar.mahadev-lad.rj@bp.renesas.com> <Y0pSnKREW0pjtPYI@pendragon.ideasonboard.com>
+In-Reply-To: <Y0pSnKREW0pjtPYI@pendragon.ideasonboard.com>
 From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Wed, 26 Oct 2022 12:54:15 +0100
-Message-ID: <CA+V-a8v=1dhj6oY1e7AouwOyDsMNoLQD2Of9wrsFBNRQU6uc3A@mail.gmail.com>
-Subject: Re: [PATCH 1/1] v4l: subdev: Warn if disabling streaming failed,
- return success
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com
+Date:   Wed, 26 Oct 2022 12:59:28 +0100
+Message-ID: <CA+V-a8tzFqvW+9dTpowAzJdhfe4WtwnY9Y+KddqUC6oR5uBxjA@mail.gmail.com>
+Subject: Re: [PATCH v2 5/5] media: i2c: ov5645: Call ov5645_entity_init_cfg()
+ before registering the subdev
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Shawn Tu <shawnx.tu@intel.com>,
+        Jacopo Mondi <jacopo@jmondi.org>, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
@@ -67,82 +78,38 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sakari,
+Hi Laurent,
 
-Thank you for the patch.
+Thank you for the review.
 
-On Wed, Oct 26, 2022 at 7:50 AM Sakari Ailus
-<sakari.ailus@linux.intel.com> wrote:
+On Sat, Oct 15, 2022 at 7:26 AM Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
 >
-> Complain in the newly added s_stream video op wrapper if disabling
-> streaming failed. Also return zero in this case as there's nothing the
-> caller can do to return the error.
+> Hi Prabhakar,
 >
-> This way drivers also won't need to bother with printing error messages.
+> Thank you for the patch.
 >
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> ---
->  drivers/media/v4l2-core/v4l2-subdev.c | 15 +++++++++++++++
->  include/media/v4l2-subdev.h           |  6 ++++--
->  2 files changed, 19 insertions(+), 2 deletions(-)
+> On Fri, Oct 14, 2022 at 07:34:59PM +0100, Prabhakar wrote:
+> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> >
+> > Make sure we call ov5645_entity_init_cfg() before registering the subdev
+> > to make sure default formats are set up.
+> >
+> > Suggested-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 >
-
-Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+>
+> If you have a few spare cycles, it would be even better to convert the
+> driver to the subdev active state API :-) You could then drop this call
+> entirely.
+>
+For v3 I did think of it, but it looks like I'll need to spend more
+time on the subdev state for this driver (as this driver does cropping
+which makes use of TRY/ACTIVE). So for v3 I'll keep this patch as and
+will work on the subdev state switch in parallel and post when
+complete. (Its just I dont want to miss the v6.2 window for RZ/G2L CRU
+driver ;-))
 
 Cheers,
 Prabhakar
-
-
-> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
-> index 5c27bac772ea4..8a4ca2bd1584d 100644
-> --- a/drivers/media/v4l2-core/v4l2-subdev.c
-> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
-> @@ -318,6 +318,20 @@ static int call_get_mbus_config(struct v4l2_subdev *sd, unsigned int pad,
->                sd->ops->pad->get_mbus_config(sd, pad, config);
->  }
->
-> +static int call_s_stream(struct v4l2_subdev *sd, int enable)
-> +{
-> +       int ret;
-> +
-> +       ret = sd->ops->video->s_stream(sd, enable);
-> +
-> +       if (!enable && ret < 0) {
-> +               dev_warn(sd->dev, "disabling streaming failed (%d)\n", ret);
-> +               return 0;
-> +       }
-> +
-> +       return ret;
-> +}
-> +
->  #ifdef CONFIG_MEDIA_CONTROLLER
->  /*
->   * Create state-management wrapper for pad ops dealing with subdev state. The
-> @@ -377,6 +391,7 @@ static const struct v4l2_subdev_pad_ops v4l2_subdev_call_pad_wrappers = {
->  static const struct v4l2_subdev_video_ops v4l2_subdev_call_video_wrappers = {
->         .g_frame_interval       = call_g_frame_interval,
->         .s_frame_interval       = call_s_frame_interval,
-> +       .s_stream               = call_s_stream,
->  };
->
->  const struct v4l2_subdev_ops v4l2_subdev_call_wrappers = {
-> diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
-> index 54566d139da79..b15fa9930f30c 100644
-> --- a/include/media/v4l2-subdev.h
-> +++ b/include/media/v4l2-subdev.h
-> @@ -440,8 +440,10 @@ enum v4l2_subdev_pre_streamon_flags {
->   * @g_input_status: get input status. Same as the status field in the
->   *     &struct v4l2_input
->   *
-> - * @s_stream: used to notify the driver that a video stream will start or has
-> - *     stopped.
-> + * @s_stream: start (enabled == 1) or stop (enabled == 0) streaming on the
-> + *     sub-device. Failure on stop will remove any resources acquired in
-> + *     streaming start, while the error code is still returned by the driver.
-> + *     Also see call_s_stream wrapper in v4l2-subdev.c.
->   *
->   * @g_pixelaspect: callback to return the pixelaspect ratio.
->   *
-> --
-> 2.30.2
->
