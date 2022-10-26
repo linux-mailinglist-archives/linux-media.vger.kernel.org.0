@@ -2,79 +2,72 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5526460E670
-	for <lists+linux-media@lfdr.de>; Wed, 26 Oct 2022 19:27:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5CFCB60E67A
+	for <lists+linux-media@lfdr.de>; Wed, 26 Oct 2022 19:29:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234023AbiJZR1U (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 26 Oct 2022 13:27:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39904 "EHLO
+        id S233865AbiJZR35 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 26 Oct 2022 13:29:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43106 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233721AbiJZR1T (ORCPT
+        with ESMTP id S234220AbiJZR3r (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 26 Oct 2022 13:27:19 -0400
-Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com [IPv6:2a00:1450:4864:20::52b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 22C11FE91C;
-        Wed, 26 Oct 2022 10:27:18 -0700 (PDT)
-Received: by mail-ed1-x52b.google.com with SMTP id a67so42685309edf.12;
-        Wed, 26 Oct 2022 10:27:18 -0700 (PDT)
+        Wed, 26 Oct 2022 13:29:47 -0400
+Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com [IPv6:2a00:1450:4864:20::530])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27DFA32EF8;
+        Wed, 26 Oct 2022 10:29:38 -0700 (PDT)
+Received: by mail-ed1-x530.google.com with SMTP id y69so23714957ede.5;
+        Wed, 26 Oct 2022 10:29:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=YT9dZTW1IcvIzEw+/TA0JI+18vP7bQFANMlj5OcRlS0=;
-        b=JqiaRixrE6P83gh5A98tk32sYSCxaspmzZxsQ88zMlY3nS+AKcyK5zmhwfRfPf/cRb
-         /sgLqcFiec6hDHwog9PItF12obB7ZatkR5sdEV9UNKSyYWpELvwICcHjogvwQIrS0XqS
-         nOT+MqkERNa4x5pYbYEXDos/imjy5P9HYKPZXlOHO3hAF3z8yv/LOh9jnT2pFd21AY6V
-         W8CncXWNY3GjB7IS5uWFw47leUf+r3LEBqgspybj3ZZVQ2LKG+oepXxo4kn6ZUWrL2vb
-         z06GL/HDOtwlsQGZ4PCqUbSYDInjH6W/eNuIVjESTNeNk2UQN4r30Vpvxw2WBrvm4riV
-         CcHg==
+        bh=7AA9h8SmdIJH6hpfSaQ1dsYeLBKSIK0Dj9U7LImgfDg=;
+        b=GEAxVKOtuirXdsRDTvEMEotHUyxwYr1Iu9/ZqJKdAmUoqPCxTnr3Zq/2aRaKDkqrIA
+         INabHPdOdnZc2DB+ZC9YB2RKlCd8qATeZjqxC16bRjR4ShmWummnyJ/6Fv35YUY4cCwu
+         vjYx7HLi5qwgoag6GUicDNb+mP/g948GWBO9g7IB3TwQzAgz8PnT6HFwjSibiwgLDU1f
+         +kNvO6+Bnl0mkylu2ydieM5IZ5YoiT9g2U0BP78Fo3zkYVOTohSUHuROG1g2Dy3glMRu
+         PvX/X08H2vwdmPRZ+fwYDCS5oMJoR8ChM9poMOMQruGDudHIso0aMGRjek9+Bs899yAH
+         jwTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=YT9dZTW1IcvIzEw+/TA0JI+18vP7bQFANMlj5OcRlS0=;
-        b=h6uqM1AJX07gOtfkKmwck8LqnnR8UOvCHNE2N5ibT8j2IUCD9plPJHgbb5zpHaxDN+
-         OYJPXU1xwyOXjBDgmF4jEKIURjmdXOoznm7961S1XZFpXU9nQql4Ed0dggDNCmi8fyU6
-         30NOl5ZBsAbLlgRZDufS6rl35WLmoTdinKOERwsi4mz7l5ujua7q6y+Lu5c99/SQtHD3
-         MQwIiobHc/q58uvziW9lutkThp39ZSocvPlMr+gzYZmf9EDf2jc2RKVjZjWsD9th9T9Q
-         x1hJlEVp629+JoHFgpjOsWcu4zgeENaF+nEkyAG/TOKOA+Xo1EKEBPbB3t+JmpNrWbD/
-         GRKg==
-X-Gm-Message-State: ACrzQf0E8SpJxMud/zzzdgkBBZULxDqnQIrgyNuyb5NNSObPHjYDFk6q
-        OIYKZbp/RCM5j0YAo5zCUAIe6hu8/9pMMCq9ZWM=
-X-Google-Smtp-Source: AMsMyM7y6mfcVec+7Eztyvd1D+cxLSvKU9h/OLJ85C8F8wtKEbcxFNJBZCTeR7cf49lmMcrZZkoeI8n3Gpioa7WSrNY=
-X-Received: by 2002:a05:6402:26cf:b0:45d:48d7:928e with SMTP id
- x15-20020a05640226cf00b0045d48d7928emr40535848edd.275.1666805236670; Wed, 26
- Oct 2022 10:27:16 -0700 (PDT)
+        bh=7AA9h8SmdIJH6hpfSaQ1dsYeLBKSIK0Dj9U7LImgfDg=;
+        b=0d0krf8T67uKTf+sK0c9OOJooL9mLb9pEBsvhdc9vmSdds7FPrZX/rYmxKPnGKWJdH
+         CFEceu7Nv6F11B1S8ugIzFYCbhUsqUPknUyrt4dPnUEtMsBax2ibOVj2FZ064YueCDU9
+         oneIh7V8TCGe4pslIJy8NLAHA1dF2Td4Z6deqBtK4+lufB2P1bhqPSwUW4c1WbGR/7MP
+         gvEun8e/ofRvC0pekOiLTWY5kNlaUhWuYMUC4A9gj90nB++shnfuyWXB6LgDTTHBAQCl
+         JF4XLtpxItI1O4n4CEqS2k+Gj5sXSNM2pSxh3BGg8rbOiOW0vShT5w9HgAOW5QUILpyZ
+         kR8A==
+X-Gm-Message-State: ACrzQf0IkfqEhc8czXlO1cawV75nCbCaXeaB4Lmr0h7Y5JUyDQtzbK+7
+        E0PmFjPXrtzIXHDyNQp5eIRwK9fDhW01gOBOHsQ=
+X-Google-Smtp-Source: AMsMyM4sHeGBjgie6YkH1gVHxtNyumuvzPz/rT9VWOzyzxvJEZU1tSV8A+2mn0zsFx4kB3dIVkpNlykixMy810f0lYI=
+X-Received: by 2002:a05:6402:2552:b0:45d:ecf:b23 with SMTP id
+ l18-20020a056402255200b0045d0ecf0b23mr42421584edb.255.1666805376698; Wed, 26
+ Oct 2022 10:29:36 -0700 (PDT)
 MIME-Version: 1.0
-References: <20221026130658.45601-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20221026130658.45601-9-prabhakar.mahadev-lad.rj@bp.renesas.com> <20221026171721.4nfvhamguwnrw6zf@pengutronix.de>
-In-Reply-To: <20221026171721.4nfvhamguwnrw6zf@pengutronix.de>
+References: <20221004234343.54777-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20221004234343.54777-5-prabhakar.mahadev-lad.rj@bp.renesas.com> <Y1hkG6NVFS08WTIg@paasikivi.fi.intel.com>
+In-Reply-To: <Y1hkG6NVFS08WTIg@paasikivi.fi.intel.com>
 From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Wed, 26 Oct 2022 18:26:49 +0100
-Message-ID: <CA+V-a8urKEjEKP0n9mki8xx1B9JLOMTYM4F1aXC3h_5Ne0+tCw@mail.gmail.com>
-Subject: Re: [PATCH v3 8/9] media: i2c: ov5645: Don't return early on failures
- for s_stream(0)
-To:     Marco Felsch <m.felsch@pengutronix.de>
-Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+Date:   Wed, 26 Oct 2022 18:29:10 +0100
+Message-ID: <CA+V-a8vdcG51mHBV4C8nC7Ad9YWEfKD=jiy5KXVgSWVR_UvNfQ@mail.gmail.com>
+Subject: Re: [PATCH v3 4/4] media: platform: Add Renesas RZ/G2L CRU driver
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Shawn Tu <shawnx.tu@intel.com>, devicetree@vger.kernel.org,
-        Jacopo Mondi <jacopo@jmondi.org>, linux-kernel@vger.kernel.org,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        linux-renesas-soc@vger.kernel.org,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
         Biju Das <biju.das.jz@bp.renesas.com>,
-        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
@@ -86,65 +79,134 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Marco,
+Hi Sakari,
 
 Thank you for the review.
 
-On Wed, Oct 26, 2022 at 6:17 PM Marco Felsch <m.felsch@pengutronix.de> wrote:
+On Tue, Oct 25, 2022 at 11:33 PM Sakari Ailus
+<sakari.ailus@linux.intel.com> wrote:
 >
 > Hi Prabhakar,
 >
-> thanks for the patch, please see below my comments.
+> A few comments below... apologies for not reviewing this earlier. Looks
+> good in general but there are a few points that need some attention.
 >
-> On 22-10-26, Prabhakar wrote:
-> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> >
-> > Make sure we dont stop the code flow in case of errors while stopping
-> > the stream and return the error code of the first error case if any.
-> >
-> > v4l2-core takes care of warning the user so no need to add a warning
-> > message in the driver.
-> >
-> > Suggested-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > ---
-> > v2->v3
-> > * Now propagating the first error code in case of failure.
-> >
-> > v1->v2
-> > * New patch
-> > ---
-> >  drivers/media/i2c/ov5645.c | 11 ++++++++---
-> >  1 file changed, 8 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/drivers/media/i2c/ov5645.c b/drivers/media/i2c/ov5645.c
-> > index eea3067ddc8b..5702a55607fc 100644
-> > --- a/drivers/media/i2c/ov5645.c
-> > +++ b/drivers/media/i2c/ov5645.c
-> > @@ -996,17 +996,22 @@ static int ov5645_s_stream(struct v4l2_subdev *subdev, int enable)
-> >               if (ret < 0)
-> >                       goto err_rpm_put;
-> >       } else {
-> > +             int stream_off_ret = 0;
+> On Wed, Oct 05, 2022 at 12:43:43AM +0100, Prabhakar wrote:
+> ...
+> > +static int rzg2l_cru_ip_pre_streamon(struct v4l2_subdev *sd, u32 flags)
+> > +{
+> > +     struct rzg2l_cru_dev *cru;
+> > +     int ret;
 > > +
-> >               ret = ov5645_write_reg(ov5645, OV5645_IO_MIPI_CTRL00, 0x40);
+> > +     cru = v4l2_get_subdevdata(sd);
+> > +
+> > +     if (!cru->is_csi)
+> > +             return -EINVAL;
+> > +
+> > +     ret = v4l2_subdev_call(cru->ip.remote, video, pre_streamon, 0);
 >
-> If this write failed..
+> If you're calling pre_streamon successfully, you'll have to have an
+> equivalent number of post_streamoff calls.
 >
-> >               if (ret < 0)
-> > -                     return ret;
-> > +                     stream_off_ret = ret;
-> >
-> >               ret = ov5645_write_reg(ov5645, OV5645_SYSTEM_CTRL0,
-> >                                      OV5645_SYSTEM_CTRL0_STOP);
->
-> why should this write be successful?
->
-Indeed that will fail unless I have a lucky day ;-)
+Agreed, I will implement the post_streamoff()
 
-But it seemed to be an overkill for adding an additional check to see
-if the previous write succeeded. Do you think this will create an
-issue?
+> ...
+>
+> > +static int rzg2l_cru_set_stream(struct rzg2l_cru_dev *cru, int on)
+> > +{
+> > +     struct media_pipeline *pipe;
+> > +     struct v4l2_subdev *sd;
+> > +     struct media_pad *pad;
+> > +     unsigned long flags;
+> > +     int ret;
+> > +
+> > +     pad = media_pad_remote_pad_first(&cru->pad);
+> > +     if (!pad)
+> > +             return -EPIPE;
+> > +
+> > +     sd = media_entity_to_v4l2_subdev(pad->entity);
+> > +
+> > +     if (!on) {
+> > +             media_pipeline_stop(&cru->vdev.entity);
+> > +             return v4l2_subdev_call(sd, video, s_stream, 0);
+>
+> Ditto.
+>
+OK.
 
-Cheers,
+> > +     }
+> > +
+> > +     ret = rzg2l_cru_mc_validate_format(cru, sd, pad);
+> > +     if (ret)
+> > +             return ret;
+> > +
+> > +     ret = v4l2_subdev_call(sd, video, pre_streamon, 0);
+> > +     if (ret == -ENOIOCTLCMD)
+> > +             ret = 0;
+> > +     if (ret)
+> > +             return ret;
+>
+> For all cases below where streaming on doesn't succeed, you'll have to have
+> a call of post_streamoff.
+>
+Agreed, I missed that I will call post_streamoff in the error paths.
+
+> > +
+> > +     spin_lock_irqsave(&cru->qlock, flags);
+> > +
+> > +     /* Select a video input */
+> > +     if (cru->is_csi)
+> > +             rzg2l_cru_write(cru, CRUnCTRL, CRUnCTRL_VINSEL(0));
+> > +
+> > +     /* Cancel the software reset for image processing block */
+> > +     rzg2l_cru_write(cru, CRUnRST, CRUnRST_VRESETN);
+> > +
+> > +     /* Disable and clear the interrupt before using */
+> > +     rzg2l_cru_write(cru, CRUnIE, 0);
+> > +     rzg2l_cru_write(cru, CRUnINTS, 0x001f000f);
+> > +
+> > +     /* Initialize the AXI master */
+> > +     rzg2l_cru_initialize_axi(cru);
+> > +
+> > +     /* Initialize image convert */
+> > +     ret = rzg2l_cru_initialize_image_conv(cru);
+> > +     if (ret) {
+> > +             spin_unlock_irqrestore(&cru->qlock, flags);
+> > +             return ret;
+> > +     }
+> > +
+> > +     /* Enable interrupt */
+> > +     rzg2l_cru_write(cru, CRUnIE, CRUnIE_EFE);
+> > +
+> > +     /* Enable image processing reception */
+> > +     rzg2l_cru_write(cru, ICnEN, ICnEN_ICEN);
+> > +
+> > +     spin_unlock_irqrestore(&cru->qlock, flags);
+> > +
+> > +     pipe = sd->entity.pipe ? sd->entity.pipe : &cru->vdev.pipe;
+> > +     ret = media_pipeline_start(&cru->vdev.entity, pipe);
+> > +     if (ret)
+> > +             return ret;
+> > +
+> > +     clk_disable_unprepare(cru->vclk);
+> > +
+> > +     ret = v4l2_subdev_call(sd, video, s_stream, 1);
+> > +     if (ret == -ENOIOCTLCMD)
+> > +             ret = 0;
+> > +     if (ret) {
+> > +             /* enable back vclk so that release() disables it */
+> > +             clk_prepare_enable(cru->vclk);
+> > +             media_pipeline_stop(&cru->vdev.entity);
+> > +             return ret;
+> > +     }
+> > +
+> > +     ret = clk_prepare_enable(cru->vclk);
+>
+> What will happen if enabling vclk will fail here? (Or above?)
+>
+Hmm, I will have to undo the stuff here. I will fix that in the next
+version and for the above failure I'll add a warning message as
+s_stream(1) itself has failed.
+
+Cheers
 Prabhakar
