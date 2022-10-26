@@ -2,199 +2,95 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id ECFC160D963
-	for <lists+linux-media@lfdr.de>; Wed, 26 Oct 2022 04:44:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 246F460D998
+	for <lists+linux-media@lfdr.de>; Wed, 26 Oct 2022 05:15:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229629AbiJZCoL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 25 Oct 2022 22:44:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38958 "EHLO
+        id S232646AbiJZDPz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 25 Oct 2022 23:15:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36136 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229753AbiJZCoK (ORCPT
+        with ESMTP id S232127AbiJZDPx (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 25 Oct 2022 22:44:10 -0400
-Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com [211.20.114.71])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5573260CA7;
-        Tue, 25 Oct 2022 19:44:09 -0700 (PDT)
-Received: from mail.aspeedtech.com ([192.168.0.24])
-        by twspam01.aspeedtech.com with ESMTP id 29Q2JJ9L047261;
-        Wed, 26 Oct 2022 10:19:19 +0800 (GMT-8)
-        (envelope-from jammy_huang@aspeedtech.com)
-Received: from [192.168.2.115] (192.168.2.115) by TWMBX02.aspeed.com
- (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Wed, 26 Oct
- 2022 10:42:08 +0800
-Message-ID: <22c85f42-a4d7-c6cc-5f1e-346c88c29dc5@aspeedtech.com>
-Date:   Wed, 26 Oct 2022 10:42:09 +0800
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.1
-Subject: Re: [PATCH v10 3/5] media: Documentation: aspeed-video: Add user
- documentation for the aspeed-video driver
-Content-Language: en-US
-To:     Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-        <eajames@linux.ibm.com>, <mchehab@kernel.org>, <joel@jms.id.au>,
-        <andrew@aj.id.au>, <hverkuil-cisco@xs4all.nl>,
-        <laurent.pinchart@ideasonboard.com>, <xavier.roumegue@oss.nxp.com>,
-        <ezequiel@vanguardiasur.com.ar>, <stanimir.varbanov@linaro.org>,
-        <sakari.ailus@linux.intel.com>, <ming.qian@nxp.com>,
-        <andrzej.p@collabora.com>, <linux-media@vger.kernel.org>,
-        <openbmc@lists.ozlabs.org>, <linux-arm-kernel@lists.infradead.org>,
-        <linux-aspeed@lists.ozlabs.org>, <linux-kernel@vger.kernel.org>
-References: <20221025090203.5623-1-jammy_huang@aspeedtech.com>
- <20221025090203.5623-4-jammy_huang@aspeedtech.com>
- <8a8f7c818688bda7c75d2f4fb5f8f0d6f89cb965.camel@collabora.com>
-From:   Jammy Huang <jammy_huang@aspeedtech.com>
-In-Reply-To: <8a8f7c818688bda7c75d2f4fb5f8f0d6f89cb965.camel@collabora.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [192.168.2.115]
-X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
- (192.168.0.24)
-X-DNSRBL: 
-X-MAIL: twspam01.aspeedtech.com 29Q2JJ9L047261
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        Tue, 25 Oct 2022 23:15:53 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 355655B535
+        for <linux-media@vger.kernel.org>; Tue, 25 Oct 2022 20:15:52 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id E2E64B81FC3
+        for <linux-media@vger.kernel.org>; Wed, 26 Oct 2022 03:15:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1C8ACC433D7
+        for <linux-media@vger.kernel.org>; Wed, 26 Oct 2022 03:15:48 +0000 (UTC)
+Date:   Wed, 26 Oct 2022 05:15:46 +0200
+From:   "Hans Verkuil" <hverkuil-cisco@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
+Message-Id: <20221026031549.1C8ACC433D7@smtp.kernel.org>
+X-Spam-Status: No, score=-6.6 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Nicolas,
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-Thanks for your comments.
+Results of the daily build of media_tree:
 
-On 2022/10/25 下午 09:18, Nicolas Dufresne wrote:
-> Hi Jammy,
->
-> thanks for the addition.
->
-> Le mardi 25 octobre 2022 à 17:02 +0800, Jammy Huang a écrit :
->> Add user documentation for the aspeed-video driver.
->>
->> Signed-off-by: Jammy Huang <jammy_huang@aspeedtech.com>
->> ---
->> v10:
->>    - new
->> ---
->>   .../media/drivers/aspeed-video.rst            | 61 +++++++++++++++++++
->>   .../userspace-api/media/drivers/index.rst     |  1 +
->>   2 files changed, 62 insertions(+)
->>   create mode 100644 Documentation/userspace-api/media/drivers/aspeed-video.rst
->>
->> diff --git a/Documentation/userspace-api/media/drivers/aspeed-video.rst b/Documentation/userspace-api/media/drivers/aspeed-video.rst
->> new file mode 100644
->> index 000000000000..798a2588b175
->> --- /dev/null
->> +++ b/Documentation/userspace-api/media/drivers/aspeed-video.rst
->> @@ -0,0 +1,61 @@
->> +.. SPDX-License-Identifier: GPL-2.0
->> +
->> +.. include:: <isonum.txt>
->> +
->> +ASPEED video driver
->> +===================
->> +
->> +ASPEED Video Engine found on AST2400/2500/2600 SoC supports high performance
->> +video compressions with a wide range of video quality and compression ratio
->> +options. The adopted compressing algorithm is a modified JPEG algorithm.
->> +
->> +There are 2 types of compressions in this IP.
->> +
->> +* JPEG JFIF standard mode: for single frame and management compression
->> +* ASPEED proprietary mode: for multi-frame and differential compression.
->> +  Support 2-pass (high quality) video compression scheme (Patent pending by
->> +  ASPEED). Provide visually lossless video compression quality or to reduce
->> +  the network average loading under intranet KVM applications.
-> I think some of the information disclosed in the following quote could be
-> summarized. Notably the part about the extra buffers.
->
->     Aspeed JPEG Format requires an additional buffer, called bcd, to store
->     the information about which macro block in the new frame is different
->     from the previous one.
->     
->     To have bcd correctly working, we need to swap the buffers for src0/1 to
->     make src1 refer to previous frame and src0 to the coming new frame.
->     
-> But before I push you this route, have you considered using a dedicated pixel
-> format instead ? Here's my thinking, the output of the JPEG encoder is no longer
-> "compatible" (or at least won't yield the expected images) if used with a normal
-> JPEG decoder. By differentiating these two as dedicated formats, you will only need
-> 1 vendor control, and you avoid the potential risk of software bugs mixing them up.
-> Also note that there is other JPEG based vendor formats that exist in V4L2.
->
-> Let me know what do you think ?
+date:			Wed Oct 26 03:00:08 CEST 2022
+media-tree git hash:	de547896aac606a00435a219757a940ece142bf0
+media_build git hash:	0fe857b86addf382f6fd383948bd7736a3201403
+v4l-utils git hash:	f86484524f326bbf5c16d4bb485bfb8bd22cb6d0
+edid-decode git hash:	f1ff7ad7bcb2fbb85017bbb2baa6bed37c412895
+gcc version:		i686-linux-gcc (GCC) 12.2.0
+sparse repo:            git://git.kernel.org/pub/scm/devel/sparse/sparse.git
+sparse version:		v0.6.4-39-gce1a6720-dirty
+smatch repo:            git://repo.or.cz/smatch.git
+smatch version:		v0.5.0-8162-g696da5a8-dirty
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 94af8c625f6730ceef6e3713c61217c31ee868dd
+host hardware:		x86_64
+host os:		5.19.0-2-amd64
 
-Yes, I also add a dedicated formats, V4L2_PIX_FMT_AJPG, in this series. 
-In [PATCH v10 1/5]
+linux-git-sh: OK
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-powerpc64: OK
+linux-git-arm-pxa: OK
+linux-git-arm-stm32: OK
+linux-git-mips: OK
+linux-git-arm-multi: WARNINGS
+linux-git-arm64: WARNINGS
+linux-git-i686: WARNINGS
+linux-git-x86_64: WARNINGS
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+apps: OK
+spec-git: OK
+virtme: OK: Final Summary: 3080, Succeeded: 3080, Failed: 0, Warnings: 0
+virtme-32: WARNINGS: Final Summary: 3193, Succeeded: 3193, Failed: 0, Warnings: 2
+sparse: WARNINGS
+smatch: WARNINGS
+kerneldoc: OK
 
-media: v4l: Add definition for the Aspeed JPEG format, I add the 
-description in pixfmt-reserved.rst.
+Detailed results are available here:
 
-After this series applied, the users can choose either of these two 
-formats by VIDIOC_S_FMT as
+https://hverkuil.home.xs4all.nl/logs/Wednesday.log
 
-per their preference.
+Detailed regression test results are available here:
 
->
-> Nicolas
->
->> +
->> +More details on the ASPEED video hardware operations can be found in
->> +*chapter 6.2.16 KVM Video Driver* of SDK_User_Guide which available on
->> +AspeedTech-BMC/openbmc/releases.
->> +
->> +The ASPEED video driver implements the following driver-specific control:
->> +
->> +``V4L2_CID_ASPEED_HQ_MODE``
->> +-------------------------------
->> +    Enable/Disable ASPEED's High quality mode. This is a private control
->> +    that can be used to enable high quality for aspeed proprietary mode.
->> +
->> +.. flat-table::
->> +    :header-rows:  0
->> +    :stub-columns: 0
->> +    :widths:       1 4
->> +
->> +    * - ``(0)``
->> +      - ASPEED HQ mode is disabled.
->> +    * - ``(1)``
->> +      - ASPEED HQ mode is enabled.
->> +
->> +``V4L2_CID_ASPEED_HQ_JPEG_QUALITY``
->> +-------------------------------
->> +    Define the quality of ASPEED's High quality mode. This is a private control
->> +    that can be used to decide compression quality if High quality mode enabled
->> +    . Higher the value, better the quality and bigger the size.
->> +
->> +.. flat-table::
->> +    :header-rows:  0
->> +    :stub-columns: 0
->> +    :widths:       1 4
->> +
->> +    * - ``(1)``
->> +      - minimum
->> +    * - ``(12)``
->> +      - maximum
->> +    * - ``(1)``
->> +      - step
->> +    * - ``(1)``
->> +      - default
->> +
->> +**Copyright** |copy| 2022 ASPEED Technology Inc.
->> diff --git a/Documentation/userspace-api/media/drivers/index.rst b/Documentation/userspace-api/media/drivers/index.rst
->> index 32f82aed47d9..46a494e00b72 100644
->> --- a/Documentation/userspace-api/media/drivers/index.rst
->> +++ b/Documentation/userspace-api/media/drivers/index.rst
->> @@ -31,6 +31,7 @@ For more details see the file COPYING in the source distribution of Linux.
->>   	:maxdepth: 5
->>   	:numbered:
->>   
->> +	aspeed-video
->>   	ccs
->>   	cx2341x-uapi
->>   	dw100
+https://hverkuil.home.xs4all.nl/logs/Wednesday-test-media.log
+https://hverkuil.home.xs4all.nl/logs/Wednesday-test-media-32.log
+https://hverkuil.home.xs4all.nl/logs/Wednesday-test-media-dmesg.log
 
--- 
-Best Regards
-Jammy
+Full logs are available here:
 
+https://hverkuil.home.xs4all.nl/logs/Wednesday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+https://hverkuil.home.xs4all.nl/spec/index.html
