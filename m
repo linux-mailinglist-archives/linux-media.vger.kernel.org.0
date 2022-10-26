@@ -2,95 +2,129 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 246F460D998
-	for <lists+linux-media@lfdr.de>; Wed, 26 Oct 2022 05:15:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8E25F60DB97
+	for <lists+linux-media@lfdr.de>; Wed, 26 Oct 2022 08:51:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232646AbiJZDPz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 25 Oct 2022 23:15:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36136 "EHLO
+        id S232935AbiJZGvJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 26 Oct 2022 02:51:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46412 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232127AbiJZDPx (ORCPT
+        with ESMTP id S232823AbiJZGvH (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 25 Oct 2022 23:15:53 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 355655B535
-        for <linux-media@vger.kernel.org>; Tue, 25 Oct 2022 20:15:52 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id E2E64B81FC3
-        for <linux-media@vger.kernel.org>; Wed, 26 Oct 2022 03:15:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1C8ACC433D7
-        for <linux-media@vger.kernel.org>; Wed, 26 Oct 2022 03:15:48 +0000 (UTC)
-Date:   Wed, 26 Oct 2022 05:15:46 +0200
-From:   "Hans Verkuil" <hverkuil-cisco@xs4all.nl>
+        Wed, 26 Oct 2022 02:51:07 -0400
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F595578AC
+        for <linux-media@vger.kernel.org>; Tue, 25 Oct 2022 23:51:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1666767064; x=1698303064;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=OpdL22wdhyWFPa05OhWTUGg4/Dw/UL4CdVsDAMqe0S4=;
+  b=gYK6nRF1fF322EO7h/Y+C0Mk0A3XGukuedy0iWfvtCKInFVoltBX1Czx
+   VIrlMWdTlfWe18Ot/VoUN7arl/DJwt9qmP59qR1KRkbyU6jlH0pZdLaEo
+   L9r12pqmFjVjgXgDE485LAp6RZXeHNnSg1J86UYuDtdKWNW/AzHw3KcoU
+   OVKZwQrwA976zdzckEDAaHhPLx6T6Q9nmy2q9QxrKraTjni+motszMn7A
+   YQFv2KvsM9cqUQZbQBaIBuwS9Ad/S7CHpdcoodyZ+SuwxHCC/pX8LQtvr
+   61YQ6AXeMgeWSGyUjTc68b5i3MYTV8AxFn6zmmlHJuiDQ1Aqt7DnrivQP
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10511"; a="394187467"
+X-IronPort-AV: E=Sophos;i="5.95,213,1661842800"; 
+   d="scan'208";a="394187467"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2022 23:50:53 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10511"; a="877082821"
+X-IronPort-AV: E=Sophos;i="5.95,213,1661842800"; 
+   d="scan'208";a="877082821"
+Received: from punajuuri.fi.intel.com (HELO paasikivi.fi.intel.com) ([10.237.72.43])
+  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2022 23:50:52 -0700
+Received: from punajuuri.localdomain (punajuuri.localdomain [192.168.240.130])
+        by paasikivi.fi.intel.com (Postfix) with ESMTP id A826620210;
+        Wed, 26 Oct 2022 09:50:50 +0300 (EEST)
+Received: from sailus by punajuuri.localdomain with local (Exim 4.94.2)
+        (envelope-from <sakari.ailus@linux.intel.com>)
+        id 1onaG4-002V06-1T; Wed, 26 Oct 2022 09:51:24 +0300
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
 To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: WARNINGS
-Message-Id: <20221026031549.1C8ACC433D7@smtp.kernel.org>
-X-Spam-Status: No, score=-6.6 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+Cc:     laurent.pinchart@ideasonboard.com,
+        Prabhakar Lad <prabhakar.csengg@gmail.com>
+Subject: [PATCH 1/1] v4l: subdev: Warn if disabling streaming failed, return success
+Date:   Wed, 26 Oct 2022 09:51:23 +0300
+Message-Id: <20221026065123.595777-1-sakari.ailus@linux.intel.com>
+X-Mailer: git-send-email 2.30.2
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+Complain in the newly added s_stream video op wrapper if disabling
+streaming failed. Also return zero in this case as there's nothing the
+caller can do to return the error.
 
-Results of the daily build of media_tree:
+This way drivers also won't need to bother with printing error messages.
 
-date:			Wed Oct 26 03:00:08 CEST 2022
-media-tree git hash:	de547896aac606a00435a219757a940ece142bf0
-media_build git hash:	0fe857b86addf382f6fd383948bd7736a3201403
-v4l-utils git hash:	f86484524f326bbf5c16d4bb485bfb8bd22cb6d0
-edid-decode git hash:	f1ff7ad7bcb2fbb85017bbb2baa6bed37c412895
-gcc version:		i686-linux-gcc (GCC) 12.2.0
-sparse repo:            git://git.kernel.org/pub/scm/devel/sparse/sparse.git
-sparse version:		v0.6.4-39-gce1a6720-dirty
-smatch repo:            git://repo.or.cz/smatch.git
-smatch version:		v0.5.0-8162-g696da5a8-dirty
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 94af8c625f6730ceef6e3713c61217c31ee868dd
-host hardware:		x86_64
-host os:		5.19.0-2-amd64
+Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+---
+ drivers/media/v4l2-core/v4l2-subdev.c | 15 +++++++++++++++
+ include/media/v4l2-subdev.h           |  6 ++++--
+ 2 files changed, 19 insertions(+), 2 deletions(-)
 
-linux-git-sh: OK
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-powerpc64: OK
-linux-git-arm-pxa: OK
-linux-git-arm-stm32: OK
-linux-git-mips: OK
-linux-git-arm-multi: WARNINGS
-linux-git-arm64: WARNINGS
-linux-git-i686: WARNINGS
-linux-git-x86_64: WARNINGS
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-apps: OK
-spec-git: OK
-virtme: OK: Final Summary: 3080, Succeeded: 3080, Failed: 0, Warnings: 0
-virtme-32: WARNINGS: Final Summary: 3193, Succeeded: 3193, Failed: 0, Warnings: 2
-sparse: WARNINGS
-smatch: WARNINGS
-kerneldoc: OK
+diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
+index 5c27bac772ea4..8a4ca2bd1584d 100644
+--- a/drivers/media/v4l2-core/v4l2-subdev.c
++++ b/drivers/media/v4l2-core/v4l2-subdev.c
+@@ -318,6 +318,20 @@ static int call_get_mbus_config(struct v4l2_subdev *sd, unsigned int pad,
+ 	       sd->ops->pad->get_mbus_config(sd, pad, config);
+ }
+ 
++static int call_s_stream(struct v4l2_subdev *sd, int enable)
++{
++	int ret;
++
++	ret = sd->ops->video->s_stream(sd, enable);
++
++	if (!enable && ret < 0) {
++		dev_warn(sd->dev, "disabling streaming failed (%d)\n", ret);
++		return 0;
++	}
++
++	return ret;
++}
++
+ #ifdef CONFIG_MEDIA_CONTROLLER
+ /*
+  * Create state-management wrapper for pad ops dealing with subdev state. The
+@@ -377,6 +391,7 @@ static const struct v4l2_subdev_pad_ops v4l2_subdev_call_pad_wrappers = {
+ static const struct v4l2_subdev_video_ops v4l2_subdev_call_video_wrappers = {
+ 	.g_frame_interval	= call_g_frame_interval,
+ 	.s_frame_interval	= call_s_frame_interval,
++	.s_stream		= call_s_stream,
+ };
+ 
+ const struct v4l2_subdev_ops v4l2_subdev_call_wrappers = {
+diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
+index 54566d139da79..b15fa9930f30c 100644
+--- a/include/media/v4l2-subdev.h
++++ b/include/media/v4l2-subdev.h
+@@ -440,8 +440,10 @@ enum v4l2_subdev_pre_streamon_flags {
+  * @g_input_status: get input status. Same as the status field in the
+  *	&struct v4l2_input
+  *
+- * @s_stream: used to notify the driver that a video stream will start or has
+- *	stopped.
++ * @s_stream: start (enabled == 1) or stop (enabled == 0) streaming on the
++ *	sub-device. Failure on stop will remove any resources acquired in
++ *	streaming start, while the error code is still returned by the driver.
++ *	Also see call_s_stream wrapper in v4l2-subdev.c.
+  *
+  * @g_pixelaspect: callback to return the pixelaspect ratio.
+  *
+-- 
+2.30.2
 
-Detailed results are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Wednesday.log
-
-Detailed regression test results are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Wednesday-test-media.log
-https://hverkuil.home.xs4all.nl/logs/Wednesday-test-media-32.log
-https://hverkuil.home.xs4all.nl/logs/Wednesday-test-media-dmesg.log
-
-Full logs are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Wednesday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-https://hverkuil.home.xs4all.nl/spec/index.html
