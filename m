@@ -2,141 +2,138 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7047460E5DC
-	for <lists+linux-media@lfdr.de>; Wed, 26 Oct 2022 18:56:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 464DA60E64D
+	for <lists+linux-media@lfdr.de>; Wed, 26 Oct 2022 19:18:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233935AbiJZQ4z (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 26 Oct 2022 12:56:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46444 "EHLO
+        id S233807AbiJZRST (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 26 Oct 2022 13:18:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44534 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233893AbiJZQ4x (ORCPT
+        with ESMTP id S233760AbiJZRSO (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 26 Oct 2022 12:56:53 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2B1869AC11;
-        Wed, 26 Oct 2022 09:56:52 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id D5B2CB82389;
-        Wed, 26 Oct 2022 16:56:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 81CAAC43147;
-        Wed, 26 Oct 2022 16:56:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1666803409;
-        bh=Vi8sx4aHNpojzRYzXmqjTrqY6mW5GyQ8eA3RJ1HlulQ=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=anP5j2gqPlA0CJUatDTr2DdhObFHUzWHqJfMkJ2XwAhpxjrmo9+g3+huQbX1jq544
-         dNvq+Lj+aO/+ADOWr3wMz3fPM3StPYP/BfgTuiuQtLGzqen1ftnp7HbBCH7mIJ3YjD
-         LnkRpUl4PufDhzyKpxewCF7hyXIuLHL+s9037D29o1S/gtMMd+BQhzQeHEjgvKnNXL
-         XC3CiCVHG8umwyfVnrYHjNUl+hfoeFRHSvUpYOAqUjajznc5qyqe+Ky8taqLCzy2Mf
-         C2t7zJBY/wlYUluEPXIfKLsZcWgUnTeZMCwe8V6Biv91Yv6X/JzJBoaZ3Eu2KI7QGg
-         BNbjBnSBRx0Og==
-Received: by mail-lf1-f46.google.com with SMTP id j4so30022202lfk.0;
-        Wed, 26 Oct 2022 09:56:49 -0700 (PDT)
-X-Gm-Message-State: ACrzQf2EELtfqnjpRayPEpG6FYES/RVUNYGAwI8WIm5TYRk9X7y6R1OH
-        LaUkqKnpk1NSyvtzIrN8Iwn6zGfpsqA+kEWz7g==
-X-Google-Smtp-Source: AMsMyM6LrfSRjX/HUKVBgz4AtfsuMXbX9k+asKJtcIXDWCakd6ADGIkff/pXR6/xCmQI+exsymHAHErxpqcm1TMu7Gw=
-X-Received: by 2002:a05:6512:3f0e:b0:4a0:45b7:a8dc with SMTP id
- y14-20020a0565123f0e00b004a045b7a8dcmr16030816lfa.368.1666803407497; Wed, 26
- Oct 2022 09:56:47 -0700 (PDT)
-MIME-Version: 1.0
-References: <20221014183459.181567-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20221014183459.181567-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <CAL_JsqKC_BJDJLLFck_0CbQ-0rZ0oVWMAdiwwGep23nh2pP19g@mail.gmail.com>
- <CA+V-a8vMLuzJ8h5UDNXUiZRXPV1vJ9gguUMywe_+sPcU8tK+tA@mail.gmail.com>
- <20221014214029.GA2937999-robh@kernel.org> <Y0pLDFMsFmHhC/R8@pendragon.ideasonboard.com>
-In-Reply-To: <Y0pLDFMsFmHhC/R8@pendragon.ideasonboard.com>
-From:   Rob Herring <robh@kernel.org>
-Date:   Wed, 26 Oct 2022 11:56:38 -0500
-X-Gmail-Original-Message-ID: <CAL_Jsq+K72HEEqA2inRRgk4wHjLsueJhvrLPTXFpfhnGK3HJiQ@mail.gmail.com>
-Message-ID: <CAL_Jsq+K72HEEqA2inRRgk4wHjLsueJhvrLPTXFpfhnGK3HJiQ@mail.gmail.com>
-Subject: Re: [PATCH v2 1/5] media: dt-bindings: ov5645: Convert OV5645 binding
- to a schema
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Wed, 26 Oct 2022 13:18:14 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1165EA3451
+        for <linux-media@vger.kernel.org>; Wed, 26 Oct 2022 10:18:13 -0700 (PDT)
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <mfe@pengutronix.de>)
+        id 1onk1s-0003AO-MF; Wed, 26 Oct 2022 19:17:24 +0200
+Received: from mfe by ptx.hi.pengutronix.de with local (Exim 4.92)
+        (envelope-from <mfe@pengutronix.de>)
+        id 1onk1p-0005PJ-NT; Wed, 26 Oct 2022 19:17:21 +0200
+Date:   Wed, 26 Oct 2022 19:17:21 +0200
+From:   Marco Felsch <m.felsch@pengutronix.de>
+To:     Prabhakar <prabhakar.csengg@gmail.com>
+Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
         Hans Verkuil <hverkuil@xs4all.nl>,
-        Shawn Tu <shawnx.tu@intel.com>,
-        Jacopo Mondi <jacopo@jmondi.org>, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Shawn Tu <shawnx.tu@intel.com>, devicetree@vger.kernel.org,
+        Jacopo Mondi <jacopo@jmondi.org>, linux-kernel@vger.kernel.org,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
         linux-renesas-soc@vger.kernel.org,
         Biju Das <biju.das.jz@bp.renesas.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-7.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+Subject: Re: [PATCH v3 8/9] media: i2c: ov5645: Don't return early on
+ failures for s_stream(0)
+Message-ID: <20221026171721.4nfvhamguwnrw6zf@pengutronix.de>
+References: <20221026130658.45601-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20221026130658.45601-9-prabhakar.mahadev-lad.rj@bp.renesas.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221026130658.45601-9-prabhakar.mahadev-lad.rj@bp.renesas.com>
+User-Agent: NeoMutt/20180716
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: mfe@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sat, Oct 15, 2022 at 12:54 AM Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
->
-> Hi Rob,
->
-> On Fri, Oct 14, 2022 at 04:40:29PM -0500, Rob Herring wrote:
-> > On Fri, Oct 14, 2022 at 10:27:53PM +0100, Lad, Prabhakar wrote:
-> > > On Fri, Oct 14, 2022 at 10:05 PM Rob Herring <robh+dt@kernel.org> wrote:
-> > > > On Fri, Oct 14, 2022 at 1:35 PM Prabhakar <prabhakar.csengg@gmail.com> wrote:
-> > > > >
-> > > > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > > > >
-> > > > > Convert the simple OV5645 Device Tree binding to json-schema.
-> > > > >
-> > > > > The previous binding marked the below properties as required which was a
-> > > > > driver requirement and not the device requirement so just drop them from
-> > > > > the required list during the conversion.
-> > > > > - clock-frequency
-> > > > > - enable-gpios
-> > > > > - reset-gpios
-> > > > >
-> > > > > Also drop the "clock-names" property as we have a single clock source for
-> > > > > the sensor and the driver has been updated to drop the clk referencing by
-> > > > > name.
-> > > >
-> > > > Driver requirements are the ABI!
-> > > >
-> > > > This breaks a kernel without the driver change and a DTB that has
-> > > > dropped the properties.
-> > > >
-> > > I already have a patch for the driver [0] which I missed to include
-> > > along with the series.
-> >
-> > You completely miss the point. Read the first sentence again. Changing
-> > driver requirements changes the ABI.
-> >
-> > This breaks the ABI. The driver patch does not help that.
->
-> I'm not following you here. If the DT binding makes a mandatory property
-> optional, it doesn't break any existing platform. The only thing that
-> would not work is a new DT that doesn't contain the now optional
-> property combined with an older driver that makes it required. That's
-> not a regression, as it would be a *new* DT.
->
-> > > > Also, with 'clock-names' dropped, you've just introduced a bunch of
-> > > > warnings on other people's platforms. Are you going to 'fix' all of
-> > > > them?
-> > > >
-> > > Yes I will fix them, once the patch driver patch [0] is merged in.
-> >
-> > Why? You are just making extra work. We have enough warnings as-is to
-> > fix.
->
-> I agree that a DT binding change should patch all in-tree DTS to avoid
-> introducing new warnings.
+Hi Prabhakar,
 
-That is not what I was saying. Why not just keep 'clock-names' and go
-spend the DTS fixing time fixing some other warnings that we already
-have. Also, there is no requirement that converting bindings also fix
-DTS files. The only wish is that any warnings we do see are ones
-deemed needing to be fixed in the DTS file.
+thanks for the patch, please see below my comments.
 
-Anyways, there's patches now for the new warnings, so nevermind on this one.
+On 22-10-26, Prabhakar wrote:
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> 
+> Make sure we dont stop the code flow in case of errors while stopping
+> the stream and return the error code of the first error case if any.
+> 
+> v4l2-core takes care of warning the user so no need to add a warning
+> message in the driver.
+> 
+> Suggested-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> ---
+> v2->v3
+> * Now propagating the first error code in case of failure.
+> 
+> v1->v2
+> * New patch
+> ---
+>  drivers/media/i2c/ov5645.c | 11 ++++++++---
+>  1 file changed, 8 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/media/i2c/ov5645.c b/drivers/media/i2c/ov5645.c
+> index eea3067ddc8b..5702a55607fc 100644
+> --- a/drivers/media/i2c/ov5645.c
+> +++ b/drivers/media/i2c/ov5645.c
+> @@ -996,17 +996,22 @@ static int ov5645_s_stream(struct v4l2_subdev *subdev, int enable)
+>  		if (ret < 0)
+>  			goto err_rpm_put;
+>  	} else {
+> +		int stream_off_ret = 0;
+> +
+>  		ret = ov5645_write_reg(ov5645, OV5645_IO_MIPI_CTRL00, 0x40);
 
-Rob
+If this write failed..
+
+>  		if (ret < 0)
+> -			return ret;
+> +			stream_off_ret = ret;
+>  
+>  		ret = ov5645_write_reg(ov5645, OV5645_SYSTEM_CTRL0,
+>  				       OV5645_SYSTEM_CTRL0_STOP);
+
+why should this write be successful?
+
+Regards,
+  Marco
+
+> -		if (ret < 0)
+> -			return ret;
+> +		if (ret < 0 && !stream_off_ret)
+> +			stream_off_ret = ret;
+>  
+>  		pm_runtime_mark_last_busy(ov5645->dev);
+>  		pm_runtime_put_autosuspend(ov5645->dev);
+> +
+> +		if (stream_off_ret)
+> +			return stream_off_ret;
+>  	}
+>  
+>  	return 0;
+> -- 
+> 2.25.1
+> 
+> 
+> 
