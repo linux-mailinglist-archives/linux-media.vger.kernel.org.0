@@ -2,125 +2,244 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B7B4A60E78D
-	for <lists+linux-media@lfdr.de>; Wed, 26 Oct 2022 20:42:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7752D60E843
+	for <lists+linux-media@lfdr.de>; Wed, 26 Oct 2022 21:05:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234260AbiJZSmW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 26 Oct 2022 14:42:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36754 "EHLO
+        id S234098AbiJZTFk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 26 Oct 2022 15:05:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38792 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234133AbiJZSmV (ORCPT
+        with ESMTP id S233669AbiJZTFO (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 26 Oct 2022 14:42:21 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C9CA4F4184
-        for <linux-media@vger.kernel.org>; Wed, 26 Oct 2022 11:42:20 -0700 (PDT)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <mgr@pengutronix.de>)
-        id 1onlM3-0005Tn-6t; Wed, 26 Oct 2022 20:42:19 +0200
-Received: from [2a0a:edc0:0:1101:1d::ac] (helo=dude04.red.stw.pengutronix.de)
-        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-        (envelope-from <mgr@pengutronix.de>)
-        id 1onlM3-000Ya3-5s; Wed, 26 Oct 2022 20:42:18 +0200
-Received: from mgr by dude04.red.stw.pengutronix.de with local (Exim 4.94.2)
-        (envelope-from <mgr@pengutronix.de>)
-        id 1onlM1-001XXA-Mk; Wed, 26 Oct 2022 20:42:17 +0200
-From:   Michael Grzeschik <m.grzeschik@pengutronix.de>
-To:     linux-usb@vger.kernel.org
-Cc:     linux-media@vger.kernel.org, gregkh@linuxfoundation.org,
-        balbi@kernel.org, laurent.pinchart@ideasonboard.com,
-        kernel@pengutronix.de, stable <stable@kernel.org>
-Subject: [PATCH RESEND 2/2] usb: gadget: uvc: limit isoc_sg to super speed gadgets
-Date:   Wed, 26 Oct 2022 20:42:12 +0200
-Message-Id: <20221026184212.366897-2-m.grzeschik@pengutronix.de>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20221026184212.366897-1-m.grzeschik@pengutronix.de>
-References: <20221026184212.366897-1-m.grzeschik@pengutronix.de>
+        Wed, 26 Oct 2022 15:05:14 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C01A22D1F4;
+        Wed, 26 Oct 2022 12:02:42 -0700 (PDT)
+Received: from nicolas-tpx395.localdomain (192-222-136-102.qc.cable.ebox.net [192.222.136.102])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: nicolas)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 355D1660238E;
+        Wed, 26 Oct 2022 20:02:22 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1666810944;
+        bh=hAnnqhU56lH8Vk85cdRoCxfbM5AG4OzZQZbMnMwTO9g=;
+        h=Subject:From:To:Date:In-Reply-To:References:From;
+        b=CU9aoRRO3PJ36AjirUZW1W0uIypmEU+vhtGIbgRjWi9mL+VuysWMAD6KYR8XF5LeG
+         JN1lm3pDv5V9MH3OaF8ZRVyNc5TjnWrlZ5F+F8jq21FZJ0oF44VHRFzuc6SbnCy1B4
+         g2HVGfN7UcAbOS9sePF2iOBlFIVC8sT6hjlUJJCg+Uc+z0mP8QiDauMpHI8rFaChv8
+         ICvMxugpYon57LfQnF74DNcCJ47GLRej5rgw4mM+OKXS3fxUiuSXiLS/9AqyFbN7kW
+         Xp5kj7QymrMX6HqTD73qh5I8NvfWMao1cOBQtdoS/Z3voPOdop24mR39KOYpC5xGZ0
+         tQXub7eKvzz0w==
+Message-ID: <4e3a4e1961afa77b5658357cc7fa0f289c7409fe.camel@collabora.com>
+Subject: Re: [PATCH v10 3/5] media: Documentation: aspeed-video: Add user
+ documentation for the aspeed-video driver
+From:   Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To:     Jammy Huang <jammy_huang@aspeedtech.com>, eajames@linux.ibm.com,
+        mchehab@kernel.org, joel@jms.id.au, andrew@aj.id.au,
+        hverkuil-cisco@xs4all.nl, laurent.pinchart@ideasonboard.com,
+        xavier.roumegue@oss.nxp.com, ezequiel@vanguardiasur.com.ar,
+        stanimir.varbanov@linaro.org, sakari.ailus@linux.intel.com,
+        ming.qian@nxp.com, andrzej.p@collabora.com,
+        linux-media@vger.kernel.org, openbmc@lists.ozlabs.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org
+Date:   Wed, 26 Oct 2022 15:02:13 -0400
+In-Reply-To: <22c85f42-a4d7-c6cc-5f1e-346c88c29dc5@aspeedtech.com>
+References: <20221025090203.5623-1-jammy_huang@aspeedtech.com>
+         <20221025090203.5623-4-jammy_huang@aspeedtech.com>
+         <8a8f7c818688bda7c75d2f4fb5f8f0d6f89cb965.camel@collabora.com>
+         <22c85f42-a4d7-c6cc-5f1e-346c88c29dc5@aspeedtech.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.4 (3.44.4-2.fc36) 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: mgr@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The overhead of preparing sg data is high for transfers with limited
-payload. When transferring isoc over high-speed usb the maximum payload
-is rather small which is a good argument no to use sg. This patch is
-changing the uvc_video_encode_isoc_sg encode function only to be used
-for super speed gadgets.
+Le mercredi 26 octobre 2022 =C3=A0 10:42 +0800, Jammy Huang a =C3=A9crit=C2=
+=A0:
+> Hi Nicolas,
+>=20
+> Thanks for your comments.
+>=20
+> On 2022/10/25 =E4=B8=8B=E5=8D=88 09:18, Nicolas Dufresne wrote:
+> > Hi Jammy,
+> >=20
+> > thanks for the addition.
+> >=20
+> > Le mardi 25 octobre 2022 =C3=A0 17:02 +0800, Jammy Huang a =C3=A9crit=
+=C2=A0:
+> > > Add user documentation for the aspeed-video driver.
+> > >=20
+> > > Signed-off-by: Jammy Huang <jammy_huang@aspeedtech.com>
+> > > ---
+> > > v10:
+> > >    - new
+> > > ---
+> > >   .../media/drivers/aspeed-video.rst            | 61 ++++++++++++++++=
++++
+> > >   .../userspace-api/media/drivers/index.rst     |  1 +
+> > >   2 files changed, 62 insertions(+)
+> > >   create mode 100644 Documentation/userspace-api/media/drivers/aspeed=
+-video.rst
+> > >=20
+> > > diff --git a/Documentation/userspace-api/media/drivers/aspeed-video.r=
+st b/Documentation/userspace-api/media/drivers/aspeed-video.rst
+> > > new file mode 100644
+> > > index 000000000000..798a2588b175
+> > > --- /dev/null
+> > > +++ b/Documentation/userspace-api/media/drivers/aspeed-video.rst
+> > > @@ -0,0 +1,61 @@
+> > > +.. SPDX-License-Identifier: GPL-2.0
+> > > +
+> > > +.. include:: <isonum.txt>
+> > > +
+> > > +ASPEED video driver
+> > > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > > +
+> > > +ASPEED Video Engine found on AST2400/2500/2600 SoC supports high per=
+formance
+> > > +video compressions with a wide range of video quality and compressio=
+n ratio
+> > > +options. The adopted compressing algorithm is a modified JPEG algori=
+thm.
+> > > +
+> > > +There are 2 types of compressions in this IP.
+> > > +
+> > > +* JPEG JFIF standard mode: for single frame and management compressi=
+on
+> > > +* ASPEED proprietary mode: for multi-frame and differential compress=
+ion.
+> > > +  Support 2-pass (high quality) video compression scheme (Patent pen=
+ding by
+> > > +  ASPEED). Provide visually lossless video compression quality or to=
+ reduce
+> > > +  the network average loading under intranet KVM applications.
+> > I think some of the information disclosed in the following quote could =
+be
+> > summarized. Notably the part about the extra buffers.
+> >=20
+> >     Aspeed JPEG Format requires an additional buffer, called bcd, to st=
+ore
+> >     the information about which macro block in the new frame is differe=
+nt
+> >     from the previous one.
+> >    =20
+> >     To have bcd correctly working, we need to swap the buffers for src0=
+/1 to
+> >     make src1 refer to previous frame and src0 to the coming new frame.
+> >    =20
+> > But before I push you this route, have you considered using a dedicated=
+ pixel
+> > format instead ? Here's my thinking, the output of the JPEG encoder is =
+no longer
+> > "compatible" (or at least won't yield the expected images) if used with=
+ a normal
+> > JPEG decoder. By differentiating these two as dedicated formats, you wi=
+ll only need
+> > 1 vendor control, and you avoid the potential risk of software bugs mix=
+ing them up.
+> > Also note that there is other JPEG based vendor formats that exist in V=
+4L2.
+> >=20
+> > Let me know what do you think ?
+>=20
+> Yes, I also add a dedicated formats, V4L2_PIX_FMT_AJPG, in this series.=
+=20
+> In [PATCH v10 1/5]
+>=20
+> media: v4l: Add definition for the Aspeed JPEG format, I add the=20
+> description in pixfmt-reserved.rst.
+>=20
+> After this series applied, the users can choose either of these two=20
+> formats by VIDIOC_S_FMT as
+>=20
+> per their preference.
 
-Cc: stable <stable@kernel.org>
-Signed-off-by: Michael Grzeschik <m.grzeschik@pengutronix.de>
+Sorry about that, I have skipped too much. The approach seems fair then, ca=
+n you
+state in the doc that these control applies to V4L2_PIX_FMT_AJPG in some wa=
+y ?
+(just a little cross-reference can help). The confusion with normal JPEG is
+easy.
 
----
-Since the last time the patch was send, I saw some issues regarding
-the use of the vaddr. I thought there was a fix needed in this code.
+thanks for you patience,
+Nicolas
 
-But the problem was to be found in the videobuf2-dma-sg vmap/vunmap
-implementation. So this patch stays unchanged and is save to be applied,
-if the corresponding videobuf2-dma-sg patch is applied before it.
-
- drivers/usb/gadget/function/uvc_queue.c | 9 +++------
- drivers/usb/gadget/function/uvc_video.c | 9 +++++++--
- 2 files changed, 10 insertions(+), 8 deletions(-)
-
-diff --git a/drivers/usb/gadget/function/uvc_queue.c b/drivers/usb/gadget/function/uvc_queue.c
-index ec500ee499eed1..31c50ba1774f0d 100644
---- a/drivers/usb/gadget/function/uvc_queue.c
-+++ b/drivers/usb/gadget/function/uvc_queue.c
-@@ -84,12 +84,9 @@ static int uvc_buffer_prepare(struct vb2_buffer *vb)
- 		return -ENODEV;
- 
- 	buf->state = UVC_BUF_STATE_QUEUED;
--	if (queue->use_sg) {
--		buf->sgt = vb2_dma_sg_plane_desc(vb, 0);
--		buf->sg = buf->sgt->sgl;
--	} else {
--		buf->mem = vb2_plane_vaddr(vb, 0);
--	}
-+	buf->sgt = vb2_dma_sg_plane_desc(vb, 0);
-+	buf->sg = buf->sgt->sgl;
-+	buf->mem = vb2_plane_vaddr(vb, 0);
- 	buf->length = vb2_plane_size(vb, 0);
- 	if (vb->type == V4L2_BUF_TYPE_VIDEO_CAPTURE)
- 		buf->bytesused = 0;
-diff --git a/drivers/usb/gadget/function/uvc_video.c b/drivers/usb/gadget/function/uvc_video.c
-index bb037fcc90e69e..5081eb3bc5484c 100644
---- a/drivers/usb/gadget/function/uvc_video.c
-+++ b/drivers/usb/gadget/function/uvc_video.c
-@@ -448,6 +448,9 @@ static void uvcg_video_pump(struct work_struct *work)
-  */
- int uvcg_video_enable(struct uvc_video *video, int enable)
- {
-+	struct uvc_device *uvc = video->uvc;
-+	struct usb_composite_dev *cdev = uvc->func.config->cdev;
-+	struct usb_gadget *gadget = cdev->gadget;
- 	unsigned int i;
- 	int ret;
- 
-@@ -479,9 +482,11 @@ int uvcg_video_enable(struct uvc_video *video, int enable)
- 	if (video->max_payload_size) {
- 		video->encode = uvc_video_encode_bulk;
- 		video->payload_size = 0;
--	} else
--		video->encode = video->queue.use_sg ?
-+	} else {
-+		video->encode = (video->queue.use_sg &&
-+				 !(gadget->speed <= USB_SPEED_HIGH)) ?
- 			uvc_video_encode_isoc_sg : uvc_video_encode_isoc;
-+	}
- 
- 	video->req_int_count = 0;
- 
--- 
-2.30.2
+>=20
+> >=20
+> > Nicolas
+> >=20
+> > > +
+> > > +More details on the ASPEED video hardware operations can be found in
+> > > +*chapter 6.2.16 KVM Video Driver* of SDK_User_Guide which available =
+on
+> > > +AspeedTech-BMC/openbmc/releases.
+> > > +
+> > > +The ASPEED video driver implements the following driver-specific con=
+trol:
+> > > +
+> > > +``V4L2_CID_ASPEED_HQ_MODE``
+> > > +-------------------------------
+> > > +    Enable/Disable ASPEED's High quality mode. This is a private con=
+trol
+> > > +    that can be used to enable high quality for aspeed proprietary m=
+ode.
+> > > +
+> > > +.. flat-table::
+> > > +    :header-rows:  0
+> > > +    :stub-columns: 0
+> > > +    :widths:       1 4
+> > > +
+> > > +    * - ``(0)``
+> > > +      - ASPEED HQ mode is disabled.
+> > > +    * - ``(1)``
+> > > +      - ASPEED HQ mode is enabled.
+> > > +
+> > > +``V4L2_CID_ASPEED_HQ_JPEG_QUALITY``
+> > > +-------------------------------
+> > > +    Define the quality of ASPEED's High quality mode. This is a priv=
+ate control
+> > > +    that can be used to decide compression quality if High quality m=
+ode enabled
+> > > +    . Higher the value, better the quality and bigger the size.
+> > > +
+> > > +.. flat-table::
+> > > +    :header-rows:  0
+> > > +    :stub-columns: 0
+> > > +    :widths:       1 4
+> > > +
+> > > +    * - ``(1)``
+> > > +      - minimum
+> > > +    * - ``(12)``
+> > > +      - maximum
+> > > +    * - ``(1)``
+> > > +      - step
+> > > +    * - ``(1)``
+> > > +      - default
+> > > +
+> > > +**Copyright** |copy| 2022 ASPEED Technology Inc.
+> > > diff --git a/Documentation/userspace-api/media/drivers/index.rst b/Do=
+cumentation/userspace-api/media/drivers/index.rst
+> > > index 32f82aed47d9..46a494e00b72 100644
+> > > --- a/Documentation/userspace-api/media/drivers/index.rst
+> > > +++ b/Documentation/userspace-api/media/drivers/index.rst
+> > > @@ -31,6 +31,7 @@ For more details see the file COPYING in the source=
+ distribution of Linux.
+> > >   	:maxdepth: 5
+> > >   	:numbered:
+> > >  =20
+> > > +	aspeed-video
+> > >   	ccs
+> > >   	cx2341x-uapi
+> > >   	dw100
+>=20
 
