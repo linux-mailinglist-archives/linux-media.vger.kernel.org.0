@@ -2,75 +2,89 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7078760E01C
-	for <lists+linux-media@lfdr.de>; Wed, 26 Oct 2022 14:00:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1416B60E035
+	for <lists+linux-media@lfdr.de>; Wed, 26 Oct 2022 14:06:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233481AbiJZL77 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 26 Oct 2022 07:59:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58102 "EHLO
+        id S233545AbiJZMGj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 26 Oct 2022 08:06:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47468 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231681AbiJZL75 (ORCPT
+        with ESMTP id S233677AbiJZMGg (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 26 Oct 2022 07:59:57 -0400
-Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com [IPv6:2a00:1450:4864:20::533])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C966013DC6;
-        Wed, 26 Oct 2022 04:59:55 -0700 (PDT)
-Received: by mail-ed1-x533.google.com with SMTP id t15so6348214edd.4;
-        Wed, 26 Oct 2022 04:59:55 -0700 (PDT)
+        Wed, 26 Oct 2022 08:06:36 -0400
+Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com [IPv6:2a00:1450:4864:20::62b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 61D949186E
+        for <linux-media@vger.kernel.org>; Wed, 26 Oct 2022 05:06:34 -0700 (PDT)
+Received: by mail-ej1-x62b.google.com with SMTP id ud5so17045486ejc.4
+        for <linux-media@vger.kernel.org>; Wed, 26 Oct 2022 05:06:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=2Dbff/IBDtjjnRXywEoj6LRjme/A3fCnG3Sdfp4DfP4=;
-        b=faksOE5hQ3vCGif6dOF5DkpAAnJTHvrwrTfGzKNlmxD9OGF9wWCjPeik8O/jhghQDd
-         mpR40Sq1zOrb1d/SFO/YolN26bTUHI5pNApTvLNJu+82Q0jPhQjZ787qkm8g3/6BR2IK
-         uqa+GIS5ai6cQYidnvHs8Edb3/qrnT69BOEgTZqFoiztlxrIfYmfGFxKQStAVS0h9wUO
-         JaZlRgq13LKM3izzA25phlsneJdoUIo6sPWFQjv5WjWaINzWQ95ORbXM/7hr1+m2Axf1
-         G95GQ90bXFKwmcGPwUbCguXn6ZUzENUNVL43fmL+zU5umla+IGgHY9mjiBRxUnlLuLz0
-         +QdQ==
+        d=chromium.org; s=google;
+        h=cc:to:message-id:date:from:content-transfer-encoding:mime-version
+         :subject:from:to:cc:subject:date:message-id:reply-to;
+        bh=K+wpoucsam8HgjE7xBOxIEpNYkP1ktkxz61ClGB46cA=;
+        b=dC2Bv6FiSin0CSgAmVosmCJ+eai2jsU4rN1dPyG7x5VF6lNE3GAE8mMf2hHW7V1VF8
+         oIh0skyKGZlWNsx8abHrGIvDtz6t9DzJ3ON6l1/f3pCD5lbZRKelJ7xW00c+H/KcgGY5
+         quZAWM8CYxggSYKIimYsWgdcqdSVrayXGx99A=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        h=cc:to:message-id:date:from:content-transfer-encoding:mime-version
+         :subject:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=2Dbff/IBDtjjnRXywEoj6LRjme/A3fCnG3Sdfp4DfP4=;
-        b=Uj6Wkx+Nhip86poZwuHe/tkPscRuuHeajlCaN3GFehBGvlLWD8XxBMmzMknB2tKIsh
-         h7JtJRYmqfWP/kds1bbCXrkaMlQ9/3SCpHIyBRUoUdsvDrPr+fmTb0vo7+L078fJv/3K
-         a4g9G6kFFEUPuFjXewikKD4H4+NdcGt3kQyEoMHWxiE+7zxBklG6pyhXDbcYecAGbGXk
-         Fdn33OmASCunC/0frTv2cCpFoLqKgmOHFFUgKRGZxNJbO5iWJhNZ9lV0gWII4Gdl43jm
-         hZn0bjFUZgJ37OFfztBVdufZJF54VtuMcTa8MNVewbw9sZYVLaMpngBo13CGPPsuZMK2
-         2nzw==
-X-Gm-Message-State: ACrzQf04Tbi8jGlDKtJHxRjlL4U43ynFnWv2YPV/3yeg4V8t/5yO09sK
-        R6c8IFBeN0NURCNCYX1toWKxUC5OVRzxWv0bhVw=
-X-Google-Smtp-Source: AMsMyM5Tp8QwQQhN7fOAlLWSg2jSmcNamZNqvKXoR7rgN58leG2RUPDwRlkuSaVsyxZ7iF3NbdI8nBB/gG7oIOLJZoc=
-X-Received: by 2002:a05:6402:40cd:b0:462:7b99:d40d with SMTP id
- z13-20020a05640240cd00b004627b99d40dmr277928edb.319.1666785594409; Wed, 26
- Oct 2022 04:59:54 -0700 (PDT)
+        bh=K+wpoucsam8HgjE7xBOxIEpNYkP1ktkxz61ClGB46cA=;
+        b=YLvXzUS1STMorFh0+U4QmKWfupOBAul2JuruMBw2msoMgCIUUPk1hkFa/Pi0SxEM4v
+         ty4IHUgpi5tM+Ss09ktQWZSi08PKCqG/Us35THC5w36BEpHJV0LWZOjcyGOpKQtonFWT
+         kAwo9A0DVPK8H73mY+uiRttyoAkTLrcQd4lqmEIlyhKx1i7c0uOgemm5r9lt/4TsISAx
+         L7YuKlIRP6LtUI8kwhn+dthh2s+gxtd3iz4KD2T49VAa9nkfAWFF17kUx0UxQdmuHyso
+         Fhhk6rmqFgvbO9P4/y4QjGYfxAVHCsVtLEUMtL+3LNjgcGhetX2gbV9MrYGs3oXVLjqY
+         PLUg==
+X-Gm-Message-State: ACrzQf3DG1tGa+ZPEn4GKIsjhJdQE9J/gsnoUFkMgZbUwvEVZS14PFs3
+        Ln2ayKybYJLps0TihojzWsMcWQ==
+X-Google-Smtp-Source: AMsMyM4SbImw6oySJMAAfoVMocz3nXstLQnkTAt7GJU/SUOzO6yR6goVVHT63Aka80haSRWvTP3mfw==
+X-Received: by 2002:a17:906:8a79:b0:78d:9c52:2196 with SMTP id hy25-20020a1709068a7900b0078d9c522196mr37655250ejc.328.1666785992938;
+        Wed, 26 Oct 2022 05:06:32 -0700 (PDT)
+Received: from alco.roam.corp.google.com ([2620:0:1059:10:b47a:bedd:2941:1e3f])
+        by smtp.gmail.com with ESMTPSA id y18-20020a17090668d200b0079e11b8e891sm2892546ejr.125.2022.10.26.05.06.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 26 Oct 2022 05:06:32 -0700 (PDT)
+Subject: [PATCH v3 0/7] [RESEND] media: uvcvideo: Implement granular power management
 MIME-Version: 1.0
-References: <20221014183459.181567-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20221014183459.181567-6-prabhakar.mahadev-lad.rj@bp.renesas.com> <Y0pSnKREW0pjtPYI@pendragon.ideasonboard.com>
-In-Reply-To: <Y0pSnKREW0pjtPYI@pendragon.ideasonboard.com>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Wed, 26 Oct 2022 12:59:28 +0100
-Message-ID: <CA+V-a8tzFqvW+9dTpowAzJdhfe4WtwnY9Y+KddqUC6oR5uBxjA@mail.gmail.com>
-Subject: Re: [PATCH v2 5/5] media: i2c: ov5645: Call ov5645_entity_init_cfg()
- before registering the subdev
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Shawn Tu <shawnx.tu@intel.com>,
-        Jacopo Mondi <jacopo@jmondi.org>, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-b4-tracking: H4sIAK0iWWMC/4XNywrCMBAF0F+RrI10JvTlyv8QF3kMTaBNZGIjUvrvBpcudDXcC/fMJjJxoCzOh0
+ 0wlZBDijWo40FYr+NEMriaBTaIzYiNZMoUnbynJ3HWhWQ7DtDDSA67XtSZ0ZmkYR2tr8O4znMtfciP
+ xK/PmwL1XH+IBWQjAZXWaLQaVHexntMS1uWUeBK36hX8Z2A1WlCtA2PAquHL2Pf9DW1Ro1b8AAAA
+From:   Ricardo Ribalda <ribalda@chromium.org>
+Date:   Wed, 26 Oct 2022 14:06:05 +0200
+Message-Id: <20220920-resend-powersave-v3-0-c47856d8757e@chromium.org>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Tomasz Figa <tfiga@chromium.org>,
+        Ricardo Ribalda <ribalda@chromium.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Max Staudt <mstaudt@chromium.org>,
+        linux-kernel@vger.kernel.org,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-media@vger.kernel.org
+X-Mailer: b4 0.11.0-dev-d93f8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2376; i=ribalda@chromium.org;
+ h=from:subject:message-id; bh=uU/LmE44MSUPsey8KnAa5kWGvA94mQwkg8xaCFAERoA=;
+ b=owEBbQKS/ZANAwAKAdE30T7POsSIAcsmYgBjWSK1SyHP0O/9Kxa3PCVstmSDBxTK241wwbsqASRI
+ th7m0cCJAjMEAAEKAB0WIQREDzjr+/4oCDLSsx7RN9E+zzrEiAUCY1kitQAKCRDRN9E+zzrEiJS4D/
+ 4i+YRp0fM4oXkgRQBjq9z29Zew4gpRz0795b0yAKFpAHKvx28MrKLK4CmjNpDnq1FOoK5FvN69jwCz
+ RecszvK6yFN7ttZV9xr8WWwJU9e4yBYMM4//FOL9tPNOJoKfdLK8X3WAxUmex58lwNZwnEbPxgGiRv
+ OsLG8hKeoCLvqT6nAvHI85VwZFW5skhx+ka7vXncjnQ+yIR7/WeSXjRnJQxP0fHm3sqP7Gk1Ix8ENE
+ DEkD8tNUceV8KJS+kvDEkl3ZvBa0gtC/UU9Gn0zvexhChMo7sO9mibD4k6657/t6b2TKWJvY78Uomk
+ AAmAjnyiMdpPkpKQDWH07lpyYI/MwEqnE8oUaQlM0DNqeUpa7OMd3w2Xz+4B/smNZEK0Z8yVI4Fbhw
+ kodZ1BETIVK29tAIksWFlpUMkSnjG2kVTH77Ak1L69S+t1gnptTqjf7GOZ+vExCfA3Df/+YXa/SMhU
+ p/8XH//UVXn9ZIQkTbJDjp8vRogi8f6IfqmVq69Xi6ytOMqKDam2jdDMj7tL42rKamNAl3NbajDjYO
+ AI6b+jykS7Cjtf5m/QmZ+KVa75+fdS1jXAm3z2i5oPQrcmoUKBzDjnAJtPrwwmgfVnvcxWLNVI0ek+
+ 7YI5AAhoNK/d3igObYCXg7bL/qnRX/jSJxdaGBSvskADFcdF45nttqkLhKLQ==
+X-Developer-Key: i=ribalda@chromium.org; a=openpgp;
+ fpr=9EC3BB66E2FC129A6F90B39556A0D81F9F782DA9
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -78,38 +92,60 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
+Instead of suspending/resume the USB device at open()/close(), do it
+when the device is actually used.
 
-Thank you for the review.
+This way we can reduce the power consumption when a service is holding
+the video device and leaving it in an idle state.
 
-On Sat, Oct 15, 2022 at 7:26 AM Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
->
-> Hi Prabhakar,
->
-> Thank you for the patch.
->
-> On Fri, Oct 14, 2022 at 07:34:59PM +0100, Prabhakar wrote:
-> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> >
-> > Make sure we call ov5645_entity_init_cfg() before registering the subdev
-> > to make sure default formats are set up.
-> >
-> > Suggested-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
->
-> If you have a few spare cycles, it would be even better to convert the
-> driver to the subdev active state API :-) You could then drop this call
-> entirely.
->
-For v3 I did think of it, but it looks like I'll need to spend more
-time on the subdev state for this driver (as this driver does cropping
-which makes use of TRY/ACTIVE). So for v3 I'll keep this patch as and
-will work on the subdev state switch in parallel and post when
-complete. (Its just I dont want to miss the v6.2 window for RZ/G2L CRU
-driver ;-))
+And now that all the access to the hardware, has a common entry path,
+use it to fix the race conditions to hardware disconnects.
 
-Cheers,
-Prabhakar
+To: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-media@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Tomasz Figa <tfiga@chromium.org>
+Cc: Alan Stern <stern@rowland.harvard.edu>
+Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc: Guenter Roeck <linux@roeck-us.net>
+Cc: Max Staudt <mstaudt@chromium.org>
+Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+---
+Changes in v3:
+- Rebase on top of uvc/next
+- Reorder series, and put "controversial" patches at the end.
+- Fix "use-before-set" bug. Thanks Max!
+- Link to v2: https://lore.kernel.org/r/20220920-resend-powersave-v2-0-5135d1bb1c38@chromium.org
+
+Changes in v2:
+- Make access to uvc_status contitional
+- Merge with Guenter race condition patchset: https://lore.kernel.org/lkml/20200917022547.198090-1-linux@roeck-us.net/
+- Link to v1: https://lore.kernel.org/r/20220920-resend-powersave-v1-0-123aa2ba3836@chromium.org
+
+---
+Guenter Roeck (4):
+      media: uvcvideo: Cancel async worker earlier
+      media: uvcvideo: Release stream queue when unregistering video device
+      media: uvcvideo: Lock video streams and queues while unregistering
+      media: uvcvideo: Protect uvc queue file operations against disconnect
+
+Ricardo Ribalda (3):
+      media: uvcvideo: Refactor streamon/streamoff
+      media: uvcvideo: Do power management granularly
+      media: uvcvideo: Only call status ep if hw supports it
+
+ drivers/media/usb/uvc/uvc_ctrl.c   |  11 +-
+ drivers/media/usb/uvc/uvc_driver.c |  35 +++++--
+ drivers/media/usb/uvc/uvc_queue.c  |  32 +++++-
+ drivers/media/usb/uvc/uvc_status.c |  11 +-
+ drivers/media/usb/uvc/uvc_v4l2.c   | 206 ++++++++++++++++++++++++++++++-------
+ drivers/media/usb/uvc/uvcvideo.h   |   2 +
+ 6 files changed, 248 insertions(+), 49 deletions(-)
+---
+base-commit: 58540610e464d8b2ba46a11b81c3e6fcc4118fae
+change-id: 20220920-resend-powersave-5981719ed267
+
+Best regards,
+-- 
+Ricardo Ribalda <ribalda@chromium.org>
