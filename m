@@ -2,72 +2,56 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8904860D72E
-	for <lists+linux-media@lfdr.de>; Wed, 26 Oct 2022 00:33:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E592260D8EE
+	for <lists+linux-media@lfdr.de>; Wed, 26 Oct 2022 03:45:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232752AbiJYWdJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 25 Oct 2022 18:33:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58434 "EHLO
+        id S232526AbiJZBpM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 25 Oct 2022 21:45:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51586 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232000AbiJYWdI (ORCPT
+        with ESMTP id S232488AbiJZBpJ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 25 Oct 2022 18:33:08 -0400
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 116775244E;
-        Tue, 25 Oct 2022 15:33:07 -0700 (PDT)
+        Tue, 25 Oct 2022 21:45:09 -0400
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B0311491CB
+        for <linux-media@vger.kernel.org>; Tue, 25 Oct 2022 18:45:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1666737187; x=1698273187;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=PkMpR8UhouXSKr2UufQNVOYgkr4gvr3rdbAMwptbgJI=;
-  b=SxU8Ud45IJ1cB+IIjMKe8EbkT38b0/BK9JYwKGebUXnrwv9RMEJiKv92
-   cW9ktr6H8OsGNcs/tKuKQ+XP/XnOq/q+T69n8qL5i9z2RK5oZGDaw1t6X
-   +4CQNedVmEa8tzzxPctUvXhonxlgCdGPV+c6WYxSXLYi9WkLIzsBucGem
-   8a8O2fXj+j6CNhzhF3/e3XCIad/3pROuwr0VTrQf7wNO7JMFdzASZkOlT
-   mvUnBhPaPc3bah+cftBzgtjuRYpK6TIfA1+paugvnOm6gUD1yIMu3+MqA
-   gpxf0enXaHxpVGVX5410tx/u8H3C+ad/RNlVNE52c53+tl7UAGfezXgYM
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10511"; a="309496360"
+  t=1666748708; x=1698284708;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=QiYNUPsx488wHqIHdTsw+25Zmmr1pdlQrdyeKhCGb7o=;
+  b=L4sYnQDoFgOrFw//yHg0C2HEDudxeUL/okXhBzPnC8w+0c+j8R3jfF/6
+   cI2OlzZsmq+U9nedOVSMyedqSwOE4xVC/5lt0RWMT8szRIrhpEeZyAdwP
+   Gbps6yp0MIOubn7mVA1AovG4q7iib2tYa8IeDD/8tONWZjDtD76NNBh6j
+   oW7zWgQ+6eKxty4uGehMBtyazcEjr2nwnIuANBZtuM7+goyPM4G4YvAnv
+   f88PcuTPPpO3ZJyonoJMprtC+wY6TuPPeWdsngz0MioqYr4TYxaStozu0
+   sEWvKZB2RawQQyGcXQ+eG2n6gpwAnrcVNhRYkAYpQEUdu8sKo9NtixsRY
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10511"; a="308928123"
 X-IronPort-AV: E=Sophos;i="5.95,213,1661842800"; 
-   d="scan'208";a="309496360"
+   d="scan'208";a="308928123"
 Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2022 15:33:05 -0700
-X-IronPort-AV: E=McAfee;i="6500,9779,10511"; a="700709944"
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2022 18:45:07 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10511"; a="700756914"
 X-IronPort-AV: E=Sophos;i="5.95,213,1661842800"; 
-   d="scan'208";a="700709944"
-Received: from punajuuri.fi.intel.com (HELO paasikivi.fi.intel.com) ([10.237.72.43])
-  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2022 15:33:02 -0700
-Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
-        by paasikivi.fi.intel.com (Postfix) with SMTP id D800420321;
-        Wed, 26 Oct 2022 01:32:59 +0300 (EEST)
-Date:   Tue, 25 Oct 2022 22:32:59 +0000
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Prabhakar <prabhakar.csengg@gmail.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund@ragnatech.se>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH v3 4/4] media: platform: Add Renesas RZ/G2L CRU driver
-Message-ID: <Y1hkG6NVFS08WTIg@paasikivi.fi.intel.com>
-References: <20221004234343.54777-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20221004234343.54777-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
+   d="scan'208";a="700756914"
+Received: from jimlai-desktop.itwn.intel.com ([10.5.230.136])
+  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2022 18:45:05 -0700
+From:   "Lai, Jim" <jim.lai@intel.com>
+To:     linux-media@vger.kernel.org
+Cc:     sakari.ailus@linux.intel.com, bingbu.cao@linux.intel.com,
+        andy.yeh@intel.com, shawnx.tu@intel.com, sam.lin@sk.com,
+        frank.chung@sk.com, Jim Lai <jim.lai@intel.com>
+Subject: [PATCH v3] media: hi556: add 2592x1444 resolution
+Date:   Wed, 26 Oct 2022 09:35:45 +0800
+Message-Id: <20221026013545.27708-1-jim.lai@intel.com>
+X-Mailer: git-send-email 2.22.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221004234343.54777-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Spam-Status: No, score=-4.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.9 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,PDS_OTHER_BAD_TLD,
+        RCVD_IN_DNSWL_MED,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
         SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -75,125 +59,237 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Prabhakar,
+From: Jim Lai <jim.lai@intel.com>
 
-A few comments below... apologies for not reviewing this earlier. Looks
-good in general but there are a few points that need some attention.
+Adding additional cropped 2592x1444 resolution
+for QHD output from Hi556 sensor
 
-On Wed, Oct 05, 2022 at 12:43:43AM +0100, Prabhakar wrote:
-...
-> +static int rzg2l_cru_ip_pre_streamon(struct v4l2_subdev *sd, u32 flags)
-> +{
-> +	struct rzg2l_cru_dev *cru;
-> +	int ret;
-> +
-> +	cru = v4l2_get_subdevdata(sd);
-> +
-> +	if (!cru->is_csi)
-> +		return -EINVAL;
-> +
-> +	ret = v4l2_subdev_call(cru->ip.remote, video, pre_streamon, 0);
+Also implement the get_selection pad operation for the Hi556 sensor driver.
+The supported targets report the sensor's native size, the crop default
+rectangle and the crop rectangle.
 
-If you're calling pre_streamon successfully, you'll have to have an
-equivalent number of post_streamoff calls.
+Signed-off-by: Jim Lai <jim.lai@intel.com>
+---
+ drivers/media/i2c/hi556.c | 150 +++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 148 insertions(+), 2 deletions(-)
 
-...
-
-> +static int rzg2l_cru_set_stream(struct rzg2l_cru_dev *cru, int on)
-> +{
-> +	struct media_pipeline *pipe;
-> +	struct v4l2_subdev *sd;
-> +	struct media_pad *pad;
-> +	unsigned long flags;
-> +	int ret;
-> +
-> +	pad = media_pad_remote_pad_first(&cru->pad);
-> +	if (!pad)
-> +		return -EPIPE;
-> +
-> +	sd = media_entity_to_v4l2_subdev(pad->entity);
-> +
-> +	if (!on) {
-> +		media_pipeline_stop(&cru->vdev.entity);
-> +		return v4l2_subdev_call(sd, video, s_stream, 0);
-
-Ditto.
-
-> +	}
-> +
-> +	ret = rzg2l_cru_mc_validate_format(cru, sd, pad);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret = v4l2_subdev_call(sd, video, pre_streamon, 0);
-> +	if (ret == -ENOIOCTLCMD)
-> +		ret = 0;
-> +	if (ret)
-> +		return ret;
-
-For all cases below where streaming on doesn't succeed, you'll have to have
-a call of post_streamoff.
-
-> +
-> +	spin_lock_irqsave(&cru->qlock, flags);
-> +
-> +	/* Select a video input */
-> +	if (cru->is_csi)
-> +		rzg2l_cru_write(cru, CRUnCTRL, CRUnCTRL_VINSEL(0));
-> +
-> +	/* Cancel the software reset for image processing block */
-> +	rzg2l_cru_write(cru, CRUnRST, CRUnRST_VRESETN);
-> +
-> +	/* Disable and clear the interrupt before using */
-> +	rzg2l_cru_write(cru, CRUnIE, 0);
-> +	rzg2l_cru_write(cru, CRUnINTS, 0x001f000f);
-> +
-> +	/* Initialize the AXI master */
-> +	rzg2l_cru_initialize_axi(cru);
-> +
-> +	/* Initialize image convert */
-> +	ret = rzg2l_cru_initialize_image_conv(cru);
-> +	if (ret) {
-> +		spin_unlock_irqrestore(&cru->qlock, flags);
-> +		return ret;
-> +	}
-> +
-> +	/* Enable interrupt */
-> +	rzg2l_cru_write(cru, CRUnIE, CRUnIE_EFE);
-> +
-> +	/* Enable image processing reception */
-> +	rzg2l_cru_write(cru, ICnEN, ICnEN_ICEN);
-> +
-> +	spin_unlock_irqrestore(&cru->qlock, flags);
-> +
-> +	pipe = sd->entity.pipe ? sd->entity.pipe : &cru->vdev.pipe;
-> +	ret = media_pipeline_start(&cru->vdev.entity, pipe);
-> +	if (ret)
-> +		return ret;
-> +
-> +	clk_disable_unprepare(cru->vclk);
-> +
-> +	ret = v4l2_subdev_call(sd, video, s_stream, 1);
-> +	if (ret == -ENOIOCTLCMD)
-> +		ret = 0;
-> +	if (ret) {
-> +		/* enable back vclk so that release() disables it */
-> +		clk_prepare_enable(cru->vclk);
-> +		media_pipeline_stop(&cru->vdev.entity);
-> +		return ret;
-> +	}
-> +
-> +	ret = clk_prepare_enable(cru->vclk);
-
-What will happen if enabling vclk will fail here? (Or above?)
-
-> +	if (ret)
-> +		return ret;
-> +
-> +	return 0;
-> +}
-
+diff --git a/drivers/media/i2c/hi556.c b/drivers/media/i2c/hi556.c
+index 055d1aa8410e..ade1c276a3de 100644
+--- a/drivers/media/i2c/hi556.c
++++ b/drivers/media/i2c/hi556.c
+@@ -63,6 +63,14 @@
+ #define HI556_REG_ISP_TPG_EN		0x01
+ #define HI556_REG_TEST_PATTERN		0x0201
+ 
++/* HI556 native and active pixel array size. */
++#define HI556_NATIVE_WIDTH		2592U
++#define HI556_NATIVE_HEIGHT		1944U
++#define HI556_PIXEL_ARRAY_LEFT		0U
++#define HI556_PIXEL_ARRAY_TOP		0U
++#define HI556_PIXEL_ARRAY_WIDTH	2592U
++#define HI556_PIXEL_ARRAY_HEIGHT	1944U
++
+ enum {
+ 	HI556_LINK_FREQ_437MHZ_INDEX,
+ };
+@@ -88,6 +96,9 @@ struct hi556_mode {
+ 	/* Frame height in pixels */
+ 	u32 height;
+ 
++	/* Analog crop rectangle. */
++	struct v4l2_rect crop;
++
+ 	/* Horizontal timining size */
+ 	u32 llp;
+ 
+@@ -378,6 +389,49 @@ static const struct hi556_reg mode_2592x1944_regs[] = {
+ 	{0x0958, 0xbb80},
+ };
+ 
++static const struct hi556_reg mode_2592x1444_regs[] = {
++	{0x0a00, 0x0000},
++	{0x0b0a, 0x8252},
++	{0x0f30, 0xe545},
++	{0x0f32, 0x7067},
++	{0x004a, 0x0100},
++	{0x004c, 0x0000},
++	{0x000c, 0x0022},
++	{0x0008, 0x0b00},
++	{0x005a, 0x0202},
++	{0x0012, 0x000e},
++	{0x0018, 0x0a33},
++	{0x0022, 0x0008},
++	{0x0028, 0x0017},
++	{0x0024, 0x0122},
++	{0x002a, 0x0127},
++	{0x0026, 0x012a},
++	{0x002c, 0x06cf},
++	{0x002e, 0x1111},
++	{0x0030, 0x1111},
++	{0x0032, 0x1111},
++	{0x0006, 0x0821},
++	{0x0a22, 0x0000},
++	{0x0a12, 0x0a20},
++	{0x0a14, 0x05a4},
++	{0x003e, 0x0000},
++	{0x0074, 0x081f},
++	{0x0070, 0x040f},
++	{0x0804, 0x0300},
++	{0x0806, 0x0100},
++	{0x0a04, 0x014a},
++	{0x090c, 0x0fdc},
++	{0x090e, 0x002d},
++	{0x0902, 0x4319},
++	{0x0914, 0xc10a},
++	{0x0916, 0x071f},
++	{0x0918, 0x0408},
++	{0x091a, 0x0c0d},
++	{0x091c, 0x0f09},
++	{0x091e, 0x0a00},
++	{0x0958, 0xbb80},
++};
++
+ static const struct hi556_reg mode_1296x972_regs[] = {
+ 	{0x0a00, 0x0000},
+ 	{0x0b0a, 0x8259},
+@@ -450,8 +504,14 @@ static const struct hi556_link_freq_config link_freq_configs[] = {
+ 
+ static const struct hi556_mode supported_modes[] = {
+ 	{
+-		.width = 2592,
+-		.height = 1944,
++		.width = HI556_PIXEL_ARRAY_WIDTH,
++		.height = HI556_PIXEL_ARRAY_HEIGHT,
++		.crop = {
++			.left = HI556_PIXEL_ARRAY_LEFT,
++			.top = HI556_PIXEL_ARRAY_TOP,
++			.width = HI556_PIXEL_ARRAY_WIDTH,
++			.height = HI556_PIXEL_ARRAY_HEIGHT
++		},
+ 		.fll_def = HI556_FLL_30FPS,
+ 		.fll_min = HI556_FLL_30FPS_MIN,
+ 		.llp = 0x0b00,
+@@ -461,9 +521,33 @@ static const struct hi556_mode supported_modes[] = {
+ 		},
+ 		.link_freq_index = HI556_LINK_FREQ_437MHZ_INDEX,
+ 	},
++	{
++		.width = HI556_PIXEL_ARRAY_WIDTH,
++		.height = 1444,
++		.crop = {
++			.left = HI556_PIXEL_ARRAY_LEFT,
++			.top = 250,
++			.width = HI556_PIXEL_ARRAY_WIDTH,
++			.height = 1444
++		},
++		.fll_def = 0x821,
++		.fll_min = 0x821,
++		.llp = 0x0b00,
++		.reg_list = {
++			.num_of_regs = ARRAY_SIZE(mode_2592x1444_regs),
++			.regs = mode_2592x1444_regs,
++		},
++		.link_freq_index = HI556_LINK_FREQ_437MHZ_INDEX,
++	},
+ 	{
+ 		.width = 1296,
+ 		.height = 972,
++		.crop = {
++			.left = HI556_PIXEL_ARRAY_LEFT,
++			.top = HI556_PIXEL_ARRAY_TOP,
++			.width = HI556_PIXEL_ARRAY_WIDTH,
++			.height = HI556_PIXEL_ARRAY_HEIGHT
++		},
+ 		.fll_def = HI556_FLL_30FPS,
+ 		.fll_min = HI556_FLL_30FPS_MIN,
+ 		.llp = 0x0b00,
+@@ -785,6 +869,58 @@ static int hi556_identify_module(struct hi556 *hi556)
+ 	return 0;
+ }
+ 
++static const struct v4l2_rect *
++__hi556_get_pad_crop(struct hi556 *hi556,
++		     struct v4l2_subdev_state *sd_state,
++		     unsigned int pad, enum v4l2_subdev_format_whence which)
++{
++	switch (which) {
++	case V4L2_SUBDEV_FORMAT_TRY:
++		return v4l2_subdev_get_try_crop(&hi556->sd, sd_state, pad);
++	case V4L2_SUBDEV_FORMAT_ACTIVE:
++		return &hi556->cur_mode->crop;
++	}
++
++	return NULL;
++}
++
++static int hi556_get_selection(struct v4l2_subdev *sd,
++			       struct v4l2_subdev_state *sd_state,
++			       struct v4l2_subdev_selection *sel)
++{
++	switch (sel->target) {
++	case V4L2_SEL_TGT_CROP: {
++		struct hi556 *hi556 = to_hi556(sd);
++
++		mutex_lock(&hi556->mutex);
++		sel->r = *__hi556_get_pad_crop(hi556, sd_state, sel->pad,
++						sel->which);
++		mutex_unlock(&hi556->mutex);
++
++		return 0;
++	}
++
++	case V4L2_SEL_TGT_NATIVE_SIZE:
++		sel->r.top = 0;
++		sel->r.left = 0;
++		sel->r.width = HI556_NATIVE_WIDTH;
++		sel->r.height = HI556_NATIVE_HEIGHT;
++
++		return 0;
++
++	case V4L2_SEL_TGT_CROP_DEFAULT:
++	case V4L2_SEL_TGT_CROP_BOUNDS:
++		sel->r.top = HI556_PIXEL_ARRAY_TOP;
++		sel->r.left = HI556_PIXEL_ARRAY_LEFT;
++		sel->r.width = HI556_PIXEL_ARRAY_WIDTH;
++		sel->r.height = HI556_PIXEL_ARRAY_HEIGHT;
++
++		return 0;
++	}
++
++	return -EINVAL;
++}
++
+ static int hi556_start_streaming(struct hi556 *hi556)
+ {
+ 	struct i2c_client *client = v4l2_get_subdevdata(&hi556->sd);
+@@ -1000,10 +1136,19 @@ static int hi556_enum_frame_size(struct v4l2_subdev *sd,
+ static int hi556_open(struct v4l2_subdev *sd, struct v4l2_subdev_fh *fh)
+ {
+ 	struct hi556 *hi556 = to_hi556(sd);
++	struct v4l2_rect *try_crop;
+ 
+ 	mutex_lock(&hi556->mutex);
+ 	hi556_assign_pad_format(&supported_modes[0],
+ 				v4l2_subdev_get_try_format(sd, fh->state, 0));
++
++	/* Initialize try_crop rectangle. */
++	try_crop = v4l2_subdev_get_try_crop(sd, fh->state, 0);
++	try_crop->top = HI556_PIXEL_ARRAY_TOP;
++	try_crop->left = HI556_PIXEL_ARRAY_LEFT;
++	try_crop->width = HI556_PIXEL_ARRAY_WIDTH;
++	try_crop->height = HI556_PIXEL_ARRAY_HEIGHT;
++
+ 	mutex_unlock(&hi556->mutex);
+ 
+ 	return 0;
+@@ -1016,6 +1161,7 @@ static const struct v4l2_subdev_video_ops hi556_video_ops = {
+ static const struct v4l2_subdev_pad_ops hi556_pad_ops = {
+ 	.set_fmt = hi556_set_format,
+ 	.get_fmt = hi556_get_format,
++	.get_selection = hi556_get_selection,
+ 	.enum_mbus_code = hi556_enum_mbus_code,
+ 	.enum_frame_size = hi556_enum_frame_size,
+ };
 -- 
-Kind regards,
+2.22.0
 
-Sakari Ailus
