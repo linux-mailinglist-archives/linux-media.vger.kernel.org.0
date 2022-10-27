@@ -2,89 +2,144 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4873260FBB5
-	for <lists+linux-media@lfdr.de>; Thu, 27 Oct 2022 17:21:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8883860FD1F
+	for <lists+linux-media@lfdr.de>; Thu, 27 Oct 2022 18:32:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236152AbiJ0PVS convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Thu, 27 Oct 2022 11:21:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34384 "EHLO
+        id S236600AbiJ0Qci (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 27 Oct 2022 12:32:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39722 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236492AbiJ0PUv (ORCPT
+        with ESMTP id S235710AbiJ0Qcf (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 27 Oct 2022 11:20:51 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B9A83FF3C;
-        Thu, 27 Oct 2022 08:20:18 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id E445662369;
-        Thu, 27 Oct 2022 15:20:17 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 40AADC433C1;
-        Thu, 27 Oct 2022 15:20:16 +0000 (UTC)
-Date:   Thu, 27 Oct 2022 11:20:30 -0400
-From:   Steven Rostedt <rostedt@goodmis.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
-        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org
-Subject: Re: [RFC][PATCH v2 12/31] timers: dma-buf: Use del_timer_shutdown()
- before freeing timer
-Message-ID: <20221027112030.24f1a9b7@gandalf.local.home>
-In-Reply-To: <20221027150927.371916000@goodmis.org>
-References: <20221027150525.753064657@goodmis.org>
-        <20221027150927.371916000@goodmis.org>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+        Thu, 27 Oct 2022 12:32:35 -0400
+Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com [IPv6:2a00:1450:4864:20::636])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1E342A2329;
+        Thu, 27 Oct 2022 09:32:35 -0700 (PDT)
+Received: by mail-ej1-x636.google.com with SMTP id sc25so6167806ejc.12;
+        Thu, 27 Oct 2022 09:32:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=w2sKi/FidnzYYF/kqFgrvTbVLAOpdPoKmkW/OsJ1VX8=;
+        b=gtPuHpSebI19NwQMNWbQe8LxqWpp6NFl/9GH5Bm46HkvTKTCbtk21yXDGOvu80s8lr
+         6u5Zu683zpxmECsFY9YQ+iU3o5+enrd64/R5BjWOkc5aDNLm0+vIGMskyIjovXFYB/w8
+         IAinKBt+BuZiSsCOcYo7tmmlyn6RCHg7J1zP4U6foSWGFZl+hwQ62w6CCVT0ZP7ZrHmD
+         Q3t3LsriE9hPM/9BY/c05qnlJUWYmSUpCPZTLbRO7QwnfaFc8C+ZSoOrbQxtN5+2MrfV
+         t/viBOCzXW3m6zjv/hjxE7Bj6T1e3kI1/uBof3wT5+mpYTVrWVFs6PRQJKJorNBTdliC
+         jYDQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=w2sKi/FidnzYYF/kqFgrvTbVLAOpdPoKmkW/OsJ1VX8=;
+        b=SM9S3XYvfd09kMexyoLlGTaagWSOwsFhyCwAW+5p8xQaWakczllno0ERxnzX9ztibb
+         MqYfosrXmqo6pNfEd/Bwmg5TSVweChvWVB+HMUN7pSIH/6h5i/5iWeMoXCDOKlXjvAeT
+         75OvV5e4aKmoldm1/MTFBx1LrUiqGIdpoKoqMxxK3+WxiUZnjB1ZikvUBILhE56Dm6+M
+         2mTvmIuMHuhs3HDnBs/CTixCVccI8OPSeG1kkl+GjHCc2A9h13sGwKkvEwPrfnjH4ffG
+         DGGY/RpEFDZ7N+665DXycpYWhJRA5yrXkImFLt//C+Tm0ivcDS61raqB4qh0/qZca/dL
+         XQIw==
+X-Gm-Message-State: ACrzQf2IqSA+4CRj9co6KDXUv83gFNWHuljJgA0oB53wx/QrNpMmPeJf
+        v0P+nVAaraOqOn3PtXgzA7yX0iW52eqplEQlG+I=
+X-Google-Smtp-Source: AMsMyM4V+7IoJvMBh0mBGyLz2zWjBHflEVIcET8cYEbJ4bG9f9Kpd2oWTwRMkvQx+yEO5EVKgPey5PCUtEQewG3PWaU=
+X-Received: by 2002:a17:907:b1c:b0:797:983a:7d97 with SMTP id
+ h28-20020a1709070b1c00b00797983a7d97mr35628022ejl.267.1666888353496; Thu, 27
+ Oct 2022 09:32:33 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+References: <20221014183459.181567-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20221014183459.181567-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <Y1pphVPw0J97AmW4@paasikivi.fi.intel.com> <CA+V-a8szaPjwumrBgOT9gzMKBjY7hk0zfP8RgzUUDfY+BAsogA@mail.gmail.com>
+ <Y1p91+XxPCB9NWwh@paasikivi.fi.intel.com>
+In-Reply-To: <Y1p91+XxPCB9NWwh@paasikivi.fi.intel.com>
+From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date:   Thu, 27 Oct 2022 17:32:07 +0100
+Message-ID: <CA+V-a8uhYymEVg7jdLVGNLsVD3=O1mk-_NVERu00W+gsv-7QXg@mail.gmail.com>
+Subject: Re: [PATCH v2 2/5] media: i2c: ov5645: Use runtime PM
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Shawn Tu <shawnx.tu@intel.com>,
+        Jacopo Mondi <jacopo@jmondi.org>, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-[
-  quilt mail --send still can't handle unicode characters.
-    Here's the patch again
-]
+Hi Sakari,
 
-From: "Steven Rostedt (Google)" <rostedt@goodmis.org>
+On Thu, Oct 27, 2022 at 1:47 PM Sakari Ailus
+<sakari.ailus@linux.intel.com> wrote:
+>
+> Hi Prabhakar,
+>
+> On Thu, Oct 27, 2022 at 01:01:52PM +0100, Lad, Prabhakar wrote:
+> > Hi Sakari,
+> >
+> > On Thu, Oct 27, 2022 at 12:20 PM Sakari Ailus
+> > <sakari.ailus@linux.intel.com> wrote:
+> > >
+> > > Hi Prabhakar,
+> > >
+> > > One more comment.
+> > >
+> > > On Fri, Oct 14, 2022 at 07:34:56PM +0100, Prabhakar wrote:
+> > > > @@ -1209,12 +1190,16 @@ static int ov5645_probe(struct i2c_client *client)
+> > > >
+> > > >       dev_info(dev, "OV5645 detected at address 0x%02x\n", client->addr);
+> > > >
+> > > > +     pm_runtime_set_active(dev);
+> > > > +     pm_runtime_get_noresume(dev);
+> > > > +     pm_runtime_enable(dev);
+> > >
+> > > You won't gain anything by eanbling runtime PM here. Just move it to the
+> > > end of the function before the rest of the calls. Error handling becomes
+> > > more simple.
+> > >
+> > If I move the above calls below I get the below warning:
+> >
+> > [    2.633386] ov5645 0-003c: Runtime PM usage count underflow!
+> >
+> > This is because of the last patch which moves ov5645_entity_init_cfg()
+> > before registering the subdev. ov5645_entity_init_cfg() calls s_ctrl
+> > due to which we are seeing the above message. Please let me know how
+> > to proceed on this.
+>
+> Ah. Yes, this is a problem with the usage pattern of
+> pm_runtime_get_if_in_use(). But please don't change that.
+>
+> You can still move enabling runtime PM later in the function.
+>
+Agreed, the final version looks like below:
 
-Before a timer is freed, del_timer_shutdown() must be called.
+    pm_runtime_set_active(dev);
+    pm_runtime_get_noresume(dev);
 
-Link: https://lore.kernel.org/all/20220407161745.7d6754b3@gandalf.local.home/
+    ov5645_entity_init_cfg(&ov5645->sd, NULL);
 
-Cc: Sumit Semwal <sumit.semwal@linaro.org>
-Cc: "Christian König" <christian.koenig@amd.com>
-Cc: linux-media@vger.kernel.org
-Cc: dri-devel@lists.freedesktop.org
-Cc: linaro-mm-sig@lists.linaro.org
-Signed-off-by: Steven Rostedt (Google) <rostedt@goodmis.org>
----
- drivers/dma-buf/st-dma-fence.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+    ret = v4l2_async_register_subdev(&ov5645->sd);
+    if (ret < 0) {
+        dev_err(dev, "could not register v4l2 device\n");
+        goto err_pm_runtime;
+    }
 
-diff --git a/drivers/dma-buf/st-dma-fence.c b/drivers/dma-buf/st-dma-fence.c
-index fb6e0a6ae2c9..c67b70205b6f 100644
---- a/drivers/dma-buf/st-dma-fence.c
-+++ b/drivers/dma-buf/st-dma-fence.c
-@@ -412,7 +412,7 @@ static int test_wait_timeout(void *arg)
- 
- 	err = 0;
- err_free:
--	del_timer_sync(&wt.timer);
-+	del_timer_shutdown(&wt.timer);
- 	destroy_timer_on_stack(&wt.timer);
- 	dma_fence_signal(wt.f);
- 	dma_fence_put(wt.f);
--- 
-2.35.1
+    pm_runtime_set_autosuspend_delay(dev, 1000);
+    pm_runtime_use_autosuspend(dev);
+    pm_runtime_enable(dev);
+
+
+Cheers,
+Prabhakar
