@@ -2,107 +2,151 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2985260F611
-	for <lists+linux-media@lfdr.de>; Thu, 27 Oct 2022 13:19:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A863560F619
+	for <lists+linux-media@lfdr.de>; Thu, 27 Oct 2022 13:21:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235002AbiJ0LTR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 27 Oct 2022 07:19:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57308 "EHLO
+        id S229379AbiJ0LU6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 27 Oct 2022 07:20:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36502 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234918AbiJ0LTP (ORCPT
+        with ESMTP id S233403AbiJ0LU4 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 27 Oct 2022 07:19:15 -0400
-Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com [IPv6:2a00:1450:4864:20::132])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ADA15F6170
-        for <linux-media@vger.kernel.org>; Thu, 27 Oct 2022 04:19:13 -0700 (PDT)
-Received: by mail-lf1-x132.google.com with SMTP id j16so2073376lfe.12
-        for <linux-media@vger.kernel.org>; Thu, 27 Oct 2022 04:19:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:to:subject:message-id:date:from
-         :references:in-reply-to:reply-to:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=HBjdIYKHnjihWoVdQbIvsMMuAIG6cNclbI+ODn1N92w=;
-        b=QSskS6PMVyQg/BzbkEFbi/Ezb0Eck6zmd4X3por5XV0w6X/RSFMDHz5t1jawSC5Few
-         AdQJlIAN2C1891313ipWefNXiEeGVqOB3ocjjC18ATGx6ZghuWitqiIOadlRdk87EhL6
-         5hw7J2hHyj4bQ3FpCGk6A67fFBBjpvnCqLRktNN4+n3E7iucWDJbXUTLtx2i4CiP9lbE
-         L5qUADZdF8dxXDmMul1MgB4DIBgDdHdcucu+r72C1fezUZ2cUNllMCbHJk6naIAirP4f
-         9OgsEDhNAf7qYhVNKCNOZ2oUnRaIUvobs5PVXihbJWrEHY8u0M/YofobRyrtjLJVsAYJ
-         o7wA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:to:subject:message-id:date:from
-         :references:in-reply-to:reply-to:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=HBjdIYKHnjihWoVdQbIvsMMuAIG6cNclbI+ODn1N92w=;
-        b=LXEcA24c/aqjm/YNTpPWl3NsaELp14RRsbkC5giJbiRA+MqECYQYy94+RkQznQruz2
-         UxGAN5ku2JzD/zDwbq/cigiecBLjYRTCo7en4dk065kxaDYmTSlLITEusE9WCuIY0tLE
-         ERIRqv80oYnL5A7EjD2lmfSV7ZeiUx588nSglt6iACZ6tXrt4KaIYe2pbEinuY/C9Ecu
-         GTy7X843o8rk+hoWf9fPT7M12o/HXco8PZgUXh+JEaMP4HAyjGCcYOO4P+mJg1umikCa
-         oxVmkxFuSSRmNXja/8hcMJ1wd6oLQOWLqeVFz9ohaf9X6gLmypliYWX2czEMJhd5DYJz
-         1lpQ==
-X-Gm-Message-State: ACrzQf0uFEOz69XIO0QA7m9u1wbE3faE9Gt8U5shkUS+zr/wdCJIxOsy
-        LNuQMVwp4Untl7I5VSzRGkt7Rm5Btjl4Ogwx1/w=
-X-Google-Smtp-Source: AMsMyM4GyYe+JZaslcqmRvzjjKiaU39jqTDGgXE7JLkzBvS04SAEz9R3yLI2ca8tgzi4ayVXzJ0C5pHNFgOkdt7dprU=
-X-Received: by 2002:a05:6512:1096:b0:4a2:f71:60ea with SMTP id
- j22-20020a056512109600b004a20f7160eamr20731058lfg.232.1666869551920; Thu, 27
- Oct 2022 04:19:11 -0700 (PDT)
+        Thu, 27 Oct 2022 07:20:56 -0400
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 876EB72FD8;
+        Thu, 27 Oct 2022 04:20:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1666869655; x=1698405655;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=n+6l6M6A5lyLOnRfDL5yPnQAsnHZqojf7vW9iC3diEI=;
+  b=WAyglAx5a0eAhOsxGJacsiJjMtZ7+vjIdLepGY8gdAxFFSe1diIvOKTu
+   oNT/WfwpPoHEsTc/8ofSxsDPI6/FLYryY1DN8oCab1SqwWzmfdju7PG88
+   tIZMFQb+MviH92+SsiDImRGtugkymjlsuXxJaYfGerrerSYwVuDPY/li+
+   y50tigVZ/uUKhVoJpltIjIQx6MGAQP3rAr/qW9amms2Xye4BLX/Utc63q
+   A/24Ji9SW4ueeVIBW5uhAGDVRbTzmFrME3/oWdgevYRjDC9yVIz7HCp6L
+   KGHNC0sZEbf0TzcvnyFvdH9OK4PYIrK0t8TCgVnr+QJEHPDaFzEayxmx/
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10512"; a="309287701"
+X-IronPort-AV: E=Sophos;i="5.95,217,1661842800"; 
+   d="scan'208";a="309287701"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2022 04:20:55 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10512"; a="634865973"
+X-IronPort-AV: E=Sophos;i="5.95,217,1661842800"; 
+   d="scan'208";a="634865973"
+Received: from punajuuri.fi.intel.com (HELO paasikivi.fi.intel.com) ([10.237.72.43])
+  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2022 04:20:42 -0700
+Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
+        by paasikivi.fi.intel.com (Postfix) with SMTP id E87862021B;
+        Thu, 27 Oct 2022 14:20:37 +0300 (EEST)
+Date:   Thu, 27 Oct 2022 11:20:37 +0000
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Prabhakar <prabhakar.csengg@gmail.com>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Shawn Tu <shawnx.tu@intel.com>,
+        Jacopo Mondi <jacopo@jmondi.org>, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH v2 2/5] media: i2c: ov5645: Use runtime PM
+Message-ID: <Y1pphVPw0J97AmW4@paasikivi.fi.intel.com>
+References: <20221014183459.181567-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20221014183459.181567-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
 MIME-Version: 1.0
-Received: by 2002:a2e:9986:0:0:0:0:0 with HTTP; Thu, 27 Oct 2022 04:19:11
- -0700 (PDT)
-Reply-To: davidtayo2007@gmail.com
-In-Reply-To: <CAPE=1VoKTNi95H2w+Y-7oSM4QcWxAbD1z6T45obAnKw99QCNSw@mail.gmail.com>
-References: <CAPE=1VpRt1h9niqeRQ-uLWKadJBgTd9RHn4iQO97h-Z=W00pxg@mail.gmail.com>
- <CAPE=1Vrv+VykHfn-fJG5-LC+NS7jwNa3F7L1PT-JEN6EozWmcg@mail.gmail.com>
- <CAPE=1VrG-CPfg++xWvqzLimzKicw1EyChj6basWwfyE9KPJYkg@mail.gmail.com>
- <CAPE=1VpxYeHS6-3uPTY83K2-_ns+H+vRg+Tcfzm5esLbU_JqAw@mail.gmail.com>
- <CAPE=1VpNrY64__+Mdw+tr_2NNwj2W6N1Ek0Q9sPw+LZiVjd_LA@mail.gmail.com>
- <CAPE=1Vq4G4FmT4ysqwf4tXo7Q9-fuiv+EAYF=cm-3HPpQuhPqg@mail.gmail.com>
- <CAPE=1Vppi-wdFqon3QbTEGLWRsmSfrmtVcmagzCfpRcimd8TUA@mail.gmail.com>
- <CAPE=1VqTPCNF5AbYtZgzzHb0CrAv0OXPtgyEJU2PRgM6bfWfcw@mail.gmail.com>
- <CAPE=1VoYO25T7Cmab1+ZqxLu7YGTrqGv1VnxeH0qWLsy+Q_REA@mail.gmail.com>
- <CAPE=1Vq3H+czure1HwPJ-_EgsKuwSph2qTw16yHyYjYzZm5q1g@mail.gmail.com>
- <CAPE=1Vr7YBDJbwhDokJAREv6RQqzae+xf_J8jZiQr2C9Hp=b=Q@mail.gmail.com>
- <CAPE=1VrL60iNY1WD6-tp2-WgzAdHVYCbW8LoStPuMYsdB0_aaQ@mail.gmail.com>
- <CAPE=1VpSEL2Qd=3c7sXsZ5yqjAGa+UCpinAEcNd81PDKZSmmdQ@mail.gmail.com>
- <CAPE=1Vptt4V4Qb6AbszpxPE58HhFRgL-_-5-u6XfEOcmWm2zug@mail.gmail.com>
- <CAPE=1Vp739Uk=FdoG1-47RyRostAFtXPhuXJeef7OMzK9BT4AA@mail.gmail.com>
- <CAPE=1Vp4xdi_MybaadfczqaVVQDYrpw8Ac=QG=Sn3z3vEqp+1A@mail.gmail.com>
- <CAPE=1VpVbZRy4eSi2LD4Vcc0VZ02+4=YXfqf_OGvwf4Q2FQkaQ@mail.gmail.com>
- <CAPE=1VraeMUYtYbxckJ4XgupA9Q=3d8xps+NmzPU49bzfs9ZiQ@mail.gmail.com>
- <CAPE=1VpX6f7S3RsFp7Crgmo9mbqukbJq1Y_xcE-9scxkabqHbg@mail.gmail.com>
- <CAPE=1VrDBNOGtE_Q0oQrorJJTfGGQ_+0_qTTYEEJoFv0Au_i-g@mail.gmail.com>
- <CAPE=1VqC1ZUTBKqyaPQ0+a15H4Njz73ADMzr1awdkxjCj-LO9g@mail.gmail.com>
- <CAPE=1VqT=kaHjYDuw1-+0+Bg8G-eowU18Sk=-A_tWkWf_Bh-ug@mail.gmail.com>
- <CAPE=1VoNnEA87E-7fsVLOZD9zC78k3J36tQp1ih376qo2b-Hyw@mail.gmail.com>
- <CAPE=1VqCOGypaze3FzRArE5JJwGrODeb1EKnkZoJrV39h2KzAg@mail.gmail.com>
- <CAPE=1Vq=dzF_fj3frrOx1SDLbgXaz+_51k7fBcZYiQYHd+5R-w@mail.gmail.com>
- <CAPE=1VqDH0LhYBHgUvoxq-1RGmLXU9iGmaHc=Qxf=PiN_498cg@mail.gmail.com>
- <CAPE=1VoeC+tUpz6a0JaMmnvOVGQNVascPBk+6+qQoa3qwdHDzg@mail.gmail.com> <CAPE=1VoKTNi95H2w+Y-7oSM4QcWxAbD1z6T45obAnKw99QCNSw@mail.gmail.com>
-From:   david tayo <martinlarcher1001@gmail.com>
-Date:   Thu, 27 Oct 2022 12:19:11 +0100
-Message-ID: <CAPE=1VqLW58ywO48tw2eGVC=81qbQq0Sq_x2faRvqzKv5ffoOw@mail.gmail.com>
-Subject: =?UTF-8?B?R3LDvMOfZSw=?=
-To:     davidtayo2007@gmail.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=2.1 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,FREEMAIL_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=no
-        autolearn_force=no version=3.4.6
-X-Spam-Level: **
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221014183459.181567-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Spam-Status: No, score=-4.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Gr=C3=BC=C3=9Fe, ich hoffe, diese E-Mail erreicht Sie gut. Sie haben nicht =
-auf
-die Informationen geantwortet, die ich Ihnen zuvor geschickt habe.
-Bitte melden Sie sich bei mir, es ist dringend, wir m=C3=BCssen uns
-unterhalten
+Hi Prabhakar,
 
-Mit besten Empfehlungen
-David Tayo
+One more comment.
+
+On Fri, Oct 14, 2022 at 07:34:56PM +0100, Prabhakar wrote:
+> @@ -1209,12 +1190,16 @@ static int ov5645_probe(struct i2c_client *client)
+>  
+>  	dev_info(dev, "OV5645 detected at address 0x%02x\n", client->addr);
+>  
+> +	pm_runtime_set_active(dev);
+> +	pm_runtime_get_noresume(dev);
+> +	pm_runtime_enable(dev);
+
+You won't gain anything by eanbling runtime PM here. Just move it to the
+end of the function before the rest of the calls. Error handling becomes
+more simple.
+
+> +
+>  	ret = ov5645_read_reg(ov5645, OV5645_AEC_PK_MANUAL,
+>  			      &ov5645->aec_pk_manual);
+>  	if (ret < 0) {
+>  		dev_err(dev, "could not read AEC/AGC mode\n");
+>  		ret = -ENODEV;
+> -		goto power_down;
+> +		goto err_pm_runtime;
+>  	}
+>  
+>  	ret = ov5645_read_reg(ov5645, OV5645_TIMING_TC_REG20,
+> @@ -1222,7 +1207,7 @@ static int ov5645_probe(struct i2c_client *client)
+>  	if (ret < 0) {
+>  		dev_err(dev, "could not read vflip value\n");
+>  		ret = -ENODEV;
+> -		goto power_down;
+> +		goto err_pm_runtime;
+>  	}
+>  
+>  	ret = ov5645_read_reg(ov5645, OV5645_TIMING_TC_REG21,
+> @@ -1230,23 +1215,30 @@ static int ov5645_probe(struct i2c_client *client)
+>  	if (ret < 0) {
+>  		dev_err(dev, "could not read hflip value\n");
+>  		ret = -ENODEV;
+> -		goto power_down;
+> +		goto err_pm_runtime;
+>  	}
+>  
+> -	ov5645_s_power(&ov5645->sd, false);
+> -
+>  	ret = v4l2_async_register_subdev(&ov5645->sd);
+>  	if (ret < 0) {
+>  		dev_err(dev, "could not register v4l2 device\n");
+> +		pm_runtime_disable(dev);
+> +		pm_runtime_set_suspended(dev);
+>  		goto free_entity;
+>  	}
+>  
+> +	pm_runtime_set_autosuspend_delay(dev, 1000);
+> +	pm_runtime_use_autosuspend(dev);
+> +	pm_runtime_put_autosuspend(dev);
+> +
+>  	ov5645_entity_init_cfg(&ov5645->sd, NULL);
+>  
+>  	return 0;
+>  
+> +err_pm_runtime:
+> +	pm_runtime_disable(dev);
+> +	pm_runtime_put_noidle(dev);
+>  power_down:
+> -	ov5645_s_power(&ov5645->sd, false);
+> +	ov5645_set_power_off(dev);
+>  free_entity:
+>  	media_entity_cleanup(&ov5645->sd.entity);
+>  free_ctrl:
+
+-- 
+Kind regards,
+
+Sakari Ailus
