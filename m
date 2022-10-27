@@ -2,97 +2,114 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3B10F60F682
-	for <lists+linux-media@lfdr.de>; Thu, 27 Oct 2022 13:50:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D26A860F6E8
+	for <lists+linux-media@lfdr.de>; Thu, 27 Oct 2022 14:14:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235372AbiJ0Lu1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 27 Oct 2022 07:50:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45576 "EHLO
+        id S234184AbiJ0MOS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 27 Oct 2022 08:14:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41670 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234111AbiJ0Lu0 (ORCPT
+        with ESMTP id S233986AbiJ0MOR (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 27 Oct 2022 07:50:26 -0400
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6368A63353;
-        Thu, 27 Oct 2022 04:50:24 -0700 (PDT)
-Received: from dggpemm500020.china.huawei.com (unknown [172.30.72.57])
-        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4MykQ000pQzmVVQ;
-        Thu, 27 Oct 2022 19:45:27 +0800 (CST)
-Received: from dggpemm100009.china.huawei.com (7.185.36.113) by
- dggpemm500020.china.huawei.com (7.185.36.49) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Thu, 27 Oct 2022 19:50:22 +0800
-Received: from huawei.com (10.175.113.32) by dggpemm100009.china.huawei.com
- (7.185.36.113) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.31; Thu, 27 Oct
- 2022 19:50:22 +0800
-From:   Liu Shixin <liushixin2@huawei.com>
-To:     Hans Verkuil <hverkuil@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-CC:     <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        Liu Shixin <liushixin2@huawei.com>
-Subject: [PATCH] media: vivid: fix compose size exceed boundary
-Date:   Thu, 27 Oct 2022 20:38:55 +0800
-Message-ID: <20221027123855.1054059-1-liushixin2@huawei.com>
-X-Mailer: git-send-email 2.25.1
+        Thu, 27 Oct 2022 08:14:17 -0400
+Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com [IPv6:2a00:1450:4864:20::62b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92514D2587
+        for <linux-media@vger.kernel.org>; Thu, 27 Oct 2022 05:14:16 -0700 (PDT)
+Received: by mail-ej1-x62b.google.com with SMTP id f27so3998696eje.1
+        for <linux-media@vger.kernel.org>; Thu, 27 Oct 2022 05:14:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:references:to:from
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ozR3pFF6qvev8k9P0jdmPJjlIVCpHvZvFTrYrZyvlug=;
+        b=PZjRFX7hCJSMc+Y64bXTjS1Y0HjMKr7mBuRJEyhLjLFHCu86uE4HnLAuCExy6utvd1
+         FOgBhXiiAJSLrrUG20YbdRvbVsNsZwCbTOPXaDHJFE88JKd+2iypeS1yDOEDzE57VkjJ
+         UqWne/R3v2Wnj8Xa4C6S+5rj0k7XRgR9qoxXW4GzTzZDgcO+MzbvkuT1O61ovT/wJi+D
+         Ha3tj9vLaD9yQYMZ/8SkAKkNiZ/YgGPwpKyMnOgfHSbBlgl4run+/9wq3qhNRVlg17Ki
+         vDrwt6JEo/l/1NL27ZVsNuW2qV7SdZinurpZSn7BRkWNw1fV8rlE01TvkJBC9O4zTpDK
+         1seg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:references:to:from
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ozR3pFF6qvev8k9P0jdmPJjlIVCpHvZvFTrYrZyvlug=;
+        b=an9C3948CTDKlqA4cStciq1Qq5p/vufPDZfg3IeXINaJRRMSQUUTd/miW44UU7tdd6
+         m3X2tvtbiQOCBlAETenLX/nzJyPgfBM6RZGRHtlMq3RSlc2lnLJ1VU7YHhRAPumq15ma
+         csW1yBueGO9M1s7bKew2IVukzYkt/IlcolXxq4Q3Y4PRmTxXMn8VARbaU8OVTKBIij5m
+         SCD0HJLFx66ApjvrhJ6MYvuijy3LpohQXTVnLMZBV5TVKqu3+NuKuOE1XfKyMRgDXmMl
+         lKmV355bkPrtGwPnqsw6BMrGye8UMXr76tdy8Q+B4DhdoiHuShL2C1kChH8sWYb1cY0c
+         vF5g==
+X-Gm-Message-State: ACrzQf0dab/cdZgjai5xPGaNoAfzaWTu/TmH09acAt99428ViOkr20FY
+        L/2mHdN0cjVuZ2YPRCBbiDo=
+X-Google-Smtp-Source: AMsMyM4Sne+rY2Ji3vF5c/d7Ew6GneR38fuCK0QW1XQVz5EfmwMiRau9oJnErgKoc5ml8Y39s8E8kA==
+X-Received: by 2002:a17:907:1dda:b0:7a6:8ffc:7dc with SMTP id og26-20020a1709071dda00b007a68ffc07dcmr20109443ejc.163.1666872855035;
+        Thu, 27 Oct 2022 05:14:15 -0700 (PDT)
+Received: from [192.168.178.21] (p5b0ea229.dip0.t-ipconnect.de. [91.14.162.41])
+        by smtp.gmail.com with ESMTPSA id bm27-20020a0564020b1b00b004615f7495e0sm917790edb.8.2022.10.27.05.14.13
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 27 Oct 2022 05:14:14 -0700 (PDT)
+Message-ID: <59ac9998-a838-abf8-124c-8fd98c4f0f7a@gmail.com>
+Date:   Thu, 27 Oct 2022 14:14:12 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [10.175.113.32]
-X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
- dggpemm100009.china.huawei.com (7.185.36.113)
-X-CFilter-Loop: Reflected
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: Try to address the DMA-buf coherency problem
+Content-Language: en-US
+From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+To:     l.stach@pengutronix.de, nicolas@ndufresne.ca, ppaalanen@gmail.com,
+        sumit.semwal@linaro.org, daniel@ffwll.ch, robdclark@gmail.com,
+        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+        linux-media@vger.kernel.org
+References: <20221020121316.3946-1-christian.koenig@amd.com>
+In-Reply-To: <20221020121316.3946-1-christian.koenig@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-syzkaller found a bug:
+Am 20.10.22 um 14:13 schrieb Christian König:
+> Hi guys,
+>
+> after finding that we essentially have two separate worlds for coherent sharing
+> of buffer through DMA-buf I thought I will tackle that problem a bit and at
+> least allow the framework to reject attachments which won't work.
+>
+> So those patches here add a new dma_coherent flag to each DMA-buf object
+> telling the framework that dev_is_dma_coherent() needs to return true for an
+> importing device to be able to attach. Since we should always have a fallback
+> path this should give userspace the chance to still keep the use case working,
+> either by doing a CPU copy instead or reversing the roles of exporter and
+> importer.
+>
+> For DRM and most V4L2 devices I then fill in the dma_coherent flag based on the
+> return value of dev_is_dma_coherent(). Exporting drivers are allowed to clear
+> the flag for their buffers if special handling like the USWC flag in amdgpu or
+> the uncached allocations for radeon/nouveau are in use.
+>
+> Additional to that importers can also check the flag if they have some
+> non-snooping operations like the special scanout case for amdgpu for example.
+>
+> The patches are only smoke tested and the solution isn't ideal, but as far as
+> I can see should at least keep things working.
 
- BUG: unable to handle page fault for address: ffffc9000a3b1000
- #PF: supervisor write access in kernel mode
- #PF: error_code(0x0002) - not-present page
- PGD 100000067 P4D 100000067 PUD 10015f067 PMD 1121ca067 PTE 0
- Oops: 0002 [#1] PREEMPT SMP
- CPU: 0 PID: 23489 Comm: vivid-000-vid-c Not tainted 6.1.0-rc1+ #512
- Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.13.0-1ubuntu1.1 04/01/2014
- RIP: 0010:memcpy_erms+0x6/0x10
-[...]
- Call Trace:
-  <TASK>
-  ? tpg_fill_plane_buffer+0x856/0x15b0
-  vivid_fillbuff+0x8ac/0x1110
-  vivid_thread_vid_cap_tick+0x361/0xc90
-  vivid_thread_vid_cap+0x21a/0x3a0
-  kthread+0x143/0x180
-  ret_from_fork+0x1f/0x30
-  </TASK>
+Gentle ping on this. Lucas, Daniel and Nicolas you have been rather 
+active in the last discussion. Do you mind taking a look?
 
-This is because we forget to check boundary after adjust compose->height
-int V4L2_SEL_TGT_CROP case. Add v4l2_rect_map_inside() to fix this problem
-for this case.
+Thanks,
+Christian.
 
-Fixes: ef834f7836ec ("vivid: add the video capture and output parts")
-Signed-off-by: Liu Shixin <liushixin2@huawei.com>
----
- drivers/media/test-drivers/vivid/vivid-vid-cap.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/drivers/media/test-drivers/vivid/vivid-vid-cap.c b/drivers/media/test-drivers/vivid/vivid-vid-cap.c
-index 86b158eeb2d8..b0cee26b9089 100644
---- a/drivers/media/test-drivers/vivid/vivid-vid-cap.c
-+++ b/drivers/media/test-drivers/vivid/vivid-vid-cap.c
-@@ -957,6 +957,7 @@ int vivid_vid_cap_s_selection(struct file *file, void *fh, struct v4l2_selection
- 			if (dev->has_compose_cap) {
- 				v4l2_rect_set_min_size(compose, &min_rect);
- 				v4l2_rect_set_max_size(compose, &max_rect);
-+				v4l2_rect_map_inside(compose, &fmt);
- 			}
- 			dev->fmt_cap_rect = fmt;
- 			tpg_s_buf_height(&dev->tpg, fmt.height);
--- 
-2.25.1
+>
+> Please review and/or comment,
+> Christian.
+>
+>
 
