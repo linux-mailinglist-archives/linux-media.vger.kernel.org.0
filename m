@@ -2,140 +2,220 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E411260EA44
-	for <lists+linux-media@lfdr.de>; Wed, 26 Oct 2022 22:29:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9B6D360EDD3
+	for <lists+linux-media@lfdr.de>; Thu, 27 Oct 2022 04:13:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234169AbiJZU3P (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 26 Oct 2022 16:29:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58732 "EHLO
+        id S233865AbiJ0CNf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 26 Oct 2022 22:13:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53880 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234138AbiJZU3N (ORCPT
+        with ESMTP id S233810AbiJ0CNe (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 26 Oct 2022 16:29:13 -0400
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E96CDB5FE1
-        for <linux-media@vger.kernel.org>; Wed, 26 Oct 2022 13:29:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1666816152; x=1698352152;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=LmBvEZB0hthymddmo4/1+HasmrmUoBzjH3raKCvgXB4=;
-  b=bZq5RdHH4aoEn+HsPQC98hzZ+G5802WsWpUTe0eb7oFz+rku9vwHNh1T
-   CdBu+C3C50cl2WrxuhOrQPvn8NnfcTOABwq8b7Qc1sR/fVbFa6a56zkaR
-   5DDJlybu9Ge7mL5q9YIo8fNN0M497KE48krbLb/GjYXj1M4LSXtc1kfo8
-   WDSnVTYeB6e3+MKX4LqdfaKmoAhCjEpqkEZJvJTkKLWlM4lfMt3mVrd5U
-   aci9OrFAG4PJedXiwbEo63ZBYj4VNF/ftiyoPcRzTUc8eETifb4Z6fZIW
-   MEVmDSfYz2rpV4FMRwdmjkURnBGoul8TGEMVAllFXDpoEkhDEuhefeBFL
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10512"; a="305666529"
-X-IronPort-AV: E=Sophos;i="5.95,215,1661842800"; 
-   d="scan'208";a="305666529"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2022 13:29:12 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10512"; a="665421430"
-X-IronPort-AV: E=Sophos;i="5.95,215,1661842800"; 
-   d="scan'208";a="665421430"
-Received: from lkp-server02.sh.intel.com (HELO b6d29c1a0365) ([10.239.97.151])
-  by orsmga001.jf.intel.com with ESMTP; 26 Oct 2022 13:29:11 -0700
-Received: from kbuild by b6d29c1a0365 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1onn1S-0007oy-2S;
-        Wed, 26 Oct 2022 20:29:10 +0000
-Date:   Thu, 27 Oct 2022 04:28:37 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     linux-media@vger.kernel.org
-Subject: [sailus-media-tree:master] BUILD SUCCESS
- 36fd61cd8fce04ad7d90b2041c7e8f9fcc9fdc04
-Message-ID: <63599875.fdSmfeNubFeOdduC%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        Wed, 26 Oct 2022 22:13:34 -0400
+Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com [211.20.114.71])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A0030E77A1;
+        Wed, 26 Oct 2022 19:13:31 -0700 (PDT)
+Received: from mail.aspeedtech.com ([192.168.0.24])
+        by twspam01.aspeedtech.com with ESMTP id 29R1mXqa097466;
+        Thu, 27 Oct 2022 09:48:33 +0800 (GMT-8)
+        (envelope-from jammy_huang@aspeedtech.com)
+Received: from [192.168.2.115] (192.168.2.115) by TWMBX02.aspeed.com
+ (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Thu, 27 Oct
+ 2022 10:11:23 +0800
+Message-ID: <3c461dbe-7621-e4e6-c55e-6352119258f8@aspeedtech.com>
+Date:   Thu, 27 Oct 2022 10:11:24 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-7.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.0
+Subject: Re: [PATCH v10 3/5] media: Documentation: aspeed-video: Add user
+ documentation for the aspeed-video driver
+Content-Language: en-US
+To:     Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+        <eajames@linux.ibm.com>, <mchehab@kernel.org>, <joel@jms.id.au>,
+        <andrew@aj.id.au>, <hverkuil-cisco@xs4all.nl>,
+        <laurent.pinchart@ideasonboard.com>, <xavier.roumegue@oss.nxp.com>,
+        <ezequiel@vanguardiasur.com.ar>, <stanimir.varbanov@linaro.org>,
+        <sakari.ailus@linux.intel.com>, <ming.qian@nxp.com>,
+        <andrzej.p@collabora.com>, <linux-media@vger.kernel.org>,
+        <openbmc@lists.ozlabs.org>, <linux-arm-kernel@lists.infradead.org>,
+        <linux-aspeed@lists.ozlabs.org>, <linux-kernel@vger.kernel.org>
+References: <20221025090203.5623-1-jammy_huang@aspeedtech.com>
+ <20221025090203.5623-4-jammy_huang@aspeedtech.com>
+ <8a8f7c818688bda7c75d2f4fb5f8f0d6f89cb965.camel@collabora.com>
+ <22c85f42-a4d7-c6cc-5f1e-346c88c29dc5@aspeedtech.com>
+ <4e3a4e1961afa77b5658357cc7fa0f289c7409fe.camel@collabora.com>
+From:   Jammy Huang <jammy_huang@aspeedtech.com>
+In-Reply-To: <4e3a4e1961afa77b5658357cc7fa0f289c7409fe.camel@collabora.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [192.168.2.115]
+X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
+ (192.168.0.24)
+X-DNSRBL: 
+X-MAIL: twspam01.aspeedtech.com 29R1mXqa097466
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-tree/branch: git://linuxtv.org/sailus/media_tree.git master
-branch HEAD: 36fd61cd8fce04ad7d90b2041c7e8f9fcc9fdc04  media: i2c: imx290: Replace GAIN control with ANALOGUE_GAIN
 
-elapsed time: 722m
+On 2022/10/27 上午 03:02, Nicolas Dufresne wrote:
+> Le mercredi 26 octobre 2022 à 10:42 +0800, Jammy Huang a écrit :
+>> Hi Nicolas,
+>>
+>> Thanks for your comments.
+>>
+>> On 2022/10/25 下午 09:18, Nicolas Dufresne wrote:
+>>> Hi Jammy,
+>>>
+>>> thanks for the addition.
+>>>
+>>> Le mardi 25 octobre 2022 à 17:02 +0800, Jammy Huang a écrit :
+>>>> Add user documentation for the aspeed-video driver.
+>>>>
+>>>> Signed-off-by: Jammy Huang <jammy_huang@aspeedtech.com>
+>>>> ---
+>>>> v10:
+>>>>     - new
+>>>> ---
+>>>>    .../media/drivers/aspeed-video.rst            | 61 +++++++++++++++++++
+>>>>    .../userspace-api/media/drivers/index.rst     |  1 +
+>>>>    2 files changed, 62 insertions(+)
+>>>>    create mode 100644 Documentation/userspace-api/media/drivers/aspeed-video.rst
+>>>>
+>>>> diff --git a/Documentation/userspace-api/media/drivers/aspeed-video.rst b/Documentation/userspace-api/media/drivers/aspeed-video.rst
+>>>> new file mode 100644
+>>>> index 000000000000..798a2588b175
+>>>> --- /dev/null
+>>>> +++ b/Documentation/userspace-api/media/drivers/aspeed-video.rst
+>>>> @@ -0,0 +1,61 @@
+>>>> +.. SPDX-License-Identifier: GPL-2.0
+>>>> +
+>>>> +.. include:: <isonum.txt>
+>>>> +
+>>>> +ASPEED video driver
+>>>> +===================
+>>>> +
+>>>> +ASPEED Video Engine found on AST2400/2500/2600 SoC supports high performance
+>>>> +video compressions with a wide range of video quality and compression ratio
+>>>> +options. The adopted compressing algorithm is a modified JPEG algorithm.
+>>>> +
+>>>> +There are 2 types of compressions in this IP.
+>>>> +
+>>>> +* JPEG JFIF standard mode: for single frame and management compression
+>>>> +* ASPEED proprietary mode: for multi-frame and differential compression.
+>>>> +  Support 2-pass (high quality) video compression scheme (Patent pending by
+>>>> +  ASPEED). Provide visually lossless video compression quality or to reduce
+>>>> +  the network average loading under intranet KVM applications.
+>>> I think some of the information disclosed in the following quote could be
+>>> summarized. Notably the part about the extra buffers.
+>>>
+>>>      Aspeed JPEG Format requires an additional buffer, called bcd, to store
+>>>      the information about which macro block in the new frame is different
+>>>      from the previous one.
+>>>      
+>>>      To have bcd correctly working, we need to swap the buffers for src0/1 to
+>>>      make src1 refer to previous frame and src0 to the coming new frame.
+>>>      
+>>> But before I push you this route, have you considered using a dedicated pixel
+>>> format instead ? Here's my thinking, the output of the JPEG encoder is no longer
+>>> "compatible" (or at least won't yield the expected images) if used with a normal
+>>> JPEG decoder. By differentiating these two as dedicated formats, you will only need
+>>> 1 vendor control, and you avoid the potential risk of software bugs mixing them up.
+>>> Also note that there is other JPEG based vendor formats that exist in V4L2.
+>>>
+>>> Let me know what do you think ?
+>> Yes, I also add a dedicated formats, V4L2_PIX_FMT_AJPG, in this series.
+>> In [PATCH v10 1/5]
+>>
+>> media: v4l: Add definition for the Aspeed JPEG format, I add the
+>> description in pixfmt-reserved.rst.
+>>
+>> After this series applied, the users can choose either of these two
+>> formats by VIDIOC_S_FMT as
+>>
+>> per their preference.
+> Sorry about that, I have skipped too much. The approach seems fair then, can you
+> state in the doc that these control applies to V4L2_PIX_FMT_AJPG in some way ?
+> (just a little cross-reference can help). The confusion with normal JPEG is
+> easy.
+>
+> thanks for you patience,
+> Nicolas
 
-configs tested: 57
-configs skipped: 2
+Sure, I will add the words below in next patch.
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+"VIDIOC_S_FMT can be used to choose which format you want. V4L2_PIX_FMT_JPEG
 
-gcc tested configs:
-arc                                 defconfig
-alpha                               defconfig
-s390                                defconfig
-s390                             allmodconfig
-um                             i386_defconfig
-um                           x86_64_defconfig
-s390                             allyesconfig
-x86_64                              defconfig
-x86_64                          rhel-8.3-func
-x86_64                    rhel-8.3-kselftests
-x86_64                               rhel-8.3
-arc                  randconfig-r043-20221023
-m68k                             allmodconfig
-arc                              allyesconfig
-arm                                 defconfig
-x86_64                           allyesconfig
-alpha                            allyesconfig
-i386                                defconfig
-arm                              allyesconfig
-x86_64                           rhel-8.3-syz
-m68k                             allyesconfig
-arm64                            allyesconfig
-x86_64               randconfig-a013-20221024
-x86_64                         rhel-8.3-kunit
-x86_64               randconfig-a012-20221024
-x86_64                           rhel-8.3-kvm
-x86_64               randconfig-a011-20221024
-i386                          randconfig-a012
-i386                          randconfig-a016
-x86_64               randconfig-a014-20221024
-x86_64                        randconfig-a002
-x86_64               randconfig-a015-20221024
-x86_64               randconfig-a016-20221024
-i386                          randconfig-a014
-powerpc                           allnoconfig
-x86_64                        randconfig-a006
-powerpc                          allmodconfig
-x86_64                        randconfig-a004
-mips                             allyesconfig
-sh                               allmodconfig
-ia64                             allmodconfig
-i386                             allyesconfig
+stands for JPEG JFIF standard mode; V4L2_PIX_FMT_AJPG stands for ASPEED
 
-clang tested configs:
-hexagon              randconfig-r045-20221023
-hexagon              randconfig-r041-20221023
-s390                 randconfig-r044-20221023
-riscv                randconfig-r042-20221023
-i386                          randconfig-a013
-i386                          randconfig-a011
-i386                 randconfig-a004-20221024
-i386                 randconfig-a001-20221024
-i386                 randconfig-a002-20221024
-i386                 randconfig-a005-20221024
-i386                          randconfig-a015
-x86_64                        randconfig-a001
-i386                 randconfig-a003-20221024
-i386                 randconfig-a006-20221024
-x86_64                        randconfig-a003
+proprietary mode."
+
+
+Thanks for your help.
+
+>>> Nicolas
+>>>
+>>>> +
+>>>> +More details on the ASPEED video hardware operations can be found in
+>>>> +*chapter 6.2.16 KVM Video Driver* of SDK_User_Guide which available on
+>>>> +AspeedTech-BMC/openbmc/releases.
+>>>> +
+>>>> +The ASPEED video driver implements the following driver-specific control:
+>>>> +
+>>>> +``V4L2_CID_ASPEED_HQ_MODE``
+>>>> +-------------------------------
+>>>> +    Enable/Disable ASPEED's High quality mode. This is a private control
+>>>> +    that can be used to enable high quality for aspeed proprietary mode.
+>>>> +
+>>>> +.. flat-table::
+>>>> +    :header-rows:  0
+>>>> +    :stub-columns: 0
+>>>> +    :widths:       1 4
+>>>> +
+>>>> +    * - ``(0)``
+>>>> +      - ASPEED HQ mode is disabled.
+>>>> +    * - ``(1)``
+>>>> +      - ASPEED HQ mode is enabled.
+>>>> +
+>>>> +``V4L2_CID_ASPEED_HQ_JPEG_QUALITY``
+>>>> +-------------------------------
+>>>> +    Define the quality of ASPEED's High quality mode. This is a private control
+>>>> +    that can be used to decide compression quality if High quality mode enabled
+>>>> +    . Higher the value, better the quality and bigger the size.
+>>>> +
+>>>> +.. flat-table::
+>>>> +    :header-rows:  0
+>>>> +    :stub-columns: 0
+>>>> +    :widths:       1 4
+>>>> +
+>>>> +    * - ``(1)``
+>>>> +      - minimum
+>>>> +    * - ``(12)``
+>>>> +      - maximum
+>>>> +    * - ``(1)``
+>>>> +      - step
+>>>> +    * - ``(1)``
+>>>> +      - default
+>>>> +
+>>>> +**Copyright** |copy| 2022 ASPEED Technology Inc.
+>>>> diff --git a/Documentation/userspace-api/media/drivers/index.rst b/Documentation/userspace-api/media/drivers/index.rst
+>>>> index 32f82aed47d9..46a494e00b72 100644
+>>>> --- a/Documentation/userspace-api/media/drivers/index.rst
+>>>> +++ b/Documentation/userspace-api/media/drivers/index.rst
+>>>> @@ -31,6 +31,7 @@ For more details see the file COPYING in the source distribution of Linux.
+>>>>    	:maxdepth: 5
+>>>>    	:numbered:
+>>>>    
+>>>> +	aspeed-video
+>>>>    	ccs
+>>>>    	cx2341x-uapi
+>>>>    	dw100
 
 -- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+Best Regards
+Jammy
+
