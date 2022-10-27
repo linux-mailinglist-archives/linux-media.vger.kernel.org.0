@@ -2,147 +2,246 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8461560F400
-	for <lists+linux-media@lfdr.de>; Thu, 27 Oct 2022 11:49:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ABFFB60F404
+	for <lists+linux-media@lfdr.de>; Thu, 27 Oct 2022 11:50:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234890AbiJ0JtV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 27 Oct 2022 05:49:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53928 "EHLO
+        id S234925AbiJ0JuA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 27 Oct 2022 05:50:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56112 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234810AbiJ0JtU (ORCPT
+        with ESMTP id S234899AbiJ0Jt5 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 27 Oct 2022 05:49:20 -0400
-Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com [IPv6:2a00:1450:4864:20::52d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A65A96396;
-        Thu, 27 Oct 2022 02:49:19 -0700 (PDT)
-Received: by mail-ed1-x52d.google.com with SMTP id a67so1706336edf.12;
-        Thu, 27 Oct 2022 02:49:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=IWPyJZW5AVoC+nrDVVz16Q/2YNSTwOB7weYuST5UkDM=;
-        b=jDWhFlSODS1EWcJZZeGu65cVUR9mHawB/5m7LVZcG1/shMrHhfwkLWzJ9qiJlehoR/
-         WoD2GU6tA1YkVAB5uX6meQVb2pkppteLdaU+N4F/LHK2ujAUkKLHtgNpqewbR8HdfeOR
-         NPDqf6vccVGlvfM77hnmobflfGQ1TFycN1HdfyWbBTczYXJ29RLojyk9JmfqSFUGaeay
-         KmzBRb1KzC2YS7pYl+JQRBwOKBqC3IteefHZy8KY0LdBh4E9cuBuUfIFikzbB/GqN1RZ
-         B3IE2uVwYM4EhHKDqUtHio8mqPTlc34G0or/HSsw2FHYSBrazekliDIwZk/AXpMgUWrc
-         ukZA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=IWPyJZW5AVoC+nrDVVz16Q/2YNSTwOB7weYuST5UkDM=;
-        b=CorCta9FF3TdyiAzUIIEkg4G7RGqxTnImPRWaI89C1Zd0D824zfB/MD/mpb6edGMM0
-         hc8BIuAXmCv19Al9KiCwIWR27JMNKkkdHWCXdy6fmrBueWVa9Va8tq3weW25/rJVx9DF
-         24ZqyOaitmiOHGUIR55elXLgzTaqpFUwzx06t5VSNkejejzbQrzKmUXhjEO4X/u6zEo+
-         +3sfRNGpVArR9rff3exj4gJbwATkvffd6ZlJZafuvzIMUGhkJf58pQd9H2KwO9d708te
-         pGnfcMebx6wGyL0TIYy0oyAQmH5I9IhQO4pGssrZTA99i5Gyz6+AuOKk+iYsCeexE9TE
-         9L+Q==
-X-Gm-Message-State: ACrzQf3IZC4oe+QT/1n25m5qLh3S0oljWCQlNmQZRm9b6f5pMcqz/eoJ
-        w0N+JAofIF5mON3V3JODsmakE9EqtcxWC3HqCZY=
-X-Google-Smtp-Source: AMsMyM50d4ocHboYT2FXOEMzrCVMW05GrxeaNf3kP4FkUT2jOdfQ2qVD18OBeNLY7N3Ce30ysegqhAHqb2ijaiwzG3w=
-X-Received: by 2002:a05:6402:26cf:b0:45d:48d7:928e with SMTP id
- x15-20020a05640226cf00b0045d48d7928emr43252923edd.275.1666864158072; Thu, 27
- Oct 2022 02:49:18 -0700 (PDT)
+        Thu, 27 Oct 2022 05:49:57 -0400
+X-Greylist: delayed 157017 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 27 Oct 2022 02:49:52 PDT
+Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6134B5208F;
+        Thu, 27 Oct 2022 02:49:49 -0700 (PDT)
+Received: from hillosipuli.retiisi.eu (82-181-192-243.bb.dnainternet.fi [82.181.192.243])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: sailus)
+        by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 195371B00153;
+        Thu, 27 Oct 2022 12:49:45 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
+        t=1666864185;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=oe19P2pge1+6I2ZQth02uTIY7mNqLWTuzm0ue/4WyY0=;
+        b=T+IDNL9nNesaeEsYpjbxca83VB9rkbj8n9AosXnSrBcKpkhfmd5RmcFYdn25j38ld4URGv
+        BaGUTIi3wb24TAnD2IjPsi8px+ZBR8m907QYmiJQQ9rNuHMlNiyRikDONDHF2nZzN8hKwP
+        JK3DpA4bLKkHMKUY+TpULnMsPtxR1EIKXC39ClWjhy/4qHVOzLfRQvfmiDre1oJj2Dhtw+
+        upvNQVpE0e6ifAyBf1Pm2HN1yQwKGsnaIgeRwuysl7N2g0frFU8yTKVkfRqeeyS4B1Dhw6
+        u24RwFNnzb7ZU6x7NA1SUSxE6uC7vSS0m+HhJdZcf5Hol/syhCDDs0w3oUQEDw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+        s=lahtoruutu; t=1666864185;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=oe19P2pge1+6I2ZQth02uTIY7mNqLWTuzm0ue/4WyY0=;
+        b=OTGHq8kxqexA8eJCBv6skHJc4h2y23QQRCoOMy3BCtsx1wwCevfCEDGxUEppja9mITR1Nl
+        veUMk9emfchAzujFZwWhFkgjPkXbSwJfIldikgBkNobjDHTZQWrg5cwHXO5Q1mcFTC04Lo
+        vjk+/Fovq6OkOEHFsQeyAW9+r+b+Z7W31WjLHghc8dLHBwa6//qSVquUgBmsAkzc0mP/Tr
+        Ogak04fde2I2RsQzqeU6/gNHyUQjJvYP/JgINi/6FtVxmg9UyTEmhUlgZoCZ6D7DyUozbJ
+        0RTV1Dnu6qGlBqn9fYi/uvfIgNXtSN/ECqpehHasvSzWYlfgB7JVtRCxU331kg==
+ARC-Authentication-Results: i=1;
+        ORIGINATING;
+        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1666864185; a=rsa-sha256;
+        cv=none;
+        b=vMW2+fSRVDyLX6YRg3vSK+UMKzShcPn8RRlQqXITifIZuFhm2h8hc/C6UaDcL8phfIjizw
+        iPA+Da7mReJC5kOAHWLLWiPWwJbbQR3U/vteY9Fok/Mfhjz+lMwZhs8i3Opi3qKqBBdPJW
+        ilWzGjx2akbXY9ieqxrIJUeK6ZLSTkFlgKKOlXQ67rXjMLEkHPskwL7EeOZaxQM9DooQnf
+        biyeTj1peg9tAnf+6815JHs1BRAlTca/s916f63oCscHdO3WHBRqDN1MaAuw7xgrODQSPt
+        Lzk6Ga9smPSurauFUc7mgO0iVooGUFLMJMwsozuCOFhWh6j9nezKrw4MiBff8Q==
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id AFC63634D3B;
+        Thu, 27 Oct 2022 12:49:44 +0300 (EEST)
+Date:   Thu, 27 Oct 2022 12:49:44 +0300
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     Lee Jackson <info@arducam.com>
+Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        robh+dt@kernel.org
+Subject: Re: [RESEND PATCH 1/2] dt-bindings: media: i2c: Add IMX519 CMOS
+ sensor binding
+Message-ID: <Y1pUOB5EbCleGGYm@valkosipuli.retiisi.eu>
+References: <20220927114442.000026f7@arducam.com>
 MIME-Version: 1.0
-References: <20221026130658.45601-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20221026130658.45601-7-prabhakar.mahadev-lad.rj@bp.renesas.com> <Y1pN0oksKeauTpBA@paasikivi.fi.intel.com>
-In-Reply-To: <Y1pN0oksKeauTpBA@paasikivi.fi.intel.com>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Thu, 27 Oct 2022 10:48:51 +0100
-Message-ID: <CA+V-a8uqPenMqbhixzefspsffLH=P7i7DJ53C7hfv0hMcgGutQ@mail.gmail.com>
-Subject: Re: [PATCH v3 6/9] media: i2c: ov5645: Use runtime PM
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Shawn Tu <shawnx.tu@intel.com>,
-        Jacopo Mondi <jacopo@jmondi.org>, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-renesas-soc@vger.kernel.org,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220927114442.000026f7@arducam.com>
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sakari,
+Hi Lee,
 
-On Thu, Oct 27, 2022 at 10:22 AM Sakari Ailus
-<sakari.ailus@linux.intel.com> wrote:
->
-> Hi Prabhakar,
->
-> Thanks for the update.
->
-> On Wed, Oct 26, 2022 at 02:06:55PM +0100, Prabhakar wrote:
-> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> >
-> > Switch to using runtime PM for power management.
-> >
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > ---
-> > v2->v3
-> > * Jumped to err_pm_runtime label in case of sd register failure
-> > * Now calling pm_runtime_mark_last_busy() before pm_runtime_put_autosuspend()
-> >   call
-> > * Now calling pm_runtime_put_sync() in case s_stream(1) fails
-> > * In s_stream(0) no calling pm_runtime_mark_last_busy() and
-> >   pm_runtime_put_autosuspend()
-> > * Included RB tag from Laurent.
-> >
-> > v1->v2
-> > * Moved pm_runtime_*_autosuspend() calls after registering the subdev.
-> > ---
-> >  drivers/media/i2c/Kconfig  |   2 +-
-> >  drivers/media/i2c/ov5645.c | 141 +++++++++++++++++++------------------
-> >  2 files changed, 73 insertions(+), 70 deletions(-)
-> >
-> > diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
-> > index 7806d4b81716..c0edd1017fe8 100644
-> > --- a/drivers/media/i2c/Kconfig
-> > +++ b/drivers/media/i2c/Kconfig
-> > @@ -459,7 +459,7 @@ config VIDEO_OV5640
-> >  config VIDEO_OV5645
-> >       tristate "OmniVision OV5645 sensor support"
-> >       depends on OF
-> > -     depends on I2C && VIDEO_DEV
-> > +     depends on I2C && PM && VIDEO_DEV
->
-> I think you can drop the PM dependency --- the driver will work fine
-> without CONFIG_PM.
->
-Agreed, I'll send a new version dropping this and fixing the comments
-on patch #5 and patch #8.
+On Tue, Sep 27, 2022 at 11:44:42AM +0800, Lee Jackson wrote:
+> Add YAML device tree binding for IMX519 CMOS image sensor, and
+> the relevant MAINTAINERS entries.
+> 
+> Signed-off-by: Lee Jackson <info@arducam.com>
 
-> Although one could question why do we have CONFIG_PM. Some systems won't
-> boot without it and who would want to consume more power than necessary?
->
-> Could this be removed altogether? Or perhaps we could add CONFIG_PM
-> dependency to V4L2 and DVB? :-)
->
-Or rather this option should be selected by the platform itself rather
-than subsystem?
+This should be your own e-mail address.
 
-Cheers,
-Prabhakar
+> ---
+>  .../devicetree/bindings/media/i2c/imx519.yaml | 113 ++++++++++++++++++
+>  MAINTAINERS                                   |   8 ++
+>  2 files changed, 121 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/i2c/imx519.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/media/i2c/imx519.yaml b/Documentation/devicetree/bindings/media/i2c/imx519.yaml
+> new file mode 100644
+> index 000000000000..717230a21764
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/i2c/imx519.yaml
+> @@ -0,0 +1,113 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/i2c/imx519.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Sony 1/2.5-Inch 16Mpixel CMOS Digital Image Sensor
+> +
+> +maintainers:
+> +  - Lee Jackson <info@arducam.com>
+> +
+> +description: |-
+> +  The Sony IMX519 is a 1/2.5-inch CMOS active pixel digital image sensor
+> +  with an active array size of 4656H x 3496V. It is programmable through
+> +  I2C interface. The I2C address is fixed to 0x1A as per sensor data sheet.
+> +  Image data is sent through MIPI CSI-2, which is configured as either 2 or
+> +  4 data lanes.
+> +
+> +properties:
+> +  compatible:
+> +    const: sony,imx519
+> +
+> +  reg:
+> +    description: I2C device address
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    maxItems: 1
+> +
+> +  VDIG-supply:
+> +    description:
+> +      Digital I/O voltage supply, 1.05 volts
+> +
+> +  VANA-supply:
+> +    description:
+> +      Analog voltage supply, 2.8 volts
+> +
+> +  VDDL-supply:
+> +    description:
+> +      Digital core voltage supply, 1.8 volts
+> +
+> +  reset-gpios:
+> +    description: |-
+> +      Reference to the GPIO connected to the xclr pin, if any.
+> +      Must be released (set high) after all supplies and INCK are applied.
+> +
+> +  # See ../video-interfaces.txt for more details
+> +  port:
+> +    type: object
+> +    properties:
+> +      endpoint:
+> +        type: object
+> +        properties:
+> +          data-lanes:
+> +            description: |-
+> +              The sensor supports either two-lane, or four-lane operation.
+> +              For two-lane operation the property must be set to <1 2>.
+> +            items:
+> +              - const: 1
+> +              - const: 2
+
+Please see my comments from 5th February.
+
+> +
+> +          clock-noncontinuous:
+> +            type: boolean
+> +            description: |-
+> +              MIPI CSI-2 clock is non-continuous if this property is present,
+> +              otherwise it's continuous.
+> +
+> +          link-frequencies:
+> +            allOf:
+> +              - $ref: /schemas/types.yaml#/definitions/uint64-array
+> +            description:
+> +              Allowed data bus frequencies.
+> +
+> +        required:
+> +          - link-frequencies
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - clocks
+> +  - VANA-supply
+> +  - VDIG-supply
+> +  - VDDL-supply
+> +  - port
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    i2c0 {
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
+> +
+> +        imx519: sensor@1a {
+> +            compatible = "sony,imx519";
+> +            reg = <0x1a>;
+> +            clocks = <&imx519_clk>;
+> +            VANA-supply = <&imx519_vana>;   /* 2.8v */
+> +            VDIG-supply = <&imx519_vdig>;   /* 1.05v */
+> +            VDDL-supply = <&imx519_vddl>;   /* 1.8v */
+> +
+> +            port {
+> +                imx519_0: endpoint {
+> +                    remote-endpoint = <&csi1_ep>;
+> +                    data-lanes = <1 2>;
+> +                    clock-noncontinuous;
+> +                    link-frequencies = /bits/ 64 <493500000>;
+> +                };
+> +            };
+> +        };
+> +    };
+> +
+> +...
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index a58f1fc6dd47..a2de51d71677 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -19007,6 +19007,14 @@ T:	git git://linuxtv.org/media_tree.git
+>  F:	Documentation/devicetree/bindings/media/i2c/sony,imx412.yaml
+>  F:	drivers/media/i2c/imx412.c
+>  
+> +SONY IMX519 SENSOR DRIVER
+> +M:	Arducam Kernel Maintenance <info@arducam.com>
+> +L:	linux-media@vger.kernel.org
+> +S:	Maintained
+> +T:	git git://linuxtv.org/media_tree.git
+> +F:	Documentation/devicetree/bindings/media/i2c/imx519.yaml
+> +F:	drivers/media/i2c/imx519.c
+> +
+>  SONY MEMORYSTICK SUBSYSTEM
+>  M:	Maxim Levitsky <maximlevitsky@gmail.com>
+>  M:	Alex Dubov <oakad@yahoo.com>
+
+-- 
+Regards,
+
+Sakari Ailus
