@@ -2,94 +2,73 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0BF0F61134A
-	for <lists+linux-media@lfdr.de>; Fri, 28 Oct 2022 15:44:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CD28F611466
+	for <lists+linux-media@lfdr.de>; Fri, 28 Oct 2022 16:24:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231267AbiJ1NoU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 28 Oct 2022 09:44:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59830 "EHLO
+        id S230031AbiJ1OYZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 28 Oct 2022 10:24:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33198 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230478AbiJ1NoS (ORCPT
+        with ESMTP id S230017AbiJ1OYY (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 28 Oct 2022 09:44:18 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6D02B69ECC
-        for <linux-media@vger.kernel.org>; Fri, 28 Oct 2022 06:44:17 -0700 (PDT)
-Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <mfe@pengutronix.de>)
-        id 1ooPeJ-0004WP-2G; Fri, 28 Oct 2022 15:43:51 +0200
-Received: from mfe by ptx.hi.pengutronix.de with local (Exim 4.92)
-        (envelope-from <mfe@pengutronix.de>)
-        id 1ooPeH-00059M-GL; Fri, 28 Oct 2022 15:43:49 +0200
-Date:   Fri, 28 Oct 2022 15:43:49 +0200
-From:   Marco Felsch <m.felsch@pengutronix.de>
-To:     mchehab@kernel.org, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, kishon@ti.com, vkoul@kernel.org,
-        laurent.pinchart@ideasonboard.com, sakari.ailus@linux.intel.com,
-        jacopo@jmondi.org, hverkuil@xs4all.nl
-Cc:     linux-phy@lists.infradead.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, kernel@pengutronix.de,
-        linux-media@vger.kernel.org
-Subject: Re: [PATCH v4 0/4] Add support for Toshiba TC358746
-Message-ID: <20221028134349.lxvo2jjvs6aehrbd@pengutronix.de>
-References: <20220930124812.450332-1-m.felsch@pengutronix.de>
+        Fri, 28 Oct 2022 10:24:24 -0400
+Received: from mail-4323.proton.ch (mail-4323.proton.ch [185.70.43.23])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B21C07FE61
+        for <linux-media@vger.kernel.org>; Fri, 28 Oct 2022 07:24:21 -0700 (PDT)
+Date:   Fri, 28 Oct 2022 14:24:11 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
+        s=protonmail3; t=1666967059; x=1667226259;
+        bh=0rfEuL/taVsNacuSSv0AhkS1Zv1Dz2HWLflRbpycMpM=;
+        h=Date:To:From:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
+         Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
+        b=DMz/XfkaNYJBbeUEO60yc9vIstQS8icI9NRq0nb/lhVQQMR7qiEP55/87YWsXDt5J
+         mPXpvM2F8O/Jss3eUdpuXAIhOY4ElEUBr235lW1C5rJ6aLn5qDTLKVwTuKUHYp61LI
+         VI3D9t7frKFQ9cGvO0Pg0hxz6k2/E6i/dRXc+4+lIsQD1fAQaJUBICSSr741bS5IbI
+         Tkcl83oIOuUYgbEJxX9xeOrt9Nl9ufmsNx4T/euhxSwhctqZCkg32QtKChs513gsJn
+         YFVhci08JhYI6DEHZLc8EGsl5w+mDoqUchIbJF8zcXZDe1J70eB4keQOkoye4Fotpa
+         /kCXAH7q+cyww==
+To:     linux-media@vger.kernel.org
+From:   Simon Ser <contact@emersion.fr>
+Subject: [PATCH] edid-decode: fix horizontal front porch for CVT RBv2
+Message-ID: <20221028142405.81894-1-contact@emersion.fr>
+Feedback-ID: 1358184:user:proton
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220930124812.450332-1-m.felsch@pengutronix.de>
-User-Agent: NeoMutt/20180716
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
-X-SA-Exim-Mail-From: mfe@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-0.7 required=5.0 tests=BAYES_05,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+According to CVT 2.0 table 3-2, C_H_FRONT_PORCH is 8 for both
+RBv2 and RBv3.
 
-gentle ping.
+Signed-off-by: Simon Ser <contact@emersion.fr>
+---
+ calc-gtf-cvt.cpp | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Regards,
-  Marco
+diff --git a/calc-gtf-cvt.cpp b/calc-gtf-cvt.cpp
+index 6330bb7ac814..7d53ad9625a1 100644
+--- a/calc-gtf-cvt.cpp
++++ b/calc-gtf-cvt.cpp
+@@ -232,7 +232,7 @@ timings edid_state::calc_cvt_mode(unsigned h_pixels, un=
+signed v_lines,
+ =09t.vfp =3D v_blank - t.vbp - t.vsync;
+ =09t.pixclk_khz =3D round(1000.0 * pixel_freq);
+ =09t.hsync =3D h_sync;
+-=09if (rb =3D=3D RB_CVT_V3)
++=09if (rb >=3D RB_CVT_V2)
+ =09=09t.hfp =3D 8;
+ =09else
+ =09=09t.hfp =3D (h_blank / 2.0) - t.hsync;
 
-On 22-09-30, Marco Felsch wrote:
-> Hi,
-> 
-> this small series adds the support for the Toshiba TC358746 MIPI-CSI to
-> Parallel converter chip. The different versions of this serie can be
-> found here [1]. Thanks a lot for the review feedback from Laurent and
-> Sakari, which was very helpful.
-> 
-> [1] https://lore.kernel.org/all/20220922134843.3108267-1-m.felsch@pengutronix.de/
->     https://lore.kernel.org/all/20220916134535.128131-1-m.felsch@pengutronix.de/
->     https://lore.kernel.org/all/20220818143307.967150-5-m.felsch@pengutronix.de/
-> 
-> Marco Felsch (4):
->   phy: dphy: refactor get_default_config
->   phy: dphy: add support to calculate the timing based on hs_clk_rate
->   media: dt-bindings: add bindings for Toshiba TC358746
->   media: tc358746: add Toshiba TC358746 Parallel to CSI-2 bridge driver
-> 
->  .../bindings/media/i2c/toshiba,tc358746.yaml  |  178 ++
->  drivers/media/i2c/Kconfig                     |   17 +
->  drivers/media/i2c/Makefile                    |    1 +
->  drivers/media/i2c/tc358746.c                  | 1696 +++++++++++++++++
->  drivers/phy/phy-core-mipi-dphy.c              |   31 +-
->  include/linux/phy/phy-mipi-dphy.h             |    3 +
->  6 files changed, 1922 insertions(+), 4 deletions(-)
->  create mode 100644 Documentation/devicetree/bindings/media/i2c/toshiba,tc358746.yaml
->  create mode 100644 drivers/media/i2c/tc358746.c
-> 
-> -- 
-> 2.30.2
-> 
-> 
-> 
+base-commit: f1ff7ad7bcb2fbb85017bbb2baa6bed37c412895
+--=20
+2.38.1
+
+
