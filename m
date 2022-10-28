@@ -2,92 +2,86 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1B29B610ACF
-	for <lists+linux-media@lfdr.de>; Fri, 28 Oct 2022 08:56:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0B2D0610AD8
+	for <lists+linux-media@lfdr.de>; Fri, 28 Oct 2022 08:59:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229864AbiJ1G4H (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 28 Oct 2022 02:56:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56890 "EHLO
+        id S229681AbiJ1G7S (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 28 Oct 2022 02:59:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60212 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230030AbiJ1Gz7 (ORCPT
+        with ESMTP id S229717AbiJ1G7R (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 28 Oct 2022 02:55:59 -0400
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 68C5D5B70F;
-        Thu, 27 Oct 2022 23:55:41 -0700 (PDT)
-X-UUID: f56dba9acbb249abaeed337066c527f0-20221028
+        Fri, 28 Oct 2022 02:59:17 -0400
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 16A731863C5;
+        Thu, 27 Oct 2022 23:59:14 -0700 (PDT)
+X-UUID: d3bea96e79d54aaf922f9cb260ba74ea-20221028
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-        h=Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=Om6e9HJa3Y2xbqqlidvMSIavVsT9gkHzqKrxqv9RHmM=;
-        b=anKIvAMl8gYU0EQ1LtLet6Zb1/AHJF/raCeGXrbsW3dbd9BJxf4AgKd7s6V9C+njJl+msVYIJhICS2WX4q2q1vhTvvkZsN80p1+u3WCMs+sjKsd94kDT2q/xehT+efwShxYUbD/3i6+lUBv9Wo+K127JSMbgLp7+/VKp+LqiEfA=;
+        h=Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From; bh=0VYCNGu5up7oXK9iByzpPm+c/SezPGc55UX86NGHyoQ=;
+        b=mSPEaNogr8FD3RF1QwodsxmV51YaONLGGP3pm4J7D7FlPj+I4hvu612hd4OG/vb8iUZs7jvjQXcKJqMud1DjkMA4PX/KkvSQ7lUuOAzrh8V4pXpYWTGN7P3NSRNzAT5FHGihjpmTJsnQio+PPlaXQSpxJxRM8+96/zZSZl7oJLg=;
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.12,REQID:bbf317af-822f-4da6-9921-2a58100b0b80,IP:0,U
+X-CID-O-INFO: VERSION:1.1.12,REQID:233c8d5a-d8f1-4e7e-baad-6510913e37fa,IP:0,U
         RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
         release,TS:0
-X-CID-META: VersionHash:62cd327,CLOUDID:0ae76827-9eb1-469f-b210-e32d06cfa36e,B
-        ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
-        RL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0
-X-UUID: f56dba9acbb249abaeed337066c527f0-20221028
-Received: from mtkmbs11n1.mediatek.inc [(172.21.101.185)] by mailgw02.mediatek.com
+X-CID-META: VersionHash:62cd327,CLOUDID:e720f2e4-e572-4957-be22-d8f73f3158f9,B
+        ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:-5,EDM:-3,IP:nil,
+        URL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0
+X-UUID: d3bea96e79d54aaf922f9cb260ba74ea-20221028
+Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by mailgw01.mediatek.com
         (envelope-from <mark-pk.tsai@mediatek.com>)
         (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-        with ESMTP id 2077977924; Fri, 28 Oct 2022 14:55:35 +0800
+        with ESMTP id 783513712; Fri, 28 Oct 2022 14:59:08 +0800
 Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
- mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.792.3;
- Fri, 28 Oct 2022 14:55:34 +0800
+ mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.792.15; Fri, 28 Oct 2022 14:59:07 +0800
 Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
  mtkmbs11n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.792.15 via Frontend Transport; Fri, 28 Oct 2022 14:55:34 +0800
+ 15.2.792.15 via Frontend Transport; Fri, 28 Oct 2022 14:59:07 +0800
 From:   Mark-PK Tsai <mark-pk.tsai@mediatek.com>
-To:     Sumit Semwal <sumit.semwal@linaro.org>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        Liam Mark <lmark@codeaurora.org>,
-        "Laura Abbott" <labbott@redhat.com>,
-        Brian Starkey <Brian.Starkey@arm.com>,
-        "John Stultz" <jstultz@google.com>,
-        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>
-CC:     <yj.chiang@mediatek.com>, Mark-PK Tsai <mark-pk.tsai@mediatek.com>,
-        <linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
-        <linaro-mm-sig@lists.linaro.org>, <linux-kernel@vger.kernel.org>,
+To:     <bagasdotme@gmail.com>
+CC:     <Brian.Starkey@arm.com>, <benjamin.gaignard@collabora.com>,
+        <christian.koenig@amd.com>, <dri-devel@lists.freedesktop.org>,
+        <jstultz@google.com>, <labbott@redhat.com>,
+        <linaro-mm-sig@lists.linaro.org>,
         <linux-arm-kernel@lists.infradead.org>,
-        <linux-mediatek@lists.infradead.org>
-Subject: [PATCH v3] dma-buf: cma_heap: Remove duplicated 'by' in comment
-Date:   Fri, 28 Oct 2022 14:55:26 +0800
-Message-ID: <20221028065533.23856-1-mark-pk.tsai@mediatek.com>
+        <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
+        <linux-mediatek@lists.infradead.org>, <lmark@codeaurora.org>,
+        <mark-pk.tsai@mediatek.com>, <matthias.bgg@gmail.com>,
+        <sumit.semwal@linaro.org>, <yj.chiang@mediatek.com>
+Subject: Re: [PATCH v2] dma-buf: cma_heap: Fix typo in comment
+Date:   Fri, 28 Oct 2022 14:59:06 +0800
+Message-ID: <20221028065907.23954-1-mark-pk.tsai@mediatek.com>
 X-Mailer: git-send-email 2.18.0
+In-Reply-To: <Y1tSWo+eRvkVofbv@debian.me>
+References: <Y1tSWo+eRvkVofbv@debian.me>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-MTK:  N
-X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,DKIM_INVALID,
-        DKIM_SIGNED,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,UNPARSEABLE_RELAY
-        autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,
+        SPF_PASS,UNPARSEABLE_RELAY autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Remove duplicated 'by' from comment in cma_heap_allocate().
+> [-- Attachment #1: Type: text/plain, Size: 349 bytes --]
+> 
+> On Fri, Oct 28, 2022 at 09:44:17AM +0800, Mark-PK Tsai wrote:
+> > Remove duplicated "by" from comment in cma_heap_allocate().
+> > 
+> 
+> This patch isn't typofix but duplicate word stripping, right? If so, the
+> patch subject should be "dma-buf: cma_heap: Remove duplicated 'by'".
 
-Signed-off-by: Mark-PK Tsai <mark-pk.tsai@mediatek.com>
----
- drivers/dma-buf/heaps/cma_heap.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Okay, I've update the title in v3.
+Sorry for the horrible commit description.
+Thanks.
 
-diff --git a/drivers/dma-buf/heaps/cma_heap.c b/drivers/dma-buf/heaps/cma_heap.c
-index 28fb04eccdd0..cd386ce639f3 100644
---- a/drivers/dma-buf/heaps/cma_heap.c
-+++ b/drivers/dma-buf/heaps/cma_heap.c
-@@ -316,7 +316,7 @@ static struct dma_buf *cma_heap_allocate(struct dma_heap *heap,
- 			kunmap_atomic(vaddr);
- 			/*
- 			 * Avoid wasting time zeroing memory if the process
--			 * has been killed by by SIGKILL
-+			 * has been killed by SIGKILL
- 			 */
- 			if (fatal_signal_pending(current))
- 				goto free_cma;
--- 
-2.18.0
-
+> 
+> Thanks.
+> 
+> -- 
