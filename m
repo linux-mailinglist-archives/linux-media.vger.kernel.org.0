@@ -2,72 +2,77 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A9D2A611A6C
-	for <lists+linux-media@lfdr.de>; Fri, 28 Oct 2022 20:47:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0A4F3611C1D
+	for <lists+linux-media@lfdr.de>; Fri, 28 Oct 2022 23:05:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230226AbiJ1Sre (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 28 Oct 2022 14:47:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39032 "EHLO
+        id S229571AbiJ1VFh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 28 Oct 2022 17:05:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51048 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229995AbiJ1Srd (ORCPT
+        with ESMTP id S229458AbiJ1VFf (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 28 Oct 2022 14:47:33 -0400
-Received: from mail-qk1-x733.google.com (mail-qk1-x733.google.com [IPv6:2607:f8b0:4864:20::733])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 41285244C40
-        for <linux-media@vger.kernel.org>; Fri, 28 Oct 2022 11:47:32 -0700 (PDT)
-Received: by mail-qk1-x733.google.com with SMTP id x26so4046241qki.0
-        for <linux-media@vger.kernel.org>; Fri, 28 Oct 2022 11:47:32 -0700 (PDT)
+        Fri, 28 Oct 2022 17:05:35 -0400
+Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com [IPv6:2a00:1450:4864:20::635])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 56A041CEC0C;
+        Fri, 28 Oct 2022 14:05:29 -0700 (PDT)
+Received: by mail-ej1-x635.google.com with SMTP id y14so15778004ejd.9;
+        Fri, 28 Oct 2022 14:05:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=fooishbar-org.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=+lIeCqF9MC1plkMaa8w3RYpUvhtv+mOsM3E0K5wP3Sw=;
-        b=QB/yJvyFQct+2OJbnZIA/tDX8ajG1aNWWKiALtUocG5OcgRfSj5xC/jy/KZ58XFRBS
-         BuoopZQTNYIml8YK2WaVS/dNg8od+ainUFxbQl6SXGED3Nc9ESxGIPeys4mFokbGBqoA
-         X1k2vWg4GAnIGwJ2Gt7YFwUtKfcY3CDZkF209ennLJQCEkW96pisjBSBPF6GYq+Gdefv
-         KKz8QAwRWbcDupJKAReMBeisQrYQpSJOO28tUcYJh1Cj0o3ra+lMi4nYhuGOIh1lk23I
-         j0EWoC9xafzFiHR4YkSr35aAzSooNnEeyGZo5mMEie8ckTJuvwP1LFbcr9ublWnwKDa/
-         pr5w==
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=Pmg59QEvCvB7YDZ5n3GJNoCUMN1VloPth+aIiSQIEsA=;
+        b=pawWAwhqMyDCLnAVREPTezgYxlot5ZLzUpBs82QzdJOwckdBUMPBSiWgoIgUWa6fOJ
+         bIkM+9IKt8z5zMWOfkqWC62e9jD9hPznmpZAiF3Z92MZeXjZ2EXdp79mQFBCVVKX5RHA
+         d2+zNLKJGhTS2ZdBMoMOC3imBv8nkKsrN3MK3CQ6+UkRqm3/aNDa95JS30+KbnxYRv0I
+         ZRpzqO4bUs5sp2EoczKmCzdTqoi0W8aA3bAe8P19r7+WOjoga/3Q1KJpuX2TrSLngx4P
+         3YOqmp/4U7VJu2FpNwNJ5OSnzfiqISZTaXfAdz3kbaDigz3pxNYlsXc5UJu5iSmCMXFf
+         TjAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=+lIeCqF9MC1plkMaa8w3RYpUvhtv+mOsM3E0K5wP3Sw=;
-        b=LZG3++cklIu1zibm/isFVRpWC+O/prm/X5lJPvmeBuW74VYhGAgiqtEolWundUkYWe
-         dNLB0rG59UozaymtCPFk9EI0vvBql6qtCsia9oc/2TlLNef5vxodMVbpUeAUet4p+gBS
-         AWNAe8wZQxoIiGqZCVEsJVQEbMXE4W1FVIU6tq4az7Yr0qOdzR6MlO6MWpNFw6iQRFWM
-         CqtZbV1XFDQLn4uqWDqbF7dFPX+GNth/WbP1l5cFc2NiYkS3exHluKZY+oogLNJCMozM
-         jzBnIf0lKvLF7KJBBqkdHB/YiH9mBZymn7quEChXAgGyosYTdb5UIhIEiyNo4IW6OVZz
-         3zIQ==
-X-Gm-Message-State: ACrzQf2+6D2Inj/4lB3Wxj3UVrfvZYcf3Wfkst45s6KPFNiDsl4iobMB
-        lD+E2mlcWDE6iU3Mklo0fhoKRG0sTplxg0ZerkVUFw==
-X-Google-Smtp-Source: AMsMyM56bLx8Jr1GOVzvxC6aqvYl/bq/OQWL5kJiTLnKCGyRYb9J4lp/fpUvOmNQDxGiQRuDo8iXQIlZVHQScew44u4=
-X-Received: by 2002:a05:620a:2496:b0:6ee:76ce:4b3e with SMTP id
- i22-20020a05620a249600b006ee76ce4b3emr561552qkn.370.1666982851307; Fri, 28
- Oct 2022 11:47:31 -0700 (PDT)
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Pmg59QEvCvB7YDZ5n3GJNoCUMN1VloPth+aIiSQIEsA=;
+        b=SfXKwpz1NAfJPACS4cvPk66RBifzVMAK6MdiMt1UJJoZSaf3FRpS/FAcAnkymSre0F
+         Lyi87WHJdhnF0ADB8Gfkk8gAOGJ78xUJSQ/P62CI4lMc4yO0mla0r1yIdOLOrWx/E/6w
+         VXHrAOteHPs2Q2o8tIzQTP4ZIMWUZgTFz0yle4vz0Css63chFoeETxfNEp5LswAxEQdz
+         7UT5APXcvIAlatD84cMLq/6Pa0+itpxvbQ1ukFNGWIPy8U1016iE6fe4NA7Imjq2wDY7
+         mcl3hI3HUa9P24ruHkojV9ivCxWhzS7lGC4nXGsb7euZ8fFowu5ZSuCAf+Zi1aNZOTJO
+         Kafg==
+X-Gm-Message-State: ACrzQf1+MpkBw23tAVrDvLuzvMbSh3KAmYvcxb2ml9wdPD1u2hV1qRde
+        9Yh0MmjXggrUqmuHRzV+gvUiPSH5wJdB4BUwxhw=
+X-Google-Smtp-Source: AMsMyM75Y5FZ82YEH9D4k42+Gt58baqs7YVwanOze6jxdEHQSjcNXVZn9yXWnEE31Trw2DPx1IUYVmLsER+xQW6KzNU=
+X-Received: by 2002:a17:906:c14f:b0:793:30e1:96be with SMTP id
+ dp15-20020a170906c14f00b0079330e196bemr1129553ejc.447.1666991127780; Fri, 28
+ Oct 2022 14:05:27 -0700 (PDT)
 MIME-Version: 1.0
-References: <20221020121316.3946-1-christian.koenig@amd.com>
- <3d7353f3fa5905ce18e5b2d92f758f098189bc5a.camel@pengutronix.de>
- <7f5eff36-6886-bb06-061a-dd4263b61605@gmail.com> <f5de84cfe81fee828bbe0d47d379028d28ef6ca6.camel@pengutronix.de>
- <e02cedc2-6741-8813-a7a5-f8769e301745@gmail.com> <a53e5df51ec0f2f9d4c2d377c0cc5ba85f2e58ff.camel@ndufresne.ca>
- <9d716641-55c6-1590-26c2-1c3b14a28226@gmail.com>
-In-Reply-To: <9d716641-55c6-1590-26c2-1c3b14a28226@gmail.com>
-From:   Daniel Stone <daniel@fooishbar.org>
-Date:   Fri, 28 Oct 2022 19:47:19 +0100
-Message-ID: <CAPj87rMPkmimR_RJHhxYZokH__TVpPArk0h6drOUSx7Z9+oAHA@mail.gmail.com>
-Subject: Re: Try to address the DMA-buf coherency problem
-To:     =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
-Cc:     Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Lucas Stach <l.stach@pengutronix.de>, ppaalanen@gmail.com,
-        sumit.semwal@linaro.org, daniel@ffwll.ch, robdclark@gmail.com,
-        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-        linux-media@vger.kernel.org
+References: <20221014183459.181567-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20221014183459.181567-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <Y1pphVPw0J97AmW4@paasikivi.fi.intel.com> <CA+V-a8szaPjwumrBgOT9gzMKBjY7hk0zfP8RgzUUDfY+BAsogA@mail.gmail.com>
+ <Y1p91+XxPCB9NWwh@paasikivi.fi.intel.com> <CA+V-a8uhYymEVg7jdLVGNLsVD3=O1mk-_NVERu00W+gsv-7QXg@mail.gmail.com>
+ <Y1rQBmXj71C1RrwB@paasikivi.fi.intel.com>
+In-Reply-To: <Y1rQBmXj71C1RrwB@paasikivi.fi.intel.com>
+From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date:   Fri, 28 Oct 2022 22:05:01 +0100
+Message-ID: <CA+V-a8urGG-m-gn_sOhTJHhHws3X8zdgjq+YY8W7qy42VAdXgQ@mail.gmail.com>
+Subject: Re: [PATCH v2 2/5] media: i2c: ov5645: Use runtime PM
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Shawn Tu <shawnx.tu@intel.com>,
+        Jacopo Mondi <jacopo@jmondi.org>, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE autolearn=ham
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -75,114 +80,71 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Christian,
+Hi Sakari,
 
-On Fri, 28 Oct 2022 at 18:50, Christian K=C3=B6nig
-<ckoenig.leichtzumerken@gmail.com> wrote:
-> Am 28.10.22 um 17:46 schrieb Nicolas Dufresne:
-> > Though, its not generically possible to reverse these roles. If you wan=
-t to do
-> > so, you endup having to do like Android (gralloc) and ChromeOS (minigbm=
-),
-> > because you will have to allocate DRM buffers that knows about importer=
- specific
-> > requirements. See link [1] for what it looks like for RK3399, with Moti=
-on Vector
-> > size calculation copied from the kernel driver into a userspace lib (ar=
-guably
-> > that was available from V4L2 sizeimage, but this is technically difficu=
-lt to
-> > communicate within the software layers). If you could let the decoder e=
-xport
-> > (with proper cache management) the non-generic code would not be needed=
-.
+On Thu, Oct 27, 2022 at 7:45 PM Sakari Ailus
+<sakari.ailus@linux.intel.com> wrote:
 >
-> Yeah, but I can also reverse the argument:
+> Hi Prabhakar,
 >
-> Getting the parameters for V4L right so that we can share the image is
-> tricky, but getting the parameters so that the stuff is actually
-> directly displayable by GPUs is even trickier.
+> On Thu, Oct 27, 2022 at 05:32:07PM +0100, Lad, Prabhakar wrote:
+> > Hi Sakari,
+> >
+> > On Thu, Oct 27, 2022 at 1:47 PM Sakari Ailus
+> > <sakari.ailus@linux.intel.com> wrote:
+> > >
+> > > Hi Prabhakar,
+> > >
+> > > On Thu, Oct 27, 2022 at 01:01:52PM +0100, Lad, Prabhakar wrote:
+> > > > Hi Sakari,
+> > > >
+> > > > On Thu, Oct 27, 2022 at 12:20 PM Sakari Ailus
+> > > > <sakari.ailus@linux.intel.com> wrote:
+> > > > >
+> > > > > Hi Prabhakar,
+> > > > >
+> > > > > One more comment.
+> > > > >
+> > > > > On Fri, Oct 14, 2022 at 07:34:56PM +0100, Prabhakar wrote:
+> > > > > > @@ -1209,12 +1190,16 @@ static int ov5645_probe(struct i2c_client *client)
+> > > > > >
+> > > > > >       dev_info(dev, "OV5645 detected at address 0x%02x\n", client->addr);
+> > > > > >
+> > > > > > +     pm_runtime_set_active(dev);
+> > > > > > +     pm_runtime_get_noresume(dev);
+> > > > > > +     pm_runtime_enable(dev);
+> > > > >
+> > > > > You won't gain anything by eanbling runtime PM here. Just move it to the
+> > > > > end of the function before the rest of the calls. Error handling becomes
+> > > > > more simple.
+> > > > >
+> > > > If I move the above calls below I get the below warning:
+> > > >
+> > > > [    2.633386] ov5645 0-003c: Runtime PM usage count underflow!
+> > > >
+> > > > This is because of the last patch which moves ov5645_entity_init_cfg()
+> > > > before registering the subdev. ov5645_entity_init_cfg() calls s_ctrl
+> > > > due to which we are seeing the above message. Please let me know how
+> > > > to proceed on this.
+> > >
+> > > Ah. Yes, this is a problem with the usage pattern of
+> > > pm_runtime_get_if_in_use(). But please don't change that.
+> > >
+> > > You can still move enabling runtime PM later in the function.
+> > >
+> > Agreed, the final version looks like below:
+> >
+> >     pm_runtime_set_active(dev);
+> >     pm_runtime_get_noresume(dev);
+> >
 >
-> Essentially you need to look at both sides and interference to get to a
-> common ground, e.g. alignment, pitch, width/height, padding, etc.....
+> You'll have to enable runtime PM here, before pm_runtime_get_if_in_use()
+> gets called.
 >
-> Deciding from which side to allocate from is just one step in this
-> process. For example most dGPUs can't display directly from system
-> memory altogether, but it is possible to allocate the DMA-buf through
-> the GPU driver and then write into device memory with P2P PCI transfers.
+> I'll see if it could be made to work in a sensible way when runtime PM
+> isn't enabled yet.
 >
-> So as far as I can see switching importer and exporter roles and even
-> having performant extra fallbacks should be a standard feature of userspa=
-ce.
->
-> > Another case where reversing the role is difficult is for case where yo=
-u need to
-> > multiplex the streams (let's use a camera to illustrate) and share that=
- with
-> > multiple processes. In these uses case, the DRM importers are volatile,=
- which
-> > one do you abuse to do allocation from ? In multimedia server like Pipe=
-Wire, you
-> > are not really aware if the camera will be used by DRM or not, and if s=
-omething
-> > "special" is needed in term of role inversion. It is relatively easy to=
- deal
-> > with matching modifiers, but using downstream (display/gpu) as an expor=
-ter is
-> > always difficult (and require some level of abuse and guessing).
->
-> Oh, very good point! Yeah we do have use cases for this where an input
-> buffer is both displayed as well as encoded.
-
-This is the main issue, yeah.
-
-For a standard media player, they would try to allocate through V4L2
-and decode through that into locally-allocated buffers. All they know
-is that there's a Wayland server at the other end of a socket
-somewhere which will want to import the FD. The server does give you
-some hints along the way: it will tell you that importing into a
-particular GPU target device is necessary as the ultimate fallback,
-and importing into a particular KMS device is preferable as the
-optimal path to hit an overlay.
-
-So let's say that the V4L2 client does what you're proposing: it
-allocates a buffer chain, schedules a decode into that buffer, and
-passes it along to the server to import. The server fails to import
-the buffer into the GPU, and tells the client this. The client then
-... well, it doesn't know that it needs to allocate within the GPU
-instead, but it knows that doing so might be one thing which would
-make the request succeed.
-
-But the client is just a video player. It doesn't understand how to
-allocate BOs for Panfrost or AMD or etnaviv. So without a universal
-allocator (again ...), 'just allocate on the GPU' isn't a useful
-response to the client.
-
-I fully understand your point about APIs like Vulkan not sensibly
-allowing bracketing, and that's fine. On the other hand, a lot of
-extant usecases (camera/codec -> GPU/display, GPU -> codec, etc) on
-Arm just cannot fulfill complete coherency. On a lot of these
-platforms, despite what you might think about the CPU/GPU
-capabilities, the bottleneck is _always_ memory bandwidth, so
-mandating extra copies is an absolute non-starter, and would instantly
-cripple billions of devices. Lucas has been pretty gentle, but to be
-more clear, this is not an option and won't be for at least the next
-decade.
-
-So we obviously need a third way at this point, because 'all devices
-must always be coherent' vs. 'cache must be an unknown' can't work.
-How about this as a suggestion: we have some unused flags in the PRIME
-ioctls. Can we add a flag for 'import must be coherent'?
-
-That flag wouldn't be set for the existing ecosystem
-Lucas/Nicolas/myself are talking about, where we have explicit
-handover points and users are fully able to perform cache maintenance.
-For newer APIs where it's not possible to properly express that
-bracketing, they would always set that flag (unless we add an API
-carve-out where the client promises to do whatever is required to
-maintain that).
-
-Would that be viable?
+Agreed, I'll send out v3 after fixing the comments.
 
 Cheers,
-Daniel
+Prabhakar
