@@ -2,200 +2,216 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3388B611741
-	for <lists+linux-media@lfdr.de>; Fri, 28 Oct 2022 18:15:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1C21261173E
+	for <lists+linux-media@lfdr.de>; Fri, 28 Oct 2022 18:15:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230413AbiJ1QP2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 28 Oct 2022 12:15:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53076 "EHLO
+        id S230398AbiJ1QP0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 28 Oct 2022 12:15:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58974 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230302AbiJ1QOy (ORCPT
+        with ESMTP id S230312AbiJ1QOy (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
         Fri, 28 Oct 2022 12:14:54 -0400
-Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com [IPv6:2a00:1450:4864:20::332])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C14A1FB78F
+Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com [IPv6:2a00:1450:4864:20::329])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9EDFC22C461
         for <linux-media@vger.kernel.org>; Fri, 28 Oct 2022 09:12:57 -0700 (PDT)
-Received: by mail-wm1-x332.google.com with SMTP id fn7-20020a05600c688700b003b4fb113b86so4172039wmb.0
-        for <linux-media@vger.kernel.org>; Fri, 28 Oct 2022 09:12:56 -0700 (PDT)
+Received: by mail-wm1-x329.google.com with SMTP id r186-20020a1c44c3000000b003cf4d389c41so4105064wma.3
+        for <linux-media@vger.kernel.org>; Fri, 28 Oct 2022 09:12:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=raspberrypi.com; s=google;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=tLONcpe1wBJCaR5ji2PqPS5DxS7tp+cxzI4V/jr+aEU=;
-        b=qGVxZ0+OFzyPmVbOaWzWvXHZc+UGU71z+vVCzDhu8M8SAquqHzxzlBMIKz0e4XffiJ
-         6O0SzpgzJ+k6jLCLJ1Fda6fRgLpx7EdPFdaza3fwnpb7vmBA1vcr6XoBaCMkARevK1ks
-         K6hbhaFWjs6yXwDXnJHD2S+pLmJcIhlAR5bKcofQK7LDH/oljm5obGpGSjF8cbjh21Bh
-         s/v8+MNqqK+KaHr/fGR2BGa+GQpIHLSQcQxVRRHRnMQTQEQsvmx2ajYNIcbrYL9jTD9z
-         ulyjZ8hPK/i+Xdi8Hd2RsWCWCtY9qn1eixLwqU039g+RWYxNV21kKSzcmZ6oHwk4EOaI
-         PYqw==
+        bh=A6TMFQMv5fFdWCnBKAllpmUgnFPJrPoVSmYxgifBigY=;
+        b=ltGPIAcEo5uavGGBxGu1lgzZaZKe6N1kLEh6Qj4HDfACPkPNjRyYxKjaJMO+cOaKy7
+         FeOtjAxgrRj4eC5KEHKpPGZqWyDRiMYYDXZO2OEDEkY9NTjpmJisHk6sjB4ciR/MqlNF
+         G1Z0gI1fzAeNt+GkFS9BqNOMtExNfJ8fQ2kv3opEYOy8T4CQPqjBsN9qohxK7RZFe7T0
+         mqp9mgAyAmAVe5WGTPGseCu1eVtg01Rj/CfcS2XScAiJJKff/a5DB3r9anw1mdVoUYM2
+         yESV7WWv0uZWlhW1bkRjBI+gPDMayqRuACBL7dTbWVEFPgar+rPqcgNhchP5algdLFek
+         GbSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=tLONcpe1wBJCaR5ji2PqPS5DxS7tp+cxzI4V/jr+aEU=;
-        b=Crxkr0hqn/+3fl71siiFml8Fphs2lopjl8JmLqRDKXbL+cl14YiygMt2D7Vf5gMd/T
-         j+zth6Ji7yFWfarlKuPF9gfCqq6pu5Wbep1kknPH88LC6kZ3lM/LspJa/H3DEFbCsro6
-         MvlmV5o+xlM7KubXbbh6bvcrzsFJTnqJ6aSnDp08j1dasxKpsy2AXYAT4sp18a0PcmTK
-         9nnLMQTOg7Efwx9z8phN9HnMeoi0/N6MiMdTwi2eRkJlYolrZU1NdRGMj8zR1W9t6Hhn
-         7bNB5pdDno4vHV8feCIcNMcimPEXUMis5QCUAAdnHyFuGHNX7uZ2sin4As1VciGQKdwL
-         W/nQ==
-X-Gm-Message-State: ACrzQf2CSDvlAu8a81NukhpmoG+/opHdNYIkxjOcDZgNFa4/x8YC//BN
-        iF7noKjjO1WEE/sAFRgbwv2ulw==
-X-Google-Smtp-Source: AMsMyM5VO7rkpJaqUWXnWPQ215Z0U+w2yj9wM8eqHLoYdvWA+s+DNe/07CrcK0KgmVh5ahRIxzovTg==
-X-Received: by 2002:a05:600c:3d92:b0:3c7:12c6:a99f with SMTP id bi18-20020a05600c3d9200b003c712c6a99fmr11161wmb.136.1666973575506;
-        Fri, 28 Oct 2022 09:12:55 -0700 (PDT)
+        bh=A6TMFQMv5fFdWCnBKAllpmUgnFPJrPoVSmYxgifBigY=;
+        b=dn8vwBPt5PgsoCWBpsuB1BCPqBPNNs/sCVkstkxHUhEv+ckFq794Vq6HMzyheuSMcg
+         SYqmPHX9viAHKqEIOGTmq2YlTEfGxeWj1ThOYlabVxMaOpTM/OgnQoRgoLfTtCYehz4m
+         UjeRMGG8DM7UWwp0RWMMIS5aeWtixCWTpnRFbzxn4wqtIIaJvCcXfxXV9IUj9OCHjq+k
+         /ORyqKmGxFbTMZvWezzPmAWgPhFRNpS5ksArMFaMEP2AVJhaa3fAelJkDjPshPGIoejr
+         WvJVZczEPketVB0hPseRXLN9lC/KmLE0FYZwxHAwruYTZg2xmBplY/rAVQWIhKeUf5YB
+         Qc9w==
+X-Gm-Message-State: ACrzQf2DZTA6zsMxebb6/KzFGxp/H/0KpzBG0hbnZCCEg4y4oVjJYoav
+        WQ8B36TLuoD4YVKtjhlfDV4WwOLu6p4EOg==
+X-Google-Smtp-Source: AMsMyM6HRGbHcw5RWt8qCGTEQr+1cYO7JiZG9jZ8hUGNrN6Vk6CvcIBY+bVSLCyR1o7UkdyJYZn3Dg==
+X-Received: by 2002:a05:600c:524a:b0:3c6:f820:fc7c with SMTP id fc10-20020a05600c524a00b003c6f820fc7cmr6023wmb.172.1666973576257;
+        Fri, 28 Oct 2022 09:12:56 -0700 (PDT)
 Received: from dave-Ubuntu2204.pitowers.org ([93.93.133.154])
-        by smtp.googlemail.com with ESMTPSA id bh17-20020a05600c3d1100b003cf47fdead5sm4731928wmb.30.2022.10.28.09.12.54
+        by smtp.googlemail.com with ESMTPSA id bh17-20020a05600c3d1100b003cf47fdead5sm4731928wmb.30.2022.10.28.09.12.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 28 Oct 2022 09:12:54 -0700 (PDT)
+        Fri, 28 Oct 2022 09:12:55 -0700 (PDT)
 From:   Dave Stevenson <dave.stevenson@raspberrypi.com>
 To:     paul.j.murphy@intel.com, daniele.alessandrelli@intel.com,
         linux-media@vger.kernel.org, sakari.ailus@iki.fi, jacopo@jmondi.org
 Cc:     Dave Stevenson <dave.stevenson@raspberrypi.com>
-Subject: [PATCH v2 13/16] media: i2c: ov9282: Add selection API calls for cropping info
-Date:   Fri, 28 Oct 2022 17:08:59 +0100
-Message-Id: <20221028160902.2696973-14-dave.stevenson@raspberrypi.com>
+Subject: [PATCH v2 14/16] media: i2c: ov9282: Add support for 1280x800 and 640x400 modes
+Date:   Fri, 28 Oct 2022 17:09:00 +0100
+Message-Id: <20221028160902.2696973-15-dave.stevenson@raspberrypi.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221028160902.2696973-1-dave.stevenson@raspberrypi.com>
 References: <20221028160902.2696973-1-dave.stevenson@raspberrypi.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-0.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,PDS_OTHER_BAD_TLD,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=no
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-As required by libcamera, add the relevant cropping targets
-to report which portion of the sensor is being read out in
-any mode.
+Adds register settings for additional modes.
 
 Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Reviewed-by: Jacopo Mondi <jacopo@jmondi.org>
 ---
- drivers/media/i2c/ov9282.c | 75 ++++++++++++++++++++++++++++++++++++++
- 1 file changed, 75 insertions(+)
+ drivers/media/i2c/ov9282.c | 103 ++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 102 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/media/i2c/ov9282.c b/drivers/media/i2c/ov9282.c
-index 2313d5e717f3..a520d9fef0cb 100644
+index a520d9fef0cb..c169b532ec8b 100644
 --- a/drivers/media/i2c/ov9282.c
 +++ b/drivers/media/i2c/ov9282.c
-@@ -66,6 +66,17 @@
- #define OV9282_PIXEL_RATE	(OV9282_LINK_FREQ * 2 * \
- 				 OV9282_NUM_DATA_LANES / 10)
- 
-+/*
-+ * OV9282 native and active pixel array size.
-+ * 8 dummy rows/columns on each edge of a 1280x800 active array
-+ */
-+#define OV9282_NATIVE_WIDTH		1296U
-+#define OV9282_NATIVE_HEIGHT		816U
-+#define OV9282_PIXEL_ARRAY_LEFT		8U
-+#define OV9282_PIXEL_ARRAY_TOP		8U
-+#define OV9282_PIXEL_ARRAY_WIDTH	1280U
-+#define OV9282_PIXEL_ARRAY_HEIGHT	800U
-+
- #define OV9282_REG_MIN		0x00
- #define OV9282_REG_MAX		0xfffff
- 
-@@ -109,6 +120,7 @@ struct ov9282_mode {
- 	u32 vblank_min;
- 	u32 vblank_max;
- 	u32 link_freq_idx;
-+	struct v4l2_rect crop;
- 	struct ov9282_reg_list reg_list;
+@@ -246,11 +246,44 @@ struct ov9282_reg_list common_regs_list = {
+ 	.regs = common_regs,
  };
  
-@@ -280,6 +292,16 @@ static const struct ov9282_mode supported_modes[] = {
- 		.vblank_min = 41,
- 		.vblank_max = 51540,
- 		.link_freq_idx = 0,
+-#define MODE_1280_720		0
++#define MODE_1280_800		0
++#define MODE_1280_720		1
++#define MODE_640_400		2
+ 
+ #define DEFAULT_MODE		MODE_1280_720
+ 
+ /* Sensor mode registers */
++static const struct ov9282_reg mode_1280x800_regs[] = {
++	{0x3778, 0x00},
++	{0x3800, 0x00},
++	{0x3801, 0x00},
++	{0x3802, 0x00},
++	{0x3803, 0x00},
++	{0x3804, 0x05},
++	{0x3805, 0x0f},
++	{0x3806, 0x03},
++	{0x3807, 0x2f},
++	{0x3808, 0x05},
++	{0x3809, 0x00},
++	{0x380a, 0x03},
++	{0x380b, 0x20},
++	{0x3810, 0x00},
++	{0x3811, 0x08},
++	{0x3812, 0x00},
++	{0x3813, 0x08},
++	{0x3814, 0x11},
++	{0x3815, 0x11},
++	{0x3820, 0x40},
++	{0x3821, 0x00},
++	{0x4003, 0x40},
++	{0x4008, 0x04},
++	{0x4009, 0x0b},
++	{0x400c, 0x00},
++	{0x400d, 0x07},
++	{0x4507, 0x00},
++	{0x4509, 0x00},
++};
++
+ static const struct ov9282_reg mode_1280x720_regs[] = {
+ 	{0x3778, 0x00},
+ 	{0x3800, 0x00},
+@@ -282,8 +315,57 @@ static const struct ov9282_reg mode_1280x720_regs[] = {
+ 	{0x4509, 0x80},
+ };
+ 
++static const struct ov9282_reg mode_640x400_regs[] = {
++	{0x3778, 0x10},
++	{0x3800, 0x00},
++	{0x3801, 0x00},
++	{0x3802, 0x00},
++	{0x3803, 0x00},
++	{0x3804, 0x05},
++	{0x3805, 0x0f},
++	{0x3806, 0x03},
++	{0x3807, 0x2f},
++	{0x3808, 0x02},
++	{0x3809, 0x80},
++	{0x380a, 0x01},
++	{0x380b, 0x90},
++	{0x3810, 0x00},
++	{0x3811, 0x04},
++	{0x3812, 0x00},
++	{0x3813, 0x04},
++	{0x3814, 0x31},
++	{0x3815, 0x22},
++	{0x3820, 0x60},
++	{0x3821, 0x01},
++	{0x4008, 0x02},
++	{0x4009, 0x05},
++	{0x400c, 0x00},
++	{0x400d, 0x03},
++	{0x4507, 0x03},
++	{0x4509, 0x80},
++};
++
+ /* Supported sensor mode configurations */
+ static const struct ov9282_mode supported_modes[] = {
++	[MODE_1280_800] = {
++		.width = 1280,
++		.height = 800,
++		.hblank_min = { 250, 176 },
++		.vblank = 1022,
++		.vblank_min = 110,
++		.vblank_max = 51540,
++		.link_freq_idx = 0,
 +		.crop = {
-+			/*
-+			 * Note that this mode takes the top 720 lines from the
-+			 * 800 of the sensor. It does not take a middle crop.
-+			 */
 +			.left = OV9282_PIXEL_ARRAY_LEFT,
 +			.top = OV9282_PIXEL_ARRAY_TOP,
 +			.width = 1280,
-+			.height = 720
++			.height = 800
 +		},
- 		.reg_list = {
- 			.num_of_regs = ARRAY_SIZE(mode_1280x720_regs),
++		.reg_list = {
++			.num_of_regs = ARRAY_SIZE(mode_1280x800_regs),
++			.regs = mode_1280x800_regs,
++		},
++	},
+ 	[MODE_1280_720] = {
+ 		.width = 1280,
+ 		.height = 720,
+@@ -307,6 +389,25 @@ static const struct ov9282_mode supported_modes[] = {
  			.regs = mode_1280x720_regs,
-@@ -720,6 +742,58 @@ static int ov9282_init_pad_cfg(struct v4l2_subdev *sd,
- 	return ov9282_set_pad_format(sd, sd_state, &fmt);
- }
- 
-+static const struct v4l2_rect *
-+__ov9282_get_pad_crop(struct ov9282 *ov9282,
-+		      struct v4l2_subdev_state *sd_state,
-+		      unsigned int pad, enum v4l2_subdev_format_whence which)
-+{
-+	switch (which) {
-+	case V4L2_SUBDEV_FORMAT_TRY:
-+		return v4l2_subdev_get_try_crop(&ov9282->sd, sd_state, pad);
-+	case V4L2_SUBDEV_FORMAT_ACTIVE:
-+		return &ov9282->cur_mode->crop;
-+	}
-+
-+	return NULL;
-+}
-+
-+static int ov9282_get_selection(struct v4l2_subdev *sd,
-+				struct v4l2_subdev_state *sd_state,
-+				struct v4l2_subdev_selection *sel)
-+{
-+	switch (sel->target) {
-+	case V4L2_SEL_TGT_CROP: {
-+		struct ov9282 *ov9282 = to_ov9282(sd);
-+
-+		mutex_lock(&ov9282->mutex);
-+		sel->r = *__ov9282_get_pad_crop(ov9282, sd_state, sel->pad,
-+						sel->which);
-+		mutex_unlock(&ov9282->mutex);
-+
-+		return 0;
-+	}
-+
-+	case V4L2_SEL_TGT_NATIVE_SIZE:
-+		sel->r.top = 0;
-+		sel->r.left = 0;
-+		sel->r.width = OV9282_NATIVE_WIDTH;
-+		sel->r.height = OV9282_NATIVE_HEIGHT;
-+
-+		return 0;
-+
-+	case V4L2_SEL_TGT_CROP_DEFAULT:
-+	case V4L2_SEL_TGT_CROP_BOUNDS:
-+		sel->r.top = OV9282_PIXEL_ARRAY_TOP;
-+		sel->r.left = OV9282_PIXEL_ARRAY_LEFT;
-+		sel->r.width = OV9282_PIXEL_ARRAY_WIDTH;
-+		sel->r.height = OV9282_PIXEL_ARRAY_HEIGHT;
-+
-+		return 0;
-+	}
-+
-+	return -EINVAL;
-+}
-+
- /**
-  * ov9282_start_streaming() - Start sensor stream
-  * @ov9282: pointer to ov9282 device
-@@ -938,6 +1012,7 @@ static const struct v4l2_subdev_pad_ops ov9282_pad_ops = {
- 	.enum_frame_size = ov9282_enum_frame_size,
- 	.get_fmt = ov9282_get_pad_format,
- 	.set_fmt = ov9282_set_pad_format,
-+	.get_selection = ov9282_get_selection,
+ 		},
+ 	},
++	[MODE_640_400] = {
++		.width = 640,
++		.height = 400,
++		.hblank_min = { 890, 816 },
++		.vblank = 1022,
++		.vblank_min = 22,
++		.vblank_max = 51540,
++		.link_freq_idx = 0,
++		.crop = {
++			.left = OV9282_PIXEL_ARRAY_LEFT,
++			.top = OV9282_PIXEL_ARRAY_TOP,
++			.width = 1280,
++			.height = 800
++		},
++		.reg_list = {
++			.num_of_regs = ARRAY_SIZE(mode_640x400_regs),
++			.regs = mode_640x400_regs,
++		},
++	},
  };
  
- static const struct v4l2_subdev_ops ov9282_subdev_ops = {
+ /**
 -- 
 2.34.1
 
