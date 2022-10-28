@@ -2,70 +2,51 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C74896112D4
-	for <lists+linux-media@lfdr.de>; Fri, 28 Oct 2022 15:32:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0BF0F61134A
+	for <lists+linux-media@lfdr.de>; Fri, 28 Oct 2022 15:44:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231186AbiJ1NcE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 28 Oct 2022 09:32:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57106 "EHLO
+        id S231267AbiJ1NoU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 28 Oct 2022 09:44:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59830 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229936AbiJ1Nbk (ORCPT
+        with ESMTP id S230478AbiJ1NoS (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 28 Oct 2022 09:31:40 -0400
-Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com [199.106.114.39])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E386A1D443D;
-        Fri, 28 Oct 2022 06:31:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
-  t=1666963899; x=1698499899;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=YBApksLTn7y+gqO3vNjJgwg8KdCjEPbw9x496MPqxv8=;
-  b=HDOX0537rrbAuWzUhaFCoZnpMF6c9BFWU4BYIMK+eMFeMpyzLUQvGpBF
-   zrD59IxZIalVhCQ0/ZwTCh8vGEWZz1kGgWnjtSH/fH9z+VOgfdvKE2QO/
-   ekThQ2dOhPLzCKvuTRxTOPKDjcniugmP5URL994Mu8e+yrLPJOd+0jgle
-   M=;
-Received: from unknown (HELO ironmsg-SD-alpha.qualcomm.com) ([10.53.140.30])
-  by alexa-out-sd-02.qualcomm.com with ESMTP; 28 Oct 2022 06:31:39 -0700
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.45.79.139])
-  by ironmsg-SD-alpha.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2022 06:31:39 -0700
-Received: from [10.216.13.23] (10.80.80.8) by nasanex01c.na.qualcomm.com
- (10.45.79.139) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.29; Fri, 28 Oct
- 2022 06:31:34 -0700
-Message-ID: <7cdabb64-f165-03be-4121-876736174a34@quicinc.com>
-Date:   Fri, 28 Oct 2022 19:01:24 +0530
+        Fri, 28 Oct 2022 09:44:18 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6D02B69ECC
+        for <linux-media@vger.kernel.org>; Fri, 28 Oct 2022 06:44:17 -0700 (PDT)
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <mfe@pengutronix.de>)
+        id 1ooPeJ-0004WP-2G; Fri, 28 Oct 2022 15:43:51 +0200
+Received: from mfe by ptx.hi.pengutronix.de with local (Exim 4.92)
+        (envelope-from <mfe@pengutronix.de>)
+        id 1ooPeH-00059M-GL; Fri, 28 Oct 2022 15:43:49 +0200
+Date:   Fri, 28 Oct 2022 15:43:49 +0200
+From:   Marco Felsch <m.felsch@pengutronix.de>
+To:     mchehab@kernel.org, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, kishon@ti.com, vkoul@kernel.org,
+        laurent.pinchart@ideasonboard.com, sakari.ailus@linux.intel.com,
+        jacopo@jmondi.org, hverkuil@xs4all.nl
+Cc:     linux-phy@lists.infradead.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, kernel@pengutronix.de,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH v4 0/4] Add support for Toshiba TC358746
+Message-ID: <20221028134349.lxvo2jjvs6aehrbd@pengutronix.de>
+References: <20220930124812.450332-1-m.felsch@pengutronix.de>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.1
-Subject: Re: [PATCH v3] dma-buf: cma_heap: Remove duplicated 'by' in comment
-Content-Language: en-US
-To:     Mark-PK Tsai <mark-pk.tsai@mediatek.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        Liam Mark <lmark@codeaurora.org>,
-        Laura Abbott <labbott@redhat.com>,
-        Brian Starkey <Brian.Starkey@arm.com>,
-        John Stultz <jstultz@google.com>,
-        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>
-CC:     <yj.chiang@mediatek.com>, <linux-media@vger.kernel.org>,
-        <dri-devel@lists.freedesktop.org>,
-        <linaro-mm-sig@lists.linaro.org>, <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-mediatek@lists.infradead.org>
-References: <20221028065533.23856-1-mark-pk.tsai@mediatek.com>
-From:   Mukesh Ojha <quic_mojha@quicinc.com>
-In-Reply-To: <20221028065533.23856-1-mark-pk.tsai@mediatek.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01c.na.qualcomm.com (10.45.79.139)
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220930124812.450332-1-m.felsch@pengutronix.de>
+User-Agent: NeoMutt/20180716
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: mfe@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -74,31 +55,41 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 Hi,
 
-On 10/28/2022 12:25 PM, Mark-PK Tsai wrote:
-> Remove duplicated 'by' from comment in cma_heap_allocate().
+gentle ping.
+
+Regards,
+  Marco
+
+On 22-09-30, Marco Felsch wrote:
+> Hi,
 > 
-> Signed-off-by: Mark-PK Tsai <mark-pk.tsai@mediatek.com>
-> ---
->   drivers/dma-buf/heaps/cma_heap.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+> this small series adds the support for the Toshiba TC358746 MIPI-CSI to
+> Parallel converter chip. The different versions of this serie can be
+> found here [1]. Thanks a lot for the review feedback from Laurent and
+> Sakari, which was very helpful.
 > 
-> diff --git a/drivers/dma-buf/heaps/cma_heap.c b/drivers/dma-buf/heaps/cma_heap.c
-> index 28fb04eccdd0..cd386ce639f3 100644
-> --- a/drivers/dma-buf/heaps/cma_heap.c
-> +++ b/drivers/dma-buf/heaps/cma_heap.c
-> @@ -316,7 +316,7 @@ static struct dma_buf *cma_heap_allocate(struct dma_heap *heap,
->   			kunmap_atomic(vaddr);
->   			/*
->   			 * Avoid wasting time zeroing memory if the process
-> -			 * has been killed by by SIGKILL
-> +			 * has been killed by SIGKILL
->   			 */
->   			if (fatal_signal_pending(current))
->   				goto free_cma;
-
-
-LGTM.
-
-Reviewed-By: Mukesh Ojha <quic_mojha@quicinc.com>
-
--Mukesh
+> [1] https://lore.kernel.org/all/20220922134843.3108267-1-m.felsch@pengutronix.de/
+>     https://lore.kernel.org/all/20220916134535.128131-1-m.felsch@pengutronix.de/
+>     https://lore.kernel.org/all/20220818143307.967150-5-m.felsch@pengutronix.de/
+> 
+> Marco Felsch (4):
+>   phy: dphy: refactor get_default_config
+>   phy: dphy: add support to calculate the timing based on hs_clk_rate
+>   media: dt-bindings: add bindings for Toshiba TC358746
+>   media: tc358746: add Toshiba TC358746 Parallel to CSI-2 bridge driver
+> 
+>  .../bindings/media/i2c/toshiba,tc358746.yaml  |  178 ++
+>  drivers/media/i2c/Kconfig                     |   17 +
+>  drivers/media/i2c/Makefile                    |    1 +
+>  drivers/media/i2c/tc358746.c                  | 1696 +++++++++++++++++
+>  drivers/phy/phy-core-mipi-dphy.c              |   31 +-
+>  include/linux/phy/phy-mipi-dphy.h             |    3 +
+>  6 files changed, 1922 insertions(+), 4 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/media/i2c/toshiba,tc358746.yaml
+>  create mode 100644 drivers/media/i2c/tc358746.c
+> 
+> -- 
+> 2.30.2
+> 
+> 
+> 
