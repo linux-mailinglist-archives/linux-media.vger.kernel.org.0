@@ -2,208 +2,120 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 79208610FE5
-	for <lists+linux-media@lfdr.de>; Fri, 28 Oct 2022 13:42:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A19F3611126
+	for <lists+linux-media@lfdr.de>; Fri, 28 Oct 2022 14:22:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229718AbiJ1LmO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 28 Oct 2022 07:42:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60344 "EHLO
+        id S229912AbiJ1MWP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 28 Oct 2022 08:22:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58880 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229787AbiJ1LmN (ORCPT
+        with ESMTP id S229719AbiJ1MWN (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 28 Oct 2022 07:42:13 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 321491D29B5
-        for <linux-media@vger.kernel.org>; Fri, 28 Oct 2022 04:42:11 -0700 (PDT)
-Received: from gallifrey.ext.pengutronix.de ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=[IPv6:::1])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <l.stach@pengutronix.de>)
-        id 1ooNkT-0004mr-Ut; Fri, 28 Oct 2022 13:42:06 +0200
-Message-ID: <f5de84cfe81fee828bbe0d47d379028d28ef6ca6.camel@pengutronix.de>
-Subject: Re: Try to address the DMA-buf coherency problem
-From:   Lucas Stach <l.stach@pengutronix.de>
-To:     Christian =?ISO-8859-1?Q?K=F6nig?= 
-        <ckoenig.leichtzumerken@gmail.com>, nicolas@ndufresne.ca,
-        ppaalanen@gmail.com, sumit.semwal@linaro.org, daniel@ffwll.ch,
-        robdclark@gmail.com, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org, linux-media@vger.kernel.org
-Date:   Fri, 28 Oct 2022 13:42:04 +0200
-In-Reply-To: <7f5eff36-6886-bb06-061a-dd4263b61605@gmail.com>
-References: <20221020121316.3946-1-christian.koenig@amd.com>
-         <3d7353f3fa5905ce18e5b2d92f758f098189bc5a.camel@pengutronix.de>
-         <7f5eff36-6886-bb06-061a-dd4263b61605@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4 (3.40.4-1.fc34) 
+        Fri, 28 Oct 2022 08:22:13 -0400
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E9E8F42AD7;
+        Fri, 28 Oct 2022 05:22:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1666959730; x=1698495730;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=jyi2YPooioLK0F2LEjhYuRsxAS5UfvB2qcGTTVQ+86k=;
+  b=JhA32RIAAlQp0udyLlAYMh2ufytPoUhISB0CIDVzrbeUBKVzQfJDqTvN
+   VPif8ILODITkXMKTS644vKPcrlS0Nw/O4Y1d1r9KokNThFGMXDOWt9aGK
+   f2B9mYNCzqeO6SRiLFGGl0ViXSXH0Tc7jxhu6KrTwtulraePyvwJA+c/7
+   mZ7wWz5coCakG4SBvmicXXwNQA1C9//aImaF7Pf3H7m7i+VKa4mdqVxh3
+   ki0lCPsVUNFH4PxADCscq/sjSlFxiUJz5lIszuZnP5dnwx4w7KuLx6kuf
+   sHoHaWk9mv43STFjLN32tBQMh+ztwVi/dWwS/OMGig2jdk8Ssr4bkdkwW
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10513"; a="335119535"
+X-IronPort-AV: E=Sophos;i="5.95,221,1661842800"; 
+   d="scan'208";a="335119535"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2022 05:22:10 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10513"; a="758064551"
+X-IronPort-AV: E=Sophos;i="5.95,221,1661842800"; 
+   d="scan'208";a="758064551"
+Received: from punajuuri.fi.intel.com (HELO paasikivi.fi.intel.com) ([10.237.72.43])
+  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2022 05:22:06 -0700
+Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
+        by paasikivi.fi.intel.com (Postfix) with SMTP id 0F1C020399;
+        Fri, 28 Oct 2022 15:22:04 +0300 (EEST)
+Date:   Fri, 28 Oct 2022 12:22:04 +0000
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund@ragnatech.se>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH v4 4/4] media: platform: Add Renesas RZ/G2L CRU driver
+Message-ID: <Y1vJbJfFjV9jRNzz@paasikivi.fi.intel.com>
+References: <20221027103104.74576-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20221027103104.74576-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <Y1qCbUoLrR6qlQwa@paasikivi.fi.intel.com>
+ <CA+V-a8seroka4YkyCnSYa2KMPDWMG1Zk8tyiqRntdPUQnc+nrA@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CA+V-a8seroka4YkyCnSYa2KMPDWMG1Zk8tyiqRntdPUQnc+nrA@mail.gmail.com>
+X-Spam-Status: No, score=-7.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am Freitag, dem 28.10.2022 um 10:40 +0200 schrieb Christian König:
-> Hi Lucas,
-> 
-> Am 28.10.22 um 10:09 schrieb Lucas Stach:
-> > Hi Christian,
-> > 
-> > Am Donnerstag, dem 20.10.2022 um 14:13 +0200 schrieb Christian König:
-> > > Hi guys,
-> > > 
-> > > after finding that we essentially have two separate worlds for coherent sharing
-> > > of buffer through DMA-buf I thought I will tackle that problem a bit and at
-> > > least allow the framework to reject attachments which won't work.
-> > > 
-> > > So those patches here add a new dma_coherent flag to each DMA-buf object
-> > > telling the framework that dev_is_dma_coherent() needs to return true for an
-> > > importing device to be able to attach. Since we should always have a fallback
-> > > path this should give userspace the chance to still keep the use case working,
-> > > either by doing a CPU copy instead or reversing the roles of exporter and
-> > > importer.
-> > > 
-> > The fallback would likely be a CPU copy with the appropriate cache
-> > flushes done by the device driver, which would be a massiv performance
-> > issue.
-> 
-> But essentially the right thing to do. The only alternative I can see is 
-> to reverse the role of exporter and importer.
-> 
-I don't think that would work generally either, as buffer exporter and
-importer isn't always a 1:1 thing. As soon as any attached importer has
-a different coherency behavior than the others, things fall apart.
+Hi Prabhakar,
 
-> > > For DRM and most V4L2 devices I then fill in the dma_coherent flag based on the
-> > > return value of dev_is_dma_coherent(). Exporting drivers are allowed to clear
-> > > the flag for their buffers if special handling like the USWC flag in amdgpu or
-> > > the uncached allocations for radeon/nouveau are in use.
-> > > 
-> > I don't think the V4L2 part works for most ARM systems. The default
-> > there is for devices to be noncoherent unless explicitly marked
-> > otherwise. I don't think any of the "devices" writing the video buffers
-> > in cached memory with the CPU do this. While we could probably mark
-> > them as coherent, I don't think this is moving in the right direction.
-> 
-> Well why not? Those devices are coherent in the sense of the DMA API 
-> that they don't need an extra CPU copy on sync_to_cpu/sync_to_device.
-> 
-> We could come up with a better name for coherency, e.g. snooping for 
-> example. But that is just an documentation detail.
-> 
-I agree that those devices copying data into a CPU cacheable buffer
-should be marked as coherent, just not sure right now if other things
-like DMA mappings are done on that device, which would require the
-cache maintenance.
+On Thu, Oct 27, 2022 at 08:04:40PM +0100, Lad, Prabhakar wrote:
+...
+> > > +static int rzg2l_cru_ip_s_stream(struct v4l2_subdev *sd, int enable)
+> > > +{
+> > > +     struct rzg2l_cru_dev *cru;
+> > > +     int ret;
+> > > +
+> > > +     cru = v4l2_get_subdevdata(sd);
+> > > +
+> > > +     if (!cru->is_csi)
+> > > +             return -EINVAL;
+> > > +
+> > > +     ret = v4l2_subdev_call(cru->ip.remote, video, s_stream, enable);
+> >
+> > It's up to the driver how call pre_streamon() and post_streamoff(), as long
+> > as it takes place on both sides of s_stream().
+> >
+> > In other words, as it seems your device doesn't need anything special, you
+> > could waive implemeting the callbacks yourself and call pre_streamon() and
+> > post_streamoff() here.
+> >
+> Here the cru->ip.remote = CSI, in the rzg2l_cru_set_stream(1) where we
+> are calling pre_streamon()/post_streamoff() callbacks the subdev is
+> CRU-IP. So the calls from rzg2l_cru_set_stream() land into
+> rzg2l_cru_ip_pre_streamon() and rzg2l_cru_ip_post_streamoff() which
+> are calling pre_streamon/post_streamoff for the CSI subdev.
 
-> > > Additional to that importers can also check the flag if they have some
-> > > non-snooping operations like the special scanout case for amdgpu for example.
-> > > 
-> > > The patches are only smoke tested and the solution isn't ideal, but as far as
-> > > I can see should at least keep things working.
-> > > 
-> > I would like to see this solved properly. Where I think properly means
-> > we make things work on systems with mixed coherent/noncoherent masters
-> > in the same way the DMA API does on such systems: by inserting the
-> > proper cache maintenance operations.
-> 
-> And this the exact wrong approach as far as I can see. As Daniel noted 
-> as well we absolutely need some kind of coherency between exporter and 
-> importer.
-> 
-I think it's important that we are very specific about the thing we are
-talking about here: I guess when you say coherency you mean hardware
-enforced coherency on cacheable memory, which is the default on
-x86/PCI.
+Again, you should call the source sub-device's pre_streamon and
+post_streamoff from the s_stream handler (not from
+rzg2l_cru_ip_pre_streamon or rzg2l_cru_ip_post_streamoff).
 
-The other way to enforce coherency is to either insert cache
-maintenance operations, or make sure that the buffer is not cacheable
-by any device taking part in the sharing, including the CPU.
+Starting streaming takes place link by link. This allows a driver to omit
+implementing pre_streamon and post_streamon callbacks if it doesn't need
+them.
 
-> This can either be provided by the PCI specification which makes it 
-> mandatory for device to snoop the caches or by platform devices agreeing 
-> that they only work on uncached memory.
+-- 
+Kind regards,
 
-What you disregard here is the fact that there are many systems out
-there with mixed topologies, where some masters are part of the
-coherency domain and some are not.
-
-We have two options here: either mandate that coherency for dma-bufs
-need to be established by hardware, which is the option that you
-strongly prefer, which means forcing all buffers to be uncacheable in a
-system with masters that are not coherent, or allowing some form of
-bracketed DMA access with cache maintenance ops.
-
-> 
-> Explicit cache flush operations are simple not part of the design of 
-> DMA-buf because they are not part of the design of the higher level APIs 
-> like Vulkan and OpenGL.
-
-I'm aware that some graphics APIs have been living in a universe
-blissfully unaware of systems without hardware enforced coherency. But
-that isn't the only use for dma-bufs.
-
-I totally agree that some higher level API primitives aren't possible
-without coherency at the hardware level and for those uses we should
-require either HW enforced coherency or uncachable memory. But I don't
-think we should make things slow deliberately on systems that allow to
-optimize things with the help of bracketed access.
-
-If I understood things right your amdgpu use-case even falls into this
-category: normally you would want to use cacheable memory for
-everything, but just make sure to clean the caches before using the
-buffer with the non-coherent display engine.
-
-> 
-> Adding this to DMA-buf for the rather special use case would completely 
-> break that and make live much more complicated for everybody.
-> 
-> > I also think that we should keep in mind that the world is moving into
-> > a direction where DMA masters may not only snoop the CPU caches (what
-> > is the definition of cache coherent on x86), but actually take part in
-> > the system coherence and are able to have writeback caches for shared
-> > data on their own. I can only speculate, as I haven't seen the amdgpu
-> > side yet, but I think this proposal is moving in the other direction by
-> > assuming a central system cache, where the importer has some magic way
-> > to clean this central cache.
-> 
-> What you mean is CXL: https://en.wikipedia.org/wiki/Compute_Express_Link
-
-Or ARM AMBA CHI.
-> 
-> And yes we support that in a bunch of configurations and also have 
-> worked with that and amdgpu with DMA-buf based shared.
-> 
-> This should not be a problem with this approach.
-
-It works as long as all masters sharing the buffer are accessing the
-buffer through the HW cache coherence facilities provided by CXL. As
-soon as a master wants to bypass it (like your nosnoop scanout) you
-need some way to force all other masters sharing access to the buffer
-to clean their caches.
-
-> 
-> > Since I have a vested interest in seeing V4L2 UVC and non-coherent GPU
-> > dma-buf sharing work on ARM systems and seem to hold some strong
-> > opinions on how this should work, I guess I need to make some time
-> > available to type it up, so we can discuss over coder rather than
-> > abstract ideas. If I come up with something that works for my use-cases
-> > would you be up for taking a shot at a amdgpu implementation?
-> 
-> Well, not really. As I said I see what you have in mind here as 
-> completely wrong approach we will certainly not support in any GPU driver.
-> 
-> What we can do is to request the use case which won't work and this is 
-> exactly what the patch here does.
-> 
-Did you mean to write "prevent the use case which won't work" here?
-
-Regards,
-Lucas
-
+Sakari Ailus
