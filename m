@@ -2,74 +2,63 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0F330611799
-	for <lists+linux-media@lfdr.de>; Fri, 28 Oct 2022 18:36:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0327161187D
+	for <lists+linux-media@lfdr.de>; Fri, 28 Oct 2022 18:59:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229460AbiJ1Qf1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 28 Oct 2022 12:35:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38848 "EHLO
+        id S230070AbiJ1Q7N (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 28 Oct 2022 12:59:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33254 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229998AbiJ1QfL (ORCPT
+        with ESMTP id S230413AbiJ1Q6y (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 28 Oct 2022 12:35:11 -0400
-Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com [IPv6:2a00:1450:4864:20::12a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6866736098
-        for <linux-media@vger.kernel.org>; Fri, 28 Oct 2022 09:35:08 -0700 (PDT)
-Received: by mail-lf1-x12a.google.com with SMTP id d25so8734028lfb.7
-        for <linux-media@vger.kernel.org>; Fri, 28 Oct 2022 09:35:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=dDdem09UvQC6RtPh9eP/fPIosZi0f2DCCtFcOfni9E0=;
-        b=iVRKB99bCuGg75YHK5Jin6eKXNVe9XeG9Wu8TuxvOpZO8X9g0HtdOKXe+lJnotbapy
-         yY1d/TS43YunRmZBAdM4kiS1Sb8vvY1JzgsNRODuo9qg+niv7CXg1LdbK/MFiVHVTCVh
-         uZZlAnEomqAMCPuV5LXMWtWwirMKSIYACBgbeq/QvJ2NTjC6iw3aocNENCpW3yfSF+VF
-         h4Np4qcUKUFrsMntcE0udkLz1iH8nhF4d+Vl8ryBfkZ1woIlFqAplaVWyTnQlJUeIlwr
-         w9vUx8zv8jyRRFHooTylzter5G7/0iRYvFvfCgrWmJ1KX4Ui/6vhhI2pxLyUISlF4kgT
-         PF/Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=dDdem09UvQC6RtPh9eP/fPIosZi0f2DCCtFcOfni9E0=;
-        b=2oBm88lhnXwNqpHb/F7NE1FwWMaSZKXYU5EP6qqViTn6q4xh0ZVUp8jKIE63UgbCsd
-         izxFSeMu/iRmLGOTmc7j4hmd7HpaMEqYba+kc0tfPOxsnEQzXAIZHNBpxUtNHqKpAuOn
-         fLU5YhrqffqIUWN6ghmFe2xRSOXD8vpC2TA5GimxFzSQ0zQFMpab6r1cLV10/tUkXF85
-         kTui4X8cJa4uorRpdP8K2VqyUzAEadC4vh9iJKEzIzXF8gQcYkXuaSb2sx07tds9JJmm
-         LwwdlheGXcZeG2bkXdVFcXYi2Eo2sJKIYzhf8TVIFhvzJgLTqyMUBM4LSX2vI0y1zZS7
-         XfdQ==
-X-Gm-Message-State: ACrzQf1om0VCiy14w5uI+yJLseWWkgi4o/x+hDnCRWe1Fixfir53feNk
-        aH8Z/6jHozqil60tmU+oOwgxkxtO8rq0EKewCF1q
-X-Google-Smtp-Source: AMsMyM4GCKg+Wc/lMbvqmo5qiLQjfqMXoXH+QadR3RXEfZMfTqJByvQ611ruQrIRULNKM67OA8DPiAstRGkRDG9JZno=
-X-Received: by 2002:a05:6512:2616:b0:4a2:1723:cf40 with SMTP id
- bt22-20020a056512261600b004a21723cf40mr80364lfb.354.1666974906701; Fri, 28
- Oct 2022 09:35:06 -0700 (PDT)
+        Fri, 28 Oct 2022 12:58:54 -0400
+Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 23EFFDAC57;
+        Fri, 28 Oct 2022 09:58:51 -0700 (PDT)
+Received: from booty (unknown [77.244.183.192])
+        (Authenticated sender: luca.ceresoli@bootlin.com)
+        by mail.gandi.net (Postfix) with ESMTPSA id DD13EC0007;
+        Fri, 28 Oct 2022 16:58:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+        t=1666976330;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=LySexlPUtzLuiqijp03u4qPQFZvUnwDE7D7mZqts+BI=;
+        b=gBrCAOhUwLUGsvMweUyfoN8BdOVVq8XipO6tM3tckCusB3+p5Bb5QLW3LLvVzCNiHSq9iK
+        zfMsafSKiKtLbbDrm74Uw7IBCEysdFaqaltS/jDrWPTbYSjuByeNCsJDmiIjkxiBQjYPBa
+        uG+fCs7yBVYyCNQ+24ThievHvkpC/GthSm76c5IpWX4dRANvk2twPYVtw/CRZ+vTPL01d+
+        /FlbIoitf9IZCbBPfYAHeEtIa1xBOWtTJt1PMz2GwHA7OZHOx9IU+TtZ/O9tg8d5rpTf0n
+        8jAkD2X+SUt4BKERIBmBeagazD3niMfwFiNbuWWgfylEdYZltoEmfZHRllVlIQ==
+Date:   Fri, 28 Oct 2022 18:58:47 +0200
+From:   Luca Ceresoli <luca.ceresoli@bootlin.com>
+To:     Dan Carpenter <dan.carpenter@oracle.com>
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Sowjanya Komatineni <skomatineni@nvidia.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        stable@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: media: tegra-video: fix device_node use after
+ free
+Message-ID: <20221028185847.5454a98d@booty>
+In-Reply-To: <Y1vMX/Zciz/XQ+4p@kadam>
+References: <20221028081926.2320663-1-luca.ceresoli@bootlin.com>
+        <Y1vMX/Zciz/XQ+4p@kadam>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-References: <20221028065533.23856-1-mark-pk.tsai@mediatek.com>
-In-Reply-To: <20221028065533.23856-1-mark-pk.tsai@mediatek.com>
-From:   John Stultz <jstultz@google.com>
-Date:   Fri, 28 Oct 2022 09:34:55 -0700
-Message-ID: <CANDhNCpWcfMfXKHU7rHSUXd8e0JcAnD+qJABWCs9rWTC_J3h6g@mail.gmail.com>
-Subject: Re: [PATCH v3] dma-buf: cma_heap: Remove duplicated 'by' in comment
-To:     Mark-PK Tsai <mark-pk.tsai@mediatek.com>
-Cc:     Sumit Semwal <sumit.semwal@linaro.org>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        Liam Mark <lmark@codeaurora.org>,
-        Laura Abbott <labbott@redhat.com>,
-        Brian Starkey <Brian.Starkey@arm.com>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        yj.chiang@mediatek.com, linux-media@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=ham
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -77,14 +66,79 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Oct 27, 2022 at 11:55 PM Mark-PK Tsai <mark-pk.tsai@mediatek.com> wrote:
->
-> Remove duplicated 'by' from comment in cma_heap_allocate().
->
-> Signed-off-by: Mark-PK Tsai <mark-pk.tsai@mediatek.com>
+Hello Dan,
 
-Thanks for sending this and going through a few iterations!
+On Fri, 28 Oct 2022 15:34:39 +0300
+Dan Carpenter <dan.carpenter@oracle.com> wrote:
 
-Acked-by: John Stultz <jstultz@google.com>
+> On Fri, Oct 28, 2022 at 10:19:26AM +0200, luca.ceresoli@bootlin.com wrote:
+> > From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+> > 
+> > At probe time this code path is followed:
+> > 
+> >  * tegra_csi_init
+> >    * tegra_csi_channels_alloc
+> >      * for_each_child_of_node(node, channel) -- iterates over channels
+> >        * automatically gets 'channel'
+> >          * tegra_csi_channel_alloc()
+> >            * saves into chan->of_node a pointer to the channel OF node
+> >        * automatically gets and puts 'channel'
+> >        * now the node saved in chan->of_node has refcount 0, can disappear
+> >    * tegra_csi_channels_init
+> >      * iterates over channels
+> >        * tegra_csi_channel_init -- uses chan->of_node
+> > 
+> > After that, chan->of_node keeps storing the node until the device is
+> > removed.
+> > 
+> > of_node_get() the node and of_node_put() it during teardown to avoid any
+> > risk.
+> > 
+> > Fixes: 1ebaeb09830f ("media: tegra-video: Add support for external sensor capture")
+> > Cc: stable@vger.kernel.org
+> > Cc: Sowjanya Komatineni <skomatineni@nvidia.com>
+> > Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+> > ---
+> >  drivers/staging/media/tegra-video/csi.c | 3 ++-
+> >  1 file changed, 2 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/drivers/staging/media/tegra-video/csi.c b/drivers/staging/media/tegra-video/csi.c
+> > index b26e44adb2be..1b05f620b476 100644
+> > --- a/drivers/staging/media/tegra-video/csi.c
+> > +++ b/drivers/staging/media/tegra-video/csi.c
+> > @@ -433,7 +433,7 @@ static int tegra_csi_channel_alloc(struct tegra_csi *csi,
+> >  	for (i = 0; i < chan->numgangports; i++)
+> >  		chan->csi_port_nums[i] = port_num + i * CSI_PORTS_PER_BRICK;
+> >  
+> > -	chan->of_node = node;
+> > +	chan->of_node = of_node_get(node);
+> >  	chan->numpads = num_pads;
+> >  	if (num_pads & 0x2) {
+> >  		chan->pads[0].flags = MEDIA_PAD_FL_SINK;
+> > @@ -640,6 +640,7 @@ static void tegra_csi_channels_cleanup(struct tegra_csi *csi)
+> >  			media_entity_cleanup(&subdev->entity);
+> >  		}
+> >  
+> > +		of_node_put(chan->of_node);
+> >  		list_del(&chan->list);
+> >  		kfree(chan);  
+> 
+> Not related to your patch, but this kind of "one function cleans up
+> everything" style is always buggy.  For example, here it should be:
+> 
+> -		if (chan->mipi)
+> +		if (!IS_ERR_OR_NULL(chan->mipi))
+> 			tegra_mipi_free(chan->mipi);
 
--john
+I sort of agree the code could be clearer here, but looking at the code
+in detail, this cannot happen. chan->mipi is set in one place only, and
+if it is an error the whole probe fails. So it can be either NULL or a
+valid pointer here.
+
+Regarding my patch, do you think it is valid?
+
+Best regards.
+-- 
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
