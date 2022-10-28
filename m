@@ -2,61 +2,61 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7FEFB611742
-	for <lists+linux-media@lfdr.de>; Fri, 28 Oct 2022 18:15:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A273A611738
+	for <lists+linux-media@lfdr.de>; Fri, 28 Oct 2022 18:15:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229616AbiJ1QPc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 28 Oct 2022 12:15:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58976 "EHLO
+        id S230361AbiJ1QPY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 28 Oct 2022 12:15:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59562 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230287AbiJ1QOx (ORCPT
+        with ESMTP id S230250AbiJ1QOx (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
         Fri, 28 Oct 2022 12:14:53 -0400
-Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com [IPv6:2a00:1450:4864:20::333])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3AE441DE3F2
-        for <linux-media@vger.kernel.org>; Fri, 28 Oct 2022 09:12:55 -0700 (PDT)
-Received: by mail-wm1-x333.google.com with SMTP id l16-20020a05600c4f1000b003c6c0d2a445so4149054wmq.4
+Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com [IPv6:2a00:1450:4864:20::331])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 095C815729
+        for <linux-media@vger.kernel.org>; Fri, 28 Oct 2022 09:12:56 -0700 (PDT)
+Received: by mail-wm1-x331.google.com with SMTP id jb18so3490044wmb.4
         for <linux-media@vger.kernel.org>; Fri, 28 Oct 2022 09:12:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=raspberrypi.com; s=google;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=7PQieUrDD2lIc9ALkRj84U8GRwSZ71VOFhAis5UCITI=;
-        b=N3I8VHwEtz39IIV0134f1AMrP2yHLI6f9sYldNBuvXL7ewATsTd4K+UmtT9wlB2jNa
-         X61vX6tMb3NG71uMlmwQVZuvsmJC526oLVdEg7LtYhmPkvZpQCUdTADwYOokaiwlUnpa
-         SM/iclnK/rYJs//4cH6z9XSUpYxLLGs/o+2bbZMOP8MOcq/+TCIfuJnnq+vkfTtLbFk3
-         Cnn1F9k8e5QHicomw+vr9hY24sDsIno/fY9GiaqM9BydETN96yNMIEBP5ymfhUNPMMDV
-         5aXzZpKLQcEKA0FyJp41CAEBzK6wVlTPFYTU8oZwO8tMvArgcDj1PAE5Rz7RbFRuwwFE
-         5CLA==
+        bh=5FJ9mleB6XkLTEv65iMsussIL/SXB9Uukk3TmGWfOuw=;
+        b=LgWW38CHE6ju++7MHmXUCWerT5MQMdYh4+G4A1eDB1qx21fG/+0kOTcnsynF8YKMf7
+         IJ1LUw8y2eJ/KOeP21fgP4PNsdcvCI1Ag0ltjAh5oyyrmP1cjRuyarLfHirpEUeh/P/w
+         E++iRNKvBNaLJlLzFjQn5xOvT9Ks7wlrqn59YVYOzXy6VjTK/OKpex78t/s61jXKc8Rf
+         GXHrB/hU3u8E1rkeZWZWV4Zt1/HF/Ls3s2cL72l0Jvx0127FW4wLUQptTBJWWQTGqdny
+         GaGa9K54ey0ZdsxXlgUADFNm98VLGuXHSXhPT5jDV+LZlNJANWP8pvpBwFfQgCxLKxXy
+         snew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=7PQieUrDD2lIc9ALkRj84U8GRwSZ71VOFhAis5UCITI=;
-        b=4oYH/71sCfJuboxKb1SBpa9zUdv3jNTKKBuvXBd8/O38HsaIyE0K3QBRQxg/UlLlwM
-         K5QUGI9HI4m6AHy2j2N0Spv0xTdGj3SdDMpToFPMey43JTXy3zT37zwacDnUwkGxWKGF
-         BlrGcQCVlzQLuujBUmbvzFsbD+dL5bzybsoEMMC5kQPxT2nr6GXR/ts4lA4Z8OmfJdD0
-         SennS/4BTi6gTHKPwoJ8f/Y5NBl6V0KhB6xu6V6ZBN9R3z8bb+HRfYmAO7QCR1+q7G2s
-         +BGWpL74aKsKBgkPfxrxB6DubI1lW4eWV9YYJEIocZHLnE9NiLtTaNyj1lDEJJmPAot7
-         SxNQ==
-X-Gm-Message-State: ACrzQf12EjK0LvTGTyEXhlrC8FueejNjiHD/S9KrkI3gkBggs2bRyHrj
-        efU1gb3czExK/sWIbgOx/cYrIg==
-X-Google-Smtp-Source: AMsMyM7i5aQjs9/MkRiG+jEVxRHA9sgiCNhj1ZU4a5OsyLEoTwg5waaFjE8aV9xdqBwxJj43w5MYvg==
-X-Received: by 2002:a1c:f71a:0:b0:3cf:61fd:21f0 with SMTP id v26-20020a1cf71a000000b003cf61fd21f0mr935708wmh.40.1666973573843;
-        Fri, 28 Oct 2022 09:12:53 -0700 (PDT)
+        bh=5FJ9mleB6XkLTEv65iMsussIL/SXB9Uukk3TmGWfOuw=;
+        b=uLkVEPUTRERqhsJUfBKCyHjZfjiNxzYqSkoTE63UYbM938atGbdTe0oqSfST5mc4ks
+         z2Cy0DTiaJpnsb4x+ePG0BFLV2dhjpGsKrBHICI3hN1hCK4l3rYeoesVqC71fm/k0C/X
+         4katwHUTUB5PwBiIm5Y+SCGkKvP9pMM/enVtcYzedj1EQuJlu4ih1HeB7/iczuEAc646
+         z2e0MrN3Fz4pzlX3gAxN7DrJZBH7H79SbLMPJTq24WjOoFV0z1AjlaD3krCUE4Qpy4fk
+         qqEuuiQPsnxo18YnhZwjr1Ysij/XMgJcJXTpjhjFdKV+00xHkrsK+QRoojvQ0pKz3odI
+         N0Hw==
+X-Gm-Message-State: ACrzQf1TkcFi72VNpcE2XW5XOj39AeGVInYAXTDM6LczYchBXBlKFXpp
+        1aNRNmM9ooYNNj9bHO/+9RqPNQ==
+X-Google-Smtp-Source: AMsMyM6z7rWNvJOzEvrkhbfu/ZGNo55xFYVEZ/j+bkQRsD3HaxV7HSutTelB3bL8hhBSgkCbl8AyaQ==
+X-Received: by 2002:a05:600c:34cc:b0:3c6:fb65:24cc with SMTP id d12-20020a05600c34cc00b003c6fb6524ccmr3523wmq.1.1666973574631;
+        Fri, 28 Oct 2022 09:12:54 -0700 (PDT)
 Received: from dave-Ubuntu2204.pitowers.org ([93.93.133.154])
         by smtp.googlemail.com with ESMTPSA id bh17-20020a05600c3d1100b003cf47fdead5sm4731928wmb.30.2022.10.28.09.12.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 28 Oct 2022 09:12:53 -0700 (PDT)
+        Fri, 28 Oct 2022 09:12:54 -0700 (PDT)
 From:   Dave Stevenson <dave.stevenson@raspberrypi.com>
 To:     paul.j.murphy@intel.com, daniele.alessandrelli@intel.com,
         linux-media@vger.kernel.org, sakari.ailus@iki.fi, jacopo@jmondi.org
 Cc:     Dave Stevenson <dave.stevenson@raspberrypi.com>
-Subject: [PATCH v2 11/16] media: i2c: ov9282: Add HFLIP and VFLIP support
-Date:   Fri, 28 Oct 2022 17:08:57 +0100
-Message-Id: <20221028160902.2696973-12-dave.stevenson@raspberrypi.com>
+Subject: [PATCH v2 12/16] media: i2c: ov9282: Make V4L2_CID_HBLANK r/w
+Date:   Fri, 28 Oct 2022 17:08:58 +0100
+Message-Id: <20221028160902.2696973-13-dave.stevenson@raspberrypi.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221028160902.2696973-1-dave.stevenson@raspberrypi.com>
 References: <20221028160902.2696973-1-dave.stevenson@raspberrypi.com>
@@ -71,109 +71,130 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Adds support for V4L2_CID_HFLIP and V4L2_CID_VFLIP to allow
-flipping the image.
+There's no reason why HBLANK has to be read-only as it
+only changes the TIMING_HTS register in the sensor.
 
-The driver previously enabled H & V flips in the register table,
-therefore the controls default to the same settings to avoid
-changing the behaviour.
+Remove the READ_ONLY flag, and add the relevant handling
+for it.
+
+The minimum value also varies based on whether continuous clock
+mode is being used or not, so allow hblank_min to depend on
+that.
 
 Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Reviewed-by: Jacopo Mondi <jacopo@jmondi.org>
 ---
- drivers/media/i2c/ov9282.c | 52 +++++++++++++++++++++++++++++++++++++-
- 1 file changed, 51 insertions(+), 1 deletion(-)
+ drivers/media/i2c/ov9282.c | 32 +++++++++++++++++++++-----------
+ 1 file changed, 21 insertions(+), 11 deletions(-)
 
 diff --git a/drivers/media/i2c/ov9282.c b/drivers/media/i2c/ov9282.c
-index e964461ff1d3..cfb6e72d8931 100644
+index cfb6e72d8931..2313d5e717f3 100644
 --- a/drivers/media/i2c/ov9282.c
 +++ b/drivers/media/i2c/ov9282.c
-@@ -45,6 +45,10 @@
- /* Group hold register */
- #define OV9282_REG_HOLD		0x3308
+@@ -21,6 +21,9 @@
+ #define OV9282_MODE_STANDBY	0x00
+ #define OV9282_MODE_STREAMING	0x01
  
-+#define OV9282_REG_TIMING_FORMAT_1	0x3820
-+#define OV9282_REG_TIMING_FORMAT_2	0x3821
-+#define OV9282_FLIP_BIT			BIT(2)
++#define OV9282_REG_TIMING_HTS	0x380c
++#define OV9282_TIMING_HTS_MAX	0x7fff
 +
- #define OV9282_REG_MIPI_CTRL00	0x4800
- #define OV9282_GATED_CLOCK	BIT(5)
+ /* Lines per frame */
+ #define OV9282_REG_LPFR		0x380e
  
-@@ -438,6 +442,40 @@ static int ov9282_update_exp_gain(struct ov9282 *ov9282, u32 exposure, u32 gain)
- 	return ret;
- }
+@@ -90,7 +93,8 @@ struct ov9282_reg_list {
+  * struct ov9282_mode - ov9282 sensor mode structure
+  * @width: Frame width
+  * @height: Frame height
+- * @hblank: Horizontal blanking in lines
++ * @hblank_min: Minimum horizontal blanking in lines for non-continuous[0] and
++ *		continuous[1] clock modes
+  * @vblank: Vertical blanking in lines
+  * @vblank_min: Minimum vertical blanking in lines
+  * @vblank_max: Maximum vertical blanking in lines
+@@ -100,7 +104,7 @@ struct ov9282_reg_list {
+ struct ov9282_mode {
+ 	u32 width;
+ 	u32 height;
+-	u32 hblank;
++	u32 hblank_min[2];
+ 	u32 vblank;
+ 	u32 vblank_min;
+ 	u32 vblank_max;
+@@ -249,8 +253,6 @@ static const struct ov9282_reg mode_1280x720_regs[] = {
+ 	{0x3809, 0x00},
+ 	{0x380a, 0x02},
+ 	{0x380b, 0xd0},
+-	{0x380c, 0x02},
+-	{0x380d, 0xfd},
+ 	{0x3810, 0x00},
+ 	{0x3811, 0x08},
+ 	{0x3812, 0x00},
+@@ -273,7 +275,7 @@ static const struct ov9282_mode supported_modes[] = {
+ 	[MODE_1280_720] = {
+ 		.width = 1280,
+ 		.height = 720,
+-		.hblank = 250,
++		.hblank_min = { 250, 176 },
+ 		.vblank = 1022,
+ 		.vblank_min = 41,
+ 		.vblank_max = 51540,
+@@ -397,13 +399,17 @@ static int ov9282_write_regs(struct ov9282 *ov9282,
+ static int ov9282_update_controls(struct ov9282 *ov9282,
+ 				  const struct ov9282_mode *mode)
+ {
++	u32 hblank_min;
+ 	int ret;
  
-+static int ov9282_set_ctrl_hflip(struct ov9282 *ov9282, int value)
-+{
-+	u32 current_val;
-+	int ret = ov9282_read_reg(ov9282, OV9282_REG_TIMING_FORMAT_2, 1,
-+				  &current_val);
-+	if (ret)
-+		return ret;
-+
-+	if (value)
-+		current_val |= OV9282_FLIP_BIT;
-+	else
-+		current_val &= ~OV9282_FLIP_BIT;
-+
-+	return ov9282_write_reg(ov9282, OV9282_REG_TIMING_FORMAT_2, 1,
-+				current_val);
-+}
-+
-+static int ov9282_set_ctrl_vflip(struct ov9282 *ov9282, int value)
-+{
-+	u32 current_val;
-+	int ret = ov9282_read_reg(ov9282, OV9282_REG_TIMING_FORMAT_1, 1,
-+				  &current_val);
-+	if (ret)
-+		return ret;
-+
-+	if (value)
-+		current_val |= OV9282_FLIP_BIT;
-+	else
-+		current_val &= ~OV9282_FLIP_BIT;
-+
-+	return ov9282_write_reg(ov9282, OV9282_REG_TIMING_FORMAT_1, 1,
-+				current_val);
-+}
-+
- /**
-  * ov9282_set_ctrl() - Set subdevice control
-  * @ctrl: pointer to v4l2_ctrl structure
-@@ -494,6 +532,12 @@ static int ov9282_set_ctrl(struct v4l2_ctrl *ctrl)
- 		lpfr = ov9282->vblank + ov9282->cur_mode->height;
- 		ret = ov9282_write_reg(ov9282, OV9282_REG_LPFR, 2, lpfr);
+ 	ret = __v4l2_ctrl_s_ctrl(ov9282->link_freq_ctrl, mode->link_freq_idx);
+ 	if (ret)
+ 		return ret;
+ 
+-	ret = __v4l2_ctrl_s_ctrl(ov9282->hblank_ctrl, mode->hblank);
++	hblank_min = mode->hblank_min[ov9282->noncontinuous_clock ? 0 : 1];
++	ret =  __v4l2_ctrl_modify_range(ov9282->hblank_ctrl, hblank_min,
++					OV9282_TIMING_HTS_MAX - mode->width, 1,
++					hblank_min);
+ 	if (ret)
+ 		return ret;
+ 
+@@ -538,6 +544,10 @@ static int ov9282_set_ctrl(struct v4l2_ctrl *ctrl)
+ 	case V4L2_CID_VFLIP:
+ 		ret = ov9282_set_ctrl_vflip(ov9282, ctrl->val);
  		break;
-+	case V4L2_CID_HFLIP:
-+		ret = ov9282_set_ctrl_hflip(ov9282, ctrl->val);
-+		break;
-+	case V4L2_CID_VFLIP:
-+		ret = ov9282_set_ctrl_vflip(ov9282, ctrl->val);
++	case V4L2_CID_HBLANK:
++		ret = ov9282_write_reg(ov9282, OV9282_REG_TIMING_HTS, 2,
++				       (ctrl->val + ov9282->cur_mode->width) >> 1);
 +		break;
  	default:
  		dev_err(ov9282->dev, "Invalid control %d", ctrl->id);
  		ret = -EINVAL;
-@@ -963,7 +1007,7 @@ static int ov9282_init_controls(struct ov9282 *ov9282)
+@@ -1004,6 +1014,7 @@ static int ov9282_init_controls(struct ov9282 *ov9282)
+ 	struct v4l2_ctrl_handler *ctrl_hdlr = &ov9282->ctrl_handler;
+ 	const struct ov9282_mode *mode = ov9282->cur_mode;
+ 	struct v4l2_fwnode_device_properties props;
++	u32 hblank_min;
  	u32 lpfr;
  	int ret;
  
--	ret = v4l2_ctrl_handler_init(ctrl_hdlr, 8);
-+	ret = v4l2_ctrl_handler_init(ctrl_hdlr, 10);
- 	if (ret)
- 		return ret;
+@@ -1062,14 +1073,13 @@ static int ov9282_init_controls(struct ov9282 *ov9282)
+ 	if (ov9282->link_freq_ctrl)
+ 		ov9282->link_freq_ctrl->flags |= V4L2_CTRL_FLAG_READ_ONLY;
  
-@@ -997,6 +1041,12 @@ static int ov9282_init_controls(struct ov9282 *ov9282)
- 						mode->vblank_max,
- 						1, mode->vblank);
++	hblank_min = mode->hblank_min[ov9282->noncontinuous_clock ? 0 : 1];
+ 	ov9282->hblank_ctrl = v4l2_ctrl_new_std(ctrl_hdlr,
+ 						&ov9282_ctrl_ops,
+ 						V4L2_CID_HBLANK,
+-						OV9282_REG_MIN,
+-						OV9282_REG_MAX,
+-						1, mode->hblank);
+-	if (ov9282->hblank_ctrl)
+-		ov9282->hblank_ctrl->flags |= V4L2_CTRL_FLAG_READ_ONLY;
++						hblank_min,
++						OV9282_TIMING_HTS_MAX - mode->width,
++						1, hblank_min);
  
-+	v4l2_ctrl_new_std(ctrl_hdlr, &ov9282_ctrl_ops, V4L2_CID_VFLIP,
-+			  0, 1, 1, 1);
-+
-+	v4l2_ctrl_new_std(ctrl_hdlr, &ov9282_ctrl_ops, V4L2_CID_HFLIP,
-+			  0, 1, 1, 1);
-+
- 	/* Read only controls */
- 	v4l2_ctrl_new_std(ctrl_hdlr, &ov9282_ctrl_ops, V4L2_CID_PIXEL_RATE,
- 			  OV9282_PIXEL_RATE, OV9282_PIXEL_RATE, 1,
+ 	ret = v4l2_fwnode_device_parse(ov9282->dev, &props);
+ 	if (!ret) {
 -- 
 2.34.1
 
