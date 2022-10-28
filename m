@@ -2,129 +2,77 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 050AB611C88
-	for <lists+linux-media@lfdr.de>; Fri, 28 Oct 2022 23:43:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DD6FE611E32
+	for <lists+linux-media@lfdr.de>; Sat, 29 Oct 2022 01:40:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229661AbiJ1VnI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 28 Oct 2022 17:43:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39716 "EHLO
+        id S229874AbiJ1XkA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 28 Oct 2022 19:40:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35836 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229457AbiJ1VnH (ORCPT
+        with ESMTP id S229726AbiJ1Xj6 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 28 Oct 2022 17:43:07 -0400
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6CCAE24AAD2
-        for <linux-media@vger.kernel.org>; Fri, 28 Oct 2022 14:43:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1666993386; x=1698529386;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=obdV5QZN/mvKI3X/Leuk2csp4VLCdlruvqMhaTyRop8=;
-  b=CKNa/QSiAGrC+VoM2Mz510L+gfOtbE3Gz6i1QYU/949NV7lS22whwVpd
-   XRyhbNsntYFHXiPZzikHt6VHMORYolonT8tofAY2v1zKsumrdMJ3BhztD
-   j2sf0JbaWDqZljTqi5MdrueQ5jGO7GPDRA5+A5VXUPkZKahXxARI3RUMH
-   1YS1EKlqpgi9lowqhafxL2N/BwFwBHMHgY0bUVgfUpUUyyhCf4N98smlP
-   ZOmdXE82GmLeooyqhInTppnttWnbKqKvP1vpk+uw6aKD58rjL9aNZie8w
-   FRrw3LwExopbNbaTn9svTrLetECnUTrUnTec9Dzohj36SFEDoqrREOB0s
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10514"; a="291893584"
-X-IronPort-AV: E=Sophos;i="5.95,222,1661842800"; 
-   d="scan'208";a="291893584"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2022 14:43:06 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10514"; a="664171044"
-X-IronPort-AV: E=Sophos;i="5.95,222,1661842800"; 
-   d="scan'208";a="664171044"
-Received: from lkp-server02.sh.intel.com (HELO b6d29c1a0365) ([10.239.97.151])
-  by orsmga008.jf.intel.com with ESMTP; 28 Oct 2022 14:43:04 -0700
-Received: from kbuild by b6d29c1a0365 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1ooX84-000AFj-0R;
-        Fri, 28 Oct 2022 21:43:04 +0000
-Date:   Sat, 29 Oct 2022 05:43:00 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     linux-media@vger.kernel.org
-Subject: [sailus-media-tree:master] BUILD SUCCESS
- 7336c54a562b479866d2de2abc61487a4e07b0b9
-Message-ID: <635c4ce4.Gm5uYFseE7n/yM6h%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        Fri, 28 Oct 2022 19:39:58 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B505C26AE1;
+        Fri, 28 Oct 2022 16:39:56 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 4C69462AE5;
+        Fri, 28 Oct 2022 23:39:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8531EC433B5;
+        Fri, 28 Oct 2022 23:39:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1667000395;
+        bh=ciFSuPtgT3cSHLoMyRMs7see4cx+g19cnMj9AnGPTQ8=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=Fj/7mfsC4icsTslOzCKhiOvHv+Qx6k3uK+Lpc8qqDQQybdO25Z9JeStYwatYpAGGv
+         2uGeq4FRg8cgCLhyMjabVrDmfVE0Pk53GKxjVTRHrSOhMOwXQF/7x+Y4VjM8VYsuuv
+         lhsTR0xO6VncQxxChotEL/2sj2lZDvFBjmR6W6GLtyKWx64E3UTE43BoPsc1IfxUhe
+         M4SFnr7cCGZSW/5Ax+fhP13oLgi8qISvoV5x13DEl6Q1rg2Vzo4dT+w0Y8iRWbNDIo
+         zpIlJY61JLnR16c9mIgypnWvHGGQC2x25nsjZGTQ0RYkPLfjVhpiCMGAPS2t9FyBEz
+         UeRB2KjRqVgbA==
+Message-ID: <7ef6e7a0-add8-3c92-f174-82f1561fccea@kernel.org>
+Date:   Fri, 28 Oct 2022 19:39:52 -0400
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.1
+Subject: Re: [PATCH v10 6/7] dt-bindings: media: wave5: add yaml devicetree
+ bindings
+Content-Language: en-US
+To:     Sebastian Fricke <sebastian.fricke@collabora.com>,
+        linux-media@vger.kernel.org
+Cc:     kernel@collabora.com, nas.chung@chipsnmedia.com,
+        hverkuil@xs4all.nl, ezequiel@vanguardiasur.com.ar,
+        linux-kernel@vger.kernel.org, nicolas.dufresne@collabora.com,
+        p.zabel@pengutronix.de, dafna@fastmail.com
+References: <20221022000506.221933-1-sebastian.fricke@collabora.com>
+ <20221022000506.221933-7-sebastian.fricke@collabora.com>
+ <20221023085341.s23qinjuw4qls3dn@basti-XPS-13-9310>
+From:   Krzysztof Kozlowski <krzk@kernel.org>
+In-Reply-To: <20221023085341.s23qinjuw4qls3dn@basti-XPS-13-9310>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-7.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-tree/branch: git://linuxtv.org/sailus/media_tree.git master
-branch HEAD: 7336c54a562b479866d2de2abc61487a4e07b0b9  media: i2c: ov4689: code cleanup
+On 23/10/2022 04:53, Sebastian Fricke wrote:
+> Hey all,
+> 
+> I have noticed that I renamed the file incorrectly, in V11 it will be
+> called: "cnm,wave5.yml"
+> 
 
-elapsed time: 722m
+When resending be sure you cced proper people... You miss here a lot so
+this clearly is not the process.
 
-configs tested: 47
-configs skipped: 2
+Best regards,
+Krzysztof
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
-
-gcc tested configs:
-i386                                defconfig
-um                             i386_defconfig
-arc                                 defconfig
-s390                             allmodconfig
-um                           x86_64_defconfig
-alpha                               defconfig
-s390                                defconfig
-x86_64                              defconfig
-arc                  randconfig-r043-20221028
-s390                             allyesconfig
-x86_64                        randconfig-a002
-x86_64                               rhel-8.3
-m68k                             allmodconfig
-arc                              allyesconfig
-x86_64                        randconfig-a006
-x86_64                           allyesconfig
-riscv                randconfig-r042-20221028
-x86_64                           rhel-8.3-syz
-arm                                 defconfig
-ia64                             allmodconfig
-i386                          randconfig-a012
-powerpc                           allnoconfig
-s390                 randconfig-r044-20221028
-x86_64                        randconfig-a004
-i386                          randconfig-a016
-x86_64                         rhel-8.3-kunit
-alpha                            allyesconfig
-x86_64                           rhel-8.3-kvm
-powerpc                          allmodconfig
-m68k                             allyesconfig
-mips                             allyesconfig
-i386                          randconfig-a014
-sh                               allmodconfig
-arm64                            allyesconfig
-arm                              allyesconfig
-x86_64                          rhel-8.3-func
-x86_64                    rhel-8.3-kselftests
-i386                             allyesconfig
-
-clang tested configs:
-x86_64                        randconfig-a016
-hexagon              randconfig-r041-20221028
-i386                          randconfig-a013
-hexagon              randconfig-r045-20221028
-x86_64                        randconfig-a001
-i386                          randconfig-a011
-x86_64                        randconfig-a003
-x86_64                        randconfig-a005
-i386                          randconfig-a015
-
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
