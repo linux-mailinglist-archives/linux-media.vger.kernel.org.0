@@ -2,34 +2,34 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 03FD0610E87
-	for <lists+linux-media@lfdr.de>; Fri, 28 Oct 2022 12:34:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D8108610E94
+	for <lists+linux-media@lfdr.de>; Fri, 28 Oct 2022 12:34:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230097AbiJ1KeG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 28 Oct 2022 06:34:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38150 "EHLO
+        id S230417AbiJ1Ken (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 28 Oct 2022 06:34:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39940 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229882AbiJ1Kd5 (ORCPT
+        with ESMTP id S230400AbiJ1Kem (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 28 Oct 2022 06:33:57 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EFA361C20A9;
-        Fri, 28 Oct 2022 03:33:56 -0700 (PDT)
+        Fri, 28 Oct 2022 06:34:42 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97D7F1A3AC;
+        Fri, 28 Oct 2022 03:34:39 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 9F554B80189;
-        Fri, 28 Oct 2022 10:33:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C0DD3C433D6;
-        Fri, 28 Oct 2022 10:33:53 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 49997B80502;
+        Fri, 28 Oct 2022 10:34:38 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 95CA4C433C1;
+        Fri, 28 Oct 2022 10:34:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1666953234;
-        bh=yYY52+M13hWrqJU6NL54oJi3GSh9XgqjKNnE4Zx4jos=;
+        s=korg; t=1666953276;
+        bh=vbUQh2sICA0O+YdVcFaCsEzhcEqIniAEZEJg7KH51XU=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=UQsBmQv9M44f7b8F5Wn0DVVo0y1nv78b7L6ibXBRArg0KzfUUEufrVwX8dy1nJcvL
-         7CJIMFMkqq5Gac+2i9S6oSkTzeKdbkfbKqwTeWeknsPV9V/DGGJWvWl9QpSst3i0PT
-         9wdDmSxiOmJtU5DCyEOHjJdgwQGflCxONnnGmXFc=
-Date:   Fri, 28 Oct 2022 12:33:51 +0200
+        b=mb1mY1Puw7lmCdsg/07UkdocMqy3bUsrUDvYLt9WxHJqwHIZ9Rd8BsSDMKGw3Zfzh
+         RtiFDztnVGX15xC0sLiZvFoROWwZZIbE1BLNXkF4PdnG8mEGFwFEdEOaPpHlvx6baV
+         bohOEFZ//UJpXYnv8t8MU8V1UH8V683y/wpXgecs=
+Date:   Fri, 28 Oct 2022 12:34:34 +0200
 From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To:     Anastasia Belova <abelova@astralinux.ru>
 Cc:     Tiffany Lin <tiffany.lin@mediatek.com>,
@@ -39,15 +39,14 @@ Cc:     Tiffany Lin <tiffany.lin@mediatek.com>,
         linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
         lvc-project@linuxtesting.org
-Subject: Re: [PATCH 5.10 1/1] vdec_vp9_if: add check for NULL for
+Subject: Re: [PATCH 5.10 0/1] vdec_vp9_if: add check for NULL for
  vsi->frm_bufs[vsi->new_fb_idx].buf.fb in vp9_swap_frm_bufs
-Message-ID: <Y1uwD66oqzLGufuq@kroah.com>
+Message-ID: <Y1uwOsYjx7EbOyHX@kroah.com>
 References: <20221028100539.30925-1-abelova@astralinux.ru>
- <20221028100539.30925-2-abelova@astralinux.ru>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221028100539.30925-2-abelova@astralinux.ru>
+In-Reply-To: <20221028100539.30925-1-abelova@astralinux.ru>
 X-Spam-Status: No, score=-7.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
@@ -57,39 +56,16 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Oct 28, 2022 at 01:05:39PM +0300, Anastasia Belova wrote:
-> If vsi->frm_bufs[vsi->new_fb_idx].buf.fb == NULL while cleaning
-> fb_free_list NULL-pointer is dereferenced.
-> 
-> Found by Linux Verification Center (linuxtesting.org) with SVACE.
-> 
-> Signed-off-by: Anastasia Belova <abelova@astralinux.ru>
-> ---
->  drivers/media/platform/mtk-vcodec/vdec/vdec_vp9_if.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/media/platform/mtk-vcodec/vdec/vdec_vp9_if.c b/drivers/media/platform/mtk-vcodec/vdec/vdec_vp9_if.c
-> index d9880210b2ab..dea056689b48 100644
-> --- a/drivers/media/platform/mtk-vcodec/vdec/vdec_vp9_if.c
-> +++ b/drivers/media/platform/mtk-vcodec/vdec/vdec_vp9_if.c
-> @@ -512,7 +512,7 @@ static void vp9_swap_frm_bufs(struct vdec_vp9_inst *inst)
->  	 * clean fb_free_list
->  	 */
->  	if (vsi->frm_bufs[vsi->new_fb_idx].ref_cnt == 0) {
-> -		if (!vp9_is_sf_ref_fb(
-> +		if (vsi->frm_bufs[vsi->new_fb_idx].buf.fb != NULL && !vp9_is_sf_ref_fb(
->  			inst, vsi->frm_bufs[vsi->new_fb_idx].buf.fb)) {
->  			struct vdec_fb *fb;
->  
-> -- 
-> 2.30.2
-> 
+On Fri, Oct 28, 2022 at 01:05:38PM +0300, Anastasia Belova wrote:
+> Null-pointer dereference was found with static analysis tools 
+> in version 5.10. Seems this file doesn't exist since 5.18.
+> This file was moved to 
+>     /drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_if.c.
+> Maybe it is necessary to create another patch for these updates.
 
-<formletter>
+Fix this in Linus's tree first, and then worry about any potential need
+for stable backports.
 
-This is not the correct way to submit patches for inclusion in the
-stable kernel tree.  Please read:
-    https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html
-for how to do this properly.
+thanks,
 
-</formletter>
+greg k-h
