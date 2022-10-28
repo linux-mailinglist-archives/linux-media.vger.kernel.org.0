@@ -2,83 +2,92 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 68960610A42
-	for <lists+linux-media@lfdr.de>; Fri, 28 Oct 2022 08:22:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1B29B610ACF
+	for <lists+linux-media@lfdr.de>; Fri, 28 Oct 2022 08:56:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229450AbiJ1GWG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 28 Oct 2022 02:22:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47458 "EHLO
+        id S229864AbiJ1G4H (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 28 Oct 2022 02:56:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56890 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229519AbiJ1GWF (ORCPT
+        with ESMTP id S230030AbiJ1Gz7 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 28 Oct 2022 02:22:05 -0400
-Received: from symantec4.comsats.net.pk (symantec4.comsats.net.pk [203.124.41.30])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C1021B8658
-        for <linux-media@vger.kernel.org>; Thu, 27 Oct 2022 23:21:58 -0700 (PDT)
-X-AuditID: cb7c291e-7bdff700000061a5-0e-635b62fe42e8
-Received: from iesco.comsatshosting.com (Unknown_Domain [210.56.28.12])
-        (using TLS with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
-        (Client did not present a certificate)
-        by symantec4.comsats.net.pk (Symantec Messaging Gateway) with SMTP id CB.7C.24997.EF26B536; Fri, 28 Oct 2022 10:05:02 +0500 (PKT)
-DomainKey-Signature: a=rsa-sha1; c=nofws; q=dns;
-        d=iesco.com.pk; s=default;
-        h=received:content-type:mime-version:content-transfer-encoding
-          :content-description:subject:to:from:date:reply-to;
-        b=Ujx4t7m2UOc0M0REIaBD2BVETNhoi9pNrPlKC1KHy5zlZe6UIU3S7ZoNBr3B8hJYW
-          L66ibyCf1NT0s8+BYEYdyxe/Et0WLgOiKzzFos0Ou2k3KzYr+8HX7FvcaM+TVZgmh
-          tyuCewU9c/ivaObheKg3ZL9Q4YonJ/2n4S6lC0rRg=
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=iesco.com.pk; s=default;
-        h=reply-to:date:from:to:subject:content-description
-          :content-transfer-encoding:mime-version:content-type;
-        bh=wllpc/XfyZmsBCyizquF3lY9v5vVV2E17Wyv7qk2g2g=;
-        b=WfZISyOueM3xTtVGp4K8jrcbOClqUsH7XzaVAKFNNrUa1FeMglFYYMoF4fHLlmGSK
-          kV+JUJ/xytXMScJR0jkexuj+4BMXdnejC6xXfTuesXvx+ZUAbK5CrnzYu1cY6pZmb
-          rQAY0f9guqJMR32si9R991hypumOAK/csLxNTZSQw=
-Received: from [103.145.253.52] (UnknownHost [103.145.253.52]) by iesco.comsatshosting.com with SMTP;
-   Fri, 28 Oct 2022 10:51:35 +0500
-Message-ID: <CB.7C.24997.EF26B536@symantec4.comsats.net.pk>
-Content-Type: text/plain; charset="iso-8859-1"
+        Fri, 28 Oct 2022 02:55:59 -0400
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 68C5D5B70F;
+        Thu, 27 Oct 2022 23:55:41 -0700 (PDT)
+X-UUID: f56dba9acbb249abaeed337066c527f0-20221028
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+        h=Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=Om6e9HJa3Y2xbqqlidvMSIavVsT9gkHzqKrxqv9RHmM=;
+        b=anKIvAMl8gYU0EQ1LtLet6Zb1/AHJF/raCeGXrbsW3dbd9BJxf4AgKd7s6V9C+njJl+msVYIJhICS2WX4q2q1vhTvvkZsN80p1+u3WCMs+sjKsd94kDT2q/xehT+efwShxYUbD/3i6+lUBv9Wo+K127JSMbgLp7+/VKp+LqiEfA=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.12,REQID:bbf317af-822f-4da6-9921-2a58100b0b80,IP:0,U
+        RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+        release,TS:0
+X-CID-META: VersionHash:62cd327,CLOUDID:0ae76827-9eb1-469f-b210-e32d06cfa36e,B
+        ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
+        RL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0
+X-UUID: f56dba9acbb249abaeed337066c527f0-20221028
+Received: from mtkmbs11n1.mediatek.inc [(172.21.101.185)] by mailgw02.mediatek.com
+        (envelope-from <mark-pk.tsai@mediatek.com>)
+        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+        with ESMTP id 2077977924; Fri, 28 Oct 2022 14:55:35 +0800
+Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
+ mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.792.3;
+ Fri, 28 Oct 2022 14:55:34 +0800
+Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
+ mtkmbs11n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.792.15 via Frontend Transport; Fri, 28 Oct 2022 14:55:34 +0800
+From:   Mark-PK Tsai <mark-pk.tsai@mediatek.com>
+To:     Sumit Semwal <sumit.semwal@linaro.org>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Liam Mark <lmark@codeaurora.org>,
+        "Laura Abbott" <labbott@redhat.com>,
+        Brian Starkey <Brian.Starkey@arm.com>,
+        "John Stultz" <jstultz@google.com>,
+        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>
+CC:     <yj.chiang@mediatek.com>, Mark-PK Tsai <mark-pk.tsai@mediatek.com>,
+        <linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+        <linaro-mm-sig@lists.linaro.org>, <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-mediatek@lists.infradead.org>
+Subject: [PATCH v3] dma-buf: cma_heap: Remove duplicated 'by' in comment
+Date:   Fri, 28 Oct 2022 14:55:26 +0800
+Message-ID: <20221028065533.23856-1-mark-pk.tsai@mediatek.com>
+X-Mailer: git-send-email 2.18.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Description: Mail message body
-Subject: Compliment,
-To:     linux-media@vger.kernel.org
-From:   "Wahid Majrooh" <nms-ibs2@iesco.com.pk>
-Date:   Thu, 27 Oct 2022 23:21:08 -0700
-Reply-To: whmjhaf@gmail.com
-X-Brightmail-Tracker: H4sIAAAAAAAAA02TbUhTURjHOd7rvFNPHa86T7PShkVvLiUJwQj7YEQGRQjRsvI6b9tybuve
-        O9OKMopelkVZIUllFr2piChaCWrNLHoxlmhMgspYgRVkiRBB0bl3m7tfDuf8nvP8n+f5Hw5D
-        sX0xesbmkHjBwdkNmlh6OHdufOa/0u3mrEuf83Jr27ui88H6qY75m4EpdnUZb7dV8sKKNSWx
-        1slr3bSrDlRNDN2LrgEVHqBlMMrB/X13KHnPoo4o/PPZWg+IZWjUQuGnV99TwcM4hRvrj2jk
-        A4tOATxS8wfIKRDl4cfdvUo6hYzYf+miJsgT8PPLATrIl+HbTd/IHYbsF+FpjyTjRJSEJ855
-        lCtJKA0HzviVVA3KxK3NAWVPo4X4gscfE+wuFTffPEufA7MbVNUaVNUaVNUaItWuA7oZYLG6
-        giOmmXOMZmeFyEmi0cFLRld5ByAWvjy4ZP4DcGuY8wLEAEM8LLGZzGw0V0myvKCQiTIkw+J1
-        283srFJnWbWVE627BLedFw1JkBcJhjO41G0vN+ih3kVo4gx18PtEOy+RN/MCzFAkbci/laSV
-        cdX7ecEZFPOCVIY2pMCiVaMciyycxJfzvIsXwtHdDIO62lt8AHl7yKqnHU4Hb8CwXSC1EgTe
-        wlftttmlcAJR4v6QKZA6orQ3D2qPk4BOHVB3GMVovWA9E0/adBbK04kurkK0WUK6iVC3l9D4
-        MFU058AeB4FsGEb0XoADTHtTby/FdCrr0P1+sn4Y8ZF1utvziGKVQfQp0CJbiWQFq9sxM4de
-        B9feIu3OVgXkkvq5cEET4ckqHqka/hhfQQF50EQ4rrRMvk1kDhb+sBIYF4LKGBguly8mhFhE
-        7ysxJIoYYqkzyYZInKQ2pPekSTYkREOGdMqQDcOIlL4GbOss1Fkm890/fa0pqf4Tw7W1xYNf
-        su4+LPaleBupusBvr/PElCvzZdtRNKor2Pk8WzvrbP1Ymsn9+tDb6bHsQa2nYF3G6fG2gGZg
-        4s0AOrzD+cm4cV9WXNriou9XVo753sWN/so49mRT1flU4cad4slDrz72bDhI3Vua/nfPlpH0
-        EgMtWrnspZQgcv8BpAmzwlEEAAA=
-X-Spam-Status: No, score=2.7 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FORGED_REPLYTO,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=no
-        autolearn_force=no version=3.4.6
-X-Spam-Level: **
+Content-Type: text/plain
+X-MTK:  N
+X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,DKIM_INVALID,
+        DKIM_SIGNED,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,UNPARSEABLE_RELAY
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Compliment,
+Remove duplicated 'by' from comment in cma_heap_allocate().
 
-It will be a pleasure to discuss an important issue with you on area of Inv=
-estment. My name is Wahid from Kabul
+Signed-off-by: Mark-PK Tsai <mark-pk.tsai@mediatek.com>
+---
+ drivers/dma-buf/heaps/cma_heap.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-
-Majrooh
+diff --git a/drivers/dma-buf/heaps/cma_heap.c b/drivers/dma-buf/heaps/cma_heap.c
+index 28fb04eccdd0..cd386ce639f3 100644
+--- a/drivers/dma-buf/heaps/cma_heap.c
++++ b/drivers/dma-buf/heaps/cma_heap.c
+@@ -316,7 +316,7 @@ static struct dma_buf *cma_heap_allocate(struct dma_heap *heap,
+ 			kunmap_atomic(vaddr);
+ 			/*
+ 			 * Avoid wasting time zeroing memory if the process
+-			 * has been killed by by SIGKILL
++			 * has been killed by SIGKILL
+ 			 */
+ 			if (fatal_signal_pending(current))
+ 				goto free_cma;
+-- 
+2.18.0
 
