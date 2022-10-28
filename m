@@ -2,243 +2,176 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 44C1F611485
-	for <lists+linux-media@lfdr.de>; Fri, 28 Oct 2022 16:27:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 225BC611498
+	for <lists+linux-media@lfdr.de>; Fri, 28 Oct 2022 16:30:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229938AbiJ1O1l (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 28 Oct 2022 10:27:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36092 "EHLO
+        id S230483AbiJ1Oaz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 28 Oct 2022 10:30:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53968 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231234AbiJ1O1V (ORCPT
+        with ESMTP id S230435AbiJ1Oat (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 28 Oct 2022 10:27:21 -0400
-Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com [IPv6:2a00:1450:4864:20::42b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 976AD1A9119
-        for <linux-media@vger.kernel.org>; Fri, 28 Oct 2022 07:26:42 -0700 (PDT)
-Received: by mail-wr1-x42b.google.com with SMTP id y16so6785842wrt.12
-        for <linux-media@vger.kernel.org>; Fri, 28 Oct 2022 07:26:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=jKFG/IV+5ec3zcjXicuA61ey7zmdKiGiE9ULsyhPuWI=;
-        b=f+exP041h+qfRVWomwoiD34PApbbnGjZ4whqX4NB/6+BSX+EI5l470FkIUGUWGyBeO
-         VWeQD5mkaaa9ZDUFZ/x/lArOKxe5dHqKb7ATwADMtql5k9FHIPCmaOXdwaqkR5HXiCat
-         nZ0ukXYnxDth3ReKqcjTryatwqc/YNfMa2AKGvqHvmdjBRbwrkih6qFCxeAEU8A/0iFY
-         89QY1Kx2KhCGV36xfqVR9I4P5QoWsLmG7Zhfr0Rh3szJFAqiSNOZMr7P+4VoJd2QI7+L
-         8g9MdTvOpGHfwdWpspg2ZPJ+CJJk5N43EXtfglZhv2CKoO1+qEG+cEq5GOlbChptTkGc
-         ZCAw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=jKFG/IV+5ec3zcjXicuA61ey7zmdKiGiE9ULsyhPuWI=;
-        b=ZeI+NjW7zKqG764shBafjYfsAAezaveOBovTfGoLkwSqDErCQ/3+cnvwwO59EI4FNG
-         IHH0fsp//d/B/r8fHP47YdkWWrR/ofr3AoE1KniYZlrjMox/A584ijD+ZkJULlT/wADi
-         R3rpk1BzdSjZGegHU8UpGJi2WaXhG0Eii0q3VH22FOeygeTNDNqTUtodqPUTYnF1m6y0
-         A+2ookpn53eEWPSzrLwtBvnooKCcVW68opzkH2gkjoUf3nypdYFt8nxYwFszw1/hESsu
-         eH4/a9hWuQdhoaioRMKJhc0jPfqf8FuttYsqVSryuw+Xen/AxbMdqsD/Ke6h4SUbFyTN
-         wVBQ==
-X-Gm-Message-State: ACrzQf10PlFNaEe94Ne9O0YfMOExStzM3HBEqIgTHxB3jXP5YtMC/Ti/
-        mqwh9gY7wpUn4yh6EK//vvw=
-X-Google-Smtp-Source: AMsMyM6Za7KXnYfawwk6J+VO6O6IWomWkhwoo+JKQOab/RhkGAGrhtydsetKEUwhxk2ia4StpdR9Ug==
-X-Received: by 2002:adf:fa83:0:b0:236:a97d:693c with SMTP id h3-20020adffa83000000b00236a97d693cmr1159336wrr.108.1666967200999;
-        Fri, 28 Oct 2022 07:26:40 -0700 (PDT)
-Received: from ?IPV6:2a02:908:1256:79a0:9377:d2f2:2ed:af4b? ([2a02:908:1256:79a0:9377:d2f2:2ed:af4b])
-        by smtp.gmail.com with ESMTPSA id j3-20020a05600c1c0300b003b4ff30e566sm14020929wms.3.2022.10.28.07.26.39
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 28 Oct 2022 07:26:40 -0700 (PDT)
-Message-ID: <e02cedc2-6741-8813-a7a5-f8769e301745@gmail.com>
-Date:   Fri, 28 Oct 2022 16:26:39 +0200
+        Fri, 28 Oct 2022 10:30:49 -0400
+Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [IPv6:2a0b:5c81:1c1::37])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0876852E6C
+        for <linux-media@vger.kernel.org>; Fri, 28 Oct 2022 07:30:43 -0700 (PDT)
+Received: from hillosipuli.retiisi.eu (dkxjnptf9d2bpn7gcmbty-3.rev.dnainternet.fi [IPv6:2001:14ba:44ce:b640:9d1d:82c5:eca2:5060])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: sailus)
+        by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 0DD771B001A3;
+        Fri, 28 Oct 2022 17:30:40 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
+        t=1666967440;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=YIk6cD53mPiUemGbJQB20bjdtybP6AAZKR/3gq1IF8U=;
+        b=Yav3ZI+CSusIIgerrS93bMdMH4ojnY+rIyuS+b/GLgJ1pb6c6piUXVAeyzLuepNwDGVIYD
+        okYOulGktlimw4YsAEPHbgymGqP9sv5s8T8LYMSOab2LdGUAgGfRtEfRNedgPz+9fjpiUx
+        zNzdDyw2/jX5m0+rJs7yERVis8o6+tX8x7ral65+fftjxdLvpiww0ClmnIoQZeieX0XVA5
+        jf+Idz0tppCyQyeVvEVEA5CITkkI3L0Ue/ENU6EjfKHFWWVB9PGxOnk0VRuE7nlcdvjhcU
+        rmdvfAzswoH8QRrlsWdyH1pBqBVef+d4vgE/tQN8RPS2DhBYUKaQUrbz2mrIFA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+        s=lahtoruutu; t=1666967440;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=YIk6cD53mPiUemGbJQB20bjdtybP6AAZKR/3gq1IF8U=;
+        b=U3a5VpRCVBFj5RxkG82l0x+/dOuoHti8YUwM/16LnPCvw7JVm138ai0j2smiSx7fpRGVto
+        XvZSkBEc1j2HC7EdQOXRrOjyhRDNxFUQ684XfbTQ5QQnIY4T6in7Ye+JMaPb4mX+fOTEQv
+        7Ktgo1qDOyc28TCQDCDjvOKrkYTZtM22wwytEOjLsWWHojaZIM7jpydxeKQjqJVIq1kvhl
+        Nzwx0NNZaNH5FS6jnYoXecxKpo85QlY3zwwYFrN30r9dKKrg8IwttFqaEYa320CGcO0bOt
+        VhyDixaa767nkEWF7UOS1v5GEaev7zRnKqeaAiPvgbwRCYKThzptmv/3Jo+9Nw==
+ARC-Authentication-Results: i=1;
+        ORIGINATING;
+        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1666967440; a=rsa-sha256;
+        cv=none;
+        b=QrhWgeh2T+FQFViDIqIx9Ytxv7G+oyqd/VZk31+zCO/doH/X2oP4wNTqQ7qMBcPnjAtvon
+        PTXf57n9bWyflJqFfGp7K5dwsFJVaw9f92udTownFyiyEeLPNybqgEDT8ijVomroie8/3b
+        CF0pLFtUYyfQFdXp4RTDSBMNZ8ul0zaZShu1OicwVIgajSFJCbH/lJeaw6OI4r0NlYrD1e
+        MLVgEnn8wDOLWHIPEZFMg4f9TKj+/qzahE0Ow7wEIAq/E7DQo+cHS+DsdZdO9KhEqwwINz
+        oh4TKFlZhNgR2JyEJ+7ZNjeVVw8aeRfGa3Ykp+cyGxnZv2nEh2ZnufPgzuKzrQ==
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id A6C81634DAD;
+        Fri, 28 Oct 2022 17:30:39 +0300 (EEST)
+Date:   Fri, 28 Oct 2022 17:30:39 +0300
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     Dave Stevenson <dave.stevenson@raspberrypi.com>
+Cc:     paul.j.murphy@intel.com, daniele.alessandrelli@intel.com,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH 08/16] media: i2c: ov9282: Add selection for CSI2 clock
+ mode
+Message-ID: <Y1vnjwRg1sh6Y/GQ@valkosipuli.retiisi.eu>
+References: <20221005152809.3785786-1-dave.stevenson@raspberrypi.com>
+ <20221005152809.3785786-9-dave.stevenson@raspberrypi.com>
+ <Y1jgDsmgXZYx0rZf@valkosipuli.retiisi.eu>
+ <CAPY8ntD1EobB87z0grc7DU=y_Mj0Q8xHF0wAK9C3eQHfec6Zjg@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: Try to address the DMA-buf coherency problem
-Content-Language: en-US
-To:     Lucas Stach <l.stach@pengutronix.de>, nicolas@ndufresne.ca,
-        ppaalanen@gmail.com, sumit.semwal@linaro.org, daniel@ffwll.ch,
-        robdclark@gmail.com, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org, linux-media@vger.kernel.org
-References: <20221020121316.3946-1-christian.koenig@amd.com>
- <3d7353f3fa5905ce18e5b2d92f758f098189bc5a.camel@pengutronix.de>
- <7f5eff36-6886-bb06-061a-dd4263b61605@gmail.com>
- <f5de84cfe81fee828bbe0d47d379028d28ef6ca6.camel@pengutronix.de>
-From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-In-Reply-To: <f5de84cfe81fee828bbe0d47d379028d28ef6ca6.camel@pengutronix.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAPY8ntD1EobB87z0grc7DU=y_Mj0Q8xHF0wAK9C3eQHfec6Zjg@mail.gmail.com>
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am 28.10.22 um 13:42 schrieb Lucas Stach:
-> Am Freitag, dem 28.10.2022 um 10:40 +0200 schrieb Christian König:
->> But essentially the right thing to do. The only alternative I can see is
->> to reverse the role of exporter and importer.
->>
-> I don't think that would work generally either, as buffer exporter and
-> importer isn't always a 1:1 thing. As soon as any attached importer has
-> a different coherency behavior than the others, things fall apart.
+Hi Dave,
 
-I've just mentioned it because somebody noted that when you reverse the 
-roles of exporter and importer with the V4L driver and i915 then the use 
-case suddenly starts working.
+On Fri, Oct 28, 2022 at 01:57:48PM +0100, Dave Stevenson wrote:
+> Hi Sakari
+> 
+> On Wed, 26 Oct 2022 at 08:21, Sakari Ailus <sakari.ailus@iki.fi> wrote:
+> >
+> > Hi Dave,
+> >
+> > On Wed, Oct 05, 2022 at 04:28:01PM +0100, Dave Stevenson wrote:
+> > > The sensor supports either having the CSI2 clock lane free
+> > > running, or gated when there is no packet to transmit.
+> > > The driver only selected gated (non-continuous) clock mode.
+> > >
+> > > Add code to allow fwnode to configure whether the clock is
+> > > gated or free running.
+> > >
+> > > Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+> > > ---
+> > >  drivers/media/i2c/ov9282.c | 16 +++++++++++++++-
+> > >  1 file changed, 15 insertions(+), 1 deletion(-)
+> > >
+> > > diff --git a/drivers/media/i2c/ov9282.c b/drivers/media/i2c/ov9282.c
+> > > index abb1223c0260..334b31af34a4 100644
+> > > --- a/drivers/media/i2c/ov9282.c
+> > > +++ b/drivers/media/i2c/ov9282.c
+> > > @@ -46,6 +46,9 @@
+> > >  /* Group hold register */
+> > >  #define OV9282_REG_HOLD              0x3308
+> > >
+> > > +#define OV9282_REG_MIPI_CTRL00       0x4800
+> > > +#define OV9282_GATED_CLOCK   BIT(5)
+> > > +
+> > >  /* Input clock rate */
+> > >  #define OV9282_INCLK_RATE    24000000
+> > >
+> > > @@ -138,6 +141,7 @@ struct ov9282 {
+> > >       struct clk *inclk;
+> > >       struct regulator_bulk_data supplies[OV9282_NUM_SUPPLIES];
+> > >       struct v4l2_ctrl_handler ctrl_handler;
+> > > +     bool noncontinuous_clock;
+> > >       struct v4l2_ctrl *link_freq_ctrl;
+> > >       struct v4l2_ctrl *hblank_ctrl;
+> > >       struct v4l2_ctrl *vblank_ctrl;
+> > > @@ -211,7 +215,6 @@ static const struct ov9282_reg common_regs[] = {
+> > >       {0x4601, 0x04},
+> > >       {0x470f, 0x00},
+> > >       {0x4f07, 0x00},
+> > > -     {0x4800, 0x20},
+> > >       {0x5000, 0x9f},
+> > >       {0x5001, 0x00},
+> > >       {0x5e00, 0x00},
+> > > @@ -684,6 +687,14 @@ static int ov9282_start_streaming(struct ov9282 *ov9282)
+> > >               return ret;
+> > >       }
+> > >
+> > > +     ret = ov9282_write_reg(ov9282, OV9282_REG_MIPI_CTRL00, 1,
+> > > +                            ov9282->noncontinuous_clock ?
+> > > +                                     OV9282_GATED_CLOCK : 0);
+> >
+> > Wouldn't this better fit for power on?
+> 
+> It can be done in ov9282_power_on, but is then totally redundantly set
+> when powering the sensor up to read the ID during initial probe.
 
->>>> For DRM and most V4L2 devices I then fill in the dma_coherent flag based on the
->>>> return value of dev_is_dma_coherent(). Exporting drivers are allowed to clear
->>>> the flag for their buffers if special handling like the USWC flag in amdgpu or
->>>> the uncached allocations for radeon/nouveau are in use.
->>>>
->>> I don't think the V4L2 part works for most ARM systems. The default
->>> there is for devices to be noncoherent unless explicitly marked
->>> otherwise. I don't think any of the "devices" writing the video buffers
->>> in cached memory with the CPU do this. While we could probably mark
->>> them as coherent, I don't think this is moving in the right direction.
->> Well why not? Those devices are coherent in the sense of the DMA API
->> that they don't need an extra CPU copy on sync_to_cpu/sync_to_device.
->>
->> We could come up with a better name for coherency, e.g. snooping for
->> example. But that is just an documentation detail.
->>
-> I agree that those devices copying data into a CPU cacheable buffer
-> should be marked as coherent, just not sure right now if other things
-> like DMA mappings are done on that device, which would require the
-> cache maintenance.
+This is the same also when streaming is enabled and disabled multiple times
+while the sensor is powered on. Although without autosuspend this may be
+unlikely.
 
-Yeah, good point.
+> Doing so also means there needs to be a great big warning never to
+> change the driver and hit the software reset via writing 0x01 to
+> register 0x0103 as part of any register array (very common in many
+> other sensor drivers).
 
->> And this the exact wrong approach as far as I can see. As Daniel noted
->> as well we absolutely need some kind of coherency between exporter and
->> importer.
->>
-> I think it's important that we are very specific about the thing we are
-> talking about here: I guess when you say coherency you mean hardware
-> enforced coherency on cacheable memory, which is the default on
-> x86/PCI.
+If there's a desire to reset the sensor after powering it up, that should
+be done as the first thing after power-up. Setting non-continuous clock
+isn't anything special here.
 
-Well, no. What I mean with coherency is that the devices don't need 
-insert special operation to access each others data.
+But that's up to you. I guess lane configuration etc. is part of the big
+register lists.
 
-This can be archived by multiple approaches, e.g. by the PCI coherency 
-requirements, device internal connections (XGMI, NVLink, CXL etc...) as 
-well as using uncached system memory.
+> 
+> I'll move it and add a comment before the register tables.
 
-The key point is what we certainly don't want is special operations 
-which say: Ok, now device A can access the data, now device B..... 
-because this breaks tons of use cases.
+I think it's unnecessary.
 
-> The other way to enforce coherency is to either insert cache
-> maintenance operations, or make sure that the buffer is not cacheable
-> by any device taking part in the sharing, including the CPU.
+-- 
+Kind regards,
 
-Yes and no. When we want the devices to interact with each other without 
-the CPU then we need some negotiated coherency between the two.
-
->> This can either be provided by the PCI specification which makes it
->> mandatory for device to snoop the caches or by platform devices agreeing
->> that they only work on uncached memory.
-> What you disregard here is the fact that there are many systems out
-> there with mixed topologies, where some masters are part of the
-> coherency domain and some are not.
->
-> We have two options here: either mandate that coherency for dma-bufs
-> need to be established by hardware, which is the option that you
-> strongly prefer, which means forcing all buffers to be uncacheable in a
-> system with masters that are not coherent, or allowing some form of
-> bracketed DMA access with cache maintenance ops.
-
-Well I don't prefer that option, it's just the only one I can see. One 
-of the main goals of DMA-buf is to allow device to share data without 
-the need for CPU interactions.
-
-In other words we negotiate the high level properties and then the 
-device can talk to each other without explicitly noting who is accessing 
-what.
-
-And this concept is completely incompatible with maintenance ops. We 
-made that mistake with SWIOTLB for the DMA API and I don't really want 
-to repeat that stunt.
-
->> Explicit cache flush operations are simple not part of the design of
->> DMA-buf because they are not part of the design of the higher level APIs
->> like Vulkan and OpenGL.
-> I'm aware that some graphics APIs have been living in a universe
-> blissfully unaware of systems without hardware enforced coherency. But
-> that isn't the only use for dma-bufs.
-
-Yeah, but the other use cases are extremely limited. As far as I can see
-
->
-> I totally agree that some higher level API primitives aren't possible
-> without coherency at the hardware level and for those uses we should
-> require either HW enforced coherency or uncachable memory. But I don't
-> think we should make things slow deliberately on systems that allow to
-> optimize things with the help of bracketed access.
->
-> If I understood things right your amdgpu use-case even falls into this
-> category: normally you would want to use cacheable memory for
-> everything, but just make sure to clean the caches before using the
-> buffer with the non-coherent display engine.
-
-No, that won't work like this. The caching attributes must be coherent 
-for the display engine to work correctly.
-
->> Adding this to DMA-buf for the rather special use case would completely
->> break that and make live much more complicated for everybody.
->>
->>> I also think that we should keep in mind that the world is moving into
->>> a direction where DMA masters may not only snoop the CPU caches (what
->>> is the definition of cache coherent on x86), but actually take part in
->>> the system coherence and are able to have writeback caches for shared
->>> data on their own. I can only speculate, as I haven't seen the amdgpu
->>> side yet, but I think this proposal is moving in the other direction by
->>> assuming a central system cache, where the importer has some magic way
->>> to clean this central cache.
->> What you mean is CXL: https://en.wikipedia.org/wiki/Compute_Express_Link
-> Or ARM AMBA CHI.
->> And yes we support that in a bunch of configurations and also have
->> worked with that and amdgpu with DMA-buf based shared.
->>
->> This should not be a problem with this approach.
-> It works as long as all masters sharing the buffer are accessing the
-> buffer through the HW cache coherence facilities provided by CXL. As
-> soon as a master wants to bypass it (like your nosnoop scanout) you
-> need some way to force all other masters sharing access to the buffer
-> to clean their caches.
-
-That won't work like this. The problem is that this is an APU and so the 
-display is part of the CPU. When either the MTRR or PAT says that the 
-physical address is cacheable the engine might just hang on access.
-
->>> Since I have a vested interest in seeing V4L2 UVC and non-coherent GPU
->>> dma-buf sharing work on ARM systems and seem to hold some strong
->>> opinions on how this should work, I guess I need to make some time
->>> available to type it up, so we can discuss over coder rather than
->>> abstract ideas. If I come up with something that works for my use-cases
->>> would you be up for taking a shot at a amdgpu implementation?
->> Well, not really. As I said I see what you have in mind here as
->> completely wrong approach we will certainly not support in any GPU driver.
->>
->> What we can do is to request the use case which won't work and this is
->> exactly what the patch here does.
->>
-> Did you mean to write "prevent the use case which won't work" here?
-
-Oh, yes. To fast typing.
-
-Regards,
-Christian.
-
->
-> Regards,
-> Lucas
->
-
+Sakari Ailus
