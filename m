@@ -2,113 +2,184 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 885C7610C17
-	for <lists+linux-media@lfdr.de>; Fri, 28 Oct 2022 10:19:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A766C610C5C
+	for <lists+linux-media@lfdr.de>; Fri, 28 Oct 2022 10:40:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229958AbiJ1ITt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 28 Oct 2022 04:19:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60924 "EHLO
+        id S229685AbiJ1Ikf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 28 Oct 2022 04:40:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47058 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229456AbiJ1ITs (ORCPT
+        with ESMTP id S229940AbiJ1Ikc (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 28 Oct 2022 04:19:48 -0400
-Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::228])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DF92E101EA;
-        Fri, 28 Oct 2022 01:19:45 -0700 (PDT)
-Received: from booty.fritz.box (unknown [77.244.183.192])
-        (Authenticated sender: luca.ceresoli@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPA id 150001BF205;
-        Fri, 28 Oct 2022 08:19:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1666945183;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=vqicJIpaIUCqnWaaaf6uDqbeDvMy142ZJ+vF7cMzObg=;
-        b=bkKIitouTwGX+kxNBk+gZ1C/8NirLVohgyvNA9v481ufDHZiyykNv8jQ58K6hcQ51bJvbY
-        3OHdlEBwpIcPRdjrBnyMJMUrQjx5M40EJ9MYv+pV0cnBQKEAOrsK64BDE+428sxZpcUIYQ
-        JPt2PgbhHuZSuCnbBtHSDotME8E0JtTBMWXCggE3M1kS4AL6cpMKmccV+F4hBRiHcFNhfC
-        /J89pj8ugT6GSoSmnRrA9QGyYcM76IbCMaMqngzExsY1UX4i0q0E0cgvQM+NYyQ2ssOxWR
-        FI3nHWQUgHDxi8bzHsvF834UmiDzMf5tZzlCDb0WXFmVqMw5mcHc1WQiTe6nJA==
-From:   luca.ceresoli@bootlin.com
-To:     Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Sowjanya Komatineni <skomatineni@nvidia.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Luca Ceresoli <luca.ceresoli@bootlin.com>,
-        stable@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: media: tegra-video: fix device_node use after free
-Date:   Fri, 28 Oct 2022 10:19:26 +0200
-Message-Id: <20221028081926.2320663-1-luca.ceresoli@bootlin.com>
-X-Mailer: git-send-email 2.34.1
+        Fri, 28 Oct 2022 04:40:32 -0400
+Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com [IPv6:2a00:1450:4864:20::630])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E5EF067CA6
+        for <linux-media@vger.kernel.org>; Fri, 28 Oct 2022 01:40:29 -0700 (PDT)
+Received: by mail-ej1-x630.google.com with SMTP id kt23so11288437ejc.7
+        for <linux-media@vger.kernel.org>; Fri, 28 Oct 2022 01:40:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=kFzvTU+1nAE3iwfdvDEuobErZlYN2b9+VxFUpewI2uQ=;
+        b=ZF5xafTGQXY3dLRXGpUPQI58MFME9iFSrvhSSQANv2XlgJpSgRF8gGJvmGdzF0iDQa
+         dD0ZnJ9IPxYHzCa7ui41/jBPzXrbqG4rIqXk4Hyna3QGAmz+hiVEfHBYVyDnJ6Bid20z
+         pAALcjxGflPtP693L872fGTki0bOJgtN3+q0JR9ks0Xqqh5+FIx0aEkCGpPCJcxQv0vt
+         4GLctE81YpPgUflNXFzwudsR+cJNZMSrIlsyhbsCX2wGfkvebhVP1zLNnjkNogwNIJ6R
+         xGAdwTcI8wV1rqhMqZeov+EXTZdJuojD7Odhz+7nsLUKKiugXctm6y4jHe5925LJwH87
+         WRYA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=kFzvTU+1nAE3iwfdvDEuobErZlYN2b9+VxFUpewI2uQ=;
+        b=m3pCWmfrmPqxn76T71Ks0O/b/iPFzQyBzFgDSR2/R7K3hengRIN8IXcdCkZPpixWHq
+         wI+sgRHAtnchgexv3w1AFCJ2PL5xe2nkqEOO7to6DsIvBFbdnP3w3a5BPsYtiEOvPGpd
+         OX6yHy0ZJjsGM2NcI129bMZ6LU3hWYwpqDlHz7O+p/KoRQreUKXknA/jNJaBdh3wVLFw
+         sarPOPqZWEzJyNIhaNP9r3K+HQ6poCLML31XusS3B5e0W+f2I3iBAJSD2Ai2bu5wj6uB
+         KWpNFLGPPhc12f+UvoGB4qwb8XJRQBUwoBgOvJF+mvrQiMIOKbp79WoUkPZPdP6ZEL12
+         QSWg==
+X-Gm-Message-State: ACrzQf1wFSZD7Bnqt3yZuoofvbTfW3RY7o1rI+bwVsBUOCF/SuH3+rdm
+        Ysdj+s5o3wgA2J7bwpH9aFg=
+X-Google-Smtp-Source: AMsMyM58O/hVUnWovCLxC8TlPiHUIxF/NjE4ZXFsqqVwdPxIzfrQ2gFfAzK8PIcaOqAhVAtD4u9N0g==
+X-Received: by 2002:a17:907:703:b0:78e:25be:5455 with SMTP id xb3-20020a170907070300b0078e25be5455mr45087232ejb.630.1666946428267;
+        Fri, 28 Oct 2022 01:40:28 -0700 (PDT)
+Received: from ?IPV6:2a02:908:1256:79a0:9377:d2f2:2ed:af4b? ([2a02:908:1256:79a0:9377:d2f2:2ed:af4b])
+        by smtp.gmail.com with ESMTPSA id lb14-20020a170907784e00b0078d22b0bcf2sm1791388ejc.168.2022.10.28.01.40.26
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 28 Oct 2022 01:40:27 -0700 (PDT)
+Message-ID: <7f5eff36-6886-bb06-061a-dd4263b61605@gmail.com>
+Date:   Fri, 28 Oct 2022 10:40:26 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Subject: Re: Try to address the DMA-buf coherency problem
+Content-Language: en-US
+To:     Lucas Stach <l.stach@pengutronix.de>, nicolas@ndufresne.ca,
+        ppaalanen@gmail.com, sumit.semwal@linaro.org, daniel@ffwll.ch,
+        robdclark@gmail.com, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org, linux-media@vger.kernel.org
+References: <20221020121316.3946-1-christian.koenig@amd.com>
+ <3d7353f3fa5905ce18e5b2d92f758f098189bc5a.camel@pengutronix.de>
+From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+In-Reply-To: <3d7353f3fa5905ce18e5b2d92f758f098189bc5a.camel@pengutronix.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Hi Lucas,
 
-At probe time this code path is followed:
+Am 28.10.22 um 10:09 schrieb Lucas Stach:
+> Hi Christian,
+>
+> Am Donnerstag, dem 20.10.2022 um 14:13 +0200 schrieb Christian König:
+>> Hi guys,
+>>
+>> after finding that we essentially have two separate worlds for coherent sharing
+>> of buffer through DMA-buf I thought I will tackle that problem a bit and at
+>> least allow the framework to reject attachments which won't work.
+>>
+>> So those patches here add a new dma_coherent flag to each DMA-buf object
+>> telling the framework that dev_is_dma_coherent() needs to return true for an
+>> importing device to be able to attach. Since we should always have a fallback
+>> path this should give userspace the chance to still keep the use case working,
+>> either by doing a CPU copy instead or reversing the roles of exporter and
+>> importer.
+>>
+> The fallback would likely be a CPU copy with the appropriate cache
+> flushes done by the device driver, which would be a massiv performance
+> issue.
 
- * tegra_csi_init
-   * tegra_csi_channels_alloc
-     * for_each_child_of_node(node, channel) -- iterates over channels
-       * automatically gets 'channel'
-         * tegra_csi_channel_alloc()
-           * saves into chan->of_node a pointer to the channel OF node
-       * automatically gets and puts 'channel'
-       * now the node saved in chan->of_node has refcount 0, can disappear
-   * tegra_csi_channels_init
-     * iterates over channels
-       * tegra_csi_channel_init -- uses chan->of_node
+But essentially the right thing to do. The only alternative I can see is 
+to reverse the role of exporter and importer.
 
-After that, chan->of_node keeps storing the node until the device is
-removed.
+>> For DRM and most V4L2 devices I then fill in the dma_coherent flag based on the
+>> return value of dev_is_dma_coherent(). Exporting drivers are allowed to clear
+>> the flag for their buffers if special handling like the USWC flag in amdgpu or
+>> the uncached allocations for radeon/nouveau are in use.
+>>
+> I don't think the V4L2 part works for most ARM systems. The default
+> there is for devices to be noncoherent unless explicitly marked
+> otherwise. I don't think any of the "devices" writing the video buffers
+> in cached memory with the CPU do this. While we could probably mark
+> them as coherent, I don't think this is moving in the right direction.
 
-of_node_get() the node and of_node_put() it during teardown to avoid any
-risk.
+Well why not? Those devices are coherent in the sense of the DMA API 
+that they don't need an extra CPU copy on sync_to_cpu/sync_to_device.
 
-Fixes: 1ebaeb09830f ("media: tegra-video: Add support for external sensor capture")
-Cc: stable@vger.kernel.org
-Cc: Sowjanya Komatineni <skomatineni@nvidia.com>
-Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
----
- drivers/staging/media/tegra-video/csi.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+We could come up with a better name for coherency, e.g. snooping for 
+example. But that is just an documentation detail.
 
-diff --git a/drivers/staging/media/tegra-video/csi.c b/drivers/staging/media/tegra-video/csi.c
-index b26e44adb2be..1b05f620b476 100644
---- a/drivers/staging/media/tegra-video/csi.c
-+++ b/drivers/staging/media/tegra-video/csi.c
-@@ -433,7 +433,7 @@ static int tegra_csi_channel_alloc(struct tegra_csi *csi,
- 	for (i = 0; i < chan->numgangports; i++)
- 		chan->csi_port_nums[i] = port_num + i * CSI_PORTS_PER_BRICK;
- 
--	chan->of_node = node;
-+	chan->of_node = of_node_get(node);
- 	chan->numpads = num_pads;
- 	if (num_pads & 0x2) {
- 		chan->pads[0].flags = MEDIA_PAD_FL_SINK;
-@@ -640,6 +640,7 @@ static void tegra_csi_channels_cleanup(struct tegra_csi *csi)
- 			media_entity_cleanup(&subdev->entity);
- 		}
- 
-+		of_node_put(chan->of_node);
- 		list_del(&chan->list);
- 		kfree(chan);
- 	}
--- 
-2.34.1
+>> Additional to that importers can also check the flag if they have some
+>> non-snooping operations like the special scanout case for amdgpu for example.
+>>
+>> The patches are only smoke tested and the solution isn't ideal, but as far as
+>> I can see should at least keep things working.
+>>
+> I would like to see this solved properly. Where I think properly means
+> we make things work on systems with mixed coherent/noncoherent masters
+> in the same way the DMA API does on such systems: by inserting the
+> proper cache maintenance operations.
+
+And this the exact wrong approach as far as I can see. As Daniel noted 
+as well we absolutely need some kind of coherency between exporter and 
+importer.
+
+This can either be provided by the PCI specification which makes it 
+mandatory for device to snoop the caches or by platform devices agreeing 
+that they only work on uncached memory.
+
+Explicit cache flush operations are simple not part of the design of 
+DMA-buf because they are not part of the design of the higher level APIs 
+like Vulkan and OpenGL.
+
+Adding this to DMA-buf for the rather special use case would completely 
+break that and make live much more complicated for everybody.
+
+> I also think that we should keep in mind that the world is moving into
+> a direction where DMA masters may not only snoop the CPU caches (what
+> is the definition of cache coherent on x86), but actually take part in
+> the system coherence and are able to have writeback caches for shared
+> data on their own. I can only speculate, as I haven't seen the amdgpu
+> side yet, but I think this proposal is moving in the other direction by
+> assuming a central system cache, where the importer has some magic way
+> to clean this central cache.
+
+What you mean is CXL: https://en.wikipedia.org/wiki/Compute_Express_Link
+
+And yes we support that in a bunch of configurations and also have 
+worked with that and amdgpu with DMA-buf based shared.
+
+This should not be a problem with this approach.
+
+> Since I have a vested interest in seeing V4L2 UVC and non-coherent GPU
+> dma-buf sharing work on ARM systems and seem to hold some strong
+> opinions on how this should work, I guess I need to make some time
+> available to type it up, so we can discuss over coder rather than
+> abstract ideas. If I come up with something that works for my use-cases
+> would you be up for taking a shot at a amdgpu implementation?
+
+Well, not really. As I said I see what you have in mind here as 
+completely wrong approach we will certainly not support in any GPU driver.
+
+What we can do is to request the use case which won't work and this is 
+exactly what the patch here does.
+
+Regards,
+Christian.
+
+>
+> Regards,
+> Lucas
+>
 
