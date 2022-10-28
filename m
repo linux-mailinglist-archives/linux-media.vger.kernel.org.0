@@ -2,88 +2,94 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9FB87610E34
-	for <lists+linux-media@lfdr.de>; Fri, 28 Oct 2022 12:15:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 03FD0610E87
+	for <lists+linux-media@lfdr.de>; Fri, 28 Oct 2022 12:34:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230036AbiJ1KPg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 28 Oct 2022 06:15:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36146 "EHLO
+        id S230097AbiJ1KeG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 28 Oct 2022 06:34:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38150 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229975AbiJ1KPc (ORCPT
+        with ESMTP id S229882AbiJ1Kd5 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 28 Oct 2022 06:15:32 -0400
-X-Greylist: delayed 577 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 28 Oct 2022 03:15:28 PDT
-Received: from mail.astralinux.ru (mail.astralinux.ru [217.74.38.119])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B5B45419E;
-        Fri, 28 Oct 2022 03:15:26 -0700 (PDT)
-Received: from localhost (localhost [127.0.0.1])
-        by mail.astralinux.ru (Postfix) with ESMTP id D5A801864518;
-        Fri, 28 Oct 2022 13:05:55 +0300 (MSK)
-Received: from mail.astralinux.ru ([127.0.0.1])
-        by localhost (rbta-msk-vsrv-mail01.astralinux.ru [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id RQ0YjnkqfdBW; Fri, 28 Oct 2022 13:05:55 +0300 (MSK)
-Received: from localhost (localhost [127.0.0.1])
-        by mail.astralinux.ru (Postfix) with ESMTP id 7E2381864579;
-        Fri, 28 Oct 2022 13:05:55 +0300 (MSK)
-X-Virus-Scanned: amavisd-new at astralinux.ru
-Received: from mail.astralinux.ru ([127.0.0.1])
-        by localhost (rbta-msk-vsrv-mail01.astralinux.ru [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id PqBdEedcLvs2; Fri, 28 Oct 2022 13:05:55 +0300 (MSK)
-Received: from rbta-msk-lt-106062.astralinux.ru (unknown [10.177.20.20])
-        by mail.astralinux.ru (Postfix) with ESMTPSA id DF1611864315;
-        Fri, 28 Oct 2022 13:05:54 +0300 (MSK)
-From:   Anastasia Belova <abelova@astralinux.ru>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Anastasia Belova <abelova@astralinux.ru>,
-        Tiffany Lin <tiffany.lin@mediatek.com>,
+        Fri, 28 Oct 2022 06:33:57 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EFA361C20A9;
+        Fri, 28 Oct 2022 03:33:56 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 9F554B80189;
+        Fri, 28 Oct 2022 10:33:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C0DD3C433D6;
+        Fri, 28 Oct 2022 10:33:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1666953234;
+        bh=yYY52+M13hWrqJU6NL54oJi3GSh9XgqjKNnE4Zx4jos=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=UQsBmQv9M44f7b8F5Wn0DVVo0y1nv78b7L6ibXBRArg0KzfUUEufrVwX8dy1nJcvL
+         7CJIMFMkqq5Gac+2i9S6oSkTzeKdbkfbKqwTeWeknsPV9V/DGGJWvWl9QpSst3i0PT
+         9wdDmSxiOmJtU5DCyEOHjJdgwQGflCxONnnGmXFc=
+Date:   Fri, 28 Oct 2022 12:33:51 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Anastasia Belova <abelova@astralinux.ru>
+Cc:     Tiffany Lin <tiffany.lin@mediatek.com>,
         Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Matthias Brugger <matthias.bgg@gmail.com>,
         linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
         lvc-project@linuxtesting.org
-Subject: [PATCH 5.10 1/1] vdec_vp9_if: add check for NULL for vsi->frm_bufs[vsi->new_fb_idx].buf.fb in vp9_swap_frm_bufs
-Date:   Fri, 28 Oct 2022 13:05:39 +0300
-Message-Id: <20221028100539.30925-2-abelova@astralinux.ru>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20221028100539.30925-1-abelova@astralinux.ru>
+Subject: Re: [PATCH 5.10 1/1] vdec_vp9_if: add check for NULL for
+ vsi->frm_bufs[vsi->new_fb_idx].buf.fb in vp9_swap_frm_bufs
+Message-ID: <Y1uwD66oqzLGufuq@kroah.com>
 References: <20221028100539.30925-1-abelova@astralinux.ru>
+ <20221028100539.30925-2-abelova@astralinux.ru>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221028100539.30925-2-abelova@astralinux.ru>
+X-Spam-Status: No, score=-7.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-If vsi->frm_bufs[vsi->new_fb_idx].buf.fb =3D=3D NULL while cleaning
-fb_free_list NULL-pointer is dereferenced.
+On Fri, Oct 28, 2022 at 01:05:39PM +0300, Anastasia Belova wrote:
+> If vsi->frm_bufs[vsi->new_fb_idx].buf.fb == NULL while cleaning
+> fb_free_list NULL-pointer is dereferenced.
+> 
+> Found by Linux Verification Center (linuxtesting.org) with SVACE.
+> 
+> Signed-off-by: Anastasia Belova <abelova@astralinux.ru>
+> ---
+>  drivers/media/platform/mtk-vcodec/vdec/vdec_vp9_if.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/media/platform/mtk-vcodec/vdec/vdec_vp9_if.c b/drivers/media/platform/mtk-vcodec/vdec/vdec_vp9_if.c
+> index d9880210b2ab..dea056689b48 100644
+> --- a/drivers/media/platform/mtk-vcodec/vdec/vdec_vp9_if.c
+> +++ b/drivers/media/platform/mtk-vcodec/vdec/vdec_vp9_if.c
+> @@ -512,7 +512,7 @@ static void vp9_swap_frm_bufs(struct vdec_vp9_inst *inst)
+>  	 * clean fb_free_list
+>  	 */
+>  	if (vsi->frm_bufs[vsi->new_fb_idx].ref_cnt == 0) {
+> -		if (!vp9_is_sf_ref_fb(
+> +		if (vsi->frm_bufs[vsi->new_fb_idx].buf.fb != NULL && !vp9_is_sf_ref_fb(
+>  			inst, vsi->frm_bufs[vsi->new_fb_idx].buf.fb)) {
+>  			struct vdec_fb *fb;
+>  
+> -- 
+> 2.30.2
+> 
 
-Found by Linux Verification Center (linuxtesting.org) with SVACE.
+<formletter>
 
-Signed-off-by: Anastasia Belova <abelova@astralinux.ru>
----
- drivers/media/platform/mtk-vcodec/vdec/vdec_vp9_if.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+This is not the correct way to submit patches for inclusion in the
+stable kernel tree.  Please read:
+    https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html
+for how to do this properly.
 
-diff --git a/drivers/media/platform/mtk-vcodec/vdec/vdec_vp9_if.c b/drive=
-rs/media/platform/mtk-vcodec/vdec/vdec_vp9_if.c
-index d9880210b2ab..dea056689b48 100644
---- a/drivers/media/platform/mtk-vcodec/vdec/vdec_vp9_if.c
-+++ b/drivers/media/platform/mtk-vcodec/vdec/vdec_vp9_if.c
-@@ -512,7 +512,7 @@ static void vp9_swap_frm_bufs(struct vdec_vp9_inst *i=
-nst)
- 	 * clean fb_free_list
- 	 */
- 	if (vsi->frm_bufs[vsi->new_fb_idx].ref_cnt =3D=3D 0) {
--		if (!vp9_is_sf_ref_fb(
-+		if (vsi->frm_bufs[vsi->new_fb_idx].buf.fb !=3D NULL && !vp9_is_sf_ref_=
-fb(
- 			inst, vsi->frm_bufs[vsi->new_fb_idx].buf.fb)) {
- 			struct vdec_fb *fb;
-=20
---=20
-2.30.2
-
+</formletter>
