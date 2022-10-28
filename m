@@ -2,149 +2,129 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0A4F3611C1D
-	for <lists+linux-media@lfdr.de>; Fri, 28 Oct 2022 23:05:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 050AB611C88
+	for <lists+linux-media@lfdr.de>; Fri, 28 Oct 2022 23:43:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229571AbiJ1VFh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 28 Oct 2022 17:05:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51048 "EHLO
+        id S229661AbiJ1VnI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 28 Oct 2022 17:43:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39716 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229458AbiJ1VFf (ORCPT
+        with ESMTP id S229457AbiJ1VnH (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 28 Oct 2022 17:05:35 -0400
-Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com [IPv6:2a00:1450:4864:20::635])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 56A041CEC0C;
-        Fri, 28 Oct 2022 14:05:29 -0700 (PDT)
-Received: by mail-ej1-x635.google.com with SMTP id y14so15778004ejd.9;
-        Fri, 28 Oct 2022 14:05:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=Pmg59QEvCvB7YDZ5n3GJNoCUMN1VloPth+aIiSQIEsA=;
-        b=pawWAwhqMyDCLnAVREPTezgYxlot5ZLzUpBs82QzdJOwckdBUMPBSiWgoIgUWa6fOJ
-         bIkM+9IKt8z5zMWOfkqWC62e9jD9hPznmpZAiF3Z92MZeXjZ2EXdp79mQFBCVVKX5RHA
-         d2+zNLKJGhTS2ZdBMoMOC3imBv8nkKsrN3MK3CQ6+UkRqm3/aNDa95JS30+KbnxYRv0I
-         ZRpzqO4bUs5sp2EoczKmCzdTqoi0W8aA3bAe8P19r7+WOjoga/3Q1KJpuX2TrSLngx4P
-         3YOqmp/4U7VJu2FpNwNJ5OSnzfiqISZTaXfAdz3kbaDigz3pxNYlsXc5UJu5iSmCMXFf
-         TjAA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Pmg59QEvCvB7YDZ5n3GJNoCUMN1VloPth+aIiSQIEsA=;
-        b=SfXKwpz1NAfJPACS4cvPk66RBifzVMAK6MdiMt1UJJoZSaf3FRpS/FAcAnkymSre0F
-         Lyi87WHJdhnF0ADB8Gfkk8gAOGJ78xUJSQ/P62CI4lMc4yO0mla0r1yIdOLOrWx/E/6w
-         VXHrAOteHPs2Q2o8tIzQTP4ZIMWUZgTFz0yle4vz0Css63chFoeETxfNEp5LswAxEQdz
-         7UT5APXcvIAlatD84cMLq/6Pa0+itpxvbQ1ukFNGWIPy8U1016iE6fe4NA7Imjq2wDY7
-         mcl3hI3HUa9P24ruHkojV9ivCxWhzS7lGC4nXGsb7euZ8fFowu5ZSuCAf+Zi1aNZOTJO
-         Kafg==
-X-Gm-Message-State: ACrzQf1+MpkBw23tAVrDvLuzvMbSh3KAmYvcxb2ml9wdPD1u2hV1qRde
-        9Yh0MmjXggrUqmuHRzV+gvUiPSH5wJdB4BUwxhw=
-X-Google-Smtp-Source: AMsMyM75Y5FZ82YEH9D4k42+Gt58baqs7YVwanOze6jxdEHQSjcNXVZn9yXWnEE31Trw2DPx1IUYVmLsER+xQW6KzNU=
-X-Received: by 2002:a17:906:c14f:b0:793:30e1:96be with SMTP id
- dp15-20020a170906c14f00b0079330e196bemr1129553ejc.447.1666991127780; Fri, 28
- Oct 2022 14:05:27 -0700 (PDT)
-MIME-Version: 1.0
-References: <20221014183459.181567-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20221014183459.181567-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <Y1pphVPw0J97AmW4@paasikivi.fi.intel.com> <CA+V-a8szaPjwumrBgOT9gzMKBjY7hk0zfP8RgzUUDfY+BAsogA@mail.gmail.com>
- <Y1p91+XxPCB9NWwh@paasikivi.fi.intel.com> <CA+V-a8uhYymEVg7jdLVGNLsVD3=O1mk-_NVERu00W+gsv-7QXg@mail.gmail.com>
- <Y1rQBmXj71C1RrwB@paasikivi.fi.intel.com>
-In-Reply-To: <Y1rQBmXj71C1RrwB@paasikivi.fi.intel.com>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Fri, 28 Oct 2022 22:05:01 +0100
-Message-ID: <CA+V-a8urGG-m-gn_sOhTJHhHws3X8zdgjq+YY8W7qy42VAdXgQ@mail.gmail.com>
-Subject: Re: [PATCH v2 2/5] media: i2c: ov5645: Use runtime PM
+        Fri, 28 Oct 2022 17:43:07 -0400
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6CCAE24AAD2
+        for <linux-media@vger.kernel.org>; Fri, 28 Oct 2022 14:43:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1666993386; x=1698529386;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=obdV5QZN/mvKI3X/Leuk2csp4VLCdlruvqMhaTyRop8=;
+  b=CKNa/QSiAGrC+VoM2Mz510L+gfOtbE3Gz6i1QYU/949NV7lS22whwVpd
+   XRyhbNsntYFHXiPZzikHt6VHMORYolonT8tofAY2v1zKsumrdMJ3BhztD
+   j2sf0JbaWDqZljTqi5MdrueQ5jGO7GPDRA5+A5VXUPkZKahXxARI3RUMH
+   1YS1EKlqpgi9lowqhafxL2N/BwFwBHMHgY0bUVgfUpUUyyhCf4N98smlP
+   ZOmdXE82GmLeooyqhInTppnttWnbKqKvP1vpk+uw6aKD58rjL9aNZie8w
+   FRrw3LwExopbNbaTn9svTrLetECnUTrUnTec9Dzohj36SFEDoqrREOB0s
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10514"; a="291893584"
+X-IronPort-AV: E=Sophos;i="5.95,222,1661842800"; 
+   d="scan'208";a="291893584"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2022 14:43:06 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10514"; a="664171044"
+X-IronPort-AV: E=Sophos;i="5.95,222,1661842800"; 
+   d="scan'208";a="664171044"
+Received: from lkp-server02.sh.intel.com (HELO b6d29c1a0365) ([10.239.97.151])
+  by orsmga008.jf.intel.com with ESMTP; 28 Oct 2022 14:43:04 -0700
+Received: from kbuild by b6d29c1a0365 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1ooX84-000AFj-0R;
+        Fri, 28 Oct 2022 21:43:04 +0000
+Date:   Sat, 29 Oct 2022 05:43:00 +0800
+From:   kernel test robot <lkp@intel.com>
 To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Shawn Tu <shawnx.tu@intel.com>,
-        Jacopo Mondi <jacopo@jmondi.org>, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Cc:     linux-media@vger.kernel.org
+Subject: [sailus-media-tree:master] BUILD SUCCESS
+ 7336c54a562b479866d2de2abc61487a4e07b0b9
+Message-ID: <635c4ce4.Gm5uYFseE7n/yM6h%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,
+        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sakari,
+tree/branch: git://linuxtv.org/sailus/media_tree.git master
+branch HEAD: 7336c54a562b479866d2de2abc61487a4e07b0b9  media: i2c: ov4689: code cleanup
 
-On Thu, Oct 27, 2022 at 7:45 PM Sakari Ailus
-<sakari.ailus@linux.intel.com> wrote:
->
-> Hi Prabhakar,
->
-> On Thu, Oct 27, 2022 at 05:32:07PM +0100, Lad, Prabhakar wrote:
-> > Hi Sakari,
-> >
-> > On Thu, Oct 27, 2022 at 1:47 PM Sakari Ailus
-> > <sakari.ailus@linux.intel.com> wrote:
-> > >
-> > > Hi Prabhakar,
-> > >
-> > > On Thu, Oct 27, 2022 at 01:01:52PM +0100, Lad, Prabhakar wrote:
-> > > > Hi Sakari,
-> > > >
-> > > > On Thu, Oct 27, 2022 at 12:20 PM Sakari Ailus
-> > > > <sakari.ailus@linux.intel.com> wrote:
-> > > > >
-> > > > > Hi Prabhakar,
-> > > > >
-> > > > > One more comment.
-> > > > >
-> > > > > On Fri, Oct 14, 2022 at 07:34:56PM +0100, Prabhakar wrote:
-> > > > > > @@ -1209,12 +1190,16 @@ static int ov5645_probe(struct i2c_client *client)
-> > > > > >
-> > > > > >       dev_info(dev, "OV5645 detected at address 0x%02x\n", client->addr);
-> > > > > >
-> > > > > > +     pm_runtime_set_active(dev);
-> > > > > > +     pm_runtime_get_noresume(dev);
-> > > > > > +     pm_runtime_enable(dev);
-> > > > >
-> > > > > You won't gain anything by eanbling runtime PM here. Just move it to the
-> > > > > end of the function before the rest of the calls. Error handling becomes
-> > > > > more simple.
-> > > > >
-> > > > If I move the above calls below I get the below warning:
-> > > >
-> > > > [    2.633386] ov5645 0-003c: Runtime PM usage count underflow!
-> > > >
-> > > > This is because of the last patch which moves ov5645_entity_init_cfg()
-> > > > before registering the subdev. ov5645_entity_init_cfg() calls s_ctrl
-> > > > due to which we are seeing the above message. Please let me know how
-> > > > to proceed on this.
-> > >
-> > > Ah. Yes, this is a problem with the usage pattern of
-> > > pm_runtime_get_if_in_use(). But please don't change that.
-> > >
-> > > You can still move enabling runtime PM later in the function.
-> > >
-> > Agreed, the final version looks like below:
-> >
-> >     pm_runtime_set_active(dev);
-> >     pm_runtime_get_noresume(dev);
-> >
->
-> You'll have to enable runtime PM here, before pm_runtime_get_if_in_use()
-> gets called.
->
-> I'll see if it could be made to work in a sensible way when runtime PM
-> isn't enabled yet.
->
-Agreed, I'll send out v3 after fixing the comments.
+elapsed time: 722m
 
-Cheers,
-Prabhakar
+configs tested: 47
+configs skipped: 2
+
+The following configs have been built successfully.
+More configs may be tested in the coming days.
+
+gcc tested configs:
+i386                                defconfig
+um                             i386_defconfig
+arc                                 defconfig
+s390                             allmodconfig
+um                           x86_64_defconfig
+alpha                               defconfig
+s390                                defconfig
+x86_64                              defconfig
+arc                  randconfig-r043-20221028
+s390                             allyesconfig
+x86_64                        randconfig-a002
+x86_64                               rhel-8.3
+m68k                             allmodconfig
+arc                              allyesconfig
+x86_64                        randconfig-a006
+x86_64                           allyesconfig
+riscv                randconfig-r042-20221028
+x86_64                           rhel-8.3-syz
+arm                                 defconfig
+ia64                             allmodconfig
+i386                          randconfig-a012
+powerpc                           allnoconfig
+s390                 randconfig-r044-20221028
+x86_64                        randconfig-a004
+i386                          randconfig-a016
+x86_64                         rhel-8.3-kunit
+alpha                            allyesconfig
+x86_64                           rhel-8.3-kvm
+powerpc                          allmodconfig
+m68k                             allyesconfig
+mips                             allyesconfig
+i386                          randconfig-a014
+sh                               allmodconfig
+arm64                            allyesconfig
+arm                              allyesconfig
+x86_64                          rhel-8.3-func
+x86_64                    rhel-8.3-kselftests
+i386                             allyesconfig
+
+clang tested configs:
+x86_64                        randconfig-a016
+hexagon              randconfig-r041-20221028
+i386                          randconfig-a013
+hexagon              randconfig-r045-20221028
+x86_64                        randconfig-a001
+i386                          randconfig-a011
+x86_64                        randconfig-a003
+x86_64                        randconfig-a005
+i386                          randconfig-a015
+
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
