@@ -2,87 +2,89 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7E5CC61230F
-	for <lists+linux-media@lfdr.de>; Sat, 29 Oct 2022 14:54:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0C39161233C
+	for <lists+linux-media@lfdr.de>; Sat, 29 Oct 2022 15:17:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229763AbiJ2MyY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 29 Oct 2022 08:54:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40814 "EHLO
+        id S229720AbiJ2NRp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 29 Oct 2022 09:17:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47890 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229476AbiJ2MyY (ORCPT
+        with ESMTP id S229482AbiJ2NRo (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 29 Oct 2022 08:54:24 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E060961750;
-        Sat, 29 Oct 2022 05:54:22 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 68AD360A6A;
-        Sat, 29 Oct 2022 12:54:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 475C1C433C1;
-        Sat, 29 Oct 2022 12:54:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1667048061;
-        bh=tRSGboT9HfbW6usCNnc8KAfNitwKrg6obJLTXnSR+Cg=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=mftKKVoNUvEpYmo4CFy9y045V/KCam9EHtFebQIMWXjCyx4g6fhufDGZuDrQqDyqu
-         Jnsw+ui5BXrICpOY9JY9AiHcDDIlldOS+VnfzuHk+h6fTYTLQRRqZTLNNLobsMHC0v
-         4xJQ4LKMHG888ycm473ef7qeHIB2gqkrimkZxElhx3sCdo2CoAy77/l8AXDx/MhpLH
-         mRfotTRSeSAKnuPcAudlWw5n/O2+jWSzhoVQ5AzGy0ygAiaUbMFv11vOntvLjV8Wu0
-         OVuYhGNyz7YagaDsdJi8MaUB+UtLoQrxo7rEGvVpyBRNp3PSjpPBgK+rUgC3WAmFt1
-         TCSfO9QahVPvg==
-Date:   Sat, 29 Oct 2022 20:54:12 +0800
-From:   Shawn Guo <shawnguo@kernel.org>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     Prabhakar <prabhakar.csengg@gmail.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Shawn Tu <shawnx.tu@intel.com>,
-        Jacopo Mondi <jacopo@jmondi.org>, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-renesas-soc@vger.kernel.org,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH v3 0/9] media: i2c: ov5645 driver enhancements
-Message-ID: <20221029125412.GX125525@dragon>
-References: <20221026130658.45601-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <Y1pQJP1DMZvdioZF@paasikivi.fi.intel.com>
+        Sat, 29 Oct 2022 09:17:44 -0400
+Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com [IPv6:2607:f8b0:4864:20::62a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BBBD26CF78;
+        Sat, 29 Oct 2022 06:17:43 -0700 (PDT)
+Received: by mail-pl1-x62a.google.com with SMTP id j12so7121973plj.5;
+        Sat, 29 Oct 2022 06:17:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=g04ee0HphqFzosV+F5fBEaDnPcHUqbW/sFQYscbMOo4=;
+        b=cgjMdG6MEsmiqYblD4knpeZR/WA3RkYTWzA7AZuTLM/1bOmwJAn/4Bzgb7rm6RNsuR
+         vMdnkyJzaYNx2kKfl95AUU5WTPnYpfCY9hdQmCYTs93xAAW/iEhl5VxK2lrIR12+gAwT
+         tfJ2304w8mNsFgXornNBYpnIh/KGGmuOtnaT8zr7kLJCg/OpKBaQLHRlIwqINFK9l2gx
+         WbpzXGAn7/ozG6p7ROylpIyIBaDBACWtqU7+ykeHLeDyGpf1quelHGtcUd0VSBTouoME
+         hAVcjj9FYy8TMddZb0wclFOUoEAYgAkHBI0sWYYs4rVVFWaTMMkNrfGyXnIwL5Xt8W+t
+         VpDA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=g04ee0HphqFzosV+F5fBEaDnPcHUqbW/sFQYscbMOo4=;
+        b=XfRIRD6uacK7AsbRxs1Muk/q9c2vOKavTaW9Xl7S8FS2pnne8rHHQ4oGSaG5wuoW8T
+         aNSA/Vkv24nWHajggjPV217hdaOOKoQbWuo4Tx6crzdS4MRMtZIV4EkC4EEDsE+nVMes
+         1LXuilbX3IU7SW0oWmhxHC2JWIjhYqkg/rVNtBMW2rnev0CXyc2u6xKtay9VxF/cD6Up
+         TsJ5sGzXTFdTtNdjjoN0kbWt1canhwAlNW55BtyCpuSrDLnhYbYCNV+uBXH/C1/A42nB
+         3XEhUyfb2aK9k/ZHKZ1NJ/OyG78eT9QD9vKNNYxPuW695kkYTk4sH5Q5d9OlPQnRzBPi
+         HsOA==
+X-Gm-Message-State: ACrzQf0FNKQ6+TBSfsF4db+riLPehMW2HanCFnMhxc1zp+ZuW/9l1Rlx
+        hi9mFnY4sj8PLefniZ7c6MIwk5yx1guvr1o5
+X-Google-Smtp-Source: AMsMyM5DIMyXNXq1ow1WUNMOi0Iji1S7puxZbqMnPiVIoB03+5PyO5G18hiaPkxSIHGUTZ9ErKeGcA==
+X-Received: by 2002:a17:90a:fa42:b0:212:f0d3:2ff4 with SMTP id dt2-20020a17090afa4200b00212f0d32ff4mr4755504pjb.104.1667049463128;
+        Sat, 29 Oct 2022 06:17:43 -0700 (PDT)
+Received: from debian.. (subs03-180-214-233-19.three.co.id. [180.214.233.19])
+        by smtp.gmail.com with ESMTPSA id k13-20020aa7998d000000b005622f99579esm1187439pfh.160.2022.10.29.06.17.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 29 Oct 2022 06:17:42 -0700 (PDT)
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+To:     linux-kernel@vger.kernel.org, linux-hams@vger.kernel.org,
+        linux-media@vger.kernel.org
+Cc:     Bagas Sanjaya <bagasdotme@gmail.com>
+Subject: [PATCH 0/2] MAINTAINERS: drop few inactive maintainers
+Date:   Sat, 29 Oct 2022 20:17:32 +0700
+Message-Id: <20221029131734.616829-1-bagasdotme@gmail.com>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y1pQJP1DMZvdioZF@paasikivi.fi.intel.com>
-X-Spam-Status: No, score=-7.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-Developer-Signature: v=1; a=openpgp-sha256; l=548; i=bagasdotme@gmail.com; h=from:subject; bh=8iIY2mtCrdFuMDanbYZmMfsW1yeqkwuHLgNWhJMIF80=; b=owGbwMvMwCH2bWenZ2ig32LG02pJDMmx6i++6LRMlF9zTCPyzvX8NufbIZEzRbOfBzvf1TJcukzn +6aIjlIWBjEOBlkxRZZJiXxNp3cZiVxoX+sIM4eVCWQIAxenAExkaw7D/xSnwEf/vrNVrWyo/WcQun wa98al+yIP6/o2xvqaz3OfZsbwT5G9muGm17oHFy2WXDQKOGsZYJ2uU2wrPO38USGhXc3JTAA=
+X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-0.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_SORBS_WEB,SPF_HELO_NONE,SPF_PASS
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Oct 27, 2022 at 09:32:20AM +0000, Sakari Ailus wrote:
-> Hello,
-> 
-> On Wed, Oct 26, 2022 at 02:06:49PM +0100, Prabhakar wrote:
-> >   ARM: dts: imx6qdl-pico: Drop clock-names property
-> >   ARM: dts: imx6qdl-wandboard: Drop clock-names property
-> >   arm64: dts: renesas: aistarvision-mipi-adapter-2.1: Drop clock-names
-> >     property
-> 
-> Are Freescale/Renesas arch maintainers fine with me taking these patches
-> or should they be merged through another tree?
+As soon as I sent review replies in recent days, I noticed that my
+emails to few maintainers bounced. I discovered that they weren't active
+anymore, so let's drop them from MAINTAINERS so that people won't send
+emails to them and get bounced.
 
-Go ahead to take i.MX DTS patches:
+Bagas Sanjaya (2):
+  MAINTAINERS: remove Thomas Sailer
+  MAINTAINERS: drop Liam Mark and Laura Abbott
 
-Acked-by: Shawn Guo <shawnguo@kernel.org>
+ MAINTAINERS | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
+
+
+base-commit: fd8dab197cca2746e1fcd399a218eec5164726d4
+-- 
+An old man doll... just what I always wanted! - Clara
+
