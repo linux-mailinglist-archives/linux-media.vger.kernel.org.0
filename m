@@ -2,70 +2,78 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7A90F612D36
-	for <lists+linux-media@lfdr.de>; Sun, 30 Oct 2022 23:04:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B0C0A612D6D
+	for <lists+linux-media@lfdr.de>; Sun, 30 Oct 2022 23:33:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230027AbiJ3WEL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 30 Oct 2022 18:04:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36258 "EHLO
+        id S229707AbiJ3WdQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 30 Oct 2022 18:33:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44884 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229691AbiJ3WDw (ORCPT
+        with ESMTP id S229476AbiJ3WdP (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 30 Oct 2022 18:03:52 -0400
-Received: from mail-ot1-f42.google.com (mail-ot1-f42.google.com [209.85.210.42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 20239D2FC;
-        Sun, 30 Oct 2022 15:03:12 -0700 (PDT)
-Received: by mail-ot1-f42.google.com with SMTP id v40-20020a056830092800b00661e37421c2so5903509ott.3;
-        Sun, 30 Oct 2022 15:03:12 -0700 (PDT)
+        Sun, 30 Oct 2022 18:33:15 -0400
+Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com [IPv6:2a00:1450:4864:20::52e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7FA2B95B3;
+        Sun, 30 Oct 2022 15:33:11 -0700 (PDT)
+Received: by mail-ed1-x52e.google.com with SMTP id y69so15190376ede.5;
+        Sun, 30 Oct 2022 15:33:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=n2o/GMQ0tE3kyma8kEJB/WriSFlX/4OAcK/yGlC1IlE=;
+        b=HABUGdOYJ2Ota30RMDhZXtIDHugmsIIqXOuZRUA24b6bDOpJXQ2G3HHR2xZx4lsH6m
+         7MPFnhxyxZZnJalq7R6AKJyp7R8e+Q9QpYuo7SrguIFU9zScACRdg44x9drn7M1Vw5nO
+         D+F8+at+RnRWoC2j74lZ9YpPJfKZwBDJx0lA75eR93WhVTKfJsrobxOuYZ7gxPhadicD
+         5v5hIqYZKpEw51Gi/PlwYc725575Z/D7UzzqU0J9CMK2a6y+nKC4kOQPJRCg+LH6Xvtz
+         S/+Q8oncydo38Iy6DHxXoS0zSzAFzL9jwzmAMRm7TCSrKxYKDhdjtI2OvvFWZEtoKKWN
+         wvxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=j6RoJ9OKbLkpnZky8aWx+SuJhSHiYeWvTuobl/R4hbY=;
-        b=v+3+Rf3SRd1NzaS+g+YXCfbX44NITs51UYq29Su9lxRjpfDGjiN3LYEa+93Gg4NeRA
-         Qh50Y7mAb794i4eWv+ndOrscVWuJOsuEUeVsP9VlFA1K01Hswh7saHvmDlQRLxdA8nOg
-         2bnXSsmHrDVoalzCVHQ/DPabqnV67+sua8NCWisOpq1mDFqies1HFHiFfe4SBdfEYapu
-         uD1Z4yKZOh4iGWkVVH8g9Sd0IUR7ExYggqNttS9NA/bMg7GsGViuAGIZv+j3grPyeS3R
-         F3c6uND6DUOOBLFGyYNgojpO4Wi1QAW6bvg/3xTS/mW+mkVZZL0i4UTKp0Fq3RDqnyvH
-         P1KA==
-X-Gm-Message-State: ACrzQf2QsxY8Ctw6DFWYY47JNEqKUPwNXtSXzqpzwkNyetMHbCz1IY59
-        8vjEOAc9ddl5fGm6iEcV94A8nDwN5A==
-X-Google-Smtp-Source: AMsMyM6X8g79Ijv6psybb64KEd/NRuDVR7gMsp2VRHu88yJE4MegteReCbn9Y9VeH8/xRUR6Qkvnug==
-X-Received: by 2002:a9d:73cf:0:b0:668:2f96:c3ac with SMTP id m15-20020a9d73cf000000b006682f96c3acmr5019966otk.184.1667167391313;
-        Sun, 30 Oct 2022 15:03:11 -0700 (PDT)
-Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id i17-20020a544091000000b0035a0badf1dfsm388575oii.20.2022.10.30.15.03.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 30 Oct 2022 15:03:10 -0700 (PDT)
-Received: (nullmailer pid 1570811 invoked by uid 1000);
-        Sun, 30 Oct 2022 22:03:12 -0000
-Date:   Sun, 30 Oct 2022 17:03:12 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Marek Vasut <marex@denx.de>
-Cc:     linux-stm32@st-md-mailman.stormreply.com,
-        linux-arm-kernel@lists.infradead.org,
-        Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        linux-media@vger.kernel.org,
-        Sylvain Petinot <sylvain.petinot@foss.st.com>,
-        devicetree@vger.kernel.org
-Subject: Re: [PATCH v3] dt-bindings: media: st,stmipid02: Convert the text
- bindings to YAML
-Message-ID: <166716737315.1570500.9301715619999020296.robh@kernel.org>
-References: <20220929145416.16336-1-marex@denx.de>
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=n2o/GMQ0tE3kyma8kEJB/WriSFlX/4OAcK/yGlC1IlE=;
+        b=eEfv1YkxpBLnCmyt8AhHgmiGzO+NlYcqJQolUcqKJLRqzAwOh5Bw4e6+JUufodv8ed
+         TAjYbnQFt+vg0zRmcU2/obAm/pfMYt1ohwqXxz5gQt5x2onXYAMzIvZYZ5vurbCGUHaB
+         GrtGyxMvDuWELcPkP1MVr8ZCbi3kjA2Cgt0GJroxLrEt+e1xHajZPBsCBSVFJtPITuK2
+         KigbMS0jbgOuo4SXqwykg0ekNS4CclqcUexKkCfnkZ2P15wYbbUsEZAKKba4wkWXn9si
+         QLlYpuGWou9vMuySQbdWXXuZyJpqpdKnxJW/HhjN0LnDmjivLUiGTgWDOBJtBGcm1/Kc
+         OKkQ==
+X-Gm-Message-State: ACrzQf079zZoMZMWw4PaVW5OuCGcUwCw8GJfcndBzILfD05WGV9Cq6QE
+        qgR6sh5+HtawORncyer3UCTF+hgU8boOipa7qyo=
+X-Google-Smtp-Source: AMsMyM7al3v/Q859ICA2kZ1i0JIfKddkJZDg1/XHd4Nv2cElZqaKFyOBOvfe3sVNCkvwP4CZRYWXR2Y1gqPYmcvqdho=
+X-Received: by 2002:a05:6402:1219:b0:462:e788:723f with SMTP id
+ c25-20020a056402121900b00462e788723fmr10523123edw.319.1667169190008; Sun, 30
+ Oct 2022 15:33:10 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220929145416.16336-1-marex@denx.de>
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
-        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS autolearn=no
+References: <20221027103104.74576-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20221027103104.74576-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <Y1qCbUoLrR6qlQwa@paasikivi.fi.intel.com> <CA+V-a8seroka4YkyCnSYa2KMPDWMG1Zk8tyiqRntdPUQnc+nrA@mail.gmail.com>
+ <Y1vJbJfFjV9jRNzz@paasikivi.fi.intel.com>
+In-Reply-To: <Y1vJbJfFjV9jRNzz@paasikivi.fi.intel.com>
+From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date:   Sun, 30 Oct 2022 22:32:43 +0000
+Message-ID: <CA+V-a8tONhJ1_x3T7+6n7tu=xyFBZfsqT2v3iUGd2Jy5_NuZCg@mail.gmail.com>
+Subject: Re: [PATCH v4 4/4] media: platform: Add Renesas RZ/G2L CRU driver
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -73,41 +81,53 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Sakari,
 
-On Thu, 29 Sep 2022 16:54:16 +0200, Marek Vasut wrote:
-> Convert the text STMIPID02 DT bindings to YAML DT format to permit
-> validation of DTs using this I2C CSI-2 to CPI bridge.
-> 
-> Reviewed-by: Benjamin Mugnier <benjamin.mugnier@foss.st.com>
-> Signed-off-by: Marek Vasut <marex@denx.de>
-> ---
-> Cc: Alexandre Torgue <alexandre.torgue@foss.st.com>
-> Cc: Benjamin Mugnier <benjamin.mugnier@foss.st.com>
-> Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-> Cc: Maxime Coquelin <mcoquelin.stm32@gmail.com>
-> Cc: Rob Herring <robh+dt@kernel.org>
-> Cc: Sylvain Petinot <sylvain.petinot@foss.st.com>
-> Cc: devicetree@vger.kernel.org
-> Cc: linux-media@vger.kernel.org
-> Cc: linux-stm32@st-md-mailman.stormreply.com
-> To: linux-arm-kernel@lists.infradead.org
-> ---
-> V2: - Update YAML DT schema maintainers, add Benjamin and Sylvain, drop myself
->     - Update MAINTAINERS file, replace st,st-mipid02.txt to st,st-mipid02.yaml
->     - Fix bus-width to be 6,7,8,10,12 and drop default:
->     - Require port@2 and either or both port@0 or port@1
-> V3: - Add RB from Benjamin
->     - Fix lane-polarity property name to lane-polarities
->     - Fill in newlines
->     - Replace clock-names: subnodes with plain "const: xclk"
-> ---
->  .../bindings/media/i2c/st,st-mipid02.txt      |  82 --------
->  .../bindings/media/i2c/st,st-mipid02.yaml     | 176 ++++++++++++++++++
->  MAINTAINERS                                   |   2 +-
->  3 files changed, 177 insertions(+), 83 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/media/i2c/st,st-mipid02.txt
->  create mode 100644 Documentation/devicetree/bindings/media/i2c/st,st-mipid02.yaml
-> 
+On Fri, Oct 28, 2022 at 1:22 PM Sakari Ailus
+<sakari.ailus@linux.intel.com> wrote:
+>
+> Hi Prabhakar,
+>
+> On Thu, Oct 27, 2022 at 08:04:40PM +0100, Lad, Prabhakar wrote:
+> ...
+> > > > +static int rzg2l_cru_ip_s_stream(struct v4l2_subdev *sd, int enable)
+> > > > +{
+> > > > +     struct rzg2l_cru_dev *cru;
+> > > > +     int ret;
+> > > > +
+> > > > +     cru = v4l2_get_subdevdata(sd);
+> > > > +
+> > > > +     if (!cru->is_csi)
+> > > > +             return -EINVAL;
+> > > > +
+> > > > +     ret = v4l2_subdev_call(cru->ip.remote, video, s_stream, enable);
+> > >
+> > > It's up to the driver how call pre_streamon() and post_streamoff(), as long
+> > > as it takes place on both sides of s_stream().
+> > >
+> > > In other words, as it seems your device doesn't need anything special, you
+> > > could waive implemeting the callbacks yourself and call pre_streamon() and
+> > > post_streamoff() here.
+> > >
+> > Here the cru->ip.remote = CSI, in the rzg2l_cru_set_stream(1) where we
+> > are calling pre_streamon()/post_streamoff() callbacks the subdev is
+> > CRU-IP. So the calls from rzg2l_cru_set_stream() land into
+> > rzg2l_cru_ip_pre_streamon() and rzg2l_cru_ip_post_streamoff() which
+> > are calling pre_streamon/post_streamoff for the CSI subdev.
+>
+> Again, you should call the source sub-device's pre_streamon and
+> post_streamoff from the s_stream handler (not from
+> rzg2l_cru_ip_pre_streamon or rzg2l_cru_ip_post_streamoff).
+>
+> Starting streaming takes place link by link. This allows a driver to omit
+> implementing pre_streamon and post_streamon callbacks if it doesn't need
+> them.
+>
+Thank you for the explanation that makes sense now to me.
 
-Applied, thanks!
+Now with this approach the initialization sequence of CSI + CRU won't
+align as per the HW manual. Unfortunately I'll have to switch back on
+exporting the functions. I hope that's okay?
+
+Cheers,
+Prabhakar
