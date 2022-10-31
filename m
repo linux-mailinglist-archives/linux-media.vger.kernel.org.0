@@ -2,143 +2,98 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 12A5C613194
-	for <lists+linux-media@lfdr.de>; Mon, 31 Oct 2022 09:19:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 801CE613230
+	for <lists+linux-media@lfdr.de>; Mon, 31 Oct 2022 10:06:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229781AbiJaITj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 31 Oct 2022 04:19:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40942 "EHLO
+        id S230055AbiJaJGN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 31 Oct 2022 05:06:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43560 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229468AbiJaITi (ORCPT
+        with ESMTP id S229505AbiJaJGM (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 31 Oct 2022 04:19:38 -0400
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F2059FEA;
-        Mon, 31 Oct 2022 01:19:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1667204378; x=1698740378;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=lbmevJjnjpGGx89wIvYMNqwP6/k7SVFB7D/svXf4f3Q=;
-  b=ZFmgBRtrG/AzYYinGijkyX07wvba3HRqSwiWSVxrXGAnzx0SNHyquXZY
-   Jjn8ugRRuPpN+aUUp9bguQ6dvJSUXxOLWfFHuARvgye41zVb6OH1zoLk8
-   3fLtB7SSltUaZ4Hna75rZmgrCydoS7dEw76PyQ23uGGertUNVJaG2zEsZ
-   3cffd6WI98j0YWrrWDFpwUarjOw0V1YBgFvcZzaMbwYWxLnvPLeF04lXN
-   KPgWkOVfBxfVEl2B7Qoyvur9W9OCaoPHGPPxlTok318wvc2sKwWAlscWm
-   CvihE1llBYOjTax3/dbjWCjI4BeypTGgE5wPUH7ejMLnLHwC2Lp/O7ist
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10516"; a="335500652"
-X-IronPort-AV: E=Sophos;i="5.95,227,1661842800"; 
-   d="scan'208";a="335500652"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2022 01:19:37 -0700
-X-IronPort-AV: E=McAfee;i="6500,9779,10516"; a="776051657"
-X-IronPort-AV: E=Sophos;i="5.95,227,1661842800"; 
-   d="scan'208";a="776051657"
-Received: from punajuuri.fi.intel.com (HELO paasikivi.fi.intel.com) ([10.237.72.43])
-  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2022 01:19:34 -0700
-Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
-        by paasikivi.fi.intel.com (Postfix) with SMTP id 130C72026C;
-        Mon, 31 Oct 2022 10:19:32 +0200 (EET)
-Date:   Mon, 31 Oct 2022 08:19:32 +0000
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mon, 31 Oct 2022 05:06:12 -0400
+Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com [IPv6:2a00:1450:4864:20::62c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7676020C;
+        Mon, 31 Oct 2022 02:06:11 -0700 (PDT)
+Received: by mail-ej1-x62c.google.com with SMTP id d26so27667741eje.10;
+        Mon, 31 Oct 2022 02:06:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=g0snT4n//h/2k97Qobb3JRu1DhhY5eqFOKQUrnEmwJA=;
+        b=EadVQDvXTd2a2c0lt8q3h3DJE69Qed2JO2ph+XpyOEsWL16C732jST4btYtzdn2prT
+         GBR/zf4c/Sc5wlSPe0lnAgDD/DhuKBTm3jE6FNHx3x/4/TxkJyrre16xDYCd056nLkKv
+         hSQy0iOkqLK8uMaWYFemSgXMeue6NXfSazQhL6EsF9gKVotozpakMkM03mKocbrL/FuZ
+         YU1OwhUCtHQMtfq96N58S9fFhSjoN7Ow6DsfPx5wYPKstLxFC1Lt0hiM9EIfY/kpdCiO
+         AtbWuIAE+a4VfUzcnTGoxGfh0/ZRsuSu3pzC4Bl3gzg89zDO0EisQG/+MbWB/HYnaWsc
+         a8JQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=g0snT4n//h/2k97Qobb3JRu1DhhY5eqFOKQUrnEmwJA=;
+        b=0OZ3iidl3NFSD5D/EbQImErlzHuPp1XO6y5WTeEBv2d114CsCfZDThsKUnmOiwweog
+         KCI6uh2gv4UFqhOSBFw7/S3fSkb3hiKjLwaLQk7wP0YGCu8lUtRz77Nau98BunS5y3er
+         jggyVqnxWWgb8cJ0OQdVfZfRUyVXqvRV2eWz4XdNRuDKT2TeHbX5X5PK/TxEyE826xRH
+         XPHrfGhVGl3jSd3X00SMtdmdo5rnRVXtT3KXlqKvW90zWAi4VSbJXOL2GsIdqWYOjOMz
+         9l+mJ0+YQ9MgUmolcXDlwWC2P4Ci8vqNptHFjVINcJJZ3t/4/iy4BqsnbLyeZSjAkG8d
+         nQpQ==
+X-Gm-Message-State: ACrzQf16TqTzGYwKZuFah5TW2eHEauXXc8gcJU6/MxhEPpy8YfKwqG3x
+        TAInKFPWx4hLdifnmzjKHnrEIj6V/jo=
+X-Google-Smtp-Source: AMsMyM5L86KUeUMD4iAbsJdWgAWfeyjlYpqLNh5oE8wsCNG6E5CxxPG16p/8/6NFW/9K27pE18u3OA==
+X-Received: by 2002:a17:907:b07:b0:7a8:beb3:aa2a with SMTP id h7-20020a1709070b0700b007a8beb3aa2amr11742021ejl.459.1667207169941;
+        Mon, 31 Oct 2022 02:06:09 -0700 (PDT)
+Received: from kista.localnet (82-149-19-102.dynamic.telemach.net. [82.149.19.102])
+        by smtp.gmail.com with ESMTPSA id jx24-20020a170907761800b00730bfe6adc4sm2752122ejc.37.2022.10.31.02.06.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 31 Oct 2022 02:06:09 -0700 (PDT)
+From:   Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To:     linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Cc:     Yong Deng <yong.deng@magewell.com>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund@ragnatech.se>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH v4 4/4] media: platform: Add Renesas RZ/G2L CRU driver
-Message-ID: <Y1+FFD4/XCY8HyYa@paasikivi.fi.intel.com>
-References: <20221027103104.74576-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20221027103104.74576-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <Y1qCbUoLrR6qlQwa@paasikivi.fi.intel.com>
- <CA+V-a8seroka4YkyCnSYa2KMPDWMG1Zk8tyiqRntdPUQnc+nrA@mail.gmail.com>
- <Y1vJbJfFjV9jRNzz@paasikivi.fi.intel.com>
- <CA+V-a8tONhJ1_x3T7+6n7tu=xyFBZfsqT2v3iUGd2Jy5_NuZCg@mail.gmail.com>
+        Chen-Yu Tsai <wens@csie.org>,
+        Samuel Holland <samuel@sholland.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: Re: [PATCH v6 12/43] media: sun6i-csi: Remove controls handler from the driver
+Date:   Mon, 31 Oct 2022 10:06:07 +0100
+Message-ID: <2651862.mvXUDI8C0e@kista>
+In-Reply-To: <20220826183240.604834-13-paul.kocialkowski@bootlin.com>
+References: <20220826183240.604834-1-paul.kocialkowski@bootlin.com> <20220826183240.604834-13-paul.kocialkowski@bootlin.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CA+V-a8tONhJ1_x3T7+6n7tu=xyFBZfsqT2v3iUGd2Jy5_NuZCg@mail.gmail.com>
-X-Spam-Status: No, score=-8.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Prabhakar,
-
-On Sun, Oct 30, 2022 at 10:32:43PM +0000, Lad, Prabhakar wrote:
-> Hi Sakari,
+Dne petek, 26. avgust 2022 ob 20:32:09 CET je Paul Kocialkowski napisal(a):
+> The driver does not expose controls directly and thus does not need
+> a controls handler for its own use.
 > 
-> On Fri, Oct 28, 2022 at 1:22 PM Sakari Ailus
-> <sakari.ailus@linux.intel.com> wrote:
-> >
-> > Hi Prabhakar,
-> >
-> > On Thu, Oct 27, 2022 at 08:04:40PM +0100, Lad, Prabhakar wrote:
-> > ...
-> > > > > +static int rzg2l_cru_ip_s_stream(struct v4l2_subdev *sd, int enable)
-> > > > > +{
-> > > > > +     struct rzg2l_cru_dev *cru;
-> > > > > +     int ret;
-> > > > > +
-> > > > > +     cru = v4l2_get_subdevdata(sd);
-> > > > > +
-> > > > > +     if (!cru->is_csi)
-> > > > > +             return -EINVAL;
-> > > > > +
-> > > > > +     ret = v4l2_subdev_call(cru->ip.remote, video, s_stream, enable);
-> > > >
-> > > > It's up to the driver how call pre_streamon() and post_streamoff(), as long
-> > > > as it takes place on both sides of s_stream().
-> > > >
-> > > > In other words, as it seems your device doesn't need anything special, you
-> > > > could waive implemeting the callbacks yourself and call pre_streamon() and
-> > > > post_streamoff() here.
-> > > >
-> > > Here the cru->ip.remote = CSI, in the rzg2l_cru_set_stream(1) where we
-> > > are calling pre_streamon()/post_streamoff() callbacks the subdev is
-> > > CRU-IP. So the calls from rzg2l_cru_set_stream() land into
-> > > rzg2l_cru_ip_pre_streamon() and rzg2l_cru_ip_post_streamoff() which
-> > > are calling pre_streamon/post_streamoff for the CSI subdev.
-> >
-> > Again, you should call the source sub-device's pre_streamon and
-> > post_streamoff from the s_stream handler (not from
-> > rzg2l_cru_ip_pre_streamon or rzg2l_cru_ip_post_streamoff).
-> >
-> > Starting streaming takes place link by link. This allows a driver to omit
-> > implementing pre_streamon and post_streamon callbacks if it doesn't need
-> > them.
-> >
-> Thank you for the explanation that makes sense now to me.
+> Controls attached to subdevs used to be exposed that way, however this
+> can easily lead to issue when multiple subdevs attached to the same
+> v4l2 device expose the same controls. Subdev controls should be set
+> through each individual subdev node instead.
 > 
-> Now with this approach the initialization sequence of CSI + CRU won't
-> align as per the HW manual. Unfortunately I'll have to switch back on
-> exporting the functions. I hope that's okay?
+> Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 
-It is not.
+Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
-What exactly would you like to do that you can't with the
-pre_streamon/post_streamoff callbacks called from s_stream?
+Best regards,
+Jernej
 
-In the worst case we can redefine where they are to be called.
 
--- 
-Kind regards,
-
-Sakari Ailus
