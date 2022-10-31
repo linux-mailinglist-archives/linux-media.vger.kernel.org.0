@@ -2,103 +2,93 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BC652613345
-	for <lists+linux-media@lfdr.de>; Mon, 31 Oct 2022 11:09:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7F9E0613360
+	for <lists+linux-media@lfdr.de>; Mon, 31 Oct 2022 11:12:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230259AbiJaKJ3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 31 Oct 2022 06:09:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34668 "EHLO
+        id S230349AbiJaKMs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 31 Oct 2022 06:12:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37116 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230006AbiJaKJ1 (ORCPT
+        with ESMTP id S230460AbiJaKMQ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 31 Oct 2022 06:09:27 -0400
-Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com [IPv6:2a00:1450:4864:20::635])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 24B396388
-        for <linux-media@vger.kernel.org>; Mon, 31 Oct 2022 03:09:25 -0700 (PDT)
-Received: by mail-ej1-x635.google.com with SMTP id n12so28015972eja.11
-        for <linux-media@vger.kernel.org>; Mon, 31 Oct 2022 03:09:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=to:subject:message-id:date:from:reply-to:mime-version:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=FpM8EZDReFBr6EJQ5XY8As4zcOaiqCsdiiu1hEdYzEY=;
-        b=EUm4mhxZCroEzPHyhMBLflyCVW5QRkyfOvp2Wt9sREnsoM7ZSSv/1lpnJD9KCEATkp
-         CndKFabvTyl4G4AkIFTQvFvQfPjKSV1/KAbr1JAJiIPz8DoLFmmgiYL5y3cK8z3KAAE5
-         t9VLJl2vFoxDp3ufc9RXhpNOCOtvGXfA7Yko3G/qDhLqCokALg1xigBdW3eXeVrFYYwU
-         K6StZfDqEMDrhKFm+ALrxUZ9reGTicmVCMBPlM5T9I1p6ar2LvbQ8X6r4+b4ZjL5dK+H
-         O1OYiAv1/P88iwsWdD6Nei+9bLZF6KntxAEpqMRaa9qyylJ9jUGaqAsM6CNBJSznABwp
-         MGCw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=to:subject:message-id:date:from:reply-to:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=FpM8EZDReFBr6EJQ5XY8As4zcOaiqCsdiiu1hEdYzEY=;
-        b=40TSRLRfn2gyKsXAcOlJVCG/sRXveMUL/zs+F9lN/2XmPi0rITSqaM3bIavEv3JnWu
-         m9NURSJGdwLd7A9UfbUhw7DH7lU8sLE26k4bwAQ6jS8FVkjsJsR88cKti5hVkVuIXnMK
-         Erlq5T8B7QGYEgEYBMElghF0FyZsp9S3K1rlLKZcQ+Ny7aQJ7PNjJyfvDo695k5yM1QL
-         sENweCHWUlRtqKGpXTObP4rbGyBT2ITw3VcJ+t9uYaISo7kkohwnVFo1u9wywnOip9FP
-         51RCP6UMlebLn3vjfE25VCOWrGQHlv2YmpZbIXIr0ztiOFeszESzAL+Qr2ub/VEwf/7U
-         yspw==
-X-Gm-Message-State: ACrzQf0y40ffmRnGk24lcIUPLES4K20pL9J0iACBMQ8gcsmexUSGPmF2
-        so+IrzeLXaChkTl7Vv5mfJyX1Id2sJWrzrBqEa4=
-X-Google-Smtp-Source: AMsMyM6vU8feft2jB74auD7k+yGrxikK8kKIzcMlGayP4UYKh53E9ptFqNoc7fZUUDe9xmR0j/tRAY9aN/G10THgm4c=
-X-Received: by 2002:a17:907:75c1:b0:79b:f804:c081 with SMTP id
- jl1-20020a17090775c100b0079bf804c081mr12149652ejc.381.1667210963404; Mon, 31
- Oct 2022 03:09:23 -0700 (PDT)
+        Mon, 31 Oct 2022 06:12:16 -0400
+Received: from relay10.mail.gandi.net (relay10.mail.gandi.net [IPv6:2001:4b98:dc4:8::230])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2DEB7DF81
+        for <linux-media@vger.kernel.org>; Mon, 31 Oct 2022 03:12:13 -0700 (PDT)
+Received: (Authenticated sender: jacopo@jmondi.org)
+        by mail.gandi.net (Postfix) with ESMTPSA id 65FB7240002;
+        Mon, 31 Oct 2022 10:12:11 +0000 (UTC)
+Date:   Mon, 31 Oct 2022 11:12:09 +0100
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Dave Stevenson <dave.stevenson@raspberrypi.com>
+Cc:     paul.j.murphy@intel.com, daniele.alessandrelli@intel.com,
+        linux-media@vger.kernel.org, sakari.ailus@iki.fi
+Subject: Re: [PATCH v2 06/16] media: i2c: ov9282: Correct HTS register for
+ configured pixel rate
+Message-ID: <20221031101209.guqwlnegslap4ey4@uno.localdomain>
+References: <20221028160902.2696973-1-dave.stevenson@raspberrypi.com>
+ <20221028160902.2696973-7-dave.stevenson@raspberrypi.com>
 MIME-Version: 1.0
-Received: by 2002:a05:7208:3141:b0:5b:56cb:6449 with HTTP; Mon, 31 Oct 2022
- 03:09:22 -0700 (PDT)
-Reply-To: bankinstrument793@gmail.com
-From:   Stanley Ikenna <stanleyikenna213@gmail.com>
-Date:   Mon, 31 Oct 2022 02:09:22 -0800
-Message-ID: <CAAVTjW4QQMtjHpEe9kWhDoiv03UzhxppKTjwJ6W6QSc0LSh2QQ@mail.gmail.com>
-Subject: BANK INSTRUMENT
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: Yes, score=5.5 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,FREEMAIL_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,SUBJ_ALL_CAPS,UNDISC_FREEM
-        autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
-        *      https://www.dnswl.org/, no trust
-        *      [2a00:1450:4864:20:0:0:0:635 listed in]
-        [list.dnswl.org]
-        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-        *      [score: 0.5397]
-        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
-        *      provider
-        *      [stanleyikenna213[at]gmail.com]
-        *  0.2 FREEMAIL_REPLYTO_END_DIGIT Reply-To freemail username ends in
-        *      digit
-        *      [bankinstrument793[at]gmail.com]
-        *  0.2 FREEMAIL_ENVFROM_END_DIGIT Envelope-from freemail username ends
-        *       in digit
-        *      [stanleyikenna213[at]gmail.com]
-        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
-        *  0.5 SUBJ_ALL_CAPS Subject is all capitals
-        * -0.0 SPF_PASS SPF: sender matches SPF record
-        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-        *      author's domain
-        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-        *       valid
-        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
-        *      envelope-from domain
-        *  2.9 UNDISC_FREEM Undisclosed recipients + freemail reply-to
-        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
-        *      different freemails
-X-Spam-Level: *****
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20221028160902.2696973-7-dave.stevenson@raspberrypi.com>
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
--- 
-Lease and Sale of Financial Instrument (Bank Guarantee (BG) And
-Standby Letter of Credit (SBLC) from AAA rated banks.
+Hi Dave
 
-Get back for more details.
+On Fri, Oct 28, 2022 at 05:08:52PM +0100, Dave Stevenson wrote:
+> The calculations from pixel rate, width+hblank, and height+vblank
+> do not give the correct framerate - it's half the speed it should
+> be.
+>
+> The datasheet lists the default for the TIMING_HTS registers (0x380c/d)
+> as being 0x2d8 (728) which is less than the width of the image, so
+> the units clearly can't be pixels.
+> If TIMING_HTS is considered to be units of 2-pixels, then the
+> resulting value of 0x5b0 (1456) makes all the calculations correct.
+>
+> This driver is reporting an HBLANK value of 250, with an image width
+> of 1280, so TIMING_HTS is 1530 (0x5fa) pixels. However it was also
+> setting the register to 0x5fa, thereby not taking into account it
+> being units of 2-pixels.
+>
+> Correct the register value to 0x2fd so that all the timing calculations
+> give the correct results.
+>
+> Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 
-bankinstrument793@gmail.com
+Thanks, the commit message is now very clear
+
+Reviewed-by: Jacopo Mondi <jacopo@jmondi.org>
+
+Thanks
+  j
+
+> ---
+>  drivers/media/i2c/ov9282.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/media/i2c/ov9282.c b/drivers/media/i2c/ov9282.c
+> index 1524189cf3e5..7e0b12b89655 100644
+> --- a/drivers/media/i2c/ov9282.c
+> +++ b/drivers/media/i2c/ov9282.c
+> @@ -236,8 +236,8 @@ static const struct ov9282_reg mode_1280x720_regs[] = {
+>  	{0x3809, 0x00},
+>  	{0x380a, 0x02},
+>  	{0x380b, 0xd0},
+> -	{0x380c, 0x05},
+> -	{0x380d, 0xfa},
+> +	{0x380c, 0x02},
+> +	{0x380d, 0xfd},
+>  	{0x3810, 0x00},
+>  	{0x3811, 0x08},
+>  	{0x3812, 0x00},
+> --
+> 2.34.1
+>
