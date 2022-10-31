@@ -2,102 +2,81 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1C0D7613380
-	for <lists+linux-media@lfdr.de>; Mon, 31 Oct 2022 11:22:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 07F11613368
+	for <lists+linux-media@lfdr.de>; Mon, 31 Oct 2022 11:15:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229916AbiJaKWK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 31 Oct 2022 06:22:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41878 "EHLO
+        id S230405AbiJaKPk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 31 Oct 2022 06:15:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39238 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229846AbiJaKWJ (ORCPT
+        with ESMTP id S229620AbiJaKPd (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 31 Oct 2022 06:22:09 -0400
-X-Greylist: delayed 485 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 31 Oct 2022 03:22:08 PDT
-Received: from butterbrot.org (butterbrot.org [176.9.106.16])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1C081DF2C;
-        Mon, 31 Oct 2022 03:22:07 -0700 (PDT)
-Received: from [172.25.26.111] (h175.natout.aau.dk [130.225.198.175])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by butterbrot.org (Postfix) with ESMTPSA id A8CE56581361;
-        Mon, 31 Oct 2022 11:13:57 +0100 (CET)
-Message-ID: <d8ca5bd3-0498-853b-4101-02bfec216aaa@butterbrot.org>
-Date:   Mon, 31 Oct 2022 11:13:57 +0100
+        Mon, 31 Oct 2022 06:15:33 -0400
+Received: from relay10.mail.gandi.net (relay10.mail.gandi.net [IPv6:2001:4b98:dc4:8::230])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B7BF3DEE1
+        for <linux-media@vger.kernel.org>; Mon, 31 Oct 2022 03:15:32 -0700 (PDT)
+Received: (Authenticated sender: jacopo@jmondi.org)
+        by mail.gandi.net (Postfix) with ESMTPSA id 32932240006;
+        Mon, 31 Oct 2022 10:15:29 +0000 (UTC)
+Date:   Mon, 31 Oct 2022 11:15:28 +0100
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Dave Stevenson <dave.stevenson@raspberrypi.com>
+Cc:     paul.j.murphy@intel.com, daniele.alessandrelli@intel.com,
+        linux-media@vger.kernel.org, sakari.ailus@iki.fi
+Subject: Re: [PATCH v2 07/16] media: i2c: ov9282: Reduce vblank_min values
+ based on testing
+Message-ID: <20221031101528.ed2x7igafwqd4pte@uno.localdomain>
+References: <20221028160902.2696973-1-dave.stevenson@raspberrypi.com>
+ <20221028160902.2696973-8-dave.stevenson@raspberrypi.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.0
-Content-Language: en-GB
-To:     linux-input <linux-input@vger.kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     Martin Kaltenbrunner <modin@yuri.at>,
-        Raphael Wimmer <raphael.wimmer@ur.de>,
-        Hans Verkuil <hans.verkuil@cisco.com>
-From:   Florian Echtler <floe@butterbrot.org>
-Subject: (very old) regression in sur40.ko
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------6vYM0Km06glzuomhiRzJAEi3"
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_PASS,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20221028160902.2696973-8-dave.stevenson@raspberrypi.com>
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------6vYM0Km06glzuomhiRzJAEi3
-Content-Type: multipart/mixed; boundary="------------Uw5Lr1A2b3zkwk4rp0gdEn07";
- protected-headers="v1"
-From: Florian Echtler <floe@butterbrot.org>
-To: linux-input <linux-input@vger.kernel.org>,
- Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc: Martin Kaltenbrunner <modin@yuri.at>,
- Raphael Wimmer <raphael.wimmer@ur.de>, Hans Verkuil <hans.verkuil@cisco.com>
-Message-ID: <d8ca5bd3-0498-853b-4101-02bfec216aaa@butterbrot.org>
-Subject: (very old) regression in sur40.ko
+Hi Dave
 
---------------Uw5Lr1A2b3zkwk4rp0gdEn07
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+On Fri, Oct 28, 2022 at 05:08:53PM +0100, Dave Stevenson wrote:
+> The configured vblank_min setting of 151 (meaning VTS of
+> 720 + 151 = 871) is far higher than the setting that works on
+> the sensor, and there are no obvious restrictions stated in the
+> datasheet.
+>
+> Reduce the vblank_min to allow for faster frame rates.
+>
+> Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 
-SGVsbG8gZXZlcnlvbmUsDQoNCkkgZGlkbid0IHVzZSBteSBzdXI0MCBmb3IgcXVpdGUgc29t
-ZSB0aW1lLCBidXQgcmVjZW50bHkgcGlja2VkIHVwIHdvcmsgb24gaXQgDQphZ2Fpbi4gQWZ0
-ZXIgYSBrZXJuZWwgdXBkYXRlIHRvIDUuMTUsIEkgbm90aWNlZCB0aGF0IHRoZSB2aWRlbyBj
-b21wb25lbnQgb2YgdGhlIA0KaW4tdHJlZSBzdXI0MCBkcml2ZXIgaGFkIGFwcGFyZW50bHkg
-c3RvcHBlZCB3b3JraW5nIGFmdGVyIDUuOSAodGhpcyB3YXMgYWN0dWFsbHkgDQpub3RpY2Vk
-IGJ5IEByd2ltbWVyIGEgeWVhciBhZ28sIGJ1dCBJIGRpZG4ndCBwcm9wZXJseSBmb2xsb3cg
-dXAgYXQgdGhlIHRpbWUpLg0KDQpUaGlzIHRpbWUsIEkgZGlkIGZpbmFsbHkgZ28gdGhyb3Vn
-aCB3aXRoIGEgdmVyeSB0ZWRpb3VzIDE0LXN0ZXAgYmlzZWN0aW9uIG9mIHRoZSANCmlzc3Vl
-IGFuZCBlbmRlZCB1cCBhdCB0aGlzIGNvbW1pdDoNCg0KaHR0cHM6Ly9naXRodWIuY29tL3Rv
-cnZhbGRzL2xpbnV4L2NvbW1pdC82ZWIwMjMzZWMyZDBkZjI4OGZlODUxNWQ1YjBiMmIxNTU2
-MmUwNWJiDQoNClRoZSBpc3N1ZSBtYW5pZmVzdHMgYXMgYSBrZXJuZWwgb29wcyBpbiB2YjJf
-ZG1hX3NnX2FsbG9jLCByZXN1bHRpbmcgaW4gYSBmYWlsZWQgDQp1c2Jfc2dfaW5pdCBjYWxs
-IChwcm9iYWJseSBiZWNhdXNlIGRtYV9tYXNrIGFuZCBkbWFfcGZuX29mZnNldCBhcmUgbm93
-IHVuc2V0KS4gDQpIb3cgd291bGQgSSBoYXZlIHRvIHVzZSB0aGUgKl9zZ18qIGZ1bmN0aW9u
-cyBpbiBteSBkcml2ZXIgdG8gZml4IHRoaXM/DQoNCkZvciByZWZlcmVuY2UsIHRoZSBjb2Rl
-IGluIHF1ZXN0aW9uIGlzOg0KDQoJcmVzdWx0ID0gdXNiX3NnX2luaXQoJnNnciwgc3VyNDAt
-PnVzYmRldiwNCgkJdXNiX3JjdmJ1bGtwaXBlKHN1cjQwLT51c2JkZXYsIFZJREVPX0VORFBP
-SU5UKSwgMCwNCgkJc2d0LT5zZ2wsIHNndC0+bmVudHMsIHN1cjQwLT5waXhfZm10LnNpemVp
-bWFnZSwgMCk7DQoNCiBGcm9tIGxvb2tpbmcgYXQgdGhlIG90aGVyIHVzZXMgb2YgdXNiX3Nn
-X2luaXQsIHdvdWxkIGl0IGJlIHN1ZmZpY2llbnQgdG8gY2hhbmdlIA0KdGhlIHZlcnkgbGFz
-dCBwYXJhbWV0ZXIgZnJvbSAwIHRvIGVpdGhlciBHRlBfS0VSTkVMIG9yIEdGUF9OT0lPPyBJ
-ZiB5ZXMsIHdoaWNoIA0Kb25lIGlzIGNvcnJlY3Q/DQoNCkJlc3QsIEZsb3JpYW4NCi0tIA0K
-U0VOVCBGUk9NIE1ZIERFQyBWVDUwIFRFUk1JTkFMDQo=
+Let's hope this work on all platforms... I wonder if when something is
+not documented but experimentally confirmed we should not record it
+with a comment.
 
---------------Uw5Lr1A2b3zkwk4rp0gdEn07--
+That's a general issue, not on this patch specifically
 
---------------6vYM0Km06glzuomhiRzJAEi3
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+Reviewed-by: Jacopo Mondi <jacopo@jmondi.org>
 
------BEGIN PGP SIGNATURE-----
-
-wmMEABEIACMWIQST4FP0cQIAgRXjMjXsLPKyEa9q2AUCY1+f5QUDAAAAAAAKCRDsLPKyEa9q2Elk
-AJ9vkFC6rusFKgg6ctZ/6fki5Vi76gCfcd/hKCpg5AoN1nQsDI201TYwdZQ=
-=JJty
------END PGP SIGNATURE-----
-
---------------6vYM0Km06glzuomhiRzJAEi3--
+> ---
+>  drivers/media/i2c/ov9282.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/media/i2c/ov9282.c b/drivers/media/i2c/ov9282.c
+> index 7e0b12b89655..35bc2b0438bc 100644
+> --- a/drivers/media/i2c/ov9282.c
+> +++ b/drivers/media/i2c/ov9282.c
+> @@ -262,7 +262,7 @@ static const struct ov9282_mode supported_modes[] = {
+>  		.height = 720,
+>  		.hblank = 250,
+>  		.vblank = 1022,
+> -		.vblank_min = 151,
+> +		.vblank_min = 41,
+>  		.vblank_max = 51540,
+>  		.link_freq_idx = 0,
+>  		.reg_list = {
+> --
+> 2.34.1
+>
