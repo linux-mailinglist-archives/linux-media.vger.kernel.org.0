@@ -2,146 +2,143 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 59E2B612F83
-	for <lists+linux-media@lfdr.de>; Mon, 31 Oct 2022 05:50:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 12A5C613194
+	for <lists+linux-media@lfdr.de>; Mon, 31 Oct 2022 09:19:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229668AbiJaEuT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 31 Oct 2022 00:50:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59274 "EHLO
+        id S229781AbiJaITj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 31 Oct 2022 04:19:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40942 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229457AbiJaEuS (ORCPT
+        with ESMTP id S229468AbiJaITi (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 31 Oct 2022 00:50:18 -0400
-Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com [IPv6:2607:f8b0:4864:20::102f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8954B95B5;
-        Sun, 30 Oct 2022 21:50:15 -0700 (PDT)
-Received: by mail-pj1-x102f.google.com with SMTP id c15-20020a17090a1d0f00b0021365864446so9319482pjd.4;
-        Sun, 30 Oct 2022 21:50:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=/HZ6crvrNBTL6o/aXnYYfBzUet5Ca72Allf+X0NXNiw=;
-        b=gtXgfOOETY0QbgHWKjBz11xbn0px9egOMV/kBPSZhOaiDM4RRxoD7QvhI9STewMTmV
-         EK7Fmwd9VkrA5ze2tHotTsoqIvxNQFiUCAGm6LRHlvWKsWsIu36ANx2M0CmhgnXSear7
-         GcZ18DkFZd2agAhE3WVxEcFh40rgdaDd+9wQV35rAg93Ntoqhdp+AeSId+swffyFjyO0
-         /ZP1UYdrHoZ2RDCPoy0f750CPZdY86CBYjYdzw3bnAaDzz15HBVT0nT8MG6sP0z3foov
-         Cx9i/qBMfBxK1wGCd2xnI4DNTfIWWuqBWAXDixYzbuAEXjaJXtV4rajk98uWFQBARauN
-         22/w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=/HZ6crvrNBTL6o/aXnYYfBzUet5Ca72Allf+X0NXNiw=;
-        b=jDTZptCelkKymQgJkEVye1HwX3bWKAJ0EmmRt28nrXR88YDN0v0wMt5rwzBZlQ+r7n
-         oO9bNKSk4NAdyLo4r7N6hIiX9692uTbRgXxb/C7/wMSIcntQ8hec8diqn6qhozdHhBQK
-         RGdzRHr3TqNAW3xnOGXEnYuwkn2RrwiMZzmxov8D8kdAWEJPux7lUVQHaoLWfle1prto
-         /il9OUAi4L0GVTH70PQndAStg/H4Zz3z8wy5nYjiJtBUenBg7Vm4AzNGaqiNouE3J3QB
-         +KkdS7OIyH7lTmAy3yM0hmORH5aeff23aoDaEf4zDIzaYJsE8WorkxNlCBAYRn0IaURf
-         fMJg==
-X-Gm-Message-State: ACrzQf3R33hqtHRT5t67JQjd8VzH/5V69o+T50c+052m7OW7PnSZSr4c
-        EluMPlNyu14ESPJ7lKCDHOY=
-X-Google-Smtp-Source: AMsMyM7fXepLdyYMhRAs75ivz/K1l9q2W0RwknokTx5nUUOp+dYm/CzGshsyTPnjeg7LlBlV7mjroA==
-X-Received: by 2002:a17:902:c7c1:b0:186:b766:5dde with SMTP id r1-20020a170902c7c100b00186b7665ddemr12839009pla.93.1667191814821;
-        Sun, 30 Oct 2022 21:50:14 -0700 (PDT)
-Received: from biggie ([103.230.148.186])
-        by smtp.gmail.com with ESMTPSA id c9-20020a170902d48900b00183e2a96414sm3445911plg.121.2022.10.30.21.50.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 30 Oct 2022 21:50:14 -0700 (PDT)
-Date:   Mon, 31 Oct 2022 10:20:09 +0530
-From:   Gautam Menghani <gautammenghani201@gmail.com>
-To:     sean@mess.org, mchehab@kernel.org
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        syzbot+0c3cb6dc05fbbdc3ad66@syzkaller.appspotmail.com
-Subject: Re: [PATCH] drivers/media/rc: Fix a race condition in send_packet()
-Message-ID: <Y19UAV8R4xN7HMAo@biggie>
-References: <20221019050214.107448-1-gautammenghani201@gmail.com>
+        Mon, 31 Oct 2022 04:19:38 -0400
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F2059FEA;
+        Mon, 31 Oct 2022 01:19:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1667204378; x=1698740378;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=lbmevJjnjpGGx89wIvYMNqwP6/k7SVFB7D/svXf4f3Q=;
+  b=ZFmgBRtrG/AzYYinGijkyX07wvba3HRqSwiWSVxrXGAnzx0SNHyquXZY
+   Jjn8ugRRuPpN+aUUp9bguQ6dvJSUXxOLWfFHuARvgye41zVb6OH1zoLk8
+   3fLtB7SSltUaZ4Hna75rZmgrCydoS7dEw76PyQ23uGGertUNVJaG2zEsZ
+   3cffd6WI98j0YWrrWDFpwUarjOw0V1YBgFvcZzaMbwYWxLnvPLeF04lXN
+   KPgWkOVfBxfVEl2B7Qoyvur9W9OCaoPHGPPxlTok318wvc2sKwWAlscWm
+   CvihE1llBYOjTax3/dbjWCjI4BeypTGgE5wPUH7ejMLnLHwC2Lp/O7ist
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10516"; a="335500652"
+X-IronPort-AV: E=Sophos;i="5.95,227,1661842800"; 
+   d="scan'208";a="335500652"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2022 01:19:37 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10516"; a="776051657"
+X-IronPort-AV: E=Sophos;i="5.95,227,1661842800"; 
+   d="scan'208";a="776051657"
+Received: from punajuuri.fi.intel.com (HELO paasikivi.fi.intel.com) ([10.237.72.43])
+  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2022 01:19:34 -0700
+Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
+        by paasikivi.fi.intel.com (Postfix) with SMTP id 130C72026C;
+        Mon, 31 Oct 2022 10:19:32 +0200 (EET)
+Date:   Mon, 31 Oct 2022 08:19:32 +0000
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund@ragnatech.se>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH v4 4/4] media: platform: Add Renesas RZ/G2L CRU driver
+Message-ID: <Y1+FFD4/XCY8HyYa@paasikivi.fi.intel.com>
+References: <20221027103104.74576-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20221027103104.74576-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <Y1qCbUoLrR6qlQwa@paasikivi.fi.intel.com>
+ <CA+V-a8seroka4YkyCnSYa2KMPDWMG1Zk8tyiqRntdPUQnc+nrA@mail.gmail.com>
+ <Y1vJbJfFjV9jRNzz@paasikivi.fi.intel.com>
+ <CA+V-a8tONhJ1_x3T7+6n7tu=xyFBZfsqT2v3iUGd2Jy5_NuZCg@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221019050214.107448-1-gautammenghani201@gmail.com>
-X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+In-Reply-To: <CA+V-a8tONhJ1_x3T7+6n7tu=xyFBZfsqT2v3iUGd2Jy5_NuZCg@mail.gmail.com>
+X-Spam-Status: No, score=-8.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Oct 19, 2022 at 10:32:14AM +0530, Gautam Menghani wrote:
-> The function send_packet() has a race condition as follows:
-> func send_packet()
-> {
->     // do work
->     call usb_submit_urb()
->     mutex_unlock()
->     wait_for_event_interruptible()  <-- lock gone
->     mutex_lock()
-> }
-> 
-> func vfd_write()
-> {
->     mutex_lock()
->     call send_packet()  <- prev call is not completed
->     mutex_unlock()
-> }
-> 
-> When the mutex is unlocked and the function send_packet() waits for the
-> call to complete, vfd_write() can start another call, which leads to the
-> "URB submitted while active" warning in usb_submit_urb(). 
-> Fix this by removing the mutex_unlock() call in send_packet() and using
-> mutex_lock_interruptible().
-> 
-> Fixes: 21677cfc562a ("V4L/DVB: ir-core: add imon driver")
-> Link: https://syzkaller.appspot.com/bug?id=e378e6a51fbe6c5cc43e34f131cc9a315ef0337e
-> Reported-by: syzbot+0c3cb6dc05fbbdc3ad66@syzkaller.appspotmail.com
-> 
-> Signed-off-by: Gautam Menghani <gautammenghani201@gmail.com>
-> ---
->  drivers/media/rc/imon.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/media/rc/imon.c b/drivers/media/rc/imon.c
-> index 735b925da998..91d8056666ec 100644
-> --- a/drivers/media/rc/imon.c
-> +++ b/drivers/media/rc/imon.c
-> @@ -646,15 +646,14 @@ static int send_packet(struct imon_context *ictx)
->  		pr_err_ratelimited("error submitting urb(%d)\n", retval);
->  	} else {
->  		/* Wait for transmission to complete (or abort) */
-> -		mutex_unlock(&ictx->lock);
->  		retval = wait_for_completion_interruptible(
->  				&ictx->tx.finished);
->  		if (retval) {
->  			usb_kill_urb(ictx->tx_urb);
->  			pr_err_ratelimited("task interrupted\n");
->  		}
-> -		mutex_lock(&ictx->lock);
->  
-> +		ictx->tx.busy = false;
->  		retval = ictx->tx.status;
->  		if (retval)
->  			pr_err_ratelimited("packet tx failed (%d)\n", retval);
-> @@ -955,7 +954,8 @@ static ssize_t vfd_write(struct file *file, const char __user *buf,
->  	if (ictx->disconnected)
->  		return -ENODEV;
->  
-> -	mutex_lock(&ictx->lock);
-> +	if (mutex_lock_interruptible(&ictx->lock))
-> +		return -ERESTARTSYS;
->  
->  	if (!ictx->dev_present_intf0) {
->  		pr_err_ratelimited("no iMON device present\n");
-> -- 
-> 2.34.1
-> 
+Hi Prabhakar,
 
-Hi,
+On Sun, Oct 30, 2022 at 10:32:43PM +0000, Lad, Prabhakar wrote:
+> Hi Sakari,
+> 
+> On Fri, Oct 28, 2022 at 1:22 PM Sakari Ailus
+> <sakari.ailus@linux.intel.com> wrote:
+> >
+> > Hi Prabhakar,
+> >
+> > On Thu, Oct 27, 2022 at 08:04:40PM +0100, Lad, Prabhakar wrote:
+> > ...
+> > > > > +static int rzg2l_cru_ip_s_stream(struct v4l2_subdev *sd, int enable)
+> > > > > +{
+> > > > > +     struct rzg2l_cru_dev *cru;
+> > > > > +     int ret;
+> > > > > +
+> > > > > +     cru = v4l2_get_subdevdata(sd);
+> > > > > +
+> > > > > +     if (!cru->is_csi)
+> > > > > +             return -EINVAL;
+> > > > > +
+> > > > > +     ret = v4l2_subdev_call(cru->ip.remote, video, s_stream, enable);
+> > > >
+> > > > It's up to the driver how call pre_streamon() and post_streamoff(), as long
+> > > > as it takes place on both sides of s_stream().
+> > > >
+> > > > In other words, as it seems your device doesn't need anything special, you
+> > > > could waive implemeting the callbacks yourself and call pre_streamon() and
+> > > > post_streamoff() here.
+> > > >
+> > > Here the cru->ip.remote = CSI, in the rzg2l_cru_set_stream(1) where we
+> > > are calling pre_streamon()/post_streamoff() callbacks the subdev is
+> > > CRU-IP. So the calls from rzg2l_cru_set_stream() land into
+> > > rzg2l_cru_ip_pre_streamon() and rzg2l_cru_ip_post_streamoff() which
+> > > are calling pre_streamon/post_streamoff for the CSI subdev.
+> >
+> > Again, you should call the source sub-device's pre_streamon and
+> > post_streamoff from the s_stream handler (not from
+> > rzg2l_cru_ip_pre_streamon or rzg2l_cru_ip_post_streamoff).
+> >
+> > Starting streaming takes place link by link. This allows a driver to omit
+> > implementing pre_streamon and post_streamon callbacks if it doesn't need
+> > them.
+> >
+> Thank you for the explanation that makes sense now to me.
+> 
+> Now with this approach the initialization sequence of CSI + CRU won't
+> align as per the HW manual. Unfortunately I'll have to switch back on
+> exporting the functions. I hope that's okay?
 
-Please review the above fix and let me know if any changes are required.
+It is not.
 
-Thanks,
-Gautam
+What exactly would you like to do that you can't with the
+pre_streamon/post_streamoff callbacks called from s_stream?
+
+In the worst case we can redefine where they are to be called.
+
+-- 
+Kind regards,
+
+Sakari Ailus
