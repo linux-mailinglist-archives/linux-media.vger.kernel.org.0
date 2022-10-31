@@ -2,100 +2,121 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 963A9613260
-	for <lists+linux-media@lfdr.de>; Mon, 31 Oct 2022 10:18:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 299C261329C
+	for <lists+linux-media@lfdr.de>; Mon, 31 Oct 2022 10:22:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229870AbiJaJSW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 31 Oct 2022 05:18:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49094 "EHLO
+        id S230339AbiJaJV7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 31 Oct 2022 05:21:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50828 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229457AbiJaJSU (ORCPT
+        with ESMTP id S230377AbiJaJVg (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 31 Oct 2022 05:18:20 -0400
-Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com [IPv6:2a00:1450:4864:20::532])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 886B1D2CD;
-        Mon, 31 Oct 2022 02:18:19 -0700 (PDT)
-Received: by mail-ed1-x532.google.com with SMTP id x2so16534883edd.2;
-        Mon, 31 Oct 2022 02:18:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ecCahP3NbGV/UrWYeJFBrd6bWsq75pHnaHwN/pqPc2U=;
-        b=kKG6/ZIXiMapVlg3cGF3ZZBd8ugJEee+EQqOsiTFaCYHiCfxXJ53zmY5lieEH8sI75
-         UPpFYhJk6gW1gUTL7EdPujVDA8hN3BlQSr/qYK8u41jJXsoTOdgwXCUTEMHallx35sX0
-         Cmko9AmEYE6Np3DBfULf6QwXAUXoF4B+hCWwINHnp/1pWeo6JqwpPkncVJnXxgXD8HmN
-         p5v9jLyNTjEjjLn8EEl4R/ckRl/9FpVUDAtHaJwaez2saO2727gJkXN1tgBmaL8Oh3Eb
-         wA5c2Pu0+fK7AAjSmPi6iHwftOswU044EryL81nETC8U8remaxDV69Fjk8AJiclbZo3D
-         t2yg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ecCahP3NbGV/UrWYeJFBrd6bWsq75pHnaHwN/pqPc2U=;
-        b=y9ID1nCq9n20TIcS4eoawdopEuiTTbaHtJNhr47Y4Ccsa4AGEu5snZGIH9eCSl4NOc
-         oZit4mQ03Fg7SM/PClHuquioPkr+odBqUS+zuGHpDynVihiUPOaJNAhZtqt2pY7yRXGy
-         qBeuw8SSxTwoAa/iXyjNHd3Nop4E9X504vaydVEfs2nXYptDXU0kaIdmyj5QXrxru6mn
-         p/7hb9RPmJHaWB17TApMP9XNgKed19GkRBfW+gCUL2505hJMZf+tvaPL6kee+9u6GWX+
-         lbFuEkM9//e22nOFLm+Keb5WoSl1COfofS5W+DQnleOgvhBKEqsAmwW2zvRhOme1eXc0
-         9UhQ==
-X-Gm-Message-State: ACrzQf0XzNO2QwwcteFCUHwckcumvG78ondg6zOMgk0okYLcuaP24w4M
-        OPgEhIkBerdVpkT0T0nb5fZdyxw1f8g=
-X-Google-Smtp-Source: AMsMyM63sIee6jJUO+QTZM8eD94QlMVcR1aUAVyeVWqhd61IiQpO3wxZvuGEssEFhsz6dRiZfPUcdw==
-X-Received: by 2002:aa7:d458:0:b0:45b:ddbf:39fa with SMTP id q24-20020aa7d458000000b0045bddbf39famr12714032edr.335.1667207898047;
-        Mon, 31 Oct 2022 02:18:18 -0700 (PDT)
-Received: from kista.localnet (82-149-19-102.dynamic.telemach.net. [82.149.19.102])
-        by smtp.gmail.com with ESMTPSA id a15-20020aa7cf0f000000b004616b006871sm2968662edy.82.2022.10.31.02.18.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 31 Oct 2022 02:18:17 -0700 (PDT)
-From:   Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To:     linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        Mon, 31 Oct 2022 05:21:36 -0400
+Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [IPv6:2a0b:5c81:1c1::37])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B9FB3DFA7;
+        Mon, 31 Oct 2022 02:21:08 -0700 (PDT)
+Received: from hillosipuli.retiisi.eu (82-181-192-243.bb.dnainternet.fi [82.181.192.243])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: sailus)
+        by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 8F74B1B0015E;
+        Mon, 31 Oct 2022 11:21:04 +0200 (EET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
+        t=1667208064;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=Xi2LqfmPyqAuYmKOi0uMJR0fV3RpMiXwbUnj7X50foM=;
+        b=CzM0I37uH8aBIdp1du82IVsQlaFFKrX6mtL8U71a8qxilBGEl6818/BqvqOCtw/sD6vpAM
+        uSl1EiJmdN8Ja07NKmw4QtbNTQBL38s3bbvkxSMT34rDuRMP0dp3vWZcPMVfe+oKEfSvPM
+        krXi2QDwJBzLwNq0yNMjgufQmDWzGNkZUqAkf9o8L38c9k9aOmG4hi9UiVHv/dTaWwM+NN
+        83FgBeF3sLF4XxTxi0F00ieiNTbxjgpy/Thf0kmOngvy/cza1ilbC5Ivvq1q9Fg/5JVViI
+        nryV1W32WRuQDKyxC7cvCxhtyXft03d24yr20ZVLx9JnB5ajjVTJs1AIk9sPMQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+        s=lahtoruutu; t=1667208064;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=Xi2LqfmPyqAuYmKOi0uMJR0fV3RpMiXwbUnj7X50foM=;
+        b=XX+/sig8tcfGjuKohEFV7sq/UoTMAQx5UfIN9WM8PNOfWi26J+MUWViIFRbbLy+LQwcmyo
+        qvR+hoDga9ItyHmSObHqPV3hRNppaYPyDPnEpkpJpenvOFH/LyHI2KHWB08pn87Bb4bN5n
+        mFE4HVNyEUorZHW+Cyv0aYOz7fl9G6fCCLjy9sLOnnePa7H3FxDcG8DC1qt4KWxiYt3jkj
+        fyNt7MkBrL4l+hinOlUd/c0Se2LGdQN47s9rn388T9fLVMOOkjiJSNgR5yq+KTrxhqCGYO
+        mi0Oyp4Zebgj1hkoOmEnFlvages1tpEYkbRLzuKg/8/IjvyjMqLqi96OI1PgQQ==
+ARC-Authentication-Results: i=1;
+        ORIGINATING;
+        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1667208064; a=rsa-sha256;
+        cv=none;
+        b=j9H6gaD1i4wUV+/NnvBIEnLISmT47vTfIIj8YsnIRPSSzyWVI2axa90KgAd3FuhWBez8s4
+        aaGpnZHZcxXKvf+bbvAuQpfqNs/eD+YTJ8wrmYk0IRDSuERnnRV8CG5dTUHfSUg4WnI3P/
+        S8wyxmQ7Hf9TCKUaoHBX9JGM+cQt8yLgKWlnay1SlgfVR7yFW/5N7vACRHg+woJynSeFpl
+        HuVlXaQsDv/8jC1Bpz9tKEeZEXlX5OGiH4HwCQRHC1nKki8bp4ozGEPGEyQXRaGsSTicCG
+        RJ/R9XMBhFA/t8nTikZZluH/HWqeBsmxln9k7wPCLsEy2xQUVkoIY2ODiDsS4w==
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id DDCB9634CBD;
+        Mon, 31 Oct 2022 11:21:03 +0200 (EET)
+Date:   Mon, 31 Oct 2022 11:21:03 +0200
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Cc:     linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Cc:     Yong Deng <yong.deng@magewell.com>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Yong Deng <yong.deng@magewell.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
         Samuel Holland <samuel@sholland.org>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Maxime Ripard <mripard@kernel.org>,
         Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH v6 36/43] media: sun6i-csi: Move hardware control to the bridge
-Date:   Mon, 31 Oct 2022 10:18:16 +0100
-Message-ID: <2257327.ElGaqSPkdT@kista>
-In-Reply-To: <20220826183240.604834-37-paul.kocialkowski@bootlin.com>
-References: <20220826183240.604834-1-paul.kocialkowski@bootlin.com> <20220826183240.604834-37-paul.kocialkowski@bootlin.com>
+Subject: Re: [PATCH v6 00/43] Allwinner A31/A83T MIPI CSI-2 and A31 ISP / CSI
+ Rework
+Message-ID: <Y1+Tf3xfV+T4q91Q@valkosipuli.retiisi.eu>
+References: <20220826183240.604834-1-paul.kocialkowski@bootlin.com>
+ <Y1Ko+rNREvM2QClC@aptenodytes>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Y1Ko+rNREvM2QClC@aptenodytes>
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Dne petek, 26. avgust 2022 ob 20:32:33 CET je Paul Kocialkowski napisal(a):
-> In order to support the isp workflow, we need to be able to configure
-> the hardware from the bridge when the capture device is not used.
+Hi Paul,
+
+On Fri, Oct 21, 2022 at 04:13:14PM +0200, Paul Kocialkowski wrote:
+> Hi everyone,
 > 
-> As a result, move all hardware configuration calls from capture to
-> the bridge. Only the window configuration part (which is specific
-> to using capture) remains there.
+> On Fri 26 Aug 22, 20:31, Paul Kocialkowski wrote:
+> > This part only concerns the rework of the CSI driver to support the MIPI CSI-2
+> > and ISP workflows.
+> > 
+> > Very few patches have not received any review at this point and the whole
+> > thing looks good to go. Since this multi-part series has been going on for a
+> > while, it would be great to see it merged soon!
 > 
-> This effectively opens the way for hooking the bridge to the
-> isp in the future.
+> Could this series be considered for merging soon? It would be great to see it
+> in Linux 6.2.
 > 
-> Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> A few patches are still in need of review but I don't think anything
+> stands in the way at this point.
 
-Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+The current set doesn't apply cleanly to media master anymore --- after the
+15 merged patches, patch 17 is the first to conflict. I suppose it's Tomi's
+patches changing how drivers work with media pipelines.
 
-Best regards,
-Jernej
+Could you rebase this and cc me, please?
 
+-- 
+Kind regards,
 
+Sakari Ailus
