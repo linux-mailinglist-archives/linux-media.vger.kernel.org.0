@@ -2,36 +2,35 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3477D61339A
-	for <lists+linux-media@lfdr.de>; Mon, 31 Oct 2022 11:28:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E10996133D6
+	for <lists+linux-media@lfdr.de>; Mon, 31 Oct 2022 11:41:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230233AbiJaK2e (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 31 Oct 2022 06:28:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46740 "EHLO
+        id S229839AbiJaKlZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 31 Oct 2022 06:41:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57048 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230452AbiJaK2Z (ORCPT
+        with ESMTP id S229716AbiJaKlY (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 31 Oct 2022 06:28:25 -0400
-Received: from relay10.mail.gandi.net (relay10.mail.gandi.net [217.70.178.230])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 392CCBF71
-        for <linux-media@vger.kernel.org>; Mon, 31 Oct 2022 03:28:23 -0700 (PDT)
+        Mon, 31 Oct 2022 06:41:24 -0400
+Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::229])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6B3FCDFD8
+        for <linux-media@vger.kernel.org>; Mon, 31 Oct 2022 03:41:22 -0700 (PDT)
 Received: (Authenticated sender: jacopo@jmondi.org)
-        by mail.gandi.net (Postfix) with ESMTPSA id 37FBB240007;
-        Mon, 31 Oct 2022 10:28:20 +0000 (UTC)
-Date:   Mon, 31 Oct 2022 11:28:19 +0100
+        by mail.gandi.net (Postfix) with ESMTPSA id BFB03FF804;
+        Mon, 31 Oct 2022 10:41:18 +0000 (UTC)
+Date:   Mon, 31 Oct 2022 11:41:16 +0100
 From:   Jacopo Mondi <jacopo@jmondi.org>
 To:     Dave Stevenson <dave.stevenson@raspberrypi.com>
 Cc:     paul.j.murphy@intel.com, daniele.alessandrelli@intel.com,
         linux-media@vger.kernel.org, sakari.ailus@iki.fi
-Subject: Re: [PATCH v2 14/16] media: i2c: ov9282: Add support for 1280x800
- and 640x400 modes
-Message-ID: <20221031102819.sm3u4hom3tuddtax@uno.localdomain>
+Subject: Re: [PATCH v2 11/16] media: i2c: ov9282: Add HFLIP and VFLIP support
+Message-ID: <20221031104116.ntg647ppz7ijew6n@uno.localdomain>
 References: <20221028160902.2696973-1-dave.stevenson@raspberrypi.com>
- <20221028160902.2696973-15-dave.stevenson@raspberrypi.com>
+ <20221028160902.2696973-12-dave.stevenson@raspberrypi.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20221028160902.2696973-15-dave.stevenson@raspberrypi.com>
+In-Reply-To: <20221028160902.2696973-12-dave.stevenson@raspberrypi.com>
 X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
         SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -40,158 +39,116 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Dave
-
-
-On Fri, Oct 28, 2022 at 05:09:00PM +0100, Dave Stevenson wrote:
-> Adds register settings for additional modes.
+On Fri, Oct 28, 2022 at 05:08:57PM +0100, Dave Stevenson wrote:
+> Adds support for V4L2_CID_HFLIP and V4L2_CID_VFLIP to allow
+> flipping the image.
+>
+> The driver previously enabled H & V flips in the register table,
+> therefore the controls default to the same settings to avoid
+> changing the behaviour.
 >
 > Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 > ---
->  drivers/media/i2c/ov9282.c | 103 ++++++++++++++++++++++++++++++++++++-
->  1 file changed, 102 insertions(+), 1 deletion(-)
+>  drivers/media/i2c/ov9282.c | 52 +++++++++++++++++++++++++++++++++++++-
+>  1 file changed, 51 insertions(+), 1 deletion(-)
 >
 > diff --git a/drivers/media/i2c/ov9282.c b/drivers/media/i2c/ov9282.c
-> index a520d9fef0cb..c169b532ec8b 100644
+> index e964461ff1d3..cfb6e72d8931 100644
 > --- a/drivers/media/i2c/ov9282.c
 > +++ b/drivers/media/i2c/ov9282.c
-> @@ -246,11 +246,44 @@ struct ov9282_reg_list common_regs_list = {
->  	.regs = common_regs,
->  };
+> @@ -45,6 +45,10 @@
+>  /* Group hold register */
+>  #define OV9282_REG_HOLD		0x3308
 >
-> -#define MODE_1280_720		0
-> +#define MODE_1280_800		0
-> +#define MODE_1280_720		1
-> +#define MODE_640_400		2
->
->  #define DEFAULT_MODE		MODE_1280_720
->
->  /* Sensor mode registers */
-> +static const struct ov9282_reg mode_1280x800_regs[] = {
-> +	{0x3778, 0x00},
-> +	{0x3800, 0x00},
-> +	{0x3801, 0x00},
-> +	{0x3802, 0x00},
-> +	{0x3803, 0x00},
-> +	{0x3804, 0x05},
-> +	{0x3805, 0x0f},
-> +	{0x3806, 0x03},
-> +	{0x3807, 0x2f},
-> +	{0x3808, 0x05},
-> +	{0x3809, 0x00},
-> +	{0x380a, 0x03},
-> +	{0x380b, 0x20},
-> +	{0x3810, 0x00},
-> +	{0x3811, 0x08},
-> +	{0x3812, 0x00},
-> +	{0x3813, 0x08},
-> +	{0x3814, 0x11},
-> +	{0x3815, 0x11},
-> +	{0x3820, 0x40},
-> +	{0x3821, 0x00},
-> +	{0x4003, 0x40},
-> +	{0x4008, 0x04},
-> +	{0x4009, 0x0b},
-> +	{0x400c, 0x00},
-> +	{0x400d, 0x07},
-> +	{0x4507, 0x00},
-> +	{0x4509, 0x00},
-> +};
+> +#define OV9282_REG_TIMING_FORMAT_1	0x3820
+> +#define OV9282_REG_TIMING_FORMAT_2	0x3821
+> +#define OV9282_FLIP_BIT			BIT(2)
 > +
->  static const struct ov9282_reg mode_1280x720_regs[] = {
->  	{0x3778, 0x00},
->  	{0x3800, 0x00},
-> @@ -282,8 +315,57 @@ static const struct ov9282_reg mode_1280x720_regs[] = {
->  	{0x4509, 0x80},
->  };
+>  #define OV9282_REG_MIPI_CTRL00	0x4800
+>  #define OV9282_GATED_CLOCK	BIT(5)
 >
-> +static const struct ov9282_reg mode_640x400_regs[] = {
-> +	{0x3778, 0x10},
-> +	{0x3800, 0x00},
-> +	{0x3801, 0x00},
-> +	{0x3802, 0x00},
-> +	{0x3803, 0x00},
-> +	{0x3804, 0x05},
-> +	{0x3805, 0x0f},
-> +	{0x3806, 0x03},
-> +	{0x3807, 0x2f},
-> +	{0x3808, 0x02},
-> +	{0x3809, 0x80},
-> +	{0x380a, 0x01},
-> +	{0x380b, 0x90},
-> +	{0x3810, 0x00},
-> +	{0x3811, 0x04},
-> +	{0x3812, 0x00},
-> +	{0x3813, 0x04},
-> +	{0x3814, 0x31},
-> +	{0x3815, 0x22},
-> +	{0x3820, 0x60},
-> +	{0x3821, 0x01},
-> +	{0x4008, 0x02},
-> +	{0x4009, 0x05},
-> +	{0x400c, 0x00},
-> +	{0x400d, 0x03},
-> +	{0x4507, 0x03},
-> +	{0x4509, 0x80},
-> +};
+> @@ -438,6 +442,40 @@ static int ov9282_update_exp_gain(struct ov9282 *ov9282, u32 exposure, u32 gain)
+>  	return ret;
+>  }
+>
+> +static int ov9282_set_ctrl_hflip(struct ov9282 *ov9282, int value)
+> +{
+> +	u32 current_val;
+> +	int ret = ov9282_read_reg(ov9282, OV9282_REG_TIMING_FORMAT_2, 1,
+> +				  &current_val);
+> +	if (ret)
+> +		return ret;
 > +
->  /* Supported sensor mode configurations */
->  static const struct ov9282_mode supported_modes[] = {
-> +	[MODE_1280_800] = {
-> +		.width = 1280,
-> +		.height = 800,
-> +		.hblank_min = { 250, 176 },
-> +		.vblank = 1022,
-> +		.vblank_min = 110,
-> +		.vblank_max = 51540,
-> +		.link_freq_idx = 0,
-> +		.crop = {
-> +			.left = OV9282_PIXEL_ARRAY_LEFT,
-> +			.top = OV9282_PIXEL_ARRAY_TOP,
-> +			.width = 1280,
-> +			.height = 800
-> +		},
-> +		.reg_list = {
-> +			.num_of_regs = ARRAY_SIZE(mode_1280x800_regs),
-> +			.regs = mode_1280x800_regs,
-> +		},
-> +	},
->  	[MODE_1280_720] = {
->  		.width = 1280,
->  		.height = 720,
-> @@ -307,6 +389,25 @@ static const struct ov9282_mode supported_modes[] = {
->  			.regs = mode_1280x720_regs,
->  		},
->  	},
-> +	[MODE_640_400] = {
-> +		.width = 640,
-> +		.height = 400,
-> +		.hblank_min = { 890, 816 },
-> +		.vblank = 1022,
-> +		.vblank_min = 22,
-> +		.vblank_max = 51540,
-
-While hblank_min is adapated to match the limits for full resolution
-mode (1280 + 250 - 640 = 890; same for the 816 non-continuous version)
-vblank_min is shrinked, giving a min frame length of (400 + 22)
-compared to the full-res min frame length of (800 + 110). Is this
-intentional ?
-
-> +		.link_freq_idx = 0,
-> +		.crop = {
-> +			.left = OV9282_PIXEL_ARRAY_LEFT,
-> +			.top = OV9282_PIXEL_ARRAY_TOP,
-> +			.width = 1280,
-> +			.height = 800
-> +		},
-> +		.reg_list = {
-> +			.num_of_regs = ARRAY_SIZE(mode_640x400_regs),
-> +			.regs = mode_640x400_regs,
-> +		},
-> +	},
->  };
->
+> +	if (value)
+> +		current_val |= OV9282_FLIP_BIT;
+> +	else
+> +		current_val &= ~OV9282_FLIP_BIT;
+> +
+> +	return ov9282_write_reg(ov9282, OV9282_REG_TIMING_FORMAT_2, 1,
+> +				current_val);
+> +}
+> +
+> +static int ov9282_set_ctrl_vflip(struct ov9282 *ov9282, int value)
+> +{
+> +	u32 current_val;
+> +	int ret = ov9282_read_reg(ov9282, OV9282_REG_TIMING_FORMAT_1, 1,
+> +				  &current_val);
+> +	if (ret)
+> +		return ret;
+> +
+> +	if (value)
+> +		current_val |= OV9282_FLIP_BIT;
+> +	else
+> +		current_val &= ~OV9282_FLIP_BIT;
+> +
+> +	return ov9282_write_reg(ov9282, OV9282_REG_TIMING_FORMAT_1, 1,
+> +				current_val);
+> +}
+> +
 >  /**
+>   * ov9282_set_ctrl() - Set subdevice control
+>   * @ctrl: pointer to v4l2_ctrl structure
+> @@ -494,6 +532,12 @@ static int ov9282_set_ctrl(struct v4l2_ctrl *ctrl)
+>  		lpfr = ov9282->vblank + ov9282->cur_mode->height;
+>  		ret = ov9282_write_reg(ov9282, OV9282_REG_LPFR, 2, lpfr);
+>  		break;
+> +	case V4L2_CID_HFLIP:
+> +		ret = ov9282_set_ctrl_hflip(ov9282, ctrl->val);
+> +		break;
+> +	case V4L2_CID_VFLIP:
+> +		ret = ov9282_set_ctrl_vflip(ov9282, ctrl->val);
+> +		break;
+>  	default:
+>  		dev_err(ov9282->dev, "Invalid control %d", ctrl->id);
+>  		ret = -EINVAL;
+> @@ -963,7 +1007,7 @@ static int ov9282_init_controls(struct ov9282 *ov9282)
+>  	u32 lpfr;
+>  	int ret;
+>
+> -	ret = v4l2_ctrl_handler_init(ctrl_hdlr, 8);
+> +	ret = v4l2_ctrl_handler_init(ctrl_hdlr, 10);
+>  	if (ret)
+>  		return ret;
+>
+> @@ -997,6 +1041,12 @@ static int ov9282_init_controls(struct ov9282 *ov9282)
+>  						mode->vblank_max,
+>  						1, mode->vblank);
+>
+> +	v4l2_ctrl_new_std(ctrl_hdlr, &ov9282_ctrl_ops, V4L2_CID_VFLIP,
+> +			  0, 1, 1, 1);
+> +
+> +	v4l2_ctrl_new_std(ctrl_hdlr, &ov9282_ctrl_ops, V4L2_CID_HFLIP,
+> +			  0, 1, 1, 1);
+> +
+
+I guess, based on the reply on the previous version, that flip by
+default is correct in this case
+
+Reviewed-by: Jacopo Mondi <jacopo@jmondi.org>
+
+>  	/* Read only controls */
+>  	v4l2_ctrl_new_std(ctrl_hdlr, &ov9282_ctrl_ops, V4L2_CID_PIXEL_RATE,
+>  			  OV9282_PIXEL_RATE, OV9282_PIXEL_RATE, 1,
 > --
 > 2.34.1
 >
