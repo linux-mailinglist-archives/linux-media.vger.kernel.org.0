@@ -2,53 +2,54 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7B00D614B7F
-	for <lists+linux-media@lfdr.de>; Tue,  1 Nov 2022 14:17:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0C2A7614B90
+	for <lists+linux-media@lfdr.de>; Tue,  1 Nov 2022 14:21:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229923AbiKANRn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 1 Nov 2022 09:17:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50240 "EHLO
+        id S230269AbiKANVB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 1 Nov 2022 09:21:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51998 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229845AbiKANRl (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 1 Nov 2022 09:17:41 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 675AC11C32;
-        Tue,  1 Nov 2022 06:17:39 -0700 (PDT)
-Received: from localhost (89-26-75-29.goll.dyn.salzburg-online.at [89.26.75.29])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: sebastianfricke)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id B7DC4660036F;
-        Tue,  1 Nov 2022 13:17:37 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1667308657;
-        bh=wSH4t8YuMn7MLXV4RmUeQqz3Y0YfU/jYo3Fgjyf6rMU=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=YLkBQFRIzwA/CnQiCqX6TKCnqf/Vy34iqgNJ0pb6muj6HupbZQVRJm3k9p4BxP+6X
-         30zf3WBWULl97+3hVxJfdBnD/+18KksKioDuIPVbsS638SlQCDqiJ7Q6rQIW0Jekg2
-         /0NoL+ALamF6DHf8YgqEAo3rU0NRvYFRPsJfBDgqc9R8cwyG92JqJejIGe79MGHuHU
-         UbZlsZdeZpQL8JDoP1MU3LSKkO3vN1hrefj7qaABfK/dT0JnFBv/j0m0g5+AbdQY7c
-         wMtNu4O66+ouCCXrO0iUUvr4bynsdPWwGBsS3rvv6cenY7/4LiHLqLdA4dpsGxFZf0
-         Ou2dP0e0ZgKfA==
-Date:   Tue, 1 Nov 2022 14:17:34 +0100
-From:   Sebastian Fricke <sebastian.fricke@collabora.com>
-To:     Prasanth Mantena <p-mantena@ti.com>
-Cc:     linux-media@vger.kernel.org, kernel@collabora.com,
-        nas.chung@chipsnmedia.com, hverkuil@xs4all.nl,
-        ezequiel@vanguardiasur.com.ar, linux-kernel@vger.kernel.org,
-        nicolas.dufresne@collabora.com, p.zabel@pengutronix.de,
-        dafna@fastmail.com
-Subject: Re: [PATCH v10 0/7] Wave5 codec driver
-Message-ID: <20221101131734.c5deywk6sysfejfn@basti-XPS-13-9310>
-References: <20221022000506.221933-1-sebastian.fricke@collabora.com>
- <20221031182251.lt34qthivjyxmrvq@uda0496754>
+        with ESMTP id S229923AbiKANU6 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 1 Nov 2022 09:20:58 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8464710051;
+        Tue,  1 Nov 2022 06:20:56 -0700 (PDT)
+Received: from desky.lan (91-154-32-225.elisa-laajakaista.fi [91.154.32.225])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id A2C491589;
+        Tue,  1 Nov 2022 14:20:52 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1667308853;
+        bh=UJ+ZG3hWrU/wLrl83npOj1ol2LF2pAkQulKCaxx1L/A=;
+        h=From:To:Cc:Subject:Date:From;
+        b=LNRHgiF+1H8X6om/5no6JSLCUTuMbmdyPX0goJbrSFqgU13YJvCqYRK9tLrw+pgZ+
+         ghJXUpfFQ/i77zxlS+NqToorzjr6TX3HUyHOyN4txQhFKwnOvW+xMgyarQ1dCgRCxW
+         ihhu9u9y7Cd0TQI8+09EwjRZPCPV111387MU8wqE=
+From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+To:     devicetree@vger.kernel.org, linux-i2c@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Luca Ceresoli <luca@lucaceresoli.net>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Matti Vaittinen <Matti.Vaittinen@fi.rohmeurope.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Peter Rosin <peda@axentia.se>,
+        Rob Herring <robh+dt@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Vladimir Zapolskiy <vz@mleia.com>,
+        Wolfram Sang <wsa@the-dreams.de>,
+        satish.nagireddy@getcruise.com,
+        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: [PATCH v4 0/8] i2c-atr and FPDLink
+Date:   Tue,  1 Nov 2022 15:20:24 +0200
+Message-Id: <20221101132032.1542416-1-tomi.valkeinen@ideasonboard.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Disposition: inline
-In-Reply-To: <20221031182251.lt34qthivjyxmrvq@uda0496754>
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -56,257 +57,242 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hey Prasanth,
+Hi,
 
-Thanks for taking a look.
+Intro
+-----
 
-On 31.10.2022 23:52, Prasanth Mantena wrote:
->On 02:04-20221022, Sebastian Fricke wrote:
->> The Wave5 codec driver is a stateful encoder/decoder.
->> It is found on the J721S2 SoC, JH7100 SoC, ssd202d SoC. Etc.
->> But current test report is based on J721S2 SoC and pre-silicon FPGA.
->>
->> The driver currently supports V4L2_PIX_FMT_HEVC, V4L2_PIX_FMT_H264.
->>
->> This driver has so far been tested on J721S2 EVM board and pre-silicon
->> FPGA.
->>
->> Testing on J721S2 EVM board shows it working fine both decoder and
->> encoder.
->> The driver is successfully working with gstreamer v4l2 good-plugin
->> without any modification.
->>
->> # v4l2-compliance -d0
->> Total for wave5-dec device /dev/video0: 44, Succeeded: 44, Failed: 0, Warnings: 0
->>
->> # v4l2-compliance -d1
->> Buffer ioctls:
->> 		fail: ../../../v4l-utils-1.18.1/utils/v4l2-compliance/v4l2-test-buffers.cpp(610): q.reqbufs(node, 1)
->> 	test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: FAIL
->> 		fail: ../../../v4l-utils-1.18.1/utils/v4l2-compliance/v4l2-test-buffers.cpp(753): q.reqbufs(node, 2)
->> 	test VIDIOC_EXPBUF: FAIL
->> 	test Requests: OK (Not Supported)
->>
->> Total for wave5-enc device /dev/video1: 44, Succeeded: 42, Failed: 2, Warnings: 2
->>
->> changes since v9:
->>
->> * Move from staging to the media directory
->>   * Move coda driver to sub-directory
->>
->> * Fixes:
->>   * Use platform_get_irq instead of platform_get_resource to fetch the IRQ
->>
->> * General cleanups:
->>   * Add missing error messages to error conditions
->>   * Improve messages/variable names/comments, align parameter names across the driver
->>   * Use macros instead of magic numbers in multiple occassions
->>   * Reduce code duplication in multiple places
->>   * Fix whitespace, newline and tab alignment issues
->>   * Remove unused struct fields & commented out code
->>   * Convert signed integers to unsigned if signed is not necessary
->>   * Convert int/unsigned int to s32/u32, when the variable is assigned to the
->>     return of a register read or provided as a parameter for a register write
->>     (and vice versa)
->>   * Fix incorrect bitwise operators where logical operators are appropriate
->>   * Multiple smaller changes
->>
->> * Generalization:
->>   * Add new helper file providing generalized routines for vpu-dec & vpu-enc
->>   * Generalize luma & chroma table size calculation and stride calculation
->>
->> * Resource cleanup and error handling:
->>   * Add error handling to all calls with ignored return codes
->>   * Handle DMA resource cleanup properly
->>   * Fix insufficient instance cleanup while opening dec/enc
->>
->> changes since v8:
->>
->> * add 'wave5' to DEV_NAME
->> * update to support Multi-stream
->> * update to support loop test/dynamic resolution change
->> * remove unnecessary memset, g_volatile, old version option
->>
->> changes since v7:
->>
->> * update v4l2-compliance test report
->> * fix build error on linux-kernel 5.18.0-rc4
->>
->> changes since v6:
->>
->> * update TODO file
->> * get sram info from device tree
->>
->> changes since v5:
->>
->> * support NV12/NV21 pixelformat for encoder and decoder
->> * handle adnormal exit and EOS
->>
->> changes since v4:
->>
->> * refactor functions in wave5-hw and fix bug reported by Daniel Palmer
->> * rename functions and variables to better names
->> * change variable types such as replacing s32 with u32 and int with bool
->> * as appropriate
->>
->> changes since v3:
->>
->> * Fixing all issues commented by Dan Carpenter
->> * Change file names to have wave5- prefix
->> * In wave5_vpu_probe, enable the clocks before reading registers, as
->> * commented from Daniel Palmer
->> * Add more to the TODO list,
->>
->> changes since v2:
->>
->> Main fixes includes:
->> * change the yaml and dirver code to support up to 4 clks (instead of
->> * one)
->> * fix Kconfig format
->> * remove unneeded cast,
->> * change var types
->> * change var names, func names
->> * checkpatch fixes
->>
->> changes since v1:
->>
->> Fix changes due to comments from Ezequiel and Dan Carpenter. Main fixes
->> inclueds:
->> * move all files to one dir 'wave5'
->> * replace private error codes with standard error codes
->> * fix extra spaces
->> * various checkpatch fixes
->> * replace private 'DPRINTK' macro with standard 'dev_err/dbg ..'
->> * fix error handling
->> * add more possible fixes to the TODO file
->>
->
->We see issues with the patchset. The decoder output contains garbage
->data randomly in the image. This is seen more for higher
->resolutions(>=1080p).
+This is, kind of, v4 of Luca's i2c-atr and FPDLink series, v3 of which
+you can find from:
 
-Thanks for the highlight, I am currently debugging that issue as well as
-an issue found with the encoder, which seems to be present since V9.
-I'll try to keep you updated but currently I am not finished with
-isolating the issue.
+https://lore.kernel.org/all/20220206115939.3091265-1-luca@lucaceresoli.net/
 
->The gstreamer pipeline for encoder fails with negotiation error as
->stated below.
->
->"vdec 4210000.video-codec: Invalid intra refresh mode: 0 (valid: 1-4)"
+I say "kind of", as the FPDLink drivers have diverged from Luca's
+version quite a bit and the drivers support different HW versions. A
+Big thanks for Luca for working on the drivers!
 
-Yes, I have noticed this issue as well and it as already fixed in my
-local tree, this was a refactoring error.
+I'd really like to send and review i2c-atr and FPDLink drivers
+separately, but as the concepts are new and those drivers are linked
+together, in the end I decided to keep them in one series. Even so, I
+think these patches divide quite clearly into to areas:
 
->
->
->> Dafna Hirschfeld (1):
->>   media: chips-media: wave5: Add the vdi layer
->>
->> Nas Chung (3):
->>   media: chips-media: wave5: Add vpuapi layer
->>   media: chips-media: wave5: Add the v4l2 layer
->>   media: chips-media: wave5: Add TODO file
->>
->> Robert Beckett (2):
->>   dt-bindings: media: wave5: add yaml devicetree bindings
->>   media: chips-media: wave5: Add wave5 driver to maintainers file
->>
->> Sebastian Fricke (1):
->>   media: platform: chips-media: Move Coda to separate folder
->>
->>  .../devicetree/bindings/media/wave5.yml       |   73 +
->>  MAINTAINERS                                   |   11 +-
->>  drivers/media/platform/chips-media/Kconfig    |   18 +-
->>  drivers/media/platform/chips-media/Makefile   |    6 +-
->>  .../media/platform/chips-media/coda/Kconfig   |   18 +
->>  .../media/platform/chips-media/coda/Makefile  |    6 +
->>  .../chips-media/{ => coda}/coda-bit.c         |    0
->>  .../chips-media/{ => coda}/coda-common.c      |    0
->>  .../chips-media/{ => coda}/coda-gdi.c         |    0
->>  .../chips-media/{ => coda}/coda-h264.c        |    0
->>  .../chips-media/{ => coda}/coda-jpeg.c        |    0
->>  .../chips-media/{ => coda}/coda-mpeg2.c       |    0
->>  .../chips-media/{ => coda}/coda-mpeg4.c       |    0
->>  .../platform/chips-media/{ => coda}/coda.h    |    0
->>  .../chips-media/{ => coda}/coda_regs.h        |    0
->>  .../chips-media/{ => coda}/imx-vdoa.c         |    0
->>  .../chips-media/{ => coda}/imx-vdoa.h         |    0
->>  .../platform/chips-media/{ => coda}/trace.h   |    0
->>  .../media/platform/chips-media/wave5/Kconfig  |   12 +
->>  .../media/platform/chips-media/wave5/Makefile |   10 +
->>  drivers/media/platform/chips-media/wave5/TODO |   25 +
->>  .../platform/chips-media/wave5/wave5-helper.c |  175 +
->>  .../platform/chips-media/wave5/wave5-helper.h |   28 +
->>  .../platform/chips-media/wave5/wave5-hw.c     | 3459 +++++++++++++++++
->>  .../chips-media/wave5/wave5-regdefine.h       |  654 ++++
->>  .../platform/chips-media/wave5/wave5-vdi.c    |  261 ++
->>  .../platform/chips-media/wave5/wave5-vdi.h    |   67 +
->>  .../chips-media/wave5/wave5-vpu-dec.c         | 1399 +++++++
->>  .../chips-media/wave5/wave5-vpu-enc.c         | 1454 +++++++
->>  .../platform/chips-media/wave5/wave5-vpu.c    |  362 ++
->
->io.h is needed for devm_ioremap to work.
+1) i2c-atr and the related code in the FPDLink drivers
+2) Everything else about FPDLink
 
-Do you mean this?
+The FPDLink drivers support multiple streams and for that reason the
+series is based on V4L2 streams series v15:
 
-```
-drivers/media/platform/chips-media/wave5/wave5-vpu.c
-191:	dev->vdb_register = devm_platform_ioremap_resource(pdev, 0);
-192-	if (IS_ERR(dev->vdb_register))
-193-		return PTR_ERR(dev->vdb_register);
-```
+https://lore.kernel.org/all/20221003121852.616745-1-tomi.valkeinen@ideasonboard.com/
 
-Because there is no `devm_ioremap` function call in the driver.
-And the `devm_platform_ioremap_resource`, seems to work just fine.
+HW overview
+-----------
 
-Any clarification is highly appreciated for this comment.
+TI's DS90UB9xx IC (UB9xx for short) family is a set of deserializer and
+serializer ICs for video, both display and capture. These ICs support
+FPDLink 3 and some also support FPDLink 4. From the user's point of view
+there's really not much difference between FPDLink 3 and 4.
 
-Sincerely,
-Sebastian Fricke
+An example HW setup with two cameras could be like this:
 
->
->>  .../platform/chips-media/wave5/wave5-vpu.h    |   72 +
->>  .../platform/chips-media/wave5/wave5-vpuapi.c | 1115 ++++++
->>  .../platform/chips-media/wave5/wave5-vpuapi.h | 1198 ++++++
->>  .../chips-media/wave5/wave5-vpuconfig.h       |   90 +
->>  .../chips-media/wave5/wave5-vpuerror.h        |  454 +++
->>  .../media/platform/chips-media/wave5/wave5.h  |   94 +
->>  36 files changed, 11040 insertions(+), 21 deletions(-)
->>  create mode 100644 Documentation/devicetree/bindings/media/wave5.yml
->>  create mode 100644 drivers/media/platform/chips-media/coda/Kconfig
->>  create mode 100644 drivers/media/platform/chips-media/coda/Makefile
->>  rename drivers/media/platform/chips-media/{ => coda}/coda-bit.c (100%)
->>  rename drivers/media/platform/chips-media/{ => coda}/coda-common.c (100%)
->>  rename drivers/media/platform/chips-media/{ => coda}/coda-gdi.c (100%)
->>  rename drivers/media/platform/chips-media/{ => coda}/coda-h264.c (100%)
->>  rename drivers/media/platform/chips-media/{ => coda}/coda-jpeg.c (100%)
->>  rename drivers/media/platform/chips-media/{ => coda}/coda-mpeg2.c (100%)
->>  rename drivers/media/platform/chips-media/{ => coda}/coda-mpeg4.c (100%)
->>  rename drivers/media/platform/chips-media/{ => coda}/coda.h (100%)
->>  rename drivers/media/platform/chips-media/{ => coda}/coda_regs.h (100%)
->>  rename drivers/media/platform/chips-media/{ => coda}/imx-vdoa.c (100%)
->>  rename drivers/media/platform/chips-media/{ => coda}/imx-vdoa.h (100%)
->>  rename drivers/media/platform/chips-media/{ => coda}/trace.h (100%)
->>  create mode 100644 drivers/media/platform/chips-media/wave5/Kconfig
->>  create mode 100644 drivers/media/platform/chips-media/wave5/Makefile
->>  create mode 100644 drivers/media/platform/chips-media/wave5/TODO
->>  create mode 100644 drivers/media/platform/chips-media/wave5/wave5-helper.c
->>  create mode 100644 drivers/media/platform/chips-media/wave5/wave5-helper.h
->>  create mode 100644 drivers/media/platform/chips-media/wave5/wave5-hw.c
->>  create mode 100644 drivers/media/platform/chips-media/wave5/wave5-regdefine.h
->>  create mode 100644 drivers/media/platform/chips-media/wave5/wave5-vdi.c
->>  create mode 100644 drivers/media/platform/chips-media/wave5/wave5-vdi.h
->>  create mode 100644 drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c
->>  create mode 100644 drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
->>  create mode 100644 drivers/media/platform/chips-media/wave5/wave5-vpu.c
->>  create mode 100644 drivers/media/platform/chips-media/wave5/wave5-vpu.h
->>  create mode 100644 drivers/media/platform/chips-media/wave5/wave5-vpuapi.c
->>  create mode 100644 drivers/media/platform/chips-media/wave5/wave5-vpuapi.h
->>  create mode 100644 drivers/media/platform/chips-media/wave5/wave5-vpuconfig.h
->>  create mode 100644 drivers/media/platform/chips-media/wave5/wave5-vpuerror.h
->>  create mode 100644 drivers/media/platform/chips-media/wave5/wave5.h
->>
->> --
->> 2.25.1
->>
+                          +-- [Ser 1] <-- [Camera 1]
+[CSI-2 RX] <-- [Deser] <--|
+                          +-- [Ser 2] <-- [Camera 2]
+
+The cameras send video streams over CSI-2 to the serializers. The
+serializers encode the received data to FPDLink and send it to the
+deserializer. The deserializer decodes the data and sends it forward
+over CSI-2 bus.
+
+The FPDLink bus is a bi-directional bus, with a fast forward-channel and
+a slow back-channel. In addition to the video, the devices support
+forwarding GPIOs (both ways) and forwarding i2c transactions with
+address translation.
+
+This series is only about the capture ICs. The HW versions supported
+by these drivers are:
+
+- UB960, FPDLink 3 deserializer
+- UB9702, FPDLink 3/4 deserializer
+- UB953, FPDLink 3 CSI-2 serializer
+- UB913, FPDLink 3 parallel video serializer
+- UB971, FPDLink 3/4 CSI-2 serializer
+
+Note that this series does not support UB954 deserializer, which Luca
+has. I don't have it and decided early to drop it for simpler
+development. As UB954 is a subset of UB960, adding support for it should
+be trivial.
+
+FPDLink Deser and Ser Devices & Drivers
+---------------------------------------
+
+The serializer devices are, in a way, child devices of the deserializer.
+It is the deserializer driver which creates and removes the serializer
+devices, although the serializer device itself is not a child of the
+deserializer, but rather the serializer is created as a device on the
+i2c bus.
+
+There are perhaps other methods to add the serializer devices. I think a
+real bus is an overkill, as FPDLink is a point-to-point link. But if
+there's no FPDLink bus, what are the options? Platform device? That's
+not good either. So, for the time being, the serializers are i2c clients
+on the main i2c bus, even if they're really behind the FPDLink.
+
+Also, the deserializer driver needs to share some information with the
+serializers, and it is done with platform data set to the serializer
+device. If we had a bus, the bus could probably be used to convey this
+information.
+
+I2C & I2C ATR
+-------------
+
+We have three different i2c client types:
+
+1) The deserializer is a normal i2c slave, and there's nothing special
+about accessing it. The deserializer is connected to the "main" i2c bus.
+
+2) The serializers are also accessible with i2c via FPDLink: when a
+transaction to a specific (programmable) address happens on the main
+i2c-bus the deserializer takes the transaction and forwards it via
+FPDLink to the serializer. This is implemented in the deserializer
+driver by just creating the serializer i2c device on the main i2c-bus.
+This is not 100% correct, as the serializers are not directly connected
+to an i2c bus as i2c slaves.
+
+3) The serializer is an i2c master, and the camera and possibly other
+i2c peripherals can be connected to that "remote" i2c bus. The
+deserializer hardware has an i2c-alias table which describes which
+i2c-alias address the deserializer will react to, what is the real
+i2c-address and to which serializer the transactions will be forwarded
+to. This is called address translation (ATR).
+
+I2C ATR Thoughts
+----------------
+
+I have addressed most of the comments Luca received for the i2c-atr
+driver, but other than that the i2c-atr driver is mostly the same.
+However, there's one big difference: the i2c bus can be given by the
+drivers.
+
+So, looking at the DT, in Luca's version the deserializer node looked
+like this for serializers and i2c-atr:
+
+deser {
+	remote-chips {
+		remote-chip@0 {
+			// The serializer
+		};
+	};
+
+	i2c-atr {
+		i2c@0 {
+			// This is the bus behind the serializer
+		};
+	};
+};
+
+I have:
+
+deser {
+	links {
+		link@0 {
+			serializer {
+				// The serializer
+				i2c {
+					// This is the bus
+				};
+			}
+		};
+	};
+};
+
+I think this reflects the hardware much better. But this means that the
+i2c-atr "device", which in Luca's version is only the deserializer, is
+in my version split between the deser and serializer. However, the only
+thing I changed in the i2c-atr driver is that the i2c_atr_add_adapter()
+function takes an fwnode handle which tells where the i2c bus is found
+(but if it's NULL, it looks for i2c-atr just like in Luca's version).
+
+Perhaps the biggest difference is that in Luca's version the i2c-atr was
+private to the deserializer, and the deser driver called
+i2c_atr_add_adapter(). In my version the deser shares the i2c-atr with
+the serializers, and the serializers call i2c_atr_add_adapter(). I think
+this is much better, as the i2c-bus is behind the serializer, and the
+serializer's registers affect the bus, and thus the bus should really be
+create/destroyed by the serializer driver as it controls the bus'
+i2c-master hardware. 
+
+Now, i2c-mux and i2c-atr are quite similar as has been discussed in the
+earlier reviews. And while the FPDLink ICs support ATR, we can easily
+imagine a simpler deserializer which only supports mux-style forwarding.
+For these reasons I believe we have two topics: 1) i2c-atr without
+FPDLink, and 2) i2c-atr (and i2c-mux) with FPDlink.
+
+1)
+I am not aware of a stand-alone IC that performs address translation.
+If there is, I think i2c-atr as it is in this series is a good solution
+(but the bus fwnode feature mentioned above can be dropped).
+
+2)
+If I suggested adding an i2c-bus fwnode parameter to
+i2c_mux_add_adapter(), and the i2c-bus might be under some other device,
+I think the reception could be quite negative (and I would agree). For
+this reason I'm not very happy with the i2c-atr and using it with
+FPDLink.
+
+In fact, I'm thinking that it might be better to just drop the i2c-atr
+driver, and add the support directly to the FPDlink drivers. But that
+could mean possibly duplicating the same code for other deser/ser
+architectures, so I have kept the i2c-atr driver for now.
+
+In any case, I think when figuring out 2), we can forget about ATR and
+the added complexity the translation brings, and just think how i2c-mux
+could be used in a deser-ser setup. And maybe the answer is "don't use
+it, just write the support directly to the deser-ser drivers".
+
+ Tomi
+
+Luca Ceresoli (2):
+  i2c: core: let adapters be notified of client attach/detach
+  i2c: add I2C Address Translator (ATR) support
+
+Tomi Valkeinen (6):
+  dt-bindings: media: add bindings for TI DS90UB960
+  dt-bindings: media: add bindings for TI DS90UB913
+  dt-bindings: media: add bindings for TI DS90UB953
+  media: i2c: add DS90UB960 driver
+  media: i2c: add DS90UB913 driver
+  media: i2c: add DS90UB953 driver
+
+ .../bindings/media/i2c/ti,ds90ub913.yaml      |  127 +
+ .../bindings/media/i2c/ti,ds90ub953.yaml      |  120 +
+ .../bindings/media/i2c/ti,ds90ub960.yaml      |  392 ++
+ Documentation/i2c/index.rst                   |    1 +
+ Documentation/i2c/muxes/i2c-atr.rst           |   78 +
+ MAINTAINERS                                   |    7 +
+ drivers/i2c/Kconfig                           |    9 +
+ drivers/i2c/Makefile                          |    1 +
+ drivers/i2c/i2c-atr.c                         |  497 ++
+ drivers/i2c/i2c-core-base.c                   |   18 +-
+ drivers/media/i2c/Kconfig                     |   28 +
+ drivers/media/i2c/Makefile                    |    3 +
+ drivers/media/i2c/ds90ub913.c                 |  892 ++++
+ drivers/media/i2c/ds90ub953.c                 | 1607 +++++++
+ drivers/media/i2c/ds90ub960.c                 | 4198 +++++++++++++++++
+ include/linux/i2c-atr.h                       |   80 +
+ include/linux/i2c.h                           |   16 +
+ include/media/i2c/ds90ub9xx.h                 |   16 +
+ 18 files changed, 8089 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/ti,ds90ub913.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/ti,ds90ub953.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/ti,ds90ub960.yaml
+ create mode 100644 Documentation/i2c/muxes/i2c-atr.rst
+ create mode 100644 drivers/i2c/i2c-atr.c
+ create mode 100644 drivers/media/i2c/ds90ub913.c
+ create mode 100644 drivers/media/i2c/ds90ub953.c
+ create mode 100644 drivers/media/i2c/ds90ub960.c
+ create mode 100644 include/linux/i2c-atr.h
+ create mode 100644 include/media/i2c/ds90ub9xx.h
+
+-- 
+2.34.1
+
