@@ -2,96 +2,155 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9A999614784
-	for <lists+linux-media@lfdr.de>; Tue,  1 Nov 2022 11:12:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1E09861487E
+	for <lists+linux-media@lfdr.de>; Tue,  1 Nov 2022 12:27:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229823AbiKAKM2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 1 Nov 2022 06:12:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46936 "EHLO
+        id S230082AbiKAL1f (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 1 Nov 2022 07:27:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34608 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229795AbiKAKM1 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 1 Nov 2022 06:12:27 -0400
-Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1E73211C3D
-        for <linux-media@vger.kernel.org>; Tue,  1 Nov 2022 03:12:22 -0700 (PDT)
-Received: from hillosipuli.retiisi.eu (dkxjnptf9d2bpn7gcmbty-3.rev.dnainternet.fi [IPv6:2001:14ba:44ce:b640:9d1d:82c5:eca2:5060])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        with ESMTP id S229945AbiKAL1e (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 1 Nov 2022 07:27:34 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AE7A717E29;
+        Tue,  1 Nov 2022 04:27:32 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        (Authenticated sender: sailus)
-        by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 49F4F1B0009C;
-        Tue,  1 Nov 2022 12:12:19 +0200 (EET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
-        t=1667297539;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=3K0dj2dRtbT6jA7vFM+XmUaK88bJmB+xMDx7YSHWUOY=;
-        b=FWFOnYiSd/MXQx/2XUEp+BHcTRl+dGKhlyKlL23/xPEvOL0EGwj60macPR3cDSviyA8rbY
-        kAUgb6n2CoQfnizwLo5mjsrm4STXCOZDrM6HBrX1Y0AcYD2V4uO0XO9OvyppTAlR//dxac
-        zp1W9RfP4xdT1wCu355QpsbO+B2PkufKzA9c624H1fwaQuBK6brDGxpHLpWKOff4vJWOyp
-        FxWZ/RSIp122bIbupJ/xsftOH6ILo+Cxcb2S5CpSUkOUq9IcHHPJ9Bs+5VifbaoM4MkKkH
-        VaqYhdnjlxHUxC2Pbulrt98/v/KMu88HTO0aPYvvOVf5zGFncgExcnYSOpa54w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-        s=lahtoruutu; t=1667297539;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=3K0dj2dRtbT6jA7vFM+XmUaK88bJmB+xMDx7YSHWUOY=;
-        b=mDWh+TkbajMMbs3aI8v3SktmmObJ5sbVylSC4Fl0hPMhIW8oKcPisvsF4m4tKJIJYDnpJt
-        ydUOTCVRvNO2r6PVcLlOeGBWhrVZnyhr6DLJALXt9lXTmssGZ3Eydlr3ul0fP5FYy2QBSC
-        ZuFPMvoVnegzwYqE6Qbj+UmGqxQbJSVe/Xvt0FBoFMU59oQKeUgNltwPBTmqeED/B3C734
-        AlJLtsUQv52LHT3i8aX6YgcAimgPFjcNEOAxWUaIWAoayLtnIuQ/y5XHvX0A36J5DGH9p9
-        3n5XxdDkISHlS3nMPO0HGq+rC9rMMGdWqSsJWsNuUjpY85pUgsR3frDWgMW1EA==
-ARC-Authentication-Results: i=1;
-        ORIGINATING;
-        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1667297539; a=rsa-sha256;
-        cv=none;
-        b=JAFQR+HiluLADh48P2W9pSXC3VUPgnme8OAYEvhxEtV3rk3edFmPxVWgeXCQ+EpNrbyj3h
-        WxBv8ik1Sy4zqH1qYPa/tqEQoHdFEatcxre3WCk42fqpHTemkNnkWgnBMwabzgDU9VFOxm
-        k7f1ap9t4xRCjxKkUu5UcEp2kVrDqJWY8Quyc1RXLOrGjkPpvFAqrq/flbwaxpkJ7u+BpU
-        VQWFzYf+IoS41TIjmM2BgfJ98IUS796tPmtkSi/SGerc04OqODP3U/+YZKFbZuCa1ipYwF
-        Xh8dbuvfchnLisutRyJkss9P8rF646LXHekE6hZEb9EsJ+kqxwDCOqDhozc9+A==
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id E7DC7634C92;
-        Tue,  1 Nov 2022 12:12:18 +0200 (EET)
-Date:   Tue, 1 Nov 2022 12:12:18 +0200
-From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     Dave Stevenson <dave.stevenson@raspberrypi.com>
-Cc:     paul.j.murphy@intel.com, daniele.alessandrelli@intel.com,
-        linux-media@vger.kernel.org, jacopo@jmondi.org
-Subject: Re: [PATCH v2 05/16] media: i2c: ov9281: Support more than 1 mode.
-Message-ID: <Y2DxAsgEFeBUmzmc@valkosipuli.retiisi.eu>
-References: <20221028160902.2696973-1-dave.stevenson@raspberrypi.com>
- <20221028160902.2696973-6-dave.stevenson@raspberrypi.com>
+        by ams.source.kernel.org (Postfix) with ESMTPS id 6AB45B81CC1;
+        Tue,  1 Nov 2022 11:27:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DEF24C433C1;
+        Tue,  1 Nov 2022 11:27:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1667302050;
+        bh=ACB5NCpzrjJVLKWCx5UcKZl9u+6qQLqmZKiRINI/hCE=;
+        h=From:To:Cc:Subject:Date:From;
+        b=ay3qp9lT+Oeq4QKw0e4JsX92Y+9fO0fO1vsxjSW1bKWujheGFaU+EJm6uiAdWTm9C
+         zUk4KHP9zrUB7lNL77kBjdRotanUM9OvSIl991MTwCThx7HXq+1NZgrLkha87Kn0eW
+         IUXEcpONa2AWoDgKIgNEENTTv8vPPtIBsjrIX1JAwhi/jXfAc1sfzhx01kkJ6HAnfT
+         3UNkKQuS2NeKVrFjWC0Dl/1nm4MB8rfktdScXfl7cNYtNlyCDBA2Du/HWwdmwnVqgf
+         coId7cfTHIbWK0o8uZVDhwWmSZvWZ/HqID/03FD7tafQtTSi6P1zwJz8HEkhbNUSQY
+         R229r1I+mzoDA==
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Dafna Hirschfeld <dafna@fastmail.com>,
+        Paul Elder <paul.elder@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sasha Levin <sashal@kernel.org>, heiko@sntech.de,
+        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org
+Subject: [PATCH AUTOSEL 6.0 01/34] media: rkisp1: Fix source pad format configuration
+Date:   Tue,  1 Nov 2022 07:26:53 -0400
+Message-Id: <20221101112726.799368-1-sashal@kernel.org>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221028160902.2696973-6-dave.stevenson@raspberrypi.com>
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-8.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Oct 28, 2022 at 05:08:51PM +0100, Dave Stevenson wrote:
-> The driver currently has multiple assumptions that there is
-> only one supported mode.
-> 
-> Convert supported_mode to an array, and fix up all references
-> to correctly look at that array.
-> 
-> Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-This probably should have been ov9282 and not ov9281? I'll fix that when
-applying it.
+[ Upstream commit cb00f3a4421d5c7d7155bd4bded7fb2ff8eec211 ]
 
+The ISP converts Bayer data to YUV when operating normally, and can also
+operate in pass-through mode where the input and output formats must
+match. Converting from YUV to Bayer isn't possible. If such an invalid
+configuration is attempted, adjust it by copying the sink pad media bus
+code to the source pad.
+
+Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Reviewed-by: Dafna Hirschfeld <dafna@fastmail.com>
+Reviewed-by: Paul Elder <paul.elder@ideasonboard.com>
+Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ .../platform/rockchip/rkisp1/rkisp1-isp.c     | 40 +++++++++++++++----
+ 1 file changed, 32 insertions(+), 8 deletions(-)
+
+diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
+index 383a3ec83ca9..00032b849a07 100644
+--- a/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
++++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
+@@ -472,23 +472,43 @@ static void rkisp1_isp_set_src_fmt(struct rkisp1_isp *isp,
+ 				   struct v4l2_mbus_framefmt *format,
+ 				   unsigned int which)
+ {
+-	const struct rkisp1_mbus_info *mbus_info;
++	const struct rkisp1_mbus_info *sink_info;
++	const struct rkisp1_mbus_info *src_info;
++	struct v4l2_mbus_framefmt *sink_fmt;
+ 	struct v4l2_mbus_framefmt *src_fmt;
+ 	const struct v4l2_rect *src_crop;
+ 
++	sink_fmt = rkisp1_isp_get_pad_fmt(isp, sd_state,
++					  RKISP1_ISP_PAD_SINK_VIDEO, which);
+ 	src_fmt = rkisp1_isp_get_pad_fmt(isp, sd_state,
+ 					 RKISP1_ISP_PAD_SOURCE_VIDEO, which);
+ 	src_crop = rkisp1_isp_get_pad_crop(isp, sd_state,
+ 					   RKISP1_ISP_PAD_SOURCE_VIDEO, which);
+ 
++	/*
++	 * Media bus code. The ISP can operate in pass-through mode (Bayer in,
++	 * Bayer out or YUV in, YUV out) or process Bayer data to YUV, but
++	 * can't convert from YUV to Bayer.
++	 */
++	sink_info = rkisp1_mbus_info_get_by_code(sink_fmt->code);
++
+ 	src_fmt->code = format->code;
+-	mbus_info = rkisp1_mbus_info_get_by_code(src_fmt->code);
+-	if (!mbus_info || !(mbus_info->direction & RKISP1_ISP_SD_SRC)) {
++	src_info = rkisp1_mbus_info_get_by_code(src_fmt->code);
++	if (!src_info || !(src_info->direction & RKISP1_ISP_SD_SRC)) {
+ 		src_fmt->code = RKISP1_DEF_SRC_PAD_FMT;
+-		mbus_info = rkisp1_mbus_info_get_by_code(src_fmt->code);
++		src_info = rkisp1_mbus_info_get_by_code(src_fmt->code);
+ 	}
+-	if (which == V4L2_SUBDEV_FORMAT_ACTIVE)
+-		isp->src_fmt = mbus_info;
++
++	if (sink_info->pixel_enc == V4L2_PIXEL_ENC_YUV &&
++	    src_info->pixel_enc == V4L2_PIXEL_ENC_BAYER) {
++		src_fmt->code = sink_fmt->code;
++		src_info = sink_info;
++	}
++
++	/*
++	 * The source width and height must be identical to the source crop
++	 * size.
++	 */
+ 	src_fmt->width  = src_crop->width;
+ 	src_fmt->height = src_crop->height;
+ 
+@@ -498,14 +518,18 @@ static void rkisp1_isp_set_src_fmt(struct rkisp1_isp *isp,
+ 	 */
+ 	if (format->flags & V4L2_MBUS_FRAMEFMT_SET_CSC &&
+ 	    format->quantization == V4L2_QUANTIZATION_FULL_RANGE &&
+-	    mbus_info->pixel_enc == V4L2_PIXEL_ENC_YUV)
++	    src_info->pixel_enc == V4L2_PIXEL_ENC_YUV)
+ 		src_fmt->quantization = V4L2_QUANTIZATION_FULL_RANGE;
+-	else if (mbus_info->pixel_enc == V4L2_PIXEL_ENC_YUV)
++	else if (src_info->pixel_enc == V4L2_PIXEL_ENC_YUV)
+ 		src_fmt->quantization = V4L2_QUANTIZATION_LIM_RANGE;
+ 	else
+ 		src_fmt->quantization = V4L2_QUANTIZATION_FULL_RANGE;
+ 
+ 	*format = *src_fmt;
++
++	/* Store the source format info when setting the active format. */
++	if (which == V4L2_SUBDEV_FORMAT_ACTIVE)
++		isp->src_fmt = src_info;
+ }
+ 
+ static void rkisp1_isp_set_src_crop(struct rkisp1_isp *isp,
 -- 
-Sakari Ailus
+2.35.1
+
