@@ -2,50 +2,44 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9DD7561493E
-	for <lists+linux-media@lfdr.de>; Tue,  1 Nov 2022 12:35:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E7E7861497D
+	for <lists+linux-media@lfdr.de>; Tue,  1 Nov 2022 12:37:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231130AbiKALfR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 1 Nov 2022 07:35:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45830 "EHLO
+        id S231295AbiKALhj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 1 Nov 2022 07:37:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47224 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230302AbiKALez (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 1 Nov 2022 07:34:55 -0400
+        with ESMTP id S231377AbiKALhV (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 1 Nov 2022 07:37:21 -0400
 Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B3E7C1CB01;
-        Tue,  1 Nov 2022 04:30:59 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 06B581D651;
+        Tue,  1 Nov 2022 04:32:07 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 36FE8B81CC1;
-        Tue,  1 Nov 2022 11:30:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A76EDC433C1;
-        Tue,  1 Nov 2022 11:30:34 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id B0105B81CC7;
+        Tue,  1 Nov 2022 11:31:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C6208C433C1;
+        Tue,  1 Nov 2022 11:31:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1667302235;
-        bh=cmNTbBy0ITeyQAOWKJ1WhJquHtMEaGIfAStDm/zXi/g=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=FQW6zXZU2NQLpgsgZy4nmfayTOEIqFoK6ZudxvFuQcTkEL5ivtQK91xyLsniUwOdX
-         owMnwV95PJfTUv/efCrn3tQRI1DKx/HhN7lTe5BANfRcfdn+73vgvUStLh5JUMReDE
-         IU04oMYMdh3Q2XQtIzygF8GsGS7Ep4OraPLfdnCj1Fq3U2J5XK/LmzPuUiOH+y/iVQ
-         K+dE/NRnuyx+YMdwDIV98utJuQGhh3Z1gOALoTacrfqjlZgjJr+8aqOIoZesRaCrrO
-         1FkT2bro2GxCF00ypBi/Ka5PfPgSzpfRDPJgg/qYXupDNqni+dTrlE3H11aDpfCxra
-         PmyU2scCz6E/g==
+        s=k20201202; t=1667302261;
+        bh=Kw4Nn01bzJRVrsHjMDBHatH2mY1/n9rmS1Khm+s9vkk=;
+        h=From:To:Cc:Subject:Date:From;
+        b=vDwmwT7EeqTQduPCn1sd1X1H5u/izqIp9OXJidjWQ/aVDEQgJTGIx7YDO58FWvwK3
+         ANchDS7qLU6eWMs5YsmRRzxkq4QdZrA5s+S1TUgNjcRoAohZXgIChnej7M+j0E+6P2
+         3bSwX4XFBXtTZ7Il44BNkHSLwobBkJWCOaCFwCbTa5pTBlhJO3oO0jT1dcATNhXbFy
+         ISBADdhNJHRMIGuhf5YDtJ4DFqZbX3U2wQCvTNQ1x5z9NWW1vA0LTCzXpdJjzSWQQo
+         +2un1c2vDC8f5mR5Yl89QFOqwxZsAglP354ypPhE7OINg+RIdSp4rvTZM5oWLS1rrQ
+         GEyb0ZK4NwQwA==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Hans de Goede <hdegoede@redhat.com>,
-        Andy Shevchenko <andriy.shevchenko@intel.com>,
+Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sasha Levin <sashal@kernel.org>, gregkh@linuxfoundation.org,
-        andriy.shevchenko@linux.intel.com, kitakar@gmail.com,
-        alan@linux.intel.com, linux-media@vger.kernel.org,
-        linux-staging@lists.linux.dev
-Subject: [PATCH AUTOSEL 5.10 08/14] media: atomisp: Fix v4l2_fh resource leak on open errors
-Date:   Tue,  1 Nov 2022 07:30:04 -0400
-Message-Id: <20221101113012.800271-8-sashal@kernel.org>
+        Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.4 1/8] media: s5p_cec: limit msg.len to CEC_MAX_MSG_SIZE
+Date:   Tue,  1 Nov 2022 07:30:50 -0400
+Message-Id: <20221101113059.800777-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20221101113012.800271-1-sashal@kernel.org>
-References: <20221101113012.800271-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -59,33 +53,33 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Hans de Goede <hdegoede@redhat.com>
+From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 
-[ Upstream commit 5b9853ad1329be49343a608d574eb232ff1273d0 ]
+[ Upstream commit 93f65ce036863893c164ca410938e0968964b26c ]
 
-When atomisp_open() fails then it must call v4l2_fh_release() to undo
-the results of v4l2_fh_open().
+I expect that the hardware will have limited this to 16, but just in
+case it hasn't, check for this corner case.
 
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@intel.com>
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/staging/media/atomisp/pci/atomisp_fops.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/media/platform/s5p-cec/s5p_cec.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_fops.c b/drivers/staging/media/atomisp/pci/atomisp_fops.c
-index b751df31cc24..ccf398b42520 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_fops.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_fops.c
-@@ -890,6 +890,7 @@ static int atomisp_open(struct file *file)
- 	hmm_pool_unregister(HMM_POOL_TYPE_DYNAMIC);
- 	pm_runtime_put(vdev->v4l2_dev->dev);
- 	rt_mutex_unlock(&isp->mutex);
-+	v4l2_fh_release(file);
- 	return ret;
- }
- 
+diff --git a/drivers/media/platform/s5p-cec/s5p_cec.c b/drivers/media/platform/s5p-cec/s5p_cec.c
+index 828792b854f5..0c668d4a3daa 100644
+--- a/drivers/media/platform/s5p-cec/s5p_cec.c
++++ b/drivers/media/platform/s5p-cec/s5p_cec.c
+@@ -115,6 +115,8 @@ static irqreturn_t s5p_cec_irq_handler(int irq, void *priv)
+ 				dev_dbg(cec->dev, "Buffer overrun (worker did not process previous message)\n");
+ 			cec->rx = STATE_BUSY;
+ 			cec->msg.len = status >> 24;
++			if (cec->msg.len > CEC_MAX_MSG_SIZE)
++				cec->msg.len = CEC_MAX_MSG_SIZE;
+ 			cec->msg.rx_status = CEC_RX_STATUS_OK;
+ 			s5p_cec_get_rx_buf(cec, cec->msg.len,
+ 					cec->msg.msg);
 -- 
 2.35.1
 
