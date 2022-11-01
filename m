@@ -2,172 +2,242 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 23AB2614614
-	for <lists+linux-media@lfdr.de>; Tue,  1 Nov 2022 09:57:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 99C40614715
+	for <lists+linux-media@lfdr.de>; Tue,  1 Nov 2022 10:44:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229954AbiKAI5p (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 1 Nov 2022 04:57:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40082 "EHLO
+        id S229717AbiKAJoy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 1 Nov 2022 05:44:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49664 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229936AbiKAI5m (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 1 Nov 2022 04:57:42 -0400
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D54A186F3;
-        Tue,  1 Nov 2022 01:57:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1667293061; x=1698829061;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=msnEZkv3YQ45VUNdt3VQyEvi87+GNc4MrWptBr/Uq0I=;
-  b=mz7L7Ruf5CToUEAY8QuwOSVAYGKh7zSKoqvXwHU++JKoSipgEzog7scb
-   dzLQ2HiNLN81gCWmTi7Kh682HHioxZ9uZmohIrMWiYOuILl1FmjvzxW3Q
-   J7CpkQnSPvVkcmEUIW8WWrT13SXDdpwwNjOpbh2W8d4dKSAHuRN3hKrpr
-   U4tWaEMSQVj5rOxB/obheVexWOepe3mu+oRtZRBHtxcxTW3VmWhzwVdz1
-   f796HbFX9PoSIvu6g0155m9sPa9qKeE2vg5b31KQYqrwqoNPCOacBpoID
-   UqvNLJUOoMS+zOaDuC7SdBrteZfdJAinEhQS+q3qQ+K6EyF+B7tr5MOo8
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10517"; a="309095587"
-X-IronPort-AV: E=Sophos;i="5.95,230,1661842800"; 
-   d="scan'208";a="309095587"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2022 01:57:41 -0700
-X-IronPort-AV: E=McAfee;i="6500,9779,10517"; a="697337066"
-X-IronPort-AV: E=Sophos;i="5.95,230,1661842800"; 
-   d="scan'208";a="697337066"
-Received: from punajuuri.fi.intel.com (HELO paasikivi.fi.intel.com) ([10.237.72.43])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2022 01:57:37 -0700
-Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
-        by paasikivi.fi.intel.com (Postfix) with SMTP id B8EF220207;
-        Tue,  1 Nov 2022 10:57:34 +0200 (EET)
-Date:   Tue, 1 Nov 2022 08:57:34 +0000
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund@ragnatech.se>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH v4 4/4] media: platform: Add Renesas RZ/G2L CRU driver
-Message-ID: <Y2Dffvzr24FCG1Lw@paasikivi.fi.intel.com>
-References: <20221027103104.74576-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20221027103104.74576-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <Y1qCbUoLrR6qlQwa@paasikivi.fi.intel.com>
- <CA+V-a8seroka4YkyCnSYa2KMPDWMG1Zk8tyiqRntdPUQnc+nrA@mail.gmail.com>
- <Y1vJbJfFjV9jRNzz@paasikivi.fi.intel.com>
- <CA+V-a8tONhJ1_x3T7+6n7tu=xyFBZfsqT2v3iUGd2Jy5_NuZCg@mail.gmail.com>
- <Y1+FFD4/XCY8HyYa@paasikivi.fi.intel.com>
- <CA+V-a8sKb4em07S5bYfe9RsgBnp3WDhf6bHu38LfuB2g+iJYZg@mail.gmail.com>
+        with ESMTP id S230225AbiKAJop (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 1 Nov 2022 05:44:45 -0400
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::225])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5BFFC2A8
+        for <linux-media@vger.kernel.org>; Tue,  1 Nov 2022 02:44:44 -0700 (PDT)
+Received: (Authenticated sender: jacopo@jmondi.org)
+        by mail.gandi.net (Postfix) with ESMTPSA id A5BBA1C0009;
+        Tue,  1 Nov 2022 09:44:40 +0000 (UTC)
+Date:   Tue, 1 Nov 2022 10:44:39 +0100
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Dave Stevenson <dave.stevenson@raspberrypi.com>
+Cc:     paul.j.murphy@intel.com, daniele.alessandrelli@intel.com,
+        linux-media@vger.kernel.org, sakari.ailus@iki.fi
+Subject: Re: [PATCH v2 14/16] media: i2c: ov9282: Add support for 1280x800
+ and 640x400 modes
+Message-ID: <20221101094439.jqkeg7j5trxzlyir@uno.localdomain>
+References: <20221028160902.2696973-1-dave.stevenson@raspberrypi.com>
+ <20221028160902.2696973-15-dave.stevenson@raspberrypi.com>
+ <20221031102819.sm3u4hom3tuddtax@uno.localdomain>
+ <CAPY8ntDUpk2ysUo_gLXvkjP9JbWa2w9p3iRgSMnppmadoLpBAg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <CA+V-a8sKb4em07S5bYfe9RsgBnp3WDhf6bHu38LfuB2g+iJYZg@mail.gmail.com>
-X-Spam-Status: No, score=-8.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <CAPY8ntDUpk2ysUo_gLXvkjP9JbWa2w9p3iRgSMnppmadoLpBAg@mail.gmail.com>
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Prabhakar,
+Hi Dave,
 
-On Mon, Oct 31, 2022 at 12:40:28PM +0000, Lad, Prabhakar wrote:
-> Hi Sakari,
-> 
-> On Mon, Oct 31, 2022 at 8:19 AM Sakari Ailus
-> <sakari.ailus@linux.intel.com> wrote:
+On Mon, Oct 31, 2022 at 12:09:46PM +0000, Dave Stevenson wrote:
+> Hi Jacopo
+>
+> On Mon, 31 Oct 2022 at 10:28, Jacopo Mondi <jacopo@jmondi.org> wrote:
 > >
-> > Hi Prabhakar,
+> > Hi Dave
 > >
-> > On Sun, Oct 30, 2022 at 10:32:43PM +0000, Lad, Prabhakar wrote:
-> > > Hi Sakari,
+> >
+> > On Fri, Oct 28, 2022 at 05:09:00PM +0100, Dave Stevenson wrote:
+> > > Adds register settings for additional modes.
 > > >
-> > > On Fri, Oct 28, 2022 at 1:22 PM Sakari Ailus
-> > > <sakari.ailus@linux.intel.com> wrote:
-> > > >
-> > > > Hi Prabhakar,
-> > > >
-> > > > On Thu, Oct 27, 2022 at 08:04:40PM +0100, Lad, Prabhakar wrote:
-> > > > ...
-> > > > > > > +static int rzg2l_cru_ip_s_stream(struct v4l2_subdev *sd, int enable)
-> > > > > > > +{
-> > > > > > > +     struct rzg2l_cru_dev *cru;
-> > > > > > > +     int ret;
-> > > > > > > +
-> > > > > > > +     cru = v4l2_get_subdevdata(sd);
-> > > > > > > +
-> > > > > > > +     if (!cru->is_csi)
-> > > > > > > +             return -EINVAL;
-> > > > > > > +
-> > > > > > > +     ret = v4l2_subdev_call(cru->ip.remote, video, s_stream, enable);
-> > > > > >
-> > > > > > It's up to the driver how call pre_streamon() and post_streamoff(), as long
-> > > > > > as it takes place on both sides of s_stream().
-> > > > > >
-> > > > > > In other words, as it seems your device doesn't need anything special, you
-> > > > > > could waive implemeting the callbacks yourself and call pre_streamon() and
-> > > > > > post_streamoff() here.
-> > > > > >
-> > > > > Here the cru->ip.remote = CSI, in the rzg2l_cru_set_stream(1) where we
-> > > > > are calling pre_streamon()/post_streamoff() callbacks the subdev is
-> > > > > CRU-IP. So the calls from rzg2l_cru_set_stream() land into
-> > > > > rzg2l_cru_ip_pre_streamon() and rzg2l_cru_ip_post_streamoff() which
-> > > > > are calling pre_streamon/post_streamoff for the CSI subdev.
-> > > >
-> > > > Again, you should call the source sub-device's pre_streamon and
-> > > > post_streamoff from the s_stream handler (not from
-> > > > rzg2l_cru_ip_pre_streamon or rzg2l_cru_ip_post_streamoff).
-> > > >
-> > > > Starting streaming takes place link by link. This allows a driver to omit
-> > > > implementing pre_streamon and post_streamon callbacks if it doesn't need
-> > > > them.
-> > > >
-> > > Thank you for the explanation that makes sense now to me.
+> > > Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+> > > ---
+> > >  drivers/media/i2c/ov9282.c | 103 ++++++++++++++++++++++++++++++++++++-
+> > >  1 file changed, 102 insertions(+), 1 deletion(-)
 > > >
-> > > Now with this approach the initialization sequence of CSI + CRU won't
-> > > align as per the HW manual. Unfortunately I'll have to switch back on
-> > > exporting the functions. I hope that's okay?
+> > > diff --git a/drivers/media/i2c/ov9282.c b/drivers/media/i2c/ov9282.c
+> > > index a520d9fef0cb..c169b532ec8b 100644
+> > > --- a/drivers/media/i2c/ov9282.c
+> > > +++ b/drivers/media/i2c/ov9282.c
+> > > @@ -246,11 +246,44 @@ struct ov9282_reg_list common_regs_list = {
+> > >       .regs = common_regs,
+> > >  };
+> > >
+> > > -#define MODE_1280_720                0
+> > > +#define MODE_1280_800                0
+> > > +#define MODE_1280_720                1
+> > > +#define MODE_640_400         2
+> > >
+> > >  #define DEFAULT_MODE         MODE_1280_720
+> > >
+> > >  /* Sensor mode registers */
+> > > +static const struct ov9282_reg mode_1280x800_regs[] = {
+> > > +     {0x3778, 0x00},
+> > > +     {0x3800, 0x00},
+> > > +     {0x3801, 0x00},
+> > > +     {0x3802, 0x00},
+> > > +     {0x3803, 0x00},
+> > > +     {0x3804, 0x05},
+> > > +     {0x3805, 0x0f},
+> > > +     {0x3806, 0x03},
+> > > +     {0x3807, 0x2f},
+> > > +     {0x3808, 0x05},
+> > > +     {0x3809, 0x00},
+> > > +     {0x380a, 0x03},
+> > > +     {0x380b, 0x20},
+> > > +     {0x3810, 0x00},
+> > > +     {0x3811, 0x08},
+> > > +     {0x3812, 0x00},
+> > > +     {0x3813, 0x08},
+> > > +     {0x3814, 0x11},
+> > > +     {0x3815, 0x11},
+> > > +     {0x3820, 0x40},
+> > > +     {0x3821, 0x00},
+> > > +     {0x4003, 0x40},
+> > > +     {0x4008, 0x04},
+> > > +     {0x4009, 0x0b},
+> > > +     {0x400c, 0x00},
+> > > +     {0x400d, 0x07},
+> > > +     {0x4507, 0x00},
+> > > +     {0x4509, 0x00},
+> > > +};
+> > > +
+> > >  static const struct ov9282_reg mode_1280x720_regs[] = {
+> > >       {0x3778, 0x00},
+> > >       {0x3800, 0x00},
+> > > @@ -282,8 +315,57 @@ static const struct ov9282_reg mode_1280x720_regs[] = {
+> > >       {0x4509, 0x80},
+> > >  };
+> > >
+> > > +static const struct ov9282_reg mode_640x400_regs[] = {
+> > > +     {0x3778, 0x10},
+> > > +     {0x3800, 0x00},
+> > > +     {0x3801, 0x00},
+> > > +     {0x3802, 0x00},
+> > > +     {0x3803, 0x00},
+> > > +     {0x3804, 0x05},
+> > > +     {0x3805, 0x0f},
+> > > +     {0x3806, 0x03},
+> > > +     {0x3807, 0x2f},
+> > > +     {0x3808, 0x02},
+> > > +     {0x3809, 0x80},
+> > > +     {0x380a, 0x01},
+> > > +     {0x380b, 0x90},
+> > > +     {0x3810, 0x00},
+> > > +     {0x3811, 0x04},
+> > > +     {0x3812, 0x00},
+> > > +     {0x3813, 0x04},
+> > > +     {0x3814, 0x31},
+> > > +     {0x3815, 0x22},
+> > > +     {0x3820, 0x60},
+> > > +     {0x3821, 0x01},
+> > > +     {0x4008, 0x02},
+> > > +     {0x4009, 0x05},
+> > > +     {0x400c, 0x00},
+> > > +     {0x400d, 0x03},
+> > > +     {0x4507, 0x03},
+> > > +     {0x4509, 0x80},
+> > > +};
+> > > +
+> > >  /* Supported sensor mode configurations */
+> > >  static const struct ov9282_mode supported_modes[] = {
+> > > +     [MODE_1280_800] = {
+> > > +             .width = 1280,
+> > > +             .height = 800,
+> > > +             .hblank_min = { 250, 176 },
+> > > +             .vblank = 1022,
+> > > +             .vblank_min = 110,
+> > > +             .vblank_max = 51540,
+> > > +             .link_freq_idx = 0,
+> > > +             .crop = {
+> > > +                     .left = OV9282_PIXEL_ARRAY_LEFT,
+> > > +                     .top = OV9282_PIXEL_ARRAY_TOP,
+> > > +                     .width = 1280,
+> > > +                     .height = 800
+> > > +             },
+> > > +             .reg_list = {
+> > > +                     .num_of_regs = ARRAY_SIZE(mode_1280x800_regs),
+> > > +                     .regs = mode_1280x800_regs,
+> > > +             },
+> > > +     },
+> > >       [MODE_1280_720] = {
+> > >               .width = 1280,
+> > >               .height = 720,
+> > > @@ -307,6 +389,25 @@ static const struct ov9282_mode supported_modes[] = {
+> > >                       .regs = mode_1280x720_regs,
+> > >               },
+> > >       },
+> > > +     [MODE_640_400] = {
+> > > +             .width = 640,
+> > > +             .height = 400,
+> > > +             .hblank_min = { 890, 816 },
+> > > +             .vblank = 1022,
+> > > +             .vblank_min = 22,
+> > > +             .vblank_max = 51540,
 > >
-> > It is not.
-> >
-> > What exactly would you like to do that you can't with the
-> > pre_streamon/post_streamoff callbacks called from s_stream?
-> >
-> The initialization sequence for MIPI CSI [0]. As per [0] we need to
-> initialize the CSI2 dphy first then setup the AXI (part of CRU driver)
-> and then later MIPI CSI2 link (part of csi driver) and lastly turn on
-> clock and link (in the cru driver).
-> 
-> So as per the current implementation we have the below:
-> 1] CRU IP subdev is calling pre_stream for the CSI2 subdev in its
-> pre_stream on callback - This is where the CSI2 DPHY is initialized
-> 2] Later in the flow we initialize the AXI part - ie part of
-> rzg2l_cru_set_stream
-> 3] We call s_stream in rzg2l_cru_set_stream - This lands into CSI2
-> subdev to initialize the MIPI CSI2 Link
-> 4] In the rzg2l_cru_set_stream we setup up the vclk and enable link reception
-> 
-> [0] https://ibb.co/QpHNkLh
+> > While hblank_min is adapated to match the limits for full resolution
+> > mode (1280 + 250 - 640 = 890; same for the 816 non-continuous version)
+> > vblank_min is shrinked, giving a min frame length of (400 + 22)
+> > compared to the full-res min frame length of (800 + 110). Is this
+> > intentional ?
+>
+> I adapted the Rockchip driver [1] ages ago and we had been using that
+> with extensions in our vendor kernel. With Alexander posting the
+> patches to this ov9282 driver to add ov9281 support, I looked at
+> porting the extra functionality I had there.
+>
+> I added the 640x400 mode to the vendor driver back in Nov 2020 [2]
+> with a min/default vts of 421. This was then corrected in July 2022
+> with [3] as VTS 421 actually gave 130fps instead of the expected
+> ~261fps.
+>
+> The datasheet doesn't give a minimum height for the VBLANK period,
+> therefore empirical testing is the best we can do in this case.
+>
+> It may be possible to reduce vblank_min for the other modes, but I
+> haven't verified that. The datasheet lists the default for registers
+> 0x380E/F as 0x38e or 910, giving VBLANK as 110, and resulting in
+> 120fps. As the sensor is advertised as having a maximum transfer rate
+> of 1280 x 800: 120fps, exceeding that would probably be foolish.
+>
 
-How is this changed by calling the pre_streamon/post_streamoff callbacks
-from s_stream? I understand the pipeline device-wise is:
+Ok, so vblank_min = 21 "breaks" streaming by halving the framerate,
+while vblank_min = 22 works as expected.
 
-	... -> CSI-2 -> CRU
+It would be great to record that 22 is obtained by sperimental results
+in the commit message, or in a comment here and not by documentation ?
 
-I wonder if it would be faster to discuss this on #linux-media.
+Anyway, the series is tagged and Sakari is about to collect it, so no
+need to resend, but if you have to...
 
--- 
-Kind regards,
+Reviewed-by: Jacopo Mondi <jacopo@jmondi.org>
 
-Sakari Ailus
+
+>   Dave
+>
+> [1] https://github.com/rockchip-linux/kernel/blob/develop-4.4/drivers/media/i2c/ov9281.c
+> [2] https://github.com/raspberrypi/linux/pull/3968
+> [3] https://github.com/raspberrypi/linux/pull/5082
+>
+> > > +             .link_freq_idx = 0,
+> > > +             .crop = {
+> > > +                     .left = OV9282_PIXEL_ARRAY_LEFT,
+> > > +                     .top = OV9282_PIXEL_ARRAY_TOP,
+> > > +                     .width = 1280,
+> > > +                     .height = 800
+> > > +             },
+> > > +             .reg_list = {
+> > > +                     .num_of_regs = ARRAY_SIZE(mode_640x400_regs),
+> > > +                     .regs = mode_640x400_regs,
+> > > +             },
+> > > +     },
+> > >  };
+> > >
+> > >  /**
+> > > --
+> > > 2.34.1
+> > >
