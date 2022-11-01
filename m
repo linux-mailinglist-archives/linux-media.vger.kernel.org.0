@@ -2,50 +2,47 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 60F0861490D
-	for <lists+linux-media@lfdr.de>; Tue,  1 Nov 2022 12:32:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 73F4A614929
+	for <lists+linux-media@lfdr.de>; Tue,  1 Nov 2022 12:34:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230466AbiKALcV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 1 Nov 2022 07:32:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35462 "EHLO
+        id S231173AbiKALeJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 1 Nov 2022 07:34:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45320 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230304AbiKALbM (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 1 Nov 2022 07:31:12 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E8B4E1A83F;
-        Tue,  1 Nov 2022 04:29:50 -0700 (PDT)
+        with ESMTP id S229887AbiKALdX (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 1 Nov 2022 07:33:23 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1FF641B1CF;
+        Tue,  1 Nov 2022 04:30:21 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 6C8F5B81CC7;
-        Tue,  1 Nov 2022 11:29:49 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 02ABCC433D6;
-        Tue,  1 Nov 2022 11:29:46 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 930DAB81CCD;
+        Tue,  1 Nov 2022 11:30:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 28FEFC433C1;
+        Tue,  1 Nov 2022 11:30:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1667302188;
-        bh=Zun/SsDVfloOHkAJheKU5bg8mYtiWisWdGLNQhr2Pcg=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=ukNOK4Ngb3GaOhiZlxczym+wsGfUD+aPTEMJs85MtAnAvkb7kivR4I0uQ43w7H1Fk
-         FLl8mFek0U/46R+o0/EI142DGp2/I0WQmIW+gVHSCLJFboBU79c0pj7eKtU9aujpg8
-         zMUCnf3+Kbwnn3S4zCsu6A+1aoVFNZfgGNxVa7lgtUmmFSRpKYEm7AW83bWlgp/Aer
-         x+OR/WkGnOvmFdE3Kheup+nrCIK6lOhGNhSkEAERNHwzesN0JLyl9owe8ROUst2w2W
-         4WS3aLepdEwDF2l+BSEHthgXOhg7l0qyu/N3mAxBJt4gSKiSaAlP+yL0DpK9jddwSK
-         YK9lNSlbzbeUw==
+        s=k20201202; t=1667302215;
+        bh=vLsWhaWfthnY1eDb3thOqafTKkz9DILQDMTO4Ks0ZkY=;
+        h=From:To:Cc:Subject:Date:From;
+        b=reH42v+QZegfrULq45Tg3GKowzECfbwwXAU4RxnG9r5wnSmvSQAGsCiaRmIUffXto
+         x33Y+w/HzelUdcwdzgu96CYj+kqsFVKayv5nctOgqyLH/cTHFSQ85PBS0QmwgHvu1c
+         7BHW6vDpqsSVWxf0bXXuzHpoNyIRcABW5OySIz9mZ9VsF1arYblvwhvw7NFT56oZJJ
+         7oHnUWnIpWp2YZDCtApNrGPcgaMSGiCjru+E3LJUXu1l0b3cw9VBcEwXIn5Osa2vkX
+         pRbYfR4FGyBFHdQbikYeQwngKOSE3F1W+nbyJZCcMpn6si5N1X4K1LhV528avFwC79
+         KaV8SEO6Lh7YQ==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Hans de Goede <hdegoede@redhat.com>,
-        Andy Shevchenko <andriy.shevchenko@intel.com>,
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Paul Elder <paul.elder@ideasonboard.com>,
+        Dafna Hirschfeld <dafna@fastmail.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Sasha Levin <sashal@kernel.org>, gregkh@linuxfoundation.org,
-        andriy.shevchenko@linux.intel.com, kitakar@gmail.com,
-        alan@linux.intel.com, linux-media@vger.kernel.org,
-        linux-staging@lists.linux.dev
-Subject: [PATCH AUTOSEL 5.15 12/19] media: atomisp: Fix v4l2_fh resource leak on open errors
-Date:   Tue,  1 Nov 2022 07:29:12 -0400
-Message-Id: <20221101112919.799868-12-sashal@kernel.org>
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: [PATCH AUTOSEL 5.10 01/14] media: rkisp1: Initialize color space on resizer sink and source pads
+Date:   Tue,  1 Nov 2022 07:29:57 -0400
+Message-Id: <20221101113012.800271-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20221101112919.799868-1-sashal@kernel.org>
-References: <20221101112919.799868-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -59,33 +56,39 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Hans de Goede <hdegoede@redhat.com>
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-[ Upstream commit 5b9853ad1329be49343a608d574eb232ff1273d0 ]
+[ Upstream commit 83b9296e399367862845d3b19984444fc756bd61 ]
 
-When atomisp_open() fails then it must call v4l2_fh_release() to undo
-the results of v4l2_fh_open().
+Initialize the four color space fields on the sink and source video pads
+of the resizer in the .init_cfg() operation. The resizer can't perform
+any color space conversion, so set the sink and source color spaces to
+the same defaults, which match the ISP source video pad default.
 
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@intel.com>
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Reviewed-by: Paul Elder <paul.elder@ideasonboard.com>
+Reviewed-by: Dafna Hirschfeld <dafna@fastmail.com>
 Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/staging/media/atomisp/pci/atomisp_fops.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/staging/media/rkisp1/rkisp1-resizer.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_fops.c b/drivers/staging/media/atomisp/pci/atomisp_fops.c
-index 18fff47bd25d..cb61ffb7d3b2 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_fops.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_fops.c
-@@ -890,6 +890,7 @@ static int atomisp_open(struct file *file)
- error:
- 	hmm_pool_unregister(HMM_POOL_TYPE_DYNAMIC);
- 	rt_mutex_unlock(&isp->mutex);
-+	v4l2_fh_release(file);
- 	return ret;
- }
+diff --git a/drivers/staging/media/rkisp1/rkisp1-resizer.c b/drivers/staging/media/rkisp1/rkisp1-resizer.c
+index 4dcc342ac2b2..76f17dd7670f 100644
+--- a/drivers/staging/media/rkisp1/rkisp1-resizer.c
++++ b/drivers/staging/media/rkisp1/rkisp1-resizer.c
+@@ -500,6 +500,10 @@ static int rkisp1_rsz_init_config(struct v4l2_subdev *sd,
+ 	sink_fmt->height = RKISP1_DEFAULT_HEIGHT;
+ 	sink_fmt->field = V4L2_FIELD_NONE;
+ 	sink_fmt->code = RKISP1_DEF_FMT;
++	sink_fmt->colorspace = V4L2_COLORSPACE_SRGB;
++	sink_fmt->xfer_func = V4L2_XFER_FUNC_SRGB;
++	sink_fmt->ycbcr_enc = V4L2_YCBCR_ENC_601;
++	sink_fmt->quantization = V4L2_QUANTIZATION_LIM_RANGE;
  
+ 	sink_crop = v4l2_subdev_get_try_crop(sd, cfg, RKISP1_RSZ_PAD_SINK);
+ 	sink_crop->width = RKISP1_DEFAULT_WIDTH;
 -- 
 2.35.1
 
