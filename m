@@ -2,137 +2,106 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BF18561419C
-	for <lists+linux-media@lfdr.de>; Tue,  1 Nov 2022 00:23:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E7BFA61443E
+	for <lists+linux-media@lfdr.de>; Tue,  1 Nov 2022 06:28:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229893AbiJaXXD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 31 Oct 2022 19:23:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41562 "EHLO
+        id S229779AbiKAF26 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 1 Nov 2022 01:28:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49684 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229938AbiJaXWl (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 31 Oct 2022 19:22:41 -0400
-Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com [IPv6:2a00:1450:4864:20::434])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C0EE015821;
-        Mon, 31 Oct 2022 16:22:19 -0700 (PDT)
-Received: by mail-wr1-x434.google.com with SMTP id v1so18027624wrt.11;
-        Mon, 31 Oct 2022 16:22:19 -0700 (PDT)
+        with ESMTP id S229502AbiKAF24 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 1 Nov 2022 01:28:56 -0400
+Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com [IPv6:2a00:1450:4864:20::634])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9D98025C1
+        for <linux-media@vger.kernel.org>; Mon, 31 Oct 2022 22:28:55 -0700 (PDT)
+Received: by mail-ej1-x634.google.com with SMTP id ud5so34579180ejc.4
+        for <linux-media@vger.kernel.org>; Mon, 31 Oct 2022 22:28:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=w4n/PVXJaI0AZ90mJ+ujyPK1tladHQFvLZoHvifyNgE=;
-        b=iriYmRi7F+gUWdk3CPDtwYWNytgMeCCV/+jNmQm6VV/pFm3r10jPG3b9nufXlYb46A
-         r8nnGnkDk/PB4ktZNp5DFh+M3g9gSt9alapkjnhh96+ew4Yjuxtfv4b9fv8G0+Iv1jnf
-         90bEyDhop8d1D+CE3TihTTtp5mlp8Kpl/Rrl0DMCXYLgpdw/eFeUDYYwcEb+PK7jcnTE
-         Zf5nRXuLiod6Pe4Cgqb48vJnkjpcT5YQEtBgW7zbQCbL2zNo0LsSeLwEUgOXfRWtSbCz
-         hHvR7V6fWN0uylB3E+Hf80ugSYzmjZaUBhcWYRx/lXQccg88/fG/GvSwLJwV1dypLY6m
-         T3YQ==
+        d=chromium.org; s=google;
+        h=cc:to:message-id:date:from:content-transfer-encoding:mime-version
+         :subject:from:to:cc:subject:date:message-id:reply-to;
+        bh=mLLaysSuJEBJmq4sM2/3WJnvnspl1xlfoXtzR3zcwiE=;
+        b=jKQD3RKVt+JF3+JRSxzlBJ5AZbG4ITysv0VFVsdOgfpm6dawvOzbDvrZDgxW4ITcpr
+         OpZMjvkttJAo7CXGXmix++vunXjGBMHY1Y9oI82Emdep/6TYAbMfkRBkBCF4A8Hu+mUs
+         wMMn7f1jG29Lr6JtGoEqpP+OR6x1vKWzT27PQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=w4n/PVXJaI0AZ90mJ+ujyPK1tladHQFvLZoHvifyNgE=;
-        b=rfzOm1zO0b471p2GhDzzMDl6LsyxtkhYYVWrW1g+1LEonR+ycMYNGBaoWdzRDPh5d8
-         Itrh63dzq8xsur0yntdJybApRZhtuH7IpPziU28fd6vgYoZni5JRh4MuurzNQxOO09rk
-         doZYEBKcFuerBw2xDr4ZB4ycAI08FK19aTFKQ8AMB6RTAuFWIhKDKKn3O8AJloXt4VjF
-         In9I9UmB5d0LP9h7EqI+iUEBOxthIsAO38+m2AyytDS6jToOI45aALPrfrnf8bMexrvz
-         36CJwcoLpR6yaXYp5Jdz0ppUsc49t1Vja9Qm85zFmRVxFkU9V4SVdFrogtpfSwsULYmg
-         XOKw==
-X-Gm-Message-State: ACrzQf1IpXvfi8mlL7SFbufbtx/T85dgnsYjO8VyGVCLup2vHOTj7zJM
-        q54pdQ1Glcalt9SvCLGNg1U=
-X-Google-Smtp-Source: AMsMyM6TyZvntfj8dZLfSz4qg5QK2s6ccmOhWhLCF/L7jN7iiEWR70pxBXfHuyGjjbod1jZaStISWQ==
-X-Received: by 2002:adf:ed01:0:b0:230:d7c8:9a91 with SMTP id a1-20020adfed01000000b00230d7c89a91mr9737366wro.511.1667258538245;
-        Mon, 31 Oct 2022 16:22:18 -0700 (PDT)
-Received: from prasmi.home ([2a00:23c8:2501:c701:15da:d6ab:ec79:436])
-        by smtp.gmail.com with ESMTPSA id l24-20020a1c7918000000b003cf7928e731sm2190343wme.9.2022.10.31.16.22.16
+        h=cc:to:message-id:date:from:content-transfer-encoding:mime-version
+         :subject:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=mLLaysSuJEBJmq4sM2/3WJnvnspl1xlfoXtzR3zcwiE=;
+        b=hJTodDR0ybodjCVJTV+W4siRTG+idyG0I33nN1Nuc6a06TEQoNy4rHC/LrLf+YZGUn
+         mZLQd8AhJMSizZTEMKkiqhnqVwQNU3b0SfjvOlFqyvWMTdDRMG/sWGSBHU+isxmTXw0n
+         JErPp/ST6OXwEiCsiZcvDkxrJIHcLnRgMq7NC+LtwONHxPUf9BMq0VPSSiZGNDyts+nZ
+         miTrxsr3idNwjPfJ3hB3y6Pf7ANswfCJVKBQdjOYfWcdXXllpEQKuO/Tea6U7FPRs5Jo
+         JaDRBiZoblKvRCNyampINidE2/+m1BQsuBnhMckDCYbadxnRMGbRg2w/k1Vq6vBC1uPT
+         a0RQ==
+X-Gm-Message-State: ACrzQf3cXwEF6bOBdIJxCr7Hu/brGv038xY3Gc470Sbck44rvoNTbLO3
+        E6gtn3+poCOZsA68WHYV0ujYSA==
+X-Google-Smtp-Source: AMsMyM72ooIHroLANvzgeWtnRj9mscZI3pvV0H/IcJYko8wGqzo2tVS8SB0NX+j26kOQHYL7f1QUjw==
+X-Received: by 2002:a17:907:3e87:b0:78d:bb06:9066 with SMTP id hs7-20020a1709073e8700b0078dbb069066mr16793518ejc.387.1667280534204;
+        Mon, 31 Oct 2022 22:28:54 -0700 (PDT)
+Received: from alco.roam.corp.google.com (80.71.134.83.ipv4.parknet.dk. [80.71.134.83])
+        by smtp.gmail.com with ESMTPSA id qo14-20020a170907874e00b0078d3f96d293sm3797074ejc.30.2022.10.31.22.28.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 31 Oct 2022 16:22:17 -0700 (PDT)
-From:   Prabhakar <prabhakar.csengg@gmail.com>
-X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     Shawn Tu <shawnx.tu@intel.com>, Jacopo Mondi <jacopo@jmondi.org>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-renesas-soc@vger.kernel.org,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v4 9/9] media: i2c: ov5645: Call ov5645_entity_init_cfg() before registering the subdev
-Date:   Mon, 31 Oct 2022 23:22:02 +0000
-Message-Id: <20221031232202.131945-10-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20221031232202.131945-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20221031232202.131945-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+        Mon, 31 Oct 2022 22:28:53 -0700 (PDT)
+Subject: [PATCH v1 0/1] media: uvcvideo: Limit PLC for Acer Easycam
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+X-b4-tracking: H4sIAIiuYGMC/2WMQQrDIBBFrxJmXYsztpB21XuULtSMUUgUNBFC8O6Vbrv6vM/jnVA4By7wHE7IXE
+ MJKXbAywDW6zizCFNnIEmEKFGwLofVqxgdanN/jAbJQbeNLixM1tH67sd9WfrpQ9lSPn71in3e/6GK
+ Qgrl6EbEitTkXtbntIZ9vaY8w6e19gVWiTvWpgAAAA==
+From:   Ricardo Ribalda <ribalda@chromium.org>
+Date:   Tue, 01 Nov 2022 06:28:40 +0100
+Message-Id: <20221101-easycam-v1-0-71d6409963da@chromium.org>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Ricardo Ribalda <ribalda@chromium.org>
+X-Mailer: b4 0.11.0-dev-d93f8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=622; i=ribalda@chromium.org;
+ h=from:subject:message-id; bh=i37Itz2F3nuoYLwGHdL9mqlH2N5yT0vdCtQhYAf8opc=;
+ b=owEBbQKS/ZANAwAKAdE30T7POsSIAcsmYgBjYK6NUFd8We5P0mT9v8CiN/fUU6S/MgJjq/7ilnC1
+ AzW98bWJAjMEAAEKAB0WIQREDzjr+/4oCDLSsx7RN9E+zzrEiAUCY2CujQAKCRDRN9E+zzrEiCtcD/
+ 94/ujx1oieFjEQ64nX15vQ6tUBdmKi6v8MYxlW/8cUI7Tm8dJyfJRjkGiP2boD3BlndQPThdD0AtXK
+ AxilXAzGpo5inO+MLsQ8klTmdT2x6ctLIQEXc9rDCz9PvVkk+mYOt+5O2/tHoHupigz4Kk3u3/+/An
+ Tm8eBZG68fJvML3DZW52dhfg59oRMJxz+iRmq+GiqTmGFwUu/S6+4FG7qt/hTLTY44mPoiHbJE6Q63
+ wvAYs1eUV/TAXC+/pzEM/RUwnhEgeM7CuorctrML4+5P2lDvsJZVOyniNRj/8BeTUzguCiBsdZy+ec
+ egNyUe6oxCHgddAIIqT74ag+rDcIG5/YGPRSdYYu8Me7qT7tAYrF7lQd3MfM7Xmo9Sk933TMubbF4Z
+ 3eStkI3nLDWbZEbuK3Aul6UY4OJOblSE6fD9/+zGf7UwDFlDDW8U5ntKnr/f2Dl5dLPfvDTmUnEcp7
+ U74Cfm83m9EqRpjhKRcl3piaFd7SHSv2m9QoKE79bryHNkTuoIknrWuILLo3tcdzAe1OCnt8zJaFVY
+ /9MjF3TZMI9xvXzoTtn3XuvrZfFNk5PZRcKfdcyekdR7dJA7BObyltYEGdb9xPZzmda8VSHNDq3oR8
+ 4fVDZaAf0882Rb0EFq7wD87Y/4SgctFJNHjMoUh5aeeknEEyFD6KJ4gDk21Q==
+X-Developer-Key: i=ribalda@chromium.org; a=openpgp;
+ fpr=9EC3BB66E2FC129A6F90B39556A0D81F9F782DA9
+X-Spam-Status: No, score=-3.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Another Easycam with invalid PLC control.
 
-Make sure we call ov5645_entity_init_cfg() before registering the subdev
-to make sure default formats are set up.
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-media@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 
-Suggested-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
-v3->v4
-* No change
+Ricardo Ribalda (1):
+      media: uvcvideo: Limit power line control for Acer EasyCamera
 
-v2->v3
-* Included RB tag from Laurent.
-
-v1->v2
-* New patch
+ drivers/media/usb/uvc/uvc_driver.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 ---
- drivers/media/i2c/ov5645.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+base-commit: 23758867219c8d84c8363316e6dd2f9fd7ae3049
+change-id: 20221101-easycam-8f1ab598b12f
 
-diff --git a/drivers/media/i2c/ov5645.c b/drivers/media/i2c/ov5645.c
-index 0a889283da36..c8999fc4f26f 100644
---- a/drivers/media/i2c/ov5645.c
-+++ b/drivers/media/i2c/ov5645.c
-@@ -1220,6 +1220,8 @@ static int ov5645_probe(struct i2c_client *client)
- 	pm_runtime_get_noresume(dev);
- 	pm_runtime_enable(dev);
- 
-+	ov5645_entity_init_cfg(&ov5645->sd, NULL);
-+
- 	ret = v4l2_async_register_subdev(&ov5645->sd);
- 	if (ret < 0) {
- 		dev_err(dev, "could not register v4l2 device\n");
-@@ -1231,8 +1233,6 @@ static int ov5645_probe(struct i2c_client *client)
- 	pm_runtime_mark_last_busy(dev);
- 	pm_runtime_put_autosuspend(dev);
- 
--	ov5645_entity_init_cfg(&ov5645->sd, NULL);
--
- 	return 0;
- 
- err_pm_runtime:
+Best regards,
 -- 
-2.25.1
-
+Ricardo Ribalda <ribalda@chromium.org>
