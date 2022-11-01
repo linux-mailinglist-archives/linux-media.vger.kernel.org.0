@@ -2,242 +2,172 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 99C40614715
-	for <lists+linux-media@lfdr.de>; Tue,  1 Nov 2022 10:44:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AD9C561476B
+	for <lists+linux-media@lfdr.de>; Tue,  1 Nov 2022 11:05:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229717AbiKAJoy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 1 Nov 2022 05:44:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49664 "EHLO
+        id S229795AbiKAKFm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 1 Nov 2022 06:05:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38888 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230225AbiKAJop (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 1 Nov 2022 05:44:45 -0400
-Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::225])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5BFFC2A8
-        for <linux-media@vger.kernel.org>; Tue,  1 Nov 2022 02:44:44 -0700 (PDT)
-Received: (Authenticated sender: jacopo@jmondi.org)
-        by mail.gandi.net (Postfix) with ESMTPSA id A5BBA1C0009;
-        Tue,  1 Nov 2022 09:44:40 +0000 (UTC)
-Date:   Tue, 1 Nov 2022 10:44:39 +0100
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Dave Stevenson <dave.stevenson@raspberrypi.com>
-Cc:     paul.j.murphy@intel.com, daniele.alessandrelli@intel.com,
-        linux-media@vger.kernel.org, sakari.ailus@iki.fi
-Subject: Re: [PATCH v2 14/16] media: i2c: ov9282: Add support for 1280x800
- and 640x400 modes
-Message-ID: <20221101094439.jqkeg7j5trxzlyir@uno.localdomain>
-References: <20221028160902.2696973-1-dave.stevenson@raspberrypi.com>
- <20221028160902.2696973-15-dave.stevenson@raspberrypi.com>
- <20221031102819.sm3u4hom3tuddtax@uno.localdomain>
- <CAPY8ntDUpk2ysUo_gLXvkjP9JbWa2w9p3iRgSMnppmadoLpBAg@mail.gmail.com>
+        with ESMTP id S229487AbiKAKFk (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 1 Nov 2022 06:05:40 -0400
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2072.outbound.protection.outlook.com [40.107.93.72])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D09DA2626;
+        Tue,  1 Nov 2022 03:05:39 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=I4fNHAFjeA42Ft69RMMYFNwWqi+xIl790k9Wc7/D6ZA+Nqq2kSAkNyL288TBQrsF3J2KNUNQPhxKLkw5O7FxVBSZN10Kt3gOUwWfP8BenWkR4ZR8iHdHJGrlnNccCekmHpNan94sS8UJ/y1jAa4FYmdBJoUwMdRdLSwKzS27nw2xxYamJNyvTHI+lzNsRD77ahJxc6B/1xGP8U/xM/ovtWwQ4hAbqJJ01QDNIkPDSIplWLhQzEhLpSnfhzgMiZRzX1wIeFFvSqpwx2G1cLaOMRCklxx8lxKRNm9gkDwsFTD9aKl6dFLI/je8lUzIsiI3DwaWJFdsjpflbuioUqWWYg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=0+GatoSjycqbXjqB9SME82V0EHpo8AghMtUfzP87ano=;
+ b=dgtBjYVh5M9dp9QmsPWhYB7HzKlS0XR7qU84eUaKdJFfSQQi+jAIyPfjeCvJ2evJ1D2T9DXmiEBSHFJNdZxDzK8+qhamZfvVf2xZj17cEw4Siby0v5bYs+zEpMcEcKuKMqYJaMbErFnMWdz+FL5KKJV4J+MlBPmeyIt+u3VTKyDjYtf9yF4qh20g7KqGsSkopBq3Wome93TkQcWteQeWOXBlnCOXvv9Yceb3/Sm1UVvojG/HyFcyiblO9MrCV9HqEAsy3lcGgpwVTdimb591Iqwxa366NDPJvjhJwn8MFg4I/6Udezh/9nGiiJR+1mjzAzAnzQrYJoqSlZ2iwhxizw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=synaptics.com; dmarc=pass action=none
+ header.from=synaptics.com; dkim=pass header.d=synaptics.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=Synaptics.onmicrosoft.com; s=selector2-Synaptics-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=0+GatoSjycqbXjqB9SME82V0EHpo8AghMtUfzP87ano=;
+ b=EiBX8hri493/oBGMQi7sskjLw15XKLZXq3eVC/BvsiAeT0SWEklKXqgX6KbtBcZolDFDGHEx6MI6FbuWqwLLrW56oSaSoD7i7si2KOV24ZbuQkzzymIRZE0X/qdloTZdLHq5Zx6l0+u5J29CVJzfSWekKicrcel2/HJCr9T7KDU=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=synaptics.com;
+Received: from DM6PR03MB5196.namprd03.prod.outlook.com (2603:10b6:5:24a::19)
+ by MW4PR03MB6362.namprd03.prod.outlook.com (2603:10b6:303:11d::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5769.19; Tue, 1 Nov
+ 2022 10:05:35 +0000
+Received: from DM6PR03MB5196.namprd03.prod.outlook.com
+ ([fe80::a132:66d9:ed0f:e5c1]) by DM6PR03MB5196.namprd03.prod.outlook.com
+ ([fe80::a132:66d9:ed0f:e5c1%7]) with mapi id 15.20.5769.021; Tue, 1 Nov 2022
+ 10:05:34 +0000
+From:   Hsia-Jun Li <randy.li@synaptics.com>
+To:     dri-devel@lists.freedesktop.org
+Cc:     airlied@linux.ie, daniel@ffwll.ch, ezequiel@vanguardiasur.com.ar,
+        helen.koike@collabora.com, hverkuil-cisco@xs4all.nl,
+        jszhang@kernel.org, laurent.pinchart@ideasonboard.com,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, maarten.lankhorst@linux.intel.com,
+        mchehab@kernel.org, mripard@kernel.org, nicolas@ndufresne.ca,
+        ribalda@chromium.org, sakari.ailus@linux.intel.com,
+        sebastian.hesselbarth@gmail.com, tfiga@chromium.org,
+        tzimmermann@suse.de, "Hsia-Jun(Randy) Li" <randy.li@synaptics.com>
+Subject: [PATCH v3 0/4] Add pixel formats used in Synatpics SoC
+Date:   Tue,  1 Nov 2022 18:04:44 +0800
+Message-Id: <20221101100448.66712-1-randy.li@synaptics.com>
+X-Mailer: git-send-email 2.37.3
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: PH0PR07CA0027.namprd07.prod.outlook.com
+ (2603:10b6:510:5::32) To DM6PR03MB5196.namprd03.prod.outlook.com
+ (2603:10b6:5:24a::19)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CAPY8ntDUpk2ysUo_gLXvkjP9JbWa2w9p3iRgSMnppmadoLpBAg@mail.gmail.com>
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM6PR03MB5196:EE_|MW4PR03MB6362:EE_
+X-MS-Office365-Filtering-Correlation-Id: d15f44b2-6ec6-47c8-f1b0-08dabbf09e00
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: gYhT6XY4bwzc8UWyGlk+0wPFON6KuiDGI6Vq1CTeH0/2OSQlZDrG8Y1Jrn3+Gdn7ISjIIx67x42Tp7b/LXt5Epk1EavxogHnK3noiPZV5AJ45KHqPWLAI5gaiD8DRyAOx0Hbn4rdumw2tw8Z7gmzDQcvd/QzDh2BGZJq+f1Kc6qy6CCOwnO8pCEmSRJvllhlYi9ewtb1UQQl3gLvNWyzKk+yvHkksz1/IIiKj5Px1TbkSYAwzohMMg2rn+MiYlbB19S6Z26seTvtDO3PE8ZO3NUmaLXRs3H0z2fL6xUycc0VPj+sbaQV9xW6tZ23I5ftHnYW2Tyn1GrLa7PAivD6ZJNKCyrqHRhbMgZ561LCpVpmpKKUF3j+B6zZZmFOF4l+m9qnhcYxyaeyqIR21Xga7YWh0Pa4euoVyNtN99+8/mPDA4kuIzMVZVaJ6yN/57EQwrCuAd5fvJZNvHDzXFBMkntCPwagX6owbrCK/Nw7JR80FZVmXIEM9WLDo+CqlxEWwfRGiw7DgSdVVBL7LLfBDLnETE2IMwqCzNjcAxtatJuZJ98gznsjejZmshPv6SdveycJQiQWokXXv19KiHW6dhZGPqJFLIZp6yTtLukK2c9z59UKSKwIatXK19V/85wbsmgnUxr2Yv2unspYAWWD0Ljl9SzQ/4cPa+qWmD/V7K7S3de6jQ+4S5E+ArjfeLFE2Aa0Nq/e8rhYqJoFlK/K6jFOmv5VByKKyskQ01o6e5cKqPD/1BswSMSReXrVgIldSgnIxVZQgiOiDGdf2axCEjqzO8voAGQve0O6vZEAmgI=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR03MB5196.namprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(376002)(346002)(39860400002)(396003)(136003)(366004)(451199015)(36756003)(478600001)(86362001)(966005)(6486002)(6506007)(66946007)(316002)(6916009)(66476007)(66556008)(107886003)(4326008)(8676002)(6666004)(52116002)(6512007)(83380400001)(8936002)(5660300002)(26005)(41300700001)(1076003)(2906002)(186003)(7416002)(2616005)(38350700002)(38100700002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?DuWNtCXmRMRZhbFuElAaGqynOTd5GVY112Ou0BdJip+4Y35X+fFxqxZRxQRH?=
+ =?us-ascii?Q?HvSdUB/lvKxnQ6t2b0oMmKLK0czmhRJoCnv5vhDstitXX+KX4nw5pxWCG7ZJ?=
+ =?us-ascii?Q?V943KNyj30B2hkfQDz7FitRmIWpxeO+Z3dkoIOUKCfXIg9Bdyxm0Pcy0HjV8?=
+ =?us-ascii?Q?bQ7CZw9hMwygLU38CNv6YtqSXrZGAzX/6A35rskKh+ZrEg9RACRhx3z0niQB?=
+ =?us-ascii?Q?5GQ6Rhqv6jFgQfVZs7dnw89EbRert/syMojcVPsUedJTNfLCxois9RALWn2m?=
+ =?us-ascii?Q?6pO7UietcVN8qQGhpFb8/TF33WGd4WW4OyvCbTawu1SF7Ci09C8CIHfMa+je?=
+ =?us-ascii?Q?C9pOgReAjgU2NjkZ+CC5pZzulXmaVVeWu8P+7eXwv/7ApBPltRulQtuPCbBG?=
+ =?us-ascii?Q?DniIs1JjyzwDwZUmeCB7g5OMCetHW7hhe5DaVhxGvYxhFKbVLZ/117Q6fd1Q?=
+ =?us-ascii?Q?NqxKvWROG87oqPHs0a8X7J83fxu4cMb7iiAhel0D5+9fOyfNfvOpA9JBMiH3?=
+ =?us-ascii?Q?s5QRL8p1AGOoePUJF0MQNi16kQVdN0nXvt3/2n52Pb7ijD25MqmyeZSLOVe4?=
+ =?us-ascii?Q?mCmjzWXJ77KKdcEFyBVXLdAY4MJ5twzvwHfFl9k0Uz5piYVzoc/y7y+uF1sr?=
+ =?us-ascii?Q?r02Us5T+OWfMpS8oAyYulVld8NT5Cb40norVpGqxBeHPDuWXW2aGuOjlOpwn?=
+ =?us-ascii?Q?l97JSbzocFipQCdUtGiSHvJF8KiiJIKhLnnnlQqMRRseZ5sN87U6pSNBIFbl?=
+ =?us-ascii?Q?pDJfKA/wLniourpTXbOHgpgkUzkYVJISRXrJvbm8wHGP1OnyAEpabhlVrM1P?=
+ =?us-ascii?Q?TvN+xIKA+73+Ll7bxBucFfgcbaha0ufjN7Om87ArrzX7yCmJw/upDI7LSyyC?=
+ =?us-ascii?Q?eNm9Pg3EV9jql5d4Tkc1b5ivgBbLAHiKAq++PjQVy9XP/gYgaLhUOdZAL3m/?=
+ =?us-ascii?Q?upcFAjdN88/nK8HM4n41QiEPFjsbG+aGwoHMgL3bEo4Wn7WZO6OHB/+831Ty?=
+ =?us-ascii?Q?RXEwJGs4Fl56FG+F9ehJr5roVp0TjNOurkRbMFMEay6CD1UC1WOH+n/fVCZZ?=
+ =?us-ascii?Q?lUco5cIQJu6xjbjDxs4h1kCFQ1S6bDQYWoLynQCHBy8AspIML4MmfHghvD79?=
+ =?us-ascii?Q?3niVdpkbvJ1EAvai0Qx87l5X3/3XySitds71QYUbRlFFw7QHzOSdCj2/D6ps?=
+ =?us-ascii?Q?Y1gyOTBE6AUOwEir2a9TcWDFxYb1yXf1XI57d8mEhjKcVfGGJJzmyIfiGJYY?=
+ =?us-ascii?Q?Erq1SqXrEA7Y9VIZ403mK6/wDdQ7SRGVLGne1OQjPDlUS2vEJkxe5za4s3JZ?=
+ =?us-ascii?Q?+mRHM/8F4fP4IFtnOZD5C9MF776XC4gUB1UoxrDQ89/rfFNncj5L2pNQ0rL9?=
+ =?us-ascii?Q?BF5tyzd1g2anSoZUes5ZtQmSrvX1fYBMvDXYpFM6uTRQSunKywLwoJMa/atp?=
+ =?us-ascii?Q?SX8deVuTNiJQcjT2Hw+z7cliFBGDQ5/2kHtlV0GDPidmtfM76l/99z+1JW6c?=
+ =?us-ascii?Q?Gasaa965hfUzeDi/iPynNNQZ4MyWNfgxIh9Ebx70hrKO63JNKMo0bjiXYgi6?=
+ =?us-ascii?Q?e4EzA9mV97yenbqzv+8y/gKp0S+q6wJ9P2uLAlb7?=
+X-OriginatorOrg: synaptics.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d15f44b2-6ec6-47c8-f1b0-08dabbf09e00
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR03MB5196.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Nov 2022 10:05:34.7190
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 335d1fbc-2124-4173-9863-17e7051a2a0e
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: tuQWynMoFjFco30w8CMkF6O9qc+6BbD0nODEj4/6ldY+gvb9jCV1O9YYQZQAWM1DMDfWvoHXrsZL1S1CJy88SA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR03MB6362
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Dave,
+From: "Hsia-Jun(Randy) Li" <randy.li@synaptics.com>
 
-On Mon, Oct 31, 2022 at 12:09:46PM +0000, Dave Stevenson wrote:
-> Hi Jacopo
->
-> On Mon, 31 Oct 2022 at 10:28, Jacopo Mondi <jacopo@jmondi.org> wrote:
-> >
-> > Hi Dave
-> >
-> >
-> > On Fri, Oct 28, 2022 at 05:09:00PM +0100, Dave Stevenson wrote:
-> > > Adds register settings for additional modes.
-> > >
-> > > Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> > > ---
-> > >  drivers/media/i2c/ov9282.c | 103 ++++++++++++++++++++++++++++++++++++-
-> > >  1 file changed, 102 insertions(+), 1 deletion(-)
-> > >
-> > > diff --git a/drivers/media/i2c/ov9282.c b/drivers/media/i2c/ov9282.c
-> > > index a520d9fef0cb..c169b532ec8b 100644
-> > > --- a/drivers/media/i2c/ov9282.c
-> > > +++ b/drivers/media/i2c/ov9282.c
-> > > @@ -246,11 +246,44 @@ struct ov9282_reg_list common_regs_list = {
-> > >       .regs = common_regs,
-> > >  };
-> > >
-> > > -#define MODE_1280_720                0
-> > > +#define MODE_1280_800                0
-> > > +#define MODE_1280_720                1
-> > > +#define MODE_640_400         2
-> > >
-> > >  #define DEFAULT_MODE         MODE_1280_720
-> > >
-> > >  /* Sensor mode registers */
-> > > +static const struct ov9282_reg mode_1280x800_regs[] = {
-> > > +     {0x3778, 0x00},
-> > > +     {0x3800, 0x00},
-> > > +     {0x3801, 0x00},
-> > > +     {0x3802, 0x00},
-> > > +     {0x3803, 0x00},
-> > > +     {0x3804, 0x05},
-> > > +     {0x3805, 0x0f},
-> > > +     {0x3806, 0x03},
-> > > +     {0x3807, 0x2f},
-> > > +     {0x3808, 0x05},
-> > > +     {0x3809, 0x00},
-> > > +     {0x380a, 0x03},
-> > > +     {0x380b, 0x20},
-> > > +     {0x3810, 0x00},
-> > > +     {0x3811, 0x08},
-> > > +     {0x3812, 0x00},
-> > > +     {0x3813, 0x08},
-> > > +     {0x3814, 0x11},
-> > > +     {0x3815, 0x11},
-> > > +     {0x3820, 0x40},
-> > > +     {0x3821, 0x00},
-> > > +     {0x4003, 0x40},
-> > > +     {0x4008, 0x04},
-> > > +     {0x4009, 0x0b},
-> > > +     {0x400c, 0x00},
-> > > +     {0x400d, 0x07},
-> > > +     {0x4507, 0x00},
-> > > +     {0x4509, 0x00},
-> > > +};
-> > > +
-> > >  static const struct ov9282_reg mode_1280x720_regs[] = {
-> > >       {0x3778, 0x00},
-> > >       {0x3800, 0x00},
-> > > @@ -282,8 +315,57 @@ static const struct ov9282_reg mode_1280x720_regs[] = {
-> > >       {0x4509, 0x80},
-> > >  };
-> > >
-> > > +static const struct ov9282_reg mode_640x400_regs[] = {
-> > > +     {0x3778, 0x10},
-> > > +     {0x3800, 0x00},
-> > > +     {0x3801, 0x00},
-> > > +     {0x3802, 0x00},
-> > > +     {0x3803, 0x00},
-> > > +     {0x3804, 0x05},
-> > > +     {0x3805, 0x0f},
-> > > +     {0x3806, 0x03},
-> > > +     {0x3807, 0x2f},
-> > > +     {0x3808, 0x02},
-> > > +     {0x3809, 0x80},
-> > > +     {0x380a, 0x01},
-> > > +     {0x380b, 0x90},
-> > > +     {0x3810, 0x00},
-> > > +     {0x3811, 0x04},
-> > > +     {0x3812, 0x00},
-> > > +     {0x3813, 0x04},
-> > > +     {0x3814, 0x31},
-> > > +     {0x3815, 0x22},
-> > > +     {0x3820, 0x60},
-> > > +     {0x3821, 0x01},
-> > > +     {0x4008, 0x02},
-> > > +     {0x4009, 0x05},
-> > > +     {0x400c, 0x00},
-> > > +     {0x400d, 0x03},
-> > > +     {0x4507, 0x03},
-> > > +     {0x4509, 0x80},
-> > > +};
-> > > +
-> > >  /* Supported sensor mode configurations */
-> > >  static const struct ov9282_mode supported_modes[] = {
-> > > +     [MODE_1280_800] = {
-> > > +             .width = 1280,
-> > > +             .height = 800,
-> > > +             .hblank_min = { 250, 176 },
-> > > +             .vblank = 1022,
-> > > +             .vblank_min = 110,
-> > > +             .vblank_max = 51540,
-> > > +             .link_freq_idx = 0,
-> > > +             .crop = {
-> > > +                     .left = OV9282_PIXEL_ARRAY_LEFT,
-> > > +                     .top = OV9282_PIXEL_ARRAY_TOP,
-> > > +                     .width = 1280,
-> > > +                     .height = 800
-> > > +             },
-> > > +             .reg_list = {
-> > > +                     .num_of_regs = ARRAY_SIZE(mode_1280x800_regs),
-> > > +                     .regs = mode_1280x800_regs,
-> > > +             },
-> > > +     },
-> > >       [MODE_1280_720] = {
-> > >               .width = 1280,
-> > >               .height = 720,
-> > > @@ -307,6 +389,25 @@ static const struct ov9282_mode supported_modes[] = {
-> > >                       .regs = mode_1280x720_regs,
-> > >               },
-> > >       },
-> > > +     [MODE_640_400] = {
-> > > +             .width = 640,
-> > > +             .height = 400,
-> > > +             .hblank_min = { 890, 816 },
-> > > +             .vblank = 1022,
-> > > +             .vblank_min = 22,
-> > > +             .vblank_max = 51540,
-> >
-> > While hblank_min is adapated to match the limits for full resolution
-> > mode (1280 + 250 - 640 = 890; same for the 816 non-continuous version)
-> > vblank_min is shrinked, giving a min frame length of (400 + 22)
-> > compared to the full-res min frame length of (800 + 110). Is this
-> > intentional ?
->
-> I adapted the Rockchip driver [1] ages ago and we had been using that
-> with extensions in our vendor kernel. With Alexander posting the
-> patches to this ov9282 driver to add ov9281 support, I looked at
-> porting the extra functionality I had there.
->
-> I added the 640x400 mode to the vendor driver back in Nov 2020 [2]
-> with a min/default vts of 421. This was then corrected in July 2022
-> with [3] as VTS 421 actually gave 130fps instead of the expected
-> ~261fps.
->
-> The datasheet doesn't give a minimum height for the VBLANK period,
-> therefore empirical testing is the best we can do in this case.
->
-> It may be possible to reduce vblank_min for the other modes, but I
-> haven't verified that. The datasheet lists the default for registers
-> 0x380E/F as 0x38e or 910, giving VBLANK as 110, and resulting in
-> 120fps. As the sensor is advertised as having a maximum transfer rate
-> of 1280 x 800: 120fps, exceeding that would probably be foolish.
->
+Those pixel formats are used in Synaptics's VideoSmart series SoCs,
+likes VS640, VS680. I just disclose the pixel formats used in the video
+codecs and display pipeline this time. Actually any device connected to
+the MTR module could support those tiled and compressed pixel formats.
 
-Ok, so vblank_min = 21 "breaks" streaming by halving the framerate,
-while vblank_min = 22 works as expected.
+We may not be able to post any drivers here in a short time, the most of
+work in this platform is done in the Trusted Execution Environment and
+we didn't use the optee event its client framework.
 
-It would be great to record that 22 is obtained by sperimental results
-in the commit message, or in a comment here and not by documentation ?
+Please notice that, the memory planes needed for video codecs could be
+one more than display case. That extra planes in the video codecs is
+for the decoding internal usage, it can't append to the luma or chroma
+buffer as many other drivers do, because this buffer could be only
+accessed by the video codecs itself, it requests a different memory
+security attributes. There is not a proper place in v4l2 m2m to allocate
+a large size buffer, we don't know when the users won't allocate more
+graphics buffers. Although we could allocate it in a step likes
+STREAMON, it would lead unusual delaying in starting of video playbacl.
 
-Anyway, the series is tagged and Sakari is about to collect it, so no
-need to resend, but if you have to...
+https://synaptics.com/products/multimedia-solutions
 
-Reviewed-by: Jacopo Mondi <jacopo@jmondi.org>
+Changlog
+v3:
+There was a mistake in format macro.
+Correcting the description of 64L4 variant modifiers.
+v2:
+The DRM modifiers in the first draft is too simple, it can't tell
+the tiles in group attribute in memory layout.
+Removing the v4l2 fourcc. Adding a document for the future v4l2 extended
+fmt.
+v1:
+first draft of DRM modifiers
+Try to put basic tile formats into v4l2 fourcc
 
+Hsia-Jun(Randy) Li (3):
+  drm/fourcc: Add Synaptics VideoSmart tiled modifiers
+  media: videodev2.h: add pixel format modifiers
+  media: videodev2.h: add Synaptics tiled modifiers
 
->   Dave
->
-> [1] https://github.com/rockchip-linux/kernel/blob/develop-4.4/drivers/media/i2c/ov9281.c
-> [2] https://github.com/raspberrypi/linux/pull/3968
-> [3] https://github.com/raspberrypi/linux/pull/5082
->
-> > > +             .link_freq_idx = 0,
-> > > +             .crop = {
-> > > +                     .left = OV9282_PIXEL_ARRAY_LEFT,
-> > > +                     .top = OV9282_PIXEL_ARRAY_TOP,
-> > > +                     .width = 1280,
-> > > +                     .height = 800
-> > > +             },
-> > > +             .reg_list = {
-> > > +                     .num_of_regs = ARRAY_SIZE(mode_640x400_regs),
-> > > +                     .regs = mode_640x400_regs,
-> > > +             },
-> > > +     },
-> > >  };
-> > >
-> > >  /**
-> > > --
-> > > 2.34.1
-> > >
+Randy Li (1):
+  media: docs: Add Synpatics tile modifiers
+
+ .../media/v4l/pixfmt-synaptics.rst            | 80 +++++++++++++++++++
+ .../userspace-api/media/v4l/pixfmt.rst        |  1 +
+ include/uapi/drm/drm_fourcc.h                 | 75 +++++++++++++++++
+ include/uapi/linux/videodev2.h                | 50 ++++++++++++
+ 4 files changed, 206 insertions(+)
+ create mode 100644 Documentation/userspace-api/media/v4l/pixfmt-synaptics.rst
+
+-- 
+2.17.1
+
