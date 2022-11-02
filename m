@@ -2,97 +2,197 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 576D4616350
-	for <lists+linux-media@lfdr.de>; Wed,  2 Nov 2022 14:04:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3AB3E616394
+	for <lists+linux-media@lfdr.de>; Wed,  2 Nov 2022 14:15:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231274AbiKBNEK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 2 Nov 2022 09:04:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44028 "EHLO
+        id S231332AbiKBNPa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 2 Nov 2022 09:15:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56706 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231239AbiKBND6 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Nov 2022 09:03:58 -0400
-Received: from mail-yw1-x112f.google.com (mail-yw1-x112f.google.com [IPv6:2607:f8b0:4864:20::112f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A4A361A052
-        for <linux-media@vger.kernel.org>; Wed,  2 Nov 2022 06:03:57 -0700 (PDT)
-Received: by mail-yw1-x112f.google.com with SMTP id 00721157ae682-3691e040abaso165439497b3.9
-        for <linux-media@vger.kernel.org>; Wed, 02 Nov 2022 06:03:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=to:subject:message-id:date:from:reply-to:mime-version:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=77BwqRII9XCweQU8IJul6unijI/BEL+vUJmVmCRLxH4=;
-        b=RJYQoz5wseFrM8zLE6IWFzdNFCkzVE0J1VTVU+/hiO+zAREn/uaVOy8j1upaZ5Waec
-         RJL9rxSR9LVwP80gfgx9Or/LdI9vWNPoSbcTgmblnLY/iNfTBG87tl1b+X8xRXOzGhM3
-         gwYIgrhLIarRIcb+Ee2YP/iN2kxoOUMj4FNNH8RoG9dFijiBtk4vuvUauxo3JqBDQ0RT
-         eMI/psFK4nFqhvOKA/mr9qXt79tFlfgfRuEIom88ceTfm+u+cEFcA5qrsaWDVZI9VIzI
-         Po46U3jk3B153oRInkSNar8b52t+1/919L6XOGyrPJEj3dixZVs5CsLoKkFmNXkRWfi9
-         Iy0w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=to:subject:message-id:date:from:reply-to:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=77BwqRII9XCweQU8IJul6unijI/BEL+vUJmVmCRLxH4=;
-        b=YRULu8/FXdeyppXgAbbrNJIxp/rZSFOLH89VDOdgJvGptmM+t1534/lM3TqW4yVKZW
-         G5qtBOMHJthr7fMfAxk9QCQWFuC8L5S5X73Dm43HWEzx6XFaAkSDgAt0Dfy50EOSImCZ
-         nRX+ztWtb82hKZKgRd08Lw7hWa/CglHS45GcQx8Kv0nawp/Wmn1ioeDfQbru0dhr+R6r
-         WT7ZJDQs8jiJImwLhht57srURS92ZE0ZB4Zq9mLOh5mNkHgamoApDFNm1IYmBWXwBWYs
-         C30CmCYjfcPMWmIG3dZLzPKTVzBUGy8pp9c0B55pbLy3/ONh70T7XpIChtcQv0ThUxZf
-         OEVg==
-X-Gm-Message-State: ACrzQf2kFdv1HNyfui231+gvtK4D7zqqJ0O5VPOBn7yzrA3Mu8a6b7kG
-        KipfEyzBoTNeRM92JiZSYA9I+VdtfGWPbA7KZxs=
-X-Google-Smtp-Source: AMsMyM4T+fhTWn9q7igp4aGvYfwZ3yAP/Z+UOHc/8mftt7hReuoSbeepdBRQZVLee8kz0rPtiDk6GMR8JCVBwMiLBvQ=
-X-Received: by 2002:a0d:cf87:0:b0:355:e14f:1b8a with SMTP id
- r129-20020a0dcf87000000b00355e14f1b8amr23222153ywd.214.1667394236827; Wed, 02
- Nov 2022 06:03:56 -0700 (PDT)
+        with ESMTP id S231331AbiKBNP2 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Nov 2022 09:15:28 -0400
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.153.233])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 50D32233B6;
+        Wed,  2 Nov 2022 06:15:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+  t=1667394927; x=1698930927;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=6iK9mY5qqDaeZWS9d2Uy0TPR3A7tuD5t2+NlvJr7Z1A=;
+  b=QkZZGfrtm4ZOAhkOOY4OlevxqJmO6D4hAlSPCe1+u2FqRCqr3Tr9ufbP
+   PHOZWjuYDAAMqhUOradFJRaocO7XzDL9hf8eA0Fws20LjMcxFv54WFmxO
+   LWpfK4nknveJpt7TcpNFAD7E2NlB1ArmtV7CGwqI0mk5q79U7GwrTuV5+
+   Sh4sIA26PSA/KR5v7iWTF4xxjsqpNRceIB3fXns84SRqO3kEJZ/qcbHYB
+   il/ouYGkIGNGrocm5mHU+B7cGoIIzzl9V8tczl+DKg6vbt+Mcj5DQnzBH
+   rP6BV389d5sgetO5uBqlNX56l5pZECN0f10bTwEcdETVGrHysTQLC3q6N
+   w==;
+X-IronPort-AV: E=Sophos;i="5.95,234,1661842800"; 
+   d="scan'208";a="187289360"
+Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
+  by esa5.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 02 Nov 2022 06:15:27 -0700
+Received: from chn-vm-ex01.mchp-main.com (10.10.85.143) by
+ chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.12; Wed, 2 Nov 2022 06:15:25 -0700
+Received: from ROB-ULT-M18282.microchip.com (10.10.115.15) by
+ chn-vm-ex01.mchp-main.com (10.10.85.143) with Microsoft SMTP Server id
+ 15.1.2507.12 via Frontend Transport; Wed, 2 Nov 2022 06:15:23 -0700
+From:   Eugen Hristev <eugen.hristev@microchip.com>
+To:     <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
+        <hverkuil-cisco@xs4all.nl>, <jacopo@jmondi.org>
+CC:     <linux-arm-kernel@lists.infradead.org>,
+        <linux-staging@lists.linux.dev>,
+        Eugen Hristev <eugen.hristev@microchip.com>
+Subject: [PATCH v11 0/6] media: atmel: atmel-isc: driver redesign
+Date:   Wed, 2 Nov 2022 15:14:54 +0200
+Message-ID: <20221102131500.476024-1-eugen.hristev@microchip.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Received: by 2002:a05:7000:17c5:b0:3da:1e36:e3f4 with HTTP; Wed, 2 Nov 2022
- 06:03:56 -0700 (PDT)
-Reply-To: rihabmanyang1993@gmail.com
-From:   RM <awibrahima34@gmail.com>
-Date:   Wed, 2 Nov 2022 13:03:56 +0000
-Message-ID: <CAH=ybGEwYvHXknurMaDXS--ESWm2VpTfGHQpJKh75WyVVWLtqg@mail.gmail.com>
-Subject: HI DEAR..
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: Yes, score=5.1 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,FREEMAIL_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,UNDISC_FREEM autolearn=no
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Spam-Status: No, score=-5.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
-X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
-        *      https://www.dnswl.org/, no trust
-        *      [2607:f8b0:4864:20:0:0:0:112f listed in]
-        [list.dnswl.org]
-        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-        *      [score: 0.5000]
-        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
-        *  0.2 FREEMAIL_ENVFROM_END_DIGIT Envelope-from freemail username ends
-        *       in digit
-        *      [awibrahima34[at]gmail.com]
-        *  0.2 FREEMAIL_REPLYTO_END_DIGIT Reply-To freemail username ends in
-        *      digit
-        *      [rihabmanyang1993[at]gmail.com]
-        * -0.0 SPF_PASS SPF: sender matches SPF record
-        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
-        *      provider
-        *      [awibrahima34[at]gmail.com]
-        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-        *       valid
-        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
-        *      envelope-from domain
-        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-        *      author's domain
-        *  3.0 UNDISC_FREEM Undisclosed recipients + freemail reply-to
-        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
-        *      different freemails
-X-Spam-Level: *****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+
+This series is a continuation of the series that converts the atmel-isc driver
+to media controller paradigm:
+https://lore.kernel.org/lkml/20220503095127.48710-1-eugen.hristev@microchip.com/T/#mccad96a3122f2817bf1ae1db7eddf1a8cecb2749
+
+As discussed on ML, the current Atmel ISC driver is moved to staging to keep the
+existing users happy, and readded to platform/microchip under a different
+Kconfig symbol and with the new media controller support which was reviewed in
+v10.
+I kept the original v10 patches on top of the movement of the driver
+to make it more clear what the conversion to media controller brings.
+
+Please let me know if this is okay or acceptable to take as it is,
+and if it complies with the requirements for the subsystem/ABI breakage, etc.
+
+Thanks to everyone for reviewing and helping in the discussions !
+
+PLEASE NOTE: the series depends on the patch:
+vb2: add support for (un)prepare_streaming queue ops
+by Hans Verkuil
+
+I have a different patch as the last in the series that uses the new callbacks
+(and only that patch is dependant on the
+vb2: add support for (un)prepare_streaming queue ops
+)
+
+Eugen
+
+Changes in v11:
+- moved atmel isc to staging
+- created platform/microchip to host the new MICROCHIP_ISC driver
+- it was natural to move the MICROCHIP_CSI2DC here
+- on top, add the patches that move to media controller
+
+Full series history:
+
+Changes in v10:
+-> split the series into this first fixes part.
+-> moved IO_MC addition from first patch to the second patch on the driver changes
+-> edited commit messages
+-> DT nodes now disabled by default.
+
+Changes in v9:
+-> kernel robot reported isc_link_validate is not static, changed to static.
+
+Changes in v8:
+-> scaler: modified crop bounds to have the exact source size
+
+Changes in v7:
+-> scaler: modified crop bounds to have maximum isc size
+-> format propagation: did small changes as per Jacopo review
+
+
+Changes in v6:
+-> worked a bit on scaler, added try crop and other changes as per Jacopo review
+-> worked on isc-base enum_fmt , reworked as per Jacopo review
+
+Changes in v5:
+-> removed patch that removed the 'stop' variable as it was still required
+-> added two new trivial patches
+-> reworked some parts of the scaler and format propagation after discussions with Jacopo
+
+
+Changes in v4:
+-> as reviewed by Hans, added new patch to remove the 'stop' variable and reworked
+one patch that was using it
+-> as reviewed by Jacopo, reworked some parts of the media controller implementation
+
+
+Changes in v3:
+- change in bindings, small fixes in csi2dc driver and conversion to mc
+for the isc-base.
+- removed some MAINTAINERS patches and used patterns in MAINTAINERS
+
+Changes in v2:
+- integrated many changes suggested by Jacopo in the review of the v1 series.
+- add a few new patches
+
+Eugen Hristev (6):
+  media: atmel: atmel-isc: move to staging
+  media: atmel: move microchip_csi2dc to dedicated microchip platform
+  media: microchip: re-add ISC driver as Microchip ISC
+  media: microchip: microchip-isc: prepare for media controller support
+  media: microchip: microchip-isc: implement media controller
+  media: microchip: microchip-isc: move media_pipeline_* to (un)prepare
+    cb
+
+ MAINTAINERS                                   |    8 +-
+ drivers/media/platform/Kconfig                |    1 +
+ drivers/media/platform/Makefile               |    1 +
+ drivers/media/platform/atmel/Kconfig          |   51 -
+ drivers/media/platform/atmel/Makefile         |    7 -
+ drivers/media/platform/microchip/Kconfig      |   61 +
+ drivers/media/platform/microchip/Makefile     |    9 +
+ .../{atmel => microchip}/microchip-csi2dc.c   |    0
+ .../platform/microchip/microchip-isc-base.c   | 2040 +++++++++++++++++
+ .../microchip-isc-clk.c}                      |    4 +-
+ .../platform/microchip/microchip-isc-regs.h   |  413 ++++
+ .../platform/microchip/microchip-isc-scaler.c |  267 +++
+ .../media/platform/microchip/microchip-isc.h  |  400 ++++
+ .../microchip/microchip-sama5d2-isc.c         |  683 ++++++
+ .../microchip/microchip-sama7g5-isc.c         |  646 ++++++
+ drivers/staging/media/Kconfig                 |    2 +
+ drivers/staging/media/Makefile                |    1 +
+ drivers/staging/media/atmel/Kconfig           |   40 +
+ drivers/staging/media/atmel/Makefile          |    8 +
+ .../media}/atmel/atmel-isc-base.c             |   20 +-
+ drivers/staging/media/atmel/atmel-isc-clk.c   |  311 +++
+ .../media}/atmel/atmel-isc-regs.h             |    0
+ .../media}/atmel/atmel-isc.h                  |   16 +-
+ .../media}/atmel/atmel-sama5d2-isc.c          |   18 +-
+ .../media}/atmel/atmel-sama7g5-isc.c          |   18 +-
+ 25 files changed, 4926 insertions(+), 99 deletions(-)
+ create mode 100644 drivers/media/platform/microchip/Kconfig
+ create mode 100644 drivers/media/platform/microchip/Makefile
+ rename drivers/media/platform/{atmel => microchip}/microchip-csi2dc.c (100%)
+ create mode 100644 drivers/media/platform/microchip/microchip-isc-base.c
+ rename drivers/media/platform/{atmel/atmel-isc-clk.c => microchip/microchip-isc-clk.c} (99%)
+ create mode 100644 drivers/media/platform/microchip/microchip-isc-regs.h
+ create mode 100644 drivers/media/platform/microchip/microchip-isc-scaler.c
+ create mode 100644 drivers/media/platform/microchip/microchip-isc.h
+ create mode 100644 drivers/media/platform/microchip/microchip-sama5d2-isc.c
+ create mode 100644 drivers/media/platform/microchip/microchip-sama7g5-isc.c
+ create mode 100644 drivers/staging/media/atmel/Kconfig
+ create mode 100644 drivers/staging/media/atmel/Makefile
+ rename drivers/{media/platform => staging/media}/atmel/atmel-isc-base.c (99%)
+ create mode 100644 drivers/staging/media/atmel/atmel-isc-clk.c
+ rename drivers/{media/platform => staging/media}/atmel/atmel-isc-regs.h (100%)
+ rename drivers/{media/platform => staging/media}/atmel/atmel-isc.h (96%)
+ rename drivers/{media/platform => staging/media}/atmel/atmel-sama5d2-isc.c (97%)
+ rename drivers/{media/platform => staging/media}/atmel/atmel-sama7g5-isc.c (97%)
+
 -- 
-How are you?I am miss.Rihab Manyang i will like to be your friend
-please write me back on my email for more details, Thanks.
+2.25.1
+
