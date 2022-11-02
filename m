@@ -2,118 +2,170 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 91818615D72
-	for <lists+linux-media@lfdr.de>; Wed,  2 Nov 2022 09:16:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 754F1615FEE
+	for <lists+linux-media@lfdr.de>; Wed,  2 Nov 2022 10:36:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230143AbiKBIP6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 2 Nov 2022 04:15:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50670 "EHLO
+        id S230298AbiKBJgG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 2 Nov 2022 05:36:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48428 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230075AbiKBIPt (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Nov 2022 04:15:49 -0400
-Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A5BC1FCD9
-        for <linux-media@vger.kernel.org>; Wed,  2 Nov 2022 01:15:47 -0700 (PDT)
-Received: (Authenticated sender: jacopo@jmondi.org)
-        by mail.gandi.net (Postfix) with ESMTPSA id 2825E24000B;
-        Wed,  2 Nov 2022 08:15:45 +0000 (UTC)
-Date:   Wed, 2 Nov 2022 09:15:43 +0100
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     claus.stovgaard@gmail.com
-Cc:     linux-media@vger.kernel.org
-Subject: Re: VIDIOC_QUERYCAP on v4l subdevice - v4l-subdev*
-Message-ID: <20221102081543.hbtgmdkpdw5valvr@uno.localdomain>
-References: <93834b3d7d4abfabdc7285af0c5e57d015c97107.camel@gmail.com>
+        with ESMTP id S229713AbiKBJgE (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Nov 2022 05:36:04 -0400
+Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::221])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 649C46589;
+        Wed,  2 Nov 2022 02:36:01 -0700 (PDT)
+Received: from booty (unknown [77.244.183.192])
+        (Authenticated sender: luca.ceresoli@bootlin.com)
+        by mail.gandi.net (Postfix) with ESMTPSA id B6BC1240004;
+        Wed,  2 Nov 2022 09:35:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+        t=1667381759;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=Fxxn1EtGefbBmnWxZ8XrxEIUXbiJwyzDeE5y9WnF5dA=;
+        b=PtXD1S/+PYPuTw+0ABw0LDMREsiFR8UIk9Rt+urGLzui62MyUwWUmpQ0TGuc0oOJlrvEcR
+        HKCCoSQDA1vC2gq8eVHDUmrPtp6VIuEtEB/nLGQJqcAJ2LWxhc05PoyWr5wZF8gMmbHTM2
+        ADuYsLLkMSWr3yX/j/Z5v0yDa+Tp2q1cABNreOV+QTrHtOPP6SXc8Ske81OELMNWVvR613
+        /ahgljVxTG2akxnhZXa9Soj/ZlujC2ECgzl9Usa7qzJyJ3G5/be3YU0/4qSX7UPvAQ8Uxc
+        jnYoyijD3fep9LEncAlhn7lSZpKYbKljWydwwp1XQbXjlxduzu81XWZT/j+pFA==
+Date:   Wed, 2 Nov 2022 10:35:56 +0100
+From:   Luca Ceresoli <luca.ceresoli@bootlin.com>
+To:     Dan Carpenter <dan.carpenter@oracle.com>
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Sowjanya Komatineni <skomatineni@nvidia.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        stable@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: media: tegra-video: fix device_node use after
+ free
+Message-ID: <20221102103556.4f556d6c@booty>
+In-Reply-To: <Y1wMGpthKxr2egtY@kadam>
+References: <20221028081926.2320663-1-luca.ceresoli@bootlin.com>
+        <Y1vMX/Zciz/XQ+4p@kadam>
+        <20221028185847.5454a98d@booty>
+        <Y1wMGpthKxr2egtY@kadam>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <93834b3d7d4abfabdc7285af0c5e57d015c97107.camel@gmail.com>
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Claus,
+Hello Dan,
 
-On Tue, Nov 01, 2022 at 01:50:16PM +0100, claus.stovgaard@gmail.com wrote:
-> Hi Folks.
->
-> I am working on a system based around the Intel Apollo Lake with an
-> IPU4. The system is having a configuration with a number of subdevices.
-> Going from v4l-subdev0 to v4-subdev10.
+On Fri, 28 Oct 2022 20:06:34 +0300
+Dan Carpenter <dan.carpenter@oracle.com> wrote:
 
-I premit that as far as I know IPU4 is not supported by mainline
-linux-media, the community that runs this mailing list. Your system is
-likely working with vendor provided drivers, hence the level of
-support you can get here might be limited by the fact you're running
-vendor's code which is not upstreamed and which we don't know much
-about.
+> On Fri, Oct 28, 2022 at 06:58:47PM +0200, Luca Ceresoli wrote:
+> > Hello Dan,
+> > 
+> > On Fri, 28 Oct 2022 15:34:39 +0300
+> > Dan Carpenter <dan.carpenter@oracle.com> wrote:
+> >   
+> > > On Fri, Oct 28, 2022 at 10:19:26AM +0200, luca.ceresoli@bootlin.com wrote:  
+> > > > From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+> > > > 
+> > > > At probe time this code path is followed:
+> > > > 
+> > > >  * tegra_csi_init
+> > > >    * tegra_csi_channels_alloc
+> > > >      * for_each_child_of_node(node, channel) -- iterates over channels
+> > > >        * automatically gets 'channel'
+> > > >          * tegra_csi_channel_alloc()
+> > > >            * saves into chan->of_node a pointer to the channel OF node
+> > > >        * automatically gets and puts 'channel'
+> > > >        * now the node saved in chan->of_node has refcount 0, can disappear
+> > > >    * tegra_csi_channels_init
+> > > >      * iterates over channels
+> > > >        * tegra_csi_channel_init -- uses chan->of_node
+> > > > 
+> > > > After that, chan->of_node keeps storing the node until the device is
+> > > > removed.
+> > > > 
+> > > > of_node_get() the node and of_node_put() it during teardown to avoid any
+> > > > risk.
+> > > > 
+> > > > Fixes: 1ebaeb09830f ("media: tegra-video: Add support for external sensor capture")
+> > > > Cc: stable@vger.kernel.org
+> > > > Cc: Sowjanya Komatineni <skomatineni@nvidia.com>
+> > > > Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+> > > > ---
+> > > >  drivers/staging/media/tegra-video/csi.c | 3 ++-
+> > > >  1 file changed, 2 insertions(+), 1 deletion(-)
+> > > > 
+> > > > diff --git a/drivers/staging/media/tegra-video/csi.c b/drivers/staging/media/tegra-video/csi.c
+> > > > index b26e44adb2be..1b05f620b476 100644
+> > > > --- a/drivers/staging/media/tegra-video/csi.c
+> > > > +++ b/drivers/staging/media/tegra-video/csi.c
+> > > > @@ -433,7 +433,7 @@ static int tegra_csi_channel_alloc(struct tegra_csi *csi,
+> > > >  	for (i = 0; i < chan->numgangports; i++)
+> > > >  		chan->csi_port_nums[i] = port_num + i * CSI_PORTS_PER_BRICK;
+> > > >  
+> > > > -	chan->of_node = node;
+> > > > +	chan->of_node = of_node_get(node);
+> > > >  	chan->numpads = num_pads;
+> > > >  	if (num_pads & 0x2) {
+> > > >  		chan->pads[0].flags = MEDIA_PAD_FL_SINK;
+> > > > @@ -640,6 +640,7 @@ static void tegra_csi_channels_cleanup(struct tegra_csi *csi)
+> > > >  			media_entity_cleanup(&subdev->entity);
+> > > >  		}
+> > > >  
+> > > > +		of_node_put(chan->of_node);
+> > > >  		list_del(&chan->list);
+> > > >  		kfree(chan);    
+> > > 
+> > > Not related to your patch, but this kind of "one function cleans up
+> > > everything" style is always buggy.  For example, here it should be:
+> > > 
+> > > -		if (chan->mipi)
+> > > +		if (!IS_ERR_OR_NULL(chan->mipi))
+> > > 			tegra_mipi_free(chan->mipi);  
+> > 
+> > I sort of agree the code could be clearer here, but looking at the code
+> > in detail, this cannot happen. chan->mipi is set in one place only, and
+> > if it is an error the whole probe fails. So it can be either NULL or a
+> > valid pointer here.  
+> 
+> I assumed that tegra_csi_channels_cleanup() would clean up if
+> tegra_csi_channel_alloc() fails.  Otherwise then that's several
+> different even worse bugs.
+> 
+> HINT: Let's all hope my initial analysis was correct.
 
->
-> Running gst-device-monitor-1.0 results in a number of errors like.
->
-> GStreamer-CRITICAL **: 13:27:36.763:
-> gst_element_message_full_with_details: assertion 'GST_IS_ELEMENT
-> (element)' failed
->
-> The reason is because a VIDIOC_QUERYCAP on the subdevice fails.
->
-> Looking at the documentation
->
-> https://www.kernel.org/doc/html/latest/userspace-api/media/v4l/vidioc-querycap.html
->
-> it states that "All V4L2 devices support the VIDIOC_QUERYCAP ioctl"
->
-> On the other hand VIDIOC_QUERYCAP is not part of the subset mentioned
-> in documentation for V4L2 sub-device.
->
-> https://www.kernel.org/doc/html/latest/driver-api/media/v4l2-subdev.html
->
-> So is I correct that gstreamer has a bug in gst-device-monitor-1.0, and
-> it should not try to use the VIDIOC_QUERYCAP ioctl for a sub-device?
->
+Indeed you have a point. Apologies for having replied in a hurry and for
+the resulting noise.
 
-Please provide a strace or a more complete log of the failure to help
-confirming what the actual issue is.
+I'm going to send a patch to fix the chan->mipi mess. However I think
+the best way to do so would be a oneliner:
 
-You're however correct that VIDIOC_QUERYCAP does not apply to
-subdevices as subdevices implement VIDIOC_SUBDEV_QUERYCAP
-https://www.kernel.org/doc/html/latest/userspace-api/media/v4l/vidioc-subdev-querycap.html
+@@ -491,6 +491,7 @@ static int tegra_csi_channel_alloc(struct tegra_csi *csi,
+        chan->mipi = tegra_mipi_request(csi->dev, node);
+        if (IS_ERR(chan->mipi)) {
+                ret = PTR_ERR(chan->mipi);
++               chan->mipi = NULL;
+                dev_err(csi->dev, "failed to get mipi device: %d\n", ret);
+        }
 
-Now, the IPU4 is a complex camera system, which exposes many
-subdevices and cannot be operated by simply controlling only
-/dev/video0 as a simpler webcam does.
+This would be a correct implementation of the initial intent as it can
+be inferred from the code, i.e. chan->mipi being either NULL or a valid
+pointer. This makes sense as chan->mipi is assigned in a single place.
 
-As far as I know gstreamer does not know how to handle the subdevices
-configuration and media graph linking. Could you please post the
-output of 'media-ctl -p' to show how many subdevs your pipeline is
-composed of ?
-
-For mainline/upstream systems, libcamera is the library that handles
-the configuration of complex camera systems. It provides a gstreamer
-element as a replacement of the v4l2src element, and configures the
-media pipeline on behalf of applications. libcamera supports IPU3 but
-not IPU4 as there's no upstream driver support for these systems. I
-would guess that your vendor provides tools for you to operate the
-camera with their drivers infrastructure ?
-
-> It could be that gstreamer should just skip the sub-device.
-
-That I can't tell, but if you're not running some vendor specific
-gstreamer element I'm afraid it's quite unlikely things will work for
-you. Maybe, as you're not using gstreamer for capturing yet but only the
-device monitor, the device monitor is meant to be working regardless
-of the complex/non-complex camera you're operating. I suggest to check
-with the gstreamer community about that.
-
-Thanks
-  j
-
->
-> Regards
-> Claus Stovgaard
->
+-- 
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
