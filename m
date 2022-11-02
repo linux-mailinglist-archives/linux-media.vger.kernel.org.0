@@ -2,94 +2,105 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D93D9615BED
-	for <lists+linux-media@lfdr.de>; Wed,  2 Nov 2022 06:44:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0C160615D50
+	for <lists+linux-media@lfdr.de>; Wed,  2 Nov 2022 09:05:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229906AbiKBFoQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 2 Nov 2022 01:44:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40600 "EHLO
+        id S230298AbiKBIFZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 2 Nov 2022 04:05:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39746 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229907AbiKBFoO (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Nov 2022 01:44:14 -0400
-Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 26469640A
-        for <linux-media@vger.kernel.org>; Tue,  1 Nov 2022 22:44:12 -0700 (PDT)
-Received: by mail-pj1-x102c.google.com with SMTP id gw22so2306537pjb.3
-        for <linux-media@vger.kernel.org>; Tue, 01 Nov 2022 22:44:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=o4U1mrlHzTq75vegvBILo4T8J1rIaL3aN8Kq2GbjL4w=;
-        b=l9LriNh2mrsNWJrIOd8Y3G4l+omd+v38KM/hISuJkF+CuKcoQzDsLLKAINgB/uKoop
-         08yz/FaXDsZoZao6NuN4r3LtpT7hD8Fa+u92AXzEiX7w5TAlTtmSBsnJuxvLbtvOFkDI
-         okul7GkNXHlQdMcmhXrw3N+QqjxFKldoamH0U=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=o4U1mrlHzTq75vegvBILo4T8J1rIaL3aN8Kq2GbjL4w=;
-        b=4EqKIdKyRh6gezFp47t9sDa+dj9fZcYiDikTKrQnXfN/duo+m1Cxc7ggOXwH5tQEjw
-         ifsS030jpezRV3km1/TnLtrraKZbU7ffOwKGdDdrQU5E7RX1LGBjbDhzcxknmwDHkytV
-         8TCodKIwGqblXfUGRE82XQxBvBSiQc99FDvQznJXeVEseG1su/rSWpjkwc/wB1g7Ik1Q
-         V66fwwueZB0cZwnVFO40nZH72ZbAUn3TOQFYnXgMC84id2Es4n9cI0W8H46Y37OojZJ6
-         DQI6w/KrjYIJSVSoGXVSDVcsHfQCWa5zESqPEplZSy0N2T5eeJUMFbmIwCZPpnwqRQlv
-         sKGQ==
-X-Gm-Message-State: ACrzQf1HZcQZz5Q4Xl5a2nnq3bsYE1yevy/qPq+np/jggfZlrnTAjxzs
-        rFXxbxlP7fxY9koMrRyc8rYv0w==
-X-Google-Smtp-Source: AMsMyM53oEWEEn6B9yOuqu89aa3UyARvu3Ho/QeOzZNeo0R2Lvq5tBZ92OVp8HYIBhjcrPBCbS1AjA==
-X-Received: by 2002:a17:902:f60d:b0:186:c6d7:6574 with SMTP id n13-20020a170902f60d00b00186c6d76574mr22680679plg.171.1667367851569;
-        Tue, 01 Nov 2022 22:44:11 -0700 (PDT)
-Received: from google.com ([240f:75:7537:3187:f558:dfb0:7cb7:44d9])
-        by smtp.gmail.com with ESMTPSA id j10-20020a170902da8a00b00174c0dd29f0sm7388027plx.144.2022.11.01.22.44.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Nov 2022 22:44:11 -0700 (PDT)
-Date:   Wed, 2 Nov 2022 14:44:06 +0900
-From:   Sergey Senozhatsky <senozhatsky@chromium.org>
-To:     Ricardo Ribalda <ribalda@chromium.org>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 1/1] media: uvcvideo: Limit power line control for
- Acer EasyCamera
-Message-ID: <Y2IDpiOtVd4E4GHV@google.com>
-References: <20221101-easycam-v1-0-71d6409963da@chromium.org>
- <20221101-easycam-v1-1-71d6409963da@chromium.org>
+        with ESMTP id S230335AbiKBIFX (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Nov 2022 04:05:23 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A35F827168;
+        Wed,  2 Nov 2022 01:05:20 -0700 (PDT)
+Received: from [192.168.1.15] (91-154-32-225.elisa-laajakaista.fi [91.154.32.225])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id B93E810D2;
+        Wed,  2 Nov 2022 09:05:16 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1667376317;
+        bh=nEN27WtNls/1wXLTvXo+jO3/nuFgNwPbR4HWZHPU4sE=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=t6uQ6IOgjDgFrjk6ZvUif4roImt4eTcv07i1/jZ4zTfSzgHDqnAgAlQ3w9VAIBSJG
+         p8D1c831YAywy01cED1f26f7BkZubjLpveewtRLy3LlaBw9Xo+vrvehkvJkNcn+E1D
+         PsJRZGasBiX+8+0Lyijd6pVd6XgXWXUTmp44dboI=
+Message-ID: <bb565f1e-a17c-a32d-145a-631ab12d2acd@ideasonboard.com>
+Date:   Wed, 2 Nov 2022 10:05:13 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221101-easycam-v1-1-71d6409963da@chromium.org>
-X-Spam-Status: No, score=-3.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Subject: Re: [PATCH v4 6/8] media: i2c: add DS90UB960 driver
+Content-Language: en-US
+To:     devicetree@vger.kernel.org, linux-i2c@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Luca Ceresoli <luca@lucaceresoli.net>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Matti Vaittinen <Matti.Vaittinen@fi.rohmeurope.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Peter Rosin <peda@axentia.se>,
+        Rob Herring <robh+dt@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Vladimir Zapolskiy <vz@mleia.com>,
+        Wolfram Sang <wsa@the-dreams.de>,
+        satish.nagireddy@getcruise.com
+References: <20221101132032.1542416-1-tomi.valkeinen@ideasonboard.com>
+ <20221101132032.1542416-7-tomi.valkeinen@ideasonboard.com>
+From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+In-Reply-To: <20221101132032.1542416-7-tomi.valkeinen@ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On (22/11/01 06:28), Ricardo Ribalda wrote:
-> The device does not implement the power line control correctly. Add a
-> corresponding control mapping override.
+On 01/11/2022 15:20, Tomi Valkeinen wrote:
+> Add driver for TI DS90UB960 FPDLink-3 Deserializer.
 > 
-> Bus 003 Device 002: ID 5986:1180 Acer, Inc EasyCamera
-> Device Descriptor:
->   bLength                18
->   bDescriptorType         1
->   bcdUSB               2.00
->   bDeviceClass          239 Miscellaneous Device
->   bDeviceSubClass         2
->   bDeviceProtocol         1 Interface Association
->   bMaxPacketSize0        64
->   idVendor           0x5986 Acer, Inc
->   idProduct          0x1180
->   bcdDevice           56.04
->   iManufacturer           3 Bison
->   iProduct                1 EasyCamera
->   iSerial                 2
->   bNumConfigurations      1
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> ---
+>   drivers/media/i2c/Kconfig     |   16 +
+>   drivers/media/i2c/Makefile    |    2 +
+>   drivers/media/i2c/ds90ub960.c | 4198 +++++++++++++++++++++++++++++++++
+>   include/media/i2c/ds90ub9xx.h |   16 +
+>   4 files changed, 4232 insertions(+)
+>   create mode 100644 drivers/media/i2c/ds90ub960.c
+>   create mode 100644 include/media/i2c/ds90ub9xx.h
 > 
-> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
+> index 7806d4b81716..2a78889e3487 100644
+> --- a/drivers/media/i2c/Kconfig
+> +++ b/drivers/media/i2c/Kconfig
+> @@ -1595,4 +1595,20 @@ config VIDEO_THS7303
+>   
+>   endmenu
+>   
+> +#
+> +# Video serializers and deserializers (e.g. FPDLink)
+> +#
+> +
+> +menu "Video serializers and deserializers"
+> +
+> +config VIDEO_DS90UB960
+> +	tristate "TI DS90UB960 Deserializer"
+> +	depends on OF_GPIO
+> +	select I2C_ATR
+> +	help
+> +	  Device driver for the Texas Instruments DS90UB960
+> +	  FPD-Link III Deserializer
+> +
+> +endmenu
 
-Reviewed-by: Sergey Senozhatsky <senozhatsky@chromium.org>
+Looks like I'm missing proper dependencies and selects from this and the 
+ub913 and ub953 drivers. I'll fix those.
+
+  Tomi
+
