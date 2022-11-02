@@ -2,78 +2,68 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D7DE061697E
-	for <lists+linux-media@lfdr.de>; Wed,  2 Nov 2022 17:43:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2D2536169C7
+	for <lists+linux-media@lfdr.de>; Wed,  2 Nov 2022 17:54:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232041AbiKBQnx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 2 Nov 2022 12:43:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39928 "EHLO
+        id S230233AbiKBQyR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 2 Nov 2022 12:54:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56512 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232043AbiKBQn1 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Nov 2022 12:43:27 -0400
-Received: from mail-ot1-f41.google.com (mail-ot1-f41.google.com [209.85.210.41])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E1D020BD1;
-        Wed,  2 Nov 2022 09:38:43 -0700 (PDT)
-Received: by mail-ot1-f41.google.com with SMTP id 16-20020a9d0490000000b0066938311495so10578517otm.4;
-        Wed, 02 Nov 2022 09:38:43 -0700 (PDT)
+        with ESMTP id S229708AbiKBQyQ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Nov 2022 12:54:16 -0400
+Received: from mail-yb1-xb35.google.com (mail-yb1-xb35.google.com [IPv6:2607:f8b0:4864:20::b35])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E443463A4
+        for <linux-media@vger.kernel.org>; Wed,  2 Nov 2022 09:54:15 -0700 (PDT)
+Received: by mail-yb1-xb35.google.com with SMTP id 63so21875684ybq.4
+        for <linux-media@vger.kernel.org>; Wed, 02 Nov 2022 09:54:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=f+jsYWzMq4ayln83LACSuCFQylp+aW9xpS8cdpbBSi0=;
+        b=Z8JN/8nhG9eptQBEBpxwlVClP98EOTk8ztgCuPfjxHeDBQnhqELjWrIdPZ5K2mtIqd
+         j4RMTLr15plCqweSdq3fqcfitKfeaKFfNhkYgoDwGRKj97tnv4ibaMA2+k1Ycj5QBJiW
+         5h1nEu3c8rfB2xEf85WSK0RF12SBH21ItlZRiVDTcx0x+zn2Ry2xCi92Iay5Iv8LIEPN
+         W1gffIV4OGrovFyqOUMrm/plPRlGVZwT4SsKup6d6QYOH2oUTcISDTep3wNjUzWgen/N
+         8h9/xvXqCq3RsGTjfVtibEdwMi13cvCy2itdvFm61wFuyhFeCEe+8/CoaXkeg/ljZ7s4
+         FUPg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=U9ksTZ83TtbRKPPlqnz00eQ8hM+aPwJfXyLg4128WEI=;
-        b=cSW1HcnV9v9A6i8Q8SA9vRUqUA+6paC59MZklYcnI1NRCRX5WTI+9AtODGGeJ0cY+O
-         UkuTv0xxvOT6VGI/VNgU6Tg7zA3wLLZrOJkNe8xIcp83jvugNyHJB+OH4U1LpFmtJ0Rd
-         YPQ9TGmyP0UQ5dQiTAgr3qq9+gRRMWdBJ4MMl0KAIdOiDxqXrcIitJ/65fW4p8wxNZ7M
-         gPPrSKBmj33Q7zmEyA9Q5XLcSdm+1mKwaIiqRHgL4zYgS6iOFtAv9uNuQ/KwWccCXn0n
-         703LsEyZa9UjPYSIkpRc7jzGt/Xc9vVsqGmfEGeJE+uAFB7IPjzYrC/pDaKVF8BqZLJq
-         f4Yg==
-X-Gm-Message-State: ACrzQf0wR1HhE111VXE8oWlvBLW49WH8qreNrc4xMEMc+oTGrF2YsCrE
-        qKN7oobEO4FlayJyC3NJgA==
-X-Google-Smtp-Source: AMsMyM5E0phLlXbOOPIfqMi0psVJ3aAAbDHqmPGVzw82Uj2oW84WOtt0Hpm0fYkA+oJBV56lx5Ewuw==
-X-Received: by 2002:a05:6830:1f34:b0:66c:4a42:9ca5 with SMTP id e20-20020a0568301f3400b0066c4a429ca5mr10015204oth.175.1667407123140;
-        Wed, 02 Nov 2022 09:38:43 -0700 (PDT)
-Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id bh23-20020a056808181700b003547a3401e6sm4722569oib.43.2022.11.02.09.38.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Nov 2022 09:38:42 -0700 (PDT)
-Received: (nullmailer pid 4014126 invoked by uid 1000);
-        Wed, 02 Nov 2022 16:38:44 -0000
-Date:   Wed, 2 Nov 2022 11:38:44 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Prabhakar <prabhakar.csengg@gmail.com>
-Cc:     linux-media@vger.kernel.org, Sascha Hauer <s.hauer@pengutronix.de>,
-        linux-arm-kernel@lists.infradead.org,
-        linux-renesas-soc@vger.kernel.org,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-kernel@vger.kernel.org, Fabio Estevam <festevam@gmail.com>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Shawn Tu <shawnx.tu@intel.com>
-Subject: Re: [PATCH v4 5/9] media: dt-bindings: ov5645: Convert OV5645
- binding to a schema
-Message-ID: <166740712341.4014070.1564117171862683626.robh@kernel.org>
-References: <20221031232202.131945-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20221031232202.131945-6-prabhakar.mahadev-lad.rj@bp.renesas.com>
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=f+jsYWzMq4ayln83LACSuCFQylp+aW9xpS8cdpbBSi0=;
+        b=zRw6oQusnlwxgxgegK6vUcg7vF833iOTGnv9fOW8QC4sACgDCGd1Ex0SZTvUvuMmJH
+         3PYhd+cCpX2laz+CNrk12diK86cHQVUmaXUj5ABCpUpt/2+vhTRHPetU5dwlHfIPSmRu
+         c/VgERfS+5zwsfWg2AYO9D54ySf8cV6oeiwfGdpyeXRNeG8lAiNSeFh1dDV+h1kHnUvV
+         a4Nfx25HyE/5fP9p2xEm3w+NRrHGPkkWNd9TIp2N+pzuupYZbc4HAQ9RrUT0zQcn6PAB
+         sYgAkrGkQAb1RjVAJ5T1nnO9+gI8g2yBLnBBKqGuhtBeZlLGvDL+4u+v1qnirKEYPpiD
+         BeqA==
+X-Gm-Message-State: ACrzQf1F4kZeG2Yyan09f7X5sh6eakFzEYjHe2VxbQrdDMTlv8URPHIw
+        wWQiWx7UUTk6ZfxUdpvmH1z9WeSJH/wCVYQ/9egINw==
+X-Google-Smtp-Source: AMsMyM65O4NBPUuaOBAgi95AvY9AqyXj3pXE7q8JILaTPjQvUhUaYGNVBiND+5QefC7PS0k2HKzI7xpKHUBwrDMr1pw=
+X-Received: by 2002:a25:cd01:0:b0:6c2:6f0d:f4ce with SMTP id
+ d1-20020a25cd01000000b006c26f0df4cemr22429548ybf.365.1667408054985; Wed, 02
+ Nov 2022 09:54:14 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221031232202.131945-6-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
-        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS autolearn=no
+References: <TYCP286MB2323D71DEC1D008BEA6F7ABBCA399@TYCP286MB2323.JPNP286.PROD.OUTLOOK.COM>
+In-Reply-To: <TYCP286MB2323D71DEC1D008BEA6F7ABBCA399@TYCP286MB2323.JPNP286.PROD.OUTLOOK.COM>
+From:   "T.J. Mercier" <tjmercier@google.com>
+Date:   Wed, 2 Nov 2022 09:54:03 -0700
+Message-ID: <CABdmKX3bE5eKOeonTnkLZUgg=1yx3h5QPkGgue-bATHVDChHLQ@mail.gmail.com>
+Subject: Re: [PATCH v3] dma-buf: fix racing conflict of dma_heap_add()
+To:     Dawei Li <set_pte_at@outlook.com>
+Cc:     sumit.semwal@linaro.org, christian.koenig@amd.com,
+        benjamin.gaignard@collabora.com, labbott@redhat.com,
+        Brian.Starkey@arm.com, jstultz@google.com, afd@ti.com,
+        sspatil@android.com, linux-media@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+        linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -81,54 +71,96 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-
-On Mon, 31 Oct 2022 23:21:58 +0000, Prabhakar wrote:
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> 
-> Convert the simple OV5645 Device Tree binding to json-schema.
-> 
-> The previous binding marked the below properties as required which was a
-> driver requirement and not the device requirement so just drop them from
-> the required list during the conversion.
-> - clock-frequency
-> - enable-gpios
-> - reset-gpios
-> 
-> Also drop the "clock-names" property as we have a single clock source for
-> the sensor and the driver has been updated to drop the clk referencing by
-> name.
-> 
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+On Wed, Nov 2, 2022 at 8:59 AM Dawei Li <set_pte_at@outlook.com> wrote:
+>
+> Racing conflict could be:
+> task A                 task B
+> list_for_each_entry
+> strcmp(h->name))
+>                        list_for_each_entry
+>                        strcmp(h->name)
+> kzalloc                kzalloc
+> ......                 .....
+> device_create          device_create
+> list_add
+>                        list_add
+>
+> The root cause is that task B has no idea about the fact someone
+> else(A) has inserted heap with same name when it calls list_add,
+> so a potential collision occurs.
+>
+> v1: https://lore.kernel.org/all/TYCP286MB2323950197F60FC3473123B7CA349@TYCP286MB2323.JPNP286.PROD.OUTLOOK.COM/
+>
+> v1->v2: Narrow down locking scope, check the existence of heap before
+> insertion, as suggested by Andrew Davis.
+>
+> v2->v3: Remove double checking.
+>
+> Fixes: c02a81fba74f ("dma-buf: Add dma-buf heaps framework")
+>
+> base-commit: 447fb14bf07905b880c9ed1ea92c53d6dd0649d7
+>
+> Signed-off-by: Dawei Li <set_pte_at@outlook.com>
 > ---
-> v3->v4:
-> * Used 4 spaces for example node
-> * Added reg property after compatible
-> 
-> v3:
-> * No change
-> 
-> v2 -> v3
-> * Dropped clock-names property
-> * Marked power supplies as mandatory
-> * Dropped the comment for voltage power supplies
-> * Included RB tag from Laurent
-> * Driver change to drop clock-names [0]
-> 
-> [0] https://lore.kernel.org/linux-media/Yyh%2F3uzOJOu3drEB@pendragon.ideasonboard.com/T/#t
-> 
-> v1 -> v2
-> * Dropped ref to video-interface-devices.yaml#
-> * Dropped driver specific required items from the list
-> * Updated commit message
-> * Dropped clock-lanes and bus-type from the port and example node
-> * Marked data-lanes as required in port node
-> ---
->  .../devicetree/bindings/media/i2c/ov5645.txt  |  54 ---------
->  .../bindings/media/i2c/ovti,ov5645.yaml       | 104 ++++++++++++++++++
->  2 files changed, 104 insertions(+), 54 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/media/i2c/ov5645.txt
->  create mode 100644 Documentation/devicetree/bindings/media/i2c/ovti,ov5645.yaml
-> 
+>  drivers/dma-buf/dma-heap.c | 29 +++++++++++++++--------------
+>  1 file changed, 15 insertions(+), 14 deletions(-)
+>
+> diff --git a/drivers/dma-buf/dma-heap.c b/drivers/dma-buf/dma-heap.c
+> index 8f5848aa144f..7a25e98259ea 100644
+> --- a/drivers/dma-buf/dma-heap.c
+> +++ b/drivers/dma-buf/dma-heap.c
+> @@ -233,18 +233,6 @@ struct dma_heap *dma_heap_add(const struct dma_heap_export_info *exp_info)
+>                 return ERR_PTR(-EINVAL);
+>         }
+>
+> -       /* check the name is unique */
+> -       mutex_lock(&heap_list_lock);
+> -       list_for_each_entry(h, &heap_list, list) {
+> -               if (!strcmp(h->name, exp_info->name)) {
+> -                       mutex_unlock(&heap_list_lock);
+> -                       pr_err("dma_heap: Already registered heap named %s\n",
+> -                              exp_info->name);
+> -                       return ERR_PTR(-EINVAL);
+> -               }
+> -       }
+> -       mutex_unlock(&heap_list_lock);
+> -
+>         heap = kzalloc(sizeof(*heap), GFP_KERNEL);
+>         if (!heap)
+>                 return ERR_PTR(-ENOMEM);
+> @@ -283,13 +271,26 @@ struct dma_heap *dma_heap_add(const struct dma_heap_export_info *exp_info)
+>                 err_ret = ERR_CAST(dev_ret);
+>                 goto err2;
+>         }
+> -       /* Add heap to the list */
+> +
+>         mutex_lock(&heap_list_lock);
+> +       /* check the name is unique */
+> +       list_for_each_entry(h, &heap_list, list) {
+> +               if (!strcmp(h->name, exp_info->name)) {
+> +                       mutex_unlock(&heap_list_lock);
+> +                       pr_err("dma_heap: Already registered heap named %s\n",
+> +                              exp_info->name);
+> +                       err_ret = ERR_PTR(-EINVAL);
+> +                       goto err3;
+> +               }
+> +       }
+> +
+> +       /* Add heap to the list */
+>         list_add(&heap->list, &heap_list);
+>         mutex_unlock(&heap_list_lock);
+>
+>         return heap;
+> -
+> +err3:
+> +       device_destroy(dma_heap_class, heap->heap_devt);
+>  err2:
+>         cdev_del(&heap->heap_cdev);
+>  err1:
+> --
+> 2.25.1
+>
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+Reviewed-by: T.J. Mercier <tjmercier@google.com>
+
+Thanks!
