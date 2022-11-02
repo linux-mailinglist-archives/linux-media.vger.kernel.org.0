@@ -2,105 +2,118 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0C160615D50
-	for <lists+linux-media@lfdr.de>; Wed,  2 Nov 2022 09:05:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 91818615D72
+	for <lists+linux-media@lfdr.de>; Wed,  2 Nov 2022 09:16:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230298AbiKBIFZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 2 Nov 2022 04:05:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39746 "EHLO
+        id S230143AbiKBIP6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 2 Nov 2022 04:15:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50670 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230335AbiKBIFX (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Nov 2022 04:05:23 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A35F827168;
-        Wed,  2 Nov 2022 01:05:20 -0700 (PDT)
-Received: from [192.168.1.15] (91-154-32-225.elisa-laajakaista.fi [91.154.32.225])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id B93E810D2;
-        Wed,  2 Nov 2022 09:05:16 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1667376317;
-        bh=nEN27WtNls/1wXLTvXo+jO3/nuFgNwPbR4HWZHPU4sE=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=t6uQ6IOgjDgFrjk6ZvUif4roImt4eTcv07i1/jZ4zTfSzgHDqnAgAlQ3w9VAIBSJG
-         p8D1c831YAywy01cED1f26f7BkZubjLpveewtRLy3LlaBw9Xo+vrvehkvJkNcn+E1D
-         PsJRZGasBiX+8+0Lyijd6pVd6XgXWXUTmp44dboI=
-Message-ID: <bb565f1e-a17c-a32d-145a-631ab12d2acd@ideasonboard.com>
-Date:   Wed, 2 Nov 2022 10:05:13 +0200
+        with ESMTP id S230075AbiKBIPt (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Nov 2022 04:15:49 -0400
+Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A5BC1FCD9
+        for <linux-media@vger.kernel.org>; Wed,  2 Nov 2022 01:15:47 -0700 (PDT)
+Received: (Authenticated sender: jacopo@jmondi.org)
+        by mail.gandi.net (Postfix) with ESMTPSA id 2825E24000B;
+        Wed,  2 Nov 2022 08:15:45 +0000 (UTC)
+Date:   Wed, 2 Nov 2022 09:15:43 +0100
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     claus.stovgaard@gmail.com
+Cc:     linux-media@vger.kernel.org
+Subject: Re: VIDIOC_QUERYCAP on v4l subdevice - v4l-subdev*
+Message-ID: <20221102081543.hbtgmdkpdw5valvr@uno.localdomain>
+References: <93834b3d7d4abfabdc7285af0c5e57d015c97107.camel@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH v4 6/8] media: i2c: add DS90UB960 driver
-Content-Language: en-US
-To:     devicetree@vger.kernel.org, linux-i2c@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Luca Ceresoli <luca@lucaceresoli.net>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Matti Vaittinen <Matti.Vaittinen@fi.rohmeurope.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Peter Rosin <peda@axentia.se>,
-        Rob Herring <robh+dt@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Vladimir Zapolskiy <vz@mleia.com>,
-        Wolfram Sang <wsa@the-dreams.de>,
-        satish.nagireddy@getcruise.com
-References: <20221101132032.1542416-1-tomi.valkeinen@ideasonboard.com>
- <20221101132032.1542416-7-tomi.valkeinen@ideasonboard.com>
-From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-In-Reply-To: <20221101132032.1542416-7-tomi.valkeinen@ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <93834b3d7d4abfabdc7285af0c5e57d015c97107.camel@gmail.com>
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 01/11/2022 15:20, Tomi Valkeinen wrote:
-> Add driver for TI DS90UB960 FPDLink-3 Deserializer.
-> 
-> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> ---
->   drivers/media/i2c/Kconfig     |   16 +
->   drivers/media/i2c/Makefile    |    2 +
->   drivers/media/i2c/ds90ub960.c | 4198 +++++++++++++++++++++++++++++++++
->   include/media/i2c/ds90ub9xx.h |   16 +
->   4 files changed, 4232 insertions(+)
->   create mode 100644 drivers/media/i2c/ds90ub960.c
->   create mode 100644 include/media/i2c/ds90ub9xx.h
-> 
-> diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
-> index 7806d4b81716..2a78889e3487 100644
-> --- a/drivers/media/i2c/Kconfig
-> +++ b/drivers/media/i2c/Kconfig
-> @@ -1595,4 +1595,20 @@ config VIDEO_THS7303
->   
->   endmenu
->   
-> +#
-> +# Video serializers and deserializers (e.g. FPDLink)
-> +#
-> +
-> +menu "Video serializers and deserializers"
-> +
-> +config VIDEO_DS90UB960
-> +	tristate "TI DS90UB960 Deserializer"
-> +	depends on OF_GPIO
-> +	select I2C_ATR
-> +	help
-> +	  Device driver for the Texas Instruments DS90UB960
-> +	  FPD-Link III Deserializer
-> +
-> +endmenu
+Hi Claus,
 
-Looks like I'm missing proper dependencies and selects from this and the 
-ub913 and ub953 drivers. I'll fix those.
+On Tue, Nov 01, 2022 at 01:50:16PM +0100, claus.stovgaard@gmail.com wrote:
+> Hi Folks.
+>
+> I am working on a system based around the Intel Apollo Lake with an
+> IPU4. The system is having a configuration with a number of subdevices.
+> Going from v4l-subdev0 to v4-subdev10.
 
-  Tomi
+I premit that as far as I know IPU4 is not supported by mainline
+linux-media, the community that runs this mailing list. Your system is
+likely working with vendor provided drivers, hence the level of
+support you can get here might be limited by the fact you're running
+vendor's code which is not upstreamed and which we don't know much
+about.
 
+>
+> Running gst-device-monitor-1.0 results in a number of errors like.
+>
+> GStreamer-CRITICAL **: 13:27:36.763:
+> gst_element_message_full_with_details: assertion 'GST_IS_ELEMENT
+> (element)' failed
+>
+> The reason is because a VIDIOC_QUERYCAP on the subdevice fails.
+>
+> Looking at the documentation
+>
+> https://www.kernel.org/doc/html/latest/userspace-api/media/v4l/vidioc-querycap.html
+>
+> it states that "All V4L2 devices support the VIDIOC_QUERYCAP ioctl"
+>
+> On the other hand VIDIOC_QUERYCAP is not part of the subset mentioned
+> in documentation for V4L2 sub-device.
+>
+> https://www.kernel.org/doc/html/latest/driver-api/media/v4l2-subdev.html
+>
+> So is I correct that gstreamer has a bug in gst-device-monitor-1.0, and
+> it should not try to use the VIDIOC_QUERYCAP ioctl for a sub-device?
+>
+
+Please provide a strace or a more complete log of the failure to help
+confirming what the actual issue is.
+
+You're however correct that VIDIOC_QUERYCAP does not apply to
+subdevices as subdevices implement VIDIOC_SUBDEV_QUERYCAP
+https://www.kernel.org/doc/html/latest/userspace-api/media/v4l/vidioc-subdev-querycap.html
+
+Now, the IPU4 is a complex camera system, which exposes many
+subdevices and cannot be operated by simply controlling only
+/dev/video0 as a simpler webcam does.
+
+As far as I know gstreamer does not know how to handle the subdevices
+configuration and media graph linking. Could you please post the
+output of 'media-ctl -p' to show how many subdevs your pipeline is
+composed of ?
+
+For mainline/upstream systems, libcamera is the library that handles
+the configuration of complex camera systems. It provides a gstreamer
+element as a replacement of the v4l2src element, and configures the
+media pipeline on behalf of applications. libcamera supports IPU3 but
+not IPU4 as there's no upstream driver support for these systems. I
+would guess that your vendor provides tools for you to operate the
+camera with their drivers infrastructure ?
+
+> It could be that gstreamer should just skip the sub-device.
+
+That I can't tell, but if you're not running some vendor specific
+gstreamer element I'm afraid it's quite unlikely things will work for
+you. Maybe, as you're not using gstreamer for capturing yet but only the
+device monitor, the device monitor is meant to be working regardless
+of the complex/non-complex camera you're operating. I suggest to check
+with the gstreamer community about that.
+
+Thanks
+  j
+
+>
+> Regards
+> Claus Stovgaard
+>
