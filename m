@@ -2,167 +2,80 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 73810616A4B
-	for <lists+linux-media@lfdr.de>; Wed,  2 Nov 2022 18:14:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5D61D616A4E
+	for <lists+linux-media@lfdr.de>; Wed,  2 Nov 2022 18:14:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231388AbiKBROP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 2 Nov 2022 13:14:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40340 "EHLO
+        id S230300AbiKBROf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 2 Nov 2022 13:14:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40338 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230500AbiKBRNz (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Nov 2022 13:13:55 -0400
-Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A0092D3;
-        Wed,  2 Nov 2022 10:13:54 -0700 (PDT)
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
-        by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 2A2HDeqq111380;
-        Wed, 2 Nov 2022 12:13:40 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1667409220;
-        bh=9xXQl3ypMam93TQFZncK480oz+++LfFiwW9TqbQA7ow=;
-        h=Date:Subject:To:CC:References:From:In-Reply-To;
-        b=WqN4PAWBfTgKqYPqWR9QfiQMUSEDkcgH7jMjSv6Cf7d6MMl030QQzz87vmOiCkhmW
-         wch90C6cgTFlDbDD20D2mJ1zuddtVjIe7cBPvqx+dTZoly+wJdzW+xxvRFeLfdBPy4
-         azLS9WnhAuCZ1JiBBvlQf09MX1qlI/AwwaJw6Pgg=
-Received: from DLEE107.ent.ti.com (dlee107.ent.ti.com [157.170.170.37])
-        by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 2A2HDeBh090547
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Wed, 2 Nov 2022 12:13:40 -0500
-Received: from DLEE109.ent.ti.com (157.170.170.41) by DLEE107.ent.ti.com
- (157.170.170.37) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.6; Wed, 2 Nov
- 2022 12:13:40 -0500
-Received: from lelv0326.itg.ti.com (10.180.67.84) by DLEE109.ent.ti.com
- (157.170.170.41) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.6 via
- Frontend Transport; Wed, 2 Nov 2022 12:13:40 -0500
-Received: from [10.249.33.217] (ileaxei01-snat2.itg.ti.com [10.180.69.6])
-        by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 2A2HDd5N022592;
-        Wed, 2 Nov 2022 12:13:39 -0500
-Message-ID: <ef0636bd-bb23-19b0-ab8f-a37280fe4296@ti.com>
-Date:   Wed, 2 Nov 2022 12:13:39 -0500
+        with ESMTP id S230075AbiKBRON (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Nov 2022 13:14:13 -0400
+Received: from mail-oi1-f172.google.com (mail-oi1-f172.google.com [209.85.167.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D0FF925E99;
+        Wed,  2 Nov 2022 10:14:07 -0700 (PDT)
+Received: by mail-oi1-f172.google.com with SMTP id y67so19886168oiy.1;
+        Wed, 02 Nov 2022 10:14:07 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=JTIZIOjl8oF+5s5jwaijQ6Kthz0JlQiH4L1lxXq0VtA=;
+        b=ihFX8qtC3EN5GYG1oHt6iJaQK4EC+rid4vMWu3uZdgeh43xVD1S+10sZCLDwPe02sA
+         J4KsHqjluFn+4XHOv+zPA8k7PM17MvE0OgErRHRM6TJYok4uZvK1zIHdN9oEA6dMjdLz
+         HnkzWbyqqc2osYE0a/YEo8r37yaeHAq34EfOPv0itlWn2JjKUYENdZwMsQDo1A2t4c3g
+         9nKjroQJrP/3toV+n9h3J02Y0YpPR437zOzPw6BPzIscoGhiBTYB+ALtC/v7mWImXTwU
+         FxBgYWNICEe5ZqBiq2krfg66C9Ch7cMd0Oj4d2YrsNgj4nDSiLc5mMHGmDUww9+pzePm
+         e+cg==
+X-Gm-Message-State: ACrzQf1DpioM3MUGpX/ztQ7b3iUMqr9MRi+X4AOc6SU/y3mSRhrun5jQ
+        8jVh270P5d7iw4qXxsazWA==
+X-Google-Smtp-Source: AMsMyM48p193/o2iDWjqe7mgVtGRjDXeBC3cmuZcEgnEuSbO7vYriIpF7gBPOO01bKgUQlv33gHJww==
+X-Received: by 2002:aca:6007:0:b0:35a:1bda:d213 with SMTP id u7-20020aca6007000000b0035a1bdad213mr7581750oib.181.1667409247069;
+        Wed, 02 Nov 2022 10:14:07 -0700 (PDT)
+Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id l25-20020a4acf19000000b0044b125e5dabsm4655265oos.35.2022.11.02.10.14.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 02 Nov 2022 10:14:06 -0700 (PDT)
+Received: (nullmailer pid 4138810 invoked by uid 1000);
+        Wed, 02 Nov 2022 17:14:08 -0000
+Date:   Wed, 2 Nov 2022 12:14:08 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc:     samuel@sholland.org, robh+dt@kernel.org,
+        linux-kernel@vger.kernel.org, krzysztof.kozlowski+dt@linaro.org,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-sunxi@lists.linux.dev, hverkuil-cisco@xs4all.nl,
+        wens@csie.org, mchehab@kernel.org, linux-media@vger.kernel.org
+Subject: Re: [PATCH 1/3] media: dt-bindings: media: Add Allwinner H6
+ Deinterlace binding
+Message-ID: <166740924781.4138628.17832140187371545203.robh@kernel.org>
+References: <20221101123201.3021129-1-jernej.skrabec@gmail.com>
+ <20221101123201.3021129-2-jernej.skrabec@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH v3] dma-buf: fix racing conflict of dma_heap_add()
-Content-Language: en-US
-To:     Dawei Li <set_pte_at@outlook.com>, <sumit.semwal@linaro.org>,
-        <christian.koenig@amd.com>
-CC:     <benjamin.gaignard@collabora.com>, <labbott@redhat.com>,
-        <Brian.Starkey@arm.com>, <jstultz@google.com>,
-        <sspatil@android.com>, <linux-media@vger.kernel.org>,
-        <dri-devel@lists.freedesktop.org>,
-        <linaro-mm-sig@lists.linaro.org>, <linux-kernel@vger.kernel.org>
-References: <TYCP286MB2323D71DEC1D008BEA6F7ABBCA399@TYCP286MB2323.JPNP286.PROD.OUTLOOK.COM>
-From:   Andrew Davis <afd@ti.com>
-In-Reply-To: <TYCP286MB2323D71DEC1D008BEA6F7ABBCA399@TYCP286MB2323.JPNP286.PROD.OUTLOOK.COM>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
-X-Spam-Status: No, score=-5.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221101123201.3021129-2-jernej.skrabec@gmail.com>
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 11/2/22 10:58 AM, Dawei Li wrote:
-> Racing conflict could be:
-> task A                 task B
-> list_for_each_entry
-> strcmp(h->name))
->                         list_for_each_entry
->                         strcmp(h->name)
-> kzalloc                kzalloc
-> ......                 .....
-> device_create          device_create
-> list_add
->                         list_add
-> 
-> The root cause is that task B has no idea about the fact someone
-> else(A) has inserted heap with same name when it calls list_add,
-> so a potential collision occurs.
-> 
-> v1: https://lore.kernel.org/all/TYCP286MB2323950197F60FC3473123B7CA349@TYCP286MB2323.JPNP286.PROD.OUTLOOK.COM/
-> 
-> v1->v2: Narrow down locking scope, check the existence of heap before
-> insertion, as suggested by Andrew Davis.
-> 
-> v2->v3: Remove double checking.
 
-The above version info should be in a cover letter or below
-the --- line so it doesn't end up in the commit message in tree.
-
+On Tue, 01 Nov 2022 13:31:59 +0100, Jernej Skrabec wrote:
+> Allwinner H6 Deinterlace core is used for deinterlacing interlaced video
+> content.
 > 
-> Fixes: c02a81fba74f ("dma-buf: Add dma-buf heaps framework")
-> 
-> base-commit: 447fb14bf07905b880c9ed1ea92c53d6dd0649d7
-> 
-
-Same as above, plus this is an odd base, maybe just use "v6.1-rc2".
-
-> Signed-off-by: Dawei Li <set_pte_at@outlook.com>
+> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 > ---
->   drivers/dma-buf/dma-heap.c | 29 +++++++++++++++--------------
->   1 file changed, 15 insertions(+), 14 deletions(-)
+>  .../allwinner,sun50i-h6-deinterlace.yaml      | 74 +++++++++++++++++++
+>  1 file changed, 74 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/allwinner,sun50i-h6-deinterlace.yaml
 > 
-> diff --git a/drivers/dma-buf/dma-heap.c b/drivers/dma-buf/dma-heap.c
-> index 8f5848aa144f..7a25e98259ea 100644
-> --- a/drivers/dma-buf/dma-heap.c
-> +++ b/drivers/dma-buf/dma-heap.c
-> @@ -233,18 +233,6 @@ struct dma_heap *dma_heap_add(const struct dma_heap_export_info *exp_info)
->   		return ERR_PTR(-EINVAL);
->   	}
->   
-> -	/* check the name is unique */
-> -	mutex_lock(&heap_list_lock);
-> -	list_for_each_entry(h, &heap_list, list) {
-> -		if (!strcmp(h->name, exp_info->name)) {
-> -			mutex_unlock(&heap_list_lock);
-> -			pr_err("dma_heap: Already registered heap named %s\n",
-> -			       exp_info->name);
-> -			return ERR_PTR(-EINVAL);
-> -		}
-> -	}
-> -	mutex_unlock(&heap_list_lock);
-> -
->   	heap = kzalloc(sizeof(*heap), GFP_KERNEL);
->   	if (!heap)
->   		return ERR_PTR(-ENOMEM);
-> @@ -283,13 +271,26 @@ struct dma_heap *dma_heap_add(const struct dma_heap_export_info *exp_info)
->   		err_ret = ERR_CAST(dev_ret);
->   		goto err2;
->   	}
-> -	/* Add heap to the list */
-> +
->   	mutex_lock(&heap_list_lock);
-> +	/* check the name is unique */
-> +	list_for_each_entry(h, &heap_list, list) {
-> +		if (!strcmp(h->name, exp_info->name)) {
-> +			mutex_unlock(&heap_list_lock);
-> +			pr_err("dma_heap: Already registered heap named %s\n",
-> +			       exp_info->name);
-> +			err_ret = ERR_PTR(-EINVAL);
-> +			goto err3;
-> +		}
-> +	}
-> +
-> +	/* Add heap to the list */
->   	list_add(&heap->list, &heap_list);
->   	mutex_unlock(&heap_list_lock);
->   
->   	return heap;
-> -
 
-Would like to keep this new line after the return statement.
-
-Andrew
-
-> +err3:
-> +	device_destroy(dma_heap_class, heap->heap_devt);
->   err2:
->   	cdev_del(&heap->heap_cdev);
->   err1:
+Reviewed-by: Rob Herring <robh@kernel.org>
