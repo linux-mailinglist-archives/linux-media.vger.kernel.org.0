@@ -2,94 +2,162 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C25EC61756E
-	for <lists+linux-media@lfdr.de>; Thu,  3 Nov 2022 05:17:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EA668617626
+	for <lists+linux-media@lfdr.de>; Thu,  3 Nov 2022 06:29:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229539AbiKCERE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 3 Nov 2022 00:17:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53238 "EHLO
+        id S230383AbiKCF3r (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 3 Nov 2022 01:29:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56260 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229493AbiKCERD (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Nov 2022 00:17:03 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 230882655
-        for <linux-media@vger.kernel.org>; Wed,  2 Nov 2022 21:17:02 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id B2CD161D1A
-        for <linux-media@vger.kernel.org>; Thu,  3 Nov 2022 04:17:01 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BC13CC433C1
-        for <linux-media@vger.kernel.org>; Thu,  3 Nov 2022 04:17:00 +0000 (UTC)
-Date:   Thu, 03 Nov 2022 05:16:58 +0100
-From:   "Hans Verkuil" <hverkuil-cisco@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: WARNINGS
-Message-Id: <20221103041700.BC13CC433C1@smtp.kernel.org>
-X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+        with ESMTP id S230165AbiKCF3j (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Nov 2022 01:29:39 -0400
+Received: from mailout3.samsung.com (mailout3.samsung.com [203.254.224.33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0438018B30
+        for <linux-media@vger.kernel.org>; Wed,  2 Nov 2022 22:29:38 -0700 (PDT)
+Received: from epcas5p4.samsung.com (unknown [182.195.41.42])
+        by mailout3.samsung.com (KnoxPortal) with ESMTP id 20221103052936epoutp033660e40a26822a5fd07c048d37ec11d5~j-ALe0OS21537715377epoutp03M
+        for <linux-media@vger.kernel.org>; Thu,  3 Nov 2022 05:29:36 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com 20221103052936epoutp033660e40a26822a5fd07c048d37ec11d5~j-ALe0OS21537715377epoutp03M
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+        s=mail20170921; t=1667453376;
+        bh=yk0gzNNvyzYWTWiiBL/q0YCEEEOP0qJSawMKY7du018=;
+        h=From:To:Cc:Subject:Date:References:From;
+        b=bbceF8pR9zquZGCxs8xd3V7Srt+kamCw+Ui7EeVCqvPlHAKiWGD3sjQ6OCAOSOOTh
+         3SvxANYDtlYRXUuNHe/NppVKyqe+9wdqnxqSA/OG8Uy2DqAVz6zVerwxthUgcqboPz
+         m8+p2zPHC8COM/5gjpPn9WSY3w2SY18ro0qWxL9g=
+Received: from epsnrtp2.localdomain (unknown [182.195.42.163]) by
+        epcas5p3.samsung.com (KnoxPortal) with ESMTP id
+        20221103052935epcas5p3fb7e1b3f0c62ff48af830dee70031c97~j-AK3p-Pe1058810588epcas5p34;
+        Thu,  3 Nov 2022 05:29:35 +0000 (GMT)
+Received: from epsmges5p3new.samsung.com (unknown [182.195.38.179]) by
+        epsnrtp2.localdomain (Postfix) with ESMTP id 4N2sl20JM2z4x9QL; Thu,  3 Nov
+        2022 05:29:34 +0000 (GMT)
+Received: from epcas5p2.samsung.com ( [182.195.41.40]) by
+        epsmges5p3new.samsung.com (Symantec Messaging Gateway) with SMTP id
+        21.9B.56352.9B153636; Thu,  3 Nov 2022 14:29:29 +0900 (KST)
+Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
+        epcas5p3.samsung.com (KnoxPortal) with ESMTPA id
+        20221102125810epcas5p36e6caf41f602debe17f25f13969fd6dc~jxeit-Axi2760427604epcas5p3q;
+        Wed,  2 Nov 2022 12:58:10 +0000 (GMT)
+Received: from epsmgms1p2.samsung.com (unknown [182.195.42.42]) by
+        epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
+        20221102125810epsmtrp195bbd5ddece8e028185a9f3abb3d3575~jxeirqWVw0619606196epsmtrp1C;
+        Wed,  2 Nov 2022 12:58:10 +0000 (GMT)
+X-AuditID: b6c32a4b-383ff7000001dc20-dd-636351b9e830
+Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
+        epsmgms1p2.samsung.com (Symantec Messaging Gateway) with SMTP id
+        36.BD.18644.16962636; Wed,  2 Nov 2022 21:58:10 +0900 (KST)
+Received: from cheetah.sa.corp.samsungelectronics.net (unknown
+        [107.109.115.53]) by epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
+        20221102125806epsmtip1c8141a150bcf1a42bd23e065ab958e8b~jxefo-Nbg1911819118epsmtip1b;
+        Wed,  2 Nov 2022 12:58:06 +0000 (GMT)
+From:   Aakarsh Jain <aakarsh.jain@samsung.com>
+To:     linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
+Cc:     m.szyprowski@samsung.com, andrzej.hajda@intel.com,
+        mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
+        ezequiel@vanguardiasur.com.ar, jernej.skrabec@gmail.com,
+        benjamin.gaignard@collabora.com, krzysztof.kozlowski+dt@linaro.org,
+        stanimir.varbanov@linaro.org, dillon.minfei@gmail.com,
+        david.plowman@raspberrypi.com, mark.rutland@arm.com,
+        robh+dt@kernel.org, krzk+dt@kernel.org, andi@etezian.org,
+        alim.akhtar@samsung.com, aswani.reddy@samsung.com,
+        pankaj.dubey@samsung.com, smitha.t@samsung.com,
+        aakarsh.jain@samsung.com
+Subject: [PATCH 1/3] arm64: exynos: Add new compatible string for Exynos3250
+ SoC.
+Date:   Wed,  2 Nov 2022 18:36:00 +0530
+Message-Id: <20221102130602.48969-1-aakarsh.jain@samsung.com>
+X-Mailer: git-send-email 2.17.1
+X-Brightmail-Tracker: H4sIAAAAAAAAA0WTe0xTVxzHPffe3lZm2Q1odlaU1RtBxACtQjksotswyw2CwTnNIltYLXcU
+        6Mve4itkYCY+UFE3MeWROspjBESQZ4GyIXQDFVyYYF2kEwRGYQ8XEabMkLUUtv8+5/f7fs/5
+        5nfOEeA+/aRIkKoxsHqNXEWTXkRz96agkNY9CoWkd1iGJiwFPDRiaiZR6YtJDD0unSFQV0MT
+        HzUOFuHom55OHrpmu8dDLbeeEOim09UdKHAQaPLaDYCmCn8hUZ5zFEf1Yw946H5bMYnO1zXx
+        UI3NwUfl9gEMVdS/wpC56Tkf5XTY+MhhbQbo5Ckb9g5krpuuA8biKAOMvewZzrQWOvhMqXUK
+        Y+qrzpLM8AMryTSUZTE5388TTF5jFWBybXaSman3Z+7MzvAThAfStylZeTKrF7MahTY5VZMS
+        Te/amxSTFCGTSEOkUSiSFmvkajaa3hmXEPJ+qso1Alp8WK7KcJUS5BxHh23fptdmGFixUssZ
+        omlWl6zShetCObmay9CkhGpYw9tSiWRLhEv4abry/PM5vu6c91FT109kNph9LResFEAqHH47
+        6cTc7EO1A1g7sy8XeLn4GYCzZ/4AnsYMgBNGYtkwMD1BekRtAF56fILwLHIw2Dfv4OcCgYCk
+        QmB/i8ptWE2dAHDsjMGtwanLBHyU58TdDV9qL+wxNZFuJqgAOLhQuBhDSEXDBkcxz3PaW7C6
+        rhN3myHlFMDmp8sxdsKRnCu4h33hdE8j38MiOHXx1BIr4Jh5akmjgrXWK0veHbBzsJhwB8Wp
+        TbC2LcxTXgfz79xYzIBT3vDCP+OYpy6EFtMyB8Li4RdL2dbC7upy4N4GUgyc/3WNZ1ifwBLr
+        bewSWFf4/wFfA1AF3mR1nDqF5SJ0WzXskf+uSaFV14PFdx28ywKejPwV2gUwAegCUIDTq4VZ
+        /YkKH2Gy/NhxVq9N0meoWK4LRLhGdhkXrVFoXR9DY0iShkdJwmUyWXjUVpmUfkNYagxW+FAp
+        cgObzrI6Vr/swwQrRdmY42hamIB2jA/l+NeRx1ps3O45LviDH++umvZrMtd0CsTm71rjlZUn
+        r86927FRfWCD+UIjG1fOVhT5SZ1bjld3BPT9kP/Z56v8srwPGh1xG4Fp0F4Qu8LsFVlxqHx9
+        yUHjZt/Ui18cMQ4NWfJihHhQ5mn7/XjvTtG+98Ybf45r/7PC4Mx3vP70y5vtQSMRvcM7Ik+L
+        R29lV0jS/y55tCe7ckxaFPuxfXtlr175MPHDgA3EqK7Ga79theqj3zrSYo0vZfJew8LAw82H
+        avb7zyYq+Wvtd9fHxI29TJXtnrj91VVrfOvhMmLhXGB3v0pcYklJKAxMO6sW3WOoVwN9mb6/
+        j2Rk0gSnlEuDcT0n/xdsJZq3YAQAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrFLMWRmVeSWpSXmKPExsWy7bCSnG5SZlKywatLzBZPd8xktXgwbxub
+        xeIfz5ks7i/+zGJxaPNWdostV2YzWyw/foDVYv6Rc6wW2w8+YrHY+AIoe3HmXRaL5/PXMVq8
+        nHWPzaLvxUNmi02Pr7FaXN41h82iZ8NWVou1R+6yWyy9fpHJYtmmP0wWi7Z+Ybdo3XuE3eLu
+        nm2MFi1tR5gcJDzWzFvD6LHj7hJGj+tLPjF77Jx1l91j8Z6XTB6bVnWyedy5tofNY/OSeo/W
+        o79YPPq2rGL06Dpync3j8yY5j1NfP7MH8EZx2aSk5mSWpRbp2yVwZfR8+cZe0M1XMe/QJbYG
+        xq/cXYycHBICJhIXXz1lA7GFBHYwStz4YwcRl5H433aMHcIWllj57zk7RE0zk8SstZVdjBwc
+        bAK6Eme353QxcnGICLQySlxf2ckE4jALrGSRuL2xhwmkQVggUOL/yitgNouAqsSVf7PAbF4B
+        W4nNd+ewQiyQl1i94QDzBEaeBYwMqxglUwuKc9Nziw0LjPJSy/WKE3OLS/PS9ZLzczcxgqNH
+        S2sH455VH/QOMTJxMB5ilOBgVhLhrT8bnSzEm5JYWZValB9fVJqTWnyIUZqDRUmc90LXyXgh
+        gfTEktTs1NSC1CKYLBMHp1QDk5i8ju9Hk4ev83+aPnh8x+zLmr8Lmw45cAXI5ZWy5NbcuppT
+        qFJTXqDWu1T1msk2nTs9dkeXqs+91XFTpFV+Mp/2R/mptT5XiytzFl9YbVq9/eLLC30zMtgT
+        T1uZZRi2TJKeN5P3b3VF01HPJZPvywgv8J/8atImzdmW5yJiVvgFWVjrxTW7l2jXbzvldLJo
+        zcKOpeZOu9NlV939r+6Ysi6nZmfY6o3zrO+J51q//nFsCaOMzYmJOxlrD3+copAru2Rb2fRC
+        3q924Ru9Lp5lLnm89/YhMecFbJLW9xfpPY4wvbPo/TYHwe+HmvqqG58e2pu35t78nhtiyxdf
+        /mRt19EVdO+EO8P1jVPf/lHR+K7EUpyRaKjFXFScCAD8RHmvDQMAAA==
+X-CMS-MailID: 20221102125810epcas5p36e6caf41f602debe17f25f13969fd6dc
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-Sendblock-Type: REQ_APPROVE
+CMS-TYPE: 105P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20221102125810epcas5p36e6caf41f602debe17f25f13969fd6dc
+References: <CGME20221102125810epcas5p36e6caf41f602debe17f25f13969fd6dc@epcas5p3.samsung.com>
+X-Spam-Status: No, score=-5.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+Exynos3250 uses the same compatible as Exynos5420, but both
+the MFC IPs found in these SoC are different interms of clock
+property. So using same compatible for both SoC is not correct.
+Lets have a separate compatible for Exynos3250 and Exynos5420
+to differentiate these SoCs.
 
-Results of the daily build of media_tree:
+Suggested-by: Alim Akhtar <alim.akhtar@samsung.com> 
+Signed-off-by: Aakarsh Jain <aakarsh.jain@samsung.com>
+---
+ Documentation/devicetree/bindings/media/s5p-mfc.txt | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-date:			Thu Nov  3 03:00:09 CET 2022
-media-tree git hash:	de547896aac606a00435a219757a940ece142bf0
-media_build git hash:	0fe857b86addf382f6fd383948bd7736a3201403
-v4l-utils git hash:	dc29549fb5bc6c6874c5bd45aebc6179e979969d
-edid-decode git hash:	f1ff7ad7bcb2fbb85017bbb2baa6bed37c412895
-gcc version:		i686-linux-gcc (GCC) 12.2.0
-sparse repo:            git://git.kernel.org/pub/scm/devel/sparse/sparse.git
-sparse version:		v0.6.4-39-gce1a6720-dirty
-smatch repo:            git://repo.or.cz/smatch.git
-smatch version:		v0.5.0-8162-g696da5a8-dirty
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 94af8c625f6730ceef6e3713c61217c31ee868dd
-host hardware:		x86_64
-host os:		5.19.0-2-amd64
+We are already in process of converting this txt file to yaml.
+https://patchwork.kernel.org/project/linux-media/patch/
+20221011122516.32135-2-aakarsh.jain@samsung.com/
+modifying this txt binding for completeness.
 
-linux-git-sh: OK
-linux-git-arm-davinci: OK
-linux-git-arm-at91: OK
-linux-git-arm-pxa: OK
-linux-git-powerpc64: OK
-linux-git-mips: OK
-linux-git-arm-stm32: OK
-linux-git-arm-multi: WARNINGS
-linux-git-arm64: WARNINGS
-linux-git-i686: WARNINGS
-linux-git-x86_64: WARNINGS
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-apps: OK
-spec-git: OK
-virtme: WARNINGS: Final Summary: 3080, Succeeded: 3080, Failed: 0, Warnings: 3
-virtme-32: OK: Final Summary: 3193, Succeeded: 3193, Failed: 0, Warnings: 0
-sparse: WARNINGS
-smatch: WARNINGS
-kerneldoc: OK
+diff --git a/Documentation/devicetree/bindings/media/s5p-mfc.txt b/Documentation/devicetree/bindings/media/s5p-mfc.txt
+index aa54c8159d9f..4ff1898e5a51 100644
+--- a/Documentation/devicetree/bindings/media/s5p-mfc.txt
++++ b/Documentation/devicetree/bindings/media/s5p-mfc.txt
+@@ -11,9 +11,10 @@ Required properties:
+ 	(a) "samsung,mfc-v5" for MFC v5 present in Exynos4 SoCs
+ 	(b) "samsung,mfc-v6" for MFC v6 present in Exynos5 SoCs
+ 	(c) "samsung,mfc-v7" for MFC v7 present in Exynos5420 SoC
+-	(d) "samsung,mfc-v8" for MFC v8 present in Exynos5800 SoC
+-	(e) "samsung,exynos5433-mfc" for MFC v8 present in Exynos5433 SoC
+-	(f) "samsung,mfc-v10" for MFC v10 present in Exynos7880 SoC
++	(d) "samsung,exynos3250-mfc" for MFC v7 present in Exynos3250 SoC
++	(e) "samsung,mfc-v8" for MFC v8 present in Exynos5800 SoC
++	(f) "samsung,exynos5433-mfc" for MFC v8 present in Exynos5433 SoC
++	(g) "samsung,mfc-v10" for MFC v10 present in Exynos7880 SoC
+ 
+   - reg : Physical base address of the IP registers and length of memory
+ 	  mapped region.
+-- 
+2.17.1
 
-Detailed results are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Thursday.log
-
-Detailed regression test results are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Thursday-test-media.log
-https://hverkuil.home.xs4all.nl/logs/Thursday-test-media-32.log
-https://hverkuil.home.xs4all.nl/logs/Thursday-test-media-dmesg.log
-
-Full logs are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Thursday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-https://hverkuil.home.xs4all.nl/spec/index.html
