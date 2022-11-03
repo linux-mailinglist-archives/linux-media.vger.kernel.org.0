@@ -2,348 +2,174 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1D661617967
-	for <lists+linux-media@lfdr.de>; Thu,  3 Nov 2022 10:10:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 15D2B6179CD
+	for <lists+linux-media@lfdr.de>; Thu,  3 Nov 2022 10:25:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229850AbiKCJKC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 3 Nov 2022 05:10:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33486 "EHLO
+        id S230525AbiKCJZQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 3 Nov 2022 05:25:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44008 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229598AbiKCJKA (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Nov 2022 05:10:00 -0400
-Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D4F6E65A4
-        for <linux-media@vger.kernel.org>; Thu,  3 Nov 2022 02:09:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1667466599; x=1699002599;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=PmyqGD6pxahxNa4zD9qpzrkdY8AmWU/LzQ+GUOdmITY=;
-  b=NJ8JMF+nuMghFBSumm4MubheeKbNN6d4PQEy7yunjrGZk6w5khDE+ahj
-   eQ4yPeEMQ21aoYEVJYww9DF0w+4QVwkDBsUHgFaayHHh4G8D+dK4sPgQS
-   +f2WT6oatnoeDLV5bj1Hp85/zNoRUkC+UEiObaOtYquFBdXpxPiCccrHT
-   cscZiK4QDkgKUW4J/LognGfnHiQPYvSpm4mWCNECEblxS/0lfSVlIOo32
-   yAxRIWBFDY84vV4VVH6bg4ThVRlJMJ+nG+dRy3fryGQQz3yU4JuXHK8wR
-   Pe2hQdWWF0KFjBpSw5TkcSoJfeubTb0tIWorQIQ2ns5u+kYEoydfaPxPz
-   w==;
-X-IronPort-AV: E=Sophos;i="5.95,235,1661810400"; 
-   d="scan'208";a="27129829"
-Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
-  by mx1-pgp.tq-group.com with ESMTP; 03 Nov 2022 10:09:57 +0100
-Received: from mx1.tq-group.com ([192.168.6.7])
-  by tq-pgp-pr1.tq-net.de (PGP Universal service);
-  Thu, 03 Nov 2022 10:09:57 +0100
-X-PGP-Universal: processed;
-        by tq-pgp-pr1.tq-net.de on Thu, 03 Nov 2022 10:09:57 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1667466597; x=1699002597;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=PmyqGD6pxahxNa4zD9qpzrkdY8AmWU/LzQ+GUOdmITY=;
-  b=KiMDnnZCTDwvOeG3AExs/UKLBQOzjsC6IRGl+hs/aeu8QpMTKK8oF2gM
-   +Pg13KPZ88eknh3lI7W7ash2fwqozvABW8mHOKS0ET3nWIqJZ9MaoO79H
-   Dal/QNxdjf5fb5cjaJhAGwEn2MrYIMAyxZtNY45Yq2pdx0pNkgOE/RVp3
-   VL0Q0dURxa2oKa8wBVASO1AUqFUauOZ2lgp3980C/zdBZX8IAxOfHRyv8
-   MOqMwPWY9BvxcTpSSw6OZh7ldgbQj9Ny2eW485xkH8jsrc73t1RPIstK3
-   B3BcKe7Jd8wz6yXzIVtduYk+G2ejp1M15tVGFLCOLKly4YLakrPqgHyy8
-   w==;
-X-IronPort-AV: E=Sophos;i="5.95,235,1661810400"; 
-   d="scan'208";a="27129828"
-Received: from vtuxmail01.tq-net.de ([10.115.0.20])
-  by mx1.tq-group.com with ESMTP; 03 Nov 2022 10:09:56 +0100
-Received: from steina-w.localnet (unknown [10.123.53.21])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-        (No client certificate requested)
-        by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 85638280056;
-        Thu,  3 Nov 2022 10:09:56 +0100 (CET)
-From:   Alexander Stein <alexander.stein@ew.tq-group.com>
-To:     Dave Stevenson <dave.stevenson@raspberrypi.com>
-Cc:     sakari.ailus@iki.fi, paul.j.murphy@intel.com,
-        daniele.alessandrelli@intel.com, linux-media@vger.kernel.org,
-        jacopo@jmondi.org
-Subject: Re: [PATCH v2 15/16] media: i2c: ov9282: Add support for 8bit readout
-Date:   Thu, 03 Nov 2022 10:09:56 +0100
-Message-ID: <3704299.R56niFO833@steina-w>
-Organization: TQ-Systems GmbH
-In-Reply-To: <CAPY8ntC8iCy2S-AEV808k2yCmnQxiZzR7vQJZ1E+PcdjQJL9aw@mail.gmail.com>
-References: <20221028160902.2696973-1-dave.stevenson@raspberrypi.com> <1742759.VLH7GnMWUR@steina-w> <CAPY8ntC8iCy2S-AEV808k2yCmnQxiZzR7vQJZ1E+PcdjQJL9aw@mail.gmail.com>
+        with ESMTP id S230478AbiKCJYX (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Nov 2022 05:24:23 -0400
+Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com [210.118.77.12])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 74F88DF87
+        for <linux-media@vger.kernel.org>; Thu,  3 Nov 2022 02:24:18 -0700 (PDT)
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+        by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id 20221103092416euoutp022619f874535ad9a58f975b4134136767~kCNEgsHv30938809388euoutp02c
+        for <linux-media@vger.kernel.org>; Thu,  3 Nov 2022 09:24:16 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com 20221103092416euoutp022619f874535ad9a58f975b4134136767~kCNEgsHv30938809388euoutp02c
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+        s=mail20170921; t=1667467456;
+        bh=Ddh26orYRAYNJerEl/3JP/sYHJVF9lF3hIUMDAi0xyA=;
+        h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
+        b=ExjR063UpBxqGmFl2hOQq+tHMHnAgVdxE6qX5Oa4waIdRVVPkH320CfH4Bv5+E1hq
+         gQofJvq3w3eLnzSElUxmNayD+2gLpoZ2ZluHM9jt66HEMZriNHCYnoV33SYNNqQ+I/
+         ZMT84oTLqHpWfuxKbpAUi+zI5gveOeD6TeNhAR3I=
+Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
+        eucas1p1.samsung.com (KnoxPortal) with ESMTP id
+        20221103092415eucas1p116ab2f43d2b6cae938a0dfe7a19c93d8~kCND_YxIm0690006900eucas1p1W;
+        Thu,  3 Nov 2022 09:24:15 +0000 (GMT)
+Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
+        eusmges1new.samsung.com (EUCPMTA) with SMTP id 48.B8.29727.FB883636; Thu,  3
+        Nov 2022 09:24:15 +0000 (GMT)
+Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
+        eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+        20221103092414eucas1p238e12476df9f45bc1ed0871dac7e11e9~kCNC59WaA2630526305eucas1p25;
+        Thu,  3 Nov 2022 09:24:14 +0000 (GMT)
+Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
+        eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
+        20221103092414eusmtrp15dea484713ffc314402ac426648a7727~kCNC42TDE0963009630eusmtrp1d;
+        Thu,  3 Nov 2022 09:24:14 +0000 (GMT)
+X-AuditID: cbfec7f2-205ff7000001741f-0a-636388bfa880
+Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
+        eusmgms1.samsung.com (EUCPMTA) with SMTP id FD.C5.07473.EB883636; Thu,  3
+        Nov 2022 09:24:14 +0000 (GMT)
+Received: from [106.210.134.192] (unknown [106.210.134.192]) by
+        eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
+        20221103092413eusmtip16c4d5fcf9ede54be69536950aec347a7~kCNByeUzJ1461114611eusmtip1M;
+        Thu,  3 Nov 2022 09:24:13 +0000 (GMT)
+Message-ID: <3580cfe7-a5a5-e81d-ce45-572b6bf3dde8@samsung.com>
+Date:   Thu, 3 Nov 2022 10:24:13 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0)
+        Gecko/20100101 Thunderbird/102.4.1
+Subject: Re: [PATCH 1/3] arm64: exynos: Add new compatible string for
+ Exynos3250 SoC.
+Content-Language: en-US
+To:     Aakarsh Jain <aakarsh.jain@samsung.com>,
+        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
+Cc:     andrzej.hajda@intel.com, mchehab@kernel.org,
+        hverkuil-cisco@xs4all.nl, ezequiel@vanguardiasur.com.ar,
+        jernej.skrabec@gmail.com, benjamin.gaignard@collabora.com,
+        krzysztof.kozlowski+dt@linaro.org, stanimir.varbanov@linaro.org,
+        dillon.minfei@gmail.com, david.plowman@raspberrypi.com,
+        mark.rutland@arm.com, robh+dt@kernel.org, krzk+dt@kernel.org,
+        andi@etezian.org, alim.akhtar@samsung.com,
+        aswani.reddy@samsung.com, pankaj.dubey@samsung.com,
+        smitha.t@samsung.com
+From:   Marek Szyprowski <m.szyprowski@samsung.com>
+In-Reply-To: <20221102130602.48969-1-aakarsh.jain@samsung.com>
+Content-Transfer-Encoding: 7bit
+X-Brightmail-Tracker: H4sIAAAAAAAAA01SbUxTVxjeuff2tjSWXQqzZyqyNk43FnAYF0/CZnRhy3VfmmgwcSSzK3fI
+        Rgtri2UmizURKZWwbohKFYqAqKwBqVDAQdACgnxUEFM+pKJVqFSZQPGLbXVtr278e57nfZ/z
+        vO+bw8OFx8llvFSFmlEqpGkSkk9Yrzy3x7TqZLL3u3si0URjEQfdLrGSqPyZG0Pj5V4C2S7U
+        c1HdjRM4OtN5iYNM7XYOarjsIlDtfX91oMhJILepGqAp4y0S5d+/gyPLXQcHDV48SaK88/Uc
+        dHpoAEOVlr8xVFY/z0XZLe1c5Gy2AnTwUDu2SUSbS8yAbnRWAHqoYg6nm4xOLl3ePIXRlqpc
+        kh5zNJP0hYr9dHbHAkHn11UBWt8+RNJey0q6+7GXu02wi/9hMpOWupdRrt24m7/H3j1IZJRQ
+        Wc/cZqAFdQI9COFBaj188kjH1QM+T0idBdB0qpBkyTyAPnc/YIkXwMmZQvyV5bxtBmMLZwAs
+        ftFGsGQWwBNOV7BLQG2Erq5hLIAJahV8aNKRrB4GrxbdIwL4DSoZ/nHYGsTh1E7Yqm0BAYxT
+        Ijh6zxRMiKDMAM52ZAfnwKmbODzXdDr4EknFQf20PohD/GlPR/Qv3VGwYfokHjBAKp8PfRVj
+        GDt4AvQ+GQMsDoeezjoui1fAnoI8gjXkAFj61zjGEgOAWvfoS0c8HLMv+ON4/oh3Yc3Ftay8
+        Gd6+O0kEZEiFwuHpMHaIUPib9RjOygKoOyRku1dDY2f1f7GX+6/jBiAxLjqMcdEBjIvWMf6f
+        WwqIKiBiMlXyFEYVp2A0sSqpXJWpSImVpcstwP95e3ydc42g2DMbawMYD9gA5OGSCMH+vq9l
+        QkGy9Kd9jDL9G2VmGqOygeU8QiISkMejZUIqRapmfmCYDEb5qorxQpZpsS8nD+ckivVJe3Pf
+        KeyNF4Rt2B3z+4L587I+taYsyeMMfZgb2bfvVm2XOt9TMFxqX+Fo1nXlfWaMGOR8DOe1CUdX
+        hrdlv73DF779TU3GdG/7wKWdv0xcA+OcytVHv4uUpl1XrRc9iN2aNVOd7rYdmXPUikUqzZao
+        6CVNFFZ0kHp+LEJtEJ/9IElmfVE6Uiy+AX0FR1y7Rr+60nZgarmhJicqwTf+/WPD1SWKO6Ks
+        wR+f/vpey9LETyt/jpd3bG3o6DmQ07smKVKeuk1AI31N/EfktZHETZvX/Nm1zv2to/+Lc0Kx
+        LGNDy7rQf4wCV+vEW4+WZq163f3gtVOf3JQYYjxUmFkjIVR7pHHRuFIl/RfEFTCKKwQAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrJKsWRmVeSWpSXmKPExsVy+t/xu7r7OpKTDX7tlLN4umMmq8WDedvY
+        LBb/eM5kcX/xZxaLQ5u3sltsuTKb2WL58QOsFvOPnGO12H7wEYvFxhdA2Ysz77JYPJ+/jtHi
+        5ax7bBZ9Lx4yW2x6fI3V4vKuOWwWPRu2slosvX6RyWLZpj9MFou2fmG3aN17hN3i7p5tjBYt
+        bUeYHMQ91sxbw+ix4+4SRo/rSz4xe+ycdZfdY/Gel0wem1Z1snncubaHzWPzknqP1qO/WDz6
+        tqxi9Og6cp3N4/MmOY9TXz+zB/BG6dkU5ZeWpCpk5BeX2CpFG1oY6RlaWugZmVjqGRqbx1oZ
+        mSrp29mkpOZklqUW6dsl6GWcO3WZpWCeQMWP52sYGxi38HYxcnJICJhIbDj0gamLkYtDSGAp
+        o8S6Lx3MEAkZiZPTGlghbGGJP9e62CCK3jNKfN68iB0kwStgJ/HoxA0mEJtFQEXizfwONoi4
+        oMTJmU9Yuhg5OEQFUiS+nasDCQsLhEvsb9jLCGIzC4hL3HoyH2yxiMAaRomHK3aAOcwCt5kl
+        zq+fzA6xbSKjxKSW1SwgLWwChhJdb7vANnACbf5+swtqlJlE11YYW15i+9s5zBMYhWYhOWQW
+        ko2zkLTMQtKygJFlFaNIamlxbnpusaFecWJucWleul5yfu4mRmCa2Xbs5+YdjPNefdQ7xMjE
+        wXiIUYKDWUmEt/5sdLIQb0piZVVqUX58UWlOavEhRlNgaExklhJNzgcmurySeEMzA1NDEzNL
+        A1NLM2MlcV7Pgo5EIYH0xJLU7NTUgtQimD4mDk6pBqZFc4wm3Z24c+GHvlW3+TJXW+W23/NS
+        qG41vnN5xfxjErtuW875Z3L7rt6jqsse2t/6NjTurp796O1ffz3/z0cLL8dKrc3Yo8YQfj8x
+        I/iJu+ODOK6gGskzPzvYFn3h2y/xnbVikcHOjUse6G4S/7bkXW/mVS3vhi+X0r13nFcXOxLd
+        sIe/QzNW11lZf7U4i7245U+pgy3HgusfMQhfmvQh9G2fVN0ZA2G5aYu0bjuyXNQJVrr467DU
+        okTvSrZll1sui+zfpiunyfTsa4fLaee764IOBjszp1g1VzXr8D72fn7Q3CJLecNE1RKflykv
+        GPf3S4neP69xK/3OmUdf9p8QjXl7M279jLlXqnfGpxUosRRnJBpqMRcVJwIAHN0NR7wDAAA=
+X-CMS-MailID: 20221103092414eucas1p238e12476df9f45bc1ed0871dac7e11e9
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-RootMTR: 20221102125810epcas5p36e6caf41f602debe17f25f13969fd6dc
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20221102125810epcas5p36e6caf41f602debe17f25f13969fd6dc
+References: <CGME20221102125810epcas5p36e6caf41f602debe17f25f13969fd6dc@epcas5p3.samsung.com>
+        <20221102130602.48969-1-aakarsh.jain@samsung.com>
+X-Spam-Status: No, score=-8.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_HI,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Dave,
+Hi
 
-Am Dienstag, 1. November 2022, 19:20:47 CET schrieb Dave Stevenson:
-> Hi Alexander
-> 
-> On Tue, 1 Nov 2022 at 15:04, Alexander Stein
-> 
-> <alexander.stein@ew.tq-group.com> wrote:
-> > Hi Dave,
-> > 
-> > thanks for the fast reply.
-> > 
-> > Am Dienstag, 1. November 2022, 14:47:16 CET schrieb Dave Stevenson:
-> > > Hi Alexander
-> > > 
-> > > On Tue, 1 Nov 2022 at 11:59, Alexander Stein
-> > > 
-> > > <alexander.stein@ew.tq-group.com> wrote:
-[snip]
-> > > > Using this series I was able to do some camera playback on LVDS
-> > > > display on
-> > > > imx8mm based platform (TQMa8MxML). My command was 'gst-launch-1.0
-> > > > v4l2src
-> > > > device=/dev/video0 ! video/x-
-> > > > raw,format=GRAY8,bpp=8,width=1280,height=720,framerate=30/1 !
-> > > > videoconvert
-> > > > ! waylandsink'
-> > > > But due to SW colorspace conversion this is awfully slow.
-> > > > Using a testsink I get about 72FPS on 1280x720 for GREY. Is this to be
-> > > > expected?
-> > > > I used 'gst-launch-1.0 v4l2src device=/dev/video0 ! video/x-
-> > > > raw,format=GRAY8,bpp=8,width=1280,height=720,framerate=30/1 !
-> > > > fpsdisplaysink video-sink="testsink" text-overlay=false silent=false
-> > > > sync=false -v' for that.
-> > > 
-> > > AFAIK v4l2src doesn't map from a caps framerate=30/1 to the relevant
-> > > V4L2_CID_VBLANK and V4L2_CID_HBLANK controls used by raw sensors for
-> > > frame rate control (see docs at [1]). The sensor will therefore stream
-> > > at whatever rate the controls get left at.
-> > 
-> > Yes I noticed the framerate caps has no effect. But I lack some kind of
-> > reference system to decide what should work and what not.
-> 
-> As per the docs link, raw sensors will be using the HBLANK and VBLANK
-> controls, not VIDIOC_S_PARM.
-> I don't know whether the GStreamer folks wish to add support to
-> v4l2src to set those - libcamerasrc is going to be the more normal
-> user of these sensors, but that generally means needing an ISP of some
-> form. With just v4l2src you've got no AE / AGC control loops, so it is
-> only of use in controlled lighting conditions.
+On 02.11.2022 14:06, Aakarsh Jain wrote:
+> Exynos3250 uses the same compatible as Exynos5420, but both
+> the MFC IPs found in these SoC are different interms of clock
+> property. So using same compatible for both SoC is not correct.
+> Lets have a separate compatible for Exynos3250 and Exynos5420
+> to differentiate these SoCs.
+>
+> Suggested-by: Alim Akhtar <alim.akhtar@samsung.com>
+> Signed-off-by: Aakarsh Jain <aakarsh.jain@samsung.com>
 
-I am aware that v4l2src is rather some raw accessor to cameras. What video 
-format is libcamerasrc supposed to provide? Raw formats (Y8, bayer patterns) 
-or already converted to RBGA etc.?
+Minor issue, Exynos3250 is based on ARM 32bit not ARM 64bit (see the 
+patch subject).
 
-> I don't know the full details of the imx8 range, but believe the
-> libcamera folk were working with one of the imx8 platforms.
+> ---
+>   Documentation/devicetree/bindings/media/s5p-mfc.txt | 7 ++++---
+>   1 file changed, 4 insertions(+), 3 deletions(-)
+>
+> We are already in process of converting this txt file to yaml.
+> https://patchwork.kernel.org/project/linux-media/patch/
+> 20221011122516.32135-2-aakarsh.jain@samsung.com/
+> modifying this txt binding for completeness.
+>
+> diff --git a/Documentation/devicetree/bindings/media/s5p-mfc.txt b/Documentation/devicetree/bindings/media/s5p-mfc.txt
+> index aa54c8159d9f..4ff1898e5a51 100644
+> --- a/Documentation/devicetree/bindings/media/s5p-mfc.txt
+> +++ b/Documentation/devicetree/bindings/media/s5p-mfc.txt
+> @@ -11,9 +11,10 @@ Required properties:
+>   	(a) "samsung,mfc-v5" for MFC v5 present in Exynos4 SoCs
+>   	(b) "samsung,mfc-v6" for MFC v6 present in Exynos5 SoCs
+>   	(c) "samsung,mfc-v7" for MFC v7 present in Exynos5420 SoC
+> -	(d) "samsung,mfc-v8" for MFC v8 present in Exynos5800 SoC
+> -	(e) "samsung,exynos5433-mfc" for MFC v8 present in Exynos5433 SoC
+> -	(f) "samsung,mfc-v10" for MFC v10 present in Exynos7880 SoC
+> +	(d) "samsung,exynos3250-mfc" for MFC v7 present in Exynos3250 SoC
+> +	(e) "samsung,mfc-v8" for MFC v8 present in Exynos5800 SoC
+> +	(f) "samsung,exynos5433-mfc" for MFC v8 present in Exynos5433 SoC
+> +	(g) "samsung,mfc-v10" for MFC v10 present in Exynos7880 SoC
+>   
+>     - reg : Physical base address of the IP registers and length of memory
+>   	  mapped region.
 
-If an ISP is required then it will probably be imx8mp.
-
-> > > I'm assuming you're not using Media Controller either, as v4l2src
-> > > won't set up Media Controller links correctly either.
-> > 
-> > Well, actually I am using Media Controller. But I need to configure it
-> > before gstreamer usage. There is no specific reason for gstreamer, but we
-> > use this to verify features on downstream kernel.
-> > 
-> > For completeness here is one of my media-ctl setup:
-> > media-ctl -l "'ov9282 2-0060':0->'csis-32e30000.mipi-csi':0 [1]"
-> > media-ctl -V "'ov9282 2-0060':0 [fmt:Y8_1X8/1280x720 field:none
-> > colorspace:raw]"
-> > media-ctl -V "'csi':0 [fmt:Y8_1X8/1280x720 field:none colorspace:raw]"
-> > v4l2-ctl -d0 --set-fmt-video
-> > width=1280,height=720,pixelformat='GREY',field=none
-> > media-ctl -p
-> > 
-> > Media controller API version 6.1.0
-> > 
-> > Media device information
-> > ------------------------
-> > driver          imx7-csi
-> > model           imx-media
-> > serial
-> > bus info        platform:32e20000.csi
-> > hw revision     0x0
-> > driver version  6.1.0
-> > 
-> > Device topology
-> > - entity 1: csi (2 pads, 2 links)
-> > 
-> >             type V4L2 subdev subtype Unknown flags 0
-> >             device node name /dev/v4l-subdev0
-> >         
-> >         pad0: Sink
-> >         
-> >                 [fmt:Y8_1X8/1280x720 field:none colorspace:raw xfer:none
-> > 
-> > ycbcr:601 quantization:full-range]
-> > 
-> >                 <- "csis-32e30000.mipi-csi":1 [ENABLED,IMMUTABLE]
-> >         
-> >         pad1: Source
-> >         
-> >                 [fmt:Y8_1X8/1280x720 field:none colorspace:raw xfer:none
-> > 
-> > ycbcr:601 quantization:full-range]
-> > 
-> >                 -> "csi capture":0 [ENABLED,IMMUTABLE]
-> > 
-> > - entity 4: csi capture (1 pad, 1 link)
-> > 
-> >             type Node subtype V4L flags 0
-> >             device node name /dev/video0
-> >         
-> >         pad0: Sink
-> >         
-> >                 <- "csi":1 [ENABLED,IMMUTABLE]
-> > 
-> > - entity 10: csis-32e30000.mipi-csi (2 pads, 2 links)
-> > 
-> >              type V4L2 subdev subtype Unknown flags 0
-> >              device node name /dev/v4l-subdev1
-> >         
-> >         pad0: Sink
-> >         
-> >                 [fmt:Y8_1X8/1280x720 field:none colorspace:raw xfer:none]
-> >                 <- "ov9281 2-0060":0 [ENABLED]
-> >         
-> >         pad1: Source
-> >         
-> >                 [fmt:Y8_1X8/1280x720 field:none colorspace:raw xfer:none]
-> >                 -> "csi":0 [ENABLED,IMMUTABLE]
-> > 
-> > - entity 15: ov9282 2-0060 (1 pad, 1 link)
-> > 
-> >              type V4L2 subdev subtype Sensor flags 0
-> >              device node name /dev/v4l-subdev2
-> >         
-> >         pad0: Source
-> >         
-> >                 [fmt:Y8_1X8/1280x720 field:none colorspace:raw xfer:none
-> >                 
-> >                  crop.bounds:(8,8)/1280x800
-> >                  crop:(8,8)/1280x720]
-> >                 
-> >                 -> "csis-32e30000.mipi-csi":0 [ENABLED]
-> > > 
-> > > Running a Raspberry Pi in the same non-Media Controller mode:
-> > > v4l2-ctl -v width=1280,height=800,pixelformat=Y10P
-> > > v4l2-ctl --stream-mmap=3 --stream-count=1000 --stream-to=/dev/null
-> > > gives me 60.28fps.
-> > > 
-> > > HBLANK defaults to 176, and VBLANK to 1022:
-> > > 160MPix/s / ((1280+176) * (800+1022)) = 60.3fps.
-> > > 
-> > > v4l2-ctl -v width=1280,height=800,pixelformat=GREY
-> > > v4l2-ctl --stream-mmap=3 --stream-count=1000 --stream-to=/dev/null
-> > > Gives me 72.33fps as neither HBLANK nor VBLANK have been altered, but
-> > > V4L2_CID_PIXEL_RATE has been increased.
-> > > 
-> > > Run the numbers the other way for eg 120fps
-> > > 200MPix/s / ( 120fps * (width 1280 + HBLANK 176)) - height (800) =
-> > > VBLANK =
-> > > 344 v4l2-ctl --set-ctrl=vertical_blanking=344
-> > > Streaming with that gives me 115.17fps, so you're now making me
-> > > question the Y8 pixel rate.
-> > > 192MPix/s appears to be the right value to make the numbers work.
-> > 
-> > Mh, using v4l2-ctl --set-ctrl=vertical_blanking=344 -d /dev/v4l-subdev2 I
-> > get 109.61fps for 1280x800.
-> 
-> The sensor has an external clock signal (XVCLK) which can be between 6
-> and 27MHz. The driver only supports 24MHz. Is your module using a
-> 24MHz clock?
-
-Well, I assume it is. We are using an OV9281 camera from vision components.
-
-> > > I don't recall where I'd got the 200MPix/s value from - it's not
-> > > documented in the datasheet, but presumably from 160 * 10 / 8
-> > > (switching from 10 to 8 bits at the same output rate). You're the
-> > > first to notice the rates are off, although at least it's less than
-> > > the factor of two that this driver used to be out by.
-> > 
-> > I admit I'm not fully sure which results are correct and what they are
-> > 
-> > expected to be. But here are some results using the v4l-ctrl approach:
-> >      | 1280x800 | 1280x720 | 640x400 |
-> > 
-> > -----+----------+----------+---------+
-> > GREY |  68.84   |   72.0   |  73.50  |
-> > Y10  |  57.37   |   60.0   |  73.50  |
-> > 
-> > All using their default vertical and horizontal blanking. Especially
-> > switching to 640x400 and then back to 1280x720 leaves the
-> > horizontal_blanking to the old (640) value, resulting in lower frame
-> > rates.
-> 
-> IMHO This isn't clear in the docs.
-> My understanding is that controls shouldn't change value when changing
-> modes unless the new mode requires updating the range for the control
-> such that the current value is invalid. This does mean that the
-> framerate will change if you change modes without reprogramming, but
-> what heuristics should be used if you did update it?
-
-For 1280 the default horizontal_blanking is 250, but when changing to 640 the 
-minimum also increased to 890. When switching back horizontal_blanking stays 
-at 890, as it is still a valid value.
-
-> Options:
-> 1) retain the current frame rate by recomputing VBLANK, but there will
-> be conditions where you can't achieve the same frame rate in all
-> modes.
-> 2) reset to a default frame rate, but how do you define that? Do you
-> have to detect change of mode vs just calling S_FMT with the same
-> mode?
-> 3) adjust the limits but otherwise leave the control alone.
-> 4) as 3, but update the default value to reflect some standard
-> framerate (but how do you define that standard?)
-> 
-> Different sensors are currently doing different things, so the only
-> approach you can really take is for userspace to set the controls
-> explicitly after setting a mode.
-
-I'm not sure what is the best way to go, all options have different use cases 
-in mind. At least one should be aware that some controls might change when 
-switching modes.
-
-> Sakari will normally point to the CCS driver as a model for raw
-> sensors, and that appears to adopt option 3. There was a thread with
-> Jacopo recently over this same subject, but no resolution. I think it
-> was on the ar0521 patchset.
-> 
-> Clean boot and testing in this order:
-> - 1280x720 Y10P 63.05fps
-> - 1280x800 Y10P 60.28fps
-> - 640x400 Y10P 77.22fps
-> Reboot so that the HBLANK change is reset
-> - 1280x720 GREY 75.65fps
-> - 1280x800 GREY 72.33fps
-> - 640x400 GREY 92.67fps.
-> 
-> I don't believe your GREY 640x400 number as it's the same as your
-> 640x400 Y10 value, but all your other values except 1280x800 Y10
-> differ from mine by a factor of 1.0507. (1280x800 Y10 is x1.099).
-> I'd suggest measuring your XVCLK clock signal with an oscilloscope or
-> frequency counter as I suspect it isn't 24MHz. 22.8MHz would give
-> these results, but is a slightly strange frequency if from a dedicated
-> oscillator rather than a PLL.
-
-I lack technical documentation for the camera hardware module, so I do not see 
-a way to actually measuring XVCLK. AFAIK there is also an FPGA mounted which 
-might affect the clock frequency as well.
-
-> Adding support for additional XVCLK frequencies isn't a huge task, but
-> involves computing the internal PLL settings. My datasheet only gives
-> settings for 24MHz, so it'd be back to the basic principles of PLL
-> config to do it.
-
-Until things are more clear I would skip that for now as this module should be 
-running on a 24 MHz, I assume.
-
-Best regards,
-Alexander
-
-
+Best regards
+-- 
+Marek Szyprowski, PhD
+Samsung R&D Institute Poland
 
