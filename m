@@ -2,476 +2,172 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 951C1617BE6
-	for <lists+linux-media@lfdr.de>; Thu,  3 Nov 2022 12:50:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4E174617C45
+	for <lists+linux-media@lfdr.de>; Thu,  3 Nov 2022 13:14:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231310AbiKCLux (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 3 Nov 2022 07:50:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57130 "EHLO
+        id S231526AbiKCMN6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 3 Nov 2022 08:13:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41728 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230047AbiKCLuv (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Nov 2022 07:50:51 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 658A812610;
-        Thu,  3 Nov 2022 04:50:49 -0700 (PDT)
-Received: from [192.168.1.15] (91-154-32-225.elisa-laajakaista.fi [91.154.32.225])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id EC859589;
-        Thu,  3 Nov 2022 12:50:45 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1667476247;
-        bh=ppvC5YXRsAbBAqn1q/GmSN9B9YazpDNA2LjXLWMhHD0=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=KhmrHv4Acw5wPTJx2UqJKfyefJd+AOP5ANQ5y/GToXVqJIUX06XqAKhAfTnHwydZo
-         zHe4dGUMwnXhuWa25gveCi5TxcELNJ2So2ji8JVLMmIliOm9cOTJbbOeGC0WV7mUo4
-         UyP65G1nB4AMRIueaiL4w6jCaT8wzEl1VTjslcqE=
-Message-ID: <6c254d5f-9fa1-b06a-4edb-7e58e4b33101@ideasonboard.com>
-Date:   Thu, 3 Nov 2022 13:50:43 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH v4 3/8] dt-bindings: media: add bindings for TI DS90UB960
-Content-Language: en-US
-To:     Rob Herring <robh@kernel.org>
-Cc:     devicetree@vger.kernel.org, linux-i2c@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        with ESMTP id S230500AbiKCMN5 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Nov 2022 08:13:57 -0400
+Received: from DEU01-FR2-obe.outbound.protection.outlook.com (mail-fr2deu01on2105.outbound.protection.outlook.com [40.107.135.105])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0B2C6103B;
+        Thu,  3 Nov 2022 05:13:56 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Cmrj8AvS0e7ULtAjV2GS7nE60RJkNGsV3ooQmn0zz7I+EpacOVpZleZBWEfqCSeIu8R4hu6Tls2bPkIfMsTiQyC5O9qUPXDy/wLYR6ed17PHt+7CtqcVe8PFlFjXm9Z9IYcMGTNpCUOWEg95RgU16VvlHmr8UQUqoCaAJWPB3hBApxEyzv4kCWNwUWrMU6pDcsV906GP4BFXur4chy3U6PbuslQqEESBlw4g3+DZx+wYrzckD/8GO6mPhQ4zJh8vGMs0S6hPt2FSXKui/Losr2gt1RNvicAQfMOby4vvi2fuEAMWuFSnItAJDowGAjup1wevrcg1S+G6HAGiq4k1nQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ZgokyizebqORzoLoaIFEmUxVanaOwX06ALg/r4sCffI=;
+ b=D9ZF8coCuD/MALBhvMzpESrA4x8LlYh6QzsOAL8lobwHqGTJI7E084IW/JVzfccRiX8VMsMQUwhriQNdVjO8adBCwL6vzuZKHaaJzXeZDontifLI+SaIjzK9i6XDvvvFTTB4tZudHjso3p9SWN/O1Abypzjdwfl//Oejeg2rPDJflRaQn44n2Ns0PJA8BqZmMd5j5n1R8hcdH5NuXZ+rsgE3pxtnMBk87hs0OnjFYBdTfzTel4kjg5AWjtLM/BzfAB2qLfaimtC4GA3OcY6x+ub78TFyJP6Xk2C23m2Nhnt0YY6NA1wN9fxrHZE6I/XH4tOsQYaeHeFzfb5O3RwYFQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=fi.rohmeurope.com; dmarc=pass action=none
+ header.from=fi.rohmeurope.com; dkim=pass header.d=fi.rohmeurope.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=rohmsemiconductor.onmicrosoft.com;
+ s=selector2-rohmsemiconductor-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ZgokyizebqORzoLoaIFEmUxVanaOwX06ALg/r4sCffI=;
+ b=Awcp52mQPeR6+aoQZLeVYHoavef0d8BrJF0MD1TOxUFCrQf9NpwA0FeZftI61zPJaQUKMe5tpeJNpPp8RTaHxYFPTnH48nAhw/G/1wBpNod0lcc8y9/xS1sy1RLlD/gDD0JSEyrO+BdCww5YDYjkZK9+eGSBLrXl3UkZAG1Sun8=
+Received: from BEZP281MB2454.DEUP281.PROD.OUTLOOK.COM (2603:10a6:b10:59::10)
+ by FR0P281MB1531.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10:6e::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5791.20; Thu, 3 Nov
+ 2022 12:13:50 +0000
+Received: from BEZP281MB2454.DEUP281.PROD.OUTLOOK.COM
+ ([fe80::33b1:3599:eb56:8fd2]) by BEZP281MB2454.DEUP281.PROD.OUTLOOK.COM
+ ([fe80::33b1:3599:eb56:8fd2%4]) with mapi id 15.20.5791.020; Thu, 3 Nov 2022
+ 12:13:50 +0000
+From:   "Vaittinen, Matti" <Matti.Vaittinen@fi.rohmeurope.com>
+To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+        Rob Herring <robh@kernel.org>
+CC:     "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Jacopo Mondi <jacopo@jmondi.org>,
         Kieran Bingham <kieran.bingham@ideasonboard.com>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Luca Ceresoli <luca@lucaceresoli.net>,
         Mark Rutland <mark.rutland@arm.com>,
-        Matti Vaittinen <Matti.Vaittinen@fi.rohmeurope.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Peter Rosin <peda@axentia.se>,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
         Vladimir Zapolskiy <vz@mleia.com>,
         Wolfram Sang <wsa@the-dreams.de>,
-        satish.nagireddy@getcruise.com
+        "satish.nagireddy@getcruise.com" <satish.nagireddy@getcruise.com>
+Subject: Re: [PATCH v4 3/8] dt-bindings: media: add bindings for TI DS90UB960
+Thread-Topic: [PATCH v4 3/8] dt-bindings: media: add bindings for TI DS90UB960
+Thread-Index: AQHY7fTOttfBC2Q2XkKifJZf/uHjg64r5JMAgAE0hICAAAZ0gA==
+Date:   Thu, 3 Nov 2022 12:13:50 +0000
+Message-ID: <fb9e9d5e-9c8b-1ce2-5723-efa498d1ba93@fi.rohmeurope.com>
 References: <20221101132032.1542416-1-tomi.valkeinen@ideasonboard.com>
  <20221101132032.1542416-4-tomi.valkeinen@ideasonboard.com>
  <20221102172630.GA4140587-robh@kernel.org>
-From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-In-Reply-To: <20221102172630.GA4140587-robh@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+ <6c254d5f-9fa1-b06a-4edb-7e58e4b33101@ideasonboard.com>
+In-Reply-To: <6c254d5f-9fa1-b06a-4edb-7e58e4b33101@ideasonboard.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.0
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=fi.rohmeurope.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: BEZP281MB2454:EE_|FR0P281MB1531:EE_
+x-ms-office365-filtering-correlation-id: 4e7e68fb-c067-4e0f-16a5-08dabd94ddf1
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: DN+sAf5dI/dxlGp7A9EjuN/78pRuy1GSJUjyfrkS9CwC3osKlfcLAW7APejC7kWzvolp2o51TGhDfpm3Wp81JzG8lqdeLjBTKxUeXDLVeUsCUOrvm/zuvsxxY7dYqNUuWvl2gn/fFyHKwJvDa4HvfdOJFwRnW+L1KfXIBYlKDYEDlnJEdiVmGZYuXXiXutH6zVG0MCDUVnbKGVq6CgxVAZtbe1OiQ8GPp0m9eO2M7mg2ZadVIhjOprO88YO9lU6SJOMXJXZhIyXgJTJ2IB57t023GDA2Kax5AdIxWMvoldvmdlI8Kw44WrJWkyWHTzzFYkYlgU4NZdsynCwXN+WYsrSmc1SrdHOjF4SjGnUyOnvkCxMEH/aB06oiHW1rykAqGMbDsouWQPQrXMaNxdbeBIZeE/wO+QFoaZVQ1X/l0liv+BNLOCx8kuHVcJG0699dS8HobItJwJuFUXr0XY36CZqZBdAKAcu95qciek9egX4d+l4Ol7zi8dORdP6YWAH3Sx+ICo2kxwjepPbzRR68xZw60dTecxohHeP02Y2TU5Q67cSn7R8tl1ZMISk1e7SL8xGcoMqbjYxiap0hA6K8lqRywhnxaLhXwlO7TLBIFibn5BRFN/ksTlXY1uPzh4TXgUj6Lux8P1s455zynVPWIQATEIWyEPqMoXc7hF6BtVWqptdGy7LBIuTmaKrF+cqjUxe0PNn4U6jPCaRjhn7I/vnz31zCjnlKKBEhrgt0CKKajL8NXBAHC4MZq6iVrkmf1Sd8l0XplHmX1LcJvpy5u9MBqxMd9VofX48txFqvo+7MEUt/VFYJwx/P5eD2nghZJcF9/51/UX0sgfLGYcaqyA==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BEZP281MB2454.DEUP281.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230022)(4636009)(136003)(366004)(396003)(39850400004)(376002)(346002)(451199015)(41300700001)(316002)(2906002)(8936002)(91956017)(66946007)(66556008)(66446008)(66476007)(64756008)(8676002)(186003)(76116006)(6486002)(7416002)(478600001)(110136005)(54906003)(71200400001)(4326008)(38070700005)(5660300002)(86362001)(31696002)(53546011)(122000001)(6506007)(6512007)(38100700002)(2616005)(31686004)(43740500002)(45980500001);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?aUF0UVN3N2Nnd3h0T1U1K0tXYVByU1hyeEZ3WFVid3JQRGw0SEw0YnJ1dDJG?=
+ =?utf-8?B?NnVrQ1FPS1RYWUJaV08zS1NnMWNQREFiK0ttcms4TENUNDB2WGpsNk81VGhm?=
+ =?utf-8?B?bVZHRDRHejA4aThtdFNXT2IzNWhpNVp0eFJRSTNGVitpYnVSQ0lHemQ1K0Er?=
+ =?utf-8?B?WE9SVS9PYWwraE91WUVLcGE1NW1iVkN1cWNxamQyTTl1Q2kvSXptZ0plL050?=
+ =?utf-8?B?b2NXVXgxVDNLbWdWRUdmVFJGZjVnNmZNOW1kNzd1alNCY1d6YWY1TlNqRndO?=
+ =?utf-8?B?YUkxN09zaHlDblQxc2pGcWJKTHJNaEhCQWIxTmZiQUVqREcybkJlcE9aOHdK?=
+ =?utf-8?B?QjlUQkRRSlhEU3lxblZJTGI5Q2RYQ05MYTlRRDNLMTRUS0tIc0VqQ2JSVGJQ?=
+ =?utf-8?B?YzBhcW5TY1M5ZWdOOTBkV3hnZnVTM1dReFFReDVoOGluVStKUG9RTnhicGta?=
+ =?utf-8?B?MGdQMmU2ZUhaZHQ0ZDZuOUxiZDhwdG9qOWMzeVhyNmVuZm1JaGhJRlpzL2tn?=
+ =?utf-8?B?WkJZRFVORE44SXk4SEJzbFIzN2c0SG56UHJNb2ZtOFdQUnRMTlBHVXZSb0dW?=
+ =?utf-8?B?WnRONENMMmR2THEzVmxEYi9EcXpna1JiTHp6czgxOGZHNmVGU1BlVE9hUWI4?=
+ =?utf-8?B?c1VJZWdGWVAxVXZqcStENmNRQU1uNHRUQ0lFWGErUmR3TTJEUmtMUDk2eld0?=
+ =?utf-8?B?MlNrZFNmZ2JlNFFpM2ViY3hwS2dTRXBtbTNqcFY1WVV4WWZYQkNjRUpzaGxs?=
+ =?utf-8?B?M3IrSEowciswSUc3Rmd4WFFMRVlkVG5uM213azFmZm5QVG8xVFNweGs5MFQ2?=
+ =?utf-8?B?SElFNTlYd3BqbVJNOXZlKzBoMGhaNWd6emtlVThrRFgxMFg5SUJIR3hra3hM?=
+ =?utf-8?B?dS96UUpiODZpN1ArdWZyWCtHS0FJWEtjUDNrTytGaENpQnhGbDJ5dE9yYlA0?=
+ =?utf-8?B?ZmlyU2wzUERYZjA2eDlNYjlKKy9tOGk3dTNDUjl4TTJOaVNiOGJVN3FRb2h4?=
+ =?utf-8?B?YzlyRzU2bDd2bzBQTXFySk9paE8yQkZHMG5oOGdQL205SUhqOXZFcjErZGpB?=
+ =?utf-8?B?SXcxZjB3MkVQY0FvN1R5Wm9BcUY3aXhCWWNBWTNFd2l3enlrM2RJdVJ4b01s?=
+ =?utf-8?B?MlB0eFM0YWhDSDZxVEdiaHdLTmFMSGhFdDVYZjZwRE1tb1pFSlhJc0JNcEZv?=
+ =?utf-8?B?Z1JsWXhCNGx2OTVkUzhNMHVXeVJmQk42V2tEMm1mZDNMV1BSSkVmMDlUWFZs?=
+ =?utf-8?B?YjNkWUhzTEE2d1NQa2dwdTlGeUd0QWMzUEZ1UitLSkVYRS9PQmpsTFl2K3da?=
+ =?utf-8?B?Q01RcGN4MGw1K2w2R09wa3RnVUFiWTkxdUFrZno1WGlwL0lJOHFNMVVjMUVq?=
+ =?utf-8?B?NWNJMloxVDEzSHoyRjFqbTRBZmJOTU45YjNyUlN5WGhwOTRlMmJlYm1RY1FV?=
+ =?utf-8?B?N1hjQms0MHYzYW1uZ0hVdm5ZYlBlLy9XSlBDQlhqN0F0NnQ5bWErcjlmMnlu?=
+ =?utf-8?B?dk9qTGpWTDc0S1Z5TjVYQVlhZzY3LzBnb1U1cTlDRXE2alhOcmRTQWlHWlpL?=
+ =?utf-8?B?L3Z4cHZzR1hnQ3IzS1Z2TWFQVXhPdms1ZWJZd01OU1M4aVV6UFJJUzdvblhX?=
+ =?utf-8?B?L0dFRWRkWkZETWplTEJOWVhDRHZrZlBtNHpwbk9adkMwY2hqNkc2S3RqM3Fy?=
+ =?utf-8?B?VXVRTHd6NTBGT25kWXA0UGx1WDRuSkpHaWozUVBJVS9VZktqREVYV2dWY055?=
+ =?utf-8?B?S3FTTXMyRzgxVHhJZG1Xa0Z5T2ZxZjc5Tlg3alQzVXU4cldSU3l1c1JFRVdx?=
+ =?utf-8?B?RXNXMFZEVFppWkVOZWRqZldBbS9wVGxzRWt6ZEkxYVpjZDNzbzN6aFdRaDlL?=
+ =?utf-8?B?ckxCaHBNdVJGUE03QWM1VmRwMDZpWHo5SjAzTEJ5Z1ZMN2JHOWlWM3lpNEJX?=
+ =?utf-8?B?NWkwbHhUb2ZINW83TWVJSGVkTkJUeWJWa0pYSDY5ZUlRVW5oVXpZZW9VWjdH?=
+ =?utf-8?B?UGxtYjkvNGdERGtKYStPcmRVSWhYSElSQ284bHBNUjNKVXRhNlZ5NkYzWGhM?=
+ =?utf-8?B?ZkNCSDkrT2QvQmRoNGF6QjlOemZZUk04OTVDOHVMMzRHOVR6TXFMV1VUdEl3?=
+ =?utf-8?B?SW9nNUNyTjNtcm56eGN5azdTK0RVanhyTHhxNVdVWWJWZzdPUFA3NDFtcnRp?=
+ =?utf-8?Q?E3zdNN6fPCIRrULC8dTre7I=3D?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <067EE51141C16B41B6B0673DE218D299@DEUP281.PROD.OUTLOOK.COM>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-OriginatorOrg: fi.rohmeurope.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BEZP281MB2454.DEUP281.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4e7e68fb-c067-4e0f-16a5-08dabd94ddf1
+X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Nov 2022 12:13:50.2408
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: b24d4f96-5b40-44b1-ac2e-2ed7fdbde1c7
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 7EGN0VGws7yM5Utps4g1D4r/QGd91+T2PAHAzWVgGWyJVMaesCnhMnJTgHHUrYq4sqCj+tQUEcME0UKqe7+InJ+1zbl3Ce4gBXRRWSpiXzjbUBh0FJzv2YItLboDhoeC
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: FR0P281MB1531
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Rob,
-
-On 02/11/2022 19:26, Rob Herring wrote:
-> On Tue, Nov 01, 2022 at 03:20:27PM +0200, Tomi Valkeinen wrote:
->> Add DT bindings for TI DS90UB960 FPDLink-3 Deserializer.
->>
->> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
->> ---
->>   .../bindings/media/i2c/ti,ds90ub960.yaml      | 392 ++++++++++++++++++
->>   1 file changed, 392 insertions(+)
->>   create mode 100644 Documentation/devicetree/bindings/media/i2c/ti,ds90ub960.yaml
->>
->> diff --git a/Documentation/devicetree/bindings/media/i2c/ti,ds90ub960.yaml b/Documentation/devicetree/bindings/media/i2c/ti,ds90ub960.yaml
->> new file mode 100644
->> index 000000000000..4456d9b3e2c7
->> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/media/i2c/ti,ds90ub960.yaml
->> @@ -0,0 +1,392 @@
->> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
->> +%YAML 1.2
->> +---
->> +$id: http://devicetree.org/schemas/media/i2c/ti,ds90ub960.yaml#
->> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->> +
->> +title: Texas Instruments DS90UB9XX Family FPD-Link Deserializer Hubs
->> +
->> +maintainers:
->> +  - Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
->> +
->> +description: |
-> 
-> Don't need '|'
-
-Hmm, ok... But why does that work? I can only find yaml examples for 
-multi-line with either | or >.
-
->> +  The TI DS90UB9XX devices are FPD-Link video deserializers with I2C and GPIO
->> +  forwarding.
->> +
->> +properties:
->> +  compatible:
->> +    enum:
->> +      - ti,ds90ub960-q1
->> +      - ti,ds90ub9702-q1
->> +
->> +  reg:
->> +    maxItems: 1
->> +    description:
->> +      i2c addresses for the deserializer and the serializers
->> +
->> +  reg-names:
->> +    items:
->> +      - const: main
-> 
-> 'reg-names' is not all that useful with only 1 entry.
-
-True.
-
->> +
->> +  clocks:
->> +    maxItems: 1
->> +    description:
->> +      Reference clock connected to the REFCLK pin.
->> +
->> +  clock-names:
->> +    items:
->> +      - const: refclk
->> +
->> +  powerdown-gpios:
->> +    maxItems: 1
->> +    description:
->> +      Specifier for the GPIO connected to the PDB pin.
->> +
->> +  i2c-alias-pool:
-> 
-> Something common or could be? If not, then needs a vendor prefix.
-
-I'll have to think about this. It is related to the i2c-atr, so I think 
-it might be a common thing.
-
->> +    $ref: /schemas/types.yaml#/definitions/uint16-array
->> +    description:
->> +      i2c alias pool for remote devices.
-> 
-> Needs a better description. What's an 'alias pool'?
-
-Right.
-
-"i2c alias pool is a pool of i2c addresses on the main i2c bus that can 
-be used to access the remote peripherals. Each remote peripheral is 
-assigned an alias from the pool, and transactions to that address will 
-be forwarded to the remote peripheral, with the address translated to 
-the remote peripheral's real address."
-
-> 0-0xffff are valid values?
-
-They are i2c addresses, and linux i2c uses u16 for addresses. Then 
-again, the fpdlink devices only support 7-bit addresses, so maybe this 
-could be an uint8 array. I am not sure what's the best way to define this.
-
->> +
->> +  links:
->> +    type: object
->> +    additionalProperties: false
->> +
->> +    properties:
->> +      '#address-cells':
->> +        const: 1
->> +
->> +      '#size-cells':
->> +        const: 0
->> +
->> +      manual-strobe:
->> +        type: boolean
->> +        description:
->> +          Enable manual strobe position and EQ level
->> +
->> +    patternProperties:
->> +      '^link@[0-9a-f]+$':
->> +        type: object
->> +        additionalProperties: false
->> +        properties:
->> +          reg:
->> +            description: The link number
->> +            maxItems: 1
->> +
->> +          i2c-alias:
-> 
-> Vendor prefix.
-> 
->> +            description: |
->> +              The i2c address used for the serializer. Transactions to this
->> +              address on the i2c bus where the deserializer resides are
->> +              forwarded to the serializer.
->> +
->> +          rx-mode:
-> 
-> Vendor prefix. And so on...
-
-Yes, I totally missed these.
-
->> +            $ref: /schemas/types.yaml#/definitions/uint32
->> +            enum:
->> +              - 0 # RAW10
->> +              - 1 # RAW12 HF
->> +              - 2 # RAW12 LF
->> +              - 3 # CSI2 SYNC
->> +              - 4 # CSI2 NON-SYNC
->> +            description: FPD-Link Input Mode
->> +
->> +          cdr-mode:
->> +            $ref: /schemas/types.yaml#/definitions/uint32
->> +            enum:
->> +              - 0 # FPD3
->> +              - 1 # FPD4
->> +            description: FPD-Link CDR Mode
->> +
->> +          strobe-pos:
->> +            $ref: /schemas/types.yaml#/definitions/int32
->> +            minimum: -13
->> +            maximum: 13
->> +            description: Manual strobe position, from -13 to 13
-> 
-> No need to put constraints in free form text.
-
-Ok.
-
->> +
->> +          eq-level:
->> +            $ref: /schemas/types.yaml#/definitions/uint32
->> +            maximum: 14
->> +            description: Manual EQ level, from 0 to 14
->> +
->> +          serializer:
->> +            type: object
->> +            description: FPD-Link Serializer node
->> +
->> +        required:
->> +          - reg
->> +          - i2c-alias
->> +          - rx-mode
->> +          - serializer
->> +
->> +  ports:
->> +    $ref: /schemas/graph.yaml#/properties/ports
->> +
->> +    properties:
->> +      port@0:
->> +        $ref: /schemas/graph.yaml#/$defs/port-base
-> 
->             additionalProperties: false
-
-This gives me check errors about the port's 'reg' property. Using 
-'unevaluatedProperties' works fine. Is 'unevaluatedProperties' correct, 
-or am I missing something here?
-
->> +        description: FPD-Link input 0
->> +
->> +        properties:
->> +          endpoint:
->> +            $ref: /schemas/media/video-interfaces.yaml#
-> 
->                 unevaluatedProperties: false
-> 
-> Same for the other port nodes
-
-Yep.
-
->> +
->> +      port@1:
->> +        $ref: /schemas/graph.yaml#/$defs/port-base
->> +        description: FPD-Link input 1
->> +
->> +        properties:
->> +          endpoint:
->> +            $ref: /schemas/media/video-interfaces.yaml#
->> +
->> +      port@2:
->> +        $ref: /schemas/graph.yaml#/$defs/port-base
->> +        description: FPD-Link input 2
->> +
->> +        properties:
->> +          endpoint:
->> +            $ref: /schemas/media/video-interfaces.yaml#
->> +
->> +      port@3:
->> +        $ref: /schemas/graph.yaml#/$defs/port-base
->> +        description: FPD-Link input 3
->> +
->> +        properties:
->> +          endpoint:
->> +            $ref: /schemas/media/video-interfaces.yaml#
->> +
->> +      port@4:
->> +        $ref: /schemas/graph.yaml#/$defs/port-base
->> +        description: CSI-2 Output 0
->> +
->> +        properties:
->> +          endpoint:
->> +            $ref: /schemas/media/video-interfaces.yaml#
->> +
->> +            properties:
->> +              clock-lanes:
->> +                maxItems: 1
->> +
->> +              data-lanes:
->> +                minItems: 1
->> +                maxItems: 4
-> 
-> Why the constraints on this endpoint? Are the other ones actually using
-> properties from video-interfaces.yaml? If not, then just reference
-> /properties/port and drop 'endpoint' instead.
-
-The ports 0-3 do not use any properties from video-interfaces.yaml, so 
-I'll drop the endpoint.
-
-Ports 4,5 are CSI-2 ports and need the clock-lanes and data-lanes to be 
-defined.
-
-Is there something wrong with the constraints, or were you just 
-wondering about the difference between ports 0-3 and 4,5
-
->> +
->> +      port@5:
->> +        $ref: /schemas/graph.yaml#/$defs/port-base
->> +        description: CSI-2 Output 1
->> +
->> +        properties:
->> +          endpoint:
->> +            $ref: /schemas/media/video-interfaces.yaml#
->> +
->> +            properties:
->> +              clock-lanes:
->> +                maxItems: 1
->> +
->> +              data-lanes:
->> +                minItems: 1
->> +                maxItems: 4
->> +
->> +required:
->> +  - compatible
->> +  - reg
->> +  - clocks
->> +  - clock-names
->> +  - ports
->> +
->> +additionalProperties: false
->> +
->> +examples:
->> +  - |
->> +    #include <dt-bindings/gpio/gpio.h>
->> +
->> +    i2c {
->> +      clock-frequency = <400000>;
->> +      #address-cells = <1>;
->> +      #size-cells = <0>;
->> +
->> +      deser@3d {
->> +        compatible = "ti,ds90ub960-q1";
->> +
->> +        reg-names = "main";
->> +        reg       = <0x3d>;
->> +
->> +        clock-names = "refclk";
->> +        clocks = <&fixed_clock>;
->> +
->> +        powerdown-gpios = <&pca9555 7 GPIO_ACTIVE_LOW>;
->> +
->> +        i2c-alias-pool = /bits/ 16 <0x4a 0x4b 0x4c 0x4d 0x4e 0x4f>;
->> +
->> +        ports {
->> +          #address-cells = <1>;
->> +          #size-cells = <0>;
->> +
->> +          /* Port 0, Camera 0 */
->> +          port@0 {
->> +            reg = <0>;
->> +
->> +            ub960_fpd3_1_in: endpoint {
->> +              remote-endpoint = <&ub953_1_out>;
->> +
->> +              rx-mode = <0>;
-> 
-> Looks like this is not defined under 'endpoint'.
-
-Indeed, and after adding the 'unevaluatedProperties' I do get a warning 
-here.
-
->> +            };
->> +          };
->> +
->> +          /* Port 0, Camera 1 */
->> +          port@1 {
->> +            reg = <1>;
->> +
->> +            ub960_fpd3_2_in: endpoint {
->> +              remote-endpoint = <&ub913_2_out>;
->> +
->> +              rx-mode = <0>;
->> +            };
->> +          };
->> +
->> +          /* Port 4, CSI-2 TX */
->> +          port@4 {
->> +            reg = <4>;
->> +            ds90ub960_0_csi_out: endpoint {
->> +              clock-lanes = <0>;
->> +              data-lanes = <1 2 3 4>;
->> +              link-frequencies = /bits/ 64 <800000000>;
->> +              remote-endpoint = <&csi2_phy0>;
->> +            };
->> +          };
->> +        };
->> +
->> +        links {
->> +          #address-cells = <1>;
->> +          #size-cells = <0>;
->> +
->> +          /* Link 0 has DS90UB953 serializer and IMX390 sensor */
->> +
->> +          link@0 {
->> +            reg = <0>;
->> +            i2c-alias = <68>;
->> +
->> +            rx-mode = <3>;
->> +
->> +            serializer1: serializer {
->> +              compatible = "ti,ds90ub953-q1";
->> +
->> +              gpio-controller;
->> +              #gpio-cells = <2>;
->> +
->> +              #clock-cells = <0>;
->> +
->> +              ports {
->> +                #address-cells = <1>;
->> +                #size-cells = <0>;
->> +
->> +                port@0 {
->> +                  reg = <0>;
->> +                  ub953_1_in: endpoint {
->> +                    clock-lanes = <0>;
->> +                    data-lanes = <1 2 3 4>;
->> +                    remote-endpoint = <&sensor_1_out>;
->> +                  };
->> +                };
->> +
->> +                port@1 {
->> +                  reg = <1>;
->> +
->> +                  ub953_1_out: endpoint {
->> +                    remote-endpoint = <&ub960_fpd3_1_in>;
->> +                  };
->> +                };
->> +              };
->> +
->> +              i2c {
->> +                #address-cells = <1>;
->> +                #size-cells = <0>;
->> +
->> +                sensor@21 {
->> +                  compatible = "sony,imx390";
-
-DT_CHECKER_FLAGS=-m gives a warning here, as sony,imx390 is not in 
-upstream. The sensor details are not really relevant here, but I used 
-the data for the setup I have.
-
-Should I instead use some sensor here that is in upstream, which I think 
-should work with the fpdlink ICs?
-
-  Tomi
-
+T24gMTEvMy8yMiAxMzo1MCwgVG9taSBWYWxrZWluZW4gd3JvdGU6DQo+IEhpIFJvYiwNCj4gDQo+
+IE9uIDAyLzExLzIwMjIgMTk6MjYsIFJvYiBIZXJyaW5nIHdyb3RlOg0KPj4gT24gVHVlLCBOb3Yg
+MDEsIDIwMjIgYXQgMDM6MjA6MjdQTSArMDIwMCwgVG9taSBWYWxrZWluZW4gd3JvdGU6DQo+Pj4g
+Kw0KPj4+ICvCoCBpMmMtYWxpYXMtcG9vbDoNCj4+DQo+PiBTb21ldGhpbmcgY29tbW9uIG9yIGNv
+dWxkIGJlPyBJZiBub3QsIHRoZW4gbmVlZHMgYSB2ZW5kb3IgcHJlZml4Lg0KPiANCj4gSSdsbCBo
+YXZlIHRvIHRoaW5rIGFib3V0IHRoaXMuIEl0IGlzIHJlbGF0ZWQgdG8gdGhlIGkyYy1hdHIsIHNv
+IEkgdGhpbmsgDQo+IGl0IG1pZ2h0IGJlIGEgY29tbW9uIHRoaW5nLg0KDQpJJ2Qgc2F5IHRoaXMg
+c2hvdWxkIGJlIGNvbW1vbi4gV2hlcmUgdGhlIGkyYy1hdHIgcHJvcGVydGllcyBzaG91bGQgbGl2
+ZSANCmlzIGFub3RoZXIgcXVlc3Rpb24gdGhvdWdoLiBJZiB0aGUgSTJDLWF0ciBzdGF5cyBhcyBh
+IGdlbmVyaWNseSB1c2FibGUgDQpjb21wb25lbnQgLSB0aGVuIHRoZXNlIGJpbmRpbmdzIHNob3Vs
+ZCBiZSBpbiBhIGZpbGUgdGhhdCBjYW4gYmUgDQpyZWZlcmVuY2VkIGJ5IG90aGVyIEkyQy1hdHIg
+dXNlcnMgKGxpa2UgdGhlIFVCOTYwIGhlcmUpLg0KDQovLyBzbmlwDQoNCj4+PiArDQo+Pj4gK8Kg
+wqDCoMKgwqDCoMKgwqDCoCBpMmMtYWxpYXM6DQo+Pg0KPj4gVmVuZG9yIHByZWZpeC4NCj4+DQo+
+Pj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqAgZGVzY3JpcHRpb246IHwNCj4+PiArwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqAgVGhlIGkyYyBhZGRyZXNzIHVzZWQgZm9yIHRoZSBzZXJpYWxpemVy
+LiBUcmFuc2FjdGlvbnMgDQo+Pj4gdG8gdGhpcw0KPj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoCBhZGRyZXNzIG9uIHRoZSBpMmMgYnVzIHdoZXJlIHRoZSBkZXNlcmlhbGl6ZXIgcmVzaWRl
+cyBhcmUNCj4+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgZm9yd2FyZGVkIHRvIHRoZSBz
+ZXJpYWxpemVyLg0KPj4+ICsNCj4+PiArwqDCoMKgwqDCoMKgwqDCoMKgIHJ4LW1vZGU6DQo+Pg0K
+Pj4gVmVuZG9yIHByZWZpeC4gQW5kIHNvIG9uLi4uID4NCj4gWWVzLCBJIHRvdGFsbHkgbWlzc2Vk
+IHRoZXNlLg0KDQoNCkkgdGhpbmsgdGhlIGkyYy1hbGlhcyBtaWdodCBuZWVkIHRvIGJlIGNvbW1v
+biBhcyB3ZWxsPw0KDQpCZXN0IFJlZ2FyZHMNCgktLSBNYXR0aSBWYWl0dGluZW4NCg0KLS0gDQpN
+YXR0aSBWYWl0dGluZW4NCkxpbnV4IGtlcm5lbCBkZXZlbG9wZXIgYXQgUk9ITSBTZW1pY29uZHVj
+dG9ycw0KT3VsdSBGaW5sYW5kDQoNCn5+IFdoZW4gdGhpbmdzIGdvIHV0dGVybHkgd3Jvbmcgdmlt
+IHVzZXJzIGNhbiBhbHdheXMgdHlwZSA6aGVscCEgfn4NCg0K
