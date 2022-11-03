@@ -2,59 +2,53 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EF6976183F8
-	for <lists+linux-media@lfdr.de>; Thu,  3 Nov 2022 17:17:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F2D78618483
+	for <lists+linux-media@lfdr.de>; Thu,  3 Nov 2022 17:32:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231266AbiKCQRd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 3 Nov 2022 12:17:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45712 "EHLO
+        id S231849AbiKCQcH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 3 Nov 2022 12:32:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55620 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229708AbiKCQRc (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Nov 2022 12:17:32 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 45FCE18363;
-        Thu,  3 Nov 2022 09:17:31 -0700 (PDT)
-Received: from nicolas-tpx395.localdomain (192-222-136-102.qc.cable.ebox.net [192.222.136.102])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: nicolas)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 66FEB6602962;
-        Thu,  3 Nov 2022 16:17:27 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1667492249;
-        bh=UF8gcf9Zdsra79jQbu7uASjF23J3RPW5N777RLTHhuY=;
-        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-        b=BuefWQlJf8M4p09e0/uP4GwZBjBH8QwGMfRznG/AwyOlcJj/RN64+2lpdnSV4cTNK
-         n+huZqFNDDR3di5xNQ/VMT5NhuiG0V9Xq/50r3FVSBLnY/VAeg4HPpl7iryOOPFazz
-         xAnb4V7qFNpJVHZbEDNFS3VSkWY7jWTXdyl3tAv29BtVo17G0BMwKR9/mKBxAGtK1B
-         UXEf5yEGt8vDymhc5wEnFfMFhj2wmOPe1NFdWOejaPwclO+ASdD+i+K4HNwIF0RE4X
-         accQfnWvEhuO/Ph1cAufgt6fTa0P1fuXvZ/alaa5/rrH2zX55/ezcLRmhhh6u3qgTi
-         WogQ4pHX/hJ4A==
-Message-ID: <df2676f0e4dce565d483ce2149b2c54da05b34a5.camel@collabora.com>
-Subject: Re: [PATCH v2] vcodec: mediatek: add check for NULL for
-From:   Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To:     Anastasia Belova <abelova@astralinux.ru>,
+        with ESMTP id S232172AbiKCQbg (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Nov 2022 12:31:36 -0400
+Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 458B22BD0;
+        Thu,  3 Nov 2022 09:31:31 -0700 (PDT)
+Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
+        by mail.gandi.net (Postfix) with ESMTPSA id 29B25240005;
+        Thu,  3 Nov 2022 16:31:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+        t=1667493089;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=g9u2f1LNWBQapoAmKfsDvXiLDEIzMMojEqVOp7/coKU=;
+        b=CsPoPljDVUlVC7jnGSQ5jPhSfoRX0DqL0ZFgn5mWhbiEhQKjX3vm8lcsK1V3VMzdMu5Xm5
+        RTZHucmj7vix9y5wB569YAMCWAv/IV3r4wcUJWKo50ttbZhIBED29s2q6TFS1n5XD3fO87
+        uReoXaPokD/u4+6KF7xUx7qKfmtoZt60N3GfZRIofTNKbhCSccpS9wrQ43uy5fSWZoHRBX
+        HNN4ttFPsMhCaoR5T2ZU+AyYwDwpwkhzvZrg3XzOE6W+1sGSnuURQgIwNaP6Wv56EzMkhn
+        AyuDxi3hjLSvJZv2k7rlX8mU5A/wswD3jTWDyr+nSkYfq4ZvgAehbfHVmpD8Mg==
+From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+To:     linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+Cc:     Yong Deng <yong.deng@magewell.com>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>
-Cc:     Tiffany Lin <tiffany.lin@mediatek.com>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Yunfei Dong <yunfei.dong@mediatek.com>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, lvc-project@linuxtesting.org
-Date:   Thu, 03 Nov 2022 12:17:17 -0400
-In-Reply-To: <20221102121027.4285-1-abelova@astralinux.ru>
-References: <20221102121027.4285-1-abelova@astralinux.ru>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.4 (3.44.4-2.fc36) 
+        Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Samuel Holland <samuel@sholland.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: [PATCH v7 00/28] Allwinner A31/A83T MIPI CSI-2 and A31 ISP / CSI Rework
+Date:   Thu,  3 Nov 2022 17:30:45 +0100
+Message-Id: <20221103163113.245462-1-paul.kocialkowski@bootlin.com>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -62,42 +56,105 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Le mercredi 02 novembre 2022 =C3=A0 15:10 +0300, Anastasia Belova a =C3=A9c=
-rit=C2=A0:
-> Any time calling vp9_is_sf_ref_fb we need fb !=3D NULL after checks.
->=20
-> Found by Linux Verification Center (linuxtesting.org) with SVACE.
->=20
-> Fixes: f77e89854b3e ("[media] vcodec: mediatek: Add Mediatek VP9 Video De=
-coder Driver")
+This part only concerns the rework of the CSI driver to support the MIPI CSI-2
+and ISP workflows.
 
-As Angelo said, this change is a no-op in practice, for this reason I would
-suggest to drop the `Fixes` tag (not worth the effort of back-porting this)=
-.
+Every patch was reviewed at this point and the whole thing looks good to go.
+Since this multi-part series has been going on for a while, it would be great
+to see it merged soon!
 
->=20
-> Signed-off-by: Anastasia Belova <abelova@astralinux.ru>
+Changes since v6:
+- Removed merged patches;
+- Added collected tags;
+- Rebased on the latest media tree;
+- Followed media/video pipeline helpers changes.
 
-Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Changes since v5:
+- Rebased on latest media tree;
+- Switched to using media_pad_remote_pad_first;
+- Switched to using media_pad_remote_pad_unique;
+- Declared variant const to avoid a warning.
 
-> ---
->  drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_if.c | 3 +++
->  1 file changed, 3 insertions(+)
->=20
-> diff --git a/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_if.c b/=
-drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_if.c
-> index 70b8383f7c8e..776468cd834a 100644
-> --- a/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_if.c
-> +++ b/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_if.c
-> @@ -208,6 +208,9 @@ static bool vp9_is_sf_ref_fb(struct vdec_vp9_inst *in=
-st, struct vdec_fb *fb)
->  	int i;
->  	struct vdec_vp9_vsi *vsi =3D inst->vsi;
-> =20
-> +	if (!fb)
-> +		return true;
-> +
->  	for (i =3D 0; i < ARRAY_SIZE(vsi->sf_ref_fb); i++) {
->  		if (fb =3D=3D &vsi->sf_ref_fb[i].fb)
->  			return true;
+Changes since v4:
+- Removed the v4l2 controls handler from the driver;
+- Removed the info message about video device registration;
+- Fixed "literature" typos;
+- Moved patches dependent on the ISP driver to its dedicated series;
+- Rebased on the latest media tree;
+- Added collected tags;
+
+Changes since v3:
+- Updated Kconfig to follow the latest media-wide changes;
+- Rebased on latest changes to the driver (JPEG/sRGB colorspaces);
+- Added helper to get a single enabled link for an entity's pad, to replace
+  source selection at link_validate time and select the remote source at
+  stream on time instead;
+- Kept clock-managed regmap mmio;
+- Added collected review tags;
+- Various cosmetic cleanups;
+
+Changes since all-in-one v2:
+- Reworked capture video device registration, which stays in the main path.
+- Reworked async subdev handling with a dedicated structure holding the
+  corresponding source to avoid matching in the driver;
+- Added mutex for mbus format serialization;
+- Remove useless else in link_validate;
+- Reworked commit logs to include missing information;
+- Cleaned up Kconfig, added PM dependency;
+- Moved platform-specific clock rate to of match data;
+- Added collected Reviewed-by tags;
+- Updated copyright years;
+
+Paul Kocialkowski (28):
+  media: sun6i-csi: Add bridge v4l2 subdev with port management
+  media: sun6i-csi: Rename sun6i_video to sun6i_csi_capture
+  media: sun6i-csi: Add capture state using vsync for page flip
+  media: sun6i-csi: Rework register definitions, invert misleading
+    fields
+  media: sun6i-csi: Add dimensions and format helpers to capture
+  media: sun6i-csi: Implement address configuration without indirection
+  media: sun6i-csi: Split stream sequences and irq code in capture
+  media: sun6i-csi: Move power management to runtime pm in capture
+  media: sun6i-csi: Move register configuration to capture
+  media: sun6i-csi: Rework capture format management with helper
+  media: sun6i-csi: Remove custom format helper and rework configure
+  media: sun6i-csi: Add bridge dimensions and format helpers
+  media: sun6i-csi: Get mbus code from bridge instead of storing it
+  media: sun6i-csi: Tidy capture configure code
+  media: sun6i-csi: Introduce bridge format structure, list and helper
+  media: sun6i-csi: Introduce capture format structure, list and helper
+  media: sun6i-csi: Configure registers from format tables
+  media: sun6i-csi: Introduce format match structure, list and helper
+  media: sun6i-csi: Implement capture link validation with logic
+  media: sun6i-csi: Get bridge subdev directly in capture stream ops
+  media: sun6i-csi: Move hardware control to the bridge
+  media: sun6i-csi: Rename the capture video device to sun6i-csi-capture
+  media: sun6i-csi: Cleanup headers and includes, update copyright lines
+  media: sun6i-csi: Add support for MIPI CSI-2 to the bridge code
+  media: sun6i-csi: Only configure capture when streaming
+  media: sun6i-csi: Add extra checks to the interrupt routine
+  media: sun6i-csi: Request a shared interrupt
+  MAINTAINERS: Add myself as sun6i-csi maintainer and rename/move entry
+
+ MAINTAINERS                                   |   17 +-
+ .../media/platform/sunxi/sun6i-csi/Makefile   |    2 +-
+ .../platform/sunxi/sun6i-csi/sun6i_csi.c      |  751 +-----------
+ .../platform/sunxi/sun6i-csi/sun6i_csi.h      |  141 +--
+ .../sunxi/sun6i-csi/sun6i_csi_bridge.c        |  844 +++++++++++++
+ .../sunxi/sun6i-csi/sun6i_csi_bridge.h        |   69 ++
+ .../sunxi/sun6i-csi/sun6i_csi_capture.c       | 1089 +++++++++++++++++
+ .../sunxi/sun6i-csi/sun6i_csi_capture.h       |   88 ++
+ .../platform/sunxi/sun6i-csi/sun6i_csi_reg.h  |  362 +++---
+ .../platform/sunxi/sun6i-csi/sun6i_video.c    |  733 -----------
+ .../platform/sunxi/sun6i-csi/sun6i_video.h    |   35 -
+ 11 files changed, 2338 insertions(+), 1793 deletions(-)
+ create mode 100644 drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_bridge.c
+ create mode 100644 drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_bridge.h
+ create mode 100644 drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c
+ create mode 100644 drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.h
+ delete mode 100644 drivers/media/platform/sunxi/sun6i-csi/sun6i_video.c
+ delete mode 100644 drivers/media/platform/sunxi/sun6i-csi/sun6i_video.h
+
+-- 
+2.38.1
 
