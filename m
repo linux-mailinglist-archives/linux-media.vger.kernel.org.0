@@ -2,105 +2,124 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3D4FC618630
-	for <lists+linux-media@lfdr.de>; Thu,  3 Nov 2022 18:30:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0228A61864C
+	for <lists+linux-media@lfdr.de>; Thu,  3 Nov 2022 18:38:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230336AbiKCRac (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 3 Nov 2022 13:30:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48690 "EHLO
+        id S230526AbiKCRiN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 3 Nov 2022 13:38:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50974 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229694AbiKCRab (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Nov 2022 13:30:31 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 10F9D263F
-        for <linux-media@vger.kernel.org>; Thu,  3 Nov 2022 10:30:30 -0700 (PDT)
-Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <mfe@pengutronix.de>)
-        id 1oqe2j-00054Z-DI; Thu, 03 Nov 2022 18:30:17 +0100
-Received: from mfe by ptx.hi.pengutronix.de with local (Exim 4.92)
-        (envelope-from <mfe@pengutronix.de>)
-        id 1oqe2j-0003XJ-05; Thu, 03 Nov 2022 18:30:17 +0100
-Date:   Thu, 3 Nov 2022 18:30:16 +0100
-From:   Marco Felsch <m.felsch@pengutronix.de>
-To:     kernel test robot <lkp@intel.com>
-Cc:     oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: Re: [sailus-media-tree:master 43/47] drivers/clk/clk.c:1022:5:
- error: redefinition of 'clk_prepare'
-Message-ID: <20221103173016.a2stvc6jtprs3nzh@pengutronix.de>
-References: <202211031915.GxCDfpg5-lkp@intel.com>
+        with ESMTP id S230389AbiKCRiM (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Nov 2022 13:38:12 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A9DE111157
+        for <linux-media@vger.kernel.org>; Thu,  3 Nov 2022 10:38:11 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id D57C34E6;
+        Thu,  3 Nov 2022 18:38:09 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1667497089;
+        bh=WCzN37xKsj7+IwxmmPhk49EHq5eCG/wnEbbYI31J0pw=;
+        h=In-Reply-To:References:Subject:From:To:Date:From;
+        b=I98r5l6dy+KbRtT7X6IKLVmpSv+IZbxHLRqxQFAhxHJBN38/1eLEN7atbWAc3QHgH
+         SGYwZqp5L2ldE6EwMia9jkF+pkSCpsWX2aJ0kZWfgDKNu7xU0oIKz7n9OBeSD6eM54
+         NK+T2ePgEB5YRE+o7YxUt88mpMTrX9Ou4z4F/2vQ=
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <202211031915.GxCDfpg5-lkp@intel.com>
-User-Agent: NeoMutt/20180716
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
-X-SA-Exim-Mail-From: mfe@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <166749647604.2442643.7043909994527288745@Monstersaurus>
+References: <20221103111427.000061f5@arducam.com> <166749647604.2442643.7043909994527288745@Monstersaurus>
+Subject: Re: [PATCH v2 2/2] media: i2c: Add driver for IMX519 sensor
+From:   Kieran Bingham <kieran.bingham@ideasonboard.com>
+To:     lee <lee@arducam.com>, linux-media@vger.kernel.org
+Date:   Thu, 03 Nov 2022 17:38:07 +0000
+Message-ID: <166749708713.2442643.7281365060109003063@Monstersaurus>
+User-Agent: alot/0.10
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+Quoting Kieran Bingham (2022-11-03 17:27:56)
+> Hi Lee,
+>=20
+> Quoting lee (2022-11-03 03:14:27)
+> > Adds a driver for the 16MPix IMX519 CSI2 sensor.
+> > Whilst the sensor supports 2 or 4 CSI2 data lanes, this driver
+> > currently only supports 2 lanes.
+> >=20
+> > The following Bayer modes are currently available:
+> >=20
+> > 4656x3496 10-bit @ 10fps
+> > 3840x2160 10-bit (cropped) @ 21fps
+> > 2328x1748 10-bit (binned) @ 30fps
+> > 1920x1080 10-bit (cropped/binned) @ 60fps
+> > 1280x720 10-bit (cropped/binned) @ 120fps
+> >=20
+> > Signed-off-by: Lee Jackson <lee@arducam.com>
 
-On 22-11-03, kernel test robot wrote:
-> tree:   git://linuxtv.org/sailus/media_tree.git master
-> head:   7336c54a562b479866d2de2abc61487a4e07b0b9
-> commit: 80a21da360516fa602f3a50eb9792f9dfbfb5fdb [43/47] media: tc358746: add Toshiba TC358746 Parallel to CSI-2 bridge driver
-> config: sh-allmodconfig
-> compiler: sh4-linux-gcc (GCC) 12.1.0
-> reproduce (this is a W=1 build):
->         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
->         chmod +x ~/bin/make.cross
->         git remote add sailus-media-tree git://linuxtv.org/sailus/media_tree.git
->         git fetch --no-tags sailus-media-tree master
->         git checkout 80a21da360516fa602f3a50eb9792f9dfbfb5fdb
->         # save the config file
->         mkdir build_dir && cp config build_dir/.config
->         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sh SHELL=/bin/bash drivers/
-> 
-> If you fix the issue, kindly add following tag where applicable
-> | Reported-by: kernel test robot <lkp@intel.com>
-> 
-> All errors (new ones prefixed by >>):
-> 
-> >> drivers/clk/clk.c:941:6: error: redefinition of 'clk_unprepare'
->      941 | void clk_unprepare(struct clk *clk)
->          |      ^~~~~~~~~~~~~
->    In file included from drivers/clk/clk.c:9:
->    include/linux/clk.h:303:20: note: previous definition of 'clk_unprepare' with type 'void(struct clk *)'
->      303 | static inline void clk_unprepare(struct clk *clk)
->          |                    ^~~~~~~~~~~~~
-> >> drivers/clk/clk.c:1022:5: error: redefinition of 'clk_prepare'
->     1022 | int clk_prepare(struct clk *clk)
->          |     ^~~~~~~~~~~
->    include/linux/clk.h:271:19: note: previous definition of 'clk_prepare' with type 'int(struct clk *)'
->      271 | static inline int clk_prepare(struct clk *clk)
->          |                   ^~~~~~~~~~~
-> >> drivers/clk/clk.c:1268:6: error: redefinition of 'clk_is_enabled_when_prepared'
->     1268 | bool clk_is_enabled_when_prepared(struct clk *clk)
->          |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
->    include/linux/clk.h:284:20: note: previous definition of 'clk_is_enabled_when_prepared' with type 'bool(struct clk *)' {aka '_Bool(struct clk *)'}
->      284 | static inline bool clk_is_enabled_when_prepared(struct clk *clk)
->          |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> 
-> Kconfig warnings: (for reference only)
->    WARNING: unmet direct dependencies detected for COMMON_CLK
->    Depends on [n]: !HAVE_LEGACY_CLK [=y]
->    Selected by [m]:
->    - VIDEO_TC358746 [=m] && MEDIA_SUPPORT [=m] && VIDEO_DEV [=m] && PM [=y] && I2C [=m]
+<snip>
 
-Hm.. this is strange but my relate to the unmet dependency. I could add
-a depends on COMMON_CLK but this no i2c driver is doing that, just a few
-platform drivers.
+> > +static const struct v4l2_ctrl_ops imx519_ctrl_ops =3D {
+> > +       .s_ctrl =3D imx519_set_ctrl,
+> > +};
+> > +
+> > +static int imx519_enum_mbus_code(struct v4l2_subdev *sd,
+> > +                                struct v4l2_subdev_state *sd_state,
+> > +                                struct v4l2_subdev_mbus_code_enum *cod=
+e)
+> > +{
+> > +       struct imx519 *imx519 =3D to_imx519(sd);
+> > +
+> > +       mutex_lock(&imx519->mutex);
+> > +
+> > +       if (code->index > 0)
+> > +               return -EINVAL;
 
-Regards,
-  Marco
+In fact, this code path returns keeping the lock held ...
+
+I suspect this is the cause of the deadlocks I've seen...
+
+> > +
+> > +       code->code =3D imx519_get_format_code(imx519);
+> > +
+> > +       mutex_unlock(&imx519->mutex);
+> > +
+> > +       return 0;
+> > +}
+> > +
+> > +static int imx519_enum_frame_size(struct v4l2_subdev *sd,
+> > +                                 struct v4l2_subdev_state *sd_state,
+> > +                                 struct v4l2_subdev_frame_size_enum *f=
+se)
+> > +{
+> > +       struct imx519 *imx519 =3D to_imx519(sd);
+> > +
+> > +       mutex_lock(&imx519->mutex);
+>=20
+> I've hit a deadlock here.
+>=20
+> [  139.389907] other info that might help us debug this:
+> [  139.396435]  Possible unsafe locking scenario:
+> [  139.396435]
+> [  139.402353]        CPU0
+> [  139.404797]        ----
+> [  139.407243]   lock(&imx519->mutex);
+> [  139.410737]   lock(&imx519->mutex);
+> [  139.414230]
+> [  139.414230]  *** DEADLOCK ***
+> [  139.414230]
+> [  139.420148]  May be due to missing lock nesting notation
+> [  139.420148]
+> [  139.426936] 1 lock held by cam/924:
+> [  139.430425]  #0: ffff000003feb460 (&imx519->mutex){+.+.}-{3:3}, at: im=
+x519_enum_mbus_code+0x3
+
+Which should have been obvious if I just read ^^^ that line ;-)
+
+--
+Kieran
