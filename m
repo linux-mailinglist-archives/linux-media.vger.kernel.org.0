@@ -2,74 +2,186 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 54DFD61736F
-	for <lists+linux-media@lfdr.de>; Thu,  3 Nov 2022 01:40:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 39ADC6174B8
+	for <lists+linux-media@lfdr.de>; Thu,  3 Nov 2022 04:04:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230466AbiKCAkD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 2 Nov 2022 20:40:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53154 "EHLO
+        id S229700AbiKCDEg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 2 Nov 2022 23:04:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54262 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229688AbiKCAkC (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Nov 2022 20:40:02 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB69B2AEB;
-        Wed,  2 Nov 2022 17:40:01 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 84F5BB82544;
-        Thu,  3 Nov 2022 00:40:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8A872C433C1;
-        Thu,  3 Nov 2022 00:39:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1667435999;
-        bh=YKWn58dmDD7dizOwkZI+UoBBgnZZBQrAVh6R22M5RZc=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=HEiJthF07Dhd9guFACsmUO1uBNYiWT7YGUmDQcsGIv3q5OK9nm0MXRvOMGGMvPKii
-         k9E8JkMz1RMoPqkf4cM4QySGvCjiR8WrLo7s4z6N1+sfpITb1jun0eKslKA2VQo4L0
-         MMHFC3z1RDZrcHOtcgC/usF5ZejdDFOZJUHCUaJA=
-Date:   Thu, 3 Nov 2022 01:40:54 +0100
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     "Jason A. Donenfeld" <Jason@zx2c4.com>
-Cc:     linux-staging@lists.linux.dev, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>
-Subject: Re: [PATCH] staging: media: atomisp: make hive_int8 explictly signed
-Message-ID: <Y2MOFrprCkZVAiCr@kroah.com>
-References: <20221103001914.81849-1-Jason@zx2c4.com>
+        with ESMTP id S229587AbiKCDEd (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Nov 2022 23:04:33 -0400
+Received: from out29-220.mail.aliyun.com (out29-220.mail.aliyun.com [115.124.29.220])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 37EAC14009;
+        Wed,  2 Nov 2022 20:04:29 -0700 (PDT)
+X-Alimail-AntiSpam: AC=CONTINUE;BC=0.1124278|-1;BR=01201311R171S89rulernew998_84748_2000303;CH=blue;DM=|CONTINUE|false|;DS=CONTINUE|ham_alarm|0.0170385-0.00343638-0.979525;FP=0|0|0|0|0|-1|-1|-1;HT=ay29a033018047209;MF=lee@arducam.com;NM=1;PH=DS;RN=6;RT=6;SR=0;TI=SMTPD_---.Q-5jzWp_1667444665;
+Received: from localhost(mailfrom:lee@arducam.com fp:SMTPD_---.Q-5jzWp_1667444665)
+          by smtp.aliyun-inc.com;
+          Thu, 03 Nov 2022 11:04:26 +0800
+Date:   Thu, 3 Nov 2022 11:04:24 +0800
+From:   lee <lee@arducam.com>
+To:     linux-media@vger.kernel.org
+Cc:     robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+        shawnguo@kernel.org, s.hauer@pengutronix.de,
+        devicetree@vger.kernel.org
+Subject: [PATCH v2 1/2] dt-bindings: media: i2c: Add IMX519 CMOS sensor
+ binding
+Message-ID: <20221103110424.00007a48@arducam.com>
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221103001914.81849-1-Jason@zx2c4.com>
-X-Spam-Status: No, score=-8.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Nov 03, 2022 at 01:19:14AM +0100, Jason A. Donenfeld wrote:
-> The current definition of hive_int8 is a naked char, without any sign
-> specifier. This is incorrect on platforms such as arm, where char is
-> unsigned. Fortunately nothing in the kernel actually uses a hive_int8
-> type, but in case it gets used later rather than removed, this makes it
-> explicitly signed.
-> 
-> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-> Cc: Sakari Ailus <sakari.ailus@linux.intel.com>
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
-> ---
-> Greg - if you're going to take this for 6.1, that's fine with me.
-> Otherwise, if it's for 6.2, I'll take this in my unsigned-char tree to
-> keep all of these fixups together. -Jason
+Add YAML device tree binding for IMX519 CMOS image sensor, and
+the relevant MAINTAINERS entries.
 
-I don't take drivers/staging/media/* patches, they go through Mauro's
-tree, so I'll let him and you fight it out here :)
+Signed-off-by: Lee Jackson <lee@arducam.com>
+---
+ .../bindings/media/i2c/sony,imx519.yaml       | 107 ++++++++++++++++++
+ MAINTAINERS                                   |   9 ++
+ 2 files changed, 116 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/sony,imx519.yaml
 
-thanks,
-
-greg k-h
+diff --git a/Documentation/devicetree/bindings/media/i2c/sony,imx519.yaml b/Documentation/devicetree/bindings/media/i2c/sony,imx519.yaml
+new file mode 100644
+index 000000000000..9b6cda96f613
+--- /dev/null
++++ b/Documentation/devicetree/bindings/media/i2c/sony,imx519.yaml
+@@ -0,0 +1,107 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/media/i2c/sony,imx519.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Sony 1/2.5-Inch 16Mpixel CMOS Digital Image Sensor
++
++maintainers:
++  - Lee Jackson <lee@arducam.com>
++
++description: |-
++  The Sony IMX519 is a 1/2.5-inch CMOS active pixel digital image sensor
++  with an active array size of 4656H x 3496V. It is programmable through
++  I2C interface. The I2C address is fixed to 0x1A as per sensor data sheet.
++  Image data is sent through MIPI CSI-2, which is configured as either 2 or
++  4 data lanes.
++
++properties:
++  compatible:
++    const: sony,imx519
++
++  reg:
++    description: I2C device address
++    maxItems: 1
++
++  clocks:
++    maxItems: 1
++
++  VDIG-supply:
++    description:
++      Digital I/O voltage supply, 1.05 volts
++
++  VANA-supply:
++    description:
++      Analog voltage supply, 2.8 volts
++
++  VDDL-supply:
++    description:
++      Digital core voltage supply, 1.8 volts
++
++  reset-gpios:
++    description: |-
++      Reference to the GPIO connected to the xclr pin, if any.
++      Must be released (set high) after all supplies and INCK are applied.
++
++port:
++    $ref: /schemas/graph.yaml#/$defs/port-base
++    additionalProperties: false
++
++    properties:
++      endpoint:
++        $ref: /schemas/media/video-interfaces.yaml#
++        unevaluatedProperties: false
++
++        properties:
++          data-lanes:
++            description: |-
++              The driver only supports two-lane operation.
++            items:
++              - const: 1
++              - const: 2
++
++          clock-noncontinuous: true
++          link-frequencies: true
++
++        required:
++          - data-lanes
++          - link-frequencies
++
++required:
++  - compatible
++  - reg
++  - clocks
++  - VANA-supply
++  - VDIG-supply
++  - VDDL-supply
++  - port
++
++additionalProperties: false
++
++examples:
++  - |
++    i2c0 {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        imx519: sensor@1a {
++            compatible = "sony,imx519";
++            reg = <0x1a>;
++            clocks = <&imx519_clk>;
++            VANA-supply = <&imx519_vana>;   /* 2.8v */
++            VDIG-supply = <&imx519_vdig>;   /* 1.05v */
++            VDDL-supply = <&imx519_vddl>;   /* 1.8v */
++
++            port {
++                imx519_0: endpoint {
++                    remote-endpoint = <&csi1_ep>;
++                    data-lanes = <1 2>;
++                    clock-noncontinuous;
++                    link-frequencies = /bits/ 64 <493500000>;
++                };
++            };
++        };
++    };
++
++...
+diff --git a/MAINTAINERS b/MAINTAINERS
+index e04d944005ba..5a617ab8c9b2 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -19236,6 +19236,15 @@ T:	git git://linuxtv.org/media_tree.git
+ F:	Documentation/devicetree/bindings/media/i2c/sony,imx412.yaml
+ F:	drivers/media/i2c/imx412.c
+ 
++SONY IMX519 SENSOR DRIVER
++M:	Arducam Kernel Maintenance <info@arducam.com>
++M:	Lee Jackson <lee@arducam.com>
++L:	linux-media@vger.kernel.org
++S:	Maintained
++T:	git git://linuxtv.org/media_tree.git
++F:	Documentation/devicetree/bindings/media/i2c/sony,imx519.yaml
++F:	drivers/media/i2c/imx519.c
++
+ SONY MEMORYSTICK SUBSYSTEM
+ M:	Maxim Levitsky <maximlevitsky@gmail.com>
+ M:	Alex Dubov <oakad@yahoo.com>
+-- 
+2.25.1
