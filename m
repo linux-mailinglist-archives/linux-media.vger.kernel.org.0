@@ -2,144 +2,102 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 44D83617E2B
-	for <lists+linux-media@lfdr.de>; Thu,  3 Nov 2022 14:41:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EF6976183F8
+	for <lists+linux-media@lfdr.de>; Thu,  3 Nov 2022 17:17:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229964AbiKCNl2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 3 Nov 2022 09:41:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42222 "EHLO
+        id S231266AbiKCQRd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 3 Nov 2022 12:17:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45712 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231372AbiKCNlP (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Nov 2022 09:41:15 -0400
-Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com [IPv6:2a00:1450:4864:20::532])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C9085BE3E
-        for <linux-media@vger.kernel.org>; Thu,  3 Nov 2022 06:41:14 -0700 (PDT)
-Received: by mail-ed1-x532.google.com with SMTP id z18so3032589edb.9
-        for <linux-media@vger.kernel.org>; Thu, 03 Nov 2022 06:41:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=QBTXj0Mo20+lqPJvJbV07DHgoZv0TgJ6xnkWV3WDOVo=;
-        b=kpJ+DF6PjVbaFJFClIwC2LT+GMwpgkrYik0GCWpQWnEDyK5RHeaEmgpN1H1m4pbPO7
-         iukhRLpcj8n97CqE4Q7s2Ho/Kzw1UDSm6WdoUl9u7ERHkMtxySQqCpCXMFwVduVwX5Qj
-         ucny/W6XGe89qBRpKfMowg/k6LTpMzF00Z1Mw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=QBTXj0Mo20+lqPJvJbV07DHgoZv0TgJ6xnkWV3WDOVo=;
-        b=3pbPL0QfCwlHLip9C7Knv5F14uFEGLGpqyCVI8g7RtcLlL/6QUSGwI2jMLygZyu+rv
-         XKf/WXtUrwkuunGI+ReVktdLFDSff2Au4XQ9V+SVg2GNbZe6589yg7wsv7bIE6yIVDIT
-         sBWjhmXBbYq0y97jW0PFWb9uSkD0NEBeS6v7ifYznzYUdtXeuzLqP59XFciPUd6/U2ey
-         jd4q3XqqwEd0UAbbB20QMgKkxtPMqbifP66qiGWKqGBLF8fi7fwyGDKub/hRVZ43Wdt3
-         OP1O3QIztnJbg2vryaSThLl7Nf1Fzc5HNAwkczUaTx5sjQNqV9FAWT315/Bea1C2ON8h
-         ov1A==
-X-Gm-Message-State: ACrzQf0B1NjMm6A2S+fiosc545s3JeXg4zLlTk6rBJqCUtm1TNWGihOS
-        wJAfibesSFwte4z3fCfmSj0iiw==
-X-Google-Smtp-Source: AMsMyM6cDOmJqgaysevnZNDkDtF8b0cTaF3lEiUh8+ouWSe3DB0h3ADd+SGhgAkOfYJYGKJR+pqsWg==
-X-Received: by 2002:a05:6402:274c:b0:461:9921:60cf with SMTP id z12-20020a056402274c00b00461992160cfmr31079740edd.353.1667482873385;
-        Thu, 03 Nov 2022 06:41:13 -0700 (PDT)
-Received: from alco.roam.corp.google.com ([2620:0:1059:10:c1a3:5bc:2068:8f2c])
-        by smtp.gmail.com with ESMTPSA id j1-20020a17090623e100b0078d46aa3b82sm521948ejg.21.2022.11.03.06.41.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Nov 2022 06:41:13 -0700 (PDT)
-From:   Ricardo Ribalda <ribalda@chromium.org>
-Date:   Thu, 03 Nov 2022 14:40:49 +0100
-Subject: [PATCH v2 8/8] media: uvcvideo: Fix hw timestampt handling for slow FPS
+        with ESMTP id S229708AbiKCQRc (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Nov 2022 12:17:32 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 45FCE18363;
+        Thu,  3 Nov 2022 09:17:31 -0700 (PDT)
+Received: from nicolas-tpx395.localdomain (192-222-136-102.qc.cable.ebox.net [192.222.136.102])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: nicolas)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 66FEB6602962;
+        Thu,  3 Nov 2022 16:17:27 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1667492249;
+        bh=UF8gcf9Zdsra79jQbu7uASjF23J3RPW5N777RLTHhuY=;
+        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+        b=BuefWQlJf8M4p09e0/uP4GwZBjBH8QwGMfRznG/AwyOlcJj/RN64+2lpdnSV4cTNK
+         n+huZqFNDDR3di5xNQ/VMT5NhuiG0V9Xq/50r3FVSBLnY/VAeg4HPpl7iryOOPFazz
+         xAnb4V7qFNpJVHZbEDNFS3VSkWY7jWTXdyl3tAv29BtVo17G0BMwKR9/mKBxAGtK1B
+         UXEf5yEGt8vDymhc5wEnFfMFhj2wmOPe1NFdWOejaPwclO+ASdD+i+K4HNwIF0RE4X
+         accQfnWvEhuO/Ph1cAufgt6fTa0P1fuXvZ/alaa5/rrH2zX55/ezcLRmhhh6u3qgTi
+         WogQ4pHX/hJ4A==
+Message-ID: <df2676f0e4dce565d483ce2149b2c54da05b34a5.camel@collabora.com>
+Subject: Re: [PATCH v2] vcodec: mediatek: add check for NULL for
+From:   Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To:     Anastasia Belova <abelova@astralinux.ru>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>
+Cc:     Tiffany Lin <tiffany.lin@mediatek.com>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Yunfei Dong <yunfei.dong@mediatek.com>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, lvc-project@linuxtesting.org
+Date:   Thu, 03 Nov 2022 12:17:17 -0400
+In-Reply-To: <20221102121027.4285-1-abelova@astralinux.ru>
+References: <20221102121027.4285-1-abelova@astralinux.ru>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.4 (3.44.4-2.fc36) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20220920-resend-hwtimestamp-v2-8-d8d0616bb612@chromium.org>
-References: <20220920-resend-hwtimestamp-v2-0-d8d0616bb612@chromium.org>
-In-Reply-To: <20220920-resend-hwtimestamp-v2-0-d8d0616bb612@chromium.org>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     HungNien Chen <hn.chen@sunplusit.com>,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        Ricardo Ribalda <ribalda@chromium.org>
-X-Mailer: b4 0.11.0-dev-d93f8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1969; i=ribalda@chromium.org;
- h=from:subject:message-id; bh=pNerfrtBJbE7z0e3sYuUA+5U9LQzvOcTp5yM8ujyuVs=;
- b=owEBbQKS/ZANAwAKAdE30T7POsSIAcsmYgBjY8TwN3zXisLOmlBMSPM91NI1ZKp/+UQ2K81uRsDG
- O4RuhOeJAjMEAAEKAB0WIQREDzjr+/4oCDLSsx7RN9E+zzrEiAUCY2PE8AAKCRDRN9E+zzrEiDeXD/
- 9II30l2x2EBLHN1QVJa5o/1HeUqhrKrd81xF7n/aHdzfnYDRZnyNZ477pPsKiLmvjWhf/9hzCl5Z21
- NCgJXb6jHEaegZPKkVuIFjidXdx2NW1UPAYBNfk/fPH35+FxX8cVnTKFfna10nIb5OjAQ5133ksSKn
- jMgF5tvLQzL1/+9XMRTBOru1sXl9QF1sP1QrPRyCc5+KueXH0cNelcomv8L9PDQLpSCXy1WRVbJgzm
- Z/KJEqsnvW/ERAJpT46Rx8MJP97Xi2lokEtvGGGhA0a9tDP0Zn/IXm8k99kMniK02qt3pZ3OVmi05F
- aadaxwSOBus9ZD8BTYmrVqX1ruw+grTT+KuZ0dP+zWMk4juMkbqoWoxqkYz2sjAdN6wKG74ZT/hdnI
- MrTFEs5BQl5P90SI3SBdEa5iV3uZ/IfLqzF31qpegSxzDWqERNjNgT7j7RFAQl5eaWSZtJK9s7Bz2U
- 7YXwt+i0h4NItmLSorZUqn0M7bpT3cWPkCvcw+0c4j41M8FysjckCgHnlBdraFpQawANbSmsX1l0Pj
- iLsc4FMZQq66GQKq87BODBJ3KDMs8kj1YHT9pTCs3KJifowILFBmA2GS/N8cOHLO6O3DqJnC+6WsUm
- kwujlSEBPKCnr1uIcVzzZLXgCum1ZErNMqG/JF+O9YS9XLsyNJ5LfdXMN+wA==
-X-Developer-Key: i=ribalda@chromium.org; a=openpgp;
- fpr=9EC3BB66E2FC129A6F90B39556A0D81F9F782DA9
-X-Spam-Status: No, score=-3.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-In UVC 1.5, when working with FPS under 32, there is a chance that the
-circular buffer contains two dev_sof overflows, but the clock interpolator
-is only capable of handle a single overflow.
+Le mercredi 02 novembre 2022 =C3=A0 15:10 +0300, Anastasia Belova a =C3=A9c=
+rit=C2=A0:
+> Any time calling vp9_is_sf_ref_fb we need fb !=3D NULL after checks.
+>=20
+> Found by Linux Verification Center (linuxtesting.org) with SVACE.
+>=20
+> Fixes: f77e89854b3e ("[media] vcodec: mediatek: Add Mediatek VP9 Video De=
+coder Driver")
 
-Remove all the samples from the circular buffer that are two overflows
-old.
+As Angelo said, this change is a no-op in practice, for this reason I would
+suggest to drop the `Fixes` tag (not worth the effort of back-porting this)=
+.
 
-Tested-by: HungNien Chen <hn.chen@sunplusit.com>
-Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+>=20
+> Signed-off-by: Anastasia Belova <abelova@astralinux.ru>
 
-diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
-index c81a8362d582..6b6bd521d6c2 100644
---- a/drivers/media/usb/uvc/uvc_video.c
-+++ b/drivers/media/usb/uvc/uvc_video.c
-@@ -471,6 +471,20 @@ static void uvc_video_clock_add_sample(struct uvc_clock *clock,
- 
- 	spin_lock_irqsave(&clock->lock, flags);
- 
-+	/* Delete last overflows */
-+	if (clock->head == clock->last_sof_overflow)
-+		clock->last_sof_overflow = -1;
-+
-+	/* Handle overflows */
-+	if (clock->count > 0 && clock->last_sof > sample->dev_sof) {
-+		/* Remove data from the last^2 overflows */
-+		if (clock->last_sof_overflow != -1)
-+			clock->count = (clock->head - clock->last_sof_overflow)
-+								% clock->count;
-+		clock->last_sof_overflow = clock->head;
-+	}
-+
-+	/* Add sample */
- 	memcpy(&clock->samples[clock->head], sample, sizeof(*sample));
- 	clock->last_sof = sample->dev_sof;
- 	clock->head = (clock->head + 1) % clock->size;
-@@ -594,6 +608,7 @@ static void uvc_video_clock_reset(struct uvc_clock *clock)
- 	clock->head = 0;
- 	clock->count = 0;
- 	clock->last_sof = -1;
-+	clock->last_sof_overflow = -1;
- 	clock->sof_offset = -1;
- }
- 
-diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
-index 14daa7111953..d8c520ce5a86 100644
---- a/drivers/media/usb/uvc/uvcvideo.h
-+++ b/drivers/media/usb/uvc/uvcvideo.h
-@@ -647,6 +647,7 @@ struct uvc_streaming {
- 		unsigned int head;
- 		unsigned int count;
- 		unsigned int size;
-+		unsigned int last_sof_overflow;
- 
- 		u16 last_sof;
- 		u16 sof_offset;
+Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 
--- 
-b4 0.11.0-dev-d93f8
+> ---
+>  drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_if.c | 3 +++
+>  1 file changed, 3 insertions(+)
+>=20
+> diff --git a/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_if.c b/=
+drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_if.c
+> index 70b8383f7c8e..776468cd834a 100644
+> --- a/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_if.c
+> +++ b/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_if.c
+> @@ -208,6 +208,9 @@ static bool vp9_is_sf_ref_fb(struct vdec_vp9_inst *in=
+st, struct vdec_fb *fb)
+>  	int i;
+>  	struct vdec_vp9_vsi *vsi =3D inst->vsi;
+> =20
+> +	if (!fb)
+> +		return true;
+> +
+>  	for (i =3D 0; i < ARRAY_SIZE(vsi->sf_ref_fb); i++) {
+>  		if (fb =3D=3D &vsi->sf_ref_fb[i].fb)
+>  			return true;
+
