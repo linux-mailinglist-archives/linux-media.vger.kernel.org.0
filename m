@@ -2,157 +2,214 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3B7EC61762C
-	for <lists+linux-media@lfdr.de>; Thu,  3 Nov 2022 06:30:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 62BA76176DA
+	for <lists+linux-media@lfdr.de>; Thu,  3 Nov 2022 07:49:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230495AbiKCFaA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 3 Nov 2022 01:30:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56478 "EHLO
+        id S230089AbiKCGtB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 3 Nov 2022 02:49:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60158 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230183AbiKCF3w (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Nov 2022 01:29:52 -0400
-Received: from mailout4.samsung.com (mailout4.samsung.com [203.254.224.34])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AED3AB1C7
-        for <linux-media@vger.kernel.org>; Wed,  2 Nov 2022 22:29:50 -0700 (PDT)
-Received: from epcas5p4.samsung.com (unknown [182.195.41.42])
-        by mailout4.samsung.com (KnoxPortal) with ESMTP id 20221103052948epoutp042fcec4d613e642a42e57f56bce15807d~j-AXJaTYg1828718287epoutp04O
-        for <linux-media@vger.kernel.org>; Thu,  3 Nov 2022 05:29:48 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com 20221103052948epoutp042fcec4d613e642a42e57f56bce15807d~j-AXJaTYg1828718287epoutp04O
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-        s=mail20170921; t=1667453388;
-        bh=4qBUx2QDAhX1kh6nWGZRrxqRso5GJ9KFQ9asXvnAyPw=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=TCf1eeLb/cphCZsdXUjB5YhbZmH5OEB0fdWgNx1eFWbS/dW2ADxVKJw4zYu1Ddg7T
-         mpbaV+2IB4gVuJAXkh1cpKfNr7WuTCgWEfvPdlqgetHJnLZN5mJuNpPfjIh2wLoK1g
-         4ZE0fn0YdXzZlBT8Wd32+GmClgxhjcMoUTq183YI=
-Received: from epsnrtp1.localdomain (unknown [182.195.42.162]) by
-        epcas5p4.samsung.com (KnoxPortal) with ESMTP id
-        20221103052948epcas5p4fdbc03d2b51af6b5a457ec218d039a24~j-AWbyKkz2152821528epcas5p47;
-        Thu,  3 Nov 2022 05:29:48 +0000 (GMT)
-Received: from epsmges5p3new.samsung.com (unknown [182.195.38.174]) by
-        epsnrtp1.localdomain (Postfix) with ESMTP id 4N2slB1Z6lz4x9Q5; Thu,  3 Nov
-        2022 05:29:42 +0000 (GMT)
-Received: from epcas5p3.samsung.com ( [182.195.41.41]) by
-        epsmges5p3new.samsung.com (Symantec Messaging Gateway) with SMTP id
-        5D.9B.56352.4C153636; Thu,  3 Nov 2022 14:29:40 +0900 (KST)
-Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
-        epcas5p2.samsung.com (KnoxPortal) with ESMTPA id
-        20221102125816epcas5p23e16fefd6b820e7dd7d9a93f0d48f40d~jxeo9kLch3082130821epcas5p2t;
-        Wed,  2 Nov 2022 12:58:16 +0000 (GMT)
-Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
-        epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
-        20221102125816epsmtrp2841e089a1f09752becc1a2fcd866e6ff~jxeo8XqlW1846518465epsmtrp2n;
-        Wed,  2 Nov 2022 12:58:16 +0000 (GMT)
-X-AuditID: b6c32a4b-5f7fe7000001dc20-1e-636351c4b7b0
-Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
-        epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
-        F5.04.14392.86962636; Wed,  2 Nov 2022 21:58:16 +0900 (KST)
-Received: from cheetah.sa.corp.samsungelectronics.net (unknown
-        [107.109.115.53]) by epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
-        20221102125813epsmtip1dad99ce1b696e3f0129399b84bed9246~jxel4p4wh2204122041epsmtip1w;
-        Wed,  2 Nov 2022 12:58:13 +0000 (GMT)
-From:   Aakarsh Jain <aakarsh.jain@samsung.com>
-To:     linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
-Cc:     m.szyprowski@samsung.com, andrzej.hajda@intel.com,
-        mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
-        ezequiel@vanguardiasur.com.ar, jernej.skrabec@gmail.com,
-        benjamin.gaignard@collabora.com, krzysztof.kozlowski+dt@linaro.org,
-        stanimir.varbanov@linaro.org, dillon.minfei@gmail.com,
-        david.plowman@raspberrypi.com, mark.rutland@arm.com,
-        robh+dt@kernel.org, krzk+dt@kernel.org, andi@etezian.org,
-        alim.akhtar@samsung.com, aswani.reddy@samsung.com,
-        pankaj.dubey@samsung.com, smitha.t@samsung.com,
-        aakarsh.jain@samsung.com
-Subject: [PATCH 3/3] arm64: dts: exynos: Rename compatible string property
- from version to SOC specific
-Date:   Wed,  2 Nov 2022 18:36:02 +0530
-Message-Id: <20221102130602.48969-3-aakarsh.jain@samsung.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20221102130602.48969-1-aakarsh.jain@samsung.com>
-X-Brightmail-Tracker: H4sIAAAAAAAAA0WTf0xbVRTHve+1r2VJ2RNw3qGM2o05MLB2tPWyAPMHmS9iIgtZpkwHj/IC
-        jP5KX3E6MQwnzoEg3YbKj3SGHy4yfpaf7WBltDgyhckkoLGFCSOj4HAUGYu4aWnZ/O9z7vme
-        8z05914+HuAggvnZaj2jU9NKEbGJ02ULD4+0H1AoxPbTz6PZngouumnsIlDt/dsYmqpd5qCB
-        9k4e6hirwtGFq/1cdN4+wkXdV6Y5qG3Okx2tcHLQ7fPNALkqJwlUOvc7jkwz41z0s6WaQJ+3
-        dnJRk93JQ/UToxj61vQPhmo6/+Khwj47Dzl7uwD65FM79hKkGo2NgOpx1gFqos6NU+ZKJ4+q
-        7XVhlKnhNEE5xnsJqr0unyoc/JtDlXY0AKrIPkFQy6Zt1LWVZV6SICUnNouhMxidkFErNBnZ
-        6sw4UWJy6qupMrlYEimJQS+KhGpaxcSJEt5IityfrfSsQCR8j1bmeo6SaJYV7Y6P1Wly9Yww
-        S8Pq40SMNkOplWqjWFrF5qozo9SMfq9ELN4j8wjTcrJKrBWY9iH//cliI+cEGOQVAT8+JKXw
-        Qd9JUAQ28QPISwBaVy9wfIEbwHutbYQvuAdg2czI45KqW0PYOgeQfQAWNDI+USEGv+xq9VTw
-        +QQZCYe7leuaILIAwJnP9OsanDRw4G+lc/h6IpDMhsVflXgbccgweP1ug9dAQMbBjxe/x31m
-        ofBia7+X/ch4uPprkXdWSP7Lhw7bNOYTJUBb9yrHx4Fw/mrHxqTBcHmxj/CxAs7UuDaaKmFL
-        77kN/T7YP1bNWR8aJ8Nhi2W37zgEll9r9rbHSX9YsnZrw0oAe4yPeCesdtzn+vhZaLtYD3xM
-        weXVIa5vKQYAG69M4WVgW+X/Ft8A0AC2MlpWlcmwMm20mjn2+NYUGpUJeJ95RGIPmL55N2oA
-        YHwwACAfFwUJ8ocPKwIEGfQHxxmdJlWXq2TYASDzLNCABz+l0Hj+iVqfKpHGiKVyuVwaEy2X
-        iJ4W1H4doQggM2k9k8MwWkb3qA7j+wWfwKp2pi3tSSwZNAfLXNb0j96xVO+fY+U7lpbWaDAw
-        fybeanMLi7Gyhu3H9lrXDJOgX7s1fSRv0OxfrhgOfHvKvch9+SfZ0aJdB85SjifNhWHtK9Gn
-        Di0s1BQmpJf8EpEoVje/6U/XZAsFE/nFZfrra7uMl17fkTpkGzuqL7icYXGGza9aD4pTjpyq
-        C3nQPR5U/2HtEWOoS0CEzQ5/McS0bD5cVvDdjYdRubPl9Xkr7gXpnRvyUdVbm59pyjuk6GvV
-        /ek2O9rOvJCywDZZDMLLSPNKwROT50LOhqruGM3bf3jOteXgjyrDa6FhseZ3ccnIyag/0rYk
-        5+8z6ZOPM5axyYl0EYfNoiURuI6l/wPUiL67bwQAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprCIsWRmVeSWpSXmKPExsWy7bCSnG5GZlKyweJDehZPd8xktXgwbxub
-        xeIfz5ks7i/+zGJxaPNWdostV2YzWyw/foDVYv6Rc6wW2w8+YrHY+AIoe3HmXRaL5/PXMVq8
-        nHWPzaLvxUNmi02Pr7FaXN41h82iZ8NWVou1R+6yWyy9fpHJYtmmP0wWi7Z+Ybdo3XuE3eLu
-        nm2MFi1tR5gcJDzWzFvD6LHj7hJGj+tLPjF77Jx1l91j8Z6XTB6bVnWyedy5tofNY/OSeo/W
-        o79YPPq2rGL06Dpync3j8yY5j1NfP7MH8EZx2aSk5mSWpRbp2yVwZfTun8lU8I+j4l73PJYG
-        xqPsXYycHBICJhKzn5xg6mLk4hAS2M0osWXuPSaIhIzE/7ZjUEXCEiv/PWeHKGpmkpix8yJj
-        FyMHB5uArsTZ7TkgcRGBVkaJ6ys7wSYxC6xkkbi9sQdskrBAusTedZ0sIDaLgKrE+Q+rwKby
-        CthKNL07xgyxQV5i9YYDYDangJ3E95tdjCC2EFDNxp7rzBMY+RYwMqxilEwtKM5Nzy02LDDM
-        Sy3XK07MLS7NS9dLzs/dxAiOOC3NHYzbV33QO8TIxMF4iFGCg1lJhLf+bHSyEG9KYmVValF+
-        fFFpTmrxIUZpDhYlcd4LXSfjhQTSE0tSs1NTC1KLYLJMHJxSDUzrnd8vDtdntam0iT/k85RP
-        XVH3/67fUZ8k8wPcw54X9D4933VpRuUWU/Yz2lr1G97Fbf7y1HUxh4BheuLWAKZlR+9fNfr+
-        hT/voKsx07u/p46K3GB8ntV+RWa1vP46SV7jw6vvJ+fZm1xfu8Vn8//f9w8XX1dhXc0qOJHv
-        yYfGjAc8Mg83i+svv6fmWGvNG7cks+pZGcvxhZ6qVw7psAfn23PPrmpN674qzrLNwEzxx/1u
-        3V+SSnKqRuJBTPNqnp71budiF+xnPLGToWZ6AXtB+5HkhFmZFoKfxS+X3/l85PPqYzHz+57y
-        ls5zrO9sfBzwg99UVvlC+Ha56bdU3/u+iHPp+tNeKcib0njYXImlOCPRUIu5qDgRAMv2evAn
-        AwAA
-X-CMS-MailID: 20221102125816epcas5p23e16fefd6b820e7dd7d9a93f0d48f40d
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-Sendblock-Type: REQ_APPROVE
-CMS-TYPE: 105P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20221102125816epcas5p23e16fefd6b820e7dd7d9a93f0d48f40d
-References: <20221102130602.48969-1-aakarsh.jain@samsung.com>
-        <CGME20221102125816epcas5p23e16fefd6b820e7dd7d9a93f0d48f40d@epcas5p2.samsung.com>
-X-Spam-Status: No, score=-5.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+        with ESMTP id S229459AbiKCGs7 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Nov 2022 02:48:59 -0400
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 563632720;
+        Wed,  2 Nov 2022 23:48:48 -0700 (PDT)
+X-UUID: 760f8397626646afa989c11e69e13c74-20221103
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+        h=Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=xfSsEzqj2BXrEDx/MIKmNEh/Vct3wpVU7csvyV5KeN8=;
+        b=tWri2QRbgp3E7+3aIC3zARFBcDbC5j/BsAzMn6OYYEFTZOiOoQ9wVyQhBLJeSSSpXzgQTuGUgA0ncynwuRFCUywAsx25hW2/c5UqUVa/KGmbhdhM7SOd9kjuVvwXX+UsQo79qJAiIz8qD5vAKGvxRgUm7GBfz7Cd0Ebf6o7BcHU=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.12,REQID:eacc6893-03c9-403e-98db-02e46b65fde8,IP:0,U
+        RL:0,TC:0,Content:-25,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
+        N:release,TS:-25
+X-CID-META: VersionHash:62cd327,CLOUDID:f1947490-1a78-4832-bd08-74b1519dcfbf,B
+        ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
+        RL:1,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0
+X-UUID: 760f8397626646afa989c11e69e13c74-20221103
+Received: from mtkmbs11n2.mediatek.inc [(172.21.101.187)] by mailgw02.mediatek.com
+        (envelope-from <moudy.ho@mediatek.com>)
+        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+        with ESMTP id 1755798888; Thu, 03 Nov 2022 14:48:45 +0800
+Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
+ mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.792.15; Thu, 3 Nov 2022 14:48:43 +0800
+Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
+ mtkmbs11n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.792.15 via Frontend Transport; Thu, 3 Nov 2022 14:48:43 +0800
+From:   Moudy Ho <moudy.ho@mediatek.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>
+CC:     Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+        <linux-media@vger.kernel.org>,
+        <linux-mediatek@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>,
+        <Project_Global_Chrome_Upstream_Group@mediatek.com>,
+        Moudy Ho <moudy.ho@mediatek.com>
+Subject: [PATCH v3 00/10] Add support for multiple chips
+Date:   Thu, 3 Nov 2022 14:48:32 +0800
+Message-ID: <20221103064842.12042-1-moudy.ho@mediatek.com>
+X-Mailer: git-send-email 2.18.0
+MIME-Version: 1.0
+Content-Type: text/plain
+X-MTK:  N
+X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,DKIM_INVALID,
+        DKIM_SIGNED,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,UNPARSEABLE_RELAY
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-commit "752d3a23d1f68de87e3c" which adds MFC codec device node
-for exynos3250 SOC. Since exynos3250.dtsi and exynos5420.dtsi are
-using same compatible string as "samsung,mfc-v7" but their
-node properties are different.As both SoCs have MFC v7 hardware
-module but with different clock hierarchy and complexity.
-So renaming compatible string from version specific to SOC based.
+Changes since v2:
+- Depend on :
+  [1] https://patchwork.kernel.org/project/linux-mediatek/list/?series=687004
+- Split the shared memory header(mtk-img-ipi.h) by preprocessing instead, and
+  classify the generic parts into "mtk-mdp3-type.h", and move
+  chip-specific parts to"mt8183/mdp3-comp-mt8183.h".
 
-Suggested-by: Alim Akhtar <alim.akhtar@samsung.com>
-Fixes: 752d3a23d1f6 ("ARM: dts: add MFC codec device node for exynos3250")
-Signed-off-by: Aakarsh Jain <aakarsh.jain@samsung.com>
----
- arch/arm/boot/dts/exynos3250.dtsi | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Changes since v1:
+- Depend on :
+  [1] https://patchwork.kernel.org/project/linux-mediatek/list/?series=687004
+- For hardware-specific structures in the shared memory header(mtk-img-ipi.h),
+  split the relevant functions and structure definitions.
 
-diff --git a/arch/arm/boot/dts/exynos3250.dtsi b/arch/arm/boot/dts/exynos3250.dtsi
-index 326b9e0ed8d3..98105c64f7d9 100644
---- a/arch/arm/boot/dts/exynos3250.dtsi
-+++ b/arch/arm/boot/dts/exynos3250.dtsi
-@@ -485,7 +485,7 @@
- 		};
- 
- 		mfc: codec@13400000 {
--			compatible = "samsung,mfc-v7";
-+			compatible = "samsung,exynos3250-mfc";
- 			reg = <0x13400000 0x10000>;
- 			interrupts = <GIC_SPI 102 IRQ_TYPE_LEVEL_HIGH>;
- 			clock-names = "mfc", "sclk_mfc";
+Hi,
+
+To support multiple chips, a chip configuration header file needs to be created
+and the relevant information split and moved into it.
+
+The v4l2-compliance test results list is as follows:
+	v4l2-compliance 1.23.0-4942, 32 bits, 32-bit time_t
+	v4l2-compliance SHA: 4cf258c24026 2022-07-28 15:43:45
+
+	Compliance test for mtk-mdp3 device /dev/video0:
+
+	Driver Info:
+	Driver name      : mtk-mdp3
+	Card type        : MediaTek MDP3
+	Bus info         : platform:14001000.mdp3-rdma0
+	Driver version   : 6.1.0
+	Capabilities     : 0x84204000
+		Video Memory-to-Memory Multiplanar
+		Streaming
+		Extended Pix Format
+		Device Capabilities
+	Device Caps      : 0x04204000
+		Video Memory-to-Memory Multiplanar
+		Streaming
+		Extended Pix Format
+	Required ioctls:
+		test VIDIOC_QUERYCAP: OK
+		test invalid ioctls: OK
+	Allow for multiple opens:
+		test second /dev/video0 open: OK
+		test VIDIOC_QUERYCAP: OK
+		test VIDIOC_G/S_PRIORITY: OK
+		test for unlimited opens: OK
+	Debug ioctls:
+		test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
+		test VIDIOC_LOG_STATUS: OK (Not Supported)
+	Input ioctls:
+		test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+		test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+		test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+		test VIDIOC_ENUMAUDIO: OK (Not Supported)
+		test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
+		test VIDIOC_G/S_AUDIO: OK (Not Supported)
+		Inputs: 0 Audio Inputs: 0 Tuners: 0
+	Output ioctls:
+		test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+		test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+		test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+		test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+		test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+		Outputs: 0 Audio Outputs: 0 Modulators: 0
+	Input/Output configuration ioctls:
+		test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+		test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+		test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+		test VIDIOC_G/S_EDID: OK (Not Supported)
+	Control ioctls:
+		test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
+		test VIDIOC_QUERYCTRL: OK
+		test VIDIOC_G/S_CTRL: OK
+		test VIDIOC_G/S/TRY_EXT_CTRLS: OK
+		test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
+		test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+		Standard Controls: 4 Private Controls: 0
+	Format ioctls:
+		test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
+		test VIDIOC_G/S_PARM: OK (Not Supported)
+		test VIDIOC_G_FBUF: OK (Not Supported)
+		test VIDIOC_G_FMT: OK
+		test VIDIOC_TRY_FMT: OK
+		test VIDIOC_S_FMT: OK
+		test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+		test Cropping: OK
+		test Composing: OK
+		test Scaling: OK
+	Codec ioctls:
+		test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+		test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+		test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
+	Buffer ioctls:
+		test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
+		test VIDIOC_EXPBUF: OK
+		test Requests: OK (Not Supported)
+		test TIME32/64: OK
+	Test input 0:
+	Streaming ioctls:
+		test read/write: OK (Not Supported)
+		test blocking wait: OK
+		Video Capture Multiplanar: Captured 58 buffers
+		test MMAP (no poll): OK
+		Video Capture Multiplanar: Captured 58 buffers
+		test MMAP (select): OK
+		Video Capture Multiplanar: Captured 58 buffers
+		test MMAP (epoll): OK
+		test USERPTR (no poll): OK (Not Supported)
+		test USERPTR (select): OK (Not Supported)
+		test DMABUF: Cannot test, specify --expbuf-device
+	Stream using all formats:
+		(snip)
+	Total for mtk-mdp3 device /dev/video0:
+		1592, Succeeded: 1592, Failed: 0, Warnings: 0
+
+Moudy Ho (10):
+  media: platform: mtk-mdp3: add chip configuration header file
+  media: platform: mtk-mdp3: chip config split about component settings
+  media: platform: mtk-mdp3: chip config split about subcomponents
+  media: platform: mtk-mdp3: chip config split about color format
+  media: platform: mtk-mdp3: chip config split about resolution
+    limitations
+  media: platform: mtk-mdp3: chip config split about pipe info
+  media: platform: mtk-mdp3: extend mdp_color format for compressed mode
+  media: platform: mtk-mdp3: extend shared memory structure to 4-byte
+    aligned
+  media: platform: mtk-mdp3: Split general definitions used in MDP3
+  media: platform: mtk-mdp3: decompose hardware-related information in
+    shared memory
+
+ .../mediatek/mdp3/mt8183/mdp3-comp-mt8183.h   | 144 ++++++
+ .../mediatek/mdp3/mt8183/mdp3-plat-mt8183.h   | 409 +++++++++++++++++
+ .../platform/mediatek/mdp3/mtk-img-ipi.h      | 218 ++-------
+ .../platform/mediatek/mdp3/mtk-mdp3-cmdq.c    | 136 ++++--
+ .../platform/mediatek/mdp3/mtk-mdp3-comp.c    | 433 +++++++++++-------
+ .../platform/mediatek/mdp3/mtk-mdp3-comp.h    |  24 +-
+ .../platform/mediatek/mdp3/mtk-mdp3-core.c    |  49 +-
+ .../platform/mediatek/mdp3/mtk-mdp3-core.h    |  18 +
+ .../platform/mediatek/mdp3/mtk-mdp3-m2m.c     |  10 +-
+ .../platform/mediatek/mdp3/mtk-mdp3-regs.c    | 283 +-----------
+ .../platform/mediatek/mdp3/mtk-mdp3-regs.h    | 212 ++++-----
+ .../platform/mediatek/mdp3/mtk-mdp3-type.h    |  53 +++
+ 12 files changed, 1185 insertions(+), 804 deletions(-)
+ create mode 100644 drivers/media/platform/mediatek/mdp3/mt8183/mdp3-comp-mt8183.h
+ create mode 100644 drivers/media/platform/mediatek/mdp3/mt8183/mdp3-plat-mt8183.h
+ create mode 100644 drivers/media/platform/mediatek/mdp3/mtk-mdp3-type.h
+
 -- 
-2.17.1
+2.18.0
 
