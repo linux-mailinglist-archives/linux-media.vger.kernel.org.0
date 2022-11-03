@@ -2,149 +2,127 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E5DA7617A48
-	for <lists+linux-media@lfdr.de>; Thu,  3 Nov 2022 10:54:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 92620617A83
+	for <lists+linux-media@lfdr.de>; Thu,  3 Nov 2022 11:02:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229863AbiKCJyJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 3 Nov 2022 05:54:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33672 "EHLO
+        id S230171AbiKCKCc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 3 Nov 2022 06:02:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36820 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231326AbiKCJyC (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Nov 2022 05:54:02 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F04910049
-        for <linux-media@vger.kernel.org>; Thu,  3 Nov 2022 02:53:55 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id B2465589;
-        Thu,  3 Nov 2022 10:53:52 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1667469232;
-        bh=x4w4PejE2zWVD8zgoVnf4um2C3OBeTL1iG4JZ07AKCE=;
-        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-        b=jxvIN679MXbAJxBm0eOvn9KRlPUdUHCyDgyjDWz2iJuQbbtoGFvwKAoKZ99saZCA5
-         1ei7xZvx5Bq9qzL0oqy5VH3mt7JI7Wq20qwm99hYoaQQl4TTfl+AlWXH6lz1S95fmm
-         VUKOjEqIAWFCsZi0tpvbCUtI9x9J5r8rjS2wIFNc=
-Content-Type: text/plain; charset="utf-8"
+        with ESMTP id S231318AbiKCKCS (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Nov 2022 06:02:18 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 36EC325F7;
+        Thu,  3 Nov 2022 03:02:14 -0700 (PDT)
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits))
+        (No client certificate requested)
+        (Authenticated sender: kholk11)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 10CF56602910;
+        Thu,  3 Nov 2022 10:02:12 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1667469733;
+        bh=cJ7/RbB6T0ABdRfkEHmG42usHctHRiTqhYQyfhjHJMI=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=VvdeKyjARZCCL/SdvIIIfp++2uEa4iuO5NcBoZaStwwkIIX21PZoX5wF8gpW+u8Ax
+         xJEDis3rirygwyq53jDEAWaj2lTGxq+wgTkynVabwtR6PudpEjUJLp6cadg8A+1oY6
+         9WgwLhMf/FSOh5lop5mkzMdzTooiVTpBMoaxtGMM4ttxyjcbbACWmx4Fw7bwb/jvDq
+         q+v7pZDCMSGKvxNfFil79es3XPExbPKWqVz7KkZgTV+Q6XjJS5EbstUWU/q1I8NTI9
+         BFIDtkVHr9QUfIBZlHvw1tftEmnrD/PqQRIMtPA+uDZ+3KulOAm4nGTKs+ZkaP838O
+         WIVTgQD4If87w==
+Message-ID: <bb439583-9963-b705-9239-b8cedc71b5db@collabora.com>
+Date:   Thu, 3 Nov 2022 11:02:09 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <1925191.VLH7GnMWUR@steina-w>
-References: <20221028160902.2696973-1-dave.stevenson@raspberrypi.com> <CAPY8ntC8iCy2S-AEV808k2yCmnQxiZzR7vQJZ1E+PcdjQJL9aw@mail.gmail.com> <166733502982.3428399.14712580044445404450@Monstersaurus> <1925191.VLH7GnMWUR@steina-w>
-Subject: Re: [PATCH v2 15/16] media: i2c: ov9282: Add support for 8bit readout
-From:   Kieran Bingham <kieran.bingham@ideasonboard.com>
-Cc:     Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        sakari.ailus@iki.fi, paul.j.murphy@intel.com,
-        daniele.alessandrelli@intel.com, linux-media@vger.kernel.org,
-        jacopo@jmondi.org
-To:     Alexander Stein <alexander.stein@ew.tq-group.com>
-Date:   Thu, 03 Nov 2022 09:53:49 +0000
-Message-ID: <166746922961.3962897.16011022389812228597@Monstersaurus>
-User-Agent: alot/0.10
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.3
+Subject: Re: [PATCH v3 10/10] media: platform: mtk-mdp3: decompose
+ hardware-related information in shared memory
+Content-Language: en-US
+To:     Moudy Ho <moudy.ho@mediatek.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+        linux-media@vger.kernel.org, linux-mediatek@lists.infradead.org,
+        linux-kernel@vger.kernel.org,
+        Project_Global_Chrome_Upstream_Group@mediatek.com
+References: <20221103064842.12042-1-moudy.ho@mediatek.com>
+ <20221103064842.12042-11-moudy.ho@mediatek.com>
+From:   AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20221103064842.12042-11-moudy.ho@mediatek.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Quoting Alexander Stein (2022-11-03 08:49:48)
-> Hi Kieran,
->=20
-> Am Dienstag, 1. November 2022, 21:37:09 CET schrieb Kieran Bingham:
-> > Hi Alex,
-> >=20
-> > Quoting Dave Stevenson (2022-11-01 18:20:47)
-> >=20
-> > > Hi Alexander
-> > >=20
-> > > On Tue, 1 Nov 2022 at 15:04, Alexander Stein
-> > >=20
-> > > <alexander.stein@ew.tq-group.com> wrote:
-> > > > Hi Dave,
-> > > >=20
-> > > > thanks for the fast reply.
-> > > >=20
-> > > > Am Dienstag, 1. November 2022, 14:47:16 CET schrieb Dave Stevenson:
-> > > > > Hi Alexander
-> > > > >=20
-> > > > > On Tue, 1 Nov 2022 at 11:59, Alexander Stein
-> >=20
-> > <snip>
-> >=20
-> > > > > > Using this series I was able to do some camera playback on LVDS
-> > > > > > display on
-> > > > > > imx8mm based platform (TQMa8MxML). My command was 'gst-launch-1=
-.0
-> > > > > > v4l2src
-> > > > > > device=3D/dev/video0 ! video/x-
-> > > > > > raw,format=3DGRAY8,bpp=3D8,width=3D1280,height=3D720,framerate=
-=3D30/1 !
-> > > > > > videoconvert
-> > > > > > ! waylandsink'
-> > > > > > But due to SW colorspace conversion this is awfully slow.
-> > > > > > Using a testsink I get about 72FPS on 1280x720 for GREY. Is thi=
-s to
-> > > > > > be
-> > > > > > expected?
-> > > > > > I used 'gst-launch-1.0 v4l2src device=3D/dev/video0 ! video/x-
-> > > > > > raw,format=3DGRAY8,bpp=3D8,width=3D1280,height=3D720,framerate=
-=3D30/1 !
-> > > > > > fpsdisplaysink video-sink=3D"testsink" text-overlay=3Dfalse sil=
-ent=3Dfalse
-> > > > > > sync=3Dfalse -v' for that.
-> > > > >=20
-> > > > > AFAIK v4l2src doesn't map from a caps framerate=3D30/1 to the rel=
-evant
-> > > > > V4L2_CID_VBLANK and V4L2_CID_HBLANK controls used by raw sensors =
-for
-> > > > > frame rate control (see docs at [1]). The sensor will therefore s=
-tream
-> > > > > at whatever rate the controls get left at.
-> > > >=20
-> > > > Yes I noticed the framerate caps has no effect. But I lack some kin=
-d of
-> > > > reference system to decide what should work and what not.
-> > >=20
-> > > As per the docs link, raw sensors will be using the HBLANK and VBLANK
-> > > controls, not VIDIOC_S_PARM.
-> > > I don't know whether the GStreamer folks wish to add support to
-> > > v4l2src to set those - libcamerasrc is going to be the more normal
-> > > user of these sensors, but that generally means needing an ISP of some
-> > > form. With just v4l2src you've got no AE / AGC control loops, so it is
-> > > only of use in controlled lighting conditions.
-> > >=20
-> > > I don't know the full details of the imx8 range, but believe the
-> > > libcamera folk were working with one of the imx8 platforms.
-> >=20
-> > We have the i.MX8MP working with the ISP available on that variant. I
-> > think we can also anticipate some support for other i.MX8 ranges with a
-> > GPU based 'ISP' in the (nearish) future, but I don't know what the
-> > timescales will be yet.
->=20
-> You are referring to (mainly) Paul Elder's patches to rkisp1, right? I no=
-ticed=20
-> them, but didn't get a chance for testing.
+Il 03/11/22 07:48, Moudy Ho ha scritto:
+> The communication between the MDP3 kernel driver and SCP is to
+> pass a shared memory through the cooperation of "mtk-mdp3-vpu.c" and
+> remoteproc driver.
+> The data structure of this shared memory is defined in "mtk-img-ipi.h",
+> as shown below:
+> 
+> vpu->work_addr -> +-----------------------------------------+
+>                    |                                         |
+>                    | To SCP : Input frame parameters         |
+>                    |          (struct img_ipi_frameparam)    |
+>                    |                                         |
+>       vpu->pool -> +-----------------------------------------+
+>                    |                                         |
+>                    | From SCP : Output component config pool |
+>                    |            (struct img_config)          |
+>                    |                                         |
+>                    |           *struct img_confg 1           |
+>                    |                    |                    |
+>                    |                    |                    |
+>                    |                    v                    |
+>                    |           *struct img_config N          |
+>                    |            (N = MDP_CONFIG_POOL_SIZE)   |
+>                    +-----------------------------------------+
+> 
+> One output component configuration contains the components
+> currently used by the pipeline, and has the register settings
+> that each component needs to set.
+> 
+> Since the quantity, type and function of components on each chip
+> will vary, the effect is that the size of the "struct img_config"
+> and its substructures will be different on each chip.
+> In addition, all chips will have to update their SCP firmware for
+> every change if the output component config structure is defined
+> and shared by a common header.
+> 
+> Therefore, all functions that operate on "struct img_config" and
+> its substructures must be separated by chips and so are the
+> relevant definations.
+> 
+> Signed-off-by: Moudy Ho <moudy.ho@mediatek.com>
 
-Yes, that's right - but you can only test those on an i.MX8MP not an
-i.MX8MM as I understand it.
+Hi Moudy,
+thanks for this much needed rework of the IMG-IPI parameter passing architecture!
 
-> I noticed that using 'glupload ! glcolorconvert ! glcolorscale !=20
-> glcolorconvert ! gldownload' in a gstreamer Pipeline for converting Y8/GR=
-EY to=20
-> RGBA doesn't work, because mesa rejects creating appropriate EGL buffers =
-due=20
-> to lack of some hardware features.
+I can for sure go for a review of the code that you've currently pushed, but I
+would prefer that you also push support for MT8192 and/or MT8195 (requiring the
+different IPI structures and alignment), as previously discussed.
 
-I haven't looked into the gstreamer EGL side of things I'm afraid.
+That will make us able to actually perform validation and will make us able to
+give you a better code review.
 
---
-Kieran
+Since this series is definitely big (hence, a bit difficult to review, but that's
+fine, as there are no alternatives!), you can push support for the new chip(s) in
+a separate series, dependent on this one, so that we also won't block this rework
+for SoC-specific implementation code reviews.
 
+Many thanks again!
 
->=20
-> Best regards,
-> Alexander
->=20
->=20
->
+P.S.: There's a typo in this commit message `*struct img_confg` :-)
+
+Cheers,
+Angelo
