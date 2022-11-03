@@ -2,50 +2,50 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 86D10617B1C
-	for <lists+linux-media@lfdr.de>; Thu,  3 Nov 2022 11:54:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5009E617B25
+	for <lists+linux-media@lfdr.de>; Thu,  3 Nov 2022 11:56:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231161AbiKCKyO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 3 Nov 2022 06:54:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58008 "EHLO
+        id S231309AbiKCK4Y (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 3 Nov 2022 06:56:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59094 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230497AbiKCKyN (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Nov 2022 06:54:13 -0400
-Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com [IPv6:2a00:1450:4864:20::532])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 90AED10FC2
-        for <linux-media@vger.kernel.org>; Thu,  3 Nov 2022 03:54:12 -0700 (PDT)
-Received: by mail-ed1-x532.google.com with SMTP id a67so2325029edf.12
-        for <linux-media@vger.kernel.org>; Thu, 03 Nov 2022 03:54:12 -0700 (PDT)
+        with ESMTP id S229493AbiKCK4V (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Nov 2022 06:56:21 -0400
+Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com [IPv6:2a00:1450:4864:20::62b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0F19110FC2
+        for <linux-media@vger.kernel.org>; Thu,  3 Nov 2022 03:56:20 -0700 (PDT)
+Received: by mail-ej1-x62b.google.com with SMTP id bj12so4041760ejb.13
+        for <linux-media@vger.kernel.org>; Thu, 03 Nov 2022 03:56:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=amarulasolutions.com; s=google;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=gYMVFsDFUtcWBoi5Ub0+JgvrJDXvnUpXM99R4TJjQzs=;
-        b=SkX70McYfmMSGeAMWsjfYgMia6pyW6pz3RbCv/mALOtkOuW2IqJMy5XZIDzhE5WypE
-         2NjaQB8CzCR1tSaVsyrrD022NvFT1iOOqYIIOF0TtGIpJqcY8bYuk/9OzVwUCGYrOXgb
-         sgORXAgt20sVA4nNJJv38Ewsd2+OT2XMhPJno=
+        bh=MHoEFEUHiiMBa/cPnqMwuahiYHL+HcOZn1fqIz2cIPY=;
+        b=kfPnWSmd0FTeX/avQZ1E61I0IPizlm1im7utoUJ4EyeHUR18MZPX5soFls0MRAPal5
+         g3OETyVycWiVOZIDhFnNt59wv1G3P3BeIn1Tk9faYvMLZgXT3bFHsgSYQml0FHyW//2F
+         epUzyDa2UxY6fEkSPXGB/wrbFw34DZYJBIPtk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=gYMVFsDFUtcWBoi5Ub0+JgvrJDXvnUpXM99R4TJjQzs=;
-        b=cN+za5gZiUzzVWn8BIlO3GBpfKeobt7i1DxDs0MLnVY8JmC7sTMifO97JznX6oxQ0z
-         yUfWIj1dhJDMbBroh8cPUFQTFHtEQcVF4PTZA031zvK/yg4AsCQdBIXMcveUzE4B7zAp
-         /WK2NlbiZJBvlArAXnfUw+szTX1bPwflCyXBxR2zaTthjhl8hapDK/2cKzqhGSY598gV
-         AjivRuGbDpWHHS0LvmyAldJutTimx8OX4sfwDmIxgR/mopeI687pXo/gPph0DWmYE5gT
-         bSwqA1Q/NJrfSus+xEoYEovOkygO0mdPNgXs+UN11LRkO6J+1SqyolUHcQyiXOsYk1X+
-         MVHg==
-X-Gm-Message-State: ACrzQf1OJOuYCABXQQb1x9FzLpcxnFqyAwVjj4Dhxkkp5fFYwByhzLBz
-        wcasA6/JP3W1SmqVaoTtsRrCQA==
-X-Google-Smtp-Source: AMsMyM4A41wsNapz3KJsWBntpCwima2ToPrxIuDvlX++qnpm8qT0btCquWidfFDoVrg0APSy+lMZrQ==
-X-Received: by 2002:aa7:c1d9:0:b0:463:aeaf:3383 with SMTP id d25-20020aa7c1d9000000b00463aeaf3383mr14157655edp.253.1667472851107;
-        Thu, 03 Nov 2022 03:54:11 -0700 (PDT)
+        bh=MHoEFEUHiiMBa/cPnqMwuahiYHL+HcOZn1fqIz2cIPY=;
+        b=t1temUu2eNgFYZRrq4XIB05AodsjzSyWe7Mg6aKfCgLgUYO9/lRbnxjNJ8m7kZVvN5
+         P8/5O0/Qoye8sGC/bdVBywnLjc98tZAy8SwC4qThLZaymaBvUozKEvrtY0w6eQC2xA9H
+         jE93AVQnofttdKo9A8w1MgfoKo/pg8GOMaX349GFrRXMepYg6vbzfwhpPLSmDsiU/J4n
+         rxCaWlmFviQ3Af82CJjqY3opca12BNGruoBMyHJbHAxUtA9cP5lNZfKY8pcvPYcke4pA
+         M+YLjqzAsb8s3Nuzrk4m4+DFnlXAgsUw1GHsoDoFr4cq0m/TGCbh3cSLt1G6i/Qjjec/
+         vgWA==
+X-Gm-Message-State: ACrzQf38dxpzjWLKM0g2TwylXlH8E1oWs7qMd8/6xQe6VzWTMXKZI+Qk
+        u0CcmOU8YNnhGrBr9HMrTY+FBw==
+X-Google-Smtp-Source: AMsMyM6gH60Gp0hF7v+cWs5gMtyaaKikxH25CGAGUgJOX5bFKeigen6f+TEUg/6vRtCX7ElEDpUFWw==
+X-Received: by 2002:a17:906:4795:b0:794:8b93:2e43 with SMTP id cw21-20020a170906479500b007948b932e43mr28527661ejc.184.1667472978651;
+        Thu, 03 Nov 2022 03:56:18 -0700 (PDT)
 Received: from tom-ThinkPad-T14s-Gen-2i (net-188-217-54-207.cust.vodafonedsl.it. [188.217.54.207])
-        by smtp.gmail.com with ESMTPSA id w25-20020a170906b19900b007ad84cf1346sm342265ejy.110.2022.11.03.03.54.09
+        by smtp.gmail.com with ESMTPSA id 2-20020a170906200200b007acbac07f07sm361368ejo.51.2022.11.03.03.56.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Nov 2022 03:54:10 -0700 (PDT)
-Date:   Thu, 3 Nov 2022 11:54:07 +0100
+        Thu, 03 Nov 2022 03:56:18 -0700 (PDT)
+Date:   Thu, 3 Nov 2022 11:56:15 +0100
 From:   Tommaso Merciai <tommaso.merciai@amarulasolutions.com>
 To:     Aakarsh Jain <aakarsh.jain@samsung.com>
 Cc:     linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
@@ -59,16 +59,16 @@ Cc:     linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
         robh+dt@kernel.org, krzk+dt@kernel.org, andi@etezian.org,
         alim.akhtar@samsung.com, aswani.reddy@samsung.com,
         pankaj.dubey@samsung.com, smitha.t@samsung.com
-Subject: Re: [PATCH 2/3] media: s5p-mfc:Add variant data for MFC v7 hardware
- for Exynos 3250 SOC
-Message-ID: <20221103105407.GB4937@tom-ThinkPad-T14s-Gen-2i>
+Subject: Re: [PATCH 3/3] arm64: dts: exynos: Rename compatible string
+ property from version to SOC specific
+Message-ID: <20221103105615.GC4937@tom-ThinkPad-T14s-Gen-2i>
 References: <20221102130602.48969-1-aakarsh.jain@samsung.com>
- <CGME20221102125813epcas5p40a38f17a267276ff8b2bc5861b5d450d@epcas5p4.samsung.com>
- <20221102130602.48969-2-aakarsh.jain@samsung.com>
+ <CGME20221102125816epcas5p23e16fefd6b820e7dd7d9a93f0d48f40d@epcas5p2.samsung.com>
+ <20221102130602.48969-3-aakarsh.jain@samsung.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221102130602.48969-2-aakarsh.jain@samsung.com>
+In-Reply-To: <20221102130602.48969-3-aakarsh.jain@samsung.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
@@ -80,73 +80,44 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 Hi Aakarsh,
 
-On Wed, Nov 02, 2022 at 06:36:01PM +0530, Aakarsh Jain wrote:
-> commit "5441e9dafdfc6dc40fa" which adds mfc v7 support for
-> Exynos3250 and used the same compatible string as used by
-> Exynos5240 but both the IPs are a bit different in terms of
-> IP clock.
-> Lets add variant driver data based on the new compatible string
-> "samsung,exynos3250-mfc" for Exynos3250 SoC.
+On Wed, Nov 02, 2022 at 06:36:02PM +0530, Aakarsh Jain wrote:
+> commit "752d3a23d1f68de87e3c" which adds MFC codec device node
+> for exynos3250 SOC. Since exynos3250.dtsi and exynos5420.dtsi are
+> using same compatible string as "samsung,mfc-v7" but their
+> node properties are different.As both SoCs have MFC v7 hardware
+> module but with different clock hierarchy and complexity.
+> So renaming compatible string from version specific to SOC based.
 > 
 > Suggested-by: Alim Akhtar <alim.akhtar@samsung.com>
-> Fixes: 5441e9dafdfc ("[media] s5p-mfc: Core support for MFC v7")
+> Fixes: 752d3a23d1f6 ("ARM: dts: add MFC codec device node for exynos3250")
 > Signed-off-by: Aakarsh Jain <aakarsh.jain@samsung.com>
 > ---
->  .../media/platform/samsung/s5p-mfc/s5p_mfc.c    | 17 +++++++++++++++--
->  1 file changed, 15 insertions(+), 2 deletions(-)
+>  arch/arm/boot/dts/exynos3250.dtsi | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/drivers/media/platform/samsung/s5p-mfc/s5p_mfc.c b/drivers/media/platform/samsung/s5p-mfc/s5p_mfc.c
-> index fca5c6405eec..007c7dbee037 100644
-> --- a/drivers/media/platform/samsung/s5p-mfc/s5p_mfc.c
-> +++ b/drivers/media/platform/samsung/s5p-mfc/s5p_mfc.c
-> @@ -1576,8 +1576,18 @@ static struct s5p_mfc_variant mfc_drvdata_v7 = {
->  	.port_num	= MFC_NUM_PORTS_V7,
->  	.buf_size	= &buf_size_v7,
->  	.fw_name[0]     = "s5p-mfc-v7.fw",
-> -	.clk_names	= {"mfc", "sclk_mfc"},
-> -	.num_clocks	= 2,
-> +	.clk_names	= {"mfc"},
-> +	.num_clocks	= 1,
-> +};
-> +
-> +static struct s5p_mfc_variant mfc_drvdata_v7_3250 = {
-> +	.version        = MFC_VERSION_V7,
-> +	.version_bit    = MFC_V7_BIT,
-> +	.port_num       = MFC_NUM_PORTS_V7,
-> +	.buf_size       = &buf_size_v7,
-> +	.fw_name[0]     = "s5p-mfc-v7.fw",
-> +	.clk_names      = {"mfc", "sclk_mfc"},
-> +	.num_clocks     = 2,
->  };
+> diff --git a/arch/arm/boot/dts/exynos3250.dtsi b/arch/arm/boot/dts/exynos3250.dtsi
+> index 326b9e0ed8d3..98105c64f7d9 100644
+> --- a/arch/arm/boot/dts/exynos3250.dtsi
+> +++ b/arch/arm/boot/dts/exynos3250.dtsi
+> @@ -485,7 +485,7 @@
+>  		};
 >  
->  static struct s5p_mfc_buf_size_v6 mfc_buf_size_v8 = {
-> @@ -1647,6 +1657,9 @@ static const struct of_device_id exynos_mfc_match[] = {
->  	}, {
->  		.compatible = "samsung,mfc-v7",
->  		.data = &mfc_drvdata_v7,
-> +	}, {
-> +		.compatible = "samsung,exynos3250-mfc",
-> +		.data = &mfc_drvdata_v7_3250,
->  	}, {
->  		.compatible = "samsung,mfc-v8",
->  		.data = &mfc_drvdata_v8,
+>  		mfc: codec@13400000 {
+> -			compatible = "samsung,mfc-v7";
+> +			compatible = "samsung,exynos3250-mfc";
+>  			reg = <0x13400000 0x10000>;
+>  			interrupts = <GIC_SPI 102 IRQ_TYPE_LEVEL_HIGH>;
+>  			clock-names = "mfc", "sclk_mfc";
 > -- 
 > 2.17.1
 > 
 
-Patch looks good to me, only one fix in commit body:
+Looks good to me.
+Reviewed-by: Tommaso Merciai <tommaso.merciai@amarulasolutions.com>
 
-"... Exynos3250 and used the same compatible string..."
-
-with:
-
-"... Exynos3250 and use the same compatible string...
-
-But this is a nitpicking :)
 
 Regards,
 Tommaso
-
 
 -- 
 Tommaso Merciai
