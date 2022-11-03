@@ -2,65 +2,82 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DD545617D7F
-	for <lists+linux-media@lfdr.de>; Thu,  3 Nov 2022 14:07:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 48A45617E20
+	for <lists+linux-media@lfdr.de>; Thu,  3 Nov 2022 14:41:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229745AbiKCNHK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 3 Nov 2022 09:07:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42748 "EHLO
+        id S231657AbiKCNlN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 3 Nov 2022 09:41:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42172 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231778AbiKCNGk (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Nov 2022 09:06:40 -0400
-Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com [IPv6:2a00:1450:4864:20::633])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EED9E178BF
-        for <linux-media@vger.kernel.org>; Thu,  3 Nov 2022 06:06:07 -0700 (PDT)
-Received: by mail-ej1-x633.google.com with SMTP id t25so5000003ejb.8
-        for <linux-media@vger.kernel.org>; Thu, 03 Nov 2022 06:06:07 -0700 (PDT)
+        with ESMTP id S230496AbiKCNlL (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Nov 2022 09:41:11 -0400
+Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com [IPv6:2a00:1450:4864:20::533])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C3621E57
+        for <linux-media@vger.kernel.org>; Thu,  3 Nov 2022 06:41:07 -0700 (PDT)
+Received: by mail-ed1-x533.google.com with SMTP id i21so3020084edj.10
+        for <linux-media@vger.kernel.org>; Thu, 03 Nov 2022 06:41:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=raspberrypi.com; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=IXwwzaOgizGgBmiG6321n1pSXvR68pzm3OOSdENENoo=;
-        b=ruAI7rIwBzM/ujR032X32rCIjcjeKfViVvItD1wF56YUcT/FisIav/ELqtBrzAwHCk
-         9fksoXC7o3UrLHOzJf8jvYcp5z1u5W35y/m/WIMYpnoO0bNYemlTguzrByO+FwW7H1BG
-         +ZG43wuA4/shqvKARnJTk2ZxCihU4ock06SxJBDo97pDl8RSJ+M/+x6KMJTv77Fdy6Jm
-         D8zb/qSCVe9Uhk9soX+QjzTCgVMfFHonBluLUDI6uREBx8rlimGmeI9W8zLEC9EWe9e8
-         a2zOdtVSlJhpNY++Ig0ekEZiwHY4PDzGUYvVrCLK+9Z2haP1M5aQ+Sd+H4Z7/4gTOYGi
-         bn5Q==
+        d=chromium.org; s=google;
+        h=cc:to:message-id:date:from:content-transfer-encoding:mime-version
+         :subject:from:to:cc:subject:date:message-id:reply-to;
+        bh=rRSqOrKRxkHkRwNxoSy4VyopzzE9hshqNihi6pocRbI=;
+        b=eDSP4/qfB4HhOoJwSgclm/BG4wRe7tuDc4bLGmoW2eMG5VTFlUGjns89o8YMHbgl8q
+         w48cmL8Bk46tjGC5pHjkEUyvk/cj1l1sLqxX7dnPTfpgdOH69CjMQ0EIh/49JT2L8umf
+         wR+j9k4eSuyF5Y7ybvtjmTWtzrsU2J8LvfMhc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        h=cc:to:message-id:date:from:content-transfer-encoding:mime-version
+         :subject:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=IXwwzaOgizGgBmiG6321n1pSXvR68pzm3OOSdENENoo=;
-        b=m9LNskS8ywTK1kGmSG/BeIceEw1Jx5G7QPH/28Z15TyebTnPQs0+6Bbk+O0BpcMqDh
-         btC5yPpVDxGRgXeShU6kP6+bOBq+gosbhpeeCFK8nEpREhFgLQkqK+SFThpVO9MpN4ZE
-         YNO7NEu+tuitnNHJYBZ16gbBAJCUWwxv9z6YhfFmRTQcG72BXZoTsFmxoBSTpybFs4xu
-         3qP3uo197E8nCW3WGWHJHybAkTGIrIzGP0pZfm/hu872/b77zJcaFHB3DCFYjcskOK2z
-         DnI7dfC14fQ067IWwqXoZKPN4ZMDG+HBp9FluX90hxa/2vO6oGpJmDaUIAD9H3bv92pi
-         74tw==
-X-Gm-Message-State: ACrzQf2dkR/cjp6s7hVEWVNe91Ij/somaVtia1avvEQxonqVKTYTYRf7
-        sDJnkNWJeboHOpKzLI6Gzz0R798sznRV9WLKWcwTVw==
-X-Google-Smtp-Source: AMsMyM6FdCw8+Ug29F/QfBl3TO69v5M7anu3SmDzPUdsThXXB+sHeJctWaPKBxSGII6arMq1pmRmzx9jPB0WHFQHFPw=
-X-Received: by 2002:a17:907:d1d:b0:7ad:4a55:9f01 with SMTP id
- gn29-20020a1709070d1d00b007ad4a559f01mr28859153ejc.723.1667480766386; Thu, 03
- Nov 2022 06:06:06 -0700 (PDT)
+        bh=rRSqOrKRxkHkRwNxoSy4VyopzzE9hshqNihi6pocRbI=;
+        b=wHwV3Wz9V28cfpq+bDDjJUWM3Emk5rtA+UHVumTKR6ywy6Xo9RQY/M50mWJq73RLHY
+         fRCjrPCzcEjRwDJ+69MoMhT+hAyAyPNG/XFQi6V6e3w+GVz2EMDTVIrTXxV1sTCAvlyL
+         VXvE8qquJqR6+HMjL/ha3rDX5GaMGgitI/x2LYPHknxdd37j1xPs83nCoC2KopyGcRlA
+         0qmxmoFEZ2+/ey5MoTjBcPAYDofpPZ2CP44Wga/+DkEReSB35kXiU+4KY2pMZpvYkzBo
+         yZZgPO5w/6bpLu3055DyEYrq6rlhWqF5CclwY9uA2+VUJWcneDT2XLQgT2ayr4K9GpPd
+         C4RA==
+X-Gm-Message-State: ACrzQf2xkNLZYN/YIM0RPphdp7ABksIvTKRJp8TpFO1tJEC28Pk+rsZC
+        FuR4LTekoQUuWxKr9UKGSw79KA==
+X-Google-Smtp-Source: AMsMyM4C1uq7DwManv5dQGk/6pm+PD7Gl+quy/D0f1/PnxicZrfdqlzfoVq1assWjYnQaPo2rPbAwA==
+X-Received: by 2002:a05:6402:2994:b0:453:4c5c:d31c with SMTP id eq20-20020a056402299400b004534c5cd31cmr30122150edb.412.1667482866317;
+        Thu, 03 Nov 2022 06:41:06 -0700 (PDT)
+Received: from alco.roam.corp.google.com ([2620:0:1059:10:c1a3:5bc:2068:8f2c])
+        by smtp.gmail.com with ESMTPSA id j1-20020a17090623e100b0078d46aa3b82sm521948ejg.21.2022.11.03.06.41.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 03 Nov 2022 06:41:06 -0700 (PDT)
+Subject: [PATCH v2 0/8] [RESEND] [PATCH 0/8] uvcvideo: Fixes for hw timestamping
 MIME-Version: 1.0
-References: <20221028160902.2696973-1-dave.stevenson@raspberrypi.com>
- <1742759.VLH7GnMWUR@steina-w> <CAPY8ntC8iCy2S-AEV808k2yCmnQxiZzR7vQJZ1E+PcdjQJL9aw@mail.gmail.com>
- <3704299.R56niFO833@steina-w>
-In-Reply-To: <3704299.R56niFO833@steina-w>
-From:   Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date:   Thu, 3 Nov 2022 13:05:47 +0000
-Message-ID: <CAPY8ntCph4Ukpc89B7m6WLybAsvWzte9kVrvW9yTp6sGpOg4Zg@mail.gmail.com>
-Subject: Re: [PATCH v2 15/16] media: i2c: ov9282: Add support for 8bit readout
-To:     Alexander Stein <alexander.stein@ew.tq-group.com>
-Cc:     sakari.ailus@iki.fi, paul.j.murphy@intel.com,
-        daniele.alessandrelli@intel.com, linux-media@vger.kernel.org,
-        jacopo@jmondi.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-b4-tracking: H4sIANnEY2MC/32NQQrCMBBFr1Jm7Ug6Rmxd9R7iIkmHZqBJJGkrUnp3gwdw9Xkf3v87FM7CBe7NDp
+ k3KZJiBTo14LyJE6OMlYEUkepJYebCcUT/XiRwWUx4ob0w0Y166vQIVbSmMNpsovNVjes819JLWVL+
+ /I62tsbj7+bWokLuXastXTut9OB8TkHWcE55gudxHF+EW/hsvAAAAA==
+From:   Ricardo Ribalda <ribalda@chromium.org>
+Date:   Thu, 03 Nov 2022 14:40:41 +0100
+Message-Id: <20220920-resend-hwtimestamp-v2-0-d8d0616bb612@chromium.org>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     HungNien Chen <hn.chen@sunplusit.com>,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        Ricardo Ribalda <ribalda@chromium.org>
+X-Mailer: b4 0.11.0-dev-d93f8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1714; i=ribalda@chromium.org;
+ h=from:subject:message-id; bh=4P/OGbO11kxTP9OilepqO/3sCN1ElEME+3c5V0/x33c=;
+ b=owEBbQKS/ZANAwAKAdE30T7POsSIAcsmYgBjY8Td8q22paQkuG+nauzWdjT4d3DAL2+1xAm5SBXc
+ VNOJmH+JAjMEAAEKAB0WIQREDzjr+/4oCDLSsx7RN9E+zzrEiAUCY2PE3QAKCRDRN9E+zzrEiLbNEA
+ CDCs8TVydYHdrd3REjPhV0e/JDD6s4MAvIMhZC7fNkgY2yJEpncCfoQMVNoUJne/3nxfqhDJPXkLR3
+ ntKctMcUgdAsdd0nhu2NqiY6Hb8OITPz6D/hHpCX4r6LF0DOk9824Yy2VpsAV9TftxW2LetX91fLGH
+ nSwIQzkKtQ4Lg862YmByVLpgJUyIFOkXnS1N4Y1AIMT89ObtC8oNCeH0gVEGaBq0/Ti1G1ApwJoA9W
+ nDSvRuUs25MKGLjp+v/iBKwJH8LE52tSt2utS1ZuksROE2OraM58m7VuIhvF5yybhK61zo35pczIXd
+ I/VZwmYlYvlZlhDJ9rLUTjql9EuwVhTlyXyC21wEy2+g90TRYPfJmOc8XFaXeQultwY2stznLZLNGf
+ 884sAC3Pu1s033nuTaG8gFISE3Em5hJMlxy9wl/SUobujgfJTYKqJU/RPuohiMKM7nhuEwNq/SCgLA
+ hvqAk7KSzeopzrfoL+tuaKYnrQI6mmZQbCDpoMUjyBBA1rhJFl3o6/oDxbZvhV9nRdtQ31vE3888pr
+ 36Abk7y9qa+LfL/L4W1L+pxafp6BIysijCoVgTaelZQOPT2gGJ21DkqlHKGVFv7fQuzFxUsEHQ+0D9
+ +OmYiory88iSRPgEQRhFo2ACnQL/ZYz/qA43oqhnb5sCcI8u2mDscX4RyDgw==
+X-Developer-Key: i=ribalda@chromium.org; a=openpgp;
+ fpr=9EC3BB66E2FC129A6F90B39556A0D81F9F782DA9
+X-Spam-Status: No, score=-3.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -68,178 +85,45 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Alex
+Add some fixes for fixing hw timestamp on some Logitech and Sunplus
+cameras. The issues have been previously reported to the manufacturers.
 
-On Thu, 3 Nov 2022 at 09:09, Alexander Stein
-<alexander.stein@ew.tq-group.com> wrote:
->
-> Hi Dave,
->
-> Am Dienstag, 1. November 2022, 19:20:47 CET schrieb Dave Stevenson:
-> > Hi Alexander
-> >
-> > On Tue, 1 Nov 2022 at 15:04, Alexander Stein
-> >
-> > <alexander.stein@ew.tq-group.com> wrote:
-> > > Hi Dave,
-> > >
-> > > thanks for the fast reply.
-> > >
-> > > Am Dienstag, 1. November 2022, 14:47:16 CET schrieb Dave Stevenson:
-> > > > Hi Alexander
-> > > >
-> > > > On Tue, 1 Nov 2022 at 11:59, Alexander Stein
-> > > >
-> > > > <alexander.stein@ew.tq-group.com> wrote:
-> > As per the docs link, raw sensors will be using the HBLANK and VBLANK
-> > controls, not VIDIOC_S_PARM.
-> > I don't know whether the GStreamer folks wish to add support to
-> > v4l2src to set those - libcamerasrc is going to be the more normal
-> > user of these sensors, but that generally means needing an ISP of some
-> > form. With just v4l2src you've got no AE / AGC control loops, so it is
-> > only of use in controlled lighting conditions.
->
-> I am aware that v4l2src is rather some raw accessor to cameras. What video
-> format is libcamerasrc supposed to provide? Raw formats (Y8, bayer patterns)
-> or already converted to RBGA etc.?
+Also include a patch to fix the current hw timestamping logic for ANY
+uvc 1.5 model running at under 16 fps.
 
-It depends on the pipeline handler.
-Raw streams will be the unprocessed images from the sensor, so
-typically Bayer or mono.
-Processed streams depend on the ISP capabilities, but generally YUV or RGB/RGBx.
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-media@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: hn.chen <hn.chen@sunplusit.com>
+Tested-by: HungNien Chen <hn.chen@sunplusit.com>
+Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 
-> > I don't know the full details of the imx8 range, but believe the
-> > libcamera folk were working with one of the imx8 platforms.
->
-> If an ISP is required then it will probably be imx8mp.
->
-> > > > I'm assuming you're not using Media Controller either, as v4l2src
-> > > > won't set up Media Controller links correctly either.
-> > >
-> > > Well, actually I am using Media Controller. But I need to configure it
-> > > before gstreamer usage. There is no specific reason for gstreamer, but we
-> > > use this to verify features on downstream kernel.
-> > >
-<snip>
-> > > Mh, using v4l2-ctl --set-ctrl=vertical_blanking=344 -d /dev/v4l-subdev2 I
-> > > get 109.61fps for 1280x800.
-> >
-> > The sensor has an external clock signal (XVCLK) which can be between 6
-> > and 27MHz. The driver only supports 24MHz. Is your module using a
-> > 24MHz clock?
->
-> Well, I assume it is. We are using an OV9281 camera from vision components.
+---
+Changes in v2:
+- Require 1/4 sec of data before using the hw timestamps
+- Add Tested-by SunplusIT
+- Link to v1: https://lore.kernel.org/r/20220920-resend-hwtimestamp-v1-0-e9c14b258404@chromium.org
 
-Thank you - I happen to have one of those, so I can test. (I also have
-OV9281 modules from InnoVision, Arducam, and possibly others).
-Vision Components modules do have the joys of not being able to do a 16bit read.
+---
+Ricardo Ribalda (8):
+      media: uvc: Extend documentation of uvc_video_clock_decode()
+      media: uvc: Allow quirking by entity guid
+      media: uvc: Create UVC_QUIRK_IGNORE_EMPTY_TS quirk
+      media: uvcvideo: Quirk for invalid dev_sof in Logi C922
+      media: uvcvideo: Quirk for autosuspend in Logi C910
+      media: uvcvideo: Allow hw clock updates with buffers not full
+      media: uvcvideo: Refactor clock circular buffer
+      media: uvcvideo: Fix hw timestampt handling for slow FPS
 
-> > > > I don't recall where I'd got the 200MPix/s value from - it's not
-> > > > documented in the datasheet, but presumably from 160 * 10 / 8
-> > > > (switching from 10 to 8 bits at the same output rate). You're the
-> > > > first to notice the rates are off, although at least it's less than
-> > > > the factor of two that this driver used to be out by.
-> > >
-> > > I admit I'm not fully sure which results are correct and what they are
-> > >
-> > > expected to be. But here are some results using the v4l-ctrl approach:
-> > >      | 1280x800 | 1280x720 | 640x400 |
-> > >
-> > > -----+----------+----------+---------+
-> > > GREY |  68.84   |   72.0   |  73.50  |
-> > > Y10  |  57.37   |   60.0   |  73.50  |
-> > >
-> > > All using their default vertical and horizontal blanking. Especially
-> > > switching to 640x400 and then back to 1280x720 leaves the
-> > > horizontal_blanking to the old (640) value, resulting in lower frame
-> > > rates.
-> >
-> > IMHO This isn't clear in the docs.
-> > My understanding is that controls shouldn't change value when changing
-> > modes unless the new mode requires updating the range for the control
-> > such that the current value is invalid. This does mean that the
-> > framerate will change if you change modes without reprogramming, but
-> > what heuristics should be used if you did update it?
->
-> For 1280 the default horizontal_blanking is 250, but when changing to 640 the
-> minimum also increased to 890. When switching back horizontal_blanking stays
-> at 890, as it is still a valid value.
->
-> > Options:
-> > 1) retain the current frame rate by recomputing VBLANK, but there will
-> > be conditions where you can't achieve the same frame rate in all
-> > modes.
-> > 2) reset to a default frame rate, but how do you define that? Do you
-> > have to detect change of mode vs just calling S_FMT with the same
-> > mode?
-> > 3) adjust the limits but otherwise leave the control alone.
-> > 4) as 3, but update the default value to reflect some standard
-> > framerate (but how do you define that standard?)
-> >
-> > Different sensors are currently doing different things, so the only
-> > approach you can really take is for userspace to set the controls
-> > explicitly after setting a mode.
->
-> I'm not sure what is the best way to go, all options have different use cases
-> in mind. At least one should be aware that some controls might change when
-> switching modes.
+ drivers/media/usb/uvc/uvc_driver.c |  63 ++++++++++++++++++
+ drivers/media/usb/uvc/uvc_video.c  | 127 ++++++++++++++++++++++++-------------
+ drivers/media/usb/uvc/uvcvideo.h   |   4 ++
+ 3 files changed, 150 insertions(+), 44 deletions(-)
+---
+base-commit: 521a547ced6477c54b4b0cc206000406c221b4d6
+change-id: 20220920-resend-hwtimestamp-b3e22729284d
 
-Switching is the interesting part.
-I had an annoyance trying to test variable HBLANK support on imx290
-before libcamera supported it. libcamera (at least on the Pi) always
-explicitly sets the mode when run, therefore the HBLANK I was setting
-was always being reset due to s_fmt being called on the driver, hence
-my comment above about detecting a change of mode or not.
-
-Without any definition of the correct behaviour you find different
-drivers do different things, and userspace has to handle all
-parameters or suffer unexpected results :-(
-
-> > Sakari will normally point to the CCS driver as a model for raw
-> > sensors, and that appears to adopt option 3. There was a thread with
-> > Jacopo recently over this same subject, but no resolution. I think it
-> > was on the ar0521 patchset.
-> >
-> > Clean boot and testing in this order:
-> > - 1280x720 Y10P 63.05fps
-> > - 1280x800 Y10P 60.28fps
-> > - 640x400 Y10P 77.22fps
-> > Reboot so that the HBLANK change is reset
-> > - 1280x720 GREY 75.65fps
-> > - 1280x800 GREY 72.33fps
-> > - 640x400 GREY 92.67fps.
-
-Tested with my Vision Components OV9281, and I get identical numbers
-to those above.
-
-> > I don't believe your GREY 640x400 number as it's the same as your
-> > 640x400 Y10 value, but all your other values except 1280x800 Y10
-> > differ from mine by a factor of 1.0507. (1280x800 Y10 is x1.099).
-> > I'd suggest measuring your XVCLK clock signal with an oscilloscope or
-> > frequency counter as I suspect it isn't 24MHz. 22.8MHz would give
-> > these results, but is a slightly strange frequency if from a dedicated
-> > oscillator rather than a PLL.
->
-> I lack technical documentation for the camera hardware module, so I do not see
-> a way to actually measuring XVCLK. AFAIK there is also an FPGA mounted which
-> might affect the clock frequency as well.
->
-> > Adding support for additional XVCLK frequencies isn't a huge task, but
-> > involves computing the internal PLL settings. My datasheet only gives
-> > settings for 24MHz, so it'd be back to the basic principles of PLL
-> > config to do it.
->
-> Until things are more clear I would skip that for now as this module should be
-> running on a 24 MHz, I assume.
-
-I've measured the output of the oscillator on my Vision Components
-OV9281, and it is 24MHz.
-The oscillator is the square silver package on the back of my module
-by one of the screw holes. It is stamped U24 which would also indicate
-24MHz. Holding the sensor with that silver component at the bottom
-edge, the clock output is the top right pin of the package.
-
-Unless yours is different for some reason, I'm out of ideas why you're
-seeing different frame rates.
-
-  Dave
+Best regards,
+-- 
+Ricardo Ribalda <ribalda@chromium.org>
