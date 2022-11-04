@@ -2,121 +2,210 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7518C61A288
-	for <lists+linux-media@lfdr.de>; Fri,  4 Nov 2022 21:43:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 317B761A4E4
+	for <lists+linux-media@lfdr.de>; Fri,  4 Nov 2022 23:53:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230092AbiKDUm5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 4 Nov 2022 16:42:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41206 "EHLO
+        id S229471AbiKDWwu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 4 Nov 2022 18:52:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59466 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229445AbiKDUmy (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 4 Nov 2022 16:42:54 -0400
-Received: from mail-oi1-x234.google.com (mail-oi1-x234.google.com [IPv6:2607:f8b0:4864:20::234])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D132F43AF0;
-        Fri,  4 Nov 2022 13:42:53 -0700 (PDT)
-Received: by mail-oi1-x234.google.com with SMTP id c129so6419916oia.0;
-        Fri, 04 Nov 2022 13:42:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=jQ4gXr1turouEQ95+x3UakyDrVi4g3dT0y7NpfH0qPs=;
-        b=lSF8e6DLqbKKv+/YhmRhAK/T1efgb2O636TOXNjLfcC0viXP62NhHdxomxLJWtIe7d
-         2JndYje5nsRNFlqIXElcBPkKCNEcFme9PlK3C7Q1VMpYaqUkgV/gQHQcIxtcw2fILMZW
-         OKJ4E8wSXhLBL3J9S3NnNPs9rdwe6KKkDhBPqcY/XDJgpqSUigUMcqCvapDa55nrN05q
-         GmtiLLrP+Y0lcIHCsefgW4EhiR9DSJnDXwmLBbW8A31Y89yswej4P9L3XtJNKO8bMaw7
-         4czQwKTd2lx34+qzGmcV/Exm8IIRhuHeavJKESaaJd5m9cQQb9K2fLTxromO6yhuwk2D
-         Ci4w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=jQ4gXr1turouEQ95+x3UakyDrVi4g3dT0y7NpfH0qPs=;
-        b=qIaki2KujX4tp/iQcD41IFYZafJq9mMbxWPCQzRiRI6pgVKHolk7EecU6P7Yq6OFcy
-         mcOf6qRXn2Hegeexyjj/J1v2sTzrzOZdJYcKAmBYg+FzfXDxdca/AXl7vNAVxrH1ws54
-         L8c65V6q1TPDdiMXABem8Rfud6yV7r/jp+LCH0dXZbWDUFM7DdbXj7GKKUWXlXDbGixT
-         RJKBgdOwqOdtZ/bvwQ95ajqH2tmOq0ypMEAuMNAp0vV5oLcR0ZxB9ax5J1A3L12ARLyU
-         TNtI14geIOBj/voUEg6r2/QDcHC6YeHfLwAsrEktoTP7qQReCYIsa/yPP/ytWg2/rMCh
-         qSxQ==
-X-Gm-Message-State: ACrzQf30tAcckecIsxC4FpMH/usI2jg7GviEFiGLyX5EMfJyJ8PWbKV+
-        MuBj4mzxlROIXyKD3k2UqBY=
-X-Google-Smtp-Source: AMsMyM6uhfbCXJb2q3AkwRuMO9Mjf9xHTKiSSXkljdTFDkgQ9gIWK1vZZlSecO9utfeB4MFPxnhffw==
-X-Received: by 2002:a54:4587:0:b0:359:c737:b2e8 with SMTP id z7-20020a544587000000b00359c737b2e8mr20212921oib.234.1667594573223;
-        Fri, 04 Nov 2022 13:42:53 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id f1-20020a056830204100b006619483182csm162608otp.18.2022.11.04.13.42.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Nov 2022 13:42:52 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date:   Fri, 4 Nov 2022 13:42:51 -0700
-From:   Guenter Roeck <linux@roeck-us.net>
-To:     Steven Rostedt <rostedt@goodmis.org>
-Cc:     linux-kernel@vger.kernel.org,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Anna-Maria Gleixner <anna-maria@linutronix.de>,
-        Andrew Morton <akpm@linux-foundation.org>, rcu@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-s390@vger.kernel.org,
-        linux-sh@vger.kernel.org, linux-edac@vger.kernel.org,
-        cgroups@vger.kernel.org, linux-block@vger.kernel.org,
-        linux-acpi@vger.kernel.org,
-        linux-atm-general@lists.sourceforge.net, netdev@vger.kernel.org,
-        linux-pm@vger.kernel.org, drbd-dev@lists.linbit.com,
-        linux-bluetooth@vger.kernel.org,
-        openipmi-developer@lists.sourceforge.net,
-        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org, intel-gfx@lists.freedesktop.org,
-        linux-input@vger.kernel.org, linux-parisc@vger.kernel.org,
-        linux-leds@vger.kernel.org, intel-wired-lan@lists.osuosl.org,
-        linux-usb@vger.kernel.org, linux-wireless@vger.kernel.org,
-        linux-scsi@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-ext4@vger.kernel.org, linux-nilfs@vger.kernel.org,
-        bridge@lists.linux-foundation.org, netfilter-devel@vger.kernel.org,
-        coreteam@netfilter.org, lvs-devel@vger.kernel.org,
-        linux-afs@lists.infradead.org, linux-nfs@vger.kernel.org,
-        tipc-discussion@lists.sourceforge.net, alsa-devel@alsa-project.org
-Subject: Re: [RFC][PATCH v3 00/33] timers: Use timer_shutdown*() before
- freeing timers
-Message-ID: <20221104204251.GB506794@roeck-us.net>
-References: <20221104054053.431922658@goodmis.org>
- <20221104192232.GA2520396@roeck-us.net>
- <20221104154209.21b26782@rorschach.local.home>
- <20221104154355.578ab689@rorschach.local.home>
+        with ESMTP id S231174AbiKDWvx (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 4 Nov 2022 18:51:53 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BEAA83F073;
+        Fri,  4 Nov 2022 15:48:03 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 6ED7DB83015;
+        Fri,  4 Nov 2022 22:48:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0DC92C433C1;
+        Fri,  4 Nov 2022 22:47:58 +0000 (UTC)
+Message-ID: <3ce335f6-7ba1-a139-86da-b0d68bfeb744@xs4all.nl>
+Date:   Fri, 4 Nov 2022 23:47:57 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221104154355.578ab689@rorschach.local.home>
-X-Spam-Status: No, score=-1.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=no
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.0
+Subject: Re: [PATCH 0/3] media: sunxi: Add H6 deinterlace driver
+To:     =?UTF-8?Q?Jernej_=c5=a0krabec?= <jernej.skrabec@gmail.com>,
+        mchehab@kernel.org
+Cc:     robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+        wens@csie.org, samuel@sholland.org, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20221101123201.3021129-1-jernej.skrabec@gmail.com>
+ <71e8ea95-8c3a-cc85-1638-5ce421a60e99@xs4all.nl>
+ <2652146.mvXUDI8C0e@jernej-laptop>
+Content-Language: en-US
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <2652146.mvXUDI8C0e@jernej-laptop>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Nov 04, 2022 at 04:38:34PM -0400, Steven Rostedt wrote:
-> On Fri, 4 Nov 2022 15:42:09 -0400
-> Steven Rostedt <rostedt@goodmis.org> wrote:
+On 04/11/2022 18:36, Jernej Škrabec wrote:
+> Hi Hans,
 > 
-[ ... ]
+> Dne petek, 04. november 2022 ob 12:33:50 CET je Hans Verkuil napisal(a):
+>> Hi Jernej,
+>>
+>> Can you add a patch updating the MAINTAINERS file? Just post a 4/3 patch :-)
 > 
-> > drivers/clocksource/timer-fttmr010.c:   fttmr010->timer_shutdown(evt);
-> > drivers/clocksource/timer-fttmr010.c:   fttmr010->timer_shutdown(evt);
-> > drivers/clocksource/timer-fttmr010.c:   fttmr010->timer_shutdown(evt);
-> > drivers/clocksource/timer-fttmr010.c:           fttmr010->timer_shutdown = ast2600_timer_shutdown;
-> > drivers/clocksource/timer-fttmr010.c:           fttmr010->timer_shutdown = fttmr010_timer_shutdown;
-> > drivers/clocksource/timer-fttmr010.c:   fttmr010->clkevt.set_state_shutdown = fttmr010->timer_shutdown;
-> > drivers/clocksource/timer-fttmr010.c:   fttmr010->clkevt.tick_resume = fttmr010->timer_shutdown;
+> It's already part of patch 2. I didn't see the reason to split it to separate 
+> patch.
+
+I totally missed that. Apologies for the noise!
+
+Regards,
+
+	Hans
+
 > 
-> I won't touch structure fields though.
+> Best regards,
+> Jernej
+> 
+>>
+>> Regards,
+>>
+>> 	Hans
+>>
+>> On 01/11/2022 13:31, Jernej Skrabec wrote:
+>>> This series implements driver for H6 deinterlace core, which is
+>>> newer version of core, covered by sun8i-di (v2.3). Contrary to
+>>> older one, it doesn't support scaling, but it supports iommu,
+>>> has additional motion compensated deinterlacing algorithm and
+>>> supports different pixel formats.
+>>>
+>>> v4l2-compliance 1.23.0-4961, 64 bits, 64-bit time_t
+>>> v4l2-compliance SHA: f86484524f32 2022-10-21 10:08:58
+>>>
+>>> Compliance test for sun50i-di device /dev/video0:
+>>>
+>>> Driver Info:
+>>>         Driver name      : sun50i-di
+>>>         Card type        : sun50i-di
+>>>         Bus info         : platform:sun50i-di
+>>>         Driver version   : 6.1.0
+>>>         Capabilities     : 0x84208000
+>>>         
+>>>                 Video Memory-to-Memory
+>>>                 Streaming
+>>>                 Extended Pix Format
+>>>                 Device Capabilities
+>>>         
+>>>         Device Caps      : 0x04208000
+>>>         
+>>>                 Video Memory-to-Memory
+>>>                 Streaming
+>>>                 Extended Pix Format
+>>>
+>>> Required ioctls:
+>>>         test VIDIOC_QUERYCAP: OK
+>>>         test invalid ioctls: OK
+>>>
+>>> Allow for multiple opens:
+>>>         test second /dev/video0 open: OK
+>>>         test VIDIOC_QUERYCAP: OK
+>>>         test VIDIOC_G/S_PRIORITY: OK
+>>>         test for unlimited opens: OK
+>>>
+>>> Debug ioctls:
+>>>         test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
+>>>         test VIDIOC_LOG_STATUS: OK (Not Supported)
+>>>
+>>> Input ioctls:
+>>>         test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+>>>         test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+>>>         test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+>>>         test VIDIOC_ENUMAUDIO: OK (Not Supported)
+>>>         test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
+>>>         test VIDIOC_G/S_AUDIO: OK (Not Supported)
+>>>         Inputs: 0 Audio Inputs: 0 Tuners: 0
+>>>
+>>> Output ioctls:
+>>>         test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+>>>         test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+>>>         test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+>>>         test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+>>>         test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+>>>         Outputs: 0 Audio Outputs: 0 Modulators: 0
+>>>
+>>> Input/Output configuration ioctls:
+>>>         test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+>>>         test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+>>>         test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+>>>         test VIDIOC_G/S_EDID: OK (Not Supported)
+>>>
+>>> Control ioctls:
+>>>         test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK (Not Supported)
+>>>         test VIDIOC_QUERYCTRL: OK (Not Supported)
+>>>         test VIDIOC_G/S_CTRL: OK (Not Supported)
+>>>         test VIDIOC_G/S/TRY_EXT_CTRLS: OK (Not Supported)
+>>>         test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK (Not Supported)
+>>>         test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+>>>         Standard Controls: 0 Private Controls: 0
+>>>
+>>> Format ioctls:
+>>>         test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
+>>>         test VIDIOC_G/S_PARM: OK (Not Supported)
+>>>         test VIDIOC_G_FBUF: OK (Not Supported)
+>>>         test VIDIOC_G_FMT: OK
+>>>         test VIDIOC_TRY_FMT: OK
+>>>         test VIDIOC_S_FMT: OK
+>>>         test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+>>>         test Cropping: OK (Not Supported)
+>>>         test Composing: OK (Not Supported)
+>>>         test Scaling: OK (Not Supported)
+>>>
+>>> Codec ioctls:
+>>>         test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+>>>         test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+>>>         test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
+>>>
+>>> Buffer ioctls:
+>>>         test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
+>>>         test VIDIOC_EXPBUF: OK
+>>>         test Requests: OK (Not Supported)
+>>>
+>>> Total for sun50i-di device /dev/video0: 45, Succeeded: 45, Failed: 0,
+>>> Warnings: 0
+>>>
+>>> Best regards,
+>>> Jernej
+>>>
+>>> Jernej Skrabec (3):
+>>>   media: dt-bindings: media: Add Allwinner H6 Deinterlace binding
+>>>   media: sunxi: Add H6 deinterlace driver
+>>>   arm64: dts: allwinner: h6: Add deinterlace node
+>>>  
+>>>  .../allwinner,sun50i-h6-deinterlace.yaml      |   74 ++
+>>>  MAINTAINERS                                   |    4 +-
+>>>  arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi  |   12 +
+>>>  drivers/media/platform/sunxi/Kconfig          |    1 +
+>>>  drivers/media/platform/sunxi/Makefile         |    1 +
+>>>  .../media/platform/sunxi/sun50i-di/Kconfig    |   15 +
+>>>  .../media/platform/sunxi/sun50i-di/Makefile   |    2 +
+>>>  .../platform/sunxi/sun50i-di/sun50i-di.c      | 1142 +++++++++++++++++
+>>>  .../platform/sunxi/sun50i-di/sun50i-di.h      |  175 +++
+>>>  9 files changed, 1425 insertions(+), 1 deletion(-)
+>>>  create mode 100644
+>>>  Documentation/devicetree/bindings/media/allwinner,sun50i-h6-deinterlace.
+>>>  yaml create mode 100644 drivers/media/platform/sunxi/sun50i-di/Kconfig
+>>>  create mode 100644 drivers/media/platform/sunxi/sun50i-di/Makefile
+>>>  create mode 100644 drivers/media/platform/sunxi/sun50i-di/sun50i-di.c
+>>>  create mode 100644 drivers/media/platform/sunxi/sun50i-di/sun50i-di.h
+>>>
+>>> --
+>>> 2.38.1
+> 
+> 
+> 
 > 
 
-Agreed, same here.
-
-Guenter
