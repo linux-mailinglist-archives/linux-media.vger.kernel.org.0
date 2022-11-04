@@ -2,151 +2,190 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 711DF619C5E
-	for <lists+linux-media@lfdr.de>; Fri,  4 Nov 2022 17:00:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0B257619C85
+	for <lists+linux-media@lfdr.de>; Fri,  4 Nov 2022 17:06:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232107AbiKDQAJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 4 Nov 2022 12:00:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35938 "EHLO
+        id S232002AbiKDQGJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 4 Nov 2022 12:06:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39642 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232149AbiKDQAH (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 4 Nov 2022 12:00:07 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B9DF8317C6
-        for <linux-media@vger.kernel.org>; Fri,  4 Nov 2022 09:00:04 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 696E6B82C12
-        for <linux-media@vger.kernel.org>; Fri,  4 Nov 2022 16:00:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4114FC433D7;
-        Fri,  4 Nov 2022 16:00:01 +0000 (UTC)
-Message-ID: <b1edab86-bf05-c675-7235-8242bfd1915c@xs4all.nl>
-Date:   Fri, 4 Nov 2022 16:59:59 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.0
-Content-Language: en-US
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     Jammy Huang <jammy_huang@aspeedtech.com>,
-        =?UTF-8?Q?Jernej_=c5=a0krabec?= <jernej.skrabec@gmail.com>,
-        Moudy Ho <moudy.ho@mediatek.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [GIT PULL FOR v6.2] Various fixed and enhancements
-Content-Type: text/plain; charset=UTF-8
+        with ESMTP id S229749AbiKDQGH (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 4 Nov 2022 12:06:07 -0400
+Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01olkn2054.outbound.protection.outlook.com [40.92.98.54])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1FD8B1BEA3;
+        Fri,  4 Nov 2022 09:06:04 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Bbh6U9XHZsCBZcAEmKFfPicrmoZ3BFtWZ4B/HuoXPzQE4JN4zvISmU/2iG5BHi0I/SSB8IXyl8EhRAS5us2k6xTnHzQtrz4rNYLA0LY3ZsISkZ5djjGlRIs8G/AfQHB3gwjbv7O55bxe+YxGKCYF03eLo3w4/KEum58fMVO8qnemW2GOIZTHz6ZU4BVKUntbEYfQLDrF59GobCKg8wYGRuTkgG3W41CIopZYD1EWT20YBRVpBvRI0dY6FWT7njiOnckAAJ3CuNVbyd3BpVphuurbhOeOTlKg4Q1WXxCzMSkoPa8rB9g56lmfqfgjOleY32w01IzkVYLRholPQr0cgQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=EAausU8rFK0NzdqFnWtnDeOC1n9wuoalCC5vsr0tk60=;
+ b=XRmUT06Zb10OBTGPTbLBJSVUfqc3S97PgJXxy6Qo/OJyVF+pGA5it0DhcrRLtRjAML94skEvg/QI53WJXCTFWnqjtvWg3YjojjDfM895amxFBq6HKmODMIVBGf9JzK+OxDQS/+U5hdsOyn7rOiNeEswzlCFUOkyc0tTyk7dEK44lTGXtRmJW02vIPVoIAvNC6YVc9FcDBHaj7jZVRxYzdt6U37zGWxQnYnZo4BoKFXr9ZAezPwWRioRR2yzfac/PKPkzJ3ywSwrcoFNzMRjWvWAZAx2Lp7K366BFnuYSj5nOUs3zgFI+JqwX6SATiVA5bVejWR/bXQRCgQ6KsPgutw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=EAausU8rFK0NzdqFnWtnDeOC1n9wuoalCC5vsr0tk60=;
+ b=kpu6IZvykMTFZzZP6X/TCqTL6ABOODX3ncl87qO7x+CaZUqKCwxJGn/QLFk11+PHmJ2O0m7jQ9MzKOSaP3sNpIJOqnKe0xr0xCeNfOoMUBX3Rvr/VDuNGGyyX6w1aCeHt4xEB0i7w8b4VCYhKSQRr04UUiisfXzKRNiXgfb+V+oIllDIxfYUu1I3LcG9RjUNoyzipxJ2j9KnVMHayGwISKJ8wwdfN5xdUD3AgX1RuniQhckGPwuwmNlFmYASwSuT1PSAjgppWAAsSsewDxolsFo7zzx21guBusAoThX6rSSIcMleRBDe5J8P5iAFYW50ZB3xoXwqR5HwBGXD37VyQg==
+Received: from TYCP286MB2323.JPNP286.PROD.OUTLOOK.COM (2603:1096:400:152::9)
+ by TYWP286MB3223.JPNP286.PROD.OUTLOOK.COM (2603:1096:400:2d6::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5791.24; Fri, 4 Nov
+ 2022 16:06:00 +0000
+Received: from TYCP286MB2323.JPNP286.PROD.OUTLOOK.COM
+ ([fe80::c90e:cbf3:c23d:43a5]) by TYCP286MB2323.JPNP286.PROD.OUTLOOK.COM
+ ([fe80::c90e:cbf3:c23d:43a5%9]) with mapi id 15.20.5791.024; Fri, 4 Nov 2022
+ 16:06:00 +0000
+From:   Dawei Li <set_pte_at@outlook.com>
+To:     sumit.semwal@linaro.org, christian.koenig@amd.com
+Cc:     benjamin.gaignard@collabora.com, labbott@redhat.com,
+        Brian.Starkey@arm.com, jstultz@google.com, afd@ti.com,
+        sspatil@android.com, linux-media@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+        linux-kernel@vger.kernel.org, Dawei Li <set_pte_at@outlook.com>
+Subject: [PATCH v4] dma-buf: fix racing conflict of dma_heap_add()
+Date:   Sat,  5 Nov 2022 00:05:36 +0800
+Message-ID: <TYCP286MB2323873BBDF88020781FB986CA3B9@TYCP286MB2323.JPNP286.PROD.OUTLOOK.COM>
+X-Mailer: git-send-email 2.25.1
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain
+X-TMN:  [+1ZKHlzTD/1HMwxkcwagGc0cFaIxQTFu]
+X-ClientProxiedBy: TY2PR02CA0041.apcprd02.prod.outlook.com
+ (2603:1096:404:a6::29) To TYCP286MB2323.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:400:152::9)
+X-Microsoft-Original-Message-ID: <20221104160536.4123-1-set_pte_at@outlook.com>
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TYCP286MB2323:EE_|TYWP286MB3223:EE_
+X-MS-Office365-Filtering-Correlation-Id: 4522d9fd-dda1-4cb9-4da5-08dabe7e776c
+X-MS-Exchange-SLBlob-MailProps: hmxDvsT8QC9IPEq7hVSzi8CjtgIfWrB0P2xvIfdtuKc/0tqlgZnU4lfB0vqmy+0SL8Go1P/nWJhrujpcmWhOviI2CQy5eczzf2P6QlNViAm0524ANVYEC6dqDKm6kJ2AxhuAAXi8sBhW7jYXR2BMn4vuab7PL/w4E7XL9CdzT2f3WtvQprRWeukP6A9/0eP9IX2D59tO/tJSyc4ljYdxd0jMSAjOm3KL70dUpfxR0aGNb/z0xxtn7kQSFVZZnzUSRh4BM3JzRgJF5Z06rHY6CEriSsei6U6B/VR9eF5gestn+qOWSBYM3hbVoSTwzY3NkCssF6QS5Y/WGYGTCVMtOW3xjTQ9tRo8pfp+cAIHB1QxyYS4k/GzNThlc6o/EpqB3TUmL8iSrShs5CH3lfOY5pSQUZAQwxfQMWeUrICw/pnfC3aB+9wqhsub/Pp0S9736UOwHQpDeaF8FMJIP41VoCz0fGDvGbsU6G5wnOmElvHfyjfz8Z1t/49VmY7LBtH+qdiMKGvxRVuO0Vxjr37cqKvh5mSM3U7msGy4BslsAhARaKyuVHSfWOrWuFnmh9+o6TiPUA78SsgBjbX+Q5YEzJ/bBlHpHIgUAfNkDPtzzel9bYH219+U4GiAz91R48UDoMiw+T/OHXwUxvMcA1/Fet8F3NL+FmBOG5YyaQje3iTPcIYAJ3irhwkV9nO3kPnAMTySEiN5C3NRE6jBnhpKvbjbf3JaVOtaerMMR+6zjiI9I9nvaPvNbFqDY0+ecDISfOgLVHveGXA0x766KJafj4DoQXnazHrDDgeDLo+zuRjbzZDoqVAADg==
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: nu7IBIHOlDPhMuaYrdBnvYVRRF0dfixRQuPzejFZIGmybqC9VP66uAHfos7T6MC6Qhnuzou4CoXKofwA3V09fk2XI4kZ9B7Dll8Ou1aOzFIkdTO1P0G9ZLJtNSBTQsVP067Vy7bNHlgP8f2BdQUKMfBOdJiMf0VdkYO1NJbil1dCJGpTRUBpUPVw/btiGNkxNs+d0RZlcAhHEB8/5aP5a7QjO/XcHRnSLqLkC9Ab5IT43/3LVDUAdOL5rvvqfeLZ1XbWA3VxQOtTnQF6HJA71HpxVG9Ei6r/94wk4qeivp4AIMK0rO9jXnWFMwGA1lmbyHjxLRT/0cmDYi09Pg/pnXxxeKhYI6tuTWhi/sdu5uU/d6CM+tbqFO++b6oWGf3AUdRMzMGiT1peaEijDHEP7nD6ztuGD36Bb15cDxul4tL8l8K2YtmKVXHc0vrGPtCLi1qLJUxx7eBf8mOcVg5xhJTv2EdtXZdULozpOVvY7jgU8tGTRP+NzP3X+DEHZ2XzvFB8fw+xjg7fddHRzqResYYJyRTd5FSOR+DRfseHP3ZFL2VfRaeN7b/iR9sR09DMY52mZBmcmaXrReYBlL+13ZAxscjJr6Pz2/0IpZeiy5FrZ6wpTlPPOINzlGIg8c7r22VDocqZ7yraUHk7d+zherd5sRCasIbDoHI8C76XgeuUgFMQch66nzpb4lULetZP
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?ImzAWx0EIQC9SbCxcmZTO3K7PeKDTSWsUrClVGni2cSBGE3GBYoy+M5R31Sn?=
+ =?us-ascii?Q?RRxzypqSm+UjCmNA0+M7fui9ySQFqyCgWBF853lhP9wZbwMivzSL5j2eXzpI?=
+ =?us-ascii?Q?b13NOcYMuTXL3TJy7lbPnoGvTmT13V7MbU0/LS/x+Cmf9nDzu8/pzFTfF77+?=
+ =?us-ascii?Q?hElAP70uef6Iw9hU4zFlAXT8IYrIINWXivXDeM6rulMqc172mlCnmts8dGi4?=
+ =?us-ascii?Q?JWIwsY0sqk8aD+cjMBQ40tsbshZoy3VoVqClHzNRcHXw7tyYD+7TBNHI0Rj6?=
+ =?us-ascii?Q?UXDMtP57nhWpYv+Knqs9WQshm/DkzVMHBzf58KzjTN1VOoXyMesd6As3oJH8?=
+ =?us-ascii?Q?pG+b5hIppMCM8Ns1FChhOQ/UsgWvj341uwJxoBT6KJ0rFjQ1VFshugHHrNZl?=
+ =?us-ascii?Q?eTYSgAXwpVa+nW702C0zCctNnvlcjwUyWEfukn8+EX8oj3Lf7lsiq0yr5sWy?=
+ =?us-ascii?Q?RruKdiUfqv46fseXtdEP0WeYecCqxmCxDxY0hfJFonipMRCqpG5Z/g+E+Ilm?=
+ =?us-ascii?Q?eFSg4kFPq8XzOZaTzdQGwGExxSZMSgE/yJDSvyFEbl0ioNGsdkBpuLhRCIUX?=
+ =?us-ascii?Q?25m994dZV3gSV60uVf0kLJKNLFC72KiFA/CaZ6BiKl2sa/z5GvJbQtqcPT57?=
+ =?us-ascii?Q?UmM7PJHuY4Mir1VfgTgf3PE9psEWCyhfjbY6UHTCI3hqXwnIV4BKBJ7HH+E1?=
+ =?us-ascii?Q?AGerJR6Pbd1LdNkSqJyspWzD1o8zqyrfdqEle/B0pWcyO+4L8ACW98eqT3je?=
+ =?us-ascii?Q?MBu20tGD6ar4Wx5tKucVPQ5Ke76oA8lUdPkuAz38fYlsU7OqBsiqfxvhQWqd?=
+ =?us-ascii?Q?m1J/uoVwPGo1cmM1xeWlKQ7vUGJZIXneVR/XQEtaPWTOwIQuBJIZsP8M9tfK?=
+ =?us-ascii?Q?w+aYi2oZdcrw57bWCyTwSTzgjFbqoFBwHNeYVDOpn2QhtyAtd/kkt2E9pEX/?=
+ =?us-ascii?Q?/7nTN/DDqAzvLVWKWQxOOK4tSqem+lJJPmU4y50YiTt3XKRIWX5mK7eKAJvw?=
+ =?us-ascii?Q?0Cmgf0kATUL2o/FgsM2Iow/vYt5BmBEz0JZcFTwR7IQh4FDG8fXeRjJnztDN?=
+ =?us-ascii?Q?qYE8FCKndlf+kMdfD6LdMIFWI+Ozw1XGFIPSwdVnoZtBNFy8d2aPhODAE45J?=
+ =?us-ascii?Q?TeGPIG1UoknJBj4zxafkqGAoOb6TJGYYCVywoM9tPiBOkyrZVO8NrQrxDQBd?=
+ =?us-ascii?Q?Hwo7wLQowCYbznHMqRreVabdA84rLdh57v08HGEEWpNw7wL9dWJQCFPxClJw?=
+ =?us-ascii?Q?/kDMulpcX9w/YVDvB1XOm9Gh1PIH8nlCFJBVtN1Ajw=3D=3D?=
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4522d9fd-dda1-4cb9-4da5-08dabe7e776c
+X-MS-Exchange-CrossTenant-AuthSource: TYCP286MB2323.JPNP286.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Nov 2022 16:06:00.7589
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYWP286MB3223
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_PASS,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The following changes since commit de547896aac606a00435a219757a940ece142bf0:
+Racing conflict could be:
+task A                 task B
+list_for_each_entry
+strcmp(h->name))
+                       list_for_each_entry
+                       strcmp(h->name)
+kzalloc                kzalloc
+......                 .....
+device_create          device_create
+list_add
+                       list_add
 
-  media: vivid.rst: loop_video is set on the capture devnode (2022-10-25 16:43:54 +0100)
+The root cause is that task B has no idea about the fact someone
+else(A) has inserted heap with same name when it calls list_add,
+so a potential collision occurs.
 
-are available in the Git repository at:
+Fixes: c02a81fba74f ("dma-buf: Add dma-buf heaps framework")
+Signed-off-by: Dawei Li <set_pte_at@outlook.com>
+---
+v1: https://lore.kernel.org/all/TYCP286MB2323950197F60FC3473123B7CA349@TYCP286MB2323.JPNP286.PROD.OUTLOOK.COM/
+v1->v2: Narrow down locking scope, check the existence of heap before
+insertion, as suggested by Andrew Davis.
+v2->v3: Remove double checking.
+v3->v4: Minor coding style and patch formatting adjustment.
+---
+ drivers/dma-buf/dma-heap.c | 28 +++++++++++++++-------------
+ 1 file changed, 15 insertions(+), 13 deletions(-)
 
-  git://linuxtv.org/hverkuil/media_tree.git tags/br-v6.2e
+diff --git a/drivers/dma-buf/dma-heap.c b/drivers/dma-buf/dma-heap.c
+index 8f5848aa144f..59d158873f4c 100644
+--- a/drivers/dma-buf/dma-heap.c
++++ b/drivers/dma-buf/dma-heap.c
+@@ -233,18 +233,6 @@ struct dma_heap *dma_heap_add(const struct dma_heap_export_info *exp_info)
+ 		return ERR_PTR(-EINVAL);
+ 	}
+ 
+-	/* check the name is unique */
+-	mutex_lock(&heap_list_lock);
+-	list_for_each_entry(h, &heap_list, list) {
+-		if (!strcmp(h->name, exp_info->name)) {
+-			mutex_unlock(&heap_list_lock);
+-			pr_err("dma_heap: Already registered heap named %s\n",
+-			       exp_info->name);
+-			return ERR_PTR(-EINVAL);
+-		}
+-	}
+-	mutex_unlock(&heap_list_lock);
+-
+ 	heap = kzalloc(sizeof(*heap), GFP_KERNEL);
+ 	if (!heap)
+ 		return ERR_PTR(-ENOMEM);
+@@ -283,13 +271,27 @@ struct dma_heap *dma_heap_add(const struct dma_heap_export_info *exp_info)
+ 		err_ret = ERR_CAST(dev_ret);
+ 		goto err2;
+ 	}
+-	/* Add heap to the list */
++
+ 	mutex_lock(&heap_list_lock);
++	/* check the name is unique */
++	list_for_each_entry(h, &heap_list, list) {
++		if (!strcmp(h->name, exp_info->name)) {
++			mutex_unlock(&heap_list_lock);
++			pr_err("dma_heap: Already registered heap named %s\n",
++			       exp_info->name);
++			err_ret = ERR_PTR(-EINVAL);
++			goto err3;
++		}
++	}
++
++	/* Add heap to the list */
+ 	list_add(&heap->list, &heap_list);
+ 	mutex_unlock(&heap_list_lock);
+ 
+ 	return heap;
+ 
++err3:
++	device_destroy(dma_heap_class, heap->heap_devt);
+ err2:
+ 	cdev_del(&heap->heap_cdev);
+ err1:
+-- 
+2.25.1
 
-for you to fetch changes up to d668c0a73e2c1a39ee7046d4e0f49b9f805f804f:
-
-  media: davinci/vpbe: Fix a typo ("defualt_mode") (2022-11-04 16:56:47 +0100)
-
-----------------------------------------------------------------
-Tag branch
-
-----------------------------------------------------------------
-Andrzej Pietrasiewicz (1):
-      media: rkvdec: Add required padding
-
-Colin Ian King (2):
-      media: rkisp1: make const arrays ae_wnd_num and hist_wnd_num static
-      media: dvb-core: remove variable n, turn for-loop to while-loop
-
-Jammy Huang (5):
-      media: v4l: Add definition for the Aspeed JPEG format
-      media: v4l2-ctrls: Reserve controls for ASPEED
-      media: Documentation: aspeed-video: Add user documentation for the aspeed-video driver
-      media: aspeed: Support aspeed mode to reduce compressed data
-      media: aspeed: Extend debug message
-
-Jernej Skrabec (9):
-      media: cedrus: remove superfluous call
-      media: cedrus: Add format reset helpers
-      media: cedrus: use helper to set default formats
-      media: cedrus: Add helper for checking capabilities
-      media: cedrus: Filter controls based on capability
-      media: cedrus: set codec ops immediately
-      media: cedrus: Remove cedrus_codec enum
-      media: cedrus: prefer untiled capture format
-      media: cedrus: initialize controls a bit later
-
-Jonathan Neuschäfer (1):
-      media: davinci/vpbe: Fix a typo ("defualt_mode")
-
-Laurent Pinchart (1):
-      media: Documentation: Drop deprecated bytesused == 0
-
-Liu Shixin (1):
-      media: vivid: fix compose size exceed boundary
-
-Luca Ceresoli (2):
-      staging: media: tegra-video: fix chan->mipi value on error
-      staging: media: tegra-video: fix device_node use after free
-
-Moudy Ho (4):
-      media: platform: mtk-mdp3: extend shared memory structure to 4-byte aligned
-      media: platform: mtk-mdp3: fix error handling in mdp_cmdq_send()
-      media: platform: mtk-mdp3: fix error handling about components clock_on
-      media: platform: mtk-mdp3: fix error handling in mdp_probe()
-
-Takashi Iwai (1):
-      media: dvb-core: Fix UAF due to refcount races at releasing
-
-Yang Li (1):
-      media: sun6i-csi: Remove unnecessary print function dev_err()
-
-Yang Yingliang (1):
-      media: platform: exynos4-is: fix return value check in fimc_md_probe()
-
- Documentation/userspace-api/media/drivers/aspeed-video.rst |  65 +++++++++++++
- Documentation/userspace-api/media/drivers/index.rst        |   1 +
- Documentation/userspace-api/media/v4l/buffer.rst           |  11 +--
- Documentation/userspace-api/media/v4l/pixfmt-reserved.rst  |  17 ++++
- drivers/media/dvb-core/dmxdev.c                            |   8 ++
- drivers/media/dvb-core/dvb_demux.c                         |   4 +-
- drivers/media/platform/aspeed/aspeed-video.c               | 316 ++++++++++++++++++++++++++++++++++++++++++++++++++----------
- drivers/media/platform/mediatek/mdp3/mtk-img-ipi.h         |  76 +++++++--------
- drivers/media/platform/mediatek/mdp3/mtk-mdp3-cmdq.c       |  51 +++++-----
- drivers/media/platform/mediatek/mdp3/mtk-mdp3-comp.c       |  24 +++--
- drivers/media/platform/mediatek/mdp3/mtk-mdp3-core.c       |  15 +--
- drivers/media/platform/rockchip/rkisp1/rkisp1-params.c     |   4 +-
- drivers/media/platform/samsung/exynos4-is/media-dev.c      |   2 +-
- drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c         |   1 -
- drivers/media/test-drivers/vivid/vivid-vid-cap.c           |   1 +
- drivers/media/v4l2-core/v4l2-ioctl.c                       |   1 +
- drivers/staging/media/rkvdec/rkvdec-vp9.c                  |   3 +
- drivers/staging/media/sunxi/cedrus/cedrus.c                |  81 +++++++---------
- drivers/staging/media/sunxi/cedrus/cedrus.h                |  19 ++--
- drivers/staging/media/sunxi/cedrus/cedrus_dec.c            |   4 +-
- drivers/staging/media/sunxi/cedrus/cedrus_h264.c           |   2 +-
- drivers/staging/media/sunxi/cedrus/cedrus_h265.c           |   2 +-
- drivers/staging/media/sunxi/cedrus/cedrus_hw.c             |  18 ++--
- drivers/staging/media/sunxi/cedrus/cedrus_hw.h             |   2 +-
- drivers/staging/media/sunxi/cedrus/cedrus_mpeg2.c          |   2 +-
- drivers/staging/media/sunxi/cedrus/cedrus_video.c          | 178 ++++++++++++++++++----------------
- drivers/staging/media/sunxi/cedrus/cedrus_video.h          |   2 +
- drivers/staging/media/sunxi/cedrus/cedrus_vp8.c            |   2 +-
- drivers/staging/media/tegra-video/csi.c                    |   4 +-
- drivers/staging/media/tegra-video/csi.h                    |   2 +-
- include/media/davinci/vpbe.h                               |   2 +-
- include/uapi/linux/aspeed-video.h                          |  14 +++
- include/uapi/linux/v4l2-controls.h                         |   6 ++
- include/uapi/linux/videodev2.h                             |   1 +
- 34 files changed, 641 insertions(+), 300 deletions(-)
- create mode 100644 Documentation/userspace-api/media/drivers/aspeed-video.rst
- create mode 100644 include/uapi/linux/aspeed-video.h
