@@ -2,41 +2,39 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D2AD36193CC
-	for <lists+linux-media@lfdr.de>; Fri,  4 Nov 2022 10:46:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 15E7F619409
+	for <lists+linux-media@lfdr.de>; Fri,  4 Nov 2022 11:01:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230153AbiKDJqs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 4 Nov 2022 05:46:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58718 "EHLO
+        id S231650AbiKDKBW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 4 Nov 2022 06:01:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37248 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230047AbiKDJqq (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 4 Nov 2022 05:46:46 -0400
+        with ESMTP id S231620AbiKDKBT (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 4 Nov 2022 06:01:19 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 999A9B72
-        for <linux-media@vger.kernel.org>; Fri,  4 Nov 2022 02:46:44 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8B47A28E11
+        for <linux-media@vger.kernel.org>; Fri,  4 Nov 2022 03:01:15 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 35CDD6211C
-        for <linux-media@vger.kernel.org>; Fri,  4 Nov 2022 09:46:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 07068C433D6;
-        Fri,  4 Nov 2022 09:46:42 +0000 (UTC)
-Message-ID: <27bba2c9-d542-a517-dc11-50d2fe9b51ea@xs4all.nl>
-Date:   Fri, 4 Nov 2022 10:46:41 +0100
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 29A8F62123
+        for <linux-media@vger.kernel.org>; Fri,  4 Nov 2022 10:01:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B2731C433C1;
+        Fri,  4 Nov 2022 10:01:13 +0000 (UTC)
+Message-ID: <4ef87a4a-66f1-135a-8261-b2760296531b@xs4all.nl>
+Date:   Fri, 4 Nov 2022 11:01:12 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.4.0
-Subject: Re: [PATCH 0/2] vb2: add (un)prepare_streaming vb2_queue ops
+Subject: Re: [PATCH] media-build: fix menuconfig usage for kernel >= 5.13.0
 Content-Language: en-US
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org,
-        Eugen Hristev <eugen.hristev@microchip.com>
-References: <20220622093145.927377-1-hverkuil-cisco@xs4all.nl>
- <YrLkbMZYb/Jpdidv@pendragon.ideasonboard.com>
- <cda824da-723e-66eb-3773-883502a34fd1@xs4all.nl>
- <YrLqFKJT2JxIX3e3@pendragon.ideasonboard.com>
+To:     Tomasz Maciej Nowak <tmn505@terefe.re>,
+        linux-media@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Tomasz Maciej Nowak <tmn505@gmail.com>
+References: <20221025152902.14298-1-tmn505@terefe.re>
 From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <YrLqFKJT2JxIX3e3@pendragon.ideasonboard.com>
+In-Reply-To: <20221025152902.14298-1-tmn505@terefe.re>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
@@ -48,85 +46,47 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
+Hi Tomasz,
 
-On 22/06/2022 12:08, Laurent Pinchart wrote:
-> Hi Hans,
-> 
-> On Wed, Jun 22, 2022 at 12:00:58PM +0200, Hans Verkuil wrote:
->> On 22/06/2022 11:44, Laurent Pinchart wrote:
->>> On Wed, Jun 22, 2022 at 11:31:43AM +0200, Hans Verkuil wrote:
->>>> Add support for two new (un)prepare_streaming queue ops that are called
->>>> when the user calls VIDIOC_STREAMON and STREAMOFF (or closes the fh).
->>>>
->>>> This gives drivers a callback to validate the video pipeline and claim
->>>> or release streaming resources at the time that userspace indicates
->>>> that it wants to start streaming (VIDIOC_STREAMON) rather than when
->>>> the actual DMA engine kicks in (the start_streaming callback). This
->>>> is relevant for drivers that needs a minimum of X buffers before the
->>>> DMA can start. The actual pipeline validation needs to happen sooner
->>>> to avoid unnecessary errors at VIDIOC_QBUF time.
->>>>
->>>> As a bonus this allows us to move the horrible call to
->>>> v4l_vb2q_enable_media_source() in vb2_core_streamon() to the au0828
->>>> driver (currently the only driver that uses this feature).
->>>
->>> Can we drop the horrible .enable_source() from media_device too ? :-)
->>
->> The second patch helps a bit with that, at least it's out of vb2.
->>
->>>
->>>> That call never belonged in vb2, but it had the same purpose as the
->>>> new prepare_streaming op: validate the pipeline.
->>>>
->>>> This is a follow-up from my previous RFCv2:
->>>>
->>>> https://patchwork.linuxtv.org/project/linux-media/patch/ba4bca14-488f-94ea-48d9-e7343103c5aa@xs4all.nl/
->>>>
->>>> I would like to get consensus for this series.
->>>
->>> I don't like it much. vb2 is already doing too much in my opinion,
->>> growing it isn't the right way to fix it.
->>
->> We disagree on that :-)
-> 
-> I like polite and constructive disagreements, they help moving forward
-> :-)
-> 
->>> I'm still working on a new version of the V4L2 streams series that may
->>> conflict with this, I'd propose discussing the two together.
->>
->> What is the ETA for that? I don't mind waiting a few months, but if it
->> takes a lot longer, then I'd rather merge this first so Eugen can use it
->> in his atmel MC support. It's a kernel API, so it can always be changed
->> or removed later.
-> 
-> I have a few other things to complete first, an dI plan to resume the
-> work in the first half of July, to post a v12 before the end of the
-> month.
+The media_build system is no longer maintained, see
 
-Looking at the latest v15 series there are no conflicts with this patch.
+https://lore.kernel.org/linux-media/32288c08-3220-25ce-36e2-7c98ff81a264@xs4all.nl/
 
-Eugen posted a v11 of his "atmel-isc: driver redesign" series, and wants
-to use this functionality.
-
-I think with this change it is also possible to remove the enable_source
-callback from the mc. I can try to post a v2 that does this, if that's
-what it takes to convince you :-)
+So I'm rejecting this patch as it is no longer relevant.
 
 Regards,
 
 	Hans
 
+On 25/10/2022 17:29, Tomasz Maciej Nowak wrote:
+> From: Tomasz Maciej Nowak <tmn505@gmail.com>
 > 
->>>> Hans Verkuil (2):
->>>>   vb2: add (un)prepare_streaming queue ops
->>>>   vb2/au0828: move the v4l_vb2q_enable_media_source to the au0828 driver
->>>>
->>>>  .../media/common/videobuf2/videobuf2-core.c   | 26 ++++++++++++++-----
->>>>  drivers/media/usb/au0828/au0828-vbi.c         |  2 ++
->>>>  drivers/media/usb/au0828/au0828-video.c       |  1 +
->>>>  include/media/videobuf2-core.h                | 14 ++++++++++
->>>>  4 files changed, 37 insertions(+), 6 deletions(-)
+> Because of 6dd85ff178cd ("kconfig: change "modules" from sub-option to
+> first-level attribute") in Linux kernel the "option" key-word is not
+> recognised anymore. That causes an abort when menuconfig is invoked.
+> Fix it by adding proper attribute depending on kernel version the
+> media_build is used against.
 > 
+> Signed-off-by: Tomasz Maciej Nowak <tmn505@gmail.com>
+> ---
+>  v4l/scripts/make_kconfig.pl | 6 +++++-
+>  1 file changed, 5 insertions(+), 1 deletion(-)
+> 
+> diff --git a/v4l/scripts/make_kconfig.pl b/v4l/scripts/make_kconfig.pl
+> index 69f0c67a37b1..76fbf8a168bc 100755
+> --- a/v4l/scripts/make_kconfig.pl
+> +++ b/v4l/scripts/make_kconfig.pl
+> @@ -651,7 +651,11 @@ while (my ($key, $deps) = each %depend) {
+>  	print OUT "# Needed by ", join(', ', keys %$deps), "\n";
+>  	print OUT "config $key\n\ttristate\n";
+>  	print OUT "\tdefault ", qw(n m y)[$kernopts{$key}], "\n\n";
+> -	print OUT "\toption modules\n" if ($key eq "MODULES");
+> +	if (cmp_ver($kernver, '5.13.0') < 0) {
+> +		print OUT "\toption modules\n" if ($key eq "MODULES");
+> +	} else {
+> +		print OUT "\tmodules\n" if ($key eq "MODULES");
+> +	}
+>  }
+>  close OUT;
+>  
 
