@@ -2,178 +2,186 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EE0AB6191A6
-	for <lists+linux-media@lfdr.de>; Fri,  4 Nov 2022 08:16:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F25816191D1
+	for <lists+linux-media@lfdr.de>; Fri,  4 Nov 2022 08:26:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230139AbiKDHQF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 4 Nov 2022 03:16:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48706 "EHLO
+        id S229779AbiKDH0T (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 4 Nov 2022 03:26:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53104 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229496AbiKDHQE (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 4 Nov 2022 03:16:04 -0400
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (mail-bn8nam12on2055.outbound.protection.outlook.com [40.107.237.55])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A5644B492;
-        Fri,  4 Nov 2022 00:16:02 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=fEEiUEnQtkJ7xm0pRQI9Civ8oahu6f2WFmN2RxaHWIcIjMGORlRDKPNkjxXMMzLciIPHH8JtWgHAflCOb8J5VsjAWthPYyVczouy45NZku7ckPeHcezASms1vxBHm0TIKl/y2mOANALDZEm9Uz2faEJo4jn8Esbk5+4f/p/WKCmfWG7BDOdWw9cnrIdI5JIG+2J+zlW0VkGkqW+0t1qFpvcZrOuz2dmrDc8fX0ikfVEpBdGq4DZgD1xuAzCcpyWcSn2TdjbuLX+gW2M1VKg7G4l/MvPC+E7lfN9GzZloiYnbt5zyIsKXvwhEkUzo3qmblk0Qh4Wv3H7sHs5Pc/uv1w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=TXhNyRBaZTa/C9vLIsGWsT/MfokGSvA3sN1IzjGeDa0=;
- b=nTzmhAR71WIzsnknzV1gV3tyQ/WL0kudwAJEGRPh7M9t/fWiNIcWnmisturRo9nt8V5CKs8cTb4L2aNDg2vYhsX7PN4Q7ybXv2LX9hruduiWQPNeCaQkz8uDmMokkm60RTc114GswLAmRoYDrfN/Q/3IEdEg6TTMPADoCbIGi8XuobD/iMO9+xbhSUMz8M/Ithwq47ppiNhz5jfuOH1hVWzMheXdNV2WfrSgyJD5C1dWgvlGr3zBhLf8zlRqHqFlEw0dpUBOn5bAppj7T041jIScPkJ7/mqVUVc1ygZeYWFbU51Yi3/yuPPJFsJVJWLCqvR7v0G72GeTYyXn3hiIBQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=TXhNyRBaZTa/C9vLIsGWsT/MfokGSvA3sN1IzjGeDa0=;
- b=AveR1RJD/OxpH2E3DOLQ4aalWG7VmoLF1Y3mnrcBxI3avR2xywwfq9WRTwVd0q3CsvM4zTMVGTvX7QWXmOa5GmjIiICPXE8lIz0g2D5DqUMwyERNllt8qgYjR0K70lQY0SSIQCMfWWqEq4eVI76gF7MKLYbwQbqbpPqVlKc0PH0=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by CY8PR12MB7313.namprd12.prod.outlook.com (2603:10b6:930:53::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5791.22; Fri, 4 Nov
- 2022 07:16:00 +0000
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::7d43:3f30:4caf:7421]) by BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::7d43:3f30:4caf:7421%7]) with mapi id 15.20.5791.020; Fri, 4 Nov 2022
- 07:16:00 +0000
-Message-ID: <d916e29d-d098-c3f3-940a-37be6772ecb5@amd.com>
-Date:   Fri, 4 Nov 2022 08:15:53 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [RFC][PATCH v3 12/33] timers: dma-buf: Use timer_shutdown_sync()
- before freeing timer
-Content-Language: en-US
-To:     Steven Rostedt <rostedt@goodmis.org>, linux-kernel@vger.kernel.org
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Anna-Maria Gleixner <anna-maria@linutronix.de>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org
-References: <20221104054053.431922658@goodmis.org>
- <20221104054914.085569465@goodmis.org>
- <20221104015444.57f73efb@rorschach.local.home>
-From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20221104015444.57f73efb@rorschach.local.home>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: PAZP264CA0188.FRAP264.PROD.OUTLOOK.COM
- (2603:10a6:102:236::17) To BN8PR12MB3587.namprd12.prod.outlook.com
- (2603:10b6:408:43::13)
+        with ESMTP id S230389AbiKDH0S (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 4 Nov 2022 03:26:18 -0400
+Received: from out29-73.mail.aliyun.com (out29-73.mail.aliyun.com [115.124.29.73])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CCAD92792D;
+        Fri,  4 Nov 2022 00:26:15 -0700 (PDT)
+X-Alimail-AntiSpam: AC=CONTINUE;BC=0.1124278|-1;BR=01201311R191S10rulernew998_84748_2000303;CH=blue;DM=|CONTINUE|false|;DS=CONTINUE|ham_alarm|0.0170385-0.00343638-0.979525;FP=0|0|0|0|0|-1|-1|-1;HT=ay29a033018047190;MF=lee@arducam.com;NM=1;PH=DS;RN=6;RT=6;SR=0;TI=SMTPD_---.Q.Cujoe_1667546762;
+Received: from localhost(mailfrom:lee@arducam.com fp:SMTPD_---.Q.Cujoe_1667546762)
+          by smtp.aliyun-inc.com;
+          Fri, 04 Nov 2022 15:26:03 +0800
+Date:   Fri, 4 Nov 2022 15:26:01 +0800
+From:   lee <lee@arducam.com>
+To:     linux-media@vger.kernel.org
+Cc:     robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+        shawnguo@kernel.org, s.hauer@pengutronix.de,
+        devicetree@vger.kernel.org
+Subject: [PATCH v2 1/2] dt-bindings: media: i2c: Add IMX519 CMOS sensor
+ binding
+Message-ID: <20221104152601.000035fd@arducam.com>
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|CY8PR12MB7313:EE_
-X-MS-Office365-Filtering-Correlation-Id: ef7c8681-3113-408e-b74e-08dabe346ce6
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: oqHmCBG2R4oH4/GN1E52N2Wb/VwSAmjqMYlO//M6llZB9lth528OvmkR2RFzE4OKlnzQUlF+/fuL7zOnMzkHgtuXhiyNWeyQK5Pdghr3DuKrmMlxm+Yc4+5GmWiJDJbIyrwYovqyzWS2RRIGzEgIef4GjDOQO83OlMFmldURQQqDB1KlF7PloBlgH3iXwTKH6t5o+XqBWOfp9bZ5h8xkvmFO2EFwQj2atjdfoWjS5qzY++dbXIltyfJkkZMbxRsZT7g4Xe6O48eG1coTmejzqzt6O36AkI3ENPhoobxX8t5aYEWSzWWJmH3sT/L0NyYEpxl6KJhTF2oCa5q4K+bcdIMVdnJF+ZdCR1gRpK1AlqDW7fyGkW9j/djnBJFL5Pv0Xz/vlbVZa27SoaNcH/K2DaczrSaWrkOdwri3P5c5s3lIb/1mPMzbgqp91v39fxsdPj9X3Lc5S3vIc9CUyoHjsv2KcMAhAD7deDtH2RpnB8WupYQpfww80Ces59KOmn0kEhuoawzFFqbmJ5KhSn1g9Bw26v8EbiyGyZ8s1rRy1hZ1ox+vhBn8+lFEOp/e9slumeT9MGjvYkBafPPcibNwpUpexEE1lEz57dIcOp9AQdhiuKhsBAM2JWpLrc7sO3GSToco9bATeSSphs3GJLtYjyRYU3Yxsz10Ap4apij2iVV/iMVe3AhQqryHVo+miqn7BDNIV24XteHuBXtuaESKRS1NwJlsMqKczIYRrtDJkxp50ioqRnoZ6GjyhM4uQE/gRt/h1bvELPeZMSZ4MmLTCj59BhvVbw46wLzYDO+fPv6A6804uhC3qB8p4EbsW5Qr+yfZ2hZuoTEaL4SWs2/6qw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN8PR12MB3587.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(136003)(396003)(376002)(366004)(39860400002)(346002)(451199015)(36756003)(45080400002)(2906002)(186003)(66556008)(66574015)(66476007)(6666004)(7416002)(478600001)(83380400001)(86362001)(6486002)(54906003)(41300700001)(5660300002)(316002)(966005)(8936002)(31696002)(31686004)(38100700002)(6512007)(8676002)(6506007)(66946007)(2616005)(4326008)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?aXRQRDZjZE1LdW4rUEdadHdrYS9qK0lnQnh1QUU2Ujc1TCsycyttaGovR0Vr?=
- =?utf-8?B?MkNGRk1oUGFUdmVnUEw1emVoUEtvR2hKWmRSOGMrQjhldzhJVm5YS2krMkJ4?=
- =?utf-8?B?S1dzNk1UZXZldk1HMVBzU1VaOGt2UXR1Ti90ckVQNmNNendlS3Z3MUU0Zk0v?=
- =?utf-8?B?RGRmQUtoSytvdWJndjV3dEVVQ0FTb28xa0NsdXdmQ1Q5VzF2K2dJU0llWmZu?=
- =?utf-8?B?SndKRTRhT25FY1diTzhKR0FJeU0zV3BvNEJHZnhZSWJKbWtmNkNReE15d1FR?=
- =?utf-8?B?N0VxUm1OSnNHQWxLMExqSG9EUmxFWTZrWkpHcHlRbkJ5cnhYcmcrc0JzSG5s?=
- =?utf-8?B?Vmt1VWlQSFVFM0t2NWRBUHFtdk4wTlYreXJqOWxwcHNONmNVbkxqM2J6ZU0v?=
- =?utf-8?B?RC9jbGRBSERBOXlramYxL3YzZFVlVnZ4cERQc1B4SUhmTzdoenlpWGF1NWJX?=
- =?utf-8?B?Sloyd3ZlMmZCZGhnbE1SUjc1QUZMZWpQOXhoYTNHOHlyUGhVOGd2amZITE9y?=
- =?utf-8?B?aDYwYkR1bHArRFpETW1ZdFF6cWtBcDJkOFIzTWw4bmppM3hqbDZGTGgxdDVW?=
- =?utf-8?B?SGlLak9xb0xWcXNWSFBUUitKbjljUW93NC9BcFdaVTZnR1ljeXJKWmZMVTQ4?=
- =?utf-8?B?ODdxWXU3bURLcmdQd1ZLK2tZbTZYRW9EUnJKRnpUZnlvWnRPYjRZcTdOQkc4?=
- =?utf-8?B?RVBXTjNsRWg4TGozRFhsSWYwVUFKbmFmSkpQTW1LSVBSMkJuTklGZ1BIejhC?=
- =?utf-8?B?RzcvTEFjNWhmSUdCZk91Tm5ERlBody9Fb3dqODhKc0VoQWMyQWlMenQwVFlY?=
- =?utf-8?B?aDBmd0UxUUlKbHBlUGwvWng2YVdxNVJJWGhZTklWTHd5c2lQclFPa1lmaFh2?=
- =?utf-8?B?aUIyYVpGS25aREZOTmxKVStRdGUxbllQZFFsVjBtNWFweHFNTG95N2ZXNFZR?=
- =?utf-8?B?UVRhOWZtOU12SDRoU2tkbjc3K0U3b0RnZ2RvRTErMnUwNVhCRjJMNGNBeVI5?=
- =?utf-8?B?U3NFQ1MyMjc1YlgzZU91cG4yQlpQbFJTYTdHOVp4N040Sy9TWW5nUkhxRHVm?=
- =?utf-8?B?UnAwYWcrYkxKbUFqRG1rMGw2eklrYnpQamVxTUJEeEFNMkJkWTd5ZWx6Y3dx?=
- =?utf-8?B?VVpPUU8vL1A1VUpTNXFkRVJseU5JbXRQNHhHbXkvRzBOdnhVRVJFZkFGcTRF?=
- =?utf-8?B?OHN3UEFUV3BGaTBvNGhEdkpzSHNKMTBwRHFjSWEybnBiNjdWSGprUFRnb1Rp?=
- =?utf-8?B?eXB3ZW9US0tyYzVRdlp5dmdmcnN4cW9iNVVSbDVKV2o2R0l5WXR1dlBXVnB4?=
- =?utf-8?B?S2dHR1BoL0RwVTVPMU9TVHpmNHNhcUk5WjJQQ3NIaWdWd3RrNTdLeGJTWjBH?=
- =?utf-8?B?RjFqeWVIbWMyVXhROElCb2dPME8xdm1Qay9GajRSQXE0VFBZNm92VVJ5K2ZR?=
- =?utf-8?B?Sjh0K2tJVWwzQzNsTnlrQmo4elZkMDhZYjF6dm1BdFVJRm5kN3czNWQ0bDls?=
- =?utf-8?B?ZVpsLzYxaGlVekJ3K3ZwRVlXZWFWRkRNVkNIZUZUOGg4eTZZWFBBVmxBNGdY?=
- =?utf-8?B?WUQ4akloT2pFaHBMQW4vZ3ZiZXlVNmwvTHkwUnM3MVpidkVkOVM4ZlRBb1lL?=
- =?utf-8?B?WEpyd08xSEhPV3l6SVBjNEtXUlpQbGRrWXVoVHFYRVRkb3pxNjJSUEVoU0NG?=
- =?utf-8?B?eEVRV0RZc05WblJGOEx1dUNvelZNTnRQemJNZlBqZ21LRkFLWHM2QnZBQWt5?=
- =?utf-8?B?M2RicDNKdlB6RzdFNmp3VnJ5QkQzNDBVbGV1YmNBZ3hKcEQyYU41cVQyNFRX?=
- =?utf-8?B?djl1a2tvWVoySmVNNDZ2bDBITEpIajlsQ1owRXdEK2NGVFZnMEM3YnFJN3dL?=
- =?utf-8?B?cGZnUGllemRTWnRhSVBqRnNDZ1gxWWNMc1RFZEFjKzdNZEtjaTRISGRzdTh6?=
- =?utf-8?B?Um5FdHFyampoNU9aU2c2SHF5WFRqZ25tNzFSTFR2SXZFTlJXVy9oNTM4OXZW?=
- =?utf-8?B?WFcyS3VUVmhjcmozS05QdmlPM3dLazFXMEhxRW9CcndPbjhqMTlRTjVmMEw2?=
- =?utf-8?B?RHhMQThEL1NQVVpESTRoZUN2eWU0VGdnNWhkQ1FuQWRTYWk4MG9xTDNIeFhy?=
- =?utf-8?B?ZXk4Nkk5WG93bkRrTTVpNG1SMFlqaGI2Y0k5Y2tKS25NVG50WWsvSkN3ODhD?=
- =?utf-8?Q?ncFWzBpSJ3JG9/Jl44Q/fwoP+TFr4XJ6NI6QHK92hPAx?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ef7c8681-3113-408e-b74e-08dabe346ce6
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Nov 2022 07:16:00.3638
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: +dcXcbWYGOQ8ul8fe3ZuZT5sdNvF+fchI5W6rGHiwUsLifaD2ckwjYKzvqmLkWnI
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR12MB7313
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am 04.11.22 um 06:54 schrieb Steven Rostedt:
-> [ Once again, quilt fails the MIME coding ]
->
-> From: "Steven Rostedt (Google)" <rostedt@goodmis.org>
->
-> Before a timer is freed, timer_shutdown_sync() must be called.
->
-> Link: https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Flore.kernel.org%2Fall%2F20220407161745.7d6754b3%40gandalf.local.home%2F&amp;data=05%7C01%7Cchristian.koenig%40amd.com%7Ca18ff1d0a7e442a1283808dabe29148d%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C638031380931371691%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;sdata=XZgwOy0u20L1AxOjhUpWICodbSn2VYhh6YGSykjUegQ%3D&amp;reserved=0
->
-> Cc: Sumit Semwal <sumit.semwal@linaro.org>
-> Cc: "Christian König" <christian.koenig@amd.com>
-> Cc: linux-media@vger.kernel.org
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: linaro-mm-sig@lists.linaro.org
-> Signed-off-by: Steven Rostedt (Google) <rostedt@goodmis.org>
-> ---
->   drivers/dma-buf/st-dma-fence.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/dma-buf/st-dma-fence.c b/drivers/dma-buf/st-dma-fence.c
-> index fb6e0a6ae2c9..5d3e7b503501 100644
-> --- a/drivers/dma-buf/st-dma-fence.c
-> +++ b/drivers/dma-buf/st-dma-fence.c
-> @@ -412,7 +412,7 @@ static int test_wait_timeout(void *arg)
->   
->   	err = 0;
->   err_free:
-> -	del_timer_sync(&wt.timer);
-> +	timer_shutdown_sync(&wt.timer);
+Add YAML device tree binding for IMX519 CMOS image sensor, and
+the relevant MAINTAINERS entries.
 
-Mhm, what exactly is the benefit of renaming the function?
+Signed-off-by: Lee Jackson <lee@arducam.com>
+---
+ .../bindings/media/i2c/sony,imx519.yaml       | 107 ++++++++++++++++++
+ MAINTAINERS                                   |   9 ++
+ 2 files changed, 116 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/sony,imx519.yaml
 
-Not that I'm against the change, but my thinking is more if there are 
-more functions which don't re-arm the time than those which do that then 
-why not forbid it in general?
-
-Regards,
-Christian.
-
->   	destroy_timer_on_stack(&wt.timer);
->   	dma_fence_signal(wt.f);
->   	dma_fence_put(wt.f);
-
+diff --git a/Documentation/devicetree/bindings/media/i2c/sony,imx519.yaml b/Documentation/devicetree/bindings/media/i2c/sony,imx519.yaml
+new file mode 100644
+index 000000000000..9b6cda96f613
+--- /dev/null
++++ b/Documentation/devicetree/bindings/media/i2c/sony,imx519.yaml
+@@ -0,0 +1,107 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/media/i2c/sony,imx519.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Sony 1/2.5-Inch 16Mpixel CMOS Digital Image Sensor
++
++maintainers:
++  - Lee Jackson <lee@arducam.com>
++
++description: |-
++  The Sony IMX519 is a 1/2.5-inch CMOS active pixel digital image sensor
++  with an active array size of 4656H x 3496V. It is programmable through
++  I2C interface. The I2C address is fixed to 0x1A as per sensor data sheet.
++  Image data is sent through MIPI CSI-2, which is configured as either 2 or
++  4 data lanes.
++
++properties:
++  compatible:
++    const: sony,imx519
++
++  reg:
++    description: I2C device address
++    maxItems: 1
++
++  clocks:
++    maxItems: 1
++
++  VDIG-supply:
++    description:
++      Digital I/O voltage supply, 1.05 volts
++
++  VANA-supply:
++    description:
++      Analog voltage supply, 2.8 volts
++
++  VDDL-supply:
++    description:
++      Digital core voltage supply, 1.8 volts
++
++  reset-gpios:
++    description: |-
++      Reference to the GPIO connected to the xclr pin, if any.
++      Must be released (set high) after all supplies and INCK are applied.
++
++port:
++    $ref: /schemas/graph.yaml#/$defs/port-base
++    additionalProperties: false
++
++    properties:
++      endpoint:
++        $ref: /schemas/media/video-interfaces.yaml#
++        unevaluatedProperties: false
++
++        properties:
++          data-lanes:
++            description: |-
++              The driver only supports two-lane operation.
++            items:
++              - const: 1
++              - const: 2
++
++          clock-noncontinuous: true
++          link-frequencies: true
++
++        required:
++          - data-lanes
++          - link-frequencies
++
++required:
++  - compatible
++  - reg
++  - clocks
++  - VANA-supply
++  - VDIG-supply
++  - VDDL-supply
++  - port
++
++additionalProperties: false
++
++examples:
++  - |
++    i2c0 {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        imx519: sensor@1a {
++            compatible = "sony,imx519";
++            reg = <0x1a>;
++            clocks = <&imx519_clk>;
++            VANA-supply = <&imx519_vana>;   /* 2.8v */
++            VDIG-supply = <&imx519_vdig>;   /* 1.05v */
++            VDDL-supply = <&imx519_vddl>;   /* 1.8v */
++
++            port {
++                imx519_0: endpoint {
++                    remote-endpoint = <&csi1_ep>;
++                    data-lanes = <1 2>;
++                    clock-noncontinuous;
++                    link-frequencies = /bits/ 64 <493500000>;
++                };
++            };
++        };
++    };
++
++...
+diff --git a/MAINTAINERS b/MAINTAINERS
+index e04d944005ba..5a617ab8c9b2 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -19236,6 +19236,15 @@ T:	git git://linuxtv.org/media_tree.git
+ F:	Documentation/devicetree/bindings/media/i2c/sony,imx412.yaml
+ F:	drivers/media/i2c/imx412.c
+ 
++SONY IMX519 SENSOR DRIVER
++M:	Arducam Kernel Maintenance <info@arducam.com>
++M:	Lee Jackson <lee@arducam.com>
++L:	linux-media@vger.kernel.org
++S:	Maintained
++T:	git git://linuxtv.org/media_tree.git
++F:	Documentation/devicetree/bindings/media/i2c/sony,imx519.yaml
++F:	drivers/media/i2c/imx519.c
++
+ SONY MEMORYSTICK SUBSYSTEM
+ M:	Maxim Levitsky <maximlevitsky@gmail.com>
+ M:	Alex Dubov <oakad@yahoo.com>
+-- 
+2.25.1
