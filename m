@@ -2,137 +2,180 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6357E619ADB
-	for <lists+linux-media@lfdr.de>; Fri,  4 Nov 2022 16:02:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D057B619B88
+	for <lists+linux-media@lfdr.de>; Fri,  4 Nov 2022 16:27:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232389AbiKDPC4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 4 Nov 2022 11:02:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42084 "EHLO
+        id S230435AbiKDP1F (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 4 Nov 2022 11:27:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36094 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232380AbiKDPCc (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 4 Nov 2022 11:02:32 -0400
-Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com [IPv6:2a00:1450:4864:20::62f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 99CA440935
-        for <linux-media@vger.kernel.org>; Fri,  4 Nov 2022 08:00:19 -0700 (PDT)
-Received: by mail-ej1-x62f.google.com with SMTP id y14so13931968ejd.9
-        for <linux-media@vger.kernel.org>; Fri, 04 Nov 2022 08:00:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=CGBWxjsREcf/mRnaEwnaOQb1KRRlx3tSPPTFXGX4lwM=;
-        b=K+Nzx7awgnEA6rpeESU2hc1sp8CI7+Uqd3AYJ90O1aJTcFOCdVIFkAo5q2L01sK+35
-         fN25CnA/+V/KXRlaq4BmVqPV9UlVZ/AqDlxzCiIVmxYXsrbzRrQehCaCy7t/3I7f6mSF
-         j/mkMOCYLHauH5LiphZmR1SLhAw3RFKaXB76x/K5R5taTrHNJ4Q2+pPWQmmWbQ9ZKH0w
-         C0ElncD8hRhheA4kWeeceaHA6Q8UuDOpVlhPaLEsL9dR5KN/zUF2t0UR9adVv9ARFdkp
-         qh2xplGVQ4J0TvZrGW/Fzw8DXOYYjiR8BK2C8zp4diTLSUIrv46WZ7vGurhi8zSIgfoQ
-         mImg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=CGBWxjsREcf/mRnaEwnaOQb1KRRlx3tSPPTFXGX4lwM=;
-        b=mq62kxBKGbeV0VGufonUuP5Q4m86DsUaJpr1nbeB/wxlYMv3OnPCPR7aG8RKJglrPe
-         vHEpTuuXYtjG+KqClLkWhw+1ZvbTSgsx3EG4aQssWCKc3f0qUJTnH3e0g6dEKREDAO2F
-         dydp1cElHuk41CZQdt2C/Tgduv0BXxekwePD390iUOFcUxVFzWuplfeigHG+MxwcbPr4
-         fhfk00uiRhaKKr0gPinimj72cJ1438d4W6zfqrDeDxO4Y6jbuU5ls/7bBD0humI6Nnr0
-         m/p1J1PmJw4aVfJ9F5ADNOFlfcQLsnH9bNM1XzFUljK5P1xPZTOHS46ryGoJlw4ek5YD
-         lWIA==
-X-Gm-Message-State: ACrzQf2Vz1i8de0ynzt4N5W8ZZdGZLO2SjcWcwv63sWfmQ+MFZh5L7l6
-        D1GXb/KzCJX/csObFVs7xY0=
-X-Google-Smtp-Source: AMsMyM4/6Xrg+nCjBO6Q4ZHslz5bGkJxxYS6HKmG/P5l/wF4GU9nJDNHE3Nygc3YDM6mHOPBDPSytg==
-X-Received: by 2002:a17:907:1188:b0:78d:8267:3379 with SMTP id uz8-20020a170907118800b0078d82673379mr321675ejb.415.1667574018116;
-        Fri, 04 Nov 2022 08:00:18 -0700 (PDT)
-Received: from ?IPV6:2a02:908:1256:79a0:8469:5663:826a:8164? ([2a02:908:1256:79a0:8469:5663:826a:8164])
-        by smtp.gmail.com with ESMTPSA id fq35-20020a1709069da300b007adb67aec1asm1900944ejc.111.2022.11.04.08.00.16
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 04 Nov 2022 08:00:17 -0700 (PDT)
-Message-ID: <6c9a7faf-b967-de0a-a4e9-6d69b4eb4b20@gmail.com>
-Date:   Fri, 4 Nov 2022 16:00:15 +0100
+        with ESMTP id S232539AbiKDP0n (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 4 Nov 2022 11:26:43 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB02D2EF64;
+        Fri,  4 Nov 2022 08:26:30 -0700 (PDT)
+Received: from [192.168.1.15] (91-154-32-225.elisa-laajakaista.fi [91.154.32.225])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id B5895415;
+        Fri,  4 Nov 2022 16:26:26 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1667575587;
+        bh=3VzQ30cMBk6wTrjtkgYF9rzwEsB+Jh+az5UA0Ad2rNU=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=NowtYkLtoJJ0QilJeNJ0asKWJP0evDr+fZISuIIqn+BdKixyc3igGHGgGFBAF6PiC
+         NqLaBFzyD6OR7eoZ1Y7nSSptb1SUeeLuirN0yFh4nK4vFBHq9h4+esonh1YBDXWWza
+         yLaR8p527E9bwT1Y0fDrhMmZJenZ/3A7hgi3SEU4=
+Message-ID: <c0f0a5a3-c4bd-97e2-2047-da33bd896310@ideasonboard.com>
+Date:   Fri, 4 Nov 2022 17:26:24 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.2.2
-Subject: Re: Try to address the DMA-buf coherency problem
+Subject: Re: [PATCH v4 2/8] i2c: add I2C Address Translator (ATR) support
 Content-Language: en-US
-To:     Rob Clark <robdclark@gmail.com>
-Cc:     Lucas Stach <l.stach@pengutronix.de>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Daniel Stone <daniel@fooishbar.org>, ppaalanen@gmail.com,
-        sumit.semwal@linaro.org, daniel@ffwll.ch,
-        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-        linux-media@vger.kernel.org
-References: <20221020121316.3946-1-christian.koenig@amd.com>
- <3d7353f3fa5905ce18e5b2d92f758f098189bc5a.camel@pengutronix.de>
- <7f5eff36-6886-bb06-061a-dd4263b61605@gmail.com>
- <f5de84cfe81fee828bbe0d47d379028d28ef6ca6.camel@pengutronix.de>
- <e02cedc2-6741-8813-a7a5-f8769e301745@gmail.com>
- <a53e5df51ec0f2f9d4c2d377c0cc5ba85f2e58ff.camel@ndufresne.ca>
- <9d716641-55c6-1590-26c2-1c3b14a28226@gmail.com>
- <CAPj87rMPkmimR_RJHhxYZokH__TVpPArk0h6drOUSx7Z9+oAHA@mail.gmail.com>
- <11a6f97c-e45f-f24b-8a73-48d5a388a2cc@gmail.com>
- <caf4d6b82843788db97555a58bc9e33915e5b50a.camel@ndufresne.ca>
- <b422be59-4b4b-2d0d-8e8c-b19f27c6832e@gmail.com>
- <4fa4e5d3b1f46e46139bad069cbf5e795e63afa8.camel@pengutronix.de>
- <cc091a11-d012-d998-b7e2-8b3d616867a7@gmail.com>
- <CAF6AEGsA_AqMm2csMv_21Y8wFdbnCiYT36AEUszGK63zJM0hqw@mail.gmail.com>
-From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-In-Reply-To: <CAF6AEGsA_AqMm2csMv_21Y8wFdbnCiYT36AEUszGK63zJM0hqw@mail.gmail.com>
+To:     Andy Shevchenko <andriy.shevchenko@intel.com>
+Cc:     devicetree@vger.kernel.org, linux-i2c@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Luca Ceresoli <luca@lucaceresoli.net>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Matti Vaittinen <Matti.Vaittinen@fi.rohmeurope.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Peter Rosin <peda@axentia.se>,
+        Rob Herring <robh+dt@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Vladimir Zapolskiy <vz@mleia.com>,
+        Wolfram Sang <wsa@the-dreams.de>,
+        satish.nagireddy@getcruise.com
+References: <20221101132032.1542416-1-tomi.valkeinen@ideasonboard.com>
+ <20221101132032.1542416-3-tomi.valkeinen@ideasonboard.com>
+ <Y2EtnSNqBOfGRDMO@smile.fi.intel.com>
+ <cc510516-c961-9efb-bcdf-2abea795433a@ideasonboard.com>
+ <Y2UH0Wqp6R52tObC@smile.fi.intel.com>
+From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+In-Reply-To: <Y2UH0Wqp6R52tObC@smile.fi.intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am 04.11.22 um 15:58 schrieb Rob Clark:
-> On Wed, Nov 2, 2022 at 5:21 AM Christian König
-> <ckoenig.leichtzumerken@gmail.com> wrote:
->> Hi Lucas,
->>
->> Am 02.11.22 um 12:39 schrieb Lucas Stach:
->>> Hi Christian,
+On 04/11/2022 14:38, Andy Shevchenko wrote:
+> On Fri, Nov 04, 2022 at 01:59:06PM +0200, Tomi Valkeinen wrote:
+>> On 01/11/2022 16:30, Andy Shevchenko wrote:
+>>> On Tue, Nov 01, 2022 at 03:20:26PM +0200, Tomi Valkeinen wrote:
+> 
+> ...
+> 
+>>>> +	ret = atr->ops->attach_client(atr, chan->chan_id, info, client,
+>>>> +				      &alias_id);
 >>>
->>> going to reply in more detail when I have some more time, so just some
->>> quick thoughts for now.
->>>
->>> Am Mittwoch, dem 02.11.2022 um 12:18 +0100 schrieb Christian König:
->>>> Am 01.11.22 um 22:09 schrieb Nicolas Dufresne:
->>>>> [SNIP]
->>>> As far as I can see it you guys just allocate a buffer from a V4L2
->>>> device, fill it with data and send it to Wayland for displaying.
->>>>
->>>> To be honest I'm really surprised that the Wayland guys hasn't pushed
->>>> back on this practice already.
->>>>
->>>> This only works because the Wayland as well as X display pipeline is
->>>> smart enough to insert an extra copy when it find that an imported
->>>> buffer can't be used as a framebuffer directly.
->>>>
->>> With bracketed access you could even make this case work, as the dGPU
->>> would be able to slurp a copy of the dma-buf into LMEM for scanout.
->> Well, this copy is what we are trying to avoid here. The codec should
->> pump the data into LMEM in the first place.
+>>> On one line looks better.
 >>
-> For the dGPU VRAM case, shouldn't this be amdgpu re-importing it's own
-> dmabuf, which more or less bypasses dma-buf to get back the backing
-> GEM obj?
+>> I agree, but it doesn't fit into 80 characters. I personally think that's a
+>> too narrow a limit, but some maintainers absolutely require max 80 chars, so
+>> I try to limit the lines to 80 unless it looks really ugly.
+> 
+> OK.
+> 
+> ...
+> 
+>>>> +	WARN(sysfs_create_link(&chan->adap.dev.kobj, &dev->kobj, "atr_device"),
+>>>> +	     "can't create symlink to atr device\n");
+>>>> +	WARN(sysfs_create_link(&dev->kobj, &chan->adap.dev.kobj, symlink_name),
+>>>> +	     "can't create symlink for channel %u\n", chan_id);
+>>>
+>>> Why WARNs? sysfs has already some in their implementation.
+>>
+>> True, and I can drop these if required. But afaics, sysfs_create_link only
+>> warns if there's a duplicate entry, not for other errors.
+> 
+> The problem with WARN that it can be easily converted to real Oops. Do you
+> consider other errors are so fatal that machine would need a reboot?
 
-When the codec and scanout is on the same device, then yes.
+Yes, WARNs are bad, especially as the error here is not critical. I'll 
+change these to dev_warn(). (also, I didn't know WARN could be made to 
+oops).
 
-But we already had cases where the codec was on the dGPU and scanout 
-happened on the integrated engine.
+> ...
+> 
+>>>> +	atr_size = struct_size(atr, adapter, max_adapters);
+>>>
+>>>> +	if (atr_size == SIZE_MAX)
+>>>> +		return ERR_PTR(-EOVERFLOW);
+>>>
+>>> Dunno if you really need this to be separated from devm_kzalloc(), either way
+>>> you will get an error, but in embedded case it will be -ENOMEM.
+>>
+>> Yep. Well... I kind of like it to be explicit. Calling alloc(SIZE_MAX)
+>> doesn't feel nice.
+> 
+> Yeah, but that is exactly the point of returning SIZE_MAX by the helpers from
+> overflow.h. And many of them are called inside a few k*alloc*() APIs.
+> 
+> So, I don't think it's ugly or not nice from that perspective.
 
-Regards,
-Christian.
+Ok, sounds fine to me. I'll drop the check.
 
->
-> BR,
-> -R
+>>>> +	atr = devm_kzalloc(dev, atr_size, GFP_KERNEL);
+>>>> +	if (!atr)
+>>>> +		return ERR_PTR(-ENOMEM);
+> 
+> ...
+> 
+>>>> +EXPORT_SYMBOL_GPL(i2c_atr_delete);
+>>>
+>>> I would put these to their own namespace from day 1.
+>>
+>> What would be the namespace? Isn't this something that should be
+>> subsystem-wide decision? I have to admit I have never used symbol
+>> namespaces, and don't know much about them.
+> 
+> Yes, subsystem is I2C, but you introducing a kinda subsubsystem. Wouldn't be
+> better to provide all symbols in the I2C_ATR namespace from now on?
+> 
+> It really helps not polluting global namespace and also helps to identify
+> users in the source tree.
+
+Alright, I'll look into this.
+
+> ...
+> 
+>>>> +struct i2c_atr {
+>>>> +	/* private: internal use only */
+>>>> +
+>>>> +	struct i2c_adapter *parent;
+>>>> +	struct device *dev;
+>>>> +	const struct i2c_atr_ops *ops;
+>>>> +
+>>>> +	void *priv;
+>>>> +
+>>>> +	struct i2c_algorithm algo;
+>>>> +	struct mutex lock;
+>>>> +	int max_adapters;
+>>>> +
+>>>> +	struct i2c_adapter *adapter[0];
+>>>
+>>> No VLAs.
+>>
+>> Ok.
+>>
+>> I'm not arguing against any of the comments you've made, I think they are
+>> all valid, but I want to point out that many of them are in a code copied
+>> from i2c-mux.
+>>
+>> Whether there's any value in keeping i2c-mux and i2c-atr similar in
+>> design/style... Maybe not.
+> 
+> You can address my comment by simply dropping 0 in the respective member.
+
+Oh, I thought you meant no "extensible" structs. I'll drop the 0.
+
+  Tomi
 
