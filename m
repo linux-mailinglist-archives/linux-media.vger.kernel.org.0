@@ -2,86 +2,75 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CD3FF619A8E
-	for <lists+linux-media@lfdr.de>; Fri,  4 Nov 2022 15:51:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DE6ED619AAC
+	for <lists+linux-media@lfdr.de>; Fri,  4 Nov 2022 15:58:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231707AbiKDOvW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 4 Nov 2022 10:51:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37538 "EHLO
+        id S232239AbiKDO57 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 4 Nov 2022 10:57:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41664 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231737AbiKDOvU (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 4 Nov 2022 10:51:20 -0400
-Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com [IPv6:2a00:1450:4864:20::42e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CEA30F0B
-        for <linux-media@vger.kernel.org>; Fri,  4 Nov 2022 07:51:18 -0700 (PDT)
-Received: by mail-wr1-x42e.google.com with SMTP id w14so7377472wru.8
-        for <linux-media@vger.kernel.org>; Fri, 04 Nov 2022 07:51:18 -0700 (PDT)
+        with ESMTP id S232016AbiKDO55 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 4 Nov 2022 10:57:57 -0400
+Received: from mail-oa1-x2a.google.com (mail-oa1-x2a.google.com [IPv6:2001:4860:4864:20::2a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 528742EF48
+        for <linux-media@vger.kernel.org>; Fri,  4 Nov 2022 07:57:55 -0700 (PDT)
+Received: by mail-oa1-x2a.google.com with SMTP id 586e51a60fabf-12c8312131fso5798741fac.4
+        for <linux-media@vger.kernel.org>; Fri, 04 Nov 2022 07:57:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=3Wc2jsNOexwW+dAT0tReNL8z52qtdL4m+9R396rw+xY=;
-        b=ddRzSMcyTyvR9vCEgF8H/7BNeY5xSwk1IbYyT2D9eT1ENWApfJBXzh9sVWcQjbfSuj
-         zL36+cZXbjye5yNe0f42TldIKf+s83cN3mgosUsZUh7qaAl5nP8sl4RN2us2De867dsz
-         c5i9Bk7e//aDNmzXS1p5e6MGvzOFbVwUwlvCxLTCyAPVqm1EkqSQZtxwEkv0KebO1xF6
-         qLAUrcv3Bq5xjn2wUtetFR2RDK3zMmlSlPh9y+iKDZJiBNP4qeVJcMNnDgUpAagDXzID
-         /DJv5Tro9VkGx1X7OF1NgCPuQAhnqxlJbbSskk/PrjHN4egnFjbD54nqD1k0PYPvbnHk
-         Nw+g==
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=K1gVxuAF8E1wt+B0yAv3PkO74sKGbKOwH5XfGox/81U=;
+        b=NfGTep0WZ282nqPfUCT1yPZnvr5+ho8fiJ/z0UpoCyVZzhrQdMNRii/8GOTt1jOwW1
+         d4UXaR4Hrk7qLw+Ivht92BPiQ7Tjj0o92VDDVGfLqf81zK5btnIlC7GAz0lLHJk8fiPc
+         6t5wfU1ZcdJIqNF9JK3cjS/ttqBrNIeMFeXAjwpMO11T/q7EzoNa2qrAAQsnP3ZX3EWC
+         UQnxBwDeHStXRIuFSIWULamY3yMVfoFHNYt5huwSYpkkjD8MNiNzw8a6JKxgXXHMolhX
+         7uqdGFCHN5rsSP7Rt2mTfjalzA/Ut7FN3KgDMSLox1NXn19GtLEgVS+t7DpzOSy8FA0e
+         NB0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=3Wc2jsNOexwW+dAT0tReNL8z52qtdL4m+9R396rw+xY=;
-        b=P7pJ/GcjeyiV30d02G15yCTGFPcNVRQWiyMDKE6M74Lf+GWgIELl4kmEhRA9AEZc8A
-         ThZeMF8UECekNIoWu8XlPB/M4Xy0E9ASczS7fYU/l3I2ohXd+93rHsLT2zaoDhfgg3YP
-         UE2DKVSeNy7r/7C8ajVBCA75+lFTLv8Ee63PpbVVxiODbUrCOKoNBpQchRPzTzJ/cGPc
-         uFLScwkkZPqlvbFVrpD6Jo5/E6mVB4edE2m5mw+dDg956ECBXAKhSq8q3cWWePH9KF3e
-         +9u5z9hNYDSxt7CmG3Xa1yluh7GGTOzL/XcRw8z78vQQoWw8Ce0o0kfJW2rb8B81/Nmc
-         z0mQ==
-X-Gm-Message-State: ACrzQf1jbaIC6IYIcuQrulrM5YRvx4ZSeHF/XfrJKILLyVi+0BjcOvBe
-        E0JEN6uWm128EFOBWrYcAMU=
-X-Google-Smtp-Source: AMsMyM5hrtyXs4ZcIlYxByNLzk3pumvW8uX/mVO7s3L9nrIAwC5/hbko5ltr77oqDTSE+pu2lN8AaQ==
-X-Received: by 2002:adf:fd87:0:b0:236:7ad7:d3c4 with SMTP id d7-20020adffd87000000b002367ad7d3c4mr22778071wrr.687.1667573477232;
-        Fri, 04 Nov 2022 07:51:17 -0700 (PDT)
-Received: from ?IPV6:2a02:908:1256:79a0:8469:5663:826a:8164? ([2a02:908:1256:79a0:8469:5663:826a:8164])
-        by smtp.gmail.com with ESMTPSA id q11-20020a05600000cb00b0023677e1157fsm3535610wrx.56.2022.11.04.07.51.16
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 04 Nov 2022 07:51:16 -0700 (PDT)
-Message-ID: <3488df2f-d4c0-af05-575b-707a82a7ec30@gmail.com>
-Date:   Fri, 4 Nov 2022 15:51:15 +0100
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=K1gVxuAF8E1wt+B0yAv3PkO74sKGbKOwH5XfGox/81U=;
+        b=BvJg0HtP41tEXjZ3nX5r9qtDd4k7dXl2H41xSvI+rFVfI4lUAHrPBMVSt7lhmlRe/F
+         FXBl9xQl7ZtI73Yaj4TC3hHjrE5a8i+xEjHo1y6ktGQfKlxI2FMW96lyPDVQ7q/aUwGo
+         7aTviLzs4P5Vi15+GjqHZLLhgTwODRZ34YuaFV0+NUzG9nzyFF2keaPS3pNKaT2FWm/5
+         /p58yL1t3ugo2kBk0AqBvRmM10Z/aXsnEA9SR3hg7wmNo8bDnChYOl1iKLl1NovPaXGH
+         NpjNIUHESUBxvZ+wWjCifTmXMRqBrEE/usRY29vdjOc2Me5rJXO9kaAKJQdfeVI2weLV
+         8kLA==
+X-Gm-Message-State: ACrzQf2FGAWyo69cM6+Ip5fYhGibacBsyk340GSQKnv/p0JAZTfn3Kmj
+        jdTof4NxBPWdi8SkUN9gbaH4qZMLU59juuEd2fM=
+X-Google-Smtp-Source: AMsMyM5mz3AyGVGUjs64ztiZ8jLTD6vuWi8Q2ktVP7OaVqbvnBliCbxIy/fr43OWxh//b+OpIdMHQIq0HkRF1DOtzQQ=
+X-Received: by 2002:a05:6871:6a4:b0:13b:a056:f97f with SMTP id
+ l36-20020a05687106a400b0013ba056f97fmr21374670oao.38.1667573874523; Fri, 04
+ Nov 2022 07:57:54 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: Try to address the DMA-buf coherency problem
-Content-Language: en-US
-To:     Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Daniel Stone <daniel@fooishbar.org>
-Cc:     Lucas Stach <l.stach@pengutronix.de>, ppaalanen@gmail.com,
-        sumit.semwal@linaro.org, daniel@ffwll.ch, robdclark@gmail.com,
-        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-        linux-media@vger.kernel.org
 References: <20221020121316.3946-1-christian.koenig@amd.com>
  <3d7353f3fa5905ce18e5b2d92f758f098189bc5a.camel@pengutronix.de>
- <7f5eff36-6886-bb06-061a-dd4263b61605@gmail.com>
- <f5de84cfe81fee828bbe0d47d379028d28ef6ca6.camel@pengutronix.de>
- <e02cedc2-6741-8813-a7a5-f8769e301745@gmail.com>
- <a53e5df51ec0f2f9d4c2d377c0cc5ba85f2e58ff.camel@ndufresne.ca>
- <9d716641-55c6-1590-26c2-1c3b14a28226@gmail.com>
- <CAPj87rMPkmimR_RJHhxYZokH__TVpPArk0h6drOUSx7Z9+oAHA@mail.gmail.com>
- <11a6f97c-e45f-f24b-8a73-48d5a388a2cc@gmail.com>
- <caf4d6b82843788db97555a58bc9e33915e5b50a.camel@ndufresne.ca>
- <b422be59-4b4b-2d0d-8e8c-b19f27c6832e@gmail.com>
- <90a1fb6101483971ef14d22370aac50d494a4752.camel@ndufresne.ca>
- <441e7155-2fa3-e34f-1bf6-706a0e5698d8@gmail.com>
- <434299935e7ed9a7a02e4e358cd044e54145582e.camel@ndufresne.ca>
-From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-In-Reply-To: <434299935e7ed9a7a02e4e358cd044e54145582e.camel@ndufresne.ca>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+ <7f5eff36-6886-bb06-061a-dd4263b61605@gmail.com> <f5de84cfe81fee828bbe0d47d379028d28ef6ca6.camel@pengutronix.de>
+ <e02cedc2-6741-8813-a7a5-f8769e301745@gmail.com> <a53e5df51ec0f2f9d4c2d377c0cc5ba85f2e58ff.camel@ndufresne.ca>
+ <9d716641-55c6-1590-26c2-1c3b14a28226@gmail.com> <CAPj87rMPkmimR_RJHhxYZokH__TVpPArk0h6drOUSx7Z9+oAHA@mail.gmail.com>
+ <11a6f97c-e45f-f24b-8a73-48d5a388a2cc@gmail.com> <caf4d6b82843788db97555a58bc9e33915e5b50a.camel@ndufresne.ca>
+ <b422be59-4b4b-2d0d-8e8c-b19f27c6832e@gmail.com> <4fa4e5d3b1f46e46139bad069cbf5e795e63afa8.camel@pengutronix.de>
+ <cc091a11-d012-d998-b7e2-8b3d616867a7@gmail.com>
+In-Reply-To: <cc091a11-d012-d998-b7e2-8b3d616867a7@gmail.com>
+From:   Rob Clark <robdclark@gmail.com>
+Date:   Fri, 4 Nov 2022 07:58:12 -0700
+Message-ID: <CAF6AEGsA_AqMm2csMv_21Y8wFdbnCiYT36AEUszGK63zJM0hqw@mail.gmail.com>
+Subject: Re: Try to address the DMA-buf coherency problem
+To:     =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
+Cc:     Lucas Stach <l.stach@pengutronix.de>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Daniel Stone <daniel@fooishbar.org>, ppaalanen@gmail.com,
+        sumit.semwal@linaro.org, daniel@ffwll.ch,
+        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+        linux-media@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
         RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -90,171 +79,41 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am 04.11.22 um 14:38 schrieb Nicolas Dufresne:
-> Le vendredi 04 novembre 2022 à 10:03 +0100, Christian König a écrit :
->> Am 03.11.22 um 23:16 schrieb Nicolas Dufresne:
->>> [SNIP]
->>>
->>> Was there APIs suggested to actually make it manageable by userland to allocate
->>> from the GPU? Yes, this what Linux Device Allocator idea is for. Is that API
->>> ready, no.
->> Well, that stuff is absolutely ready:
->> https://elixir.bootlin.com/linux/latest/source/drivers/dma-buf/heaps/system_heap.c#L175
->> What do you think I'm talking about all the time?
-> I'm aware of DMA Heap, still have few gaps, but this unrelated to coherency (we
-> can discuss offline, with Daniel S.). For DMABuf Heap, its used in many forks by
-> vendors in production. There is an upstream proposal for GStreamer, but review
-> comments were never addressed, in short, its stalled, and it waiting for a
-> volunteer. It might also be based on very old implementation of DMABuf Heap,
-> needs to be verified in depth for sure as the time have passed.
+On Wed, Nov 2, 2022 at 5:21 AM Christian K=C3=B6nig
+<ckoenig.leichtzumerken@gmail.com> wrote:
 >
-> https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/1391
-
-Well this is actually quite related to coherency.
-
-As general purpose framework it's mandatory for DMA Heaps to support the 
-coherency callbacks. And as far as I can see they are indeed correctly 
-implemented.
-
-So if you allocate from a DMA Heap it should be guaranteed that sharing 
-with all devices work correctly, no matter if they write with the CPU or 
-don't snoop the CPU cache. That's essentially what those heaps are good for.
-
-I just don't know how you should select between the contiguous and the 
-system heap since I'm not deep enough in the userspace side of this.
-
-We should have come up with heaps earlier and don't implement so many 
-different system memory allocators in the drivers in the first place.
-
->> DMA-buf has a lengthy section about CPU access to buffers and clearly
->> documents how all of that is supposed to work:
->> https://elixir.bootlin.com/linux/latest/source/drivers/dma-buf/dma-buf.c#L1160
->> This includes braketing of CPU access with dma_buf_begin_cpu_access()
->> and dma_buf_end_cpu_access(), as well as transaction management between
->> devices and the CPU and even implicit synchronization.
->>
->> This specification is then implemented by the different drivers
->> including V4L2:
->> https://elixir.bootlin.com/linux/latest/source/drivers/media/common/videobuf2/videobuf2-dma-sg.c#L473
->>
->> As well as the different DRM drivers:
->> https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c#L117
->> https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c#L234
-> I know, I've implement the userspace bracketing for this in GStreamer [1] before
-> DMAbuf Heap was merged and was one of the reporter for the missing bracketing in
-> VB2. Was tested against i915 driver. Note, this is just a fallback, the
-> performance is terrible, memory exported by (at least my old i915 HW) is not
-> cacheable on CPU. Though, between corrupted image and bad performance or just
-> bad performance, we decided that it was better to have the second. When the
-> DMABuf is backed by CPU cacheable memory, peformance is great and CPU fallback
-> works. Work is in progress to better handle these two cases generically. For
-> now, sometimes the app need to get involved, but this is only happens on
-> embedded/controlled kind of use cases. What matters is that application that
-> needs this can do it.
+> Hi Lucas,
 >
-> [1] https://gitlab.freedesktop.org/gstreamer/gstreamer/-/blob/main/subprojects/gst-plugins-base/gst-libs/gst/allocators/gstdmabuf.c
-
-Yeah, I've heard complains about that before with people asking if we 
-couldn't map buffers exporter by the GPU as cacheable and then flush it 
-on demand.
-
-For i915 that's more or less possible because it just uses stolen system 
-memory, but pretty much any other dGPU uses local memory and mapping a 
-PCIe BAR cacheable is really a no-go.
-
->> This design was then used by us with various media players on different
->> customer projects, including QNAP https://www.qnap.com/en/product/ts-877
->> as well as the newest Tesla
->> https://www.amd.com/en/products/embedded-automotive-solutions
->>
->> I won't go into the details here, but we are using exactly the approach
->> I've outlined to let userspace control the DMA between the different
->> device in question. I'm one of the main designers of that and our
->> multimedia and mesa team has up-streamed quite a number of changes for
->> this project.
->>
->> I'm not that well into different ARM based solutions because we are just
->> recently getting results that this starts to work with AMD GPUs, but I'm
->> pretty sure that the design should be able to handle that as well.
->>
->> So we have clearly prove that this design works, even with special
->> requirements which are way more complex than what we are discussing
->> here. We had cases where we used GStreamer to feed DMA-buf handles into
->> multiple devices with different format requirements and that seems to
->> work fine.
-> Sounds like you have a love/hate relationship with GStreamer. Glad the framework
-> is working for you too. The framework have had bidirectional memory allocation
-> for over a decade, it also has context sharing for stacks like
-> D3D11,12/GL/Vulkan/CUDA etc. I strictly didn't understand what you were
-> complaining about. As a vendor, you can solve all this in your BSP. Though,
-> translating BSP patches into a generic upstream-able features is not as simple.
-> The solution that works for vendor is usually the most cost effective one. I'm
-> sure, Tesla or AMD Automotive are no exceptions.
-
-The framework is indeed great. It's just that customers often come up 
-with their own sources/sinks which then obviously don't go upstream.
-
-The LGPL was sometimes helpful to get people involved, but most often 
-just leaves to much opportunity to develop a throw away solution.
-
->> -----
->> What is clearly a bug in the kernel is that we don't reject things which
->> won't work correctly and this is what this patch here addresses. What we
->> could talk about is backward compatibility for this patch, cause it
->> might look like it breaks things which previously used to work at least
->> partially.
-> I did read your code review (I don't class this discussion as a code review).
-> You where asked to address several issues, clearly a v2 is needed.
+> Am 02.11.22 um 12:39 schrieb Lucas Stach:
+> > Hi Christian,
+> >
+> > going to reply in more detail when I have some more time, so just some
+> > quick thoughts for now.
+> >
+> > Am Mittwoch, dem 02.11.2022 um 12:18 +0100 schrieb Christian K=C3=B6nig=
+:
+> >> Am 01.11.22 um 22:09 schrieb Nicolas Dufresne:
+> >>> [SNIP]
+> >> As far as I can see it you guys just allocate a buffer from a V4L2
+> >> device, fill it with data and send it to Wayland for displaying.
+> >>
+> >> To be honest I'm really surprised that the Wayland guys hasn't pushed
+> >> back on this practice already.
+> >>
+> >> This only works because the Wayland as well as X display pipeline is
+> >> smart enough to insert an extra copy when it find that an imported
+> >> buffer can't be used as a framebuffer directly.
+> >>
+> > With bracketed access you could even make this case work, as the dGPU
+> > would be able to slurp a copy of the dma-buf into LMEM for scanout.
 >
-> 1. Rob Clark stated the coherency is not homogeneous in many device drivers. So
-> your patch will yield many false positives. He asked if you could think of a
-> "per attachement" solution, as splitting drivers didn't seem like the best
-> approach (and it would have to happen at the same time anyway).
-
-That should already be addressed. The flag is intentionally per buffer 
-and only gets check as pre condition the framework itself.
-
-So for example importing a buffer which requires CPU cache coherency is 
-still possible, but then creating the framebuffer fails. This is pretty 
-much the handling we already have, just not driver specific any more.
-
-> 2. Lucas raised a concern, unfortunately no proof yet, that this may cause
-> regressions in existing userspace application. You stated that the application
-> must be wrong, yet this would break Linus rule #1. I'm not participating in that
-> discussion, I tried to reproduced, but appart from writing an app that will
-> break, I haven't found yet. But it feels like the way forward is to ensure each
-> exporter driver can override this in case it has a good reason to do so.
-
-Yes, that's what I meant that we should discuss this. Essentially we 
-have the option between an application using corrupted data or breaking 
-in the first place. I tend to say that the second is less harmful, but 
-that's not a hard opinion.
-
-> As a third option, a safer approach would be to avoid reusing a flawed mechanism
-> to detect device coherency (or rephrased, accept that device coherency isn't
-> homogeneous). Communicate this back another way. this means patching all the
-> drivers, but at least each driver maintainer will be able to judge with their HW
-> knowledge if this is going to regress or not. When I first looked at it, I
-> wanted to experiment with enabling cache in vb2 contiguous allocator. I was
-> thinking that perhaps I could have bracketing, and state changes triggered by
-> the attach call, all based on the device coherency, but now that I saw Rob Clark
-> comment, I feel like this is flawed.
-
-Yeah, that won't work. Daniel V also noted multiple times that we could 
-do this in the attach callback, but attaching should really be something 
-done only once.
-
-If you want device which write to the buffers with the CPU and devices 
-which don't snoop to work together on system memory then DMA Heaps are 
-really the way to go.
-
-Just going to extend the patch set to the cases we have in amdgpu and 
-i915 as well.
-
-Thanks,
-Christian.
-
+> Well, this copy is what we are trying to avoid here. The codec should
+> pump the data into LMEM in the first place.
 >
-> happy v2,
-> Nicolas
 
+For the dGPU VRAM case, shouldn't this be amdgpu re-importing it's own
+dmabuf, which more or less bypasses dma-buf to get back the backing
+GEM obj?
+
+BR,
+-R
