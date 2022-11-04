@@ -2,150 +2,205 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C71716194BD
-	for <lists+linux-media@lfdr.de>; Fri,  4 Nov 2022 11:45:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 499D16194EA
+	for <lists+linux-media@lfdr.de>; Fri,  4 Nov 2022 11:57:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230527AbiKDKpQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 4 Nov 2022 06:45:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58408 "EHLO
+        id S231359AbiKDK5G (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 4 Nov 2022 06:57:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36034 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229615AbiKDKpP (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 4 Nov 2022 06:45:15 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 782A02654F;
-        Fri,  4 Nov 2022 03:45:14 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 1FC6C6210B;
-        Fri,  4 Nov 2022 10:45:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0FDE6C433D6;
-        Fri,  4 Nov 2022 10:45:11 +0000 (UTC)
-Message-ID: <52532fda-6863-6658-4ad5-a4dbc2607a1c@xs4all.nl>
-Date:   Fri, 4 Nov 2022 11:45:10 +0100
+        with ESMTP id S229611AbiKDK4x (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 4 Nov 2022 06:56:53 -0400
+Received: from mailout1.samsung.com (mailout1.samsung.com [203.254.224.24])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0ABEC2B63E
+        for <linux-media@vger.kernel.org>; Fri,  4 Nov 2022 03:56:50 -0700 (PDT)
+Received: from epcas5p2.samsung.com (unknown [182.195.41.40])
+        by mailout1.samsung.com (KnoxPortal) with ESMTP id 20221104105648epoutp01470117590c41c72aa218a24016fa825d~kXHJVJ1OF3005830058epoutp01q
+        for <linux-media@vger.kernel.org>; Fri,  4 Nov 2022 10:56:48 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com 20221104105648epoutp01470117590c41c72aa218a24016fa825d~kXHJVJ1OF3005830058epoutp01q
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+        s=mail20170921; t=1667559408;
+        bh=ByXREw6U9UT1fb8v/UjL6hHxBiGSezGiu+UpEJA3n18=;
+        h=From:To:Cc:In-Reply-To:Subject:Date:References:From;
+        b=NTWy6irBUsGDnFJwafP2dGF8aYAtgwvsqXxMxhGJKJwi1fJ8XY1x1MYVMle2wYeOf
+         MdpdEFHIyOFt9V6Xwf0OZ3R31bhpQ5ckkgdj5otBS/sd96bSNw1nslNjruaZoHQI6/
+         ayJQ0btUkhJqihhZlEn1MhN+WXvOqxw8j3MmNwds=
+Received: from epsnrtp2.localdomain (unknown [182.195.42.163]) by
+        epcas5p3.samsung.com (KnoxPortal) with ESMTP id
+        20221104105647epcas5p33945ca8e853b0a5d209c4f8b61370f1d~kXHIvOBXh1487914879epcas5p3Z;
+        Fri,  4 Nov 2022 10:56:47 +0000 (GMT)
+Received: from epsmges5p3new.samsung.com (unknown [182.195.38.174]) by
+        epsnrtp2.localdomain (Postfix) with ESMTP id 4N3cy43wFyz4x9Pw; Fri,  4 Nov
+        2022 10:56:44 +0000 (GMT)
+Received: from epcas5p3.samsung.com ( [182.195.41.41]) by
+        epsmges5p3new.samsung.com (Symantec Messaging Gateway) with SMTP id
+        0E.0E.56352.CEFE4636; Fri,  4 Nov 2022 19:56:44 +0900 (KST)
+Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
+        epcas5p1.samsung.com (KnoxPortal) with ESMTPA id
+        20221104104928epcas5p1ba76f35fd33e3a68ced972d0489c98af~kXAwPxlxh3116031160epcas5p1s;
+        Fri,  4 Nov 2022 10:49:28 +0000 (GMT)
+Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
+        epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
+        20221104104928epsmtrp1a42a0fb098eadb759fba8e4670993741~kXAwNrjXu2514725147epsmtrp14;
+        Fri,  4 Nov 2022 10:49:28 +0000 (GMT)
+X-AuditID: b6c32a4b-383ff7000001dc20-1c-6364efec4840
+Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
+        epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+        2D.A9.14392.83EE4636; Fri,  4 Nov 2022 19:49:28 +0900 (KST)
+Received: from FDSFTE308 (unknown [107.122.81.79]) by epsmtip2.samsung.com
+        (KnoxPortal) with ESMTPA id
+        20221104104925epsmtip284347302a3441e4cd072520eda44e503~kXAtELaC42615726157epsmtip2W;
+        Fri,  4 Nov 2022 10:49:25 +0000 (GMT)
+From:   "Aakarsh Jain" <aakarsh.jain@samsung.com>
+To:     "'Krzysztof Kozlowski'" <krzysztof.kozlowski@linaro.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <devicetree@vger.kernel.org>
+Cc:     <m.szyprowski@samsung.com>, <andrzej.hajda@intel.com>,
+        <mchehab@kernel.org>, <hverkuil-cisco@xs4all.nl>,
+        <ezequiel@vanguardiasur.com.ar>, <jernej.skrabec@gmail.com>,
+        <benjamin.gaignard@collabora.com>,
+        <krzysztof.kozlowski+dt@linaro.org>,
+        <stanimir.varbanov@linaro.org>, <dillon.minfei@gmail.com>,
+        <david.plowman@raspberrypi.com>, <mark.rutland@arm.com>,
+        <robh+dt@kernel.org>, <krzk+dt@kernel.org>, <andi@etezian.org>,
+        <alim.akhtar@samsung.com>, <aswani.reddy@samsung.com>,
+        <pankaj.dubey@samsung.com>, <smitha.t@samsung.com>
+In-Reply-To: <352e31de-cb79-f08e-b817-2712d97b84f1@linaro.org>
+Subject: RE: [PATCH 3/3] arm64: dts: exynos: Rename compatible string
+ property from version to SOC specific
+Date:   Fri, 4 Nov 2022 16:19:24 +0530
+Message-ID: <000001d8f03b$1cd111f0$567335d0$@samsung.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.0
-Subject: Re: [PATCH v3 0/2] Digiteq Automotive MGB4 driver
-Content-Language: en-US
-To:     tumic@gpxsee.org, Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Michal Simek <michal.simek@xilinx.com>
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-i2c@vger.kernel.org, Lizhi Hou <lizhi.hou@amd.com>,
-        =?UTF-8?Q?Martin_T=c5=afma?= <martin.tuma@digiteqautomotive.com>
-References: <20221018140338.7080-1-tumic@gpxsee.org>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-In-Reply-To: <20221018140338.7080-1-tumic@gpxsee.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+X-Mailer: Microsoft Outlook 16.0
+Thread-Index: AQIVsoyS1LfNYjvTRsU3iIkRJvur6AJ2XG6BApeHKxICO7c5fa16oSiA
+Content-Language: en-in
+X-Brightmail-Tracker: H4sIAAAAAAAAA02Te0xbdRTH97v39gGuemFFfqvM1CpEikALFC/yckKWS9gcwTgNIZau3ADS
+        V9oiMpc4CZvIGLMqC3RYYGUYnpsMOthKBFbYaBiOjMeidLymUEocoUOZW5wtBeW/z/me7/md
+        3zm//Jio7zkGh5mn0FJqhUTGo3tjphvBwaErD7OlgsnyfcSswUQnjBuLCDFjdGLEwJUuBtE5
+        fh4lfrjZRyNqLaM04mr/PEb8uOTKjlXbMGKxth0Qdv19OlGxNIcSvQ5XRcfCJI24e62GTpRf
+        7qIRbRYbg7g4NYYQjR1PEeJC1yMGcbLXwiBsZhMgSk5ZkLch2WpoBWS3rQGQUw1rKNmjtzFI
+        o9mOkB3NX9HJ6UkznbzS8Dl5cvBvjKzobAZkmWWKTjo7Xiat605GGisjPy6XkmRTai6lkCqz
+        8xQ58bzU98RJYlG0QBgqjCHe5HEVEjkVz0s+mBZ6IE/mWgGP+4lEVuCS0iQaDS88IU6tLNBS
+        3FylRhvPo1TZMlWUKkwjkWsKFDlhCkr7llAgiBC5jFn5ubW3ZhDVWb9P7/UtME4Ah08Z8GJC
+        PAq2NRXT3OyLXwfw7mhRGfB28RqATT06hif4E8DBn/9ibFcMPW2iexK9AK6a2rfKFwFsK/dy
+        Mx0PhzPWcprbxMYHAZztnEPdAYrXYnCyeJXudnnhCbBuo8TlYjL34HJotr3hljH8Ndha8Tvm
+        ZhYeA68OlSAe9oHD1Q82dRQPgY31DtRzIy58/Fvj5jFs/ACsLQ7yWPzh4OPyzbYQt3rBZ3/c
+        3vInw/mWbd4Dl292bk3Ggfazp7ZYChcu2Lc8MnjJ/B3m4UTYN16DuXuheDC8dC3cI++DldZ2
+        xNP3eXjmyQPEo7Ngt2Gbg2DN9AbNwwHwRstF8DXg6XdMpt8xmX7HCPr/u9UBrBnspVQaeQ6l
+        EakiFVThf+8tVco7wOYH4ad2g/nZ1bABgDDBAIBMlMdmrZmkUl9WtqToGKVWitUFMkozAESu
+        detQjp9U6fphCq1YGBUjiIqOjo6KiYwW8vxZxiq+1BfPkWipfIpSUertOoTpxTmBNBStZNHl
+        CLm7wifReSz9Nj6exup+d+a0Rfdxj2A9dr0yJetIysEXU3JnAwIbHjm837nOiSvQix7eYYP0
+        Umdglc5sJxtfXda+1PKRMXbvkmQIcPqLIzITUvlziUlhxxvRI0f9A4yHL3+wHJfq9zo37d6w
+        wRw5PLZRmBkakPHsl5HytV8LV0y3+tvbFr7sEyZ02fdvGKyV91l1Od+GVMGajIUXztH+MXwR
+        PM86NOYQT1j5ERPUE35z6OGjPk3CTvZPVGacZVegbPdI9ffTVeuH6v2S75QG6XS29JDjPs+x
+        haNJi212EnGWfhiv1taPiCvPTJw+/5ljYlfsKzLR+4Oqb3iYJlci5KNqjeRfngN2vKkEAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFmpgleLIzCtJLcpLzFFi42LZdlhJXtfiXUqywd8zOhYP5m1js1j84zmT
+        xf3Fn1ksDm3eym6x5cpsZovlxw+wWsw/co7VYvvBRywWG18AZS/OvMti8Xz+OkaLl7PusVn0
+        vXjIbLH3NVDHpsfXWC0u75rDZtGzYSurxdojd9ktll6/yGSxbNMfJotFW7+wW7TuPcJucXfP
+        NkaLlrYjTA4SHmvmrWH02HF3CaPH9SWfmD12zrrL7rF4z0smj02rOtk87lzbw+axeUm9R+vR
+        XywefVtWMXp0HbnO5vF5k5zHqa+f2QN4o7hsUlJzMstSi/TtErgy5q9+xFawSqTi8Pt/TA2M
+        HYJdjJwcEgImEsf+rGTrYuTiEBLYzSixa+MxNoiEjMT/tmPsELawxMp/z9khip4ySkzf9pUR
+        JMEmoC9x/1QPK0hCROAko0T/mRYwh1lgM4vE2tY9LBAtnxklVszfDtbCKWAnseAHSBUHh7BA
+        tsTO7gyQMIuAisSavmcsIDavgKXE9mMtTBC2oMTJmU/A4swC2hJPbz6Fs5ctfM0McZ6CxM+n
+        y8BGigi4ScxvUoMoEZc4+rOHeQKj8Cwkk2YhmTQLyaRZSFoWMLKsYpRMLSjOTc8tNiwwzEst
+        1ytOzC0uzUvXS87P3cQITiRamjsYt6/6oHeIkYmD8RCjBAezkgjvp23JyUK8KYmVValF+fFF
+        pTmpxYcYpTlYlMR5L3SdjBcSSE8sSc1OTS1ILYLJMnFwSjUw6dedFbPwnaPBofE5SMR5h32T
+        k/vdlSKbLj5w3uVwttvmFV/3vA5hta/uNxf9uZptu/vOGvt/93deu5n4o+Lde7++781VU2Nv
+        Sop9l22bXf+MIcv2VO/3faovMjcsKCmxO/BdeEPNGe6sK98X/BKu5nQriUxqVbkbl+5YNl1r
+        02XRA8flZNOvb3CtDBNlvDqPcaJ1Xry8meye3Ocv6v+eE9DcHH5zF2NT6KFI9oudSf/WqIo8
+        2/7p6FWHKY3PVrdatzw0Xn7stChffkcLz2FxiV6juEB5QcOGyfYviiMXb3b4Y+z/4PrVtlVp
+        cm6HkpfvtRM8Z+f2W+2+QmMY+9vsP2sX6TyXYU/0VrZfc/ahEktxRqKhFnNRcSIA1WgV4JMD
+        AAA=
+X-CMS-MailID: 20221104104928epcas5p1ba76f35fd33e3a68ced972d0489c98af
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-Sendblock-Type: REQ_APPROVE
+CMS-TYPE: 105P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20221102125816epcas5p23e16fefd6b820e7dd7d9a93f0d48f40d
+References: <20221102130602.48969-1-aakarsh.jain@samsung.com>
+        <CGME20221102125816epcas5p23e16fefd6b820e7dd7d9a93f0d48f40d@epcas5p2.samsung.com>
+        <20221102130602.48969-3-aakarsh.jain@samsung.com>
+        <352e31de-cb79-f08e-b817-2712d97b84f1@linaro.org>
+X-Spam-Status: No, score=-5.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 18/10/2022 16:03, tumic@gpxsee.org wrote:
-> From: Martin Tůma <martin.tuma@digiteqautomotive.com>
-> 
-> Hi,
-> This series of patches adds a driver for the Digiteq Automotive MGB4 grabber
-> card. MGB4 is a modular frame grabber PCIe card for automotive video interfaces
-> (FPD-Link and GMSL for now). It is based on a Xilinx FPGA and uses their
-> XDMA IP core for DMA transfers. Additionally, Xilinx I2C and SPI IP cores
-> which already have drivers in linux are used in the design.
-> 
-> The driver is a quite standard v4l2 driver, with one exception - there are
-> a lot of sysfs options that may/must be set before opening the v4l2 device
-> to adapt the card on a specific signal (see mgb4.rst for details)
-> as the card must be able to work with various signal sources (or displays)
-> that can not be auto-detected.
-> 
-> I have run the driver through the v4l2-compliance test suite for both the
-> input and the output and the results look fine to me (I can provide the
-> output if required).
 
-Please do! Did you use the latest v4l2-compliance code from the v4l-utils
-git repo? Distros tend to have a too-old version.
 
-Regards,
+> -----Original Message-----
+> From: Krzysztof Kozlowski =5Bmailto:krzysztof.kozlowski=40linaro.org=5D
+> Sent: 03 November 2022 18:04
+> To: Aakarsh Jain <aakarsh.jain=40samsung.com>; linux-arm-
+> kernel=40lists.infradead.org; linux-media=40vger.kernel.org; linux-
+> kernel=40vger.kernel.org; devicetree=40vger.kernel.org
+> Cc: m.szyprowski=40samsung.com; andrzej.hajda=40intel.com;
+> mchehab=40kernel.org; hverkuil-cisco=40xs4all.nl;
+> ezequiel=40vanguardiasur.com.ar; jernej.skrabec=40gmail.com;
+> benjamin.gaignard=40collabora.com; krzysztof.kozlowski+dt=40linaro.org;
+> stanimir.varbanov=40linaro.org; dillon.minfei=40gmail.com;
+> david.plowman=40raspberrypi.com; mark.rutland=40arm.com;
+> robh+dt=40kernel.org; krzk+dt=40kernel.org; andi=40etezian.org;
+> alim.akhtar=40samsung.com; aswani.reddy=40samsung.com;
+> pankaj.dubey=40samsung.com; smitha.t=40samsung.com
+> Subject: Re: =5BPATCH 3/3=5D arm64: dts: exynos: Rename compatible string
+> property from version to SOC specific
+>=20
+> On 02/11/2022 09:06, Aakarsh Jain wrote:
+> > commit =22752d3a23d1f68de87e3c=22 which adds MFC codec device node for
+> > exynos3250 SOC. Since exynos3250.dtsi and exynos5420.dtsi are using
+> > same compatible string as =22samsung,mfc-v7=22 but their node propertie=
+s
+> > are different.As both SoCs have MFC v7 hardware module but with
+> > different clock hierarchy and complexity.
+> > So renaming compatible string from version specific to SOC based.
+> >
+> > Suggested-by: Alim Akhtar <alim.akhtar=40samsung.com>
+> > Fixes: 752d3a23d1f6 (=22ARM: dts: add MFC codec device node for
+> > exynos3250=22)
+>=20
+> There is no bug to fix and backporting is forbidden as it breaks the usag=
+e of
+> DTS in older kernel.
+>=20
+Okay will remove this Fix tag in next series.
+> > Signed-off-by: Aakarsh Jain <aakarsh.jain=40samsung.com>
+> > ---
+> >  arch/arm/boot/dts/exynos3250.dtsi =7C 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/arch/arm/boot/dts/exynos3250.dtsi
+> > b/arch/arm/boot/dts/exynos3250.dtsi
+> > index 326b9e0ed8d3..98105c64f7d9 100644
+> > --- a/arch/arm/boot/dts/exynos3250.dtsi
+> > +++ b/arch/arm/boot/dts/exynos3250.dtsi
+> > =40=40 -485,7 +485,7 =40=40
+> >  		=7D;
+> >
+> >  		mfc: codec=4013400000 =7B
+> > -			compatible =3D =22samsung,mfc-v7=22;
+> > +			compatible =3D =22samsung,exynos3250-mfc=22;
+>=20
+> The change is non-bisectable and breaks using DTS in older kernel.
+>=20
+Right, so what is your suggestion on this?
+I can see two ways here:
+1> To squash patch2 and patch3 in one?
+2> Have a warning about this breakage in the patch-3 commit message?
 
-	Hans
+> Best regards,
+> Krzysztof
 
-> 
-> The patch requires the new XDMA v8 driver from Xilinx/AMD from the dmaengine
-> mailing list to compile/work:
-> https://www.spinics.net/lists/dmaengine/msg31476.html
-> 
-> 
-> Changes in v3:
-> * Rebased the DMA transfers part to use the new XDMA driver from Xilinx/AMD
-> 
-> Changes in v2:
-> * Completely rewritten the original Xilinx's XDMA driver to meet kernel code
->   standards.
-> * Added all required "to" and "cc" mail addresses.
-> 
-> Martin Tůma (2):
->   i2c: xiic: Added platform module alias for the xiic I2C driver
->   Added Digiteq Automotive MGB4 driver
-> 
->  Documentation/admin-guide/media/mgb4.rst      | 342 ++++++++
->  .../admin-guide/media/pci-cardlist.rst        |   1 +
->  .../admin-guide/media/v4l-drivers.rst         |   1 +
->  MAINTAINERS                                   |   7 +
->  drivers/i2c/busses/i2c-xiic.c                 |   1 +
->  drivers/media/pci/Kconfig                     |   1 +
->  drivers/media/pci/Makefile                    |   1 +
->  drivers/media/pci/mgb4/Kconfig                |  17 +
->  drivers/media/pci/mgb4/Makefile               |   6 +
->  drivers/media/pci/mgb4/mgb4_cmt.c             | 243 ++++++
->  drivers/media/pci/mgb4/mgb4_cmt.h             |  16 +
->  drivers/media/pci/mgb4/mgb4_core.c            | 628 +++++++++++++++
->  drivers/media/pci/mgb4/mgb4_core.h            |  65 ++
->  drivers/media/pci/mgb4/mgb4_dma.c             | 120 +++
->  drivers/media/pci/mgb4/mgb4_dma.h             |  18 +
->  drivers/media/pci/mgb4/mgb4_i2c.c             | 139 ++++
->  drivers/media/pci/mgb4/mgb4_i2c.h             |  35 +
->  drivers/media/pci/mgb4/mgb4_io.h              |  36 +
->  drivers/media/pci/mgb4/mgb4_regs.c            |  30 +
->  drivers/media/pci/mgb4/mgb4_regs.h            |  35 +
->  drivers/media/pci/mgb4/mgb4_sysfs.h           |  18 +
->  drivers/media/pci/mgb4/mgb4_sysfs_in.c        | 750 ++++++++++++++++++
->  drivers/media/pci/mgb4/mgb4_sysfs_out.c       | 734 +++++++++++++++++
->  drivers/media/pci/mgb4/mgb4_sysfs_pci.c       |  83 ++
->  drivers/media/pci/mgb4/mgb4_trigger.c         | 203 +++++
->  drivers/media/pci/mgb4/mgb4_trigger.h         |   8 +
->  drivers/media/pci/mgb4/mgb4_vin.c             | 665 ++++++++++++++++
->  drivers/media/pci/mgb4/mgb4_vin.h             |  64 ++
->  drivers/media/pci/mgb4/mgb4_vout.c            | 507 ++++++++++++
->  drivers/media/pci/mgb4/mgb4_vout.h            |  58 ++
->  30 files changed, 4832 insertions(+)
->  create mode 100644 Documentation/admin-guide/media/mgb4.rst
->  create mode 100644 drivers/media/pci/mgb4/Kconfig
->  create mode 100644 drivers/media/pci/mgb4/Makefile
->  create mode 100644 drivers/media/pci/mgb4/mgb4_cmt.c
->  create mode 100644 drivers/media/pci/mgb4/mgb4_cmt.h
->  create mode 100644 drivers/media/pci/mgb4/mgb4_core.c
->  create mode 100644 drivers/media/pci/mgb4/mgb4_core.h
->  create mode 100644 drivers/media/pci/mgb4/mgb4_dma.c
->  create mode 100644 drivers/media/pci/mgb4/mgb4_dma.h
->  create mode 100644 drivers/media/pci/mgb4/mgb4_i2c.c
->  create mode 100644 drivers/media/pci/mgb4/mgb4_i2c.h
->  create mode 100644 drivers/media/pci/mgb4/mgb4_io.h
->  create mode 100644 drivers/media/pci/mgb4/mgb4_regs.c
->  create mode 100644 drivers/media/pci/mgb4/mgb4_regs.h
->  create mode 100644 drivers/media/pci/mgb4/mgb4_sysfs.h
->  create mode 100644 drivers/media/pci/mgb4/mgb4_sysfs_in.c
->  create mode 100644 drivers/media/pci/mgb4/mgb4_sysfs_out.c
->  create mode 100644 drivers/media/pci/mgb4/mgb4_sysfs_pci.c
->  create mode 100644 drivers/media/pci/mgb4/mgb4_trigger.c
->  create mode 100644 drivers/media/pci/mgb4/mgb4_trigger.h
->  create mode 100644 drivers/media/pci/mgb4/mgb4_vin.c
->  create mode 100644 drivers/media/pci/mgb4/mgb4_vin.h
->  create mode 100644 drivers/media/pci/mgb4/mgb4_vout.c
->  create mode 100644 drivers/media/pci/mgb4/mgb4_vout.h
-> 
+
+Thanks for the review.
+
 
