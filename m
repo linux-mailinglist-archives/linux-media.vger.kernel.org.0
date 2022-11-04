@@ -2,165 +2,131 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B7AF46193C2
-	for <lists+linux-media@lfdr.de>; Fri,  4 Nov 2022 10:43:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D2AD36193CC
+	for <lists+linux-media@lfdr.de>; Fri,  4 Nov 2022 10:46:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231244AbiKDJnR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 4 Nov 2022 05:43:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56370 "EHLO
+        id S230153AbiKDJqs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 4 Nov 2022 05:46:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58718 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230222AbiKDJnN (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 4 Nov 2022 05:43:13 -0400
-Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com [IPv6:2a00:1450:4864:20::535])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7187B2A72A
-        for <linux-media@vger.kernel.org>; Fri,  4 Nov 2022 02:43:12 -0700 (PDT)
-Received: by mail-ed1-x535.google.com with SMTP id v17so6773500edc.8
-        for <linux-media@vger.kernel.org>; Fri, 04 Nov 2022 02:43:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=RbBORJC/QmgbxjRF25o4c3oE3vegMXT7XiOqsa/2p68=;
-        b=d8NwF73cq9OrTXtvWBqjXMUJ+pCc6djNWNosDnjKINdA1it3r0UloyR+bPgBbceod0
-         6rkwJoYqRiIrnfgWBU+jSpiBSMCRltxwI/fWDcVF9xpFp1t5a46ESuSdwNRkKhA4CX8E
-         RNSIy9PQMp/DiR3nUH1AyyhhLC6leC4u/MwYs=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=RbBORJC/QmgbxjRF25o4c3oE3vegMXT7XiOqsa/2p68=;
-        b=Aa1UsOGXkcsdYMvOV4v6Y/4dBxRAr2oi3IBQ4/C00jPHKVhIJ2SivixAGpJUywvTp9
-         2AP41BFxfHb5xMaobKROYyV97Y8eDekW4+aCBCgBd/1bm4MIvX+8nBdWOBeEmSGOnbUp
-         WzOudfLFQcVCVh/XkRnN6QK4EPhaF62wU/RibFRNS+skA7yAQe2UdJkxTEI9cpajeNNf
-         AwdOvUQ9auKxqSaExA4fK7TFtifUQfjy7wWUQewvUj/+R5K8en2A2V5YviUBKPlNyt/B
-         kbmDXDBzvnbXbiDaNMWCCQYCiM8ggyb/QP6x0wb1SZZEoaFC1jLlyWVGElc5w/OMejVy
-         VyRA==
-X-Gm-Message-State: ACrzQf2s41JnYXYrtbtQLxa3k4UheyBkRUF6INi12m+/emFgU0xFzxkG
-        JUeoB2qeXKGuc2I5z54LVUNytg==
-X-Google-Smtp-Source: AMsMyM4m0LZEwm1C7vBNwy00IzC1yqMr/NYB8Ckci64mGFfdTMQsibc97hSMhS5MGfOJFpKttVzjHw==
-X-Received: by 2002:aa7:c504:0:b0:461:122b:882b with SMTP id o4-20020aa7c504000000b00461122b882bmr35524938edq.14.1667554991051;
-        Fri, 04 Nov 2022 02:43:11 -0700 (PDT)
-Received: from alco.roam.corp.google.com ([2620:0:1059:10:943d:d0b8:228:b5e0])
-        by smtp.gmail.com with ESMTPSA id y14-20020a17090668ce00b0078b03d57fa7sm1561653ejr.34.2022.11.04.02.43.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Nov 2022 02:43:10 -0700 (PDT)
-From:   Ricardo Ribalda <ribalda@chromium.org>
-Date:   Fri, 04 Nov 2022 10:42:50 +0100
-Subject: [PATCH v2 2/2] media: uvcvideo: Limit power line control for Lenovo
- Integrated Camera
+        with ESMTP id S230047AbiKDJqq (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 4 Nov 2022 05:46:46 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 999A9B72
+        for <linux-media@vger.kernel.org>; Fri,  4 Nov 2022 02:46:44 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 35CDD6211C
+        for <linux-media@vger.kernel.org>; Fri,  4 Nov 2022 09:46:44 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 07068C433D6;
+        Fri,  4 Nov 2022 09:46:42 +0000 (UTC)
+Message-ID: <27bba2c9-d542-a517-dc11-50d2fe9b51ea@xs4all.nl>
+Date:   Fri, 4 Nov 2022 10:46:41 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20221101-easycam-v2-2-5956414a608c@chromium.org>
-References: <20221101-easycam-v2-0-5956414a608c@chromium.org>
-In-Reply-To: <20221101-easycam-v2-0-5956414a608c@chromium.org>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Sergey Senozhatsky <senozhatsky@chromium.org>,
-        linux-kernel@vger.kernel.org,
-        Ricardo Ribalda <ribalda@chromium.org>,
-        linux-media@vger.kernel.org
-X-Mailer: b4 0.11.0-dev-d93f8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2716; i=ribalda@chromium.org;
- h=from:subject:message-id; bh=ENmfc6jAlhgXvRiJulSIDkbijiA6A6+oFRVAvaXy2YQ=;
- b=owEBbQKS/ZANAwAKAdE30T7POsSIAcsmYgBjZN6oqnAn+oJ0JgZTMLmDhSl7uGi90MI3cMVSxTqC
- BqyC6fKJAjMEAAEKAB0WIQREDzjr+/4oCDLSsx7RN9E+zzrEiAUCY2TeqAAKCRDRN9E+zzrEiOQrD/
- 9looNaSwrLKepZCEVbLZamnX+Xf83gJvQvVHf7IOsXs+zi10VEl3pFqZYC4sf0jJz2xUxiQtjLwjFK
- VIci6Ztaet8qZcToLsHwNUM0cauB6aF2skIYHaERxhYX0SvE3NbkncEh4JcK/NY68ikvwwwSTzyn/O
- phYXwGe47SZNbUioN7rRIBzidScZ3FNI/X0/mCLVPMJJ4xt/zKuZxWfaYWwdPF2nyVL779dTcmAfFt
- 7rz/ggZmuH9n6Y2JwW+CkszUaGm2ewFX6MkKfG6JNVWwOlLjmQl69DcqWPC8F7DXiYP2tg7dYoc+i8
- 24Zq4tKh0qjq+/JcsRzZk7Xwe89FIqnSfHch205+qdrwY0Y8gU8Sm8Mizi+EIJrCAs1y0jKpHn2cgn
- ErBC+K1ZGTHsEwyUOaL6LcQQwDw58YNSyJFWX6ABvuGN5qwOUWJvtfE7mPvRIHOgrYNXMdZiI++tzE
- RsU7htBM4Kyl+g2p8iZWB5KkrIfvcKIkREm/1hk/BWI6BcpJhw8L0kUQ0AWUUuA7lQ1Vm8OXsV7dRF
- i1hxv9eCY/GnrWhwkee55NnRI5iB0pEWAwaJsMFdfcqGn87scee0snKmsvQ0K8PfG52hCfwE+mNtaP
- mC05jeJreBwqSTtpuFtGIhB1IJ9CEAjr6+V0KgqzP3x3G1dgLY3VSovX10WA==
-X-Developer-Key: i=ribalda@chromium.org; a=openpgp;
- fpr=9EC3BB66E2FC129A6F90B39556A0D81F9F782DA9
-X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,SUBJECT_DRUG_GAP_L autolearn=no
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.0
+Subject: Re: [PATCH 0/2] vb2: add (un)prepare_streaming vb2_queue ops
+Content-Language: en-US
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org,
+        Eugen Hristev <eugen.hristev@microchip.com>
+References: <20220622093145.927377-1-hverkuil-cisco@xs4all.nl>
+ <YrLkbMZYb/Jpdidv@pendragon.ideasonboard.com>
+ <cda824da-723e-66eb-3773-883502a34fd1@xs4all.nl>
+ <YrLqFKJT2JxIX3e3@pendragon.ideasonboard.com>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <YrLqFKJT2JxIX3e3@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The device does not implement the power line control correctly. Add a
-corresponding control mapping override.
+Hi Laurent,
 
-Bus 003 Device 002: ID 30c9:0093 Lenovo Integrated Camera
-Device Descriptor:
-  bLength                18
-  bDescriptorType         1
-  bcdUSB               2.01
-  bDeviceClass          239 Miscellaneous Device
-  bDeviceSubClass         2
-  bDeviceProtocol         1 Interface Association
-  bMaxPacketSize0        64
-  idVendor           0x30c9
-  idProduct          0x0093
-  bcdDevice            0.07
-  iManufacturer           3 Lenovo
-  iProduct                1 Integrated Camera
-  iSerial                 2 8SSC21J75356V1SR2830069
-  bNumConfigurations      1
+On 22/06/2022 12:08, Laurent Pinchart wrote:
+> Hi Hans,
+> 
+> On Wed, Jun 22, 2022 at 12:00:58PM +0200, Hans Verkuil wrote:
+>> On 22/06/2022 11:44, Laurent Pinchart wrote:
+>>> On Wed, Jun 22, 2022 at 11:31:43AM +0200, Hans Verkuil wrote:
+>>>> Add support for two new (un)prepare_streaming queue ops that are called
+>>>> when the user calls VIDIOC_STREAMON and STREAMOFF (or closes the fh).
+>>>>
+>>>> This gives drivers a callback to validate the video pipeline and claim
+>>>> or release streaming resources at the time that userspace indicates
+>>>> that it wants to start streaming (VIDIOC_STREAMON) rather than when
+>>>> the actual DMA engine kicks in (the start_streaming callback). This
+>>>> is relevant for drivers that needs a minimum of X buffers before the
+>>>> DMA can start. The actual pipeline validation needs to happen sooner
+>>>> to avoid unnecessary errors at VIDIOC_QBUF time.
+>>>>
+>>>> As a bonus this allows us to move the horrible call to
+>>>> v4l_vb2q_enable_media_source() in vb2_core_streamon() to the au0828
+>>>> driver (currently the only driver that uses this feature).
+>>>
+>>> Can we drop the horrible .enable_source() from media_device too ? :-)
+>>
+>> The second patch helps a bit with that, at least it's out of vb2.
+>>
+>>>
+>>>> That call never belonged in vb2, but it had the same purpose as the
+>>>> new prepare_streaming op: validate the pipeline.
+>>>>
+>>>> This is a follow-up from my previous RFCv2:
+>>>>
+>>>> https://patchwork.linuxtv.org/project/linux-media/patch/ba4bca14-488f-94ea-48d9-e7343103c5aa@xs4all.nl/
+>>>>
+>>>> I would like to get consensus for this series.
+>>>
+>>> I don't like it much. vb2 is already doing too much in my opinion,
+>>> growing it isn't the right way to fix it.
+>>
+>> We disagree on that :-)
+> 
+> I like polite and constructive disagreements, they help moving forward
+> :-)
+> 
+>>> I'm still working on a new version of the V4L2 streams series that may
+>>> conflict with this, I'd propose discussing the two together.
+>>
+>> What is the ETA for that? I don't mind waiting a few months, but if it
+>> takes a lot longer, then I'd rather merge this first so Eugen can use it
+>> in his atmel MC support. It's a kernel API, so it can always be changed
+>> or removed later.
+> 
+> I have a few other things to complete first, an dI plan to resume the
+> work in the first half of July, to post a v12 before the end of the
+> month.
 
-Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+Looking at the latest v15 series there are no conflicts with this patch.
 
-diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
-index cca3012c8912..e0bb21f2e133 100644
---- a/drivers/media/usb/uvc/uvc_driver.c
-+++ b/drivers/media/usb/uvc/uvc_driver.c
-@@ -2373,6 +2373,30 @@ MODULE_PARM_DESC(timeout, "Streaming control requests timeout");
-  * Driver initialization and cleanup
-  */
- 
-+static const struct uvc_menu_info power_line_frequency_controls_uvc11[] = {
-+	{ 0, "Disabled" },
-+	{ 1, "50 Hz" },
-+	{ 2, "60 Hz" },
-+};
-+
-+static const struct uvc_control_mapping uvc_ctrl_power_line_mapping_uvc11 = {
-+	.id		= V4L2_CID_POWER_LINE_FREQUENCY,
-+	.entity		= UVC_GUID_UVC_PROCESSING,
-+	.selector	= UVC_PU_POWER_LINE_FREQUENCY_CONTROL,
-+	.size		= 2,
-+	.offset		= 0,
-+	.v4l2_type	= V4L2_CTRL_TYPE_MENU,
-+	.data_type	= UVC_CTRL_DATA_TYPE_ENUM,
-+	.menu_info	= power_line_frequency_controls_uvc11,
-+	.menu_count	= ARRAY_SIZE(power_line_frequency_controls_uvc11),
-+};
-+
-+static const struct uvc_device_info uvc_ctrl_power_line_uvc11 = {
-+	.mappings = (const struct uvc_control_mapping *[]) {
-+		&uvc_ctrl_power_line_mapping_uvc11,
-+		NULL, /* Sentinel */
-+	},
-+};
- static const struct uvc_menu_info power_line_frequency_controls_limited[] = {
- 	{ 1, "50 Hz" },
- 	{ 2, "60 Hz" },
-@@ -2976,6 +3000,15 @@ static const struct usb_device_id uvc_ids[] = {
- 	  .bInterfaceSubClass	= 1,
- 	  .bInterfaceProtocol	= 0,
- 	  .driver_info		= UVC_INFO_QUIRK(UVC_QUIRK_FORCE_BPP) },
-+	/* Lenovo Integrated Camera */
-+	{ .match_flags		= USB_DEVICE_ID_MATCH_DEVICE
-+				| USB_DEVICE_ID_MATCH_INT_INFO,
-+	  .idVendor		= 0x30c9,
-+	  .idProduct		= 0x0093,
-+	  .bInterfaceClass	= USB_CLASS_VIDEO,
-+	  .bInterfaceSubClass	= 1,
-+	  .bInterfaceProtocol	= UVC_PC_PROTOCOL_15,
-+	  .driver_info		= (kernel_ulong_t)&uvc_ctrl_power_line_uvc11 },
- 	/* Sonix Technology USB 2.0 Camera */
- 	{ .match_flags		= USB_DEVICE_ID_MATCH_DEVICE
- 				| USB_DEVICE_ID_MATCH_INT_INFO,
+Eugen posted a v11 of his "atmel-isc: driver redesign" series, and wants
+to use this functionality.
 
--- 
-b4 0.11.0-dev-d93f8
+I think with this change it is also possible to remove the enable_source
+callback from the mc. I can try to post a v2 that does this, if that's
+what it takes to convince you :-)
+
+Regards,
+
+	Hans
+
+> 
+>>>> Hans Verkuil (2):
+>>>>   vb2: add (un)prepare_streaming queue ops
+>>>>   vb2/au0828: move the v4l_vb2q_enable_media_source to the au0828 driver
+>>>>
+>>>>  .../media/common/videobuf2/videobuf2-core.c   | 26 ++++++++++++++-----
+>>>>  drivers/media/usb/au0828/au0828-vbi.c         |  2 ++
+>>>>  drivers/media/usb/au0828/au0828-video.c       |  1 +
+>>>>  include/media/videobuf2-core.h                | 14 ++++++++++
+>>>>  4 files changed, 37 insertions(+), 6 deletions(-)
+> 
+
