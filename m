@@ -2,129 +2,125 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 21A4861DAD9
-	for <lists+linux-media@lfdr.de>; Sat,  5 Nov 2022 15:18:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 73A0E61DAF0
+	for <lists+linux-media@lfdr.de>; Sat,  5 Nov 2022 15:24:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229816AbiKEOSa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 5 Nov 2022 10:18:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36440 "EHLO
+        id S229853AbiKEOYZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 5 Nov 2022 10:24:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40194 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229614AbiKEOS0 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sat, 5 Nov 2022 10:18:26 -0400
-Received: from mail-oi1-x22d.google.com (mail-oi1-x22d.google.com [IPv6:2607:f8b0:4864:20::22d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B6100D8;
-        Sat,  5 Nov 2022 07:18:20 -0700 (PDT)
-Received: by mail-oi1-x22d.google.com with SMTP id t62so7927689oib.12;
-        Sat, 05 Nov 2022 07:18:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=PYhR6hYWBdnOcbKjn7H8NpQf1Qg9j5JtEEKHrz9oi/g=;
-        b=cEC5IT1XpqlAK68Dgo5+fxnDFCjVpzY0DRagRqxTDry42i1dK2tcbNHYd7Ayss+LTR
-         Zq5Ih2v2443bsxwUvCZI2AevutQelDkhHOJqQhhh90RAdGwH1ztuIkNBULvbO0OWUDyB
-         Zs3Rt+XqCTKE2Cs9eS/ndyLispMby6sUmCV9hIPpDCZ1JKOuE8AnRRE6npVgjTBnltto
-         YYH4ZircOfT5HS0GEZGZOnxYVDveuMG1fd0QtTxHxYW8Huxn/roqBK+JFSqL6Tdp87g+
-         GSZROE0361WHir4UDtfX6jA945ccs7fZ7mz9TOtoNTCBa80eZ2tSlHY0p6xlLXtkRQTo
-         pyNQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=PYhR6hYWBdnOcbKjn7H8NpQf1Qg9j5JtEEKHrz9oi/g=;
-        b=0L+F2Y9iQVD8xQC609r+5wtBIbz4VSSrBvwYsDE8sqfnClPBPVBbPQOCHtW+jReblG
-         sEmjRm428bVRXRcihuGA9nlbWR0DIv2H5zluwgOboNHo0lw31c/xMfGunfKLiFMd+V7w
-         qwMnOruxPwTg0g6wOIBjDlqX/mwwix4yHgLiCr/ttKljHbWH3Z3OfYEm1luKqYf9b0YZ
-         aEJ2jVAWoo89BTy5TJoucdP0dV/3eRHyHNdQdzPqFmDGGfZ6mUT134dqX9WGF0nvx8yC
-         VEes7HL/5g7/6CmUIlRYtJMPEFaDV+mxm3GGjOEQi4DvaLTtx9VsLLt9H14AGR3iig59
-         kEcg==
-X-Gm-Message-State: ACrzQf09gjQhXq48MF8zZNCAcEnjIXQLQhQeHddD0pUBo5Ys//Yua2s/
-        6aCtjDEuSx3VNdFHeHWvkzw=
-X-Google-Smtp-Source: AMsMyM5In/UjkQAOQkguZQ2rHL63I8msSs9c6an0J/9gKdjSX2hezT8PwL34Y+85tQUi0BEYyplo0Q==
-X-Received: by 2002:a05:6808:2104:b0:35a:5e9:a411 with SMTP id r4-20020a056808210400b0035a05e9a411mr18764923oiw.168.1667657900081;
-        Sat, 05 Nov 2022 07:18:20 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id e1-20020a056870c0c100b00132741e966asm830469oad.51.2022.11.05.07.18.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 05 Nov 2022 07:18:19 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date:   Sat, 5 Nov 2022 07:18:17 -0700
-From:   Guenter Roeck <linux@roeck-us.net>
-To:     Steven Rostedt <rostedt@goodmis.org>
-Cc:     linux-kernel@vger.kernel.org,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Anna-Maria Gleixner <anna-maria@linutronix.de>,
-        Andrew Morton <akpm@linux-foundation.org>, rcu@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-s390@vger.kernel.org,
-        linux-sh@vger.kernel.org, linux-edac@vger.kernel.org,
-        cgroups@vger.kernel.org, linux-block@vger.kernel.org,
-        linux-acpi@vger.kernel.org,
-        linux-atm-general@lists.sourceforge.net, netdev@vger.kernel.org,
-        linux-pm@vger.kernel.org, drbd-dev@lists.linbit.com,
-        linux-bluetooth@vger.kernel.org,
-        openipmi-developer@lists.sourceforge.net,
-        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org, intel-gfx@lists.freedesktop.org,
-        linux-input@vger.kernel.org, linux-parisc@vger.kernel.org,
-        linux-leds@vger.kernel.org, intel-wired-lan@lists.osuosl.org,
-        linux-usb@vger.kernel.org, linux-wireless@vger.kernel.org,
-        linux-scsi@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-ext4@vger.kernel.org, linux-nilfs@vger.kernel.org,
-        bridge@lists.linux-foundation.org, netfilter-devel@vger.kernel.org,
-        coreteam@netfilter.org, lvs-devel@vger.kernel.org,
-        linux-afs@lists.infradead.org, linux-nfs@vger.kernel.org,
-        tipc-discussion@lists.sourceforge.net, alsa-devel@alsa-project.org
-Subject: Re: [PATCH v4a 00/38] timers: Use timer_shutdown*() before freeing
- timers
-Message-ID: <20221105141817.GF1606271@roeck-us.net>
-References: <20221105060024.598488967@goodmis.org>
+        with ESMTP id S229782AbiKEOYY (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 5 Nov 2022 10:24:24 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED0A5DEBD;
+        Sat,  5 Nov 2022 07:24:22 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (117.145-247-81.adsl-dyn.isp.belgacom.be [81.247.145.117])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id C1698A04;
+        Sat,  5 Nov 2022 15:24:20 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1667658260;
+        bh=tXTdDVWSfyJVYM9fzFbnCgt5p+nkUCR9gGTl5CCZODg=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=XSFjLSNqvHRci1q35WIpFHieKOUkeadca6BsPc7+GpftrmbbVqdoJmt/qD8aWOCPf
+         kYFICRQUc/JBi9BLzwanq0Qi75eqG1qRyXDxEdCH3YJezd7g8BRiQcuXKQYADuqYn6
+         4Zv4JYxILA8ePQPacUMVmOe3ft1kPpj0DloqvojE=
+Date:   Sat, 5 Nov 2022 16:24:00 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     Michael Grzeschik <m.grzeschik@pengutronix.de>,
+        linux-usb@vger.kernel.org, linux-media@vger.kernel.org,
+        gregkh@linuxfoundation.org, balbi@kernel.org,
+        kernel@pengutronix.de, stable <stable@kernel.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>
+Subject: Re: [PATCH 1/2] media: videobuf2-dma-sg: fix vmap and vunmap
+ callbacks
+Message-ID: <Y2ZyAKHqd2f2ewoa@pendragon.ideasonboard.com>
+References: <20221026184212.366897-1-m.grzeschik@pengutronix.de>
+ <66a6a8aa-4a06-1bf0-8c08-70569e4d129e@xs4all.nl>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20221105060024.598488967@goodmis.org>
-X-Spam-Status: No, score=-1.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=no
-        autolearn_force=no version=3.4.6
+In-Reply-To: <66a6a8aa-4a06-1bf0-8c08-70569e4d129e@xs4all.nl>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sat, Nov 05, 2022 at 02:00:24AM -0400, Steven Rostedt wrote:
+On Fri, Nov 04, 2022 at 04:55:25PM +0100, Hans Verkuil wrote:
+> Marek,
 > 
-> Back in April, I posted an RFC patch set to help mitigate a common issue
-> where a timer gets armed just before it is freed, and when the timer
-> goes off, it crashes in the timer code without any evidence of who the
-> culprit was. I got side tracked and never finished up on that patch set.
-> Since this type of crash is still our #1 crash we are seeing in the field,
-> it has become a priority again to finish it.
+> Can you review this? It looks good to me, but I wonder if videobuf2-dma-config.c
+> has a similar problem. That looks to be mapping as well, but there is no vunmap.
 > 
-> The last version of that patch set is here:
+> Michael, I have a comment below:
 > 
->   https://lore.kernel.org/all/20221104054053.431922658@goodmis.org/
+> On 26/10/2022 20:42, Michael Grzeschik wrote:
+> > For dmabuf import users to be able to use the vaddr from another
+> > videobuf2-dma-sg source, the exporter needs to set a proper vaddr on
+> > vb2_dma_sg_dmabuf_ops_vmap callback.
+> > 
+> > This patch adds vm_map_ram on map if buf->vaddr was not set, and also
+> > adds the vb2_dma_sg_dmabuf_ops_vunmap function to remove the mapping
+> > afterwards.
+> > 
+> > Cc: stable <stable@kernel.org>
+> > Signed-off-by: Michael Grzeschik <m.grzeschik@pengutronix.de>
+> > ---
+> >  drivers/media/common/videobuf2/videobuf2-dma-sg.c | 15 +++++++++++++++
+> >  1 file changed, 15 insertions(+)
+> > 
+> > diff --git a/drivers/media/common/videobuf2/videobuf2-dma-sg.c b/drivers/media/common/videobuf2/videobuf2-dma-sg.c
+> > index fa69158a65b1fd..8d6e154bbbc8b0 100644
+> > --- a/drivers/media/common/videobuf2/videobuf2-dma-sg.c
+> > +++ b/drivers/media/common/videobuf2/videobuf2-dma-sg.c
+> > @@ -496,11 +496,25 @@ static int vb2_dma_sg_dmabuf_ops_vmap(struct dma_buf *dbuf,
+> >  {
+> >  	struct vb2_dma_sg_buf *buf = dbuf->priv;
+> >  
+> > +	if (!buf->vaddr)
+> > +		buf->vaddr = vm_map_ram(buf->pages, buf->num_pages, -1);
 > 
-> I'm calling this version 4a as it only has obvious changes were the timer that
-> is being shutdown is in the same function where it will be freed or released,
-> as this series should be "safe" for adding. I'll be calling the other patches
-> 4b for the next merge window.
-> 
+> The comments before the vm_map_ram function state that it should be used for
+> up to 256 KB only, and video buffers are definitely much larger. It recommends
+> using vmap in that case. Any reason for not switching to vmap()?
 
-Just in case you didn't notice:
+vb2_dma_sg_vaddr() already uses vm_map_ram(), so that would need to be
+fixed too. I assume the code is copied from there.
 
-Looking through the resulting code, I think some of the remaining
-calls to del_singleshot_timer_sync() can be converted as well.
+> > +
+> >  	iosys_map_set_vaddr(map, buf->vaddr);
+> >  
+> >  	return 0;
+> >  }
+> >  
+> > +static void vb2_dma_sg_dmabuf_ops_vunmap(struct dma_buf *dbuf,
+> > +				      struct iosys_map *map)
+> > +{
+> > +	struct vb2_dma_sg_buf *buf = dbuf->priv;
+> > +
+> > +	if (buf->vaddr)
+> > +		vm_unmap_ram(buf->vaddr, buf->num_pages);
+> > +
+> > +	buf->vaddr = NULL;
+> > +}
+> > +
+> >  static int vb2_dma_sg_dmabuf_ops_mmap(struct dma_buf *dbuf,
+> >  	struct vm_area_struct *vma)
+> >  {
+> > @@ -515,6 +529,7 @@ static const struct dma_buf_ops vb2_dma_sg_dmabuf_ops = {
+> >  	.begin_cpu_access = vb2_dma_sg_dmabuf_ops_begin_cpu_access,
+> >  	.end_cpu_access = vb2_dma_sg_dmabuf_ops_end_cpu_access,
+> >  	.vmap = vb2_dma_sg_dmabuf_ops_vmap,
+> > +	.vunmap = vb2_dma_sg_dmabuf_ops_vunmap,
+> >  	.mmap = vb2_dma_sg_dmabuf_ops_mmap,
+> >  	.release = vb2_dma_sg_dmabuf_ops_release,
+> >  };
 
-The calls in drivers/staging/wlan-ng/prism2usb.c:prism2sta_disconnect_usb()
-are obvious (the containing data structure is freed in the same function).
-For drivers/char/tpm/tpm-dev-common.c:tpm_common_release(), the containing
-data structure is freed in the calling code.
+-- 
+Regards,
 
-Thanks,
-Guenter
+Laurent Pinchart
