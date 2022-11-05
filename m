@@ -2,132 +2,187 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 439D261D8A5
-	for <lists+linux-media@lfdr.de>; Sat,  5 Nov 2022 09:13:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0995F61D92E
+	for <lists+linux-media@lfdr.de>; Sat,  5 Nov 2022 10:43:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229516AbiKEINO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 5 Nov 2022 04:13:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38534 "EHLO
+        id S229601AbiKEJno (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 5 Nov 2022 05:43:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59836 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229461AbiKEINN (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sat, 5 Nov 2022 04:13:13 -0400
-Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com [IPv6:2a00:1450:4864:20::536])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 362202B247;
-        Sat,  5 Nov 2022 01:13:12 -0700 (PDT)
-Received: by mail-ed1-x536.google.com with SMTP id a13so10679685edj.0;
-        Sat, 05 Nov 2022 01:13:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=bsgs5v64dtrb9BK/zWIG40Cs+14Xzy/n1UZhAs2SA7Y=;
-        b=Hpkuv3FuzjPSSr0s6F44u38vgcNHlm+qRMjeYeN7DIsx21Rsy9qLhJ5oEBuE8cQ/7f
-         gOpz2Bj3B67JNdQamqt+Ozf3edx8hu0xz2RHktD9bpO+nylhjuNAMYwnNwIo6b8qnozZ
-         fg+ig/rNBELojRZmBxz/AFPKmosHpIsdl3Ju11XgzLo3q5iaKErlZ2h+34ofKgjDmYMx
-         u2/wfAHx5OKbtXlQlZ6UHEX9imLI/gmldPXHirM2E3tNxpKd9wKRRnpSDehfprqIsuRW
-         iIw7B+dKVDa8x/owDtPwtAVGd1JZmZFj1TbtOAEO2j4z80eTYAYboWNN9dEvDbq0JYlh
-         ivww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=bsgs5v64dtrb9BK/zWIG40Cs+14Xzy/n1UZhAs2SA7Y=;
-        b=hiMlnlF3YzbFur/6FkV4sdwRt9c9f0QGbYVPzCjf9v531POBorPuGxgI9vHXRX678R
-         jua+a6Yfrg0U0mC4UHNX6eSjAcT9P7iWJKOKKmFGOF9LGWYPjg4mPprZf72b96uG26U+
-         wxsB4h5vuCQwmyfsDLlgTd+EDRSvMKrQ5F9kJJW+vzpBeMfkpoueLB+ha+IyPbxA6+ot
-         7/BOD3xe2fwCu5WrBaOOz3xPpBgry2otWUcY2IyobkzM7etlvcH34Jmes0KFKaAaYj1e
-         zbbeR3fEkfacjWO+ReJZg57nyNs34U2bCVkfA4N6/JVd0F2kdxgc2mvzZ1YcDh12G6F5
-         Doqw==
-X-Gm-Message-State: ACrzQf3aZSbnuaTNXpiiGghv/nKTJSR7ir4rUI7jUYz7QmXhPAJqXYJC
-        0l7t02xgERHoRkGZngNmhF3WoA7y12E=
-X-Google-Smtp-Source: AMsMyM7fGIPxzSTLIQa+n/MHhyw5CshqI5Un4z11aCmNOAlJoBCo/++l8HBiFLG3r6/zKNcOCfRZrQ==
-X-Received: by 2002:aa7:c956:0:b0:43b:206d:c283 with SMTP id h22-20020aa7c956000000b0043b206dc283mr39516948edt.381.1667635959118;
-        Sat, 05 Nov 2022 01:12:39 -0700 (PDT)
-Received: from ?IPV6:2a02:908:1256:79a0:9819:17f5:ee0c:a9e6? ([2a02:908:1256:79a0:9819:17f5:ee0c:a9e6])
-        by smtp.gmail.com with ESMTPSA id cm21-20020a0564020c9500b00461a6997c5dsm804192edb.83.2022.11.05.01.12.37
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 05 Nov 2022 01:12:38 -0700 (PDT)
-Message-ID: <d50ea531-c5cf-81d5-9cc5-0ab92b39232d@gmail.com>
-Date:   Sat, 5 Nov 2022 09:12:37 +0100
+        with ESMTP id S229472AbiKEJnm (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 5 Nov 2022 05:43:42 -0400
+Received: from gofer.mess.org (gofer.mess.org [IPv6:2a02:8011:d000:212::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA8EB17AB8
+        for <linux-media@vger.kernel.org>; Sat,  5 Nov 2022 02:43:35 -0700 (PDT)
+Received: by gofer.mess.org (Postfix, from userid 1000)
+        id A12AE100065; Sat,  5 Nov 2022 09:43:30 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mess.org; s=2020;
+        t=1667641410; bh=VqTmLZqGyBqnsaHzMBHBWOMBkOo8jZVNzwDIpwaxoBk=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=WjH/8J303JteSlSuWRb5tfoAGRUCPNrZmZCPjDCkTIEsYswlapVaog7t3+b38nJV8
+         EamwSBieMKpx/PVoFFiiDBo/BQiZu5Hlp9DUdG90Kx04uZusPd5kaZWMOwl5sKKw5y
+         +NLzA20VMsKYOQEvxkBRE5FKzmfhnBg6rXe3x2mm8dQxFxqIxtIxbh83r9jjDBLVKN
+         2dXNNgrU1ppgYhHFjaDfRPbpd7yoOLwYA1SL5MTlnSm1DDPIMA6eqtd00sp2XQT3Rz
+         9ybYLMD8k4LCj+9kcxeojW8q/NsNiCqze53GBeGwtW2xMe+yhiZfBzRKy13TQg3Baz
+         vg1URomN8EieQ==
+Date:   Sat, 5 Nov 2022 09:43:30 +0000
+From:   Sean Young <sean@mess.org>
+To:     Sudip Mukherjee <sudipm.mukherjee@gmail.com>
+Cc:     linux-media@vger.kernel.org
+Subject: Re: [PATCH] keytable: Convert deprecated libbpf API
+Message-ID: <Y2YwQpnxmvB+CXAS@gofer.mess.org>
+References: <20221101202528.27306-1-sudipm.mukherjee@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [Linaro-mm-sig] Re: [RFC][PATCH v3 12/33] timers: dma-buf: Use
- timer_shutdown_sync() before freeing timer
-Content-Language: en-US
-To:     Steven Rostedt <rostedt@goodmis.org>,
-        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Cc:     linux-kernel@vger.kernel.org,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Anna-Maria Gleixner <anna-maria@linutronix.de>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org
-References: <20221104054053.431922658@goodmis.org>
- <20221104054914.085569465@goodmis.org>
- <20221104015444.57f73efb@rorschach.local.home>
- <d916e29d-d098-c3f3-940a-37be6772ecb5@amd.com>
- <20221104145804.4ec8404e@rorschach.local.home>
-From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-In-Reply-To: <20221104145804.4ec8404e@rorschach.local.home>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221101202528.27306-1-sudipm.mukherjee@gmail.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am 04.11.22 um 19:58 schrieb Steven Rostedt:
-> On Fri, 4 Nov 2022 08:15:53 +0100
-> Christian König <christian.koenig@amd.com> wrote:
->
->>> index fb6e0a6ae2c9..5d3e7b503501 100644
->>> --- a/drivers/dma-buf/st-dma-fence.c
->>> +++ b/drivers/dma-buf/st-dma-fence.c
->>> @@ -412,7 +412,7 @@ static int test_wait_timeout(void *arg)
->>>    
->>>    	err = 0;
->>>    err_free:
->>> -	del_timer_sync(&wt.timer);
->>> +	timer_shutdown_sync(&wt.timer);
->> Mhm, what exactly is the benefit of renaming the function?
->>
->> Not that I'm against the change, but my thinking is more if there are
->> more functions which don't re-arm the time than those which do that then
->> why not forbid it in general?
-> Timers are more often re-armed then not. I had to look for the
-> locations where del_timer*() was called just before freeing, and other
-> locations where they are freed later.
->
-> I didn't rename del_timer_sync() to timer_shutdown_sync(), this version
-> renamed the new "del_timer_shutdown()" to "timer_shutdown_sync()".
->
-> Maybe I'm just confused at what you are asking.
+On Tue, Nov 01, 2022 at 08:25:28PM +0000, Sudip Mukherjee wrote:
+> The libbpf APIs bpf_load_program_xattr(), bpf_create_map_node() and
+> bpf_create_map_in_map_node() have been deprecated since v0.7. Convert
+> them to use bpf_prog_load() and bpf_map_create().
+> Also, modify config script to add a check for libbpf version.
 
-No, that explains it a bit better. I was just wondering what exactly the 
-different to del_timer_sync() is.
+Very nice, good to see this updated. Thank you very much.
 
-Maybe shorten the summary in the cover letter a bit. The history how 
-this change came to be is not as interesting as why we are changing 
-something.
+Merged.
 
-Regards,
-Christian.
+Sean
 
->
-> -- Steve
-> _______________________________________________
-> Linaro-mm-sig mailing list -- linaro-mm-sig@lists.linaro.org
-> To unsubscribe send an email to linaro-mm-sig-leave@lists.linaro.org
-
+> 
+> Signed-off-by: Sudip Mukherjee <sudipm.mukherjee@gmail.com>
+> ---
+>  configure.ac              |  2 +-
+>  utils/keytable/bpf_load.c | 59 ++++++++++++++++++++++-----------------
+>  2 files changed, 34 insertions(+), 27 deletions(-)
+> 
+> diff --git a/configure.ac b/configure.ac
+> index 05298981..9b7c371d 100644
+> --- a/configure.ac
+> +++ b/configure.ac
+> @@ -564,7 +564,7 @@ AM_CONDITIONAL([WITH_V4L2_CTL_32], [test x${enable_v4l2_ctl_32} = xyes])
+>  AM_CONDITIONAL([WITH_V4L2_COMPLIANCE], [test x$ac_cv_func_fork = xyes])
+>  AM_CONDITIONAL([WITH_V4L2_COMPLIANCE_LIBV4L], [test x$ac_cv_func_fork = xyes -a x${enable_v4l2_compliance_libv4l} != xno])
+>  AM_CONDITIONAL([WITH_V4L2_COMPLIANCE_32], [test x$ac_cv_func_fork = xyes -a x${enable_v4l2_compliance_32} = xyes])
+> -PKG_CHECK_MODULES([LIBBPF], [libbpf], [bpf_pc=yes], [bpf_pc=no])
+> +PKG_CHECK_MODULES([LIBBPF], [libbpf >= 0.7], [bpf_pc=yes], [bpf_pc=no])
+>  AM_CONDITIONAL([WITH_BPF],          [test x$enable_bpf != xno -a x$libelf_pkgconfig = xyes -a x$CLANG = xclang -a x$bpf_pc = xyes])
+>  
+>  # append -static to libtool compile and link command to enforce static libs
+> diff --git a/utils/keytable/bpf_load.c b/utils/keytable/bpf_load.c
+> index 7c633dac..06098fc3 100644
+> --- a/utils/keytable/bpf_load.c
+> +++ b/utils/keytable/bpf_load.c
+> @@ -63,19 +63,17 @@ struct bpf_file {
+>  
+>  static int load_and_attach(int lirc_fd, struct bpf_file *bpf_file, struct bpf_insn *prog, int size)
+>  {
+> -	struct bpf_load_program_attr load_attr;
+> -	int fd, err;
+> +	LIBBPF_OPTS(bpf_prog_load_opts, opts);
+> +	int fd, err, insn_cnt;
+>  
+> -	memset(&load_attr, 0, sizeof(struct bpf_load_program_attr));
+> +	insn_cnt = size / sizeof(struct bpf_insn);
+>  
+> -	load_attr.prog_type = BPF_PROG_TYPE_LIRC_MODE2;
+> -	load_attr.expected_attach_type = BPF_LIRC_MODE2;
+> -	load_attr.name = bpf_file->name;
+> -	load_attr.insns = prog;
+> -	load_attr.insns_cnt = size / sizeof(struct bpf_insn);
+> -	load_attr.license = bpf_file->license;
+> +	opts.expected_attach_type = BPF_LIRC_MODE2;
+> +	opts.log_buf = bpf_log_buf;
+> +	opts.log_size = LOG_BUF_SIZE;
+>  
+> -	fd = bpf_load_program_xattr(&load_attr, bpf_log_buf, LOG_BUF_SIZE);
+> +	fd = bpf_prog_load(BPF_PROG_TYPE_LIRC_MODE2, bpf_file->name,
+> +				bpf_file->license, prog, insn_cnt, &opts);
+>  	if (fd < 0) {
+>  		printf("bpf_load_program() err=%m\n%s", bpf_log_buf);
+>  		return -1;
+> @@ -95,6 +93,9 @@ static int build_raw_map(struct bpf_map_data *map, struct raw_entry *raw, int nu
+>  	int no_patterns, value_size, fd, key, i;
+>  	struct raw_entry *e;
+>  	struct raw_pattern *p;
+> +	LIBBPF_OPTS(bpf_map_create_opts, opts,
+> +		.map_flags = map->def.map_flags,
+> +	);
+>  
+>  	no_patterns = 0;
+>  
+> @@ -110,14 +111,13 @@ static int build_raw_map(struct bpf_map_data *map, struct raw_entry *raw, int nu
+>  
+>  	value_size = sizeof(struct raw_pattern) + max_length * sizeof(short);
+>  
+> -	fd = bpf_create_map_node(map->def.type,
+> -				 map->name,
+> -				 map->def.key_size,
+> -				 value_size,
+> -				 no_patterns,
+> -				 map->def.map_flags,
+> -				 numa_node);
+> -
+> +	opts.numa_node = numa_node;
+> +	fd = bpf_map_create(map->def.type,
+> +			    map->name,
+> +			    map->def.key_size,
+> +			    value_size,
+> +			    no_patterns,
+> +			    &opts);
+>  	if (fd < 0) {
+>  		printf(_("failed to create a map: %d %s\n"),
+>  		       errno, strerror(errno));
+> @@ -174,27 +174,34 @@ static int load_maps(struct bpf_file *bpf_file, struct raw_entry *raw)
+>  
+>  		if (maps[i].def.type == BPF_MAP_TYPE_ARRAY_OF_MAPS ||
+>  		    maps[i].def.type == BPF_MAP_TYPE_HASH_OF_MAPS) {
+> -			int inner_map_fd = bpf_file->map_fd[maps[i].def.inner_map_idx];
+> +			LIBBPF_OPTS(bpf_map_create_opts, opts,
+> +				.inner_map_fd = bpf_file->map_fd[maps[i].def.inner_map_idx],
+> +				.map_flags = maps[i].def.map_flags,
+> +				.numa_node = numa_node,
+> +			);
+>  
+> -			bpf_file->map_fd[i] = bpf_create_map_in_map_node(
+> +			bpf_file->map_fd[i] = bpf_map_create(
+>  							maps[i].def.type,
+>  							maps[i].name,
+>  							maps[i].def.key_size,
+> -							inner_map_fd,
+> +							4,
+>  							maps[i].def.max_entries,
+> -							maps[i].def.map_flags,
+> -							numa_node);
+> +							&opts);
+>  		} else if (!strcmp(maps[i].name, "raw_map")) {
+>  			bpf_file->map_fd[i] = build_raw_map(&maps[i], raw, numa_node);
+>  		} else {
+> -			bpf_file->map_fd[i] = bpf_create_map_node(
+> +			LIBBPF_OPTS(bpf_map_create_opts, opts,
+> +				.map_flags = maps[i].def.map_flags,
+> +				.numa_node = numa_node,
+> +			);
+> +
+> +			bpf_file->map_fd[i] = bpf_map_create(
+>  							maps[i].def.type,
+>  							maps[i].name,
+>  							maps[i].def.key_size,
+>  							maps[i].def.value_size,
+>  							maps[i].def.max_entries,
+> -							maps[i].def.map_flags,
+> -							numa_node);
+> +							&opts);
+>  		}
+>  
+>  		if (bpf_file->map_fd[i] < 0) {
+> -- 
+> 2.30.2
