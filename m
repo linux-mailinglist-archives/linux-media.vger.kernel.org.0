@@ -2,92 +2,72 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C4B8B61E403
-	for <lists+linux-media@lfdr.de>; Sun,  6 Nov 2022 18:06:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1C38C61E4C6
+	for <lists+linux-media@lfdr.de>; Sun,  6 Nov 2022 18:18:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230477AbiKFRGn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 6 Nov 2022 12:06:43 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38122 "EHLO
+        id S231301AbiKFRSW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 6 Nov 2022 12:18:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33924 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230332AbiKFRGJ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sun, 6 Nov 2022 12:06:09 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1977E11459;
-        Sun,  6 Nov 2022 09:05:10 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 3A73560C3F;
-        Sun,  6 Nov 2022 17:05:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 76D7EC433D6;
-        Sun,  6 Nov 2022 17:05:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1667754309;
-        bh=bo9UiN0uF95hKgvEmTSOyPSCOtDhnoUrHoiV9xWj5sE=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=TEseAInRMLjFV8vMzRajPHRywHzl1U/yDCizwH2SkWD7IFc1wpHqFlAlt9OvFCkca
-         tsWkMtcQLfoIjou/FPk1IuSjfuZiPG9gqstdwDM4K+Ur1Gbk8P4mTL5GwZQtPf5h6h
-         oBn0bsBOYy+9li0oMM+t7HQnjA/tj/v/aE4Kib5uXGMWo0G0aK0RKcyoPdLWEWiGNw
-         p05YWa3sSzvT7WDTf0MUdADE0D6PuupebjO/4YAZpipO5DXWtKld7mehCI4lvu2V6B
-         //vzrVmTVoeqgvlAPhgPEAd+jEFoUqHkIfNuWKTh6qtP9PVybKmWIEiaN6thMVWem1
-         CnF05X6H64urw==
-Date:   Sun, 6 Nov 2022 12:05:08 -0500
-From:   Sasha Levin <sashal@kernel.org>
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     linux-kernel@vger.kernel.org, stable@vger.kernel.org,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        gregkh@linuxfoundation.org, linux-media@vger.kernel.org,
-        linux-staging@lists.linux.dev
-Subject: Re: [PATCH AUTOSEL 6.0 15/34] media: atomisp-ov2680: Fix
- ov2680_set_fmt()
-Message-ID: <Y2fpRNxez+odikgL@sashalap>
-References: <20221101112726.799368-1-sashal@kernel.org>
- <20221101112726.799368-15-sashal@kernel.org>
- <48a28601-a3eb-8735-6a15-34436dcbd73e@redhat.com>
+        with ESMTP id S231315AbiKFRSI (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sun, 6 Nov 2022 12:18:08 -0500
+Received: from mail-oi1-x234.google.com (mail-oi1-x234.google.com [IPv6:2607:f8b0:4864:20::234])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2887C1C429
+        for <linux-media@vger.kernel.org>; Sun,  6 Nov 2022 09:11:39 -0800 (PST)
+Received: by mail-oi1-x234.google.com with SMTP id y67so10061082oiy.1
+        for <linux-media@vger.kernel.org>; Sun, 06 Nov 2022 09:11:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rothemail-net.20210112.gappssmtp.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=W/GuAJF9EByuMJlQjXwwDdmyZFlLJjZ8834qRoY3Gko=;
+        b=NO2BjfuUmsVN+Qi3iQnBM0dylFdulP5wSUlqBuuOGLjgXi4ZKwZQxndxo/jKSke3z+
+         PBluhE7jIZZpxkcb0FX0Vo1UrNj3alyvcrLULDANOqdepyWGMuc1q1HsmJ+JEOtgFXWc
+         pxcEpDBurQDhs0/jcJDk736S8imIdwGpUDxWOpvvtfJWqEm4+5NrdZYIssOvit6x44Bt
+         TSKJA5IzvhGbcFj4iixAzctzcV8E2eCYU2dl5F+KOE6dclqnsfS88l1D7OSk6zAel/qM
+         Dqdy1QDQzTSm+Rfb10WeX0Q8aBXtsawmladUZ6i382RIomJK6ZDXulpqg/kR0VYcSMoV
+         UXFA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=W/GuAJF9EByuMJlQjXwwDdmyZFlLJjZ8834qRoY3Gko=;
+        b=1PlxvgSAaJMwZUCSumrTwMkcLW30mBV9LpjeC70eQivVbS2TDOpHXwvVcbhwDiZdIz
+         f5oXjBCtCfz1lI94cOv3mcep8zm4xyDGQs2xQFDuqqdmGJz89IfgaY0oLtiYmCnVsQ51
+         s4NXIoAxgvk/BilKcKxo4XSlMCbAdl8KSZww0zMBg6o1JJ7hseaHtsmjYS9KDwoEaane
+         0vaeFXOans6N0pnv7GfqPDYzd2qoZ4QcXG9zW1ijcXFasSC2CF/yws5fSsuqAZ4VbBeL
+         Y+KUpkXQSpgCBJuLy3Ykaati3ZhDBfy7/nGycBHw0gex2UfSIzVmfBVHQ6/n0KIaiM1y
+         62sg==
+X-Gm-Message-State: ACrzQf1ymQrnF5az3RJ8iBbLZ3yrt8IkDNm2Wgthpd339PHmJ+JlvMXF
+        gmIno1TUUu5XOyn+blHrDLembz+LlnzDYRnF
+X-Google-Smtp-Source: AMsMyM7v/QG/u8qBmZk3dwoqmelKkgY+fVQEXH+nGlVWfFaUF/7yHP+Ee6TRmdMr4Bsz40bSAupu9Q==
+X-Received: by 2002:a05:6808:a1c:b0:35a:202f:1bc0 with SMTP id n28-20020a0568080a1c00b0035a202f1bc0mr18106076oij.286.1667754698119;
+        Sun, 06 Nov 2022 09:11:38 -0800 (PST)
+Received: from nroth-pc.attlocal.net ([2600:1700:20:20c0:37f0:51c5:4051:a636])
+        by smtp.gmail.com with ESMTPSA id l2-20020aca3e02000000b00354efb5be11sm1655306oia.15.2022.11.06.09.11.37
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 06 Nov 2022 09:11:37 -0800 (PST)
+From:   Nicholas Roth <nicholas@rothemail.net>
+To:     linux-media@vger.kernel.org
+Subject: ov8858 driver
+Date:   Sun,  6 Nov 2022 11:11:28 -0600
+Message-Id: <20221106171129.166892-1-nicholas@rothemail.net>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <48a28601-a3eb-8735-6a15-34436dcbd73e@redhat.com>
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Nov 01, 2022 at 02:27:53PM +0100, Hans de Goede wrote:
->Hi Sasha,
->
->I have no specific objections against the backporting of this
->and other atomisp related patches.
->
->But in general the atomisp driver is not yet in a state where
->it is ready to be used by normal users. Progress is being made
->but atm I don't really expect normal users to have it enabled /
->in active use.
->
->As such I'm also not sure if there is much value in backporting
->atomisp changes to the stable series.
->
->I don't know if you have a way to opt out certain drivers /
->file-paths from stable series backporting, but if you do
->you may want to consider opting out everything under:
->
->drivers/staging/media/atomisp/
->
->As said above I don't think doing the backports offers
->much (if any) value to end users and I assume it does take
->you some time, so opting this path out might be better.
->
->Also given the fragile state of atomisp support atm
->it is hard to say for me if partially backporting some of
->the changes won't break the driver.
+Please let me know what else you see that I may have missed! Kieran's
+comments have already raised some great questions about handling
+vendor-specific ROMs with useful information (specifically, how should
+we?).
 
-I'll blacklist drivers/staging/media/atomisp/, thank you!
 
--- 
-Thanks,
-Sasha
