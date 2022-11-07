@@ -2,659 +2,334 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8E40261F5D2
-	for <lists+linux-media@lfdr.de>; Mon,  7 Nov 2022 15:24:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DAD0461F63D
+	for <lists+linux-media@lfdr.de>; Mon,  7 Nov 2022 15:38:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232265AbiKGOY5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 7 Nov 2022 09:24:57 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39152 "EHLO
+        id S232257AbiKGOiH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 7 Nov 2022 09:38:07 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51672 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232270AbiKGOYi (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Nov 2022 09:24:38 -0500
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.153.233])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DAD6C240BA;
-        Mon,  7 Nov 2022 06:19:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1667830768; x=1699366768;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=Tq3Hh0bofOkQXI48ZPfM0ndYV3g5+FvaA/EGF0x6MDs=;
-  b=ui+MGgkzOtukjg16kIhvCqBskRdgr9vGLdmyzMhz6aWgimD+CwwEfyJI
-   pFZSuozZgUYEcD7wdf3GNlCY96DmQaES9mCtwXp8ya8zNGoa+sdNc3RSP
-   t5yxexS+aKW9TblEySC3F05BDILbnrP8JleIHUGa2AXGDx3nPKiEX7xOJ
-   3Gyt6LBBUi0/ddqamu6WRyOFpBv1JLQg1gJj9X3A3sSQYWmHVgJBxeN5a
-   fxiIHk7sovFhi/Iho5d7NREbAAm0KrfnqV37xl0V1y04aTTIlQHEB/eUG
-   QmWhYOp2t5+ipGqH6OMzMN5ZymaUUyyqM8iTxOyA0jOa7u1n9WBPLzBpU
-   A==;
-X-IronPort-AV: E=Sophos;i="5.96,145,1665471600"; 
-   d="scan'208";a="198727482"
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa1.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 07 Nov 2022 07:18:42 -0700
-Received: from chn-vm-ex01.mchp-main.com (10.10.85.143) by
- chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.12; Mon, 7 Nov 2022 07:18:41 -0700
-Received: from ROB-ULT-M18282.microchip.com (10.10.115.15) by
- chn-vm-ex01.mchp-main.com (10.10.85.143) with Microsoft SMTP Server id
- 15.1.2507.12 via Frontend Transport; Mon, 7 Nov 2022 07:18:39 -0700
-From:   Eugen Hristev <eugen.hristev@microchip.com>
-To:     <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
-        <hverkuil-cisco@xs4all.nl>, <jacopo@jmondi.org>
-CC:     <linux-arm-kernel@lists.infradead.org>,
-        <linux-staging@lists.linux.dev>,
-        Eugen Hristev <eugen.hristev@microchip.com>
-Subject: [PATCH v12 6/6] media: atmel: atmel-isc: move to staging
-Date:   Mon, 7 Nov 2022 16:18:18 +0200
-Message-ID: <20221107141818.104937-7-eugen.hristev@microchip.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20221107141818.104937-1-eugen.hristev@microchip.com>
-References: <20221107141818.104937-1-eugen.hristev@microchip.com>
+        with ESMTP id S231590AbiKGOiF (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Nov 2022 09:38:05 -0500
+Received: from DEU01-BE0-obe.outbound.protection.outlook.com (mail-be0deu01on2112.outbound.protection.outlook.com [40.107.127.112])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 57EF82A9;
+        Mon,  7 Nov 2022 06:38:02 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=i8etvOSazQzWuaqOeQejCrrPqnurrNvZqnW34087I7M0pODG4KdQ0cNIfQNjoawhIAhzkqWEJ16cAySHoNLtRqyXTAedt6jakAtSBSzcp64u746Ni6dsj8yBieo+B7hqUb57ZtyfizaJqhAIlTadpcSk6V2oY/NxbjW8ltVg13/itDRpSGE+2UYE0O5GG89tL4zDJnHF+yOGkfD1U9/m6S3Ug1PHFrrh5lixCDQhhWbQqOA1fGIZfFqzetQEtiRVgGBlLAtyN52ujZbCbHkFklqAynNsWI7d9XW+lq7sbJ44+dcAm8coJUrj74LWqAhQKJ7IESjhLeDmCaeRYmFo3w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=b1k5szLG7l8ueY/6RYzBGD/02ytk0sbJK7P950TdJDM=;
+ b=oWM6SLt4JTiLugg/dETFTQyFws2YHmWUxF1W7QnbMxU4i1Si8d5syEVTQumJFnP0tWF+TEVCa3I5hVLam3Xf2wZ2HASZ2+2lOip5oF4nGUrWzda7iveGWTb4LJbJ5pZk/wcFBEsCjNPCC1paXMjSocQYOPcCWDQMxMr2ckKaRhEbbTqqSEwyhb2ygTbBaOvtiPVYts/MoKSvCS++EtS36l/J+6jXBTRRMJt/D4XFqjWv4SFRVdqWAs/qmHmcKfpX8Hl1CYxGBtgQdGLt31XCD6TzeX7h6sGaY1RekHt4WYWT7xxo1Ph3+zmtdgjk2Q1HvSn59wblh1+Dmg+2SHX7+A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=fi.rohmeurope.com; dmarc=pass action=none
+ header.from=fi.rohmeurope.com; dkim=pass header.d=fi.rohmeurope.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=rohmsemiconductor.onmicrosoft.com;
+ s=selector2-rohmsemiconductor-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=b1k5szLG7l8ueY/6RYzBGD/02ytk0sbJK7P950TdJDM=;
+ b=hupwwzUw8eFcli8WWFfWX71Pv9FNR7w4QNDcVZqMBvMkvApZx5FgsQmIRsowlQ7z5rt8ttJSptsoKS9QKF/Pr5uV+P6ptojoND5mleb8zwCKwCxxlWW/NEdgbaR96U+zhxyuR3LPPkSHMDWBs5EoeAqS+mZtUY4g+SFiiy6i6ds=
+Received: from BEZP281MB2454.DEUP281.PROD.OUTLOOK.COM (2603:10a6:b10:59::10)
+ by BE1P281MB3058.DEUP281.PROD.OUTLOOK.COM (2603:10a6:b10:6a::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5791.26; Mon, 7 Nov
+ 2022 14:37:58 +0000
+Received: from BEZP281MB2454.DEUP281.PROD.OUTLOOK.COM
+ ([fe80::33b1:3599:eb56:8fd2]) by BEZP281MB2454.DEUP281.PROD.OUTLOOK.COM
+ ([fe80::33b1:3599:eb56:8fd2%5]) with mapi id 15.20.5791.025; Mon, 7 Nov 2022
+ 14:37:58 +0000
+From:   "Vaittinen, Matti" <Matti.Vaittinen@fi.rohmeurope.com>
+To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
+CC:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Luca Ceresoli <luca@lucaceresoli.net>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Peter Rosin <peda@axentia.se>,
+        Rob Herring <robh+dt@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Vladimir Zapolskiy <vz@mleia.com>,
+        Wolfram Sang <wsa@the-dreams.de>,
+        "satish.nagireddy@getcruise.com" <satish.nagireddy@getcruise.com>
+Subject: Re: [PATCH v4 0/8] i2c-atr and FPDLink
+Thread-Topic: [PATCH v4 0/8] i2c-atr and FPDLink
+Thread-Index: AQHY7fTKrOgLFkwn6kaLMHWF/jZCsK4zkPEA
+Date:   Mon, 7 Nov 2022 14:37:58 +0000
+Message-ID: <b0319f7c-54af-3132-2775-fba7dcad6bbe@fi.rohmeurope.com>
+References: <20221101132032.1542416-1-tomi.valkeinen@ideasonboard.com>
+In-Reply-To: <20221101132032.1542416-1-tomi.valkeinen@ideasonboard.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.0
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=fi.rohmeurope.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: BEZP281MB2454:EE_|BE1P281MB3058:EE_
+x-ms-office365-filtering-correlation-id: 00773eaa-aff4-411d-f37d-08dac0cdaa68
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: cTaqFZ5hkErqd+AMK7stYy2MesS/BdaI4QCr2GIj3CgbP0tfi2vZ9pXcau4XinlyZWV3y8niv30fLOJoSwmTp2ICup2BpHfTlimPkMzFZPlzznPUWER94O2AYEOKmXpAx9PD5TbO02/D8AOG1aBEvIBVsL+QqBvRHJ+2MzE4BijP2KZm14gct04XU5T7UenGUPM8q2g3+brQaiZpqBe+4SpXxWxZhq9qSBrDdgf47zaX90iCNuisTW6z2FUQJrp6OkIuTLxDz8YNJwA8gdej6IWf301RG34E0gtaS1eYr+gAZ9Gd1bE/PhV4fmoW4O8igAkFa8EInUzHAV9Cayiqncmwt2l+VhaZZHHH8VcH7aUpdHJ6EO5NAP30Aue0h24SqcLZSanF8BPHLoh+isQAMFGmp+DEduNgJZuzAG4F1zuzg+o7qJqaoHgocuN8cBdY13scB92dZccZ3tPt6qbOBT1s1ndGlsMZpJ7uw8xwscYFtYTRjDUNOR3Gslc/C3G15Dp0JDCtqms3InTM1dSwvMTVYeL4oOkRRYYNKI3xdInpSAWjAvcGLm2fHKPkIz8MsLefHgLXWddMBCwgV2vgk/ofBxTHL58o1pS2AqLMvGvAee8xddAxDVszLb+raW3lZRBqJHS4hbd2I3tfla0pls4qPRUcQT/3ucIpHiplgwE0vhGygqyAfD+v21WQ1D4RgBK7XMM0NFQl10aTIVM5b2WJUtAhnvcqqHrvjGnKc7FMrj8sB3XffcPBas/1+Q3sTulWqH4a+32qcoZaXXV/nfSHpFsztmgpDOPVjvhxuj8WDYMcWqL63IMxlal/z2EwDHLNDh1L2wRUbxv1raDPMi1gG7ijOhtz7+mMPggDYfCyty10TkCEp7WZZUvCgLjFk1LXJ2ad7tHQKr9zBfq1ye5KSdFyNI+QQ4pwU8q37KA=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BEZP281MB2454.DEUP281.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230022)(4636009)(136003)(346002)(366004)(396003)(39850400004)(376002)(451199015)(31686004)(38070700005)(86362001)(31696002)(5660300002)(2906002)(7416002)(38100700002)(122000001)(83380400001)(66946007)(110136005)(54906003)(4326008)(91956017)(316002)(186003)(2616005)(76116006)(6512007)(6486002)(71200400001)(8676002)(64756008)(66446008)(8936002)(41300700001)(6506007)(66556008)(478600001)(66476007)(53546011)(966005)(45980500001)(43740500002);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?V0lZNlRSS1o0QVI4bElDazVvd1Bjdk0wYXRtT0hFZXZCTDRJbkcvL0F3OWx0?=
+ =?utf-8?B?WU1aVmFHWnBYWTlya3ZFYUZtVlBpN0Z0bVRTUk9TK25NbmNZMnA2L1BwM0VP?=
+ =?utf-8?B?eGIxempJWFlvU1BIbWZtSXliNW56NnZ1UVpHSUo1TVhydUZvNmViQ0FVUWha?=
+ =?utf-8?B?alk5cXJiSmpQenlKT1dFTkNzQ3ZERk1QNlpXVVVXc21uajR0M0UrTGs3aHlz?=
+ =?utf-8?B?cXI3RDZoWDZTWDlCM0cybThYMTNCZXlWaWluMnRwSjdpTGliOHlldWVmVWw5?=
+ =?utf-8?B?WTBqMHBBait1VFJWS2N4aXpIMzZmeGk3QXdKWGQrTFZqZE1FdXRyWmJaQ2NW?=
+ =?utf-8?B?b1ljd0VCeG9tSmtqbjcyWWpEUksvNStMZWhQRzhORTk0ZFRvdDVuMjg0L2dv?=
+ =?utf-8?B?NE5RUnBBeExwODFXZ3pmOTJwcG9QeHdxNWhDVExHNWR2UG9KbmZqcW53MDcv?=
+ =?utf-8?B?SWIxUVBURkpmUFB5dTJvODFkYUU1OHR5VHpSVHN4Tm5pWko0ZmUvR1FiMEVO?=
+ =?utf-8?B?K1lEa2V6ZFAwTk1iOWxYaVZRbFFjZzVxSUIwbGJ4aXM5WEtENU5vQ0pJbnVG?=
+ =?utf-8?B?aTI5QmRoZkhOMzhzVDFMdkt2OHZqZ25xSWJLZXNsQjIrMDUrTm1qTG1SZEh5?=
+ =?utf-8?B?MENINGo4bXg5a3BtQTFGbmtlRW9FMlYvNnFabXc0bndGUzlhUnN0aUI0TlpY?=
+ =?utf-8?B?SjYxVVNkRmw2UVJVU3RLR1R4c1RCdDVYaWZzQ2kvdzRvemRYUm9hdlVTMThw?=
+ =?utf-8?B?Z2RuV0dqNiswMzM1Tk80K1RLUXllNk9qMlBJTU5Qb00zOGdpZC8wTmMyQ1N1?=
+ =?utf-8?B?UWxoRmtGcDBjVWRSZEh4aEFlSUllTmZwWDNJUEV3V2IvbXdXUng1Z0k4aFQx?=
+ =?utf-8?B?S1pLUkpuNkIrUVFPZGprTVo0U2xvNFNqNC9XZnYvcjcvWUN4bXBiK3Z1bmRZ?=
+ =?utf-8?B?RzJ6elZoRkg0N1Znczg0TFFBd25icDdxRGQ3VmdlZXZyK1JITUFsR0hLU1Rm?=
+ =?utf-8?B?Q1Y2bExFSXYyV0t3d1J0WDl2endVblFLdE1MNk5YaEhFYXo4aHdOUmZtcWVj?=
+ =?utf-8?B?YlAwZWFBTlJuT1NLQ3drcHNWRWo0Sit3RDQ5NGRMd0xJV0JVOVNjTXc0dVg3?=
+ =?utf-8?B?eUVCd2JDRzdnaHJzQ2pNd3BtNGJjaFAxVVFGYmRIWXFlS25Gd0cwdlNPNmNZ?=
+ =?utf-8?B?UTJXSzdJQnQzMG1QdHcweVcxVjZrdXRWMHVKaG1GNWdnS3F5cnROaWkrenFC?=
+ =?utf-8?B?UjY3dDNqQ1FjMC9Jb3ZvNmZtY1Q1bGtobndHK0ZqTFZHd1BXZk02NjJtYUUr?=
+ =?utf-8?B?c1ptRHNuUm93Z0NmVVpyUnVQb1JuSmZuSEFxMHlXS1JhS2IxNVlVdkFCdzFE?=
+ =?utf-8?B?ajYrU2lzektwcUZyZjN0OWloKzdtanVTM1lNR1pvQ0hYeFBkZ0xjNzdxcXpt?=
+ =?utf-8?B?bUk0YkVzY2U5Z2pVOXdhbE9TQU1KaU9rck03OHpuamJpWmJrMEFsWFZKVHRT?=
+ =?utf-8?B?NmxZUUN6eFZsc0RVVmlNU2ZxOHpib1lEQ1JRbG1wMHhUdWM1TmczNVh5N1RX?=
+ =?utf-8?B?V1RqRW5nSzN6MXB3MTBFZ2FCQkd3c2dDMXEwR09HdnhsUUF1RkRNOFRqalFw?=
+ =?utf-8?B?dzhGZUNzZHJBRFIreTFiZ3locmpDVWdmRExmdFBrUVRFMTZrOWFJdDNIdWIy?=
+ =?utf-8?B?VE9JSXpnSjZnckdFaStYeTF0OUpYTDZxVldCdlZTZG02RGJhRkxjcVpXSWxQ?=
+ =?utf-8?B?MncrNjJPTzNicHpGNDNPRUJ4TStWRmN3dDJ1YWhIYzRUYzVzSGU2REtlSXpE?=
+ =?utf-8?B?YUJTdTNkVFB5SmlLUHZrT0hyU0NrMTZUR2ZZa0YvbkJnaVdIbnM3cVB1dUZQ?=
+ =?utf-8?B?MVJnYmtOQ2h2cVBwZVJRZC9wTGRLT1dvOG8zUjJNaEErT1lYY0EzTW1RaTQv?=
+ =?utf-8?B?cUc3V3R1QlV4d0VCakFrcEdmL3hvdnVqUWZ3NkRTSDFVYkt3VVo0Y3hWdXVC?=
+ =?utf-8?B?SWljSDFCY002L1dra3ZTSGg0S2lTNnhUY2VFWEl6ZjVPMDNCUlowT2VCRklu?=
+ =?utf-8?B?dG5DcGVYK2VYcTJLeGVtR0RRYTZUTWo5NlVMMkZ6NGhSSXNwblVBdFBzVnhx?=
+ =?utf-8?B?NzdOd2w4NGRQZDdBWTJzQXl5bWQ3ZXBvUkg1WmZlZzNCQUZoTFNzR3FKcTIy?=
+ =?utf-8?Q?Vsl8KN46RkpeF4cu3QX2lIQ=3D?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <FFD9FDC31A8DEA49B7DB67634481E380@DEUP281.PROD.OUTLOOK.COM>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+X-OriginatorOrg: fi.rohmeurope.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BEZP281MB2454.DEUP281.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: 00773eaa-aff4-411d-f37d-08dac0cdaa68
+X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Nov 2022 14:37:58.6023
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: b24d4f96-5b40-44b1-ac2e-2ed7fdbde1c7
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: ZgeVCsYlljhrkCH/JJEhedLSCjTdOBS7qOiZ1ZiluqUQsNsFovcSG2mK5YQVS7pFt7gkqDuhEIjz7pyi9nBbcB5j9k4C+R/4ACcO6HfCILBDM67YuVBJku/woo3Z0Cld
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BE1P281MB3058
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The Atmel ISC driver is not compliant with media controller specification.
-In order to evolve this driver, it has to move to media controller, to
-support enhanced features and future products which embed it.
-The move to media controller involves several changes which are
-not backwards compatible with the current usability of the driver.
-
-The best example is the way the format is propagated from the top video
-driver /dev/videoX down to the sensor.
-
-In a simple configuration sensor ==> isc , the isc just calls subdev s_fmt
-and controls the sensor directly. This is achieved by having a lot of code
-inside the driver that will query the subdev at probe time and make a list
-of formats which are usable.
-Basically the user has nothing to configure, as the isc will handle
-everything at the top level. This is an easy way to capture, but also comes
-with the drawback of lack of flexibility.
-In a more complicated pipeline
-sensor ==> controller 1 ==> controller 2 ==> isc
-this will not be achievable, as controller 1 and controller 2 might be
-media-controller configurable, and will not propagate the formats down to
-the sensor.
-
-After discussions with the media maintainers, the decision is to move
-Atmel ISC to staging as-is, to keep the Kconfig symbols and the users
-to the driver in staging. Thus, all the existing users of the non
-media-controller paradigm will continue to be happy and use the old config
-way.
-
-The new driver was added in the media subsystem with a different
-symbol, with the conversion to media controller done, and new users
-of the driver will be able to use all the new features.
-
-This patch is merely a file move to staging, not affecting any of the
-users.
-
-The exported symbols had to be renamed to atmel_* to avoid duplication with
-the new Microchip ISC driver.
-
-Signed-off-by: Eugen Hristev <eugen.hristev@microchip.com>
----
-Changes in v12:
-- move to deprecated dir
-- added TODO file
-- make it dependant on !VIDEO_MICROCHIP_ISC_BASE
-
- MAINTAINERS                                   |  4 +-
- drivers/media/platform/atmel/Kconfig          | 36 --------------
- drivers/media/platform/atmel/Makefile         |  6 ---
- drivers/staging/media/Kconfig                 |  1 +
- drivers/staging/media/Makefile                |  1 +
- .../staging/media/deprecated/atmel/Kconfig    | 48 +++++++++++++++++++
- .../staging/media/deprecated/atmel/Makefile   |  8 ++++
- drivers/staging/media/deprecated/atmel/TODO   | 34 +++++++++++++
- .../media/deprecated}/atmel/atmel-isc-base.c  | 20 ++++----
- .../media/deprecated}/atmel/atmel-isc-clk.c   |  8 ++--
- .../media/deprecated}/atmel/atmel-isc-regs.h  |  0
- .../media/deprecated}/atmel/atmel-isc.h       | 16 +++----
- .../deprecated}/atmel/atmel-sama5d2-isc.c     | 18 +++----
- .../deprecated}/atmel/atmel-sama7g5-isc.c     | 18 +++----
- 14 files changed, 134 insertions(+), 84 deletions(-)
- create mode 100644 drivers/staging/media/deprecated/atmel/Kconfig
- create mode 100644 drivers/staging/media/deprecated/atmel/Makefile
- create mode 100644 drivers/staging/media/deprecated/atmel/TODO
- rename drivers/{media/platform => staging/media/deprecated}/atmel/atmel-isc-base.c (99%)
- rename drivers/{media/platform => staging/media/deprecated}/atmel/atmel-isc-clk.c (97%)
- rename drivers/{media/platform => staging/media/deprecated}/atmel/atmel-isc-regs.h (100%)
- rename drivers/{media/platform => staging/media/deprecated}/atmel/atmel-isc.h (96%)
- rename drivers/{media/platform => staging/media/deprecated}/atmel/atmel-sama5d2-isc.c (97%)
- rename drivers/{media/platform => staging/media/deprecated}/atmel/atmel-sama7g5-isc.c (97%)
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 1fa2438e540e..c8447917924c 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -13488,8 +13488,8 @@ L:	linux-media@vger.kernel.org
- S:	Supported
- F:	Documentation/devicetree/bindings/media/atmel,isc.yaml
- F:	Documentation/devicetree/bindings/media/microchip,xisc.yaml
--F:	drivers/media/platform/atmel/atmel-isc*
--F:	drivers/media/platform/atmel/atmel-sama*-isc*
-+F:	drivers/staging/media/deprecated/atmel/atmel-isc*
-+F:	drivers/staging/media/deprecated/atmel/atmel-sama*-isc*
- F:	drivers/media/platform/microchip/microchip-isc*
- F:	drivers/media/platform/microchip/microchip-sama*-isc*
- F:	include/linux/atmel-isc-media.h
-diff --git a/drivers/media/platform/atmel/Kconfig b/drivers/media/platform/atmel/Kconfig
-index 6d07a31d4c0e..3866ccae07df 100644
---- a/drivers/media/platform/atmel/Kconfig
-+++ b/drivers/media/platform/atmel/Kconfig
-@@ -2,42 +2,6 @@
- 
- comment "Atmel media platform drivers"
- 
--config VIDEO_ATMEL_ISC
--	tristate "ATMEL Image Sensor Controller (ISC) support"
--	depends on V4L_PLATFORM_DRIVERS
--	depends on VIDEO_DEV && COMMON_CLK
--	depends on ARCH_AT91 || COMPILE_TEST
--	select MEDIA_CONTROLLER
--	select VIDEO_V4L2_SUBDEV_API
--	select VIDEOBUF2_DMA_CONTIG
--	select REGMAP_MMIO
--	select V4L2_FWNODE
--	select VIDEO_ATMEL_ISC_BASE
--	help
--	   This module makes the ATMEL Image Sensor Controller available
--	   as a v4l2 device.
--
--config VIDEO_ATMEL_XISC
--	tristate "ATMEL eXtended Image Sensor Controller (XISC) support"
--	depends on V4L_PLATFORM_DRIVERS
--	depends on VIDEO_DEV && COMMON_CLK
--	depends on ARCH_AT91 || COMPILE_TEST
--	select VIDEOBUF2_DMA_CONTIG
--	select REGMAP_MMIO
--	select V4L2_FWNODE
--	select VIDEO_ATMEL_ISC_BASE
--	select MEDIA_CONTROLLER
--	select VIDEO_V4L2_SUBDEV_API
--	help
--	   This module makes the ATMEL eXtended Image Sensor Controller
--	   available as a v4l2 device.
--
--config VIDEO_ATMEL_ISC_BASE
--	tristate
--	default n
--	help
--	  ATMEL ISC and XISC common code base.
--
- config VIDEO_ATMEL_ISI
- 	tristate "ATMEL Image Sensor Interface (ISI) support"
- 	depends on V4L_PLATFORM_DRIVERS
-diff --git a/drivers/media/platform/atmel/Makefile b/drivers/media/platform/atmel/Makefile
-index ab3890f95776..a14ac6b5211d 100644
---- a/drivers/media/platform/atmel/Makefile
-+++ b/drivers/media/platform/atmel/Makefile
-@@ -1,9 +1,3 @@
- # SPDX-License-Identifier: GPL-2.0-only
--atmel-isc-objs = atmel-sama5d2-isc.o
--atmel-xisc-objs = atmel-sama7g5-isc.o
--atmel-isc-common-objs = atmel-isc-base.o atmel-isc-clk.o
- 
- obj-$(CONFIG_VIDEO_ATMEL_ISI) += atmel-isi.o
--obj-$(CONFIG_VIDEO_ATMEL_ISC_BASE) += atmel-isc-common.o
--obj-$(CONFIG_VIDEO_ATMEL_ISC) += atmel-isc.o
--obj-$(CONFIG_VIDEO_ATMEL_XISC) += atmel-xisc.o
-diff --git a/drivers/staging/media/Kconfig b/drivers/staging/media/Kconfig
-index d4f03b203ae5..b79f93684c4f 100644
---- a/drivers/staging/media/Kconfig
-+++ b/drivers/staging/media/Kconfig
-@@ -51,6 +51,7 @@ menuconfig STAGING_MEDIA_DEPRECATED
- 	  If in doubt, say N here.
- 
- if STAGING_MEDIA_DEPRECATED
-+source "drivers/staging/media/deprecated/atmel/Kconfig"
- source "drivers/staging/media/deprecated/cpia2/Kconfig"
- source "drivers/staging/media/deprecated/fsl-viu/Kconfig"
- source "drivers/staging/media/deprecated/meye/Kconfig"
-diff --git a/drivers/staging/media/Makefile b/drivers/staging/media/Makefile
-index a387692b84f2..54bbdd4b0d08 100644
---- a/drivers/staging/media/Makefile
-+++ b/drivers/staging/media/Makefile
-@@ -1,4 +1,5 @@
- # SPDX-License-Identifier: GPL-2.0
-+obj-$(CONFIG_VIDEO_ATMEL_ISC_BASE)	+= deprecated/atmel/
- obj-$(CONFIG_INTEL_ATOMISP)     += atomisp/
- obj-$(CONFIG_VIDEO_CPIA2)	+= deprecated/cpia2/
- obj-$(CONFIG_VIDEO_IMX_MEDIA)	+= imx/
-diff --git a/drivers/staging/media/deprecated/atmel/Kconfig b/drivers/staging/media/deprecated/atmel/Kconfig
-new file mode 100644
-index 000000000000..7d8af45d59d3
---- /dev/null
-+++ b/drivers/staging/media/deprecated/atmel/Kconfig
-@@ -0,0 +1,48 @@
-+# SPDX-License-Identifier: GPL-2.0-only
-+
-+comment "Atmel media platform drivers"
-+
-+config VIDEO_ATMEL_ISC
-+	tristate "ATMEL Image Sensor Controller (ISC) support (DEPRECATED)"
-+	depends on V4L_PLATFORM_DRIVERS
-+	depends on VIDEO_DEV && COMMON_CLK
-+	depends on ARCH_AT91 || COMPILE_TEST
-+	depends on !VIDEO_MICROCHIP_ISC_BASE || COMPILE_TEST
-+	select MEDIA_CONTROLLER
-+	select VIDEO_V4L2_SUBDEV_API
-+	select VIDEOBUF2_DMA_CONTIG
-+	select REGMAP_MMIO
-+	select V4L2_FWNODE
-+	select VIDEO_ATMEL_ISC_BASE
-+	help
-+	   This module makes the ATMEL Image Sensor Controller available
-+	   as a v4l2 device.
-+
-+	   This driver is deprecated and is scheduled for removal by
-+	   the beginning of 2026. See the TODO file for more information.
-+
-+config VIDEO_ATMEL_XISC
-+	tristate "ATMEL eXtended Image Sensor Controller (XISC) support (DEPRECATED)"
-+	depends on V4L_PLATFORM_DRIVERS
-+	depends on VIDEO_DEV && COMMON_CLK
-+	depends on ARCH_AT91 || COMPILE_TEST
-+	depends on !VIDEO_MICROCHIP_ISC_BASE || COMPILE_TEST
-+	select VIDEOBUF2_DMA_CONTIG
-+	select REGMAP_MMIO
-+	select V4L2_FWNODE
-+	select VIDEO_ATMEL_ISC_BASE
-+	select MEDIA_CONTROLLER
-+	select VIDEO_V4L2_SUBDEV_API
-+	help
-+	   This module makes the ATMEL eXtended Image Sensor Controller
-+	   available as a v4l2 device.
-+
-+	   This driver is deprecated and is scheduled for removal by
-+	   the beginning of 2026. See the TODO file for more information.
-+
-+config VIDEO_ATMEL_ISC_BASE
-+	tristate
-+	default n
-+	help
-+	  ATMEL ISC and XISC common code base.
-+
-diff --git a/drivers/staging/media/deprecated/atmel/Makefile b/drivers/staging/media/deprecated/atmel/Makefile
-new file mode 100644
-index 000000000000..34eaeeac5bba
---- /dev/null
-+++ b/drivers/staging/media/deprecated/atmel/Makefile
-@@ -0,0 +1,8 @@
-+# SPDX-License-Identifier: GPL-2.0-only
-+atmel-isc-objs = atmel-sama5d2-isc.o
-+atmel-xisc-objs = atmel-sama7g5-isc.o
-+atmel-isc-common-objs = atmel-isc-base.o atmel-isc-clk.o
-+
-+obj-$(CONFIG_VIDEO_ATMEL_ISC_BASE) += atmel-isc-common.o
-+obj-$(CONFIG_VIDEO_ATMEL_ISC) += atmel-isc.o
-+obj-$(CONFIG_VIDEO_ATMEL_XISC) += atmel-xisc.o
-diff --git a/drivers/staging/media/deprecated/atmel/TODO b/drivers/staging/media/deprecated/atmel/TODO
-new file mode 100644
-index 000000000000..71691df07a80
---- /dev/null
-+++ b/drivers/staging/media/deprecated/atmel/TODO
-@@ -0,0 +1,34 @@
-+The Atmel ISC driver is not compliant with media controller specification.
-+In order to evolve this driver, it has to move to media controller, to
-+support enhanced features and future products which embed it.
-+The move to media controller involves several changes which are
-+not backwards compatible with the current usability of the driver.
-+
-+The best example is the way the format is propagated from the top video
-+driver /dev/videoX down to the sensor.
-+
-+In a simple configuration sensor ==> isc , the isc just calls subdev s_fmt
-+and controls the sensor directly. This is achieved by having a lot of code
-+inside the driver that will query the subdev at probe time and make a list
-+of formats which are usable.
-+Basically the user has nothing to configure, as the isc will handle
-+everything at the top level. This is an easy way to capture, but also comes
-+with the drawback of lack of flexibility.
-+In a more complicated pipeline
-+sensor ==> controller 1 ==> controller 2 ==> isc
-+this will not be achievable, as controller 1 and controller 2 might be
-+media-controller configurable, and will not propagate the formats down to
-+the sensor.
-+
-+After discussions with the media maintainers, the decision is to move
-+Atmel ISC to staging as-is, to keep the Kconfig symbols and the users
-+to the driver in staging. Thus, all the existing users of the non
-+media-controller paradigm will continue to be happy and use the old config
-+way.
-+
-+The new driver was added in the media subsystem with a different
-+symbol, with the conversion to media controller done, and new users
-+of the driver will be able to use all the new features.
-+
-+The replacement driver is named VIDEO_MICROCHIP_ISC or
-+VIDEO_MICROCHIP_XISC depending on the product flavor.
-diff --git a/drivers/media/platform/atmel/atmel-isc-base.c b/drivers/staging/media/deprecated/atmel/atmel-isc-base.c
-similarity index 99%
-rename from drivers/media/platform/atmel/atmel-isc-base.c
-rename to drivers/staging/media/deprecated/atmel/atmel-isc-base.c
-index 9e5317a7d516..99e61bbfc9bc 100644
---- a/drivers/media/platform/atmel/atmel-isc-base.c
-+++ b/drivers/staging/media/deprecated/atmel/atmel-isc-base.c
-@@ -1221,7 +1221,7 @@ static const struct v4l2_file_operations isc_fops = {
- 	.poll		= vb2_fop_poll,
- };
- 
--irqreturn_t isc_interrupt(int irq, void *dev_id)
-+irqreturn_t atmel_isc_interrupt(int irq, void *dev_id)
- {
- 	struct isc_device *isc = (struct isc_device *)dev_id;
- 	struct regmap *regmap = isc->regmap;
-@@ -1267,7 +1267,7 @@ irqreturn_t isc_interrupt(int irq, void *dev_id)
- 
- 	return ret;
- }
--EXPORT_SYMBOL_GPL(isc_interrupt);
-+EXPORT_SYMBOL_GPL(atmel_isc_interrupt);
- 
- static void isc_hist_count(struct isc_device *isc, u32 *min, u32 *max)
- {
-@@ -1934,14 +1934,14 @@ static int isc_async_complete(struct v4l2_async_notifier *notifier)
- 	return ret;
- }
- 
--const struct v4l2_async_notifier_operations isc_async_ops = {
-+const struct v4l2_async_notifier_operations atmel_isc_async_ops = {
- 	.bound = isc_async_bound,
- 	.unbind = isc_async_unbind,
- 	.complete = isc_async_complete,
- };
--EXPORT_SYMBOL_GPL(isc_async_ops);
-+EXPORT_SYMBOL_GPL(atmel_isc_async_ops);
- 
--void isc_subdev_cleanup(struct isc_device *isc)
-+void atmel_isc_subdev_cleanup(struct isc_device *isc)
- {
- 	struct isc_subdev_entity *subdev_entity;
- 
-@@ -1952,9 +1952,9 @@ void isc_subdev_cleanup(struct isc_device *isc)
- 
- 	INIT_LIST_HEAD(&isc->subdev_entities);
- }
--EXPORT_SYMBOL_GPL(isc_subdev_cleanup);
-+EXPORT_SYMBOL_GPL(atmel_isc_subdev_cleanup);
- 
--int isc_pipeline_init(struct isc_device *isc)
-+int atmel_isc_pipeline_init(struct isc_device *isc)
- {
- 	struct device *dev = isc->dev;
- 	struct regmap *regmap = isc->regmap;
-@@ -1993,17 +1993,17 @@ int isc_pipeline_init(struct isc_device *isc)
- 
- 	return 0;
- }
--EXPORT_SYMBOL_GPL(isc_pipeline_init);
-+EXPORT_SYMBOL_GPL(atmel_isc_pipeline_init);
- 
- /* regmap configuration */
- #define ATMEL_ISC_REG_MAX    0xd5c
--const struct regmap_config isc_regmap_config = {
-+const struct regmap_config atmel_isc_regmap_config = {
- 	.reg_bits       = 32,
- 	.reg_stride     = 4,
- 	.val_bits       = 32,
- 	.max_register	= ATMEL_ISC_REG_MAX,
- };
--EXPORT_SYMBOL_GPL(isc_regmap_config);
-+EXPORT_SYMBOL_GPL(atmel_isc_regmap_config);
- 
- MODULE_AUTHOR("Songjun Wu");
- MODULE_AUTHOR("Eugen Hristev");
-diff --git a/drivers/media/platform/atmel/atmel-isc-clk.c b/drivers/staging/media/deprecated/atmel/atmel-isc-clk.c
-similarity index 97%
-rename from drivers/media/platform/atmel/atmel-isc-clk.c
-rename to drivers/staging/media/deprecated/atmel/atmel-isc-clk.c
-index 2059fe376b00..d442b5f4c931 100644
---- a/drivers/media/platform/atmel/atmel-isc-clk.c
-+++ b/drivers/staging/media/deprecated/atmel/atmel-isc-clk.c
-@@ -277,7 +277,7 @@ static int isc_clk_register(struct isc_device *isc, unsigned int id)
- 	return 0;
- }
- 
--int isc_clk_init(struct isc_device *isc)
-+int atmel_isc_clk_init(struct isc_device *isc)
- {
- 	unsigned int i;
- 	int ret;
-@@ -293,9 +293,9 @@ int isc_clk_init(struct isc_device *isc)
- 
- 	return 0;
- }
--EXPORT_SYMBOL_GPL(isc_clk_init);
-+EXPORT_SYMBOL_GPL(atmel_isc_clk_init);
- 
--void isc_clk_cleanup(struct isc_device *isc)
-+void atmel_isc_clk_cleanup(struct isc_device *isc)
- {
- 	unsigned int i;
- 
-@@ -308,4 +308,4 @@ void isc_clk_cleanup(struct isc_device *isc)
- 			clk_unregister(isc_clk->clk);
- 	}
- }
--EXPORT_SYMBOL_GPL(isc_clk_cleanup);
-+EXPORT_SYMBOL_GPL(atmel_isc_clk_cleanup);
-diff --git a/drivers/media/platform/atmel/atmel-isc-regs.h b/drivers/staging/media/deprecated/atmel/atmel-isc-regs.h
-similarity index 100%
-rename from drivers/media/platform/atmel/atmel-isc-regs.h
-rename to drivers/staging/media/deprecated/atmel/atmel-isc-regs.h
-diff --git a/drivers/media/platform/atmel/atmel-isc.h b/drivers/staging/media/deprecated/atmel/atmel-isc.h
-similarity index 96%
-rename from drivers/media/platform/atmel/atmel-isc.h
-rename to drivers/staging/media/deprecated/atmel/atmel-isc.h
-index ff60ba020cb9..dfc030b5a08f 100644
---- a/drivers/media/platform/atmel/atmel-isc.h
-+++ b/drivers/staging/media/deprecated/atmel/atmel-isc.h
-@@ -350,13 +350,13 @@ struct isc_device {
- 	u32				formats_list_size;
- };
- 
--extern const struct regmap_config isc_regmap_config;
--extern const struct v4l2_async_notifier_operations isc_async_ops;
--
--irqreturn_t isc_interrupt(int irq, void *dev_id);
--int isc_pipeline_init(struct isc_device *isc);
--int isc_clk_init(struct isc_device *isc);
--void isc_subdev_cleanup(struct isc_device *isc);
--void isc_clk_cleanup(struct isc_device *isc);
-+extern const struct regmap_config atmel_isc_regmap_config;
-+extern const struct v4l2_async_notifier_operations atmel_isc_async_ops;
-+
-+irqreturn_t atmel_isc_interrupt(int irq, void *dev_id);
-+int atmel_isc_pipeline_init(struct isc_device *isc);
-+int atmel_isc_clk_init(struct isc_device *isc);
-+void atmel_isc_subdev_cleanup(struct isc_device *isc);
-+void atmel_isc_clk_cleanup(struct isc_device *isc);
- 
- #endif
-diff --git a/drivers/media/platform/atmel/atmel-sama5d2-isc.c b/drivers/staging/media/deprecated/atmel/atmel-sama5d2-isc.c
-similarity index 97%
-rename from drivers/media/platform/atmel/atmel-sama5d2-isc.c
-rename to drivers/staging/media/deprecated/atmel/atmel-sama5d2-isc.c
-index 9881d89a645b..ba0614f981a2 100644
---- a/drivers/media/platform/atmel/atmel-sama5d2-isc.c
-+++ b/drivers/staging/media/deprecated/atmel/atmel-sama5d2-isc.c
-@@ -408,7 +408,7 @@ static int atmel_isc_probe(struct platform_device *pdev)
- 	if (IS_ERR(io_base))
- 		return PTR_ERR(io_base);
- 
--	isc->regmap = devm_regmap_init_mmio(dev, io_base, &isc_regmap_config);
-+	isc->regmap = devm_regmap_init_mmio(dev, io_base, &atmel_isc_regmap_config);
- 	if (IS_ERR(isc->regmap)) {
- 		ret = PTR_ERR(isc->regmap);
- 		dev_err(dev, "failed to init register map: %d\n", ret);
-@@ -419,7 +419,7 @@ static int atmel_isc_probe(struct platform_device *pdev)
- 	if (irq < 0)
- 		return irq;
- 
--	ret = devm_request_irq(dev, irq, isc_interrupt, 0,
-+	ret = devm_request_irq(dev, irq, atmel_isc_interrupt, 0,
- 			       "atmel-sama5d2-isc", isc);
- 	if (ret < 0) {
- 		dev_err(dev, "can't register ISR for IRQ %u (ret=%i)\n",
-@@ -464,7 +464,7 @@ static int atmel_isc_probe(struct platform_device *pdev)
- 	/* sama5d2-isc : ISPCK is required and mandatory */
- 	isc->ispck_required = true;
- 
--	ret = isc_pipeline_init(isc);
-+	ret = atmel_isc_pipeline_init(isc);
- 	if (ret)
- 		return ret;
- 
-@@ -481,7 +481,7 @@ static int atmel_isc_probe(struct platform_device *pdev)
- 		return ret;
- 	}
- 
--	ret = isc_clk_init(isc);
-+	ret = atmel_isc_clk_init(isc);
- 	if (ret) {
- 		dev_err(dev, "failed to init isc clock: %d\n", ret);
- 		goto unprepare_hclk;
-@@ -523,7 +523,7 @@ static int atmel_isc_probe(struct platform_device *pdev)
- 			goto cleanup_subdev;
- 		}
- 
--		subdev_entity->notifier.ops = &isc_async_ops;
-+		subdev_entity->notifier.ops = &atmel_isc_async_ops;
- 
- 		ret = v4l2_async_nf_register(&isc->v4l2_dev,
- 					     &subdev_entity->notifier);
-@@ -567,7 +567,7 @@ static int atmel_isc_probe(struct platform_device *pdev)
- 	pm_runtime_disable(dev);
- 
- cleanup_subdev:
--	isc_subdev_cleanup(isc);
-+	atmel_isc_subdev_cleanup(isc);
- 
- unregister_v4l2_device:
- 	v4l2_device_unregister(&isc->v4l2_dev);
-@@ -575,7 +575,7 @@ static int atmel_isc_probe(struct platform_device *pdev)
- unprepare_hclk:
- 	clk_disable_unprepare(isc->hclock);
- 
--	isc_clk_cleanup(isc);
-+	atmel_isc_clk_cleanup(isc);
- 
- 	return ret;
- }
-@@ -586,14 +586,14 @@ static int atmel_isc_remove(struct platform_device *pdev)
- 
- 	pm_runtime_disable(&pdev->dev);
- 
--	isc_subdev_cleanup(isc);
-+	atmel_isc_subdev_cleanup(isc);
- 
- 	v4l2_device_unregister(&isc->v4l2_dev);
- 
- 	clk_disable_unprepare(isc->ispck);
- 	clk_disable_unprepare(isc->hclock);
- 
--	isc_clk_cleanup(isc);
-+	atmel_isc_clk_cleanup(isc);
- 
- 	return 0;
- }
-diff --git a/drivers/media/platform/atmel/atmel-sama7g5-isc.c b/drivers/staging/media/deprecated/atmel/atmel-sama7g5-isc.c
-similarity index 97%
-rename from drivers/media/platform/atmel/atmel-sama7g5-isc.c
-rename to drivers/staging/media/deprecated/atmel/atmel-sama7g5-isc.c
-index 8b11aa8340d7..01ababdfcbd9 100644
---- a/drivers/media/platform/atmel/atmel-sama7g5-isc.c
-+++ b/drivers/staging/media/deprecated/atmel/atmel-sama7g5-isc.c
-@@ -397,7 +397,7 @@ static int microchip_xisc_probe(struct platform_device *pdev)
- 	if (IS_ERR(io_base))
- 		return PTR_ERR(io_base);
- 
--	isc->regmap = devm_regmap_init_mmio(dev, io_base, &isc_regmap_config);
-+	isc->regmap = devm_regmap_init_mmio(dev, io_base, &atmel_isc_regmap_config);
- 	if (IS_ERR(isc->regmap)) {
- 		ret = PTR_ERR(isc->regmap);
- 		dev_err(dev, "failed to init register map: %d\n", ret);
-@@ -408,7 +408,7 @@ static int microchip_xisc_probe(struct platform_device *pdev)
- 	if (irq < 0)
- 		return irq;
- 
--	ret = devm_request_irq(dev, irq, isc_interrupt, 0,
-+	ret = devm_request_irq(dev, irq, atmel_isc_interrupt, 0,
- 			       "microchip-sama7g5-xisc", isc);
- 	if (ret < 0) {
- 		dev_err(dev, "can't register ISR for IRQ %u (ret=%i)\n",
-@@ -453,7 +453,7 @@ static int microchip_xisc_probe(struct platform_device *pdev)
- 	/* sama7g5-isc : ISPCK does not exist, ISC is clocked by MCK */
- 	isc->ispck_required = false;
- 
--	ret = isc_pipeline_init(isc);
-+	ret = atmel_isc_pipeline_init(isc);
- 	if (ret)
- 		return ret;
- 
-@@ -470,7 +470,7 @@ static int microchip_xisc_probe(struct platform_device *pdev)
- 		return ret;
- 	}
- 
--	ret = isc_clk_init(isc);
-+	ret = atmel_isc_clk_init(isc);
- 	if (ret) {
- 		dev_err(dev, "failed to init isc clock: %d\n", ret);
- 		goto unprepare_hclk;
-@@ -513,7 +513,7 @@ static int microchip_xisc_probe(struct platform_device *pdev)
- 			goto cleanup_subdev;
- 		}
- 
--		subdev_entity->notifier.ops = &isc_async_ops;
-+		subdev_entity->notifier.ops = &atmel_isc_async_ops;
- 
- 		ret = v4l2_async_nf_register(&isc->v4l2_dev,
- 					     &subdev_entity->notifier);
-@@ -536,7 +536,7 @@ static int microchip_xisc_probe(struct platform_device *pdev)
- 	return 0;
- 
- cleanup_subdev:
--	isc_subdev_cleanup(isc);
-+	atmel_isc_subdev_cleanup(isc);
- 
- unregister_v4l2_device:
- 	v4l2_device_unregister(&isc->v4l2_dev);
-@@ -544,7 +544,7 @@ static int microchip_xisc_probe(struct platform_device *pdev)
- unprepare_hclk:
- 	clk_disable_unprepare(isc->hclock);
- 
--	isc_clk_cleanup(isc);
-+	atmel_isc_clk_cleanup(isc);
- 
- 	return ret;
- }
-@@ -555,13 +555,13 @@ static int microchip_xisc_remove(struct platform_device *pdev)
- 
- 	pm_runtime_disable(&pdev->dev);
- 
--	isc_subdev_cleanup(isc);
-+	atmel_isc_subdev_cleanup(isc);
- 
- 	v4l2_device_unregister(&isc->v4l2_dev);
- 
- 	clk_disable_unprepare(isc->hclock);
- 
--	isc_clk_cleanup(isc);
-+	atmel_isc_clk_cleanup(isc);
- 
- 	return 0;
- }
--- 
-2.25.1
-
+T24gMTEvMS8yMiAxNToyMCwgVG9taSBWYWxrZWluZW4gd3JvdGU6DQo+IEhpLA0KPiANCj4gSW50
+cm8NCj4gLS0tLS0NCj4gDQo+IFRoaXMgaXMsIGtpbmQgb2YsIHY0IG9mIEx1Y2EncyBpMmMtYXRy
+IGFuZCBGUERMaW5rIHNlcmllcywgdjMgb2Ygd2hpY2gNCj4geW91IGNhbiBmaW5kIGZyb206DQo+
+IA0KPiBodHRwczovL2xvcmUua2VybmVsLm9yZy9hbGwvMjAyMjAyMDYxMTU5MzkuMzA5MTI2NS0x
+LWx1Y2FAbHVjYWNlcmVzb2xpLm5ldC8NCj4gDQoNCi8vc25pcA0KDQpGaXJzdCBvZiBhbGwsIEkg
+bGlrZSB0aGlzIHNlcmllcy4NCg0KVGhlcmUgaXMganVzdCBvbmUgdGhpbmcgdGhhdCBzbGlnaHRs
+eSBib3RoZXJzIG1lIGhlcmUuIEl0IGlzIHB1dHRpbmcgDQpldmVyeXRoaW5nIHRoZSBkZXNlcmlh
+bGl6ZXIgaGFzIGluc2lkZSBvbmUgZHJpdmVyLiBJIHRoaW5rIEkgbWVudGlvbmVkIA0KdGhpcyBh
+bHJlYWR5IGVhcmxpZXIgLSBidXQgdG8gbWUgdGhlc2UgZGV2aWNlcyBzZWVtIGxpa2UgTUZEIElD
+cy4NCg0KSGVuY2UsIG15IGF0dGVtcHQgdG8gc3VwcG9ydCBvbmUgb2YgU2VyRGVzIGRldmljZXMg
+cmVzZW1ibGluZyB0aGUgVEkgDQpTZXJEZXMgZGV2aWNlcyBoYWQgZm9sbG93aW5nIHNwbGl0LiBN
+RkQgSTJDIGRyaXZlcnMgZm9yIFNFUiBhbmQgREVTLiBPd24gDQpwbGF0Zm9ybSBkcml2ZXJzIGZv
+ciBERVMgQVRSLCBWNEwyLCBwaW5jdHJsL0dQSU8uIEFsc28gb3duIHBsYXRmb3JtIA0KZHJpdmVy
+cyBmb3IgU0VSIFY0TDIsIHBpbmN0cmwvR1BJTy4NCg0KQmVsb3cgeW91IGNhbiBzZWUgdGhlIHJl
+bGV2YW50IHBpZWNlcyBvZiBzaW1wbGlmaWVkIChwc2V1ZG8tKWNvZGUgDQpleHBsYWluaW5nIHRo
+ZSAob3B0aW9uYWw/KSBkZXNpZ24gd2hpY2ggYXR0ZW1wdHMgY3JlYXRpbmcgc29tZXdoYXQgDQpz
+bWFsbGVyIGFuZCByZS11c2FibGUgaW5kaXZpZHVhbCBkcml2ZXJzIGZvciBERVMvU0VSIGJsb2Nr
+cy4gUGxlYXNlLCBkbyANCm5vdCB0cmVhdCB0aGlzIGFzIGEgcmVxdWlyZW1lbnQgLSBwbGVhc2Ug
+dHJlYXQgaXQgYXMgYSBmb29kIGZvciB0aG91Z2h0cyA7KQ0KDQoNCkRFUyBNRkQtY29yZTogYXMg
+STJDIC0gZGV2aWNlLiBSZWdpc3RlcnMgcmVnbWFwIGFuZCBJUlEtY2hpcCBmb3IgDQpzdWItZGV2
+aWNlcy4gQ3JlYXRlcyB0aGUgc3ViLWRldmljZXMgZm9yIERFUy4gUGFyc2VzIHRoZSByZXF1aXJl
+ZCBTZXJEZXMgDQp0b3BvbG9neSBmcm9tIGRldmljZS10cmVlIGFuZCBtYWtlcyB0aGUgbWluaW11
+bSByZXF1aXJlZCBjb25maWd1cmF0aW9uIA0KdG8gZ2V0IHRoZSBhY3R1YWwgbGluayAoRlBETGlu
+ayBpbiBUSSdzIGNhc2UpIHJ1biBpbiBhIGxldmVsIHRoYXQgSTJDIA0KY29ubmVjdGlvbiBpcyBw
+b3NzaWJsZSB3aGVuIEFUUiBpcyBjb25maWd1cmVkLiAoQWN0dWFsbHksIEkgbm90aWNlZCB0aGlz
+IA0KY291bGQgYmUgcHV0IGluIEFUUiBkcml2ZXIsIGJ1dCBpbiBteSBvcGluaW9uIGl0J3MgYmV0
+dGVyIHRvIHBhcnNlIHRoZSANCm92ZXJhbGwgRFQgaW4gTUZEIGFuZCBwdXQgaXQgaW4gdGhlIE1G
+RCBkcml2ZXItZGF0YSBzbyBhbGwgc3ViLWRldmljZXMgDQpjYW4gZ2V0IHRoZSBwYXJzZWQgYml0
+cyBvZiBEVCBkYXRhIGZyb20gcGFyZW50IHcvbyBkdXBsaWNhdGluZyB0aGUgDQpwYXJzaW5nIGNv
+ZGUpLg0KDQpzdGF0aWMgc3RydWN0IG1mZF9jZWxsIGJ1MThybTg0X21mZF9jZWxsc1tdID0gew0K
+CXsgLm5hbWUgPSAiYnUxOHJtODQtaTJjIiwgfSwNCgl7IC5uYW1lID0gImJ1MThybTg0LXZpZGVv
+IiwgfSwNCgl7IC5uYW1lID0gImJ1MThybTg0LXBpbmN0cmwiLCB9LA0KfTsNCg0KLi4uDQoNCnN0
+YXRpYyBpbnQgbGlua19pbml0KHN0cnVjdCBkZXZpY2UgKmRldiwgc3RydWN0IHJlZ21hcCAqcmVn
+bWFwLA0KCQkgICAgc3RydWN0IGJ1MThybTg0X2NvcmVfZGF0YSAqZGF0YSwNCgkJICAgIHN0cnVj
+dCBidTE4cm04NF9zZXJfY29uZiAqc2VyLCBpbnQgc2VyX2lkKQ0Kew0KCS4uLg0KfQ0KDQpzdGF0
+aWMgaW50IHByZXBhcmVfaHdfZm9yX3N1YmRldnMoc3RydWN0IGRldmljZSAqZGV2LCBzdHJ1Y3Qg
+cmVnbWFwICpyZWdtYXAsDQoJCQkJICBzdHJ1Y3QgYnUxOHJtODRfY29yZV9kYXRhICpkYXRhKQ0K
+ew0KCWludCByZXQsIGk7DQoNCglyZXQgPSBidTE4cm04NF9jb21tb25faW5pdF9wcmUoZGV2LCBy
+ZWdtYXAsIGRhdGEpOw0KCWlmIChyZXQpDQoJCXJldHVybiByZXQ7DQoNCglmb3IgKGkgPSAwOyBp
+IDwgQlUxOFJNODRfTUFYX05VTV9TRVJfTk9ERVM7IGkrKykgew0KCQlpZiAoZGF0YS0+c2VyW2ld
+LnNlcl9lcCkgew0KCQkJLyoNCgkJCSAqIFdlIGluaXRpYWxpemUgbGluayBiZXR3ZWVuIERFUyA9
+PiBTRVJzaW4gTUZEIHNvDQoJCQkgKiB0aGUgc3ViLWRldmljZXMgaGF2ZSB3b3JraW5nIGxpbmsg
+dG8gU0VSIGRldmljZXMuDQoJCQkgKi8NCgkJCXJldCA9IGxpbmtfaW5pdChkZXYsIHJlZ21hcCwg
+ZGF0YSwgJmRhdGEtPnNlcltpXSwgaSk7DQoJCQlpZiAocmV0KQ0KCQkJCXJldHVybiByZXQ7DQoJ
+CX0NCgl9DQoNCgkuLi4NCg0KCXJldHVybiByZXQ7DQp9DQoNCnN0YXRpYyBpbnQgY29ubmVjdGVk
+X2RldmljZXMoc3RydWN0IGRldmljZSAqZGV2LCBzdHJ1Y3QgDQpidTE4cm04NF9jb3JlX2RhdGEg
+KmRhdGEpDQp7DQoJaW50IGk7DQoNCglmb3IgKGkgPSAwOyBpIDwgQlUxOFJNODRfTUFYX05VTV9T
+RVJfTk9ERVM7IGkrKykgew0KCQkvKg0KCQkgKiBUT0RPOiBTZWUgd2hlcmUvd2hlbi9pZiB3ZSBz
+aG91bGQgZHJvcCB0aGUgcmVmZXJlbmNlIHRvDQoJCSAqIHRoZSBub2RlDQoJCSAqLw0KCQlkYXRh
+LT5zZXJbaV0uc2VyX2VwID0gZndub2RlX2dyYXBoX2dldF9lbmRwb2ludF9ieV9pZChkYXRhLT5m
+dywgaSwNCgkJCQkJCQkJICAwLCAwKTsNCgkJaWYgKGRhdGEtPnNlcltpXS5zZXJfZXApIHsNCgkJ
+CWRldl9kYmcoZGV2LCAiRm91bmQgbm9kZSBmb3IgU0VSICVkXG4iLCBpKTsNCgkJCWRhdGEtPm51
+bV9zZXIrKzsNCgkJfQ0KCX0NCg0KDQoJZm9yICg7IGkgPCBCVTE4Uk04NF9NQVhfTlVNX1NFUl9O
+T0RFUyArIEJVMThSTTg0X01BWF9OVU1fQ1NJX05PREVTOyBpKyspIHsNCgkJaW50IGNzaSA9IGkg
+LSBCVTE4Uk04NF9NQVhfTlVNX1NFUl9OT0RFUzsNCg0KCQlkYXRhLT5jc2lfZXBbY3NpXSA9IGZ3
+bm9kZV9ncmFwaF9nZXRfZW5kcG9pbnRfYnlfaWQoZGF0YS0+ZncsIGksDQoJCQkJCQkJCSAgICAw
+LCAwKTsNCgkJaWYgKGRhdGEtPmNzaV9lcFtjc2ldKQ0KCQkJZGF0YS0+bnVtX2NzaSsrOw0KCX0N
+CglkZXZfZGJnKGRldiwgImZvdW5kICVkIHNlciwgJWQgY3NpXG4iLCBkYXRhLT5udW1fc2VyLCBk
+YXRhLT5udW1fY3NpKTsNCg0KCXJldHVybiAoIWRhdGEtPm51bV9zZXIpID8gLUVOT0RFViA6IDA7
+DQp9DQoNCnN0YXRpYyBpbnQgYnUxOHJtODRfaTJjX3Byb2JlKHN0cnVjdCBpMmNfY2xpZW50ICpp
+MmMpDQp7DQoJZGF0YSA9IGRldm1fa3phbGxvYygmaTJjLT5kZXYsIHNpemVvZigqZGF0YSksIEdG
+UF9LRVJORUwpOw0KCXJlZ21hcCA9IGRldm1fcmVnbWFwX2luaXRfaTJjKGkyYywgJmJ1MThybTg0
+X3JlZ21hcCk7DQoNCglyZXQgPSBjb25uZWN0ZWRfZGV2aWNlcygmaTJjLT5kZXYsIGRhdGEpOw0K
+DQoJLyoNCgkgKiBXZSBuZWVkIHRvIHNldC11cCB0aGUgbGluayBiZXR3ZWVuIERFUyBhbmQgU0VS
+KHMpIGJlZm9yZQ0KCSAqIHRoZSBJMkMgdG8gU0VSKHMpIGlzIG9wZXJhdGlvbmFsLiBTdWItZGV2
+aWNlcyBsaWtlIHRoZSBTRVIgR1BJTywgcGlubXV4DQoJICogb3IgbWVkaWEgZG8gbmVlZCB0aGlz
+IEkyQyBzbyB3ZSdkIGJldHRlciB0byBwcmVwYXJlIHRoaW5ncyB1cC10by10aGUNCgkgKiBwb2lu
+dCB3aGVyZSBJMkMgd29ya3MgcHJpb3IgcmVnaXN0ZXJpbmcgdGhlIHN1YmRldiBjZWxscy4NCgkg
+Kg0KCSAqIFVuZm9ydHVuYXRlbHksIHRoaXMgbWVhbnMgdGhlIE1GRCBuZWVkcyB0byBnbyBhbmQg
+cmVhZCAmIHVuZGVyc3RhbmQNCgkgKiB0aGUgRFQgZm9yIFNFUiB0b3BvbG9neSAtIGFuZCBkbyBz
+b21lIG1hZ2ljIHNldHRpbmdzIHRvIGdldCB0aGluZ3MNCgkgKiB1cCAmIHJ1bm5pbmcuDQoJICov
+DQoJcmV0ID0gcHJlcGFyZV9od19mb3Jfc3ViZGV2cygmaTJjLT5kZXYsIHJlZ21hcCwgZGF0YSk7
+DQoNCglyZXQgPSBkZXZtX3JlZ21hcF9hZGRfaXJxX2NoaXAoJmkyYy0+ZGV2LCByZWdtYXAsIGky
+Yy0+aXJxLA0KCQkJCSAgICAgICBJUlFGX1NIQVJFRCwgMCwgJmJ1MThybTg0X2lycV9jaGlwLA0K
+CQkJCSAgICAgICAmaXJxX2RhdGEpOw0KDQoJcmV0ID0gZGV2bV9tZmRfYWRkX2RldmljZXMoJmky
+Yy0+ZGV2LCBQTEFURk9STV9ERVZJRF9BVVRPLA0KCQkJCSAgIGJ1MThybTg0X21mZF9jZWxscywN
+CgkJCQkgICBBUlJBWV9TSVpFKGJ1MThybTg0X21mZF9jZWxscyksDQoJCQkJICAgTlVMTCwgMCwg
+cmVnbWFwX2lycV9nZXRfZG9tYWluKGlycV9kYXRhKSk7DQoNCn0NCg0KPT09PT09PT09PT09PT09
+DQoNCkRFUyBBVFIgcGxhdGZvcm0gZHJpdmVyOiBLaWNrZWQgYnkgREVTIE1GRC4gVXNlcyBJMkMt
+YXRyIHRvIGNvbmZpZ3VyZSANCmFkZHJlc3MgdHJhbnNsYXRpb24uIENyZWF0ZXMgU0VSIGRldmlj
+ZXMgYW5kIGNyZWF0ZXMgdGhlIEkyQyBhZGFwdGVyIGZvciANCnRoZSByZW1vdGUgU0VSIGJ1c2Vz
+LiBUaGlzIGluLXR1cm4gbGF1bmNoZXMgU0VSIE1GRCBkcml2ZXIgKyByZW1vdGUgSTJDIA0Kc2xh
+dmUgZGV2aWNlcy4gQW5kIHllcy4gSSB0aGluayB0aGUgcmVtb3RlIEkyQyBzbGF2ZSBkZXZpY2Vz
+IG11c3Qgbm90IGJlIA0KY3JlYXRlZCBiZWZvcmUgU0VSIHNpZGUgbGluayBjb25maWd1cmF0aW9u
+cyBhcmUgZG9uZSBieSBTRVIgTUZEIGRyaXZlci4gDQpUaGFua3MgVG9taSAtIEkgZ3Vlc3MgSSd2
+ZSBiZWVuIGx1Y2t5IHRoaXMgZmFyIChvciB0aGVyZSBpcyBzb21ldGhpbmcgSSANCmRpZG4ndCBz
+cG90IHF1aXRlIHlldCA7XSApDQoNCnN0YXRpYyBpbnQgYnUxOHJtODRfYXRyX2F0dGFjaF9jbGll
+bnQoc3RydWN0IGkyY19hdHIgKmF0ciwgdTMyIGNoYW5faWQsDQoJCQkJICAgY29uc3Qgc3RydWN0
+IGkyY19ib2FyZF9pbmZvICppbmZvLA0KCQkJCSAgIGNvbnN0IHN0cnVjdCBpMmNfY2xpZW50ICpj
+bGllbnQsDQoJCQkJICAgdTE2ICphbGlhc19pZCkNCnsNCgkvKiBDb25maWd1cmUgdGhlIEFUUiBm
+b3Igc2xhdmUgdG8gREVTIHJlZ2lzdGVycyAqLw0KfQ0KDQpzdGF0aWMgdm9pZCBidTE4cm04NF9h
+dHJfZGV0YWNoX2NsaWVudChzdHJ1Y3QgaTJjX2F0ciAqYXRyLCB1MzIgY2hhbl9pZCwNCgkJCQkg
+ICAgY29uc3Qgc3RydWN0IGkyY19jbGllbnQgKmNsaWVudCkNCnsNCgkvKiBDbGVhciB0aGUgY29u
+ZmlndXJhdGlvbiBmb3IgdGhlIEFUUiBmb3Igc2xhdmUgYXQgREVTIHJlZ2lzdGVycyAqLw0KfQ0K
+DQpzdGF0aWMgY29uc3Qgc3RydWN0IGkyY19hdHJfb3BzIGJ1MThybTg0X2F0cl9vcHMgPSB7DQoJ
+LmF0dGFjaF9jbGllbnQgPSBidTE4cm04NF9hdHJfYXR0YWNoX2NsaWVudCwNCgkuZGV0YWNoX2Ns
+aWVudCA9IGJ1MThybTg0X2F0cl9kZXRhY2hfY2xpZW50LA0KfTsNCg0Kc3RhdGljIGludCBidTE4
+cm04NF9wb3B1bGF0ZV9zZXIoc3RydWN0IGJ1MThybTg0X2kyY19hdHIgKmRhdGEsIHUzMiAqYWRk
+cnMsDQoJCQkJIGludCBudW1fYWRkcnMsIHN0cnVjdCBmd25vZGVfaGFuZGxlICpkZXNfbm9kZSwN
+CgkJCQkgaW50IHNlcl9pZCkNCnsNCgkvKg0KCSAqIENvbmZpZ3VyZSB0aGUgSTJDIGFsaWFzIGZv
+ciBTRVIgZGV2aWNlcyBpbiBERVMgcmVnaXN0ZXJzIGJhc2VkIG9uDQoJICogcmVnLW5hbWVzIGlu
+IHRoZSBEVA0KCSAqLw0KCWlkeCA9IGZ3bm9kZV9wcm9wZXJ0eV9tYXRjaF9zdHJpbmcoZGVzX25v
+ZGUsICJyZWctbmFtZXMiLA0KCQkJCQkgICBzZXJfbmFtZXNbc2VyX2lkXSk7DQoJLi4uDQp9DQoN
+CnN0YXRpYyBpbnQgc2V0dXBfc2VyX2kyYyhzdHJ1Y3QgYnUxOHJtODRfaTJjX2F0ciAqZGF0YSwg
+aW50IHNlcl9pZCwNCgkJCSBzdHJ1Y3QgZndub2RlX2hhbmRsZSAqc2VyX2VwKQ0Kew0KCWludCBy
+ZXQ7DQoJY29uc3QgY2hhciAqbmFtZTsNCglzdHJ1Y3QgaTJjX2NsaWVudCAqKm5ldyA9ICZkYXRh
+LT5zZXJfY2xpZW50W3Nlcl9pZF07DQoJc3RydWN0IGkyY19ib2FyZF9pbmZvIHNlcl9pbmZvID0g
+eyAwIH07DQoNCglzZXJfaW5mby5md25vZGUgPSBmd25vZGVfZ2V0X25hbWVkX2NoaWxkX25vZGUo
+c2VyX2VwLCAicmVtb3RlLWNoaXAiKTsNCgluYW1lID0gZndub2RlX2dldF9uYW1lKHNlcl9pbmZv
+LmZ3bm9kZSk7DQoNCglzZXJfaW5mby5hZGRyID0gZGF0YS0+c2VyX2FsaWFzW3Nlcl9pZF07DQoJ
+Km5ldyA9IGkyY19uZXdfY2xpZW50X2RldmljZShkYXRhLT5wYXJlbnRfaTJjLT5hZGFwdGVyLCAm
+c2VyX2luZm8pOw0KDQoJLyogQWRkIGFkYXB0ZXIgdG8gY29ycmVjdGx5IGVuYWJsZSBpMmMgdG8g
+ZGV2aWNlcyBiZWhpbmQgU0VSICovDQoJLyogV2UgbmVlZCB0byBoYXZlIEFUUiBkb25lIGJlZm9y
+ZSB0aGlzICovDQoJcmV0ID0gaTJjX2F0cl9hZGRfYWRhcHRlcihkYXRhLT5hdHIsIHNlcl9pZCk7
+DQoJLi4uDQoNCglyZXR1cm4gcmV0Ow0KfQ0KDQpzdGF0aWMgaW50IGJ1MThybTg0X3NldHVwX3Nl
+cl9pMmNzKGNvbnN0IHN0cnVjdCBidTE4cm04NF9jb3JlX2RhdGEgKmNvcmUsDQoJCQkJICAgc3Ry
+dWN0IGJ1MThybTg0X2kyY19hdHIgKmRhdGEpDQp7DQoJZm9yIChpID0gMDsgaSA8IEJVMThSTTg0
+X01BWF9OVU1fU0VSX05PREVTOyBpKyspIHsNCgkJaWYgKGNvcmUtPnNlcltpXS5zZXJfZXApIHsN
+CgkJCXJldCA9IHNldHVwX3Nlcl9pMmMoZGF0YSwgaSwgY29yZS0+c2VyW2ldLnNlcl9lcCk7DQoJ
+CQkuLi4NCgkJfQ0KCX0NCn0NCg0Kc3RhdGljIGludCBidTE4cm04NF9hdHJfcHJvYmUoc3RydWN0
+IHBsYXRmb3JtX2RldmljZSAqcGRldikNCnsNCglwYXJlbnQgPSBkZXYtPnBhcmVudDsNCgljb3Jl
+ID0gZGV2X2dldF9kcnZkYXRhKHBhcmVudCk7DQoNCglkYXRhID0gZGV2bV9remFsbG9jKGRldiwg
+c2l6ZW9mKCpkYXRhKSwgR0ZQX0tFUk5FTCk7DQoNCglkYXRhLT5wYXJlbnRfaTJjID0gdG9faTJj
+X2NsaWVudChwYXJlbnQpOw0KDQoJZGF0YS0+cmVnbWFwID0gZGV2X2dldF9yZWdtYXAocGFyZW50
+LCBOVUxMKTsNCg0KCWRldl9zZXRfZHJ2ZGF0YSgmcGRldi0+ZGV2LCBkYXRhKTsNCg0KCS8qIEdv
+IHJlYWQgdGhlIEkyQyBhZGRyZXNzZXMgZnJvbSBEVCAqLw0KCXJldCA9IGJ1MThybTg0X2kyY19w
+YXJzZV9kdChkYXRhLCBjb3JlKTsNCg0KCS8qDQoJICogQ3JlYXRlIGRldmljZSBmb3IgU0VSLiBX
+ZSB3b24ndCBhZGQgU0VSIHRvIEFUUiBpbiBvcmRlciB0byBhdm9pZA0KCSAqIG1lc3Npbmcgd2l0
+aCB0aGUgU0VSIHNwZWNpZmljIGFsaWFzZXMgaW4gQVRSLg0KCSAqDQoJICogQWxzbywgYWRkIGFk
+YXB0ZXIuDQoJICovDQoJZm9yIChpID0gMDsgaSA8IEJVMThSTTg0X01BWF9OVU1fU0VSX05PREVT
+OyBpKyspIHsNCgkJaWYgKGNvcmUtPnNlcltpXS5zZXJfZXApIHsNCgkJCXJldCA9IGJ1MThybTg0
+X3BvcHVsYXRlX3NlcihkYXRhLCAmYWRkcnNbMF0sIG51bV9hZGRycywNCgkJCQkJCSAgICBjb3Jl
+LT5mdywgaSk7DQoJCX0NCgl9DQoNCglkYXRhLT5hdHIgPSBpMmNfYXRyX25ldyhkYXRhLT5wYXJl
+bnRfaTJjLT5hZGFwdGVyLCBwYXJlbnQsDQoJCQkJJmJ1MThybTg0X2F0cl9vcHMsIDQpOw0KDQoJ
+aTJjX2F0cl9zZXRfY2xpZW50ZGF0YShkYXRhLT5hdHIsIGRhdGEpOw0KDQoJcmV0dXJuIGJ1MThy
+bTg0X3NldHVwX3Nlcl9pMmNzKGNvcmUsIGRhdGEpOw0KDQo9PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PQ0KDQpTZXIgTUZEIChpMmMpZHJpdmVyLiBLaWNrZWQgYnkgREVTIEFUUiBwbGF0Zm9y
+bSBkZXZpY2Ugd2hlbiBjcmVhdGluZyB0aGUgDQpJMkMgZGV2aWNlcyB3aXRoIHRoZSBTRVIgTUZE
+IGZ3bm9kZS4gRmluYWxpemVzIHRoZSBTRVIgPD0+IERFUyBJMkMgDQpjb25uZWN0aW9uIGFuZCBr
+aWNrcyB1cCB0aGUgU0VSIHNsYXZlIGRldmljZXMgZm9yIERFUyBwaW5jdHJsIC8gVjRMMiBvciAN
+Cm90aGVycy4NCg0KDQpzdGF0aWMgc3RydWN0IG1mZF9jZWxsIGJ1MTh0bTQxX21mZF9jZWxsc1td
+ID0gew0KCXsgLm5hbWUgPSAiYnUxOHRtNDEtdmlkZW8iLCB9LAkvKiBWaWRlbyBmb3J3YXJkaW5n
+ICovDQoJeyAubmFtZSA9ICJidTE4dG00MS1waW5jdHJsIiwgfSwgLyogcGlubXV4LCBwaW5jb25m
+IGFuZCBncGlvICovDQp9Ow0KDQpzdGF0aWMgaW50IGJ1MTh0bTQxX2NvbmZfc2VyKHN0cnVjdCBk
+ZXZpY2UgKmRldiwgc3RydWN0IHJlZ21hcCAqcmVnbWFwLA0KCQkJICAgICBzdHJ1Y3QgYnUxOHRt
+NDFfY29yZSAqY29yZSkNCnsNCglmdyA9IGRldl9md25vZGUoZGV2KTsNCg0KCXJldCA9IGZ3bm9k
+ZV9wcm9wZXJ0eV9yZWFkX3U2NChmdywgImNvbXB1bHNvcnkgc3R1ZmYgdG8gZ2V0IGxpbmsgdXAi
+LA0KCQkJCSAgICAgICAmZm9vKTsNCg0KCXJldCA9IGJ1MTh0bTQxX2VuYWJsZV9saW5rKCAuLi4g
+KTsNCg0KCS4uLg0KDQoJcmV0dXJuIDA7DQp9DQoNCnN0YXRpYyBpbnQgYnUxOHRtNDFfaTJjX3By
+b2JlKHN0cnVjdCBpMmNfY2xpZW50ICppMmMpDQp7DQoJcmVnbWFwID0gZGV2bV9yZWdtYXBfaW5p
+dF9pMmMoaTJjLCAmYnUxOHRtNDFfcmVnbWFwKTsNCgljb3JlID0gZGV2bV9remFsbG9jKCZpMmMt
+PmRldiwgc2l6ZW9mKCpjb3JlKSwgR0ZQX0tFUk5FTCk7DQoJZGV2X3NldF9kcnZkYXRhKCZpMmMt
+PmRldiwgY29yZSk7DQoNCgkvKg0KICAJICogRG8gdGhlIG1pbmltdW0gcmVxdWlyZWQgbGluayBj
+b25maWcgb24gU0VSIGNvbmZpZyB0byBnZXQgSTJDDQogIAkgKiBiZXR3ZWVuIERFUyA8PT4gU0VS
+IHVwDQoJICoNCgkgKiBVbmZvcnR1bmF0ZWx5LCB0aGlzIG1lYW5zIHRoZSBNRkQgbmVlZHMgdG8g
+ZG8gc29tZSBtYWdpYyBzZXR0aW5ncw0KCSAqIHRvIGdldCB0aGluZ3MgdXAgJiBydW5uaW5nLg0K
+CSAqLw0KCXJldCA9IGJ1MTh0bTQxX2NvbmZfc2VyKCZpMmMtPmRldiwgcmVnbWFwLCBjb3JlKTsN
+Cg0KCXJldCA9IGRldm1fbWZkX2FkZF9kZXZpY2VzKCZpMmMtPmRldiwgUExBVEZPUk1fREVWSURf
+QVVUTywNCgkJCQkgICBidTE4dG00MV9tZmRfY2VsbHMsDQoJCQkJICAgQVJSQVlfU0laRShidTE4
+dG00MV9tZmRfY2VsbHMpLA0KCQkJCSAgIE5VTEwsIDAsIC8qcmVnbWFwX2lycV9nZXRfZG9tYWlu
+KGlycV9kYXRhKSAqLyBOVUxMKTsNCg0KCXJldHVybiByZXQ7DQp9DQoNCj09PT09PT09PT09PT09
+PT09PT09PT09PT09PQ0KDQpEZXMgbWVkaWEgcGxhdGZvcm0gZHJpdmVyLiBWNEwyL21lZGlhIHN0
+dWZmLg0KDQouLi4NCg0Kc3RhdGljIGludCBidTE4cm04NF9tZWRpYV9wcm9iZShzdHJ1Y3QgcGxh
+dGZvcm1fZGV2aWNlICpwZGV2KQ0Kew0KDQoJY29yZSA9IGRldl9nZXRfZHJ2ZGF0YShkZXYtPnBh
+cmVudCk7DQoNCglkYXRhID0gZGV2bV9remFsbG9jKGRldiwgc2l6ZW9mKCpkYXRhKSwgR0ZQX0tF
+Uk5FTCk7DQoNCglkYXRhLT5kZXYgPSBkZXY7DQoJZGF0YS0+cGFyZW50X2kyYyA9IHRvX2kyY19j
+bGllbnQoZGV2LT5wYXJlbnQpOw0KCWRhdGEtPnJlZ21hcCA9IGRldl9nZXRfcmVnbWFwKGRldi0+
+cGFyZW50LCBOVUxMKTsNCg0KCXBsYXRmb3JtX3NldF9kcnZkYXRhKHBkZXYsIGRhdGEpOw0KDQoN
+CglyZXQgPSBidTE4cm04NF9wYXJzZV9jc2lfZHQoY29yZSwgZGF0YSk7DQoNCglyZXQgPSBidTE4
+cm04NF9jb25maWdfY3NpMihkYXRhKTsNCg0KCXJldCA9IGJ1MThybTg0X2FkZF9zZXJfZGF0YShj
+b3JlLCBkYXRhKTsNCg0KCS4uLg0KDQoJLyogQ3JlYXRlIHRoZSBWNEwyIHN1YmRldmljZXMgKi8N
+CglyZXQgPSBidTE4cm04NF9jcmVhdGVfc3ViZGV2KGNvcmUsIGRhdGEpOw0KCWlmIChyZXQpDQoJ
+CWdvdG8gZXJyX3N1YmRldjsNCg0KCS4uLg0KfQ0KDQpTRVIgdmlkZW8sIERlcy9TZXIgcGluY3Ry
+bC9HUElPIHBsYXRmb3JtIGRyaXZlcnM6DQouLi4NCiAgKExpa2UgdXN1YWwpDQoNCg0KSSB0aGlu
+ayBpdCB3YXMgVG9taSB3aG8gYXNrZWQgbWUgdGhlIGJlbmVmaXQgb2YgdXNpbmcgTUZELiBJbiBz
+b21lIGNhc2VzIA0KdGhlIGRpZ2l0YWwgaW50ZXJmYWNlIHRvd2FyZHMgcGluY3RybC9HUElPIG9y
+IG90aGVyIGZ1bmN0aW9uYWwgYmxvY2tzIGluIA0KU0VSL0RFUyBpcyByZS11c2VkIGZyb20gb3Ro
+ZXIgcHJvZHVjdHMgLSBvciB0aGUgYmxvY2tzIGFyZSByZS11c2VkIG9uIA0Kb3RoZXIgcHJvZHVj
+dHMuIFNlcGFyYXRpbmcgdGhlbSBpbiBvd24gcGxhdGZvcm0tZHJpdmVycyBpcyBhIG5pY2Ugd2F5
+IHRvIA0KcmUtdXNlIGRyaXZlcnMgYW5kIGF2b2lkIGNvZGUgZHVwbGljYXRpb24uDQoNCldoZXRo
+ZXIgaXQgaXMgd29ydGggb3IgY29ycmVjdCBjYW4gYmUgZXZhbHVhdGVkIGJ5IGJyaWdodGVyIG1p
+bmRzIDopIEFzIA0KSSBzYWlkLCBJIGFtIGluIGEgbm8gd2F5IGRlbWFuZGluZyBhIGNoYW5nZSBp
+ZiB5b3Ugc2VlIHRoZSBjdXJyZW50IA0KcHJvcG9zYWwgYmVpbmcgYmV0dGVyISBJIGFtIGp1c3Qg
+cHJlc2VudGluZyBhbiBvcHRpb25hbCB3YXkgdG8gZmVlZCB5b3VyIA0KdGhvdWdodHMgOykNCg0K
+UHMuIFNvcnJ5IGZvciBfdmVyeV8gc3RyaXBwZWQgZG93biBjb2RlIGluIHRoaXMgZXhwbGFuYXRp
+b24uIEkgYW0gDQpjdXJyZW50bHkgbm90IGFsbG93ZWQgdG8gcHVibGlzaCBhbnkgZGV0YWlscyBv
+ZiB0aGUgSUNzIHRoZXNlIGRyaXZlcnMgDQphcmUgd3JpdHRlbiBmb3IuDQoNCllvdXJzDQoJLS0g
+TWF0dGkNCg0KLS0gDQpNYXR0aSBWYWl0dGluZW4NCkxpbnV4IGtlcm5lbCBkZXZlbG9wZXIgYXQg
+Uk9ITSBTZW1pY29uZHVjdG9ycw0KT3VsdSBGaW5sYW5kDQoNCn5+IFdoZW4gdGhpbmdzIGdvIHV0
+dGVybHkgd3JvbmcgdmltIHVzZXJzIGNhbiBhbHdheXMgdHlwZSA6aGVscCEgfn4NCg0K
