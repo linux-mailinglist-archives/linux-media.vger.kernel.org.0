@@ -2,91 +2,167 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DF89561F43A
-	for <lists+linux-media@lfdr.de>; Mon,  7 Nov 2022 14:23:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1DB2261F505
+	for <lists+linux-media@lfdr.de>; Mon,  7 Nov 2022 15:13:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231367AbiKGNXh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 7 Nov 2022 08:23:37 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57594 "EHLO
+        id S231965AbiKGONI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 7 Nov 2022 09:13:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54224 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231783AbiKGNXf (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Nov 2022 08:23:35 -0500
-Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com [91.207.212.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D16313D63
-        for <linux-media@vger.kernel.org>; Mon,  7 Nov 2022 05:23:34 -0800 (PST)
-Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
-        by mx07-00178001.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 2A79cxkP025006;
-        Mon, 7 Nov 2022 14:23:22 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding : content-type; s=selector1;
- bh=93HIVjJuD5r2Ugdo19gSCI1s/fkRiE2zwRO+snspk5M=;
- b=axe15Oqz+1Fvj+y19o6VF99ZOIUlYiF/UDylBYDVljC8WwKATVOhAhc32zJqhvgICAAO
- IiPLGhJXsIaN1Zmbl20QcF9JEA+GHwYf7HQHT41fCqgGPbcnizDCNFbtD4aafiJlFgzN
- hOlDQnX1SdJESeQzvuVmOkMZGeWNgofTH7he/0wkzbXo4bfmQL6aSz865nI5rbnnneEm
- sATleiGwDA3ZagikFLwRLssWPWEa7T9+elJql5QeVcmbrrwkVoF+F9HP54mxD2cKs6t6
- 3VDsuoLnmxwbikresXUqflwtJFfsrZvujIMRyjlVaoT//BnxOXq/WQUZ4mZq0DAVeVel Sw== 
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-        by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3kpyjq1gwg-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 07 Nov 2022 14:23:22 +0100
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id F2C9B100040;
-        Mon,  7 Nov 2022 14:23:17 +0100 (CET)
-Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
-        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id ED819222CBD;
-        Mon,  7 Nov 2022 14:23:17 +0100 (CET)
-Received: from localhost (10.129.167.233) by SHFDAG1NODE1.st.com
- (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.32; Mon, 7 Nov
- 2022 14:23:17 +0100
-From:   Benjamin Mugnier <benjamin.mugnier@foss.st.com>
-To:     <linux-media@vger.kernel.org>
-CC:     <sylvain.petinot@foss.st.com>, <mchehab@kernel.org>,
-        <sakari.ailus@iki.fi>, <laurent.pinchart@ideasonboard.com>,
-        Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
-        kernel test robot <lkp@intel.com>
-Subject: [PATCH 3/3] media: Documentation: st-vgxy61: Fix driver specific documentation not being included in the index
-Date:   Mon, 7 Nov 2022 14:19:45 +0100
-Message-ID: <20221107131945.40753-4-benjamin.mugnier@foss.st.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20221107131945.40753-1-benjamin.mugnier@foss.st.com>
-References: <20221107131945.40753-1-benjamin.mugnier@foss.st.com>
-MIME-Version: 1.0
+        with ESMTP id S229638AbiKGONH (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Nov 2022 09:13:07 -0500
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12on2086.outbound.protection.outlook.com [40.107.244.86])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB97F1CFD3;
+        Mon,  7 Nov 2022 06:13:05 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=F1S2qKBE/Ud15knIJZPEhAiEL4o8MI4IdH5wiE702oJm6VLk5oPM5EVufMr2vuHutxUwojvRSdyvE+4MrwNNdcv6iWGyExRjgYfg2qYd5nC0UKiAUM2YgHST+PXgjM7EF21AL70kLZfJMph3bFnr7I+nOCtxTBs7X1roXiW/6pOSy748MsUN3xFDEDO2CARdMZs184VVJFn6m9jsPf1focV80Uh0zIhXM8s++gsL9HRXMOeL479HyzXZLY4JbDISE80qm3KIFquxZIRXQN9fZC4wirK3MaLh3Zm/CEIQ5Ju5p6XTHEIzSpzhOyL+Q+LYnBdPHhiZFY+zoVkqOXoZ3Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Ql8iMkSU+8aDD1+DxdykrLn3lHixabxtbxK2cnvomIg=;
+ b=NrBL/b/nIwOZu+g/urCUeE4DwKO3iOz2+3ZjUKk9hDFIwlwCr0kc2ZOMaks2Xrp+N+5JqhkkC1Gr73aIq7JhiMVQirJHOUZSLZr2W3QLatKgXozv9e4+vrojtbO3VOvOuzuVSN9TInIzGaFTQL0t2e2fwA+T+DfMB3sIneP2mA2PmIG9Nx4kMnDYAKuQwMOTpYJ+T0K+Knts+YAVjjGFyOYrYIusCKSNzWhB9pyw2s5F1q5W7KZgXec9+xAApZSMfxjChucpIWKcONiN1oMpdEbOOCwxyrIhfPggUl1fQ2+u46KJ2PQ6gEI+tgKL0rANGO4gbzY/ZMIKsJPOIVAKtQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Ql8iMkSU+8aDD1+DxdykrLn3lHixabxtbxK2cnvomIg=;
+ b=VdupVe7WFojTLZxrMc2Sv6BIASMWDWZRQ8FEkQra3/uCs54R5kSlks1rXQNSO0iqztghagaeTUQO0gcSW7fQEI/QcbZMXrcihrE9tMz8Yf2m8tsJY/dzPIIUBc7TjHG8Q9ynsZi72SfqHZNKU3dpVvlj401L4iKzjL0m8kotZOs=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
+ by DM6PR12MB4531.namprd12.prod.outlook.com (2603:10b6:5:2a4::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5791.26; Mon, 7 Nov
+ 2022 14:13:03 +0000
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::7d43:3f30:4caf:7421]) by BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::7d43:3f30:4caf:7421%7]) with mapi id 15.20.5791.026; Mon, 7 Nov 2022
+ 14:13:03 +0000
+Message-ID: <c7b5a907-1e1f-46ba-ec1a-dd40c33dab37@amd.com>
+Date:   Mon, 7 Nov 2022 15:12:53 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Subject: Re: [PATCH v4a 30/38] timers: dma-buf: Use timer_shutdown_sync() for
+ on stack timers
+Content-Language: en-US
+To:     Steven Rostedt <rostedt@goodmis.org>, linux-kernel@vger.kernel.org
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Anna-Maria Gleixner <anna-maria@linutronix.de>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org
+References: <20221105060024.598488967@goodmis.org>
+ <20221105060200.357061890@goodmis.org>
+From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20221105060200.357061890@goodmis.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.129.167.233]
-X-ClientProxiedBy: EQNCAS1NODE3.st.com (10.75.129.80) To SHFDAG1NODE1.st.com
- (10.75.129.69)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-11-07_06,2022-11-07_01,2022-06-22_01
-X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+X-ClientProxiedBy: FR0P281CA0106.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:a8::7) To BN8PR12MB3587.namprd12.prod.outlook.com
+ (2603:10b6:408:43::13)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|DM6PR12MB4531:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0afc4d13-d90b-4e92-a6ed-08dac0ca2f3c
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: igPtnsWhTDGoPW0r+/sLsU+B8nGZilZVER3uNM8hKCWcW6F4zkD3EemdDTaGAoxKwUpBoOT9Xf0SSkGryOGlWCnnSwTzJ0Or4kdA9NQ5yAbLCdTx3l8kppeAL0ZowIT4meFc//BgdprlTTnOZS5vEOKZA/IAFvrIQBm/xhIJCuDLg//Adp+qHvvc1uyoVGIxcWwmupUDoUuQZrkhbQJyefn6dyZoDtdHe/LNlakwBE9YB49G5cfuT+Fr/+EHbVlp1cm3DGUAtXv+IuOYuQ07E1j4H0PoPVGvUkelbDd8jxVUg44FKs7Y16uQTXLAxiOCPaPWfTqjSGproIsQ6dLFmzc9yGayv79fQ33CJPL5q2URP7F8jaQLHAkTu6I6ydrDTQu1zlhOlLUOWtXb8NhzjuJHY8rTTlDZN3xD4bvhSvUArBqJYFHZkw/ZggiNq0knGt7wkoZ9V1/sT0tQdLKX7nDN/Ky6d4grztwg4n2TbezCT9B0B5uly3oydwAT2Lx2f/cMnVPnF417JBzsQGpe0Cp40WOJY/wYWWVSsZkV4gHbEX4+gcpa1TlwbRHJOzKVJLdw53cZQzuv+vMK/UrK6oQsrjyJ0YSrjnhwz4Bdq4weQVekvKPAvKASJDbe2HVK9yJbXZNJFBPOWGPrncEsCzDIUc6pAANyyNXQCv/YoJUKjIg8YGlZb14TyZo452FPGpXfvUEu3voXe1mbJTSgtpv8s0oLvJvgcyXg4pwO6ZXge7QCiicfSOD65M7NHedElDCQPuHLNrmEFFPPNR+AuuBqKt+9+koHuRrvBgQ3thfJM3yt4umM66tBAtIe6vLvrcNQOuV5rBsHiIrEg7zt7OTmJqOAT9VC25Ho+JoaHX8=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN8PR12MB3587.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(396003)(346002)(136003)(39860400002)(366004)(376002)(451199015)(36756003)(31686004)(86362001)(31696002)(2906002)(6506007)(7416002)(5660300002)(66574015)(6512007)(26005)(83380400001)(38100700002)(186003)(2616005)(8676002)(4326008)(66556008)(8936002)(41300700001)(66946007)(66476007)(316002)(478600001)(6486002)(45080400002)(54906003)(6666004)(966005)(42413004)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SnlVMkIyRUovbTdJd0JkY2Z0ZHp0OGlGa0Z1YmVsVC9tNFIreCtrOStYcXhp?=
+ =?utf-8?B?YnFsTlV1bFEyNmR3MHhTM1pRSkRac1NiMTdwTEtUZGpQRUZNWUZsVzFIQkZI?=
+ =?utf-8?B?OU1yTldiQkFTU2UzK3k1NllKVUVnaENzYXlCcXRFK2lQa29tT0g1OTUzb0hE?=
+ =?utf-8?B?cmU4clFiaE9RODhrMHVsaE5DZUlOazZyRVBDd3BRSjc2RERZMHRDZXZSeDhl?=
+ =?utf-8?B?WWFWbWVLNnFQVFVxdTRQV01vSTJGOEI4YkR6bU9HU3Z6ZWF5MFA5REJqYW5l?=
+ =?utf-8?B?SjZsVi9nelIzcHRjdWVDY2wzQXRzZGdkY25vMm9ralBEbWdCU3VUc3IvMjhP?=
+ =?utf-8?B?aWh0WVpGVkNmcnFSL3FJdVV6OFpEWmVYWmdqOHp2MWo1V01EVDQ0RWJXdUV6?=
+ =?utf-8?B?ZEpTZFpFT2ZyZmNUczJydGxyVEM1UW04cG04OTVwRnVUN24yalY0K3RTMTBN?=
+ =?utf-8?B?S1ROTVpKMEwyTXF4ZFBJSzZGelNxOTFBazd4OFgyayt5N043NnIvVU1NUXJp?=
+ =?utf-8?B?NXphTzBCQUw1VytQc1JPUWNnQ09GWmpCWk9iQkU4dklvQXRDZ3Vram1zTVkr?=
+ =?utf-8?B?THNKbEROckpWMURxcmFtOHJKYUNSL3VQVDFHREEyV2Nib0RNU3E3TW5PczRy?=
+ =?utf-8?B?RVp3QWUwU1k5YjNxeEpHWncvMlFvSFBwK2ZGb2R1NmxJUFJxNUJPWW5RSEpW?=
+ =?utf-8?B?ekd4RnJDZ21uRVJBbHV2dUxmWWJHdGJMUlBLaVE4ZzJFMGFzTHN4UmNHMUw0?=
+ =?utf-8?B?Z0tPYXNTTmZwdjRXK3pLZXpGNU1Oak1EeWl2NklxOGh2NXFFQWd1OUxQV1Nu?=
+ =?utf-8?B?NE9XRlQ2b2tWYUw1N0RlREdKTTQ0bDh3Vk9mTmVXNm5JOElTM2tRSVA4NUdC?=
+ =?utf-8?B?bENpNTd1R2lWY0N2TDNvNU9wdFhyZWEwTjd3b05kRTVPcjNqQmY0RUVBUThJ?=
+ =?utf-8?B?Y0t2anlYZS9CRGtJa0QvRjRyOUVSQ1BraXVvM044Zm9vbmRoYjNxZUkxZmVj?=
+ =?utf-8?B?cGM1b2NBODg2WkxudlI4cGt1N25mbjM4d212ZmphMCsvNDhXWk9pb3JnbU5s?=
+ =?utf-8?B?SHkvSllGbGdTOStvN3VNTjFvZkdhVWVtQTRPNWt4c1U5NkNxaGlnb2ZIc0No?=
+ =?utf-8?B?ekNxRkNPOElwUm1FYlhYR0d6SDVBa0hrWno5SnpkOHdETDF3ZWRqZHJGRWdF?=
+ =?utf-8?B?dTlmSkp5M1Nyb0M4SEtPWE5kbEtyVHZZc3A3VUdPN0xLMkt2cnFYclk5eDQx?=
+ =?utf-8?B?TGlKdzdFNFg1WnllNEp1SVJWekpQZmVQcWFITThQbElTM3dRQ0Z2SGtPN2ZC?=
+ =?utf-8?B?NXVSMTQxcUM0bkY5OEpBRHNRVGU5NjBveGNORFBqKzhGL0Z3UzVkWGczN0Vj?=
+ =?utf-8?B?THA3WUsyRzBVWUswTHBXRDF0ME9KWTgxTjZLcFMvMHZKTjR2OHl1N1lEQUpX?=
+ =?utf-8?B?NE00N3ZoUm93OHZPNE1YaVN4MmFCa1ljYjYwWmJ2U3l1cDlycmw3OFFFWGpO?=
+ =?utf-8?B?QjF5c29QNXdGVk9QdVYvYzJoWUd1UDYvazNsVDdPdWF1MldjdzQrUTc5WkJI?=
+ =?utf-8?B?VzdFMGpZd2Z5bXlGcU9jMHpaUTBCN0NNdzJWaEJZR1ZMQUtXUTBWRFZYR2pj?=
+ =?utf-8?B?TnNob0NQdGV3Um1IK2R3Z1NINk5KeWFUaE5iZTJrZjJrcjJ2dW12djFmWUNS?=
+ =?utf-8?B?ZGxZZ1lCR3pIbksvYk9YUXkwZkRIL2VyTnNFTkFMTFVWaDRyMjEwZDFLbVRG?=
+ =?utf-8?B?eThXU1ZRZzVSaElOTVViQ3dxc3E3SFZONlA3cU1sNFovcU8vRVZaK0xBWDRK?=
+ =?utf-8?B?R1grSnlZdFVEbXZ4UUVWbitPRmk4cXJ6RXdEL2RLNStJTmpCelBiQUNNRE1I?=
+ =?utf-8?B?eEdiLzBFcHdUR21MMHV5T1FmSWhkRVZrdjFJTVcrU25NWG9NTE5nOFZaNGZZ?=
+ =?utf-8?B?d3lZc244RCs3NUs0SUZhcms4d3JNU1FqNzgrNkJDMllSb2taUVJBcXMvQmZh?=
+ =?utf-8?B?eHlOMk05Sm80TzlId2k0ZHZaMmgxYkpDNnR2akpQNkdRM1V1THlwOVhxNGV3?=
+ =?utf-8?B?KytLSHR5N09pbCtuVDRxSit4ZlU1aFVncnpndVN4UlJhSUV1SkVLV25wdEUr?=
+ =?utf-8?Q?e02Q=3D?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0afc4d13-d90b-4e92-a6ed-08dac0ca2f3c
+X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Nov 2022 14:13:03.7433
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 4gvJIo1JOyHcnEFohV9OttjXZMlQVuClPW6K0L3xPOgLt5xe9RlJBnWY9ybMQl3d
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4531
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Fixes: 2378be892b6f ("media: Documentation: Add ST VGXY61 driver documentation")
-Reported-by: kernel test robot <lkp@intel.com>
-Signed-off-by: Benjamin Mugnier <benjamin.mugnier@foss.st.com>
----
- Documentation/userspace-api/media/drivers/index.rst | 1 +
- 1 file changed, 1 insertion(+)
+Am 05.11.22 um 07:00 schrieb Steven Rostedt:
+> From: "Steven Rostedt (Google)" <rostedt@goodmis.org>
+>
+> Before a timer is released, timer_shutdown_sync() must be called.
+>
+> Link: https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Flore.kernel.org%2Fall%2F20221104054053.431922658%40goodmis.org%2F&amp;data=05%7C01%7Cchristian.koenig%40amd.com%7Cfdadde8d801e48fecafa08dabef330f4%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C638032248997820518%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;sdata=mEL3bFU7fZ7kSrz3vv96opdAyt7Ew4UeY2nNF%2BhDmfc%3D&amp;reserved=0
+>
+> Cc: Sumit Semwal <sumit.semwal@linaro.org>
+> Cc: "Christian König" <christian.koenig@amd.com>
+> Cc: linux-media@vger.kernel.org
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: linaro-mm-sig@lists.linaro.org
+> Signed-off-by: Steven Rostedt (Google) <rostedt@goodmis.org>
 
-diff --git a/Documentation/userspace-api/media/drivers/index.rst b/Documentation/userspace-api/media/drivers/index.rst
-index 32f82aed47d9..0f758c8d4523 100644
---- a/Documentation/userspace-api/media/drivers/index.rst
-+++ b/Documentation/userspace-api/media/drivers/index.rst
-@@ -38,4 +38,5 @@ For more details see the file COPYING in the source distribution of Linux.
- 	max2175
- 	meye-uapi
- 	omap3isp-uapi
-+	st-vgxy61
- 	uvcvideo
--- 
-2.25.1
+Reviewed-by: Christian König <christian.koenig@amd.com>
+
+> ---
+>   drivers/dma-buf/st-dma-fence.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/dma-buf/st-dma-fence.c b/drivers/dma-buf/st-dma-fence.c
+> index fb6e0a6ae2c9..5d3e7b503501 100644
+> --- a/drivers/dma-buf/st-dma-fence.c
+> +++ b/drivers/dma-buf/st-dma-fence.c
+> @@ -412,7 +412,7 @@ static int test_wait_timeout(void *arg)
+>   
+>   	err = 0;
+>   err_free:
+> -	del_timer_sync(&wt.timer);
+> +	timer_shutdown_sync(&wt.timer);
+>   	destroy_timer_on_stack(&wt.timer);
+>   	dma_fence_signal(wt.f);
+>   	dma_fence_put(wt.f);
 
