@@ -2,41 +2,41 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2091361F96C
-	for <lists+linux-media@lfdr.de>; Mon,  7 Nov 2022 17:21:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6B5D261F971
+	for <lists+linux-media@lfdr.de>; Mon,  7 Nov 2022 17:21:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232535AbiKGQVk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 7 Nov 2022 11:21:40 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43242 "EHLO
+        id S232930AbiKGQVm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 7 Nov 2022 11:21:42 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42362 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232774AbiKGQVB (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Nov 2022 11:21:01 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B6F9D110E
-        for <linux-media@vger.kernel.org>; Mon,  7 Nov 2022 08:19:45 -0800 (PST)
+        with ESMTP id S232707AbiKGQVG (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Nov 2022 11:21:06 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E63832181D
+        for <linux-media@vger.kernel.org>; Mon,  7 Nov 2022 08:19:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1667837985;
+        s=mimecast20190719; t=1667837990;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=y3EQBQS9ueNhIRYtlLuS9A1vlgsPqX0+ffQJOXP9CF0=;
-        b=g/OoBoKYtd6+K6xngfK035y9vbtGE65ah87iPy0e3fOE6UDzcUXrWaJq43QvqUrcw/xOe7
-        9vWzGai0TtnLXOODlzI3d+c0sQCLesQg0Mrsq0clFsMXeJeT6eqAsYt/1B0jeNNnWOwms4
-        ywmdRcsgmyJdfnpKeLk8PSCzCRc+URo=
+        bh=YOo62k08dZs6wGM2uXnfWLz8uRl6y4dnAZ5ycx0hqNo=;
+        b=cIDmyAojYCOxKJti+6ZzA/toXgJu1eDpHhpUGCnTl1T5EWSlwPrjbqYaWTmDYjzZpdmzQA
+        DrfY2jQ8+XuRevpmfYaEBveCKxLvi2an/epK0vxDbfN9LqZyX+lOUD30ptyrBzVtxbXdSR
+        CN8DnxPx4xNtK6Z2AEhapwcPPuAHH8U=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-182-zow3dLr8Oq6fkd6eMjvZxg-1; Mon, 07 Nov 2022 11:19:39 -0500
-X-MC-Unique: zow3dLr8Oq6fkd6eMjvZxg-1
+ us-mta-15-BxY65V9NN2KYMlrGWKu1xA-1; Mon, 07 Nov 2022 11:19:45 -0500
+X-MC-Unique: BxY65V9NN2KYMlrGWKu1xA-1
 Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com [10.11.54.9])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A468C185A79C;
-        Mon,  7 Nov 2022 16:19:37 +0000 (UTC)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9D109811E87;
+        Mon,  7 Nov 2022 16:19:43 +0000 (UTC)
 Received: from t480s.redhat.com (unknown [10.39.195.106])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 236834B3FC6;
-        Mon,  7 Nov 2022 16:19:32 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 100634B3FC6;
+        Mon,  7 Nov 2022 16:19:37 +0000 (UTC)
 From:   David Hildenbrand <david@redhat.com>
 To:     linux-kernel@vger.kernel.org
 Cc:     linux-mm@kvack.org, etnaviv@lists.freedesktop.org,
@@ -60,14 +60,12 @@ Cc:     linux-mm@kvack.org, etnaviv@lists.freedesktop.org,
         Lucas Stach <l.stach@pengutronix.de>,
         David Airlie <airlied@gmail.com>,
         Oded Gabbay <ogabbay@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>, Inki Dae <inki.dae@samsung.com>,
-        Seung-Woo Kim <sw0312.kim@samsung.com>,
-        Kyungmin Park <kyungmin.park@samsung.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH RFC 17/19] drm/exynos: remove FOLL_FORCE usage
-Date:   Mon,  7 Nov 2022 17:17:38 +0100
-Message-Id: <20221107161740.144456-18-david@redhat.com>
+        Arnd Bergmann <arnd@arndb.de>,
+        Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>,
+        Leon Romanovsky <leon@kernel.org>
+Subject: [PATCH RFC 18/19] RDMA/hw/qib/qib_user_pages: remove FOLL_FORCE usage
+Date:   Mon,  7 Nov 2022 17:17:39 +0100
+Message-Id: <20221107161740.144456-19-david@redhat.com>
 In-Reply-To: <20221107161740.144456-1-david@redhat.com>
 References: <20221107161740.144456-1-david@redhat.com>
 MIME-Version: 1.0
@@ -90,30 +88,27 @@ pages are writable.
 FOLL_FORCE in this case seems to be a legacy leftover. Let's just remove
 it.
 
-Cc: Inki Dae <inki.dae@samsung.com>
-Cc: Seung-Woo Kim <sw0312.kim@samsung.com>
-Cc: Kyungmin Park <kyungmin.park@samsung.com>
-Cc: David Airlie <airlied@gmail.com>
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>
+Cc: Jason Gunthorpe <jgg@ziepe.ca>
+Cc: Leon Romanovsky <leon@kernel.org>
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- drivers/gpu/drm/exynos/exynos_drm_g2d.c | 2 +-
+ drivers/infiniband/hw/qib/qib_user_pages.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/exynos/exynos_drm_g2d.c b/drivers/gpu/drm/exynos/exynos_drm_g2d.c
-index 471fd6c8135f..e19c2ceb3759 100644
---- a/drivers/gpu/drm/exynos/exynos_drm_g2d.c
-+++ b/drivers/gpu/drm/exynos/exynos_drm_g2d.c
-@@ -477,7 +477,7 @@ static dma_addr_t *g2d_userptr_get_dma_addr(struct g2d_data *g2d,
- 	}
- 
- 	ret = pin_user_pages_fast(start, npages,
--				  FOLL_FORCE | FOLL_WRITE | FOLL_LONGTERM,
-+				  FOLL_WRITE | FOLL_LONGTERM,
- 				  g2d_userptr->pages);
- 	if (ret != npages) {
- 		DRM_DEV_ERROR(g2d->dev,
+diff --git a/drivers/infiniband/hw/qib/qib_user_pages.c b/drivers/infiniband/hw/qib/qib_user_pages.c
+index f4b5f05058e4..f693bc753b6b 100644
+--- a/drivers/infiniband/hw/qib/qib_user_pages.c
++++ b/drivers/infiniband/hw/qib/qib_user_pages.c
+@@ -110,7 +110,7 @@ int qib_get_user_pages(unsigned long start_page, size_t num_pages,
+ 	for (got = 0; got < num_pages; got += ret) {
+ 		ret = pin_user_pages(start_page + got * PAGE_SIZE,
+ 				     num_pages - got,
+-				     FOLL_LONGTERM | FOLL_WRITE | FOLL_FORCE,
++				     FOLL_LONGTERM | FOLL_WRITE,
+ 				     p + got, NULL);
+ 		if (ret < 0) {
+ 			mmap_read_unlock(current->mm);
 -- 
 2.38.1
 
