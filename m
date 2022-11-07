@@ -2,111 +2,168 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CFC3361FAAA
-	for <lists+linux-media@lfdr.de>; Mon,  7 Nov 2022 17:56:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0B96E61FB3D
+	for <lists+linux-media@lfdr.de>; Mon,  7 Nov 2022 18:26:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232847AbiKGQ4q (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 7 Nov 2022 11:56:46 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50306 "EHLO
+        id S232588AbiKGR0J (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 7 Nov 2022 12:26:09 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39548 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232829AbiKGQ4o (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Nov 2022 11:56:44 -0500
-Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com [IPv6:2a00:1450:4864:20::62a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6CE0220DD
-        for <linux-media@vger.kernel.org>; Mon,  7 Nov 2022 08:56:43 -0800 (PST)
-Received: by mail-ej1-x62a.google.com with SMTP id d26so31755646eje.10
-        for <linux-media@vger.kernel.org>; Mon, 07 Nov 2022 08:56:43 -0800 (PST)
+        with ESMTP id S231587AbiKGR0G (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Nov 2022 12:26:06 -0500
+Received: from mail-il1-x136.google.com (mail-il1-x136.google.com [IPv6:2607:f8b0:4864:20::136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8903112AF9
+        for <linux-media@vger.kernel.org>; Mon,  7 Nov 2022 09:26:02 -0800 (PST)
+Received: by mail-il1-x136.google.com with SMTP id z9so6191548ilu.10
+        for <linux-media@vger.kernel.org>; Mon, 07 Nov 2022 09:26:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=iyMhELtxZmy7LysjRxs5koPIPiBWXacQeXByz4XAWq8=;
-        b=SB/go7ORYqxZZfdBrbyfG2GmTEbMOWGqLEqoNc+0uv6nh8+5+mS4V9HIuuT8AmOZjz
-         x6Vm6fxOhVnjXIOZEW/ue9mKhxe1sdm5EbBux0/CaioMil4IxpsOJJHjSM5F1PSBv5iF
-         CoufIDf0RF0y52GBQt1USA8W9XhrTAedwNAvc=
+        d=ffwll.ch; s=google;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=k05Y4e+PrHzSfY5WD7UasfT68aLf+beRaOmVJAx50IE=;
+        b=aigTDkQoIrZ5du6qge/d6nU8XEtnOQxQGbL3jhraCwqwWSZTnNbLNTpEqxU68U6tqz
+         dT7IR3PAOIU4mgnAoPDn37z3q9yYgeFFX+uYApeVR69MSmpm3kFyqRjh7+MlJpUiBvhf
+         qt3+8nXCBsc8ZVaoQNdO/n7ydEFoq3KzLvkRg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=iyMhELtxZmy7LysjRxs5koPIPiBWXacQeXByz4XAWq8=;
-        b=zIxquZCqxmVtaER4BvtRUaUSkJwhRh/TJvK08+Iyr5r5F9ejLLWzA6tIAlh+mf19S1
-         JbS9nww3Tagqc46w0dXEWzpBW51FqGUC64+C6iQm3inRzhN4EcK3vK8eSd3AQ60VIKjs
-         LbRBddEZaI8DPFQA5WLE+QMrdfOyYtPPGswkWAs7oQ5VisrNtgYgdpUWFMsKxLyhW9x0
-         TAlwClaTb/hOUzIg+OtttW4s4ZEzgNBt2sGC96Mjq/627noKJPMIP4f3mfucUCy9oGbH
-         yXHoYTRkX6mifYQ4Y4VKYo2BfblzgjXtQmDGCrZqFZTqUWQpmglPeT9waoBHyeaOF4RF
-         8NMA==
-X-Gm-Message-State: ACrzQf0Svge2Vh4+eB0jWngu1PrRigDN1CGE8K/rqJUHCp/LlAjQs8hz
-        ommtjXsKyS65whnoWMjgqx9ktTPMmG7PCg==
-X-Google-Smtp-Source: AMsMyM4jrXE5ZeNMAQaEgbs1N7W4ofKI73+C5sQPhaDvyKfemlaabGdRRZpJlb8T41jJoMGXwAsQIQ==
-X-Received: by 2002:a17:907:7e81:b0:7ad:e144:19e5 with SMTP id qb1-20020a1709077e8100b007ade14419e5mr37704025ejc.51.1667840201634;
-        Mon, 07 Nov 2022 08:56:41 -0800 (PST)
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com. [209.85.221.45])
-        by smtp.gmail.com with ESMTPSA id m19-20020aa7c493000000b00458dc7e8ecasm4488172edq.72.2022.11.07.08.56.41
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 07 Nov 2022 08:56:41 -0800 (PST)
-Received: by mail-wr1-f45.google.com with SMTP id g12so17117546wrs.10
-        for <linux-media@vger.kernel.org>; Mon, 07 Nov 2022 08:56:41 -0800 (PST)
-X-Received: by 2002:adf:cd86:0:b0:236:6056:14d3 with SMTP id
- q6-20020adfcd86000000b00236605614d3mr33705613wrj.30.1667839852819; Mon, 07
- Nov 2022 08:50:52 -0800 (PST)
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=k05Y4e+PrHzSfY5WD7UasfT68aLf+beRaOmVJAx50IE=;
+        b=mz9b4FKXQnvmYVDTJop0ISJlnL8+/ROhB4SlpuCoOCWCGHNk8lcl+Nn2FnYqxDAgM9
+         dOhX3/NO5ArdCPUo09/7+5an2dUNHucGm6LSYMdgTjtBpE3Rbo8FxfC8S/jdkQUEhauk
+         ty1AVhaty3I6GO7++8qqaq5damKrOeqq/8GbXEPha4yCO9+jvA4q5oKnx9eKCZFuwFMI
+         Z+X7vxj+cuoISHnihNRBwpS0J7MRjwntIHKxsmgJbCy1IkM/73vq14PRddk8UWEtXmI4
+         E2dWHET9NuqwsnxsfpFIZlKgUniZA4/IfDyBH5p8sdV5bCILEE8y2M6IZJJBzDCFfeRO
+         Uu3g==
+X-Gm-Message-State: ACrzQf3EU2qj9td43K/VAIh2UL2t1fHWinlsBqY14hjIvVXwyn8EVh+v
+        QOSI2U25Q8EM782NE5vFl1O2hm/yVcyatQzFPfbs8g==
+X-Google-Smtp-Source: AMsMyM7TUXJXcis8PmcF9tz+mPP8pp0mnUv/KZmZclnSef+BAXAmZIP+VqDuAGl+a0+0RYzgd/QOqiORrMVMDd6y2JE=
+X-Received: by 2002:a92:d681:0:b0:2ff:573c:8d44 with SMTP id
+ p1-20020a92d681000000b002ff573c8d44mr29932067iln.203.1667841961903; Mon, 07
+ Nov 2022 09:26:01 -0800 (PST)
 MIME-Version: 1.0
-References: <20210114180738.1758707-1-helen.koike@collabora.com>
- <20210114180738.1758707-3-helen.koike@collabora.com> <d0d1f74f-7e77-1b18-0529-dbbec8889584@xs4all.nl>
- <577c56bf-146c-f34a-2028-075170076de7@collabora.com> <708221e8-a805-c394-6958-6c7ec24bfe66@synaptics.com>
- <b58e2678-8d2a-a323-07e4-12cc01c8c3c2@collabora.com>
-In-Reply-To: <b58e2678-8d2a-a323-07e4-12cc01c8c3c2@collabora.com>
-From:   Fritz Koenig <frkoenig@chromium.org>
-Date:   Mon, 7 Nov 2022 08:50:41 -0800
-X-Gmail-Original-Message-ID: <CAMfZQbxxD8oAAKES5c-=2Zw-id20ac7kg4T5=7xrih2WeYbKhQ@mail.gmail.com>
-Message-ID: <CAMfZQbxxD8oAAKES5c-=2Zw-id20ac7kg4T5=7xrih2WeYbKhQ@mail.gmail.com>
-Subject: Re: [RFC PATCH v6 02/11] media: v4l2: Extend pixel formats to unify
- single/multi-planar handling (and more)
+References: <20221017172229.42269-1-dmitry.osipenko@collabora.com> <20221017172229.42269-19-dmitry.osipenko@collabora.com>
+In-Reply-To: <20221017172229.42269-19-dmitry.osipenko@collabora.com>
+From:   Daniel Vetter <daniel@ffwll.ch>
+Date:   Mon, 7 Nov 2022 18:25:50 +0100
+Message-ID: <CAKMK7uFFwTfNYT2BrubYvUMrH4fEmtF=yJshUck3-gKYLGqxCg@mail.gmail.com>
+Subject: Re: [PATCH v7 18/21] dma-buf: Move dma_buf_mmap() to dynamic locking specification
 To:     Dmitry Osipenko <dmitry.osipenko@collabora.com>
-Cc:     Hsia-Jun Li <Randy.Li@synaptics.com>,
-        Helen Koike <helen.koike@collabora.com>, mchehab@kernel.org,
-        hans.verkuil@cisco.com, laurent.pinchart@ideasonboard.com,
-        sakari.ailus@iki.fi, boris.brezillon@collabora.com,
-        hiroh@chromium.org, nicolas@ndufresne.ca, Brian.Starkey@arm.com,
-        kernel@collabora.com, narmstrong@baylibre.com,
-        linux-kernel@vger.kernel.org, frkoenig@chromium.org,
-        stanimir.varbanov@linaro.org, tfiga@chromium.org,
-        Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org
+Cc:     David Airlie <airlied@linux.ie>, Gerd Hoffmann <kraxel@redhat.com>,
+        Gurchetan Singh <gurchetansingh@chromium.org>,
+        Chia-I Wu <olvaffe@gmail.com>,
+        Daniel Almeida <daniel.almeida@collabora.com>,
+        Gert Wollny <gert.wollny@collabora.com>,
+        Gustavo Padovan <gustavo.padovan@collabora.com>,
+        Daniel Stone <daniel@fooishbar.org>,
+        Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Rob Clark <robdclark@gmail.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+        =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas_os@shipmail.org>,
+        Qiang Yu <yuq825@gmail.com>,
+        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        Amol Maheshwari <amahesh@qti.qualcomm.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Leon Romanovsky <leon@kernel.org>,
+        Juergen Gross <jgross@suse.com>,
+        Stefano Stabellini <sstabellini@kernel.org>,
+        Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>,
+        Tomi Valkeinen <tomba@kernel.org>,
+        Russell King <linux@armlinux.org.uk>,
+        Lucas Stach <l.stach@pengutronix.de>,
+        Christian Gmeiner <christian.gmeiner@gmail.com>,
+        Ruhl Michael J <michael.j.ruhl@intel.com>,
+        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+        Dmitry Osipenko <digetx@gmail.com>,
+        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+        amd-gfx@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+        kernel@collabora.com, virtualization@lists.linux-foundation.org,
+        linux-rdma@vger.kernel.org, linux-arm-msm@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sun, Nov 6, 2022 at 2:11 PM Dmitry Osipenko
+On Mon, 17 Oct 2022 at 19:25, Dmitry Osipenko
 <dmitry.osipenko@collabora.com> wrote:
 >
-> On 11/5/22 18:19, Hsia-Jun Li wrote:
-> > Hello Helen
-> >
-> > I didn't see any updates from V6 and V7-WIP in your repo. That is what I
-> > need to for our complex tile formats in our platform.
-> >
-> > Any future plane here?
-> >
-> > Besides I have some ideas on these patches.
+> Move dma_buf_mmap() function to the dynamic locking specification by
+> taking the reservation lock. Neither of the today's drivers take the
+> reservation lock within the mmap() callback, hence it's safe to enforce
+> the locking.
 >
-> I was looking into updating this patchset few months ago and the biggest
-> blocker was the absence of immediate upstream user for this new UAPI.
-> What your platform is? Is the driver stack completely opensource?
->
-ChromeOS had interest in this for enabling UBWC for the venus driver.
-We have a workaround at the moment, but would be interested.  So not
-immediate need, but would hopefully be a user at some point.
+> Acked-by: Sumit Semwal <sumit.semwal@linaro.org>
+> Acked-by: Christian K=C3=B6nig <christian.koenig@amd.com>
+> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 
--Fritz
-> --
-> Best regards,
-> Dmitry
+Just noticed this while reading code ... this patch seems to have
+missed dma_buf_mmap_internal()?
+
+Might be good if at least some drivers gain a dma_resv_assert_held in
+that path to make sure we're not quite this bad, together with fixing
+this issue.
+-Daniel
+
+> ---
+>  drivers/dma-buf/dma-buf.c | 8 +++++++-
+>  1 file changed, 7 insertions(+), 1 deletion(-)
 >
+> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+> index f54c649f922a..f149b384f4dd 100644
+> --- a/drivers/dma-buf/dma-buf.c
+> +++ b/drivers/dma-buf/dma-buf.c
+> @@ -1390,6 +1390,8 @@ EXPORT_SYMBOL_NS_GPL(dma_buf_end_cpu_access, DMA_BU=
+F);
+>  int dma_buf_mmap(struct dma_buf *dmabuf, struct vm_area_struct *vma,
+>                  unsigned long pgoff)
+>  {
+> +       int ret;
+> +
+>         if (WARN_ON(!dmabuf || !vma))
+>                 return -EINVAL;
+>
+> @@ -1410,7 +1412,11 @@ int dma_buf_mmap(struct dma_buf *dmabuf, struct vm=
+_area_struct *vma,
+>         vma_set_file(vma, dmabuf->file);
+>         vma->vm_pgoff =3D pgoff;
+>
+> -       return dmabuf->ops->mmap(dmabuf, vma);
+> +       dma_resv_lock(dmabuf->resv, NULL);
+> +       ret =3D dmabuf->ops->mmap(dmabuf, vma);
+> +       dma_resv_unlock(dmabuf->resv);
+> +
+> +       return ret;
+>  }
+>  EXPORT_SYMBOL_NS_GPL(dma_buf_mmap, DMA_BUF);
+>
+> --
+> 2.37.3
+>
+
+
+--=20
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
