@@ -2,106 +2,111 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AF05D61FB71
-	for <lists+linux-media@lfdr.de>; Mon,  7 Nov 2022 18:33:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AC5E661FB5E
+	for <lists+linux-media@lfdr.de>; Mon,  7 Nov 2022 18:29:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232711AbiKGRdD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 7 Nov 2022 12:33:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45392 "EHLO
+        id S232180AbiKGR3g (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 7 Nov 2022 12:29:36 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42770 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232879AbiKGRdA (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Nov 2022 12:33:00 -0500
-Received: from mail-qv1-xf32.google.com (mail-qv1-xf32.google.com [IPv6:2607:f8b0:4864:20::f32])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 14441248E0
-        for <linux-media@vger.kernel.org>; Mon,  7 Nov 2022 09:32:57 -0800 (PST)
-Received: by mail-qv1-xf32.google.com with SMTP id e15so8574444qvo.4
-        for <linux-media@vger.kernel.org>; Mon, 07 Nov 2022 09:32:57 -0800 (PST)
+        with ESMTP id S232017AbiKGR3f (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Nov 2022 12:29:35 -0500
+Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com [IPv6:2a00:1450:4864:20::334])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 702341F9FC
+        for <linux-media@vger.kernel.org>; Mon,  7 Nov 2022 09:29:33 -0800 (PST)
+Received: by mail-wm1-x334.google.com with SMTP id v124-20020a1cac82000000b003cf7a4ea2caso10095906wme.5
+        for <linux-media@vger.kernel.org>; Mon, 07 Nov 2022 09:29:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=OtwMIMageNgEFgITDbP/X4AlmExFVOD7QsjK39jRkOs=;
-        b=ZrBbGd0NE5W3bFjfpMfVEGchJiOqL5vKGUnJZWHQEDCz71oryF6CDiPscJkkJaNeeg
-         /pKDfIl6hW5yw8tjgrcZSOwrloCrFqYb1/s9Bc1/cV94xFkaKkZwH1bCSgyaTCtOH5Nq
-         2ijwSehO6aXkrD87GuWevIaaXGPhzXmGc/u0k=
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:organization:references:to
+         :content-language:subject:reply-to:from:user-agent:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=xkR0EU5MF5krvYFbRD8gmAbuCphspKLMpA2k8o/icr4=;
+        b=jSV89Nd7BOcmUAVxEDddbuNTIYUCBXZutjnld8k4uAuTk1pp9sn+3pw3Joc1NASBoj
+         4nVR3LJtXBrpaPW+Cs/OU3xoHH8Qj3HfJ+VRHRBInFLo5QAj2kiOtKR/VXoJTvqYsMd+
+         99yUhXBdVs6C5VpVwJLzl2NUdmE5pWId+MP6y0qxgEOPgH3dmLt/40OUyBxPU3JZ/atz
+         Sd+2aE/nprLxPxFw1H4Qy0mycrAKfFYpaXbpdFdSzUJXm9KnFcOQosDiMHDpoZ54NdRe
+         FbQ5eRq0hhQfqljmkvR4icco1gzyvCgz4mSug1vcSwW4uYOlBI+qhNS1Wo68EB6Kac/d
+         1o5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        h=content-transfer-encoding:in-reply-to:organization:references:to
+         :content-language:subject:reply-to:from:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=OtwMIMageNgEFgITDbP/X4AlmExFVOD7QsjK39jRkOs=;
-        b=X+GW0eZzkLrqb1ljrgezkO61I7tCq3wS2u55/TCCs764bJATWgj7izAlZWtEeZ4Zlr
-         LSFltHEkm9Sh+15v2/mpeGKtsY+WRFK5GzKSwALEa69M5dbkvO7LQvOGlOjW3RtDDQA7
-         w5Fe9qCMiB7PZkLsegvu4RNp7s3Uducl0rteqdkEHn6rq5umkuMjIrYDYN+KfynHdpSq
-         TcvXBzfqFjny3XvB8kPg+7bLN93tBY0HueII5LV1WCU/a4BJbzEzLqWIcUgtGUz7RLRJ
-         J90Jsec8x5qA75sixURAjfEyNhLHyj3GJyM91tAHHdGc9/UAwllJrsdggZw55p2+q7Od
-         fyOg==
-X-Gm-Message-State: ACrzQf3EZiiMeBBmlPdgBqB3OZJHGC1kBeKwzvWHO0HE7ooPYLYIaE/9
-        MgpYbeOFYEHIS3KVh7YNMgUcM+AVJ+6JMQ==
-X-Google-Smtp-Source: AMsMyM4M0sypTxzutNbKxVqxT5ET6b7wEOBm1/K5iIafxqXWf3NDjVyMEymEXPFylD6opeUp0zzgXw==
-X-Received: by 2002:a0c:e3d3:0:b0:4bb:c033:76fc with SMTP id e19-20020a0ce3d3000000b004bbc03376fcmr43954368qvl.117.1667842375844;
-        Mon, 07 Nov 2022 09:32:55 -0800 (PST)
-Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com. [209.85.128.181])
-        by smtp.gmail.com with ESMTPSA id w27-20020a05620a0e9b00b006fa63cc7affsm7163469qkm.34.2022.11.07.09.32.54
-        for <linux-media@vger.kernel.org>
+        bh=xkR0EU5MF5krvYFbRD8gmAbuCphspKLMpA2k8o/icr4=;
+        b=Mx6sq2Z4il36JQcgK8HfDBNxS85kLMDJXidQsMSZRb71JD9CcHn4FrvcMWIF9ARaeD
+         JpSBMTGqJ2vaEY9Uc1kn9ZOjo+AWpbrfNpuzi1EgfKpQq8APQTWnuW6uUY9pEya3s1iM
+         thQZ8U4stGYMVu+32Oc9//eRr0Uk6iPmNsJyTmrO40v7pAcqVEFy5BATqIqptehiZ6sG
+         QsRVgkr62u3aLgqW0veFZ9xY7PMQ2zICYTZHVYgpct3tJbzearLlR3va2t6/qzPJAppq
+         dZciq8XFFKPJnv6NhFshsmYyPgJjYJBznIM4xKghw0Zhv8O3Xf6FbIJeSho0pE/pOQe5
+         S/yA==
+X-Gm-Message-State: ACrzQf2tQkBCV107TLO1FDqfaUBPa0OKa3HeO8pefliEVxyRLyLHagJh
+        zUmLnXQBALUJ8lFmeSPI8s1tmg==
+X-Google-Smtp-Source: AMsMyM59E4kUPCWhlqtaCDaCwUhPCvbjXQd61lqCiTFlXO9OHbwPcQvIUzUroZ3V1idre5W77pTe4Q==
+X-Received: by 2002:a05:600c:31a2:b0:3cf:8a86:cf1c with SMTP id s34-20020a05600c31a200b003cf8a86cf1cmr17606048wmp.113.1667842172024;
+        Mon, 07 Nov 2022 09:29:32 -0800 (PST)
+Received: from ?IPV6:2a01:e0a:982:cbb0:64c8:555c:905:adc6? ([2a01:e0a:982:cbb0:64c8:555c:905:adc6])
+        by smtp.gmail.com with ESMTPSA id n4-20020a5d6604000000b002366fb99cdasm7715664wru.50.2022.11.07.09.29.31
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 07 Nov 2022 09:32:54 -0800 (PST)
-Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-3704852322fso111087777b3.8
-        for <linux-media@vger.kernel.org>; Mon, 07 Nov 2022 09:32:54 -0800 (PST)
-X-Received: by 2002:a05:6902:1352:b0:6bb:3f4b:9666 with SMTP id
- g18-20020a056902135200b006bb3f4b9666mr46634218ybu.101.1667842059236; Mon, 07
- Nov 2022 09:27:39 -0800 (PST)
+        Mon, 07 Nov 2022 09:29:31 -0800 (PST)
+Message-ID: <48f4bda9-b5e3-9649-aab9-b529889bf110@linaro.org>
+Date:   Mon, 7 Nov 2022 18:29:30 +0100
 MIME-Version: 1.0
-References: <20221107161740.144456-1-david@redhat.com>
-In-Reply-To: <20221107161740.144456-1-david@redhat.com>
-From:   Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Mon, 7 Nov 2022 09:27:23 -0800
-X-Gmail-Original-Message-ID: <CAHk-=wj51-dtxf8BQBYP+9Kc3ejq4Y0=-6hCbf_XAnkT3fsgDQ@mail.gmail.com>
-Message-ID: <CAHk-=wj51-dtxf8BQBYP+9Kc3ejq4Y0=-6hCbf_XAnkT3fsgDQ@mail.gmail.com>
-Subject: Re: [PATCH RFC 00/19] mm/gup: remove FOLL_FORCE usage from drivers
- (reliable R/O long-term pinning)
-To:     David Hildenbrand <david@redhat.com>
-Cc:     linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org, linux-rdma@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        John Hubbard <jhubbard@nvidia.com>,
-        Peter Xu <peterx@redhat.com>,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.3
+From:   Neil Armstrong <neil.armstrong@linaro.org>
+Reply-To: neil.armstrong@linaro.org
+Subject: Re: patches for staging:media drivers
+Content-Language: en-US
+To:     Deepak R Varma <drv@mailo.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Hugh Dickins <hughd@google.com>, Nadav Amit <namit@vmware.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Matthew Wilcox <willy@infradead.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Muchun Song <songmuchun@bytedance.com>,
-        Lucas Stach <l.stach@pengutronix.de>,
-        David Airlie <airlied@gmail.com>,
-        Oded Gabbay <ogabbay@kernel.org>, Arnd Bergmann <arnd@arndb.de>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=no
-        autolearn_force=no version=3.4.6
+        Kevin Hilman <khilman@baylibre.com>,
+        Jerome Brunet <jbrunet@baylibre.com>,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+        linux-media@vger.kernel.org, linux-amlogic@lists.infradead.org,
+        linux-staging@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+References: <Y2eSCZJNWn6DzCUu@qemulion>
+Organization: Linaro Developer Services
+In-Reply-To: <Y2eSCZJNWn6DzCUu@qemulion>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Nov 7, 2022 at 8:18 AM David Hildenbrand <david@redhat.com> wrote:
->
-> So instead, make R/O long-term pinning work as expected, by breaking COW
-> in a COW mapping early, such that we can remove any FOLL_FORCE usage from
-> drivers.
+Hi,
 
-Nothing makes me unhappy from a quick scan through these patches.
+On 06/11/2022 11:52, Deepak R Varma wrote:
+> Greetings to all.
+> My name is Deepak R Varma and I was part of the recent Outreachy internship
+> round. I learned during this program that patches for the media drivers were
+> prohibited to be included in the Outreachy effort due to lack of bandwidth for
+> the maintainers to respond on those.
+> 
+> The Outreachy round is now over but I am continuing to work on code improvement
+> and changes. I would like to know if it is okay for me to now identify
+> opportunities in the media drivers and send patch proposal for your kind
+> consideration. I intend to send couple of Coccinelle identified code
+> improvements as patches.
+> 
+> Please let me know.
 
-And I'd really love to just have this long saga ended, and FOLL_FORCE
-finally relegated to purely ptrace accesses.
+I won't say no but since the media maintainers will need to apply them,
+the problem is the same.
 
-So an enthusiastic Ack from me.
+Neil
 
-                   Linus
+> 
+> Thank you,
+> ./drv
+> 
+> 
+
