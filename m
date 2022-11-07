@@ -2,110 +2,190 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A089861F7C8
-	for <lists+linux-media@lfdr.de>; Mon,  7 Nov 2022 16:37:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BD23461F8F1
+	for <lists+linux-media@lfdr.de>; Mon,  7 Nov 2022 17:19:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232894AbiKGPhn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 7 Nov 2022 10:37:43 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41244 "EHLO
+        id S231851AbiKGQTG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 7 Nov 2022 11:19:06 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41514 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232437AbiKGPhk (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Nov 2022 10:37:40 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A4FF01E70A;
-        Mon,  7 Nov 2022 07:37:39 -0800 (PST)
-Received: from [192.168.1.15] (91-154-32-225.elisa-laajakaista.fi [91.154.32.225])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id ECB76E7B;
-        Mon,  7 Nov 2022 16:37:35 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1667835456;
-        bh=tN24SZMtxVeuqD+eft5ip0/oeDHTUb64yvneuF+U788=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=PxZ/oB51BM477JHOCVHIqzj6lgE4O2muFTyRKew3QS71DkicIdsMHTZlJTkXQlyBu
-         tPrDtPDNw76DwivUyQNBHW2AfSswNsAMNu2aC1scthPqMk4DXSKwr2H/KsR24m8qIo
-         2VOXA43amBSRJmGKefMTJVrfTrljH066CZk9UusI=
-Message-ID: <50f0e9a2-33a4-9afb-4105-eadd6da21e99@ideasonboard.com>
-Date:   Mon, 7 Nov 2022 17:37:33 +0200
+        with ESMTP id S232266AbiKGQTB (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Nov 2022 11:19:01 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A352140F2
+        for <linux-media@vger.kernel.org>; Mon,  7 Nov 2022 08:18:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1667837880;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=9cods/w8rqgeUJG27hSpYwAK3kmd3FHu+oLejBSIpOc=;
+        b=Hg8cyVb3uxvbJNcP7k4UuVat7nENIzHXn/ARZ0iCLQTMFUJ3rl3IavmEq2ujqO+ngHizlX
+        DJy9+61cxpHVG73M8v9W/nQz+USbnILpH4ShjZrAq+URNGYXoj4RpPIt6UpJD4+c4rzLHq
+        sjw/8gUlTeCGQLWQPzSTqW8Rwfd++IQ=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-515-izDZkPSsPkGvihn_mMeNNw-1; Mon, 07 Nov 2022 11:17:49 -0500
+X-MC-Unique: izDZkPSsPkGvihn_mMeNNw-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com [10.11.54.9])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A911185A59D;
+        Mon,  7 Nov 2022 16:17:47 +0000 (UTC)
+Received: from t480s.redhat.com (unknown [10.39.195.106])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id E6FEE4B3FC8;
+        Mon,  7 Nov 2022 16:17:41 +0000 (UTC)
+From:   David Hildenbrand <david@redhat.com>
+To:     linux-kernel@vger.kernel.org
+Cc:     linux-mm@kvack.org, etnaviv@lists.freedesktop.org,
+        dri-devel@lists.freedesktop.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org, linux-rdma@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        David Hildenbrand <david@redhat.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        John Hubbard <jhubbard@nvidia.com>,
+        Peter Xu <peterx@redhat.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Hugh Dickins <hughd@google.com>, Nadav Amit <namit@vmware.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Matthew Wilcox <willy@infradead.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Muchun Song <songmuchun@bytedance.com>,
+        Lucas Stach <l.stach@pengutronix.de>,
+        David Airlie <airlied@gmail.com>,
+        Oded Gabbay <ogabbay@kernel.org>, Arnd Bergmann <arnd@arndb.de>
+Subject: [PATCH RFC 00/19] mm/gup: remove FOLL_FORCE usage from drivers (reliable R/O long-term pinning)
+Date:   Mon,  7 Nov 2022 17:17:21 +0100
+Message-Id: <20221107161740.144456-1-david@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH v4 0/8] i2c-atr and FPDLink
-Content-Language: en-US
-To:     "Vaittinen, Matti" <Matti.Vaittinen@fi.rohmeurope.com>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
-Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Luca Ceresoli <luca@lucaceresoli.net>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Peter Rosin <peda@axentia.se>,
-        Rob Herring <robh+dt@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Vladimir Zapolskiy <vz@mleia.com>,
-        Wolfram Sang <wsa@the-dreams.de>,
-        "satish.nagireddy@getcruise.com" <satish.nagireddy@getcruise.com>
-References: <20221101132032.1542416-1-tomi.valkeinen@ideasonboard.com>
- <b0319f7c-54af-3132-2775-fba7dcad6bbe@fi.rohmeurope.com>
-From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-In-Reply-To: <b0319f7c-54af-3132-2775-fba7dcad6bbe@fi.rohmeurope.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Matti,
+For now, we did not support reliable R/O long-term pinning in COW mappings.
+That means, if we would trigger R/O long-term pinning in MAP_PRIVATE
+mapping, we could end up pinning the (R/O-mapped) shared zeropage or a
+pagecache page.
 
-On 07/11/2022 16:37, Vaittinen, Matti wrote:
+The next write access would trigger a write fault and replace the pinned
+page by an exclusive anonymous page in the process page table; whatever the
+process would write to that private page copy would not be visible by the
+owner of the previous page pin: for example, RDMA could read stale data.
+The end result is essentially an unexpected and hard-to-debug memory
+corruption.
 
-I only had time to have a brief look at your code, but I have a few 
-quick questions.
+Some drivers tried working around that limitation by using
+"FOLL_FORCE|FOLL_WRITE|FOLL_LONGTERM" for R/O long-term pinning for now.
+FOLL_WRITE would trigger a write fault, if required, and break COW before
+pinning the page. FOLL_FORCE is required because the VMA might lack write
+permissions, and drivers wanted to make that working as well, just like
+one would expect (no write access, but still triggering a write access to
+break COW).
 
-> I think it was Tomi who asked me the benefit of using MFD. In some cases
-> the digital interface towards pinctrl/GPIO or other functional blocks in
-> SER/DES is re-used from other products - or the blocks are re-used on
-> other products. Separating them in own platform-drivers is a nice way to
-> re-use drivers and avoid code duplication.
+However, that is not a practical solution, because
+(1) Drivers that don't stick to that undocumented and debatable pattern
+    would still run into that issue. For example, VFIO only uses
+    FOLL_LONGTERM for R/O long-term pinning.
+(2) Using FOLL_WRITE just to work around a COW mapping + page pinning
+    limitation is unintuitive. FOLL_WRITE would, for example, mark the
+    page softdirty or trigger uffd-wp, even though, there actually isn't
+    going to be any write access.
+(3) The purpose of FOLL_FORCE is debug access, not access without lack of
+    VMA permissions by arbitrarty drivers.
 
-Is there anything that prevents us (or makes it difficult) from 
-refactoring a "monolithic" driver into an MFD later? If we see such IP 
-re-use, can we then move to an MFD?
+So instead, make R/O long-term pinning work as expected, by breaking COW
+in a COW mapping early, such that we can remove any FOLL_FORCE usage from
+drivers. More details in patch #8.
 
-I admit I have never written an MFD driver (but I have hacked with a few 
-years back). As I see it, the "subcomponents" in FPDLink ICs are more or 
-less tied to the FPDLink. It's not like they're independent. Compare to, 
-for example, a PMIC which provides regulators and GPIOs, and possibly 
-the only shared part between those two features are the pins.
+Patches #1--#3 add COW tests for non-anonymous pages.
+Patches #4--#7 prepare core MM for extended FAULT_FLAG_UNSHARE support in
+COW mappings.
+Patch #8 implements reliable R/O long-term pinning in COW mappings
+Patches #9--#19 remove any FOLL_FORCE usage from drivers.
 
-So, I think I'm still wondering about the benefit...
+I'm refraining from CCing all driver maintainers on the whole patch set.
 
-In the current version I have the deser driver supporting UB960 and 
-UB9702. I guess I could split those into separate drivers, and using MFD 
-I could share lot of code between them. But I still can't see why that's 
-better than having both UB960 and UB9702 in the same driver (and, if the 
-amount of supported devices increases, perhaps dividing some parts to 
-separate files and using function points for a few things).
+Cc: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: Jason Gunthorpe <jgg@ziepe.ca>
+Cc: John Hubbard <jhubbard@nvidia.com>
+Cc: Peter Xu <peterx@redhat.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Andrea Arcangeli <aarcange@redhat.com>
+Cc: Hugh Dickins <hughd@google.com>
+Cc: Nadav Amit <namit@vmware.com>
+Cc: Vlastimil Babka <vbabka@suse.cz>
+Cc: Matthew Wilcox (Oracle) <willy@infradead.org>
+Cc: Mike Kravetz <mike.kravetz@oracle.com>
+Cc: Muchun Song <songmuchun@bytedance.com>
+Cc: Shuah Khan <shuah@kernel.org
+Cc: Lucas Stach <l.stach@pengutronix.de>
+Cc: David Airlie <airlied@gmail.com>
+Cc: Oded Gabbay <ogabbay@kernel.org>
+Cc: Arnd Bergmann <arnd@arndb.de>
 
-The benefit would be more obvious if there was some other type of IC 
-that uses the same IP subcomponents. Maybe the display side FPDLink 
-devices are such, but I have never done a deep dive in their 
-documentation. And, even then, I think I still have the question: can we 
-just move to an MFD later when the need comes?
+David Hildenbrand (19):
+  selftests/vm: anon_cow: prepare for non-anonymous COW tests
+  selftests/vm: cow: basic COW tests for non-anonymous pages
+  selftests/vm: cow: R/O long-term pinning reliability tests for
+    non-anon pages
+  mm: add early FAULT_FLAG_UNSHARE consistency checks
+  mm: add early FAULT_FLAG_WRITE consistency checks
+  mm: rework handling in do_wp_page() based on private vs. shared
+    mappings
+  mm: don't call vm_ops->huge_fault() in wp_huge_pmd()/wp_huge_pud() for
+    private mappings
+  mm: extend FAULT_FLAG_UNSHARE support to anything in a COW mapping
+  mm/gup: reliable R/O long-term pinning in COW mappings
+  RDMA/umem: remove FOLL_FORCE usage
+  RDMA/usnic: remove FOLL_FORCE usage
+  RDMA/siw: remove FOLL_FORCE usage
+  media: videobuf-dma-sg: remove FOLL_FORCE usage
+  drm/etnaviv: remove FOLL_FORCE usage
+  media: pci/ivtv: remove FOLL_FORCE usage
+  mm/frame-vector: remove FOLL_FORCE usage
+  drm/exynos: remove FOLL_FORCE usage
+  RDMA/hw/qib/qib_user_pages: remove FOLL_FORCE usage
+  habanalabs: remove FOLL_FORCE usage
 
-Also, isn't the use or non-use of MFD strictly a driver private thing, 
-it should not affect any shared parts or shared designs? In other words, 
-if you have your ROHM hat on, why do you care how the UB9xx driver is 
-structured internally? ;)
+ drivers/gpu/drm/etnaviv/etnaviv_gem.c         |   8 +-
+ drivers/gpu/drm/exynos/exynos_drm_g2d.c       |   2 +-
+ drivers/infiniband/core/umem.c                |   8 +-
+ drivers/infiniband/hw/qib/qib_user_pages.c    |   2 +-
+ drivers/infiniband/hw/usnic/usnic_uiom.c      |   9 +-
+ drivers/infiniband/sw/siw/siw_mem.c           |   9 +-
+ drivers/media/common/videobuf2/frame_vector.c |   2 +-
+ drivers/media/pci/ivtv/ivtv-udma.c            |   2 +-
+ drivers/media/pci/ivtv/ivtv-yuv.c             |   5 +-
+ drivers/media/v4l2-core/videobuf-dma-sg.c     |  14 +-
+ drivers/misc/habanalabs/common/memory.c       |   3 +-
+ include/linux/mm.h                            |  27 +-
+ include/linux/mm_types.h                      |   8 +-
+ mm/gup.c                                      |  10 +-
+ mm/huge_memory.c                              |   5 +-
+ mm/hugetlb.c                                  |  12 +-
+ mm/memory.c                                   |  97 +++--
+ tools/testing/selftests/vm/.gitignore         |   2 +-
+ tools/testing/selftests/vm/Makefile           |  10 +-
+ tools/testing/selftests/vm/check_config.sh    |   4 +-
+ .../selftests/vm/{anon_cow.c => cow.c}        | 387 +++++++++++++++++-
+ tools/testing/selftests/vm/run_vmtests.sh     |   8 +-
+ 22 files changed, 516 insertions(+), 118 deletions(-)
+ rename tools/testing/selftests/vm/{anon_cow.c => cow.c} (74%)
 
-  Tomi
+-- 
+2.38.1
 
