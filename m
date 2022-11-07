@@ -2,115 +2,110 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 63C3361F6FE
-	for <lists+linux-media@lfdr.de>; Mon,  7 Nov 2022 16:02:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A089861F7C8
+	for <lists+linux-media@lfdr.de>; Mon,  7 Nov 2022 16:37:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232709AbiKGPCV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 7 Nov 2022 10:02:21 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45006 "EHLO
+        id S232894AbiKGPhn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 7 Nov 2022 10:37:43 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41244 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232837AbiKGPCG (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Nov 2022 10:02:06 -0500
-Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com [185.132.182.106])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B89FA1E721
-        for <linux-media@vger.kernel.org>; Mon,  7 Nov 2022 07:00:32 -0800 (PST)
-Received: from pps.filterd (m0288072.ppops.net [127.0.0.1])
-        by mx07-00178001.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 2A7AeptX006416;
-        Mon, 7 Nov 2022 16:00:19 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=from : to : cc :
- subject : date : message-id : mime-version : content-transfer-encoding :
- content-type; s=selector1;
- bh=V9fZSD4X0zLdgygmQr2CeqVs1XfyDOEg6zsaz2iti5o=;
- b=n/5XgC25tnwaf0JLrZwi10M+WBlD1/M65xkV4brqQNR80lh55mzF+HFB+GIevB6C0Dcy
- dtuChF0aQAGFpEL4ruhcllmDpSv0fZpsy9ER/Q87EWmwxLZk3CNdzLd3PZWnP6SAMXSX
- LPMp8fSVzVUkdjpiv/cPn0jVjiiMlQgE50Hc0igQ5VlG6IXGXlWCIdkTj+9kU85p6Yj6
- kU+nGBFRq4adCBo8JBsocJep80jqeA4pnz84uhOsaApEicdczdyu+ERKiUxP1LUGVuap
- 2ixDwABNMzvQ6s3EPPkUhgj9zZwNSnOOQvqenEdeuQouF3x3Z397o3jiea0tzwyzk3b7 cw== 
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-        by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3kq0ftsh1y-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 07 Nov 2022 16:00:19 +0100
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 6BF2710003A;
-        Mon,  7 Nov 2022 16:00:13 +0100 (CET)
-Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
-        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 5F6AE228A42;
-        Mon,  7 Nov 2022 16:00:13 +0100 (CET)
-Received: from localhost (10.129.167.233) by SHFDAG1NODE1.st.com
- (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.32; Mon, 7 Nov
- 2022 16:00:13 +0100
-From:   Benjamin Mugnier <benjamin.mugnier@foss.st.com>
-To:     <linux-media@vger.kernel.org>
-CC:     <sylvain.petinot@foss.st.com>, <mchehab@kernel.org>,
-        <sakari.ailus@iki.fi>, <laurent.pinchart@ideasonboard.com>,
-        Benjamin Mugnier <benjamin.mugnier@foss.st.com>
-Subject: [PATCH] media: i2c: st-vgxy61: Fix regulator counter underflow
-Date:   Mon, 7 Nov 2022 16:00:00 +0100
-Message-ID: <20221107150000.49058-1-benjamin.mugnier@foss.st.com>
-X-Mailer: git-send-email 2.25.1
+        with ESMTP id S232437AbiKGPhk (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Nov 2022 10:37:40 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A4FF01E70A;
+        Mon,  7 Nov 2022 07:37:39 -0800 (PST)
+Received: from [192.168.1.15] (91-154-32-225.elisa-laajakaista.fi [91.154.32.225])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id ECB76E7B;
+        Mon,  7 Nov 2022 16:37:35 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1667835456;
+        bh=tN24SZMtxVeuqD+eft5ip0/oeDHTUb64yvneuF+U788=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=PxZ/oB51BM477JHOCVHIqzj6lgE4O2muFTyRKew3QS71DkicIdsMHTZlJTkXQlyBu
+         tPrDtPDNw76DwivUyQNBHW2AfSswNsAMNu2aC1scthPqMk4DXSKwr2H/KsR24m8qIo
+         2VOXA43amBSRJmGKefMTJVrfTrljH066CZk9UusI=
+Message-ID: <50f0e9a2-33a4-9afb-4105-eadd6da21e99@ideasonboard.com>
+Date:   Mon, 7 Nov 2022 17:37:33 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.129.167.233]
-X-ClientProxiedBy: EQNCAS1NODE3.st.com (10.75.129.80) To SHFDAG1NODE1.st.com
- (10.75.129.69)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-11-07_08,2022-11-07_01,2022-06-22_01
-X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Subject: Re: [PATCH v4 0/8] i2c-atr and FPDLink
+Content-Language: en-US
+To:     "Vaittinen, Matti" <Matti.Vaittinen@fi.rohmeurope.com>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
+Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Luca Ceresoli <luca@lucaceresoli.net>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Peter Rosin <peda@axentia.se>,
+        Rob Herring <robh+dt@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Vladimir Zapolskiy <vz@mleia.com>,
+        Wolfram Sang <wsa@the-dreams.de>,
+        "satish.nagireddy@getcruise.com" <satish.nagireddy@getcruise.com>
+References: <20221101132032.1542416-1-tomi.valkeinen@ideasonboard.com>
+ <b0319f7c-54af-3132-2775-fba7dcad6bbe@fi.rohmeurope.com>
+From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+In-Reply-To: <b0319f7c-54af-3132-2775-fba7dcad6bbe@fi.rohmeurope.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Previously regulators were enabled on probe and never again.
-However, as regulators are disabled on power off. After a second power off
-the regulator counter will underflow. Plus regulators are not required
-for probing the sensor, but for streaming.
-Fix this by enabling regulators on power on to balance regulator counter
-properly.
+Hi Matti,
 
-Signed-off-by: Benjamin Mugnier <benjamin.mugnier@foss.st.com>
----
- drivers/media/i2c/st-vgxy61.c | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+On 07/11/2022 16:37, Vaittinen, Matti wrote:
 
-diff --git a/drivers/media/i2c/st-vgxy61.c b/drivers/media/i2c/st-vgxy61.c
-index 7ff18d670813..b0f4eeadeac6 100644
---- a/drivers/media/i2c/st-vgxy61.c
-+++ b/drivers/media/i2c/st-vgxy61.c
-@@ -1711,6 +1711,13 @@ static int vgxy61_power_on(struct device *dev)
- 	struct vgxy61_dev *sensor = to_vgxy61_dev(sd);
- 	int ret;
- 
-+	ret = regulator_bulk_enable(ARRAY_SIZE(vgxy61_supply_name),
-+				    sensor->supplies);
-+	if (ret) {
-+		dev_err(&client->dev, "failed to enable regulators %d\n", ret);
-+		return ret;
-+	}
-+
- 	ret = clk_prepare_enable(sensor->xclk);
- 	if (ret) {
- 		dev_err(&client->dev, "failed to enable clock %d\n", ret);
-@@ -1847,13 +1854,6 @@ static int vgxy61_probe(struct i2c_client *client)
- 		return ret;
- 	}
- 
--	ret = regulator_bulk_enable(ARRAY_SIZE(vgxy61_supply_name),
--				    sensor->supplies);
--	if (ret) {
--		dev_err(&client->dev, "failed to enable regulators %d\n", ret);
--		return ret;
--	}
--
- 	ret = vgxy61_power_on(dev);
- 	if (ret)
- 		return ret;
--- 
-2.25.1
+I only had time to have a brief look at your code, but I have a few 
+quick questions.
+
+> I think it was Tomi who asked me the benefit of using MFD. In some cases
+> the digital interface towards pinctrl/GPIO or other functional blocks in
+> SER/DES is re-used from other products - or the blocks are re-used on
+> other products. Separating them in own platform-drivers is a nice way to
+> re-use drivers and avoid code duplication.
+
+Is there anything that prevents us (or makes it difficult) from 
+refactoring a "monolithic" driver into an MFD later? If we see such IP 
+re-use, can we then move to an MFD?
+
+I admit I have never written an MFD driver (but I have hacked with a few 
+years back). As I see it, the "subcomponents" in FPDLink ICs are more or 
+less tied to the FPDLink. It's not like they're independent. Compare to, 
+for example, a PMIC which provides regulators and GPIOs, and possibly 
+the only shared part between those two features are the pins.
+
+So, I think I'm still wondering about the benefit...
+
+In the current version I have the deser driver supporting UB960 and 
+UB9702. I guess I could split those into separate drivers, and using MFD 
+I could share lot of code between them. But I still can't see why that's 
+better than having both UB960 and UB9702 in the same driver (and, if the 
+amount of supported devices increases, perhaps dividing some parts to 
+separate files and using function points for a few things).
+
+The benefit would be more obvious if there was some other type of IC 
+that uses the same IP subcomponents. Maybe the display side FPDLink 
+devices are such, but I have never done a deep dive in their 
+documentation. And, even then, I think I still have the question: can we 
+just move to an MFD later when the need comes?
+
+Also, isn't the use or non-use of MFD strictly a driver private thing, 
+it should not affect any shared parts or shared designs? In other words, 
+if you have your ROHM hat on, why do you care how the UB9xx driver is 
+structured internally? ;)
+
+  Tomi
 
