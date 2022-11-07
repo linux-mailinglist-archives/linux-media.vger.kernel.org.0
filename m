@@ -2,128 +2,133 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B94CF61F06E
-	for <lists+linux-media@lfdr.de>; Mon,  7 Nov 2022 11:24:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8557A61F093
+	for <lists+linux-media@lfdr.de>; Mon,  7 Nov 2022 11:25:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231905AbiKGKYV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 7 Nov 2022 05:24:21 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35640 "EHLO
+        id S230516AbiKGKZn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 7 Nov 2022 05:25:43 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35920 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231910AbiKGKYR (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Nov 2022 05:24:17 -0500
-Received: from mail-pj1-x1043.google.com (mail-pj1-x1043.google.com [IPv6:2607:f8b0:4864:20::1043])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4FAA118E16
-        for <linux-media@vger.kernel.org>; Mon,  7 Nov 2022 02:24:03 -0800 (PST)
-Received: by mail-pj1-x1043.google.com with SMTP id gw22so10128776pjb.3
-        for <linux-media@vger.kernel.org>; Mon, 07 Nov 2022 02:24:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:to:subject:message-id:date:from:reply-to
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=AOmtRIzmF5dcnWrT0j3skK83MYTC+QvduwZ6ndeN2Ks=;
-        b=Zv++OJ/ncK2pWuUWAQT+z52+cIoHK/WVJU4bVze52hunD5wDL4D5XJdl5mW2VbRjhi
-         PKA0tQ/z42/ONfUnPJoBfdYRGEG2gwiyoDRW7hecaxcg+/0t0u3g44ISFlpe+B9l1fvu
-         TmkNgtKOyak6WThRMAIvY+g5IgPZxvnz63e21BpajeaX9653GP4qpHUHyfV7BL4cSNb4
-         pCU1fNGxZBn7NlKzWZCMHMxM9LSs8sKofgpQ0FSoeb/qTDQ+CPP+tvlBe/vGQ8T8hOyn
-         vdUZr48/zTuwVxtBDF6IrOR7pT19nf73qD9i1Q8QUWEzM8dVJjwmGS+xVbVCXqFaE09J
-         SKzA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:to:subject:message-id:date:from:reply-to
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=AOmtRIzmF5dcnWrT0j3skK83MYTC+QvduwZ6ndeN2Ks=;
-        b=JYxLzAOBxkAVvD6TvwPqfDo5Wi4m/5p0sSfh5CRKVIXSlRDeASy17aaAqlOrANH/sO
-         9t+G5IQWoTWslv6i1fQl4DWpk33+JVCIKReQmuhYL8I8ciQvjoH8GnDMP68uHye7+LL6
-         k9HFZo2CKR+797eWGNY+heWkrmYjbbmS7Kdv+B8RlTK0MMnpx8jXREmHoztaYer4IeOP
-         A7nAU8hqzqohhOsrxACrCuA4HYGkMEKHNn5Joh7uosb5t97n3O35+pFYwyepCJzGNPTg
-         hB5XcJSD13a5ySpMpr4fcyO2PO0Nhr06p6Ra1i8bmRybUioDjpMtcco1rW9pbVZ4ctKb
-         Aw9g==
-X-Gm-Message-State: ACrzQf08NSFeAJanSidZRO39Mel6RrUsH5ApAi7Kqc2jiKlK8lbRiXBZ
-        FcNcMKMXb7gDg8EJDgvHlaA8P6Mq+hBjFEgxeTX2SkH57z0=
-X-Google-Smtp-Source: AMsMyM7DPjaK7bSeUBIcMTkNZUaqK+NSwCEUfp88ZZDLY5TXShnQ2+B86xH3ryBKqTyGQWW3ozA/96x60VupsK8qo34=
-X-Received: by 2002:a17:902:8a90:b0:186:b145:f5ec with SMTP id
- p16-20020a1709028a9000b00186b145f5ecmr50774476plo.103.1667816632274; Mon, 07
- Nov 2022 02:23:52 -0800 (PST)
+        with ESMTP id S232010AbiKGKZW (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Nov 2022 05:25:22 -0500
+Received: from out28-124.mail.aliyun.com (out28-124.mail.aliyun.com [115.124.28.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 007EC193CF;
+        Mon,  7 Nov 2022 02:24:47 -0800 (PST)
+X-Alimail-AntiSpam: AC=CONTINUE;BC=0.0846245|-1;CH=green;DM=|CONTINUE|false|;DS=CONTINUE|ham_news_journal|0.0678466-0.00920196-0.922951;FP=0|0|0|0|0|-1|-1|-1;HT=ay29a033018047192;MF=lee@arducam.com;NM=1;PH=DS;RN=7;RT=7;SR=0;TI=SMTPD_---.Q1PAhQl_1667816684;
+Received: from localhost(mailfrom:lee@arducam.com fp:SMTPD_---.Q1PAhQl_1667816684)
+          by smtp.aliyun-inc.com;
+          Mon, 07 Nov 2022 18:24:45 +0800
+Date:   Mon, 7 Nov 2022 18:24:45 +0800
+From:   lee <lee@arducam.com>
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc:     linux-media@vger.kernel.org, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, shawnguo@kernel.org,
+        s.hauer@pengutronix.de, devicetree@vger.kernel.org
+Subject: Re: [PATCH v2 1/2] dt-bindings: media: i2c: Add IMX519 CMOS sensor
+ binding
+Message-ID: <20221107182445.00003b43@arducam.com>
+In-Reply-To: <250e8acd-cf5d-f6f2-2d89-e0fd58a14424@linaro.org>
+References: <20221103110424.00007a48@arducam.com>
+        <4556aebd-1296-bb08-2cd7-3d92571ed71b@linaro.org>
+        <20221107104202.00002f0f@arducam.com>
+        <250e8acd-cf5d-f6f2-2d89-e0fd58a14424@linaro.org>
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
 MIME-Version: 1.0
-Received: by 2002:a05:6a06:925:b0:587:19e0:c567 with HTTP; Mon, 7 Nov 2022
- 02:23:51 -0800 (PST)
-Reply-To: contact@ammico.it
-From:   =?UTF-8?Q?Mrs=2E_Monika_Everenov=C3=A1?= <977638ib@gmail.com>
-Date:   Mon, 7 Nov 2022 11:23:51 +0100
-Message-ID: <CAHAXD+bPNCns8Ez=7iXmPLADMtJgZj3-mFTk3NMhWC-Ca1b9rw@mail.gmail.com>
-Subject: Re:
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: Yes, score=5.8 required=5.0 tests=ADVANCE_FEE_2_NEW_MONEY,
-        BAYES_20,DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        FREEMAIL_FROM,FROM_STARTS_WITH_NUMS,LOTS_OF_MONEY,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_HK_NAME_FM_MR_MRS,UNDISC_MONEY autolearn=no
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY autolearn=ham
         autolearn_force=no version=3.4.6
-X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
-        *      https://www.dnswl.org/, no trust
-        *      [2607:f8b0:4864:20:0:0:0:1043 listed in]
-        [list.dnswl.org]
-        * -0.0 BAYES_20 BODY: Bayes spam probability is 5 to 20%
-        *      [score: 0.1986]
-        *  0.7 FROM_STARTS_WITH_NUMS From: starts with several numbers
-        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
-        *      provider
-        *      [977638ib[at]gmail.com]
-        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
-        * -0.0 SPF_PASS SPF: sender matches SPF record
-        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
-        *      envelope-from domain
-        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-        *       valid
-        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-        *      author's domain
-        *  0.0 T_HK_NAME_FM_MR_MRS No description available.
-        *  0.0 LOTS_OF_MONEY Huge... sums of money
-        *  3.3 UNDISC_MONEY Undisclosed recipients + money/fraud signs
-        *  2.0 ADVANCE_FEE_2_NEW_MONEY Advance Fee fraud and lots of money
-X-Spam-Level: *****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hei ja miten voit?
-Nimeni on rouva Evereen, l=C3=A4het=C3=A4n t=C3=A4m=C3=A4n viestin suurella=
- toivolla
-v=C3=A4lit=C3=B6n vastaus, koska minun on teht=C3=A4v=C3=A4 uusi syd=C3=A4n=
-leikkaus
-t=C3=A4ll=C3=A4 hetkell=C3=A4 huonokuntoinen ja v=C3=A4h=C3=A4iset mahdolli=
-suudet selviyty=C3=A4.
-Mutta ennen kuin min=C3=A4
-Tee toinen vaarallinen operaatio, annan sen sinulle
-Minulla on 6 550 000 dollaria yhdysvaltalaisella pankkitilill=C3=A4
-sijoittamista, hallinnointia ja k=C3=A4ytt=C3=B6=C3=A4 varten
-voittoa hyv=C3=A4ntekev=C3=A4isyysprojektin toteuttamiseen. Tarkoitan saira=
-iden auttamista
-ja k=C3=B6yh=C3=A4t ovat viimeinen haluni maan p=C3=A4=C3=A4ll=C3=A4, sill=
-=C3=A4 minulla ei ole niit=C3=A4
-kenelt=C3=A4 perii rahaa.
-Vastaa minulle nopeasti
-terveisi=C3=A4
-Rouva Monika Evereen
-Florida, Amerikan Yhdysvallat
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D
-Hi and how are you?
-My name is Mrs. Evereen, I am sending this message with great hope for
-an immediate response, as I have to undergo heart reoperation in my
-current poor health with little chance of survival. But before I
-undertake the second dangerous operation, I will give you the
-$6,550,000 I have in my US bank account to invest well, manage and use
-the profits to run a charity project for me. I count helping the sick
-and the poor as my last wish on earth, because I have no one to
-inherit money from.
-Please give me a quick reply
-regards
-Mrs. Monika Evereen
-Florida, United States of America
+On Mon, 7 Nov 2022 09:24:53 +0100
+Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> wrote:
+
+> On 07/11/2022 03:42, lee wrote:
+> > On Thu, 3 Nov 2022 09:05:05 -0400
+> > Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> wrote:
+> > 
+> > Hi,
+> > Thanks a lot for detailed comments and suggestions for
+> > revisions,there is one place where I have some doubts.  
+> >> On 02/11/2022 23:04, lee wrote:  
+> >>> Add YAML device tree binding for IMX519 CMOS image sensor, and
+> >>> the relevant MAINTAINERS entries.
+> >>>
+> >>> Signed-off-by: Lee Jackson <lee@arducam.com>    
+> >>
+> >> Your From does not match fully SoB.
+> >>  
+> >>> ---
+> >>>  .../bindings/media/i2c/sony,imx519.yaml       | 107
+> >>> ++++++++++++++++++ MAINTAINERS                                   |
+> >>>  9 ++ 2 files changed, 116 insertions(+)
+> >>>  create mode 100644
+> >>> Documentation/devicetree/bindings/media/i2c/sony,imx519.yaml
+> >>>
+> >>> diff --git
+> >>> a/Documentation/devicetree/bindings/media/i2c/sony,imx519.yaml
+> >>> b/Documentation/devicetree/bindings/media/i2c/sony,imx519.yaml new
+> >>> file mode 100644 index 000000000000..9b6cda96f613 --- /dev/null
+> >>> +++ b/Documentation/devicetree/bindings/media/i2c/sony,imx519.yaml
+> >>> @@ -0,0 +1,107 @@
+> >>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> >>> +%YAML 1.2
+> >>> +---
+> >>> +$id: http://devicetree.org/schemas/media/i2c/sony,imx519.yaml#
+> >>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> >>> +
+> >>> +title: Sony 1/2.5-Inch 16Mpixel CMOS Digital Image Sensor
+> >>> +
+> >>> +maintainers:
+> >>> +  - Lee Jackson <lee@arducam.com>
+> >>> +
+> >>> +description: |-
+> >>> +  The Sony IMX519 is a 1/2.5-inch CMOS active pixel digital image
+> >>> sensor
+> >>> +  with an active array size of 4656H x 3496V. It is programmable
+> >>> through
+> >>> +  I2C interface. The I2C address is fixed to 0x1A as per sensor
+> >>> data sheet.
+> >>> +  Image data is sent through MIPI CSI-2, which is configured as
+> >>> either 2 or
+> >>> +  4 data lanes.
+> >>> +
+> >>> +properties:
+> >>> +  compatible:
+> >>> +    const: sony,imx519
+> >>> +
+> >>> +  reg:
+> >>> +    description: I2C device address    
+> >>
+> >> Skip description.
+> >>  
+> >>> +    maxItems: 1
+> >>> +
+> >>> +  clocks:
+> >>> +    maxItems: 1
+> >>> +
+> >>> +  VDIG-supply:    
+> >>
+> >> Use lower case names.  
+> > 
+> > Here we refer to other drivers (imx219), they are all uppercase, is
+> > lowercase mandatory?  
+> 
+> Lowercase is the convention. Just because some other driver used
+> uppercase is not really correct argument. If other driver has bug, you
+> also copy it?
+> 
+> 
+> Best regards,
+> Krzysztof
+> 
+
+Hi,
+Thanks for your quick reply. 
+I just want to refer to the driver that has passed the review, as a template, is there anything I can refer to?
+Do you have any good suggestions?
