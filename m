@@ -2,167 +2,205 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1DB2261F505
-	for <lists+linux-media@lfdr.de>; Mon,  7 Nov 2022 15:13:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8F55C61F5C9
+	for <lists+linux-media@lfdr.de>; Mon,  7 Nov 2022 15:23:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231965AbiKGONI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 7 Nov 2022 09:13:08 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54224 "EHLO
+        id S232397AbiKGOXk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 7 Nov 2022 09:23:40 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33166 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229638AbiKGONH (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Nov 2022 09:13:07 -0500
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12on2086.outbound.protection.outlook.com [40.107.244.86])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB97F1CFD3;
-        Mon,  7 Nov 2022 06:13:05 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=F1S2qKBE/Ud15knIJZPEhAiEL4o8MI4IdH5wiE702oJm6VLk5oPM5EVufMr2vuHutxUwojvRSdyvE+4MrwNNdcv6iWGyExRjgYfg2qYd5nC0UKiAUM2YgHST+PXgjM7EF21AL70kLZfJMph3bFnr7I+nOCtxTBs7X1roXiW/6pOSy748MsUN3xFDEDO2CARdMZs184VVJFn6m9jsPf1focV80Uh0zIhXM8s++gsL9HRXMOeL479HyzXZLY4JbDISE80qm3KIFquxZIRXQN9fZC4wirK3MaLh3Zm/CEIQ5Ju5p6XTHEIzSpzhOyL+Q+LYnBdPHhiZFY+zoVkqOXoZ3Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Ql8iMkSU+8aDD1+DxdykrLn3lHixabxtbxK2cnvomIg=;
- b=NrBL/b/nIwOZu+g/urCUeE4DwKO3iOz2+3ZjUKk9hDFIwlwCr0kc2ZOMaks2Xrp+N+5JqhkkC1Gr73aIq7JhiMVQirJHOUZSLZr2W3QLatKgXozv9e4+vrojtbO3VOvOuzuVSN9TInIzGaFTQL0t2e2fwA+T+DfMB3sIneP2mA2PmIG9Nx4kMnDYAKuQwMOTpYJ+T0K+Knts+YAVjjGFyOYrYIusCKSNzWhB9pyw2s5F1q5W7KZgXec9+xAApZSMfxjChucpIWKcONiN1oMpdEbOOCwxyrIhfPggUl1fQ2+u46KJ2PQ6gEI+tgKL0rANGO4gbzY/ZMIKsJPOIVAKtQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Ql8iMkSU+8aDD1+DxdykrLn3lHixabxtbxK2cnvomIg=;
- b=VdupVe7WFojTLZxrMc2Sv6BIASMWDWZRQ8FEkQra3/uCs54R5kSlks1rXQNSO0iqztghagaeTUQO0gcSW7fQEI/QcbZMXrcihrE9tMz8Yf2m8tsJY/dzPIIUBc7TjHG8Q9ynsZi72SfqHZNKU3dpVvlj401L4iKzjL0m8kotZOs=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by DM6PR12MB4531.namprd12.prod.outlook.com (2603:10b6:5:2a4::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5791.26; Mon, 7 Nov
- 2022 14:13:03 +0000
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::7d43:3f30:4caf:7421]) by BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::7d43:3f30:4caf:7421%7]) with mapi id 15.20.5791.026; Mon, 7 Nov 2022
- 14:13:03 +0000
-Message-ID: <c7b5a907-1e1f-46ba-ec1a-dd40c33dab37@amd.com>
-Date:   Mon, 7 Nov 2022 15:12:53 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH v4a 30/38] timers: dma-buf: Use timer_shutdown_sync() for
- on stack timers
-Content-Language: en-US
-To:     Steven Rostedt <rostedt@goodmis.org>, linux-kernel@vger.kernel.org
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Anna-Maria Gleixner <anna-maria@linutronix.de>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org
-References: <20221105060024.598488967@goodmis.org>
- <20221105060200.357061890@goodmis.org>
-From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20221105060200.357061890@goodmis.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR0P281CA0106.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:a8::7) To BN8PR12MB3587.namprd12.prod.outlook.com
- (2603:10b6:408:43::13)
+        with ESMTP id S231879AbiKGOXS (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Nov 2022 09:23:18 -0500
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8F9EE1DDCB;
+        Mon,  7 Nov 2022 06:19:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+  t=1667830741; x=1699366741;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=yDK/Vb+LhFqHhr75U15YJEc8D800niwmg+d808R1TtY=;
+  b=nteKGCJXWRQJ8xlTjvuc41jZDfTCawsvkqdIWW+HqCCHEHlY4Dx5G81L
+   mH1v4bjcMSZv6Zh1dV4/O9OYl7a/1vPTQslzhhFFei8wBj1enCrdVCTTv
+   F6TyujI9J6wlNm7abkfk0cz5/cEPfSYp85/Kfr5/TwRsPLMUeUk3yRLIL
+   LlqWQ3aIYuNHFCf43BpmyfBzifeUg5/p9CeYLCcajwUMJy9KYUOxt2Jxl
+   P7DUWU9VqrKhhNIZq0leiIuc2gnNTDTlio8FX/vPXlbpAyfxnLHiho7XK
+   4tIGd1XvmjMEJ9FiqxMBWQiKxNnBJBi9wfZHLeQH8eS1a991BOUQqhaVc
+   w==;
+X-IronPort-AV: E=Sophos;i="5.96,145,1665471600"; 
+   d="scan'208";a="122165280"
+Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
+  by esa6.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 07 Nov 2022 07:18:36 -0700
+Received: from chn-vm-ex01.mchp-main.com (10.10.85.143) by
+ chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.12; Mon, 7 Nov 2022 07:18:27 -0700
+Received: from ROB-ULT-M18282.microchip.com (10.10.115.15) by
+ chn-vm-ex01.mchp-main.com (10.10.85.143) with Microsoft SMTP Server id
+ 15.1.2507.12 via Frontend Transport; Mon, 7 Nov 2022 07:18:26 -0700
+From:   Eugen Hristev <eugen.hristev@microchip.com>
+To:     <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
+        <hverkuil-cisco@xs4all.nl>, <jacopo@jmondi.org>
+CC:     <linux-arm-kernel@lists.infradead.org>,
+        <linux-staging@lists.linux.dev>,
+        Eugen Hristev <eugen.hristev@microchip.com>
+Subject: [PATCH v12 0/6] media: atmel: atmel-isc: driver redesign
+Date:   Mon, 7 Nov 2022 16:18:12 +0200
+Message-ID: <20221107141818.104937-1-eugen.hristev@microchip.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|DM6PR12MB4531:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0afc4d13-d90b-4e92-a6ed-08dac0ca2f3c
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: igPtnsWhTDGoPW0r+/sLsU+B8nGZilZVER3uNM8hKCWcW6F4zkD3EemdDTaGAoxKwUpBoOT9Xf0SSkGryOGlWCnnSwTzJ0Or4kdA9NQ5yAbLCdTx3l8kppeAL0ZowIT4meFc//BgdprlTTnOZS5vEOKZA/IAFvrIQBm/xhIJCuDLg//Adp+qHvvc1uyoVGIxcWwmupUDoUuQZrkhbQJyefn6dyZoDtdHe/LNlakwBE9YB49G5cfuT+Fr/+EHbVlp1cm3DGUAtXv+IuOYuQ07E1j4H0PoPVGvUkelbDd8jxVUg44FKs7Y16uQTXLAxiOCPaPWfTqjSGproIsQ6dLFmzc9yGayv79fQ33CJPL5q2URP7F8jaQLHAkTu6I6ydrDTQu1zlhOlLUOWtXb8NhzjuJHY8rTTlDZN3xD4bvhSvUArBqJYFHZkw/ZggiNq0knGt7wkoZ9V1/sT0tQdLKX7nDN/Ky6d4grztwg4n2TbezCT9B0B5uly3oydwAT2Lx2f/cMnVPnF417JBzsQGpe0Cp40WOJY/wYWWVSsZkV4gHbEX4+gcpa1TlwbRHJOzKVJLdw53cZQzuv+vMK/UrK6oQsrjyJ0YSrjnhwz4Bdq4weQVekvKPAvKASJDbe2HVK9yJbXZNJFBPOWGPrncEsCzDIUc6pAANyyNXQCv/YoJUKjIg8YGlZb14TyZo452FPGpXfvUEu3voXe1mbJTSgtpv8s0oLvJvgcyXg4pwO6ZXge7QCiicfSOD65M7NHedElDCQPuHLNrmEFFPPNR+AuuBqKt+9+koHuRrvBgQ3thfJM3yt4umM66tBAtIe6vLvrcNQOuV5rBsHiIrEg7zt7OTmJqOAT9VC25Ho+JoaHX8=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN8PR12MB3587.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(396003)(346002)(136003)(39860400002)(366004)(376002)(451199015)(36756003)(31686004)(86362001)(31696002)(2906002)(6506007)(7416002)(5660300002)(66574015)(6512007)(26005)(83380400001)(38100700002)(186003)(2616005)(8676002)(4326008)(66556008)(8936002)(41300700001)(66946007)(66476007)(316002)(478600001)(6486002)(45080400002)(54906003)(6666004)(966005)(42413004)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SnlVMkIyRUovbTdJd0JkY2Z0ZHp0OGlGa0Z1YmVsVC9tNFIreCtrOStYcXhp?=
- =?utf-8?B?YnFsTlV1bFEyNmR3MHhTM1pRSkRac1NiMTdwTEtUZGpQRUZNWUZsVzFIQkZI?=
- =?utf-8?B?OU1yTldiQkFTU2UzK3k1NllKVUVnaENzYXlCcXRFK2lQa29tT0g1OTUzb0hE?=
- =?utf-8?B?cmU4clFiaE9RODhrMHVsaE5DZUlOazZyRVBDd3BRSjc2RERZMHRDZXZSeDhl?=
- =?utf-8?B?WWFWbWVLNnFQVFVxdTRQV01vSTJGOEI4YkR6bU9HU3Z6ZWF5MFA5REJqYW5l?=
- =?utf-8?B?SjZsVi9nelIzcHRjdWVDY2wzQXRzZGdkY25vMm9ralBEbWdCU3VUc3IvMjhP?=
- =?utf-8?B?aWh0WVpGVkNmcnFSL3FJdVV6OFpEWmVYWmdqOHp2MWo1V01EVDQ0RWJXdUV6?=
- =?utf-8?B?ZEpTZFpFT2ZyZmNUczJydGxyVEM1UW04cG04OTVwRnVUN24yalY0K3RTMTBN?=
- =?utf-8?B?S1ROTVpKMEwyTXF4ZFBJSzZGelNxOTFBazd4OFgyayt5N043NnIvVU1NUXJp?=
- =?utf-8?B?NXphTzBCQUw1VytQc1JPUWNnQ09GWmpCWk9iQkU4dklvQXRDZ3Vram1zTVkr?=
- =?utf-8?B?THNKbEROckpWMURxcmFtOHJKYUNSL3VQVDFHREEyV2Nib0RNU3E3TW5PczRy?=
- =?utf-8?B?RVp3QWUwU1k5YjNxeEpHWncvMlFvSFBwK2ZGb2R1NmxJUFJxNUJPWW5RSEpW?=
- =?utf-8?B?ekd4RnJDZ21uRVJBbHV2dUxmWWJHdGJMUlBLaVE4ZzJFMGFzTHN4UmNHMUw0?=
- =?utf-8?B?Z0tPYXNTTmZwdjRXK3pLZXpGNU1Oak1EeWl2NklxOGh2NXFFQWd1OUxQV1Nu?=
- =?utf-8?B?NE9XRlQ2b2tWYUw1N0RlREdKTTQ0bDh3Vk9mTmVXNm5JOElTM2tRSVA4NUdC?=
- =?utf-8?B?bENpNTd1R2lWY0N2TDNvNU9wdFhyZWEwTjd3b05kRTVPcjNqQmY0RUVBUThJ?=
- =?utf-8?B?Y0t2anlYZS9CRGtJa0QvRjRyOUVSQ1BraXVvM044Zm9vbmRoYjNxZUkxZmVj?=
- =?utf-8?B?cGM1b2NBODg2WkxudlI4cGt1N25mbjM4d212ZmphMCsvNDhXWk9pb3JnbU5s?=
- =?utf-8?B?SHkvSllGbGdTOStvN3VNTjFvZkdhVWVtQTRPNWt4c1U5NkNxaGlnb2ZIc0No?=
- =?utf-8?B?ekNxRkNPOElwUm1FYlhYR0d6SDVBa0hrWno5SnpkOHdETDF3ZWRqZHJGRWdF?=
- =?utf-8?B?dTlmSkp5M1Nyb0M4SEtPWE5kbEtyVHZZc3A3VUdPN0xLMkt2cnFYclk5eDQx?=
- =?utf-8?B?TGlKdzdFNFg1WnllNEp1SVJWekpQZmVQcWFITThQbElTM3dRQ0Z2SGtPN2ZC?=
- =?utf-8?B?NXVSMTQxcUM0bkY5OEpBRHNRVGU5NjBveGNORFBqKzhGL0Z3UzVkWGczN0Vj?=
- =?utf-8?B?THA3WUsyRzBVWUswTHBXRDF0ME9KWTgxTjZLcFMvMHZKTjR2OHl1N1lEQUpX?=
- =?utf-8?B?NE00N3ZoUm93OHZPNE1YaVN4MmFCa1ljYjYwWmJ2U3l1cDlycmw3OFFFWGpO?=
- =?utf-8?B?QjF5c29QNXdGVk9QdVYvYzJoWUd1UDYvazNsVDdPdWF1MldjdzQrUTc5WkJI?=
- =?utf-8?B?VzdFMGpZd2Z5bXlGcU9jMHpaUTBCN0NNdzJWaEJZR1ZMQUtXUTBWRFZYR2pj?=
- =?utf-8?B?TnNob0NQdGV3Um1IK2R3Z1NINk5KeWFUaE5iZTJrZjJrcjJ2dW12djFmWUNS?=
- =?utf-8?B?ZGxZZ1lCR3pIbksvYk9YUXkwZkRIL2VyTnNFTkFMTFVWaDRyMjEwZDFLbVRG?=
- =?utf-8?B?eThXU1ZRZzVSaElOTVViQ3dxc3E3SFZONlA3cU1sNFovcU8vRVZaK0xBWDRK?=
- =?utf-8?B?R1grSnlZdFVEbXZ4UUVWbitPRmk4cXJ6RXdEL2RLNStJTmpCelBiQUNNRE1I?=
- =?utf-8?B?eEdiLzBFcHdUR21MMHV5T1FmSWhkRVZrdjFJTVcrU25NWG9NTE5nOFZaNGZZ?=
- =?utf-8?B?d3lZc244RCs3NUs0SUZhcms4d3JNU1FqNzgrNkJDMllSb2taUVJBcXMvQmZh?=
- =?utf-8?B?eHlOMk05Sm80TzlId2k0ZHZaMmgxYkpDNnR2akpQNkdRM1V1THlwOVhxNGV3?=
- =?utf-8?B?KytLSHR5N09pbCtuVDRxSit4ZlU1aFVncnpndVN4UlJhSUV1SkVLV25wdEUr?=
- =?utf-8?Q?e02Q=3D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0afc4d13-d90b-4e92-a6ed-08dac0ca2f3c
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Nov 2022 14:13:03.7433
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 4gvJIo1JOyHcnEFohV9OttjXZMlQVuClPW6K0L3xPOgLt5xe9RlJBnWY9ybMQl3d
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4531
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am 05.11.22 um 07:00 schrieb Steven Rostedt:
-> From: "Steven Rostedt (Google)" <rostedt@goodmis.org>
->
-> Before a timer is released, timer_shutdown_sync() must be called.
->
-> Link: https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Flore.kernel.org%2Fall%2F20221104054053.431922658%40goodmis.org%2F&amp;data=05%7C01%7Cchristian.koenig%40amd.com%7Cfdadde8d801e48fecafa08dabef330f4%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C638032248997820518%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;sdata=mEL3bFU7fZ7kSrz3vv96opdAyt7Ew4UeY2nNF%2BhDmfc%3D&amp;reserved=0
->
-> Cc: Sumit Semwal <sumit.semwal@linaro.org>
-> Cc: "Christian König" <christian.koenig@amd.com>
-> Cc: linux-media@vger.kernel.org
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: linaro-mm-sig@lists.linaro.org
-> Signed-off-by: Steven Rostedt (Google) <rostedt@goodmis.org>
 
-Reviewed-by: Christian König <christian.koenig@amd.com>
+This series is a continuation of the series that converts the atmel-isc driver
+to media controller paradigm:
+https://lore.kernel.org/lkml/20220503095127.48710-1-eugen.hristev@microchip.com/T/#mccad96a3122f2817bf1ae1db7eddf1a8cecb2749
 
-> ---
->   drivers/dma-buf/st-dma-fence.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/dma-buf/st-dma-fence.c b/drivers/dma-buf/st-dma-fence.c
-> index fb6e0a6ae2c9..5d3e7b503501 100644
-> --- a/drivers/dma-buf/st-dma-fence.c
-> +++ b/drivers/dma-buf/st-dma-fence.c
-> @@ -412,7 +412,7 @@ static int test_wait_timeout(void *arg)
->   
->   	err = 0;
->   err_free:
-> -	del_timer_sync(&wt.timer);
-> +	timer_shutdown_sync(&wt.timer);
->   	destroy_timer_on_stack(&wt.timer);
->   	dma_fence_signal(wt.f);
->   	dma_fence_put(wt.f);
+As discussed on ML, the current Atmel ISC driver is moved to staging to keep the
+existing users happy, and readded to platform/microchip under a different
+Kconfig symbol and with the new media controller support which was reviewed in
+v10.
+I kept the original v10 patches on top of the movement of the driver
+to make it more clear what the conversion to media controller brings.
+
+Please let me know if this is okay or acceptable to take as it is,
+and if it complies with the requirements for the subsystem/ABI breakage, etc.
+
+Thanks to everyone for reviewing and helping in the discussions !
+
+PLEASE NOTE: the series depends on the patch:
+vb2: add support for (un)prepare_streaming queue ops
+by Hans Verkuil
+
+I have a different patch as the last in the series that uses the new callbacks
+(and only that patch is dependant on the
+vb2: add support for (un)prepare_streaming queue ops
+)
+
+Eugen
+
+Changes in v12:
+- moved patch 'move to staging' as last patch in the series
+- renamed exported symbols by Microchip ISC by adding prefix microchip_
+- added TODO in staging dir
+- make old ISC kconfigs dependant to !VIDEO_MICROCHIP_ISC_BASE
+- move to staging deprecated dir
+
+Changes in v11:
+- moved atmel isc to staging
+- created platform/microchip to host the new MICROCHIP_ISC driver
+- it was natural to move the MICROCHIP_CSI2DC here
+- on top, add the patches that move to media controller
+
+Full series history:
+
+Changes in v10:
+-> split the series into this first fixes part.
+-> moved IO_MC addition from first patch to the second patch on the driver changes
+-> edited commit messages
+-> DT nodes now disabled by default.
+
+Changes in v9:
+-> kernel robot reported isc_link_validate is not static, changed to static.
+
+Changes in v8:
+-> scaler: modified crop bounds to have the exact source size
+
+Changes in v7:
+-> scaler: modified crop bounds to have maximum isc size
+-> format propagation: did small changes as per Jacopo review
+
+
+Changes in v6:
+-> worked a bit on scaler, added try crop and other changes as per Jacopo review
+-> worked on isc-base enum_fmt , reworked as per Jacopo review
+
+Changes in v5:
+-> removed patch that removed the 'stop' variable as it was still required
+-> added two new trivial patches
+-> reworked some parts of the scaler and format propagation after discussions with Jacopo
+
+
+Changes in v4:
+-> as reviewed by Hans, added new patch to remove the 'stop' variable and reworked
+one patch that was using it
+-> as reviewed by Jacopo, reworked some parts of the media controller implementation
+
+
+Changes in v3:
+- change in bindings, small fixes in csi2dc driver and conversion to mc
+for the isc-base.
+- removed some MAINTAINERS patches and used patterns in MAINTAINERS
+
+Changes in v2:
+- integrated many changes suggested by Jacopo in the review of the v1 series.
+- add a few new patches
+
+Eugen Hristev (6):
+  media: atmel: move microchip_csi2dc to dedicated microchip platform
+  media: microchip: add ISC driver as Microchip ISC
+  media: microchip: microchip-isc: prepare for media controller support
+  media: microchip: microchip-isc: implement media controller
+  media: microchip: microchip-isc: move media_pipeline_* to (un)prepare
+    cb
+  media: atmel: atmel-isc: move to staging
+
+ MAINTAINERS                                   |    8 +-
+ drivers/media/platform/Kconfig                |    1 +
+ drivers/media/platform/Makefile               |    1 +
+ drivers/media/platform/atmel/Kconfig          |   51 -
+ drivers/media/platform/atmel/Makefile         |    7 -
+ drivers/media/platform/microchip/Kconfig      |   61 +
+ drivers/media/platform/microchip/Makefile     |    9 +
+ .../{atmel => microchip}/microchip-csi2dc.c   |    0
+ .../platform/microchip/microchip-isc-base.c   | 2040 +++++++++++++++++
+ .../platform/microchip/microchip-isc-clk.c    |  311 +++
+ .../platform/microchip/microchip-isc-regs.h   |  413 ++++
+ .../platform/microchip/microchip-isc-scaler.c |  267 +++
+ .../media/platform/microchip/microchip-isc.h  |  400 ++++
+ .../microchip/microchip-sama5d2-isc.c         |  683 ++++++
+ .../microchip/microchip-sama7g5-isc.c         |  646 ++++++
+ drivers/staging/media/Kconfig                 |    1 +
+ drivers/staging/media/Makefile                |    1 +
+ .../staging/media/deprecated/atmel/Kconfig    |   48 +
+ .../staging/media/deprecated/atmel/Makefile   |    8 +
+ drivers/staging/media/deprecated/atmel/TODO   |   34 +
+ .../media/deprecated}/atmel/atmel-isc-base.c  |   20 +-
+ .../media/deprecated}/atmel/atmel-isc-clk.c   |    8 +-
+ .../media/deprecated}/atmel/atmel-isc-regs.h  |    0
+ .../media/deprecated}/atmel/atmel-isc.h       |   16 +-
+ .../deprecated}/atmel/atmel-sama5d2-isc.c     |   18 +-
+ .../deprecated}/atmel/atmel-sama7g5-isc.c     |   18 +-
+ 26 files changed, 4969 insertions(+), 101 deletions(-)
+ create mode 100644 drivers/media/platform/microchip/Kconfig
+ create mode 100644 drivers/media/platform/microchip/Makefile
+ rename drivers/media/platform/{atmel => microchip}/microchip-csi2dc.c (100%)
+ create mode 100644 drivers/media/platform/microchip/microchip-isc-base.c
+ create mode 100644 drivers/media/platform/microchip/microchip-isc-clk.c
+ create mode 100644 drivers/media/platform/microchip/microchip-isc-regs.h
+ create mode 100644 drivers/media/platform/microchip/microchip-isc-scaler.c
+ create mode 100644 drivers/media/platform/microchip/microchip-isc.h
+ create mode 100644 drivers/media/platform/microchip/microchip-sama5d2-isc.c
+ create mode 100644 drivers/media/platform/microchip/microchip-sama7g5-isc.c
+ create mode 100644 drivers/staging/media/deprecated/atmel/Kconfig
+ create mode 100644 drivers/staging/media/deprecated/atmel/Makefile
+ create mode 100644 drivers/staging/media/deprecated/atmel/TODO
+ rename drivers/{media/platform => staging/media/deprecated}/atmel/atmel-isc-base.c (99%)
+ rename drivers/{media/platform => staging/media/deprecated}/atmel/atmel-isc-clk.c (97%)
+ rename drivers/{media/platform => staging/media/deprecated}/atmel/atmel-isc-regs.h (100%)
+ rename drivers/{media/platform => staging/media/deprecated}/atmel/atmel-isc.h (96%)
+ rename drivers/{media/platform => staging/media/deprecated}/atmel/atmel-sama5d2-isc.c (97%)
+ rename drivers/{media/platform => staging/media/deprecated}/atmel/atmel-sama7g5-isc.c (97%)
+
+-- 
+2.25.1
 
