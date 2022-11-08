@@ -2,301 +2,372 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 794F5620F81
-	for <lists+linux-media@lfdr.de>; Tue,  8 Nov 2022 12:50:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9252F620F92
+	for <lists+linux-media@lfdr.de>; Tue,  8 Nov 2022 12:53:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233811AbiKHLuW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 8 Nov 2022 06:50:22 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49436 "EHLO
+        id S233992AbiKHLxu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 8 Nov 2022 06:53:50 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51546 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233539AbiKHLuV (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 8 Nov 2022 06:50:21 -0500
-Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EABFA11811
-        for <linux-media@vger.kernel.org>; Tue,  8 Nov 2022 03:50:19 -0800 (PST)
-Received: from builder.linuxtv.org ([140.211.167.10])
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1osN7R-000j5g-39; Tue, 08 Nov 2022 11:50:17 +0000
-Received: from localhost ([127.0.0.1] helo=builder.linuxtv.org)
-        by builder.linuxtv.org with esmtp (Exim 4.94.2)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1osN7J-00Ezk2-1e; Tue, 08 Nov 2022 11:50:09 +0000
-Date:   Tue, 8 Nov 2022 11:50:06 +0000 (UTC)
-From:   Jenkins Builder Robot <jenkins@linuxtv.org>
-To:     mchehab@kernel.org, linux-media@vger.kernel.org
-Message-ID: <1011107154.0.1667908208323@builder.linuxtv.org>
-Subject: Build failed in Jenkins: linux-media #298
+        with ESMTP id S233933AbiKHLxo (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 8 Nov 2022 06:53:44 -0500
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A3C94047D
+        for <linux-media@vger.kernel.org>; Tue,  8 Nov 2022 03:53:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1667908422; x=1699444422;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=CV6kH4I2ahZxz3whouPoiuZ53oEceh8OcKY0cxdiBlk=;
+  b=lCCmGIIAQnW9qI5YxNJLb23OwYl5YDWRbJKeqC3PQTFDD7LOrp4DkVHz
+   yhW5eGdl/w/Jq6gBfWLuvNdmHvFM+LL1lrwAwuX7ktbK1BD8NF2zmRECF
+   uP8lewazicVm73M3sduv8UjlxVgbon0OeDNVqwsOydViyeo6Jn9a7ZpUi
+   9mWUn8vUok8JMsN5bHbXmaw6BW9basYj4r/7CEizfMCg9B4oGAZI97sS2
+   xLGXGTkdEo0Hn9I6GkGMJIT7iZn9hi+NwGqgTaVHi45IcgnzBTfMoAly1
+   /0BYMjR01uqUHqZxV2PrpXE2uw9y3thzpMenRIZm36nooQIKQQkZY9Bti
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10524"; a="298191388"
+X-IronPort-AV: E=Sophos;i="5.96,147,1665471600"; 
+   d="scan'208";a="298191388"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2022 03:53:41 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10524"; a="636308904"
+X-IronPort-AV: E=Sophos;i="5.96,147,1665471600"; 
+   d="scan'208";a="636308904"
+Received: from ahajda-mobl.ger.corp.intel.com (HELO [10.213.23.49]) ([10.213.23.49])
+  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2022 03:53:39 -0800
+Message-ID: <ace62db1-975f-329a-522f-c9b5720a263c@intel.com>
+Date:   Tue, 8 Nov 2022 12:53:36 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Firefox/102.0 Thunderbird/102.4.2
+Subject: Re: [PATCH v6] media: s5k4ecgx: Switch to GPIO descriptors
+Content-Language: en-US
+To:     Linus Walleij <linus.walleij@linaro.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org
+Cc:     Sylwester Nawrocki <s.nawrocki@samsung.com>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Alim Akhtar <alim.akhtar@samsung.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Tommaso Merciai <tommaso.merciai@amarulasolutions.com>
+References: <20221108101112.1501278-1-linus.walleij@linaro.org>
+From:   Andrzej Hajda <andrzej.hajda@intel.com>
+Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
+ Gdansk - KRS 101882 - NIP 957-07-52-316
+In-Reply-To: <20221108101112.1501278-1-linus.walleij@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Instance-Identity: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAf928QubrKEjMQ0IZR0WWXn8zG7uTdH33F2Idx4Xmlp6Z138NdNMQYNG71OKzmvn3/E1G4rpd9JsMls16nRZ2NAPgOWX0qfFr6HyOoQklLGZt+vkOFb0BvmBFfdI+00J5B1SPupxv4pT3bDLSiwbBNCOLY4sdB0gG1ng14mzu47G8zmH6l2ZE/9urEd6OLFhzrb6ym4vlkCE8uvNJAdAWbeafd1plHSLdU/TVqHMZELuM0wt9khqhUOkfE+dHr7h6DNrkFpvm/8j/5wTuy98ZwwWimP+pfjSQMgKrhXjwHcJJa2N9v1HdwrwlUaRYuA6o8fwUHNC9vLj7cCXM3qiwIDAQAB
-X-Jenkins-Job: linux-media
-X-Jenkins-Result: FAILURE
-Auto-submitted: auto-generated
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
-        autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_MED,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
+        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-See <https://builder.linuxtv.org/job/linux-media/298/display/redirect>
-
-Changes:
 
 
-------------------------------------------
-[...truncated 113754 lines...]
-  CC      drivers/iio/light/iqs621-als.o
-  CC      drivers/gnss/mtk.o
-  CC      drivers/iio/imu/inv_icm42600/inv_icm42600_gyro.o
-  CC      drivers/fpga/dfl-fme-pr.o
-  AR      drivers/iio/position/built-in.a
-  CC      drivers/fpga/dfl-fme-error.o
-  AR      drivers/nvmem/built-in.a
-  CC      drivers/net/ethernet/pensando/ionic/ionic_txrx.o
-  CC      drivers/iio/potentiometer/ad5272.o
-  CC      drivers/iio/light/isl29018.o
-  CC      drivers/iio/light/isl29028.o
-  CC      drivers/iio/magnetometer/st_magn_i2c.o
-  CC      drivers/gnss/sirf.o
-  CC      drivers/net/ethernet/pensando/ionic/ionic_stats.o
-  CC      drivers/iio/imu/inv_icm42600/inv_icm42600_accel.o
-  CC      drivers/fpga/dfl-fme-perf.o
-  CC      drivers/iio/potentiometer/ds1803.o
-  CC      drivers/gnss/ubx.o
-  CC      drivers/iio/magnetometer/st_magn_spi.o
-  CC      drivers/iio/imu/inv_icm42600/inv_icm42600_temp.o
-  CC      drivers/iio/potentiostat/lmp91000.o
-  CC      drivers/iio/light/isl29125.o
-  CC      drivers/iio/potentiometer/max5432.o
-  CC      drivers/fpga/dfl-fme-mgr.o
-  CC      drivers/iio/magnetometer/hmc5843_core.o
-  CC      drivers/gnss/usb.o
-  CC      drivers/net/ethernet/pensando/ionic/ionic_fw.o
-  CC      drivers/net/ethernet/pensando/ionic/ionic_phc.o
-  CC      drivers/iio/imu/inv_icm42600/inv_icm42600_buffer.o
-  CC      drivers/fpga/dfl-fme-br.o
-  CC      drivers/iio/light/jsa1212.o
-  AR      drivers/iio/potentiostat/built-in.a
-  CC      drivers/iio/light/lm3533-als.o
-  CC      drivers/iio/potentiometer/max5481.o
-  CC      drivers/iio/magnetometer/hmc5843_i2c.o
-  AR      drivers/gnss/built-in.a
-  CC      drivers/iio/light/ltr501.o
-  CC      drivers/fpga/dfl-fme-region.o
-  CC      drivers/iio/light/ltrf216a.o
-  CC      drivers/iio/imu/inv_icm42600/inv_icm42600_timestamp.o
-  CC      drivers/iio/potentiometer/max5487.o
-  AR      drivers/net/ethernet/pensando/ionic/built-in.a
-  AR      drivers/net/ethernet/pensando/built-in.a
-  AR      drivers/net/ethernet/built-in.a
-  CC      drivers/iio/magnetometer/hmc5843_spi.o
-  CC      drivers/fpga/dfl-afu-main.o
-  AR      drivers/net/built-in.a
-  CC      drivers/iio/potentiometer/mcp4018.o
-  CC      drivers/iio/light/lv0104cs.o
-  CC      drivers/iio/potentiometer/mcp4131.o
-  CC      drivers/iio/proximity/as3935.o
-  CC      drivers/iio/imu/inv_icm42600/inv_icm42600_i2c.o
-  CC      drivers/iio/pressure/abp060mg.o
-  CC      drivers/iio/magnetometer/rm3100-core.o
-  CC      drivers/iio/magnetometer/rm3100-i2c.o
-  CC      drivers/fpga/dfl-afu-region.o
-  CC      drivers/iio/magnetometer/rm3100-spi.o
-  CC      drivers/iio/proximity/cros_ec_mkbp_proximity.o
-  CC      drivers/iio/potentiometer/mcp4531.o
-  CC      drivers/iio/imu/inv_icm42600/inv_icm42600_spi.o
-  CC      drivers/iio/light/max44000.o
-  CC      drivers/iio/pressure/bmp280-core.o
-  CC      drivers/iio/pressure/bmp280-regmap.o
-  CC      drivers/fpga/dfl-afu-dma-region.o
-  CC      drivers/iio/resolver/ad2s90.o
-  CC      drivers/iio/proximity/isl29501.o
-  CC      drivers/iio/magnetometer/yamaha-yas530.o
-  CC      drivers/iio/potentiometer/mcp41010.o
-  CC      drivers/iio/light/max44009.o
-  AR      drivers/iio/imu/inv_icm42600/built-in.a
-  CC      drivers/fpga/dfl-afu-error.o
-  CC      drivers/iio/resolver/ad2s1200.o
-  CC      drivers/iio/pressure/bmp280-i2c.o
-  CC      drivers/iio/proximity/pulsedlight-lidar-lite-v2.o
-  CC      drivers/iio/imu/inv_mpu6050/inv_mpu_core.o
-  CC      drivers/iio/light/noa1305.o
-  AR      drivers/iio/magnetometer/built-in.a
-  CC      drivers/iio/potentiometer/tpl0102.o
-  CC      drivers/iio/proximity/mb1232.o
-  CC      drivers/iio/temperature/iqs620at-temp.o
-  CC      drivers/fpga/dfl-n3000-nios.o
-  AR      drivers/iio/resolver/built-in.a
-  CC      drivers/iio/pressure/bmp280-spi.o
-  CC      drivers/iio/temperature/ltc2983.o
-  CC      drivers/iio/imu/inv_mpu6050/inv_mpu_ring.o
-  CC      drivers/iio/test/iio-test-rescale.o
-  CC      drivers/iio/light/opt3001.o
-  CC      drivers/iio/light/pa12203001.o
-  CC      drivers/iio/proximity/ping.o
-  AR      drivers/iio/potentiometer/built-in.a
-  CC      drivers/fpga/dfl-pci.o
-  CC      drivers/iio/temperature/hid-sensor-temperature.o
-  CC      drivers/iio/pressure/dlhl60d.o
-  CC      drivers/iio/pressure/dps310.o
-  CC      drivers/iio/proximity/rfd77402.o
-  CC      drivers/iio/imu/inv_mpu6050/inv_mpu_trigger.o
-  CC      drivers/iio/test/iio-test-format.o
-  CC      drivers/iio/pressure/cros_ec_baro.o
-  CC      drivers/iio/light/rpr0521.o
-  AR      drivers/fpga/built-in.a
-  CC      drivers/iio/pressure/hid-sensor-press.o
-  CC      drivers/iio/proximity/srf04.o
-  CC      drivers/iio/temperature/maxim_thermocouple.o
-  CC      drivers/iio/proximity/srf08.o
-  AR      drivers/iio/test/built-in.a
-  CC      drivers/iio/proximity/sx9310.o
-  CC      drivers/iio/pressure/hp03.o
-  CC      drivers/iio/proximity/sx9324.o
-  CC      drivers/iio/proximity/sx9360.o
-  CC      drivers/iio/trigger/iio-trig-hrtimer.o
-  CC      drivers/iio/imu/inv_mpu6050/inv_mpu_aux.o
-  CC      drivers/iio/light/tsl2563.o
-  CC      drivers/iio/imu/inv_mpu6050/inv_mpu_magn.o
-  CC      drivers/iio/temperature/max31856.o
-  CC      drivers/iio/pressure/icp10100.o
-  CC      drivers/iio/trigger/iio-trig-interrupt.o
-  CC      drivers/iio/trigger/stm32-lptimer-trigger.o
-  CC      drivers/iio/trigger/stm32-timer-trigger.o
-  CC      drivers/iio/light/si1133.o
-  CC      drivers/iio/proximity/sx_common.o
-  CC      drivers/iio/proximity/sx9500.o
-  CC      drivers/iio/temperature/max31865.o
-  CC      drivers/iio/imu/inv_mpu6050/inv_mpu_i2c.o
-  CC      drivers/iio/proximity/vcnl3020.o
-  CC      drivers/iio/pressure/mpl115.o
-  CC      drivers/iio/temperature/mlx90614.o
-  CC      drivers/iio/trigger/iio-trig-sysfs.o
-  CC      drivers/iio/light/si1145.o
-  CC      drivers/iio/light/stk3310.o
-  CC      drivers/iio/light/st_uvis25_core.o
-  CC      drivers/iio/imu/inv_mpu6050/inv_mpu_acpi.o
-  CC      drivers/iio/imu/inv_mpu6050/inv_mpu_spi.o
-  CC      drivers/iio/pressure/mpl115_i2c.o
-  CC      drivers/iio/proximity/vl53l0x-i2c.o
-  CC      drivers/iio/temperature/mlx90632.o
-  CC      drivers/iio/trigger/iio-trig-loop.o
-  CC      drivers/iio/temperature/tmp006.o
-  CC      drivers/iio/temperature/tmp007.o
-  CC      drivers/iio/temperature/tmp117.o
-  CC      drivers/iio/light/st_uvis25_i2c.o
-  CC      drivers/iio/pressure/mpl115_spi.o
-  AR      drivers/iio/trigger/built-in.a
-  CC      drivers/iio/pressure/mpl3115.o
-  AR      drivers/iio/proximity/built-in.a
-  CC      drivers/iio/light/st_uvis25_spi.o
-  AR      drivers/iio/imu/inv_mpu6050/built-in.a
-  CC      drivers/iio/imu/kmx61.o
-  CC      drivers/iio/light/tcs3414.o
-  CC      drivers/iio/light/tcs3472.o
-  CC      drivers/iio/light/tsl2583.o
-  CC      drivers/iio/temperature/tsys01.o
-  CC      drivers/iio/temperature/tsys02d.o
-  CC      drivers/iio/imu/st_lsm6dsx/st_lsm6dsx_core.o
-  CC      drivers/iio/pressure/ms5611_core.o
-  CC      drivers/interconnect/core.o
-  CC      drivers/iio/pressure/ms5611_i2c.o
-  CC      drivers/interconnect/bulk.o
-  CC      drivers/iio/light/tsl2591.o
-  AR      drivers/iio/temperature/built-in.a
-  CC      drivers/iio/pressure/ms5611_spi.o
-  CC      drivers/most/core.o
-  CC      drivers/interconnect/imx/imx.o
-  CC      drivers/peci/core.o
-  CC      drivers/hte/hte.o
-  CC      drivers/counter/counter-core.o
-  CC      drivers/iio/imu/st_lsm6dsx/st_lsm6dsx_buffer.o
-  AR      drivers/hte/built-in.a
-  CC      drivers/iio/imu/st_lsm6dsx/st_lsm6dsx_shub.o
-  CC      drivers/iio/imu/st_lsm6dsx/st_lsm6dsx_i2c.o
-  CC      drivers/iio/pressure/ms5637.o
-  CC      drivers/interconnect/imx/imx8mm.o
-  CC      drivers/iio/light/tsl2772.o
-  CC      drivers/peci/request.o
-  CC      drivers/counter/counter-sysfs.o
-  CC      drivers/most/configfs.o
-  CC      drivers/counter/counter-chrdev.o
-  CC      drivers/interconnect/imx/imx8mq.o
-  CC      drivers/iio/pressure/st_pressure_core.o
-  CC      drivers/iio/imu/st_lsm6dsx/st_lsm6dsx_spi.o
-  CC      drivers/interconnect/imx/imx8mn.o
-  CC      drivers/peci/device.o
-  CC      drivers/most/most_usb.o
-  CC      drivers/iio/light/tsl4531.o
-  CC      drivers/peci/sysfs.o
-  CC      drivers/interconnect/imx/imx8mp.o
-  CC      drivers/peci/cpu.o
-  CC      drivers/counter/104-quad-8.o
-  CC      drivers/iio/imu/st_lsm6dsx/st_lsm6dsx_i3c.o
-  CC      drivers/iio/pressure/st_pressure_buffer.o
-  CC      drivers/iio/pressure/t5403.o
-  CC      drivers/iio/pressure/hp206c.o
-  AR      drivers/interconnect/imx/built-in.a
-  CC      drivers/interconnect/samsung/exynos.o
-  CC      drivers/peci/controller/peci-aspeed.o
-  CC      drivers/iio/light/us5182d.o
-  CC      drivers/counter/interrupt-cnt.o
-  AR      drivers/iio/imu/st_lsm6dsx/built-in.a
-  AR      drivers/iio/imu/built-in.a
-  CC      drivers/iio/light/vcnl4000.o
-  CC      drivers/iio/light/vcnl4035.o
-  CC      drivers/most/most_cdev.o
-  CC      drivers/iio/light/veml6030.o
-  CC      drivers/iio/pressure/zpa2326.o
-  AR      drivers/interconnect/samsung/built-in.a
-  AR      drivers/peci/controller/built-in.a
-  AR      drivers/interconnect/built-in.a
-  AR      drivers/peci/built-in.a
-  CC      drivers/iio/light/veml6070.o
-  CC      drivers/iio/light/vl6180.o
-  CC      drivers/most/most_snd.o
-  CC      drivers/counter/stm32-timer-cnt.o
-  CC      drivers/iio/pressure/zpa2326_i2c.o
-  CC      drivers/iio/light/zopt2201.o
-  CC      drivers/counter/stm32-lptimer-cnt.o
-  CC      drivers/counter/ti-eqep.o
-  CC      drivers/iio/pressure/zpa2326_spi.o
-  CC      drivers/counter/ftm-quaddec.o
-  CC      drivers/counter/microchip-tcb-capture.o
-  AR      drivers/most/built-in.a
-  CC      drivers/counter/intel-qep.o
-  CC      drivers/counter/ti-ecap-capture.o
-  CC      drivers/iio/pressure/st_pressure_i2c.o
-  CC      drivers/iio/pressure/st_pressure_spi.o
-  AR      drivers/iio/light/built-in.a
-  AR      drivers/iio/pressure/built-in.a
-  AR      drivers/iio/built-in.a
-  AR      drivers/counter/built-in.a
-  AR      drivers/built-in.a
-  AR      built-in.a
-  AR      vmlinux.a
-  LD      vmlinux.o
-Killed
-make[2]: *** [../scripts/Makefile.vmlinux_o:61: vmlinux.o] Error 137
-make[2]: *** Deleting file 'vmlinux.o'
-make[1]: *** [/var/lib/jenkins/workspace/linux-media/Makefile:1229: vmlinux_o] Error 2
-make[1]: Leaving directory '/var/lib/jenkins/workspace/linux-media/x86_64_yes'
-make: *** [Makefile:231: __sub-make] Error 2
-[Pipeline] }
-[Pipeline] // node
-[Pipeline] }
-[Pipeline] // stage
-[Pipeline] }
-Failed in branch x86_64 (builtin/mod)
-[Pipeline] // parallel
-[Pipeline] }
-[Pipeline] // stage
-[Pipeline] stage
-[Pipeline] { (Declarative: Post Actions)
-[Pipeline] step
+On 08.11.2022 11:11, Linus Walleij wrote:
+> The driver has an option to pass in GPIO numbers from platform
+> data but this is not used in the kernel so delete this and the
+> whole platform data mechanism.
+>
+> Get GPIO descriptors using the standard API and simplify the code,
+> gpiolib will handle any inversions.
+>
+> Cc: Sylwester Nawrocki <s.nawrocki@samsung.com>
+> Cc: Andrzej Hajda <andrzej.hajda@intel.com>
+> Cc: Krzysztof Kozlowski <krzk@kernel.org>
+> Cc: Alim Akhtar <alim.akhtar@samsung.com>
+> Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+> Reviewed-by: Andrzej Hajda <andrzej.hajda@intel.com>
+> Reviewed-by: Tommaso Merciai <tommaso.merciai@amarulasolutions.com>
+> Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+> ---
+> ChangeLog v5->v6:
+> - Drop some self-evident comments.
+> - Use dev_err_probe()
+> - Collect Andrzej's Review tag.
+> ChangeLog v4->v5:
+> - Rebase on v6.1-rc1
+> ChangeLog v3->v4:
+> - Collect Tommaso's Review tag
+> - Rebase on v6.0-rc1
+> ChangeLog v2->v3:
+> - COMMIT and send out what is actually in my tree (and
+>    compiling).
+> ChangeLog v1->v2:
+> - Fix compile bug by sending out the patch actually in my
+>    git tree.
+> ---
+>   drivers/media/i2c/s5k4ecgx.c | 127 +++++++----------------------------
+>   include/media/i2c/s5k4ecgx.h |  33 ---------
+>   2 files changed, 25 insertions(+), 135 deletions(-)
+>   delete mode 100644 include/media/i2c/s5k4ecgx.h
+>
+> diff --git a/drivers/media/i2c/s5k4ecgx.c b/drivers/media/i2c/s5k4ecgx.c
+> index 3dddcd9dd351..01bb6daea696 100644
+> --- a/drivers/media/i2c/s5k4ecgx.c
+> +++ b/drivers/media/i2c/s5k4ecgx.c
+> @@ -15,7 +15,7 @@
+>   #include <linux/ctype.h>
+>   #include <linux/delay.h>
+>   #include <linux/firmware.h>
+> -#include <linux/gpio.h>
+> +#include <linux/gpio/consumer.h>
+>   #include <linux/i2c.h>
+>   #include <linux/module.h>
+>   #include <linux/regulator/consumer.h>
+> @@ -23,7 +23,6 @@
+>   #include <asm/unaligned.h>
+>   
+>   #include <media/media-entity.h>
+> -#include <media/i2c/s5k4ecgx.h>
+>   #include <media/v4l2-ctrls.h>
+>   #include <media/v4l2-device.h>
+>   #include <media/v4l2-mediabus.h>
+> @@ -171,12 +170,6 @@ static const char * const s5k4ecgx_supply_names[] = {
+>   
+>   #define S5K4ECGX_NUM_SUPPLIES ARRAY_SIZE(s5k4ecgx_supply_names)
+>   
+> -enum s5k4ecgx_gpio_id {
+> -	STBY,
+> -	RSET,
+> -	GPIO_NUM,
+> -};
+> -
+>   struct s5k4ecgx {
+>   	struct v4l2_subdev sd;
+>   	struct media_pad pad;
+> @@ -190,7 +183,8 @@ struct s5k4ecgx {
+>   	u8 set_params;
+>   
+>   	struct regulator_bulk_data supplies[S5K4ECGX_NUM_SUPPLIES];
+> -	struct s5k4ecgx_gpio gpio[GPIO_NUM];
+> +	struct gpio_desc *stby;
+> +	struct gpio_desc *reset;
+>   };
+>   
+>   static inline struct s5k4ecgx *to_s5k4ecgx(struct v4l2_subdev *sd)
+> @@ -454,15 +448,6 @@ static int s5k4ecgx_init_sensor(struct v4l2_subdev *sd)
+>   	return ret;
+>   }
+>   
+> -static int s5k4ecgx_gpio_set_value(struct s5k4ecgx *priv, int id, u32 val)
+> -{
+> -	if (!gpio_is_valid(priv->gpio[id].gpio))
+> -		return 0;
+> -	gpio_set_value(priv->gpio[id].gpio, val);
+> -
+> -	return 1;
+> -}
+> -
+>   static int __s5k4ecgx_power_on(struct s5k4ecgx *priv)
+>   {
+>   	int ret;
+> @@ -472,23 +457,20 @@ static int __s5k4ecgx_power_on(struct s5k4ecgx *priv)
+>   		return ret;
+>   	usleep_range(30, 50);
+>   
+> -	/* The polarity of STBY is controlled by TSP */
+> -	if (s5k4ecgx_gpio_set_value(priv, STBY, priv->gpio[STBY].level))
+> -		usleep_range(30, 50);
+> -
+> -	if (s5k4ecgx_gpio_set_value(priv, RSET, priv->gpio[RSET].level))
+> -		usleep_range(30, 50);
+> +	gpiod_set_value(priv->stby, 0);
+> +	usleep_range(30, 50);
+> +	gpiod_set_value(priv->reset, 0);
+> +	usleep_range(30, 50);
+>   
+>   	return 0;
+>   }
+>   
+>   static int __s5k4ecgx_power_off(struct s5k4ecgx *priv)
+>   {
+> -	if (s5k4ecgx_gpio_set_value(priv, RSET, !priv->gpio[RSET].level))
+> -		usleep_range(30, 50);
+> -
+> -	if (s5k4ecgx_gpio_set_value(priv, STBY, !priv->gpio[STBY].level))
+> -		usleep_range(30, 50);
+> +	gpiod_set_value(priv->reset, 1);
+> +	usleep_range(30, 50);
+> +	gpiod_set_value(priv->stby, 1);
+> +	usleep_range(30, 50);
+>   
+>   	priv->streaming = 0;
+>   
+> @@ -840,68 +822,6 @@ static const struct v4l2_subdev_ops s5k4ecgx_ops = {
+>   	.video = &s5k4ecgx_video_ops,
+>   };
+>   
+> -/*
+> - * GPIO setup
+> - */
+> -static int s5k4ecgx_config_gpio(int nr, int val, const char *name)
+> -{
+> -	unsigned long flags = val ? GPIOF_OUT_INIT_HIGH : GPIOF_OUT_INIT_LOW;
+> -	int ret;
+> -
+> -	if (!gpio_is_valid(nr))
+> -		return 0;
+> -	ret = gpio_request_one(nr, flags, name);
+> -	if (!ret)
+> -		gpio_export(nr, 0);
+> -
+> -	return ret;
+> -}
+> -
+> -static void s5k4ecgx_free_gpios(struct s5k4ecgx *priv)
+> -{
+> -	int i;
+> -
+> -	for (i = 0; i < ARRAY_SIZE(priv->gpio); i++) {
+> -		if (!gpio_is_valid(priv->gpio[i].gpio))
+> -			continue;
+> -		gpio_free(priv->gpio[i].gpio);
+> -		priv->gpio[i].gpio = -EINVAL;
+> -	}
+> -}
+> -
+> -static int s5k4ecgx_config_gpios(struct s5k4ecgx *priv,
+> -				  const struct s5k4ecgx_platform_data *pdata)
+> -{
+> -	const struct s5k4ecgx_gpio *gpio = &pdata->gpio_stby;
+> -	int ret;
+> -
+> -	priv->gpio[STBY].gpio = -EINVAL;
+> -	priv->gpio[RSET].gpio  = -EINVAL;
+> -
+> -	ret = s5k4ecgx_config_gpio(gpio->gpio, gpio->level, "S5K4ECGX_STBY");
+> -
+> -	if (ret) {
+> -		s5k4ecgx_free_gpios(priv);
+> -		return ret;
+> -	}
+> -	priv->gpio[STBY] = *gpio;
+> -	if (gpio_is_valid(gpio->gpio))
+> -		gpio_set_value(gpio->gpio, 0);
+> -
+> -	gpio = &pdata->gpio_reset;
+> -
+> -	ret = s5k4ecgx_config_gpio(gpio->gpio, gpio->level, "S5K4ECGX_RST");
+> -	if (ret) {
+> -		s5k4ecgx_free_gpios(priv);
+> -		return ret;
+> -	}
+> -	priv->gpio[RSET] = *gpio;
+> -	if (gpio_is_valid(gpio->gpio))
+> -		gpio_set_value(gpio->gpio, 0);
+> -
+> -	return 0;
+> -}
+> -
+>   static int s5k4ecgx_init_v4l2_ctrls(struct s5k4ecgx *priv)
+>   {
+>   	const struct v4l2_ctrl_ops *ops = &s5k4ecgx_ctrl_ops;
+> @@ -965,11 +885,17 @@ static int s5k4ecgx_probe(struct i2c_client *client,
+>   	if (ret)
+>   		return ret;
+>   
+> -	ret = s5k4ecgx_config_gpios(priv, pdata);
+> -	if (ret) {
+> -		dev_err(&client->dev, "Failed to set gpios\n");
+> -		goto out_err1;
+> -	}
+> +	priv->stby = devm_gpiod_get(&client->dev, "standby", GPIOD_OUT_HIGH);
+> +	if (IS_ERR(priv->stby))
+> +		dev_err_probe(&client->dev, PTR_ERR(priv->stby),
+> +			      "failed to request gpio S5K4ECGX_STBY\n");
+> +	gpiod_set_consumer_name(priv->stby, "S5K4ECGX_STBY");
+> +	priv->reset = devm_gpiod_get(&client->dev, "reset", GPIOD_OUT_HIGH);
+> +	if (IS_ERR(priv->reset))
+> +		dev_err_probe(&client->dev, PTR_ERR(priv->stby),
+
+PTR_ERR(priv->reset)
+
+Regards
+Andrzej
+
+> +			      "failed to request gpio S5K4ECGX_RST\n");
+> +	gpiod_set_consumer_name(priv->reset, "S5K4ECGX_RST");
+> +
+>   	for (i = 0; i < S5K4ECGX_NUM_SUPPLIES; i++)
+>   		priv->supplies[i].supply = s5k4ecgx_supply_names[i];
+>   
+> @@ -977,20 +903,18 @@ static int s5k4ecgx_probe(struct i2c_client *client,
+>   				 priv->supplies);
+>   	if (ret) {
+>   		dev_err(&client->dev, "Failed to get regulators\n");
+> -		goto out_err2;
+> +		goto out_err;
+>   	}
+>   	ret = s5k4ecgx_init_v4l2_ctrls(priv);
+>   	if (ret)
+> -		goto out_err2;
+> +		goto out_err;
+>   
+>   	priv->curr_pixfmt = &s5k4ecgx_formats[0];
+>   	priv->curr_frmsize = &s5k4ecgx_prev_sizes[0];
+>   
+>   	return 0;
+>   
+> -out_err2:
+> -	s5k4ecgx_free_gpios(priv);
+> -out_err1:
+> +out_err:
+>   	media_entity_cleanup(&priv->sd.entity);
+>   
+>   	return ret;
+> @@ -1002,7 +926,6 @@ static void s5k4ecgx_remove(struct i2c_client *client)
+>   	struct s5k4ecgx *priv = to_s5k4ecgx(sd);
+>   
+>   	mutex_destroy(&priv->lock);
+> -	s5k4ecgx_free_gpios(priv);
+>   	v4l2_device_unregister_subdev(sd);
+>   	v4l2_ctrl_handler_free(&priv->handler);
+>   	media_entity_cleanup(&sd->entity);
+> diff --git a/include/media/i2c/s5k4ecgx.h b/include/media/i2c/s5k4ecgx.h
+> deleted file mode 100644
+> index 92202eb35249..000000000000
+> --- a/include/media/i2c/s5k4ecgx.h
+> +++ /dev/null
+> @@ -1,33 +0,0 @@
+> -/* SPDX-License-Identifier: GPL-2.0-or-later */
+> -/*
+> - * S5K4ECGX image sensor header file
+> - *
+> - * Copyright (C) 2012, Linaro
+> - * Copyright (C) 2012, Samsung Electronics Co., Ltd.
+> - */
+> -
+> -#ifndef S5K4ECGX_H
+> -#define S5K4ECGX_H
+> -
+> -/**
+> - * struct s5k4ecgx_gpio - data structure describing a GPIO
+> - * @gpio: GPIO number
+> - * @level: indicates active state of the @gpio
+> - */
+> -struct s5k4ecgx_gpio {
+> -	int gpio;
+> -	int level;
+> -};
+> -
+> -/**
+> - * struct s5k4ecgx_platform_data - s5k4ecgx driver platform data
+> - * @gpio_reset:	 GPIO driving RESET pin
+> - * @gpio_stby:	 GPIO driving STBY pin
+> - */
+> -
+> -struct s5k4ecgx_platform_data {
+> -	struct s5k4ecgx_gpio gpio_reset;
+> -	struct s5k4ecgx_gpio gpio_stby;
+> -};
+> -
+> -#endif /* S5K4ECGX_H */
+
