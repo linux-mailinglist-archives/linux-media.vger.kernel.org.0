@@ -2,91 +2,44 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8DBB0620866
-	for <lists+linux-media@lfdr.de>; Tue,  8 Nov 2022 05:46:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9A2FE6209DC
+	for <lists+linux-media@lfdr.de>; Tue,  8 Nov 2022 08:09:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232847AbiKHEqO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 7 Nov 2022 23:46:14 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55738 "EHLO
+        id S233333AbiKHHJs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 8 Nov 2022 02:09:48 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55794 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232308AbiKHEqM (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Nov 2022 23:46:12 -0500
-Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com [IPv6:2a00:1450:4864:20::62a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3DC7612AEB
-        for <linux-media@vger.kernel.org>; Mon,  7 Nov 2022 20:46:11 -0800 (PST)
-Received: by mail-ej1-x62a.google.com with SMTP id q9so35661235ejd.0
-        for <linux-media@vger.kernel.org>; Mon, 07 Nov 2022 20:46:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=Fra4yIWv6TZGqY5e50Ht4t7fKg9qXIteCxj5r9JD6vc=;
-        b=k5nrvygDjfG84Jq8usw3TAeubZw8DjisC8BDW/Nl99poBxOVm3b4Emj6HmmfjmpRDg
-         6UqJx+Zje8uwbw0492FSt+SP9nPZpSClhlI2a7jkV8gf4dZ+NQhHw/+vcVeKfiMshCy8
-         l5vHZxgwLrsSFmUFQ9k9AqBdcglrJDMAIuZNg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Fra4yIWv6TZGqY5e50Ht4t7fKg9qXIteCxj5r9JD6vc=;
-        b=Dr8JC2vy7cYbSRRJ4JRGMTO6QpS9mZgiPaxBleZVAtTkrlbmvueZlBeU37fLrd034m
-         pHgXAV3AAs3Tb4yAGA3GKOLvtA/hPBMP9N6xb9YeZr3xSsfpM+rzf/5Am1iS3jxVYvwx
-         3l9B26ADJ8YJtjznkmjEphN9LLF8WiWbo4B9T13cCgSl4pn3fpdYal6tuVgGa9h+stn0
-         AOZs5cF/+cGcqKWC8F+UwT5XRrz5OnuIgfps9hvq38K8vqbg/IhUb+sO9iAzdIsPfeHU
-         kxjQqxHg1dmkPo/wEWOGjo/j6FLHgy3yxeKXbBN2TGtb+6O4+aM88fFaSW0CBN8KHBFM
-         dwsg==
-X-Gm-Message-State: ACrzQf31oU4b0R8jydH4dpqp70W2R7aHFf0TG0YiJIIdjpr9sPhIUvEc
-        ZDMp3X/x4uh59Xwf/eXeHpMr6BegFIrrmw==
-X-Google-Smtp-Source: AMsMyM6QbM+ghckpH603q/yoPiH0dZZYTHKDi4XGIaZ6B8W0Tqe81IYou037p9BDtHT5xY++sPQ7Yg==
-X-Received: by 2002:a17:906:fc6:b0:72f:d080:416 with SMTP id c6-20020a1709060fc600b0072fd0800416mr50809570ejk.1.1667882769877;
-        Mon, 07 Nov 2022 20:46:09 -0800 (PST)
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com. [209.85.218.42])
-        by smtp.gmail.com with ESMTPSA id q6-20020a1709064cc600b0078d793e7927sm4156897ejt.4.2022.11.07.20.46.09
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 07 Nov 2022 20:46:09 -0800 (PST)
-Received: by mail-ej1-f42.google.com with SMTP id t25so35507947ejb.8
-        for <linux-media@vger.kernel.org>; Mon, 07 Nov 2022 20:46:09 -0800 (PST)
-X-Received: by 2002:a17:906:ee8e:b0:730:3646:d178 with SMTP id
- wt14-20020a170906ee8e00b007303646d178mr51989213ejb.426.1667882769115; Mon, 07
- Nov 2022 20:46:09 -0800 (PST)
+        with ESMTP id S229521AbiKHHJs (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 8 Nov 2022 02:09:48 -0500
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD01617583;
+        Mon,  7 Nov 2022 23:09:46 -0800 (PST)
+Received: from dggpemm500021.china.huawei.com (unknown [172.30.72.54])
+        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4N5zk51xHJzmVJZ;
+        Tue,  8 Nov 2022 15:09:33 +0800 (CST)
+Received: from dggpemm500013.china.huawei.com (7.185.36.172) by
+ dggpemm500021.china.huawei.com (7.185.36.109) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Tue, 8 Nov 2022 15:09:44 +0800
+Received: from ubuntu1804.huawei.com (10.67.175.36) by
+ dggpemm500013.china.huawei.com (7.185.36.172) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Tue, 8 Nov 2022 15:09:44 +0800
+From:   Chen Zhongjin <chenzhongjin@huawei.com>
+To:     <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>
+CC:     <dwlsalmeida@gmail.com>, <mchehab@kernel.org>,
+        <chenzhongjin@huawei.com>
+Subject: [PATCH v2] media: vidtv: Fix use-after-free in vidtv_bridge_dvb_init()
+Date:   Tue, 8 Nov 2022 15:06:30 +0800
+Message-ID: <20221108070630.211084-1-chenzhongjin@huawei.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-References: <20221107161740.144456-1-david@redhat.com> <20221107161740.144456-17-david@redhat.com>
-In-Reply-To: <20221107161740.144456-17-david@redhat.com>
-From:   Tomasz Figa <tfiga@chromium.org>
-Date:   Tue, 8 Nov 2022 13:45:57 +0900
-X-Gmail-Original-Message-ID: <CAAFQd5C3Ba1WhjYJF_7tW06mgvzoz9KTakNo+Tz8h_f6dGKzHQ@mail.gmail.com>
-Message-ID: <CAAFQd5C3Ba1WhjYJF_7tW06mgvzoz9KTakNo+Tz8h_f6dGKzHQ@mail.gmail.com>
-Subject: Re: [PATCH RFC 16/19] mm/frame-vector: remove FOLL_FORCE usage
-To:     David Hildenbrand <david@redhat.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Marek Szyprowski <m.szyprowski@samsung.com>
-Cc:     linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org, linux-rdma@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        John Hubbard <jhubbard@nvidia.com>,
-        Peter Xu <peterx@redhat.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Hugh Dickins <hughd@google.com>, Nadav Amit <namit@vmware.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Matthew Wilcox <willy@infradead.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Muchun Song <songmuchun@bytedance.com>,
-        Lucas Stach <l.stach@pengutronix.de>,
-        David Airlie <airlied@gmail.com>,
-        Oded Gabbay <ogabbay@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+Content-Type: text/plain
+X-Originating-IP: [10.67.175.36]
+X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
+ dggpemm500013.china.huawei.com (7.185.36.172)
+X-CFilter-Loop: Reflected
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -94,50 +47,97 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi David,
+KASAN reports a use-after-free:
+BUG: KASAN: use-after-free in dvb_dmxdev_release+0x4d5/0x5d0 [dvb_core]
+Call Trace:
+ ...
+ dvb_dmxdev_release+0x4d5/0x5d0 [dvb_core]
+ vidtv_bridge_probe+0x7bf/0xa40 [dvb_vidtv_bridge]
+ platform_probe+0xb6/0x170
+ ...
+Allocated by task 1238:
+ ...
+ dvb_register_device+0x1a7/0xa70 [dvb_core]
+ dvb_dmxdev_init+0x2af/0x4a0 [dvb_core]
+ vidtv_bridge_probe+0x766/0xa40 [dvb_vidtv_bridge]
+ ...
+Freed by task 1238:
+ dvb_register_device+0x6d2/0xa70 [dvb_core]
+ dvb_dmxdev_init+0x2af/0x4a0 [dvb_core]
+ vidtv_bridge_probe+0x766/0xa40 [dvb_vidtv_bridge]
+ ...
 
-On Tue, Nov 8, 2022 at 1:19 AM David Hildenbrand <david@redhat.com> wrote:
->
-> FOLL_FORCE is really only for debugger access. According to commit
-> 707947247e95 ("media: videobuf2-vmalloc: get_userptr: buffers are always
-> writable"), the pinned pages are always writable.
+It is because the error handling in vidtv_bridge_dvb_init() is wrong.
 
-Actually that patch is only a workaround to temporarily disable
-support for read-only pages as they seemed to suffer from some
-corruption issues in the retrieved user pages. We expect to support
-read-only pages as hardware input after. That said, FOLL_FORCE doesn't
-sound like the right thing even in that case, but I don't know the
-background behind it being added here in the first place. +Hans
-Verkuil +Marek Szyprowski do you happen to remember anything about it?
+First, vidtv_bridge_dmx(dev)_init() will clean themselves when fail, but
+goto fail_dmx(_dev): calls release functions again, which causes
+use-after-free.
 
-Best regards,
-Tomasz
+Also, in fail_fe, fail_tuner_probe and fail_demod_probe, j = i will cause
+out-of-bound when i finished its loop (i == NUM_FE). And the loop
+releasing is wrong, although now NUM_FE is 1 so it won't cause problem.
 
->
-> FOLL_FORCE in this case seems to be a legacy leftover. Let's just remove
-> it.
->
-> Cc: Tomasz Figa <tfiga@chromium.org>
-> Cc: Marek Szyprowski <m.szyprowski@samsung.com>
-> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-> Signed-off-by: David Hildenbrand <david@redhat.com>
-> ---
->  drivers/media/common/videobuf2/frame_vector.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/media/common/videobuf2/frame_vector.c b/drivers/media/common/videobuf2/frame_vector.c
-> index 542dde9d2609..062e98148c53 100644
-> --- a/drivers/media/common/videobuf2/frame_vector.c
-> +++ b/drivers/media/common/videobuf2/frame_vector.c
-> @@ -50,7 +50,7 @@ int get_vaddr_frames(unsigned long start, unsigned int nr_frames,
->         start = untagged_addr(start);
->
->         ret = pin_user_pages_fast(start, nr_frames,
-> -                                 FOLL_FORCE | FOLL_WRITE | FOLL_LONGTERM,
-> +                                 FOLL_WRITE | FOLL_LONGTERM,
->                                   (struct page **)(vec->ptrs));
->         if (ret > 0) {
->                 vec->got_ref = true;
-> --
-> 2.38.1
->
+Fix this by correctly releasing everything.
+
+Fixes: f90cf6079bf6 ("media: vidtv: add a bridge driver")
+Signed-off-by: Chen Zhongjin <chenzhongjin@huawei.com>
+---
+v1 -> v2
+After some testing I found we can't call dvb_frontend_detach() directly
+because it is not safe and can cause double free now.
+
+Obviously single dvb_unregister_frontend() can't handle all resources for
+dvb_register_frontend(), because the fe->refcount is initialized to two
+but unregister only put one of it.
+
+So there are still memory leaked for frontend. These code should be
+refactored to completely remove dvb_attach and dettach.
+
+Anyway it is fault of frontend part. Now this patch only fix fail_dmx
+and fail_dmx_dev cases which makes kenel panic.
+---
+ .../media/test-drivers/vidtv/vidtv_bridge.c   | 22 +++++++------------
+ 1 file changed, 8 insertions(+), 14 deletions(-)
+
+diff --git a/drivers/media/test-drivers/vidtv/vidtv_bridge.c b/drivers/media/test-drivers/vidtv/vidtv_bridge.c
+index 82620613d56b..dff7265a42ca 100644
+--- a/drivers/media/test-drivers/vidtv/vidtv_bridge.c
++++ b/drivers/media/test-drivers/vidtv/vidtv_bridge.c
+@@ -459,26 +459,20 @@ static int vidtv_bridge_dvb_init(struct vidtv_dvb *dvb)
+ 	for (j = j - 1; j >= 0; --j)
+ 		dvb->demux.dmx.remove_frontend(&dvb->demux.dmx,
+ 					       &dvb->dmx_fe[j]);
+-fail_dmx_dev:
+ 	dvb_dmxdev_release(&dvb->dmx_dev);
+-fail_dmx:
++fail_dmx_dev:
+ 	dvb_dmx_release(&dvb->demux);
++fail_dmx:
++fail_demod_probe:
++	for (i = i - 1; i >= 0; --i) {
++		dvb_unregister_frontend(dvb->fe[i]);
+ fail_fe:
+-	for (j = i; j >= 0; --j)
+-		dvb_unregister_frontend(dvb->fe[j]);
++		dvb_module_release(dvb->i2c_client_tuner[i]);
+ fail_tuner_probe:
+-	for (j = i; j >= 0; --j)
+-		if (dvb->i2c_client_tuner[j])
+-			dvb_module_release(dvb->i2c_client_tuner[j]);
+-
+-fail_demod_probe:
+-	for (j = i; j >= 0; --j)
+-		if (dvb->i2c_client_demod[j])
+-			dvb_module_release(dvb->i2c_client_demod[j]);
+-
++		dvb_module_release(dvb->i2c_client_demod[i]);
++	}
+ fail_adapter:
+ 	dvb_unregister_adapter(&dvb->adapter);
+-
+ fail_i2c:
+ 	i2c_del_adapter(&dvb->i2c_adapter);
+ 
+-- 
+2.17.1
+
