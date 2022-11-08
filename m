@@ -2,97 +2,106 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9A7116210A5
-	for <lists+linux-media@lfdr.de>; Tue,  8 Nov 2022 13:30:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C3939621227
+	for <lists+linux-media@lfdr.de>; Tue,  8 Nov 2022 14:17:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234189AbiKHMaI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 8 Nov 2022 07:30:08 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48174 "EHLO
+        id S234449AbiKHNR0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 8 Nov 2022 08:17:26 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55438 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233956AbiKHMaH (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 8 Nov 2022 07:30:07 -0500
-Received: from mail-qk1-x72c.google.com (mail-qk1-x72c.google.com [IPv6:2607:f8b0:4864:20::72c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A12E17AB2
-        for <linux-media@vger.kernel.org>; Tue,  8 Nov 2022 04:30:06 -0800 (PST)
-Received: by mail-qk1-x72c.google.com with SMTP id k4so8946300qkj.8
-        for <linux-media@vger.kernel.org>; Tue, 08 Nov 2022 04:30:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=to:subject:message-id:date:from:reply-to:mime-version:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=SzBlYeGeT15Xra75w9IZDBjQ7Da3XKSmRdlnDJDYrko=;
-        b=cigNPlEtEE1k5xiZ9PvVBazoo9lUtOBUwB6YZSwBfhiXaLfnGYlViGJ/CkI7QbpyRc
-         DUkc/pXyGXkzwxwNKmQ/AVr17gtcnro/HIxn3z8V8Vc+39bff1bepY3CjxGya/RlhJQD
-         pm03SLH1zh1vk5Et08W05yayJWnxdxRnbNjb7jCohrMzy/0/FJWKkATniYBbpKgsaBKE
-         Z+OGb8Lsc3JgCU/vlNmJzwFukVrY1yODwKOWdcEffdpTGbLPgR5Erg+jlwzjZKljWkGx
-         l6m9q0cv+BGPJ+GX+X1NDb4hrmrYY0d2qQvBndPhFSr7mcH+QfGu5TnM80huZaOEkW4m
-         IdPA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=to:subject:message-id:date:from:reply-to:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=SzBlYeGeT15Xra75w9IZDBjQ7Da3XKSmRdlnDJDYrko=;
-        b=uTEptGa+Mua3UiZyN4tTaiRyWJRya/cBo+mb0+SU22Ndk3mxUMQ4KPjtiAyR3wVaqB
-         b+b0XZrYu4/vndcgNwBJKP+5sQwFOL4iV660Hr9tM/QhtVtaTIu3UPSPvsZ3ASwgTQFE
-         ZAqDg3+2CG6LO6XODek3w6pnSSmjYCscNKfYwdZdbutBuSl6hyt4cvhEwohNF81gspDD
-         O+75DkaTStzr36GrJORUxWXWPAUPOOWYLX8cz+N7MdNPn5HUa1PgEfehs0KSxOZMdlSY
-         sk5V2GfYJzSHvzZSevFvxXuaUECe7hRyZ8GZGN8UjW4Fk9QfXfIEk9TwxpNR1i/JPW3Y
-         zyyQ==
-X-Gm-Message-State: ACrzQf3JkAIl3zR8VbwZfj/pjiDat8JinKmoSFDin5Rlj9SNFY0OF4Y0
-        qLPnzw+2sjjbMvxyfGnIdIe4Bopojnd28CmUCqE=
-X-Google-Smtp-Source: AMsMyM58hZ1EPsKu7coHtKEAadQRfLUwq2/6MbLEjdgMZ+NpfmCkJjte0dLlRzUMReSpEc0nbvrKDwByTED+/niEF+4=
-X-Received: by 2002:ae9:eb48:0:b0:6fa:d61:4510 with SMTP id
- b69-20020ae9eb48000000b006fa0d614510mr37684535qkg.768.1667910605712; Tue, 08
- Nov 2022 04:30:05 -0800 (PST)
+        with ESMTP id S234434AbiKHNRX (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 8 Nov 2022 08:17:23 -0500
+Received: from meesny.iki.fi (meesny.iki.fi [195.140.195.201])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6B8244299A
+        for <linux-media@vger.kernel.org>; Tue,  8 Nov 2022 05:17:22 -0800 (PST)
+Received: from hillosipuli.retiisi.eu (82-181-192-243.bb.dnainternet.fi [82.181.192.243])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: sailus)
+        by meesny.iki.fi (Postfix) with ESMTPSA id F0100205A6;
+        Tue,  8 Nov 2022 15:17:19 +0200 (EET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
+        t=1667913440;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=aXHD5ojfAaG6PrKNoQkvXleWatuwv5TQ5PjKPk56ITU=;
+        b=X5OgNRFFvpwV7b9mAgSC3VdXpl4dkk2VyNQceZlQ1CXp2mTKcnylunOP93uAilT69O2WMV
+        nI5HMQ3IzIWhSTcU6tScVzmJPTsQKkHtqpjzaz4A+2110Xz8WEOf9OQKbwnnqMOLn9TW7Z
+        Ht1nRzY0tFghXyIGfkoPjlEz2G+XJ3w=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+        s=meesny; t=1667913440;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=aXHD5ojfAaG6PrKNoQkvXleWatuwv5TQ5PjKPk56ITU=;
+        b=svYHim8Jsejo0adIL2z0n83zzzY3HoVpoPaYPr8S347nDWcchx77S9OieHnf570c+gnjkW
+        smv7QfLJbOsMBUjplHRfTRcgWsaCaLPo+hsgtnN4UbepcNUdgQ1dN4rnskGF9SIGjNyva6
+        NLpt0LjPRZPWMf0W+bIv717ZahdNTaA=
+ARC-Authentication-Results: i=1;
+        ORIGINATING;
+        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Seal: i=1; s=meesny; d=iki.fi; t=1667913440; a=rsa-sha256; cv=none;
+        b=L55nt+gMQ4CPuCgc3xv8ndnNty9cAGZ5/NpmSsUKk3pnFapR229PSJdE8lMRWPRmnf9E3u
+        D0SY+SgThUdXuwhQLMqF0Z2rGlVskHlnH1wO95dqzFYkI8mRiH+i8FbW19yP0MvUrRJRIo
+        VeJES4XvM8uK+lE9xEjKajxgt1kjiyU=
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 65D07634CCA;
+        Tue,  8 Nov 2022 15:17:19 +0200 (EET)
+Date:   Tue, 8 Nov 2022 15:17:19 +0200
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Cc:     dave.stevenson@raspberrypi.com, jacopo@jmondi.org,
+        paul.j.murphy@intel.com, daniele.alessandrelli@intel.com,
+        mchehab@kernel.org, linux-media@vger.kernel.org,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        laurent.pinchart@ideasonboard.com
+Subject: Re: [PATCH v6 0/3] Add imx577 compatible to imx412
+Message-ID: <Y2pW3/QNeUa5rYre@valkosipuli.retiisi.eu>
+References: <20221014180417.3683285-1-bryan.odonoghue@linaro.org>
+ <34fd2ddc-7645-21d4-45f2-f1534478d586@linaro.org>
 MIME-Version: 1.0
-Received: by 2002:a05:6214:2f8a:b0:4bb:6e86:8303 with HTTP; Tue, 8 Nov 2022
- 04:30:05 -0800 (PST)
-Reply-To: mr.abraham022@gmail.com
-From:   Mr Abraham <mr.abraham2021@gmail.com>
-Date:   Tue, 8 Nov 2022 12:30:05 +0000
-Message-ID: <CAJ2UK+YqK-OgWa-GbqjTU89edKqVZ5nqmL-j=gKpwP5uFtkvUA@mail.gmail.com>
-Subject: Greeting
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: Yes, score=5.0 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,FREEMAIL_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_HK_NAME_FM_MR_MRS,
-        UNDISC_FREEM autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
-        *      https://www.dnswl.org/, no trust
-        *      [2607:f8b0:4864:20:0:0:0:72c listed in]
-        [list.dnswl.org]
-        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-        *      [score: 0.4992]
-        *  0.2 FREEMAIL_REPLYTO_END_DIGIT Reply-To freemail username ends in
-        *      digit
-        *      [mr.abraham022[at]gmail.com]
-        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
-        * -0.0 SPF_PASS SPF: sender matches SPF record
-        *  0.2 FREEMAIL_ENVFROM_END_DIGIT Envelope-from freemail username ends
-        *       in digit
-        *      [mr.abraham2021[at]gmail.com]
-        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
-        *      provider
-        *      [mr.abraham2021[at]gmail.com]
-        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
-        *      envelope-from domain
-        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-        *       valid
-        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-        *      author's domain
-        *  0.0 T_HK_NAME_FM_MR_MRS No description available.
-        *  2.9 UNDISC_FREEM Undisclosed recipients + freemail reply-to
-        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
-        *      different freemails
-X-Spam-Level: *****
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <34fd2ddc-7645-21d4-45f2-f1534478d586@linaro.org>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-My Greeting, Did you receive the letter i sent to you. Please answer me.
-Regard, Mr.Abraham
+Hi Bryan,
+
+On Mon, Nov 07, 2022 at 11:29:47PM +0000, Bryan O'Donoghue wrote:
+> On 14/10/2022 19:04, Bryan O'Donoghue wrote:
+> > v6:
+> > - Drops -items encapsulating compatible - Krzysztof
+> 
+> Ping.
+> 
+> Any chance of the good folks @
+> https://patchwork.linuxtv.org/project/linux-media picking this up ?
+
+This is waiting like other media patches to be merged to my tree. I think
+I'll prepare a second branch to get more patches merged.
+
+> 
+> It unblocks enabling CAMSS on the qcom RB5 where the feedback I've had is we
+> should get compat imx577 merged to accurately map the hardware config we
+> have.
+> 
+> https://patchwork.kernel.org/project/linux-media/list/?series=644675
+> 
+> https://patches.linaro.org/project/linux-arm-msm/patch/20220518133004.342775-2-bryan.odonoghue@linaro.org/
+
+-- 
+Regards,
+
+Sakari Ailus
