@@ -2,97 +2,139 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CAE54620C99
-	for <lists+linux-media@lfdr.de>; Tue,  8 Nov 2022 10:47:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AAD35620CAF
+	for <lists+linux-media@lfdr.de>; Tue,  8 Nov 2022 10:50:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233410AbiKHJrH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 8 Nov 2022 04:47:07 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58218 "EHLO
+        id S233418AbiKHJuf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 8 Nov 2022 04:50:35 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33240 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233617AbiKHJqe (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 8 Nov 2022 04:46:34 -0500
-Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com [IPv6:2a00:1450:4864:20::42c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CBAE0E094;
-        Tue,  8 Nov 2022 01:46:30 -0800 (PST)
-Received: by mail-wr1-x42c.google.com with SMTP id y16so19995919wrt.12;
-        Tue, 08 Nov 2022 01:46:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=O5IgkeQmSxEG1HaPKm+nMukRSPWOYNkhN02jAR5oCCE=;
-        b=hezLi6sT4lRvroGT/dZOxWO8QJQl7HtGGdEeklPbIsTUo5Ej1iJ7EAs3lPtSFluUuh
-         E7PFq3+gd15YoXaGCWAU41s7C0LBWt0kd+4k+q/+k3PXqUZrQ5nSdGoy0NIa/eckmY+i
-         A9gb5ebUP5yJFyjjBFeWNxbQbI31Qho8pZqoDsnicVQVIHihQZ5Fa76rWf5x3HqZgMn4
-         78uUewQeRQBxQNNZCOybuGYxfwsLCldVjIRxCNf87ejoN1nDKujNJrEa6pVFYzj30h3L
-         iICueYSj52+m0urr3vZVSldPzQ216KPiezqqE3s3Gc9gWaqqNWRIImJABL3AGRWcQADe
-         srqQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=O5IgkeQmSxEG1HaPKm+nMukRSPWOYNkhN02jAR5oCCE=;
-        b=WNDN7UhaJghqHQe/zwdb+Oe1tYZ5G7Bp3QTrnrluqvXtQkdKEpVaNUfUvoRzLWw/lh
-         PNmmWcA9/SdM3E4kYB2yggzBS3TahxpGs1ACLVv1a93myBlo+uviEEIib4lnjgrH+OEc
-         dxTIF8O9f4CUZrvvYj9WPHX1xuryMKB5LJuyZOXHEwp6Hz9pHkNVe9qXWYZLBSdjte8w
-         4Ln6jnujrUl+e8GmAsHO43wk+eHQFF7AqdQf4JEoC0uqORirCEtWMqMsxOwCnlsnRQvp
-         drasDU5nEOp5GvImWI0u7d+g6j68zLl1YOFU3VLEhSvsFyLqDL3VLPa5UZFukoVIKfWB
-         dYZQ==
-X-Gm-Message-State: ACrzQf0qjJur9shMi0s2fcWrFrx5sk87KBveEShiSqnZrqA4p83X5Lln
-        LCro0VP+F7hBelvEcohwmag=
-X-Google-Smtp-Source: AMsMyM5IZKYCnOmlHMEgK799dgzKIDWJt0m+zOxQXKffBaJo4gDQj8fc+whAJY8algsbapvM3hN5FA==
-X-Received: by 2002:adf:e911:0:b0:236:73b7:e668 with SMTP id f17-20020adfe911000000b0023673b7e668mr34305141wrm.96.1667900789237;
-        Tue, 08 Nov 2022 01:46:29 -0800 (PST)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id p15-20020a1c544f000000b003cf483ee8e0sm13565499wmi.24.2022.11.08.01.46.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Nov 2022 01:46:28 -0800 (PST)
-Date:   Tue, 8 Nov 2022 12:46:25 +0300
-From:   Dan Carpenter <error27@gmail.com>
-To:     Hans Verkuil <hverkuil@xs4all.nl>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Deepak R Varma <drv@mailo.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Jerome Brunet <jbrunet@baylibre.com>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        linux-media@vger.kernel.org, linux-amlogic@lists.infradead.org,
-        linux-staging@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: patches for staging:media drivers
-Message-ID: <Y2olcaNp3xkRRK7j@kadam>
-References: <Y2eSCZJNWn6DzCUu@qemulion>
- <48f4bda9-b5e3-9649-aab9-b529889bf110@linaro.org>
- <Y2oO7fU4whKr+3hb@kadam>
- <bf7dc5f6-acf3-73f0-b73b-d5707152190b@xs4all.nl>
+        with ESMTP id S233333AbiKHJue (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 8 Nov 2022 04:50:34 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 393E6F67
+        for <linux-media@vger.kernel.org>; Tue,  8 Nov 2022 01:50:33 -0800 (PST)
+Received: from pyrite.rasen.tech (h175-177-042-159.catv02.itscom.jp [175.177.42.159])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4D8C5492;
+        Tue,  8 Nov 2022 10:50:27 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1667901030;
+        bh=BEMRkTg4iU4cvwxwJvygXqRZp7hRHN+rta5L/4Z5b2o=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=MsTieU+WuvLsz+FgXH1PGw3RFfLbJUrLxrWiJniaMMGc+guSYd1AqtUZN0Iw/Tp78
+         T8VV0BTaST9p/y3915qG3x3UWSRmbmin4DvJSz8HSn7CuMaRDD9yz7CWI9IEft7bFI
+         lyUxSLNkrQTJmyiZW6zWrPjxKi8vKnYjHGWiz/MU=
+Date:   Tue, 8 Nov 2022 18:50:22 +0900
+From:   Paul Elder <paul.elder@ideasonboard.com>
+To:     Benjamin Mugnier <benjamin.mugnier@foss.st.com>
+Cc:     linux-media@vger.kernel.org, alain.volmat@foss.st.com,
+        hugues.fruchet@foss.st.com, sylvain.petinot@foss.st.com,
+        dave.stevenson@raspberrypi.com, sakari.ailus@linux.intel.com,
+        laurent.pinchart@ideasonboard.com, kieran.bingham@ideasonboard.com,
+        nicolas@ndufresne.ca, hverkuil@xs4all.nl
+Subject: Re: [PATCH v7 1/5] media: v4l: Add 1X16 16-bit greyscale media bus
+ code definition
+Message-ID: <Y2omXpfvxxEUgMTt@pyrite.rasen.tech>
+References: <20221011120555.28889-1-benjamin.mugnier@foss.st.com>
+ <20221011121605.30260-1-benjamin.mugnier@foss.st.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <bf7dc5f6-acf3-73f0-b73b-d5707152190b@xs4all.nl>
-X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+In-Reply-To: <20221011121605.30260-1-benjamin.mugnier@foss.st.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Nov 08, 2022 at 10:35:54AM +0100, Hans Verkuil wrote:
+On Tue, Oct 11, 2022 at 02:16:01PM +0200, Benjamin Mugnier wrote:
+> This extends the greyscale media bus family originally from
+> MEDIA_BUS_FMT_Y8_1X8 up to MEDIA_BUS_FMT_Y14_1X14 by adding
+> MEDIA_BUS_FMT_Y16_1X16, and behaves the same way with 16 bits.
+> Add its documentation in subdev-formats.rst
 > 
-> I don't mind taking patches for media staging drivers as long as:
-> 
-> 1) they are not for atomisp, and
-> 2) they are not for deprecated drivers (drivers/staging/media/deprecated/)
-> 
+> Signed-off-by: Benjamin Mugnier <benjamin.mugnier@foss.st.com>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-This is unrelated but I somehow misread an email and thought we were
-going to create a drivers/deprecated/ directory.  I still think that's a
-good idea for future deprecated drivers.  We normally put them in
-staging/ but it's not really the ideal place for them.
+Reviewed-by: Paul Elder <paul.elder@ideasonboard.com>
 
-regards,
-dan carpenter
+> ---
+>  .../media/v4l/subdev-formats.rst              | 37 +++++++++++++++++++
+>  include/uapi/linux/media-bus-format.h         |  3 +-
+>  2 files changed, 39 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/userspace-api/media/v4l/subdev-formats.rst b/Documentation/userspace-api/media/v4l/subdev-formats.rst
+> index d21d532eee15..16ef3b41932e 100644
+> --- a/Documentation/userspace-api/media/v4l/subdev-formats.rst
+> +++ b/Documentation/userspace-api/media/v4l/subdev-formats.rst
+> @@ -6057,6 +6057,43 @@ the following codes.
+>        - y\ :sub:`2`
+>        - y\ :sub:`1`
+>        - y\ :sub:`0`
+> +    * .. _MEDIA-BUS-FMT-Y16-1X16:
+> +
+> +      - MEDIA_BUS_FMT_Y16_1X16
+> +      - 0x202e
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      -
+> +      - y\ :sub:`15`
+> +      - y\ :sub:`14`
+> +      - y\ :sub:`13`
+> +      - y\ :sub:`12`
+> +      - y\ :sub:`11`
+> +      - y\ :sub:`10`
+> +      - y\ :sub:`9`
+> +      - y\ :sub:`8`
+> +      - y\ :sub:`7`
+> +      - y\ :sub:`6`
+> +      - y\ :sub:`5`
+> +      - y\ :sub:`4`
+> +      - y\ :sub:`3`
+> +      - y\ :sub:`2`
+> +      - y\ :sub:`1`
+> +      - y\ :sub:`0`
+>      * .. _MEDIA-BUS-FMT-UYVY8-1X16:
+>  
+>        - MEDIA_BUS_FMT_UYVY8_1X16
+> diff --git a/include/uapi/linux/media-bus-format.h b/include/uapi/linux/media-bus-format.h
+> index ec3323dbb927..ca9a24c874da 100644
+> --- a/include/uapi/linux/media-bus-format.h
+> +++ b/include/uapi/linux/media-bus-format.h
+> @@ -69,7 +69,7 @@
+>  #define MEDIA_BUS_FMT_RGB121212_1X36		0x1019
+>  #define MEDIA_BUS_FMT_RGB161616_1X48		0x101a
+>  
+> -/* YUV (including grey) - next is	0x202e */
+> +/* YUV (including grey) - next is	0x202f */
+>  #define MEDIA_BUS_FMT_Y8_1X8			0x2001
+>  #define MEDIA_BUS_FMT_UV8_1X8			0x2015
+>  #define MEDIA_BUS_FMT_UYVY8_1_5X8		0x2002
+> @@ -92,6 +92,7 @@
+>  #define MEDIA_BUS_FMT_YUYV12_2X12		0x201e
+>  #define MEDIA_BUS_FMT_YVYU12_2X12		0x201f
+>  #define MEDIA_BUS_FMT_Y14_1X14			0x202d
+> +#define MEDIA_BUS_FMT_Y16_1X16			0x202e
+>  #define MEDIA_BUS_FMT_UYVY8_1X16		0x200f
+>  #define MEDIA_BUS_FMT_VYUY8_1X16		0x2010
+>  #define MEDIA_BUS_FMT_YUYV8_1X16		0x2011
+> -- 
+> 2.25.1
+> 
