@@ -2,164 +2,97 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 56810620C85
-	for <lists+linux-media@lfdr.de>; Tue,  8 Nov 2022 10:42:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CAE54620C99
+	for <lists+linux-media@lfdr.de>; Tue,  8 Nov 2022 10:47:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233814AbiKHJlo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 8 Nov 2022 04:41:44 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53880 "EHLO
+        id S233410AbiKHJrH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 8 Nov 2022 04:47:07 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58218 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233840AbiKHJl3 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 8 Nov 2022 04:41:29 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BEF4931FA3
-        for <linux-media@vger.kernel.org>; Tue,  8 Nov 2022 01:40:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1667900428;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=lW38e6pXJ1acSlo/JcbNSc5AQG/ffLUgHR8IViSMTS4=;
-        b=UA8+oXJC+IW9OLSaXL9eq6ACo1uKgTXMGDp8u7oC1Eb0QB22A1MviLU6Azrm3pS2KZC++b
-        W7rYPAu3vFu2/B4ilK3kQ08oBrOwkpk6r3vu40vEjTj4jkcJ5EaV/Pzryqx+XXCcDMVBZv
-        7jvykvQekgcak06736A8bjvr1uY+kdo=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-648-Wx8LJaxhNsSjqM-OfsQTsw-1; Tue, 08 Nov 2022 04:40:26 -0500
-X-MC-Unique: Wx8LJaxhNsSjqM-OfsQTsw-1
-Received: by mail-wm1-f70.google.com with SMTP id f26-20020a7bcc1a000000b003c03db14864so3648762wmh.6
-        for <linux-media@vger.kernel.org>; Tue, 08 Nov 2022 01:40:26 -0800 (PST)
+        with ESMTP id S233617AbiKHJqe (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 8 Nov 2022 04:46:34 -0500
+Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com [IPv6:2a00:1450:4864:20::42c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CBAE0E094;
+        Tue,  8 Nov 2022 01:46:30 -0800 (PST)
+Received: by mail-wr1-x42c.google.com with SMTP id y16so19995919wrt.12;
+        Tue, 08 Nov 2022 01:46:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=O5IgkeQmSxEG1HaPKm+nMukRSPWOYNkhN02jAR5oCCE=;
+        b=hezLi6sT4lRvroGT/dZOxWO8QJQl7HtGGdEeklPbIsTUo5Ej1iJ7EAs3lPtSFluUuh
+         E7PFq3+gd15YoXaGCWAU41s7C0LBWt0kd+4k+q/+k3PXqUZrQ5nSdGoy0NIa/eckmY+i
+         A9gb5ebUP5yJFyjjBFeWNxbQbI31Qho8pZqoDsnicVQVIHihQZ5Fa76rWf5x3HqZgMn4
+         78uUewQeRQBxQNNZCOybuGYxfwsLCldVjIRxCNf87ejoN1nDKujNJrEa6pVFYzj30h3L
+         iICueYSj52+m0urr3vZVSldPzQ216KPiezqqE3s3Gc9gWaqqNWRIImJABL3AGRWcQADe
+         srqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:subject:organization:from
-         :references:cc:to:content-language:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=lW38e6pXJ1acSlo/JcbNSc5AQG/ffLUgHR8IViSMTS4=;
-        b=Z4njqV7//+h5b7iGOJN6Ry61rGgVWBT4ao3/MUVEfLjsyQ7+Q2uxOiDRn0EiSUoEmQ
-         O3CFf1kpuPXx0q5NwXUpPZ+j+Wsl2O/qAp0wlItS1grOY06fzkKWbRoftJeQhWn8R1R9
-         PVylravkVX/CU7T23D0zX7Z4lQMRLjOKewenlvy9KgwIJqhkwNy72QEJBiWm+M1fLuaX
-         LUsrYpB2bd8rwC3L48VnewOuKxALGf+tem+oTkxY76E3k3EELDbZQktMHIhV3dyu+fLG
-         Np9Y5ernLFcBd1i+EUJD1+iZdDD55l+2uBPyBm26POOnFeVIzV/OapXcFo9g4rLWDFcl
-         DyQA==
-X-Gm-Message-State: ACrzQf1tirpESX/yhZYp1q8KaZG/MoLxf1CHe4DGyONHFC/vN3ChhdCU
-        +J0tQSUluR+BKLU2dyjxk+nzzA5S0Y0XOhgDGNDzsvZaE+OurVOpxkjABMMQ1D5UEzRqfl41W3C
-        sInhmwAIhEc7fDr9H4foGI8Y=
-X-Received: by 2002:a05:600c:54ca:b0:3cf:8e5d:7146 with SMTP id iw10-20020a05600c54ca00b003cf8e5d7146mr18675286wmb.191.1667900425633;
-        Tue, 08 Nov 2022 01:40:25 -0800 (PST)
-X-Google-Smtp-Source: AMsMyM5cH9tWJ/7f+h1bsvSFgTQP1m4PENc1Ye2cP0NqhUl7fQavJfxFFKESh5AiG6/w6GmkhSUyjQ==
-X-Received: by 2002:a05:600c:54ca:b0:3cf:8e5d:7146 with SMTP id iw10-20020a05600c54ca00b003cf8e5d7146mr18675241wmb.191.1667900425279;
-        Tue, 08 Nov 2022 01:40:25 -0800 (PST)
-Received: from ?IPV6:2003:cb:c708:db00:6510:da8d:df40:abbb? (p200300cbc708db006510da8ddf40abbb.dip0.t-ipconnect.de. [2003:cb:c708:db00:6510:da8d:df40:abbb])
-        by smtp.gmail.com with ESMTPSA id bu12-20020a056000078c00b0023655e51c33sm10027356wrb.4.2022.11.08.01.40.23
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 08 Nov 2022 01:40:24 -0800 (PST)
-Message-ID: <040542e7-7d1c-4f25-b1ed-459f3c165283@redhat.com>
-Date:   Tue, 8 Nov 2022 10:40:23 +0100
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=O5IgkeQmSxEG1HaPKm+nMukRSPWOYNkhN02jAR5oCCE=;
+        b=WNDN7UhaJghqHQe/zwdb+Oe1tYZ5G7Bp3QTrnrluqvXtQkdKEpVaNUfUvoRzLWw/lh
+         PNmmWcA9/SdM3E4kYB2yggzBS3TahxpGs1ACLVv1a93myBlo+uviEEIib4lnjgrH+OEc
+         dxTIF8O9f4CUZrvvYj9WPHX1xuryMKB5LJuyZOXHEwp6Hz9pHkNVe9qXWYZLBSdjte8w
+         4Ln6jnujrUl+e8GmAsHO43wk+eHQFF7AqdQf4JEoC0uqORirCEtWMqMsxOwCnlsnRQvp
+         drasDU5nEOp5GvImWI0u7d+g6j68zLl1YOFU3VLEhSvsFyLqDL3VLPa5UZFukoVIKfWB
+         dYZQ==
+X-Gm-Message-State: ACrzQf0qjJur9shMi0s2fcWrFrx5sk87KBveEShiSqnZrqA4p83X5Lln
+        LCro0VP+F7hBelvEcohwmag=
+X-Google-Smtp-Source: AMsMyM5IZKYCnOmlHMEgK799dgzKIDWJt0m+zOxQXKffBaJo4gDQj8fc+whAJY8algsbapvM3hN5FA==
+X-Received: by 2002:adf:e911:0:b0:236:73b7:e668 with SMTP id f17-20020adfe911000000b0023673b7e668mr34305141wrm.96.1667900789237;
+        Tue, 08 Nov 2022 01:46:29 -0800 (PST)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id p15-20020a1c544f000000b003cf483ee8e0sm13565499wmi.24.2022.11.08.01.46.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 08 Nov 2022 01:46:28 -0800 (PST)
+Date:   Tue, 8 Nov 2022 12:46:25 +0300
+From:   Dan Carpenter <error27@gmail.com>
+To:     Hans Verkuil <hverkuil@xs4all.nl>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Deepak R Varma <drv@mailo.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Jerome Brunet <jbrunet@baylibre.com>,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+        linux-media@vger.kernel.org, linux-amlogic@lists.infradead.org,
+        linux-staging@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        Neil Armstrong <neil.armstrong@linaro.org>
+Subject: Re: patches for staging:media drivers
+Message-ID: <Y2olcaNp3xkRRK7j@kadam>
+References: <Y2eSCZJNWn6DzCUu@qemulion>
+ <48f4bda9-b5e3-9649-aab9-b529889bf110@linaro.org>
+ <Y2oO7fU4whKr+3hb@kadam>
+ <bf7dc5f6-acf3-73f0-b73b-d5707152190b@xs4all.nl>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.0
-Content-Language: en-US
-To:     Tomasz Figa <tfiga@chromium.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Marek Szyprowski <m.szyprowski@samsung.com>
-Cc:     linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org, linux-rdma@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        John Hubbard <jhubbard@nvidia.com>,
-        Peter Xu <peterx@redhat.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Hugh Dickins <hughd@google.com>, Nadav Amit <namit@vmware.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Matthew Wilcox <willy@infradead.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Muchun Song <songmuchun@bytedance.com>,
-        Lucas Stach <l.stach@pengutronix.de>,
-        David Airlie <airlied@gmail.com>,
-        Oded Gabbay <ogabbay@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-References: <20221107161740.144456-1-david@redhat.com>
- <20221107161740.144456-17-david@redhat.com>
- <CAAFQd5C3Ba1WhjYJF_7tW06mgvzoz9KTakNo+Tz8h_f6dGKzHQ@mail.gmail.com>
-From:   David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-Subject: Re: [PATCH RFC 16/19] mm/frame-vector: remove FOLL_FORCE usage
-In-Reply-To: <CAAFQd5C3Ba1WhjYJF_7tW06mgvzoz9KTakNo+Tz8h_f6dGKzHQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE
-        autolearn=unavailable autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <bf7dc5f6-acf3-73f0-b73b-d5707152190b@xs4all.nl>
+X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 08.11.22 05:45, Tomasz Figa wrote:
-> Hi David,
-
-Hi Tomasz,
-
-thanks for looking into this!
-
+On Tue, Nov 08, 2022 at 10:35:54AM +0100, Hans Verkuil wrote:
 > 
-> On Tue, Nov 8, 2022 at 1:19 AM David Hildenbrand <david@redhat.com> wrote:
->>
->> FOLL_FORCE is really only for debugger access. According to commit
->> 707947247e95 ("media: videobuf2-vmalloc: get_userptr: buffers are always
->> writable"), the pinned pages are always writable.
+> I don't mind taking patches for media staging drivers as long as:
+> 
+> 1) they are not for atomisp, and
+> 2) they are not for deprecated drivers (drivers/staging/media/deprecated/)
 > 
 
-As reference, the cover letter of the series:
+This is unrelated but I somehow misread an email and thought we were
+going to create a drivers/deprecated/ directory.  I still think that's a
+good idea for future deprecated drivers.  We normally put them in
+staging/ but it's not really the ideal place for them.
 
-https://lkml.kernel.org/r/20221107161740.144456-1-david@redhat.com
-
-> Actually that patch is only a workaround to temporarily disable
-> support for read-only pages as they seemed to suffer from some
-> corruption issues in the retrieved user pages. We expect to support
-> read-only pages as hardware input after. That said, FOLL_FORCE doesn't
-> sound like the right thing even in that case, but I don't know the
-> background behind it being added here in the first place. +Hans
-> Verkuil +Marek Szyprowski do you happen to remember anything about it?
-
-Maybe I mis-interpreted 707947247e95; re-reading it again, I am not 
-quite sure what the actual problem is and how it relates to GUP 
-FOLL_WRITE handling. FOLL_FORCE already was in place before 707947247e95 
-and should be removed.
-
-What I understood is "Just always call vb2_create_framevec() with 
-FOLL_WRITE to always allow writing to the buffers.".
-
-
-If the pinned page is never written to via the obtained GUP reference:
-* FOLL_WRITE should not be set
-* FOLL_FORCE should not be set
-* We should not dirty the page when unpinning
-
-If the pinned page may be written to via the obtained GUP reference:
-* FOLL_WRITE should be set
-* FOLL_FORCE should not be set
-* We should dirty the page when unpinning
-
-
-If the function is called for both, we should think about doing it 
-conditional based on a "write" variable, like pre-707947247e95 did.
-
-@Hans, any insight?
-
--- 
-Thanks,
-
-David / dhildenb
-
+regards,
+dan carpenter
