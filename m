@@ -2,107 +2,92 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 458EC62178E
-	for <lists+linux-media@lfdr.de>; Tue,  8 Nov 2022 15:58:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EF081621AF2
+	for <lists+linux-media@lfdr.de>; Tue,  8 Nov 2022 18:42:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234187AbiKHO60 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 8 Nov 2022 09:58:26 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60662 "EHLO
+        id S234117AbiKHRmp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 8 Nov 2022 12:42:45 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42572 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233826AbiKHO6Z (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 8 Nov 2022 09:58:25 -0500
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A5E93BE;
-        Tue,  8 Nov 2022 06:58:22 -0800 (PST)
-Received: from [192.168.2.123] (109-252-117-140.nat.spd-mgts.ru [109.252.117.140])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: dmitry.osipenko)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 8307366028F8;
-        Tue,  8 Nov 2022 14:58:19 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1667919500;
-        bh=2nhSUtwlfkDl6ZAggiriMabwXiSsWaNnaSXtFyROEeg=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=gsEbaLHrrYJ7cXSzv4ksiPtsO22D/AfUduXhxbcKmRmAmaYOa9BC6UJjfwAaDuY0n
-         h22dUtissv/joiR2nzScYrZT/Sq/VzKXCEWVqA18HHqUjxa9/KWffAbb92AZ++EiM1
-         0tx8VvExminzc8Tjt4wgMKRe7/BKL0LrRfB50xJktoxbJF5kp7URKe4isABwJ21wxx
-         9P+tBBQ5k27nZe2oyTM7HIPElGTBNiA1LZ6o7cuzmh+MSzcR2jSZAJnLdQ+Pyloaej
-         OHI3+4hFwYw7f9btESiKybn8eDF6oW3nP6e4ssPj9i7DhtuFkggiw8o4mhzQUXmh/0
-         UYAhuViUUcN1w==
-Message-ID: <8dc44cc4-b107-a384-02fa-2b5ec0d61c3b@collabora.com>
-Date:   Tue, 8 Nov 2022 17:58:16 +0300
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.1
-Subject: Re: [RFC PATCH v6 02/11] media: v4l2: Extend pixel formats to unify
- single/multi-planar handling (and more)
-Content-Language: en-US
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Hsia-Jun Li <Randy.Li@synaptics.com>,
-        Helen Koike <helen.koike@collabora.com>, mchehab@kernel.org,
-        hans.verkuil@cisco.com, sakari.ailus@iki.fi,
-        boris.brezillon@collabora.com, hiroh@chromium.org,
-        nicolas@ndufresne.ca, Brian.Starkey@arm.com, kernel@collabora.com,
-        narmstrong@baylibre.com, linux-kernel@vger.kernel.org,
-        frkoenig@chromium.org, stanimir.varbanov@linaro.org,
-        tfiga@chromium.org, Hans Verkuil <hverkuil@xs4all.nl>,
+        with ESMTP id S231357AbiKHRmn (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 8 Nov 2022 12:42:43 -0500
+Received: from mail-pf1-x42e.google.com (mail-pf1-x42e.google.com [IPv6:2607:f8b0:4864:20::42e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E16A550F14
+        for <linux-media@vger.kernel.org>; Tue,  8 Nov 2022 09:42:42 -0800 (PST)
+Received: by mail-pf1-x42e.google.com with SMTP id i3so14422165pfc.11
+        for <linux-media@vger.kernel.org>; Tue, 08 Nov 2022 09:42:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=6Im0yQPHmSdZ7qPIzaBXmNF94uDBYKcRV5xdanWSpDA=;
+        b=lDx+14mJV6uqtkCQXGvfthPDcMdssB/fm+M8mlaeNQa3Z+7zDBJMcNpuf2o0ONL+ze
+         clSfKCXyeCQQeh/tizztdifyYnFySZ5tT/etDTOkFQGAn7S17CymT/08hPjvFfrJRd67
+         bDcNgZMD17sLJsBfBF/vLljjr2x6TiX40kV5ouA6gi/dlPTICHxtiZr0nu4nBafukqHC
+         J7JslPuUzLKmGv6o8JMFCWPM/OAzJfDwq5ocOI62PXX5zlHCIqDKRm1RpuN12R5Aim6C
+         NYs6YrADeGqIqlMrwr0HWHC/rBYV7/jKGjgB9yprHwdL1pirBi4LtYMILMcRb2BE8Qkx
+         nifg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=6Im0yQPHmSdZ7qPIzaBXmNF94uDBYKcRV5xdanWSpDA=;
+        b=F5NeS47Z1t6LDsnNix6UEuit50K4UxqN4eF8HuzXjjb6J8/Ksr8AvSc/nTUrFYJtfP
+         RbedOHhnoruWpPD7LbiyE/ss7RylBE8yyAZXSanQOu+tN13+6GgALcH0Wr0Xxs3OaFk2
+         mzwRc//W230mjuA2vVv5wgRDOgcit9bpIdi3qWN9n1w+V6faPmsvwfOYlL+xQtvjoPK2
+         zw7avpxY1Ob+5dzTTN6Ia/9B9bnrs6ZJkuySzGH/HnFoMUTcZ0s5gD/AclBeJnvWqt1R
+         wYdV2tYCEglCzSWau/RcSKPFbzo7vH8UD0+T9D+OUnP3MmGQGDp/0ekzD+Kr5CuAzfDN
+         wA5w==
+X-Gm-Message-State: ACrzQf3AqTQBKyTMyoxYvDM+tiBlAigIRfAXRzan/iO8IKzPVcYafetR
+        ODptsINjH1ZGEtEoeyGbG4U=
+X-Google-Smtp-Source: AMsMyM576YAIG7ZmtXJs7CcxKvRSRSXXUluY9oAf2PySkwW4/2a/qMjfIE4ykuvTjACke9EX17BrJQ==
+X-Received: by 2002:a05:6a00:e86:b0:56b:9ae8:ca05 with SMTP id bo6-20020a056a000e8600b0056b9ae8ca05mr1048537pfb.59.1667929362113;
+        Tue, 08 Nov 2022 09:42:42 -0800 (PST)
+Received: from google.com ([2620:15c:9d:2:fb10:b5b0:232e:4afb])
+        by smtp.gmail.com with ESMTPSA id o23-20020a63e357000000b00462612c2699sm6002646pgj.86.2022.11.08.09.42.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 08 Nov 2022 09:42:41 -0800 (PST)
+Date:   Tue, 8 Nov 2022 09:42:38 -0800
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Linus Walleij <linus.walleij@linaro.org>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-media@vger.kernel.org,
-        "frkoenig@chromium.org" <frkoenig@chromium.org>
-References: <20210114180738.1758707-1-helen.koike@collabora.com>
- <20210114180738.1758707-3-helen.koike@collabora.com>
- <d0d1f74f-7e77-1b18-0529-dbbec8889584@xs4all.nl>
- <577c56bf-146c-f34a-2028-075170076de7@collabora.com>
- <708221e8-a805-c394-6958-6c7ec24bfe66@synaptics.com>
- <b58e2678-8d2a-a323-07e4-12cc01c8c3c2@collabora.com>
- <Y2jCHofGnLSaE5nk@pendragon.ideasonboard.com>
-From:   Dmitry Osipenko <dmitry.osipenko@collabora.com>
-In-Reply-To: <Y2jCHofGnLSaE5nk@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+        Sylwester Nawrocki <s.nawrocki@samsung.com>,
+        Andrzej Hajda <andrzej.hajda@intel.com>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Alim Akhtar <alim.akhtar@samsung.com>,
+        Tommaso Merciai <tommaso.merciai@amarulasolutions.com>
+Subject: Re: [PATCH v7] media: s5k4ecgx: Switch to GPIO descriptors
+Message-ID: <Y2qVDvcDIoc1Fb0L@google.com>
+References: <20221108121623.1510131-1-linus.walleij@linaro.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221108121623.1510131-1-linus.walleij@linaro.org>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 11/7/22 11:30, Laurent Pinchart wrote:
-> On Mon, Nov 07, 2022 at 01:11:32AM +0300, Dmitry Osipenko wrote:
->> On 11/5/22 18:19, Hsia-Jun Li wrote:
->>> Hello Helen
->>>
->>> I didn't see any updates from V6 and V7-WIP in your repo. That is what I
->>> need to for our complex tile formats in our platform.
->>>
->>> Any future plane here?
->>>
->>> Besides I have some ideas on these patches.
->>
->> I was looking into updating this patchset few months ago and the biggest
->> blocker was the absence of immediate upstream user for this new UAPI.
->> What your platform is? Is the driver stack completely opensource?
+On Tue, Nov 08, 2022 at 01:16:23PM +0100, Linus Walleij wrote:
+> The driver has an option to pass in GPIO numbers from platform
+> data but this is not used in the kernel so delete this and the
+> whole platform data mechanism.
 > 
-> libcamera could be a good place to test (part of) this API in userspace.
-> We could really do with the data offset feature for instance.
+> Get GPIO descriptors using the standard API and simplify the code,
+> gpiolib will handle any inversions.
 
-Since we don't have a user for the new UAPI right now, perhaps we can
-put the new UAPI behind the staging Kconfig until it will get a
-real/production user.
+I think we should simply delete the driver. It does not currently
+support OF, and I see no traces of any boards present in mainline using
+it, so why to keep it?
 
-On the other hand, I had unpleasant experience with having UAPI gated by
-staging Kconfig for other kernel subsystem in a sense that it
-permanently stays a staging UAPI because nobody has time for unstaging it.
-
-I see a common demand in this new UAPI which only becomes stronger over
-time. Won't hurt to refresh this patchset. I had a rebased version
-locally, but likely it needs to be rebased again. Will try to allocate
-time for this.
+Thanks.
 
 -- 
-Best regards,
 Dmitry
-
