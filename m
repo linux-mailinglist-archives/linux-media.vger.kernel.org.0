@@ -2,69 +2,65 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D5DDB621EB8
-	for <lists+linux-media@lfdr.de>; Tue,  8 Nov 2022 22:52:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 80F29622145
+	for <lists+linux-media@lfdr.de>; Wed,  9 Nov 2022 02:17:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229930AbiKHVwc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 8 Nov 2022 16:52:32 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33250 "EHLO
+        id S229785AbiKIBRL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 8 Nov 2022 20:17:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55462 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229795AbiKHVwb (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 8 Nov 2022 16:52:31 -0500
-Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com [IPv6:2607:f8b0:4864:20::1033])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D328A61BA9
-        for <linux-media@vger.kernel.org>; Tue,  8 Nov 2022 13:52:29 -0800 (PST)
-Received: by mail-pj1-x1033.google.com with SMTP id d13-20020a17090a3b0d00b00213519dfe4aso108126pjc.2
-        for <linux-media@vger.kernel.org>; Tue, 08 Nov 2022 13:52:29 -0800 (PST)
+        with ESMTP id S229470AbiKIBRK (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 8 Nov 2022 20:17:10 -0500
+Received: from mail-vs1-xe2f.google.com (mail-vs1-xe2f.google.com [IPv6:2607:f8b0:4864:20::e2f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 685EE23175;
+        Tue,  8 Nov 2022 17:17:08 -0800 (PST)
+Received: by mail-vs1-xe2f.google.com with SMTP id 3so15286989vsh.5;
+        Tue, 08 Nov 2022 17:17:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=eH4cnpyyvwttbRJQYykn0Ih2Qb3q6VJdgpC1/rPDfX0=;
-        b=PresJ2b6ZYZrTWDh4ivrMSyZlkg5W+C63PJrgmq8JV7QeQwpsEIQ9k93t+C9nLSzU8
-         RFoXVF/q5hOaQbZCrRSxMl2M7INGdqADSShita0gC6fgwAYFRMr6r08fcih38eX9XdSE
-         Fp1cD2kSv2Vm0tAWN7BnLMs87jKuTGczpPNkk/FQR5y4LTghtul42fsX9n5VM0Opeth2
-         Z8PtIyMA90GblqJIojdbL0f3aVw+crQT+Gbnr2u6iEypHV/t2pqjbgxn1nMcdA/OZqSA
-         kFdhC6O1EVFHVP88tPwsN8D39dqzCKFjEcgsNnsyMxE2HGkN7dhwt2C1Xh3ZFQJmxImK
-         5TTw==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=MYcTTuwI7G46p7K3ucaiKME/7Z+rBfUYDVp4gpPf4Ac=;
+        b=Vcd0RkQmc/NMRf9OtDQvHNa9UBq0feaRI/Rh376FTe7DgUXmxDDxj9wq5+tIM60IJ+
+         cbeLAL10iy6VBXCP00djE6RoFsQRK32Xg0DAmi15mokOfnfhxmyQNJ8EtI5hX5Yx+5eP
+         kTJok8wP6bKnfGmKkSDPlz3wWvceycUW2D+/uU1/Tf8QNyvogHV4u4NS1Ma6E71Pvm4b
+         PxQfzKasJg1iegehqZy/DJCMlWOYWtkyJA9P0Z4iIKYGpOgTY7Gt/bl7CWkypFH5D950
+         ebomLEYl+a6Hu1eUrInZvu+DLlwydorFjbaoMnmx1mb03sW+XlDS1UJ+8Wf3Mequ4T3L
+         Urwg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=eH4cnpyyvwttbRJQYykn0Ih2Qb3q6VJdgpC1/rPDfX0=;
-        b=6w3EdI7rdiepfN9Y7PiMBqDvJpWm6W3DE5GvDSfJM+4uooqJBSJkesocTl1poT6wxW
-         Hgw5qES6QO6/y+cCh1p3Hb8V9ZKktQ7wxG2kE5H0HH1QEOLRN7XrJrXgv9vQQW39CIfK
-         I/yMURWwEa+BlUEOYMbiZAW1KmrYYfNEVDFPCtRVrUkOCrfv8LVzr58LRJD4Uv5aw4EQ
-         Qdwd3NC+Fjgcwmt+LPE+0FyFqDP48UeKSLS9ks8wD6dZDvFq+m7MdgTzHCEqQcq4TTaw
-         eLtjdI39YXO+GbVwLEU5uYMDhrt5LGxqjyn8GQxKVHNozmqInEzsNIEjHRSbF7cDpUNh
-         Z2NA==
-X-Gm-Message-State: ACrzQf1TcgkpmOmrFzF5YcwXv7DgfHHui3+p8WALBgHfGuUyh9NFaQ3t
-        Njq0gZg4oeNqiwhBVZn2aho=
-X-Google-Smtp-Source: AMsMyM4lpWJEFd6Hsp6jtqmbEDn4om4uP2oitjQDYNUsHaZbNeQWxceoC1tjsvaH67hr+Bwpf0Yznw==
-X-Received: by 2002:a17:90a:bf11:b0:211:84c5:42d7 with SMTP id c17-20020a17090abf1100b0021184c542d7mr74929156pjs.122.1667944349248;
-        Tue, 08 Nov 2022 13:52:29 -0800 (PST)
-Received: from google.com ([2620:15c:9d:2:9f46:7242:26:f220])
-        by smtp.gmail.com with ESMTPSA id m2-20020a17090a7f8200b00212e5fe09d7sm6536581pjl.10.2022.11.08.13.52.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Nov 2022 13:52:28 -0800 (PST)
-Date:   Tue, 8 Nov 2022 13:52:25 -0800
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Linus Walleij <linus.walleij@linaro.org>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org,
-        Sylwester Nawrocki <s.nawrocki@samsung.com>,
-        Andrzej Hajda <andrzej.hajda@intel.com>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Alim Akhtar <alim.akhtar@samsung.com>
-Subject: Re: [PATCH 2/2 v8] media: s5k4ecgx: Delete driver
-Message-ID: <Y2rPmVcj+n4ZrYul@google.com>
-References: <20221108195329.1827323-1-linus.walleij@linaro.org>
- <20221108195329.1827323-2-linus.walleij@linaro.org>
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=MYcTTuwI7G46p7K3ucaiKME/7Z+rBfUYDVp4gpPf4Ac=;
+        b=vhgYeSSE9ulx9qBnCn4SodjiUFwxHfClPMvYhe/A2seSV1L1BysnGwPZOBzYZV2ZZn
+         20Ow6M38F05AUh9CS/ndNrgKdZPQ28QWnNdATSItZo8HobhxWMEFNsWG6xATuxZaX6dH
+         LJ2+n71yOCn7SVonSpbqC4mimZg3rn+XcogF2eeBzYOXbJ3eHd7pykDT1sNvRSEcMBdJ
+         Bzdu4k3qRDm3FrI5/J3STsu7JBzJKCG6VOJH1JcufyONP+7Qmmv+tlkQXqSELFTh/FSc
+         1ZMxOvsMyorimQfVXtNA4zLdRz0THwlUxJDiSmLDNsYrgY62F40giJwr/tUBf8Nu3U1R
+         bVRQ==
+X-Gm-Message-State: ANoB5pmseC50Uk0uooFGDD6ZQkNT+fC/tK8VKFXmHNzi222ZtyB6Vut9
+        Eh4fJHYe0qnNTRpQ8t2tVmymwJTcnAKOFQ/OPu8=
+X-Google-Smtp-Source: AA0mqf7Sc5Q+GlFsu+HUXcVUH8rWVMsE2xMY4ahp9uHHaJ+ye3ydGB3+4WuZsI6pb+6UYqOsaKOcp1ci90zFVx4Tkug=
+X-Received: by 2002:a67:b809:0:b0:3ae:9298:114c with SMTP id
+ i9-20020a67b809000000b003ae9298114cmr15583vsf.64.1667956627444; Tue, 08 Nov
+ 2022 17:17:07 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221108195329.1827323-2-linus.walleij@linaro.org>
+References: <20221104033810.1324686-1-milkfafa@gmail.com> <20221104033810.1324686-6-milkfafa@gmail.com>
+ <357a3098-918b-895b-7305-0f1a63aacdb0@xs4all.nl> <CADnNmFp4r-3+pvHa+_HOxcXAkORadMzgg6fFKbLcgs66a_90gw@mail.gmail.com>
+ <daab81c3-4592-5ef0-5a0e-5f89fe58a3e7@xs4all.nl>
+In-Reply-To: <daab81c3-4592-5ef0-5a0e-5f89fe58a3e7@xs4all.nl>
+From:   Kun-Fa Lin <milkfafa@gmail.com>
+Date:   Wed, 9 Nov 2022 09:16:56 +0800
+Message-ID: <CADnNmForsJJD=PickWqfsnKdLoMp=0xx70=9foNAJn9hYyy9vw@mail.gmail.com>
+Subject: Re: [PATCH v6 5/5] drivers: media: platform: Add NPCM Video
+ Capture/Encode Engine driver
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     mchehab@kernel.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, openbmc@lists.ozlabs.org,
+        avifishman70@gmail.com, tmaimon77@gmail.com, tali.perry1@gmail.com,
+        kwliu@nuvoton.com, kflin@nuvoton.com
+Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
         RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
@@ -75,22 +71,19 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Nov 08, 2022 at 08:53:28PM +0100, Linus Walleij wrote:
-> This driver was until the previous patch unused in the kernel
-> and depended on platform data that no board was defining.
-> As no users can be proven to exist, delete the driver.
-> 
-> Cc: Sylwester Nawrocki <s.nawrocki@samsung.com>
-> Cc: Andrzej Hajda <andrzej.hajda@intel.com>
-> Cc: Krzysztof Kozlowski <krzk@kernel.org>
-> Cc: Alim Akhtar <alim.akhtar@samsung.com>
-> Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-> Suggested-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-> Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+Hi Hans,
 
-Reviewed-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+>
+> This is very much a driver-specific control. So you have to make your
+> own.
+>
+> This series is a good example on how to add a custom control:
+>
+> https://lore.kernel.org/linux-media/20221028023554.928-1-jammy_huang@aspeedtech.com/
+>
+> Driver-specific controls are fine, as long as they are properly documented.
 
-Thanks.
+Thanks for the advice, I'll add our own custom control.
 
--- 
-Dmitry
+Regards,
+Marvin
