@@ -2,118 +2,110 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 04349622E5D
-	for <lists+linux-media@lfdr.de>; Wed,  9 Nov 2022 15:51:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9BD1A622EAD
+	for <lists+linux-media@lfdr.de>; Wed,  9 Nov 2022 16:05:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230161AbiKIOvZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 9 Nov 2022 09:51:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58172 "EHLO
+        id S231817AbiKIPFx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 9 Nov 2022 10:05:53 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42222 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229910AbiKIOvY (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 9 Nov 2022 09:51:24 -0500
-Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com [91.207.212.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E7591C901;
-        Wed,  9 Nov 2022 06:51:23 -0800 (PST)
-Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
-        by mx07-00178001.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 2A9CnK6k025229;
-        Wed, 9 Nov 2022 15:50:44 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=selector1;
- bh=5JtF3iJ2oXjNjIAbamTKE27XtiV1yY94Ah+QiBDWb3s=;
- b=etElwXAkt6kcqJIe2SltGS49ceP/WxapGbX4u3Ff81O2QqHa2suZ/WJRKX9FO7dj+2EG
- WwyePRFEabfKVWgx4H+AbcoWAywb6BCYs5ZbBSJQRQVfFyWsKw5Xp1gbdqEkHAWZqO4n
- lok22cczp0S23kA54WfqwmQ2/aPIKgS8L4VTE7qxQkpZ3ns6ejnBLtumHU7ZJDdT2PTa
- R78DNT7Nxovnv+sJyvJizEASGL3CgqIYak5Q2VVvbgAYRBsvRCoOEOnYVvj8AhCBa5KL
- 2CgnVL1oassLIUMmIpEKGrqNspCCA5vTzKRmLpglyuE0fWIVG9E0cfugdaW3S0J6InH2 1g== 
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-        by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3kpyjqhquy-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 09 Nov 2022 15:50:44 +0100
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 5240A10002A;
-        Wed,  9 Nov 2022 15:50:37 +0100 (CET)
-Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
-        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id D9E6D21FEA5;
-        Wed,  9 Nov 2022 15:50:37 +0100 (CET)
-Received: from [10.252.18.33] (10.252.18.33) by SHFDAG1NODE1.st.com
- (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.32; Wed, 9 Nov
- 2022 15:50:37 +0100
-Message-ID: <f0aee291-ce44-400b-be3a-dfe38c62e450@foss.st.com>
-Date:   Wed, 9 Nov 2022 15:50:37 +0100
+        with ESMTP id S231806AbiKIPFu (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 9 Nov 2022 10:05:50 -0500
+Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com [IPv6:2a00:1450:4864:20::32f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8F2E218366;
+        Wed,  9 Nov 2022 07:05:49 -0800 (PST)
+Received: by mail-wm1-x32f.google.com with SMTP id p16so11011441wmc.3;
+        Wed, 09 Nov 2022 07:05:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=lhwrBDl/CTbKvy7A/51zRGVK4YyuwVKuNCU7SY9gZq8=;
+        b=mTFflwQajR9tHK7tX87YcCe2Tf1beSD7HXqGu8rXCbB84cbE7eZiF1ytWqlzAr3PgL
+         CGgAf5AA6dzPUOc3zcmcuWkO1m2Pq5tsAmlHXSG+gF9mIBePOP6kJo4ZNSk4LdGPXDKG
+         l/fmjdKL/bRfvKHEpPxXZ892w/ZDYHjgoN7yjSWW09M666nYjN3RPcRRZ0XBjZ50UIUv
+         z+JIf+/qsrlLaz0DrN4cnGD5HvXmBWuEKZYDw/+ulQaHVauwtIt22P1CfoLfcHSm68st
+         t9NdQV0vo/2I5+O/qZlH+8Vzl5MvdHVcEADNP8YXz6AvAL/w2c1j5JmM/31doAZXHNRV
+         3CeQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=lhwrBDl/CTbKvy7A/51zRGVK4YyuwVKuNCU7SY9gZq8=;
+        b=TvHW1Km2i6DlIIjat11NStWR1sp2UBkYDYAmV6bNvIfxwy208hoEpt84hJS5WHW2wA
+         6PTbx9CbIlQg/JlZTWoXMlCn2xUOzIPi/BGOyBSd2Vwty+xkadLj2Qsa2wwEbXOG1pr9
+         XLH3dgXGYOkwOBpwTwANE3REXdeNTk/4plnfCAYtS0aeQo7V3wrnoQP8agdUJzIO1JsX
+         rJzrhx6C3ed2oC6V1KNxrAP07G7tUADLNmq0mnZRkc6dMeEOul7r4P/1d9Wx7R4noYkV
+         FnY9XY5eFqk2gdEEPD+T3rkoY7sUMFi4Cq6KEzwoFqUWkkBkJPSYFat6UPv+JNmnu4HH
+         MRHA==
+X-Gm-Message-State: ACrzQf0t77znYMZOf9NCnlqPttImhoN7TJKuY+Oui23OikFKnlH/Z3uq
+        M6H3IxK4J7YeWD2L51+jUAo=
+X-Google-Smtp-Source: AMsMyM7jnmJIarouA2ZI9hO9Lkg+kKY7/4ZBHfmKmEAIPe/aaGTsvEeVv48Gv3Vb8606UmP340iHmg==
+X-Received: by 2002:a05:600c:12ca:b0:3cf:88bb:3a88 with SMTP id v10-20020a05600c12ca00b003cf88bb3a88mr26739091wmd.170.1668006345662;
+        Wed, 09 Nov 2022 07:05:45 -0800 (PST)
+Received: from localhost (cpc154979-craw9-2-0-cust193.16-3.cable.virginm.net. [80.193.200.194])
+        by smtp.gmail.com with ESMTPSA id p12-20020a05600c468c00b003cf75f56105sm2495109wmo.41.2022.11.09.07.05.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 09 Nov 2022 07:05:45 -0800 (PST)
+From:   Colin Ian King <colin.i.king@gmail.com>
+To:     Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+        Sylvain Petinot <sylvain.petinot@foss.st.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org
+Cc:     kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH][next] media: i2c: st-vgxy61: Fix spelling mistake "substraction" -> "subtraction"
+Date:   Wed,  9 Nov 2022 15:05:44 +0000
+Message-Id: <20221109150544.274795-1-colin.i.king@gmail.com>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH] Documentation: media: Add ST VGXY61 driver documentation
- to userspace API table of contents
-To:     Bagas Sanjaya <bagasdotme@gmail.com>,
-        <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, <linux-next@vger.kernel.org>
-CC:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Xavier Roumegue <xavier.roumegue@oss.nxp.com>,
-        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Stephen Rothwell <sfr@canb.auug.org.au>
-References: <20221109100147.218947-1-bagasdotme@gmail.com>
-Content-Language: en-US
-From:   Benjamin MUGNIER <benjamin.mugnier@foss.st.com>
-In-Reply-To: <20221109100147.218947-1-bagasdotme@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.252.18.33]
-X-ClientProxiedBy: EQNCAS1NODE4.st.com (10.75.129.82) To SHFDAG1NODE1.st.com
- (10.75.129.69)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-11-09_06,2022-11-09_01,2022-06-22_01
-X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,NICE_REPLY_A,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Bagas,
+There are a couple of spelling mistakes in a literal string and in the
+documentation. Fix them.
 
-I already submitted this here:
-https://www.spinics.net/lists/linux-media/msg221143.html
+Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
+---
+ Documentation/userspace-api/media/drivers/st-vgxy61.rst | 2 +-
+ drivers/media/i2c/st-vgxy61.c                           | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-Thanks.
-
-On 11/9/22 11:01, Bagas Sanjaya wrote:
-> Sphinx reported missing toctree entry for ST VGXY61 documentation:
-> 
-> Documentation/userspace-api/media/drivers/st-vgxy61.rst: WARNING: document isn't included in any toctree
-> 
-> Add the entry to fix the warning.
-> 
-> Link: https://lore.kernel.org/linux-next/20221109162013.293250a2@canb.auug.org.au/
-> Fixes: 2378be892b6ff5 ("media: Documentation: Add ST VGXY61 driver documentation")
-> Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
-> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
-> ---
->  Documentation/userspace-api/media/drivers/index.rst | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/Documentation/userspace-api/media/drivers/index.rst b/Documentation/userspace-api/media/drivers/index.rst
-> index 32f82aed47d915..0f758c8d45235a 100644
-> --- a/Documentation/userspace-api/media/drivers/index.rst
-> +++ b/Documentation/userspace-api/media/drivers/index.rst
-> @@ -38,4 +38,5 @@ For more details see the file COPYING in the source distribution of Linux.
->  	max2175
->  	meye-uapi
->  	omap3isp-uapi
-> +	st-vgxy61
->  	uvcvideo
-> 
-> base-commit: 1e284ea984d3705e042b6b07469a66f1d43371e3
-
+diff --git a/Documentation/userspace-api/media/drivers/st-vgxy61.rst b/Documentation/userspace-api/media/drivers/st-vgxy61.rst
+index 213b884dcfa6..7fb5b4f60db7 100644
+--- a/Documentation/userspace-api/media/drivers/st-vgxy61.rst
++++ b/Documentation/userspace-api/media/drivers/st-vgxy61.rst
+@@ -17,7 +17,7 @@ The ST VGXY61 driver implements the following controls:
+ 
+     * - HDR linearize
+       - The merger outputs a long exposure capture as long as it is not saturated.
+-    * - HDR substraction
++    * - HDR subtraction
+       - This involves subtracting the short exposure frame from the long exposure frame.
+     * - "No HDR"
+       - This mode is used for standard dynamic range (SDR) exposures.
+diff --git a/drivers/media/i2c/st-vgxy61.c b/drivers/media/i2c/st-vgxy61.c
+index dfbf25338160..e72fc3a8a54c 100644
+--- a/drivers/media/i2c/st-vgxy61.c
++++ b/drivers/media/i2c/st-vgxy61.c
+@@ -197,7 +197,7 @@ static const char * const vgxy61_test_pattern_menu[] = {
+ 
+ static const char * const vgxy61_hdr_mode_menu[] = {
+ 	"HDR linearize",
+-	"HDR substraction",
++	"HDR subtraction",
+ 	"No HDR",
+ };
+ 
 -- 
-Regards,
+2.38.1
 
-Benjamin
