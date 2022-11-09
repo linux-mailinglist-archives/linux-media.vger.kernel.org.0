@@ -2,76 +2,83 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6D7876224B8
-	for <lists+linux-media@lfdr.de>; Wed,  9 Nov 2022 08:35:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 290C0622616
+	for <lists+linux-media@lfdr.de>; Wed,  9 Nov 2022 10:01:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229896AbiKIHfv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 9 Nov 2022 02:35:51 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42624 "EHLO
+        id S230106AbiKIJBc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 9 Nov 2022 04:01:32 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37608 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229794AbiKIHfp (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 9 Nov 2022 02:35:45 -0500
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D06771AF3E;
-        Tue,  8 Nov 2022 23:35:39 -0800 (PST)
-X-UUID: ff3e3b0078164e52ba50d68a28613ea9-20221109
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-        h=Content-Type:Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From; bh=FVr/w7/wOLRWDOkFgdIIqFh4IiDRfiBAxHj4ct/E3/A=;
-        b=fkfOdTNoIMb/b/+IgxzvtYTI2yx3qBe0kONaFlReQjjNaF2jF7uoStkyGbUyACf+Kzz+lzXwar2oIQXQ8lim+z7zdP8pDsZNA5Afei5KG1NI/we3Gu1DrmtALJldU3GwvVGmV+Y07J2QBb5rvC9S/z/M6zIBqSwY5J4F/fkT1Y4=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.12,REQID:ade6088f-40de-41f5-a993-c3b230d85b5a,IP:0,U
-        RL:0,TC:0,Content:-25,EDM:0,RT:0,SF:95,FILE:0,BULK:0,RULE:Release_Ham,ACTI
-        ON:release,TS:70
-X-CID-INFO: VERSION:1.1.12,REQID:ade6088f-40de-41f5-a993-c3b230d85b5a,IP:0,URL
-        :0,TC:0,Content:-25,EDM:0,RT:0,SF:95,FILE:0,BULK:0,RULE:Spam_GS981B3D,ACTI
-        ON:quarantine,TS:70
-X-CID-META: VersionHash:62cd327,CLOUDID:107e0c91-1a78-4832-bd08-74b1519dcfbf,B
-        ulkID:221109153536S76FEZ3N,BulkQuantity:0,Recheck:0,SF:38|28|17|19|48,TC:n
-        il,Content:0,EDM:-3,IP:nil,URL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0
-X-UUID: ff3e3b0078164e52ba50d68a28613ea9-20221109
-Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by mailgw01.mediatek.com
-        (envelope-from <yunfei.dong@mediatek.com>)
-        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-        with ESMTP id 2110796877; Wed, 09 Nov 2022 15:35:35 +0800
-Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
- mtkmbs11n2.mediatek.inc (172.21.101.187) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.792.15; Wed, 9 Nov 2022 15:35:33 +0800
-Received: from localhost.localdomain (10.17.3.154) by mtkmbs11n2.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.2.792.15 via Frontend
- Transport; Wed, 9 Nov 2022 15:35:32 +0800
-From:   Yunfei Dong <yunfei.dong@mediatek.com>
-To:     Yunfei Dong <yunfei.dong@mediatek.com>,
-        Rob Herring <robh@kernel.org>,
-        Chen-Yu Tsai <wenst@chromium.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        Tiffany Lin <tiffany.lin@mediatek.com>
-CC:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Hsin-Yi Wang <hsinyi@chromium.org>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Steve Cho <stevecho@chromium.org>,
-        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-mediatek@lists.infradead.org>,
-        <Project_Global_Chrome_Upstream_Group@mediatek.com>
-Subject: [PATCH 3/3] arm64: dts: mt8195: Add video decoder node
-Date:   Wed, 9 Nov 2022 15:35:29 +0800
-Message-ID: <20221109073529.26765-3-yunfei.dong@mediatek.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20221109073529.26765-1-yunfei.dong@mediatek.com>
-References: <20221109073529.26765-1-yunfei.dong@mediatek.com>
+        with ESMTP id S230167AbiKIJB2 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 9 Nov 2022 04:01:28 -0500
+Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com [IPv6:2a00:1450:4864:20::135])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 90A6D1D320
+        for <linux-media@vger.kernel.org>; Wed,  9 Nov 2022 01:01:27 -0800 (PST)
+Received: by mail-lf1-x135.google.com with SMTP id j16so24639364lfe.12
+        for <linux-media@vger.kernel.org>; Wed, 09 Nov 2022 01:01:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=1a1mOukpjZMpytvxM2kXqldwAWWniF6ta8Ydmp7QzLw=;
+        b=IZgM1hh+z0BQ2E3Fqj0VA1ZHvbGxq520EA2WHINZwRQLlqpXD2kX13+/82sX9lFzIW
+         WnXNDmanTYda/Rh0cmt0OrQjkzjhDoC1WLXpXn7mJvQzUU1C0KEe3rztFGKSEle0o5nW
+         03VLg4Wb6MA8D2033+D6r0yIkMD5qMFrgxyWryNux5McAIoe+HgRPlpG/c96N0sfXSxu
+         veTEPxDuDdb1srPLPWdhg86cXdcc1oFXb4KvjsYIZTL2vOsQsFcpIlhap/GdRfSNnL/v
+         QgdnjS/ZxEdqRENARJAUOqLjPuFm6qXdsWW77N/wzjPnS/1vc/A5i3r9MJZj8L5Ywuc6
+         1jrw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=1a1mOukpjZMpytvxM2kXqldwAWWniF6ta8Ydmp7QzLw=;
+        b=ZZwW4cYAwuLNcJDB+lEMb2XOP9MMEXj4ViLGCMt2zz+ZaVwcDfkH9hYJ16P3ijebzw
+         7ZQhkIhOXBYidG7VL3miLk7FMyWZpOtCueXqZkgUk5jDn0Gs/1w7Pl2973NnZXKqNb4Q
+         H7ehHNJHvJRyVqQpjnRq0USuAF929QFjTKHlPbuoL9WGshDeY68jwXkti7B78A6A5s+S
+         a4sTXOsBcGOtDG62Ao7aUvjGlqv9g/qSfO5pj3ro1YZyiykC3txGMT85+1J34lG1uzPb
+         tnEJmxOItTwWdw0mxTi7ITv7CUKqlckPEhq9TpFYIj6mCGzQUPVD9SgZJGj2J2lUVAuB
+         9lLg==
+X-Gm-Message-State: ANoB5pnkhh1vLx42Ia3m8F1JpauZLCLybDxqJLYa3deAylM/YEW+6oJx
+        elE20WQxHJV67yiKw41ctos9Xw==
+X-Google-Smtp-Source: AA0mqf4uoEqA8KNrUAFsRkFyLE2gNKVscNyuAqOjd26cEx666TZUqZQVuCN/Il0PGwxsYSAE3hgL4w==
+X-Received: by 2002:a05:6512:2187:b0:4b3:cf9f:c20 with SMTP id b7-20020a056512218700b004b3cf9f0c20mr4281038lft.3.1667984485925;
+        Wed, 09 Nov 2022 01:01:25 -0800 (PST)
+Received: from [192.168.0.20] (088156142199.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.199])
+        by smtp.gmail.com with ESMTPSA id f18-20020a2ea0d2000000b0027776efa48csm2045155ljm.91.2022.11.09.01.01.24
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 09 Nov 2022 01:01:25 -0800 (PST)
+Message-ID: <10f47cb6-3632-dd1e-23a3-86c4fd5d62c8@linaro.org>
+Date:   Wed, 9 Nov 2022 10:01:24 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-MTK:  N
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [Patch v2 3/3] arm: dts: exynos: Rename compatible string
+ property from version to SoC specific
+Content-Language: en-US
+To:     Aakarsh Jain <aakarsh.jain@samsung.com>,
+        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
+Cc:     m.szyprowski@samsung.com, andrzej.hajda@intel.com,
+        mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
+        ezequiel@vanguardiasur.com.ar, jernej.skrabec@gmail.com,
+        benjamin.gaignard@collabora.com, krzysztof.kozlowski+dt@linaro.org,
+        stanimir.varbanov@linaro.org, dillon.minfei@gmail.com,
+        david.plowman@raspberrypi.com, mark.rutland@arm.com,
+        robh+dt@kernel.org, krzk+dt@kernel.org, andi@etezian.org,
+        alim.akhtar@samsung.com, aswani.reddy@samsung.com,
+        pankaj.dubey@samsung.com, smitha.t@samsung.com
+References: <20221109035507.69086-1-aakarsh.jain@samsung.com>
+ <CGME20221109034811epcas5p4ecd94497380c5342258fc1dac7f99956@epcas5p4.samsung.com>
+ <20221109035507.69086-3-aakarsh.jain@samsung.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20221109035507.69086-3-aakarsh.jain@samsung.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,
-        T_SPF_TEMPERROR,UNPARSEABLE_RELAY autolearn=ham autolearn_force=no
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -79,89 +86,45 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add video decoder node to mt8195 device tree.
+On 09/11/2022 04:55, Aakarsh Jain wrote:
+> commit "752d3a23d1f68de87e3c" which adds MFC codec device node
+> for exynos3250 SoC. Since exynos3250.dtsi and exynos5420.dtsi are
+> using same compatible string as "samsung,mfc-v7" but their
+> node properties are different.As both SoCs have MFC v7 hardware
+> module but with different clock hierarchy and complexity.
+> So renaming compatible string from version specific to SoC based.
+> 
+> Reviewed-by: Tommaso Merciai <tommaso.merciai@amarulasolutions.com>
+> Suggested-by: Alim Akhtar <alim.akhtar@samsung.com>
+> Signed-off-by: Aakarsh Jain <aakarsh.jain@samsung.com>
 
-Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
----
-dtbs_check pass.
----
- arch/arm64/boot/dts/mediatek/mt8195.dtsi | 63 ++++++++++++++++++++++++
- 1 file changed, 63 insertions(+)
+Use subject prefixes matching the subsystem (git log --oneline -- ...).
 
-diff --git a/arch/arm64/boot/dts/mediatek/mt8195.dtsi b/arch/arm64/boot/dts/mediatek/mt8195.dtsi
-index 905d1a90b406..ffabf91d4273 100644
---- a/arch/arm64/boot/dts/mediatek/mt8195.dtsi
-+++ b/arch/arm64/boot/dts/mediatek/mt8195.dtsi
-@@ -1874,6 +1874,69 @@
- 			power-domains = <&spm MT8195_POWER_DOMAIN_CAM>;
- 		};
- 
-+		video-codec@18000000 {
-+			compatible = "mediatek,mt8195-vcodec-dec";
-+			mediatek,scp = <&scp>;
-+			iommus = <&iommu_vdo M4U_PORT_L21_VDEC_MC_EXT>;
-+			dma-ranges = <0x1 0x0 0x0 0x40000000 0x0 0xfff00000>;
-+			#address-cells = <2>;
-+			#size-cells = <2>;
-+			reg = <0 0x18000000 0 0x1000>,      /* VDEC_SYS */
-+			      <0 0x18004000 0 0x1000>;      /* VDEC_RACING_CTRL */
-+			ranges = <0 0 0 0x18000000 0 0x26000>;
-+			clocks = <&topckgen CLK_TOP_VDEC>,
-+			         <&topckgen CLK_TOP_UNIVPLL_D4>;
-+			clock-names = "vdec-sel", "top";
-+			assigned-clocks = <&topckgen CLK_TOP_VDEC>;
-+			assigned-clock-parents = <&topckgen CLK_TOP_UNIVPLL_D4>;
-+
-+			vcodec-lat-soc@2000 {
-+				compatible = "mediatek,mtk-vcodec-lat-soc";
-+				reg = <0 0x2000 0 0x800>;		/* VDEC_MISC */
-+				iommus = <&iommu_vpp M4U_PORT_L23_VDEC_UFO_ENC_EXT>,
-+					 <&iommu_vpp M4U_PORT_L23_VDEC_RDMA_EXT>;
-+				clocks = <&vdecsys_soc CLK_VDEC_SOC_VDEC>,
-+					 <&vdecsys_soc CLK_VDEC_SOC_LAT>;
-+				clock-names = "vdec-soc-vdec", "vdec-soc-lat";
-+				power-domains = <&spm MT8195_POWER_DOMAIN_VDEC0>;
-+			};
-+
-+			vcodec-lat@10000 {
-+				compatible = "mediatek,mtk-vcodec-lat";
-+				reg = <0 0x10000 0 0x800>;		/* VDEC_MISC */
-+				interrupts = <GIC_SPI 708 IRQ_TYPE_LEVEL_HIGH 0>;
-+				iommus = <&iommu_vdo M4U_PORT_L24_VDEC_LAT0_VLD_EXT>,
-+					 <&iommu_vdo M4U_PORT_L24_VDEC_LAT0_VLD2_EXT>,
-+					 <&iommu_vdo M4U_PORT_L24_VDEC_LAT0_AVC_MC_EXT>,
-+					 <&iommu_vdo M4U_PORT_L24_VDEC_LAT0_PRED_RD_EXT>,
-+					 <&iommu_vdo M4U_PORT_L24_VDEC_LAT0_TILE_EXT>,
-+					 <&iommu_vdo M4U_PORT_L24_VDEC_LAT0_WDMA_EXT>;
-+				clocks = <&vdecsys_soc CLK_VDEC_SOC_VDEC>,
-+					 <&vdecsys_soc CLK_VDEC_SOC_LAT>;
-+				clock-names = "vdec-soc-vdec", "vdec-soc-lat";
-+				power-domains = <&spm MT8195_POWER_DOMAIN_VDEC0>;
-+			};
-+
-+			vcodec-core@25000 {
-+				compatible = "mediatek,mtk-vcodec-core";
-+				reg = <0 0x25000 0 0x1000>;		/* VDEC_CORE_MISC */
-+				interrupts = <GIC_SPI 707 IRQ_TYPE_LEVEL_HIGH 0>;
-+				iommus = <&iommu_vdo M4U_PORT_L21_VDEC_MC_EXT>,
-+					 <&iommu_vdo M4U_PORT_L21_VDEC_UFO_EXT>,
-+					 <&iommu_vdo M4U_PORT_L21_VDEC_PP_EXT>,
-+					 <&iommu_vdo M4U_PORT_L21_VDEC_PRED_RD_EXT>,
-+					 <&iommu_vdo M4U_PORT_L21_VDEC_PRED_WR_EXT>,
-+					 <&iommu_vdo M4U_PORT_L21_VDEC_PPWRAP_EXT>,
-+					 <&iommu_vdo M4U_PORT_L21_VDEC_TILE_EXT>,
-+					 <&iommu_vdo M4U_PORT_L21_VDEC_VLD_EXT>,
-+					 <&iommu_vdo M4U_PORT_L21_VDEC_VLD2_EXT>,
-+					 <&iommu_vdo M4U_PORT_L21_VDEC_AVC_MV_EXT>;
-+				clocks = <&vdecsys CLK_VDEC_VDEC>, <&vdecsys CLK_VDEC_LAT>;
-+				clock-names = "vdec-vdec", "vdec-lat";
-+				power-domains = <&spm MT8195_POWER_DOMAIN_VDEC1>;
-+			};
-+		};
-+
- 		larb24: larb@1800d000 {
- 			compatible = "mediatek,mt8195-smi-larb";
- 			reg = <0 0x1800d000 0 0x1000>;
--- 
-2.18.0
+> ---
+>  arch/arm/boot/dts/exynos3250.dtsi | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/arch/arm/boot/dts/exynos3250.dtsi b/arch/arm/boot/dts/exynos3250.dtsi
+> index 326b9e0ed8d3..98105c64f7d9 100644
+> --- a/arch/arm/boot/dts/exynos3250.dtsi
+> +++ b/arch/arm/boot/dts/exynos3250.dtsi
+> @@ -485,7 +485,7 @@
+>  		};
+>  
+>  		mfc: codec@13400000 {
+> -			compatible = "samsung,mfc-v7";
+> +			compatible = "samsung,exynos3250-mfc";
+
+This is a friendly reminder during the review process.
+
+It seems my previous comments were not fully addressed. Maybe my
+feedback got lost between the quotes, maybe you just forgot to apply it.
+Please go back to the previous discussion and either implement all
+requested changes or keep discussing them.
+
+Thank you.
+
+Best regards,
+Best regards,
+Krzysztof
 
