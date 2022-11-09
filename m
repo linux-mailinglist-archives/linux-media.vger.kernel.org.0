@@ -2,55 +2,55 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5FE516222C4
-	for <lists+linux-media@lfdr.de>; Wed,  9 Nov 2022 04:49:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 850D46222C8
+	for <lists+linux-media@lfdr.de>; Wed,  9 Nov 2022 04:49:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229898AbiKIDtu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 8 Nov 2022 22:49:50 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34728 "EHLO
+        id S229779AbiKIDty (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 8 Nov 2022 22:49:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34750 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229798AbiKIDts (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 8 Nov 2022 22:49:48 -0500
+        with ESMTP id S229845AbiKIDtu (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 8 Nov 2022 22:49:50 -0500
 Received: from mailout1.samsung.com (mailout1.samsung.com [203.254.224.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 84EDB1704C
-        for <linux-media@vger.kernel.org>; Tue,  8 Nov 2022 19:49:45 -0800 (PST)
-Received: from epcas5p4.samsung.com (unknown [182.195.41.42])
-        by mailout1.samsung.com (KnoxPortal) with ESMTP id 20221109034943epoutp017cf297111dc372ac31f3ac6d853362ad~lzgrcTO950540705407epoutp01a
-        for <linux-media@vger.kernel.org>; Wed,  9 Nov 2022 03:49:43 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com 20221109034943epoutp017cf297111dc372ac31f3ac6d853362ad~lzgrcTO950540705407epoutp01a
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A99B910DE
+        for <linux-media@vger.kernel.org>; Tue,  8 Nov 2022 19:49:48 -0800 (PST)
+Received: from epcas5p1.samsung.com (unknown [182.195.41.39])
+        by mailout1.samsung.com (KnoxPortal) with ESMTP id 20221109034947epoutp01e7a2329fa36c30aaf7802d1c8c2b0ceb~lzgvXCwmO0470504705epoutp01m
+        for <linux-media@vger.kernel.org>; Wed,  9 Nov 2022 03:49:47 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com 20221109034947epoutp01e7a2329fa36c30aaf7802d1c8c2b0ceb~lzgvXCwmO0470504705epoutp01m
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-        s=mail20170921; t=1667965783;
-        bh=GkhT6RY6YD4XjFuK0VX93E/Md1fw2SF4cPwN2Vx5Qzc=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=UnNr4vwLq780+oxjduuK2CEmEAHlYu1KndBip9tjcTCRJ/swZe3SXWiQPygxCFGjB
-         UBCNjXEghDGyjyuJ+PmcosgGDKbBiSYfqjJHWgRCN3WFjo9WfIpwxEXU/xpE1OyYou
-         BRdfm2xFTkpGImVs4Clm057I5br8zkQmV3w4HLPs=
+        s=mail20170921; t=1667965787;
+        bh=rlp+qXaLAX0ZIbta6kqClM45VmPJd4TFz1poBktpQjo=;
+        h=From:To:Cc:Subject:Date:References:From;
+        b=FI8YmAU6tTVu5FPWLjwRQdHNKHXrFs+gP8Gxb7HjccJCSOhPGKCllIZ7sLryPVO4Q
+         j9MfECZQOf30REWWKc22ZLvRJV20ndDmQNcgqkuxwbY9PnOdl7eXN+U8srsykFQOcy
+         RSH/8PoBLuKu9aGzZqDvSHBaZ4pwxwC51ZGe449E=
 Received: from epsnrtp1.localdomain (unknown [182.195.42.162]) by
-        epcas5p1.samsung.com (KnoxPortal) with ESMTP id
-        20221109034941epcas5p11c5fa83092159838158fe7a3fc0f0c0d~lzgqVcwy30819608196epcas5p1z;
-        Wed,  9 Nov 2022 03:49:41 +0000 (GMT)
-Received: from epsmges5p2new.samsung.com (unknown [182.195.38.183]) by
-        epsnrtp1.localdomain (Postfix) with ESMTP id 4N6WDz2g4gz4x9Pv; Wed,  9 Nov
-        2022 03:49:39 +0000 (GMT)
+        epcas5p4.samsung.com (KnoxPortal) with ESMTP id
+        20221109034946epcas5p457727ccf4b42f12a3d1fea68d6f99d98~lzguMXbbQ0918409184epcas5p4L;
+        Wed,  9 Nov 2022 03:49:46 +0000 (GMT)
+Received: from epsmges5p2new.samsung.com (unknown [182.195.38.176]) by
+        epsnrtp1.localdomain (Postfix) with ESMTP id 4N6WF22wNKz4x9Q0; Wed,  9 Nov
+        2022 03:49:42 +0000 (GMT)
 Received: from epcas5p2.samsung.com ( [182.195.41.40]) by
         epsmges5p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
-        84.84.39477.3532B636; Wed,  9 Nov 2022 12:49:39 +0900 (KST)
-Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
-        epcas5p1.samsung.com (KnoxPortal) with ESMTPA id
-        20221109034707epcas5p10df6f7f537faa31309060e9409809ef3~lzeaQgZEN2328123281epcas5p1K;
-        Wed,  9 Nov 2022 03:47:07 +0000 (GMT)
+        A6.84.39477.5532B636; Wed,  9 Nov 2022 12:49:41 +0900 (KST)
+Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
+        epcas5p2.samsung.com (KnoxPortal) with ESMTPA id
+        20221109034803epcas5p26644fa402ff1837754b61c1a307b2bb8~lzfObbFFO1703417034epcas5p2r;
+        Wed,  9 Nov 2022 03:48:03 +0000 (GMT)
 Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
-        epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
-        20221109034707epsmtrp26a449a64134bd3ee59c941822b46a525~lzeaPaUuG1829318293epsmtrp2h;
-        Wed,  9 Nov 2022 03:47:07 +0000 (GMT)
-X-AuditID: b6c32a4a-007ff70000019a35-74-636b235383a3
+        epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
+        20221109034803epsmtrp1f925d26956cf3fe42d690b9a864ed454~lzfOaB74x1103811038epsmtrp11;
+        Wed,  9 Nov 2022 03:48:03 +0000 (GMT)
+X-AuditID: b6c32a4a-007ff70000019a35-7a-636b2355cf0b
 Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
         epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
-        C1.9F.14392.AB22B636; Wed,  9 Nov 2022 12:47:07 +0900 (KST)
+        BB.AF.14392.2F22B636; Wed,  9 Nov 2022 12:48:03 +0900 (KST)
 Received: from cheetah.sa.corp.samsungelectronics.net (unknown
         [107.109.115.53]) by epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
-        20221109034703epsmtip137ca0d7cb0ffd5c6d3ee9503e2cc1ac2~lzeWnblP30103001030epsmtip1w;
-        Wed,  9 Nov 2022 03:47:03 +0000 (GMT)
+        20221109034759epsmtip1d7f61366e0e9d1b617963c7ee10c8ab8~lzfK7GFxD0213402134epsmtip1p;
+        Wed,  9 Nov 2022 03:47:59 +0000 (GMT)
 From:   Aakarsh Jain <aakarsh.jain@samsung.com>
 To:     linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
         linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
@@ -64,90 +64,104 @@ Cc:     m.szyprowski@samsung.com, andrzej.hajda@intel.com,
         alim.akhtar@samsung.com, aswani.reddy@samsung.com,
         pankaj.dubey@samsung.com, smitha.t@samsung.com,
         aakarsh.jain@samsung.com
-Subject: [PATCH 3/3] media: s5p-mfc: Optimisation of code to remove error
- message
-Date:   Wed,  9 Nov 2022 09:23:48 +0530
-Message-Id: <20221109035348.69026-3-aakarsh.jain@samsung.com>
+Subject: [Patch v2 1/3] arm: exynos: Add new compatible string for
+ Exynos3250 SoC.
+Date:   Wed,  9 Nov 2022 09:25:05 +0530
+Message-Id: <20221109035507.69086-1-aakarsh.jain@samsung.com>
 X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20221109035348.69026-1-aakarsh.jain@samsung.com>
-X-Brightmail-Tracker: H4sIAAAAAAAAA0WTfUxTVxjGc+69vS1uxTuUeMY27cpgEwO0UsqBADolepkzw6EZM1ngrtzw
-        0dJ2bWGM/SEkfIchXcRMIOUbIyBC+WbF8TVBNzVQLAmjFYQJuE2MyCTKPloK23+/93nfJ+fJ
-        e87h4W4zpAcvSaljNUpGISR3EF3D+9/zjfaUy0SG66+hX3sucdCsoYtEteuLGLpfu0qgofZO
-        LuqYLMfR5dEBDqocucNB3YMPCNS2ZO+OX7ISaLGyBaDlMhuJipfmcGSct3CQua+CREWtnRx0
-        dcTKRfVT4xhqMG5gqKbzGRfl9I9wkdXUBVB27gh2GNLNhmZA91jrAD1V9xSne8usXLrWtIzR
-        xsYCkp6xmEi6ve4cnfPjC4Iu7mgEdOHIFEmvGvfSt9ZWuVH8s/LQRJaJZzUCVilTxScpE8KE
-        J6Jjj8YGSkViX3EwChIKlEwKGyaM+DDK91iSwr4CoSCNUaTapShGqxX6h4dqVKk6VpCo0urC
-        hKw6XqGWqP20TIo2VZngp2R1IWKR6GCgfTBOnli91oKpW3npeQ3d3ExQzy0ELjxISWDlxjTp
-        YDfqewArbB8Vgh12fgrgmKGN4yz+BLD6p4vktmN5op9wNvoBtNS95DqLHAw+L7qPFQIej6R8
-        4e1uhcOwm8oCcD5f55jBKT0Bfylewh2NXVQ0/Nl2l3AwQXnB0cu/cxzMp8Kgvrl1K98+2NQ6
-        sDnvQoXDrO6uzcMg9Q8PLk6sA+dQBOy9sbIVbxd8NNqxZfaAq4/7t3QZnK9Zxp2sgNdMFwgn
-        H4IDkxWEIzRO7YfX+vyd8luw9FYL5mCccoXfvFzAnDof9hi22RtWzKxznPwmHG6q34pDQ/Ns
-        M3AuRQ/gxHoeXgL2lv1/RBUAjeB1Vq1NSWC1geqDSvbL/25Npkoxgs1n7vNBD5ibfeI3BDAe
-        GAKQhwt385tbkmVu/HjmqwxWo4rVpCpY7RAItC9Qj3u4y1T2f6LUxYolwSKJVCqVBAdIxcI9
-        /NrvfGRuVAKjY+Usq2Y12z6M5+KRiamy186EdPzmP+Yqzf/kjYiHVz5dPCAvbfxB59W5EPr3
-        Um2Rq6/t/KMOS8RGFnYv7nB56de5cXH68I+DLvxhHUyLOyPpbnzn/ZM79xy1cCbTcsbyJJk+
-        9RdzXAtWwbsZO8vlVdXJAcnebuPV+8zHbyadNZbePCdo6OzRa83LR942DV8djImOUQS2zfNL
-        nv0V2h8TIu6tN60w7l9kfl4yZitIFQRlfvu88npVDWw4lv1iRT39WeRdfCL/vGede9D5pvjH
-        Xqdt3k9Octsllju4WZBxinpwJYQ4zjkkGhgKOD39anrMvcjIVvOpA6/wbRvRXWm3TywYxmxV
-        hvS5G338h+VH3D1zhYQ2kRH74Bot8y/1n1b6bwQAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprCIsWRmVeSWpSXmKPExsWy7bCSnO5upexkg9/fmCye7pjJavFg3jY2
+X-Brightmail-Tracker: H4sIAAAAAAAAA0WTbVBUVRjHO/fevbvYrN2Q7LCh4kUoGBZYW9bDywoO6NwJMpywSc2hdbkC
+        7Wu7S0Z9iCZBAkRRVAQC40VmAFdcWVgNEpctjBFmiB12Rt2CIGUtJgVD05J2uVLffud5/v/z
+        POc55whw/yFSJMjTmliDVqGmyRVE90D4a+KdISplzKg7Ev1qO81DE/XdJGp6dAdDPzfNE8h+
+        0cpHXc5aHLUO9vNQg2OEh3qu/kKgCzPe7OhpN4HuNJgB8tT8RKKKmUkcWabGeWjsch2Jyjut
+        PHTO4eajFtcohs5a/sZQo/UBHxX1OfjI3dsN0MFiB5YMmY76DsDY3M2AcTXP4cylGjefaer1
+        YIyl7UuSuTXeSzIXmz9jir57TDAVXW2AKXW4SGbespYZ+nOenyHcrUrMZRXZrCGY1Sp12Xna
+        HDmd9nZWSlasLEYilsShTXSwVqFh5XRqeoZ4W57aOwI6+COFOt8bylAYjXT05kSDLt/EBufq
+        jCY5zeqz1XqpPsqo0BjztTlRWtYUL4mJ2RjrFb6vyh28vVd/lvrY87CDKAQeYSnwE0BKCmtv
+        jPB87E99A2DZIigFK7w8B+D3zlM8brEA4LXffiCWHYt9Yxjn6ANw4GESJyrC4PR8mdcuEJCU
+        GA73qH2aAOpzAKdKTD4NTlUS8GbFDO5LrKIyodN1nfTpCSoUTphDfCik5PBJz1au1DrY3tmP
+        +6yQmhbAxwv9hE8DqVToahZxmlXw7mAXn2MR9BwpfsZKONXowTlWw/O9Vc/aT4L9zrqlbXAq
+        HJ6/HM2F18ATQ+alU+HUSnj4yTTGxYXQVr/MYbDu1iMex0FwoL0FcMzAHnMNwU1kL/y98xw4
+        CtbU/F/hDABtIJDVGzU5rDFWv1HLHvjvjpQ6jQUsPeqIN2xgcuJelB1gAmAHUIDTAcIO8wdK
+        f2G2ouAT1qDLMuSrWaMdxHoHVomLXlLqvL9Ca8qSSONipDKZTBr3ukxCvyxsqo5Q+lM5ChOr
+        Ylk9a1j2YQI/USF2nElKj33VWh+UOl1uVbXcTe9tiQyyb3BQi2nkWHL8V1V/iehvHSl2oNqK
+        RU0WdWZ2tP44Zq6IG55fN7GYt/mF62f2H2vOTFm9e+5C4bV7hYee7gke2bX+VOA+kaZyKlIS
+        INt1cv/Oq4HSL5wiS1/8lZM23U0qYVv0yvKFVuNCbeOW0NmCUMfq7WK/6RuV1amJdIp1/aHD
+        zw233591vvPPiaPmkq9v246NOoqHC8Ou7JmMzHsxet39t/7QXGog39W5XCHhUzs0QHxkw6eN
+        tXIyfnaTIzQh7T0xfCpPqkp9wJtdu6/gOJMw+PwrI/qC5KCSkR0fytJ0irLxOl31QcObBzq3
+        h9GEMVchicANRsW/9w7DbV0EAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrBLMWRmVeSWpSXmKPExsWy7bCSnO5npexkg0O/GS2e7pjJavFg3jY2
         i8U/njNZ3F/8mcXi0Oat7BZbrsxmtlh+/ACrxfwj51gtth98xGKx8QVQ9uLMuywWz+evY7R4
         Oesem0Xfi4fMFpseX2O1uLxrDptFz4atrBZrj9xlt1h6/SKTxbJNf5gsFm39wm7RuvcIu8Xd
         PdsYLVrajjA5SHismbeG0WPH3SWMHteXfGL22DnrLrvH4j0vmTw2repk87hzbQ+bx+Yl9R6t
-        R3+xePRtWcXo0XXkOpvH501yHqe+fmYP4I3isklJzcksSy3St0vgylj4dR1TwQaOivZl29kb
-        GJeydzFyckgImEi8vLSXpYuRi0NIYDejxIujs5ggEjIS/9uOQRUJS6z895wdoqiZSeLz179A
-        RRwcbAK6Eme354DERQRaGSWur+xkAnGYBVaySNze2AM2SVggUGL3l8OsIDaLgKrE8eVvwGxe
-        AVuJiWs2QG2Ql1i94QAziM0pYCfRuH0bWFwIqGbXwUusExj5FjAyrGKUTC0ozk3PLTYsMMxL
-        LdcrTswtLs1L10vOz93ECI44Lc0djNtXfdA7xMjEwXiIUYKDWUmEd826rGQh3pTEyqrUovz4
-        otKc1OJDjNIcLErivBe6TsYLCaQnlqRmp6YWpBbBZJk4OKUamFYWPzix7CxvXc3X2+Lbjm2y
-        C26YMEFBwkH2+1YJO954yykHt6uv2Rpa+rK56tC5rnjneI1XDHsUSh5q5Ku9rMjhM4h/Zbs0
-        XepalYbW2VM34tj5Mv235YotPz6tsEhU6Owjvluat091ePG7P1FLlPH/NM9EZNrnxQJOjxxl
-        36zfteZcas38jMYZO1yEyudnuf9pai3ZueQxA8vMP1v/CwXxNoaFbLD52mzvFc8SfDqPIzDJ
-        rEG9LzjasTTx3gK3iyZdXdwnDEuyfJe9n/ZM5sN69nWzpzBwbH+4lj050GPCBdXaG5Kn1gkY
-        23cWLs2YZfS/T8XR3++92++GKRkRCmeOv3453W9qqPfj/hvOSizFGYmGWsxFxYkAnZRJ6CcD
-        AAA=
-X-CMS-MailID: 20221109034707epcas5p10df6f7f537faa31309060e9409809ef3
+        R3+xePRtWcXo0XXkOpvH501yHqe+fmYP4I3isklJzcksSy3St0vgyjj+LLZgmUDFy+9rWBoY
+        X/J2MXJySAiYSPzfe5mpi5GLQ0hgN6PEl1XX2SESMhL/245B2cISK/89B7OFBJqZJE6dcOhi
+        5OBgE9CVOLs9B6RXRKCVUeL6yk6wQcwCK1kkbm/sYQJpEBYIknj86yEjSAOLgKrEg3XKICav
+        gK3E7+2uEOPlJVZvOMA8gZFnASPDKkbJ1ILi3PTcYsMCw7zUcr3ixNzi0rx0veT83E2M4MjR
+        0tzBuH3VB71DjEwcjIcYJTiYlUR416zLShbiTUmsrEotyo8vKs1JLT7EKM3BoiTOe6HrZLyQ
+        QHpiSWp2ampBahFMlomDU6qBqX/Wu/Y+jT1JG7tut0+6f/yDX499rtD/9W9a8uJ1JfNeHbs5
+        71O15Pl7T5QcXipONPA11PQqydvpy9dT/1nf/L5KBF/mp8X3TNgt3l5PaFm2SUX9lIiRU+w6
+        /VXscYc/93yw3qRhtOt+ucjfvMOfZ+t8+tOz5aJa3f6ja695L32/Q+6O59sdGWXz1oT1v97w
+        hbNV3VVJ6UGKdpXmq5crn29m2/Lt+4EjLItrnyhvYr1jKf+XLy3p9h69r9UScb5x+nteTT21
+        /HzK7t59x0pVH73zMdRMfl38xvGubZDrMbM6pzuBDgfOXtKWd6hKnOi8LrT4Jy8P54VLnsL3
+        574FpjXGZ345j/NjtI1mXEltVGIpzkg01GIuKk4EAECCGZcLAwAA
+X-CMS-MailID: 20221109034803epcas5p26644fa402ff1837754b61c1a307b2bb8
 X-Msg-Generator: CA
 Content-Type: text/plain; charset="utf-8"
 X-Sendblock-Type: REQ_APPROVE
 CMS-TYPE: 105P
 DLP-Filter: Pass
 X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20221109034707epcas5p10df6f7f537faa31309060e9409809ef3
-References: <20221109035348.69026-1-aakarsh.jain@samsung.com>
-        <CGME20221109034707epcas5p10df6f7f537faa31309060e9409809ef3@epcas5p1.samsung.com>
+X-CMS-RootMailID: 20221109034803epcas5p26644fa402ff1837754b61c1a307b2bb8
+References: <CGME20221109034803epcas5p26644fa402ff1837754b61c1a307b2bb8@epcas5p2.samsung.com>
 X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
         RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS
-        autolearn=unavailable autolearn_force=no version=3.4.6
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Already error number provision is present for block failing, while 
-requesting for DMA consistent memory allocation.
-So removing error message line from the block as recommended
-by scripts/checkpatch.pl.
+Since,MFC v7 support was added for Exynos5420 and Exynos
+3250 SoC with same compatible string "samsung,mfc-v7".As
+both SoCs having different hardware properties and having
+same compatible string for both SoCs doesn't seems to be correct.
+New compatible is added for Exynos3250 SOC which will
+differentiate the node properties for both SoCs which
+support MFC v7.
 
+Reviewed-by: Tommaso Merciai <tommaso.merciai@amarulasolutions.com>
+Suggested-by: Alim Akhtar <alim.akhtar@samsung.com>
 Signed-off-by: Aakarsh Jain <aakarsh.jain@samsung.com>
 ---
- drivers/media/platform/samsung/s5p-mfc/s5p_mfc.c | 1 -
- 1 file changed, 1 deletion(-)
+ Documentation/devicetree/bindings/media/s5p-mfc.txt | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/media/platform/samsung/s5p-mfc/s5p_mfc.c b/drivers/media/platform/samsung/s5p-mfc/s5p_mfc.c
-index e857f974bb98..19a9b54ff761 100644
---- a/drivers/media/platform/samsung/s5p-mfc/s5p_mfc.c
-+++ b/drivers/media/platform/samsung/s5p-mfc/s5p_mfc.c
-@@ -1164,7 +1164,6 @@ static int s5p_mfc_configure_2port_memory(struct s5p_mfc_dev *mfc_dev)
- 	bank2_virt = dma_alloc_coherent(mfc_dev->mem_dev[BANK_R_CTX],
- 				       align_size, &bank2_dma_addr, GFP_KERNEL);
- 	if (!bank2_virt) {
--		mfc_err("Allocating bank2 base failed\n");
- 		s5p_mfc_release_firmware(mfc_dev);
- 		device_unregister(mfc_dev->mem_dev[BANK_R_CTX]);
- 		device_unregister(mfc_dev->mem_dev[BANK_L_CTX]);
+We are already in process of converting this txt file to yaml.
+https://patchwork.kernel.org/project/linux-media/patch/20221011122516.32135-2-aakarsh.jain@samsung.com/
+Modifying this txt binding for completeness.
+
+diff --git a/Documentation/devicetree/bindings/media/s5p-mfc.txt b/Documentation/devicetree/bindings/media/s5p-mfc.txt
+index aa54c8159d9f..cb166654fa81 100644
+--- a/Documentation/devicetree/bindings/media/s5p-mfc.txt
++++ b/Documentation/devicetree/bindings/media/s5p-mfc.txt
+@@ -10,10 +10,11 @@ Required properties:
+   - compatible : value should be either one among the following
+ 	(a) "samsung,mfc-v5" for MFC v5 present in Exynos4 SoCs
+ 	(b) "samsung,mfc-v6" for MFC v6 present in Exynos5 SoCs
+-	(c) "samsung,mfc-v7" for MFC v7 present in Exynos5420 SoC
+-	(d) "samsung,mfc-v8" for MFC v8 present in Exynos5800 SoC
+-	(e) "samsung,exynos5433-mfc" for MFC v8 present in Exynos5433 SoC
+-	(f) "samsung,mfc-v10" for MFC v10 present in Exynos7880 SoC
++	(c) "samsung,exynos3250-mfc" for MFC v7 present in Exynos3250 SoC
++	(d) "samsung,mfc-v7" for MFC v7 present in Exynos5420 SoC
++	(e) "samsung,mfc-v8" for MFC v8 present in Exynos5800 SoC
++	(f) "samsung,exynos5433-mfc" for MFC v8 present in Exynos5433 SoC
++	(g) "samsung,mfc-v10" for MFC v10 present in Exynos7880 SoC
+ 
+   - reg : Physical base address of the IP registers and length of memory
+ 	  mapped region.
 -- 
 2.17.1
 
