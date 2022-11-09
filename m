@@ -2,89 +2,73 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DCD1E622813
-	for <lists+linux-media@lfdr.de>; Wed,  9 Nov 2022 11:09:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1ED2A62284D
+	for <lists+linux-media@lfdr.de>; Wed,  9 Nov 2022 11:23:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230089AbiKIKJm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 9 Nov 2022 05:09:42 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37776 "EHLO
+        id S230185AbiKIKXS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 9 Nov 2022 05:23:18 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43502 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229526AbiKIKJl (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 9 Nov 2022 05:09:41 -0500
-Received: from butterbrot.org (butterbrot.org [176.9.106.16])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A14B13D19
-        for <linux-media@vger.kernel.org>; Wed,  9 Nov 2022 02:09:40 -0800 (PST)
-Received: from [172.25.26.111] (h175.natout.aau.dk [130.225.198.175])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        with ESMTP id S230028AbiKIKXP (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 9 Nov 2022 05:23:15 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EAC85222A8;
+        Wed,  9 Nov 2022 02:23:13 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by butterbrot.org (Postfix) with ESMTPSA id 558ED58A52AD;
-        Wed,  9 Nov 2022 11:09:35 +0100 (CET)
-Message-ID: <c8e912fd-fe0e-8066-6357-e945a51afec2@butterbrot.org>
-Date:   Wed, 9 Nov 2022 11:09:34 +0100
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 7DDC461993;
+        Wed,  9 Nov 2022 10:23:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 61638C433D6;
+        Wed,  9 Nov 2022 10:23:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1667989392;
+        bh=Pns9i/ep2dezk1wFdEIPvvwLB0N6Lfaxl2Oq/RWdfpk=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=K/M3JkzsBZ4l5Dd5km1qGHtnXiMi+4A/vJIqoPfwdJuSvwXON6nvTmFGf8EpUSwu0
+         uUb0D+1qdn2hC3UDTWTA4OnzoFY8H4vVdTHuzR3QGKmFlTaJD0B9y5FS3Tn7oGjPA1
+         uSfPv93NP8JEVOutOpUZPer/24lyid7CW0Ue9VaM=
+Date:   Wed, 9 Nov 2022 11:23:10 +0100
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Michael Grzeschik <m.grzeschik@pengutronix.de>
+Cc:     linux-usb@vger.kernel.org, linux-media@vger.kernel.org,
+        balbi@kernel.org, laurent.pinchart@ideasonboard.com,
+        kernel@pengutronix.de
+Subject: Re: [PATCH v5] usb: gadget: uvc: add validate and fix function for
+ uvc response
+Message-ID: <Y2t/jskm7y1lDyBn@kroah.com>
+References: <20221025222657.1883922-1-m.grzeschik@pengutronix.de>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Hans Verkuil <hans.verkuil@cisco.com>
-Content-Language: en-GB
-From:   Florian Echtler <floe@butterbrot.org>
-Subject: Correct way to use vb2_dma_sg via USB?
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------WAncRmCRjphAKG94WfGErwKw"
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_PASS,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221025222657.1883922-1-m.grzeschik@pengutronix.de>
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------WAncRmCRjphAKG94WfGErwKw
-Content-Type: multipart/mixed; boundary="------------2S0E5CSvUjxZ60ldaOpi3feV";
- protected-headers="v1"
-From: Florian Echtler <floe@butterbrot.org>
-To: Linux Media Mailing List <linux-media@vger.kernel.org>,
- Hans Verkuil <hans.verkuil@cisco.com>
-Message-ID: <c8e912fd-fe0e-8066-6357-e945a51afec2@butterbrot.org>
-Subject: Correct way to use vb2_dma_sg via USB?
+On Wed, Oct 26, 2022 at 12:26:57AM +0200, Michael Grzeschik wrote:
+> When the userspace gets the setup requests for UVC_GET_CUR UVC_GET_MIN,
+> UVC_GET_MAX, UVC_GET_DEF it will fill out the ctrl response. This data
+> needs to be validated. Since the kernel also knows the limits for valid
+> cases, it can fixup the values in case the userspace is setting invalid
+> data.
+> 
+> Signed-off-by: Michael Grzeschik <m.grzeschik@pengutronix.de>
+> 
+> ---
+> v1: -> v4:
+> - new patch
+> v4: -> v5:
+> - changed uvcg_info to uvcg_dbg for fixups, updated info strings
 
---------------2S0E5CSvUjxZ60ldaOpi3feV
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+What commit id does this fix?  Validating userspace data is a good
+thing, so shouldn't this also go to stable kernels?
 
-SGVsbG8gZXZlcnlvbmUsDQoNCndoaWxlIHRyeWluZyB0byBmaXggdGhlIHJlZ3Jlc3Npb24g
-aW4gc3VyNDAua28gbWVudGlvbmVkIGVhcmxpZXIsIEkgbm90aWNlZCB0aGF0IA0KYXBwYXJl
-bnRseSBzb21lIG90aGVyIGJpdHMgb2YgdGhlIERNQSBwaXBlbGluZSBoYXZlIGNoYW5nZWQg
-YXMgd2VsbCBpbiB0aGUgbWVhbnRpbWUuDQoNClRoZSBjb2RlIGJpdCBpbiBxdWVzdGlvbiBp
-biBzdXI0MC5jIGN1cnJlbnRseSBsb29rcyBhcyBmb2xsb3dzOg0KDQoJc2d0ID0gdmIyX2Rt
-YV9zZ19wbGFuZV9kZXNjKCZuZXdfYnVmLT52Yi52YjJfYnVmLCAwKTsNCg0KCXJlc3VsdCA9
-IHVzYl9zZ19pbml0KCZzZ3IsIHN1cjQwLT51c2JkZXYsDQoJCXVzYl9yY3ZidWxrcGlwZShz
-dXI0MC0+dXNiZGV2LCBWSURFT19FTkRQT0lOVCksIDAsDQoJCXNndC0+c2dsLCBzZ3QtPm5l
-bnRzLCBzdXI0MC0+cGl4X2ZtdC5zaXplaW1hZ2UsIEdGUF9LRVJORUwpOw0KDQpIb3dldmVy
-LCB3aGVuIEkgcHV0IGluIHNvbWUgZGVidWcgb3V0cHV0LCBJIG5vdGljZWQgdGhhdCBzZ3Qt
-Pm5lbnRzIGlzIHplcm8uIA0KU2hvdWxkbid0IHRoYXQgYmUgaW5pdGlhbGl6ZWQgYnkgdmIy
-X2RtYV9zZ19wbGFuZV9kZXNjPw0KDQpJIHRyaWVkIHRvIG1hbnVhbGx5IHNldCBpdCB0byAx
-IGFuZCBnb3Qgc29tZSBwYXJ0aWFsbHktZmlsbGVkIGJ1ZmZlcnMgYmFjaywgc28gDQp0aGlz
-IHNlZW1zIHRoZSByaWdodCB3YXkgdG8gZ28sIGJ1dCBJIGNvdWxkbid0IGZpbmQgYW55IG90
-aGVyIGRyaXZlci9leGFtcGxlIA0KdGhhdCB1c2VzIHRoaXMgY29tYmluYXRpb24uIEFueSBo
-aW50cyB2ZXJ5IHdlbGNvbWUuDQoNCkJlc3QsIEZsb3JpYW4NCi0tIA0KU0VOVCBGUk9NIE1Z
-IERFQyBWVDUwIFRFUk1JTkFMDQo=
+thanks,
 
---------------2S0E5CSvUjxZ60ldaOpi3feV--
-
---------------WAncRmCRjphAKG94WfGErwKw
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wmMEABEIACMWIQST4FP0cQIAgRXjMjXsLPKyEa9q2AUCY2t8XgUDAAAAAAAKCRDsLPKyEa9q2DpP
-AKC5O8jEo18dGfPdngTMni0GfhJy7ACgu84KvDU+UEhIsfL0DxZr9LiJdBI=
-=x01A
------END PGP SIGNATURE-----
-
---------------WAncRmCRjphAKG94WfGErwKw--
+greg k-h
