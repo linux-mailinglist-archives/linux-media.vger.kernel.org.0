@@ -2,108 +2,89 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EEE5D6227DC
-	for <lists+linux-media@lfdr.de>; Wed,  9 Nov 2022 11:02:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DCD1E622813
+	for <lists+linux-media@lfdr.de>; Wed,  9 Nov 2022 11:09:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229893AbiKIKCB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 9 Nov 2022 05:02:01 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60824 "EHLO
+        id S230089AbiKIKJm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 9 Nov 2022 05:09:42 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37776 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230302AbiKIKB7 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 9 Nov 2022 05:01:59 -0500
-Received: from mail-pf1-x434.google.com (mail-pf1-x434.google.com [IPv6:2607:f8b0:4864:20::434])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 505EDD13A;
-        Wed,  9 Nov 2022 02:01:58 -0800 (PST)
-Received: by mail-pf1-x434.google.com with SMTP id v28so16219339pfi.12;
-        Wed, 09 Nov 2022 02:01:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=+jWb3rEDYYu05FX2EdvpMst1+CvG5FlXLf7h69zzjhw=;
-        b=eBY4QNDxwf8uOPLRmT5d6Z/+j0cSTDhDUNgn+Mu6PfU54J+OA0TKdAfu0VAn90kX6v
-         bb7h9VWSngJiNia2NUwtma6lPC7KV1IiZdkNtf/dE73GFfC+izezfLQ8jwCWx8eoSDNM
-         adyGr6JXweZ9WxxHWSddeX9vKOH21Sobft2DmDAJzIYBy8e5QRnCUsz2Yl/z3cgyX+XS
-         C5cmrshldU8TofKtRuTqRutxeVec75k8kG+NSEbxu9HXFU2kxfb+xE71RQd+tzKWauyp
-         SLFsHXGgwOuzIDWA+G1CBhV5DTTYOOTz9uvORTI6B+9rkFVrl4b7H3/ItgSTiBjf+CR3
-         dl0Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=+jWb3rEDYYu05FX2EdvpMst1+CvG5FlXLf7h69zzjhw=;
-        b=mvY0DUyndFxb8qNCwgbhvlKxDRiPAmqS9KdkKO0kB1EwC+oT/zOxoa/eiszs66UuqD
-         61umMmdXD3gditwlNkbMsJjBHZIabLTHv/WlUUsz8Y34Ke38UXtbrwjgvDAnXDxcMvhV
-         LuxKQeX9qndQ7G5ZcoVPykQmRkP6VWHwHfWuBJ71nYSPC2I8asRWkA2FSsVHMOqFXHU5
-         a/G1DImQFY/YXuFFpzw/suz3lywpih+zeEXm01ZSu1yE2QHG+nfVphm7oBgA59JOcqp4
-         AcdMHCatj/q97lQqi+apEnLbhff2Bkycz0Z3N4MiXckvyckkZOsqu36S4A/Hi7zeiFPo
-         nrLw==
-X-Gm-Message-State: ACrzQf1YxU/ELnqIrQDkGLvlifHRgjQ484d0KMxYuLn1NiFj7PW75nJy
-        yVhzX/wZCZM46s35aBA6wX4y6OLBpuE4tw==
-X-Google-Smtp-Source: AMsMyM4WvxFihsVNx5Lu4TdyEARu/gbijY3nDQ1yIino20ltMmFghzJtXLZZKTpYr1Mg8XigYv8gvw==
-X-Received: by 2002:a05:6a00:1823:b0:56b:f348:998f with SMTP id y35-20020a056a00182300b0056bf348998fmr59967518pfa.28.1667988117604;
-        Wed, 09 Nov 2022 02:01:57 -0800 (PST)
-Received: from debian.. (subs32-116-206-28-40.three.co.id. [116.206.28.40])
-        by smtp.gmail.com with ESMTPSA id k4-20020a170902c40400b001869581f7ecsm8711645plk.116.2022.11.09.02.01.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Nov 2022 02:01:57 -0800 (PST)
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-next@vger.kernel.org
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Xavier Roumegue <xavier.roumegue@oss.nxp.com>,
-        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-        Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        Stephen Rothwell <sfr@canb.auug.org.au>
-Subject: [PATCH] Documentation: media: Add ST VGXY61 driver documentation to userspace API table of contents
-Date:   Wed,  9 Nov 2022 17:01:47 +0700
-Message-Id: <20221109100147.218947-1-bagasdotme@gmail.com>
-X-Mailer: git-send-email 2.38.1
+        with ESMTP id S229526AbiKIKJl (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 9 Nov 2022 05:09:41 -0500
+Received: from butterbrot.org (butterbrot.org [176.9.106.16])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A14B13D19
+        for <linux-media@vger.kernel.org>; Wed,  9 Nov 2022 02:09:40 -0800 (PST)
+Received: from [172.25.26.111] (h175.natout.aau.dk [130.225.198.175])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        by butterbrot.org (Postfix) with ESMTPSA id 558ED58A52AD;
+        Wed,  9 Nov 2022 11:09:35 +0100 (CET)
+Message-ID: <c8e912fd-fe0e-8066-6357-e945a51afec2@butterbrot.org>
+Date:   Wed, 9 Nov 2022 11:09:34 +0100
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1150; i=bagasdotme@gmail.com; h=from:subject; bh=XeGaCzt2k4NhEKIDZjyXWzO/o2Not0CUk8FRuA1z7Ds=; b=owGbwMvMwCH2bWenZ2ig32LG02pJDMnZVd0TqyUl1e+u3XfD6Zn6f4/WSfMd2rkf1i6wKLG7XZmQ bP2ro5SFQYyDQVZMkWVSIl/T6V1GIhfa1zrCzGFlAhnCwMUpABP5dYPhf/KbL/ldPCmNGSbzOJgMLN 43LS2fvnpupYhAWvqmM885YxkZuhVbPp5lX8Yza+2PqVVXyuQ6W4KyNvzfvrXggPz3+Nx/PAA=
-X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-0.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_SORBS_WEB,SPF_HELO_NONE,SPF_PASS
-        autolearn=no autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Hans Verkuil <hans.verkuil@cisco.com>
+Content-Language: en-GB
+From:   Florian Echtler <floe@butterbrot.org>
+Subject: Correct way to use vb2_dma_sg via USB?
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------WAncRmCRjphAKG94WfGErwKw"
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_PASS,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Sphinx reported missing toctree entry for ST VGXY61 documentation:
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------WAncRmCRjphAKG94WfGErwKw
+Content-Type: multipart/mixed; boundary="------------2S0E5CSvUjxZ60ldaOpi3feV";
+ protected-headers="v1"
+From: Florian Echtler <floe@butterbrot.org>
+To: Linux Media Mailing List <linux-media@vger.kernel.org>,
+ Hans Verkuil <hans.verkuil@cisco.com>
+Message-ID: <c8e912fd-fe0e-8066-6357-e945a51afec2@butterbrot.org>
+Subject: Correct way to use vb2_dma_sg via USB?
 
-Documentation/userspace-api/media/drivers/st-vgxy61.rst: WARNING: document isn't included in any toctree
+--------------2S0E5CSvUjxZ60ldaOpi3feV
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-Add the entry to fix the warning.
+SGVsbG8gZXZlcnlvbmUsDQoNCndoaWxlIHRyeWluZyB0byBmaXggdGhlIHJlZ3Jlc3Npb24g
+aW4gc3VyNDAua28gbWVudGlvbmVkIGVhcmxpZXIsIEkgbm90aWNlZCB0aGF0IA0KYXBwYXJl
+bnRseSBzb21lIG90aGVyIGJpdHMgb2YgdGhlIERNQSBwaXBlbGluZSBoYXZlIGNoYW5nZWQg
+YXMgd2VsbCBpbiB0aGUgbWVhbnRpbWUuDQoNClRoZSBjb2RlIGJpdCBpbiBxdWVzdGlvbiBp
+biBzdXI0MC5jIGN1cnJlbnRseSBsb29rcyBhcyBmb2xsb3dzOg0KDQoJc2d0ID0gdmIyX2Rt
+YV9zZ19wbGFuZV9kZXNjKCZuZXdfYnVmLT52Yi52YjJfYnVmLCAwKTsNCg0KCXJlc3VsdCA9
+IHVzYl9zZ19pbml0KCZzZ3IsIHN1cjQwLT51c2JkZXYsDQoJCXVzYl9yY3ZidWxrcGlwZShz
+dXI0MC0+dXNiZGV2LCBWSURFT19FTkRQT0lOVCksIDAsDQoJCXNndC0+c2dsLCBzZ3QtPm5l
+bnRzLCBzdXI0MC0+cGl4X2ZtdC5zaXplaW1hZ2UsIEdGUF9LRVJORUwpOw0KDQpIb3dldmVy
+LCB3aGVuIEkgcHV0IGluIHNvbWUgZGVidWcgb3V0cHV0LCBJIG5vdGljZWQgdGhhdCBzZ3Qt
+Pm5lbnRzIGlzIHplcm8uIA0KU2hvdWxkbid0IHRoYXQgYmUgaW5pdGlhbGl6ZWQgYnkgdmIy
+X2RtYV9zZ19wbGFuZV9kZXNjPw0KDQpJIHRyaWVkIHRvIG1hbnVhbGx5IHNldCBpdCB0byAx
+IGFuZCBnb3Qgc29tZSBwYXJ0aWFsbHktZmlsbGVkIGJ1ZmZlcnMgYmFjaywgc28gDQp0aGlz
+IHNlZW1zIHRoZSByaWdodCB3YXkgdG8gZ28sIGJ1dCBJIGNvdWxkbid0IGZpbmQgYW55IG90
+aGVyIGRyaXZlci9leGFtcGxlIA0KdGhhdCB1c2VzIHRoaXMgY29tYmluYXRpb24uIEFueSBo
+aW50cyB2ZXJ5IHdlbGNvbWUuDQoNCkJlc3QsIEZsb3JpYW4NCi0tIA0KU0VOVCBGUk9NIE1Z
+IERFQyBWVDUwIFRFUk1JTkFMDQo=
 
-Link: https://lore.kernel.org/linux-next/20221109162013.293250a2@canb.auug.org.au/
-Fixes: 2378be892b6ff5 ("media: Documentation: Add ST VGXY61 driver documentation")
-Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
-Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
----
- Documentation/userspace-api/media/drivers/index.rst | 1 +
- 1 file changed, 1 insertion(+)
+--------------2S0E5CSvUjxZ60ldaOpi3feV--
 
-diff --git a/Documentation/userspace-api/media/drivers/index.rst b/Documentation/userspace-api/media/drivers/index.rst
-index 32f82aed47d915..0f758c8d45235a 100644
---- a/Documentation/userspace-api/media/drivers/index.rst
-+++ b/Documentation/userspace-api/media/drivers/index.rst
-@@ -38,4 +38,5 @@ For more details see the file COPYING in the source distribution of Linux.
- 	max2175
- 	meye-uapi
- 	omap3isp-uapi
-+	st-vgxy61
- 	uvcvideo
+--------------WAncRmCRjphAKG94WfGErwKw
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
-base-commit: 1e284ea984d3705e042b6b07469a66f1d43371e3
--- 
-An old man doll... just what I always wanted! - Clara
+-----BEGIN PGP SIGNATURE-----
 
+wmMEABEIACMWIQST4FP0cQIAgRXjMjXsLPKyEa9q2AUCY2t8XgUDAAAAAAAKCRDsLPKyEa9q2DpP
+AKC5O8jEo18dGfPdngTMni0GfhJy7ACgu84KvDU+UEhIsfL0DxZr9LiJdBI=
+=x01A
+-----END PGP SIGNATURE-----
+
+--------------WAncRmCRjphAKG94WfGErwKw--
