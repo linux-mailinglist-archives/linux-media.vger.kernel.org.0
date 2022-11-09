@@ -2,78 +2,67 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3E5C66226F2
-	for <lists+linux-media@lfdr.de>; Wed,  9 Nov 2022 10:29:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 496F36226F4
+	for <lists+linux-media@lfdr.de>; Wed,  9 Nov 2022 10:29:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230248AbiKIJ3x (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 9 Nov 2022 04:29:53 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34886 "EHLO
+        id S230290AbiKIJ3y (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 9 Nov 2022 04:29:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34920 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230174AbiKIJ3v (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 9 Nov 2022 04:29:51 -0500
-Received: from meesny.iki.fi (meesny.iki.fi [IPv6:2001:67c:2b0:1c1::201])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B978A1C92C;
-        Wed,  9 Nov 2022 01:29:46 -0800 (PST)
-Received: from hillosipuli.retiisi.eu (82-181-192-243.bb.dnainternet.fi [82.181.192.243])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        with ESMTP id S230254AbiKIJ3x (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 9 Nov 2022 04:29:53 -0500
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA3F6CE36;
+        Wed,  9 Nov 2022 01:29:50 -0800 (PST)
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
         (No client certificate requested)
-        (Authenticated sender: sailus)
-        by meesny.iki.fi (Postfix) with ESMTPSA id F376320048;
-        Wed,  9 Nov 2022 11:29:41 +0200 (EET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
-        t=1667986182;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=TMcDUDiGEL4Agv9pG42gxI6criAHP2kTQk6GXFR7o6k=;
-        b=x87uDsUVS3kAkKx7EwtEczL0NjTKwK2nKCsVTdNudiN2E0SWZ5RzwuWhVt2+qtZKpBQ1aU
-        anlrOFwxNyOZt6HBxian4fdb6z8szIsiD7SUYxT1SnxPMGK3N58k+zi8Q7cfb6bZpMLsIX
-        4+MuqbvaFdvaBKNDyI9LjwarDLKKD8w=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-        s=meesny; t=1667986182;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=TMcDUDiGEL4Agv9pG42gxI6criAHP2kTQk6GXFR7o6k=;
-        b=TtB0oyQxUBCSaGxdUzf6NmCYJQPq7tY+n+IYxTCuGheDoGZH2jFNqOIoOeHyn9tNJBfT6f
-        IjKGnETR8DdmxcMcESIpdW2WluYIraXWnLyOYRBifoXIau4xTmTNP0djj8EcCkb9NexoC3
-        PeikirxXSw71pWRl+Cu8hFBeHM/VQpE=
-ARC-Authentication-Results: i=1;
-        ORIGINATING;
-        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Seal: i=1; s=meesny; d=iki.fi; t=1667986182; a=rsa-sha256; cv=none;
-        b=YGTCKWB2pO9kdU/xAn41kTsbTxN+n4hROLqH2awnsk0eB+P9c3C2Q1+eu+utPeRsqgl4wp
-        PN2PlckYa307UaQne7mgnaPpIX4TGY0RrERFqiK1jsX9VgT9CQPp6fGbu1Mi8oa6WKo3UZ
-        r7J8zWT5gGVW/gyCzAVCdsoObt2xvRc=
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 88182634CCC;
-        Wed,  9 Nov 2022 11:29:41 +0200 (EET)
-Date:   Wed, 9 Nov 2022 11:29:41 +0200
-From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     Marek Szyprowski <m.szyprowski@samsung.com>
-Cc:     Sylwester Nawrocki <s.nawrocki@samsung.com>,
-        linux-media@vger.kernel.org,
-        'Linux Samsung SOC' <linux-samsung-soc@vger.kernel.org>,
-        Daniel Scally <djrscally@gmail.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>
-Subject: Re: [PATCH] media: exynos4-is: don't rely on the v4l2_async_subdev
- internals
-Message-ID: <Y2tzBUXHnZmZNClM@valkosipuli.retiisi.eu>
-References: <CGME20220923094232eucas1p1deb3985c9637a0876609c75967175e9b@eucas1p1.samsung.com>
- <20220923094201.18047-1-m.szyprowski@samsung.com>
- <ad5d4efb-c31f-585a-cdc5-c66744deee59@samsung.com>
- <fa77dbaa-e62a-b365-3b54-357e2074932f@samsung.com>
+        (Authenticated sender: kholk11)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 0CA2C6602905;
+        Wed,  9 Nov 2022 09:29:48 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1667986189;
+        bh=C8+nFwWVDoUq71o67J0VVROq2sCLrQLLqWeEm7+iVaE=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=POk09DRHegyVz/QyxPE5BfWwmv+Gwuw+YeFBVbjaXAXsPz0nVb33wjiUz5+xZqqOZ
+         +WusxulJimoKo3+Jn53vsheaG5yCRsOf8NjNoXmQ01PDr4WvCDGCOxGWf1gFwS9vJO
+         /X+4yijAwSx20wFr6v287csda71d4PyS91HvJslXbe/epBOb43ccn/R3agE4JXmrwx
+         RPVO/XxGPgT+YR8FMZHm1YxN8x36KCzGr7oK6cfSwPenAUvMXck1awtTKtMDKQbgr2
+         yMtmYOMc7I4IdMsmlVVeDNNTG/tMM1vsL/7JBHZFGKmWDKWt3p8I+BJJUePN9zhzbQ
+         teKhbKJt3X2cw==
+Message-ID: <96979d33-829a-4b38-bd8e-83b7f07a7c2c@collabora.com>
+Date:   Wed, 9 Nov 2022 10:29:45 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <fa77dbaa-e62a-b365-3b54-357e2074932f@samsung.com>
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.3
+Subject: Re: [PATCH 2/3] media: dt-bindings: media: mediatek: vcodec: Change
+ the max reg value to 2
+To:     Yunfei Dong <yunfei.dong@mediatek.com>,
+        Rob Herring <robh@kernel.org>,
+        Chen-Yu Tsai <wenst@chromium.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Tiffany Lin <tiffany.lin@mediatek.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Hsin-Yi Wang <hsinyi@chromium.org>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Steve Cho <stevecho@chromium.org>, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org,
+        Project_Global_Chrome_Upstream_Group@mediatek.com
+References: <20221109073529.26765-1-yunfei.dong@mediatek.com>
+ <20221109073529.26765-2-yunfei.dong@mediatek.com>
+Content-Language: en-US
+From:   AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20221109073529.26765-2-yunfei.dong@mediatek.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
         SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -81,29 +70,33 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Marek,
-
-On Tue, Nov 08, 2022 at 03:14:14PM +0100, Marek Szyprowski wrote:
-> On 05.10.2022 16:47, Sylwester Nawrocki wrote:
-> > On 23.09.2022 11:42, Marek Szyprowski wrote:
-> >> Commit 1f391df44607 ("media: v4l2-async: Use endpoints in
-> >> __v4l2_async_nf_add_fwnode_remote()") changed the data that is stored in
-> >> the v4l2_async_subdev internals from the fwnode pointer to the parent
-> >> device to the fwnode pointer to the matched endpoint. This broke the
-> >> sensor matching code, which relied on the particular fwnode data in the
-> >> v4l2_async_subdev internals. Fix this by simply matching the
-> >> v4l2_async_subdev pointer, which is already available there.
-> >>
-> >> Reported-by: Daniel Scally <djrscally@gmail.com>
-> >> Fixes: fa91f1056f17 ("[media] exynos4-is: Add support for asynchronous subdevices registration")
-> >> Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
-> > Reviewed-by: Sylwester Nawrocki <s.nawrocki@samsung.com>
+Il 09/11/22 08:35, Yunfei Dong ha scritto:
+> Need to add racing control register base in device node for mt8195 support
+> inner racing mode. Changing the max reg value from 1 to 2.
 > 
-> Gentle ping for merging this fix.
+> Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
+> ---
+>   .../bindings/media/mediatek,vcodec-subdev-decoder.yaml          | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/media/mediatek,vcodec-subdev-decoder.yaml b/Documentation/devicetree/bindings/media/mediatek,vcodec-subdev-decoder.yaml
+> index 794012853834..1697feb1f854 100644
+> --- a/Documentation/devicetree/bindings/media/mediatek,vcodec-subdev-decoder.yaml
+> +++ b/Documentation/devicetree/bindings/media/mediatek,vcodec-subdev-decoder.yaml
+> @@ -61,7 +61,7 @@ properties:
+>         - mediatek,mt8195-vcodec-dec
+>   
+>     reg:
+> -    maxItems: 1
+> +    maxItems: 2
 
-It's in my PR to Mauro:
+What about doing, instead...
 
-<URL:https://patchwork.linuxtv.org/project/linux-media/patch/Y1uVp8hHo7DYUK82@valkosipuli.retiisi.eu/>
+- description: VDEC_SYS register space
+- description: VDEC_RACING_CTRL register space
 
--- 
-Sakari Ailus
+then, setting `minItems: 1` will make the racing_ctrl iospace optional :-)
+
+Regards,
+Angelo
+
