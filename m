@@ -2,71 +2,45 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 97B72623D89
-	for <lists+linux-media@lfdr.de>; Thu, 10 Nov 2022 09:34:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EBABC623F27
+	for <lists+linux-media@lfdr.de>; Thu, 10 Nov 2022 10:58:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232512AbiKJIei (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 10 Nov 2022 03:34:38 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51304 "EHLO
+        id S229557AbiKJJ57 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 10 Nov 2022 04:57:59 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40132 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232250AbiKJIeh (ORCPT
+        with ESMTP id S229470AbiKJJ56 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 10 Nov 2022 03:34:37 -0500
-Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com [185.132.182.106])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 51AED209A9;
-        Thu, 10 Nov 2022 00:34:34 -0800 (PST)
-Received: from pps.filterd (m0288072.ppops.net [127.0.0.1])
-        by mx07-00178001.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 2AA6pbfA032176;
-        Thu, 10 Nov 2022 09:34:28 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=selector1;
- bh=hX7HLbbo5rodekMp9+mhuon+7a6goJzIM+07WNoX0AQ=;
- b=ZUjySMDmxXOd8lgpHpKQ2nni1ffHstq3crZa+10Xi/oXT8n+HoQ5ixcz+GtQIN431a66
- yvGngTIPvAQZwBzIfleXURdnEJGjxj+z/Pk/GtS3nMWizH0kVorblRA2XPjhktICL0oY
- DoaXdhEs7W8RSJHLSbQwn2f103/sg7dToiRUtpVicU6m9T5+E/9fmXTGPeteS2UEglnc
- 3g5oKC1QeXZJGbhGZL6s7Zbwwi7qiE2DgDEVa8hYCo1Li1bCr70sOwWMOb054I1dDLMS
- /ZP//0+J0kBxqKQg82yu1XmHmaHhiEaim3arWe+dyk2KkpovHh+L3+NWaVRvCXo4XuAh sQ== 
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-        by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3krvdb8s7k-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 10 Nov 2022 09:34:27 +0100
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 651D410003B;
-        Thu, 10 Nov 2022 09:34:23 +0100 (CET)
-Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
-        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 5D2262138C9;
-        Thu, 10 Nov 2022 09:34:23 +0100 (CET)
-Received: from [10.211.0.90] (10.211.0.90) by SHFDAG1NODE1.st.com
- (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.32; Thu, 10 Nov
- 2022 09:34:23 +0100
-Message-ID: <571319ab-bdc2-a884-f462-603e213c13fb@foss.st.com>
-Date:   Thu, 10 Nov 2022 09:34:22 +0100
+        Thu, 10 Nov 2022 04:57:58 -0500
+Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com [211.20.114.71])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE9FA6AED5;
+        Thu, 10 Nov 2022 01:57:56 -0800 (PST)
+Received: from mail.aspeedtech.com ([192.168.0.24])
+        by twspam01.aspeedtech.com with ESMTP id 2AA9WgmQ047730;
+        Thu, 10 Nov 2022 17:32:42 +0800 (GMT-8)
+        (envelope-from jammy_huang@aspeedtech.com)
+Received: from JammyHuang-PC.aspeed.com (192.168.2.115) by TWMBX02.aspeed.com
+ (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Thu, 10 Nov
+ 2022 17:56:21 +0800
+From:   Jammy Huang <jammy_huang@aspeedtech.com>
+To:     <eajames@linux.ibm.com>, <mchehab@kernel.org>, <joel@jms.id.au>,
+        <andrew@aj.id.au>, <hverkuil-cisco@xs4all.nl>,
+        <zev@bewilderbeest.net>, <linux-media@vger.kernel.org>,
+        <openbmc@lists.ozlabs.org>, <linux-arm-kernel@lists.infradead.org>,
+        <linux-aspeed@lists.ozlabs.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH] media: aspeed: Use v4l2_dbg to replace v4l2_warn to avoid log spam
+Date:   Thu, 10 Nov 2022 17:56:11 +0800
+Message-ID: <20221110095611.522-1-jammy_huang@aspeedtech.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH][next] media: i2c: st-vgxy61: Fix spelling mistake
- "substraction" -> "subtraction"
-To:     Colin Ian King <colin.i.king@gmail.com>,
-        Sylvain Petinot <sylvain.petinot@foss.st.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        <linux-media@vger.kernel.org>
-CC:     <kernel-janitors@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-References: <20221109150544.274795-1-colin.i.king@gmail.com>
-Content-Language: en-US
-From:   Benjamin MUGNIER <benjamin.mugnier@foss.st.com>
-In-Reply-To: <20221109150544.274795-1-colin.i.king@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.211.0.90]
-X-ClientProxiedBy: SHFCAS1NODE1.st.com (10.75.129.72) To SHFDAG1NODE1.st.com
- (10.75.129.69)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-11-10_06,2022-11-09_01,2022-06-22_01
-X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,NICE_REPLY_A,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [192.168.2.115]
+X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
+ (192.168.0.24)
+X-DNSRBL: 
+X-MAIL: twspam01.aspeedtech.com 2AA9WgmQ047730
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
         SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -74,51 +48,95 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Colin,
+If the host is powered off, there will be many warning log. To avoid the
+log spam in this condition, replace v4l2_warn with v4l2_dbg.
 
-Thank you for your patch.
+Signed-off-by: Jammy Huang <jammy_huang@aspeedtech.com>
+---
+ drivers/media/platform/aspeed/aspeed-video.c | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
 
-On 11/9/22 16:05, Colin Ian King wrote:
-> There are a couple of spelling mistakes in a literal string and in the
-> documentation. Fix them.
-> 
-> Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
+diff --git a/drivers/media/platform/aspeed/aspeed-video.c b/drivers/media/platform/aspeed/aspeed-video.c
+index cf76aeee8cb6..662465d13a0e 100644
+--- a/drivers/media/platform/aspeed/aspeed-video.c
++++ b/drivers/media/platform/aspeed/aspeed-video.c
+@@ -586,13 +586,13 @@ static int aspeed_video_start_frame(struct aspeed_video *video)
+ 	bool bcd_buf_need = (video->format != VIDEO_FMT_STANDARD);
+ 
+ 	if (video->v4l2_input_status) {
+-		v4l2_warn(&video->v4l2_dev, "No signal; don't start frame\n");
++		v4l2_dbg(1, debug, &video->v4l2_dev, "No signal; don't start frame\n");
+ 		return 0;
+ 	}
+ 
+ 	if (!(seq_ctrl & VE_SEQ_CTRL_COMP_BUSY) ||
+ 	    !(seq_ctrl & VE_SEQ_CTRL_CAP_BUSY)) {
+-		v4l2_warn(&video->v4l2_dev, "Engine busy; don't start frame\n");
++		v4l2_dbg(1, debug, &video->v4l2_dev, "Engine busy; don't start frame\n");
+ 		return -EBUSY;
+ 	}
+ 
+@@ -615,7 +615,7 @@ static int aspeed_video_start_frame(struct aspeed_video *video)
+ 				       struct aspeed_video_buffer, link);
+ 	if (!buf) {
+ 		spin_unlock_irqrestore(&video->lock, flags);
+-		v4l2_warn(&video->v4l2_dev, "No buffers; don't start frame\n");
++		v4l2_dbg(1, debug, &video->v4l2_dev, "No buffers; don't start frame\n");
+ 		return -EPROTO;
+ 	}
+ 
+@@ -796,7 +796,7 @@ static irqreturn_t aspeed_video_irq(int irq, void *arg)
+ 			if (video->format == VIDEO_FMT_STANDARD &&
+ 			    list_is_last(&buf->link, &video->buffers)) {
+ 				empty = false;
+-				v4l2_warn(&video->v4l2_dev, "skip to keep last frame updated\n");
++				v4l2_dbg(1, debug, &video->v4l2_dev, "skip to keep last frame updated\n");
+ 			} else {
+ 				buf->vb.vb2_buf.timestamp = ktime_get_ns();
+ 				buf->vb.sequence = video->sequence++;
+@@ -1060,7 +1060,7 @@ static void aspeed_video_get_resolution(struct aspeed_video *video)
+ 						      res_check(video),
+ 						      MODE_DETECT_TIMEOUT);
+ 		if (!rc) {
+-			v4l2_warn(&video->v4l2_dev, "Timed out; first mode detect\n");
++			v4l2_dbg(1, debug, &video->v4l2_dev, "Timed out; first mode detect\n");
+ 			clear_bit(VIDEO_RES_DETECT, &video->flags);
+ 			return;
+ 		}
+@@ -1081,7 +1081,7 @@ static void aspeed_video_get_resolution(struct aspeed_video *video)
+ 						      MODE_DETECT_TIMEOUT);
+ 		clear_bit(VIDEO_RES_DETECT, &video->flags);
+ 		if (!rc) {
+-			v4l2_warn(&video->v4l2_dev, "Timed out; second mode detect\n");
++			v4l2_dbg(1, debug, &video->v4l2_dev, "Timed out; second mode detect\n");
+ 			return;
+ 		}
+ 
+@@ -1104,7 +1104,7 @@ static void aspeed_video_get_resolution(struct aspeed_video *video)
+ 	} while (invalid_resolution && (tries++ < INVALID_RESOLUTION_RETRIES));
+ 
+ 	if (invalid_resolution) {
+-		v4l2_warn(&video->v4l2_dev, "Invalid resolution detected\n");
++		v4l2_dbg(1, debug, &video->v4l2_dev, "Invalid resolution detected\n");
+ 		return;
+ 	}
+ 
+@@ -1856,7 +1856,7 @@ static void aspeed_video_stop_streaming(struct vb2_queue *q)
+ 				!test_bit(VIDEO_FRAME_INPRG, &video->flags),
+ 				STOP_TIMEOUT);
+ 	if (!rc) {
+-		v4l2_warn(&video->v4l2_dev, "Timed out when stopping streaming\n");
++		v4l2_dbg(1, debug, &video->v4l2_dev, "Timed out when stopping streaming\n");
+ 
+ 		/*
+ 		 * Need to force stop any DMA and try and get HW into a good
 
-Reviewed-by: Benjamin Mugnier <benjamin.mugnier@foss.st.com>
-
-> ---
->  Documentation/userspace-api/media/drivers/st-vgxy61.rst | 2 +-
->  drivers/media/i2c/st-vgxy61.c                           | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/Documentation/userspace-api/media/drivers/st-vgxy61.rst b/Documentation/userspace-api/media/drivers/st-vgxy61.rst
-> index 213b884dcfa6..7fb5b4f60db7 100644
-> --- a/Documentation/userspace-api/media/drivers/st-vgxy61.rst
-> +++ b/Documentation/userspace-api/media/drivers/st-vgxy61.rst
-> @@ -17,7 +17,7 @@ The ST VGXY61 driver implements the following controls:
->  
->      * - HDR linearize
->        - The merger outputs a long exposure capture as long as it is not saturated.
-> -    * - HDR substraction
-> +    * - HDR subtraction
->        - This involves subtracting the short exposure frame from the long exposure frame.
->      * - "No HDR"
->        - This mode is used for standard dynamic range (SDR) exposures.
-> diff --git a/drivers/media/i2c/st-vgxy61.c b/drivers/media/i2c/st-vgxy61.c
-> index dfbf25338160..e72fc3a8a54c 100644
-> --- a/drivers/media/i2c/st-vgxy61.c
-> +++ b/drivers/media/i2c/st-vgxy61.c
-> @@ -197,7 +197,7 @@ static const char * const vgxy61_test_pattern_menu[] = {
->  
->  static const char * const vgxy61_hdr_mode_menu[] = {
->  	"HDR linearize",
-> -	"HDR substraction",
-> +	"HDR subtraction",
->  	"No HDR",
->  };
->  
-
+base-commit: aae703b02f92bde9264366c545e87cec451de471
+prerequisite-patch-id: bf47e8ab2998acfbc32be5a4b7b5ae8a3ae4218b
+prerequisite-patch-id: bf82715983e08f2e810ff1a82ce644f5f9006cd9
+prerequisite-patch-id: 28a2040ef0235e5765f05d2fc5529bce2a0f4c6f
+prerequisite-patch-id: 7e761c779730536db8baf50db5fc8caf058e95af
+prerequisite-patch-id: c48ea20973fa35938a7d33a0e20d2900df48755f
 -- 
-Regards,
+2.25.1
 
-Benjamin
