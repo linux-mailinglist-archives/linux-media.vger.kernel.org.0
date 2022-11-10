@@ -2,65 +2,65 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C211D6246E7
-	for <lists+linux-media@lfdr.de>; Thu, 10 Nov 2022 17:28:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BE42E6246EB
+	for <lists+linux-media@lfdr.de>; Thu, 10 Nov 2022 17:29:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231477AbiKJQ2K (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 10 Nov 2022 11:28:10 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55458 "EHLO
+        id S231695AbiKJQ26 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 10 Nov 2022 11:28:58 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56344 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231478AbiKJQ2I (ORCPT
+        with ESMTP id S231420AbiKJQ24 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 10 Nov 2022 11:28:08 -0500
-Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com [IPv6:2607:f8b0:4864:20::1034])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D4FAF20F48
-        for <linux-media@vger.kernel.org>; Thu, 10 Nov 2022 08:28:07 -0800 (PST)
-Received: by mail-pj1-x1034.google.com with SMTP id c15-20020a17090a1d0f00b0021365864446so1952260pjd.4
-        for <linux-media@vger.kernel.org>; Thu, 10 Nov 2022 08:28:07 -0800 (PST)
+        Thu, 10 Nov 2022 11:28:56 -0500
+Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com [IPv6:2607:f8b0:4864:20::1030])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 878102F023
+        for <linux-media@vger.kernel.org>; Thu, 10 Nov 2022 08:28:55 -0800 (PST)
+Received: by mail-pj1-x1030.google.com with SMTP id m6-20020a17090a5a4600b00212f8dffec9so2006236pji.0
+        for <linux-media@vger.kernel.org>; Thu, 10 Nov 2022 08:28:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=content-disposition:mime-version:message-id:subject:cc:to:date:from
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=hYhq/mBEGTZpGCDyMim5fTg3vaVPNZnQvgxcn4u7bSI=;
-        b=Prhwc6DCeW+0r6L7UoZ+ItiN/aHRF2e9MAvxqsVz4KA4QswyP7GwKrb6HYRa60cfp0
-         +b0MxtYATc5xgmr9p37QbuXf1l1p32jRAdP2hwXG5wR3VotgwUNvgeLJODH08x8Nwtk9
-         B/D1bmU0y/wRl84XUzPlfkZqAIIHJTyieTUA4=
+        bh=kYFwHEO1MQlzL5988RRWEhawb+X2ogNV7IVaKnMutAU=;
+        b=Rm55ZdKNphJGqjoRbhXa5JBhBhiPEiMwlpKtjW361GKLVvfqEtEX7Y7clPYJfMgqWR
+         kpkrS895JF1SRdfNduRLBrodr2uK3vPGtZkRoWxsm94syt6dYHOvxrM+H2ctwB/h8AAO
+         7XhSInP9a3nufSN5jxqnRX2+Gk55ecO7ma2S0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-disposition:mime-version:message-id:subject:cc:to:date:from
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=hYhq/mBEGTZpGCDyMim5fTg3vaVPNZnQvgxcn4u7bSI=;
-        b=j/nahkuJiFZWCsYoOJTwu62hnl2EFucqm38QlLD4os3mjEj6xSO8mKhy3ATj+Cpeza
-         2F6XzTaRypuY85/WX7+kzaw0YXVuBn5zPtapjOcmjQPhzEVPNo4uVCS//zNfvddFEWqa
-         aP4YxVIrBlVAP+5vZhmtoznYCoiLwYMCtw0Xh492BMyMUMTdGZ7Dq9ZOBsjfc9Pdy2Jl
-         i8WgR6OGQPZedjJ1BtWKURTDpCx4ES212usP8/8X15F1zBE75Ql3uNJAUOPJ7iU9M7w4
-         PplGn9vQfn5EPGt3kqYKh/k2x9nWM9qt7D32jhD4LXoAlEMYJ7dfnpSGnsjfbJ+wM3fH
-         UlXg==
-X-Gm-Message-State: ANoB5pkbIopFK/06LvbWLEe0I0CWB5Ln89l8OsWX43cp2YtV97dvAeZh
-        63OUEwnWZG8HzaP205ehCwBtC3Ppu2umJw==
-X-Google-Smtp-Source: AA0mqf7tUEF/WoEOICY6ADSUX7ZpJwwgEFjpqYiLgDAN5IOXY5cUTd9B85ka0aCFSHNlY4ParE5N5w==
-X-Received: by 2002:a17:902:728b:b0:188:6baf:1fe7 with SMTP id d11-20020a170902728b00b001886baf1fe7mr29852161pll.123.1668097687326;
-        Thu, 10 Nov 2022 08:28:07 -0800 (PST)
+        bh=kYFwHEO1MQlzL5988RRWEhawb+X2ogNV7IVaKnMutAU=;
+        b=5oKSxH1EcGo5b/u4v2n6wJLt3QSJoaAP3+LezAWYt8NIlfAcSQQVsO+b+jsqexDsRx
+         l82s6Z1Hdfix5i6ZZaaJOBJ1fQ6aymWTZONnXdZc1pzpl1AnhcyszoXV4rawFs5ioQhH
+         P589mW1GCWDu9sHxS7TlEM9K0gp+l7Rw+u2V8ihwnRT+d8q4VaRo/CAIdMLJAG8SP6IF
+         zg39/TJFoC74mog5SZN4r8h766cS9iTRpDn/aiDqu8ZVpRNH8280mVdbIvHxkPQHmGip
+         i+7rvQy+v1Aq8rIoZy06mv6qOnm4LZ9yuNPC1H0y7OVzu33PB8ckygKfu4vo+zYiy6eu
+         wf6Q==
+X-Gm-Message-State: ACrzQf2dawwQSVKV7wSLFVtYa1vKGMUUB1WQ0dj97TADnjzncyJvt7zO
+        FEf0OQ6SexxYaKPEQd6McVO3tQ==
+X-Google-Smtp-Source: AMsMyM4emYZP3L1Fe5or/JUatDIpzgVdYnSmSA1gAw+IRUfMU2GbSXaLJGFz4dkzBNNwc1PTVrDwog==
+X-Received: by 2002:a17:90a:dd95:b0:213:7d3d:a769 with SMTP id l21-20020a17090add9500b002137d3da769mr1418306pjv.22.1668097735017;
+        Thu, 10 Nov 2022 08:28:55 -0800 (PST)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id 1-20020a17090a0f0100b00200a85fa777sm3323273pjy.1.2022.11.10.08.28.06
+        by smtp.gmail.com with ESMTPSA id p1-20020a170902a40100b00177f4ef7970sm11463523plq.11.2022.11.10.08.28.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Nov 2022 08:28:07 -0800 (PST)
+        Thu, 10 Nov 2022 08:28:54 -0800 (PST)
 From:   coverity-bot <keescook@chromium.org>
 X-Google-Original-From: coverity-bot <keescook+coverity-bot@chromium.org>
-Date:   Thu, 10 Nov 2022 08:28:06 -0800
-To:     Benjamin Mugnier <benjamin.mugnier@foss.st.com>
+Date:   Thu, 10 Nov 2022 08:28:53 -0800
+To:     Marco Felsch <m.felsch@pengutronix.de>
 Cc:     linux-kernel@vger.kernel.org,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
         Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>,
         Shawn Tu <shawnx.tu@intel.com>, linux-media@vger.kernel.org,
-        Sylvain Petinot <sylvain.petinot@foss.st.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
         Hans Verkuil <hverkuil@xs4all.nl>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
         linux-next@vger.kernel.org, linux-hardening@vger.kernel.org
-Subject: Coverity: vgxy61_detect(): Control flow issues
-Message-ID: <202211100828.FEDCDE7@keescook>
+Subject: Coverity: tc358746_g_register(): Integer handling issues
+Message-ID: <202211100828.AFD4E1799@keescook>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
@@ -82,27 +82,27 @@ https://scan.coverity.com/projects/linux-next-weekly-scan
 You're getting this email because you were associated with the identified
 lines of code (noted below) that were touched by commits:
 
-  Thu Oct 27 14:37:38 2022 +0300
-    153e4ad44d60 ("media: i2c: Add driver for ST VGXY61 camera sensor")
+  Thu Oct 27 14:48:40 2022 +0300
+    80a21da36051 ("media: tc358746: add Toshiba TC358746 Parallel to CSI-2 bridge driver")
 
 Coverity reported the following:
 
-*** CID 1527257:  Control flow issues  (NO_EFFECT)
-drivers/media/i2c/st-vgxy61.c:1679 in vgxy61_detect()
-1673     	struct i2c_client *client = sensor->i2c_client;
-1674     	u16 id = 0;
-1675     	int ret;
-1676     	u8 st;
-1677
-1678     	id = vgxy61_read_reg(sensor, VGXY61_REG_MODEL_ID);
-vvv     CID 1527257:  Control flow issues  (NO_EFFECT)
-vvv     This less-than-zero comparison of an unsigned value is never true. "id < 0".
-1679     	if (id < 0)
-1680     		return id;
-1681     	if (id != VG5661_MODEL_ID && id != VG5761_MODEL_ID) {
-1682     		dev_warn(&client->dev, "Unsupported sensor id %x\n", id);
-1683     		return -ENODEV;
-1684     	}
+*** CID 1527256:  Integer handling issues  (INCOMPATIBLE_CAST)
+drivers/media/i2c/tc358746.c:998 in tc358746_g_register()
+992     	/* 32-bit registers starting from CLW_DPHYCONTTX */
+993     	reg->size = reg->reg < CLW_DPHYCONTTX_REG ? 2 : 4;
+994
+995     	if (!pm_runtime_get_if_in_use(sd->dev))
+996     		return 0;
+997
+vvv     CID 1527256:  Integer handling issues  (INCOMPATIBLE_CAST)
+vvv     Pointer "&reg->val" points to an object whose effective type is "unsigned long long" (64 bits, unsigned) but is dereferenced as a narrower "unsigned int" (32 bits, unsigned). This may lead to unexpected results depending on machine endianness.
+998     	tc358746_read(tc358746, reg->reg, (u32 *)&reg->val);
+999
+1000     	pm_runtime_mark_last_busy(sd->dev);
+1001     	pm_runtime_put_sync_autosuspend(sd->dev);
+1002
+1003     	return 0;
 
 If this is a false positive, please let us know so we can mark it as
 such, or teach the Coverity rules to be smarter. If not, please make
@@ -110,8 +110,8 @@ sure fixes get into linux-next. :) For patches fixing this, please
 include these lines (but double-check the "Fixes" first):
 
 Reported-by: coverity-bot <keescook+coverity-bot@chromium.org>
-Addresses-Coverity-ID: 1527257 ("Control flow issues")
-Fixes: 153e4ad44d60 ("media: i2c: Add driver for ST VGXY61 camera sensor")
+Addresses-Coverity-ID: 1527256 ("Integer handling issues")
+Fixes: 80a21da36051 ("media: tc358746: add Toshiba TC358746 Parallel to CSI-2 bridge driver")
 
 Thanks for your attention!
 
