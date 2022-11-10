@@ -2,136 +2,123 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 495A96247B2
-	for <lists+linux-media@lfdr.de>; Thu, 10 Nov 2022 17:57:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7CAA46247E5
+	for <lists+linux-media@lfdr.de>; Thu, 10 Nov 2022 18:07:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232555AbiKJQ5R (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 10 Nov 2022 11:57:17 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57356 "EHLO
+        id S230252AbiKJRHJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 10 Nov 2022 12:07:09 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36636 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232805AbiKJQ4z (ORCPT
+        with ESMTP id S229796AbiKJRHH (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 10 Nov 2022 11:56:55 -0500
-Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com [IPv6:2607:f8b0:4864:20::629])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 632EA2A247
-        for <linux-media@vger.kernel.org>; Thu, 10 Nov 2022 08:56:52 -0800 (PST)
-Received: by mail-pl1-x629.google.com with SMTP id y4so1889343plb.2
-        for <linux-media@vger.kernel.org>; Thu, 10 Nov 2022 08:56:52 -0800 (PST)
+        Thu, 10 Nov 2022 12:07:07 -0500
+Received: from mail-qt1-x836.google.com (mail-qt1-x836.google.com [IPv6:2607:f8b0:4864:20::836])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 24F90AE7D
+        for <linux-media@vger.kernel.org>; Thu, 10 Nov 2022 09:07:02 -0800 (PST)
+Received: by mail-qt1-x836.google.com with SMTP id jr19so1275289qtb.7
+        for <linux-media@vger.kernel.org>; Thu, 10 Nov 2022 09:07:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=MObtVKIB7l4b8WfJfpmkCk3gsljGAahPc93DAQJ6frg=;
-        b=W/0Fkr/byKXpfxP6+/jTpnDsIjqIxtuvfL0qjcv4YJK39Z2TVqxxhwqsaNDUOUbx1c
-         2KijmlCyXt1eIEfCI7vM+r4LVEDXUIbT3iGDtqC5dVjQgqWg2Z2TPnd2gakmNTZPCd+5
-         Ggcho7pqKNfRLqnV0GXCOcZHHVyeg+PPxDxWs=
+        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=ubbarOXcJSoiOO1vSHMphFgY9bCn9vvRpDVnu6XQKUU=;
+        b=PksFq7iD685uoDRJMq6rY+iGqHTiL1ikguOWzuGTYafvRxjony6Y6Bfywqxj6zvydD
+         AP0cNio5T+3DfBmFpv3fZmACMaGGeKs7Y0UluG7y3SGfv7Bx7yHRUG6p+9xXjSg0AD0v
+         q+BR/VUdR6V6FfzRZ+gjqrgmDIPLTRSIzzGs0gwfT2GHR6X8oS1tQkHt454axI7UtbW/
+         tkl1hu/XU9MAmb7Q4RwGsdFiUIpByDv5bD3gFMz4E+ETHwMSz1wD0GAejzqTKMgSv7Cy
+         O93agI9dVum39Xxat+VMDL9mKYYGFEIuJ1r8ijTEE2jyFS40wpe2pcq49YM9PuWDQROF
+         HBKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=MObtVKIB7l4b8WfJfpmkCk3gsljGAahPc93DAQJ6frg=;
-        b=AcVe6TxAJ/wsjburwsYGJYBYyfp1z/T2De/VWlUF0R76Y2A9lI4yH+NoYyKEb76mC3
-         DZzO64N/LPxvpacI+gWqP7RrzbiOwLltFji5S9JxXAMC/e14nM47NI8mNYKVhyNVrf7W
-         GOAWL5jsQqt0z/UoS8XkxkYT1yxMRahDH6blt2aDI7fjhL9UmjkEnleN/jZKfhZojrR8
-         5qXVnuEOSJHWlAoVd5XT1kKQXFiu+o70d1NhjOPoCId8iaaQjwyFZepKGctXsATiz7kA
-         cXX5sy2NL2Qj6qV7Lji7M09QRP5f1HHg57wvDEOFTQ+Re/v8cwJMwZOk1Vxhct2KuHrK
-         ERpw==
-X-Gm-Message-State: ACrzQf2QXcjOXSFancnZ6wSoRcbbAn26LXWWs2ml6IGvojmOUqP8Rbzs
-        FggRsdmzQ9GlnZmEb33jzStaPw==
-X-Google-Smtp-Source: AMsMyM6aYNGQRU9jd0TsshThz+/JIVzG11NvElrb65k/L5ym/ko6eFmmta8lbovKLs0qzsYhiQnHTA==
-X-Received: by 2002:a17:90a:8503:b0:212:9b3f:dee5 with SMTP id l3-20020a17090a850300b002129b3fdee5mr1464006pjn.62.1668099411538;
-        Thu, 10 Nov 2022 08:56:51 -0800 (PST)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id z10-20020aa79f8a000000b00560bb4a57f7sm10748151pfr.179.2022.11.10.08.56.51
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ubbarOXcJSoiOO1vSHMphFgY9bCn9vvRpDVnu6XQKUU=;
+        b=Cc/pab75nnVEeUk7K6hPsdwletMbxEf4WSoc7ugW3n1Pnyj/qWiOVaAR+Aog6FkcOh
+         DQc/0/AkXCScq4DOqo4v6kjtkeqKhv4dS20XHkZg2MiF2sYxz5vZa+8Ng+rCJfMi74dY
+         Q6/8XO+i+TxNxB8srG0/FkVEYW6MEroINyyRzpAaXCR6lUd8GnpbobBTpBdPK1sDP2ra
+         lS9Qzsy1WejqEPAOzj71I8Gz5IVDHwknHF9kuAPd1GDsm3cRMDr4QQJzDqcEP1k7XrGy
+         WHLLpZNTbmMWjJ6PfOdE4H1mwg86O0qzYTb09NZxaBaWqXC4ALThXm00r5p/TWpTKPcb
+         ShfQ==
+X-Gm-Message-State: ACrzQf2b2/wJJ2/Twab+zpGfkoZ3WjHmp6QKVLwYq02jrCqLUUXYbZ9p
+        gzbuNfYUstCr+bUazDYK1S0I6g==
+X-Google-Smtp-Source: AMsMyM7Qvsr9aXyn8DNA3qATFnDI2/eR8b1YRY1ImtYV475CV8gRYuNlIKgLl8kbptCLI1it+R+YGA==
+X-Received: by 2002:ac8:538e:0:b0:3a5:49fa:3983 with SMTP id x14-20020ac8538e000000b003a549fa3983mr1242244qtp.436.1668100021220;
+        Thu, 10 Nov 2022 09:07:01 -0800 (PST)
+Received: from nicolas-tpx395.localdomain (192-222-136-102.qc.cable.ebox.net. [192.222.136.102])
+        by smtp.gmail.com with ESMTPSA id r16-20020ae9d610000000b006ee7e223bb8sm12904365qkk.39.2022.11.10.09.06.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Nov 2022 08:56:51 -0800 (PST)
-Date:   Thu, 10 Nov 2022 08:56:50 -0800
-From:   Kees Cook <keescook@chromium.org>
-To:     Dave Stevenson <dave.stevenson@raspberrypi.com>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-kernel@vger.kernel.org,
-        Alexander Stein <alexander.stein@ew.tq-group.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Manivannan Sadhasivam <mani@kernel.org>,
-        linux-media@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
-        linux-next@vger.kernel.org, linux-hardening@vger.kernel.org
-Subject: Re: Coverity: imx290_ctrl_init(): Error handling issues
-Message-ID: <202211100856.9CE03EC@keescook>
-References: <202211100830.1F097DC@keescook>
- <CAPY8ntCkjG0BafMy+iLna2BDvr0n10E8hzUqL01WpUgFCjwV4g@mail.gmail.com>
+        Thu, 10 Nov 2022 09:07:00 -0800 (PST)
+Message-ID: <03f6fd9ff6a757f6d1cb6cc552efcb0b94327104.camel@ndufresne.ca>
+Subject: Re: [RFC PATCH v6 02/11] media: v4l2: Extend pixel formats to unify
+ single/multi-planar handling (and more)
+From:   Nicolas Dufresne <nicolas@ndufresne.ca>
+To:     Hsia-Jun Li <Randy.Li@synaptics.com>,
+        Helen Koike <helen.koike@collabora.com>
+Cc:     mchehab@kernel.org, hans.verkuil@cisco.com,
+        laurent.pinchart@ideasonboard.com, sakari.ailus@iki.fi,
+        boris.brezillon@collabora.com, hiroh@chromium.org,
+        Brian.Starkey@arm.com, kernel@collabora.com,
+        narmstrong@baylibre.com, linux-kernel@vger.kernel.org,
+        frkoenig@chromium.org, stanimir.varbanov@linaro.org,
+        tfiga@chromium.org, Hans Verkuil <hverkuil@xs4all.nl>,
+        linux-media@vger.kernel.org
+Date:   Thu, 10 Nov 2022 12:06:59 -0500
+In-Reply-To: <708221e8-a805-c394-6958-6c7ec24bfe66@synaptics.com>
+References: <20210114180738.1758707-1-helen.koike@collabora.com>
+         <20210114180738.1758707-3-helen.koike@collabora.com>
+         <d0d1f74f-7e77-1b18-0529-dbbec8889584@xs4all.nl>
+         <577c56bf-146c-f34a-2028-075170076de7@collabora.com>
+         <708221e8-a805-c394-6958-6c7ec24bfe66@synaptics.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.4 (3.44.4-2.fc36) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAPY8ntCkjG0BafMy+iLna2BDvr0n10E8hzUqL01WpUgFCjwV4g@mail.gmail.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Nov 10, 2022 at 04:41:28PM +0000, Dave Stevenson wrote:
-> On Thu, 10 Nov 2022 at 16:31, coverity-bot <keescook@chromium.org> wrote:
-> >
-> > Hello!
-> >
-> > This is an experimental semi-automated report about issues detected by
-> > Coverity from a scan of next-20221110 as part of the linux-next scan project:
-> > https://scan.coverity.com/projects/linux-next-weekly-scan
-> >
-> > You're getting this email because you were associated with the identified
-> > lines of code (noted below) that were touched by commits:
-> >
-> >   Thu Oct 27 14:38:02 2022 +0300
-> >     4c9c93cf8657 ("media: i2c: imx290: Create controls for fwnode properties")
-> >
-> > Coverity reported the following:
-> >
-> > *** CID 1527251:  Error handling issues  (CHECKED_RETURN)
-> > drivers/media/i2c/imx290.c:1056 in imx290_ctrl_init()
-> > 1050            imx290->vblank = v4l2_ctrl_new_std(&imx290->ctrls, &imx290_ctrl_ops,
-> > 1051                                               V4L2_CID_VBLANK, blank, blank, 1,
-> > 1052                                               blank);
-> > 1053            if (imx290->vblank)
-> > 1054                    imx290->vblank->flags |= V4L2_CTRL_FLAG_READ_ONLY;
-> > 1055
-> > vvv     CID 1527251:  Error handling issues  (CHECKED_RETURN)
-> > vvv     Calling "v4l2_ctrl_new_fwnode_properties" without checking return value (as is done elsewhere 9 out of 10 times).
-> > 1056            v4l2_ctrl_new_fwnode_properties(&imx290->ctrls, &imx290_ctrl_ops,
-> > 1057                                            &props);
-> > 1058
-> > 1059            imx290->sd.ctrl_handler = &imx290->ctrls;
-> > 1060
-> > 1061            if (imx290->ctrls.error) {
-> >
-> > If this is a false positive, please let us know so we can mark it as
-> > such, or teach the Coverity rules to be smarter. If not, please make
-> > sure fixes get into linux-next. :) For patches fixing this, please
-> > include these lines (but double-check the "Fixes" first):
-> 
-> I looked at this one when the patches were sent to the list.
-> 
-> On failure, v4l2_ctrl_new_fwnode_properties will have set the error
-> flag in struct v4l2_ctrl_handler. This is also what it returns.
-> 
-> In most of the existing drivers the error flag has already been
-> checked before calling v4l2_ctrl_new_fwnode_properties, therefore the
-> return value has to be checked explicitly. In this case it is checked
-> at line 1061 which is after v4l2_ctrl_new_fwnode_properties has been
-> called, and therefore there is no need to check the return value of
-> the call.
-> 
-> IMHO Neither is particularly right or wrong, just slightly different
-> approaches. In some regards this new code pattern is nicer as it
-> removes a number of error handling paths.
+Le samedi 05 novembre 2022 =C3=A0 23:19 +0800, Hsia-Jun Li a =C3=A9crit=C2=
+=A0:
+> > > VIDIOC_ENUM_EXT_PIX_FMT would report NV12 and NV12M, while=20
+> > > VIDIOC_ENUM_FMT
+> > > would just report NV12M.
+> >=20
+> > If NV12 and NV12M are equivalent in Ext API, I don't see why we would
+> > report both (unless I'm missing something, which is probably the case).
+> >=20
+> > The idea was to deprecate the M-variants one day.
+> I was thinking the way in DRM API is better, always assuming it would=20
+> always in a multiple planes. The only problem is we don't have a way to=
+=20
+> let the allocator that allocate contiguous memory for planes when we=20
+> need to do that.
 
-Great! Thanks for double-checking it. :)
+Its not too late to allow this to be negotiated, but I would move this out =
+of
+the pixel format definition to stop the explosion of duplicate pixel format=
+s,
+which is a nightmare to deal with. If I simplify the discussion, we want to
+negotiate contiguity with the driver. The new FMT structure should have a
+CONTIGUOUS flag. So if userpace sets:
 
--- 
-Kees Cook
+  S_FMT(NV12, CONTIGUOUS)
+
+The driver can accepts, and return the unmodified structure, or may drop th=
+e
+CONTIGUOUS flag, which would mean its not supported. Could be the other way
+around too. As for allocation, if you have CONTIGUOUS flag set, userspace d=
+oes
+not have to export or map memory for each planes, as they are the same. We
+simply need to define the offset as relative to their allocation, which I t=
+hink
+is the most sensible thing.
+
+Nicolas
+
