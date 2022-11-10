@@ -2,139 +2,123 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 62E59623D75
-	for <lists+linux-media@lfdr.de>; Thu, 10 Nov 2022 09:25:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 97B72623D89
+	for <lists+linux-media@lfdr.de>; Thu, 10 Nov 2022 09:34:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232948AbiKJIZz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 10 Nov 2022 03:25:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47154 "EHLO
+        id S232512AbiKJIei (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 10 Nov 2022 03:34:38 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51304 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232750AbiKJIZy (ORCPT
+        with ESMTP id S232250AbiKJIeh (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 10 Nov 2022 03:25:54 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1EB401EEEE;
-        Thu, 10 Nov 2022 00:25:54 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id A3E7061DCB;
-        Thu, 10 Nov 2022 08:25:53 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EDF0FC433C1;
-        Thu, 10 Nov 2022 08:25:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1668068753;
-        bh=//1Of4vPGHatF3Be5os2F6FZCfBq9FQoStjfPpeDOco=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=ZBoKSkeQcwCUM/rVT3249YeXYB90uP181eqym7EfGQyFvucZf0M52Rjkwrg2RI99B
-         bDYhVX4juY9eyXNxob0rEUs40DNTSpJGpor8GDhTMHF0kJZA5tEvfMz+8vfxHeq39W
-         2Kvs7Z14ThbnT6Xa/a6VBY1c+zn8m6qQws1JlbQO4uMCyE8nL9ShT9k4MVOy5cFZQo
-         yAaJiYh0S1z1GAlD/hX8Ofl84Z3dZnKs+TWf73pScj6kBdskmPFMm3iO1QYxcc00BC
-         kIVPirPiAxSkHev0lQ/p52YwHpe2Vysbc+aMBu/iuQXbO0k3wXMhvf76xINCpD5t0Q
-         4AyH8yTuhICGw==
-Message-ID: <1126f2ec-10ec-852c-b002-119781b91b58@kernel.org>
-Date:   Thu, 10 Nov 2022 09:25:45 +0100
+        Thu, 10 Nov 2022 03:34:37 -0500
+Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com [185.132.182.106])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 51AED209A9;
+        Thu, 10 Nov 2022 00:34:34 -0800 (PST)
+Received: from pps.filterd (m0288072.ppops.net [127.0.0.1])
+        by mx07-00178001.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 2AA6pbfA032176;
+        Thu, 10 Nov 2022 09:34:28 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=selector1;
+ bh=hX7HLbbo5rodekMp9+mhuon+7a6goJzIM+07WNoX0AQ=;
+ b=ZUjySMDmxXOd8lgpHpKQ2nni1ffHstq3crZa+10Xi/oXT8n+HoQ5ixcz+GtQIN431a66
+ yvGngTIPvAQZwBzIfleXURdnEJGjxj+z/Pk/GtS3nMWizH0kVorblRA2XPjhktICL0oY
+ DoaXdhEs7W8RSJHLSbQwn2f103/sg7dToiRUtpVicU6m9T5+E/9fmXTGPeteS2UEglnc
+ 3g5oKC1QeXZJGbhGZL6s7Zbwwi7qiE2DgDEVa8hYCo1Li1bCr70sOwWMOb054I1dDLMS
+ /ZP//0+J0kBxqKQg82yu1XmHmaHhiEaim3arWe+dyk2KkpovHh+L3+NWaVRvCXo4XuAh sQ== 
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+        by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3krvdb8s7k-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 10 Nov 2022 09:34:27 +0100
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 651D410003B;
+        Thu, 10 Nov 2022 09:34:23 +0100 (CET)
+Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
+        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 5D2262138C9;
+        Thu, 10 Nov 2022 09:34:23 +0100 (CET)
+Received: from [10.211.0.90] (10.211.0.90) by SHFDAG1NODE1.st.com
+ (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.32; Thu, 10 Nov
+ 2022 09:34:23 +0100
+Message-ID: <571319ab-bdc2-a884-f462-603e213c13fb@foss.st.com>
+Date:   Thu, 10 Nov 2022 09:34:22 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [Patch v2 1/3] arm: exynos: Add new compatible string for
- Exynos3250 SoC.
-To:     Aakarsh Jain <aakarsh.jain@samsung.com>,
-        'Krzysztof Kozlowski' <krzysztof.kozlowski@linaro.org>,
-        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
-Cc:     m.szyprowski@samsung.com, andrzej.hajda@intel.com,
-        mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
-        ezequiel@vanguardiasur.com.ar, jernej.skrabec@gmail.com,
-        benjamin.gaignard@collabora.com, krzysztof.kozlowski+dt@linaro.org,
-        stanimir.varbanov@linaro.org, dillon.minfei@gmail.com,
-        david.plowman@raspberrypi.com, mark.rutland@arm.com,
-        robh+dt@kernel.org, krzk+dt@kernel.org, andi@etezian.org,
-        alim.akhtar@samsung.com, aswani.reddy@samsung.com,
-        pankaj.dubey@samsung.com, smitha.t@samsung.com
-References: <CGME20221109034803epcas5p26644fa402ff1837754b61c1a307b2bb8@epcas5p2.samsung.com>
- <20221109035507.69086-1-aakarsh.jain@samsung.com>
- <5741e444-00b3-16f6-d012-f2b77cf8b0b2@linaro.org>
- <001101d8f449$c78f8010$56ae8030$@samsung.com>
+ Thunderbird/102.2.2
+Subject: Re: [PATCH][next] media: i2c: st-vgxy61: Fix spelling mistake
+ "substraction" -> "subtraction"
+To:     Colin Ian King <colin.i.king@gmail.com>,
+        Sylvain Petinot <sylvain.petinot@foss.st.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        <linux-media@vger.kernel.org>
+CC:     <kernel-janitors@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+References: <20221109150544.274795-1-colin.i.king@gmail.com>
 Content-Language: en-US
-From:   Krzysztof Kozlowski <krzk@kernel.org>
-In-Reply-To: <001101d8f449$c78f8010$56ae8030$@samsung.com>
-Content-Type: text/plain; charset=UTF-8
+From:   Benjamin MUGNIER <benjamin.mugnier@foss.st.com>
+In-Reply-To: <20221109150544.274795-1-colin.i.king@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Originating-IP: [10.211.0.90]
+X-ClientProxiedBy: SHFCAS1NODE1.st.com (10.75.129.72) To SHFDAG1NODE1.st.com
+ (10.75.129.69)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-11-10_06,2022-11-09_01,2022-06-22_01
+X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,NICE_REPLY_A,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 09/11/2022 15:44, Aakarsh Jain wrote:
+Hi Colin,
+
+Thank you for your patch.
+
+On 11/9/22 16:05, Colin Ian King wrote:
+> There are a couple of spelling mistakes in a literal string and in the
+> documentation. Fix them.
 > 
+> Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
+
+Reviewed-by: Benjamin Mugnier <benjamin.mugnier@foss.st.com>
+
+> ---
+>  Documentation/userspace-api/media/drivers/st-vgxy61.rst | 2 +-
+>  drivers/media/i2c/st-vgxy61.c                           | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
 > 
->> -----Original Message-----
->> From: Krzysztof Kozlowski [mailto:krzysztof.kozlowski@linaro.org]
->> Sent: 09 November 2022 14:31
->> To: Aakarsh Jain <aakarsh.jain@samsung.com>; linux-arm-
->> kernel@lists.infradead.org; linux-media@vger.kernel.org; linux-
->> kernel@vger.kernel.org; devicetree@vger.kernel.org
->> Cc: m.szyprowski@samsung.com; andrzej.hajda@intel.com;
->> mchehab@kernel.org; hverkuil-cisco@xs4all.nl;
->> ezequiel@vanguardiasur.com.ar; jernej.skrabec@gmail.com;
->> benjamin.gaignard@collabora.com; krzysztof.kozlowski+dt@linaro.org;
->> stanimir.varbanov@linaro.org; dillon.minfei@gmail.com;
->> david.plowman@raspberrypi.com; mark.rutland@arm.com;
->> robh+dt@kernel.org; krzk+dt@kernel.org; andi@etezian.org;
->> alim.akhtar@samsung.com; aswani.reddy@samsung.com;
->> pankaj.dubey@samsung.com; smitha.t@samsung.com
->> Subject: Re: [Patch v2 1/3] arm: exynos: Add new compatible string for
->> Exynos3250 SoC.
->>
->> On 09/11/2022 04:55, Aakarsh Jain wrote:
->>> Since,MFC v7 support was added for Exynos5420 and Exynos
->>> 3250 SoC with same compatible string "samsung,mfc-v7".As both SoCs
->>> having different hardware properties and having same compatible string
->>> for both SoCs doesn't seems to be correct.
->>> New compatible is added for Exynos3250 SOC which will differentiate
->>> the node properties for both SoCs which support MFC v7.
->>>
->>> Reviewed-by: Tommaso Merciai
->> <tommaso.merciai@amarulasolutions.com>
->>> Suggested-by: Alim Akhtar <alim.akhtar@samsung.com>
->>> Signed-off-by: Aakarsh Jain <aakarsh.jain@samsung.com>
->>> ---
->>>  Documentation/devicetree/bindings/media/s5p-mfc.txt | 9 +++++----
->>
->> Use subject prefixes matching the subsystem (git log --oneline -- ...).
->>
-> As with recent commits on Documentation/devicetree/bindings/media/s5p-mfc.txt with git log --oneline --  ,  subject prefix doesn't seems to be consistent.
-> 
-> b1394dc151cb media: s5p-mfc: Adding initial support for MFC v10.10
-> 60641e22599a [media] s5p-mfc: Use preallocated block allocator always for MFC v6+
-> 003611334d55 [media] s5p-mfc: Add support for MFC v8 available in Exynos 5433 SoCs
-> 0da658704136 ARM: dts: convert to generic power domain bindings for exynos DT
-> 77634289286a ARM: dts: Update clocks entry in MFC binding documentation
-> 2eae613b95a7 ARM: EXYNOS: Add MFC device tree support
+> diff --git a/Documentation/userspace-api/media/drivers/st-vgxy61.rst b/Documentation/userspace-api/media/drivers/st-vgxy61.rst
+> index 213b884dcfa6..7fb5b4f60db7 100644
+> --- a/Documentation/userspace-api/media/drivers/st-vgxy61.rst
+> +++ b/Documentation/userspace-api/media/drivers/st-vgxy61.rst
+> @@ -17,7 +17,7 @@ The ST VGXY61 driver implements the following controls:
+>  
+>      * - HDR linearize
+>        - The merger outputs a long exposure capture as long as it is not saturated.
+> -    * - HDR substraction
+> +    * - HDR subtraction
+>        - This involves subtracting the short exposure frame from the long exposure frame.
+>      * - "No HDR"
+>        - This mode is used for standard dynamic range (SDR) exposures.
+> diff --git a/drivers/media/i2c/st-vgxy61.c b/drivers/media/i2c/st-vgxy61.c
+> index dfbf25338160..e72fc3a8a54c 100644
+> --- a/drivers/media/i2c/st-vgxy61.c
+> +++ b/drivers/media/i2c/st-vgxy61.c
+> @@ -197,7 +197,7 @@ static const char * const vgxy61_test_pattern_menu[] = {
+>  
+>  static const char * const vgxy61_hdr_mode_menu[] = {
+>  	"HDR linearize",
+> -	"HDR substraction",
+> +	"HDR subtraction",
+>  	"No HDR",
+>  };
+>  
 
-s5p-mfc is not a subsystem.
+-- 
+Regards,
 
-git log --oneline  -- Documentation/devicetree/bindings/media/
-
-media: dt-bindings: NAME_OF_FILE:
-
-
-> 
-> Closest is ARM: dts.
-
-This is not ARM subsystem and not a DTS file.
-
-> so what is your suggestion on this?
-> 
-> Anyway we are in a process of converting this txt file to yaml . 
-> 
-
-Best regards,
-Krzysztof
-
+Benjamin
