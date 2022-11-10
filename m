@@ -2,69 +2,72 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DFDF5624745
-	for <lists+linux-media@lfdr.de>; Thu, 10 Nov 2022 17:43:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 18C266247AC
+	for <lists+linux-media@lfdr.de>; Thu, 10 Nov 2022 17:56:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232144AbiKJQnK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 10 Nov 2022 11:43:10 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39970 "EHLO
+        id S232447AbiKJQ41 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 10 Nov 2022 11:56:27 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56644 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232134AbiKJQm6 (ORCPT
+        with ESMTP id S229982AbiKJQ4Y (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 10 Nov 2022 11:42:58 -0500
-Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com [IPv6:2607:f8b0:4864:20::631])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F0F7445090;
-        Thu, 10 Nov 2022 08:42:41 -0800 (PST)
-Received: by mail-pl1-x631.google.com with SMTP id u6so1811561plq.12;
-        Thu, 10 Nov 2022 08:42:41 -0800 (PST)
+        Thu, 10 Nov 2022 11:56:24 -0500
+Received: from mail-il1-x12b.google.com (mail-il1-x12b.google.com [IPv6:2607:f8b0:4864:20::12b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 63EDA18E19
+        for <linux-media@vger.kernel.org>; Thu, 10 Nov 2022 08:56:23 -0800 (PST)
+Received: by mail-il1-x12b.google.com with SMTP id o13so1289268ilq.6
+        for <linux-media@vger.kernel.org>; Thu, 10 Nov 2022 08:56:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=T0Bkeksc+JU6uP4xdShj8Y+HGEDm7CwPTGv2ALxNg04=;
-        b=len4gBwN8VHIreknSYmGb2GGStzknWhC+b1LxxOpkclP8nvv/Lo+OTpvyGUr5u/FMq
-         wtbFABu69jS+TZSR/LfBPto0lIntB9xIt5716LbqKh67kiqA/2FdRj7/TYsKDrFrj98g
-         BbyhTD+ZSs5QHZNvpvBgg9xKZ5toE4xeAs2Xu64nhT6G18y+DfyXvrYLtb+nOoiiPRS5
-         /BeCEgnI7LRZvpEQWVnZvVNR+BXTsghJy2aVqghhpkbgpy3Mk2GX/qerLMocLCOekVPK
-         v58hrOqEs14H2ISBw0QW5ticHd/oWStfpcQb5QdQFgOwEcP5rgk/GcKjMsN9G2N8rhpE
-         e0nA==
+        d=linuxfoundation.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=qH+k4rzdhNlbrn8y8ZyPsEWJ4foiwmUbBpsTlYKcRac=;
+        b=EaUI+pigT02fbHTw9yciXq8LuwjQY/ypAvkQHyTB8iH9PnVixZrpM/uHpMJ4NLAF3K
+         z3SZ3oJ7qtlT9sCr+id+xX33d+hAsETdedAKWMMfPjMBMTi2BQTdQFvU5YqivYOfW7RM
+         4IlRnpE0vBuQX6TE3mBIuF6IhufOPCZmTZ+g0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=T0Bkeksc+JU6uP4xdShj8Y+HGEDm7CwPTGv2ALxNg04=;
-        b=AtjCWf1kpMUl1KOOvDkRAvskGavomwOEkrcrZrLTeV2qASl/+yYR+w9MpKA2xxG/DT
-         PNeDhL7vtn6W0dCiACeGcVICUJBOjqB1KtD5w7/N8akznSvsS/p8PgmUy3i0fUXc6cjR
-         FpRhX7qsFlm3rIVRH8GHYVcBTDU+4uMCy8eMsX0r+GudzTw9DRwV/lc9Az7mv3VAr5st
-         WNE0pHzJJAsiOh/5UW8btxWNb2m5yLe31uL3QvVFcGKmqDnrBe2rKttuq6Kh7JfRT5un
-         egK55AfHN6L4kdwr8ErHfjHj04SfZXG5F7kal2IbI0vAxh/3HH0s26XPbttnPI/sczuz
-         voFg==
-X-Gm-Message-State: ACrzQf2COvjyZ1H3HDPvB6cFKFMBotou7xvf/qo6JS0Ljv2/Cu4TULZj
-        P5LlW3pc4zigdOuSyLzIwS0=
-X-Google-Smtp-Source: AMsMyM4cpY+dtldkMz0ZRMnn3uJeMduGWKK1Z5eajCuyhlIP+qwmPxgFQebxNqjLbwO3HjtpbcyjrA==
-X-Received: by 2002:a17:90a:5d12:b0:213:c7ce:ea6f with SMTP id s18-20020a17090a5d1200b00213c7ceea6fmr1478606pji.27.1668098561334;
-        Thu, 10 Nov 2022 08:42:41 -0800 (PST)
-Received: from biggie ([103.230.148.184])
-        by smtp.gmail.com with ESMTPSA id d20-20020a170902e15400b00182d25a1e4bsm11374397pla.259.2022.11.10.08.42.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Nov 2022 08:42:40 -0800 (PST)
-Date:   Thu, 10 Nov 2022 22:12:24 +0530
-From:   Gautam Menghani <gautammenghani201@gmail.com>
-To:     sean@mess.org, mchehab@kernel.org
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        syzbot+0c3cb6dc05fbbdc3ad66@syzkaller.appspotmail.com
-Subject: Re: [PATCH] drivers/media/rc: Fix a race condition in send_packet()
-Message-ID: <Y20p8NxOo6GWm4cX@biggie>
-References: <20221019050214.107448-1-gautammenghani201@gmail.com>
- <Y19UAV8R4xN7HMAo@biggie>
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=qH+k4rzdhNlbrn8y8ZyPsEWJ4foiwmUbBpsTlYKcRac=;
+        b=kLPBAhuPtlDxl9kd4Af7eol4vFaDw2p8NT/+O7A1sh2XSMTha12zNm0pyE6gkrZyvl
+         BTfTlbS7CiY+hF5IJcKJCpLvcZV54mOyfLRrGoNf144yt3sEcZCr9w7C6xzsTH1L0fBG
+         d9VA0KYbN2BZ+yIhHuPgPbfYOuzs7qpTglcVrefgTHOTfQTa9d2jbs2F16GsIZdppvmk
+         orlEtbXUczS2mrWxTxc7GX4zooNqh+P1iB5n0f5x/P7h3RoI6etBEhJnDMSUl7sWuvxG
+         jhEtT4AbIMTB+6Ry3Ju/S7BAZA2UDWLrgbDsj3FGmDDpx0mJaB3RWs3quT2w36dbAYk+
+         ldxQ==
+X-Gm-Message-State: ACrzQf3Quu6AuSHmR+Saw07aTkEAS6JQ8krPRuEBSrshq7mXuakCf6qG
+        h3G8y0AIzRuJcFEVQn2LHZZtMw==
+X-Google-Smtp-Source: AMsMyM7IRyqqc+gKMsu1cERbqLg9VMIzbAQVa4Gj7NZAdOjBsJ+9S0q61JPSlsVAv/mPauXuH2+g7A==
+X-Received: by 2002:a92:6e0b:0:b0:300:716a:2705 with SMTP id j11-20020a926e0b000000b00300716a2705mr2998846ilc.217.1668099382697;
+        Thu, 10 Nov 2022 08:56:22 -0800 (PST)
+Received: from [192.168.1.128] ([38.15.45.1])
+        by smtp.gmail.com with ESMTPSA id x10-20020a02340a000000b00349d2d52f6asm5793163jae.37.2022.11.10.08.56.22
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 10 Nov 2022 08:56:22 -0800 (PST)
+Message-ID: <fa8b6690-5560-7feb-7616-db636161e204@linuxfoundation.org>
+Date:   Thu, 10 Nov 2022 09:56:21 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y19UAV8R4xN7HMAo@biggie>
-X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Subject: Re: [PATCH] media: vimc: Fix wrong function called when vimc_init()
+ fails
+Content-Language: en-US
+To:     Chen Zhongjin <chenzhongjin@huawei.com>,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+Cc:     kieran.bingham@ideasonboard.com, mchehab@kernel.org,
+        hans.verkuil@cisco.com, helen.koike@collabora.com,
+        Shuah Khan <skhan@linuxfoundation.org>
+References: <20221110072633.210437-1-chenzhongjin@huawei.com>
+From:   Shuah Khan <skhan@linuxfoundation.org>
+In-Reply-To: <20221110072633.210437-1-chenzhongjin@huawei.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -72,85 +75,45 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Oct 31, 2022 at 10:20:15AM +0530, Gautam Menghani wrote:
-> On Wed, Oct 19, 2022 at 10:32:14AM +0530, Gautam Menghani wrote:
-> > The function send_packet() has a race condition as follows:
-> > func send_packet()
-> > {
-> >     // do work
-> >     call usb_submit_urb()
-> >     mutex_unlock()
-> >     wait_for_event_interruptible()  <-- lock gone
-> >     mutex_lock()
-> > }
-> > 
-> > func vfd_write()
-> > {
-> >     mutex_lock()
-> >     call send_packet()  <- prev call is not completed
-> >     mutex_unlock()
-> > }
-> > 
-> > When the mutex is unlocked and the function send_packet() waits for the
-> > call to complete, vfd_write() can start another call, which leads to the
-> > "URB submitted while active" warning in usb_submit_urb(). 
-> > Fix this by removing the mutex_unlock() call in send_packet() and using
-> > mutex_lock_interruptible().
-> > 
-> > Fixes: 21677cfc562a ("V4L/DVB: ir-core: add imon driver")
-> > Link: https://syzkaller.appspot.com/bug?id=e378e6a51fbe6c5cc43e34f131cc9a315ef0337e
-> > Reported-by: syzbot+0c3cb6dc05fbbdc3ad66@syzkaller.appspotmail.com
-> > 
-> > Signed-off-by: Gautam Menghani <gautammenghani201@gmail.com>
-> > ---
-> >  drivers/media/rc/imon.c | 6 +++---
-> >  1 file changed, 3 insertions(+), 3 deletions(-)
-> > 
-> > diff --git a/drivers/media/rc/imon.c b/drivers/media/rc/imon.c
-> > index 735b925da998..91d8056666ec 100644
-> > --- a/drivers/media/rc/imon.c
-> > +++ b/drivers/media/rc/imon.c
-> > @@ -646,15 +646,14 @@ static int send_packet(struct imon_context *ictx)
-> >  		pr_err_ratelimited("error submitting urb(%d)\n", retval);
-> >  	} else {
-> >  		/* Wait for transmission to complete (or abort) */
-> > -		mutex_unlock(&ictx->lock);
-> >  		retval = wait_for_completion_interruptible(
-> >  				&ictx->tx.finished);
-> >  		if (retval) {
-> >  			usb_kill_urb(ictx->tx_urb);
-> >  			pr_err_ratelimited("task interrupted\n");
-> >  		}
-> > -		mutex_lock(&ictx->lock);
-> >  
-> > +		ictx->tx.busy = false;
-> >  		retval = ictx->tx.status;
-> >  		if (retval)
-> >  			pr_err_ratelimited("packet tx failed (%d)\n", retval);
-> > @@ -955,7 +954,8 @@ static ssize_t vfd_write(struct file *file, const char __user *buf,
-> >  	if (ictx->disconnected)
-> >  		return -ENODEV;
-> >  
-> > -	mutex_lock(&ictx->lock);
-> > +	if (mutex_lock_interruptible(&ictx->lock))
-> > +		return -ERESTARTSYS;
-> >  
-> >  	if (!ictx->dev_present_intf0) {
-> >  		pr_err_ratelimited("no iMON device present\n");
-> > -- 
-> > 2.34.1
-> > 
+On 11/10/22 00:26, Chen Zhongjin wrote:
+> In vimc_init(), when platform_driver_register(&vimc_pdrv) fails,
+> platform_driver_unregister(&vimc_pdrv) is wrongly called rather than
+> platform_device_unregister(&vimc_pdev), which causes kernel warning:
 > 
-> Hi,
+>   Unexpected driver unregister!
+>   WARNING: CPU: 1 PID: 14517 at drivers/base/driver.c:270 driver_unregister+0x8f/0xb0
+>   RIP: 0010:driver_unregister+0x8f/0xb0
+>   Call Trace:
+>    <TASK>
+>    vimc_init+0x7d/0x1000 [vimc]
+>    do_one_initcall+0xd0/0x4e0
+>    do_init_module+0x1cf/0x6b0
+>    load_module+0x65c2/0x7820
 > 
-> Please review the above fix and let me know if any changes are required.
+> Fixes: 4a29b7090749 ("[media] vimc: Subdevices as modules")
+> Signed-off-by: Chen Zhongjin <chenzhongjin@huawei.com>
+> ---
+>   drivers/media/test-drivers/vimc/vimc-core.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> Thanks,
-> Gautam
+> diff --git a/drivers/media/test-drivers/vimc/vimc-core.c b/drivers/media/test-drivers/vimc/vimc-core.c
+> index 2ae7a0f11ebf..e82cfa5ffbf4 100644
+> --- a/drivers/media/test-drivers/vimc/vimc-core.c
+> +++ b/drivers/media/test-drivers/vimc/vimc-core.c
+> @@ -433,7 +433,7 @@ static int __init vimc_init(void)
+>   	if (ret) {
+>   		dev_err(&vimc_pdev.dev,
+>   			"platform driver registration failed (err=%d)\n", ret);
+> -		platform_driver_unregister(&vimc_pdrv);
+> +		platform_device_unregister(&vimc_pdev);
+>   		return ret;
+>   	}
+>   
 
-Hi,
+Good catch. Thanks for fixing it. Now applied for next rc.
 
-Please review this patch and let me know if this patch needs any changes.
+https://git.kernel.org/pub/scm/linux/kernel/git/shuah/linux.git/?h=vimc
 
-Thanks,
-Gautam
+thanks,
+-- Shuah
+
