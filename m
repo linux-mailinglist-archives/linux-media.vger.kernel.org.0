@@ -2,134 +2,101 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6E77D623256
-	for <lists+linux-media@lfdr.de>; Wed,  9 Nov 2022 19:23:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B24056238EE
+	for <lists+linux-media@lfdr.de>; Thu, 10 Nov 2022 02:37:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230368AbiKISX3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 9 Nov 2022 13:23:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48892 "EHLO
+        id S232349AbiKJBg6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 9 Nov 2022 20:36:58 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37020 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229975AbiKISX1 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 9 Nov 2022 13:23:27 -0500
-Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com [IPv6:2a00:1450:4864:20::632])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F2EDE1D;
-        Wed,  9 Nov 2022 10:23:23 -0800 (PST)
-Received: by mail-ej1-x632.google.com with SMTP id t25so49092587ejb.8;
-        Wed, 09 Nov 2022 10:23:23 -0800 (PST)
+        with ESMTP id S232330AbiKJBgy (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 9 Nov 2022 20:36:54 -0500
+Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com [IPv6:2607:f8b0:4864:20::42c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A8C4B23BD8;
+        Wed,  9 Nov 2022 17:36:53 -0800 (PST)
+Received: by mail-pf1-x42c.google.com with SMTP id y203so454320pfb.4;
+        Wed, 09 Nov 2022 17:36:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=GYJAiQuT0XSlTdhgreKgdulXp6/w2lPhvIYXiq8zxTE=;
-        b=aOA3HqzdmUu+a6U8yTCceoTf3BgX2YXntK6kY8v6DcXvOlKWy1zYdVmMAV3ZB0eaKY
-         T+aVaZp5yqWQSZIs4ouT3Tatqw+rnt8MpwV9N+rB9IsrY0DYOjTOQY3AFDhAvtg8Zekl
-         HupB1ZvN8t67+0gA3p35/e0JQ8KELzcv+8OpV9sHJZUkV6NDkkjKx7CEffuksjwzOTW4
-         2/iHfbUvI0+0Ve0BpPSETQpzyCHQG3OsRE0mpnAG1oowjeWeYmmoOp7VBscDlnd0O6N+
-         GJFYmITehGUmAi1YNkcXAaPzfSs4aoozU/ROizboqXgtMy3Fluze/L6UEUhq22Ieys7d
-         WBIA==
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=7oEB0lmZcsgH+1cJj1K5vcGagIGFkzSpM0f9u/agpKk=;
+        b=j5vAZZswxbBkHZzlL1ibLXLQbQGvK/q/voHBPTA1Ws2DdyIcIxirEPVoIIwi4/sXEE
+         6pddZ/yGus6geTiEG+0QBsLNJaFZiuRoroNmFDwac3SFK5jSBJJ1XsU1BVsBg4HcSgK8
+         r/SwCyk8LffYTykINyVSGMn4tWufX2ZbWeq4TX2XF2kw1yeCFOeyJy+0dE0tvsY29awC
+         O/Ok6itCX7IiW9utGLN1ra+3onkKIV9LsL7CAy28lBgBe5WcSqNh3SrrnzoYzi2rSaev
+         v9Rg7JfLrNfbxgEtzAIb122i3+gGXWIxqnswqCjYjom6IY3HrAqMEXWzMGDD0yfoDfap
+         dQ+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=GYJAiQuT0XSlTdhgreKgdulXp6/w2lPhvIYXiq8zxTE=;
-        b=el2701Ml0FhFjUZ7y857Xk3XW7RkFh+wE2emYHy2znkOIYi09TA0qZZ4DvDFfI0kQk
-         TE5A4QVOd2BLuMRpBLL5TuXCkNra4kHLOczBUe1Plqk5LaN3MCujZCm4XMhukWj99pOA
-         +BF9n4kLLY8Awb2oZl0NNXm9l3eXDLHYiUmwyYaU25nsG4xDMmAElkc9D4egHYC3bLuK
-         ibQyvHwbjiasYZ2D1JknLqzcMAncOyO/7eUZmdFFziBA6VET0FnY67Ng7gi14llz5muF
-         brsQo7njz8aFpJ8F1mxv80x2tVw7QHhh4ws+4/FxRgSu+34o4NgJw3jSThdKnQy1FKNr
-         qoyQ==
-X-Gm-Message-State: ANoB5pmsxPAQ1+RX3I7wwtJ3d88UhTQ2fkzVFC6fuFQQ/PQbaVzfaR0N
-        e+2Oa50a8F2+BIVLdpUK4g4=
-X-Google-Smtp-Source: AMsMyM7Hk8P3/65sZw0ml9e5JkSq2G6yChfkmgqBVE7B1+Xp9Oae5bh+Uk+ELHm8FeCjsi69FrIqeg==
-X-Received: by 2002:a17:907:7b8a:b0:7ae:3957:f4e1 with SMTP id ne10-20020a1709077b8a00b007ae3957f4e1mr26146059ejc.720.1668018202133;
-        Wed, 09 Nov 2022 10:23:22 -0800 (PST)
-Received: from kista.localdomain (82-149-19-102.dynamic.telemach.net. [82.149.19.102])
-        by smtp.gmail.com with ESMTPSA id gj26-20020a170906e11a00b007a0b28c324dsm6029400ejb.126.2022.11.09.10.23.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Nov 2022 10:23:21 -0800 (PST)
-From:   Jernej Skrabec <jernej.skrabec@gmail.com>
-To:     mripard@kernel.org, paul.kocialkowski@bootlin.com
-Cc:     mchehab@kernel.org, gregkh@linuxfoundation.org, wens@csie.org,
-        samuel@sholland.org, hverkuil-cisco@xs4all.nl,
-        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-        linux-kernel@vger.kernel.org,
-        Jernej Skrabec <jernej.skrabec@gmail.com>
-Subject: [PATCH v3 3/3] media: cedrus: Relax HEVC SPS restrictions
-Date:   Wed,  9 Nov 2022 19:23:09 +0100
-Message-Id: <20221109182309.2475221-4-jernej.skrabec@gmail.com>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20221109182309.2475221-1-jernej.skrabec@gmail.com>
-References: <20221109182309.2475221-1-jernej.skrabec@gmail.com>
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=7oEB0lmZcsgH+1cJj1K5vcGagIGFkzSpM0f9u/agpKk=;
+        b=0ra0n48820Js5P7QwTUcCKkavO/QhdA8MBC9bNaDdhpO9TdHloI8+9TIM6tQKpLcqs
+         FZH+hQB9vWj4eDqv8uHKasD1npVOE5KRwg/T/7mro79gWv5KZkBnrXb6thXBDVr+TzUu
+         ccvywpYG4sjZ/xjuhN6K2NQbeUDL0tPuYxgP09M5IiVtKXGhUgZU8LHDgE4QRCvulPc+
+         1zdKgqaXmmFU6cx6IfPjPR8zYMu2M2xBhipp8JWrZx7+rfyLnb78Cf5ubLZzaayLPxAj
+         VPq2xYdtEZr0QaF18SlfXnqDf0Ml4SWrXnImC6jNXqrjFy0gA1iaMbiJ715VU9y32qkF
+         OD1w==
+X-Gm-Message-State: ACrzQf2s5VOV8lM47ts3HqJsMmRaf2mEkWq171eL0KyWP+Mwca9fjWn8
+        mxj+Ujruq2FkUcp/00wD8EE=
+X-Google-Smtp-Source: AMsMyM5pxt6O5G2t44hmX7bNcOIwJjfDwhc/Z1C5/sklTlOtzuBZmTn3pd4yijWcrTIVK+UNfOb4xA==
+X-Received: by 2002:aa7:83c8:0:b0:56d:8e07:4618 with SMTP id j8-20020aa783c8000000b0056d8e074618mr51245416pfn.33.1668044213225;
+        Wed, 09 Nov 2022 17:36:53 -0800 (PST)
+Received: from [192.168.43.80] (subs02-180-214-232-25.three.co.id. [180.214.232.25])
+        by smtp.gmail.com with ESMTPSA id p12-20020a170902bd0c00b001754fa42065sm9755598pls.143.2022.11.09.17.36.49
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 09 Nov 2022 17:36:52 -0800 (PST)
+Message-ID: <0323ce55-bb9b-dd85-93e8-22ad3591b7f3@gmail.com>
+Date:   Thu, 10 Nov 2022 08:36:46 +0700
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.1
+Subject: Re: [PATCH] Documentation: media: Add ST VGXY61 driver documentation
+ to userspace API table of contents
+To:     Benjamin MUGNIER <benjamin.mugnier@foss.st.com>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-next@vger.kernel.org
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Xavier Roumegue <xavier.roumegue@oss.nxp.com>,
+        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Stephen Rothwell <sfr@canb.auug.org.au>
+References: <20221109100147.218947-1-bagasdotme@gmail.com>
+ <f0aee291-ce44-400b-be3a-dfe38c62e450@foss.st.com>
+Content-Language: en-US
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+In-Reply-To: <f0aee291-ce44-400b-be3a-dfe38c62e450@foss.st.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-0.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_SORBS_WEB,SPF_HELO_NONE,SPF_PASS
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Testing reference video TSUNEQBD_A_MAIN10_Technicolor_2 has show that
-Cedrus is capable of decoding frames with different chroma and luma bit
-depths.
+On 11/9/22 21:50, Benjamin MUGNIER wrote:
+> Hi Bagas,
+> 
+> I already submitted this here:
+> https://www.spinics.net/lists/linux-media/msg221143.html
+> 
+> Thanks.
+> 
 
-Relax restrictions so only highest depth is checked.
+Oh, I don't see above! Thanks anyway.
 
-Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
----
- drivers/staging/media/sunxi/cedrus/cedrus.c | 24 ++++++++-------------
- 1 file changed, 9 insertions(+), 15 deletions(-)
+PS: Please don't top post your reply; reply inline with appropriate
+context. I had to cut the whole context below your reply.
 
-diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.c b/drivers/staging/media/sunxi/cedrus/cedrus.c
-index 2e860cf60136..a43d5ff66716 100644
---- a/drivers/staging/media/sunxi/cedrus/cedrus.c
-+++ b/drivers/staging/media/sunxi/cedrus/cedrus.c
-@@ -45,30 +45,24 @@ static int cedrus_try_ctrl(struct v4l2_ctrl *ctrl)
- 	} else if (ctrl->id == V4L2_CID_STATELESS_HEVC_SPS) {
- 		const struct v4l2_ctrl_hevc_sps *sps = ctrl->p_new.p_hevc_sps;
- 		struct cedrus_ctx *ctx = container_of(ctrl->handler, struct cedrus_ctx, hdl);
--		unsigned int bit_depth;
-+		unsigned int bit_depth, max_depth;
- 		struct vb2_queue *vq;
- 
- 		if (sps->chroma_format_idc != 1)
- 			/* Only 4:2:0 is supported */
- 			return -EINVAL;
- 
--		if (sps->bit_depth_luma_minus8 != sps->bit_depth_chroma_minus8)
--			/* Luma and chroma bit depth mismatch */
--			return -EINVAL;
--
--		if (ctx->dev->capabilities & CEDRUS_CAPABILITY_H265_10_DEC) {
--			if (sps->bit_depth_luma_minus8 != 0 && sps->bit_depth_luma_minus8 != 2)
--				/* Only 8-bit and 10-bit are supported */
--				return -EINVAL;
--		} else {
--			if (sps->bit_depth_luma_minus8 != 0)
--				/* Only 8-bit is supported */
--				return -EINVAL;
--		}
--
- 		bit_depth = max(sps->bit_depth_luma_minus8,
- 				sps->bit_depth_chroma_minus8) + 8;
- 
-+		if (cedrus_is_capable(ctx, CEDRUS_CAPABILITY_H265_10_DEC))
-+			max_depth = 10;
-+		else
-+			max_depth = 8;
-+
-+		if (bit_depth > max_depth)
-+			return -EINVAL;
-+
- 		vq = v4l2_m2m_get_vq(ctx->fh.m2m_ctx,
- 				     V4L2_BUF_TYPE_VIDEO_CAPTURE);
- 
 -- 
-2.38.1
+An old man doll... just what I always wanted! - Clara
 
