@@ -2,120 +2,157 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2E8F26242FD
-	for <lists+linux-media@lfdr.de>; Thu, 10 Nov 2022 14:12:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1B45F62436A
+	for <lists+linux-media@lfdr.de>; Thu, 10 Nov 2022 14:41:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229674AbiKJNMH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 10 Nov 2022 08:12:07 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35608 "EHLO
+        id S229916AbiKJNlu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 10 Nov 2022 08:41:50 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56638 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230489AbiKJNMF (ORCPT
+        with ESMTP id S229680AbiKJNlt (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 10 Nov 2022 08:12:05 -0500
-Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF3617376B
-        for <linux-media@vger.kernel.org>; Thu, 10 Nov 2022 05:12:04 -0800 (PST)
-Received: by mail-wr1-x436.google.com with SMTP id l14so2210287wrw.2
-        for <linux-media@vger.kernel.org>; Thu, 10 Nov 2022 05:12:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=9gzQD/nB7pytCjPRd5v0oHLZIjUx2Pl77ICo7gyFLio=;
-        b=FnQuZLP6/Y0/kZnGX+x9d7xOoL+xZVjqi3rG5QdmFVQY1qSFUlVbBHJtyVATjrs64D
-         NUKw+a3wIX6gBaxd6T7O0qY701ooP3JLE06tUuGlr1XF7/p/YvADLZF21atWC1GMBscq
-         P2UrX5VR9he54f34ypkC4JswBI+Gnvwqnjxoov7iK3YWstR3pK18R/crS+YkOeyLAO/3
-         9YVg8yhYkAHQ/XlXP3MPxvYumEGprz6EI564YTHKhEownZzYKbkXw0xq/uakb+tcnHn7
-         cRQFF/HEjts9dhNvC6e0TJFeBCMc7/LRny+nbcol1eymO4v577Nox6rDp8oMnAAx20+3
-         hlkg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=9gzQD/nB7pytCjPRd5v0oHLZIjUx2Pl77ICo7gyFLio=;
-        b=VOi3JwWC10elBXPKh/m8yr2XCZKH00z1HS2P0DTrbvY9ywIiUy4u6abf6bwj4tGRDr
-         D5jgDdR8hT416RBX9EHEM31JiZ5/cs+h5z+mAtoE9FXKAboqB24Eo3L9a9Z4NVAMLV8a
-         aNVOgZ3AXkfU/l0NyfrR43cWe+0RZci/h5zB3jCZEfdB42u41/XXRMQ1e7boBrFu6UiR
-         n/hyowGbSf9b+QwJwWSvHbs7S48H6ECwiU+K7bSM4ubM9uHQlf3lWkB34RmPSY6YqW2a
-         gblSQO2nd6JUefT/t4oRElil9+AQ9bE/JyyGU/mppi2EBuX2H2Iqoz2jqg0Njq44veBm
-         XxYg==
-X-Gm-Message-State: ACrzQf0EAeybLZ7WrtGV+Ho8lXgOi4Tq5YG9ZOJ19s11kcEGboltioVR
-        cq62xvded1MP7BVuyoPrk1ymHigze48=
-X-Google-Smtp-Source: AMsMyM7If/NzZx2mLB7PSCZAXXfKZCWkXopFMkdY6l5bKktHJH55S8hPf9Ayj7wqmMZltAHjmG4vKw==
-X-Received: by 2002:adf:efd0:0:b0:22e:382d:b06 with SMTP id i16-20020adfefd0000000b0022e382d0b06mr968459wrp.265.1668085922983;
-        Thu, 10 Nov 2022 05:12:02 -0800 (PST)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id m20-20020a05600c4f5400b003cf894dbc4fsm5813512wmq.25.2022.11.10.05.12.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Nov 2022 05:12:02 -0800 (PST)
-Date:   Thu, 10 Nov 2022 16:11:59 +0300
-From:   Dan Carpenter <error27@gmail.com>
-To:     Benjamin MUGNIER <benjamin.mugnier@foss.st.com>
-Cc:     oe-kbuild@lists.linux.dev, lkp@intel.com,
-        oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
-        Sakari Ailus <sakari.ailus@linux.intel.com>
-Subject: Re: [sailus-media-tree:master 17/47]
- drivers/media/i2c/st-vgxy61.c:891 vgxy61_apply_gpiox_strobe_mode() warn:
- impossible condition '(reg < 0) => (0-u16max < 0)'
-Message-ID: <Y2z4n8b+tEtzNR/4@kadam>
-References: <202211091255.jCcREh11-lkp@intel.com>
- <fcb1fc9c-df59-aefd-93f7-9acd2df44f91@foss.st.com>
+        Thu, 10 Nov 2022 08:41:49 -0500
+Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com [185.132.182.106])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 463832FFDD
+        for <linux-media@vger.kernel.org>; Thu, 10 Nov 2022 05:41:48 -0800 (PST)
+Received: from pps.filterd (m0288072.ppops.net [127.0.0.1])
+        by mx07-00178001.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 2AAAGGHi032119;
+        Thu, 10 Nov 2022 14:41:20 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=from : to : cc :
+ subject : date : message-id : mime-version : content-transfer-encoding :
+ content-type; s=selector1;
+ bh=njv+Z2dQm36/Rmb+9Mk+m+ML/AGM+fzJTh8EKP4UMhA=;
+ b=fji4WtUPj7gPKYzYpqEh/3DRaNPMwKnZhXjmGyyJc5/UsTPPv6DOtCGn5KARFHlGMnJH
+ sDIHnwXz9QdV3LcMAj/kTl8pEx0YTxkpPKs/RuMZKgrohO6ImaGYlzmmEM33uQKum+zR
+ 0KSDPe6IM6UmBD0qtMXAr3xaZBiznaFhLJUuw5fnLzqMGI8rJ2KzyXvy2bBfersO/CYo
+ alo0Oga4ZqdqoQPtX5qLMDJm5Uh9SxsIl5ow5RbEEshJ0w0XHhJdCEuSaQw3E1D5HkkP
+ 1UQ9yiWpKs+2dTDHnE04mQ39R/TojuOX5d1N6S1DACl0UIiVrzLANiqCC66fHIQA3A2g Qg== 
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+        by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3krvdbayp7-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 10 Nov 2022 14:41:20 +0100
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 95C3C100038;
+        Thu, 10 Nov 2022 14:41:15 +0100 (CET)
+Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
+        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 8E7F8222CBA;
+        Thu, 10 Nov 2022 14:41:15 +0100 (CET)
+Received: from localhost (10.211.12.224) by SHFDAG1NODE1.st.com (10.75.129.69)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.32; Thu, 10 Nov
+ 2022 14:41:15 +0100
+From:   Benjamin Mugnier <benjamin.mugnier@foss.st.com>
+To:     <linux-media@vger.kernel.org>
+CC:     <sylvain.petinot@foss.st.com>, <mchehab@kernel.org>,
+        <sakari.ailus@iki.fi>, <laurent.pinchart@ideasonboard.com>,
+        Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+        kernel test robot <lkp@intel.com>,
+        Dan Carpenter <error27@gmail.com>
+Subject: [PATCH] media: i2c: st-vgxy61: Fix smatch warnings
+Date:   Thu, 10 Nov 2022 14:41:02 +0100
+Message-ID: <20221110134102.64990-1-benjamin.mugnier@foss.st.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <fcb1fc9c-df59-aefd-93f7-9acd2df44f91@foss.st.com>
-X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.211.12.224]
+X-ClientProxiedBy: EQNCAS1NODE3.st.com (10.75.129.80) To SHFDAG1NODE1.st.com
+ (10.75.129.69)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-11-10_08,2022-11-09_01,2022-06-22_01
+X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Nov 10, 2022 at 12:43:30PM +0100, Benjamin MUGNIER wrote:
-> After running smatch on my tree I couldn't reproduce this warning:
->   warn: pm_runtime_get_sync() also returns 1 on success
-> I'm using the latest smatch cloned from github. Do you append some
-> options to kchecker to get this output ?
+Fix some 'vgxy61_write_reg' return vars not being signed int.
+Fix 'expo_long_max' not being initialized.
+Handle 'pm_runtime_get_sync' call that can return 1.
 
-TL;DR: Thanks for the report!  I will fix it later this week.
+Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <error27@gmail.com>
+Signed-off-by: Benjamin Mugnier <benjamin.mugnier@foss.st.com>
+---
+ drivers/media/i2c/st-vgxy61.c | 19 ++++++++++---------
+ 1 file changed, 10 insertions(+), 9 deletions(-)
 
-It's not really supposed to warn at all...  The pm_runtime_get_sync()
-returns negatives on error so testing for "if (ret < 0) {" is correct
-as a general case.  In this case it is wrong but normally it would be
-the correct check.
-
-This is an interaction with the check for uninitialized variables,
-check_uninitialized.c.  A common false positive was caused by mismatches
-where a function checks for if (ret) but the caller checks for
-if (ret < 0) {.
-
-int function(...)
-{
-	ret = frob();
-	if (ret)
-        ^^^^^^^^
-		return ret;
-	return 0;
-}
-
-int caller(...)
-{
-	ret = function();
-	if (ret < 0) {
-        ^^^^^^^^^^^^
-
-How should positives be treated?  So what the check_uninitialized.c
-check does is that it says, "let's assume that "ret >= 0" and "!ret"
-are equivalent".  It creates a fake environment to test what !ret means
-for uninitialized variables.  The check_pm_runtime_get_sync.c check sees
-the "!ret" condition and says, "Nope.  That's supposed to be "ret < 0"".
-
-Smatch shouldn't be printing warnings from inside the fake environment.
-
-regards,
-dan carpenter
+diff --git a/drivers/media/i2c/st-vgxy61.c b/drivers/media/i2c/st-vgxy61.c
+index b0f4eeadeac6..32e686e21aaa 100644
+--- a/drivers/media/i2c/st-vgxy61.c
++++ b/drivers/media/i2c/st-vgxy61.c
+@@ -885,7 +885,7 @@ static int vgxy61_apply_gpiox_strobe_mode(struct vgxy61_dev *sensor,
+ 					  unsigned int idx)
+ {
+ 	static const u8 index2val[] = {0x0, 0x1, 0x3};
+-	u16 reg;
++	int reg;
+ 
+ 	reg = vgxy61_read_reg(sensor, VGXY61_REG_SIGNALS_CTRL);
+ 	if (reg < 0)
+@@ -988,7 +988,7 @@ static int vgxy61_update_exposure(struct vgxy61_dev *sensor, u16 new_expo_long,
+ 	u16 new_expo_short = 0;
+ 	u16 expo_short_max = 0;
+ 	u16 expo_long_min = VGXY61_MIN_EXPOSURE;
+-	u16 expo_long_max;
++	u16 expo_long_max = 0;
+ 
+ 	/* Compute short exposure according to hdr mode and long exposure */
+ 	switch (hdr) {
+@@ -1174,6 +1174,9 @@ static int vgxy61_stream_enable(struct vgxy61_dev *sensor)
+ 		return ret;
+ 	}
+ 
++	/* pm_runtime_get_sync() can return 1 as a valid return code */
++	ret = 0;
++
+ 	vgxy61_write_reg(sensor, VGXY61_REG_FORMAT_CTRL,
+ 			 get_bpp_by_code(sensor->fmt.code), &ret);
+ 	vgxy61_write_reg(sensor, VGXY61_REG_OIF_ROI0_CTRL,
+@@ -1565,7 +1568,7 @@ static int vgxy61_configure(struct vgxy61_dev *sensor)
+ {
+ 	u32 sensor_freq;
+ 	u8 prediv, mult;
+-	u16 line_length;
++	int line_length;
+ 	int ret = 0;
+ 
+ 	compute_pll_parameters_by_freq(sensor->clk_freq, &prediv, &mult);
+@@ -1606,8 +1609,7 @@ static int vgxy61_configure(struct vgxy61_dev *sensor)
+ static int vgxy61_patch(struct vgxy61_dev *sensor)
+ {
+ 	struct i2c_client *client = sensor->i2c_client;
+-	u16 patch;
+-	int ret;
++	int patch, ret;
+ 
+ 	ret = vgxy61_write_array(sensor, VGXY61_REG_FWPATCH_START_ADDR,
+ 				 sizeof(patch_array), patch_array);
+@@ -1645,7 +1647,7 @@ static int vgxy61_patch(struct vgxy61_dev *sensor)
+ static int vgxy61_detect_cut_version(struct vgxy61_dev *sensor)
+ {
+ 	struct i2c_client *client = sensor->i2c_client;
+-	u16 device_rev;
++	int device_rev;
+ 
+ 	device_rev = vgxy61_read_reg(sensor, VGXY61_REG_REVISION);
+ 	if (device_rev < 0)
+@@ -1671,9 +1673,8 @@ static int vgxy61_detect_cut_version(struct vgxy61_dev *sensor)
+ static int vgxy61_detect(struct vgxy61_dev *sensor)
+ {
+ 	struct i2c_client *client = sensor->i2c_client;
+-	u16 id = 0;
+-	int ret;
+-	u8 st;
++	int id = 0;
++	int ret, st;
+ 
+ 	id = vgxy61_read_reg(sensor, VGXY61_REG_MODEL_ID);
+ 	if (id < 0)
+-- 
+2.25.1
 
