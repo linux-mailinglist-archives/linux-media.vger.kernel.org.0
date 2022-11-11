@@ -2,54 +2,69 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B855A6256F4
-	for <lists+linux-media@lfdr.de>; Fri, 11 Nov 2022 10:39:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D203B625738
+	for <lists+linux-media@lfdr.de>; Fri, 11 Nov 2022 10:48:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233314AbiKKJjE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 11 Nov 2022 04:39:04 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54096 "EHLO
+        id S233007AbiKKJsB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 11 Nov 2022 04:48:01 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33922 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232749AbiKKJjD (ORCPT
+        with ESMTP id S230181AbiKKJsA (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 11 Nov 2022 04:39:03 -0500
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 62273627C6
-        for <linux-media@vger.kernel.org>; Fri, 11 Nov 2022 01:39:02 -0800 (PST)
-Received: from dggpemm500022.china.huawei.com (unknown [172.30.72.53])
-        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4N7tts0sR3zmVrN;
-        Fri, 11 Nov 2022 17:38:45 +0800 (CST)
-Received: from dggpemm500007.china.huawei.com (7.185.36.183) by
- dggpemm500022.china.huawei.com (7.185.36.162) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Fri, 11 Nov 2022 17:39:00 +0800
-Received: from [10.174.178.174] (10.174.178.174) by
- dggpemm500007.china.huawei.com (7.185.36.183) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Fri, 11 Nov 2022 17:39:00 +0800
-Subject: Re: [PATCH] media: v4l2-dev: fix possible name leak in
- __video_register_device()
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-CC:     <linux-media@vger.kernel.org>, <mchehab@kernel.org>,
-        <sakari.ailus@linux.intel.com>, <hverkuil-cisco@xs4all.nl>,
-        <yangyingliang@huawei.com>
-References: <20221111085809.1676804-1-yangyingliang@huawei.com>
- <Y24TqcR9Hgy+R82/@pendragon.ideasonboard.com>
-From:   Yang Yingliang <yangyingliang@huawei.com>
-Message-ID: <2df74d55-f96f-2caf-cfa7-b6bf7f4f5076@huawei.com>
-Date:   Fri, 11 Nov 2022 17:38:59 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+        Fri, 11 Nov 2022 04:48:00 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 935162A3;
+        Fri, 11 Nov 2022 01:47:58 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 2DEC261F2E;
+        Fri, 11 Nov 2022 09:47:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4BFC7C433D6;
+        Fri, 11 Nov 2022 09:47:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1668160077;
+        bh=sHcrZjyD+JKPHYpCaB3NT+zMVU6VwkQS6kFBMLp1NZ8=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=K1w2QIluPgNeqJDrivt/bqZr1+V48gXgZI+F4ykU9y3kuwA/jjREPKUn/7w6oQ7Xs
+         Ni9KCTF2TV65gcmYq/lq5soTc70rUrpsG+Lyj+v/csenAA6VJFwQN9Gkuo19NkCgOj
+         ULAlE/M5orZNDN93AbffEmyWSnYzxcD1hs9Oqeew7HVv39erJgwBbyJ848wvuJBdxn
+         Esqg9lRwCPQDf5dZNrlC40JXXHYXRhFSGWNYNhXGXBqj/PBHNadt/ujhxCt9IU6Bej
+         95AKTa8X92zqXJSfdM3t3u374iaT1poJSpVZdtJrmfkEvSYh02Avl2feDE1QQFaD9r
+         7iGXuVw/wDfSA==
+Message-ID: <e5451506-586d-9724-5455-59dafabae7ec@kernel.org>
+Date:   Fri, 11 Nov 2022 10:47:49 +0100
 MIME-Version: 1.0
-In-Reply-To: <Y24TqcR9Hgy+R82/@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [Patch v3 3/3] ARM: dts: exynos: Rename compatible string
+ property from version to SoC specific
 Content-Language: en-US
-X-Originating-IP: [10.174.178.174]
-X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
- dggpemm500007.china.huawei.com (7.185.36.183)
-X-CFilter-Loop: Reflected
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+To:     Aakarsh Jain <aakarsh.jain@samsung.com>,
+        'Krzysztof Kozlowski' <krzysztof.kozlowski@linaro.org>,
+        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
+Cc:     m.szyprowski@samsung.com, andrzej.hajda@intel.com,
+        mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
+        ezequiel@vanguardiasur.com.ar, jernej.skrabec@gmail.com,
+        benjamin.gaignard@collabora.com, krzysztof.kozlowski+dt@linaro.org,
+        stanimir.varbanov@linaro.org, dillon.minfei@gmail.com,
+        david.plowman@raspberrypi.com, mark.rutland@arm.com,
+        robh+dt@kernel.org, krzk+dt@kernel.org, andi@etezian.org,
+        alim.akhtar@samsung.com, aswani.reddy@samsung.com,
+        pankaj.dubey@samsung.com, smitha.t@samsung.com
+References: <20221111032337.79219-1-aakarsh.jain@samsung.com>
+ <CGME20221111031718epcas5p3df130145b4bb99424fd5aa4addf77ba5@epcas5p3.samsung.com>
+ <20221111032337.79219-4-aakarsh.jain@samsung.com>
+ <b766bd0b-aecc-3b9d-27df-2615d648d9bd@linaro.org>
+ <010e01d8f5af$340c1a80$9c244f80$@samsung.com>
+From:   Krzysztof Kozlowski <krzk@kernel.org>
+In-Reply-To: <010e01d8f5af$340c1a80$9c244f80$@samsung.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -57,44 +72,98 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-
-On 2022/11/11 17:19, Laurent Pinchart wrote:
-> On Fri, Nov 11, 2022 at 04:58:09PM +0800, Yang Yingliang wrote:
->> Afer commit 1fa5ae857bb1 ("driver core: get rid of struct device's
->> bus_id string array"), the name of device is allocated dynamically,
->> so call kfree_const() to freed it in error case.
+On 11/11/2022 10:22, Aakarsh Jain wrote:
+> Hi Krzysztof,
+> 
+>> -----Original Message-----
+>> From: Krzysztof Kozlowski [mailto:krzysztof.kozlowski@linaro.org]
+>> Sent: 11 November 2022 13:41
+>> To: Aakarsh Jain <aakarsh.jain@samsung.com>; linux-arm-
+>> kernel@lists.infradead.org; linux-media@vger.kernel.org; linux-
+>> kernel@vger.kernel.org; devicetree@vger.kernel.org
+>> Cc: m.szyprowski@samsung.com; andrzej.hajda@intel.com;
+>> mchehab@kernel.org; hverkuil-cisco@xs4all.nl;
+>> ezequiel@vanguardiasur.com.ar; jernej.skrabec@gmail.com;
+>> benjamin.gaignard@collabora.com; krzysztof.kozlowski+dt@linaro.org;
+>> stanimir.varbanov@linaro.org; dillon.minfei@gmail.com;
+>> david.plowman@raspberrypi.com; mark.rutland@arm.com;
+>> robh+dt@kernel.org; krzk+dt@kernel.org; andi@etezian.org;
+>> alim.akhtar@samsung.com; aswani.reddy@samsung.com;
+>> pankaj.dubey@samsung.com; smitha.t@samsung.com
+>> Subject: Re: [Patch v3 3/3] ARM: dts: exynos: Rename compatible string
+>> property from version to SoC specific
 >>
->> Fixes: 1fa5ae857bb1 ("driver core: get rid of struct device's bus_id string array")
->> Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
->> ---
->>   drivers/media/v4l2-core/v4l2-dev.c | 3 +++
->>   1 file changed, 3 insertions(+)
+>> On 11/11/2022 04:23, Aakarsh Jain wrote:
+>>> commit "752d3a23d1f68de87e3c" which adds MFC codec device node for
+>>> exynos3250 SoC. Since exynos3250.dtsi and exynos5420.dtsi are using
+>>> same compatible string as "samsung,mfc-v7" but their node properties
+>>> are different.As both SoCs have MFC v7 hardware module but with
+>>> different clock hierarchy and complexity.
+>>> So renaming compatible string from version specific to SoC based.
+>>>
+>>> Reviewed-by: Tommaso Merciai
+>> <tommaso.merciai@amarulasolutions.com>
+>>> Suggested-by: Alim Akhtar <alim.akhtar@samsung.com>
+>>> Signed-off-by: Aakarsh Jain <aakarsh.jain@samsung.com>
+>>> ---
+>>>  arch/arm/boot/dts/exynos3250.dtsi | 2 +-
+>>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>>
+>>> diff --git a/arch/arm/boot/dts/exynos3250.dtsi
+>>> b/arch/arm/boot/dts/exynos3250.dtsi
+>>> index 326b9e0ed8d3..98105c64f7d9 100644
+>>> --- a/arch/arm/boot/dts/exynos3250.dtsi
+>>> +++ b/arch/arm/boot/dts/exynos3250.dtsi
+>>> @@ -485,7 +485,7 @@
+>>>  		};
+>>>
+>>>  		mfc: codec@13400000 {
+>>> -			compatible = "samsung,mfc-v7";
+>>> +			compatible = "samsung,exynos3250-mfc";
 >>
->> diff --git a/drivers/media/v4l2-core/v4l2-dev.c b/drivers/media/v4l2-core/v4l2-dev.c
->> index 397d553177fa..1fce1c29c60f 100644
->> --- a/drivers/media/v4l2-core/v4l2-dev.c
->> +++ b/drivers/media/v4l2-core/v4l2-dev.c
->> @@ -1036,6 +1036,9 @@ int __video_register_device(struct video_device *vdev,
->>   	ret = device_register(&vdev->dev);
->>   	if (ret < 0) {
->>   		pr_err("%s: device_register failed\n", __func__);
->> +		kfree_const(vdev->dev.kobj.name);
->> +		/* set it to null to avoid callers using a bad pointer */
->> +		vdev->dev.kobj.name = NULL;
-> This doesn't seem right to me. We shouldn't be poking into the kobj.
-> This should be handled in the driver core, or if that can't be done for
-> a reason specific to how the device is used in the V4L2 core, we need a
-> helper function from the driver core to perform the cleanup.
-In technical, we should call put_device() here, but the release() 
-function has not been set
-in this case.
-May be we should  move 'vdev->dev.release = v4l2_device_release' before 
-device_register(),
-then call put_device() to fix it.
+>> No improvements. Changeset is non-bisectable. I said it in v1, then in v2. So
+>> now third time... Don't send a new version if you are not going to fix it or
+>> resolve discussion.
+>>
+> My bad, misunderstood, now I understood your concerns around bisectability.
+> 
+> I hope you mean the below:
+> ------
+> diff --git a/Documentation/devicetree/bindings/media/s5p-mfc.txt b/Documentation/devicetree/bindings/media/s5p-mfc.txt
+> index cb166654fa81..734e53445eb5 100644
+> --- a/Documentation/devicetree/bindings/media/s5p-mfc.txt
+> +++ b/Documentation/devicetree/bindings/media/s5p-mfc.txt
+> @@ -10,7 +10,8 @@ Required properties:
+>    - compatible : value should be either one among the following
+>         (a) "samsung,mfc-v5" for MFC v5 present in Exynos4 SoCs
+>         (b) "samsung,mfc-v6" for MFC v6 present in Exynos5 SoCs
+> -       (c) "samsung,exynos3250-mfc" for MFC v7 present in Exynos3250 SoC
+> +       (c) "samsung,exynos3250-mfc","samsung,mfc-v7" for MFC v7
+> +            variant present in Exynos3250 SoC.
+>         (d) "samsung,mfc-v7" for MFC v7 present in Exynos5420 SoC
+>         (e) "samsung,mfc-v8" for MFC v8 present in Exynos5800 SoC
+>         (f) "samsung,exynos5433-mfc" for MFC v8 present in Exynos5433 SoC
+> diff --git a/arch/arm/boot/dts/exynos3250.dtsi b/arch/arm/boot/dts/exynos3250.dtsi
+> index 98105c64f7d9..a2d6ee7fff08 100644
+> --- a/arch/arm/boot/dts/exynos3250.dtsi
+> +++ b/arch/arm/boot/dts/exynos3250.dtsi
+> @@ -485,7 +485,7 @@
+>                 };
+> 
+>                 mfc: codec@13400000 {
+> -                       compatible = "samsung,exynos3250-mfc";
+> +                       compatible = "samsung,exynos3250-mfc", "samsung,mfc-v7";
+>                         reg = <0x13400000 0x10000>;
+>                         interrupts = <GIC_SPI 102 IRQ_TYPE_LEVEL_HIGH>;
+>                         clock-names = "mfc", "sclk_mfc";
+> -----
+> 
+> Where mfc-v7 will be used as fallback for the older kernel which might use new dtb.
+> 
+> Let me know if this is not what you meant or am I still missing something?
 
-Thanks,
-Yang
->
->>   		goto cleanup;
->>   	}
->>   	/* Register the release callback that will be called when the last
+Yes, this is what I meant. Thanks.
+
+Best regards,
+Krzysztof
+
