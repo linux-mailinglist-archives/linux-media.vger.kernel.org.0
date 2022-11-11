@@ -2,36 +2,36 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 08BB162505F
-	for <lists+linux-media@lfdr.de>; Fri, 11 Nov 2022 03:35:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 35C1B6250A9
+	for <lists+linux-media@lfdr.de>; Fri, 11 Nov 2022 03:37:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232768AbiKKCfA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 10 Nov 2022 21:35:00 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47666 "EHLO
+        id S233027AbiKKChP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 10 Nov 2022 21:37:15 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47194 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232746AbiKKCeY (ORCPT
+        with ESMTP id S230522AbiKKCgm (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 10 Nov 2022 21:34:24 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5276567125;
-        Thu, 10 Nov 2022 18:34:07 -0800 (PST)
+        Thu, 10 Nov 2022 21:36:42 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC6C0C745;
+        Thu, 10 Nov 2022 18:35:25 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id E61F961E87;
-        Fri, 11 Nov 2022 02:34:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BFD91C43143;
-        Fri, 11 Nov 2022 02:34:04 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 6E31BB823CA;
+        Fri, 11 Nov 2022 02:35:24 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C038C433B5;
+        Fri, 11 Nov 2022 02:35:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1668134046;
-        bh=uKIU1CJtuWD1BtfjIRTB7YVoax7aTeNSNtkCVCL5NYY=;
+        s=k20201202; t=1668134123;
+        bh=upNkdi5O0O2ZCLZhuIgCzfblffSeZQe7x+ufoQQ0hg8=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=BlVwVg4k+hM7J3gA8+1rQqKzkBRMZ6ynelNCiEFGhEX0a8ZlZphkPA5IzpDdnfguH
-         vCYVZU1v14591Rg0+0SLHUyVxvzyj+D0gFbIqrHlB/mz5dCk3a/0veug/Jjrm8QRiy
-         nuC+a/b5DYW6Ue2iXivw4RDuarob1w/9l1qx4vbYurtnsXFMEqL2zkqlFyifNJIc7X
-         0SvHqa+TAV42o87svbYUu7e/ZeQpVRaeKCSbf8pkqqaep5gJJSUoiSqRGeBGfZTjp+
-         a2gc/ybw/zEuXF6ZPwy6fx97v0poOiNQ+UNrwCK24LiZeN5asIUM3gCH0dOgWdEKyK
-         ZQaoY/iGG4GuQ==
+        b=k59DnB51BbAVCPrK0KBtPlVOcbhW5uelRiQAZBsGcLTpfvc0+In8gPwSvc3eKA54x
+         2jFPSO6GZdHkZ8iwyGy9JAsaFdO0THp+YyC/w5Aqr/+RH1AmQuLPJ5u2sffkPu1krL
+         iHynQosorhi3dW/dG1c9WRTmJjTK0K1J9sqXO9txD1R19JS+x67QLpuk2E4ISnPuVg
+         Dqc7MRyAulV7wnyYEO+GuK/keuIHoxJCh0uxLxr/jAkkoJc3AfAbb2f8sCJ3BxmSh7
+         miTh5L6tH2Xbh4+aaJA0ZYVXeS6OrZMSQanlQNoKJSTNZ357kf3wSVJXoCPBnxm1Jq
+         UxkEjBm8kHNEQ==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Thierry Reding <treding@nvidia.com>,
@@ -42,12 +42,12 @@ Cc:     Thierry Reding <treding@nvidia.com>,
         christian.koenig@amd.com, linux-i2c@vger.kernel.org,
         linux-tegra@vger.kernel.org, linux-media@vger.kernel.org,
         dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
-Subject: [PATCH AUTOSEL 6.0 14/30] i2c: tegra: Allocate DMA memory for DMA engine
-Date:   Thu, 10 Nov 2022 21:33:22 -0500
-Message-Id: <20221111023340.227279-14-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.15 06/11] i2c: tegra: Allocate DMA memory for DMA engine
+Date:   Thu, 10 Nov 2022 21:35:06 -0500
+Message-Id: <20221111023511.227800-6-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20221111023340.227279-1-sashal@kernel.org>
-References: <20221111023340.227279-1-sashal@kernel.org>
+In-Reply-To: <20221111023511.227800-1-sashal@kernel.org>
+References: <20221111023511.227800-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -82,10 +82,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 10 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/i2c/busses/i2c-tegra.c b/drivers/i2c/busses/i2c-tegra.c
-index 031c78ac42e6..a24cc413c89b 100644
+index c883044715f3..444867cef682 100644
 --- a/drivers/i2c/busses/i2c-tegra.c
 +++ b/drivers/i2c/busses/i2c-tegra.c
-@@ -284,6 +284,7 @@ struct tegra_i2c_dev {
+@@ -283,6 +283,7 @@ struct tegra_i2c_dev {
  	struct dma_chan *tx_dma_chan;
  	struct dma_chan *rx_dma_chan;
  	unsigned int dma_buf_size;
@@ -93,7 +93,7 @@ index 031c78ac42e6..a24cc413c89b 100644
  	dma_addr_t dma_phys;
  	void *dma_buf;
  
-@@ -420,7 +421,7 @@ static int tegra_i2c_dma_submit(struct tegra_i2c_dev *i2c_dev, size_t len)
+@@ -419,7 +420,7 @@ static int tegra_i2c_dma_submit(struct tegra_i2c_dev *i2c_dev, size_t len)
  static void tegra_i2c_release_dma(struct tegra_i2c_dev *i2c_dev)
  {
  	if (i2c_dev->dma_buf) {
@@ -102,7 +102,7 @@ index 031c78ac42e6..a24cc413c89b 100644
  				  i2c_dev->dma_buf, i2c_dev->dma_phys);
  		i2c_dev->dma_buf = NULL;
  	}
-@@ -467,10 +468,13 @@ static int tegra_i2c_init_dma(struct tegra_i2c_dev *i2c_dev)
+@@ -466,10 +467,13 @@ static int tegra_i2c_init_dma(struct tegra_i2c_dev *i2c_dev)
  
  	i2c_dev->tx_dma_chan = chan;
  
@@ -117,7 +117,7 @@ index 031c78ac42e6..a24cc413c89b 100644
  				     &dma_phys, GFP_KERNEL | __GFP_NOWARN);
  	if (!dma_buf) {
  		dev_err(i2c_dev->dev, "failed to allocate DMA buffer\n");
-@@ -1267,7 +1271,7 @@ static int tegra_i2c_xfer_msg(struct tegra_i2c_dev *i2c_dev,
+@@ -1255,7 +1259,7 @@ static int tegra_i2c_xfer_msg(struct tegra_i2c_dev *i2c_dev,
  
  	if (i2c_dev->dma_mode) {
  		if (i2c_dev->msg_read) {
@@ -126,7 +126,7 @@ index 031c78ac42e6..a24cc413c89b 100644
  						   i2c_dev->dma_phys,
  						   xfer_size, DMA_FROM_DEVICE);
  
-@@ -1275,7 +1279,7 @@ static int tegra_i2c_xfer_msg(struct tegra_i2c_dev *i2c_dev,
+@@ -1263,7 +1267,7 @@ static int tegra_i2c_xfer_msg(struct tegra_i2c_dev *i2c_dev,
  			if (err)
  				return err;
  		} else {
@@ -135,7 +135,7 @@ index 031c78ac42e6..a24cc413c89b 100644
  						i2c_dev->dma_phys,
  						xfer_size, DMA_TO_DEVICE);
  		}
-@@ -1288,7 +1292,7 @@ static int tegra_i2c_xfer_msg(struct tegra_i2c_dev *i2c_dev,
+@@ -1276,7 +1280,7 @@ static int tegra_i2c_xfer_msg(struct tegra_i2c_dev *i2c_dev,
  			memcpy(i2c_dev->dma_buf + I2C_PACKET_HEADER_SIZE,
  			       msg->buf, msg->len);
  
@@ -144,7 +144,7 @@ index 031c78ac42e6..a24cc413c89b 100644
  						   i2c_dev->dma_phys,
  						   xfer_size, DMA_TO_DEVICE);
  
-@@ -1339,7 +1343,7 @@ static int tegra_i2c_xfer_msg(struct tegra_i2c_dev *i2c_dev,
+@@ -1327,7 +1331,7 @@ static int tegra_i2c_xfer_msg(struct tegra_i2c_dev *i2c_dev,
  		}
  
  		if (i2c_dev->msg_read && i2c_dev->msg_err == I2C_ERR_NONE) {
