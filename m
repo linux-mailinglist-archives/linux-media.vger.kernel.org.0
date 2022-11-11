@@ -2,157 +2,92 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2586E6250B6
-	for <lists+linux-media@lfdr.de>; Fri, 11 Nov 2022 03:37:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5FFE7625129
+	for <lists+linux-media@lfdr.de>; Fri, 11 Nov 2022 03:51:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233090AbiKKChh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 10 Nov 2022 21:37:37 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47336 "EHLO
+        id S232832AbiKKCv4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 10 Nov 2022 21:51:56 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40706 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232740AbiKKCgu (ORCPT
+        with ESMTP id S233192AbiKKCvG (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 10 Nov 2022 21:36:50 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F34B967F45;
-        Thu, 10 Nov 2022 18:35:39 -0800 (PST)
+        Thu, 10 Nov 2022 21:51:06 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DBD5B12AB7;
+        Thu, 10 Nov 2022 18:50:27 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id B3A9CB822ED;
-        Fri, 11 Nov 2022 02:35:38 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D05DFC4347C;
-        Fri, 11 Nov 2022 02:35:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1668134137;
-        bh=vikYmUmEGLCt61NRL0OjSKJkkQODWRiRbFiNOBlKYso=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=nyGfM9ZOH3AuVa2wkBTWfPFFFZPxt93+pP5RBehQ4Vazw69aozJf8EaIBKWkz3cq1
-         5BymN5C9FoKtkH6W4r36tjNrAhZB/3t7LhrnApzYtjpqv7P0sBLV0bzWEWGH3HWKvf
-         mxI6VKNV8pXd1df313fq0DMt7xWX0/hFXrUDMQT3Bjo3OWxtSTGDYvsszYuGUmAaXm
-         hmD6BkwlGrrOXKkJK/XgMnyDimunQcd1nKnVRXe6e8wtCR/q4NsJ28tk4brOqt6S4+
-         RTD7qmSQ2G/xMv/I7yN0GMw09ER/+9YXbjeDCWRGVUYl53KejtDC5uSKuvWy0V2IPO
-         rJSlKJc4edupQ==
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Thierry Reding <treding@nvidia.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Wolfram Sang <wsa@kernel.org>, Sasha Levin <sashal@kernel.org>,
-        ldewangan@nvidia.com, thierry.reding@gmail.com,
-        jonathanh@nvidia.com, sumit.semwal@linaro.org,
-        christian.koenig@amd.com, linux-i2c@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-media@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
-Subject: [PATCH AUTOSEL 5.10 2/6] i2c: tegra: Allocate DMA memory for DMA engine
-Date:   Thu, 10 Nov 2022 21:35:28 -0500
-Message-Id: <20221111023532.227959-2-sashal@kernel.org>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20221111023532.227959-1-sashal@kernel.org>
-References: <20221111023532.227959-1-sashal@kernel.org>
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 7159361E8B;
+        Fri, 11 Nov 2022 02:50:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8D9B3C433D7;
+        Fri, 11 Nov 2022 02:50:26 +0000 (UTC)
+Authentication-Results: smtp.kernel.org;
+        dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com header.b="Rm1rgxD7"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105;
+        t=1668135024;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=LyraOPnlCHP94yFbYdpUoTdzUzgQ2LmoQkjnXpWunRY=;
+        b=Rm1rgxD7LhHYjD1N9OxfxU77rq9eALW+OAnW2dP2PjMDhKRFAosWXs2NZ64K2yqfDV+9Dq
+        18HePI5SigoMF/A2yp4zZ5UTD/4wMt/7R75E0+3YR+eBJBUCBj3VRvXlBdFcO68UHV1Ys2
+        6e9VSxreuVujiNxvP83/oeBJyn44rTQ=
+Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 4a2166a0 (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
+        Fri, 11 Nov 2022 02:50:24 +0000 (UTC)
+Received: by mail-vs1-f42.google.com with SMTP id k1so4052984vsc.13;
+        Thu, 10 Nov 2022 18:50:24 -0800 (PST)
+X-Gm-Message-State: ACrzQf2zPZ9lonC/HafZ9X0tPPaB3CwMXHmdXgJvj02rGB0V9Nk6I6xA
+        UrHPUGT4mlyUhD8rl0bu+HrWv9xUXdPgjlaMjrc=
+X-Google-Smtp-Source: AMsMyM5mAJAq3OKZAPJf0P71bQxm0wDBTWP/oGX+r1QSrmqwkcVe94xdLX5yRoZnX264Ojr+MAPXc57EXvHArUvSrwc=
+X-Received: by 2002:a67:6686:0:b0:3aa:3310:174 with SMTP id
+ a128-20020a676686000000b003aa33100174mr4104056vsc.70.1668135023769; Thu, 10
+ Nov 2022 18:50:23 -0800 (PST)
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+References: <20221024162756.535776-1-Jason@zx2c4.com> <CAHmME9qMqUyNp2bdoY1YH14yvhZAwE_oAC5tav9jbTGp0jeUpA@mail.gmail.com>
+In-Reply-To: <CAHmME9qMqUyNp2bdoY1YH14yvhZAwE_oAC5tav9jbTGp0jeUpA@mail.gmail.com>
+From:   "Jason A. Donenfeld" <Jason@zx2c4.com>
+Date:   Fri, 11 Nov 2022 03:50:12 +0100
+X-Gmail-Original-Message-ID: <CAHmME9rc08gSe7+keO3dGicqtOW629ofEGjWKdDGGASNq-CqxQ@mail.gmail.com>
+Message-ID: <CAHmME9rc08gSe7+keO3dGicqtOW629ofEGjWKdDGGASNq-CqxQ@mail.gmail.com>
+Subject: Re: [PATCH] media: stv0288: use explicitly signed char
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-6.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Thierry Reding <treding@nvidia.com>
+Hi Mauro,
 
-[ Upstream commit cdbf26251d3b35c4ccaea0c3a6de4318f727d3d2 ]
+On Wed, Nov 2, 2022 at 3:47 AM Jason A. Donenfeld <Jason@zx2c4.com> wrote:
+>
+> Hi Mauro,
+>
+> On Mon, Oct 24, 2022 at 6:28 PM Jason A. Donenfeld <Jason@zx2c4.com> wrote:
+> >
+> > With char becoming unsigned by default, and with `char` alone being
+> > ambiguous and based on architecture, signed chars need to be marked
+> > explicitly as such. Use `s8` and `u8` types here, since that's what
+> > surrounding code does. This fixes:
+> >
+> > drivers/media/dvb-frontends/stv0288.c:471 stv0288_set_frontend() warn: assigning (-9) to unsigned variable 'tm'
+> > drivers/media/dvb-frontends/stv0288.c:471 stv0288_set_frontend() warn: we never enter this loop
+> >
+> > Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+> > Cc: linux-media@vger.kernel.org
+> > Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
+>
+> Was wondering whether you planned on taking this into your tree as a
+> 6.1 fix for Linus for rc4?
 
-When the I2C controllers are running in DMA mode, it is the DMA engine
-that performs the memory accesses rather than the I2C controller. Pass
-the DMA engine's struct device pointer to the DMA API to make sure the
-correct DMA operations are used.
+Thought I should follow up with you about this again.
 
-This fixes an issue where the DMA engine's SMMU stream ID needs to be
-misleadingly set for the I2C controllers in device tree.
-
-Suggested-by: Robin Murphy <robin.murphy@arm.com>
-Signed-off-by: Thierry Reding <treding@nvidia.com>
-Signed-off-by: Wolfram Sang <wsa@kernel.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/i2c/busses/i2c-tegra.c | 16 ++++++++++------
- 1 file changed, 10 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/i2c/busses/i2c-tegra.c b/drivers/i2c/busses/i2c-tegra.c
-index 8b113ae32dc7..42f1db60ad6f 100644
---- a/drivers/i2c/busses/i2c-tegra.c
-+++ b/drivers/i2c/busses/i2c-tegra.c
-@@ -283,6 +283,7 @@ struct tegra_i2c_dev {
- 	struct dma_chan *tx_dma_chan;
- 	struct dma_chan *rx_dma_chan;
- 	unsigned int dma_buf_size;
-+	struct device *dma_dev;
- 	dma_addr_t dma_phys;
- 	void *dma_buf;
- 
-@@ -419,7 +420,7 @@ static int tegra_i2c_dma_submit(struct tegra_i2c_dev *i2c_dev, size_t len)
- static void tegra_i2c_release_dma(struct tegra_i2c_dev *i2c_dev)
- {
- 	if (i2c_dev->dma_buf) {
--		dma_free_coherent(i2c_dev->dev, i2c_dev->dma_buf_size,
-+		dma_free_coherent(i2c_dev->dma_dev, i2c_dev->dma_buf_size,
- 				  i2c_dev->dma_buf, i2c_dev->dma_phys);
- 		i2c_dev->dma_buf = NULL;
- 	}
-@@ -466,10 +467,13 @@ static int tegra_i2c_init_dma(struct tegra_i2c_dev *i2c_dev)
- 
- 	i2c_dev->tx_dma_chan = chan;
- 
-+	WARN_ON(i2c_dev->tx_dma_chan->device != i2c_dev->rx_dma_chan->device);
-+	i2c_dev->dma_dev = chan->device->dev;
-+
- 	i2c_dev->dma_buf_size = i2c_dev->hw->quirks->max_write_len +
- 				I2C_PACKET_HEADER_SIZE;
- 
--	dma_buf = dma_alloc_coherent(i2c_dev->dev, i2c_dev->dma_buf_size,
-+	dma_buf = dma_alloc_coherent(i2c_dev->dma_dev, i2c_dev->dma_buf_size,
- 				     &dma_phys, GFP_KERNEL | __GFP_NOWARN);
- 	if (!dma_buf) {
- 		dev_err(i2c_dev->dev, "failed to allocate DMA buffer\n");
-@@ -1255,7 +1259,7 @@ static int tegra_i2c_xfer_msg(struct tegra_i2c_dev *i2c_dev,
- 
- 	if (i2c_dev->dma_mode) {
- 		if (i2c_dev->msg_read) {
--			dma_sync_single_for_device(i2c_dev->dev,
-+			dma_sync_single_for_device(i2c_dev->dma_dev,
- 						   i2c_dev->dma_phys,
- 						   xfer_size, DMA_FROM_DEVICE);
- 
-@@ -1263,7 +1267,7 @@ static int tegra_i2c_xfer_msg(struct tegra_i2c_dev *i2c_dev,
- 			if (err)
- 				return err;
- 		} else {
--			dma_sync_single_for_cpu(i2c_dev->dev,
-+			dma_sync_single_for_cpu(i2c_dev->dma_dev,
- 						i2c_dev->dma_phys,
- 						xfer_size, DMA_TO_DEVICE);
- 		}
-@@ -1276,7 +1280,7 @@ static int tegra_i2c_xfer_msg(struct tegra_i2c_dev *i2c_dev,
- 			memcpy(i2c_dev->dma_buf + I2C_PACKET_HEADER_SIZE,
- 			       msg->buf, msg->len);
- 
--			dma_sync_single_for_device(i2c_dev->dev,
-+			dma_sync_single_for_device(i2c_dev->dma_dev,
- 						   i2c_dev->dma_phys,
- 						   xfer_size, DMA_TO_DEVICE);
- 
-@@ -1327,7 +1331,7 @@ static int tegra_i2c_xfer_msg(struct tegra_i2c_dev *i2c_dev,
- 		}
- 
- 		if (i2c_dev->msg_read && i2c_dev->msg_err == I2C_ERR_NONE) {
--			dma_sync_single_for_cpu(i2c_dev->dev,
-+			dma_sync_single_for_cpu(i2c_dev->dma_dev,
- 						i2c_dev->dma_phys,
- 						xfer_size, DMA_FROM_DEVICE);
- 
--- 
-2.35.1
-
+Thanks,
+Jason
