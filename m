@@ -2,127 +2,89 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9288C625F98
-	for <lists+linux-media@lfdr.de>; Fri, 11 Nov 2022 17:35:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 77A84626029
+	for <lists+linux-media@lfdr.de>; Fri, 11 Nov 2022 18:11:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234298AbiKKQfq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 11 Nov 2022 11:35:46 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59524 "EHLO
+        id S233852AbiKKRLd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 11 Nov 2022 12:11:33 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51262 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234248AbiKKQfn (ORCPT
+        with ESMTP id S233886AbiKKRL0 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 11 Nov 2022 11:35:43 -0500
-Received: from relay10.mail.gandi.net (relay10.mail.gandi.net [IPv6:2001:4b98:dc4:8::230])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1FBE0836B4;
-        Fri, 11 Nov 2022 08:35:33 -0800 (PST)
-Received: from booty (unknown [77.244.183.192])
-        (Authenticated sender: luca.ceresoli@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPSA id 4DE86240004;
-        Fri, 11 Nov 2022 16:35:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1668184532;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=cXHM9CjrggCk9/n6DDFxqg1bnzAgIfeSnFV0or9U1F4=;
-        b=GUqhcjqkC5SRV3hw3kkmO7MUd7nqU6fM3hwUCBEDTDscLkw1UMFV9JY+Bv2xh7DZMSf0T/
-        WnIcy/QbtwqZ7su5TENhxPSikpcZgFH/qYryl3shiizqhS/Q0LR/iRHl+VelA4JmH7/BaC
-        czlL8+77+Ox3ejATPR3aCTc8URxDpYV58vNfhg4yZVdEAgnYWu4+/wnOoKNojLKPqucCG4
-        CMW3rbS+aqXDT/vGB/OwewRkr0eioybcNzNp/gjpTakuWR5vqMvbIeGT2jbvmvCjCGZt/L
-        BeoBrsqC0Ow6MQGQmdCIMtXKbA5mnjL7qmVompB/h5KaKc22ZTLOJe/Ih8X4rQ==
-Date:   Fri, 11 Nov 2022 17:35:27 +0100
-From:   Luca Ceresoli <luca.ceresoli@bootlin.com>
-To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc:     devicetree@vger.kernel.org, linux-i2c@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Luca Ceresoli <luca@lucaceresoli.net>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Matti Vaittinen <Matti.Vaittinen@fi.rohmeurope.com>,
+        Fri, 11 Nov 2022 12:11:26 -0500
+Received: from msg-4.mailo.com (msg-4.mailo.com [213.182.54.15])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C2BB5B0;
+        Fri, 11 Nov 2022 09:11:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
+        t=1668186674; bh=1RIQ/IkEDUmv9IHs9QgFqfOSQHFRaOMUNJ4hAer8V7U=;
+        h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:References:
+         MIME-Version:Content-Type:In-Reply-To;
+        b=i7Ych6tATqnDt3txDGmf4tl2aOt6j5CZYTlZdYNIJWf5jIb9uQuKygWkgFAfZdqt/
+         pYrneCIpfWlMV9VzuVz1ZdUqjO5895K1q/RDvnlQak9uzy2G+RuZRW4GNIOXG9pjr+
+         /MEslRNG8FbBCpBUn7yCQyVWVglS7ckWx9LuL6Ws=
+Received: by b-2.in.mailobj.net [192.168.90.12] with ESMTP
+        via ip-206.mailobj.net [213.182.55.206]
+        Fri, 11 Nov 2022 18:11:14 +0100 (CET)
+X-EA-Auth: V+drH4vY8UWXrgfnZZR7Hc2mA9wgmxew3GLoFUFYAmzIxO1+7Zdb/tpLl6NXQrz5gJPwo7XaSp0gWCF9ff8cCxjJDfF2L6q4
+Date:   Fri, 11 Nov 2022 22:41:03 +0530
+From:   Deepak R Varma <drv@mailo.com>
+To:     Andrew Lunn <andrew@lunn.ch>
+Cc:     Dan Carpenter <error27@gmail.com>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Peter Rosin <peda@axentia.se>,
-        Rob Herring <robh+dt@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Vladimir Zapolskiy <vz@mleia.com>,
-        Wolfram Sang <wsa@the-dreams.de>,
-        satish.nagireddy@getcruise.com
-Subject: Re: [PATCH v4 3/8] dt-bindings: media: add bindings for TI
- DS90UB960
-Message-ID: <20221111173527.44e2d2e9@booty>
-In-Reply-To: <20221101132032.1542416-4-tomi.valkeinen@ideasonboard.com>
-References: <20221101132032.1542416-1-tomi.valkeinen@ideasonboard.com>
-        <20221101132032.1542416-4-tomi.valkeinen@ideasonboard.com>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Jerome Brunet <jbrunet@baylibre.com>,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+        linux-media@vger.kernel.org, linux-amlogic@lists.infradead.org,
+        linux-staging@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: patches for staging:media drivers
+Message-ID: <Y26CJ9L52AmPBQYC@qemulion>
+References: <Y2eSCZJNWn6DzCUu@qemulion>
+ <48f4bda9-b5e3-9649-aab9-b529889bf110@linaro.org>
+ <Y2oO7fU4whKr+3hb@kadam>
+ <Y2q7tFF7YeX16H20@lunn.ch>
+ <Y2tLZaPSUT45TF4f@qemulion>
+ <Y2uv56k515cKTXU4@lunn.ch>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Y2uv56k515cKTXU4@lunn.ch>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Tomi,
+On Wed, Nov 09, 2022 at 02:49:27PM +0100, Andrew Lunn wrote:
+> On Wed, Nov 09, 2022 at 12:10:37PM +0530, Deepak R Varma wrote:
+> > On Tue, Nov 08, 2022 at 09:27:32PM +0100, Andrew Lunn wrote:
+>
+> Staging drivers for network tend to be USB dongles for WiFi. Some of
+> those drivers need throwing away and starting again, others need less
+> work. If you are interested in that, i would suggest asking on
+> linux-wireless@vger.kernel.org.
+>
+> Another option might be pi433? The problem with that is, i don't know
+> how it fits into the rest of the network stack? Could it maybe fit
+> under ieee802154? Or is it just unique and needs to do its own thing?
 
-On Tue,  1 Nov 2022 15:20:27 +0200
-Tomi Valkeinen <tomi.valkeinen@ideasonboard.com> wrote:
+Hello Andrew,
+I looked at the pi433 driver and it appears to be a good starting point. I have
+started studying more about the hardware, the RF technology etc. There is a TODO
+file with reasonable challenges.
 
-> Add DT bindings for TI DS90UB960 FPDLink-3 Deserializer.
-> 
-> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Thank you for the recommendation.
 
-...
+Have a nice weekend!
+./drv
 
-> +examples:
-> +  - |
-> +    #include <dt-bindings/gpio/gpio.h>
-> +
-> +    i2c {
-> +      clock-frequency = <400000>;
-> +      #address-cells = <1>;
-> +      #size-cells = <0>;
-> +
-> +      deser@3d {
-> +        compatible = "ti,ds90ub960-q1";
-> +
-> +        reg-names = "main";
-> +        reg       = <0x3d>;
-> +
-> +        clock-names = "refclk";
-> +        clocks = <&fixed_clock>;
-> +
-> +        powerdown-gpios = <&pca9555 7 GPIO_ACTIVE_LOW>;
-> +
-> +        i2c-alias-pool = /bits/ 16 <0x4a 0x4b 0x4c 0x4d 0x4e 0x4f>;
-> +
-> +        ports {
-> +          #address-cells = <1>;
-> +          #size-cells = <0>;
-> +
-> +          /* Port 0, Camera 0 */
-> +          port@0 {
-> +            reg = <0>;
-> +
-> +            ub960_fpd3_1_in: endpoint {
-> +              remote-endpoint = <&ub953_1_out>;
-> +
-> +              rx-mode = <0>;
-> +            };
-> +          };
-> +
-> +          /* Port 0, Camera 1 */
+>
+>       Andrew
+>
 
-I guess you mean "Port 1" here.
 
--- 
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
