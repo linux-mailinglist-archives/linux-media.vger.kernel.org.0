@@ -2,42 +2,43 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1B9BF625B2E
-	for <lists+linux-media@lfdr.de>; Fri, 11 Nov 2022 14:30:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4BFC7625B30
+	for <lists+linux-media@lfdr.de>; Fri, 11 Nov 2022 14:30:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233918AbiKKNaF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 11 Nov 2022 08:30:05 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46226 "EHLO
+        id S233955AbiKKNaG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 11 Nov 2022 08:30:06 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46234 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230303AbiKKNaE (ORCPT
+        with ESMTP id S233869AbiKKNaE (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
         Fri, 11 Nov 2022 08:30:04 -0500
-Received: from aer-iport-1.cisco.com (aer-iport-1.cisco.com [173.38.203.51])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9AC935F852
-        for <linux-media@vger.kernel.org>; Fri, 11 Nov 2022 05:30:00 -0800 (PST)
+X-Greylist: delayed 65 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 11 Nov 2022 05:30:01 PST
+Received: from aer-iport-2.cisco.com (aer-iport-2.cisco.com [173.38.203.52])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1CD1560359;
+        Fri, 11 Nov 2022 05:30:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=cisco.com; i=@cisco.com; l=2903; q=dns/txt; s=iport;
-  t=1668173400; x=1669383000;
+  d=cisco.com; i=@cisco.com; l=1727; q=dns/txt; s=iport;
+  t=1668173401; x=1669383001;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=MwdriA2eFflz+M/lNcQIqz3LTfDAPdJWVcF8A9IG+FA=;
-  b=ioiwLs79bqQM8dRY9rzmQmntbqykrIUzF2FDnAGn/AKNGMY8y52Wfp3c
-   iGw4KGbr4R25qw4Xkt0Qd2nkh6htrmxJheQfhvQuLkUF2h8p189MmdFvN
-   2cgezAKnrAtUl0JMh045tQN5Jvrd6b6SqXqQ3HkLeUh66f3ErGwGldeDl
-   M=;
+  bh=fpoaqd45mwZJZyz8x5faOds/9H7dtWgFFewbkC5tH00=;
+  b=BudeHa+3beCisGeeCokRGzGkb2wlPjVWuaV4h7LcRDPrPGvLx+EIgccQ
+   kDgyLzrIcAzCML+D93hK5q2/OLjsVdkl9je4hyt1dobFXlOTC/Jyv46Li
+   JQ6XgvzREruiuKLDyYAYFGH0u9ecPt0oLyb4cwOub+v8NcaPc1QLlriTz
+   A=;
 X-IronPort-AV: E=Sophos;i="5.96,156,1665446400"; 
-   d="scan'208";a="4891495"
+   d="scan'208";a="4893680"
 Received: from aer-iport-nat.cisco.com (HELO aer-core-1.cisco.com) ([173.38.203.22])
-  by aer-iport-1.cisco.com with ESMTP/TLS/DHE-RSA-SEED-SHA; 11 Nov 2022 13:28:55 +0000
+  by aer-iport-2.cisco.com with ESMTP/TLS/DHE-RSA-SEED-SHA; 11 Nov 2022 13:28:55 +0000
 Received: from office-260.rd.cisco.com ([10.47.79.110])
-        by aer-core-1.cisco.com (8.15.2/8.15.2) with ESMTP id 2ABDSsVP020236;
-        Fri, 11 Nov 2022 13:28:54 GMT
+        by aer-core-1.cisco.com (8.15.2/8.15.2) with ESMTP id 2ABDSsVQ020236;
+        Fri, 11 Nov 2022 13:28:55 GMT
 From:   Erling Ljunggren <hljunggr@cisco.com>
 To:     linux-media@vger.kernel.org
-Cc:     Erling Ljunggren <hljunggr@cisco.com>
-Subject: [PATCH v4 2/5] media: docs: Add V4L2_CAP_EDID
-Date:   Fri, 11 Nov 2022 14:29:03 +0100
-Message-Id: <20221111132906.2212662-3-hljunggr@cisco.com>
+Cc:     Erling Ljunggren <hljunggr@cisco.com>, devicetree@vger.kernel.org
+Subject: [PATCH v4 3/5] dt-bindings: media: add cat24c208 bindings
+Date:   Fri, 11 Nov 2022 14:29:04 +0100
+Message-Id: <20221111132906.2212662-4-hljunggr@cisco.com>
 X-Mailer: git-send-email 2.38.0
 In-Reply-To: <20221111132906.2212662-1-hljunggr@cisco.com>
 References: <20221111132906.2212662-1-hljunggr@cisco.com>
@@ -55,71 +56,66 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add documentation for the new edid capability.
+Add devicetree bindings for new cat24c208 EDID EEPROM driver.
 
 Signed-off-by: Erling Ljunggren <hljunggr@cisco.com>
 ---
- Documentation/userspace-api/media/v4l/biblio.rst      | 11 +++++++++++
- .../userspace-api/media/v4l/vidioc-querycap.rst       | 11 +++++++++++
- .../userspace-api/media/videodev2.h.rst.exceptions    |  1 +
- 3 files changed, 23 insertions(+)
+ .../bindings/media/i2c/onnn,cat24c208.yaml    | 46 +++++++++++++++++++
+ 1 file changed, 46 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/onnn,cat24c208.yaml
 
-diff --git a/Documentation/userspace-api/media/v4l/biblio.rst b/Documentation/userspace-api/media/v4l/biblio.rst
-index 9cd18c153d19..5cbe41877a63 100644
---- a/Documentation/userspace-api/media/v4l/biblio.rst
-+++ b/Documentation/userspace-api/media/v4l/biblio.rst
-@@ -334,6 +334,17 @@ VESA DMT
- 
- :author:    Video Electronics Standards Association (http://www.vesa.org)
- 
-+.. _vesaeddc:
+diff --git a/Documentation/devicetree/bindings/media/i2c/onnn,cat24c208.yaml b/Documentation/devicetree/bindings/media/i2c/onnn,cat24c208.yaml
+new file mode 100644
+index 000000000000..492eecb3ab7c
+--- /dev/null
++++ b/Documentation/devicetree/bindings/media/i2c/onnn,cat24c208.yaml
+@@ -0,0 +1,46 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/media/i2c/onnn,cat24c208.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
-+E-DDC
-+====
++title: ON Semiconductor CAT24C208 EDID EEPROM driver
 +
++maintainers:
++  - Hans Verkuil <hverkuil-cisco@xs4all.nl>
 +
-+:title:     VESA Enhanced Display Data Channel (E-DDC) Standard
-+:subtitle:  Version 1.3
++description: |
++  CAT24C208 is a dual port i2c EEPROM designed for EDID storage.
 +
-+:author:    Video Electronics Standards Association (http://www.vesa.org)
++properties:
++  compatible:
++    const: onnn,cat24c208
 +
- .. _vesaedid:
- 
- EDID
-diff --git a/Documentation/userspace-api/media/v4l/vidioc-querycap.rst b/Documentation/userspace-api/media/v4l/vidioc-querycap.rst
-index 6c57b8428356..3d11d86d9cbf 100644
---- a/Documentation/userspace-api/media/v4l/vidioc-querycap.rst
-+++ b/Documentation/userspace-api/media/v4l/vidioc-querycap.rst
-@@ -244,6 +244,17 @@ specification the ioctl returns an ``EINVAL`` error code.
-       - 0x01000000
-       - The device supports the :c:func:`read()` and/or
- 	:c:func:`write()` I/O methods.
-+    * - ``V4L2_CAP_EDID``
-+      - 0x02000000
-+      - The device stores the EDID for a video input, or retrieves the EDID for a video
-+        output. It is a standalone EDID device, so no video streaming etc. will take place.
++  reg:
++    maxItems: 1
 +
-+        For a video input this is typically an eeprom that supports the
-+        :ref:`VESA Enhanced Display Data Channel Standard <vesaeddc>`. It can be something
-+        else as well, for example a micro controller.
++  input-connector:
++    description: |
++      Phandle to the video input connector, used to find
++      the HPD gpio and the connector label, both optional.
++    $ref: /schemas/types.yaml#/definitions/phandle
 +
-+        For a video output this is typically read from an external device such as an
-+        HDMI splitter accessed by a serial port.
-     * - ``V4L2_CAP_STREAMING``
-       - 0x04000000
-       - The device supports the :ref:`streaming <mmap>` I/O method.
-diff --git a/Documentation/userspace-api/media/videodev2.h.rst.exceptions b/Documentation/userspace-api/media/videodev2.h.rst.exceptions
-index 9cbb7a0c354a..b1b1127d278c 100644
---- a/Documentation/userspace-api/media/videodev2.h.rst.exceptions
-+++ b/Documentation/userspace-api/media/videodev2.h.rst.exceptions
-@@ -185,6 +185,7 @@ replace define V4L2_CAP_META_OUTPUT device-capabilities
- replace define V4L2_CAP_DEVICE_CAPS device-capabilities
- replace define V4L2_CAP_TOUCH device-capabilities
- replace define V4L2_CAP_IO_MC device-capabilities
-+replace define V4L2_CAP_EDID device-capabilities
- 
- # V4L2 pix flags
- replace define V4L2_PIX_FMT_PRIV_MAGIC :c:type:`v4l2_pix_format`
++required:
++  - compatible
++  - reg
++  - input-connector
++
++additionalProperties: false
++
++examples:
++  - |
++    i2c {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        cat24c208@31 {
++            compatible = "onnn,cat24c208";
++            reg = <0x31>;
++            input-connector = <&hdmi_connector_in>;
++        };
++    };
 -- 
 2.38.0
 
