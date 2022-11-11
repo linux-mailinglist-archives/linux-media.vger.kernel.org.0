@@ -2,137 +2,184 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BDD976251C6
-	for <lists+linux-media@lfdr.de>; Fri, 11 Nov 2022 04:39:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 524CA6251CA
+	for <lists+linux-media@lfdr.de>; Fri, 11 Nov 2022 04:40:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231451AbiKKDjV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 10 Nov 2022 22:39:21 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39806 "EHLO
+        id S232045AbiKKDkC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 10 Nov 2022 22:40:02 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40216 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229566AbiKKDjU (ORCPT
+        with ESMTP id S231765AbiKKDkB (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 10 Nov 2022 22:39:20 -0500
-Received: from m12-14.163.com (m12-14.163.com [220.181.12.14])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 77C2514D07;
-        Thu, 10 Nov 2022 19:39:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-        s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=8SnPH
-        5Qx6ge1EtKB0f/nVg1sCMMgt2pTaFXFocUqJa8=; b=c5Zqxv7RjLUYIxVx+RVnW
-        DwURkjfLUI5XBmNpLX8cpiPNSs3ueEPl19EMAeGrpTlwsJPfVknBFld3Oc4dILfB
-        ppgfO/V0tg6DzqCfunszw3zq9IFS9zDZfj2GyBcD4INCR8F/ICS6AxsL9+4FdeDm
-        i2hcRxAuX/Qu9K4sQcTd84=
-Received: from localhost.localdomain (unknown [114.221.197.143])
-        by smtp10 (Coremail) with SMTP id DsCowABH7bG4w21jBvxXMA--.32326S2;
-        Fri, 11 Nov 2022 11:38:39 +0800 (CST)
-From:   ChunyouTang <tangchunyou@163.com>
-To:     maarten.lankhorst@linux.intel.com, mripard@kernel.org,
-        tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch,
-        sumit.semwal@linaro.org, christian.koenig@amd.com
-Cc:     dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
-        ChunyouTang <tangchunyou@163.com>
-Subject: [PATCH v2] drm/gem-shmem: When drm_gem_object_init failed, should release object
-Date:   Fri, 11 Nov 2022 11:38:17 +0800
-Message-Id: <20221111033817.366-1-tangchunyou@163.com>
-X-Mailer: git-send-email 2.30.0.windows.1
+        Thu, 10 Nov 2022 22:40:01 -0500
+Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com [IPv6:2a00:1450:4864:20::52b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2204718E20
+        for <linux-media@vger.kernel.org>; Thu, 10 Nov 2022 19:40:00 -0800 (PST)
+Received: by mail-ed1-x52b.google.com with SMTP id s12so5986395edd.5
+        for <linux-media@vger.kernel.org>; Thu, 10 Nov 2022 19:40:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=K+ov3P7MSKDC3zDq2K3swKKLzF2ZxWS9fJDHSnP7Go4=;
+        b=LKNNmdDsVXvTCl8Wcq1POX6SybDvycSSR4CE8r7wAkIe2ZYVfHNLHpXN/JAN90tQ/y
+         xHokgLfGCeEhZzKQdFKQk3kjeXJ4X2lcC6Ns627hli68sFlGpuH6IuqhOiOxaI8T2eXW
+         QRD61HydTcyb6eGWmPAKULpN+vJr8cl/RiL5M=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=K+ov3P7MSKDC3zDq2K3swKKLzF2ZxWS9fJDHSnP7Go4=;
+        b=7niAuwsG8IBDD2N0hxNALGcX8vyPH9m+zGy64qd740CpKXignUvZhlaZwr0HB1nlLe
+         DFpRmPGL6ADFCEpA+SZUoDUYQOSsZOxlDmnzJouUX1ikapV1zkyKOHQGRlmhcuwN7thv
+         IY3LH5jfjJVpM7uzr4PEUV6I6HyzSLEFVsYPgPjYmG6ICBZi08Ea1eOB+iwhT5qIfUHn
+         2hRLegG/7rJJ/k0fWVaTPGbJ1bzYMzpewUGZosviD6TbSmUgXwFK9yjfiEwbcTZEv4MI
+         oMDFf5jkjd51NcBqH5PyG1EQ87k+MddDM2lopaNzJuWwcMYHwKeMAd6jv7GtpprHmuKf
+         XdZg==
+X-Gm-Message-State: ACrzQf2Gj9H99HBy+SNicf+fTANO/zxe2xbXwGyCq6W9RvloiM4oR0qp
+        UGkso96UauuC1JR25PppgY0Gc8rTZ2iQyg==
+X-Google-Smtp-Source: AMsMyM6fGoCVuS6F0PFGXUV1is2gTp96GXvT1sWgAq+Bj4TRBY53U3nYvgfNK1TcXTw4grGQaQQUDA==
+X-Received: by 2002:aa7:c44a:0:b0:461:c2a4:c419 with SMTP id n10-20020aa7c44a000000b00461c2a4c419mr4246400edr.399.1668137998513;
+        Thu, 10 Nov 2022 19:39:58 -0800 (PST)
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com. [209.85.208.54])
+        by smtp.gmail.com with ESMTPSA id ca26-20020a170906a3da00b0078c468bd604sm429537ejb.57.2022.11.10.19.39.57
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 10 Nov 2022 19:39:58 -0800 (PST)
+Received: by mail-ed1-f54.google.com with SMTP id i21so5973886edj.10
+        for <linux-media@vger.kernel.org>; Thu, 10 Nov 2022 19:39:57 -0800 (PST)
+X-Received: by 2002:a17:906:4e48:b0:73d:dfb2:d188 with SMTP id
+ g8-20020a1709064e4800b0073ddfb2d188mr421713ejw.426.1668137986539; Thu, 10 Nov
+ 2022 19:39:46 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: DsCowABH7bG4w21jBvxXMA--.32326S2
-X-Coremail-Antispam: 1Uf129KBjvJXoWxAw4DXw1ruF43JryxZFW7XFb_yoW5Wryrpa
-        nxAry7KrW8KFZFgrZ7XF4kCa43Gw40gF4xWaySq3yakr10yF1DXFn8Cr1DAFW3Jr17Xr1a
-        q3sFkFySyrWjkF7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0z_6wuUUUUUU=
-X-Originating-IP: [114.221.197.143]
-X-CM-SenderInfo: 5wdqwu5kxq50rx6rljoofrz/1tbiYwC2UVaEMNUQPwAAsc
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+References: <20221110201349.351294-1-dmitry.osipenko@collabora.com> <20221110201349.351294-6-dmitry.osipenko@collabora.com>
+In-Reply-To: <20221110201349.351294-6-dmitry.osipenko@collabora.com>
+From:   Tomasz Figa <tfiga@chromium.org>
+Date:   Fri, 11 Nov 2022 12:39:35 +0900
+X-Gmail-Original-Message-ID: <CAAFQd5CsBEJkS=4nsH+4bQjCPNxwmw47Op4jnkydA+ivEfiPeA@mail.gmail.com>
+Message-ID: <CAAFQd5CsBEJkS=4nsH+4bQjCPNxwmw47Op4jnkydA+ivEfiPeA@mail.gmail.com>
+Subject: Re: [PATCH v1 5/6] media: videobuf2: Assert held reservation lock for
+ dma-buf mmapping
+To:     Dmitry Osipenko <dmitry.osipenko@collabora.com>
+Cc:     Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Liam Mark <lmark@codeaurora.org>,
+        Brian Starkey <Brian.Starkey@arm.com>,
+        John Stultz <jstultz@google.com>,
+        Gerd Hoffmann <kraxel@redhat.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Tomi Valkeinen <tomba@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        Amol Maheshwari <amahesh@qti.qualcomm.com>,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+        linux-tegra@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        kernel@collabora.com
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-when goto err_free, the object had init, so it should be release when fail.
+On Fri, Nov 11, 2022 at 5:15 AM Dmitry Osipenko
+<dmitry.osipenko@collabora.com> wrote:
+>
+> When userspace mmaps dma-buf's fd, the dma-buf reservation lock must be
+> held. Add locking sanity checks to the dma-buf mmaping callbacks to ensure
+> that the locking assumptions won't regress in the future.
+>
+> Suggested-by: Daniel Vetter <daniel@ffwll.ch>
+> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+> ---
+>  drivers/media/common/videobuf2/videobuf2-dma-contig.c | 3 +++
+>  drivers/media/common/videobuf2/videobuf2-dma-sg.c     | 3 +++
+>  drivers/media/common/videobuf2/videobuf2-vmalloc.c    | 3 +++
+>  3 files changed, 9 insertions(+)
+>
 
-Signed-off-by: ChunyouTang <tangchunyou@163.com>
----
- drivers/gpu/drm/drm_gem.c              | 19 ++++++++++++++++---
- drivers/gpu/drm/drm_gem_shmem_helper.c |  4 +++-
- include/drm/drm_gem.h                  |  1 +
- 3 files changed, 20 insertions(+), 4 deletions(-)
+Acked-by: Tomasz Figa <tfiga@chromium.org>
 
-diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
-index 8b68a3c1e6ab..cba32c46bb05 100644
---- a/drivers/gpu/drm/drm_gem.c
-+++ b/drivers/gpu/drm/drm_gem.c
-@@ -169,6 +169,21 @@ void drm_gem_private_object_init(struct drm_device *dev,
- }
- EXPORT_SYMBOL(drm_gem_private_object_init);
- 
-+/**
-+ * drm_gem_private_object_fini - Finalize a failed drm_gem_object
-+ * @obj: drm_gem_object
-+ *
-+ * Uninitialize an already allocated GEM object when it initialized failed
-+ */
-+void drm_gem_private_object_fini(struct drm_gem_object *obj)
-+{
-+	WARN_ON(obj->dma_buf);
-+
-+	dma_resv_fini(&obj->_resv);
-+	drm_gem_lru_remove(obj);
-+}
-+EXPORT_SYMBOL(drm_gem_private_object_fini);
-+
- /**
-  * drm_gem_object_handle_free - release resources bound to userspace handles
-  * @obj: GEM object to clean up.
-@@ -930,14 +945,12 @@ drm_gem_release(struct drm_device *dev, struct drm_file *file_private)
- void
- drm_gem_object_release(struct drm_gem_object *obj)
- {
--	WARN_ON(obj->dma_buf);
-+	drm_gem_private_object_fini(obj);
- 
- 	if (obj->filp)
- 		fput(obj->filp);
- 
--	dma_resv_fini(&obj->_resv);
- 	drm_gem_free_mmap_offset(obj);
--	drm_gem_lru_remove(obj);
- }
- EXPORT_SYMBOL(drm_gem_object_release);
- 
-diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
-index 35138f8a375c..845e3d5d71eb 100644
---- a/drivers/gpu/drm/drm_gem_shmem_helper.c
-+++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
-@@ -79,8 +79,10 @@ __drm_gem_shmem_create(struct drm_device *dev, size_t size, bool private)
- 	} else {
- 		ret = drm_gem_object_init(dev, obj, size);
- 	}
--	if (ret)
-+	if (ret) {
-+		drm_gem_private_object_fini(obj)
- 		goto err_free;
-+	}
- 
- 	ret = drm_gem_create_mmap_offset(obj);
- 	if (ret)
-diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
-index bd42f25e449c..9b1feb03069d 100644
---- a/include/drm/drm_gem.h
-+++ b/include/drm/drm_gem.h
-@@ -405,6 +405,7 @@ int drm_gem_object_init(struct drm_device *dev,
- 			struct drm_gem_object *obj, size_t size);
- void drm_gem_private_object_init(struct drm_device *dev,
- 				 struct drm_gem_object *obj, size_t size);
-+void drm_gem_private_object_fini(struct drm_gem_object *obj);
- void drm_gem_vm_open(struct vm_area_struct *vma);
- void drm_gem_vm_close(struct vm_area_struct *vma);
- int drm_gem_mmap_obj(struct drm_gem_object *obj, unsigned long obj_size,
--- 
-2.25.1
+Best regards,
+Tomasz
 
+> diff --git a/drivers/media/common/videobuf2/videobuf2-dma-contig.c b/drivers/media/common/videobuf2/videobuf2-dma-contig.c
+> index 555bd40fa472..7f45a62969f2 100644
+> --- a/drivers/media/common/videobuf2/videobuf2-dma-contig.c
+> +++ b/drivers/media/common/videobuf2/videobuf2-dma-contig.c
+> @@ -11,6 +11,7 @@
+>   */
+>
+>  #include <linux/dma-buf.h>
+> +#include <linux/dma-resv.h>
+>  #include <linux/module.h>
+>  #include <linux/refcount.h>
+>  #include <linux/scatterlist.h>
+> @@ -455,6 +456,8 @@ static int vb2_dc_dmabuf_ops_vmap(struct dma_buf *dbuf, struct iosys_map *map)
+>  static int vb2_dc_dmabuf_ops_mmap(struct dma_buf *dbuf,
+>         struct vm_area_struct *vma)
+>  {
+> +       dma_resv_assert_held(dbuf->resv);
+> +
+>         return vb2_dc_mmap(dbuf->priv, vma);
+>  }
+>
+> diff --git a/drivers/media/common/videobuf2/videobuf2-dma-sg.c b/drivers/media/common/videobuf2/videobuf2-dma-sg.c
+> index 36981a5b5c53..b7f39ee49ed8 100644
+> --- a/drivers/media/common/videobuf2/videobuf2-dma-sg.c
+> +++ b/drivers/media/common/videobuf2/videobuf2-dma-sg.c
+> @@ -10,6 +10,7 @@
+>   * the Free Software Foundation.
+>   */
+>
+> +#include <linux/dma-resv.h>
+>  #include <linux/module.h>
+>  #include <linux/mm.h>
+>  #include <linux/refcount.h>
+> @@ -495,6 +496,8 @@ static int vb2_dma_sg_dmabuf_ops_vmap(struct dma_buf *dbuf,
+>  static int vb2_dma_sg_dmabuf_ops_mmap(struct dma_buf *dbuf,
+>         struct vm_area_struct *vma)
+>  {
+> +       dma_resv_assert_held(dbuf->resv);
+> +
+>         return vb2_dma_sg_mmap(dbuf->priv, vma);
+>  }
+>
+> diff --git a/drivers/media/common/videobuf2/videobuf2-vmalloc.c b/drivers/media/common/videobuf2/videobuf2-vmalloc.c
+> index 41db707e43a4..f9b665366365 100644
+> --- a/drivers/media/common/videobuf2/videobuf2-vmalloc.c
+> +++ b/drivers/media/common/videobuf2/videobuf2-vmalloc.c
+> @@ -10,6 +10,7 @@
+>   * the Free Software Foundation.
+>   */
+>
+> +#include <linux/dma-resv.h>
+>  #include <linux/io.h>
+>  #include <linux/module.h>
+>  #include <linux/mm.h>
+> @@ -316,6 +317,8 @@ static int vb2_vmalloc_dmabuf_ops_vmap(struct dma_buf *dbuf,
+>  static int vb2_vmalloc_dmabuf_ops_mmap(struct dma_buf *dbuf,
+>         struct vm_area_struct *vma)
+>  {
+> +       dma_resv_assert_held(dbuf->resv);
+> +
+>         return vb2_vmalloc_mmap(dbuf->priv, vma);
+>  }
+>
+> --
+> 2.37.3
+>
