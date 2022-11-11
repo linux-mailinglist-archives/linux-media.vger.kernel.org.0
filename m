@@ -2,108 +2,195 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 34C5A625A78
-	for <lists+linux-media@lfdr.de>; Fri, 11 Nov 2022 13:31:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DA0DB625AAC
+	for <lists+linux-media@lfdr.de>; Fri, 11 Nov 2022 13:47:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233026AbiKKMbW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 11 Nov 2022 07:31:22 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49590 "EHLO
+        id S233459AbiKKMrp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 11 Nov 2022 07:47:45 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55430 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231300AbiKKMbV (ORCPT
+        with ESMTP id S232416AbiKKMro (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 11 Nov 2022 07:31:21 -0500
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 95E296B3B2;
-        Fri, 11 Nov 2022 04:31:20 -0800 (PST)
-Received: from [192.168.2.41] (unknown [109.252.117.140])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: dmitry.osipenko)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id A01BF6602A53;
-        Fri, 11 Nov 2022 12:31:18 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1668169879;
-        bh=gT2Zg1km2mpUlaANAsdrhIMFKbouao1ucd64mMJD3XE=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=RfVQvH8QKuuVvlOeRkaRv1xbN5mRU15bCs/pLrqhMZmLqmfFEtPJUzxsUpgII32Wt
-         RzbP1bCPO/IQhBcgGjgH7rY8TPuBPBHhwqjHn7CblZkEc2/uo7SohO81qvz94Uqbdz
-         Z0jbjnoSKGsy3QhTL2m+5xOnUfu7NojWBWYXYh0rRWl+U1FPlfYNTuVFixeRODo8XB
-         pGHTMtGpXpHvb0e8/qOSHqZEgAEMqjjz6dK7L7HVoEqGgel4c3fGt+vDdREDppOPbh
-         Vb5Xd6bOxxTNdpUl6GqS+p6kYFilFnoNkiQawBM+8YA0p9Rxb9NEOBgA1Jf4Ij3aXP
-         FMlenubFaL+pQ==
-Message-ID: <512e97ec-5d5e-4d6a-e547-13ca4036f3d1@collabora.com>
-Date:   Fri, 11 Nov 2022 15:31:15 +0300
-MIME-Version: 1.0
+        Fri, 11 Nov 2022 07:47:44 -0500
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2057.outbound.protection.outlook.com [40.107.223.57])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3709A663F6;
+        Fri, 11 Nov 2022 04:47:43 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=WXcZVlyzyER8RMbnJF8v/+bqxUdzws261OwdDQF9iN6eROefh7LcbpMr1SB6+oopWGqjmOfzxRoZM4jZHAUf0ZbSGzAOsiPLGcxbGWUAVRJPtCN5WFemA37iE2LfAT+2LNFbU7+ogzryvqAntKrRx3LbI2ZbNwmq3PbFy1fq1QwT6dgCJgZaFkk9Gv2HkI9EdpcL+FcpyUcQ37rAAK4ZEG/9/4+YeT9sEnbWS9rLt5sk00N8FK/QCckSjNzVjr8i6JZcWyJcILJ8OqAgziP0Im5Z7IEQNvvtKox/wqdQ2enmFRe9kkUBRer7NmfrKzKq+6UwOwmVh3DhOJwM49Jyow==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=HJLNPcFWzS5LAsaAXKd+bnp5iG4de7O6aWUVA6YX2Xw=;
+ b=mhEPt3f6r52Xge5dEn/iIJFYIFG8XnIgw3xGj5xFTgA1rXn6F7PHV/31/QzvYyvO/XldhiLpAnxwaeOr8lSaTTpPa0lIaRqXT/D/SNOYNPx/sjlmPrqUN3fAxBwiJFHZcH6u7hbWAJ3m0eIbUys1HAH5pFRiQZv+PYXTn9h/9KUlC4zfcb4CIgxlV/hmR5LmKtOP4kHpp678QZZw7GFjukxMCEvWpgS9Nzl9YVfIJmd4MEqiOsJCygwiQonE15YA38N4rUxIMsUNmLxOj1fvJLsCfC/yfiyvjbwoEIf+HitMeM7Qg1dMhvQAqEx4ZDJ1P4nSrD4oG64eZE4ToQM+mA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=HJLNPcFWzS5LAsaAXKd+bnp5iG4de7O6aWUVA6YX2Xw=;
+ b=2yY6LRc3CYF+JZbSIR8m9lssrVBW8kIMFdUQ5X8qfmLJwlxWibpEHPZ1xu8EgyZH1N6wgizoSKpwu81s2h9VR7PrLRL31wn/SUUOd2+Yr1APd8Y8/TrMewDmSb0j5cFGmne/Dm19TN6XPjEZpilzw2Yd5RX5izno5UPD9v5yljA=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
+ by CH2PR12MB4199.namprd12.prod.outlook.com (2603:10b6:610:a7::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5813.13; Fri, 11 Nov
+ 2022 12:47:40 +0000
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::7d43:3f30:4caf:7421]) by BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::7d43:3f30:4caf:7421%7]) with mapi id 15.20.5813.013; Fri, 11 Nov 2022
+ 12:47:40 +0000
+Message-ID: <ea11a25a-51cf-fbc8-bcd0-004ec47ff582@amd.com>
+Date:   Fri, 11 Nov 2022 13:47:26 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.1
-Subject: Re: [PATCH] udmabuf: add vmap method to udmabuf_ops
+ Thunderbird/102.2.2
+Subject: Re: [PATCH v1 1/6] dma-buf: Move dma_buf_mmap_internal() to dynamic
+ locking specification
 Content-Language: en-US
-To:     =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
-        Lukasz Wiecaszek <lukasz.wiecaszek@googlemail.com>,
-        kraxel@redhat.com
-Cc:     Lukasz Wiecaszek <lukasz.wiecaszek@gmail.com>,
+To:     Dmitry Osipenko <dmitry.osipenko@collabora.com>,
         Sumit Semwal <sumit.semwal@linaro.org>,
-        dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
-        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
-References: <20221111114528.608801-1-lukasz.wiecaszek@gmail.com>
- <2ee10e0e-a347-71a5-051a-02b9bac0bbb6@amd.com>
-From:   Dmitry Osipenko <dmitry.osipenko@collabora.com>
-In-Reply-To: <2ee10e0e-a347-71a5-051a-02b9bac0bbb6@amd.com>
-Content-Type: text/plain; charset=UTF-8
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Liam Mark <lmark@codeaurora.org>,
+        Brian Starkey <Brian.Starkey@arm.com>,
+        John Stultz <jstultz@google.com>,
+        Gerd Hoffmann <kraxel@redhat.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Tomi Valkeinen <tomba@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        Amol Maheshwari <amahesh@qti.qualcomm.com>
+Cc:     linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+        linux-tegra@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        kernel@collabora.com
+References: <20221110201349.351294-1-dmitry.osipenko@collabora.com>
+ <20221110201349.351294-2-dmitry.osipenko@collabora.com>
+From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20221110201349.351294-2-dmitry.osipenko@collabora.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR3P281CA0175.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:a0::12) To BN8PR12MB3587.namprd12.prod.outlook.com
+ (2603:10b6:408:43::13)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|CH2PR12MB4199:EE_
+X-MS-Office365-Filtering-Correlation-Id: f89c8762-41b6-4bc3-f266-08dac3e2eaec
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: nwCY2YXDKaT4SOcSZ2Hlh9R1/2lM21XVJ4WgHHqI9s8fILGmlu5cedKcumDnyn0euxgBZEg+bjLiP8cVGNn0+7vXQZtcNBx8Q8rPTgJGmHT9qGdXJ/wYdOV7KLaIw3Xpe/z6T8obSCUxVFj+DSVKNcIrsBkLOLeFYJuPRubBvnmaNR5FybzwpdtOacYizNjNfYVW7KtPKbmMKrW5S7wKeAX5szs4+6UTNC3+Kw1isz0uV9jfe7rcKmd6vdkbileIHQWGSfTzD3JdoD32R/PWuxP31C0n4xBtICIDUj9yCpq7FYV6vfNZJ7V48+S+YhUb1oDCnYutnlZm3cqtXIERSyU43GHqsGXYBhMLLQZKxuvPryhIWW/Znb7vxkjXuxCo1egzP/ey50XNdlA9T5X0JjEe3opgLPq6xfRnVZFwRHcpXbFq4oeZy1H4o/fE5IeZu6ehqAesELoU4ttXDE2/G48Ekw7f1i6rlVJZdzY/FALGwRET4R8rFVnwhNquTyzTM1uKO6sTnpk/BafEZ6o9Hn2MFbc+dLrvB22jgrjAAYHbnCa3TAHUd7+1YB+tzYpLuaDQQ/fhYX1mRfM67YAYv/QctVYv/GwJ2rij/twEFg3luRyCkSuGc0GULh7Ir8YuQhS/IMasboIZU1kl+l8URw6ZcUaLn9QOtPNAEG5/9hJvZpBL8AzjubPT0i333IckQdSkmG1HtK2Z+RbyVwo915E3EAwCJVBaQ97NXTnd/PzJY3iwlV+qyJg7SLaRVOV2FlPig1hEpWTZPhkuMDEL/ISt7TWgRjqNxh9/pcdBOYGTWCO0ybf1UPs/60iaRyVh
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN8PR12MB3587.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(346002)(376002)(366004)(39860400002)(136003)(396003)(451199015)(2616005)(83380400001)(66574015)(38100700002)(186003)(6512007)(6506007)(66556008)(5660300002)(7416002)(2906002)(6486002)(8936002)(41300700001)(110136005)(6666004)(478600001)(4326008)(66946007)(66476007)(316002)(8676002)(31686004)(921005)(86362001)(31696002)(36756003)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?TnhCeTdMc2FMZ1JCcWlSSkJjTlRKR3NKRkswMmFSUzB5OHVrTzI0ZzVPNXhM?=
+ =?utf-8?B?ak96N1R6YStnY1FaS1RkektpSzVhbFg5bUtVbXZEbGM1ZHNrNHBWQ0ZoK2Zp?=
+ =?utf-8?B?cXlzKytjSXFkUTF0Q04wSDU2V0orUG9LTjVNdzl4T3I4Q3hvQ0o0a0dCSnYz?=
+ =?utf-8?B?cTJreVRpUWFETFFveW5LNVF0QkUzT0R3bld1NUlWQ3FVUXhGMzdGRCt0amhY?=
+ =?utf-8?B?NU1zc2hGWExacGVsYlpieTRkWENjSWY0U0pKTWl4aFN5dFpDUkxiSXhQQ3BK?=
+ =?utf-8?B?dTNKV2dUT3gvaDJZTVVDNXNLQVFEbXZhWUVCZDlmWHRDTGU1a1hSb2RBMUZG?=
+ =?utf-8?B?b2NyM255WEJlNEJ5Unk0aHR6M2lGelV2Y05GUDJtUXVWQVI2OWI3WVA4MWhP?=
+ =?utf-8?B?aDFMT3JsN0k4bE5Tc1ZuTkViUThpWEJiV1Y4bE5BTXNtcVNneEQrT2ZFTW55?=
+ =?utf-8?B?YlZ3SGZ3bVZWNnFnREh5UlZnTGxtWjkyc0JiakRyNm1QUnVIU3dZL3M3dVBF?=
+ =?utf-8?B?TjBCNmdodHZvSWgrRmNpUU04QjZ3NlNNd1JMQnIraTFtaWthZkpVZjJCVFBJ?=
+ =?utf-8?B?ZDZmK0hOaVA4RTFvYmZYa09HTHZsSk5YRW0yb1FMMVV3WVRFUzVVczNzeGp0?=
+ =?utf-8?B?eFExUjBIZmhCR0pCbXFNR1labG5vRkRUUGZnS3dDRWxrY29DdU9VaHd1T3VP?=
+ =?utf-8?B?UUs4NEVXdmFpN0tJTFFEbnA4VHg1cEdEM0RVeDFDamhqM3VtOTljWlJvS3BW?=
+ =?utf-8?B?NTd5b3FDWnpDS0I5dWpvSG55RXV6VlZwSGErZEVaQjJOUEUzbXZtMDJ3dHhs?=
+ =?utf-8?B?ZHd6UjdDNmtrOGZ2S3hpWERIOEdoSjFOc2pxQy9XanRLUzJBQTl6MmZNdXYv?=
+ =?utf-8?B?amk3ckh4Q2wzOWtoajlZOFJqellpWTZlaFd4Y3E3K2hkRGQ4aHpIWkM1a1Ir?=
+ =?utf-8?B?TkRlMFRMd3BmY1ZPWC9GZ1gwekliWmYrMUtxbDVKQm5rV2JOUUl6UXd3ekhQ?=
+ =?utf-8?B?WXpxRzh5V1p3eXo3Sll0Njd5eGEwM09iSFk3N0Qxa1NoSkM3b3c1RXd1UWd0?=
+ =?utf-8?B?Q0NNdmFTQm1vQ1oxd3VyOEl4clZrbXRYKzNyK2FJME5lY3krV2I3S3VFTVpU?=
+ =?utf-8?B?VUYxbGdKY3A2MGxUK245SFN0Q0hDSmh0UFJzSFJERmxtcmkra1hXMHBQRlJE?=
+ =?utf-8?B?WTI5dDZJcUYxWDZPVGFWL3ZNQnFyMSt0aTgrWEVOa3JLOVZiR2xSZjlDWk5v?=
+ =?utf-8?B?a0pUTlFHQW96c3RHb3VYTHhXR0YwblRjQ3dadUpnbFRsaklWWUtjSlVXMzJ4?=
+ =?utf-8?B?ek9WNkR3K2t2Ym9mYndxM2hTYnUydzdSTmo0MzlFUFlFdzBiellrNzlZTWN0?=
+ =?utf-8?B?dDZkNUpRUzI1cXpZaVR2RVZBV3VZZDV5QnVHTHFzbFBPeXcySElkcEZVL3B0?=
+ =?utf-8?B?WE4wUWd1anlnRUhieE9ZSExMa2hibldPbm5OUDF2UGxSVlhINEhRK0wyY0JN?=
+ =?utf-8?B?WTRua2lnOTM3YUhMMmlVWGFwNHVsYTZzVitWWFp4ZjlZeCtqNHYwbDQwVGk0?=
+ =?utf-8?B?ZWlBaTNxcUNQbXorSVRDSFBjOTNkSGhqT29QU2t2RzVzeWRFUTVJRW1kc3dl?=
+ =?utf-8?B?V251OWZ0Wmk2Q1lQRzByVDNDN2IrbmQxdjVEa0RDSEYrcVhLbGowVkZhY2F2?=
+ =?utf-8?B?U0FaRGZFSFFNWFF6d2FQRHhWbGI4S204amlwdEJrb0xwVkNxZWRWNG1zYnhp?=
+ =?utf-8?B?djQ4ZkFiSXdnQmlRVi9CdVRTUWRwdkhwaHIwNHhISVNtWWtvM3F0TzlheGsz?=
+ =?utf-8?B?SDJ2Nk9jZUZWak95cm1wUkJxNUwzU0wzVjdSd3JEOGpEaEdBb29uaUQ4bmwz?=
+ =?utf-8?B?ZVpDSUUzKy9wZVdzUmVCbzRiYzZKQzBOZVNtYzFjNFRpRHVUTFJ0ZXpJMk1j?=
+ =?utf-8?B?VWNHLyt4YzVGc3lldE1CUEJXV1MwZXFXMERFenNkb0FvMWVxOEJmaUYzUjEw?=
+ =?utf-8?B?QURJRXFReUNSK0Y3cURaMDZnVFFCOWJIcThXcUR3N1RuVjZseXpVdnVrYWhs?=
+ =?utf-8?B?cTFCcGhhNk1ScHI0UFNMQ1hGMjVwSjV5QjdJd2xaMHkxWDArd3o1ellVRURE?=
+ =?utf-8?B?VHFjSDNVM1JmdFMxSlFrbm9rcmpKaERPdENzdUczQXpndytVTG1ZMUJuRWJP?=
+ =?utf-8?Q?MPcLhqYbqPcewTTcAh5Hkm7qPbL9eMIyXZ/YdVEPqCON?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f89c8762-41b6-4bc3-f266-08dac3e2eaec
+X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Nov 2022 12:47:40.4643
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 4Lcrb/9myqqM+nDq2DY5EPNWQbX1d3ePsRW/zGwcyIpIw7VZvzKozkyUn02f43xl
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB4199
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 11/11/22 15:05, Christian König wrote:
-> Adding Dmitry as well.
-> 
-> Am 11.11.22 um 12:45 schrieb Lukasz Wiecaszek:
->> The reason behind that patch is associated with videobuf2 subsystem
->> (or more genrally with v4l2 framework) and user created
->> dma buffers (udmabuf). In some circumstances
->> when dealing with V4L2_MEMORY_DMABUF buffers videobuf2 subsystem
->> wants to use dma_buf_vmap() method on the attached dma buffer.
->> As udmabuf does not have .vmap operation implemented,
->> such dma_buf_vmap() natually fails.
->>
->> videobuf2_common: [cap-000000003473b2f1] __vb2_queue_alloc: allocated
->> 3 buffers, 1 plane(s) each
->> videobuf2_common: [cap-000000003473b2f1] __prepare_dmabuf: buffer for
->> plane 0 changed
->> videobuf2_common: [cap-000000003473b2f1] __prepare_dmabuf: failed to
->> map dmabuf for plane 0
->> videobuf2_common: [cap-000000003473b2f1] __buf_prepare: buffer
->> preparation failed: -14
->>
->> The patch itself seems to be strighforward.
->> It adds implementation of .vmap method to 'struct dma_buf_ops
->> udmabuf_ops'.
->> .vmap method itself uses vm_map_ram() to map pages linearly
->> into the kernel virtual address space (only if such mapping
->> hasn't been created yet).
-> 
-> Of hand that sounds sane to me.
-> 
-> You should probably mention somewhere in a code comment that the cached
-> vaddr is protected by the reservation lock being taken. That's not
-> necessary obvious to everybody.
-> 
-> Apart from that looks good to me.
+Am 10.11.22 um 21:13 schrieb Dmitry Osipenko:
+> All dma-buf functions has been moved to dynamic locking specification
+> The dma_buf_mmap_internal() was missed out by accident. Take reservation
+> lock around file mapping operation to adhere the common locking convention.
+>
+> Reported-by: Daniel Vetter <daniel@ffwll.ch>
+> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 
-Adding a comment won't hurt.
+Reviewed-by: Christian König <christian.koenig@amd.com> for this patch here.
 
-We have the dma_resv_assert_held() in dma_buf_vmap() that will help
-spotting a missing lock at runtime by developers. While the
-dmbuf_ops->vmap() shouldn't be ever used directly by importers.
+Acked-by: Christian König <christian.koenig@amd.com> for the rest of the 
+series.
 
--- 
-Best regards,
-Dmitry
+Regards,
+Christian.
+
+> ---
+>   drivers/dma-buf/dma-buf.c | 7 ++++++-
+>   1 file changed, 6 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+> index 13bfd2d09c56..b809513b03fe 100644
+> --- a/drivers/dma-buf/dma-buf.c
+> +++ b/drivers/dma-buf/dma-buf.c
+> @@ -129,6 +129,7 @@ static struct file_system_type dma_buf_fs_type = {
+>   static int dma_buf_mmap_internal(struct file *file, struct vm_area_struct *vma)
+>   {
+>   	struct dma_buf *dmabuf;
+> +	int ret;
+>   
+>   	if (!is_dma_buf_file(file))
+>   		return -EINVAL;
+> @@ -144,7 +145,11 @@ static int dma_buf_mmap_internal(struct file *file, struct vm_area_struct *vma)
+>   	    dmabuf->size >> PAGE_SHIFT)
+>   		return -EINVAL;
+>   
+> -	return dmabuf->ops->mmap(dmabuf, vma);
+> +	dma_resv_lock(dmabuf->resv, NULL);
+> +	ret = dmabuf->ops->mmap(dmabuf, vma);
+> +	dma_resv_unlock(dmabuf->resv);
+> +
+> +	return ret;
+>   }
+>   
+>   static loff_t dma_buf_llseek(struct file *file, loff_t offset, int whence)
 
