@@ -2,168 +2,263 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D203B625738
-	for <lists+linux-media@lfdr.de>; Fri, 11 Nov 2022 10:48:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7595B62580B
+	for <lists+linux-media@lfdr.de>; Fri, 11 Nov 2022 11:19:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233007AbiKKJsB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 11 Nov 2022 04:48:01 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33922 "EHLO
+        id S233590AbiKKKT2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 11 Nov 2022 05:19:28 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54494 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230181AbiKKJsA (ORCPT
+        with ESMTP id S233495AbiKKKTK (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 11 Nov 2022 04:48:00 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 935162A3;
-        Fri, 11 Nov 2022 01:47:58 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        Fri, 11 Nov 2022 05:19:10 -0500
+Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 95A5D7C8E9
+        for <linux-media@vger.kernel.org>; Fri, 11 Nov 2022 02:18:18 -0800 (PST)
+Received: from hillosipuli.retiisi.eu (82-181-192-243.bb.dnainternet.fi [82.181.192.243])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 2DEC261F2E;
-        Fri, 11 Nov 2022 09:47:58 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4BFC7C433D6;
-        Fri, 11 Nov 2022 09:47:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1668160077;
-        bh=sHcrZjyD+JKPHYpCaB3NT+zMVU6VwkQS6kFBMLp1NZ8=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=K1w2QIluPgNeqJDrivt/bqZr1+V48gXgZI+F4ykU9y3kuwA/jjREPKUn/7w6oQ7Xs
-         Ni9KCTF2TV65gcmYq/lq5soTc70rUrpsG+Lyj+v/csenAA6VJFwQN9Gkuo19NkCgOj
-         ULAlE/M5orZNDN93AbffEmyWSnYzxcD1hs9Oqeew7HVv39erJgwBbyJ848wvuJBdxn
-         Esqg9lRwCPQDf5dZNrlC40JXXHYXRhFSGWNYNhXGXBqj/PBHNadt/ujhxCt9IU6Bej
-         95AKTa8X92zqXJSfdM3t3u374iaT1poJSpVZdtJrmfkEvSYh02Avl2feDE1QQFaD9r
-         7iGXuVw/wDfSA==
-Message-ID: <e5451506-586d-9724-5455-59dafabae7ec@kernel.org>
-Date:   Fri, 11 Nov 2022 10:47:49 +0100
+        (Authenticated sender: sailus)
+        by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 11BFD1B000E5;
+        Fri, 11 Nov 2022 12:18:15 +0200 (EET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
+        t=1668161895;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=nViUIP5mZmGtAcBV7snG5srmqkB1zpkdDW7/29no2No=;
+        b=jNt6JfEZ5aGzSsR7mmdsv5dbmu+34iOoULra6wXXpxwvTUgYZxTCEi4RmgxXdceKaExMAR
+        LveyiuEpjX3xULjpvftOr5EeKHRae+xeteUabY81dpevQ/Prn7jjNUffWUN7lGYRkmYVWJ
+        W15h/T+b2eKF6xplIQlKa23TcfCoaSgsoR824q9qVptC7YhUVK6bml992XEdU6+d7tKZ7o
+        VI/veBgmEQUn+jlX7U3eTwBQD44TSsUfd7FKQlBVDTOLv+y4f3IQKbNLmzK6I+JdMKAec/
+        9Bg1x2JsJmU+gVmAs5WF1eWArQMKc8XKwO5H2CLm4gqLlMebmIQfGYGKFPLuYQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+        s=lahtoruutu; t=1668161895;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=nViUIP5mZmGtAcBV7snG5srmqkB1zpkdDW7/29no2No=;
+        b=VBkOEh0DSaUX6ByzycgXH+uFHGNLlvIzRON3c501iKDTdcny9QDNC2vbT8ZaB2R04rzkQ+
+        FeTrys/6GMqYM0pu86BCVK+Isfh1KPetVmJbvOBqN9Kbv+BhD6etFo8yt5rpU11Y61UZno
+        KisVCGr7h/4mGznD3bJvNJ/ZRhxqo5pixzBzjc8ZD2WVstwFxnpAuwmXcPsHE+WkIdWHKl
+        sz/9bvNDP0xylhBh2cvYs86IdnMtqpMP3DPlFpaQNhjtCywnQi9Yr+jHrBh6UhklbwO2xJ
+        TpJJ2e7yYtDo94K8dsBDLIXd+1KFwr/eNvAhlft1BqkjEVF1Vc6zndHxMzwqGg==
+ARC-Authentication-Results: i=1;
+        ORIGINATING;
+        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1668161895; a=rsa-sha256;
+        cv=none;
+        b=WBujtx9mQT5kPGfDvr+V/dHH6kUlxJGdIcrC021JEft8XFiI3wROMPYufZm5nWVcZtTt5p
+        +TAJuYBP594nLyxxaCEoQXsQxhy7rgzBvmYlcCe4XR8us43oYc2NmNRT6pWoHTIN16uvma
+        GUQ5kwD29S9X7m5IJoejXiMqeTn0KSRvlB9T+EpLj3vN6LUKC1hiGFXvN8Zod30moB4/Yt
+        NHdjPgAw+sKqra5M56h4cks7qwQ4cAMZHT4TB/iR1OizmF147vr9CJDIxujmqU0d2xymuI
+        5ObuQ1Kv9sctkYgGXmCigTIgvqjiNtJPhZSO/DCunzy8yN67nzzoTuwHBIFL5g==
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id B05A7634C98;
+        Fri, 11 Nov 2022 12:18:14 +0200 (EET)
+Date:   Fri, 11 Nov 2022 12:18:14 +0200
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Cc:     linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+        Yong Deng <yong.deng@magewell.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Samuel Holland <samuel@sholland.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: Re: [PATCH v7 18/28] media: sun6i-csi: Introduce format match
+ structure, list and helper
+Message-ID: <Y24hZjkRp0rBpzTZ@valkosipuli.retiisi.eu>
+References: <20221103163113.245462-1-paul.kocialkowski@bootlin.com>
+ <20221103163113.245462-19-paul.kocialkowski@bootlin.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [Patch v3 3/3] ARM: dts: exynos: Rename compatible string
- property from version to SoC specific
-Content-Language: en-US
-To:     Aakarsh Jain <aakarsh.jain@samsung.com>,
-        'Krzysztof Kozlowski' <krzysztof.kozlowski@linaro.org>,
-        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
-Cc:     m.szyprowski@samsung.com, andrzej.hajda@intel.com,
-        mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
-        ezequiel@vanguardiasur.com.ar, jernej.skrabec@gmail.com,
-        benjamin.gaignard@collabora.com, krzysztof.kozlowski+dt@linaro.org,
-        stanimir.varbanov@linaro.org, dillon.minfei@gmail.com,
-        david.plowman@raspberrypi.com, mark.rutland@arm.com,
-        robh+dt@kernel.org, krzk+dt@kernel.org, andi@etezian.org,
-        alim.akhtar@samsung.com, aswani.reddy@samsung.com,
-        pankaj.dubey@samsung.com, smitha.t@samsung.com
-References: <20221111032337.79219-1-aakarsh.jain@samsung.com>
- <CGME20221111031718epcas5p3df130145b4bb99424fd5aa4addf77ba5@epcas5p3.samsung.com>
- <20221111032337.79219-4-aakarsh.jain@samsung.com>
- <b766bd0b-aecc-3b9d-27df-2615d648d9bd@linaro.org>
- <010e01d8f5af$340c1a80$9c244f80$@samsung.com>
-From:   Krzysztof Kozlowski <krzk@kernel.org>
-In-Reply-To: <010e01d8f5af$340c1a80$9c244f80$@samsung.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221103163113.245462-19-paul.kocialkowski@bootlin.com>
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 11/11/2022 10:22, Aakarsh Jain wrote:
-> Hi Krzysztof,
-> 
->> -----Original Message-----
->> From: Krzysztof Kozlowski [mailto:krzysztof.kozlowski@linaro.org]
->> Sent: 11 November 2022 13:41
->> To: Aakarsh Jain <aakarsh.jain@samsung.com>; linux-arm-
->> kernel@lists.infradead.org; linux-media@vger.kernel.org; linux-
->> kernel@vger.kernel.org; devicetree@vger.kernel.org
->> Cc: m.szyprowski@samsung.com; andrzej.hajda@intel.com;
->> mchehab@kernel.org; hverkuil-cisco@xs4all.nl;
->> ezequiel@vanguardiasur.com.ar; jernej.skrabec@gmail.com;
->> benjamin.gaignard@collabora.com; krzysztof.kozlowski+dt@linaro.org;
->> stanimir.varbanov@linaro.org; dillon.minfei@gmail.com;
->> david.plowman@raspberrypi.com; mark.rutland@arm.com;
->> robh+dt@kernel.org; krzk+dt@kernel.org; andi@etezian.org;
->> alim.akhtar@samsung.com; aswani.reddy@samsung.com;
->> pankaj.dubey@samsung.com; smitha.t@samsung.com
->> Subject: Re: [Patch v3 3/3] ARM: dts: exynos: Rename compatible string
->> property from version to SoC specific
->>
->> On 11/11/2022 04:23, Aakarsh Jain wrote:
->>> commit "752d3a23d1f68de87e3c" which adds MFC codec device node for
->>> exynos3250 SoC. Since exynos3250.dtsi and exynos5420.dtsi are using
->>> same compatible string as "samsung,mfc-v7" but their node properties
->>> are different.As both SoCs have MFC v7 hardware module but with
->>> different clock hierarchy and complexity.
->>> So renaming compatible string from version specific to SoC based.
->>>
->>> Reviewed-by: Tommaso Merciai
->> <tommaso.merciai@amarulasolutions.com>
->>> Suggested-by: Alim Akhtar <alim.akhtar@samsung.com>
->>> Signed-off-by: Aakarsh Jain <aakarsh.jain@samsung.com>
->>> ---
->>>  arch/arm/boot/dts/exynos3250.dtsi | 2 +-
->>>  1 file changed, 1 insertion(+), 1 deletion(-)
->>>
->>> diff --git a/arch/arm/boot/dts/exynos3250.dtsi
->>> b/arch/arm/boot/dts/exynos3250.dtsi
->>> index 326b9e0ed8d3..98105c64f7d9 100644
->>> --- a/arch/arm/boot/dts/exynos3250.dtsi
->>> +++ b/arch/arm/boot/dts/exynos3250.dtsi
->>> @@ -485,7 +485,7 @@
->>>  		};
->>>
->>>  		mfc: codec@13400000 {
->>> -			compatible = "samsung,mfc-v7";
->>> +			compatible = "samsung,exynos3250-mfc";
->>
->> No improvements. Changeset is non-bisectable. I said it in v1, then in v2. So
->> now third time... Don't send a new version if you are not going to fix it or
->> resolve discussion.
->>
-> My bad, misunderstood, now I understood your concerns around bisectability.
-> 
-> I hope you mean the below:
-> ------
-> diff --git a/Documentation/devicetree/bindings/media/s5p-mfc.txt b/Documentation/devicetree/bindings/media/s5p-mfc.txt
-> index cb166654fa81..734e53445eb5 100644
-> --- a/Documentation/devicetree/bindings/media/s5p-mfc.txt
-> +++ b/Documentation/devicetree/bindings/media/s5p-mfc.txt
-> @@ -10,7 +10,8 @@ Required properties:
->    - compatible : value should be either one among the following
->         (a) "samsung,mfc-v5" for MFC v5 present in Exynos4 SoCs
->         (b) "samsung,mfc-v6" for MFC v6 present in Exynos5 SoCs
-> -       (c) "samsung,exynos3250-mfc" for MFC v7 present in Exynos3250 SoC
-> +       (c) "samsung,exynos3250-mfc","samsung,mfc-v7" for MFC v7
-> +            variant present in Exynos3250 SoC.
->         (d) "samsung,mfc-v7" for MFC v7 present in Exynos5420 SoC
->         (e) "samsung,mfc-v8" for MFC v8 present in Exynos5800 SoC
->         (f) "samsung,exynos5433-mfc" for MFC v8 present in Exynos5433 SoC
-> diff --git a/arch/arm/boot/dts/exynos3250.dtsi b/arch/arm/boot/dts/exynos3250.dtsi
-> index 98105c64f7d9..a2d6ee7fff08 100644
-> --- a/arch/arm/boot/dts/exynos3250.dtsi
-> +++ b/arch/arm/boot/dts/exynos3250.dtsi
-> @@ -485,7 +485,7 @@
->                 };
-> 
->                 mfc: codec@13400000 {
-> -                       compatible = "samsung,exynos3250-mfc";
-> +                       compatible = "samsung,exynos3250-mfc", "samsung,mfc-v7";
->                         reg = <0x13400000 0x10000>;
->                         interrupts = <GIC_SPI 102 IRQ_TYPE_LEVEL_HIGH>;
->                         clock-names = "mfc", "sclk_mfc";
-> -----
-> 
-> Where mfc-v7 will be used as fallback for the older kernel which might use new dtb.
-> 
-> Let me know if this is not what you meant or am I still missing something?
+Hi Paul,
 
-Yes, this is what I meant. Thanks.
+On Thu, Nov 03, 2022 at 05:31:03PM +0100, Paul Kocialkowski wrote:
+> Introduce a list of mbus/pixel format combinations that need an exact
+> match between the two sides. This is the case when using raw input
+> configuration. The list will be used to replace the
+> sun6i_csi_is_format_supported combinatory helper.
 
-Best regards,
-Krzysztof
+This patch introduces an unused function which generates a compiler warning
+that is now treated as an error.
 
+I'll squash this to the following patch that uses the function. I think the
+commit message will do as-is.
+
+> 
+> Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+> ---
+>  .../sunxi/sun6i-csi/sun6i_csi_capture.c       | 117 ++++++++++++++++++
+>  .../sunxi/sun6i-csi/sun6i_csi_capture.h       |   5 +
+>  2 files changed, 122 insertions(+)
+> 
+> diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c
+> index 99b821d79357..7958419d3c6e 100644
+> --- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c
+> +++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c
+> @@ -227,6 +227,123 @@ struct sun6i_csi_capture_format *sun6i_csi_capture_format_find(u32 pixelformat)
+>  	return NULL;
+>  }
+>  
+> +/* RAW formats need an exact match between pixel and mbus formats. */
+> +static const
+> +struct sun6i_csi_capture_format_match sun6i_csi_capture_format_matches[] = {
+> +	/* YUV420 */
+> +	{
+> +		.pixelformat	= V4L2_PIX_FMT_YUYV,
+> +		.mbus_code	= MEDIA_BUS_FMT_YUYV8_2X8,
+> +	},
+> +	{
+> +		.pixelformat	= V4L2_PIX_FMT_YUYV,
+> +		.mbus_code	= MEDIA_BUS_FMT_YUYV8_1X16,
+> +	},
+> +	{
+> +		.pixelformat	= V4L2_PIX_FMT_YVYU,
+> +		.mbus_code	= MEDIA_BUS_FMT_YVYU8_2X8,
+> +	},
+> +	{
+> +		.pixelformat	= V4L2_PIX_FMT_YVYU,
+> +		.mbus_code	= MEDIA_BUS_FMT_YVYU8_1X16,
+> +	},
+> +	{
+> +		.pixelformat	= V4L2_PIX_FMT_UYVY,
+> +		.mbus_code	= MEDIA_BUS_FMT_UYVY8_2X8,
+> +	},
+> +	{
+> +		.pixelformat	= V4L2_PIX_FMT_UYVY,
+> +		.mbus_code	= MEDIA_BUS_FMT_UYVY8_1X16,
+> +	},
+> +	{
+> +		.pixelformat	= V4L2_PIX_FMT_VYUY,
+> +		.mbus_code	= MEDIA_BUS_FMT_VYUY8_2X8,
+> +	},
+> +	{
+> +		.pixelformat	= V4L2_PIX_FMT_VYUY,
+> +		.mbus_code	= MEDIA_BUS_FMT_VYUY8_1X16,
+> +	},
+> +	/* RGB */
+> +	{
+> +		.pixelformat	= V4L2_PIX_FMT_RGB565,
+> +		.mbus_code	= MEDIA_BUS_FMT_RGB565_2X8_LE,
+> +	},
+> +	{
+> +		.pixelformat	= V4L2_PIX_FMT_RGB565X,
+> +		.mbus_code	= MEDIA_BUS_FMT_RGB565_2X8_BE,
+> +	},
+> +	/* Bayer */
+> +	{
+> +		.pixelformat	= V4L2_PIX_FMT_SBGGR8,
+> +		.mbus_code	= MEDIA_BUS_FMT_SBGGR8_1X8,
+> +	},
+> +	{
+> +		.pixelformat	= V4L2_PIX_FMT_SGBRG8,
+> +		.mbus_code	= MEDIA_BUS_FMT_SGBRG8_1X8,
+> +	},
+> +	{
+> +		.pixelformat	= V4L2_PIX_FMT_SGRBG8,
+> +		.mbus_code	= MEDIA_BUS_FMT_SGRBG8_1X8,
+> +	},
+> +	{
+> +		.pixelformat	= V4L2_PIX_FMT_SRGGB8,
+> +		.mbus_code	= MEDIA_BUS_FMT_SRGGB8_1X8,
+> +	},
+> +	{
+> +		.pixelformat	= V4L2_PIX_FMT_SBGGR10,
+> +		.mbus_code	= MEDIA_BUS_FMT_SBGGR10_1X10,
+> +	},
+> +	{
+> +		.pixelformat	= V4L2_PIX_FMT_SGBRG10,
+> +		.mbus_code	= MEDIA_BUS_FMT_SGBRG10_1X10,
+> +	},
+> +	{
+> +		.pixelformat	= V4L2_PIX_FMT_SGRBG10,
+> +		.mbus_code	= MEDIA_BUS_FMT_SGRBG10_1X10,
+> +	},
+> +	{
+> +		.pixelformat	= V4L2_PIX_FMT_SRGGB10,
+> +		.mbus_code	= MEDIA_BUS_FMT_SRGGB10_1X10,
+> +	},
+> +	{
+> +		.pixelformat	= V4L2_PIX_FMT_SBGGR12,
+> +		.mbus_code	= MEDIA_BUS_FMT_SBGGR12_1X12,
+> +	},
+> +	{
+> +		.pixelformat	= V4L2_PIX_FMT_SGBRG12,
+> +		.mbus_code	= MEDIA_BUS_FMT_SGBRG12_1X12,
+> +	},
+> +	{
+> +		.pixelformat	= V4L2_PIX_FMT_SGRBG12,
+> +		.mbus_code	= MEDIA_BUS_FMT_SGRBG12_1X12,
+> +	},
+> +	{
+> +		.pixelformat	= V4L2_PIX_FMT_SRGGB12,
+> +		.mbus_code	= MEDIA_BUS_FMT_SRGGB12_1X12,
+> +	},
+> +	/* Compressed */
+> +	{
+> +		.pixelformat	= V4L2_PIX_FMT_JPEG,
+> +		.mbus_code	= MEDIA_BUS_FMT_JPEG_1X8,
+> +	},
+> +};
+> +
+> +static bool sun6i_csi_capture_format_match(u32 pixelformat, u32 mbus_code)
+> +{
+> +	unsigned int i;
+> +
+> +	for (i = 0; i < ARRAY_SIZE(sun6i_csi_capture_format_matches); i++) {
+> +		const struct sun6i_csi_capture_format_match *match =
+> +			&sun6i_csi_capture_format_matches[i];
+> +
+> +		if (match->pixelformat == pixelformat &&
+> +		    match->mbus_code == mbus_code)
+> +			return true;
+> +	}
+> +
+> +	return false;
+> +}
+> +
+>  /* Capture */
+>  
+>  static void sun6i_csi_capture_irq_enable(struct sun6i_csi_device *csi_dev)
+> diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.h b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.h
+> index 4b1ff19edc2f..2605b16f091c 100644
+> --- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.h
+> +++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.h
+> @@ -27,6 +27,11 @@ struct sun6i_csi_capture_format {
+>  	u32	hsize_len_factor;
+>  };
+>  
+> +struct sun6i_csi_capture_format_match {
+> +	u32	pixelformat;
+> +	u32	mbus_code;
+> +};
+> +
+>  #undef current
+>  struct sun6i_csi_capture_state {
+>  	struct list_head		queue;
+
+-- 
+Kind regards,
+
+Sakari Ailus
