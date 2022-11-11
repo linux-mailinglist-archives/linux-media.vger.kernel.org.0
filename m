@@ -2,89 +2,116 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 77A84626029
-	for <lists+linux-media@lfdr.de>; Fri, 11 Nov 2022 18:11:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6660162623E
+	for <lists+linux-media@lfdr.de>; Fri, 11 Nov 2022 20:41:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233852AbiKKRLd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 11 Nov 2022 12:11:33 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51262 "EHLO
+        id S234266AbiKKTle (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 11 Nov 2022 14:41:34 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40240 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233886AbiKKRL0 (ORCPT
+        with ESMTP id S234083AbiKKTld (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 11 Nov 2022 12:11:26 -0500
-Received: from msg-4.mailo.com (msg-4.mailo.com [213.182.54.15])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C2BB5B0;
-        Fri, 11 Nov 2022 09:11:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
-        t=1668186674; bh=1RIQ/IkEDUmv9IHs9QgFqfOSQHFRaOMUNJ4hAer8V7U=;
-        h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:References:
-         MIME-Version:Content-Type:In-Reply-To;
-        b=i7Ych6tATqnDt3txDGmf4tl2aOt6j5CZYTlZdYNIJWf5jIb9uQuKygWkgFAfZdqt/
-         pYrneCIpfWlMV9VzuVz1ZdUqjO5895K1q/RDvnlQak9uzy2G+RuZRW4GNIOXG9pjr+
-         /MEslRNG8FbBCpBUn7yCQyVWVglS7ckWx9LuL6Ws=
-Received: by b-2.in.mailobj.net [192.168.90.12] with ESMTP
-        via ip-206.mailobj.net [213.182.55.206]
-        Fri, 11 Nov 2022 18:11:14 +0100 (CET)
-X-EA-Auth: V+drH4vY8UWXrgfnZZR7Hc2mA9wgmxew3GLoFUFYAmzIxO1+7Zdb/tpLl6NXQrz5gJPwo7XaSp0gWCF9ff8cCxjJDfF2L6q4
-Date:   Fri, 11 Nov 2022 22:41:03 +0530
-From:   Deepak R Varma <drv@mailo.com>
-To:     Andrew Lunn <andrew@lunn.ch>
-Cc:     Dan Carpenter <error27@gmail.com>,
-        Neil Armstrong <neil.armstrong@linaro.org>,
+        Fri, 11 Nov 2022 14:41:33 -0500
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E0C657BE73;
+        Fri, 11 Nov 2022 11:41:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1668195692; x=1699731692;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=6OKKKDy9v2C88/Cgkd/4gimgSJyIoKFF2eqslbtPTsU=;
+  b=ZlU3ElOWPrdlqrW58Ne/QtgyYkc/ZqR+hQOETkLdSBtt64KTTDBKEkBj
+   5S3JoslYibFNNeM3DcvUTabQg23hh+B4kg3WfWwOO9Ji6x7sH2np4aRXq
+   xucV3SKHw0qwON4uQHcR25vv1tIbXWCGPAElUoUEWdCvTLkGqJZPJnlO9
+   cwlyC0RNBxoL5SrisEROw5otjBEoZYX0YwztmHzKvLxZZ0kByf617MUm1
+   9QZ6nZO/k9YW/j2qBQzMX4Si9VTIIIywxiSAmJV5ogb1BU5ctADVA0Ofn
+   3h3cpBAV3oh+s+DBPmhIrqrCRQ1+i85PmpzdnBj942UbPIto2dmshIA7L
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10528"; a="311660459"
+X-IronPort-AV: E=Sophos;i="5.96,157,1665471600"; 
+   d="scan'208";a="311660459"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2022 11:41:32 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10528"; a="882852434"
+X-IronPort-AV: E=Sophos;i="5.96,157,1665471600"; 
+   d="scan'208";a="882852434"
+Received: from punajuuri.fi.intel.com (HELO paasikivi.fi.intel.com) ([10.237.72.43])
+  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2022 11:41:30 -0800
+Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
+        by paasikivi.fi.intel.com (Postfix) with SMTP id 58ACD2033F;
+        Fri, 11 Nov 2022 21:41:28 +0200 (EET)
+Date:   Fri, 11 Nov 2022 19:41:28 +0000
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Tianshu Qiu <tian.shu.qiu@intel.com>,
+        Shawn Tu <shawnx.tu@intel.com>,
+        Bingbu Cao <bingbu.cao@intel.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Jerome Brunet <jbrunet@baylibre.com>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        linux-media@vger.kernel.org, linux-amlogic@lists.infradead.org,
-        linux-staging@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: patches for staging:media drivers
-Message-ID: <Y26CJ9L52AmPBQYC@qemulion>
-References: <Y2eSCZJNWn6DzCUu@qemulion>
- <48f4bda9-b5e3-9649-aab9-b529889bf110@linaro.org>
- <Y2oO7fU4whKr+3hb@kadam>
- <Y2q7tFF7YeX16H20@lunn.ch>
- <Y2tLZaPSUT45TF4f@qemulion>
- <Y2uv56k515cKTXU4@lunn.ch>
+        hans.verkuil@xs4all.nl
+Subject: Re: [PATCH v1 1/8] media: ov2740: Remove duplicative pointer in
+ struct nvm_data
+Message-ID: <Y26lVCOy0Dfx+ybK@paasikivi.fi.intel.com>
+References: <20220726120556.2881-1-andriy.shevchenko@linux.intel.com>
+ <YwTf22gkWxeyNKlR@smile.fi.intel.com>
+ <Y246keIq4a541ooO@smile.fi.intel.com>
+ <Y247UMkAUafPTBYI@smile.fi.intel.com>
+ <Y25jJd24+Aq53gKE@paasikivi.fi.intel.com>
+ <Y25qTDJvZtWKVlBD@smile.fi.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Y2uv56k515cKTXU4@lunn.ch>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <Y25qTDJvZtWKVlBD@smile.fi.intel.com>
+X-Spam-Status: No, score=-7.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,
+        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Nov 09, 2022 at 02:49:27PM +0100, Andrew Lunn wrote:
-> On Wed, Nov 09, 2022 at 12:10:37PM +0530, Deepak R Varma wrote:
-> > On Tue, Nov 08, 2022 at 09:27:32PM +0100, Andrew Lunn wrote:
->
-> Staging drivers for network tend to be USB dongles for WiFi. Some of
-> those drivers need throwing away and starting again, others need less
-> work. If you are interested in that, i would suggest asking on
-> linux-wireless@vger.kernel.org.
->
-> Another option might be pi433? The problem with that is, i don't know
-> how it fits into the rest of the network stack? Could it maybe fit
-> under ieee802154? Or is it just unique and needs to do its own thing?
+Hi Andy,
 
-Hello Andrew,
-I looked at the pi433 driver and it appears to be a good starting point. I have
-started studying more about the hardware, the RF technology etc. There is a TODO
-file with reasonable challenges.
+On Fri, Nov 11, 2022 at 05:29:16PM +0200, Andy Shevchenko wrote:
+> On Fri, Nov 11, 2022 at 02:58:45PM +0000, Sakari Ailus wrote:
+> > On Fri, Nov 11, 2022 at 02:08:48PM +0200, Andy Shevchenko wrote:
+> > > On Fri, Nov 11, 2022 at 02:05:37PM +0200, Andy Shevchenko wrote:
+> > > > On Tue, Aug 23, 2022 at 05:10:35PM +0300, Andy Shevchenko wrote:
+> > > > > On Tue, Jul 26, 2022 at 03:05:49PM +0300, Andy Shevchenko wrote:
+> > > > > > The struct i2c_client pointer is used only to get driver data,
+> > > > > > associated with a struct device or print messages on behalf.
+> > > > > > Moreover, the very same pointer to a struct device is already
+> > > > > > assigned by a regmap and can be retrieved from there.
+> > > > > > No need to keep a duplicative pointer.
+> > > > > 
+> > > > > Thanks, Bungbu, for the review. Can it be now applied?
+> > > > 
+> > > > Don't see this being applied or commented why not...
+> > > > 
+> > > > Mauro? Or who is taking care of this driver nowadays?
+> > > 
+> > > Okay, found a private response by Mauro where he tells that Sakari can take
+> > > care of this. Sakari, should I resend this to you with all tags applied?
+> > > Or you can use `b4` tool that allows to avoid unneeded resend.
+> > 
+> > No need to. But please cc me on the next time. I'll take a look now...
+> 
+> How should I know whom to Cc? Can we update MAINTAINERS accordingly, please?
 
-Thank you for the recommendation.
+Good question. In media tree we've listed the maintainers in wiki, as
+the information would be hard to keep up-to-date file-wise:
 
-Have a nice weekend!
-./drv
+<URL:https://www.linuxtv.org/wiki/index.php/Media_Maintainers>
 
->
->       Andrew
->
+So it helps if you cc me to camera sensor driver patches, but they're
+neither ignored if you don't. It usually takes a little bit more time
+but not nearly as much as this time.
 
+Cc Hans.
 
+-- 
+Kind regards,
+
+Sakari Ailus
