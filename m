@@ -2,100 +2,94 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 192FD625B34
-	for <lists+linux-media@lfdr.de>; Fri, 11 Nov 2022 14:30:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8E58C625DA6
+	for <lists+linux-media@lfdr.de>; Fri, 11 Nov 2022 15:58:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233919AbiKKNaI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 11 Nov 2022 08:30:08 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46262 "EHLO
+        id S234737AbiKKO6x (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 11 Nov 2022 09:58:53 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59366 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233967AbiKKNaG (ORCPT
+        with ESMTP id S234694AbiKKO6u (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 11 Nov 2022 08:30:06 -0500
-Received: from aer-iport-8.cisco.com (aer-iport-8.cisco.com [173.38.203.70])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B15905F852
-        for <linux-media@vger.kernel.org>; Fri, 11 Nov 2022 05:30:05 -0800 (PST)
+        Fri, 11 Nov 2022 09:58:50 -0500
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CDD0026AFA;
+        Fri, 11 Nov 2022 06:58:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=cisco.com; i=@cisco.com; l=1711; q=dns/txt; s=iport;
-  t=1668173405; x=1669383005;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=lKighWP0uvKymPTcIglaP2GdprA2Qcv68qwcyn1XHwQ=;
-  b=Dl7tpi9D5IySGlSD5daCWe6Fr9rYGE1FI07fMqhBF/pDY4E1i/YMV1bB
-   R/FBtzbcZZk442eK1YIQXtFi8ZVcDbWR7PY5Xxiydrupl9lvR7rzorRh1
-   anEkfYLM9oIXDw0gWKrByrQptF/3HeTmbDmvPqwatLssPbRRp8YbbQQqY
-   o=;
-X-IronPort-AV: E=Sophos;i="5.96,156,1665446400"; 
-   d="scan'208";a="2226725"
-Received: from aer-iport-nat.cisco.com (HELO aer-core-1.cisco.com) ([173.38.203.22])
-  by aer-iport-8.cisco.com with ESMTP/TLS/DHE-RSA-SEED-SHA; 11 Nov 2022 13:28:56 +0000
-Received: from office-260.rd.cisco.com ([10.47.79.110])
-        by aer-core-1.cisco.com (8.15.2/8.15.2) with ESMTP id 2ABDSsVS020236;
-        Fri, 11 Nov 2022 13:28:56 GMT
-From:   Erling Ljunggren <hljunggr@cisco.com>
-To:     linux-media@vger.kernel.org
-Cc:     Erling Ljunggren <hljunggr@cisco.com>
-Subject: [PATCH v4 5/5] media: v4l2-dev: handle V4L2_CAP_EDID
-Date:   Fri, 11 Nov 2022 14:29:06 +0100
-Message-Id: <20221111132906.2212662-6-hljunggr@cisco.com>
-X-Mailer: git-send-email 2.38.0
-In-Reply-To: <20221111132906.2212662-1-hljunggr@cisco.com>
-References: <20221111132906.2212662-1-hljunggr@cisco.com>
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1668178729; x=1699714729;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Iokqu3N3/AkaN5JzOotARpVC/tBGH0Hf1rFvyuCpV3A=;
+  b=cLSf6Nn4CLsG+1mo1IRAJtvpB9aaZt3rl5RxLQ1uAF9C2Mh+LKEhJFk0
+   C0uuYIWsTVYlQdVOClC+dFghrdg//3nFoHRyquyQ02OB4DkqpKSFQtPej
+   Dlai6khF9hryY8ZV4aBQg0RicqQwawVqofLC5iDFEyRleYwXzW7XCisZK
+   bKWpKUkqS2i+btVGesqo136fvkBAf2gsigbW1fl/8bRjPwZb/71tJg+Ta
+   M9lZkiVbhY5YE9bDQIY9sIzPhmoKKbSVqsmNmZ24rmFQvKHPNihOPV5yJ
+   Li/ED5L5aysKq5wpbAGoZHnDa1AvBqT/gX6D1Ycb0dcJOU0aVrpMJyFN3
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10528"; a="397902725"
+X-IronPort-AV: E=Sophos;i="5.96,156,1665471600"; 
+   d="scan'208";a="397902725"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2022 06:58:49 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10528"; a="780201313"
+X-IronPort-AV: E=Sophos;i="5.96,156,1665471600"; 
+   d="scan'208";a="780201313"
+Received: from punajuuri.fi.intel.com (HELO paasikivi.fi.intel.com) ([10.237.72.43])
+  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2022 06:58:47 -0800
+Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
+        by paasikivi.fi.intel.com (Postfix) with SMTP id 91D5D2033F;
+        Fri, 11 Nov 2022 16:58:45 +0200 (EET)
+Date:   Fri, 11 Nov 2022 14:58:45 +0000
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Tianshu Qiu <tian.shu.qiu@intel.com>,
+        Shawn Tu <shawnx.tu@intel.com>,
+        Bingbu Cao <bingbu.cao@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Subject: Re: [PATCH v1 1/8] media: ov2740: Remove duplicative pointer in
+ struct nvm_data
+Message-ID: <Y25jJd24+Aq53gKE@paasikivi.fi.intel.com>
+References: <20220726120556.2881-1-andriy.shevchenko@linux.intel.com>
+ <YwTf22gkWxeyNKlR@smile.fi.intel.com>
+ <Y246keIq4a541ooO@smile.fi.intel.com>
+ <Y247UMkAUafPTBYI@smile.fi.intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Outbound-SMTP-Client: 10.47.79.110, [10.47.79.110]
-X-Outbound-Node: aer-core-1.cisco.com
-X-Spam-Status: No, score=-9.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIMWL_WL_MED,DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        SPF_HELO_NONE,SPF_NONE,USER_IN_DEF_DKIM_WL autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Y247UMkAUafPTBYI@smile.fi.intel.com>
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-When the V4L2_CAP_EDID capability flag is set,
-ioctls for enum inputs/outputs and get/set edid are automatically set.
+On Fri, Nov 11, 2022 at 02:08:48PM +0200, Andy Shevchenko wrote:
+> On Fri, Nov 11, 2022 at 02:05:37PM +0200, Andy Shevchenko wrote:
+> > On Tue, Aug 23, 2022 at 05:10:35PM +0300, Andy Shevchenko wrote:
+> > > On Tue, Jul 26, 2022 at 03:05:49PM +0300, Andy Shevchenko wrote:
+> > > > The struct i2c_client pointer is used only to get driver data,
+> > > > associated with a struct device or print messages on behalf.
+> > > > Moreover, the very same pointer to a struct device is already
+> > > > assigned by a regmap and can be retrieved from there.
+> > > > No need to keep a duplicative pointer.
+> > > 
+> > > Thanks, Bungbu, for the review. Can it be now applied?
+> > 
+> > Don't see this being applied or commented why not...
+> > 
+> > Mauro? Or who is taking care of this driver nowadays?
+> 
+> Okay, found a private response by Mauro where he tells that Sakari can take
+> care of this. Sakari, should I resend this to you with all tags applied?
+> Or you can use `b4` tool that allows to avoid unneeded resend.
 
-Signed-off-by: Erling Ljunggren <hljunggr@cisco.com>
----
- drivers/media/v4l2-core/v4l2-dev.c | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
+No need to. But please cc me on the next time. I'll take a look now...
 
-diff --git a/drivers/media/v4l2-core/v4l2-dev.c b/drivers/media/v4l2-core/v4l2-dev.c
-index d00237ee4cae..e8222b9835e6 100644
---- a/drivers/media/v4l2-core/v4l2-dev.c
-+++ b/drivers/media/v4l2-core/v4l2-dev.c
-@@ -556,6 +556,7 @@ static void determine_valid_ioctls(struct video_device *vdev)
- 	bool is_rx = vdev->vfl_dir != VFL_DIR_TX;
- 	bool is_tx = vdev->vfl_dir != VFL_DIR_RX;
- 	bool is_io_mc = vdev->device_caps & V4L2_CAP_IO_MC;
-+	bool is_edid =  vdev->device_caps & V4L2_CAP_EDID;
- 
- 	bitmap_zero(valid_ioctls, BASE_VIDIOC_PRIVATE);
- 
-@@ -778,6 +779,20 @@ static void determine_valid_ioctls(struct video_device *vdev)
- 		SET_VALID_IOCTL(ops, VIDIOC_S_TUNER, vidioc_s_tuner);
- 		SET_VALID_IOCTL(ops, VIDIOC_S_HW_FREQ_SEEK, vidioc_s_hw_freq_seek);
- 	}
-+	if (is_edid) {
-+		SET_VALID_IOCTL(ops, VIDIOC_G_EDID, vidioc_g_edid);
-+		if (is_tx) {
-+			SET_VALID_IOCTL(ops, VIDIOC_G_OUTPUT, vidioc_g_output);
-+			SET_VALID_IOCTL(ops, VIDIOC_S_OUTPUT, vidioc_s_output);
-+			SET_VALID_IOCTL(ops, VIDIOC_ENUMOUTPUT, vidioc_enum_output);
-+		}
-+		if (is_rx) {
-+			SET_VALID_IOCTL(ops, VIDIOC_ENUMINPUT, vidioc_enum_input);
-+			SET_VALID_IOCTL(ops, VIDIOC_G_INPUT, vidioc_g_input);
-+			SET_VALID_IOCTL(ops, VIDIOC_S_INPUT, vidioc_s_input);
-+			SET_VALID_IOCTL(ops, VIDIOC_S_EDID, vidioc_s_edid);
-+		}
-+	}
- 
- 	bitmap_andnot(vdev->valid_ioctls, valid_ioctls, vdev->valid_ioctls,
- 			BASE_VIDIOC_PRIVATE);
 -- 
-2.38.0
-
+Sakari Ailus
