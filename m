@@ -2,76 +2,77 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id ED3166255C1
-	for <lists+linux-media@lfdr.de>; Fri, 11 Nov 2022 09:52:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 249A76255C6
+	for <lists+linux-media@lfdr.de>; Fri, 11 Nov 2022 09:54:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233351AbiKKIwr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 11 Nov 2022 03:52:47 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41290 "EHLO
+        id S233375AbiKKIyU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 11 Nov 2022 03:54:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42302 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233352AbiKKIwp (ORCPT
+        with ESMTP id S230181AbiKKIyS (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 11 Nov 2022 03:52:45 -0500
-Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com [IPv6:2a00:1450:4864:20::631])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C4E6742CE
-        for <linux-media@vger.kernel.org>; Fri, 11 Nov 2022 00:52:44 -0800 (PST)
-Received: by mail-ej1-x631.google.com with SMTP id m22so11052257eji.10
-        for <linux-media@vger.kernel.org>; Fri, 11 Nov 2022 00:52:44 -0800 (PST)
+        Fri, 11 Nov 2022 03:54:18 -0500
+Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com [IPv6:2a00:1450:4864:20::636])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 30136D2F5
+        for <linux-media@vger.kernel.org>; Fri, 11 Nov 2022 00:54:17 -0800 (PST)
+Received: by mail-ej1-x636.google.com with SMTP id n12so11052990eja.11
+        for <linux-media@vger.kernel.org>; Fri, 11 Nov 2022 00:54:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=DiydaOC6bZdEhN21ButnrxAj6J1ajurIBtcHIo96ANM=;
-        b=YHNHpU1wIJqSt66QMvC3Asd7Fs969LcqCVwePpBpjH04J9sOnjXFHPpf/4RQnS47T/
-         p5RDljeRRzCqBmWPeHTLPG8b5mD5onnw+S7RaP00KRRiNQEP/VNGiPiwpPLRaHixDVoP
-         PsZ99HjPW48NHgp0EN9B45Gw5NaA8wlqv9GR8=
+        bh=cE18/cCuxFVZ0pa3JlpYCtd8rwhqfTG6tMqmRyx7iVM=;
+        b=QZ6cEviu0bmXteRZ1EBvIxfQezqih5TF1m8hzZPRhP6kqOUntcRhfgLxP7dBKXJSMv
+         t8btOgCwjhfE2P8LqgX5D9A8OXP0SpdLzun3CBgu8f3zorefRofUDZW+e+GdY93DyM2N
+         FeOyM4XoKNgGoNkWri8/WFNQroD+PkU9nBM44=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=DiydaOC6bZdEhN21ButnrxAj6J1ajurIBtcHIo96ANM=;
-        b=YULf9SF8H2IBxYL7xgSe3SqJ0k3iKwv4AiAl+IhG2GdpjHvaR59VeI1ykqcOXb+D+N
-         OASa0PbGI2LfsmQcwkqNGsMTUSc/g8VaNP8xkdbpvxy96qQlcGoALJ2ce5PC2JwyWuGC
-         BPpmGmLRjtAumP3+ej0DjH9MgPp6RibUgmFbWCUJaKtCI3RKyqs3xM+WCjwfybtKfMYS
-         7qnbOQJ1tzmBB9qvMH8o58TKaGctul0/7aWl1Act552GtwgLeXSHJ0NbpdFp6yFE/Yba
-         sUqie0J2Vq/ZCxz1qWPqQpFLzdjh9RJywte6+/Pu1RJa3zJRiVjs9M1iKHDoDyD3VcAZ
-         7dEg==
-X-Gm-Message-State: ANoB5pnmV9EpXGVHRBQOlsChW37uKwUn40Uzy5UJGWHS7hEuDmF10xf5
-        toiKMMcT/jpuOIiWihJmlLvVGaq0Q9skUkRv
-X-Google-Smtp-Source: AA0mqf65Rd08sgMSCRQ2O0okvm1+i53HeDAzfAPw7zy05OSK8aj56LpEPn0BWIjLL8oyVBoNMT7Syw==
-X-Received: by 2002:a17:906:a148:b0:79e:9d9b:d41f with SMTP id bu8-20020a170906a14800b0079e9d9bd41fmr1086551ejb.404.1668156762786;
-        Fri, 11 Nov 2022 00:52:42 -0800 (PST)
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com. [209.85.218.46])
-        by smtp.gmail.com with ESMTPSA id bf28-20020a0564021a5c00b004643f1524f3sm827133edb.44.2022.11.11.00.52.40
+        bh=cE18/cCuxFVZ0pa3JlpYCtd8rwhqfTG6tMqmRyx7iVM=;
+        b=v3/eJo0qGwTpGMaXvLc1DTPVp4zneYRzpmHbiUBwLNQcp+GnAMG64DsGlgXje8vDAB
+         HIw5nPBwlpn4oiFKih//TX6CmLu6qj0lBUS72FECzAIYpFphREskULHvC4ZbsOXvpxRc
+         zJUt0JMg03YfrCLAL9SVb5J1XzQ84dkLoAyClHbMkjvWQWy/ZLULBrCSq1xTVBZqp/3f
+         iKzzswmaX7DJloIL7LRv7Dz6mbkGN/rWV0ca6S2uLP8kVPBP1vBbQSCWUPdLw/Dvo7OP
+         MMI0lNHb/IOVUOXiQBveM9IgHGOCbOWTUcBCX4fo10EMKDVTmcgoOSEuSVWBTWCc+ha5
+         npPQ==
+X-Gm-Message-State: ANoB5pmvTZBn8L3WVyA/iFfP7BSnLpH4p/rMUzsXBsD3pHI3eq3iAuRU
+        t9C37476mgz/w+VY9yRntfWpUQsNK0GPYCO5
+X-Google-Smtp-Source: AA0mqf4by+Cy6UxKxp3UWAuLfWJMJTmTpgJJHAIr7iI76J9auDni86Fd+07RdwZS2VqmsN4nvx2vDg==
+X-Received: by 2002:a17:907:c286:b0:730:631c:40b7 with SMTP id tk6-20020a170907c28600b00730631c40b7mr1108410ejc.336.1668156855552;
+        Fri, 11 Nov 2022 00:54:15 -0800 (PST)
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com. [209.85.218.48])
+        by smtp.gmail.com with ESMTPSA id ez19-20020a056402451300b0044e937ddcabsm818785edb.77.2022.11.11.00.54.13
         for <linux-media@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 11 Nov 2022 00:52:41 -0800 (PST)
-Received: by mail-ej1-f46.google.com with SMTP id q9so11255659ejd.0
-        for <linux-media@vger.kernel.org>; Fri, 11 Nov 2022 00:52:40 -0800 (PST)
-X-Received: by 2002:a17:906:9f04:b0:7ae:ed2:5367 with SMTP id
- fy4-20020a1709069f0400b007ae0ed25367mr1085959ejc.521.1668156759971; Fri, 11
- Nov 2022 00:52:39 -0800 (PST)
+        Fri, 11 Nov 2022 00:54:14 -0800 (PST)
+Received: by mail-ej1-f48.google.com with SMTP id ud5so11133721ejc.4
+        for <linux-media@vger.kernel.org>; Fri, 11 Nov 2022 00:54:13 -0800 (PST)
+X-Received: by 2002:a17:906:4e48:b0:73d:dfb2:d188 with SMTP id
+ g8-20020a1709064e4800b0073ddfb2d188mr1123926ejw.426.1668156853340; Fri, 11
+ Nov 2022 00:54:13 -0800 (PST)
 MIME-Version: 1.0
 References: <20210114180738.1758707-1-helen.koike@collabora.com>
  <20210114180738.1758707-3-helen.koike@collabora.com> <d0d1f74f-7e77-1b18-0529-dbbec8889584@xs4all.nl>
  <577c56bf-146c-f34a-2028-075170076de7@collabora.com> <708221e8-a805-c394-6958-6c7ec24bfe66@synaptics.com>
  <03f6fd9ff6a757f6d1cb6cc552efcb0b94327104.camel@ndufresne.ca>
  <3b1edf81-bcc0-0b56-7e55-93da55d7f747@synaptics.com> <CAAFQd5Ab0giyCS_69Wt4=C9yiBmLfV=0yZY2vGeaOwFgGsb_bQ@mail.gmail.com>
- <91a96b4a-a91e-aae6-733f-c307ca6840f0@synaptics.com>
-In-Reply-To: <91a96b4a-a91e-aae6-733f-c307ca6840f0@synaptics.com>
+ <Y24LBrkveiXlmCMy@pendragon.ideasonboard.com>
+In-Reply-To: <Y24LBrkveiXlmCMy@pendragon.ideasonboard.com>
 From:   Tomasz Figa <tfiga@chromium.org>
-Date:   Fri, 11 Nov 2022 17:52:28 +0900
-X-Gmail-Original-Message-ID: <CAAFQd5DD4QgDs-Dff_SB2tNT3d9Hs8HG0rkQFPV+6vgvKqg+qA@mail.gmail.com>
-Message-ID: <CAAFQd5DD4QgDs-Dff_SB2tNT3d9Hs8HG0rkQFPV+6vgvKqg+qA@mail.gmail.com>
+Date:   Fri, 11 Nov 2022 17:54:01 +0900
+X-Gmail-Original-Message-ID: <CAAFQd5DZG9QDp-+e8Xs7gKL=ZLkm3hA1-=eJZe8hjoB42xE5qw@mail.gmail.com>
+Message-ID: <CAAFQd5DZG9QDp-+e8Xs7gKL=ZLkm3hA1-=eJZe8hjoB42xE5qw@mail.gmail.com>
 Subject: Re: [RFC PATCH v6 02/11] media: v4l2: Extend pixel formats to unify
  single/multi-planar handling (and more)
-To:     Hsia-Jun Li <Randy.Li@synaptics.com>
-Cc:     Nicolas Dufresne <nicolas@ndufresne.ca>, mchehab@kernel.org,
-        hans.verkuil@cisco.com, laurent.pinchart@ideasonboard.com,
-        sakari.ailus@iki.fi, boris.brezillon@collabora.com,
-        hiroh@chromium.org, Brian.Starkey@arm.com, kernel@collabora.com,
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Hsia-Jun Li <Randy.Li@synaptics.com>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>, mchehab@kernel.org,
+        hans.verkuil@cisco.com, sakari.ailus@iki.fi,
+        boris.brezillon@collabora.com, hiroh@chromium.org,
+        Brian.Starkey@arm.com, kernel@collabora.com,
         narmstrong@baylibre.com, linux-kernel@vger.kernel.org,
         frkoenig@chromium.org, stanimir.varbanov@linaro.org,
         Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org
@@ -86,71 +87,64 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Nov 11, 2022 at 3:31 PM Hsia-Jun Li <Randy.Li@synaptics.com> wrote:
+On Fri, Nov 11, 2022 at 5:43 PM Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
 >
+> Hi Tomasz,
 >
->
-> On 11/11/22 13:48, Tomasz Figa wrote:
-> > CAUTION: Email originated externally, do not click links or open attach=
-ments unless you recognize the sender and know the content is safe.
-> >
-> >
-> > On Fri, Nov 11, 2022 at 12:04 PM Hsia-Jun Li <Randy.Li@synaptics.com> w=
-rote:
-> >>
-> >>
-> >>
-> >> On 11/11/22 01:06, Nicolas Dufresne wrote:
-> >>> CAUTION: Email originated externally, do not click links or open atta=
-chments unless you recognize the sender and know the content is safe.
-> >>>
-> >>>
-> >>> Le samedi 05 novembre 2022 =C3=A0 23:19 +0800, Hsia-Jun Li a =C3=A9cr=
-it :
-> >>>>>> VIDIOC_ENUM_EXT_PIX_FMT would report NV12 and NV12M, while
-> >>>>>> VIDIOC_ENUM_FMT
-> >>>>>> would just report NV12M.
-> >>>>>
-> >>>>> If NV12 and NV12M are equivalent in Ext API, I don't see why we wou=
-ld
-> >>>>> report both (unless I'm missing something, which is probably the ca=
-se).
-> >>>>>
-> >>>>> The idea was to deprecate the M-variants one day.
-> >>>> I was thinking the way in DRM API is better, always assuming it woul=
-d
-> >>>> always in a multiple planes. The only problem is we don't have a way=
- to
-> >>>> let the allocator that allocate contiguous memory for planes when we
-> >>>> need to do that.
-> >>>
-> >>> Its not too late to allow this to be negotiated, but I would move thi=
-s out of
-> >>> the pixel format definition to stop the explosion of duplicate pixel =
-formats,
-> >>> which is a nightmare to deal with.
-> >> I wonder whether we need to keep the pixel formats in videodev2.h
-> >> anymore. If we would like to use the modifiers from drm_fourcc.h, why
-> >> don't we use their pixel formats, they should be the same values of
-> >> non-M variant pixel formats of v4l2.
-> >>
-> >> Let videodev2.h only maintain the those codecs or motion based
-> >> compressed (pixel) formats.
-> >>
-> >> If I simplify the discussion, we want to
-> >>> negotiate contiguity with the driver. The new FMT structure should ha=
-ve a
-> >>> CONTIGUOUS flag. So if userpace sets:
-> >>>
-> >>>     S_FMT(NV12, CONTIGUOUS)
-> >> I wonder whether we would allow some planes being contiguous while som=
-e
-> >> would not. For example, the graphics planes could be in a contiguous
-> >> memory address while its compression metadata are not.
-> >> Although that is not the case of our platform. I believe it sounds lik=
-e
-> >> reasonable case for improving the performance, two meta planes could
-> >> resident in a different memory bank.
+> On Fri, Nov 11, 2022 at 02:48:48PM +0900, Tomasz Figa wrote:
+> > On Fri, Nov 11, 2022 at 12:04 PM Hsia-Jun Li wrote:
+> > > On 11/11/22 01:06, Nicolas Dufresne wrote:
+> > > > Le samedi 05 novembre 2022 =C3=A0 23:19 +0800, Hsia-Jun Li a =C3=A9=
+crit :
+> > > >>>> VIDIOC_ENUM_EXT_PIX_FMT would report NV12 and NV12M, while
+> > > >>>> VIDIOC_ENUM_FMT
+> > > >>>> would just report NV12M.
+> > > >>>
+> > > >>> If NV12 and NV12M are equivalent in Ext API, I don't see why we w=
+ould
+> > > >>> report both (unless I'm missing something, which is probably the =
+case).
+> > > >>>
+> > > >>> The idea was to deprecate the M-variants one day.
+> > > >> I was thinking the way in DRM API is better, always assuming it wo=
+uld
+> > > >> always in a multiple planes. The only problem is we don't have a w=
+ay to
+> > > >> let the allocator that allocate contiguous memory for planes when =
+we
+> > > >> need to do that.
+> > > >
+> > > > Its not too late to allow this to be negotiated, but I would move t=
+his out of
+> > > > the pixel format definition to stop the explosion of duplicate pixe=
+l formats,
+> > > > which is a nightmare to deal with.
+> > >
+> > > I wonder whether we need to keep the pixel formats in videodev2.h
+> > > anymore. If we would like to use the modifiers from drm_fourcc.h, why
+> > > don't we use their pixel formats, they should be the same values of
+> > > non-M variant pixel formats of v4l2.
+> > >
+> > > Let videodev2.h only maintain the those codecs or motion based
+> > > compressed (pixel) formats.
+> > >
+> > > If I simplify the discussion, we want to
+> > >
+> > > > negotiate contiguity with the driver. The new FMT structure should =
+have a
+> > > > CONTIGUOUS flag. So if userpace sets:
+> > > >
+> > > >    S_FMT(NV12, CONTIGUOUS)
+> > >
+> > > I wonder whether we would allow some planes being contiguous while so=
+me
+> > > would not. For example, the graphics planes could be in a contiguous
+> > > memory address while its compression metadata are not.
+> > > Although that is not the case of our platform. I believe it sounds li=
+ke
+> > > reasonable case for improving the performance, two meta planes could
+> > > resident in a different memory bank.
 > >
 > > I feel like this would be only useful in the MMAP mode. Looking at how
 > > the other UAPIs are evolving, things are going towards
@@ -158,98 +152,68 @@ e
 > > think we should follow the trend and keep the MMAP mode just at the
 > > same level of functionality as is today and focus on improvements and
 > > new functionality for the DMABUF mode.
-> >
-> I know there are still some devices(encoder) which only have one
-> register for storing the address of a graphics buffer.
+>
+> I agree, but we will need an API to expose the memory constraints of the
+> device, or userspace won't be able to allocate memory compatible with
+> the hardware or driver requirements.
 
-For those, the legacy MMAP mode (with existing functionality) can be
-successfully used, we wouldn't be removing it any time soon. Just
-don't want to design new functionality specifically for the legacy
-mode.
+Yes, I fully agree and that's why I think we should rather focus our
+efforts in that direction rather than expanding the existing MMAP
+capabilities.
 
-> >>
-> >> That lead to another question which I forgot whether I mention it befo=
-re.
-> >>
-> >> There are four modifiers in DRM while we would only one in these patch=
-es.
-> >>   From the EGL
-> >> https://urldefense.proofpoint.com/v2/url?u=3Dhttps-3A__registry.khrono=
-s.org_EGL_extensions_EXT_EGL-5FEXT-5Fimage-5Fdma-5Fbuf-5Fimport-5Fmodifiers=
-.txt&d=3DDwIFaQ&c=3D7dfBJ8cXbWjhc0BhImu8wVIoUFmBzj1s88r8EGyM0UY&r=3DP4xb2_7=
-biqBxD4LGGPrSV6j-jf3C3xlR7PXU-mLTeZE&m=3DmCebYOAiZK6pbpH1MrZGq-ZkDW-OqORCSw=
-sCEX9ScgdXk_yfWZFJPC5aC93CUg5F&s=3DrtmW_t2LYoJ6g3Y5wgyICmABu-2Npw3JCOlvUVIY=
-H2o&e=3D
-> >>
-> >> The modifier for echo plane could be different. I wish it would be
-> >> better to create a framebuffer being aware of which planes are graphic=
-s
-> >> or metadata.
+>
+> > > That lead to another question which I forgot whether I mention it bef=
+ore.
+> > >
+> > > There are four modifiers in DRM while we would only one in these patc=
+hes.
+> > >  From the EGL
+> > > https://registry.khronos.org/EGL/extensions/EXT/EGL_EXT_image_dma_buf=
+_import_modifiers.txt
+> > >
+> > > The modifier for echo plane could be different. I wish it would be
+> > > better to create a framebuffer being aware of which planes are graphi=
+cs
+> > > or metadata.
 > >
 > > What's an echo plane?
 > >
-> They could be
-> DRM_FORMAT_MOD_SYNA_V4H1_128L128_COMPRESSED
-> DRM_FORMAT_MOD_SYNA_V4H1_128L128_COMPRESSED
-> DRM_FORMAT_MOD_SYNA_MTR
-> DRM_FORMAT_MOD_SYNA_MTR
-> Or
-> DRM_FORMAT_MOD_SYNA_V4H3P8_64L4
-> DRM_FORMAT_MOD_SYNA_V4H3P8_64L4
->
-> in our platform. It could give a better idea on what is stored in a plane=
-.
-
-Yes, that's what I was thinking, but my question is more about what
-those planes hold. Are you sure that they should be planes of the same
-buffer rather than separate buffers?
-
 > > That said, it indeed looks like we may want to be consistent with DRM
 > > here and allow per-plane modifiers.
 > >
-> >>
-> >> I wonder whether it would be better that convincing the DRM maintainer
-> >> adding a non vendor flag for contiguous memory allocation here(DRM
-> >> itself don't need it).
-> >> While whether the memory could be contiguous for these vendor pixel
-> >> formats, it is complex vendor defined.
+> > > I wonder whether it would be better that convincing the DRM maintaine=
+r
+> > > adding a non vendor flag for contiguous memory allocation here(DRM
+> > > itself don't need it).
+> > > While whether the memory could be contiguous for these vendor pixel
+> > > formats, it is complex vendor defined.
 > >
 > > Memory allocation doesn't sound to me like it is related to formats or
 > > modifiers in any way. I agree with Nicolas that if we want to allow
 > > the userspace to specify if the memory should be contiguous or not,
 > > that should be a separate flag and actually I'd probably see it in
 > > REQBUF_EXT and CREATE_BUFS_EXT, rather than as a part of the format.
-> >
-> I agree with that. But here is a problem, if there was a display
-> device(DRM) that only supports contiguous planes in a frame buffer.
-> How do we be aware of that?
+>
+> I like how DRM decouples allocation of buffer objects and creation of
+> frame buffers.
 
-That's why I think the MMAP mode is not scalable and shouldn't be
-expanded anymore. Both V4L2 and DRM devices should describe their
-constraints to the userspace and then the userspace should allocate
-accordingly from the right DMA-buf heap. (Or as Android and ChromeOS
-do, just have a central allocator library that understands the
-constraints, so there is no need to query the drivers.)
+Exactly why I proposed so rather than coupling it with S_FMT. (But
+then it's moot if we decide to focus on DMABUF mode.)
 
-> >>
-> >>>
-> >>> The driver can accepts, and return the unmodified structure, or may d=
-rop the
-> >>> CONTIGUOUS flag, which would mean its not supported. Could be the oth=
-er way
-> >>> around too. As for allocation, if you have CONTIGUOUS flag set, users=
-pace does
-> >>> not have to export or map memory for each planes, as they are the sam=
-e. We
-> >>> simply need to define the offset as relative to their allocation, whi=
-ch I think
-> >>> is the most sensible thing.
-> >>>
-> >>> Nicolas
-> >>>
-> >>
-> >> --
-> >> Hsia-Jun(Randy) Li
+>
+> > > > The driver can accepts, and return the unmodified structure, or may=
+ drop the
+> > > > CONTIGUOUS flag, which would mean its not supported. Could be the o=
+ther way
+> > > > around too. As for allocation, if you have CONTIGUOUS flag set, use=
+rspace does
+> > > > not have to export or map memory for each planes, as they are the s=
+ame. We
+> > > > simply need to define the offset as relative to their allocation, w=
+hich I think
+> > > > is the most sensible thing.
 >
 > --
-> Hsia-Jun(Randy) Li
+> Regards,
+>
+> Laurent Pinchart
