@@ -2,133 +2,106 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EE2FC626751
-	for <lists+linux-media@lfdr.de>; Sat, 12 Nov 2022 07:11:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4E06C626891
+	for <lists+linux-media@lfdr.de>; Sat, 12 Nov 2022 10:42:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233679AbiKLGLP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 12 Nov 2022 01:11:15 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37616 "EHLO
+        id S234836AbiKLJmB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 12 Nov 2022 04:42:01 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35940 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230043AbiKLGLN (ORCPT
+        with ESMTP id S234629AbiKLJl7 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 12 Nov 2022 01:11:13 -0500
-Received: from mail-lj1-x22f.google.com (mail-lj1-x22f.google.com [IPv6:2a00:1450:4864:20::22f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8C83C5B5BE;
-        Fri, 11 Nov 2022 22:11:12 -0800 (PST)
-Received: by mail-lj1-x22f.google.com with SMTP id d3so6720717ljl.1;
-        Fri, 11 Nov 2022 22:11:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlemail.com; s=20210112;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:date:from:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=iiJFdVsZWeFbUIjvbGEQtUMcST9y103D3tolVec5T+c=;
-        b=i1uk5ZvqoGFGK8nZB98WC92fomQizagpq5RkWwzGaZxrUMx8Mar8RsEQ6zlflsys39
-         VEXDGMZYPBy2Pj+uY1RqAdyGuNBxjebmUN0xx+4iEOpAxKZueS7HWY2Ed+ZPPUt61uNu
-         M63Y0Wbspp8O946RiLU+4GoBetu7HM48lDHoOW+c7ehId7zndefjnqA1nws50PmN0n3X
-         NcykmvbrlZJzTYp9gDEdcc0l8ia40plvLqQlgy+Nke9jLaBpxpg0n4kI82SG+JefZQQg
-         8zAPXb9Q64PmIFGsfDf2UlwTnQI5DjRqiqUtr5EtSTjxTQkVnm2Vt7I5TIZ9TufwtfIb
-         nOjg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:date:from
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=iiJFdVsZWeFbUIjvbGEQtUMcST9y103D3tolVec5T+c=;
-        b=vDs7cFDyaKVUcZSDgMgSmDECoMcFlK0zoa0RFqjsY9wRvnjn8qCgctn/zCee9pa6dc
-         1gOAcK5qUcBEGiDqIQQUC+BXLzJ9EjMcMQL3nYumqG8Ji21r7rTNIBDiop0XJ4HfRx4W
-         pJEeLRDAoTjaU4vT1MxYzVO0HOv1byDxHi1xafZ41cSGLzgkSDa5t+Ka+GpLEAVz3X0g
-         imcMrk6k/r5vwdbrNwLqToAsNSxlo4adiit0MIrpDrVtdwmSRu/gjtFzJenGamu8M/vK
-         FyT9lqq76Q5EbIlfeJ3ppWpjPnGIZJCUJuOe/htMCccqxxzIKy2lSjefWticTejfRjbx
-         S/lA==
-X-Gm-Message-State: ANoB5pmA8mx5MZSW78DyAFyOiJMAXEi8Z3xi7hxvfpKOzO9wWNs5sPZe
-        +Z2pw20/42PTU1uncvTQ2Tw=
-X-Google-Smtp-Source: AA0mqf5DMQ1ZxQn699hZeiFNPKSFjAUDJmBcQbglma+77N/i2qEdjx22sDKIZ5Bfce+GOAJMZNGrWA==
-X-Received: by 2002:a2e:6d11:0:b0:26f:c081:9aed with SMTP id i17-20020a2e6d11000000b0026fc0819aedmr1524113ljc.222.1668233470786;
-        Fri, 11 Nov 2022 22:11:10 -0800 (PST)
-Received: from thinkpad-p72 ([78.133.163.249])
-        by smtp.gmail.com with ESMTPSA id q9-20020a2e84c9000000b0026dced9840dsm736624ljh.61.2022.11.11.22.11.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 11 Nov 2022 22:11:10 -0800 (PST)
-From:   Lukasz Wiecaszek <lukasz.wiecaszek@googlemail.com>
-X-Google-Original-From: Lukasz Wiecaszek <lukasz.wiecaszek@gmail.com>
-Date:   Sat, 12 Nov 2022 07:11:08 +0100
-To:     Dmitry Osipenko <dmitry.osipenko@collabora.com>
-Cc:     Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-        Lukasz Wiecaszek <lukasz.wiecaszek@googlemail.com>,
-        kraxel@redhat.com, Sumit Semwal <sumit.semwal@linaro.org>,
-        dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
-        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] udmabuf: add vmap method to udmabuf_ops
-Message-ID: <20221112061108.GA679753@thinkpad-p72>
-References: <20221111114528.608801-1-lukasz.wiecaszek@gmail.com>
- <2ee10e0e-a347-71a5-051a-02b9bac0bbb6@amd.com>
- <512e97ec-5d5e-4d6a-e547-13ca4036f3d1@collabora.com>
+        Sat, 12 Nov 2022 04:41:59 -0500
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E4381CFCC;
+        Sat, 12 Nov 2022 01:41:54 -0800 (PST)
+X-UUID: 0d7666fb06d14e5d84afca70a82b7bb5-20221112
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+        h=Content-Type:Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=UQPfVhMRXZEQgGhN/ELTm0I/Iufk8zrbsK/zXU7Smus=;
+        b=OJeD5TyEYYhOIZ3h0Mk40T4mxU1eHL3BDRi1h7X6+5mt7EmMZz2VsDH9FzZFYPBzFidQxtoTbLvdIWC1RSU4L/Kvb07sCr4fN5CeShzH+7tuC+VoKwM84jp3ng97cDTwlybEblAfwk0eLVlOx7TkDHcBDd4uIiqsi8AeoDm4JhI=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.13,REQID:de122c49-63e1-41fb-bc62-4006f6532c55,IP:0,U
+        RL:0,TC:0,Content:-5,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+        :release,TS:-5
+X-CID-META: VersionHash:d12e911,CLOUDID:f0471751-b7af-492d-8b40-b1032f90ce11,B
+        ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
+        RL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0
+X-UUID: 0d7666fb06d14e5d84afca70a82b7bb5-20221112
+Received: from mtkmbs13n2.mediatek.inc [(172.21.101.108)] by mailgw01.mediatek.com
+        (envelope-from <yunfei.dong@mediatek.com>)
+        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+        with ESMTP id 953980852; Sat, 12 Nov 2022 17:41:48 +0800
+Received: from mtkmbs13n1.mediatek.inc (172.21.101.193) by
+ mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.792.15; Sat, 12 Nov 2022 17:41:46 +0800
+Received: from localhost.localdomain (10.17.3.154) by mtkmbs13n1.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.2.792.15 via Frontend
+ Transport; Sat, 12 Nov 2022 17:41:45 +0800
+From:   Yunfei Dong <yunfei.dong@mediatek.com>
+To:     Yunfei Dong <yunfei.dong@mediatek.com>,
+        Chen-Yu Tsai <wenst@chromium.org>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Tiffany Lin <tiffany.lin@mediatek.com>
+CC:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        George Sun <george.sun@mediatek.com>,
+        Xiaoyong Lu <xiaoyong.lu@mediatek.com>,
+        Hsin-Yi Wang <hsinyi@chromium.org>,
+        Fritz Koenig <frkoenig@chromium.org>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Steve Cho <stevecho@chromium.org>,
+        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-mediatek@lists.infradead.org>,
+        <Project_Global_Chrome_Upstream_Group@mediatek.com>
+Subject: [PATCH 0/5] media: mediatek: vcodec: Fix decode random crash for PLT test
+Date:   Sat, 12 Nov 2022 17:41:39 +0800
+Message-ID: <20221112094144.4256-1-yunfei.dong@mediatek.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <512e97ec-5d5e-4d6a-e547-13ca4036f3d1@collabora.com>
+Content-Type: text/plain
+X-MTK:  N
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,
+        T_SPF_TEMPERROR,UNPARSEABLE_RELAY autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Nov 11, 2022 at 03:31:15PM +0300, Dmitry Osipenko wrote:
-> On 11/11/22 15:05, Christian König wrote:
-> > Adding Dmitry as well.
-> > 
-> > Am 11.11.22 um 12:45 schrieb Lukasz Wiecaszek:
-> >> The reason behind that patch is associated with videobuf2 subsystem
-> >> (or more genrally with v4l2 framework) and user created
-> >> dma buffers (udmabuf). In some circumstances
-> >> when dealing with V4L2_MEMORY_DMABUF buffers videobuf2 subsystem
-> >> wants to use dma_buf_vmap() method on the attached dma buffer.
-> >> As udmabuf does not have .vmap operation implemented,
-> >> such dma_buf_vmap() natually fails.
-> >>
-> >> videobuf2_common: [cap-000000003473b2f1] __vb2_queue_alloc: allocated
-> >> 3 buffers, 1 plane(s) each
-> >> videobuf2_common: [cap-000000003473b2f1] __prepare_dmabuf: buffer for
-> >> plane 0 changed
-> >> videobuf2_common: [cap-000000003473b2f1] __prepare_dmabuf: failed to
-> >> map dmabuf for plane 0
-> >> videobuf2_common: [cap-000000003473b2f1] __buf_prepare: buffer
-> >> preparation failed: -14
-> >>
-> >> The patch itself seems to be strighforward.
-> >> It adds implementation of .vmap method to 'struct dma_buf_ops
-> >> udmabuf_ops'.
-> >> .vmap method itself uses vm_map_ram() to map pages linearly
-> >> into the kernel virtual address space (only if such mapping
-> >> hasn't been created yet).
-> > 
-> > Of hand that sounds sane to me.
-> > 
-> > You should probably mention somewhere in a code comment that the cached
-> > vaddr is protected by the reservation lock being taken. That's not
-> > necessary obvious to everybody.
-> > 
-> > Apart from that looks good to me.
-> 
-> Adding a comment won't hurt.
-> 
-> We have the dma_resv_assert_held() in dma_buf_vmap() that will help
-> spotting a missing lock at runtime by developers. While the
-> dmbuf_ops->vmap() shouldn't be ever used directly by importers.
-> 
-> -- 
-> Best regards,
-> Dmitry
->
+Decoder may decode timeout or error when PLT test, fix some error
+condition not reasonable.
 
-Give me some time guys. I need to prepare patch agains 6.1. And this is
-my first time, so now it hurts. 
+patch 1 fix getting dst buffer NULL.
+patch 2 fix inner racing mode fail condition.
+patch 3 fix h264 crash.
+patch 4 fix vp9 crash.
+patch 5 fix core thread empty list.
+---
+Yunfei Dong (5):
+  media: mediatek: vcodec: Fix getting NULL pointer for dst buffer
+  media: mediatek: vcodec: Can't set dst buffer to done when lat decode
+    error
+  media: mediatek: vcodec: Fix h264 set lat buffer error
+  media: mediatek: vcodec: Setting lat buf to lat_list when lat decode
+    error
+  media: mediatek: vcodec: Core thread depends on core_list
 
-Lukasz
+ .../vcodec/mtk_vcodec_dec_stateless.c         | 13 +++++++----
+ .../vcodec/vdec/vdec_h264_req_multi_if.c      | 23 ++++++++++++-------
+ .../vcodec/vdec/vdec_vp9_req_lat_if.c         | 15 ++++++++----
+ .../platform/mediatek/vcodec/vdec_msg_queue.c |  2 +-
+ 4 files changed, 34 insertions(+), 19 deletions(-)
+
+-- 
+2.18.0
 
