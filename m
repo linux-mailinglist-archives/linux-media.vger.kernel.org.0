@@ -2,84 +2,154 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8D0F9626F25
-	for <lists+linux-media@lfdr.de>; Sun, 13 Nov 2022 12:10:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5AD2E626F9E
+	for <lists+linux-media@lfdr.de>; Sun, 13 Nov 2022 14:06:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235138AbiKMLK4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 13 Nov 2022 06:10:56 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47314 "EHLO
+        id S235306AbiKMNGx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 13 Nov 2022 08:06:53 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42166 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232799AbiKMLKy (ORCPT
+        with ESMTP id S233794AbiKMNGx (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 13 Nov 2022 06:10:54 -0500
-Received: from jari.cn (unknown [218.92.28.115])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id E9F83FAEF;
-        Sun, 13 Nov 2022 03:10:46 -0800 (PST)
-Received: by ajax-webmail-localhost.localdomain (Coremail) ; Sun, 13 Nov
- 2022 19:05:16 +0800 (GMT+08:00)
-X-Originating-IP: [182.148.14.167]
-Date:   Sun, 13 Nov 2022 19:05:16 +0800 (GMT+08:00)
-X-CM-HeaderCharset: UTF-8
-From:   wangkailong@jari.cn
-To:     mchehab@kernel.org, matthias.bgg@gmail.com,
-        hverkuil-cisco@xs4all.nl, moudy.ho@mediatek.com, sunke32@huawei.com
-Cc:     linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] media: platform: mtk-mdp3: add missing call to
- of_node_put()
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version XT6.0.1 build 20210329(c53f3fee)
- Copyright (c) 2002-2022 www.mailtech.cn
- mispb-4e503810-ca60-4ec8-a188-7102c18937cf-zhkzyfz.cn
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=UTF-8
+        Sun, 13 Nov 2022 08:06:53 -0500
+Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::226])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0954226EB
+        for <linux-media@vger.kernel.org>; Sun, 13 Nov 2022 05:06:50 -0800 (PST)
+Received: (Authenticated sender: jacopo@jmondi.org)
+        by mail.gandi.net (Postfix) with ESMTPSA id 02B33C0003;
+        Sun, 13 Nov 2022 13:06:45 +0000 (UTC)
+Date:   Sun, 13 Nov 2022 14:06:43 +0100
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Dave Stevenson <dave.stevenson@raspberrypi.com>
+Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>
+Subject: Re: [PATCH 1/3] Documentation: media: camera-sensor: Correct frame
+ interval
+Message-ID: <20221113130643.ibktofj6wqgoks4r@uno.localdomain>
+References: <20221107204959.37691-1-jacopo@jmondi.org>
+ <20221107204959.37691-2-jacopo@jmondi.org>
+ <CAPY8ntDJVJftyxRsRg+cdbPfLpFXP4Mijy8F5ZOWLTtPqUt-LA@mail.gmail.com>
+ <20221108120243.smg54xeqv5dmyect@uno.localdomain>
+ <CAPY8ntCqHGTRFiGOP1BbYE7VDCGAvm9aQSWYZD7Ky2S8WGVdXQ@mail.gmail.com>
 MIME-Version: 1.0
-Message-ID: <be6c204.133.18470aa3e15.Coremail.wangkailong@jari.cn>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID: AQAAfwCHj+Btz3BjBiIDAA--.63W
-X-CM-SenderInfo: 5zdqwypdlo00nj6mt2flof0/1tbiAQAEB2FEYx0DfwAhsE
-X-Coremail-Antispam: 1Ur529EdanIXcx71UUUUU7IcSsGvfJ3iIAIbVAYjsxI4VWxJw
-        CS07vEb4IE77IF4wCS07vE1I0E4x80FVAKz4kxMIAIbVAFxVCaYxvI4VCIwcAKzIAtYxBI
-        daVFxhVjvjDU=
-X-Spam-Status: No, score=2.2 required=5.0 tests=BAYES_00,RCVD_IN_PBL,RDNS_NONE,
-        T_SPF_HELO_PERMERROR,T_SPF_PERMERROR,XPRIO autolearn=no
-        autolearn_force=no version=3.4.6
-X-Spam-Level: **
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CAPY8ntCqHGTRFiGOP1BbYE7VDCGAvm9aQSWYZD7Ky2S8WGVdXQ@mail.gmail.com>
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Rml4IHRoZSBmb2xsb3dpbmcgY29jY2ljaGVjayB3YXJuaW5nOgoKZHJpdmVycy9tZWRpYS9wbGF0
-Zm9ybS9tZWRpYXRlay9tZHAzL210ay1tZHAzLWNvbXAuYzo4OTI6MS0yMzogV0FSTklORzoKRnVu
-Y3Rpb24gImZvcl9lYWNoX2NoaWxkX29mX25vZGUiIHNob3VsZCBoYXZlIG9mX25vZGVfcHV0KCkg
-YmVmb3JlCnJldHVybiBhcm91bmQgbGluZSA5MTQuCmRyaXZlcnMvbWVkaWEvcGxhdGZvcm0vbWVk
-aWF0ZWsvbWRwMy9tdGstbWRwMy1jb21wLmM6ODkyOjEtMjM6IFdBUk5JTkc6CkZ1bmN0aW9uICJm
-b3JfZWFjaF9jaGlsZF9vZl9ub2RlIiBzaG91bGQgaGF2ZSBvZl9ub2RlX3B1dCgpIGJlZm9yZQpy
-ZXR1cm4gYXJvdW5kIGxpbmUgOTIwLgpkcml2ZXJzL21lZGlhL3BsYXRmb3JtL21lZGlhdGVrL21k
-cDMvbXRrLW1kcDMtY29tcC5jOjk1MToxLTIzOiBXQVJOSU5HOgpGdW5jdGlvbiAiZm9yX2VhY2hf
-Y2hpbGRfb2Zfbm9kZSIgc2hvdWxkIGhhdmUgb2Zfbm9kZV9wdXQoKSBiZWZvcmUKcmV0dXJuIGFy
-b3VuZCBsaW5lIDk5My4KClNpZ25lZC1vZmYtYnk6IEthaUxvbmcgV2FuZyA8d2FuZ2thaWxvbmdA
-amFyaS5jbj4KLS0tCiBkcml2ZXJzL21lZGlhL3BsYXRmb3JtL21lZGlhdGVrL21kcDMvbXRrLW1k
-cDMtY29tcC5jIHwgNiArKysrKy0KIDEgZmlsZSBjaGFuZ2VkLCA1IGluc2VydGlvbnMoKyksIDEg
-ZGVsZXRpb24oLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL21lZGlhL3BsYXRmb3JtL21lZGlhdGVr
-L21kcDMvbXRrLW1kcDMtY29tcC5jIGIvZHJpdmVycy9tZWRpYS9wbGF0Zm9ybS9tZWRpYXRlay9t
-ZHAzL210ay1tZHAzLWNvbXAuYwppbmRleCBkM2VhZjg4ODQ0MTIuLjQxNjJmYzczMmYzOCAxMDA2
-NDQKLS0tIGEvZHJpdmVycy9tZWRpYS9wbGF0Zm9ybS9tZWRpYXRlay9tZHAzL210ay1tZHAzLWNv
-bXAuYworKysgYi9kcml2ZXJzL21lZGlhL3BsYXRmb3JtL21lZGlhdGVrL21kcDMvbXRrLW1kcDMt
-Y29tcC5jCkBAIC05MDgsNiArOTA4LDcgQEAgc3RhdGljIGludCBtZHBfY29tcF9zdWJfY3JlYXRl
-KHN0cnVjdCBtZHBfZGV2ICptZHApCiAJCWFsaWFzX2lkID0gbWRwX2NvbXBfYWxpYXNfaWRbdHlw
-ZV07CiAJCWlkID0gbWRwX2NvbXBfZ2V0X2lkKHR5cGUsIGFsaWFzX2lkKTsKIAkJaWYgKGlkIDwg
-MCkgeworCQkJb2Zfbm9kZV9wdXQobm9kZSk7CiAJCQlkZXZfZXJyKGRldiwKIAkJCQkiRmFpbCB0
-byBnZXQgc3ViIGNvbXAuIGlkOiB0eXBlICVkIGFsaWFzICVkXG4iLAogCQkJCXR5cGUsIGFsaWFz
-X2lkKTsKQEAgLTkxNiw4ICs5MTcsMTAgQEAgc3RhdGljIGludCBtZHBfY29tcF9zdWJfY3JlYXRl
-KHN0cnVjdCBtZHBfZGV2ICptZHApCiAJCW1kcF9jb21wX2FsaWFzX2lkW3R5cGVdKys7CiAKIAkJ
-Y29tcCA9IG1kcF9jb21wX2NyZWF0ZShtZHAsIG5vZGUsIGlkKTsKLQkJaWYgKElTX0VSUihjb21w
-KSkKKwkJaWYgKElTX0VSUihjb21wKSkgeworCQkJb2Zfbm9kZV9wdXQobm9kZSk7CiAJCQlyZXR1
-cm4gUFRSX0VSUihjb21wKTsKKwkJfQogCX0KIAogCXJldHVybiAwOwpAQCAtOTg4LDYgKzk5MSw3
-IEBAIGludCBtZHBfY29tcF9jb25maWcoc3RydWN0IG1kcF9kZXYgKm1kcCkKIAogCQlwZGV2ID0g
-b2ZfZmluZF9kZXZpY2VfYnlfbm9kZShub2RlKTsKIAkJaWYgKCFwZGV2KSB7CisJCQlvZl9ub2Rl
-X3B1dChub2RlKTsKIAkJCWRldl93YXJuKGRldiwgImNhbid0IGZpbmQgcGxhdGZvcm0gZGV2aWNl
-IG9mIG5vZGU6JXNcbiIsCiAJCQkJIG5vZGUtPm5hbWUpOwogCQkJcmV0dXJuIC1FTk9ERVY7Ci0t
-IAoyLjI1LjEK
+Hi Dave
+
+On Thu, Nov 10, 2022 at 07:38:29AM +0000, Dave Stevenson wrote:
+> Hi Jacopo
+>
+> On Tue, 8 Nov 2022 at 12:02, Jacopo Mondi <jacopo@jmondi.org> wrote:
+> >
+> > Hi Dave
+> >    thanks for the reply
+> >
+> > On Tue, Nov 08, 2022 at 11:41:58AM +0000, Dave Stevenson wrote:
+> > > Hi Jacopo.
+> > >
+> > > On Mon, 7 Nov 2022 at 20:50, Jacopo Mondi <jacopo@jmondi.org> wrote:
+> > > >
+> > > > The formula to compute the frame interval uses the analogue crop
+> > > > rectangle dimensions to compute the total frame size in conjunction with
+> > > > blankings.
+> > > >
+> > > > Horizontal and vertical blankings are realized by extending the time
+> > > > interval during which no valid pixels are sent on the bus between
+> > > > visible lines and between consecutive frames, whose size is smaller than
+> > > > the analogue crop rectangle if any additional cropping or pixel
+> > > > subsampling is applied on the sensor processing pipeline.
+> > > >
+> > > > Correct the documentation to use the visible line length and frame
+> > > > height instead of the analogue crop dimensions.
+> > >
+> > > I'll defer to Sakari on this, but I think the original text is correct.
+> > >
+> > > Consider something like CCS where you have a separate array with
+> > > analogue crop, and then binning and scaling steps. AIUI the pixel rate
+> > > and [HV]BLANK will be defined for the array, not on the binned and
+> > > scaled values which finally give the visible frame. See [1].
+> > >
+> > > For the majority of sensors where analogue cropping, binning, and
+> > > scaling are not broken out separately, then it may well have been
+> > > incorrectly implemented as they do often look at the output
+> > > width/height. Should they be using the w/h values returned by
+> > > V4L2_SEL_TGT_CROP on V4L2_SUBDEV_FORMAT_ACTIVE for the sensor modes
+> > > instead? Quite probably, but that also makes the userspace more
+> > > complex (and probably needs fixing).
+> >
+> > More or less this was my reasoning, please see the cover letter.
+>
+>  A thought came to me on this one.
+> If defined as the output width/height of the subdev implementing the
+> blanking controls, then both CCS and the majority are correct as they
+> are.
+
+I presume so as well..
+
+>
+> Doing so also avoids a load of mess in drivers where H & V binning
+> each double the pixel rate if VBLANK/HBLANK are with regard the
+> analogue cropped area, which results in more controls to update in the
+> driver, and more to reread in userspace.
+>
+
+So do you think I should continue using the "analogue crop rectangle"
+in the documentation as the reference for blankings calculations even
+if most drivers do not actually use it ? IOW drop the first patch and
+use a more generic
+
+"The new maximum limit for the controls should be re-calculated using the
+newly applied s/visibile width and heigh/dimensions/"
+
+in 2/3 ?
+
+Thanks for the review ;)
+
+> Cheers.
+>   Dave
+>
+> > >
+> > >   Dave
+> > >
+> > > [1] https://github.com/torvalds/linux/blob/master/drivers/media/i2c/ccs/ccs-core.c#L734
+> > >
+> > > > Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
+> > > > ---
+> > > >  Documentation/driver-api/media/camera-sensor.rst | 7 +++----
+> > > >  1 file changed, 3 insertions(+), 4 deletions(-)
+> > > >
+> > > > diff --git a/Documentation/driver-api/media/camera-sensor.rst b/Documentation/driver-api/media/camera-sensor.rst
+> > > > index c7d4891bd24e..bb7d62db4cd1 100644
+> > > > --- a/Documentation/driver-api/media/camera-sensor.rst
+> > > > +++ b/Documentation/driver-api/media/camera-sensor.rst
+> > > > @@ -87,12 +87,11 @@ less all modern raw camera sensors.
+> > > >
+> > > >  The frame interval is calculated using the following equation::
+> > > >
+> > > > -       frame interval = (analogue crop width + horizontal blanking) *
+> > > > -                        (analogue crop height + vertical blanking) / pixel rate
+> > > > +       frame interval = (visible width + horizontal blanking) *
+> > > > +                        (visibile height + vertical blanking) / pixel rate
+> > > >
+> > > >  The formula is bus independent and is applicable for raw timing parameters on
+> > > > -large variety of devices beyond camera sensors. Devices that have no analogue
+> > > > -crop, use the full source image size, i.e. pixel array size.
+> > > > +large variety of devices beyond camera sensors.
+> > > >
+> > > >  Horizontal and vertical blanking are specified by ``V4L2_CID_HBLANK`` and
+> > > >  ``V4L2_CID_VBLANK``, respectively. The unit of the ``V4L2_CID_HBLANK`` control
+> > > > --
+> > > > 2.38.1
+> > > >
