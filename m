@@ -2,154 +2,159 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5AD2E626F9E
-	for <lists+linux-media@lfdr.de>; Sun, 13 Nov 2022 14:06:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 75550627023
+	for <lists+linux-media@lfdr.de>; Sun, 13 Nov 2022 16:07:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235306AbiKMNGx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 13 Nov 2022 08:06:53 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42166 "EHLO
+        id S235194AbiKMPH3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 13 Nov 2022 10:07:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38598 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233794AbiKMNGx (ORCPT
+        with ESMTP id S232676AbiKMPH3 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 13 Nov 2022 08:06:53 -0500
-Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::226])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0954226EB
-        for <linux-media@vger.kernel.org>; Sun, 13 Nov 2022 05:06:50 -0800 (PST)
-Received: (Authenticated sender: jacopo@jmondi.org)
-        by mail.gandi.net (Postfix) with ESMTPSA id 02B33C0003;
-        Sun, 13 Nov 2022 13:06:45 +0000 (UTC)
-Date:   Sun, 13 Nov 2022 14:06:43 +0100
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Dave Stevenson <dave.stevenson@raspberrypi.com>
-Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>
-Subject: Re: [PATCH 1/3] Documentation: media: camera-sensor: Correct frame
- interval
-Message-ID: <20221113130643.ibktofj6wqgoks4r@uno.localdomain>
-References: <20221107204959.37691-1-jacopo@jmondi.org>
- <20221107204959.37691-2-jacopo@jmondi.org>
- <CAPY8ntDJVJftyxRsRg+cdbPfLpFXP4Mijy8F5ZOWLTtPqUt-LA@mail.gmail.com>
- <20221108120243.smg54xeqv5dmyect@uno.localdomain>
- <CAPY8ntCqHGTRFiGOP1BbYE7VDCGAvm9aQSWYZD7Ky2S8WGVdXQ@mail.gmail.com>
+        Sun, 13 Nov 2022 10:07:29 -0500
+Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com [IPv6:2a00:1450:4864:20::131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 641BBCE19;
+        Sun, 13 Nov 2022 07:07:27 -0800 (PST)
+Received: by mail-lf1-x131.google.com with SMTP id a29so15424777lfj.9;
+        Sun, 13 Nov 2022 07:07:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=googlemail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=umo/xdUlQSYAVDNNJIA7iJ7EdK6y2kGfWONuMRbs/TA=;
+        b=e9lTnIlyKgsqjF+MrXGgxFYkfUbeoadmoDhRaLkeApmUoQyroEV1yTWy4iBDU1GumZ
+         62VNSeshYUqjvZZbIHfhXRtyMracJ8xvEOAczV4BS+SEd1pi2iigs1dHU9Wxb7YtmCLx
+         xjGJM9yQZtIv/IbvoNb5hKb2yBGm3fJMxDNLcE68BXXRZQr1yfj5gAME1iZDEz+89it6
+         GrCDPrM3HbifmuqJMEfb3MKlY9t+1IJrgG+fqEJIVXBe424P41VyQoxGToyLhgwYCFNH
+         Syk3lZzZGTXghlpw64V8xD+ing6+wBvllMX82FHDHhzDUF7YjizxP5TBsHt7LGylUMwG
+         l97w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=umo/xdUlQSYAVDNNJIA7iJ7EdK6y2kGfWONuMRbs/TA=;
+        b=pZrD6CxrZwzUiQpC125o/md6Y9DyUf6Uxgt6ttmV10BROj+aOwZxpMqOOsSUTI80IM
+         TYC/kZXSijkdR4m1dQK2sJ0RkWlmF1QgZ/027XhcGo/n0TLOpjbBGMxf04YCLYRzQ5gK
+         TG6y1yNEWCsjKRroNLjmPUQG6CPxz6T5u8NDmcOLMa57vgIGlZ603ZKKipy2LcS8PFXj
+         tw0xD9ajRnaMFaDV9PWsD6tK7bGpismHOBGHL5tJf5yIXjPUx7id1u2KUoEBe/V6LmVG
+         yFkx26CFpR1aLBTzVEAotT37XKnNA9NmS33xmzXPy1GqOvEO+gpdJflGXAGjQugdMV18
+         MfZg==
+X-Gm-Message-State: ANoB5pnKI1xFUhx9/HV5NAHmZMGxtAPeKfaDVvW3vWkiRapHflrVwtn8
+        LdnPSIW101AGrp2IN+ImcqU=
+X-Google-Smtp-Source: AA0mqf4TUvlSQjy+LPxsa8mUnyhfgrZ2+hMCJe8GBO7bMH6joUroCaeCl6wu7cYoNIms96wVInnnWw==
+X-Received: by 2002:a05:6512:2305:b0:4b1:8698:9f3e with SMTP id o5-20020a056512230500b004b186989f3emr2911401lfu.421.1668352045590;
+        Sun, 13 Nov 2022 07:07:25 -0800 (PST)
+Received: from localhost.localdomain (185-48-128-212.net.cybernetwmw.com. [185.48.128.212])
+        by smtp.googlemail.com with ESMTPSA id j26-20020ac2455a000000b004979ec19387sm1397753lfm.305.2022.11.13.07.07.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 13 Nov 2022 07:07:25 -0800 (PST)
+From:   Lukasz Wiecaszek <lukasz.wiecaszek@googlemail.com>
+X-Google-Original-From: Lukasz Wiecaszek <lukasz.wiecaszek@gmail.com>
+To:     Gerd Hoffmann <kraxel@redhat.com>
+Cc:     Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+        Lukasz Wiecaszek <lukasz.wiecaszek@gmail.com>,
+        kernel test robot <lkp@intel.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+        dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v2] udmabuf: add vmap method to udmabuf_ops
+Date:   Sun, 13 Nov 2022 16:05:11 +0100
+Message-Id: <20221113150511.8878-1-lukasz.wiecaszek@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CAPY8ntCqHGTRFiGOP1BbYE7VDCGAvm9aQSWYZD7Ky2S8WGVdXQ@mail.gmail.com>
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Dave
+The reason behind that patch is associated with videobuf2 subsystem
+(or more genrally with v4l2 framework) and user created
+dma buffers (udmabuf). In some circumstances
+when dealing with V4L2_MEMORY_DMABUF buffers videobuf2 subsystem
+wants to use dma_buf_vmap() method on the attached dma buffer.
+As udmabuf does not have .vmap operation implemented,
+such dma_buf_vmap() natually fails.
 
-On Thu, Nov 10, 2022 at 07:38:29AM +0000, Dave Stevenson wrote:
-> Hi Jacopo
->
-> On Tue, 8 Nov 2022 at 12:02, Jacopo Mondi <jacopo@jmondi.org> wrote:
-> >
-> > Hi Dave
-> >    thanks for the reply
-> >
-> > On Tue, Nov 08, 2022 at 11:41:58AM +0000, Dave Stevenson wrote:
-> > > Hi Jacopo.
-> > >
-> > > On Mon, 7 Nov 2022 at 20:50, Jacopo Mondi <jacopo@jmondi.org> wrote:
-> > > >
-> > > > The formula to compute the frame interval uses the analogue crop
-> > > > rectangle dimensions to compute the total frame size in conjunction with
-> > > > blankings.
-> > > >
-> > > > Horizontal and vertical blankings are realized by extending the time
-> > > > interval during which no valid pixels are sent on the bus between
-> > > > visible lines and between consecutive frames, whose size is smaller than
-> > > > the analogue crop rectangle if any additional cropping or pixel
-> > > > subsampling is applied on the sensor processing pipeline.
-> > > >
-> > > > Correct the documentation to use the visible line length and frame
-> > > > height instead of the analogue crop dimensions.
-> > >
-> > > I'll defer to Sakari on this, but I think the original text is correct.
-> > >
-> > > Consider something like CCS where you have a separate array with
-> > > analogue crop, and then binning and scaling steps. AIUI the pixel rate
-> > > and [HV]BLANK will be defined for the array, not on the binned and
-> > > scaled values which finally give the visible frame. See [1].
-> > >
-> > > For the majority of sensors where analogue cropping, binning, and
-> > > scaling are not broken out separately, then it may well have been
-> > > incorrectly implemented as they do often look at the output
-> > > width/height. Should they be using the w/h values returned by
-> > > V4L2_SEL_TGT_CROP on V4L2_SUBDEV_FORMAT_ACTIVE for the sensor modes
-> > > instead? Quite probably, but that also makes the userspace more
-> > > complex (and probably needs fixing).
-> >
-> > More or less this was my reasoning, please see the cover letter.
->
->  A thought came to me on this one.
-> If defined as the output width/height of the subdev implementing the
-> blanking controls, then both CCS and the majority are correct as they
-> are.
+videobuf2_common: [cap-000000003473b2f1] __vb2_queue_alloc: allocated 3 buffers, 1 plane(s) each
+videobuf2_common: [cap-000000003473b2f1] __prepare_dmabuf: buffer for plane 0 changed
+videobuf2_common: [cap-000000003473b2f1] __prepare_dmabuf: failed to map dmabuf for plane 0
+videobuf2_common: [cap-000000003473b2f1] __buf_prepare: buffer preparation failed: -14
 
-I presume so as well..
+The patch itself seems to be strighforward.
+It adds implementation of .vmap method to 'struct dma_buf_ops udmabuf_ops'.
+.vmap method itself uses vm_map_ram() to map pages linearly
+into the kernel virtual address space (only if such mapping
+hasn't been created yet).
 
->
-> Doing so also avoids a load of mess in drivers where H & V binning
-> each double the pixel rate if VBLANK/HBLANK are with regard the
-> analogue cropped area, which results in more controls to update in the
-> driver, and more to reread in userspace.
->
+Signed-off-by: Lukasz Wiecaszek <lukasz.wiecaszek@gmail.com>
+Reported-by: kernel test robot <lkp@intel.com>
+---
+v1: https://lore.kernel.org/linux-media/202211120352.G7WPASoP-lkp@intel.com/T/#t
 
-So do you think I should continue using the "analogue crop rectangle"
-in the documentation as the reference for blankings calculations even
-if most drivers do not actually use it ? IOW drop the first patch and
-use a more generic
+v1 -> v2: Patch prepared and tested against 6.1.0-rc2+
 
-"The new maximum limit for the controls should be re-calculated using the
-newly applied s/visibile width and heigh/dimensions/"
+ drivers/dma-buf/udmabuf.c | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
 
-in 2/3 ?
+diff --git a/drivers/dma-buf/udmabuf.c b/drivers/dma-buf/udmabuf.c
+index 2bcdb935a3ac..2ca0e3639360 100644
+--- a/drivers/dma-buf/udmabuf.c
++++ b/drivers/dma-buf/udmabuf.c
+@@ -12,6 +12,8 @@
+ #include <linux/slab.h>
+ #include <linux/udmabuf.h>
+ #include <linux/hugetlb.h>
++#include <linux/vmalloc.h>
++#include <linux/iosys-map.h>
+ 
+ static int list_limit = 1024;
+ module_param(list_limit, int, 0644);
+@@ -26,6 +28,7 @@ struct udmabuf {
+ 	struct page **pages;
+ 	struct sg_table *sg;
+ 	struct miscdevice *device;
++	void *vaddr;
+ };
+ 
+ static vm_fault_t udmabuf_vm_fault(struct vm_fault *vmf)
+@@ -57,6 +60,21 @@ static int mmap_udmabuf(struct dma_buf *buf, struct vm_area_struct *vma)
+ 	return 0;
+ }
+ 
++static int vmap_udmabuf(struct dma_buf *buf, struct iosys_map *map)
++{
++	struct udmabuf *ubuf = buf->priv;
++
++	if (!ubuf->vaddr) {
++		ubuf->vaddr = vm_map_ram(ubuf->pages, ubuf->pagecount, -1);
++		if (!ubuf->vaddr)
++			return -EINVAL;
++	}
++
++	iosys_map_set_vaddr(map, ubuf->vaddr);
++
++	return 0;
++}
++
+ static struct sg_table *get_sg_table(struct device *dev, struct dma_buf *buf,
+ 				     enum dma_data_direction direction)
+ {
+@@ -159,6 +177,7 @@ static const struct dma_buf_ops udmabuf_ops = {
+ 	.unmap_dma_buf	   = unmap_udmabuf,
+ 	.release	   = release_udmabuf,
+ 	.mmap		   = mmap_udmabuf,
++	.vmap		   = vmap_udmabuf,
+ 	.begin_cpu_access  = begin_cpu_udmabuf,
+ 	.end_cpu_access    = end_cpu_udmabuf,
+ };
+-- 
+2.25.1
 
-Thanks for the review ;)
-
-> Cheers.
->   Dave
->
-> > >
-> > >   Dave
-> > >
-> > > [1] https://github.com/torvalds/linux/blob/master/drivers/media/i2c/ccs/ccs-core.c#L734
-> > >
-> > > > Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
-> > > > ---
-> > > >  Documentation/driver-api/media/camera-sensor.rst | 7 +++----
-> > > >  1 file changed, 3 insertions(+), 4 deletions(-)
-> > > >
-> > > > diff --git a/Documentation/driver-api/media/camera-sensor.rst b/Documentation/driver-api/media/camera-sensor.rst
-> > > > index c7d4891bd24e..bb7d62db4cd1 100644
-> > > > --- a/Documentation/driver-api/media/camera-sensor.rst
-> > > > +++ b/Documentation/driver-api/media/camera-sensor.rst
-> > > > @@ -87,12 +87,11 @@ less all modern raw camera sensors.
-> > > >
-> > > >  The frame interval is calculated using the following equation::
-> > > >
-> > > > -       frame interval = (analogue crop width + horizontal blanking) *
-> > > > -                        (analogue crop height + vertical blanking) / pixel rate
-> > > > +       frame interval = (visible width + horizontal blanking) *
-> > > > +                        (visibile height + vertical blanking) / pixel rate
-> > > >
-> > > >  The formula is bus independent and is applicable for raw timing parameters on
-> > > > -large variety of devices beyond camera sensors. Devices that have no analogue
-> > > > -crop, use the full source image size, i.e. pixel array size.
-> > > > +large variety of devices beyond camera sensors.
-> > > >
-> > > >  Horizontal and vertical blanking are specified by ``V4L2_CID_HBLANK`` and
-> > > >  ``V4L2_CID_VBLANK``, respectively. The unit of the ``V4L2_CID_HBLANK`` control
-> > > > --
-> > > > 2.38.1
-> > > >
