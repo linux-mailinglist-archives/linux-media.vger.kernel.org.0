@@ -2,101 +2,104 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 12361628299
-	for <lists+linux-media@lfdr.de>; Mon, 14 Nov 2022 15:32:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 30AAE6282C5
+	for <lists+linux-media@lfdr.de>; Mon, 14 Nov 2022 15:38:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237052AbiKNOcV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 14 Nov 2022 09:32:21 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40724 "EHLO
+        id S236203AbiKNOiU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 14 Nov 2022 09:38:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45832 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237084AbiKNOcP (ORCPT
+        with ESMTP id S235468AbiKNOiT (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 14 Nov 2022 09:32:15 -0500
-Received: from butterbrot.org (butterbrot.org [176.9.106.16])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A38E2A434
-        for <linux-media@vger.kernel.org>; Mon, 14 Nov 2022 06:32:06 -0800 (PST)
-Received: from [192.168.178.20] (unknown [85.191.191.33])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by butterbrot.org (Postfix) with ESMTPSA id 2C39F58C21DA;
-        Mon, 14 Nov 2022 15:32:04 +0100 (CET)
-Message-ID: <01c9cd34-2499-79a2-7142-7269a9ff7711@butterbrot.org>
-Date:   Mon, 14 Nov 2022 15:32:03 +0100
+        Mon, 14 Nov 2022 09:38:19 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 259CB29CBA
+        for <linux-media@vger.kernel.org>; Mon, 14 Nov 2022 06:38:18 -0800 (PST)
+Received: from pendragon.ideasonboard.com (unknown [46.183.103.8])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 13FC4891;
+        Mon, 14 Nov 2022 15:38:15 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1668436696;
+        bh=RgmO7+Ic2awm4Yibqx6xUS6xPh7+epm0Jtw69iNXV1o=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=hEOZBTnGgvTgNVljlbC4OSPlRIEcofY4M3r2VMyaaSpyGnpmN109uqFkU3n4HXRgs
+         BeRFZrDDWxEyJ66PE7t3uK7tK5Jecx4J4YWQi0kGR4goEhdJtXquCexwO9Gzxm6OyA
+         XA1UOnVGuH0xsGCDIw7ec2LUZS7Wo2gpyhIRg4nI=
+Date:   Mon, 14 Nov 2022 16:37:47 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Yang Yingliang <yangyingliang@huawei.com>
+Cc:     linux-media@vger.kernel.org, mchehab@kernel.org,
+        sakari.ailus@linux.intel.com, hverkuil-cisco@xs4all.nl
+Subject: Re: [PATCH] media: v4l2-dev: fix possible name leak in
+ __video_register_device()
+Message-ID: <Y3JSEErWZB3Wvza5@pendragon.ideasonboard.com>
+References: <20221111085809.1676804-1-yangyingliang@huawei.com>
+ <Y24TqcR9Hgy+R82/@pendragon.ideasonboard.com>
+ <b1f054e4-91f5-7d8a-330b-ac57213ad3bc@huawei.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: Correct way to use vb2_dma_sg via USB?
-Content-Language: en-GB
-From:   Florian Echtler <floe@butterbrot.org>
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Hans Verkuil <hans.verkuil@cisco.com>,
-        Christoph Hellwig <hch@lst.de>
-References: <c8e912fd-fe0e-8066-6357-e945a51afec2@butterbrot.org>
-In-Reply-To: <c8e912fd-fe0e-8066-6357-e945a51afec2@butterbrot.org>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------IJliftE0WrGif1kmPyCX0E0n"
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <b1f054e4-91f5-7d8a-330b-ac57213ad3bc@huawei.com>
+X-Spam-Status: No, score=1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_SBL_CSS,SPF_HELO_PASS,
+        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Level: *
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------IJliftE0WrGif1kmPyCX0E0n
-Content-Type: multipart/mixed; boundary="------------j300NnWcplUBKtxmaw00FVgM";
- protected-headers="v1"
-From: Florian Echtler <floe@butterbrot.org>
-To: Linux Media Mailing List <linux-media@vger.kernel.org>,
- Hans Verkuil <hans.verkuil@cisco.com>, Christoph Hellwig <hch@lst.de>
-Message-ID: <01c9cd34-2499-79a2-7142-7269a9ff7711@butterbrot.org>
-Subject: Re: Correct way to use vb2_dma_sg via USB?
-References: <c8e912fd-fe0e-8066-6357-e945a51afec2@butterbrot.org>
-In-Reply-To: <c8e912fd-fe0e-8066-6357-e945a51afec2@butterbrot.org>
+On Fri, Nov 11, 2022 at 09:23:29PM +0800, Yang Yingliang wrote:
+> On 2022/11/11 17:19, Laurent Pinchart wrote:
+> > On Fri, Nov 11, 2022 at 04:58:09PM +0800, Yang Yingliang wrote:
+> >> Afer commit 1fa5ae857bb1 ("driver core: get rid of struct device's
+> >> bus_id string array"), the name of device is allocated dynamically,
+> >> so call kfree_const() to freed it in error case.
+> >>
+> >> Fixes: 1fa5ae857bb1 ("driver core: get rid of struct device's bus_id string array")
+> >> Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
+> >> ---
+> >>   drivers/media/v4l2-core/v4l2-dev.c | 3 +++
+> >>   1 file changed, 3 insertions(+)
+> >>
+> >> diff --git a/drivers/media/v4l2-core/v4l2-dev.c b/drivers/media/v4l2-core/v4l2-dev.c
+> >> index 397d553177fa..1fce1c29c60f 100644
+> >> --- a/drivers/media/v4l2-core/v4l2-dev.c
+> >> +++ b/drivers/media/v4l2-core/v4l2-dev.c
+> >> @@ -1036,6 +1036,9 @@ int __video_register_device(struct video_device *vdev,
+> >>   	ret = device_register(&vdev->dev);
+> >>   	if (ret < 0) {
+> >>   		pr_err("%s: device_register failed\n", __func__);
+> >> +		kfree_const(vdev->dev.kobj.name);
+> >> +		/* set it to null to avoid callers using a bad pointer */
+> >> +		vdev->dev.kobj.name = NULL;
+> >
+> > This doesn't seem right to me. We shouldn't be poking into the kobj.
+> > This should be handled in the driver core, or if that can't be done for
+> > a reason specific to how the device is used in the V4L2 core, we need a
+> > helper function from the driver core to perform the cleanup.
+>
+> In technical, we should call put_device() here, but the release()
+> function has not been set in this case, and v4l2_device_release() will
+> release something that not need be, so we can not handle it in the
+> driver core well, I think free the name here directly is the best way
+> to fix it.
 
---------------j300NnWcplUBKtxmaw00FVgM
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+The documentation of device_register() states
 
-U29ycnkgdG8gbmFnIGFnYWluLCBidXQgaXMgdGhlcmUgYW55b25lIGFyb3VuZCB3aG8gbWln
-aHQgYmUgYWJsZSB0byBnaXZlIG1lIA0KaGludD8gSGF2ZSBub3QgYmVlbiBhYmxlIHRvIGZp
-bmQgYW55IGNvbmNsdXNpdmUgZG9jdW1lbnRhdGlvbiBvbiB0aGlzLg0KDQpCZXN0LCBGbG9y
-aWFuDQoNCk9uIDA5LjExLjIyIDExOjA5LCBGbG9yaWFuIEVjaHRsZXIgd3JvdGU6DQo+IEhl
-bGxvIGV2ZXJ5b25lLA0KPiANCj4gd2hpbGUgdHJ5aW5nIHRvIGZpeCB0aGUgcmVncmVzc2lv
-biBpbiBzdXI0MC5rbyBtZW50aW9uZWQgZWFybGllciwgSSBub3RpY2VkIHRoYXQgDQo+IGFw
-cGFyZW50bHkgc29tZSBvdGhlciBiaXRzIG9mIHRoZSBETUEgcGlwZWxpbmUgaGF2ZSBjaGFu
-Z2VkIGFzIHdlbGwgaW4gdGhlIA0KPiBtZWFudGltZS4NCj4gDQo+IFRoZSBjb2RlIGJpdCBp
-biBxdWVzdGlvbiBpbiBzdXI0MC5jIGN1cnJlbnRseSBsb29rcyBhcyBmb2xsb3dzOg0KPiAN
-Cj4gIMKgwqDCoMKgc2d0ID0gdmIyX2RtYV9zZ19wbGFuZV9kZXNjKCZuZXdfYnVmLT52Yi52
-YjJfYnVmLCAwKTsNCj4gDQo+ICDCoMKgwqDCoHJlc3VsdCA9IHVzYl9zZ19pbml0KCZzZ3Is
-IHN1cjQwLT51c2JkZXYsDQo+ICDCoMKgwqDCoMKgwqDCoCB1c2JfcmN2YnVsa3BpcGUoc3Vy
-NDAtPnVzYmRldiwgVklERU9fRU5EUE9JTlQpLCAwLA0KPiAgwqDCoMKgwqDCoMKgwqAgc2d0
-LT5zZ2wsIHNndC0+bmVudHMsIHN1cjQwLT5waXhfZm10LnNpemVpbWFnZSwgR0ZQX0tFUk5F
-TCk7DQo+IA0KPiBIb3dldmVyLCB3aGVuIEkgcHV0IGluIHNvbWUgZGVidWcgb3V0cHV0LCBJ
-IG5vdGljZWQgdGhhdCBzZ3QtPm5lbnRzIGlzIHplcm8uIA0KPiBTaG91bGRuJ3QgdGhhdCBi
-ZSBpbml0aWFsaXplZCBieSB2YjJfZG1hX3NnX3BsYW5lX2Rlc2M/DQo+IA0KPiBJIHRyaWVk
-IHRvIG1hbnVhbGx5IHNldCBpdCB0byAxIGFuZCBnb3Qgc29tZSBwYXJ0aWFsbHktZmlsbGVk
-IGJ1ZmZlcnMgYmFjaywgc28gDQo+IHRoaXMgc2VlbXMgdGhlIHJpZ2h0IHdheSB0byBnbywg
-YnV0IEkgY291bGRuJ3QgZmluZCBhbnkgb3RoZXIgZHJpdmVyL2V4YW1wbGUgDQo+IHRoYXQg
-dXNlcyB0aGlzIGNvbWJpbmF0aW9uLiBBbnkgaGludHMgdmVyeSB3ZWxjb21lLg0KPiANCj4g
-QmVzdCwgRmxvcmlhbg0KDQotLSANClNFTlQgRlJPTSBNWSBERUMgVlQ1MCBURVJNSU5BTA0K
-DQo=
+ * NOTE: _Never_ directly free @dev after calling this function, even
+ * if it returned an error! Always use put_device() to give up the
+ * reference initialized in this function instead.
 
---------------j300NnWcplUBKtxmaw00FVgM--
+We thus need to fix this in __video_register_device(), not to pile
+another workaround :-)
 
---------------IJliftE0WrGif1kmPyCX0E0n
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+> >>   		goto cleanup;
+> >>   	}
+> >>   	/* Register the release callback that will be called when the last
 
------BEGIN PGP SIGNATURE-----
+-- 
+Regards,
 
-wmMEABEIACMWIQST4FP0cQIAgRXjMjXsLPKyEa9q2AUCY3JRYwUDAAAAAAAKCRDsLPKyEa9q2Iz5
-AJwPyesvVqULu2n/SgJb9IE/gJHnLACgr4P/fd2W6U2FVjMMtnpYDQV5n0U=
-=W+u5
------END PGP SIGNATURE-----
-
---------------IJliftE0WrGif1kmPyCX0E0n--
+Laurent Pinchart
