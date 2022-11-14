@@ -2,83 +2,127 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2420E627AA6
-	for <lists+linux-media@lfdr.de>; Mon, 14 Nov 2022 11:38:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2FDF5627BC7
+	for <lists+linux-media@lfdr.de>; Mon, 14 Nov 2022 12:12:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235931AbiKNKiT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 14 Nov 2022 05:38:19 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36460 "EHLO
+        id S235824AbiKNLMD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 14 Nov 2022 06:12:03 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34732 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235760AbiKNKiS (ORCPT
+        with ESMTP id S236619AbiKNLLg (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 14 Nov 2022 05:38:18 -0500
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1AC401D65B
-        for <linux-media@vger.kernel.org>; Mon, 14 Nov 2022 02:38:18 -0800 (PST)
-X-IronPort-AV: E=McAfee;i="6500,9779,10530"; a="292336169"
-X-IronPort-AV: E=Sophos;i="5.96,161,1665471600"; 
-   d="scan'208";a="292336169"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Nov 2022 02:38:17 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10530"; a="707264135"
-X-IronPort-AV: E=Sophos;i="5.96,161,1665471600"; 
-   d="scan'208";a="707264135"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by fmsmga004.fm.intel.com with ESMTP; 14 Nov 2022 02:38:15 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-        (envelope-from <andy@kernel.org>)
-        id 1ouWqz-00C7oY-1W;
-        Mon, 14 Nov 2022 12:38:13 +0200
-Date:   Mon, 14 Nov 2022 12:38:13 +0200
-From:   Andy Shevchenko <andy@kernel.org>
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Tsuchiya Yuto <kitakar@gmail.com>,
-        Yury Luneff <yury.lunev@gmail.com>,
-        Nable <nable.maininbox@googlemail.com>,
-        andrey.i.trufanov@gmail.com, Fabio Aiuto <fabioaiuto83@gmail.com>,
-        linux-media@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH v2 04/17] media: atomisp: On streamoff wait for buffers
- owned by the CSS to be given back
-Message-ID: <Y3IalSFWZcG0ycjM@smile.fi.intel.com>
-References: <20221020195533.114049-1-hdegoede@redhat.com>
- <20221020195533.114049-5-hdegoede@redhat.com>
+        Mon, 14 Nov 2022 06:11:36 -0500
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 52831248E3;
+        Mon, 14 Nov 2022 03:08:45 -0800 (PST)
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits))
+        (No client certificate requested)
+        (Authenticated sender: kholk11)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id A1066660035A;
+        Mon, 14 Nov 2022 11:08:40 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1668424121;
+        bh=WSZBBTuHZl7i5QeHJkZThtLqJACixahwu9l9LESefbA=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=oHySW+J8hVuJ7x6PI24Y90yrAp822hL2yetyUUbeIhY1OmfW2+SXasFB0RzCVKCKk
+         4PEkbXvmLBOtcG3Ppj7ZAVn06lona6ffEshFTBBzX3QDkAU6qVoF3wcZaFqUGyQMKU
+         zDk+gT7GhMcJTyWAZ+rjPCr1ZOP+PNAA8FvV3XWJZTTtLl8nBdOw5kZz1y0uw7mDjY
+         VZrkoC12Yj9Wr+Y/09+zvKHs3mrjYwGk6rcgRyU4IZNkMsoJaln0F/0daKkFHBS/HE
+         O6gCjOIJDdo/Vulo7AJGIkkCKdqUvmJpN5PE417zZI1ITorN9tzHbZWGuzMBwVxYBV
+         XGIsXxzvo0s8w==
+Message-ID: <f301a43a-5d55-1607-b8d3-5cd057977397@collabora.com>
+Date:   Mon, 14 Nov 2022 12:08:37 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221020195533.114049-5-hdegoede@redhat.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-X-Spam-Status: No, score=-3.5 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_SOFTFAIL autolearn=ham autolearn_force=no
-        version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.3
+Subject: Re: [PATCH v2] media: mediatek: vcodec: fix h264 cavlc bitstream fail
+Content-Language: en-US
+To:     Yunfei Dong <yunfei.dong@mediatek.com>,
+        Chen-Yu Tsai <wenst@chromium.org>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Tiffany Lin <tiffany.lin@mediatek.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        George Sun <george.sun@mediatek.com>,
+        Xiaoyong Lu <xiaoyong.lu@mediatek.com>,
+        Hsin-Yi Wang <hsinyi@chromium.org>,
+        Fritz Koenig <frkoenig@chromium.org>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Steve Cho <stevecho@chromium.org>, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org,
+        Project_Global_Chrome_Upstream_Group@mediatek.com
+References: <20221018114122.26785-1-yunfei.dong@mediatek.com>
+From:   AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20221018114122.26785-1-yunfei.dong@mediatek.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Oct 20, 2022 at 09:55:20PM +0200, Hans de Goede wrote:
-> There is no guarantee that when we stop the pipeline all buffers owned
-> by the CSS are cleanly returned to the videobuf queue.
+Il 18/10/22 13:41, Yunfei Dong ha scritto:
+> Some cavlc bistream will decode fail when the frame size is small than
+
+s/small/smaller/g
+
+> 20 bytes. Need to add pending data at the end of the bitstream.
 > 
-> This is a problem with videobuf2 which will complain loudly when not
-> all buffers have been returned after the streamoff() queue op has
-> returned.
+> For the minimum size of mapped memory is 256 bytes(16x16), adding four bytes data
+> won't lead to access unknown virtual memory.
 > 
-> And this also allows moving a WARN() in the continuous mode path.
+> Fixes: 59fba9eed5a7 ("media: mediatek: vcodec: support stateless H.264 decoding for mt8192")
+> Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
+> ---
+> compared with v1:
+> - add detail comments for function: vdec_h264_insert_startcode.
+> - re-write commit message.
+> ---
+>   .../vcodec/vdec/vdec_h264_req_multi_if.c      | 32 +++++++++++++++++--
+>   1 file changed, 29 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_multi_if.c b/drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_multi_if.c
+> index 4cc92700692b..18e048755d11 100644
+> --- a/drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_multi_if.c
+> +++ b/drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_multi_if.c
+> @@ -539,6 +539,29 @@ static int vdec_h264_slice_core_decode(struct vdec_lat_buf *lat_buf)
+>   	return 0;
+>   }
+>   
+> +static void vdec_h264_insert_startcode(struct mtk_vcodec_dev *vcodec_dev, unsigned char *buf,
+> +				       size_t *bs_size, struct mtk_h264_pps_param *pps)
+> +{
+> +	struct device *dev = &vcodec_dev->plat_dev->dev;
+> +
+> +	/* Need to add pending data at the end of bitstream when bs_sz is small than
+> +	 * 20 bytes for cavlc bitstream, or lat will decode fail. This pending data is
+> +	 * useful for mt8192 and mt8195 platform.
 
-...
+What is the reason why other SoCs don't need this?
 
-> +	if (ret <= 0)
-> +		return ret ? ret : -ETIME;
+> +	 *
+> +	 * cavlc bitstream when entropy_coding_mode_flag is false.
+> +	 */
+> +	if (pps->entropy_coding_mode_flag || *bs_size > 20 ||
+> +	    !(of_device_is_compatible(dev->of_node, "mediatek,mt8192-vcodec-dec") ||
+> +	    of_device_is_compatible(dev->of_node, "mediatek,mt8195-vcodec-dec")))
 
-You can use Elvis and ETIME is not correct AFAIU, should be -ETIMEDOUT.
+I'm not comfortable seeing of_device_is_compatible... this list will grow whenever
+a new SoC needing this appears.
+Please think about a good name for a flag/quirk, or a bool, in the platform data
+for these two SoCs and use it.
 
-
--- 
-With Best Regards,
-Andy Shevchenko
-
+Regards,
+Angelo
 
