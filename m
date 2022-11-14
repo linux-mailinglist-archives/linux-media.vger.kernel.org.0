@@ -2,60 +2,67 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0555B627726
-	for <lists+linux-media@lfdr.de>; Mon, 14 Nov 2022 09:12:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D0A716277B1
+	for <lists+linux-media@lfdr.de>; Mon, 14 Nov 2022 09:30:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236225AbiKNIL5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 14 Nov 2022 03:11:57 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33822 "EHLO
+        id S236502AbiKNIaT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 14 Nov 2022 03:30:19 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49072 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236155AbiKNIL4 (ORCPT
+        with ESMTP id S236444AbiKNIaR (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 14 Nov 2022 03:11:56 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 17373193E2;
-        Mon, 14 Nov 2022 00:11:56 -0800 (PST)
+        Mon, 14 Nov 2022 03:30:17 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C92041B1F5;
+        Mon, 14 Nov 2022 00:30:16 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id A69D260EED;
-        Mon, 14 Nov 2022 08:11:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3893EC433D6;
-        Mon, 14 Nov 2022 08:11:53 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 4FC1A60F12;
+        Mon, 14 Nov 2022 08:30:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DC080C433C1;
+        Mon, 14 Nov 2022 08:30:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1668413515;
-        bh=mpJwu8UPciVMvP4x1nO/f/d0FY4YaLljifKODSIp6Fo=;
+        s=k20201202; t=1668414615;
+        bh=M5Go57T18KU3kovwfaSoPQkXTIJ9pU/x8zoi9VefwW4=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=k33TWUYSnJeJJSqCSK3BK1qBtMxZcviktUaz1E62W4dNSUSNiuH0BnICAe2VnJwkr
-         FNOrwgfUUfn04YPTZWuG2Brc2/2Kv9vEvb3/8v3JhkATlyBzq5V1Cc+d+mkM/n9Ht8
-         sOXZo0nRCudqaHPxM6nNkk7jH8o8G8rRRQsQHgdP/ddk9Oh5tzG0si68G350HklqNg
-         +F7Wb7tc9+mxb9JvX3yUo2LE/EVvs/p8wwXi59+xXFK7uSkHLvop1nTf694uRV5u1k
-         at3vjj2xvE66J8AllakgkYKHls7+q1XFybccu4tkkwy3fA1YW4dwgpv14lYCJLk9YI
-         oyu8ssz65EQug==
-Date:   Mon, 14 Nov 2022 10:11:50 +0200
+        b=SdH1QQKcLZQv3AKSNRqZgc4tXzBdMXgXKDuK3MoPQQRFpIYn6+O1nQZvg7Lp1GOYn
+         QE742J9xLRn5ra6lGaVDnYoZgTzRjS0XJQSharaM9uVu6TJ//f4uH4suR3r5UAk5PK
+         EjsXAoDr8CJU0bttAruYJ+pnYM1kFvmZR3cBw8CkWNisnUsoXW1ZUF1QcRRiDm7Y3L
+         oMXJbnHupIRPsjq+jbJhGZzXY9uFf9StdS9G4A+jFvbnURqB8ZwRSbqvO+FUa98HIw
+         VRhvftCN3zogKZ7mhH3RYpIiQTD/5vXd1uPM6Tw59jiLpnVXiTCkuHHIHG2JgSWt2/
+         SIDKXJb6O8rcQ==
+Date:   Mon, 14 Nov 2022 10:30:11 +0200
 From:   Leon Romanovsky <leon@kernel.org>
-To:     Christoph Hellwig <hch@lst.de>
-Cc:     Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Alexandra Winter <wintera@linux.ibm.com>,
-        Wenjia Zhang <wenjia@linux.ibm.com>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Robin Murphy <robin.murphy@arm.com>,
-        linux-arm-kernel@lists.infradead.org, linux-rdma@vger.kernel.org,
-        iommu@lists.linux.dev, linux-media@vger.kernel.org,
-        netdev@vger.kernel.org, linux-s390@vger.kernel.org,
-        alsa-devel@alsa-project.org
-Subject: Re: [PATCH 7/7] dma-mapping: reject __GFP_COMP in dma_alloc_attrs
-Message-ID: <Y3H4RobK/pmDd3xG@unreal>
-References: <20221113163535.884299-1-hch@lst.de>
- <20221113163535.884299-8-hch@lst.de>
+To:     David Hildenbrand <david@redhat.com>
+Cc:     linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org, linux-rdma@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        John Hubbard <jhubbard@nvidia.com>,
+        Peter Xu <peterx@redhat.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Hugh Dickins <hughd@google.com>, Nadav Amit <namit@vmware.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Matthew Wilcox <willy@infradead.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Muchun Song <songmuchun@bytedance.com>,
+        Lucas Stach <l.stach@pengutronix.de>,
+        David Airlie <airlied@gmail.com>,
+        Oded Gabbay <ogabbay@kernel.org>, Arnd Bergmann <arnd@arndb.de>
+Subject: Re: [PATCH RFC 10/19] RDMA/umem: remove FOLL_FORCE usage
+Message-ID: <Y3H8kys/B4u/gYLe@unreal>
+References: <20221107161740.144456-1-david@redhat.com>
+ <20221107161740.144456-11-david@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221113163535.884299-8-hch@lst.de>
+In-Reply-To: <20221107161740.144456-11-david@redhat.com>
 X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
@@ -65,93 +72,23 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sun, Nov 13, 2022 at 05:35:35PM +0100, Christoph Hellwig wrote:
-> DMA allocations can never be turned back into a page pointer, so
-> requesting compound pages doesn't make sense and it can't even be
-> supported at all by various backends.
+On Mon, Nov 07, 2022 at 05:17:31PM +0100, David Hildenbrand wrote:
+> GUP now supports reliable R/O long-term pinning in COW mappings, such
+> that we break COW early. MAP_SHARED VMAs only use the shared zeropage so
+> far in one corner case (DAXFS file with holes), which can be ignored
+> because GUP does not support long-term pinning in fsdax (see
+> check_vma_flags()).
 > 
-> Reject __GFP_COMP with a warning in dma_alloc_attrs, and stop clearing
-> the flag in the arm dma ops and dma-iommu.
+> Consequently, FOLL_FORCE | FOLL_WRITE | FOLL_LONGTERM is no longer required
+> for reliable R/O long-term pinning: FOLL_LONGTERM is sufficient. So stop
+> using FOLL_FORCE, which is really only for debugger access.
 > 
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
+> Cc: Jason Gunthorpe <jgg@ziepe.ca>
+> Cc: Leon Romanovsky <leon@kernel.org>
+> Signed-off-by: David Hildenbrand <david@redhat.com>
 > ---
->  arch/arm/mm/dma-mapping.c | 17 -----------------
->  drivers/iommu/dma-iommu.c |  3 ---
->  kernel/dma/mapping.c      |  8 ++++++++
->  3 files changed, 8 insertions(+), 20 deletions(-)
-> 
-> diff --git a/arch/arm/mm/dma-mapping.c b/arch/arm/mm/dma-mapping.c
-> index d7909091cf977..c135f6e37a00c 100644
-> --- a/arch/arm/mm/dma-mapping.c
-> +++ b/arch/arm/mm/dma-mapping.c
-> @@ -564,14 +564,6 @@ static void *__dma_alloc(struct device *dev, size_t size, dma_addr_t *handle,
->  	if (mask < 0xffffffffULL)
->  		gfp |= GFP_DMA;
->  
-> -	/*
-> -	 * Following is a work-around (a.k.a. hack) to prevent pages
-> -	 * with __GFP_COMP being passed to split_page() which cannot
-> -	 * handle them.  The real problem is that this flag probably
-> -	 * should be 0 on ARM as it is not supported on this
-> -	 * platform; see CONFIG_HUGETLBFS.
-> -	 */
-> -	gfp &= ~(__GFP_COMP);
->  	args.gfp = gfp;
->  
->  	*handle = DMA_MAPPING_ERROR;
-> @@ -1093,15 +1085,6 @@ static void *arm_iommu_alloc_attrs(struct device *dev, size_t size,
->  		return __iommu_alloc_simple(dev, size, gfp, handle,
->  					    coherent_flag, attrs);
->  
-> -	/*
-> -	 * Following is a work-around (a.k.a. hack) to prevent pages
-> -	 * with __GFP_COMP being passed to split_page() which cannot
-> -	 * handle them.  The real problem is that this flag probably
-> -	 * should be 0 on ARM as it is not supported on this
-> -	 * platform; see CONFIG_HUGETLBFS.
-> -	 */
-> -	gfp &= ~(__GFP_COMP);
-> -
->  	pages = __iommu_alloc_buffer(dev, size, gfp, attrs, coherent_flag);
->  	if (!pages)
->  		return NULL;
-> diff --git a/drivers/iommu/dma-iommu.c b/drivers/iommu/dma-iommu.c
-> index 9297b741f5e80..f798c44e09033 100644
-> --- a/drivers/iommu/dma-iommu.c
-> +++ b/drivers/iommu/dma-iommu.c
-> @@ -744,9 +744,6 @@ static struct page **__iommu_dma_alloc_pages(struct device *dev,
->  	/* IOMMU can map any pages, so himem can also be used here */
->  	gfp |= __GFP_NOWARN | __GFP_HIGHMEM;
->  
-> -	/* It makes no sense to muck about with huge pages */
-> -	gfp &= ~__GFP_COMP;
-> -
->  	while (count) {
->  		struct page *page = NULL;
->  		unsigned int order_size;
-> diff --git a/kernel/dma/mapping.c b/kernel/dma/mapping.c
-> index 33437d6206445..c026a5a5e0466 100644
-> --- a/kernel/dma/mapping.c
-> +++ b/kernel/dma/mapping.c
-> @@ -498,6 +498,14 @@ void *dma_alloc_attrs(struct device *dev, size_t size, dma_addr_t *dma_handle,
->  
->  	WARN_ON_ONCE(!dev->coherent_dma_mask);
->  
-> +	/*
-> +	 * DMA allocations can never be turned back into a page pointer, so
-> +	 * requesting compound pages doesn't make sense (and can't even be
-> +	 * supported at all by various backends).
-> +	 */
-> +	if (WARN_ON_ONCE(flag & __GFP_COMP))
-> +		return NULL;
+>  drivers/infiniband/core/umem.c | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
 
-In RDMA patches, you wrote that GFP_USER is not legal flag either. So it
-is better to WARN here for everything that is not allowed.
-
-> +
->  	if (dma_alloc_from_dev_coherent(dev, size, dma_handle, &cpu_addr))
->  		return cpu_addr;
->  
-> -- 
-> 2.30.2
-> 
+Thanks,
+Tested-by: Leon Romanovsky <leonro@nvidia.com> # Over mlx4 and mlx5.
