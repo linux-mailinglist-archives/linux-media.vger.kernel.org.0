@@ -2,97 +2,80 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 78F4A627A55
-	for <lists+linux-media@lfdr.de>; Mon, 14 Nov 2022 11:21:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2420E627AA6
+	for <lists+linux-media@lfdr.de>; Mon, 14 Nov 2022 11:38:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236018AbiKNKVE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 14 Nov 2022 05:21:04 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52988 "EHLO
+        id S235931AbiKNKiT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 14 Nov 2022 05:38:19 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36460 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235975AbiKNKVD (ORCPT
+        with ESMTP id S235760AbiKNKiS (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 14 Nov 2022 05:21:03 -0500
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 36EEF1A079;
-        Mon, 14 Nov 2022 02:21:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1668421262; x=1699957262;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=K5wPzpccjMxIfZGkMrxAyy4j5vQB4o52SipEQ2qLVls=;
-  b=XqiGJkuppUpIoJGZIQcEC1M65WaRkL8qKH8XT8xutNFE06YTlPz/yD2f
-   UI38Xb8zPuw2mEm64YQ3v1CfXePWtzYGu8mLy1RYeOi5lrxx3s2158BY4
-   FAtd0XrQR8d1CfP/mE2iFTMoQFPDLTfd/MIQDsvYIM6YjxHjTDzzGjsrV
-   1o4LGZVboIjjFjLYR2zkPcmkhzbk9L6ku1UL0leTn2a7ZBuHfdSpJveL2
-   4TT3cB4b1Rw+lrK+7ltTvrzJK6uqbweSuZea0kfo8M/euOdLPZxKdqGvx
-   +Rrzf+fmlcUksF0x+68pcQD3dx1DJj/Bx6+X4imlig31k5P61EUrKVk4X
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10530"; a="313738042"
+        Mon, 14 Nov 2022 05:38:18 -0500
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1AC401D65B
+        for <linux-media@vger.kernel.org>; Mon, 14 Nov 2022 02:38:18 -0800 (PST)
+X-IronPort-AV: E=McAfee;i="6500,9779,10530"; a="292336169"
 X-IronPort-AV: E=Sophos;i="5.96,161,1665471600"; 
-   d="scan'208";a="313738042"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Nov 2022 02:21:01 -0800
+   d="scan'208";a="292336169"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Nov 2022 02:38:17 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10530"; a="671506019"
+X-IronPort-AV: E=McAfee;i="6500,9779,10530"; a="707264135"
 X-IronPort-AV: E=Sophos;i="5.96,161,1665471600"; 
-   d="scan'208";a="671506019"
+   d="scan'208";a="707264135"
 Received: from smile.fi.intel.com ([10.237.72.54])
-  by orsmga001.jf.intel.com with ESMTP; 14 Nov 2022 02:20:59 -0800
+  by fmsmga004.fm.intel.com with ESMTP; 14 Nov 2022 02:38:15 -0800
 Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1ouWaH-00C7Mq-0b;
-        Mon, 14 Nov 2022 12:20:57 +0200
-Date:   Mon, 14 Nov 2022 12:20:56 +0200
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Sowjanya Komatineni <skomatineni@nvidia.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: Re: [PATCH v1 1/1] staging: media: tegra-video: Replace custom
- implementation of device_match_fwnode()
-Message-ID: <Y3IWiNTjOose0ewr@smile.fi.intel.com>
-References: <20220927173011.72571-1-andriy.shevchenko@linux.intel.com>
- <Y3IO4zVqex78+rTn@smile.fi.intel.com>
- <Y3IPdAg8wnjzbQPU@paasikivi.fi.intel.com>
+        (envelope-from <andy@kernel.org>)
+        id 1ouWqz-00C7oY-1W;
+        Mon, 14 Nov 2022 12:38:13 +0200
+Date:   Mon, 14 Nov 2022 12:38:13 +0200
+From:   Andy Shevchenko <andy@kernel.org>
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Tsuchiya Yuto <kitakar@gmail.com>,
+        Yury Luneff <yury.lunev@gmail.com>,
+        Nable <nable.maininbox@googlemail.com>,
+        andrey.i.trufanov@gmail.com, Fabio Aiuto <fabioaiuto83@gmail.com>,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH v2 04/17] media: atomisp: On streamoff wait for buffers
+ owned by the CSS to be given back
+Message-ID: <Y3IalSFWZcG0ycjM@smile.fi.intel.com>
+References: <20221020195533.114049-1-hdegoede@redhat.com>
+ <20221020195533.114049-5-hdegoede@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Y3IPdAg8wnjzbQPU@paasikivi.fi.intel.com>
+In-Reply-To: <20221020195533.114049-5-hdegoede@redhat.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-3.5 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_SOFTFAIL autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Nov 14, 2022 at 09:50:44AM +0000, Sakari Ailus wrote:
-> On Mon, Nov 14, 2022 at 11:48:19AM +0200, Andy Shevchenko wrote:
-> > On Tue, Sep 27, 2022 at 08:30:11PM +0300, Andy Shevchenko wrote:
-> > > Replace custom implementation of the device_match_fwnode().
-> > 
-> > Sakari, here you are in Cc list and I never have any response on this patch.
-> > 
-> > Maybe something wrong with emails somewhere?
+On Thu, Oct 20, 2022 at 09:55:20PM +0200, Hans de Goede wrote:
+> There is no guarantee that when we stop the pipeline all buffers owned
+> by the CSS are cleanly returned to the videobuf queue.
 > 
-> You should have received a notification from Patchwork the patch is "under
-> review".
-
-It it was one, it was not a separate (per patch basis), so I may definitely
-missed it.
-
-> It's in my PR to Mauro now:
+> This is a problem with videobuf2 which will complain loudly when not
+> all buffers have been returned after the streamoff() queue op has
+> returned.
 > 
-> <URL:https://patchwork.linuxtv.org/project/linux-media/patch/Y3IJwomIow2+vdMh@valkosipuli.retiisi.eu/>
+> And this also allows moving a WARN() in the continuous mode path.
 
-Thank you!
+...
+
+> +	if (ret <= 0)
+> +		return ret ? ret : -ETIME;
+
+You can use Elvis and ETIME is not correct AFAIU, should be -ETIMEDOUT.
+
 
 -- 
 With Best Regards,
