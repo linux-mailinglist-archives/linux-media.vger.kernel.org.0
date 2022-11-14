@@ -2,77 +2,93 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E3F776275B9
-	for <lists+linux-media@lfdr.de>; Mon, 14 Nov 2022 07:03:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 63FF56275D1
+	for <lists+linux-media@lfdr.de>; Mon, 14 Nov 2022 07:13:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235713AbiKNGDR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 14 Nov 2022 01:03:17 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60776 "EHLO
+        id S234462AbiKNGM7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 14 Nov 2022 01:12:59 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35590 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235698AbiKNGDP (ORCPT
+        with ESMTP id S235705AbiKNGM6 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 14 Nov 2022 01:03:15 -0500
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D08831758F;
-        Sun, 13 Nov 2022 22:03:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
-        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=3nXiEkTHPSqcPohTZPOVmLRWizzGrhUgHhIBQefPWhM=; b=xgMCBIa0QhMpFPXemt89EZmxgq
-        T9guZcwHbF86yzqI7jOE+PChT9os/oyvItF/vo7zx0OUa56eT286A2cpEHS0fLozY2ccbNcJpJYny
-        JeNjjLCAHFEL7C0qG/LGhVAW01zOiIMemeW5QMSuCD3QpqhgGKYeR9ol0cQshQeWbiKcnEvuFN5o0
-        MWZsvqgSDKxhgxljvqX2CE7fsfmPFn08VK0JPpHOe+YBn+R6ZeDfGA3lf16Ya+rDN8OXPMolwV8U6
-        XHJdAPmcVhvPvc93JPjdE1l/q5evcGXj5dK/+IH4wKkji4Sj/YsPALpHM2urlpm5BmPiTvn68rK6d
-        SnkpaghA==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1ouSYj-00GAg0-Mq; Mon, 14 Nov 2022 06:03:05 +0000
-Date:   Sun, 13 Nov 2022 22:03:05 -0800
-From:   Christoph Hellwig <hch@infradead.org>
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     David Hildenbrand <david@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, etnaviv@lists.freedesktop.org,
-        dri-devel@lists.freedesktop.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org, linux-rdma@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        John Hubbard <jhubbard@nvidia.com>,
-        Peter Xu <peterx@redhat.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Hugh Dickins <hughd@google.com>, Nadav Amit <namit@vmware.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Matthew Wilcox <willy@infradead.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Muchun Song <songmuchun@bytedance.com>,
-        Lucas Stach <l.stach@pengutronix.de>,
-        David Airlie <airlied@gmail.com>,
-        Oded Gabbay <ogabbay@kernel.org>, Arnd Bergmann <arnd@arndb.de>
-Subject: Re: [PATCH RFC 00/19] mm/gup: remove FOLL_FORCE usage from drivers
- (reliable R/O long-term pinning)
-Message-ID: <Y3HaGbPcGfTxlLPZ@infradead.org>
-References: <20221107161740.144456-1-david@redhat.com>
- <CAHk-=wj51-dtxf8BQBYP+9Kc3ejq4Y0=-6hCbf_XAnkT3fsgDQ@mail.gmail.com>
+        Mon, 14 Nov 2022 01:12:58 -0500
+Received: from mail-vs1-xe33.google.com (mail-vs1-xe33.google.com [IPv6:2607:f8b0:4864:20::e33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AE85FDEEB
+        for <linux-media@vger.kernel.org>; Sun, 13 Nov 2022 22:12:57 -0800 (PST)
+Received: by mail-vs1-xe33.google.com with SMTP id t5so10443138vsh.8
+        for <linux-media@vger.kernel.org>; Sun, 13 Nov 2022 22:12:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=GS5CjFgX03A69nfrKfxJXZ5fpQt8/TU8VVKE0FbaEp0=;
+        b=W/2t4o/NOu/LOfgvVdB0xbock6syO+D+eGmXWOZRTkC6WD7SQqZ5PnS7URvq7ATXN9
+         pqIlFlVqLbDE/hnEJI0oWYOrp+951c5THEaarKPZbgYHq2MtjnLgpzUxjd8ny4YiHbk/
+         SiLDG8ildHQxdX6D8gqg9lEFGh2ZffmRV0g7U=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=GS5CjFgX03A69nfrKfxJXZ5fpQt8/TU8VVKE0FbaEp0=;
+        b=pj4S7nqfd/60rzKdTpWMZ6PK6BuQI5cTeYcc+DK8jwF9juI/pnbFWU694me1HeObka
+         V4wyHZ/bDt84q7hXYwLepf/iiDqheQO1OV+qTwlnht6FguGQpxYWw6Ljya/ei2iYgvgT
+         WGy44gHDoAWKyc+i2RAsTR4FneVW29IUDCvNKxKXjwUGT7go7aORRXIYI+zGMc/asZZ5
+         5wXOQk4MfFRDcL9pH27NvAFGUR7hS3CXU4A7x16mtaRYbb7txeqqUSipa6LWfMaABGhR
+         relYS6f2rytUcLftpU9o8dv4fQfbYCH42NHs+jDxDKoBeZQQqVddPHmFkFxqEc7MwBwI
+         bKxw==
+X-Gm-Message-State: ANoB5plwOs+mmLwI0PKDb0Rk9KKeK+Bv/020yqyT0nwAPt6Jk936HNzt
+        2hItYPfp+FVVPNQUn3Juai/MhPgjaEAzEPtWKYYesw==
+X-Google-Smtp-Source: AA0mqf41+D+Ta4oBw16Qp6PCDMGuKp6Gp9xsPVuyCFaDRWusJIXHR3jVRIru9gUnhrPd8Dy0Hma+yhUJEJjo6Xvq5cw=
+X-Received: by 2002:a67:fd97:0:b0:3aa:19e1:eb2a with SMTP id
+ k23-20020a67fd97000000b003aa19e1eb2amr5372752vsq.26.1668406376822; Sun, 13
+ Nov 2022 22:12:56 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAHk-=wj51-dtxf8BQBYP+9Kc3ejq4Y0=-6hCbf_XAnkT3fsgDQ@mail.gmail.com>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+References: <20221018114122.26785-1-yunfei.dong@mediatek.com>
+In-Reply-To: <20221018114122.26785-1-yunfei.dong@mediatek.com>
+From:   Chen-Yu Tsai <wenst@chromium.org>
+Date:   Mon, 14 Nov 2022 14:12:45 +0800
+Message-ID: <CAGXv+5GsE1s3gYSt7u=sMZR=FhnpDfxq_XhxUTUrKw+EM423PA@mail.gmail.com>
+Subject: Re: [PATCH v2] media: mediatek: vcodec: fix h264 cavlc bitstream fail
+To:     Yunfei Dong <yunfei.dong@mediatek.com>
+Cc:     Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Tiffany Lin <tiffany.lin@mediatek.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        George Sun <george.sun@mediatek.com>,
+        Xiaoyong Lu <xiaoyong.lu@mediatek.com>,
+        Hsin-Yi Wang <hsinyi@chromium.org>,
+        Fritz Koenig <frkoenig@chromium.org>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Steve Cho <stevecho@chromium.org>, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org,
+        Project_Global_Chrome_Upstream_Group@mediatek.com
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Nov 07, 2022 at 09:27:23AM -0800, Linus Torvalds wrote:
-> And I'd really love to just have this long saga ended, and FOLL_FORCE
-> finally relegated to purely ptrace accesses.
+On Tue, Oct 18, 2022 at 7:41 PM Yunfei Dong <yunfei.dong@mediatek.com> wrote:
+>
+> Some cavlc bistream will decode fail when the frame size is small than
+> 20 bytes. Need to add pending data at the end of the bitstream.
+>
+> For the minimum size of mapped memory is 256 bytes(16x16), adding four bytes data
+> won't lead to access unknown virtual memory.
+>
+> Fixes: 59fba9eed5a7 ("media: mediatek: vcodec: support stateless H.264 decoding for mt8192")
+> Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
 
-At that point we should also rename it to FOLL_PTRACE to make that
-very clear, and also break anything in-flight accidentally readding it,
-which I'd otherwise expect to happen.
+Reviewed-by: Chen-Yu Tsai <wenst@chromium.org>
