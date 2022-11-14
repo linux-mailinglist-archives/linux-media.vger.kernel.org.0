@@ -2,61 +2,61 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 66FA36276B5
-	for <lists+linux-media@lfdr.de>; Mon, 14 Nov 2022 08:50:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D90126276B8
+	for <lists+linux-media@lfdr.de>; Mon, 14 Nov 2022 08:51:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235842AbiKNHu5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 14 Nov 2022 02:50:57 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44120 "EHLO
+        id S236035AbiKNHvh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 14 Nov 2022 02:51:37 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44566 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234411AbiKNHu4 (ORCPT
+        with ESMTP id S233548AbiKNHvg (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 14 Nov 2022 02:50:56 -0500
-Received: from mail-lj1-x235.google.com (mail-lj1-x235.google.com [IPv6:2a00:1450:4864:20::235])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0ABFC18E0C
-        for <linux-media@vger.kernel.org>; Sun, 13 Nov 2022 23:50:55 -0800 (PST)
-Received: by mail-lj1-x235.google.com with SMTP id h12so12063242ljg.9
-        for <linux-media@vger.kernel.org>; Sun, 13 Nov 2022 23:50:54 -0800 (PST)
+        Mon, 14 Nov 2022 02:51:36 -0500
+Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com [IPv6:2a00:1450:4864:20::12d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 22F1563AA
+        for <linux-media@vger.kernel.org>; Sun, 13 Nov 2022 23:51:35 -0800 (PST)
+Received: by mail-lf1-x12d.google.com with SMTP id r12so17973623lfp.1
+        for <linux-media@vger.kernel.org>; Sun, 13 Nov 2022 23:51:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=ejuyrcblCIc+DA+Y9MJJ0elKPSaTlB2puhNpw1wAFpY=;
-        b=uV0kXK7zyhCXc/awUViecK+PWOpiz8TvjrMGJdFZc97waGz1Fwx1wPojyhOYyPhNHb
-         AqzKnD9xT4j7dB/5cr0HjbVADQR8hCLA7ulv/bkX3Qc1NEH/tXSE3gQFkMKEYdutSuYa
-         uzvZhoUp+VZnt+7Lox4FOhNOjCck/zeh82FRGHD7ZAwkyLgVec2eum2YHk9D67f40/J+
-         XXOchsjl7y5Nt20q8xoRNpFBg34Ka0aURIAxQtwWkVW20SoEBzXKFT3K1rlkB+T6ayg2
-         SOd5kbDblRMmRd76h7IiP6WEBNGMq1uVZb2aFc1o2oU8bRWGis/ywucfNqt5CrYBV94T
-         3e1Q==
+        bh=NiMkPfL4TaX43cTSqxFmRtCWQDwDmotoTRN5srgH8bg=;
+        b=l4qNAJrpTvrOTNZI0W0UQxGZ+OcxdevBwxodFb4Aotb9i5Zbx5IGfdtwFU7lRqf6HE
+         7mcOTtX1LkYwrvuapwgat9OBPdzx8u3ZAE/EddITssfUWlBTV39s7mCb10OZ3CctsNYV
+         9A5tD39cbn2YNNtDPGO/dzJNrBLiewfsLYYaD85+GUouJ+fxIPuiQnS/fT2vgYPj++Ox
+         AyRE5Z17yeAdMIrki0X6r+HBCjwXR5FicdyC1jxtMjLnboTB8HFxsAg/M4rz+fOEM7cD
+         WwyfrOP48Wd0Sr2mHiUNcu+vvD5BfM78XBakKSBgSm3RuowUMJhSCEuM4tF0V1zkbpC0
+         R/WA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ejuyrcblCIc+DA+Y9MJJ0elKPSaTlB2puhNpw1wAFpY=;
-        b=J+INRTv/LD0iHHeNbkcixYzgAKeBCQzP2grj1oMPajMYq488/7XHCksVwnZi4wJsb5
-         MzycuUVyc581hO1XJmpWA2pO+DWU+/Linc8/O+9hugsNDU3u362v6UETZN0O2OBhsarj
-         jje+5Md5gNYBtPcHYuDzJ058bqVyoCIIGThRinUYVQ7nZSouozmuyDtFaejqmIKZzohb
-         OlKkhKKuxXRscmRhbDdA4/q0CzULvQ5LXIm00AR0ELgitfDTA9TXvNKiIRkd2PMJHr6m
-         CY5zpoO9NGfboWLoYCRbgJLu7d7uk2K870ieLRJtg6X8Is/G37GHO9u2DcQjjgHP9HvQ
-         CQ+A==
-X-Gm-Message-State: ANoB5plGna5/RdWmqjYQWz5BwrzmWUMX9WQJbmkNkvE9Xt+3QlSniuil
-        1u4PyOIFGAkvfvm7og/RjhFQkQ==
-X-Google-Smtp-Source: AA0mqf4o92ZfJ4LcSRVKeS86gOBmeR7ZaUQh9v72f0dNgb7rMY+YAVjMXIo0m5B6nH1mdCGSe2F1Jg==
-X-Received: by 2002:a05:651c:904:b0:277:1d64:f21c with SMTP id e4-20020a05651c090400b002771d64f21cmr3909296ljq.373.1668412253385;
-        Sun, 13 Nov 2022 23:50:53 -0800 (PST)
+        bh=NiMkPfL4TaX43cTSqxFmRtCWQDwDmotoTRN5srgH8bg=;
+        b=eMVx9o6ZAlGXfP5I8zQjPMz+kxTsX2nDwEKoT7cc7IKwG/xvc6bCRpXiGU671eg84R
+         aTu96sPl1tykZd6g9PiYsPi5YB+wN5kb3jdAOB62nQq6/cMNYcqsm9lAWOF0NYODwUfu
+         Q7V7R2wbLbOp76T5lEWjc5n87Qqq49lwZ3W0R1NFtAxQxO20ef9z9yPJQjwRKxyHtA1N
+         fhD956w4d49P4YnElFxoILz60ZC4JGVyytW+88IgpILsC2XztouLCQuNnLaJSVYQXMH+
+         ka0EEHenYbp+SYK0bp9fmMfelH0WdCnybUkaJLV1gXopPFIsCmav3B0D5K6uuWLRuh4l
+         IXig==
+X-Gm-Message-State: ANoB5pkP8g/R32qvpwJMj1ak4EfQPqy/ZdupT+rvWxLTRyLryoyUpua5
+        mCsB4CfODPS1sKj685xYI125DQ==
+X-Google-Smtp-Source: AA0mqf507uN1OcY2HiTma/elM/Nrb9rt1qRtQluQ77d0nJ4OxYmxTrhg+GexdGOyXPA+HaVeLudQqQ==
+X-Received: by 2002:a05:6512:3f9:b0:4af:baf9:7d4 with SMTP id n25-20020a05651203f900b004afbaf907d4mr3542499lfq.460.1668412293537;
+        Sun, 13 Nov 2022 23:51:33 -0800 (PST)
 Received: from [192.168.0.20] (088156142067.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.67])
-        by smtp.gmail.com with ESMTPSA id z13-20020a056512370d00b004994117b0fdsm1711355lfr.281.2022.11.13.23.50.52
+        by smtp.gmail.com with ESMTPSA id c8-20020ac24148000000b00492c663bba2sm1716829lfi.124.2022.11.13.23.51.32
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 13 Nov 2022 23:50:53 -0800 (PST)
-Message-ID: <451069cd-9e8f-055e-5711-fbae9e2799e8@linaro.org>
-Date:   Mon, 14 Nov 2022 08:50:51 +0100
+        Sun, 13 Nov 2022 23:51:33 -0800 (PST)
+Message-ID: <ec5beb10-25b8-8c14-f5d4-4a8f5241edb7@linaro.org>
+Date:   Mon, 14 Nov 2022 08:51:31 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.4.2
-Subject: Re: [Patch v4 3/3] ARM: dts: exynos: Add new SoC specific compatible
- string for Exynos3250 SoC
+Subject: Re: [Patch v4 2/3] media: s5p-mfc: Add variant data for MFC v7
+ hardware for Exynos 3250 SoC
 Content-Language: en-US
 To:     Aakarsh Jain <aakarsh.jain@samsung.com>,
         linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
@@ -71,10 +71,10 @@ Cc:     m.szyprowski@samsung.com, andrzej.hajda@intel.com,
         alim.akhtar@samsung.com, aswani.reddy@samsung.com,
         pankaj.dubey@samsung.com, smitha.t@samsung.com
 References: <20221114054655.68090-1-aakarsh.jain@samsung.com>
- <CGME20221114054053epcas5p1f88b41bce65d54f0f26d0b562e88f7d6@epcas5p1.samsung.com>
- <20221114054655.68090-4-aakarsh.jain@samsung.com>
+ <CGME20221114054049epcas5p3f3a5ce63fd3f1ce55197d1eaaa87e90b@epcas5p3.samsung.com>
+ <20221114054655.68090-3-aakarsh.jain@samsung.com>
 From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20221114054655.68090-4-aakarsh.jain@samsung.com>
+In-Reply-To: <20221114054655.68090-3-aakarsh.jain@samsung.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -88,36 +88,16 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 On 14/11/2022 06:46, Aakarsh Jain wrote:
-> commit "752d3a23d1f68de87e3c" which adds MFC codec device node
+> commit "5441e9dafdfc6dc40fa" which adds mfc v7 support for
 
 Please run scripts/checkpatch.pl and fix reported warnings.
 
-> for exynos3250 SoC. Since exynos3250.dtsi and exynos5420.dtsi are
-> using same compatible string as "samsung,mfc-v7" but their node
-> properties are different. As both SoCs have MFC v7 hardware module
-> but with different clock hierarchy and complexity.
-> Add new compatible string followed by mfc-v7 fallback for Exynos3250
-> SoC.
-> 
-> Reviewed-by: Tommaso Merciai <tommaso.merciai@amarulasolutions.com>
-> Suggested-by: Alim Akhtar <alim.akhtar@samsung.com>
-> Signed-off-by: Aakarsh Jain <aakarsh.jain@samsung.com>
-> ---
->  arch/arm/boot/dts/exynos3250.dtsi | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/arch/arm/boot/dts/exynos3250.dtsi b/arch/arm/boot/dts/exynos3250.dtsi
-> index 326b9e0ed8d3..1a29993fca0b 100644
-> --- a/arch/arm/boot/dts/exynos3250.dtsi
-> +++ b/arch/arm/boot/dts/exynos3250.dtsi
-> @@ -485,7 +485,7 @@
->  		};
->  
->  		mfc: codec@13400000 {
-> -			compatible = "samsung,mfc-v7";
-> +			compatible = "samsung,exynos3250-mfc","samsung,mfc-v7";
+> Exynos3250 and use the same compatible string as used by
+> Exynos5240 but both the IPs are a bit different in terms of
+> IP clock.
+> Lets add variant driver data based on the new compatible string
 
-Missing space.
+Just "Add variant"
 
 Best regards,
 Krzysztof
