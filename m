@@ -2,6233 +2,5397 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CFB3A628772
-	for <lists+linux-media@lfdr.de>; Mon, 14 Nov 2022 18:50:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 97F5762887C
+	for <lists+linux-media@lfdr.de>; Mon, 14 Nov 2022 19:44:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237715AbiKNRuC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 14 Nov 2022 12:50:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48670 "EHLO
+        id S236282AbiKNSoC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 14 Nov 2022 13:44:02 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38676 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237765AbiKNRtr (ORCPT
+        with ESMTP id S235782AbiKNSoB (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 14 Nov 2022 12:49:47 -0500
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 55D6F635E;
-        Mon, 14 Nov 2022 09:49:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1668448184; x=1699984184;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=zN0QgJu2/+X8XfvwiCl4xjdh+saM0kU8rkNnCx0azLs=;
-  b=TlRTBEZExdayBZUYIXNTkhsTDsfZQNiVBDn1Cr2Numb7Rx3in5peSf8e
-   KQDBgNTuXh0G3s/bkjQvvQ7/GoHvT2S0G9qEcjBviUQloaE7vJF7IUkIl
-   g5/9NplDUqWKn3uwhP5Nl65157XpE/nq5+11fOu4EKXyKIpda33ZBJeMg
-   DGSZ5goVu8TbqIzqy4xLLlv86TgVq2jIwGzhLlWC63PgjBBViWsNDxMw7
-   OLRgMRuVIX27Cb5zCgA6mmxH2B5VJSh7IMtE/W9DKWGiXlu2kZOtLntMZ
-   tDDKkC+xIDYkM+i1NEG4KWqtlc+KK02vUeFe9QzcRYn/PTM6af3pLFO7x
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10531"; a="338826266"
-X-IronPort-AV: E=Sophos;i="5.96,164,1665471600"; 
-   d="scan'208";a="338826266"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Nov 2022 09:49:43 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10531"; a="813349059"
-X-IronPort-AV: E=Sophos;i="5.96,164,1665471600"; 
-   d="scan'208";a="813349059"
-Received: from lkp-server01.sh.intel.com (HELO ebd99836cbe0) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 14 Nov 2022 09:49:40 -0800
-Received: from kbuild by ebd99836cbe0 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1oudaV-0000dH-10;
-        Mon, 14 Nov 2022 17:49:39 +0000
-Date:   Tue, 15 Nov 2022 01:49:20 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Marvin Lin <milkfafa@gmail.com>, mchehab@kernel.org,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     oe-kbuild-all@lists.linux.dev, openbmc@lists.ozlabs.org,
-        avifishman70@gmail.com, tmaimon77@gmail.com, tali.perry1@gmail.com,
-        kwliu@nuvoton.com, kflin@nuvoton.com,
-        Marvin Lin <milkfafa@gmail.com>
-Subject: Re: [PATCH v6 5/5] drivers: media: platform: Add NPCM Video
- Capture/Encode Engine driver
-Message-ID: <202211150106.9VuW0FCQ-lkp@intel.com>
-References: <20221104033810.1324686-6-milkfafa@gmail.com>
+        Mon, 14 Nov 2022 13:44:01 -0500
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 82CEF64DC
+        for <linux-media@vger.kernel.org>; Mon, 14 Nov 2022 10:43:54 -0800 (PST)
+Received: from localhost.localdomain (node-1w7jr9st5p2etziuntaazujnj.ipv6.telus.net [IPv6:2001:569:beb1:1500:c96f:992f:7c34:9ff])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: dbrouwer)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 4C5296601DEB;
+        Mon, 14 Nov 2022 18:43:50 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1668451433;
+        bh=LlUmFwzFKgw9gMxpHFJa7HntJaue59z083hTL42RwSw=;
+        h=From:To:Cc:Subject:Date:From;
+        b=JYXn7EefYos8OHg6gnUCkOROuf0Z7ngvO5wdCxg5QGFBrVw1M/28fPQZ37rSPPwvB
+         Hmiddr8+O4LAdl4Pkel9Wf/6VGNoUWq5USy7FJof6BcXtkwgBaGiR0L6YDnXZfhHlf
+         8SVBnp9GVZj1FTTh63pK1fP8E21338NNBAZnQgPhvCDKb3NB7uPLOtNYkwnFyM8fIp
+         CdYVBWEzMz6/NR+hTFHOY/svJXTRNKHOYTiSkulET9AGCWicLbF1RcObgoVGcalLOk
+         btfyJ50YWXhoHDLM39d8QlYEKH0aE3DBqh1Jpr5oS10REThXAJYK+Q1i6k//9plDNC
+         51kgKultY2+AA==
+From:   Deborah Brouwer <deborah.brouwer@collabora.com>
+To:     linux-media@vger.kernel.org
+Cc:     daniel.almeida@collabora.com, nfraprado@collabora.com,
+        nicolas.dufresne@collabora.com, hverkuil-cisco@xs4all.nl,
+        deborahbrouwer3563@gmail.com,
+        Deborah Brouwer <deborah.brouwer@collabora.com>
+Subject: [PATCH v3] utils: add v4l2-tracer utility
+Date:   Mon, 14 Nov 2022 10:44:26 -0800
+Message-Id: <20221114184426.39997-1-deborah.brouwer@collabora.com>
+X-Mailer: git-send-email 2.38.0
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="Qu5xs77Cx6eJ+zMN"
-Content-Disposition: inline
-In-Reply-To: <20221104033810.1324686-6-milkfafa@gmail.com>
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
-        UPPERCASE_50_75 autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+The v4l2-tracer traces, records and replays userspace applications that
+implement the v4l2 memory-to-memory stateless video decoder interface.
+It writes the traced system calls and video frame data to a file in JSON
+format. It reads the JSON file to replay the same system calls and send
+the same video frame data to the kernel driver. The JSON file can be
+replayed in different environments or on different machines.
 
---Qu5xs77Cx6eJ+zMN
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Signed-off-by: Deborah Brouwer <deborah.brouwer@collabora.com>
+---
+Changes since v2:
+- remove duplication in entries for numbers/strings
+- use media topology to find retrace devices
+- add specific ioctls to trace
+- in help msg change 'data' -> 'video frame data'
+- trace mem_array with space after every byte
+- add to trace files package version, SHA, date
+- retracer also generates a JSON retrace file
+- default trace format is "pretty"
+- add a "compact" format option
+- consolidate options for tracer/retracer
+- remove mutex locks as unnecessary
+- add more autogenerated functions
+- add 'clean' command to remove fd/addresses
 
-Hi Marvin,
+Changes since v1:
+- auto-generate code from uAPI headers
+- generated code adds some ability to trace
+  VP9/HEVC which compiles but still needs work
+- generated code adds full support for MPEG2
+- fix multiplanar decoding for vicodec
+- change library name to libv4l2tracer
+- update README
+- expand help to show options
+- remove extraneous files from gitignore
 
-I love your patch! Perhaps something to improve:
+Example:
 
-[auto build test WARNING on media-tree/master]
-[also build test WARNING on robh/for-next sailus-media-tree/streams linus/master v6.1-rc5 next-20221114]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Trace an application decoding VP8:
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Marvin-Lin/Support-Nuvoton-NPCM-Video-Capture-Encode-Engine/20221104-114045
-base:   git://linuxtv.org/media_tree.git master
-patch link:    https://lore.kernel.org/r/20221104033810.1324686-6-milkfafa%40gmail.com
-patch subject: [PATCH v6 5/5] drivers: media: platform: Add NPCM Video Capture/Encode Engine driver
-config: m68k-randconfig-s052-20221114
-compiler: m68k-linux-gcc (GCC) 12.1.0
-reproduce:
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://github.com/intel-lab-lkp/linux/commit/5327cbbd89482bccd939416dd77bc7ba3cb14ba2
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Marvin-Lin/Support-Nuvoton-NPCM-Video-Capture-Encode-Engine/20221104-114045
-        git checkout 5327cbbd89482bccd939416dd77bc7ba3cb14ba2
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=m68k SHELL=/bin/bash drivers/media/platform/nuvoton/
+v4l2-tracer trace gst-launch-1.0 -- filesrc 
+location=test-25fps.vp8 ! parsebin ! 
+v4l2slvp8dec ! videocodectestsink
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
+Or trace an application decoding FWHT:
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/media/platform/nuvoton/npcm-video.c:352:27: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void * @@
-   drivers/media/platform/nuvoton/npcm-video.c:352:27: sparse:     expected void const volatile [noderef] __iomem *addr
-   drivers/media/platform/nuvoton/npcm-video.c:352:27: sparse:     got void *
->> drivers/media/platform/nuvoton/npcm-video.c:1184:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void * @@     got void [noderef] __iomem *[assigned] baseptr @@
-   drivers/media/platform/nuvoton/npcm-video.c:1184:9: sparse:     expected void *
-   drivers/media/platform/nuvoton/npcm-video.c:1184:9: sparse:     got void [noderef] __iomem *[assigned] baseptr
+v4l2-tracer trace v4l2-ctl -d3 --stream-mmap
+--stream-out-mmap --stream-from-hdr
+test-25fps.fwht --stream-to out.yuv
 
-vim +352 drivers/media/platform/nuvoton/npcm-video.c
+A trace file is generated: 71827_trace.json
 
-   335	
-   336	static unsigned int npcm_video_ece_get_ed_size(struct npcm_video *video,
-   337						       u32 offset, void *addr)
-   338	{
-   339		struct regmap *ece = video->ece.regmap;
-   340		u32 size, gap, val;
-   341		int ret;
-   342	
-   343		ret = regmap_read_poll_timeout(ece, ECE_DDA_STS, val,
-   344					       (val & ECE_DDA_STS_CDREADY),
-   345					       0, ECE_POLL_TIMEOUT_US);
-   346	
-   347		if (ret) {
-   348			dev_warn(video->dev, "Wait for ECE_DDA_STS_CDREADY timeout\n");
-   349			return 0;
-   350		}
-   351	
- > 352		size = readl(addr + offset);
-   353	
-   354		regmap_read(ece, ECE_HEX_CTRL, &val);
-   355		gap = FIELD_GET(ECE_HEX_CTRL_ENC_GAP, val);
-   356	
-   357		dev_dbg(video->dev, "offset = %u, ed_size = %u, gap = %u\n", offset,
-   358			size, gap);
-   359	
-   360		return size + gap;
-   361	}
-   362	
+Retrace the trace file:
+v4l2-tracer retrace 71827_trace.json
 
+Specify nodes if using a different driver:
+v4l2-tracer -d0 -m0 retrace 71827_trace.json
+
+A retrace file is generated: 71827_trace_retrace.json
+
+Remove irrelevant differences (optional)
+e.g. file descriptors and addresses:
+v4l2-tracer clean 71827_trace.json
+v4l2-tracer clean 71827_trace_retrace.json
+
+Clean files are generated:
+clean_71827_trace.json
+clean_71827_trace_retrace.json
+
+Use an application to compare the files:
+kdiff3 clean_71827_trace.json clean_71827_trace_retrace.json
+
+ README                                   |    8 +
+ configure.ac                             |   12 +
+ utils/Makefile.am                        |    5 +
+ utils/v4l2-tracer/.gitignore             |    7 +
+ utils/v4l2-tracer/Makefile.am            |   32 +
+ utils/v4l2-tracer/libv4l2tracer.cpp      |  307 +++++
+ utils/v4l2-tracer/retrace-helper.cpp     |  250 ++++
+ utils/v4l2-tracer/retrace.cpp            | 1374 ++++++++++++++++++++++
+ utils/v4l2-tracer/retrace.h              |   41 +
+ utils/v4l2-tracer/trace-helper.cpp       |  503 ++++++++
+ utils/v4l2-tracer/trace.cpp              |  588 +++++++++
+ utils/v4l2-tracer/trace.h                |   73 ++
+ utils/v4l2-tracer/v4l2-tracer-common.cpp |  453 +++++++
+ utils/v4l2-tracer/v4l2-tracer-common.h   |   82 ++
+ utils/v4l2-tracer/v4l2-tracer-gen.pl     |  840 +++++++++++++
+ utils/v4l2-tracer/v4l2-tracer.1.in       |  111 ++
+ utils/v4l2-tracer/v4l2-tracer.cpp        |  412 +++++++
+ 17 files changed, 5098 insertions(+)
+ create mode 100644 utils/v4l2-tracer/.gitignore
+ create mode 100644 utils/v4l2-tracer/Makefile.am
+ create mode 100644 utils/v4l2-tracer/libv4l2tracer.cpp
+ create mode 100644 utils/v4l2-tracer/retrace-helper.cpp
+ create mode 100644 utils/v4l2-tracer/retrace.cpp
+ create mode 100644 utils/v4l2-tracer/retrace.h
+ create mode 100644 utils/v4l2-tracer/trace-helper.cpp
+ create mode 100644 utils/v4l2-tracer/trace.cpp
+ create mode 100644 utils/v4l2-tracer/trace.h
+ create mode 100644 utils/v4l2-tracer/v4l2-tracer-common.cpp
+ create mode 100644 utils/v4l2-tracer/v4l2-tracer-common.h
+ create mode 100755 utils/v4l2-tracer/v4l2-tracer-gen.pl
+ create mode 100644 utils/v4l2-tracer/v4l2-tracer.1.in
+ create mode 100644 utils/v4l2-tracer/v4l2-tracer.cpp
+
+diff --git a/README b/README
+index a7759171..8c5561ae 100644
+--- a/README
++++ b/README
+@@ -45,6 +45,8 @@ you'll need also:
+ 	alsa-lib-devel doxygen libjpeg-turbo-devel qt5-qtbase-devel
+ 	libudev-devel mesa-libGLU-devel
+ 
++The v4l2-tracer also needs the json-c library.
++On Debian: libjson-c-dev; on Fedora: json-c-devel.
+ 
+ After downloading and installing the needed packages, you should run:
+ 
+@@ -227,6 +229,12 @@ v4l2-sysfs-path:
+ FIXME add description.
+ Installed by make install under <prefix>/bin.
+ 
++v4l2-tracer:
++Tool to trace, record and replay userspace applications
++that implement the v4l2 memory-to-memory stateless video
++decoder interface.
++Installed by 'make install' under <prefix>/bin.
++
+ xc3028-firmware:
+ Xceive XC2028/3028 tuner module firmware manipulation tool.
+ xc3028-firmware does not get installed by make install.
+diff --git a/configure.ac b/configure.ac
+index 9b7c371d..d2e126d1 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -32,6 +32,8 @@ AC_CONFIG_FILES([Makefile
+ 	utils/v4l2-ctl/Makefile
+ 	utils/v4l2-dbg/Makefile
+ 	utils/v4l2-sysfs-path/Makefile
++	utils/v4l2-tracer/Makefile
++	utils/v4l2-tracer/v4l2-tracer.1
+ 	utils/qv4l2/Makefile
+ 	utils/libcecutil/Makefile
+ 	utils/cec-ctl/Makefile
+@@ -311,6 +313,15 @@ AS_IF([test "x$with_libudev" != xno -o "x$enable_libdvbv5" != xno],
+ 
+ AC_SUBST([JPEG_LIBS])
+ 
++JSONC_VERSION_REQUIRED="0.15";
++PKG_CHECK_MODULES(JSONC, [json-c >= $JSONC_VERSION_REQUIRED], [jsonc_pkgconfig=yes], [jsonc_pkgconfig=no])
++AC_SUBST([JSONC_CFLAGS])
++AC_SUBST([JSONC_LIBS])
++AM_CONDITIONAL([HAVE_JSONC], [test x$jsonc_pkgconfig = xyes])
++if test "x$jsonc_pkgconfig" = "xno"; then
++    AC_MSG_WARN(json-c $JSONC_VERSION_REQUIRED or higher required for v4l2-tracer)
++fi
++
+ # Check for pthread
+ 
+ AS_IF([test x$enable_shared != xno],
+@@ -645,6 +656,7 @@ compile time options summary
+     QT version                 : $QT_VERSION
+     ALSA support               : $USE_ALSA
+     SDL support		       : $sdl_pc
++    JSON-C                     : $jsonc_pkgconfig >= $JSONC_VERSION_REQUIRED
+ 
+     build dynamic libs         : $enable_shared
+     build static libs          : $enable_static
+diff --git a/utils/Makefile.am b/utils/Makefile.am
+index 0e68a612..6f59515e 100644
+--- a/utils/Makefile.am
++++ b/utils/Makefile.am
+@@ -15,6 +15,11 @@ SUBDIRS = \
+ 	cec-follower \
+ 	rds-ctl
+ 
++if HAVE_JSONC
++SUBDIRS += \
++	v4l2-tracer
++endif
++
+ if WITH_LIBDVBV5
+ SUBDIRS += \
+ 	dvb
+diff --git a/utils/v4l2-tracer/.gitignore b/utils/v4l2-tracer/.gitignore
+new file mode 100644
+index 00000000..48fbfc47
+--- /dev/null
++++ b/utils/v4l2-tracer/.gitignore
+@@ -0,0 +1,7 @@
++trace-gen.h
++trace-gen.cpp
++retrace-gen.cpp
++retrace-gen.h
++v4l2-tracer-info-gen.h
++v4l2-tracer
++v4l2-tracer.1
+diff --git a/utils/v4l2-tracer/Makefile.am b/utils/v4l2-tracer/Makefile.am
+new file mode 100644
+index 00000000..1e3a96d0
+--- /dev/null
++++ b/utils/v4l2-tracer/Makefile.am
+@@ -0,0 +1,32 @@
++if HAVE_JSONC
++
++lib_LTLIBRARIES = libv4l2tracer.la
++libv4l2tracer_la_SOURCES = libv4l2tracer.cpp trace-gen.cpp trace-helper.cpp \
++trace.cpp v4l2-tracer-common.cpp $(top_srcdir)/utils/common/v4l2-info.cpp $(top_srcdir)/utils/common/media-info.cpp
++libv4l2tracer_la_CPPFLAGS = -I$(top_srcdir)/utils/common $(JSONC_CFLAGS)
++libv4l2tracer_la_LDFLAGS = -avoid-version -module -shared -export-dynamic -ldl $(JSONC_LIBS)
++libv4l2tracer_la_LIBTOOLFLAGS = --tag=disable-static
++
++bin_PROGRAMS = v4l2-tracer
++man_MANS = v4l2-tracer.1
++
++v4l2_tracer_SOURCES = v4l2-tracer.cpp retrace-gen.cpp retrace-helper.cpp retrace.cpp \
++v4l2-tracer-common.cpp $(top_srcdir)/utils/common/v4l2-info.cpp $(top_srcdir)/utils/common/media-info.cpp
++v4l2_tracer_CPPFLAGS = -I$(top_srcdir)/utils/common -DLIBTRACER_PATH=$(libdir) $(JSONC_CFLAGS) $(GIT_SHA) $(GIT_COMMIT_CNT) $(GIT_COMMIT_DATE)
++v4l2_tracer_LDFLAGS = -lrt -lpthread $(JSONC_LIBS)
++
++V4L2_TRACER_GEN_PREREQS = $(top_srcdir)/include/linux/v4l2-controls.h \
++$(top_srcdir)/include/linux/videodev2.h $(top_srcdir)/include/linux/media.h $(top_srcdir)/include/linux/v4l2-common.h
++V4L2_TRACER_GEN = trace-gen.cpp trace-gen.h retrace-gen.cpp retrace-gen.h v4l2-tracer-info-gen.h
++v4l2-tracer.cpp: $(V4L2_TRACER_GEN)
++$(V4L2_TRACER_GEN): gen.intermediate;
++.INTERMEDIATE: gen.intermediate
++gen.intermediate: v4l2-tracer-gen.pl $(V4L2_TRACER_GEN_PREREQS)
++	$(AM_V_GEN) $(top_srcdir)/utils/v4l2-tracer/v4l2-tracer-gen.pl $(V4L2_TRACER_GEN_PREREQS)
++
++clean-local:
++	-rm -vf $(V4L2_TRACER_GEN)
++
++EXTRA_DIST = v4l2-tracer.1, v4l2-tracer-gen.pl
++
++endif
+diff --git a/utils/v4l2-tracer/libv4l2tracer.cpp b/utils/v4l2-tracer/libv4l2tracer.cpp
+new file mode 100644
+index 00000000..8eae783f
+--- /dev/null
++++ b/utils/v4l2-tracer/libv4l2tracer.cpp
+@@ -0,0 +1,307 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
++/*
++ * Copyright 2022 Collabora Ltd.
++ */
++
++#include <dlfcn.h>
++#include <stdarg.h>
++#include <config.h> /* For PROMOTED_MODE_T */
++#include "trace.h"
++
++extern struct trace_context ctx_trace;
++
++std::list<unsigned long> ioctls = {
++	VIDIOC_QUERYCAP,
++	VIDIOC_STREAMON,
++	VIDIOC_STREAMOFF,
++	VIDIOC_ENUM_FMT,
++	VIDIOC_G_FMT,
++	VIDIOC_S_FMT,
++	VIDIOC_REQBUFS,
++	VIDIOC_QUERYBUF,
++	VIDIOC_QBUF,
++	VIDIOC_EXPBUF,
++	VIDIOC_DQBUF,
++	VIDIOC_G_PARM,
++	VIDIOC_S_PARM,
++	VIDIOC_G_CTRL,
++	VIDIOC_S_CTRL,
++	VIDIOC_QUERYCTRL,
++	VIDIOC_G_CROP,
++	VIDIOC_S_CROP,
++	VIDIOC_TRY_FMT,
++	VIDIOC_G_EXT_CTRLS,
++	VIDIOC_S_EXT_CTRLS,
++	VIDIOC_TRY_EXT_CTRLS,
++	VIDIOC_ENCODER_CMD,
++	VIDIOC_TRY_ENCODER_CMD,
++	VIDIOC_CREATE_BUFS,
++	VIDIOC_PREPARE_BUF,
++	VIDIOC_G_SELECTION,
++	VIDIOC_S_SELECTION,
++	VIDIOC_DECODER_CMD,
++	VIDIOC_TRY_DECODER_CMD,
++	VIDIOC_QUERY_EXT_CTRL,
++	MEDIA_IOC_REQUEST_ALLOC,
++	MEDIA_REQUEST_IOC_QUEUE,
++	MEDIA_REQUEST_IOC_REINIT,
++};
++
++int open(const char *path, int oflag, ...)
++{
++	errno = 0;
++	mode_t mode = 0;
++
++	if (oflag & O_CREAT) {
++		va_list ap;
++		va_start(ap, oflag);
++		mode = va_arg(ap, PROMOTED_MODE_T);
++		va_end(ap);
++	}
++
++	int (*original_open)(const char *path, int oflag, ...);
++	original_open = (int (*)(const char*, int, ...)) dlsym(RTLD_NEXT, "open");
++	int fd = (*original_open)(path, oflag, mode);
++
++	if (getenv("V4L2_TRACER_OPTION_DEBUG")) {
++		fprintf(stderr, "%s:%s:%d: ", __FILE__, __func__, __LINE__);
++		fprintf(stderr, "fd: %d, path: %s\n", fd, path);
++	}
++
++	/* Don't trace the opening if tracing is paused. */
++	if (getenv("V4L2_TRACER_PAUSE_TRACE"))
++		return fd;
++
++	/* Only trace the opening of video/media devices. */
++	if (is_video_or_media_device(path)) {
++		trace_open(fd, path, oflag, mode, false);
++		add_device(fd, path);
++	}
++
++	if (getenv("V4L2_TRACER_OPTION_DEBUG")) {
++		fprintf(stderr, "%s:%s:%d\n", __FILE__, __func__, __LINE__);
++		print_devices();
++	}
++
++	return fd;
++}
++
++int open64(const char *path, int oflag, ...)
++{
++	errno = 0;
++	mode_t mode = 0;
++	if (oflag & O_CREAT) {
++		va_list ap;
++		va_start(ap, oflag);
++		mode = va_arg(ap, PROMOTED_MODE_T);
++		va_end(ap);
++	}
++
++	int (*original_open64)(const char *path, int oflag, ...);
++	original_open64 = (int (*)(const char*, int, ...)) dlsym(RTLD_NEXT, "open64");
++	int fd = (*original_open64)(path, oflag, mode);
++
++	if (getenv("V4L2_TRACER_OPTION_DEBUG")) {
++		fprintf(stderr, "%s:%s:%d: ", __FILE__, __func__, __LINE__);
++		fprintf(stderr, "fd: %d, path: %s\n", fd, path);
++	}
++
++	/* Don't trace the opening if tracing is paused. */
++	if (getenv("V4L2_TRACER_PAUSE_TRACE"))
++		return fd;
++
++	if (is_video_or_media_device(path)) {
++		add_device(fd, path);
++		trace_open(fd, path, oflag, mode, true);
++	}
++
++	if (getenv("V4L2_TRACER_OPTION_DEBUG")) {
++		fprintf(stderr, "%s:%s:%d\n", __FILE__, __func__, __LINE__);
++		print_devices();
++	}
++
++	return fd;
++}
++
++int close(int fd)
++{
++	errno = 0;
++	int (*original_close)(int fd);
++	original_close = (int (*)(int)) dlsym(RTLD_NEXT, "close");
++
++	if (getenv("V4L2_TRACER_PAUSE_TRACE"))
++		return (*original_close)(fd);
++
++	std::string path = get_device(fd);
++	if (getenv("V4L2_TRACER_OPTION_DEBUG")) {
++		fprintf(stderr, "%s:%s:%d: ", __FILE__, __func__, __LINE__);
++		fprintf(stderr, "fd: %d, path: %s\n", fd, path.c_str());
++	}
++
++	/* Only trace the close if a corresponding open was also traced. */
++	if (!path.empty()) {
++		json_object *close_obj = json_object_new_object();
++		json_object_object_add(close_obj, "fd", json_object_new_int(fd));
++		json_object_object_add(close_obj, "close", json_object_new_string(path.c_str()));
++		write_json_object_to_json_file(close_obj);
++		json_object_put(close_obj);
++		ctx_trace.devices.erase(fd);
++
++		/* If we removed the last device, close the json trace file. */
++		if (!ctx_trace.devices.size())
++			close_json_file();
++	}
++
++	if (getenv("V4L2_TRACER_OPTION_DEBUG")) {
++		fprintf(stderr, "%s:%s:%d\n", __FILE__, __func__, __LINE__);
++		print_devices();
++	}
++
++	return (*original_close)(fd);
++}
++
++void *mmap(void *addr, size_t len, int prot, int flags, int fildes, off_t off)
++{
++	errno = 0;
++	void *(*original_mmap)(void *addr, size_t len, int prot, int flags, int fildes, off_t off);
++	original_mmap = (void*(*)(void*, size_t, int, int, int, off_t)) dlsym(RTLD_NEXT, "mmap");
++	void *buf_address_pointer = (*original_mmap)(addr, len, prot, flags, fildes, off);
++
++	set_buffer_address_trace(fildes, off, (unsigned long) buf_address_pointer);
++
++	if (buffer_in_trace_context(fildes, off))
++		trace_mmap(addr, len, prot, flags, fildes, off, (unsigned long) buf_address_pointer, false);
++
++	return buf_address_pointer;
++}
++
++void *mmap64(void *addr, size_t len, int prot, int flags, int fildes, off_t off)
++{
++	errno = 0;
++	void *(*original_mmap64)(void *addr, size_t len, int prot, int flags, int fildes, off_t off);
++	original_mmap64 = (void*(*)(void*, size_t, int, int, int, off_t)) dlsym(RTLD_NEXT, "mmap64");
++	void *buf_address_pointer = (*original_mmap64)(addr, len, prot, flags, fildes, off);
++
++	set_buffer_address_trace(fildes, off, (unsigned long) buf_address_pointer);
++
++	if (buffer_in_trace_context(fildes, off))
++		trace_mmap(addr, len, prot, flags, fildes, off, (unsigned long) buf_address_pointer, true);
++
++	return buf_address_pointer;
++}
++
++int munmap(void *start, size_t length)
++{
++	errno = 0;
++	int(*original_munmap)(void *start, size_t length);
++	original_munmap = (int(*)(void *, size_t)) dlsym(RTLD_NEXT, "munmap");
++	int ret = (*original_munmap)(start, length);
++
++	/* Only trace the unmapping if the original mapping was traced. */
++	if (!buffer_is_mapped((unsigned long) start))
++		return ret;
++
++	json_object *munmap_obj = json_object_new_object();
++
++	if (errno)
++		json_object_object_add(munmap_obj, "errno", json_object_new_string(strerrorname_np(errno)));
++
++	json_object *munmap_args = json_object_new_object();
++	json_object_object_add(munmap_args, "start", json_object_new_int64((int64_t)start));
++	json_object_object_add(munmap_args, "length", json_object_new_uint64(length));
++	json_object_object_add(munmap_obj, "munmap", munmap_args);
++
++	write_json_object_to_json_file(munmap_obj);
++	json_object_put(munmap_obj);
++
++	return ret;
++}
++
++int ioctl(int fd, unsigned long cmd, ...)
++{
++	errno = 0;
++	va_list ap;
++	va_start(ap, cmd);
++	void *arg = va_arg(ap, void *);
++	va_end(ap);
++
++	int (*original_ioctl)(int fd, unsigned long cmd, ...);
++	original_ioctl = (int (*)(int, long unsigned int, ...)) dlsym(RTLD_NEXT, "ioctl");
++
++	/* Don't trace if v4l2-tracer has paused tracing. */
++	if (getenv("V4L2_TRACER_PAUSE_TRACE"))
++		return (*original_ioctl)(fd, cmd, arg);
++
++	/* Don't trace ioctls that are not in the specified ioctls list. */
++	if (find(ioctls.begin(), ioctls.end(), cmd) == ioctls.end())
++		return (*original_ioctl)(fd, cmd, arg);
++
++	json_object *ioctl_obj = json_object_new_object();
++	json_object_object_add(ioctl_obj, "fd", json_object_new_int(fd));
++	json_object_object_add(ioctl_obj, "ioctl",
++	                       json_object_new_string(val2s(cmd, ioctl_val_def).c_str()));
++
++	/* Don't attempt to trace a nullptr. */
++	if (arg == nullptr) {
++		int ret = (*original_ioctl)(fd, cmd, arg);
++		if (errno)
++			json_object_object_add(ioctl_obj, "errno",
++			                       json_object_new_string(strerrorname_np(errno)));
++		write_json_object_to_json_file(ioctl_obj);
++		json_object_put(ioctl_obj);
++		return ret;
++	}
++
++	/* Get info needed for writing the decoded video data to a yuv file. */
++	if (cmd == VIDIOC_S_EXT_CTRLS)
++		s_ext_ctrls_setup(static_cast<struct v4l2_ext_controls*>(arg));
++	if (cmd == VIDIOC_QBUF)
++		qbuf_setup(static_cast<struct v4l2_buffer*>(arg));
++	if (cmd == VIDIOC_STREAMOFF)
++		streamoff_cleanup(*(static_cast<v4l2_buf_type*>(arg)));
++
++	/* Trace userspace arguments if driver will be reading them i.e. _IOW or _IOWR ioctls */
++	if (cmd & IOC_IN) {
++		json_object *ioctl_args_userspace = trace_ioctl_args(cmd, arg);
++		/* Some ioctls won't have arguments to trace e.g. MEDIA_REQUEST_IOC_QUEUE. */
++		if (json_object_object_length(ioctl_args_userspace))
++			json_object_object_add(ioctl_obj, "from_userspace", ioctl_args_userspace);
++		else
++			json_object_put(ioctl_args_userspace);
++	}
++
++	/* Make the original ioctl call. */
++	int ret = (*original_ioctl)(fd, cmd, arg);
++
++	if (errno)
++		json_object_object_add(ioctl_obj, "errno", json_object_new_string(strerrorname_np(errno)));
++
++	/* Trace driver arguments if userspace will be reading them i.e. _IOR or _IOWR ioctls */
++	if (cmd & IOC_OUT) {
++		json_object *ioctl_args_driver = trace_ioctl_args(cmd, arg);
++		/* Some ioctls won't have arguments to trace e.g. MEDIA_REQUEST_IOC_QUEUE. */
++		if (json_object_object_length(ioctl_args_driver))
++			json_object_object_add(ioctl_obj, "from_driver", ioctl_args_driver);
++		else
++			json_object_put(ioctl_args_driver);
++	}
++
++	write_json_object_to_json_file(ioctl_obj);
++	json_object_put(ioctl_obj);
++
++	/* Get additional info from driver for writing the decoded video data to a yuv file. */
++	if (cmd == VIDIOC_G_FMT)
++		g_fmt_setup_trace(static_cast<struct v4l2_format*>(arg));
++	if (cmd == VIDIOC_S_FMT)
++		s_fmt_setup(static_cast<struct v4l2_format*>(arg));
++	if (cmd == VIDIOC_EXPBUF)
++		expbuf_setup(static_cast<struct v4l2_exportbuffer*>(arg));
++	if (cmd == VIDIOC_QUERYBUF)
++		querybuf_setup(fd, static_cast<struct v4l2_buffer*>(arg));
++
++	/* Get info needed for tracing dynamic arrays */
++	if (cmd == VIDIOC_QUERY_EXT_CTRL)
++		query_ext_ctrl_setup(fd, static_cast<struct v4l2_query_ext_ctrl*>(arg));
++
++	return ret;
++}
+diff --git a/utils/v4l2-tracer/retrace-helper.cpp b/utils/v4l2-tracer/retrace-helper.cpp
+new file mode 100644
+index 00000000..c17618d1
+--- /dev/null
++++ b/utils/v4l2-tracer/retrace-helper.cpp
+@@ -0,0 +1,250 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
++/*
++ * Copyright 2022 Collabora Ltd.
++ */
++
++#include "retrace.h"
++
++struct retrace_context ctx_retrace = {};
++
++bool buffer_in_retrace_context(int fd, __u32 offset)
++{
++	bool buffer_in_retrace_context = false;
++	for (auto &b : ctx_retrace.buffers) {
++		if ((b.fd == fd) && (b.offset == offset)) {
++			buffer_in_retrace_context = true;
++			break;
++		}
++	}
++	return buffer_in_retrace_context;
++}
++
++int get_buffer_fd_retrace(__u32 type, __u32 index)
++{
++	int fd = 0;
++	for (auto &b : ctx_retrace.buffers) {
++		if ((b.type == type) && (b.index == index)) {
++			fd = b.fd;
++			break;
++		}
++	}
++	return fd;
++}
++
++void add_buffer_retrace(int fd, __u32 type, __u32 index, __u32 offset)
++{
++	struct buffer_retrace buf = {};
++	buf.fd = fd;
++	buf.type = type;
++	buf.index = index;
++	buf.offset = offset;
++	ctx_retrace.buffers.push_front(buf);
++}
++
++void remove_buffer_retrace(int fd)
++{
++	for (auto it = ctx_retrace.buffers.begin(); it != ctx_retrace.buffers.end(); ++it) {
++		if (it->fd == fd) {
++			ctx_retrace.buffers.erase(it);
++			break;
++		}
++	}
++}
++
++void set_buffer_address_retrace(int fd, __u32 offset, long address_trace, long address_retrace)
++{
++	for (auto &b : ctx_retrace.buffers) {
++		if ((b.fd == fd) && (b.offset == offset)) {
++			b.address_trace = address_trace;
++			b.address_retrace = address_retrace;
++			break;
++		}
++	}
++}
++
++long get_retrace_address_from_trace_address(long address_trace)
++{
++	long address_retrace = 0;
++	for (auto &b : ctx_retrace.buffers) {
++		if (b.address_trace == address_trace) {
++			address_retrace = b.address_retrace;
++			break;
++		}
++	}
++	return address_retrace;
++}
++
++void print_buffers_retrace(void)
++{
++	for (auto &b : ctx_retrace.buffers) {
++		fprintf(stderr, "fd: %d, offset: %d, address_trace:%ld, address_retrace:%ld\n",
++		        b.fd, b.offset, b.address_trace, b.address_retrace);
++	}
++}
++
++void add_fd(int fd_trace, int fd_retrace)
++{
++	std::pair<int, int> new_pair;
++	new_pair = std::make_pair(fd_trace, fd_retrace);
++	ctx_retrace.retrace_fds.insert(new_pair);
++}
++
++int get_fd_retrace_from_fd_trace(int fd_trace)
++{
++	int fd_retrace = -1;
++	std::unordered_map<int, int>::const_iterator it;
++	it = ctx_retrace.retrace_fds.find(fd_trace);
++	if (it != ctx_retrace.retrace_fds.end())
++		fd_retrace = it->second;
++	return fd_retrace;
++}
++
++void print_fds(void)
++{
++	if (ctx_retrace.retrace_fds.empty())
++		fprintf(stderr, "all devices closed\n");
++	for (auto it = ctx_retrace.retrace_fds.cbegin(); it != ctx_retrace.retrace_fds.cend(); ++it)
++		fprintf(stderr, "fd_trace: %d, fd_retrace: %d\n", it->first, it->second);
++}
++
++std::string get_path_retrace_from_path_trace(std::string path_trace, json_object *open_obj)
++{
++	bool is_media = path_trace.find("media") != path_trace.npos;
++	bool is_video = path_trace.find("video") != path_trace.npos;
++
++	if (is_media && getenv("V4L2_TRACER_OPTION_SET_MEDIA_DEVICE")) {
++		if (getenv("V4L2_TRACER_OPTION_DEBUG")) {
++			fprintf(stderr, "%s:%s:%d: ", __FILE__, __func__, __LINE__);
++			fprintf(stderr, "Use path set by user: %s ",
++			        getenv("V4L2_TRACER_OPTION_SET_MEDIA_DEVICE"));
++		}
++		return getenv("V4L2_TRACER_OPTION_SET_MEDIA_DEVICE");
++	}
++
++	if (is_video && getenv("V4L2_TRACER_OPTION_SET_VIDEO_DEVICE")) {
++		if (getenv("V4L2_TRACER_OPTION_DEBUG")) {
++			fprintf(stderr, "%s:%s:%d: ", __FILE__, __func__, __LINE__);
++			fprintf(stderr, "Use path set by user: %s ",
++			        getenv("V4L2_TRACER_OPTION_SET_VIDEO_DEVICE"));
++		}
++		return getenv("V4L2_TRACER_OPTION_SET_VIDEO_DEVICE");
++	}
++
++	std::string driver;
++	json_object *driver_obj;
++	if (json_object_object_get_ex(open_obj, "driver", &driver_obj))
++		driver = json_object_get_string(driver_obj);
++	if (driver.empty())
++		return "";
++
++	std::string path_media = get_path_media(driver);
++	if (path_media.empty()) {
++		fprintf(stderr, "%s:%s:%d: ", __FILE__, __func__, __LINE__);
++		fprintf(stderr, "warning: driver: %s not found\n", driver.c_str());
++		return "";
++	}
++
++	if (is_media)
++		return path_media;
++
++	if (is_video) {
++		std::list<std::string> linked_entities;
++		json_object *le_obj;
++		if (json_object_object_get_ex(open_obj, "linked_entities", &le_obj)) {
++			for (size_t i = 0; i < array_list_length(json_object_get_array(le_obj)); i++) {
++				std::string ename = json_object_get_string(json_object_array_get_idx(le_obj, i));
++				linked_entities.push_back(ename);
++			}
++		}
++		if (linked_entities.size() == 0)
++			return "";
++
++		setenv("V4L2_TRACER_PAUSE_TRACE", "true", 0);
++		int media_fd = open(path_media.c_str(), O_RDONLY);
++		unsetenv("V4L2_TRACER_PAUSE_TRACE");
++
++		std::string path_video = get_path_video(media_fd, linked_entities);
++		setenv("V4L2_TRACER_PAUSE_TRACE", "true", 0);
++		close(media_fd);
++		unsetenv("V4L2_TRACER_PAUSE_TRACE");
++		return path_video;
++	}
++
++	return "";
++}
++
++void write_to_output_buffer(unsigned char *buffer_pointer, int bytesused, json_object *mem_obj)
++{
++	int byteswritten = 0;
++	json_object *line_obj;
++	size_t number_of_lines;
++	std::string compressed_video_data;
++
++	json_object *mem_array_obj;
++	json_object_object_get_ex(mem_obj, "mem_array", &mem_array_obj);
++	number_of_lines = json_object_array_length(mem_array_obj);
++
++	for (long unsigned int i = 0; i < number_of_lines; i++) {
++		line_obj = json_object_array_get_idx(mem_array_obj, i);
++		compressed_video_data = json_object_get_string(line_obj);
++
++		for (long unsigned i = 0; i < compressed_video_data.length(); i++) {
++			if (std::isspace(compressed_video_data[i]))
++				continue;
++			try {
++				/* Two values from the string e.g. "D9" are needed to write one byte. */
++				*buffer_pointer = (char) std::stoi(compressed_video_data.substr(i,2), nullptr, 16);
++				buffer_pointer++;
++				i++;
++				byteswritten++;
++			} catch (std::invalid_argument& ia) {
++				fprintf(stderr, "%s:%s:%d: ", __FILE__, __func__, __LINE__);
++				fprintf(stderr, "\'%s\' is an invalid argument.\n",
++				        compressed_video_data.substr(i,2).c_str());
++			} catch (std::out_of_range& oor) {
++				fprintf(stderr, "%s:%s:%d: ", __FILE__, __func__, __LINE__);
++				fprintf(stderr, "\'%s\' is out of range.\n",
++				        compressed_video_data.substr(i,2).c_str());
++			}
++		}
++	}
++
++	if (getenv("V4L2_TRACER_OPTION_DEBUG")) {
++		fprintf(stderr, "%s:%s:%d: ", __FILE__, __func__, __LINE__);
++		fprintf(stderr, "bytesused: %d, byteswritten: %d\n", bytesused, byteswritten);
++	}
++}
++
++void compare_program_versions(json_object *v4l2_tracer_info_obj)
++{
++	json_object *package_version_obj;
++	json_object_object_get_ex(v4l2_tracer_info_obj, "package_version", &package_version_obj);
++	std::string package_version_trace = json_object_get_string(package_version_obj);
++	std::string package_version_retrace = PACKAGE_VERSION;
++	if (package_version_trace != package_version_retrace) {
++		fprintf(stderr, "%s:%s:%d: ", __FILE__, __func__, __LINE__);
++		fprintf(stderr, "warning: trace package version \'%s\' does not match current: \'%s\':\n",
++		        package_version_trace.c_str(), package_version_retrace.c_str());
++		print_v4l2_tracer_info();
++		return;
++	}
++
++	json_object *git_sha_obj;
++	json_object_object_get_ex(v4l2_tracer_info_obj, "git_sha", &git_sha_obj);
++	std::string git_sha_trace = json_object_get_string(git_sha_obj);
++	std::string git_sha_retrace = (STRING(GIT_SHA));
++	if (git_sha_trace != git_sha_retrace) {
++		fprintf(stderr, "%s:%s:%d: ", __FILE__, __func__, __LINE__);
++		fprintf(stderr, "warning: sha in trace file \'%s\' does not match current sha: \'%s\'\n",
++		        git_sha_trace.c_str(),  git_sha_retrace.c_str());
++		print_v4l2_tracer_info();
++		return;
++	}
++}
++
++void print_context(void)
++{
++	print_fds();
++	print_buffers_retrace();
++	fprintf(stderr, "\n");
++}
+diff --git a/utils/v4l2-tracer/retrace.cpp b/utils/v4l2-tracer/retrace.cpp
+new file mode 100644
+index 00000000..b736e835
+--- /dev/null
++++ b/utils/v4l2-tracer/retrace.cpp
+@@ -0,0 +1,1374 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
++/*
++ * Copyright 2022 Collabora Ltd.
++ */
++
++#include "retrace.h"
++
++extern struct retrace_context ctx_retrace;
++
++void retrace_mmap(json_object *mmap_obj, bool is_mmap64)
++{
++	json_object *mmap_args_obj;
++	if (is_mmap64)
++		json_object_object_get_ex(mmap_obj, "mmap64", &mmap_args_obj);
++	else
++		json_object_object_get_ex(mmap_obj, "mmap", &mmap_args_obj);
++
++	json_object *len_obj;
++	json_object_object_get_ex(mmap_args_obj, "len", &len_obj);
++	size_t len = (size_t) json_object_get_int(len_obj);
++
++	json_object *prot_obj;
++	json_object_object_get_ex(mmap_args_obj, "prot", &prot_obj);
++	int prot = json_object_get_int(prot_obj);
++
++	json_object *flags_obj;
++	json_object_object_get_ex(mmap_args_obj, "flags", &flags_obj);
++	int flags = s2number(json_object_get_string(flags_obj));
++
++	json_object *fildes_obj;
++	json_object_object_get_ex(mmap_args_obj, "fildes", &fildes_obj);
++	int fd_trace = json_object_get_int(fildes_obj);
++
++	json_object *off_obj;
++	json_object_object_get_ex(mmap_args_obj, "off", &off_obj);
++	off_t off = (off_t) json_object_get_int64(off_obj);
++
++	int fd_retrace = get_fd_retrace_from_fd_trace(fd_trace);
++	if (fd_retrace < 0) {
++		fprintf(stderr, "%s:%s:%d: ", __FILE__, __func__, __LINE__);
++		fprintf(stderr, "bad or missing file descriptor.\n");
++		return;
++	}
++
++	/* Only retrace mmap calls that map a buffer. */
++	if (!buffer_in_retrace_context(fd_retrace, off))
++		return;
++
++	void *buf_address_retrace_pointer;
++	if (is_mmap64)
++		buf_address_retrace_pointer = mmap64(0, len, prot, flags, fd_retrace, off);
++	else
++		buf_address_retrace_pointer = mmap(0, len, prot, flags, fd_retrace, off);
++
++	if (buf_address_retrace_pointer == MAP_FAILED) {
++		if (is_mmap64)
++			perror("mmap64");
++		else
++			perror("mmap");
++		if (getenv("V4L2_TRACER_OPTION_DEBUG")) {
++			fprintf(stderr, "%s:%s:%d\n", __FILE__, __func__, __LINE__);
++			print_context();
++		}
++		exit(EXIT_FAILURE);
++	}
++
++	/*
++	 * Get and store the original trace address so that it can be matched
++	 * with the munmap address later.
++	 */
++	json_object *buffer_address_obj;
++	json_object_object_get_ex(mmap_obj, "buffer_address", &buffer_address_obj);
++	long buf_address_trace = json_object_get_int64(buffer_address_obj);
++	set_buffer_address_retrace(fd_retrace, off, buf_address_trace,
++	                           (long) buf_address_retrace_pointer);
++
++	if (getenv("V4L2_TRACER_OPTION_VERBOSE") || (errno != 0)) {
++		fprintf(stderr, "fd: %d, offset: %ld, ", fd_retrace, off);
++		if (is_mmap64)
++			perror("mmap64");
++		else
++			perror("mmap");
++		if (getenv("V4L2_TRACER_OPTION_DEBUG")) {
++			fprintf(stderr, "%s:%s:%d\n", __FILE__, __func__, __LINE__);
++			print_context();
++		}
++	}
++}
++
++void retrace_munmap(json_object *syscall_obj)
++{
++	json_object *munmap_args_obj;
++	json_object_object_get_ex(syscall_obj, "munmap", &munmap_args_obj);
++
++	json_object *start_obj;
++	json_object_object_get_ex(munmap_args_obj, "start", &start_obj);
++	long start = json_object_get_int64(start_obj);
++
++	json_object *length_obj;
++	json_object_object_get_ex(munmap_args_obj, "length", &length_obj);
++	size_t length = (size_t) json_object_get_int(length_obj);
++
++	long buffer_address_retrace = get_retrace_address_from_trace_address(start);
++
++	if (buffer_address_retrace < 0)
++		return;
++
++	munmap((void *)buffer_address_retrace, length);
++
++	if (getenv("V4L2_TRACER_OPTION_VERBOSE") || (errno != 0)) {
++		fprintf(stderr, "unmapped: %ld, ", buffer_address_retrace);
++		perror("munmap");
++	}
++}
++
++void retrace_open(json_object *jobj, bool is_open64)
++{
++	json_object *fd_trace_obj;
++	json_object_object_get_ex(jobj, "fd", &fd_trace_obj);
++	int fd_trace = json_object_get_int(fd_trace_obj);
++
++	json_object *open_args_obj;
++	if (is_open64)
++		json_object_object_get_ex(jobj, "open64", &open_args_obj);
++	else
++		json_object_object_get_ex(jobj, "open", &open_args_obj);
++
++	json_object *path_obj;
++	json_object_object_get_ex(open_args_obj, "path", &path_obj);
++	std::string path_trace = json_object_get_string(path_obj);
++	std::string path_retrace = get_path_retrace_from_path_trace(path_trace, jobj);
++
++	/*
++	 * Don't fail if a retrace path can't be found.
++	 * Try using the same path as in the trace file.
++	 */
++	if (path_retrace.empty()) {
++		if (getenv("V4L2_TRACER_OPTION_VERBOSE")) {
++			fprintf(stderr, "%s:%s:%d: ", __FILE__, __func__, __LINE__);
++			fprintf(stderr, "warning: can't find retrace device. Attempting to use: %s\n",
++			        path_trace.c_str());
++		}
++		path_retrace = path_trace;
++	}
++
++	json_object *oflag_obj;
++	json_object_object_get_ex(open_args_obj, "oflag", &oflag_obj);
++	int oflag = s2val(json_object_get_string(oflag_obj), open_val_def);
++
++	int mode = 0;
++	json_object *mode_obj;
++	if (json_object_object_get_ex(open_args_obj, "mode", &mode_obj))
++		mode = s2number(json_object_get_string(mode_obj));
++
++	int fd_retrace = 0;
++	if (is_open64)
++		fd_retrace = open64(path_retrace.c_str(), oflag, mode);
++	else
++		fd_retrace = open(path_retrace.c_str(), oflag, mode);
++
++	if (fd_retrace <= 0) {
++		fprintf(stderr, "%s:%s:%d: ", __FILE__, __func__, __LINE__);
++		fprintf(stderr, "cannot open: %s\n", path_retrace.c_str());
++		exit(fd_retrace);
++	}
++
++	add_fd(fd_trace, fd_retrace);
++
++	if (getenv("V4L2_TRACER_OPTION_VERBOSE") || errno != 0) {
++		fprintf(stderr, "path: %s ", path_retrace.c_str());
++		if (is_open64)
++			perror("open64");
++		else
++			perror("open");
++		if (getenv("V4L2_TRACER_OPTION_DEBUG")) {
++			fprintf(stderr, "%s:%s:%d\n", __FILE__, __func__, __LINE__);
++			print_context();
++		}
++	}
++}
++
++void retrace_close(json_object *jobj)
++{
++	json_object *fd_trace_obj;
++	json_object_object_get_ex(jobj, "fd", &fd_trace_obj);
++	int fd_retrace = get_fd_retrace_from_fd_trace(json_object_get_int(fd_trace_obj));
++
++	/* Only close devices that were opened in the retrace context. */
++	if (fd_retrace < 0)
++		return;
++
++	close(fd_retrace);
++	ctx_retrace.retrace_fds.erase(json_object_get_int(fd_trace_obj));
++
++	if (getenv("V4L2_TRACER_OPTION_VERBOSE") || (errno != 0)) {
++		fprintf(stderr, "fd: %d ", fd_retrace);
++		perror("close");
++		if (getenv("V4L2_TRACER_OPTION_DEBUG")) {
++			fprintf(stderr, "%s:%s:%d\n", __FILE__, __func__, __LINE__);
++			print_context();
++		}
++	}
++}
++
++void retrace_vidioc_reqbufs(int fd_retrace, json_object *ioctl_args)
++{
++	struct v4l2_requestbuffers *ptr = retrace_v4l2_requestbuffers_gen(ioctl_args);
++	ioctl(fd_retrace, VIDIOC_REQBUFS, ptr);
++
++	if (ptr)
++		free(ptr);
++}
++
++struct v4l2_plane *retrace_v4l2_plane(json_object *plane_obj, __u32 memory)
++{
++	struct v4l2_plane *pl = (struct v4l2_plane *) calloc(1, sizeof(v4l2_plane));
++
++	json_object *bytesused_obj;
++	json_object_object_get_ex(plane_obj, "bytesused", &bytesused_obj);
++	pl->bytesused = (__u32) json_object_get_int64(bytesused_obj);
++
++	json_object *length_obj;
++	json_object_object_get_ex(plane_obj, "length", &length_obj);
++	pl->length = (__u32) json_object_get_int64(length_obj);
++
++	json_object *m_obj;
++	json_object_object_get_ex(plane_obj, "m", &m_obj);
++	if (memory == V4L2_MEMORY_MMAP) {
++		json_object *mem_offset_obj;
++		json_object_object_get_ex(m_obj, "mem_offset", &mem_offset_obj);
++		pl->m.mem_offset = (__u32) json_object_get_int64(mem_offset_obj);
++	}
++
++	json_object *data_offset_obj;
++	json_object_object_get_ex(plane_obj, "data_offset", &data_offset_obj);
++	pl->data_offset = (__u32) json_object_get_int64(data_offset_obj);
++
++	return pl;
++}
++
++struct v4l2_buffer *retrace_v4l2_buffer(json_object *ioctl_args)
++{
++	struct v4l2_buffer *buf = (struct v4l2_buffer *) calloc(1, sizeof(struct v4l2_buffer));
++
++	json_object *buf_obj;
++	json_object_object_get_ex(ioctl_args, "v4l2_buffer", &buf_obj);
++
++	json_object *index_obj;
++	json_object_object_get_ex(buf_obj, "index", &index_obj);
++	buf->index = (__u32) json_object_get_uint64(index_obj);
++
++	json_object *type_obj;
++	json_object_object_get_ex(buf_obj, "type", &type_obj);
++	buf->type = s2val(json_object_get_string(type_obj), v4l2_buf_type_val_def);
++
++	json_object *bytesused_obj;
++	json_object_object_get_ex(buf_obj, "bytesused", &bytesused_obj);
++	buf->bytesused = (__u32) json_object_get_uint64(bytesused_obj);
++
++	json_object *flags_obj;
++	json_object_object_get_ex(buf_obj, "flags", &flags_obj);
++	buf->flags = (__u32) s2flags_buffer(json_object_get_string(flags_obj));
++
++	json_object *field_obj;
++	json_object_object_get_ex(buf_obj, "field", &field_obj);
++	buf->field = (__u32) s2val(json_object_get_string(field_obj), v4l2_field_val_def);
++
++	json_object *timestamp_obj;
++	json_object_object_get_ex(buf_obj, "timestamp", &timestamp_obj);
++
++	struct timeval tv = {};
++	json_object *tv_sec_obj;
++	json_object_object_get_ex(timestamp_obj, "tv_sec", &tv_sec_obj);
++	tv.tv_sec = json_object_get_int64(tv_sec_obj);
++	json_object *tv_usec_obj;
++	json_object_object_get_ex(timestamp_obj, "tv_usec", &tv_usec_obj);
++	tv.tv_usec = json_object_get_int64(tv_usec_obj);
++	buf->timestamp = tv;
++
++	json_object *sequence_obj;
++	json_object_object_get_ex(buf_obj, "sequence", &sequence_obj);
++	buf->sequence = (__u32) json_object_get_uint64(sequence_obj);
++
++	json_object *memory_obj;
++	json_object_object_get_ex(buf_obj, "memory", &memory_obj);
++	buf->memory = s2val(json_object_get_string(memory_obj), v4l2_memory_val_def);
++
++	json_object *length_obj;
++	json_object_object_get_ex(buf_obj, "length", &length_obj);
++	buf->length = (__u32) json_object_get_uint64(length_obj);
++
++	json_object *m_obj;
++	json_object_object_get_ex(buf_obj, "m", &m_obj);
++
++	if (buf->type == V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE ||
++	    buf->type == V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE) {
++		json_object *planes_obj;
++		json_object_object_get_ex(m_obj, "planes", &planes_obj);
++		 /* TODO add planes > 0 */
++		json_object *plane_obj = json_object_array_get_idx(planes_obj, 0);
++		buf->m.planes = retrace_v4l2_plane(plane_obj, buf->memory);
++	}
++
++	if (buf->type == V4L2_BUF_TYPE_VIDEO_CAPTURE ||
++	    buf->type == V4L2_BUF_TYPE_VIDEO_OUTPUT) {
++		if (buf->memory == V4L2_MEMORY_MMAP) {
++			json_object *offset_obj;
++			json_object_object_get_ex(m_obj, "offset", &offset_obj);
++			buf->m.offset = (__u32) json_object_get_uint64(offset_obj);
++		}
++	}
++
++	if (buf->flags & V4L2_BUF_FLAG_REQUEST_FD) {
++		json_object *request_fd_obj;
++		json_object_object_get_ex(buf_obj, "request_fd", &request_fd_obj);
++		buf->request_fd = (__s32) get_fd_retrace_from_fd_trace(json_object_get_int(request_fd_obj));
++		if (buf->request_fd < 0) {
++			fprintf(stderr, "%s:%s:%d: ", __FILE__, __func__, __LINE__);
++			fprintf(stderr, "bad or missing file descriptor\n");
++		}
++	}
++
++	return buf;
++}
++
++void retrace_vidioc_querybuf(int fd_retrace, json_object *ioctl_args_user)
++{
++	struct v4l2_buffer *buf = retrace_v4l2_buffer(ioctl_args_user);
++
++	ioctl(fd_retrace, VIDIOC_QUERYBUF, buf);
++
++	if (buf->memory == V4L2_MEMORY_MMAP) {
++		__u32 offset = 0;
++		if ((buf->type == V4L2_BUF_TYPE_VIDEO_CAPTURE) ||
++		    (buf->type == V4L2_BUF_TYPE_VIDEO_OUTPUT))
++			offset = buf->m.offset;
++		if ((buf->type == V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE) ||
++		    (buf->type == V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE))
++			offset = buf->m.planes->m.mem_offset;
++		if (!get_buffer_fd_retrace(buf->type, buf->index))
++			add_buffer_retrace(fd_retrace, buf->type, buf->index, offset);
++	}
++
++	if (buf->type == V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE ||
++	    buf->type == V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE) {
++		if (buf->m.planes != nullptr) {
++			free(buf->m.planes);
++		}
++	}
++
++	if (getenv("V4L2_TRACER_OPTION_VERBOSE") || (errno != 0)) {
++		fprintf(stderr, "%s, index: %d, fd: %d, ",
++		        buftype2s(buf->type).c_str(), buf->index, fd_retrace);
++		perror("VIDIOC_QUERYBUF");
++		if (getenv("V4L2_TRACER_OPTION_DEBUG")) {
++			fprintf(stderr, "%s:%s:%d\n", __FILE__, __func__, __LINE__);
++			print_context();
++		}
++	}
++
++	if (buf)
++		free(buf);
++}
++
++void retrace_vidioc_qbuf(int fd_retrace, json_object *ioctl_args_user)
++{
++	struct v4l2_buffer *ptr = retrace_v4l2_buffer(ioctl_args_user);
++
++	ioctl(fd_retrace, VIDIOC_QBUF, ptr);
++
++	if (ptr->type == V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE ||
++	    ptr->type == V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE) {
++		if (ptr->m.planes != nullptr) {
++			free(ptr->m.planes);
++		}
++	}
++
++	if (getenv("V4L2_TRACER_OPTION_VERBOSE") || (errno != 0)) {
++		fprintf(stderr, "%s, index: %d, fd: %d, ",
++		        buftype2s(ptr->type).c_str(), ptr->index, fd_retrace);
++		perror("VIDIOC_QBUF");
++		if (getenv("V4L2_TRACER_OPTION_DEBUG")) {
++			fprintf(stderr, "%s:%s:%d\n", __FILE__, __func__, __LINE__);
++			print_context();
++		}
++	}
++
++	if (ptr)
++		free(ptr);
++}
++
++void retrace_vidioc_dqbuf(int fd_retrace, json_object *ioctl_args_user)
++{
++	struct v4l2_buffer *buf = retrace_v4l2_buffer(ioctl_args_user);
++
++	struct pollfd *pfds = (struct pollfd *) calloc(1, sizeof(struct pollfd));
++	if (pfds == NULL)
++		exit(EXIT_FAILURE);
++	pfds[0].fd = fd_retrace;
++	pfds[0].events = POLLIN;
++	poll(pfds, 1, 5000);
++	free(pfds);
++
++	ioctl(fd_retrace, VIDIOC_DQBUF, buf);
++
++	if (getenv("V4L2_TRACER_OPTION_VERBOSE") || (errno != 0)) {
++		fprintf(stderr, "%s, index: %d, fd: %d, ",
++		        buftype2s(buf->type).c_str(), buf->index, fd_retrace);
++		perror("VIDIOC_DQBUF");
++		if (getenv("V4L2_TRACER_OPTION_DEBUG")) {
++			fprintf(stderr, "%s:%s:%d\n", __FILE__, __func__, __LINE__);
++			print_context();
++		}
++	}
++
++	if (buf->type == V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE ||
++	    buf->type == V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE) {
++		if (buf->m.planes != nullptr) {
++			free(buf->m.planes);
++		}
++	}
++
++	if (buf)
++		free(buf);
++}
++
++void retrace_vidioc_prepare_buf(int fd_retrace, json_object *ioctl_args_user)
++{
++	struct v4l2_buffer *buf = retrace_v4l2_buffer(ioctl_args_user);
++
++	ioctl(fd_retrace, VIDIOC_PREPARE_BUF, buf);
++
++	if (getenv("V4L2_TRACER_OPTION_VERBOSE") || (errno != 0)) {
++		fprintf(stderr, "%s, index: %d, fd: %d, ",
++		        buftype2s(buf->type).c_str(), buf->index, fd_retrace);
++		perror("VIDIOC_PREPARE_BUF");
++		if (getenv("V4L2_TRACER_OPTION_DEBUG")) {
++			fprintf(stderr, "%s:%s:%d\n", __FILE__, __func__, __LINE__);
++			print_context();
++		}
++	}
++
++	if (buf->type == V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE ||
++	    buf->type == V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE) {
++		if (buf->m.planes != nullptr) {
++			free(buf->m.planes);
++		}
++	}
++
++	if (buf)
++		free(buf);
++}
++
++void retrace_vidioc_create_bufs(int fd_retrace, json_object *ioctl_args)
++{
++	struct v4l2_create_buffers *ptr = retrace_v4l2_create_buffers_gen(ioctl_args);
++	ioctl(fd_retrace, VIDIOC_CREATE_BUFS, ptr);
++
++	if (getenv("V4L2_TRACER_OPTION_VERBOSE") || (errno != 0)) {
++		perror("VIDIOC_CREATE_BUFS");
++		if (getenv("V4L2_TRACER_OPTION_DEBUG")) {
++			fprintf(stderr, "%s:%s:%d\n", __FILE__, __func__, __LINE__);
++			print_context();
++		}
++	}
++
++	if (ptr)
++		free(ptr);
++}
++
++void retrace_vidioc_expbuf(int fd_retrace, json_object *ioctl_args_user, json_object *ioctl_args_driver)
++{
++	struct v4l2_exportbuffer *ptr = retrace_v4l2_exportbuffer_gen(ioctl_args_user);
++	ioctl(fd_retrace, VIDIOC_EXPBUF, ptr);
++
++	int buf_fd_retrace = ptr->fd;
++
++	/*
++	 * If a buffer was previously added to the retrace context using the video device
++	 * file descriptor, replace the video fd with the more specific buffer fd from EXPBUF.
++	 */
++	int fd_found_in_retrace_context = get_buffer_fd_retrace(ptr->type, ptr->index);
++	if (fd_found_in_retrace_context)
++		remove_buffer_retrace(fd_found_in_retrace_context);
++
++	add_buffer_retrace(buf_fd_retrace, ptr->type, ptr->index);
++
++	/* Retrace again to associate the original fd with the current buffer fd. */
++	memset(ptr, 0, sizeof(v4l2_exportbuffer));
++	ptr = retrace_v4l2_exportbuffer_gen(ioctl_args_driver);
++	int buf_fd_trace = ptr->fd;
++	add_fd(buf_fd_trace, buf_fd_retrace);
++
++	if (getenv("V4L2_TRACER_OPTION_VERBOSE") || (errno != 0))
++		perror("VIDIOC_EXPBUF");
++
++	if (ptr)
++		free(ptr);
++}
++
++void retrace_vidioc_streamon(int fd_retrace, json_object *ioctl_args)
++{
++	json_object *type_obj;
++	json_object_object_get_ex(ioctl_args, "type", &type_obj);
++	v4l2_buf_type buf_type = (v4l2_buf_type) s2val(json_object_get_string(type_obj),
++	                                               v4l2_buf_type_val_def);
++
++	ioctl(fd_retrace, VIDIOC_STREAMON, &buf_type);
++
++	if (getenv("V4L2_TRACER_OPTION_VERBOSE") || (errno != 0)) {
++		fprintf(stderr, "%s, ", buftype2s(buf_type).c_str());
++		perror("VIDIOC_STREAMON");
++	}
++}
++
++void retrace_vidioc_streamoff(int fd_retrace, json_object *ioctl_args)
++{
++	json_object *type_obj;
++	json_object_object_get_ex(ioctl_args, "type", &type_obj);
++	v4l2_buf_type buf_type = (v4l2_buf_type) s2val(json_object_get_string(type_obj),
++	                                               v4l2_buf_type_val_def);
++
++	ioctl(fd_retrace, VIDIOC_STREAMOFF, &buf_type);
++
++	if (getenv("V4L2_TRACER_OPTION_VERBOSE") || (errno != 0)) {
++		fprintf(stderr, "%s, ", buftype2s(buf_type).c_str());
++		perror("VIDIOC_STREAMOFF");
++	}
++}
++
++void retrace_vidioc_try_fmt(int fd_retrace, json_object *ioctl_args)
++{
++	struct v4l2_format *ptr = retrace_v4l2_format_gen(ioctl_args);
++	ioctl(fd_retrace, VIDIOC_TRY_FMT, ptr);
++
++	if (getenv("V4L2_TRACER_OPTION_VERBOSE") || (errno != 0))
++		perror("VIDIOC_TRY_FMT");
++
++	if (ptr)
++		free(ptr);
++}
++
++void retrace_vidioc_g_fmt(int fd_retrace, json_object *ioctl_args)
++{
++	struct v4l2_format *ptr = retrace_v4l2_format_gen(ioctl_args);
++	ioctl(fd_retrace, VIDIOC_G_FMT, ptr);
++
++	if (getenv("V4L2_TRACER_OPTION_VERBOSE") || (errno != 0))
++		perror("VIDIOC_G_FMT");
++
++	if (ptr)
++		free(ptr);
++}
++
++void retrace_vidioc_s_fmt(int fd_retrace, json_object *ioctl_args_user)
++{
++	struct v4l2_format *ptr = retrace_v4l2_format_gen(ioctl_args_user);
++
++	ioctl(fd_retrace, VIDIOC_S_FMT, ptr);
++
++	if (getenv("V4L2_TRACER_OPTION_VERBOSE") || (errno != 0)) {
++		perror("VIDIOC_S_FMT");
++	}
++
++	if (ptr)
++		free(ptr);
++}
++
++struct v4l2_streamparm *retrace_v4l2_streamparm(json_object *parent_obj, std::string key_name = "")
++{
++	struct v4l2_streamparm *p = (struct v4l2_streamparm *) calloc(1, sizeof(v4l2_streamparm));
++
++	json_object *v4l2_streamparm_obj;
++	json_object_object_get_ex(parent_obj, "v4l2_streamparm", &v4l2_streamparm_obj);
++
++	json_object *type_obj;
++	if (json_object_object_get_ex(v4l2_streamparm_obj, "type", &type_obj))
++		p->type = (__u32) s2val(json_object_get_string(type_obj), v4l2_buf_type_val_def);
++
++	if ((p->type == V4L2_BUF_TYPE_VIDEO_CAPTURE) || (p->type == V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE))
++		p->parm.capture = *retrace_v4l2_captureparm_gen(v4l2_streamparm_obj);
++
++	if ((p->type == V4L2_BUF_TYPE_VIDEO_OUTPUT) || (p->type == V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE))
++		p->parm.output = *retrace_v4l2_outputparm_gen(v4l2_streamparm_obj);
++
++	return p;
++}
++
++void retrace_vidioc_g_parm (int fd_retrace, json_object *ioctl_args)
++{
++	struct v4l2_streamparm *ptr = retrace_v4l2_streamparm(ioctl_args);
++	ioctl(fd_retrace, VIDIOC_G_PARM, ptr);
++
++	if (getenv("V4L2_TRACER_OPTION_VERBOSE") || (errno != 0))
++		perror("VIDIOC_G_PARM");
++
++	if (ptr)
++		free(ptr);
++}
++
++void retrace_vidioc_s_parm (int fd_retrace, json_object *ioctl_args)
++{
++	struct v4l2_streamparm *ptr = retrace_v4l2_streamparm(ioctl_args);
++	ioctl(fd_retrace, VIDIOC_S_PARM, ptr);
++
++	if (getenv("V4L2_TRACER_OPTION_VERBOSE") || (errno != 0))
++		perror("VIDIOC_S_PARM");
++
++	if (ptr)
++		free(ptr);
++}
++
++void retrace_vidioc_queryctrl(int fd_retrace, json_object *ioctl_args)
++{
++	struct v4l2_queryctrl *ptr = retrace_v4l2_queryctrl_gen(ioctl_args);
++	ioctl(fd_retrace, VIDIOC_QUERYCTRL, ptr);
++
++	if (getenv("V4L2_TRACER_OPTION_VERBOSE") || (errno != 0))
++		perror("VIDIOC_QUERYCTRL");
++
++	if (ptr)
++		free(ptr);
++}
++
++void retrace_vidioc_g_control(int fd_retrace, json_object *ioctl_args)
++{
++	struct v4l2_control *ptr = retrace_v4l2_control_gen(ioctl_args);
++	ioctl(fd_retrace, VIDIOC_G_CTRL, ptr);
++
++	if (getenv("V4L2_TRACER_OPTION_VERBOSE") || (errno != 0))
++		perror("VIDIOC_G_CTRL");
++
++	if (ptr)
++		free(ptr);
++}
++
++void retrace_vidioc_s_control(int fd_retrace, json_object *ioctl_args)
++{
++	struct v4l2_control *ptr = retrace_v4l2_control_gen(ioctl_args);
++	ioctl(fd_retrace, VIDIOC_S_CTRL, ptr);
++
++	if (getenv("V4L2_TRACER_OPTION_VERBOSE") || (errno != 0))
++		perror("VIDIOC_S_CTRL");
++
++	if (ptr)
++		free(ptr);
++}
++
++void retrace_vidioc_g_crop(int fd_retrace, json_object *ioctl_args)
++{
++	struct v4l2_crop *ptr = retrace_v4l2_crop_gen(ioctl_args);
++	ioctl(fd_retrace, VIDIOC_G_CROP, ptr);
++
++	if (getenv("V4L2_TRACER_OPTION_VERBOSE") || (errno != 0))
++		perror("VIDIOC_G_CROP");
++
++	if (ptr)
++		free(ptr);
++}
++
++void retrace_vidioc_s_crop(int fd_retrace, json_object *ioctl_args)
++{
++	struct v4l2_crop *ptr = retrace_v4l2_crop_gen(ioctl_args);
++	ioctl(fd_retrace, VIDIOC_S_CROP, ptr);
++
++	if (getenv("V4L2_TRACER_OPTION_VERBOSE") || (errno != 0))
++		perror("VIDIOC_S_CROP");
++
++	if (ptr)
++		free(ptr);
++}
++
++int retrace_v4l2_ext_control_value(json_object *ctrl_obj, const val_def *def)
++{
++	__s32 value = -1;
++
++	json_object *value_obj;
++	if (json_object_object_get_ex(ctrl_obj, "value", &value_obj))
++		value = (__s32) s2val(json_object_get_string(value_obj), def);
++
++	return value;
++}
++
++__u32 *retrace_v4l2_dynamic_array(json_object *v4l2_ext_control_obj)
++{
++	__u32 elems = 0;
++	json_object *elems_obj;
++	if (json_object_object_get_ex(v4l2_ext_control_obj, "elems", &elems_obj))
++		elems = (__u32) json_object_get_int64(elems_obj);
++
++	__u32 *ptr = static_cast<__u32 *>(calloc(elems, sizeof(__u32)));
++
++	json_object *p_u32_obj;
++	if (json_object_object_get_ex(v4l2_ext_control_obj, "p_u32", &p_u32_obj)) {
++		for (size_t i = 0; i < elems; i++) {
++			if (json_object_array_get_idx(p_u32_obj, i))
++				ptr[i] = (__u32) json_object_get_int64(json_object_array_get_idx(p_u32_obj, i));
++		}
++	}
++
++	return ptr;
++}
++
++struct v4l2_ext_control *retrace_v4l2_ext_control(json_object *parent_obj, int ctrl_idx)
++{
++	struct v4l2_ext_control *p = (struct v4l2_ext_control *) calloc(1, sizeof(v4l2_ext_control));
++
++	json_object *v4l2_ext_control_obj = json_object_array_get_idx(parent_obj, ctrl_idx);
++	if (!v4l2_ext_control_obj)
++		return p;
++
++	json_object *id_obj;
++	if (json_object_object_get_ex(v4l2_ext_control_obj, "id", &id_obj))
++		p->id = s2val(json_object_get_string(id_obj), control_val_def);
++
++	json_object *size_obj;
++	if (json_object_object_get_ex(v4l2_ext_control_obj, "size", &size_obj))
++		p->size = json_object_get_int64(size_obj);
++
++	switch (p->id) {
++	case V4L2_CID_STATELESS_H264_DECODE_MODE:
++		p->value = retrace_v4l2_ext_control_value(v4l2_ext_control_obj,
++		                                          v4l2_stateless_h264_decode_mode_val_def);
++		break;
++	case V4L2_CID_STATELESS_H264_START_CODE:
++		p->value = retrace_v4l2_ext_control_value(v4l2_ext_control_obj,
++		                                          v4l2_stateless_h264_start_code_val_def);
++		break;
++	case V4L2_CID_STATELESS_HEVC_DECODE_MODE:
++		p->value = retrace_v4l2_ext_control_value(v4l2_ext_control_obj,
++		                                          v4l2_stateless_hevc_decode_mode_val_def);
++		break;
++	case V4L2_CID_STATELESS_HEVC_START_CODE:
++		p->value = retrace_v4l2_ext_control_value(v4l2_ext_control_obj,
++		                                          v4l2_stateless_hevc_start_code_val_def);
++		break;
++	default:
++		break;
++	}
++
++	/* Don't retrace pointers that were not traced because they were null. */
++	if (p->size == 0)
++		return p;
++
++	switch (p->id) {
++	case V4L2_CID_STATELESS_VP8_FRAME:
++		p->ptr = retrace_v4l2_ctrl_vp8_frame_gen(v4l2_ext_control_obj);
++		break;
++	case V4L2_CID_STATELESS_H264_SPS:
++		p->ptr = retrace_v4l2_ctrl_h264_sps_gen(v4l2_ext_control_obj);
++		break;
++	case V4L2_CID_STATELESS_H264_PPS:
++		p->ptr = retrace_v4l2_ctrl_h264_pps_gen(v4l2_ext_control_obj);
++		break;
++	case V4L2_CID_STATELESS_H264_SCALING_MATRIX:
++		p->ptr = retrace_v4l2_ctrl_h264_scaling_matrix_gen(v4l2_ext_control_obj);
++		break;
++	case V4L2_CID_STATELESS_H264_PRED_WEIGHTS:
++		p->ptr = retrace_v4l2_ctrl_h264_pred_weights_gen(v4l2_ext_control_obj);
++		break;
++	case V4L2_CID_STATELESS_H264_SLICE_PARAMS:
++		p->ptr = retrace_v4l2_ctrl_h264_slice_params_gen(v4l2_ext_control_obj);
++		break;
++	case V4L2_CID_STATELESS_H264_DECODE_PARAMS:
++		p->ptr = retrace_v4l2_ctrl_h264_decode_params_gen(v4l2_ext_control_obj);
++		break;
++	case V4L2_CID_STATELESS_FWHT_PARAMS:
++		p->ptr = retrace_v4l2_ctrl_fwht_params_gen(v4l2_ext_control_obj);
++		break;
++	case V4L2_CID_STATELESS_VP9_FRAME:
++		p->ptr = retrace_v4l2_ctrl_vp9_frame_gen(v4l2_ext_control_obj);
++		break;
++	case V4L2_CID_STATELESS_VP9_COMPRESSED_HDR:
++		p->ptr = retrace_v4l2_ctrl_vp9_compressed_hdr_gen(v4l2_ext_control_obj);
++		break;
++	case V4L2_CID_STATELESS_HEVC_SPS:
++		p->ptr = retrace_v4l2_ctrl_hevc_sps_gen(v4l2_ext_control_obj);
++		break;
++	case V4L2_CID_STATELESS_HEVC_PPS:
++		p->ptr = retrace_v4l2_ctrl_hevc_pps_gen(v4l2_ext_control_obj);
++		break;
++	case V4L2_CID_STATELESS_HEVC_SLICE_PARAMS:
++		p->ptr = retrace_v4l2_ctrl_hevc_slice_params_gen(v4l2_ext_control_obj);
++		break;
++	case V4L2_CID_STATELESS_HEVC_SCALING_MATRIX:
++		p->ptr = retrace_v4l2_ctrl_hevc_scaling_matrix_gen(v4l2_ext_control_obj);
++		break;
++	case V4L2_CID_STATELESS_HEVC_DECODE_PARAMS:
++		p->ptr = retrace_v4l2_ctrl_hevc_decode_params_gen(v4l2_ext_control_obj);
++		break;
++	case V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS:
++		p->p_u32 = retrace_v4l2_dynamic_array(v4l2_ext_control_obj);
++		break;
++	case V4L2_CID_STATELESS_MPEG2_SEQUENCE:
++		p->ptr = retrace_v4l2_ctrl_mpeg2_sequence_gen(v4l2_ext_control_obj);
++		break;
++	case V4L2_CID_STATELESS_MPEG2_PICTURE:
++		p->ptr = retrace_v4l2_ctrl_mpeg2_picture_gen(v4l2_ext_control_obj);
++		break;
++	case V4L2_CID_STATELESS_MPEG2_QUANTISATION:
++		p->ptr = retrace_v4l2_ctrl_mpeg2_quantisation_gen(v4l2_ext_control_obj);
++		break;
++	default:
++		fprintf(stderr, "%s:%s:%d: ", __FILE__, __func__, __LINE__);
++		fprintf(stderr, "warning: cannot retrace control: %s\n",
++		        val2s(p->id, control_val_def).c_str());
++		break;
++	}
++
++	return p;
++}
++
++struct v4l2_ext_controls *retrace_v4l2_ext_controls(json_object *parent_obj)
++{
++	struct v4l2_ext_controls *p = (struct v4l2_ext_controls *) calloc(1, sizeof(v4l2_ext_controls));
++
++	json_object *v4l2_ext_controls_obj;
++	json_object_object_get_ex(parent_obj, "v4l2_ext_controls", &v4l2_ext_controls_obj);
++
++	json_object *which_obj;
++	if (json_object_object_get_ex(v4l2_ext_controls_obj, "which", &which_obj))
++		p->which = (__u32) s2val(json_object_get_string(which_obj), which_val_def);
++
++	json_object *count_obj;
++	if (json_object_object_get_ex(v4l2_ext_controls_obj, "count", &count_obj))
++		p->count = (__u32) json_object_get_int64(count_obj);
++
++	json_object *error_idx_obj;
++	if (json_object_object_get_ex(v4l2_ext_controls_obj, "error_idx", &error_idx_obj))
++		p->error_idx = (__u32) json_object_get_int64(error_idx_obj);
++
++	/* request_fd is only valid for V4L2_CTRL_WHICH_REQUEST_VAL */
++	if (p->which == V4L2_CTRL_WHICH_REQUEST_VAL) {
++		json_object *request_fd_obj;
++		if (json_object_object_get_ex(v4l2_ext_controls_obj, "request_fd", &request_fd_obj)) {
++
++			int request_fd_trace = json_object_get_int(request_fd_obj);
++			int request_fd_retrace = get_fd_retrace_from_fd_trace(request_fd_trace);
++			if (request_fd_retrace < 0) {
++				fprintf(stderr, "%s:%s:%d: ", __FILE__, __func__, __LINE__);
++				fprintf(stderr, "bad file descriptor\n");
++				return p;
++			} else {
++				p->request_fd = (__s32) request_fd_retrace;
++			}
++		}
++	}
++
++	json_object *controls_obj;
++	if (json_object_object_get_ex(v4l2_ext_controls_obj, "controls", &controls_obj)) {
++
++		p->controls = (struct v4l2_ext_control *) calloc(p->count, sizeof(v4l2_ext_control));
++
++		for (__u32 i = 0; i < p->count; i++) {
++			void *temp = retrace_v4l2_ext_control(controls_obj, i);
++			if (temp != nullptr) {
++				p->controls[i] = *(static_cast<struct v4l2_ext_control*>(temp));
++			}
++		}
++	}
++
++	return p;
++}
++
++void retrace_vidioc_try_ext_ctrls(int fd_retrace, json_object *ioctl_args)
++{
++	struct v4l2_ext_controls *ptr = retrace_v4l2_ext_controls(ioctl_args);
++	ioctl(fd_retrace, VIDIOC_TRY_EXT_CTRLS, ptr);
++
++	if (ptr)
++		free(ptr);
++
++	if (getenv("V4L2_TRACER_OPTION_VERBOSE") || (errno != 0))
++		perror("VIDIOC_TRY_EXT_CTRLS");
++}
++
++void retrace_vidioc_g_ext_ctrls(int fd_retrace, json_object *ioctl_args)
++{
++	struct v4l2_ext_controls *ptr = retrace_v4l2_ext_controls(ioctl_args);
++	ioctl(fd_retrace, VIDIOC_G_EXT_CTRLS, ptr);
++
++	if (ptr)
++		free(ptr);
++
++	if (getenv("V4L2_TRACER_OPTION_VERBOSE") || (errno != 0))
++		perror("VIDIOC_G_EXT_CTRLS");
++}
++
++void retrace_vidioc_s_ext_ctrls(int fd_retrace, json_object *ioctl_args)
++{
++	struct v4l2_ext_controls *ptr = retrace_v4l2_ext_controls(ioctl_args);
++	ioctl(fd_retrace, VIDIOC_S_EXT_CTRLS, ptr);
++
++	if (ptr)
++		free(ptr);
++
++	if (getenv("V4L2_TRACER_OPTION_VERBOSE") || (errno != 0)) {
++		perror("VIDIOC_S_EXT_CTRLS");
++		if (getenv("V4L2_TRACER_OPTION_DEBUG")) {
++			fprintf(stderr, "%s:%s:%d\n", __FILE__, __func__, __LINE__);
++			print_context();
++		}
++	}
++}
++
++void retrace_vidioc_try_encoder_cmd(int fd_retrace, json_object *ioctl_args)
++{
++	struct v4l2_encoder_cmd *ptr = retrace_v4l2_encoder_cmd_gen(ioctl_args);
++
++	ioctl(fd_retrace, VIDIOC_TRY_ENCODER_CMD, ptr);
++
++	if (getenv("V4L2_TRACER_OPTION_VERBOSE") || (errno != 0))
++		perror("VIDIOC_TRY_ENCODER_CMD");
++
++	if (ptr)
++		free(ptr);
++}
++
++void retrace_vidioc_encoder_cmd(int fd_retrace, json_object *ioctl_args)
++{
++	struct v4l2_encoder_cmd *ptr = retrace_v4l2_encoder_cmd_gen(ioctl_args);
++
++	ioctl(fd_retrace, VIDIOC_ENCODER_CMD, ptr);
++
++	if (getenv("V4L2_TRACER_OPTION_VERBOSE") || (errno != 0))
++		perror("VIDIOC_ENCODER_CMD");
++
++	if (ptr)
++		free(ptr);
++}
++
++void retrace_vidioc_g_selection(int fd_retrace, json_object *ioctl_args)
++{
++	struct v4l2_selection *ptr = retrace_v4l2_selection_gen(ioctl_args);
++
++	ioctl(fd_retrace, VIDIOC_G_SELECTION, ptr);
++
++	if (getenv("V4L2_TRACER_OPTION_VERBOSE") || (errno != 0))
++		perror("VIDIOC_G_SELECTION");
++
++	if (ptr)
++		free(ptr);
++
++}
++
++void retrace_vidioc_s_selection(int fd_retrace, json_object *ioctl_args)
++{
++	struct v4l2_selection *ptr = retrace_v4l2_selection_gen(ioctl_args);
++
++	ioctl(fd_retrace, VIDIOC_S_SELECTION, ptr);
++
++	if (getenv("V4L2_TRACER_OPTION_VERBOSE") || (errno != 0))
++		perror("VIDIOC_S_SELECTION");
++
++	if (ptr)
++		free(ptr);
++}
++
++struct v4l2_decoder_cmd *retrace_v4l2_decoder_cmd(json_object *parent_obj)
++{
++	struct v4l2_decoder_cmd *p = (struct v4l2_decoder_cmd *) calloc(1, sizeof(v4l2_decoder_cmd));
++
++	json_object *v4l2_decoder_cmd_obj;
++	json_object_object_get_ex(parent_obj, "v4l2_decoder_cmd", &v4l2_decoder_cmd_obj);
++
++	json_object *cmd_obj;
++	if (json_object_object_get_ex(v4l2_decoder_cmd_obj, "cmd", &cmd_obj))
++		p->cmd = (__u32) s2val(json_object_get_string(cmd_obj), decoder_cmd_val_def);
++	else
++		p->cmd = 0xBAD; /* Since V4L2_DEC_CMD_START is 0 and p->cmd is unsigned */
++
++	std::string flags;
++	json_object *flags_obj;
++	if (json_object_object_get_ex(v4l2_decoder_cmd_obj, "flags", &flags_obj))
++		flags = json_object_get_string(flags_obj);
++
++	switch (p->cmd) {
++	case V4L2_DEC_CMD_START: {
++		if (flags == "V4L2_DEC_CMD_START_MUTE_AUDIO")
++			p->flags = V4L2_DEC_CMD_START_MUTE_AUDIO;
++
++		json_object *start_obj;
++		json_object_object_get_ex(v4l2_decoder_cmd_obj, "start", &start_obj);
++
++		json_object *speed_obj;
++		if (json_object_object_get_ex(start_obj, "speed", &speed_obj))
++			p->start.speed = json_object_get_int(speed_obj);
++
++		std::string format;
++		json_object *format_obj;
++		if (json_object_object_get_ex(start_obj, "format", &format_obj))
++			format = json_object_get_string(format_obj);
++
++		if (format == "V4L2_DEC_START_FMT_GOP")
++			p->start.format = V4L2_DEC_START_FMT_GOP;
++		else if (format == "V4L2_DEC_START_FMT_NONE")
++			p->start.format = V4L2_DEC_START_FMT_NONE;
++		break;
++	}
++	case V4L2_DEC_CMD_STOP: {
++		if (flags == "V4L2_DEC_CMD_STOP_TO_BLACK")
++			p->flags = V4L2_DEC_CMD_STOP_TO_BLACK;
++		else if (flags == "V4L2_DEC_CMD_STOP_IMMEDIATELY")
++			p->flags = V4L2_DEC_CMD_STOP_IMMEDIATELY;
++
++		json_object *stop_obj;
++		json_object_object_get_ex(v4l2_decoder_cmd_obj, "stop", &stop_obj);
++
++		json_object *pts_obj;
++		if (json_object_object_get_ex(stop_obj, "pts", &pts_obj))
++			p->stop.pts = (__u64) json_object_get_uint64(pts_obj);
++		break;
++	}
++	case V4L2_DEC_CMD_PAUSE: {
++		if (flags == "V4L2_DEC_CMD_PAUSE_TO_BLACK")
++			p->flags = V4L2_DEC_CMD_PAUSE_TO_BLACK;
++		break;
++	}
++	default:
++		break;
++	}
++
++	return p;
++}
++
++void retrace_vidioc_try_decoder_cmd(int fd_retrace, json_object *ioctl_args)
++{
++	struct v4l2_decoder_cmd *ptr = retrace_v4l2_decoder_cmd(ioctl_args);
++
++	ioctl(fd_retrace, VIDIOC_TRY_DECODER_CMD, ptr);
++
++	if (getenv("V4L2_TRACER_OPTION_VERBOSE") || (errno != 0))
++		perror("VIDIOC_TRY_DECODER_CMD");
++
++	if (ptr)
++		free (ptr);
++}
++
++void retrace_vidioc_decoder_cmd(int fd_retrace, json_object *ioctl_args)
++{
++	struct v4l2_decoder_cmd *ptr = retrace_v4l2_decoder_cmd(ioctl_args);
++
++	ioctl(fd_retrace, VIDIOC_DECODER_CMD, ptr);
++
++	if (getenv("V4L2_TRACER_OPTION_VERBOSE") || (errno != 0))
++		perror("VIDIOC_DECODER_CMD");
++
++	if (ptr)
++		free (ptr);
++}
++
++void retrace_vidioc_query_ext_ctrl(int fd_retrace, json_object *ioctl_args)
++{
++	struct v4l2_query_ext_ctrl *ptr = retrace_v4l2_query_ext_ctrl_gen(ioctl_args);
++
++	ioctl(fd_retrace, VIDIOC_QUERY_EXT_CTRL, ptr);
++
++	if (getenv("V4L2_TRACER_OPTION_VERBOSE"))
++		perror("VIDIOC_QUERY_EXT_CTRL");
++
++	if (ptr)
++		free(ptr);
++}
++
++void retrace_vidioc_enum_fmt(int fd_retrace, json_object *ioctl_args)
++{
++	struct v4l2_fmtdesc *ptr = retrace_v4l2_fmtdesc_gen(ioctl_args);
++
++	ioctl(fd_retrace, VIDIOC_ENUM_FMT, ptr);
++
++	if (getenv("V4L2_TRACER_OPTION_VERBOSE"))
++		perror("VIDIOC_ENUM_FMT");
++
++	if (ptr)
++		free(ptr);
++}
++
++void retrace_vidioc_querycap(int fd_retrace, json_object *ioctl_args)
++{
++	struct v4l2_capability *ptr = retrace_v4l2_capability_gen(ioctl_args);
++
++	ioctl(fd_retrace, VIDIOC_QUERYCAP, ptr);
++
++	if (getenv("V4L2_TRACER_OPTION_VERBOSE") || (errno != 0))
++		perror("VIDIOC_QUERYCAP");
++
++	if (ptr)
++		free(ptr);
++}
++
++void retrace_media_ioc_request_alloc(int fd_retrace, json_object *ioctl_args)
++{
++	/* Get the original request file descriptor from the original trace file. */
++	json_object *request_fd_trace_obj;
++	json_object_object_get_ex(ioctl_args, "request_fd", &request_fd_trace_obj);
++	int request_fd_trace = json_object_get_int(request_fd_trace_obj);
++
++	/* Allocate a request in the retrace context. */
++	__s32 request_fd_retrace = 0;
++	ioctl(fd_retrace, MEDIA_IOC_REQUEST_ALLOC, &request_fd_retrace);
++
++	/* Associate the original request file descriptor with the current request file descriptor. */
++	add_fd(request_fd_trace, request_fd_retrace);
++}
++
++void retrace_ioctl(json_object *syscall_obj)
++{
++	long cmd = 0;
++	int fd_retrace = 0;
++
++	json_object *fd_trace_obj;
++	json_object_object_get_ex(syscall_obj, "fd", &fd_trace_obj);
++	fd_retrace = get_fd_retrace_from_fd_trace(json_object_get_int(fd_trace_obj));
++	if (fd_retrace < 0) {
++		fprintf(stderr, "%s:%s:%d: ", __FILE__, __func__, __LINE__);
++		fprintf(stderr, "bad file descriptor\n");
++		return;
++	}
++
++	json_object *cmd_obj;
++	json_object_object_get_ex(syscall_obj, "ioctl", &cmd_obj);
++	cmd = s2val(json_object_get_string(cmd_obj), ioctl_val_def);
++
++	json_object *ioctl_args_user;
++	json_object_object_get_ex(syscall_obj, "from_userspace", &ioctl_args_user);
++
++	json_object *ioctl_args_driver;
++	json_object_object_get_ex(syscall_obj, "from_driver", &ioctl_args_driver);
++
++	switch (cmd) {
++	case VIDIOC_QUERYCAP:
++		retrace_vidioc_querycap(fd_retrace, ioctl_args_user);
++		break;
++	case VIDIOC_ENUM_FMT:
++		retrace_vidioc_enum_fmt(fd_retrace, ioctl_args_user);
++		break;
++	case VIDIOC_TRY_FMT:
++		retrace_vidioc_try_fmt(fd_retrace, ioctl_args_user);
++		break;
++	case VIDIOC_G_FMT:
++		retrace_vidioc_g_fmt(fd_retrace, ioctl_args_user);
++		break;
++	case VIDIOC_S_FMT:
++		retrace_vidioc_s_fmt(fd_retrace, ioctl_args_user);
++		break;
++	case VIDIOC_REQBUFS:
++		retrace_vidioc_reqbufs(fd_retrace, ioctl_args_user);
++		break;
++	case VIDIOC_QUERYBUF:
++		retrace_vidioc_querybuf(fd_retrace, ioctl_args_user);
++		break;
++	case VIDIOC_QBUF:
++		retrace_vidioc_qbuf(fd_retrace, ioctl_args_user);
++		break;
++	case VIDIOC_EXPBUF:
++		retrace_vidioc_expbuf(fd_retrace, ioctl_args_user, ioctl_args_driver);
++		break;
++	case VIDIOC_DQBUF:
++		retrace_vidioc_dqbuf(fd_retrace, ioctl_args_user);
++		break;
++	case VIDIOC_STREAMON:
++		retrace_vidioc_streamon(fd_retrace, ioctl_args_user);
++		break;
++	case VIDIOC_STREAMOFF:
++		retrace_vidioc_streamoff(fd_retrace, ioctl_args_user);
++		break;
++	case VIDIOC_G_PARM:
++		retrace_vidioc_g_parm(fd_retrace, ioctl_args_user);
++		break;
++	case VIDIOC_S_PARM:
++		retrace_vidioc_s_parm(fd_retrace, ioctl_args_user);
++		break;
++	case VIDIOC_G_CTRL:
++		retrace_vidioc_g_control(fd_retrace, ioctl_args_user);
++		break;
++	case VIDIOC_S_CTRL:
++		retrace_vidioc_s_control(fd_retrace, ioctl_args_user);
++		break;
++	case VIDIOC_QUERYCTRL:
++		retrace_vidioc_queryctrl(fd_retrace, ioctl_args_user);
++		break;
++	case VIDIOC_G_CROP:
++		retrace_vidioc_g_crop(fd_retrace, ioctl_args_user);
++		break;
++	case VIDIOC_S_CROP:
++		retrace_vidioc_s_crop(fd_retrace, ioctl_args_user);
++		break;
++	case VIDIOC_G_EXT_CTRLS:
++		retrace_vidioc_g_ext_ctrls(fd_retrace, ioctl_args_user);
++		break;
++	case VIDIOC_TRY_EXT_CTRLS:
++		retrace_vidioc_try_ext_ctrls(fd_retrace, ioctl_args_user);
++		break;
++	case VIDIOC_S_EXT_CTRLS:
++		retrace_vidioc_s_ext_ctrls(fd_retrace, ioctl_args_user);
++		break;
++	case VIDIOC_TRY_ENCODER_CMD:
++		retrace_vidioc_try_encoder_cmd(fd_retrace, ioctl_args_user);
++		break;
++	case VIDIOC_ENCODER_CMD:
++		retrace_vidioc_encoder_cmd(fd_retrace, ioctl_args_user);
++		break;
++	case VIDIOC_CREATE_BUFS:
++		retrace_vidioc_create_bufs(fd_retrace, ioctl_args_user);
++		break;
++	case VIDIOC_G_SELECTION:
++		retrace_vidioc_g_selection(fd_retrace, ioctl_args_user);
++		break;
++	case VIDIOC_S_SELECTION:
++		retrace_vidioc_s_selection(fd_retrace, ioctl_args_user);
++		break;
++	case VIDIOC_PREPARE_BUF:
++		retrace_vidioc_prepare_buf(fd_retrace, ioctl_args_user);
++		break;
++	case VIDIOC_TRY_DECODER_CMD:
++		retrace_vidioc_try_decoder_cmd(fd_retrace, ioctl_args_user);
++		break;
++	case VIDIOC_DECODER_CMD:
++		retrace_vidioc_decoder_cmd(fd_retrace, ioctl_args_user);
++		break;
++	case VIDIOC_QUERY_EXT_CTRL:
++		retrace_vidioc_query_ext_ctrl(fd_retrace, ioctl_args_user);
++		break;
++	case MEDIA_IOC_REQUEST_ALLOC:
++		retrace_media_ioc_request_alloc(fd_retrace, ioctl_args_driver);
++		break;
++	case MEDIA_REQUEST_IOC_QUEUE:
++		ioctl(fd_retrace, MEDIA_REQUEST_IOC_QUEUE);
++		break;
++	case MEDIA_REQUEST_IOC_REINIT:
++		ioctl(fd_retrace, MEDIA_REQUEST_IOC_REINIT);
++		break;
++	default:
++		fprintf(stderr, "%s:%s:%d: ", __FILE__, __func__, __LINE__);
++		fprintf(stderr, "warning: \'%s\' will not be retraced.\n", json_object_get_string(cmd_obj));
++		break;
++	}
++}
++
++void retrace_mem(json_object *mem_obj)
++{
++	json_object *type_obj;
++	json_object_object_get_ex(mem_obj, "mem_dump", &type_obj);
++	v4l2_buf_type type = (v4l2_buf_type) s2val(json_object_get_string(type_obj),
++	                                           v4l2_buf_type_val_def);
++	json_object *bytesused_obj;
++	json_object_object_get_ex(mem_obj, "bytesused", &bytesused_obj);
++	int bytesused = json_object_get_int64(bytesused_obj);
++	if (!bytesused)
++		return;
++
++	json_object *offset_obj;
++	json_object_object_get_ex(mem_obj, "offset", &offset_obj);
++	__u32 offset = json_object_get_int64(offset_obj);
++
++	json_object *address_obj;
++	json_object_object_get_ex(mem_obj, "address", &address_obj);
++	long buffer_address_trace = json_object_get_int64(address_obj);
++
++	long buffer_address_retrace = get_retrace_address_from_trace_address(buffer_address_trace);
++
++	unsigned char *buffer_pointer = (unsigned char *) buffer_address_retrace;
++
++	/* Get the encoded data from the json file and write it to output buffer memory. */
++	if (type == V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE || type == V4L2_BUF_TYPE_VIDEO_OUTPUT)
++		write_to_output_buffer(buffer_pointer, bytesused, mem_obj);
++
++	if (getenv("V4L2_TRACER_OPTION_DEBUG")) {
++		fprintf(stderr, "%s:%s:%d: ", __FILE__, __func__, __LINE__);
++		fprintf(stderr, "%s, bytesused: %d, offset: %d, addr: %ld\n",
++		        buftype2s(type).c_str(), bytesused, offset, buffer_address_retrace);
++		print_context();
++	}
++}
++
++void retrace_object(json_object *jobj)
++{
++	errno = 0;
++	json_object *temp_obj;
++	if (json_object_object_get_ex(jobj, "ioctl", &temp_obj)) {
++		retrace_ioctl(jobj);
++		return;
++	}
++
++	if (json_object_object_get_ex(jobj, "open", &temp_obj)) {
++		retrace_open(jobj, false);
++		return;
++	}
++
++	if (json_object_object_get_ex(jobj, "open64", &temp_obj)) {
++		retrace_open(jobj, true);
++		return;
++	}
++
++	if (json_object_object_get_ex(jobj, "close", &temp_obj)) {
++		retrace_close(jobj);
++		return;
++	}
++
++	if (json_object_object_get_ex(jobj, "mmap", &temp_obj)) {
++		retrace_mmap(jobj, false);
++		return;
++	}
++
++	if (json_object_object_get_ex(jobj, "mmap64", &temp_obj)) {
++		retrace_mmap(jobj, true);
++		return;
++	}
++
++	if (json_object_object_get_ex(jobj, "munmap", &temp_obj)) {
++		retrace_munmap(jobj);
++		return;
++	}
++
++	if (json_object_object_get_ex(jobj, "mem_dump", &temp_obj)) {
++		retrace_mem(jobj);
++		return;
++	}
++
++	if (json_object_object_get_ex(jobj, "package_version", &temp_obj)) {
++		compare_program_versions(jobj);
++		return;
++	}
++
++	if (json_object_object_get_ex(jobj, "Trace", &temp_obj)) {
++		return;
++	}
++
++	fprintf(stderr, "%s:%s:%d: ", __FILE__, __func__, __LINE__);
++	fprintf(stderr, "warning: unexpected JSON object in trace file.\n");
++}
++
++void retrace_array(json_object *root_array_obj)
++{
++	json_object *jobj;
++	struct array_list *al = json_object_get_array(root_array_obj);
++	size_t json_objects_in_file = array_list_length(al);
++
++	if (json_objects_in_file < 3) {
++		fprintf(stderr, "%s:%s:%d: ", __FILE__, __func__, __LINE__);
++		fprintf(stderr, "warning: trace file may be empty.\n");
++	}
++
++	for (size_t i = 0; i < json_objects_in_file; i++) {
++		jobj = (json_object *) array_list_get_idx(al, i);
++		retrace_object(jobj);
++	}
++}
++
++int retracer (std::string trace_filename)
++{
++	FILE *trace_file = fopen(trace_filename.c_str(), "r");
++	if (trace_file == NULL) {
++		fprintf(stderr, "%s:%s:%d: ", __FILE__, __func__, __LINE__);
++		fprintf(stderr, "Trace file error: \'%s\'\n", trace_filename.c_str());
++		return 1;
++	}
++	fclose(trace_file);
++
++	fprintf(stderr, "Retracing: %s\n", trace_filename.c_str());
++
++	json_object *root_array_obj = json_object_from_file(trace_filename.c_str());
++
++	if (root_array_obj == nullptr) {
++		fprintf(stderr, "%s:%s:%d: ", __FILE__, __func__, __LINE__);
++		fprintf(stderr, "cannot get JSON-object from file: %s\n", trace_filename.c_str());
++		return 1;
++	}
++
++	retrace_array(root_array_obj);
++	json_object_put(root_array_obj);
++
++	return 0;
++}
+diff --git a/utils/v4l2-tracer/retrace.h b/utils/v4l2-tracer/retrace.h
+new file mode 100644
+index 00000000..a4cef1f0
+--- /dev/null
++++ b/utils/v4l2-tracer/retrace.h
+@@ -0,0 +1,41 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
++/*
++ * Copyright 2022 Collabora Ltd.
++ */
++
++#ifndef RETRACE_H
++#define RETRACE_H
++
++#include "v4l2-tracer-common.h"
++#include "retrace-gen.h"
++
++struct buffer_retrace {
++	int fd;
++	__u32 type;
++	__u32 index;
++	__u32 offset;
++	long address_trace;
++	long address_retrace;
++};
++
++struct retrace_context {
++	/* Key is a file descriptor from the trace, value is the corresponding fd in the retrace. */
++	std::unordered_map<int, int> retrace_fds;
++	/* List of output and capture buffers being retraced. */
++	std::list<struct buffer_retrace> buffers;
++};
++
++bool buffer_in_retrace_context(int fd, __u32 offset = 0);
++int get_buffer_fd_retrace(__u32 type, __u32 index);
++void add_buffer_retrace(int fd, __u32 type, __u32 index, __u32 offset = 0);
++void remove_buffer_retrace(int fd);
++void set_buffer_address_retrace(int fd, __u32 offset, long address_trace, long address_retrace);
++long get_retrace_address_from_trace_address(long address_trace);
++void add_fd(int fd_trace, int fd_retrace);
++int get_fd_retrace_from_fd_trace(int fd_trace);
++std::string get_path_retrace_from_path_trace(std::string path_trace, json_object *jobj);
++void write_to_output_buffer(unsigned char *buffer_pointer, int bytesused, json_object *mem_obj);
++void compare_program_versions(json_object *v4l2_tracer_info_obj);
++void print_context(void);
++
++#endif
+diff --git a/utils/v4l2-tracer/trace-helper.cpp b/utils/v4l2-tracer/trace-helper.cpp
+new file mode 100644
+index 00000000..ccf88c5d
+--- /dev/null
++++ b/utils/v4l2-tracer/trace-helper.cpp
+@@ -0,0 +1,503 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
++/*
++ * Copyright 2022 Collabora Ltd.
++ */
++
++#include <math.h>
++#include "trace.h"
++
++struct trace_context ctx_trace = {};
++
++bool is_video_or_media_device(const char *path)
++{
++	std::string dev_path_video = "/dev/video";
++	std::string dev_path_media = "/dev/media";
++	if (strncmp(path, dev_path_video.c_str(), dev_path_video.length()) &&
++	    strncmp(path, dev_path_media.c_str(), dev_path_media.length()))
++		return false;
++	return true;
++}
++
++void add_device(int fd, std::string path)
++{
++	if (getenv("V4L2_TRACER_OPTION_DEBUG")) {
++		fprintf(stderr, "%s:%s:%d: ", __FILE__, __func__, __LINE__);
++		fprintf(stderr, "fd: %d, path: %s\n", fd, path.c_str());
++	}
++	std::pair<int, std::string> new_pair = std::make_pair(fd, path);
++	ctx_trace.devices.insert(new_pair);
++}
++
++std::string get_device(int fd)
++{
++	std::string path;
++	std::unordered_map<int, std::string>::const_iterator it;
++	it = ctx_trace.devices.find(fd);
++	if (it != ctx_trace.devices.end())
++		path = it->second;
++	return path;
++}
++
++void print_devices(void)
++{
++	if (ctx_trace.devices.size())
++		fprintf(stderr, "Devices:\n");
++	for (auto &device_pair : ctx_trace.devices)
++		fprintf(stderr, "fd: %d, path: %s\n", device_pair.first, device_pair.second.c_str());
++}
++
++void print_decode_order(void)
++{
++	fprintf(stderr, "Decode order: ");
++	for (auto &num : ctx_trace.decode_order)
++		fprintf(stderr, "%ld, ",  num);
++	fprintf(stderr, ".\n");
++}
++
++void set_decode_order(long decode_order)
++{
++	if (getenv("V4L2_TRACER_OPTION_DEBUG")) {
++		fprintf(stderr, "%s:%s:%d: ", __FILE__, __func__, __LINE__);
++		fprintf(stderr, "%ld\n", decode_order);
++	}
++
++	std::list<long>::iterator it;
++	it = find(ctx_trace.decode_order.begin(), ctx_trace.decode_order.end(), decode_order);
++	if (it == ctx_trace.decode_order.end())
++		ctx_trace.decode_order.push_front(decode_order);
++
++	if (getenv("V4L2_TRACER_OPTION_DEBUG"))
++		print_decode_order();
++}
++
++long get_decode_order(void)
++{
++	long decode_order = 0;
++	if (!ctx_trace.decode_order.empty())
++		decode_order = ctx_trace.decode_order.front();
++	return decode_order;
++}
++
++void add_buffer_trace(int fd, __u32 type, __u32 index, __u32 offset = 0)
++{
++	struct buffer_trace buf = {};
++	buf.fd = fd;
++	buf.type = type;
++	buf.index = index;
++	buf.offset = offset;
++	buf.display_order = -1;
++	ctx_trace.buffers.push_front(buf);
++}
++
++void remove_buffer_trace(int fd)
++{
++	for (auto it = ctx_trace.buffers.begin(); it != ctx_trace.buffers.end(); ++it) {
++		if (it->fd == fd) {
++			ctx_trace.buffers.erase(it);
++			break;
++		}
++	}
++}
++
++bool buffer_in_trace_context(int fd, __u32 offset)
++{
++	bool buffer_in_trace_context = false;
++	for (auto &b : ctx_trace.buffers) {
++		if ((b.fd == fd) && (b.offset == offset)) {
++			buffer_in_trace_context = true;
++			break;
++		}
++	}
++	return buffer_in_trace_context;
++}
++
++int get_buffer_fd_trace(__u32 type, __u32 index)
++{
++	int fd = 0;
++	for (auto &b : ctx_trace.buffers) {
++		if ((b.type == type) && (b.index == index)) {
++			fd = b.fd;
++			break;
++		}
++	}
++	return fd;
++}
++
++__u32 get_buffer_type_trace(int fd, __u32 offset)
++{
++	__u32 type = 0;
++	for (auto &b : ctx_trace.buffers) {
++		if ((b.fd == fd) && (b.offset == offset)) {
++			type = b.type;
++			break;
++		}
++	}
++	return type;
++}
++
++int get_buffer_index_trace(int fd, __u32 offset)
++{
++	int index = -1;
++	for (auto &b : ctx_trace.buffers) {
++		if ((b.fd == fd) && (b.offset == offset)) {
++			index = b.index;
++			break;
++		}
++	}
++	return index;
++}
++
++__u32 get_buffer_offset_trace(__u32 type, __u32 index)
++{
++	__u32 offset = 0;
++	for (auto &b : ctx_trace.buffers) {
++		if ((b.type == type) && (b.index == index)) {
++			offset = b.offset;
++			break;
++		}
++	}
++	return offset;
++}
++
++void set_buffer_bytesused_trace(int fd, __u32 offset, __u32 bytesused)
++{
++	for (auto &b : ctx_trace.buffers) {
++		if ((b.fd == fd) && (b.offset == offset)) {
++			b.bytesused = bytesused;
++			break;
++		}
++	}
++}
++
++long get_buffer_bytesused_trace(int fd, __u32 offset)
++{
++	long bytesused = 0;
++	for (auto &b : ctx_trace.buffers) {
++		if ((b.fd == fd) && (b.offset == offset)) {
++			bytesused = b.bytesused;
++			break;
++		}
++	}
++	return bytesused;
++}
++
++void set_buffer_display_order(int fd, __u32 offset, long display_order)
++{
++	if (getenv("V4L2_TRACER_OPTION_DEBUG")) {
++		fprintf(stderr, "%s:%s:%d: ", __FILE__, __func__, __LINE__);
++		fprintf(stderr, "%ld\n", display_order);
++	}
++	for (auto &b : ctx_trace.buffers) {
++		if ((b.fd == fd) && (b.offset == offset)) {
++			b.display_order = display_order;
++			break;
++		}
++	}
++}
++
++void set_buffer_address_trace(int fd, __u32 offset, unsigned long address)
++{
++	for (auto &b : ctx_trace.buffers) {
++		if ((b.fd == fd) && (b.offset == offset)) {
++			b.address = address;
++			break;
++		}
++	}
++}
++
++unsigned long get_buffer_address_trace(int fd, __u32 offset)
++{
++	unsigned long address = 0;
++	for (auto &b : ctx_trace.buffers) {
++		if ((b.fd == fd) && (b.offset == offset)) {
++			address = b.address;
++			break;
++		}
++	}
++	return address;
++}
++
++bool buffer_is_mapped(unsigned long buffer_address)
++{
++	bool ret = false;
++	for (auto &b : ctx_trace.buffers) {
++		if (b.address == buffer_address) {
++			ret = true;
++			break;
++		}
++	}
++	return ret;
++}
++
++void print_buffers_trace(void)
++{
++	for (auto &b : ctx_trace.buffers) {
++		fprintf(stderr, "fd: %d, %s, index: %d, display_order: %ld, bytesused: %d, ",
++		        b.fd, buftype2s(b.type).c_str(), b.index, b.display_order, b.bytesused);
++		fprintf(stderr, "address: %lu, offset: %u \n",  b.address, b.offset);
++	}
++}
++
++unsigned get_expected_length_trace()
++{
++	/*
++	 * TODO: this assumes that the stride is equal to the real width and that the
++	 * padding follows the end of the chroma plane. It could be improved by
++	 * following the model in v4l2-ctl-streaming.cpp read_write_padded_frame()
++	 */
++	unsigned expected_length = ctx_trace.width * ctx_trace.height;
++	if (ctx_trace.pixelformat == V4L2_PIX_FMT_NV12 || ctx_trace.pixelformat == V4L2_PIX_FMT_YUV420) {
++		expected_length *= 3;
++		expected_length /= 2;
++		expected_length += (expected_length % 2);
++	}
++	return expected_length;
++}
++
++void s_ext_ctrls_setup(struct v4l2_ext_controls *ext_controls)
++{
++	if (ext_controls->which != V4L2_CTRL_WHICH_REQUEST_VAL)
++		return;
++
++	if (getenv("V4L2_TRACER_OPTION_DEBUG"))
++		fprintf(stderr, "%s:%s:%d\n", __FILE__, __func__, __LINE__);
++
++	/*
++	 * Since userspace sends H264 frames out of order, get information
++	 * about the correct display order of each frame so that v4l2-tracer
++	 * can write the decoded frames to a file.
++	 */
++	for (__u32 i = 0; i < ext_controls->count; i++) {
++		struct v4l2_ext_control ctrl = ext_controls->controls[i];
++
++		switch (ctrl.id) {
++		case V4L2_CID_STATELESS_H264_SPS: {
++			ctx_trace.max_pic_order_cnt_lsb = pow(2, ctrl.p_h264_sps->log2_max_pic_order_cnt_lsb_minus4 + 4);
++			break;
++		}
++		case V4L2_CID_STATELESS_H264_DECODE_PARAMS: {
++			long pic_order_cnt_msb;
++			int max = ctx_trace.max_pic_order_cnt_lsb;
++			long prev_pic_order_cnt_msb = get_decode_order();
++			int prev_pic_order_cnt_lsb = ctx_trace.pic_order_cnt_lsb;
++			int pic_order_cnt_lsb = ctrl.p_h264_decode_params->pic_order_cnt_lsb;
++
++			if (getenv("V4L2_TRACER_OPTION_DEBUG")) {
++				fprintf(stderr, "%s:%s:%d\n", __FILE__, __func__, __LINE__);
++				fprintf(stderr, "\tprev_pic_order_cnt_lsb: %d\n", prev_pic_order_cnt_lsb);
++				fprintf(stderr, "\tprev_pic_order_cnt_msb: %ld\n", prev_pic_order_cnt_msb);
++				fprintf(stderr, "\tpic_order_cnt_lsb: %d\n", pic_order_cnt_lsb);
++			}
++
++			/* The first frame. */
++			if (prev_pic_order_cnt_msb == 0)
++				pic_order_cnt_msb = 0;
++
++			/*
++			 * TODO: improve the displaying of decoded frames following H264 specification
++			 * 8.2.1.1. For now, dump all the previously decoded frames when an IDR_PIC is
++			 * received to avoid losing frames although this will still sometimes result
++			 * in frames out of order.
++			 */
++			if (ctrl.p_h264_decode_params->flags & V4L2_H264_DECODE_PARAM_FLAG_IDR_PIC) {
++				if (ctx_trace.compressed_frame_count)
++					trace_mem_decoded();
++			}
++
++			/*
++			 * When pic_order_cnt_lsb wraps around to zero, adjust the total count using
++			 * max to keep the correct display order.
++			 */
++			if ((pic_order_cnt_lsb < prev_pic_order_cnt_lsb) &&
++				((prev_pic_order_cnt_lsb - pic_order_cnt_lsb) >= (max / 2))) {
++				pic_order_cnt_msb = prev_pic_order_cnt_msb + max;
++			} else if ((pic_order_cnt_lsb > prev_pic_order_cnt_lsb) &&
++				((pic_order_cnt_lsb - prev_pic_order_cnt_lsb) > (max / 2))) {
++				pic_order_cnt_msb = prev_pic_order_cnt_msb - max;
++			} else {
++				pic_order_cnt_msb = prev_pic_order_cnt_msb + (pic_order_cnt_lsb - prev_pic_order_cnt_lsb);
++			}
++
++			if (getenv("V4L2_TRACER_OPTION_DEBUG")) {
++				fprintf(stderr, "%s:%s:%d\n", __FILE__, __func__, __LINE__);
++				fprintf(stderr, "\tpic_order_cnt_msb: %ld\n", pic_order_cnt_msb);
++			}
++			ctx_trace.pic_order_cnt_lsb = pic_order_cnt_lsb;
++			set_decode_order(pic_order_cnt_msb);
++			break;
++		}
++		default:
++			break;
++		}
++	}
++}
++
++void qbuf_setup(struct v4l2_buffer *buf)
++{
++	if (getenv("V4L2_TRACER_OPTION_DEBUG")) {
++		fprintf(stderr, "%s:%s:%d: ", __FILE__, __func__, __LINE__);
++		fprintf(stderr, "%s, index: %d\n", buftype2s(buf->type).c_str(), buf->index);
++	}
++
++	int buf_fd = get_buffer_fd_trace(buf->type, buf->index);
++	__u32 buf_offset = get_buffer_offset_trace(buf->type, buf->index);
++
++	__u32 bytesused = 0;
++	if (buf->type == V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE ||
++	    buf->type == V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE)
++		bytesused = buf->m.planes[0].bytesused;
++	if (buf->type == V4L2_BUF_TYPE_VIDEO_OUTPUT || buf->type == V4L2_BUF_TYPE_VIDEO_CAPTURE)
++		bytesused = buf->bytesused;
++	set_buffer_bytesused_trace(buf_fd, buf_offset, bytesused);
++
++	/* The output buffer should have compressed data just before it is queued, so trace it. */
++	if (buf->type == V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE ||
++	    buf->type == V4L2_BUF_TYPE_VIDEO_OUTPUT) {
++		trace_mem_encoded(buf_fd, buf_offset);
++		ctx_trace.compressed_frame_count = ctx_trace.compressed_frame_count + 1;
++	}
++
++	if (buf->type == V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE ||
++	    buf->type == V4L2_BUF_TYPE_VIDEO_CAPTURE) {
++
++		/* If the capture buffer is queued for reuse, trace it before it is reused. */
++		if (ctx_trace.compressed_frame_count)
++			trace_mem_decoded();
++
++		/* H264 sets display order in controls, otherwise display just in the order queued. */
++		if (ctx_trace.compression_format != V4L2_PIX_FMT_H264_SLICE)
++			set_decode_order(get_decode_order() + 1);
++
++		set_buffer_display_order(buf_fd, buf_offset, get_decode_order());
++
++		if (getenv("V4L2_TRACER_OPTION_DEBUG")) {
++			fprintf(stderr, "%s:%s:%d\n", __FILE__, __func__, __LINE__);
++			print_decode_order();
++			print_buffers_trace();
++		}
++	}
++}
++
++void streamoff_cleanup(v4l2_buf_type buf_type)
++{
++
++	if (getenv("V4L2_TRACER_OPTION_DEBUG"))
++		fprintf(stderr, "%s:%s:%d\n", __FILE__, __func__, __LINE__);
++	if (getenv("V4L2_TRACER_OPTION_VERBOSE") ||
++	    getenv("V4L2_TRACER_OPTION_WRITE_DECODED_TO_YUV_FILE")) {
++		fprintf(stderr, "VIDIOC_STREAMOFF: %s\n", buftype2s(buf_type).c_str());
++		fprintf(stderr, "%s, %s %s, width: %d, height: %d\n",
++		        val2s(ctx_trace.compression_format, v4l2_pix_fmt_val_def).c_str(),
++		        val2s(ctx_trace.pixelformat, v4l2_pix_fmt_val_def).c_str(),
++		        fcc2s(ctx_trace.pixelformat).c_str(), ctx_trace.width, ctx_trace.height);
++	}
++
++	/*
++	 * Before turning off the stream, trace any remaining capture buffers that were missed
++	 * because they were not queued for reuse.
++	 */
++	if (buf_type == V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE ||
++	    buf_type == V4L2_BUF_TYPE_VIDEO_CAPTURE) {
++		if (ctx_trace.compressed_frame_count)
++			trace_mem_decoded();
++	}
++}
++
++void g_fmt_setup_trace(struct v4l2_format *format)
++{
++	if (format->type == V4L2_BUF_TYPE_VIDEO_CAPTURE) {
++		ctx_trace.width = format->fmt.pix.width;
++		ctx_trace.height = format->fmt.pix.height;
++		ctx_trace.pixelformat = format->fmt.pix.pixelformat;
++	}
++	if (format->type == V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE) {
++		ctx_trace.width = format->fmt.pix_mp.width;
++		ctx_trace.height = format->fmt.pix_mp.height;
++		ctx_trace.pixelformat = format->fmt.pix_mp.pixelformat;
++	}
++	if (format->type == V4L2_BUF_TYPE_VIDEO_OUTPUT)
++		ctx_trace.compression_format = format->fmt.pix.pixelformat;
++	if (format->type == V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE)
++		ctx_trace.compression_format = format->fmt.pix_mp.pixelformat;
++}
++
++void s_fmt_setup(struct v4l2_format *format)
++{
++	if (format->type == V4L2_BUF_TYPE_VIDEO_OUTPUT)
++		ctx_trace.compression_format = format->fmt.pix.pixelformat;
++	if (format->type == V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE)
++		ctx_trace.compression_format = format->fmt.pix_mp.pixelformat;
++}
++
++void expbuf_setup(struct v4l2_exportbuffer *export_buffer)
++{
++	__u32 type = export_buffer->type;
++	__u32 index = export_buffer->index;
++	int fd_found_in_trace_context = get_buffer_fd_trace(type, index);
++
++	/* If the buffer was already added to the trace context don't add it again. */
++	if (fd_found_in_trace_context == export_buffer->fd)
++		return;
++
++	/*
++	 * If a buffer was previously added to the trace context using the video device
++	 * file descriptor, replace the video fd with the more specific buffer fd from EXPBUF.
++	 */
++	if (fd_found_in_trace_context)
++		remove_buffer_trace(fd_found_in_trace_context);
++
++	add_buffer_trace(export_buffer->fd, type, index);
++}
++
++void querybuf_setup(int fd, struct v4l2_buffer *buf)
++{
++	/* If the buffer was already added to the trace context don't add it again. */
++	if (get_buffer_fd_trace(buf->type, buf->index))
++		return;
++
++	if (buf->memory == V4L2_MEMORY_MMAP) {
++		__u32 offset = 0;
++		if ((buf->type == V4L2_BUF_TYPE_VIDEO_CAPTURE) ||
++		    (buf->type == V4L2_BUF_TYPE_VIDEO_OUTPUT))
++			offset = buf->m.offset;
++		if ((buf->type == V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE) ||
++		    (buf->type == V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE))
++			offset = buf->m.planes->m.mem_offset;
++		add_buffer_trace(fd, buf->type, buf->index, offset);
++	}
++}
++
++void query_ext_ctrl_setup(int fd, struct v4l2_query_ext_ctrl *p)
++{
++	if (p->flags & (V4L2_CTRL_FLAG_HAS_PAYLOAD|V4L2_CTRL_FLAG_DYNAMIC_ARRAY)) {
++		if (p->id == V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS)
++			ctx_trace.elems = p->elems;
++	}
++}
++
++void write_json_object_to_json_file(json_object *jobj)
++{
++	std::string json_str;
++	if (getenv("V4L2_TRACER_OPTION_COMPACT_PRINT"))
++		json_str = json_object_to_json_string_ext(jobj, JSON_C_TO_STRING_PLAIN);
++	else
++		json_str = json_object_to_json_string_ext(jobj, JSON_C_TO_STRING_PRETTY);
++
++	if (!ctx_trace.trace_file) {
++		ctx_trace.trace_filename = getenv("TRACE_ID");
++		ctx_trace.trace_filename += ".json";
++		ctx_trace.trace_file = fopen(ctx_trace.trace_filename.c_str(), "a");
++	}
++
++	fwrite(json_str.c_str(), sizeof(char), json_str.length(), ctx_trace.trace_file);
++	fputs(",\n", ctx_trace.trace_file);
++	fflush(ctx_trace.trace_file);
++}
++
++void close_json_file(void)
++{
++	if (ctx_trace.trace_file) {
++		fclose(ctx_trace.trace_file);
++		ctx_trace.trace_file = 0;
++	}
++}
+diff --git a/utils/v4l2-tracer/trace.cpp b/utils/v4l2-tracer/trace.cpp
+new file mode 100644
+index 00000000..f0bd7002
+--- /dev/null
++++ b/utils/v4l2-tracer/trace.cpp
+@@ -0,0 +1,588 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
++/*
++ * Copyright 2022 Collabora Ltd.
++ */
++
++#include "trace.h"
++
++extern struct trace_context ctx_trace;
++
++void trace_open(int fd, const char *path, int oflag, mode_t mode, bool is_open64)
++{
++	json_object *open_obj = json_object_new_object();
++	json_object_object_add(open_obj, "fd", json_object_new_int(fd));
++
++	json_object *open_args = json_object_new_object();
++	json_object_object_add(open_args, "path", json_object_new_string(path));
++	json_object_object_add(open_args, "oflag",
++	                       json_object_new_string(val2s(oflag, open_val_def).c_str()));
++	json_object_object_add(open_args, "mode", json_object_new_string(number2s_oct(mode).c_str()));
++	if (is_open64)
++		json_object_object_add(open_obj, "open64", open_args);
++	else
++		json_object_object_add(open_obj, "open", open_args);
++
++	/* Add additional topology information about device. */
++	std::string path_str = path;
++	bool is_media = path_str.find("media") != path_str.npos;
++	bool is_video = path_str.find("video") != path_str.npos;
++
++	int media_fd = -1;
++	if (is_media)
++		media_fd = fd;
++
++	std::string driver;
++	if (is_video) {
++		struct v4l2_capability cap = {};
++		setenv("V4L2_TRACER_PAUSE_TRACE", "true", 0);
++		ioctl(fd, VIDIOC_QUERYCAP, &cap);
++		unsetenv("V4L2_TRACER_PAUSE_TRACE");
++
++		std::string path_media = get_path_media(reinterpret_cast<const char *>(cap.driver));
++
++		setenv("V4L2_TRACER_PAUSE_TRACE", "true", 0);
++		media_fd = open(path_media.c_str(), O_RDONLY);
++		unsetenv("V4L2_TRACER_PAUSE_TRACE");
++	}
++
++	struct media_device_info info = {};
++	ioctl(media_fd, MEDIA_IOC_DEVICE_INFO, &info);
++
++	json_object_object_add(open_obj, "driver", json_object_new_string(info.driver));
++	json_object_object_add(open_obj, "bus_info", json_object_new_string(info.bus_info));
++
++	if (is_video) {
++		std::list<std::string> linked_entities = get_linked_entities(media_fd, path_str);
++		json_object *linked_entities_obj = json_object_new_array();
++		for (auto &name : linked_entities)
++			json_object_array_add(linked_entities_obj, json_object_new_string(name.c_str()));
++		json_object_object_add(open_obj, "linked_entities", linked_entities_obj);
++		setenv("V4L2_TRACER_PAUSE_TRACE", "true", 0);
++		close(media_fd);
++		unsetenv("V4L2_TRACER_PAUSE_TRACE");
++	}
++
++	write_json_object_to_json_file(open_obj);
++	json_object_put(open_obj);
++}
++
++void trace_mmap(void *addr, size_t len, int prot, int flags, int fildes, off_t off, unsigned long buf_address, bool is_mmap64)
++{
++	json_object *mmap_obj = json_object_new_object();
++
++	if (errno)
++		json_object_object_add(mmap_obj, "errno", json_object_new_string(strerrorname_np(errno)));
++
++	json_object *mmap_args = json_object_new_object();
++	json_object_object_add(mmap_args, "addr", json_object_new_int64((int64_t)addr));
++	json_object_object_add(mmap_args, "len", json_object_new_uint64(len));
++	json_object_object_add(mmap_args, "prot", json_object_new_int(prot));
++	json_object_object_add(mmap_args, "flags", json_object_new_string(number2s(flags).c_str()));
++	json_object_object_add(mmap_args, "fildes", json_object_new_int(fildes));
++	json_object_object_add(mmap_args, "off", json_object_new_int64(off));
++
++	if (is_mmap64)
++		json_object_object_add(mmap_obj, "mmap64", mmap_args);
++	else
++		json_object_object_add(mmap_obj, "mmap", mmap_args);
++
++	json_object_object_add(mmap_obj, "buffer_address", json_object_new_uint64(buf_address));
++
++	write_json_object_to_json_file(mmap_obj);
++	json_object_put(mmap_obj);
++}
++
++json_object *trace_buffer(unsigned char *buffer_pointer, __u32 bytesused)
++{
++	char buf[5];
++	std::string s;
++	int byte_count_per_line = 0;
++	json_object *mem_array_obj = json_object_new_array();
++
++	for (__u32 i = 0; i < bytesused; i++) {
++		memset(buf, 0, sizeof(buf));
++		/* Each byte e.g. D9 will write a string of two characters "D9". */
++		sprintf(buf, "%02x", buffer_pointer[i]);
++		s += buf;
++		byte_count_per_line++;
++
++		/*  Add a newline every 32 bytes. */
++		if (byte_count_per_line == 32) {
++			byte_count_per_line = 0;
++			json_object_array_add(mem_array_obj, json_object_new_string(s.c_str()));
++			s.clear();
++		} else if (!getenv("V4L2_TRACER_OPTION_COMPACT_PRINT")) {
++			/* Add a space every two bytes e.g. "012A 4001" */
++			s += " ";
++		}
++	}
++
++	/* Trace the last line if it was less than a full line. */
++	if (byte_count_per_line)
++		json_object_array_add(mem_array_obj, json_object_new_string(s.c_str()));
++
++	return mem_array_obj;
++}
++
++void trace_mem(int fd, __u32 offset, __u32 type, int index, __u32 bytesused, unsigned long start)
++{
++	json_object *mem_obj = json_object_new_object();
++	json_object_object_add(mem_obj, "mem_dump",
++	                       json_object_new_string(val2s(type, v4l2_buf_type_val_def).c_str()));
++	json_object_object_add(mem_obj, "fd", json_object_new_int(fd));
++	json_object_object_add(mem_obj, "offset", json_object_new_uint64(offset));
++	json_object_object_add(mem_obj, "index", json_object_new_int(index));
++	json_object_object_add(mem_obj, "bytesused", json_object_new_uint64(bytesused));
++	json_object_object_add(mem_obj, "address", json_object_new_uint64(start));
++
++	if ((type == V4L2_BUF_TYPE_VIDEO_OUTPUT || type == V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE) ||
++	    (getenv("V4L2_TRACER_OPTION_WRITE_DECODED_TO_JSON_FILE"))) {
++		json_object *mem_array_obj = trace_buffer((unsigned char*) start, bytesused);
++		json_object_object_add(mem_obj, "mem_array", mem_array_obj);
++	}
++
++	write_json_object_to_json_file(mem_obj);
++
++	json_object_put(mem_obj);
++}
++
++void trace_mem_encoded(int fd, __u32 offset)
++{
++	int index;
++	__u32 type;
++	__u32 bytesused;
++	unsigned long start = get_buffer_address_trace(fd, offset);
++
++	if (!start)
++		return;
++
++	bytesused = get_buffer_bytesused_trace(fd, offset);
++	type = get_buffer_type_trace(fd, offset);
++	index = get_buffer_index_trace(fd, offset);
++	trace_mem(fd, offset, type, index, bytesused, start);
++}
++
++void trace_mem_decoded(void)
++{
++	int displayed_count = 0;
++	unsigned expected_length = get_expected_length_trace();
++
++	while (!ctx_trace.decode_order.empty()) {
++		std::list<buffer_trace>::iterator it;
++		long next_frame_to_be_displayed = *std::min_element(ctx_trace.decode_order.begin(),
++		                                                    ctx_trace.decode_order.end());
++		for (it = ctx_trace.buffers.begin(); it != ctx_trace.buffers.end(); ++it) {
++			if (it->display_order != next_frame_to_be_displayed)
++				continue;
++			if (!it->address)
++				break;
++			if (it->bytesused < expected_length)
++				break;
++			if (getenv("V4L2_TRACER_OPTION_DEBUG")) {
++				fprintf(stderr, "%s:%s:%d: ", __FILE__, __func__, __LINE__);
++				fprintf(stderr, "displaying: %ld, %s, index: %d\n",
++				        it->display_order, buftype2s(it->type).c_str(), it->index);
++			}
++			displayed_count++;
++
++			if (getenv("V4L2_TRACER_OPTION_WRITE_DECODED_TO_YUV_FILE")) {
++				std::string filename = getenv("TRACE_ID");
++				filename +=  ".yuv";
++				FILE *fp = fopen(filename.c_str(), "a");
++				unsigned char *buffer_pointer = (unsigned char*) it->address;
++				for (__u32 i = 0; i < expected_length; i++)
++					fwrite(&buffer_pointer[i], sizeof(unsigned char), 1, fp);
++				fclose(fp);
++			}
++			trace_mem(it->fd, it->offset, it->type, it->index, it->bytesused, it->address);
++			ctx_trace.decode_order.remove(next_frame_to_be_displayed);
++			it->display_order = -1;
++			break;
++		}
++		if (!it->address || it == ctx_trace.buffers.end() || it->bytesused < expected_length)
++			break;
++	}
++	ctx_trace.compressed_frame_count = ctx_trace.compressed_frame_count - displayed_count;
++}
++
++json_object *trace_v4l2_plane(struct v4l2_plane *p, __u32 memory)
++{
++	json_object *plane_obj = json_object_new_object();
++
++	json_object_object_add(plane_obj, "bytesused", json_object_new_int64(p->bytesused));
++	json_object_object_add(plane_obj, "length", json_object_new_int64(p->length));
++
++	json_object *m_obj = json_object_new_object();
++
++	if (memory == V4L2_MEMORY_MMAP)
++		json_object_object_add(m_obj, "mem_offset", json_object_new_int64(p->m.mem_offset));
++	json_object_object_add(plane_obj, "m", m_obj);
++
++	json_object_object_add(plane_obj, "data_offset", json_object_new_int64(p->data_offset));
++
++	return plane_obj;
++}
++
++void trace_v4l2_buffer(void *arg, json_object *ioctl_args)
++{
++	json_object *buf_obj = json_object_new_object();
++	struct v4l2_buffer *buf = static_cast<struct v4l2_buffer*>(arg);
++
++	json_object_object_add(buf_obj, "index", json_object_new_uint64(buf->index));
++	json_object_object_add(buf_obj, "type",
++	                       json_object_new_string(val2s(buf->type, v4l2_buf_type_val_def).c_str()));
++	json_object_object_add(buf_obj, "bytesused", json_object_new_uint64(buf->bytesused));
++	json_object_object_add(buf_obj, "flags", json_object_new_string(fl2s_buffer(buf->flags).c_str()));
++	json_object_object_add(buf_obj, "field",
++	                       json_object_new_string(val2s(buf->field, v4l2_field_val_def).c_str()));
++	json_object *timestamp_obj = json_object_new_object();
++	json_object_object_add(timestamp_obj, "tv_sec", json_object_new_int64(buf->timestamp.tv_sec));
++	json_object_object_add(timestamp_obj, "tv_usec",
++	                       json_object_new_int64(buf->timestamp.tv_usec));
++	json_object_object_add(buf_obj, "timestamp", timestamp_obj);
++	json_object_object_add(buf_obj, "timestamp_ns",
++	                       json_object_new_uint64(v4l2_timeval_to_ns(&buf->timestamp)));
++
++	json_object_object_add(buf_obj, "sequence", json_object_new_uint64(buf->sequence));
++	json_object_object_add(buf_obj, "memory",
++	                       json_object_new_string(val2s(buf->memory, v4l2_memory_val_def).c_str()));
++
++	json_object *m_obj = json_object_new_object();
++	if (buf->type == V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE ||
++	    buf->type == V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE) {
++		json_object *planes_obj = json_object_new_array();
++		/* TODO add planes > 0 */
++		json_object_array_add(planes_obj, trace_v4l2_plane(buf->m.planes, buf->memory));
++		json_object_object_add(m_obj, "planes", planes_obj);
++	}
++
++	if (buf->type == V4L2_BUF_TYPE_VIDEO_CAPTURE ||
++	    buf->type == V4L2_BUF_TYPE_VIDEO_OUTPUT) {
++		if (buf->memory == V4L2_MEMORY_MMAP)
++			json_object_object_add(m_obj, "offset", json_object_new_uint64(buf->m.offset));
++	}
++	json_object_object_add(buf_obj, "m", m_obj);
++	json_object_object_add(buf_obj, "length", json_object_new_uint64(buf->length));
++
++	if (buf->flags & V4L2_BUF_FLAG_REQUEST_FD)
++		json_object_object_add(buf_obj, "request_fd", json_object_new_int(buf->request_fd));
++
++	json_object_object_add(ioctl_args, "v4l2_buffer", buf_obj);
++}
++
++void trace_vidioc_stream(void *arg, json_object *ioctl_args)
++{
++	v4l2_buf_type buf_type = *(static_cast<v4l2_buf_type*>(arg));
++	json_object_object_add(ioctl_args, "type",
++	                       json_object_new_string(val2s(buf_type, v4l2_buf_type_val_def).c_str()));
++}
++
++void trace_v4l2_streamparm(void *arg, json_object *ioctl_args)
++{
++	json_object *v4l2_streamparm_obj = json_object_new_object();
++	struct v4l2_streamparm *streamparm = static_cast<struct v4l2_streamparm*>(arg);
++
++	json_object_object_add(v4l2_streamparm_obj, "type",
++	                       json_object_new_string(val2s(streamparm->type, v4l2_buf_type_val_def).c_str()));
++
++	if ((streamparm->type == V4L2_BUF_TYPE_VIDEO_CAPTURE) ||
++	    (streamparm->type == V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE))
++		trace_v4l2_captureparm_gen(&streamparm->parm, v4l2_streamparm_obj);
++
++	if ((streamparm->type == V4L2_BUF_TYPE_VIDEO_OUTPUT) ||
++	    (streamparm->type == V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE))
++		trace_v4l2_outputparm_gen(&streamparm->parm, v4l2_streamparm_obj);
++
++	json_object_object_add(ioctl_args, "v4l2_streamparm", v4l2_streamparm_obj);
++}
++
++void trace_v4l2_ext_control(void *arg, json_object *parent_obj, std::string key_name = "")
++{
++	json_object *v4l2_ext_control_obj = json_object_new_object();
++	struct v4l2_ext_control *p = static_cast<struct v4l2_ext_control*>(arg);
++
++	json_object_object_add(v4l2_ext_control_obj, "id",
++	                       json_object_new_string(val2s(p->id, control_val_def).c_str()));
++	json_object_object_add(v4l2_ext_control_obj, "size", json_object_new_uint64(p->size));
++
++	/* trace controls of type V4L2_CTRL_TYPE_MENU */
++	switch (p->id) {
++	case V4L2_CID_STATELESS_H264_DECODE_MODE: {
++		json_object_object_add(v4l2_ext_control_obj, "value",
++		                       json_object_new_string(val2s(p->value, v4l2_stateless_h264_decode_mode_val_def).c_str()));
++		json_object_array_add(parent_obj, v4l2_ext_control_obj);
++		return;
++	}
++	case V4L2_CID_STATELESS_H264_START_CODE: {
++		json_object_object_add(v4l2_ext_control_obj, "value",
++		                       json_object_new_string(val2s(p->value, v4l2_stateless_h264_start_code_val_def).c_str()));
++		json_object_array_add(parent_obj, v4l2_ext_control_obj);
++		return;
++	}
++	case V4L2_CID_STATELESS_HEVC_DECODE_MODE: {
++		json_object_object_add(v4l2_ext_control_obj, "value",
++		                       json_object_new_string(val2s(p->value, v4l2_stateless_hevc_decode_mode_val_def).c_str()));
++		json_object_array_add(parent_obj, v4l2_ext_control_obj);
++		return;
++	}
++	case V4L2_CID_STATELESS_HEVC_START_CODE: {
++		json_object_object_add(v4l2_ext_control_obj, "value",
++		                       json_object_new_string(val2s(p->value, v4l2_stateless_hevc_start_code_val_def).c_str()));
++		json_object_array_add(parent_obj, v4l2_ext_control_obj);
++		return;
++	}
++	default:
++		break;
++	}
++
++	if (p->ptr == nullptr) {
++		json_object_array_add(parent_obj, v4l2_ext_control_obj);
++		return;
++	}
++
++	switch (p->id) {
++	case V4L2_CID_STATELESS_VP8_FRAME:
++		trace_v4l2_ctrl_vp8_frame_gen(p->p_vp8_frame, v4l2_ext_control_obj);
++		break;
++	case V4L2_CID_STATELESS_H264_SPS:
++		trace_v4l2_ctrl_h264_sps_gen(p->p_h264_sps, v4l2_ext_control_obj);
++		break;
++	case V4L2_CID_STATELESS_H264_PPS:
++		trace_v4l2_ctrl_h264_pps_gen(p->p_h264_pps, v4l2_ext_control_obj);
++		break;
++	case V4L2_CID_STATELESS_H264_SCALING_MATRIX:
++		trace_v4l2_ctrl_h264_scaling_matrix_gen(p->p_h264_scaling_matrix, v4l2_ext_control_obj);
++		break;
++	case V4L2_CID_STATELESS_H264_PRED_WEIGHTS:
++		trace_v4l2_ctrl_h264_pred_weights_gen(p->p_h264_pred_weights, v4l2_ext_control_obj);
++		break;
++	case V4L2_CID_STATELESS_H264_SLICE_PARAMS:
++		trace_v4l2_ctrl_h264_slice_params_gen(p->p_h264_slice_params, v4l2_ext_control_obj);
++		break;
++	case V4L2_CID_STATELESS_H264_DECODE_PARAMS:
++		trace_v4l2_ctrl_h264_decode_params_gen(p->p_h264_decode_params, v4l2_ext_control_obj);
++		break;
++	case V4L2_CID_STATELESS_FWHT_PARAMS:
++		trace_v4l2_ctrl_fwht_params_gen(p->p_fwht_params, v4l2_ext_control_obj);
++		break;
++	case V4L2_CID_STATELESS_VP9_FRAME:
++		trace_v4l2_ctrl_vp9_frame_gen(p->p_vp9_frame, v4l2_ext_control_obj);
++		break;
++	case V4L2_CID_STATELESS_VP9_COMPRESSED_HDR:
++		trace_v4l2_ctrl_vp9_compressed_hdr_gen(p->p_vp9_compressed_hdr_probs, v4l2_ext_control_obj);
++		break;
++	case V4L2_CID_STATELESS_HEVC_SPS:
++		trace_v4l2_ctrl_hevc_sps_gen(p->p_hevc_sps, v4l2_ext_control_obj);
++		break;
++	case V4L2_CID_STATELESS_HEVC_PPS:
++		trace_v4l2_ctrl_hevc_pps_gen(p->p_hevc_pps, v4l2_ext_control_obj);
++		break;
++	case V4L2_CID_STATELESS_HEVC_SLICE_PARAMS:
++		trace_v4l2_ctrl_hevc_slice_params_gen(p->p_hevc_slice_params, v4l2_ext_control_obj);
++		break;
++	case V4L2_CID_STATELESS_HEVC_SCALING_MATRIX:
++		trace_v4l2_ctrl_hevc_scaling_matrix_gen(p->p_hevc_scaling_matrix, v4l2_ext_control_obj);
++		break;
++	case V4L2_CID_STATELESS_HEVC_DECODE_PARAMS:
++		trace_v4l2_ctrl_hevc_decode_params_gen(p->p_hevc_decode_params, v4l2_ext_control_obj);
++		break;
++	case V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS: {
++		/* V4L2_CTRL_TYPE_U32, V4L2_CTRL_FLAG_DYNAMIC_ARRAY */
++		__u32 elems = ctx_trace.elems;
++		json_object_object_add(v4l2_ext_control_obj, "elems", json_object_new_int64(elems));
++		json_object *hevc_entry_point_offsets_obj = json_object_new_array();
++		for (__u32 i = 0; i < elems; i++)
++			json_object_array_add(hevc_entry_point_offsets_obj, json_object_new_int64(p->p_u32[i]));
++		json_object_object_add(v4l2_ext_control_obj, "p_u32", hevc_entry_point_offsets_obj);
++		break;
++	}
++	case V4L2_CID_STATELESS_MPEG2_SEQUENCE:
++		trace_v4l2_ctrl_mpeg2_sequence_gen(p->p_mpeg2_sequence, v4l2_ext_control_obj);
++		break;
++	case V4L2_CID_STATELESS_MPEG2_PICTURE:
++		trace_v4l2_ctrl_mpeg2_picture_gen(p->p_mpeg2_picture, v4l2_ext_control_obj);
++		break;
++	case V4L2_CID_STATELESS_MPEG2_QUANTISATION:
++		trace_v4l2_ctrl_mpeg2_quantisation_gen(p->p_mpeg2_quantisation, v4l2_ext_control_obj);
++		break;
++	default:
++		fprintf(stderr, "%s:%s:%d: ", __FILE__, __func__, __LINE__);
++		fprintf(stderr, "warning: cannot trace control: %s\n", val2s(p->id, control_val_def).c_str());
++		break;
++	}
++
++	json_object_array_add(parent_obj, v4l2_ext_control_obj);
++}
++
++void trace_v4l2_ext_controls(void *arg, json_object *ioctl_args)
++{
++	json_object *ext_controls_obj = json_object_new_object();
++	struct v4l2_ext_controls *ext_controls = static_cast<struct v4l2_ext_controls*>(arg);
++
++	json_object_object_add(ext_controls_obj, "which",
++	                       json_object_new_string(val2s(ext_controls->which, which_val_def).c_str()));
++
++	json_object_object_add(ext_controls_obj, "count", json_object_new_int64(ext_controls->count));
++
++	/* error_idx is defined only if the ioctl returned an error  */
++	if (errno)
++		json_object_object_add(ext_controls_obj, "error_idx",
++		                       json_object_new_uint64(ext_controls->error_idx));
++
++	/* request_fd is only valid when "which" == V4L2_CTRL_WHICH_REQUEST_VAL */
++	if (ext_controls->which == V4L2_CTRL_WHICH_REQUEST_VAL)
++		json_object_object_add(ext_controls_obj, "request_fd",
++		                       json_object_new_int(ext_controls->request_fd));
++
++	json_object *controls_obj = json_object_new_array();
++	for (__u32 i = 0; i < ext_controls->count; i++) {
++		if ((void *) ext_controls->controls == nullptr)
++			break;
++		trace_v4l2_ext_control((void *) &ext_controls->controls[i], controls_obj);
++	}
++	json_object_object_add(ext_controls_obj, "controls", controls_obj);
++
++	json_object_object_add(ioctl_args, "v4l2_ext_controls", ext_controls_obj);
++}
++
++void trace_v4l2_decoder_cmd(void *arg, json_object *ioctl_args)
++{
++	json_object *v4l2_decoder_cmd_obj = json_object_new_object();
++	struct v4l2_decoder_cmd *p = static_cast<struct v4l2_decoder_cmd*>(arg);
++
++	json_object_object_add(v4l2_decoder_cmd_obj, "cmd",
++	                       json_object_new_string(val2s(p->cmd, decoder_cmd_val_def).c_str()));
++
++	std::string flags;
++
++	switch (p->cmd) {
++	case V4L2_DEC_CMD_START: {
++		/*  This command has one flag: V4L2_DEC_CMD_START_MUTE_AUDIO. */
++		if (p->flags == V4L2_DEC_CMD_START_MUTE_AUDIO)
++			flags = "V4L2_DEC_CMD_START_MUTE_AUDIO";
++
++		/* struct start */
++		json_object *start_obj = json_object_new_object();
++		json_object_object_add(start_obj, "speed", json_object_new_int(p->start.speed));
++
++		std::string format;
++		/* possible values V4L2_DEC_START_FMT_NONE, V4L2_DEC_START_FMT_GOP */
++		if (p->start.format == V4L2_DEC_START_FMT_GOP)
++			format = "V4L2_DEC_START_FMT_GOP";
++		else if (p->start.format == V4L2_DEC_START_FMT_NONE)
++			format = "V4L2_DEC_START_FMT_NONE";
++		json_object_object_add(start_obj, "format", json_object_new_string(format.c_str()));
++
++		json_object_object_add(v4l2_decoder_cmd_obj, "start", start_obj);
++		break;
++	}
++	case V4L2_DEC_CMD_STOP: {
++		/*  This command has two flags */
++		if (p->flags == V4L2_DEC_CMD_STOP_TO_BLACK)
++			flags = "V4L2_DEC_CMD_STOP_TO_BLACK";
++		else if (p->flags == V4L2_DEC_CMD_STOP_IMMEDIATELY)
++			flags = "V4L2_DEC_CMD_STOP_IMMEDIATELY";
++
++		json_object *stop_obj = json_object_new_object();
++		json_object_object_add(stop_obj, "pts", json_object_new_uint64(p->stop.pts));
++
++		json_object_object_add(v4l2_decoder_cmd_obj, "stop", stop_obj);
++		break;
++	}
++
++	case V4L2_DEC_CMD_PAUSE: {
++		if (p->flags == V4L2_DEC_CMD_PAUSE_TO_BLACK)
++			flags = "V4L2_DEC_CMD_PAUSE_TO_BLACK";
++		break;
++	}
++	case V4L2_DEC_CMD_RESUME:
++	case V4L2_DEC_CMD_FLUSH:
++	default:
++		break;
++	}
++	json_object_object_add(v4l2_decoder_cmd_obj, "flags", json_object_new_string(flags.c_str()));
++
++	json_object_object_add(ioctl_args, "v4l2_decoder_cmd", v4l2_decoder_cmd_obj);
++}
++
++json_object *trace_ioctl_args(unsigned long cmd, void *arg)
++{
++	json_object *ioctl_args = json_object_new_object();
++
++	switch (cmd) {
++	case VIDIOC_QUERYCAP:
++		trace_v4l2_capability_gen(arg, ioctl_args);
++		break;
++	case VIDIOC_ENUM_FMT:
++		trace_v4l2_fmtdesc_gen(arg, ioctl_args);
++		break;
++	case VIDIOC_G_FMT:
++	case VIDIOC_TRY_FMT:
++	case VIDIOC_S_FMT:
++		trace_v4l2_format_gen(arg, ioctl_args);
++		break;
++	case VIDIOC_REQBUFS:
++		trace_v4l2_requestbuffers_gen(arg, ioctl_args);
++		break;
++	case VIDIOC_PREPARE_BUF:
++	case VIDIOC_QUERYBUF:
++	case VIDIOC_QBUF:
++	case VIDIOC_DQBUF:
++		trace_v4l2_buffer(arg, ioctl_args);
++		break;
++	case VIDIOC_EXPBUF:
++		trace_v4l2_exportbuffer_gen(arg, ioctl_args);
++		break;
++	case VIDIOC_STREAMON:
++	case VIDIOC_STREAMOFF:
++		trace_vidioc_stream(arg, ioctl_args);
++		break;
++	case VIDIOC_G_PARM:
++	case VIDIOC_S_PARM:
++		trace_v4l2_streamparm(arg, ioctl_args);
++		break;
++	case VIDIOC_G_CTRL:
++	case VIDIOC_S_CTRL:
++		trace_v4l2_control_gen(arg, ioctl_args);
++		break;
++	case VIDIOC_QUERYCTRL:
++		trace_v4l2_queryctrl_gen(arg, ioctl_args);
++		break;
++	case VIDIOC_G_CROP:
++	case VIDIOC_S_CROP:
++		trace_v4l2_crop_gen(arg, ioctl_args);
++		break;
++	case VIDIOC_G_EXT_CTRLS:
++	case VIDIOC_TRY_EXT_CTRLS:
++	case VIDIOC_S_EXT_CTRLS:
++		trace_v4l2_ext_controls(arg, ioctl_args);
++		break;
++	case VIDIOC_TRY_ENCODER_CMD:
++	case VIDIOC_ENCODER_CMD:
++		trace_v4l2_encoder_cmd_gen(arg, ioctl_args);
++		break;
++	case VIDIOC_CREATE_BUFS:
++		trace_v4l2_create_buffers_gen(arg, ioctl_args);
++		break;
++	case VIDIOC_G_SELECTION:
++	case VIDIOC_S_SELECTION:
++		trace_v4l2_selection_gen(arg, ioctl_args);
++		break;
++	case VIDIOC_TRY_DECODER_CMD:
++	case VIDIOC_DECODER_CMD:
++		trace_v4l2_decoder_cmd(arg, ioctl_args);
++		break;
++	case VIDIOC_QUERY_EXT_CTRL:
++		trace_v4l2_query_ext_ctrl_gen(arg, ioctl_args);
++		break;
++	case MEDIA_IOC_REQUEST_ALLOC: {
++		__s32 *request_fd = static_cast<__s32*>(arg);
++		json_object_object_add(ioctl_args, "request_fd", json_object_new_int(*request_fd));
++		break;
++	}
++	default:
++		break;
++	}
++
++	return ioctl_args;
++}
+diff --git a/utils/v4l2-tracer/trace.h b/utils/v4l2-tracer/trace.h
+new file mode 100644
+index 00000000..7fa0a22a
+--- /dev/null
++++ b/utils/v4l2-tracer/trace.h
+@@ -0,0 +1,73 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
++/*
++ * Copyright 2022 Collabora Ltd.
++ */
++
++#ifndef TRACE_H
++#define TRACE_H
++
++#include "v4l2-tracer-common.h"
++#include "trace-gen.h"
++
++struct buffer_trace {
++	int fd;
++	__u32 type;
++	__u32 index;
++	__u32 offset;
++	__u32 bytesused;
++	long display_order;
++	unsigned long address;
++};
++
++struct trace_context {
++	__u32 elems;
++	__u32 width;
++	__u32 height;
++	FILE *trace_file;
++	__u32 pixelformat;
++	int pic_order_cnt_lsb;
++	int max_pic_order_cnt_lsb;
++	pthread_mutex_t lock;
++	std::string media_device;
++	__u32 compression_format;
++	std::string trace_filename;
++	int compressed_frame_count;
++	std::list<long> decode_order;
++	std::list<struct buffer_trace> buffers;
++	std::unordered_map<int, std::string> devices; /* key:fd, value: path of the device */
++};
++
++void trace_open(int fd, const char *path, int oflag, mode_t mode, bool is_open64);
++void trace_mmap(void *addr, size_t len, int prot, int flags, int fildes, off_t off, unsigned long buf_address, bool is_mmap64);
++void trace_mem(int fd, __u32 offset, __u32 type, int index, __u32 bytesused, unsigned long start);
++void trace_mem_encoded(int fd, __u32 offset);
++void trace_mem_decoded(void);
++json_object *trace_ioctl_args(unsigned long cmd, void *arg);
++
++bool is_video_or_media_device(const char *path);
++void add_device(int fd, std::string path);
++std::string get_device(int fd);
++void print_devices(void);
++
++bool buffer_in_trace_context(int fd, __u32 offset = 0);
++__u32 get_buffer_type_trace(int fd, __u32 offset = 0);
++int get_buffer_index_trace(int fd, __u32 offset);
++long get_buffer_bytesused_trace(int fd, __u32 offset);
++void set_buffer_address_trace(int fd, __u32 offset, unsigned long address);
++unsigned long get_buffer_address_trace(int fd, __u32 offset);
++bool buffer_is_mapped(unsigned long buffer_address);
++
++unsigned get_expected_length_trace(void);
++void s_ext_ctrls_setup(struct v4l2_ext_controls *ext_controls);
++void qbuf_setup(struct v4l2_buffer *buf);
++void streamoff_cleanup(v4l2_buf_type buf_type);
++void g_fmt_setup_trace(struct v4l2_format *format);
++void s_fmt_setup(struct v4l2_format *format);
++void expbuf_setup(struct v4l2_exportbuffer *export_buffer);
++void querybuf_setup(int fd, struct v4l2_buffer *buf);
++void query_ext_ctrl_setup(int fd, struct v4l2_query_ext_ctrl *p);
++
++void write_json_object_to_json_file(json_object *jobj);
++void close_json_file(void);
++
++#endif
+diff --git a/utils/v4l2-tracer/v4l2-tracer-common.cpp b/utils/v4l2-tracer/v4l2-tracer-common.cpp
+new file mode 100644
+index 00000000..4d6adcd3
+--- /dev/null
++++ b/utils/v4l2-tracer/v4l2-tracer-common.cpp
+@@ -0,0 +1,453 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
++/*
++ * Copyright 2022 Collabora Ltd.
++ */
++
++#include <sstream>
++#include <iostream>
++#include <iomanip>
++#include "v4l2-tracer-common.h"
++
++void print_v4l2_tracer_info(void)
++{
++	fprintf(stderr, "v4l2-tracer %s%s\n", PACKAGE_VERSION, STRING(GIT_COMMIT_CNT));
++	if (strlen(STRING(GIT_SHA)))
++		fprintf(stderr, "v4l2-tracer SHA: '%s' %s\n", STRING(GIT_SHA), STRING(GIT_COMMIT_DATE));
++}
++
++void print_usage(void)
++{
++	print_v4l2_tracer_info();
++	fprintf(stderr, "Usage:\n\tv4l2-tracer [options] trace <tracee>\n"
++	        "\tv4l2-tracer [options] retrace <trace_file>.json\n"
++	        "\tv4l2-tracer clean <trace_file>.json\n\n"
++
++	        "\tCommon options:\n"
++	        "\t\t-c, --compact     Write minimal whitespace in JSON file.\n"
++	        "\t\t-g, --debug       Turn on verbose reporting plus additional debug info.\n"
++	        "\t\t-h, --help        Display this message.\n"
++	        "\t\t-r  --raw         Write decoded video frame data to JSON file.\n"
++	        "\t\t-v, --verbose     Turn on verbose reporting.\n"
++	        "\t\t-y, --yuv         Write decoded video frame data to yuv file.\n\n"
++
++	        "\tRetrace options:\n"
++	        "\t\t-d, --video_device <dev>   Retrace with a specific video device.\n"
++	        "\t\t                           <dev> must be a digit corresponding to\n"
++	        "\t\t                           /dev/video<dev> \n\n"
++	        "\t\t-m, --media_device <dev>   Retrace with a specific media device.\n"
++	        "\t\t                           <dev> must be a digit corresponding to\n"
++	        "\t\t                           /dev/media<dev> \n\n");
++}
++
++void add_separator(std::string &s)
++{
++	if (!s.empty())
++		s += "|";
++}
++
++void clean_string(size_t idx, std::string substring_to_erase, std::string &s)
++{
++	std::string temp = substring_to_erase + '|';
++	if (s.find(temp) != s.npos)
++		s.erase(idx, temp.length());
++	else
++		s.erase(idx, substring_to_erase.length());
++}
++
++std::string ver2s(unsigned int version)
++{
++	char buf[16];
++	sprintf(buf, "%d.%d.%d", version >> 16, (version >> 8) & 0xff, version & 0xff);
++	return buf;
++}
++
++/* Convert a number to an octal string. If num is 0, return an empty string. */
++std::string number2s_oct(long num)
++{
++	std::stringstream ss;
++	ss << std::setfill ('0') << std::setw(5) << std::oct << num;
++	return ss.str();
++}
++
++/* Convert a number to a hex string. If num is 0, return an empty string. */
++std::string number2s(long num)
++{
++	if (!num)
++		return "";
++	std::stringstream ss;
++	ss << std::hex << num;
++	return "0x" + ss.str();
++}
++
++std::string val2s(long val, const val_def *def)
++{
++	std::string s;
++	if (def == nullptr)
++		return number2s(val);
++
++	while ((def->val != -1) && (def->val != val))
++		def++;
++
++	if (def->val == val)
++		return def->str;
++
++	return number2s(val);
++}
++
++std::string fl2s(unsigned val, const flag_def *def)
++{
++	std::string s;
++
++	if (def == nullptr)
++		return number2s(val);
++
++	while (def->flag) {
++		if (val & def->flag) {
++			add_separator(s);
++			s += def->str;
++			val &= ~def->flag;
++		}
++		def++;
++	}
++	if (val) {
++		add_separator(s);
++		s += number2s(val);
++	}
++
++	return s;
++}
++
++std::string fl2s_buffer(__u32 flags)
++{
++	std::string s;
++
++	switch (flags & V4L2_BUF_FLAG_TIMESTAMP_MASK) {
++	case V4L2_BUF_FLAG_TIMESTAMP_UNKNOWN:
++		s += "V4L2_BUF_FLAG_TIMESTAMP_UNKNOWN";
++		flags &= ~V4L2_BUF_FLAG_TIMESTAMP_UNKNOWN;
++		break;
++	case V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC:
++		s += "V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC";
++		flags &= ~V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
++		break;
++	case V4L2_BUF_FLAG_TIMESTAMP_COPY:
++		s += "V4L2_BUF_FLAG_TIMESTAMP_COPY";
++		flags &= ~V4L2_BUF_FLAG_TIMESTAMP_COPY;
++		break;
++	default:
++		break;
++	}
++
++	/* Since V4L2_BUF_FLAG_TSTAMP_SRC_EOF == 0, at least this flag will always be added. */
++	add_separator(s);
++	switch (flags & V4L2_BUF_FLAG_TSTAMP_SRC_MASK) {
++	case V4L2_BUF_FLAG_TSTAMP_SRC_EOF:
++		s += "V4L2_BUF_FLAG_TSTAMP_SRC_EOF";
++		flags &= ~V4L2_BUF_FLAG_TSTAMP_SRC_EOF;
++		break;
++	case V4L2_BUF_FLAG_TSTAMP_SRC_SOE:
++		s += "V4L2_BUF_FLAG_TSTAMP_SRC_SOE";
++		flags &= ~V4L2_BUF_FLAG_TSTAMP_SRC_SOE;
++		break;
++	default:
++		break;
++	}
++
++	if (flags) {
++		add_separator(s);
++		const unsigned ts_mask = V4L2_BUF_FLAG_TIMESTAMP_MASK | V4L2_BUF_FLAG_TSTAMP_SRC_MASK;
++		s += fl2s(flags & ~ts_mask, v4l2_buf_flag_def);
++	}
++
++	return s;
++}
++
++std::string fl2s_fwht(__u32 flags)
++{
++	std::string s;
++	switch (flags & V4L2_FWHT_FL_PIXENC_MSK) {
++	case V4L2_FWHT_FL_PIXENC_YUV:
++		s += "V4L2_FWHT_FL_PIXENC_YUV";
++		flags &= ~V4L2_FWHT_FL_PIXENC_YUV;
++		break;
++	case V4L2_FWHT_FL_PIXENC_RGB:
++		s += "V4L2_FWHT_FL_PIXENC_RGB";
++		flags &= ~V4L2_FWHT_FL_PIXENC_RGB;
++		break;
++	case V4L2_FWHT_FL_PIXENC_HSV:
++		s += "V4L2_FWHT_FL_PIXENC_HSV";
++		flags &= ~V4L2_FWHT_FL_PIXENC_HSV;
++		break;
++	default:
++		break;
++	}
++	add_separator(s);
++	s += fl2s(flags, v4l2_ctrl_fwht_params_flag_def);
++	return s;
++}
++
++long s2number(std::string s)
++{
++	long num = 0;
++	if (s.empty())
++		return num;
++	try {
++		num = std::stoul(s, nullptr, 0); /* base is auto-detected */
++	} catch (std::invalid_argument& ia) {
++		fprintf(stderr, "%s:%s:%d: ", __FILE__, __func__, __LINE__);
++		fprintf(stderr, "string \'%s\' is invalid\n", s.c_str());
++	} catch (std::out_of_range& oor) {
++		fprintf(stderr, "%s:%s:%d: ", __FILE__, __func__, __LINE__);
++		fprintf(stderr, "string \'%s\' is out of range\n", s.c_str());
++	}
++	return num;
++}
++
++long s2val(std::string s, const val_def *def)
++{
++	if (s.empty())
++		return 0;
++
++	if (def == nullptr)
++		return s2number(s);
++
++	while ((def->val != -1) && (def->str != s))
++		def++;
++
++	if (def->str == s)
++		return def->val;
++
++	return s2number(s);
++}
++
++unsigned long s2flags(std::string s, const flag_def *def)
++{
++	size_t idx;
++	unsigned long flags = 0;
++
++	if (def == nullptr)
++		return s2number(s);
++
++	while (def->flag) {
++		idx = s.find(def->str);
++		if (idx == s.npos) {
++			def++;
++			continue;
++		}
++		/* Stop false substring matches e.g. in V4L2_BUF_CAP_SUPPORTS_MMAP_CACHE_HINTS */
++		std::string check = def->str;
++		if (check.length() != s.length()) {
++			idx = s.find(check + '|');
++			if (idx == s.npos) {
++				def++;
++				continue;
++			}
++		}
++		flags += def->flag;
++		clean_string(idx, def->str, s);
++		def++;
++	}
++	if (!s.empty())
++		flags += s2number(s);
++
++	return flags;
++}
++
++unsigned long s2flags_buffer(std::string s)
++{
++	size_t idx = 0;
++	unsigned long flags = 0;
++
++	idx = s.find("V4L2_BUF_FLAG_TIMESTAMP_COPY");
++	if (idx != s.npos) {
++		flags += V4L2_BUF_FLAG_TIMESTAMP_COPY;
++		clean_string(idx, "V4L2_BUF_FLAG_TIMESTAMP_COPY", s);
++	}
++	idx = s.find("V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC");
++	if (idx != s.npos) {
++		flags += V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
++		clean_string(idx, "V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC", s);
++	}
++	idx = s.find("V4L2_BUF_FLAG_TIMESTAMP_UNKNOWN");
++	if (idx != s.npos) {
++		flags += V4L2_BUF_FLAG_TIMESTAMP_UNKNOWN;
++		clean_string(idx, "V4L2_BUF_FLAG_TIMESTAMP_UNKNOWN", s);
++	}
++	idx = s.find("V4L2_BUF_FLAG_TSTAMP_SRC_SOE");
++	if (idx != s.npos) {
++		flags += V4L2_BUF_FLAG_TSTAMP_SRC_SOE;
++		clean_string(idx, "V4L2_BUF_FLAG_TSTAMP_SRC_SOE", s);
++	}
++	idx = s.find("V4L2_BUF_FLAG_TSTAMP_SRC_EOF");
++	if (idx != s.npos) {
++		flags += V4L2_BUF_FLAG_TSTAMP_SRC_EOF;
++		clean_string(idx, "V4L2_BUF_FLAG_TSTAMP_SRC_EOF", s);
++	}
++	if (!s.empty())
++		flags += s2flags(s, v4l2_buf_flag_def);
++	return flags;
++}
++
++unsigned long s2flags_fwht(std::string s)
++{
++	size_t idx = 0;
++	unsigned long flags = 0;
++	idx = s.find("V4L2_FWHT_FL_PIXENC_YUV");
++	if (idx != s.npos) {
++		flags += V4L2_FWHT_FL_PIXENC_YUV;
++		clean_string(idx, "V4L2_FWHT_FL_PIXENC_YUV", s);
++	}
++	idx = s.find("V4L2_FWHT_FL_PIXENC_RGB");
++	if (idx != s.npos) {
++		flags += V4L2_FWHT_FL_PIXENC_RGB;
++		clean_string(idx, "V4L2_FWHT_FL_PIXENC_RGB", s);
++	}
++	idx = s.find("V4L2_FWHT_FL_PIXENC_HSV");
++	if (idx != s.npos) {
++		flags += V4L2_FWHT_FL_PIXENC_HSV;
++		clean_string(idx, "V4L2_FWHT_FL_PIXENC_HSV", s);
++	}
++	if (!s.empty())
++		flags += s2flags(s, v4l2_ctrl_fwht_params_flag_def);
++	return flags;
++}
++
++std::string get_path_media(std::string driver)
++{
++	struct dirent *ep;
++	std::string path_media;
++	DIR *dp = opendir("/dev");
++	if (dp == nullptr)
++		return path_media;
++
++	while ((ep = readdir(dp))) {
++		const char *name = ep->d_name;
++		if (memcmp(name, "media", 5) || !isdigit(name[5]))
++			continue;
++
++		std::string media_devname = std::string("/dev/") + name;
++		setenv("V4L2_TRACER_PAUSE_TRACE", "true", 0);
++		int media_fd = open(media_devname.c_str(), O_RDONLY);
++		unsetenv("V4L2_TRACER_PAUSE_TRACE");
++		if (media_fd < 0)
++			continue;
++
++		struct media_device_info info = {};
++		if (ioctl(media_fd, MEDIA_IOC_DEVICE_INFO, &info) || info.driver != driver) {
++			setenv("V4L2_TRACER_PAUSE_TRACE", "true", 0);
++			close(media_fd);
++			unsetenv("V4L2_TRACER_PAUSE_TRACE");
++			continue;
++		} else {
++			path_media = media_devname;
++			setenv("V4L2_TRACER_PAUSE_TRACE", "true", 0);
++			close(media_fd);
++			unsetenv("V4L2_TRACER_PAUSE_TRACE");
++			break;
++		}
++	}
++	closedir(dp);
++	return path_media;
++}
++
++std::string get_path_video(int media_fd, std::list<std::string> linked_entities)
++{
++	int err = 0;
++	std::string path_video;
++	struct media_v2_topology topology = {};
++
++	err = ioctl(media_fd, MEDIA_IOC_G_TOPOLOGY, &topology);
++	if (err < 0)
++		return path_video;
++
++	auto ifaces = new media_v2_interface[topology.num_interfaces];
++	topology.ptr_interfaces = (uintptr_t)ifaces;
++	auto links = new media_v2_link[topology.num_links];
++	topology.ptr_links = (uintptr_t)links;
++	auto ents = new media_v2_entity[topology.num_entities];
++	topology.ptr_entities = (uintptr_t)ents;
++
++	err = ioctl(media_fd, MEDIA_IOC_G_TOPOLOGY, &topology);
++	if (err < 0) {
++		delete [] ifaces;
++		delete [] links;
++		delete [] ents;
++		return path_video;
++	}
++
++	for (auto &name : linked_entities) {
++		/* Find an entity listed in the video device's linked_entities. */
++		for (__u32 i = 0; i < topology.num_entities; i++) {
++			if (ents[i].name != name)
++				continue;
++			/* Find the first link connected to that entity. */
++			for (__u32 j = 0; j < topology.num_links; j++) {
++				if (links[j].sink_id != ents[i].id)
++					continue;
++				/* Find the interface connected to that link. */
++				for (__u32 k = 0; k < topology.num_interfaces; k++) {
++					if (ifaces[k].id != links[j].source_id)
++						continue;
++					std::string video_devname = mi_media_get_device(ifaces[k].devnode.major,
++					                                                ifaces[k].devnode.minor);
++					if (!video_devname.empty()) {
++						path_video = video_devname;
++						break;
++					}
++				}
++			}
++		}
++	}
++	return path_video;
++}
++
++std::list<std::string> get_linked_entities(int media_fd, std::string path_video)
++{
++	int err = 0;
++	std::list<std::string> linked_entities;
++	struct media_v2_topology topology = {};
++
++	err = ioctl(media_fd, MEDIA_IOC_G_TOPOLOGY, &topology);
++	if (err < 0)
++		return linked_entities;
++
++	auto ifaces = new media_v2_interface[topology.num_interfaces];
++	topology.ptr_interfaces = (uintptr_t)ifaces;
++	auto links = new media_v2_link[topology.num_links];
++	topology.ptr_links = (uintptr_t)links;
++	auto ents = new media_v2_entity[topology.num_entities];
++	topology.ptr_entities = (uintptr_t)ents;
++
++	err = ioctl(media_fd, MEDIA_IOC_G_TOPOLOGY, &topology);
++	if (err < 0) {
++		delete [] ifaces;
++		delete [] links;
++		delete [] ents;
++		return linked_entities;
++	}
++
++	/* find the interface corresponding to the path_video */
++	for (__u32 i = 0; i < topology.num_interfaces; i++) {
++		if (path_video != mi_media_get_device(ifaces[i].devnode.major, ifaces[i].devnode.minor))
++			continue;
++		/* find the links from that interface */
++		for (__u32 j = 0; j < topology.num_links; j++) {
++			if (links[j].source_id != ifaces[i].id)
++				continue;
++			/* find the entities connected by that link to the interface */
++			for (__u32 k = 0; k < topology.num_entities; k++) {
++				if (ents[k].id != links[j].sink_id)
++					continue;
++				linked_entities.push_back(ents[k].name);
++			}
++		}
++		if (linked_entities.size())
++			break;
++	}
++
++	delete [] ents;
++	delete [] links;
++	delete [] ifaces;
++
++	return linked_entities;
++}
+diff --git a/utils/v4l2-tracer/v4l2-tracer-common.h b/utils/v4l2-tracer/v4l2-tracer-common.h
+new file mode 100644
+index 00000000..45544062
+--- /dev/null
++++ b/utils/v4l2-tracer/v4l2-tracer-common.h
+@@ -0,0 +1,82 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
++/*
++ * Copyright 2022 Collabora Ltd.
++ */
++
++#ifndef V4L2_TRACER_COMMON_H
++#define V4L2_TRACER_COMMON_H
++
++#include <json.h>
++#include <poll.h>
++#include <stdio.h>
++#include <fcntl.h>
++#include <stdlib.h>
++#include <string.h>
++#include <dirent.h>
++#include <unistd.h>
++#include <getopt.h>
++#include <pthread.h>
++#include <sys/ioctl.h>
++#include <sys/mman.h>
++#include <sys/types.h>
++#include <linux/media.h>
++#include <linux/videodev2.h>
++#include <list>
++#include <vector>
++#include <algorithm>
++#include <stdexcept>
++#include <unordered_map>
++#include "v4l2-info.h"
++#include "codec-fwht.h"
++#include "media-info.h"
++#include "config.h"
++
++#define STR(x) #x
++#define STRING(x) STR(x)
++
++struct val_def {
++	long val;
++	const char *str;
++};
++
++void print_v4l2_tracer_info(void);
++void print_usage(void);
++
++std::string ver2s(unsigned int version);
++std::string number2s_oct(long num);
++std::string number2s(long num);
++std::string val2s(long val, const val_def *def);
++std::string fl2s(unsigned val, const flag_def *def);
++std::string fl2s_buffer(__u32 flags);
++std::string fl2s_fwht(__u32 flags);
++
++long s2number(std::string s);
++long s2val(std::string s, const val_def *def);
++long s2ioctl(std::string s);
++unsigned long s2flags(std::string s, const flag_def *def);
++unsigned long s2flags_buffer(std::string s);
++unsigned long s2flags_fwht(std::string s);
++
++std::string which2s(unsigned long which);
++
++std::string get_path_media(std::string driver);
++std::string get_path_video(int media_fd, std::list<std::string> linked_entities);
++std::list<std::string> get_linked_entities(int media_fd, std::string path_video);
++
++#include "v4l2-tracer-info-gen.h"
++
++constexpr val_def which_val_def[] = {
++	{ V4L2_CTRL_WHICH_CUR_VAL,	"V4L2_CTRL_WHICH_CUR_VAL" },
++	{ V4L2_CTRL_WHICH_DEF_VAL,	"V4L2_CTRL_WHICH_DEF_VAL" },
++	{ V4L2_CTRL_WHICH_REQUEST_VAL,	"V4L2_CTRL_WHICH_REQUEST_VAL" },
++	{ -1, "" }
++};
++
++constexpr val_def open_val_def[] = {
++	{ O_RDONLY,	"O_RDONLY" },
++	{ O_WRONLY,	"O_WRONLY" },
++	{ O_RDWR,	"O_RDWR" },
++	{ -1, "" }
++};
++
++#endif
+diff --git a/utils/v4l2-tracer/v4l2-tracer-gen.pl b/utils/v4l2-tracer/v4l2-tracer-gen.pl
+new file mode 100755
+index 00000000..595e5b04
+--- /dev/null
++++ b/utils/v4l2-tracer/v4l2-tracer-gen.pl
+@@ -0,0 +1,840 @@
++#!/usr/bin/perl
++# SPDX-License-Identifier: GPL-2.0-only */
++# Copyright 2022 Collabora Ltd.
++
++sub convert_type_to_json_type {
++	my $type = shift;
++	if ($type eq __u8 || $type eq char || $type eq __u16 || $type eq __s8 || $type eq __s16 || $type eq __s32 || $type eq 'int') {
++		return "int";
++	}
++	if ($type eq __u32 || $type eq __le32 || $type eq __s64) {
++		return "int64";
++	}
++
++	# unsigned appears just twice in videodev2.h and in both cases it is 'unsigned long'
++	if ($type eq __u64 || $type eq 'v4l2_std_id' || $type eq 'unsigned') {
++		return "uint64";
++	}
++	if ($type eq struct || $type eq union || $type eq void) {
++		return;
++	}
++	print "v4l2_tracer: error: couldn't convert \'$type\' to json_object type.\n";
++	return;
++}
++
++sub get_index_letter {
++	my $index = shift;
++	if ($index eq 0) {return "i";}
++	if ($index eq 1) {return "j";}
++	if ($index eq 2) {return "k";}
++	if ($index eq 3) {return "l";}
++	if ($index eq 4) {return "m";}
++	if ($index eq 5) {return "n";}
++	if ($index eq 6) {return "o";} # "p" is saved for pointer
++	if ($index eq 8) {return "q";}
++	return "z";
++}
++
++$flag_func_name;
++
++sub flag_gen {
++	my $flag_type = shift;
++
++	if ($flag_type =~ /fwht/) {
++		$flag_func_name = v4l2_ctrl_fwht_params_;
++	} elsif ($flag_type =~ /vp8_loop_filter/) {
++		$flag_func_name = v4l2_vp8_loop_filter_;
++	} else {
++		($flag_func_name) = ($_) =~ /#define (\w+_)FL.+/;
++		$flag_func_name = lc $flag_func_name;
++	}
++
++	printf $fh_common_info_h "constexpr flag_def %sflag_def[] = {\n", $flag_func_name;
++
++	($flag) = ($_) =~ /#define\s+(\w+)\s+.+/;
++	printf $fh_common_info_h "\t{ $flag, \"$flag\" },\n"; # get the first flag
++
++	while (<>) {
++		next if ($_ =~ /^\/?\s?\*.*/); # skip comments between flags if any
++		next if $_ =~ /^\s*$/; # skip blank lines between flags if any
++		last if ((grep {!/^#define\s+\w+_FL/} $_) && (grep {!/^#define V4L2_VP8_LF/} $_));
++		($flag) = ($_) =~ /#\s*define\s+(\w+)\s+.+/;
++
++		# don't include flags that are masks
++		next if ($flag_func_name eq v4l2_buf_) && ($flag =~ /.*TIMESTAMP.*/ || $flag =~ /.*TSTAMP.*/);
++		next if ($flag_func_name eq v4l2_ctrl_fwht_params_) && ($flag =~ /.*COMPONENTS.*/ || $flag =~ /.*PIXENC.*/);
++		next if ($flag =~ /.*MEDIA_LNK_FL_LINK_TYPE.*/);
++		next if ($flag =~ /.*MEDIA_ENT_ID_FLAG_NEXT.*/);
++
++		printf $fh_common_info_h "\t{ $flag, \"$flag\" },\n";
++	}
++	printf $fh_common_info_h "\t{ 0, \"\" }\n};\n\n";
++}
++
++sub enum_gen {
++	($enum_name) = ($_) =~ /enum (\w+) {/;
++	printf $fh_common_info_h "constexpr val_def %s_val_def[] = {\n", $enum_name;
++	while (<>) {
++		last if $_ =~ /};/;
++		($name) = ($_) =~ /\s+(\w+)\s?.*/;
++		next if ($name ne uc $name); # skip comments that don't start with *
++		next if ($_ =~ /^\s*\/?\s?\*.*/); # skip comments
++		next if $name =~ /^\s*$/;  # skip blank lines
++		printf $fh_common_info_h "\t{ %s,\t\"%s\" },\n", $name, $name;
++	}
++	printf $fh_common_info_h "\t{ -1, \"\" }\n};\n\n";
++}
++
++sub clean_up_line {
++	my $line = shift;
++	chomp($line);
++	$line =~ s/^\s+//; # remove leading whitespace
++	$line =~ s/.*\# define.*//; # zero out line if it has defines inside a structure (e.g. v4l2_jpegcompression)
++	$line =~ s/^\s*\/?\s?\*.*//; # zero out line if it has comments where the line starts with start with /* / * or just *
++	$line =~ s/\s*\/\*.*//; # remove comments at the end of a line following a member
++	$line =~ s/\*\/$//; # zero out line if it has comments that begin without any slashs or asterisks but end with */
++	# zero out lines that don't have a ; or { because they are comments but without any identifying slashes or asteriks
++	if ($line !~ /.*[\;|\{].*/) {
++		$line =~ s/.*//;
++	}
++	$line =~ s/.*reserved.*//; # zero out lines with reserved members, they will segfault on retracing
++	$line =~ s/.*raw_data.*//;
++	# don't remove semi-colon at end because some functions will look for it
++	return $line;
++}
++
++sub get_val_def_name {
++	my @params = @_;
++	my $member = @params[0];
++	my $struct_name = @params[1];
++
++	$val_def_name = "";
++	if ($member =~ /type/) {
++		if ($struct_name =~ /.*fmt|format|buf|parm|crop|selection|vbi.*/) {
++			$val_def_name = "v4l2_buf_type_val_def";
++		} elsif ($struct_name =~ /ctrl$/) {
++			$val_def_name = "v4l2_ctrl_type_val_def";
++		} else {
++			$val_def_name = "nullptr"; # will print as hex string
++		}
++	}
++	if ($member =~ /pixelformat/) {
++		$val_def_name = "v4l2_pix_fmt_val_def";
++	}
++	if ($member =~ /cmd/) {
++		if ($struct_name =~ /v4l2_decoder_cmd/) {
++			$val_def_name = "decoder_cmd_val_def";
++		}
++		if ($struct_name =~ /v4l2_encoder_cmd/) {
++			$val_def_name = "encoder_cmd_val_def";
++		}
++	}
++	if ($member =~ /memory/) {
++		$val_def_name = "v4l2_memory_val_def";
++	}
++	if ($member =~ /field/) {
++		if ($struct_name =~ /.*pix|buffer.*/) {
++			$val_def_name = "v4l2_field_val_def";
++		} else {
++			$val_def_name = "nullptr"; # will print as hex string
++		}
++	}
++	if ($member =~ /^id$/) {
++		if ($struct_name =~ /.*control|query.*/) {
++			$val_def_name = "control_val_def";
++		} else {
++			$val_def_name = "nullptr"; # will print as hex string
++		}
++	}
++	if ($member =~ /capability|outputmode|capturemode/) {
++		if ($struct_name =~ /.*v4l2_captureparm|v4l2_outputparm.*/) {
++		$val_def_name = "streamparm_val_def";
++		}
++	}
++	if ($member =~ /colorspace/) {
++		$val_def_name = "v4l2_colorspace_val_def";
++	}
++	if ($member =~ /ycbcr_enc/) {
++		$val_def_name = "v4l2_ycbcr_encoding_val_def";
++	}
++	if ($member =~ /quantization/) {
++		$val_def_name = "v4l2_quantization_val_def";
++	}
++	if ($member =~ /xfer_func/) {
++		$val_def_name = "v4l2_xfer_func_val_def";
++	}
++
++	return $val_def_name;
++}
++
++sub get_flag_def_name {
++	my @params = @_;
++	my $member = @params[0];
++	my $struct_name = @params[1];
++
++	$flag_def_name = "";
++	if ($member =~ /flags/) {
++		if ($struct_name =~ /buffers$/) {
++			$flag_def_name = "v4l2_memory_flag_def";
++		} elsif ($struct_name =~ /.*pix_format.*/) {
++			$flag_def_name = "v4l2_pix_fmt_flag_def";
++		} elsif ($struct_name =~ /.*ctrl$/) {
++			$flag_def_name = "v4l2_ctrl_flag_def";
++		} elsif ($struct_name =~ /.*fmtdesc$/) {
++			$flag_def_name = "v4l2_fmt_flag_def";
++		} elsif ($struct_name =~ /.*selection$/) {
++			$flag_def_name = "v4l2_sel_flag_def";
++		} else {
++			$flag_def_name = "nullptr"
++		}
++	}
++
++	if ($member =~ /.*cap.*/) {
++		# v4l2_requestbuffers, v4l2_create_buffers
++		if ($struct_name =~ /buffers$/) {
++			$flag_def_name = "v4l2_buf_cap_flag_def";
++		}
++		# v4l2_capability
++		if ($struct_name =~ /capability$/) {
++			$flag_def_name = "v4l2_cap_flag_def";
++		}
++	}
++
++	return $flag_def_name;
++}
++
++# trace a struct nested in another struct in videodev2.h
++sub handle_struct {
++	printf $fh_trace_cpp "\t//$line\n";
++	printf $fh_retrace_cpp "\t//$line\n";
++
++	# this is a multi-lined nested struct so iterate through it
++	if ($line !~ /.*;$/) {
++		$suppress_struct = true;
++		return;
++	}
++
++	# don't trace struct pointers
++	if ($line =~ /\*/) {
++		return;
++	}
++	# don't trace struct arrays
++	if ($line =~ /\[/) {
++		return;
++	}
++
++	my ($struct_tag) = ($line) =~ /\s*struct (\w+)\s+.*/;
++
++	# structs defined outside of videodev2.h
++	if ($struct_tag =~ /v4l2_ctrl|timeval|timespec/) {
++		return;
++	}
++
++	my ($struct_var) = ($line) =~ /(\w+)\;$/;
++	printf $fh_trace_cpp "\ttrace_%s_gen(&p->%s, %s_obj, \"%s\");\n", $struct_tag, $struct_var, $struct_name, $struct_var;
++	printf $fh_retrace_cpp "\tp->$struct_var = *retrace_%s_gen(%s_obj, \"%s\");\n\n", $struct_tag, $struct_name, $struct_var;
++}
++
++# trace a union in videodev2.h
++sub handle_union {
++	my @params = @_;
++	my $struct_name = @params[0];
++
++	$in_union = true;
++	$suppress_union = true;
++	printf $fh_trace_cpp "\t//union\n";
++	printf $fh_retrace_cpp "\t//union\n";
++
++	if ($struct_name =~ /^v4l2_pix_format/) {
++		$suppress_union = false;
++	}
++
++	if ($struct_name =~ /^v4l2_format$/) {
++		printf $fh_trace_cpp "\tswitch (p->type) {\n";
++		printf $fh_trace_cpp "\tcase V4L2_BUF_TYPE_VIDEO_CAPTURE:\n\tcase V4L2_BUF_TYPE_VIDEO_OUTPUT:\n";
++		printf $fh_trace_cpp "\t\ttrace_v4l2_pix_format_gen(&p->fmt.pix, %s_obj);\n\t\tbreak;\n", $struct_name;
++		printf $fh_trace_cpp "\tcase V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE:\n\tcase V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE:\n";
++		printf $fh_trace_cpp "\t\ttrace_v4l2_pix_format_mplane_gen(&p->fmt.pix, %s_obj);\n\t\tbreak;\n", $struct_name;
++		printf $fh_trace_cpp "\tdefault:\n\t\tbreak;\n\t}\n";
++
++		printf $fh_retrace_cpp "\tswitch (p->type) {\n";
++		printf $fh_retrace_cpp "\tcase V4L2_BUF_TYPE_VIDEO_CAPTURE:\n\tcase V4L2_BUF_TYPE_VIDEO_OUTPUT:\n";
++		printf $fh_retrace_cpp "\t\tp->fmt.pix = *retrace_v4l2_pix_format_gen(%s_obj);\n\t\tbreak;\n", $struct_name;
++		printf $fh_retrace_cpp "\tcase V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE:\n\tcase V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE:\n";
++		printf $fh_retrace_cpp "\t\tp->fmt.pix_mp = *retrace_v4l2_pix_format_mplane_gen(%s_obj);\n\t\tbreak;\n", $struct_name;
++		printf $fh_retrace_cpp "\tdefault:\n\t\tbreak;\n\t}\n";
++	}
++
++	return $suppress_union;
++}
++
++# generate functions for structs in videodev2.h
++sub struct_gen {
++	($struct_name) = ($_) =~ /struct (\w+) {/;
++
++	# it's not being used and was generating a warning
++	if ($struct_name =~ /v4l2_mpeg_vbi_ITV0/) {
++		return;
++	}
++	printf $fh_trace_cpp "void trace_%s_gen(void *arg, json_object *parent_obj, std::string key_name = \"\")\n{\n", $struct_name;
++	printf $fh_trace_h "void trace_%s_gen(void *arg, json_object *parent_obj, std::string key_name = \"\");\n", $struct_name;
++	printf $fh_trace_cpp "\tjson_object *%s_obj = json_object_new_object();\n", $struct_name;
++	printf $fh_trace_cpp "\tstruct %s *p = static_cast<struct %s*>(arg);\n\n", $struct_name, $struct_name;
++
++	printf $fh_retrace_h "struct %s *retrace_%s_gen(json_object *parent_obj, std::string key_name = \"\");\n", $struct_name, $struct_name;
++	printf $fh_retrace_cpp "struct %s *retrace_%s_gen(json_object *parent_obj, std::string key_name = \"\")\n{\n", $struct_name, $struct_name;
++
++	printf $fh_retrace_cpp "\tstruct %s *p = (struct %s *) calloc(1, sizeof(%s));\n\n", $struct_name, $struct_name, $struct_name;
++	printf $fh_retrace_cpp "\tjson_object *%s_obj;\n", $struct_name;
++	printf $fh_retrace_cpp "\tif (key_name.empty())\n";
++	printf $fh_retrace_cpp "\t\tjson_object_object_get_ex(parent_obj, \"%s\", &%s_obj);\n", $struct_name, $struct_name;
++	printf $fh_retrace_cpp "\telse\n";
++	printf $fh_retrace_cpp "\t\tjson_object_object_get_ex(parent_obj, key_name.c_str(), &%s_obj);\n\n", $struct_name;
++
++	$suppress_union = false;
++	$suppress_struct = false;
++	while ($line = <>) {
++		chomp($line);
++		$member = "";
++		if ($line =~ /}.*;/) {
++			if ($suppress_struct eq true) {
++				printf $fh_trace_cpp "\t//end of struct $line\n";
++				printf $fh_retrace_cpp "\t//end of struct $line\n";
++				$suppress_struct = false;
++				next;
++			} elsif ($in_union eq true) {
++				if ($suppress_union eq true) {
++					$suppress_union = false; # end of union
++				}
++				printf $fh_trace_cpp "\t//end of union $line\n";
++				printf $fh_retrace_cpp "\t//end of union $line\n";
++				$in_union = false;
++				next;
++			} else {
++				last;
++			}
++		}
++		last if $line =~ /^} __attribute__.*/;
++
++		$line = clean_up_line($line);
++		next if $line =~ /^\s*$/; # ignore blank lines
++
++		@words = split /[\s\[]/, $line; # split on whitespace and also'[' to get char arrays
++		@words = grep  {/^\D/} @words; # remove values that start with digit from inside []
++		@words = grep  {!/\]/} @words; # remove values with brackets e.g. V4L2_H264_REF_LIST_LEN]
++
++		($type) = $words[0];
++
++		# unions inside the struct
++		if ($type eq 'union') {
++			handle_union($struct_name);
++			next;
++		}
++		# suppress anything inside a union including structs nested inside a union
++		if ($suppress_union eq true) {
++			printf $fh_trace_cpp "\t//$line\n";
++			printf $fh_retrace_cpp "\t//$line\n";
++			next;
++		}
++
++		# struct members inside the struct
++		if ($type eq 'struct') {
++			handle_struct();
++			next;
++		}
++		if ($suppress_struct eq true) {
++			printf $fh_trace_cpp "\t//$line\n";
++			printf $fh_retrace_cpp "\t//$line\n";
++			next;
++		}
++
++		$json_type = convert_type_to_json_type($type);
++
++		($member) = $words[scalar @words - 1];
++		$member =~ s/;//; # remove the ;
++
++		if ($member =~ /service_lines/) {
++			printf $fh_trace_cpp "\t//$line\n";
++			printf $fh_retrace_cpp "\t//$line\n";
++			next;
++		}
++
++		# Don't trace members that are pointers
++		if ($member =~ /\*/) {
++			printf $fh_trace_cpp "\t//$line\n";
++			printf $fh_retrace_cpp "\t//$line\n";
++			next;
++		}
++
++		if ($line =~ /dims\[V4L2_CTRL_MAX_DIMS\]/) {
++			printf $fh_trace_cpp "\t\/\* $line \*\/\n"; # add comment
++			printf $fh_trace_cpp "\tjson_object *dims_obj = json_object_new_array();\n";
++			printf $fh_trace_cpp "\tfor (int i = 0; i < (std::min((int) p->nr_of_dims, V4L2_CTRL_MAX_DIMS)); i++) {\n";
++			printf $fh_trace_cpp "\t\tjson_object_array_add(dims_obj, json_object_new_int64(p->dims[i]));\n\t}\n";
++			printf $fh_trace_cpp "\tjson_object_object_add(%s_obj, \"$member\", dims_obj);\n", $struct_name;
++
++			printf $fh_retrace_cpp "\t\/\* $line \*\/\n"; # add comment
++			printf $fh_retrace_cpp "\tjson_object *dims_obj;\n";
++			printf $fh_retrace_cpp "\tif (json_object_object_get_ex(%s_obj, \"$member\", &%s_obj)) {\n", $struct_name, $member;
++			printf $fh_retrace_cpp "\t\tfor (int i = 0; i < (std::min((int) p->nr_of_dims, V4L2_CTRL_MAX_DIMS)); i++) {\n";
++			printf $fh_retrace_cpp "\t\t\tif (json_object_array_get_idx(dims_obj, i))\n";
++			printf $fh_retrace_cpp "\t\t\t\tp->dims[i] = (__u32) json_object_get_int64(json_object_array_get_idx(dims_obj, i));\n\t\t}\n\t}\n";
++			next;
++		}
++
++		printf $fh_retrace_cpp "\tjson_object *%s_obj;\n", $member;
++
++		# struct v4l2_pix_format
++		if ($member =~ /priv/) {
++			printf $fh_trace_cpp "\tif (p->priv == V4L2_PIX_FMT_PRIV_MAGIC)\n";
++			printf $fh_trace_cpp "\t\tjson_object_object_add(%s_obj, \"%s\", json_object_new_string(\"V4L2_PIX_FMT_PRIV_MAGIC\"));\n", $struct_name, $member;
++			printf $fh_trace_cpp "\telse\n";
++			printf $fh_trace_cpp "\t\tjson_object_object_add(%s_obj, \"%s\", json_object_new_string(\"\"));\n", $struct_name, $member;
++
++			printf $fh_retrace_cpp "\tif (json_object_object_get_ex(%s_obj, \"$member\", &%s_obj)) {\n", $struct_name, $member;
++			printf $fh_retrace_cpp "\t\tif (!json_object_get_string(priv_obj))\n\t\t\treturn p;\n";
++			printf $fh_retrace_cpp "\t\tstd::string priv_str = json_object_get_string(priv_obj);\n";
++			printf $fh_retrace_cpp "\t\tif (!priv_str.empty())\n";
++			printf $fh_retrace_cpp "\t\t\tp->priv = V4L2_PIX_FMT_PRIV_MAGIC;\n\t}\n";
++			next;
++		}
++
++		printf $fh_trace_cpp "\tjson_object_object_add(%s_obj, \"%s\", json_object_new_", $struct_name, $member;
++		printf $fh_retrace_cpp "\tif (json_object_object_get_ex(%s_obj, \"$member\", &%s_obj))\n", $struct_name, $member;
++
++		# Convert char array members to string
++		if ($line =~ /.*\[.*/) {
++			if ($member =~ /.*name|driver|card|bus_info|description|model|magic|serial|userbits|APP_data|COM_data|linemask|data|start|count|raw|.*/) {
++				printf $fh_trace_cpp "string(reinterpret_cast<const char *>(p->$member)));\n";
++
++				my @char_array_size = ($line) =~ /\[(\w+)\]/g;
++				printf $fh_retrace_cpp "\t\tmemcpy(p->$member, json_object_get_string(%s_obj), @char_array_size);\n\n", $member;
++				next;
++			}
++		}
++
++		# special strings
++		if ($member =~ /version/) {
++			printf $fh_trace_cpp "string(ver2s(p->$member).c_str()));\n";
++			printf $fh_retrace_cpp "\t\tmemset(&p->$member, 0, sizeof(p->$member));\n\n"; # driver can fill in version
++			next;
++		}
++
++		printf $fh_retrace_cpp "\t\tp->$member = ";
++
++		if ($struct_name =~ /^v4l2_buffer$/) {
++			if ($member =~ /flags/) {
++				printf $fh_trace_cpp "string(fl2s_buffer(p->$member).c_str()));\n";
++				printf $fh_retrace_cpp "(%s) s2flags_buffer(json_object_get_string(%s_obj));\n\n", $type, $member, $flag_def_name;
++				next;
++			}
++		}
++
++		# strings
++		$val_def_name = get_val_def_name($member, $struct_name);
++		if ($val_def_name !~ /^\s*$/) {
++			printf $fh_trace_cpp "string(val2s(p->$member, %s).c_str()));\n", $val_def_name;
++			printf $fh_retrace_cpp "(%s) s2val(json_object_get_string(%s_obj), %s);\n", $type,  $member, $val_def_name;
++			next;
++		}
++
++		$flag_def_name = get_flag_def_name($member, $struct_name);
++		if ($flag_def_name !~ /^\s*$/) {
++			printf $fh_trace_cpp "string(fl2s(p->$member, %s).c_str()));\n", $flag_def_name;
++			printf $fh_retrace_cpp "(%s) s2flags(json_object_get_string(%s_obj), %s);\n\n", $type, $member, $flag_def_name;
++			next;
++		}
++
++		# integers
++		printf $fh_trace_cpp "$json_type(p->$member));\n";
++		printf $fh_retrace_cpp "(%s) json_object_get_%s(%s_obj);\n\n", $type, $json_type, $member;
++
++		# special treatment for v4l2_pix_format_mplane member plane_fmt[VIDEO_MAX_PLANES]
++		# it can only be traced after num_planes is known
++		if ($member =~ /num_planes/) {
++			printf $fh_trace_cpp "\tjson_object *plane_fmt_obj = json_object_new_array();\n";
++			printf $fh_trace_cpp "\tfor (int i = 0; i < (std::min((int) p->num_planes, VIDEO_MAX_PLANES)); i++) {\n";
++			printf $fh_trace_cpp "\t\tjson_object *element_obj = json_object_new_object();\n";
++			printf $fh_trace_cpp "\t\ttrace_v4l2_plane_pix_format_gen(&(p->plane_fmt[i]), element_obj);\n";
++			printf $fh_trace_cpp "\t\tjson_object *element_no_key_obj;\n";
++			printf $fh_trace_cpp "\t\tjson_object_object_get_ex(element_obj, \"v4l2_plane_pix_format\", &element_no_key_obj);\n";
++			printf $fh_trace_cpp "\t\tjson_object_array_add(plane_fmt_obj, element_no_key_obj);\n\t}\n";
++			printf $fh_trace_cpp "\tjson_object_object_add(v4l2_pix_format_mplane_obj, \"plane_fmt\", plane_fmt_obj);\n\n";
++
++			printf $fh_retrace_cpp "\tjson_object *plane_fmt_obj;\n";
++			printf $fh_retrace_cpp "\tif (json_object_object_get_ex(v4l2_pix_format_mplane_obj, \"plane_fmt\", &plane_fmt_obj)) {\n";
++			printf $fh_retrace_cpp "\t\tfor (int i = 0; i < (std::min((int) p->num_planes, VIDEO_MAX_PLANES)); i++) {\n";
++			printf $fh_retrace_cpp "\t\t\tif (json_object_array_get_idx(plane_fmt_obj, i)) {\n";
++			printf $fh_retrace_cpp "\t\t\t\tjson_object *element_obj = json_object_new_object();\n";
++			printf $fh_retrace_cpp "\t\t\t\tjson_object_object_add(element_obj, \"v4l2_plane_pix_format\", json_object_array_get_idx(plane_fmt_obj, i));\n";
++			printf $fh_retrace_cpp "\t\t\t\tp->plane_fmt[i] = *retrace_v4l2_plane_pix_format_gen(element_obj);\n";
++			printf $fh_retrace_cpp "\t\t\t}\n\t\t}\n\t}\n\n";
++		}
++	}
++
++	# The key name option allows a struct to be traced when it is nested inside another struct.
++	printf $fh_trace_cpp "\n\tif (key_name.empty())\n";
++	printf $fh_trace_cpp "\t\tjson_object_object_add(parent_obj, \"%s\", %s_obj);\n", $struct_name, $struct_name;
++	printf $fh_trace_cpp "\telse\n";
++	printf $fh_trace_cpp "\t\tjson_object_object_add(parent_obj, key_name.c_str(), %s_obj);\n", $struct_name;
++	printf $fh_trace_cpp "}\n\n";
++
++	printf $fh_retrace_cpp "\treturn p;\n}\n";
++}
++
++# generate functions for structs in v4l2-controls.h
++sub struct_gen_ctrl {
++	($struct_name) = ($_) =~ /struct (\w+) {/;
++
++	printf $fh_trace_h "void trace_%s_gen(void *ptr, json_object *parent_obj);\n", $struct_name;
++	printf $fh_trace_cpp "void trace_%s_gen(void *ptr, json_object *parent_obj)\n{\n", $struct_name;
++	printf $fh_trace_cpp "\tjson_object *%s_obj = json_object_new_object();\n", $struct_name;
++	printf $fh_trace_cpp "\tstruct %s *p = static_cast<struct %s*>(ptr);\n", $struct_name, $struct_name;
++
++	printf $fh_retrace_h "struct %s *retrace_%s_gen(json_object *ctrl_obj);\n", $struct_name, $struct_name;
++	printf $fh_retrace_cpp "struct %s *retrace_%s_gen(json_object *ctrl_obj)\n{\n", $struct_name, $struct_name;
++	printf $fh_retrace_cpp "\tstruct %s *p = (struct %s *) calloc(1, sizeof(%s));\n", $struct_name, $struct_name, $struct_name;
++	printf $fh_retrace_cpp "\tjson_object *%s_obj;\n", $struct_name;
++	# if a key value isn't found, assume it is retracing an element of an array
++	# e.g. in struct v4l2_ctrl_h264_pred_weights
++	printf $fh_retrace_cpp "\tif (!json_object_object_get_ex(ctrl_obj, \"%s\", &%s_obj))\n", $struct_name, $struct_name;
++	printf $fh_retrace_cpp "\t\t%s_obj = ctrl_obj;\n", $struct_name;
++
++	while ($line = <>) {
++		chomp($line);
++		last if $line =~ /};/;
++		$line = clean_up_line($line);
++		next if $line =~ /^\s*$/; # ignore blank lines
++		$line =~ s/;$//; # remove semi-colon at the end
++		@words = split /[\s\[]/, $line; # also split on '[' to avoid arrays
++		@words = grep  {/^\D/} @words; # remove values that start with digit from inside []
++		@words = grep  {!/\]/} @words; # remove values with brackets e.g. V4L2_H264_REF_LIST_LEN]
++
++		($type) = $words[0];
++		$json_type = convert_type_to_json_type($type);
++
++		($member) = $words[scalar @words - 1];
++
++		# generate members that are arrays
++		if ($line =~ /.*\[.*/) {
++			printf $fh_trace_cpp "\t\/\* %s \*\/\n", $line; # add comment
++			printf $fh_trace_cpp "\tjson_object *%s_obj = json_object_new_array();\n", $member;
++			printf $fh_retrace_cpp "\n\t\/\* %s \*\/\n", $line; # add comment
++
++			my @dimensions = ($line) =~ /\[(\w+)\]/g;
++			$dimensions_count = scalar @dimensions;
++
++			if ($dimensions_count > 1) {
++				printf $fh_retrace_cpp "\tint count_%s = 0;\n", $member;
++			}
++			printf $fh_retrace_cpp "\tjson_object *%s_obj;\n", $member;
++			printf $fh_retrace_cpp "\tif (json_object_object_get_ex(%s_obj, \"%s\", &%s_obj)) {\n", $struct_name, $member, $member;
++
++			for (my $idx = 0; $idx < $dimensions_count; $idx = $idx + 1) {
++				$size = $dimensions[$idx];
++				$index_letter = get_index_letter($idx);
++				printf $fh_trace_cpp "\t" x ($idx + 1);
++				printf $fh_trace_cpp "for (size_t %s = 0; %s < %s\; %s++) {\n", $index_letter, $index_letter, $size, $index_letter;
++
++				printf $fh_retrace_cpp "\t" x ($idx + 1);
++				printf $fh_retrace_cpp "\t";
++				printf $fh_retrace_cpp "for (size_t %s = 0; %s < %s\; %s++) {\n", $index_letter, $index_letter, $size, $index_letter;
++			}
++			printf $fh_trace_cpp "\t" x ($dimensions_count + 1);
++			printf $fh_retrace_cpp "\t" x ($dimensions_count + 1);
++			printf $fh_retrace_cpp "\t";
++
++			# handle arrays of structs
++			if ($type =~ /struct/) {
++				my $struct_name_nested = @words[1];
++				printf $fh_trace_cpp "json_object *element_obj = json_object_new_object();\n";
++				printf $fh_trace_cpp "\t" x ($dimensions_count + 1);
++				printf $fh_trace_cpp "trace_%s_gen(&(p->%s", $struct_name_nested, $member;
++				for (my $idx = 0; $idx < $dimensions_count; $idx = $idx + 1) {
++					printf $fh_trace_cpp "[%s]", get_index_letter($idx);
++				}
++				printf $fh_trace_cpp "), element_obj);\n";
++				printf $fh_trace_cpp "\t" x ($dimensions_count + 1);
++				printf $fh_trace_cpp "json_object *element_no_key_obj;\n";
++				printf $fh_trace_cpp "\t" x ($dimensions_count + 1);
++				printf $fh_trace_cpp "json_object_object_get_ex(element_obj, \"%s\", &element_no_key_obj);\n", $struct_name_nested;
++				printf $fh_trace_cpp "\t" x ($dimensions_count + 1);
++				printf $fh_trace_cpp "json_object_array_add(%s_obj, element_no_key_obj);\n", $member;
++
++				printf $fh_retrace_cpp "p->%s", $member;
++				for (my $idx = 0; $idx < $dimensions_count; $idx = $idx + 1) {
++					printf $fh_retrace_cpp "[%s]", get_index_letter($idx);
++				}
++				printf $fh_retrace_cpp " = *retrace_%s_gen(json_object_array_get_idx(%s_obj, ", $struct_name_nested, $member;
++				if ($dimensions_count > 1) {
++					printf $fh_retrace_cpp "count_%s++", $member;
++				} else {
++					printf $fh_retrace_cpp "i";
++				}
++				printf $fh_retrace_cpp "));\n";
++			} else {
++				# handle arrays of ints
++				printf $fh_trace_cpp "json_object_array_add(%s_obj, json_object_new_%s(p->%s", $member, $json_type, $member;
++				for (my $idx = 0; $idx < $dimensions_count; $idx = $idx + 1) {
++					printf $fh_trace_cpp "[%s]", get_index_letter($idx);
++				}
++				printf $fh_trace_cpp "));\n";
++
++				# add a check to avoid accessing a null array index
++				printf $fh_retrace_cpp "if (json_object_array_get_idx(%s_obj, ", $member;
++				if ($dimensions_count > 1) {
++					printf $fh_retrace_cpp "count_%s", $member;
++				} else {
++					printf $fh_retrace_cpp "i";
++				}
++				printf $fh_retrace_cpp "))\n";
++
++				printf $fh_retrace_cpp "\t" x ($dimensions_count + 1);
++				printf $fh_retrace_cpp "\t\t";
++				printf $fh_retrace_cpp "p->%s", $member;
++				for (my $idx = 0; $idx < $dimensions_count; $idx = $idx + 1) {
++					printf $fh_retrace_cpp "[%s]", get_index_letter($idx);
++				}
++
++				printf $fh_retrace_cpp " = ($type) json_object_get_%s(json_object_array_get_idx(%s_obj, ", $json_type, $member;
++				if ($dimensions_count > 1) {
++					printf $fh_retrace_cpp "count_%s++", $member;
++				} else {
++					printf $fh_retrace_cpp "i";
++				}
++				printf $fh_retrace_cpp "));\n";
++			}
++			# closing brackets for all array types
++			for (my $idx = $dimensions_count - 1; $idx >= 0 ; $idx = $idx - 1) {
++				printf $fh_trace_cpp "\t" x ($idx + 1);
++				printf $fh_trace_cpp "}\n";
++
++				printf $fh_retrace_cpp "\t" x ($idx + 1);
++				printf $fh_retrace_cpp "\t";
++				printf $fh_retrace_cpp "}\n";
++			}
++			printf $fh_retrace_cpp "\t}\n";
++			printf $fh_trace_cpp "\tjson_object_object_add(%s_obj, \"%s\", %s_obj);\n\n", $struct_name, $member, $member;
++		} elsif ($type =~ /struct/) {
++			# member that is a struct but not an array of structs
++			my $struct_name_nested = @words[1];
++			printf $fh_trace_cpp "\t\/\* %s \*\/\n", $line;
++			printf $fh_trace_cpp "\ttrace_%s_gen(&(p->%s), %s_obj);\n", $struct_name_nested, $member, $struct_name;
++
++			printf $fh_retrace_cpp "\t\/\* %s \*\/\n", $line;
++			printf $fh_retrace_cpp "\tjson_object *%s_obj;\n", $member;
++			printf $fh_retrace_cpp "\tjson_object_object_get_ex(%s_obj, \"%s\", &%s_obj);\n", $struct_name, $struct_name_nested, $member;
++			printf $fh_retrace_cpp "\tp->%s = \*retrace_%s_gen(%s_obj);\n\n", $member, $struct_name_nested, $member;
++		} else {
++			printf $fh_trace_cpp "\tjson_object_object_add(%s_obj, \"%s\", json_object_new_", $struct_name, $member;
++			printf $fh_retrace_cpp "\n\tjson_object *%s_obj;\n", $member;
++			printf $fh_retrace_cpp "\tif (json_object_object_get_ex(%s_obj, \"%s\", &%s_obj))\n", $struct_name, $member, $member;
++
++			# strings
++			if ($member =~ /flags/) {
++				if ($struct_name eq "v4l2_ctrl_fwht_params") {
++					printf $fh_trace_cpp "string(fl2s_fwht(p->$member).c_str()));\n";
++					printf $fh_retrace_cpp "\t\tp->%s = ($type) s2flags_fwht(json_object_get_string(%s_obj));\n", $member, $member, $flag_func_name;
++				} else {
++					printf $fh_trace_cpp "string(fl2s(p->$member, %sflag_def).c_str()));\n", $flag_func_name;
++					printf $fh_retrace_cpp "\t\tp->%s = ($type) s2flags(json_object_get_string(%s_obj), %sflag_def);\n", $member, $member, $flag_func_name;
++				}
++				next;
++			}
++
++			# Add members with a single string value (e.g. enums, #define)
++			$val_def_name = get_val_def_name($member, $struct_name);
++			if ($val_def_name !~ /^\s*$/) {
++				printf $fh_trace_cpp "string(val2s(p->$member, %s).c_str()));\n", $val_def_name;
++				printf $fh_retrace_cpp "\t\tp->%s = ($type) s2val(json_object_get_string(%s_obj), $val_def_name);\n", $member, $member;
++				next;
++			}
++
++			# integers
++			printf $fh_trace_cpp "%s(p->%s));\n", $json_type, $member;
++			printf $fh_retrace_cpp "\t\tp->%s = ($type) json_object_get_%s(%s_obj);\n", $member, $json_type, $member;
++		}
++	}
++	printf $fh_trace_cpp "\tjson_object_object_add(parent_obj, \"%s\", %s_obj);\n", $struct_name, $struct_name;
++	printf $fh_trace_cpp "}\n\n";
++
++	printf $fh_retrace_cpp "\n\treturn p;\n";
++	printf $fh_retrace_cpp "}\n\n";
++}
++
++open($fh_trace_cpp, '>', 'trace-gen.cpp') or die "Could not open trace-gen.cpp for writing";
++printf $fh_trace_cpp "/* SPDX-License-Identifier: GPL-2.0-only */\n/*\n * Copyright 2022 Collabora Ltd.\n */\n\n";
++printf $fh_trace_cpp "#include \"v4l2-tracer-common.h\"\n\n";
++
++open($fh_trace_h, '>', 'trace-gen.h') or die "Could not open trace-gen.h for writing";
++printf $fh_trace_h "/* SPDX-License-Identifier: GPL-2.0-only */\n/*\n * Copyright 2022 Collabora Ltd.\n */\n\n";
++printf $fh_trace_h "\#ifndef TRACE_GEN_H\n";
++printf $fh_trace_h "\#define TRACE_GEN_H\n\n";
++
++open($fh_retrace_cpp, '>', 'retrace-gen.cpp') or die "Could not open retrace-gen.cpp for writing";
++printf $fh_retrace_cpp "/* SPDX-License-Identifier: GPL-2.0-only */\n/*\n * Copyright 2022 Collabora Ltd.\n */\n\n";
++printf $fh_retrace_cpp "#include \"v4l2-tracer-common.h\"\n\n";
++
++open($fh_retrace_h, '>', 'retrace-gen.h') or die "Could not open retrace-gen.h for writing";
++printf $fh_retrace_h "/* SPDX-License-Identifier: GPL-2.0-only */\n/*\n * Copyright 2022 Collabora Ltd.\n */\n\n";
++printf $fh_retrace_h "\#ifndef RETRACE_GEN_H\n";
++printf $fh_retrace_h "\#define RETRACE_GEN_H\n\n";
++
++open($fh_common_info_h, '>', 'v4l2-tracer-info-gen.h') or die "Could not open v4l2-tracer-info-gen.h for writing";
++printf $fh_common_info_h "/* SPDX-License-Identifier: GPL-2.0-only */\n/*\n * Copyright 2022 Collabora Ltd.\n */\n\n";
++printf $fh_common_info_h "\#ifndef V4L2_TRACER_INFO_GEN_H\n";
++printf $fh_common_info_h "\#define V4L2_TRACER_INFO_GEN_H\n\n";
++printf $fh_common_info_h "#include \"v4l2-tracer-common.h\"\n\n";
++
++$in_v4l2_controls = true;
++
++while (<>) {
++	if (grep {/#define __LINUX_VIDEODEV2_H/} $_) {
++		$in_v4l2_controls = false;
++	}
++
++	if (grep {/^#define.+FWHT_FL_.+/} $_) {
++		flag_gen("fwht");
++	} elsif (grep {/^#define V4L2_VP8_LF.*/} $_) {
++		flag_gen("vp8_loop_filter");
++	} elsif (grep {/^#define.+_FL_.+/} $_) {  #use to get media flags
++		flag_gen();
++	} elsif (grep {/^#define.+_FLAG_.+/} $_) {
++		flag_gen();
++	}
++
++	if ($in_v4l2_controls eq true) {
++		if (grep {/^struct/} $_) {
++			struct_gen_ctrl();
++		}
++	} else {
++		if (grep {/^struct/} $_) {
++			struct_gen();
++		}
++	}
++
++	if (grep {/^enum/} $_) {
++		enum_gen();
++	}
++
++	if (grep {/^#define (V4L2_CID\w*)\s*.*/} $_) {
++		push (@controls, $_);
++	}
++
++	if (grep {/^\/\* Control classes \*\//} $_) {
++		printf $fh_common_info_h "constexpr val_def ctrlclass_val_def[] = {\n";
++		while (<>) {
++			last if $_ =~ /^\s*$/; # last if blank line
++			($ctrl_class) = ($_) =~ /#define\s*(\w+)\s+.*/;
++			printf $fh_common_info_h "\t{ %s,\t\"%s\" },\n", $ctrl_class, $ctrl_class;
++		}
++		printf $fh_common_info_h "\t{ -1, \"\" }\n};\n\n";
++	}
++
++	if (grep {/\/\* Values for 'capabilities' field \*\//} $_) {
++		printf $fh_common_info_h "constexpr flag_def v4l2_cap_flag_def[] = {\n";
++		while (<>) {
++			last if $_ =~ /.*V I D E O   I M A G E   F O R M A T.*/;
++			next if ($_ =~ /^\/?\s?\*.*/); # skip comments
++			next if $_ =~ /^\s*$/; # skip blank lines
++			($cap) = ($_) =~ /#define\s+(\w+)\s+.+/;
++			printf $fh_common_info_h "\t{ $cap, \"$cap\" },\n"
++		}
++		printf $fh_common_info_h "\t{ 0, \"\" }\n};\n\n";
++	}
++
++	if (grep {/\*      Pixel format         FOURCC                          depth  Description  \*\//} $_) {
++		printf $fh_common_info_h "constexpr val_def v4l2_pix_fmt_val_def[] = {\n";
++		while (<>) {
++			last if $_ =~ /.*SDR formats - used only for Software Defined Radio devices.*/;
++			next if ($_ =~ /^\s*\/\*.*/); # skip comments
++			next if $_ =~ /^\s*$/; # skip blank lines
++			($pixfmt) = ($_) =~ /#define (\w+)\s+.*/;
++			printf $fh_common_info_h "\t{ %s,\t\"%s\" },\n", $pixfmt, $pixfmt;
++		}
++		printf $fh_common_info_h "\t{ -1, \"\" }\n};\n\n";
++	}
++
++	if (grep {/^#define V4L2_BUF_CAP_SUPPORTS_MMAP.*/} $_) {
++		printf $fh_common_info_h "constexpr flag_def v4l2_buf_cap_flag_def[] = {\n";
++		($buf_cap) = ($_) =~ /#define (\w+)\s+.*/;
++		printf $fh_common_info_h "\t{ %s,\t\"%s\" },\n", $buf_cap, $buf_cap;
++		while (<>) {
++			last if $_ =~ /^\s*$/; # blank line
++			($buf_cap) = ($_) =~ /#define (\w+)\s+.*/;
++			printf $fh_common_info_h "\t{ %s,\t\"%s\" },\n", $buf_cap, $buf_cap;
++		}
++		printf $fh_common_info_h "\t{ 0, \"\" }\n};\n\n";
++	}
++
++	if (grep {/.*Flags for 'capability' and 'capturemode' fields.*/} $_) {
++		printf $fh_common_info_h "constexpr val_def streamparm_val_def[] = {\n";
++		while (<>) {
++			last if $_ =~ /^\s*$/; # blank line
++			($streamparm) = ($_) =~ /^#define\s*(\w+)\s*/;
++			printf $fh_common_info_h "\t{ %s,\t\"%s\" },\n", $streamparm, $streamparm;
++		}
++		printf $fh_common_info_h "\t{ -1, \"\" }\n};\n\n";
++	}
++
++	if (grep {/.*V4L2_ENC_CMD_START.*/} $_) {
++		printf $fh_common_info_h "constexpr val_def encoder_cmd_val_def[] = {\n";
++		($enc_cmd) = ($_) =~ /^#define\s*(\w+)\s*/;
++		printf $fh_common_info_h "\t{ %s,\t\"%s\" },\n", $enc_cmd, $enc_cmd;
++		while (<>) {
++			last if $_ =~ /^\s*$/; # blank line
++			($enc_cmd) = ($_) =~ /^#define\s*(\w+)\s*/;
++			printf $fh_common_info_h "\t{ %s,\t\"%s\" },\n", $enc_cmd, $enc_cmd;
++		}
++		printf $fh_common_info_h "\t{ -1, \"\" }\n};\n\n";
++	}
++
++	if (grep {/.*Decoder commands.*/} $_) {
++		printf $fh_common_info_h "constexpr val_def decoder_cmd_val_def[] = {\n";
++		while (<>) {
++			last if $_ =~ /^\s*$/; # blank line
++			($dec_cmd) = ($_) =~ /^#define\s*(\w+)\s*/;
++			printf $fh_common_info_h "\t{ %s,\t\"%s\" },\n", $dec_cmd, $dec_cmd;
++		}
++		printf $fh_common_info_h "\t{ -1, \"\" }\n};\n\n";
++	}
++
++	if (grep {/^#define\s+(VIDIOC_\w*)\s*.*/} $_) {
++		push (@ioctls, $_);
++	}
++
++	if (grep {/^#define\s+(MEDIA_IOC\w*)\s*.*/} $_) {
++		push (@ioctls, $_);
++	}
++
++	if (grep {/^#define\s+(MEDIA_REQUEST_IOC\w*)\s*.*/} $_) {
++		push (@ioctls, $_);
++	}
++}
++
++printf $fh_common_info_h "constexpr val_def control_val_def[] = {\n";
++foreach (@controls) {
++	($control) = ($_) =~ /^#define\s*(\w+)\s*/;
++	next if ($control =~ /BASE$/);
++	printf $fh_common_info_h "\t{ %s,\t\"%s\" },\n", $control, $control;
++}
++printf $fh_common_info_h "\t{ -1, \"\" }\n};\n";
++
++printf $fh_common_info_h "constexpr val_def ioctl_val_def[] = {\n";
++foreach (@ioctls) {
++	($ioctl) = ($_) =~ /^#define\s*(\w+)\s*/;
++	printf $fh_common_info_h "\t{ %s,\t\"%s\" },\n", $ioctl, $ioctl;
++}
++printf $fh_common_info_h "\t{ -1, \"\" }\n};\n";
++
++
++printf $fh_trace_h "\n#endif\n";
++close $fh_trace_h;
++close $fh_trace_cpp;
++
++printf $fh_retrace_h "\n#endif\n";
++close $fh_retrace_h;
++close $fh_retrace_cpp;
++
++printf $fh_common_info_h "\n#endif\n";
++close $fh_common_info_h;
+diff --git a/utils/v4l2-tracer/v4l2-tracer.1.in b/utils/v4l2-tracer/v4l2-tracer.1.in
+new file mode 100644
+index 00000000..13942eba
+--- /dev/null
++++ b/utils/v4l2-tracer/v4l2-tracer.1.in
+@@ -0,0 +1,111 @@
++.TH "V4L2-TRACER" "1" "November 2022" "v4l-utils @PACKAGE_VERSION@" "User Commands"
++.SH NAME
++v4l2-tracer - An application to trace and replay stateless video decoding.
++.SH SYNOPSIS
++\fBv4l2-tracer \fR[options] \fBtrace\fR <\fItracee\fR>
++.RS
++.RE
++\fBv4l2-tracer \fR[options] \fBretrace\fR  <\fItrace_file\fR>\fB.json\fR
++.RS
++.RE
++\fBv4l2-tracer clean\fR  <\fIfile\fR>\fB.json\fR
++.RS
++.RE
++
++.SH DESCRIPTION
++The v4l2-tracer utility traces, records and replays userspace applications
++that implement the v4l2 memory-to-memory stateless video decoder interface.
++.SS Trace
++Trace system calls and video frame data passed by userspace application <\fItracee\fR> to kernel driver.
++All stateless codec controls in user-space API can be traced. Outputs a JSON-formatted trace file.
++.SS Retrace
++Read the JSON-formatted <\fItrace_file\fR>\fB.json\fR. Replay the same system calls and pass the same video frame data to kernel driver.
++Outputs a JSON-formatted retrace file.
++
++.SS Clean
++Remove lines with irrelevant differences (e.g. file descriptors and memory addresses) from JSON files.
++Outputs a clean copy, not necessarily still in JSON-format.
++
++.SH OPTIONS
++.SS Common Options
++.TP
++\fB\-c\fR, \fB\-\-compact\fR
++Write minimal whitespace in JSON file.
++.TP
++\fB\-g\fR, \fB\-\-debug\fR
++Turn on verbose reporting plus additional debug info.
++.TP
++\fB\-h\fR, \fB\-\-help\fR
++Display this message.
++.TP
++\fB\-r\fR, \fB\-\-raw\fR
++Write decoded video frame data to JSON file.
++.TP
++\fB\-v\fR, \fB\-\-verbose\fR
++Turn on verbose reporting.
++.TP
++\fB\-y\fR, \fB\-\-yuv\fR
++Write decoded video frame data to yuv file.
++
++.SS Retrace Options
++.TP
++\fB\-d\fR, \fB\-\-device\fR <\fIdev\fR>
++Use a different video device than specified in the trace file.
++.RS
++<\fIdev\fR> must be a digit corresponding to an existing /dev/video<\fIdev\fR>
++.RE
++.TP
++\fB\-m\fR, \fB\-\-media\fR <\fIdev\fR>
++Use a different media device than specified in the trace file.
++.RS
++<\fIdev\fR> must be a digit corresponding to an existing /dev/media<\fIdev\fR>
++.RE
++
++.SH EXIT STATUS
++On success, it returns 0. Otherwise, it will return 1 or an error code.
++
++.SH EXAMPLE
++.TP
++Trace an application decoding VP8 video:
++.EX
++\fIv4l2-tracer trace gst-launch-1.0 -- filesrc location=test-25fps.vp8 ! parsebin ! v4l2slvp8dec ! videocodectestsink\fR
++.EE
++.TP
++A trace file is generated:
++.EE
++\fI71827_trace.json\fR
++.TP
++Retrace the trace file:
++.EX
++\fIv4l2-tracer retrace 71827_trace.json\fR
++.EE
++.TP
++Specify device nodes if retracing on a different driver:
++.EX
++\fIv4l2-tracer -d0 -m0 retrace 71827_trace.json\fR
++.EE
++.TP
++A retrace file is generated:
++.EE
++\fI71827_trace_retrace.json\fR
++.EX
++.TP
++Remove file descriptors and addresses (optional):
++.EX
++\fIv4l2-tracer clean 71827_trace.json\fR
++.EE
++.EX
++\fIv4l2-tracer clean 71827_trace_retrace.json\fR
++.EE
++.TP
++Clean files are generated for comparison:
++.EX
++\fIclean_71827_trace.json\fR
++.EE
++.EE
++\fIclean_71827_trace_retrace.json\fR
++.EX
++
++.SH BUGS
++Bug reports or questions about this utility should be sent to the
++linux-media@vger.kernel.org mailinglist.
+diff --git a/utils/v4l2-tracer/v4l2-tracer.cpp b/utils/v4l2-tracer/v4l2-tracer.cpp
+new file mode 100644
+index 00000000..114bcce4
+--- /dev/null
++++ b/utils/v4l2-tracer/v4l2-tracer.cpp
+@@ -0,0 +1,412 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
++/*
++ * Copyright 2022 Collabora Ltd.
++ */
++
++#include <time.h>
++#include <sys/wait.h>
++#include <climits>
++#include "v4l2-tracer-common.h"
++
++int tracer(int argc, char *argv[], bool retrace = false);
++int retracer(std::string trace_filename);
++
++enum Options {
++	V4l2TracerOptCompactPrint = 'c',
++	V4l2TracerOptSetVideoDevice = 'd',
++	V4l2TracerOptDebug = 'g',
++	V4l2TracerOptHelp = 'h',
++	V4l2TracerOptSetMediaDevice = 'm',
++	V4l2TracerOptWriteDecodedToJson = 'r',
++	V4l2TracerOptVerbose = 'v',
++	V4l2TracerOptWriteDecodedToYUVFile = 'y',
++};
++
++static struct option long_options[] = {
++	{ "compact", no_argument, nullptr, V4l2TracerOptCompactPrint },
++	{ "video_device", required_argument, nullptr, V4l2TracerOptSetVideoDevice },
++	{ "debug", no_argument, nullptr, V4l2TracerOptDebug },
++	{ "help", no_argument, nullptr, V4l2TracerOptHelp },
++	{ "media_device", required_argument, nullptr, V4l2TracerOptSetMediaDevice },
++	{ "raw", no_argument, nullptr, V4l2TracerOptWriteDecodedToJson },
++	{ "verbose", no_argument, nullptr, V4l2TracerOptVerbose },
++	{ "yuv", no_argument, nullptr, V4l2TracerOptWriteDecodedToYUVFile },
++	{ nullptr, 0, nullptr, 0 }
++};
++
++char short_options[] = {
++	V4l2TracerOptCompactPrint,
++	V4l2TracerOptSetVideoDevice, ':',
++	V4l2TracerOptDebug,
++	V4l2TracerOptHelp,
++	V4l2TracerOptSetMediaDevice, ':',
++	V4l2TracerOptWriteDecodedToJson,
++	V4l2TracerOptVerbose,
++	V4l2TracerOptWriteDecodedToYUVFile
++};
++
++int get_options(int argc, char *argv[])
++{
++	int ch;
++
++	do {
++		/* If there are no commands after the valid options, return err. */
++		if (optind == argc) {
++			print_usage();
++			return -1;
++		}
++
++		/* Avoid reading the tracee's options. */
++		if ((strcmp(argv[optind], "trace") == 0) || (strcmp(argv[optind], "retrace") == 0))
++			return 0;
++
++		ch = getopt_long(argc, argv, short_options, long_options, NULL);
++		switch (ch) {
++		case V4l2TracerOptCompactPrint: {
++			setenv("V4L2_TRACER_OPTION_COMPACT_PRINT", "true", 0);
++			break;
++		}
++		case V4l2TracerOptSetVideoDevice: {
++			std::string device_num = optarg;
++			try {
++				std::stoi(device_num, nullptr, 0);
++			} catch (std::exception& e) {
++				fprintf(stderr, "%s:%s:%d: ", __FILE__, __func__, __LINE__);
++				fprintf(stderr, "can't convert <dev> \'%s\' to integer\n", device_num.c_str());
++				return -1;
++			}
++			if (device_num[0] >= '0' && device_num[0] <= '9' && device_num.length() <= 3) {
++				std::string path_video = "/dev/video";
++				path_video += optarg;
++				setenv("V4L2_TRACER_OPTION_SET_VIDEO_DEVICE", path_video.c_str(), 0);
++			} else {
++				fprintf(stderr, "%s:%s:%d: ", __FILE__, __func__, __LINE__);
++				fprintf(stderr, "cannot use device number\'%s\'\n", device_num.c_str());
++				return -1;
++			}
++			break;
++		}
++		case V4l2TracerOptDebug:
++			setenv("V4L2_TRACER_OPTION_VERBOSE", "true", 0);
++			setenv("V4L2_TRACER_OPTION_DEBUG", "true", 0);
++			break;
++		case V4l2TracerOptHelp:
++			print_usage();
++			return -1;
++		case V4l2TracerOptSetMediaDevice: {
++			std::string device_num = optarg;
++			try {
++				std::stoi(device_num, nullptr, 0);
++			} catch (std::exception& e) {
++				fprintf(stderr, "%s:%s:%d: ", __FILE__, __func__, __LINE__);
++				fprintf(stderr, "can't convert <dev> \'%s\' to integer\n", device_num.c_str());
++				return -1;
++			}
++			if (device_num[0] >= '0' && device_num[0] <= '9' && device_num.length() <= 3) {
++				std::string path_media = "/dev/media";
++				path_media += optarg;
++				setenv("V4L2_TRACER_OPTION_SET_MEDIA_DEVICE", path_media.c_str(), 0);
++			} else {
++				fprintf(stderr, "%s:%s:%d: ", __FILE__, __func__, __LINE__);
++				fprintf(stderr, "cannot use device number\'%s\'\n", device_num.c_str());
++				return -1;
++			}
++			break;
++		}
++		case V4l2TracerOptWriteDecodedToJson:
++			setenv("V4L2_TRACER_OPTION_WRITE_DECODED_TO_JSON_FILE", "true", 0);
++			break;
++		case V4l2TracerOptVerbose:
++			setenv("V4L2_TRACER_OPTION_VERBOSE", "true", 0);
++			break;
++		case V4l2TracerOptWriteDecodedToYUVFile:
++			setenv("V4L2_TRACER_OPTION_WRITE_DECODED_TO_YUV_FILE", "true", 0);
++			break;
++		default:
++			break;
++		}
++
++		/* invalid option */
++		if (optopt > 0) {
++			print_usage();
++			return -1;
++		}
++
++	} while (ch != -1);
++
++	return 0;
++}
++
++int clean(std::string trace_filename)
++{
++	FILE *trace_file = fopen(trace_filename.c_str(), "r");
++	if (trace_file == NULL) {
++		fprintf(stderr, "%s:%s:%d: ", __FILE__, __func__, __LINE__);
++		fprintf(stderr, "cannot open \'%s\'\n", trace_filename.c_str());
++		return 1;
++	}
++
++	fprintf(stderr, "Cleaning: %s\n", trace_filename.c_str());
++
++	std::string clean_filename = "clean_" + trace_filename;
++	FILE *clean_file = fopen(clean_filename.c_str(), "w");
++	if (clean_file == NULL) {
++		fprintf(stderr, "%s:%s:%d: ", __FILE__, __func__, __LINE__);
++		fprintf(stderr, "cannot open \'%s\'\n", clean_filename.c_str());
++		return 1;
++	}
++
++	std::string line;
++	char buf[SHRT_MAX];
++	int count_total = 0;
++	int count_lines_removed = 0;
++
++	while (fgets(buf, SHRT_MAX, trace_file) != nullptr) {
++		line = buf;
++		count_total++;
++		if (line.find("fd") != line.npos) {
++			count_lines_removed++;
++			continue;
++		}
++		if (line.find("address") != line.npos) {
++			count_lines_removed++;
++			continue;
++		}
++		if (line.find("fildes") != line.npos) {
++			count_lines_removed++;
++			continue;
++		}
++		if (line.find("\"start\"") != line.npos) {
++			count_lines_removed++;
++			continue;
++		}
++		if (line.find("\"name\"") != line.npos) {
++			count_lines_removed++;
++			continue;
++		}
++
++		fputs(buf, clean_file);
++	}
++
++	fclose(trace_file);
++	fclose(clean_file);
++	fprintf(stderr, "Removed %d lines of %d total lines: %s\n",
++	        count_lines_removed, count_total, clean_filename.c_str());
++
++	return 0;
++}
++
++int tracer(int argc, char *argv[], bool retrace)
++{
++	char *exec[argc];
++	int exec_index = 0;
++
++	char retrace_command[] = "__retrace";
++
++	if (retrace) {
++		std::string trace_file = argv[optind];
++		if (trace_file.find(".json") == trace_file.npos) {
++			fprintf(stderr, "%s:%s:%d: ", __FILE__, __func__, __LINE__);
++			fprintf(stderr, "Trace file \'%s\' must have .json file extension\n",
++			        trace_file.c_str());
++			print_usage();
++			return -1;
++		}
++	}
++
++	/* Get the application to be traced. */
++	if (retrace) {
++		exec[exec_index++] = argv[0]; /* tracee is v4l2-tracer, local or installed */
++		exec[exec_index++] = retrace_command;
++		exec[exec_index++] = argv[optind]; /* json file to be retraced */
++	} else {
++		while (optind < argc)
++			exec[exec_index++] = argv[optind++];
++	}
++	exec[exec_index] = nullptr;
++
++	/* Create a unique trace filename and open a file. */
++	std::string trace_id;
++	if (retrace) {
++		std::string json_file_name = argv[optind];
++		trace_id = json_file_name.substr(0, json_file_name.find(".json"));
++		trace_id += "_retrace";
++	} else {
++		trace_id = std::to_string(time(nullptr));
++		trace_id = trace_id.substr(5, trace_id.npos) + "_trace";
++	}
++	setenv("TRACE_ID", trace_id.c_str(), 0);
++	std::string trace_filename = trace_id + ".json";
++	FILE *trace_file = fopen(trace_filename.c_str(), "w");
++	if (trace_file == nullptr) {
++		fprintf(stderr, "Could not open trace file: %s\n", trace_filename.c_str());
++		perror("");
++		return errno;
++	}
++
++	/* Open the json array.*/
++	fputs("[\n", trace_file);
++
++	/* Add v4l-utils package and git info to the top of the trace file. */
++	std::string json_str;
++	json_object *v4l2_tracer_info_obj = json_object_new_object();
++	json_object_object_add(v4l2_tracer_info_obj, "package_version",
++	                       json_object_new_string(PACKAGE_VERSION));
++	std::string git_commit_cnt = STRING(GIT_COMMIT_CNT);
++	git_commit_cnt = git_commit_cnt.erase(0, 1); /* remove the hyphen in front of git_commit_cnt */
++	json_object_object_add(v4l2_tracer_info_obj, "git_commit_cnt",
++	                       json_object_new_string(git_commit_cnt.c_str()));
++	json_object_object_add(v4l2_tracer_info_obj, "git_sha",
++	                       json_object_new_string(STRING(GIT_SHA)));
++	json_object_object_add(v4l2_tracer_info_obj, "git_commit_date",
++	                       json_object_new_string(STRING(GIT_COMMIT_DATE)));
++	json_str = json_object_to_json_string(v4l2_tracer_info_obj);
++	fwrite(json_str.c_str(), sizeof(char), json_str.length(), trace_file);
++	fputs(",\n", trace_file);
++	json_object_put(v4l2_tracer_info_obj);
++
++	/* Add v4l2-tracer command line to the top of the trace file. */
++	json_object *tracee_obj = json_object_new_object();
++	std::string tracee;
++	for (int i = 0; i < argc; i++) {
++		tracee += argv[i];
++		tracee += " ";
++	}
++	json_object_object_add(tracee_obj, "Trace", json_object_new_string(tracee.c_str()));
++	const time_t t = time(nullptr);
++	json_object_object_add(tracee_obj, "Timestamp", json_object_new_string(ctime(&t)));
++
++	json_str = json_object_to_json_string(tracee_obj);
++	fwrite(json_str.c_str(), sizeof(char), json_str.length(), trace_file);
++	fputs(",\n", trace_file);
++	json_object_put(tracee_obj);
++	fclose(trace_file);
++
++	/*
++	 * Preload the libv4l2tracer library. If the program is installed, load the library
++	 * from its installed location, otherwise load it locally. If it's loaded locally,
++	 * use ./configure --disable-dyn-libv4l.
++	 */
++	std::string libv4l2tracer_path;
++	std::string program = argv[0];
++	std::size_t idx = program.rfind("/v4l2-tracer");
++	if (idx != program.npos) {
++		libv4l2tracer_path = program.replace(program.begin() + idx + 1, program.end(), ".libs");
++		DIR *dp = opendir(libv4l2tracer_path.c_str());
++		if (dp == nullptr)
++			libv4l2tracer_path = program.replace(program.begin() + idx, program.end(), "./.libs");
++		closedir(dp);
++	} else {
++		libv4l2tracer_path = STRING(LIBTRACER_PATH);
++	}
++	libv4l2tracer_path += "/libv4l2tracer.so";
++	if (getenv("V4L2_TRACER_OPTION_VERBOSE"))
++		fprintf(stderr, "Loading libv4l2tracer: %s\n", libv4l2tracer_path.c_str());
++	setenv("LD_PRELOAD", libv4l2tracer_path.c_str(), 0);
++
++	if (fork() == 0) {
++
++		if (getenv("V4L2_TRACER_OPTION_DEBUG")) {
++			fprintf(stderr, "%s:%s:%d: ", __FILE__, __func__, __LINE__);
++			fprintf(stderr, "tracee: ");
++			for (int i = 0; i < exec_index; i++)
++				fprintf(stderr,"%s ", exec[i]);
++			fprintf(stderr, "\n");
++		}
++
++		execvpe(exec[0], (char* const*) exec, environ);
++
++		fprintf(stderr, "%s:%s:%d: ", __FILE__, __func__, __LINE__);
++		fprintf(stderr, "could not execute application \'%s\'", exec[0]);
++		perror(" ");
++		return errno;
++	}
++
++	int exec_result;
++	wait(&exec_result);
++
++	if (WEXITSTATUS(exec_result)) {
++		fprintf(stderr, "Trace error: %s\n", trace_filename.c_str());
++
++		trace_file = fopen(trace_filename.c_str(), "a");
++		fseek(trace_file, 0L, SEEK_END);
++		fputs("\n]\n", trace_file);
++		fclose(trace_file);
++
++		exit(EXIT_FAILURE);
++	}
++
++	/* Close the json-array and the trace file. */
++	trace_file = fopen(trace_filename.c_str(), "a");
++	fseek(trace_file, 0L, SEEK_END);
++	fputs("\n]\n", trace_file);
++	fclose(trace_file);
++
++	if (retrace)
++		fprintf(stderr, "Retrace complete: ");
++	else
++		fprintf(stderr, "Trace complete: ");
++	fprintf(stderr, "%s", trace_filename.c_str());
++	fprintf(stderr, "\n");
++
++	return 0;
++}
++
++int main(int argc, char *argv[])
++{
++	int ret = -1;
++
++	if (argc <= 1) {
++		print_usage();
++		return ret;
++	}
++
++	ret = get_options(argc, argv);
++
++	if (ret < 0) {
++		if (getenv("V4L2_TRACER_OPTION_DEBUG"))
++			fprintf(stderr, "%s:%s:%d\n", __FILE__, __func__, __LINE__);
++		return ret;
++	}
++
++	if (optind == argc) {
++		if (getenv("V4L2_TRACER_OPTION_DEBUG"))
++			fprintf(stderr, "%s:%s:%d\n", __FILE__, __func__, __LINE__);
++		print_usage();
++		return ret;
++	}
++
++	std::string command = argv[optind++];
++
++	if (optind == argc) {
++		if (getenv("V4L2_TRACER_OPTION_DEBUG"))
++			fprintf(stderr, "%s:%s:%d\n", __FILE__, __func__, __LINE__);
++		print_usage();
++		return ret;
++	}
++
++	if (command == "trace") {
++		ret = tracer(argc, argv);
++	} else if (command == "retrace") {
++		ret = tracer(argc, argv, true);
++	} else if (command == "__retrace") {
++		/*
++		 * This command is meant to be used only internally to allow
++		 * v4l2-tracer to recursively trace itself during a retrace.
++		 */
++		ret = retracer(argv[optind]);
++	} else if (command == "clean") {
++		ret = clean (argv[optind]);
++	} else {
++		if (getenv("V4L2_TRACER_OPTION_DEBUG")) {
++			fprintf(stderr, "%s:%s:%d\n", __FILE__, __func__, __LINE__);
++			fprintf(stderr, "tracee: ");
++			for (int i = 0; i < argc; i++)
++				fprintf(stderr,"%s ", argv[i]);
++			fprintf(stderr, "\n");
++		}
++		print_usage();
++	}
++
++	return ret;
++}
 -- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+2.38.0
 
---Qu5xs77Cx6eJ+zMN
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: attachment; filename=config
-
-#
-# Automatically generated file; DO NOT EDIT.
-# Linux/m68k 6.1.0-rc2 Kernel Configuration
-#
-CONFIG_CC_VERSION_TEXT="m68k-linux-gcc (GCC) 12.1.0"
-CONFIG_CC_IS_GCC=y
-CONFIG_GCC_VERSION=120100
-CONFIG_CLANG_VERSION=0
-CONFIG_AS_IS_GNU=y
-CONFIG_AS_VERSION=23800
-CONFIG_LD_IS_BFD=y
-CONFIG_LD_VERSION=23800
-CONFIG_LLD_VERSION=0
-CONFIG_CC_HAS_ASM_INLINE=y
-CONFIG_CC_HAS_NO_PROFILE_FN_ATTR=y
-CONFIG_PAHOLE_VERSION=123
-CONFIG_CONSTRUCTORS=y
-CONFIG_IRQ_WORK=y
-
-#
-# General setup
-#
-CONFIG_BROKEN_ON_SMP=y
-CONFIG_INIT_ENV_ARG_LIMIT=32
-CONFIG_COMPILE_TEST=y
-# CONFIG_WERROR is not set
-CONFIG_LOCALVERSION=""
-CONFIG_BUILD_SALT=""
-CONFIG_DEFAULT_INIT=""
-CONFIG_DEFAULT_HOSTNAME="(none)"
-# CONFIG_SYSVIPC is not set
-# CONFIG_WATCH_QUEUE is not set
-CONFIG_CROSS_MEMORY_ATTACH=y
-CONFIG_USELIB=y
-
-#
-# IRQ subsystem
-#
-CONFIG_GENERIC_IRQ_SHOW=y
-CONFIG_GENERIC_IRQ_CHIP=y
-CONFIG_IRQ_DOMAIN=y
-CONFIG_IRQ_SIM=y
-CONFIG_IRQ_DOMAIN_HIERARCHY=y
-CONFIG_GENERIC_MSI_IRQ=y
-CONFIG_GENERIC_MSI_IRQ_DOMAIN=y
-# CONFIG_GENERIC_IRQ_DEBUGFS is not set
-# end of IRQ subsystem
-
-CONFIG_LEGACY_TIMER_TICK=y
-CONFIG_TIME_KUNIT_TEST=m
-CONFIG_BPF=y
-
-#
-# BPF subsystem
-#
-CONFIG_BPF_SYSCALL=y
-# CONFIG_BPF_UNPRIV_DEFAULT_OFF is not set
-# end of BPF subsystem
-
-CONFIG_PREEMPT_VOLUNTARY_BUILD=y
-# CONFIG_PREEMPT_NONE is not set
-CONFIG_PREEMPT_VOLUNTARY=y
-# CONFIG_PREEMPT is not set
-
-#
-# CPU/Task time and stats accounting
-#
-CONFIG_TICK_CPU_ACCOUNTING=y
-# CONFIG_PSI is not set
-# end of CPU/Task time and stats accounting
-
-CONFIG_CPU_ISOLATION=y
-
-#
-# RCU Subsystem
-#
-CONFIG_TINY_RCU=y
-CONFIG_RCU_EXPERT=y
-CONFIG_SRCU=y
-CONFIG_TINY_SRCU=y
-CONFIG_TASKS_RCU_GENERIC=y
-CONFIG_FORCE_TASKS_RCU=y
-CONFIG_TASKS_RCU=y
-# CONFIG_FORCE_TASKS_RUDE_RCU is not set
-# CONFIG_FORCE_TASKS_TRACE_RCU is not set
-CONFIG_TASKS_TRACE_RCU=y
-CONFIG_RCU_NEED_SEGCBLIST=y
-# CONFIG_TASKS_TRACE_RCU_READ_MB is not set
-# end of RCU Subsystem
-
-# CONFIG_IKCONFIG is not set
-# CONFIG_IKHEADERS is not set
-
-#
-# Scheduler features
-#
-# end of Scheduler features
-
-CONFIG_CC_IMPLICIT_FALLTHROUGH="-Wimplicit-fallthrough=5"
-CONFIG_GCC12_NO_ARRAY_BOUNDS=y
-CONFIG_CC_NO_ARRAY_BOUNDS=y
-CONFIG_CGROUPS=y
-CONFIG_CGROUP_FAVOR_DYNMODS=y
-# CONFIG_MEMCG is not set
-CONFIG_BLK_CGROUP=y
-CONFIG_CGROUP_SCHED=y
-CONFIG_FAIR_GROUP_SCHED=y
-# CONFIG_CFS_BANDWIDTH is not set
-CONFIG_RT_GROUP_SCHED=y
-# CONFIG_CGROUP_PIDS is not set
-CONFIG_CGROUP_RDMA=y
-CONFIG_CGROUP_FREEZER=y
-CONFIG_CGROUP_DEVICE=y
-# CONFIG_CGROUP_CPUACCT is not set
-# CONFIG_CGROUP_BPF is not set
-# CONFIG_CGROUP_MISC is not set
-CONFIG_CGROUP_DEBUG=y
-CONFIG_CHECKPOINT_RESTORE=y
-CONFIG_SCHED_AUTOGROUP=y
-CONFIG_SYSFS_DEPRECATED=y
-# CONFIG_SYSFS_DEPRECATED_V2 is not set
-# CONFIG_RELAY is not set
-CONFIG_BLK_DEV_INITRD=y
-CONFIG_INITRAMFS_SOURCE=""
-CONFIG_RD_GZIP=y
-# CONFIG_RD_BZIP2 is not set
-# CONFIG_RD_LZMA is not set
-CONFIG_RD_XZ=y
-# CONFIG_RD_LZO is not set
-CONFIG_RD_LZ4=y
-CONFIG_RD_ZSTD=y
-# CONFIG_BOOT_CONFIG is not set
-CONFIG_INITRAMFS_PRESERVE_MTIME=y
-# CONFIG_CC_OPTIMIZE_FOR_PERFORMANCE is not set
-CONFIG_CC_OPTIMIZE_FOR_SIZE=y
-CONFIG_SYSCTL=y
-CONFIG_HAVE_UID16=y
-CONFIG_EXPERT=y
-# CONFIG_MULTIUSER is not set
-CONFIG_SGETMASK_SYSCALL=y
-# CONFIG_SYSFS_SYSCALL is not set
-# CONFIG_FHANDLE is not set
-# CONFIG_POSIX_TIMERS is not set
-# CONFIG_PRINTK is not set
-# CONFIG_BUG is not set
-# CONFIG_BASE_FULL is not set
-# CONFIG_FUTEX is not set
-# CONFIG_EPOLL is not set
-CONFIG_SIGNALFD=y
-CONFIG_TIMERFD=y
-CONFIG_EVENTFD=y
-CONFIG_SHMEM=y
-CONFIG_AIO=y
-CONFIG_IO_URING=y
-CONFIG_ADVISE_SYSCALLS=y
-CONFIG_MEMBARRIER=y
-CONFIG_KALLSYMS=y
-# CONFIG_KALLSYMS_ALL is not set
-CONFIG_KALLSYMS_BASE_RELATIVE=y
-CONFIG_KCMP=y
-CONFIG_EMBEDDED=y
-CONFIG_PC104=y
-
-#
-# Kernel Performance Events And Counters
-#
-# end of Kernel Performance Events And Counters
-
-CONFIG_SYSTEM_DATA_VERIFICATION=y
-# CONFIG_PROFILING is not set
-# end of General setup
-
-CONFIG_M68K=y
-CONFIG_CPU_BIG_ENDIAN=y
-CONFIG_GENERIC_HWEIGHT=y
-CONFIG_GENERIC_CALIBRATE_DELAY=y
-CONFIG_GENERIC_CSUM=y
-CONFIG_TIME_LOW_RES=y
-CONFIG_NO_IOPORT_MAP=y
-CONFIG_HZ=100
-CONFIG_PGTABLE_LEVELS=2
-CONFIG_MMU=y
-CONFIG_MMU_COLDFIRE=y
-
-#
-# Platform setup
-#
-
-#
-# Processor Type
-#
-# CONFIG_M68KCLASSIC is not set
-CONFIG_COLDFIRE=y
-CONFIG_M547x=y
-# CONFIG_M548x is not set
-# CONFIG_M5441x is not set
-CONFIG_M54xx=y
-CONFIG_COLDFIRE_SLTIMERS=y
-
-#
-# Processor Specific Options
-#
-# CONFIG_ADVANCED is not set
-CONFIG_SINGLE_MEMORY_CHUNK=y
-CONFIG_CPU_HAS_NO_BITFIELDS=y
-CONFIG_CPU_HAS_NO_CAS=y
-CONFIG_CPU_HAS_NO_MULDIV64=y
-CONFIG_FPU=y
-CONFIG_HAVE_CACHE_CB=y
-CONFIG_HAVE_MBAR=y
-CONFIG_CLOCK_FREQ=266000000
-# CONFIG_CACHE_WRITETHRU is not set
-CONFIG_CACHE_COPYBACK=y
-
-#
-# Machine Types
-#
-# CONFIG_FIREBEE is not set
-
-#
-# Machine Options
-#
-# CONFIG_UBOOT is not set
-CONFIG_4KSTACKS=y
-
-#
-# RAM configuration
-#
-CONFIG_RAMBASE=0
-CONFIG_RAMSIZE=0x400000
-CONFIG_VECTORBASE=0
-CONFIG_MBAR=0x10000000
-CONFIG_KERNELBASE=0x400
-
-#
-# ROM configuration
-#
-CONFIG_ROM=y
-CONFIG_ROMBASE=0
-CONFIG_ROMVEC=0
-CONFIG_ROMSTART=0x400
-CONFIG_ROMSIZE=0x100000
-# CONFIG_RAMKERNEL is not set
-CONFIG_ROMKERNEL=y
-
-#
-# Bus Support
-#
-# end of Platform setup
-
-#
-# Kernel Features
-#
-# end of Kernel Features
-
-#
-# Platform devices
-#
-# CONFIG_PROC_HARDWARE is not set
-# end of Platform devices
-
-#
-# Character devices
-#
-# end of Character devices
-
-#
-# General architecture-dependent options
-#
-CONFIG_CRASH_CORE=y
-CONFIG_HAVE_EFFICIENT_UNALIGNED_ACCESS=y
-CONFIG_ARCH_32BIT_OFF_T=y
-CONFIG_HAVE_ASM_MODVERSIONS=y
-CONFIG_MMU_GATHER_NO_RANGE=y
-CONFIG_MMU_GATHER_MERGE_VMAS=y
-CONFIG_ARCH_WANT_IPC_PARSE_VERSION=y
-CONFIG_LTO_NONE=y
-CONFIG_HAVE_MOD_ARCH_SPECIFIC=y
-CONFIG_MODULES_USE_ELF_RELA=y
-CONFIG_MODULES_USE_ELF_REL=y
-CONFIG_PAGE_SIZE_LESS_THAN_64KB=y
-CONFIG_PAGE_SIZE_LESS_THAN_256KB=y
-CONFIG_OLD_SIGSUSPEND3=y
-CONFIG_OLD_SIGACTION=y
-CONFIG_COMPAT_32BIT_TIME=y
-CONFIG_CPU_NO_EFFICIENT_FFS=y
-# CONFIG_LOCK_EVENT_COUNTS is not set
-
-#
-# GCOV-based kernel profiling
-#
-CONFIG_GCOV_KERNEL=y
-# end of GCOV-based kernel profiling
-# end of General architecture-dependent options
-
-CONFIG_RT_MUTEXES=y
-CONFIG_BASE_SMALL=1
-CONFIG_MODULE_SIG_FORMAT=y
-CONFIG_MODULES=y
-# CONFIG_MODULE_FORCE_LOAD is not set
-# CONFIG_MODULE_UNLOAD is not set
-CONFIG_MODVERSIONS=y
-CONFIG_ASM_MODVERSIONS=y
-# CONFIG_MODULE_SRCVERSION_ALL is not set
-CONFIG_MODULE_SIG=y
-CONFIG_MODULE_SIG_FORCE=y
-CONFIG_MODULE_SIG_ALL=y
-# CONFIG_MODULE_SIG_SHA1 is not set
-# CONFIG_MODULE_SIG_SHA224 is not set
-# CONFIG_MODULE_SIG_SHA256 is not set
-# CONFIG_MODULE_SIG_SHA384 is not set
-CONFIG_MODULE_SIG_SHA512=y
-CONFIG_MODULE_SIG_HASH="sha512"
-# CONFIG_MODULE_COMPRESS_NONE is not set
-CONFIG_MODULE_COMPRESS_GZIP=y
-# CONFIG_MODULE_COMPRESS_XZ is not set
-# CONFIG_MODULE_COMPRESS_ZSTD is not set
-CONFIG_MODULE_DECOMPRESS=y
-# CONFIG_MODULE_ALLOW_MISSING_NAMESPACE_IMPORTS is not set
-CONFIG_MODPROBE_PATH="/sbin/modprobe"
-CONFIG_BLOCK=y
-CONFIG_BLOCK_LEGACY_AUTOLOAD=y
-CONFIG_BLK_RQ_ALLOC_TIME=y
-CONFIG_BLK_CGROUP_RWSTAT=y
-CONFIG_BLK_DEV_BSG_COMMON=y
-CONFIG_BLK_DEV_BSGLIB=y
-# CONFIG_BLK_DEV_INTEGRITY is not set
-# CONFIG_BLK_DEV_ZONED is not set
-CONFIG_BLK_DEV_THROTTLING=y
-CONFIG_BLK_DEV_THROTTLING_LOW=y
-# CONFIG_BLK_WBT is not set
-CONFIG_BLK_CGROUP_IOLATENCY=y
-CONFIG_BLK_CGROUP_IOCOST=y
-CONFIG_BLK_CGROUP_IOPRIO=y
-CONFIG_BLK_DEBUG_FS=y
-CONFIG_BLK_SED_OPAL=y
-# CONFIG_BLK_INLINE_ENCRYPTION is not set
-
-#
-# Partition Types
-#
-CONFIG_PARTITION_ADVANCED=y
-# CONFIG_ACORN_PARTITION is not set
-CONFIG_AIX_PARTITION=y
-CONFIG_OSF_PARTITION=y
-# CONFIG_AMIGA_PARTITION is not set
-# CONFIG_ATARI_PARTITION is not set
-# CONFIG_MAC_PARTITION is not set
-# CONFIG_MSDOS_PARTITION is not set
-# CONFIG_LDM_PARTITION is not set
-CONFIG_SGI_PARTITION=y
-# CONFIG_ULTRIX_PARTITION is not set
-CONFIG_SUN_PARTITION=y
-CONFIG_KARMA_PARTITION=y
-CONFIG_EFI_PARTITION=y
-# CONFIG_SYSV68_PARTITION is not set
-CONFIG_CMDLINE_PARTITION=y
-# end of Partition Types
-
-CONFIG_BLK_MQ_VIRTIO=y
-
-#
-# IO Schedulers
-#
-CONFIG_MQ_IOSCHED_DEADLINE=y
-CONFIG_MQ_IOSCHED_KYBER=y
-# CONFIG_IOSCHED_BFQ is not set
-# end of IO Schedulers
-
-CONFIG_ASN1=y
-CONFIG_UNINLINE_SPIN_UNLOCK=y
-CONFIG_FREEZER=y
-
-#
-# Executable file formats
-#
-CONFIG_BINFMT_ELF=y
-CONFIG_ELFCORE=y
-CONFIG_BINFMT_SCRIPT=y
-CONFIG_ARCH_HAS_BINFMT_FLAT=y
-CONFIG_BINFMT_FLAT=y
-CONFIG_BINFMT_FLAT_ARGVP_ENVP_ON_STACK=y
-# CONFIG_BINFMT_FLAT_OLD is not set
-CONFIG_BINFMT_ZFLAT=y
-CONFIG_BINFMT_MISC=m
-# CONFIG_COREDUMP is not set
-# end of Executable file formats
-
-#
-# Memory Management options
-#
-CONFIG_ZPOOL=y
-CONFIG_SWAP=y
-CONFIG_ZSWAP=y
-CONFIG_ZSWAP_DEFAULT_ON=y
-CONFIG_ZSWAP_COMPRESSOR_DEFAULT_DEFLATE=y
-# CONFIG_ZSWAP_COMPRESSOR_DEFAULT_LZO is not set
-# CONFIG_ZSWAP_COMPRESSOR_DEFAULT_842 is not set
-# CONFIG_ZSWAP_COMPRESSOR_DEFAULT_LZ4 is not set
-# CONFIG_ZSWAP_COMPRESSOR_DEFAULT_LZ4HC is not set
-# CONFIG_ZSWAP_COMPRESSOR_DEFAULT_ZSTD is not set
-CONFIG_ZSWAP_COMPRESSOR_DEFAULT="deflate"
-# CONFIG_ZSWAP_ZPOOL_DEFAULT_ZBUD is not set
-# CONFIG_ZSWAP_ZPOOL_DEFAULT_Z3FOLD is not set
-CONFIG_ZSWAP_ZPOOL_DEFAULT_ZSMALLOC=y
-CONFIG_ZSWAP_ZPOOL_DEFAULT="zsmalloc"
-CONFIG_ZBUD=m
-CONFIG_Z3FOLD=m
-CONFIG_ZSMALLOC=y
-CONFIG_ZSMALLOC_STAT=y
-
-#
-# SLAB allocator options
-#
-# CONFIG_SLAB is not set
-CONFIG_SLUB=y
-# CONFIG_SLOB is not set
-CONFIG_SLAB_MERGE_DEFAULT=y
-# CONFIG_SLAB_FREELIST_RANDOM is not set
-CONFIG_SLAB_FREELIST_HARDENED=y
-CONFIG_SLUB_STATS=y
-# end of SLAB allocator options
-
-CONFIG_SHUFFLE_PAGE_ALLOCATOR=y
-CONFIG_COMPAT_BRK=y
-CONFIG_FLATMEM=y
-CONFIG_MEMORY_ISOLATION=y
-CONFIG_EXCLUSIVE_SYSTEM_RAM=y
-CONFIG_SPLIT_PTLOCK_CPUS=4
-CONFIG_COMPACTION=y
-CONFIG_COMPACT_UNEVICTABLE_DEFAULT=1
-CONFIG_PAGE_REPORTING=y
-CONFIG_MIGRATION=y
-CONFIG_CONTIG_ALLOC=y
-# CONFIG_KSM is not set
-CONFIG_DEFAULT_MMAP_MIN_ADDR=4096
-CONFIG_NEED_PER_CPU_KM=y
-CONFIG_FRONTSWAP=y
-CONFIG_CMA=y
-# CONFIG_CMA_DEBUG is not set
-# CONFIG_CMA_DEBUGFS is not set
-# CONFIG_CMA_SYSFS is not set
-CONFIG_CMA_AREAS=7
-CONFIG_PAGE_IDLE_FLAG=y
-# CONFIG_IDLE_PAGE_TRACKING is not set
-CONFIG_ARCH_HAS_CURRENT_STACK_POINTER=y
-CONFIG_ZONE_DMA=y
-# CONFIG_VM_EVENT_COUNTERS is not set
-CONFIG_PERCPU_STATS=y
-CONFIG_GUP_TEST=y
-CONFIG_ANON_VMA_NAME=y
-# CONFIG_USERFAULTFD is not set
-CONFIG_LRU_GEN=y
-CONFIG_LRU_GEN_ENABLED=y
-# CONFIG_LRU_GEN_STATS is not set
-
-#
-# Data Access Monitoring
-#
-CONFIG_DAMON=y
-CONFIG_DAMON_VADDR=y
-CONFIG_DAMON_PADDR=y
-# CONFIG_DAMON_SYSFS is not set
-# CONFIG_DAMON_DBGFS is not set
-CONFIG_DAMON_RECLAIM=y
-# CONFIG_DAMON_LRU_SORT is not set
-# end of Data Access Monitoring
-# end of Memory Management options
-
-# CONFIG_NET is not set
-
-#
-# Device Drivers
-#
-CONFIG_HAVE_PCI=y
-# CONFIG_PCI is not set
-CONFIG_PCCARD=y
-CONFIG_PCMCIA=y
-# CONFIG_PCMCIA_LOAD_CIS is not set
-
-#
-# PC-card bridges
-#
-
-#
-# Generic Driver Options
-#
-CONFIG_AUXILIARY_BUS=y
-# CONFIG_UEVENT_HELPER is not set
-CONFIG_DEVTMPFS=y
-# CONFIG_DEVTMPFS_MOUNT is not set
-# CONFIG_DEVTMPFS_SAFE is not set
-# CONFIG_STANDALONE is not set
-CONFIG_PREVENT_FIRMWARE_BUILD=y
-
-#
-# Firmware loader
-#
-CONFIG_FW_LOADER=y
-CONFIG_FW_LOADER_PAGED_BUF=y
-CONFIG_FW_LOADER_SYSFS=y
-CONFIG_EXTRA_FIRMWARE=""
-CONFIG_FW_LOADER_USER_HELPER=y
-CONFIG_FW_LOADER_USER_HELPER_FALLBACK=y
-CONFIG_FW_LOADER_COMPRESS=y
-# CONFIG_FW_LOADER_COMPRESS_XZ is not set
-# CONFIG_FW_LOADER_COMPRESS_ZSTD is not set
-CONFIG_FW_UPLOAD=y
-# end of Firmware loader
-
-CONFIG_WANT_DEV_COREDUMP=y
-# CONFIG_ALLOW_DEV_COREDUMP is not set
-CONFIG_DEBUG_DRIVER=y
-# CONFIG_DEBUG_DEVRES is not set
-CONFIG_DEBUG_TEST_DRIVER_REMOVE=y
-CONFIG_TEST_ASYNC_DRIVER_PROBE=m
-CONFIG_GENERIC_CPU_DEVICES=y
-CONFIG_SOC_BUS=y
-CONFIG_REGMAP=y
-CONFIG_REGMAP_AC97=m
-CONFIG_REGMAP_I2C=y
-CONFIG_REGMAP_SPI=y
-CONFIG_REGMAP_W1=y
-CONFIG_REGMAP_MMIO=y
-CONFIG_REGMAP_IRQ=y
-CONFIG_REGMAP_SCCB=m
-CONFIG_REGMAP_SPI_AVMM=y
-CONFIG_DMA_SHARED_BUFFER=y
-CONFIG_DMA_FENCE_TRACE=y
-# end of Generic Driver Options
-
-#
-# Bus devices
-#
-CONFIG_ARM_INTEGRATOR_LM=y
-CONFIG_BT1_APB=y
-CONFIG_BT1_AXI=y
-CONFIG_MOXTET=y
-# CONFIG_HISILICON_LPC is not set
-CONFIG_INTEL_IXP4XX_EB=y
-# CONFIG_QCOM_EBI2 is not set
-CONFIG_MHI_BUS=y
-# CONFIG_MHI_BUS_DEBUG is not set
-CONFIG_MHI_BUS_EP=m
-# end of Bus devices
-
-#
-# Firmware Drivers
-#
-
-#
-# ARM System Control and Management Interface Protocol
-#
-# CONFIG_ARM_SCMI_PROTOCOL is not set
-CONFIG_ARM_SCMI_POWER_DOMAIN=m
-# CONFIG_ARM_SCMI_POWER_CONTROL is not set
-# end of ARM System Control and Management Interface Protocol
-
-CONFIG_ARM_SCPI_PROTOCOL=y
-CONFIG_ARM_SCPI_POWER_DOMAIN=m
-CONFIG_FIRMWARE_MEMMAP=y
-# CONFIG_TURRIS_MOX_RWTM is not set
-# CONFIG_BCM47XX_NVRAM is not set
-CONFIG_CS_DSP=m
-CONFIG_GOOGLE_FIRMWARE=y
-# CONFIG_GOOGLE_COREBOOT_TABLE is not set
-# CONFIG_IMX_DSP is not set
-# CONFIG_IMX_SCU is not set
-
-#
-# Tegra firmware driver
-#
-# end of Tegra firmware driver
-# end of Firmware Drivers
-
-CONFIG_GNSS=y
-CONFIG_GNSS_SERIAL=m
-CONFIG_GNSS_MTK_SERIAL=m
-CONFIG_GNSS_SIRF_SERIAL=y
-# CONFIG_GNSS_UBX_SERIAL is not set
-CONFIG_GNSS_USB=m
-# CONFIG_MTD is not set
-CONFIG_DTC=y
-CONFIG_OF=y
-# CONFIG_OF_UNITTEST is not set
-CONFIG_OF_ALL_DTBS=y
-CONFIG_OF_FLATTREE=y
-CONFIG_OF_KOBJ=y
-CONFIG_OF_DYNAMIC=y
-CONFIG_OF_ADDRESS=y
-CONFIG_OF_IRQ=y
-CONFIG_OF_RESOLVE=y
-CONFIG_OF_OVERLAY=y
-CONFIG_PARPORT=m
-CONFIG_PARPORT_AX88796=m
-# CONFIG_PARPORT_1284 is not set
-CONFIG_PARPORT_NOT_PC=y
-CONFIG_BLK_DEV=y
-# CONFIG_BLK_DEV_NULL_BLK is not set
-CONFIG_CDROM=m
-# CONFIG_ZRAM is not set
-CONFIG_BLK_DEV_LOOP=y
-CONFIG_BLK_DEV_LOOP_MIN_COUNT=8
-
-#
-# DRBD disabled because PROC_FS or INET not selected
-#
-CONFIG_BLK_DEV_RAM=m
-CONFIG_BLK_DEV_RAM_COUNT=16
-CONFIG_BLK_DEV_RAM_SIZE=4096
-# CONFIG_CDROM_PKTCDVD is not set
-CONFIG_VIRTIO_BLK=m
-CONFIG_BLK_DEV_UBLK=y
-
-#
-# NVME Support
-#
-CONFIG_NVME_CORE=y
-CONFIG_NVME_MULTIPATH=y
-# CONFIG_NVME_VERBOSE_ERRORS is not set
-CONFIG_NVME_FABRICS=y
-# CONFIG_NVME_FC is not set
-# CONFIG_NVME_AUTH is not set
-CONFIG_NVME_APPLE=m
-CONFIG_NVME_TARGET=y
-# CONFIG_NVME_TARGET_PASSTHRU is not set
-CONFIG_NVME_TARGET_LOOP=y
-CONFIG_NVME_TARGET_FC=m
-# CONFIG_NVME_TARGET_AUTH is not set
-# end of NVME Support
-
-#
-# Misc devices
-#
-CONFIG_AD525X_DPOT=m
-CONFIG_AD525X_DPOT_I2C=m
-CONFIG_AD525X_DPOT_SPI=m
-CONFIG_DUMMY_IRQ=m
-# CONFIG_ICS932S401 is not set
-CONFIG_ATMEL_SSC=y
-CONFIG_ENCLOSURE_SERVICES=y
-CONFIG_GEHC_ACHC=y
-CONFIG_QCOM_COINCELL=m
-# CONFIG_QCOM_FASTRPC is not set
-CONFIG_APDS9802ALS=m
-# CONFIG_ISL29003 is not set
-CONFIG_ISL29020=m
-# CONFIG_SENSORS_TSL2550 is not set
-# CONFIG_SENSORS_BH1770 is not set
-# CONFIG_SENSORS_APDS990X is not set
-CONFIG_HMC6352=m
-CONFIG_DS1682=m
-CONFIG_LATTICE_ECP3_CONFIG=y
-# CONFIG_SRAM is not set
-# CONFIG_XILINX_SDFEC is not set
-# CONFIG_HISI_HIKEY_USB is not set
-# CONFIG_VCPU_STALL_DETECTOR is not set
-CONFIG_C2PORT=y
-
-#
-# EEPROM support
-#
-# CONFIG_EEPROM_AT24 is not set
-# CONFIG_EEPROM_AT25 is not set
-# CONFIG_EEPROM_LEGACY is not set
-# CONFIG_EEPROM_MAX6875 is not set
-CONFIG_EEPROM_93CX6=y
-CONFIG_EEPROM_93XX46=y
-# CONFIG_EEPROM_IDT_89HPESX is not set
-# CONFIG_EEPROM_EE1004 is not set
-# end of EEPROM support
-
-#
-# Texas Instruments shared transport line discipline
-#
-# end of Texas Instruments shared transport line discipline
-
-# CONFIG_ALTERA_STAPL is not set
-CONFIG_ECHO=m
-# CONFIG_MISC_RTSX_USB is not set
-CONFIG_UACCE=y
-# CONFIG_PVPANIC is not set
-# end of Misc devices
-
-#
-# SCSI device support
-#
-CONFIG_SCSI_MOD=m
-CONFIG_RAID_ATTRS=m
-CONFIG_SCSI_COMMON=m
-CONFIG_SCSI=m
-CONFIG_SCSI_DMA=y
-CONFIG_SCSI_PROC_FS=y
-
-#
-# SCSI support type (disk, tape, CD-ROM)
-#
-CONFIG_BLK_DEV_SD=m
-CONFIG_CHR_DEV_ST=m
-CONFIG_BLK_DEV_SR=m
-# CONFIG_CHR_DEV_SG is not set
-# CONFIG_BLK_DEV_BSG is not set
-# CONFIG_CHR_DEV_SCH is not set
-# CONFIG_SCSI_ENCLOSURE is not set
-CONFIG_SCSI_CONSTANTS=y
-CONFIG_SCSI_LOGGING=y
-# CONFIG_SCSI_SCAN_ASYNC is not set
-
-#
-# SCSI Transports
-#
-CONFIG_SCSI_SPI_ATTRS=m
-CONFIG_SCSI_SAS_ATTRS=m
-# CONFIG_SCSI_SAS_LIBSAS is not set
-CONFIG_SCSI_SRP_ATTRS=m
-# end of SCSI Transports
-
-# CONFIG_SCSI_LOWLEVEL is not set
-# CONFIG_SCSI_DH is not set
-# end of SCSI device support
-
-# CONFIG_ATA is not set
-# CONFIG_MD is not set
-# CONFIG_TARGET_CORE is not set
-
-#
-# IEEE 1394 (FireWire) support
-#
-CONFIG_FIREWIRE=y
-CONFIG_FIREWIRE_SBP2=m
-# end of IEEE 1394 (FireWire) support
-
-#
-# Input device support
-#
-# CONFIG_INPUT is not set
-
-#
-# Hardware I/O ports
-#
-CONFIG_SERIO=y
-CONFIG_SERIO_SERPORT=m
-CONFIG_SERIO_PARKBD=m
-# CONFIG_SERIO_LIBPS2 is not set
-CONFIG_SERIO_RAW=y
-CONFIG_SERIO_ALTERA_PS2=y
-# CONFIG_SERIO_PS2MULT is not set
-CONFIG_SERIO_ARC_PS2=y
-# CONFIG_SERIO_APBPS2 is not set
-# CONFIG_SERIO_OLPC_APSP is not set
-CONFIG_SERIO_SUN4I_PS2=y
-CONFIG_SERIO_GPIO_PS2=y
-CONFIG_USERIO=m
-# CONFIG_GAMEPORT is not set
-# end of Hardware I/O ports
-# end of Input device support
-
-#
-# Character devices
-#
-CONFIG_TTY=y
-# CONFIG_VT is not set
-CONFIG_UNIX98_PTYS=y
-CONFIG_LEGACY_PTYS=y
-CONFIG_LEGACY_PTY_COUNT=256
-CONFIG_LDISC_AUTOLOAD=y
-
-#
-# Serial drivers
-#
-CONFIG_SERIAL_EARLYCON=y
-# CONFIG_SERIAL_8250 is not set
-
-#
-# Non-8250 serial port support
-#
-CONFIG_SERIAL_AMBA_PL010=m
-CONFIG_SERIAL_MESON=m
-CONFIG_SERIAL_MESON_CONSOLE=y
-CONFIG_SERIAL_CLPS711X=y
-# CONFIG_SERIAL_CLPS711X_CONSOLE is not set
-CONFIG_SERIAL_SAMSUNG=y
-CONFIG_SERIAL_SAMSUNG_UARTS_4=y
-CONFIG_SERIAL_SAMSUNG_UARTS=4
-CONFIG_SERIAL_SAMSUNG_CONSOLE=y
-CONFIG_SERIAL_TEGRA=y
-# CONFIG_SERIAL_TEGRA_TCU is not set
-CONFIG_SERIAL_MAX3100=y
-CONFIG_SERIAL_MAX310X=y
-# CONFIG_SERIAL_IMX is not set
-# CONFIG_SERIAL_IMX_EARLYCON is not set
-CONFIG_SERIAL_UARTLITE=m
-CONFIG_SERIAL_UARTLITE_NR_UARTS=1
-CONFIG_SERIAL_SH_SCI=m
-CONFIG_SERIAL_SH_SCI_NR_UARTS=2
-# CONFIG_SERIAL_HS_LPC32XX is not set
-CONFIG_SERIAL_CORE=y
-CONFIG_SERIAL_CORE_CONSOLE=y
-CONFIG_SERIAL_MCF=y
-CONFIG_SERIAL_MCF_BAUDRATE=19200
-# CONFIG_SERIAL_MCF_CONSOLE is not set
-CONFIG_SERIAL_MSM=m
-CONFIG_SERIAL_VT8500=y
-# CONFIG_SERIAL_VT8500_CONSOLE is not set
-# CONFIG_SERIAL_OMAP is not set
-CONFIG_SERIAL_SIFIVE=m
-# CONFIG_SERIAL_LANTIQ is not set
-CONFIG_SERIAL_QE=y
-CONFIG_SERIAL_SCCNXP=m
-CONFIG_SERIAL_SC16IS7XX_CORE=y
-CONFIG_SERIAL_SC16IS7XX=y
-CONFIG_SERIAL_SC16IS7XX_I2C=y
-# CONFIG_SERIAL_SC16IS7XX_SPI is not set
-# CONFIG_SERIAL_TIMBERDALE is not set
-CONFIG_SERIAL_BCM63XX=y
-# CONFIG_SERIAL_BCM63XX_CONSOLE is not set
-CONFIG_SERIAL_ALTERA_JTAGUART=m
-CONFIG_SERIAL_ALTERA_UART=m
-CONFIG_SERIAL_ALTERA_UART_MAXPORTS=4
-CONFIG_SERIAL_ALTERA_UART_BAUDRATE=115200
-CONFIG_SERIAL_MXS_AUART=m
-CONFIG_SERIAL_XILINX_PS_UART=m
-CONFIG_SERIAL_MPS2_UART_CONSOLE=y
-CONFIG_SERIAL_MPS2_UART=y
-CONFIG_SERIAL_ARC=y
-# CONFIG_SERIAL_ARC_CONSOLE is not set
-CONFIG_SERIAL_ARC_NR_PORTS=1
-# CONFIG_SERIAL_FSL_LPUART is not set
-CONFIG_SERIAL_CONEXANT_DIGICOLOR=m
-CONFIG_SERIAL_ST_ASC=m
-# CONFIG_SERIAL_STM32 is not set
-# CONFIG_SERIAL_OWL is not set
-CONFIG_SERIAL_RDA=y
-CONFIG_SERIAL_RDA_CONSOLE=y
-CONFIG_SERIAL_MILBEAUT_USIO=y
-CONFIG_SERIAL_MILBEAUT_USIO_PORTS=4
-# CONFIG_SERIAL_MILBEAUT_USIO_CONSOLE is not set
-CONFIG_SERIAL_LITEUART=y
-CONFIG_SERIAL_LITEUART_MAX_PORTS=1
-CONFIG_SERIAL_LITEUART_CONSOLE=y
-CONFIG_SERIAL_SUNPLUS=y
-CONFIG_SERIAL_SUNPLUS_CONSOLE=y
-# end of Serial drivers
-
-CONFIG_SERIAL_MCTRL_GPIO=y
-CONFIG_SERIAL_NONSTANDARD=y
-# CONFIG_N_HDLC is not set
-CONFIG_GOLDFISH_TTY=y
-CONFIG_GOLDFISH_TTY_EARLY_CONSOLE=y
-# CONFIG_NULL_TTY is not set
-CONFIG_HVC_DRIVER=y
-CONFIG_RPMSG_TTY=y
-CONFIG_SERIAL_DEV_BUS=y
-CONFIG_SERIAL_DEV_CTRL_TTYPORT=y
-CONFIG_TTY_PRINTK=m
-CONFIG_TTY_PRINTK_LEVEL=6
-CONFIG_PRINTER=m
-CONFIG_LP_CONSOLE=y
-CONFIG_PPDEV=m
-CONFIG_VIRTIO_CONSOLE=y
-# CONFIG_IPMI_HANDLER is not set
-CONFIG_IPMI_KCS_BMC=m
-CONFIG_ASPEED_KCS_IPMI_BMC=m
-# CONFIG_NPCM7XX_KCS_IPMI_BMC is not set
-# CONFIG_IPMI_KCS_BMC_CDEV_IPMI is not set
-# CONFIG_IPMI_KCS_BMC_SERIO is not set
-# CONFIG_ASPEED_BT_IPMI_BMC is not set
-CONFIG_IPMB_DEVICE_INTERFACE=m
-CONFIG_HW_RANDOM=y
-CONFIG_HW_RANDOM_TIMERIOMEM=y
-CONFIG_HW_RANDOM_ATMEL=y
-# CONFIG_HW_RANDOM_BA431 is not set
-# CONFIG_HW_RANDOM_BCM2835 is not set
-CONFIG_HW_RANDOM_IPROC_RNG200=m
-CONFIG_HW_RANDOM_IXP4XX=m
-# CONFIG_HW_RANDOM_OMAP is not set
-# CONFIG_HW_RANDOM_OMAP3_ROM is not set
-CONFIG_HW_RANDOM_VIRTIO=m
-# CONFIG_HW_RANDOM_IMX_RNGC is not set
-CONFIG_HW_RANDOM_NOMADIK=m
-# CONFIG_HW_RANDOM_STM32 is not set
-# CONFIG_HW_RANDOM_POLARFIRE_SOC is not set
-# CONFIG_HW_RANDOM_MESON is not set
-# CONFIG_HW_RANDOM_MTK is not set
-# CONFIG_HW_RANDOM_EXYNOS is not set
-# CONFIG_HW_RANDOM_NPCM is not set
-CONFIG_HW_RANDOM_KEYSTONE=m
-CONFIG_HW_RANDOM_CCTRNG=y
-CONFIG_HW_RANDOM_XIPHERA=y
-
-#
-# PCMCIA character devices
-#
-CONFIG_SYNCLINK_CS=y
-CONFIG_CARDMAN_4000=y
-# CONFIG_CARDMAN_4040 is not set
-CONFIG_SCR24X=m
-# end of PCMCIA character devices
-
-# CONFIG_DEVMEM is not set
-CONFIG_TCG_TPM=m
-CONFIG_HW_RANDOM_TPM=y
-CONFIG_TCG_TIS_CORE=m
-CONFIG_TCG_TIS=m
-CONFIG_TCG_TIS_SPI=m
-# CONFIG_TCG_TIS_SPI_CR50 is not set
-CONFIG_TCG_TIS_I2C=m
-CONFIG_TCG_TIS_SYNQUACER=m
-CONFIG_TCG_TIS_I2C_CR50=m
-# CONFIG_TCG_TIS_I2C_ATMEL is not set
-# CONFIG_TCG_TIS_I2C_INFINEON is not set
-CONFIG_TCG_TIS_I2C_NUVOTON=m
-CONFIG_TCG_VTPM_PROXY=m
-CONFIG_TCG_TIS_ST33ZP24=m
-CONFIG_TCG_TIS_ST33ZP24_I2C=m
-# CONFIG_TCG_TIS_ST33ZP24_SPI is not set
-CONFIG_XILLYBUS_CLASS=m
-# CONFIG_XILLYBUS is not set
-CONFIG_XILLYUSB=m
-CONFIG_RANDOM_TRUST_CPU=y
-CONFIG_RANDOM_TRUST_BOOTLOADER=y
-# end of Character devices
-
-#
-# I2C support
-#
-CONFIG_I2C=y
-CONFIG_I2C_BOARDINFO=y
-CONFIG_I2C_COMPAT=y
-CONFIG_I2C_CHARDEV=y
-CONFIG_I2C_MUX=y
-
-#
-# Multiplexer I2C Chip support
-#
-CONFIG_I2C_ARB_GPIO_CHALLENGE=y
-# CONFIG_I2C_MUX_GPIO is not set
-CONFIG_I2C_MUX_GPMUX=y
-CONFIG_I2C_MUX_LTC4306=y
-CONFIG_I2C_MUX_PCA9541=y
-# CONFIG_I2C_MUX_PCA954x is not set
-CONFIG_I2C_MUX_REG=y
-CONFIG_I2C_MUX_MLXCPLD=y
-# end of Multiplexer I2C Chip support
-
-# CONFIG_I2C_HELPER_AUTO is not set
-CONFIG_I2C_SMBUS=y
-
-#
-# I2C Algorithms
-#
-CONFIG_I2C_ALGOBIT=y
-# CONFIG_I2C_ALGOPCF is not set
-# CONFIG_I2C_ALGOPCA is not set
-# end of I2C Algorithms
-
-#
-# I2C Hardware Bus support
-#
-# CONFIG_I2C_HIX5HD2 is not set
-
-#
-# I2C system bus drivers (mostly embedded / system-on-chip)
-#
-# CONFIG_I2C_ALTERA is not set
-CONFIG_I2C_ASPEED=y
-CONFIG_I2C_AT91=m
-CONFIG_I2C_AT91_SLAVE_EXPERIMENTAL=m
-# CONFIG_I2C_AXXIA is not set
-CONFIG_I2C_BCM_IPROC=y
-CONFIG_I2C_BCM_KONA=y
-# CONFIG_I2C_BRCMSTB is not set
-# CONFIG_I2C_CADENCE is not set
-CONFIG_I2C_CBUS_GPIO=m
-CONFIG_I2C_DAVINCI=y
-# CONFIG_I2C_DESIGNWARE_PLATFORM is not set
-# CONFIG_I2C_DIGICOLOR is not set
-# CONFIG_I2C_EMEV2 is not set
-CONFIG_I2C_EXYNOS5=m
-CONFIG_I2C_GPIO=m
-# CONFIG_I2C_GPIO_FAULT_INJECTOR is not set
-# CONFIG_I2C_HIGHLANDER is not set
-CONFIG_I2C_HISI=m
-CONFIG_I2C_IMG=y
-CONFIG_I2C_IMX=m
-# CONFIG_I2C_IMX_LPI2C is not set
-CONFIG_I2C_IOP3XX=y
-# CONFIG_I2C_JZ4780 is not set
-CONFIG_I2C_LPC2K=m
-# CONFIG_I2C_MICROCHIP_CORE is not set
-CONFIG_I2C_MT65XX=y
-CONFIG_I2C_MT7621=y
-# CONFIG_I2C_MV64XXX is not set
-# CONFIG_I2C_MXS is not set
-CONFIG_I2C_NPCM=m
-CONFIG_I2C_OCORES=m
-# CONFIG_I2C_OMAP is not set
-# CONFIG_I2C_OWL is not set
-CONFIG_I2C_APPLE=y
-# CONFIG_I2C_PCA_PLATFORM is not set
-CONFIG_I2C_PNX=m
-CONFIG_I2C_PXA=m
-CONFIG_I2C_PXA_SLAVE=y
-# CONFIG_I2C_QCOM_CCI is not set
-CONFIG_I2C_QUP=m
-CONFIG_I2C_RIIC=y
-CONFIG_I2C_RZV2M=m
-CONFIG_I2C_S3C2410=y
-CONFIG_I2C_SH_MOBILE=m
-# CONFIG_I2C_SIMTEC is not set
-CONFIG_I2C_ST=m
-CONFIG_I2C_STM32F4=m
-CONFIG_I2C_STM32F7=y
-CONFIG_I2C_SUN6I_P2WI=y
-CONFIG_I2C_SYNQUACER=y
-# CONFIG_I2C_TEGRA is not set
-CONFIG_I2C_TEGRA_BPMP=y
-# CONFIG_I2C_UNIPHIER is not set
-CONFIG_I2C_UNIPHIER_F=m
-CONFIG_I2C_VERSATILE=m
-CONFIG_I2C_WMT=y
-# CONFIG_I2C_XILINX is not set
-CONFIG_I2C_XLP9XX=m
-CONFIG_I2C_RCAR=y
-
-#
-# External I2C/SMBus adapter drivers
-#
-CONFIG_I2C_DIOLAN_U2C=m
-# CONFIG_I2C_DLN2 is not set
-# CONFIG_I2C_CP2615 is not set
-CONFIG_I2C_PARPORT=m
-CONFIG_I2C_ROBOTFUZZ_OSIF=m
-# CONFIG_I2C_TAOS_EVM is not set
-# CONFIG_I2C_TINY_USB is not set
-CONFIG_I2C_VIPERBOARD=m
-
-#
-# Other I2C/SMBus bus drivers
-#
-# CONFIG_I2C_MLXCPLD is not set
-# CONFIG_I2C_FSI is not set
-CONFIG_I2C_VIRTIO=y
-# end of I2C Hardware Bus support
-
-CONFIG_I2C_STUB=m
-CONFIG_I2C_SLAVE=y
-CONFIG_I2C_SLAVE_EEPROM=m
-CONFIG_I2C_SLAVE_TESTUNIT=m
-# CONFIG_I2C_DEBUG_CORE is not set
-# CONFIG_I2C_DEBUG_ALGO is not set
-CONFIG_I2C_DEBUG_BUS=y
-# end of I2C support
-
-CONFIG_I3C=y
-CONFIG_CDNS_I3C_MASTER=y
-CONFIG_DW_I3C_MASTER=y
-CONFIG_SVC_I3C_MASTER=y
-CONFIG_MIPI_I3C_HCI=m
-CONFIG_SPI=y
-# CONFIG_SPI_DEBUG is not set
-CONFIG_SPI_MASTER=y
-# CONFIG_SPI_MEM is not set
-
-#
-# SPI Master Controller Drivers
-#
-# CONFIG_SPI_ALTERA is not set
-# CONFIG_SPI_ALTERA_CORE is not set
-# CONFIG_SPI_ALTERA_DFL is not set
-# CONFIG_SPI_AR934X is not set
-CONFIG_SPI_ATH79=m
-CONFIG_SPI_ARMADA_3700=m
-# CONFIG_SPI_ASPEED_SMC is not set
-CONFIG_SPI_ATMEL=y
-CONFIG_SPI_ATMEL_QUADSPI=y
-# CONFIG_SPI_AXI_SPI_ENGINE is not set
-CONFIG_SPI_BCM2835=y
-# CONFIG_SPI_BCM2835AUX is not set
-# CONFIG_SPI_BCM63XX is not set
-CONFIG_SPI_BCM63XX_HSSPI=y
-CONFIG_SPI_BCM_QSPI=y
-CONFIG_SPI_BITBANG=y
-# CONFIG_SPI_BUTTERFLY is not set
-CONFIG_SPI_CADENCE=m
-CONFIG_SPI_CADENCE_QUADSPI=m
-CONFIG_SPI_CLPS711X=y
-CONFIG_SPI_DESIGNWARE=y
-# CONFIG_SPI_DW_DMA is not set
-# CONFIG_SPI_DW_MMIO is not set
-CONFIG_SPI_DW_BT1=m
-# CONFIG_SPI_DW_BT1_DIRMAP is not set
-CONFIG_SPI_DLN2=m
-CONFIG_SPI_EP93XX=y
-CONFIG_SPI_FSI=y
-# CONFIG_SPI_FSL_LPSPI is not set
-CONFIG_SPI_FSL_QUADSPI=y
-# CONFIG_SPI_GXP is not set
-CONFIG_SPI_HISI_KUNPENG=y
-CONFIG_SPI_HISI_SFC_V3XX=m
-CONFIG_SPI_NXP_FLEXSPI=m
-# CONFIG_SPI_GPIO is not set
-# CONFIG_SPI_IMG_SPFI is not set
-CONFIG_SPI_IMX=m
-# CONFIG_SPI_INGENIC is not set
-CONFIG_SPI_JCORE=m
-# CONFIG_SPI_LM70_LLP is not set
-CONFIG_SPI_LP8841_RTC=m
-# CONFIG_SPI_FSL_SPI is not set
-CONFIG_SPI_FSL_DSPI=y
-# CONFIG_SPI_MESON_SPIFC is not set
-CONFIG_SPI_MICROCHIP_CORE=y
-CONFIG_SPI_MICROCHIP_CORE_QSPI=y
-CONFIG_SPI_MT65XX=m
-# CONFIG_SPI_MT7621 is not set
-CONFIG_SPI_MTK_NOR=m
-CONFIG_SPI_NPCM_FIU=y
-CONFIG_SPI_NPCM_PSPI=y
-# CONFIG_SPI_LANTIQ_SSC is not set
-# CONFIG_SPI_OC_TINY is not set
-CONFIG_SPI_OMAP24XX=m
-# CONFIG_SPI_TI_QSPI is not set
-# CONFIG_SPI_OMAP_100K is not set
-# CONFIG_SPI_ORION is not set
-CONFIG_SPI_PIC32=m
-# CONFIG_SPI_PIC32_SQI is not set
-# CONFIG_SPI_PXA2XX is not set
-# CONFIG_SPI_ROCKCHIP is not set
-CONFIG_SPI_ROCKCHIP_SFC=m
-CONFIG_SPI_RPCIF=m
-# CONFIG_SPI_RSPI is not set
-CONFIG_SPI_QUP=m
-CONFIG_SPI_S3C64XX=m
-CONFIG_SPI_SC18IS602=m
-# CONFIG_SPI_SH_MSIOF is not set
-CONFIG_SPI_SH=m
-CONFIG_SPI_SH_HSPI=m
-CONFIG_SPI_SIFIVE=m
-CONFIG_SPI_SPRD=y
-# CONFIG_SPI_SPRD_ADI is not set
-CONFIG_SPI_STM32=y
-CONFIG_SPI_ST_SSC4=y
-CONFIG_SPI_SUN4I=m
-CONFIG_SPI_SUN6I=y
-CONFIG_SPI_SUNPLUS_SP7021=m
-# CONFIG_SPI_SYNQUACER is not set
-# CONFIG_SPI_MXIC is not set
-CONFIG_SPI_TEGRA210_QUAD=m
-# CONFIG_SPI_TEGRA114 is not set
-CONFIG_SPI_TEGRA20_SFLASH=y
-CONFIG_SPI_TEGRA20_SLINK=y
-# CONFIG_SPI_UNIPHIER is not set
-# CONFIG_SPI_XCOMM is not set
-CONFIG_SPI_XILINX=m
-CONFIG_SPI_XLP=y
-CONFIG_SPI_XTENSA_XTFPGA=y
-# CONFIG_SPI_ZYNQ_QSPI is not set
-CONFIG_SPI_ZYNQMP_GQSPI=m
-CONFIG_SPI_AMD=y
-
-#
-# SPI Multiplexer support
-#
-# CONFIG_SPI_MUX is not set
-
-#
-# SPI Protocol Masters
-#
-CONFIG_SPI_SPIDEV=y
-CONFIG_SPI_LOOPBACK_TEST=m
-# CONFIG_SPI_TLE62X0 is not set
-# CONFIG_SPI_SLAVE is not set
-CONFIG_SPI_DYNAMIC=y
-# CONFIG_SPMI is not set
-CONFIG_HSI=m
-CONFIG_HSI_BOARDINFO=y
-
-#
-# HSI controllers
-#
-
-#
-# HSI clients
-#
-CONFIG_HSI_CHAR=m
-# CONFIG_PPS is not set
-
-#
-# PTP clock support
-#
-CONFIG_PTP_1588_CLOCK_OPTIONAL=y
-
-#
-# Enable PHYLIB and NETWORK_PHY_TIMESTAMPING to see the additional clocks.
-#
-# end of PTP clock support
-
-# CONFIG_PINCTRL is not set
-CONFIG_ARCH_HAVE_CUSTOM_GPIO_H=y
-CONFIG_GPIOLIB=y
-CONFIG_GPIOLIB_FASTPATH_LIMIT=512
-CONFIG_OF_GPIO=y
-CONFIG_GPIOLIB_IRQCHIP=y
-# CONFIG_DEBUG_GPIO is not set
-CONFIG_GPIO_SYSFS=y
-CONFIG_GPIO_CDEV=y
-# CONFIG_GPIO_CDEV_V1 is not set
-CONFIG_GPIO_GENERIC=y
-CONFIG_GPIO_MAX730X=y
-
-#
-# Memory mapped GPIO drivers
-#
-# CONFIG_GPIO_74XX_MMIO is not set
-CONFIG_GPIO_ALTERA=m
-# CONFIG_GPIO_ASPEED is not set
-CONFIG_GPIO_ASPEED_SGPIO=y
-CONFIG_GPIO_ATH79=m
-# CONFIG_GPIO_RASPBERRYPI_EXP is not set
-# CONFIG_GPIO_BCM_KONA is not set
-CONFIG_GPIO_BCM_XGS_IPROC=m
-CONFIG_GPIO_BRCMSTB=y
-# CONFIG_GPIO_CADENCE is not set
-# CONFIG_GPIO_CLPS711X is not set
-CONFIG_GPIO_DWAPB=m
-CONFIG_GPIO_EIC_SPRD=y
-CONFIG_GPIO_EM=m
-CONFIG_GPIO_FTGPIO010=y
-CONFIG_GPIO_GENERIC_PLATFORM=m
-CONFIG_GPIO_GRGPIO=y
-CONFIG_GPIO_HISI=y
-# CONFIG_GPIO_HLWD is not set
-# CONFIG_GPIO_IOP is not set
-# CONFIG_GPIO_LOGICVC is not set
-CONFIG_GPIO_LPC18XX=m
-CONFIG_GPIO_LPC32XX=y
-# CONFIG_GPIO_MB86S7X is not set
-# CONFIG_GPIO_MPC8XXX is not set
-# CONFIG_GPIO_MT7621 is not set
-CONFIG_GPIO_MXC=y
-# CONFIG_GPIO_MXS is not set
-CONFIG_GPIO_PMIC_EIC_SPRD=y
-CONFIG_GPIO_PXA=y
-CONFIG_GPIO_RCAR=m
-# CONFIG_GPIO_RDA is not set
-CONFIG_GPIO_ROCKCHIP=y
-CONFIG_GPIO_SAMA5D2_PIOBU=y
-# CONFIG_GPIO_SIFIVE is not set
-# CONFIG_GPIO_SNPS_CREG is not set
-# CONFIG_GPIO_SPRD is not set
-CONFIG_GPIO_STP_XWAY=y
-CONFIG_GPIO_SYSCON=y
-# CONFIG_GPIO_TEGRA is not set
-CONFIG_GPIO_TEGRA186=m
-# CONFIG_GPIO_TS4800 is not set
-CONFIG_GPIO_UNIPHIER=y
-# CONFIG_GPIO_VISCONTI is not set
-CONFIG_GPIO_XGENE_SB=m
-CONFIG_GPIO_XILINX=y
-CONFIG_GPIO_XLP=m
-# CONFIG_GPIO_AMD_FCH is not set
-CONFIG_GPIO_IDT3243X=y
-# end of Memory mapped GPIO drivers
-
-#
-# I2C GPIO expanders
-#
-CONFIG_GPIO_ADNP=m
-CONFIG_GPIO_GW_PLD=m
-CONFIG_GPIO_MAX7300=y
-# CONFIG_GPIO_MAX732X is not set
-CONFIG_GPIO_PCA953X=y
-CONFIG_GPIO_PCA953X_IRQ=y
-CONFIG_GPIO_PCA9570=m
-CONFIG_GPIO_PCF857X=y
-# CONFIG_GPIO_TPIC2810 is not set
-CONFIG_GPIO_TS4900=m
-# end of I2C GPIO expanders
-
-#
-# MFD GPIO expanders
-#
-CONFIG_GPIO_ARIZONA=y
-CONFIG_GPIO_BD71815=m
-CONFIG_GPIO_BD71828=m
-CONFIG_GPIO_DA9052=m
-CONFIG_GPIO_DA9055=m
-# CONFIG_GPIO_DLN2 is not set
-CONFIG_GPIO_MAX77620=m
-CONFIG_GPIO_RC5T583=y
-# CONFIG_GPIO_SL28CPLD is not set
-CONFIG_GPIO_TC3589X=y
-CONFIG_GPIO_TPS6586X=y
-# CONFIG_GPIO_TPS65910 is not set
-CONFIG_GPIO_TPS65912=m
-CONFIG_GPIO_TWL4030=y
-# CONFIG_GPIO_TWL6040 is not set
-CONFIG_GPIO_WM831X=m
-CONFIG_GPIO_WM8350=y
-CONFIG_GPIO_WM8994=m
-# end of MFD GPIO expanders
-
-#
-# SPI GPIO expanders
-#
-# CONFIG_GPIO_74X164 is not set
-CONFIG_GPIO_MAX3191X=m
-CONFIG_GPIO_MAX7301=y
-CONFIG_GPIO_MC33880=y
-# CONFIG_GPIO_PISOSR is not set
-# CONFIG_GPIO_XRA1403 is not set
-CONFIG_GPIO_MOXTET=y
-# end of SPI GPIO expanders
-
-#
-# USB GPIO expanders
-#
-CONFIG_GPIO_VIPERBOARD=m
-# end of USB GPIO expanders
-
-#
-# Virtual GPIO drivers
-#
-# CONFIG_GPIO_AGGREGATOR is not set
-CONFIG_GPIO_MOCKUP=m
-# CONFIG_GPIO_VIRTIO is not set
-CONFIG_GPIO_SIM=y
-# end of Virtual GPIO drivers
-
-CONFIG_W1=y
-
-#
-# 1-wire Bus Masters
-#
-# CONFIG_W1_MASTER_DS2490 is not set
-# CONFIG_W1_MASTER_DS2482 is not set
-# CONFIG_W1_MASTER_MXC is not set
-CONFIG_W1_MASTER_DS1WM=y
-CONFIG_W1_MASTER_GPIO=m
-CONFIG_W1_MASTER_SGI=y
-# end of 1-wire Bus Masters
-
-#
-# 1-wire Slaves
-#
-CONFIG_W1_SLAVE_THERM=y
-CONFIG_W1_SLAVE_SMEM=y
-CONFIG_W1_SLAVE_DS2405=m
-# CONFIG_W1_SLAVE_DS2408 is not set
-# CONFIG_W1_SLAVE_DS2413 is not set
-CONFIG_W1_SLAVE_DS2406=y
-CONFIG_W1_SLAVE_DS2423=y
-# CONFIG_W1_SLAVE_DS2805 is not set
-CONFIG_W1_SLAVE_DS2430=y
-CONFIG_W1_SLAVE_DS2431=y
-CONFIG_W1_SLAVE_DS2433=y
-CONFIG_W1_SLAVE_DS2433_CRC=y
-CONFIG_W1_SLAVE_DS2438=y
-CONFIG_W1_SLAVE_DS250X=m
-CONFIG_W1_SLAVE_DS2780=y
-CONFIG_W1_SLAVE_DS2781=m
-# CONFIG_W1_SLAVE_DS28E04 is not set
-CONFIG_W1_SLAVE_DS28E17=y
-# end of 1-wire Slaves
-
-# CONFIG_POWER_RESET is not set
-CONFIG_POWER_SUPPLY=y
-CONFIG_POWER_SUPPLY_DEBUG=y
-CONFIG_PDA_POWER=y
-# CONFIG_GENERIC_ADC_BATTERY is not set
-CONFIG_IP5XXX_POWER=y
-# CONFIG_WM831X_BACKUP is not set
-CONFIG_WM831X_POWER=y
-CONFIG_WM8350_POWER=m
-CONFIG_TEST_POWER=m
-# CONFIG_BATTERY_88PM860X is not set
-CONFIG_CHARGER_ADP5061=y
-CONFIG_BATTERY_ACT8945A=m
-# CONFIG_BATTERY_CW2015 is not set
-CONFIG_BATTERY_DS2760=y
-CONFIG_BATTERY_DS2780=y
-# CONFIG_BATTERY_DS2781 is not set
-CONFIG_BATTERY_DS2782=y
-# CONFIG_BATTERY_LEGO_EV3 is not set
-# CONFIG_BATTERY_SAMSUNG_SDI is not set
-# CONFIG_BATTERY_SBS is not set
-CONFIG_CHARGER_SBS=y
-CONFIG_MANAGER_SBS=m
-CONFIG_BATTERY_BQ27XXX=y
-# CONFIG_BATTERY_BQ27XXX_I2C is not set
-# CONFIG_BATTERY_BQ27XXX_HDQ is not set
-# CONFIG_BATTERY_DA9030 is not set
-CONFIG_BATTERY_DA9052=y
-CONFIG_BATTERY_DA9150=m
-# CONFIG_AXP20X_POWER is not set
-CONFIG_BATTERY_MAX17040=m
-CONFIG_BATTERY_MAX17042=m
-CONFIG_BATTERY_MAX1721X=y
-CONFIG_CHARGER_ISP1704=m
-CONFIG_CHARGER_MAX8903=m
-CONFIG_CHARGER_TWL4030=m
-CONFIG_CHARGER_LP8727=y
-# CONFIG_CHARGER_GPIO is not set
-CONFIG_CHARGER_MANAGER=y
-CONFIG_CHARGER_LT3651=m
-CONFIG_CHARGER_LTC4162L=y
-CONFIG_CHARGER_MAX14577=y
-# CONFIG_CHARGER_DETECTOR_MAX14656 is not set
-# CONFIG_CHARGER_MAX77976 is not set
-CONFIG_CHARGER_MP2629=m
-CONFIG_CHARGER_MT6360=m
-# CONFIG_CHARGER_MT6370 is not set
-CONFIG_CHARGER_QCOM_SMBB=m
-CONFIG_CHARGER_BQ2415X=y
-CONFIG_CHARGER_BQ24190=m
-CONFIG_CHARGER_BQ24257=m
-# CONFIG_CHARGER_BQ24735 is not set
-# CONFIG_CHARGER_BQ2515X is not set
-CONFIG_CHARGER_BQ25890=y
-# CONFIG_CHARGER_BQ25980 is not set
-# CONFIG_CHARGER_BQ256XX is not set
-# CONFIG_CHARGER_RK817 is not set
-CONFIG_CHARGER_SMB347=y
-CONFIG_CHARGER_TPS65217=m
-CONFIG_BATTERY_GAUGE_LTC2941=m
-# CONFIG_BATTERY_GOLDFISH is not set
-CONFIG_BATTERY_RT5033=m
-CONFIG_CHARGER_RT9455=y
-CONFIG_CHARGER_SC2731=y
-CONFIG_FUEL_GAUGE_SC27XX=y
-CONFIG_CHARGER_UCS1002=y
-CONFIG_CHARGER_BD99954=m
-CONFIG_BATTERY_ACER_A500=m
-# CONFIG_BATTERY_UG3105 is not set
-# CONFIG_HWMON is not set
-CONFIG_THERMAL=y
-CONFIG_THERMAL_STATISTICS=y
-CONFIG_THERMAL_EMERGENCY_POWEROFF_DELAY_MS=0
-CONFIG_THERMAL_OF=y
-CONFIG_THERMAL_WRITABLE_TRIPS=y
-CONFIG_THERMAL_DEFAULT_GOV_STEP_WISE=y
-# CONFIG_THERMAL_DEFAULT_GOV_FAIR_SHARE is not set
-# CONFIG_THERMAL_DEFAULT_GOV_USER_SPACE is not set
-# CONFIG_THERMAL_GOV_FAIR_SHARE is not set
-CONFIG_THERMAL_GOV_STEP_WISE=y
-CONFIG_THERMAL_GOV_BANG_BANG=y
-# CONFIG_THERMAL_GOV_USER_SPACE is not set
-CONFIG_CPU_THERMAL=y
-CONFIG_DEVFREQ_THERMAL=y
-# CONFIG_THERMAL_EMULATION is not set
-# CONFIG_THERMAL_MMIO is not set
-# CONFIG_HISI_THERMAL is not set
-# CONFIG_IMX_THERMAL is not set
-CONFIG_IMX8MM_THERMAL=m
-# CONFIG_K3_THERMAL is not set
-# CONFIG_MAX77620_THERMAL is not set
-CONFIG_QORIQ_THERMAL=m
-# CONFIG_SPEAR_THERMAL is not set
-CONFIG_SUN8I_THERMAL=m
-CONFIG_ROCKCHIP_THERMAL=y
-CONFIG_RCAR_THERMAL=m
-# CONFIG_RCAR_GEN3_THERMAL is not set
-CONFIG_RZG2L_THERMAL=y
-CONFIG_KIRKWOOD_THERMAL=y
-CONFIG_DOVE_THERMAL=m
-CONFIG_ARMADA_THERMAL=y
-CONFIG_DA9062_THERMAL=m
-# CONFIG_MTK_THERMAL is not set
-
-#
-# Intel thermal drivers
-#
-
-#
-# ACPI INT340X thermal drivers
-#
-# end of ACPI INT340X thermal drivers
-# end of Intel thermal drivers
-
-#
-# Broadcom thermal drivers
-#
-# CONFIG_BCM2711_THERMAL is not set
-CONFIG_BCM2835_THERMAL=y
-CONFIG_BRCMSTB_THERMAL=y
-CONFIG_BCM_NS_THERMAL=y
-CONFIG_BCM_SR_THERMAL=y
-# end of Broadcom thermal drivers
-
-#
-# Texas Instruments thermal drivers
-#
-CONFIG_TI_SOC_THERMAL=y
-CONFIG_TI_THERMAL=y
-# CONFIG_OMAP3_THERMAL is not set
-CONFIG_OMAP4_THERMAL=y
-# CONFIG_OMAP5_THERMAL is not set
-CONFIG_DRA752_THERMAL=y
-# end of Texas Instruments thermal drivers
-
-#
-# Samsung thermal drivers
-#
-CONFIG_EXYNOS_THERMAL=y
-# end of Samsung thermal drivers
-
-#
-# NVIDIA Tegra thermal drivers
-#
-# CONFIG_TEGRA_SOCTHERM is not set
-# CONFIG_TEGRA_BPMP_THERMAL is not set
-# CONFIG_TEGRA30_TSENSOR is not set
-# end of NVIDIA Tegra thermal drivers
-
-CONFIG_GENERIC_ADC_THERMAL=m
-
-#
-# Qualcomm thermal drivers
-#
-CONFIG_QCOM_TSENS=m
-# end of Qualcomm thermal drivers
-
-# CONFIG_UNIPHIER_THERMAL is not set
-CONFIG_SPRD_THERMAL=m
-CONFIG_KHADAS_MCU_FAN_THERMAL=y
-# CONFIG_WATCHDOG is not set
-CONFIG_SSB_POSSIBLE=y
-# CONFIG_SSB is not set
-CONFIG_BCMA_POSSIBLE=y
-CONFIG_BCMA=y
-# CONFIG_BCMA_HOST_SOC is not set
-CONFIG_BCMA_DRIVER_MIPS=y
-CONFIG_BCMA_PFLASH=y
-CONFIG_BCMA_NFLASH=y
-CONFIG_BCMA_DRIVER_GMAC_CMN=y
-# CONFIG_BCMA_DRIVER_GPIO is not set
-# CONFIG_BCMA_DEBUG is not set
-
-#
-# Multifunction device drivers
-#
-CONFIG_MFD_CORE=y
-CONFIG_MFD_ACT8945A=y
-CONFIG_MFD_SUN4I_GPADC=y
-# CONFIG_MFD_AS3711 is not set
-CONFIG_MFD_AS3722=y
-# CONFIG_PMIC_ADP5520 is not set
-# CONFIG_MFD_AAT2870_CORE is not set
-# CONFIG_MFD_AT91_USART is not set
-CONFIG_MFD_ATMEL_FLEXCOM=y
-# CONFIG_MFD_ATMEL_HLCDC is not set
-CONFIG_MFD_ATMEL_SMC=y
-# CONFIG_MFD_BCM590XX is not set
-# CONFIG_MFD_BD9571MWV is not set
-CONFIG_MFD_AXP20X=m
-CONFIG_MFD_AXP20X_I2C=m
-# CONFIG_MFD_MADERA is not set
-# CONFIG_MFD_ASIC3 is not set
-CONFIG_PMIC_DA903X=y
-CONFIG_PMIC_DA9052=y
-CONFIG_MFD_DA9052_SPI=y
-CONFIG_MFD_DA9052_I2C=y
-CONFIG_MFD_DA9055=y
-CONFIG_MFD_DA9062=y
-CONFIG_MFD_DA9063=m
-CONFIG_MFD_DA9150=y
-CONFIG_MFD_DLN2=m
-# CONFIG_MFD_ENE_KB3930 is not set
-CONFIG_MFD_EXYNOS_LPASS=y
-CONFIG_MFD_GATEWORKS_GSC=m
-CONFIG_MFD_MC13XXX=y
-# CONFIG_MFD_MC13XXX_SPI is not set
-CONFIG_MFD_MC13XXX_I2C=y
-CONFIG_MFD_MP2629=m
-CONFIG_MFD_MXS_LRADC=m
-CONFIG_MFD_MX25_TSADC=m
-# CONFIG_MFD_HI6421_PMIC is not set
-CONFIG_MFD_HI655X_PMIC=y
-# CONFIG_HTC_PASIC3 is not set
-# CONFIG_HTC_I2CPLD is not set
-CONFIG_MFD_IQS62X=m
-# CONFIG_MFD_KEMPLD is not set
-CONFIG_MFD_88PM800=m
-CONFIG_MFD_88PM805=y
-CONFIG_MFD_88PM860X=y
-CONFIG_MFD_MAX14577=y
-CONFIG_MFD_MAX77620=y
-# CONFIG_MFD_MAX77650 is not set
-CONFIG_MFD_MAX77686=m
-# CONFIG_MFD_MAX77693 is not set
-CONFIG_MFD_MAX77714=y
-CONFIG_MFD_MAX77843=y
-CONFIG_MFD_MAX8907=y
-# CONFIG_MFD_MAX8925 is not set
-# CONFIG_MFD_MAX8997 is not set
-# CONFIG_MFD_MAX8998 is not set
-CONFIG_MFD_MT6360=m
-CONFIG_MFD_MT6370=y
-CONFIG_MFD_MT6397=y
-CONFIG_MFD_MENF21BMC=y
-# CONFIG_MFD_OCELOT is not set
-# CONFIG_EZX_PCAP is not set
-# CONFIG_MFD_CPCAP is not set
-CONFIG_MFD_VIPERBOARD=m
-CONFIG_MFD_NTXEC=y
-CONFIG_MFD_RETU=m
-# CONFIG_MFD_PCF50633 is not set
-# CONFIG_UCB1400_CORE is not set
-# CONFIG_MFD_PM8XXX is not set
-# CONFIG_MFD_SY7636A is not set
-CONFIG_MFD_RT4831=m
-# CONFIG_MFD_RT5033 is not set
-CONFIG_MFD_RT5120=y
-CONFIG_MFD_RC5T583=y
-CONFIG_MFD_RK808=m
-# CONFIG_MFD_RN5T618 is not set
-# CONFIG_MFD_SEC_CORE is not set
-# CONFIG_MFD_SI476X_CORE is not set
-# CONFIG_MFD_SL28CPLD is not set
-CONFIG_MFD_SM501=m
-CONFIG_MFD_SM501_GPIO=y
-# CONFIG_MFD_SKY81452 is not set
-CONFIG_MFD_SC27XX_PMIC=m
-CONFIG_ABX500_CORE=y
-# CONFIG_MFD_STMPE is not set
-CONFIG_MFD_SUN6I_PRCM=y
-CONFIG_MFD_SYSCON=y
-CONFIG_MFD_TI_AM335X_TSCADC=y
-# CONFIG_MFD_LP3943 is not set
-# CONFIG_MFD_LP8788 is not set
-CONFIG_MFD_TI_LMU=m
-# CONFIG_MFD_PALMAS is not set
-CONFIG_TPS6105X=y
-CONFIG_TPS65010=m
-# CONFIG_TPS6507X is not set
-# CONFIG_MFD_TPS65086 is not set
-# CONFIG_MFD_TPS65090 is not set
-CONFIG_MFD_TPS65217=m
-# CONFIG_MFD_TI_LP873X is not set
-# CONFIG_MFD_TI_LP87565 is not set
-# CONFIG_MFD_TPS65218 is not set
-CONFIG_MFD_TPS6586X=y
-CONFIG_MFD_TPS65910=y
-CONFIG_MFD_TPS65912=y
-CONFIG_MFD_TPS65912_I2C=y
-# CONFIG_MFD_TPS65912_SPI is not set
-CONFIG_TWL4030_CORE=y
-CONFIG_MFD_TWL4030_AUDIO=y
-CONFIG_TWL6040_CORE=y
-CONFIG_MFD_WL1273_CORE=m
-# CONFIG_MFD_LM3533 is not set
-CONFIG_MFD_TC3589X=y
-CONFIG_MFD_TQMX86=m
-# CONFIG_MFD_LOCHNAGAR is not set
-CONFIG_MFD_ARIZONA=y
-# CONFIG_MFD_ARIZONA_I2C is not set
-CONFIG_MFD_ARIZONA_SPI=y
-CONFIG_MFD_CS47L24=y
-CONFIG_MFD_WM5102=y
-# CONFIG_MFD_WM5110 is not set
-CONFIG_MFD_WM8997=y
-CONFIG_MFD_WM8998=y
-CONFIG_MFD_WM8400=y
-CONFIG_MFD_WM831X=y
-CONFIG_MFD_WM831X_I2C=y
-CONFIG_MFD_WM831X_SPI=y
-CONFIG_MFD_WM8350=y
-CONFIG_MFD_WM8350_I2C=y
-CONFIG_MFD_WM8994=m
-CONFIG_MFD_STW481X=m
-# CONFIG_MFD_ROHM_BD718XX is not set
-CONFIG_MFD_ROHM_BD71828=m
-CONFIG_MFD_ROHM_BD957XMUF=m
-# CONFIG_MFD_STM32_LPTIMER is not set
-CONFIG_MFD_STM32_TIMERS=m
-CONFIG_MFD_STPMIC1=m
-# CONFIG_MFD_STMFX is not set
-# CONFIG_MFD_ATC260X_I2C is not set
-CONFIG_MFD_KHADAS_MCU=y
-CONFIG_MFD_ACER_A500_EC=y
-CONFIG_MFD_QCOM_PM8008=m
-CONFIG_RAVE_SP_CORE=y
-CONFIG_MFD_INTEL_M10_BMC=y
-CONFIG_MFD_RSMU_I2C=m
-# CONFIG_MFD_RSMU_SPI is not set
-# end of Multifunction device drivers
-
-CONFIG_REGULATOR=y
-# CONFIG_REGULATOR_DEBUG is not set
-CONFIG_REGULATOR_FIXED_VOLTAGE=y
-CONFIG_REGULATOR_VIRTUAL_CONSUMER=m
-CONFIG_REGULATOR_USERSPACE_CONSUMER=y
-CONFIG_REGULATOR_88PG86X=y
-CONFIG_REGULATOR_88PM800=m
-CONFIG_REGULATOR_88PM8607=m
-CONFIG_REGULATOR_ACT8865=y
-# CONFIG_REGULATOR_ACT8945A is not set
-CONFIG_REGULATOR_AD5398=y
-CONFIG_REGULATOR_ANATOP=y
-# CONFIG_REGULATOR_ARIZONA_LDO1 is not set
-CONFIG_REGULATOR_ARIZONA_MICSUPP=m
-CONFIG_REGULATOR_AS3722=m
-CONFIG_REGULATOR_AXP20X=m
-CONFIG_REGULATOR_BD71815=m
-CONFIG_REGULATOR_BD71828=m
-# CONFIG_REGULATOR_BD957XMUF is not set
-# CONFIG_REGULATOR_DA903X is not set
-# CONFIG_REGULATOR_DA9052 is not set
-CONFIG_REGULATOR_DA9055=m
-CONFIG_REGULATOR_DA9062=m
-CONFIG_REGULATOR_DA9063=m
-# CONFIG_REGULATOR_DA9121 is not set
-CONFIG_REGULATOR_DA9210=m
-CONFIG_REGULATOR_DA9211=m
-CONFIG_REGULATOR_FAN53555=m
-CONFIG_REGULATOR_FAN53880=y
-CONFIG_REGULATOR_GPIO=y
-# CONFIG_REGULATOR_HI655X is not set
-# CONFIG_REGULATOR_ISL9305 is not set
-CONFIG_REGULATOR_ISL6271A=y
-CONFIG_REGULATOR_LM363X=m
-CONFIG_REGULATOR_LP3971=y
-# CONFIG_REGULATOR_LP3972 is not set
-# CONFIG_REGULATOR_LP872X is not set
-# CONFIG_REGULATOR_LP8755 is not set
-CONFIG_REGULATOR_LTC3589=m
-CONFIG_REGULATOR_LTC3676=m
-# CONFIG_REGULATOR_MAX14577 is not set
-CONFIG_REGULATOR_MAX1586=y
-CONFIG_REGULATOR_MAX77620=m
-# CONFIG_REGULATOR_MAX77650 is not set
-CONFIG_REGULATOR_MAX8649=m
-CONFIG_REGULATOR_MAX8660=m
-CONFIG_REGULATOR_MAX8893=m
-CONFIG_REGULATOR_MAX8907=m
-# CONFIG_REGULATOR_MAX8952 is not set
-CONFIG_REGULATOR_MAX8973=y
-CONFIG_REGULATOR_MAX20086=y
-CONFIG_REGULATOR_MAX77686=m
-# CONFIG_REGULATOR_MAX77693 is not set
-# CONFIG_REGULATOR_MAX77802 is not set
-CONFIG_REGULATOR_MAX77826=m
-CONFIG_REGULATOR_MC13XXX_CORE=y
-CONFIG_REGULATOR_MC13783=m
-CONFIG_REGULATOR_MC13892=y
-CONFIG_REGULATOR_MCP16502=m
-CONFIG_REGULATOR_MP5416=y
-CONFIG_REGULATOR_MP8859=m
-CONFIG_REGULATOR_MP886X=m
-CONFIG_REGULATOR_MPQ7920=y
-# CONFIG_REGULATOR_MT6311 is not set
-CONFIG_REGULATOR_MT6323=m
-# CONFIG_REGULATOR_MT6331 is not set
-# CONFIG_REGULATOR_MT6332 is not set
-# CONFIG_REGULATOR_MT6358 is not set
-CONFIG_REGULATOR_MT6359=y
-CONFIG_REGULATOR_MT6360=m
-# CONFIG_REGULATOR_MT6370 is not set
-CONFIG_REGULATOR_MT6380=m
-CONFIG_REGULATOR_MT6397=y
-# CONFIG_REGULATOR_PBIAS is not set
-CONFIG_REGULATOR_PCA9450=m
-CONFIG_REGULATOR_PF8X00=m
-CONFIG_REGULATOR_PFUZE100=m
-CONFIG_REGULATOR_PV88060=y
-CONFIG_REGULATOR_PV88080=m
-CONFIG_REGULATOR_PV88090=m
-CONFIG_REGULATOR_PWM=y
-CONFIG_REGULATOR_QCOM_RPMH=m
-CONFIG_REGULATOR_QCOM_SMD_RPM=m
-# CONFIG_REGULATOR_QCOM_SPMI is not set
-CONFIG_REGULATOR_QCOM_USB_VBUS=m
-CONFIG_REGULATOR_RASPBERRYPI_TOUCHSCREEN_ATTINY=m
-# CONFIG_REGULATOR_RC5T583 is not set
-# CONFIG_REGULATOR_RK808 is not set
-CONFIG_REGULATOR_ROHM=m
-# CONFIG_REGULATOR_RT4801 is not set
-# CONFIG_REGULATOR_RT4831 is not set
-# CONFIG_REGULATOR_RT5120 is not set
-CONFIG_REGULATOR_RT5190A=m
-CONFIG_REGULATOR_RT5759=y
-CONFIG_REGULATOR_RT6160=m
-# CONFIG_REGULATOR_RT6245 is not set
-# CONFIG_REGULATOR_RTQ2134 is not set
-CONFIG_REGULATOR_RTMV20=y
-# CONFIG_REGULATOR_RTQ6752 is not set
-CONFIG_REGULATOR_S2MPA01=y
-CONFIG_REGULATOR_S2MPS11=m
-# CONFIG_REGULATOR_S5M8767 is not set
-CONFIG_REGULATOR_SC2731=y
-CONFIG_REGULATOR_SLG51000=y
-# CONFIG_REGULATOR_STM32_BOOSTER is not set
-CONFIG_REGULATOR_STM32_VREFBUF=y
-CONFIG_REGULATOR_STM32_PWR=y
-CONFIG_REGULATOR_STPMIC1=m
-# CONFIG_REGULATOR_TI_ABB is not set
-CONFIG_REGULATOR_STW481X_VMMC=y
-# CONFIG_REGULATOR_SY8106A is not set
-# CONFIG_REGULATOR_SY8824X is not set
-# CONFIG_REGULATOR_SY8827N is not set
-# CONFIG_REGULATOR_TPS51632 is not set
-# CONFIG_REGULATOR_TPS6105X is not set
-# CONFIG_REGULATOR_TPS62360 is not set
-CONFIG_REGULATOR_TPS6286X=m
-# CONFIG_REGULATOR_TPS65023 is not set
-# CONFIG_REGULATOR_TPS6507X is not set
-# CONFIG_REGULATOR_TPS65132 is not set
-# CONFIG_REGULATOR_TPS65217 is not set
-CONFIG_REGULATOR_TPS6524X=m
-# CONFIG_REGULATOR_TPS6586X is not set
-CONFIG_REGULATOR_TPS65910=y
-CONFIG_REGULATOR_TPS65912=m
-CONFIG_REGULATOR_TPS68470=m
-CONFIG_REGULATOR_TWL4030=y
-# CONFIG_REGULATOR_UNIPHIER is not set
-CONFIG_REGULATOR_VCTRL=y
-CONFIG_REGULATOR_WM831X=y
-CONFIG_REGULATOR_WM8350=m
-# CONFIG_REGULATOR_WM8400 is not set
-CONFIG_REGULATOR_WM8994=m
-# CONFIG_REGULATOR_QCOM_LABIBB is not set
-CONFIG_CEC_CORE=y
-CONFIG_CEC_NOTIFIER=y
-CONFIG_CEC_PIN=y
-
-#
-# CEC support
-#
-CONFIG_CEC_PIN_ERROR_INJ=y
-CONFIG_MEDIA_CEC_SUPPORT=y
-# CONFIG_CEC_CH7322 is not set
-CONFIG_CEC_MESON_AO=y
-CONFIG_CEC_GPIO=y
-# CONFIG_CEC_SAMSUNG_S5P is not set
-CONFIG_CEC_STI=y
-CONFIG_CEC_STM32=m
-CONFIG_CEC_TEGRA=m
-CONFIG_USB_PULSE8_CEC=m
-# CONFIG_USB_RAINSHADOW_CEC is not set
-# end of CEC support
-
-CONFIG_MEDIA_SUPPORT=m
-# CONFIG_MEDIA_SUPPORT_FILTER is not set
-CONFIG_MEDIA_SUBDRV_AUTOSELECT=y
-
-#
-# Media device types
-#
-CONFIG_MEDIA_CAMERA_SUPPORT=y
-CONFIG_MEDIA_ANALOG_TV_SUPPORT=y
-CONFIG_MEDIA_DIGITAL_TV_SUPPORT=y
-CONFIG_MEDIA_RADIO_SUPPORT=y
-CONFIG_MEDIA_SDR_SUPPORT=y
-CONFIG_MEDIA_PLATFORM_SUPPORT=y
-CONFIG_MEDIA_TEST_SUPPORT=y
-# end of Media device types
-
-#
-# Media core support
-#
-CONFIG_VIDEO_DEV=m
-CONFIG_MEDIA_CONTROLLER=y
-CONFIG_DVB_CORE=m
-# end of Media core support
-
-#
-# Video4Linux options
-#
-CONFIG_VIDEO_V4L2_I2C=y
-CONFIG_VIDEO_V4L2_SUBDEV_API=y
-CONFIG_VIDEO_ADV_DEBUG=y
-CONFIG_VIDEO_FIXED_MINOR_RANGES=y
-# CONFIG_V4L2_FLASH_LED_CLASS is not set
-CONFIG_V4L2_FWNODE=m
-CONFIG_V4L2_ASYNC=m
-# end of Video4Linux options
-
-#
-# Media controller options
-#
-CONFIG_MEDIA_CONTROLLER_DVB=y
-# end of Media controller options
-
-#
-# Digital TV options
-#
-# CONFIG_DVB_MMAP is not set
-CONFIG_DVB_MAX_ADAPTERS=16
-# CONFIG_DVB_DYNAMIC_MINORS is not set
-CONFIG_DVB_DEMUX_SECTION_LOSS_LOG=y
-CONFIG_DVB_ULE_DEBUG=y
-# end of Digital TV options
-
-#
-# Media drivers
-#
-
-#
-# Media drivers
-#
-# CONFIG_MEDIA_USB_SUPPORT is not set
-CONFIG_RADIO_ADAPTERS=m
-CONFIG_RADIO_SAA7706H=m
-CONFIG_RADIO_SHARK=m
-CONFIG_RADIO_SHARK2=m
-# CONFIG_RADIO_SI4713 is not set
-CONFIG_RADIO_TEA575X=m
-CONFIG_RADIO_TEA5764=m
-CONFIG_RADIO_TEF6862=m
-# CONFIG_RADIO_WL1273 is not set
-# CONFIG_USB_DSBR is not set
-CONFIG_USB_KEENE=m
-CONFIG_USB_MA901=m
-# CONFIG_USB_MR800 is not set
-CONFIG_USB_RAREMONO=m
-# CONFIG_RADIO_SI470X is not set
-CONFIG_V4L_RADIO_ISA_DRIVERS=y
-CONFIG_RADIO_AZTECH=m
-CONFIG_RADIO_CADET=m
-# CONFIG_RADIO_GEMTEK is not set
-CONFIG_RADIO_ISA=m
-CONFIG_RADIO_RTRACK=m
-CONFIG_RADIO_RTRACK2=m
-CONFIG_RADIO_SF16FMI=m
-CONFIG_RADIO_SF16FMR2=m
-CONFIG_RADIO_TERRATEC=m
-# CONFIG_RADIO_TRUST is not set
-CONFIG_RADIO_TYPHOON=m
-CONFIG_RADIO_ZOLTRIX=m
-CONFIG_MEDIA_PLATFORM_DRIVERS=y
-CONFIG_V4L_PLATFORM_DRIVERS=y
-CONFIG_SDR_PLATFORM_DRIVERS=y
-CONFIG_DVB_PLATFORM_DRIVERS=y
-# CONFIG_V4L_MEM2MEM_DRIVERS is not set
-CONFIG_VIDEO_MUX=m
-
-#
-# Allegro DVT media platform drivers
-#
-
-#
-# Amlogic media platform drivers
-#
-
-#
-# Amphion drivers
-#
-
-#
-# Aspeed media platform drivers
-#
-CONFIG_VIDEO_ASPEED=m
-
-#
-# Atmel media platform drivers
-#
-CONFIG_VIDEO_ATMEL_ISI=m
-
-#
-# Cadence media platform drivers
-#
-CONFIG_VIDEO_CADENCE_CSI2RX=m
-CONFIG_VIDEO_CADENCE_CSI2TX=m
-
-#
-# Chips&Media media platform drivers
-#
-
-#
-# Intel media platform drivers
-#
-CONFIG_VIDEO_PXA27x=m
-
-#
-# Marvell media platform drivers
-#
-
-#
-# Mediatek media platform drivers
-#
-
-#
-# Nuvoton media platform drivers
-#
-CONFIG_VIDEO_NPCM_VCD_ECE=m
-
-#
-# NVidia media platform drivers
-#
-
-#
-# NXP media platform drivers
-#
-# CONFIG_VIDEO_IMX_MIPI_CSIS is not set
-
-#
-# Qualcomm media platform drivers
-#
-CONFIG_VIDEO_QCOM_CAMSS=m
-
-#
-# Renesas media platform drivers
-#
-CONFIG_VIDEO_RENESAS_CEU=m
-CONFIG_VIDEO_RCAR_ISP=m
-CONFIG_VIDEO_SH_VOU=m
-CONFIG_VIDEO_RCAR_CSI2=m
-CONFIG_VIDEO_RCAR_VIN=m
-CONFIG_VIDEO_RCAR_DRIF=m
-
-#
-# Rockchip media platform drivers
-#
-CONFIG_VIDEO_ROCKCHIP_ISP1=m
-
-#
-# Samsung media platform drivers
-#
-
-#
-# STMicroelectronics media platform drivers
-#
-# CONFIG_VIDEO_STM32_DCMI is not set
-
-#
-# Sunxi media platform drivers
-#
-
-#
-# Texas Instruments drivers
-#
-# CONFIG_VIDEO_TI_CAL is not set
-CONFIG_VIDEO_AM437X_VPFE=m
-# CONFIG_VIDEO_DAVINCI_VPIF_DISPLAY is not set
-CONFIG_VIDEO_DAVINCI_VPIF_CAPTURE=m
-# CONFIG_VIDEO_DAVINCI_VPBE_DISPLAY is not set
-# CONFIG_VIDEO_OMAP2_VOUT is not set
-
-#
-# Verisilicon media platform drivers
-#
-
-#
-# VIA media platform drivers
-#
-
-#
-# Xilinx media platform drivers
-#
-CONFIG_VIDEO_XILINX=m
-CONFIG_VIDEO_XILINX_CSI2RXSS=m
-CONFIG_VIDEO_XILINX_TPG=m
-CONFIG_VIDEO_XILINX_VTC=m
-# CONFIG_V4L_TEST_DRIVERS is not set
-CONFIG_DVB_TEST_DRIVERS=y
-CONFIG_DVB_VIDTV=m
-
-#
-# FireWire (IEEE 1394) Adapters
-#
-CONFIG_DVB_FIREDTV=m
-CONFIG_VIDEOBUF2_CORE=m
-CONFIG_VIDEOBUF2_V4L2=m
-CONFIG_VIDEOBUF2_MEMOPS=m
-CONFIG_VIDEOBUF2_DMA_CONTIG=m
-CONFIG_VIDEOBUF2_VMALLOC=m
-CONFIG_VIDEOBUF2_DMA_SG=m
-# end of Media drivers
-
-#
-# Media ancillary drivers
-#
-CONFIG_MEDIA_ATTACH=y
-
-#
-# Camera sensor devices
-#
-CONFIG_VIDEO_APTINA_PLL=m
-CONFIG_VIDEO_CCS_PLL=m
-# CONFIG_VIDEO_AR0521 is not set
-# CONFIG_VIDEO_HI556 is not set
-CONFIG_VIDEO_HI846=m
-CONFIG_VIDEO_HI847=m
-CONFIG_VIDEO_IMX208=m
-CONFIG_VIDEO_IMX214=m
-CONFIG_VIDEO_IMX219=m
-CONFIG_VIDEO_IMX258=m
-# CONFIG_VIDEO_IMX274 is not set
-# CONFIG_VIDEO_IMX290 is not set
-# CONFIG_VIDEO_IMX319 is not set
-CONFIG_VIDEO_IMX334=m
-# CONFIG_VIDEO_IMX335 is not set
-CONFIG_VIDEO_IMX355=m
-# CONFIG_VIDEO_IMX412 is not set
-CONFIG_VIDEO_MAX9271_LIB=m
-# CONFIG_VIDEO_MT9M001 is not set
-CONFIG_VIDEO_MT9M032=m
-CONFIG_VIDEO_MT9M111=m
-# CONFIG_VIDEO_MT9P031 is not set
-# CONFIG_VIDEO_MT9T001 is not set
-# CONFIG_VIDEO_MT9T112 is not set
-CONFIG_VIDEO_MT9V011=m
-CONFIG_VIDEO_MT9V032=m
-CONFIG_VIDEO_MT9V111=m
-CONFIG_VIDEO_NOON010PC30=m
-CONFIG_VIDEO_OG01A1B=m
-CONFIG_VIDEO_OV02A10=m
-CONFIG_VIDEO_OV08D10=m
-# CONFIG_VIDEO_OV13858 is not set
-# CONFIG_VIDEO_OV13B10 is not set
-CONFIG_VIDEO_OV2640=m
-# CONFIG_VIDEO_OV2659 is not set
-CONFIG_VIDEO_OV2680=m
-# CONFIG_VIDEO_OV2685 is not set
-CONFIG_VIDEO_OV2740=m
-# CONFIG_VIDEO_OV5640 is not set
-CONFIG_VIDEO_OV5645=m
-CONFIG_VIDEO_OV5647=m
-# CONFIG_VIDEO_OV5670 is not set
-# CONFIG_VIDEO_OV5675 is not set
-CONFIG_VIDEO_OV5693=m
-CONFIG_VIDEO_OV5695=m
-CONFIG_VIDEO_OV6650=m
-CONFIG_VIDEO_OV7251=m
-CONFIG_VIDEO_OV7640=m
-CONFIG_VIDEO_OV7670=m
-CONFIG_VIDEO_OV772X=m
-CONFIG_VIDEO_OV7740=m
-CONFIG_VIDEO_OV8856=m
-CONFIG_VIDEO_OV9282=m
-# CONFIG_VIDEO_OV9640 is not set
-CONFIG_VIDEO_OV9650=m
-CONFIG_VIDEO_OV9734=m
-CONFIG_VIDEO_RDACM20=m
-CONFIG_VIDEO_RDACM21=m
-CONFIG_VIDEO_RJ54N1=m
-# CONFIG_VIDEO_S5C73M3 is not set
-CONFIG_VIDEO_S5K4ECGX=m
-# CONFIG_VIDEO_S5K5BAF is not set
-CONFIG_VIDEO_S5K6A3=m
-CONFIG_VIDEO_S5K6AA=m
-# CONFIG_VIDEO_SR030PC30 is not set
-# CONFIG_VIDEO_VS6624 is not set
-CONFIG_VIDEO_CCS=m
-CONFIG_VIDEO_ET8EK8=m
-CONFIG_VIDEO_M5MOLS=m
-# end of Camera sensor devices
-
-#
-# Lens drivers
-#
-CONFIG_VIDEO_AD5820=m
-CONFIG_VIDEO_AK7375=m
-CONFIG_VIDEO_DW9714=m
-# CONFIG_VIDEO_DW9768 is not set
-CONFIG_VIDEO_DW9807_VCM=m
-# end of Lens drivers
-
-#
-# Flash devices
-#
-CONFIG_VIDEO_ADP1653=m
-CONFIG_VIDEO_LM3560=m
-CONFIG_VIDEO_LM3646=m
-# end of Flash devices
-
-#
-# Audio decoders, processors and mixers
-#
-CONFIG_VIDEO_CS3308=m
-CONFIG_VIDEO_CS5345=m
-# CONFIG_VIDEO_CS53L32A is not set
-# CONFIG_VIDEO_MSP3400 is not set
-CONFIG_VIDEO_SONY_BTF_MPX=m
-# CONFIG_VIDEO_TDA1997X is not set
-CONFIG_VIDEO_TDA7432=m
-CONFIG_VIDEO_TDA9840=m
-# CONFIG_VIDEO_TEA6415C is not set
-CONFIG_VIDEO_TEA6420=m
-CONFIG_VIDEO_TLV320AIC23B=m
-CONFIG_VIDEO_TVAUDIO=m
-# CONFIG_VIDEO_UDA1342 is not set
-CONFIG_VIDEO_VP27SMPX=m
-# CONFIG_VIDEO_WM8739 is not set
-CONFIG_VIDEO_WM8775=m
-# end of Audio decoders, processors and mixers
-
-#
-# RDS decoders
-#
-# CONFIG_VIDEO_SAA6588 is not set
-# end of RDS decoders
-
-#
-# Video decoders
-#
-CONFIG_VIDEO_ADV7180=m
-# CONFIG_VIDEO_ADV7183 is not set
-# CONFIG_VIDEO_ADV748X is not set
-CONFIG_VIDEO_ADV7604=m
-# CONFIG_VIDEO_ADV7604_CEC is not set
-# CONFIG_VIDEO_ADV7842 is not set
-CONFIG_VIDEO_BT819=m
-CONFIG_VIDEO_BT856=m
-CONFIG_VIDEO_BT866=m
-CONFIG_VIDEO_ISL7998X=m
-CONFIG_VIDEO_KS0127=m
-CONFIG_VIDEO_MAX9286=m
-# CONFIG_VIDEO_ML86V7667 is not set
-# CONFIG_VIDEO_SAA7110 is not set
-# CONFIG_VIDEO_SAA711X is not set
-CONFIG_VIDEO_TC358743=m
-# CONFIG_VIDEO_TC358743_CEC is not set
-CONFIG_VIDEO_TVP514X=m
-# CONFIG_VIDEO_TVP5150 is not set
-CONFIG_VIDEO_TVP7002=m
-# CONFIG_VIDEO_TW2804 is not set
-# CONFIG_VIDEO_TW9903 is not set
-CONFIG_VIDEO_TW9906=m
-CONFIG_VIDEO_TW9910=m
-CONFIG_VIDEO_VPX3220=m
-
-#
-# Video and audio decoders
-#
-# CONFIG_VIDEO_SAA717X is not set
-# CONFIG_VIDEO_CX25840 is not set
-# end of Video decoders
-
-#
-# Video encoders
-#
-CONFIG_VIDEO_AD9389B=m
-CONFIG_VIDEO_ADV7170=m
-# CONFIG_VIDEO_ADV7175 is not set
-CONFIG_VIDEO_ADV7343=m
-CONFIG_VIDEO_ADV7393=m
-# CONFIG_VIDEO_ADV7511 is not set
-CONFIG_VIDEO_AK881X=m
-CONFIG_VIDEO_SAA7127=m
-# CONFIG_VIDEO_SAA7185 is not set
-# CONFIG_VIDEO_THS8200 is not set
-# end of Video encoders
-
-#
-# Video improvement chips
-#
-CONFIG_VIDEO_UPD64031A=m
-# CONFIG_VIDEO_UPD64083 is not set
-# end of Video improvement chips
-
-#
-# Audio/Video compression chips
-#
-CONFIG_VIDEO_SAA6752HS=m
-# end of Audio/Video compression chips
-
-#
-# SDR tuner chips
-#
-# CONFIG_SDR_MAX2175 is not set
-# end of SDR tuner chips
-
-#
-# Miscellaneous helper chips
-#
-CONFIG_VIDEO_I2C=m
-# CONFIG_VIDEO_M52790 is not set
-CONFIG_VIDEO_ST_MIPID02=m
-CONFIG_VIDEO_THS7303=m
-# end of Miscellaneous helper chips
-
-#
-# Media SPI Adapters
-#
-CONFIG_CXD2880_SPI_DRV=m
-# CONFIG_VIDEO_GS1662 is not set
-# end of Media SPI Adapters
-
-CONFIG_MEDIA_TUNER=m
-
-#
-# Customize TV tuners
-#
-CONFIG_MEDIA_TUNER_E4000=m
-CONFIG_MEDIA_TUNER_FC0011=m
-# CONFIG_MEDIA_TUNER_FC0012 is not set
-CONFIG_MEDIA_TUNER_FC0013=m
-CONFIG_MEDIA_TUNER_FC2580=m
-CONFIG_MEDIA_TUNER_IT913X=m
-CONFIG_MEDIA_TUNER_M88RS6000T=m
-# CONFIG_MEDIA_TUNER_MAX2165 is not set
-CONFIG_MEDIA_TUNER_MC44S803=m
-# CONFIG_MEDIA_TUNER_MSI001 is not set
-CONFIG_MEDIA_TUNER_MT2060=m
-# CONFIG_MEDIA_TUNER_MT2063 is not set
-CONFIG_MEDIA_TUNER_MT20XX=m
-CONFIG_MEDIA_TUNER_MT2131=m
-# CONFIG_MEDIA_TUNER_MT2266 is not set
-CONFIG_MEDIA_TUNER_MXL301RF=m
-# CONFIG_MEDIA_TUNER_MXL5005S is not set
-CONFIG_MEDIA_TUNER_MXL5007T=m
-CONFIG_MEDIA_TUNER_QM1D1B0004=m
-# CONFIG_MEDIA_TUNER_QM1D1C0042 is not set
-# CONFIG_MEDIA_TUNER_QT1010 is not set
-CONFIG_MEDIA_TUNER_R820T=m
-# CONFIG_MEDIA_TUNER_SI2157 is not set
-CONFIG_MEDIA_TUNER_SIMPLE=m
-CONFIG_MEDIA_TUNER_TDA18212=m
-CONFIG_MEDIA_TUNER_TDA18218=m
-CONFIG_MEDIA_TUNER_TDA18250=m
-CONFIG_MEDIA_TUNER_TDA18271=m
-CONFIG_MEDIA_TUNER_TDA827X=m
-CONFIG_MEDIA_TUNER_TDA8290=m
-CONFIG_MEDIA_TUNER_TDA9887=m
-CONFIG_MEDIA_TUNER_TEA5761=m
-CONFIG_MEDIA_TUNER_TEA5767=m
-CONFIG_MEDIA_TUNER_TUA9001=m
-CONFIG_MEDIA_TUNER_XC2028=m
-CONFIG_MEDIA_TUNER_XC4000=m
-CONFIG_MEDIA_TUNER_XC5000=m
-# end of Customize TV tuners
-
-#
-# Customise DVB Frontends
-#
-
-#
-# Multistandard (satellite) frontends
-#
-# CONFIG_DVB_M88DS3103 is not set
-CONFIG_DVB_MXL5XX=m
-# CONFIG_DVB_STB0899 is not set
-CONFIG_DVB_STB6100=m
-CONFIG_DVB_STV090x=m
-CONFIG_DVB_STV0910=m
-# CONFIG_DVB_STV6110x is not set
-CONFIG_DVB_STV6111=m
-
-#
-# Multistandard (cable + terrestrial) frontends
-#
-CONFIG_DVB_DRXK=m
-CONFIG_DVB_MN88472=m
-CONFIG_DVB_MN88473=m
-CONFIG_DVB_SI2165=m
-# CONFIG_DVB_TDA18271C2DD is not set
-
-#
-# DVB-S (satellite) frontends
-#
-CONFIG_DVB_CX24110=m
-CONFIG_DVB_CX24116=m
-CONFIG_DVB_CX24117=m
-CONFIG_DVB_CX24120=m
-# CONFIG_DVB_CX24123 is not set
-CONFIG_DVB_DS3000=m
-CONFIG_DVB_MB86A16=m
-# CONFIG_DVB_MT312 is not set
-CONFIG_DVB_S5H1420=m
-# CONFIG_DVB_SI21XX is not set
-CONFIG_DVB_STB6000=m
-# CONFIG_DVB_STV0288 is not set
-CONFIG_DVB_STV0299=m
-CONFIG_DVB_STV0900=m
-# CONFIG_DVB_STV6110 is not set
-# CONFIG_DVB_TDA10071 is not set
-# CONFIG_DVB_TDA10086 is not set
-CONFIG_DVB_TDA8083=m
-# CONFIG_DVB_TDA8261 is not set
-# CONFIG_DVB_TDA826X is not set
-CONFIG_DVB_TS2020=m
-CONFIG_DVB_TUA6100=m
-CONFIG_DVB_TUNER_CX24113=m
-# CONFIG_DVB_TUNER_ITD1000 is not set
-# CONFIG_DVB_VES1X93 is not set
-CONFIG_DVB_ZL10036=m
-CONFIG_DVB_ZL10039=m
-
-#
-# DVB-T (terrestrial) frontends
-#
-# CONFIG_DVB_AF9013 is not set
-# CONFIG_DVB_CX22700 is not set
-CONFIG_DVB_CX22702=m
-# CONFIG_DVB_CXD2820R is not set
-CONFIG_DVB_CXD2841ER=m
-# CONFIG_DVB_DIB3000MB is not set
-CONFIG_DVB_DIB3000MC=m
-CONFIG_DVB_DIB7000M=m
-# CONFIG_DVB_DIB7000P is not set
-# CONFIG_DVB_DIB9000 is not set
-CONFIG_DVB_DRXD=m
-CONFIG_DVB_EC100=m
-CONFIG_DVB_L64781=m
-CONFIG_DVB_MT352=m
-CONFIG_DVB_NXT6000=m
-CONFIG_DVB_RTL2830=m
-CONFIG_DVB_RTL2832=m
-CONFIG_DVB_RTL2832_SDR=m
-# CONFIG_DVB_S5H1432 is not set
-# CONFIG_DVB_SI2168 is not set
-# CONFIG_DVB_SP887X is not set
-CONFIG_DVB_STV0367=m
-CONFIG_DVB_TDA10048=m
-CONFIG_DVB_TDA1004X=m
-CONFIG_DVB_ZD1301_DEMOD=m
-CONFIG_DVB_ZL10353=m
-CONFIG_DVB_CXD2880=m
-
-#
-# DVB-C (cable) frontends
-#
-CONFIG_DVB_STV0297=m
-CONFIG_DVB_TDA10021=m
-CONFIG_DVB_TDA10023=m
-# CONFIG_DVB_VES1820 is not set
-
-#
-# ATSC (North American/Korean Terrestrial/Cable DTV) frontends
-#
-CONFIG_DVB_AU8522=m
-CONFIG_DVB_AU8522_DTV=m
-CONFIG_DVB_AU8522_V4L=m
-CONFIG_DVB_BCM3510=m
-# CONFIG_DVB_LG2160 is not set
-CONFIG_DVB_LGDT3305=m
-CONFIG_DVB_LGDT3306A=m
-CONFIG_DVB_LGDT330X=m
-# CONFIG_DVB_MXL692 is not set
-CONFIG_DVB_NXT200X=m
-# CONFIG_DVB_OR51132 is not set
-# CONFIG_DVB_OR51211 is not set
-CONFIG_DVB_S5H1409=m
-# CONFIG_DVB_S5H1411 is not set
-
-#
-# ISDB-T (terrestrial) frontends
-#
-# CONFIG_DVB_DIB8000 is not set
-# CONFIG_DVB_MB86A20S is not set
-CONFIG_DVB_S921=m
-
-#
-# ISDB-S (satellite) & ISDB-T (terrestrial) frontends
-#
-CONFIG_DVB_MN88443X=m
-CONFIG_DVB_TC90522=m
-
-#
-# Digital terrestrial only tuners/PLL
-#
-CONFIG_DVB_PLL=m
-# CONFIG_DVB_TUNER_DIB0070 is not set
-CONFIG_DVB_TUNER_DIB0090=m
-
-#
-# SEC control devices for DVB-S
-#
-# CONFIG_DVB_A8293 is not set
-# CONFIG_DVB_AF9033 is not set
-CONFIG_DVB_ASCOT2E=m
-CONFIG_DVB_ATBM8830=m
-# CONFIG_DVB_HELENE is not set
-# CONFIG_DVB_HORUS3A is not set
-CONFIG_DVB_ISL6405=m
-CONFIG_DVB_ISL6421=m
-CONFIG_DVB_ISL6423=m
-CONFIG_DVB_IX2505V=m
-CONFIG_DVB_LGS8GL5=m
-CONFIG_DVB_LGS8GXX=m
-CONFIG_DVB_LNBH25=m
-CONFIG_DVB_LNBH29=m
-CONFIG_DVB_LNBP21=m
-CONFIG_DVB_LNBP22=m
-# CONFIG_DVB_M88RS2000 is not set
-# CONFIG_DVB_TDA665x is not set
-CONFIG_DVB_DRX39XYJ=m
-
-#
-# Common Interface (EN50221) controller drivers
-#
-CONFIG_DVB_CXD2099=m
-CONFIG_DVB_SP2=m
-# end of Customise DVB Frontends
-
-#
-# Tools to develop new frontends
-#
-CONFIG_DVB_DUMMY_FE=m
-# end of Media ancillary drivers
-
-#
-# Graphics support
-#
-CONFIG_APERTURE_HELPERS=y
-# CONFIG_IMX_IPUV3_CORE is not set
-CONFIG_DRM=y
-CONFIG_DRM_MIPI_DBI=y
-CONFIG_DRM_MIPI_DSI=y
-CONFIG_DRM_KUNIT_TEST=m
-CONFIG_DRM_KMS_HELPER=y
-CONFIG_DRM_LOAD_EDID_FIRMWARE=y
-CONFIG_DRM_DP_AUX_BUS=y
-CONFIG_DRM_DISPLAY_HELPER=y
-CONFIG_DRM_DISPLAY_DP_HELPER=y
-CONFIG_DRM_DISPLAY_HDCP_HELPER=y
-CONFIG_DRM_DISPLAY_HDMI_HELPER=y
-CONFIG_DRM_DP_AUX_CHARDEV=y
-# CONFIG_DRM_DP_CEC is not set
-CONFIG_DRM_BUDDY=m
-CONFIG_DRM_GEM_DMA_HELPER=y
-CONFIG_DRM_GEM_SHMEM_HELPER=y
-CONFIG_DRM_SCHED=y
-
-#
-# I2C encoder or helper chips
-#
-# CONFIG_DRM_I2C_CH7006 is not set
-CONFIG_DRM_I2C_SIL164=y
-CONFIG_DRM_I2C_NXP_TDA998X=m
-CONFIG_DRM_I2C_NXP_TDA9950=y
-# end of I2C encoder or helper chips
-
-#
-# ARM devices
-#
-# end of ARM devices
-
-CONFIG_DRM_KMB_DISPLAY=m
-CONFIG_DRM_VGEM=y
-CONFIG_DRM_VKMS=m
-# CONFIG_DRM_ROCKCHIP is not set
-# CONFIG_DRM_UDL is not set
-CONFIG_DRM_RCAR_DW_HDMI=m
-# CONFIG_DRM_RCAR_USE_LVDS is not set
-# CONFIG_DRM_RCAR_MIPI_DSI is not set
-CONFIG_DRM_PANEL=y
-
-#
-# Display Panels
-#
-# CONFIG_DRM_PANEL_ABT_Y030XX067A is not set
-CONFIG_DRM_PANEL_ARM_VERSATILE=y
-CONFIG_DRM_PANEL_ASUS_Z00T_TM5P5_NT35596=y
-CONFIG_DRM_PANEL_BOE_BF060Y8M_AJ0=y
-CONFIG_DRM_PANEL_BOE_HIMAX8279D=m
-# CONFIG_DRM_PANEL_BOE_TV101WUM_NL6 is not set
-CONFIG_DRM_PANEL_DSI_CM=m
-CONFIG_DRM_PANEL_LVDS=y
-CONFIG_DRM_PANEL_EBBG_FT8719=m
-CONFIG_DRM_PANEL_ELIDA_KD35T133=m
-# CONFIG_DRM_PANEL_FEIXIN_K101_IM2BA02 is not set
-CONFIG_DRM_PANEL_FEIYANG_FY07024DI26A30D=m
-CONFIG_DRM_PANEL_ILITEK_IL9322=y
-CONFIG_DRM_PANEL_ILITEK_ILI9341=y
-CONFIG_DRM_PANEL_ILITEK_ILI9881C=m
-CONFIG_DRM_PANEL_INNOLUX_EJ030NA=y
-CONFIG_DRM_PANEL_INNOLUX_P079ZCA=y
-CONFIG_DRM_PANEL_JDI_LT070ME05000=y
-CONFIG_DRM_PANEL_JDI_R63452=y
-CONFIG_DRM_PANEL_KHADAS_TS050=y
-CONFIG_DRM_PANEL_KINGDISPLAY_KD097D04=y
-CONFIG_DRM_PANEL_LEADTEK_LTK050H3146W=y
-CONFIG_DRM_PANEL_LEADTEK_LTK500HD1829=m
-# CONFIG_DRM_PANEL_SAMSUNG_LD9040 is not set
-CONFIG_DRM_PANEL_LG_LB035Q02=y
-CONFIG_DRM_PANEL_LG_LG4573=y
-# CONFIG_DRM_PANEL_NEC_NL8048HL11 is not set
-# CONFIG_DRM_PANEL_NEWVISION_NV3052C is not set
-CONFIG_DRM_PANEL_NOVATEK_NT35510=y
-CONFIG_DRM_PANEL_NOVATEK_NT35560=m
-CONFIG_DRM_PANEL_NOVATEK_NT35950=y
-CONFIG_DRM_PANEL_NOVATEK_NT36672A=m
-CONFIG_DRM_PANEL_NOVATEK_NT39016=y
-CONFIG_DRM_PANEL_MANTIX_MLAF057WE51=y
-# CONFIG_DRM_PANEL_OLIMEX_LCD_OLINUXINO is not set
-# CONFIG_DRM_PANEL_ORISETECH_OTM8009A is not set
-# CONFIG_DRM_PANEL_OSD_OSD101T2587_53TS is not set
-# CONFIG_DRM_PANEL_PANASONIC_VVX10F034N00 is not set
-# CONFIG_DRM_PANEL_RASPBERRYPI_TOUCHSCREEN is not set
-CONFIG_DRM_PANEL_RAYDIUM_RM67191=y
-# CONFIG_DRM_PANEL_RAYDIUM_RM68200 is not set
-CONFIG_DRM_PANEL_RONBO_RB070D30=m
-CONFIG_DRM_PANEL_SAMSUNG_DB7430=y
-# CONFIG_DRM_PANEL_SAMSUNG_S6D16D0 is not set
-# CONFIG_DRM_PANEL_SAMSUNG_S6D27A1 is not set
-# CONFIG_DRM_PANEL_SAMSUNG_S6E3HA2 is not set
-CONFIG_DRM_PANEL_SAMSUNG_S6E63J0X03=m
-# CONFIG_DRM_PANEL_SAMSUNG_S6E63M0 is not set
-# CONFIG_DRM_PANEL_SAMSUNG_S6E88A0_AMS452EF01 is not set
-CONFIG_DRM_PANEL_SAMSUNG_S6E8AA0=y
-CONFIG_DRM_PANEL_SAMSUNG_SOFEF00=y
-CONFIG_DRM_PANEL_SEIKO_43WVF1G=m
-# CONFIG_DRM_PANEL_SHARP_LQ101R1SX01 is not set
-CONFIG_DRM_PANEL_SHARP_LS037V7DW01=y
-# CONFIG_DRM_PANEL_SHARP_LS043T1LE01 is not set
-CONFIG_DRM_PANEL_SHARP_LS060T1SX01=y
-CONFIG_DRM_PANEL_SITRONIX_ST7701=m
-CONFIG_DRM_PANEL_SITRONIX_ST7703=y
-# CONFIG_DRM_PANEL_SITRONIX_ST7789V is not set
-CONFIG_DRM_PANEL_SONY_ACX565AKM=m
-CONFIG_DRM_PANEL_SONY_TULIP_TRULY_NT35521=m
-CONFIG_DRM_PANEL_TDO_TL070WSH30=m
-CONFIG_DRM_PANEL_TPO_TD028TTEC1=y
-CONFIG_DRM_PANEL_TPO_TD043MTEA1=m
-# CONFIG_DRM_PANEL_TPO_TPG110 is not set
-# CONFIG_DRM_PANEL_TRULY_NT35597_WQXGA is not set
-CONFIG_DRM_PANEL_VISIONOX_RM69299=m
-CONFIG_DRM_PANEL_WIDECHIPS_WS2401=y
-# CONFIG_DRM_PANEL_XINPENG_XPP055C272 is not set
-# end of Display Panels
-
-CONFIG_DRM_BRIDGE=y
-CONFIG_DRM_PANEL_BRIDGE=y
-
-#
-# Display Interface Bridges
-#
-CONFIG_DRM_CDNS_DSI=y
-CONFIG_DRM_CHIPONE_ICN6211=y
-CONFIG_DRM_CHRONTEL_CH7033=y
-# CONFIG_DRM_CROS_EC_ANX7688 is not set
-CONFIG_DRM_DISPLAY_CONNECTOR=y
-CONFIG_DRM_FSL_LDB=y
-CONFIG_DRM_ITE_IT6505=y
-CONFIG_DRM_LONTIUM_LT8912B=y
-CONFIG_DRM_LONTIUM_LT9211=y
-CONFIG_DRM_LONTIUM_LT9611=y
-CONFIG_DRM_LONTIUM_LT9611UXC=y
-CONFIG_DRM_ITE_IT66121=y
-CONFIG_DRM_LVDS_CODEC=m
-CONFIG_DRM_MEGACHIPS_STDPXXXX_GE_B850V3_FW=y
-# CONFIG_DRM_NXP_PTN3460 is not set
-CONFIG_DRM_PARADE_PS8622=m
-CONFIG_DRM_PARADE_PS8640=y
-# CONFIG_DRM_SIL_SII8620 is not set
-CONFIG_DRM_SII902X=y
-# CONFIG_DRM_SII9234 is not set
-CONFIG_DRM_SIMPLE_BRIDGE=y
-CONFIG_DRM_THINE_THC63LVD1024=y
-CONFIG_DRM_TOSHIBA_TC358762=m
-CONFIG_DRM_TOSHIBA_TC358764=y
-CONFIG_DRM_TOSHIBA_TC358767=m
-# CONFIG_DRM_TOSHIBA_TC358768 is not set
-CONFIG_DRM_TOSHIBA_TC358775=y
-CONFIG_DRM_TI_DLPC3433=y
-# CONFIG_DRM_TI_TFP410 is not set
-CONFIG_DRM_TI_SN65DSI83=y
-CONFIG_DRM_TI_SN65DSI86=m
-CONFIG_DRM_TI_TPD12S015=m
-CONFIG_DRM_ANALOGIX_ANX6345=m
-# CONFIG_DRM_ANALOGIX_ANX78XX is not set
-CONFIG_DRM_ANALOGIX_DP=m
-# CONFIG_DRM_ANALOGIX_ANX7625 is not set
-CONFIG_DRM_I2C_ADV7511=y
-# CONFIG_DRM_I2C_ADV7511_AUDIO is not set
-# CONFIG_DRM_I2C_ADV7511_CEC is not set
-# CONFIG_DRM_CDNS_MHDP8546 is not set
-CONFIG_DRM_IMX8QXP_PIXEL_LINK_TO_DPI=y
-CONFIG_DRM_DW_HDMI=m
-# CONFIG_DRM_DW_HDMI_AHB_AUDIO is not set
-CONFIG_DRM_DW_HDMI_I2S_AUDIO=m
-CONFIG_DRM_DW_HDMI_GP_AUDIO=m
-# CONFIG_DRM_DW_HDMI_CEC is not set
-# end of Display Interface Bridges
-
-CONFIG_DRM_ETNAVIV=y
-# CONFIG_DRM_ETNAVIV_THERMAL is not set
-CONFIG_DRM_LOGICVC=m
-CONFIG_DRM_ARCPGU=y
-CONFIG_DRM_GM12U320=m
-CONFIG_DRM_PANEL_MIPI_DBI=m
-CONFIG_DRM_SIMPLEDRM=y
-# CONFIG_TINYDRM_HX8357D is not set
-CONFIG_TINYDRM_ILI9163=y
-# CONFIG_TINYDRM_ILI9225 is not set
-# CONFIG_TINYDRM_ILI9341 is not set
-# CONFIG_TINYDRM_ILI9486 is not set
-CONFIG_TINYDRM_MI0283QT=y
-CONFIG_TINYDRM_REPAPER=y
-CONFIG_TINYDRM_ST7586=y
-CONFIG_TINYDRM_ST7735R=m
-CONFIG_DRM_TVE200=m
-CONFIG_DRM_ASPEED_GFX=y
-# CONFIG_DRM_TIDSS is not set
-# CONFIG_DRM_GUD is not set
-CONFIG_DRM_SSD130X=m
-# CONFIG_DRM_SSD130X_I2C is not set
-CONFIG_DRM_SSD130X_SPI=m
-CONFIG_DRM_SPRD=m
-CONFIG_DRM_LEGACY=y
-CONFIG_DRM_EXPORT_FOR_TESTS=y
-CONFIG_DRM_PANEL_ORIENTATION_QUIRKS=y
-CONFIG_DRM_NOMODESET=y
-CONFIG_DRM_LIB_RANDOM=y
-
-#
-# Frame buffer Devices
-#
-CONFIG_FB_CMDLINE=y
-CONFIG_FB_NOTIFY=y
-CONFIG_FB=m
-CONFIG_FIRMWARE_EDID=y
-CONFIG_FB_CFB_FILLRECT=m
-CONFIG_FB_CFB_COPYAREA=m
-CONFIG_FB_CFB_IMAGEBLIT=m
-CONFIG_FB_SYS_FILLRECT=m
-CONFIG_FB_SYS_COPYAREA=m
-CONFIG_FB_SYS_IMAGEBLIT=m
-# CONFIG_FB_FOREIGN_ENDIAN is not set
-CONFIG_FB_SYS_FOPS=m
-CONFIG_FB_DEFERRED_IO=y
-CONFIG_FB_BACKLIGHT=m
-CONFIG_FB_MODE_HELPERS=y
-CONFIG_FB_TILEBLITTING=y
-
-#
-# Frame buffer hardware drivers
-#
-CONFIG_FB_CLPS711X=m
-CONFIG_FB_IMX=m
-CONFIG_FB_ARC=m
-# CONFIG_FB_PVR2 is not set
-CONFIG_FB_OPENCORES=m
-# CONFIG_FB_S1D13XXX is not set
-# CONFIG_FB_ATMEL is not set
-CONFIG_FB_PXA168=m
-CONFIG_FB_W100=m
-# CONFIG_FB_SH_MOBILE_LCDC is not set
-# CONFIG_FB_TMIO is not set
-# CONFIG_FB_S3C is not set
-CONFIG_FB_SM501=m
-CONFIG_FB_SMSCUFX=m
-CONFIG_FB_UDL=m
-# CONFIG_FB_IBM_GXT4500 is not set
-# CONFIG_FB_GOLDFISH is not set
-# CONFIG_FB_DA8XX is not set
-# CONFIG_FB_VIRTUAL is not set
-# CONFIG_FB_METRONOME is not set
-CONFIG_FB_BROADSHEET=m
-CONFIG_FB_SSD1307=m
-# CONFIG_FB_OMAP2 is not set
-CONFIG_MMP_DISP=m
-# CONFIG_MMP_DISP_CONTROLLER is not set
-CONFIG_MMP_PANEL_TPOHVGA=y
-# CONFIG_MMP_FB is not set
-# end of Frame buffer Devices
-
-#
-# Backlight & LCD device support
-#
-CONFIG_LCD_CLASS_DEVICE=y
-CONFIG_LCD_L4F00242T03=y
-CONFIG_LCD_LMS283GF05=m
-CONFIG_LCD_LTV350QV=m
-CONFIG_LCD_ILI922X=m
-CONFIG_LCD_ILI9320=y
-CONFIG_LCD_TDO24M=m
-# CONFIG_LCD_VGG2432A4 is not set
-CONFIG_LCD_PLATFORM=m
-# CONFIG_LCD_AMS369FG06 is not set
-CONFIG_LCD_LMS501KF03=y
-# CONFIG_LCD_HX8357 is not set
-# CONFIG_LCD_OTM3225A is not set
-CONFIG_BACKLIGHT_CLASS_DEVICE=y
-CONFIG_BACKLIGHT_KTD253=m
-# CONFIG_BACKLIGHT_OMAP1 is not set
-CONFIG_BACKLIGHT_PWM=y
-CONFIG_BACKLIGHT_DA903X=m
-CONFIG_BACKLIGHT_DA9052=y
-CONFIG_BACKLIGHT_MT6370=y
-CONFIG_BACKLIGHT_QCOM_WLED=y
-# CONFIG_BACKLIGHT_RT4831 is not set
-# CONFIG_BACKLIGHT_WM831X is not set
-# CONFIG_BACKLIGHT_ADP8860 is not set
-# CONFIG_BACKLIGHT_ADP8870 is not set
-CONFIG_BACKLIGHT_88PM860X=y
-CONFIG_BACKLIGHT_LM3630A=m
-# CONFIG_BACKLIGHT_LM3639 is not set
-CONFIG_BACKLIGHT_LP855X=y
-# CONFIG_BACKLIGHT_PANDORA is not set
-CONFIG_BACKLIGHT_TPS65217=m
-# CONFIG_BACKLIGHT_GPIO is not set
-# CONFIG_BACKLIGHT_LV5207LP is not set
-# CONFIG_BACKLIGHT_BD6107 is not set
-CONFIG_BACKLIGHT_ARCXCNN=y
-CONFIG_BACKLIGHT_RAVE_SP=m
-CONFIG_BACKLIGHT_LED=m
-# end of Backlight & LCD device support
-
-CONFIG_VIDEOMODE_HELPERS=y
-CONFIG_HDMI=y
-# CONFIG_LOGO is not set
-# end of Graphics support
-
-CONFIG_SOUND=m
-CONFIG_SOUND_OSS_CORE=y
-# CONFIG_SOUND_OSS_CORE_PRECLAIM is not set
-CONFIG_SND=m
-CONFIG_SND_TIMER=m
-CONFIG_SND_PCM=m
-CONFIG_SND_PCM_ELD=y
-CONFIG_SND_PCM_IEC958=y
-CONFIG_SND_DMAENGINE_PCM=m
-CONFIG_SND_HWDEP=m
-CONFIG_SND_SEQ_DEVICE=m
-CONFIG_SND_RAWMIDI=m
-CONFIG_SND_COMPRESS_OFFLOAD=m
-CONFIG_SND_JACK=y
-CONFIG_SND_OSSEMUL=y
-CONFIG_SND_MIXER_OSS=m
-CONFIG_SND_PCM_OSS=m
-# CONFIG_SND_PCM_OSS_PLUGINS is not set
-CONFIG_SND_PCM_TIMER=y
-# CONFIG_SND_DYNAMIC_MINORS is not set
-CONFIG_SND_SUPPORT_OLD_API=y
-CONFIG_SND_PROC_FS=y
-# CONFIG_SND_VERBOSE_PROCFS is not set
-# CONFIG_SND_VERBOSE_PRINTK is not set
-CONFIG_SND_CTL_FAST_LOOKUP=y
-CONFIG_SND_DEBUG=y
-# CONFIG_SND_DEBUG_VERBOSE is not set
-CONFIG_SND_CTL_INPUT_VALIDATION=y
-# CONFIG_SND_CTL_DEBUG is not set
-# CONFIG_SND_JACK_INJECTION_DEBUG is not set
-CONFIG_SND_VMASTER=y
-CONFIG_SND_CTL_LED=m
-CONFIG_SND_SEQUENCER=m
-CONFIG_SND_SEQ_DUMMY=m
-CONFIG_SND_SEQUENCER_OSS=m
-CONFIG_SND_SEQ_MIDI_EVENT=m
-CONFIG_SND_SEQ_MIDI=m
-CONFIG_SND_SEQ_VIRMIDI=m
-CONFIG_SND_MPU401_UART=m
-CONFIG_SND_AC97_CODEC=m
-CONFIG_SND_DRIVERS=y
-# CONFIG_SND_DUMMY is not set
-CONFIG_SND_ALOOP=m
-CONFIG_SND_VIRMIDI=m
-CONFIG_SND_MTPAV=m
-CONFIG_SND_MTS64=m
-CONFIG_SND_SERIAL_U16550=m
-# CONFIG_SND_SERIAL_GENERIC is not set
-CONFIG_SND_MPU401=m
-# CONFIG_SND_PORTMAN2X4 is not set
-CONFIG_SND_AC97_POWER_SAVE=y
-CONFIG_SND_AC97_POWER_SAVE_DEFAULT=0
-
-#
-# HD-Audio
-#
-CONFIG_SND_HDA=m
-CONFIG_SND_HDA_GENERIC_LEDS=y
-# CONFIG_SND_HDA_HWDEP is not set
-# CONFIG_SND_HDA_RECONFIG is not set
-# CONFIG_SND_HDA_PATCH_LOADER is not set
-CONFIG_SND_HDA_CODEC_REALTEK=m
-# CONFIG_SND_HDA_CODEC_ANALOG is not set
-CONFIG_SND_HDA_CODEC_SIGMATEL=m
-CONFIG_SND_HDA_CODEC_VIA=m
-# CONFIG_SND_HDA_CODEC_HDMI is not set
-# CONFIG_SND_HDA_CODEC_CIRRUS is not set
-CONFIG_SND_HDA_CODEC_CS8409=m
-CONFIG_SND_HDA_CODEC_CONEXANT=m
-CONFIG_SND_HDA_CODEC_CA0110=m
-CONFIG_SND_HDA_CODEC_CA0132=m
-# CONFIG_SND_HDA_CODEC_CA0132_DSP is not set
-CONFIG_SND_HDA_CODEC_CMEDIA=m
-# CONFIG_SND_HDA_CODEC_SI3054 is not set
-CONFIG_SND_HDA_GENERIC=m
-# end of HD-Audio
-
-CONFIG_SND_HDA_CORE=m
-CONFIG_SND_HDA_EXT_CORE=m
-CONFIG_SND_HDA_PREALLOC_SIZE=64
-CONFIG_SND_PXA2XX_LIB=m
-# CONFIG_SND_SPI is not set
-# CONFIG_SND_USB is not set
-CONFIG_SND_FIREWIRE=y
-CONFIG_SND_FIREWIRE_LIB=m
-CONFIG_SND_DICE=m
-CONFIG_SND_OXFW=m
-# CONFIG_SND_ISIGHT is not set
-CONFIG_SND_FIREWORKS=m
-CONFIG_SND_BEBOB=m
-CONFIG_SND_FIREWIRE_DIGI00X=m
-CONFIG_SND_FIREWIRE_TASCAM=m
-# CONFIG_SND_FIREWIRE_MOTU is not set
-CONFIG_SND_FIREFACE=m
-# CONFIG_SND_PCMCIA is not set
-CONFIG_SND_SOC=m
-CONFIG_SND_SOC_AC97_BUS=y
-CONFIG_SND_SOC_GENERIC_DMAENGINE_PCM=y
-CONFIG_SND_SOC_COMPRESS=y
-CONFIG_SND_SOC_UTILS_KUNIT_TEST=m
-CONFIG_SND_SOC_ADI=m
-# CONFIG_SND_SOC_ADI_AXI_I2S is not set
-CONFIG_SND_SOC_ADI_AXI_SPDIF=m
-CONFIG_SND_SOC_AMD_ACP=m
-CONFIG_SND_SOC_AMD_CZ_RT5645_MACH=m
-CONFIG_SND_AMD_ACP_CONFIG=m
-# CONFIG_SND_SOC_APPLE_MCA is not set
-CONFIG_SND_ATMEL_SOC=m
-CONFIG_SND_ATMEL_SOC_PDC=y
-CONFIG_SND_ATMEL_SOC_DMA=y
-CONFIG_SND_ATMEL_SOC_SSC=m
-CONFIG_SND_ATMEL_SOC_SSC_PDC=m
-CONFIG_SND_ATMEL_SOC_SSC_DMA=m
-CONFIG_SND_AT91_SOC_SAM9G20_WM8731=m
-CONFIG_SND_ATMEL_SOC_WM8904=m
-# CONFIG_SND_AT91_SOC_SAM9X5_WM8731 is not set
-# CONFIG_SND_ATMEL_SOC_CLASSD is not set
-CONFIG_SND_ATMEL_SOC_PDMIC=m
-CONFIG_SND_ATMEL_SOC_I2S=m
-CONFIG_SND_SOC_MIKROE_PROTO=m
-CONFIG_SND_MCHP_SOC_I2S_MCC=m
-CONFIG_SND_MCHP_SOC_SPDIFTX=m
-# CONFIG_SND_MCHP_SOC_PDMC is not set
-CONFIG_SND_BCM2835_SOC_I2S=m
-# CONFIG_SND_SOC_CYGNUS is not set
-CONFIG_SND_BCM63XX_I2S_WHISTLER=m
-# CONFIG_SND_EP93XX_SOC is not set
-# CONFIG_SND_DESIGNWARE_I2S is not set
-
-#
-# SoC Audio for Freescale CPUs
-#
-
-#
-# Common SoC Audio options for Freescale CPUs:
-#
-CONFIG_SND_SOC_FSL_ASRC=m
-CONFIG_SND_SOC_FSL_SAI=m
-CONFIG_SND_SOC_FSL_MQS=m
-CONFIG_SND_SOC_FSL_AUDMIX=m
-CONFIG_SND_SOC_FSL_SSI=m
-CONFIG_SND_SOC_FSL_SPDIF=m
-CONFIG_SND_SOC_FSL_ESAI=m
-CONFIG_SND_SOC_FSL_MICFIL=m
-CONFIG_SND_SOC_FSL_EASRC=m
-# CONFIG_SND_SOC_FSL_XCVR is not set
-CONFIG_SND_SOC_FSL_AUD2HTX=m
-CONFIG_SND_SOC_FSL_UTILS=m
-CONFIG_SND_SOC_IMX_PCM_DMA=m
-CONFIG_SND_SOC_IMX_AUDIO_RPMSG=m
-CONFIG_SND_SOC_IMX_PCM_RPMSG=m
-CONFIG_SND_SOC_IMX_AUDMUX=m
-CONFIG_SND_IMX_SOC=m
-
-#
-# SoC Audio support for Freescale i.MX boards:
-#
-# CONFIG_SND_SOC_IMX_ES8328 is not set
-# CONFIG_SND_SOC_IMX_SGTL5000 is not set
-# CONFIG_SND_SOC_IMX_SPDIF is not set
-CONFIG_SND_SOC_FSL_ASOC_CARD=m
-CONFIG_SND_SOC_IMX_AUDMIX=m
-CONFIG_SND_SOC_IMX_HDMI=m
-CONFIG_SND_SOC_IMX_RPMSG=m
-CONFIG_SND_SOC_IMX_CARD=m
-# end of SoC Audio for Freescale CPUs
-
-# CONFIG_SND_I2S_HI6210_I2S is not set
-CONFIG_SND_JZ4740_SOC_I2S=m
-CONFIG_SND_KIRKWOOD_SOC=m
-CONFIG_SND_KIRKWOOD_SOC_ARMADA370_DB=m
-CONFIG_SND_SOC_IMG=y
-# CONFIG_SND_SOC_IMG_I2S_IN is not set
-CONFIG_SND_SOC_IMG_I2S_OUT=m
-CONFIG_SND_SOC_IMG_PARALLEL_OUT=m
-# CONFIG_SND_SOC_IMG_SPDIF_IN is not set
-# CONFIG_SND_SOC_IMG_SPDIF_OUT is not set
-# CONFIG_SND_SOC_IMG_PISTACHIO_INTERNAL_DAC is not set
-CONFIG_SND_SOC_INTEL_SST_TOPLEVEL=y
-CONFIG_SND_SOC_INTEL_MACH=y
-CONFIG_SND_SOC_INTEL_USER_FRIENDLY_LONG_NAMES=y
-CONFIG_SND_SOC_MTK_BTCVSD=m
-CONFIG_SND_PXA2XX_SOC=m
-# CONFIG_SND_SOC_QCOM is not set
-CONFIG_SND_SOC_ROCKCHIP=m
-CONFIG_SND_SOC_ROCKCHIP_I2S=m
-# CONFIG_SND_SOC_ROCKCHIP_I2S_TDM is not set
-CONFIG_SND_SOC_ROCKCHIP_PDM=m
-# CONFIG_SND_SOC_ROCKCHIP_SPDIF is not set
-# CONFIG_SND_SOC_ROCKCHIP_MAX98090 is not set
-CONFIG_SND_SOC_ROCKCHIP_RT5645=m
-# CONFIG_SND_SOC_RK3288_HDMI_ANALOG is not set
-CONFIG_SND_SOC_RK3399_GRU_SOUND=m
-
-#
-# SoC Audio support for Renesas SoCs
-#
-CONFIG_SND_SOC_RZ=m
-# end of SoC Audio support for Renesas SoCs
-
-# CONFIG_SND_SOC_SOF_TOPLEVEL is not set
-# CONFIG_SND_SOC_SPRD is not set
-CONFIG_SND_SOC_STI=m
-
-#
-# STMicroelectronics STM32 SOC audio support
-#
-CONFIG_SND_SOC_STM32_SPDIFRX=m
-CONFIG_SND_SOC_STM32_DFSDM=m
-# end of STMicroelectronics STM32 SOC audio support
-
-#
-# Allwinner SoC Audio support
-#
-CONFIG_SND_SUN4I_CODEC=m
-CONFIG_SND_SUN8I_CODEC_ANALOG=m
-CONFIG_SND_SUN50I_CODEC_ANALOG=m
-CONFIG_SND_SUN4I_I2S=m
-CONFIG_SND_SUN4I_SPDIF=m
-CONFIG_SND_SUN50I_DMIC=m
-CONFIG_SND_SUN8I_ADDA_PR_REGMAP=m
-# end of Allwinner SoC Audio support
-
-#
-# Audio support for Texas Instruments SoCs
-#
-CONFIG_SND_SOC_TI_EDMA_PCM=m
-CONFIG_SND_SOC_TI_SDMA_PCM=m
-
-#
-# Texas Instruments DAI support for:
-#
-# CONFIG_SND_SOC_DAVINCI_ASP is not set
-CONFIG_SND_SOC_DAVINCI_VCIF=m
-CONFIG_SND_SOC_OMAP_MCPDM=m
-
-#
-# Audio support for boards with Texas Instruments SoCs
-#
-# CONFIG_SND_SOC_OMAP_HDMI is not set
-# end of Audio support for Texas Instruments SoCs
-
-# CONFIG_SND_SOC_UNIPHIER is not set
-CONFIG_SND_SOC_XILINX_I2S=m
-CONFIG_SND_SOC_XILINX_AUDIO_FORMATTER=m
-# CONFIG_SND_SOC_XILINX_SPDIF is not set
-CONFIG_SND_SOC_XTFPGA_I2S=m
-CONFIG_SND_SOC_I2C_AND_SPI=m
-
-#
-# CODEC drivers
-#
-CONFIG_SND_SOC_ALL_CODECS=m
-CONFIG_SND_SOC_88PM860X=m
-CONFIG_SND_SOC_ARIZONA=m
-CONFIG_SND_SOC_WM_HUBS=m
-CONFIG_SND_SOC_WM_ADSP=m
-CONFIG_SND_SOC_AB8500_CODEC=m
-CONFIG_SND_SOC_AC97_CODEC=m
-CONFIG_SND_SOC_AD1836=m
-CONFIG_SND_SOC_AD193X=m
-CONFIG_SND_SOC_AD193X_SPI=m
-CONFIG_SND_SOC_AD193X_I2C=m
-CONFIG_SND_SOC_AD1980=m
-CONFIG_SND_SOC_AD73311=m
-CONFIG_SND_SOC_ADAU_UTILS=m
-CONFIG_SND_SOC_ADAU1372=m
-CONFIG_SND_SOC_ADAU1372_I2C=m
-CONFIG_SND_SOC_ADAU1372_SPI=m
-CONFIG_SND_SOC_ADAU1373=m
-CONFIG_SND_SOC_ADAU1701=m
-CONFIG_SND_SOC_ADAU17X1=m
-CONFIG_SND_SOC_ADAU1761=m
-CONFIG_SND_SOC_ADAU1761_I2C=m
-CONFIG_SND_SOC_ADAU1761_SPI=m
-CONFIG_SND_SOC_ADAU1781=m
-CONFIG_SND_SOC_ADAU1781_I2C=m
-CONFIG_SND_SOC_ADAU1781_SPI=m
-CONFIG_SND_SOC_ADAU1977=m
-CONFIG_SND_SOC_ADAU1977_SPI=m
-CONFIG_SND_SOC_ADAU1977_I2C=m
-# CONFIG_SND_SOC_ADAU7002 is not set
-# CONFIG_SND_SOC_ADAU7118_HW is not set
-# CONFIG_SND_SOC_ADAU7118_I2C is not set
-CONFIG_SND_SOC_ADAV80X=m
-CONFIG_SND_SOC_ADAV801=m
-CONFIG_SND_SOC_ADAV803=m
-CONFIG_SND_SOC_ADS117X=m
-# CONFIG_SND_SOC_AK4104 is not set
-CONFIG_SND_SOC_AK4118=m
-CONFIG_SND_SOC_AK4375=m
-CONFIG_SND_SOC_AK4458=m
-CONFIG_SND_SOC_AK4535=m
-CONFIG_SND_SOC_AK4554=m
-# CONFIG_SND_SOC_AK4613 is not set
-CONFIG_SND_SOC_AK4641=m
-CONFIG_SND_SOC_AK4642=m
-CONFIG_SND_SOC_AK4671=m
-# CONFIG_SND_SOC_AK5386 is not set
-CONFIG_SND_SOC_AK5558=m
-# CONFIG_SND_SOC_ALC5623 is not set
-CONFIG_SND_SOC_ALC5632=m
-CONFIG_SND_SOC_AW8738=m
-# CONFIG_SND_SOC_BD28623 is not set
-# CONFIG_SND_SOC_BT_SCO is not set
-# CONFIG_SND_SOC_CPCAP is not set
-CONFIG_SND_SOC_CQ0093VC=m
-# CONFIG_SND_SOC_CROS_EC_CODEC is not set
-# CONFIG_SND_SOC_CS35L32 is not set
-CONFIG_SND_SOC_CS35L33=m
-# CONFIG_SND_SOC_CS35L34 is not set
-CONFIG_SND_SOC_CS35L35=m
-# CONFIG_SND_SOC_CS35L36 is not set
-CONFIG_SND_SOC_CS35L41_LIB=m
-CONFIG_SND_SOC_CS35L41=m
-CONFIG_SND_SOC_CS35L41_SPI=m
-CONFIG_SND_SOC_CS35L41_I2C=m
-CONFIG_SND_SOC_CS35L45_TABLES=m
-CONFIG_SND_SOC_CS35L45=m
-CONFIG_SND_SOC_CS35L45_SPI=m
-# CONFIG_SND_SOC_CS35L45_I2C is not set
-CONFIG_SND_SOC_CS42L42_CORE=m
-CONFIG_SND_SOC_CS42L42=m
-CONFIG_SND_SOC_CS42L51=m
-CONFIG_SND_SOC_CS42L51_I2C=m
-# CONFIG_SND_SOC_CS42L52 is not set
-# CONFIG_SND_SOC_CS42L56 is not set
-# CONFIG_SND_SOC_CS42L73 is not set
-CONFIG_SND_SOC_CS42L83=m
-CONFIG_SND_SOC_CS4234=m
-# CONFIG_SND_SOC_CS4265 is not set
-CONFIG_SND_SOC_CS4270=m
-CONFIG_SND_SOC_CS4271=m
-CONFIG_SND_SOC_CS4271_I2C=m
-# CONFIG_SND_SOC_CS4271_SPI is not set
-# CONFIG_SND_SOC_CS42XX8_I2C is not set
-# CONFIG_SND_SOC_CS43130 is not set
-CONFIG_SND_SOC_CS4341=m
-# CONFIG_SND_SOC_CS4349 is not set
-# CONFIG_SND_SOC_CS47L15 is not set
-CONFIG_SND_SOC_CS47L24=m
-# CONFIG_SND_SOC_CS47L35 is not set
-# CONFIG_SND_SOC_CS47L85 is not set
-# CONFIG_SND_SOC_CS47L90 is not set
-# CONFIG_SND_SOC_CS47L92 is not set
-# CONFIG_SND_SOC_CS53L30 is not set
-CONFIG_SND_SOC_CX20442=m
-# CONFIG_SND_SOC_CX2072X is not set
-CONFIG_SND_SOC_JZ4740_CODEC=m
-# CONFIG_SND_SOC_JZ4725B_CODEC is not set
-CONFIG_SND_SOC_JZ4760_CODEC=m
-# CONFIG_SND_SOC_JZ4770_CODEC is not set
-CONFIG_SND_SOC_L3=m
-CONFIG_SND_SOC_DA7210=m
-CONFIG_SND_SOC_DA7213=m
-CONFIG_SND_SOC_DA7218=m
-CONFIG_SND_SOC_DA7219=m
-CONFIG_SND_SOC_DA732X=m
-CONFIG_SND_SOC_DA9055=m
-CONFIG_SND_SOC_DMIC=m
-CONFIG_SND_SOC_HDMI_CODEC=m
-CONFIG_SND_SOC_ES7134=m
-# CONFIG_SND_SOC_ES7241 is not set
-CONFIG_SND_SOC_ES8316=m
-# CONFIG_SND_SOC_ES8326 is not set
-CONFIG_SND_SOC_ES8328=m
-# CONFIG_SND_SOC_ES8328_I2C is not set
-CONFIG_SND_SOC_ES8328_SPI=m
-CONFIG_SND_SOC_GTM601=m
-CONFIG_SND_SOC_HDAC_HDMI=m
-CONFIG_SND_SOC_HDAC_HDA=m
-# CONFIG_SND_SOC_HDA is not set
-# CONFIG_SND_SOC_ICS43432 is not set
-CONFIG_SND_SOC_INNO_RK3036=m
-CONFIG_SND_SOC_ISABELLE=m
-CONFIG_SND_SOC_LM49453=m
-CONFIG_SND_SOC_LOCHNAGAR_SC=m
-# CONFIG_SND_SOC_MAX98088 is not set
-CONFIG_SND_SOC_MAX98090=m
-CONFIG_SND_SOC_MAX98095=m
-CONFIG_SND_SOC_MAX98357A=m
-CONFIG_SND_SOC_MAX98371=m
-CONFIG_SND_SOC_MAX98504=m
-CONFIG_SND_SOC_MAX9867=m
-CONFIG_SND_SOC_MAX98925=m
-CONFIG_SND_SOC_MAX98926=m
-# CONFIG_SND_SOC_MAX98927 is not set
-# CONFIG_SND_SOC_MAX98520 is not set
-CONFIG_SND_SOC_MAX98373=m
-CONFIG_SND_SOC_MAX98373_I2C=m
-# CONFIG_SND_SOC_MAX98373_SDW is not set
-CONFIG_SND_SOC_MAX98390=m
-# CONFIG_SND_SOC_MAX98396 is not set
-CONFIG_SND_SOC_MAX9850=m
-CONFIG_SND_SOC_MAX9860=m
-CONFIG_SND_SOC_MSM8916_WCD_ANALOG=m
-CONFIG_SND_SOC_MSM8916_WCD_DIGITAL=m
-CONFIG_SND_SOC_PCM1681=m
-CONFIG_SND_SOC_PCM1789=m
-CONFIG_SND_SOC_PCM1789_I2C=m
-CONFIG_SND_SOC_PCM179X=m
-CONFIG_SND_SOC_PCM179X_I2C=m
-# CONFIG_SND_SOC_PCM179X_SPI is not set
-CONFIG_SND_SOC_PCM186X=m
-CONFIG_SND_SOC_PCM186X_I2C=m
-CONFIG_SND_SOC_PCM186X_SPI=m
-CONFIG_SND_SOC_PCM3008=m
-CONFIG_SND_SOC_PCM3060=m
-# CONFIG_SND_SOC_PCM3060_I2C is not set
-CONFIG_SND_SOC_PCM3060_SPI=m
-CONFIG_SND_SOC_PCM3168A=m
-CONFIG_SND_SOC_PCM3168A_I2C=m
-CONFIG_SND_SOC_PCM3168A_SPI=m
-CONFIG_SND_SOC_PCM5102A=m
-CONFIG_SND_SOC_PCM512x=m
-CONFIG_SND_SOC_PCM512x_I2C=m
-# CONFIG_SND_SOC_PCM512x_SPI is not set
-# CONFIG_SND_SOC_RK3328 is not set
-CONFIG_SND_SOC_RK817=m
-CONFIG_SND_SOC_RL6231=m
-CONFIG_SND_SOC_RL6347A=m
-CONFIG_SND_SOC_RT274=m
-CONFIG_SND_SOC_RT286=m
-CONFIG_SND_SOC_RT298=m
-CONFIG_SND_SOC_RT1011=m
-CONFIG_SND_SOC_RT1015=m
-CONFIG_SND_SOC_RT1015P=m
-CONFIG_SND_SOC_RT1016=m
-CONFIG_SND_SOC_RT1019=m
-CONFIG_SND_SOC_RT1305=m
-CONFIG_SND_SOC_RT1308=m
-# CONFIG_SND_SOC_RT1308_SDW is not set
-# CONFIG_SND_SOC_RT1316_SDW is not set
-CONFIG_SND_SOC_RT5514=m
-CONFIG_SND_SOC_RT5514_SPI=m
-CONFIG_SND_SOC_RT5616=m
-# CONFIG_SND_SOC_RT5631 is not set
-CONFIG_SND_SOC_RT5640=m
-CONFIG_SND_SOC_RT5645=m
-CONFIG_SND_SOC_RT5651=m
-# CONFIG_SND_SOC_RT5659 is not set
-CONFIG_SND_SOC_RT5660=m
-CONFIG_SND_SOC_RT5663=m
-CONFIG_SND_SOC_RT5665=m
-CONFIG_SND_SOC_RT5668=m
-CONFIG_SND_SOC_RT5670=m
-CONFIG_SND_SOC_RT5677=m
-CONFIG_SND_SOC_RT5677_SPI=m
-CONFIG_SND_SOC_RT5682=m
-CONFIG_SND_SOC_RT5682_I2C=m
-# CONFIG_SND_SOC_RT5682_SDW is not set
-CONFIG_SND_SOC_RT5682S=m
-# CONFIG_SND_SOC_RT700_SDW is not set
-# CONFIG_SND_SOC_RT711_SDW is not set
-# CONFIG_SND_SOC_RT711_SDCA_SDW is not set
-# CONFIG_SND_SOC_RT715_SDW is not set
-# CONFIG_SND_SOC_RT715_SDCA_SDW is not set
-CONFIG_SND_SOC_RT9120=m
-# CONFIG_SND_SOC_SDW_MOCKUP is not set
-CONFIG_SND_SOC_SGTL5000=m
-CONFIG_SND_SOC_SI476X=m
-CONFIG_SND_SOC_SIGMADSP=m
-CONFIG_SND_SOC_SIGMADSP_I2C=m
-CONFIG_SND_SOC_SIGMADSP_REGMAP=m
-# CONFIG_SND_SOC_SIMPLE_AMPLIFIER is not set
-CONFIG_SND_SOC_SIMPLE_MUX=m
-CONFIG_SND_SOC_SPDIF=m
-CONFIG_SND_SOC_SRC4XXX_I2C=m
-CONFIG_SND_SOC_SRC4XXX=m
-# CONFIG_SND_SOC_SSM2305 is not set
-CONFIG_SND_SOC_SSM2518=m
-CONFIG_SND_SOC_SSM2602=m
-# CONFIG_SND_SOC_SSM2602_SPI is not set
-CONFIG_SND_SOC_SSM2602_I2C=m
-CONFIG_SND_SOC_SSM4567=m
-CONFIG_SND_SOC_STA32X=m
-CONFIG_SND_SOC_STA350=m
-CONFIG_SND_SOC_STA529=m
-CONFIG_SND_SOC_STAC9766=m
-CONFIG_SND_SOC_STI_SAS=m
-CONFIG_SND_SOC_TAS2552=m
-# CONFIG_SND_SOC_TAS2562 is not set
-CONFIG_SND_SOC_TAS2764=m
-# CONFIG_SND_SOC_TAS2770 is not set
-CONFIG_SND_SOC_TAS2780=m
-CONFIG_SND_SOC_TAS5086=m
-# CONFIG_SND_SOC_TAS571X is not set
-# CONFIG_SND_SOC_TAS5720 is not set
-# CONFIG_SND_SOC_TAS5805M is not set
-CONFIG_SND_SOC_TAS6424=m
-CONFIG_SND_SOC_TDA7419=m
-CONFIG_SND_SOC_TFA9879=m
-CONFIG_SND_SOC_TFA989X=m
-# CONFIG_SND_SOC_TLV320ADC3XXX is not set
-CONFIG_SND_SOC_TLV320AIC23=m
-# CONFIG_SND_SOC_TLV320AIC23_I2C is not set
-CONFIG_SND_SOC_TLV320AIC23_SPI=m
-CONFIG_SND_SOC_TLV320AIC26=m
-CONFIG_SND_SOC_TLV320AIC31XX=m
-# CONFIG_SND_SOC_TLV320AIC32X4_I2C is not set
-# CONFIG_SND_SOC_TLV320AIC32X4_SPI is not set
-CONFIG_SND_SOC_TLV320AIC3X=m
-CONFIG_SND_SOC_TLV320AIC3X_I2C=m
-CONFIG_SND_SOC_TLV320AIC3X_SPI=m
-CONFIG_SND_SOC_TLV320DAC33=m
-CONFIG_SND_SOC_TLV320ADCX140=m
-CONFIG_SND_SOC_TS3A227E=m
-CONFIG_SND_SOC_TSCS42XX=m
-CONFIG_SND_SOC_TSCS454=m
-CONFIG_SND_SOC_TWL4030=m
-CONFIG_SND_SOC_TWL6040=m
-CONFIG_SND_SOC_UDA1334=m
-CONFIG_SND_SOC_UDA134X=m
-CONFIG_SND_SOC_UDA1380=m
-# CONFIG_SND_SOC_WCD9335 is not set
-# CONFIG_SND_SOC_WCD934X is not set
-# CONFIG_SND_SOC_WCD938X_SDW is not set
-CONFIG_SND_SOC_WL1273=m
-CONFIG_SND_SOC_WM0010=m
-CONFIG_SND_SOC_WM1250_EV1=m
-CONFIG_SND_SOC_WM2000=m
-CONFIG_SND_SOC_WM2200=m
-CONFIG_SND_SOC_WM5100=m
-CONFIG_SND_SOC_WM5102=m
-# CONFIG_SND_SOC_WM5110 is not set
-CONFIG_SND_SOC_WM8350=m
-CONFIG_SND_SOC_WM8400=m
-# CONFIG_SND_SOC_WM8510 is not set
-CONFIG_SND_SOC_WM8523=m
-CONFIG_SND_SOC_WM8524=m
-CONFIG_SND_SOC_WM8580=m
-CONFIG_SND_SOC_WM8711=m
-CONFIG_SND_SOC_WM8727=m
-CONFIG_SND_SOC_WM8728=m
-CONFIG_SND_SOC_WM8731=m
-CONFIG_SND_SOC_WM8731_I2C=m
-# CONFIG_SND_SOC_WM8731_SPI is not set
-CONFIG_SND_SOC_WM8737=m
-CONFIG_SND_SOC_WM8741=m
-CONFIG_SND_SOC_WM8750=m
-CONFIG_SND_SOC_WM8753=m
-# CONFIG_SND_SOC_WM8770 is not set
-CONFIG_SND_SOC_WM8776=m
-CONFIG_SND_SOC_WM8782=m
-CONFIG_SND_SOC_WM8804=m
-# CONFIG_SND_SOC_WM8804_I2C is not set
-CONFIG_SND_SOC_WM8804_SPI=m
-CONFIG_SND_SOC_WM8900=m
-CONFIG_SND_SOC_WM8903=m
-CONFIG_SND_SOC_WM8904=m
-# CONFIG_SND_SOC_WM8940 is not set
-CONFIG_SND_SOC_WM8955=m
-CONFIG_SND_SOC_WM8960=m
-CONFIG_SND_SOC_WM8961=m
-# CONFIG_SND_SOC_WM8962 is not set
-CONFIG_SND_SOC_WM8971=m
-CONFIG_SND_SOC_WM8974=m
-# CONFIG_SND_SOC_WM8978 is not set
-CONFIG_SND_SOC_WM8983=m
-CONFIG_SND_SOC_WM8985=m
-CONFIG_SND_SOC_WM8988=m
-CONFIG_SND_SOC_WM8990=m
-CONFIG_SND_SOC_WM8991=m
-CONFIG_SND_SOC_WM8993=m
-CONFIG_SND_SOC_WM8994=m
-CONFIG_SND_SOC_WM8995=m
-CONFIG_SND_SOC_WM8996=m
-CONFIG_SND_SOC_WM8997=m
-CONFIG_SND_SOC_WM8998=m
-CONFIG_SND_SOC_WM9081=m
-CONFIG_SND_SOC_WM9090=m
-CONFIG_SND_SOC_WM9705=m
-CONFIG_SND_SOC_WM9712=m
-CONFIG_SND_SOC_WM9713=m
-# CONFIG_SND_SOC_WSA881X is not set
-# CONFIG_SND_SOC_WSA883X is not set
-# CONFIG_SND_SOC_ZL38060 is not set
-CONFIG_SND_SOC_LM4857=m
-CONFIG_SND_SOC_MAX9759=m
-CONFIG_SND_SOC_MAX9768=m
-CONFIG_SND_SOC_MAX9877=m
-CONFIG_SND_SOC_MC13783=m
-CONFIG_SND_SOC_ML26124=m
-# CONFIG_SND_SOC_MT6351 is not set
-CONFIG_SND_SOC_MT6358=m
-# CONFIG_SND_SOC_MT6359 is not set
-CONFIG_SND_SOC_MT6359_ACCDET=m
-CONFIG_SND_SOC_MT6660=m
-# CONFIG_SND_SOC_NAU8315 is not set
-CONFIG_SND_SOC_NAU8540=m
-CONFIG_SND_SOC_NAU8810=m
-CONFIG_SND_SOC_NAU8821=m
-# CONFIG_SND_SOC_NAU8822 is not set
-# CONFIG_SND_SOC_NAU8824 is not set
-CONFIG_SND_SOC_NAU8825=m
-CONFIG_SND_SOC_TPA6130A2=m
-CONFIG_SND_SOC_LPASS_MACRO_COMMON=m
-# CONFIG_SND_SOC_LPASS_RX_MACRO is not set
-# CONFIG_SND_SOC_LPASS_TX_MACRO is not set
-# end of CODEC drivers
-
-CONFIG_SND_SIMPLE_CARD_UTILS=m
-CONFIG_SND_SIMPLE_CARD=m
-CONFIG_SND_AUDIO_GRAPH_CARD=m
-CONFIG_SND_AUDIO_GRAPH_CARD2=m
-# CONFIG_SND_AUDIO_GRAPH_CARD2_CUSTOM_SAMPLE is not set
-# CONFIG_SND_TEST_COMPONENT is not set
-CONFIG_SND_VIRTIO=m
-CONFIG_AC97_BUS=m
-CONFIG_USB_OHCI_LITTLE_ENDIAN=y
-CONFIG_USB_SUPPORT=y
-CONFIG_USB_COMMON=y
-# CONFIG_USB_LED_TRIG is not set
-CONFIG_USB_ULPI_BUS=y
-CONFIG_USB_CONN_GPIO=m
-CONFIG_USB_ARCH_HAS_HCD=y
-CONFIG_USB=m
-# CONFIG_USB_ANNOUNCE_NEW_DEVICES is not set
-
-#
-# Miscellaneous USB options
-#
-CONFIG_USB_DEFAULT_PERSIST=y
-CONFIG_USB_FEW_INIT_RETRIES=y
-CONFIG_USB_DYNAMIC_MINORS=y
-# CONFIG_USB_OTG_PRODUCTLIST is not set
-CONFIG_USB_OTG_DISABLE_EXTERNAL_HUB=y
-# CONFIG_USB_LEDS_TRIGGER_USBPORT is not set
-CONFIG_USB_AUTOSUSPEND_DELAY=2
-CONFIG_USB_MON=m
-
-#
-# USB Host Controller Drivers
-#
-# CONFIG_USB_C67X00_HCD is not set
-# CONFIG_USB_XHCI_HCD is not set
-CONFIG_USB_EHCI_BRCMSTB=m
-CONFIG_USB_BRCMSTB=m
-CONFIG_USB_EHCI_HCD=m
-CONFIG_USB_EHCI_ROOT_HUB_TT=y
-CONFIG_USB_EHCI_TT_NEWSCHED=y
-# CONFIG_USB_EHCI_FSL is not set
-CONFIG_USB_EHCI_HCD_NPCM7XX=m
-CONFIG_USB_EHCI_HCD_OMAP=m
-CONFIG_USB_EHCI_HCD_ORION=m
-# CONFIG_USB_EHCI_HCD_SPEAR is not set
-# CONFIG_USB_EHCI_HCD_STI is not set
-CONFIG_USB_EHCI_HCD_AT91=m
-CONFIG_USB_EHCI_SH=y
-# CONFIG_USB_EHCI_EXYNOS is not set
-CONFIG_USB_EHCI_MV=m
-CONFIG_USB_CNS3XXX_EHCI=y
-CONFIG_USB_EHCI_HCD_PLATFORM=m
-# CONFIG_USB_OXU210HP_HCD is not set
-# CONFIG_USB_ISP116X_HCD is not set
-CONFIG_USB_ISP1362_HCD=m
-CONFIG_USB_FOTG210_HCD=m
-CONFIG_USB_MAX3421_HCD=m
-CONFIG_USB_OHCI_HCD=m
-# CONFIG_USB_OHCI_HCD_SPEAR is not set
-CONFIG_USB_OHCI_HCD_STI=m
-CONFIG_USB_OHCI_HCD_S3C2410=m
-# CONFIG_USB_OHCI_HCD_LPC32XX is not set
-CONFIG_USB_OHCI_HCD_AT91=m
-CONFIG_USB_OHCI_HCD_OMAP3=m
-CONFIG_USB_OHCI_HCD_DAVINCI=m
-# CONFIG_USB_OHCI_SH is not set
-CONFIG_USB_OHCI_EXYNOS=m
-# CONFIG_USB_CNS3XXX_OHCI is not set
-CONFIG_USB_OHCI_HCD_PLATFORM=m
-CONFIG_USB_SL811_HCD=m
-CONFIG_USB_SL811_HCD_ISO=y
-CONFIG_USB_SL811_CS=m
-CONFIG_USB_R8A66597_HCD=m
-# CONFIG_USB_HCD_BCMA is not set
-# CONFIG_USB_HCD_TEST_MODE is not set
-
-#
-# USB Device Class drivers
-#
-CONFIG_USB_ACM=m
-CONFIG_USB_PRINTER=m
-CONFIG_USB_WDM=m
-CONFIG_USB_TMC=m
-
-#
-# NOTE: USB_STORAGE depends on SCSI but BLK_DEV_SD may
-#
-
-#
-# also be needed; see USB_STORAGE Help for more info
-#
-# CONFIG_USB_STORAGE is not set
-
-#
-# USB Imaging devices
-#
-CONFIG_USB_MDC800=m
-CONFIG_USB_MICROTEK=m
-# CONFIG_USB_CDNS_SUPPORT is not set
-CONFIG_USB_MTU3=m
-CONFIG_USB_MTU3_HOST=y
-# CONFIG_USB_MTU3_DEBUG is not set
-CONFIG_USB_MUSB_HDRC=m
-CONFIG_USB_MUSB_HOST=y
-
-#
-# Platform Glue Layer
-#
-# CONFIG_USB_MUSB_TUSB6010 is not set
-CONFIG_USB_MUSB_DSPS=m
-CONFIG_USB_MUSB_UX500=m
-CONFIG_USB_MUSB_MEDIATEK=m
-CONFIG_USB_MUSB_POLARFIRE_SOC=m
-
-#
-# MUSB DMA mode
-#
-# CONFIG_MUSB_PIO_ONLY is not set
-# CONFIG_USB_UX500_DMA is not set
-CONFIG_USB_INVENTRA_DMA=y
-CONFIG_USB_DWC3=m
-# CONFIG_USB_DWC3_ULPI is not set
-CONFIG_USB_DWC3_HOST=y
-
-#
-# Platform Glue Driver Support
-#
-# CONFIG_USB_DWC3_OMAP is not set
-CONFIG_USB_DWC3_EXYNOS=m
-CONFIG_USB_DWC3_KEYSTONE=m
-# CONFIG_USB_DWC3_ST is not set
-CONFIG_USB_DWC3_QCOM=m
-# CONFIG_USB_DWC3_AM62 is not set
-CONFIG_USB_DWC2=m
-CONFIG_USB_DWC2_HOST=y
-
-#
-# Gadget/Dual-role mode requires USB Gadget support to be enabled
-#
-CONFIG_USB_DWC2_DEBUG=y
-# CONFIG_USB_DWC2_VERBOSE is not set
-# CONFIG_USB_DWC2_TRACK_MISSED_SOFS is not set
-CONFIG_USB_DWC2_DEBUG_PERIODIC=y
-# CONFIG_USB_CHIPIDEA is not set
-# CONFIG_USB_ISP1760 is not set
-
-#
-# USB port drivers
-#
-CONFIG_USB_USS720=m
-CONFIG_USB_SERIAL=m
-# CONFIG_USB_SERIAL_GENERIC is not set
-CONFIG_USB_SERIAL_SIMPLE=m
-CONFIG_USB_SERIAL_AIRCABLE=m
-CONFIG_USB_SERIAL_ARK3116=m
-# CONFIG_USB_SERIAL_BELKIN is not set
-CONFIG_USB_SERIAL_CH341=m
-CONFIG_USB_SERIAL_WHITEHEAT=m
-CONFIG_USB_SERIAL_DIGI_ACCELEPORT=m
-CONFIG_USB_SERIAL_CP210X=m
-CONFIG_USB_SERIAL_CYPRESS_M8=m
-CONFIG_USB_SERIAL_EMPEG=m
-# CONFIG_USB_SERIAL_FTDI_SIO is not set
-CONFIG_USB_SERIAL_VISOR=m
-CONFIG_USB_SERIAL_IPAQ=m
-CONFIG_USB_SERIAL_IR=m
-CONFIG_USB_SERIAL_EDGEPORT=m
-CONFIG_USB_SERIAL_EDGEPORT_TI=m
-CONFIG_USB_SERIAL_F81232=m
-CONFIG_USB_SERIAL_F8153X=m
-CONFIG_USB_SERIAL_GARMIN=m
-# CONFIG_USB_SERIAL_IPW is not set
-CONFIG_USB_SERIAL_IUU=m
-# CONFIG_USB_SERIAL_KEYSPAN_PDA is not set
-# CONFIG_USB_SERIAL_KEYSPAN is not set
-CONFIG_USB_SERIAL_KLSI=m
-CONFIG_USB_SERIAL_KOBIL_SCT=m
-CONFIG_USB_SERIAL_MCT_U232=m
-CONFIG_USB_SERIAL_METRO=m
-# CONFIG_USB_SERIAL_MOS7720 is not set
-CONFIG_USB_SERIAL_MOS7840=m
-CONFIG_USB_SERIAL_MXUPORT=m
-CONFIG_USB_SERIAL_NAVMAN=m
-CONFIG_USB_SERIAL_PL2303=m
-# CONFIG_USB_SERIAL_OTI6858 is not set
-CONFIG_USB_SERIAL_QCAUX=m
-CONFIG_USB_SERIAL_QUALCOMM=m
-# CONFIG_USB_SERIAL_SPCP8X5 is not set
-# CONFIG_USB_SERIAL_SAFE is not set
-# CONFIG_USB_SERIAL_SIERRAWIRELESS is not set
-CONFIG_USB_SERIAL_SYMBOL=m
-CONFIG_USB_SERIAL_TI=m
-CONFIG_USB_SERIAL_CYBERJACK=m
-CONFIG_USB_SERIAL_WWAN=m
-CONFIG_USB_SERIAL_OPTION=m
-CONFIG_USB_SERIAL_OMNINET=m
-# CONFIG_USB_SERIAL_OPTICON is not set
-CONFIG_USB_SERIAL_XSENS_MT=m
-# CONFIG_USB_SERIAL_WISHBONE is not set
-CONFIG_USB_SERIAL_SSU100=m
-# CONFIG_USB_SERIAL_QT2 is not set
-CONFIG_USB_SERIAL_UPD78F0730=m
-CONFIG_USB_SERIAL_XR=m
-# CONFIG_USB_SERIAL_DEBUG is not set
-
-#
-# USB Miscellaneous drivers
-#
-CONFIG_USB_EMI62=m
-CONFIG_USB_EMI26=m
-CONFIG_USB_ADUTUX=m
-CONFIG_USB_SEVSEG=m
-# CONFIG_USB_LEGOTOWER is not set
-# CONFIG_USB_LCD is not set
-# CONFIG_USB_CYPRESS_CY7C63 is not set
-# CONFIG_USB_CYTHERM is not set
-# CONFIG_USB_IDMOUSE is not set
-# CONFIG_USB_FTDI_ELAN is not set
-# CONFIG_USB_APPLEDISPLAY is not set
-CONFIG_USB_QCOM_EUD=m
-CONFIG_APPLE_MFI_FASTCHARGE=m
-CONFIG_USB_SISUSBVGA=m
-CONFIG_USB_LD=m
-CONFIG_USB_TRANCEVIBRATOR=m
-CONFIG_USB_IOWARRIOR=m
-CONFIG_USB_TEST=m
-# CONFIG_USB_EHSET_TEST_FIXTURE is not set
-CONFIG_USB_ISIGHTFW=m
-CONFIG_USB_YUREX=m
-CONFIG_USB_EZUSB_FX2=m
-# CONFIG_USB_HUB_USB251XB is not set
-CONFIG_USB_HSIC_USB3503=m
-CONFIG_USB_HSIC_USB4604=m
-CONFIG_USB_LINK_LAYER_TEST=m
-CONFIG_USB_CHAOSKEY=m
-CONFIG_BRCM_USB_PINMAP=m
-CONFIG_USB_ONBOARD_HUB=m
-
-#
-# USB Physical Layer drivers
-#
-CONFIG_USB_PHY=y
-CONFIG_KEYSTONE_USB_PHY=m
-CONFIG_NOP_USB_XCEIV=y
-# CONFIG_AM335X_PHY_USB is not set
-# CONFIG_USB_GPIO_VBUS is not set
-CONFIG_TAHVO_USB=m
-# CONFIG_TAHVO_USB_HOST_BY_DEFAULT is not set
-CONFIG_USB_ISP1301=m
-CONFIG_USB_TEGRA_PHY=m
-CONFIG_USB_ULPI=y
-CONFIG_USB_ULPI_VIEWPORT=y
-CONFIG_JZ4770_PHY=y
-# end of USB Physical Layer drivers
-
-# CONFIG_USB_GADGET is not set
-CONFIG_TYPEC=m
-CONFIG_TYPEC_TCPM=m
-CONFIG_TYPEC_TCPCI=m
-CONFIG_TYPEC_RT1711H=m
-# CONFIG_TYPEC_MT6360 is not set
-# CONFIG_TYPEC_TCPCI_MT6370 is not set
-CONFIG_TYPEC_TCPCI_MAXIM=m
-# CONFIG_TYPEC_FUSB302 is not set
-# CONFIG_TYPEC_TPS6598X is not set
-# CONFIG_TYPEC_ANX7411 is not set
-CONFIG_TYPEC_RT1719=m
-CONFIG_TYPEC_HD3SS3220=m
-CONFIG_TYPEC_STUSB160X=m
-CONFIG_TYPEC_QCOM_PMIC=m
-# CONFIG_TYPEC_WUSB3801 is not set
-
-#
-# USB Type-C Multiplexer/DeMultiplexer Switch support
-#
-CONFIG_TYPEC_MUX_FSA4480=m
-CONFIG_TYPEC_MUX_PI3USB30532=m
-# end of USB Type-C Multiplexer/DeMultiplexer Switch support
-
-#
-# USB Type-C Alternate Mode drivers
-#
-# CONFIG_TYPEC_DP_ALTMODE is not set
-# end of USB Type-C Alternate Mode drivers
-
-CONFIG_USB_ROLE_SWITCH=y
-# CONFIG_MMC is not set
-CONFIG_SCSI_UFSHCD=m
-CONFIG_SCSI_UFS_BSG=y
-# CONFIG_SCSI_UFS_HPB is not set
-CONFIG_SCSI_UFSHCD_PLATFORM=m
-CONFIG_SCSI_UFS_CDNS_PLATFORM=m
-CONFIG_SCSI_UFS_DWC_TC_PLATFORM=m
-CONFIG_SCSI_UFS_HISI=m
-CONFIG_SCSI_UFS_RENESAS=m
-CONFIG_SCSI_UFS_TI_J721E=m
-CONFIG_SCSI_UFS_EXYNOS=m
-CONFIG_MEMSTICK=y
-CONFIG_MEMSTICK_DEBUG=y
-
-#
-# MemoryStick drivers
-#
-# CONFIG_MEMSTICK_UNSAFE_RESUME is not set
-# CONFIG_MSPRO_BLOCK is not set
-CONFIG_MS_BLOCK=y
-
-#
-# MemoryStick Host Controller Drivers
-#
-CONFIG_NEW_LEDS=y
-CONFIG_LEDS_CLASS=y
-CONFIG_LEDS_CLASS_FLASH=m
-# CONFIG_LEDS_CLASS_MULTICOLOR is not set
-CONFIG_LEDS_BRIGHTNESS_HW_CHANGED=y
-
-#
-# LED drivers
-#
-CONFIG_LEDS_88PM860X=m
-CONFIG_LEDS_AN30259A=y
-CONFIG_LEDS_ARIEL=y
-CONFIG_LEDS_AW2013=m
-# CONFIG_LEDS_BCM6328 is not set
-CONFIG_LEDS_BCM6358=y
-# CONFIG_LEDS_CR0014114 is not set
-CONFIG_LEDS_EL15203000=m
-CONFIG_LEDS_LM3530=m
-CONFIG_LEDS_LM3532=m
-CONFIG_LEDS_LM3642=m
-CONFIG_LEDS_LM3692X=m
-CONFIG_LEDS_MT6323=m
-# CONFIG_LEDS_S3C24XX is not set
-CONFIG_LEDS_COBALT_QUBE=y
-# CONFIG_LEDS_COBALT_RAQ is not set
-# CONFIG_LEDS_GPIO is not set
-CONFIG_LEDS_LP3944=y
-# CONFIG_LEDS_LP3952 is not set
-CONFIG_LEDS_LP50XX=m
-# CONFIG_LEDS_LP55XX_COMMON is not set
-# CONFIG_LEDS_LP8860 is not set
-# CONFIG_LEDS_PCA955X is not set
-CONFIG_LEDS_PCA963X=m
-# CONFIG_LEDS_WM831X_STATUS is not set
-CONFIG_LEDS_WM8350=m
-CONFIG_LEDS_DA903X=y
-# CONFIG_LEDS_DA9052 is not set
-CONFIG_LEDS_DAC124S085=y
-CONFIG_LEDS_PWM=m
-CONFIG_LEDS_REGULATOR=y
-CONFIG_LEDS_BD2802=y
-# CONFIG_LEDS_LT3593 is not set
-CONFIG_LEDS_MC13783=m
-CONFIG_LEDS_NS2=y
-# CONFIG_LEDS_NETXBIG is not set
-# CONFIG_LEDS_TCA6507 is not set
-# CONFIG_LEDS_TLC591XX is not set
-# CONFIG_LEDS_LM355x is not set
-CONFIG_LEDS_OT200=y
-CONFIG_LEDS_MENF21BMC=y
-# CONFIG_LEDS_IS31FL319X is not set
-CONFIG_LEDS_IS31FL32XX=m
-CONFIG_LEDS_SC27XX_BLTC=m
-
-#
-# LED driver for blink(1) USB RGB LED is under Special HID drivers (HID_THINGM)
-#
-# CONFIG_LEDS_BLINKM is not set
-CONFIG_LEDS_SYSCON=y
-CONFIG_LEDS_MLXREG=m
-CONFIG_LEDS_USER=m
-# CONFIG_LEDS_SPI_BYTE is not set
-# CONFIG_LEDS_TI_LMU_COMMON is not set
-# CONFIG_LEDS_TPS6105X is not set
-CONFIG_LEDS_IP30=y
-CONFIG_LEDS_ACER_A500=y
-CONFIG_LEDS_BCM63138=m
-CONFIG_LEDS_LGM=m
-
-#
-# Flash and Torch LED drivers
-#
-CONFIG_LEDS_AS3645A=m
-CONFIG_LEDS_KTD2692=m
-# CONFIG_LEDS_LM3601X is not set
-CONFIG_LEDS_MT6360=m
-# CONFIG_LEDS_RT4505 is not set
-CONFIG_LEDS_RT8515=m
-CONFIG_LEDS_SGM3140=m
-
-#
-# RGB LED drivers
-#
-
-#
-# LED Triggers
-#
-CONFIG_LEDS_TRIGGERS=y
-CONFIG_LEDS_TRIGGER_TIMER=y
-# CONFIG_LEDS_TRIGGER_ONESHOT is not set
-# CONFIG_LEDS_TRIGGER_HEARTBEAT is not set
-CONFIG_LEDS_TRIGGER_BACKLIGHT=y
-# CONFIG_LEDS_TRIGGER_CPU is not set
-# CONFIG_LEDS_TRIGGER_ACTIVITY is not set
-CONFIG_LEDS_TRIGGER_GPIO=m
-CONFIG_LEDS_TRIGGER_DEFAULT_ON=y
-
-#
-# iptables trigger is under Netfilter config (LED target)
-#
-CONFIG_LEDS_TRIGGER_TRANSIENT=y
-# CONFIG_LEDS_TRIGGER_CAMERA is not set
-CONFIG_LEDS_TRIGGER_PANIC=y
-# CONFIG_LEDS_TRIGGER_PATTERN is not set
-CONFIG_LEDS_TRIGGER_AUDIO=m
-# CONFIG_LEDS_TRIGGER_TTY is not set
-
-#
-# Simple LED drivers
-#
-# CONFIG_ACCESSIBILITY is not set
-CONFIG_RTC_LIB=y
-CONFIG_RTC_CLASS=y
-# CONFIG_RTC_HCTOSYS is not set
-# CONFIG_RTC_SYSTOHC is not set
-# CONFIG_RTC_DEBUG is not set
-# CONFIG_RTC_LIB_KUNIT_TEST is not set
-CONFIG_RTC_NVMEM=y
-
-#
-# RTC interfaces
-#
-CONFIG_RTC_INTF_SYSFS=y
-CONFIG_RTC_INTF_PROC=y
-# CONFIG_RTC_INTF_DEV is not set
-CONFIG_RTC_DRV_TEST=m
-
-#
-# I2C RTC drivers
-#
-# CONFIG_RTC_DRV_88PM860X is not set
-CONFIG_RTC_DRV_88PM80X=m
-# CONFIG_RTC_DRV_ABB5ZES3 is not set
-CONFIG_RTC_DRV_ABEOZ9=y
-# CONFIG_RTC_DRV_ABX80X is not set
-CONFIG_RTC_DRV_BRCMSTB=m
-# CONFIG_RTC_DRV_AS3722 is not set
-CONFIG_RTC_DRV_DS1307=m
-# CONFIG_RTC_DRV_DS1307_CENTURY is not set
-CONFIG_RTC_DRV_DS1374=y
-CONFIG_RTC_DRV_DS1672=m
-# CONFIG_RTC_DRV_HYM8563 is not set
-# CONFIG_RTC_DRV_MAX6900 is not set
-CONFIG_RTC_DRV_MAX8907=m
-# CONFIG_RTC_DRV_MAX77686 is not set
-CONFIG_RTC_DRV_NCT3018Y=m
-CONFIG_RTC_DRV_RK808=m
-# CONFIG_RTC_DRV_RS5C372 is not set
-CONFIG_RTC_DRV_ISL1208=m
-# CONFIG_RTC_DRV_ISL12022 is not set
-CONFIG_RTC_DRV_ISL12026=y
-# CONFIG_RTC_DRV_X1205 is not set
-# CONFIG_RTC_DRV_PCF8523 is not set
-CONFIG_RTC_DRV_PCF85063=y
-CONFIG_RTC_DRV_PCF85363=y
-CONFIG_RTC_DRV_PCF8563=m
-# CONFIG_RTC_DRV_PCF8583 is not set
-CONFIG_RTC_DRV_M41T80=m
-CONFIG_RTC_DRV_M41T80_WDT=y
-CONFIG_RTC_DRV_BD70528=m
-CONFIG_RTC_DRV_BQ32K=m
-CONFIG_RTC_DRV_TWL4030=y
-CONFIG_RTC_DRV_TPS6586X=y
-CONFIG_RTC_DRV_TPS65910=y
-# CONFIG_RTC_DRV_RC5T583 is not set
-CONFIG_RTC_DRV_S35390A=m
-CONFIG_RTC_DRV_FM3130=m
-# CONFIG_RTC_DRV_RX8010 is not set
-# CONFIG_RTC_DRV_RX8581 is not set
-CONFIG_RTC_DRV_RX8025=y
-CONFIG_RTC_DRV_EM3027=m
-CONFIG_RTC_DRV_RV3028=m
-CONFIG_RTC_DRV_RV3032=m
-# CONFIG_RTC_DRV_RV8803 is not set
-CONFIG_RTC_DRV_S5M=y
-CONFIG_RTC_DRV_SD3078=y
-
-#
-# SPI RTC drivers
-#
-# CONFIG_RTC_DRV_M41T93 is not set
-# CONFIG_RTC_DRV_M41T94 is not set
-CONFIG_RTC_DRV_DS1302=y
-CONFIG_RTC_DRV_DS1305=y
-# CONFIG_RTC_DRV_DS1343 is not set
-# CONFIG_RTC_DRV_DS1347 is not set
-# CONFIG_RTC_DRV_DS1390 is not set
-# CONFIG_RTC_DRV_MAX6916 is not set
-# CONFIG_RTC_DRV_R9701 is not set
-CONFIG_RTC_DRV_RX4581=y
-CONFIG_RTC_DRV_RS5C348=y
-# CONFIG_RTC_DRV_MAX6902 is not set
-CONFIG_RTC_DRV_PCF2123=y
-CONFIG_RTC_DRV_MCP795=y
-CONFIG_RTC_I2C_AND_SPI=y
-
-#
-# SPI and I2C RTC drivers
-#
-# CONFIG_RTC_DRV_DS3232 is not set
-# CONFIG_RTC_DRV_PCF2127 is not set
-# CONFIG_RTC_DRV_RV3029C2 is not set
-CONFIG_RTC_DRV_RX6110=y
-
-#
-# Platform RTC drivers
-#
-# CONFIG_RTC_DRV_DS1286 is not set
-# CONFIG_RTC_DRV_DS1511 is not set
-CONFIG_RTC_DRV_DS1553=y
-CONFIG_RTC_DRV_DS1685_FAMILY=y
-# CONFIG_RTC_DRV_DS1685 is not set
-# CONFIG_RTC_DRV_DS1689 is not set
-# CONFIG_RTC_DRV_DS17285 is not set
-# CONFIG_RTC_DRV_DS17485 is not set
-CONFIG_RTC_DRV_DS17885=y
-# CONFIG_RTC_DRV_DS1742 is not set
-CONFIG_RTC_DRV_DS2404=y
-# CONFIG_RTC_DRV_DA9052 is not set
-CONFIG_RTC_DRV_DA9055=y
-# CONFIG_RTC_DRV_DA9063 is not set
-# CONFIG_RTC_DRV_STK17TA8 is not set
-CONFIG_RTC_DRV_M48T86=m
-# CONFIG_RTC_DRV_M48T35 is not set
-CONFIG_RTC_DRV_M48T59=m
-CONFIG_RTC_DRV_MSM6242=m
-CONFIG_RTC_DRV_BQ4802=m
-CONFIG_RTC_DRV_RP5C01=y
-# CONFIG_RTC_DRV_V3020 is not set
-CONFIG_RTC_DRV_GAMECUBE=y
-# CONFIG_RTC_DRV_WM831X is not set
-CONFIG_RTC_DRV_WM8350=y
-CONFIG_RTC_DRV_SC27XX=m
-# CONFIG_RTC_DRV_SPEAR is not set
-# CONFIG_RTC_DRV_ZYNQMP is not set
-CONFIG_RTC_DRV_NTXEC=y
-
-#
-# on-CPU RTC drivers
-#
-CONFIG_RTC_DRV_ASM9260=y
-CONFIG_RTC_DRV_DAVINCI=m
-CONFIG_RTC_DRV_DIGICOLOR=m
-CONFIG_RTC_DRV_FSL_FTM_ALARM=m
-CONFIG_RTC_DRV_MESON=y
-# CONFIG_RTC_DRV_MESON_VRTC is not set
-# CONFIG_RTC_DRV_S3C is not set
-# CONFIG_RTC_DRV_EP93XX is not set
-CONFIG_RTC_DRV_AT91RM9200=m
-# CONFIG_RTC_DRV_AT91SAM9 is not set
-# CONFIG_RTC_DRV_RZN1 is not set
-CONFIG_RTC_DRV_GENERIC=m
-CONFIG_RTC_DRV_VT8500=m
-CONFIG_RTC_DRV_SUNXI=m
-CONFIG_RTC_DRV_MV=m
-# CONFIG_RTC_DRV_ARMADA38X is not set
-CONFIG_RTC_DRV_CADENCE=m
-CONFIG_RTC_DRV_FTRTC010=y
-# CONFIG_RTC_DRV_STMP is not set
-CONFIG_RTC_DRV_MC13XXX=y
-# CONFIG_RTC_DRV_JZ4740 is not set
-CONFIG_RTC_DRV_LPC24XX=m
-# CONFIG_RTC_DRV_LPC32XX is not set
-CONFIG_RTC_DRV_PM8XXX=y
-# CONFIG_RTC_DRV_TEGRA is not set
-# CONFIG_RTC_DRV_MXC is not set
-# CONFIG_RTC_DRV_MXC_V2 is not set
-CONFIG_RTC_DRV_SNVS=m
-# CONFIG_RTC_DRV_MOXART is not set
-CONFIG_RTC_DRV_MT2712=y
-CONFIG_RTC_DRV_MT6397=y
-CONFIG_RTC_DRV_MT7622=m
-CONFIG_RTC_DRV_XGENE=m
-# CONFIG_RTC_DRV_R7301 is not set
-# CONFIG_RTC_DRV_STM32 is not set
-# CONFIG_RTC_DRV_RTD119X is not set
-# CONFIG_RTC_DRV_ASPEED is not set
-# CONFIG_RTC_DRV_TI_K3 is not set
-
-#
-# HID Sensor RTC drivers
-#
-CONFIG_RTC_DRV_GOLDFISH=y
-CONFIG_RTC_DRV_MSC313=m
-# CONFIG_DMADEVICES is not set
-
-#
-# DMABUF options
-#
-CONFIG_SYNC_FILE=y
-CONFIG_SW_SYNC=y
-CONFIG_UDMABUF=y
-# CONFIG_DMABUF_MOVE_NOTIFY is not set
-CONFIG_DMABUF_DEBUG=y
-CONFIG_DMABUF_SELFTESTS=m
-# CONFIG_DMABUF_HEAPS is not set
-# CONFIG_DMABUF_SYSFS_STATS is not set
-# end of DMABUF options
-
-# CONFIG_AUXDISPLAY is not set
-# CONFIG_PANEL is not set
-# CONFIG_UIO is not set
-# CONFIG_VFIO is not set
-CONFIG_VIRT_DRIVERS=y
-CONFIG_VIRTIO_ANCHOR=y
-CONFIG_VIRTIO=y
-# CONFIG_VIRTIO_MENU is not set
-CONFIG_VHOST_MENU=y
-# CONFIG_VHOST_CROSS_ENDIAN_LEGACY is not set
-
-#
-# Microsoft Hyper-V guest support
-#
-# end of Microsoft Hyper-V guest support
-
-CONFIG_GREYBUS=y
-CONFIG_GREYBUS_ES2=m
-CONFIG_COMEDI=y
-CONFIG_COMEDI_DEBUG=y
-CONFIG_COMEDI_DEFAULT_BUF_SIZE_KB=2048
-CONFIG_COMEDI_DEFAULT_BUF_MAXSIZE_KB=20480
-CONFIG_COMEDI_MISC_DRIVERS=y
-CONFIG_COMEDI_BOND=m
-# CONFIG_COMEDI_TEST is not set
-# CONFIG_COMEDI_PARPORT is not set
-# CONFIG_COMEDI_SSV_DNP is not set
-# CONFIG_COMEDI_ISA_DRIVERS is not set
-# CONFIG_COMEDI_PCMCIA_DRIVERS is not set
-CONFIG_COMEDI_USB_DRIVERS=m
-# CONFIG_COMEDI_DT9812 is not set
-CONFIG_COMEDI_NI_USB6501=m
-CONFIG_COMEDI_USBDUX=m
-CONFIG_COMEDI_USBDUXFAST=m
-CONFIG_COMEDI_USBDUXSIGMA=m
-CONFIG_COMEDI_VMK80XX=m
-# CONFIG_COMEDI_8255_SA is not set
-CONFIG_COMEDI_KCOMEDILIB=m
-CONFIG_COMEDI_NI_ROUTING=m
-CONFIG_COMEDI_TESTS=m
-CONFIG_COMEDI_TESTS_EXAMPLE=m
-CONFIG_COMEDI_TESTS_NI_ROUTES=m
-# CONFIG_STAGING is not set
-CONFIG_GOLDFISH=y
-# CONFIG_GOLDFISH_PIPE is not set
-# CONFIG_CHROME_PLATFORMS is not set
-CONFIG_MELLANOX_PLATFORM=y
-CONFIG_OLPC_XO175=y
-# CONFIG_SURFACE_PLATFORMS is not set
-CONFIG_HAVE_CLK=y
-CONFIG_HAVE_LEGACY_CLK=y
-CONFIG_HWSPINLOCK=y
-# CONFIG_HWSPINLOCK_OMAP is not set
-CONFIG_HWSPINLOCK_QCOM=y
-CONFIG_HWSPINLOCK_SPRD=y
-# CONFIG_HWSPINLOCK_STM32 is not set
-# CONFIG_HWSPINLOCK_SUN6I is not set
-CONFIG_HSEM_U8500=m
-CONFIG_MAILBOX=y
-CONFIG_IMX_MBOX=m
-# CONFIG_PLATFORM_MHU is not set
-# CONFIG_ARMADA_37XX_RWTM_MBOX is not set
-CONFIG_ROCKCHIP_MBOX=y
-# CONFIG_ALTERA_MBOX is not set
-CONFIG_HI3660_MBOX=m
-CONFIG_HI6220_MBOX=y
-CONFIG_MAILBOX_TEST=m
-CONFIG_POLARFIRE_SOC_MAILBOX=m
-CONFIG_QCOM_APCS_IPC=y
-CONFIG_BCM_PDC_MBOX=y
-CONFIG_STM32_IPCC=m
-# CONFIG_MTK_ADSP_MBOX is not set
-CONFIG_MTK_CMDQ_MBOX=m
-CONFIG_SUN6I_MSGBOX=m
-# CONFIG_SPRD_MBOX is not set
-CONFIG_QCOM_IPCC=m
-CONFIG_IOMMU_API=y
-CONFIG_IOMMU_SUPPORT=y
-
-#
-# Generic IOMMU Pagetable Support
-#
-CONFIG_IOMMU_IO_PGTABLE=y
-CONFIG_IOMMU_IO_PGTABLE_ARMV7S=y
-# CONFIG_IOMMU_IO_PGTABLE_ARMV7S_SELFTEST is not set
-# end of Generic IOMMU Pagetable Support
-
-# CONFIG_IOMMU_DEBUGFS is not set
-CONFIG_IOMMU_DEFAULT_DMA_STRICT=y
-# CONFIG_IOMMU_DEFAULT_DMA_LAZY is not set
-# CONFIG_IOMMU_DEFAULT_PASSTHROUGH is not set
-CONFIG_OF_IOMMU=y
-# CONFIG_OMAP_IOMMU is not set
-CONFIG_ROCKCHIP_IOMMU=y
-CONFIG_SUN50I_IOMMU=y
-CONFIG_S390_CCW_IOMMU=y
-# CONFIG_S390_AP_IOMMU is not set
-# CONFIG_MTK_IOMMU is not set
-# CONFIG_SPRD_IOMMU is not set
-
-#
-# Remoteproc drivers
-#
-# CONFIG_REMOTEPROC is not set
-# end of Remoteproc drivers
-
-#
-# Rpmsg drivers
-#
-CONFIG_RPMSG=y
-CONFIG_RPMSG_CTRL=m
-CONFIG_RPMSG_NS=y
-CONFIG_RPMSG_QCOM_GLINK=m
-CONFIG_RPMSG_QCOM_GLINK_RPM=m
-# CONFIG_RPMSG_QCOM_GLINK_SMEM is not set
-# CONFIG_RPMSG_QCOM_SMD is not set
-CONFIG_RPMSG_VIRTIO=y
-# end of Rpmsg drivers
-
-# CONFIG_SOUNDWIRE is not set
-
-#
-# SOC (System On Chip) specific Drivers
-#
-
-#
-# Amlogic SoC drivers
-#
-CONFIG_MESON_CANVAS=y
-CONFIG_MESON_CLK_MEASURE=y
-CONFIG_MESON_GX_SOCINFO=y
-CONFIG_MESON_MX_SOCINFO=y
-# end of Amlogic SoC drivers
-
-#
-# Apple SoC drivers
-#
-CONFIG_APPLE_RTKIT=m
-CONFIG_APPLE_SART=m
-# end of Apple SoC drivers
-
-#
-# ASPEED SoC drivers
-#
-CONFIG_ASPEED_LPC_CTRL=y
-# CONFIG_ASPEED_LPC_SNOOP is not set
-# CONFIG_ASPEED_UART_ROUTING is not set
-CONFIG_ASPEED_P2A_CTRL=y
-# CONFIG_ASPEED_SOCINFO is not set
-# end of ASPEED SoC drivers
-
-# CONFIG_AT91_SOC_ID is not set
-CONFIG_AT91_SOC_SFR=m
-
-#
-# Broadcom SoC drivers
-#
-# CONFIG_BCM2835_POWER is not set
-CONFIG_SOC_BCM63XX=y
-CONFIG_SOC_BRCMSTB=y
-CONFIG_BCM63XX_POWER=y
-# CONFIG_BCM_PMB is not set
-# end of Broadcom SoC drivers
-
-#
-# NXP/Freescale QorIQ SoC drivers
-#
-CONFIG_QUICC_ENGINE=y
-CONFIG_UCC_SLOW=y
-CONFIG_UCC=y
-CONFIG_DPAA2_CONSOLE=y
-# end of NXP/Freescale QorIQ SoC drivers
-
-#
-# fujitsu SoC drivers
-#
-# end of fujitsu SoC drivers
-
-#
-# i.MX SoC drivers
-#
-CONFIG_SOC_IMX8M=y
-CONFIG_SOC_IMX9=m
-# end of i.MX SoC drivers
-
-#
-# IXP4xx SoC drivers
-#
-# CONFIG_IXP4XX_QMGR is not set
-CONFIG_IXP4XX_NPE=y
-# end of IXP4xx SoC drivers
-
-#
-# Enable LiteX SoC Builder specific drivers
-#
-CONFIG_LITEX=y
-CONFIG_LITEX_SOC_CONTROLLER=y
-# end of Enable LiteX SoC Builder specific drivers
-
-#
-# MediaTek SoC drivers
-#
-# CONFIG_MTK_CMDQ is not set
-CONFIG_MTK_DEVAPC=y
-CONFIG_MTK_INFRACFG=y
-CONFIG_MTK_PMIC_WRAP=y
-# CONFIG_MTK_SCPSYS is not set
-# CONFIG_MTK_MMSYS is not set
-# end of MediaTek SoC drivers
-
-CONFIG_POLARFIRE_SOC_SYS_CTRL=m
-
-#
-# Qualcomm SoC drivers
-#
-# CONFIG_QCOM_GENI_SE is not set
-CONFIG_QCOM_GSBI=y
-CONFIG_QCOM_LLCC=m
-CONFIG_QCOM_RPMH=y
-CONFIG_QCOM_SMEM=y
-CONFIG_QCOM_SMD_RPM=m
-CONFIG_QCOM_SMEM_STATE=y
-CONFIG_QCOM_SMP2P=m
-CONFIG_QCOM_SMSM=m
-CONFIG_QCOM_SOCINFO=y
-# CONFIG_QCOM_SPM is not set
-# CONFIG_QCOM_STATS is not set
-CONFIG_QCOM_WCNSS_CTRL=m
-CONFIG_QCOM_ICC_BWMON=y
-# end of Qualcomm SoC drivers
-
-# CONFIG_SOC_RENESAS is not set
-CONFIG_ROCKCHIP_GRF=y
-# CONFIG_ROCKCHIP_IODOMAIN is not set
-CONFIG_SOC_SAMSUNG=y
-# CONFIG_EXYNOS_ASV_ARM is not set
-CONFIG_EXYNOS_CHIPID=y
-# CONFIG_EXYNOS_USI is not set
-# CONFIG_EXYNOS_PM_DOMAINS is not set
-# CONFIG_EXYNOS_REGULATOR_COUPLER is not set
-# CONFIG_SOC_TEGRA20_VOLTAGE_COUPLER is not set
-# CONFIG_SOC_TEGRA30_VOLTAGE_COUPLER is not set
-CONFIG_SOC_TI=y
-# CONFIG_UX500_SOC_ID is not set
-
-#
-# Xilinx SoC drivers
-#
-# end of Xilinx SoC drivers
-# end of SOC (System On Chip) specific Drivers
-
-CONFIG_PM_DEVFREQ=y
-
-#
-# DEVFREQ Governors
-#
-CONFIG_DEVFREQ_GOV_SIMPLE_ONDEMAND=m
-CONFIG_DEVFREQ_GOV_PERFORMANCE=y
-# CONFIG_DEVFREQ_GOV_POWERSAVE is not set
-# CONFIG_DEVFREQ_GOV_USERSPACE is not set
-CONFIG_DEVFREQ_GOV_PASSIVE=y
-
-#
-# DEVFREQ Drivers
-#
-CONFIG_ARM_EXYNOS_BUS_DEVFREQ=m
-# CONFIG_ARM_IMX_BUS_DEVFREQ is not set
-# CONFIG_ARM_MEDIATEK_CCI_DEVFREQ is not set
-CONFIG_PM_DEVFREQ_EVENT=y
-# CONFIG_DEVFREQ_EVENT_EXYNOS_NOCP is not set
-CONFIG_DEVFREQ_EVENT_EXYNOS_PPMU=y
-# CONFIG_DEVFREQ_EVENT_ROCKCHIP_DFI is not set
-CONFIG_EXTCON=y
-
-#
-# Extcon Device Drivers
-#
-# CONFIG_EXTCON_ADC_JACK is not set
-CONFIG_EXTCON_GPIO=m
-CONFIG_EXTCON_MAX14577=y
-CONFIG_EXTCON_MAX3355=m
-CONFIG_EXTCON_MAX77843=m
-# CONFIG_EXTCON_PTN5150 is not set
-# CONFIG_EXTCON_QCOM_SPMI_MISC is not set
-CONFIG_EXTCON_RT8973A=m
-# CONFIG_EXTCON_SM5502 is not set
-# CONFIG_EXTCON_USB_GPIO is not set
-# CONFIG_EXTCON_USBC_TUSB320 is not set
-CONFIG_MEMORY=y
-# CONFIG_ATMEL_SDRAMC is not set
-CONFIG_ATMEL_EBI=y
-CONFIG_BRCMSTB_DPFE=m
-CONFIG_BRCMSTB_MEMC=y
-CONFIG_BT1_L2_CTL=y
-CONFIG_TI_AEMIF=y
-# CONFIG_TI_EMIF is not set
-# CONFIG_OMAP_GPMC is not set
-CONFIG_FPGA_DFL_EMIF=m
-CONFIG_MVEBU_DEVBUS=y
-# CONFIG_FSL_CORENET_CF is not set
-# CONFIG_FSL_IFC is not set
-CONFIG_JZ4780_NEMC=y
-# CONFIG_MTK_SMI is not set
-# CONFIG_DA8XX_DDRCTL is not set
-CONFIG_RENESAS_RPCIF=m
-# CONFIG_STM32_FMC2_EBI is not set
-# CONFIG_SAMSUNG_MC is not set
-CONFIG_IIO=y
-CONFIG_IIO_BUFFER=y
-CONFIG_IIO_BUFFER_CB=y
-CONFIG_IIO_BUFFER_DMA=y
-CONFIG_IIO_BUFFER_DMAENGINE=y
-CONFIG_IIO_BUFFER_HW_CONSUMER=m
-CONFIG_IIO_KFIFO_BUF=y
-CONFIG_IIO_TRIGGERED_BUFFER=y
-CONFIG_IIO_CONFIGFS=y
-CONFIG_IIO_TRIGGER=y
-CONFIG_IIO_CONSUMERS_PER_TRIGGER=2
-CONFIG_IIO_SW_DEVICE=y
-CONFIG_IIO_SW_TRIGGER=m
-CONFIG_IIO_TRIGGERED_EVENT=y
-
-#
-# Accelerometers
-#
-CONFIG_ADIS16201=y
-# CONFIG_ADIS16209 is not set
-CONFIG_ADXL313=y
-CONFIG_ADXL313_I2C=y
-CONFIG_ADXL313_SPI=y
-CONFIG_ADXL345=y
-CONFIG_ADXL345_I2C=m
-CONFIG_ADXL345_SPI=y
-CONFIG_ADXL355=y
-CONFIG_ADXL355_I2C=m
-CONFIG_ADXL355_SPI=y
-CONFIG_ADXL367=m
-CONFIG_ADXL367_SPI=m
-CONFIG_ADXL367_I2C=m
-CONFIG_ADXL372=m
-CONFIG_ADXL372_SPI=m
-# CONFIG_ADXL372_I2C is not set
-# CONFIG_BMA180 is not set
-CONFIG_BMA220=y
-CONFIG_BMA400=m
-CONFIG_BMA400_I2C=m
-CONFIG_BMA400_SPI=m
-CONFIG_BMC150_ACCEL=y
-CONFIG_BMC150_ACCEL_I2C=y
-CONFIG_BMC150_ACCEL_SPI=y
-CONFIG_BMI088_ACCEL=m
-CONFIG_BMI088_ACCEL_SPI=m
-CONFIG_DA280=y
-CONFIG_DA311=y
-# CONFIG_DMARD06 is not set
-CONFIG_DMARD09=y
-CONFIG_DMARD10=m
-CONFIG_FXLS8962AF=m
-CONFIG_FXLS8962AF_I2C=m
-CONFIG_FXLS8962AF_SPI=m
-CONFIG_IIO_ST_ACCEL_3AXIS=y
-CONFIG_IIO_ST_ACCEL_I2C_3AXIS=m
-CONFIG_IIO_ST_ACCEL_SPI_3AXIS=m
-CONFIG_KXSD9=y
-CONFIG_KXSD9_SPI=y
-CONFIG_KXSD9_I2C=y
-CONFIG_KXCJK1013=m
-CONFIG_MC3230=m
-CONFIG_MMA7455=y
-CONFIG_MMA7455_I2C=y
-CONFIG_MMA7455_SPI=y
-CONFIG_MMA7660=y
-# CONFIG_MMA8452 is not set
-CONFIG_MMA9551_CORE=m
-CONFIG_MMA9551=m
-# CONFIG_MMA9553 is not set
-CONFIG_MSA311=m
-CONFIG_MXC4005=m
-CONFIG_MXC6255=y
-CONFIG_SCA3000=y
-# CONFIG_SCA3300 is not set
-# CONFIG_STK8312 is not set
-CONFIG_STK8BA50=y
-# end of Accelerometers
-
-#
-# Analog to digital converters
-#
-CONFIG_AD_SIGMA_DELTA=y
-# CONFIG_AD7091R5 is not set
-# CONFIG_AD7124 is not set
-CONFIG_AD7192=m
-CONFIG_AD7266=m
-# CONFIG_AD7280 is not set
-CONFIG_AD7291=m
-CONFIG_AD7292=m
-CONFIG_AD7298=m
-CONFIG_AD7476=m
-CONFIG_AD7606=y
-CONFIG_AD7606_IFACE_PARALLEL=y
-# CONFIG_AD7606_IFACE_SPI is not set
-# CONFIG_AD7766 is not set
-CONFIG_AD7768_1=y
-# CONFIG_AD7780 is not set
-CONFIG_AD7791=y
-CONFIG_AD7793=m
-# CONFIG_AD7887 is not set
-CONFIG_AD7923=y
-# CONFIG_AD7949 is not set
-CONFIG_AD799X=y
-# CONFIG_ADI_AXI_ADC is not set
-CONFIG_AT91_SAMA5D2_ADC=y
-# CONFIG_AXP20X_ADC is not set
-# CONFIG_AXP288_ADC is not set
-CONFIG_BCM_IPROC_ADC=y
-# CONFIG_BERLIN2_ADC is not set
-CONFIG_CC10001_ADC=m
-# CONFIG_DA9150_GPADC is not set
-CONFIG_DLN2_ADC=m
-# CONFIG_ENVELOPE_DETECTOR is not set
-# CONFIG_EXYNOS_ADC is not set
-CONFIG_MXS_LRADC_ADC=m
-CONFIG_FSL_MX25_ADC=m
-CONFIG_HI8435=y
-CONFIG_HX711=m
-CONFIG_INA2XX_ADC=m
-# CONFIG_INGENIC_ADC is not set
-CONFIG_IMX7D_ADC=y
-CONFIG_IMX8QXP_ADC=y
-# CONFIG_LPC18XX_ADC is not set
-CONFIG_LPC32XX_ADC=y
-CONFIG_LTC2471=y
-CONFIG_LTC2485=m
-CONFIG_LTC2496=m
-CONFIG_LTC2497=m
-CONFIG_MAX1027=y
-CONFIG_MAX11100=m
-CONFIG_MAX1118=y
-CONFIG_MAX11205=m
-CONFIG_MAX1241=m
-CONFIG_MAX1363=m
-# CONFIG_MAX9611 is not set
-# CONFIG_MCP320X is not set
-# CONFIG_MCP3422 is not set
-# CONFIG_MCP3911 is not set
-CONFIG_MEDIATEK_MT6360_ADC=m
-# CONFIG_MEDIATEK_MT6577_AUXADC is not set
-CONFIG_MP2629_ADC=m
-CONFIG_NAU7802=m
-# CONFIG_NPCM_ADC is not set
-CONFIG_RCAR_GYRO_ADC=m
-CONFIG_ROCKCHIP_SARADC=y
-CONFIG_RICHTEK_RTQ6056=y
-# CONFIG_RZG2L_ADC is not set
-CONFIG_SC27XX_ADC=m
-CONFIG_SPEAR_ADC=y
-# CONFIG_SD_ADC_MODULATOR is not set
-# CONFIG_STM32_ADC_CORE is not set
-CONFIG_STM32_DFSDM_CORE=m
-CONFIG_STM32_DFSDM_ADC=m
-CONFIG_SUN4I_GPADC=y
-CONFIG_TI_ADC081C=y
-CONFIG_TI_ADC0832=y
-CONFIG_TI_ADC084S021=y
-CONFIG_TI_ADC12138=m
-# CONFIG_TI_ADC108S102 is not set
-CONFIG_TI_ADC128S052=y
-CONFIG_TI_ADC161S626=y
-# CONFIG_TI_ADS1015 is not set
-# CONFIG_TI_ADS7950 is not set
-CONFIG_TI_ADS8344=m
-CONFIG_TI_ADS8688=y
-CONFIG_TI_ADS124S08=y
-# CONFIG_TI_ADS131E08 is not set
-# CONFIG_TI_AM335X_ADC is not set
-# CONFIG_TI_TLC4541 is not set
-# CONFIG_TI_TSC2046 is not set
-# CONFIG_TWL4030_MADC is not set
-CONFIG_TWL6030_GPADC=y
-CONFIG_VF610_ADC=m
-CONFIG_VIPERBOARD_ADC=m
-# CONFIG_XILINX_XADC is not set
-# CONFIG_XILINX_AMS is not set
-# end of Analog to digital converters
-
-#
-# Analog to digital and digital to analog converters
-#
-# CONFIG_AD74413R is not set
-# end of Analog to digital and digital to analog converters
-
-#
-# Analog Front Ends
-#
-CONFIG_IIO_RESCALE=m
-# end of Analog Front Ends
-
-#
-# Amplifiers
-#
-CONFIG_AD8366=y
-CONFIG_ADA4250=m
-# CONFIG_HMC425 is not set
-# end of Amplifiers
-
-#
-# Capacitance to digital converters
-#
-CONFIG_AD7150=m
-CONFIG_AD7746=y
-# end of Capacitance to digital converters
-
-#
-# Chemical Sensors
-#
-CONFIG_ATLAS_PH_SENSOR=m
-CONFIG_ATLAS_EZO_SENSOR=y
-CONFIG_BME680=m
-CONFIG_BME680_I2C=m
-CONFIG_BME680_SPI=m
-CONFIG_CCS811=m
-CONFIG_IAQCORE=y
-CONFIG_PMS7003=y
-CONFIG_SCD30_CORE=m
-# CONFIG_SCD30_I2C is not set
-CONFIG_SCD30_SERIAL=m
-CONFIG_SCD4X=m
-CONFIG_SENSIRION_SGP30=y
-CONFIG_SENSIRION_SGP40=y
-CONFIG_SPS30=y
-CONFIG_SPS30_I2C=y
-CONFIG_SPS30_SERIAL=y
-# CONFIG_SENSEAIR_SUNRISE_CO2 is not set
-# CONFIG_VZ89X is not set
-# end of Chemical Sensors
-
-#
-# Hid Sensor IIO Common
-#
-# end of Hid Sensor IIO Common
-
-CONFIG_IIO_MS_SENSORS_I2C=y
-
-#
-# IIO SCMI Sensors
-#
-# end of IIO SCMI Sensors
-
-#
-# SSP Sensor Common
-#
-# CONFIG_IIO_SSP_SENSORS_COMMONS is not set
-CONFIG_IIO_SSP_SENSORHUB=y
-# end of SSP Sensor Common
-
-CONFIG_IIO_ST_SENSORS_I2C=y
-CONFIG_IIO_ST_SENSORS_SPI=y
-CONFIG_IIO_ST_SENSORS_CORE=y
-
-#
-# Digital to analog converters
-#
-CONFIG_AD3552R=y
-# CONFIG_AD5064 is not set
-CONFIG_AD5360=y
-# CONFIG_AD5380 is not set
-# CONFIG_AD5421 is not set
-# CONFIG_AD5446 is not set
-CONFIG_AD5449=m
-# CONFIG_AD5592R is not set
-# CONFIG_AD5593R is not set
-CONFIG_AD5504=m
-CONFIG_AD5624R_SPI=m
-CONFIG_LTC2688=y
-CONFIG_AD5686=y
-CONFIG_AD5686_SPI=y
-# CONFIG_AD5696_I2C is not set
-CONFIG_AD5755=m
-CONFIG_AD5758=m
-CONFIG_AD5761=m
-CONFIG_AD5764=m
-# CONFIG_AD5766 is not set
-CONFIG_AD5770R=y
-# CONFIG_AD5791 is not set
-CONFIG_AD7293=m
-CONFIG_AD7303=m
-CONFIG_AD8801=m
-CONFIG_DPOT_DAC=y
-CONFIG_DS4424=m
-CONFIG_LPC18XX_DAC=m
-CONFIG_LTC1660=m
-CONFIG_LTC2632=m
-CONFIG_M62332=m
-# CONFIG_MAX517 is not set
-CONFIG_MAX5821=y
-CONFIG_MCP4725=m
-CONFIG_MCP4922=m
-# CONFIG_STM32_DAC is not set
-CONFIG_TI_DAC082S085=m
-# CONFIG_TI_DAC5571 is not set
-# CONFIG_TI_DAC7311 is not set
-CONFIG_TI_DAC7612=y
-CONFIG_VF610_DAC=m
-# end of Digital to analog converters
-
-#
-# IIO dummy driver
-#
-# CONFIG_IIO_SIMPLE_DUMMY is not set
-# end of IIO dummy driver
-
-#
-# Filters
-#
-# end of Filters
-
-#
-# Frequency Synthesizers DDS/PLL
-#
-
-#
-# Clock Generator/Distribution
-#
-CONFIG_AD9523=y
-# end of Clock Generator/Distribution
-
-#
-# Phase-Locked Loop (PLL) frequency synthesizers
-#
-# CONFIG_ADF4350 is not set
-CONFIG_ADF4371=m
-CONFIG_ADMV4420=y
-# end of Phase-Locked Loop (PLL) frequency synthesizers
-# end of Frequency Synthesizers DDS/PLL
-
-#
-# Digital gyroscope sensors
-#
-# CONFIG_ADIS16080 is not set
-# CONFIG_ADIS16130 is not set
-CONFIG_ADIS16136=y
-# CONFIG_ADIS16260 is not set
-CONFIG_ADXRS290=y
-CONFIG_ADXRS450=y
-CONFIG_BMG160=y
-CONFIG_BMG160_I2C=y
-CONFIG_BMG160_SPI=y
-CONFIG_FXAS21002C=y
-CONFIG_FXAS21002C_I2C=y
-CONFIG_FXAS21002C_SPI=y
-CONFIG_MPU3050=m
-CONFIG_MPU3050_I2C=m
-CONFIG_IIO_ST_GYRO_3AXIS=y
-CONFIG_IIO_ST_GYRO_I2C_3AXIS=y
-CONFIG_IIO_ST_GYRO_SPI_3AXIS=m
-# CONFIG_ITG3200 is not set
-# end of Digital gyroscope sensors
-
-#
-# Health Sensors
-#
-
-#
-# Heart Rate Monitors
-#
-CONFIG_AFE4403=y
-# CONFIG_AFE4404 is not set
-CONFIG_MAX30100=m
-CONFIG_MAX30102=m
-# end of Heart Rate Monitors
-# end of Health Sensors
-
-#
-# Humidity sensors
-#
-CONFIG_AM2315=y
-# CONFIG_DHT11 is not set
-CONFIG_HDC100X=m
-CONFIG_HDC2010=m
-# CONFIG_HTS221 is not set
-CONFIG_HTU21=y
-# CONFIG_SI7005 is not set
-CONFIG_SI7020=m
-# end of Humidity sensors
-
-#
-# Inertial measurement units
-#
-CONFIG_ADIS16400=m
-# CONFIG_ADIS16460 is not set
-CONFIG_ADIS16475=m
-CONFIG_ADIS16480=m
-CONFIG_BMI160=y
-CONFIG_BMI160_I2C=y
-CONFIG_BMI160_SPI=m
-CONFIG_BOSCH_BNO055=y
-CONFIG_BOSCH_BNO055_SERIAL=m
-CONFIG_BOSCH_BNO055_I2C=y
-CONFIG_FXOS8700=y
-CONFIG_FXOS8700_I2C=m
-CONFIG_FXOS8700_SPI=y
-CONFIG_KMX61=y
-CONFIG_INV_ICM42600=y
-CONFIG_INV_ICM42600_I2C=y
-CONFIG_INV_ICM42600_SPI=m
-CONFIG_INV_MPU6050_IIO=y
-CONFIG_INV_MPU6050_I2C=y
-# CONFIG_INV_MPU6050_SPI is not set
-# CONFIG_IIO_ST_LSM6DSX is not set
-CONFIG_IIO_ST_LSM9DS0=m
-CONFIG_IIO_ST_LSM9DS0_I2C=m
-CONFIG_IIO_ST_LSM9DS0_SPI=m
-# end of Inertial measurement units
-
-CONFIG_IIO_ADIS_LIB=y
-CONFIG_IIO_ADIS_LIB_BUFFER=y
-
-#
-# Light sensors
-#
-CONFIG_ADJD_S311=m
-CONFIG_ADUX1020=y
-CONFIG_AL3010=y
-CONFIG_AL3320A=m
-# CONFIG_APDS9300 is not set
-# CONFIG_APDS9960 is not set
-# CONFIG_AS73211 is not set
-CONFIG_BH1750=m
-CONFIG_BH1780=m
-CONFIG_CM32181=y
-CONFIG_CM3232=y
-# CONFIG_CM3323 is not set
-CONFIG_CM3605=y
-CONFIG_CM36651=m
-# CONFIG_GP2AP002 is not set
-CONFIG_GP2AP020A00F=m
-# CONFIG_IQS621_ALS is not set
-# CONFIG_SENSORS_ISL29018 is not set
-CONFIG_SENSORS_ISL29028=m
-# CONFIG_ISL29125 is not set
-CONFIG_JSA1212=y
-CONFIG_RPR0521=m
-CONFIG_LTR501=m
-CONFIG_LTRF216A=y
-CONFIG_LV0104CS=m
-CONFIG_MAX44000=m
-# CONFIG_MAX44009 is not set
-CONFIG_NOA1305=y
-# CONFIG_OPT3001 is not set
-CONFIG_PA12203001=m
-CONFIG_SI1133=m
-CONFIG_SI1145=y
-# CONFIG_STK3310 is not set
-CONFIG_ST_UVIS25=m
-CONFIG_ST_UVIS25_I2C=m
-CONFIG_ST_UVIS25_SPI=m
-CONFIG_TCS3414=y
-CONFIG_TCS3472=m
-CONFIG_SENSORS_TSL2563=m
-CONFIG_TSL2583=m
-CONFIG_TSL2591=m
-CONFIG_TSL2772=m
-# CONFIG_TSL4531 is not set
-CONFIG_US5182D=m
-CONFIG_VCNL4000=y
-CONFIG_VCNL4035=y
-# CONFIG_VEML6030 is not set
-CONFIG_VEML6070=y
-CONFIG_VL6180=y
-# CONFIG_ZOPT2201 is not set
-# end of Light sensors
-
-#
-# Magnetometer sensors
-#
-CONFIG_AK8974=y
-CONFIG_AK8975=m
-# CONFIG_AK09911 is not set
-CONFIG_BMC150_MAGN=y
-CONFIG_BMC150_MAGN_I2C=y
-# CONFIG_BMC150_MAGN_SPI is not set
-# CONFIG_MAG3110 is not set
-CONFIG_MMC35240=m
-CONFIG_IIO_ST_MAGN_3AXIS=y
-CONFIG_IIO_ST_MAGN_I2C_3AXIS=m
-CONFIG_IIO_ST_MAGN_SPI_3AXIS=y
-# CONFIG_SENSORS_HMC5843_I2C is not set
-# CONFIG_SENSORS_HMC5843_SPI is not set
-CONFIG_SENSORS_RM3100=m
-# CONFIG_SENSORS_RM3100_I2C is not set
-CONFIG_SENSORS_RM3100_SPI=m
-# CONFIG_YAMAHA_YAS530 is not set
-# end of Magnetometer sensors
-
-#
-# Multiplexers
-#
-CONFIG_IIO_MUX=y
-# end of Multiplexers
-
-#
-# Inclinometer sensors
-#
-# end of Inclinometer sensors
-
-CONFIG_IIO_RESCALE_KUNIT_TEST=m
-# CONFIG_IIO_FORMAT_KUNIT_TEST is not set
-
-#
-# Triggers - standalone
-#
-# CONFIG_IIO_HRTIMER_TRIGGER is not set
-# CONFIG_IIO_INTERRUPT_TRIGGER is not set
-# CONFIG_IIO_STM32_LPTIMER_TRIGGER is not set
-CONFIG_IIO_STM32_TIMER_TRIGGER=m
-CONFIG_IIO_TIGHTLOOP_TRIGGER=m
-CONFIG_IIO_SYSFS_TRIGGER=y
-# end of Triggers - standalone
-
-#
-# Linear and angular position sensors
-#
-CONFIG_IQS624_POS=m
-# end of Linear and angular position sensors
-
-#
-# Digital potentiometers
-#
-# CONFIG_AD5110 is not set
-# CONFIG_AD5272 is not set
-# CONFIG_DS1803 is not set
-CONFIG_MAX5432=y
-# CONFIG_MAX5481 is not set
-CONFIG_MAX5487=m
-CONFIG_MCP4018=y
-CONFIG_MCP4131=m
-CONFIG_MCP4531=m
-CONFIG_MCP41010=y
-CONFIG_TPL0102=m
-# end of Digital potentiometers
-
-#
-# Digital potentiostats
-#
-CONFIG_LMP91000=y
-# end of Digital potentiostats
-
-#
-# Pressure sensors
-#
-CONFIG_ABP060MG=y
-CONFIG_BMP280=y
-CONFIG_BMP280_I2C=y
-CONFIG_BMP280_SPI=y
-CONFIG_DLHL60D=y
-CONFIG_DPS310=y
-# CONFIG_HP03 is not set
-CONFIG_ICP10100=m
-CONFIG_MPL115=y
-CONFIG_MPL115_I2C=y
-CONFIG_MPL115_SPI=y
-CONFIG_MPL3115=m
-# CONFIG_MS5611 is not set
-CONFIG_MS5637=m
-# CONFIG_IIO_ST_PRESS is not set
-CONFIG_T5403=m
-CONFIG_HP206C=y
-CONFIG_ZPA2326=y
-CONFIG_ZPA2326_I2C=y
-CONFIG_ZPA2326_SPI=y
-# end of Pressure sensors
-
-#
-# Lightning sensors
-#
-# CONFIG_AS3935 is not set
-# end of Lightning sensors
-
-#
-# Proximity and distance sensors
-#
-# CONFIG_ISL29501 is not set
-# CONFIG_LIDAR_LITE_V2 is not set
-CONFIG_MB1232=y
-# CONFIG_PING is not set
-CONFIG_RFD77402=y
-# CONFIG_SRF04 is not set
-CONFIG_SX_COMMON=m
-CONFIG_SX9310=m
-CONFIG_SX9324=m
-CONFIG_SX9360=m
-CONFIG_SX9500=m
-CONFIG_SRF08=y
-CONFIG_VCNL3020=m
-CONFIG_VL53L0X_I2C=m
-# end of Proximity and distance sensors
-
-#
-# Resolver to digital converters
-#
-# CONFIG_AD2S90 is not set
-CONFIG_AD2S1200=m
-# end of Resolver to digital converters
-
-#
-# Temperature sensors
-#
-# CONFIG_IQS620AT_TEMP is not set
-# CONFIG_LTC2983 is not set
-CONFIG_MAXIM_THERMOCOUPLE=m
-CONFIG_MLX90614=m
-CONFIG_MLX90632=y
-CONFIG_TMP006=y
-# CONFIG_TMP007 is not set
-CONFIG_TMP117=y
-CONFIG_TSYS01=m
-CONFIG_TSYS02D=m
-# CONFIG_MAX31856 is not set
-# CONFIG_MAX31865 is not set
-# end of Temperature sensors
-
-CONFIG_PWM=y
-CONFIG_PWM_SYSFS=y
-CONFIG_PWM_DEBUG=y
-CONFIG_PWM_ATMEL=y
-# CONFIG_PWM_ATMEL_TCB is not set
-CONFIG_PWM_BCM_KONA=m
-CONFIG_PWM_BCM2835=y
-CONFIG_PWM_BERLIN=y
-# CONFIG_PWM_BRCMSTB is not set
-CONFIG_PWM_CLK=m
-CONFIG_PWM_CLPS711X=m
-CONFIG_PWM_EP93XX=y
-CONFIG_PWM_FSL_FTM=y
-CONFIG_PWM_HIBVT=y
-CONFIG_PWM_IMX1=y
-CONFIG_PWM_IMX27=m
-# CONFIG_PWM_IMX_TPM is not set
-CONFIG_PWM_INTEL_LGM=m
-# CONFIG_PWM_IQS620A is not set
-CONFIG_PWM_LPC18XX_SCT=y
-# CONFIG_PWM_LPC32XX is not set
-CONFIG_PWM_LPSS=m
-CONFIG_PWM_LPSS_PLATFORM=m
-# CONFIG_PWM_MTK_DISP is not set
-CONFIG_PWM_MEDIATEK=m
-CONFIG_PWM_MXS=y
-CONFIG_PWM_NTXEC=m
-CONFIG_PWM_OMAP_DMTIMER=y
-# CONFIG_PWM_PCA9685 is not set
-# CONFIG_PWM_PXA is not set
-CONFIG_PWM_RASPBERRYPI_POE=m
-CONFIG_PWM_RCAR=y
-CONFIG_PWM_RENESAS_TPU=m
-CONFIG_PWM_ROCKCHIP=m
-CONFIG_PWM_SAMSUNG=y
-CONFIG_PWM_SL28CPLD=m
-CONFIG_PWM_SPEAR=m
-CONFIG_PWM_SPRD=y
-CONFIG_PWM_STI=y
-CONFIG_PWM_STM32=y
-CONFIG_PWM_STM32_LP=y
-CONFIG_PWM_SUNPLUS=y
-CONFIG_PWM_TEGRA=m
-CONFIG_PWM_TIECAP=m
-CONFIG_PWM_TIEHRPWM=m
-CONFIG_PWM_TWL=m
-CONFIG_PWM_TWL_LED=m
-# CONFIG_PWM_VISCONTI is not set
-CONFIG_PWM_VT8500=y
-
-#
-# IRQ chip support
-#
-CONFIG_IRQCHIP=y
-# CONFIG_AL_FIC is not set
-CONFIG_JCORE_AIC=y
-# CONFIG_RENESAS_INTC_IRQPIN is not set
-CONFIG_RENESAS_IRQC=y
-# CONFIG_RENESAS_RZA1_IRQC is not set
-CONFIG_RENESAS_RZG2L_IRQC=y
-# CONFIG_SL28CPLD_INTC is not set
-# CONFIG_TS4800_IRQ is not set
-# CONFIG_XILINX_INTC is not set
-CONFIG_INGENIC_TCU_IRQ=y
-CONFIG_IRQ_UNIPHIER_AIDET=y
-# CONFIG_MESON_IRQ_GPIO is not set
-# CONFIG_IMX_IRQSTEER is not set
-CONFIG_IMX_INTMUX=y
-CONFIG_IMX_MU_MSI=y
-# CONFIG_EXYNOS_IRQ_COMBINER is not set
-CONFIG_MST_IRQ=y
-CONFIG_MCHP_EIC=y
-# CONFIG_SUNPLUS_SP7021_INTC is not set
-# end of IRQ chip support
-
-CONFIG_IPACK_BUS=y
-# CONFIG_SERIAL_IPOCTAL is not set
-CONFIG_RESET_CONTROLLER=y
-CONFIG_RESET_A10SR=y
-# CONFIG_RESET_ATH79 is not set
-# CONFIG_RESET_AXS10X is not set
-# CONFIG_RESET_BCM6345 is not set
-# CONFIG_RESET_BERLIN is not set
-# CONFIG_RESET_BRCMSTB is not set
-# CONFIG_RESET_BRCMSTB_RESCAL is not set
-# CONFIG_RESET_HSDK is not set
-# CONFIG_RESET_IMX7 is not set
-# CONFIG_RESET_INTEL_GW is not set
-# CONFIG_RESET_K210 is not set
-# CONFIG_RESET_LANTIQ is not set
-# CONFIG_RESET_LPC18XX is not set
-CONFIG_RESET_MCHP_SPARX5=y
-# CONFIG_RESET_MESON is not set
-CONFIG_RESET_MESON_AUDIO_ARB=m
-CONFIG_RESET_NPCM=y
-# CONFIG_RESET_PISTACHIO is not set
-CONFIG_RESET_QCOM_AOSS=m
-CONFIG_RESET_QCOM_PDC=m
-# CONFIG_RESET_RASPBERRYPI is not set
-# CONFIG_RESET_RZG2L_USBPHY_CTRL is not set
-CONFIG_RESET_SCMI=y
-CONFIG_RESET_SIMPLE=y
-CONFIG_RESET_SOCFPGA=y
-# CONFIG_RESET_STARFIVE_JH7100 is not set
-CONFIG_RESET_SUNPLUS=y
-CONFIG_RESET_SUNXI=y
-# CONFIG_RESET_TI_SCI is not set
-CONFIG_RESET_TI_SYSCON=m
-CONFIG_RESET_TI_TPS380X=y
-# CONFIG_RESET_TN48M_CPLD is not set
-CONFIG_RESET_UNIPHIER=m
-CONFIG_RESET_UNIPHIER_GLUE=y
-CONFIG_RESET_ZYNQ=y
-CONFIG_COMMON_RESET_HI3660=y
-CONFIG_COMMON_RESET_HI6220=m
-
-#
-# PHY Subsystem
-#
-CONFIG_GENERIC_PHY=y
-CONFIG_GENERIC_PHY_MIPI_DPHY=y
-CONFIG_PHY_LPC18XX_USB_OTG=m
-CONFIG_PHY_PISTACHIO_USB=y
-CONFIG_PHY_XGENE=m
-# CONFIG_USB_LGM_PHY is not set
-# CONFIG_PHY_CAN_TRANSCEIVER is not set
-CONFIG_PHY_SUN4I_USB=m
-# CONFIG_PHY_SUN9I_USB is not set
-CONFIG_PHY_SUN50I_USB3=y
-CONFIG_PHY_MESON8_HDMI_TX=y
-CONFIG_PHY_MESON8B_USB2=y
-CONFIG_PHY_MESON_GXL_USB2=y
-CONFIG_PHY_MESON_G12A_MIPI_DPHY_ANALOG=y
-CONFIG_PHY_MESON_G12A_USB2=m
-# CONFIG_PHY_MESON_G12A_USB3_PCIE is not set
-CONFIG_PHY_MESON_AXG_PCIE=m
-# CONFIG_PHY_MESON_AXG_MIPI_PCIE_ANALOG is not set
-# CONFIG_PHY_MESON_AXG_MIPI_DPHY is not set
-
-#
-# PHY drivers for Broadcom platforms
-#
-CONFIG_PHY_BCM63XX_USBH=m
-# CONFIG_PHY_CYGNUS_PCIE is not set
-CONFIG_PHY_BCM_SR_USB=y
-CONFIG_BCM_KONA_USB2_PHY=y
-CONFIG_PHY_BCM_NS_USB2=y
-CONFIG_PHY_NS2_USB_DRD=y
-# CONFIG_PHY_BRCM_SATA is not set
-# CONFIG_PHY_BRCM_USB is not set
-CONFIG_PHY_BCM_SR_PCIE=y
-# end of PHY drivers for Broadcom platforms
-
-CONFIG_PHY_CADENCE_DPHY=m
-# CONFIG_PHY_CADENCE_DPHY_RX is not set
-CONFIG_PHY_CADENCE_SALVO=y
-CONFIG_PHY_FSL_IMX8MQ_USB=y
-CONFIG_PHY_MIXEL_LVDS_PHY=m
-CONFIG_PHY_MIXEL_MIPI_DPHY=y
-CONFIG_PHY_FSL_IMX8M_PCIE=m
-CONFIG_PHY_FSL_LYNX_28G=m
-# CONFIG_PHY_HI6220_USB is not set
-# CONFIG_PHY_HI3660_USB is not set
-CONFIG_PHY_HI3670_USB=m
-CONFIG_PHY_HI3670_PCIE=m
-CONFIG_PHY_HISTB_COMBPHY=y
-CONFIG_PHY_HISI_INNO_USB2=y
-CONFIG_PHY_INGENIC_USB=m
-# CONFIG_PHY_LANTIQ_VRX200_PCIE is not set
-CONFIG_PHY_LANTIQ_RCU_USB2=y
-CONFIG_ARMADA375_USBCLUSTER_PHY=y
-CONFIG_PHY_BERLIN_SATA=m
-# CONFIG_PHY_BERLIN_USB is not set
-# CONFIG_PHY_MVEBU_A3700_UTMI is not set
-# CONFIG_PHY_MVEBU_A38X_COMPHY is not set
-# CONFIG_PHY_MVEBU_CP110_UTMI is not set
-# CONFIG_PHY_PXA_28NM_HSIC is not set
-CONFIG_PHY_PXA_28NM_USB2=y
-# CONFIG_PHY_PXA_USB is not set
-CONFIG_PHY_MMP3_USB=m
-CONFIG_PHY_MMP3_HSIC=y
-CONFIG_PHY_MTK_PCIE=m
-CONFIG_PHY_MTK_TPHY=y
-CONFIG_PHY_MTK_UFS=y
-CONFIG_PHY_MTK_XSPHY=y
-CONFIG_PHY_MTK_DP=y
-CONFIG_PHY_SPARX5_SERDES=y
-CONFIG_PHY_LAN966X_SERDES=m
-CONFIG_PHY_CPCAP_USB=m
-CONFIG_PHY_MAPPHONE_MDM6600=y
-# CONFIG_PHY_OCELOT_SERDES is not set
-CONFIG_PHY_ATH79_USB=m
-# CONFIG_PHY_QCOM_IPQ4019_USB is not set
-CONFIG_PHY_QCOM_QUSB2=m
-CONFIG_PHY_QCOM_USB_HS=y
-CONFIG_PHY_QCOM_USB_SNPS_FEMTO_V2=y
-CONFIG_PHY_QCOM_USB_HSIC=m
-# CONFIG_PHY_QCOM_USB_HS_28NM is not set
-CONFIG_PHY_QCOM_USB_SS=m
-# CONFIG_PHY_QCOM_IPQ806X_USB is not set
-CONFIG_PHY_MT7621_PCI=m
-CONFIG_PHY_RALINK_USB=y
-CONFIG_PHY_RCAR_GEN3_USB3=m
-# CONFIG_PHY_ROCKCHIP_DPHY_RX0 is not set
-CONFIG_PHY_ROCKCHIP_INNO_CSIDPHY=m
-CONFIG_PHY_ROCKCHIP_INNO_DSIDPHY=m
-# CONFIG_PHY_ROCKCHIP_PCIE is not set
-CONFIG_PHY_ROCKCHIP_SNPS_PCIE3=m
-# CONFIG_PHY_ROCKCHIP_TYPEC is not set
-# CONFIG_PHY_EXYNOS_DP_VIDEO is not set
-# CONFIG_PHY_EXYNOS_MIPI_VIDEO is not set
-CONFIG_PHY_EXYNOS_PCIE=y
-# CONFIG_PHY_SAMSUNG_UFS is not set
-CONFIG_PHY_SAMSUNG_USB2=m
-CONFIG_PHY_S5PV210_USB2=y
-CONFIG_PHY_EXYNOS5_USBDRD=m
-# CONFIG_PHY_UNIPHIER_USB2 is not set
-# CONFIG_PHY_UNIPHIER_USB3 is not set
-CONFIG_PHY_UNIPHIER_PCIE=m
-CONFIG_PHY_UNIPHIER_AHCI=m
-# CONFIG_PHY_ST_SPEAR1310_MIPHY is not set
-CONFIG_PHY_ST_SPEAR1340_MIPHY=y
-# CONFIG_PHY_STIH407_USB is not set
-CONFIG_PHY_SUNPLUS_USB=y
-# CONFIG_PHY_TEGRA194_P2U is not set
-CONFIG_PHY_DA8XX_USB=y
-CONFIG_PHY_DM816X_USB=y
-CONFIG_OMAP_CONTROL_PHY=y
-CONFIG_TI_PIPE3=y
-# CONFIG_PHY_TUSB1210 is not set
-CONFIG_PHY_INTEL_KEEMBAY_EMMC=m
-CONFIG_PHY_INTEL_KEEMBAY_USB=m
-# CONFIG_PHY_INTEL_LGM_COMBO is not set
-CONFIG_PHY_INTEL_LGM_EMMC=y
-# CONFIG_PHY_INTEL_THUNDERBAY_EMMC is not set
-CONFIG_PHY_XILINX_ZYNQMP=y
-# end of PHY Subsystem
-
-# CONFIG_POWERCAP is not set
-# CONFIG_MCB is not set
-# CONFIG_RAS is not set
-
-#
-# Android
-#
-# CONFIG_ANDROID_BINDER_IPC is not set
-# end of Android
-
-CONFIG_DAX=y
-CONFIG_NVMEM=y
-CONFIG_NVMEM_SYSFS=y
-# CONFIG_NVMEM_APPLE_EFUSES is not set
-# CONFIG_NVMEM_BCM_OCOTP is not set
-CONFIG_NVMEM_BRCM_NVRAM=m
-# CONFIG_NVMEM_IMX_IIM is not set
-# CONFIG_NVMEM_IMX_OCOTP is not set
-CONFIG_NVMEM_JZ4780_EFUSE=y
-CONFIG_NVMEM_LAN9662_OTPC=y
-CONFIG_NVMEM_LAYERSCAPE_SFP=y
-# CONFIG_NVMEM_LPC18XX_EEPROM is not set
-CONFIG_NVMEM_LPC18XX_OTP=y
-CONFIG_NVMEM_MESON_MX_EFUSE=y
-CONFIG_NVMEM_MICROCHIP_OTPC=y
-# CONFIG_NVMEM_MTK_EFUSE is not set
-CONFIG_NVMEM_MXS_OCOTP=y
-CONFIG_NVMEM_NINTENDO_OTP=m
-CONFIG_NVMEM_QCOM_QFPROM=y
-# CONFIG_NVMEM_RAVE_SP_EEPROM is not set
-# CONFIG_NVMEM_RMEM is not set
-CONFIG_NVMEM_ROCKCHIP_EFUSE=m
-CONFIG_NVMEM_ROCKCHIP_OTP=m
-# CONFIG_NVMEM_SC27XX_EFUSE is not set
-CONFIG_NVMEM_SNVS_LPGPR=m
-# CONFIG_NVMEM_SPRD_EFUSE is not set
-CONFIG_NVMEM_STM32_ROMEM=y
-CONFIG_NVMEM_SUNPLUS_OCOTP=y
-CONFIG_NVMEM_UNIPHIER_EFUSE=y
-# CONFIG_NVMEM_VF610_OCOTP is not set
-
-#
-# HW tracing support
-#
-CONFIG_STM=m
-CONFIG_STM_PROTO_BASIC=m
-CONFIG_STM_PROTO_SYS_T=m
-# CONFIG_STM_DUMMY is not set
-# CONFIG_STM_SOURCE_CONSOLE is not set
-CONFIG_STM_SOURCE_HEARTBEAT=m
-# CONFIG_INTEL_TH is not set
-# end of HW tracing support
-
-CONFIG_FPGA=m
-# CONFIG_FPGA_MGR_SOCFPGA is not set
-CONFIG_FPGA_MGR_SOCFPGA_A10=m
-# CONFIG_ALTERA_PR_IP_CORE is not set
-# CONFIG_FPGA_MGR_ALTERA_PS_SPI is not set
-CONFIG_FPGA_MGR_ZYNQ_FPGA=m
-# CONFIG_FPGA_MGR_XILINX_SPI is not set
-CONFIG_FPGA_MGR_ICE40_SPI=m
-# CONFIG_FPGA_MGR_MACHXO2_SPI is not set
-CONFIG_FPGA_BRIDGE=m
-# CONFIG_ALTERA_FREEZE_BRIDGE is not set
-CONFIG_XILINX_PR_DECOUPLER=m
-CONFIG_FPGA_REGION=m
-# CONFIG_OF_FPGA_REGION is not set
-CONFIG_FPGA_DFL=m
-CONFIG_FPGA_DFL_AFU=m
-CONFIG_FPGA_DFL_NIOS_INTEL_PAC_N3000=m
-CONFIG_FPGA_MGR_ZYNQMP_FPGA=m
-# CONFIG_FPGA_MGR_VERSAL_FPGA is not set
-CONFIG_FPGA_M10_BMC_SEC_UPDATE=m
-# CONFIG_FPGA_MGR_MICROCHIP_SPI is not set
-CONFIG_FSI=y
-# CONFIG_FSI_NEW_DEV_NODE is not set
-CONFIG_FSI_MASTER_GPIO=m
-CONFIG_FSI_MASTER_HUB=y
-CONFIG_FSI_MASTER_ASPEED=m
-CONFIG_FSI_SCOM=y
-CONFIG_FSI_SBEFIFO=m
-CONFIG_FSI_OCC=m
-# CONFIG_TEE is not set
-CONFIG_MULTIPLEXER=y
-
-#
-# Multiplexer drivers
-#
-CONFIG_MUX_ADG792A=m
-CONFIG_MUX_ADGS1408=m
-CONFIG_MUX_GPIO=y
-CONFIG_MUX_MMIO=m
-# end of Multiplexer drivers
-
-CONFIG_PM_OPP=y
-# CONFIG_SIOX is not set
-# CONFIG_SLIMBUS is not set
-# CONFIG_INTERCONNECT is not set
-# CONFIG_COUNTER is not set
-CONFIG_MOST=y
-# CONFIG_MOST_USB_HDM is not set
-# CONFIG_MOST_CDEV is not set
-CONFIG_MOST_SND=m
-# CONFIG_PECI is not set
-CONFIG_HTE=y
-# end of Device Drivers
-
-#
-# File systems
-#
-# CONFIG_VALIDATE_FS_PARSER is not set
-CONFIG_FS_IOMAP=y
-CONFIG_EXT2_FS=y
-# CONFIG_EXT2_FS_XATTR is not set
-# CONFIG_EXT3_FS is not set
-CONFIG_EXT4_FS=m
-# CONFIG_EXT4_FS_POSIX_ACL is not set
-# CONFIG_EXT4_FS_SECURITY is not set
-# CONFIG_EXT4_DEBUG is not set
-CONFIG_EXT4_KUNIT_TESTS=m
-CONFIG_JBD2=m
-CONFIG_JBD2_DEBUG=y
-CONFIG_FS_MBCACHE=m
-CONFIG_REISERFS_FS=m
-# CONFIG_REISERFS_CHECK is not set
-# CONFIG_REISERFS_PROC_INFO is not set
-CONFIG_REISERFS_FS_XATTR=y
-# CONFIG_REISERFS_FS_POSIX_ACL is not set
-CONFIG_REISERFS_FS_SECURITY=y
-CONFIG_JFS_FS=y
-# CONFIG_JFS_POSIX_ACL is not set
-CONFIG_JFS_SECURITY=y
-# CONFIG_JFS_DEBUG is not set
-# CONFIG_JFS_STATISTICS is not set
-CONFIG_XFS_FS=y
-# CONFIG_XFS_SUPPORT_V4 is not set
-# CONFIG_XFS_QUOTA is not set
-CONFIG_XFS_POSIX_ACL=y
-# CONFIG_XFS_RT is not set
-CONFIG_XFS_ONLINE_SCRUB=y
-CONFIG_XFS_ONLINE_REPAIR=y
-# CONFIG_XFS_WARN is not set
-# CONFIG_XFS_DEBUG is not set
-CONFIG_GFS2_FS=m
-CONFIG_BTRFS_FS=m
-# CONFIG_BTRFS_FS_POSIX_ACL is not set
-CONFIG_BTRFS_FS_CHECK_INTEGRITY=y
-CONFIG_BTRFS_FS_RUN_SANITY_TESTS=y
-CONFIG_BTRFS_DEBUG=y
-# CONFIG_BTRFS_ASSERT is not set
-# CONFIG_BTRFS_FS_REF_VERIFY is not set
-# CONFIG_NILFS2_FS is not set
-# CONFIG_F2FS_FS is not set
-CONFIG_FS_POSIX_ACL=y
-CONFIG_EXPORTFS=y
-# CONFIG_EXPORTFS_BLOCK_OPS is not set
-CONFIG_FILE_LOCKING=y
-CONFIG_FS_ENCRYPTION=y
-CONFIG_FS_ENCRYPTION_ALGS=m
-CONFIG_FS_VERITY=y
-CONFIG_FS_VERITY_DEBUG=y
-# CONFIG_FS_VERITY_BUILTIN_SIGNATURES is not set
-CONFIG_FSNOTIFY=y
-CONFIG_DNOTIFY=y
-CONFIG_INOTIFY_USER=y
-# CONFIG_FANOTIFY is not set
-# CONFIG_QUOTA is not set
-CONFIG_QUOTACTL=y
-CONFIG_AUTOFS4_FS=y
-CONFIG_AUTOFS_FS=y
-CONFIG_FUSE_FS=y
-CONFIG_CUSE=m
-CONFIG_VIRTIO_FS=m
-CONFIG_OVERLAY_FS=y
-# CONFIG_OVERLAY_FS_REDIRECT_DIR is not set
-CONFIG_OVERLAY_FS_REDIRECT_ALWAYS_FOLLOW=y
-# CONFIG_OVERLAY_FS_INDEX is not set
-# CONFIG_OVERLAY_FS_METACOPY is not set
-
-#
-# Caches
-#
-# CONFIG_FSCACHE is not set
-# end of Caches
-
-#
-# CD-ROM/DVD Filesystems
-#
-CONFIG_ISO9660_FS=y
-# CONFIG_JOLIET is not set
-# CONFIG_ZISOFS is not set
-# CONFIG_UDF_FS is not set
-# end of CD-ROM/DVD Filesystems
-
-#
-# DOS/FAT/EXFAT/NT Filesystems
-#
-CONFIG_FAT_FS=y
-CONFIG_MSDOS_FS=m
-CONFIG_VFAT_FS=y
-CONFIG_FAT_DEFAULT_CODEPAGE=437
-CONFIG_FAT_DEFAULT_IOCHARSET="iso8859-1"
-CONFIG_FAT_DEFAULT_UTF8=y
-CONFIG_FAT_KUNIT_TEST=m
-CONFIG_EXFAT_FS=m
-CONFIG_EXFAT_DEFAULT_IOCHARSET="utf8"
-CONFIG_NTFS_FS=m
-# CONFIG_NTFS_DEBUG is not set
-# CONFIG_NTFS_RW is not set
-CONFIG_NTFS3_FS=m
-# CONFIG_NTFS3_LZX_XPRESS is not set
-CONFIG_NTFS3_FS_POSIX_ACL=y
-# end of DOS/FAT/EXFAT/NT Filesystems
-
-#
-# Pseudo filesystems
-#
-CONFIG_PROC_FS=y
-CONFIG_PROC_KCORE=y
-CONFIG_PROC_SYSCTL=y
-CONFIG_PROC_PAGE_MONITOR=y
-CONFIG_PROC_CHILDREN=y
-CONFIG_KERNFS=y
-CONFIG_SYSFS=y
-CONFIG_TMPFS=y
-# CONFIG_TMPFS_POSIX_ACL is not set
-CONFIG_TMPFS_XATTR=y
-CONFIG_MEMFD_CREATE=y
-CONFIG_CONFIGFS_FS=y
-# end of Pseudo filesystems
-
-# CONFIG_MISC_FILESYSTEMS is not set
-CONFIG_NLS=y
-CONFIG_NLS_DEFAULT="iso8859-1"
-# CONFIG_NLS_CODEPAGE_437 is not set
-# CONFIG_NLS_CODEPAGE_737 is not set
-CONFIG_NLS_CODEPAGE_775=m
-CONFIG_NLS_CODEPAGE_850=m
-CONFIG_NLS_CODEPAGE_852=y
-CONFIG_NLS_CODEPAGE_855=y
-CONFIG_NLS_CODEPAGE_857=m
-CONFIG_NLS_CODEPAGE_860=m
-CONFIG_NLS_CODEPAGE_861=y
-CONFIG_NLS_CODEPAGE_862=y
-# CONFIG_NLS_CODEPAGE_863 is not set
-CONFIG_NLS_CODEPAGE_864=y
-# CONFIG_NLS_CODEPAGE_865 is not set
-CONFIG_NLS_CODEPAGE_866=y
-CONFIG_NLS_CODEPAGE_869=y
-CONFIG_NLS_CODEPAGE_936=y
-CONFIG_NLS_CODEPAGE_950=y
-# CONFIG_NLS_CODEPAGE_932 is not set
-CONFIG_NLS_CODEPAGE_949=m
-CONFIG_NLS_CODEPAGE_874=y
-CONFIG_NLS_ISO8859_8=m
-# CONFIG_NLS_CODEPAGE_1250 is not set
-CONFIG_NLS_CODEPAGE_1251=y
-CONFIG_NLS_ASCII=m
-# CONFIG_NLS_ISO8859_1 is not set
-CONFIG_NLS_ISO8859_2=y
-CONFIG_NLS_ISO8859_3=m
-# CONFIG_NLS_ISO8859_4 is not set
-CONFIG_NLS_ISO8859_5=m
-# CONFIG_NLS_ISO8859_6 is not set
-CONFIG_NLS_ISO8859_7=y
-CONFIG_NLS_ISO8859_9=y
-CONFIG_NLS_ISO8859_13=m
-# CONFIG_NLS_ISO8859_14 is not set
-CONFIG_NLS_ISO8859_15=m
-CONFIG_NLS_KOI8_R=y
-CONFIG_NLS_KOI8_U=m
-CONFIG_NLS_MAC_ROMAN=y
-CONFIG_NLS_MAC_CELTIC=m
-CONFIG_NLS_MAC_CENTEURO=m
-# CONFIG_NLS_MAC_CROATIAN is not set
-CONFIG_NLS_MAC_CYRILLIC=m
-# CONFIG_NLS_MAC_GAELIC is not set
-# CONFIG_NLS_MAC_GREEK is not set
-CONFIG_NLS_MAC_ICELAND=m
-CONFIG_NLS_MAC_INUIT=y
-# CONFIG_NLS_MAC_ROMANIAN is not set
-CONFIG_NLS_MAC_TURKISH=y
-CONFIG_NLS_UTF8=y
-CONFIG_UNICODE=m
-CONFIG_UNICODE_NORMALIZATION_SELFTEST=m
-CONFIG_IO_WQ=y
-# end of File systems
-
-#
-# Security options
-#
-CONFIG_KEYS=y
-# CONFIG_KEYS_REQUEST_CACHE is not set
-CONFIG_PERSISTENT_KEYRINGS=y
-CONFIG_TRUSTED_KEYS=m
-CONFIG_TRUSTED_KEYS_TPM=y
-CONFIG_ENCRYPTED_KEYS=m
-CONFIG_USER_DECRYPTED_DATA=y
-# CONFIG_KEY_DH_OPERATIONS is not set
-CONFIG_SECURITY_DMESG_RESTRICT=y
-CONFIG_SECURITYFS=y
-CONFIG_HAVE_HARDENED_USERCOPY_ALLOCATOR=y
-CONFIG_HARDENED_USERCOPY=y
-# CONFIG_STATIC_USERMODEHELPER is not set
-CONFIG_DEFAULT_SECURITY_DAC=y
-CONFIG_LSM="landlock,lockdown,yama,loadpin,safesetid,integrity,bpf"
-
-#
-# Kernel hardening options
-#
-
-#
-# Memory initialization
-#
-CONFIG_CC_HAS_AUTO_VAR_INIT_PATTERN=y
-CONFIG_CC_HAS_AUTO_VAR_INIT_ZERO_BARE=y
-CONFIG_CC_HAS_AUTO_VAR_INIT_ZERO=y
-# CONFIG_INIT_STACK_NONE is not set
-# CONFIG_INIT_STACK_ALL_PATTERN is not set
-CONFIG_INIT_STACK_ALL_ZERO=y
-# CONFIG_INIT_ON_ALLOC_DEFAULT_ON is not set
-# CONFIG_INIT_ON_FREE_DEFAULT_ON is not set
-CONFIG_CC_HAS_ZERO_CALL_USED_REGS=y
-# CONFIG_ZERO_CALL_USED_REGS is not set
-# end of Memory initialization
-
-CONFIG_RANDSTRUCT_NONE=y
-# end of Kernel hardening options
-# end of Security options
-
-CONFIG_XOR_BLOCKS=m
-CONFIG_CRYPTO=y
-
-#
-# Crypto core or helper
-#
-CONFIG_CRYPTO_ALGAPI=y
-CONFIG_CRYPTO_ALGAPI2=y
-CONFIG_CRYPTO_AEAD=y
-CONFIG_CRYPTO_AEAD2=y
-CONFIG_CRYPTO_SKCIPHER=y
-CONFIG_CRYPTO_SKCIPHER2=y
-CONFIG_CRYPTO_HASH=y
-CONFIG_CRYPTO_HASH2=y
-CONFIG_CRYPTO_RNG=y
-CONFIG_CRYPTO_RNG2=y
-CONFIG_CRYPTO_RNG_DEFAULT=y
-CONFIG_CRYPTO_AKCIPHER2=y
-CONFIG_CRYPTO_AKCIPHER=y
-CONFIG_CRYPTO_KPP2=y
-CONFIG_CRYPTO_KPP=y
-CONFIG_CRYPTO_ACOMP2=y
-CONFIG_CRYPTO_MANAGER=y
-CONFIG_CRYPTO_MANAGER2=y
-CONFIG_CRYPTO_MANAGER_DISABLE_TESTS=y
-CONFIG_CRYPTO_GF128MUL=y
-CONFIG_CRYPTO_NULL=y
-CONFIG_CRYPTO_NULL2=y
-# CONFIG_CRYPTO_CRYPTD is not set
-CONFIG_CRYPTO_AUTHENC=y
-CONFIG_CRYPTO_TEST=m
-CONFIG_CRYPTO_ENGINE=y
-# end of Crypto core or helper
-
-#
-# Public-key cryptography
-#
-CONFIG_CRYPTO_RSA=y
-CONFIG_CRYPTO_DH=y
-CONFIG_CRYPTO_DH_RFC7919_GROUPS=y
-CONFIG_CRYPTO_ECC=y
-CONFIG_CRYPTO_ECDH=y
-# CONFIG_CRYPTO_ECDSA is not set
-# CONFIG_CRYPTO_ECRDSA is not set
-# CONFIG_CRYPTO_SM2 is not set
-# CONFIG_CRYPTO_CURVE25519 is not set
-# end of Public-key cryptography
-
-#
-# Block ciphers
-#
-CONFIG_CRYPTO_AES=y
-# CONFIG_CRYPTO_AES_TI is not set
-CONFIG_CRYPTO_ARIA=m
-CONFIG_CRYPTO_BLOWFISH=m
-CONFIG_CRYPTO_BLOWFISH_COMMON=m
-CONFIG_CRYPTO_CAMELLIA=m
-CONFIG_CRYPTO_CAST_COMMON=m
-# CONFIG_CRYPTO_CAST5 is not set
-CONFIG_CRYPTO_CAST6=m
-CONFIG_CRYPTO_DES=m
-# CONFIG_CRYPTO_FCRYPT is not set
-CONFIG_CRYPTO_SERPENT=m
-CONFIG_CRYPTO_SM4=m
-CONFIG_CRYPTO_SM4_GENERIC=m
-CONFIG_CRYPTO_TWOFISH=m
-CONFIG_CRYPTO_TWOFISH_COMMON=m
-# end of Block ciphers
-
-#
-# Length-preserving ciphers and modes
-#
-CONFIG_CRYPTO_ADIANTUM=y
-CONFIG_CRYPTO_CHACHA20=y
-CONFIG_CRYPTO_CBC=y
-CONFIG_CRYPTO_CFB=y
-CONFIG_CRYPTO_CTR=y
-CONFIG_CRYPTO_CTS=y
-CONFIG_CRYPTO_ECB=y
-CONFIG_CRYPTO_HCTR2=y
-CONFIG_CRYPTO_KEYWRAP=m
-# CONFIG_CRYPTO_LRW is not set
-# CONFIG_CRYPTO_OFB is not set
-# CONFIG_CRYPTO_PCBC is not set
-CONFIG_CRYPTO_XCTR=y
-CONFIG_CRYPTO_XTS=y
-CONFIG_CRYPTO_NHPOLY1305=y
-# end of Length-preserving ciphers and modes
-
-#
-# AEAD (authenticated encryption with associated data) ciphers
-#
-CONFIG_CRYPTO_AEGIS128=y
-CONFIG_CRYPTO_CHACHA20POLY1305=y
-# CONFIG_CRYPTO_CCM is not set
-CONFIG_CRYPTO_GCM=m
-CONFIG_CRYPTO_SEQIV=m
-CONFIG_CRYPTO_ECHAINIV=y
-CONFIG_CRYPTO_ESSIV=y
-# end of AEAD (authenticated encryption with associated data) ciphers
-
-#
-# Hashes, digests, and MACs
-#
-CONFIG_CRYPTO_BLAKE2B=y
-# CONFIG_CRYPTO_CMAC is not set
-CONFIG_CRYPTO_GHASH=m
-CONFIG_CRYPTO_HMAC=y
-# CONFIG_CRYPTO_MD4 is not set
-CONFIG_CRYPTO_MD5=y
-# CONFIG_CRYPTO_MICHAEL_MIC is not set
-CONFIG_CRYPTO_POLYVAL=y
-CONFIG_CRYPTO_POLY1305=y
-CONFIG_CRYPTO_RMD160=y
-CONFIG_CRYPTO_SHA1=y
-CONFIG_CRYPTO_SHA256=y
-CONFIG_CRYPTO_SHA512=y
-CONFIG_CRYPTO_SHA3=y
-CONFIG_CRYPTO_SM3=m
-CONFIG_CRYPTO_SM3_GENERIC=m
-# CONFIG_CRYPTO_STREEBOG is not set
-CONFIG_CRYPTO_VMAC=y
-CONFIG_CRYPTO_WP512=y
-CONFIG_CRYPTO_XCBC=m
-CONFIG_CRYPTO_XXHASH=y
-# end of Hashes, digests, and MACs
-
-#
-# CRCs (cyclic redundancy checks)
-#
-CONFIG_CRYPTO_CRC32C=y
-CONFIG_CRYPTO_CRC32=y
-CONFIG_CRYPTO_CRCT10DIF=y
-CONFIG_CRYPTO_CRC64_ROCKSOFT=y
-# end of CRCs (cyclic redundancy checks)
-
-#
-# Compression
-#
-CONFIG_CRYPTO_DEFLATE=y
-CONFIG_CRYPTO_LZO=y
-# CONFIG_CRYPTO_842 is not set
-CONFIG_CRYPTO_LZ4=y
-CONFIG_CRYPTO_LZ4HC=y
-# CONFIG_CRYPTO_ZSTD is not set
-# end of Compression
-
-#
-# Random number generation
-#
-CONFIG_CRYPTO_ANSI_CPRNG=y
-CONFIG_CRYPTO_DRBG_MENU=y
-CONFIG_CRYPTO_DRBG_HMAC=y
-# CONFIG_CRYPTO_DRBG_HASH is not set
-CONFIG_CRYPTO_DRBG_CTR=y
-CONFIG_CRYPTO_DRBG=y
-CONFIG_CRYPTO_JITTERENTROPY=y
-# end of Random number generation
-
-#
-# Userspace interface
-#
-# end of Userspace interface
-
-CONFIG_CRYPTO_HASH_INFO=y
-CONFIG_CRYPTO_HW=y
-# CONFIG_CRYPTO_DEV_ALLWINNER is not set
-CONFIG_CRYPTO_DEV_EXYNOS_RNG=y
-CONFIG_CRYPTO_DEV_S5P=m
-# CONFIG_CRYPTO_DEV_ATMEL_AUTHENC is not set
-CONFIG_CRYPTO_DEV_ATMEL_AES=m
-CONFIG_CRYPTO_DEV_ATMEL_TDES=m
-CONFIG_CRYPTO_DEV_ATMEL_SHA=y
-# CONFIG_CRYPTO_DEV_ATMEL_ECC is not set
-# CONFIG_CRYPTO_DEV_ATMEL_SHA204A is not set
-CONFIG_CRYPTO_DEV_QCE=y
-CONFIG_CRYPTO_DEV_QCE_SKCIPHER=y
-CONFIG_CRYPTO_DEV_QCE_SHA=y
-CONFIG_CRYPTO_DEV_QCE_AEAD=y
-CONFIG_CRYPTO_DEV_QCE_ENABLE_ALL=y
-# CONFIG_CRYPTO_DEV_QCE_ENABLE_SKCIPHER is not set
-# CONFIG_CRYPTO_DEV_QCE_ENABLE_SHA is not set
-# CONFIG_CRYPTO_DEV_QCE_ENABLE_AEAD is not set
-CONFIG_CRYPTO_DEV_QCE_SW_MAX_LEN=512
-CONFIG_CRYPTO_DEV_QCOM_RNG=m
-CONFIG_CRYPTO_DEV_IMGTEC_HASH=y
-# CONFIG_CRYPTO_DEV_ZYNQMP_AES is not set
-CONFIG_CRYPTO_DEV_ZYNQMP_SHA3=m
-CONFIG_CRYPTO_DEV_VIRTIO=y
-CONFIG_CRYPTO_DEV_SAFEXCEL=y
-CONFIG_CRYPTO_DEV_CCREE=m
-CONFIG_CRYPTO_DEV_HISI_SEC=y
-CONFIG_CRYPTO_DEV_AMLOGIC_GXL=m
-CONFIG_CRYPTO_DEV_AMLOGIC_GXL_DEBUG=y
-CONFIG_CRYPTO_DEV_SA2UL=y
-CONFIG_CRYPTO_DEV_KEEMBAY_OCS_AES_SM4=m
-CONFIG_CRYPTO_DEV_KEEMBAY_OCS_AES_SM4_ECB=y
-CONFIG_CRYPTO_DEV_KEEMBAY_OCS_AES_SM4_CTS=y
-CONFIG_CRYPTO_DEV_KEEMBAY_OCS_ECC=y
-CONFIG_CRYPTO_DEV_KEEMBAY_OCS_HCU=y
-# CONFIG_CRYPTO_DEV_KEEMBAY_OCS_HCU_HMAC_SHA224 is not set
-# CONFIG_CRYPTO_DEV_ASPEED is not set
-CONFIG_ASYMMETRIC_KEY_TYPE=y
-CONFIG_ASYMMETRIC_PUBLIC_KEY_SUBTYPE=y
-CONFIG_X509_CERTIFICATE_PARSER=y
-# CONFIG_PKCS8_PRIVATE_KEY_PARSER is not set
-CONFIG_PKCS7_MESSAGE_PARSER=y
-CONFIG_PKCS7_TEST_KEY=y
-CONFIG_SIGNED_PE_FILE_VERIFICATION=y
-CONFIG_FIPS_SIGNATURE_SELFTEST=y
-
-#
-# Certificates for signature checking
-#
-CONFIG_MODULE_SIG_KEY="certs/signing_key.pem"
-CONFIG_MODULE_SIG_KEY_TYPE_RSA=y
-# CONFIG_MODULE_SIG_KEY_TYPE_ECDSA is not set
-CONFIG_SYSTEM_TRUSTED_KEYRING=y
-CONFIG_SYSTEM_TRUSTED_KEYS=""
-CONFIG_SYSTEM_EXTRA_CERTIFICATE=y
-CONFIG_SYSTEM_EXTRA_CERTIFICATE_SIZE=4096
-CONFIG_SECONDARY_TRUSTED_KEYRING=y
-# CONFIG_SYSTEM_BLACKLIST_KEYRING is not set
-# end of Certificates for signature checking
-
-CONFIG_BINARY_PRINTF=y
-
-#
-# Library routines
-#
-CONFIG_RAID6_PQ=m
-# CONFIG_RAID6_PQ_BENCHMARK is not set
-CONFIG_LINEAR_RANGES=y
-CONFIG_PACKING=y
-CONFIG_BITREVERSE=y
-CONFIG_GENERIC_STRNCPY_FROM_USER=y
-CONFIG_GENERIC_STRNLEN_USER=y
-# CONFIG_CORDIC is not set
-CONFIG_PRIME_NUMBERS=y
-CONFIG_RATIONAL=m
-CONFIG_GENERIC_PCI_IOMAP=y
-CONFIG_GENERIC_IOMAP=y
-CONFIG_STMP_DEVICE=y
-
-#
-# Crypto library routines
-#
-CONFIG_CRYPTO_LIB_UTILS=y
-CONFIG_CRYPTO_LIB_AES=y
-CONFIG_CRYPTO_LIB_BLAKE2S_GENERIC=y
-CONFIG_CRYPTO_LIB_CHACHA_GENERIC=y
-# CONFIG_CRYPTO_LIB_CHACHA is not set
-CONFIG_CRYPTO_LIB_CURVE25519_GENERIC=m
-CONFIG_CRYPTO_LIB_CURVE25519=m
-CONFIG_CRYPTO_LIB_DES=y
-CONFIG_CRYPTO_LIB_POLY1305_RSIZE=1
-CONFIG_CRYPTO_LIB_POLY1305_GENERIC=y
-CONFIG_CRYPTO_LIB_POLY1305=y
-# CONFIG_CRYPTO_LIB_CHACHA20POLY1305 is not set
-CONFIG_CRYPTO_LIB_SHA1=y
-CONFIG_CRYPTO_LIB_SHA256=y
-# end of Crypto library routines
-
-CONFIG_CRC_CCITT=y
-CONFIG_CRC16=y
-CONFIG_CRC_T10DIF=y
-CONFIG_CRC64_ROCKSOFT=y
-CONFIG_CRC_ITU_T=y
-CONFIG_CRC32=y
-# CONFIG_CRC32_SELFTEST is not set
-CONFIG_CRC32_SLICEBY8=y
-# CONFIG_CRC32_SLICEBY4 is not set
-# CONFIG_CRC32_SARWATE is not set
-# CONFIG_CRC32_BIT is not set
-CONFIG_CRC64=y
-CONFIG_CRC4=y
-CONFIG_CRC7=m
-CONFIG_LIBCRC32C=y
-CONFIG_CRC8=y
-CONFIG_XXHASH=y
-# CONFIG_RANDOM32_SELFTEST is not set
-CONFIG_ZLIB_INFLATE=y
-CONFIG_ZLIB_DEFLATE=y
-CONFIG_LZO_COMPRESS=y
-CONFIG_LZO_DECOMPRESS=y
-CONFIG_LZ4_COMPRESS=y
-CONFIG_LZ4HC_COMPRESS=y
-CONFIG_LZ4_DECOMPRESS=y
-CONFIG_ZSTD_COMMON=y
-CONFIG_ZSTD_COMPRESS=m
-CONFIG_ZSTD_DECOMPRESS=y
-CONFIG_XZ_DEC=y
-CONFIG_XZ_DEC_X86=y
-# CONFIG_XZ_DEC_POWERPC is not set
-CONFIG_XZ_DEC_IA64=y
-# CONFIG_XZ_DEC_ARM is not set
-# CONFIG_XZ_DEC_ARMTHUMB is not set
-# CONFIG_XZ_DEC_SPARC is not set
-CONFIG_XZ_DEC_MICROLZMA=y
-CONFIG_XZ_DEC_BCJ=y
-CONFIG_XZ_DEC_TEST=y
-CONFIG_DECOMPRESS_GZIP=y
-CONFIG_DECOMPRESS_XZ=y
-CONFIG_DECOMPRESS_LZ4=y
-CONFIG_DECOMPRESS_ZSTD=y
-CONFIG_GENERIC_ALLOCATOR=y
-CONFIG_INTERVAL_TREE=y
-CONFIG_XARRAY_MULTI=y
-CONFIG_ASSOCIATIVE_ARRAY=y
-CONFIG_HAS_IOMEM=y
-CONFIG_HAS_DMA=y
-CONFIG_NEED_DMA_MAP_STATE=y
-CONFIG_ARCH_HAS_SYNC_DMA_FOR_DEVICE=y
-CONFIG_DMA_API_DEBUG=y
-# CONFIG_DMA_API_DEBUG_SG is not set
-# CONFIG_DMA_MAP_BENCHMARK is not set
-CONFIG_SGL_ALLOC=y
-CONFIG_GLOB=y
-CONFIG_GLOB_SELFTEST=y
-CONFIG_GENERIC_ATOMIC64=y
-CONFIG_CLZ_TAB=y
-# CONFIG_IRQ_POLL is not set
-CONFIG_MPILIB=y
-CONFIG_LIBFDT=y
-CONFIG_OID_REGISTRY=y
-CONFIG_SG_SPLIT=y
-CONFIG_SG_POOL=y
-CONFIG_SBITMAP=y
-# CONFIG_PARMAN is not set
-CONFIG_OBJAGG=m
-# end of Library routines
-
-CONFIG_ASN1_ENCODER=m
-
-#
-# Kernel hacking
-#
-
-#
-# printk and dmesg options
-#
-CONFIG_CONSOLE_LOGLEVEL_DEFAULT=7
-CONFIG_CONSOLE_LOGLEVEL_QUIET=4
-CONFIG_MESSAGE_LOGLEVEL_DEFAULT=4
-# CONFIG_SYMBOLIC_ERRNAME is not set
-# end of printk and dmesg options
-
-CONFIG_DEBUG_KERNEL=y
-# CONFIG_DEBUG_MISC is not set
-
-#
-# Compile-time checks and compiler options
-#
-CONFIG_DEBUG_INFO=y
-CONFIG_AS_HAS_NON_CONST_LEB128=y
-# CONFIG_DEBUG_INFO_NONE is not set
-# CONFIG_DEBUG_INFO_DWARF_TOOLCHAIN_DEFAULT is not set
-# CONFIG_DEBUG_INFO_DWARF4 is not set
-CONFIG_DEBUG_INFO_DWARF5=y
-CONFIG_DEBUG_INFO_REDUCED=y
-# CONFIG_DEBUG_INFO_COMPRESSED is not set
-CONFIG_DEBUG_INFO_SPLIT=y
-CONFIG_PAHOLE_HAS_SPLIT_BTF=y
-# CONFIG_GDB_SCRIPTS is not set
-CONFIG_FRAME_WARN=1024
-# CONFIG_STRIP_ASM_SYMS is not set
-CONFIG_READABLE_ASM=y
-# CONFIG_HEADERS_INSTALL is not set
-CONFIG_DEBUG_SECTION_MISMATCH=y
-CONFIG_SECTION_MISMATCH_WARN_ONLY=y
-# CONFIG_FRAME_POINTER is not set
-CONFIG_VMLINUX_MAP=y
-# CONFIG_DEBUG_FORCE_WEAK_PER_CPU is not set
-# end of Compile-time checks and compiler options
-
-#
-# Generic Kernel Debugging Instruments
-#
-CONFIG_MAGIC_SYSRQ=y
-CONFIG_MAGIC_SYSRQ_DEFAULT_ENABLE=0x1
-CONFIG_MAGIC_SYSRQ_SERIAL=y
-CONFIG_MAGIC_SYSRQ_SERIAL_SEQUENCE=""
-CONFIG_DEBUG_FS=y
-# CONFIG_DEBUG_FS_ALLOW_ALL is not set
-CONFIG_DEBUG_FS_DISALLOW_MOUNT=y
-# CONFIG_DEBUG_FS_ALLOW_NONE is not set
-CONFIG_UBSAN=y
-CONFIG_CC_HAS_UBSAN_BOUNDS=y
-CONFIG_UBSAN_BOUNDS=y
-CONFIG_UBSAN_ONLY_BOUNDS=y
-# CONFIG_UBSAN_SHIFT is not set
-CONFIG_UBSAN_DIV_ZERO=y
-# CONFIG_UBSAN_UNREACHABLE is not set
-CONFIG_UBSAN_BOOL=y
-# CONFIG_UBSAN_ENUM is not set
-# CONFIG_TEST_UBSAN is not set
-CONFIG_HAVE_KCSAN_COMPILER=y
-# end of Generic Kernel Debugging Instruments
-
-#
-# Networking Debugging
-#
-# end of Networking Debugging
-
-#
-# Memory Debugging
-#
-CONFIG_PAGE_EXTENSION=y
-CONFIG_DEBUG_PAGEALLOC=y
-CONFIG_DEBUG_PAGEALLOC_ENABLE_DEFAULT=y
-# CONFIG_SLUB_DEBUG is not set
-CONFIG_PAGE_POISONING=y
-CONFIG_DEBUG_OBJECTS=y
-CONFIG_DEBUG_OBJECTS_SELFTEST=y
-CONFIG_DEBUG_OBJECTS_FREE=y
-CONFIG_DEBUG_OBJECTS_TIMERS=y
-# CONFIG_DEBUG_OBJECTS_WORK is not set
-# CONFIG_DEBUG_OBJECTS_RCU_HEAD is not set
-CONFIG_DEBUG_OBJECTS_PERCPU_COUNTER=y
-CONFIG_DEBUG_OBJECTS_ENABLE_DEFAULT=1
-# CONFIG_SHRINKER_DEBUG is not set
-# CONFIG_DEBUG_STACK_USAGE is not set
-# CONFIG_SCHED_STACK_END_CHECK is not set
-# CONFIG_DEBUG_VM is not set
-CONFIG_DEBUG_MEMORY_INIT=y
-CONFIG_CC_HAS_WORKING_NOSANITIZE_ADDRESS=y
-# end of Memory Debugging
-
-CONFIG_DEBUG_SHIRQ=y
-
-#
-# Debug Oops, Lockups and Hangs
-#
-CONFIG_PANIC_ON_OOPS=y
-CONFIG_PANIC_ON_OOPS_VALUE=1
-CONFIG_PANIC_TIMEOUT=0
-CONFIG_LOCKUP_DETECTOR=y
-CONFIG_SOFTLOCKUP_DETECTOR=y
-CONFIG_BOOTPARAM_SOFTLOCKUP_PANIC=y
-# CONFIG_DETECT_HUNG_TASK is not set
-# CONFIG_WQ_WATCHDOG is not set
-CONFIG_TEST_LOCKUP=m
-# end of Debug Oops, Lockups and Hangs
-
-#
-# Scheduler Debugging
-#
-CONFIG_SCHED_DEBUG=y
-# CONFIG_SCHEDSTATS is not set
-# end of Scheduler Debugging
-
-# CONFIG_DEBUG_TIMEKEEPING is not set
-
-#
-# Lock Debugging (spinlocks, mutexes, etc...)
-#
-CONFIG_DEBUG_RT_MUTEXES=y
-CONFIG_DEBUG_SPINLOCK=y
-CONFIG_DEBUG_MUTEXES=y
-CONFIG_DEBUG_RWSEMS=y
-# CONFIG_DEBUG_ATOMIC_SLEEP is not set
-CONFIG_DEBUG_LOCKING_API_SELFTESTS=y
-CONFIG_LOCK_TORTURE_TEST=m
-CONFIG_WW_MUTEX_SELFTEST=y
-CONFIG_SCF_TORTURE_TEST=m
-# end of Lock Debugging (spinlocks, mutexes, etc...)
-
-CONFIG_DEBUG_IRQFLAGS=y
-# CONFIG_WARN_ALL_UNSEEDED_RANDOM is not set
-CONFIG_DEBUG_KOBJECT=y
-# CONFIG_DEBUG_KOBJECT_RELEASE is not set
-CONFIG_HAVE_DEBUG_BUGVERBOSE=y
-
-#
-# Debug kernel data structures
-#
-# CONFIG_DEBUG_LIST is not set
-# CONFIG_DEBUG_PLIST is not set
-CONFIG_DEBUG_SG=y
-# CONFIG_DEBUG_NOTIFIERS is not set
-# CONFIG_BUG_ON_DATA_CORRUPTION is not set
-CONFIG_DEBUG_MAPLE_TREE=y
-# end of Debug kernel data structures
-
-# CONFIG_DEBUG_CREDENTIALS is not set
-
-#
-# RCU Debugging
-#
-CONFIG_TORTURE_TEST=m
-# CONFIG_RCU_SCALE_TEST is not set
-CONFIG_RCU_TORTURE_TEST=m
-# CONFIG_RCU_REF_SCALE_TEST is not set
-# CONFIG_RCU_TRACE is not set
-CONFIG_RCU_EQS_DEBUG=y
-# end of RCU Debugging
-
-# CONFIG_DEBUG_WQ_FORCE_RR_CPU is not set
-# CONFIG_SAMPLES is not set
-# CONFIG_STRICT_DEVMEM is not set
-
-#
-# m68k Debugging
-#
-CONFIG_BOOTPARAM=y
-CONFIG_BOOTPARAM_STRING="console=ttyS0,19200"
-# end of m68k Debugging
-
-#
-# Kernel Testing and Coverage
-#
-CONFIG_KUNIT=m
-CONFIG_KUNIT_DEBUGFS=y
-# CONFIG_KUNIT_TEST is not set
-CONFIG_KUNIT_EXAMPLE_TEST=m
-CONFIG_KUNIT_ALL_TESTS=m
-CONFIG_KUNIT_DEFAULT_ENABLED=y
-# CONFIG_NOTIFIER_ERROR_INJECTION is not set
-# CONFIG_FAULT_INJECTION is not set
-CONFIG_CC_HAS_SANCOV_TRACE_PC=y
-CONFIG_RUNTIME_TESTING_MENU=y
-# CONFIG_LKDTM is not set
-# CONFIG_CPUMASK_KUNIT_TEST is not set
-# CONFIG_TEST_LIST_SORT is not set
-CONFIG_TEST_MIN_HEAP=y
-# CONFIG_TEST_SORT is not set
-# CONFIG_TEST_DIV64 is not set
-CONFIG_BACKTRACE_SELF_TEST=m
-CONFIG_RBTREE_TEST=m
-# CONFIG_REED_SOLOMON_TEST is not set
-CONFIG_INTERVAL_TREE_TEST=y
-# CONFIG_PERCPU_TEST is not set
-CONFIG_ATOMIC64_SELFTEST=y
-CONFIG_TEST_HEXDUMP=y
-CONFIG_STRING_SELFTEST=m
-# CONFIG_TEST_STRING_HELPERS is not set
-# CONFIG_TEST_STRSCPY is not set
-CONFIG_TEST_KSTRTOX=y
-# CONFIG_TEST_PRINTF is not set
-CONFIG_TEST_SCANF=m
-CONFIG_TEST_BITMAP=m
-# CONFIG_TEST_UUID is not set
-# CONFIG_TEST_XARRAY is not set
-CONFIG_TEST_RHASHTABLE=y
-# CONFIG_TEST_SIPHASH is not set
-CONFIG_TEST_IDA=m
-CONFIG_TEST_LKM=m
-CONFIG_TEST_BITOPS=m
-# CONFIG_TEST_VMALLOC is not set
-# CONFIG_TEST_USER_COPY is not set
-# CONFIG_FIND_BIT_BENCHMARK is not set
-CONFIG_TEST_FIRMWARE=y
-CONFIG_TEST_SYSCTL=m
-# CONFIG_BITFIELD_KUNIT is not set
-CONFIG_HASH_KUNIT_TEST=m
-# CONFIG_RESOURCE_KUNIT_TEST is not set
-CONFIG_SYSCTL_KUNIT_TEST=m
-CONFIG_LIST_KUNIT_TEST=m
-CONFIG_LINEAR_RANGES_TEST=m
-CONFIG_CMDLINE_KUNIT_TEST=m
-CONFIG_BITS_TEST=m
-# CONFIG_RATIONAL_KUNIT_TEST is not set
-CONFIG_MEMCPY_KUNIT_TEST=m
-# CONFIG_IS_SIGNED_TYPE_KUNIT_TEST is not set
-# CONFIG_OVERFLOW_KUNIT_TEST is not set
-CONFIG_STACKINIT_KUNIT_TEST=m
-# CONFIG_TEST_UDELAY is not set
-CONFIG_TEST_STATIC_KEYS=m
-CONFIG_TEST_MEMCAT_P=m
-# CONFIG_TEST_OBJAGG is not set
-CONFIG_TEST_MEMINIT=m
-# CONFIG_TEST_FREE_PAGES is not set
-# end of Kernel Testing and Coverage
-
-#
-# Rust hacking
-#
-# end of Rust hacking
-
-CONFIG_WARN_MISSING_DOCUMENTS=y
-CONFIG_WARN_ABI_ERRORS=y
-# end of Kernel hacking
-
---Qu5xs77Cx6eJ+zMN--
