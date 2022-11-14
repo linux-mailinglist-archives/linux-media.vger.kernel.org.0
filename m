@@ -2,94 +2,163 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0B323627D9D
-	for <lists+linux-media@lfdr.de>; Mon, 14 Nov 2022 13:22:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F214F6280FB
+	for <lists+linux-media@lfdr.de>; Mon, 14 Nov 2022 14:13:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237147AbiKNMWX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 14 Nov 2022 07:22:23 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50932 "EHLO
+        id S238001AbiKNNNP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 14 Nov 2022 08:13:15 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40238 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237145AbiKNMWR (ORCPT
+        with ESMTP id S237956AbiKNNM7 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 14 Nov 2022 07:22:17 -0500
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0F9D523179
-        for <linux-media@vger.kernel.org>; Mon, 14 Nov 2022 04:22:17 -0800 (PST)
-X-IronPort-AV: E=McAfee;i="6500,9779,10530"; a="313758412"
-X-IronPort-AV: E=Sophos;i="5.96,161,1665471600"; 
-   d="scan'208";a="313758412"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Nov 2022 04:22:16 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10530"; a="616292190"
-X-IronPort-AV: E=Sophos;i="5.96,161,1665471600"; 
-   d="scan'208";a="616292190"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by orsmga006.jf.intel.com with ESMTP; 14 Nov 2022 04:22:14 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-        (envelope-from <andy@kernel.org>)
-        id 1ouYTc-00CA4N-0X;
-        Mon, 14 Nov 2022 14:22:12 +0200
-Date:   Mon, 14 Nov 2022 14:22:11 +0200
-From:   Andy Shevchenko <andy@kernel.org>
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Tsuchiya Yuto <kitakar@gmail.com>,
-        Yury Luneff <yury.lunev@gmail.com>,
-        Nable <nable.maininbox@googlemail.com>,
-        andrey.i.trufanov@gmail.com, Fabio Aiuto <fabioaiuto83@gmail.com>,
-        linux-media@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH v2 00/17] media: atomisp: Convert to videobuf2
-Message-ID: <Y3Iy86AUKvoMz2l1@smile.fi.intel.com>
-References: <20221020195533.114049-1-hdegoede@redhat.com>
+        Mon, 14 Nov 2022 08:12:59 -0500
+Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com [91.207.212.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1234028E3B;
+        Mon, 14 Nov 2022 05:12:54 -0800 (PST)
+Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
+        by mx07-00178001.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 2AE9XhTu007380;
+        Mon, 14 Nov 2022 14:12:23 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=selector1;
+ bh=hbffMJzz+D/Of/1FLXDm6mYFbbw4YsWQLicJfJxuiDk=;
+ b=LkFnIMTnOo8zdx7Th17lovNc7GntRC53jHryNYtyefqdEfrCrj5KnKoY6hGRhT7nkOQJ
+ 4/CXx/kC+d8MbNEL7jQJVf6+BirkayjJCqr/8YR1ZsS9WwlorX5v2Sru+k+KUCEZ3NMs
+ Yh9sSFeQqDt8aZO+07LjvgNg3SDaNg5rbY/gXay0Oj4vGgH123n+81lnXfwPj7SFPxvm
+ tHHCZ0HJtDfUZzI4pBqeos9HGKnx6c3/0O1iIjd3AdWDVRoTr+2vowt73tEWAn34/dy6
+ /O1BlwRm+b9shrIQ5jElHiK+S0pJe6hV5HCOFTfa611ji3cVP1gexGujYPcWKEFXT/Eg fQ== 
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+        by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3ktq2yfgdb-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 14 Nov 2022 14:12:23 +0100
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 207EE10002A;
+        Mon, 14 Nov 2022 14:12:16 +0100 (CET)
+Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
+        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 4CB4622A6EF;
+        Mon, 14 Nov 2022 14:12:16 +0100 (CET)
+Received: from [10.129.167.233] (10.129.167.233) by SHFDAG1NODE1.st.com
+ (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.32; Mon, 14 Nov
+ 2022 14:12:15 +0100
+Message-ID: <ad2009b0-01be-76d9-ba02-e38a9ba87894@foss.st.com>
+Date:   Mon, 14 Nov 2022 14:12:15 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221020195533.114049-1-hdegoede@redhat.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-X-Spam-Status: No, score=-3.5 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_SOFTFAIL autolearn=ham autolearn_force=no
-        version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Subject: Re: Coverity: vgxy61_tx_from_ep(): Memory - corruptions
+To:     coverity-bot <keescook@chromium.org>
+CC:     <linux-kernel@vger.kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>,
+        Shawn Tu <shawnx.tu@intel.com>, <linux-media@vger.kernel.org>,
+        Sylvain Petinot <sylvain.petinot@foss.st.com>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
+        <linux-next@vger.kernel.org>, <linux-hardening@vger.kernel.org>
+References: <202211100827.8A08F58A@keescook>
+Content-Language: en-US
+From:   Benjamin MUGNIER <benjamin.mugnier@foss.st.com>
+In-Reply-To: <202211100827.8A08F58A@keescook>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.129.167.233]
+X-ClientProxiedBy: EQNCAS1NODE4.st.com (10.75.129.82) To SHFDAG1NODE1.st.com
+ (10.75.129.69)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-11-14_12,2022-11-11_01,2022-06-22_01
+X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,NICE_REPLY_A,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Oct 20, 2022 at 09:55:16PM +0200, Hans de Goede wrote:
-> Hi All,
-> 
-> Here is v2 of my patch series converting the staging atomisp driver to use
-> the videobuf2 framework, fixing MMAP mode not working.
-> 
-> New in v2 is that the "media: atomisp: Convert to videobuf2" patch
-> now also contains moving over to using a per vb_queue lock as is
-> standard for v4l2 drivers. This removes a bunch of FIXME + checkpatch
-> warnings (due to commented out prep for this) from v1 of this patch.
-> This v2 also fixes the 1 new warning pointed out by the lkp test robot.
-> 
-> For some more background info here are the still relevant bits of
-> the v1 cover-letter:
-> 
-> This also contains an important fix to try_fmt handling, so that
-> the various supported output formats can actually be used by userspace
-> which calls try_fmt before doing s_fmt.
-> 
-> So slowly this is starting to look more and more like a standard
-> v4l2 device (with all the complex pipeline handling hidden in the driver,
-> moving that to userspace seems to be impossible with this design since
-> multiple pipeline steps are handled by a single firmware program).
+Hello,
 
-I completely in favour of the series, so
-Reviewed-by: Andy Shevchenko <andy@kernel.org>
-for non-commented patches, for the commented, where comment is a "side note".
+Thank you for your report.
 
-For the rest depends on your action, if you are going to address as suggested,
-feel free to add my tag.
+On 11/10/22 17:27, coverity-bot wrote:
+> Hello!
+> 
+> This is an experimental semi-automated report about issues detected by
+> Coverity from a scan of next-20221110 as part of the linux-next scan project:
+> https://scan.coverity.com/projects/linux-next-weekly-scan
+> 
+> You're getting this email because you were associated with the identified
+> lines of code (noted below) that were touched by commits:
+> 
+>   Thu Oct 27 14:37:38 2022 +0300
+>     153e4ad44d60 ("media: i2c: Add driver for ST VGXY61 camera sensor")
+> 
+> Coverity reported the following:
+> 
+> *** CID 1527258:  Memory - corruptions  (OVERRUN)
+> drivers/media/i2c/st-vgxy61.c:1528 in vgxy61_tx_from_ep()
+> 1522     	 * valid for hardware stuff.
+> 1523     	 */
+> 1524     	for (p = 0; p < VGXY61_NB_POLARITIES; p++) {
+> 1525     		if (phy2log[p] != ~0)
+> 1526     			continue;
+> 1527     		phy2log[p] = l;
+> vvv     CID 1527258:  Memory - corruptions  (OVERRUN)
+> vvv     Overrunning array "log2phy" of 5 4-byte elements at element index 5 (byte offset 23) using index "l" (which evaluates to 5).
+> 1528     		log2phy[l] = p;
+> 1529     		l++;
+> 1530     	}
+> 1531     	for (l = 0; l < l_nb + 1; l++)
+> 1532     		polarities[l] = ep.bus.mipi_csi2.lane_polarities[l];
+> 1533
+> 
+> If this is a false positive, please let us know so we can mark it as
+> such, or teach the Coverity rules to be smarter. If not, please make
+> sure fixes get into linux-next. :) For patches fixing this, please
+> include these lines (but double-check the "Fixes" first):
+> 
+> Reported-by: coverity-bot <keescook+coverity-bot@chromium.org>
+> Addresses-Coverity-ID: 1527258 ("Memory - corruptions")
+> Fixes: 153e4ad44d60 ("media: i2c: Add driver for ST VGXY61 camera sensor")
+> 
+> Note that l starts at 1, 2, or 4, so line 1529 could push it to 5, which
+> is out of bounds, etc...
+
+This 'for' loop is tied with the previous one.
+The first loop fills log2phy with provided data, and the second one
+fills slots that were not provided with hardware valid data. You can see
+in the second loop:
+  if (phy2log[p] != ~0)
+    continue;
+which prevents this loop from filling slots that were already filled,
+and at the same time prevents 'l' to be incremented when this is the case.
+As 'l' was incremented for each provided data by the first loop, and
+incremented for each not provided data by the second loop. At the end of
+the second loop l == VGXY61_NB_POLARITIES == 5 (because of the last
+'l++'), but will never be used as an index for 'log2phy' because the
+loop will end right after.
+
+
+So if I'm not mistaken, and while hard to catch by tools this could be
+understood as a false positive.
+
+I could guard it with to make the checker happy with:
+  if (p != VGXY61_NB_POLARITIES - 1) l++;
+and it would be exactly the same, but I find this kind of unnecessary.
+
+
+Any thoughts?
+
+Thank you.
+
+> 
+> Thanks for your attention!
+> 
 
 -- 
-With Best Regards,
-Andy Shevchenko
+Regards,
 
-
+Benjamin
