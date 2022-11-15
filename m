@@ -2,103 +2,122 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2F8E0629E53
-	for <lists+linux-media@lfdr.de>; Tue, 15 Nov 2022 17:00:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 182F1629E5F
+	for <lists+linux-media@lfdr.de>; Tue, 15 Nov 2022 17:03:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231236AbiKOQAi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 15 Nov 2022 11:00:38 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54974 "EHLO
+        id S232649AbiKOQDn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 15 Nov 2022 11:03:43 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56930 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230460AbiKOQAa (ORCPT
+        with ESMTP id S229488AbiKOQDd (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 15 Nov 2022 11:00:30 -0500
-Received: from mail-io1-xd2f.google.com (mail-io1-xd2f.google.com [IPv6:2607:f8b0:4864:20::d2f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7D4A4DC0
-        for <linux-media@vger.kernel.org>; Tue, 15 Nov 2022 08:00:29 -0800 (PST)
-Received: by mail-io1-xd2f.google.com with SMTP id z3so10975450iof.3
-        for <linux-media@vger.kernel.org>; Tue, 15 Nov 2022 08:00:29 -0800 (PST)
+        Tue, 15 Nov 2022 11:03:33 -0500
+Received: from mail-qt1-x82f.google.com (mail-qt1-x82f.google.com [IPv6:2607:f8b0:4864:20::82f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BF8F962D6
+        for <linux-media@vger.kernel.org>; Tue, 15 Nov 2022 08:03:30 -0800 (PST)
+Received: by mail-qt1-x82f.google.com with SMTP id fz10so8976429qtb.3
+        for <linux-media@vger.kernel.org>; Tue, 15 Nov 2022 08:03:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=to:subject:message-id:date:from:reply-to:mime-version:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=/rL+TycpMQLfB5P4Zn9xgGfUWg8yPCNTwrE46ZNldMM=;
-        b=O7GMA46VXvKK6w3SRTh6EDXq6K8BaNrhLMT0iLdmXoI6U4r9PHO2mfDVzGFlAx5Uu2
-         GYVkqCOTjY6lOYKURqRWSHY3lhkS0LWPSEV+1Sjyy0wpt1qhCz75/zRlVx1dJBW9iKdH
-         Eqju4EWRf1BPvMpUBThB4mxRrRyHXNNTqYL1Xl5bPeXnE8CXnOrwsGHAYUFwgwv3NREc
-         GkuS0wbp8P+9f0YgKsAg3ANILgAXhgZ5F8pPLAGLyMfOvWWTlPDIfi+plMoy2E3UgTol
-         wD2IngCFxNONVU+ZU/A9AaeMQRTr9308EzHFgfGNTwTVCbx6RdUsAY1nkCmv/pYWA0jS
-         e6zA==
+        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=bl7X7AtYz21yLn/dRe/iFEf1ZpAPljd60TEttSTNQec=;
+        b=HJh/aWo1F07VJK6tyVYY1ZPO5frNwOHC6QU21Gl7eWt+zZcxZx32yuHkLlxSCbwidn
+         yLIqZkZY1UWas70lpqWPx5snOpa+afrzsT5FuqB5LSiAlyATF1S37ds6bUFSWZ79RHMZ
+         7WlpGrf4SfRxx5/LnvszocIqiaqV3wWKnF/ZqSOYnqLcEQUrRah/4G6sR/vj3p/is81z
+         CnSSDyTtgiYSuHtHUCm17ZjXEHZvgVSNyZkaVc3iz60yI9YleeWz/7dlXv/BozvEcyrw
+         bBgOqkKyMZ2JMc+zYz5RcTW5s0nWJycZrYGaNpSG0IsID+C07ZE/2VL3LC1P7XYOWq0w
+         FxBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=to:subject:message-id:date:from:reply-to:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=/rL+TycpMQLfB5P4Zn9xgGfUWg8yPCNTwrE46ZNldMM=;
-        b=kYkTJdifvrN0iFgWycQ2uGeX8OhbgwD2O5L0RmsPwDoR4v0dzjJ/Y4hjdyDzANRijV
-         MyS/VxfOjzTSGwEtXLMOo9U2nsXKxSIdPWQ7G//QbgPRX00xP9sH2ci4HoA/gYDSrc+B
-         hRbnyCWxc+JlQ9z8+h3ED9oQQ5wVVFvSmPP5g61DteWRGCYWADHrDxmG+6fUMEHz5CtF
-         uNlwoGI+PKuvQXmLhJsx6HQQpeQjwGPOWtzja1t2zD9Txw67l/8Y/rkVWmvuUIKxhsI2
-         VF2eaIu19bPF3Lc+/7UDH4FhDyDSQUrEHqPngvsJ07rX3pIeXaSaI7wlOxnuABNluoxn
-         5bEA==
-X-Gm-Message-State: ANoB5pl400boDqvwrr74xf1/AZnAttfJ6MPuhYXwO1yaScv4gLzGiXpG
-        OYKeKCuu9afsIQxMcw17ikbTUtZkNCT7PzRVSSE=
-X-Google-Smtp-Source: AA0mqf6Od/rcmEE0jUZMWPAXjQdloBDIpZ4RI3GMkLl9sOkDFwBacI6z2Vaw5lK3DOQhOa5qspjCudQfjYETM8fHUag=
-X-Received: by 2002:a05:6638:418f:b0:376:1eb7:ba90 with SMTP id
- az15-20020a056638418f00b003761eb7ba90mr2733940jab.88.1668528028278; Tue, 15
- Nov 2022 08:00:28 -0800 (PST)
-MIME-Version: 1.0
-Received: by 2002:a05:6e02:1e01:0:0:0:0 with HTTP; Tue, 15 Nov 2022 08:00:27
- -0800 (PST)
-Reply-To: dravasmith27@gmail.com
-From:   Dr Ava Smith <tracywi178@gmail.com>
-Date:   Tue, 15 Nov 2022 08:00:27 -0800
-Message-ID: <CAAxj-_i990rNq1RUfmgFuULdF3zjzLqq_6tvrERsMoNoRkjRdg@mail.gmail.com>
-Subject: GREETINGS FROM DR AVA SMITH
-To:     undisclosed-recipients:;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=bl7X7AtYz21yLn/dRe/iFEf1ZpAPljd60TEttSTNQec=;
+        b=1Lumb1rCKMA9Jy3zvfviiIwQi9J+1phs0RipQyRJFOmZIlNX1d8hu7DYLEYwLwwBo1
+         9Ie5osw1iop3H1xfccv43kBC2dzbn1pugPDq/K5Htaw3UDZS46VUzEd2vIhlz48aPzbd
+         mS1ayGczQdT+GAh3jZrppP+w/kKoDqiQ8l+q7kFA2L6Ho7nt9PtkJ8UXC9GooPFnFQX4
+         AsSarUYsiPSedU1C57U/tGq1n+U8mXWiK1HEfjdK35QnvUJ25uhvkfS1aNcwtqVfTZRm
+         kVeJ59F0Oobr+EbMejMZcSJbWB7HgpoYVVYBG5I58f7i5FBMfLy0iI5nf3N0+I8BCRsK
+         vDcQ==
+X-Gm-Message-State: ANoB5plFreMkKvZ2yMfUcj3KPjdDcVdbCt8BtAI0alyikT6ZKdwD4g8i
+        w8zgEkYGP2v3lL+eCg/BD+yOrA==
+X-Google-Smtp-Source: AA0mqf7+An+kjW586wfgvXyQ/KPEDy330b9Z4FeEVqedkZG1pEFpmATOd+Fmw0hz74emWtSTdRMmPg==
+X-Received: by 2002:a05:622a:1e13:b0:39c:bd83:d75c with SMTP id br19-20020a05622a1e1300b0039cbd83d75cmr16926500qtb.38.1668528209865;
+        Tue, 15 Nov 2022 08:03:29 -0800 (PST)
+Received: from nicolas-tpx395.localdomain (192-222-136-102.qc.cable.ebox.net. [192.222.136.102])
+        by smtp.gmail.com with ESMTPSA id o16-20020a05620a2a1000b006fa617ac616sm8639722qkp.49.2022.11.15.08.03.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 15 Nov 2022 08:03:29 -0800 (PST)
+Message-ID: <df2a19b7fd0238808f00973b2cb5f4f478c38ef9.camel@ndufresne.ca>
+Subject: Re: [RFC PATCH v6 02/11] media: v4l2: Extend pixel formats to unify
+ single/multi-planar handling (and more)
+From:   Nicolas Dufresne <nicolas@ndufresne.ca>
+To:     Tomasz Figa <tfiga@chromium.org>,
+        Hsia-Jun Li <Randy.Li@synaptics.com>
+Cc:     mchehab@kernel.org, hans.verkuil@cisco.com,
+        laurent.pinchart@ideasonboard.com, sakari.ailus@iki.fi,
+        boris.brezillon@collabora.com, hiroh@chromium.org,
+        Brian.Starkey@arm.com, kernel@collabora.com,
+        narmstrong@baylibre.com, linux-kernel@vger.kernel.org,
+        frkoenig@chromium.org, stanimir.varbanov@linaro.org,
+        Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org
+Date:   Tue, 15 Nov 2022 11:03:26 -0500
+In-Reply-To: <CAAFQd5DD4QgDs-Dff_SB2tNT3d9Hs8HG0rkQFPV+6vgvKqg+qA@mail.gmail.com>
+References: <20210114180738.1758707-1-helen.koike@collabora.com>
+         <20210114180738.1758707-3-helen.koike@collabora.com>
+         <d0d1f74f-7e77-1b18-0529-dbbec8889584@xs4all.nl>
+         <577c56bf-146c-f34a-2028-075170076de7@collabora.com>
+         <708221e8-a805-c394-6958-6c7ec24bfe66@synaptics.com>
+         <03f6fd9ff6a757f6d1cb6cc552efcb0b94327104.camel@ndufresne.ca>
+         <3b1edf81-bcc0-0b56-7e55-93da55d7f747@synaptics.com>
+         <CAAFQd5Ab0giyCS_69Wt4=C9yiBmLfV=0yZY2vGeaOwFgGsb_bQ@mail.gmail.com>
+         <91a96b4a-a91e-aae6-733f-c307ca6840f0@synaptics.com>
+         <CAAFQd5DD4QgDs-Dff_SB2tNT3d9Hs8HG0rkQFPV+6vgvKqg+qA@mail.gmail.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: Yes, score=5.5 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,FREEMAIL_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,SUBJ_ALL_CAPS,UNDISC_FREEM
-        autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
-        *      https://www.dnswl.org/, no trust
-        *      [2607:f8b0:4864:20:0:0:0:d2f listed in]
-        [list.dnswl.org]
-        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-        *      [score: 0.5066]
-        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
-        * -0.0 SPF_PASS SPF: sender matches SPF record
-        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
-        *      provider
-        *      [tracywi178[at]gmail.com]
-        *  0.2 FREEMAIL_REPLYTO_END_DIGIT Reply-To freemail username ends in
-        *      digit
-        *      [dravasmith27[at]gmail.com]
-        *  0.2 FREEMAIL_ENVFROM_END_DIGIT Envelope-from freemail username ends
-        *       in digit
-        *      [tracywi178[at]gmail.com]
-        *  0.5 SUBJ_ALL_CAPS Subject is all capitals
-        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-        *      author's domain
-        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-        *       valid
-        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
-        *      envelope-from domain
-        *  2.9 UNDISC_FREEM Undisclosed recipients + freemail reply-to
-        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
-        *      different freemails
-X-Spam-Level: *****
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.4 (3.44.4-2.fc36) 
+MIME-Version: 1.0
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
--- 
-Hello Dear,
-how are you today?hope you are fine
-My name is Dr Ava Smith ,Am an English and French nationalities.
-I will give you pictures and more details about me as soon as i hear from you
-Thanks
-Ava
+Le vendredi 11 novembre 2022 =C3=A0 17:52 +0900, Tomasz Figa a =C3=A9crit=
+=C2=A0:
+> > > Memory allocation doesn't sound to me like it is related to formats o=
+r
+> > > modifiers in any way. I agree with Nicolas that if we want to allow
+> > > the userspace to specify if the memory should be contiguous or not,
+> > > that should be a separate flag and actually I'd probably see it in
+> > > REQBUF_EXT and CREATE_BUFS_EXT, rather than as a part of the format.
+> > >=20
+> > I agree with that. But here is a problem, if there was a display
+> > device(DRM) that only supports contiguous planes in a frame buffer.
+> > How do we be aware of that?
+>=20
+> That's why I think the MMAP mode is not scalable and shouldn't be
+> expanded anymore. Both V4L2 and DRM devices should describe their
+> constraints to the userspace and then the userspace should allocate
+> accordingly from the right DMA-buf heap. (Or as Android and ChromeOS
+> do, just have a central allocator library that understands the
+> constraints, so there is no need to query the drivers.)
+
+Just pointing out, they "hardcode" the constraints, they don't truly unders=
+tand
+them. Also, the Android/ChromeOS implementation is not a great playground, =
+as it
+completely ignores the constrait already exposed by V4L2 API (the sizeimage=
+ and
+bytesperline found in the FMT structure). You would not have to implement H=
+antro
+and Rockchip motion vector size calculation there if you'd simply use the
+sizeimage.
+
+Nicolas
+
