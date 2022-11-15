@@ -2,62 +2,62 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4BD5D6299EC
-	for <lists+linux-media@lfdr.de>; Tue, 15 Nov 2022 14:19:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A9DD06299EE
+	for <lists+linux-media@lfdr.de>; Tue, 15 Nov 2022 14:19:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232748AbiKONTj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 15 Nov 2022 08:19:39 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50618 "EHLO
+        id S232756AbiKONTm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 15 Nov 2022 08:19:42 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50658 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230293AbiKONTi (ORCPT
+        with ESMTP id S232235AbiKONTl (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 15 Nov 2022 08:19:38 -0500
-Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com [IPv6:2607:f8b0:4864:20::630])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 18382EE11;
-        Tue, 15 Nov 2022 05:19:37 -0800 (PST)
-Received: by mail-pl1-x630.google.com with SMTP id w23so6703611ply.12;
-        Tue, 15 Nov 2022 05:19:37 -0800 (PST)
+        Tue, 15 Nov 2022 08:19:41 -0500
+Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com [IPv6:2607:f8b0:4864:20::1030])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 55B62E0F2;
+        Tue, 15 Nov 2022 05:19:40 -0800 (PST)
+Received: by mail-pj1-x1030.google.com with SMTP id u8-20020a17090a5e4800b002106dcdd4a0so16898793pji.1;
+        Tue, 15 Nov 2022 05:19:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=znS0rqqtTDUdb8E5/+tBTInCz3XUVIVDecWR4eZBNxM=;
-        b=MO3aWW9NRD17cN4leJHbToXg2sW3aSkdfndSnZ/uCzd1nN4kkclJVvBX4eLZY1QP/1
-         03wGuA6/pyRIryXv7gOKPAGDY+XfIwuzoOvKS6gy9zJ5fCiZpc0P5Gn11NLdBAwAoUTv
-         /iE+5TtTODL4+rrkq8+FjSTMlWhIvoLSzDDDPbifSHp+/fMXjspkxyJHVnf38pyn9OMh
-         HlKnD/uZDmdgCgO6pBRw1aF/RioQN9W1TtqPxblAx1EDbbHZrMjK7SwzGtBfZjV6AO0a
-         XfoCPjvxU9IrwTtilI+Czj222gpzlSFAw4a62yJH6t3/gFsmOZLkYswMxUDElZGkpANR
-         qgeg==
+        bh=fR4pDvjd5fSGvFGv8BsWNu5bZa0EAfiIvudMWeeMJIc=;
+        b=jIJHOvBlY/hJCTORa8jYJOwoJDQTaCtXauUKbVA+OGVOBvIDBU2T5ZPfFZ2omrluHH
+         VvCwfUn29gvOk8M8/ByedOVIYSBlUDa7xKtmpHSF3CqlD5G1xF64kPRXwtr/rNkBnaru
+         gPyaJPX45pw+SVrFExk/aBw6FUT2THooxLt2KC2IIgS/dJ2xMsnF0mSPVbtmAKVXeplL
+         W+dzCyJquFStj8+5zMKAXM/bf0v2ovtiMmZAY/FcTw3sEHYlgZexU6LZ8GY1Rrgi5Fmo
+         5OUChVABGeNFvDWYOpFAcm/0UkQZFqzK/F52DLy59nsaqb3E8p5KuwOGVfDvZ6hTRBCk
+         vtBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=znS0rqqtTDUdb8E5/+tBTInCz3XUVIVDecWR4eZBNxM=;
-        b=3q7FBn5gZ0DSO8AkdnBDYDuHaGV0GzOlsJ3vM7ZBxdxZZJVq1/FxnHI12VDSL2E+rm
-         Ulu3BR+au5h+MbTfeVe8r1gYu+PaNyibGh+2HhzPRve2l+nbK0MCtNr2/r4ZZ5sphCYl
-         fQGz1BgRpO5cK8vxR5flWOdHDKNtSo/u4NIuff/6S6SBjGWTTZuhk9ECQEcz3ugrjEOg
-         STg1V/AJdnoeMpoOjFnE6osYXsYFtFQvnaqJjzXzvjzvFfS5+iWnouvGnTT8AnJ+GtW4
-         x+jeTW+wzgWUOwFQuC8cdozwonKAzAxncv3Fg0nUlXJq/mEWpntIGG2m2U1zqv9Di7m/
-         M6iQ==
-X-Gm-Message-State: ANoB5pmOVTpvoPdnlYEl8DC30hHvYk8Ud8Zftk3CFiNiunAZCduFyQNN
-        TlAa3wcs7rGw0AYAdEXb7CI=
-X-Google-Smtp-Source: AA0mqf6q2jIldsOskDuB1kxT1FkBYpPkKIF/eil7zpgEY417WXNDorwUQmdjFMmywA6dbDWvxR4bTA==
-X-Received: by 2002:a17:902:7d87:b0:176:a6fb:801a with SMTP id a7-20020a1709027d8700b00176a6fb801amr3967672plm.97.1668518377405;
-        Tue, 15 Nov 2022 05:19:37 -0800 (PST)
+        bh=fR4pDvjd5fSGvFGv8BsWNu5bZa0EAfiIvudMWeeMJIc=;
+        b=IAtUPzYCbKbVup7ia6R6MLdQ7B1f91hEvSgAtdaT7MBnvksusFJdqJBZr8zZcOSxLS
+         MMeKbrPUKc36/8GfA23Ije4QiMAOlf4gI8K5HN/n5Hx9xbSSAlmnHWo9mq+XWa2Ql2B7
+         sx3Xpc5KnWsRemRQpKoke3vcEjnqqp5f0qhMxzfDsqq77p5dS20wzLGpNrzMy8JROmqQ
+         bopv13G+O1Rsd/hFc8PPiGmcNIs6Vm8iX303GAskV0peN/C/4A0um+BVK8iqojqJRVfx
+         Gxlf+4e4oF3pD2dQgtnaiwdsNQFwEaF+lXNIN2XKFIGxKQN6QYEAT4xdMbQZ2NCL6Mzo
+         IHMg==
+X-Gm-Message-State: ANoB5pmlTTMbLkoM+Vq0KGSEpPboxrfuCfZkxdng56ZTJzl1tUVCkMSU
+        B6XLXmyaimDhaGolxeLnpgk=
+X-Google-Smtp-Source: AA0mqf6kM99b6lZCUBoKHyk1CYBEWka+7ZFBr4KzSUN4MiMIMgozxkEo17Yiec7FWio2SnJSrc3Hpw==
+X-Received: by 2002:a17:90a:974a:b0:214:9cc:1d2a with SMTP id i10-20020a17090a974a00b0021409cc1d2amr2217149pjw.59.1668518379833;
+        Tue, 15 Nov 2022 05:19:39 -0800 (PST)
 Received: from localhost.localdomain ([175.124.254.119])
-        by smtp.gmail.com with ESMTPSA id i24-20020aa796f8000000b00562784609fbsm8670937pfq.209.2022.11.15.05.19.35
+        by smtp.gmail.com with ESMTPSA id i24-20020aa796f8000000b00562784609fbsm8670937pfq.209.2022.11.15.05.19.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Nov 2022 05:19:37 -0800 (PST)
+        Tue, 15 Nov 2022 05:19:39 -0800 (PST)
 From:   imv4bel@gmail.com
 To:     mchehab@kernel.org
 Cc:     Hyunwoo Kim <imv4bel@gmail.com>, kernel@tuxforce.de,
         linux-media@vger.kernel.org, linux-usb@vger.kernel.org,
         cai.huoqing@linux.dev, tiwai@suse.de
-Subject: [PATCH 2/4] media: dvb-core: Fix use-after-free due to race condition occurring in dvb_net
-Date:   Tue, 15 Nov 2022 05:18:20 -0800
-Message-Id: <20221115131822.6640-3-imv4bel@gmail.com>
+Subject: [PATCH 3/4] media: dvb-core: Fix use-after-free due to race condition occurring in dvb_register_device()
+Date:   Tue, 15 Nov 2022 05:18:21 -0800
+Message-Id: <20221115131822.6640-4-imv4bel@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20221115131822.6640-1-imv4bel@gmail.com>
 References: <20221115131822.6640-1-imv4bel@gmail.com>
@@ -75,126 +75,242 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 From: Hyunwoo Kim <imv4bel@gmail.com>
 
-A race condition may occur between the .disconnect function, which
-is called when the device is disconnected, and the dvb_device_open()
-function, which is called when the device node is open()ed.
-This results in several types of UAFs.
+dvb_register_device() dynamically allocates fops with kmemdup()
+to set the fops->owner.
+And these fops are registered in 'file->f_ops' using replace_fops()
+in the dvb_device_open() process, and kfree()d in dvb_free_device().
 
-The root cause of this is that you use the dvb_device_open() function,
-which does not implement a conditional statement
-that checks 'dvbnet->exit'.
+However, it is not common to use dynamically allocated fops instead
+of 'static const' fops as an argument of replace_fops(),
+and UAF may occur.
+These UAFs can occur on any dvb type using dvb_register_device(),
+such as dvb_dvr, dvb_demux, dvb_frontend, dvb_net, etc.
 
-So, add 'remove_mutex` to protect 'dvbnet->exit' and use
-locked_dvb_net_open() function to check 'dvbnet->exit'.
+So, instead of kfree() the fops dynamically allocated in
+dvb_register_device() in dvb_free_device() called during the
+.disconnect() process, kfree() it collectively in exit_dvbdev()
+called when the dvbdev.c module is removed.
 
 Signed-off-by: Hyunwoo Kim <imv4bel@gmail.com>
 ---
- drivers/media/dvb-core/dvb_net.c | 37 +++++++++++++++++++++++++++++---
- include/media/dvb_net.h          |  4 ++++
- 2 files changed, 38 insertions(+), 3 deletions(-)
+ drivers/media/dvb-core/dvbdev.c | 83 ++++++++++++++++++++++++---------
+ include/media/dvbdev.h          | 15 ++++++
+ 2 files changed, 77 insertions(+), 21 deletions(-)
 
-diff --git a/drivers/media/dvb-core/dvb_net.c b/drivers/media/dvb-core/dvb_net.c
-index 8a2febf33ce2..bdfc6609cb93 100644
---- a/drivers/media/dvb-core/dvb_net.c
-+++ b/drivers/media/dvb-core/dvb_net.c
-@@ -1564,15 +1564,42 @@ static long dvb_net_ioctl(struct file *file,
- 	return dvb_usercopy(file, cmd, arg, dvb_net_do_ioctl);
- }
+diff --git a/drivers/media/dvb-core/dvbdev.c b/drivers/media/dvb-core/dvbdev.c
+index 675d877a67b2..424cf92c068e 100644
+--- a/drivers/media/dvb-core/dvbdev.c
++++ b/drivers/media/dvb-core/dvbdev.c
+@@ -27,6 +27,7 @@
+ #include <media/tuner.h>
  
-+static int locked_dvb_net_open(struct inode *inode, struct file *file)
-+{
-+	struct dvb_device *dvbdev = file->private_data;
-+	struct dvb_net *dvbnet = dvbdev->priv;
-+	int ret;
-+
-+	if (mutex_lock_interruptible(&dvbnet->remove_mutex))
-+		return -ERESTARTSYS;
-+
-+	if (dvbnet->exit) {
-+		mutex_unlock(&dvbnet->remove_mutex);
-+		return -ENODEV;
-+	}
-+
-+	ret = dvb_generic_open(inode, file);
-+
-+	mutex_unlock(&dvbnet->remove_mutex);
-+
-+	return ret;
-+}
-+
- static int dvb_net_close(struct inode *inode, struct file *file)
+ static DEFINE_MUTEX(dvbdev_mutex);
++static LIST_HEAD(dvbdevfops_list);
+ static int dvbdev_debug;
+ 
+ module_param(dvbdev_debug, int, 0644);
+@@ -448,14 +449,15 @@ int dvb_register_device(struct dvb_adapter *adap, struct dvb_device **pdvbdev,
+ 			enum dvb_device_type type, int demux_sink_pads)
  {
- 	struct dvb_device *dvbdev = file->private_data;
- 	struct dvb_net *dvbnet = dvbdev->priv;
+ 	struct dvb_device *dvbdev;
+-	struct file_operations *dvbdevfops;
++	struct file_operations *dvbdevfops = NULL;
++	struct dvbdevfops_node *node, *new_node;
+ 	struct device *clsdev;
+ 	int minor;
+ 	int id, ret;
  
-+	mutex_lock(&dvbnet->remove_mutex);
-+
- 	dvb_generic_release(inode, file);
+ 	mutex_lock(&dvbdev_register_lock);
  
--	if(dvbdev->users == 1 && dvbnet->exit == 1)
-+	if (dvbdev->users == 1 && dvbnet->exit == 1) {
-+		mutex_unlock(&dvbnet->remove_mutex);
- 		wake_up(&dvbdev->wait_queue);
-+	} else
-+		mutex_unlock(&dvbnet->remove_mutex);
+-	if ((id = dvbdev_get_free_id (adap, type)) < 0){
++	if ((id = dvbdev_get_free_id (adap, type)) < 0) {
+ 		mutex_unlock(&dvbdev_register_lock);
+ 		*pdvbdev = NULL;
+ 		pr_err("%s: couldn't find free device id\n", __func__);
+@@ -463,18 +465,45 @@ int dvb_register_device(struct dvb_adapter *adap, struct dvb_device **pdvbdev,
+ 	}
+ 
+ 	*pdvbdev = dvbdev = kzalloc(sizeof(*dvbdev), GFP_KERNEL);
+-
+ 	if (!dvbdev){
+ 		mutex_unlock(&dvbdev_register_lock);
+ 		return -ENOMEM;
+ 	}
+ 
+-	dvbdevfops = kmemdup(template->fops, sizeof(*dvbdevfops), GFP_KERNEL);
++	/*
++	 * When a device of the same type is probe()d more than once,
++	 * the first allocated fops are used. This prevents memory leaks
++	 * that can occur when the same device is probe()d repeatedly.
++	 */
++	list_for_each_entry(node, &dvbdevfops_list, list_head) {
++		if (node->fops->owner == adap->module &&
++				node->type == type &&
++				node->template == template) {
++			dvbdevfops = node->fops;
++			break;
++		}
++	}
+ 
+-	if (!dvbdevfops){
+-		kfree (dvbdev);
+-		mutex_unlock(&dvbdev_register_lock);
+-		return -ENOMEM;
++	if (dvbdevfops == NULL) {
++		dvbdevfops = kmemdup(template->fops, sizeof(*dvbdevfops), GFP_KERNEL);
++		if (!dvbdevfops) {
++			kfree(dvbdev);
++			mutex_unlock(&dvbdev_register_lock);
++			return -ENOMEM;
++		}
 +
++		new_node = kzalloc(sizeof(struct dvbdevfops_node), GFP_KERNEL);
++		if (!new_node) {
++			kfree(dvbdevfops);
++			kfree(dvbdev);
++			mutex_unlock(&dvbdev_register_lock);
++			return -ENOMEM;
++		}
++
++		new_node->fops = dvbdevfops;
++		new_node->type = type;
++		new_node->template = template;
++		list_add_tail (&new_node->list_head, &dvbdevfops_list);
+ 	}
+ 
+ 	memcpy(dvbdev, template, sizeof(struct dvb_device));
+@@ -484,20 +513,20 @@ int dvb_register_device(struct dvb_adapter *adap, struct dvb_device **pdvbdev,
+ 	dvbdev->priv = priv;
+ 	dvbdev->fops = dvbdevfops;
+ 	init_waitqueue_head (&dvbdev->wait_queue);
+-
+ 	dvbdevfops->owner = adap->module;
+-
+ 	list_add_tail (&dvbdev->list_head, &adap->device_list);
+-
+ 	down_write(&minor_rwsem);
+ #ifdef CONFIG_DVB_DYNAMIC_MINORS
+ 	for (minor = 0; minor < MAX_DVB_MINORS; minor++)
+ 		if (dvb_minors[minor] == NULL)
+ 			break;
+-
+ 	if (minor == MAX_DVB_MINORS) {
++		if (new_node) {
++			list_del (&new_node->list_head);
++			kfree(dvbdevfops);
++			kfree(new_node);
++		}
+ 		list_del (&dvbdev->list_head);
+-		kfree(dvbdevfops);
+ 		kfree(dvbdev);
+ 		up_write(&minor_rwsem);
+ 		mutex_unlock(&dvbdev_register_lock);
+@@ -506,41 +535,46 @@ int dvb_register_device(struct dvb_adapter *adap, struct dvb_device **pdvbdev,
+ #else
+ 	minor = nums2minor(adap->num, type, id);
+ #endif
+-
+ 	dvbdev->minor = minor;
+ 	dvb_minors[minor] = dvbdev;
+ 	up_write(&minor_rwsem);
+-
+ 	ret = dvb_register_media_device(dvbdev, type, minor, demux_sink_pads);
+ 	if (ret) {
+ 		pr_err("%s: dvb_register_media_device failed to create the mediagraph\n",
+ 		      __func__);
+-
++		if (new_node) {
++			list_del (&new_node->list_head);
++			kfree(dvbdevfops);
++			kfree(new_node);
++		}
+ 		dvb_media_device_free(dvbdev);
+ 		list_del (&dvbdev->list_head);
+-		kfree(dvbdevfops);
+ 		kfree(dvbdev);
+ 		mutex_unlock(&dvbdev_register_lock);
+ 		return ret;
+ 	}
+ 
+-	mutex_unlock(&dvbdev_register_lock);
+-
+ 	clsdev = device_create(dvb_class, adap->device,
+ 			       MKDEV(DVB_MAJOR, minor),
+ 			       dvbdev, "dvb%d.%s%d", adap->num, dnames[type], id);
+ 	if (IS_ERR(clsdev)) {
+ 		pr_err("%s: failed to create device dvb%d.%s%d (%ld)\n",
+ 		       __func__, adap->num, dnames[type], id, PTR_ERR(clsdev));
++		if (new_node) {
++			list_del (&new_node->list_head);
++			kfree(dvbdevfops);
++			kfree(new_node);
++		}
+ 		dvb_media_device_free(dvbdev);
+ 		list_del (&dvbdev->list_head);
+-		kfree(dvbdevfops);
+ 		kfree(dvbdev);
+ 		return PTR_ERR(clsdev);
+ 	}
++
+ 	dprintk("DVB: register adapter%d/%s%d @ minor: %i (0x%02x)\n",
+ 		adap->num, dnames[type], id, minor, minor);
+ 
++	mutex_unlock(&dvbdev_register_lock);
  	return 0;
  }
+ EXPORT_SYMBOL(dvb_register_device);
+@@ -569,7 +603,6 @@ void dvb_free_device(struct dvb_device *dvbdev)
+ 	if (!dvbdev)
+ 		return;
  
-@@ -1580,7 +1607,7 @@ static int dvb_net_close(struct inode *inode, struct file *file)
- static const struct file_operations dvb_net_fops = {
- 	.owner = THIS_MODULE,
- 	.unlocked_ioctl = dvb_net_ioctl,
--	.open =	dvb_generic_open,
-+	.open =	locked_dvb_net_open,
- 	.release = dvb_net_close,
- 	.llseek = noop_llseek,
- };
-@@ -1599,10 +1626,13 @@ void dvb_net_release (struct dvb_net *dvbnet)
+-	kfree (dvbdev->fops);
+ 	kfree (dvbdev);
+ }
+ EXPORT_SYMBOL(dvb_free_device);
+@@ -1061,9 +1094,17 @@ static int __init init_dvbdev(void)
+ 
+ static void __exit exit_dvbdev(void)
  {
- 	int i;
- 
-+	mutex_lock(&dvbnet->remove_mutex);
- 	dvbnet->exit = 1;
-+	mutex_unlock(&dvbnet->remove_mutex);
++	struct dvbdevfops_node *node, *next;
 +
- 	if (dvbnet->dvbdev->users < 1)
- 		wait_event(dvbnet->dvbdev->wait_queue,
--				dvbnet->dvbdev->users==1);
-+				dvbnet->dvbdev->users == 1);
+ 	class_destroy(dvb_class);
+ 	cdev_del(&dvb_device_cdev);
+ 	unregister_chrdev_region(MKDEV(DVB_MAJOR, 0), MAX_DVB_MINORS);
++
++	list_for_each_entry_safe(node, next, &dvbdevfops_list, list_head) {
++		list_del (&node->list_head);
++		kfree(node->fops);
++		kfree(node);
++	}
+ }
  
- 	dvb_unregister_device(dvbnet->dvbdev);
- 
-@@ -1621,6 +1651,7 @@ int dvb_net_init (struct dvb_adapter *adap, struct dvb_net *dvbnet,
- 	int i;
- 
- 	mutex_init(&dvbnet->ioctl_mutex);
-+	mutex_init(&dvbnet->remove_mutex);
- 	dvbnet->demux = dmx;
- 
- 	for (i=0; i<DVB_NET_DEVICES_MAX; i++)
-diff --git a/include/media/dvb_net.h b/include/media/dvb_net.h
-index 5e31d37f25fa..3e2eee5a05e5 100644
---- a/include/media/dvb_net.h
-+++ b/include/media/dvb_net.h
-@@ -41,6 +41,9 @@
-  * @exit:		flag to indicate when the device is being removed.
-  * @demux:		pointer to &struct dmx_demux.
-  * @ioctl_mutex:	protect access to this struct.
-+ * @remove_mutex:	mutex that avoids a race condition between a callback
-+ *			called when the hardware is disconnected and the
-+ *			file_operations of dvb_net
-  *
-  * Currently, the core supports up to %DVB_NET_DEVICES_MAX (10) network
-  * devices.
-@@ -53,6 +56,7 @@ struct dvb_net {
- 	unsigned int exit:1;
- 	struct dmx_demux *demux;
- 	struct mutex ioctl_mutex;
-+	struct mutex remove_mutex;
+ subsys_initcall(init_dvbdev);
+diff --git a/include/media/dvbdev.h b/include/media/dvbdev.h
+index 2f6b0861322a..1e5413303705 100644
+--- a/include/media/dvbdev.h
++++ b/include/media/dvbdev.h
+@@ -187,6 +187,21 @@ struct dvb_device {
+ 	void *priv;
  };
  
++/**
++ * struct dvbdevfops_node - fops nodes registered in dvbdevfops_list
++ *
++ * @fops:		Dynamically allocated fops for ->owner registration
++ * @type:		type of dvb_device
++ * @template:		dvb_device used for registration
++ * @list_head:		list_head for dvbdevfops_list
++ */
++struct dvbdevfops_node {
++	struct file_operations *fops;
++	enum dvb_device_type type;
++	const struct dvb_device *template;
++	struct list_head list_head;
++};
++
  /**
+  * dvb_register_adapter - Registers a new DVB adapter
+  *
 -- 
 2.25.1
 
