@@ -2,85 +2,72 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 96046629ED6
-	for <lists+linux-media@lfdr.de>; Tue, 15 Nov 2022 17:20:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5387E62A275
+	for <lists+linux-media@lfdr.de>; Tue, 15 Nov 2022 21:05:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238545AbiKOQUQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 15 Nov 2022 11:20:16 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39274 "EHLO
+        id S231381AbiKOUFu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 15 Nov 2022 15:05:50 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54114 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238579AbiKOQT4 (ORCPT
+        with ESMTP id S230236AbiKOUFt (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 15 Nov 2022 11:19:56 -0500
-Received: from mail-qv1-xf2a.google.com (mail-qv1-xf2a.google.com [IPv6:2607:f8b0:4864:20::f2a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 99F8F29352
-        for <linux-media@vger.kernel.org>; Tue, 15 Nov 2022 08:19:55 -0800 (PST)
-Received: by mail-qv1-xf2a.google.com with SMTP id c8so10059227qvn.10
-        for <linux-media@vger.kernel.org>; Tue, 15 Nov 2022 08:19:55 -0800 (PST)
+        Tue, 15 Nov 2022 15:05:49 -0500
+Received: from mail-lj1-x22b.google.com (mail-lj1-x22b.google.com [IPv6:2a00:1450:4864:20::22b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8BBC6C77A;
+        Tue, 15 Nov 2022 12:05:47 -0800 (PST)
+Received: by mail-lj1-x22b.google.com with SMTP id l8so19004016ljh.13;
+        Tue, 15 Nov 2022 12:05:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=JcCEqYIQZOOW3mLsAeSEfYdVNjlujOJ+FTDMK5J8hqU=;
-        b=0XcQb0XKrAE7kGWlkqjLHDFY1uFvnD2kx6mQo/hEXkamW5WmQH2aUdgKQBm97LAARe
-         HGV+TE1mKbArWH3H7YuvdDD129gejNo+ZjjGPmwN330zTvhVIQZD0QEeTC+xQ+URRLWA
-         fcD8KSijo7eQSGfmA4pUMGuks+gIjk69djFwAxP0rHtt+pKlFbaixfqklpts+7a5Q4fN
-         FcYoTAVC8nfjvZoLRX83Hj8mYaTJhuPxhbJY4RiTlaxI58bXKeeJGPln2gaVMebT521k
-         N+CPt+kZXQashop0lgUOMrC8x9mAJB3Qk6mfcuaKvw4/do0LiCb5JWqTx4fbgvIiKMYB
-         LDvw==
+        d=googlemail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Y3n9eTzyovuImpyqmAEmozCytKhOiLUTsASX6dM4moQ=;
+        b=SHSAvtomDRH42ON709sBLl59XSWVsQy34EfQhfVbSa08rIXrY84R4COytoYvMmr1D1
+         e81p11b2gX1IxLp1Wk3EkpuupEzk/0g0oEX+s/Xo9NDE8m7Y/DrAO/I7u/1IQNqQ7brM
+         z7GcVDKVktm0xwphBqywkq2JL0Sl/h/v9YrR/zfFOmyKDg1rGnrI3hYQTexcbuj67QiH
+         2d7TPxNf1woM7AXMXa0qxMhpJl+sDCjl1+WpbKEPOB22Dkw3yERFVMZsq6xKyyzmvog9
+         xMGJv7WgIGWmBi+2AlBz4d4c6vWTcA7c+xO9LI2oe1m94jw589WP/uY5i7EHwlS6RkEv
+         Fr0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=JcCEqYIQZOOW3mLsAeSEfYdVNjlujOJ+FTDMK5J8hqU=;
-        b=RNzSqhaomkyCGLMVNXRDEYcDNyUhcP6pZLDEWBV9PXlfopSbJRcJlyKdVcgkRqzujc
-         g1NJQLuiN9taaUyWBEH3SwP8ojLGAYJYwda52exkp64b1taZGauOAApV5Nh67oM0Y2s6
-         ntg7tNp+fngZ+N40f0e/ZsNT16wcDGyPdf0n4ggycB4dhcMYMmAddcFR0nvLnsjOf7JF
-         mabPvGVXP2HMPz0hCdc7QKaQ0W22UxwCbYpP94aYAujVGa51NknrN28VdPDxI1EmdpnA
-         +tj1kTiTcNgnF6VZpSRIiNHGhuf8t1/w4npT7ucFOi3cR5qppxAXywB+ux6nkMcTx/1B
-         iCFQ==
-X-Gm-Message-State: ANoB5plZJXmnqKPygz6vcQ0NR2XoXfXLUFqp+mE4s3MKiWLgaNDoPvHj
-        Nbbr1svKBCLzEntvEzlic2AWYw==
-X-Google-Smtp-Source: AA0mqf4gqjZV0ZLAW5zJJh2yh0+9OK2+I6qBnL6sv53qZitopB7a1JT6LjFIj83lNf2ZpQGIDqsP6Q==
-X-Received: by 2002:a05:6214:1787:b0:4b1:92ca:9cd7 with SMTP id ct7-20020a056214178700b004b192ca9cd7mr17369301qvb.103.1668529194752;
-        Tue, 15 Nov 2022 08:19:54 -0800 (PST)
-Received: from nicolas-tpx395.localdomain (192-222-136-102.qc.cable.ebox.net. [192.222.136.102])
-        by smtp.gmail.com with ESMTPSA id cm26-20020a05622a251a00b0039cc82a319asm7408289qtb.76.2022.11.15.08.19.53
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Y3n9eTzyovuImpyqmAEmozCytKhOiLUTsASX6dM4moQ=;
+        b=Lq1q8ORnzl5Ffx2u5NmyZ2smEv9Qo1pE8BK449OdaqBsRhlYe7ynCSNlhLTfMN8oFg
+         2z53MXXAYs0X37fEDqT9q24eBWpZvviXgN7wgBD3benGy5nYZdfvt/hc17TUF2sWILZJ
+         NX8w8KSBth4odZN4zcX3oWsowUu8jzs+0rkPl9MxW4/bdPusUVySS/RZ9ECHvdYnybEo
+         P1IqfRYm7KGxxlV+EFry5Iqo9eyRP1DVej6eDbSP/KWJIVnIg+36Q9UdFv+RMKd92T2e
+         my4fwKxRPpGhLvg+KSd7H888Ikv0+m6VZznlP2Q8G0/vedqDF9Z32Jo4VL4IMVCiRdIf
+         0FhQ==
+X-Gm-Message-State: ANoB5pngQaBh1x5o5IXbAbD0dxsEcdMGwGauRBrywtiTdNcJmst+pN1M
+        uxexTv1TsFx7kzz3IaLNd6Y=
+X-Google-Smtp-Source: AA0mqf5jt+shThPbnx0wtDVLw2x666FkmDvA0ANREZf/u2AiwQmmMNKF+SrjKK9g7V3hpCfvUArtew==
+X-Received: by 2002:a2e:940a:0:b0:278:ecbe:ebba with SMTP id i10-20020a2e940a000000b00278ecbeebbamr6252965ljh.450.1668542745717;
+        Tue, 15 Nov 2022 12:05:45 -0800 (PST)
+Received: from localhost.localdomain ([78.133.163.249])
+        by smtp.googlemail.com with ESMTPSA id h8-20020ac24da8000000b004ad5f5c2b28sm2308586lfe.119.2022.11.15.12.05.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Nov 2022 08:19:54 -0800 (PST)
-Message-ID: <648d74af500d21e21204d998e65f9efeb2cea204.camel@ndufresne.ca>
-Subject: Re: [RFC PATCH v6 02/11] media: v4l2: Extend pixel formats to unify
- single/multi-planar handling (and more)
-From:   Nicolas Dufresne <nicolas@ndufresne.ca>
-To:     Tomasz Figa <tfiga@chromium.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Hsia-Jun Li <Randy.Li@synaptics.com>, mchehab@kernel.org,
-        hans.verkuil@cisco.com, sakari.ailus@iki.fi,
-        boris.brezillon@collabora.com, hiroh@chromium.org,
-        Brian.Starkey@arm.com, kernel@collabora.com,
-        narmstrong@baylibre.com, linux-kernel@vger.kernel.org,
-        frkoenig@chromium.org, stanimir.varbanov@linaro.org,
-        Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org
-Date:   Tue, 15 Nov 2022 11:19:51 -0500
-In-Reply-To: <CAAFQd5DZG9QDp-+e8Xs7gKL=ZLkm3hA1-=eJZe8hjoB42xE5qw@mail.gmail.com>
-References: <20210114180738.1758707-1-helen.koike@collabora.com>
-         <20210114180738.1758707-3-helen.koike@collabora.com>
-         <d0d1f74f-7e77-1b18-0529-dbbec8889584@xs4all.nl>
-         <577c56bf-146c-f34a-2028-075170076de7@collabora.com>
-         <708221e8-a805-c394-6958-6c7ec24bfe66@synaptics.com>
-         <03f6fd9ff6a757f6d1cb6cc552efcb0b94327104.camel@ndufresne.ca>
-         <3b1edf81-bcc0-0b56-7e55-93da55d7f747@synaptics.com>
-         <CAAFQd5Ab0giyCS_69Wt4=C9yiBmLfV=0yZY2vGeaOwFgGsb_bQ@mail.gmail.com>
-         <Y24LBrkveiXlmCMy@pendragon.ideasonboard.com>
-         <CAAFQd5DZG9QDp-+e8Xs7gKL=ZLkm3hA1-=eJZe8hjoB42xE5qw@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.4 (3.44.4-2.fc36) 
+        Tue, 15 Nov 2022 12:05:45 -0800 (PST)
+From:   Lukasz Wiecaszek <lukasz.wiecaszek@googlemail.com>
+X-Google-Original-From: Lukasz Wiecaszek <lukasz.wiecaszek@gmail.com>
+To:     Gerd Hoffmann <kraxel@redhat.com>
+Cc:     Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+        Lukasz Wiecaszek <lukasz.wiecaszek@gmail.com>,
+        kernel test robot <lkp@intel.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+        dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v3] udmabuf: add vmap and vunmap methods to udmabuf_ops
+Date:   Tue, 15 Nov 2022 21:04:26 +0100
+Message-Id: <20221115200426.4801-1-lukasz.wiecaszek@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE autolearn=ham
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -88,54 +75,93 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Le vendredi 11 novembre 2022 =C3=A0 17:54 +0900, Tomasz Figa a =C3=A9crit=
-=C2=A0:
-> > > I feel like this would be only useful in the MMAP mode. Looking at ho=
-w
-> > > the other UAPIs are evolving, things are going towards
-> > > userspace-managed allocations, using, for example, DMA-buf heaps. I
-> > > think we should follow the trend and keep the MMAP mode just at the
-> > > same level of functionality as is today and focus on improvements and
-> > > new functionality for the DMABUF mode.
-> >=20
-> > I agree, but we will need an API to expose the memory constraints of th=
-e
-> > device, or userspace won't be able to allocate memory compatible with
-> > the hardware or driver requirements.
->=20
-> Yes, I fully agree and that's why I think we should rather focus our
-> efforts in that direction rather than expanding the existing MMAP
-> capabilities.
+The reason behind that patch is associated with videobuf2 subsystem
+(or more genrally with v4l2 framework) and user created
+dma buffers (udmabuf). In some circumstances
+when dealing with V4L2_MEMORY_DMABUF buffers videobuf2 subsystem
+wants to use dma_buf_vmap() method on the attached dma buffer.
+As udmabuf does not have .vmap operation implemented,
+such dma_buf_vmap() natually fails.
 
-I was once told that MMAP was mandatory to support in v4l2 drivers. I'd lik=
-e to
-get some clarification on the subject for sure. We can't break compat, unle=
-ss we
-spin v4l3 here.
+videobuf2_common: __vb2_queue_alloc: allocated 3 buffers, 1 plane(s) each
+videobuf2_common: __prepare_dmabuf: buffer for plane 0 changed
+videobuf2_common: __prepare_dmabuf: failed to map dmabuf for plane 0
+videobuf2_common: __buf_prepare: buffer preparation failed: -14
 
-One thing that come to mind, is that its not true that a V4L2 driver can al=
-ways
-be importer only. For cards like Xplorer X1600P PCIe Accelerator [1] from B=
-laize
-(they are using a modified, but still generic, Hantro Driver), the CODECs m=
-emory
-should be allocated on the card for best performance. Only the driver is aw=
-are
-that there is memory on that card, and so it must export the buffers.
+The patch itself seems to be strighforward.
+It adds implementation of .vmap and .vunmap methods
+to 'struct dma_buf_ops udmabuf_ops'.
+.vmap method itself uses vm_map_ram() to map pages linearly
+into the kernel virtual address space.
+.vunmap removes mapping created earlier by .vmap.
+All locking and 'vmapping counting' is done in dma_buf.c
+so it seems to be redundant/unnecessary in .vmap/.vunmap.
 
-In a DMABuf import only future, that basically means the driver must implem=
-ent a
-DMABuf HEAP driver, and to make this usable by generic software, the constr=
-aints
-API need to support telling userspace that this Heap is to be used. This ga=
-p
-easily extend to DRM, which have per driver API to allocate memory, and in =
-some
-cases these API must be used (they don't have heaps for on-card memory
-allocation). When this is happening inside the GFX stack, it works very wel=
-l,
-but when you need to integrate this with some V4L2 driver, its not really
-practical and requires something like minigbm/gralloc, which is non-generic=
-.
+Signed-off-by: Lukasz Wiecaszek <lukasz.wiecaszek@gmail.com>
+Reported-by: kernel test robot <lkp@intel.com>
+---
+v1: https://lore.kernel.org/linux-media/202211120352.G7WPASoP-lkp@intel.com/T/#t
+v2: https://lore.kernel.org/linux-media/20221114052944.GA7264@thinkpad-p72/T/#t
 
-[1] https://www.blaize.com/products/ai-edge-computing-platforms/
+v2 -> v3: Added .vunmap to 'struct dma_buf_ops udmabuf_ops'
+v1 -> v2: Patch prepared and tested against 6.1.0-rc2+
+
+ drivers/dma-buf/udmabuf.c | 28 ++++++++++++++++++++++++++++
+ 1 file changed, 28 insertions(+)
+
+diff --git a/drivers/dma-buf/udmabuf.c b/drivers/dma-buf/udmabuf.c
+index 283816fbd72f..740d6e426ee9 100644
+--- a/drivers/dma-buf/udmabuf.c
++++ b/drivers/dma-buf/udmabuf.c
+@@ -13,6 +13,8 @@
+ #include <linux/slab.h>
+ #include <linux/udmabuf.h>
+ #include <linux/hugetlb.h>
++#include <linux/vmalloc.h>
++#include <linux/iosys-map.h>
+ 
+ static int list_limit = 1024;
+ module_param(list_limit, int, 0644);
+@@ -60,6 +62,30 @@ static int mmap_udmabuf(struct dma_buf *buf, struct vm_area_struct *vma)
+ 	return 0;
+ }
+ 
++static int vmap_udmabuf(struct dma_buf *buf, struct iosys_map *map)
++{
++	struct udmabuf *ubuf = buf->priv;
++	void *vaddr;
++
++	dma_resv_assert_held(buf->resv);
++
++	vaddr = vm_map_ram(ubuf->pages, ubuf->pagecount, -1);
++	if (!vaddr)
++		return -EINVAL;
++
++	iosys_map_set_vaddr(map, vaddr);
++	return 0;
++}
++
++static void vunmap_udmabuf(struct dma_buf *buf, struct iosys_map *map)
++{
++	struct udmabuf *ubuf = buf->priv;
++
++	dma_resv_assert_held(buf->resv);
++
++	vm_unmap_ram(map->vaddr, ubuf->pagecount);
++}
++
+ static struct sg_table *get_sg_table(struct device *dev, struct dma_buf *buf,
+ 				     enum dma_data_direction direction)
+ {
+@@ -162,6 +188,8 @@ static const struct dma_buf_ops udmabuf_ops = {
+ 	.unmap_dma_buf	   = unmap_udmabuf,
+ 	.release	   = release_udmabuf,
+ 	.mmap		   = mmap_udmabuf,
++	.vmap		   = vmap_udmabuf,
++	.vunmap		   = vunmap_udmabuf,
+ 	.begin_cpu_access  = begin_cpu_udmabuf,
+ 	.end_cpu_access    = end_cpu_udmabuf,
+ };
+-- 
+2.25.1
+
