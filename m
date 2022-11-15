@@ -2,70 +2,82 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A8CE3629C0A
-	for <lists+linux-media@lfdr.de>; Tue, 15 Nov 2022 15:25:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 333CF629E3C
+	for <lists+linux-media@lfdr.de>; Tue, 15 Nov 2022 16:58:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230293AbiKOOZS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 15 Nov 2022 09:25:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47684 "EHLO
+        id S231491AbiKOP6G (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 15 Nov 2022 10:58:06 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52318 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230216AbiKOOZR (ORCPT
+        with ESMTP id S229970AbiKOP6E (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 15 Nov 2022 09:25:17 -0500
-Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com [IPv6:2607:f8b0:4864:20::1035])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 55E1513D68;
-        Tue, 15 Nov 2022 06:25:16 -0800 (PST)
-Received: by mail-pj1-x1035.google.com with SMTP id e7-20020a17090a77c700b00216928a3917so17040731pjs.4;
-        Tue, 15 Nov 2022 06:25:16 -0800 (PST)
+        Tue, 15 Nov 2022 10:58:04 -0500
+Received: from mail-qv1-xf2a.google.com (mail-qv1-xf2a.google.com [IPv6:2607:f8b0:4864:20::f2a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 262292CE19
+        for <linux-media@vger.kernel.org>; Tue, 15 Nov 2022 07:58:02 -0800 (PST)
+Received: by mail-qv1-xf2a.google.com with SMTP id c8so10014221qvn.10
+        for <linux-media@vger.kernel.org>; Tue, 15 Nov 2022 07:58:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=G2RtnWBUODwyk00f7bE/k2r1zJUSsT+1BYQxHB4ViqE=;
-        b=b2KSlcaX09baSICJR7fo4ZJdSKeEe0g1hDJo79SrydGzyefJBlgnEGTadyk9V7qIlh
-         d4oAzKX7Ot3m/bexK5MVqj3YtmiXGBXakOOBe4VXQEM18hiwwoDLu03orHp8bbY9Tm4x
-         +8zy3ml79WvKGmxYPWwmEuv5tyzN20mcd1gJcBUPZ/lSfv+nCCAf9tlLiNIJH54RLWt+
-         PRoAn3CTPJV49lvSh3rCq5TIn+5BCxtz5YY694boWyepjT94bVH1Kt2gtgnZ5t1uCpBa
-         vaO0it3QGWWNiBf7HRQw0qtKsSsh7krWWtAe4B3qqHqVzMsfGyCr2ioN4896izE48Oo3
-         w0TQ==
+        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=GB0zkWpp/PlqB/Ov6dqD17vH1h9Y0WhPVEzh/+cmbNo=;
+        b=ln1JxjSmcHufgAhOOzn9PNMCe9Osxmt7iWviyOyMiQQOCNh4BkwkwHP2eRuHyh6oz3
+         oBd+QpzgYT9ygDJH7EutZpwFEZ2muRNSTukQ5UqE6c5dTbalEZF/vMUYX0Pj9gx7c0qR
+         5Asrei6jWEuCXEfn4jeINpFWTpQyEZqiiLfeXEJKkQyVNVpPRakn4p3ROCaFe2i9iAER
+         LDUj/S5Klw0XhOxjS6rVxVi2STXymU6CVzG/OHSIflNonJmXqHmWrJLh1t5GI1we3m2p
+         3yDsdUFEgkdEEncOIXVM6f/0HkT3ytwCUokCRy1Wf7Ey0h9htNmGJUyGF81EsvAg5SKG
+         iCQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=G2RtnWBUODwyk00f7bE/k2r1zJUSsT+1BYQxHB4ViqE=;
-        b=CI84sK3KcROwy9Mf/gLWpw3k3xV23oYFN2btK9CXs8zvqEzkW+1D4UMwixqKWnUo0l
-         JqFScY7zUJU33FV5m9ryL1i3re3FAdnDLyP0y7MAIP91B9GhGjr3mElkANYRBme2nmkJ
-         LsZV5tP3FuY1G69OmObCKctPmhjzNbUZ368Gm6cz2+c78M9/Do1CieSWqtOBFCdPYhKB
-         +f3lF+OHH/bQspWNA0yqbdds0h0n2mYo+tTCrd/fyBh87PxuMpFinUIAckH8PJh3H+ZC
-         klgdpmw/PUx2ncYDolqNzZepRzmnFEQ3cdU/hlZcmFxDQUCtkrG66e+U4TTmw0VS/Yly
-         jTyA==
-X-Gm-Message-State: ANoB5pmDRAJIUI+aOUjuuC5xClQtGiB9Yuh9YXu8z5DKX5bjF6glaSiS
-        NpFXwouAt8Sg+gJNlj+Do6k=
-X-Google-Smtp-Source: AA0mqf7wqe0ECsHzkiw8k6ZgPwlJ9iuI5uSSfME0mPwlHMQDDXY9sm9dLkiev+MEPSN+mJ8hMjcjTA==
-X-Received: by 2002:a17:903:483:b0:17c:5b30:6a1e with SMTP id jj3-20020a170903048300b0017c5b306a1emr4088084plb.138.1668522315893;
-        Tue, 15 Nov 2022 06:25:15 -0800 (PST)
-Received: from localhost.localdomain ([175.124.254.119])
-        by smtp.gmail.com with ESMTPSA id g17-20020aa79f11000000b0056da2bf607csm8733661pfr.214.2022.11.15.06.25.13
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=GB0zkWpp/PlqB/Ov6dqD17vH1h9Y0WhPVEzh/+cmbNo=;
+        b=yXWkucuGhai7fUJ83B5/d3/Py6DKCndWbdZUmaLK8Ggu6B/Uh+5i/QogukzpkNR1tZ
+         VCuz9zDyD1jO8/eUegn7He8I9Po8pCoqyXc8DHfKLt5XSUnp6+hX1vRsxzH16GPpZkZK
+         UhcVgH0o5/hAQc/VGexO5VqAOjyYlG9pNhamdxaVZYAJD59OhS0eqoeNWp5wKhTJO38K
+         CZ9LkPl9Qg3Kn4F4rPnc2WXLzNhrQlB9P8ayHlAZ5/w8ThZm2gPavQ25N3NnyTYKDfKl
+         wTvImjMaXMQjNGP5XNIYH3/vZILYpNqGFLgeCo/sDUyOzaVZ0ZpTXURv0rWSoTk78zmh
+         nV5A==
+X-Gm-Message-State: ANoB5pkQoruJSYjwmZD2vQXXmk6PI/TaZfBhSU2DxG2NT0kKpe5zxXGR
+        6+xoEv4lzRcLL5qDGp+yf22HBQ==
+X-Google-Smtp-Source: AA0mqf5NnbHZ11tNvETyKyrrChRh/4gzlJFXHiyf0zOv0LoHWaiDFE9qY4bZvf/abRFmkefFAcpTPA==
+X-Received: by 2002:ad4:43ca:0:b0:4bb:6093:22c with SMTP id o10-20020ad443ca000000b004bb6093022cmr16971536qvs.118.1668527881196;
+        Tue, 15 Nov 2022 07:58:01 -0800 (PST)
+Received: from nicolas-tpx395.localdomain (192-222-136-102.qc.cable.ebox.net. [192.222.136.102])
+        by smtp.gmail.com with ESMTPSA id y11-20020a05620a25cb00b006ef1a8f1b81sm8489995qko.5.2022.11.15.07.57.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Nov 2022 06:25:15 -0800 (PST)
-From:   Hyunwoo Kim <imv4bel@gmail.com>
-To:     mchehab@kernel.org
-Cc:     kernel@tuxforce.de, linux-media@vger.kernel.org,
-        linux-usb@vger.kernel.org, cai.huoqing@linux.dev, tiwai@suse.de,
-        imv4bel@gmail.com
-Subject: [PATCH v2 4/4] media: ttusb-dec: Fix memory leak in ttusb_dec_exit_dvb()
-Date:   Tue, 15 Nov 2022 06:23:56 -0800
-Message-Id: <20221115142356.12315-5-imv4bel@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20221115142356.12315-1-imv4bel@gmail.com>
-References: <20221115142356.12315-1-imv4bel@gmail.com>
+        Tue, 15 Nov 2022 07:58:00 -0800 (PST)
+Message-ID: <20fe0ea98988ddf4a03cf86ed9275b9d0691841d.camel@ndufresne.ca>
+Subject: Re: [RFC PATCH v6 02/11] media: v4l2: Extend pixel formats to unify
+ single/multi-planar handling (and more)
+From:   Nicolas Dufresne <nicolas@ndufresne.ca>
+To:     Hsia-Jun Li <Randy.Li@synaptics.com>
+Cc:     mchehab@kernel.org, hans.verkuil@cisco.com,
+        laurent.pinchart@ideasonboard.com, sakari.ailus@iki.fi,
+        boris.brezillon@collabora.com, hiroh@chromium.org,
+        Brian.Starkey@arm.com, kernel@collabora.com,
+        narmstrong@baylibre.com, linux-kernel@vger.kernel.org,
+        frkoenig@chromium.org, stanimir.varbanov@linaro.org,
+        tfiga@chromium.org, Hans Verkuil <hverkuil@xs4all.nl>,
+        linux-media@vger.kernel.org
+Date:   Tue, 15 Nov 2022 10:57:59 -0500
+In-Reply-To: <3b1edf81-bcc0-0b56-7e55-93da55d7f747@synaptics.com>
+References: <20210114180738.1758707-1-helen.koike@collabora.com>
+         <20210114180738.1758707-3-helen.koike@collabora.com>
+         <d0d1f74f-7e77-1b18-0529-dbbec8889584@xs4all.nl>
+         <577c56bf-146c-f34a-2028-075170076de7@collabora.com>
+         <708221e8-a805-c394-6958-6c7ec24bfe66@synaptics.com>
+         <03f6fd9ff6a757f6d1cb6cc552efcb0b94327104.camel@ndufresne.ca>
+         <3b1edf81-bcc0-0b56-7e55-93da55d7f747@synaptics.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.4 (3.44.4-2.fc36) 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -73,34 +85,20 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Since dvb_frontend_detach() is not called in ttusb_dec_exit_dvb(),
-which is called when the device is disconnected, dvb_frontend_free()
-is not finally called.
+Le vendredi 11 novembre 2022 =C3=A0 11:03 +0800, Hsia-Jun Li a =C3=A9crit=
+=C2=A0:
+> There are four modifiers in DRM while we would only one in these patches.
+> =C2=A0From the EGL
+> https://registry.khronos.org/EGL/extensions/EXT/EGL_EXT_image_dma_buf_imp=
+ort_modifiers.txt
+>=20
+> The modifier for echo plane could be different. I wish it would be=20
+> better to create a framebuffer being aware of which planes are graphics=
+=20
+> or metadata.
 
-This causes a memory leak just by repeatedly plugging and
-unplugging the device.
+I was told that having different modifiers per plane is not supported and j=
+ust
+an historical artifact of an over-engineered API design.
 
-Fix this issue by adding dvb_frontend_detach() to ttusb_dec_exit_dvb().
-
-Signed-off-by: Hyunwoo Kim <imv4bel@gmail.com>
----
- drivers/media/usb/ttusb-dec/ttusb_dec.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
-
-diff --git a/drivers/media/usb/ttusb-dec/ttusb_dec.c b/drivers/media/usb/ttusb-dec/ttusb_dec.c
-index 38822cedd93a..c4474d4c44e2 100644
---- a/drivers/media/usb/ttusb-dec/ttusb_dec.c
-+++ b/drivers/media/usb/ttusb-dec/ttusb_dec.c
-@@ -1544,8 +1544,7 @@ static void ttusb_dec_exit_dvb(struct ttusb_dec *dec)
- 	dvb_dmx_release(&dec->demux);
- 	if (dec->fe) {
- 		dvb_unregister_frontend(dec->fe);
--		if (dec->fe->ops.release)
--			dec->fe->ops.release(dec->fe);
-+		dvb_frontend_detach(dec->fe);
- 	}
- 	dvb_unregister_adapter(&dec->adapter);
- }
--- 
-2.25.1
-
+Nicolas
