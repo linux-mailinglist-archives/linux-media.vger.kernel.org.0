@@ -2,107 +2,106 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 51B1E6299EF
-	for <lists+linux-media@lfdr.de>; Tue, 15 Nov 2022 14:19:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4D000629BA1
+	for <lists+linux-media@lfdr.de>; Tue, 15 Nov 2022 15:11:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232235AbiKONTo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 15 Nov 2022 08:19:44 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50696 "EHLO
+        id S230047AbiKOOLW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 15 Nov 2022 09:11:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37104 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233025AbiKONTn (ORCPT
+        with ESMTP id S229877AbiKOOLT (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 15 Nov 2022 08:19:43 -0500
-Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com [IPv6:2607:f8b0:4864:20::1030])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA88711C16;
-        Tue, 15 Nov 2022 05:19:42 -0800 (PST)
-Received: by mail-pj1-x1030.google.com with SMTP id e7-20020a17090a77c700b00216928a3917so16869239pjs.4;
-        Tue, 15 Nov 2022 05:19:42 -0800 (PST)
+        Tue, 15 Nov 2022 09:11:19 -0500
+Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com [IPv6:2a00:1450:4864:20::129])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 07693656D
+        for <linux-media@vger.kernel.org>; Tue, 15 Nov 2022 06:11:18 -0800 (PST)
+Received: by mail-lf1-x129.google.com with SMTP id s8so7458880lfc.8
+        for <linux-media@vger.kernel.org>; Tue, 15 Nov 2022 06:11:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=QMXbPuT8/apKqChj/zU2J23s1sl6whOKF1BEx7eXQxI=;
-        b=Bef/p6nhKlBugQnck4zBnZEky3g+7F0dsB7bsfZCxG9NiLOKVrzps0RQTSyn+tWZCO
-         2P2LimiU9odXGC9p9Ju3Xc2ImB+z2fuXcBuuG/EIQJA0lpjfZKW9cwfnvDkggWhZ92Qs
-         Ytiu5LayryCinoTlXE8Q/YUuPnMIgcw8HyonZUYPdKFlRiAef7sBvyYc5ohglQMdy8qC
-         mjnxG9Ay0+DRBaKSB9ZsLai4cG8Q04xtgTVVw2+qSfrbbttkIobblAKBLquEJSqplZ7D
-         p/qEbDWqHIDCtpRRJLEXseJtA/FUMOlioyfQO3oszJHc4nK7cyiMbSXmOHo4iiU4Dn0t
-         +QCA==
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ZmLKUGLqokfps8GJiCgaTlP2Y9BKzDEkzABOvID/vlU=;
+        b=JzJ9i59F0v10dL3aEv5XJzin87ddzgfggJa7d4CBmCZHpBZygoMfHnhygqY6kyeyzg
+         DfPOPnbmUG0nhsR1O8iRZI3akiRRl7Z1QRI14XBpojSpWIGQmi2hWJTc5WEVN3I98El2
+         hB7DPo5SMTBY+vcumXnYhwZ2Evmvqx7Z/3fLEEipOn8QGjAUh9GtACiUHxLqqZ+Tezkh
+         1zpUwvDACTS29IiBFPFo4ZpoCUHFHjQuovtDpci591suRETZWkr0SKNnRipYGMoQi4gk
+         dbqQOjLUHavwBjsXvXLmPS40aDdn8XUq/KfZ0uVafxnPS9VzEAzYj5ix1bb6dXkI+/u8
+         sJCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=QMXbPuT8/apKqChj/zU2J23s1sl6whOKF1BEx7eXQxI=;
-        b=PrPVwoKj6iPuaLYW7IBymJNbFdeHz0GijIxD1MRRLOBuPniVPUyihNjI0xPT0YarWT
-         wT+TKOMuHZOkKDtjkABDAVjDdosSh4mbO3Vnbf0GnwI2W9hCzUB14PiP2BUW+qF8GkNQ
-         gUr7M0mcOiwOjV2zX49kTZ4xDFwYyN9Uh0qFAIb/bdk1CLQ9f+tVTMWb2FL716YY2C5F
-         q+A9Ahgkr4nDqco+NnD8H86O7Mmk0ivnvmvbdA6AO+2G9Z6w7JiNI+2nmsnxo5sB/D8e
-         X35Tug8KzLV1Or+B/COhNh+WDBPxZN12nBdc7DvEKAqyXMYHN0sWtTQcedLUcYQZ9zjX
-         +0/g==
-X-Gm-Message-State: ANoB5pn5DBL9FgIYFsBSrYdR4OvIcxwZHbbmyV4VjnpEXVDyepBJqbXO
-        EaqKPrwYQxd+JTKKfAIfolg=
-X-Google-Smtp-Source: AA0mqf51UB87woqrbzm1Zfx62dB3veGCWwS7XDUSaHN6MvnCwkLEreoDDtrAq3J8UomMrcZzl7VBfw==
-X-Received: by 2002:a17:902:f54d:b0:186:6e16:18dd with SMTP id h13-20020a170902f54d00b001866e1618ddmr3939156plf.131.1668518382213;
-        Tue, 15 Nov 2022 05:19:42 -0800 (PST)
-Received: from localhost.localdomain ([175.124.254.119])
-        by smtp.gmail.com with ESMTPSA id i24-20020aa796f8000000b00562784609fbsm8670937pfq.209.2022.11.15.05.19.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Nov 2022 05:19:41 -0800 (PST)
-From:   imv4bel@gmail.com
-To:     mchehab@kernel.org
-Cc:     Hyunwoo Kim <imv4bel@gmail.com>, kernel@tuxforce.de,
-        linux-media@vger.kernel.org, linux-usb@vger.kernel.org,
-        cai.huoqing@linux.dev, tiwai@suse.de
-Subject: [PATCH 4/4] media: ttusb-dec: Fix memory leak in ttusb_dec_exit_dvb()
-Date:   Tue, 15 Nov 2022 05:18:22 -0800
-Message-Id: <20221115131822.6640-5-imv4bel@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20221115131822.6640-1-imv4bel@gmail.com>
-References: <20221115131822.6640-1-imv4bel@gmail.com>
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZmLKUGLqokfps8GJiCgaTlP2Y9BKzDEkzABOvID/vlU=;
+        b=th6sCLCANwwsZMw/v5FY83Og0bdWqAHIfQEJe/vh66KUx4uOKqcuM2kuepdUbDmlAo
+         CHiLmxsMCW1kLHax45kic88sFS2ZhZvNVNHC9r4YZk03SdN/+8mn2tLkwViDvs6EBhox
+         E/F1U/FNC9gv/wBtfiRhKOxEvm8kouldfmkNV+IUGnUoHaRGPB1IKgMghRJ77/C7Wnvn
+         VcxJp7LgA38HRzwFlBEBE6U0FHX57MvrKIlBCeLbxlisriqYrYnzrrIeYiTeWKEE6man
+         7T2VmeURhRadq1WGuaET05bynqIOsDGYcxW7+7NsHGmRcKLX8NO//ibFHg0tqQWpXKQ/
+         frFg==
+X-Gm-Message-State: ANoB5pmkIND90GoXxZf7M/UDTanXX3eOZNmZ13yhIovAvgzx/ZON9rNG
+        kadCFpf+cMsS+zNvt6XtzQ80Jg==
+X-Google-Smtp-Source: AA0mqf6PbaokXOZgQbbzApe+IA/ePQ8zAARWw2EQc8G7b6iXLBLww0bVtbLP3c890JwEBa+g1KCxnQ==
+X-Received: by 2002:a05:6512:3f8d:b0:4af:f58e:a7a0 with SMTP id x13-20020a0565123f8d00b004aff58ea7a0mr5476878lfa.507.1668521476356;
+        Tue, 15 Nov 2022 06:11:16 -0800 (PST)
+Received: from [192.168.0.20] (088156142067.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.67])
+        by smtp.gmail.com with ESMTPSA id x11-20020a056512130b00b004a608ec6d8csm2228993lfu.27.2022.11.15.06.11.15
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 15 Nov 2022 06:11:15 -0800 (PST)
+Message-ID: <b7936281-fae3-97af-e480-539d2675aa35@linaro.org>
+Date:   Tue, 15 Nov 2022 15:11:14 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH 1/2] media: dt-bindings: allwinner: h6-vpu-g2: Add IOMMU
+ reference property
+Content-Language: en-US
+To:     Chen-Yu Tsai <wenst@chromium.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Samuel Holland <samuel@sholland.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+        linux-kernel@vger.kernel.org
+References: <20221115090644.3602573-1-wenst@chromium.org>
+ <20221115090644.3602573-2-wenst@chromium.org>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20221115090644.3602573-2-wenst@chromium.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Hyunwoo Kim <imv4bel@gmail.com>
+On 15/11/2022 10:06, Chen-Yu Tsai wrote:
+> The Hantro G2 video decoder block sits behind an IOMMU. The device tree
+> binding needs a property to reference it. Without a reference for the
+> implementation to properly configure the IOMMU, it will fault and cause
+> the video decoder to fail.
+> 
+> Add an "iommus" property for referring to the IOMMU port. The master ID
+> in the example is taken from the IOMMU fault error message on Linux,
+> and the number seems to match the order in the user manual's IOMMU
+> diagram.
+> 
+> Fixes: fd6be12716c4 ("media: dt-bindings: allwinner: document H6 Hantro G2 binding")
+> Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
+> ---
 
-Since dvb_frontend_detach() is not called in ttusb_dec_exit_dvb(),
-which is called when the device is disconnected, dvb_frontend_free()
-is not finally called.
 
-This causes a memory leak just by repeatedly plugging and
-unplugging the device.
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-Fix this issue by adding dvb_frontend_detach() to ttusb_dec_exit_dvb().
-
-Signed-off-by: Hyunwoo Kim <imv4bel@gmail.com>
----
- drivers/media/usb/ttusb-dec/ttusb_dec.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
-
-diff --git a/drivers/media/usb/ttusb-dec/ttusb_dec.c b/drivers/media/usb/ttusb-dec/ttusb_dec.c
-index 38822cedd93a..c4474d4c44e2 100644
---- a/drivers/media/usb/ttusb-dec/ttusb_dec.c
-+++ b/drivers/media/usb/ttusb-dec/ttusb_dec.c
-@@ -1544,8 +1544,7 @@ static void ttusb_dec_exit_dvb(struct ttusb_dec *dec)
- 	dvb_dmx_release(&dec->demux);
- 	if (dec->fe) {
- 		dvb_unregister_frontend(dec->fe);
--		if (dec->fe->ops.release)
--			dec->fe->ops.release(dec->fe);
-+		dvb_frontend_detach(dec->fe);
- 	}
- 	dvb_unregister_adapter(&dec->adapter);
- }
--- 
-2.25.1
+Best regards,
+Krzysztof
 
