@@ -2,115 +2,87 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0447462B464
-	for <lists+linux-media@lfdr.de>; Wed, 16 Nov 2022 08:59:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 549BE62B562
+	for <lists+linux-media@lfdr.de>; Wed, 16 Nov 2022 09:39:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231133AbiKPH70 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 16 Nov 2022 02:59:26 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35338 "EHLO
+        id S231989AbiKPIjN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 16 Nov 2022 03:39:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42460 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232913AbiKPH7Q (ORCPT
+        with ESMTP id S229942AbiKPIjM (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 16 Nov 2022 02:59:16 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4CE0BC7
-        for <linux-media@vger.kernel.org>; Tue, 15 Nov 2022 23:59:15 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        Wed, 16 Nov 2022 03:39:12 -0500
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 68D3865FE;
+        Wed, 16 Nov 2022 00:39:11 -0800 (PST)
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id E78CC61A77
-        for <linux-media@vger.kernel.org>; Wed, 16 Nov 2022 07:59:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3DF00C433C1;
-        Wed, 16 Nov 2022 07:59:13 +0000 (UTC)
-Message-ID: <0e396262-2ec6-c18c-b566-f3b5b90381c9@xs4all.nl>
-Date:   Wed, 16 Nov 2022 08:59:11 +0100
+        (Authenticated sender: kholk11)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id DEF1E6602A83;
+        Wed, 16 Nov 2022 08:39:08 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1668587949;
+        bh=xqWKxOEqVNkY175Qvpn8lbAyWJPaRCsExy9oPiB7P+4=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=gvTqOxIzkBgDghiNiAFzxCeuyZIT74hFkxzRGdyjVBeSS2vbEL9b3Xn6Nny/XIYIQ
+         Jaz1baC4GVF40hgw/Dwoixaw3VpekB2l6aSQs6bTZs88MomC3ghx6R8c7VFs7yHMHm
+         s++wH48khIvhmZ7uRNCYa4fBpYH9DKuAmf6ZzSWLVBqn2EZDN30wMqwwmkMsBqUTdT
+         3fyQzupGuwyMbU4HeIt8k+AWd4P+vQKsw9DBbZ8adWHfpJN//qM+stjep68LUN3b55
+         gu/0bi89Ba8ofQzc9SghjH5B72HEpYwk7mNWxDJMZva/R8SIAH/wxty79pknb6KPmW
+         gk/3KTgNisX3A==
+Message-ID: <5a1c9206-03b1-8ee7-546b-7981fc4294f1@collabora.com>
+Date:   Wed, 16 Nov 2022 09:39:06 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.1
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: [PATCHv2] v4l2-tracer: add support for most basic controls
-To:     Deborah Brouwer <deborah.brouwer@collabora.com>
-Cc:     daniel.almeida@collabora.com, nfraprado@collabora.com,
-        nicolas.dufresne@collabora.com, deborahbrouwer3563@gmail.com,
-        linux-media@vger.kernel.org
-References: <20221114184426.39997-1-deborah.brouwer@collabora.com>
+ Thunderbird/102.3.3
+Subject: Re: [PATCH v3] media: mediatek: vcodec: fix h264 cavlc bitstream fail
+To:     Yunfei Dong <yunfei.dong@mediatek.com>,
+        Chen-Yu Tsai <wenst@chromium.org>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Tiffany Lin <tiffany.lin@mediatek.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        George Sun <george.sun@mediatek.com>,
+        Xiaoyong Lu <xiaoyong.lu@mediatek.com>,
+        Hsin-Yi Wang <hsinyi@chromium.org>,
+        Fritz Koenig <frkoenig@chromium.org>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Steve Cho <stevecho@chromium.org>, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org,
+        Project_Global_Chrome_Upstream_Group@mediatek.com
+References: <20221116055613.13991-1-yunfei.dong@mediatek.com>
 Content-Language: en-US
-In-Reply-To: <20221114184426.39997-1-deborah.brouwer@collabora.com>
-Content-Type: text/plain; charset=UTF-8
+From:   AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20221116055613.13991-1-yunfei.dong@mediatek.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The v4l2-tracer utility didn't support tracing simple controls without
-a payload (i.e. the 'size' field is 0) and just a simple value.
+Il 16/11/22 06:56, Yunfei Dong ha scritto:
+> Some cavlc bistream will decode fail when the frame size is smaller than
+> 20 bytes. Need to add pending data at the end of the bitstream.
+> 
+> For the minimum size of mapped memory is 256 bytes(16x16), adding four bytes data
+> won't lead to access unknown virtual memory.
+> 
+> Fixes: 59fba9eed5a7 ("media: mediatek: vcodec: support stateless H.264 decoding for mt8192")
+> Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
+> Reviewed-by: Chen-Yu Tsai <wenst@chromium.org>
 
-This adds support for that, plus the four standard INTEGER64 controls
-that use field value64.
+Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
----
-Changes since v1:
-
-- Use int64 instead of uint64 for "value64" (copy-paste error).
-- Use int instead of int64 for "value".
----
-diff --git a/utils/v4l2-tracer/retrace.cpp b/utils/v4l2-tracer/retrace.cpp
-index b736e835..efed96e8 100644
---- a/utils/v4l2-tracer/retrace.cpp
-+++ b/utils/v4l2-tracer/retrace.cpp
-@@ -734,7 +734,23 @@ struct v4l2_ext_control *retrace_v4l2_ext_control(json_object *parent_obj, int c
- 		p->value = retrace_v4l2_ext_control_value(v4l2_ext_control_obj,
- 		                                          v4l2_stateless_hevc_start_code_val_def);
- 		break;
-+	case V4L2_CID_MPEG_VIDEO_DEC_PTS:
-+	case V4L2_CID_MPEG_VIDEO_DEC_FRAME:
-+	case V4L2_CID_MPEG_VIDEO_DEC_CONCEAL_COLOR:
-+	case V4L2_CID_PIXEL_RATE: {
-+		json_object *value64_obj;
-+
-+		if (json_object_object_get_ex(v4l2_ext_control_obj, "value64", &value64_obj))
-+			p->value64 = json_object_get_int64(value64_obj);
-+		break;
-+	}
- 	default:
-+		if (!p->size) {
-+			json_object *value_obj;
-+
-+			if (json_object_object_get_ex(v4l2_ext_control_obj, "value", &value_obj))
-+				p->value = json_object_get_int(value_obj);
-+		}
- 		break;
- 	}
-
-diff --git a/utils/v4l2-tracer/trace.cpp b/utils/v4l2-tracer/trace.cpp
-index f0bd7002..ce14538b 100644
---- a/utils/v4l2-tracer/trace.cpp
-+++ b/utils/v4l2-tracer/trace.cpp
-@@ -405,9 +405,19 @@ void trace_v4l2_ext_control(void *arg, json_object *parent_obj, std::string key_
- 	case V4L2_CID_STATELESS_MPEG2_QUANTISATION:
- 		trace_v4l2_ctrl_mpeg2_quantisation_gen(p->p_mpeg2_quantisation, v4l2_ext_control_obj);
- 		break;
-+	case V4L2_CID_MPEG_VIDEO_DEC_PTS:
-+	case V4L2_CID_MPEG_VIDEO_DEC_FRAME:
-+	case V4L2_CID_MPEG_VIDEO_DEC_CONCEAL_COLOR:
-+	case V4L2_CID_PIXEL_RATE:
-+		json_object_object_add(v4l2_ext_control_obj, "value64", json_object_new_int64(p->value64));
-+		break;
- 	default:
--		fprintf(stderr, "%s:%s:%d: ", __FILE__, __func__, __LINE__);
--		fprintf(stderr, "warning: cannot trace control: %s\n", val2s(p->id, control_val_def).c_str());
-+		if (p->size) {
-+			fprintf(stderr, "%s:%s:%d: ", __FILE__, __func__, __LINE__);
-+			fprintf(stderr, "warning: cannot trace control: %s\n", val2s(p->id, control_val_def).c_str());
-+		} else {
-+			json_object_object_add(v4l2_ext_control_obj, "value", json_object_new_int(p->value));
-+		}
- 		break;
- 	}
 
