@@ -2,142 +2,89 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0E27E62BF3A
-	for <lists+linux-media@lfdr.de>; Wed, 16 Nov 2022 14:19:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6969962BF9C
+	for <lists+linux-media@lfdr.de>; Wed, 16 Nov 2022 14:35:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233019AbiKPNTg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 16 Nov 2022 08:19:36 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37072 "EHLO
+        id S233833AbiKPNfg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 16 Nov 2022 08:35:36 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50236 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230411AbiKPNTf (ORCPT
+        with ESMTP id S238294AbiKPNf2 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 16 Nov 2022 08:19:35 -0500
-Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com [IPv6:2607:f8b0:4864:20::636])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D03E017421;
-        Wed, 16 Nov 2022 05:19:33 -0800 (PST)
-Received: by mail-pl1-x636.google.com with SMTP id p21so16393634plr.7;
-        Wed, 16 Nov 2022 05:19:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=fpqKb4lhf4Ox3aXbS6ZVbIYbgJNdN32hGzbeNBKgyKo=;
-        b=H7X/Ph3K8hi9qxqMrkAU+OPdQ+wgInpmZ4tDynQUM1wiGAEqzDDX4ZyZrKtKdK7FSu
-         Aw3kgSlmvqJMBENX3K9foSEeXv2MSrXszIFk8b8THbmYibbVSudEtB+NSRzP6GGHZFai
-         w9khhfwcvwTpAvIsq2nPHJfZFDiV1neEASz1asDGoocEzXc8SyNi1UOPzA5Z2Hge6y+C
-         XL7dCVSEQWm+gCrMFCbGnb/yaTXp8uDRN9EeTnoav3UYBbApRq4tdv9da4ylrnykNQlm
-         oyFHamJyCLdWaqJFTsEYE++8a0qLxopgIQFC779jEVVcEOX8RG7KDu8zVlonDF5RuzzO
-         trfg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=fpqKb4lhf4Ox3aXbS6ZVbIYbgJNdN32hGzbeNBKgyKo=;
-        b=PRdyYVqUFTwBTy5tCiQ4HXDJ67Ek+i1YyOTMwq7TxW+PfkWSYbka7Q404RlXbfJrBl
-         7icN4yw3zjrUl/3E4azUKC8BjiINgzjP+i8T+HmdctZC0q+EFC7Nr0pH7Eo7mrQhhFhy
-         qdnhJZwP2sHuJgbi7l9pe3ddnxKFXEdx/VGUv0njf4zjdKKVENOoKd7Se4L0GqIpQJ7b
-         Pzoe96nG3Ev9ImLw8iy3o6M3Bdl3UTYMAfi+Vl06GO7nxSlOyivdjEAYAMsa9xGIkwZ4
-         +skP95UJIMcp42gdMXyeTG5u121cSq3E+bXEHLwy69wvdf8gai2kyZz/zF1EbLMSGigC
-         P55g==
-X-Gm-Message-State: ANoB5plF5rFL3yvFe1O+XEE+ZK9jh19JUGaltyuFlswH5thR8FD2cVSt
-        bTQknQ6YeydKsR3/NlLMepE=
-X-Google-Smtp-Source: AA0mqf5mGKgsBRp23LZ+hvij7pemhsMYWSfdR5H6yuc8o94A+nlAEuzXKU/INbG8bPLNjQnRZxtgKg==
-X-Received: by 2002:a17:902:a586:b0:188:5681:4dc7 with SMTP id az6-20020a170902a58600b0018856814dc7mr9117157plb.97.1668604773213;
-        Wed, 16 Nov 2022 05:19:33 -0800 (PST)
-Received: from ubuntu ([175.124.254.119])
-        by smtp.gmail.com with ESMTPSA id rj6-20020a17090b3e8600b00217cdc4b0a5sm1533616pjb.16.2022.11.16.05.19.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Nov 2022 05:19:32 -0800 (PST)
-Date:   Wed, 16 Nov 2022 05:19:28 -0800
-From:   Hyunwoo Kim <imv4bel@gmail.com>
-To:     Salvatore Bonaccorso <carnil@debian.org>
-Cc:     Takashi Iwai <tiwai@suse.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        imv4bel@gmail.com
-Subject: Re: [PATCH] media: dvb-core: Fix UAF due to refcount races at
- releasing
-Message-ID: <20221116131928.GA7144@ubuntu>
-References: <20220908132754.30532-1-tiwai@suse.de>
- <87sfklgozd.wl-tiwai@suse.de>
- <87k056dekm.wl-tiwai@suse.de>
- <Y3TEk7Nr3yAQIozQ@eldamar.lan>
+        Wed, 16 Nov 2022 08:35:28 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 18B8D3F07E;
+        Wed, 16 Nov 2022 05:35:16 -0800 (PST)
+Received: from pendragon.ideasonboard.com (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id C274749C;
+        Wed, 16 Nov 2022 14:35:14 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1668605714;
+        bh=Sys0rARy8J8jP/a46/LNXBCNgBu8UjwvelC2PQ7N1z4=;
+        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+        b=CMucZLEkB7PjzR3s2w/0Moz6WaXvsCfSbDbnEMYdJDs6B1RpB+vqWMFWPhPodBAU7
+         naMnG1Bpkpr4F7ZbK3KSP9zv/uIs5Ei3cOxQUw8IyN/sIAb39HxtIxUlZI/Adn1rUC
+         zO3IzpQLHz00jaelSiu/Xe/clZXSdilgXTfvJ+pE=
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y3TEk7Nr3yAQIozQ@eldamar.lan>
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20221116094006.16054-1-lukas.bulwahn@gmail.com>
+References: <20221116094006.16054-1-lukas.bulwahn@gmail.com>
+Subject: Re: [PATCH] media: i2c: refer to config VIDEO_DEV to make ov08x40 image sensor driver usable
+From:   Kieran Bingham <kieran.bingham@ideasonboard.com>
+Cc:     kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>
+To:     Jason Chen <jason.z.chen@intel.com>,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Shawn Tu <shawnx.tu@intel.com>, linux-media@vger.kernel.org
+Date:   Wed, 16 Nov 2022 13:35:12 +0000
+Message-ID: <166860571228.50677.2036444260575403904@Monstersaurus>
+User-Agent: alot/0.10
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
-
-On Wed, Nov 16, 2022 at 12:08:03PM +0100, Salvatore Bonaccorso wrote:
-> Hi,
-> 
-> On Tue, Oct 11, 2022 at 09:06:33AM +0200, Takashi Iwai wrote:
-> > On Wed, 21 Sep 2022 09:34:30 +0200,
-> > Takashi Iwai wrote:
-> > > 
-> > > On Thu, 08 Sep 2022 15:27:54 +0200,
-> > > Takashi Iwai wrote:
-> > > > 
-> > > > The dvb-core tries to sync the releases of opened files at
-> > > > dvb_dmxdev_release() with two refcounts: dvbdev->users and
-> > > > dvr_dvbdev->users.  A problem is present in those two syncs: when yet
-> > > > another dvb_demux_open() is called during those sync waits,
-> > > > dvb_demux_open() continues to process even if the device is being
-> > > > closed.  This includes the increment of the former refcount, resulting
-> > > > in the leftover refcount after the sync of the latter refcount at
-> > > > dvb_dmxdev_release().  It ends up with use-after-free, since the
-> > > > function believes that all usages were gone and releases the
-> > > > resources.
-> > > > 
-> > > > This patch addresses the problem by adding the check of dmxdev->exit
-> > > > flag at dvb_demux_open(), just like dvb_dvr_open() already does.  With
-> > > > the exit flag check, the second call of dvb_demux_open() fails, hence
-> > > > the further corruption can be avoided.
-> > > > 
-> > > > Also for avoiding the races of the dmxdev->exit flag reference, this
-> > > > patch serializes the dmxdev->exit set up and the sync waits with the
-> > > > dmxdev->mutex lock at dvb_dmxdev_release().  Without the mutex lock,
-> > > > dvb_demux_open() (or dvb_dvr_open()) may run concurrently with
-> > > > dvb_dmxdev_release(), which allows to skip the exit flag check and
-> > > > continue the open process that is being closed.
-> > > > 
-> > > > Reported-by: Hyunwoo Kim <imv4bel@gmail.com>
-> > > > Cc: <stable@vger.kernel.org>
-> > > > Signed-off-by: Takashi Iwai <tiwai@suse.de>
-> > > 
-> > > Any review on this?
-> > > 
-> > > FWIW, now CVE-2022-41218 is assigned for those bugs as a security
-> > > issue.
-> > 
-> > A gentle ping again.
-> > 
-> > Or if any other fix for this security issue is already available,
-> > please let me know.
-> 
-> is this correct, the fix is yet missing (or was it fixed by other
-> means?).
-
-This patch has been re-send and has been missing for a long time:
-https://lore.kernel.org/linux-media/20221031100245.23702-1-tiwai@suse.de/
-
-However, I noticed yesterday that the status of the re-send patch 
-changed to 'accpet':
-https://patchwork.linuxtv.org/project/linux-media/patch/20221031100245.23702-1-tiwai@suse.de/
-
-But there was no other feedback.
+Quoting Lukas Bulwahn (2022-11-16 09:40:06)
+> Commit 9958d30f38b9 ("media: Kconfig: cleanup VIDEO_DEV dependencies")
+> removes the config VIDEO_V4L2 as it is merged with config VIDEO_DEV.
+>=20
+> Long after this change, commit 38fc5136ac16 ("media: i2c: Add ov08x40 ima=
+ge
+> sensor driver") introduces and refers to the removed config VIDEO_V4L2,
+> basically making this driver impossible to build, test and use due to
+> dependencies that cannot be met.
+>=20
+> Refer to config VIDEO_DEV instead to make this driver usable.
 
 
-Regards,
-Hyunwoo Kim
+Fixes: 38fc5136ac16 ("media: i2c: Add ov08x40 image sensor driver")
+Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+
+> Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+> ---
+>  drivers/media/i2c/Kconfig | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
+> index 49c1c27afdc1..4a4ae9c20119 100644
+> --- a/drivers/media/i2c/Kconfig
+> +++ b/drivers/media/i2c/Kconfig
+> @@ -366,7 +366,7 @@ config VIDEO_OV08D10
+> =20
+>  config VIDEO_OV08X40
+>         tristate "OmniVision OV08X40 sensor support"
+> -       depends on VIDEO_V4L2 && I2C
+> +       depends on VIDEO_DEV && I2C
+>         select MEDIA_CONTROLLER
+>         select VIDEO_V4L2_SUBDEV_API
+>         select V4L2_FWNODE
+> --=20
+> 2.17.1
+>
