@@ -2,168 +2,234 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 15E0B62BB61
-	for <lists+linux-media@lfdr.de>; Wed, 16 Nov 2022 12:20:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8BC5262BD0E
+	for <lists+linux-media@lfdr.de>; Wed, 16 Nov 2022 13:07:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239245AbiKPLUt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 16 Nov 2022 06:20:49 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34180 "EHLO
+        id S232933AbiKPMHs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 16 Nov 2022 07:07:48 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48948 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233282AbiKPLU0 (ORCPT
+        with ESMTP id S232929AbiKPMH2 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 16 Nov 2022 06:20:26 -0500
-Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com [IPv6:2a00:1450:4864:20::52b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 733A640472;
-        Wed, 16 Nov 2022 03:08:06 -0800 (PST)
-Received: by mail-ed1-x52b.google.com with SMTP id z18so25999653edb.9;
-        Wed, 16 Nov 2022 03:08:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=IRqWOgr29xDH1fYV3Mu2fM7aLIITb2J/GYz8FCJV65E=;
-        b=gtG9J7BA9XWVdr9tol2qm5EP6jmQ/1HH87PMu86DaksArOQ+LoH/RZZKt0ylLe7FFx
-         bdX1zvmpuCv9p/I01pBta88mj/spOAFec60VsIiIthH+hDlucAPTqbbXVVJ6GCXd6NIv
-         KmQ0Kjye/VGm9NRRYdVRjZc4p85irx8BxzbX0YfrlXOnCU2IB4zRE7+JOCvkW4akm0XW
-         5V8bh0wSRvcf50xUnOYmVb3WtoXKSOvBDQfzj/yVgnQMnpHI9fcDCdbahXU+NUrGss+0
-         TnzQ7XCkNhNTjpWi5YK4B+h8UiZvFcOCkrSo+pDCiBWOwtSRi76udWZag3EkgA+s0C92
-         bV5w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=IRqWOgr29xDH1fYV3Mu2fM7aLIITb2J/GYz8FCJV65E=;
-        b=AaJs+cIs0lTM82QM2YA0qdE02ihwy/jzNpZjQs0pqDm0f+pZBszY8RdzYuWjn564Ff
-         NKGOYvlf9GKLrk1pXpT3ZPoJKABp1siVu5dwYjiGdthDNzjRAa4cW66RvRght9k1f8Os
-         XQMekwpro5jgXeP3yQ8FmBKmRiKhmyn3ja1rxLbiNW4qHGzc+y05tukO3CoRS8NxJgLQ
-         2gCHzf1sEWhQw/rc0ivGFXAA0k+mc33rs4jMud/xDaHdUxCYUWKcqYou2dflOz8kLujx
-         NZAHSx7dyICVP8C2CUyQem4MXZA5gs0fBTUS6IP/afDFUl/bdHgt7GfeBbBYeOk8XQGP
-         JEog==
-X-Gm-Message-State: ANoB5pl5cZhzY1GoK7uptQz7WkaokjKfUo8plnEoCGuCYYsOrsvCGLTD
-        vSMgB9W50TrDl18UNnHyYwI=
-X-Google-Smtp-Source: AA0mqf45qDgc3IPPx3lojwVTXi94BAukTNO9gHkyqFQHU2wZZtQTFcmJGcv11DHLohVzrnQd4OQQlQ==
-X-Received: by 2002:aa7:c2c4:0:b0:459:1788:5e49 with SMTP id m4-20020aa7c2c4000000b0045917885e49mr18411373edp.321.1668596884888;
-        Wed, 16 Nov 2022 03:08:04 -0800 (PST)
-Received: from eldamar.lan (c-82-192-242-114.customer.ggaweb.ch. [82.192.242.114])
-        by smtp.gmail.com with ESMTPSA id l9-20020a1709063d2900b0073d9a0d0cbcsm6686577ejf.72.2022.11.16.03.08.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Nov 2022 03:08:04 -0800 (PST)
-Sender: Salvatore Bonaccorso <salvatore.bonaccorso@gmail.com>
-Received: by eldamar.lan (Postfix, from userid 1000)
-        id C1DF1BE2DE0; Wed, 16 Nov 2022 12:08:03 +0100 (CET)
-Date:   Wed, 16 Nov 2022 12:08:03 +0100
-From:   Salvatore Bonaccorso <carnil@debian.org>
-To:     Takashi Iwai <tiwai@suse.de>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hyunwoo Kim <imv4bel@gmail.com>, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: dvb-core: Fix UAF due to refcount races at
- releasing
-Message-ID: <Y3TEk7Nr3yAQIozQ@eldamar.lan>
-References: <20220908132754.30532-1-tiwai@suse.de>
- <87sfklgozd.wl-tiwai@suse.de>
- <87k056dekm.wl-tiwai@suse.de>
+        Wed, 16 Nov 2022 07:07:28 -0500
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (mail-bn8nam12on2065.outbound.protection.outlook.com [40.107.237.65])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2297F6382;
+        Wed, 16 Nov 2022 04:01:55 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=jELsg3xCHIe56oaczmpHAdQATKAAOYIuHm9XmtA2pFcNoyDtE73W0ctnPaJAsO4m04luvb6KDTPRmWNvRTPszSxq3vNilJHrsDiM3ZVRZ8eBfvyzVmAb3kgEh7125NvSWanklvjA/wJBFS0H4LkcyLVFa3V6+f5DbOCJge/LQpVCmpz0IHtXTXki1c1tt0TSD3Llos93HV/DsUkQTUd6ZtSCmgqiWU0RsvqsF9S/1BIcAbrm+SGvO3IzKrdKwoLW9m5IZ3ZLXq3H41R5bNJPEZF/8wjlfq4iyzrZQ3zqy+xypmSlPa88SY2B5V4pnOZ4H9clnr36UIPp2H5x7RdWxQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=D/d8Axlvm01O4d4Ich1VoQtSy0lvvX6DW68Wm8IH8vk=;
+ b=eLKycjiJ1Y3tdVh8QRYGHY4Ye6yiq2Yojq0dhwFrFt1htqQLpUsPgWImDoUf1aVZky86AfSFOeAw4wg5KJJtYJzQU0UpGsjLQDk9D5nk5XajC81l2olsEi6RnH9XS2d6eFxUGNxiBIQGIn+pPLt5HMCtdRyi2DvvSwpXx+xXnip1kD3/K9r5Y5mfgwUF7fv0FOA4UR6K0uMh9pN3g6GjL6O5JSIBERKn+sAfVQ41p2Peft/zY6cYdMDiwrXYy98hYdi806OKsvmZOTB+1Bm7k4s8vmIL6pN4mdIKU0hn2NFyHt0OoFKU5xn+E3R7y4N4KOQy7h4qYaVD22a16tjnPA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=D/d8Axlvm01O4d4Ich1VoQtSy0lvvX6DW68Wm8IH8vk=;
+ b=xPwzJuH2RdbUsu2idXgW0OCVkNqJUOWMdBonUOwTl+k3Bhwsw4WB7G5o4/EH4StBamc1nwr5PuXJ01aMaiW4WxItCeJf0s7Y3V1yhVhei2XJYOverHHbht9bzTjDf/PNA1OPGItuE7reP93a4usFvXXWw/o33mN1iCgvW3qY53A=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
+ by DM4PR12MB6253.namprd12.prod.outlook.com (2603:10b6:8:a6::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5813.17; Wed, 16 Nov
+ 2022 12:01:51 +0000
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::7d43:3f30:4caf:7421]) by BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::7d43:3f30:4caf:7421%7]) with mapi id 15.20.5813.017; Wed, 16 Nov 2022
+ 12:01:51 +0000
+Message-ID: <b715cb83-32f1-a33b-a0c2-b779011151c0@amd.com>
+Date:   Wed, 16 Nov 2022 13:01:46 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH v3] udmabuf: add vmap and vunmap methods to udmabuf_ops
+To:     Lukasz Wiecaszek <lukasz.wiecaszek@googlemail.com>,
+        Gerd Hoffmann <kraxel@redhat.com>
+Cc:     Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+        Lukasz Wiecaszek <lukasz.wiecaszek@gmail.com>,
+        kernel test robot <lkp@intel.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
+References: <20221115200426.4801-1-lukasz.wiecaszek@gmail.com>
+Content-Language: en-US
+From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20221115200426.4801-1-lukasz.wiecaszek@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR0P281CA0113.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:a8::13) To BN8PR12MB3587.namprd12.prod.outlook.com
+ (2603:10b6:408:43::13)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87k056dekm.wl-tiwai@suse.de>
-X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_EF,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
-        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|DM4PR12MB6253:EE_
+X-MS-Office365-Filtering-Correlation-Id: adcf3cf4-81f6-4d84-04a7-08dac7ca586c
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: LXMS2AJFJF99ryrhkhjrCJzOGhkZqfebRkuI2ybHze7AIH8Whu1LmW+iTRYLrbyJimSp81Y3ch1uHEb+jyc5fxzvl4v6bgRorTV6Avt+WdjAgytqCsrCmmzHUYBky6KSlzgIwzTytfjRGtOJmCJ0p6alEnrDmmsKpgDzpMudKmgZGDsIHFN5O+DyzILfyevUngK+VE2m0n2zO1KMI8MRWX/xunaObAxwZs8xPDeT3TtpQLxejlC0Hf+iOwp3YgZkJnB88Z7C/NWlha1ouANp8/SiO63eqBpqto61Wmp45ETb/uvDhVM83h7hhUopvg2s5h6di1FwSQSIsbmOJUWwTVD9Obj3L8HTA9OOI/x/SWyfa9CRoc+LE08AULkD0eWpuh4qgVPv+4AkUD6ST4mssW+4t6zqWZAbZgrHjRthFan71QfdVePBClDMLpEWNvJtZYHPlLR4ZOWWTbM3BjCjUTYCc595NmWEEAL5/nIIu/emEAbFJteRAsNIARXSfQYtlZEYbgG5jfunLvTBGndfa0SUTU6cOj88qaCR9W2NfZWI471wExUnGo60aHHUrmtgY9E3o7IyzwhBsbxDeEXuS3nsDdFV0fAiObXfaolNJQR8M5QN4oOr+yhHeoIUq04K2izhEiJ1DCsPrmXhoRi9scg7eoVPue5n/W2cqYq4O7GUxnID5QDMWUeK7XH1r7ApPjX14bH2jj+Hg5F8MUI7kdK+pKs4ZZ0Lo+qA2qMB8h9gGwaF5NN6IfvA3ugnRFnQdvMtcsIaHF/795QHOxxdnsoAOv6q8EXVdoqCldxyEB4Ql4lQSuCeIrJy8HlBhLDmS9CvHhyAADQoR6hjr6aBkwqDpS63yiY1RgDG8rKcS/KQ7+IXQR7LfvZ9r02+PxzA
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN8PR12MB3587.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(39860400002)(136003)(366004)(396003)(346002)(376002)(451199015)(38100700002)(5660300002)(41300700001)(31696002)(86362001)(316002)(966005)(478600001)(6486002)(8936002)(66556008)(54906003)(6666004)(66476007)(8676002)(4326008)(7416002)(66946007)(110136005)(6512007)(83380400001)(186003)(2906002)(6506007)(66574015)(2616005)(36756003)(31686004)(66899015)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?TnYrRkZFMHBONUc5Mk1SM3BUVVVJYUZjNHNoVk1RTFlUU1ViZGN3TXJadjA0?=
+ =?utf-8?B?VUZ4bFJoRHFSNWFOOEJjWG10YTdhSE5ZcllYemJsOElOMjY2WkNRb3R5Ynl0?=
+ =?utf-8?B?Tkh6cmN1UWVubHFnQUpyT1Z2dUlIZGVONERxMkQ4QmZsKzE5YkJlSnJXam82?=
+ =?utf-8?B?QjZEVTlRL3FwSU9YMDU5bTNvNS95QUtCZVlsK001eGJ3Q1pjaHBEYThHTXRF?=
+ =?utf-8?B?L2VhZWNTeEM3Wm5PRlhnaTJLeDI4K2NaeDJtS2MyL1ArRENzcGRqcDBxeEU4?=
+ =?utf-8?B?b2pMU1kvWVNZVmpmeWxJYzB4R3hDd3YvUHRieThnbU5pRWF6UlpTS2tNSC9B?=
+ =?utf-8?B?a1JQU0ptQUhGR0VqTTZ2ZEd6MXh6SGxVdDFVOWREZDdJTzdPZDlBYVpucktx?=
+ =?utf-8?B?VE05Uk41dzU1bU0xelZZZVV2YVpNVnpnblV0VzdsMjhiT1pwbGROK3RlTWNV?=
+ =?utf-8?B?S3FFUFRXUHg0M1N0L1ZmZTVHdExkWnV1UTgweVI2eEF3TFpXQ0ZNRjlDK2la?=
+ =?utf-8?B?WXkyR1VCdzNmSSszc25yMUtMME1QRmtmekg3aUhBTE1SUHU4Qkx1VExtcUVv?=
+ =?utf-8?B?Rm1YZzQ4WDBjMmt5bWNod2xHRzV4QXEzdTlnN1F1QTFlU1VxWnhtU0w0bWVz?=
+ =?utf-8?B?eXdwemErR0xLNVpTcDcycnQzUDR4a3g3dGRrbzUyNjQweDRNd25ITTMwVHpw?=
+ =?utf-8?B?SDMvMnJmNDloOHJscVlZZHp5eGZHbExURStIN2grclJDRFN3ZVJxTkFIQnhF?=
+ =?utf-8?B?cTlZcFNKQ0gxNTVrUXlZeTdXTWd1TWtHdktOa2pVMlQvSm9OTWhNeS9pakxT?=
+ =?utf-8?B?VWQ3dTk5elM3bEVzQUNXN215WXBSM09vWnFjOVFXd1ExQ2lPbVZOMWlwYjRS?=
+ =?utf-8?B?S2pUTU9vbGdLdi9UWitTYllleXlFR25KU2dqUWxHV1ZySmVaOTN4c1JqdW94?=
+ =?utf-8?B?bUhUU2I1T2VuUnlQT1RqZEtBb0dyU0ZPMkFMYUxZRGZjU0tlQnNHNmM1SGc4?=
+ =?utf-8?B?V0VMYmx0eVpjTUpOS1NPRmN0eEExcDVhWHg1N2xqNnJTZUdaMVMxdCszcjdE?=
+ =?utf-8?B?N1VaUkthQlNpcHJPS0lFZ2U0bENHVDdVQkZQdW5yZjlDWkhRb1F6bEhUTEdp?=
+ =?utf-8?B?SWVxU2svQm0yT3YzNXNxVERTVGsrcXkwN3YwVFI4b3RzUHF4V0IxNzJqa2F3?=
+ =?utf-8?B?bXR0aXJmTSsyZkx3L05tS3NFdDB4REE1R2xlYzZnZmRWZG9hNXZjNVcxVytO?=
+ =?utf-8?B?Y2VBRjh4TjJpUFVHSXpGYzFpYVA5ZHFBcVIvSHYydmNueGJFUEFBV1dpSkh0?=
+ =?utf-8?B?S3ZYYXVZenBYQzRZdk12TzY3TUlCR0ZzZmJCdmw0VE50Q1lpbnhITlRYejRI?=
+ =?utf-8?B?amVBL0JJVDM1REU5bUtjdG5UR1pJQ3FET2RIeGRGSitzTDNQQThzOVpLQlh6?=
+ =?utf-8?B?Ukl5M244V1lhTUJ6c0lGZFl3c0xwSTFFdzVTMWNjVGRMTDI4Y3pQMkdibkcx?=
+ =?utf-8?B?NlplWWsvdFNHTDZ5Q0MwdElQTGVJcnRnekVmd2w2dGh5UEZFSXo3NnhYcGNO?=
+ =?utf-8?B?SnBoSHdxTXY4VXljanpSTmR4Wld0UDBlYXpQNHl0dHJUY0ZvdnMvaERIN0hC?=
+ =?utf-8?B?a1NWRmFMd0tzWENZZWdIakV5bjF6SWc2emF1UTRHTytkT2luVVBNRnRFb3J2?=
+ =?utf-8?B?emgrSHMyY0hGK3BHOUU1SFBtUTN6VXdqeVVEY0Y2akpQenM4ZWFzaSsxdjFm?=
+ =?utf-8?B?ZXlNRUNCUjVLMkJ2ZHNjOU1IdGFYVHZ1T3NFM0RROEJ5aVlodUtWYUdUcEY2?=
+ =?utf-8?B?ZDdCMHNsS2p6RVlLdVBLdVpPUldqQWpXRGZvUDROYTFPdUVxNW9zck9mZVlN?=
+ =?utf-8?B?UUY0YkdUWVA1ditMYnh3eTdnRGpWZVUyUENMTDcwRmh0V0QzVyt5M1ZzNE5p?=
+ =?utf-8?B?SWhJWUh0Q3V0bkdWWTZTZlNUTndwK0tpRkhJQkxJSTQ0Sm5UWDNPc2dTR0Yz?=
+ =?utf-8?B?akQwQ2dITitBMi94eitnVjVKWW1UMm15eXNnd25YSC9kZEJnZWdMUTNSUjNU?=
+ =?utf-8?B?QytxaCtkUnBxTzR6R1V1djZxT21yTjcxdzhQZEFPSzE3V2h5T0U4ZC9YTUFY?=
+ =?utf-8?B?SFZlRFlJOVp0ekh1MGxMUlhLYmlJZFhnTGVIQmZpMnVoQWR3WW9UQ2ZuV0p2?=
+ =?utf-8?Q?56RoPh8CKpp5AgweytLtEKMhJxicZVHDYpki8yLPOaMn?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: adcf3cf4-81f6-4d84-04a7-08dac7ca586c
+X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Nov 2022 12:01:50.9954
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: sXJE7KgMJHQkprm7BCH2y/FOMtxo7dalV+sx9Dsg99oPO5BKXnWEMeEL7V31zYK4
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB6253
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+Am 15.11.22 um 21:04 schrieb Lukasz Wiecaszek:
+> The reason behind that patch is associated with videobuf2 subsystem
+> (or more genrally with v4l2 framework) and user created
+> dma buffers (udmabuf). In some circumstances
+> when dealing with V4L2_MEMORY_DMABUF buffers videobuf2 subsystem
+> wants to use dma_buf_vmap() method on the attached dma buffer.
+> As udmabuf does not have .vmap operation implemented,
+> such dma_buf_vmap() natually fails.
+>
+> videobuf2_common: __vb2_queue_alloc: allocated 3 buffers, 1 plane(s) each
+> videobuf2_common: __prepare_dmabuf: buffer for plane 0 changed
+> videobuf2_common: __prepare_dmabuf: failed to map dmabuf for plane 0
+> videobuf2_common: __buf_prepare: buffer preparation failed: -14
+>
+> The patch itself seems to be strighforward.
+> It adds implementation of .vmap and .vunmap methods
+> to 'struct dma_buf_ops udmabuf_ops'.
+> .vmap method itself uses vm_map_ram() to map pages linearly
+> into the kernel virtual address space.
+> .vunmap removes mapping created earlier by .vmap.
+> All locking and 'vmapping counting' is done in dma_buf.c
+> so it seems to be redundant/unnecessary in .vmap/.vunmap.
+>
+> Signed-off-by: Lukasz Wiecaszek <lukasz.wiecaszek@gmail.com>
 
-On Tue, Oct 11, 2022 at 09:06:33AM +0200, Takashi Iwai wrote:
-> On Wed, 21 Sep 2022 09:34:30 +0200,
-> Takashi Iwai wrote:
-> > 
-> > On Thu, 08 Sep 2022 15:27:54 +0200,
-> > Takashi Iwai wrote:
-> > > 
-> > > The dvb-core tries to sync the releases of opened files at
-> > > dvb_dmxdev_release() with two refcounts: dvbdev->users and
-> > > dvr_dvbdev->users.  A problem is present in those two syncs: when yet
-> > > another dvb_demux_open() is called during those sync waits,
-> > > dvb_demux_open() continues to process even if the device is being
-> > > closed.  This includes the increment of the former refcount, resulting
-> > > in the leftover refcount after the sync of the latter refcount at
-> > > dvb_dmxdev_release().  It ends up with use-after-free, since the
-> > > function believes that all usages were gone and releases the
-> > > resources.
-> > > 
-> > > This patch addresses the problem by adding the check of dmxdev->exit
-> > > flag at dvb_demux_open(), just like dvb_dvr_open() already does.  With
-> > > the exit flag check, the second call of dvb_demux_open() fails, hence
-> > > the further corruption can be avoided.
-> > > 
-> > > Also for avoiding the races of the dmxdev->exit flag reference, this
-> > > patch serializes the dmxdev->exit set up and the sync waits with the
-> > > dmxdev->mutex lock at dvb_dmxdev_release().  Without the mutex lock,
-> > > dvb_demux_open() (or dvb_dvr_open()) may run concurrently with
-> > > dvb_dmxdev_release(), which allows to skip the exit flag check and
-> > > continue the open process that is being closed.
-> > > 
-> > > Reported-by: Hyunwoo Kim <imv4bel@gmail.com>
-> > > Cc: <stable@vger.kernel.org>
-> > > Signed-off-by: Takashi Iwai <tiwai@suse.de>
-> > 
-> > Any review on this?
-> > 
-> > FWIW, now CVE-2022-41218 is assigned for those bugs as a security
-> > issue.
-> 
-> A gentle ping again.
-> 
-> Or if any other fix for this security issue is already available,
-> please let me know.
+> Reported-by: kernel test robot <lkp@intel.com>
 
-is this correct, the fix is yet missing (or was it fixed by other
-means?).
+Please drop this line, the kernel test robot should only be mentioned if 
+the original report came from it.
+
+And keep in mind that it might be necessary to implement begin/end cpu 
+access callbacks as well.
+
+Apart from that the patch is Acked-by: Christian König 
+<christian.koenig@amd.com>.
 
 Regards,
-Salvatore
+Christian.
 
-> > 
-> > > ---
-> > >  drivers/media/dvb-core/dmxdev.c | 8 ++++++++
-> > >  1 file changed, 8 insertions(+)
-> > > 
-> > > diff --git a/drivers/media/dvb-core/dmxdev.c b/drivers/media/dvb-core/dmxdev.c
-> > > index f6ee678107d3..9ce5f010de3f 100644
-> > > --- a/drivers/media/dvb-core/dmxdev.c
-> > > +++ b/drivers/media/dvb-core/dmxdev.c
-> > > @@ -790,6 +790,11 @@ static int dvb_demux_open(struct inode *inode, struct file *file)
-> > >  	if (mutex_lock_interruptible(&dmxdev->mutex))
-> > >  		return -ERESTARTSYS;
-> > >  
-> > > +	if (dmxdev->exit) {
-> > > +		mutex_unlock(&dmxdev->mutex);
-> > > +		return -ENODEV;
-> > > +	}
-> > > +
-> > >  	for (i = 0; i < dmxdev->filternum; i++)
-> > >  		if (dmxdev->filter[i].state == DMXDEV_STATE_FREE)
-> > >  			break;
-> > > @@ -1448,7 +1453,10 @@ EXPORT_SYMBOL(dvb_dmxdev_init);
-> > >  
-> > >  void dvb_dmxdev_release(struct dmxdev *dmxdev)
-> > >  {
-> > > +	mutex_lock(&dmxdev->mutex);
-> > >  	dmxdev->exit = 1;
-> > > +	mutex_unlock(&dmxdev->mutex);
-> > > +
-> > >  	if (dmxdev->dvbdev->users > 1) {
-> > >  		wait_event(dmxdev->dvbdev->wait_queue,
-> > >  				dmxdev->dvbdev->users == 1);
-> > > -- 
-> > > 2.35.3
-> > > 
-> 
+> ---
+> v1: https://lore.kernel.org/linux-media/202211120352.G7WPASoP-lkp@intel.com/T/#t
+> v2: https://lore.kernel.org/linux-media/20221114052944.GA7264@thinkpad-p72/T/#t
+>
+> v2 -> v3: Added .vunmap to 'struct dma_buf_ops udmabuf_ops'
+> v1 -> v2: Patch prepared and tested against 6.1.0-rc2+
+>
+>   drivers/dma-buf/udmabuf.c | 28 ++++++++++++++++++++++++++++
+>   1 file changed, 28 insertions(+)
+>
+> diff --git a/drivers/dma-buf/udmabuf.c b/drivers/dma-buf/udmabuf.c
+> index 283816fbd72f..740d6e426ee9 100644
+> --- a/drivers/dma-buf/udmabuf.c
+> +++ b/drivers/dma-buf/udmabuf.c
+> @@ -13,6 +13,8 @@
+>   #include <linux/slab.h>
+>   #include <linux/udmabuf.h>
+>   #include <linux/hugetlb.h>
+> +#include <linux/vmalloc.h>
+> +#include <linux/iosys-map.h>
+>   
+>   static int list_limit = 1024;
+>   module_param(list_limit, int, 0644);
+> @@ -60,6 +62,30 @@ static int mmap_udmabuf(struct dma_buf *buf, struct vm_area_struct *vma)
+>   	return 0;
+>   }
+>   
+> +static int vmap_udmabuf(struct dma_buf *buf, struct iosys_map *map)
+> +{
+> +	struct udmabuf *ubuf = buf->priv;
+> +	void *vaddr;
+> +
+> +	dma_resv_assert_held(buf->resv);
+> +
+> +	vaddr = vm_map_ram(ubuf->pages, ubuf->pagecount, -1);
+> +	if (!vaddr)
+> +		return -EINVAL;
+> +
+> +	iosys_map_set_vaddr(map, vaddr);
+> +	return 0;
+> +}
+> +
+> +static void vunmap_udmabuf(struct dma_buf *buf, struct iosys_map *map)
+> +{
+> +	struct udmabuf *ubuf = buf->priv;
+> +
+> +	dma_resv_assert_held(buf->resv);
+> +
+> +	vm_unmap_ram(map->vaddr, ubuf->pagecount);
+> +}
+> +
+>   static struct sg_table *get_sg_table(struct device *dev, struct dma_buf *buf,
+>   				     enum dma_data_direction direction)
+>   {
+> @@ -162,6 +188,8 @@ static const struct dma_buf_ops udmabuf_ops = {
+>   	.unmap_dma_buf	   = unmap_udmabuf,
+>   	.release	   = release_udmabuf,
+>   	.mmap		   = mmap_udmabuf,
+> +	.vmap		   = vmap_udmabuf,
+> +	.vunmap		   = vunmap_udmabuf,
+>   	.begin_cpu_access  = begin_cpu_udmabuf,
+>   	.end_cpu_access    = end_cpu_udmabuf,
+>   };
+
