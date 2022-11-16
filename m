@@ -2,61 +2,61 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8810962C4EF
-	for <lists+linux-media@lfdr.de>; Wed, 16 Nov 2022 17:43:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3AECA62C4EB
+	for <lists+linux-media@lfdr.de>; Wed, 16 Nov 2022 17:42:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233330AbiKPQm6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 16 Nov 2022 11:42:58 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53288 "EHLO
+        id S233540AbiKPQms (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 16 Nov 2022 11:42:48 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53330 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239193AbiKPQmN (ORCPT
+        with ESMTP id S239000AbiKPQmd (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 16 Nov 2022 11:42:13 -0500
-Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com [IPv6:2a00:1450:4864:20::636])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 25ABE63BB6
-        for <linux-media@vger.kernel.org>; Wed, 16 Nov 2022 08:38:14 -0800 (PST)
-Received: by mail-ej1-x636.google.com with SMTP id i10so36792217ejg.6
-        for <linux-media@vger.kernel.org>; Wed, 16 Nov 2022 08:38:14 -0800 (PST)
+        Wed, 16 Nov 2022 11:42:33 -0500
+Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com [IPv6:2a00:1450:4864:20::62f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2879A58BF2
+        for <linux-media@vger.kernel.org>; Wed, 16 Nov 2022 08:38:40 -0800 (PST)
+Received: by mail-ej1-x62f.google.com with SMTP id i10so36795312ejg.6
+        for <linux-media@vger.kernel.org>; Wed, 16 Nov 2022 08:38:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
          :user-agent:mime-version:date:message-id:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=VclT7vvf0dI+l8CkSP/7RjqLFuy9gBOsH5fGyEBkubw=;
-        b=lFxi63713nmUAmsMHoYEpbdyTce8URtFcKQKjcE4hQjNOyJkLYd9xL44dcgZKik1mZ
-         XE0gxkpefYum0LllqLjuefERIm/vNGLZ3PaCDTTY9gVpbJhrbB7Llx/NZZw0EE0J8AkG
-         q5F5hB7FYQXoYWiz324BSXWYzru8MVRygqgdVQs0QLnDYJrObQfbYqpzNOtoW7hcS+JH
-         oogCaTY326Z+NWNlt7bEnNtPB4/O+wHljEP9d9JIg7KzmrgxU2gSgfYjeyOVqAH7Zi0d
-         EoDbBjWjc3W0WUqQFoyh6Vf8Sj0c42pvZUyXMqM5bViuCtLepz2UOzo7jgHRrSVxbniU
-         kLjA==
+        bh=YfQDGT6R1zLF2Oy7Ehp9rzHcZaDotWmnvHUFLRH62Qs=;
+        b=eOqihTHSsLpvjGBrNlv6S0iTYi2H3XEIwFTkYZHgnEsXXqFUG44tyhlNgwipWVgtZU
+         s3M3cL8oxF9bt/BlJWAsSecFwXIt2dPj7ratY9zSv4LJGVNkiKeKk8eXiguKGJomMder
+         VkYJd4VcVyCk09wVcnwQqcMsrH4xOzfhw4BTcLYub9xx1QTxsEM6XKNiNuuvx7WmFJ3i
+         nGNmGzGzKjEHiooDPCabn3skkfeABKU+NfDlmmsZWTOJpP1h1Q16zS0Is1L9ftU8bKrp
+         KrRePDG+XUYp7RdNq3IB9LQF+IwjN/Mosrecu9NfDzihdpUw6UoHt1hgYBa13GP5Rb14
+         fSMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
          :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=VclT7vvf0dI+l8CkSP/7RjqLFuy9gBOsH5fGyEBkubw=;
-        b=laLVvzwBHhBR7D1+sJKaGW62EkvffAg8BoFgmc+29KvVlArNTDBsFHdM4ScpPG8Y5/
-         uclFzSSkA+q8QiNwLXh9G5kuD91sGYgiUNX2+RFf1/Ad3SptP0mdjAwXPDTGnoclKvng
-         yfMDgHqySqb8a42iV9hED59BmbhN6oQeDJ7B7VkH9VshcOcJ5YJCINX4uitIouX3w3Lu
-         IYsQO+wJykMAbu8JfCrt9yVvKISPo+RnXTtht9reIJyaNukFydUB3vLpH9eHPX2ffi+2
-         oZNLndviBbA0Cw++4sTIaJbT7xiZMxSpQfY+NN69qvmPv49Gt7fdo9mhTtNrkCXqmG8n
-         jD/w==
-X-Gm-Message-State: ANoB5pldk2FsFRjwQu//79gNDGqI6qbll9JGrXLbHC2zM05eH1YsPIYg
-        0YlMnakLdMf+OBlaZL8lfzXvrA==
-X-Google-Smtp-Source: AA0mqf6y42V3OPbz2Rcbi8RdJ+5M6OqD0ZkUoEo/soxiAikCT0tQAs+EMmEHDRO8+W/qeS3LD1TL6Q==
-X-Received: by 2002:a17:906:7fc6:b0:7ad:c66e:ad9d with SMTP id r6-20020a1709067fc600b007adc66ead9dmr17684238ejs.413.1668616692761;
-        Wed, 16 Nov 2022 08:38:12 -0800 (PST)
+        bh=YfQDGT6R1zLF2Oy7Ehp9rzHcZaDotWmnvHUFLRH62Qs=;
+        b=wEBlYLLd9L9M69xPhvUoLC/9ZI0AtRMAulWYEGk0jf5qVnXHtKTIHlFQlfy2wEwfLk
+         fXKYcV2jIyFOXa86iEV4ty4VxNIgYqNwrPsk8gjJ6qSN2AP6CC74YnKNkEU6uIhbMkjD
+         TuQs+0VCGa9wWF42MoXNoAXny6jiBxAoEFLUBuYRgOZBMldUPLNHKuxeu2S3vb+MNiXK
+         DS3ZaLMLTU81+BTYd3SRHEwBq62DyEoqD4MHqBlDs3KKA/pwWW4EkpKk8ZiqtwUeXERy
+         BwK7uPrR87uwJwSpKOTLbTHyGPjSkLetk2j3mqbicSIbOAysVaDn8nxp2LvgUkh2qLTf
+         8nIg==
+X-Gm-Message-State: ANoB5pkAlm8fXFC6rr9siUzs4q8mz52t3eUUfOqj5AneWEhQIY8ui3nD
+        ruLh89JaA22ijLaTQNltdrHUJQ==
+X-Google-Smtp-Source: AA0mqf6qWZtMXPzt9VQ/gUELXq1NQKxvRgvnG6c8O6RhRyRPqVMu6+j2aeaYJ8g8wYt23utY1cgPbg==
+X-Received: by 2002:a17:906:ae53:b0:78b:15dc:2355 with SMTP id lf19-20020a170906ae5300b0078b15dc2355mr18101034ejb.306.1668616718631;
+        Wed, 16 Nov 2022 08:38:38 -0800 (PST)
 Received: from [192.168.31.208] ([194.29.137.22])
-        by smtp.gmail.com with ESMTPSA id kv17-20020a17090778d100b007aece68483csm6556028ejc.193.2022.11.16.08.38.11
+        by smtp.gmail.com with ESMTPSA id kv20-20020a17090778d400b007adf125cde4sm7218190ejc.13.2022.11.16.08.38.37
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 16 Nov 2022 08:38:12 -0800 (PST)
-Message-ID: <edf7fb9c-8414-8d53-5e28-4241d54f56a9@linaro.org>
-Date:   Wed, 16 Nov 2022 17:38:04 +0100
+        Wed, 16 Nov 2022 08:38:38 -0800 (PST)
+Message-ID: <54808a37-a1e9-1bf0-1767-2a20a5395d80@linaro.org>
+Date:   Wed, 16 Nov 2022 17:38:30 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.4.2
-Subject: Re: [PATCH v6 1/7] arm64: dts: qcom: sdm845: Define the number of
- available ports
+Subject: Re: [PATCH v6 3/7] arm64: dts: qcom: sdm845-db845c: Drop redundant
+ reg = in port
 To:     Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
         robert.foss@linaro.org, todor.too@gmail.com, agross@kernel.org,
         andersson@kernel.org, mchehab@kernel.org, robh+dt@kernel.org,
@@ -67,15 +67,14 @@ Cc:     sakari.ailus@iki.fi, hverkuil@xs4all.nl,
         linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
         devicetree@vger.kernel.org
 References: <20221116162801.546737-1-bryan.odonoghue@linaro.org>
- <20221116162801.546737-2-bryan.odonoghue@linaro.org>
+ <20221116162801.546737-4-bryan.odonoghue@linaro.org>
 From:   Konrad Dybcio <konrad.dybcio@linaro.org>
-In-Reply-To: <20221116162801.546737-2-bryan.odonoghue@linaro.org>
+In-Reply-To: <20221116162801.546737-4-bryan.odonoghue@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -85,41 +84,25 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 
 On 16/11/2022 17:27, Bryan O'Donoghue wrote:
-> The number of available ports is SoC specific so we should define it in the
-> SoC dtsi. For the case of the sdm845 that is 4 CSI PHYs => four ports.
+> The reg for the port is specified in the dtsi. Remove from the db845c dts.
 > 
 > Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 > ---
 Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 
 Konrad
->   arch/arm64/boot/dts/qcom/sdm845.dtsi | 16 ++++++++++++++++
->   1 file changed, 16 insertions(+)
+>   arch/arm64/boot/dts/qcom/sdm845-db845c.dts | 1 -
+>   1 file changed, 1 deletion(-)
 > 
-> diff --git a/arch/arm64/boot/dts/qcom/sdm845.dtsi b/arch/arm64/boot/dts/qcom/sdm845.dtsi
-> index 1a257f6728874..29e6d64e74c97 100644
-> --- a/arch/arm64/boot/dts/qcom/sdm845.dtsi
-> +++ b/arch/arm64/boot/dts/qcom/sdm845.dtsi
-> @@ -4368,6 +4368,22 @@ camss: camss@a00000 {
->   			ports {
->   				#address-cells = <1>;
->   				#size-cells = <0>;
-> +
-> +				port@0 {
-> +					reg = <0>;
-> +				};
-> +
-> +				port@1 {
-> +					reg = <1>;
-> +				};
-> +
-> +				port@2 {
-> +					reg = <2>;
-> +				};
-> +
-> +				port@3 {
-> +					reg = <3>;
-> +				};
->   			};
->   		};
+> diff --git a/arch/arm64/boot/dts/qcom/sdm845-db845c.dts b/arch/arm64/boot/dts/qcom/sdm845-db845c.dts
+> index 7c88312333c22..8a98f3e86b41d 100644
+> --- a/arch/arm64/boot/dts/qcom/sdm845-db845c.dts
+> +++ b/arch/arm64/boot/dts/qcom/sdm845-db845c.dts
+> @@ -1186,7 +1186,6 @@ &camss {
 >   
+>   	ports {
+>   		port@0 {
+> -			reg = <0>;
+>   			csiphy0_ep: endpoint {
+>   				data-lanes = <0 1 2 3>;
+>   				remote-endpoint = <&ov8856_ep>;
