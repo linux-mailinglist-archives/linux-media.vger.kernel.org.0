@@ -2,192 +2,119 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E8BC562CB5F
-	for <lists+linux-media@lfdr.de>; Wed, 16 Nov 2022 21:48:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8017062CDEF
+	for <lists+linux-media@lfdr.de>; Wed, 16 Nov 2022 23:43:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233756AbiKPUsR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 16 Nov 2022 15:48:17 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60324 "EHLO
+        id S234501AbiKPWn3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 16 Nov 2022 17:43:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59712 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233486AbiKPUsL (ORCPT
+        with ESMTP id S234182AbiKPWnQ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 16 Nov 2022 15:48:11 -0500
-Received: from mail-lj1-x22b.google.com (mail-lj1-x22b.google.com [IPv6:2a00:1450:4864:20::22b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D7FA61757;
-        Wed, 16 Nov 2022 12:48:10 -0800 (PST)
-Received: by mail-lj1-x22b.google.com with SMTP id x21so23406348ljg.10;
-        Wed, 16 Nov 2022 12:48:10 -0800 (PST)
+        Wed, 16 Nov 2022 17:43:16 -0500
+Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com [IPv6:2607:f8b0:4864:20::629])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 11F006BDCB
+        for <linux-media@vger.kernel.org>; Wed, 16 Nov 2022 14:43:15 -0800 (PST)
+Received: by mail-pl1-x629.google.com with SMTP id b21so17782212plc.9
+        for <linux-media@vger.kernel.org>; Wed, 16 Nov 2022 14:43:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlemail.com; s=20210112;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:date:from:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=6JrqJ6Sbn/mpwug3ot31DQ5jlBaAKyV9UfORVKR2Mss=;
-        b=ae8G2P4a+COzSBWklcw0bHYPAGArR/ipKsW+u7fiYxLC5RpiZCMPR1nP6paPHPtTU+
-         ixAtrPPkYXbQrKfG9JJYkVYljE/UarocqtY2NdpjfKE/yG+428aRbIWnx8d23Nbgngem
-         03e0erDFegoKeZ43KUMQmwfav4coOnd7KBBFBNxo/+2jdxIkFW/kgI3aW8cwEaDubHWz
-         VW6GaCciKF2TAdB14poivTQIW0ORCgyvavOMn59cxTTT7hkGEXlT1JRgnxxWahYX3oCj
-         zFfb2hQCOlTpnhIxRLUJq3uz7DGJW4p/zHMlSmf1UqgBuzLCY3UyXYDvx9/fs5eBxPWR
-         VBBA==
+        d=chromium.org; s=google;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Wf2gFJO0eZI55pjXm8OYjMYkGLte7QuRao7+IuvSaqE=;
+        b=D2amVl9V9KQfzLW2zaIS23IBouuPji7hB+OAx+ZhW9BBCDB5OKBikMdNxb0VPTDxJj
+         csClJ0YRCWBC/mBx5CM8cmRfxBeg4UGIi36VQSyP9C8PzSygpHTtXYMcx806fNdiiKsi
+         DAssScFkYAwJ1pFNUcIn3ZWqN1hBHz6LpWnys=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:date:from
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=6JrqJ6Sbn/mpwug3ot31DQ5jlBaAKyV9UfORVKR2Mss=;
-        b=GkUsu7oxRD8SKkiAUIJJRIRCIksqN8MszfjMH4A9Hyb6tmDsXAE6nfv5ymIGKts8fv
-         bt0dRmT3FXmZe+oZwZu064HqszysEegJrVT1V9/MxzYMT5tJkMVMkCui2O4iQOOuDTJM
-         6yldyFD5Z2jfOsOWfqoPzrMQZznSJuD5ICkX0Xz3z/PczBM+hE0nxslybIDcSSCK4XAu
-         fxLf0W425vHwD7mfHZkes3TJrNKjuS2L+bWn+03mxpp+kxjBXNFw7eIia1LdKBEQ2g+n
-         XEXfOQd1Jbgq42q69goRKPLlVDRoPeINUhEZ/EzCVpEUtOBNr/qaKv0tMOseKvCJtfvG
-         sotQ==
-X-Gm-Message-State: ANoB5pnbvsatvchgY6OexzyhvjYV02EcxYhMzNN35kcQ40gVXrGHEEF3
-        XilQ9Ik6hbY6gZFEU4668HkTn5E/5jM1oQ==
-X-Google-Smtp-Source: AA0mqf7c2zjF447ne46/zGiLbIu4u1JQD5e98fP8HM3pjr3ANuBHPVYOBUVr94QMa4CkrW+Ny/1oPw==
-X-Received: by 2002:a2e:9103:0:b0:278:fa62:bc90 with SMTP id m3-20020a2e9103000000b00278fa62bc90mr6506ljg.360.1668631688223;
-        Wed, 16 Nov 2022 12:48:08 -0800 (PST)
-Received: from thinkpad-p72 (user-5-173-65-115.play-internet.pl. [5.173.65.115])
-        by smtp.gmail.com with ESMTPSA id n1-20020ac24901000000b004b4823f02b0sm2759613lfi.152.2022.11.16.12.48.06
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Wf2gFJO0eZI55pjXm8OYjMYkGLte7QuRao7+IuvSaqE=;
+        b=5RnD6DzyV888ECdWdXRlmQfXNE963MroyAy56BiIdCtDSkLnx6k7jF0huFH+DoX9so
+         qraGw6woDJwIEPR9dkLGKATyxrFFqlN14mqK9xqQvrWdURdxPfgd677SLgBJ3S+zgfsk
+         f2zxTLEALPoD1S1USFbXhwvWkFPI7sXrcEz9MHDj9OsBJGf8EdYkUtQ7bcXS8o4BXUjS
+         iMD3sHSWxnUaDHAqycqqJPKntraYihsrKqmuh6grYX0gK0oZR3D4foXULf9YLsPPglTf
+         8divqfbmJUn5Pi2S95z3nYrxT/oMrD/DGNNPOVO/O4x0DUw5uDs9OzBhw2FxQ8/FUr8J
+         EYCQ==
+X-Gm-Message-State: ANoB5pmqB3xQ6+6+KaP9kiQRmKH0rt6mYxslE9YiTiHNKhIho1CD0JMr
+        eyZKpBN26JJuR65KQpvQfvTJCw==
+X-Google-Smtp-Source: AA0mqf5VxV4Cbn3MvfOzCKh9TKzLZskissYVmNmiO/kVOhEqnlwi5i8J4bomSjPXRjnnkIIEn4wz5w==
+X-Received: by 2002:a17:90b:3c42:b0:213:1ce7:d962 with SMTP id pm2-20020a17090b3c4200b002131ce7d962mr6007688pjb.63.1668638594628;
+        Wed, 16 Nov 2022 14:43:14 -0800 (PST)
+Received: from www.outflux.net (198-0-35-241-static.hfc.comcastbusiness.net. [198.0.35.241])
+        by smtp.gmail.com with ESMTPSA id a9-20020a170902710900b00183c6784704sm12680746pll.291.2022.11.16.14.43.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Nov 2022 12:48:07 -0800 (PST)
-From:   Lukasz Wiecaszek <lukasz.wiecaszek@googlemail.com>
-X-Google-Original-From: Lukasz Wiecaszek <lukasz.wiecaszek@gmail.com>
-Date:   Wed, 16 Nov 2022 21:48:04 +0100
-To:     Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Cc:     Lukasz Wiecaszek <lukasz.wiecaszek@googlemail.com>,
-        Gerd Hoffmann <kraxel@redhat.com>,
-        Dmitry Osipenko <dmitry.osipenko@collabora.com>,
-        kernel test robot <lkp@intel.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
-        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] udmabuf: add vmap and vunmap methods to udmabuf_ops
-Message-ID: <20221116204804.GA22663@thinkpad-p72>
-References: <20221115200426.4801-1-lukasz.wiecaszek@gmail.com>
- <b715cb83-32f1-a33b-a0c2-b779011151c0@amd.com>
+        Wed, 16 Nov 2022 14:43:14 -0800 (PST)
+Date:   Wed, 16 Nov 2022 14:43:13 -0800
+From:   Kees Cook <keescook@chromium.org>
+To:     "Jason A. Donenfeld" <Jason@zx2c4.com>
+Cc:     linux-kernel@vger.kernel.org, patches@lists.linux.dev,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Russell King <linux@armlinux.org.uk>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        Christoph =?iso-8859-1?Q?B=F6hmwalder?= 
+        <christoph.boehmwalder@linbit.com>,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Jason Gunthorpe <jgg@nvidia.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        "Martin K . Petersen" <martin.petersen@oracle.com>,
+        Theodore Ts'o <tytso@mit.edu>,
+        Andreas Dilger <adilger.kernel@dilger.ca>,
+        Jaegeuk Kim <jaegeuk@kernel.org>,
+        Richard Weinberger <richard@nod.at>,
+        "Darrick J . Wong" <djwong@kernel.org>,
+        SeongJae Park <sj@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Helge Deller <deller@gmx.de>, netdev@vger.kernel.org,
+        linux-crypto@vger.kernel.org, linux-block@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, loongarch@lists.linux.dev,
+        linux-mips@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        linux-mmc@vger.kernel.org, linux-parisc@vger.kernel.org
+Subject: Re: [PATCH v2 3/3] treewide: use get_random_u32_between() when
+ possible
+Message-ID: <202211161436.A45AD719A@keescook>
+References: <20221114164558.1180362-1-Jason@zx2c4.com>
+ <20221114164558.1180362-4-Jason@zx2c4.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <b715cb83-32f1-a33b-a0c2-b779011151c0@amd.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+In-Reply-To: <20221114164558.1180362-4-Jason@zx2c4.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Nov 16, 2022 at 01:01:46PM +0100, Christian König wrote:
-> Am 15.11.22 um 21:04 schrieb Lukasz Wiecaszek:
-> > The reason behind that patch is associated with videobuf2 subsystem
-> > (or more genrally with v4l2 framework) and user created
-> > dma buffers (udmabuf). In some circumstances
-> > when dealing with V4L2_MEMORY_DMABUF buffers videobuf2 subsystem
-> > wants to use dma_buf_vmap() method on the attached dma buffer.
-> > As udmabuf does not have .vmap operation implemented,
-> > such dma_buf_vmap() natually fails.
-> > 
-> > videobuf2_common: __vb2_queue_alloc: allocated 3 buffers, 1 plane(s) each
-> > videobuf2_common: __prepare_dmabuf: buffer for plane 0 changed
-> > videobuf2_common: __prepare_dmabuf: failed to map dmabuf for plane 0
-> > videobuf2_common: __buf_prepare: buffer preparation failed: -14
-> > 
-> > The patch itself seems to be strighforward.
-> > It adds implementation of .vmap and .vunmap methods
-> > to 'struct dma_buf_ops udmabuf_ops'.
-> > .vmap method itself uses vm_map_ram() to map pages linearly
-> > into the kernel virtual address space.
-> > .vunmap removes mapping created earlier by .vmap.
-> > All locking and 'vmapping counting' is done in dma_buf.c
-> > so it seems to be redundant/unnecessary in .vmap/.vunmap.
-> > 
-> > Signed-off-by: Lukasz Wiecaszek <lukasz.wiecaszek@gmail.com>
-> 
-> > Reported-by: kernel test robot <lkp@intel.com>
-> 
-> Please drop this line, the kernel test robot should only be mentioned if the
-> original report came from it.
-> 
-> And keep in mind that it might be necessary to implement begin/end cpu
-> access callbacks as well.
-> 
-> Apart from that the patch is Acked-by: Christian König
-> <christian.koenig@amd.com>.
-> 
-> Regards,
-> Christian.
+On Mon, Nov 14, 2022 at 05:45:58PM +0100, Jason A. Donenfeld wrote:
+> -				(get_random_u32_below(1024) + 1) * PAGE_SIZE;
+> +				get_random_u32_between(1, 1024 + 1) * PAGE_SIZE;
 
-Thanks for that lesson with the 'kernel test robot' line.
-The second issue with begin/end cpu access callbacks is more complicated
-to me. My understaning is that memory allocated for udambuf will be the 
-memory obtained most likely (if not always) by memfd_create(). 
-So this will be the anonymous system memory which is 'by definition' 
-coherent for cpu access. So no need for begin/end callbacks.
-But if I miss something, plese let me/us know.
+I really don't like "between". Can't this be named "inclusive" (and
+avoid adding 1 everywhere, which seems ugly), or at least named
+something less ambiguous?
 
-> 
-> > ---
-> > v1: https://lore.kernel.org/linux-media/202211120352.G7WPASoP-lkp@intel.com/T/#t
-> > v2: https://lore.kernel.org/linux-media/20221114052944.GA7264@thinkpad-p72/T/#t
-> > 
-> > v2 -> v3: Added .vunmap to 'struct dma_buf_ops udmabuf_ops'
-> > v1 -> v2: Patch prepared and tested against 6.1.0-rc2+
-> > 
-> >   drivers/dma-buf/udmabuf.c | 28 ++++++++++++++++++++++++++++
-> >   1 file changed, 28 insertions(+)
-> > 
-> > diff --git a/drivers/dma-buf/udmabuf.c b/drivers/dma-buf/udmabuf.c
-> > index 283816fbd72f..740d6e426ee9 100644
-> > --- a/drivers/dma-buf/udmabuf.c
-> > +++ b/drivers/dma-buf/udmabuf.c
-> > @@ -13,6 +13,8 @@
-> >   #include <linux/slab.h>
-> >   #include <linux/udmabuf.h>
-> >   #include <linux/hugetlb.h>
-> > +#include <linux/vmalloc.h>
-> > +#include <linux/iosys-map.h>
-> >   static int list_limit = 1024;
-> >   module_param(list_limit, int, 0644);
-> > @@ -60,6 +62,30 @@ static int mmap_udmabuf(struct dma_buf *buf, struct vm_area_struct *vma)
-> >   	return 0;
-> >   }
-> > +static int vmap_udmabuf(struct dma_buf *buf, struct iosys_map *map)
-> > +{
-> > +	struct udmabuf *ubuf = buf->priv;
-> > +	void *vaddr;
-> > +
-> > +	dma_resv_assert_held(buf->resv);
-> > +
-> > +	vaddr = vm_map_ram(ubuf->pages, ubuf->pagecount, -1);
-> > +	if (!vaddr)
-> > +		return -EINVAL;
-> > +
-> > +	iosys_map_set_vaddr(map, vaddr);
-> > +	return 0;
-> > +}
-> > +
-> > +static void vunmap_udmabuf(struct dma_buf *buf, struct iosys_map *map)
-> > +{
-> > +	struct udmabuf *ubuf = buf->priv;
-> > +
-> > +	dma_resv_assert_held(buf->resv);
-> > +
-> > +	vm_unmap_ram(map->vaddr, ubuf->pagecount);
-> > +}
-> > +
-> >   static struct sg_table *get_sg_table(struct device *dev, struct dma_buf *buf,
-> >   				     enum dma_data_direction direction)
-> >   {
-> > @@ -162,6 +188,8 @@ static const struct dma_buf_ops udmabuf_ops = {
-> >   	.unmap_dma_buf	   = unmap_udmabuf,
-> >   	.release	   = release_udmabuf,
-> >   	.mmap		   = mmap_udmabuf,
-> > +	.vmap		   = vmap_udmabuf,
-> > +	.vunmap		   = vunmap_udmabuf,
-> >   	.begin_cpu_access  = begin_cpu_udmabuf,
-> >   	.end_cpu_access    = end_cpu_udmabuf,
-> >   };
-> 
+> -		n = get_random_u32_below(100) + 1;
+> +		n = get_random_u32_between(1, 101);
+
+Because I find this much less readable. "Below 100" is clear: 0-99
+inclusive, plus 1, so 1-100 inclusive. "Between 1 and 101" is not obvious
+to me to mean: 1-100 inclusive.
+
+These seem so much nicer:
+	get_random_u32_inclusive(1, 1024)
+	get_random_u32_inclusive(1, 100)
+
+-- 
+Kees Cook
