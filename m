@@ -2,130 +2,75 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DFA6762C76B
-	for <lists+linux-media@lfdr.de>; Wed, 16 Nov 2022 19:17:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CD0ED62C7AC
+	for <lists+linux-media@lfdr.de>; Wed, 16 Nov 2022 19:31:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238563AbiKPSQ5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 16 Nov 2022 13:16:57 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55584 "EHLO
+        id S239174AbiKPSbl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 16 Nov 2022 13:31:41 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37112 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239091AbiKPSQz (ORCPT
+        with ESMTP id S230203AbiKPSbk (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 16 Nov 2022 13:16:55 -0500
-Received: from mail-qt1-x829.google.com (mail-qt1-x829.google.com [IPv6:2607:f8b0:4864:20::829])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A00463144
-        for <linux-media@vger.kernel.org>; Wed, 16 Nov 2022 10:16:55 -0800 (PST)
-Received: by mail-qt1-x829.google.com with SMTP id jr19so11219278qtb.7
-        for <linux-media@vger.kernel.org>; Wed, 16 Nov 2022 10:16:55 -0800 (PST)
+        Wed, 16 Nov 2022 13:31:40 -0500
+Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com [IPv6:2a00:1450:4864:20::42e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 928F84731C;
+        Wed, 16 Nov 2022 10:31:39 -0800 (PST)
+Received: by mail-wr1-x42e.google.com with SMTP id j15so31363028wrq.3;
+        Wed, 16 Nov 2022 10:31:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=PBgZn+u117R7gFQNpsnvlIYlwSeo0LUTLoxlFKr3wyI=;
-        b=eH0YS14VezMu1YoYc8i9L/9V4Rda12NtBPhbyEQG9con1K8dLIyV9b4KNCmIq0wzpX
-         WqxRC9GRz2SSVMeoKLZbZ25GRVxvk4TLZwapfzc9KJm3PzFnUZgrmijMI3uqPEOn38/b
-         +5K39+JbiCr6klzOuT84Gyzf87KIYKFM/ltfQ=
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=7vuZ7CJY0ycdtFnuj3y46+D+gGNut+18NmhYqgD4cCk=;
+        b=A/b/gFWWIaZlP6nO+upfw//cia6u0pLcYbWigMSSijt+xIwlVox8kgoiXerfwh95jp
+         FFnoK0GK8C4ffBg+U6/cUP7ws2NLQCeHsF28R4oPhjsDqMol77cjmXNiajaX2FvNrAnP
+         /ZbLdjAs0n3lGPV3WONNlusIWlqxuJLqheDpbNihS7h2GVF500g/opMZ/ZcUvR8LnWyn
+         MqdD/dk01/CoasVdQszbdX9R9yfeL2z7P2DyDgEcyTbpyasSdAPIroAVQRo5VOJmhmHQ
+         DGWkj7LXOXys2i/M5n/B1jC6GBjHrECYWTcYeEyPiD2r0wOFMR/uSMbeMDRsxU/lt8W9
+         HpUQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=PBgZn+u117R7gFQNpsnvlIYlwSeo0LUTLoxlFKr3wyI=;
-        b=HyAS5J2dcapUqcefuAbE0n9Da/YSC1QiFjqHTHo4Zq44ZfmwgDN7zlon7LNy1S0rN8
-         PHr0iKM1sC0SHGX5o7OObRctxHftfBLPxiHtEZRlE4McH44ywMaB0irnJ7eTFvgH+37D
-         bnL+WbUDqeM/x8FQUpWPc5oczQb+ABHhHEnYnz6fUKyEdEcn614dgpjQF239/pDC982X
-         qckLS0DICeRvP62CvHsjywGqFjOUpIh4ir9+7Z25pjHANx0L2+WI63kWRX1KuwG3qbbV
-         9eA8ohnZbbuUZCdgPXhhzJmWIjszSFB9r3Y2kXtmNmL/F5hP6xQcUaz4MNr3GV9MONSQ
-         1mQw==
-X-Gm-Message-State: ANoB5pkVIyO63+gwx2ti3lQBPjOMx65URdDSKPM0NzS5S1Ge+sFZhr0l
-        0QkWKaclrCq3wXajSBfkG/1j0XRRFl4k6g==
-X-Google-Smtp-Source: AA0mqf6LxYTAgU6x+HYzsVW9GHd3FSyQNeDsFTuddEyBIggldnrY3+MTBteGaO7+Ivp/ZZ0Oa+xWWQ==
-X-Received: by 2002:a05:622a:5c07:b0:39c:c4eb:bb4d with SMTP id gd7-20020a05622a5c0700b0039cc4ebbb4dmr22246865qtb.551.1668622614039;
-        Wed, 16 Nov 2022 10:16:54 -0800 (PST)
-Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com. [209.85.160.177])
-        by smtp.gmail.com with ESMTPSA id y8-20020a05620a44c800b006ee77f1ecc3sm10767115qkp.31.2022.11.16.10.16.51
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 16 Nov 2022 10:16:52 -0800 (PST)
-Received: by mail-qt1-f177.google.com with SMTP id cg5so11209737qtb.12
-        for <linux-media@vger.kernel.org>; Wed, 16 Nov 2022 10:16:51 -0800 (PST)
-X-Received: by 2002:a05:622a:1c15:b0:3a5:49fa:3983 with SMTP id
- bq21-20020a05622a1c1500b003a549fa3983mr21860304qtb.436.1668622610752; Wed, 16
- Nov 2022 10:16:50 -0800 (PST)
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=7vuZ7CJY0ycdtFnuj3y46+D+gGNut+18NmhYqgD4cCk=;
+        b=S/QZesHpylbTOR9725LhdU4fHqq6ddlgvprkgBQjfKOpITuhzkvo39DJoVbVGbK22h
+         U363kYg+i8kraRIJ3qIjOOBQaPobo+cwRujsYpRwQJ+EflrJZIt7MDmw0Ip2tsLxuvrB
+         +lwZ/K8jb+Tthm2ANIpwirACStgrijmetuevK8zUn5RUDLXv5fIG10LH9DIR6hwFJO1Q
+         hekYH7T3bmd9vfmAFUsEXh6rzLQKT5jltNbCLzvc1EcpKEnfE3rXCi5QfBBWrBIp44DT
+         iBTDk1LwrvO2pyuWSnVsW0NeQlUY1OsccjI4r4WkNAuA0VO5N8NoWXtmXfJ70CfJAfVk
+         +WFw==
+X-Gm-Message-State: ANoB5pk2UPOb5LzMN/oKqtA0sjQ0RfbkJtCEklMS6Lu5xlC/oWtevkM7
+        18TEPBe6fnlUV9GJz/5b0uQ=
+X-Google-Smtp-Source: AA0mqf4Nc6OJ4lu29BUhXlv7SudGsN5nC4mOB29eH7ww/WOvGUmd1JJSnE5wzY5KO03EZEtlmaxDSw==
+X-Received: by 2002:a5d:6885:0:b0:22e:3460:5e28 with SMTP id h5-20020a5d6885000000b0022e34605e28mr14796361wru.211.1668623498036;
+        Wed, 16 Nov 2022 10:31:38 -0800 (PST)
+Received: from kista.localnet (82-149-19-102.dynamic.telemach.net. [82.149.19.102])
+        by smtp.gmail.com with ESMTPSA id o12-20020a05600c2e0c00b003b50428cf66sm2611152wmf.33.2022.11.16.10.31.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 16 Nov 2022 10:31:37 -0800 (PST)
+From:   Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Samuel Holland <samuel@sholland.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Chen-Yu Tsai <wenst@chromium.org>
+Cc:     Chen-Yu Tsai <wenst@chromium.org>, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/2] arm64: allwinner: h6: Add IOMMU reference to Hantro G2 decoder
+Date:   Wed, 16 Nov 2022 19:31:36 +0100
+Message-ID: <5619569.DvuYhMxLoT@kista>
+In-Reply-To: <20221115090644.3602573-1-wenst@chromium.org>
+References: <20221115090644.3602573-1-wenst@chromium.org>
 MIME-Version: 1.0
-References: <20221116102659.70287-1-david@redhat.com> <20221116102659.70287-21-david@redhat.com>
-In-Reply-To: <20221116102659.70287-21-david@redhat.com>
-From:   Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Wed, 16 Nov 2022 10:16:34 -0800
-X-Gmail-Original-Message-ID: <CAHk-=wgtEwpR-rE_=cXzecHMZ+zgrx5zf9UfvH0w-mKgckn4=Q@mail.gmail.com>
-Message-ID: <CAHk-=wgtEwpR-rE_=cXzecHMZ+zgrx5zf9UfvH0w-mKgckn4=Q@mail.gmail.com>
-Subject: Re: [PATCH mm-unstable v1 20/20] mm: rename FOLL_FORCE to FOLL_PTRACE
-To:     David Hildenbrand <david@redhat.com>
-Cc:     linux-kernel@vger.kernel.org, x86@kernel.org,
-        linux-alpha@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-ia64@vger.kernel.org, linux-mips@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, sparclinux@vger.kernel.org,
-        linux-um@lists.infradead.org, etnaviv@lists.freedesktop.org,
-        dri-devel@lists.freedesktop.org, linux-samsung-soc@vger.kernel.org,
-        linux-rdma@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-        linux-perf-users@vger.kernel.org,
-        linux-security-module@vger.kernel.org,
-        linux-kselftest@vger.kernel.org,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        John Hubbard <jhubbard@nvidia.com>,
-        Peter Xu <peterx@redhat.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Hugh Dickins <hughd@google.com>, Nadav Amit <namit@vmware.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Matthew Wilcox <willy@infradead.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Muchun Song <songmuchun@bytedance.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Lucas Stach <l.stach@pengutronix.de>,
-        David Airlie <airlied@gmail.com>,
-        Oded Gabbay <ogabbay@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Christoph Hellwig <hch@infradead.org>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Oleg Nesterov <oleg@redhat.com>,
-        Richard Henderson <richard.henderson@linaro.org>,
-        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-        Matt Turner <mattst88@gmail.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        Christophe Leroy <christophe.leroy@csgroup.eu>,
-        "David S. Miller" <davem@davemloft.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Richard Weinberger <richard@nod.at>,
-        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
-        Johannes Berg <johannes@sipsolutions.net>,
-        Eric Biederman <ebiederm@xmission.com>,
-        Kees Cook <keescook@chromium.org>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Jiri Olsa <jolsa@kernel.org>,
-        Namhyung Kim <namhyung@kernel.org>,
-        Kentaro Takeda <takedakn@nttdata.co.jp>,
-        Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
-        Paul Moore <paul@paul-moore.com>,
-        James Morris <jmorris@namei.org>,
-        "Serge E. Hallyn" <serge@hallyn.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=no
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -133,44 +78,36 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Nov 16, 2022 at 2:30 AM David Hildenbrand <david@redhat.com> wrote:
->
-> Let's make it clearer that functionality provided by FOLL_FORCE is
-> really only for ptrace access.
+Dne torek, 15. november 2022 ob 10:06:42 CET je Chen-Yu Tsai napisal(a):
+> While doing some decoder tests with Fluster and Chrome's VDA tests, I
+> found that the Hantro G2 was failing, and there were IOMMU fault errors
+> in the kernel log.
+> 
+> Turns out the decoder is behind the IOMMU on the H6, as shown in the
+> user manual.
+> 
+> This series adds the "iommus" property to the binding and the dtsi.
+> Please have a look.
 
-I'm not super-happy about this one.
+Applied, thanks!
 
-I do understand the "let's rename the bit so that no new user shows up".
+Best regards,
+Jernej
 
-And it's true that the main traditional use is ptrace.
+> 
+> 
+> Thanks
+> ChenYu
+> 
+> Chen-Yu Tsai (2):
+>   media: dt-bindings: allwinner: h6-vpu-g2: Add IOMMU reference property
+>   arm64: dts: allwinner: h6: Add IOMMU reference to Hantro G2
+> 
+>  .../bindings/media/allwinner,sun50i-h6-vpu-g2.yaml           | 5 +++++
+>  arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi                 | 1 +
+>  2 files changed, 6 insertions(+)
+> 
+> --
+> 2.38.1.493.g58b659f92b-goog
 
-But from the patch itself it becomes obvious that no, it's not *just*
-ptrace. At least not yet.
 
-It's used for get_arg_page(), which uses it to basically look up (and
-install) pages in the newly created VM.
-
-Now, I'm not entirely sure why it even uses FOLL_FORCE, - I think it
-might be historical, because the target should always be the new stack
-vma.
-
-Following the history of it is a big of a mess, because there's a
-number of renamings and re-organizations, but it seems to go back to
-2007 and commit b6a2fea39318 ("mm: variable length argument support").
-
-Before that commit, we kept our own array of "this is the set of pages
-that I will install in the new VM". That commit basically just inserts
-the pages directly into the VM instead, getting rid of the array size
-limitation.
-
-So at a minimum, I think that FOLL_FORCE would need to be removed
-before any renaming to FOLL_PTRACE, because that's not some kind of
-small random case.
-
-It *might* be as simple as just removing it, but maybe there's some
-reason for having it that I don't immediately see.
-
-There _are_ also small random cases too, like get_cmdline(). Maybe
-that counts as ptrace, but the execve() case most definitely does not.
-
-                Linus
