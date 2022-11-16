@@ -2,183 +2,168 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7BCEA62BAD4
-	for <lists+linux-media@lfdr.de>; Wed, 16 Nov 2022 12:05:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 15E0B62BB61
+	for <lists+linux-media@lfdr.de>; Wed, 16 Nov 2022 12:20:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231803AbiKPLFI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 16 Nov 2022 06:05:08 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46178 "EHLO
+        id S239245AbiKPLUt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 16 Nov 2022 06:20:49 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34180 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233583AbiKPLE1 (ORCPT
+        with ESMTP id S233282AbiKPLU0 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 16 Nov 2022 06:04:27 -0500
-Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com [IPv6:2a00:1450:4864:20::530])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A1AE74AF17
-        for <linux-media@vger.kernel.org>; Wed, 16 Nov 2022 02:51:01 -0800 (PST)
-Received: by mail-ed1-x530.google.com with SMTP id l11so25981718edb.4
-        for <linux-media@vger.kernel.org>; Wed, 16 Nov 2022 02:51:01 -0800 (PST)
+        Wed, 16 Nov 2022 06:20:26 -0500
+Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com [IPv6:2a00:1450:4864:20::52b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 733A640472;
+        Wed, 16 Nov 2022 03:08:06 -0800 (PST)
+Received: by mail-ed1-x52b.google.com with SMTP id z18so25999653edb.9;
+        Wed, 16 Nov 2022 03:08:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=in-reply-to:content-disposition:mime-version:references
-         :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=NMt8HjKxItO2J6bIbRsCvEdSlAZpP8uC48lcisou+nI=;
-        b=eLnGvKK+w1XqLxzowLTo19VxBdUCyRC3jZCwBMpKaUWXXlLi4fs0Axmuul/wRN/I3k
-         Ls2daX/AS8NBqlkGiJqqxb0gEFzgn6n0a6+XnpTDtipAc3J5NayuL7HDBO33beS0D75x
-         K2gRZhVXeM0+lA+7zcbmJS/RVo1YdOeZ/sxms=
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=IRqWOgr29xDH1fYV3Mu2fM7aLIITb2J/GYz8FCJV65E=;
+        b=gtG9J7BA9XWVdr9tol2qm5EP6jmQ/1HH87PMu86DaksArOQ+LoH/RZZKt0ylLe7FFx
+         bdX1zvmpuCv9p/I01pBta88mj/spOAFec60VsIiIthH+hDlucAPTqbbXVVJ6GCXd6NIv
+         KmQ0Kjye/VGm9NRRYdVRjZc4p85irx8BxzbX0YfrlXOnCU2IB4zRE7+JOCvkW4akm0XW
+         5V8bh0wSRvcf50xUnOYmVb3WtoXKSOvBDQfzj/yVgnQMnpHI9fcDCdbahXU+NUrGss+0
+         TnzQ7XCkNhNTjpWi5YK4B+h8UiZvFcOCkrSo+pDCiBWOwtSRi76udWZag3EkgA+s0C92
+         bV5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references
-         :mail-followup-to:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=NMt8HjKxItO2J6bIbRsCvEdSlAZpP8uC48lcisou+nI=;
-        b=qpTj0dS96JA4exGK0fXWUKCW7TtKWC2CsQAkgHm/GJULqiWdEA44VxFIuocjYmF/KB
-         BnVfbevQTIcEokvYOKV739BBHtsEKxSg0JBGiVJ7HgipEoxjwfpvSbEMMQrPRPa+dqDB
-         eaTDubyLOevxqIpN7iIoTY0BeVzlWiGG9t0FaoqBb/yp46DXyzZ8VFjTozLrWDOdqgCs
-         XtNmUcr9q6SRSD3S0UMcs+Q/NXrslltx0Q9YmYyoVMo+LAXe9QYNDA3OnFMeKQhWYQRK
-         b+QxtRpqufFNbeyOvw3hyPdLUZe177hnvE6f/u3U1+p8i0O7ZsMPRtNh6cFL1cgob/QL
-         6BzQ==
-X-Gm-Message-State: ANoB5plDG5jXFmjhzPNkavjt5SDWDFySga0n+YO4T40hMMkAsqcjzgRM
-        n0B1/XgNevqouFpJcVn5NyXlFQ==
-X-Google-Smtp-Source: AA0mqf4Z9KF9DYfdJQdqGvbtRloYOPQXnN3MkKcJxdOs80iDic7Ysg9e6qfGKtqJuC+1emfUPfQ+gw==
-X-Received: by 2002:a50:ff04:0:b0:462:709:9f7b with SMTP id a4-20020a50ff04000000b0046207099f7bmr19331341edu.263.1668595860175;
-        Wed, 16 Nov 2022 02:51:00 -0800 (PST)
-Received: from phenom.ffwll.local (212-51-149-33.fiber7.init7.net. [212.51.149.33])
-        by smtp.gmail.com with ESMTPSA id s6-20020a170906bc4600b007aed2057eaesm6056420ejv.161.2022.11.16.02.50.58
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=IRqWOgr29xDH1fYV3Mu2fM7aLIITb2J/GYz8FCJV65E=;
+        b=AaJs+cIs0lTM82QM2YA0qdE02ihwy/jzNpZjQs0pqDm0f+pZBszY8RdzYuWjn564Ff
+         NKGOYvlf9GKLrk1pXpT3ZPoJKABp1siVu5dwYjiGdthDNzjRAa4cW66RvRght9k1f8Os
+         XQMekwpro5jgXeP3yQ8FmBKmRiKhmyn3ja1rxLbiNW4qHGzc+y05tukO3CoRS8NxJgLQ
+         2gCHzf1sEWhQw/rc0ivGFXAA0k+mc33rs4jMud/xDaHdUxCYUWKcqYou2dflOz8kLujx
+         NZAHSx7dyICVP8C2CUyQem4MXZA5gs0fBTUS6IP/afDFUl/bdHgt7GfeBbBYeOk8XQGP
+         JEog==
+X-Gm-Message-State: ANoB5pl5cZhzY1GoK7uptQz7WkaokjKfUo8plnEoCGuCYYsOrsvCGLTD
+        vSMgB9W50TrDl18UNnHyYwI=
+X-Google-Smtp-Source: AA0mqf45qDgc3IPPx3lojwVTXi94BAukTNO9gHkyqFQHU2wZZtQTFcmJGcv11DHLohVzrnQd4OQQlQ==
+X-Received: by 2002:aa7:c2c4:0:b0:459:1788:5e49 with SMTP id m4-20020aa7c2c4000000b0045917885e49mr18411373edp.321.1668596884888;
+        Wed, 16 Nov 2022 03:08:04 -0800 (PST)
+Received: from eldamar.lan (c-82-192-242-114.customer.ggaweb.ch. [82.192.242.114])
+        by smtp.gmail.com with ESMTPSA id l9-20020a1709063d2900b0073d9a0d0cbcsm6686577ejf.72.2022.11.16.03.08.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Nov 2022 02:50:59 -0800 (PST)
-Date:   Wed, 16 Nov 2022 11:50:57 +0100
-From:   Daniel Vetter <daniel@ffwll.ch>
-To:     David Hildenbrand <david@redhat.com>
-Cc:     linux-kernel@vger.kernel.org, x86@kernel.org,
-        linux-alpha@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-ia64@vger.kernel.org, linux-mips@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, sparclinux@vger.kernel.org,
-        linux-um@lists.infradead.org, etnaviv@lists.freedesktop.org,
-        dri-devel@lists.freedesktop.org, linux-samsung-soc@vger.kernel.org,
-        linux-rdma@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-        linux-perf-users@vger.kernel.org,
-        linux-security-module@vger.kernel.org,
-        linux-kselftest@vger.kernel.org,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        John Hubbard <jhubbard@nvidia.com>,
-        Peter Xu <peterx@redhat.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Hugh Dickins <hughd@google.com>, Nadav Amit <namit@vmware.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Matthew Wilcox <willy@infradead.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Muchun Song <songmuchun@bytedance.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Lucas Stach <l.stach@pengutronix.de>,
-        David Airlie <airlied@gmail.com>,
-        Oded Gabbay <ogabbay@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Christoph Hellwig <hch@infradead.org>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Inki Dae <inki.dae@samsung.com>,
-        Seung-Woo Kim <sw0312.kim@samsung.com>,
-        Kyungmin Park <kyungmin.park@samsung.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: Re: [PATCH mm-unstable v1 17/20] drm/exynos: remove FOLL_FORCE usage
-Message-ID: <Y3TAkWy/xXfX1cIv@phenom.ffwll.local>
-Mail-Followup-To: David Hildenbrand <david@redhat.com>,
-        linux-kernel@vger.kernel.org, x86@kernel.org,
-        linux-alpha@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-ia64@vger.kernel.org, linux-mips@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, sparclinux@vger.kernel.org,
-        linux-um@lists.infradead.org, etnaviv@lists.freedesktop.org,
-        dri-devel@lists.freedesktop.org, linux-samsung-soc@vger.kernel.org,
-        linux-rdma@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-        linux-perf-users@vger.kernel.org,
-        linux-security-module@vger.kernel.org,
-        linux-kselftest@vger.kernel.org,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Jason Gunthorpe <jgg@ziepe.ca>, John Hubbard <jhubbard@nvidia.com>,
-        Peter Xu <peterx@redhat.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Hugh Dickins <hughd@google.com>, Nadav Amit <namit@vmware.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Matthew Wilcox <willy@infradead.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Muchun Song <songmuchun@bytedance.com>,
-        Shuah Khan <shuah@kernel.org>, Lucas Stach <l.stach@pengutronix.de>,
-        David Airlie <airlied@gmail.com>, Oded Gabbay <ogabbay@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Christoph Hellwig <hch@infradead.org>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Inki Dae <inki.dae@samsung.com>,
-        Seung-Woo Kim <sw0312.kim@samsung.com>,
-        Kyungmin Park <kyungmin.park@samsung.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-References: <20221116102659.70287-1-david@redhat.com>
- <20221116102659.70287-18-david@redhat.com>
+        Wed, 16 Nov 2022 03:08:04 -0800 (PST)
+Sender: Salvatore Bonaccorso <salvatore.bonaccorso@gmail.com>
+Received: by eldamar.lan (Postfix, from userid 1000)
+        id C1DF1BE2DE0; Wed, 16 Nov 2022 12:08:03 +0100 (CET)
+Date:   Wed, 16 Nov 2022 12:08:03 +0100
+From:   Salvatore Bonaccorso <carnil@debian.org>
+To:     Takashi Iwai <tiwai@suse.de>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hyunwoo Kim <imv4bel@gmail.com>, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media: dvb-core: Fix UAF due to refcount races at
+ releasing
+Message-ID: <Y3TEk7Nr3yAQIozQ@eldamar.lan>
+References: <20220908132754.30532-1-tiwai@suse.de>
+ <87sfklgozd.wl-tiwai@suse.de>
+ <87k056dekm.wl-tiwai@suse.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221116102659.70287-18-david@redhat.com>
-X-Operating-System: Linux phenom 5.19.0-2-amd64 
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
-        version=3.4.6
+In-Reply-To: <87k056dekm.wl-tiwai@suse.de>
+X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_EF,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
+        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Nov 16, 2022 at 11:26:56AM +0100, David Hildenbrand wrote:
-> FOLL_FORCE is really only for ptrace access. As we unpin the pinned pages
-> using unpin_user_pages_dirty_lock(true), the assumption is that all these
-> pages are writable.
-> 
-> FOLL_FORCE in this case seems to be a legacy leftover. Let's just remove
-> it.
-> 
-> Cc: Inki Dae <inki.dae@samsung.com>
-> Cc: Seung-Woo Kim <sw0312.kim@samsung.com>
-> Cc: Kyungmin Park <kyungmin.park@samsung.com>
-> Cc: David Airlie <airlied@gmail.com>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> Signed-off-by: David Hildenbrand <david@redhat.com>
+Hi,
 
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-
-Plus ack for merging through the appropriate non-drm tree.
--Daniel
-
-> ---
->  drivers/gpu/drm/exynos/exynos_drm_g2d.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+On Tue, Oct 11, 2022 at 09:06:33AM +0200, Takashi Iwai wrote:
+> On Wed, 21 Sep 2022 09:34:30 +0200,
+> Takashi Iwai wrote:
+> > 
+> > On Thu, 08 Sep 2022 15:27:54 +0200,
+> > Takashi Iwai wrote:
+> > > 
+> > > The dvb-core tries to sync the releases of opened files at
+> > > dvb_dmxdev_release() with two refcounts: dvbdev->users and
+> > > dvr_dvbdev->users.  A problem is present in those two syncs: when yet
+> > > another dvb_demux_open() is called during those sync waits,
+> > > dvb_demux_open() continues to process even if the device is being
+> > > closed.  This includes the increment of the former refcount, resulting
+> > > in the leftover refcount after the sync of the latter refcount at
+> > > dvb_dmxdev_release().  It ends up with use-after-free, since the
+> > > function believes that all usages were gone and releases the
+> > > resources.
+> > > 
+> > > This patch addresses the problem by adding the check of dmxdev->exit
+> > > flag at dvb_demux_open(), just like dvb_dvr_open() already does.  With
+> > > the exit flag check, the second call of dvb_demux_open() fails, hence
+> > > the further corruption can be avoided.
+> > > 
+> > > Also for avoiding the races of the dmxdev->exit flag reference, this
+> > > patch serializes the dmxdev->exit set up and the sync waits with the
+> > > dmxdev->mutex lock at dvb_dmxdev_release().  Without the mutex lock,
+> > > dvb_demux_open() (or dvb_dvr_open()) may run concurrently with
+> > > dvb_dmxdev_release(), which allows to skip the exit flag check and
+> > > continue the open process that is being closed.
+> > > 
+> > > Reported-by: Hyunwoo Kim <imv4bel@gmail.com>
+> > > Cc: <stable@vger.kernel.org>
+> > > Signed-off-by: Takashi Iwai <tiwai@suse.de>
+> > 
+> > Any review on this?
+> > 
+> > FWIW, now CVE-2022-41218 is assigned for those bugs as a security
+> > issue.
 > 
-> diff --git a/drivers/gpu/drm/exynos/exynos_drm_g2d.c b/drivers/gpu/drm/exynos/exynos_drm_g2d.c
-> index 471fd6c8135f..e19c2ceb3759 100644
-> --- a/drivers/gpu/drm/exynos/exynos_drm_g2d.c
-> +++ b/drivers/gpu/drm/exynos/exynos_drm_g2d.c
-> @@ -477,7 +477,7 @@ static dma_addr_t *g2d_userptr_get_dma_addr(struct g2d_data *g2d,
->  	}
->  
->  	ret = pin_user_pages_fast(start, npages,
-> -				  FOLL_FORCE | FOLL_WRITE | FOLL_LONGTERM,
-> +				  FOLL_WRITE | FOLL_LONGTERM,
->  				  g2d_userptr->pages);
->  	if (ret != npages) {
->  		DRM_DEV_ERROR(g2d->dev,
-> -- 
-> 2.38.1
+> A gentle ping again.
 > 
+> Or if any other fix for this security issue is already available,
+> please let me know.
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+is this correct, the fix is yet missing (or was it fixed by other
+means?).
+
+Regards,
+Salvatore
+
+> > 
+> > > ---
+> > >  drivers/media/dvb-core/dmxdev.c | 8 ++++++++
+> > >  1 file changed, 8 insertions(+)
+> > > 
+> > > diff --git a/drivers/media/dvb-core/dmxdev.c b/drivers/media/dvb-core/dmxdev.c
+> > > index f6ee678107d3..9ce5f010de3f 100644
+> > > --- a/drivers/media/dvb-core/dmxdev.c
+> > > +++ b/drivers/media/dvb-core/dmxdev.c
+> > > @@ -790,6 +790,11 @@ static int dvb_demux_open(struct inode *inode, struct file *file)
+> > >  	if (mutex_lock_interruptible(&dmxdev->mutex))
+> > >  		return -ERESTARTSYS;
+> > >  
+> > > +	if (dmxdev->exit) {
+> > > +		mutex_unlock(&dmxdev->mutex);
+> > > +		return -ENODEV;
+> > > +	}
+> > > +
+> > >  	for (i = 0; i < dmxdev->filternum; i++)
+> > >  		if (dmxdev->filter[i].state == DMXDEV_STATE_FREE)
+> > >  			break;
+> > > @@ -1448,7 +1453,10 @@ EXPORT_SYMBOL(dvb_dmxdev_init);
+> > >  
+> > >  void dvb_dmxdev_release(struct dmxdev *dmxdev)
+> > >  {
+> > > +	mutex_lock(&dmxdev->mutex);
+> > >  	dmxdev->exit = 1;
+> > > +	mutex_unlock(&dmxdev->mutex);
+> > > +
+> > >  	if (dmxdev->dvbdev->users > 1) {
+> > >  		wait_event(dmxdev->dvbdev->wait_queue,
+> > >  				dmxdev->dvbdev->users == 1);
+> > > -- 
+> > > 2.35.3
+> > > 
+> 
