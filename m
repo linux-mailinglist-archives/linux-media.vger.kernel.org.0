@@ -2,64 +2,65 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C513462C539
-	for <lists+linux-media@lfdr.de>; Wed, 16 Nov 2022 17:46:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8259D62C546
+	for <lists+linux-media@lfdr.de>; Wed, 16 Nov 2022 17:47:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239102AbiKPQqJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 16 Nov 2022 11:46:09 -0500
+        id S234038AbiKPQrU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 16 Nov 2022 11:47:20 -0500
 Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59726 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239109AbiKPQpl (ORCPT
+        with ESMTP id S234812AbiKPQq4 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 16 Nov 2022 11:45:41 -0500
-Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com [IPv6:2a00:1450:4864:20::52a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 43B5BCD3
-        for <linux-media@vger.kernel.org>; Wed, 16 Nov 2022 08:41:24 -0800 (PST)
-Received: by mail-ed1-x52a.google.com with SMTP id s5so11198525edc.12
-        for <linux-media@vger.kernel.org>; Wed, 16 Nov 2022 08:41:24 -0800 (PST)
+        Wed, 16 Nov 2022 11:46:56 -0500
+Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com [IPv6:2a00:1450:4864:20::430])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 72D9AB7EE
+        for <linux-media@vger.kernel.org>; Wed, 16 Nov 2022 08:43:29 -0800 (PST)
+Received: by mail-wr1-x430.google.com with SMTP id y16so30834459wrt.12
+        for <linux-media@vger.kernel.org>; Wed, 16 Nov 2022 08:43:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=qfEqfWb4S4QQRZovl4owq6EOl4TWjyh9fFDZbiC99/k=;
-        b=VH2BUl96aKSFaXzH4xkmIQMjktn7QQDQPTSGmky2rdvjv2Ii+lLodTr/zgN9Cdaf93
-         GjAPFo1C64Akyx9RmMZnle8C5GK9MxOru48gGlvH79LsllgYBKqiErCxZL9aoVzhZoK4
-         QTIVVYaAoXj6QOIGqTxGsr7f1Fy2HKh3T3jli8UtgCQV79pvVqIedCwv4s9HsZ7mvOOQ
-         oS7Jc+ZVbiZOgjBYMq6M+Vm+mwtJbEtmtR6S7MZgWinI8VCdH+58MtA/azawQLHTjWa8
-         kiIXAStpY55pC9n4lAIycCiOkzWdMtdc0WmMuoTNYUiuGasEY11FA6ygD1nb99UjcPae
-         UkYA==
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Mg8BLiZDIrzFPjEBwBabss46gMI5R4ZVMU35uXlxBTI=;
+        b=KnJCcAVeeUt+Fp6/dBLi9wQ6HmYy4ECIsa0htd/xLYsi0wV4oCcQyxg7IItoR6BGi+
+         8tfSvt/eb/KCS9MXTHQhfmVU7UrOtUrewcsq8jO8AHepF/J1TFgImgFxX4K3ZD7tPrko
+         4LYKkSSVqWxBlHZj1MtD2cuorY/+pCKM6PwYog6tPSHqAyqIc2bZ4o7ZjcB8Wpxi+lma
+         c6reVYAO0UFzN06dGWd/qLDX1TV7G6KEmvwbwVR8U5qC6wolEUZW+Hd1O3NICjd4kEt8
+         1vJLL5rHfKBnBqvM27mvou/9rvIuDEjHDc8VMJ/mC+bTaJChPXebtdgTmY+T9rpdohUC
+         x+Yg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=qfEqfWb4S4QQRZovl4owq6EOl4TWjyh9fFDZbiC99/k=;
-        b=YLQMzEqNG34yzZwPHnv2FWt3CXYCr3WdUPA18CYo1NvGozglTfOQz5TLt9xZlh+kkG
-         p2lFx+C/1qCQxXI7oKOjwuPIJzozbjEZN1vOmJs0E2HmkPha9cBAoNQYcbZyPYaeDCE8
-         IkGUhTU0ZaDeuqwFfC2z0cOFEr0nVe+1Bm+myNebXMYC53eoTLzcnuH54DC4FGadfmfs
-         YHGLJo8EcAzUdRBmqny6TLObsHWig+N4noPknSwlrDr26/qyU0QVa7C0XpN/dotlw4fU
-         a5rE6f8pIki61Mhf2Fe7cFLge2lX7AmYN+IyS6TVPVPDC7IZBj3m6o6IPyuLiM4Kykb3
-         Jzxg==
-X-Gm-Message-State: ANoB5plWIaE/0FMtcnuJbHyNv8V6BhOVyCiOCw6Z02vZ5xZQHgGRwkyy
-        bxVbXTZizYLYIohm3Wbq5RUygw==
-X-Google-Smtp-Source: AA0mqf5F+cnYkIVG+duzFg5GNkZYks309GT8+62xkuGdPi8Nuj6dV9p+gFPsLXvcgR2HQThjtvh2vA==
-X-Received: by 2002:a05:6402:17c2:b0:459:443a:faf4 with SMTP id s2-20020a05640217c200b00459443afaf4mr19867200edy.297.1668616882919;
-        Wed, 16 Nov 2022 08:41:22 -0800 (PST)
-Received: from [192.168.31.208] ([194.29.137.22])
-        by smtp.gmail.com with ESMTPSA id r18-20020a1709061bb200b0077d37a5d401sm7089741ejg.33.2022.11.16.08.41.21
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Mg8BLiZDIrzFPjEBwBabss46gMI5R4ZVMU35uXlxBTI=;
+        b=OWLQOUf5aBkETaMyqeX3T9P0EU/9ZZcIsy1ejjxlyq8QTtRT1Ouhrr0W7APxQfCH7x
+         /0WpdesS18R7FTX71iwwl74XWhT5D12kTHqIvse8GN3t8csEdmXoqo12O6grn2mEHT26
+         EUKmjATj8n6OXn/pFoCIea3j/DfUEt65SY7sQZOlWq0MkU+W7ZouR2aBSlkjXZdhxR8X
+         iz2XqYTLefuT0Ylsydp+FnOpDqW2GAUP4sILzZb5E6jsLiH5cgtHeflw8CqTsvPFEAlP
+         hpBXkb9uVWR8ippTY61FIW68torJHWlJG5MgSMPDGAQEvpmy4fAxkbekBSiOXy/5B3ZX
+         gQHQ==
+X-Gm-Message-State: ANoB5pmuaJOiyDAPRiDjZlYhFI/h92h7br5XfABdKA5Vg+6+liuiVZM6
+        C0jxxhcR6FsAGOi4pucG+Kgrow==
+X-Google-Smtp-Source: AA0mqf67LYFft+QXALi0Jd02t0VVrQxSWwTomK8ABv/hJAyUdTyZxAU3mSFgojXlQs4DZjMVOpvqCg==
+X-Received: by 2002:a05:6000:136e:b0:236:783e:5947 with SMTP id q14-20020a056000136e00b00236783e5947mr14185234wrz.168.1668617008098;
+        Wed, 16 Nov 2022 08:43:28 -0800 (PST)
+Received: from [192.168.0.162] (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
+        by smtp.gmail.com with ESMTPSA id p6-20020a1c5446000000b003b47e75b401sm2507531wmi.37.2022.11.16.08.43.26
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 16 Nov 2022 08:41:22 -0800 (PST)
-Message-ID: <05a9c6b5-0a78-d2c2-8916-5f659ff527a2@linaro.org>
-Date:   Wed, 16 Nov 2022 17:41:14 +0100
+        Wed, 16 Nov 2022 08:43:27 -0800 (PST)
+Message-ID: <6fe6723b-842e-7a56-a15c-6b7e044c7d45@linaro.org>
+Date:   Wed, 16 Nov 2022 16:43:26 +0000
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.4.2
-Subject: Re: [PATCH v6 6/7] arm64: dts: qcom: sm8250: camss: Define ports and
- ports address/size cells
-To:     Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        robert.foss@linaro.org, todor.too@gmail.com, agross@kernel.org,
-        andersson@kernel.org, mchehab@kernel.org, robh+dt@kernel.org,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH v6 5/7] arm64: dts: qcom:
+ sdm845-db845c-navigation-mezzanine: Add navigation mezzanine dts
+Content-Language: en-US
+To:     Konrad Dybcio <konrad.dybcio@linaro.org>, robert.foss@linaro.org,
+        todor.too@gmail.com, agross@kernel.org, andersson@kernel.org,
+        mchehab@kernel.org, robh+dt@kernel.org,
         krzysztof.kozlowski+dt@linaro.org, dmitry.baryshkov@linaro.org,
         vladimir.zapolskiy@linaro.org
 Cc:     sakari.ailus@iki.fi, hverkuil@xs4all.nl,
@@ -67,11 +68,12 @@ Cc:     sakari.ailus@iki.fi, hverkuil@xs4all.nl,
         linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
         devicetree@vger.kernel.org
 References: <20221116162801.546737-1-bryan.odonoghue@linaro.org>
- <20221116162801.546737-7-bryan.odonoghue@linaro.org>
-From:   Konrad Dybcio <konrad.dybcio@linaro.org>
-In-Reply-To: <20221116162801.546737-7-bryan.odonoghue@linaro.org>
+ <20221116162801.546737-6-bryan.odonoghue@linaro.org>
+ <730467dc-419f-bcb6-c4d8-24951b4dde62@linaro.org>
+From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+In-Reply-To: <730467dc-419f-bcb6-c4d8-24951b4dde62@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
@@ -82,60 +84,18 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-
-
-On 16/11/2022 17:28, Bryan O'Donoghue wrote:
-> Define the set of possible ports, one for each CSI PHY along with the port
-> address and size cells @ the SoC dtsi level.
+On 16/11/2022 16:39, Konrad Dybcio wrote:
+> I know you're just moving things around, but.. any reason this thing is 
+> still disabled?
 > 
-> Suggested-by: Konrad Dybcio <konrad.dybcio@somainline.org>
-> Suggested-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Reviewed-by: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
-> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-> ---
-Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+> Konrad
+>> +
+>> +        port {
+>> +            ov7251_ep: endpoint {
+>> +                data-lanes = <0 1>;
+>> +/*                remote-endpoint = <&csiphy3_ep>; */ 
 
-Konrad
->   arch/arm64/boot/dts/qcom/sm8250.dtsi | 29 ++++++++++++++++++++++++++++
->   1 file changed, 29 insertions(+)
-> 
-> diff --git a/arch/arm64/boot/dts/qcom/sm8250.dtsi b/arch/arm64/boot/dts/qcom/sm8250.dtsi
-> index d517d6a80bdcb..806aa19ad93ce 100644
-> --- a/arch/arm64/boot/dts/qcom/sm8250.dtsi
-> +++ b/arch/arm64/boot/dts/qcom/sm8250.dtsi
-> @@ -3412,6 +3412,35 @@ camss: camss@ac6a000 {
->   					     "cam_hf_0_mnoc",
->   					     "cam_sf_0_mnoc",
->   					     "cam_sf_icp_mnoc";
-> +
-> +			ports {
-> +				#address-cells = <1>;
-> +				#size-cells = <0>;
-> +
-> +				port@0 {
-> +					reg = <0>;
-> +				};
-> +
-> +				port@1 {
-> +					reg = <1>;
-> +				};
-> +
-> +				port@2 {
-> +					reg = <2>;
-> +				};
-> +
-> +				port@3 {
-> +					reg = <3>;
-> +				};
-> +
-> +				port@4 {
-> +					reg = <4>;
-> +				};
-> +
-> +				port@5 {
-> +					reg = <5>;
-> +				};
-> +			};
->   		};
->   
->   		camcc: clock-controller@ad00000 {
+Because so is the remote-endpoint here.
+
+---
+bod
