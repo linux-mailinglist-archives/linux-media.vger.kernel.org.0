@@ -2,204 +2,98 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C35E062C87E
-	for <lists+linux-media@lfdr.de>; Wed, 16 Nov 2022 19:56:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7CADB62C8FB
+	for <lists+linux-media@lfdr.de>; Wed, 16 Nov 2022 20:31:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239355AbiKPS4n (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 16 Nov 2022 13:56:43 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54540 "EHLO
+        id S234358AbiKPTbg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 16 Nov 2022 14:31:36 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45550 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239316AbiKPS4U (ORCPT
+        with ESMTP id S233495AbiKPTbe (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 16 Nov 2022 13:56:20 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1690367123
-        for <linux-media@vger.kernel.org>; Wed, 16 Nov 2022 10:54:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1668624843;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=XrMOrTfFoolcBWY273BC4KVOqyrI8gbytsgZlItRSSY=;
-        b=ggnk2mNlajTLNaTYtTEVAXXL1mzLcneUkdkTzCipHOe8bpGYR81K2i0Q1IZkJzxzD6loT0
-        VKwyQr+j6YAkRE5woCv3D8UX+LCBDyk//mZqtobHn5uAEz5dmYpkCGrHnFc1bjg5+yePtM
-        ZHKhMPO4da92jOYTzViClXv0S4S0ri8=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-520-jBXTPdP-P4mNjCLWev7sRQ-1; Wed, 16 Nov 2022 13:54:02 -0500
-X-MC-Unique: jBXTPdP-P4mNjCLWev7sRQ-1
-Received: by mail-wr1-f70.google.com with SMTP id c18-20020adfa312000000b002364fabf2ceso3988510wrb.2
-        for <linux-media@vger.kernel.org>; Wed, 16 Nov 2022 10:54:02 -0800 (PST)
+        Wed, 16 Nov 2022 14:31:34 -0500
+Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com [IPv6:2a00:1450:4864:20::42d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 26695627D6;
+        Wed, 16 Nov 2022 11:31:33 -0800 (PST)
+Received: by mail-wr1-x42d.google.com with SMTP id l14so31623009wrw.2;
+        Wed, 16 Nov 2022 11:31:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Trwv5nmiMu3txEdazub9avWN4gnKwT8sOlk30QnmJwg=;
+        b=TpR01OSJYvsdxK5CvtEpxvA38/rAnBpnwSoKmqIekRAqZwQBoPSV9Xj2Ne3wK/Sdof
+         4eWzngjNSKuqa81iPoDWL5je0mOPCWG/Rvv/u8jQP+/ajPySKZ+sqlRMO67N8boUB9k4
+         ZocpAowec4j3kY7AZvLkvV2OAVf022ACl133s5a7KDtK7/C+l8eGMgEZ876c098nNCOL
+         Lo4pNKwoZE8NyCgxjjmXojeBiGsTQEPC3vz4QdBFueYOZdMNv9EnOIxnbW4yalJJEr+u
+         dGn1MNb9q3nBlGxmR75VnEmsEybTFq0fHX+pqkkAnPNfo/vEEg3gT9IQOh1JR6IhhzP8
+         qBVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:subject:organization:from
-         :references:cc:to:content-language:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=XrMOrTfFoolcBWY273BC4KVOqyrI8gbytsgZlItRSSY=;
-        b=TLJwCULr+TwlaMKyNV6+iao93qgED+qqG5jmkbxTAUOvxTenVtO5ZbrZu91nr/6rrJ
-         ar3pElUnhfRisQzB9yGTdViOdtvQVe+n08hc1+hQLSjey5SmfV7iPY3ZxyrFQFVI8ulB
-         aX0OXdQJTR7OLVSXvCqQ+gYo5imUj/o5Wfqmai4dH7AVprpeOZLTtAiV9My2or+q/vFD
-         TekeCsPavIeLasvisr+ARNjwRO9wyxABiHyyUDns1QqcizMNU3RD47ISomWrkSDdDGOK
-         luVt9mGxq1aRdMWJrzHRf/FPVSV3q/Noc1wCM+JntI8NXUZjUG3pVEdcxS3xxzOWKX4/
-         B62g==
-X-Gm-Message-State: ANoB5pnDULvdnD7/2sVqFT3RM5VDEz7vUpUPpXSSuyUcMrpNpbg0t8OQ
-        72F7qN3dr+v/i7MSovA0pCTS5kqSTfvsktIP4hhPQWwYC0dCesrp9GNzGUmrjZIJJsT4bU7A4cL
-        RcLUuKScRtbXdMHCHNzVs2Yk=
-X-Received: by 2002:a05:600c:188a:b0:3cf:8e62:f769 with SMTP id x10-20020a05600c188a00b003cf8e62f769mr3135369wmp.52.1668624841288;
-        Wed, 16 Nov 2022 10:54:01 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf5DCp6F6fiXltcSvKkMYb+ZcNvwNu+I48re+Q7o+sjDMiBTT1rVi2cU7FL82kIKKDnPvsKEPw==
-X-Received: by 2002:a05:600c:188a:b0:3cf:8e62:f769 with SMTP id x10-20020a05600c188a00b003cf8e62f769mr3135302wmp.52.1668624841029;
-        Wed, 16 Nov 2022 10:54:01 -0800 (PST)
-Received: from ?IPV6:2003:cb:c704:9f00:a98d:4026:7c44:40fd? (p200300cbc7049f00a98d40267c4440fd.dip0.t-ipconnect.de. [2003:cb:c704:9f00:a98d:4026:7c44:40fd])
-        by smtp.gmail.com with ESMTPSA id h16-20020a05600c315000b003cff309807esm3012333wmo.23.2022.11.16.10.53.57
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 16 Nov 2022 10:54:00 -0800 (PST)
-Message-ID: <caf52607-49cd-3073-ca4a-ddce9509e7c9@redhat.com>
-Date:   Wed, 16 Nov 2022 19:53:57 +0100
+        bh=Trwv5nmiMu3txEdazub9avWN4gnKwT8sOlk30QnmJwg=;
+        b=tCu6vaXNNFe1E0zJ8PM3qs9sINsFhG5jawUAOefgwyzbFUF/cdkDhxU0/LTrxiQyoP
+         Z92Oo6YX/pnbgsK/wGlRzAr3r0cCRvTTn6QkOlzAtd6d6NEdcSbjCH0H6wP56bhaecqq
+         YEn0T9Hwr7twyYXjupA7sJgzNvO/PhmopAEiV4UA6YuoMOWHIsGjRxRhCJ+FJD6wjoZn
+         ga2m5KDq0HMpsgzkm760F35vlPKGyr1zxEH8chy6K/3QdiuRLn26ykO83WurLAtTMl76
+         ttoSLVL3Xi9SqRGXE56/Tfi8NIaiVaSmACLPrOvgCAi1LTnvNq1q++7Q6CfdOXFz3QiZ
+         tzRA==
+X-Gm-Message-State: ANoB5pkHNvmGvrnZA9j8v3+IRe5VhK/GGtPYmJZYyeowKNnCaLf5wwx9
+        pgLG3YqGIJIuDtDJYCV64IrhvvX2wXcqWA==
+X-Google-Smtp-Source: AA0mqf7/xPmVf0Rh22RU3CMEhI/LOjiRILBHHKXXqC9ktwO3Ja61VlrpZ4x4Cinr+HUtE54Y/6SXaQ==
+X-Received: by 2002:adf:ea4d:0:b0:236:8fa1:47cf with SMTP id j13-20020adfea4d000000b002368fa147cfmr15476153wrn.50.1668627091714;
+        Wed, 16 Nov 2022 11:31:31 -0800 (PST)
+Received: from kista.localdomain (82-149-19-102.dynamic.telemach.net. [82.149.19.102])
+        by smtp.gmail.com with ESMTPSA id q125-20020a1c4383000000b003c6cd82596esm3044646wma.43.2022.11.16.11.31.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 16 Nov 2022 11:31:31 -0800 (PST)
+From:   Jernej Skrabec <jernej.skrabec@gmail.com>
+To:     mchehab@kernel.org, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, wens@csie.org,
+        samuel@sholland.org
+Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+        linux-kernel@vger.kernel.org,
+        Jernej Skrabec <jernej.skrabec@gmail.com>
+Subject: [PATCH 0/2] arm64: allwinner: h6: Add second IOMMU reference to Cedrus
+Date:   Wed, 16 Nov 2022 20:31:03 +0100
+Message-Id: <20221116193105.363297-1-jernej.skrabec@gmail.com>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.1
-Content-Language: en-US
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     linux-kernel@vger.kernel.org, x86@kernel.org,
-        linux-alpha@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-ia64@vger.kernel.org, linux-mips@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, sparclinux@vger.kernel.org,
-        linux-um@lists.infradead.org, etnaviv@lists.freedesktop.org,
-        dri-devel@lists.freedesktop.org, linux-samsung-soc@vger.kernel.org,
-        linux-rdma@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-        linux-perf-users@vger.kernel.org,
-        linux-security-module@vger.kernel.org,
-        linux-kselftest@vger.kernel.org,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        John Hubbard <jhubbard@nvidia.com>,
-        Peter Xu <peterx@redhat.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Hugh Dickins <hughd@google.com>, Nadav Amit <namit@vmware.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Matthew Wilcox <willy@infradead.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Muchun Song <songmuchun@bytedance.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Lucas Stach <l.stach@pengutronix.de>,
-        David Airlie <airlied@gmail.com>,
-        Oded Gabbay <ogabbay@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Christoph Hellwig <hch@infradead.org>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Oleg Nesterov <oleg@redhat.com>,
-        Richard Henderson <richard.henderson@linaro.org>,
-        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-        Matt Turner <mattst88@gmail.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        Christophe Leroy <christophe.leroy@csgroup.eu>,
-        "David S. Miller" <davem@davemloft.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Richard Weinberger <richard@nod.at>,
-        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
-        Johannes Berg <johannes@sipsolutions.net>,
-        Eric Biederman <ebiederm@xmission.com>,
-        Kees Cook <keescook@chromium.org>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Jiri Olsa <jolsa@kernel.org>,
-        Namhyung Kim <namhyung@kernel.org>,
-        Kentaro Takeda <takedakn@nttdata.co.jp>,
-        Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
-        Paul Moore <paul@paul-moore.com>,
-        James Morris <jmorris@namei.org>,
-        "Serge E. Hallyn" <serge@hallyn.com>
-References: <20221116102659.70287-1-david@redhat.com>
- <20221116102659.70287-21-david@redhat.com>
- <CAHk-=wgtEwpR-rE_=cXzecHMZ+zgrx5zf9UfvH0w-mKgckn4=Q@mail.gmail.com>
-From:   David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-Subject: Re: [PATCH mm-unstable v1 20/20] mm: rename FOLL_FORCE to FOLL_PTRACE
-In-Reply-To: <CAHk-=wgtEwpR-rE_=cXzecHMZ+zgrx5zf9UfvH0w-mKgckn4=Q@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE
-        autolearn=unavailable autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 16.11.22 19:16, Linus Torvalds wrote:
-> On Wed, Nov 16, 2022 at 2:30 AM David Hildenbrand <david@redhat.com> wrote:
->>
->> Let's make it clearer that functionality provided by FOLL_FORCE is
->> really only for ptrace access.
-> 
-> I'm not super-happy about this one.
-> 
-> I do understand the "let's rename the bit so that no new user shows up".
-> 
-> And it's true that the main traditional use is ptrace.
-> 
-> But from the patch itself it becomes obvious that no, it's not *just*
-> ptrace. At least not yet.
-> 
-> It's used for get_arg_page(), which uses it to basically look up (and
-> install) pages in the newly created VM.
-> 
-> Now, I'm not entirely sure why it even uses FOLL_FORCE, - I think it
-> might be historical, because the target should always be the new stack
-> vma.
-> 
-> Following the history of it is a big of a mess, because there's a
-> number of renamings and re-organizations, but it seems to go back to
-> 2007 and commit b6a2fea39318 ("mm: variable length argument support").
-> 
+It turns out that Cedrus on H6 actually uses two IOMMU channels. Manual
+mentiones two IOMMU channels, but it doesn't specify which is used when.
+Page faults were also observed from both.
 
-Right.
+This series updates binding to allow up to two IOMMU channels and fixes
+H6 DTSI.
 
-> Before that commit, we kept our own array of "this is the set of pages
-> that I will install in the new VM". That commit basically just inserts
-> the pages directly into the VM instead, getting rid of the array size
-> limitation.
-> 
-> So at a minimum, I think that FOLL_FORCE would need to be removed
-> before any renaming to FOLL_PTRACE, because that's not some kind of
-> small random case.
-> 
-> It *might* be as simple as just removing it, but maybe there's some
-> reason for having it that I don't immediately see.
+Please take a look.
 
-Right, I have the same feeling. It might just be a copy-and-paste legacy 
-leftover.
+Best regards,
+Jernej
 
-> 
-> There _are_ also small random cases too, like get_cmdline(). Maybe
-> that counts as ptrace, but the execve() case most definitely does not.
+Jernej Skrabec (2):
+  media: dt-bindings: allwinner: video-engine: Fix number of IOMMU
+    channels
+  arm64: dts: allwinner: h6: Fix Cedrus IOMMU channels
 
-I agree. I'd suggest moving forward without this (last) patch for now 
-and figuring out how to further cleanup FOLL_FORCE usage on top.
+ .../bindings/media/allwinner,sun4i-a10-video-engine.yaml        | 2 +-
+ arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi                    | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-@Andrew, if you intend to put this into mm-unstable, please drop the 
-last patch for now.
-
--- 
-Thanks,
-
-David / dhildenb
+--
+2.38.1
 
