@@ -2,94 +2,171 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DE07862C60F
-	for <lists+linux-media@lfdr.de>; Wed, 16 Nov 2022 18:12:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EB03562C65C
+	for <lists+linux-media@lfdr.de>; Wed, 16 Nov 2022 18:29:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234165AbiKPRMr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 16 Nov 2022 12:12:47 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59718 "EHLO
+        id S234451AbiKPR3y (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 16 Nov 2022 12:29:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44738 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234036AbiKPRMp (ORCPT
+        with ESMTP id S234509AbiKPR3x (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 16 Nov 2022 12:12:45 -0500
-Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com [IPv6:2a00:1450:4864:20::42f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2AF2159FC7
-        for <linux-media@vger.kernel.org>; Wed, 16 Nov 2022 09:12:43 -0800 (PST)
-Received: by mail-wr1-x42f.google.com with SMTP id k8so31005044wrh.1
-        for <linux-media@vger.kernel.org>; Wed, 16 Nov 2022 09:12:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=SS13jutQzsVnuHsIxaZzTMZ4qjoqAtaYXdQokyzf1QQ=;
-        b=rUSCpZAXfgOMIW6a97mzdM5ZCgsOqot1SrKCKEfmkILfjrm1oNL9QVRdl82DXPzHnc
-         6TKEdf5oSupNRWuq8gqp+YMsIyOwS0Uf8rVMjUmWIkVQQjv02XbpPvjXxSmLeBSxVYPK
-         WUKEaEqDxJYQkvJEjM1BcC1vB02En0Y9JVXLUeNKhD8hiRQhfHMAJnfClHi9kPtKpi35
-         D3vz9DDJ84vyFyTYr7Y4so9Rsw4jU69gahYaG8f4clpC7wYQrunDS9kE1cCQNuaVaoSZ
-         hxd09mtec7uA+EYAgooznSZQVV4SqivyS/UUbTZJnww198Tu3G43O4LvAwz1T+8n41lQ
-         HmRw==
+        Wed, 16 Nov 2022 12:29:53 -0500
+Received: from mail-oo1-f42.google.com (mail-oo1-f42.google.com [209.85.161.42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 208AA32BA9;
+        Wed, 16 Nov 2022 09:29:52 -0800 (PST)
+Received: by mail-oo1-f42.google.com with SMTP id e11-20020a4ab14b000000b0049be568062bso2597673ooo.4;
+        Wed, 16 Nov 2022 09:29:52 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=SS13jutQzsVnuHsIxaZzTMZ4qjoqAtaYXdQokyzf1QQ=;
-        b=67gK9fq1L7Zm95tePbFsP+bZzSY9uLRHisAuBi5C91HT4//Z3keAPVgvIob05sStKG
-         JJ69K7sv2nd5mnO1gsdxM6axNp0Y2+Jmq9bYNHzvHk8HbVQ08uQyhiI+5R+pUDUNn/zS
-         ZdkIa0IgEgW6ilYq4TYcUVdsbHQVtv512Gl6kQIvUcz8sPnHEbklfnLOKh8fsaVQ9gTM
-         rQ/Sf4E9IvtiC0KhUNJqr0sh7Wm/s4W103b1oVrCS+hGoLhGJqRyFeGIaNgeN0Jr2lqs
-         R1oI+kzMmktbLj0lsSg/+KJCjJknLt3n9T9V1MmIOsuRdcNEyHfjlYnxfkcZKLqr0nLf
-         WtFw==
-X-Gm-Message-State: ANoB5pnDeGYP+zOaucxw+Db7YSzDaGp6atyy44Y4s3ZY0VytcTIGjLXM
-        Ewe8NnczkCJr7rrJJJVjTeTllw==
-X-Google-Smtp-Source: AA0mqf7wanB2B1LgkVQ+IuL1BNUZ5YNLx7YT2Euv4f4TSg1ZrO2byd2ULUScXoh6u0AlabX9xLCAqQ==
-X-Received: by 2002:adf:dec9:0:b0:236:860e:7704 with SMTP id i9-20020adfdec9000000b00236860e7704mr13925019wrn.463.1668618761777;
-        Wed, 16 Nov 2022 09:12:41 -0800 (PST)
-Received: from [192.168.0.162] (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
-        by smtp.gmail.com with ESMTPSA id g13-20020a5d554d000000b002366e3f1497sm15897540wrw.6.2022.11.16.09.12.40
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 16 Nov 2022 09:12:41 -0800 (PST)
-Message-ID: <559bf773-c03d-29db-e8f2-aaee20189dd9@linaro.org>
-Date:   Wed, 16 Nov 2022 17:12:39 +0000
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=TiZRwJ+mJX0JujaVc55ipnODAd5lXgBHhurRBqfzsSI=;
+        b=Ms/WI9NodAlZpc9LmcOBz5PPrLXeodij50uPU0jWoVElbLMTMCINKayCWcsuopM8/T
+         f1EdfWGWNTVGksb2mVluYgAeOduRHX08YrNnR/nxbHfqGn0AXfb7AMXfHR4+ZUyJZ8YD
+         LF5iqKG3Ww4PU24Eie7d473YySRyrahhFu2Tu/hGFwGssYqUkbJXqbzd7SFG95/PzeNl
+         WaXXk8rkxhUvtvxVZCID2dLBxKxfHrIpfTq5TQVmvW7FNJfz7Ljgu+LPnIYlL86FwZCR
+         mN9R3sq2VX1PDK2onjjaIozdLjwxOX0C7gZ1K1eDnU7SR+/59SdVHgNS/xhQLjK6JNKr
+         nurA==
+X-Gm-Message-State: ANoB5pmupij2vTa7+WFsXwAHDQzhEIFOI/5ELhwhJDODqs2bKg2yzn/Z
+        42Jruu9XeHoQeQPH/Wjy3Q==
+X-Google-Smtp-Source: AA0mqf7cJeNBtZVp0MmQORg/6QiAJfJWHo09p0aiOG4XwqyXKGRbJY+74MdCHUSoYXUWALOVHDxhQw==
+X-Received: by 2002:a4a:c298:0:b0:49e:a604:b053 with SMTP id b24-20020a4ac298000000b0049ea604b053mr10169038ooq.85.1668619790882;
+        Wed, 16 Nov 2022 09:29:50 -0800 (PST)
+Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id z9-20020a4ade49000000b0049eedb106e2sm6289417oot.15.2022.11.16.09.29.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 16 Nov 2022 09:29:50 -0800 (PST)
+Received: (nullmailer pid 554417 invoked by uid 1000);
+        Wed, 16 Nov 2022 17:29:52 -0000
+Date:   Wed, 16 Nov 2022 11:29:52 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Yunfei Dong <yunfei.dong@mediatek.com>
+Cc:     Chen-Yu Tsai <wenst@chromium.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Tiffany Lin <tiffany.lin@mediatek.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Hsin-Yi Wang <hsinyi@chromium.org>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Steve Cho <stevecho@chromium.org>, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org,
+        Project_Global_Chrome_Upstream_Group@mediatek.com
+Subject: Re: [PATCH v2,1/3] media: dt-bindings: media: mediatek: vcodec: Fix
+ clock num not correctly
+Message-ID: <20221116172952.GA461876-robh@kernel.org>
+References: <20221110102834.8946-1-yunfei.dong@mediatek.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH v6 7/7] arm64: dts: qcom: qrb5165-rb5-vision-mezzanine:
- Add vision mezzanine
-Content-Language: en-US
-To:     Konrad Dybcio <konrad.dybcio@linaro.org>, robert.foss@linaro.org,
-        todor.too@gmail.com, agross@kernel.org, andersson@kernel.org,
-        mchehab@kernel.org, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, dmitry.baryshkov@linaro.org,
-        vladimir.zapolskiy@linaro.org
-Cc:     sakari.ailus@iki.fi, hverkuil@xs4all.nl,
-        laurent.pinchart@ideasonboard.com, quic_mmitkov@quicinc.com,
-        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        devicetree@vger.kernel.org
-References: <20221116162801.546737-1-bryan.odonoghue@linaro.org>
- <20221116162801.546737-8-bryan.odonoghue@linaro.org>
- <3aed0e79-1efb-d6ad-101e-84a5202776b2@linaro.org>
-From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <3aed0e79-1efb-d6ad-101e-84a5202776b2@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221110102834.8946-1-yunfei.dong@mediatek.com>
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
+        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 16/11/2022 16:40, Konrad Dybcio wrote:
-> Status goes last.
+On Thu, Nov 10, 2022 at 06:28:32PM +0800, Yunfei Dong wrote:
+> mt8195 and mt8192 have different clock numbers, can't write 'clocks' and
+> 'clock-names' with const value.
 
-Hmm, that's a new one on me but sure
+Not a compatible change. Explain why that is okay if it is.
 
-> With this:
-> Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+> 
+> Move 'assigned-clocks' and 'assigned-clock-parents' to parent node.
+> 
+> Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
+> ---
+>  .../media/mediatek,vcodec-subdev-decoder.yaml | 119 +++++++++++-------
+>  1 file changed, 72 insertions(+), 47 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/media/mediatek,vcodec-subdev-decoder.yaml b/Documentation/devicetree/bindings/media/mediatek,vcodec-subdev-decoder.yaml
+> index c4f20acdc1f8..794012853834 100644
+> --- a/Documentation/devicetree/bindings/media/mediatek,vcodec-subdev-decoder.yaml
+> +++ b/Documentation/devicetree/bindings/media/mediatek,vcodec-subdev-decoder.yaml
+> @@ -89,23 +89,33 @@ properties:
+>  
+>    ranges: true
+>  
+> +  clocks:
+> +    minItems: 1
+> +    maxItems: 5
+> +
+> +  clock-names:
+> +    minItems: 1
+> +    maxItems: 5
 
-Thanks
+Why do both the parent and child have clocks?
+
+> +
+> +  assigned-clocks:
+> +    maxItems: 1
+> +
+> +  assigned-clock-parents:
+> +    maxItems: 1
+
+You can just drop assigned-clock properties. They are allowed in any 
+node with 'clocks'.
+
+> +
+>  # Required child node:
+>  patternProperties:
+> -  '^vcodec-lat@[0-9a-f]+$':
+> +  '^vcodec-lat-soc@[0-9a-f]+$':
+>      type: object
+>  
+>      properties:
+>        compatible:
+>          enum:
+> -          - mediatek,mtk-vcodec-lat
+>            - mediatek,mtk-vcodec-lat-soc
+>  
+>        reg:
+>          maxItems: 1
+>  
+> -      interrupts:
+> -        maxItems: 1
+> -
+
+Dropping interrupts? Not explained in the commit msg (why?).
+
+>        iommus:
+>          minItems: 1
+>          maxItems: 32
+> @@ -114,22 +124,55 @@ patternProperties:
+>            Refer to bindings/iommu/mediatek,iommu.yaml.
+>  
+>        clocks:
+> +        minItems: 1
+>          maxItems: 5
+>  
+>        clock-names:
+> -        items:
+> -          - const: sel
+> -          - const: soc-vdec
+> -          - const: soc-lat
+> -          - const: vdec
+> -          - const: top
+> +        minItems: 1
+> +        maxItems: 5
+
+We had names defined and now we don't. That's a step backwards.
+
+>  
+> -      assigned-clocks:
+> +      power-domains:
+
+Adding power-domains?
+
+Rob
