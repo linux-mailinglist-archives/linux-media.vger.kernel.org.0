@@ -2,107 +2,105 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2594562C1D6
-	for <lists+linux-media@lfdr.de>; Wed, 16 Nov 2022 16:07:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B72ED62C20C
+	for <lists+linux-media@lfdr.de>; Wed, 16 Nov 2022 16:15:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234440AbiKPPHc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 16 Nov 2022 10:07:32 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56872 "EHLO
+        id S233313AbiKPPPi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 16 Nov 2022 10:15:38 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35478 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234379AbiKPPH3 (ORCPT
+        with ESMTP id S233256AbiKPPPg (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 16 Nov 2022 10:07:29 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1DDD21144A
-        for <linux-media@vger.kernel.org>; Wed, 16 Nov 2022 07:07:27 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id C1F7CB81DC3
-        for <linux-media@vger.kernel.org>; Wed, 16 Nov 2022 15:07:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4130AC433C1
-        for <linux-media@vger.kernel.org>; Wed, 16 Nov 2022 15:07:24 +0000 (UTC)
-Message-ID: <3e6c8655-0c65-d673-a8dd-98d0a484b57f@xs4all.nl>
-Date:   Wed, 16 Nov 2022 16:07:22 +0100
+        Wed, 16 Nov 2022 10:15:36 -0500
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 199EF4B990;
+        Wed, 16 Nov 2022 07:15:34 -0800 (PST)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id BDFAE150C;
+        Wed, 16 Nov 2022 07:15:36 -0800 (PST)
+Received: from [10.57.70.190] (unknown [10.57.70.190])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A3E913F587;
+        Wed, 16 Nov 2022 07:15:26 -0800 (PST)
+Message-ID: <be8ca3f9-b7f7-5402-0cfc-47b9985e007b@arm.com>
+Date:   Wed, 16 Nov 2022 15:15:10 +0000
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:102.0) Gecko/20100101
  Thunderbird/102.4.1
-Content-Language: en-US
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: [PATCH for v6.1] media: v4l2-dv-timings.c: fix too strict blanking
- sanity checks
-Content-Type: text/plain; charset=UTF-8
+Subject: Re: [PATCH 2/7] RDMA/hfi1: don't pass bogus GFP_ flags to
+ dma_alloc_coherent
+Content-Language: en-GB
+To:     Dean Luick <dean.luick@cornelisnetworks.com>,
+        Christoph Hellwig <hch@lst.de>,
+        Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Alexandra Winter <wintera@linux.ibm.com>,
+        Wenjia Zhang <wenjia@linux.ibm.com>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>,
+        Russell King <linux@armlinux.org.uk>
+Cc:     linux-arm-kernel@lists.infradead.org, linux-rdma@vger.kernel.org,
+        iommu@lists.linux.dev, linux-media@vger.kernel.org,
+        netdev@vger.kernel.org, linux-s390@vger.kernel.org,
+        alsa-devel@alsa-project.org
+References: <20221113163535.884299-1-hch@lst.de>
+ <20221113163535.884299-3-hch@lst.de>
+ <c7c6eb30-4b54-01f7-9651-07deac3662bf@cornelisnetworks.com>
+From:   Robin Murphy <robin.murphy@arm.com>
+In-Reply-To: <c7c6eb30-4b54-01f7-9651-07deac3662bf@cornelisnetworks.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_NONE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Sanity checks were added to verify the v4l2_bt_timings blanking fields
-in order to avoid integer overflows when userspace passes weird values.
+On 2022-11-16 14:40, Dean Luick wrote:
+> On 11/13/2022 10:35 AM, Christoph Hellwig wrote:
+>> dma_alloc_coherent is an opaque allocator that only uses the GFP_ flags
+>> for allocation context control.  Don't pass GFP_USER which doesn't make
+>> sense for a kernel DMA allocation or __GFP_COMP which makes no sense
+>> for an allocation that can't in any way be converted to a page pointer.
+>>
+>> Signed-off-by: Christoph Hellwig <hch@lst.de>
+>> ---
+>>   drivers/infiniband/hw/hfi1/init.c | 21 +++------------------
+>>   1 file changed, 3 insertions(+), 18 deletions(-)
+>>
+>> diff --git a/drivers/infiniband/hw/hfi1/init.c b/drivers/infiniband/hw/hfi1/init.c
+>> index 436372b314312..24c0f0d257fc9 100644
+>> --- a/drivers/infiniband/hw/hfi1/init.c
+>> +++ b/drivers/infiniband/hw/hfi1/init.c
+>> @@ -1761,17 +1761,11 @@ int hfi1_create_rcvhdrq(struct hfi1_devdata *dd, struct hfi1_ctxtdata *rcd)
+>>        unsigned amt;
+>>
+>>        if (!rcd->rcvhdrq) {
+>> -             gfp_t gfp_flags;
+>> -
+>>                amt = rcvhdrq_size(rcd);
+>>
+>> -             if (rcd->ctxt < dd->first_dyn_alloc_ctxt || rcd->is_vnic)
+>> -                     gfp_flags = GFP_KERNEL;
+>> -             else
+>> -                     gfp_flags = GFP_USER;
+>>                rcd->rcvhdrq = dma_alloc_coherent(&dd->pcidev->dev, amt,
+>>                                                  &rcd->rcvhdrq_dma,
+>> -                                               gfp_flags | __GFP_COMP);
+>> +                                               GFP_KERNEL);
+> 
+> A user context receive header queue may be mapped into user space.  Is that not the use case for GFP_USER?  The above conditional is what decides.
+> 
+> Why do you think GFP_USER should be removed here?
 
-But that assumed that userspace would correctly fill in the front porch,
-backporch and sync values, but sometimes all you know is the total
-blanking, which is then assigned to just one of these fields.
+Coherent DMA buffers are allocated by a kernel driver or subsystem for 
+the use of a device managed by that driver or subsystem, and thus they 
+fundamentally belong to the kernel as proxy for the device. Any coherent 
+DMA buffer may be mapped to userspace with the dma_mmap_*() interfaces, 
+but they're never a "userspace allocation" in that sense.
 
-And that can fail with these checks.
-
-So instead set a maximum for the total horizontal and vertical
-blanking and check that each field remains below that.
-
-That is still sufficient to avoid integer overflows, but it also
-allows for more flexibility in how userspace fills in these fields.
-
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
----
- drivers/media/v4l2-core/v4l2-dv-timings.c | 20 ++++++++++++++------
- 1 file changed, 14 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/media/v4l2-core/v4l2-dv-timings.c b/drivers/media/v4l2-core/v4l2-dv-timings.c
-index fe50efe..3902edc 100644
---- a/drivers/media/v4l2-core/v4l2-dv-timings.c
-+++ b/drivers/media/v4l2-core/v4l2-dv-timings.c
-@@ -157,6 +157,8 @@ bool v4l2_valid_dv_timings(const struct v4l2_dv_timings *t,
- 	const struct v4l2_bt_timings *bt = &t->bt;
- 	const struct v4l2_bt_timings_cap *cap = &dvcap->bt;
- 	u32 caps = cap->capabilities;
-+	const u32 max_vert = 10240;
-+	u32 max_hor = 3 * bt->width;
-
- 	if (t->type != V4L2_DV_BT_656_1120)
- 		return false;
-@@ -178,14 +180,20 @@ bool v4l2_valid_dv_timings(const struct v4l2_dv_timings *t,
- 	if (!bt->interlaced &&
- 	    (bt->il_vbackporch || bt->il_vsync || bt->il_vfrontporch))
- 		return false;
--	if (bt->hfrontporch > 2 * bt->width ||
--	    bt->hsync > 1024 || bt->hbackporch > 1024)
-+	/*
-+	 * Some video receivers cannot properly separate the frontporch,
-+	 * backporch and sync values, and instead they only have the total
-+	 * blanking. That can be assigned to any of these three fields.
-+	 * So just check that none of these are way out of range.
-+	 */
-+	if (bt->hfrontporch > max_hor ||
-+	    bt->hsync > max_hor || bt->hbackporch > max_hor)
- 		return false;
--	if (bt->vfrontporch > 4096 ||
--	    bt->vsync > 128 || bt->vbackporch > 4096)
-+	if (bt->vfrontporch > max_vert ||
-+	    bt->vsync > max_vert || bt->vbackporch > max_vert)
- 		return false;
--	if (bt->interlaced && (bt->il_vfrontporch > 4096 ||
--	    bt->il_vsync > 128 || bt->il_vbackporch > 4096))
-+	if (bt->interlaced && (bt->il_vfrontporch > max_vert ||
-+	    bt->il_vsync > max_vert || bt->il_vbackporch > max_vert))
- 		return false;
- 	return fnc == NULL || fnc(t, fnc_handle);
- }
--- 
-2.10.2
-
+Thanks,
+Robin.
