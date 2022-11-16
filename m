@@ -2,60 +2,77 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2D8CA62C991
-	for <lists+linux-media@lfdr.de>; Wed, 16 Nov 2022 21:07:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E8BC562CB5F
+	for <lists+linux-media@lfdr.de>; Wed, 16 Nov 2022 21:48:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230471AbiKPUHj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 16 Nov 2022 15:07:39 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37684 "EHLO
+        id S233756AbiKPUsR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 16 Nov 2022 15:48:17 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60324 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233419AbiKPUH3 (ORCPT
+        with ESMTP id S233486AbiKPUsL (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 16 Nov 2022 15:07:29 -0500
-Received: from mail-oa1-f53.google.com (mail-oa1-f53.google.com [209.85.160.53])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E77A565E6E;
-        Wed, 16 Nov 2022 12:07:28 -0800 (PST)
-Received: by mail-oa1-f53.google.com with SMTP id 586e51a60fabf-13b103a3e5dso21442831fac.2;
-        Wed, 16 Nov 2022 12:07:28 -0800 (PST)
+        Wed, 16 Nov 2022 15:48:11 -0500
+Received: from mail-lj1-x22b.google.com (mail-lj1-x22b.google.com [IPv6:2a00:1450:4864:20::22b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D7FA61757;
+        Wed, 16 Nov 2022 12:48:10 -0800 (PST)
+Received: by mail-lj1-x22b.google.com with SMTP id x21so23406348ljg.10;
+        Wed, 16 Nov 2022 12:48:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=googlemail.com; s=20210112;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:date:from:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=6JrqJ6Sbn/mpwug3ot31DQ5jlBaAKyV9UfORVKR2Mss=;
+        b=ae8G2P4a+COzSBWklcw0bHYPAGArR/ipKsW+u7fiYxLC5RpiZCMPR1nP6paPHPtTU+
+         ixAtrPPkYXbQrKfG9JJYkVYljE/UarocqtY2NdpjfKE/yG+428aRbIWnx8d23Nbgngem
+         03e0erDFegoKeZ43KUMQmwfav4coOnd7KBBFBNxo/+2jdxIkFW/kgI3aW8cwEaDubHWz
+         VW6GaCciKF2TAdB14poivTQIW0ORCgyvavOMn59cxTTT7hkGEXlT1JRgnxxWahYX3oCj
+         zFfb2hQCOlTpnhIxRLUJq3uz7DGJW4p/zHMlSmf1UqgBuzLCY3UyXYDvx9/fs5eBxPWR
+         VBBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=X3o0hIsvJFOLcZ8ESMlVcurvtD+mmqbtLVyGcl/sY54=;
-        b=26fupIloWNZ+QSC+uZMJM03bzNYdaZsLotSM05rWRF//exfuk2f8Q0eh6SQxBwE3Jv
-         Z4b0ZVSXJkEs7w5nn5CqIas1PaUthonIzmrxAZZGv0BmDa/o8CfugY3wUrk63v7wk50C
-         iJ2H69l/hDmvTh2Mb4yalXbg7iqyQgSlkIsLPlRQA9dllqdXI6H8uUug6OKDzd7ELRwS
-         74YNh/sopES43wDxA5iwVVPxKvFdVdlGxONLiJ240QNdrBwnOu0vcISL23xdRrk3FIpx
-         FN809AR3CmSrAr1mC6rUgqpMWA0PCFzkJZtc/PLt03lJGt7YkaJfeJmYxKd9CR3etL3w
-         uXjg==
-X-Gm-Message-State: ANoB5pkSy53nC1xOyunURz5ELV+cf15JYYLaJzgtSUh78cO60Wezz9A6
-        B019iqeZWqsF8UYsm5Fctzm/ucjGRQ==
-X-Google-Smtp-Source: AA0mqf7Y5mayIIOJnRs5fm9MG6XmlJ2p14iimv18HohLuyFxhN240z+lGGHwegz/4DlOh0LhyYyflg==
-X-Received: by 2002:a05:6870:ad06:b0:13b:158f:8dad with SMTP id nt6-20020a056870ad0600b0013b158f8dadmr2598703oab.253.1668629248109;
-        Wed, 16 Nov 2022 12:07:28 -0800 (PST)
-Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id f23-20020a9d7b57000000b00661a3f4113bsm6911392oto.64.2022.11.16.12.07.27
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:date:from
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=6JrqJ6Sbn/mpwug3ot31DQ5jlBaAKyV9UfORVKR2Mss=;
+        b=GkUsu7oxRD8SKkiAUIJJRIRCIksqN8MszfjMH4A9Hyb6tmDsXAE6nfv5ymIGKts8fv
+         bt0dRmT3FXmZe+oZwZu064HqszysEegJrVT1V9/MxzYMT5tJkMVMkCui2O4iQOOuDTJM
+         6yldyFD5Z2jfOsOWfqoPzrMQZznSJuD5ICkX0Xz3z/PczBM+hE0nxslybIDcSSCK4XAu
+         fxLf0W425vHwD7mfHZkes3TJrNKjuS2L+bWn+03mxpp+kxjBXNFw7eIia1LdKBEQ2g+n
+         XEXfOQd1Jbgq42q69goRKPLlVDRoPeINUhEZ/EzCVpEUtOBNr/qaKv0tMOseKvCJtfvG
+         sotQ==
+X-Gm-Message-State: ANoB5pnbvsatvchgY6OexzyhvjYV02EcxYhMzNN35kcQ40gVXrGHEEF3
+        XilQ9Ik6hbY6gZFEU4668HkTn5E/5jM1oQ==
+X-Google-Smtp-Source: AA0mqf7c2zjF447ne46/zGiLbIu4u1JQD5e98fP8HM3pjr3ANuBHPVYOBUVr94QMa4CkrW+Ny/1oPw==
+X-Received: by 2002:a2e:9103:0:b0:278:fa62:bc90 with SMTP id m3-20020a2e9103000000b00278fa62bc90mr6506ljg.360.1668631688223;
+        Wed, 16 Nov 2022 12:48:08 -0800 (PST)
+Received: from thinkpad-p72 (user-5-173-65-115.play-internet.pl. [5.173.65.115])
+        by smtp.gmail.com with ESMTPSA id n1-20020ac24901000000b004b4823f02b0sm2759613lfi.152.2022.11.16.12.48.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Nov 2022 12:07:27 -0800 (PST)
-Received: (nullmailer pid 806612 invoked by uid 1000);
-        Wed, 16 Nov 2022 20:07:29 -0000
-Date:   Wed, 16 Nov 2022 14:07:29 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Erling Ljunggren <hljunggr@cisco.com>
-Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH v4 3/5] dt-bindings: media: add cat24c208 bindings
-Message-ID: <20221116200729.GA761467-robh@kernel.org>
-References: <20221111132906.2212662-1-hljunggr@cisco.com>
- <20221111132906.2212662-4-hljunggr@cisco.com>
+        Wed, 16 Nov 2022 12:48:07 -0800 (PST)
+From:   Lukasz Wiecaszek <lukasz.wiecaszek@googlemail.com>
+X-Google-Original-From: Lukasz Wiecaszek <lukasz.wiecaszek@gmail.com>
+Date:   Wed, 16 Nov 2022 21:48:04 +0100
+To:     Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc:     Lukasz Wiecaszek <lukasz.wiecaszek@googlemail.com>,
+        Gerd Hoffmann <kraxel@redhat.com>,
+        Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+        kernel test robot <lkp@intel.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] udmabuf: add vmap and vunmap methods to udmabuf_ops
+Message-ID: <20221116204804.GA22663@thinkpad-p72>
+References: <20221115200426.4801-1-lukasz.wiecaszek@gmail.com>
+ <b715cb83-32f1-a33b-a0c2-b779011151c0@amd.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20221111132906.2212662-4-hljunggr@cisco.com>
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
-        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS autolearn=no
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <b715cb83-32f1-a33b-a0c2-b779011151c0@amd.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -63,55 +80,114 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Nov 11, 2022 at 02:29:04PM +0100, Erling Ljunggren wrote:
-> Add devicetree bindings for new cat24c208 EDID EEPROM driver.
+On Wed, Nov 16, 2022 at 01:01:46PM +0100, Christian König wrote:
+> Am 15.11.22 um 21:04 schrieb Lukasz Wiecaszek:
+> > The reason behind that patch is associated with videobuf2 subsystem
+> > (or more genrally with v4l2 framework) and user created
+> > dma buffers (udmabuf). In some circumstances
+> > when dealing with V4L2_MEMORY_DMABUF buffers videobuf2 subsystem
+> > wants to use dma_buf_vmap() method on the attached dma buffer.
+> > As udmabuf does not have .vmap operation implemented,
+> > such dma_buf_vmap() natually fails.
+> > 
+> > videobuf2_common: __vb2_queue_alloc: allocated 3 buffers, 1 plane(s) each
+> > videobuf2_common: __prepare_dmabuf: buffer for plane 0 changed
+> > videobuf2_common: __prepare_dmabuf: failed to map dmabuf for plane 0
+> > videobuf2_common: __buf_prepare: buffer preparation failed: -14
+> > 
+> > The patch itself seems to be strighforward.
+> > It adds implementation of .vmap and .vunmap methods
+> > to 'struct dma_buf_ops udmabuf_ops'.
+> > .vmap method itself uses vm_map_ram() to map pages linearly
+> > into the kernel virtual address space.
+> > .vunmap removes mapping created earlier by .vmap.
+> > All locking and 'vmapping counting' is done in dma_buf.c
+> > so it seems to be redundant/unnecessary in .vmap/.vunmap.
+> > 
+> > Signed-off-by: Lukasz Wiecaszek <lukasz.wiecaszek@gmail.com>
 > 
-> Signed-off-by: Erling Ljunggren <hljunggr@cisco.com>
-> ---
->  .../bindings/media/i2c/onnn,cat24c208.yaml    | 46 +++++++++++++++++++
->  1 file changed, 46 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/i2c/onnn,cat24c208.yaml
+> > Reported-by: kernel test robot <lkp@intel.com>
 > 
-> diff --git a/Documentation/devicetree/bindings/media/i2c/onnn,cat24c208.yaml b/Documentation/devicetree/bindings/media/i2c/onnn,cat24c208.yaml
-> new file mode 100644
-> index 000000000000..492eecb3ab7c
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/i2c/onnn,cat24c208.yaml
-> @@ -0,0 +1,46 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/i2c/onnn,cat24c208.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: ON Semiconductor CAT24C208 EDID EEPROM driver
-> +
-> +maintainers:
-> +  - Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> +
-> +description: |
-> +  CAT24C208 is a dual port i2c EEPROM designed for EDID storage.
-> +
-> +properties:
-> +  compatible:
-> +    const: onnn,cat24c208
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  input-connector:
-> +    description: |
-> +      Phandle to the video input connector, used to find
-> +      the HPD gpio and the connector label, both optional.
-> +    $ref: /schemas/types.yaml#/definitions/phandle
+> Please drop this line, the kernel test robot should only be mentioned if the
+> original report came from it.
+> 
+> And keep in mind that it might be necessary to implement begin/end cpu
+> access callbacks as well.
+> 
+> Apart from that the patch is Acked-by: Christian König
+> <christian.koenig@amd.com>.
+> 
+> Regards,
+> Christian.
 
-The binding and driver feel the wrong way around to me. It seems 
-like you should have a driver for the connector and it needs HPD GPIO, 
-label, and EEPROM. The driver instead looks mostly like an EEPROM driver 
-that hooks into a few connector properties.
+Thanks for that lesson with the 'kernel test robot' line.
+The second issue with begin/end cpu access callbacks is more complicated
+to me. My understaning is that memory allocated for udambuf will be the 
+memory obtained most likely (if not always) by memfd_create(). 
+So this will be the anonymous system memory which is 'by definition' 
+coherent for cpu access. So no need for begin/end callbacks.
+But if I miss something, plese let me/us know.
 
-Reading the datasheet, I don't see anything special about accessing the 
-EEPROM from the host (DSP) side. Wouldn't the default at24 driver work? 
-It exposes regmap and nvmem.
-
-Rob
+> 
+> > ---
+> > v1: https://lore.kernel.org/linux-media/202211120352.G7WPASoP-lkp@intel.com/T/#t
+> > v2: https://lore.kernel.org/linux-media/20221114052944.GA7264@thinkpad-p72/T/#t
+> > 
+> > v2 -> v3: Added .vunmap to 'struct dma_buf_ops udmabuf_ops'
+> > v1 -> v2: Patch prepared and tested against 6.1.0-rc2+
+> > 
+> >   drivers/dma-buf/udmabuf.c | 28 ++++++++++++++++++++++++++++
+> >   1 file changed, 28 insertions(+)
+> > 
+> > diff --git a/drivers/dma-buf/udmabuf.c b/drivers/dma-buf/udmabuf.c
+> > index 283816fbd72f..740d6e426ee9 100644
+> > --- a/drivers/dma-buf/udmabuf.c
+> > +++ b/drivers/dma-buf/udmabuf.c
+> > @@ -13,6 +13,8 @@
+> >   #include <linux/slab.h>
+> >   #include <linux/udmabuf.h>
+> >   #include <linux/hugetlb.h>
+> > +#include <linux/vmalloc.h>
+> > +#include <linux/iosys-map.h>
+> >   static int list_limit = 1024;
+> >   module_param(list_limit, int, 0644);
+> > @@ -60,6 +62,30 @@ static int mmap_udmabuf(struct dma_buf *buf, struct vm_area_struct *vma)
+> >   	return 0;
+> >   }
+> > +static int vmap_udmabuf(struct dma_buf *buf, struct iosys_map *map)
+> > +{
+> > +	struct udmabuf *ubuf = buf->priv;
+> > +	void *vaddr;
+> > +
+> > +	dma_resv_assert_held(buf->resv);
+> > +
+> > +	vaddr = vm_map_ram(ubuf->pages, ubuf->pagecount, -1);
+> > +	if (!vaddr)
+> > +		return -EINVAL;
+> > +
+> > +	iosys_map_set_vaddr(map, vaddr);
+> > +	return 0;
+> > +}
+> > +
+> > +static void vunmap_udmabuf(struct dma_buf *buf, struct iosys_map *map)
+> > +{
+> > +	struct udmabuf *ubuf = buf->priv;
+> > +
+> > +	dma_resv_assert_held(buf->resv);
+> > +
+> > +	vm_unmap_ram(map->vaddr, ubuf->pagecount);
+> > +}
+> > +
+> >   static struct sg_table *get_sg_table(struct device *dev, struct dma_buf *buf,
+> >   				     enum dma_data_direction direction)
+> >   {
+> > @@ -162,6 +188,8 @@ static const struct dma_buf_ops udmabuf_ops = {
+> >   	.unmap_dma_buf	   = unmap_udmabuf,
+> >   	.release	   = release_udmabuf,
+> >   	.mmap		   = mmap_udmabuf,
+> > +	.vmap		   = vmap_udmabuf,
+> > +	.vunmap		   = vunmap_udmabuf,
+> >   	.begin_cpu_access  = begin_cpu_udmabuf,
+> >   	.end_cpu_access    = end_cpu_udmabuf,
+> >   };
+> 
