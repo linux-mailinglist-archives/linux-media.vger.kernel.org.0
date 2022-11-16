@@ -2,119 +2,126 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8017062CDEF
-	for <lists+linux-media@lfdr.de>; Wed, 16 Nov 2022 23:43:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3209262CE7C
+	for <lists+linux-media@lfdr.de>; Thu, 17 Nov 2022 00:06:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234501AbiKPWn3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 16 Nov 2022 17:43:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59712 "EHLO
+        id S233878AbiKPXGZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 16 Nov 2022 18:06:25 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43576 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234182AbiKPWnQ (ORCPT
+        with ESMTP id S229641AbiKPXGX (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 16 Nov 2022 17:43:16 -0500
-Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com [IPv6:2607:f8b0:4864:20::629])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 11F006BDCB
-        for <linux-media@vger.kernel.org>; Wed, 16 Nov 2022 14:43:15 -0800 (PST)
-Received: by mail-pl1-x629.google.com with SMTP id b21so17782212plc.9
-        for <linux-media@vger.kernel.org>; Wed, 16 Nov 2022 14:43:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Wf2gFJO0eZI55pjXm8OYjMYkGLte7QuRao7+IuvSaqE=;
-        b=D2amVl9V9KQfzLW2zaIS23IBouuPji7hB+OAx+ZhW9BBCDB5OKBikMdNxb0VPTDxJj
-         csClJ0YRCWBC/mBx5CM8cmRfxBeg4UGIi36VQSyP9C8PzSygpHTtXYMcx806fNdiiKsi
-         DAssScFkYAwJ1pFNUcIn3ZWqN1hBHz6LpWnys=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Wf2gFJO0eZI55pjXm8OYjMYkGLte7QuRao7+IuvSaqE=;
-        b=5RnD6DzyV888ECdWdXRlmQfXNE963MroyAy56BiIdCtDSkLnx6k7jF0huFH+DoX9so
-         qraGw6woDJwIEPR9dkLGKATyxrFFqlN14mqK9xqQvrWdURdxPfgd677SLgBJ3S+zgfsk
-         f2zxTLEALPoD1S1USFbXhwvWkFPI7sXrcEz9MHDj9OsBJGf8EdYkUtQ7bcXS8o4BXUjS
-         iMD3sHSWxnUaDHAqycqqJPKntraYihsrKqmuh6grYX0gK0oZR3D4foXULf9YLsPPglTf
-         8divqfbmJUn5Pi2S95z3nYrxT/oMrD/DGNNPOVO/O4x0DUw5uDs9OzBhw2FxQ8/FUr8J
-         EYCQ==
-X-Gm-Message-State: ANoB5pmqB3xQ6+6+KaP9kiQRmKH0rt6mYxslE9YiTiHNKhIho1CD0JMr
-        eyZKpBN26JJuR65KQpvQfvTJCw==
-X-Google-Smtp-Source: AA0mqf5VxV4Cbn3MvfOzCKh9TKzLZskissYVmNmiO/kVOhEqnlwi5i8J4bomSjPXRjnnkIIEn4wz5w==
-X-Received: by 2002:a17:90b:3c42:b0:213:1ce7:d962 with SMTP id pm2-20020a17090b3c4200b002131ce7d962mr6007688pjb.63.1668638594628;
-        Wed, 16 Nov 2022 14:43:14 -0800 (PST)
-Received: from www.outflux.net (198-0-35-241-static.hfc.comcastbusiness.net. [198.0.35.241])
-        by smtp.gmail.com with ESMTPSA id a9-20020a170902710900b00183c6784704sm12680746pll.291.2022.11.16.14.43.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Nov 2022 14:43:14 -0800 (PST)
-Date:   Wed, 16 Nov 2022 14:43:13 -0800
-From:   Kees Cook <keescook@chromium.org>
-To:     "Jason A. Donenfeld" <Jason@zx2c4.com>
-Cc:     linux-kernel@vger.kernel.org, patches@lists.linux.dev,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Russell King <linux@armlinux.org.uk>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        Christoph =?iso-8859-1?Q?B=F6hmwalder?= 
-        <christoph.boehmwalder@linbit.com>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Jason Gunthorpe <jgg@nvidia.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        "Martin K . Petersen" <martin.petersen@oracle.com>,
-        Theodore Ts'o <tytso@mit.edu>,
-        Andreas Dilger <adilger.kernel@dilger.ca>,
-        Jaegeuk Kim <jaegeuk@kernel.org>,
-        Richard Weinberger <richard@nod.at>,
-        "Darrick J . Wong" <djwong@kernel.org>,
-        SeongJae Park <sj@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Helge Deller <deller@gmx.de>, netdev@vger.kernel.org,
-        linux-crypto@vger.kernel.org, linux-block@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, loongarch@lists.linux.dev,
-        linux-mips@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        linux-mmc@vger.kernel.org, linux-parisc@vger.kernel.org
-Subject: Re: [PATCH v2 3/3] treewide: use get_random_u32_between() when
- possible
-Message-ID: <202211161436.A45AD719A@keescook>
-References: <20221114164558.1180362-1-Jason@zx2c4.com>
- <20221114164558.1180362-4-Jason@zx2c4.com>
+        Wed, 16 Nov 2022 18:06:23 -0500
+Received: from wout1-smtp.messagingengine.com (wout1-smtp.messagingengine.com [64.147.123.24])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0B67832B86;
+        Wed, 16 Nov 2022 15:06:22 -0800 (PST)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+        by mailout.west.internal (Postfix) with ESMTP id F355832009A0;
+        Wed, 16 Nov 2022 18:06:19 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute2.internal (MEProxy); Wed, 16 Nov 2022 18:06:20 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
+        cc:cc:content-transfer-encoding:content-type:date:date:from:from
+        :in-reply-to:in-reply-to:message-id:mime-version:references
+        :reply-to:sender:subject:subject:to:to; s=fm2; t=1668639979; x=
+        1668726379; bh=KFtL7NqTvZI+19d8wSLjfwbpth3MGn8P3Kyk3c2j8uk=; b=Y
+        /2hKiOIIFYsfIXg0J5dZKNKvzMp9OWgrntt40C+kQzXVR1e7YchwUqrBeXu/1fyw
+        iR7sRMez5kZ7XAECqIc8PEZ34q/YGeTIn5eotuwcmo/mBnSACJcElJ60e4IKHxWp
+        iAVzx93t2AkJSQKSrIXhFoBQdpBtp1zi5Be/x/C/D/pB93xxiZtWqzsG+i9vXi1i
+        C5XvH8xe/sAcJHdJbULQTZh/QotZHWnphJGSlUdgwuSDAWWFJ4HHUy/D1Dk5ZKNw
+        4686jozx1olB7vAxIZa6F6ZxZwS1GCAea06DOkhL13srusZkenJ+7eNV0Hrgs8Ea
+        N7s2IzLKO6wr3m2aKK4yA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-transfer-encoding
+        :content-type:date:date:feedback-id:feedback-id:from:from
+        :in-reply-to:in-reply-to:message-id:mime-version:references
+        :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+        :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1668639979; x=
+        1668726379; bh=KFtL7NqTvZI+19d8wSLjfwbpth3MGn8P3Kyk3c2j8uk=; b=p
+        4H5UU8OWML9T4zxjTvCNG0VDoU/eIqvLh37jaQA1fonADnS7T8Ie9j++2aJnhk6j
+        LDzb5w2Osj9Qid/pQjCNNCWwmEq8iiJ5K0qsTGHiC5uQ73KC3XAK3ue546EoPNRq
+        Pcj9MtA6fIRZoCo4fP40xVYWUnr9zQTkMGYJN6twucfB/gyNRfORndwKTRsqVGSQ
+        19bJQrHpsDEhunWFfegDyD6KKdoOhDCYE5ap8e4oNIRHwQTckvT97wNGQgdhRXgG
+        BDv7L+mzuMc433fyn1s0OozIfv8NL+eMpdk9iOfY6AHPt6jOaed6/eCqNGfMBfVu
+        m8sRsSgglgSt6z4UaLJ5w==
+X-ME-Sender: <xms:6mx1Y3SOTuoXLCcmFztQqqhbzuYh7ViHGBdTH7Z5y_xsqKaHvXJVZg>
+    <xme:6mx1Y4z7VIpTFMP9eqeQsS-hpQq2Esz1oSnZNNG4Z25j6dBkSaM79pTfrhRQShL-r
+    P36nRMcJAtyIs5ftQ>
+X-ME-Received: <xmr:6mx1Y806n4QRQ6ImNnqOrCG4t_EC5dZsYYIDSGLw8aCo_IB75i20IZYktRKi655VWeQNApnuH3UD1PKvcNTVhdA8RmkbW7MTAovIdqGb5BhSgRwFJxgG-edsUg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrgeejgddtjecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpefkffggfgfuvfevfhfhjggtgfesthejredttdefjeenucfhrhhomhepufgrmhhu
+    vghlucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecugg
+    ftrfgrthhtvghrnhepkeejleelfeeitdfhtdfgkeeghedufeduueegffdvhfdukeelleef
+    tdetjeehuddtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrh
+    homhepshgrmhhuvghlsehshhholhhlrghnugdrohhrgh
+X-ME-Proxy: <xmx:6mx1Y3Cjf8YLOykp9SXvg66qy0tr21N39MVl18UlsEefSh2mqBjoiw>
+    <xmx:6mx1Ywj7sjhQhwWqz76_J26sNkZVKNNbOwX8XorFzDEBGn_KFzfYIw>
+    <xmx:6mx1Y7quBM6C0R-VlzqKu6hQAr4E2rUdH5s5AP8_VsR5EZ7FjNHLOQ>
+    <xmx:62x1Y5VwdqdwV8gxgtyobO0f2VKwGn-wjEJJa7MscNhxpM95FwKsiw>
+Feedback-ID: i0ad843c9:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 16 Nov 2022 18:06:18 -0500 (EST)
+Message-ID: <d58b5b89-380a-d967-9cd0-6dcf1bb9fe4d@sholland.org>
+Date:   Wed, 16 Nov 2022 17:06:17 -0600
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221114164558.1180362-4-Jason@zx2c4.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux ppc64le; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.3
+Subject: Re: [PATCH 1/2] media: dt-bindings: allwinner: video-engine: Fix
+ number of IOMMU channels
+Content-Language: en-US
+To:     Jernej Skrabec <jernej.skrabec@gmail.com>, mchehab@kernel.org,
+        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+        wens@csie.org
+Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+        linux-kernel@vger.kernel.org
+References: <20221116193105.363297-1-jernej.skrabec@gmail.com>
+ <20221116193105.363297-2-jernej.skrabec@gmail.com>
+From:   Samuel Holland <samuel@sholland.org>
+In-Reply-To: <20221116193105.363297-2-jernej.skrabec@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Nov 14, 2022 at 05:45:58PM +0100, Jason A. Donenfeld wrote:
-> -				(get_random_u32_below(1024) + 1) * PAGE_SIZE;
-> +				get_random_u32_between(1, 1024 + 1) * PAGE_SIZE;
+On 11/16/22 13:31, Jernej Skrabec wrote:
+> Cedrus (video engine) on Allwinner H6 actually uses two IOMMU channel,
+> not just one. However, Cedrus on SoCs like D1 only uses one channel.
+> 
+> Allow up to 2 IOMMU channels.
+> 
+> Fixes: 62a8ccf3a248 ("arm64: dts: allwinner: h6: Fix Cedrus IOMMU usage")
+> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+> ---
+>  .../bindings/media/allwinner,sun4i-a10-video-engine.yaml        | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/media/allwinner,sun4i-a10-video-engine.yaml b/Documentation/devicetree/bindings/media/allwinner,sun4i-a10-video-engine.yaml
+> index 541325f900a1..257bb372d166 100644
+> --- a/Documentation/devicetree/bindings/media/allwinner,sun4i-a10-video-engine.yaml
+> +++ b/Documentation/devicetree/bindings/media/allwinner,sun4i-a10-video-engine.yaml
+> @@ -55,7 +55,7 @@ properties:
+>      description: Phandle to the device SRAM
+>  
+>    iommus:
+> -    maxItems: 1
+> +    maxItems: 2
 
-I really don't like "between". Can't this be named "inclusive" (and
-avoid adding 1 everywhere, which seems ugly), or at least named
-something less ambiguous?
+You need to add minItems: 1, or else this will require two items.
 
-> -		n = get_random_u32_below(100) + 1;
-> +		n = get_random_u32_between(1, 101);
+Regards,
+Samuel
 
-Because I find this much less readable. "Below 100" is clear: 0-99
-inclusive, plus 1, so 1-100 inclusive. "Between 1 and 101" is not obvious
-to me to mean: 1-100 inclusive.
+>  
+>    memory-region:
+>      maxItems: 1
 
-These seem so much nicer:
-	get_random_u32_inclusive(1, 1024)
-	get_random_u32_inclusive(1, 100)
-
--- 
-Kees Cook
