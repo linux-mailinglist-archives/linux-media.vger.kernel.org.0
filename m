@@ -2,106 +2,305 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 27B2062C900
-	for <lists+linux-media@lfdr.de>; Wed, 16 Nov 2022 20:31:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1644462C91F
+	for <lists+linux-media@lfdr.de>; Wed, 16 Nov 2022 20:43:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233495AbiKPTbj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 16 Nov 2022 14:31:39 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45572 "EHLO
+        id S233706AbiKPTnr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 16 Nov 2022 14:43:47 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52368 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234142AbiKPTbf (ORCPT
+        with ESMTP id S229446AbiKPTnq (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 16 Nov 2022 14:31:35 -0500
-Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com [IPv6:2a00:1450:4864:20::42f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 01FDC63167;
-        Wed, 16 Nov 2022 11:31:35 -0800 (PST)
-Received: by mail-wr1-x42f.google.com with SMTP id y16so31603737wrt.12;
-        Wed, 16 Nov 2022 11:31:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=J3cqBPNXFCPM9SPqErLl5EqPv8TqD4kJvo+8/hC/Kvc=;
-        b=Ynri9fVx0vI5Lf+znhqrG0iR+yweHI2N2z+TchOnPi+rYb8P2px3K77Xwh0/l1DADz
-         KnPlh+H+WqbGCSbGTQOaAM0hHFm3NN7CYcdx4NBKIKTZHT7dgzf0/CiT017fApLyqagX
-         gSEc39/+sS4RNlMwyuT2FYFgDEeCdD34P5Ff7zITXMaWTAzRIScMQVPMMCdYyBmDRhfK
-         ELlX74FnK45uhYSQqVkku4MPhiKvQLCkOmomsik0I4Wg1z9jZgRlg7w1QzQY03geTJUU
-         P+YXXL88pUeGLQXOgQ//mrclw0YqMHJ95ytcAnxGYq8l9Js7K7rTQgof4vOwy2KOdUkk
-         XeDA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=J3cqBPNXFCPM9SPqErLl5EqPv8TqD4kJvo+8/hC/Kvc=;
-        b=b4OO427T6rZ1yXOeOUyfSh1zwaxLPIrCATAoXhcdafFeCHTiVpC9knYBNBiLy3wq0V
-         DfGuGYGS0Kf+/e4DMNMtXHZpSoFrngklyzU5f/955ETk0WSQwDg5+ly8IbJnu53ladYg
-         0HYDPh4bT7b2LjB+0Ak4dus5tJt+OMADAkvQb7GitnQpwpL+1KxY0fYY7gUtsVCV6jhc
-         DYjTZ5imZ2i8TF5uaCBwM9a42WjidUxose7I4FkDjV0KdWNpeJ+z9upX704rimcgTAw6
-         gVEPDhQM/WYUJEGdzii79ZdhUAwZ62x5tDnmKsJKQQWFIHa07WfnQ7R04w06AKfC8hOP
-         it3g==
-X-Gm-Message-State: ANoB5pk14QaqAmWg+c7HCdpMLOQeN8pUR46/hO28JwFq+AI9hQjptCsE
-        gpInxu8LXsChsgSLirE54jM=
-X-Google-Smtp-Source: AA0mqf63+xcPwKEqO/zJar4BIbUp0DRdWtaKQPwkXJ8MVR2/sFn3Mdf7EVbj3yozb2stn+TxPMySpA==
-X-Received: by 2002:a5d:63c6:0:b0:235:e6a9:b492 with SMTP id c6-20020a5d63c6000000b00235e6a9b492mr15033159wrw.212.1668627093629;
-        Wed, 16 Nov 2022 11:31:33 -0800 (PST)
-Received: from kista.localdomain (82-149-19-102.dynamic.telemach.net. [82.149.19.102])
-        by smtp.gmail.com with ESMTPSA id q125-20020a1c4383000000b003c6cd82596esm3044646wma.43.2022.11.16.11.31.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Nov 2022 11:31:33 -0800 (PST)
-From:   Jernej Skrabec <jernej.skrabec@gmail.com>
-To:     mchehab@kernel.org, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, wens@csie.org,
-        samuel@sholland.org
-Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-        linux-kernel@vger.kernel.org,
-        Jernej Skrabec <jernej.skrabec@gmail.com>
-Subject: [PATCH 2/2] arm64: dts: allwinner: h6: Fix Cedrus IOMMU channels
-Date:   Wed, 16 Nov 2022 20:31:05 +0100
-Message-Id: <20221116193105.363297-3-jernej.skrabec@gmail.com>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20221116193105.363297-1-jernej.skrabec@gmail.com>
-References: <20221116193105.363297-1-jernej.skrabec@gmail.com>
+        Wed, 16 Nov 2022 14:43:46 -0500
+Received: from mx0.riseup.net (mx0.riseup.net [198.252.153.6])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A32327CE8;
+        Wed, 16 Nov 2022 11:43:44 -0800 (PST)
+Received: from fews2.riseup.net (fews2-pn.riseup.net [10.0.1.84])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
+         client-signature RSA-PSS (2048 bits) client-digest SHA256)
+        (Client CN "mail.riseup.net", Issuer "R3" (not verified))
+        by mx0.riseup.net (Postfix) with ESMTPS id 4NCD4b6yrhz9spR;
+        Wed, 16 Nov 2022 19:43:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
+        t=1668627824; bh=hTIhk1ZkKb1/fle5JjgddcjN0q3ejTMLd/sSXkZyzPU=;
+        h=From:To:Cc:Subject:Date:From;
+        b=OV5ewi3vv3nWKAWy3L5ABtJYsne0a1mdGli9tw9ewljY3zemoSpaeqEwGuGA9mctc
+         /odGiQl30UTwD8yeoyMgC/LtMimqs2+6KokKFmXFPI7CeGzV+hr1CQlLyjQdTSj1zO
+         Z1fQ0WgiBRX4WGWPf1hX8Rqha4vB5OqcpyX70egk=
+X-Riseup-User-ID: 7F799B8F6493BB01D539ACDD2BB7E111E5235A48851B40C03B3BEE043B1EBDBB
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+         by fews2.riseup.net (Postfix) with ESMTPSA id 4NCD4Y1Jrzz1xwx;
+        Wed, 16 Nov 2022 19:43:40 +0000 (UTC)
+From:   =?UTF-8?q?Ma=C3=ADra=20Canal?= <mairacanal@riseup.net>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Sylwester Nawrocki <s.nawrocki@samsung.com>,
+        Andrzej Hajda <andrzej.hajda@intel.com>
+Cc:     linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-media@vger.kernel.org,
+        =?UTF-8?q?Ma=C3=ADra=20Canal?= <mairacanal@riseup.net>
+Subject: [PATCH 1/2] media: s5c73m3: Replace legacy gpio interface for gpiod
+Date:   Wed, 16 Nov 2022 16:43:06 -0300
+Message-Id: <20221116194307.164543-1-mairacanal@riseup.net>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_PASS,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Cedrus H6 actually uses two IOMMU channels. During development page
-faults from both were observed. Documentation also lists both of them
-to be connected to Cedrus, but it doesn't make clear which is used for
-what.
+Considering the current transition of the GPIO subsystem, remove all
+dependencies of the legacy GPIO interface (linux/gpio.h and linux
+/of_gpio.h) and replace it with the descriptor-based GPIO approach.
 
-Add second IOMMU channel.
-
-Fixes: 62a8ccf3a248 ("arm64: dts: allwinner: h6: Fix Cedrus IOMMU usage")
-Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Signed-off-by: Maíra Canal <mairacanal@riseup.net>
 ---
- arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/media/i2c/s5c73m3/s5c73m3-core.c | 95 ++++++++++--------------
+ drivers/media/i2c/s5c73m3/s5c73m3.h      |  9 +--
+ include/media/i2c/s5c73m3.h              | 15 +---
+ 3 files changed, 44 insertions(+), 75 deletions(-)
 
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi
-index 53f6660656ac..7bff054a9bdf 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi
-@@ -172,7 +172,7 @@ video-codec@1c0e000 {
- 			resets = <&ccu RST_BUS_VE>;
- 			interrupts = <GIC_SPI 89 IRQ_TYPE_LEVEL_HIGH>;
- 			allwinner,sram = <&ve_sram 1>;
--			iommus = <&iommu 3>;
-+			iommus = <&iommu 1>, <&iommu 3>;
- 		};
+diff --git a/drivers/media/i2c/s5c73m3/s5c73m3-core.c b/drivers/media/i2c/s5c73m3/s5c73m3-core.c
+index d96ba58ce1e5..77cba5f47364 100644
+--- a/drivers/media/i2c/s5c73m3/s5c73m3-core.c
++++ b/drivers/media/i2c/s5c73m3/s5c73m3-core.c
+@@ -10,12 +10,11 @@
+ #include <linux/clk.h>
+ #include <linux/delay.h>
+ #include <linux/firmware.h>
+-#include <linux/gpio.h>
++#include <linux/gpio/consumer.h>
+ #include <linux/i2c.h>
+ #include <linux/init.h>
+ #include <linux/media.h>
+ #include <linux/module.h>
+-#include <linux/of_gpio.h>
+ #include <linux/of_graph.h>
+ #include <linux/regulator/consumer.h>
+ #include <linux/sizes.h>
+@@ -1347,22 +1346,26 @@ static int s5c73m3_oif_open(struct v4l2_subdev *sd, struct v4l2_subdev_fh *fh)
+ 	return 0;
+ }
  
- 		gpu: gpu@1800000 {
+-static int s5c73m3_gpio_set_value(struct s5c73m3 *priv, int id, u32 val)
++static int s5c73m3_gpio_set_value(struct gpio_desc *gpio, int val)
+ {
+-	if (!gpio_is_valid(priv->gpio[id].gpio))
++	if (!gpio)
+ 		return 0;
+-	gpio_set_value(priv->gpio[id].gpio, !!val);
++	gpiod_set_value(gpio, !!val);
+ 	return 1;
+ }
+ 
+-static int s5c73m3_gpio_assert(struct s5c73m3 *priv, int id)
++static int s5c73m3_gpio_assert(struct gpio_desc *gpio)
+ {
+-	return s5c73m3_gpio_set_value(priv, id, priv->gpio[id].level);
++	int val = gpiod_get_value(gpio);
++
++	return s5c73m3_gpio_set_value(gpio, val);
+ }
+ 
+-static int s5c73m3_gpio_deassert(struct s5c73m3 *priv, int id)
++static int s5c73m3_gpio_deassert(struct gpio_desc *gpio)
+ {
+-	return s5c73m3_gpio_set_value(priv, id, !priv->gpio[id].level);
++	int val = gpiod_get_value(gpio);
++
++	return s5c73m3_gpio_set_value(gpio, !val);
+ }
+ 
+ static int __s5c73m3_power_on(struct s5c73m3 *state)
+@@ -1386,10 +1389,10 @@ static int __s5c73m3_power_on(struct s5c73m3 *state)
+ 	v4l2_dbg(1, s5c73m3_dbg, &state->oif_sd, "clock frequency: %ld\n",
+ 					clk_get_rate(state->clock));
+ 
+-	s5c73m3_gpio_deassert(state, STBY);
++	s5c73m3_gpio_deassert(state->gpio_stby);
+ 	usleep_range(100, 200);
+ 
+-	s5c73m3_gpio_deassert(state, RSET);
++	s5c73m3_gpio_deassert(state->gpio_reset);
+ 	usleep_range(50, 100);
+ 
+ 	return 0;
+@@ -1404,10 +1407,10 @@ static int __s5c73m3_power_off(struct s5c73m3 *state)
+ {
+ 	int i, ret;
+ 
+-	if (s5c73m3_gpio_assert(state, RSET))
++	if (s5c73m3_gpio_assert(state->gpio_reset))
+ 		usleep_range(10, 50);
+ 
+-	if (s5c73m3_gpio_assert(state, STBY))
++	if (s5c73m3_gpio_assert(state->gpio_stby))
+ 		usleep_range(100, 200);
+ 
+ 	clk_disable_unprepare(state->clock);
+@@ -1545,50 +1548,34 @@ static const struct v4l2_subdev_ops oif_subdev_ops = {
+ 
+ static int s5c73m3_configure_gpios(struct s5c73m3 *state)
+ {
+-	static const char * const gpio_names[] = {
+-		"S5C73M3_STBY", "S5C73M3_RST"
+-	};
+ 	struct i2c_client *c = state->i2c_client;
+-	struct s5c73m3_gpio *g = state->gpio;
+-	int ret, i;
++	struct device *dev = &c->dev;
++	struct device_node *np = dev->of_node;
+ 
+-	for (i = 0; i < GPIO_NUM; ++i) {
+-		unsigned int flags = GPIOF_DIR_OUT;
+-		if (g[i].level)
+-			flags |= GPIOF_INIT_HIGH;
+-		ret = devm_gpio_request_one(&c->dev, g[i].gpio, flags,
+-					    gpio_names[i]);
+-		if (ret) {
+-			v4l2_err(c, "failed to request gpio %s\n",
+-				 gpio_names[i]);
+-			return ret;
+-		}
++	state->gpio_stby = gpiod_get_from_of_node(np, "standby-gpios", 0, GPIOD_ASIS,
++			"S5C73M3_STBY");
++
++	if (IS_ERR(state->gpio_stby)) {
++		v4l2_err(c, "failed to request gpio S5C73M3_STBY");
++		return PTR_ERR(state->gpio_stby);
+ 	}
+-	return 0;
+-}
+ 
+-static int s5c73m3_parse_gpios(struct s5c73m3 *state)
+-{
+-	static const char * const prop_names[] = {
+-		"standby-gpios", "xshutdown-gpios",
+-	};
+-	struct device *dev = &state->i2c_client->dev;
+-	struct device_node *node = dev->of_node;
+-	int ret, i;
++	if (state->gpio_stby)
++		gpiod_direction_output(state->gpio_stby,
++				!gpiod_is_active_low(state->gpio_stby));
+ 
+-	for (i = 0; i < GPIO_NUM; ++i) {
+-		enum of_gpio_flags of_flags;
++	state->gpio_reset = gpiod_get_from_of_node(np, "xshutdown-gpios", 0, GPIOD_ASIS,
++			"S5C73M3_RST");
+ 
+-		ret = of_get_named_gpio_flags(node, prop_names[i],
+-					      0, &of_flags);
+-		if (ret < 0) {
+-			dev_err(dev, "failed to parse %s DT property\n",
+-				prop_names[i]);
+-			return -EINVAL;
+-		}
+-		state->gpio[i].gpio = ret;
+-		state->gpio[i].level = !(of_flags & OF_GPIO_ACTIVE_LOW);
++	if (IS_ERR(state->gpio_reset)) {
++		v4l2_err(c, "failed to request gpio S5C73M3_RST");
++		return PTR_ERR(state->gpio_reset);
+ 	}
++
++	if (state->gpio_reset)
++		gpiod_direction_output(state->gpio_reset,
++				!gpiod_is_active_low(state->gpio_reset));
++
+ 	return 0;
+ }
+ 
+@@ -1608,8 +1595,8 @@ static int s5c73m3_get_platform_data(struct s5c73m3 *state)
+ 		}
+ 
+ 		state->mclk_frequency = pdata->mclk_frequency;
+-		state->gpio[STBY] = pdata->gpio_stby;
+-		state->gpio[RSET] = pdata->gpio_reset;
++		state->gpio_stby = pdata->gpio_stby;
++		state->gpio_reset = pdata->gpio_reset;
+ 		return 0;
+ 	}
+ 
+@@ -1624,10 +1611,6 @@ static int s5c73m3_get_platform_data(struct s5c73m3 *state)
+ 					state->mclk_frequency);
+ 	}
+ 
+-	ret = s5c73m3_parse_gpios(state);
+-	if (ret < 0)
+-		return -EINVAL;
+-
+ 	node_ep = of_graph_get_next_endpoint(node, NULL);
+ 	if (!node_ep) {
+ 		dev_warn(dev, "no endpoint defined for node: %pOF\n", node);
+diff --git a/drivers/media/i2c/s5c73m3/s5c73m3.h b/drivers/media/i2c/s5c73m3/s5c73m3.h
+index c3fcfdd3ea66..f0056ae6e51a 100644
+--- a/drivers/media/i2c/s5c73m3/s5c73m3.h
++++ b/drivers/media/i2c/s5c73m3/s5c73m3.h
+@@ -351,12 +351,6 @@ struct s5c73m3_ctrls {
+ 	struct v4l2_ctrl *scene_mode;
+ };
+ 
+-enum s5c73m3_gpio_id {
+-	STBY,
+-	RSET,
+-	GPIO_NUM,
+-};
+-
+ enum s5c73m3_resolution_types {
+ 	RES_ISP,
+ 	RES_JPEG,
+@@ -383,7 +377,8 @@ struct s5c73m3 {
+ 	u32 i2c_read_address;
+ 
+ 	struct regulator_bulk_data supplies[S5C73M3_MAX_SUPPLIES];
+-	struct s5c73m3_gpio gpio[GPIO_NUM];
++	struct gpio_desc *gpio_stby;
++	struct gpio_desc *gpio_reset;
+ 
+ 	struct clk *clock;
+ 
+diff --git a/include/media/i2c/s5c73m3.h b/include/media/i2c/s5c73m3.h
+index a51f1025ba1c..caad855a8394 100644
+--- a/include/media/i2c/s5c73m3.h
++++ b/include/media/i2c/s5c73m3.h
+@@ -17,19 +17,10 @@
+ #ifndef MEDIA_S5C73M3__
+ #define MEDIA_S5C73M3__
+ 
++#include <linux/gpio/consumer.h>
+ #include <linux/videodev2.h>
+ #include <media/v4l2-mediabus.h>
+ 
+-/**
+- * struct s5c73m3_gpio - data structure describing a GPIO
+- * @gpio:  GPIO number
+- * @level: indicates active state of the @gpio
+- */
+-struct s5c73m3_gpio {
+-	int gpio;
+-	int level;
+-};
+-
+ /**
+  * struct s5c73m3_platform_data - s5c73m3 driver platform data
+  * @mclk_frequency: sensor's master clock frequency in Hz
+@@ -44,8 +35,8 @@ struct s5c73m3_gpio {
+ struct s5c73m3_platform_data {
+ 	unsigned long mclk_frequency;
+ 
+-	struct s5c73m3_gpio gpio_reset;
+-	struct s5c73m3_gpio gpio_stby;
++	struct gpio_desc *gpio_reset;
++	struct gpio_desc *gpio_stby;
+ 
+ 	enum v4l2_mbus_type bus_type;
+ 	u8 nlanes;
 -- 
 2.38.1
 
