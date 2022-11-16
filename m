@@ -2,68 +2,62 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F385A62C27C
-	for <lists+linux-media@lfdr.de>; Wed, 16 Nov 2022 16:27:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 84DB562C2E7
+	for <lists+linux-media@lfdr.de>; Wed, 16 Nov 2022 16:45:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233369AbiKPP15 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 16 Nov 2022 10:27:57 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45866 "EHLO
+        id S233064AbiKPPpV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 16 Nov 2022 10:45:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56772 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234511AbiKPP1y (ORCPT
+        with ESMTP id S233247AbiKPPpQ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 16 Nov 2022 10:27:54 -0500
-Received: from mail-oi1-x22e.google.com (mail-oi1-x22e.google.com [IPv6:2607:f8b0:4864:20::22e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC39E29C8A
-        for <linux-media@vger.kernel.org>; Wed, 16 Nov 2022 07:27:53 -0800 (PST)
-Received: by mail-oi1-x22e.google.com with SMTP id n186so18847769oih.7
-        for <linux-media@vger.kernel.org>; Wed, 16 Nov 2022 07:27:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=s6XTTZ+NrUCRZqrFnnPtlsztZjbXNjQi+1S8muccdxA=;
-        b=pn9epC9xM/u4Y/T+MAwMM1yPmJDLAM7U7Z9wMWXDGgSEpoTGoMAzaNDz0nlT09mA65
-         kVTtMtoYfytFy5bDVdNTfLGbn777qdFzyJhfgBaSZoy5Q4bKoHOisgDL98HgcDOm9Ntq
-         tdShVtU1r5yPlObiv6i5lDRmUS9YEl3I9MkwX/sseteie+UU9XWMH0cysMTbxEGgaHO0
-         W1+DBI7XtwW5BQxy60jSTmr2pZDdCWa9kYbAy87Vidtf82i3BlwmR+exK/2oaH22vBaz
-         OS9SemI2W8p1eK5Q2UjJjI1cM+cq0mbuqQ4WrnHLU36A/kxNkNmCV3tyuPoyPZBd1w2k
-         iBFg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=s6XTTZ+NrUCRZqrFnnPtlsztZjbXNjQi+1S8muccdxA=;
-        b=h9C54kd/LyzQcKSc2xyUOexnr499yrVK4IcbHPktfVZdOP5SJlTnmUz5ytBcEpw9Tc
-         EwL2E5oHV0qD9GIIS8F8xdgED7Xpu8kZnPJ/seeXPZTazPxp7h5STmdN+9YxHKST2ovZ
-         LMHCzQB+G5ILKtPNM31y+rsfnVTbY2roM+x+Aglm2G57ka+4VeyePrff1gVX7Wj3nQ5g
-         X38VB0pZIt5nzOmSLgsMQSDyVeuFdc6rl7dO2DezdW2msSmmkZ3b2FXejoG1GhohR7gN
-         rgV9nV+lsMDD7vX4OYPcD0c4n523cXVtjBMc2z4ACN9u28PkOYL3lnFyRRyx2qVlQ4Kf
-         mSIw==
-X-Gm-Message-State: ANoB5pmeA3WTlin12yNSnhVyp7sELeR71ptzAR2pgYTSpubpuuiEa3SJ
-        7Sk5tXyvzssldLiRXGN79KZSCAXJQskSAE2bDWU=
-X-Google-Smtp-Source: AA0mqf4j6fW20N4xesW0H6NG6WMryM/u1qqJZYLZw+Z3OEo1lTUIRw0eBx2Ysd/L5rgwZtaeZuLGhKTEx0koqxtjKEk=
-X-Received: by 2002:a54:408f:0:b0:359:33c2:e5d6 with SMTP id
- i15-20020a54408f000000b0035933c2e5d6mr1814033oii.174.1668612472997; Wed, 16
- Nov 2022 07:27:52 -0800 (PST)
+        Wed, 16 Nov 2022 10:45:16 -0500
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5411B1139;
+        Wed, 16 Nov 2022 07:45:12 -0800 (PST)
+Received: by verein.lst.de (Postfix, from userid 2407)
+        id B04AC68AA6; Wed, 16 Nov 2022 16:45:07 +0100 (CET)
+Date:   Wed, 16 Nov 2022 16:45:07 +0100
+From:   Christoph Hellwig <hch@lst.de>
+To:     Robin Murphy <robin.murphy@arm.com>
+Cc:     Dean Luick <dean.luick@cornelisnetworks.com>,
+        Christoph Hellwig <hch@lst.de>,
+        Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Alexandra Winter <wintera@linux.ibm.com>,
+        Wenjia Zhang <wenjia@linux.ibm.com>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>,
+        Russell King <linux@armlinux.org.uk>,
+        linux-arm-kernel@lists.infradead.org, linux-rdma@vger.kernel.org,
+        iommu@lists.linux.dev, linux-media@vger.kernel.org,
+        netdev@vger.kernel.org, linux-s390@vger.kernel.org,
+        alsa-devel@alsa-project.org
+Subject: Re: [PATCH 2/7] RDMA/hfi1: don't pass bogus GFP_ flags to
+ dma_alloc_coherent
+Message-ID: <20221116154507.GB18491@lst.de>
+References: <20221113163535.884299-1-hch@lst.de> <20221113163535.884299-3-hch@lst.de> <c7c6eb30-4b54-01f7-9651-07deac3662bf@cornelisnetworks.com> <be8ca3f9-b7f7-5402-0cfc-47b9985e007b@arm.com>
 MIME-Version: 1.0
-Received: by 2002:ac9:12a6:0:0:0:0:0 with HTTP; Wed, 16 Nov 2022 07:27:52
- -0800 (PST)
-From:   Michelle Goodman <michellegoodman45@gmail.com>
-Date:   Wed, 16 Nov 2022 15:27:52 +0000
-Message-ID: <CA+PxuvUCGArVgjCvwDp4vp051pVMDF3wR32eBmJWLFEjMdm0Yg@mail.gmail.com>
-Subject: Hi
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=0.9 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <be8ca3f9-b7f7-5402-0cfc-47b9985e007b@arm.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
+        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hallo, bitte Ihre dringende Antwort. Ich muss Ihnen etwas mitteilen
-Vielen Dank
-Michelle
+On Wed, Nov 16, 2022 at 03:15:10PM +0000, Robin Murphy wrote:
+> Coherent DMA buffers are allocated by a kernel driver or subsystem for the 
+> use of a device managed by that driver or subsystem, and thus they 
+> fundamentally belong to the kernel as proxy for the device. Any coherent 
+> DMA buffer may be mapped to userspace with the dma_mmap_*() interfaces, but 
+> they're never a "userspace allocation" in that sense.
+
+Exactly.  I could not find a place to map the buffers to userspace,
+so if it does that without using the proper interfaces we need to fix
+that as well.  Dean, can you point me to the mmap code?
