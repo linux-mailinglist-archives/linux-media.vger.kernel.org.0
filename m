@@ -2,65 +2,65 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DD01262D27C
-	for <lists+linux-media@lfdr.de>; Thu, 17 Nov 2022 06:00:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C561E62D336
+	for <lists+linux-media@lfdr.de>; Thu, 17 Nov 2022 07:07:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234567AbiKQFAt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 17 Nov 2022 00:00:49 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57698 "EHLO
+        id S234581AbiKQGHZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 17 Nov 2022 01:07:25 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54596 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234528AbiKQFAq (ORCPT
+        with ESMTP id S239251AbiKQGHR (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 17 Nov 2022 00:00:46 -0500
-Received: from mail-pf1-x42e.google.com (mail-pf1-x42e.google.com [IPv6:2607:f8b0:4864:20::42e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4CCA7391D2;
-        Wed, 16 Nov 2022 21:00:46 -0800 (PST)
-Received: by mail-pf1-x42e.google.com with SMTP id k15so696753pfg.2;
-        Wed, 16 Nov 2022 21:00:46 -0800 (PST)
+        Thu, 17 Nov 2022 01:07:17 -0500
+Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com [IPv6:2a00:1450:4864:20::42a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 45A5D28729;
+        Wed, 16 Nov 2022 22:07:11 -0800 (PST)
+Received: by mail-wr1-x42a.google.com with SMTP id o4so1873106wrq.6;
+        Wed, 16 Nov 2022 22:07:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=G2RtnWBUODwyk00f7bE/k2r1zJUSsT+1BYQxHB4ViqE=;
-        b=ZrcM95rF9iRteNL++4aman1VnuJSb1nT4fxBjaAiP4z2w1N7eACH7+h59qMrfOjxKI
-         3UXeP9f0UtRkktfiMy0sIijM4kwBCFL3TR6BcSI3pFsx9yILcaO8rwOwEEMHnNiLGdxA
-         Hkl3gIskrKylCm1/MQlpv1C+Uym2s5IYDhAjZuUVBKVYoqQa/moWL37lqcbUBs3y3Oxm
-         WoREGqWpWcNdB9N/yIBqPj5qw/zSrSjFFd/3j8PjZ1buZoIUHTGn+v/DALpD1q0shjab
-         9iGpgKmeeEb1QQ3j6JNUn07BLtjZdP8879KaiqS3i3qwUH0nEsV0pA4F6DbQLCdQH/On
-         KLKw==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=UiXSAQsSjwWqOGc9spTfADfVAnOu8H9dxOp6ONZY5HI=;
+        b=BqXgBQ7H19xsIldwSJ3XEtEaIyFB1pdOaoIIBGAvsLqPWuYbRoHDUN2CEBw0y3fxO3
+         uwXsNGip+B4h9O1rmk+YMJmusJHfaeq7vO88bENdgIc6d4g/Q5ERZP8h+CMGECBu+X6k
+         DHr3Vgr6V2tKU6lJj4Je8jANmXUTuaIp0l0++ThbeldD1m97ufIyMdpurrQHTy95XFcz
+         dONdw2asOsd8CV8KJJwzAEFz5StzdHnVE0EM+gDQ28o/PqGKMes0ezBU3AmSxPHq4QcM
+         SR1e7NutED2dxq9rz3GeAL70s9b4ihla6W7mGew7S/MZI2pr/0jy20LEPAyRCBdyzW3z
+         xR9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=G2RtnWBUODwyk00f7bE/k2r1zJUSsT+1BYQxHB4ViqE=;
-        b=vnGLJHDaH9+oNh4phN1OciysudvplO43rCyGKFUppmmNMN8+ImE34Mk0aByRWOwdIT
-         yTy+UZZNO8JrOWcSAxFO4zONrvTt1wSnX9LMRfSyiAkFpJWpvSvnpF2WPUhuXzRNGOZJ
-         2F8aKwc/D3HnX4dNtw1PJ8xdpgpeDDFTwezkXTWFYVuF2VudZ9jX85EiWAtVzPIoMY7N
-         cruhQKDZFLvQ0VLMcUcOGIxQx+loxGKyO3YxGzaYLAC6uIulAqU+gS0DwQFMdUzyU+NQ
-         ku9p7YJULpXL20Se6bt1Z/S0u7WA8+jQqsv8/ABw+KXY6jo466ieJd41KSdYfn8+KRM9
-         pl7Q==
-X-Gm-Message-State: ANoB5pmi08PoarDOhzAgmYwDcdwbwociptAST1tGehHRYsW5dImvg2z0
-        HeSy+hw1grNCl3OgxrcPY/M=
-X-Google-Smtp-Source: AA0mqf6lEcmx0f2lp7k5ATjPLqIxg+YwDMIrUijBPYh2QipJXhmFIi7AByjzzK7ffMGfTKrRtOY6SA==
-X-Received: by 2002:aa7:9518:0:b0:56c:8c13:24fd with SMTP id b24-20020aa79518000000b0056c8c1324fdmr1436863pfp.2.1668661245754;
-        Wed, 16 Nov 2022 21:00:45 -0800 (PST)
-Received: from localhost.localdomain ([175.124.254.119])
-        by smtp.gmail.com with ESMTPSA id y18-20020aa79af2000000b0053e468a78a8sm11911178pfp.158.2022.11.16.21.00.43
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=UiXSAQsSjwWqOGc9spTfADfVAnOu8H9dxOp6ONZY5HI=;
+        b=X/4ipZL1rf9rsdLmuYi9fwC7CrYaGL5cKKni46SVhXyL4G/pPk6nTUxKj7GIzsonrD
+         Srw/Y0D7dwQT+LxtK31Uik20DSNUYRvjUTXXamd1o19doAtgEO5cQLcqbkaa1jo3wnuw
+         eEfiOSRbI4nS4EM5gq/P4IL9W1Xf6ZKEcICOx2c+FqnBacNaS5JgUMUZdJd5xobfXbNd
+         fyOev/Nn7WpdImFQXkCMc5VFmyOwY6Mf2d8UncOg+VLCPGXDmKhovaupgKc/yvoctkqE
+         RyWbH4UK43sHUL2mWWMEY75qQCVYUJSC7RC+tSm/AxApR7HmwkY2DLNUepdjmcQtcvcn
+         cfmw==
+X-Gm-Message-State: ANoB5pmDGLPaUosJa5Td99FE2ILSXYfR8Xpg9kJdBydeJDvlDPOMqIX8
+        BemE/m6GQPwip+/n7KeJqfE=
+X-Google-Smtp-Source: AA0mqf5SwUTUY/lj91u2/nwQu6g7fE2GFbJh2pd3jLHyIsRrmrwZ+DiGtLaGJyqtt7bLuhpDmkLHAg==
+X-Received: by 2002:a5d:6b8d:0:b0:236:4c14:4e4c with SMTP id n13-20020a5d6b8d000000b002364c144e4cmr431753wrx.634.1668665229774;
+        Wed, 16 Nov 2022 22:07:09 -0800 (PST)
+Received: from kista.localdomain (82-149-19-102.dynamic.telemach.net. [82.149.19.102])
+        by smtp.gmail.com with ESMTPSA id r11-20020a5d694b000000b0023691d62cffsm16542568wrw.70.2022.11.16.22.07.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Nov 2022 21:00:45 -0800 (PST)
-From:   Hyunwoo Kim <imv4bel@gmail.com>
-To:     mchehab@kernel.org
-Cc:     kernel@tuxforce.de, linux-media@vger.kernel.org,
-        linux-usb@vger.kernel.org, cai.huoqing@linux.dev, tiwai@suse.de,
-        imv4bel@gmail.com
-Subject: [PATCH v3 4/4] media: ttusb-dec: Fix memory leak in ttusb_dec_exit_dvb()
-Date:   Wed, 16 Nov 2022 20:59:25 -0800
-Message-Id: <20221117045925.14297-5-imv4bel@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20221117045925.14297-1-imv4bel@gmail.com>
-References: <20221117045925.14297-1-imv4bel@gmail.com>
+        Wed, 16 Nov 2022 22:07:09 -0800 (PST)
+From:   Jernej Skrabec <jernej.skrabec@gmail.com>
+To:     mchehab@kernel.org, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, wens@csie.org,
+        samuel@sholland.org
+Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+        linux-kernel@vger.kernel.org,
+        Jernej Skrabec <jernej.skrabec@gmail.com>
+Subject: [PATCH v2 0/2] arm64: allwinner: h6: Add second IOMMU reference to Cedrus
+Date:   Thu, 17 Nov 2022 07:07:02 +0100
+Message-Id: <20221117060704.367945-1-jernej.skrabec@gmail.com>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -73,34 +73,31 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Since dvb_frontend_detach() is not called in ttusb_dec_exit_dvb(),
-which is called when the device is disconnected, dvb_frontend_free()
-is not finally called.
+It turns out that Cedrus on H6 actually uses two IOMMU channels. Manual
+mentiones two IOMMU channels, but it doesn't specify which is used when.
+Page faults were also observed from both.
 
-This causes a memory leak just by repeatedly plugging and
-unplugging the device.
+This series updates binding to allow up to two IOMMU channels and fixes
+H6 DTSI.
 
-Fix this issue by adding dvb_frontend_detach() to ttusb_dec_exit_dvb().
+Please take a look.
 
-Signed-off-by: Hyunwoo Kim <imv4bel@gmail.com>
----
- drivers/media/usb/ttusb-dec/ttusb_dec.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+Best regards,
+Jernej
 
-diff --git a/drivers/media/usb/ttusb-dec/ttusb_dec.c b/drivers/media/usb/ttusb-dec/ttusb_dec.c
-index 38822cedd93a..c4474d4c44e2 100644
---- a/drivers/media/usb/ttusb-dec/ttusb_dec.c
-+++ b/drivers/media/usb/ttusb-dec/ttusb_dec.c
-@@ -1544,8 +1544,7 @@ static void ttusb_dec_exit_dvb(struct ttusb_dec *dec)
- 	dvb_dmx_release(&dec->demux);
- 	if (dec->fe) {
- 		dvb_unregister_frontend(dec->fe);
--		if (dec->fe->ops.release)
--			dec->fe->ops.release(dec->fe);
-+		dvb_frontend_detach(dec->fe);
- 	}
- 	dvb_unregister_adapter(&dec->adapter);
- }
--- 
-2.25.1
+Changes from v1:
+- add minItems to binding
+- add reviewed-by to DT patch
+
+Jernej Skrabec (2):
+  media: dt-bindings: allwinner: video-engine: Fix number of IOMMU
+    channels
+  arm64: dts: allwinner: h6: Fix Cedrus IOMMU channels
+
+ .../bindings/media/allwinner,sun4i-a10-video-engine.yaml       | 3 ++-
+ arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi                   | 2 +-
+ 2 files changed, 3 insertions(+), 2 deletions(-)
+
+--
+2.38.1
 
