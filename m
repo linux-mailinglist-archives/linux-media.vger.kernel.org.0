@@ -2,125 +2,235 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3C9FC62D80B
-	for <lists+linux-media@lfdr.de>; Thu, 17 Nov 2022 11:33:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3D8DD62D8A1
+	for <lists+linux-media@lfdr.de>; Thu, 17 Nov 2022 11:57:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239468AbiKQKdG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 17 Nov 2022 05:33:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60482 "EHLO
+        id S239471AbiKQK5I (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 17 Nov 2022 05:57:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42360 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229931AbiKQKdE (ORCPT
+        with ESMTP id S239267AbiKQK4h (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 17 Nov 2022 05:33:04 -0500
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [IPv6:2001:4d48:ad52:32c8:5054:ff:fe00:142])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A1C6259841;
-        Thu, 17 Nov 2022 02:33:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
-        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=2BgNwLdh+HBA4xrzyykRGd8e3nHfE6jHoZjPyIO7tQ8=; b=vf0GDy8lKzIs95KZT9hTDN9bLB
-        KkkakBOovK/EhU72ZwXcJFd6ZXnYeh5hWZFAO+QwAUy+Iil38BRQKWQA/ovqtD2R3k/zIRWUVleNY
-        mI6EufB0EHT9QlEKH1MxQI8dlYgzNxWxQ/KJJ0HUSUpP7NgTBBgzbRiK7voh4pixtxFai3XdS+4CH
-        KUkR3sQ10UY1J1DLrBw2+xk4ToBWEQq3GT1Ou599VPaU5ywBw9TAIVKjU75NdNZTSPprpMUx5CQP1
-        Y51nu+1iINv9JXk8aPYDqbEhMoPEahldPraSq7QM6Racs8sRYiTunUTXpT5cPjddHYjb4UQdEZEgF
-        MxQo2C5A==;
-Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:35306)
-        by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.94.2)
-        (envelope-from <linux@armlinux.org.uk>)
-        id 1ovcCQ-0004Iz-Pt; Thu, 17 Nov 2022 10:32:50 +0000
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
-        (envelope-from <linux@shell.armlinux.org.uk>)
-        id 1ovcCG-0006jE-Em; Thu, 17 Nov 2022 10:32:40 +0000
-Date:   Thu, 17 Nov 2022 10:32:40 +0000
-From:   "Russell King (Oracle)" <linux@armlinux.org.uk>
-To:     "Jason A. Donenfeld" <Jason@zx2c4.com>
-Cc:     Kees Cook <keescook@chromium.org>, linux-kernel@vger.kernel.org,
-        patches@lists.linux.dev,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        Christoph =?iso-8859-1?Q?B=F6hmwalder?= 
-        <christoph.boehmwalder@linbit.com>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Jason Gunthorpe <jgg@nvidia.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        "Martin K . Petersen" <martin.petersen@oracle.com>,
-        Theodore Ts'o <tytso@mit.edu>,
-        Andreas Dilger <adilger.kernel@dilger.ca>,
-        Jaegeuk Kim <jaegeuk@kernel.org>,
-        Richard Weinberger <richard@nod.at>,
-        "Darrick J . Wong" <djwong@kernel.org>,
-        SeongJae Park <sj@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Helge Deller <deller@gmx.de>, netdev@vger.kernel.org,
-        linux-crypto@vger.kernel.org, linux-block@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, loongarch@lists.linux.dev,
-        linux-mips@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        linux-mmc@vger.kernel.org, linux-parisc@vger.kernel.org,
-        ydroneaud@opteya.com
-Subject: Re: [PATCH v2 3/3] treewide: use get_random_u32_between() when
- possible
-Message-ID: <Y3YNyJ8oeixYuvdI@shell.armlinux.org.uk>
-References: <20221114164558.1180362-1-Jason@zx2c4.com>
- <20221114164558.1180362-4-Jason@zx2c4.com>
- <202211161436.A45AD719A@keescook>
- <Y3V4g8eorwiU++Y3@zx2c4.com>
- <Y3WW2lOgoYLKQeve@zx2c4.com>
+        Thu, 17 Nov 2022 05:56:37 -0500
+Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com [IPv6:2a00:1450:4864:20::634])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7ED456D483
+        for <linux-media@vger.kernel.org>; Thu, 17 Nov 2022 02:54:36 -0800 (PST)
+Received: by mail-ej1-x634.google.com with SMTP id f18so4099695ejz.5
+        for <linux-media@vger.kernel.org>; Thu, 17 Nov 2022 02:54:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=amarulasolutions.com; s=google;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=CRyvw5LJL7zXFrmXu1AnOvKiQIjeJXswee7X6KYczKg=;
+        b=RvclxVPzKg+h5FsO+qDUCl4CHH142sWLYNnEKd1loN4rPirgw5ovI4R8HMSbJSveil
+         6FPK3K0tGnvifPQI48H/6XQVdjMhuW7Dau/w1SJ/67PDayTigyAFvMoUrO+8EfmniE6j
+         +cvx66TY2PASwlMrSbaRVvaIzMOZKsZVm8Fo0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=CRyvw5LJL7zXFrmXu1AnOvKiQIjeJXswee7X6KYczKg=;
+        b=hCkZ0fQ/Rd3EIQQH8Qnx0vcIpP8bxT7oWkmbamfkpCnaSgVlonEJEOlpGfQGr8zhKX
+         CkGj49LdWwJ3SUMOAHdAs12V9XTYKz9lwhu0KSajHw8KhaUTlTcPYNwEIzwdoJjCwB9/
+         ccVOOBtDBUfYcsVUyd1TqAYQHCqBwcLjTxi8gCm82C91q4LI8F+oBTj4tJOcHtiNFlMi
+         VP7cObq/RLb0hPiNFpDOsRSNbm9azT/tIVFgHWoIaOTbnXRmiJKh2o+HqOnmMMaTeMxQ
+         CZOrPnOP/ALbDabHzWJvPAfIAF0zQdBnA9114cQFocHnSqNsXT/veFp+lhtbUVfg06oH
+         SFZg==
+X-Gm-Message-State: ANoB5pm2bc35NRCXdY7FJuZUN/Cth01DPv9mg+5c67kPpME1oerqzZVL
+        RUQEydS1nluXfhdkPAm1JFVTkZlfeYpbZA==
+X-Google-Smtp-Source: AA0mqf43PQ/3oV9rIx9+/z0xzV2B+CkgUuuZog77bDNjg6xTrm6RjqH2CptAUJYTEKEYf/yT0BHKAw==
+X-Received: by 2002:a17:906:398b:b0:7ad:b868:f096 with SMTP id h11-20020a170906398b00b007adb868f096mr1673632eje.295.1668682474637;
+        Thu, 17 Nov 2022 02:54:34 -0800 (PST)
+Received: from tom-ThinkPad-T14s-Gen-2i (net-188-217-54-207.cust.vodafonedsl.it. [188.217.54.207])
+        by smtp.gmail.com with ESMTPSA id p12-20020a17090653cc00b0078dd4c89781sm219484ejo.35.2022.11.17.02.54.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 17 Nov 2022 02:54:34 -0800 (PST)
+Date:   Thu, 17 Nov 2022 11:54:32 +0100
+From:   Tommaso Merciai <tommaso.merciai@amarulasolutions.com>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sylwester Nawrocki <s.nawrocki@samsung.com>,
+        Andrzej Hajda <andrzej.hajda@intel.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+Subject: Re: [PATCH 2/4] media: i2c: s5k5baf: switch to using gpiod API
+Message-ID: <20221117105432.GB2725180@tom-ThinkPad-T14s-Gen-2i>
+References: <20221115221145.2550572-1-dmitry.torokhov@gmail.com>
+ <20221115221145.2550572-2-dmitry.torokhov@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Y3WW2lOgoYLKQeve@zx2c4.com>
-Sender: Russell King (Oracle) <linux@armlinux.org.uk>
+In-Reply-To: <20221115221145.2550572-2-dmitry.torokhov@gmail.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE
-        autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Nov 17, 2022 at 03:05:14AM +0100, Jason A. Donenfeld wrote:
-> On Thu, Nov 17, 2022 at 12:55:47AM +0100, Jason A. Donenfeld wrote:
-> > 1) How/whether to make f(0, UR2_MAX) safe,
-> >    - without additional 64-bit arithmetic,
-> >    - minimizing the number of branches.
-> >    I have a few ideas I'll code golf for a bit.
-> > I think I can make progress with (1) alone by fiddling around with
-> > godbolt enough, like usual.
-> 
-> The code gen is definitely worse.
-> 
-> Original half-open interval:
-> 
->     return floor + get_random_u32_below(ceil - floor);
-> 
-> Suggested fully closed interval:
-> 	
->     ceil = ceil - floor + 1;
->     return likely(ceil) ? floor + get_random_u32_below(ceil) : get_random_u32();
+Hi Dmitry,
 
-How many of these uses are going to have ceil and floor as a variable?
-If they're constants (e.g. due to being in an inline function with
-constant arguments) then the compiler will optimise all of the above
-and the assembly code will just be either:
+On Tue, Nov 15, 2022 at 02:11:43PM -0800, Dmitry Torokhov wrote:
+> This patch switches the driver away from legacy gpio/of_gpio API to
+> gpiod API, and removes use of of_get_named_gpio_flags() which I want to
+> make private to gpiolib.
+> 
+> Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+> Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+> ---
+>  drivers/media/i2c/s5k5baf.c | 64 +++++++++++--------------------------
+>  1 file changed, 18 insertions(+), 46 deletions(-)
+> 
+> diff --git a/drivers/media/i2c/s5k5baf.c b/drivers/media/i2c/s5k5baf.c
+> index 5c2253ab3b6f..960fbf6428ea 100644
+> --- a/drivers/media/i2c/s5k5baf.c
+> +++ b/drivers/media/i2c/s5k5baf.c
+> @@ -13,11 +13,10 @@
+>  #include <linux/clk.h>
+>  #include <linux/delay.h>
+>  #include <linux/firmware.h>
+> -#include <linux/gpio.h>
+> +#include <linux/gpio/consumer.h>
+>  #include <linux/i2c.h>
+>  #include <linux/media.h>
+>  #include <linux/module.h>
+> -#include <linux/of_gpio.h>
+>  #include <linux/of_graph.h>
+>  #include <linux/regulator/consumer.h>
+>  #include <linux/slab.h>
+> @@ -228,11 +227,6 @@ static const char * const s5k5baf_supply_names[] = {
+>  };
+>  #define S5K5BAF_NUM_SUPPLIES ARRAY_SIZE(s5k5baf_supply_names)
+>  
+> -struct s5k5baf_gpio {
+> -	int gpio;
+> -	int level;
+> -};
+> -
+>  enum s5k5baf_gpio_id {
+>  	STBY,
+>  	RSET,
+> @@ -284,7 +278,7 @@ struct s5k5baf_fw {
+>  };
+>  
+>  struct s5k5baf {
+> -	struct s5k5baf_gpio gpios[NUM_GPIOS];
+> +	struct gpio_desc *gpios[NUM_GPIOS];
+>  	enum v4l2_mbus_type bus_type;
+>  	u8 nlanes;
+>  	struct regulator_bulk_data supplies[S5K5BAF_NUM_SUPPLIES];
+> @@ -936,16 +930,12 @@ static void s5k5baf_hw_set_test_pattern(struct s5k5baf *state, int id)
+>  
+>  static void s5k5baf_gpio_assert(struct s5k5baf *state, int id)
+>  {
+> -	struct s5k5baf_gpio *gpio = &state->gpios[id];
+> -
+> -	gpio_set_value(gpio->gpio, gpio->level);
+> +	gpiod_set_value_cansleep(state->gpios[id], 1);
+>  }
+>  
+>  static void s5k5baf_gpio_deassert(struct s5k5baf *state, int id)
+>  {
+> -	struct s5k5baf_gpio *gpio = &state->gpios[id];
+> -
+> -	gpio_set_value(gpio->gpio, !gpio->level);
+> +	gpiod_set_value_cansleep(state->gpios[id], 0);
+>  }
+>  
+>  static int s5k5baf_power_on(struct s5k5baf *state)
+> @@ -1799,44 +1789,30 @@ static const struct v4l2_subdev_ops s5k5baf_subdev_ops = {
+>  
+>  static int s5k5baf_configure_gpios(struct s5k5baf *state)
+>  {
+> -	static const char * const name[] = { "S5K5BAF_STBY", "S5K5BAF_RST" };
+> +	static const char * const name[] = { "stbyn", "rstn" };
+> +	static const char * const label[] = { "S5K5BAF_STBY", "S5K5BAF_RST" };
+>  	struct i2c_client *c = v4l2_get_subdevdata(&state->sd);
+> -	struct s5k5baf_gpio *g = state->gpios;
+> +	struct gpio_desc *gpio;
+>  	int ret, i;
+>  
+>  	for (i = 0; i < NUM_GPIOS; ++i) {
+> -		int flags = GPIOF_DIR_OUT;
+> -		if (g[i].level)
+> -			flags |= GPIOF_INIT_HIGH;
+> -		ret = devm_gpio_request_one(&c->dev, g[i].gpio, flags, name[i]);
+> -		if (ret < 0) {
+> -			v4l2_err(c, "failed to request gpio %s\n", name[i]);
+> +		gpio = devm_gpiod_get(&c->dev, name[i], GPIOD_OUT_HIGH);
+> +		ret = PTR_ERR_OR_ZERO(gpio);
+> +		if (ret) {
+> +			v4l2_err(c, "failed to request gpio %s: %d\n",
+> +				 name[i], ret);
+>  			return ret;
+>  		}
+> -	}
+> -	return 0;
+> -}
+> -
+> -static int s5k5baf_parse_gpios(struct s5k5baf_gpio *gpios, struct device *dev)
+> -{
+> -	static const char * const names[] = {
+> -		"stbyn-gpios",
+> -		"rstn-gpios",
+> -	};
+> -	struct device_node *node = dev->of_node;
+> -	enum of_gpio_flags flags;
+> -	int ret, i;
+>  
+> -	for (i = 0; i < NUM_GPIOS; ++i) {
+> -		ret = of_get_named_gpio_flags(node, names[i], 0, &flags);
+> -		if (ret < 0) {
+> -			dev_err(dev, "no %s GPIO pin provided\n", names[i]);
+> +		ret = gpiod_set_consumer_name(gpio, label[i]);
+> +		if (ret) {
+> +			v4l2_err(c, "failed to set up name for gpio %s: %d\n",
+> +				 name[i], ret);
+>  			return ret;
+>  		}
+> -		gpios[i].gpio = ret;
+> -		gpios[i].level = !(flags & OF_GPIO_ACTIVE_LOW);
+> -	}
+>  
+> +		state->gpios[i] = gpio;
+> +	}
+>  	return 0;
+>  }
+>  
+> @@ -1860,10 +1836,6 @@ static int s5k5baf_parse_device_node(struct s5k5baf *state, struct device *dev)
+>  			 state->mclk_frequency);
+>  	}
+>  
+> -	ret = s5k5baf_parse_gpios(state->gpios, dev);
+> -	if (ret < 0)
+> -		return ret;
+> -
+>  	node_ep = of_graph_get_next_endpoint(node, NULL);
+>  	if (!node_ep) {
+>  		dev_err(dev, "no endpoint defined at node %pOF\n", node);
+> -- 
+> 2.38.1.431.g37b22c650d-goog
+> 
 
-1. a call to get_random_u32()
-2. a call to get_random_u32_below() and an addition.
+Looks good to me.
 
-If one passes ceil or floor as a variable, then yes, the code gen is
-going to be as complicated as you suggest above.
+Reviewed-by: Tommaso Merciai <tommaso.merciai@amarulasolutions.com>
+
+Regards,
+Tommaso
 
 -- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTP is here! 40Mbps down 10Mbps up. Decent connectivity at last!
+Tommaso Merciai
+Embedded Linux Engineer
+tommaso.merciai@amarulasolutions.com
+__________________________________
+
+Amarula Solutions SRL
+Via Le Canevare 30, 31100 Treviso, Veneto, IT
+T. +39 042 243 5310
+info@amarulasolutions.com
+www.amarulasolutions.com
