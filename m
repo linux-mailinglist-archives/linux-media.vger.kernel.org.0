@@ -2,112 +2,108 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F050C62E31D
-	for <lists+linux-media@lfdr.de>; Thu, 17 Nov 2022 18:33:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E47FF62E33D
+	for <lists+linux-media@lfdr.de>; Thu, 17 Nov 2022 18:38:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235059AbiKQRdE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 17 Nov 2022 12:33:04 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54200 "EHLO
+        id S240157AbiKQRiY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 17 Nov 2022 12:38:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56932 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232427AbiKQRdD (ORCPT
+        with ESMTP id S233681AbiKQRiQ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 17 Nov 2022 12:33:03 -0500
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC0DF7991B;
-        Thu, 17 Nov 2022 09:33:02 -0800 (PST)
-Received: from [192.168.2.32] (109-252-117-140.nat.spd-mgts.ru [109.252.117.140])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: dmitry.osipenko)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id B443166015AC;
-        Thu, 17 Nov 2022 17:33:00 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1668706381;
-        bh=cedBJtYyiA9dCMinWRYLl88BHzqlXi2cVMCMxrRsTgo=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=R86+NjxG77C4ypDUckAAkObDhwFfW8LsXLyziX+YDeVo9NJcK+pvp2Ku7DowgFCbn
-         NSSG+Z6FPLAkr7zIPD9w0ejv0e3TIonPbWMRULexD+DWsCafXY1vF/aHtkfHIZoMcK
-         PvP1EbICeFzCEoevJDaBIhHXXRcq4FCtcWT4A+RJ4y+ljL/zZo/44q/RpG9EHJZsjV
-         2CtyicOGXpvG5b2cuWTc6be328u6R51RN7gBhayk+aF7AmkuXdoKqQGIdAIBXf6haL
-         uDTWUdi/5Q7pXQf2qYzqS3GbfFeQCjLbvy+gp3ZVsNRAE/bnyasV7R3xk0LdnVGWk/
-         +sE4rG2SpbxZg==
-Message-ID: <cd382f43-1995-12a6-840b-32450e62f9f4@collabora.com>
-Date:   Thu, 17 Nov 2022 20:32:57 +0300
+        Thu, 17 Nov 2022 12:38:16 -0500
+Received: from mail-lj1-x22c.google.com (mail-lj1-x22c.google.com [IPv6:2a00:1450:4864:20::22c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 50B977CBA5
+        for <linux-media@vger.kernel.org>; Thu, 17 Nov 2022 09:38:12 -0800 (PST)
+Received: by mail-lj1-x22c.google.com with SMTP id z24so3648889ljn.4
+        for <linux-media@vger.kernel.org>; Thu, 17 Nov 2022 09:38:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=dbw2/XXeLln7vDrFafq738GUmCXZ0AXEtj+PRDpKT1E=;
+        b=hQ9lX8JNIWXAUodyaRmLxPAJdg0px72d9/dzwFaory5wXPbFCPfv32g92k+ZVcpanq
+         8bFgh6MoJnqbmWiiiuRSUHXXnwkdwojle+Vth2A4SjG0PUkrp1tKnavpq0SG1owCthYZ
+         M+j784DQwUiORoPcHUPWftjuyyA3wlJg9IFOBI23tZKZFwhyHHDGrp2gx5CtAbwtc6oJ
+         W33t9eyrnFLnczrl6cvlbVWRE3FaOQxi6+Xk8e/m2VRQ+bTMq525+aTzYafZG8ihuDFn
+         zZR6wwOeFF1+EJZm0ip7yEYJ/J3FQmPnJ1uVyX/pxjGnwlE0Ule+jSjgq8Q7PGx74oqG
+         qQgA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=dbw2/XXeLln7vDrFafq738GUmCXZ0AXEtj+PRDpKT1E=;
+        b=Z7azMNLvEHYHvr081Zo287MEw44tuKraGAJnRlqh4l7HXZOHOknuY78pxr2rNwW5+y
+         0Yy74xbdg2QeIkPg0Pj6mBCqC9+qY3y0w+zWZu1qQIjPIVcF0JCtp6g+vFS8bCqOEFjU
+         jK4Qbq2phvQb+m4NnKiwXjKTRISxjngoRg/eX/X2dn5myqaYWjlg8aD+BUDDgpEAHWUJ
+         XKOqqA3/vGGl2lIJIoCKaITcZVNsOZRjX7308C8YzzNAeMjcCsPgce3Ayhfrnhr+veCq
+         oK6b8XENFayf42AJemQhqkZ++6afA2+7jcb9H4Pwuv3FjnRlcKYg5RkpqqyDRZxNRRZu
+         OGSA==
+X-Gm-Message-State: ANoB5pkwrB75wtdsNGWNJ1T6Ts5nYlWJ7Z7eFbwZVJ7deq08y4Jgpcdw
+        vROD3j0DFvzOf17m9huQqViSOQ==
+X-Google-Smtp-Source: AA0mqf6Z6xAfpPfyQq1ZNnfmmz/+hTdfCIaaYUwg7Hel8p9ZM3aS2yrhDoEu+n0o+Rfz/XHJI4Eicw==
+X-Received: by 2002:a2e:9d4f:0:b0:277:5928:f2fd with SMTP id y15-20020a2e9d4f000000b002775928f2fdmr1448180ljj.239.1668706690417;
+        Thu, 17 Nov 2022 09:38:10 -0800 (PST)
+Received: from [192.168.0.20] (088156142067.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.67])
+        by smtp.gmail.com with ESMTPSA id f29-20020a05651c02dd00b002778a76a3c3sm301692ljo.112.2022.11.17.09.38.08
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 17 Nov 2022 09:38:09 -0800 (PST)
+Message-ID: <39383122-414f-f795-ab76-dad206198651@linaro.org>
+Date:   Thu, 17 Nov 2022 18:38:08 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.1
-Subject: Re: [PATCH v4] udmabuf: add vmap and vunmap methods to udmabuf_ops
+ Thunderbird/102.4.2
+Subject: Re: [RFC PATCH 1/9] dt-bindings: drop redundant part of title of
+ shared bindings
 Content-Language: en-US
-To:     Lukasz Wiecaszek <lukasz.wiecaszek@googlemail.com>
-Cc:     Gerd Hoffmann <kraxel@redhat.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
-        dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
-        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
-References: <20221117045842.27161-1-lukasz.wiecaszek@gmail.com>
- <970e798d-ea26-5e1e-ace8-7915a866f7c7@collabora.com>
- <20221117170838.GA74987@thinkpad-p72>
-From:   Dmitry Osipenko <dmitry.osipenko@collabora.com>
-In-Reply-To: <20221117170838.GA74987@thinkpad-p72>
+To:     Rob Herring <robh@kernel.org>
+Cc:     Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Andrew Lunn <andrew@lunn.ch>, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-clk@vger.kernel.org, linux-riscv@lists.infradead.org,
+        linux-arm-msm@vger.kernel.org, linux-pm@vger.kernel.org,
+        linux-gpio@vger.kernel.org, linux-iio@vger.kernel.org,
+        linux-input@vger.kernel.org, linux-leds@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-mips@vger.kernel.org,
+        linux-mmc@vger.kernel.org, linux-mtd@lists.infradead.org,
+        netdev@vger.kernel.org, linux-can@vger.kernel.org,
+        linux-pci@vger.kernel.org, linux-pwm@vger.kernel.org,
+        linux-rtc@vger.kernel.org, linux-serial@vger.kernel.org,
+        alsa-devel@alsa-project.org, linux-spi@vger.kernel.org,
+        linux-usb@vger.kernel.org,
+        virtualization@lists.linux-foundation.org,
+        linux-watchdog@vger.kernel.org
+References: <20221117123850.368213-1-krzysztof.kozlowski@linaro.org>
+ <20221117123850.368213-2-krzysztof.kozlowski@linaro.org>
+ <20221117171916.GA3116476-robh@kernel.org>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20221117171916.GA3116476-robh@kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 11/17/22 20:08, Lukasz Wiecaszek wrote:
-> On Thu, Nov 17, 2022 at 12:04:35PM +0300, Dmitry Osipenko wrote:
->> Hi,
->>
->> On 11/17/22 07:58, Lukasz Wiecaszek wrote:
->>> The reason behind that patch is associated with videobuf2 subsystem
->>> (or more genrally with v4l2 framework) and user created
->>> dma buffers (udmabuf). In some circumstances
->>> when dealing with V4L2_MEMORY_DMABUF buffers videobuf2 subsystem
->>> wants to use dma_buf_vmap() method on the attached dma buffer.
->>> As udmabuf does not have .vmap operation implemented,
->>> such dma_buf_vmap() natually fails.
->>>
->>> videobuf2_common: __vb2_queue_alloc: allocated 3 buffers, 1 plane(s) each
->>> videobuf2_common: __prepare_dmabuf: buffer for plane 0 changed
->>> videobuf2_common: __prepare_dmabuf: failed to map dmabuf for plane 0
->>> videobuf2_common: __buf_prepare: buffer preparation failed: -14
->>>
->>> The patch itself seems to be strighforward.
->>> It adds implementation of .vmap and .vunmap methods
->>> to 'struct dma_buf_ops udmabuf_ops'.
->>> .vmap method itself uses vm_map_ram() to map pages linearly
->>> into the kernel virtual address space.
->>> .vunmap removes mapping created earlier by .vmap.
->>> All locking and 'vmapping counting' is done in dma_buf.c
->>> so it seems to be redundant/unnecessary in .vmap/.vunmap.
->>>
->>> Signed-off-by: Lukasz Wiecaszek <lukasz.wiecaszek@gmail.com>
->>
->> If new patch version doesn't contain significant changes and you got
->> acks/reviews for the previous version, then you should add the given
->> acked-by and reviewed-by tags to the commit message by yourself.
->>
->> -- 
->> Best regards,
->> Dmitry
->>
+On 17/11/2022 18:19, Rob Herring wrote:
+> On Thu, Nov 17, 2022 at 01:38:42PM +0100, Krzysztof Kozlowski wrote:
+>> The Devicetree bindings document does not have to say in the title that
+>> it is a "binding", but instead just describe the hardware.  For shared
+>> (re-usable) schemas, name them all as "common properties".
 > 
-> I would like to thank you all for your patience and on the same time say
-> sorry that I still cannot follow the process (although I have read
-> 'submitting patches' chapter).
+> It's titles, so capitalize 'Common Properties'. Someday we may generate 
+> a document from all the schemas.
+> 
 
-If you'll continue to contribute actively, you'll find things that
-aren't documented at all. Don't worry about it, usually somebody will
-tell you about what's missing. Just apply the new knowledge next time ;)
+Ack.
 
--- 
 Best regards,
-Dmitry
+Krzysztof
 
