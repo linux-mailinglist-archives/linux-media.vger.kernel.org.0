@@ -2,147 +2,243 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6043862D121
-	for <lists+linux-media@lfdr.de>; Thu, 17 Nov 2022 03:34:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0018B62D23B
+	for <lists+linux-media@lfdr.de>; Thu, 17 Nov 2022 05:17:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234494AbiKQCep (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 16 Nov 2022 21:34:45 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59140 "EHLO
+        id S239213AbiKQERK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 16 Nov 2022 23:17:10 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44530 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232809AbiKQCeo (ORCPT
+        with ESMTP id S239282AbiKQEQ3 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 16 Nov 2022 21:34:44 -0500
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4CD9D12A8F
-        for <linux-media@vger.kernel.org>; Wed, 16 Nov 2022 18:34:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1668652483; x=1700188483;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=MyzZshtKYV6RwY9F7xj63/bOWjKUvb8obYTcV4d0DBg=;
-  b=Lg+VbFWRuWaCTclAor6KT6DEEywFAwdaC0djvVtAn7PF8/8H8rX8+unr
-   KFfq55c0lJrYRJXohiNqiybXOHTvcyOnecVYbud2WlvcsaojI5DiEbIh6
-   t8RQXdqXPcTSKrhdUYxtgruSNDwiv2apIO7e6qJLkWTXwXiVWoVdlJUCv
-   UbWd/e1gkOshqgtNOt6Sl4VZMwH8H2zqWTvPgY2M1Cegm53CdRWieoIK3
-   ksFjtFNuCeDUWQaE6yM1l7k+QhHvDkKx/5ipqN3em7HupHlB8Vjko8i27
-   bQ/WBYsIrDH/TbwCwBI2GPhtZTx/NKk1wVO0jYu29LCD13xtTLSLfi7Yr
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10533"; a="300265951"
-X-IronPort-AV: E=Sophos;i="5.96,169,1665471600"; 
-   d="scan'208";a="300265951"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Nov 2022 18:34:31 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10533"; a="703136749"
-X-IronPort-AV: E=Sophos;i="5.96,169,1665471600"; 
-   d="scan'208";a="703136749"
-Received: from lkp-server01.sh.intel.com (HELO ebd99836cbe0) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 16 Nov 2022 18:34:29 -0800
-Received: from kbuild by ebd99836cbe0 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1ovUjV-0002zO-0N;
-        Thu, 17 Nov 2022 02:34:29 +0000
-Date:   Thu, 17 Nov 2022 10:34:24 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     linux-media@vger.kernel.org
-Subject: [sailus-media-tree:master] BUILD SUCCESS
- 235265156a501fe65d3f1f1ae3004cdc42302251
-Message-ID: <63759db0.+uduxj4McOcJNDj/%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        Wed, 16 Nov 2022 23:16:29 -0500
+Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C6A15BD75;
+        Wed, 16 Nov 2022 20:16:17 -0800 (PST)
+Received: by mail-wr1-x431.google.com with SMTP id a14so1398464wru.5;
+        Wed, 16 Nov 2022 20:16:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Q69tSKTr3SMxIyAjNSMCZFAJjtEwNwr65cYkJ70uFXk=;
+        b=Okt3eOD6p+/6l4cpPsUV1zIHpMyQY54kJJHpwy353RZSMhj/8CZe7OnoW4fp2rr3zW
+         iaGN60HdxcJroBErrpr9g9IS9x8Lo0rVx3UG0DzjB4JYo4f9j95xI307cpLZgBj2eXnU
+         FQ1jmoGDfA08V3x2cnlgPrlDbZU+NjADvZhHQCw7cuR4Eo/f/2B2szVaBjIkVFjBTRAa
+         9j7VHeqvfp1NsXO5eV39nyY5yW+zNF2oY6BAAOnnttX3AO/cPTCjOWJXQIrKW2NGOVtr
+         d+2kv9nJNvJPUczDOyVewJbtmaO/tvQrsdKRdu3ilmI00veuxpjKF0uyyQmhW46kbkzK
+         O8EA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Q69tSKTr3SMxIyAjNSMCZFAJjtEwNwr65cYkJ70uFXk=;
+        b=ozhw4a/sapmfxy2M7H+Y5ImZlAmQCvsb+y51gNxFYEMWj8GixyInGEw5IA2CLlyOwV
+         M/6DAU0MTWxr2FJcLRIE315kxp5RiOskdS1nwRyndaTis3VP+ud0P3LShdbHqzJqLNpP
+         VhccZRHHtDrY4PNZcw+gvfE3+pnyr3m+ZeSkC0m9zdEKR5QYy+/QFxh16iF3SK79LAgF
+         t5zUzlcRnx7FZWXke3s5k6JN6Ex7jYf3m5fG0nAKAmpiKjlygGWlDM++fpLUYt8n8iaq
+         oi49WNb3ZM7BQa2RTAxIAV55FJijNWqcgJBbuWgyIhQ737RuDtlLGV6/gfDP4Zl0cP+X
+         0C5Q==
+X-Gm-Message-State: ANoB5pkjLEv2a1bSi3fjdl6bWQh7oOCfuYTY9SzedK4pPqXKLNfVCGqL
+        7eGZs48RX9qzQmo/kJN5jnE=
+X-Google-Smtp-Source: AA0mqf6N9gixIG3+w9Wr9CGNRmuw/ftTfpP1OvYaNUNmdx57W2vIxTqZf7dVWQbXqfHWibAO7Rfl5A==
+X-Received: by 2002:adf:a356:0:b0:22d:c697:f90 with SMTP id d22-20020adfa356000000b0022dc6970f90mr269747wrb.715.1668658576503;
+        Wed, 16 Nov 2022 20:16:16 -0800 (PST)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id o12-20020a05600c2e0c00b003b50428cf66sm3754395wmf.33.2022.11.16.20.16.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 16 Nov 2022 20:16:16 -0800 (PST)
+Date:   Thu, 17 Nov 2022 07:16:12 +0300
+From:   Dan Carpenter <error27@gmail.com>
+To:     oe-kbuild@lists.linux.dev, imv4bel@gmail.com, mchehab@kernel.org
+Cc:     lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+        Hyunwoo Kim <imv4bel@gmail.com>, kernel@tuxforce.de,
+        linux-media@vger.kernel.org, linux-usb@vger.kernel.org,
+        cai.huoqing@linux.dev, tiwai@suse.de
+Subject: Re: [PATCH 3/4] media: dvb-core: Fix use-after-free due to race
+ condition occurring in dvb_register_device()
+Message-ID: <202211161100.BsMHAcor-lkp@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Disposition: inline
+In-Reply-To: <20221115131822.6640-4-imv4bel@gmail.com>
+X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-tree/branch: git://linuxtv.org/sailus/media_tree.git master
-branch HEAD: 235265156a501fe65d3f1f1ae3004cdc42302251  media: i2c: refer to config VIDEO_DEV to make ov08x40 image sensor driver usable
+Hi,
 
-elapsed time: 724m
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-configs tested: 64
-configs skipped: 2
+url:    https://github.com/intel-lab-lkp/linux/commits/imv4bel-gmail-com/Fix-multiple-race-condition-vulnerabilities-in-dvb-core-and-device-driver/20221115-212247
+base:   git://linuxtv.org/media_tree.git master
+patch link:    https://lore.kernel.org/r/20221115131822.6640-4-imv4bel%40gmail.com
+patch subject: [PATCH 3/4] media: dvb-core: Fix use-after-free due to race condition occurring in dvb_register_device()
+config: openrisc-randconfig-m041-20221115
+compiler: or1k-linux-gcc (GCC) 12.1.0
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <error27@gmail.com>
 
-gcc tested configs:
-arc                                 defconfig
-alpha                               defconfig
-um                             i386_defconfig
-um                           x86_64_defconfig
-s390                                defconfig
-s390                             allmodconfig
-s390                             allyesconfig
-powerpc                          allmodconfig
-mips                             allyesconfig
-x86_64                          rhel-8.3-func
-x86_64                    rhel-8.3-kselftests
-powerpc                           allnoconfig
-sh                               allmodconfig
-sh                          r7785rp_defconfig
-i386                             allyesconfig
-i386                                defconfig
-x86_64                              defconfig
-x86_64                           allyesconfig
-x86_64                               rhel-8.3
-m68k                             allmodconfig
-alpha                            allyesconfig
-ia64                             allmodconfig
-arc                              allyesconfig
-x86_64                           rhel-8.3-kvm
-x86_64                           rhel-8.3-syz
-x86_64                         rhel-8.3-kunit
-m68k                             allyesconfig
-x86_64                        randconfig-a006
-x86_64                        randconfig-a004
-x86_64                        randconfig-a002
-arm64                            allyesconfig
-arm                                 defconfig
-arm                              allyesconfig
-i386                          randconfig-a012
-i386                          randconfig-a014
-i386                          randconfig-a016
-x86_64                            allnoconfig
-sh                            titan_defconfig
-powerpc                 mpc85xx_cds_defconfig
-mips                            ar7_defconfig
-arm                            zeus_defconfig
-arm                             ezx_defconfig
-i386                          randconfig-c001
-microblaze                          defconfig
-sh                          rsk7203_defconfig
-sparc64                          alldefconfig
-riscv                    nommu_virt_defconfig
-riscv                          rv32_defconfig
-riscv                    nommu_k210_defconfig
-riscv                             allnoconfig
-i386                   debian-10.3-kselftests
-i386                              debian-10.3
-i386                          debian-10.3-kvm
-i386                        debian-10.3-kunit
-i386                         debian-10.3-func
+New smatch warnings:
+drivers/media/dvb-core/dvbdev.c:524 dvb_register_device() error: uninitialized symbol 'new_node'.
+drivers/media/dvb-core/dvbdev.c:578 dvb_register_device() warn: inconsistent returns '&dvbdev_register_lock'.
 
-clang tested configs:
-powerpc                     pseries_defconfig
-x86_64                        randconfig-a012
-x86_64                        randconfig-a014
-x86_64                        randconfig-a016
-hexagon              randconfig-r041-20221117
-hexagon              randconfig-r045-20221117
-i386                          randconfig-a002
-i386                          randconfig-a006
-i386                          randconfig-a004
+vim +/new_node +524 drivers/media/dvb-core/dvbdev.c
+
+8211b187ec6461 drivers/media/dvb-core/dvbdev.c     Mauro Carvalho Chehab 2015-08-21  446  
+^1da177e4c3f41 drivers/media/dvb/dvb-core/dvbdev.c Linus Torvalds        2005-04-16  447  int dvb_register_device(struct dvb_adapter *adap, struct dvb_device **pdvbdev,
+6bbf7a855d200d drivers/media/dvb-core/dvbdev.c     Mauro Carvalho Chehab 2017-09-19  448  			const struct dvb_device *template, void *priv,
+6bbf7a855d200d drivers/media/dvb-core/dvbdev.c     Mauro Carvalho Chehab 2017-09-19  449  			enum dvb_device_type type, int demux_sink_pads)
+^1da177e4c3f41 drivers/media/dvb/dvb-core/dvbdev.c Linus Torvalds        2005-04-16  450  {
+^1da177e4c3f41 drivers/media/dvb/dvb-core/dvbdev.c Linus Torvalds        2005-04-16  451  	struct dvb_device *dvbdev;
+4261180e3efbe4 drivers/media/dvb-core/dvbdev.c     Hyunwoo Kim           2022-11-15  452  	struct file_operations *dvbdevfops = NULL;
+4261180e3efbe4 drivers/media/dvb-core/dvbdev.c     Hyunwoo Kim           2022-11-15  453  	struct dvbdevfops_node *node, *new_node;
+
+Later code assumes this was initialized to NULL.
+
+5f553388b06532 drivers/media/dvb/dvb-core/dvbdev.c Kay Sievers           2007-08-15  454  	struct device *clsdev;
+5dd3f3071070f5 drivers/media/dvb/dvb-core/dvbdev.c Andreas Oberritter    2008-10-23  455  	int minor;
+f50d51661af375 drivers/media/dvb-core/dvbdev.c     Mauro Carvalho Chehab 2015-09-04  456  	int id, ret;
+^1da177e4c3f41 drivers/media/dvb/dvb-core/dvbdev.c Linus Torvalds        2005-04-16  457  
+c278850206fd9d drivers/media/dvb/dvb-core/dvbdev.c Simon Arlott          2007-03-10  458  	mutex_lock(&dvbdev_register_lock);
+^1da177e4c3f41 drivers/media/dvb/dvb-core/dvbdev.c Linus Torvalds        2005-04-16  459  
+^1da177e4c3f41 drivers/media/dvb/dvb-core/dvbdev.c Linus Torvalds        2005-04-16  460  	if ((id = dvbdev_get_free_id (adap, type)) < 0) {
+1e4baed379a2bf drivers/media/dvb/dvb-core/dvbdev.c Ingo Molnar           2006-01-15  461  		mutex_unlock(&dvbdev_register_lock);
+^1da177e4c3f41 drivers/media/dvb/dvb-core/dvbdev.c Linus Torvalds        2005-04-16  462  		*pdvbdev = NULL;
+b3ad24d2e0b039 drivers/media/dvb-core/dvbdev.c     Mauro Carvalho Chehab 2016-10-13  463  		pr_err("%s: couldn't find free device id\n", __func__);
+^1da177e4c3f41 drivers/media/dvb/dvb-core/dvbdev.c Linus Torvalds        2005-04-16  464  		return -ENFILE;
+^1da177e4c3f41 drivers/media/dvb/dvb-core/dvbdev.c Linus Torvalds        2005-04-16  465  	}
+^1da177e4c3f41 drivers/media/dvb/dvb-core/dvbdev.c Linus Torvalds        2005-04-16  466  
+f50d51661af375 drivers/media/dvb-core/dvbdev.c     Mauro Carvalho Chehab 2015-09-04  467  	*pdvbdev = dvbdev = kzalloc(sizeof(*dvbdev), GFP_KERNEL);
+^1da177e4c3f41 drivers/media/dvb/dvb-core/dvbdev.c Linus Torvalds        2005-04-16  468  	if (!dvbdev){
+1e4baed379a2bf drivers/media/dvb/dvb-core/dvbdev.c Ingo Molnar           2006-01-15  469  		mutex_unlock(&dvbdev_register_lock);
+^1da177e4c3f41 drivers/media/dvb/dvb-core/dvbdev.c Linus Torvalds        2005-04-16  470  		return -ENOMEM;
+^1da177e4c3f41 drivers/media/dvb/dvb-core/dvbdev.c Linus Torvalds        2005-04-16  471  	}
+^1da177e4c3f41 drivers/media/dvb/dvb-core/dvbdev.c Linus Torvalds        2005-04-16  472  
+4261180e3efbe4 drivers/media/dvb-core/dvbdev.c     Hyunwoo Kim           2022-11-15  473  	/*
+4261180e3efbe4 drivers/media/dvb-core/dvbdev.c     Hyunwoo Kim           2022-11-15  474  	 * When a device of the same type is probe()d more than once,
+4261180e3efbe4 drivers/media/dvb-core/dvbdev.c     Hyunwoo Kim           2022-11-15  475  	 * the first allocated fops are used. This prevents memory leaks
+4261180e3efbe4 drivers/media/dvb-core/dvbdev.c     Hyunwoo Kim           2022-11-15  476  	 * that can occur when the same device is probe()d repeatedly.
+4261180e3efbe4 drivers/media/dvb-core/dvbdev.c     Hyunwoo Kim           2022-11-15  477  	 */
+4261180e3efbe4 drivers/media/dvb-core/dvbdev.c     Hyunwoo Kim           2022-11-15  478  	list_for_each_entry(node, &dvbdevfops_list, list_head) {
+4261180e3efbe4 drivers/media/dvb-core/dvbdev.c     Hyunwoo Kim           2022-11-15  479  		if (node->fops->owner == adap->module &&
+4261180e3efbe4 drivers/media/dvb-core/dvbdev.c     Hyunwoo Kim           2022-11-15  480  				node->type == type &&
+4261180e3efbe4 drivers/media/dvb-core/dvbdev.c     Hyunwoo Kim           2022-11-15  481  				node->template == template) {
+4261180e3efbe4 drivers/media/dvb-core/dvbdev.c     Hyunwoo Kim           2022-11-15  482  			dvbdevfops = node->fops;
+4261180e3efbe4 drivers/media/dvb-core/dvbdev.c     Hyunwoo Kim           2022-11-15  483  			break;
+4261180e3efbe4 drivers/media/dvb-core/dvbdev.c     Hyunwoo Kim           2022-11-15  484  		}
+4261180e3efbe4 drivers/media/dvb-core/dvbdev.c     Hyunwoo Kim           2022-11-15  485  	}
+b61901024776b2 drivers/media/dvb/dvb-core/dvbdev.c Marcel Siegert        2007-02-13  486  
+4261180e3efbe4 drivers/media/dvb-core/dvbdev.c     Hyunwoo Kim           2022-11-15  487  	if (dvbdevfops == NULL) {
+4261180e3efbe4 drivers/media/dvb-core/dvbdev.c     Hyunwoo Kim           2022-11-15  488  		dvbdevfops = kmemdup(template->fops, sizeof(*dvbdevfops), GFP_KERNEL);
+b61901024776b2 drivers/media/dvb/dvb-core/dvbdev.c Marcel Siegert        2007-02-13  489  		if (!dvbdevfops) {
+b61901024776b2 drivers/media/dvb/dvb-core/dvbdev.c Marcel Siegert        2007-02-13  490  			kfree(dvbdev);
+b61901024776b2 drivers/media/dvb/dvb-core/dvbdev.c Marcel Siegert        2007-02-13  491  			mutex_unlock(&dvbdev_register_lock);
+b61901024776b2 drivers/media/dvb/dvb-core/dvbdev.c Marcel Siegert        2007-02-13  492  			return -ENOMEM;
+b61901024776b2 drivers/media/dvb/dvb-core/dvbdev.c Marcel Siegert        2007-02-13  493  		}
+b61901024776b2 drivers/media/dvb/dvb-core/dvbdev.c Marcel Siegert        2007-02-13  494  
+4261180e3efbe4 drivers/media/dvb-core/dvbdev.c     Hyunwoo Kim           2022-11-15  495  		new_node = kzalloc(sizeof(struct dvbdevfops_node), GFP_KERNEL);
+4261180e3efbe4 drivers/media/dvb-core/dvbdev.c     Hyunwoo Kim           2022-11-15  496  		if (!new_node) {
+4261180e3efbe4 drivers/media/dvb-core/dvbdev.c     Hyunwoo Kim           2022-11-15  497  			kfree(dvbdevfops);
+4261180e3efbe4 drivers/media/dvb-core/dvbdev.c     Hyunwoo Kim           2022-11-15  498  			kfree(dvbdev);
+4261180e3efbe4 drivers/media/dvb-core/dvbdev.c     Hyunwoo Kim           2022-11-15  499  			mutex_unlock(&dvbdev_register_lock);
+4261180e3efbe4 drivers/media/dvb-core/dvbdev.c     Hyunwoo Kim           2022-11-15  500  			return -ENOMEM;
+4261180e3efbe4 drivers/media/dvb-core/dvbdev.c     Hyunwoo Kim           2022-11-15  501  		}
+4261180e3efbe4 drivers/media/dvb-core/dvbdev.c     Hyunwoo Kim           2022-11-15  502  
+4261180e3efbe4 drivers/media/dvb-core/dvbdev.c     Hyunwoo Kim           2022-11-15  503  		new_node->fops = dvbdevfops;
+4261180e3efbe4 drivers/media/dvb-core/dvbdev.c     Hyunwoo Kim           2022-11-15  504  		new_node->type = type;
+4261180e3efbe4 drivers/media/dvb-core/dvbdev.c     Hyunwoo Kim           2022-11-15  505  		new_node->template = template;
+4261180e3efbe4 drivers/media/dvb-core/dvbdev.c     Hyunwoo Kim           2022-11-15  506  		list_add_tail (&new_node->list_head, &dvbdevfops_list);
+4261180e3efbe4 drivers/media/dvb-core/dvbdev.c     Hyunwoo Kim           2022-11-15  507  	}
+4261180e3efbe4 drivers/media/dvb-core/dvbdev.c     Hyunwoo Kim           2022-11-15  508  
+^1da177e4c3f41 drivers/media/dvb/dvb-core/dvbdev.c Linus Torvalds        2005-04-16  509  	memcpy(dvbdev, template, sizeof(struct dvb_device));
+^1da177e4c3f41 drivers/media/dvb/dvb-core/dvbdev.c Linus Torvalds        2005-04-16  510  	dvbdev->type = type;
+^1da177e4c3f41 drivers/media/dvb/dvb-core/dvbdev.c Linus Torvalds        2005-04-16  511  	dvbdev->id = id;
+^1da177e4c3f41 drivers/media/dvb/dvb-core/dvbdev.c Linus Torvalds        2005-04-16  512  	dvbdev->adapter = adap;
+^1da177e4c3f41 drivers/media/dvb/dvb-core/dvbdev.c Linus Torvalds        2005-04-16  513  	dvbdev->priv = priv;
+b61901024776b2 drivers/media/dvb/dvb-core/dvbdev.c Marcel Siegert        2007-02-13  514  	dvbdev->fops = dvbdevfops;
+ca5be9cd051662 drivers/media/dvb/dvb-core/dvbdev.c Markus Rechberger     2007-04-14  515  	init_waitqueue_head (&dvbdev->wait_queue);
+784e29d2031b53 drivers/media/dvb/dvb-core/dvbdev.c Jan Engelhardt        2009-01-11  516  	dvbdevfops->owner = adap->module;
+^1da177e4c3f41 drivers/media/dvb/dvb-core/dvbdev.c Linus Torvalds        2005-04-16  517  	list_add_tail (&dvbdev->list_head, &adap->device_list);
+5dd3f3071070f5 drivers/media/dvb/dvb-core/dvbdev.c Andreas Oberritter    2008-10-23  518  	down_write(&minor_rwsem);
+5dd3f3071070f5 drivers/media/dvb/dvb-core/dvbdev.c Andreas Oberritter    2008-10-23  519  #ifdef CONFIG_DVB_DYNAMIC_MINORS
+5dd3f3071070f5 drivers/media/dvb/dvb-core/dvbdev.c Andreas Oberritter    2008-10-23  520  	for (minor = 0; minor < MAX_DVB_MINORS; minor++)
+5dd3f3071070f5 drivers/media/dvb/dvb-core/dvbdev.c Andreas Oberritter    2008-10-23  521  		if (dvb_minors[minor] == NULL)
+5dd3f3071070f5 drivers/media/dvb/dvb-core/dvbdev.c Andreas Oberritter    2008-10-23  522  			break;
+5dd3f3071070f5 drivers/media/dvb/dvb-core/dvbdev.c Andreas Oberritter    2008-10-23  523  	if (minor == MAX_DVB_MINORS) {
+4261180e3efbe4 drivers/media/dvb-core/dvbdev.c     Hyunwoo Kim           2022-11-15 @524  		if (new_node) {
+
+new_node is either non-NULL or uninitialized.
+
+4261180e3efbe4 drivers/media/dvb-core/dvbdev.c     Hyunwoo Kim           2022-11-15  525  			list_del (&new_node->list_head);
+5dd3f3071070f5 drivers/media/dvb/dvb-core/dvbdev.c Andreas Oberritter    2008-10-23  526  			kfree(dvbdevfops);
+4261180e3efbe4 drivers/media/dvb-core/dvbdev.c     Hyunwoo Kim           2022-11-15  527  			kfree(new_node);
+4261180e3efbe4 drivers/media/dvb-core/dvbdev.c     Hyunwoo Kim           2022-11-15  528  		}
+4261180e3efbe4 drivers/media/dvb-core/dvbdev.c     Hyunwoo Kim           2022-11-15  529  		list_del (&dvbdev->list_head);
+5dd3f3071070f5 drivers/media/dvb/dvb-core/dvbdev.c Andreas Oberritter    2008-10-23  530  		kfree(dvbdev);
+82163edcdfa4eb drivers/media/dvb/dvb-core/dvbdev.c Santosh Nayak         2012-06-23  531  		up_write(&minor_rwsem);
+5dd3f3071070f5 drivers/media/dvb/dvb-core/dvbdev.c Andreas Oberritter    2008-10-23  532  		mutex_unlock(&dvbdev_register_lock);
+5dd3f3071070f5 drivers/media/dvb/dvb-core/dvbdev.c Andreas Oberritter    2008-10-23  533  		return -EINVAL;
+5dd3f3071070f5 drivers/media/dvb/dvb-core/dvbdev.c Andreas Oberritter    2008-10-23  534  	}
+5dd3f3071070f5 drivers/media/dvb/dvb-core/dvbdev.c Andreas Oberritter    2008-10-23  535  #else
+5dd3f3071070f5 drivers/media/dvb/dvb-core/dvbdev.c Andreas Oberritter    2008-10-23  536  	minor = nums2minor(adap->num, type, id);
+5dd3f3071070f5 drivers/media/dvb/dvb-core/dvbdev.c Andreas Oberritter    2008-10-23  537  #endif
+5dd3f3071070f5 drivers/media/dvb/dvb-core/dvbdev.c Andreas Oberritter    2008-10-23  538  	dvbdev->minor = minor;
+5dd3f3071070f5 drivers/media/dvb/dvb-core/dvbdev.c Andreas Oberritter    2008-10-23  539  	dvb_minors[minor] = dvbdev;
+5dd3f3071070f5 drivers/media/dvb/dvb-core/dvbdev.c Andreas Oberritter    2008-10-23  540  	up_write(&minor_rwsem);
+f50d51661af375 drivers/media/dvb-core/dvbdev.c     Mauro Carvalho Chehab 2015-09-04  541  	ret = dvb_register_media_device(dvbdev, type, minor, demux_sink_pads);
+f50d51661af375 drivers/media/dvb-core/dvbdev.c     Mauro Carvalho Chehab 2015-09-04  542  	if (ret) {
+b3ad24d2e0b039 drivers/media/dvb-core/dvbdev.c     Mauro Carvalho Chehab 2016-10-13  543  		pr_err("%s: dvb_register_media_device failed to create the mediagraph\n",
+f50d51661af375 drivers/media/dvb-core/dvbdev.c     Mauro Carvalho Chehab 2015-09-04  544  		      __func__);
+4261180e3efbe4 drivers/media/dvb-core/dvbdev.c     Hyunwoo Kim           2022-11-15  545  		if (new_node) {
+4261180e3efbe4 drivers/media/dvb-core/dvbdev.c     Hyunwoo Kim           2022-11-15  546  			list_del (&new_node->list_head);
+4261180e3efbe4 drivers/media/dvb-core/dvbdev.c     Hyunwoo Kim           2022-11-15  547  			kfree(dvbdevfops);
+4261180e3efbe4 drivers/media/dvb-core/dvbdev.c     Hyunwoo Kim           2022-11-15  548  			kfree(new_node);
+4261180e3efbe4 drivers/media/dvb-core/dvbdev.c     Hyunwoo Kim           2022-11-15  549  		}
+f50d51661af375 drivers/media/dvb-core/dvbdev.c     Mauro Carvalho Chehab 2015-09-04  550  		dvb_media_device_free(dvbdev);
+1fec2ecc252301 drivers/media/dvb-core/dvbdev.c     Mauro Carvalho Chehab 2021-06-09  551  		list_del (&dvbdev->list_head);
+f50d51661af375 drivers/media/dvb-core/dvbdev.c     Mauro Carvalho Chehab 2015-09-04  552  		kfree(dvbdev);
+f50d51661af375 drivers/media/dvb-core/dvbdev.c     Mauro Carvalho Chehab 2015-09-04  553  		mutex_unlock(&dvbdev_register_lock);
+f50d51661af375 drivers/media/dvb-core/dvbdev.c     Mauro Carvalho Chehab 2015-09-04  554  		return ret;
+f50d51661af375 drivers/media/dvb-core/dvbdev.c     Mauro Carvalho Chehab 2015-09-04  555  	}
+f50d51661af375 drivers/media/dvb-core/dvbdev.c     Mauro Carvalho Chehab 2015-09-04  556  
+a9b12619f7b6f1 drivers/media/dvb/dvb-core/dvbdev.c Greg Kroah-Hartman    2008-07-21  557  	clsdev = device_create(dvb_class, adap->device,
+b7496780e80006 drivers/media/dvb/dvb-core/dvbdev.c Hans Verkuil          2008-11-03  558  			       MKDEV(DVB_MAJOR, minor),
+a5f4c0ce682efa drivers/media/dvb/dvb-core/dvbdev.c Kay Sievers           2008-10-27  559  			       dvbdev, "dvb%d.%s%d", adap->num, dnames[type], id);
+4abdcf933f6477 drivers/media/dvb/dvb-core/dvbdev.c Simon Arlott          2007-05-06  560  	if (IS_ERR(clsdev)) {
+b3ad24d2e0b039 drivers/media/dvb-core/dvbdev.c     Mauro Carvalho Chehab 2016-10-13  561  		pr_err("%s: failed to create device dvb%d.%s%d (%ld)\n",
+46b4f7c176a2dd drivers/media/dvb/dvb-core/dvbdev.c Harvey Harrison       2008-04-08  562  		       __func__, adap->num, dnames[type], id, PTR_ERR(clsdev));
+4261180e3efbe4 drivers/media/dvb-core/dvbdev.c     Hyunwoo Kim           2022-11-15  563  		if (new_node) {
+4261180e3efbe4 drivers/media/dvb-core/dvbdev.c     Hyunwoo Kim           2022-11-15  564  			list_del (&new_node->list_head);
+4261180e3efbe4 drivers/media/dvb-core/dvbdev.c     Hyunwoo Kim           2022-11-15  565  			kfree(dvbdevfops);
+4261180e3efbe4 drivers/media/dvb-core/dvbdev.c     Hyunwoo Kim           2022-11-15  566  			kfree(new_node);
+4261180e3efbe4 drivers/media/dvb-core/dvbdev.c     Hyunwoo Kim           2022-11-15  567  		}
+167faadfcf9339 drivers/media/dvb-core/dvbdev.c     Dinghao Liu           2020-08-24  568  		dvb_media_device_free(dvbdev);
+1fec2ecc252301 drivers/media/dvb-core/dvbdev.c     Mauro Carvalho Chehab 2021-06-09  569  		list_del (&dvbdev->list_head);
+167faadfcf9339 drivers/media/dvb-core/dvbdev.c     Dinghao Liu           2020-08-24  570  		kfree(dvbdev);
+4abdcf933f6477 drivers/media/dvb/dvb-core/dvbdev.c Simon Arlott          2007-05-06  571  		return PTR_ERR(clsdev);
+
+Needs a mutex_unlock(&dvbdev_register_lock);
+
+4abdcf933f6477 drivers/media/dvb/dvb-core/dvbdev.c Simon Arlott          2007-05-06  572  	}
+4261180e3efbe4 drivers/media/dvb-core/dvbdev.c     Hyunwoo Kim           2022-11-15  573  
+b3ad24d2e0b039 drivers/media/dvb-core/dvbdev.c     Mauro Carvalho Chehab 2016-10-13  574  	dprintk("DVB: register adapter%d/%s%d @ minor: %i (0x%02x)\n",
+5dd3f3071070f5 drivers/media/dvb/dvb-core/dvbdev.c Andreas Oberritter    2008-10-23  575  		adap->num, dnames[type], id, minor, minor);
+^1da177e4c3f41 drivers/media/dvb/dvb-core/dvbdev.c Linus Torvalds        2005-04-16  576  
+4261180e3efbe4 drivers/media/dvb-core/dvbdev.c     Hyunwoo Kim           2022-11-15  577  	mutex_unlock(&dvbdev_register_lock);
+^1da177e4c3f41 drivers/media/dvb/dvb-core/dvbdev.c Linus Torvalds        2005-04-16 @578  	return 0;
+^1da177e4c3f41 drivers/media/dvb/dvb-core/dvbdev.c Linus Torvalds        2005-04-16  579  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
+
