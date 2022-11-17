@@ -2,51 +2,51 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C282662E788
-	for <lists+linux-media@lfdr.de>; Thu, 17 Nov 2022 23:00:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 82C8262E795
+	for <lists+linux-media@lfdr.de>; Thu, 17 Nov 2022 23:01:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241162AbiKQWAI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 17 Nov 2022 17:00:08 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38070 "EHLO
+        id S241188AbiKQWBB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 17 Nov 2022 17:01:01 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36724 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241093AbiKQV7w (ORCPT
+        with ESMTP id S241053AbiKQWAl (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 17 Nov 2022 16:59:52 -0500
-Received: from mail-pf1-x436.google.com (mail-pf1-x436.google.com [IPv6:2607:f8b0:4864:20::436])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BFB73389D
-        for <linux-media@vger.kernel.org>; Thu, 17 Nov 2022 13:58:27 -0800 (PST)
-Received: by mail-pf1-x436.google.com with SMTP id b185so3071546pfb.9
-        for <linux-media@vger.kernel.org>; Thu, 17 Nov 2022 13:58:27 -0800 (PST)
+        Thu, 17 Nov 2022 17:00:41 -0500
+Received: from mail-pg1-x530.google.com (mail-pg1-x530.google.com [IPv6:2607:f8b0:4864:20::530])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2705184304
+        for <linux-media@vger.kernel.org>; Thu, 17 Nov 2022 13:59:07 -0800 (PST)
+Received: by mail-pg1-x530.google.com with SMTP id s196so3320106pgs.3
+        for <linux-media@vger.kernel.org>; Thu, 17 Nov 2022 13:59:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=r2vqsefxvlQpm7YoDJQXEXeeHIkQ6S5JMCMQ5S8aLio=;
-        b=k2i7Pob22XCdE3eYvjx4pPufwTb8mTPjukR1UCSAv0kmL6U29qZrcajtJc3GiwR25C
-         GxngyGxuAOe8R1u2fG07FDvUurbqbhzNNAvQ0bvvdjotWAgaJxTe1J6rbJlEzDLOD/Zm
-         f5ROj4ZQvL1a3wZkcDpdW1XiI4mqzUly58q/U=
+        bh=5js234S10qtjTG5ViD8Z5NsYYM8xXfh9lDGiYeYzTNk=;
+        b=FgMUyRzC1HQVet+tDCWA8ljDeGrHXk7NWmfvGzfwmovUinDK9knhVBWqOEaxR/WKhH
+         wwHz/N4KP6pHF44qAgHaZHzh9z++AStihN6Ao5uRAf+yYgVBMZnVIZpD5gjuBWFIjThJ
+         QsnQdQgUO9c1DQGCG/8tbnX/sYDH6HkHB7Fks=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=r2vqsefxvlQpm7YoDJQXEXeeHIkQ6S5JMCMQ5S8aLio=;
-        b=MjFNhie2l3ketELizClZF9nNPyo2zQAmG3UCL3/F7YseUtnZ5wwU5LaDPp1icQcdYv
-         fhjIDVHYbQ4bwQH7l+Pyl+N5OwrwTxtomYfFjbweb505PyOUhPf9ZJ74avKoCHaj6xFH
-         TTznWD7EgzkXwUuU6+A2Xii+WNihPDShutB9W/CUbk9QLEuYLtdjTFIsj+xDZAYuBu2F
-         AyljV2WGkhhsbrDxTrO9qrr+J9GKLwf6B5xAC/GnhPJUT/XVmEpx1QLPZ49LuW69OHPh
-         gd6/TBHQOLblG9810t5HFAhg3u+SzCGEa+5rxvHsGpsNfqGD1i6e8IOcdYwwL7c0s5+6
-         l+Rw==
-X-Gm-Message-State: ANoB5plSN9CJxDSGMfGDSUrRNIXE+3IlWTXtnv491T/g5+matfV94x1D
-        mjSRtVam9CxlXWv6olk8PoQCmQ==
-X-Google-Smtp-Source: AA0mqf6OLZEOM+uadHNHyZ4glxVpWyLO25QJV2wWHbf4ZbABty2OM80CQ8wN7Ibt7qgRI014DYHeJw==
-X-Received: by 2002:a63:5c0f:0:b0:470:8e8a:8e11 with SMTP id q15-20020a635c0f000000b004708e8a8e11mr3843188pgb.490.1668722306503;
-        Thu, 17 Nov 2022 13:58:26 -0800 (PST)
+        bh=5js234S10qtjTG5ViD8Z5NsYYM8xXfh9lDGiYeYzTNk=;
+        b=CSGNbKnmS92NXVQdssk4C60QG1Apych0nzW2Gt6gkKHviIATWlc9r19Alk9p05/G58
+         xrO2FQ99fCxx008Od+aMlq0pRP9CWG/i+9tm1bBMOj1+n30FppEc/UOZNY5XRqLjXG4t
+         ELMQCsBNvrVKGBIAJBmvDdPZBBXJp9/y3vI1aXtEXx3/APeGW6MtOqajfEyUoqy1qj8Z
+         67Mria6n7Dmyzq8CGAMdkrt+cuQuwz9bA6IZRyLIPK8YnA70HfloiTfoawbrhOz/KL92
+         26WfjRbY8399Djw2jSLB32TSGlNzukAgZZ0FnqulYF8lH/ZwRPzBl19zpNlENFBt9hCZ
+         S5qg==
+X-Gm-Message-State: ANoB5pkFpYY0Msl4E5vgBJAFoaRQOX2/aSZUcsnRU5aesglbS6A072E6
+        OckkpFgaiXcLMi/sv1D8hbVgWQ==
+X-Google-Smtp-Source: AA0mqf7QpiIvhVAGN52Mpwqa6vfs4EXQo0/q1js7mM6/xkzmq3rihpfcQy2O/U405oXjhY2LdIG4eg==
+X-Received: by 2002:a63:f00d:0:b0:458:f364:b00e with SMTP id k13-20020a63f00d000000b00458f364b00emr3876253pgh.577.1668722346647;
+        Thu, 17 Nov 2022 13:59:06 -0800 (PST)
 Received: from www.outflux.net (198-0-35-241-static.hfc.comcastbusiness.net. [198.0.35.241])
-        by smtp.gmail.com with ESMTPSA id k3-20020a17090a3cc300b00200461cfa99sm3966446pjd.11.2022.11.17.13.58.25
+        by smtp.gmail.com with ESMTPSA id u5-20020a17090341c500b00188fce6e8absm156864ple.280.2022.11.17.13.59.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Nov 2022 13:58:25 -0800 (PST)
-Date:   Thu, 17 Nov 2022 13:58:25 -0800
+        Thu, 17 Nov 2022 13:59:06 -0800 (PST)
+Date:   Thu, 17 Nov 2022 13:59:05 -0800
 From:   Kees Cook <keescook@chromium.org>
 To:     "Jason A. Donenfeld" <Jason@zx2c4.com>
 Cc:     linux-kernel@vger.kernel.org, patches@lists.linux.dev,
@@ -77,17 +77,19 @@ Cc:     linux-kernel@vger.kernel.org, patches@lists.linux.dev,
         linux-fsdevel@vger.kernel.org, linux-media@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org, loongarch@lists.linux.dev,
         linux-mips@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        linux-mmc@vger.kernel.org, linux-parisc@vger.kernel.org
-Subject: Re: [PATCH v3 2/3] treewide: use get_random_u32_{above,below}()
- instead of manual loop
-Message-ID: <202211171358.4B4E0E2F17@keescook>
+        linux-mmc@vger.kernel.org, linux-parisc@vger.kernel.org,
+        Russell King <rmk+kernel@armlinux.org.uk>,
+        Ulf Hansson <ulf.hansson@linaro.org>
+Subject: Re: [PATCH v3 1/3] treewide: use get_random_u32_below() instead of
+ deprecated function
+Message-ID: <202211171359.412AEEE0@keescook>
 References: <20221114164558.1180362-1-Jason@zx2c4.com>
  <20221117202906.2312482-1-Jason@zx2c4.com>
- <20221117202906.2312482-3-Jason@zx2c4.com>
+ <20221117202906.2312482-2-Jason@zx2c4.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221117202906.2312482-3-Jason@zx2c4.com>
+In-Reply-To: <20221117202906.2312482-2-Jason@zx2c4.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
@@ -98,80 +100,22 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Nov 17, 2022 at 09:29:05PM +0100, Jason A. Donenfeld wrote:
-> These cases were done with this Coccinelle:
-> 
-> @@
-> expression E;
-> identifier I;
-> @@
-> -   do {
->       ... when != I
-> -     I = get_random_u32();
->       ... when != I
-> -   } while (I > E);
-> +   I = get_random_u32_below(E + 1);
-> 
-> @@
-> expression E;
-> identifier I;
-> @@
-> -   do {
->       ... when != I
-> -     I = get_random_u32();
->       ... when != I
-> -   } while (I >= E);
-> +   I = get_random_u32_below(E);
-> 
-> @@
-> expression E;
-> identifier I;
-> @@
-> -   do {
->       ... when != I
-> -     I = get_random_u32();
->       ... when != I
-> -   } while (I < E);
-> +   I = get_random_u32_above(E - 1);
-> 
-> @@
-> expression E;
-> identifier I;
-> @@
-> -   do {
->       ... when != I
-> -     I = get_random_u32();
->       ... when != I
-> -   } while (I <= E);
-> +   I = get_random_u32_above(E);
-> 
-> @@
-> identifier I;
-> @@
-> -   do {
->       ... when != I
-> -     I = get_random_u32();
->       ... when != I
-> -   } while (!I);
-> +   I = get_random_u32_above(0);
-> 
-> @@
-> identifier I;
-> @@
-> -   do {
->       ... when != I
-> -     I = get_random_u32();
->       ... when != I
-> -   } while (I == 0);
-> +   I = get_random_u32_above(0);
+On Thu, Nov 17, 2022 at 09:29:04PM +0100, Jason A. Donenfeld wrote:
+> This is a simple mechanical transformation done by:
 > 
 > @@
 > expression E;
 > @@
-> - E + 1 + get_random_u32_below(U32_MAX - E)
-> + get_random_u32_above(E)
+> - prandom_u32_max
+> + get_random_u32_below
+>   (E)
 > 
 > Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Acked-by: Darrick J. Wong <djwong@kernel.org> # for xfs
+> Reviewed-by: SeongJae Park <sj@kernel.org> # for damon
+> Reviewed-by: Jason Gunthorpe <jgg@nvidia.com> # for infiniband
+> Reviewed-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk> # for arm
+> Acked-by: Ulf Hansson <ulf.hansson@linaro.org> # for mmc
 > Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
 
 Reviewed-by: Kees Cook <keescook@chromium.org>
