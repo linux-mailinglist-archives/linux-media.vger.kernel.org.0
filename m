@@ -2,111 +2,96 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2B0F662D548
-	for <lists+linux-media@lfdr.de>; Thu, 17 Nov 2022 09:43:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5AAE462D5CD
+	for <lists+linux-media@lfdr.de>; Thu, 17 Nov 2022 10:04:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239614AbiKQInG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 17 Nov 2022 03:43:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42726 "EHLO
+        id S239564AbiKQJE5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 17 Nov 2022 04:04:57 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60752 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239637AbiKQImv (ORCPT
+        with ESMTP id S239691AbiKQJEr (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 17 Nov 2022 03:42:51 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E2FF742D4;
-        Thu, 17 Nov 2022 00:42:44 -0800 (PST)
-Received: from pyrite.tail37cf.ts.net (h175-177-042-159.catv02.itscom.jp [175.177.42.159])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 92E3A105A;
-        Thu, 17 Nov 2022 09:42:40 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1668674563;
-        bh=i2asfCX+IMDeAysoWEUZxtuevcn/m7RupGOVGq+pXtQ=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=jlv+ep3R1ziV8qxaw1h/r1QAhnBwVi+NfM8FGGSVchGYr9WJmR7yJYtwomropQ5eg
-         +49QNybsChYss3y1Ul4tcElyM/JxogoMJ+EDToDQxxZQm7Pg0J1kHtSETdkFI1Im5L
-         rYnN3Z2cW5g4gtYnAeXyAcyz+5YrVtyz0ULCpRpQ=
-From:   Paul Elder <paul.elder@ideasonboard.com>
-To:     linux-media@vger.kernel.org
-Cc:     Paul Elder <paul.elder@ideasonboard.com>,
-        Dafna Hirschfeld <dafna@fastmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-rockchip@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2 3/3] media: rkisp1: Implement ENUM_FRAMESIZES
-Date:   Thu, 17 Nov 2022 17:42:17 +0900
-Message-Id: <20221117084217.3892680-4-paul.elder@ideasonboard.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20221117084217.3892680-1-paul.elder@ideasonboard.com>
-References: <20221117084217.3892680-1-paul.elder@ideasonboard.com>
+        Thu, 17 Nov 2022 04:04:47 -0500
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92BA15A6DD;
+        Thu, 17 Nov 2022 01:04:41 -0800 (PST)
+Received: from [192.168.2.32] (109-252-117-140.nat.spd-mgts.ru [109.252.117.140])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: dmitry.osipenko)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id CCB366602A93;
+        Thu, 17 Nov 2022 09:04:38 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1668675879;
+        bh=myO5od7Hy8GIA7LiyC3cxVd6NrDXoa1PiKxCCo4rsOo=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=f6GwjHb6vzocRth+JNvAYc2pN8BmnjT1HIKyO0WpgXx0Uzfz5r4DBLdklSRwEIePh
+         4myD3frJhoPsIahlC8nDpTtKTT5NZQ4UNzVLi9RLQaDJa7XNsOxvu1PumSaX65lip7
+         0M82mlguMT/WwH7yR/NzfW/t2igHJuUxZI8h+HJ82kS+re66fLRFj8Asx5N87kwvKy
+         yS18Cz8SVgiWwKIIHculrfu1KFzjZSILxXE7SBNCITGQN+c4DA12kz1O6Jl2KzKb3p
+         xGfWwmyWKz41NjDbDLB1Cbnk4l2NFLeZ+ME2tGPIMJuB4Arx6sZAv3trwRfDxqkfm9
+         8IbSUfkmwLV5g==
+Message-ID: <970e798d-ea26-5e1e-ace8-7915a866f7c7@collabora.com>
+Date:   Thu, 17 Nov 2022 12:04:35 +0300
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.1
+Subject: Re: [PATCH v4] udmabuf: add vmap and vunmap methods to udmabuf_ops
+Content-Language: en-US
+To:     Lukasz Wiecaszek <lukasz.wiecaszek@googlemail.com>,
+        Gerd Hoffmann <kraxel@redhat.com>
+Cc:     Lukasz Wiecaszek <lukasz.wiecaszek@gmail.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+        dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
+References: <20221117045842.27161-1-lukasz.wiecaszek@gmail.com>
+From:   Dmitry Osipenko <dmitry.osipenko@collabora.com>
+In-Reply-To: <20221117045842.27161-1-lukasz.wiecaszek@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Implement VIDIOC_ENUM_FRAMESIZES for the rkisp1 capture devices.
+Hi,
 
-Signed-off-by: Paul Elder <paul.elder@ideasonboard.com>
-Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
----
- .../platform/rockchip/rkisp1/rkisp1-capture.c | 30 +++++++++++++++++++
- 1 file changed, 30 insertions(+)
+On 11/17/22 07:58, Lukasz Wiecaszek wrote:
+> The reason behind that patch is associated with videobuf2 subsystem
+> (or more genrally with v4l2 framework) and user created
+> dma buffers (udmabuf). In some circumstances
+> when dealing with V4L2_MEMORY_DMABUF buffers videobuf2 subsystem
+> wants to use dma_buf_vmap() method on the attached dma buffer.
+> As udmabuf does not have .vmap operation implemented,
+> such dma_buf_vmap() natually fails.
+> 
+> videobuf2_common: __vb2_queue_alloc: allocated 3 buffers, 1 plane(s) each
+> videobuf2_common: __prepare_dmabuf: buffer for plane 0 changed
+> videobuf2_common: __prepare_dmabuf: failed to map dmabuf for plane 0
+> videobuf2_common: __buf_prepare: buffer preparation failed: -14
+> 
+> The patch itself seems to be strighforward.
+> It adds implementation of .vmap and .vunmap methods
+> to 'struct dma_buf_ops udmabuf_ops'.
+> .vmap method itself uses vm_map_ram() to map pages linearly
+> into the kernel virtual address space.
+> .vunmap removes mapping created earlier by .vmap.
+> All locking and 'vmapping counting' is done in dma_buf.c
+> so it seems to be redundant/unnecessary in .vmap/.vunmap.
+> 
+> Signed-off-by: Lukasz Wiecaszek <lukasz.wiecaszek@gmail.com>
 
-diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
-index 91e685fdbbe9..03c2922bfbed 100644
---- a/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
-+++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
-@@ -1236,6 +1236,35 @@ static int rkisp1_enum_fmt_vid_cap_mplane(struct file *file, void *priv,
- 	return -EINVAL;
- }
- 
-+static int rkisp1_enum_framesizes(struct file *file, void *fh,
-+				  struct v4l2_frmsizeenum *fsize)
-+{
-+	static const unsigned int max_widths[] = {
-+		RKISP1_RSZ_MP_SRC_MAX_WIDTH,
-+		RKISP1_RSZ_SP_SRC_MAX_WIDTH,
-+	};
-+	static const unsigned int max_heights[] = {
-+		RKISP1_RSZ_MP_SRC_MAX_HEIGHT,
-+		RKISP1_RSZ_SP_SRC_MAX_HEIGHT,
-+	};
-+	struct rkisp1_capture *cap = video_drvdata(file);
-+
-+	if (fsize->index != 0)
-+		return -EINVAL;
-+
-+	fsize->type = V4L2_FRMSIZE_TYPE_STEPWISE;
-+
-+	fsize->stepwise.min_width = RKISP1_RSZ_SRC_MIN_WIDTH;
-+	fsize->stepwise.max_width = max_widths[cap->id];
-+	fsize->stepwise.step_width = 2;
-+
-+	fsize->stepwise.min_height = RKISP1_RSZ_SRC_MIN_HEIGHT;
-+	fsize->stepwise.max_height = max_heights[cap->id];
-+	fsize->stepwise.step_height = 2;
-+
-+	return 0;
-+}
-+
- static int rkisp1_s_fmt_vid_cap_mplane(struct file *file,
- 				       void *priv, struct v4l2_format *f)
- {
-@@ -1285,6 +1314,7 @@ static const struct v4l2_ioctl_ops rkisp1_v4l2_ioctl_ops = {
- 	.vidioc_s_fmt_vid_cap_mplane = rkisp1_s_fmt_vid_cap_mplane,
- 	.vidioc_g_fmt_vid_cap_mplane = rkisp1_g_fmt_vid_cap_mplane,
- 	.vidioc_enum_fmt_vid_cap = rkisp1_enum_fmt_vid_cap_mplane,
-+	.vidioc_enum_framesizes = rkisp1_enum_framesizes,
- 	.vidioc_querycap = rkisp1_querycap,
- 	.vidioc_subscribe_event = v4l2_ctrl_subscribe_event,
- 	.vidioc_unsubscribe_event = v4l2_event_unsubscribe,
+If new patch version doesn't contain significant changes and you got
+acks/reviews for the previous version, then you should add the given
+acked-by and reviewed-by tags to the commit message by yourself.
+
 -- 
-2.35.1
+Best regards,
+Dmitry
 
